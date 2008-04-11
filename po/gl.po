@@ -1,6 +1,6 @@
 # Galician translation of dpkg
 # Copyright (C) 2005 Software in the Public Interest, Inc.
-# Jacobo Tarrío <jtarrio@debian.org>, 2005, 2006, 2007.
+# Jacobo Tarrío <jtarrio@debian.org>, 2005, 2006, 2007, 2008.
 # Héctor Fernández López <trorrr@yahoo.es>, 2000.
 #
 msgid ""
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-04-01 07:21+0300\n"
-"PO-Revision-Date: 2008-01-21 08:33+0200\n"
+"PO-Revision-Date: 2008-04-11 22:38+0100\n"
 "Last-Translator: Jacobo Tarrío <jtarrio@debian.org>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
@@ -485,34 +485,32 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "non se admiten alternativas (\"|\") no campo %s"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "non se admite o valor do campo \"config-version\" neste contexto"
+msgstr "non se admite o valor do campo \"triggers-pending\" neste contexto"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "campo \"%s\", nome de paquete \"%.255s\" non válido: %s"
+msgstr "nome de disparador pendente \"%.255s\" non válido: %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "disparador pendente \"%.255s\" duplicado"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "non se admite o valor do campo \"status\" neste contexto"
+msgstr "non se admite o valor do campo \"triggers-awaited\" neste contexto"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "nome de paquete non válido na liña %d: %.250s"
+msgstr "nome de paquete non válido no disparador en espera \"%.255s\": %s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "lista de ficheiros do paquete \"%.250s\""
+msgstr "paquete cun disparador en espera duplicado \"%.255s\""
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -551,9 +549,8 @@ msgid "realloc failed (%ld bytes)"
 msgstr "a chamada a realloc fallou (%ld bytes)"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "non se puido crear o directorio"
+msgstr "non se puido reservar memoria"
 
 #: lib/mlib.c:85
 #, c-format
@@ -821,20 +818,22 @@ msgstr "Configured-Version para un paquete con Status non apropiado"
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "o paquete ten estado %s pero hai disparadores en espera"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
+"o paquete ten estado triggers-awaited pero non hai disparadores en espera"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "o paquete ten estado %s pero hai disparadores pendentes"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
+"o paquete ten estado triggers-pending pero non hai disparadores pendentes"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -935,69 +934,77 @@ msgstr "Falla a chave de peche no formato\n"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
+"nome de paquete \"%.250s\" non válido no ficheiro de disparadores pospostos "
+"\"%.250s\""
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "ficheiro \"statoverride\" \"%.250s\""
+msgstr "ficheiro de disparadores pospostos \"%.250s\" truncado"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"erro de sintaxe no ficheiro de disparadores pospostos \"%.250s\" no carácter "
+"\"%s\"%s"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "non se pode abrir o ficheiro orixe \"%.250s\""
+msgstr ""
+"non se pode abrir/crear o ficheiro de bloqueo de disparadores \"%.250s\""
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "non se pode desbloquear %s: %s"
+msgstr "non se pode bloquear a área de disparadores"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "non se atopou outro ficheiro novo \"%.250s\""
+msgstr "non se atopou o ficheiro de disparadores pospostos \"%.250s\""
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "non se pode abrir o ficheiro orixe \"%.250s\""
+msgstr "non se pode abrir o ficheiro de disparadores pospostos \"%.250s\""
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "non se pode abrir o novo ficheiro de armacén \"%.250s\""
+msgstr ""
+"non se pode abrir/crear o novo ficheiro de disparadores pospostos \"%.250s\""
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "erro ao ler %s do ficheiro %.255s"
+msgstr "erro ao ler o ficheiro de disparadores pospostos \"%.250s\""
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "non se pode abrir o novo ficheiro de armacén \"%.250s\""
+msgstr ""
+"non se pode gravar no novo ficheiro de disparadores pospostos \"%.250s\""
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "non se pode abrir o novo ficheiro de armacén \"%.250s\""
+msgstr ""
+"non se pode pechar o novo ficheiro de disparadores pospostos \"%.250s\""
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "non se pode instalar unha nova versión de \"%.255s\""
+msgstr ""
+"non se pode instalar o novo ficheiro de disparadores pospostos \"%.250s\""
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "non se admiten disparadores con nomes en branco"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "o nome do disparador contén un carácter non válido"
 
 #: lib/triglib.c:256
 #, c-format
@@ -1005,16 +1012,19 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
+"sintaxe non válida ou descoñecida no nome do disparador \"%.250s\" (nos "
+"disparadores de interese para o paquete \"%.250s\")"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "non se pode abrir o novo ficheiro de armacén \"%.250s\""
+msgstr "non se pode abrir o ficheiro de disparadores de interese \"%.250s\""
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "non se pode ler o ficheiro de partes \"%.250s\""
+msgstr ""
+"non se pode retroceder no ficheiro de disparadores de interese \"%.250s\""
 
 #: lib/triglib.c:325
 #, c-format
@@ -1022,56 +1032,62 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"erro de sintaxe no ficheiro de disparadores de interese \"%.250s\"; nome de "
+"paquete \"%.250s\" non válido: %.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "non se atopou outro ficheiro novo \"%.250s\""
+msgstr ""
+"non se pode crear o novo ficheiro de disparadores de interese \"%.250s\""
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "non se atopou outro ficheiro novo \"%.250s\""
+msgstr ""
+"non se pode gravar no novo ficheiro de disparadores de interese \"%.250s\""
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "non se pode instalar unha nova versión de \"%.255s\""
+msgstr ""
+"non se pode instalar o novo ficheiro de disparadores de interese \"%.250s\""
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr ""
-"non se pode instalar o novo ficheiro de información \"%.250s\" coma \"%.250s"
-"\""
+"disparador de interese nun ficheiro duplicado para o ficheiro \"%.250s\" e o "
+"paquete \"%.250s\""
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "non se pode abrir o novo ficheiro de armacén \"%.250s\""
+msgstr ""
+"non se pode crear o novo ficheiro de disparadores de ficheiro \"%.250s\""
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "non se pode abrir o novo ficheiro de armacén \"%.250s\""
+msgstr ""
+"non se pode gravar no novo ficheiro de disparadores de ficheiro \"%.250s\""
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr ""
-"non se pode instalar o novo ficheiro de información \"%.250s\" coma \"%.250s"
-"\""
+"non se pode instalar o novo ficheiro de disparadores de ficheiro \"%.250s\""
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "non se pode ler o ficheiro de partes \"%.250s\""
+msgstr "non se pode ler o ficheiro de disparadores de ficheiro \"%.250s\""
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "erro de lectura no ficheiro de configuración \"%.255s\""
+msgstr "erro de sintaxe no ficheiro de disparadores de ficheiro \"%.250s\""
 
 #: lib/triglib.c:491
 #, c-format
@@ -1079,6 +1095,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"o rexistro de disparadores de ficheiro menciona o paquete de nome non válido "
+"\"%.250s\" (para un interese no ficheiro \"%.250s\"): %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1086,52 +1104,56 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"o ficheiro ci de disparadores \"%.250s\" contén unha sintaxe de disparador "
+"non válida no nome de disparador \"%.250s\": %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "non se pode abrir o ficheiro orixe \"%.250s\""
+msgstr "non se pode abrir o ficheiro ci de disparadores \"%.250s\""
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
+"o ficheiro ci de disparadores contén unha sintaxe de directiva non coñecida"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
+"o ficheiro ci de disparadores contén unha directiva descoñecida \"%.250s\""
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "non se pode ler o directorio de armacén \"%.250s\""
+msgstr "non se pode crear o directorio de estado dos disparadores \"%.250s\""
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "non se pode ler o directorio de armacén \"%.250s\""
-
-#: lib/utils.c:50
-#, fuzzy, c-format
-msgid "read error in `%.250s'"
-msgstr "erro de lectura en %.250s"
-
-#: lib/utils.c:55
-#, fuzzy, c-format
-msgid "fgets gave an empty string from `%.250s'"
-msgstr "fgets devolveu unha cadea baleira do ficheiro de desvíos [i]"
-
-#: lib/utils.c:57
-#, fuzzy, c-format
-msgid "too-long line or missing newline in `%.250s'"
 msgstr ""
-"o ficheiro \"%.250s\" está corrompido - falla un retorno de carro tras "
+"non se pode establecer a propiedade do directorio de estado dos disparadores "
 "\"%.250s\""
 
+#: lib/utils.c:50
+#, c-format
+msgid "read error in `%.250s'"
+msgstr "erro de lectura en \"%.250s\""
+
+#: lib/utils.c:55
+#, c-format
+msgid "fgets gave an empty string from `%.250s'"
+msgstr "fgets devolveu unha cadea baleira de \"%.250s\""
+
+#: lib/utils.c:57
+#, c-format
+msgid "too-long line or missing newline in `%.250s'"
+msgstr "liña longa de máis ou falla un retorno de carro en \"%.250s\""
+
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "fin de ficheiro inesperada en %.250s"
+msgstr "fin de ficheiro inesperada ao ler \"%.250s\""
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1998,9 +2020,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (versión %.250s) hase instalar.\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (versión %.250s) está %s.\n"
+msgstr "  %.250s (versión %.250s) está presente e %s.\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -2008,9 +2030,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s fornece %.250s e hase instalar.\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %.250s fornece %.250s e está %s.\n"
+msgstr "  %.250s fornece %.250s e está presente e %s.\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2064,6 +2086,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Os seguintes paquetes están a agardar o procesamento de disparadores que\n"
+"activaron noutros paquetes. Este procesamento pódese solicitar empregando\n"
+"dselect ou dpkg --configure --pending (ou dpkg --triggers-only):\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2071,6 +2096,11 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Disparáronse os seguintes paquetes, pero aínda non se realizou o "
+"procesamento\n"
+"dos disparadores. Pódese solicitar o procesamento dos disparadores "
+"empregando\n"
+"dselect ou dpkg --configure --pending (ou dpkg --triggers-only):\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2322,9 +2352,8 @@ msgid "not installed but configs remain"
 msgstr "sen instalar pero hai ficheiros de configuración"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "roto por unha eliminación fallida"
+msgstr "roto debido a unha eliminación ou instalación fallida"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2336,11 +2365,11 @@ msgstr "roto por un fallo no postinst"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "a agardar a que outro paquete procese disparadores"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "disparado"
 
 #: src/help.c:48
 msgid "installed"
@@ -2385,9 +2414,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "non se poden establecer permisos de execución en \"%.250s\""
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "non se pode analizar un ficheiro en vsnprintf"
+msgstr "non se pode modificar o ambiente para o script de mantedor"
 
 #: src/help.c:317
 #, c-format
@@ -2492,7 +2520,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2526,29 +2554,31 @@ msgstr ""
 "  --unpack           <ficheiro .deb> ... | -R|--recursive <directorio> ...\n"
 "  -A|--record-avail  <ficheiro .deb> ... | -R|--recursive <directorio> ...\n"
 "  --configure        <paquete> ... | -a|--pending\n"
+"  --triggers-only    <paquete> ... | -a|--pending\n"
 "  -r|--remove        <paquete> ... | -a|--pending\n"
 "  -P|--purge         <paquete> ... | -a|--pending\n"
-"  --get-selections [<patrón> ...]  Amosa a lista de seleccións.\n"
-"  --set-selections                 Establece as seleccións de paquetes.\n"
-"  --clear-selections               Deselecciona os paquetes non esenciais.\n"
-"  --update-avail <ficheiro Packages>\n"
-"                                   Substitúe a información de paquetes\n"
-"                                     dispoñibles.\n"
-"  --merge-avail <ficheiro Packages>\n"
-"                                   Mestura coa información do ficheiro.\n"
-"  --clear-avail                    Borra a información de dispoñibles.\n"
-"  --forget-old-unavail             Esquece os paquetes desinstalados\n"
-"                                     e non dispoñibles.\n"
-"  -s|--status <paquete> ...        Amosa detalles do estado do paquete.\n"
-"  -p|--print-avail <paquete> ...   Amosa detalles da versión dispoñible.\n"
-"  -L|--listfiles <paquete> ...     Amosa os ficheiros do paquete.\n"
-"  -l|--list [<patrón> ...]         Amosa unha lista concisa de paquetes.\n"
-"  -S|--search <patrón> ...         Busca paquetes que conteñen o ficheiro.\n"
-"  -C|--audit                       Busca paquetes rotos.\n"
-"  --print-architecture             Amosa a arquitectura de dpkg.\n"
-"  --compare-versions <a> <op> <b>  Compara versións - mire embaixo.\n"
-"  --force-help                     Axuda sobre o forzado.\n"
-"  -Dh|--debug=help                 Axuda sobre a depuración.\n"
+"  --get-selections [<patrón> ...]      Amosa a lista de seleccións.\n"
+"  --set-selections                     Establece as seleccións de paquetes.\n"
+"  --clear-selections                   Deselecciona os paquetes non "
+"esenciais.\n"
+"  --update-avail <ficheiro-Packages>   Substitúe a información de paquetes.\n"
+"  --merge-avail <ficheiro-Packages>    Mestura coa información do ficheiro.\n"
+"  --clear-avail                        Borra a información de dispoñibles.\n"
+"  --forget-old-unavail                 Esquece os paquetes desinstalados\n"
+"                                           e non dispoñibles.\n"
+"  -s|--status <paquete> ...            Amosa detalles do estado do paquete.\n"
+"  -p|--print-avail <paquete> ...       Amosa detalles da versión "
+"dispoñible.\n"
+"  -L|--listfiles <paquete> ...         Amosa os ficheiros do paquete.\n"
+"  -l|--list [<patrón> ...]             Amosa unha lista concisa de "
+"paquetes.\n"
+"  -S|--search <patrón> ...             Busca paquetes que conteñen o "
+"ficheiro.\n"
+"  -C|--audit                           Busca paquetes rotos.\n"
+"  --print-architecture                 Amosa a arquitectura de dpkg.\n"
+"  --compare-versions <a> <op> <b>      Compara versións - mire embaixo.\n"
+"  --force-help                         Axuda sobre o forzado.\n"
+"  -Dh|--debug=help                     Axuda sobre a depuración.\n"
 "\n"
 
 #: src/main.c:93 src/query.c:484 src/trigcmd.c:98 dpkg-deb/main.c:77
@@ -2589,7 +2619,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2622,8 +2652,9 @@ msgid ""
 msgstr ""
 "Opcións:\n"
 "  --admindir=<directorio>    Emprega o <directorio> no canto de %s.\n"
-"  --root=<directorio>        Instala nun diretorio raíz diferente.\n"
-"  --instdir=<directorio>     Cambia a raíz de instalación sen cambiar o\n"
+"  --root=<directorio>        Instala nun directorio raíz diferente.\n"
+"  --instdir=<directorio>     Cambia o directorio de instalación sen cambiar "
+"o\n"
 "                                directorio de administración.\n"
 "  -O|--selected-only         Omite os paquetes non seleccionados para inst/"
 "act.\n"
@@ -2632,17 +2663,19 @@ msgstr ""
 "  -G|--refuse-downgrade      Omite os paquetes de versión anterior á "
 "instalada.\n"
 "  -B|--auto-deconfigure      Instala incluso se había romper outro paquete.\n"
+"  --[no-]triggers            Omite ou forza o procesamento de disparadores.\n"
 "  --no-debsig                Non tenta verificar as sinaturas dos paquetes.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Só di o que había facer - non o fai.\n"
 "  -D|--debug=<octal>         Activa a depuración (vexa -Dhelp ou --"
 "debug=help).\n"
-"  --status-fd <n>            Envía cambios de estado ao descritor de "
-"ficheiros.\n"
+"  --status-fd <n>            Envía os cambios de estado ao descritor\n"
+"                                de ficheiros número <n>.\n"
 "  --log=<ficheiro>           Rexistra os cambios e accións no <ficheiro>.\n"
 "  --ignore-depends=<paquete>,...\n"
-"                             Ignora as dependencias relacionadas co paquete\n"
-"  --force-...                Ignora os problemas - vexa --force-help.\n"
+"                             Ignora as dependencias relacionadas co "
+"<paquete>.\n"
+"  --force-...                Ignora os problemas (vexa --force-help).\n"
 "  --no-force-...|--refuse-...\n"
 "                             Detense ao atopar problemas.\n"
 "  --abort-after <n>          Detense despois de atopar <n> erros.\n"
@@ -2711,7 +2744,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "Aviso: opción \"--%s\" obsoleta\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2735,20 +2768,25 @@ msgid ""
 msgstr ""
 "Opción de depuración de %s, --debug=<octal> ou -D<octal>:\n"
 "\n"
-" número  ref. na fonte   descrición\n"
-"      1   general          Información de progreso normalmente útil\n"
-"      2   scripts          Chamadas e estado dos scripts de mantedores\n"
-"     10   eachfile         Saída por cada ficheiro procesado\n"
-"    100   eachfiledetail   Moita saída por cada ficheiro procesado\n"
-"     20   conff            Saída por cada ficheiro de configuración\n"
-"    200   conffdetail      Moita saída por cada ficheiro de configuración\n"
-"     40   depcon           Dependencias e conflictos\n"
-"    400   depcondetail     Moita saída por dependencias e conflictos\n"
-"   1000   veryverbose      Moitas cousas sobre, p.ex., o directorio dpkg/"
-"info\n"
-"   2000   stupidlyverbose  Enormes cantidades de parvadas\n"
+" número  ref. no cód. fonte descrición\n"
+"      1   general           Información de progreso normalmente útil\n"
+"      2   scripts           Chamadas e estado dos scripts de mantedor\n"
+"     10   eachfile          Información sobre cada ficheiro procesado\n"
+"    100   eachfiledetail    Moita información sobre cada ficheiro procesado\n"
+"     20   conff             Información sobre cada ficheiro de "
+"configuración\n"
+"    200   conffdetail       Moitos datos sobre cada ficheiro de "
+"configuración\n"
+"     40   depcon            Dependencias and conflictos\n"
+"    400   depcondetail      Moita información de dependencias/conflictos\n"
+"  10000   triggers          Activación e procesamento de disparadores\n"
+"  20000   triggersdetail    Moita información sobre os disparadores\n"
+"  40000   triggersstupid    Unha cantidade absurda de datos sobre "
+"disparadores\n"
+"   1000   veryverbose       Moita leria sobre p.ex. o directorio dpkg/info\n"
+"   2000   stupidlyverbose   Cantidades absurdas de leria\n"
 "\n"
-"As opcións de depuración mestúranse empregando a operación \"OR\" binaria.\n"
+"As opcións de depuración mestúranse sumándoas.\n"
 "Teña en conta que os significados e valores poden cambiar.\n"
 
 #: src/main.c:243
@@ -2923,13 +2961,13 @@ msgstr ""
 "Só se configura unha vez.\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"o paquete %.250s non está listo para a súa configuración\n"
-" non se pode configurar (estado actual \"%.250s\")"
+"o paquete %.250s non está listo para o procesamento dos disparadores\n"
+" (estado actual \"%.250s\" sen disparadores pendentes)"
 
 #: src/packages.c:334
 #, c-format
@@ -2947,14 +2985,15 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "  A versión de %s no sistema é %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  Hase eliminar o paquete %s, que fornece %s.\n"
+msgstr ""
+"  O paquete %s que fornece %s espera o procesamento dos disparadores.\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  Hase eliminar o paquete %s.\n"
+msgstr "  O paquete %s espera o procesamento dos disparadores.\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3270,7 +3309,6 @@ msgstr ""
 "desapareceu"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3279,9 +3317,9 @@ msgid ""
 "uppercase=bad)\n"
 msgstr ""
 "Desexado=Descoñecido(U)/Instalar/Eliminar(R)/Purgar/Reter(H)\n"
-"| Estado=Non/Instalado/Config/Desempaquetado(U)/Fallo-config/Medio-instalado"
-"(H)\n"
-"|/ Erro=(ningún)/Reter(H)/Reinstalar/X=ámbolos dous (Estado,Err: "
+"| Estado=Non/Inst/Conf/Desempq(U)/Fallo-conf/Medio-inst(H)/Disp-agar(W)/pend"
+"(T)\n"
+"|/ Erro=(ningún)/Reter(H)/Reinstalar/X=Ámbolos dous (Estado,Err: "
 "maiúsc=malo)\n"
 
 #: src/query.c:129
@@ -3631,23 +3669,23 @@ msgid "--clear-selections does not take any argument"
 msgstr "--clear-selections non toma ningún argumento"
 
 #: src/trigcmd.c:67
-#, fuzzy
-msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Escriba dpkg-split --help para obter axuda."
+msgid "Type dpkg-triggers --help for help about this utility."
+msgstr "Escriba dpkg-triggers --help para obter axuda sobre esta utilidade."
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr "Ferramenta de consulta de xestión de paquetes \"%s\" de Debian\n"
+msgstr "Utilidade de disparadores de paquetes %s de Debian.\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Emprego: %s [<opción> ...] <orde>\n"
+"Emprego: %s [<opcións> ...] <nome-disparador>\n"
+"         %s [<opcións> ...] <orde>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3658,6 +3696,10 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"Ordes:\n"
+"  --check-supported                Comproba se a versión actual de dpkg\n"
+"                                     ten soporte de disparadores.\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3672,42 +3714,49 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Opcións:\n"
+"  --admindir=<directorio>     Emprega o <directorio> no canto de %s.\n"
+"  --by-package=<paquete>      Substitúe o esperador de disparadores\n"
+"                                 (normalmente establecido por dpkg).\n"
+"  --no-await                  Ningún paquete precisa de agardar.\n"
+"  --no-act                    Só proba - non facer cambios en realidade.\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s: aínda non se creou o directorio de datos de disparadores\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s: aínda non existen os rexistros de disparadores\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "--%s non toma ningún argumento"
+msgstr "dpkg-trigger --check-supported non toma ningún argumento"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s toma só un argumento (nome de ficheiro .deb)"
+msgstr "dpkg-trigger toma só un argumento, o nome do disparador"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"Débese chamar a dpkg-trigger desde un script de mantedor (ou cunha opción --"
+"by-package)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "campo \"%s\", nome de paquete \"%.255s\" non válido: %s"
+msgstr "dpkg-trigger: nome de paquete agardado \"%.250s\" non válido: %.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "campo \"%s\", nome de paquete \"%.255s\" non válido: %s"
+msgstr "dpkg-trigger: nome de disparador \"%.255s\" non válido: %.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3715,6 +3764,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: atopouse un ciclo ao procesar os disparadores:\n"
+"  cadea de paquetes dos que os disparadores son ou poden ser responsables:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3722,15 +3773,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" disparadores pendentes que son ou poderían ser irresolubles:\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "os disparadores están nun ciclo, abandónanse"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "A purgar os ficheiros de configuración de %s ...\n"
+msgstr "A procesar os disparadores de %s ...\n"
 
 #: src/update.c:44
 #, c-format
@@ -5990,9 +6043,6 @@ msgstr "Problema grave: %s"
 #~ msgid "unexpected EOF in diversions [ii]"
 #~ msgstr "fin de ficheiro inesperada no ficheiro de desvíos [ii]"
 
-#~ msgid "fgets gave an empty string from diversions [ii]"
-#~ msgstr "fgets devolveu unha cadea baleira do ficheiro de desvíos [ii]"
-
 #~ msgid "diversions file has too-long line or EOF [ii]"
 #~ msgstr ""
 #~ "o ficheiro de desvíos ten unha liña longa de máis ou fin de ficheiro [ii]"
@@ -6002,9 +6052,6 @@ msgstr "Problema grave: %s"
 
 #~ msgid "unexpected EOF in diversions [iii]"
 #~ msgstr "fin de ficheiro inesperada no ficheiro de desvíos [iii]"
-
-#~ msgid "fgets gave an empty string from diversions [iii]"
-#~ msgstr "fgets devolveu unha cadea baleira do ficheiro de desvíos [iii]"
 
 #~ msgid "couldn't malloc in execbackend"
 #~ msgstr "non se puido facer malloc en execbackend"
