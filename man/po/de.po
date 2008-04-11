@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2008-04-09 07:13+0300\n"
-"PO-Revision-Date: 2008-04-10 23:36+0200\n"
+"PO-Revision-Date: 2008-04-11 18:47+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -8941,6 +8941,15 @@ msgid ""
 "by default, the last one is not. Set I<value> to 7 if you want all warnings "
 "to be active."
 msgstr ""
+"I<Wert> ist ein Bitfeld, das den Satz an Warnungen definiert, die von "
+"B<dpkg--shlibdeps> ausgegeben werden können. Bit 0 (Wert=1) aktiviert die "
+"Warnung »Symbol I<Sym>, verwendet von I<Programm>, in keiner der Bibliotheken "
+"gefunden.«, Bit 1 (Wert=2) aktiviert die Warnung »Abhängigkeit von "
+"I<Bibliothek> könnte vermieden werden« und Bit 2 (Wert=4) aktiviert die "
+"Warnung »I<Programm> sollte nicht gegen I<Bibliothek> gelinkt werden«. "
+"Standardmäßig ist I<Wert> 3: die ersten zwei Warnungen sind standardmäßig "
+"aktiv, die letzte nicht. Setzten Sie I<Wert> auf 7, falls Sie möchten, dass "
+"alle Warnungen aktiv sein sollen."
 
 # type: SH
 #: ../../man/dpkg-shlibdeps.1:223
@@ -9294,6 +9303,12 @@ msgid ""
 "option(s), \"1.0\", \"3.0 (native)\". See below for an extensive description "
 "of various source package formats."
 msgstr ""
+"B<dpkg-source> wird das Quellpaket mit dem ersten Format aus der folgenden "
+"geordneten Liste bauen, das funktioniert: dem Format, das im Feld I<Format> "
+"von B<debian/control> angegeben ist, dem Format/den Formaten, das/die über "
+"die Kommandozeilenoption(en) I<--format> angegeben ist, »1.0«, »3.0 "
+"(native)«. Die verschiedenen Quellpaketformate sind weiter unten ausführlich "
+"beschrieben."
 
 # type: SH
 #: ../../man/dpkg-source.1:66
@@ -9339,6 +9354,10 @@ msgid ""
 "before trying the default formats. It doesn't override any explicit "
 "I<Format> field in B<debian/control>."
 msgstr ""
+"Versuche das erste übergebene Format zum Bau des Quellpakets. Falls mehrfach "
+"verwandt, wird der letzte Wert zuerst versucht und der erste Wert wird "
+"zum Schluss versucht, direkt vor den Standardformaten. Es überschreibt kein "
+"explizites Feld I<Format> in B<debian/control>."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:96
@@ -9510,7 +9529,7 @@ msgstr ""
 #: ../../man/dpkg-source.1:170
 #, no-wrap
 msgid "GENERIC EXTRACT OPTIONS"
-msgstr ""
+msgstr "GENERISCHE EXTRAHIERUNGSOPTIONEN"
 
 # type: TP
 #: ../../man/dpkg-source.1:171
@@ -9521,7 +9540,7 @@ msgstr "B<--no-copy>"
 # type: Plain text
 #: ../../man/dpkg-source.1:174
 msgid "Do not copy original tarballs near the extracted source package."
-msgstr ""
+msgstr "Kopiere die Original-Tarbälle in die Nähe des extrahierten Quellpakets."
 
 # type: TP
 #: ../../man/dpkg-source.1:174
@@ -9553,12 +9572,15 @@ msgid ""
 "associated to a B<.diff.gz> or a single B<.tar.gz> (in that case the package "
 "is said to be I<native>)."
 msgstr ""
+"Ein Quellpaket in diesem Format besteht entweder aus einem B<.orig.tar.gz> "
+"mit zugehörigem B<.diff.gz> oder einem einzelnen B<.tar.gz> (in diesem Fall "
+"wird das Paket als I<nativ> bezeichnet)."
 
 # type: TP
 #: ../../man/dpkg-source.1:185 ../../man/dpkg-source.1:342
 #: ../../man/dpkg-source.1:444
 msgid "B<Extracting>"
-msgstr ""
+msgstr "B<Extrahieren>"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:195
@@ -9587,6 +9609,11 @@ msgid ""
 "tarball in a separate \".orig\" directory and regenerating the B<.diff.gz> "
 "by comparing the source package I<directory> with the .orig directory."
 msgstr ""
+"Bauen eines nativen Paket besteht nur aus dem Erstellen eines einzigen "
+"Tarballs mit dem Quellverzeichnis. Bauen eines nicht-nativen Pakets schließt "
+"das Extrahieren des Original-Tarballs in ein separates Verzeichnis ».orig« "
+"und die Neuerstellung des B<.diff.gz> durch Vergleich des Quellpaket-"
+"I<Verzeichnisses> mit dem Verzeichnis .orig ein."
 
 # type: TP
 #: ../../man/dpkg-source.1:204
@@ -9822,6 +9849,9 @@ msgid ""
 "the format \"3.0 (quilt)\" replaces it. Wig&pen was the first specification "
 "of a new-generation source package format."
 msgstr ""
+"Auch als »wig&pen« bekannt. Dieses Format wir nicht für den breiten Einsatz "
+"empfohlen, es wird durch das Format »3.0 (quilt)« ersetzt. Wig&pen war die "
+"erste Spezifikation eines Paketformats der nächsten Generation."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:323
@@ -9831,6 +9861,11 @@ msgid ""
 "B<debian/patches/> matching the perl regular expression B<[\\ew-]+> must be "
 "valid patches: they are applied at extraction time."
 msgstr ""
+"Das Verhalten diese Formats ist identisch zum Format »3.0 (quilt)«, abgesehen "
+"davon, dass es keine explizite Liste von Patches verwendet. Alle Dateien in "
+"B<debian/patches/>, die auf den regulären Perlausdruck B<[\\ew-]+> passen, "
+"müssen gültige Patches sein: sie werden zum Zeitpunkt der Extrahierung "
+"angewandt."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:326
@@ -9846,7 +9881,7 @@ msgstr ""
 #: ../../man/dpkg-source.1:327
 #, no-wrap
 msgid "Format: 3.0 (native)"
-msgstr ""
+msgstr "Format: 3.0 (native)"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:333
@@ -9856,6 +9891,11 @@ msgid ""
 "any VCS specific files and directories as well as many temporary files (see "
 "default value associated to B<-I> option in the B<--help> output)."
 msgstr ""
+"Dieses Format ist eine Erweiterung des nativen Paketformats wie es im 1.0-"
+"Format definiert ist. Es unterstützt alle Kompressionsmethoden und ignoriert "
+"standardmäßig alle VCS-spezifischen Dateien und Verzeichnisse sowie viele "
+"temporäre Dateien (lesen Sie den Standardwert der Option B<-I> bei der "
+"Ausgabe von B<--help>)."
 
 # type: SS
 #: ../../man/dpkg-source.1:334
@@ -9900,6 +9940,8 @@ msgid ""
 "The file B<debian/patches/.dpkg-source-applied> is created if some patches "
 "have been applied during the extraction."
 msgstr ""
+"Die Datei B<debian/patches/.dpkg-source-applied> wird erstellt, falls einige "
+"Patches während der Extrahierung angewandt wurden."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:375
@@ -11590,7 +11632,7 @@ msgstr ""
 #: ../../man/dselect.1:253
 #, no-wrap
 msgid "Package details view"
-msgstr ""
+msgstr "Paket-Dateilbetrachtung"
 
 # type: Plain text
 #: ../../man/dselect.1:262
