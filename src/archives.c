@@ -801,6 +801,7 @@ int tarobject(struct TarInfo *ti) {
        if(setfscreatecon(scontext) < 0)
          perror("Error setting security context for next file object:");
        freecon(scontext);
+       scontext = NULL;
      }
         
 #endif /* WITH_SELINUX */
