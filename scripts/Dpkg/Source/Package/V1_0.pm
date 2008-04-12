@@ -31,7 +31,6 @@ use Dpkg::Version qw(check_version);
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
 use Dpkg::Source::Package::V3_0::native;
-use Dpkg::Path qw(check_files_are_the_same);
 
 use POSIX;
 use File::Basename;
