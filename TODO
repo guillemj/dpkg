@@ -11,8 +11,9 @@ lenny
 
  * Remove Conflicts on dpkg-dev exact versions before the release.
 
- * Create a dedicated manual page deb-changes documenting
-   the format of the changes files.
+ * Create dedicated manual pages for .changes and .dsc documenting the
+   format of the files. (deb-foo might not be apprioriate as those are
+   not inside of the .deb file, but changes(5) seems too generic.)
    Explain that backwards incompatible change involve a major version bump
    (1.x => 2.x) while minor version bump will be used for backwards
    compatible extension (e.g. new fields).
@@ -26,21 +27,37 @@ lenny
 ------
 
  * Code cleanup:
-   - blankfoo embedded code.
-   - static variables inside functions.
+   - Refactor blankfoo embedded code.
+   - Get rid of static variables inside functions.
    - Coalesce admindir / infodir / foodir generation.
    - Get rid of setjmp (at least in the general case, keep for dpkg itself?)
    - Coalesce hash and checksum functions.
-   - Move parseerr arguments into a struct.
+   - Move parseerr arguments into a struct (need to push the patch).
    - Move fd and block function out of mlib.
    - Cleanup status chars -> strings hardcoded mappings all over the place.
      (Fix tied field enum with its dselect description (pkgdisplay.cc))
    - Refactor src/processarc.c.
    - Make sure all vsnprintf callers are checking the return value, as the
      system version will not ohsite on us.
+   - Refactor ARRAY_SIZE (need to push the patch).
+   - Fix ncursesw headers.
+   - Consider ferror_fclose function.
 
- * Standardize translated error messages in the perl code to avoid useless
-   work for translators.
+ * Man pages:
+   - Add example to dpkg-scanfoo manpages?
+   - Check all '<>' use bold instead.
+   - Check all command vs action.
+   - Check usage of '|' instead of ', '.
+   - Check position of short option before long option.
+   - Use [option...] instead of [options] and friends?
+   - Fix dpkg man page, refs to dpkg-deb and dpkg-split, etc.
+   - Fix «commandline» vs «command line».
+   - Fix «.  ».
+
+ * L10n:
+   - Standardize translated error messages in the perl code to avoid useless
+     work for translators.
+   - Check http://d-i.alioth.debian.org/spellcheck/level5/index.html
 
  * Discuss and implement
    http://www.hadrons.org/~guillem/debian/docs/origin.proposal
@@ -55,23 +72,21 @@ lenny
 
  * Add multiarch support.
 
- * Merge debconf support (add new status).
-   - dpkg --reconfigure <pkg> <pkg>
-     <pkg>.postinst reconfigure <ver>
-     Fail if pkg is not in the configured state.
-   - Merge dpkg-reconfigure.
-
- * Merge dpkg-cross functionality.
-
- * Merge dpkg-sig?
+ * Merge stuff back:
+   - debsums (metadata storage).
+   - ucf (cleverer conffile handling).
+   - debconf (dpkg-*configure and add new status):
+     + dpkg --reconfigure <pkg> <pkg>
+       <pkg>.postinst reconfigure <ver>
+       Fail if pkg is not in the configured state.
+   - dpkg-cross (multiarch + dpkg cross compilation support).
+   - dpkg-sig (dak fixed, import code, needs reply, #340306).
+   - apt: deb-*/ dirs, apt-extracttemplates (libdpkg).
+   - (maybe parts of wajig, aptitude, synaptic, ept, ...).
 
  * Start exposing libdpkg.
    - Split dpkg.h into dpkg-priv.h.
    - Add needed includes to all header files.
-
- * Add example to dpkg-scanfoo manpages?
-
- * The cleverer conffile support bug fixed.
 
  * Add UTF-8 support to all programs.
 
