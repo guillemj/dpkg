@@ -1,5 +1,14 @@
 2008-04-14  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/Dpkg/Fields.pm (find_custom_field, get_custom_field):
+	New function to handle custom fields (X[SBC]*-*).
+	* scripts/dpkg-genchanges.pl: Use Package-Type control field to
+	decide if a package is an udeb instead of relying on the file
+	extension of a generated package since that doesn't work when
+	generating source-only uploads for example.
+
+2008-04-14  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/Dpkg/Source/Patch.pm (_fail_not_same_type): Fix
 	inversion between new/old filetype.
 

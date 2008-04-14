@@ -276,13 +276,15 @@ foreach my $pkg ($control->get_packages()) {
     my $a = $pkg->{"Architecture"};
     my $d = $pkg->{"Description"} || "no description available";
     $d = $1 if $d =~ /^(.*)\n/;
+    my $pkg_type = $pkg->{"Package-Type"} ||
+                   tied(%$pkg)->get_custom_field("Package-Type") || "deb";
 
     my @f; # List of files for this binary package
     push @f, @{$p2f{$p}} if defined $p2f{$p};
 
     # Add description of all binary packages
     my $desc = sprintf("%-10s - %-.65s", $p, $d);
-    $desc .= " (udeb)" if (grep(/\.udeb$/, @f)); # XXX: Check Package-Type field instead
+    $desc .= " (udeb)" if $pkg_type eq "udeb";
     push @descriptions, $desc;
 
     if (not defined($p2f{$p})) {

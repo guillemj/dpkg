@@ -131,6 +131,33 @@ sub NEXTKEY {
     return undef;
 }
 
+=head2 tied(%hash)->find_custom_field($name)
+
+Scan the fields and look for a user specific field whose name matches the
+following regex: /X[SBC]+-$name/i. Return the name of the field found or
+undef if nothing has been found.
+
+=cut
+sub find_custom_field {
+    my ($self, $name) = @_;
+    foreach my $key (keys %{$self->[0]}) {
+        return $key if $key =~ /^X[SBC]*-\Q$name\E$/i;
+    }
+    return undef;
+}
+
+=head2 tied(%hash)->get_custom_field($name)
+
+Identify a user field and retrieve its value.
+
+=cut
+sub get_custom_field {
+    my ($self, $name) = @_;
+    my $key = $self->find_custom_field($name);
+    return $self->[0]->{$key} if defined $key;
+    return undef;
+}
+
 =head2 my $str = tied(%hash)->dump()
 =head2 tied(%hash)->dump($fh)
 
