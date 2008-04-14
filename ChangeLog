@@ -1,3 +1,19 @@
+2008-04-12  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Path.pm (check_files_are_the_same): Add a new
+	parameter so that we can use stat() instead of lstat() and
+	compare if pointed files are the same.
+	* scripts/Dpkg/Source/Package.pm: Resolve symlinks before deciding
+	if both original tarballs are the same or not. Use the new
+	parameter of check_files_are_the_same() for this.
+	* scripts/Dpkg/Source/Package/V1_0.pm: Remove useless import of
+	check_files_are_the_same.
+
+2008-04-12  Sven Joachim  <svenjoac@gmx.de>
+
+	* scripts/Dpkg/Source/Package.pm: Add missing import of
+	subprocerr.
+
 2008-04-12  Russell Coker <russell@coker.com.au>,
             Guillem Jover  <guillem@debian.org>
 

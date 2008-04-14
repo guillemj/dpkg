@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr warning internerr);
+use Dpkg::ErrorHandling qw(error syserr warning internerr subprocerr);
 use Dpkg::Fields;
 use Dpkg::Cdata;
 use Dpkg::Checksums;
@@ -305,7 +305,7 @@ sub extract {
         {
             my $src = File::Spec->catfile($self->{'basedir'}, $orig);
             my $dst = File::Spec->catfile($destdir, $orig);
-            if (not check_files_are_the_same($src, $dst)) {
+            if (not check_files_are_the_same($src, $dst, 1)) {
                 system('cp', '--', $src, $dst);
                 subprocerr("cp $src to $dst") if $?;
             }
