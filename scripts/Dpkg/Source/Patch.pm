@@ -264,8 +264,8 @@ sub _fail_not_same_type {
     my $old_type = get_type($old);
     my $new_type = get_type($new);
     errormsg(_g("cannot represent change to %s:"), $new);
-    errormsg(_g("  new version is %s"), $old_type);
-    errormsg(_g("  old version is %s"), $new_type);
+    errormsg(_g("  new version is %s"), $new_type);
+    errormsg(_g("  old version is %s"), $old_type);
     $self->register_error();
 }
 
