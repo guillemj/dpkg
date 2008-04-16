@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-04-01 07:21+0300\n"
-"PO-Revision-Date: 2008-04-02 21:42+0100\n"
+"PO-Revision-Date: 2008-04-16 23:33+0100\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
@@ -995,9 +995,9 @@ msgstr ""
 "falhou a abertura do ficheiro `%.250s' de lista de interesses do 'trigger'"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "não foi possível ler o ficheiro de parte `%.250s'"
+msgstr "falhou o rewind ao ficheiro `%.250s' de interesses do 'trigger'"
 
 #: lib/triglib.c:325
 #, c-format
@@ -1009,25 +1009,25 @@ msgstr ""
 "%.250s'ilegal de pacote: %.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "Não foi possível fazer stat a outro novo ficheiro `%.250s'"
+msgstr "não foi possível criar um novo ficheiro `%.250s' de interesse do 'trigger'."
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "Não foi possível fazer stat a outro novo ficheiro `%.250s'"
+msgstr "não foi possível escrever o novo ficheiro `%.250s' de interesse do 'trigger'"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "não foi possível instalar nova versão de `%.255s'"
+msgstr "não foi possível instalar  o novo ficheiro `%.250s' de interesse do 'trigger'"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
-msgstr "não foi possível instalar o novo ficheiro info `%.250s' como `%.250s'"
+msgstr "ficheiro duplicado de interesse de 'trigger' para o ficheiro `%.250s' e pacote `%.250s'"
 
 #: lib/triglib.c:444
 #, c-format
@@ -1063,6 +1063,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"registo de ficheiro de 'trigger' menciona o nome de pacote ilegal `%.250s' "
+"(para o interesse no ficheiro `%.250s'): %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1981,9 +1983,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (versão %.250s) vai ser instalado.\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (versão %.250s) é %s.\n"
+msgstr "  %.250s (versão %.250s) está presente e %s.\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -1991,9 +1993,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s disponibiliza %.250s e vai ser instalado.\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %.250s disponibiliza %.250s e é %s.\n"
+msgstr "  %.250s disponibiliza %.250s e está presente e %s.\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2388,9 +2390,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "não foi possivel definir permissões de execução em `%.250s'"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "não foi possível fazer stat em vsnprintf"
+msgstr "não foi possível fazer setenv para o maint script"
 
 #: src/help.c:317
 #, c-format
@@ -2494,7 +2495,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2524,32 +2525,33 @@ msgid ""
 "\n"
 msgstr ""
 "Comandos:\n"
-"  -i|--install\t\t<ficheiro .deb> ... | -R|--recursive <directório> ...\n"
-"  --unpack\t\t<ficheiro .deb> ... | -R|--recursive <directório> ...\n"
-"  -A|--record-avail\t<ficheiro .deb> ... | -R|--recursive <directório> ...\n"
-"  --configure\t\t<pacote> ... | -a|--pending\n"
-"  -r|--remove\t\t<pacote> ... | -a|--pending\n"
-"  -P|--purge\t\t<pacote> ... | -a|--pending\n"
-"  --get-selections [<padrão> ...] Obter a lista de selecções para stdout.\n"
-"  --set selections\t\t   Definir a lista de selecções a partir de stdin.\n"
-"  --clear-selections\t\t   Desseleccionar todos os pacotes não essenciais.\n"
-"  --update-avail <Ficheiro-Packages> Substituir informação de pacotes "
+"  -i|--install		<ficheiro .deb> ... | -R|--recursive <directório> ...\n"
+"  --unpack		<ficheiro .deb> ... | -R|--recursive <directório> ...\n"
+"  -A|--record-avail	<ficheiro .deb> ... | -R|--recursive <directório> ...\n"
+"  --configure		<pacote> ... | -a|--pending\n"
+"  --triggers-only	<pacote> ... | -a|--pending\n"
+"  -r|--remove		<pacote> ... | -a|--pending\n"
+"  -P|--purge		<pacote> ... | -a|--pending\n"
+"  --get-selections [<padrão> ...] 	Enviar a lista de selecções para stdout.\n"
+"  --set selections			Definir a lista de selecções a partir de stdin.\n"
+"  --clear-selections			Desseleccionar todos os pacotes não essenciais.\n"
+"  --update-avail <Ficheiro-Packages>	Substituir informação de pacotes "
 "disponíveis.\n"
-"  --merge-avail <Ficheiro-Packages>  Juntar com a informaçãoi do ficheiro.\n"
-"  --clear-avail\t\t   Apagar informação dos disponíveis existentes.\n"
-"  --forget-old-unavail\t\t   Esquecer pacotes desinstalados indisponíveis.\n"
-"  -s|--status <pacote> ...\t   Mostrar detalhes de estado do pacote.\n"
-"  -p|--print-avail <pacote> ...   Mostrar detalhes da versão disponível.\n"
-"  -L|--list-files <pacote> ...    Listar ficheiros que pertencem ao(s) pacote"
+"  --merge-avail <Ficheiro-Packages>	Juntar com a informaçãoi do ficheiro.\n"
+"  --clear-avail			Apagar informação dos disponíveis existentes.\n"
+"  --forget-old-unavail			Esquecer pacotes desinstalados indisponíveis.\n"
+"  -s|--status <pacote> ...		Mostrar detalhes de estado do pacote.\n"
+"  -p|--print-avail <pacote> ...	Mostrar detalhes da versão disponível.\n"
+"  -L|--list-files <pacote> ... 	Listar ficheiros que pertencem ao(s) pacote"
 "(s).\n"
-"  -l|--list [<padrão> ...]        Listar pacotes resumidamente.\n"
-"  -S|--search <padrão> ...\t   Encontrar pacote(s) a que pertençam o(s) "
+"  -l|--list [<padrão> ...]     	Listar pacotes resumidamente.\n"
+"  -S|--search <padrão> ...		Encontrar pacote(s) a que pertençam o(s) "
 "ficheiro(s).\n"
-"  -C|--audit\t\t\t   Procura pacote(s) com problemas.\n"
-"  --print-architecture\t\t   Escrever a arquitectura do dpkg.\n"
-"  --compare-versions <a> <op> <b> Comparar números de versão - ver abaixo.\n"
-"  --force-help\t\t\t   Mostrar ajuda sobre forçar.\n"
-"  -Dh|--debug=help\t\t   Mostrar ajuda sobre debugging.\n"
+"  -C|--audit				Procura pacote(s) com problemas.\n"
+"  --print-architecture			Escrever a arquitectura do dpkg.\n"
+"  --compare-versions <a> <op> <b> 	Comparar números de versão - ver abaixo.\n"
+"  --force-help				Mostrar ajuda sobre forçar.\n"
+"  -Dh|--debug=help			Mostrar ajuda sobre debugging.\n"
 "\n"
 
 #: src/main.c:93 src/query.c:484 src/trigcmd.c:98 dpkg-deb/main.c:77
@@ -3710,14 +3712,14 @@ msgstr ""
 "opção --by-package)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "campo `%s', nome de pacote inválido `%.255s': %s"
+msgstr "dpkg-trigger: nome `%.250s' ilegal de pacote esperado: %-250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "campo `%s', nome de pacote inválido `%.255s': %s"
+msgstr "dpkg-trigger: nome `%.250s' de 'trigger' inválido: %.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3732,15 +3734,16 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
-
+"\n"
+" 'triggers' pendentes de pacotes que são ou poderão ser não solucionados:\n"
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
 msgstr ""
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "A purgar os ficheiros de configuração para %s ...\n"
+msgstr "A processar 'triggers' para %s ...\n"
 
 #: src/update.c:44
 #, c-format
