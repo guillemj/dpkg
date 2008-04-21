@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2008-04-09 07:13+0300\n"
-"PO-Revision-Date: 2008-04-11 18:47+0200\n"
+"PO-Revision-Date: 2008-04-21 19:19+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -2352,12 +2352,12 @@ msgid ""
 "installed, does not cause activations.  In the case of unpack, triggers "
 "mentioned in both the old and new versions of the package will be activated."
 msgstr ""
-"Falls dieses Paket während des entpackens eines anderen Pakets verschwindet, "
+"Falls dieses Paket während des Entpackens eines anderen Pakets verschwindet, "
 "wird der Trigger aktiviert, wenn das Verschwinden während des Endes der "
 "unpack-Operation bemerkt wird. Triggerverarbeitung und Übergänge von "
-"Trigger-erwartetnd auf installiert führen nicht zu Aktivierungen. Im Falle "
-"von unpack werden sowohl die in der alten als auch der neuen Version des "
-"Pakets angegebenen Trigger aktiviert."
+"Trigger-erwartend auf installiert führen nicht zu Aktivierungen. Im Falle "
+"von unpack werden sowohl die in der alten als auch die in der neuen Version "
+"des Pakets angegebenen Trigger aktiviert."
 
 # type: Plain text
 #: ../../man/deb-triggers.5:48
@@ -2644,7 +2644,7 @@ msgstr ""
 #: ../../man/dpkg.1:83
 #, no-wrap
 msgid "B<purge>"
-msgstr "B<säubern>"
+msgstr "B<vollständig löschen>"
 
 # type: Plain text
 #: ../../man/dpkg.1:87
@@ -2816,7 +2816,7 @@ msgid ""
 "B<1.> Unpack the configuration files, and at the same time back up the old "
 "configuration files, so that they can be restored if something goes wrong."
 msgstr ""
-"B<1.> entpacke die Konfigurationsdateien und sichere gleichzeitig die alten "
+"B<1.> Entpacke die Konfigurationsdateien und sichere gleichzeitig die alten "
 "Konfigurationsdateien, so dass diese, falls etwas schief geht, "
 "wiederhergestellt werden können."
 
@@ -2872,9 +2872,9 @@ msgstr ""
 "sind die Dateien, die in der I<debian/conffiles>-Steuerdatei aufgeführt "
 "sind). B<-P> oder B<--purge> entfernt alles, auch Konfigurationsdateien. "
 "Falls B<-a> oder B<--pending> anstatt eines Paketnamens angegeben werden, "
-"dann werden alle Pakete, die entpackt aber zur Entfernung oder Säuberung in "
-"der Datei I</var/lib/dpkg/status> markiert sind, entfernt oder respektive "
-"gesäubert."
+"dann werden alle Pakete, die entpackt aber zur Entfernung oder vollständigen "
+"Löschung in der Datei I</var/lib/dpkg/status> markiert sind, entfernt oder "
+"respektive vollständig gelöscht."
 
 # type: Plain text
 #: ../../man/dpkg.1:170
@@ -3000,7 +3000,7 @@ msgid ""
 "packages marked with state purge will not be shown."
 msgstr ""
 "Hole eine Liste von Paketauswahlen und schreibe sie auf die Standardausgabe. "
-"Ohne Muster werden Pakete im Zustand »Säubern« nicht angezeigt."
+"Ohne Muster werden Pakete im Zustand »Vollständig löschen« nicht angezeigt."
 
 # type: TP
 #: ../../man/dpkg.1:213
@@ -3811,7 +3811,7 @@ msgstr ""
 #: ../../man/dpkg.1:511
 #, no-wrap
 msgid "B<status: >I<file>B< : conffile-prompt : '>I<real-old>B<' '>I<real-new>B<' >I<useredited>B< >I<distedited>"
-msgstr ""
+msgstr "B<status: >I<Datei>B< : conffile-prompt : '>I<echt-alt>B<' '>I<echt-neu>B<' >I<benutzer-edit>B< >I<dist-edit>"
 
 # type: Plain text
 #: ../../man/dpkg.1:514
@@ -3857,9 +3857,9 @@ msgstr ""
 "Protokollierstatus-Änderungsaktualisierungen und -Aktionen in I<Dateiname> "
 "anstatt in die Standard-Datei I</var/log/dpkg.log>. Falls diese Option "
 "mehrfach übergeben wird, wird der letzte Dateiname verwendet. "
-"Protokollnachrichten sind von der Form »YYYY-MM-DD HH:MM:SS status "
+"Protokollnachrichten sind von der Form »JJJJ-MM-TT HH:MM:SS status "
 "E<lt>ZustandE<gt> E<lt>PktE<gt> E<lt>installierte-VersionE<gt>« für "
-"Statusänderungsaktualisierungen; »YYYY-MM-DD HH:MM:SS E<lt>AktionE<gt> "
+"Statusänderungsaktualisierungen; »JJJJ-MM-TT HH:MM:SS E<lt>AktionE<gt> "
 "E<lt>PktE<gt> E<lt>installierte-VersionE<gt> E<lt>verfügbare-VersionE<gt>« "
 "für Aktionen wobei I<E<lt>AktionE<gt>> entweder install, upgrade, remove "
 "oder purge ist; und »YYYY-MM-DD HH:MM:SS conffile E<lt>DateinameE<gt> "
@@ -8568,7 +8568,7 @@ msgid ""
 "I<admindir> is /var/lib/dpkg."
 msgstr ""
 "Vom Paket bereitgestellte Abhängigkeitsinformationen für "
-"Laufzeitbibliotheken. Falls nicht überschrieben, ist das I<adminverz> /var/"
+"Laufzeitbibliotheken. Falls nicht überschrieben, ist I<adminverz> /var/"
 "lib/dpkg."
 
 # type: Plain text
@@ -9594,6 +9594,15 @@ msgid ""
 "files (the whole debian directory is created that way) but can't remove "
 "files (empty files will be left over)."
 msgstr ""
+"Extrahieren eines nativen Pakets ist ein einfaches Extrahieren eines "
+"einzelnen Tarballs in das Zielverzeichnis. Extrahieren eines nicht-nativen "
+"Pakets erfolgt zuerst durch Entpacken des B<.orig.tar.gz> und dann durch "
+"Anwendung des Patches aus der B<.diff.gz>-Datei. Der Zeitstempel aller "
+"gepatchten Dateien wird auf den Zeitpunkt der Extrahierung des Quellpakets "
+"zurückgesetzt (das vermeidet Zeitstempelversätze, die zu Problemen führen, "
+"wenn autogenerierte Dateien gepatcht werden). Der Diff kann neue Dateien "
+"erstellen (das gesamte Debian-Verzeichnis wird auf diese Weise erstellt), "
+"kann aber keine Dateien entfernen (leere Dateien bleiben zurück)."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:197 ../../man/dpkg-source.1:363
@@ -9911,6 +9920,10 @@ msgid ""
 "tarball (B<.debian.tar.>I<ext>). It can also contain additional original "
 "tarballs (B<.orig->I<component>B<.tar.>I<ext>)."
 msgstr ""
+"Ein Quellpaket in diesem Format enthält mindestens einen Original-Tarball "
+"(B<.orig.tar.>I<erw> wobei I<erw> B<gz>, B<bz2> und B<lzma> sein kann) und "
+"einen Debian-Tarball (B<.debian.tar.>I<erw>). Es kann auch zusätzliche "
+"Original-Tarbälle (B<.orig->I<Komponente>B<.tar.>I<erw>)) enthalten."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:351
@@ -9923,6 +9936,15 @@ msgid ""
 "contain a B<debian> sub-directory but it can also contain binary files "
 "outside of that directory (see B<--include-binaries> option)."
 msgstr ""
+"Der Haupt-Originaltarball wird zuerst extrahiert, dann werden alle "
+"zusätzlichen Originaltarbälle in Unterverzeichnisse extrahiert, die nach "
+"dem I<Komponente>n-Teil ihres Dateinamens benannt werden (jedes bereits "
+"existierende Verzeichnis wird ersetzt). Der Debian-Tarball wird auf das "
+"Quellverzeichnis extrahiert, nachdem jedes bereits existierende B<debian>-"
+"Verzeichnis entfernt wurde. Beachten Sie, dass der Debian-Tarball ein "
+"B<debian>-Unterverzeichnis enthalten muss, er aber auch Binärdateien "
+"außerhalb dieses Verzeichnisses enthalten darf (sehen Sie hierzu die Option "
+"B<--include-binaries>)."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:358
@@ -9933,6 +9955,12 @@ msgid ""
 "to the former. This is meant to simplify usage of quilt to manage the set of "
 "patches. The patches can remove files."
 msgstr ""
+"Dann werden alle in B<debian/patches/debian.series> oder B<debian/patches/"
+"series> aufgeführten Patches angewandt. Falls die erstere Datei verwandt "
+"wird und die letztere nicht existiert (oder ein Symlink ist), dann wird die "
+"letztere mit einem Symlink zu ersterer ersetzt. Dies ist zur Vereinfachung "
+"der Verwendung von Quilt gedacht, um den Satz an Patches zu verwalten. Die "
+"Patches können Dateien entfernen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:361
@@ -9957,6 +9985,15 @@ msgid ""
 "modified binary file in the debian tarball (by listing it in B<debian/source/"
 "include-binaries>)."
 msgstr ""
+"Alle im aktuellen Verzeichnis gefundenen Original-Tarbälle werden in ein "
+"temporäres Verzeichnis entpackt. Hierbei wird die gleiche Logik wir für das "
+"Entpacken verwandt, das debian-Verzeichnis wird in das temporäre Verzeichnis "
+"kopiert und alle Patches außer B<debian-changes->I<Version>B<.diff> werden "
+"angewandt. Änderungen an Binärdateien können in einem Diff nicht dargestellt "
+"werden und führen daher zu einem Fehlschlag, es sei denn, der Betreuer hat "
+"sich absichtlich dazu entschlossen, die veränderte Binärdatei dem Debian-"
+"Tarball hinzuzufügen (indem er sie in B<debian/source/include-binaries> "
+"aufgeführt hat)."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:378
@@ -9964,6 +10001,8 @@ msgid ""
 "The updated debian directory and the list of modified binaries is then used "
 "to regenerate the debian tarball."
 msgstr ""
+"Das aktualisierte debian-Verzeichnis und die Liste der veränderten Programme "
+"wird dann zur Neuerstellung des Debian-Tarballs verwandt."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:384
@@ -9973,6 +10012,11 @@ msgid ""
 "option in the B<--help> output). In particular, the B<.pc> directory used by "
 "quilt is ignored during generation of the automatic patch."
 msgstr ""
+"Der automatisch erstellte Diff enthält keine Änderungen an VCS-spezifischen "
+"sowie vielen temporären Dateien (lesen Sie hierzu den zur Option B<-i> "
+"zugeordneten Standardwert in der Ausgabe von B<--help>). Insbesondere wird "
+"das von Quilt verwandte B<.pc>-Verzeichnis während der Erstellung des "
+"automatischen Patches ignoriert."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:395
@@ -9987,6 +10031,16 @@ msgid ""
 "verify that all patches are applied. The option B<--no-preparation> can be "
 "used to disable this behaviour."
 msgstr ""
+"Hinweis: B<dpkg-source> erwartet, dass alle Patches auf dem Quellbaum "
+"angewandt wurden, wenn Sie das Quellpaket generieren. Dies ist z.B. nicht der "
+"Fall, wenn der Quellbaum durch Entpacken eines Quellpakets im Format: 1.0 "
+"erhalten wurde. Um das Problem zu entschärfen, wird B<dpkg-source> Patches "
+"vor dem Bau anwenden, falls es B<debian/patches/.dpkg-source-applied> nicht "
+"findet. Die Existenz des Unterverzeichnisses B<.pc> wird auch als Zeichen "
+"interpretiert, dass einige Patches angewandt wurden und in diesem Fall wird "
+"B<quilt unapplied> aufgerufen, um sicherzustellen, dass alle Patches "
+"angewandt wurden. Die Option B<--no-preparation> kann zum Abschalten dieses "
+"Verhaltens verwandt werden."
 
 # type: TP
 #: ../../man/dpkg-source.1:397 ../../man/dpkg-source.1:429
@@ -10049,6 +10103,8 @@ msgid ""
 "Do not try to prepare the build tree by applying patches which are "
 "apparently unapplied."
 msgstr ""
+"Versuche nicht den Bau-Baum durch Anwenden aller derzeit nicht-"
+"angewandten Patches vorzubreiten."
 
 # type: TP
 #: ../../man/dpkg-source.1:415
@@ -10079,12 +10135,15 @@ msgid ""
 "possible to use quilt directly on the unpacked directory but it will be free "
 "of quilt's temporary files as well."
 msgstr ""
+"Verwende zur Anwendung der Patches nicht Quilt sondern den Code von dpkg-"
+"source. Auf dem entpackten Verzeichnis kann Quilt nicht direkt verwandt "
+"werden, aber er wird auch frei von Quilts temporären Dateien sein."
 
 # type: SS
 #: ../../man/dpkg-source.1:424
 #, no-wrap
 msgid "Format: 3.0 (custom)"
-msgstr ""
+msgstr "Format: 3.0 (custom)"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:427
@@ -10092,6 +10151,8 @@ msgid ""
 "This format is particular. It doesn't represent a real source package format "
 "but can be used to create source packages with arbitrary files."
 msgstr ""
+"Dieses Format ist besonders. Es stellt kein echtes Quellpaket dar, kann aber "
+"zur Erstellung eines Quellpakets mit beliebigen Dateien verwandt werden."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:433
@@ -10100,6 +10161,10 @@ msgid ""
 "source package. They must exist and are preferrably in the current "
 "directory. At least one file must be given."
 msgstr ""
+"Alle Argumente, die keine Optionen sind, werden als Dateien verstanden, die "
+"in das generierte Quellpaket integriert werden sollen. Sie müssen existieren "
+"und sich bevorzugt im aktuellen Verzeichnis befinden. Mindestens eine Datei "
+"muss angegeben werden."
 
 # type: TP
 #: ../../man/dpkg-source.1:433
@@ -10114,6 +10179,9 @@ msgid ""
 "generated .dsc file will contain this value in its I<Format> field and not "
 "\"3.0 (custom)\"."
 msgstr ""
+"B<Notwendig>. Definiert das echte Format des generierten Quellpakets. Die "
+"generierte .dsc-Datei wird diesen Wert und nicht »3.0 (custom)« in seinem "
+"I<Format>-Feld enthalten."
 
 # type: SS
 #: ../../man/dpkg-source.1:439
@@ -10127,6 +10195,8 @@ msgid ""
 "Those formats are experimental. They generate a single tarball containing "
 "the corresponding VCS repository."
 msgstr ""
+"Diese Formate sind experimentell. Sie generieren einen einzigen Tarball, der "
+"das korrespondierende VCS-Depot enthält."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:447
@@ -10134,6 +10204,8 @@ msgid ""
 "The tarball is unpacked and then the VCS is used to checkout the current "
 "branch."
 msgstr ""
+"Der Tarball wird entpackt und dann wird das VCS verwandt, um den aktuellen "
+"Zweig auszuchecken."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:452
@@ -10141,6 +10213,9 @@ msgid ""
 "Before going any further, some checks are done to ensure that we don't have "
 "any non-ignored uncommitted changes."
 msgstr ""
+"Bevor fortgefahren wird, werden einige Überprüfungen ausgeführt, um "
+"sicherzustellen, dass keine nicht-ignorierten, nicht-übertragene "
+"(»uncommitted«) Änderungen vorliegen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:456
@@ -10149,6 +10224,9 @@ msgid ""
 "temporary directory. Before being packed in a tarball, various cleanup are "
 "done to save space."
 msgstr ""
+"Dann wird der VCS-spezifische Teil des Quellpakets in ein temporäres "
+"Verzeichnis kopiert. Vor der Erstellung des Tarballs werden verschiedene "
+"Bereinigungen durchgeführt, um Platz zu sparen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:463
@@ -10875,11 +10953,16 @@ msgid ""
 "by system administrators (but note that the triggers won't actually be run "
 "by dpkg-trigger)."
 msgstr ""
+"Dies kann von Betreuerskripten in komplexen und bedingten Situationen "
+"verwandt werden, wo die Datei-Trigger oder die Steuerung von Dateidirektiven "
+"durch erklärende B<activate>-Trigger nicht ausreichen. Es kann auch zum "
+"Testen und von Systemadministratoren verwandt werden (beachten Sie aber, dass "
+"Trigger nicht tatsächlich durch dpkg-trigger ausgeführt werden)."
 
 # type: Plain text
 #: ../../man/dpkg-trigger.1:23
 msgid "Unrecognised trigger name syntaxes are an error for dpkg-trigger."
-msgstr ""
+msgstr "Nicht-erkannte Triggernamen-Syntaxen sind für dpkg-trigger ein Fehler."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:25
@@ -10895,6 +10978,11 @@ msgid ""
 "error message to stderr if not. Normally, however, it is better just to "
 "activate the desired trigger with B<dpkg-trigger>."
 msgstr ""
+"Überprüfe, ob der laufende Dpkg Trigger unterstützt (normalerweise vom "
+"Postinst aufgerufen). Endet mit 0, falls ein Trigger-fähiger Dpkg ausgeführt "
+"wurde oder mit 1 und einer Fehlermeldung nach Stderr, falls nicht. "
+"Normalerweise ist es allerdings besser, einfach den gewünschten Trigger mit "
+"B<dpkg-trigger> zu aktivieren."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:46
@@ -10910,6 +10998,10 @@ msgid ""
 "naming the package to which the script belongs, and this will be used by "
 "default)."
 msgstr ""
+"Überschreibe den Trigger-Erwartenden (normalerweise wird dies von Dpkg durch "
+"die Umgebungsvariable DPKG_MAINTSCRIPT_PACKAGE der Betreuerskripte gesetzt, "
+"wobei das Paket benannt wird, zu dem das Skript gehört und dies wird "
+"standardmäßig verwandt)."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:52
@@ -10925,6 +11017,12 @@ msgid ""
 "to T's trigger processing awaited list and T's status is unchanged.  T may "
 "be considered installed even though I may not yet have processed the trigger."
 msgstr ""
+"Diese Option arrangiert, dass das aufrufende Paket T (falls zutreffend) nicht "
+"auf die Abarbeitung des Triggers warten muss, das bzw. die interessierte(n) "
+"Paket(e) I werden nicht zu der Liste der auf Bearbeitung wartenden Trigger "
+"von T hinzugefügt und der Status von T bleibt unverändert. T kann als "
+"installiert betrachtet werden, selbst obwohl I den Trigger noch nicht "
+"verarbeitet haben könnte."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:59
@@ -11646,6 +11744,13 @@ msgid ""
 " - the control information for the installed version\n"
 " - the control information for the available version\n"
 msgstr ""
+"Standardmäßig zeigt die Paket-Detailbetrachtung die ausführliche\n"
+"Paketbeschreibung des derzeit in der Paketstatusliste ausgewählten Pakets.\n"
+"Die Art der Details kann durch Drücken der Taste B<»i«> umgeschaltet werden.\n"
+"Diese wechseln zwischen:\n"
+" - der ausführlichen Beschreibung\n"
+" - der Steuerinformation für die installierte Version\n"
+" - der Steuerinformation für die verfügbare Version\n"
 
 # type: Plain text
 #: ../../man/dselect.1:266
@@ -11654,6 +11759,9 @@ msgid ""
 "the specific unresolved depends or conflicts related to the package and "
 "causing it to be listed."
 msgstr ""
+"Im Bildschirm der Abhängigkeitsauflösung gibt es auch die Möglichkeit, die "
+"spezifizierten nicht-aufgelösten Abhängigkeiten oder Konflikte mit Bezug zu "
+"dem Paket anzuschauen und deren Auflistung zu erreichen."
 
 # type: SS
 #: ../../man/dselect.1:267
@@ -11668,6 +11776,10 @@ msgid ""
 "package management system. This includes packages installed on the system "
 "and packages known from the available packages database."
 msgstr ""
+"Der Hauptauswahlbildschirm zeigt eine Liste aller Pakete, die dem Debian-"
+"Paketverwaltungssystem bekannt sind. Dies beinhaltet alle auf dem System "
+"installierten Pakete und Pakete, die aus den verfügbaren Paketdatenbanken "
+"bekannt sind."
 
 # type: Plain text
 #: ../../man/dselect.1:280
@@ -11679,6 +11791,13 @@ msgid ""
 "pressing the B<'v'> key, the package status display is toggled between "
 "verbose and shorthand.  Shorthand display is the default."
 msgstr ""
+"Für jedes Paket zeigt die Liste den Paketsatus, die Priorität, den Breich, "
+"installierte und verfügbare Versionen, den Paketnamen und seine "
+"Kurzbeschreibung, alles in einer Zeile. Durch Drücken der Taste B<»V«> kann "
+"die Anzeige der installierten und verfügbaren Version zwischen ein und aus "
+"umgeschaltet werden. Durch Drücken der Taste B<»v«> wird die Anzeige des "
+"Paketstatuses zwischen ausführlich und verkürzt umgeschaltet. Die verkürzte "
+"Anzeige ist voreingestellt."
 
 # type: Plain text
 #: ../../man/dselect.1:286
