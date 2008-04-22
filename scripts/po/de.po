@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-04-08 07:01+0300\n"
-"PO-Revision-Date: 2008-04-11 18:10+0200\n"
+"PO-Revision-Date: 2008-04-21 21:20+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -1011,22 +1011,24 @@ msgstr ""
 "  -h, --help              zeige diese Hilfemeldung.\n"
 "      --version           zeige die Version.\n"
 "\n"
-"Parser-Optionen FIXME:\n"
-"    --format <outputformat>     see man page for list of available\n"
-"                                output formats, defaults to 'dpkg'\n"
-"                                for compatibility with dpkg-dev\n"
-"    --since, -s, -v <version>   include all changes later than version\n"
-"    --until, -u <version>       include all changes earlier than version\n"
-"    --from, -f <version>        include all changes equal or later\n"
-"                                than version\n"
-"    --to, -t <version>          include all changes up to or equal\n"
-"                                than version\n"
-"    --count, -c, -n <number>    include <number> entries from the top\n"
-"                                (or the tail if <number> is lower than 0)\n"
-"    --offset, -o <number>       change the starting point for --count,\n"
-"                                counted from the top (or the tail if\n"
-"                                <number> is lower than 0)\n"
-"    --all                       include all changes\n"
+"Parser-Optionen:\n"
+"    --format <Ausgabeformat>    siehe Handbuchseite für verfügbare\n"
+"                                Ausgabeformate, standardmäßig »dpkg« zur\n"
+"                                Kompatibilität mit dpkg-dev\n"
+"    --since, -s, -v <Version>   nehme alle Änderungen jünger als Version\n"
+"                                hinzu\n"
+"    --until, -u <Version>       nehme alle Änderungen älter als Version\n"
+"                                hinzu\n"
+"    --from, -f <Version>        nehme alle Änderungen jünger als oder identisch\n"
+"                                mit Version hinzu\n"
+"    --to, -t <Version>          nehme alle Änderungen älter als oder identisch\n"
+"                                mit Version hinzu.\n"
+"    --count, -c, -n <Zahl>      füge <Zahl> Einträge von oben (oder von\n"
+"                                unten, falls <Zahl> kleiner als 0 ist) hinzu\n"
+"    --offset, -o <Zahl>         ändere den Startpunkt für --count, gezählt\n"
+"                                von oben (oder von unten, falls <Zahl>\n"
+"                                kleiner als Null ist)\n"
+"    --all                       füge alle Änderungen hinzu\n"
 
 #: scripts/dpkg-parsechangelog.pl:103
 #, perl-format
@@ -1047,7 +1049,7 @@ msgid ""
 "  -h, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
-"Verwendung: %s [<Option> ...] <Binärpfad> [<Override_Datei> [<Pfadpräfix>]] "
+"Verwendung: %s [<Option> ...] <Binärpfad> [<Override-Datei> [<Pfadpräfix>]] "
 "> Packages\n"
 "\n"
 "Optionen:\n"
@@ -1610,7 +1612,7 @@ msgstr "Architektur %s ist nur alleine erlaubt (Liste für Paket %s lautet »%s«)"
 #: scripts/dpkg-source.pl:257
 #, perl-format
 msgid "source format `%s' discarded: %s"
-msgstr ""
+msgstr "Quellformat »%s« verworfen: %s"
 
 #: scripts/dpkg-source.pl:259
 #, perl-format
@@ -1709,6 +1711,45 @@ msgid ""
 "More options are available but they depend on the source package format.\n"
 "See dpkg-source(1) for more info.\n"
 msgstr ""
+"Verwendung: %s [<Option> ...] <Befehl>\n"
+"\n"
+"Befehle:\n"
+"  -x <Dateiname>.dsc [<Ausgabe-Verz>]\n"
+"                           extrahiere Quellpaket.\n"
+"  -b <Verz>\n"
+"                           baue Quellpaket.\n"
+"\n"
+"Bauoptionen:\n"
+"  -c<Steuerdatei>          erhalte Steuerinformationen aus dieser Datei.\n"
+"  -l<Changelog_Datei>      erhalte pro-Version-Informationen aus dieser "
+"Datei.\n"
+"  -F<Changelogformat>      erzwinge Changelog-Format.\n"
+"  -V<Name>=<Wert>          setze eine Subtitutionsvariable.\n"
+"  -T<Varlistdatei>         lese Variablen hier, nicht debian/substvars.\n"
+"  -D<Feld>=<Wert>          überschreibe oder ergänze ein .dsc-Feld und\n"
+"                           Wert.\n"
+"  -U<Feld>                 entferne ein Feld.\n"
+"  -q                       stiller Modus.\n"
+"  -i[<Regaus>]             Filter Dateien heraus, deren Diffs ignoriert werden\n"
+"                             (Vorgabe: »%s«).\n"
+"  -I[<Muster>]             Dateien beim Bauen des Tarballs herausfiltern.\n"
+"                             (Vorgabe: %s).\n"  FIXME im Original
+"  -Z<Komprimierung>        wähle zu verwendene Kompression aus (Vorgabe:\n"
+"                             »gzip«, unterstützt werden: %s)\n"
+"  -z<Stufe>                wähle zu verwendende Kompressionsstufe (Vorgabe:\n"
+"                             »9«, unterstützt werden: »1«-»9«, »best«, »fast«)\n"
+"\n"
+"Extrahierungsoptionen:\n"
+"  --no-copy                kopiere .orig-Tarbälle nicht.\n"
+"  --no-check               prüfe vor dem Entpacken Signaturen und\n"
+"                             Prüfsummen nicht.\n"
+"\n"
+"Allgemeine Optionen:\n"
+"  -h, --help               zeige diese Hilfemeldung.\n"
+"      --version            zeige die Version.\n"
+"\n"
+"Abhängig vom Quellpaketformat sind weitere Optionen verfügbar.\n"
+"Lesen Sie dpkg-source(1) für weiter Informationen.\n"
 
 #: scripts/changelog/debian.pl:21
 msgid ""
@@ -1748,6 +1789,32 @@ msgid ""
 "                                <number> is lower than 0)\n"
 "    --all                       include all changes\n"
 msgstr ""
+"Verwendung: %s [<Option>...] [<Changelogdatei>]\n"
+"\n"
+"Optionen:\n"
+"    --help, -h                  gebe Benutzungsinformationen aus\n"
+"    --version, -V               gebe Versionsinformation aus\n"
+"    --label, -l <Datei>         Name der Changelogdatei zur Verwendung\n"
+"                                in Fehlermeldungen.\n"
+"    --file <Datei>              auszuwertende Changelogdatei, standardmäßig\n"
+"                                »-« (Standardeingabe)\n"
+"    --format <Ausgabeformat>    siehe Handbuchseite für verfügbare\n"
+"                                Ausgabeformate, standardmäßig »dpkg« zur\n"
+"                                Kompatibilität mit dpkg-dev\n"
+"    --since, -s, -v <Version>   nehme alle Änderungen jünger als Version\n"
+"                                hinzu\n"
+"    --until, -u <Version>       nehme alle Änderungen älter als Version\n"
+"                                hinzu\n"
+"    --from, -f <Version>        nehme alle Änderungen jünger als oder identisch\n"
+"                                mit Version hinzu\n"
+"    --to, -t <Version>          nehme alle Änderungen älter als oder identisch\n"
+"                                mit Version hinzu.\n"
+"    --count, -c, -n <Zahl>      füge <Zahl> Einträge von oben (oder von\n"
+"                                unten, falls <Zahl> kleiner als 0 ist) hinzu\n"
+"    --offset, -o <Zahl>         ändere den Startpunkt für --count, gezählt\n"
+"                                von oben (oder von unten, falls <Zahl>\n"
+"                                kleiner als Null ist)\n"
+"    --all                       füge alle Änderungen hinzu\n"
 
 #: scripts/changelog/debian.pl:71
 #, perl-format
@@ -1851,22 +1918,28 @@ msgstr "fataler Fehler"
 #: scripts/Dpkg/Changelog.pm:229
 msgid "you can't combine 'count' or 'offset' with any other range option"
 msgstr ""
+"Sie können »count« oder »offset« nicht mit einer anderen Bereichsoption "
+"kombinieren"
 
 #: scripts/Dpkg/Changelog.pm:233
 msgid "you can only specify one of 'from' and 'since', using 'since'"
 msgstr ""
+"Sie können nur entweder »from« oder »since« spezifizieren, verwende "
+"»since«"
 
 #: scripts/Dpkg/Changelog.pm:237
 msgid "you can only specify one of 'to' and 'until', using 'until'"
 msgstr ""
+"Sie können nur entweder »to« oder »until« spezifizieren, verwende "
+"»until«"
 
 #: scripts/Dpkg/Changelog.pm:241
 msgid "'since' option specifies most recent version, ignoring"
-msgstr ""
+msgstr "Option »since« spezifiziert die neuste Version, ignoriere"
 
 #: scripts/Dpkg/Changelog.pm:245
 msgid "'until' option specifies oldest version, ignoring"
-msgstr ""
+msgstr "Option »until« spezifiziert die älteste Version, ignoriere"
 
 #: scripts/Dpkg/Changelog.pm:763
 #, perl-format
@@ -1876,7 +1949,7 @@ msgstr ""
 #: scripts/Dpkg/Changelog.pm:775
 #, perl-format
 msgid "format parser %s not executable"
-msgstr ""
+msgstr "Formatparser %s nicht ausführbar"
 
 #: scripts/Dpkg/Changelog.pm:778
 #, perl-format
@@ -1898,16 +1971,16 @@ msgstr "kann %s nicht öffnen"
 #: scripts/Dpkg/Changelog.pm:801
 #, perl-format
 msgid "cannot exec format parser: %s"
-msgstr ""
+msgstr "kann Formatparser nicht ausführen: %s"
 
 #: scripts/Dpkg/Changelog.pm:806
 msgid "output of changelog parser"
-msgstr ""
+msgstr "Ausgabe des Changelog-Parsers"
 
 #: scripts/Dpkg/Changelog.pm:809
 #, perl-format
 msgid "changelog parser %s"
-msgstr ""
+msgstr "Changelog-Parser %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:101
 #, perl-format
@@ -1926,12 +1999,12 @@ msgstr "keine Changelog-Datei angegeben"
 #: scripts/Dpkg/Changelog/Debian.pm:142
 #, perl-format
 msgid "found start of entry where expected %s"
-msgstr ""
+msgstr "Starteintrag gefunden wo %s erwartet wurde"
 
 #: scripts/Dpkg/Changelog/Debian.pm:167
 #, perl-format
 msgid "bad key-value after `;': `%s'"
-msgstr ""
+msgstr "ungültiger Schlüsselwert nach »;«: %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:171
 #, perl-format
@@ -1945,7 +2018,7 @@ msgstr ""
 #: scripts/Dpkg/Changelog/Debian.pm:186
 #, perl-format
 msgid "unknown key-value key %s - copying to XS-%s"
-msgstr ""
+msgstr "unbekannter Schlüsselwert-Schlüssel %s - kopiere nach XS-%s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:217
 msgid "badly formatted heading line"
@@ -1963,7 +2036,7 @@ msgstr "ungültig formatierte Zeile im Nachspann"
 #: scripts/Dpkg/Changelog/Debian.pm:235
 #, perl-format
 msgid "couldn't parse date %s"
-msgstr ""
+msgstr "konnte Datum %s nicht auswerten"
 
 #: scripts/Dpkg/Changelog/Debian.pm:251 scripts/Dpkg/Changelog/Debian.pm:266
 #, perl-format
@@ -2007,7 +2080,7 @@ msgstr "Prüfsummen-%s-Feld enthält ungültige Zeile »%s«"
 #: scripts/Dpkg/Checksums.pm:57
 #, perl-format
 msgid "Conflicting file sizes `%u' and `%u' for file `%s'"
-msgstr ""
+msgstr "Dateigrößen »%u« und »%u« für Datei »%s« stehen im Widerspruch"
 
 #: scripts/Dpkg/Checksums.pm:81
 #, perl-format
@@ -2030,20 +2103,20 @@ msgstr "Datei %s hat Prüfsumme %s statt der erwarteten %s (Algorithmus %s)"
 #: scripts/Dpkg/Source/Package/V3_0/quilt.pm:217
 #, perl-format
 msgid "cannot read %s"
-msgstr ""
+msgstr "kann %s nicht lesen"
 
 #: scripts/Dpkg/Control.pm:86
 msgid "first block lacks a source field"
-msgstr ""
+msgstr "im ersten Block fehlt ein Feld »source«"
 
 #: scripts/Dpkg/Control.pm:93
 msgid "block lacks a package field"
-msgstr ""
+msgstr "im Block fehlt ein Feld »package«"
 
 #: scripts/Dpkg/Deps.pm:313
 #, perl-format
 msgid "can't parse dependency %s"
-msgstr ""
+msgstr "kann Abhängigkeit %s nicht auswerten"
 
 #: scripts/Dpkg/Deps.pm:626
 #, perl-format
@@ -2052,7 +2125,7 @@ msgstr ""
 
 #: scripts/Dpkg/ErrorHandling.pm:24
 msgid "info"
-msgstr ""
+msgstr "Information"
 
 #: scripts/Dpkg/ErrorHandling.pm:43 scripts/Dpkg/ErrorHandling.pm:49
 msgid "failure"
@@ -2112,7 +2185,7 @@ msgstr "Schreibfehler bei Steuerdaten (»control data«)"
 
 #: scripts/Dpkg/IPC.pm:172
 msgid "invalid exec parameter in fork_and_exec()"
-msgstr ""
+msgstr "ungültiger Ausführparameter in fork_and_exec()"
 
 #: scripts/Dpkg/IPC.pm:190 scripts/Dpkg/IPC.pm:196 scripts/Dpkg/IPC.pm:202
 #, perl-format
@@ -2126,7 +2199,7 @@ msgstr "chdir nach %s"
 
 #: scripts/Dpkg/IPC.pm:228
 msgid "reopen stdin"
-msgstr ""
+msgstr "öffne Stdin erneut"
 
 #: scripts/Dpkg/IPC.pm:234 scripts/Dpkg/IPC.pm:242
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:181
@@ -2141,12 +2214,12 @@ msgstr "kann %s nicht schreiben"
 
 #: scripts/Dpkg/IPC.pm:236 scripts/Dpkg/IPC.pm:244
 msgid "reopen stdout"
-msgstr ""
+msgstr "öffne Stdout erneut"
 
 #: scripts/Dpkg/IPC.pm:250
 #, perl-format
 msgid "exec %s"
-msgstr ""
+msgstr "führe %s aus"
 
 #: scripts/Dpkg/IPC.pm:306
 msgid "child process"
@@ -2238,17 +2311,17 @@ msgstr ""
 #: scripts/Dpkg/Source/Functions.pm:19
 #, perl-format
 msgid "cannot stat directory %s (before removal)"
-msgstr ""
+msgstr "kann (vor Entfernung) kein Stat auf Verzeichnis %s ausführen"
 
 #: scripts/Dpkg/Source/Functions.pm:25
 #, perl-format
 msgid "unable to check for removal of dir `%s'"
-msgstr ""
+msgstr "kann nicht auf Entfernung des Verzeichnisses »%s« prüfen"
 
 #: scripts/Dpkg/Source/Functions.pm:27
 #, perl-format
 msgid "rm -rf failed to remove `%s'"
-msgstr ""
+msgstr "rm -rf entfernte »%s« nicht"
 
 #: scripts/Dpkg/Source/Patch.pm:64 scripts/Dpkg/Source/Package/V2_0.pm:302
 msgid "binary file contents changed"
@@ -2264,16 +2337,16 @@ msgstr ""
 #: scripts/Dpkg/Source/Patch.pm:114
 #, perl-format
 msgid "unknown line from diff -u on %s: `%s'"
-msgstr ""
+msgstr "unbekannte Zeile von diff -u auf %s: »%s«"
 
 #: scripts/Dpkg/Source/Patch.pm:117
 msgid "failed to write"
-msgstr ""
+msgstr "Fehler beim Schreiben"
 
 #: scripts/Dpkg/Source/Patch.pm:127
 #, perl-format
 msgid "diff on %s"
-msgstr ""
+msgstr "Diff auf %s"
 
 #: scripts/Dpkg/Source/Patch.pm:152 scripts/Dpkg/Source/Patch.pm:171
 #: scripts/Dpkg/Source/Patch.pm:209 scripts/Dpkg/Source/Patch.pm:221
@@ -2342,12 +2415,12 @@ msgstr "kann Änderungen an %s nicht darstellen:^"
 #: scripts/Dpkg/Source/Patch.pm:267
 #, perl-format
 msgid "  new version is %s"
-msgstr ""
+msgstr "  neue Version ist %s"
 
 #: scripts/Dpkg/Source/Patch.pm:268
 #, perl-format
 msgid "  old version is %s"
-msgstr ""
+msgstr "  alte Version ist %s"
 
 #: scripts/Dpkg/Source/Patch.pm:294
 #, perl-format
@@ -2357,12 +2430,12 @@ msgstr "unerwartes ^--- in Zeile %d des Diffs »%s«"
 #: scripts/Dpkg/Source/Patch.pm:298
 #, perl-format
 msgid "diff `%s' patches file with no subdirectory"
-msgstr ""
+msgstr "Diff »%s« patcht Datei ohne Unterverzeichnis"
 
 #: scripts/Dpkg/Source/Patch.pm:301
 #, perl-format
 msgid "diff `%s' patches file with name ending .dpkg-orig"
-msgstr ""
+msgstr "Diff »%s« patcht Datei deren Namen auf .dpkg-orig endet"
 
 #: scripts/Dpkg/Source/Patch.pm:306
 #, perl-format
@@ -2431,7 +2504,7 @@ msgstr "kann Zeitstempel für %s nicht ändern"
 #: scripts/Dpkg/Source/Patch.pm:419
 #, perl-format
 msgid "remove patch backup file %s"
-msgstr ""
+msgstr "entferne Patch-Sicherungskopiedatei %s"
 
 #: scripts/Dpkg/Source/Patch.pm:428
 msgid "nonexistent"
@@ -2440,7 +2513,7 @@ msgstr "nichtexistierend"
 #: scripts/Dpkg/Source/Patch.pm:429 scripts/Dpkg/Source/Package.pm:327
 #, perl-format
 msgid "cannot stat %s"
-msgstr ""
+msgstr "kann Stat von %s nicht ausführen"
 
 #: scripts/Dpkg/Source/Patch.pm:431
 msgid "plain file"
@@ -2457,11 +2530,11 @@ msgstr "Symlink auf %s"
 
 #: scripts/Dpkg/Source/Patch.pm:434
 msgid "block device"
-msgstr ""
+msgstr "Blockgerät"
 
 #: scripts/Dpkg/Source/Patch.pm:435
 msgid "character device"
-msgstr ""
+msgstr "Zeichengerät"
 
 #: scripts/Dpkg/Source/Patch.pm:436
 msgid "named pipe"
@@ -2474,12 +2547,12 @@ msgstr ""
 #: scripts/Dpkg/Source/Package.pm:124
 #, perl-format
 msgid "%s is not the name of a file"
-msgstr ""
+msgstr "%s ist nicht der Name einer Datei"
 
 #: scripts/Dpkg/Source/Package.pm:147
 #, perl-format
 msgid "missing critical source control field %s"
-msgstr ""
+msgstr "vermisse kritische Quellsteuerfeld %s"
 
 #: scripts/Dpkg/Source/Package.pm:167
 #, perl-format
@@ -2524,7 +2597,7 @@ msgstr "%s existiert nicht"
 #: scripts/Dpkg/Source/Package.pm:332
 #, perl-format
 msgid "cannot make %s executable"
-msgstr ""
+msgstr "kann Programm %s nicht ausführbar machen"
 
 #: scripts/Dpkg/Source/Package.pm:334
 #, perl-format
@@ -2549,13 +2622,13 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1_0.pm:82
 #: scripts/Dpkg/Source/Package/V3_0/native.pm:47
 msgid "multiple tarfiles in v1.0 source package"
-msgstr ""
+msgstr "mehrere Tardateien in v1.0-Quellpaket"
 
 #: scripts/Dpkg/Source/Package/V1_0.pm:87
 #: scripts/Dpkg/Source/Package/V2_0.pm:102
 #, perl-format
 msgid "unrecognized file for a %s source package: %s"
-msgstr ""
+msgstr "unerkannte Datei für ein %s-Quellpaket: %s"
 
 #: scripts/Dpkg/Source/Package/V1_0.pm:92
 #: scripts/Dpkg/Source/Package/V3_0/native.pm:54
@@ -2564,7 +2637,7 @@ msgstr "keine Tardatei im Feld Files"
 
 #: scripts/Dpkg/Source/Package/V1_0.pm:95
 msgid "native package with .orig.tar"
-msgstr ""
+msgstr "natives Paket mit .orig.tar"
 
 #: scripts/Dpkg/Source/Package/V1_0.pm:108
 #, perl-format
@@ -2584,7 +2657,7 @@ msgstr "entpacke %s"
 
 #: scripts/Dpkg/Source/Package/V1_0.pm:119
 msgid "unable to keep orig directory (already exists)"
-msgstr ""
+msgstr "kann Originalverzeichnis nicht behalten (existiert bereits)"
 
 #: scripts/Dpkg/Source/Package/V1_0.pm:126
 #, perl-format
@@ -2594,7 +2667,7 @@ msgstr "Fehler beim Umbenennen des frisch-extrahierten %s in %s"
 #: scripts/Dpkg/Source/Package/V1_0.pm:132
 #, perl-format
 msgid "failed to rename saved %s to %s"
-msgstr ""
+msgstr "Fehler beim Umbenennen des gesicherten %s in %s"
 
 #: scripts/Dpkg/Source/Package/V1_0.pm:139
 #: scripts/Dpkg/Source/Package/V2_0.pm:181
@@ -2718,7 +2791,7 @@ msgstr "konnte Berechtigungen auf »%s« nicht ändern"
 #: scripts/Dpkg/Source/Package/V2_0.pm:255
 #, perl-format
 msgid "building %s using existing %s"
-msgstr "Baue %s unter Benutzung des existierenden %s"
+msgstr "baue %s unter Benutzung des existierenden %s"
 
 #: scripts/Dpkg/Source/Package/V1_0.pm:309
 #, perl-format
@@ -2751,12 +2824,12 @@ msgstr "fehlende orig.tar- oder debian.tar-Datei in v2.0-Quellpaket"
 #: scripts/Dpkg/Source/Package/V2_0.pm:123
 #, perl-format
 msgid "required removal of `%s' installed by original tarball"
-msgstr ""
+msgstr "erforderliche Entfernung von »%s«, installiert durch Original-Tarball"
 
 #: scripts/Dpkg/Source/Package/V2_0.pm:196
 #: scripts/Dpkg/Source/Package/V2_0.pm:253
 msgid "no orig.tar file found"
-msgstr ""
+msgstr "keine orig.tar-Datei gefunden"
 
 #: scripts/Dpkg/Source/Package/V2_0.pm:214
 #: scripts/Dpkg/Source/Package/V3_0/quilt.pm:183
@@ -2765,6 +2838,8 @@ msgid ""
 "patches have not been applied, applying them now (use --no-preparation to "
 "override)"
 msgstr ""
+"Patches wurden noch nicht angewandt, wende sie jetzt an (verwenden Sie --no-"
+"preparation zum Aufheben)"
 
 #: scripts/Dpkg/Source/Package/V2_0.pm:224
 #: scripts/Dpkg/Source/Package/V3_0/bzr.pm:95
@@ -2789,6 +2864,8 @@ msgid ""
 "add %s in debian/source/include-binaries if you want to store the modified "
 "binary in the debian tarball"
 msgstr ""
+"fügen Sie %s zu debian/source/include-binaries hinzu, falls Sie das "
+"veränderte Programme im Debian-Tarball speichern möchten."
 
 #: scripts/Dpkg/Source/Package/V2_0.pm:319
 msgid "unrepresentable changes to source"
@@ -2820,6 +2897,8 @@ msgid ""
 "This source package can only be manipulated using bzr, which is not in the "
 "PATH."
 msgstr ""
+"Dieses Quellpaket kann nur mit Bzr bearbeitet werden, welches sich nicht im "
+"PATH befindet."
 
 #: scripts/Dpkg/Source/Package/V3_0/bzr.pm:57
 #, perl-format
@@ -2860,7 +2939,7 @@ msgstr "kann nicht in Verzeichnis »%s« wechseln"
 
 #: scripts/Dpkg/Source/Package/V3_0/bzr.pm:125
 msgid "bzr status exited nonzero"
-msgstr ""
+msgstr "bzr mit nicht-Null-Status beendet"
 
 #: scripts/Dpkg/Source/Package/V3_0/bzr.pm:127
 #: scripts/Dpkg/Source/Package/V3_0/git.pm:167
@@ -2881,7 +2960,7 @@ msgstr "erwartete %s, erhielt %s"
 
 #: scripts/Dpkg/Source/Package/V3_0/custom.pm:37
 msgid "Format `3.0 (custom)' is only used to create source packages"
-msgstr ""
+msgstr "Format »3.0 (custom)« wird nur zur Erstellung von Quellpaketen verwandt"
 
 #: scripts/Dpkg/Source/Package/V3_0/custom.pm:43
 msgid "no files indicated on command line"
@@ -2889,18 +2968,20 @@ msgstr "keine Dateien auf der Kommandozeile angegeben"
 
 #: scripts/Dpkg/Source/Package/V3_0/custom.pm:50
 msgid "--target-format option is missing"
-msgstr ""
+msgstr "Option --target-format fehlt"
 
 #: scripts/Dpkg/Source/Package/V3_0/native.pm:50
 #, perl-format
 msgid "unrecognized file for a native source package: %s"
-msgstr ""
+msgstr "unerkante Datei für natives Quellpaket: %s"
 
 #: scripts/Dpkg/Source/Package/V3_0/git.pm:56
 msgid ""
 "This source package can only be manipulated using git, which is not in the "
 "PATH."
 msgstr ""
+"Dieses Quellpaket kann nur mit Git bearbeitet werden, welches sich nicht im "
+"PATH befindet."
 
 #: scripts/Dpkg/Source/Package/V3_0/git.pm:63
 #, perl-format
@@ -2912,11 +2993,11 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V3_0/git.pm:67
 #, perl-format
 msgid "git repository %s uses submodules. This is not yet supported."
-msgstr ""
+msgstr "Git-Depot %s verwendet Submodule. Dies wird noch nicht unterstützt."
 
 #: scripts/Dpkg/Source/Package/V3_0/git.pm:102
 msgid "git config exited nonzero"
-msgstr ""
+msgstr "git config mit nicht-Null-Status beendet"
 
 #: scripts/Dpkg/Source/Package/V3_0/git.pm:109
 msgid "doesn't contain a git repository"
@@ -2924,7 +3005,7 @@ msgstr "enthält kein Git-Depot"
 
 #: scripts/Dpkg/Source/Package/V3_0/git.pm:165
 msgid "git ls-files exited nonzero"
-msgstr ""
+msgstr "git ls-files mit nicht-Null-Status beendet"
 
 #: scripts/Dpkg/Source/Package/V3_0/git.pm:268
 #, perl-format
@@ -2958,7 +3039,7 @@ msgstr "kann Symlink %s nicht erstellen"
 #: scripts/Dpkg/Source/Package/V3_0/quilt.pm:188
 #, perl-format
 msgid "applying %s with quilt"
-msgstr ""
+msgstr "wende %s mit Quilt an"
 
 #: scripts/Dpkg/Substvars.pm:117
 #, perl-format
