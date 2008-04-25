@@ -92,6 +92,8 @@ sub do_build {
     rename($newtar, $tarname) ||
         syserr(_g("unable to rename `%s' (newly created) to `%s'"),
                $newtar, $tarname);
+    chmod(0666 &~ umask(), $tarname) ||
+        syserr(_g("unable to change permission of `%s'"), $tarname);
 
     $self->add_file($tarname);
 
