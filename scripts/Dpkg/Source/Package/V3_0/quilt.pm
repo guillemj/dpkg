@@ -77,6 +77,15 @@ sub get_patches {
             chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
             s/\s#.*$//; # Strip trailing comment
             next unless $_;
+            if (/^(\S+)\s+(.*)$/) {
+                $_ = $1;
+                if ($2 ne '-p1') {
+                    warning(_g("the series file (%s) contains unsupported " .
+                               "options ('%s', line %s), dpkg-source might " .
+                               "fail when applying patches."),
+                            $series, $2, $.) unless $skip_auto;
+                }
+            }
             next if $skip_auto and $_ eq $auto_patch;
             push @patches, $_;
         }

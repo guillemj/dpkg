@@ -353,8 +353,15 @@ All patches listed in \fBdebian/patches/debian.series\fP or
 \fBdebian/patches/series\fP are then applied.
 If the former file is used and the latter one doesn't exist (or is a
 symlink), then the latter is replaced with a symlink to the former. This
-is meant to simplify usage of quilt to manage the set of patches. The
-patches can remove files.
+is meant to simplify usage of quilt to manage the set of patches. Note
+however that while \fBdpkg\-source\fP parses correctly series files with
+explicit options used for patch application (stored on each line
+after the patch filename and one or more spaces), it does ignore those
+options and always expect patches that can be applied with the \fB-p1\fP
+option of \fBpatch\fP. It will thus emit a warning when it encounters
+such options, and the build is likely to fail.
+.PP
+Similarly to quilt's default behaviour, the patches can remove files too.
 .PP
 The file \fBdebian/patches/.dpkg-source-applied\fP is created if some
 patches have been applied during the extraction.
