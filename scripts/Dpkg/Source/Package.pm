@@ -150,19 +150,25 @@ sub initialize {
 
     $self->parse_files();
 
-    $self->upgrade_object_type();
+    $self->upgrade_object_type(0);
 }
 
 sub upgrade_object_type {
-    my ($self) = @_;
+    my ($self, $update_format) = @_;
+    $update_format = 1 unless defined $update_format;
     my $format = $self->{'fields'}{'Format'};
 
     if ($format =~ /^([\d\.]+)(?:\s+\((.*)\))?$/) {
-        my ($version, $variant) = ($1, $2);
-        $version =~ s/\./_/;
-        my $module = "Dpkg::Source::Package::V$version";
+        my ($version, $variant, $major, $minor) = ($1, $2, $1, undef);
+        $major =~ s/\.[\d\.]+$//;
+        my $module = "Dpkg::Source::Package::V$major";
         $module .= "::$variant" if defined $variant;
-        eval "require $module";
+        eval "require $module; \$minor = \$${module}::CURRENT_MINOR_VERSION;";
+        $minor = 0 unless defined $minor;
+        if ($update_format) {
+            $self->{'fields'}{'Format'} = "$major.$minor";
+            $self->{'fields'}{'Format'} .= " ($variant)" if defined $variant;
+        }
         if ($@) {
 	    error(_g("source package format `%s' is not supported (Perl module %s is required)"), $format, $module);
         }

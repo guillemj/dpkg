@@ -14,13 +14,13 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Dpkg::Source::Package::V3_0::quilt;
+package Dpkg::Source::Package::V3::quilt;
 
 use strict;
 use warnings;
 
 # Based on wig&pen implementation
-use base 'Dpkg::Source::Package::V2_0';
+use base 'Dpkg::Source::Package::V2';
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -31,6 +31,8 @@ use Dpkg::IPC;
 use POSIX;
 use File::Basename;
 use File::Spec;
+
+our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;

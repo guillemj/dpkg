@@ -14,7 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Dpkg::Source::Package::V3_0::custom;
+package Dpkg::Source::Package::V3::custom;
 
 use strict;
 use warnings;
@@ -24,6 +24,8 @@ use base 'Dpkg::Source::Package';
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(error);
+
+our $CURRENT_MINOR_VERSION = "0";
 
 sub parse_cmdline_option {
     my ($self, $opt) = @_;

@@ -14,7 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Dpkg::Source::Package::V2_0;
+package Dpkg::Source::Package::V2;
 
 use strict;
 use warnings;
@@ -37,6 +37,8 @@ use File::Temp qw(tempfile tempdir);
 use File::Path;
 use File::Spec;
 use File::Find;
+
+our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;

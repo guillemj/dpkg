@@ -1,3 +1,24 @@
+2008-04-26  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package.pm (upgrade_object_type): Instead
+	of using the full Format: version to deduce the perl object name
+	use only the major part of the version. The minor part is under
+	control of the corresponding object, that way they can evolve
+	and indicate that the source package has changed in a backwards
+	compatible way. See
+	http://lists.debian.org/debian-dpkg/2008/04/msg00045.html
+	Also add a new parameter to disable update of the minor version in
+	the Format field.
+	(initialize): Don't let the Format field be updated by
+	upgrade_object_type() as this function only loads information from
+	the .dsc into the object.
+	* scripts/Dpkg/Source/Package/**: Rename V1_0.pm into V1.pm,
+	V2_0.pm into V2.pm and V3_0/ into V3/. Fix perl package names
+	accordingly. Integrated a $CURRENT_MINOR_VERSION set to "0"
+	in all packages.
+	* scripts/Makefile.am, scripts/po/POTFILES.in: Update the lists
+	according to above file renames.
+
 2008-04-25  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Source/Package/V3_0/quilt.pm: Parse correctly

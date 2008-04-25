@@ -112,13 +112,13 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Compressor.pm \
 	Dpkg/Source/Functions.pm \
 	Dpkg/Source/Package.pm \
-	Dpkg/Source/Package/V1_0.pm \
-	Dpkg/Source/Package/V2_0.pm \
-	Dpkg/Source/Package/V3_0/bzr.pm \
-	Dpkg/Source/Package/V3_0/custom.pm \
-	Dpkg/Source/Package/V3_0/native.pm \
-	Dpkg/Source/Package/V3_0/git.pm \
-	Dpkg/Source/Package/V3_0/quilt.pm \
+	Dpkg/Source/Package/V1.pm \
+	Dpkg/Source/Package/V2.pm \
+	Dpkg/Source/Package/V3/bzr.pm \
+	Dpkg/Source/Package/V3/custom.pm \
+	Dpkg/Source/Package/V3/native.pm \
+	Dpkg/Source/Package/V3/git.pm \
+	Dpkg/Source/Package/V3/quilt.pm \
 	Dpkg/Source/Patch.pm \
 	Dpkg.pm
 

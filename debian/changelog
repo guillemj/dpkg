@@ -27,6 +27,11 @@ dpkg (1.14.19) UNRELEASED; urgency=low
     in a single Conflicts: dpkg-dev (<< 1.14.16).
   * The "3.0 (quilt)" source package format now parses correctly series files
     with patch options and warn if something else than -p1 is used.
+  * Change the way dpkg-source finds the perl object to use to unpack/build
+    a source package to ignore the minor part of the Format: version.
+    For example "1.0" and "1.1" would both map to Dpkg::Source::Package::V1
+    instead of ::V1_0 and ::V1_1 before. Similarly "3.0 (quilt)" now maps to
+    ::V3::quilt instead of ::V3_0::quilt.
   
   [ Helge Kreutzmann ]
   * Minor fixes and clarifications to man pages.

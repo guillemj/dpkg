@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-package Dpkg::Source::Package::V3_0::git;
+package Dpkg::Source::Package::V3::git;
 
 use strict;
 use warnings;
@@ -38,6 +38,8 @@ use Dpkg::Version qw(check_version);
 use Dpkg::Source::Archive;
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
+
+our $CURRENT_MINOR_VERSION = "0";
 
 # Remove variables from the environment that might cause git to do
 # something unexpected.

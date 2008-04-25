@@ -14,7 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Dpkg::Source::Package::V1_0;
+package Dpkg::Source::Package::V1;
 
 use strict;
 use warnings;
@@ -30,12 +30,14 @@ use Dpkg::Source::Patch;
 use Dpkg::Version qw(check_version);
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
-use Dpkg::Source::Package::V3_0::native;
+use Dpkg::Source::Package::V3::native;
 
 use POSIX;
 use File::Basename;
 use File::Temp qw(tempfile);
 use File::Spec;
+
+our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;
@@ -92,11 +94,11 @@ sub do_extract {
     my $native = $difffile ? 0 : 1;
     if ($native and ($tarfile =~ /\.orig\.tar\.gz$/)) {
         warning(_g("native package with .orig.tar"));
-        $native = 0; # V3_0::native doesn't handle orig.tar
+        $native = 0; # V3::native doesn't handle orig.tar
     }
 
     if ($native) {
-        Dpkg::Source::Package::V3_0::native::do_extract($self, $newdirectory);
+        Dpkg::Source::Package::V3::native::do_extract($self, $newdirectory);
     } else {
         my $expectprefix = $newdirectory;
         $expectprefix .= '.orig';
@@ -268,7 +270,7 @@ sub do_build {
 
     if ($sourcestyle eq "n") {
         $self->{'options'}{'ARGV'} = []; # ensure we have no error
-        Dpkg::Source::Package::V3_0::native::do_build($self, $dir);
+        Dpkg::Source::Package::V3::native::do_build($self, $dir);
     } elsif ($sourcestyle =~ m/[nurUR]/) {
         if (stat($tarname)) {
             unless ($sourcestyle =~ m/[nUR]/) {

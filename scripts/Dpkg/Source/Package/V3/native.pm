@@ -14,7 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Dpkg::Source::Package::V3_0::native;
+package Dpkg::Source::Package::V3::native;
 
 use strict;
 use warnings;
@@ -31,6 +31,8 @@ use Dpkg::Source::Functions qw(erasedir);
 use POSIX;
 use File::Basename;
 use File::Temp qw(tempfile);
+
+our $CURRENT_MINOR_VERSION = "0";
 
 sub do_extract {
     my ($self, $newdirectory) = @_;
@@ -96,11 +98,6 @@ sub do_build {
         syserr(_g("unable to change permission of `%s'"), $tarname);
 
     $self->add_file($tarname);
-
-    # For backward compatibility, drop version to 1.0 if we can
-    if ($self->{'options'}{'compression'} eq "gzip") {
-        $self->{'fields'}{'Format'} = "1.0";
-    }
 }
 
 # vim: set et sw=4 ts=8
