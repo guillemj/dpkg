@@ -16,6 +16,15 @@ dpkg (1.14.19) UNRELEASED; urgency=low
     Closes: #476113
   * Fix dpkg-source to grant correct permissions to tarballs of native
     source packages. Closes: #477784
+  * Add Conflicts: devscripts (<< 2.10.26) to ensure that people are
+    using versions of debsign/mergechanges that support the Checksums fields
+    in *.dsc and *.changes.
+  * Cleanup the various Conflicts/Replaces fields to remove references
+    to package that have disappeared before sarge (this includes dpkg-doc-ja,
+    dpkgname, and dpkg-static which has never officially been built).
+    dpkg-iasearch has been kept as popcon still reports a few installations.
+  * Collapsed multiple conflicts of dpkg with old versions of dpkg-dev
+    in a single Conflicts: dpkg-dev (<< 1.14.16).
   
   [ Helge Kreutzmann ]
   * Minor fixes and clarifications to man pages.
