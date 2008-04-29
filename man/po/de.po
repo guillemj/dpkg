@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2008-04-29 06:54+0300\n"
-"PO-Revision-Date: 2008-04-22 20:50+0200\n"
+"PO-Revision-Date: 2008-04-29 19:28+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -9948,7 +9948,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:363
-#, fuzzy
 msgid ""
 "All patches listed in B<debian/patches/debian.series> or B<debian/patches/"
 "series> are then applied.  If the former file is used and the latter one "
@@ -9965,14 +9964,21 @@ msgstr ""
 "series> aufgeführten Patches angewandt. Falls die erstere Datei verwandt "
 "wird und die letztere nicht existiert (oder ein Symlink ist), dann wird die "
 "letztere mit einem Symlink zu ersterer ersetzt. Dies ist zur Vereinfachung "
-"der Verwendung von Quilt gedacht, um den Satz an Patches zu verwalten. Die "
-"Patches können Dateien entfernen."
+"der Verwendung von Quilt gedacht, um den Satz an Patches zu verwalten. "
+"Beachten Sie allerdings, dass B<dpkg-source> zwar Seriendateien auswertet, in "
+"denen explizite Optionen für die Anwendung der Patches verwandt werden (diese "
+"werden auf jede Zeile nach dem Patch-Dateinamen und einem oder mehreren "
+"Leerzeichen gespeichert), diese Optionen dann aber ignoriert und immer "
+"erwartet, dass die Patches mit der Option B<-p1> von B<patch> angewandt "
+"werden können. Es wird daher eine Warnung ausgeben, wenn es auf solche "
+"Optionen trifft, und der Bau wird wahrscheinlich fehlschlagen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:365
 msgid ""
 "Similarly to quilt's default behaviour, the patches can remove files too."
 msgstr ""
+"Ähnlich wie bei Quilt können Patches auch Dateien entfernen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:368
@@ -10231,15 +10237,15 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:463
-#, fuzzy
 msgid ""
 "Then the VCS specific part of the source directory is copied over to a "
 "temporary directory. Before this temporary directory is packed in a tarball, "
 "various cleanup are done to save space."
 msgstr ""
 "Dann wird der VCS-spezifische Teil des Quellpakets in ein temporäres "
-"Verzeichnis kopiert. Vor der Erstellung des Tarballs werden verschiedene "
-"Bereinigungen durchgeführt, um Platz zu sparen."
+"Verzeichnis kopiert. Bevor dieses temporäre Verzeichnis in einen Tarball "
+"gepackt wird, werden verschiedene Bereinigungen durchgeführt, um Platz zu "
+"sparen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:470
@@ -11861,6 +11867,9 @@ msgid ""
 "The package selection list and the dependency conflict resolution screens "
 "can be navigated using motion commands mapped to the following keys:"
 msgstr ""
+"Die Paketauswahllisten und die Abhängigkeitskonflikte-Lösungsbildschirme "
+"können mit den Bewegungsbefehlen navigiert werden, die auf die folgenden "
+"Tasten abgebildet sind:"
 
 # type: Plain text
 #: ../../man/dselect.1:327
