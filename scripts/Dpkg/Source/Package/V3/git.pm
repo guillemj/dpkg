@@ -306,7 +306,7 @@ sub do_extract {
     if (%config) {
 	warning(_g("modifying .git/config to comment out some settings"));
 	open(GIT_CONFIG, ">>", ".git/config") ||
-	    syserr(_g("unstable to append to %s"), ".git/config");
+	    syserr(_g("unable to append to %s"), ".git/config");
 	print GIT_CONFIG "\n# "._g("The following setting(s) were disabled by dpkg-source").":\n";
 	foreach my $field (sort keys %config) {
 	    foreach my $value (@{$config{$field}}) {
