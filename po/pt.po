@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-04-29 06:58+0300\n"
-"PO-Revision-Date: 2008-04-16 23:33+0100\n"
+"PO-Revision-Date: 2008-05-02 22:36+0100\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
@@ -1077,20 +1077,21 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"o ficheiro `%.250s' de triggers ci contém sintaxe ilegal de trigger no trigger com o nome `%.250s': %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "não foi possível abrir o ficheiro fonte `%.250s'"
+msgstr "não foi possível abrir o ficheiro de triggers ci `%.250s'"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
-msgstr ""
+msgstr "o ficheiro de triggers ci contém sintaxe com directiva desconhecida"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
+msgstr "o ficheiro de triggers ci contém a directiva `%.250s' desconhecida"
 
 #: lib/triglib.c:684
 #, c-format
@@ -2350,7 +2351,7 @@ msgstr "a aguardar o processamento de 'trigger' por outro pacote"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "accionado o trigger"
 
 #: src/help.c:48
 msgid "installed"
@@ -2597,7 +2598,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2629,9 +2630,9 @@ msgid ""
 "\n"
 msgstr ""
 "Opções:\n"
-"  --admindir=<directório>    Use <directório> em vez de %s.\n"
+"  --admindir=<directório>    Utilizar <directório> em vez de %s.\n"
 "  --root=<directório>        Instalar num directório raiz diferente.\n"
-"  --installdir=<directório>  Mudar o directório de instalação sem mudar o "
+"  --instdir=<directório>     Mudar o directório de instalação sem mudar o "
 "directório de administração.\n"
 "  -O|--selected-only         Saltar pacotes não seleccionados para "
 "instalação/actualização.\n"
@@ -2640,18 +2641,19 @@ msgstr ""
 "  -G|--refuse-downgrade      Saltar pacotes com versão anterior à "
 "instalada.\n"
 "  -B|--auto-deconfigure      Instalar mesmo que estrague um outro pacote.\n"
-"  --no-debsig\t\t      Não tentar verificar a assinatura dos pacotes.\n"
+"  --[no-]-triggers	      Saltar ou forçar o processamento de triggers.\n"
+"  --no-debsig		      Não tentar verificar a assinatura dos pacotes.\n"
 "  --no-act|--dry-run|--simulate\n"
-"\t\t\t      Dizer apenas o que iria fazer - não o fazer.\n"
-"  -D|--debug=<octal>         Habilitar o debug (ver -Dhelp ou --"
+"			      Dizer apenas o que iria fazer - não o fazer.\n"
+"  -D|--debug=<octal>         Activar a depuração (ver -Dhelp ou --"
 "debug=help).\n"
 "  --status-fd <n>            Enviar actualizações de mudança de estado para "
 "o file descriptor <n>.\n"
 "  --log=<ficheiro>           Registar mudanças de estado e acções para "
 "<ficheiro>.\n"
 "  --ignore-depends=<pacote>,...\n"
-"\t\t\t      Ignorar as dependências envolvendo <pacote>.\n"
-"  --force-...\t\t      Ultrapassar problemas (ver --force-help).\n"
+"			      Ignorar as dependências envolvendo <pacote>.\n"
+"  --force-...		      Ultrapassar problemas (ver --force-help).\n"
 "  --no-force-...|--refuse-...\n"
 "                             Parar quando forem encontrados problemas.\n"
 "  --abort-after <n>          Abortar após encontrar <n> erros.\n"
@@ -2717,7 +2719,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "aviso: opção obsoleta `--%s'\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2739,19 +2741,21 @@ msgid ""
 "Debugging options are be mixed using bitwise-or.\n"
 "Note that the meanings and values are subject to change.\n"
 msgstr ""
-"%s opção de depuração, --debug=<octal> ou -D<octal>:\n"
+"opção de depuração %s, --debug=<octal> ou -D<octal>:\n"
 "\n"
 " número  ref. na fonte    descrição\n"
-"      1   general           Informação de progresso geralmente valiosa\n"
+"      1   general           Informação geral útil acerca do progresso\n"
 "      2   scripts           Invocação e estado dos scripts do maintainer\n"
-"     10   eachfile          Saída para cada arquivo processado\n"
+"     10   eachfile          Saída para cada ficheiro processado\n"
 "    100   eachfiledetail    Muita saída para cada ficheiro processado\n"
 "     20   conff             Saída para cada ficheiro de configuração\n"
 "    200   conffdetail       Muita saída para cada ficheiro de configuração\n"
 "     40   depcon            Dependências e conflitos\n"
 "    400   depcondetail      Muita saída de dependências e conflitos\n"
-"   1000   veryverbose       Muitas asneiras sobre p.e. do directório dpkg/"
-"info\n"
+"  10000   triggers	     Activação e processamento de triggers\n"
+"  20000   triggersdetail    Muita saída acerca de triggers\n"
+"  40000   triggersstupid    Quantidades parvas de saída acerca de triggers\n"
+"   1000   veryverbose       Muitas asneiras sobre eg o directório dpkg/info\n"
 "   2000   stupidlyverbose   Quantidades estúpidas de asneiras\n"
 "\n"
 "Opções de depuração são misturadas utilizando o 'bitwise-or'.\n"
@@ -2940,13 +2944,13 @@ msgstr ""
 " nesta execução !  Apenas configurando uma vez.\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"o pacote %.250s não está pronto para configuração\n"
-" não pode configurar (status actual `%.250s')"
+"o pacote %.250s não está pronto para processamento de trigger\n"
+" (estado actual `%.250s' sem triggers pendentes)"
 
 #: src/packages.c:334
 #, c-format
@@ -2964,14 +2968,14 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "  A versão de %s no sistema é %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  O pacote %s que disponibiliza %s vai ser removido.\n"
+msgstr "  O pacote %s que disponibiliza %s aguarda pelo processamento de trigger..\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  O pacote %s vai ser removido.\n"
+msgstr "  O pacote %s aguarda pelo processamento de trigger.\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3280,7 +3284,6 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "não é possível apagar ficheiro de controle info desaparecido `%.250s'"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3288,10 +3291,11 @@ msgid ""
 "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
 "uppercase=bad)\n"
 msgstr ""
-"Desejado=U=Desconhecido/Instalar/Remover/Purgar/H=Manter\n"
-"| Status=Não/Instalado/Config-files/U=Descompac/Falhou-config/H=Semi-instal\n"
-"|/ Erro?=(nenhum)/H=Mantido/precisa-Reinst/X=os 2 problemas (Status,Erro: "
-"maíusculas=errado)\n"
+"Desired=Unknown/Install/Remove/Purge/Hold\n"
+"| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
+"pend\n"
+"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
+"uppercase=bad)\n"
 
 #: src/query.c:129
 msgid "Name"
@@ -3637,14 +3641,13 @@ msgid "--clear-selections does not take any argument"
 msgstr "--clear-selections não leva nenhum argumento"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Escreva dpkg-split --help para ajuda."
+msgstr "Escreva dpkg-trigger --help para ajuda acerca deste utilitário."
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr "Debian `%s' ferramenta de query do programa de gestão de pacotes\n"
+msgstr "Debian %s utilitário de trigger de pacotes.\n"
 
 #: src/trigcmd.c:86
 #, c-format
@@ -3734,6 +3737,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: foi encontrado um ciclo ao processar os triggers:\n"
+" a cadeia de pacotes desses triggers são ou poderão ser responsáveis:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3746,7 +3751,7 @@ msgstr ""
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "triggers em loop, abandonado"
 
 #: src/trigproc.c:288
 #, c-format
@@ -4255,9 +4260,9 @@ msgid "failed to exec rm -rf"
 msgstr "falhou executar rm -rf"
 
 #: dpkg-deb/info.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "realloc failed (%zu bytes)"
-msgstr "falhou realloc (%ld bytes)"
+msgstr "realloc falhou (%zu bytes)"
 
 #: dpkg-deb/info.c:108
 msgid "info_spew"
@@ -5570,7 +5575,7 @@ msgstr ""
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:71
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5613,36 +5618,33 @@ msgstr ""
 "Comandos:\n"
 "  --install <link> <nome> <caminho> <prioridade>\n"
 "    [--slave <link> <nome> <caminho>] ...\n"
-"                           adicionar um grupo de alternativas ao sistema.\n"
-"  --remove <nome> <caminho>   remover <caminho> do grupo alternativo.\n"
+"                           acrescentar um grupo de alternativas ao sistema.\n"
+"  --remove <nome> <caminho>remover <caminho> do grupo alternativo.\n"
 "  --remove-all <nome>      remover o grupo <nome> das alternativas do "
 "sistema.\n"
 "  --auto <nome>            comutar o link principal <nome> para o modo "
 "automático.\n"
 "  --display <nome>         mostrar informação sobre o grupo <nome>.\n"
 "  --list <nome>            mostrar todos os alvos do grupo <nome>.\n"
-"  --config <nome>          mostrar alternativas para o grupo <nome> e pede\n"
+"  --config <nome>          mostrar alternativas para o grupo <nome> e pedir\n"
 "                           ao utilizador para escolher um para utilizar.\n"
-"  --set <nome> <caminho>   configurar o <caminho> como alternativa para "
-"<nome>.\n"
+"  --set <nome> <caminho>   definir o <caminho> como alternativa para <nome>.\n"
 "  --all                    chamar --config para todas as alternativas.\n"
 "\n"
 "<link> é o link simbólico que aponta para %s/<nome>.\n"
 "  (e.g. /usr/bin/pager)\n"
-"<nome> é o nome primário para este grupo de link.\n"
+"<nome> é o nome principal para este grupo de link.\n"
 "  (e.g. pager)\n"
-"<caminho> é o local de um dos ficheiros alvo alternativos.\n"
+"<caminho> é a localização de um dos ficheiros alvo alternativos.\n"
 "  (e.g. /usr/bin/less)\n"
-"<prioridade> é um inteiro; opções com maior numero tem prioridade mais "
-"elevada em\n"
-"  modo automático.\n"
+"<prioridade> é um número inteiro; opções com números maiores têm prioridade\n"
+"  mais elevada no modo automático.\n"
 "\n"
 "Opções:\n"
 "  --altdir <directório>     alterar o directório de alternativas.\n"
-"  --admindir <directório>   alterar o directório de administração.\n"
-"  --test                    não fazer nada, apenas demonstrar.\n"
-"  --verbose                 operação detalhada, mais 'output'.\n"
-"  --quiet                   operação silenciosa, output mínimo.\n"
+"  --admindir <directório>   alterar o directório de administrativo.\n"
+"  --verbose		     operação detalhada, mais texto na saída.\n"
+"  --quiet                   operação silenciosa, texto reduzido na saída.\n"
 "  --help                    mostrar esta mensagem de ajuda.\n"
 "  --version                 mostrar a versão.\n"
 
@@ -5723,13 +5725,13 @@ msgid "Current `best' version is %s."
 msgstr "A `melhor' versão corrente é %s."
 
 #: scripts/update-alternatives.pl:228
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "warning: %s is supposed to be a symlink to %s, \n"
 "or nonexistent; however, readlink failed: %s"
 msgstr ""
-"aviso: %s é suposto ser um link simbólico para %s\n"
-" (ou não-existente); no entanto, a sua leitura falhou: %s"
+"aviso: %s é suposto ser um link simbólico para %s, \n"
+" ou não-existente; no entanto, readlink falhou: %s"
 
 #: scripts/update-alternatives.pl:240
 #, perl-format
@@ -5742,9 +5744,9 @@ msgid "Updating %s (%s) to point to %s."
 msgstr "A actualizar %s (%s) de modo a apontar para %s."
 
 #: scripts/update-alternatives.pl:252
-#, fuzzy, perl-format
+#, perl-format
 msgid "Using '%s' to provide '%s'."
-msgstr "A usar `%s' para fornecer `%s'."
+msgstr "A usar '%s' para disponibilizar '%s'."
 
 #: scripts/update-alternatives.pl:266 scripts/update-alternatives.pl:610
 #, perl-format
