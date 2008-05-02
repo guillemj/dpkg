@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-04-29 06:58+0300\n"
-"PO-Revision-Date: 2008-03-19 18:46+0100\n"
+"PO-Revision-Date: 2008-05-03 00:57+0300\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "%s: kompresia"
 #: lib/database.c:195
 #, c-format
 msgid "size %7d occurs %5d times\n"
-msgstr "veľkosť %7d sa objavuje %5d krát\n"
+msgstr "veľkosť %7d sa objavuje %5d-krát\n"
 
 #: lib/database.c:196
 msgid "failed write during hashreport"
@@ -172,7 +172,7 @@ msgstr "po naplnení nie je možné presunúť sa na začiatok %.250s"
 
 #: lib/dbmodify.c:157
 msgid "requested operation requires superuser privilege"
-msgstr "požadovaná operácia vyžaduje superužívateľské privilégiá"
+msgstr "požadovaná operácia vyžaduje oprávnenie superpoužívateľa"
 
 #: lib/dbmodify.c:162
 msgid "unable to access dpkg status area"
@@ -474,34 +474,32 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternatíva („|“) nie je prípustná v poli %s"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "hodnota pre pole „config-version“ nie je prípustná v tomto kontexte"
+msgstr "hodnota pre pole „triggers-pending“ nie je prípustná v tomto kontexte"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "pole „%s“ obsahuje neplatné meno balíka „%.255s“: %s"
+msgstr "neplatný názov čakajúceho spúšťača (triggers-pending) „%.255s“: %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "duplicitný čakajúci spúšťač (triggers-pending) „%.255s“"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "hodnota pre stavové pole nie je prípustná v tomto kontexte"
+msgstr "hodnota pre pole „triggers-awaited“ nie je prípustná v tomto kontexte"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "nepovolený názov balíka na riadku %d: %.250s"
+msgstr "nepovolený názov balíka v očakávanom spúšťači „%.255s“: %s"
 
 #: lib/fields.c:545
 #, fuzzy, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "zoznam súborov balíka „%.250s“"
+msgstr "duplicitný názov balíka v očakávanom spúšťači „%.255s“: %s"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -539,9 +537,8 @@ msgid "realloc failed (%ld bytes)"
 msgstr "funkcia realloc zlyhala (%ld bytov)"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "zlyhalo vytvorenie adresára"
+msgstr "nepodarilo sa alokovať pamäť"
 
 #: lib/mlib.c:85
 #, c-format
@@ -801,20 +798,24 @@ msgstr "Configured-Version pre balík s nezodpovedajúcim Stavom"
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "balík je v stave %s, ale očakávajú sa spúšťače (triggers-awaited)"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
+"balík je v stave očakávajú-sa-spúšťače (triggers-awaited), ale neočakávajú "
+"sa žiadne spúšťače"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "balík je v stave %s, ale očakávajú sa spúšťače (triggers-pending)"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
+"balík je v stave očakávajú-sa-spúšťače (triggers-pending), ale neočakávajú "
+"sa žiadne spúšťače"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -912,70 +913,70 @@ msgstr "Uzatváracia zátvorka chýba vo formáte\n"
 #: lib/trigdeferred.l:62
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
-msgstr ""
+msgstr "neplatný názov balíka „%.250s“ v súbore odložených spúšťačov „%.250s“"
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "súbor statoverride „%.250s“"
+msgstr "skrátený odložený súbor spúšťača „%.250s“"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"syntaktická chyba v súbore odložených spúšťačov „%.255s“ na znaku „%s“%s"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "nie je možné otvoriť zdrojový súbor „%.250s“"
+msgstr "nie je možné otvoriť/vytvoriť súbor zámku spúšťača „%.250s“"
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "nedá sa odomknúť %s: %s"
+msgstr "nie je možné zamknúť oblasť spúšťačov"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "nedá sa zistiť stav ďalšieho nového súboru „%.250s“"
+msgstr "nie je možné zistiť stav odloženého súboru spúšťača „%.250s“"
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "nie je možné otvoriť zdrojový súbor „%.250s“"
+msgstr "nie je možné otvoriť odložený súbor spúšťača „%.250s“"
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "nie je možné otvoriť nový depot súbor „%.250s“"
+msgstr "nie je možné otvoriť/vytvoriť nový odložený súbor spúšťača „%.250s“"
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "chyba pri čítaní %s zo súboru %.255s"
+msgstr "chyba pri čítaní odloženého súboru spúšťača „%.250s“"
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "nie je možné otvoriť nový depot súbor „%.250s“"
+msgstr "nie je možné zapísať nový odložený súbor spúšťača „%.250s“"
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "nie je možné otvoriť nový depot súbor „%.250s“"
+msgstr "nie je možné zatvoriť nový odložený súbor spúšťača „%.250s“"
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "nie je možné nainštalovať novú verziu „%.255s“"
+msgstr "nie je možné nainštalovať nový odložený súbor spúšťača „%.250s“"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "prázdne názvy spúšťačov nie sú dovolené"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "názov spúšťača obsahuje neplatný znak"
 
 #: lib/triglib.c:256
 #, c-format
@@ -983,16 +984,18 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
+"neplatná alebo neznáma syntax v názve spúšťača „%.250s“ (v záujmoch spúšťača "
+"balíka „%.250s“)"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "nie je možné otvoriť nový depot súbor „%.250s“"
+msgstr "nepodarilo sa otvoriť súbor záujmu spúšťača „%.250s“"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "nie je možné prečítať časť súboru „%.250s“"
+msgstr "nepodarilo sa vrátiť na začiatok súboru záujmu spúšťača „%.250s“"
 
 #: lib/triglib.c:325
 #, c-format
@@ -1000,52 +1003,55 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"syntaktická chyba v súbore záujmu spúšťača „%.250s“; neplatný názov balíka "
+"„%.250s“: %.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "nedá sa zistiť stav ďalšieho nového súboru „%.250s“"
+msgstr "nepodarilo sa vytvoriť nový súbor záujmu spúšťača „%.250s“"
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "nedá sa zistiť stav ďalšieho nového súboru „%.250s“"
+msgstr "nepodarilo sa zapísať nový súbor záujmu spúšťača „%.250s“"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "nie je možné nainštalovať novú verziu „%.255s“"
+msgstr "nepodarilo sa nainštalovať nový súbor záujmu spúšťača „%.250s“"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
-msgstr "nie je možné nainštalovať nový info súbor „%.250s“ ako „%.250s“"
+msgstr ""
+"duplicitný súbor záujmu spúšťača pre názov súboru „%.250s“ a balík „%.250s“"
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "nie je možné otvoriť nový depot súbor „%.250s“"
+msgstr "nepodarilo sa vytvoriť nový súbor spúšťača súboru „%.250s“"
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "nie je možné otvoriť nový depot súbor „%.250s“"
+msgstr "nepodarilo sa zapísať nový súbor spúšťača súboru „%.250s“"
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr "nie je možné nainštalovať nový info súbor „%.250s“ ako „%.250s“"
+msgstr "nepodarilo sa nainštalovať nový súbor spúšťača súboru „%.250s“"
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "nie je možné prečítať časť súboru „%.250s“"
+msgstr "nepodarilo sa prečítať nový súbor spúšťača súboru „%.250s“"
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "chyba pri čítaní v konfiguračnom súbore „%.255s“"
+msgstr "syntaktická chyba v súbore spúšťača súboru „%.250s“"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1053,6 +1059,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"záznam spúšťača zmieňuje neplatný názov balíka „%.250s“ (súbor záujmu "
+"spúšťača „%.250s“): %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1060,50 +1068,52 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"súbor ci spúšťača „%.250s“ obsahuje neplatnú syntax spúšťača v názve "
+"spúšťača „%.250s“: %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "nie je možné otvoriť zdrojový súbor „%.250s“"
+msgstr "nepodarilo sa otvoriť súbor ci spúšťača „%.250s“"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
-msgstr ""
+msgstr "súbor ci spúšťača „%.250s“ obsahuje neplatnú syntax direktívy"
 
 #: lib/triglib.c:629
-#, c-format
+#, fuzzy, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
+msgstr "súbor ci spúšťača „%.250s“ obsahuje neznámu direktívu „%.250s“"
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "nie je možné prečítať uskladňovací adresár „%.250s“"
+msgstr "nepodarilo sa vytvoriť adresár stavu spúšťačov „%.250s“"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "nie je možné prečítať uskladňovací adresár „%.250s“"
+msgstr "nepodarilo sa nastaviť vlastníctvo adresára stavu spúšťačov „%.250s“"
 
 #: lib/utils.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "read error in `%.250s'"
-msgstr "chyba pri čítaní v %.250s"
+msgstr "chyba pri čítaní v „%.250s“"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "funkcia fgets odovzdala prázdny reťazec z odchýliek [i]"
+msgstr "funkcia fgets vrátila prázdny reťazec z „%.250s“"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr "súbor „%.250s“ je poškodený - chýbajúci nový riadok za %.250s"
+msgstr "príliš dlhý riadok alebo chýba znak nového riadka v „%.250s“"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "neočakávaný koniec súboru v %.250s"
+msgstr "neočakávaný koniec súboru pri čítaní „%.250s“"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1967,9 +1977,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (verzia %.250s) sa nainštaluje.\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (verzia %.250s) je %s.\n"
+msgstr "  %.250s (verzia %.250s) je prítomná a %s.\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -1977,9 +1987,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s poskytuje %.250s a bude sa inštalovať.\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %.250s poskytuje %.250s a je %s.\n"
+msgstr "  %.250s poskytuje %.250s a je prítomný a %s.\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2035,6 +2045,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Nasledovné balíky očakávajú spracovanie spúšťačov (triggers-awaited), ktoré\n"
+"aktivovali v iných balíkoch. Toto spracovanie je možno vyžiadať  pomocou\n"
+"dselect alebo dpkg --configure --pending (alebo dpkg --triggers-only):\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2042,6 +2055,9 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Nasledovné balíky boli spustené, ale spracovanie spúšťačov ešte nebolo\n"
+"dokončené. Spracovanie súšťačov je možno vyžiadať  pomocou\n"
+"dselect alebo dpkg --configure --pending (alebo dpkg --triggers-only):\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2294,9 +2310,8 @@ msgid "not installed but configs remain"
 msgstr "nenainštalované, ale konfiguračné súbory zachované"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "pokazený z dôvodu chyby pri odstraňovaní"
+msgstr "pokazený z dôvodu chyby pri odstraňovaní alebo inštalácii"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2308,11 +2323,11 @@ msgstr "pokazený z dôvodu chyby v postinst"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "čaká sa na spracovanie spúšťačov iným balíkom (triggers-awaited)"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "spustené"
 
 #: src/help.c:48
 msgid "installed"
@@ -2358,9 +2373,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "nie je možné nastaviť práva na spustenie na „%.250s“"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "nie je možné vykonať zistenie stavu vo funkcii vsprintf"
+msgstr "nie je možné nastaviť premennú prostredia pre hlavný skript"
 
 #: src/help.c:317
 #, c-format
@@ -2464,7 +2478,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2498,6 +2512,7 @@ msgstr ""
 "  --unpack           <.deb súbor> ... | -R|--recursive <adresár> ...\n"
 "  -A|--record-avail  <.deb súbor> ... | -R|--recursive <adresár> ...\n"
 "  --configure        <balík> ... | -a|--pending\n"
+"  --triggers-only    <balík> ... | -a|--pending\n"
 "  -r|--remove        <balík> ... | -a|--pending\n"
 "  -P|--purge         <balík> ... | -a|--pending\n"
 "  --get-selections [<vzor> ...]    vypíše zvolené balíky na štandardný "
@@ -2562,7 +2577,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2604,6 +2619,8 @@ msgstr ""
 "  -G|--refuse-downgrade      nenainštaluje staršiu verziu balíka.\n"
 "  -B|--auto-deconfigure      nainštaluje aj napriek možnému poškodeniu iného "
 "balíka.\n"
+"  --[no-]triggers            Preskočiť alebo vynútiť následné spracovanie "
+"spúšťačov.\n"
 "  --no-debsig                nebude sa pokúšať o overenie podpisu balíka.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             iba vypíše, čo sa bude vykonávať, ale nič "
@@ -2683,7 +2700,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "Upozornenie: zastaralá voľba „--%s“\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2705,7 +2722,7 @@ msgid ""
 "Debugging options are be mixed using bitwise-or.\n"
 "Note that the meanings and values are subject to change.\n"
 msgstr ""
-"%s ladiaca voľba, --debug=<octal> alebo -D<octal>:\n"
+"%s ladiaca voľba, --debug=<osmičkové> alebo -D<osmičkové>:\n"
 "\n"
 "  číslo   odkaz do zdroja   popis\n"
 "      1   general           Všeobecne užitočné informácie o spracovaní\n"
@@ -2716,10 +2733,14 @@ msgstr ""
 "    200   conffdetail       Viac výstupov pre každý konfiguračný súbor\n"
 "     40   depcon            Závislosti a konflikty\n"
 "    400   depcondetail      Viac o závislostiach a konfliktoch\n"
+"  10000   triggers          Aktivácia a súracovanie spúšťačov\n"
+"  20000   triggersdetail    Množstvo výstupu týkajúceho sa spúšťačov\n"
+"  40000   triggersstupid    Nadbytočné množstvo výstupu týkajúceho sa "
+"spúšťačov\n"
 "   1000   veryverbose       Viac informácií o spracovaní dpkg/info adresára\n"
 "   2000   stupidlyverbose   Šialené množstvo informácií o spracovaní\n"
 "\n"
-"Ladiace voľby môžu byť mixované použitím bitwise-or.\n"
+"Ladiace voľby možno kombinovať použitím bitwise-or.\n"
 "Poznámka: významy a hodnoty sa môžu často meniť.\n"
 
 #: src/main.c:243
@@ -2872,7 +2893,7 @@ msgstr "vyžaduje sa zadanie voľby akcia"
 #: src/packages.c:105
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
-msgstr "--%s --pending neuznáva žiadne nevoliteľné argumenty"
+msgstr "--%s --pending neprijíma žiadne argumenty"
 
 #: src/packages.c:143 src/query.c:296
 #, c-format
@@ -2903,13 +2924,14 @@ msgstr ""
 " v tomto behu!  Konfiguruje sa len jedenkrát.\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"balík %.250s nie je pripravený na konfiguráciu\n"
-" nie je možné konfigurovať (sučasný stav „%.250s“)"
+"balík %.250s nie je pripravený na spracovanie spúšťačov\n"
+" (súčasný stav „%.250s“, nečaká sa na žiadne spúšťače\n"
+" (triggers-pending))"
 
 #: src/packages.c:334
 #, c-format
@@ -2927,14 +2949,14 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "  Verzia %s na systéme je %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  Balík %s, ktorý poskytuje %s, sa odstráni.\n"
+msgstr "  Balík %s, ktorý poskytuje %s, očakáva spracovanie spúšťačov..\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  Balík %s sa odstráni.\n"
+msgstr "  Balík %s očakáva spracovanie spúšťačov.\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3237,7 +3259,6 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "nie je možné zrušiť zmiznutie riadiaceho info súboru „%.250s“"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3246,7 +3267,8 @@ msgid ""
 "uppercase=bad)\n"
 msgstr ""
 "Požadovaný=Neznámy/Inštalovať/Odstrániť/Vyčistiť\n"
-"| Stav=Nie/Inštalovaný/Konfig-súbory/Rozbalený/Zlý-konfig/Polo-inštalovaný\n"
+"| Stav=Nie/Inštalovaný/Konfig-súbory/Rozbalený/Zlý-konfig/Polo-inštalovaný/"
+"očak-spúšť/čaká-na-spúšť\n"
 "|/ Chyba?=(žiadna)/Podržať/Reinšt-vyžadovaná/X=oba-problémy (Stav,Chyba: "
 "veľké písmeno=zle)\n"
 
@@ -3509,7 +3531,7 @@ msgstr ""
 #: src/remove.c:409
 #, c-format
 msgid "Purging configuration files for %s ...\n"
-msgstr "Odstraňuje sa konfiguračné súbory pre %s ...\n"
+msgstr "Odstraňujú sa konfiguračné súbory pre %s ...\n"
 
 #: src/remove.c:460
 #, c-format
@@ -3589,24 +3611,23 @@ msgid "--clear-selections does not take any argument"
 msgstr "--clear-selections nevyžaduje žiaden parameter"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Napíšte dpkg-split --help pre pomocníka."
+msgstr "Pomocníka k tomuto nástroju zobrazíte napísaním dpkg-trigger --help"
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr ""
-"Debian „%s“ nástroj na zadávanie požiadaviek programu na správu balíkov\n"
+msgstr "Debian „%s“ nástroj na spúšťanie balíkov\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Použitie: %s [<option> ...] <command>\n"
+"Použitie: %s [<voľby> ...] <názov spúšťača>\n"
+"       %s [<voľby> ...] <príkaz>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3617,6 +3638,10 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"Príkazy:\n"
+"  --check-supported                Skontrolovať, či bežiaci dpkg podporuje "
+"spúšťače.\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3631,42 +3656,50 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Voľby:\n"
+"  --admindir=<adresár>           Použiť <adresár> namiesto %s.\n"
+"  --by-package=<balík>           Prekonať očakávanie balíka (bežne ho "
+"nastavuje\n"
+"                                     by dpkg).\n"
+"  --no-await                       Žiadny balík nečaká na spracovanie.\n"
+"  --no-act                         Iba test - v skutočnosti nič nemeniť.\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s: púšťa dátový adresár, ktorý zatiaľ nebol vytvorený\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s: záznamy spúšťača zatiaľ neexistujú\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "--%s nevyžaduje argumenty"
+msgstr "dpkg-trigger --check-supported nevyžaduje argumenty"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s potrebuje len jeden parameter (názov .deb súboru)"
+msgstr "dpkg-trigger potrebuje jeden parameter, názov spúšťača"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"dpkg-trigger je potrebné volať z údržbového skriptu (alebo voľbou --by-"
+"package)"
 
 #: src/trigcmd.c:205
 #, fuzzy, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "pole „%s“ obsahuje neplatné meno balíka „%.255s“: %s"
+msgstr "pole „%s“ obsahuje neplatné meno očakávaného balíka „%.250s“: %.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "pole „%s“ obsahuje neplatné meno balíka „%.255s“: %s"
+msgstr "dpkg-trigger: neplatný názov spúšťača „%.250s“: %.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3674,6 +3707,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: pri spracovaní spúšťačov bol nájdený cyklus:\n"
+" reťazec balíkov, ktorých spúšťače sú alebo môžu byť za to zodpovedné:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3681,15 +3716,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" očakávané spúšťače (triggers-pending) balíkov, ktoré nemožno vyriešiť:\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "spúšťače v slučke, ignorujú sa"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "Odstraňuje sa konfiguračné súbory pre %s ...\n"
+msgstr "Spracúvajú sa spúšťače %s ...\n"
 
 #: src/update.c:44
 #, c-format
