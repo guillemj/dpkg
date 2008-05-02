@@ -433,8 +433,8 @@ if ($state eq 'unexpected' && $mode eq 'auto') {
 # action=auto <=> state=nonexistent
 # state=unexpected => mode=manual
 
-&pr(sprintf(_g("Checking available versions of %s, updating links in %s ...\n".
-    "(You may modify the symlinks there yourself if desired - see \`man ln'.)"), $name, $altdir))
+pr(sprintf(_g("Checking available versions of %s, updating links in %s ..."),
+           $name, $altdir))
   if $verbosemode > 0;
 
 if ($action eq 'install') {
