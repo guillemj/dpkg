@@ -146,14 +146,14 @@ foreach my $file (keys %exec) {
 	unless (defined $lib) {
 	    $soname_notfound{$soname} = 1;
 	    $global_soname_notfound{$soname} = 1;
-	    my $msg = _g("couldn't find library %s needed by %s (its RPATH is '%s').\n" .
+	    my $msg = _g("couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s').\n" .
 			 "Note: libraries are not searched in other binary packages " .
 			 "that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
 			 "find private libraries, you might need to set LD_LIBRARY_PATH.");
 	    if (scalar(split_soname($soname))) {
-		failure($msg, $soname, $file, join(":", @{$obj->{RPATH}}));
+		failure($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
 	    } else {
-		warning($msg, $soname, $file, join(":", @{$obj->{RPATH}}));
+		warning($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
 	    }
 	    next;
 	}
