@@ -74,9 +74,9 @@ while (@ARGV) {
 	$compare = defined($1) ? $1 : 1;
     } elsif (m/^-d$/) {
 	$debug = 1;
-    } elsif (m/^-v(.*)/) {
+    } elsif (m/^-v(.+)$/) {
 	$sourceversion = $1;
-    } elsif (m/^-e(.*)/) {
+    } elsif (m/^-e(.+)$/) {
 	my $file = $1;
 	if (-e $file) {
 	    push @files, $file;
@@ -85,7 +85,7 @@ while (@ARGV) {
 	}
     } elsif (m/^-p(.*)/) {
 	error(_g("Illegal package name \`%s'"), $1);
-    } elsif (m/^-P(.*)$/) {
+    } elsif (m/^-P(.+)$/) {
 	$packagebuilddir = $1;
 	$packagebuilddir =~ s{/+$}{};
     } elsif (m/^-O$/) {
