@@ -386,6 +386,14 @@ sub do_build {
 
 sub register_autopatch {
     my ($self, $dir) = @_;
+    my $autopatch = File::Spec->catfile($dir, "debian", "patches",
+                                        $self->get_autopatch_name());
+    if (-e $autopatch) {
+        my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+        open(APPLIED, '>>', $applied) || syserr(_g("cannot write %s"), $applied);
+        print APPLIED ($self->get_autopatch_name() . "\n");
+        close(APPLIED);
+    }
 }
 
 # vim:et:sw=4:ts=8
