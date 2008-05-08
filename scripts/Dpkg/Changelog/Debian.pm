@@ -256,7 +256,7 @@ sub parse {
 			$entry->{'Closes'} = find_closes( $entry->{Changes} );
 #		    print STDERR, Dumper($entry);
 			push @{$self->{data}}, $entry;
-			$entry = Dpkg::Changelog::Entry->init();
+			$entry = new Dpkg::Changelog::Entry;
 			$entry->{Source} =
 			    $entry->{Distribution} = $entry->{Urgency} =
 			    $entry->{Urgency_LC} = 'unknown';
