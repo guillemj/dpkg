@@ -5,10 +5,11 @@ use warnings;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(erasedir fixperms);
+our @EXPORT_OK = qw(erasedir fixperms is_binary);
 
 use Dpkg::ErrorHandling qw(syserr subprocerr failure);
 use Dpkg::Gettext;
+use Dpkg::IPC;
 
 use POSIX;
 
@@ -47,6 +48,31 @@ sub fixperms {
     }
     system('chmod', '-R', $modes_set, '--', $dir);
     subprocerr("chmod -R $modes_set $dir") if $?;
+}
+
+sub is_binary($) {
+    my ($file) = @_;
+
+    # Use diff to check if it's a binary file
+    my $diffgen;
+    my $diff_pid = fork_and_exec(
+        'exec' => [ 'diff', '-u', '--', '/dev/null', $file ],
+        'env' => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
+        'to_pipe' => \$diffgen
+    );
+    my $result = 0;
+    while (<$diffgen>) {
+        if (m/^binary/i) {
+            $result = 1;
+            last;
+        } elsif (m/^[-+\@ ]/) {
+            $result = 0;
+            last;
+        }
+    }
+    close($diffgen) or syserr("close on diff pipe");
+    wait_child($diff_pid, nocheck => 1, cmdline => "diff -u -- /dev/null $file");
+    return $result;
 }
 
 # vim: set et sw=4 ts=8
