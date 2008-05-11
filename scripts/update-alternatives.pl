@@ -17,7 +17,7 @@ $admindir = $admindir . '/alternatives';
 
 my $verbosemode = 0;
 
-my $action = '';      # Action to perform (display / install / remove / display / auto / config)
+my $action = '';      # Action to perform (display / query / install / remove / auto / config)
 my $mode = 'auto';    # Update mode for alternative (manual / auto)
 my $state;            # State of alternative:
                       #   expected: alternative with highest priority is the active alternative
@@ -78,6 +78,7 @@ Commands:
   --remove-all <name>      remove <name> group from the alternatives system.
   --auto <name>            switch the master link <name> to automatic mode.
   --display <name>         display information about the <name> group.
+  --query <name>           machine parseable version of --display <name>.
   --list <name>            display all targets of the <name> group.
   --config <name>          show alternatives for the <name> group and ask the
                            user to select which one to use.
@@ -212,6 +213,38 @@ sub display_link_group
     }
 }
 
+sub query_link_group
+{
+    pr(sprintf("Link: %s", $name));
+    pr(sprintf("Status: %s", $mode));
+    if ($best ne '') {
+	pr(sprintf("Best: %s", $best));
+    }
+    $linkname = readlink("$altdir/$name");
+
+    if (defined($linkname)) {
+	pr(sprintf("Value: %s", $linkname));
+    } elsif ($! == ENOENT) {
+	pr("Value: none");
+    } else {
+	pr("Value: error");
+	pr(sprintf("Error: %s", $!));
+    }
+
+    for (my $i = 0; $i <= $#versions; $i++) {
+	pr("");
+	pr(sprintf("Alternative: %s", $versions[$i]));
+	pr(sprintf("Priority: %s", $priorities[$i]));
+	next unless ($#slavenames >= 0);
+	pr("Slaves:");
+	for (my $j = 0; $j <= $#slavenames; $j++) {
+	    my $tspath = $slavepath{$i, $j};
+	    next unless length($tspath);
+	    pr(sprintf(" %s %s", $slavenames[$j], $tspath));
+	}
+    }
+}
+
 sub list_link_group
 {
     for (my $i = 0; $i <= $#versions; $i++) {
@@ -314,7 +347,7 @@ while (@ARGV) {
         @ARGV >= 2 || &badusage(sprintf(_g("--%s needs <name> <path>"), $1));
         ($name,$apath,@ARGV) = @ARGV;
 	$action = $1;
-    } elsif (m/^--(display|auto|config|list|remove-all)$/) {
+    } elsif (m/^--(display|query|auto|config|list|remove-all)$/) {
 	check_many_actions();
         @ARGV || &badusage(sprintf(_g("--%s needs <name>"), $1));
 	$action = $1;
@@ -345,7 +378,7 @@ defined($alink) && $aslavelinkcount{$alink} &&
   badusage(sprintf(_g("link %s is both primary and slave"), $alink));
 
 $action ||
-  badusage(_g("need --display, --config, --set, --install, --remove, --all, --remove-all or --auto"));
+  badusage(_g("need --display, --query, --config, --set, --install, --remove, --all, --remove-all or --auto"));
 $action eq 'install' || !%aslavelink ||
   badusage(_g("--slave only allowed with --install"));
 
@@ -368,6 +401,12 @@ if (read_link_group()) {
 if ($action eq 'display') {
     find_best_version();
     display_link_group();
+    exit 0;
+}
+
+if ($action eq 'query') {
+    find_best_version();
+    query_link_group();
     exit 0;
 }
 

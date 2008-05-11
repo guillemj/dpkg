@@ -283,6 +283,12 @@ what other alternatives are available
 (and their corresponding slave alternatives),
 and the highest priority alternative currently installed.
 .TP
+\fB\-\-query\fR \fIlink\fR
+Display information about the link group of which
+.I link
+is the master link like \-\-display does, but in a machine parseable way
+(see section \fBQUERY FORMAT\fR below).
+.TP
 \fB\-\-list\fR \fIlink\fR
 Display all targets of the link group.
 .TP
@@ -338,6 +344,76 @@ The requested action was successfully performed.
 .IP 2
 Problems were encountered whilst parsing the command line
 or performing the action.
+.
+.SH "QUERY FORMAT"
+The \fBupdate\-alternatives\fP \fI\-\-query\fP format is using an
+RFC822-like flat format. It's made of \fIn\fP + 1 blocks where \fIn\fP is
+the number of alternatives available in the queried link group. The first
+block contains the following fields:
+.TP
+.BR Link: " <link>"
+The generic name of the alternative.
+.TP
+.BR Status: " <status>"
+The status of the alternative (\fBauto\fR or \fBmanual\fR).
+.TP
+.BR Best: " <best choice>"
+The path of the best alternative for this link group. Not present if
+there is no alternatives available.
+.TP
+.BR Value: " <currently selected alternative> "
+The path of the currently selected alternative. It can also take the magic
+values \fBnone\fR or \fBerror\fR. The former is used if the link doesn't
+exist, and the latter in case of error.
+.TP
+.BR Error: " <error details>"
+When \fBValue\fR is \fBerror\fR, this field is present and contains a human readable
+string explaining the error.
+.
+.TP
+The other blocks describe the available alternatives in the queried link group:
+.TP
+.BR Alternative: " <path of this alternative>"
+Path to this block's alternative.
+.TP
+.BR Priority: " <priority value>"
+Value of the priority of this alternative.
+.TP
+.BR Slaves: " <list of slaves>"
+When this header is present, the \fBnext\fR lines hold all slave alternatives
+associated to the master link of the alternative. There is one slave per
+line. Each line contains one space, the generic name of the slave
+alternative, another space, and the path to the slave alternative.
+.
+.TP
+.BR Example
+.nf
+$ update\-alternatives \-\-query editor
+Link: editor
+Status: auto
+Best: /usr/bin/vim.gtk
+Value: /usr/bin/vim.gtk
+
+Alternative: /bin/ed
+Priority: \-100
+Slaves:
+ editor.1.gz /usr/share/man/man1/ed.1.gz
+
+Alternative: /usr/bin/vim.gtk
+Priority: 50
+Slaves:
+ editor.1.gz /usr/share/man/man1/vim.1.gz
+ editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz
+ editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz
+ editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz
+ editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz
+ editor.it.1.gz /usr/share/man/it/man1/vim.1.gz
+ editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz
+ editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz
+ editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz
+ editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz
+ editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz
+.fi
 .
 .SH DIAGNOSTICS
 .B update\-alternatives
