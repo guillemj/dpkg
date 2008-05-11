@@ -1,3 +1,12 @@
+2008-05-11  Raphael Hertzog  <hertzog@debian.org>
+
+	* src/processarc.c (process_archive): While removing files that
+	disappeared, move the call to namenodetouse before the test
+	that skips directory shared with other packages. This is required
+	because namenodetouse() handles trigger activation and we really
+	want directories containing (only) removed files to activate the
+	corresponding triggers.
+
 2008-05-08  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Source/Package/V2.pm,

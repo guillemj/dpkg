@@ -633,14 +633,16 @@ void process_archive(const char *filename) {
     if ((namenode->flags & fnnf_new_conff) ||
         (namenode->flags & fnnf_new_inarchive))
       continue;
+
+    fnamevb.used= fnameidlu;
+    varbufaddstr(&fnamevb, namenodetouse(namenode,pkg)->name);
+    varbufaddc(&fnamevb,0);
+
     if (!stat(namenode->name,&stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "process_archive: %s is a directory",
 	    namenode->name);
       if (isdirectoryinuse(namenode,pkg)) continue;
     }
-    fnamevb.used= fnameidlu;
-    varbufaddstr(&fnamevb, namenodetouse(namenode,pkg)->name);
-    varbufaddc(&fnamevb,0);
 
     if (lstat(fnamevb.buf, &oldfs)) {
       if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
