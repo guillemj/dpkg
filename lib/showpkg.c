@@ -216,7 +216,7 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 		ok=0;
 
 		if (head->width>0)
-			snprintf(fmt,16,"%%%s%ds",
+			snprintf(fmt,16,"%%%s%zds",
 				((head->pad) ? "-" : ""), head->width);
 		else
 			strcpy(fmt, "%s");
