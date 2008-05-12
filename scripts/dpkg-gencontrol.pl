@@ -39,7 +39,6 @@ my $stdout;
 my %remove;
 my %override;
 my $oppackage;
-my $package_type = 'deb';
 my $substvars = Dpkg::Substvars->new();
 
 
@@ -265,7 +264,8 @@ for my $f (qw(Maintainer Description Architecture)) {
 }
 $oppackage = $fields->{'Package'};
 
-$package_type = $fields->{'Package-Type'} if (defined($fields->{'Package-Type'}));
+my $package_type = $pkg->{'Package-Type'} ||
+                   tied(%$pkg)->get_custom_field('Package-Type') || 'deb';
 
 if ($package_type eq 'udeb') {
     delete $fields->{'Homepage'};
