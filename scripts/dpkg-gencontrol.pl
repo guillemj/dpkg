@@ -264,14 +264,14 @@ for my $f (qw(Maintainer Description Architecture)) {
 }
 $oppackage = $fields->{'Package'};
 
-my $package_type = $pkg->{'Package-Type'} ||
-                   tied(%$pkg)->get_custom_field('Package-Type') || 'deb';
+my $pkg_type = $pkg->{'Package-Type'} ||
+               tied(%$pkg)->get_custom_field('Package-Type') || 'deb';
 
-if ($package_type eq 'udeb') {
+if ($pkg_type eq 'udeb') {
     delete $fields->{'Homepage'};
 } else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
-        warning(_g("%s package with udeb specific field %s"), $package_type, $f)
+        warning(_g("%s package with udeb specific field %s"), $pkg_type, $f)
             if defined($fields->{$f});
     }
 }
@@ -324,7 +324,7 @@ if (open(X, "<", $fileslistfile)) {
         chomp;
         next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.(a-z+) /
                 && ($1 eq $oppackage)
-	        && ($3 eq $package_type)
+	        && ($3 eq $pkg_type)
 	        && (debarch_eq($2, $fields->{'Architecture'})
 		    || debarch_eq($2, 'all'));
         print(Y "$_\n") || &syserr(_g("copy old entry to new files list file"));
@@ -336,7 +336,7 @@ if (open(X, "<", $fileslistfile)) {
 my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
 $forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion, $fields->{'Architecture'},
-			 $package_type)
+			 $pkg_type)
 	   unless ($forcefilename);
 print(Y $substvars->substvars(sprintf("%s %s %s\n", $forcefilename,
 				      $fields->{'Section'} || '-',
