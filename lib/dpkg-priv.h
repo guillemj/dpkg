@@ -26,6 +26,12 @@
 extern "C" {
 #endif
 
+/* Language definitions. */
+
+#ifndef sizeof_array
+#define sizeof_array(a) (sizeof(a) / sizeof((a)[0]))
+#endif
+
 /* Path handling. */
 
 void rtrim_slash_slashdot(char *path);

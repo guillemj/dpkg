@@ -34,6 +34,7 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
 #include "parsedump.h"
 
 #ifdef HAVE_MMAP
@@ -76,8 +77,8 @@ const struct fieldinfo fieldinfos[]= {
   /* Note that aliases are added to the nicknames table in parsehelp.c. */
   {  NULL   /* sentinel - tells code that list is ended */                               }
 };
-#define NFIELDS (sizeof(fieldinfos)/sizeof(struct fieldinfo))
-const int nfields= NFIELDS;
+
+const int nfields = sizeof_array(fieldinfos);
 
 int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep, FILE *warnto, int *warncount) {
@@ -92,7 +93,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   struct trigaw *ta;
   int lno;
   int pdone;
-  int fieldencountered[NFIELDS];
+  int fieldencountered[sizeof_array(fieldinfos)];
   const struct fieldinfo *fip;
   const struct nickname *nick;
   char *data, *dataptr, *endptr;
