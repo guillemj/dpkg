@@ -28,11 +28,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <signal.h>
 #include <time.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -193,38 +193,6 @@ static char *const *buildarglist(const char *scriptname, ...) {
   return arglist;
 }
 
-#define NSCRIPTCATCHSIGNALS (int)(sizeof(script_catchsignallist)/sizeof(int)-1)
-static int script_catchsignallist[]= { SIGQUIT, SIGINT, 0 };
-static struct sigaction script_uncatchsignal[NSCRIPTCATCHSIGNALS];
-
-static void cu_restorescriptsignals(int argc, void **argv) {
-  int i;
-  for (i=0; i<NSCRIPTCATCHSIGNALS; i++) {
-    if (sigaction(script_catchsignallist[i], &script_uncatchsignal[i], NULL)) {
-      fprintf(stderr,_("error un-catching signal %s: %s\n"),
-              strsignal(script_catchsignallist[i]),strerror(errno));
-      onerr_abort++;
-    }
-  }
-}
-
-static void script_catchsignals(void) {
-  int i;
-  struct sigaction catchsig;
-  
-  onerr_abort++;
-  memset(&catchsig,0,sizeof(catchsig));
-  catchsig.sa_handler= SIG_IGN;
-  sigemptyset(&catchsig.sa_mask);
-  catchsig.sa_flags= 0;
-  for (i=0; i<NSCRIPTCATCHSIGNALS; i++)
-    if (sigaction(script_catchsignallist[i],&catchsig,&script_uncatchsignal[i]))
-      ohshite(_("unable to ignore signal %s before running script"),
-              strsignal(script_catchsignallist[i]));
-  push_cleanup(cu_restorescriptsignals, ~0, NULL, 0, 0);
-  onerr_abort--;
-}
-
 void
 post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 {
@@ -286,7 +254,7 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
     execv(scriptexec,(char * const *)narglist);
     ohshite(desc,name);
   }
-  script_catchsignals(); /* This does a push_cleanup() */
+  setup_subproc_signals(name); /* This does a push_cleanup() */
   r= waitsubproc(c1,name,warn);
   pop_cleanup(ehflag_normaltidy);
 

@@ -1,5 +1,18 @@
 2008-05-12  Guillem Jover  <guillem@debian.org>
 
+	* dselect/method.cc: Include <dpkg-priv.h>. Use setup_subproc_signals
+	and cu_subproc_signals instead of cu_restoresignals and duped code
+	in falliblesubprocess.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'subproc.c'.
+	* ib/dpkg-priv.h (setup_subproc_signals): New prototype.
+	(cu_subproc_signals): Likewise.
+	* src/help.c: Include <dpkg-priv.h> and stop including <signal.h>.
+	(cu_restorescriptsignals, script_catchsignals): Move to ...
+	* lib/subproc.c (cu_subproc_signals, setup_subproc_signals): ... here.
+	New file.
+
+2008-05-12  Guillem Jover  <guillem@debian.org>
+
 	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'dpkg-priv.h' and 'path.c'.
 	* lib/dpkg-priv.h: New file.
 	* lib/path.c: Likewise.

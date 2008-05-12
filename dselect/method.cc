@@ -44,6 +44,7 @@ extern "C" {
 #include <dpkg.h>
 #include <dpkg-db.h>
 }
+#include <dpkg-priv.h>
 #include "dselect.h"
 #include "method.h"
 
@@ -133,38 +134,17 @@ static enum urqresult lockmethod(void) {
   return urqr_normal;
 }
 
-static int catchsignals[]= { SIGQUIT, SIGINT, 0 };
-#define NCATCHSIGNALS ((signed)(sizeof(catchsignals)/sizeof(int))-1)
-static struct sigaction uncatchsignal[NCATCHSIGNALS];
-
-void cu_restoresignals(int, void**) {
-  int i;
-  for (i=0; i<NCATCHSIGNALS; i++)
-    if (sigaction(catchsignals[i],&uncatchsignal[i],0))
-      fprintf(stderr,_("error un-catching signal %d: %s\n"),
-              catchsignals[i],strerror(errno));
-}
-
 urqresult falliblesubprocess(const char *exepath, const char *name,
                              const char *const *args) {
   pid_t c1, cr;
   int status, i, c;
-  struct sigaction catchsig;
   
   cursesoff();
 
-  memset(&catchsig,0,sizeof(catchsig));
-  catchsig.sa_handler= SIG_IGN;
-  sigemptyset(&catchsig.sa_mask);
-  catchsig.sa_flags= 0;
-  for (i=0; i<NCATCHSIGNALS; i++)
-    if (sigaction(catchsignals[i],&catchsig,&uncatchsignal[i]))
-      ohshite(_("unable to ignore signal %d before running %.250s"),
-              catchsignals[i], name);
-  push_cleanup(cu_restoresignals,~0, 0,0, 0);
+  setup_subproc_signals(name);
 
   if (!(c1= m_fork())) {
-    cu_restoresignals(0,0);
+    cu_subproc_signals(0, 0);
     execvp(exepath,(char* const*) args);
     ohshite(_("unable to run %.250s process `%.250s'"),name,exepath);
   }

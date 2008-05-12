@@ -30,6 +30,11 @@ extern "C" {
 
 void rtrim_slash_slashdot(char *path);
 
+/* Subprocess handling. */
+
+void setup_subproc_signals(const char *name);
+void cu_subproc_signals(int argc, void **argv);
+
 #ifdef __cplusplus
 }
 #endif
