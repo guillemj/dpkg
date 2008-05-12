@@ -15,6 +15,7 @@ libdpkg_a_SOURCES = \
 	dpkg-def.h \
 	dpkg.h \
 	dpkg-db.h \
+	dpkg-priv.h \
 	dlist.h \
 	cleanup.c \
 	compat.c \
@@ -35,6 +36,7 @@ libdpkg_a_SOURCES = \
 	parse.c \
 	parsehelp.c \
 	parsedump.h \
+	path.c \
 	showpkg.c \
 	tarfn.c tarfn.h \
 	triglib.c \
