@@ -18,11 +18,21 @@ dpkg (1.15.0) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Tue, 29 Apr 2008 06:01:40 +0300
 
-dpkg (1.14.19) UNRELEASED; urgency=low
+dpkg (1.14.20) UNRELEASED; urgency=low
+
+  *
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 12 May 2008 09:04:34 +0300
+
+dpkg (1.14.19) unstable; urgency=low
 
   [ Guillem Jover ]
   * Fix a double-free by setting scontext to NULL after calling freecon.
     Based on a patch by Russell Coker. Closes: #474339
+  * Add missing import of internerr in Dpkg::Source::Patch.pm.
+    Thanks to Marco d'Itri. Closes: #479205
+  * Consider also custom Package-Type fields when printing warnings in
+    dpkg-gencontrol. Closes: #452273
 
   [ Raphael Hertzog ]
   * Add missing import of subprocerr in Dpkg::Source::Package. Thanks to Sven
@@ -52,30 +62,49 @@ dpkg (1.14.19) UNRELEASED; urgency=low
     For example "1.0" and "1.1" would both map to Dpkg::Source::Package::V1
     instead of ::V1_0 and ::V1_1 before. Similarly "3.0 (quilt)" now maps to
     ::V3::quilt instead of ::V3_0::quilt.
-  
+  * Fix changelog parser to not fail when an unexpected changelog entry
+    appears without the preceding heading line. Closes: #478925
+  * Change the "2.0" and "3.0 (quilt)" source packages to refuse by default
+    binary files in the debian sub-directory. They have to be whitelisted
+    through debian/source/include-binaries. Closes: #473041
+  * Make sure triggers are activated when a file is removed in a directory
+    shared by multiple packages. Closes: #479850
+
   [ Helge Kreutzmann ]
   * Minor fixes and clarifications to man pages.
 
   [ Updated dpkg translations ]
+  * Brazilian Portuguese (Felipe Augusto van de Wiel). Closes: #480579
+  * Czech (Miroslav Kure).
+  * French (Florent Ussel).
   * Galician (Jacobo Tarrio).
   * German (Sven Joachim).
-  * Polish (Robert Luberda).
+  * Polish (Wiktor Wandachowicz).
   * Portuguese (Miguel Figueiredo).
+  * Russian (Yuri Kozlov). Closes: #478827
+  * Slovak (Ivan Masár). Closes: #478897
   * Swedish (Peter Karlsson).
 
   [ Updated manpages translations ]
   * German (Helge Kreutzmann).
+  * Polish (Wiktor Wandachowicz).
   * Swedish (Peter Karlsson).
 
   [ Updated scripts translations ]
   * German (Helge Kreutzmann).
-  * Polish (Robert Luberda).
+  * Polish (Wiktor Wandachowicz).
+  * Russian (Yuri Kozlov). Closes: #479142
   * Swedish (Peter Karlsson).
 
   [ Updated dselect translations ]
+  * Brazilian Portuguese (Felipe Augusto van de Wiel).
+  * Czech (Miroslav Kure).
+  * French (Christian Perrier).
   * German (Sven Joachim).
+  * Russian (Yuri Kozlov). Closes: #478802
+  * Slovak (Ivan Masár). Closes: #479007
 
- -- Jacobo Tarrio <jtarrio@debian.org>  Fri, 11 Apr 2008 22:46:48 +0100
+ -- Guillem Jover <guillem@debian.org>  Mon, 12 May 2008 08:33:07 +0300
 
 dpkg (1.14.18) unstable; urgency=low
 

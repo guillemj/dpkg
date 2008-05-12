@@ -1,7 +1,7 @@
 # Czech translation for dpkg.
 #
 # Petr Cech <cech@debian.org>, 1999, 2000, 2001.
-# Miroslav Kure <kurem@debian.cz>, 2004, 2005, 2006, 2007.
+# Miroslav Kure <kurem@debian.cz>, 2004, 2005, 2006, 2007, 2008.
 #
 # Thanks go to:
 # Milan Zamazal <pdm@debian.org>
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-04-29 06:58+0300\n"
-"PO-Revision-Date: 2007-11-09 18:34+0100\n"
+"POT-Creation-Date: 2008-05-12 08:17+0300\n"
+"PO-Revision-Date: 2008-05-04 13:56+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -470,34 +470,32 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternativy (`|') nejsou v položce %s povoleny"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "hodnota položky `config-version' není v tomto místě přípustná"
+msgstr "hodnota položky `triggers-pending' není v tomto kontextu přípustná"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "položka `%s' obsahuje neplatné jméno balíku `%.255s': %s"
+msgstr "nepovolené jméno nevyřízeného spouštěče `%.255s': %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "duplicitní nevyřízený spouštěč `%.255s'"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "hodnota položky `status' není v tomto místě přípustná"
+msgstr "hodnota položky `triggers-awaited' není v tomto kontextu přípustná"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "nepovolené jméno balíku na řádku %d: %.250s"
+msgstr "nepovolené jméno balíku v očekávaném spouštěči `%.255s': %s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "seznam souborů balíku `%.250s'"
+msgstr "duplicitní balík v seznamu očekávaných spouštěčů `%.255s'"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -527,17 +525,16 @@ msgstr "nelze otevřít log `%s': %s\n"
 #: lib/mlib.c:51
 #, c-format
 msgid "malloc failed (%ld bytes)"
-msgstr "malloc selhal (%ld bytů)"
+msgstr "malloc selhal (%ld bajtů)"
 
 #: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
-msgstr "realloc selhal (%ld bytů)"
+msgstr "realloc selhal (%ld bajtů)"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "nelze vytvořit adresář"
+msgstr "selhala alokace paměti"
 
 #: lib/mlib.c:85
 #, c-format
@@ -796,20 +793,22 @@ msgstr "Configured-Version pro balík s neodpovídajícím Stavem"
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "balík je ve stavu %s, ale očekávají se spouštěče"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
+"balík je ve stavu „čekání na spouštěče“, ale žádné spouštěče nejsou očekávány"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "balík je ve stavu %s, ale spouštěče zatím nejsou vyřízené"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
+"balík je ve stavu „nevyřízené spouštěče“, ale všechny spouštěče jsou vyřízeny"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -908,69 +907,70 @@ msgstr "Ve formátu chybí uzavírací závorka\n"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
+"neplatné jméno balíku `%.250s' v souboru s odloženými spouštěči `%.250s'"
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "statoverride soubor `%.250s'"
+msgstr "oříznutý soubor s odloženými spouštěči `%.250s'"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"syntaktická chyba v souboru s odloženými spouštěči `%.250s' na znaku `%s'%s"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "nelze otevřít zdrojový soubor `%.250s'"
+msgstr "nelze otevřít/vytvořit zámek pro spouštěče (%.250s)"
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "nelze odemknout %s: %s"
+msgstr "nelze zamknout oblast spouštěčů"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "nelze zavolat stat na novém souboru `%.250s'"
+msgstr "nelze zavolat stat na soubor s odloženými spouštěči `%.250s'"
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "nelze otevřít zdrojový soubor `%.250s'"
+msgstr "nelze otevřít soubor s odloženými spouštěči `%.250s'"
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "nelze otevřít nový skladištní soubor `%.250s'"
+msgstr "nelze otevřít/vytvořit nový soubor s odloženými spouštěči `%.250s'"
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "chyba při čtení %s ze souboru %.255s"
+msgstr "chyba při čtení souboru s odloženými spouštěči `%.250s'"
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "nelze otevřít nový skladištní soubor `%.250s'"
+msgstr "nelze zapsat nový soubor s odloženými spouštěči `%.250s'"
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "nelze otevřít nový skladištní soubor `%.250s'"
+msgstr "nelze zavřít nový soubor s odloženými spouštěči `%.250s'"
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "nelze nainstalovat novou verzi `%.255s'"
+msgstr "nelze nainstalovat novou verzi souboru s odloženými spouštěči `%.250s'"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "prázdné názvy spouštěčů nejsou povoleny"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "název spouštěče obsahuje neplatný znak"
 
 #: lib/triglib.c:256
 #, c-format
@@ -978,16 +978,18 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
+"neplatná nebo neznámá syntaxe v názvu spouštěče `%.250s' (v seznamu "
+"zajímavých spouštěčů balíku `%.250s')"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "nelze otevřít nový skladištní soubor `%.250s'"
+msgstr "nelze otevřít soubor se seznamem zajímavých spouštěčů `%.250s'"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "nelze přečíst soubor `%.250s'"
+msgstr "selhalo přesunutí v souboru se zajímavými spouštěči `%.250s'"
 
 #: lib/triglib.c:325
 #, c-format
@@ -995,52 +997,56 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"chybná syntaxe v souboru se zajímavými spouštěči `%.250s'; neplatné jméno "
+"balíku `%.250s`: %.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "nelze zavolat stat na novém souboru `%.250s'"
+msgstr "nelze vytvořit nový soubor se zajímavými spouštěči `%.250s'"
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "nelze zavolat stat na novém souboru `%.250s'"
+msgstr "nelze zapsat nový soubor se zajímavými spouštěči `%.250s'"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "nelze nainstalovat novou verzi `%.255s'"
+msgstr "nelze nainstalovat novou verzi souboru se zajímavými spouštěči`%.250s'"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
-msgstr "nelze instalovat nový info soubor `%.250s' jako `%.250s'"
+msgstr ""
+"duplicitní zajímavý souborový spouštěč pro jméno souboru `%.250s' a balík `"
+"%.250s'"
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "nelze otevřít nový skladištní soubor `%.250s'"
+msgstr "nelze vytvořit nový soubor se souborovými spouštěči `%.250s'"
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "nelze otevřít nový skladištní soubor `%.250s'"
+msgstr "nelze zapsat nový soubor se souborovými spouštěči `%.250s'"
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr "nelze instalovat nový info soubor `%.250s' jako `%.250s'"
+msgstr "nelze instalovat nový soubor se souborovými spouštěči jako `%.250s'"
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "nelze přečíst soubor `%.250s'"
+msgstr "nelze přečíst soubor se souborovými spouštěči `%.250s'"
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "chyba při čtení konfiguračního souboru `%.255s'"
+msgstr "syntaktická chyba v souboru se souborovými spouštěči `%.250s'"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1048,6 +1054,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"záznam souborového spouštěče obsahuje neplatné jméno balíku `%.250s' (se "
+"zájmem na souboru `%.250s'): %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1055,50 +1063,52 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"ci soubor pro spouštěče `%.250s' obsahuje neplatnou syntaxi ve jméně "
+"spouštěče `%.250s': %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "nelze otevřít zdrojový soubor `%.250s'"
+msgstr "nelze otevřít ci soubor pro spouštěče `%.250s'"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
-msgstr ""
+msgstr "ci soubor pro spouštěče obsahuje neznámou syntaxi direktivy"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
+msgstr "ci soubor pro spouštěče obsahuje neznámou direktivu `%.250s'"
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "nelze číst skladištní adresář `%.250s'"
+msgstr "nelze vytvořit stavový adresář pro spouštěče (%.250s)"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "nelze číst skladištní adresář `%.250s'"
+msgstr "nelze nastavit vlastnictví stavového adresáře pro spouštěče (%.250s)"
 
 #: lib/utils.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "read error in `%.250s'"
-msgstr "chyba čtení v %.250s"
+msgstr "chyba čtení v `%.250s'"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "fgets vrátil z diversions prázdný řetězec [i]"
+msgstr "fgets vrátil z `%.250s' prázdný řetězec"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr "soubor `%.250s' je poškozen - chybí nový řádek za %.250s"
+msgstr "příliš dlouhý řádek nebo chybějící konec řádku v `%.250s'"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "neočekávaný konec souboru v %.250s"
+msgstr "neočekávaný konec souboru v `%.250s'"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1943,9 +1953,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (verze %.250s) bude nainstalován.\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (verze %.250s) je %s.\n"
+msgstr "  %.250s (verze %.250s) je přítomný a %s.\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -1953,9 +1963,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s poskytuje %.250s a bude nainstalován.\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %.250s poskytuje %.250s a je %s.\n"
+msgstr "  %.250s poskytuje %.250s a je přítomný a %s.\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2006,6 +2016,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Následující balíky očekávají zpracování spouštěčů, které aktivovali\n"
+"v ostatních balících. Toto zpracování lze vyžádat pomocí dselectu\n"
+"nebo příkazem dpkg --configure --pending (resp. dpkg --triggers-only):\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2013,6 +2026,9 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Následující balíky chtějí zpracovat aktivované spouštěče, ale ke\n"
+"zpracování zatím nedošlo. Toto zpracování lze vyžádat pomocí dselectu\n"
+"nebo příkazem dpkg --configure --pending (resp. dpkg --triggers-only):\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2263,9 +2279,8 @@ msgid "not installed but configs remain"
 msgstr "nenainstalovaný, ale konfigurační soubory zachovány"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "pokažený kvůli chybě při odstraňování"
+msgstr "porušený kvůli chybnému odstranění nebo instalaci"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2273,15 +2288,15 @@ msgstr "rozbalen, ale nezkonfigurován"
 
 #: src/help.c:45
 msgid "broken due to postinst failure"
-msgstr "pokažený kvůli chybě v postinst"
+msgstr "porušený kvůli chybě v postinst"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "očekává zpracování spouštěče jiným balíkem"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "spouštěč aktivován"
 
 #: src/help.c:48
 msgid "installed"
@@ -2327,9 +2342,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "nelze nastavit spustitelné právo na `%.250s'"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "nelze provést stat ve vsnprintf"
+msgstr "nelze nastavit proměnné prostředí pro konfigurační skript"
 
 #: src/help.c:317
 #, c-format
@@ -2393,7 +2407,7 @@ msgstr "unlink"
 msgid "chmod"
 msgstr "chmod"
 
-#: src/help.c:552 src/processarc.c:738
+#: src/help.c:552 src/processarc.c:740
 msgid "delete"
 msgstr "smazat"
 
@@ -2434,7 +2448,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2464,32 +2478,31 @@ msgid ""
 "\n"
 msgstr ""
 "Příkazy:\n"
-"  -i|--install      <.deb soubor> ... | -R|--recursive <adr> ...\n"
-"  --unpack          <.deb soubor> ... | -R|--recursive <adr> ...\n"
-"  -A|--record-avail <.deb soubor> ... | -R|--recursive <adr> ...\n"
-"  --configure       <jméno balíku> ... | -a|--pending\n"
-"  -r|--remove       <jméno balíku> ... | -a|--pending\n"
-"  -P|--purge        <jméno balíku> ... | -a|--pending\n"
-"  --get-selections [<vzor> ...]      vypíše vybrané balíky na stdout\n"
-"  --set-selections                   nastaví vybrané balíky ze stdin\n"
-"  --clear-selections                 odznačí všechny balíky krom nezbytných\n"
-"  --update-avail <soubor Packages>   nahradí informace o dostupných "
-"balících\n"
-"  --merge-avail <soubor Packages>    sloučí informace o dostupných balících\n"
-"  --clear-avail                      zruší informace o balících\n"
-"  --forget-old-unavail               zapomene nenainstalované nedostupné\n"
-"                                     balíky\n"
-"  -s|--status <jméno balíku> ...     zobrazí podrobný stav balíku\n"
-"  -p|--print-avail <jméno balíku> .  zobrazí informace o dostupné verzi\n"
-"                                     balíku\n"
-"  -L|--listfiles <jméno balíku> ...  vypíše soubory `vlastněné' balíkem\n"
-"  -l|--list [<vzor> ...]             stručný seznam balíků\n"
-"  -S|--search <vzor> ...             nalezne balík, který vlastní soubor(y)\n"
-"  -C|--audit                         vyhledá porušené balíky\n"
-"  --print-architecture               vypíše dpkg architekturu\n"
-"  --compare-versions <a> <rel> <b>   porovná čísla verzí - viz níže\n"
-"  --force-help                       zobrazí nápovědu pro donucování\n"
-"  -Dh|--debug=help                   zobrazí nápovědu pro ladění\n"
+"  -i|--install      <.deb soubor> ... | -R|--recursive <adresář> ...\n"
+"  --unpack          <.deb soubor> ... | -R|--recursive <adresář> ...\n"
+"  -A|--record-avail <.deb soubor> ... | -R|--recursive <adresář> ...\n"
+"  --configure       <balík> ... | -a|--pending\n"
+"  -r|--remove       <balík> ... | -a|--pending\n"
+"  -P|--purge        <balík> ... | -a|--pending\n"
+"  --get-selections [<vzor> ...]    vypíše vybrané balíky na stdout\n"
+"  --set-selections                 nastaví vybrané balíky ze stdin\n"
+"  --clear-selections               odznačí všechny balíky krom nezbytných\n"
+"  --update-avail <soubor Packages> nahradí informace o dostupných balících\n"
+"  --merge-avail <soubor Packages>  sloučí informace o dostupných balících\n"
+"  --clear-avail                    zruší informace o balících\n"
+"  --forget-old-unavail             zapomene nenainstalované nedostupné\n"
+"                                   balíky\n"
+"  -s|--status <balík> ...          zobrazí podrobný stav balíku\n"
+"  -p|--print-avail <balík> ...     zobrazí informace o dostupné verzi\n"
+"                                   balíku\n"
+"  -L|--listfiles <balík> ...       vypíše soubory vlastněné balíkem\n"
+"  -l|--list [<vzor> ...]           stručný seznam balíků\n"
+"  -S|--search <vzor> ...           nalezne balík, který vlastní soubor(y)\n"
+"  -C|--audit                       vyhledá porušené balíky\n"
+"  --print-architecture             vypíše dpkg architekturu\n"
+"  --compare-versions <a> <op> <b>  porovná čísla verzí - viz níže\n"
+"  --force-help                     zobrazí nápovědu pro donucování\n"
+"  -Dh|--debug=help                 zobrazí nápovědu pro ladění\n"
 "\n"
 
 #: src/main.c:93 src/query.c:484 src/trigcmd.c:98 dpkg-deb/main.c:77
@@ -2529,7 +2542,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2562,8 +2575,7 @@ msgid ""
 msgstr ""
 "Volby:\n"
 "  --admindir=<adresář>       místo %s použije <adresář>\n"
-"  --root=<adresář>           instaluje do systému s jiným kořenovým "
-"adresářem\n"
+"  --root=<adresář>           instaluje s jiným kořenovým adresářem\n"
 "  --instdir=<adresář>        změní instalační kořen bez změny admindir\n"
 "  -O|--selected-only         přeskočí balíky, které nejsou vybrány pro "
 "instalaci/aktualizaci\n"
@@ -2575,13 +2587,13 @@ msgstr ""
 "  --no-act|--dry-run|--simulate\n"
 "                             pouze vypisuje, co by se stalo, ale neprovádí "
 "se\n"
-"  -D|--debug=<octal>         povolí ladění - viz -Dhelp nebo --debug==help\n"
+"  -D|--debug=<octal>         povolí ladění (viz -Dhelp nebo --debug==help)\n"
 "  --status-fd <n>            pošle změny stavu balíku na popisovač <n>\n"
 "  --log=<soubor>             zaznamená změny stavu a akce do <souboru>\n"
-"  --ignore-depends=<balík>,...   ignoruje závislosti s <balíkem>\n"
-"  --force-...                    ignoruje problémy - viz --force-help\n"
-"  --no-force-...|--refuse-...    při problémech se zastaví\n"
-"  --abort-after <n>              zastaví po nalezení <n> chyb\n"
+"  --ignore-depends=<balík>,... ignoruje závislosti s <balíkem>\n"
+"  --force-...                  ignoruje problémy (viz --force-help)\n"
+"  --no-force-...|--refuse-...  při problémech se zastaví\n"
+"  --abort-after <n>            zastaví po nalezení <n> chyb\n"
 "\n"
 
 #: src/main.c:133
@@ -2645,7 +2657,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "Varování: zastaralá volba `--%s'\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2678,8 +2690,10 @@ msgstr ""
 "    200   conffdetail       Více informací pro každý konfigurační soubor\n"
 "     40   depcon            Závislosti a konflikty\n"
 "    400   depcondetail      Více o závislostech a konfliktech\n"
-"   1000   veryverbose       Více informací o zpracovávání dpkg/info "
-"adresáře\n"
+"  10000   triggers          Aktivace a zpracovávání spouštěčů\n"
+"  20000   triggersdetail    Více informací o spouštečích\n"
+"  40000   triggersstupid    Šílené množství informací o spouštěčích\n"
+"   1000   veryverbose       Více informací např. o adresáři dpkg/info\n"
 "   2000   stupidlyverbose   Šílené množství informací zpracovávání\n"
 "\n"
 "Ladící přepínače mohou být mixovány použitím binárního OR.\n"
@@ -2858,13 +2872,13 @@ msgstr ""
 " v tomto běhu ! Konfiguruji jen jednou.\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"balík %.250s není připraven ke konfiguraci\n"
-" nelze zkonfigurovat (současný stav `%.250s')"
+"balík %.250s není připraven ke zpracování spouštěčů\n"
+" (současný stav `%.250s' s žádnými nevyřízenými spouštěči)"
 
 #: src/packages.c:334
 #, c-format
@@ -2882,14 +2896,14 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "  Verze %s v systému je %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  Balík %s poskytující %s bude odstraněn.\n"
+msgstr "  Balík %s poskytující %s očekává zpracování spouštěčů.\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  Balík %s bude odstraněn.\n"
+msgstr "  Balík %s očekává zpracování spouštěčů.\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3088,19 +3102,19 @@ msgstr "poškozený systémový tar soubor - poškozený balík"
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: ruším možné koncové nuly"
 
-#: src/processarc.c:648
+#: src/processarc.c:650
 #, c-format
 msgid "dpkg: warning - could not stat old file `%.250s' so not deleting it: %s"
 msgstr ""
 "dpkg: varování - nelze zavolat stat na starý soubor `%.250s', tudíž jej "
 "nemažu: %s"
 
-#: src/processarc.c:656
+#: src/processarc.c:658
 #, c-format
 msgid "dpkg: warning - unable to delete old directory `%.250s': %s\n"
 msgstr "dpkg: varování - nelze smazat starý adresář `%.250s': %s\n"
 
-#: src/processarc.c:660
+#: src/processarc.c:662
 #, c-format
 msgid ""
 "dpkg: warning - old conffile `%.250s' was an empty directory (and has now "
@@ -3109,12 +3123,12 @@ msgstr ""
 "dpkg: varování - starý konfigurační soubor `%.250s' byl prázdným adresářem a "
 "byl proto smazán\n"
 
-#: src/processarc.c:690
+#: src/processarc.c:692
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "nelze zavolat stat na novém souboru `%.250s'"
 
-#: src/processarc.c:701
+#: src/processarc.c:703
 #, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
@@ -3123,72 +3137,71 @@ msgstr ""
 "dpkg: varování - starý soubor `%.250s' je stejný jako některé nové soubory! "
 "(`%.250s' i `%.250s')\n"
 
-#: src/processarc.c:742
+#: src/processarc.c:744
 #, c-format
 msgid "dpkg: warning - unable to %s old file `%%.250s': %%s\n"
 msgstr "dpkg: varování - nelze %s starý soubor `%%.250s': %%s\n"
 
-#: src/processarc.c:778 src/processarc.c:1026 src/remove.c:297
+#: src/processarc.c:780 src/processarc.c:1028 src/remove.c:297
 msgid "cannot read info directory"
 msgstr "nelze přečíst adresář info"
 
-#: src/processarc.c:791
+#: src/processarc.c:793
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "stará verze balíku má příliš dlouhé jméno info souboru, který začíná `%.250s'"
 
-#: src/processarc.c:803
+#: src/processarc.c:805
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "nelze odstranit starý info soubor `%.250s'"
 
-#: src/processarc.c:806
+#: src/processarc.c:808
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "nelze instalovat nový info soubor `%.250s'"
 
-#: src/processarc.c:813
+#: src/processarc.c:815
 msgid "unable to open temp control directory"
 msgstr "nelze otevřít dočasný kontrolní adresář"
 
-#: src/processarc.c:822
+#: src/processarc.c:824
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr "balík obsahuje příliš dlouhé jméno info souboru (začíná `%.50s')"
 
-#: src/processarc.c:827
+#: src/processarc.c:829
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "informace o balíku obsahují adresář `%.250s'"
 
-#: src/processarc.c:829
+#: src/processarc.c:831
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr "informace o balíku rmdir na `%.250s' neřekl, že to není adresář"
 
-#: src/processarc.c:835
+#: src/processarc.c:837
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr "dpkg: varování - balík %s obsahoval seznam jako info soubor"
 
-#: src/processarc.c:842
+#: src/processarc.c:844
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "nelze instalovat nový info soubor `%.250s' jako `%.250s'"
 
-#: src/processarc.c:1005
+#: src/processarc.c:1007
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Poznamenávám zmizení balíku %s, který byl úplně nahrazen.)\n"
 
-#: src/processarc.c:1042
+#: src/processarc.c:1044
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "nelze smazat mizící kontrolní info soubor `%.250s'"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3199,7 +3212,7 @@ msgstr ""
 "Požadované=Neznámé/Instalovat/Odinstalovat/Odstranit/Nechat\n"
 "| Stav=Ne/Instalován/Konfigurační soubory/Rozbalen/Nezkonfigurován/"
 "Nekompletní\n"
-"| instalace\n"
+"| instalace/Očekávané spouštěče/Nevyřízené spouštěče\n"
 "|/ Chyba?=(nic)/Nechat/Nutná přeinstalace/X=oba problémy (Stav,Chyba: velké "
 "písmeno=chyba)\n"
 
@@ -3536,23 +3549,23 @@ msgid "--clear-selections does not take any argument"
 msgstr "--clear-selections musí být zadán bez argumentu"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Napište dpkg-split --help pro získání nápovědy."
+msgstr "Pro zobrazení nápovědy napište dpkg-trigger --help."
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr "Debian `%s' - program pro dotazování se na balíky\n"
+msgstr "Debian %s - nástroj pro práci se spouštěmi\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Použití: %s [<volba> ...] <příkaz>\n"
+"Použití: %s [<volby> ...] <název_spouštěče>\n"
+"         %s [<volby> ...] <příkaz>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3563,6 +3576,9 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"Příkazy:\n"
+"  --check-supported           zkontroluje, zda dpkg podporuje spouštěče\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3577,42 +3593,49 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Volby:\n"
+"  --admindir=<adresář>        místo %s použije <adresář>\n"
+"  --by-package=<balík>        změní, který balík čeká na spouštěč\n"
+"                              (normálně to dpkg nastavuje automaticky)\n"
+"  --no-await                  žádný balík nevyžaduje počkat na zpracování\n"
+"  --no-act                    pouze testuje, nic nemění\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s: datový adresář pro spouštěče ještě není vytvořen\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s: záznamy spouštěčů zatím neexistují\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "--%s musí být zadán bez argumentu"
+msgstr "dpkg-trigger --check-supported musí být zadán bez argumentu"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s vyžaduje jen jeden parametr (jméno .deb souboru)"
+msgstr "dpkg-trigger vyžaduje jeden parametr, název spouštěče"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"dpkg-trigger musí být zavolán z maintainer skriptu (nebo s parametrem --by-"
+"package)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "položka `%s' obsahuje neplatné jméno balíku `%.255s': %s"
+msgstr "dpkg-trigger: nedovolené jméno očekávajícího balíku `%.250s': %.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "položka `%s' obsahuje neplatné jméno balíku `%.255s': %s"
+msgstr "dpkg-trigger: neplatné jméno spouštěče `%.250s': %.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3620,6 +3643,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: při zpracování spouštěčů byl nalezen cyklus:\n"
+" řetěz balíků, jejichž spouštěče mohou být zodpovědné:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3627,15 +3652,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" nevyřízené spouštěče, které se nemusí podařit zpracovat:\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "spouštěče tvoří cyklus, přerušeno"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "Odstraňuji konfigurační soubory balíku %s ...\n"
+msgstr "Zpracování spouštěčů pro balík %s ...\n"
 
 #: src/update.c:44
 #, c-format
@@ -3752,12 +3779,12 @@ msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
 "<=0775)"
 msgstr ""
-"maintainer script `%.50s' má špatná práva %03lo (musí být >=0555 a <=0775)"
+"maintainer skript `%.50s' má špatná práva %03lo (musí být >=0555 a <=0775)"
 
 #: dpkg-deb/build.c:292
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
-msgstr "maintainer script `%.50s' is not stattable"
+msgstr "na maintainer skript `%.50s' se nedá zavolat stat"
 
 #: dpkg-deb/build.c:302
 msgid "empty string from fgets reading conffiles"
@@ -4118,9 +4145,9 @@ msgid "failed to exec rm -rf"
 msgstr "chyba při spuštění rm -rf"
 
 #: dpkg-deb/info.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "realloc failed (%zu bytes)"
-msgstr "realloc selhal (%ld bytů)"
+msgstr "realloc selhal (%zu bajtů)"
 
 #: dpkg-deb/info.c:108
 msgid "info_spew"
@@ -4511,7 +4538,7 @@ msgstr ""
 
 #: dpkg-split/main.c:85
 msgid "Type dpkg-split --help for help."
-msgstr "Napište dpkg-split --help pro získání nápovědy."
+msgstr "Pro zobrazení nápovědy napište dpkg-split --help."
 
 #: dpkg-split/main.c:95 dpkg-split/main.c:99
 #, c-format
@@ -5408,7 +5435,7 @@ msgstr ""
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:71
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5474,7 +5501,6 @@ msgstr ""
 "Volby:\n"
 "  --altdir <adresář>       změní adresář pro alternativy\n"
 "  --admindir <adresář>     změní administrativní adresář\n"
-"  --test                   nic neprování, pouze simuluje\n"
 "  --verbose                upovídaný režim, více informací\n"
 "  --quiet                  tichý režim, minimální výstup\n"
 "  --help                   zobrazí tuto nápovědu\n"
@@ -5557,13 +5583,13 @@ msgid "Current `best' version is %s."
 msgstr "Momentálně \"nejlepší\" verze je \"%s\"."
 
 #: scripts/update-alternatives.pl:228
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "warning: %s is supposed to be a symlink to %s, \n"
 "or nonexistent; however, readlink failed: %s"
 msgstr ""
-"varování: %s má být symbolický odkaz na %s,\n"
-" avšak volání readlink selhalo: %s"
+"varování: %s má být symbolický odkaz na %s\n"
+" nebo nemá existovat, avšak volání readlink selhalo: %s"
 
 #: scripts/update-alternatives.pl:240
 #, perl-format
@@ -5576,9 +5602,9 @@ msgid "Updating %s (%s) to point to %s."
 msgstr "Aktualizuji %s (%s), aby ukazoval na %s."
 
 #: scripts/update-alternatives.pl:252
-#, fuzzy, perl-format
+#, perl-format
 msgid "Using '%s' to provide '%s'."
-msgstr "Používám '%s' pro poskytnutí `%s'. "
+msgstr "Používám '%s' pro poskytnutí `%s'."
 
 #: scripts/update-alternatives.pl:266 scripts/update-alternatives.pl:610
 #, perl-format

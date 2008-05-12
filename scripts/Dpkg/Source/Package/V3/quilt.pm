@@ -204,8 +204,10 @@ sub check_patches_applied {
         return;
     }
     unless (-e $applied) {
-        warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
-        $self->apply_patches($dir);
+        if (scalar($self->get_patches($dir))) {
+            warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
+            $self->apply_patches($dir);
+        }
     }
 }
 
@@ -215,12 +217,16 @@ sub register_autopatch {
     my $has_patch = (grep { $_ eq $auto_patch } $self->get_patches($dir)) ? 1 : 0;
     my $series = $self->get_series_file($dir);
     $series ||= File::Spec->catfile($dir, "debian", "patches", "series");
+    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     if (-e "$dir/debian/patches/$auto_patch") {
         # Add auto_patch to series file
         if (not $has_patch) {
             open(SERIES, ">>", $series) || syserr(_g("cannot write %s"), $series);
             print SERIES "$auto_patch\n";
             close(SERIES);
+            open(APPLIED, ">>", $applied) || syserr(_g("cannot write %s"), $applied);
+            print APPLIED "$auto_patch\n";
+            close(APPLIED);
         }
     } else {
         # Remove auto_patch from series

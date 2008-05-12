@@ -1,4 +1,4 @@
-# translation of fr.po to French
+# translation of dpkg.po to French
 # Dpkg --- the Debian GNU/Linux package maintenance system.
 #
 # Copyright (C) 1994,1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
@@ -19,58 +19,38 @@
 #
 # Christian Perrier <bubulle@debian.org>, 2005, 2006.
 # Frederic Bothamy <frederic.bothamy@free.fr>, 2006, 2007.
+# Florent USSEIL <swiip81@free.fr>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: fr\n"
+"Project-Id-Version: dpkg.fr.po\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-04-29 06:58+0300\n"
-"PO-Revision-Date: 2008-01-21 08:33+0200\n"
-"Last-Translator: Frederic Bothamy <frederic.bothamy@free.fr>\n"
+"POT-Creation-Date: 2008-05-12 08:17+0300\n"
+"PO-Revision-Date: 2008-05-08 18:18+0200\n"
+"Last-Translator: Florent USSEIL <swiip81@free.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n>1;\n"
 
-# #######################################"
+# #######################################
 # Notes de traduction
-# maintainer: responsable
-# package: paquet
-# to divert: détourner
-# to set: paramétrer
-# status: état
-# unable: impossible
-# failure: échec
-# warning: avertissement
-# to scan: parcourir
-# force: forçage
-# pattern: motif?
-# to overwrite: remplacer?
-# to stat: analyser?
-# to rewind: revenir? (rembobiner?)
-# incorporated: incorporé?
-# unable seek: déplacement impossible?
-# padding: remplissage?
-# out of memory: manque de mémoire?
-# file details field: champ détail de fichier?
-# matching: correspondance?
-# epoch: époque ?
-# on hold: à garder
-# checksums?
-# depot?
-# has trailing garbage?
-# resolves to degenerate filename?
-# readlink?
-# mess?
-# timestamps?
-# to seek?
-# buffering?
-# handler?
-# garbage?
-# junk?
-# abréviation postint...
-# to fsync (synchroniser?)
+#
+# trigger              : déclenchement
+#
+# triggers-awaited     : « déclenchements-à-venir »
+# triggers-pending     : « déclenchements-en-attente »
+# triggers-deferred    : « déclenchements-différé »
+#
+# awaited trigger      : déclenchement à venir
+# pending trigger      : déclenchement en attente
+# triggers deferred    : déclenchements différés
+# trigger interests    : déclenchement demandés
+#
+# triggers are awaited : des déclenchements sont à venir
+# triggers are pending : des déclenchements sont en attente
+#
+# #######################################
 #: lib/compat.c:46
 msgid "unable to open tmpfile for vsnprintf"
 msgstr "impossible d'ouvrir « tmpfile » pour « vsnprintf »"
@@ -538,37 +518,36 @@ msgstr "champ « %s », erreur de syntaxe après la référence au paquet « 
 #: lib/fields.c:447
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
-msgstr "alternative (« | ») non autorisée dans le champ %s"
+msgstr "alternative (« | ») non autorisée dans le champ « %s »"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "valeur du champ « config-version » interdite dans ce contexte"
+msgstr "valeur du champ « déclenchement-en-attente » interdite dans ce contexte"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "champ « %s », nom de paquet incorrect « %.255s » : %s"
+msgstr "nom du déclenchement en attente illégal « %.255s » : %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "déclenchement en attente en double « %.255s »"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "valeur du champ « status » non autorisée dans ce contexte"
+msgstr ""
+"valeur du champ de « déclenchement-à-venir » non autorisée dans ce contexte"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "nom de paquet illégal à la ligne %d : %.250s"
+msgstr "nom de paquet illégal dans le déclenchement à venir « %.255s » : %s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "liste des fichiers du paquet « %.250s »"
+msgstr "paquet du déclenchement à venir en double « %.255s »"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -610,9 +589,8 @@ msgid "realloc failed (%ld bytes)"
 msgstr "échec de « realloc » (%ld octets)"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "impossible de créer le répertoire"
+msgstr "échec d'allocation mémoire"
 
 #: lib/mlib.c:85
 #, c-format
@@ -877,25 +855,30 @@ msgstr "« Configured-Version » du paquet dans un état inapproprié"
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "paquet dans l'état « %s » mais des déclenchements sont à venir"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
+"paquet dans l'état « déclenchements-à-venir » mais aucun déclenchement n'est "
+"à venir"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "paquet dans l'état « %s » mais aucun déclenchement n'est en attente"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
+"paquet dans l'état « déclenchement-en-attente » mais n'ayant pas de "
+"déclenchements en attente"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
-"Paquet dans l'état non-installé possédant des « conffiles », fichiers ignorés"
+"Paquet dans l'état « non-installé » possédant des « conffiles », fichiers "
+"ignorés"
 
 #: lib/parse.c:362
 #, c-format
@@ -991,69 +974,81 @@ msgstr "Parenthèse fermante manquante dans le format\n"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
+"nom de paquet invalide « %.255s » dans le fichier des déclenchements différés "
+"« %.255s »"
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "le fichier des permissions « %.250s »"
+msgstr "fichier des déclenchements différés tronqué « %.255s »"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"erreur de syntaxe dans le fichier des déclenchements différés « %.255s » à la "
+"position « %s » %s"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "impossible d'ouvrir le fichier source « %.250s »"
+msgstr ""
+"impossible d'ouvrir ou créer le verrou du fichier des déclenchements "
+"« %.255s »"
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "impossible de déverrouiller %s : %s"
+msgstr "impossible de verrouiller l'espace des déclenchements"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "impossible d'analyser un autre nouveau fichier « %.250s »"
+msgstr "impossible d'analyser le fichier des déclenchements différés « %.255s »"
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "impossible d'ouvrir le fichier source « %.250s »"
+msgstr "impossible d'ouvrir le fichier des déclenchements différés « %.255s »"
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "impossible d'ouvrir un nouveau fichier de dépôt « %.250s »"
+msgstr ""
+"impossible d'ouvrir ou créer un nouveau fichier des déclenchements différés "
+"« %.255s »"
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "erreur de lecture de %s depuis le fichier %.255s"
+msgstr "erreur de lecture du fichier des déclenchements différés « %.255s »"
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "impossible d'ouvrir un nouveau fichier de dépôt « %.250s »"
+msgstr ""
+"impossible d'enregistrer le nouveau fichier des déclenchements différés "
+"« %.255s »"
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "impossible d'ouvrir un nouveau fichier de dépôt « %.250s »"
+msgstr ""
+"impossible de fermer le nouveau fichier des déclenchements différés « %.255s »"
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "impossible d'installer une nouvelle version de « %.255s »"
+msgstr ""
+"impossible d'installer le nouveau fichier des déclenchements différés "
+"« %.255s »"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "noms vides interdits pour les déclenchements"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "nom de déclenchement contenant un caractère invalide"
 
 #: lib/triglib.c:256
 #, c-format
@@ -1061,16 +1056,20 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
+"syntaxe inconnue ou invalide dans le nom du déclenchement « %.255s » ( dans "
+"les déclenchements demandés par le paquet « %.255s »)"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "impossible d'ouvrir un nouveau fichier de dépôt « %.250s »"
+msgstr ""
+"impossible d'ouvrir le fichier liste des déclenchements demandés par le "
+"paquet « %.255s »"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "impossible de lire le fichier « %.250s »"
+msgstr "impossible de relire le fichier des déclenchements demandés « %.255s »"
 
 #: lib/triglib.c:325
 #, c-format
@@ -1078,54 +1077,63 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"erreur de syntaxe dans le fichier des déclenchements demandés « %.255s » ; "
+"nom du fichier « %.255s » illégal : %.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "impossible d'analyser un autre nouveau fichier « %.250s »"
+msgstr ""
+"impossible de créer un nouveau fichier des déclenchements demandés « %.250s »"
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "impossible d'analyser un autre nouveau fichier « %.250s »"
+msgstr ""
+"impossible d'enregistrer un nouveau fichier des déclenchements demandés "
+"« %.250s »"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "impossible d'installer une nouvelle version de « %.255s »"
+msgstr ""
+"impossible d'installer une nouvelle version de fichier des déclenchements "
+"demandés « %.255s »"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr ""
-"impossible d'installer le nouveau fichier info « %.250s » comme « %.250s »"
+"fichier des déclenchements demandés en double avec le nom « %.250s » pour le "
+"paquet « %.250s »"
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "impossible d'ouvrir un nouveau fichier de dépôt « %.250s »"
+msgstr "impossible de créer un nouveau fichier de déclenchements « %.250s »"
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "impossible d'ouvrir un nouveau fichier de dépôt « %.250s »"
+msgstr ""
+"impossible d'enregistrer le nouveau fichier des déclenchements « %.250s »"
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr ""
-"impossible d'installer le nouveau fichier info « %.250s » comme « %.250s »"
+"impossible d'installer le nouveau fichier des déclenchements comme « %.250s »"
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "impossible de lire le fichier « %.250s »"
+msgstr "impossible de lire le fichier des déclenchements « %.250s »"
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "erreur de lecture sur le fichier de configuration « %.255s »"
+msgstr "erreur de syntaxe dans le fichier des déclenchements « %.255s »"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1133,6 +1141,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"l'enregistrement du fichier des déclenchements indique un nom de paquet "
+"illégal pour « %.250s » ( le nom du fichier est « %.250s » ) : %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1140,51 +1150,56 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"le fichier des déclenchements CI « %.250s » contient une syntaxe illégale "
+"dans le déclenchement de nom « %.250s » : %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "impossible d'ouvrir le fichier source « %.250s »"
+msgstr "impossible d'ouvrir le fichier des déclenchements CI « %.250s »"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
+"le fichier des déclenchements CI contient une directive de syntaxe inconnue"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
+"le fichier des déclenchements CI contient la directive inconnue « %.250s »"
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "impossible de lire le répertoire de dépôt « %.250s »"
+msgstr "impossible de créer le répertoire d'état du déclenchement « %.250s »"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "impossible de lire le répertoire de dépôt « %.250s »"
+msgstr ""
+"impossible de positionner le propriétaire du répertoire d'état du "
+"déclenchement « %.250s »"
 
 #: lib/utils.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "read error in `%.250s'"
-msgstr "erreur de lecture dans %.250s"
+msgstr "erreur de lecture dans « %.250s »"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "« fgets » a renvoyé une chaîne vide provenant des détournements [i]"
+msgstr "« fgets » a renvoyé une chaîne vide provenant de « %.250s »"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr ""
-"le fichier « %.250s » est corrompu - saut de ligne après %.250s manquant"
+msgstr "ligne trop longue ou nouvelle ligne manquante dans « %.250s »"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "fin de fichier inattendue dans %.250s"
+msgstr "fin de fichier inattendue pour « %.250s »"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -2069,9 +2084,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (version %.250s) doit être installé.\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (version %.250s) est %s.\n"
+msgstr "  « %.250s » (version « %.250s ») est présent ainsi que « %s ».\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -2079,9 +2094,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s fournit %.250s et doit être installé.\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %.250s fournit %.250s et est %s.\n"
+msgstr "  « %.250s » fournit « %.250s » et est présent ainsi de  « %s ».\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2136,6 +2151,11 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Les paquets suivants sont en attente du traitement des « déclenchements » "
+"qu'ils\n"
+"ont activé dans d'autres paquets. Ce traitement peut être demandé via « "
+"dselect »\n"
+"ou « dpkg --configure --pending » ( ou encore « dpkg --triggers-only » ) : \n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2143,6 +2163,10 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Les paquets suivants ont activé le traitement de « déclenchements »,\n"
+"mais ce traitement n'est pas terminé. Le traitement de « déclenchements »\n"
+"peut être demandé via « dselect » ou « dpkg --configure --pending »\n"
+"( ou encore « dpkg --triggers-only » ) : \n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2416,9 +2440,8 @@ msgid "not installed but configs remain"
 msgstr "non installé mais la configuration reste"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "cassé à cause de l'échec d'une suppression"
+msgstr "cassé à cause de l'échec d'une suppression ou d'une installation"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2431,10 +2454,11 @@ msgstr "cassé à cause de l'échec de « postinst »"
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
 msgstr ""
+"en attente du traitement du « déclenchement » demandé par un autre paquet"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "« déclenchement »"
 
 #: src/help.c:48
 msgid "installed"
@@ -2480,9 +2504,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "impossible de paramétrer les permissions en exécution sur « %.250s »"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "analyse impossible dans « vsnprintf »"
+msgstr "impossible d'utiliser « setenv » pour le script de maint"
 
 #: src/help.c:317
 #, c-format
@@ -2547,7 +2570,7 @@ msgstr "de délier"
 msgid "chmod"
 msgstr "de modifier les permissions de"
 
-#: src/help.c:552 src/processarc.c:738
+#: src/help.c:552 src/processarc.c:740
 msgid "delete"
 msgstr "d'effacer"
 
@@ -2588,7 +2611,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2622,6 +2645,7 @@ msgstr ""
 "  --unpack          <nom fichier .deb> ... | -R|--recursive <rép> ...\n"
 "  -A|--record-avail <nom fichier .deb> ... | -R|--recursive <rép> ...\n"
 "  --configure           <nom paquet> ... | -a|--pending\n"
+"  --triggers-only   <nom paquet> ... | -a|--pending\n"
 "  -r|--remove           <nom paquet> ... | -a|--pending\n"
 "  -P|--purge            <nom paquet> ... | -a|--pending\n"
 "  --get-selections [<motif> ...]     Afficher la liste des sélections\n"
@@ -2697,7 +2721,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2744,6 +2768,8 @@ msgstr ""
 "                                 récente que celle installée\n"
 "  -B|--auto-deconfigure      Installer même si cela entraîne la rupture\n"
 "                                 d'autres paquets\n"
+"  --[no-]triggers            Passe ou force les « déclenchements »\n"
+"                                 invoqués par le traitement\n"
 "  --no-debsig                Ne pas tenter d'authentifier les signatures\n"
 "                                 des paquets\n"
 "  --no-act|--dry-run|--simulate\n"
@@ -2829,7 +2855,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "Attention : option obsolète « --%s »\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2866,6 +2892,11 @@ msgstr ""
 "configuration traité\n"
 "     40   depcon            Dépendances et conflits\n"
 "    400   depcondetail      Sortie de nombreuses dépendances/conflits\n"
+"  10000   triggers          Activation et traitement des « déclenchements »\n"
+"  20000   triggersdetail    Affichage détaillé concernant les « "
+"déclenchements »\n"
+"  40000   triggersstupid    Affichage très détaillé concernant les « "
+"déclenchements »\n"
 "   1000   veryverbose       Beaucoup de radotage à propos du répertoire dpkg/"
 "info\n"
 "   2000   stupidlyverbose   Quantité stupide de radotage\n"
@@ -3059,13 +3090,14 @@ msgstr ""
 " lors de ce traitement. Une seule configuration effectuée.\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"le paquet %.250s n'est pas prêt pour la configuration\n"
-" configuration impossible (état actuel « %.250s »)"
+"le paquet « %.250s » n'est pas prêt pour les traitement des « déclenchements "
+"»\n"
+" ( état actuel « %.250s » avec aucun déclenchement en attente )"
 
 #: src/packages.c:334
 #, c-format
@@ -3083,14 +3115,16 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "  La version de %s sur le système est %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  Le paquet %s qui fournit %s doit être supprimé.\n"
+msgstr ""
+"  Le paquet « %s » qui fournit « %s » attend le traitement de « déclenchements "
+"».\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  Le paquet %s doit être supprimé.\n"
+msgstr "  Le paquet « %s » attend le traitement de « déclenchements ».\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3295,21 +3329,21 @@ msgstr "archive du système de fichiers corrompue - archive du paquet corrompue"
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb : suppression de possibles zéros finaux (i.e. de « trailing »)"
 
-#: src/processarc.c:648
+#: src/processarc.c:650
 #, c-format
 msgid "dpkg: warning - could not stat old file `%.250s' so not deleting it: %s"
 msgstr ""
 "dpkg : avertissement - impossible d'analyser l'ancien fichier « %.250s ».\n"
 "Il n'a donc pas été effacé : %s"
 
-#: src/processarc.c:656
+#: src/processarc.c:658
 #, c-format
 msgid "dpkg: warning - unable to delete old directory `%.250s': %s\n"
 msgstr ""
 "dpkg : avertissement - impossible de supprimer l'ancien répertoire "
 "« %.250s » : %s\n"
 
-#: src/processarc.c:660
+#: src/processarc.c:662
 #, c-format
 msgid ""
 "dpkg: warning - old conffile `%.250s' was an empty directory (and has now "
@@ -3318,12 +3352,12 @@ msgstr ""
 "dpkg : avertissement - l'ancien fichier de configuration « %.250s »\n"
 "était un répertoire vide et a été supprimé\n"
 
-#: src/processarc.c:690
+#: src/processarc.c:692
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "impossible d'analyser un autre nouveau fichier « %.250s »"
 
-#: src/processarc.c:701
+#: src/processarc.c:703
 #, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
@@ -3332,81 +3366,80 @@ msgstr ""
 "dpkg : avertissement - l'ancien fichier « %.250s » est identique à plusieurs "
 "nouveaux fichiers (à la fois « %.250s » et « %.250s »)\n"
 
-#: src/processarc.c:742
+#: src/processarc.c:744
 #, c-format
 msgid "dpkg: warning - unable to %s old file `%%.250s': %%s\n"
 msgstr ""
 "dpkg : avertissement - impossible %s l'ancien fichier « %%.250s » : %%s\n"
 
-#: src/processarc.c:778 src/processarc.c:1026 src/remove.c:297
+#: src/processarc.c:780 src/processarc.c:1028 src/remove.c:297
 msgid "cannot read info directory"
 msgstr "ne peut pas lire le répertoire info"
 
-#: src/processarc.c:791
+#: src/processarc.c:793
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "l'ancienne version du paquet a un nom de fichier d'information commençant "
 "par « %.250s » trop long"
 
-#: src/processarc.c:803
+#: src/processarc.c:805
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "impossible de supprimer le fichier info obsolète « %.250s »"
 
-#: src/processarc.c:806
+#: src/processarc.c:808
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "impossible d'installer le (supposé) nouveau fichier info « %.250s »"
 
-#: src/processarc.c:813
+#: src/processarc.c:815
 msgid "unable to open temp control directory"
 msgstr "impossible d'ouvrir le répertoire de contrôle temporaire"
 
-#: src/processarc.c:822
+#: src/processarc.c:824
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "le paquet contient un nom de fichier de contrôle trop long (commençant par "
 "« %.50s »)"
 
-#: src/processarc.c:827
+#: src/processarc.c:829
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "l'information de contrôle du paquet contient le répertoire « %.250s »"
 
-#: src/processarc.c:829
+#: src/processarc.c:831
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "l'information de contrôle du paquet « rmdir » de « %.250s » ne dit pas que ce "
 "n'est pas un répertoire"
 
-#: src/processarc.c:835
+#: src/processarc.c:837
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr ""
 "dpkg : avertissement - le paquet %s contient une liste comme fichier "
 "d'information"
 
-#: src/processarc.c:842
+#: src/processarc.c:844
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr ""
 "impossible d'installer le nouveau fichier info « %.250s » comme « %.250s »"
 
-#: src/processarc.c:1005
+#: src/processarc.c:1007
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(À noter la disparition de %s, qui a été complètement remplacé.)\n"
 
-#: src/processarc.c:1042
+#: src/processarc.c:1044
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "impossible de supprimer le fichier info de contrôle disparu « %.250s »"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3415,7 +3448,8 @@ msgid ""
 "uppercase=bad)\n"
 msgstr ""
 "Souhait=inconnU/Installé/suppRimé/Purgé/H=à garder\n"
-"| État=Non/Installé/fichier-Config/dépaqUeté/échec-conFig/H=semi-installé\n"
+"| État=Non/Installé/fichier-Config/dépaqUeté/échec-conFig/H=semi-installé/"
+"W=attend-traitement-déclenchements\n"
 "|/ Err?=(aucune)/H=à garder/besoin Réinstallation/X=les deux (État,Err: "
 "majuscule=mauvais)\n"
 
@@ -3770,24 +3804,25 @@ msgid "--clear-selections does not take any argument"
 msgstr "--clear-selections ne prend aucun paramètre"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Taper dpkg-split --help pour obtenir de l'aide."
+msgstr "Taper « dpkg-trigger --help » pour obtenir de l'aide."
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
 msgstr ""
-"Outil « %s » d'interrogation du programme de gestion de paquets Debian\n"
+"Outil « %s » de « déclenchements (trigger) »du programme de gestion de paquets "
+"Debian\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Syntaxe : %s [<option> ...] <commande>\n"
+"Syntaxe : %s [<options> ...] <nom-déclenchements (trigger)>\n"
+"       %s [<options> ...] <commande>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3798,6 +3833,10 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"Commandes:\n"
+"  --check-supported                Vérifie que la version de dpkg accepte "
+"les « déclenchements (triggers) » .\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3812,42 +3851,58 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Options:\n"
+"  --admindir=<répertoire>           Utilise <répertoire> au lieu de « %s ».\n"
+"  --by-package=<paquet>           Passe outre le traitement des « "
+"déclenchements (triggers)»\n"
+"                                     (normalement commandité par dpkg).\n"
+"  --no-await                       Les paquets n'attendent plus le "
+"traitement des « déclenchements (triggers)».\n"
+"  --no-act                         Pour test - pour le moment n'opère aucun "
+"changement.\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
 msgstr ""
+"%s : répertoire pour les données de « déclenchements (triggers) » pas encore "
+"créé \n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s : registre des « déclenchements (trigger) » pas encore présent\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "--%s ne prend pas de paramètre"
+msgstr "« dpkg-trigger --check-supported » ne prend pas de paramètre"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s a besoin d'un seul paramètre (nom de fichier .deb)"
+msgstr ""
+"« dpkg-trigger » a besoin d'un seul paramètre , le nom du « déclenchement "
+"(trigger) »"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"« dpkg-trigger » doit être appelé depuis un script de mainteneur ( ou avec "
+"l'option « --by-package »)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "champ « %s », nom de paquet incorrect « %.255s » : %s"
+msgstr "« dpkg-trigger » : nom de paquet illégal « %.250s » : « %.250s »"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "champ « %s », nom de paquet incorrect « %.255s » : %s"
+msgstr ""
+"« dpkg-trigger » : nom de « déclenchement (trigger) » invalide « %.250s » : « "
+"%.250s »"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3855,6 +3910,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"« %s » : boucle détecté durant le traitement des « déclenchements » :\n"
+" listes des paquets qui en sont responsables (normalement) :\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3862,15 +3919,18 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" paquets bloqués par le traitement impossible de « déclenchements » requis :\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
 msgstr ""
+"bloqué en boucle sur le traitement des « déclenchements (triggers) », abandon"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "Purge des fichiers de configuration de %s ...\n"
+msgstr "Traitement des « déclenchements (triggers) » pour « %s »...\n"
 
 #: src/update.c:44
 #, c-format

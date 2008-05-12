@@ -29,7 +29,7 @@ use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
 use Dpkg::Version qw(check_version);
 use Dpkg::Exit;
-use Dpkg::Source::Functions qw(erasedir);
+use Dpkg::Source::Functions qw(erasedir is_binary);
 
 use POSIX;
 use File::Basename;
@@ -308,6 +308,23 @@ sub do_build {
             $self->register_error();
         }
     };
+    # Check if the debian directory contains unwanted binary files
+    my $unwanted_binaries = 0;
+    my $check_binary = sub {
+        my $fn = File::Spec->abs2rel($_, $dir);
+        if (-f $_ and is_binary($_)) {
+            if ($include_binaries or $auth_bin_files{$fn}) {
+                push @binary_files, $fn;
+            } else {
+                errormsg(_g("unwanted binary file: %s"), $fn);
+                $unwanted_binaries++;
+            }
+        }
+    };
+    find({ wanted => $check_binary, no_chdir => 1 }, File::Spec->catdir($dir, "debian"));
+    error(_g("detected %d unwanted binary file(s) " .
+        "(add them in debian/source/include-binaries to allow their " .
+        "inclusion)."), $unwanted_binaries) if $unwanted_binaries;
 
     # Create a patch
     my ($difffh, $tmpdiff) = tempfile("$basenamerev.diff.XXXXXX",
@@ -360,7 +377,7 @@ sub do_build {
     $tar->create(options => \@tar_ignore, 'chdir' => $dir);
     $tar->add_directory("debian");
     foreach my $binary (@binary_files) {
-        $tar->add_file($binary);
+        $tar->add_file($binary) unless $binary =~ m{^debian/};
     }
     $tar->finish();
 
@@ -369,6 +386,14 @@ sub do_build {
 
 sub register_autopatch {
     my ($self, $dir) = @_;
+    my $autopatch = File::Spec->catfile($dir, "debian", "patches",
+                                        $self->get_autopatch_name());
+    if (-e $autopatch) {
+        my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+        open(APPLIED, '>>', $applied) || syserr(_g("cannot write %s"), $applied);
+        print APPLIED ($self->get_autopatch_name() . "\n");
+        close(APPLIED);
+    }
 }
 
 # vim:et:sw=4:ts=8

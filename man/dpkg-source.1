@@ -379,7 +379,9 @@ and the diff (if non-empty) is stored in
 on a binary file is not representable in a diff and will thus lead to a
 failure unless the maintainer deliberately decided to include that
 modified binary file in the debian tarball (by listing it in
-\fBdebian/source/include-binaries\fP).
+\fBdebian/source/include-binaries\fP). The build will also fail if it
+finds binary files in the debian sub-directory unless they have been
+whitelisted through \fBdebian/source/include-binaries\fP.
 
 The updated debian directory and the list of modified binaries is then
 used to regenerate the debian tarball.

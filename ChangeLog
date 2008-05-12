@@ -29,6 +29,54 @@
 
 	* configure.ac: Bump version to 1.15.0~.
 
+2008-05-12  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.20~.
+
+2008-05-12  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.19.
+
+2008-05-12  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Get Package-Type field value also from
+	custom field.
+
+2008-05-11  Raphael Hertzog  <hertzog@debian.org>
+
+	* src/processarc.c (process_archive): While removing files that
+	disappeared, move the call to namenodetouse before the test
+	that skips directory shared with other packages. This is required
+	because namenodetouse() handles trigger activation and we really
+	want directories containing (only) removed files to activate the
+	corresponding triggers.
+
+2008-05-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V2.pm,
+	scripts/Dpkg/Source/Package/V3/quilt.pm: Ensure the
+	.dpkg-source-applied stamp file is created when an automatic patch
+	is created so that a second build doesn't try to mistakenly
+	reapply it.
+
+2008-05-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Functions.pm (is_binary): New function
+	to check if a file is binary by using diff against it.
+	* scripts/Dpkg/Source/Package/V2.pm: Check that all files from the
+	debian sub-directory are non-binary and only allow whitelisted
+	binary files.
+	* man/dpkg-source.1: Document this behaviour.
+
+2008-05-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Changelog/Debian.pm (parse): Bugfix in creation of
+	an unexpected new changelog entry that lacks an header line.
+
+2008-05-04  Marco d'Itri  <md@linux.it>
+
+	* scripts/Dpkg/Source/Patch.pm: Add missing import of internerr.
+
 2008-04-26  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Source/Package.pm (upgrade_object_type): Instead

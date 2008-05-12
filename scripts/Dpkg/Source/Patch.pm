@@ -25,7 +25,7 @@ use Dpkg::Source::Compressor;
 use Dpkg::Compression;
 use Dpkg::Gettext;
 use Dpkg::IPC;
-use Dpkg::ErrorHandling qw(error errormsg syserr warning subprocerr);
+use Dpkg::ErrorHandling qw(error errormsg syserr warning subprocerr internerr);
 
 use POSIX;
 use File::Find;

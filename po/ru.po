@@ -6,10 +6,10 @@
 # Yuri Kozlov <kozlov.y@gmail.com>, 2004, 2005, 2006, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.14.15\n"
+"Project-Id-Version: dpkg 1.14.19\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-04-29 06:58+0300\n"
-"PO-Revision-Date: 2008-01-21 08:35+0200\n"
+"POT-Creation-Date: 2008-05-12 08:17+0300\n"
+"PO-Revision-Date: 2008-05-01 14:28+0400\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -481,34 +481,32 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "В поле %s альтернативы (`|') недопустимы"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "значение для поля `config-version' в этом контексте недопустимо"
+msgstr "значение в поле `triggers-pending' в этом контексте недопустимо"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "Поле `%s': недопустимое имя пакета `%.255s' -- %s"
+msgstr "недопустимое имя триггера рассмотрения `%.255s': %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "повтор триггера рассмотрения `%.255s'"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "значение в поле `status' в этом контексте недопустимо"
+msgstr "значение в поле `triggers-awaited' в этом контексте недопустимо"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "недопустимое имя пакета в строке %d: %.250s"
+msgstr "недопустимое имя пакета в триггере ожидания '%.250s': %s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "список файлов пакета %.250s"
+msgstr "повтор пакета в триггере ожидания %.250s"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -546,9 +544,8 @@ msgid "realloc failed (%ld bytes)"
 msgstr "функции realloc не удалось выделить %ld байт(а) памяти"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "не удалось создать каталог"
+msgstr "не удалось выделить память"
 
 #: lib/mlib.c:85
 #, c-format
@@ -821,20 +818,20 @@ msgstr ""
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "пакет в состоянии %s, но есть триггеры ожидания"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
-msgstr ""
+msgstr "пакет в состоянии triggers-awaited, но нет триггеров ожидания"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "пакет в состоянии %s, но есть триггеры рассмотрения"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
-msgstr ""
+msgstr "пакет в состоянии triggers-awaited, но нет триггеров рассмотрения"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -933,70 +930,71 @@ msgstr "В строке формата отсутствует закрывающ
 #: lib/trigdeferred.l:62
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
-msgstr ""
+msgstr "неверное имя пакета `%.250s' в файле триггеров deferred `%.250s'"
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "файл statoverride `%.250s'"
+msgstr "урезанный файл триггеров deferred `%.250s'"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"синтаксическая ошибка в файле триггеров deferred `%.250s', начиная с символа "
+"`%s'%s"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "не удалось открыть исходный файл %.250s"
+msgstr "не удалось открыть/создать файл блокировки триггеров %.250s"
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "не удалось выполнить unlock %s: %s"
+msgstr "не удалось заблокировать область триггеров"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "не удалось получить статус другого нового файла `%.250s'"
+msgstr "не удалось получить информацию о файле триггеров deferred `%.250s'"
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "не удалось открыть исходный файл %.250s"
+msgstr "не удалось открыть файл триггеров deferred %.250s"
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "не удалось открыть новый рабочий файл %.250s"
+msgstr "не удалось открыть/создать новый файл триггеров deferred %.250s"
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "не удалось прочитать %s из файла %.255s"
+msgstr "ошибка чтения файла триггеров deferred %.255s"
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "не удалось открыть новый рабочий файл %.250s"
+msgstr "ошибка записи в новый файл триггеров deferred %.250s"
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "не удалось открыть новый рабочий файл %.250s"
+msgstr "не удалось закрыть новый файл триггеров deferred %.250s"
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "не удалось установить новую версию %.255s"
+msgstr "не удалось установить новый файл триггеров deferred %.255s"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "пустые имена триггеров не разрешены"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "имя триггера содержит недопустимый символ"
 
 #: lib/triglib.c:256
 #, c-format
@@ -1004,16 +1002,18 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
+"неправильный или неизвестный синтаксис в имени триггера `%.250s' (в триггере "
+"interests для пакета `%.250s')"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "не удалось открыть новый рабочий файл %.250s"
+msgstr "не удалось открыть файл списка триггеров interest %.250s"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "не удалось прочитать часть архива %.250s"
+msgstr "не удалось вернуться в начало файла триггера interest %.250s"
 
 #: lib/triglib.c:325
 #, c-format
@@ -1021,52 +1021,54 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"ошибка в файле триггера interest `%.250s'; неправильное имя пакета `%.250s': "
+"%.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "не удалось получить статус другого нового файла `%.250s'"
+msgstr "не удалось создать новый файл триггера interest `%.250s'"
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "не удалось получить статус другого нового файла `%.250s'"
+msgstr "не удалось записать в новый файл триггера interest `%.250s'"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "не удалось установить новую версию %.255s"
+msgstr "не удалось установить новый файл триггера interest %.255s"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
-msgstr "не удалось переименовать новый информационный файл `%.250s' в `%.250s'"
+msgstr "повтор файла триггера interest для файла `%.250s' и пакета `%.250s'"
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "не удалось открыть новый рабочий файл %.250s"
+msgstr "не удалось создать новый файл триггеров %.250s"
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "не удалось открыть новый рабочий файл %.250s"
+msgstr "не удалось записать в новый файл триггеров %.250s"
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr "не удалось переименовать новый информационный файл `%.250s' в `%.250s'"
+msgstr "не удалось установить новый файл триггеров `%.250s'"
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "не удалось прочитать часть архива %.250s"
+msgstr "не удалось прочитать файл триггеров %.250s"
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "ошибка чтения файла конфигурации %.255s"
+msgstr "синтаксическая ошибка в файле триггеров %.255s"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1074,6 +1076,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"запись файла триггеров содержит неверное имя пакета `%.250s' (для interest в "
+"файле `%.250s'): %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1081,51 +1085,53 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"файл триггеров ci `%.250s' содержит неверный синтаксис в имени триггера `"
+"%.250s': %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "не удалось открыть исходный файл %.250s"
+msgstr "не удалось открыть файл триггеров ci `%.250s'"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
-msgstr ""
+msgstr "файл триггеров ci содержит директиву с неизвестным синтаксисом"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
+msgstr "файл триггеров ci содержит неизвестную директиву `%.250s'"
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "ошибка чтения рабочего каталога `%.250s'"
+msgstr "не удалось создать каталог состояния триггеров `%.250s'"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "ошибка чтения рабочего каталога `%.250s'"
+msgstr ""
+"не удалось назначить владельца для каталога состояния триггеров `%.250s'"
 
 #: lib/utils.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "read error in `%.250s'"
-msgstr "ошибка чтения файла %.250s"
+msgstr "ошибка чтения в %.250s"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "fgets прочитал пустую строку из файла diversions [i]"
+msgstr "fgets прочитал пустую строку из `%.250s'"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr ""
-"файл `%.250s' повреждён -- отсутствует символ конца строки после %.250s"
+msgstr "слишком длинная строка или отсутствующая новая строка в %.250s"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "неожиданный конец файла %.250s"
+msgstr "неожиданный конец файла при чтении %.250s"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1133,7 +1139,7 @@ msgstr "функции realloc не удалось выделить буфер �
 
 #: src/archives.c:209
 msgid "process_archive ...  already disappeared !"
-msgstr "process_archive ...  уже исчез !"
+msgstr "process_archive ...  уже исчез!"
 
 #: src/archives.c:229
 msgid "error reading from dpkg-deb pipe"
@@ -1780,8 +1786,8 @@ msgid ""
 " ==> File also in package provided by package maintainer.\n"
 msgstr ""
 "\n"
-" ==> Существующий файл, созданный вами или скриптом.\n"
-" ==> Файл в пакете, предоставленный сопровождающим пакета.\n"
+" ==> Файл, созданный вами или сценарием.\n"
+" ==> Также, файл в пакете, предоставленный сопровождающим пакета.\n"
 
 #: src/configure.c:566
 #, c-format
@@ -1799,7 +1805,7 @@ msgid ""
 " ==> Modified (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
-" ==> Изменён после установки (вами или каким-либо скриптом).\n"
+" ==> Изменён после установки (вами или сценарием).\n"
 
 #: src/configure.c:569
 #, c-format
@@ -1808,7 +1814,7 @@ msgid ""
 " ==> Deleted (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
-" ==> Удалён во время установки (вами или каким-либо скриптом).\n"
+" ==> Удалён во время установки (вами или сценарием).\n"
 
 #: src/configure.c:572
 #, c-format
@@ -1997,19 +2003,19 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  пакет %.250s версии %.250s будет установлен.\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  пакет %.250s версии %.250s %s.\n"
+msgstr "  %.250s (версия %.250s) существует и %s.\n"
 
 #: src/depcon.c:457
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
-msgstr "  пакет %.250s предоставляет %.250s и будет установлен.\n"
+msgstr "  %.250s предоставляет %.250s и будет установлен.\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  пакет %.250s предоставляет %.250s и %s.\n"
+msgstr "  %.250s предоставляет %.250s и и существует и %s.\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2063,6 +2069,11 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Для следующих пакетов ожидается обработка триггеров, которые были "
+"активированы\n"
+"другими пакетами. Эта обработка может быть запрошена из\n"
+"dselect или с помощью dpkg --configure --pending (или dpkg --triggers-"
+"only):\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2070,6 +2081,10 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Для следующих пакетов были установлены триггеры, но обработка триггеров\n"
+"ещё не выполнена. Эта обработка может быть запрошена из\n"
+"dselect или с помощью dpkg --configure --pending (или dpkg --triggers-"
+"only):\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2326,9 +2341,8 @@ msgid "not installed but configs remain"
 msgstr "не установлен, но сохранены файлы конфигурации"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "неработоспособен в результате неудачного удаления"
+msgstr "неработоспособен в результате неудачного удаления или установки"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2336,15 +2350,15 @@ msgstr "распакован, но не настроен"
 
 #: src/help.c:45
 msgid "broken due to postinst failure"
-msgstr "неработоспособен в результате ошибки postinst"
+msgstr "неработоспособен в результате ошибки в postinst"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "ожидает обработки триггера другим пакетом"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "с триггером"
 
 #: src/help.c:48
 msgid "installed"
@@ -2352,7 +2366,7 @@ msgstr "установлен"
 
 #: src/help.c:97
 msgid "dpkg - error: PATH is not set.\n"
-msgstr "dpkg: предупреждение -- не задана переменная среды PATH.\n"
+msgstr "dpkg: предупреждение -- не задана переменная окружения PATH.\n"
 
 #: src/help.c:112
 #, c-format
@@ -2372,7 +2386,7 @@ msgstr ""
 #: src/help.c:155
 #, c-format
 msgid "failed to chroot to `%.250s'"
-msgstr "не удалось сдвинуть корневой каталог в %.250s"
+msgstr "не удалось выполнить chroot в %.250s"
 
 #: src/help.c:204
 #, c-format
@@ -2382,7 +2396,7 @@ msgstr "не удалось восстановить старый обработ
 #: src/help.c:222
 #, c-format
 msgid "unable to ignore signal %s before running script"
-msgstr "не удалось проигнорировать сигнал %s перед запуском скрипта"
+msgstr "не удалось проигнорировать сигнал %s перед запуском сценария"
 
 #: src/help.c:265
 #, c-format
@@ -2390,16 +2404,13 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "не удалось сделать файл %.250s исполняемым"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "vsnprintf: не удалось получить информацию о файле"
+msgstr "не удалось выполнить setenv для сценария сопровождающего"
 
 #: src/help.c:317
 #, c-format
 msgid "unable to stat installed %s script `%.250s'"
-msgstr ""
-"не удалось получить информацию об установленном скрипте, выполняемом %s, "
-"%.250s"
+msgstr "не удалось получить информацию об установленном сценарии %s, %.250s"
 
 #: src/help.c:319 src/help.c:409 src/help.c:430
 #, c-format
@@ -2409,7 +2420,7 @@ msgstr "не удалось запустить %s"
 #: src/help.c:375
 #, c-format
 msgid "unable to stat new %s script `%.250s'"
-msgstr "не удалось получить информацию о новом скрипте, выполняемом %s, %.250s"
+msgstr "не удалось получить информацию о новом сценарии %s, %.250s"
 
 #: src/help.c:377
 #, c-format
@@ -2419,7 +2430,7 @@ msgstr "не удалось запустить новый %s"
 #: src/help.c:397
 #, c-format
 msgid "old %s script"
-msgstr "старый скрипт, выполняемый %s"
+msgstr "старый сценарий %s"
 
 #: src/help.c:405
 #, c-format
@@ -2430,16 +2441,16 @@ msgstr ""
 #: src/help.c:414
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
-msgstr "dpkg: попытка использовать скрипт из нового пакета...\n"
+msgstr "dpkg: попытка использовать сценарий из нового пакета...\n"
 
 #: src/help.c:421
 #, c-format
 msgid "new %s script"
-msgstr "новый скрипт, выполняемый %s"
+msgstr "новый сценарий %s"
 
 #: src/help.c:425
 msgid "there is no script in the new version of the package - giving up"
-msgstr "в новой версии пакета нет этого скрипта, сдаёмся"
+msgstr "в новой версии пакета нет этого сценария, отказ"
 
 #: src/help.c:427
 #, c-format
@@ -2459,7 +2470,7 @@ msgstr "unlink"
 msgid "chmod"
 msgstr "chmod"
 
-#: src/help.c:552 src/processarc.c:738
+#: src/help.c:552 src/processarc.c:740
 msgid "delete"
 msgstr "delete"
 
@@ -2500,7 +2511,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2534,6 +2545,7 @@ msgstr ""
 "  --unpack          <имя файла .deb> ... | -R|--recursive <каталог> ...\n"
 "  -A|--record-avail <имя файла .deb> ... | -R|--recursive <каталог> ...\n"
 "  --configure              <имя пакета> ... | -a|--pending\n"
+"  --triggers-only          <имя пакета> ... | -a|--pending\n"
 "  -r|--remove |            <имя пакета> ... | -a|--pending\n"
 "  -P|--purge               <имя пакета> ... | -a|--pending\n"
 "  --get-selections [<шаблон> ...]     вывести список в стандартный поток\n"
@@ -2606,7 +2618,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2639,31 +2651,33 @@ msgid ""
 msgstr ""
 "Параметры:\n"
 "  --admindir=<каталог>                использовать <каталог> вместо %s.\n"
-"  --root=<каталог>                    установить в систему с указанным "
-"корневым\n"
-"                                      корневым каталогом.\n"
+"  --root=<каталог>                    установить в другой\n"
+"                                      корневой каталог.\n"
 "  --instdir=<каталог>                 изменить корневой каталог для\n"
-"                                      установки, не меняя каталог\n"
-"                                      базы данных(admindir).\n"
+"                                      установки, не меняя административный\n"
+"                                      каталог.\n"
 "  -O|--selected-only                  пропустить не выбранные для\n"
 "                                      установки/обновления пакеты.\n"
 "  -E|--skip-same-version              пропустить пакеты, версия\n"
 "                                      которых совпадает с установленной.\n"
 "  -G|--refuse-downgrade               пропустить пакеты, версия\n"
 "                                      которых младше установленной.\n"
-"  -B|--auto-deconfigure               установить даже если это может "
+"  -B|--auto-deconfigure               установить, даже если это может "
 "сделать\n"
 "                                      другие пакеты неработоспособными.\n"
+"  --[no-]triggers                     пропустить или принудительно "
+"выполнить\n"
+"                                      последовательную обработку триггеров.\n"
 "  --no-debsig                         пе проверять подписи пакетов.\n"
 "  --no-act|--dry-run|--simulate\n"
-"                                      сообщить, что должно быть сделано, но\n"
+"                                      показать, что должно быть сделано, но\n"
 "                                      не выполнять действия.\n"
 "  -D|--debug=<восьм. знач.>           включить отладку,\n"
 "                                      см. -Dhelp или --debug=help.\n"
 "  --status-fd <n>                     вывести информацию об изменениях\n"
 "                                      состояний пакетов в файл\n"
 "                                      с дескриптором <n>.\n"
-"  --log=<имя файла>                   записывать изменения статуса\n"
+"  --log=<имя файла>                   записывать изменения состояний\n"
 "                                      и действия в <имя файла>.\n"
 "  --ignore-depends=<пакет>,...\n"
 "                                      игнорировать зависимости от <пакета>.\n"
@@ -2673,7 +2687,7 @@ msgstr ""
 "                                      прекратить работу при\n"
 "                                      обнаружении проблем.\n"
 "  --abort-after <n>                   прекратить работу после\n"
-"                                      обнаружения <n> ошибок.\n"
+"                                      обнаружения <n> количества ошибок.\n"
 "\n"
 
 #: src/main.c:133
@@ -2742,7 +2756,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "Предупреждение: устаревший параметр `--%s'\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2769,7 +2783,7 @@ msgstr ""
 "  число   в исходном коде   описание\n"
 "      1   general           Общая полезная информация о происходящих "
 "событиях\n"
-"      2   scripts           Вызов и состояние скриптов сопровождения\n"
+"      2   scripts           Вызов и состояние сценариев сопровождающего\n"
 "     10   eachfile          Информация о каждом обработанном файле\n"
 "    100   eachfiledetail    Подробная информация о каждом обработанном "
 "файле\n"
@@ -2970,13 +2984,13 @@ msgstr ""
 " Настраивается только одна из них.\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"пакет %.250s не готов к настройке\n"
-" настройка невозможна (текущее состояние: %.250s)"
+"пакет %.250s не готов для обработки триггеров\n"
+" (текущее состояние %.250s без триггеров рассмотрения)"
 
 #: src/packages.c:334
 #, c-format
@@ -2994,14 +3008,15 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "  Версия %s в системе %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  Пакет %s предоставляет %s, но должен быть удалён.\n"
+msgstr ""
+"  Пакет %s, предоставляющий %s, ожидает обработки триггеров ожидания.\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  Пакет %s будет удалён.\n"
+msgstr "  Пакет %s ожидает обработки триггеров ожидания.\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3201,20 +3216,20 @@ msgstr "повреждённый архив файловой системы: п�
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: удаление возможных завершающих нулей"
 
-#: src/processarc.c:648
+#: src/processarc.c:650
 #, c-format
 msgid "dpkg: warning - could not stat old file `%.250s' so not deleting it: %s"
 msgstr ""
-"dpkg: предупреждение -- не удалось получить статус старого файла`%.250s', "
-"поэтому не удаляем его: %s"
+"dpkg: предупреждение -- не удалось получить информацию о старом файл`"
+"%.250s', поэтому не удаляем его: %s"
 
-#: src/processarc.c:656
+#: src/processarc.c:658
 #, c-format
 msgid "dpkg: warning - unable to delete old directory `%.250s': %s\n"
 msgstr ""
 "dpkg: предупреждение -- не удалось удалить старый каталог `%.250s': %s\n"
 
-#: src/processarc.c:660
+#: src/processarc.c:662
 #, c-format
 msgid ""
 "dpkg: warning - old conffile `%.250s' was an empty directory (and has now "
@@ -3223,12 +3238,12 @@ msgstr ""
 "dpkg: предупреждение -- старый conffile `%.250s' является пустым каталогом "
 "(и был удалён)\n"
 
-#: src/processarc.c:690
+#: src/processarc.c:692
 #, c-format
 msgid "unable to stat other new file `%.250s'"
-msgstr "не удалось получить статус другого нового файла `%.250s'"
+msgstr "не удалось получить информацию о другом новом файле `%.250s'"
 
-#: src/processarc.c:701
+#: src/processarc.c:703
 #, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
@@ -3237,80 +3252,79 @@ msgstr ""
 "dpkg: предупреждение -- старый файл `%.250s' такой же как несколько новых "
 "файлов! (`%.250s' и `%.250s')\n"
 
-#: src/processarc.c:742
+#: src/processarc.c:744
 #, c-format
 msgid "dpkg: warning - unable to %s old file `%%.250s': %%s\n"
 msgstr "dpkg: предупреждение -- не удалось %s старый файл `%%.250s': %%s\n"
 
-#: src/processarc.c:778 src/processarc.c:1026 src/remove.c:297
+#: src/processarc.c:780 src/processarc.c:1028 src/remove.c:297
 msgid "cannot read info directory"
 msgstr "ошибка чтения информационного каталога"
 
-#: src/processarc.c:791
+#: src/processarc.c:793
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "старая версия пакета содержит информационный файл с очень длинным именем, "
 "начинающимся с `%.250s'"
 
-#: src/processarc.c:803
+#: src/processarc.c:805
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "не удалось удалить устаревший информационный файл `%.250s'"
 
-#: src/processarc.c:806
+#: src/processarc.c:808
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr ""
 "не удалось установить(предположительно) новый информационный файл `%.250s'"
 
-#: src/processarc.c:813
+#: src/processarc.c:815
 msgid "unable to open temp control directory"
 msgstr "не удалось открыть временный каталог управляющей информации"
 
-#: src/processarc.c:822
+#: src/processarc.c:824
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "пакет содержит очень длинное имя файла управляющей информации (начинается с `"
 "%.50s')"
 
-#: src/processarc.c:827
+#: src/processarc.c:829
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "управляющая информация пакета содержит каталог `%.250s'"
 
-#: src/processarc.c:829
+#: src/processarc.c:831
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "rmdir при попытке удалить управляющую информацию пакета `%.250s' не "
 "утверждает, что это не было каталогом"
 
-#: src/processarc.c:835
+#: src/processarc.c:837
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr ""
 "dpkg: предупреждение -- пакет %s содержит в качестве информационного файла "
 "список"
 
-#: src/processarc.c:842
+#: src/processarc.c:844
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "не удалось переименовать новый информационный файл `%.250s' в `%.250s'"
 
-#: src/processarc.c:1005
+#: src/processarc.c:1007
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Пакет %s полностью заменён и фактически исчез.)\n"
 
-#: src/processarc.c:1042
+#: src/processarc.c:1044
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "не удалось удалить файл управляющей информации `%.250s'"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3322,10 +3336,10 @@ msgstr ""
 "[h]\n"
 "| Состояние=нет[n]/установлен[i]/настроен[c]/распакован[U]/ошибка настройки"
 "[F]/\n"
-"            частично установлен[H]\n"
+"            частично установлен[H]/trig-aWait/Trig-pend\n"
 "|/ Ошибка?=<нет>/зафиксирован[H]/требуется переустановка[R]/X=и то, и "
 "другое\n"
-"(верхний регистр в полях статуса и ошибки указывает на ненормальную "
+"(верхний регистр в полях состояния и ошибки указывает на ненормальную "
 "ситуацию)\n"
 
 #: src/query.c:129
@@ -3677,23 +3691,23 @@ msgid "--clear-selections does not take any argument"
 msgstr "у действия --clear-selections нет аргументов"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Чтобы получить справку, введите dpkg-split --help."
+msgstr "Чтобы получить справку, введите dpkg-trigger --help."
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr "Утилита запросов к системе управления пакетами Debian `%s'\n"
+msgstr "Утилита работы с триггерами пакетов Debian %s.\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Использование: %s [<параметр> ...] <команда>\n"
+"Использование: %s [<параметр> ...] <имя-триггера>\n"
+"       %s [<параметры> ...] <команда>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3704,6 +3718,10 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"Команды:\n"
+"  --check-supported                Проверить, поддерживает ли триггеры\n"
+"                                   имеющийся dpkg.\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3718,42 +3736,50 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Параметры:\n"
+"  --admindir=<каталог>             использовать <каталог> вместо %s.\n"
+"  --by-package=<пакет>             заменить триггер awaiter (обычно\n"
+"                                   устанавливается dpkg).\n"
+"  --no-await                       не ждать обработки пакетами.\n"
+"  --no-act                         только протестировать, ничего не "
+"изменять.\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s: каталог с данными триггеров ещё не создан\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s: записи триггера пока не существуют\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "у --%s нет аргументов"
+msgstr "dpkg-trigger --check-supported запускается без аргументов"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s принимает только один аргумент (имя файла .deb)"
+msgstr "dpkg-trigger принимает только один аргумент, имя триггера"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"dpkg-trigger должен вызываться из сценария сопровождающего (или с параметром "
+"--by-package)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "Поле `%s': недопустимое имя пакета `%.255s' -- %s"
+msgstr "dpkg-trigger: неверное имя ожидаемого пакета `%.250s': %.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "Поле `%s': недопустимое имя пакета `%.255s' -- %s"
+msgstr "dpkg-trigger: неверное имя триггера `%.250s': %.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3761,6 +3787,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: при обработке триггеров обнаружено зацикливание:\n"
+" цепочка пакетов с такими триггерами может не отвечать:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3768,15 +3796,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" пакеты с триггерами рассмотрения могут могут быть не определены:\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "зацикливание триггеров, отмена работы"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "Удаляются файлы конфигурации пакета %s...\n"
+msgstr "Обрабатываются триггеры для %s ...\n"
 
 #: src/update.c:44
 #, c-format
@@ -3895,7 +3925,7 @@ msgstr ""
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
-"скрипт сопровождения %.50s не является обычным файлом или символической "
+"сценарий сопровождающего %.50s не является обычным файлом или символической "
 "ссылкой"
 
 #: dpkg-deb/build.c:288
@@ -3904,13 +3934,13 @@ msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
 "<=0775)"
 msgstr ""
-"у скрипта сопровождения %.50s установлен недопустимый режим доступа %03lo "
+"у сценария сопровождающего %.50s установлен недопустимый режим доступа %03lo "
 "(должен быть >=0755 и <=0775)"
 
 #: dpkg-deb/build.c:292
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
-msgstr "получить информацию о скрипте сопровождения %.50s невозможно"
+msgstr "получить информацию о сценарии сопровождающего %.50s невозможно"
 
 #: dpkg-deb/build.c:302
 msgid "empty string from fgets reading conffiles"
@@ -6016,54 +6046,3 @@ msgstr "не удалось установить %s как %s: %s"
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "Серьёзная проблема: %s"
-
-#~ msgid "couldn't allocate memory for strdup in findpackage(%s)"
-#~ msgstr "findpackage(%s): функции strdup не удалось выделить память"
-
-#~ msgid "failed to allocate buffer in buffer_copy (%s)"
-#~ msgstr "не удалось выделить буфер памяти для работы функции buffer_copy(%s)"
-
-#~ msgid "Error allocating memory for cfgfilename"
-#~ msgstr "Не удалось выделить память для cfgfilename"
-
-#~ msgid "failed to malloc for info file `%.255s'"
-#~ msgstr "не удалось выделить память для файла информации %.255s"
-
-#~ msgid "diversions file has too-long line or EOF [i]"
-#~ msgstr ""
-#~ "файл diversions содержит слишком длинную строку или символ конца файла [i]"
-
-#~ msgid "read error in diversions [ii]"
-#~ msgstr "ошибка чтения файла diversions [ii]"
-
-#~ msgid "unexpected EOF in diversions [ii]"
-#~ msgstr "неожиданный символ конца файла diversions [ii]"
-
-#~ msgid "fgets gave an empty string from diversions [ii]"
-#~ msgstr "fgets прочитал пустую строку из файла diversions [ii]"
-
-#~ msgid "diversions file has too-long line or EOF [ii]"
-#~ msgstr ""
-#~ "файл diversions содержит слишком длинную строку или символ конца файла "
-#~ "[ii]"
-
-#~ msgid "read error in diversions [iii]"
-#~ msgstr "ошибка чтения файла diversions [iii]"
-
-#~ msgid "unexpected EOF in diversions [iii]"
-#~ msgstr "неожиданный символ конца файла diversions [iii]"
-
-#~ msgid "fgets gave an empty string from diversions [iii]"
-#~ msgstr "fgets прочитал пустую строку из файла diversions [iii]"
-
-#~ msgid "couldn't malloc in execbackend"
-#~ msgstr "не удалось выделить память при работе функции execbackend"
-
-#~ msgid "couldn't strdup in execbackend"
-#~ msgstr "не удалось скопировать строку при работе функции execbackend"
-
-#~ msgid "failed allocating memory for variable `ctrlarea'"
-#~ msgstr "не удалось выделить память для переменной `ctrlarea'"
-
-#~ msgid "Cannot get ENOENT value from %s: %s"
-#~ msgstr "Не удалось получить значение ENOENT из %s: %s"
