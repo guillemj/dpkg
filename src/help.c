@@ -250,7 +250,7 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
     narglist[0]= scriptexec;
     if (setenv(MAINTSCRIPTPKGENVVAR, pkg, 1) ||
         setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
-      ohshite(_("unable to setenv for maint script"));
+      ohshite(_("unable to setenv for maintainer script"));
     execv(scriptexec,(char * const *)narglist);
     ohshite(desc,name);
   }
@@ -274,7 +274,7 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
 
   scriptpath= pkgadminfile(pkg,scriptname);
   arglist= vbuildarglist(scriptname,ap);
-  sprintf(buf,"%s script",description);
+  sprintf(buf, _("installed %s script"), description);
 
   if (stat(scriptpath,&stab)) {
     if (errno == ENOENT) {
@@ -282,7 +282,7 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
             scriptname);
       return 0;
     }
-    ohshite(_("unable to stat installed %s script `%.250s'"),description,scriptpath);
+    ohshite(_("unable to stat %s `%.250s'"), buf, scriptpath);
   }
   do_script(pkg->name, scriptname, scriptpath, &stab, arglist, _("unable to execute %s"), buf, 0);
 
@@ -332,7 +332,7 @@ int maintainer_script_new(const char *pkgname,
   va_start(ap,cidirrest);
   arglist= vbuildarglist(scriptname,ap);
   va_end(ap);
-  sprintf(buf,"%s script",description);
+  sprintf(buf, _("new %s script"), description);
 
   strcpy(cidirrest,scriptname);
   if (stat(cidir,&stab)) {
@@ -340,9 +340,10 @@ int maintainer_script_new(const char *pkgname,
       debug(dbg_scripts,"maintainer_script_new nonexistent %s `%s'",scriptname,cidir);
       return 0;
     }
-    ohshite(_("unable to stat new %s script `%.250s'"),description,cidir);
+    ohshite(_("unable to stat %s `%.250s'"), buf, cidir);
   }
-  do_script(pkgname, scriptname, cidir, &stab, arglist, _("unable to execute new %s"), buf, 0);
+  do_script(pkgname, scriptname, cidir, &stab, arglist,
+            _("unable to execute %s"), buf, 0);
   post_script_tasks();
 
   return 1;
