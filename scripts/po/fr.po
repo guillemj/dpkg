@@ -2,19 +2,21 @@
 # Copyright (C) 2007 Frédéric Bothamy <frederic.bothamy@free.fr>
 # This file is distributed under the same license as the dpkg package.
 #
-# Frédéric Bothamy <frederic.bothamy@free.fr>, 2005-2007
+# Frédéric Bothamy <frederic.bothamy@free.fr>, 2005-2007.
+# Christian Perrier <bubulle@debian.org>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg scripts\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-05-12 08:17+0300\n"
-"PO-Revision-Date: 2007-12-05 23:20+0100\n"
-"Last-Translator: Frédéric Bothamy <frederic.bothamy@free.fr>\n"
+"PO-Revision-Date: 2008-05-13 09:08+0200\n"
+"Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: scripts/822-date.pl:12
 msgid "Usage: 822-date"
@@ -165,7 +167,7 @@ msgstr ""
 "Copyright (C) 2007 Frank Lichtenheld."
 
 #: scripts/dpkg-buildpackage.pl:36
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "\n"
 "Usage: %s [<options> ...]\n"
@@ -221,6 +223,7 @@ msgstr ""
 "  -r<commande-gain-root>\n"
 "                 commande pour obtenir les privilèges administrateur\n"
 "                 (par défaut, fakeroot).\n"
+"  -R<rules>      fichier rules à exécuter (par défaut, debian/rules).\n"
 "  -p<commande-sign>\n"
 "  -d             ne pas vérifier les dépendances de construction et les "
 "conflits.\n"
@@ -311,17 +314,17 @@ msgstr "commande de signature inconnue, suppose une interface de style pgp"
 
 #: scripts/dpkg-buildpackage.pl:241
 msgid "PGP support is deprecated (see README.feature-removal-schedule)"
-msgstr ""
+msgstr "La gestion de PGP est obsolète (voir le fichier README.feature-removal-schedule)."
 
 #: scripts/dpkg-buildpackage.pl:269
 #, perl-format
 msgid "%s: use %s from environment: %s\n"
-msgstr ""
+msgstr "%s: utiliser %s depuis l'environnement : %s\n"
 
 #: scripts/dpkg-buildpackage.pl:273
 #, perl-format
 msgid "%s: set %s to default value: %s\n"
-msgstr ""
+msgstr "%s: place %s à la valeur par défaut : %s\n"
 
 #: scripts/dpkg-buildpackage.pl:286
 msgid "source package"
@@ -349,11 +352,11 @@ msgstr "(Utilisez l'option -d pour forcer.)"
 
 #: scripts/dpkg-buildpackage.pl:344
 msgid "This is currently a non-fatal warning with -S, but"
-msgstr ""
+msgstr "Ceci est actuellement un avertissement sans conséquence avec -S, mais"
 
 #: scripts/dpkg-buildpackage.pl:345
 msgid "will probably become fatal in the future."
-msgstr ""
+msgstr "deviendra fatal dans le futur."
 
 #: scripts/dpkg-buildpackage.pl:369
 msgid "Press the return key to start signing process\n"
@@ -414,7 +417,7 @@ msgid "unable to determine %s"
 msgstr "impossible de déterminer %s"
 
 #: scripts/dpkg-checkbuilddeps.pl:19
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] [<control-file>]\n"
 "\n"
@@ -434,6 +437,10 @@ msgstr ""
 "Options :\n"
 "  fichier_de_contrôle   fichier_de_contrôle à utiliser (défaut : debian/"
 "control).\n"
+"  -d build-deps  utiliser la chaîne indiquée comme dépendances de construction\n"
+"                 (« build deps ») au lieu de celles du fichier control\n"
+"  -c build-conf  utiliser la chaîne indiquée comme conflit de construction\n"
+"                 (« build conflicts ») au lieu de celles du fichier control\n"
 "  -B                    binaire seul, ignore -Indep.\n"
 "  --admindir=<répertoire>\n"
 "                        change le répertoire d'administration.\n"
@@ -520,7 +527,7 @@ msgstr ""
 "Copyright (C) 2000,2001 Wichert Akkerman."
 
 #: scripts/dpkg-genchanges.pl:103
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...]\n"
 "\n"
@@ -617,12 +624,12 @@ msgstr ""
 #: scripts/dpkg-genchanges.pl:165 scripts/dpkg-source.pl:102
 #: scripts/dpkg-source.pl:105
 msgid "substvars support is deprecated (see README.feature-removal-schedule)"
-msgstr ""
+msgstr "La gestion de substvars est obsolète (voir le fichier README.feature-removal-schedule)."
 
 #: scripts/dpkg-genchanges.pl:211
 #, perl-format
 msgid "the current version (%s) is smaller than the previous one (%s)"
-msgstr ""
+msgstr "La version actuelle (%s) est inférieure à la version précédente (%s)"
 
 #: scripts/dpkg-genchanges.pl:216
 msgid "cannot read files list file"
@@ -631,14 +638,12 @@ msgstr "impossible de lire le fichier des fichiers."
 #: scripts/dpkg-genchanges.pl:220
 #, perl-format
 msgid "duplicate files list entry for package %s (line %d)"
-msgstr ""
-"entrée en double dans le fichier des fichiers pour le paquet %s (ligne %d) "
+msgstr "entrée en double dans le fichier des fichiers pour le paquet %s (ligne %d) "
 
 #: scripts/dpkg-genchanges.pl:228 scripts/dpkg-genchanges.pl:242
 #, perl-format
 msgid "duplicate files list entry for file %s (line %d)"
-msgstr ""
-"entrée en double dans le fichier des fichiers pour le fichier %s (ligne %d)"
+msgstr "entrée en double dans le fichier des fichiers pour le fichier %s (ligne %d)"
 
 #: scripts/dpkg-genchanges.pl:248
 #, perl-format
@@ -653,8 +658,7 @@ msgstr "section générale dans le fichier info"
 #: scripts/dpkg-genchanges.pl:295
 #, perl-format
 msgid "package %s in control file but not in files list"
-msgstr ""
-"paquet %s dans le fichier de contrôle mais pas dans le fichier des fichiers"
+msgstr "paquet %s dans le fichier de contrôle mais pas dans le fichier des fichiers"
 
 #: scripts/dpkg-genchanges.pl:323 scripts/dpkg-gencontrol.pl:193
 #: scripts/dpkg-source.pl:224
@@ -673,8 +677,7 @@ msgstr "lecture de changesdescription"
 #: scripts/dpkg-genchanges.pl:357
 #, perl-format
 msgid "package %s listed in files list but not in control info"
-msgstr ""
-"paquet %s listé dans le fichier des fichiers mais pas dans le fichier info"
+msgstr "paquet %s listé dans le fichier des fichiers mais pas dans le fichier info"
 
 #: scripts/dpkg-genchanges.pl:369
 #, perl-format
@@ -836,8 +839,7 @@ msgstr "le paquet %s n'est pas le fichier de contrôle"
 #: scripts/dpkg-gencontrol.pl:140 scripts/dpkg-gensymbols.pl:118
 #, perl-format
 msgid "must specify package since control info has many (%s)"
-msgstr ""
-"il faut indiquer un paquet car le fichier de contrôle contient plusieurs (%s)"
+msgstr "il faut indiquer un paquet car le fichier de contrôle contient plusieurs (%s)"
 
 #: scripts/dpkg-gencontrol.pl:177
 #, perl-format
@@ -976,8 +978,7 @@ msgstr "Objdump ne peut analyser %s\n"
 #: scripts/dpkg-gensymbols.pl:204
 #, fuzzy, perl-format
 msgid "new libraries appeared in the symbols file: %s"
-msgstr ""
-"de nouvelles bibliothèques sont apparues dans le fichiers des symboles."
+msgstr "de nouvelles bibliothèques sont apparues dans le fichiers des symboles."
 
 #: scripts/dpkg-gensymbols.pl:208
 #, fuzzy, perl-format
@@ -1190,8 +1191,7 @@ msgstr ""
 
 #: scripts/dpkg-scanpackages.pl:280
 msgid " -- Packages specifying same maintainer as override file: --"
-msgstr ""
-"-- Paquets indiquant le même responsable que le fichier d'override : --"
+msgstr "-- Paquets indiquant le même responsable que le fichier d'override : --"
 
 #: scripts/dpkg-scanpackages.pl:286
 msgid " -- Packages in override file but not in archive: --"
@@ -1419,8 +1419,7 @@ msgstr ""
 #: scripts/dpkg-shlibdeps.pl:342
 #, perl-format
 msgid "%s shouldn't be linked with %s (it uses none of its symbols)."
-msgstr ""
-"%s ne devrait pas être lié avec %s (il n'utilise aucun de ses symboles)."
+msgstr "%s ne devrait pas être lié avec %s (il n'utilise aucun de ses symboles)."
 
 #: scripts/dpkg-shlibdeps.pl:355
 #, perl-format
@@ -1527,8 +1526,7 @@ msgstr ""
 #: scripts/dpkg-shlibdeps.pl:597
 #, perl-format
 msgid "Can't extract name and version from library name `%s'"
-msgstr ""
-"Impossible d'extraire le nom et la version du nom de la bibliothèque « %s »"
+msgstr "Impossible d'extraire le nom et la version du nom de la bibliothèque « %s »"
 
 #: scripts/dpkg-shlibdeps.pl:604
 #, perl-format
@@ -1592,7 +1590,7 @@ msgstr "%s n'est pas un niveau de compression"
 
 #: scripts/dpkg-source.pl:114
 msgid "-E and -W are deprecated, they are without effect"
-msgstr ""
+msgstr "La gestion de -E et -W est obsolète (ces paramètres sont sans effet)"
 
 #: scripts/dpkg-source.pl:126
 msgid "need -x or -b"
@@ -1620,8 +1618,7 @@ msgstr "%s n'est pas une architecture autorisée"
 #: scripts/dpkg-source.pl:210
 #, perl-format
 msgid "architecture %s only allowed on its own (list for package %s is `%s')"
-msgstr ""
-"architecture %s seulement autorisée toute seule (liste pour paquet %s est %s)"
+msgstr "architecture %s seulement autorisée toute seule (liste pour paquet %s est %s)"
 
 #: scripts/dpkg-source.pl:257
 #, perl-format
@@ -1857,10 +1854,8 @@ msgstr ""
 
 #: scripts/Dpkg/Arch.pm:78
 #, perl-format
-msgid ""
-"Unknown gcc system type %s, falling back to default (native compilation)"
-msgstr ""
-"type de gcc %s inconnu, retour au système par défaut (compilation native)"
+msgid "Unknown gcc system type %s, falling back to default (native compilation)"
+msgstr "type de gcc %s inconnu, retour au système par défaut (compilation native)"
 
 #: scripts/Dpkg/Arch.pm:121
 msgid "unable to open cputable"
@@ -2174,8 +2169,7 @@ msgstr "erreur de syntaxe dans %s à la ligne %d : %s"
 #: scripts/Dpkg/Fields.pm:231
 #, perl-format
 msgid "field %s has newline then non whitespace >%s<"
-msgstr ""
-"le champ %s contient un caractère nouvelle ligne puis un caractère >%s<"
+msgstr "le champ %s contient un caractère nouvelle ligne puis un caractère >%s<"
 
 #: scripts/Dpkg/Fields.pm:234
 #, perl-format
@@ -2376,8 +2370,7 @@ msgstr "impossible de lire le lien %s"
 #: scripts/Dpkg/Source/Patch.pm:185
 #, perl-format
 msgid "newly created empty file '%s' will not be represented in diff"
-msgstr ""
-"le fichier « %s », nouvellement créé, ne sera pas représenté dans le diff"
+msgstr "le fichier « %s », nouvellement créé, ne sera pas représenté dans le diff"
 
 #: scripts/Dpkg/Source/Patch.pm:189
 #, perl-format
@@ -2570,8 +2563,7 @@ msgstr "un champ de contrôle vital manque, %s"
 
 #: scripts/Dpkg/Source/Package.pm:173
 #, perl-format
-msgid ""
-"source package format `%s' is not supported (Perl module %s is required)"
+msgid "source package format `%s' is not supported (Perl module %s is required)"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm:177
@@ -2763,8 +2755,7 @@ msgstr "répertoire .orig %s n'est pas <paquet>-<version_amont> (%s demandé)"
 
 #: scripts/Dpkg/Source/Package/V1.pm:265
 #, perl-format
-msgid ""
-".orig.tar name %s is not <package>_<upstreamversion>.orig.tar (wanted %s)"
+msgid ".orig.tar name %s is not <package>_<upstreamversion>.orig.tar (wanted %s)"
 msgstr ".orig.tar %s n'est pas <paquet>_<version_amont>.orig.tar (%s demandé)"
 
 #: scripts/Dpkg/Source/Package/V1.pm:277
@@ -2821,8 +2812,7 @@ msgstr "%s : modifications non représentables des sources"
 #: scripts/Dpkg/Source/Package/V2.pm:94
 #, fuzzy, perl-format
 msgid "duplicate files in %s source package: %s.*"
-msgstr ""
-"entrée en double dans le fichier des fichiers pour le paquet %s (ligne %d) "
+msgstr "entrée en double dans le fichier des fichiers pour le paquet %s (ligne %d) "
 
 #: scripts/Dpkg/Source/Package/V2.pm:110
 msgid "missing orig.tar or debian.tar file in v2.0 source package"
@@ -3088,8 +3078,7 @@ msgstr "le nom du paquet source « %s » contient un caractère « %s » non
 #: scripts/Dpkg/Vars.pm:37
 #, perl-format
 msgid "source package name `%s' starts with non-alphanum"
-msgstr ""
-"le nom du paquet source « %s » ne commence ni par une lettre ni par un chiffre"
+msgstr "le nom du paquet source « %s » ne commence ni par une lettre ni par un chiffre"
 
 #: scripts/Dpkg/Vars.pm:46
 #, perl-format
@@ -3101,529 +3090,3 @@ msgstr "le paquet source a deux valeurs en conflit : %s et %s"
 msgid "version number contains illegal character `%s'"
 msgstr "le numéro de version contient un caractère « %s » non autorisé"
 
-#~ msgid "cannot open upload file %s for reading"
-#~ msgstr "impossible de lire le fichier d'envoi %s"
-
-#~ msgid "cannot fstat upload file %s"
-#~ msgstr "impossible de lancer « fstat » sur le fichier d'envoi %s"
-
-#~ msgid "upload file %s is empty"
-#~ msgstr "le fichier d'envoi %s est vide"
-
-#~ msgid "md5sum upload file %s"
-#~ msgstr "exécution de md5sum sur le fichier d'envoi %s"
-
-#~ msgid "md5sum upload file %s gave strange output `%s'"
-#~ msgstr "résultat anormal de md5sum sur le fichier d'envoi %s : « %s »"
-
-#~ msgid "md5sum of source file %s (%s) is different from md5sum in %s (%s)"
-#~ msgstr ""
-#~ "le résultat de md5sum sur le fichier source %s (%s) diffère du résultat "
-#~ "sur %s (%s)"
-
-#~ msgid ""
-#~ "\n"
-#~ "Copyright (C) 1996 Ian Jackson and Klee Dienes."
-#~ msgstr ""
-#~ "\n"
-#~ "Copyright (C) 1996 Ian Jackson and Klee Dienes."
-
-#~ msgid "unable to determine source package name !"
-#~ msgstr "impossible de déterminer le nom du paquet source !"
-
-#~ msgid "unable to stat putative packed orig `%s'"
-#~ msgstr "stat impossible du supposé orig compressé %s"
-
-#~ msgid "write building tar message"
-#~ msgstr "écriture du message concernant la construction du tar"
-
-#~ msgid "fork for tar"
-#~ msgstr "fork pour tar"
-
-#~ msgid "chdir to above (orig) source %s"
-#~ msgstr "chdir vers le répertoire supérieur (orig) %s"
-
-#~ msgid "reopen gzip for tar"
-#~ msgstr "réouverture de gzip pour tar"
-
-#~ msgid "exec tar"
-#~ msgstr "exec tar"
-
-#~ msgid "write using existing tar message"
-#~ msgstr "écriture en utilisant le message tar existant"
-
-#~ msgid "write building diff message"
-#~ msgstr "écriture du message concernant la construction du diff"
-
-#~ msgid "fork for find"
-#~ msgstr "fork pour find"
-
-#~ msgid "chdir to %s for find"
-#~ msgstr "chdir vers %s pour find"
-
-#~ msgid "exec find"
-#~ msgstr "exec find"
-
-#~ msgid "cannot read orig link %s"
-#~ msgstr "impossible de lire le lien orig %s"
-
-#~ msgid "cannot stat orig file %s"
-#~ msgstr "stat impossible sur fichier orig %s"
-
-#~ msgid "something else"
-#~ msgstr "quelque chose d'autre"
-
-#~ msgid "fork for diff"
-#~ msgstr "fork pour diff"
-
-#~ msgid "exec diff"
-#~ msgstr "exec diff"
-
-#~ msgid "diff gave 1 but no diff lines found"
-#~ msgstr "le résultat de diff est 1 mais pas de différence trouvée"
-
-#~ msgid "finish write to compression pipe"
-#~ msgstr "fin de l'écriture sur pipe de compression"
-
-#~ msgid "fork for 2nd find"
-#~ msgstr "fork pour deuxième find"
-
-#~ msgid "chdir to %s for 2nd find"
-#~ msgstr "chdir vers %s pour deuxième find"
-
-#~ msgid "exec 2nd find"
-#~ msgstr "exécution du deuxième find"
-
-#~ msgid "cannot check orig file %s"
-#~ msgstr "impossible de vérifier fichier orig %s"
-
-#~ msgid "write building message"
-#~ msgstr "écriture du message de construction"
-
-#~ msgid "create %s"
-#~ msgstr "création de %s"
-
-#~ msgid "write error msg: %s"
-#~ msgstr "écriture du message d'erreur : %s"
-
-#~ msgid "cannot open .dsc file %s: %s"
-#~ msgstr "impossible d'ouvrir le fichier .dsc %s : %s"
-
-#~ msgid "Unsupported format of .dsc file (%s)"
-#~ msgstr "Format du fichier .dsc non reconnu, (%s)"
-
-#~ msgid "Files field contains invalid filename `%s'"
-#~ msgstr "Le champ Files contient un nom invalide, %s"
-
-#~ msgid "repeated file type - files `%s' and `%s'"
-#~ msgstr "type de fichier répété : fichiers %s et %s"
-
-#~ msgid "unrecognised file type - `%s'"
-#~ msgstr "format de fichier non reconnu, %s"
-
-#~ msgid "multiple upstream tarballs in %s format dsc"
-#~ msgstr "plusieurs fichiers tar amont dans le dsc format %s"
-
-#~ msgid "debian.tar in %s format dsc"
-#~ msgstr "debian.tar dans le dsc format %s"
-
-#~ msgid "write extracting message"
-#~ msgstr "écriture du message d'extraction"
-
-#~ msgid "failed to stat `%s' to see if need to copy"
-#~ msgstr "stat de %s, impossible de savoir si copie nécessaire"
-
-#~ msgid "failed to check destination `%s' to see if need to copy"
-#~ msgstr "vérification de %s, impossible de savoir si copie nécessaire"
-
-#~ msgid "failed to create %s subdirectory"
-#~ msgstr "impossible de créer le sous-répertoire %s"
-
-#~ msgid "diff patches file in directory `%s', but %s isn't a directory !"
-#~ msgstr ""
-#~ "modification de fichier dans le répertoire %s, mais %s n'est pas un "
-#~ "répertoire."
-
-#~ msgid "can't open diff `%s'"
-#~ msgstr "impossible d'ouvrir %s"
-
-#~ msgid "fork for patch"
-#~ msgstr "fork pour patch"
-
-#~ msgid "reopen gzip for patch"
-#~ msgstr "réouverture de gzip pour patch"
-
-#~ msgid "chdir to %s for patch"
-#~ msgstr "chdir vers %s pour patch"
-
-#~ msgid "exec patch"
-#~ msgstr "exec patch"
-
-#~ msgid "wait for patch"
-#~ msgstr "attente patch"
-
-#~ msgid "cannot stat `.'"
-#~ msgstr "stat de « . » impossible"
-
-#~ msgid "cannot stat extracted object `%s'"
-#~ msgstr "stat de l'objet extrait %s impossible"
-
-#~ msgid "unknown object `%s' after extract (mode 0%o)"
-#~ msgstr "objet %s inconnu, après extraction (mode 0%o)"
-
-#~ msgid "cannot change mode of `%s' to 0%o from 0%o"
-#~ msgstr "impossible de changer le mode de %s en 0%o, de 0%o"
-
-#~ msgid "cannot fstat %s"
-#~ msgstr "fstat de %s impossible"
-
-#~ msgid "reopen stdin from /dev/null"
-#~ msgstr "réouverture de stdin depuis /dev/null"
-
-#~ msgid "fork for cpio"
-#~ msgstr "fork pour cpio"
-
-#~ msgid "reopen gzip for cpio"
-#~ msgstr "réouverture de gzip pour cpio"
-
-#~ msgid "exec cpio"
-#~ msgstr "exec cpio"
-
-#~ msgid "tarfile `%s' contains object with newline in its name (%s)"
-#~ msgstr ""
-#~ "le fichier tar %s contient un objet avec un caractère nouvelle ligne dans "
-#~ "son nom (%s)"
-
-#~ msgid ""
-#~ "first output from cpio -0t (from `%s') contains newline - you probably "
-#~ "have an out of date version of cpio.  GNU cpio 2.4.2-2 is known to work"
-#~ msgstr ""
-#~ "la première sortie de cpio -0t (de %s) contient un caractère nouvelle "
-#~ "ligne. Votre version de cpio est sans doute ancienne. Cela fonctionne "
-#~ "avec GNU cpio 2.4.2-2."
-
-#~ msgid ""
-#~ "tarfile `%s' does not extract into a directory off the current directory "
-#~ "(%s from %s)"
-#~ msgstr ""
-#~ "le fichier tar %s ne s'extrait pas dans un répertoire hors du répertoire "
-#~ "courant (%s, de %s)"
-
-#~ msgid "tarfile `%s' contains object (%s) not in expected directory (%s)"
-#~ msgstr ""
-#~ "le fichier tar %s contient un objet (%s) qui n'est pas dans le répertoire "
-#~ "attendu (%s)"
-
-#~ msgid "tarfile `%s' contains object with /../ in its name (%s)"
-#~ msgstr "le fichier tar %s contient un objet avec /../ dans son nom (%s)"
-
-#~ msgid "fork for tar -t"
-#~ msgstr "fork pour tar -t"
-
-#~ msgid "reopen gzip for tar -t"
-#~ msgstr "réouverture de gzip pour tar -t"
-
-#~ msgid "exec tar -vvtf -"
-#~ msgstr "exec tar -vvtf -"
-
-#~ msgid "tarfile `%s' contains unknown object listed by tar as `%s'"
-#~ msgstr "le fichier tar %s contient un objet inconnu, listé %s"
-
-#~ msgid ""
-#~ "tarfile `%s' contains object `%s' with unknown or forbidden type `%s'"
-#~ msgstr ""
-#~ "le fichier tar %s contient un objet %s de type inconnu ou interdit %s"
-
-#~ msgid "tarfile `%s' contains incomplete entry `%s'\n"
-#~ msgstr "le fichier tar %s contient une entrée incomplète %s\n"
-
-#~ msgid "filename '%s' was truncated by cpio; unable to check full pathname"
-#~ msgstr ""
-#~ "le nom de fichier « %s » a été tronqué par cpio ; impossible de vérifier "
-#~ "le nom complet."
-
-#~ msgid ""
-#~ "tarfile `%s' contains unexpected object listed by tar as `%s'; expected `%"
-#~ "s'"
-#~ msgstr "le fichier tar %s contient un objet inattendu, listé %s, %s attendu"
-
-#~ msgid "tarfile `%s' contains file with name ending in .dpkg-orig"
-#~ msgstr ""
-#~ "le fichier tar %s contient un fichier dont le nom se termine par .dpkg-"
-#~ "orig"
-
-#~ msgid "tarfile `%s' contains setuid, setgid or sticky object `%s'"
-#~ msgstr "le fichier tar %s contient un objet %s setuid, setgid ou sticky"
-
-#~ msgid "tarfile `%s' contains object `debian' that isn't a directory"
-#~ msgstr ""
-#~ "le fichier tar %s contient un objet « debian » qui n'est pas un répertoire"
-
-#~ msgid ""
-#~ "tarfile `%s' contains object `%s' but its containing directory `%s' does "
-#~ "not precede it"
-#~ msgstr ""
-#~ "le fichier tar %s contient un objet %s mais le répertoire %s qui le "
-#~ "contient ne le précède pas"
-
-#~ msgid "Expected ^@@ in line %d of diff `%s'"
-#~ msgstr "^@@ attendu ligne %d du diff %s"
-
-#~ msgid "fork for tar -xkf -"
-#~ msgstr "fork pour tar -xkf -"
-
-#~ msgid "reopen gzip for tar -xkf -"
-#~ msgstr "réouverture de gzip pour tar -xkf -"
-
-#~ msgid "cannot chdir to `%s' for tar extract"
-#~ msgstr "impossible de changer de répertoire, vers %s, pour tar extract"
-
-#~ msgid "exec tar -xkf -"
-#~ msgstr "exec tar -xkf -"
-
-#~ msgid "wait for tar -xkf -"
-#~ msgstr "attente tar -xkf -"
-
-#~ msgid "Unable to close dir %s"
-#~ msgstr "impossible de fermer le répertoire %s"
-
-#~ msgid "Unable to mkdir %s"
-#~ msgstr "mkdir %s impossible"
-
-#~ msgid "reopen stderr for tar to grep out blocks message"
-#~ msgstr "réouverture de stderr pour tar pour filtrer les messages blocks"
-
-#~ msgid "checktype %s (%s)"
-#~ msgstr "checktype %s (%s)"
-
-#~ msgid "write syserr unrep"
-#~ msgstr "write syserr unrep"
-
-#~ msgid ""
-#~ "%s: cannot represent change to %s:\n"
-#~ "%s:  new version is %s\n"
-#~ "%s:  old version is %s\n"
-#~ msgstr ""
-#~ "%s :  impossible de représenter les changements de %s :\n"
-#~ "%s :  la nouvelle version est %s\n"
-#~ "%s :  l'ancienne version est %s\n"
-
-#~ msgid "unknown compression type on file %s"
-#~ msgstr "type de compression inconnu pour le fichier %s"
-
-#~ msgid "create file %s"
-#~ msgstr "création du fichier %s"
-
-#~ msgid "pipe for gzip"
-#~ msgstr "pipe pour gzip"
-
-#~ msgid "fork for gzip"
-#~ msgstr "fork pour gzip"
-
-#~ msgid "reopen gzip pipe"
-#~ msgstr "réouverture de pipe gzip"
-
-#~ msgid "exec gzip"
-#~ msgstr "exec gzip"
-
-#~ msgid "read file %s"
-#~ msgstr "lecture du fichier %s"
-
-#~ msgid "reopen %s pipe"
-#~ msgstr "reopen %s pipe"
-
-#~ msgid "reopen input file"
-#~ msgstr "réouverture du fichier d'entrée"
-
-#~ msgid "wait for gzip"
-#~ msgstr "attente gzip"
-
-#~ msgid "could not stat output file `%s'"
-#~ msgstr "stat du fichier %s impossible"
-
-#~ msgid "bogus character `\\%s' in `%s'"
-#~ msgstr "caractère anormal \\%s dans %s"
-
-#~ msgid "couldn't open %s"
-#~ msgstr "impossible d'ouvrir %s"
-
-#~ msgid "couldn't close %s"
-#~ msgstr "Impossible de fermer %s"
-
-#~ msgid "Can't open %s for test: %s"
-#~ msgstr "Impossible de lire %s pour test : %s"
-
-#~ msgid "Can't execute objdump: %s"
-#~ msgstr "impossible d'exécuter objdump : %s"
-
-#~ msgid "Can't open %s: %s"
-#~ msgstr "Impossible d'ouvrir %s : %s"
-
-#~ msgid "Can't open %s for writing: %s"
-#~ msgstr "Impossible d'ouvrir %s en écriture : %s"
-
-#~ msgid "unable to get login information for username \"%s\""
-#~ msgstr ""
-#~ "impossible d'obtenir les éléments de connexion pour l'utilisateur « %s »"
-
-#~ msgid ""
-#~ "no utmp entry available and LOGNAME not defined; using uid of process (%d)"
-#~ msgstr ""
-#~ "aucune entrée utmp n'est disponible et LOGNAME n'est pas définie ; "
-#~ "utilisation de l'uid du processus (%d)."
-
-#~ msgid "unable to get login information for uid %d"
-#~ msgstr "impossible d'obtenir les éléments de connexion pour l'uid %d"
-
-#~ msgid "write error on close control data"
-#~ msgstr "erreur d'écriture au moment de la fermeture des données de contrôle"
-
-#~ msgid "cannot read control file %s: %s"
-#~ msgstr "impossible de lire le fichier de contrôle %s : %s"
-
-#~ msgid "control file %s"
-#~ msgstr "fichier de contrôle %s"
-
-#~ msgid "control file must have at least one binary package part"
-#~ msgstr ""
-#~ "le fichier de contrôle doit contenir au moins une partie concernant les "
-#~ "paquets binaires"
-
-#~ msgid ""
-#~ "per-package paragraph %d in control info file is missing Package line"
-#~ msgstr ""
-#~ "il manque une ligne Package dans le paragraphe %d concernant les paquets "
-#~ "dans le fichier de contrôle"
-
-#~ msgid "source paragraph in control info file is missing Source line"
-#~ msgstr ""
-#~ "il manque une ligne Source dans le paragraphe concernant les sources dans "
-#~ "le fichier de contrôle"
-
-#~ msgid "fork for parse changelog"
-#~ msgstr "fork pour analyse du changelog"
-
-#~ msgid "parse changelog"
-#~ msgstr "analyse du changelog"
-
-#~ msgid "expected blank line before PGP signature"
-#~ msgstr "ligne blanche attendue avant la signature PGP"
-
-#~ msgid "found several `paragraphs' where only one expected"
-#~ msgstr "plusieurs « paragraphes » trouvés, un seul attendu"
-
-#~ msgid "found start of PGP body but no signature"
-#~ msgstr "début d'un format PGP trouvé, mais pas de signature"
-
-#~ msgid "empty file"
-#~ msgstr "fichier vide"
-
-#~ msgid "chown new files list file"
-#~ msgstr "modification du propriétaire du nouveau fichier des fichiers"
-
-#~ msgid "value from nowhere, with key >%s< and value >%s<"
-#~ msgstr "valeur de nulle part, avec clé >%s< et valeur >%s<"
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...]\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  -l<changelogfile>        get per-version info from this file.\n"
-#~ "  -v<sinceversion>         include all changes later than version.\n"
-#~ "  -F<changelogformat>      force change log format.\n"
-#~ "  -L<libdir>               look for change log parsers in <libdir>.\n"
-#~ "  -h, --help               show this help message.\n"
-#~ "      --version            show the version.\n"
-#~ msgstr ""
-#~ "Usage : %s [<option> ...]\n"
-#~ "\n"
-#~ "Options :\n"
-#~ "  -l<fichier_changelog>      obtenir les informations de version dans ce "
-#~ "fichier.\n"
-#~ "  -v<depuis_version>         inclure toutes les modifications depuis "
-#~ "cette version.\n"
-#~ "  -F<changelogformat>        modifier le format du changelog.\n"
-#~ "  -L<libdir>                 rechercher les analyseurs de changelog dans "
-#~ "<libdir>.\n"
-#~ "  -h, --help                 afficher ce message d'aide.\n"
-#~ "      --version              afficher la version.\n"
-
-#~ msgid "cannot open %s to find format: %s"
-#~ msgstr "impossible d'ouvrir %s pour trouver le format : %s"
-
-#~ msgid "failed to check for format parser %s"
-#~ msgstr "impossible de rechercher l'analyseur de format %s"
-
-#~ msgid ""
-#~ "Usage: %s [<option>]\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  -l<changelog>       use <changelog> as the file name when reporting.\n"
-#~ "  -v<versionsince>    print changes since <versionsince>.\n"
-#~ "  -h, --help          print this help message.\n"
-#~ "      --version       print program version.\n"
-#~ msgstr ""
-#~ "Usage: %s [<option>]\n"
-#~ "\n"
-#~ "Options :\n"
-#~ "   -l<changelog>        utiliser <changelog> comme fichier.\n"
-#~ "   -v<versiondepuis>     afficher les changements depuis "
-#~ "<versiondepuis>.\n"
-#~ "   -h, --help           afficher ce message d'aide.\n"
-#~ "       --version        afficher la version du programme.\n"
-
-#~ msgid "unknown urgency value %s - comparing very low"
-#~ msgstr "valeur urgency %s inconnue ; comparaison très basse"
-
-#~ msgid "urgency >%s<"
-#~ msgstr "urgency >%s<"
-
-#~ msgid "%s, at file %s line %d"
-#~ msgstr "%s, fichier %s ligne %d"
-
-#~ msgid "cannot combine -b or -B and -S"
-#~ msgstr "impossible de combiner -b ou -B et -S"
-
-#~ msgid "`md5sum < %s' exited with %d"
-#~ msgstr "« md5sum < %s », sortie avec %d"
-
-#~ msgid "%s is empty"
-#~ msgstr "%s est vide"
-
-#~ msgid "%s: failure: %s: %s"
-#~ msgstr "%s : échec : %s : %s"
-
-#~ msgid "%s: error: %s"
-#~ msgstr "%s : erreur : %s"
-
-#~ msgid "unable to open '%s' for test"
-#~ msgstr "impossible d'ouvrir %s pour test"
-
-#~ msgid "unable to read first four bytes of '%s' as magic number"
-#~ msgstr ""
-#~ "impossible de lire les quatre premiers octets de %s, le nombre magique"
-
-#~ msgid "couldn't open /etc/ld.so.conf: %s"
-#~ msgstr "impossible d'ouvrir /etc/ld.so.conf : %s"
-
-#~ msgid "format of 'NEEDED %s' not recognized"
-#~ msgstr "format de « NEEDED %s » non reconnu"
-
-#~ msgid "could not find any packages for %s"
-#~ msgstr "impossible de trouver un paquet pour %s"
-
-#~ msgid ""
-#~ "unable to find dependency information for shared library %s (soname %s, "
-#~ "path %s, dependency field %s)"
-#~ msgstr ""
-#~ "impossible de trouver les dépendances de la bibliothèque partagée %s "
-#~ "(nom_so %s, chemin %s et champ_dépendance %s)"
-
-#~ msgid "chown of `%s'"
-#~ msgstr "chown de %s"
-
-#~ msgid "write userdef output entry"
-#~ msgstr "entrée userdef écrite"
-
-#~ msgid "tarfile `%s' contains object with/../ in its name (%s)"
-#~ msgstr "le fichier tar %s contient un objet avec /../ dans son nom (%s)"
