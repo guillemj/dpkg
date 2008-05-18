@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-05-13 05:54+0300\n"
-"PO-Revision-Date: 2008-05-04 13:56+0200\n"
+"PO-Revision-Date: 2008-05-18 15:34+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -601,7 +601,7 @@ msgstr "nelze přečíst příznaky filedescriptoru pro `%.250s'"
 #: lib/mlib.c:161
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
-msgstr "nelze nastavit příznak zapřít-při-spuštění pro `%.250s'"
+msgstr "nelze nastavit příznak zavřít-při-spuštění pro `%.250s'"
 
 #: lib/mlib.c:215
 #, c-format
@@ -2719,7 +2719,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "neplatné číslo pro --%s: `%.250s'"
 
 #: src/main.c:320
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2759,41 +2759,38 @@ msgid ""
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
 "%s donucovací přepínače - ovládají chování při vzniku potíží:\n"
-"  varuje, ale pokračuje:  --force-<co>,<co>,...\n"
-"  zastaví s chybou:       --refuse-<co>,<co>,... | --no-force-<co>,...\n"
+"  varuje, ale pokračuje: --force-<co>,<co>,...\n"
+"  zastaví s chybou:      --refuse-<co>,<co>,... | --no-force-<co>,...\n"
 " Donucovací akce:\n"
-"  all [!]                  Nastaví všechny donucovací volby\n"
-"  downgrade [*]            Nahradí balík starší verzí\n"
-"  configure-any            Nakonfiguruje všechny balíky, které mohou tomuto\n"
-"                           balíku pomoci\n"
-"  hold                     Zpracuje balíky, i když jsou podrženy\n"
-"  bad-path                 v PATH chybí důležité programy, což způsobuje\n"
-"                           problémy\n"
-"  not-root                 Zkusí (od|na)instalovat balík, i když není root\n"
-"  overwrite                Přepisuje soubory patřící jinému balíku\n"
-"  overwrite-diverted       Přepíše odkloněné soubory normální verzí\n"
-"  bad-verify               Nainstaluje balík, i když selže kontrola "
+"  all [!]                Nastaví všechny donucovací volby\n"
+"  downgrade [*]          Nahradí balík starší verzí\n"
+"  configure-any          Nakonfiguruje všechny balíky, které mohou tomuto\n"
+"                         balíku pomoci\n"
+"  hold                   Zpracuje balíky, i když jsou podrženy\n"
+"  bad-path               v PATH chybí důležité programy, což způsobuje\n"
+"                         problémy\n"
+"  not-root               Zkusí (od|na)instalovat balík, i když není root\n"
+"  overwrite              Přepisuje soubory patřící jinému balíku\n"
+"  overwrite-diverted     Přepíše odkloněné soubory normální verzí\n"
+"  bad-verify             Nainstaluje balík, i když selže kontrola "
 "autenticity\n"
-"  depends-version [!]      Změní problémy se závislostmi verzí na varování\n"
-"  depends [!]              Změní všechny problémy se závislostmi na "
-"varování\n"
-"  confnew [!]              Vždy použije nový konfigurační soubor, bez "
+"  depends-version [!]    Změní problémy se závislostmi verzí na varování\n"
+"  depends [!]            Změní všechny problémy se závislostmi na varování\n"
+"  confnew [!]            Vždy použije nový konfigurační soubor, bez dotazu\n"
+"  confold [!]            Vždy použije starý konfigurační soubor, bez "
 "dotazu\n"
-"  confold [!]              Vždy použije starý konfigurační soubor, bez "
-"dotazu\n"
-"  confdef [!]              Použije implicitní volbu pro nové konfigurační\n"
-"                            soubory, pokud existuje, neptá se. Pokud žádná\n"
-"                            implicitní volba neexistuje, budete dotázán, "
-"ale\n"
-"                            pouze pokud nebyly zadány přepínače confold "
-"nebo\n"
-"                            confnew\n"
-"  confmiss [!]             Vždy nainstaluje chybějící konfigurační soubory\n"
-"  conflicts [!]            Povolí nainstalování balíku kolidujícího balíku\n"
-"  architecture [!]         Zpracuje i balík s jinou architekturou\n"
-"  overwrite-dir [!]        Přepíše adresář balíku souborem z jiného balíku\n"
-"  remove-reinstreq [!]     Odstraní balík, který vyžaduje přeinstalování\n"
-"  remove-essential [!]     Odstraní nezbytný balík\n"
+"  confdef [!]            Použije implicitní volbu pro nové konfigurační\n"
+"                         soubory, pokud existuje, neptá se. Pokud žádná\n"
+"                         implicitní volba neexistuje, budete dotázán, ale\n"
+"                         pouze pokud nebyly zadány přepínače confold nebo\n"
+"                         confnew\n"
+"  confmiss [!]           Vždy nainstaluje chybějící konfigurační soubory\n"
+"  breaks [!]             Instaluje, i když tím poruší jiný balík\n"
+"  conflicts [!]          Povolí instalaci kolidujících balíků\n"
+"  architecture [!]       Zpracuje i balík s jinou architekturou\n"
+"  overwrite-dir [!]      Přepíše adresář balíku souborem z jiného balíku\n"
+"  remove-reinstreq [!]   Odstraní balík, který vyžaduje přeinstalování\n"
+"  remove-essential [!]   Odstraní nezbytný balík\n"
 "\n"
 "VAROVÁNÍ - použití označených [!] přepínačů může vážně poškodit instalaci.\n"
 "Implicitně zapnuté donucovací volby jsou označeny [*].\n"
@@ -4908,7 +4905,7 @@ msgstr "--%s vyžaduje jako argument <adresář>"
 #: scripts/update-alternatives.pl:338
 #, perl-format
 msgid "unknown option `%s'"
-msgstr "neznámá volba \"%s\""
+msgstr "neznámá volba „%s“"
 
 #: scripts/dpkg-divert.pl:122
 #, perl-format
@@ -5581,7 +5578,7 @@ msgstr "Nejsou k dispozici žádné verze."
 #: scripts/update-alternatives.pl:211
 #, perl-format
 msgid "Current `best' version is %s."
-msgstr "Momentálně \"nejlepší\" verze je \"%s\"."
+msgstr "Momentálně „nejlepší“ verze je „%s“."
 
 #: scripts/update-alternatives.pl:228
 #, perl-format
@@ -5605,7 +5602,7 @@ msgstr "Aktualizuji %s (%s), aby ukazoval na %s."
 #: scripts/update-alternatives.pl:252
 #, perl-format
 msgid "Using '%s' to provide '%s'."
-msgstr "Používám '%s' pro poskytnutí `%s'."
+msgstr "Používám „%s“ pro poskytnutí „%s“."
 
 #: scripts/update-alternatives.pl:266 scripts/update-alternatives.pl:610
 #, perl-format
@@ -5620,7 +5617,7 @@ msgstr "nelze odstranit %s: %s"
 #: scripts/update-alternatives.pl:297
 #, perl-format
 msgid "unknown argument `%s'"
-msgstr "neznámý argument `%s'"
+msgstr "neznámý argument „%s“"
 
 #: scripts/update-alternatives.pl:308
 msgid "--install needs <link> <name> <path> <priority>"
@@ -5702,7 +5699,7 @@ msgid ""
 "(You may modify the symlinks there yourself if desired - see `man ln'.)"
 msgstr ""
 "Kontroluji dostupné verze %s, aktualizuji odkazy v %s ...\n"
-"(Symbolické odkazy můžete měnit i ručně - viz `man ln'.)"
+"(Symbolické odkazy můžete měnit i ručně - viz „man ln“.)"
 
 #: scripts/update-alternatives.pl:442
 #, perl-format
@@ -5748,8 +5745,8 @@ msgstr "Automatické aktualizace %s jsou zakázány, ponechávám bez změn."
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
-"K automatickým aktualizacím se vrátíte příkazem `update-alternatives --auto %"
-"s'."
+"K automatickým aktualizacím se vrátíte příkazem „update-alternatives --auto %"
+"s“."
 
 #: scripts/update-alternatives.pl:549
 #, perl-format
@@ -5792,7 +5789,7 @@ msgid ""
 "  Selection    Alternative\n"
 "-----------------------------------------------\n"
 msgstr ""
-"Existuje několik alternativ (%s), které poskytují `%s'.\n"
+"Existuje několik alternativ (%s), které poskytují „%s“.\n"
 "\n"
 "  Výběr        Alternativa\n"
 "-----------------------------------------------\n"
@@ -5804,7 +5801,7 @@ msgstr "Pro výchozí možnost[*] stiskněte enter, jinak zadejte číslo: "
 #: scripts/update-alternatives.pl:678
 #, perl-format
 msgid "Cannot find alternative `%s'."
-msgstr "Nemohu najít alternativu `%s'."
+msgstr "Nemohu najít alternativu „%s“."
 
 #: scripts/update-alternatives.pl:683 scripts/update-alternatives.pl:686
 #, perl-format
