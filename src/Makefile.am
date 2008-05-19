@@ -28,8 +28,12 @@ dpkg_SOURCES = \
 	update.c
 
 dpkg_LDADD = \
+	../lib/libdpkg.a \
 	../libcompat/libcompat.a \
-	$(LIBINTL) ../lib/libdpkg.a $(ZLIB_LIBS) $(BZ2_LIBS) $(SELINUX_LIBS)
+	$(LIBINTL) \
+	$(ZLIB_LIBS) \
+	$(BZ2_LIBS) \
+	$(SELINUX_LIBS)
 
 dpkg_query_SOURCES = \
 	errors.c \
@@ -37,17 +41,17 @@ dpkg_query_SOURCES = \
 	query.c
 
 dpkg_query_LDADD = \
+	../lib/libdpkg.a \
 	../libcompat/libcompat.a \
-	$(LIBINTL) \
-	../lib/libdpkg.a
+	$(LIBINTL)
 
 dpkg_trigger_SOURCES = \
 	trigcmd.c
 
 dpkg_trigger_LDADD = \
+	../lib/libdpkg.a \
 	../libcompat/libcompat.a \
-	$(LIBINTL) \
-	../lib/libdpkg.a
+	$(LIBINTL)
 
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives

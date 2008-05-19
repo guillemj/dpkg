@@ -35,10 +35,10 @@ dselect_SOURCES = \
 	pkgtop.cc
 
 dselect_LDADD = \
-	../libcompat/libcompat.a \
-	$(LIBINTL) \
 	$(CURSES_LIBS) \
-	../lib/libdpkg.a
+	../lib/libdpkg.a \
+	../libcompat/libcompat.a \
+	$(LIBINTL)
 
 
 EXTRA_DIST = keyoverride mkcurkeys.pl

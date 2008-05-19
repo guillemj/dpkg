@@ -19,9 +19,9 @@ dpkg_split_SOURCES = \
 	split.c
 
 dpkg_split_LDADD = \
+	../lib/libdpkg.a \
 	../libcompat/libcompat.a \
-	$(LIBINTL) \
-	../lib/libdpkg.a
+	$(LIBINTL)
 
 
 pkglib_SCRIPTS = mksplit

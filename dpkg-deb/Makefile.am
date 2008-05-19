@@ -17,5 +17,10 @@ dpkg_deb_SOURCES = \
 	main.c
 
 dpkg_deb_LDADD = \
+	../lib/libdpkg.a \
 	../libcompat/libcompat.a \
-	$(LIBINTL) ../lib/libdpkg.a $(ZLIB_LIBS) $(BZ2_LIBS) $(SELINUX_LIBS)
+	$(LIBINTL) \
+	$(ZLIB_LIBS) \
+	$(BZ2_LIBS) \
+	$(SELINUX_LIBS)
+
