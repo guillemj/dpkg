@@ -47,7 +47,7 @@ our $diff_ignore_default_regexp = '
 (?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore|\.gitignore)$|
 # File or directory names that should be ignored
 (?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
-\.shelf|_MTN|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
+\.shelf|_MTN|\.be|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
 # Take out comments and newlines
 $diff_ignore_default_regexp =~ s/^#.*$//mg;
@@ -64,6 +64,7 @@ our @tar_ignore_default_pattern = qw(
 .[#~]*
 .arch-ids
 .arch-inventory
+.be
 .bzr
 .bzr.backup
 .bzr.tags
