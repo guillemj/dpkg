@@ -12,6 +12,18 @@
 
 2008-05-12  Guillem Jover  <guillem@debian.org>
 
+	* lib/dpkg-priv.h (sizeof_array): New macro.
+	* lib/parse.c: Include <dpkg-priv.h>.
+	(NFIELDS): Remove macro.
+	(nfields): Use sizeof_array instead of NFIELDS.
+	(parsedb): Likewise.
+	* lib/subproc.c (NCATCHSIGNALS): Remove macro.
+	(uncatch_signals): Use sizeof_array instead of NCATCHSIGNALS.
+	(setup_subproc_signals): Likewise.
+	(cu_subproc_signals): Likewise.
+
+2008-05-12  Guillem Jover  <guillem@debian.org>
+
 	* dselect/method.cc: Include <dpkg-priv.h>. Use setup_subproc_signals
 	and cu_subproc_signals instead of cu_restoresignals and duped code
 	in falliblesubprocess.
