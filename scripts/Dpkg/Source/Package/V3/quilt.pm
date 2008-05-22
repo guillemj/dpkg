@@ -31,6 +31,7 @@ use Dpkg::IPC;
 use POSIX;
 use File::Basename;
 use File::Spec;
+use File::Path;
 
 our $CURRENT_MINOR_VERSION = "0";
 
