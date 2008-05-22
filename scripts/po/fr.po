@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-05-12 08:17+0300\n"
-"PO-Revision-Date: 2008-05-13 09:08+0200\n"
+"PO-Revision-Date: 2008-05-21 19:32+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -729,12 +729,12 @@ msgstr "le champ Files contient une ligne mal formée « %s »"
 #: scripts/dpkg-genchanges.pl:419 scripts/Dpkg/Checksums.pm:52
 #, perl-format
 msgid "Conflicting checksums `%s' and `%s' for file `%s'"
-msgstr ""
+msgstr "Sommes de contrôle en conflit : « %s » et « %s » pour le fichier « %s »"
 
 #: scripts/dpkg-genchanges.pl:424
 #, perl-format
 msgid "Conflicting sizes `%u' and `%u' for file `%s'"
-msgstr ""
+msgstr "Tailles en conflit : « %u » et « %u » pour le fichier « %s »"
 
 #: scripts/dpkg-genchanges.pl:457
 msgid "not including original source code in upload"
@@ -976,28 +976,28 @@ msgid "Objdump couldn't parse %s\n"
 msgstr "Objdump ne peut analyser %s\n"
 
 #: scripts/dpkg-gensymbols.pl:204
-#, fuzzy, perl-format
+#, perl-format
 msgid "new libraries appeared in the symbols file: %s"
-msgstr "de nouvelles bibliothèques sont apparues dans le fichiers des symboles."
+msgstr "nouvelles bibliothèques apparues dans le fichier des symboles : %s"
 
 #: scripts/dpkg-gensymbols.pl:208
-#, fuzzy, perl-format
+#, perl-format
 msgid "some libraries disappeared in the symbols file: %s"
-msgstr "certaines bibliothèques ont disparu du fichier des symboles."
+msgstr "certaines bibliothèques ont disparu du fichier des symboles : %s"
 
 #: scripts/dpkg-gensymbols.pl:216
-#, fuzzy, perl-format
+#, perl-format
 msgid "some new symbols appeared in the symbols file: %s"
-msgstr "certains nouveaux symboles sont apparus dans le fichier des symboles."
+msgstr "certains nouveaux symboles sont apparus dans le fichier des symboles : %s"
 
 #: scripts/dpkg-gensymbols.pl:217 scripts/dpkg-gensymbols.pl:222
 msgid "see diff output below"
-msgstr ""
+msgstr "Veuillez consulter le fichier de différences ci-dessous"
 
 #: scripts/dpkg-gensymbols.pl:237
-#, fuzzy, perl-format
+#, perl-format
 msgid "some symbols disappeared in the symbols file: %s"
-msgstr "certains symboles ont disparu du fichier des symboles."
+msgstr "certains symboles ont disparu du fichier des symboles : %s"
 
 #: scripts/dpkg-gensymbols.pl:253
 #, perl-format
@@ -1048,6 +1048,36 @@ msgid ""
 "                                <number> is lower than 0)\n"
 "    --all                       include all changes\n"
 msgstr ""
+"Utilisation: %s [<option> ...]\n"
+"\n"
+"Options:\n"
+"  -l<fichier_changelog>    obtenir de l'information slon la version dans ce\n"
+"                           fichier.\n"
+"  -F<format_changelog>     forcer le format du journal des changements.\n"
+"  -L<libdir>               rechercher les analyseurs de changements dans <libdir>.\n"
+"  -h, --help               afficher ce message d'aide.\n"
+"      --version            afficher la version.\n"
+"\n"
+"Options de l'analyseur:\n"
+"    --format <format_sortie>    consulter la page de manuel pour\n"
+"                                voir la page de manuel pour une liste\n"
+"                                des formats de sortie disponibles. Valeur\n"
+"                                par défaut : « dpkg » pour compatibilité\n"
+"                                avec « dpkg-dev »\n"
+"    --since, -s, -v <version>   inclure toutes les modifications depuis\n"
+"                                cette version\n"
+"    --until, -u <version>       inclure toutes les modifications antérieures\n"
+"                                à cette version\n"
+"    --from, -f <version>        inclure toutes les modifications depuis\n"
+"                                cette version incluse\n"
+"    --to, -t <version>          inclure toutes les modifications antérieures\n"
+"                                à cette version, incluse\n"
+"    --count, -c, -n <nombre>    inclure <nombre> entrées depuis le début\n"
+"                                (ou bien les dernières si <nombre> est inférieur à 0)\n"
+"    --offset, -o <number>       modifier le point de démarrage de --count,\n"
+"                                à partir du début (ou de la fin si\n"
+"                                <nombre> est inférieur à 0)\n"
+"    --all                       inclure toutes les modifications\n"
 
 #: scripts/dpkg-parsechangelog.pl:103
 #, perl-format
@@ -1379,7 +1409,7 @@ msgid "need at least one executable"
 msgstr "au moins un exécutable est nécessaire"
 
 #: scripts/dpkg-shlibdeps.pl:149
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "couldn't find library %s needed by %s (its RPATH is '%s').\n"
 "Note: libraries are not searched in other binary packages that do not have "
@@ -1390,14 +1420,14 @@ msgstr ""
 "impossible de trouver la bibliothèque %s demandée par %s (son RPATH est « %"
 "s »).\n"
 "Note : les bibliothèques ne sont pas cherchées dans d'autres paquets "
-"binaires qui n'ont pas de fichier shlibs.\n"
-"Pour aider dpkg-shlibdeps à trouver des bibliothèques privées, vous pouvez "
-"avoir à définir LD_LIBRARY_PATH."
+"binaires qui n'ont pas de fichier shlibs ou de fichier de symboles.\n"
+"Pour aider dpkg-shlibdeps à trouver des bibliothèques privées, vous devriez"
+"définir LD_LIBRARY_PATH."
 
 #: scripts/dpkg-shlibdeps.pl:219
 #, perl-format
 msgid "%s has an unexpected SONAME (%s)"
-msgstr ""
+msgstr "%s utilise un SONAME inattendu (%s)"
 
 #: scripts/dpkg-shlibdeps.pl:241
 #, perl-format
@@ -1426,7 +1456,7 @@ msgstr "%s ne devrait pas être lié avec %s (il n'utilise aucun de ses symboles
 msgid ""
 "dependency on %s could be avoided if \"%s\" were not uselessly linked "
 "against it (they use none of its symbols)."
-msgstr ""
+msgstr "la dépendance sur %s pourrait être évitée si « %s » n'y était pas lié sans nécessité (il n'utilise aucun de ses symboles)."
 
 #: scripts/dpkg-shlibdeps.pl:368
 #, perl-format
@@ -1446,7 +1476,7 @@ msgstr "copie d'une ancienne entrée dans le nouveau fichier varlist %s"
 #: scripts/dpkg-shlibdeps.pl:437
 #, perl-format
 msgid "invalid dependency got generated: %s"
-msgstr ""
+msgstr "Une dépendance non valable a été créée : %s"
 
 #: scripts/dpkg-shlibdeps.pl:447
 #, perl-format
@@ -1468,7 +1498,7 @@ msgstr ""
 "Copyright (C) 2007 Raphael Hertzog.\n"
 
 #: scripts/dpkg-shlibdeps.pl:472
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <executable>|-e<executable> [<option> ...]\n"
 "\n"
@@ -1514,9 +1544,18 @@ msgstr ""
 "shlibs.local.\n"
 "  -T<varlistfile>             mettre à jour les variables ici, pas debian/"
 "substvars.\n"
-"  --admindir=<répertoire>     change le répertoire d'administration.\n"
 "  -t<type>                    définir le type de paquet (.deb par défaut).\n"
 "  -x<paquet>                  exclut le paquet des dépendances générées.\n"
+"  -S<pkgbuilddir>             rechercher les bibliothèques nécessaires\n"
+"                              dans le répertoire de construction indiqué\n"
+"                              en premier lieu.\n"
+"  -v                          activer le mode bavard (peut être utilisé\n"
+"                              plusieurs fois).\n"
+"  --ignore-missing-info       ne pas échouer si les informations de\n"
+"                              dépendance ne sont pas trouvées.\n"
+"  --warnings=<valeur>         définir le jeu d'avertissements actifs\n"
+"                              (voir la page de manuel).\n"
+"  --admindir=<répertoire>     change le répertoire d'administration.\n"
 "  -h, --help                  afficher ce message d'aide.\n"
 "      --version               afficher la version.\n"
 "\n"
@@ -1601,9 +1640,9 @@ msgid "-b needs a directory"
 msgstr "répertoire nécessaire avec -b"
 
 #: scripts/dpkg-source.pl:135
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot stat directory %s"
-msgstr "« stat » du répertoire %s impossible : %s"
+msgstr "« stat » du répertoire %s impossible"
 
 #: scripts/dpkg-source.pl:137
 #, perl-format
@@ -1623,21 +1662,21 @@ msgstr "architecture %s seulement autorisée toute seule (liste pour paquet %s e
 #: scripts/dpkg-source.pl:257
 #, perl-format
 msgid "source format `%s' discarded: %s"
-msgstr ""
+msgstr "format source « %s » abandonné : %s"
 
 #: scripts/dpkg-source.pl:259
 #, perl-format
 msgid "using source format `%s'"
-msgstr ""
+msgstr "utilisation du format source « %s »"
 
 #: scripts/dpkg-source.pl:270 scripts/Dpkg/Source/Package/V1.pm:284
 #: scripts/Dpkg/Source/Package/V1.pm:329 scripts/Dpkg/Source/Package/V2.pm:375
 #: scripts/Dpkg/Source/Package/V3/bzr.pm:152
 #: scripts/Dpkg/Source/Package/V3/native.pm:82
 #: scripts/Dpkg/Source/Package/V3/git.pm:216
-#, fuzzy, perl-format
+#, perl-format
 msgid "building %s in %s"
-msgstr "%s : construction de %s dans %s"
+msgstr "construction de %s dans %s"
 
 #: scripts/dpkg-source.pl:282
 msgid "-x needs at least one argument, the .dsc"
@@ -1671,18 +1710,17 @@ msgid "only one of -x or -b allowed, and only once"
 msgstr "une seule option -x ou -b autorisée, et une seule fois"
 
 #: scripts/dpkg-source.pl:340
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson and Klee Dienes.\n"
 "Copyright (C) 2008 Raphael Hertzog"
 msgstr ""
 "\n"
-"Copyright (C) 1996 Ian Jackson.\n"
-"Copyright (C) 2001 Wichert Akkerman"
+"Copyright (C) 1996 Ian Jackson et Klee Dienes.\n"
+"Copyright (C) 2008 Raphael Hertzog"
 
 #: scripts/dpkg-source.pl:352
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -1722,12 +1760,12 @@ msgid ""
 "More options are available but they depend on the source package format.\n"
 "See dpkg-source(1) for more info.\n"
 msgstr ""
-"Usage : %s [<option> ...] <commande>\n"
+"Utilisation : %s [<option> ...] <commande>\n"
 "\n"
 "Commandes :\n"
 "  -x <fichier>.dsc [<rep_sortie]\n"
 "                             extraire le paquet source.\n"
-"  -b <rep> [<rep_orig>|<targz_orig>|'']\n"
+"  -b <rep>\n"
 "                             construire le paquet source.\n"
 "\n"
 "Options de construction :\n"
@@ -1741,31 +1779,12 @@ msgstr ""
 "debian/substvars.\n"
 "  -D<champ>=<valeur>         remplacer ou ajouter une paire champ / valeur.\n"
 "  -U<champ>                  supprimer un champ.\n"
-"  -E                         transformer certains avertissements en "
-"erreurs.\n"
-"  -W                         quand -E est activée, -W la désactive.\n"
 "  -q                         opération muette, ne pas afficher "
 "d'avertissements.\n"
 "  -i[<regexp>]               éliminer les fichiers à ignorer, défaut %s.\n"
 "  -I[<format>]               éliminer des fichiers en construisant les "
 "tarballs\n"
 "                             (par défaut : %s).\n"
-"  -sa                        sélection automatique des sources (-sA option "
-"par défaut).\n"
-"  -sk                        utiliser les sources empaquetées \n"
-"                             (extraction et conservation du targz)\n"
-"  -sp                        utiliser les sources empaquetées\n"
-"                             (extraction et suppression du targz)\n"
-"  -su                        utiliser les sources non empaquetées\n"
-"                             (compression et conservation du répertoire)\n"
-"  -sr                        utiliser les sources non empaquetées\n"
-"                             (compression et suppression du répertoire)\n"
-"  -ss                        croire que le répertoire et le fichier tar sont "
-"identiques.\n"
-"  -sn                        pas de diff, créer le fichier tar seulement.\n"
-"  -sA,-sK,-sP,-sU,-sR        comme -sa,-sk,-sp,-su,-sr, mais modification "
-"possible\n"
-"                             d'un tar ou d'un rep existants.\n"
 "  -Z<compression>            choisir la compression à utiliser (par défaut, "
 "« gzip» ,\n"
 "                             les valeurs gérées sont : %s).\n"
@@ -1775,17 +1794,18 @@ msgstr ""
 "« fast »)\n"
 "\n"
 "Options d'extraction :\n"
-"  -sp (défaut)               garder les sources empaquetées dans le rep "
-"courant.\n"
-"  -sn                        ne pas copier les sources dans le rep courant.\n"
-"  -su                        extraire aussi l'arborescence source.\n"
+"  -no-copy                   ne pas copier l'archive originale\n"
+"  -no-check                  ne pas contrôler la signature et les\n"
+"                             sommes de contrôle avant de décompacter.\n"
 "\n"
 "Options générales :\n"
 "  -h, --help                 afficher ce message d'aide.\n"
 "      --version              afficher la version.\n"
+"\n"
+"Des options supplémentaires sont disponibles mais dépendent du format de paquet source utilisé.\n"
+"Veuillez consulter la page de manuel dpkg-source(1) pour plus d'informations.\n"
 
 #: scripts/changelog/debian.pl:21
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson.\n"
@@ -1793,7 +1813,7 @@ msgid ""
 msgstr ""
 "\n"
 "Copyright (C) 1996 Ian Jackson.\n"
-"Copyright (C) 2000,2001 Wichert Akkerman."
+"Copyright (C) 2005,2007 Frank Lichtenheld."
 
 #: scripts/changelog/debian.pl:32
 #, perl-format
@@ -1823,26 +1843,52 @@ msgid ""
 "                                <number> is lower than 0)\n"
 "    --all                       include all changes\n"
 msgstr ""
+"Utilisation: %s [<option>...] [<fichier_changelog>]\n"
+"\n"
+"Options:\n"
+"    --help, -h                  afficher les informations d'utilisation\n"
+"    --version, -V               afficher la version\n"
+"    --label, -l <fichier>       nom du fichier de changements\n"
+"                                à utiliser dans les messages d'erreur\n"
+"    --file <fichier>            fichier de changement à analyser. La\n"
+"                                valeur par défaut est « - » (entrée standard)\n"
+"    --format <format_sortie>    voir la page de manuel pour la liste\n"
+"                                des formats de sortie. La valeur par\n"
+"                                défaut est « dpkg » pour compatibilité\n"
+"                                avec dpkg-dev\n"
+"    --since, -s, -v <version>   inclure toutes les modifications depuis\n"
+"                                cette version\n"
+"    --until, -u <version>       inclure toutes les modifications antérieures\n"
+"                                à cette version\n"
+"    --from, -f <version>        inclure toutes les modifications depuis\n"
+"                                cette version incluse\n"
+"    --to, -t <version>          inclure toutes les modifications antérieures\n"
+"                                à cette version, incluse\n"
+"    --count, -c, -n <nombre>    inclure <nombre> entrées depuis le début\n"
+"                                (ou bien les dernières si <nombre> est inférieur à 0)\n"
+"    --offset, -o <number>       modifier le point de démarrage de --count,\n"
+"                                à partir du début (ou de la fin si\n"
+"                                <nombre> est inférieur à 0)\n"
+"    --all                       inclure toutes les modifications\n"
 
 #: scripts/changelog/debian.pl:71
 #, perl-format
 msgid "output format %s not supported"
-msgstr ""
+msgstr "format de sortie %s non géré"
 
 #: scripts/changelog/debian.pl:96
-#, fuzzy, perl-format
+#, perl-format
 msgid "more than one file specified (%s and %s)"
-msgstr "type de fichier répété : fichiers %s et %s"
+msgstr "plus d'un fichier indiqué (%s et %s)"
 
 #: scripts/changelog/debian.pl:118
-#, fuzzy
 msgid "fatal error occured while parsing input"
-msgstr "erreur rencontrée lors de l'analyse de %s"
+msgstr "erreur fatale rencontrée lors de l'analyse de la saisie"
 
 #: scripts/changelog/debian.pl:121
-#, fuzzy, perl-format
+#, perl-format
 msgid "fatal error occured while parsing %s"
-msgstr "erreur rencontrée lors de l'analyse de %s"
+msgstr "erreur fatale rencontrée lors de l'analyse de %s"
 
 #: scripts/Dpkg/Arch.pm:69
 msgid ""
@@ -1870,9 +1916,9 @@ msgid "unable to open triplettable"
 msgstr "impossible d'ouvrir « triplettable »"
 
 #: scripts/Dpkg/Cdata.pm:78
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate field %s found"
-msgstr "champ source en double dans %s"
+msgstr "champ %s en double"
 
 #: scripts/Dpkg/Cdata.pm:84
 msgid "continued value line not in field"
@@ -1880,7 +1926,7 @@ msgstr "la ligne continuée n'est pas dans le champ"
 
 #: scripts/Dpkg/Cdata.pm:94
 msgid "PGP signature not allowed here"
-msgstr ""
+msgstr "Signature PGP non autorisée ici"
 
 #: scripts/Dpkg/Cdata.pm:101
 msgid "expected PGP signature, found EOF after blank line"
@@ -1893,7 +1939,7 @@ msgstr "signature PGP attendue, « %s » trouvé"
 
 #: scripts/Dpkg/Cdata.pm:111
 msgid "unfinished PGP signature"
-msgstr ""
+msgstr "signature PGP non terminée"
 
 #: scripts/Dpkg/Cdata.pm:115
 msgid "line with unknown format (not field-colon-value)"
@@ -1910,38 +1956,37 @@ msgid ""
 "%s(l%s): %s\n"
 "LINE: %s"
 msgstr ""
+"%s(l%s): %s\n"
+"LIGNE: %s"
 
 #: scripts/Dpkg/Changelog.pm:172
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s(l%s): %s"
-msgstr "%s : %s"
+msgstr "%s(l%s): %s"
 
 #: scripts/Dpkg/Changelog.pm:182
-#, fuzzy
 msgid "fatal error"
-msgstr "erreur interne"
+msgstr "erreur fatale"
 
 #: scripts/Dpkg/Changelog.pm:229
 msgid "you can't combine 'count' or 'offset' with any other range option"
-msgstr ""
+msgstr "impossible de combiner « count » et « offset » avec une autre option de limitation"
 
 #: scripts/Dpkg/Changelog.pm:233
 msgid "you can only specify one of 'from' and 'since', using 'since'"
-msgstr ""
+msgstr "impossible d'indiquer « from » et « since » simultanément. « since » sera utilisé"
 
 #: scripts/Dpkg/Changelog.pm:237
 msgid "you can only specify one of 'to' and 'until', using 'until'"
-msgstr ""
+msgstr "impossible d'indiquer « to » et « until » simultanément. « until » sera utilisé"
 
 #: scripts/Dpkg/Changelog.pm:241
-#, fuzzy
 msgid "'since' option specifies most recent version, ignoring"
-msgstr "l'option -v<versiondepuis> indique la version la plus récente"
+msgstr "l'option « since » indique la version la plus récente et est ignorée"
 
 #: scripts/Dpkg/Changelog.pm:245
-#, fuzzy
 msgid "'until' option specifies oldest version, ignoring"
-msgstr "l'option -v<versiondepuis> indique la version la plus récente"
+msgstr "l'option « until » indique la version la plus ancienne et est ignorée"
 
 #: scripts/Dpkg/Changelog.pm:763
 #, perl-format
@@ -1954,9 +1999,9 @@ msgid "format parser %s not executable"
 msgstr "l'analyseur de format %s n'est pas exécutable"
 
 #: scripts/Dpkg/Changelog.pm:778
-#, fuzzy, perl-format
+#, perl-format
 msgid "changelog format %s is unknown"
-msgstr "format %s inconnu"
+msgstr "format de fichier de changement %s inconnu"
 
 #: scripts/Dpkg/Changelog.pm:795 scripts/Dpkg/IPC.pm:208
 #, perl-format
@@ -1966,9 +2011,9 @@ msgstr "fork for %s"
 #: scripts/Dpkg/Changelog.pm:799 scripts/Dpkg/IPC.pm:226
 #: scripts/Dpkg/Shlibs.pm:77 scripts/Dpkg/Shlibs/SymbolFile.pm:114
 #: scripts/Dpkg/Source/Package.pm:129 scripts/Dpkg/Source/Package.pm:138
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open %s"
-msgstr "impossible d'ouvrir %s : %s"
+msgstr "impossible d'ouvrir %s"
 
 #: scripts/Dpkg/Changelog.pm:801
 #, perl-format
@@ -1977,26 +2022,26 @@ msgstr "impossible d'exécuter l'analyseur de format : %s"
 
 #: scripts/Dpkg/Changelog.pm:806
 msgid "output of changelog parser"
-msgstr ""
+msgstr "affichage de l'analyseur de fichier de changements"
 
 #: scripts/Dpkg/Changelog.pm:809
-#, fuzzy, perl-format
+#, perl-format
 msgid "changelog parser %s"
-msgstr "impossible d'exécuter l'analyseur de format : %s"
+msgstr "analyseur de fichier de changements : %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:101
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't open file %s: %s"
-msgstr "impossible d'ouvrir le fichier .dsc %s : %s"
+msgstr "impossible d'ouvrir le fichier .%s : %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:110
 #, perl-format
 msgid "can't load IO::String: %s"
-msgstr ""
+msgstr "impossible de charger IO::String: %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:117
 msgid "no changelog file specified"
-msgstr ""
+msgstr "pas de fichier de changement indiqué"
 
 #: scripts/Dpkg/Changelog/Debian.pm:142
 #, perl-format
@@ -2018,9 +2063,9 @@ msgid "badly formatted urgency value"
 msgstr "valeur urgency mal formée"
 
 #: scripts/Dpkg/Changelog/Debian.pm:186
-#, fuzzy, perl-format
+#, perl-format
 msgid "unknown key-value key %s - copying to XS-%s"
-msgstr "clé clé-valeur inconnue %s, copie dans %s"
+msgstr "clé clé-valeur inconnue %s, copie dans XS-%s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:217
 msgid "badly formatted heading line"
@@ -2036,9 +2081,9 @@ msgid "badly formatted trailer line"
 msgstr "ligne de fin mal formée"
 
 #: scripts/Dpkg/Changelog/Debian.pm:235
-#, fuzzy, perl-format
+#, perl-format
 msgid "couldn't parse date %s"
-msgstr "stat de %s impossible"
+msgstr "impossible d'analyser la date %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:251 scripts/Dpkg/Changelog/Debian.pm:266
 #, perl-format
@@ -2060,44 +2105,44 @@ msgid "found eof where expected %s"
 msgstr "fin de fichier trouvée, %s attendu"
 
 #: scripts/Dpkg/Changelog/Debian.pm:323
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't close file %s: %s"
-msgstr "impossible d'ouvrir le fichier .dsc %s : %s"
+msgstr "impossible de fermer le fichier %s : %s"
 
 #: scripts/Dpkg/Checksums.pm:26
-#, fuzzy, perl-format
+#, perl-format
 msgid "checksum program gave bogus output `%s'"
-msgstr "résultat anormal de md5sum « %s »"
+msgstr "le programme de calcul de somme de contrôle a fourni un résultat anormal : « %s »"
 
 #: scripts/Dpkg/Checksums.pm:37
 #, perl-format
 msgid "Unknown checksum algorithm `%s', ignoring"
-msgstr ""
+msgstr "Algorithme de calcul de somme de contrôle %s inconnu et ignoré"
 
 #: scripts/Dpkg/Checksums.pm:45
-#, fuzzy, perl-format
+#, perl-format
 msgid "Checksums-%s field contains bad line `%s'"
-msgstr "le champ Files contient une ligne mal formée « %s »"
+msgstr "Le champ Checksums-%s contient une ligne mal formée « %s »"
 
 #: scripts/Dpkg/Checksums.pm:57
 #, perl-format
 msgid "Conflicting file sizes `%u' and `%u' for file `%s'"
-msgstr ""
+msgstr "Conflit de taille de fichiers %u et %u pour le fichier %s"
 
 #: scripts/Dpkg/Checksums.pm:81
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot fstat file %s"
-msgstr "stat impossible pour le fichier %s"
+msgstr "fstat impossible pour le fichier %s"
 
 #: scripts/Dpkg/Checksums.pm:85
-#, fuzzy, perl-format
+#, perl-format
 msgid "File %s has size %u instead of expected %u"
-msgstr "la taille du fichier %s est %s au lieu de %s"
+msgstr "la taille du fichier %s est %u au lieu de %u attendu"
 
 #: scripts/Dpkg/Checksums.pm:98
-#, fuzzy, perl-format
+#, perl-format
 msgid "File %s has checksum %s instead of expected %s (algorithm %s)"
-msgstr "md5sum du fichier %s est %s au lieu de %s"
+msgstr "la somme de comdtrôle du fichier %s est %s au lieu de %s (algorithme %s)"
 
 #: scripts/Dpkg/Control.pm:81 scripts/Dpkg/Shlibs/Objdump.pm:89
 #: scripts/Dpkg/Source/CompressedFile.pm:131
@@ -2109,11 +2154,11 @@ msgstr "impossible de lire %s"
 
 #: scripts/Dpkg/Control.pm:86
 msgid "first block lacks a source field"
-msgstr ""
+msgstr "le premier bloc ne comporte pas de champ source"
 
 #: scripts/Dpkg/Control.pm:93
 msgid "block lacks a package field"
-msgstr ""
+msgstr "le bloc ne comporte pas de champ de paquet"
 
 #: scripts/Dpkg/Deps.pm:313
 #, perl-format
@@ -2123,11 +2168,11 @@ msgstr "impossible d'analyser la dépendance %s"
 #: scripts/Dpkg/Deps.pm:626
 #, perl-format
 msgid "Dpkg::Deps::Simple can't evaluate implication with a %s!"
-msgstr ""
+msgstr "Dpkg::Deps::Simple ne peut pas évaluer l'implication avec un %s!"
 
 #: scripts/Dpkg/ErrorHandling.pm:24
 msgid "info"
-msgstr ""
+msgstr "info"
 
 #: scripts/Dpkg/ErrorHandling.pm:43 scripts/Dpkg/ErrorHandling.pm:49
 msgid "failure"
@@ -2187,7 +2232,7 @@ msgstr "erreur d'écriture sur des données de contrôle"
 
 #: scripts/Dpkg/IPC.pm:172
 msgid "invalid exec parameter in fork_and_exec()"
-msgstr ""
+msgstr "paramètre exec non valable dans fork_and_exec()"
 
 #: scripts/Dpkg/IPC.pm:190 scripts/Dpkg/IPC.pm:196 scripts/Dpkg/IPC.pm:202
 #, perl-format
@@ -2195,14 +2240,13 @@ msgid "pipe for %s"
 msgstr "pipe pour %s"
 
 #: scripts/Dpkg/IPC.pm:221
-#, fuzzy, perl-format
+#, perl-format
 msgid "chdir to %s"
-msgstr "chdir pour du vers %s"
+msgstr "chdir vers %s"
 
 #: scripts/Dpkg/IPC.pm:228
-#, fuzzy
 msgid "reopen stdin"
-msgstr "réouverture tar"
+msgstr "réouverture stdin"
 
 #: scripts/Dpkg/IPC.pm:234 scripts/Dpkg/IPC.pm:242
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:181
@@ -2213,14 +2257,13 @@ msgstr "réouverture tar"
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:224
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:227
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:237
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot write %s"
-msgstr "impossible de lire %s"
+msgstr "impossible d'écrire %s"
 
 #: scripts/Dpkg/IPC.pm:236 scripts/Dpkg/IPC.pm:244
-#, fuzzy
 msgid "reopen stdout"
-msgstr "réouverture tar"
+msgstr "réouverture stdout"
 
 #: scripts/Dpkg/IPC.pm:250
 #, perl-format
@@ -2229,16 +2272,16 @@ msgstr "exec %s"
 
 #: scripts/Dpkg/IPC.pm:306
 msgid "child process"
-msgstr ""
+msgstr "processus fils"
 
 #: scripts/Dpkg/IPC.pm:307
 msgid "no PID set, cannot wait end of process"
-msgstr ""
+msgstr "pas de PID établi, impossible d'attendre la fin du processus"
 
 #: scripts/Dpkg/IPC.pm:308
-#, fuzzy, perl-format
+#, perl-format
 msgid "wait for %s"
-msgstr "attente tar"
+msgstr "attente de %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:74
 msgid "cannot fork for objdump"
@@ -2250,14 +2293,14 @@ msgid "objdump on `%s'"
 msgstr "objdump sur %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:148
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot fork %s"
-msgstr "fork impossible : %s"
+msgstr "fork impossible pour %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:189
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't parse dynamic relocation record: %s"
-msgstr "Impossible d'analyser la définition de symboles dynamique : %s"
+msgstr "Impossible d'analyser l'enregistrement d'allocation dynamique : %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:299
 #, perl-format
@@ -2274,7 +2317,7 @@ msgstr ""
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:130
 #, perl-format
 msgid "you can't use wildcards on unversioned symbols: %s"
-msgstr ""
+msgstr "impossible d'utiliser des caractères génériques sur les symboles non versionnés : %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:166
 #, perl-format
@@ -2286,20 +2329,18 @@ msgid "Can't merge symbols from objects without SONAME."
 msgstr "Impossible de fusionner les symboles depuis des objets sans SONAME."
 
 #: scripts/Dpkg/Source/Archive.pm:58
-#, fuzzy
 msgid "write on tar input"
-msgstr "entrée écrite"
+msgstr "écriture sur l'entrée de tar"
 
 #: scripts/Dpkg/Source/Archive.pm:83
-#, fuzzy
 msgid "close on tar input"
-msgstr "close output"
+msgstr "écriture sur la sortie de tar"
 
 #: scripts/Dpkg/Source/Archive.pm:133 scripts/Dpkg/Source/Package.pm:249
 #: scripts/Dpkg/Source/Package/V2.pm:164
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot opendir %s"
-msgstr "impossible d'ouvrir %s : %s"
+msgstr "impossible d'ouvrir le répertoire %s"
 
 #: scripts/Dpkg/Source/Archive.pm:140 scripts/Dpkg/Source/Archive.pm:144
 #, perl-format
@@ -2307,13 +2348,13 @@ msgid "Unable to rename %s to %s"
 msgstr "impossible de modifier %s en %s"
 
 #: scripts/Dpkg/Source/Compressor.pm:61
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s is not a supported compression method"
-msgstr "%s n'est pas une compression gérée"
+msgstr "%s n'est pas une méthode compression gérée"
 
 #: scripts/Dpkg/Source/Compressor.pm:91
 msgid "Dpkg::Source::Compressor can only start one subprocess at a time"
-msgstr ""
+msgstr "Dpkg::Source::Compressor ne peut démarrer qu'un sous-processus à la fois"
 
 #: scripts/Dpkg/Source/Functions.pm:20
 #, perl-format
@@ -2347,9 +2388,8 @@ msgid "unknown line from diff -u on %s: `%s'"
 msgstr "ligne inconnue dans diff -u sur %s : `%s'"
 
 #: scripts/Dpkg/Source/Patch.pm:117
-#, fuzzy
 msgid "failed to write"
-msgstr "échec d'écriture vers pipe de compression"
+msgstr "échec d'écriture"
 
 #: scripts/Dpkg/Source/Patch.pm:127
 #, perl-format
@@ -2387,9 +2427,8 @@ msgid "device or socket is not allowed"
 msgstr "périphérique ou socket non autorisé"
 
 #: scripts/Dpkg/Source/Patch.pm:214
-#, fuzzy
 msgid "unknown file type"
-msgstr "type de fichier inconnu %s"
+msgstr "type de fichier inconnu"
 
 #: scripts/Dpkg/Source/Patch.pm:229
 #, perl-format
@@ -2407,29 +2446,29 @@ msgid "ignoring deletion of symlink %s"
 msgstr "suppression du lien symbolique %s ignorée"
 
 #: scripts/Dpkg/Source/Patch.pm:247
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot close %s"
-msgstr "impossible d'ouvrir %s : %s"
+msgstr "impossible de fermer %s"
 
 #: scripts/Dpkg/Source/Patch.pm:259 scripts/Dpkg/Source/Package/V2.pm:303
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot represent change to %s: %s"
-msgstr "%s : impossible de représenter les changements de %s : %s"
+msgstr "impossible de représenter les changements de %s : %s"
 
 #: scripts/Dpkg/Source/Patch.pm:266
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot represent change to %s:"
-msgstr "%s : impossible de représenter les changements de %s : %s"
+msgstr "impossible de représenter les changements de %s :"
 
 #: scripts/Dpkg/Source/Patch.pm:267
 #, perl-format
 msgid "  new version is %s"
-msgstr ""
+msgstr "  la nouvelle version est %s"
 
 #: scripts/Dpkg/Source/Patch.pm:268
 #, perl-format
 msgid "  old version is %s"
-msgstr ""
+msgstr "  l'ancienne version est %s"
 
 #: scripts/Dpkg/Source/Patch.pm:294
 #, perl-format
@@ -2457,9 +2496,9 @@ msgid "line after --- isn't as expected in diff `%s' (line %d)"
 msgstr "ligne après --- n'est pas comme attendu dans diff %s (ligne %d)"
 
 #: scripts/Dpkg/Source/Patch.pm:315
-#, fuzzy, perl-format
+#, perl-format
 msgid "original and modified files are /dev/null in diff `%s' (line %d)"
-msgstr "ligne après --- n'est pas comme attendu dans diff %s (ligne %d)"
+msgstr "les fichiers original et modifié sont /dev/null dans le diff %s (ligne %d)"
 
 #: scripts/Dpkg/Source/Patch.pm:330
 #, perl-format
@@ -2467,9 +2506,9 @@ msgid "diff `%s' patches something which is not a plain file"
 msgstr "diff %s modifie un objet qui n'est pas un fichier normal"
 
 #: scripts/Dpkg/Source/Patch.pm:334
-#, fuzzy, perl-format
+#, perl-format
 msgid "diff `%s' patches file %s twice"
-msgstr "diff modifie deux fois le fichier %s"
+msgstr "le diff %s modifie deux fois le fichier %s"
 
 #: scripts/Dpkg/Source/Patch.pm:349
 #, perl-format
@@ -2494,13 +2533,13 @@ msgstr "^@@ attendu ligne %d du diff %s"
 #: scripts/Dpkg/Source/Patch.pm:372
 #, perl-format
 msgid "diff `%s' doesn't contain any patch"
-msgstr ""
+msgstr "le diff %s ne contient pas de changements"
 
 #: scripts/Dpkg/Source/Patch.pm:395 scripts/Dpkg/Source/Package/V3/git.pm:182
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:130
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot create directory %s"
-msgstr "« stat » du répertoire %s impossible : %s"
+msgstr "impossible de créer le répertoire %s"
 
 #: scripts/Dpkg/Source/Patch.pm:415
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:143
