@@ -348,6 +348,11 @@ sub do_build {
         unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     } else {
         mkpath(File::Spec->catdir($dir, "debian", "patches"));
+        info(_g("local changes stored in %s, the modified files are:"), $autopatch);
+        my $analysis = $diff->analyze($dir);
+        foreach my $fn (sort keys %{$analysis->{'filepatched'}}) {
+            print " $fn\n";
+        }
         rename($tmpdiff, $autopatch) ||
                 syserr(_g("cannot rename %s to %s"), $tmpdiff, $autopatch);
     }
