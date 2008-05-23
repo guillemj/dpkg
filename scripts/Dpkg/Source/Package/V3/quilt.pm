@@ -54,7 +54,7 @@ sub parse_cmdline_option {
 
 sub get_autopatch_name {
     my ($self) = @_;
-    return "debian-changes-" . $self->{'fields'}{'Version'} . ".diff";
+    return "debian-changes-" . $self->{'fields'}{'Version'};
 }
 
 sub get_series_file {
