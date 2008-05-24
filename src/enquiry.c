@@ -128,7 +128,8 @@ void audit(const char *const *argv) {
   const struct badstatinfo *bsi;
   int head;
 
-  if (*argv) badusage(_("--audit does not take any arguments"));
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir,msdbrw_readonly);
 
@@ -182,7 +183,8 @@ void unpackchk(const char *const *argv) {
   char buf[20];
   int width;
   
-  if (*argv) badusage(_("--yet-to-unpack does not take any arguments"));
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
 
@@ -255,7 +257,8 @@ static void assertversion(const char *const *argv,
 			const char *reqversion) {
   struct pkginfo *pkg;
 
-  if (*argv) badusage(_("--assert-* does not take any arguments"));
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
   if (verrev_buf->epoch == ~0UL) {
@@ -319,7 +322,8 @@ void predeppackage(const char *const *argv) {
   struct dependency *dep;
   struct deppossi *possi, *provider;
 
-  if (*argv) badusage(_("--predep-package does not take any argument"));
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir,msdbrw_readonly);
   clear_istobes(); /* We use clientdata->istobe to detect loops */
@@ -391,7 +395,8 @@ void predeppackage(const char *const *argv) {
 }
 
 void printarch(const char *const *argv) {
-  if (*argv) badusage(_("--print-architecture does not take any argument"));
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
 
   if (printf("%s\n",architecture) == EOF) werr("stdout");
   if (fflush(stdout)) werr("stdout");

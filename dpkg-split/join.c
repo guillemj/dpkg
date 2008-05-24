@@ -99,7 +99,9 @@ void do_join(const char *const *argv) {
   unsigned int i;
   
   assert(!queue);
-  if (!*argv) badusage(_("--join requires one or more part file arguments"));
+  if (!*argv)
+    badusage(_("--%s requires one or more part file arguments"),
+             cipaction->olong);
   while ((thisarg= *argv++)) {
     pq= nfmalloc(sizeof(struct partqueue));
 

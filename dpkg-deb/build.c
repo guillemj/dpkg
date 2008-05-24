@@ -189,7 +189,9 @@ void do_build(const char *const *argv) {
   struct _finfo *symlist_end = NULL;
   
 /* Decode our arguments */
-  directory= *argv++; if (!directory) badusage(_("--build needs a directory argument"));
+  directory = *argv++;
+  if (!directory)
+    badusage(_("--%s needs a <directory> argument"), cipaction->olong);
   /* template for our tempfiles */
   if ((envbuf= getenv("TMPDIR")) == NULL)
     envbuf= P_tmpdir;

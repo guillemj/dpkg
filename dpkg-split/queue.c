@@ -192,7 +192,8 @@ void do_queue(const char *const *argv) {
   unsigned long bytes;
   unsigned int i;
 
-  if (*argv) badusage(_("--listq does not take any arguments"));
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
   scandepot();
 
   head= N_("Junk files left around in the depot directory:\n");

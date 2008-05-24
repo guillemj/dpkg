@@ -215,7 +215,9 @@ void do_info(const char *const *argv) {
   struct partinfo *pi, ps;
   FILE *part;
 
-  if (!*argv) badusage(_("--info requires one or more part file arguments"));
+  if (!*argv)
+    badusage(_("--%s requires one or more part file arguments"),
+             cipaction->olong);
   
   while ((thisarg= *argv++)) {
     part= fopen(thisarg,"r");

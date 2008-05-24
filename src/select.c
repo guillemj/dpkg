@@ -92,7 +92,8 @@ void setselections(const char *const *argv) {
   struct varbuf namevb;
   struct varbuf selvb;
 
-  if (*argv) badusage(_("--set-selections does not take any argument"));
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir,msdbrw_write);
 
@@ -151,7 +152,7 @@ void clearselections(const char *const *argv)
   struct pkginfo *pkg;
 
   if (*argv)
-    badusage(_("--clear-selections does not take any argument"));
+    badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir, msdbrw_write);
 
