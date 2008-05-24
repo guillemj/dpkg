@@ -187,12 +187,12 @@ main(int argc, const char *const *argv)
 
 	if (f_check) {
 		if (*argv)
-			badusage(_("dpkg-trigger --check-supported takes no arguments"));
+			badusage(_("--check-supported takes no arguments"));
 		do_check();
 	}
 
 	if (!*argv || argv[1])
-		badusage(_("dpkg-trigger takes one argument, the trigger name"));
+		badusage(_("takes one argument, the trigger name"));
 
 	if (!bypackage) {
 		bypackage = getenv(MAINTSCRIPTPKGENVVAR);
@@ -207,7 +207,7 @@ main(int argc, const char *const *argv)
 
 	activate = argv[0];
 	if ((badname = illegal_triggername(activate)))
-		badusage(_("dpkg-trigger: invalid trigger name `%.250s': %.250s"),
+		badusage(_("invalid trigger name `%.250s': %.250s"),
 		         activate, badname);
 
 	trigdef = &tdm_add;
