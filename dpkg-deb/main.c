@@ -36,6 +36,7 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
 #include <myopt.h>
 
 #include "dpkg-deb.h"
@@ -174,7 +175,7 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
     badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
              cip->oshort, cip->olong, cipaction->oshort, cipaction->olong);
   cipaction= cip;
-  assert((int)(cip-cmdinfos) < (int)(sizeof(dofunctions)*sizeof(dofunction*)));
+  assert((int)(cip - cmdinfos) < (int)(sizeof_array(dofunctions)));
   action= dofunctions[cip-cmdinfos];
 }
 
