@@ -41,6 +41,12 @@ files will be 0777 and plain files will be 0666, both modified by the
 extractors' umask; if the parent directory is setgid then the
 extracted directories will be too, and all the files and directories
 will inherit its group ownership.
+
+If the source package uses a non-standard format (currently this means all
+formats except "1.0"), its name will be stored in
+\fBdebian/source/format\fP so that the following builds of the source
+package use the same format by default.
+
 .TP
 .RI "\fB\-b\fP " directory " [" format-specific-parameters ]
 Build a source package. The first non-option argument is taken as the
@@ -53,6 +59,7 @@ additional parameters might be accepted.
 that works from this ordered list:
 the format indicated in the \fIFormat\fP field of \fBdebian/control\fP,
 the format(s) indicated with the \fI\-\-format\fP command-line option(s),
+the format indicated in \fBdebian/source/format\fP,
 "1.0", "3.0 (native)". See below for an extensive description of
 various source package formats.
 
@@ -86,9 +93,9 @@ defaults to the debian standard format.
 .TP
 .BI \-\-format= value
 Try first the given format for building the source package. If used
-multiple times, the last value is tried first and the first one is
-tried last just before trying the default formats. It doesn't override
-any explicit \fIFormat\fP field in \fBdebian/control\fP.
+multiple times, they are tried in order. It doesn't override
+any explicit \fIFormat\fP field in \fBdebian/control\fP but it does
+override any format given in \fBdebian/source/format\fP.
 .TP
 .BI \-V name = value
 \fBDeprecated\fP. Set an output substitution variable.
