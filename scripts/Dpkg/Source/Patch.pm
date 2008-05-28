@@ -377,6 +377,16 @@ sub analyze {
     return $self->{'analysis'}{$destdir};
 }
 
+sub prepare_apply {
+    my ($self, $analysis, %opts) = @_;
+    if ($opts{"create_dirs"}) {
+	foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
+	    eval { mkpath($dir, 0, 0777); };
+	    syserr(_g("cannot create directory %s"), $dir) if $@;
+	}
+    }
+}
+
 sub apply {
     my ($self, $destdir, %opts) = @_;
     # Set default values to options
@@ -389,12 +399,7 @@ sub apply {
     push @{$opts{"options"}}, @{$opts{"add_options"}};
     # Check the diff and create missing directories
     my $analysis = $self->analyze($destdir, %opts);
-    if ($opts{"create_dirs"}) {
-	foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
-	    eval { mkpath($dir, 0, 0777); };
-	    syserr(_g("cannot create directory %s"), $dir) if $@;
-	}
-    }
+    $self->prepare_apply($analysis, %opts);
     # Apply the patch
     my $diff_handle = $self->open_for_read();
     fork_and_exec(
@@ -419,6 +424,37 @@ sub apply {
 	    unlink($fn) || syserr(_g("remove patch backup file %s"), $fn);
 	}
     }
+}
+
+# Verify if check will work...
+sub check_apply {
+    my ($self, $destdir, %opts) = @_;
+    # Set default values to options
+    $opts{"create_dirs"} = 1 unless exists $opts{"create_dirs"};
+    $opts{"options"} ||= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
+            '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
+    $opts{"add_options"} ||= [];
+    push @{$opts{"options"}}, @{$opts{"add_options"}};
+    # Check the diff and create missing directories
+    my $analysis = $self->analyze($destdir, %opts);
+    $self->prepare_apply($analysis, %opts);
+    # Apply the patch
+    my $diff_handle = $self->open_for_read();
+    my $error;
+    my $patch_pid = fork_and_exec(
+	'exec' => [ 'patch', @{$opts{"options"}} ],
+	'chdir' => $destdir,
+	'env' => { LC_ALL => 'C', LANG => 'C' },
+	'delete_env' => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
+	'from_handle' => $diff_handle,
+        'to_file' => '/dev/null',
+        'error_to_file' => '/dev/null',
+    );
+    wait_child($patch_pid, nocheck => 1);
+    my $exit = WEXITSTATUS($?);
+    subprocerr("patch --dry-run") unless WIFEXITED($?);
+    $self->cleanup_after_open();
+    return ($exit == 0);
 }
 
 # Helper functions

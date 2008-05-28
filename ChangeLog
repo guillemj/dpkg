@@ -1,3 +1,15 @@
+2008-05-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Patch.pm (check_apply): New function to
+	verify if a patch will successfully apply on top of a given
+	directory.
+	* scripts/Dpkg/Source/Package/V3/quilt.pm (check_patches_applied):
+	Don't trust debian/patches/.dpkg-source-applied blindly. Get a
+	list of (supposedly unapplied) patches and verify if the first
+	patch applies or not. If yes, then apply the patch series,
+	otherwise do not (and assume that the patch series is already
+	applied).
+
 2008-05-23  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Source/Package/V2.pm (do_build): Display a

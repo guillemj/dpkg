@@ -173,8 +173,9 @@ sub prepare_build {
 sub check_patches_applied {
     my ($self, $dir) = @_;
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
-    my $quiltdir = File::Spec->catdir($dir, ".pc");
-    if (-d $quiltdir) {
+    my @patches ;
+    # First we try to get a list of patches that could be unapplied
+    if (-x "/usr/bin/quilt") {
         my $auto_patch = $self->get_autopatch_name();
         my $pipe;
         my %opts = (env => { QUILT_PATCHES => 'debian/patches' },
@@ -188,24 +189,18 @@ sub check_patches_applied {
         # quilt... but by the user who made changes live in the tree
         # and whose changes lead to this patch addition by a previous
         # dpkg-source run.
-        my @patches = grep { chomp; $_ ne $auto_patch } (<$pipe>);
+        @patches = grep { chomp; $_ ne $auto_patch } (<$pipe>);
         close ($pipe) || syserr("close on 'quilt unapplied' pipe");
         wait_child($pid, cmdline => "quilt unapplied", nocheck => 1);
-        if (@patches) {
-            warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
-            $opts{'wait_child'} = 1;
-            $opts{'to_file'} = "/dev/null";
-            delete $opts{'to_pipe'};
-            foreach my $patch (@patches) {
-                info(_g("applying %s with quilt"), $patch);
-                $opts{'exec'} = [ 'quilt', '--quiltrc', '/dev/null', 'push', $patch ];
-                fork_and_exec(%opts);
-            }
-        }
-        return;
+    } else {
+        @patches = $self->get_patches($dir);
     }
-    unless (-e $applied) {
-        if (scalar($self->get_patches($dir))) {
+    # Then we check if it's applicable, and if yes, we make the
+    # assumption that patches are not applied and need to be applied
+    if (scalar(@patches)) {
+        my $first_patch = File::Spec->catfile($dir, "debian", "patches", $patches[0]);
+        my $patch_obj = Dpkg::Source::Patch->new(filename => $first_patch);
+        if ($patch_obj->check_apply($dir)) {
             warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
             $self->apply_patches($dir);
         }
