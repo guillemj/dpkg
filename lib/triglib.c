@@ -708,7 +708,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 		abort();
 	}
 
-	/* Right, that's it. New (empty) Unincopr can be installed. */
+	/* Right, that's it. New (empty) Unincorp can be installed. */
 	trigdef_process_done();
 }
 
