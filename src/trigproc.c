@@ -295,6 +295,9 @@ trigproc(struct pkginfo *pkg)
 		}
 		varbufaddc(&namesarg, 0);
 
+		/* Setting the status to halfconfigured
+		 * causes modstatdb_note to clear pending triggers.
+		 */
 		pkg->status = stat_halfconfigured;
 		modstatdb_note(pkg);
 

@@ -251,6 +251,9 @@ void modstatdb_note(struct pkginfo *pkg) {
 
   onerr_abort++;
 
+  /* Clear pending triggers here so that only code that sets the status
+   * to interesting (for triggers) values has to care about triggers.
+   */
   if (pkg->status != stat_triggerspending &&
       pkg->status != stat_triggersawaited)
     pkg->trigpend_head = NULL;
