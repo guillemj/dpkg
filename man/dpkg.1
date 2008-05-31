@@ -51,7 +51,7 @@ be changed mainly with \fBdselect\fP.
 The package is not installed on your system.
 .TP
 .B config\-files
-Only the configuration files of the package exist on the system.
+Only the conffiles of the package exist on the system.
 .TP
 .B half\-installed
 The installation of the package has been started, but not completed for
@@ -79,11 +79,11 @@ The package is selected for installation.
 .TP
 .B deinstall
 The package is selected for deinstallation (i.e. we want to remove all
-files, except configuration files).
+files, except conffiles).
 .TP
 .B purge
 The package is selected to be purged (i.e. we want to remove everything,
-even configuration files).
+even conffiles).
 .SS PACKAGE FLAGS
 .TP
 .B hold
@@ -141,8 +141,8 @@ packages are configured.
 Configuring consists of the following steps:
 .br
 
-\fB1.\fP Unpack the configuration files, and at the same time back up
-the old configuration files, so that they can be restored if
+\fB1.\fP Unpack the conffiles, and at the same time back up
+the old conffiles, so that they can be restored if
 something goes wrong.
 .br
 
@@ -157,11 +157,11 @@ can be fixed later by running: \fBdpkg \-\-configure \-\-pending\fP.
 .TP
 \fB\-r\fP, \fB\-\-remove\fP, \fB\-P\fP, \fB\-\-purge \fP\fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
 Remove an installed package. \fB\-r\fP or \fB\-\-remove\fP remove
-everything except configuration files. This may avoid having to
-reconfigure the package if it is reinstalled later. (Configuration
-files are the files listed in the \fIdebian/conffiles\fP control
-file). \fB\-P\fP or \fB\-\-purge\fP removes everything, including configuration
-files. If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package
+everything except conffiles. This may avoid having to
+reconfigure the package if it is reinstalled later. (Conffiles are configuration
+files that are listed in the \fIDEBIAN/conffiles\fP control
+file). \fB\-P\fP or \fB\-\-purge\fP removes everything, including
+conffiles. If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package
 name, then all packages unpacked, but marked to be removed or purged
 in file \fI/var/lib/dpkg/status\fP, are removed or purged,
 respectively.
@@ -327,16 +327,19 @@ in future releases). \fB\-Dh\fP or \fB\-\-debug=help\fP display these
 debugging values.
 
  number  description
-    1   Generally helpful progress information
-    2   Invocation and status of maintainer scripts
-   10   Output for each file processed
-  100   Lots of output for each file processed
-   20   Output for each configuration file
-  200   Lots of output for each configuration file
-   40   Dependencies and conflicts
-  400   Lots of dependencies/conflicts output
- 1000   Lots of drivel about e.g. the dpkg/info dir
- 2000   Insane amounts of drivel
+     1   Generally helpful progress information
+     2   Invocation and status of maintainer scripts
+    10   Output for each file processed
+   100   Lots of output for each file processed
+    20   Output for each configuration file
+   200   Lots of output for each configuration file
+    40   Dependencies and conflicts
+   400   Lots of dependencies/conflicts output
+ 10000   Trigger activation and processing
+ 20000   Lots of output regarding triggers
+ 40000   Silly amounts of output regarding triggers
+  1000   Lots of drivel about e.g. the dpkg/info dir
+  2000   Insane amounts of drivel
 .TP
 \fB\-\-force\-\fP\fIthings\fP, \fB\-\-no\-force\-\fP\fIthings\fP, \fB\-\-refuse\-\fP\fIthings\fP
 
@@ -393,7 +396,7 @@ Install, even if it conflicts with another package. This is dangerous,
 for it will usually cause overwriting of some files.
 
 \fBconfmiss\fP:
-Always install a missing configuration file. This is dangerous,
+Always install a missing conffile. This is dangerous,
 since it means not preserving a change (removing) made to the
 file.
 
@@ -510,7 +513,7 @@ where the translators have not made mistakes every newline is followed
 by at least one space.
 .TP
 .BI "status: " file " : conffile-prompt : '" real-old "' '" real-new "' " useredited " " distedited
-User is being asked a configuration file question.
+User is being asked a conffile question.
 .TP
 .BI "processing: " stage ": " package
 Sent just before a processing stage starts. \fIstage\fR is one of
@@ -619,7 +622,7 @@ To install a package, you first need to find it in an archive or
 CDROM. The "available" file shows that the vim package is in section
 "editors":
 .br
-\fB     cd /cdrom/hamm/hamm/binary/editors\fP
+\fB     cd /cdrom/pool/main/v/vim\fP
 \fB     dpkg \-i vim_4.5\-3.deb\fP
 .br
 
