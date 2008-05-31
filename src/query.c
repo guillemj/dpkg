@@ -255,6 +255,7 @@ void searchfiles(const char *const *argv) {
 
   while ((thisarg= *argv++) != 0) {
     found= 0;
+    rtrim_slash_slashdot(thisarg);
     if (!strchr("*[?/",*thisarg)) {
       varbufreset(&vb);
       varbufaddc(&vb,'*');
