@@ -650,7 +650,8 @@ int tarobject(struct TarInfo *ti) {
      * it until we apply the proper mode, which might be a statoverride.
      */
     fd= open(fnamenewvb.buf, (O_CREAT|O_EXCL|O_WRONLY), 0);
-    if (fd < 0) ohshite(_("unable to create `%.255s'"),ti->Name);
+    if (fd < 0)
+      ohshite(_("unable to create `%.255s' (while processing `%.255s')"), fnamenewvb.buf, ti->Name);
     push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
     debug(dbg_eachfiledetail,"tarobject NormalFile[01] open size=%lu",
           (unsigned long)ti->Size);
