@@ -39,7 +39,7 @@ syntax than debian/control.
 =item $c = Dpkg::Control->new($file)
 
 Create a new Dpkg::Control object for $file. If $file is omitted, it parses
-debian/control.
+debian/control. If file is "-", it parses the standard input.
 
 =cut
 sub new {
@@ -51,7 +51,11 @@ sub new {
     };
     bless $self, $class;
     if ($arg) {
-	$self->parse($arg);
+        if ($arg eq "-") {
+            $self->parse_fh(\*STDIN);
+        } else {
+            $self->parse($arg);
+        }
     } else {
 	$self->parse("debian/control");
     }
@@ -76,24 +80,33 @@ Parse the content of $file. Exits in case of errors.
 =cut
 sub parse {
     my ($self, $file) = @_;
-    $self->reset();
-    # Parse
     open(CDATA, "<", $file) || syserr(_g("cannot read %s"), $file);
-    my $cdata = parsecdata(\*CDATA, $file);
+    $self->parse_fh(\*CDATA);
+    close(CDATA);
+}
+
+=item $c->parse_fh($fh)
+
+Parse a control file from the given filehandle. Exits in case of errors.
+
+=cut
+sub parse_fh {
+    my ($self, $fh) = @_;
+    $self->reset();
+    my $cdata = parsecdata($fh, _g("standard input"));
     return if not defined $cdata;
     $self->{source} = $cdata;
     unless (exists $cdata->{Source}) {
-	syntaxerr($file, _g("first block lacks a source field"));
+	syntaxerr(_g("standard input"), _g("first block lacks a source field"));
     }
     while (1) {
-	$cdata = parsecdata(\*CDATA, $file);
+	$cdata = parsecdata($fh, _g("standard input"));
 	last if not defined $cdata;
 	push @{$self->{packages}}, $cdata;
 	unless (exists $cdata->{Package}) {
-	    syntaxerr($file, _g("block lacks a package field"));
+	    syntaxerr(_g("standard input"), _g("block lacks a package field"));
 	}
     }
-    close(CDATA);
 }
 
 =item $c->get_source()
