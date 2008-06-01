@@ -34,7 +34,7 @@ extern "C" {
 
 /* Path handling. */
 
-void rtrim_slash_slashdot(char *path);
+size_t rtrim_slash_slashdot(char *path);
 
 /* Subprocess handling. */
 

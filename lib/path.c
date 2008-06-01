@@ -23,13 +23,13 @@
 #include <string.h>
 #include <dpkg-priv.h>
 
-void
+size_t
 rtrim_slash_slashdot(char *path)
 {
 	char *end;
 
 	if (!path || !*path)
-		return;
+		return 0;
 
 	for (end = path + strlen(path) - 1; end - path >= 1; end--) {
 		if (*end == '/' || (*(end - 1) == '/' && *end == '.'))
@@ -37,5 +37,7 @@ rtrim_slash_slashdot(char *path)
 		else
 			break;
 	}
+
+	return end - path + 1;
 }
 
