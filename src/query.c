@@ -38,6 +38,7 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
 #include <myopt.h>
 
 #include "filesdb.h"
@@ -244,10 +245,13 @@ void searchfiles(const char *const *argv) {
   struct fileiterator *it;
   const char *thisarg;
   int found;
+  struct varbuf path;
   static struct varbuf vb;
   
   if (!*argv)
     badusage(_("--search needs at least one file name pattern argument"));
+
+  varbufinit(&path);
 
   modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
   ensure_allinstfiles_available_quiet();
@@ -255,6 +259,19 @@ void searchfiles(const char *const *argv) {
 
   while ((thisarg= *argv++) != 0) {
     found= 0;
+
+    /* Trim trailing slash and slash dot from the argument if it's
+     * not a pattern, just a path.
+     */
+    if (!strpbrk(thisarg, "*[?\\")) {
+      varbufreset(&path);
+      varbufaddstr(&path, thisarg);
+      varbufaddc(&path, '\0');
+
+      path.used = rtrim_slash_slashdot(path.buf);
+      thisarg = path.buf;
+    }
+
     if (!strchr("*[?/",*thisarg)) {
       varbufreset(&vb);
       varbufaddc(&vb,'*');
@@ -283,6 +300,8 @@ void searchfiles(const char *const *argv) {
     }
   }
   modstatdb_shutdown();
+
+  varbuffree(&path);
 }
 
 void enqperpackage(const char *const *argv) {
