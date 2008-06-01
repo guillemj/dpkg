@@ -51,7 +51,7 @@ be changed mainly with \fBdselect\fP.
 The package is not installed on your system.
 .TP
 .B config\-files
-Only the conffiles of the package exist on the system.
+Only the configuration files of the package exist on the system.
 .TP
 .B half\-installed
 The installation of the package has been started, but not completed for
@@ -79,11 +79,11 @@ The package is selected for installation.
 .TP
 .B deinstall
 The package is selected for deinstallation (i.e. we want to remove all
-files, except conffiles).
+files, except configuration files).
 .TP
 .B purge
 The package is selected to be purged (i.e. we want to remove everything,
-even conffiles).
+even configuration files).
 .SS PACKAGE FLAGS
 .TP
 .B hold
@@ -164,7 +164,11 @@ file). \fB\-P\fP or \fB\-\-purge\fP removes everything, including
 conffiles. If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package
 name, then all packages unpacked, but marked to be removed or purged
 in file \fI/var/lib/dpkg/status\fP, are removed or purged,
-respectively.
+respectively. Note: some configuration files might be unknown to
+\fBdpkg\fP because they are created and handled separately through the
+configuration scripts. In that case, \fBdpkg\fP won't remove them by
+itself, but the package's \fIpostrm\fP script (which is called by
+\fBdpkg\fP), has to take care of their removal during purge.
 
 Removing of a package consists of the following steps:
 .br
