@@ -35,7 +35,7 @@ static struct sigaction uncatch_signals[sizeof_array(catch_signals)];
 void
 setup_subproc_signals(const char *name)
 {
-	int i;
+	size_t i;
 	struct sigaction catchsig;
 
 	onerr_abort++;
@@ -54,7 +54,7 @@ setup_subproc_signals(const char *name)
 void
 cu_subproc_signals(int argc, void **argv)
 {
-	int i;
+	size_t i;
 
 	for (i = 0; i < sizeof_array(catch_signals); i++) {
 		if (sigaction(catch_signals[i], &uncatch_signals[i], NULL)) {
