@@ -280,7 +280,7 @@ void searchfiles(const char *const *argv) {
       varbufaddc(&vb,0);
       thisarg= vb.buf;
     }
-    if (strcspn(thisarg,"*[?\\") == strlen(thisarg)) {
+    if (!strpbrk(thisarg, "*[?\\")) {
       namenode= findnamenode(thisarg, 0);
       found += searchoutput(namenode);
     } else {
