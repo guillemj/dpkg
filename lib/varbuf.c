@@ -38,11 +38,8 @@ void varbufdupc(struct varbuf *v, int c, ssize_t n) {
   char *b = v->buf + v->used;
   v->used += n;
   if (v->used >= v->size) varbufextend(v);
- 
-  while(n) {
-    *b= c;
-    b++; n--;
-  }
+
+  memset(b, c, n);
 }
 
 int varbufprintf(struct varbuf *v, const char *fmt, ...) {
