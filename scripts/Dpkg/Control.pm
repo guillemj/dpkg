@@ -52,7 +52,7 @@ sub new {
     bless $self, $class;
     if ($arg) {
         if ($arg eq "-") {
-            $self->parse_fh(\*STDIN);
+            $self->parse_fh(\*STDIN, _g("standard input"));
         } else {
             $self->parse($arg);
         }
@@ -81,30 +81,33 @@ Parse the content of $file. Exits in case of errors.
 sub parse {
     my ($self, $file) = @_;
     open(CDATA, "<", $file) || syserr(_g("cannot read %s"), $file);
-    $self->parse_fh(\*CDATA);
+    $self->parse_fh(\*CDATA, $file);
     close(CDATA);
 }
 
-=item $c->parse_fh($fh)
+=item $c->parse_fh($fh, $description)
 
 Parse a control file from the given filehandle. Exits in case of errors.
+$description is used to describe the filehandle, ideally it's a filename
+or a description of where the data comes from. It's used in error
+messages.
 
 =cut
 sub parse_fh {
-    my ($self, $fh) = @_;
+    my ($self, $fh, $desc) = @_;
     $self->reset();
-    my $cdata = parsecdata($fh, _g("standard input"));
+    my $cdata = parsecdata($fh, $desc);
     return if not defined $cdata;
     $self->{source} = $cdata;
     unless (exists $cdata->{Source}) {
-	syntaxerr(_g("standard input"), _g("first block lacks a source field"));
+	syntaxerr($desc, _g("first block lacks a source field"));
     }
     while (1) {
-	$cdata = parsecdata($fh, _g("standard input"));
+	$cdata = parsecdata($fh, $desc);
 	last if not defined $cdata;
 	push @{$self->{packages}}, $cdata;
 	unless (exists $cdata->{Package}) {
-	    syntaxerr(_g("standard input"), _g("block lacks a package field"));
+	    syntaxerr($desc, _g("block lacks a package field"));
 	}
     }
 }
