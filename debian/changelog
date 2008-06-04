@@ -15,6 +15,8 @@ dpkg (1.15.0) UNRELEASED; urgency=low
   * Fix the support for passing more than one --status-fd option to dpkg.
     Until now only the last one was being used.
   * Replace realloc plus error checking usage with m_realloc.
+  * Close --status-fd file descriptors on exec, so that they are not
+    inherited by the childs. Closes: #471488
 
   [ Raphael Hertzog ]
   * Enhance dpkg-shlibdeps's error message when a library can't be found to
