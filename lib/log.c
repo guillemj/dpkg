@@ -36,7 +36,7 @@ const char *log_file = NULL;
 void
 log_message(const char *fmt, ...)
 {
-	static struct varbuf *log = NULL;
+	static struct varbuf log;
 	static FILE *logfd = NULL;
 	char time_str[20];
 	time_t now;
@@ -57,21 +57,16 @@ log_message(const char *fmt, ...)
 		setcloexec(fileno(logfd), log_file);
 	}
 
-	if (!log) {
-		log = nfmalloc(sizeof(struct varbuf));
-		varbufinit(log);
-	} else
-		varbufreset(log);
-
 	va_start(al, fmt);
-	varbufvprintf(log, fmt, al);
-	varbufaddc(log, 0);
+	varbufreset(&log);
+	varbufvprintf(&log, fmt, al);
+	varbufaddc(&log, 0);
 	va_end(al);
 
 	time(&now);
 	strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S",
 	         localtime(&now));
-	fprintf(logfd, "%s %s\n", time_str, log->buf);
+	fprintf(logfd, "%s %s\n", time_str, log.buf);
 }
 
 struct pipef *status_pipes = NULL;
