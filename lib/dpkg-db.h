@@ -366,6 +366,8 @@ const char *versiondescribe(const struct versionrevision*,
 
 struct varbuf;
 
+#define VARBUF_INIT { 0, 0, NULL }
+
 extern void varbufaddc(struct varbuf *v, int c);
 extern void varbufdupc(struct varbuf *v, int c, ssize_t s);
 int varbufprintf(struct varbuf *v, const char *fmt, ...) PRINTFFORMAT(2,3);
@@ -378,7 +380,8 @@ void varbuffree(struct varbuf *v);
 extern void varbufaddbuf(struct varbuf *v, const void *s, const int l);
 
 /* varbufinit must be called exactly once before the use of each varbuf
- * (including before any call to varbuffree).
+ * (including before any call to varbuffree), or the variable must be
+ * initialized with VARBUF_INIT.
  *
  * However, varbufs allocated `static' are properly initialised anyway and
  * do not need varbufinit; multiple consecutive calls to varbufinit before

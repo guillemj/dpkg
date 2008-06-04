@@ -898,10 +898,8 @@ static int try_remove_can(struct deppossi *pdep,
 void check_breaks(struct dependency *dep, struct pkginfo *pkg,
                   const char *pfilename) {
   struct pkginfo *fixbydeconf;
-  struct varbuf why;
+  struct varbuf why = VARBUF_INIT;
   int ok;
-
-  varbufinit(&why);
 
   fixbydeconf = NULL;
   if (depisok(dep, &why, &fixbydeconf, 0)) {
@@ -956,11 +954,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                     const char *pfilename) {
   struct pkginfo *fixbyrm;
   struct deppossi *pdep, flagdeppossi;
-  struct varbuf conflictwhy, removalwhy;
+  struct varbuf conflictwhy = VARBUF_INIT, removalwhy = VARBUF_INIT;
   struct dependency *providecheck;
-  
-  varbufinit(&conflictwhy);
-  varbufinit(&removalwhy);
 
   fixbyrm = NULL;
   if (depisok(dep, &conflictwhy, &fixbyrm, 0)) {

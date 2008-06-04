@@ -89,16 +89,14 @@ void setselections(const char *const *argv) {
   struct pkginfo *pkg;
   const char *e;
   int c, lno;
-  struct varbuf namevb;
-  struct varbuf selvb;
+  struct varbuf namevb = VARBUF_INIT;
+  struct varbuf selvb = VARBUF_INIT;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir,msdbrw_write);
 
-  varbufinit(&namevb);
-  varbufinit(&selvb);
   lno= 1;
   for (;;) {
     varbufreset(&namevb);

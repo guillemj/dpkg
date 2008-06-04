@@ -199,15 +199,11 @@ struct lstitem* parseformat(const char* fmt) {
 
 
 void show1package(const struct lstitem* head, struct pkginfo *pkg) {
-	struct varbuf vb, fb, wb;
+	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
 	/* Make sure we have package info available, even if it's all empty. */
 	if (!pkg->installed.valid)
 		blankpackageperfile(&pkg->installed);
-
-	varbufinit(&vb);
-	varbufinit(&fb);
-	varbufinit(&wb);
 
 	while (head) {
 		int ok;

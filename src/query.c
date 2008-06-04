@@ -246,12 +246,10 @@ void searchfiles(const char *const *argv) {
   const char *thisarg;
   int found;
   struct varbuf path;
-  static struct varbuf vb;
+  static struct varbuf vb = VARBUF_INIT;
   
   if (!*argv)
     badusage(_("--search needs at least one file name pattern argument"));
-
-  varbufinit(&path);
 
   modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
   ensure_allinstfiles_available_quiet();

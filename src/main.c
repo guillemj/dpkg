@@ -517,7 +517,7 @@ void execbackend(const char *const *argv) {
 
 void commandfd(const char *const *argv) {
   jmp_buf ejbuf;
-  struct varbuf linevb;
+  struct varbuf linevb = VARBUF_INIT;
   const char * pipein;
   const char **newargs;
   char *ptr, *endptr;
@@ -538,7 +538,7 @@ void commandfd(const char *const *argv) {
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);
   }
-  varbufinit(&linevb);
+
   for (;;lno= 0) {
     const char **oldargs= NULL;
     int argc= 1, mode= 0;

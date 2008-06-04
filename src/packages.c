@@ -453,7 +453,7 @@ static void breaks_check_one(struct varbuf *aemsgs, int *ok,
                              struct pkginfo *broken,
                              struct pkginfo *breaker,
                              struct pkginfo *virtbroken) {
-  struct varbuf depmsg;
+  struct varbuf depmsg = VARBUF_INIT;
 
   debug(dbg_depcondetail, "      checking breaker %s virtbroken %s",
         breaker->name, virtbroken ? virtbroken->name : "<none>");
@@ -465,7 +465,6 @@ static void breaks_check_one(struct varbuf *aemsgs, int *ok,
   if (ignore_depends(breaker)) return;
   if (virtbroken && ignore_depends(virtbroken)) return;
 
-  varbufinit(&depmsg);
   varbufdependency(&depmsg, breaks->up);
   varbufaddc(&depmsg, 0);
   varbufprintf(aemsgs, _(" %s (%s) breaks %s and is %s.\n"),
@@ -524,12 +523,11 @@ int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs) {
 int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
                     struct varbuf *aemsgs) {
   int ok, matched, found, thisf, interestingwarnings, anycannotfixbytrig;
-  struct varbuf oemsgs;
+  struct varbuf oemsgs = VARBUF_INIT;
   struct dependency *dep;
   struct deppossi *possi, *provider;
   struct pkginfo *possfixbytrig, *canfixbytrig;
 
-  varbufinit(&oemsgs);
   interestingwarnings= 0;
   ok= 2; /* 2=ok, 1=defer, 0=halt */
   debug(dbg_depcon,"checking dependencies of %s (- %s)",

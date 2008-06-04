@@ -77,7 +77,8 @@ void deferred_configure(struct pkginfo *pkg) {
 	 * Try 4 (only if --force-depends).
 	 *  Do anyway.
 	 */
-	struct varbuf aemsgs, cdr, cdr2;
+	struct varbuf aemsgs = VARBUF_INIT;
+	struct varbuf cdr = VARBUF_INIT, cdr2 = VARBUF_INIT;
 	char *cdr2rest;
 	int ok, r, useredited, distedited;
 	struct conffile *conff;
@@ -99,7 +100,6 @@ void deferred_configure(struct pkginfo *pkg) {
 		if (findbreakcycle(pkg))
 			sincenothing= 0; 
 
-	varbufinit(&aemsgs);
 	ok = dependencies_ok(pkg, NULL, &aemsgs);
 	if (ok == 1) {
 		varbuffree(&aemsgs);
@@ -170,8 +170,6 @@ void deferred_configure(struct pkginfo *pkg) {
 		 * If `*.dpkg-new' no longer exists we assume that we've already
 		 * processed this one.
 		 */
-		varbufinit(&cdr);
-		varbufinit(&cdr2);
 		for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
 			r= conffderef(pkg, &cdr, conff->name);
 			if (r == -1) {

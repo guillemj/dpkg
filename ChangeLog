@@ -1,5 +1,22 @@
 2008-06-04  Guillem Jover  <guillem@debian.org>
 
+	* lib/dpkg-db.h (VARBUF_INIT): New macro.
+	* lib/compression.c (decompress_cat, compress_cat): Use VARBUF_INIT
+	instead of varbufinit to initialize the variables.
+	* lib/dump.c (writerecord, writedb): Likewise.
+	* lib/mlib.c (buffer_copy_setup_dual): Likewise.
+	* lib/showpkg.c (show1package): Likewise.
+	* src/archives.c (check_breaks, check_conflict): Likewise.
+	* src/configure.c (deferred_configure): Likewise.
+	* src/depcon.c (describedepcon): Likewise.
+	* src/main.c (commandfd): Likewise.
+	* src/packages.c (breaks_check_one, dependencies_ok): Likewise.
+	* src/query.c (searchfiles): Likewise.
+	* src/remove.c (deferred_remove): Likewise.
+	* src/select.c (setselections): Likewise.
+
+2008-06-04  Guillem Jover  <guillem@debian.org>
+
 	* src/archives.c (archivefiles): Use varbufreset instead of varbufinit
 	to avoid possible leaks if this function is called more than once.
 

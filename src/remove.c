@@ -84,7 +84,7 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
 }
 
 void deferred_remove(struct pkginfo *pkg) {
-  struct varbuf raemsgs;
+  struct varbuf raemsgs = VARBUF_INIT;
   int rok;
   struct dependency *dep;
 
@@ -117,7 +117,6 @@ void deferred_remove(struct pkginfo *pkg) {
   if (!f_noact) modstatdb_note(pkg);
 
   debug(dbg_general,"checking dependencies for remove `%s'",pkg->name);
-  varbufinit(&raemsgs);
   rok= 2;
   checkforremoval(pkg,pkg,&rok,&raemsgs);
   for (dep= pkg->installed.depends; dep; dep= dep->next) {

@@ -149,7 +149,7 @@ int findbreakcycle(struct pkginfo *pkg) {
 
 void describedepcon(struct varbuf *addto, struct dependency *dep) {
   const char *fmt;
-  struct varbuf depstr;
+  struct varbuf depstr = VARBUF_INIT;
 
   switch (dep->type) {
   case dep_depends:
@@ -177,7 +177,6 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
     internerr("unknown deptype");
   }
 
-  varbufinit(&depstr);
   varbufdependency(&depstr, dep);
   varbufaddc(&depstr, 0);
 

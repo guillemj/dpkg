@@ -265,10 +265,9 @@ off_t buffer_copy_setup_##name(type1 n1, int typeIn, void *procIn,\
 {\
   va_list al;\
   buffer_arg a1, a2;\
-  struct varbuf v;\
+  struct varbuf v = VARBUF_INIT;\
   off_t ret;\
   a1.name1 = n1; a2.name2 = n2;\
-  varbufinit(&v);\
   va_start(al,desc);\
   varbufvprintf(&v, desc, al);\
   va_end(al);\

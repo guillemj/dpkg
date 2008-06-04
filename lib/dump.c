@@ -337,9 +337,8 @@ void varbufrecord(struct varbuf *vb,
 
 void writerecord(FILE *file, const char *filename,
                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp) {
-  struct varbuf vb;
+  struct varbuf vb = VARBUF_INIT;
 
-  varbufinit(&vb);
   varbufrecord(&vb,pigp,pifp);
   varbufaddc(&vb,'\0');
   if (fputs(vb.buf,file) < 0)
@@ -357,7 +356,7 @@ void writedb(const char *filename, int available, int mustsync) {
   char *oldfn, *newfn;
   const char *which;
   FILE *file;
-  struct varbuf vb;
+  struct varbuf vb = VARBUF_INIT;
   int old_umask;
 
   which= available ? "available" : "status";
@@ -365,7 +364,6 @@ void writedb(const char *filename, int available, int mustsync) {
   strcpy(oldfn,filename); strcat(oldfn,OLDDBEXT);
   newfn= m_malloc(strlen(filename)+sizeof(NEWDBEXT));
   strcpy(newfn,filename); strcat(newfn,NEWDBEXT);
-  varbufinit(&vb);
 
   old_umask = umask(022);
   file= fopen(newfn,"w");
