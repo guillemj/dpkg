@@ -299,6 +299,8 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
   if (*ep || v > INT_MAX)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
 
+  setcloexec(v, _("<package status and progress file descriptor>"));
+
   lastpipe= cip->parg;
   if (*lastpipe) {
     (*lastpipe)->next= nfmalloc(sizeof(struct pipef));
