@@ -279,21 +279,38 @@ sub analyze {
     my %dirtocreate;
     my $diff_count = 0;
 
-    $_ = <$diff_handle>;
+    sub getline {
+        my $handle = shift;
+        my $line = <$handle>;
+        if (defined $line) {
+            # Strip end-of-line chars
+            chomp($line);
+            $line =~ s/\r$//;
+        }
+        return $line;
+    }
+    sub strip_ts { # Strip timestamp
+        my $header = shift;
+        # Tab is the official separator, it's always used when
+        # filename contain spaces. Try it first, otherwise strip on space
+        # if there's no tab
+        $header =~ s/\s.*// unless ($header =~ s/\t.*//);
+        return $header;
+    }
+    $_ = getline($diff_handle);
 
   HUNK:
     while (defined($_) || not eof($diff_handle)) {
 	# skip comments leading up to patch (if any)
 	until (/^--- /) {
-	    last HUNK if not defined($_ = <$diff_handle>);
+	    last HUNK if not defined($_ = getline($diff_handle));
 	}
-	chomp;
 	$diff_count++;
 	# read file header (---/+++ pair)
 	unless(s/^--- //) {
 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 	}
-	s/\t.*//; # Strip any timestamp at the end
+        $_ = strip_ts($_);
 	unless ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
 	    error(_g("diff `%s' patches file with no subdirectory"), $diff);
 	}
@@ -302,23 +319,25 @@ sub analyze {
 	}
 	my $fn = $_;
 
-	unless (defined($_= <$diff_handle>) and chomp) {
+	unless (defined($_ = getline($diff_handle))) {
 	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"), $diff, $.);
 	}
-	s/\t.*//; # Strip any timestamp at the end
-	unless (s/^\+\+\+ // and ($_ eq '/dev/null' or s!^(\./)?[^/]+/!!)) {
-	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
-	          $diff, $.);
+	unless (s/^\+\+\+ //) {
+	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
+	}
+        $_ = strip_ts($_);
+	unless (($_ eq '/dev/null') or s!^(\./)?[^/]+/!!) {
+	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 	}
 
 	if ($fn eq '/dev/null') {
 	    error(_g("original and modified files are /dev/null in diff `%s' (line %d)"),
 		  $diff, $.) if $_ eq '/dev/null';
 	    $fn = "$destdir/$_";
-	} else {
-	    unless ($_ eq '/dev/null' or $_ eq substr($fn, length($destdir) + 1)) {
-	        error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
-	              $diff, $.);
+	} elsif ($_ ne '/dev/null') {
+            $fn = "$destdir/$_" if ((not -e $fn) and -e "$destdir/$_");
+	    unless ($_ eq substr($fn, length($destdir) + 1)) {
+	        error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 	    }
 	}
 
@@ -337,23 +356,19 @@ sub analyze {
 
 	# read hunks
 	my $hunk = 0;
-	while (defined($_ = <$diff_handle>)) {
+	while (defined($_ = getline($diff_handle))) {
 	    # read hunk header (@@)
-	    chomp;
 	    next if /^\\ No newline/;
 	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/);
 	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
 	    # read hunk
 	    while ($olines || $nlines) {
-		unless (defined($_ = <$diff_handle>)) {
+		unless (defined($_ = getline($diff_handle))) {
 		    error(_g("unexpected end of diff `%s'"), $diff);
-		}
-		unless (chomp) {
-		    error(_g("diff `%s' is missing trailing newline"), $diff);
 		}
 		next if /^\\ No newline/;
 		# Check stats
-		if    (/^ /)  { --$olines; --$nlines; }
+		if    (/^ / || /^$/)  { --$olines; --$nlines; }
 		elsif (/^-/)  { --$olines; }
 		elsif (/^\+/) { --$nlines; }
 		else {

@@ -1,3 +1,16 @@
+2008-06-04  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Patch.pm (analyze): Enhance function to
+	parse correctly many more patches that are accepted by the patch
+	utility itself:
+	- ignore/strip carriage return of patches with Windows end of lines
+	- accept empty lines as contextual lines (instead of the expected " ")
+	- accept spaces as separator between filename and timestamp if
+	  there's no tab
+	- accept a name that differs on the +++ line if the name in --- is
+	  correct, and use the name in +++ if this one exists while the one
+	  on --- doesn't.
+
 2008-05-28  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Source/Package.pm (extract): If we extract a
