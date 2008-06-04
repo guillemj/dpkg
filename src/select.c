@@ -142,8 +142,8 @@ void setselections(const char *const *argv) {
   }
   if (ferror(stdin)) ohshite(_("read error on standard input"));
   modstatdb_shutdown();
-  varbufreset(&namevb);
-  varbufreset(&selvb);
+  varbuffree(&namevb);
+  varbuffree(&selvb);
 }
 
 void clearselections(const char *const *argv)
