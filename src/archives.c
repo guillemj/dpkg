@@ -1173,9 +1173,11 @@ void archivefiles(const char *const *argv) {
 
   currenttime = time(NULL);
 
-  varbufinit(&fnamevb);
-  varbufinit(&fnametmpvb);
-  varbufinit(&fnamenewvb);
+  /* Initialize fname variables contents. */
+
+  varbufreset(&fnamevb);
+  varbufreset(&fnametmpvb);
+  varbufreset(&fnamenewvb);
 
   varbufaddstr(&fnamevb,instdir); varbufaddc(&fnamevb,'/');
   varbufaddstr(&fnametmpvb,instdir); varbufaddc(&fnametmpvb,'/');

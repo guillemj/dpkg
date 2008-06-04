@@ -1,5 +1,10 @@
 2008-06-04  Guillem Jover  <guillem@debian.org>
 
+	* src/archives.c (archivefiles): Use varbufreset instead of varbufinit
+	to avoid possible leaks if this function is called more than once.
+
+2008-06-04  Guillem Jover  <guillem@debian.org>
+
 	* lib/log.c (log_message): Switch log from a pointer to struct varbuf
 	to just struct varbuf.
 
