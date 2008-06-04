@@ -107,8 +107,7 @@ void varbufextend(struct varbuf *v) {
   char *newbuf;
 
   newsize= v->size + 80 + v->used;
-  newbuf= realloc(v->buf,newsize);
-  if (!newbuf) ohshite(_("failed to realloc for variable buffer"));
+  newbuf = m_realloc(v->buf, newsize);
   v->size= newsize;
   v->buf= newbuf;
 }

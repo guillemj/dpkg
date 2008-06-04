@@ -205,7 +205,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
            fip->name && strncasecmp(fieldstart,fip->name, fieldlen);
            fip++, ip++);
       if (fip->name) {
-	value= realloc(value,valuelen+1);
+        value = m_realloc(value, valuelen + 1);
 	memcpy(value,valuestart,valuelen);
 	*(value+valuelen)= 0;
         if (*ip++)

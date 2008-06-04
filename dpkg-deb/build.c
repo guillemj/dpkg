@@ -104,7 +104,7 @@ static struct _finfo* getfi(const char* root, int fd) {
     fn = m_malloc(fnlen);
   } else if (fnlen < (rl + MAXFILENAME)) {
     fnlen = rl + MAXFILENAME;
-    fn=(char*)realloc(fn,fnlen);
+    fn = m_realloc(fn, fnlen);
   }
   i=sprintf(fn,"%s/",root);
   
@@ -112,7 +112,7 @@ static struct _finfo* getfi(const char* root, int fd) {
     int	res;
     if (i>=fnlen) {
       fnlen += MAXFILENAME;
-      fn=(char*)realloc(fn,fnlen);
+      fn = m_realloc(fn, fnlen);
     }
     if ((res=read(fd, (fn+i), sizeof(*fn)))<0) {
       if ((errno==EINTR) || (errno==EAGAIN))

@@ -330,7 +330,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       depnamelength= p - depnamestart ;
       if (depnamelength >= depnameused) {
 	depnameused= depnamelength;
-	depname= realloc(depname,depnamelength+1);
+        depname = m_realloc(depname, depnamelength + 1);
       }
       strncpy(depname, depnamestart, depnamelength);
       *(depname + depnamelength)= 0;
@@ -421,7 +421,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                                    "version unterminated"),fip->name,depname);
 	if (versionlength >=  versionused) {
 	  versionused= versionlength;
-	  version= realloc(version,versionlength+1);
+          version = m_realloc(version, versionlength + 1);
 	}
 	strncpy(version,  versionstart, versionlength);
 	*(version + versionlength)= 0;

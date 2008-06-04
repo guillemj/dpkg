@@ -562,7 +562,7 @@ void commandfd(const char *const *argv) {
     if (!argc) continue;
     varbufaddc(&linevb,0);
 printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
-    oldargs= newargs= realloc(oldargs,sizeof(const char *) * (argc + 1));
+    oldargs = newargs = m_realloc(oldargs, sizeof(const char *) * (argc + 1));
     argc= 1;
     ptr= linevb.buf;
     endptr= ptr + linevb.used;

@@ -94,9 +94,7 @@ static void info_spew(const char *debar, const char *directory,
 
   while ((component = *argv++) != NULL) {
     pathlen = strlen(directory) + strlen(component) + 2;
-    controlfile = (void *) realloc((void *) controlfile, pathlen);
-    if (!controlfile)
-      ohshite(_("realloc failed (%zu bytes)"), pathlen);
+    controlfile = m_realloc(controlfile, pathlen);
     memset(controlfile, 0, sizeof(controlfile));
 
     strcat(controlfile, directory);
