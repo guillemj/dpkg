@@ -1,5 +1,14 @@
 2008-06-04  Guillem Jover  <guillem@debian.org>
 
+	* lib/dpkg-db.h (varbufinit): Add a size argument, fix all callers.
+	(varbuf::init): Add an optional size argument.
+	(varbuf::varbuf): Likewise.
+	* lib/varbuf.c (varbufinit): Allocate a buffer if size is not zero.
+	* lib/dbmodify.c (modstatdb_init): Use varbufinit instead of its
+	own initialization.
+
+2008-06-04  Guillem Jover  <guillem@debian.org>
+
 	* lib/dpkg-db.h (VARBUF_INIT): New macro.
 	* lib/compression.c (decompress_cat, compress_cat): Use VARBUF_INIT
 	instead of varbufinit to initialize the variables.

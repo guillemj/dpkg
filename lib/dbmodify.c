@@ -191,9 +191,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
 
   if (cstatus >= msdbrw_write) {
     createimptmp();
-    uvb.used= 0;
-    uvb.size= 10240;
-    uvb.buf= m_malloc(uvb.size);
+    varbufinit(&uvb, 10240);
   }
 
   trig_incorporate(cstatus, admindir);

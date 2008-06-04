@@ -372,7 +372,7 @@ extern void varbufaddc(struct varbuf *v, int c);
 extern void varbufdupc(struct varbuf *v, int c, ssize_t s);
 int varbufprintf(struct varbuf *v, const char *fmt, ...) PRINTFFORMAT(2,3);
 int varbufvprintf(struct varbuf *v, const char *fmt, va_list va);
-void varbufinit(struct varbuf *v);
+void varbufinit(struct varbuf *v, size_t size);
 void varbufreset(struct varbuf *v);
 void varbufextend(struct varbuf *v);
 void varbuffree(struct varbuf *v);
@@ -399,9 +399,9 @@ struct varbuf {
   char *buf;
 
 #ifdef __cplusplus
-  void init() { varbufinit(this); }
+  void init(size_t _size = 0) { varbufinit(this, _size); }
   void free() { varbuffree(this); }
-  varbuf() { varbufinit(this); }
+  varbuf(size_t _size = 0) { varbufinit(this, _size); }
   ~varbuf() { varbuffree(this); }
   void operator()(int c) { varbufaddc(this,c); }
   void operator()(const char *s) { varbufaddstr(this,s); }

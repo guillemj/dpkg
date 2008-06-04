@@ -87,10 +87,15 @@ void varbufaddbuf(struct varbuf *v, const void *s, const int l) {
   memcpy(v->buf + ou, s, l);
 }
 
-void varbufinit(struct varbuf *v) {
-  /* NB: dbmodify.c does its own init to get a big buffer */
-  v->size= v->used= 0;
-  v->buf= NULL;
+void
+varbufinit(struct varbuf *v, size_t size)
+{
+  v->used = 0;
+  v->size = size;
+  if (size)
+    v->buf = m_malloc(size);
+  else
+    v->buf = NULL;
 }
 
 void varbufreset(struct varbuf *v) {
