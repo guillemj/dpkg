@@ -29,7 +29,7 @@
 #include <dpkg.h>
 #include <dpkg-priv.h>
 
-static int catch_signals[] = { SIGQUIT, SIGINT, 0 };
+static int catch_signals[] = { SIGQUIT, SIGINT };
 static struct sigaction uncatch_signals[sizeof_array(catch_signals)];
 
 void
