@@ -291,7 +291,8 @@ static void setinteger(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setpipe(const struct cmdinfo *cip, const char *value) {
-  static struct pipef **lastpipe;
+  struct pipef **pipe_head = cip->parg;
+  struct pipef *pipe_new;
   unsigned long v;
   char *ep;
 
@@ -299,15 +300,10 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
   if (*ep || v > INT_MAX)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
 
-  lastpipe= cip->parg;
-  if (*lastpipe) {
-    (*lastpipe)->next= nfmalloc(sizeof(struct pipef));
-    *lastpipe= (*lastpipe)->next;
-  } else {
-    *lastpipe= nfmalloc(sizeof(struct pipef));
-  }
-  (*lastpipe)->fd= v;
-  (*lastpipe)->next= NULL;
+  pipe_new = nfmalloc(sizeof(struct pipef));
+  pipe_new->fd = v;
+  pipe_new->next = *pipe_head;
+  *pipe_head = pipe_new;
 }
 
 static void setforce(const struct cmdinfo *cip, const char *value) {
