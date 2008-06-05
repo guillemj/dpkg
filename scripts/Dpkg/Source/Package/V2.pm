@@ -204,6 +204,7 @@ sub prepare_build {
         diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'},
         include_removal => $self->{'options'}{'include_removal'},
         include_timestamp => $self->{'options'}{'include_timestamp'},
+        use_dev_null => 1,
     };
     push @{$self->{'options'}{'tar_ignore'}}, "debian/patches/.dpkg-source-applied";
     $self->check_patches_applied($dir) if $self->{'options'}{'preparation'};

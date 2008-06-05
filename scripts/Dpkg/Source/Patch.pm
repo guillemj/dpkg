@@ -175,8 +175,12 @@ sub add_diff_directory {
                 return;
             }
 
+            my $label_old = "$basedir.orig/$fn";
+            if ($opts{'use_dev_null'}) {
+                $label_old = $old_file if $old_file eq '/dev/null';
+            }
             my $success = $self->add_diff_file($old_file, "$new/$fn",
-                label_old => "$basedir.orig/$fn",
+                label_old => $label_old,
                 label_new => "$basedir/$fn",
                 %opts);
 

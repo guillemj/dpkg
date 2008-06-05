@@ -1,5 +1,15 @@
 2008-06-05  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/Dpkg/Source/Patch.pm (add_diff_directory): If option
+	use_dev_null is set, then the label of the "old" file will be
+	'/dev/null' if we're creating a new file (instead of using the
+	name of the created file, like it's currently done in .diff
+	of version "1.0" source packages).
+	* scripts/Dpkg/Source/Package/V2.pm (prepare_build): Use the new
+	option "use_dev_null" when creating the automatic patch.
+
+2008-06-05  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/Dpkg/Source/Package/V3/quilt.pm (get_patches): Really
 	skip all comments in the series files.
 
