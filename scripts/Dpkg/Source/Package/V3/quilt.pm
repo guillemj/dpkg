@@ -79,7 +79,7 @@ sub get_patches {
         open(SERIES, "<" , $series) || syserr(_g("cannot read %s"), $series);
         while(defined($_ = <SERIES>)) {
             chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
-            s/\s#.*$//; # Strip trailing comment
+            s/(^|\s+)#.*$//; # Strip comment
             next unless $_;
             if (/^(\S+)\s+(.*)$/) {
                 $_ = $1;
