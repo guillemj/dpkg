@@ -208,7 +208,8 @@ sub check_patches_applied {
 sub register_autopatch {
     my ($self, $dir) = @_;
     my $auto_patch = $self->get_autopatch_name();
-    my $has_patch = (grep { $_ eq $auto_patch } $self->get_patches($dir)) ? 1 : 0;
+    my @patches = $self->get_patches($dir);
+    my $has_patch = (grep { $_ eq $auto_patch } @patches) ? 1 : 0;
     my $series = $self->get_series_file($dir);
     $series ||= File::Spec->catfile($dir, "debian", "patches", "series");
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
@@ -216,11 +217,12 @@ sub register_autopatch {
     if (-e $patch) {
         # Add auto_patch to series file
         if (not $has_patch) {
-            if ($self->{'options'}{'without_quilt'}) {
-                open(SERIES, ">>", $series) || syserr(_g("cannot write %s"), $series);
-                print SERIES "$auto_patch\n";
-                close(SERIES);
-            } else {
+            # Use quilt to register only if it's wanted/available AND :
+            # - either we have patches and quilt has been used (.pc dir exists)
+            # - or we don't have patches, hence quilt couldn't be used
+            if ((-d "$dir/.pc" or not scalar(@patches)) and
+                not $self->{'options'}{'without_quilt'})
+            {
                 # Registering the new patch with quilt requires some
                 # trickery: reverse-apply the patch, import it, apply it
                 # again with quilt this time
@@ -229,6 +231,10 @@ sub register_autopatch {
                 $self->run_quilt($dir, ['import', "debian/patches/$auto_patch"],
                                  wait_child => 1, to_file => '/dev/null');
                 $self->run_quilt($dir, ['push'], wait_child => 1, to_file => '/dev/null');
+            } else {
+                open(SERIES, ">>", $series) || syserr(_g("cannot write %s"), $series);
+                print SERIES "$auto_patch\n";
+                close(SERIES);
             }
             open(APPLIED, ">>", $applied) || syserr(_g("cannot write %s"), $applied);
             print APPLIED "$auto_patch\n";
