@@ -368,7 +368,12 @@ sub analyze {
 	    # read hunk
 	    while ($olines || $nlines) {
 		unless (defined($_ = getline($diff_handle))) {
-		    error(_g("unexpected end of diff `%s'"), $diff);
+                    if (($olines == $nlines) and ($olines < 3)) {
+                        warning(_g("unexpected end of diff `%s'"), $diff);
+                        last;
+                    } else {
+                        error(_g("unexpected end of diff `%s'"), $diff);
+                    }
 		}
 		next if /^\\ No newline/;
 		# Check stats
