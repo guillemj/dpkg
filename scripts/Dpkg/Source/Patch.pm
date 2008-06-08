@@ -305,6 +305,7 @@ sub analyze {
 
   HUNK:
     while (defined($_) || not eof($diff_handle)) {
+	my ($fn, $fn2);
 	# skip comments leading up to patch (if any)
 	until (/^--- /) {
 	    last HUNK if not defined($_ = getline($diff_handle));
@@ -315,13 +316,12 @@ sub analyze {
 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 	}
         $_ = strip_ts($_);
-	unless ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
-	    error(_g("diff `%s' patches file with no subdirectory"), $diff);
-	}
+        if ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
+            $fn = $_;
+        }
 	if (/\.dpkg-orig$/) {
 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
 	}
-	my $fn = $_;
 
 	unless (defined($_ = getline($diff_handle))) {
 	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"), $diff, $.);
@@ -330,20 +330,28 @@ sub analyze {
 	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 	}
         $_ = strip_ts($_);
-	unless (($_ eq '/dev/null') or s!^(\./)?[^/]+/!!) {
-	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
-	}
+        if ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
+            $fn2 = $_;
+        } else {
+            unless (defined $fn) {
+                error(_g("none of the filenames in ---/+++ are relative in diff `%s' (line %d)"),
+                      $diff, $.);
+            }
+        }
 
-	if ($fn eq '/dev/null') {
-	    error(_g("original and modified files are /dev/null in diff `%s' (line %d)"),
-		  $diff, $.) if $_ eq '/dev/null';
-	    $fn = "$destdir/$_";
-	} elsif ($_ ne '/dev/null') {
-            $fn = "$destdir/$_" if ((not -e $fn) and -e "$destdir/$_");
-	    unless ($_ eq substr($fn, length($destdir) + 1)) {
-	        error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
-	    }
-	}
+        if (defined($fn) and $fn eq '/dev/null') {
+            error(_g("original and modified files are /dev/null in diff `%s' (line %d)"),
+                  $diff, $.) if (defined($fn2) and $fn2 eq '/dev/null');
+            $fn = $fn2;
+        } elsif (defined($fn2) and $fn2 ne '/dev/null') {
+            $fn = $fn2 unless defined $fn;
+            $fn = $fn2 if ((not -e $fn) and -e $fn2);
+        } elsif (defined($fn2) and $fn2 eq '/dev/null') {
+            error(_g("file removal without proper filename in diff `%s' (line %d)"),
+                  $diff, $. - 1) unless defined $fn;
+            warning(_g("diff %s removes a non-existing file %s (line %d)"),
+                    $diff, $fn, $.) unless -e $fn;
+        }
 
 	my $dirname = $fn;
 	if ($dirname =~ s{/[^/]+$}{} && not -d $dirname) {
