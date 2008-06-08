@@ -101,8 +101,12 @@ sub get_patches {
 sub run_quilt {
     my ($self, $dir, $params, %more_opts) = @_;
     $params = [ $params ] unless ref($params) eq "ARRAY";
+    my $absdir = $dir;
+    unless (File::Spec->file_name_is_absolute($absdir)) {
+        $absdir = File::Spec->rel2abs($dir);
+    }
     my %opts = (
-        env => { QUILT_PATCHES => 'debian/patches' },
+        env => { QUILT_PATCHES => "$absdir/debian/patches" },
         'chdir' => $dir,
         'exec' => [ 'quilt', '--quiltrc', '/dev/null', @$params ],
         %more_opts
@@ -214,6 +218,10 @@ sub register_autopatch {
     $series ||= File::Spec->catfile($dir, "debian", "patches", "series");
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     my $patch = File::Spec->catfile($dir, "debian", "patches", $auto_patch);
+    my $absdir = $dir;
+    unless (File::Spec->file_name_is_absolute($absdir)) {
+        $absdir = File::Spec->rel2abs($dir);
+    }
     if (-e $patch) {
         # Add auto_patch to series file
         if (not $has_patch) {
@@ -228,7 +236,7 @@ sub register_autopatch {
                 # again with quilt this time
                 my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
                 $patch_obj->apply($dir, add_options => ['-R', '-E']);
-                $self->run_quilt($dir, ['import', "debian/patches/$auto_patch"],
+                $self->run_quilt($dir, ['import', "$absdir/debian/patches/$auto_patch"],
                                  wait_child => 1, to_file => '/dev/null');
                 $self->run_quilt($dir, ['push'], wait_child => 1, to_file => '/dev/null');
             } else {
