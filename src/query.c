@@ -245,8 +245,8 @@ void searchfiles(const char *const *argv) {
   struct fileiterator *it;
   const char *thisarg;
   int found;
-  struct varbuf path;
-  static struct varbuf vb = VARBUF_INIT;
+  struct varbuf path = VARBUF_INIT;
+  static struct varbuf vb;
   
   if (!*argv)
     badusage(_("--search needs at least one file name pattern argument"));
