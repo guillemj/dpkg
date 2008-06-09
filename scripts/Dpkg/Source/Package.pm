@@ -44,7 +44,7 @@ our $diff_ignore_default_regexp = '
 # Ignore baz-style junk files or directories
 (?:^|/),,.*(?:$|/.*$)|
 # File-names that should be ignored (never directories)
-(?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore|\.gitignore)$|
+(?:^|/)(?:DEADJOE|\.arch-inventory|\.(?:bzr|cvs|hg|git)ignore)$|
 # File or directory names that should be ignored
 (?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
 \.shelf|_MTN|\.be|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
@@ -74,6 +74,7 @@ our @tar_ignore_default_pattern = qw(
 .git
 .gitignore
 .hg
+.hgignore
 .shelf
 .svn
 CVS
