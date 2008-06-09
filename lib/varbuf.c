@@ -43,21 +43,13 @@ void varbufdupc(struct varbuf *v, int c, ssize_t n) {
 }
 
 int varbufprintf(struct varbuf *v, const char *fmt, ...) {
-  size_t ou;
   int r;
   va_list al;
 
-  ou= v->used;
-  v->used+= strlen(fmt);
+  va_start(al, fmt);
+  r = varbufvprintf(v, fmt, al);
+  va_end(al);
 
-  do {
-    varbufextend(v);
-    va_start(al,fmt);
-    r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
-    va_end(al);
-    if (r < 0) r= (v->size-ou+1) * 2;
-    v->used= ou+r;
-  } while (r >= (int)(v->size - ou - 1));
   return r;
 }
 
