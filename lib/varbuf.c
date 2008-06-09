@@ -65,6 +65,7 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
     varbufextend(v);
     va_copy(al, va);
     r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
+    va_end(al);
     if (r < 0) r= (v->size-ou+1) * 2;
     v->used= ou+r;
   } while (r >= (int)(v->size - ou - 1));
