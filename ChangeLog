@@ -1,5 +1,13 @@
 2008-06-09  Guillem Jover  <guillem@debian.org>
 
+	* scripts/Dpkg/BuildOptions.pm (parse, set): Use space as the
+	official separator in DEB_BUILD_OPTIONS. Check for validity of
+	flags and print a warning if a bad option is detected. Rewrote
+	the logic of set() to avoid adding options twice in non-overwrite
+	mode.
+
+2008-06-09  Guillem Jover  <guillem@debian.org>
+
 	* scripts/Dpkg/Source/Package.pm ($diff_ignore_default_regexp): Add
 	'.hgignore'.
 	(@tar_ignore_default_pattern): Likewise.
