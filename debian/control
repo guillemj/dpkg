@@ -23,12 +23,11 @@ Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch (<< 0.11),
  dpkg-dev (<< 1.14.16), apt (<< 0.7.7), aptitude (<< 0.4.7-1)
 Replaces: manpages-de (<= 0.4-3), manpages-pl (<= 20051117-1)
 Suggests: apt, lzma
-Description: package maintenance system for Debian
- This package contains the low-level commands for handling the installation
- and removal of packages on your system.
+Description: Debian package management system
+ This package privides the low-level infrastructure for handling the
+ installation and removal of Debian software packages.
  .
- In order to unpack and build Debian source packages you will need to
- install the developers' package `dpkg-dev' as well as this one.
+ For Debian package development tools, install dpkg-dev.
 
 Package: dpkg-dev
 Section: utils
@@ -40,21 +39,21 @@ Recommends: gcc | c-compiler, build-essential
 Suggests: gnupg, debian-keyring
 Conflicts: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)
 Replaces: manpages-pl (<= 20051117-1)
-Description: package building tools for Debian
- This package contains the tools (including dpkg-source) required to
- unpack, build and upload Debian source packages.
+Description: Debian package development tools
+ This package provides the development tools (including dpkg-source)
+ required to unpack, build and upload Debian source packages.
  .
- Most Debian source packages will require additional tools to build -
- for example, most packages need the `make' and the C compiler `gcc'.
+ Most Debian source packages will require additional tools to build;
+ for example, most packages need make and the C compiler gcc.
 
 Package: dselect
 Priority: optional
 Architecture: any
 Depends: ${shlibs:Depends}, dpkg (>= 1.13.1)
 Replaces: dpkg (<< 1.10.3)
-Description: user tool to manage Debian packages
- dselect is an interface for managing the installation and removal of
- packages on your system.
+Description: Debian package management front-end
+ dselect is a high-level interface for managing the installation and
+ removal of Debian software packages.
  .
  Many users find dselect intimidating and new users may prefer to use
- `apt'-based user interfaces.
+ apt-based user interfaces.
