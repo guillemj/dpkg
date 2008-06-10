@@ -3,6 +3,9 @@ package Dpkg::BuildOptions;
 use strict;
 use warnings;
 
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(warning);
+
 sub parse {
     my ($env) = @_;
 
@@ -43,7 +46,7 @@ sub set {
         $new->{$k} = $v;
     }
 
-    my $env = join(" ", map { $new->{$_} ? $_ . "=" . $new->{$_} : $_ } keys %$new);
+    my $env = join(" ", map { $new->{$_} ? $_ . "=" . $new->{$_} : $_ } sort keys %$new);
 
     $ENV{DEB_BUILD_OPTIONS} = $env;
     return $env;
