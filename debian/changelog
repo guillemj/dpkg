@@ -6,6 +6,9 @@ dpkg (1.14.20) UNRELEASED; urgency=low
   * Document triggers --debug values in dpkg.1. Thanks to Sven Joachim.
   * Improve package descriptions for dpkg, dpkg-dev and dselect.
     Thanks to Justin B Rye for the review and corrections. Closes: #484002
+  * When dpkg-divert does renames do no check the target file if the source
+    does not exist and the rename is thus being disabled. This also allows
+    to remove bogus diversions. Closes: #476973, #469033
 
   [ Raphael Hertzog ]
   * Add missing 'use File::Path' in Dpkg::Source::Package::V3::quilt.
