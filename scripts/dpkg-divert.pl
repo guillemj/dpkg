@@ -264,6 +264,11 @@ sub checkrename {
     }
 }
 
+sub rename_mv($$)
+{
+    return (rename($_[0], $_[1]) || (system(("mv", $_[0], $_[1])) == 0));
+}
+
 sub dorename {
     return unless $dorename;
     return if $testmode;
@@ -271,7 +276,8 @@ sub dorename {
         if (@sdest) {
             unlink($rsrc) || &quit(sprintf(_g("rename: remove duplicate old link \`%s': %s"), $rsrc, $!));
         } else {
-            rename($rsrc,$rdest) || &quit(sprintf(_g("rename: rename \`%s' to \`%s': %s"), $rsrc, $rdest, $!));
+            rename_mv($rsrc, $rdest) ||
+                quit(sprintf(_g("rename: rename \`%s' to \`%s': %s"), $rsrc, $rdest, $!));
         }
     }
 }            
