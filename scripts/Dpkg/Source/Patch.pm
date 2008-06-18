@@ -175,8 +175,12 @@ sub add_diff_directory {
                 return;
             }
 
+            my $label_old = "$basedir.orig/$fn";
+            if ($opts{'use_dev_null'}) {
+                $label_old = $old_file if $old_file eq '/dev/null';
+            }
             my $success = $self->add_diff_file($old_file, "$new/$fn",
-                label_old => "$basedir.orig/$fn",
+                label_old => $label_old,
                 label_new => "$basedir/$fn",
                 %opts);
 
@@ -279,48 +283,75 @@ sub analyze {
     my %dirtocreate;
     my $diff_count = 0;
 
-    $_ = <$diff_handle>;
+    sub getline {
+        my $handle = shift;
+        my $line = <$handle>;
+        if (defined $line) {
+            # Strip end-of-line chars
+            chomp($line);
+            $line =~ s/\r$//;
+        }
+        return $line;
+    }
+    sub strip_ts { # Strip timestamp
+        my $header = shift;
+        # Tab is the official separator, it's always used when
+        # filename contain spaces. Try it first, otherwise strip on space
+        # if there's no tab
+        $header =~ s/\s.*// unless ($header =~ s/\t.*//);
+        return $header;
+    }
+    $_ = getline($diff_handle);
 
   HUNK:
     while (defined($_) || not eof($diff_handle)) {
+	my ($fn, $fn2);
 	# skip comments leading up to patch (if any)
 	until (/^--- /) {
-	    last HUNK if not defined($_ = <$diff_handle>);
+	    last HUNK if not defined($_ = getline($diff_handle));
 	}
-	chomp;
 	$diff_count++;
 	# read file header (---/+++ pair)
 	unless(s/^--- //) {
 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 	}
-	s/\t.*//; # Strip any timestamp at the end
-	unless ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
-	    error(_g("diff `%s' patches file with no subdirectory"), $diff);
-	}
+        $_ = strip_ts($_);
+        if ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
+            $fn = $_;
+        }
 	if (/\.dpkg-orig$/) {
 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
 	}
-	my $fn = $_;
 
-	unless (defined($_= <$diff_handle>) and chomp) {
+	unless (defined($_ = getline($diff_handle))) {
 	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"), $diff, $.);
 	}
-	s/\t.*//; # Strip any timestamp at the end
-	unless (s/^\+\+\+ // and ($_ eq '/dev/null' or s!^(\./)?[^/]+/!!)) {
-	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
-	          $diff, $.);
+	unless (s/^\+\+\+ //) {
+	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 	}
+        $_ = strip_ts($_);
+        if ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
+            $fn2 = $_;
+        } else {
+            unless (defined $fn) {
+                error(_g("none of the filenames in ---/+++ are relative in diff `%s' (line %d)"),
+                      $diff, $.);
+            }
+        }
 
-	if ($fn eq '/dev/null') {
-	    error(_g("original and modified files are /dev/null in diff `%s' (line %d)"),
-		  $diff, $.) if $_ eq '/dev/null';
-	    $fn = "$destdir/$_";
-	} else {
-	    unless ($_ eq '/dev/null' or $_ eq substr($fn, length($destdir) + 1)) {
-	        error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
-	              $diff, $.);
-	    }
-	}
+        if (defined($fn) and $fn eq '/dev/null') {
+            error(_g("original and modified files are /dev/null in diff `%s' (line %d)"),
+                  $diff, $.) if (defined($fn2) and $fn2 eq '/dev/null');
+            $fn = $fn2;
+        } elsif (defined($fn2) and $fn2 ne '/dev/null') {
+            $fn = $fn2 unless defined $fn;
+            $fn = $fn2 if ((not -e $fn) and -e $fn2);
+        } elsif (defined($fn2) and $fn2 eq '/dev/null') {
+            error(_g("file removal without proper filename in diff `%s' (line %d)"),
+                  $diff, $. - 1) unless defined $fn;
+            warning(_g("diff %s removes a non-existing file %s (line %d)"),
+                    $diff, $fn, $.) unless -e $fn;
+        }
 
 	my $dirname = $fn;
 	if ($dirname =~ s{/[^/]+$}{} && not -d $dirname) {
@@ -337,23 +368,24 @@ sub analyze {
 
 	# read hunks
 	my $hunk = 0;
-	while (defined($_ = <$diff_handle>)) {
+	while (defined($_ = getline($diff_handle))) {
 	    # read hunk header (@@)
-	    chomp;
 	    next if /^\\ No newline/;
 	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/);
 	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
 	    # read hunk
 	    while ($olines || $nlines) {
-		unless (defined($_ = <$diff_handle>)) {
-		    error(_g("unexpected end of diff `%s'"), $diff);
-		}
-		unless (chomp) {
-		    error(_g("diff `%s' is missing trailing newline"), $diff);
+		unless (defined($_ = getline($diff_handle))) {
+                    if (($olines == $nlines) and ($olines < 3)) {
+                        warning(_g("unexpected end of diff `%s'"), $diff);
+                        last;
+                    } else {
+                        error(_g("unexpected end of diff `%s'"), $diff);
+                    }
 		}
 		next if /^\\ No newline/;
 		# Check stats
-		if    (/^ /)  { --$olines; --$nlines; }
+		if    (/^ / || /^$/)  { --$olines; --$nlines; }
 		elsif (/^-/)  { --$olines; }
 		elsif (/^\+/) { --$nlines; }
 		else {
@@ -377,6 +409,16 @@ sub analyze {
     return $self->{'analysis'}{$destdir};
 }
 
+sub prepare_apply {
+    my ($self, $analysis, %opts) = @_;
+    if ($opts{"create_dirs"}) {
+	foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
+	    eval { mkpath($dir, 0, 0777); };
+	    syserr(_g("cannot create directory %s"), $dir) if $@;
+	}
+    }
+}
+
 sub apply {
     my ($self, $destdir, %opts) = @_;
     # Set default values to options
@@ -389,12 +431,7 @@ sub apply {
     push @{$opts{"options"}}, @{$opts{"add_options"}};
     # Check the diff and create missing directories
     my $analysis = $self->analyze($destdir, %opts);
-    if ($opts{"create_dirs"}) {
-	foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
-	    eval { mkpath($dir, 0, 0777); };
-	    syserr(_g("cannot create directory %s"), $dir) if $@;
-	}
-    }
+    $self->prepare_apply($analysis, %opts);
     # Apply the patch
     my $diff_handle = $self->open_for_read();
     fork_and_exec(
@@ -419,6 +456,37 @@ sub apply {
 	    unlink($fn) || syserr(_g("remove patch backup file %s"), $fn);
 	}
     }
+}
+
+# Verify if check will work...
+sub check_apply {
+    my ($self, $destdir, %opts) = @_;
+    # Set default values to options
+    $opts{"create_dirs"} = 1 unless exists $opts{"create_dirs"};
+    $opts{"options"} ||= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
+            '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
+    $opts{"add_options"} ||= [];
+    push @{$opts{"options"}}, @{$opts{"add_options"}};
+    # Check the diff and create missing directories
+    my $analysis = $self->analyze($destdir, %opts);
+    $self->prepare_apply($analysis, %opts);
+    # Apply the patch
+    my $diff_handle = $self->open_for_read();
+    my $error;
+    my $patch_pid = fork_and_exec(
+	'exec' => [ 'patch', @{$opts{"options"}} ],
+	'chdir' => $destdir,
+	'env' => { LC_ALL => 'C', LANG => 'C' },
+	'delete_env' => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
+	'from_handle' => $diff_handle,
+        'to_file' => '/dev/null',
+        'error_to_file' => '/dev/null',
+    );
+    wait_child($patch_pid, nocheck => 1);
+    my $exit = WEXITSTATUS($?);
+    subprocerr("patch --dry-run") unless WIFEXITED($?);
+    $self->cleanup_after_open();
+    return ($exit == 0);
 }
 
 # Helper functions

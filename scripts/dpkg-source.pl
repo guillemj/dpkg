@@ -52,6 +52,7 @@ my $substvars = Dpkg::Substvars->new();
 my $tar_ignore_default_pattern_done;
 
 my @cmdline_options;
+my @cmdline_formats;
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_ = shift(@ARGV);
     if (m/^-b$/) {
@@ -59,7 +60,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^-x$/) {
         setopmode('extract');
     } elsif (m/^--format=(.*)$/) {
-        unshift @build_formats, $1;
+        push @cmdline_formats, $1;
     } elsif (m/^-Z/) {
 	my $compression = $POSTMATCH;
 	$options{'compression'} = $compression;
@@ -247,9 +248,21 @@ if ($options{'opmode'} eq 'build') {
     
     $fields->{'Binary'} = join(', ', @binarypackages);
 
-    unshift @build_formats, $fields->{'Format'} if exists $fields->{'Format'};
+    # Generate list of formats to try
+    my @try_formats;
+    push @try_formats, $fields->{'Format'} if exists $fields->{'Format'};
+    push @try_formats, @cmdline_formats;
+    if (-e "$dir/debian/source/format") {
+        open(FORMAT, "<", "$dir/debian/source/format") ||
+            syserr(_g("cannot read %s"), "$dir/debian/source/format");
+        my $format = <FORMAT>;
+        chomp($format);
+        close(FORMAT);
+        push @try_formats, $format;
+    }
+    push @try_formats, @build_formats;
     # Try all suggested formats until one is acceptable
-    foreach my $format (@build_formats) {
+    foreach my $format (@try_formats) {
         $fields->{'Format'} = $format;
         $srcpkg->upgrade_object_type(); # Fails if format is unsupported
         my ($res, $msg) = $srcpkg->can_build($dir);

@@ -204,6 +204,7 @@ sub prepare_build {
         diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'},
         include_removal => $self->{'options'}{'include_removal'},
         include_timestamp => $self->{'options'}{'include_timestamp'},
+        use_dev_null => 1,
     };
     push @{$self->{'options'}{'tar_ignore'}}, "debian/patches/.dpkg-source-applied";
     $self->check_patches_applied($dir) if $self->{'options'}{'preparation'};
@@ -348,6 +349,11 @@ sub do_build {
         unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     } else {
         mkpath(File::Spec->catdir($dir, "debian", "patches"));
+        info(_g("local changes stored in %s, the modified files are:"), $autopatch);
+        my $analysis = $diff->analyze($dir);
+        foreach my $fn (sort keys %{$analysis->{'filepatched'}}) {
+            print " $fn\n";
+        }
         rename($tmpdiff, $autopatch) ||
                 syserr(_g("cannot rename %s to %s"), $tmpdiff, $autopatch);
     }

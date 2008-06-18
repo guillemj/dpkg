@@ -241,6 +241,140 @@
 
 	* configure.ac: Bump version to 1.15.0~.
 
+2008-06-16  Guillem Jover  <guillem@debian.org>
+
+	* lib/triglib.c (trig_file_interests_ensure): Pass the proper mask
+	to push_cleanup to make sure pop_cleanup closes the file.
+
+2008-06-15  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-divert.pl (checkrename): Do not check the target file
+	if the source does not exist and dorename was thus disabled.
+
+2008-06-09  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-divert.pl, scripts/update-alternatives.pl,
+	scripts/install-info.pl, scripts/dpkg-statoverride.pl: Set
+	PERL_DL_NONLAZY to 1 so that the usage of Locale::Gettext doesn't
+	cause run-time failures when this perl binary module is not
+	compiled for the corresponding perl version (and this happens in
+	configuration scripts, in particular preinst, during upgrades).
+
+2008-06-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Patch.pm (analyze): Be less strict in
+	filenames accepted on ---/+++ lines. Don't blow up on absolute
+	filenames if the other one is fine. Make sure to use the one that
+	is relative and that corresponds to a real file when possible.
+
+2008-06-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm: Use absolute path names
+	when giving directories and filenames to quilt to avoid any
+	problems due to quilt's feature of trying relative paths in parent
+	directories too.
+
+2008-06-07  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Patch.pm (analyze): Accept unexpected
+	end-of-file in patches if we're missing no more than 2 lines
+	of context. Output a warning instead.
+
+2008-06-07  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm (register_autopatch):
+	Register the newly created patch with quilt only if quilt has
+	already been used to apply the existing patches (or if we don't
+	have any patch yet), otherwise register it manually at the end of
+	the series.
+
+2008-06-05  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Patch.pm (add_diff_directory): If option
+	use_dev_null is set, then the label of the "old" file will be
+	'/dev/null' if we're creating a new file (instead of using the
+	name of the created file, like it's currently done in .diff
+	of version "1.0" source packages).
+	* scripts/Dpkg/Source/Package/V2.pm (prepare_build): Use the new
+	option "use_dev_null" when creating the automatic patch.
+
+2008-06-05  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm (get_patches): Really
+	skip all comments in the series files.
+
+2008-06-04  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Patch.pm (analyze): Enhance function to
+	parse correctly many more patches that are accepted by the patch
+	utility itself:
+	- ignore/strip carriage return of patches with Windows end of lines
+	- accept empty lines as contextual lines (instead of the expected " ")
+	- accept spaces as separator between filename and timestamp if
+	  there's no tab
+	- accept a name that differs on the +++ line if the name in --- is
+	  correct, and use the name in +++ if this one exists while the one
+	  on --- doesn't.
+
+2008-05-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package.pm (extract): If we extract a
+	source package that uses a non-standard (!= 1.0) source package
+	then we create debian/source/format to remember it.
+	* scripts/dpkg-source.pl: Use debian/source/format as a new source
+	of format to try when building the package. Prioritize it lower than
+	command line and debian/control but higher than the default build
+	formats.
+	* man/dpkg-source.1: Document the above changes.
+
+2008-05-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm: Factorize calls to
+	quilt in a new run_quilt() function. And check only once
+	if quilt is available while setting the default value of
+	without_quilt option. Last but not least, register properly the
+	automatically generated patch with quilt import.
+
+2008-05-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Patch.pm (check_apply): New function to
+	verify if a patch will successfully apply on top of a given
+	directory.
+	* scripts/Dpkg/Source/Package/V3/quilt.pm (check_patches_applied):
+	Don't trust debian/patches/.dpkg-source-applied blindly. Get a
+	list of (supposedly unapplied) patches and verify if the first
+	patch applies or not. If yes, then apply the patch series,
+	otherwise do not (and assume that the patch series is already
+	applied).
+
+2008-05-23  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V2.pm (do_build): Display a
+	message when local modifications are stored in a new
+	automatic patch. This messages includes a list of
+	modified files.
+
+2008-05-23  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm: Remove the .diff
+	from the name of the automatically generated patch. It will
+	facilitate the switch to this format: packages using
+	patch system that apply debian/patches/*.{patch,diff}
+	will not be bothered by the presence of the quilt serie
+	created by dpkg-source itself.
+	* man/dpkg-source.1: Update the documentation accordingly.
+	* man/po/*.po: Fix all the filenames to avoid fuzzying
+	translations.
+
+2008-05-22  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm: Add missing "use
+	File::Path" for mkpath().
+
+2008-05-13  Guillem Jover  <guillem@debian.org>
+
+	* src/main.c (setforce): Add help output for '--force-breaks'.
+
 2008-05-12  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Bump version to 1.14.20~.

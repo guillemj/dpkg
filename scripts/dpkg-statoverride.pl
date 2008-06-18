@@ -1,5 +1,9 @@
 #! /usr/bin/perl
 
+BEGIN { # Work-around for bug #479711 in perl
+    $ENV{PERL_DL_NONLAZY} = 1;
+}
+
 use strict;
 use warnings;
 

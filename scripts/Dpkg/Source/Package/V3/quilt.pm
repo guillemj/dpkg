@@ -31,13 +31,15 @@ use Dpkg::IPC;
 use POSIX;
 use File::Basename;
 use File::Spec;
+use File::Path;
 
 our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;
     $self->SUPER::init_options();
-    $self->{'options'}{'without_quilt'} = 0
+    # By default use quilt, unless it's not available
+    $self->{'options'}{'without_quilt'} = (-x "/usr/bin/quilt") ? 0 : 1
         unless exists $self->{'options'}{'without_quilt'};
 }
 
@@ -53,7 +55,7 @@ sub parse_cmdline_option {
 
 sub get_autopatch_name {
     my ($self) = @_;
-    return "debian-changes-" . $self->{'fields'}{'Version'} . ".diff";
+    return "debian-changes-" . $self->{'fields'}{'Version'};
 }
 
 sub get_series_file {
@@ -77,7 +79,7 @@ sub get_patches {
         open(SERIES, "<" , $series) || syserr(_g("cannot read %s"), $series);
         while(defined($_ = <SERIES>)) {
             chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
-            s/\s#.*$//; # Strip trailing comment
+            s/(^|\s+)#.*$//; # Strip comment
             next unless $_;
             if (/^(\S+)\s+(.*)$/) {
                 $_ = $1;
@@ -96,11 +98,25 @@ sub get_patches {
     return @patches;
 }
 
+sub run_quilt {
+    my ($self, $dir, $params, %more_opts) = @_;
+    $params = [ $params ] unless ref($params) eq "ARRAY";
+    my $absdir = $dir;
+    unless (File::Spec->file_name_is_absolute($absdir)) {
+        $absdir = File::Spec->rel2abs($dir);
+    }
+    my %opts = (
+        env => { QUILT_PATCHES => "$absdir/debian/patches" },
+        'chdir' => $dir,
+        'exec' => [ 'quilt', '--quiltrc', '/dev/null', @$params ],
+        %more_opts
+    );
+    my $pid = fork_and_exec(%opts);
+    return $pid;
+}
+
 sub apply_patches {
     my ($self, $dir, $skip_auto) = @_;
-
-    # Check if quilt is available
-    my $have_quilt = (-x "/usr/bin/quilt") ? 1 : 0;
 
     # Update debian/patches/series symlink if needed to allow quilt usage
     my $series = $self->get_series_file($dir);
@@ -122,22 +138,17 @@ sub apply_patches {
     foreach my $patch ($self->get_patches($dir, $skip_auto)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
-        if ($have_quilt and not $self->{'options'}{'without_quilt'}) {
+        if (not $self->{'options'}{'without_quilt'}) {
             info(_g("applying %s with quilt"), $patch) unless $skip_auto;
             my $analysis = $patch_obj->analyze($dir);
             foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
                 eval { mkpath($dir); };
                 syserr(_g("cannot create directory %s"), $dir) if $@;
             }
-            my %opts = (
-                env => { QUILT_PATCHES => 'debian/patches' },
-                delete_env => [ 'QUILT_PATCH_OPTS' ],
-                'chdir' => $dir,
-                'exec' => [ 'quilt', '--quiltrc', '/dev/null', 'push', $patch ],
-                wait_child => 1,
-                to_file => '/dev/null',
-            );
-            fork_and_exec(%opts);
+            $self->run_quilt($dir, ['push', $patch],
+                             delete_env => ['QUILT_PATCH_OPTS'],
+                             wait_child => 1,
+                             to_file => '/dev/null');
             foreach my $fn (keys %{$analysis->{'filepatched'}}) {
                 utime($now, $now, $fn) || $! == ENOENT ||
                     syserr(_g("cannot change timestamp for %s"), $fn);
@@ -172,39 +183,26 @@ sub prepare_build {
 sub check_patches_applied {
     my ($self, $dir) = @_;
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
-    my $quiltdir = File::Spec->catdir($dir, ".pc");
-    if (-d $quiltdir) {
-        my $auto_patch = $self->get_autopatch_name();
+    my $auto_patch = $self->get_autopatch_name();
+    my @patches ;
+    # First we try to get a list of patches that are probably not napplied
+    if (not $self->{'options'}{'without_quilt'}) {
         my $pipe;
-        my %opts = (env => { QUILT_PATCHES => 'debian/patches' },
-                    delete_env => [ 'QUILT_PATCH_OPTS' ],
-                    'chdir' => $dir,
-                    'exec' => [ 'quilt', '--quiltrc', '/dev/null', 'unapplied' ],
-                    error_to_file => "/dev/null",
-                    to_pipe => \$pipe);
-        my $pid = fork_and_exec(%opts);
-        # We skip auto_patch as this one might be applied but not by
-        # quilt... but by the user who made changes live in the tree
-        # and whose changes lead to this patch addition by a previous
-        # dpkg-source run.
-        my @patches = grep { chomp; $_ ne $auto_patch } (<$pipe>);
+        my $pid = $self->run_quilt($dir, ['unapplied'], error_to_file => '/dev/null',
+                                   to_pipe => \$pipe);
+        @patches = map { chomp; $_ } (<$pipe>);
         close ($pipe) || syserr("close on 'quilt unapplied' pipe");
         wait_child($pid, cmdline => "quilt unapplied", nocheck => 1);
-        if (@patches) {
-            warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
-            $opts{'wait_child'} = 1;
-            $opts{'to_file'} = "/dev/null";
-            delete $opts{'to_pipe'};
-            foreach my $patch (@patches) {
-                info(_g("applying %s with quilt"), $patch);
-                $opts{'exec'} = [ 'quilt', '--quiltrc', '/dev/null', 'push', $patch ];
-                fork_and_exec(%opts);
-            }
-        }
-        return;
+        subprocerr("quilt unapplied") unless WIFEXITED($?);
+    } else {
+        @patches = $self->get_patches($dir);
     }
-    unless (-e $applied) {
-        if (scalar($self->get_patches($dir))) {
+    # Then we check if it's applicable, and if yes, we make the
+    # assumption that patches are not applied and need to be applied
+    if (scalar(@patches)) {
+        my $first_patch = File::Spec->catfile($dir, "debian", "patches", $patches[0]);
+        my $patch_obj = Dpkg::Source::Patch->new(filename => $first_patch);
+        if ($patch_obj->check_apply($dir)) {
             warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
             $self->apply_patches($dir);
         }
@@ -214,16 +212,38 @@ sub check_patches_applied {
 sub register_autopatch {
     my ($self, $dir) = @_;
     my $auto_patch = $self->get_autopatch_name();
-    my $has_patch = (grep { $_ eq $auto_patch } $self->get_patches($dir)) ? 1 : 0;
+    my @patches = $self->get_patches($dir);
+    my $has_patch = (grep { $_ eq $auto_patch } @patches) ? 1 : 0;
     my $series = $self->get_series_file($dir);
     $series ||= File::Spec->catfile($dir, "debian", "patches", "series");
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
-    if (-e "$dir/debian/patches/$auto_patch") {
+    my $patch = File::Spec->catfile($dir, "debian", "patches", $auto_patch);
+    my $absdir = $dir;
+    unless (File::Spec->file_name_is_absolute($absdir)) {
+        $absdir = File::Spec->rel2abs($dir);
+    }
+    if (-e $patch) {
         # Add auto_patch to series file
         if (not $has_patch) {
-            open(SERIES, ">>", $series) || syserr(_g("cannot write %s"), $series);
-            print SERIES "$auto_patch\n";
-            close(SERIES);
+            # Use quilt to register only if it's wanted/available AND :
+            # - either we have patches and quilt has been used (.pc dir exists)
+            # - or we don't have patches, hence quilt couldn't be used
+            if ((-d "$dir/.pc" or not scalar(@patches)) and
+                not $self->{'options'}{'without_quilt'})
+            {
+                # Registering the new patch with quilt requires some
+                # trickery: reverse-apply the patch, import it, apply it
+                # again with quilt this time
+                my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
+                $patch_obj->apply($dir, add_options => ['-R', '-E']);
+                $self->run_quilt($dir, ['import', "$absdir/debian/patches/$auto_patch"],
+                                 wait_child => 1, to_file => '/dev/null');
+                $self->run_quilt($dir, ['push'], wait_child => 1, to_file => '/dev/null');
+            } else {
+                open(SERIES, ">>", $series) || syserr(_g("cannot write %s"), $series);
+                print SERIES "$auto_patch\n";
+                close(SERIES);
+            }
             open(APPLIED, ">>", $applied) || syserr(_g("cannot write %s"), $applied);
             print APPLIED "$auto_patch\n";
             close(APPLIED);
@@ -231,12 +251,17 @@ sub register_autopatch {
     } else {
         # Remove auto_patch from series
         if ($has_patch) {
-            open(SERIES, "<", $series) || syserr(_g("cannot read %s"), $series);
-            my @lines = <SERIES>;
-            close(SERIES);
-            open(SERIES, ">", $series) || syserr(_g("cannot write %s"), $series);
-            print(SERIES $_) foreach grep { not /^\Q$auto_patch\E\s*$/ } @lines;
-            close(SERIES);
+            if ($self->{'options'}{'without_quilt'}) {
+                open(SERIES, "<", $series) || syserr(_g("cannot read %s"), $series);
+                my @lines = <SERIES>;
+                close(SERIES);
+                open(SERIES, ">", $series) || syserr(_g("cannot write %s"), $series);
+                print(SERIES $_) foreach grep { not /^\Q$auto_patch\E\s*$/ } @lines;
+                close(SERIES);
+            } else {
+                $self->run_quilt($dir, ['delete', $auto_patch],
+                                 wait_child => 1, to_file => '/dev/null');
+            }
         }
     }
 }

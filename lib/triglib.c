@@ -480,7 +480,7 @@ trig_file_interests_ensure(void)
 		        triggersfilefile);
 	}
 
-	push_cleanup(cu_closefile, 0, NULL, 0, 1, f);
+	push_cleanup(cu_closefile, ~0, NULL, 0, 1, f);
 	while (fgets_checked(linebuf, sizeof(linebuf), f, triggersfilefile) >= 0) {
 		space = strchr(linebuf, ' ');
 		if (!space || linebuf[0] != '/')

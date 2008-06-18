@@ -337,6 +337,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 "                         you will be prompted unless one of the confold or\n"
 "                         confnew options is also given\n"
 "  confmiss [!]           Always install missing config files\n"
+"  breaks [!]             Install even if it would break another package\n"
 "  conflicts [!]          Allow installation of conflicting packages\n"
 "  architecture [!]       Process even packages with wrong architecture\n"
 "  overwrite-dir [!]      Overwrite one package's directory with another's file\n"

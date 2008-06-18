@@ -327,6 +327,16 @@ sub extract {
         die $@;
     }
 
+    # Store format if non-standard so that next build keeps the same format
+    if ($self->{'fields'}{'Format'} ne "1.0") {
+        my $srcdir = File::Spec->catdir($newdirectory, "debian", "source");
+        my $format_file = File::Spec->catfile($srcdir, "format");
+        mkdir($srcdir) unless -e $srcdir;
+        open(FORMAT, ">", $format_file) || syserr(_g("can't write %s"), $format_file);
+        print FORMAT $self->{'fields'}{'Format'} . "\n";
+        close(FORMAT);
+    }
+
     # Make sure debian/rules is executable
     my $rules = File::Spec->catfile($newdirectory, "debian", "rules");
     my @s = lstat($rules);

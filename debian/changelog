@@ -45,11 +45,73 @@ dpkg (1.15.0) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Tue, 29 Apr 2008 06:01:40 +0300
 
-dpkg (1.14.20) UNRELEASED; urgency=low
+dpkg (1.14.20) unstable; urgency=low
 
-  *
+  [ Guillem Jover ]
+  * Change UTF-8 '©' to '(C)' in deb-version.5 (unfuzzy translations).
+  * Document --force-breaks in 'dpkg --force-help' output.
+  * Document triggers --debug values in dpkg.1. Thanks to Sven Joachim.
+  * Improve package descriptions for dpkg, dpkg-dev and dselect.
+    Thanks to Justin B Rye for the review and corrections. Closes: #484002
+  * When dpkg-divert does renames do no check the target file if the source
+    does not exist and the rename is thus being disabled. This also allows
+    to remove bogus diversions. Closes: #476973, #469033
+  * Properly close triggers 'File' file, so it does not get leaked to childs.
 
- -- Guillem Jover <guillem@debian.org>  Mon, 12 May 2008 09:04:34 +0300
+  [ Raphael Hertzog ]
+  * Add missing 'use File::Path' in Dpkg::Source::Package::V3::quilt.
+  * Use debian/patches/debian-changes-<version> (without the trailing ".diff")
+    as default name for the automatic patch created by the format "3.0
+    (quilt)". This ensures a saner cohabitation with patch systems that
+    apply all of debian/patches/*.{diff,patch}.
+  * Improve patch parser to accept more patches that are accepted by patch
+    itself.
+  * Correctly skip comments in quilt series files (concerns "3.0 (quilt)" source
+    packages). Closes: #486323
+  * The automatically created patches (in source package formats "2.0" and
+    "3.0 (quilt)") will now contain "/dev/null" as previous filename when the
+    patch creates a new file (instead of putting the same name).
+  * Set PERL_DL_NONLZY to 1 in perl scripts that are likely to be called in
+    package's configuration scripts to work around the perl bug #479711.
+
+  [ Helge Kreutzmann ]
+  * Fix a typo in dselect.1.
+
+  [ Updated dpkg translations ]
+  * Basque (Piarres Beobide). Closes: #481043
+  * Brazilian Portuguese (Felipe Augusto van de Wiel).
+  * Catalan (Jordi Mallach). Closes: #383448
+  * Czech (Miroslav Kure).
+  * Galician (Jacobo Tarrio). Closes: #483441
+  * German (Sven Joachim).
+  * Norwegian Bokmal (Hans Fredrik Nordhaug). Closes: #480626
+  * Polish (Wiktor Wandachowicz).
+  * Simplified Chinese (Deng Xiyue). Closes: #483143
+  * Swedish (Peter Karlsson).
+  * Vietnamese (Clytie Siddall). Closes: #481199
+
+  [ Updated manpages translations ]
+  * German (Helge Kreutzmann).
+  * Polish (Wiktor Wandachowicz).
+  * Swedish (Peter Karlsson).
+
+  [ Updated scripts translations ]
+  * French (Christian Perrier).
+  * German (Helge Kreutzmann).
+  * Polish (Wiktor Wandachowicz).
+  * Russian (Yuri Kozlov).
+  * Swedish (Peter Karlsson).
+
+  [ Updated programs translations ]
+  * Basque (Piarres Beobide). Closes: #481043
+  * French (Christian Perrier).
+  * Polish (Wiktor Wandachowicz).
+
+  [ Updated dselect translations ]
+  * Brazilian Portuguese (Felipe Augusto van de Wiel).
+  * Polish (Wiktor Wandachowicz).
+
+ -- Raphael Hertzog <hertzog@debian.org>  Wed, 18 Jun 2008 09:33:54 +0200
 
 dpkg (1.14.19) unstable; urgency=low
 

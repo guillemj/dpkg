@@ -1,5 +1,9 @@
 #!/usr/bin/perl --
 
+BEGIN { # Work-around for bug #479711 in perl
+    $ENV{PERL_DL_NONLAZY} = 1;
+}
+
 use strict;
 use warnings;
 
@@ -240,6 +244,9 @@ sub checkrename {
 	unlink ("${rsrc}.dpkg-devert.tmp");
     } elsif ($! == ENOENT) {
 	$dorename = !$dorename;
+	# If the source file is not present and we are not going to do the
+	# rename anyway there's no point in checking the target.
+	return;
     } else {
 	quit(sprintf(_g("error checking \`%s': %s"), $rsrc, $!));
     }
