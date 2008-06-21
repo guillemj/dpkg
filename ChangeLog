@@ -1,3 +1,16 @@
+2008-06-21  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Vendor.pm: Provide simple parser for vendor-specific
+	information stored in /etc/dpkg/origins/. The current vendor can
+	be identified through get_current_vendor() and get_vendor_info()
+	retrieves the information stores within those files.
+	* scripts/dpkg-buildpackage.pl: Setup the DEB_VENDOR environment
+	variable if possible.
+	* man/dpkg-buildpackage.1: Document the above changes.
+	* scripts/Dpkg/Source/Package/V3/quilt.pm (get_series_file): Use
+	get_current_vendor() to decide the name of the vendor-specific
+	series file that should be used.
+
 2008-06-19  Guillem Jover  <guillem@debian.org>
 
 	* lib/varbuf.c (varbufdupc): Store the old used size instead of the

@@ -27,6 +27,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr info);
 use Dpkg::Source::Patch;
 use Dpkg::IPC;
+use Dpkg::Vendor qw(get_current_vendor);
 
 use POSIX;
 use File::Basename;
@@ -61,9 +62,8 @@ sub get_autopatch_name {
 sub get_series_file {
     my ($self, $dir) = @_;
     my $pd = File::Spec->catdir($dir, "debian", "patches");
-    # TODO: replace "debian" with the current distro name once we have a
-    # way to figure it out
-    foreach (File::Spec->catfile($pd, "debian.series"),
+    my $vendor = lc(get_current_vendor() || "debian");
+    foreach (File::Spec->catfile($pd, "$vendor.series"),
              File::Spec->catfile($pd, "series")) {
         return $_ if -e $_;
     }

@@ -216,6 +216,12 @@ Show the usage message and exit.
 Show the version and exit.
 .
 .SH ENVIRONMENT
+The variable \fBDEB_VENDOR\fR will be set to the name of the current vendor
+if \fI/etc/dpkg/origins/default\fR exists and can be used to look up the vendor
+name. If the variable already exists, and contains the name of an existing
+vendor in \fI/etc/dpkg/origins\fR, it will be kept; otherwise the variable is
+unset.
+.P
 A set of environment variables for setting compiler and linker options are
 set to default values unless already set in the environment. Note that
 this mechanism was only introduced in dpkg-dev, version 1.14.17 and
@@ -279,7 +285,7 @@ objects (if the linker is called directly, then
 .B -Wl
 and
 .B ,
-have to be stripped from these options. Default value: empty.
+have to be stripped from these options). Default value: empty.
 .TP
 .B LDFLAGS_APPEND
 Optimization options appended to the compiler flags when linking code,
