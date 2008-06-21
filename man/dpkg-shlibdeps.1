@@ -235,6 +235,19 @@ binary. The \fIbinary\fR is most likely a library and it needs to be linked
 with an additional library during the build process (option \fB-l\fR\fIlibrary\fR
 of the linker).
 .TP
+.IB binary " contains an unresolvable reference to symbol " sym ": it's probably a plugin
+The indicated symbol has not been found in the libraries linked with the
+binary. The \fIbinary\fR is most likely a plugin and the symbol is
+probably provided by the program that loads this plugin. In theory a
+plugin doesn't have any SONAME but this binary does have one and as such
+it could not be clearly identified as such. However the fact that the
+binary is stored in a non-public directory is a strong indication
+that's it's not a normal shared library. If the binary is really a
+plugin, then disregard this warning. But there's always the possibility
+that it's a real library and that programs linking to it are using an
+RPATH so that the dynamic loader finds it. In that case, the library is
+broken and needs to be fixed.
+.TP
 .BI "dependency on " library " could be avoided if " binaries " were not uselessly linked against it (they use none of its symbols)."
 None of the \fIbinaries\fP that are linked with \fPlibrary\fP use any of the
 symbols provided by the library. By fixing all the binaries, you would avoid

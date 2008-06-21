@@ -1,5 +1,13 @@
 2008-06-21  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/dpkg-shlibdeps.pl: If the binary analyzed is a library on a
+	non-public path, assume it's likely a plugin and reduce the number of
+	warnings displayed about symbols not found. Also use a different,
+	hopefully less confusing message.
+	* man/dpkg-shlibdeps.1: Document the above changes.
+
+2008-06-21  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/Dpkg/Vendor.pm: Provide simple parser for vendor-specific
 	information stored in /etc/dpkg/origins/. The current vendor can
 	be identified through get_current_vendor() and get_vendor_info()

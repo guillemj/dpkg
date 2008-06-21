@@ -6,19 +6,22 @@ use warnings;
 use English;
 use POSIX qw(:errno_h :signal_h);
 use Cwd qw(realpath);
+use File::Basename qw(dirname);
+
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure syserr usageerr);
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same);
 use Dpkg::Version qw(compare_versions);
-use Dpkg::Shlibs qw(find_library);
+use Dpkg::Shlibs qw(find_library @librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Fields qw(capit);
 use Dpkg::Deps;
 use Dpkg::Control;
+
 
 use constant {
     WARN_SYM_NOT_FOUND => 1,
@@ -264,6 +267,8 @@ foreach my $file (keys %exec) {
     # Disable warnings about missing symbols when we have not been able to
     # find all libs
     my $disable_warnings = scalar(keys(%soname_notfound));
+    my $parent_dir = "/" . dirname(relative_to_pkg_root($file));
+    my $in_public_dir = (grep { $parent_dir eq $_ } @librarypaths) ? 1 : 0;
     foreach my $sym ($obj->get_undefined_dynamic_symbols()) {
 	my $name = $sym->{name};
 	if ($sym->{version}) {
@@ -297,9 +302,17 @@ foreach my $file (keys %exec) {
 		    # Drop the default suffix for readability
 		    $print_name =~ s/\@Base$//;
 		    unless ($sym->{weak}) {
-			if ($debug or $nb_warnings < 10) {
-			    warning(_g("symbol %s used by %s found in none of the " .
-				       "libraries."), $print_name, $file);
+			if ($debug or ($in_public_dir and $nb_warnings < 10)
+                            or (!$in_public_dir and $nb_warnings < 1))
+                        {
+                            if ($in_public_dir) {
+			        warning(_g("symbol %s used by %s found in none of the " .
+				           "libraries."), $print_name, $file);
+                            } else {
+			        warning(_g("%s contains an unresolvable reference to " .
+                                           "symbol %s: it's probably a plugin."),
+                                        $file, $print_name);
+                            }
 			    $nb_warnings++;
 			} else {
 			    $nb_skipped_warnings++;
