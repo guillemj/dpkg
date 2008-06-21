@@ -104,9 +104,6 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Shlibs.pm \
 	Dpkg/Shlibs/Objdump.pm \
 	Dpkg/Shlibs/SymbolFile.pm \
-	Dpkg/Substvars.pm \
-	Dpkg/Vars.pm \
-	Dpkg/Version.pm \
 	Dpkg/Source/Archive.pm \
 	Dpkg/Source/CompressedFile.pm \
 	Dpkg/Source/Compressor.pm \
@@ -120,6 +117,10 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Package/V3/git.pm \
 	Dpkg/Source/Package/V3/quilt.pm \
 	Dpkg/Source/Patch.pm \
+	Dpkg/Substvars.pm \
+	Dpkg/Vars.pm \
+	Dpkg/Vendor.pm \
+	Dpkg/Version.pm \
 	Dpkg.pm
 
 do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \
