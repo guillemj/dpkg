@@ -192,7 +192,9 @@ Debian is simply named \fIPackages\fP. \fBdpkg\fP keeps its
 record of available packages in \fI/var/lib/dpkg/available\fP.
 
 A simpler one-shot command to retrieve and update the \fIavailable\fR
-file is \fBdselect update\fR.
+file is \fBdselect update\fR. Note that this file is mostly useless
+if you don't use \fBdselect\fR but an APT-based frontend: APT has its
+own system to keep track of available packages.
 .TP
 \fB\-A\fP, \fB\-\-record\-avail\fP \fIpackage_file\fP...
 Update \fBdpkg\fP and \fBdselect\fP's idea of which packages are
@@ -306,7 +308,8 @@ See \fBdpkg\-query\fP(1) for more information about the following actions.
     Search for a filename from installed packages.
 \fB\-p\fP, \fB\-\-print\-avail\fP \fIpackage-name\fP...
     Display details about \fIpackage-name\fP, as found in
-    \fI/var/lib/dpkg/available\fP.
+    \fI/var/lib/dpkg/available\fP. Users of APT-based frontends
+    should use \fBapt\-cache show\fP \fIpackage-name\fP instead.
 .fi
 .
 .SH OPTIONS
