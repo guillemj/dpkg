@@ -29,6 +29,7 @@ use Dpkg::Deps qw(@src_dep_fields);
 use Dpkg::Compression;
 use Dpkg::Exit;
 use Dpkg::Path qw(check_files_are_the_same);
+use Dpkg::IPC;
 
 use POSIX;
 use File::Basename;
@@ -266,23 +267,35 @@ sub check_signature {
     my ($self) = @_;
     my $dsc = $self->get_filename();
     if (-x '/usr/bin/gpg') {
-        my $gpg_command = 'gpg -q --verify ';
+        my @exec = ("gpg", "-q", "--verify");
         if (-r '/usr/share/keyrings/debian-keyring.gpg') {
-            $gpg_command = $gpg_command.'--keyring /usr/share/keyrings/debian-keyring.gpg ';
+            push @exec, "--keyring", "/usr/share/keyrings/debian-keyring.gpg";
         }
-        $gpg_command = $gpg_command.quotemeta($dsc).' 2>&1';
+        if (-r '/usr/share/keyrings/debian-maintainers.gpg') {
+            push @exec, "--keyring", "/usr/share/keyrings/debian-maintainers.gpg";
+        }
+        push @exec, $dsc;
 
-        #TODO: cleanup here
-        my @gpg_output = `$gpg_command`;
-        my $gpg_status = $? >> 8;
-        if ($gpg_status) {
-            print STDERR join("",@gpg_output);
-            error(_g("failed to verify signature on %s"), $dsc)
-                if ($gpg_status == 1);
+        my ($stdout, $stderr);
+        fork_and_exec('exec' => \@exec, wait_child => 1, nocheck => 1,
+                      to_string => \$stdout, error_to_string => \$stderr);
+        if (WIFEXITED($?)) {
+            my $gpg_status = WEXITSTATUS($?);
+            print STDERR "$stdout$stderr" if $gpg_status;
+            if ($gpg_status == 1 or ($gpg_status &&
+                $self->{'options'}{'require_valid_signature'}))
+            {
+                error(_g("failed to verify signature on %s"), $dsc);
+            }
+        } else {
+            subprocerr("@exec");
         }
     } else {
-        warning(_g("could not verify signature on %s since gpg isn't installed"),
-                $dsc);
+        if ($self->{'options'}{'require_valid_signature'}) {
+            error(_g("could not verify signature on %s since gpg isn't installed"), $dsc);
+        } else {
+            warning(_g("could not verify signature on %s since gpg isn't installed"), $dsc);
+        }
     }
 }
 

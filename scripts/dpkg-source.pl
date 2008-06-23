@@ -42,6 +42,7 @@ my %options = (
     # Misc options
     copy_orig_tarballs => 1,
     no_check => 0,
+    require_valid_signature => 0,
 );
 
 # Fields to remove/override
@@ -98,6 +99,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $options{'copy_orig_tarballs'} = 0;
     } elsif (m/^--no-check$/) {
         $options{'no_check'} = 1;
+    } elsif (m/^--require-valid-signature$/) {
+        $options{'require_valid_signature'} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvars->set($1, $POSTMATCH);
         warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
@@ -324,7 +327,11 @@ if ($options{'opmode'} eq 'build') {
         if ($srcpkg->is_signed()) {
             $srcpkg->check_signature();
         } else {
-            warning(_g("extracting unsigned source package (%s)"), $dsc);
+            if ($options{'require_valid_signature'}) {
+                error(_g("%s doesn't contain a valid OpenPGP signature"), $dsc);
+            } else {
+                warning(_g("extracting unsigned source package (%s)"), $dsc);
+            }
         }
         $srcpkg->check_checksums();
     }
@@ -390,8 +397,8 @@ Build options:
 
 Extract options:
   --no-copy                don't copy .orig tarballs
-  --no-check               don't check signature and checksums before
-                             unpacking
+  --no-check               don't check signature and checksums before unpacking
+  --require-valid-signature abort if the package doesn't have a valid signature
 
 General options:
   -h, --help               show this help message.
