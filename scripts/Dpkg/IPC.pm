@@ -102,6 +102,10 @@ Scalar. If containing a true value, wait_child() will be called before
 returning. The return value will of fork_and_exec() will be a true value,
 but not the pid.
 
+=item nocheck
+
+Scalar. Option of the wait_child() call.
+
 =item chdir
 
 Scalar. The child process will chdir in the indicated directory before
@@ -267,7 +271,7 @@ sub fork_and_exec {
 	${$opts{"error_to_string"}} = readline($error_to_string_pipe);
     }
     if ($opts{"wait_child"}) {
-	wait_child($pid, cmdline => "@prog");
+	wait_child($pid, nocheck => $opts{"nocheck"}, cmdline => "@prog");
 	return 1;
     }
 
