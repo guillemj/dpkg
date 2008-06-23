@@ -34,6 +34,7 @@ Commands:
   [--add] <file>           add a diversion.
   --remove <file>          remove the diversion.
   --list [<glob-pattern>]  show file diversions.
+  --listpackage <file>     show what package diverts the file.
   --truename <file>        return the diverted file.
 
 Options:
@@ -102,6 +103,9 @@ while (@ARGV) {
     } elsif (m/^--list$/) {
         &checkmanymodes;
         $mode= 'list';
+    } elsif (m/^--listpackage$/) {
+        &checkmanymodes;
+        $mode= 'listpackage';
     } elsif (m/^--truename$/) {
         &checkmanymodes;
         $mode= 'truename';
@@ -212,6 +216,21 @@ if ($mode eq 'add') {
 	exit(0);
     }
     print $file, "\n";
+    exit(0);
+} elsif ($mode eq 'listpackage') {
+    @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), $mode));
+    $file= $ARGV[0];
+    for (my $i = 0; $i <= $#contest; $i++) {
+	next unless $file eq $contest[$i];
+	if ($package[$i] eq ':') {
+	    # indicate package is local using something not in package namespace
+	    print "LOCAL\n";
+	} else {
+	    print $package[$i], "\n";
+	}
+	exit(0);
+    }
+    # print nothing if file is not diverted
     exit(0);
 } else {
     &quit(sprintf(_g("internal error - bad mode \`%s'"), $mode));
