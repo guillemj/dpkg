@@ -527,9 +527,9 @@ void ensure_pathname_nonexisting(const char *pathname) {
     if (errno == ENOTDIR) return;
   }
   if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh ? */
-    char mbuf[250];
-    snprintf(mbuf, sizeof(mbuf), N_("failed to %s `%%.255s'"), failed);
-    ohshite(_(mbuf),pathname);
+    const char *failed_local = gettext(failed);
+
+    ohshite(_("failed to %s '%.255s'"), failed_local, pathname);
   }
   c1= m_fork();
   if (!c1) {

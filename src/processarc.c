@@ -739,11 +739,10 @@ void process_archive(const char *filename) {
 
       failed= N_("delete");
       if (chmodsafe_unlink_statted(fnamevb.buf, &oldfs, &failed)) {
-	char mbuf[250];
-	snprintf(mbuf, sizeof(mbuf),
-		 N_("dpkg: warning - unable to %s old file `%%.250s': %%s\n"),
-		 failed);
-	fprintf(stderr, _(mbuf), namenode->name, strerror(errno));
+        const char *failed_local = gettext(failed);
+
+        fprintf(stderr, _("dpkg: warning - unable to %s old file '%.250s': %s\n"),
+                failed_local, namenode->name, strerror(errno));
       }
 
     } /* !S_ISDIR */

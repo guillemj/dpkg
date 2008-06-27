@@ -490,7 +490,8 @@ void do_build(const char *const *argv) {
     default:
       ohshit(_("Internal error, compress_type `%i' unknown!"), compress_type);
     }
-    if (fstat(gzfd,&datastab)) ohshite("_(failed to fstat tmpfile (data))");
+    if (fstat(gzfd, &datastab))
+      ohshite(_("failed to fstat tmpfile (data)"));
     if (fprintf(ar,
                 "%s"
                 "%s" "%-12lu0     0     100644  %-10ld`\n",
