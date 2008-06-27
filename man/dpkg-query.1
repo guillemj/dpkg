@@ -96,24 +96,26 @@ Package information can be included by inserting
 variable references to package fields using the syntax
 \(lq\fB${\fP\fIfield\fR[\fB;\fP\fIwidth\fR]\fB}\fP\(rq. Fields are
 printed right-aligned unless the width is negative in which case left
-alignment will be used. The following \fIfield\fRs are recognised:
+alignment will be used. The following \fIfield\fRs are recognised but
+they are not necessarily available in the status file (only internal
+fields or fields stored in the binary package end up in it):
 
 .nf
     \fBArchitecture\fP
     \fBBugs\fP
-    \fBConffiles\fP
-    \fBConfig\-Version\fP
+    \fBConffiles\fP (internal)
+    \fBConfig\-Version\fP (internal)
     \fBConflicts\fP
     \fBBreaks\fP
     \fBDepends\fP
     \fBDescription\fP
     \fBEnhances\fP
     \fBEssential\fP
-    \fBFilename\fP
+    \fBFilename\fP (internal, dselect related)
     \fBHomepage\fP
     \fBInstalled\-Size\fP
-    \fBMD5sum\fP
-    \fBMSDOS\-Filename\fP
+    \fBMD5sum\fP (internal, dselect related)
+    \fBMSDOS\-Filename\fP (internal, dselect related)
     \fBMaintainer\fP
     \fBOrigin\fP
     \fBPackage\fP
@@ -122,13 +124,15 @@ alignment will be used. The following \fIfield\fRs are recognised:
     \fBProvides\fP
     \fBRecommends\fP
     \fBReplaces\fP
-    \fBRevision\fP
+    \fBRevision\fP (obsolete)
     \fBSection\fP
-    \fBSize\fP
+    \fBSize\fP (internal, dselect related)
     \fBSource\fP
-    \fBStatus\fP
+    \fBStatus\fP (internal)
     \fBSuggests\fP
-    \fBTag\fP
+    \fBTag\fP (usually not in the .deb but in APT's Packages files)
+    \fBTriggers-Awaited\fP (internal)
+    \fBTriggers-Pending\fP (internal)
     \fBVersion\fP
 .fi
 
