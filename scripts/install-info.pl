@@ -156,8 +156,10 @@ if (!$remove) {
 
     if (!-f $filename && -f "$filename.gz" || $filename =~ s/\.gz$//) {
         $filename= "gzip -cd <$filename.gz |";  $pipeit= 1;
-    } else {
+    } elsif (-f $filename) {
         $filename= "< $filename";
+    } else {
+        die "$progname: File $filename not found\n";
     }
 
     if (!length($description)) {
