@@ -27,6 +27,7 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
 #include "parsedump.h"
 
 static int convert_string

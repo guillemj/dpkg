@@ -351,8 +351,6 @@ extern const struct namevalue statusinfos[];
 extern const struct namevalue eflaginfos[];
 extern const struct namevalue wantinfos[];
 
-const char *skip_slash_dotslash(const char *p);
-
 int informativeversion(const struct versionrevision *version);
 
 enum versiondisplayepochwhen { vdew_never, vdew_nonambig, vdew_always };

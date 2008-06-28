@@ -245,7 +245,3 @@ void parsemustfield
   }
 }
 
-const char *skip_slash_dotslash(const char *p) {
-  while (p[0] == '/' || (p[0] == '.' && p[1] == '/')) p++;
-  return p;
-}

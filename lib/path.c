@@ -2,6 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * path.c - path handling functions
  *
+ * Copyright (C) 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright (C) 2008 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -39,5 +40,14 @@ rtrim_slash_slashdot(char *path)
 	}
 
 	return end - path + 1;
+}
+
+const char *
+skip_slash_dotslash(const char *path)
+{
+	while (path[0] == '/' || (path[0] == '.' && path[1] == '/'))
+		path++;
+
+	return path;
 }
 
