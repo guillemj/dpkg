@@ -39,6 +39,12 @@ static char errmsgbuf[4096];
  * same again just in case.
  */
 
+/* Incremented when we do some kind of generally necessary operation,
+ * so that loops &c know to quit if we take an error exit. Decremented
+ * again afterwards.
+ */
+volatile int onerr_abort = 0;
+
 #define NCALLS 2
 
 struct cleanupentry {

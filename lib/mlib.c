@@ -35,11 +35,6 @@
 #include <dpkg-db.h>
 #include <md5.h>
 
-/* Incremented when we do some kind of generally necessary operation, so that
- * loops &c know to quit if we take an error exit.  Decremented again afterwards.
- */
-volatile int onerr_abort= 0;
-
 void *m_malloc(size_t amount) {
 #ifdef MDEBUG
   unsigned short *r2, x;

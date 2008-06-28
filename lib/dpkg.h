@@ -190,6 +190,8 @@ extern const char printforhelp[];
 
 /*** from ehandle.c ***/
 
+extern volatile int onerr_abort;
+
 typedef void error_printer(const char *emsg, const char *contextstring);
 
 void push_error_handler(jmp_buf *jbufp, error_printer *printerror,
@@ -384,8 +386,6 @@ off_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
 off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc);
 off_t buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc);
 off_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, off_t limit, const char *desc);
-
-extern volatile int onerr_abort;
 
 /*** from utils.c ***/
 
