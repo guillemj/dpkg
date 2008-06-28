@@ -275,9 +275,8 @@ void badusage(const char *fmt, ...) {
   va_start(al,fmt);
   vsnprintf(buf,sizeof(buf), fmt,al);
   va_end(al);
-  snprintf(errmsgbuf,sizeof(errmsgbuf),"%s\n\n%s", buf, gettext(printforhelp));
-  errmsg= errmsgbuf; 
-  longjmp(*econtext->jbufp,1);
+
+  ohshit("%s\n\n%s", buf, gettext(printforhelp));
 }
 
 void werr(const char *fn) {
