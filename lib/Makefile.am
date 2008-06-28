@@ -38,6 +38,7 @@ libdpkg_a_SOURCES = \
 	parsedump.h \
 	path.c \
 	showpkg.c \
+	string.c \
 	subproc.c \
 	tarfn.c tarfn.h \
 	triglib.c \

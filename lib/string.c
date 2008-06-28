@@ -1,8 +1,9 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * dpkg-priv.h - private declarations for libdpkg and dpkg programs
+ * string.c - string handling routines
  *
- * Copyright (C) 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -19,36 +20,20 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_PRIV_H
-#define DPKG_PRIV_H
+char *
+str_escape_fmt(char *dst, const char *src)
+{
+	char *d = dst;
+	const char *s = src;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+	while (*s) {
+		if (*s == '%')
+			*d++ = '%';
+		*d++ = *s++;
+	}
 
-/* Language definitions. */
+	*d = '\0';
 
-#ifndef sizeof_array
-#define sizeof_array(a) (sizeof(a) / sizeof((a)[0]))
-#endif
-
-/* String handling. */
-
-char *str_escape_fmt(char *dest, const char *src);
-
-/* Path handling. */
-
-size_t rtrim_slash_slashdot(char *path);
-const char *skip_slash_dotslash(const char *path);
-
-/* Subprocess handling. */
-
-void setup_subproc_signals(const char *name);
-void cu_subproc_signals(int argc, void **argv);
-
-#ifdef __cplusplus
+	return d;
 }
-#endif
-
-#endif /* DPKG_PRIV_H */
 

@@ -26,6 +26,8 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
+
 #include "parsedump.h"
 
 void parseerr
@@ -47,7 +49,7 @@ void parseerr
     sprintf(buf2, _(" package `%.255s'"), pigp->name);
     strcat(buf1,buf2);
   }
-  for (p=buf1, q=buf2; *p; *q++= *p++) if (*p == '%') *q++= '%';
+  q = str_escape_fmt(buf2, buf1);
   strcpy(q,":\n "); strcat(q,fmt);
   va_start(al,fmt);
   if (!warnonly) ohshitv(buf2,al);
