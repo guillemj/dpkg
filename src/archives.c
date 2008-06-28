@@ -230,6 +230,34 @@ int tarfileread(void *ud, char *buf, int len) {
   return r;
 }
 
+void
+tarfile_skip_one_forward(struct TarInfo *ti,
+                         struct fileinlist **oldnifd,
+                         struct fileinlist *nifd)
+{
+  struct tarcontext *tc = (struct tarcontext *)ti->UserData;
+  size_t r;
+  char databuf[TARBLKSZ];
+
+  obstack_free(&tar_obs, nifd);
+  tc->newfilesp = oldnifd;
+  *oldnifd = NULL;
+
+  /* We need to advance the tar file to the next object, so read the
+   * file data and set it to oblivion.
+   */
+  if ((ti->Type == NormalFile0) || (ti->Type == NormalFile1)) {
+    char fnamebuf[256];
+
+    fd_null_copy(tc->backendpipe, ti->Size,
+                 _("skipped unpacking file '%.255s' (replaced or excluded?)"),
+                 quote_filename(fnamebuf, 256, ti->Name));
+    r = ti->Size % TARBLKSZ;
+    if (r > 0)
+      r = safe_read(tc->backendpipe, databuf, TARBLKSZ - r);
+  }
+}
+
 int fnameidlu;
 struct varbuf fnamevb;
 struct varbuf fnametmpvb;
@@ -584,20 +612,7 @@ int tarobject(struct TarInfo *ti) {
 
   if (existingdirectory) return 0;
   if (keepexisting) {
-    obstack_free(&tar_obs, nifd);
-    tc->newfilesp= oldnifd;
-    *oldnifd = NULL;
-
-    /* We need to advance the tar file to the next object, so read the
-     * file data and set it to oblivion.
-     */
-    if ((ti->Type == NormalFile0) || (ti->Type == NormalFile1)) {
-      char fnamebuf[256];
-      fd_null_copy(tc->backendpipe, ti->Size, _("gobble replaced file `%.255s'"),quote_filename(fnamebuf,256,ti->Name));
-      r= ti->Size % TARBLKSZ;
-      if (r > 0) r= safe_read(tc->backendpipe,databuf,TARBLKSZ - r);
-    }
-
+    tarfile_skip_one_forward(ti, oldnifd, nifd);
     return 0;
   }
 
