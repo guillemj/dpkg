@@ -522,8 +522,7 @@ usage(void)
 const char thisname[]= "dpkg-query";
 const char printforhelp[]= N_("\
 Use --help for help about querying packages;\n\
-Use --license for copyright license and lack of warranty (GNU GPL).\n\
-\n");
+Use --license for copyright license and lack of warranty (GNU GPL).");
 
 const struct cmdinfo *cipaction= 0;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
