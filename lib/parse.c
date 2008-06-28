@@ -151,16 +151,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
       fieldlen= dataptr - fieldstart - 1;
       while (!EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
       if (EOF_mmap(dataptr, endptr))
-        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(filename, lno, warnto, warncount, &newpig, 0,
                  _("EOF after field name `%.*s'"),fieldlen,fieldstart);
       if (c == '\n')
-        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(filename, lno, warnto, warncount, &newpig, 0,
                  _("newline in field name `%.*s'"),fieldlen,fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(filename, lno, warnto, warncount, &newpig, 0,
                  _("MSDOS EOF (^Z) in field name `%.*s'"),fieldlen,fieldstart);
       if (c != ':')
-        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(filename, lno, warnto, warncount, &newpig, 0,
                  _("field name `%.*s' must be followed by colon"),fieldlen,fieldstart);
 /* Skip space after ':' but before value and eol */
       while(!EOF_mmap(dataptr, endptr)) {
@@ -168,11 +168,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
         if (c == '\n' || !isspace(c)) break;
       }
       if (EOF_mmap(dataptr, endptr))
-        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(filename, lno, warnto, warncount, &newpig, 0,
                  _("EOF before value of field `%.*s' (missing final newline)"),
                  fieldlen,fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(filename, lno, warnto, warncount, &newpig, 0,
                  _("MSDOS EOF char in value of field `%.*s' (missing newline?)"),
                  fieldlen,fieldstart);
       valuestart= dataptr - 1;
@@ -186,7 +186,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
           ungetc_mmap(c,dataptr, data);
           c= '\n';
         } else if (EOF_mmap(dataptr, endptr)) {
-          parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+          parseerr(filename, lno, warnto, warncount, &newpig, 0,
                    _("EOF during value of field `%.*s' (missing final newline)"),
                    fieldlen,fieldstart);
         }
@@ -209,17 +209,17 @@ int parsedb(const char *filename, enum parsedbflags flags,
 	memcpy(value,valuestart,valuelen);
 	*(value+valuelen)= 0;
         if (*ip++)
-          parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+          parseerr(filename, lno, warnto, warncount, &newpig, 0,
                    _("duplicate value for `%s' field"), fip->name);
         fip->rcall(&newpig,newpifp,flags,filename,lno-1,warnto,warncount,value,fip);
       } else {
         if (fieldlen<2)
-          parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+          parseerr(filename, lno, warnto, warncount, &newpig, 0,
                    _("user-defined field name `%.*s' too short"), fieldlen,fieldstart);
         larpp= &newpifp->arbs;
         while ((arp= *larpp) != NULL) {
           if (!strncasecmp(arp->name,fieldstart,fieldlen))
-            parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+            parseerr(filename, lno, warnto, warncount, &newpig, 0,
                      _("duplicate value for user-defined field `%.*s'"), fieldlen,fieldstart);
           larpp= &arp->next;
         }
@@ -232,21 +232,21 @@ int parsedb(const char *filename, enum parsedbflags flags,
       if (EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
     } /* loop per field */
     if (pdone && donep)
-      parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+      parseerr(filename, lno, warnto, warncount, &newpig, 0,
                _("several package info entries found, only one allowed"));
-    parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,0,
+    parsemustfield(filename, lno, warnto, warncount, &newpig, 0,
                    &newpig.name, "package name");
     if ((flags & pdb_recordavailable) || newpig.status != stat_notinstalled) {
-      parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,1,
+      parsemustfield(filename, lno, warnto, warncount, &newpig, 1,
                      (const char **)&newpifp->description, "description");
-      parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,1,
+      parsemustfield(filename, lno, warnto, warncount, &newpig, 1,
                      (const char **)&newpifp->maintainer, "maintainer");
       if (newpig.status != stat_halfinstalled)
-        parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,0,
+        parsemustfield(filename, lno, warnto, warncount, &newpig, 0,
                        &newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
-      parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,1,
+      parsemustfield(filename, lno, warnto, warncount, &newpig, 1,
                      (const char **)&newpifp->architecture, "architecture");
 
     /* Check the Config-Version information:
@@ -258,7 +258,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (!(flags & pdb_recordavailable)) {
       if (newpig.configversion.version) {
         if (newpig.status == stat_installed || newpig.status == stat_notinstalled)
-          parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
+          parseerr(filename, lno, warnto, warncount, &newpig, 0,
                    _("Configured-Version for package with inappropriate Status"));
       } else {
         if (newpig.status == stat_installed) newpig.configversion= newpifp->version;
@@ -268,21 +268,21 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (newpig.trigaw.head &&
         (newpig.status <= stat_configfiles ||
          newpig.status >= stat_triggerspending))
-      parseerr(NULL, filename, lno, warnto, warncount, &newpig, 0,
+      parseerr(filename, lno, warnto, warncount, &newpig, 0,
                _("package has status %s but triggers are awaited"),
                statusinfos[newpig.status].name);
     else if (newpig.status == stat_triggersawaited && !newpig.trigaw.head)
-      parseerr(NULL, filename, lno, warnto, warncount, &newpig, 0,
+      parseerr(filename, lno, warnto, warncount, &newpig, 0,
                _("package has status triggers-awaited but no triggers awaited"));
 
     if (!(newpig.status == stat_triggerspending ||
           newpig.status == stat_triggersawaited) &&
         newpig.trigpend_head)
-      parseerr(NULL, filename, lno, warnto, warncount, &newpig, 0,
+      parseerr(filename, lno, warnto, warncount, &newpig, 0,
                _("package has status %s but triggers are pending"),
                statusinfos[newpig.status].name);
     else if (newpig.status == stat_triggerspending && !newpig.trigpend_head)
-      parseerr(NULL, filename, lno, warnto, warncount, &newpig, 0,
+      parseerr(filename, lno, warnto, warncount, &newpig, 0,
                _("package has status triggers-pending but no triggers pending"));
 
     /* There was a bug that could make a not-installed package have
@@ -292,7 +292,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (!(flags & pdb_recordavailable) &&
         newpig.status == stat_notinstalled &&
         newpifp->conffiles) {
-      parseerr(NULL,filename,lno, warnto,warncount,&newpig,1,
+      parseerr(filename, lno, warnto, warncount, &newpig, 1,
                _("Package which in state not-installed has conffiles, forgetting them"));
       newpifp->conffiles= NULL;
     }

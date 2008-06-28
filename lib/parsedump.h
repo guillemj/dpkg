@@ -59,10 +59,10 @@ struct fieldinfo {
   size_t integer;
 };
 
-void parseerr(FILE *file, const char *filename, int lno, FILE *warnto, int *warncount,
+void parseerr(const char *filename, int lno, FILE *warnto, int *warncount,
               const struct pkginfo *pigp, int warnonly,
-              const char *fmt, ...) PRINTFFORMAT(8,9);
-void parsemustfield(FILE *file, const char *filename, int lno,
+              const char *fmt, ...) PRINTFFORMAT(7,8);
+void parsemustfield(const char *filename, int lno,
                     FILE *warnto, int *warncount,
                     const struct pkginfo *pigp, int warnonly,
                     const char **value, const char *what);

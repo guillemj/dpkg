@@ -29,13 +29,12 @@
 #include "parsedump.h"
 
 void parseerr
-(FILE *file, const char *filename, int lno, FILE *warnto, int *warncount,
+(const char *filename, int lno, FILE *warnto, int *warncount,
  const struct pkginfo *pigp, int warnonly,
  const char *fmt, ...) 
 {
   va_list al;
   char buf1[768], buf2[1000], *p, *q;
-  if (file && ferror(file)) ohshite(_("failed to read `%s' at line %d"),filename,lno);
 
   if (warnonly)
     sprintf(buf1, _("warning, in file `%.255s' near line %d"),
@@ -230,17 +229,17 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
 }
 
 void parsemustfield
-(FILE *file, const char *filename, int lno,
+(const char *filename, int lno,
  FILE *warnto, int *warncount,
  const struct pkginfo *pigp, int warnonly,
  const char **value, const char *what) 
 {
   static const char *empty = "";
   if (!*value) {
-    parseerr(file,filename,lno, warnto,warncount,pigp,warnonly, _("missing %s"),what);
+    parseerr(filename, lno, warnto, warncount, pigp, warnonly, _("missing %s"), what);
     *value= empty;
   } else if (!**value) {
-    parseerr(file,filename,lno, warnto,warncount,pigp,warnonly,
+    parseerr(filename, lno, warnto, warncount, pigp, warnonly,
              _("empty value for %s"),what);
   }
 }
