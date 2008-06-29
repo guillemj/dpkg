@@ -59,13 +59,18 @@ struct fieldinfo {
   size_t integer;
 };
 
-void parseerr(const char *filename, int lno, FILE *warnto, int *warncount,
-              const struct pkginfo *pigp, int warnonly,
-              const char *fmt, ...) PRINTFFORMAT(7,8);
-void parsemustfield(const char *filename, int lno,
-                    FILE *warnto, int *warncount,
-                    const struct pkginfo *pigp, int warnonly,
-                    const char **value, const char *what);
+void parse_error(const char *filename, int lno, const struct pkginfo *pigp,
+                 const char *fmt, ...) PRINTFFORMAT(4,5);
+void parse_warn(const char *filename, int lno, FILE *warnto, int *warncount,
+                const struct pkginfo *pigp,
+                const char *fmt, ...) PRINTFFORMAT(6,7);
+void parse_must_have_field(const char *filename, int lno,
+                           const struct pkginfo *pigp,
+                           const char *value, const char *what);
+void parse_ensure_have_field(const char *filename, int lno,
+                             FILE *warnto, int *warncount,
+                             const struct pkginfo *pigp,
+                             const char **value, const char *what);
 
 #define MSDOS_EOF_CHAR '\032' /* ^Z */
 

@@ -1,5 +1,20 @@
 2008-06-29  Guillem Jover  <guillem@debian.org>
 
+	* lib/parsedump.h (parseerr, parsemustfield): Remove prototypes.
+	(parse_error, parse_warn): New prototypes.
+	(parse_must_have_field, parse_ensure_have_field): Likewise.
+	* lib/parsehelp.c (parseerr): Split into ...
+	(parse_error_msg, parse_error, parse_warn): ... these. New functions.
+	Fix all callers.
+	(parsemustfield): Split into ...
+	(parse_must_have_field, parse_ensure_have_field): ... there. New
+	functions. Fix all callers.
+	* lib/fields.c (convert_string): Remove now unused warning related
+	arguments. Fix all callers.
+	(conffvalue_lastword): Likewise.
+
+2008-06-29  Guillem Jover  <guillem@debian.org>
+
 	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'string.c'.
 	* lib/dpkg-priv.h (str_escape_fmt): New prototype.
 	* lib/parsehelp.c: Include <dpkg-priv.h>.
