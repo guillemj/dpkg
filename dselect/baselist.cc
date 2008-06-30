@@ -328,7 +328,7 @@ void baselist::wordwrapinfo(int offset, const char *m) {
     const char *p= strchr(m,'\n');
     int l= p ? (int)(p-m) : strlen(m);
     while (l && isspace(m[l-1])) l--;
-    if (!l || *m == '.' && l == 1) {
+    if (!l || (*m == '.' && l == 1)) {
       if (wrapping) waddch(infopad,'\n');
       waddch(infopad,'\n');
       wrapping= 0;

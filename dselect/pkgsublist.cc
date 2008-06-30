@@ -78,9 +78,10 @@ void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp)
 }   
 
 int packagelist::alreadydone(doneent **done, void *check) {
-  doneent *search;
+  doneent *search = *done;
   
-  for (search= *done; search && search->dep != check; search=search->next);
+  while (search && search->dep != check)
+    search = search->next;
   if (search) return 1;
   if (debug) fprintf(debug,"packagelist[%p]::alreadydone(%p,%p) new\n",
                      this,done,check);

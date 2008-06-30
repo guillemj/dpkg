@@ -235,9 +235,9 @@ int packagelist::resolvedepcon(dependency *depends) {
 
     fixbyupgrade= 0;
     
-    for (possi= depends->list;
-         possi && !deppossatisfied(possi,&fixbyupgrade);
-         possi= possi->next);
+    possi = depends->list;
+    while (possi && !deppossatisfied(possi, &fixbyupgrade))
+      possi = possi->next;
     if (depdebug && debug)
       fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): depends found %s\n",
               this,depends,

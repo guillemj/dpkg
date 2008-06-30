@@ -48,8 +48,8 @@ int packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewit
   }
   if (comparewith->priority != pkginfo::pri_unset &&
       (comparewith->priority != pkg->priority ||
-       comparewith->priority == pkginfo::pri_other &&
-       strcasecmp(comparewith->otherpriority,pkg->otherpriority)))
+       (comparewith->priority == pkginfo::pri_other &&
+        strcasecmp(comparewith->otherpriority, pkg->otherpriority))))
     return 0;
   if (comparewith->section &&
       strcasecmp(comparewith->section,
@@ -65,8 +65,9 @@ void packagelist::affectedrange(int *startp, int *endp) {
     *endp= cursorline+1;
     return;
   }
-  int index;
-  for (index= cursorline; index < nitems && !table[index]->pkg->name; index++);
+  int index = cursorline;
+  while (index < nitems && !table[index]->pkg->name)
+    index++;
   if (index >= nitems) {
     *startp= *endp= cursorline;
     return;

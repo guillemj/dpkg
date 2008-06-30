@@ -414,7 +414,7 @@ int refreshmenu(void) {
 
 urqresult urq_menu(void) {
 #define C(x) ((x)-'a'+1)
-  int entries, c, i;
+  int entries, c;
   entries= refreshmenu();
   int cursor=0;
   dme(0,1);
@@ -460,7 +460,9 @@ urqresult urq_menu(void) {
       }
     } else if (isalpha(c)) {
       c= tolower(c);
-      for (i=0; i<entries && gettext(menuentries[i].key)[0] != c; i++);
+      int i = 0;
+      while (i < entries && gettext(menuentries[i].key)[0] != c)
+        i++;
       if (i < entries) {
         dme(cursor,0); cursor=i; dme(cursor,1);
       } else {
@@ -496,8 +498,9 @@ int main(int, const char *const *argv) {
   if (*argv) {
     const char *a;
     while ((a= *argv++) != 0) {
-      const menuentry *me;
-      for (me= menuentries; me->command && strcmp(me->command,a); me++);
+      const menuentry *me = menuentries;
+      while (me->command && strcmp(me->command, a))
+        me++;
       if (!me->command) badusage(_("unknown action string `%.50s'"),a);
       me->fn();
     }

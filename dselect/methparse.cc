@@ -65,13 +65,13 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
   };
   const char *const *ccpp;
   int methodlen, c, baselen;
-  char *p, *pathinmeth, *pathbuf, *pathmeth;
+  char *pathinmeth, *pathbuf, *pathmeth;
   DIR *dir;
   FILE *names, *descfile;
   struct dirent *dent;
   struct varbuf vb;
   method *meth;
-  dselect_option *opt, **optinsert;
+  dselect_option *opt;
   struct stat stab;
 
   baselen= strlen(pathbase);
@@ -93,7 +93,9 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     if (debug) fprintf(debug,"readmethods(`%s',...) considering `%s' ...\n",
                        pathbase,dent->d_name);
     if (c != '_' && !isalpha(c)) continue;
-    for (p= dent->d_name+1; (c= *p) != 0 && isalnum(c) && c != '_'; p++);
+    char *p = dent->d_name + 1;
+    while ((c = *p) != 0 && isalnum(c) && c != '_')
+      p++;
     if (c) continue;
     methodlen= strlen(dent->d_name);
     if (methodlen > IMETHODMAXLEN)
@@ -205,9 +207,10 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
                          opt->description ? "`...'" : "null",
                          opt->description ? (long) strlen(opt->description) : -1,
                          opt->meth->name, opt->meth->path, opt->meth->pathinmeth);
-      for (optinsert= optionspp;
-           *optinsert && strcmp(opt->index,(*optinsert)->index) > 0;
-           optinsert= &(*optinsert)->next);
+
+      dselect_option **optinsert = optionspp;
+      while (*optinsert && strcmp(opt->index, (*optinsert)->index) > 0)
+        optinsert = &(*optinsert)->next;
       opt->next= *optinsert;
       *optinsert= opt;
       (*nread)++;
@@ -229,8 +232,6 @@ void getcurrentopt() {
   int l;
   int admindirlen;
   char *p;
-  method *meth;
-  dselect_option *opt;
   
   if (!methoptfile) {
     admindirlen= strlen(admindir);
@@ -259,10 +260,14 @@ void getcurrentopt() {
   if (debug) fprintf(debug,"getcurrentopt() cmethopt space\n");
   *p++= 0;
   if (debug) fprintf(debug,"getcurrentopt() cmethopt meth name `%s'\n", methoptbuf);
-  for (meth= methods; meth && strcmp(methoptbuf,meth->name); meth= meth->next);
+  method *meth = methods;
+  while (meth && strcmp(methoptbuf, meth->name))
+    meth = meth->next;
   if (!meth) return;
   if (debug) fprintf(debug,"getcurrentopt() cmethopt meth found; opt `%s'\n",p);
-  for (opt= options; opt && (opt->meth != meth || strcmp(p,opt->name)); opt= opt->next);
+  dselect_option *opt = options;
+  while (opt && (opt->meth != meth || strcmp(p, opt->name)))
+    opt = opt->next;
   if (!opt) return;
   if (debug) fprintf(debug,"getcurrentopt() cmethopt opt found\n");
   coption= opt;
