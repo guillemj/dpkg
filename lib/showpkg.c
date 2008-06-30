@@ -60,7 +60,7 @@ static int parsefield(struct lstitem* cur, const char* fmt, const char* fmtend) 
 
 	len=fmtend-fmt+1;
 
-	ws=(const char*)memchr(fmt, ';', len);
+	ws = memchr(fmt, ';', len);
 	if (ws) {
 		char* endptr;
 		long w;
