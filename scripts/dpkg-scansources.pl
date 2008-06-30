@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 #
-# $Id$
-#
 # Copyright 1999 Roderick Schertler
 # Copyright 2002 Wichert Akkerman <wakkerma@debian.org>
 #
