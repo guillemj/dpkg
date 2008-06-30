@@ -43,6 +43,8 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
+#define YY_NO_INPUT
+
 static struct varbuf fn, newfn;
 
 %}
