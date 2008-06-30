@@ -1,7 +1,7 @@
 /*
  * dpkg-trigger - trigger management utility
  *
- * Copyright (C) 2007 Canonical Ltd.
+ * Copyright © 2007 Canonical Ltd.
  * Written by Ian Jackson <ian@davenant.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify

@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * triglib.c - trigger handling
  *
- * Copyright (C) 2007 Canonical Ltd
+ * Copyright © 2007 Canonical Ltd
  * Written by Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify

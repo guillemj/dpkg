@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * enquiry.c - status enquiry and listing options
  *
- * Copyright (C) 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

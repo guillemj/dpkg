@@ -2,8 +2,8 @@
  * dpkg-deb - construction and deconstruction of *.deb archives
  * info.c - providing information
  *
- * Copyright (C) 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright (C) 2001 Wichert Akkerman
+ * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2001 Wichert Akkerman
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

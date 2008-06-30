@@ -1,6 +1,6 @@
-# Copyright Colin Watson <cjwatson@debian.org>
-# Copyright Ian Jackson <iwj@debian.org>
-# Copyright 2007 by Don Armstrong <don@donarmstrong.com>.
+# Copyright © Colin Watson <cjwatson@debian.org>
+# Copyright © Ian Jackson <iwj@debian.org>
+# Copyright © 2007 Don Armstrong <don@donarmstrong.com>.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

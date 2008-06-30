@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * parse.c - declarations for in-core database reading/writing
  *
- * Copyright (C) 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright (C) 2001 Wichert Akkerman
+ * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2001 Wichert Akkerman
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

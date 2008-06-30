@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * myopt.c - my very own option parsing
  *
- * Copyright (C) 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright (C) 2000,2002 Wichert Akkerman <wichert@deephackmode.org>
+ * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2000,2002 Wichert Akkerman <wichert@deephackmode.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

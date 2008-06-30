@@ -2,8 +2,8 @@
  * dpkg - main program for package management
  * dbmodify.c - routines for managing dpkg database updates
  *
- * Copyright (C) 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright (C) 2001 Wichert Akkerman <wichert@debian.org>
+ * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2001 Wichert Akkerman <wichert@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

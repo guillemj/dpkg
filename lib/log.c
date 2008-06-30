@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * log.c - logging related functions
  *
- * Copyright (C) 2005 Scott James Remnant <scott@netsplit.com>
+ * Copyright © 2005 Scott James Remnant <scott@netsplit.com>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

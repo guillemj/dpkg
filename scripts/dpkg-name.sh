@@ -9,7 +9,7 @@ purpose="rename Debian packages to full package names"
 
 license () {
 echo "# ${prog} ${version} -- ${purpose}
-# Copyright (C) 1995,1996 Erick Branderhorst <branderh@debian.org>.
+# Copyright © 1995,1996 Erick Branderhorst <branderh@debian.org>.
 
 # This is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the

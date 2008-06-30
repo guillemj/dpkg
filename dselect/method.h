@@ -2,8 +2,8 @@
  * dselect - Debian package maintenance user interface
  * method.h - access method handling declarations
  *
- * Copyright (C) 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

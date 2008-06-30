@@ -1,4 +1,4 @@
-# Copyright 2007 Raphael Hertzog <hertzog@debian.org>
+# Copyright © 2007 Raphael Hertzog <hertzog@debian.org>
 #
 # This program is free software; you may redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 #########################################################################
 # Several parts are inspired by lib/Dep.pm from lintian (same license)
 #
-# Copyright (C) 1998 Richard Braakman
-# Portions Copyright (C) 1999 Darren Benham
-# Portions Copyright (C) 2000 Sean 'Shaleh' Perry
-# Portions Copyright (C) 2004 Frank Lichtenheld
-# Portions Copyright (C) 2006 Russ Allbery
+# Copyright © 1998 Richard Braakman
+# Portions Copyright © 1999 Darren Benham
+# Portions Copyright © 2000 Sean 'Shaleh' Perry
+# Portions Copyright © 2004 Frank Lichtenheld
+# Portions Copyright © 2006 Russ Allbery
 
 package Dpkg::Deps;
 

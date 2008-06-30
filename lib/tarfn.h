@@ -4,7 +4,7 @@
 /*
  * Functions for extracting tar archives.
  * Bruce Perens, April-May 1995
- * Copyright (C) 1995 Bruce Perens
+ * Copyright © 1995 Bruce Perens
  * This is free software under the GNU General Public License.
  */
 

@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * trigdeferred.l - parsing of triggers/Deferred
  *
- * Copyright (C) 2007 Canonical Ltd
+ * Copyright © 2007 Canonical Ltd
  * written by Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify

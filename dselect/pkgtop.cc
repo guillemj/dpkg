@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * pkgtop.cc - handles (re)draw of package list windows colheads, list, thisstate
  *
- * Copyright (C) 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

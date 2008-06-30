@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * dpkg-priv.h - private declarations for libdpkg and dpkg programs
  *
- * Copyright (C) 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
