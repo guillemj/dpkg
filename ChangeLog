@@ -1,5 +1,17 @@
 2008-06-30  Guillem Jover  <guillem@debian.org>
 
+	* lib/dpkg-db.h (struct arbitraryfield): Make all 'char *' members
+	'const'.
+	(struct filedetails): Likewise.
+	(struct pkginfoperfile): Likewise.
+	(struct trigpend): Likewise.
+
+	* lib/parse.c (parsedb): Remove now unneeded 'const char **' casts.
+	* src/processarc.c (process_archive): Change size variable before
+	assigning the pointer.
+
+2008-06-30  Guillem Jover  <guillem@debian.org>
+
 	* dselect/baselist.cc (baselist::wordwrapinfo): Surround expression
 	with parenthesis.
 	* dselect/pkgcmds.cc (packagelist::affectedmatches): Likewise.

@@ -68,6 +68,7 @@ void process_archive(const char *filename) {
   struct pkginfo *pkg, *otherpkg, *divpkg;
   char *cidir, *cidirrest, *p;
   char *pfilenamebuf, conffilenamebuf[MAXCONFFILENAME];
+  char *psize;
   const char *pfilename, *newinfofilename, *failed;
   struct fileinlist *newconff, **newconffileslastp;
   struct fileinlist *cfile;
@@ -198,8 +199,9 @@ void process_archive(const char *filename) {
     pkg->files->name = pkg->files->msdosname = pkg->files->md5sum = NULL;
   }
   /* Always nfmalloc.  Otherwise, we may overwrite some other field(like md5sum). */
-  pkg->files->size= nfmalloc(30);
-  sprintf(pkg->files->size,"%lu",(unsigned long)stab.st_size);
+  psize = nfmalloc(30);
+  sprintf(psize, "%lu", (unsigned long)stab.st_size);
+  pkg->files->size = psize;
 
   if (cipaction->arg == act_avail) {
     printf(_("Recorded info about %s from %s.\n"),pkg->name,pfilename);

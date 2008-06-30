@@ -241,16 +241,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
     parse_must_have_field(filename, lno, &newpig, newpig.name, "package name");
     if ((flags & pdb_recordavailable) || newpig.status != stat_notinstalled) {
       parse_ensure_have_field(filename, lno, warnto, warncount, &newpig,
-                              (const char **)&newpifp->description, "description");
+                              &newpifp->description, "description");
       parse_ensure_have_field(filename, lno, warnto, warncount, &newpig,
-                             (const char **)&newpifp->maintainer, "maintainer");
+                              &newpifp->maintainer, "maintainer");
       if (newpig.status != stat_halfinstalled)
         parse_must_have_field(filename, lno, &newpig,
                               newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
       parse_ensure_have_field(filename, lno, warnto, warncount, &newpig,
-                              (const char **)&newpifp->architecture, "architecture");
+                              &newpifp->architecture, "architecture");
 
     /* Check the Config-Version information:
      * If there is a Config-Version it is definitely to be used, but

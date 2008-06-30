@@ -77,8 +77,8 @@ struct deppossi {
 
 struct arbitraryfield {
   struct arbitraryfield *next;
-  char *name;
-  char *value;
+  const char *name;
+  const char *value;
 };
 
 struct conffile {
@@ -90,10 +90,10 @@ struct conffile {
 
 struct filedetails {
   struct filedetails *next;
-  char *name;
-  char *msdosname;
-  char *size;
-  char *md5sum;
+  const char *name;
+  const char *msdosname;
+  const char *size;
+  const char *md5sum;
 };
 
 struct pkginfoperfile { /* pif */
@@ -101,7 +101,13 @@ struct pkginfoperfile { /* pif */
   struct dependency *depends;
   struct deppossi *depended;
   int essential; /* The `essential' flag, 1=yes, 0=no (absent) */
-  char *description, *maintainer, *source, *architecture, *installedsize, *origin, *bugs;
+  const char *description;
+  const char *maintainer;
+  const char *source;
+  const char *architecture;
+  const char *installedsize;
+  const char *origin;
+  const char *bugs;
   struct versionrevision version;
   struct conffile *conffiles;
   struct arbitraryfield *arbs;
@@ -114,7 +120,7 @@ struct trigpend {
    * trigger cycle checker (see trigproc.c).
    */
   struct trigpend *next;
-  char *name;
+  const char *name;
 };
 
 struct trigaw {
