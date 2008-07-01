@@ -102,9 +102,16 @@ static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *s
   pkg->color = gray;
   
   if (f_debug & dbg_depcondetail) {
-    fprintf(stderr,"D0%05o: findbreakcyclerecursive %s ",dbg_depcondetail,pkg->name);
-    for (sol=sofar; sol; sol=sol->back) fprintf(stderr," <- %s",sol->pkg->name);
-    fprintf(stderr,"\n");
+    struct varbuf str_pkgs = VARBUF_INIT;
+
+    for (sol = sofar; sol; sol = sol->back) {
+      varbufaddstr(&str_pkgs, " <- ");
+      varbufaddstr(&str_pkgs, sol->pkg->name);
+    }
+    varbufaddc(&str_pkgs, '\0');
+    debug(dbg_depcondetail, "findbreakcyclerecursive %s %s", pkg->name,
+          str_pkgs.buf);
+    varbuffree(&str_pkgs);
   }
   thislink.pkg= pkg;
   thislink.back= sofar;

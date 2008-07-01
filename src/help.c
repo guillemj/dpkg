@@ -155,9 +155,15 @@ static const char* preexecscript(const char *path, char *const *argv) {
     if (chroot(instdir)) ohshite(_("failed to chroot to `%.250s'"),instdir);
   }
   if (f_debug & dbg_scripts) {
-    fprintf(stderr,"D0%05o: fork/exec %s (",dbg_scripts,path);
-    while (*++argv) fprintf(stderr," %s",*argv);
-    fputs(" )\n",stderr);
+    struct varbuf args = VARBUF_INIT;
+
+    while (*++argv) {
+      varbufaddc(&args, ' ');
+      varbufaddstr(&args, *argv);
+    }
+    varbufaddc(&args, '\0');
+    debug(dbg_scripts, "fork/exec %s (%s )", path, args.buf);
+    varbuffree(&args);
   }
   instdirl= strlen(instdir);
   if (!instdirl) return path;
