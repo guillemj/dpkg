@@ -681,6 +681,7 @@ void process_archive(const char *filename) {
        */
       struct fileinlist *sameas = NULL;
       static struct stat empty_stat;
+      struct varbuf cfilename = VARBUF_INIT;
 
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code
@@ -692,7 +693,13 @@ void process_archive(const char *filename) {
 	if (!cfile->namenode->filestat) {
 	  struct stat tmp_stat;
 
-	  if (lstat(cfile->namenode->name, &tmp_stat) == 0) {
+	  varbufreset(&cfilename);
+	  varbufaddstr(&cfilename, instdir);
+	  varbufaddc(&cfilename, '/');
+	  varbufaddstr(&cfilename, cfile->namenode->name);
+	  varbufaddc(&cfilename, '\0');
+
+	  if (lstat(cfilename.buf, &tmp_stat) == 0) {
 	    cfile->namenode->filestat = nfmalloc(sizeof(struct stat));
 	    memcpy(cfile->namenode->filestat, &tmp_stat, sizeof(struct stat));
 	  } else {
@@ -717,6 +724,8 @@ void process_archive(const char *filename) {
 		" since it matches %s", fnamevb.buf, cfile->namenode->name);
 	}
       }
+
+      varbuffree(&cfilename);
 
       if ((namenode->flags & fnnf_old_conff)) {
 	if (sameas) {
