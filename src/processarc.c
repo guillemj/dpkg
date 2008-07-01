@@ -680,6 +680,8 @@ void process_archive(const char *filename) {
        * since ones that stayed the same don't really apply here.
        */
       struct fileinlist *sameas = NULL;
+      static struct stat empty_stat;
+
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code
        */
@@ -688,17 +690,21 @@ void process_archive(const char *filename) {
 
       for (cfile= newfileslist; cfile; cfile= cfile->next) {
 	if (!cfile->namenode->filestat) {
-	  cfile->namenode->filestat= nfmalloc(sizeof(struct stat));
-	  if (lstat(cfile->namenode->name, cfile->namenode->filestat)) {
+	  struct stat tmp_stat;
+
+	  if (lstat(cfile->namenode->name, &tmp_stat) == 0) {
+	    cfile->namenode->filestat = nfmalloc(sizeof(struct stat));
+	    memcpy(cfile->namenode->filestat, &tmp_stat, sizeof(struct stat));
+	  } else {
 	    if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
 	      ohshite(_("unable to stat other new file `%.250s'"),
 		      cfile->namenode->name);
-	    memset(cfile->namenode->filestat, 0,
-		   sizeof(*cfile->namenode->filestat));
+	    cfile->namenode->filestat = &empty_stat;
 	    continue;
 	  }
 	}
-	if (!cfile->namenode->filestat->st_mode) continue;
+	if (cfile->namenode->filestat == &empty_stat)
+	  continue;
 	if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
 	    oldfs.st_ino == cfile->namenode->filestat->st_ino) {
 	  if (sameas)

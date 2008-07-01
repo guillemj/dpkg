@@ -1,3 +1,9 @@
+2008-07-01  Guillem Jover  <guillem@debian.org>
+
+	* src/processarc.c (process_archive): Do not allocate a struct stat
+	when lstat fails, instead assign a pointer to a static empty stat
+	variable that will mark it as such.
+
 2008-06-30  Guillem Jover  <guillem@debian.org>
 
 	* lib/showpkg.c (parsefield): Remove unneeded 'const char *' cast.
