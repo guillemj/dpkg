@@ -38,11 +38,9 @@ convert_string(const char *filename, int lno, const char *what, int otherwise,
                const char **endpp)
 {
   const char *ep;
-  int c;
   const struct namevalue *nvip = ivip;
 
-  ep= startp;
-  if (!*ep)
+  if (!*startp)
     parse_error(filename, lno, pigp, _("%s is missing"), what);
   while (nvip->name) {
     if (strncasecmp(nvip->name, startp, nvip->length))
@@ -55,10 +53,11 @@ convert_string(const char *filename, int lno, const char *what, int otherwise,
     parse_error(filename, lno, pigp, _("`%.*s' is not allowed for %s"),
                 strnlen(startp, 50), startp, what);
   }
+
   ep = startp + nvip->length;
-  c = *ep;
-  while (isspace(c)) c= *++ep;
-  if (c && !endpp)
+  while (isspace(*ep))
+    ep++;
+  if (*ep && !endpp)
     parse_error(filename, lno, pigp, _("junk after %s"), what);
   if (endpp) *endpp= ep;
   return nvip->value;
