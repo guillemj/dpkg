@@ -38,19 +38,14 @@ convert_string(const char *filename, int lno, const char *what, int otherwise,
                const char **endpp)
 {
   const char *ep;
-  int c, l = 0;
-  struct namevalue *nvip= NULL;
-  memcpy(&nvip,&ivip,sizeof(struct namevalue *));
+  int c;
+  const struct namevalue *nvip = ivip;
 
   ep= startp;
   if (!*ep)
     parse_error(filename, lno, pigp, _("%s is missing"), what);
   while (nvip->name) {
-    if ((l= nvip->length) == 0) {
-      l= strlen(nvip->name);
-      nvip->length= (const int)l;
-    }
-    if (strncasecmp(nvip->name,startp,l) || nvip->name[l])
+    if (strncasecmp(nvip->name, startp, nvip->length))
       nvip++;
     else
       break;
@@ -60,7 +55,7 @@ convert_string(const char *filename, int lno, const char *what, int otherwise,
     parse_error(filename, lno, pigp, _("`%.*s' is not allowed for %s"),
                 strnlen(startp, 50), startp, what);
   }
-  ep = startp + l;
+  ep = startp + nvip->length;
   c = *ep;
   while (isspace(c)) c= *++ep;
   if (c && !endpp)
