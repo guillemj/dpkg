@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include "strnlen.h"
 
 #include <dpkg.h>
 #include <dpkg-db.h>
@@ -57,7 +58,7 @@ convert_string(const char *filename, int lno, const char *what, int otherwise,
   if (!nvip->name) {
     if (otherwise != -1) return otherwise;
     parse_error(filename, lno, pigp, _("`%.*s' is not allowed for %s"),
-                l > 50 ? 50 : l, startp, what);
+                strnlen(startp, 50), startp, what);
   }
   ep = startp + l;
   c = *ep;
