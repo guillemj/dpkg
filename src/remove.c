@@ -436,7 +436,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         *lconffp= conff->next;
       } else {
         debug(dbg_conffdetail,"removal_bulk set to new conffile `%s'",conff->name);
-        conff->hash= NEWCONFFILEFLAG; /* yes, cast away const */
+        conff->hash = NEWCONFFILEFLAG;
         lconffp= &conff->next;
       }
     }
