@@ -50,8 +50,8 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "admindir",        0,   1, NULL,     &admindir },
 	{ "by-package",      'f', 1, NULL,     &bypackage },
 	{ "no-await",        0,   0, NULL,     &bypackage, noawait },
-	{ "no-act",          0,   0, &f_noact, NULL,       0, 1 },
-	{ "check-supported", 0,   0, &f_check, NULL,       0, 1 },
+	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
+	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
 	{ "help",            'h', 0, NULL,     NULL,       helponly },
 	{ "version",         0,   0, NULL,     NULL,       versiononly },
 	/* UK spelling */

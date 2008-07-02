@@ -129,7 +129,7 @@ void setselections(const char *const *argv) {
     }
     varbufaddc(&namevb,0);
     varbufaddc(&selvb,0);
-    e= illegal_packagename(namevb.buf,0);
+    e = illegal_packagename(namevb.buf, NULL);
     if (e) ohshit(_("illegal package name at line %d: %.250s"),lno,e);
     for (nvp=wantinfos; nvp->name && strcmp(nvp->name,selvb.buf); nvp++);
     if (!nvp->name) ohshit(_("unknown wanted status at line %d: %.250s"),lno,selvb.buf);

@@ -58,7 +58,7 @@ static void limiteddescription(struct pkginfo *pkg, int maxl,
   const char *pdesc, *p;
   int l;
   
-  pdesc= pkg->installed.valid ? pkg->installed.description : 0;
+  pdesc = pkg->installed.valid ? pkg->installed.description : NULL;
   if (!pdesc) pdesc= _("(no description available)");
   p= strchr(pdesc,'\n');
   if (!p) p= pdesc+strlen(pdesc);
@@ -101,7 +101,7 @@ static void list1package(struct pkginfo *pkg, int *head,
 	const char *pdesc;
 	int plen, vlen, dlen;
 
-	pdesc= pkg->installed.valid ? pkg->installed.description : 0;
+	pdesc = pkg->installed.valid ? pkg->installed.description : NULL;
 	if (!pdesc) pdesc= _("(no description available)");
 
 	plen= strlen(pkgl[i]->name);
@@ -255,7 +255,7 @@ void searchfiles(const char *const *argv) {
   ensure_allinstfiles_available_quiet();
   ensure_diversions();
 
-  while ((thisarg= *argv++) != 0) {
+  while ((thisarg = *argv++) != NULL) {
     found= 0;
 
     /* Trim trailing slash and slash dot from the argument if it's
@@ -283,7 +283,7 @@ void searchfiles(const char *const *argv) {
       found += searchoutput(namenode);
     } else {
       it= iterfilestart();
-      while ((namenode= iterfilenext(it)) != 0) {
+      while ((namenode = iterfilenext(it)) != NULL) {
         if (fnmatch(thisarg,namenode->name,0)) continue;
         found+= searchoutput(namenode);
       }
@@ -318,7 +318,7 @@ void enqperpackage(const char *const *argv) {
   else 
     modstatdb_init(admindir,msdbrw_readonly);
 
-  while ((thisarg= *argv++) != 0) {
+  while ((thisarg = *argv++) != NULL) {
     pkg= findpackage(thisarg);
 
     switch (cipaction->arg) {
@@ -386,7 +386,7 @@ void enqperpackage(const char *const *argv) {
       internerr("unknown action");
     }
 
-    if (*(argv + 1) == 0)
+    if (*(argv + 1) == NULL)
       putchar('\n');
     if (ferror(stdout)) werr("stdout");
   }
@@ -524,7 +524,7 @@ const char printforhelp[]= N_("\
 Use --help for help about querying packages;\n\
 Use --license for copyright license and lack of warranty (GNU GPL).");
 
-const struct cmdinfo *cipaction= 0;
+const struct cmdinfo *cipaction = NULL;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;
 unsigned long f_debug=0;
@@ -536,7 +536,7 @@ int fc_badpath=0;
 int errabort = 50;
 const char *admindir= ADMINDIR;
 const char *instdir= "";
-struct packageinlist *ignoredependss=0;
+struct packageinlist *ignoredependss = NULL;
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
@@ -551,9 +551,9 @@ static const struct cmdinfo cmdinfos[]= {
    * have a very similar structure.
    */
 #define ACTION(longopt,shortopt,code,function) \
- { longopt, shortopt, 0,0,0, setaction, code, 0, (voidfnp)function }
+ { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
 #define OBSOLETE(longopt,shortopt) \
- { longopt, shortopt, 0,0,0, setobsolete, 0, 0, 0 }
+ { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 
   ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
   ACTION( "status",                         's', act_status,        enqperpackage   ),
@@ -562,13 +562,15 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "search",                         'S', act_searchfiles,   searchfiles     ),
   ACTION( "show",                           'W', act_listpackages,  showpackages    ),
 
-  { "admindir",           0,   1,  0, &admindir,       0                            },
-  { "showformat",        'f',  1,  0, &showformat,     0                            },
-  { "help",              'h',  0,  0, 0,               helponly                     },
-  { "version",            0,   0,  0, 0,               versiononly                  },
-  { "licence",/* UK spelling */ 0,0,0,0,               showcopyright                },
-  { "license",/* US spelling */ 0,0,0,0,               showcopyright                },
-  {  0,                   0                                                         }
+  { "admindir",   0,   1, NULL, &admindir,   NULL          },
+  { "showformat", 'f', 1, NULL, &showformat, NULL          },
+  { "help",       'h', 0, NULL, NULL,        helponly      },
+  { "version",    0,   0, NULL, NULL,        versiononly   },
+  /* UK spelling. */
+  { "licence",    0,   0, NULL, NULL,        showcopyright },
+  /* US spelling */
+  { "license",    0,   0, NULL, NULL,        showcopyright },
+  {  NULL,        0,   0, NULL, NULL,        NULL          }
 };
 
 int main(int argc, const char *const *argv) {
@@ -578,7 +580,7 @@ int main(int argc, const char *const *argv) {
   standard_startup(&ejbuf, argc, &argv, NULL, 0, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
-  setvbuf(stdout,0,_IONBF,0);
+  setvbuf(stdout, NULL, _IONBF, 0);
   filesdbinit();
 
   actionfunction= (void (*)(const char* const*))cipaction->farg;
