@@ -230,7 +230,7 @@ int tarfileread(void *ud, char *buf, int len) {
   return r;
 }
 
-void
+static void
 tarfile_skip_one_forward(struct TarInfo *ti,
                          struct fileinlist **oldnifd,
                          struct fileinlist *nifd)
