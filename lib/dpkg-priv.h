@@ -26,6 +26,8 @@
 extern "C" {
 #endif
 
+#include <stddef.h>
+
 /* Language definitions. */
 
 #ifndef sizeof_array

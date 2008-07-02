@@ -20,6 +20,9 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <config.h>
+#include <dpkg-priv.h>
+
 char *
 str_escape_fmt(char *dst, const char *src)
 {
