@@ -205,8 +205,7 @@ int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
       debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");
 
       if (!thirdpkg->clientdata->fileslistvalid) {
-        debug(dbg_eachfiledetail,
-              _("process_archive ...  already disappeared !"));
+        debug(dbg_eachfiledetail, "process_archive ... already disappeared!");
         continue;
       }
       /* We've found a package that can take this file. */
