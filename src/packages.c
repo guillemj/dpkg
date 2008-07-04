@@ -211,7 +211,12 @@ void process_queue(void) {
     action_todo = cipaction->arg;
 
     if (sincenothing++ > queue.length * 2 + 2) {
-      if (progress_bytrigproc && progress_bytrigproc->trigpend_head) {
+      if (progress_bytrigproc &&
+	  (progress_bytrigproc->trigpend_head ||
+	   (progress_bytrigproc->status >= stat_triggersawaited &&
+	    progress_bytrigproc->othertrigaw_head))) {
+	debug(dbg_depcon, "using progress_bytrigproc %s instead of %s",
+	      progress_bytrigproc->name, pkg->name);
         add_to_queue(pkg);
         pkg = progress_bytrigproc;
         action_todo = act_configure;
@@ -246,7 +251,8 @@ void process_queue(void) {
       /* Fall through. */
     case act_configure:
       /* Do whatever is most needed. */
-      if (pkg->trigpend_head)
+      if (pkg->trigpend_head ||
+	  (pkg->status >= stat_triggersawaited && pkg->othertrigaw_head))
         trigproc(pkg);
       else
         deferred_configure(pkg);
@@ -389,7 +395,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
        * anyway, and that trigger processing will be a noop except for
        * sorting out all of the packages which name it in T-Awaited.
        *
-       * (This situation can only arise if modstatdb_note success in
+       * (This situation can only arise if modstatdb_note succeeds in
        * clearing the triggers-pending status of the pending package
        * but then fails to go on to update the awaiters.)
        */
@@ -609,8 +615,13 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   }
   if (ok == 0 && (pkg->clientdata && pkg->clientdata->istobe == itb_remove))
     ok= 1;
-  if (!anycannotfixbytrig && canfixbytrig)
+
+  if (!anycannotfixbytrig && canfixbytrig) {
+    debug(dbg_depcon, "progress_bytrigproc %s (was %s)",
+	  canfixbytrig->name,
+	  progress_bytrigproc ? progress_bytrigproc->name : "<none>");
     progress_bytrigproc = canfixbytrig;
+  }
   
   varbuffree(&oemsgs);
   debug(dbg_depcon,"ok %d msgs >>%.*s<<", ok, (int)aemsgs->used, aemsgs->buf);
