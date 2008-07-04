@@ -109,6 +109,8 @@ void packagelist::itd_description() {
   if (table[cursorline]->pkg->name) {
     const char *m= table[cursorline]->pkg->available.description;
     if (!m || !*m)
+      m = table[cursorline]->pkg->installed.description;
+    if (!m || !*m)
       m = _("No description available.");
     const char *p= strchr(m,'\n');
     int l= p ? (int)(p-m) : strlen(m);

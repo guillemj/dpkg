@@ -221,7 +221,8 @@ void packagelist::redraw1itemsel(int index, int selected) {
     }
 
     i= description_width;
-    p= info->description ? info->description : "";
+    p= info->description ? info->description :
+       pkg->installed.description ? pkg->installed.description : "";
     while (i>0 && *p && *p != '\n') { waddnstr(listpad,p,1); i--; p++; }
       
   } else {
