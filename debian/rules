@@ -8,7 +8,7 @@ CFLAGS = -g $(WFLAGS)
 CXXFLAGS = -g $(WFLAGS)
 
 # Disable optimisations if ‘noopt’ found in $DEB_BUILD_OPTIONS
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
 	CXXFLAGS += -O0
 else
@@ -66,7 +66,7 @@ build: build-tree/config.status
 check: build
 	dh_testdir
 
-ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	cd build-tree && $(MAKE) check
 endif
 
