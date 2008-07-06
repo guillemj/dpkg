@@ -53,7 +53,7 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
   
   if (!namenode->divert) {
     r = namenode;
-    goto found;
+    return r;
   }
   
   debug(dbg_eachfile,"namenodetouse namenode=`%s' pkg=%s",
@@ -70,8 +70,6 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
         namenode->divert->pkg ? namenode->divert->pkg->name : "<none>",
         r->name);
 
- found:
-  trig_file_activate(r, pkg);
   return r;
 }
 

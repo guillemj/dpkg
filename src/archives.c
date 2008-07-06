@@ -400,6 +400,7 @@ int tarobject(struct TarInfo *ti) {
   static struct varbuf conffderefn, hardlinkfn, symlinkfn;
   static int fd;
   const char *usename;
+  struct filenamenode *usenode;
 
   struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
@@ -450,7 +451,10 @@ int tarobject(struct TarInfo *ti) {
     }
   }
 
-  usename= namenodetouse(nifd->namenode,tc->pkg)->name + 1; /* Skip the leading `/' */
+  usenode = namenodetouse(nifd->namenode, tc->pkg);
+  usename = usenode->name + 1; /* Skip the leading '/'. */
+
+  trig_file_activate(usenode, tc->pkg);
 
   if (nifd->namenode->flags & fnnf_new_conff) {
     /* If it's a conffile we have to extract it next to the installed

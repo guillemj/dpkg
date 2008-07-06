@@ -213,15 +213,21 @@ static void removal_bulk_remove_files(
     reversefilelist_init(&rlistit,pkg->clientdata->files);
     leftover = NULL;
     while ((namenode= reversefilelist_next(&rlistit))) {
+      struct filenamenode *usenode;
+
       debug(dbg_eachfile, "removal_bulk `%s' flags=%o",
             namenode->name, namenode->flags);
       if (namenode->flags & fnnf_old_conff) {
         push_leftover(&leftover,namenode);
         continue;
       }
+
+      usenode = namenodetouse(namenode, pkg);
+      trig_file_activate(usenode, pkg);
+
       varbufreset(&fnvb);
       varbufaddstr(&fnvb,instdir);
-      varbufaddstr(&fnvb,namenodetouse(namenode,pkg)->name);
+      varbufaddstr(&fnvb, usenode->name);
       before= fnvb.used;
       
       varbufaddstr(&fnvb,DPKGTEMPEXT);
@@ -340,6 +346,8 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
   reversefilelist_init(&rlistit,pkg->clientdata->files);
   leftover = NULL;
   while ((namenode= reversefilelist_next(&rlistit))) {
+    struct filenamenode *usenode;
+
     debug(dbg_eachfile, "removal_bulk `%s' flags=%o",
           namenode->name, namenode->flags);
     if (namenode->flags & fnnf_old_conff) {
@@ -347,9 +355,12 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
       continue;
     }
 
+    usenode = namenodetouse(namenode, pkg);
+    trig_file_activate(usenode, pkg);
+
     varbufreset(&fnvb);
     varbufaddstr(&fnvb,instdir);
-    varbufaddstr(&fnvb,namenodetouse(namenode,pkg)->name);
+    varbufaddstr(&fnvb, usenode->name);
     varbufaddc(&fnvb,0);
 
     if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {

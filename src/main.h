@@ -208,9 +208,6 @@ int chmodsafe_unlink_statted(const char *pathname, const struct stat *stab,
 			     const char **failed);
 void checkpath(void);
 
-/* NB side effect! This not only computes the appropriate filename
- * to use including thinking about any diversions, but also activates
- * any file triggers. */
 struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
 
 /* all ...'s are const char*'s ... */

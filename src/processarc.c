@@ -632,12 +632,17 @@ void process_archive(const char *filename) {
    */
   reversefilelist_init(&rlistit,pkg->clientdata->files);
   while ((namenode= reversefilelist_next(&rlistit))) {
+    struct filenamenode *usenode;
+
     if ((namenode->flags & fnnf_new_conff) ||
         (namenode->flags & fnnf_new_inarchive))
       continue;
 
+    usenode = namenodetouse(namenode, pkg);
+    trig_file_activate(usenode, pkg);
+
     fnamevb.used= fnameidlu;
-    varbufaddstr(&fnamevb, namenodetouse(namenode,pkg)->name);
+    varbufaddstr(&fnamevb, usenode->name);
     varbufaddc(&fnamevb,0);
 
     if (!stat(namenode->name,&stab) && S_ISDIR(stab.st_mode)) {
