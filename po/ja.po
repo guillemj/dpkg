@@ -14,13 +14,13 @@
 # dpkg 用の日本語メッセージ (Linux/GNU Debian).
 # Copyright (C) 1998 Masato Taruishi <taru@debian.or.jp>
 # Copyright (C) 1999-2004 Keita Maehara <maehara@debian.org>
-# Copyright (C) 2004-2007 Kenshi Muto <kmuto@debian.org>
+# Copyright (C) 2004-2008 Kenshi Muto <kmuto@debian.org>
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.13 r503\n"
+"Project-Id-Version: dpkg git\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-05-13 05:54+0300\n"
-"PO-Revision-Date: 2007-12-20 14:53+0900\n"
+"PO-Revision-Date: 2008-07-06 18:35+0900\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -490,35 +490,34 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "選択記号 (`|') は %s フィールド内では許可されていません"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr ""
-"`config-version' フィールドの値はこのコンテキストでは許可されていません"
+"`triggers-pending' フィールドの値はこのコンテキストでは許可されていません"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "`%s' フィールド、無効なパッケージ名 `%.255s': %s"
+msgstr "無効な保留トリガ名 `%.255s': %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "重複する保留トリガ `%.255s'"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "`status' フィールドの値はこのコンテキストでは許可されていません"
+msgstr ""
+"`triggers-awaited' フィールドの値はこのコンテキストでは許可されていません"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "%d 行目のパッケージ名は不正です: %.250s"
+msgstr "待ち受けトリガ `%.255s' に不正なパッケージ名があります : %s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "パッケージ `%.250s' のファイル一覧"
+msgstr "重複する待ち受けトリガパッケージ `%.255s'"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -556,9 +555,8 @@ msgid "realloc failed (%ld bytes)"
 msgstr "realloc 失敗 (%ld バイト)"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "ディレクトリの作成に失敗しました"
+msgstr "メモリの割り当てに失敗しました"
 
 #: lib/mlib.c:85
 #, c-format
@@ -817,20 +815,20 @@ msgstr "不適切なステータスを持つパッケージの Configured-Versio
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "パッケージは状態 %s ですが、トリガを待ち受けています"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
-msgstr ""
+msgstr "パッケージはトリガ待ち受けの状態ですが、待ち受けトリガはありません"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "パッケージは状態 %s ですが、トリガは保留されています"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
-msgstr ""
+msgstr "パッケージはトリガ保留の状態ですが、保留トリガはありません"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -929,69 +927,73 @@ msgstr "フォーマットに閉じ括弧 (}) が抜けています\n"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
+"延期されたファイル `%2$.250s' のトリガに無効なパッケージ名 `%1$.250s' があり"
+"ます"
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "statoverride ファイル `%.250s'"
+msgstr "延期されたファイル `%.250s'のトリガが切り詰められました"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"延期されたファイル `%.250s' のトリガの文字 `%s'%s の位置に文法エラーがありま"
+"す"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "ソースファイル `%.250s' をオープンできません"
+msgstr "ロックファイル `%.250s' のトリガをオープンおよび作成できません"
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "%s のロックを解除できません: %s"
+msgstr "トリガエリアをロックできません"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "その他の新しいファイル `%.250s' の状態を取得できません"
+msgstr "延期されたファイル `%.250s' のトリガの状態を取得できません"
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "ソースファイル `%.250s' をオープンできません"
+msgstr "延期されたファイル `%.250s' のトリガをオープンできません"
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "新しい格納ファイル `%.250s' をオープンできません"
+msgstr ""
+"延期されたファイル `%.250s' の新しいトリガをオープンおよび作成できません"
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "ファイル %2$.255s からの %1$s の読み取り中にエラーが発生しました"
+msgstr "延期されたファイル `%.250s' のトリガの読み取り中にエラーが発生しました"
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "新しい格納ファイル `%.250s' をオープンできません"
+msgstr "延期されたファイル `%.250s' の新しいトリガを書き込めません"
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "新しい格納ファイル `%.250s' をオープンできません"
+msgstr "延期されたファイル `%.250s' の新しいトリガをクローズできません"
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "`%.255s' の新しいバージョンをインストールできません"
+msgstr "延期されたファイル `%.250s' の新しいトリガをインストールできません"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "空のトリガ名は許されていません"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "トリガ名に無効な文字が含まれています"
 
 #: lib/triglib.c:256
 #, c-format
@@ -999,16 +1001,18 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
+"トリガ名 `%.250s' に無効または未知の文法があります (パッケージ `%.250s' に関"
+"係するトリガ)"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "新しい格納ファイル `%.250s' をオープンできません"
+msgstr "リストファイル `%.250s' に関係するトリガをオープンできません"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "パートファイル `%.250s' の読み取りに失敗しました"
+msgstr "ファイル `%.250s' に関係するトリガの巻き戻しに失敗しました"
 
 #: lib/triglib.c:325
 #, c-format
@@ -1016,52 +1020,56 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"ファイル `%.250s' に関係するファイルのトリガが文法エラーです; 無効なパッケー"
+"ジ名 `%.250s': %.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "その他の新しいファイル `%.250s' の状態を取得できません"
+msgstr "ファイル `%.250s' に関係する新しいトリガを作成できません"
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "その他の新しいファイル `%.250s' の状態を取得できません"
+msgstr "ファイル `%.250s' に関係する新しいトリガを書き込めません"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "`%.255s' の新しいバージョンをインストールできません"
+msgstr "ファイル `%.250s' に関係する新しいトリガをインストールできません"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
-msgstr "新規情報ファイル `%.250s' を `%.250s' としてインストールできません"
+msgstr ""
+"ファイル名 `%.250s' およびパッケージ `%.250s' に関係するファイルトリガが重複"
+"しています"
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "新しい格納ファイル `%.250s' をオープンできません"
+msgstr "ファイル `%.250s' の新しいファイルトリガを作成できません"
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "新しい格納ファイル `%.250s' をオープンできません"
+msgstr "ファイル `%.250s' の新しいファイルトリガを書き込めません"
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr "新規情報ファイル `%.250s' を `%.250s' としてインストールできません"
+msgstr "ファイル `%.250s' のファイルトリガをインストールできません"
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "パートファイル `%.250s' の読み取りに失敗しました"
+msgstr "ファイル `%.250s' のファイルトリガを読み取れません"
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "設定ファイル `%.255s' の読み込みエラー"
+msgstr "ファイル `%.250s' のファイルトリガに文法エラーがあります"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1069,6 +1077,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"ファイルトリガ記録は無効なパッケージ名 `%.250s' について言及しています (ファ"
+"イル `%.250s' に関係): %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1076,50 +1086,52 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"ci ファイル `%.250s' のトリガは不正なトリガ文法をトリガ名 `%.250s' に含んでい"
+"ます: %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "ソースファイル `%.250s' をオープンできません"
+msgstr "ci ファイル `%.250s' のトリガをオープンできません"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
-msgstr ""
+msgstr "ci ファイルのトリガは未知のディレクティブ文法を含んでいます"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
+msgstr "ci ファイルのトリガは未知のディレクティブ `%.250s' を含んでいます"
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "格納用ディレクトリ `%.250s' を読み取ることができません"
+msgstr "状態ディレクトリ `%.250s' のトリガを作成できません"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "格納用ディレクトリ `%.250s' を読み取ることができません"
+msgstr "状態ディレクトリ `%.250s' のトリガの所有権を設定できません"
 
 #: lib/utils.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "read error in `%.250s'"
-msgstr "%.250s で読み取り時にエラーが発生しました"
+msgstr "%.250s で読み取りエラー"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "fgets が diversions から空の文字列を取得しました [i]"
+msgstr "fgets が `%.250s' から空の文字列を取得しました"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr "ファイル `%.250s' は壊れています - %.250s の後の改行がありません"
+msgstr "`%.250s' の行が長すぎるか改行がありません"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "%.250s 内で予期しないファイルの終わりです"
+msgstr "`%.250s' の読み取り中に予期しないファイルの終わりです"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1980,9 +1992,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (バージョン %.250s) がインストールされようとしています。\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (バージョン %.250s) が %s です。\n"
+msgstr "  %.250s (バージョン %.250s) が提供され、%s です。\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -1990,9 +2002,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %2$.250s を提供する %1$.250s がインストールされようとしています。\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %2$.250s を提供する %1$.250s が %3$s です。\n"
+msgstr "  %2$.250s を提供する %1$.250s が提供され、%3$s です。\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2048,6 +2060,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"以下のパッケージは、ほかのパッケージによって活性化されるトリガ処理を待っ\n"
+"ています。この処理は dselect または dpkg --configure --pending (あるい\n"
+"は dpkg --triggers-only) の利用で要求できます。\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2055,6 +2070,9 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"以下のパッケージはトリガされましたが、トリガ処理はまだ完了していません。\n"
+"トリガ処理は dselect または dpkg --configure --pending (あるいは dpkg\n"
+"--triggers-only) の利用で要求できます。\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2309,9 +2327,8 @@ msgid "not installed but configs remain"
 msgstr "インストールされていませんが、設定が残っています"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "削除失敗のため壊れています"
+msgstr "削除またはインストールの失敗のため壊れています"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2323,11 +2340,11 @@ msgstr "postinst の失敗のため壊れています"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "別のパッケージによってトリガ処理を待ち受けています"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "トリガ済み"
 
 #: src/help.c:48
 msgid "installed"
@@ -2373,9 +2390,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "`%.250s' の実行許可を設定できません"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "vsnprintf 内で状態を得られません"
+msgstr "メンテナスクリプトで setenv できません"
 
 #: src/help.c:317
 #, c-format
@@ -2479,7 +2495,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2516,6 +2532,7 @@ msgstr ""
 "  -A|--record-avail <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
 "> ...\n"
 "  --configure       <パッケージ名> ...    | -a|--pending\n"
+"  --triggers-only   <パッケージ名> ...    | -a|--pending\n"
 "  -r|--remove       <パッケージ名> ...    | -a|--pending\n"
 "  -P|--purge        <パッケージ名> ...    | -a|--pending\n"
 "  --get-selections [<パターン> ...]  標準出力にパッケージ選択一覧を表示\n"
@@ -2537,6 +2554,7 @@ msgstr ""
 "  --compare-versions <a> <op> <b>    バージョン番号を比較 - 下記参照\n"
 "  --force-help                       強制オプションのヘルプ\n"
 "  -Dh|--debug=help                   デバッグオプションのヘルプ\n"
+"\n"
 
 #: src/main.c:93 src/query.c:484 src/trigcmd.c:98 dpkg-deb/main.c:77
 #: dpkg-split/main.c:67
@@ -2574,7 +2592,7 @@ msgstr ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2617,6 +2635,7 @@ msgstr ""
 "  -G|--refuse-downgrade      インストール済みパッケージより古いバージョンの"
 "パッケージをスキップ\n"
 "  -B|--auto-deconfigure      ほかのパッケージを壊してでもインストールする\n"
+"  --[no-]triggers            間接トリガ処理をスキップまたは強制する\n"
 "  --no-debsig                パッケージの署名の検証をしない\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             何をするか表示して、実際には何もしない\n"
@@ -2631,6 +2650,7 @@ msgstr ""
 "  --no-force-...|--refuse-...\n"
 "                                 問題が発生した時点で終了\n"
 "  --abort-after <n>              <n> 回エラーが発生したら中断\n"
+"\n"
 
 #: src/main.c:133
 #, c-format
@@ -2693,7 +2713,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "警告: 時代遅れのオプション `--%s'\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2717,17 +2737,21 @@ msgid ""
 msgstr ""
 "%s デバッグオプション、--debug=<8進数> または -D<8進数>:\n"
 "\n"
-"数値    ソースへの参照          説明\n"
-"   1     一般                    一般的に有用な処理情報\n"
-"   2     スクリプト              メンテナスクリプトの状態、呼び出し\n"
-"  10     各ファイル              各ファイルで処理される出力\n"
-" 100     各ファイル詳細          大量の各ファイルで処理される出力\n"
-"  20     設定ファイル            各設定ファイル用の出力\n"
-" 200     設定ファイル詳細        大量の各設定ファイル用の出力\n"
-"  40     依存・競合              依存と競合\n"
-" 400     依存・競合詳細          大量の依存と競合についての出力\n"
-"1000     大量詳細                dpkg/info ディレクトリについての大量の出力\n"
-"2000     超大量詳細              超大量の出力\n"
+" 数値    ソースへの参照          説明\n"
+"    1     一般                    一般的に有用な処理情報\n"
+"    2     スクリプト              メンテナスクリプトの状態、呼び出し\n"
+"   10     各ファイル              各ファイルで処理される出力\n"
+"  100     各ファイル詳細          大量の各ファイルで処理される出力\n"
+"   20     設定ファイル            各設定ファイル用の出力\n"
+"  200     設定ファイル詳細        大量の各設定ファイル用の出力\n"
+"   40     依存・競合              依存と競合\n"
+"  400     依存・競合詳細          大量の依存と競合についての出力\n"
+"10000     各トリガ                トリガの活性化と処理\n"
+"20000     各トリガ詳細            大量のトリガについての出力\n"
+"40000     超大量各トリガ詳細      トリガについてのおそろしく膨大な出力\n"
+" 1000     大量詳細                dpkg/info ディレクトリについての大量の出"
+"力\n"
+" 2000     超大量詳細              超大量の出力\n"
 "\n"
 "デバッグオプションはビットごとの OR 演算で混合されます。\n"
 "その意味や値は変更されることに注意してください。\n"
@@ -2755,7 +2779,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "--%s に対する不正な整数です: `%.250s'"
 
 #: src/main.c:320
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2802,8 +2826,7 @@ msgstr ""
 "  downgrade [*]         古いバージョンでパッケージを置換\n"
 "  configure-any        このパッケージに必要なパッケージの設定を行う\n"
 "  hold                 維持 (hold) されていてもパッケージを処理する\n"
-"  bad-path             重要なプログラムが PATH に見つからない、問題の可能性あ"
-"り\n"
+"  bad-path             重要なプログラムが PATH に見つからない、問題の可能性あり\n"
 "  not-root             root でなくても(アン)インストールを試みる\n"
 "  overwrite            あるパッケージのファイルを別のパッケージで上書き\n"
 "  overwrite-diverted   退避されているファイルを非退避バージョンで上書き\n"
@@ -2812,12 +2835,12 @@ msgstr ""
 "  depends [!]          すべての依存問題を警告に変更\n"
 "  confnew [!]          常に新しい設定ファイルを利用する\n"
 "  confold [!]          常に古い設定ファイルを利用する\n"
-"  confdef [!]          新しい設定ファイルに対してデフォルトの振る舞いをす"
-"る。\n"
+"  confdef [!]          新しい設定ファイルに対してデフォルトの振る舞いをする。\n"
 "                       それがあれば問い合わせない。 もしデフォルトがなく、\n"
 "                       confold か confnew オプションが指定されていないと\n"
 "                       問い合わせる\n"
 "  confmiss [!]         存在しない設定ファイルを常にインストールする\n"
+"  breaks [!]           ほかのパッケージを破壊することになってもインストールする\n"
 "  conflicts [!]        競合 (conflict) するパッケージのインストールを許可\n"
 "  architecture [!]     アーキテクチャの違うパッケージも処理\n"
 "  overwrite-dir [!]    あるパッケージのディレクトリを別のファイルで上書き\n"
@@ -2902,13 +2925,13 @@ msgstr ""
 "1 回だけ設定を行います。\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"パッケージ %.250s は設定の準備ができていません。\n"
-" 設定できません (現在のステータス `%.250s')"
+"パッケージ %.250s はトリガ処理の準備ができていません\n"
+" (保留トリガを除いた現在のステータス `%.250s')"
 
 #: src/packages.c:334
 #, c-format
@@ -2926,14 +2949,14 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "システム上の %s のバージョン は %s です。\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  パッケージ %s は %s を提供していますが、削除されようとしています。\n"
+msgstr "  パッケージ %s は %s を提供しており、トリガ処理を待っています。\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  パッケージ %s は削除されようとしています。\n"
+msgstr "  パッケージ %s はトリガ処理を待っています。\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3245,7 +3268,6 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "コントロール情報ファイル `%.250s' が見つからないため削除できません"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3254,9 +3276,9 @@ msgid ""
 "uppercase=bad)\n"
 msgstr ""
 "要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)維持\n"
-"| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストー"
-"ル\n"
-"|/ エラー=(空欄)無/(H)維持/(R)要再インストール/X=両方(状態,エラーの大文字=異"
+"| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストール/"
+"(W)トリガ待ち/(T)トリガ保留\n"
+"|/ エラー?=(空欄)無/(H)維持/(R)要再インストール/X=両方(状態,エラーの大文字=異"
 "常)\n"
 
 #: src/query.c:129
@@ -3594,23 +3616,24 @@ msgid "--clear-selections does not take any argument"
 msgstr "--clear-selections は引数をとりません"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "ヘルプは dpkg-split --help で参照。"
+msgstr ""
+"このユーティリティについてのヘルプは dpkg-trigger --help で参照してください。"
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr "Debian `%s' パッケージ管理プログラムクエリツール\n"
+msgstr "Debian `%s' パッケージトリガユーティリティ。\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"使い方: %s [<オプション> ...] <コマンド>\n"
+"使い方: %s [<オプション> ...] <トリガ名>\n"
+"        %s [<オプション> ...] <コマンド>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3621,6 +3644,10 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"コマンド:\n"
+"  --check-supported                実行中の dpkg がトリガをサポートしているか"
+"どうかを調べる。\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3635,42 +3662,50 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"オプション:\n"
+"  --admindir=<ディレクトリ>        %s の代わりに <ディレクトリ> を使う。\n"
+"  --by-package=<パッケージ>        トリガの待ち受け役を上書きする (通常は\n"
+"                                     dpkg によって設定される)。\n"
+"  --no-await                       どのパッケージも処理を待つ必要がないことを"
+"示す。\n"
+"  --no-act                         テスト用途。実際には何も変更しない。\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s: トリガのデータディレクトリがまだ作成されていません\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s: トリガ記録がまだ存在しません\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "--%s は引数をとりません"
+msgstr "dpkg-triger --check-supported は引数をとりません"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s は引数をひとつ (.debファイル名) だけとります"
+msgstr "dpkg-trigger は引数をひとつ (トリガ名) だけとります"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"dpkg-trigger はメンテナスクリプトから (または --by-package オプションを付け"
+"て) 呼ばれなければなりません"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "`%s' フィールド、無効なパッケージ名 `%.255s': %s"
+msgstr "dpkg-trigger: 無効な待ち受けパッケージ名 `%.250s': %.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "`%s' フィールド、無効なパッケージ名 `%.255s': %s"
+msgstr "dpkg-trigger: 無効なトリガ名 `%.250s': %.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3678,6 +3713,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: トリガ処理中に循環が発見されました:\n"
+" トリガをしたパッケージのチェインにおそらく原因があります:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3685,15 +3722,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" パッケージの保留トリガがおそらく解決不可能:\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "トリガがループしており、捨てられました"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "%s の設定ファイルを削除しています ...\n"
+msgstr "%s のトリガを処理しています ...\n"
 
 #: src/update.c:44
 #, c-format
@@ -4190,9 +4229,9 @@ msgid "failed to exec rm -rf"
 msgstr "rm -rf の実行に失敗しました"
 
 #: dpkg-deb/info.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "realloc failed (%zu bytes)"
-msgstr "realloc 失敗 (%lu バイト)"
+msgstr "realloc 失敗 (%zu バイト)"
 
 #: dpkg-deb/info.c:108
 msgid "info_spew"
@@ -5502,7 +5541,7 @@ msgstr ""
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:71
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5572,7 +5611,6 @@ msgstr ""
 "オプション:\n"
 "  --altdir <ディレクトリ>     alternatives ディレクトリを変更する\n"
 "  --admindir <ディレクトリ>   管理ディレクトリを変更する\n"
-"  --test                      何もせず、単にデモを行う\n"
 "  --verbose                   冗長な操作として、より多くの出力にする\n"
 "  --quiet                     静かな操作として、最小限の出力にする\n"
 "  --help                      このヘルプを表示\n"
@@ -5655,7 +5693,7 @@ msgid "Current `best' version is %s."
 msgstr "現在の `最適' バージョンは %s です。"
 
 #: scripts/update-alternatives.pl:228
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "warning: %s is supposed to be a symlink to %s, \n"
 "or nonexistent; however, readlink failed: %s"
@@ -5674,9 +5712,9 @@ msgid "Updating %s (%s) to point to %s."
 msgstr "%3$s を指している %1$s (%2$s) を更新しています。"
 
 #: scripts/update-alternatives.pl:252
-#, fuzzy, perl-format
+#, perl-format
 msgid "Using '%s' to provide '%s'."
-msgstr "`%2$s' を提供するために `%1$s' を使います。"
+msgstr "'%2$s' を提供するために '%1$s' を使います。"
 
 #: scripts/update-alternatives.pl:266 scripts/update-alternatives.pl:610
 #, perl-format
