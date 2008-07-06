@@ -39,7 +39,7 @@ void baselist::refreshlist() {
                list_row + nitems - topofscreen - 1);
   x= lesserint(total_width - leftofscreen - 1,
                xmax - 1);
-  pnoutrefresh(listpad, topofscreen,leftofscreen, list_row,0, y,x);
+  pnoutrefresh(listpad, 0, leftofscreen, list_row, 0, y, x);
   getmaxyx(listpad,maxy,maxx);
   y++;
   while (y < list_row + list_height - 1) {
@@ -49,9 +49,10 @@ void baselist::refreshlist() {
 }
 
 void baselist::redrawitemsrange(int start, int end) {
-  if (ldrawnstart==-1) { ldrawnstart= ldrawnend= end; }
-  while (ldrawnstart > start) { ldrawnstart--; redraw1item(ldrawnstart); }
-  while (ldrawnend < end) { redraw1item(ldrawnend); ldrawnend++; }
+  int i;
+  for (i = start; i < end; i++) {
+    redraw1item(i);
+  }
 }
 
 void baselist::refreshcolheads() {

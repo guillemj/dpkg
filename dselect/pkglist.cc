@@ -344,15 +344,7 @@ void packagelist::sortmakeheads() {
   }
 
   if (listpad) {
-    int maxx, maxy;
-    getmaxyx(listpad,maxx,maxy);
-    if (nitems > maxy) {
-      delwin(listpad);
-      listpad= newpad(nitems+1, total_width);
-      if (!listpad) ohshite("failed to create larger baselist pad");
-    } else if (nitems < maxy) {
-      werase(listpad);
-    }
+    werase(listpad);
   }
   
   sortinplace();

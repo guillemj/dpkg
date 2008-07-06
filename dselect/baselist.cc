@@ -171,7 +171,7 @@ void baselist::startdisplay() {
   if (!whatinfowin) ohshite(_("failed to create whatinfo window"));
   wattrset(whatinfowin,whatinfo_attr);
   
-  listpad= newpad(nitems+1, total_width);
+  listpad = newpad(ymax, total_width);
   if (!listpad) ohshite(_("failed to create baselist pad"));
   
   colheadspad= newpad(1, total_width);

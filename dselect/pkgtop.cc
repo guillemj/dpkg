@@ -139,6 +139,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
   const char *p;
   const struct pkginfo *pkg= table[index]->pkg;
   const struct pkginfoperfile *info= &pkg->available;
+  int screenline = index - topofscreen;
 
   wattrset(listpad, selected ? listsel_attr : list_attr);
 
@@ -146,7 +147,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
     if (verbose) {
 
-      mvwprintw(listpad,index,0, "%-*.*s ",
+      mvwprintw(listpad, screenline, 0, "%-*.*s ",
                 status_hold_width, status_hold_width,
                 gettext(eflagstrings[pkg->eflag]));
       wprintw(listpad, "%-*.*s ",
@@ -164,14 +165,14 @@ void packagelist::redraw1itemsel(int index, int selected) {
       wattrset(listpad, selected ? listsel_attr : list_attr);
       waddch(listpad, ' ');
   
-      mvwprintw(listpad,index,priority_column-1, " %-*.*s",
+      mvwprintw(listpad, screenline, priority_column - 1, " %-*.*s",
                 priority_width, priority_width,
                 pkg->priority == pkginfo::pri_other ? pkg->otherpriority :
                 gettext(prioritystrings[pkg->priority]));
 
     } else {
 
-      mvwaddch(listpad,index,0, eflagchars[pkg->eflag]);
+      mvwaddch(listpad, screenline, 0, eflagchars[pkg->eflag]);
       waddch(listpad, statuschars[pkg->status]);
       waddch(listpad,
              /* fixme: keep this feature? */
@@ -182,7 +183,8 @@ void packagelist::redraw1itemsel(int index, int selected) {
       waddch(listpad, wantchars[table[index]->selected]);
       wattrset(listpad, selected ? listsel_attr : list_attr);
       
-      wmove(listpad,index,priority_column-1); waddch(listpad,' ');
+      wmove(listpad, screenline, priority_column - 1);
+      waddch(listpad, ' ');
       if (pkg->priority == pkginfo::pri_other) {
         int i;
         const char *p;
@@ -198,22 +200,22 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
     }
 
-    mvwprintw(listpad,index,section_column-1, " %-*.*s",
+    mvwprintw(listpad, screenline, section_column - 1, " %-*.*s",
               section_width, section_width,
               pkg->section ? pkg->section : "?");
   
-    mvwprintw(listpad,index,package_column-1, " %-*.*s ",
+    mvwprintw(listpad, screenline, package_column - 1, " %-*.*s ",
               package_width, package_width, pkg->name);
 
     if (versioninstalled_width)
-      mvwprintw(listpad,index,versioninstalled_column, "%-*.*s ",
+      mvwprintw(listpad, screenline, versioninstalled_column, "%-*.*s ",
                 versioninstalled_width, versioninstalled_width,
                 versiondescribe(&pkg->installed.version, vdew_nonambig));
     if (versionavailable_width) {
       if (informativeversion(&pkg->available.version) &&
           versioncompare(&pkg->available.version,&pkg->installed.version) > 0)
         wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
-      mvwprintw(listpad,index,versionavailable_column, "%-*.*s",
+      mvwprintw(listpad, screenline, versionavailable_column, "%-*.*s",
                 versionavailable_width, versionavailable_width,
                 versiondescribe(&pkg->available.version, vdew_nonambig));
       wattrset(listpad, selected ? listsel_attr : list_attr);
@@ -236,7 +238,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
     
     indent= describemany(buf,priority,section,pkg->clientdata);
 
-    mvwaddstr(listpad,index,0, "    ");
+    mvwaddstr(listpad, screenline, 0, "    ");
     i= total_width-7;
     j= (indent<<1) + 1;
     while (j-- >0) { waddch(listpad,ACS_HLINE); i--; }

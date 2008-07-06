@@ -1,3 +1,18 @@
+2008-07-06  Michel Lespinasse  <walken@zoy.org>
+
+	* dselect/baselist.cc (baselist::startdisplay): Create the
+	pad with the list of the size of the display and not of the
+	size of the list content itself.
+	* dselect/basetop.cc (baselist::refreshlist): The part to
+	display is always at the top of the pad.
+	(baselist::redrawitemsrange): Simplified to redraw the real
+	range only.
+	* dselect/pkglist.cc (packagelist::sortmakeheads): No need to reallocate
+	the pad when the list changes.
+	* dselect/pkgtop.cc (packagelist::redraw1itemsel): The line
+	of the item in the infopad doesn't correspond to its index in
+	the list any more. Adjust accordingly.
+
 2008-07-05  Guillem Jover  <guillem@debian.org>
 
 	* src/archives.c (filesavespackage): Do not mark debug message for
