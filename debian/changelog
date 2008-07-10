@@ -28,6 +28,9 @@ dpkg (1.15.0) UNRELEASED; urgency=low
   * Print a longer string when a disallowed field value is found when parsing.
   * Use $(filter ...) instead of $(findstring ...) to extract space separated
     options from DEB_BUILD_OPTIONS in debian/rules.
+  * Do not leave new conffile as .dpkg-new when it has been diverted, also
+    properly activate the file trigger for the diverted conffile.
+    Based on a patch by Timothy G Abbott. Closes: #58735, #476899
 
   [ Raphael Hertzog ]
   * Enhance dpkg-shlibdeps's error message when a library can't be found to

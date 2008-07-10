@@ -171,7 +171,12 @@ void deferred_configure(struct pkginfo *pkg) {
 		 * processed this one.
 		 */
 		for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-			r= conffderef(pkg, &cdr, conff->name);
+			struct filenamenode *usenode;
+
+			usenode = namenodetouse(findnamenode(conff->name,
+			                                     fnn_nocopy), pkg);
+
+			r = conffderef(pkg, &cdr, usenode->name);
 			if (r == -1) {
 				conff->hash= EMPTY_HASH;
 				continue;
@@ -207,7 +212,8 @@ void deferred_configure(struct pkginfo *pkg) {
 				what= cfo_identical;
 			} else if (!strcmp(currenthash,NONEXISTENTFLAG) && fc_conff_miss) {
 				fprintf(stderr, _("\nConfiguration file `%s', does not exist on system.\n"
-							"Installing new config file as you request.\n"), conff->name);
+				                  "Installing new config file as you request.\n"),
+				        usenode->name);
 				what= cfo_newconff;
 				useredited= -1;
 				distedited= -1;
@@ -231,9 +237,11 @@ void deferred_configure(struct pkginfo *pkg) {
 
 			debug(dbg_conff,
 					"deferred_configure `%s' (= `%s') useredited=%d distedited=%d what=%o",
-					conff->name, cdr.buf, useredited, distedited, what);
+			      usenode->name, cdr.buf, useredited, distedited,
+			      what);
 
-			what=promptconfaction(conff->name, cdr.buf, cdr2.buf, useredited, distedited, what);
+			what = promptconfaction(usenode->name, cdr.buf, cdr2.buf,
+			                        useredited, distedited, what);
 
 			switch (what & ~(cfof_isnew|cfof_userrmd)) {
 				case cfo_keep | cfof_backup:
@@ -246,7 +254,7 @@ void deferred_configure(struct pkginfo *pkg) {
 					varbufaddstr(&cdr,DPKGDISTEXT);
 					varbufaddc(&cdr,0);
 					strcpy(cdr2rest,DPKGNEWEXT);
-					trig_file_activate_byname(conff->name, pkg);
+					trig_file_activate(usenode, pkg);
 					if (rename(cdr2.buf,cdr.buf))
 						fprintf(stderr,
 								_("dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"),
@@ -279,10 +287,11 @@ void deferred_configure(struct pkginfo *pkg) {
 								pkg->name, cdr.buf, cdr2.buf, strerror(errno));
 					/* fall through */
 				case cfo_install:
-					printf(_("Installing new version of config file %s ...\n"),conff->name);
+					printf(_("Installing new version of config file %s ...\n"),
+					       usenode->name);
 				case cfo_newconff:
 					strcpy(cdr2rest,DPKGNEWEXT);
-					trig_file_activate_byname(conff->name, pkg);
+					trig_file_activate(usenode, pkg);
 					if (rename(cdr2.buf,cdr.buf))
 						ohshite(_("unable to install `%.250s' as `%.250s'"),cdr2.buf,cdr.buf);
 					break;
