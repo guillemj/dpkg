@@ -15,6 +15,7 @@
 #include <errno.h>
 #include <tarfn.h>
 #include <dpkg.h>
+#include <dpkg-priv.h>
 
 #include "strnlen.h"
 
@@ -245,8 +246,7 @@ TarExtractor(
                      }
                      break;
 		   }
-
-                   copysize = long_read > 512 ? 512 : long_read;
+				copysize = min(long_read, 512);
                    memcpy (bp, buffer, copysize);
                    bp += copysize;
 

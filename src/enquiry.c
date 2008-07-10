@@ -36,6 +36,7 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
 #include <myopt.h>
 
 #include "filesdb.h"
@@ -56,7 +57,7 @@ static void limiteddescription(struct pkginfo *pkg, int maxl,
   if (!pdesc) pdesc= _("(no description available)");
   p= strchr(pdesc,'\n');
   if (!p) p= pdesc+strlen(pdesc);
-  l= (p - pdesc > maxl) ? maxl : (int)(p - pdesc);
+  l = min(p - pdesc, maxl);
   *pdesc_r=pdesc; *l_r=l;
 }
 

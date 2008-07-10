@@ -34,6 +34,14 @@ extern "C" {
 #define sizeof_array(a) (sizeof(a) / sizeof((a)[0]))
 #endif
 
+#ifndef min
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#endif
+
+#ifndef max
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#endif
+
 /* String handling. */
 
 char *str_escape_fmt(char *dest, const char *src);

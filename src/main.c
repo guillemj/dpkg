@@ -36,6 +36,7 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
 #include <myopt.h>
 
 #include "main.h"
@@ -361,7 +362,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 	  if (fip->opt)
 	    *fip->opt= cip->arg;
       } else
-	badusage(_("unknown force/refuse option `%.*s'"), l<250 ? (int)l : 250, value);
+	badusage(_("unknown force/refuse option `%.*s'"), min(l, 250), value);
     } else {
       if (fip->opt)
 	*fip->opt= cip->arg;

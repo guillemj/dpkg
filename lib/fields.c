@@ -246,7 +246,7 @@ static void conffvalue_lastword(const char *value, const char *from,
 malformed:
   parse_error(filename, lno, pigp,
               _("value for `conffiles' has malformatted line `%.*s'"),
-              (int)(endent - value > 250 ? 250 : endent - value), value);
+              (int)min(endent - value, 250), value);
 }
 
 void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,

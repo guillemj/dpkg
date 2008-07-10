@@ -41,6 +41,7 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <dpkg-priv.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -380,7 +381,7 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 					return -1;
 				}
 				debug(dbg_conffdetail,"conffderef readlink gave %d, `%.*s'",
-						r, r>0 ? r : 0, linkreadbuf);
+						r, max(r, 0), linkreadbuf);
 				if (r < linkreadbufsize-1) break;
 				need= r<<2;
 			}
