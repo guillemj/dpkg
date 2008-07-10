@@ -202,6 +202,11 @@
 	* scripts/install-info.pl: Improve error message when the
 	info file doesn't exist.
 
+2008-06-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-query.1: Document the origin of the various fields and
+	warn that they are not always available.
+
 2008-06-23  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-source.pl: New option --require-valid-signature.
@@ -220,6 +225,16 @@
 	* scripts/dpkg-divert.pl: Add new option --listpackage to
 	dpkg-divert.
 	* man/dpkg-divert.1: Document new option.
+
+2008-06-22  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg.1, man/dpkg-query.1: Document the fact that the available
+	file is mostly useful for dselect users and that the related commands
+	are useless for APT users.
+
+2008-06-22  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-buildpackage.1: Document -A option.
 
 2008-06-22  Raphael Hertzog  <hertzog@debian.org>
 
@@ -396,6 +411,12 @@
 	dpkg is unable to create a file so that it also refers to the real
 	filename instead of the non-diverted name only.
 
+2008-05-31  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg.1: Use the term conffile for a configuration file handled
+	by dpkg. Drop reference to hamm. Updated description of values
+	supported by -D to include those which are trigger related.
+
 2008-05-29  Colin Watson  <cjwatson@debian.org>
 
 	* lib/dbmodify.c (modstatdb_note): Add a comment around obscure bits
@@ -488,6 +509,10 @@
 	* lib/dpkg-priv.h: New file.
 	* lib/path.c: Likewise.
 
+2008-05-11  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-source.1: Properly escape hyphen in -i option.
+
 2008-05-11  Pierre Habouzit  <madcoder@debian.org>
 
 	* lib/showpkg.c (show1package): Use %zd instead of %d in sprintf()
@@ -495,10 +520,15 @@
 
 2008-05-11  Pierre Habouzit  <madcoder@debian.org>
 
-	* scripts/update-alternatives.pl: add a --query option that works like
-	--display but outputs a machine parseable rfc822-like output.
-	* man/update-alternatives.8: document that new option, and the
+	* scripts/update-alternatives.pl: Add a --query option that works
+	like --display but outputs a machine parseable rfc822-like output.
+	* man/update-alternatives.8: Document that new option, and the
 	associated format.
+
+2008-05-05  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-source.1: Improve explanation of -i when used with
+	VCS-based source packages.
 
 2008-05-05  Raphael Hertzog  <hertzog@debian.org>
 
@@ -625,6 +655,11 @@
 	otherwise do not (and assume that the patch series is already
 	applied).
 
+2008-05-26  Helge Kreutzmann  <debian@helgefjell.de>
+
+	* man/dselect.1: Fixed a typo and regenerated all po(t) files,
+	including updating the German one.
+
 2008-05-23  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Source/Package/V2.pm (do_build): Display a
@@ -641,8 +676,6 @@
 	will not be bothered by the presence of the quilt serie
 	created by dpkg-source itself.
 	* man/dpkg-source.1: Update the documentation accordingly.
-	* man/po/*.po: Fix all the filenames to avoid fuzzying
-	translations.
 
 2008-05-22  Raphael Hertzog  <hertzog@debian.org>
 
@@ -652,6 +685,14 @@
 2008-05-13  Guillem Jover  <guillem@debian.org>
 
 	* src/main.c (setforce): Add help output for '--force-breaks'.
+
+2008-05-13  Sven Joachim  <svenjoac@gmx.de>
+
+	* man/dpkg.1: Document triggers --debug values.
+
+2008-05-13  Guillem Jover  <guillem@debian.org>
+
+	* man/deb-version.5: Change '©' to '(C)'.
 
 2008-05-12  Guillem Jover  <guillem@debian.org>
 
@@ -735,6 +776,11 @@
 	* scripts/Dpkg/Source/Package/V3_0/native.pm: Fix permissions of
 	generated tarball to "666 & ~umask()".
 
+2008-04-21  Helge Kreutzmann  <debian@helgefjell.de>
+
+	* man/dpkg-shlibdeps.1: Fix a typo.
+	* man/dpkg-source.1: Improve a sentence (with agreement from Raphäel).
+
 2008-04-14  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Fields.pm (find_custom_field, get_custom_field):
@@ -778,6 +824,11 @@
 
 	* THANKS: Update my e-mail address.
 
+2008-04-09  Helge Kreutzmann  <debian@helgefjell.de>
+
+	* man/deb-triggers.5: Fix typos.
+	* man/dpkg-trigger.1: Likewise.
+
 2008-04-08  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Bump version to 1.14.19~.
@@ -794,6 +845,18 @@
 
 	* doc/triggers.txt: Move parts of the document into proper man pages.
 	Add references to those.
+
+2008-04-08  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg.1: Document new trigger statuses, and new --triggers-only,
+	--no-triggers and --triggers options.
+	* man/deb-triggers.5: New file.
+	* man/dpkg-trigger.1: Likewise.
+	* man/Makefile.am (dist_man_MANS): Likewise.
+
+2008-04-08  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg.1: Sort package states.
 
 2008-04-05  Raphael Hertzog  <hertzog@debian.org>
 
@@ -815,6 +878,10 @@
 
 	* scripts/t/800_Dpkg_IPC.t: Remove temporary files used by the
 	tests.
+
+2008-04-03  Peter Karlsson  <peterk@debian.org>
+
+	* man/dpkg-source.1: Corrected English.
 
 2008-04-02  Sven Joachim  <svenjoac@gmx.de>
 
@@ -862,6 +929,12 @@
 2008-04-01  Guillem Jover  <guillem@debian.org>
 
 	* src/enquiry.c (badstatinfos): Fix typos (processesing -> processing).
+
+2008-03-30  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-source.1: Make it clear that Format: 2.0 is not really
+	meant to be widely used by moving all the explanations in the
+	section describing the format "3.0 (quilt)".
 
 2008-03-30  Guillem Jover  <guillem@debian.org>
 
@@ -1117,6 +1190,11 @@
 	some libraries at run-time and such a change is best done
 	at the beginning of a release cycle.
 
+2008-03-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-source.1: Move a paragraph at its right place and some
+	other presentation fixes.
+
 2008-03-27  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Shlibs.pm: Support cross-compilation by adding
@@ -1211,6 +1289,7 @@
 	* src/processarc.c (process_archive): Call log_action after printing
 	the action to perform to stdout.
 	* src/help.c (log_action): Call statusfd_send.
+	* man/dpkg.1: Document improved status-fd output.
 
 2008-03-25  Ian Jackson  <ian@davenant.greenend.org.uk>,
             Guillem Jover  <guillem@debian.org>
@@ -1415,6 +1494,16 @@
 	* scripts/t/600_Dpkg_Changelog/regressions: Add capitals in the
 	distribution name as part of the non-regression tests.
 
+2008-03-14  Guillem Jover  <guillem@debian.org>
+
+	Fix errors spotted by Helge Kreutzmann.
+
+	* man/dpkg-buildpackage.1: Refer to 'Debian' not 'debian'. Remove a
+	space beofre a comma. Replace FFLAGS with CFLAGS when referring to
+	usage similar to C for Fortran. Do not make bold a terminating
+	parenthesis.
+	* man/dpkg-checkbuilddeps.1: Mark 'debian/contorl' file with italics.
+
 2008-03-11  Ian Jackson  <ian@davenant.greenend.org.uk>,
             Guillem Jover  <guillem@debian.org>
 
@@ -1516,6 +1605,18 @@
 	* scripts/t/600_Dpkg_Changelog/regression:
 	Add testcase for this regression.
 
+2008-02-22  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-gensymbols.1: Fix some groff errors detected by lintian.
+	* man/dpkg-query.1: Likewise..
+
+2008-02-22  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/deb-symbols.5: Escape some hyphens so that they do not end up
+	as minus sign.
+	* man/dpkg-architecture.1: Likewise.
+	* man/dpkg-shlibdeps.1: Likewise.
+	* man/start-stop-daemon.8: Likewise.
 
 2008-02-22  Raphael Hertzog  <hertzog@debian.org>
 	    Mike Frysinger  <vapier@gentoo.org>
@@ -1537,6 +1638,11 @@
 	* debian/control: Change build-dependency from
 	libncurses5-dev to libncursesw5-dev.
 
+2008-02-19  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/dpkg-source.1: Fix documentation of -sk and -sp. The directory
+	with the unpacked original source will be removed, not the tarball.
+
 2008-02-17  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/Dpkg.pm: Allow overriding $pkgdatadir
@@ -1546,12 +1652,24 @@
 	to build directory.
 
 2008-02-17  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/dpkg-architecture.1: Document the files needed by
+	dpkg-architecture.
+
+2008-02-17  Frank Lichtenheld  <djpig@debian.org>
 	    Matthias Klose  <doko@cs.tu-berlin.de>
 
 	* scripts/dpkg-buildpackage.pl: Set a set of environment variables
 	for setting compiler and linker options, unless already set in the
 	environment. See https://wiki.ubuntu.com/DistCompilerFlags for
 	background information.
+	* man/dpkg-buildpackage.1: Document the new behaviour for build
+	related environment variables.
+
+2008-02-17  Zack Weinberg  <zackw@panix.com>
+
+	* man/deb-shlibs.5: Make this manual page a bit more elaborate and
+	helpful.
 
 2008-02-13  Raphael Hertzog  <hertzog@debian.org>
 
@@ -1825,6 +1943,10 @@
 
 2008-01-22  Raphael Hertzog  <hertzog@debian.org>
 
+	* man/dpkg-parsechangelog.1: Fix typos reported by Helge Kreutzmann.
+
+2008-01-22  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
 	scripts/dpkg-source.pl: Remove the IO-layer that converts to
 	UTF-8. It's not as smart as I expected.
@@ -2041,6 +2163,12 @@
 
 2008-01-17  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/dpkg-source.pl: Revert to the old behaviour of not using
+	any substvars file.
+	* man/dpkg-source.1: Fix default value of -T parameter.
+
+2008-01-17  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/dpkg-genchanges.pl: Reinstate support of the ${Format}
 	substvars.
 
@@ -2196,6 +2324,14 @@
 	Dpkg::Changelog::Entry changes.
 	* scripts/t/600_Dpkg_Changelog.t: Likewise.
 
+2008-01-13  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/dpkg-parsechangelog.1: Document the new command line options.
+
+2008-01-12  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-shlibdeps.1: Fix a typo reported by Helge Kreutzmann.
+
 2008-01-12  Raphael hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Fields.pm, scripts/dpkg-source.pl: Add support of
@@ -2215,6 +2351,11 @@
 	* scripts/dpkg-gencontrol.pl: Also force version in ${binary:Version}
 	if dpkg-gencontrol -v<version> is used. That way we're consistent
 	with the definition of that variable in deb-substvars(5).
+
+2008-01-10  Raphael Hertzog  <hertzog@debian.org>
+
+	* man/dpkg-source.1: Explain better the first parameter of the '-b'
+	option.
 
 2008-01-10  Raphael Hertzog  <hertzog@debian.org>
 
@@ -2363,6 +2504,12 @@
 
 2008-01-06  Raphael Hertzog  <hertzog@debian.org>
 
+	* man/deb-control.5: Explain better the ordering of call of
+	postinst/prerm during installations and removal between a package
+	and its dependencies.
+
+2008-01-06  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/Dpkg/Shlibs/Objdump.pm: Also retrieve dynamic relocation
 	records from objdump by adding the -R option. Use this information
 	to mark symbols affected by R_*_COPY relocations as undefined.
@@ -2418,6 +2565,7 @@
 	* scripts/dpkg-buildpackage.pl: Do not automatically enable '-j'
 	if DEB_BUILD_OPTIONS contains parallel=n, and allow overriding
 	its value from the environment.
+	* man/dpkg-buildpackage.1: Document new -j behaviour.
 
 2008-01-02  Guillem Jover  <guillem@debian.org>
 
@@ -2479,6 +2627,11 @@
 
 	* dselect/baselist.cc (baselist::startdisplay): Set helpscreen_attr
 	on monochrome terminals.
+
+2007-12-30  A. Costa  <agcosta@gis.net>
+
+	* man/dpkg-gensymbols.1, man/dpkg-shlibdeps.1: Fix some typos.
+	* man/dpkg-source.1, man/deb-symbols.5: Likewise.
 
 2007-12-28  Raphael Hertzog  <hertzog@debian.org>
 
@@ -2575,6 +2728,20 @@
 	* scripts/dpkg-source.pl: Provide a sane default $origtargz in all
 	cases when such a file exists.
 
+2007-12-24  Guillem Jover  <guillem@debian.org>
+
+	* man/Makefile.am (all-local): Rename to ...
+	(all-local-yes): ... this.
+	(clean-local): Rename to ...
+	(clean-local-yes): ... this.
+	(install-data-local): Rename to ...
+	(install-data-local-yes): ... this.
+	(uninstall-local): Rename to ...
+	(uninstall-local-yes): ... this.
+	(all-local, all-local-no, clean-local, clean-local-no): New targets.
+	(install-data-local, install-data-local-no): Likewise.
+	(uninstall-local, uninstall-local-no): Likewise.
+
 2007-12-20  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-shlibdeps.pl: Always consider the shlibs of the
@@ -2634,6 +2801,10 @@
 	properly parsed and dumped.
 	* scripts/dpkg-shlibdeps.pl: Take into account the new
 	Build-Depends-Package field in symbols files.
+	* man/deb-symbols.5: Describe syntax of meta-information fields and
+	document the Build-Depends-Package field.
+	* man/dpkg-shlibdeps.1: Describe how the Build-Depends-Package field
+	of symbols file is used.
 
 2007-12-09  Raphael Hertzog  <hertzog@debian.org>
 
@@ -2643,6 +2814,8 @@
 	* scripts/t/200_Dpkg_Shlibs/symbols.fake-1,
 	scripts/t/200_Dpkg_Shlibs/symbols.include-1: Adjust some tests
 	to also test inclusions with included files lacking a header line.
+	* man/dpkg-gensymbols.1: Remove the restriction that included files
+	must be valid symbol files on their own.
 
 2007-12-08  Raphael Hertzog  <hertzog@debian.org>
 
@@ -2711,6 +2884,13 @@
 	* scripts/controllib.pl (parsecdata): Fix
 	regex to determine the field name correctly
 	if the field's value starts with a colon.
+
+2007-11-29  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/deb-control.5: Move description of version format to...
+	* man/deb-version.5: Take the section from policy describing version
+	format and sorting since this is probably as good as it gets for
+	describing these.
 
 2007-11-29  Guillem Jover  <guillem@debian.org>
 
@@ -2806,6 +2986,7 @@
 	* scripts/dpkg-gensymbols.pl: Add a new -I<file> option to force
 	the usage of a specific file as basis for the generated symbols
 	file.
+	* man/dpkg-gensymbols.1: Document the new -I<file> option.
 
 2007-11-24  Guillem Jover  <guillem@debian.org>
 
@@ -2907,6 +3088,8 @@
 
 	* scripts/dpkg-name.sh (getname): Get the package extension from the
 	Package-Type field, or fallback to deb if not present.
+	* man/dpkg-name.1: Document that the Package-Type field is now
+	supported.
 
 2007-11-22  Raphael Hertzog  <hertzog@debian.org>
 
@@ -2974,6 +3157,15 @@
 
 2007-11-19  Guillem Jover  <guillem@debian.org>
 
+	* man/dpkg-architecture.1: Remove unneeded formatting surrounding '-c'
+	in example command, as a side effect get rid of an undefined macro.
+	* man/dpkg-checkbuilddeps.1: Remove usage of .UR macro, which was
+	undefined anyway.
+	* man/dpkg-statoverride.8: Likewise.
+	* man/dpkg-query.1: Likewise. Remove .T macro cruft.
+
+2007-11-19  Guillem Jover  <guillem@debian.org>
+
 	* scripts/dpkg-source.pl: Use %dep_field_type for the union option
 	to Dpkg::Deps::parse, and use capit() to normalize the field names,
 	instead of hardcoding them.
@@ -2985,6 +3177,7 @@
 	* scripts/dpkg-scanpackages.pl (@fieldpri): Likewise.
 	(%field_case): Add type argument.
 	(usage): Document --type argument, and mark --udeb as obsolete.
+	* man/dpkg-scanpackages.1: Likewise.
 	* scripts/dpkg-gencontrol.pl: Parse Package-Type, Subarchitecture,
 	Kernel-Version and Installer-Menu-Item from control file binary
 	stanza. Warn if udeb specific fields are used on non-udeb packages.
@@ -3040,6 +3233,12 @@
 
 	* scripts/Dpkg/Arch.pm (get_valid_arches): Return an array instead of
 	printing the architectures.
+
+2007-10-29  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/dpkg-query.1: Replace ' with \(aq in example.
+	Reported by Daniel van Eeden <daniel_e -at- dds nl>
+	* man/dpkg-source.1: Replace ' with \(aq in synopsis.
 
 2007-10-18  Raphael Hertzog  <hertzog@debian.org>
 
@@ -3131,6 +3330,14 @@
 	(set): Really set DEB_BUILD_OPTIONS. Discovered
 	by Daniel Shepler.
 
+2007-10-12  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/dpkg.1 (AUTHORS): Remove some unneccessary markup.
+	Allows reuse of one more msgid.
+
+	* man/Makefile.am (update-po): New target to easily
+	update the .pot and .po files. Uses po4a --force.
+
 2007-10-11  Guillem Jover  <guillem@debian.org>
 
 	* scripts/controllib.pl ($warnable_error, $quiet_warnings): Remove
@@ -3191,9 +3398,13 @@
 	for quite some time already. Adapt the description of
 	-W and -E.
 	* scripts/dpkg-buildpackage.pl (usage): Likewise.
+	* man/dpkg-source.1: Likewise.
+	* man/dpkg-buildpackage.1: Likewise.
 
 	* scripts/dpkg-buildpackage.pl: Add -z/-Z to
 	passthrough opts (will be passed to dpkg-source).
+	* man/dpkg-buildpackage.1: Document all options only passed to
+	dpkg-source. -s[nsAkurKUR], -z, and -Z were missing.
 
 	* scripts/dpkg-source.pl: Support a subset of
 	wig&pen (aka Format: 2.0) on build:
@@ -3203,6 +3414,8 @@
 	generated should be compressed. -z([1-9]|best|fast)
 	can be used to specify the compression level
 	to use.
+	* man/dpkg-source.1: Change the rest of the man page to not contain
+	any hardcoded .gz references. Document -Z and -z.
 
 2007-10-08  Raphael Hertzog  <hertzog@debian.org>
 	    Frank Lichtenheld  <djpig@debian.org>
@@ -3254,6 +3467,10 @@
 
 2007-10-08  Guillem Jover  <guillem@debian.org>
 
+	* man/deb-control.5: Document Origin and Bugs fields.
+
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
 	* scripts/dpkg-gencontrol.pl: Refer to host architecture (instead of
 	build) in error string, and quote architecture name.
 
@@ -3276,6 +3493,8 @@
 
 	* scripts/dpkg-buildpackage.pl (usage): Remove details about running
 	fakeroot only if it's available.
+	* man/dpkg-buildpackage.1: Document that fakeroot is now the default
+	value in case -r is not specified.
 
 2007-10-07  Frank Lichtenheld  <djpig@debian.org>
 	    Marcel Toele  <mtoele@kern.nl>
@@ -3284,6 +3503,15 @@
 	a trailing HT character in the diff labels if
 	the filename contains spaces. Apparantly this is
 	standard but undocumented diff behaviour.
+
+2007-09-30  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/deb-control.5: Remove obsolete sentence regarding the role of
+	the Priority and Section field. They have nothing to do with the
+	archive layout since woody.
+
+	* man/dpkg-source.1: Remove superfluous [options] from -b command
+	description.
 
 2007-09-29  Frank Lichtenheld  <djpig@debian.org>
 
@@ -3328,6 +3556,12 @@
 	* scripts/dpkg-buildpackage.pl ($warnable_errors): Rename to ...
 	($warnable_error): ... this, and declare as 'our'.
 
+2007-09-24  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/dpkg-source.1: Rework documentation of -i and -I options to
+	give clearer explanations and explain the differences between the
+	two in syntax and semantics.
+
 2007-09-24  Jari Aalto  <jari.aalto@cante.net>
             Frank Lichtenheld  <djpig@debian.org>
 
@@ -3336,6 +3570,7 @@
 	of default patterns which is in effect as
 	similar as possible to the default regexp
 	of -i.
+	* man/dpkg-source.1: Document new behaviour of -I option.
 
 2007-09-23  Frank Lichtenheld  <djpig@debian.org>
 
@@ -3350,6 +3585,7 @@
 	* scripts/Dpkg/BuildOptions.pm: Added. Support code
 	for DEB_BUILD_OPTIONS handling by dpkg-buildpackage.
 	* scripts/Makefile.am: Adapt.
+	* man/dpkg-buildpackage.1: Document the new -j option.
 
 2007-09-23  Jari Aalto  <jari.aalto@cante.net>
 
@@ -3392,6 +3628,16 @@
 
 2007-09-08  Guillem Jover  <guillem@debian.org>
 
+	* man/dpkg-scanpackages.1: Document that gzipped files are also used
+	by apt.
+
+2007-09-08  A. Costa  <agcosta@gis.net>
+
+	* man/dpkg-deb.1: Fix typo ('seperated' -> 'separated').
+	* man/start-stop-daemon.8: Fix typo ('themself' -> 'themselves').
+
+2007-09-08  Guillem Jover  <guillem@debian.org>
+
 	* scripts/dpkg-buildpackage.sh: Use fakeroot, if present, as default
 	value for the '-r' option.
 
@@ -3422,6 +3668,11 @@
 
 2007-09-06  Guillem Jover  <guillem@debian.org>
 
+	* man/dpkg-scanpackages.1: Replace gzip with bzip2 as the requirement
+	for compressed Packages files for apt.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
 	* scripts/822-date.pl: Add $dpkglib into @INC, needed by the
 	controllib.pl require.
 
@@ -3446,6 +3697,8 @@
 	(@control_fields): Add Tag.
 	* scripts/dpkg-scanpackages.pl (@fieldpri): Add Tag.
 	* scripts/dpkg-source.pl: Ignore Tag field from binary package stanza.
+	* man/deb-control.5: Document Tag field.
+	* man/dpkg-query.1: Document Tag as a recognized field.
 
 2007-08-31  Guillem Jover  <guillem@debian.org>
 
@@ -3497,6 +3750,8 @@
 	* scripts/dpkg-scanpackages.pl (@fieldpri): Add Homepage.
 	* scripts/dpkg-source.pl: Parse Homepage from source package stanza.
 	(@dsc_fields): Add Homepage.
+	* man/deb-control.5: Document Homepage field.
+	* man/dpkg-query.1: Document Homepage as a recognized field.
 
 2007-08-18  Guillem Jover  <guillem@debian.org>
 
@@ -3687,6 +3942,58 @@
 	(install-data-hook): New target.
 	* scripts/Dpkg.pm: New file.
 
+2007-07-18  Guillem Jover  <guillem@debian.org>
+
+	* man/cleanup-info.8: Unify author and copyright information
+	formatting.
+	* man/deb-substvars.5: Likewise.
+	* man/dpkg-checkbuilddeps.1: Likewise.
+	* man/dpkg-deb.1: Likewise.
+	* man/dpkg-divert.8: Likewise.
+	* man/dpkg-name.1: Likewise.
+	* man/dpkg-query.1: Likewise.
+	* man/dpkg-split.1: Likewise.
+	* man/dpkg-statoverride.8: Likewise.
+	* man/install-info.8: Likewise.
+	* man/update-alternatives.8: Likewise.
+
+2007-07-18  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg.1: Split independent options.
+	* man/dpkg-buildpackage.1: Likewise.
+	* man/dpkg-genchanges.1: Likewise.
+	* man/dpkg-source.1: Likewise.
+
+2007-07-18  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg-buildpackage.1: Remove ', and' leftover from man page split.
+	Substitute 'FILES' with 'SEE ALSO'.
+
+2007-07-18  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg-deb.1: Remove space before ellipsis in parameters.
+	* man/dpkg-query.1: Likewise.
+	* man/update-alternatives.8: Likewise.
+	* man/dpkg.1: Likewise. Use commas instead if pipes to separate
+	alternative options. Remove redundant preceding 'dpkg' from options.
+
+2007-07-18  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg.1: Fix italics and bold usage.
+	* man/dpkg-divert.8: Likewise.
+	* man/dpkg-buildpackage.1: Likewise.
+
+2007-07-10  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/dpkg.1, man/dpkg-query.1, man/dpkg-deb.1: Synchronise usage
+	information between these three man pages. Also fix some formatting
+	oddities and small mistakes.
+
+2007-07-04  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/Makefile.am (uninstall-local): New target to remove the
+	translated man pages. Detected with the help of 'make distcheck'.
+
 2007-07-03  Frank Lichtenheld  <djpig@debian.org>
 
 	* configure.ac: Bump version to 1.14.6~.
@@ -3719,10 +4026,52 @@
 	tar ball, fix them up so that they match what the user would
 	expect according to his umask.
 
+2007-06-13  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg-source.1: Remove section describing few dpkg-gncontrol
+	options.
+
 2007-06-12  Jiří Paleček  <jpalecek@web.de>
 
 	* dpkg-shlibdeps.pl: Support colon separated list of paths in the
 	ELF RPATH field.
+
+2007-06-12  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg-source.1: Fix explanation of '-b' option, remove a
+	reference to checking for a missing empty string argument, and add a
+	reference to '-sX' arguments affecting the behaviour.
+	* man/install-info.8: Remove an additional space. Mark gzip in bold
+	and remove redundant reference to GNU.
+
+2007-06-12  Guillem Jover  <guillem@debian.org>
+
+	* man/deb-substvars.5: Unify title header.
+	* man/dpkg.1: Likewise.
+	* man/dpkg-buildpackage.1: Likewise.
+	* man/dpkg-checkbuilddeps.1: Likewise.
+	* man/dpkg-deb.1: Likewise.
+	* man/dpkg-divert.8: Likewise.
+	* man/dpkg-scanpackages.1: Likewise.
+	* man/dpkg-scansources.1: Likewise.
+	* man/dpkg-shlibdeps.1: Likewise.
+	* man/dpkg-source.1: Likewise.
+	* man/dpkg-statoverride.8: Likewise.
+	* man/install-info.8: Likewise.
+	* man/update-alternatives.8: Likewise.
+
+2007-06-12  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg-divert.8: Mark dpkg-* commands in bold.
+	* man/dpkg-buildpackage.1: Likewise.
+	* man/dpkg-source.1: Likewise.
+	* man/dpkg-statoverride.8: Likewise.
+
+2007-06-12  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg-source.1: Reference deb-substvars instead of dpkg-substvars.
+	* man/dpkg-genchanges.1: Likewise.
+	* man/dpkg-gencontrol.1: Likewise.
 
 2007-06-12  Guillem Jover  <guillem@debian.org>
 
@@ -3818,6 +4167,20 @@
 	end of the 'install' conditional.
 	(fill_missing_slavepaths): New function.
 
+2007-05-15  Guillem Jover  <guillem@debian.org>
+
+	* man/deb-control.5: Document comments in the control file.
+
+2007-05-15  Guillem Jover  <guillem@debian.org>
+
+	* man/install-info.8: Disambiguate the use of 'Info directory' with
+	'Info dir file'.
+
+2007-05-15  Kurt B. Kaiser  <kbk@shore.net>
+
+	* man/install-info.8: Add missing commas, and information on the
+	behaviour when no '--section' option is specifyied.
+
 2007-05-14  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-divert.pl ($divertto, $package): Initialize to undef
@@ -3840,6 +4203,10 @@
 	(debarch_eq): ... this. Add prototype. Fix all callers.
 	(debian_arch_is): Rename to ...
 	(debarch_is): ... this. Add prototype. Fix all callers.
+
+2007-05-12  Guillem Jover  <guillem@debian.org>
+
+	* man/deb-substvars.5: Fix title to match the real section.
 
 2007-05-11  Guillem Jover  <guillem@debian.org>
 
@@ -3945,6 +4312,8 @@
 
 	* Makefile.am (EXTRA_DIST): Rename debian/pseudo-tags to
 	debian/usertags.
+	* man/Makefile.am (dist-hook): New target.
+	(EXTRA_DIST): New variable.
 
 2007-05-07  Guillem Jover  <guillem@debian.org>
 
@@ -4026,6 +4395,13 @@
 	(gnu_to_debian): Likewise.
 	* scripts/controllib.pl (getfowner): Remove redundant closures of
 	STDIN.
+
+2007-04-11  Guillem Jover  <guillem@debian.org>
+
+	* man/Makefile.am (man.stamp): Use a stamp file for now until po4a
+	supports them internally.
+	(all-local): Depend on man.stamp.
+	(clean-local): Remove the man.stamp file.
 
 2007-04-11  Guillem Jover  <guillem@debian.org>
 
@@ -4147,6 +4523,34 @@
 	* dpkg-deb/build.c (do_build): Likewise.
 	* dpkg-deb/main.c (usage): Document that '-Z' now accepts lzma as well.
 	(setcompresstype): Parse 'lzma' as compress_type_lzma.
+	* man/dpkg-deb.1: Move '-z' to it's own OPTIONS entry. Document '-Z',
+	and the new 'lzma' value.
+
+2007-03-12  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg-source.1: Split individual man pages to ...
+	* man/deb-shlibs.5: ... here and ...
+	* man/deb-substvars.5: ... here and ...
+	* man/dpkg-buildpackage.1: ... here and ...
+	* man/dpkg-distaddfile.1: ... here and ...
+	* man/dpkg-genchanges.1: ... here and ...
+	* man/dpkg-gencontrol.1: ... here and ...
+	* man/dpkg-parsechangelog.1: ... here and ...
+	* man/dpkg-shlibdeps.1: ... here.
+	* man/Makefile.am (all-local): Do not make the symlinks anymore.
+	(dpkg_source_aliases): Move to ...
+	(dist_man_MANS): ... here.
+	(man_MANS): Remove variable.
+	(CLEANFILES): Likewise.
+
+2007-03-12  Guillem Jover  <guillem@debian.org>
+
+	* man/Makefile.am (dist_man_MANS): Add deb-override.5.
+	* man/dpkg-scanpackages.1: Move override file information to ...
+	* man/deb-override.5: ... here.
+
+	* man/dpkg-scanpackages.1: Add a reference to deb-override.5.
+	* man/dpkg-scansources.1: Likewise.
 
 2007-03-12  Guillem Jover  <guillem@debian.org>
 
@@ -4179,6 +4583,48 @@
 	file is now optional.
 	(load_override): New function, refactored. Handle the case where
 	'$override' is undefined.
+	* man/dpkg-scanpackages.1: Mark the override argument as optional.
+
+2007-03-06  Guillem Jover  <guillem@debian.org>
+
+	* man/update-alternatives.8: Reorder EXAMPLES section.
+
+2007-03-06  Guillem Jover  <guillem@debian.org>
+
+	* man/cleanup-info.8: Unify the summary. Unify '--help' and
+	'--version' descriptions. Remove unneeded quotes in section names.
+	* man/update-alternatives.8: Likewise.
+	* man/start-stop-daemon.8: Likewise.
+	* man/dpkg-deb.1: Likewise.
+	* man/dpkg-divert.8: Likewise.
+	* man/dpkg-query.1: Likewise.
+	* man/dpkg-name.1: Likewise.
+	* man/dpkg-checkbuilddeps.1: Likewise.
+	* man/dpkg-architecture.1: Likewise.
+	* man/dpkg-split.1: Likewise.
+	* man/dpkg-statoverride.8: Likewise.
+	* man/dpkg-scanpackages.1: Likewise.
+	* man/dpkg-scansources.1: Likewise.
+
+	* man/dpkg-deb.1: Split option aliased names with ',' instead of '|'.
+	* man/dpkg-name.1: Likewise.
+	* man/dpkg-split.1: Likewise.
+	* man/dpkg-query.1: Likewise.
+	* man/start-stop-daemon.8: Likewise.
+
+	* man/dpkg-divert.8: List each options in the OPTIONS section.
+	* man/dpkg-scanpackages.1: Likewise.
+	* man/start-stop-daemon.8: Likewise.
+
+	* man/dpkg-divert.8: Remove redundant '<>' characters to delimit a
+	replacable argument.
+	* man/dpkg-statoverride.8: Likewise.
+
+	* man/update-alternatives.8: Mark commands in examples as bold.
+	* man/dpkg-architecture.1: Reorder sections. Indent examples.
+	* man/dpkg-name.1: Do not specify in which programming language the
+	program is written in.
+	* man/dpkg-deb.1: Split '--extract' and '--vextract' options.
 
 2007-02-28  Guillem Jover  <guillem@debian.org>
 
@@ -4192,6 +4638,8 @@
 	(usage): Document '--admindir'.
 	* scripts/dpkg-buildpackage.sh: Parse '--admindir', and document it in
 	usage output. Pass it to dpkg-checkbuilddeps.
+	* man/dpkg-source.1: Document new option '--admindir'.
+	* man/dpkg-checkbuilddeps.1: Likewise.
 
 2007-02-28  Guillem Jover  <guillem@debian.org>
 
@@ -4303,6 +4751,8 @@
 
 	* scripts/822-date.pl: Convert the script to be a simple wrapper
 	around 'date -R'.
+	* man/822-date.1: 822-date is now deprecated. Document this fact in
+	the man page.
 
 2007-01-23  Sven Joachim  <sven_joachim@web.de>
 	    Guillem Jover  <guillem@debian.org>
@@ -4319,6 +4769,12 @@
 
 	* configure.ac: There are no more Makefiles to generate in the
 	man/ subdirectories.
+	* man/C/: Move the manpages to the root of the man/ directory.
+	* man/C/Makefile.am, man/po4a.mk: The languages makefiles are no
+	more needed. Also remove the language directories.
+	* man/Makefile.am: New build system.
+	The goal of these changes is to simplify the build system (less
+	files, less Makefiles, lower the depth of the file hierarchy).
 
 2007-01-15  Ian Jackson  <iwj@ubuntu.com>
 
@@ -4354,6 +4810,11 @@
 	* scripts/dpkg-buildpackage.sh: Allow '-b' to properly override a
 	previously passed '-B'.
 
+2007-01-09  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/dpkg-deb.1: Make the copyright match the one from the source.
+	* man/C/dpkg-split.1: Likewise.
+
 2007-01-09  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Bump version to 1.14.0~.
@@ -4386,6 +4847,11 @@
 	* scripts/controllib.pl (subprocerr): Require POSIX for WIFEXITED,
 	WEXITSTATUS, WIFSIGNALED and WTERMSIG.
 
+2006-11-24  Tomas Pospisek  <tpo_deb@sourcepole.ch>
+
+	* man/C/update-alternatives.8: Document that it requires cooperation
+	from all packages dealing with the same file.
+
 2006-10-13  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Bump version to 1.13.25~.
@@ -4412,6 +4878,10 @@
 	* README.translators: Add references to the new scripts/po/ChangeLog
 	file. State that the languages should be listed alphabetically in
 	debian/changelog.
+
+2006-09-29  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/dpkg-scansources.1: Fix a typo.
 
 2006-09-27  Guillem Jover  <guillem@debian.org>
 
@@ -4457,10 +4927,55 @@
 	* src/packages.c (dependencies_ok): Add a place holder comment to
 	be replaced by the code to prevent configuration of Broken packages.
 
+2006-08-05  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/dpkg-architecture.1: Remove linux-alpha from the architecture
+	wildcard examples, and fix a formatting issue.
+
+2006-08-05  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/dpkg-source.1: Typo fix.
+	* man/C/dpkg-architecture.1: Likewise.
+
+2006-08-02  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/dpkg.1: Typo fix.
+	* man/C/dpkg-divert.8: Likewise.
+	* man/C/deb-control.5: Likewise.
+
+2006-07-29  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/dpkg-architecture.1: Typo fix.
+	* man/C/dpkg-statoverride.8: Likewise.
+
+2006-07-29  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/dpkg-name.1: Typo fix.
+
+2006-07-27  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/cleanup-info.8: Typo fix.
+	* man/C/deb.5: Likewise.
+	* man/C/dpkg-scanpackages.1: Likewise.
+	* man/C/dpkg-scansources.1: Likewise.
+
+2006-07-23  Helge Kreutzmann  <debian@helgefjell.de>
+
+	* man/C/822-date.1: Fix the manpage's modification date.
+
+2006-07-23  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/start-stop-daemon.8: Typo fix.
+
 2006-07-07  Nicolas François  <nicolas.francois@centraliens.net>
 
 	* dpkg-deb/build.c: Specify --null before the -T option to avoid
 	the "tar: -: file name read contains nul character" warning.
+
+2006-07-22  Helge Kreutzmann  <debian@helgefjell.de>
+
+	* man/C/start-stop-daemon.8: Typo fix.
+	* man/C/update-alternatives.8: Likewise.
 
 2006-06-21  Guillem Jover  <guillem@debian.org>
 
@@ -4484,6 +4999,7 @@
 	(parse_options): Parse the new option using parse_umask.
 	(main): Set umask, and do not set for the background case if we set
 	it previously.
+	* man/C/start-stop-daemon.8: Document the new '--umask' option.
 
 2006-06-21  Guillem Jover  <guillem@debian.org>
 
@@ -4524,11 +5040,20 @@
 	Give the user a correct warning message about
 	what we do (i.e. defaulting to pgp style).
 
+2006-06-17  Guillem Jover  <guillem@debian.org>
+
+	* man/C/dpkg-architecture.1: Clarify new -e and -i options, give
+	backward compatibility information and add some examples.
+
 2006-06-17  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-source.pl: Fix typo in regex that caused
 	spurious warnings for user defined fields even though they
 	used the correct XB- syntax.
+
+2006-06-16  Robert Luberda  <robert@debian.org>
+
+	* man/C/dpkg-deb.1: Fix typo ("--show-format" -> "--showformat").
 
 2006-06-16  Guillem Jover  <guillem@debian.org>
 
@@ -4637,11 +5162,14 @@
 2006-05-25  Ben Pfaff  <blp@cs.stanford.edu>
 
 	* scripts/install-info.pl: Use %! instead if $! to check for EEXIST.
+	* man/C/install-info.8: Correct default info directory for '--infodir'.
 
 2006-05-23  Guillem Jover  <guillem@debian.org>
 
 	* scripts/controllib.pl (parsechangelog): Do not strip the epoch from
 	the source:Upstream-Version substvar.
+	* man/C/dpkg-source.1: Document that the source:Upstream-Version
+	substvar can have an epoch.
 
 2006-05-23  Guillem Jover  <guillem@debian.org>
 
@@ -4698,6 +5226,13 @@
 	argument error print only usage.
 	(version): Print to stdout. Standarize output format.
 	(usage): Likewise. Print option descriptions.
+	* man/C/dpkg-source.1: Add '--help' and '--version' options.
+	* man/C/dpkg-architecture.1: Likewise.
+	* man/C/dpkg-checkbuilddeps.1: Add '-h' option.
+	* man/C/dpkg-divert.8: Option '--help' does not print the version
+	anymore.
+	* man/C/update-alternatives.8: Likewise.
+	* man/C/dpkg-statoverride.8: Likewise. Add '--version' option.
 
 2006-05-19  David Lopez Moreno  <david.lopez.moreno@hispalinux.es>
 
@@ -4734,6 +5269,16 @@
 	* lib/showpkg.c (show1package): Test the correct
 	pointer against NULL so that arbitrary fields get
 	be printed.
+
+2006-05-18  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/C/dpkg-query.1: Document that user defined
+	fields can also be printed with --showformat.
+
+2006-05-17  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/C/dpkg.1: We don't actually set DPKG_OLD_CONFFILE and
+	DPKG_NEW_CONFFILE on subshells, so we shouldn't claim to do so.
 
 2006-05-15  Nicolas François  <nicolas.francois@centraliens.net>
 
@@ -4839,6 +5384,25 @@
 	signature of a .dsc file, use the Debian
 	keyring if available.
 
+2006-05-10  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/C/dpkg-deb.1: Mention the --show-format option also
+	seperatly, not just in the description of --show.
+	Point the reader to the explanation of --show-format
+	in dpkg-query.1 to avoid having to duplicate it.
+
+2006-05-10  Frank Lichtenheld  <djpig@debian.org>
+
+	* man/C/dpkg-deb.1: Mention the --show-format option also
+	seperatly, not just in the description of --show.
+	Point the reader to the explanation of --show-format
+	in dpkg-query.1 to avoid having to duplicate it.
+
+	* man/C/dpkg-scanpackages.1: Add remark that apt ignores
+	uncompressed Packages files on non-local access.
+	* man/C/dpkg-scansources.1: Likewise (with Sources instead of
+	Packages files of course).
+
 2006-05-10  Nicolas François  <nicolas.francois@centraliens.net>
 
 	* lib/showpkg.c (show1package): Honour the requested tabbing
@@ -4851,6 +5415,12 @@
 2006-05-04  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Release 1.13.19.
+
+2006-05-04  Guillem Jover  <guillem@debian.org>
+
+	* man/C/dpkg-divert.8: Escape hyphens used in command line.
+	* man/C/dpkg-architecture.1: Likewise.
+	* man/C/dpkg-statoverride.8: Likewise.
 
 2006-05-04  Guillem Jover  <guillem@debian.org>
 
@@ -4903,12 +5473,16 @@
 	dpkg:Upstream-Version. Make dpkg:Version and dpkg:Upstream-Version
 	get the current dpkg versions instead of the package being built.
 	* scripts/dpkg-gencontrol.pl: Likewise.
+	* man/C/dpkg-source.1: Rename dpkg:UpstreamVersion to
+	dpkg:Upstream-Version.
 
 2006-05-02  Ken Bloom  <kbloom@gmail.com>,
 	    Jeroen van Wolffelaar  <jeroen@wolffelaar.nl>,
 	    Guillem Jover  <guillem@debian.org>
 
 	* scripts/controllib.pl (parsechangelog): Add new source:Version,
+	source:Upstream-Version and binary:Version substvars.
+	* man/C/dpkg-source.1: Document new source:Version,
 	source:Upstream-Version and binary:Version substvars.
 
 2006-04-29  Justin Pryzby  <justinpryzby@users.sourceforge.net>
@@ -4932,6 +5506,17 @@
 	* src/main.c (printforhelp, setdebug, setforce): Quote each string
 	line instead of escaping its new line at the end.
 
+2006-04-19  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/install-info.8: Add a missing quote arround the date.
+	* man/C/dpkg-source.1: Add a reference to the Debian Policy Manual
+	for a detailed description of the shlibs format.
+	Thanks to Russ Allbery.
+
+2006-04-16  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* man/C/dpkg-source.1: Document the shlibs.local format.
+
 2006-04-11  Frank Lichtenheld  <djpig@debian.org>
 
 	* src/archives.c (quote_filename): Fix typo in
@@ -4954,12 +5539,18 @@
 
 	* configure.ac: Release 1.13.18.
 
+2006-04-10  Guillem Jover  <guillem@debian.org>
+
+	* man/C/dpkg.1: Document the new way to replicate the package status
+	to another installation by using '--clear-selections'.
+
 2006-04-10  Andrew Suffield  <asuffield@debian.org>
 
 	* src/main.h (clearselections): New prototype.
 	* src/main.c (usage): Print '--clear-selections' option description.
 	(cmdinfos): Add clear-selectons action.
 	* src/select.c (clearselections): New function.
+	* man/C/dpkg.1: Document the new '--clear-selections' option.
 
 2006-04-10  Guillem Jover  <guillem@debian.org>
 
@@ -4968,14 +5559,23 @@
 	(forceinfos): Mark 'auto-select' as obsolete.
 	(setforce): Remove mention of 'auto-select' from the help text.
 	Handle obsolete options, and display a warning.
+	* man/C/dpkg.1: Remove mention of obsolete force/refuse 'auto-select'
+	option.
+
+2006-04-09  Guillem Jover  <guillem@debian.org>
+
+	* man/C/dpkg.1: Document that '--get-selections' without a pattern
+	will not list packages in state purge.
+	* man/C/dpkg-query.1: Document that '-l' without a pattern will not
+	list packages in state purge.
 
 2006-04-09  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-shlibdeps.pl: Support system library directories
 	symlinked from '/lib/ldconfig/'.
 
-2006-04-09   Branden Robinson  <branden@debian.org>,
-	     Guillem Jover  <guillem@debian.org>
+2006-04-09  Branden Robinson  <branden@debian.org>,
+            Guillem Jover  <guillem@debian.org>
 
 	* src/main.c (execbackend): Pass '--admindir' over to dpkg-query
 	when passing '--admindir' or '--root' to dpkg.
@@ -5034,10 +5634,58 @@
 	* debian/control (Build-Depends): Do not depend on libselinux1-dev
 	in GNU/kFreeBSD amd64.
 
+2006-03-04  Christian Perrier  <bubulle@debian.org>
+
+	* man/C/dpkg-architecture.1: Typo corrections.
+	* man/C/dpkg-checkbuilddeps.1: Likewise.
+	* man/C/dpkg-name.1: Likewise.
+	* man/C/dpkg-source.1: Likewise.
+	* man/C/deb-control.5: Likewise.
+
+2006-02-28  Guillem Jover  <guillem@debian.org>
+
+	* man/C/dpkg.1 (SEE ALSO): Add dpkg-query(1).
+
+2006-02-28  Guillem Jover  <guillem@debian.org>
+
+	* man/C/822-date.1: Lower case title header. Put options in bold,
+	files and arguments to options in italic. Escape hyphens used in
+	command line. Unescape dashes. Remove spaces after full stops and
+	after end of line. Separete sections with a dot. Do not put the
+	manpage section number in bold.
+	* man/C/cleanup-info.8: Likewise.
+	* man/C/deb.5: Likewise.
+	* man/C/deb-control.5: Likewise.
+	* man/C/deb-old.5: Likewise.
+	* man/C/dpkg.1: Likewise.
+	* man/C/dpkg.cfg.5: Likewise.
+	* man/C/dpkg-checkbuilddeps.1: Likewise.
+	* man/C/dpkg-deb.1: Likewise.
+	* man/C/dpkg-divert.8: Likewise.
+	* man/C/dpkg-name.1: Likewise.
+	* man/C/dpkg-query.1: Likewise.
+	* man/C/dpkg-scanpackages.1: Likewise.
+	* man/C/dpkg-source.1: Likewise.
+	* man/C/dpkg-split.1: Likewise.
+	* man/C/dpkg-statoverride.8: Likewise.
+	* man/C/dselect.1: Likewise.
+	* man/C/dselect.cfg.5: Likewise.
+	* man/C/install-info.8: Likewise.
+	* man/C/start-stop-daemon.8: Likewise.
+	* man/C/update-alternatives.8: Likewise.
+	* man/C/dpkg-scansources.1: Likewise. Remove '.IX' entries.
+	* man/C/dpkg-architecture.1: Likewise. Split most of the body of the
+	section DESCRIPTION into OPTIONS and ACTIONS.
+
 2006-02-28  Matt Kraai  <kraai@ftbfs.org>
 
 	* scripts/dpkg-gencontrol.pl: Fix typo (occoured -> occurred).
 	* scripts/dpkg-source.pl: Likewise.
+
+2006-02-20  Matt Kraai  <kraai@ftbfs.org>
+
+	* man/C/dpkg-source.1: Add missing parentheses around manpage
+	section number.
 
 2006-02-19  Guillem Jover  <guillem@debian.org>
 
@@ -5067,6 +5715,16 @@
 
 	* configure.ac: Release 1.13.16.
 
+2006-02-18  A. Costa  <agcosta@gis.net>
+
+	* man/C/dpkg-deb.1: Typo fix.
+	* man/C/dpkg-statoverride.8: Likewise.
+	* man/C/install-info.8: Likewise.
+	* man/C/start-stop-daemon.8: Likewise.
+	* man/C/update-alternatives.8: Likewise.
+	* man/C/dpkg.1: Likewise.
+	* man/C/dpkg.cfg.5: Likewise.
+
 2006-02-17  Frank Lichtenheld  <djpig@debian.org>
 
 	* man/ChangeLog: Start an own changelog for the
@@ -5079,6 +5737,9 @@
 	behaviour.
 	* man/C/dpkg-source.1: Document the behaviour
 	change in dpkg-gencontrol.
+
+	* man/Makefile.am (updatepo): New target that calls
+	'make updatepo' in all subdirectories.
 
 2006-02-17  Guillem Jover  <guillem@debian.org>
 
@@ -5114,13 +5775,6 @@
 
 	* configure.ac: Release 1.13.15.
 
-2006-02-15  SZERVÁC Attila  <sas@321.hu>
-
-	* man/hu/dpkg.cfg.5.hu.po: Added.
-	* man/hu/dpkg.cfg.5.hu.po.addendum: Likewise.
-	* man/hu/dselect.cfg.5.hu.po: Likewise.
-	* man/hu/dselect.cfg.5.hu.po.addendum: Likewise.
-
 2006-02-13  Jordi Mallach  <jordi@debian.org>
 
 	* src/processarc.c (process_archive): Add missing closing parenthesis
@@ -5139,20 +5793,6 @@
 	* man/C/dpkg-query.1: Likewise.
 	* man/C/dpkg-name.1: Likewise.
 	* man/C/dpkg-architecture.1: Likewise.
-
-2006-02-11  Philippe Batailler  <philippe.batailler@free.fr>
-
-	* man/fr/dpkg.1.fr.po: Updated.
-	* man/fr/dpkg-query.1.fr.po: Likewise.
-	* man/fr/dpkg-source.1.fr.po: Likewise.
-	* man/fr/dpkg-split.1.fr.po: Likewise.
-
-2006-02-11  Nicolas François  <nicolas.francois@centraliens.net>
-
-	* man/*/*.addendum: Use a generic position to insert the addenda,
-	which should always exist in a valid man page.
-	Translators are free to use another position.
-	* man/*/*.addenum: Renamed man/*/*.addendum.
 
 2006-02-11  Frank Lichtenheld  <djpig@debian.org>
 
@@ -5230,11 +5870,6 @@
 	(COMMANDS): Use package-name instead of package.
 	(OPTIONS): Give an example for --showformat.
 	(SEE ALSO): Add a final dot to reference.
-
-2006-02-08  Philippe Batailler  <philippe.batailler@free.fr>
-
-	* man/fr/update-alternatives.8.fr.po: Updated translation.
-	* man/fr/update-alternatives.8.fr.po.addendum: New file.
 
 2006-02-08  Guillem Jover  <guillem@debian.org>
 
