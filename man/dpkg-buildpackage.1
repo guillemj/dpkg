@@ -1,4 +1,4 @@
-.TH dpkg\-buildpackage 1 "2008-03-14" "Debian Project" "dpkg utilities"
+.TH dpkg\-buildpackage 1 "2008-07-10" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-buildpackage \- build binary or source packages from sources
 .
@@ -8,42 +8,76 @@ dpkg\-buildpackage \- build binary or source packages from sources
 .
 .SH DESCRIPTION
 .B dpkg\-buildpackage
-is a control script which can be used to help automate the building of
-a package.
+is a program that automates the process of building a Debian package. It
+consists of the following steps:
+.IP \fB1.\fP 3
+It prepares the build environment by setting various environment
+variables (see \fBENVIRONMENT VARIABLES\fP).
+.IP \fB2.\fP 3
+It checks that the build-dependencies and build-conflicts
+are satisfied (unless \fB\-d\fP is specified).
+.IP \fB3.\fP 3
+It calls \fBfakeroot debian/rules clean\fP to clean the build-tree (unless
+\fB\-nc\fP is specified).
+.IP \fB4.\fP 3
+It calls \fBdpkg-source\fP to generate the source package (unless
+a binary-only build has been requested with \fB\-b\fP, \fB\-B\fP or
+\fB\-A\fP).
+.IP \fB5.\fP 3
+It calls \fBdebian/rules\fP \fBbuild\fP followed by
+\fBfakeroot debian/rules\fP \fIbinary-target\fP (unless a source-only
+build has been requested with \fB\-S\fP). Note that \fIbinary-target\fR is
+either \fBbuild\fP (default case, or if \fB\-b\fP is specified)
+or \fBbinary-arch\fP (if \fB\-B\fP is specified) or \fBbinary-indep\fP
+(if \fB\-A\fP is specified).
+.IP \fB6.\fP 3
+It calls \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
+\fB\-us\fP is specified).
+.IP \fB7.\fP 3
+It calls \fBdpkg-genchanges\fP to generate a \fB.changes\fP file.
+Many \fBdpkg-buildpackage\fP options are forwarded to
+\fBdpkg-genchanges\fP.
+.IP \fB8.\fP 3
+It calls \fBgpg\fP to sign the \fB.changes\fP file (unless \fB\-uc\fP
+is specified).
+.IP \fB9.\fP 3
+If \fB\-tc\fP is specified, it will call \fBfakeroot debian/rules clean\fP
+again.
 .
 .SH OPTIONS
 .TP
 .B \-b
 Specifies a binary-only build, no source files are to be built and/or
-distributed.
+distributed. Passed to \fBdpkg-genchanges\fP.
 .TP
 .B \-B
 Specifies a binary-only build, limited to architecture dependent packages.
+Passed to \fBdpkg-genchanges\fP.
 .TP
 .B \-A
 Specifies a binary-only build, limited to architecture independent
-packages.
+packages. Passed to \fBdpkg-genchanges\fP.
 .TP
 .B \-S
 Specifies a source-only build, no binary packages need to be made.
-.PP
-The \fB-s\fP\fIx\fP options control whether the original source archive is
-included in the upload if any source is being generated (i.e.
-.BR \-b ", " \-B " or " \-A
-haven't been used).
-.TP
+Passed to \fBdpkg-genchanges\fP.
+.P
 .B \-si
-By default, or if specified, the original source will be included if the
-version number ends in
-.BR \-0 " or " \-1 ,
-i.e. if the Debian revision part of the version number is
-.BR 0 " or " 1 .
-.TP
+.br
 .B \-sa
-Forces the inclusion of the original source.
-.TP
+.br
 .B \-sd
-Forces the exclusion of the original source and includes only the diff.
+.br
+.BI \-v version
+.br
+.BI \-C changesdescription
+.br
+.BI \-m maintaineraddress
+.br
+.BI \-e maintaineraddress
+.RS
+Passed unchanged to \fBdpkg-genchanges\fP. See its manual page.
+.RE
 .TP
 .BI \-a architecture
 Specify the Debian architecture we build for. The architecture of the
@@ -71,47 +105,12 @@ to the DEB_BUILD_OPTIONS environment variable which allows
 debian/rules files to use this information for their own purposes.
 The \fBparallel=\fP\fIjobs\fP in DEB_BUILD_OPTIONS environment variable
 will override the \fB-j\fP value if this option is given.
-.TP
-.BI \-v version
-Use changelog information from all versions strictly later than
-.IR version .
-.TP
-.BI \-C changesdescription
-Read the description of the changes from the file
-.I changesdescription
-rather than using the information from the source tree's changelog file.
-.TP
-.BI \-m maintaineraddress
-Use
-.I maintaineraddress
-as the name and email address of the maintainer for this package,
-rather than using the information from the source tree's control file.
-.TP
-.BI \-e maintaineraddress
-Use
-.I maintaineraddress
-as the name and email address of the maintainer for this upload,
-rather than using the information from the source tree's changelog.
-.TP
 .B \-D
-Check build dependencies and conflicts; abort if unsatisfied.
+Check build dependencies and conflicts; abort if unsatisfied. This is the
+default behavior.
 .TP
 .B \-d
 Do not check build dependencies and conflicts.
-.TP
-.B \-E
-Turn certain warnings into errors. Only \fBdpkg\-source\fP uses this, but
-.BR dpkg\-buildpackage
-recognizes it, and passes it thru to
-.BR dpkg\-source "."
-.TP
-.B \-W
-Negates a previously set
-.BR \-E "."
-Only \fBdpkg\-source\fP uses this, but
-.BR dpkg\-buildpackage
-recognizes it, and passes it thru to
-.BR dpkg\-source "."
 .TP
 .B \-nc
 Do not clean the source tree (implies \fB\-b\fP).
@@ -158,28 +157,13 @@ another make program (for example by using
 as \fIrules-file\fR).
 .TP
 .BI \-p sign-command
-When
-.B dpkg\-buildpackage
-needs to execute GPG or PGP to sign a source control
-.RB ( .dsc )
-file or a
-.B .changes
-file it will run
-.I sign-command
-(searching the
-.B PATH
-if necessary) instead of
-.BR pgp .
-.I sign-command
-will get all the arguments that
-.B pgp
-would have gotten. If
-.I sign-command
+When \fBdpkg\-buildpackage\fP needs to execute GPG or PGP to sign a source
+control (\fB.dsc\fP) file or a \fB.changes\fP file it will run
+\fIsign-command\fP (searching the \fBPATH\fP if necessary) instead of
+\fBgpg\fP. \fIsign-command\fP will get all the arguments that
+\fBpgp\fP would have gotten. If \fIsign-command\fP
 takes its arguments in GPG rather than PGP style, you should give
-the
-.B \-sgpg
-option.
-.I sign-command
+the \fB\-sgpg\fP option. \fIsign-command\fP
 should not contain spaces or any other shell metacharacters.
 .TP
 .BI \-k key-id
@@ -189,24 +173,19 @@ Specify a key-ID to use when signing packages.
 Do not sign the source package.
 .TP
 .BR \-uc
-Do not sign the .changes file.
-.TP
+Do not sign the \fB.changes\fP file.
+.P
 .BR \-i [\fIregexp\fP]
-Passed unchanged to
-.BR dpkg\-source .
-.TP
+.br
 .BI \-I [\fIpattern\fP]
-Passed unchanged to
-.BR dpkg\-source .
-May be repeated multiple times.
-.TP
+.br
 .BR \-s [ nsAkurKUR ]
-Passed unchanged to
-.BR dpkg\-source .
-.TP
+.br
 .BR \-z ", " \-Z
-Passed unchanged to
-.BR dpkg\-source .
+.br
+.RS
+Passed unchanged to \fBdpkg\-source\fP. See its manual page.
+.RE
 .TP
 .BI \-\-admindir= dir
 Change the location of the \fBdpkg\fR database. The default location is
@@ -218,16 +197,21 @@ Show the usage message and exit.
 .BR \-\-version
 Show the version and exit.
 .
-.SH ENVIRONMENT
+.SH ENVIRONMENT VARIABLES
+.SS Vendor identification
 The variable \fBDEB_VENDOR\fR will be set to the name of the current vendor
 if \fI/etc/dpkg/origins/default\fR exists and can be used to look up the vendor
 name. If the variable already exists, and contains the name of an existing
 vendor in \fI/etc/dpkg/origins\fR, it will be kept; otherwise the variable is
 unset.
-.P
-A set of environment variables for setting compiler and linker options are
-set to default values unless already set in the environment. Note that
-this mechanism was only introduced in dpkg-dev, version 1.14.17 and
+.SS Variables set by dpkg-architecture
+\fBdpkg\-architecture\fP is called with the \fB\-a\fP and \fB\-t\fP
+parameters forwarded. Any variable that is output by its \fB\-s\fP
+option is integrated in the build environment.
+.SS Compiler flags
+Some environment variables defining compiler and linker options are
+set to default values unless already present in the environment. Note that
+this mechanism was only introduced in version 1.14.17 of dpkg-dev and
 not all \fIrules\fP files and build tools will honour these variables,
 yet.
 .TP
@@ -304,8 +288,8 @@ and initial arguments for
 .BR dpkg\-source (1),
 .BR dpkg\-architecture (1),
 .BR dpkg\-genchanges (1),
-.BR gpg (1),
-.BR pgp (1).
+.BR fakeroot (1),
+.BR gpg (1).
 .
 .SH AUTHORS
 Copyright (C) 1995-1996 Ian Jackson
@@ -313,6 +297,8 @@ Copyright (C) 1995-1996 Ian Jackson
 Copyright (C) 2000 Wichert Akkerman
 .br
 Copyright (C) 2007 Frank Lichtenheld
+.br
+Copyright (C) 2008 Rapha\[:e]l Hertzog
 .sp
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO WARRANTY.
