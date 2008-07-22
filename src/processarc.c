@@ -412,7 +412,7 @@ void process_archive(const char *filename) {
   }
 
   for (deconpil= deconfigure; deconpil; deconpil= deconpil->next) {
-    struct pkginfo *removing= deconpil->xinfo;
+    struct pkginfo *removing = deconpil->pkg_removal;
 
     if (removing)
       printf(_("De-configuring %s, to allow removal of %s ...\n"),

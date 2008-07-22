@@ -49,7 +49,7 @@ struct perpackagestate {
 struct packageinlist {
   struct packageinlist *next;
   struct pkginfo *pkg;
-  void *xinfo;
+  struct pkginfo *pkg_removal;
 };
 
 struct pkginqueue {

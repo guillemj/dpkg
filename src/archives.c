@@ -894,7 +894,7 @@ static int try_deconfigure_can(int (*force_p)(struct deppossi*),
     newdeconf = m_malloc(sizeof(struct packageinlist));
     newdeconf->next= deconfigure;
     newdeconf->pkg= pkg;
-    newdeconf->xinfo= removal;
+    newdeconf->pkg_removal = removal;
     deconfigure= newdeconf;
     return 1;
   } else {
