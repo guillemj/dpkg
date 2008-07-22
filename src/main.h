@@ -105,7 +105,7 @@ extern int fc_badverify;
 extern int errabort;
 extern const char *admindir;
 extern const char *instdir;
-extern struct packageinlist *ignoredependss;
+extern struct pkginqueue *ignoredependss;
 extern const char architecture[];
 
 /* from filesdb.c */

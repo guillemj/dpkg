@@ -170,7 +170,7 @@ int fc_badverify = 0;
 int errabort = 50;
 const char *admindir= ADMINDIR;
 const char *instdir= "";
-struct packageinlist *ignoredependss = NULL;
+struct pkginqueue *ignoredependss = NULL;
 
 static const struct forceinfo {
   const char *name;
@@ -256,7 +256,7 @@ static void setroot(const struct cmdinfo *cip, const char *value) {
 static void ignoredepends(const struct cmdinfo *cip, const char *value) {
   char *copy, *p;
   const char *pnerr;
-  struct packageinlist *ni;
+  struct pkginqueue *ni;
 
   copy= m_malloc(strlen(value)+2);
   strcpy(copy,value);
@@ -273,7 +273,7 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
     pnerr = illegal_packagename(p, NULL);
     if (pnerr) ohshite(_("--ignore-depends requires a legal package name. "
                        "`%.250s' is not; %s"), p, pnerr);
-    ni= m_malloc(sizeof(struct packageinlist));
+    ni = m_malloc(sizeof(struct pkginqueue));
     ni->pkg= findpackage(p);
     ni->next= ignoredependss;
     ignoredependss= ni;
