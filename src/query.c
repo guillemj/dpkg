@@ -536,7 +536,6 @@ int fc_badpath=0;
 int errabort = 50;
 const char *admindir= ADMINDIR;
 const char *instdir= "";
-struct packageinlist *ignoredependss = NULL;
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
