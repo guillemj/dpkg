@@ -46,12 +46,6 @@ struct perpackagestate {
   struct pkginqueue *trigprocdeferred;
 };
 
-struct pkg_deconf_list {
-  struct pkg_deconf_list *next;
-  struct pkginfo *pkg;
-  struct pkginfo *pkg_removal;
-};
-
 struct pkginqueue {
   struct pkginqueue *next;
   struct pkginfo *pkg;

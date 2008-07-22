@@ -28,6 +28,12 @@ struct tarcontext {
   struct fileinlist **newfilesp;
 };
 
+struct pkg_deconf_list {
+  struct pkg_deconf_list *next;
+  struct pkginfo *pkg;
+  struct pkginfo *pkg_removal;
+};
+
 extern int fnameidlu;
 extern struct varbuf fnamevb;
 extern struct varbuf fnametmpvb;
