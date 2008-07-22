@@ -83,7 +83,7 @@ void process_archive(const char *filename) {
   struct filenamenode *namenode;
   struct dirent *de;
   struct stat stab, oldfs;
-  struct packageinlist *deconpil, *deconpiltemp;
+  struct pkg_deconf_list *deconpil, *deconpiltemp;
   
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
   admindirlen= strlen(admindir);

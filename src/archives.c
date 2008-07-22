@@ -261,7 +261,7 @@ int fnameidlu;
 struct varbuf fnamevb;
 struct varbuf fnametmpvb;
 struct varbuf fnamenewvb;
-struct packageinlist *deconfigure = NULL;
+struct pkg_deconf_list *deconfigure = NULL;
 
 static time_t currenttime;
 
@@ -870,7 +870,7 @@ static int try_deconfigure_can(int (*force_p)(struct deppossi*),
    *                 1: deconfiguration queued ok (no message printed)
    *                 0: not possible (why is printed)
    */
-  struct packageinlist *newdeconf;
+  struct pkg_deconf_list *newdeconf;
   
   if (force_p && force_p(pdep)) {
     fprintf(stderr, _("dpkg: warning - "
@@ -891,7 +891,7 @@ static int try_deconfigure_can(int (*force_p)(struct deppossi*),
       }
     }
     pkg->clientdata->istobe= itb_deconfigure;
-    newdeconf = m_malloc(sizeof(struct packageinlist));
+    newdeconf = m_malloc(sizeof(struct pkg_deconf_list));
     newdeconf->next= deconfigure;
     newdeconf->pkg= pkg;
     newdeconf->pkg_removal = removal;

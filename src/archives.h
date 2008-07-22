@@ -32,7 +32,7 @@ extern int fnameidlu;
 extern struct varbuf fnamevb;
 extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;
-extern struct packageinlist *deconfigure;
+extern struct pkg_deconf_list *deconfigure;
 
 extern struct pkginfo *conflictor[];
 extern int cflict_index;
