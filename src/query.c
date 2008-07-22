@@ -46,13 +46,6 @@
 
 static const char* showformat		= "${Package}\t${Version}\n";
 
-
-int pkglistqsortcmp(const void *a, const void *b) {
-  const struct pkginfo *pa= *(const struct pkginfo**)a;
-  const struct pkginfo *pb= *(const struct pkginfo**)b;
-  return strcmp(pa->name,pb->name);
-}
-
 static void limiteddescription(struct pkginfo *pkg, int maxl,
                                const char **pdesc_r, int *l_r) {
   const char *pdesc, *p;

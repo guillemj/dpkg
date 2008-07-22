@@ -21,6 +21,7 @@ dpkg_SOURCES = \
 	help.c \
 	main.c main.h \
 	packages.c \
+	pkg-list.c \
 	processarc.c \
 	remove.c \
 	select.c \
@@ -38,6 +39,7 @@ dpkg_LDADD = \
 dpkg_query_SOURCES = \
 	errors.c \
 	filesdb.c filesdb.h \
+	pkg-list.c \
 	query.c
 
 dpkg_query_LDADD = \
