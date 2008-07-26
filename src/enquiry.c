@@ -42,19 +42,6 @@
 #include "filesdb.h"
 #include "main.h"
 
-static void limiteddescription(struct pkginfo *pkg, int maxl,
-                               const char **pdesc_r, int *l_r) {
-  const char *pdesc, *p;
-  int l;
-  
-  pdesc = pkg->installed.valid ? pkg->installed.description : NULL;
-  if (!pdesc) pdesc= _("(no description available)");
-  p= strchr(pdesc,'\n');
-  if (!p) p= pdesc+strlen(pdesc);
-  l = min(p - pdesc, maxl);
-  *pdesc_r=pdesc; *l_r=l;
-}
-
 struct badstatinfo {
   int (*yesno)(struct pkginfo*, const struct badstatinfo *bsi);
   int val;

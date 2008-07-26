@@ -141,6 +141,9 @@ void cmpversions(const char *const *argv) NONRETURNING;
  */
 int pkglistqsortcmp(const void *a, const void *b);
 
+void limiteddescription(struct pkginfo *pkg,
+                        int maxl, const char **pdesc_r, int *l_r);
+
 /* from select.c */
 
 void getselections(const char *const *argv);
