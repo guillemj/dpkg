@@ -158,7 +158,7 @@ struct lstitem* parseformat(const char* fmt) {
 				freeformat(head);
 				return NULL;
 			}
-			cur->type=field;
+
 			if (!parsefield(cur, fmt+2, fmtend-1)) {
 				freeformat(head);
 				return NULL;
