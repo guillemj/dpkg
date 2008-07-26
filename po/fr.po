@@ -17,38 +17,39 @@
 # Copyright (C) 2000 Jerome Marant <jerome.marant@free.fr>
 # Copyright (C) 2000, 2001, 2002 Martin Quinson <Martin.Quinson@tuxfamily.org>
 #
-# Christian Perrier <bubulle@debian.org>, 2005, 2006.
+# Christian Perrier <bubulle@debian.org>, 2005, 2006, 2008.
 # Frederic Bothamy <frederic.bothamy@free.fr>, 2006, 2007.
 # Florent USSEIL <swiip81@free.fr>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg.fr.po\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-05-13 05:54+0300\n"
-"PO-Revision-Date: 2008-05-13 20:28+0200\n"
-"Last-Translator: Florent USSEIL <swiip81@free.fr>\n"
+"PO-Revision-Date: 2008-07-26 08:04+0200\n"
+"Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Generator: KBabel 1.11.4\n"
 
 # #######################################
 # Notes de traduction
 #
-# trigger              : déclenchement
+# trigger              : action différée
 #
-# triggers-awaited     : « déclenchements-à-venir »
-# triggers-pending     : « déclenchements-en-attente »
-# triggers-deferred    : « déclenchements-différé »
+# triggers-awaited     : « actions-différées-à-venir »
+# triggers-pending     : « actions-différées-en-attente »
+# triggers-deferred    : « action-différée-reportée »
 #
-# awaited trigger      : déclenchement à venir
-# pending trigger      : déclenchement en attente
-# triggers deferred    : déclenchements différés
-# trigger interests    : déclenchement demandés
+# awaited trigger      : action différée attendue
+# pending trigger      : action différée en attente
+# triggers deferred    : actions différées reportées
+# trigger interests    : actions différées
 #
-# triggers are awaited : des déclenchements sont à venir
-# triggers are pending : des déclenchements sont en attente
+# triggers are awaited : actions différées à venir
+# triggers are pending : actions différées en attente
 #
 # #######################################
 #: lib/compat.c:46
@@ -171,8 +172,7 @@ msgstr ""
 
 #: lib/dbmodify.c:64
 #, c-format
-msgid ""
-"updates directory contains files with different length names (both %d and %d)"
+msgid "updates directory contains files with different length names (both %d and %d)"
 msgstr ""
 "le répertoire des mises à jour contient des fichiers dont les noms sont de "
 "différentes longueurs (à la fois %d et %d)"
@@ -293,14 +293,12 @@ msgstr "la fermeture de « %.250s » après l'écriture de %s informations a �
 #: lib/dump.c:403
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
-msgstr ""
-"la liaison de « %.250s » à « %.250s » pour la sauvegarde de %s infos a échoué"
+msgstr "la liaison de « %.250s » à « %.250s » pour la sauvegarde de %s infos a échoué"
 
 #: lib/dump.c:406
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
-msgstr ""
-"l'installation de « %.250s » comme « %.250s » contenant %s infos a échoué"
+msgstr "l'installation de « %.250s » comme « %.250s » contenant %s infos a échoué"
 
 #: lib/ehandle.c:81
 msgid "out of memory pushing error handler: "
@@ -373,14 +371,12 @@ msgstr "champ « %s » non autorisé dans le fichier d'états"
 #: lib/fields.c:104
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
-msgstr ""
-"trop de valeurs dans le champ du fichier « %s » (par rapport aux autres)"
+msgstr "trop de valeurs dans le champ du fichier « %s » (par rapport aux autres)"
 
 #: lib/fields.c:117
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
-msgstr ""
-"trop peu de valeurs dans le champ du fichier « %s » (par rapport aux autres)"
+msgstr "trop peu de valeurs dans le champ du fichier « %s » (par rapport aux autres)"
 
 #: lib/fields.c:133
 msgid "yes/no in boolean field"
@@ -442,8 +438,7 @@ msgstr "répertoire racine ou nul déclaré comme un « conffile »"
 
 #: lib/fields.c:338
 #, c-format
-msgid ""
-"`%s' field, missing package name, or garbage where package name expected"
+msgid "`%s' field, missing package name, or garbage where package name expected"
 msgstr ""
 "champ « %s », nom de paquet manquant, ou absurdités à la place d'un nom de "
 "paquet"
@@ -522,32 +517,31 @@ msgstr "alternative (« | ») non autorisée dans le champ « %s »"
 
 #: lib/fields.c:508
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "valeur du champ « déclenchement-en-attente » interdite dans ce contexte"
+msgstr "valeur du champ « action-différée-en-attente » (« triggers-pending ») interdite dans ce contexte"
 
 #: lib/fields.c:514
 #, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "nom du déclenchement en attente illégal « %.255s » : %s"
+msgstr "nom d'action différée illégal « %.255s » : %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr "déclenchement en attente en double « %.255s »"
+msgstr "action différée en double « %.255s »"
 
 #: lib/fields.c:533
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr ""
-"valeur du champ de « déclenchement-à-venir » non autorisée dans ce contexte"
+msgstr "valeur du champ de « action-différée-à-venir » (« triggers-awaited ») non autorisée dans ce contexte"
 
 #: lib/fields.c:539
 #, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "nom de paquet illégal dans le déclenchement à venir « %.255s » : %s"
+msgstr "nom de paquet illégal dans l'action différée « %.255s » : %s"
 
 #: lib/fields.c:545
 #, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "paquet du déclenchement à venir en double « %.255s »"
+msgstr "action différée en double « %.255s »"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -561,8 +555,7 @@ msgstr ""
 
 #: lib/lock.c:100
 msgid "unable to open/create status database lockfile"
-msgstr ""
-"impossible de créer/ouvrir le fichier verrou de la base de données d'état"
+msgstr "impossible de créer/ouvrir le fichier verrou de la base de données d'état"
 
 #: lib/lock.c:105
 msgid "unable to lock dpkg status database"
@@ -570,8 +563,7 @@ msgstr "impossible de verrouiller la base de données d'état"
 
 #: lib/lock.c:106
 msgid "status database area is locked by another process"
-msgstr ""
-"la zone de la base de données d'état est verrouillée par un autre processus"
+msgstr "la zone de la base de données d'état est verrouillée par un autre processus"
 
 #: lib/log.c:51
 #, c-format
@@ -776,14 +768,12 @@ msgstr "la lecture du fichier « info » « %.255s » du paquet a échoué"
 #: lib/parse.c:113
 #, c-format
 msgid "can't stat package info file `%.255s'"
-msgstr ""
-"impossible de faire un « stat » sur le fichier d'info du paquet « %.255s »"
+msgstr "impossible de faire un « stat » sur le fichier d'info du paquet « %.255s »"
 
 #: lib/parse.c:118
 #, c-format
 msgid "can't mmap package info file `%.255s'"
-msgstr ""
-"impossible de faire un « mmap » sur le fichier d'info du paquet « %.255s »"
+msgstr "impossible de faire un « mmap » sur le fichier d'info du paquet « %.255s »"
 
 #: lib/parse.c:122
 #, c-format
@@ -813,8 +803,7 @@ msgstr "le nom de champ « %.*s » doit être suivi de deux points (:)"
 #: lib/parse.c:171
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
-msgstr ""
-"EOF avant la valeur du champ « %.*s » (il manque le saut de ligne final)"
+msgstr "EOF avant la valeur du champ « %.*s » (il manque le saut de ligne final)"
 
 #: lib/parse.c:175
 #, c-format
@@ -845,8 +834,7 @@ msgstr "valeur en double pour le champ « %.*s » défini par l'utilisateur"
 
 #: lib/parse.c:235
 msgid "several package info entries found, only one allowed"
-msgstr ""
-"plusieurs entrées d'information de paquet trouvées, une seule est autorisée"
+msgstr "plusieurs entrées d'information de paquet trouvées, une seule est autorisée"
 
 #: lib/parse.c:261
 msgid "Configured-Version for package with inappropriate Status"
@@ -855,24 +843,22 @@ msgstr "« Configured-Version » du paquet dans un état inapproprié"
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr "paquet dans l'état « %s » mais des déclenchements sont à venir"
+msgstr "paquet dans l'état « %s » mais des actions différées sont à venir"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
-"paquet dans l'état « déclenchements-à-venir » mais aucun déclenchement n'est "
+"paquet dans l'état « actions-différées-à-venir » (« triggers-awaited ») mais aucune action différée n'est "
 "à venir"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr "paquet dans l'état « %s » mais aucun déclenchement n'est en attente"
+msgstr "paquet dans l'état « %s » mais aucune action différée n'est en attente"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
-msgstr ""
-"paquet dans l'état « déclenchement-en-attente » mais n'ayant pas de "
-"déclenchements en attente"
+msgstr "paquet dans l'état « actions-différées-en-attente » (« triggers-pending ») mais sans action différée en attente"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -903,8 +889,7 @@ msgstr "avertissement, dans le fichier « %.255s » près de la ligne %d"
 #: lib/parsehelp.c:44
 #, c-format
 msgid "parse error, in file `%.255s' near line %d"
-msgstr ""
-"erreur d'analyse syntaxique, dans le fichier « %.255s » près de la ligne %d"
+msgstr "erreur d'analyse syntaxique, dans le fichier « %.255s » près de la ligne %d"
 
 #: lib/parsehelp.c:48
 #, c-format
@@ -974,81 +959,80 @@ msgstr "Parenthèse fermante manquante dans le format\n"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
-"nom de paquet invalide « %.255s » dans le fichier des déclenchements différés "
+"nom de paquet invalide « %.255s » dans le fichier des actions différées "
 "« %.255s »"
 
 #: lib/trigdeferred.l:71
 #, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "fichier des déclenchements différés tronqué « %.255s »"
+msgstr "fichier des actions différées tronqué « %.255s »"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
-"erreur de syntaxe dans le fichier des déclenchements différés « %.255s » à la "
+"erreur de syntaxe dans le fichier des actions différées « %.255s » à la "
 "position « %s » %s"
 
 #: lib/trigdeferred.l:112
 #, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
 msgstr ""
-"impossible d'ouvrir ou créer le verrou du fichier des déclenchements "
+"impossible d'ouvrir ou créer le verrou du fichier des actions différées "
 "« %.255s »"
 
 #: lib/trigdeferred.l:119
 msgid "unable to lock triggers area"
-msgstr "impossible de verrouiller l'espace des déclenchements"
+msgstr "impossible de verrouiller l'espace des actions différées"
 
 #: lib/trigdeferred.l:130
 #, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "impossible d'analyser le fichier des déclenchements différés « %.255s »"
+msgstr "impossible d'analyser le fichier des actions différées « %.255s »"
 
 #: lib/trigdeferred.l:144
 #, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "impossible d'ouvrir le fichier des déclenchements différés « %.255s »"
+msgstr "impossible d'ouvrir le fichier des actions différées « %.255s »"
 
 #: lib/trigdeferred.l:158
 #, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
 msgstr ""
-"impossible d'ouvrir ou créer un nouveau fichier des déclenchements différés "
+"impossible d'ouvrir ou créer un nouveau fichier des actions différées "
 "« %.255s »"
 
 #: lib/trigdeferred.l:178
 #, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "erreur de lecture du fichier des déclenchements différés « %.255s »"
+msgstr "erreur de lecture du fichier des actions différées « %.255s »"
 
 #: lib/trigdeferred.l:186
 #, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
 msgstr ""
-"impossible d'enregistrer le nouveau fichier des déclenchements différés "
+"impossible d'enregistrer le nouveau fichier des actions différées "
 "« %.255s »"
 
 #: lib/trigdeferred.l:191
 #, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr ""
-"impossible de fermer le nouveau fichier des déclenchements différés « %.255s »"
+msgstr "impossible de fermer le nouveau fichier des actions différées « %.255s »"
 
 #: lib/trigdeferred.l:195
 #, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
 msgstr ""
-"impossible d'installer le nouveau fichier des déclenchements différés "
+"impossible d'installer le nouveau fichier des actions différées "
 "« %.255s »"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr "noms vides interdits pour les déclenchements"
+msgstr "noms vides interdits pour les actions différées"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr "nom de déclenchement contenant un caractère invalide"
+msgstr "nom d'action différée contenant un caractère invalide"
 
 #: lib/triglib.c:256
 #, c-format
@@ -1056,20 +1040,20 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
-"syntaxe inconnue ou invalide dans le nom du déclenchement « %.255s » ( dans "
-"les déclenchements demandés par le paquet « %.255s »)"
+"syntaxe inconnue ou invalide dans le nom de l'action différée « %.255s » ( dans "
+"les actions différées demandées par le paquet « %.255s »)"
 
 #: lib/triglib.c:291
 #, c-format
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr ""
-"impossible d'ouvrir le fichier liste des déclenchements demandés par le "
+"impossible d'ouvrir le fichier liste des actions différées demandées par le "
 "paquet « %.255s »"
 
 #: lib/triglib.c:320
 #, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "impossible de relire le fichier des déclenchements demandés « %.255s »"
+msgstr "impossible de relire le fichier des actions différées demandées « %.255s »"
 
 #: lib/triglib.c:325
 #, c-format
@@ -1077,63 +1061,57 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
-"erreur de syntaxe dans le fichier des déclenchements demandés « %.255s » ; "
+"erreur de syntaxe dans le fichier des actions différées demandées « %.255s » ; "
 "nom du fichier « %.255s » illégal : %.250s"
 
 #: lib/triglib.c:347
 #, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr ""
-"impossible de créer un nouveau fichier des déclenchements demandés « %.250s »"
+msgstr "impossible de créer un nouveau fichier des actions différées demandées « %.250s »"
 
 #: lib/triglib.c:359
 #, c-format
 msgid "unable to write new trigger interest file `%.250s'"
 msgstr ""
-"impossible d'enregistrer un nouveau fichier des déclenchements demandés "
+"impossible d'enregistrer un nouveau fichier des actions différées demandées "
 "« %.250s »"
 
 #: lib/triglib.c:364
 #, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr ""
-"impossible d'installer une nouvelle version de fichier des déclenchements "
-"demandés « %.255s »"
+msgstr "impossible d'installer une nouvelle version de fichier des actions différées demandées « %.255s »"
 
 #: lib/triglib.c:421
 #, c-format
-msgid ""
-"duplicate file trigger interest for filename `%.250s' and package `%.250s'"
+msgid "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr ""
-"fichier des déclenchements demandés en double avec le nom « %.250s » pour le "
+"fichier des actions différées demandées en double avec le nom « %.250s » pour le "
 "paquet « %.250s »"
 
 #: lib/triglib.c:444
 #, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "impossible de créer un nouveau fichier de déclenchements « %.250s »"
+msgstr "impossible de créer un nouveau fichier d'actions différées « %.250s »"
 
 #: lib/triglib.c:453
 #, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr ""
-"impossible d'enregistrer le nouveau fichier des déclenchements « %.250s »"
+msgstr "impossible d'enregistrer le nouveau fichier des actions différées « %.250s »"
 
 #: lib/triglib.c:458
 #, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr ""
-"impossible d'installer le nouveau fichier des déclenchements comme « %.250s »"
+msgstr "impossible d'installer le nouveau fichier des actions différées comme « %.250s »"
 
 #: lib/triglib.c:479
 #, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "impossible de lire le fichier des déclenchements « %.250s »"
+msgstr "impossible de lire le fichier des actions différées « %.250s »"
 
 #: lib/triglib.c:487
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "erreur de syntaxe dans le fichier des déclenchements « %.255s »"
+msgstr "erreur de syntaxe dans le fichier des actions différées « %.255s »"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1141,7 +1119,7 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
-"l'enregistrement du fichier des déclenchements indique un nom de paquet "
+"l'enregistrement du fichier des actions différées indique un nom de paquet "
 "illégal pour « %.250s » ( le nom du fichier est « %.250s » ) : %.250s"
 
 #: lib/triglib.c:585
@@ -1150,36 +1128,34 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
-"le fichier des déclenchements CI « %.250s » contient une syntaxe illégale "
-"dans le déclenchement de nom « %.250s » : %.250s"
+"le fichier CI des actions différées « %.250s » contient une syntaxe illégale "
+"dans l'action différée de nom « %.250s » : %.250s"
 
 #: lib/triglib.c:605
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "impossible d'ouvrir le fichier des déclenchements CI « %.250s »"
+msgstr "impossible d'ouvrir le fichier CI des actions différées « %.250s »"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
-msgstr ""
-"le fichier des déclenchements CI contient une directive de syntaxe inconnue"
+msgstr "le fichier CI des actions différées contient une directive de syntaxe inconnue"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
-"le fichier des déclenchements CI contient la directive inconnue « %.250s »"
+msgstr "le fichier CI des actions différées contient la directive inconnue « %.250s »"
 
 #: lib/triglib.c:684
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "impossible de créer le répertoire d'état du déclenchement « %.250s »"
+msgstr "impossible de créer le répertoire d'état des actions différées « %.250s »"
 
 #: lib/triglib.c:687
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr ""
-"impossible de positionner le propriétaire du répertoire d'état du "
-"déclenchement « %.250s »"
+"impossible de positionner le propriétaire du répertoire d'état des "
+"actions différées « %.250s »"
 
 #: lib/utils.c:50
 #, c-format
@@ -1231,8 +1207,7 @@ msgstr "erreur de paramétrage des permissions de « %.255s »"
 #: src/archives.c:341
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
-msgstr ""
-"impossible d'analyser (déréférencer) le lien symbolique existant « %.250s »"
+msgstr "impossible d'analyser (déréférencer) le lien symbolique existant « %.250s »"
 
 #: src/archives.c:362
 #, c-format
@@ -1262,8 +1237,7 @@ msgstr ""
 #: src/archives.c:443
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
-msgstr ""
-"impossible d'analyser « %.255s » (qui était sur le point d'être installé)"
+msgstr "impossible d'analyser « %.255s » (qui était sur le point d'être installé)"
 
 #: src/archives.c:451
 #, c-format
@@ -1277,8 +1251,7 @@ msgstr ""
 #: src/archives.c:457
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
-msgstr ""
-"impossible d'analyser « %.255s » restauré avant d'installer une autre version"
+msgstr "impossible d'analyser « %.255s » restauré avant d'installer une autre version"
 
 #: src/archives.c:492
 #, c-format
@@ -1297,8 +1270,7 @@ msgstr "Remplacés par des fichiers du paquet %s déjà installé...\n"
 
 #: src/archives.c:561
 #, c-format
-msgid ""
-"trying to overwrite directory `%.250s' in package %.250s with nondirectory"
+msgid "trying to overwrite directory `%.250s' in package %.250s with nondirectory"
 msgstr ""
 "tentative de remplacement du répertoire « %.250s » dans le paquet %.250s avec "
 "un élément de type différent"
@@ -1306,8 +1278,7 @@ msgstr ""
 #: src/archives.c:571
 #, c-format
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
-msgstr ""
-"tentative de remplacement de « %.250s », qui appartient aussi au paquet %.250s"
+msgstr "tentative de remplacement de « %.250s », qui appartient aussi au paquet %.250s"
 
 #: src/archives.c:596
 #, c-format
@@ -1438,10 +1409,8 @@ msgstr "l'installation de %.250s"
 
 #: src/archives.c:920
 #, c-format
-msgid ""
-"dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgstr ""
-"dpkg : tentative de déconfiguration de %s, qui serait cassé par %s ...\n"
+msgid "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
+msgstr "dpkg : tentative de déconfiguration de %s, qui serait cassé par %s ...\n"
 
 #: src/archives.c:927
 #, c-format
@@ -1506,8 +1475,7 @@ msgstr ""
 #: src/archives.c:1035
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
-msgstr ""
-"dpkg : le paquet %s requiert une réinstallation, suppression annulée.\n"
+msgstr "dpkg : le paquet %s requiert une réinstallation, suppression annulée.\n"
 
 #: src/archives.c:1042
 #, c-format
@@ -1589,8 +1557,7 @@ msgstr ""
 #: src/archives.c:1276
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
-msgstr ""
-"Mise à jour de %.250s de la version %.250s vers l'ancienne %.250s ignorée.\n"
+msgstr "Mise à jour de %.250s de la version %.250s vers l'ancienne %.250s ignorée.\n"
 
 #: src/cleanup.c:83
 #, c-format
@@ -1673,8 +1640,7 @@ msgstr "Paramétrage de %s (%s) ...\n"
 #: src/configure.c:192
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
-msgstr ""
-"impossible d'analyser le conffile : « %.250s » de la nouvelle distribution"
+msgstr "impossible d'analyser le conffile : « %.250s » de la nouvelle distribution"
 
 #: src/configure.c:202 src/configure.c:441
 #, c-format
@@ -1709,8 +1675,7 @@ msgstr ""
 #: src/configure.c:262
 #, c-format
 msgid "dpkg: %s: warning - failed to remove `%.250s': %s\n"
-msgstr ""
-"dpkg : %s : avertissement - échec de la suppression de « %.250s » : %s\n"
+msgstr "dpkg : %s : avertissement - échec de la suppression de « %.250s » : %s\n"
 
 #: src/configure.c:270
 #, c-format
@@ -1736,8 +1701,7 @@ msgstr ""
 #: src/configure.c:284
 #, c-format
 msgid "Installing new version of config file %s ...\n"
-msgstr ""
-"Installation de la nouvelle version du fichier de configuration %s ...\n"
+msgstr "Installation de la nouvelle version du fichier de configuration %s ...\n"
 
 #: src/configure.c:289
 #, c-format
@@ -1967,8 +1931,7 @@ msgstr "[pas de choix par défaut]"
 
 #: src/configure.c:625
 msgid "error writing to stderr, discovered before conffile prompt"
-msgstr ""
-"erreur d'écriture sur « stderr », constatée avant l'invite de configuration"
+msgstr "erreur d'écriture sur « stderr », constatée avant l'invite de configuration"
 
 #: src/configure.c:632
 msgid "read error on stdin at conffile prompt"
@@ -2151,9 +2114,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
-"Les paquets suivants sont en attente du traitement des « déclenchements » "
+"Les paquets suivants sont en attente du traitement des actions différées "
 "qu'ils\n"
-"ont activé dans d'autres paquets. Ce traitement peut être demandé via « "
+"ont activées dans d'autres paquets. Ce traitement peut être demandé via « "
 "dselect »\n"
 "ou « dpkg --configure --pending » ( ou encore « dpkg --triggers-only » ) : \n"
 
@@ -2163,8 +2126,8 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
-"Les paquets suivants ont activé le traitement de « déclenchements »,\n"
-"mais ce traitement n'est pas terminé. Le traitement de « déclenchements »\n"
+"Les paquets suivants ont activé le traitement d'actions différées,\n"
+"mais ce traitement n'est pas terminé. Le traitement d'actions différées\n"
 "peut être demandé via « dselect » ou « dpkg --configure --pending »\n"
 "( ou encore « dpkg --triggers-only » ) : \n"
 
@@ -2227,18 +2190,15 @@ msgstr ""
 #: src/enquiry.c:376
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
-msgstr ""
-"ne peut satisfaire les pré-dépendances pour %.250s (réclamé par %.250s)"
+msgstr "ne peut satisfaire les pré-dépendances pour %.250s (réclamé par %.250s)"
 
 #: src/enquiry.c:394
 msgid "--print-architecture does not take any argument"
 msgstr "--print-architecture ne prend aucun paramètre"
 
 #: src/enquiry.c:436
-msgid ""
-"--compare-versions takes three arguments: <version> <relation> <version>"
-msgstr ""
-"--compare-versions prend trois paramètres : <version> <relation> <version>"
+msgid "--compare-versions takes three arguments: <version> <relation> <version>"
+msgstr "--compare-versions prend trois paramètres : <version> <relation> <version>"
 
 #: src/enquiry.c:441
 msgid "--compare-versions bad relation"
@@ -2259,8 +2219,7 @@ msgstr ""
 " %s\n"
 
 #: src/errors.c:63
-msgid ""
-"dpkg: failed to allocate memory for new entry in list of failed packages."
+msgid "dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr ""
 "dpkg : impossible d'allouer de la mémoire pour une nouvelle entrée dans la "
 "liste des paquets en échec."
@@ -2287,8 +2246,7 @@ msgstr ""
 
 #: src/errors.c:98
 #, c-format
-msgid ""
-"Package %s is on hold, not touching it.  Use --force-hold to override.\n"
+msgid "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
 msgstr ""
 "Le paquet %s est à garder (on hold), et laissé tel quel. Utilisez --force-"
 "hold pour passer outre.\n"
@@ -2453,12 +2411,11 @@ msgstr "cassé à cause de l'échec de « postinst »"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
-"en attente du traitement du « déclenchement » demandé par un autre paquet"
+msgstr "en attente du traitement de l'action différée demandée par un autre paquet"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr "« déclenchement »"
+msgstr "différé"
 
 #: src/help.c:48
 msgid "installed"
@@ -2540,8 +2497,7 @@ msgstr "dpkg : avertissement - impossible d'analyser %s « %.250s » : %s\n"
 #: src/help.c:414
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
-msgstr ""
-"dpkg - tentative d'exécution du script du nouveau paquet à la place ...\n"
+msgstr "dpkg - tentative d'exécution du script du nouveau paquet à la place ...\n"
 
 #: src/help.c:421
 #, c-format
@@ -2768,7 +2724,7 @@ msgstr ""
 "                                 récente que celle installée\n"
 "  -B|--auto-deconfigure      Installer même si cela entraîne la rupture\n"
 "                                 d'autres paquets\n"
-"  --[no-]triggers            Passe ou force les « déclenchements »\n"
+"  --[no-]triggers            Passe ou force les actions différées\n"
 "                                 invoqués par le traitement\n"
 "  --no-debsig                Ne pas tenter d'authentifier les signatures\n"
 "                                 des paquets\n"
@@ -2892,11 +2848,10 @@ msgstr ""
 "configuration traité\n"
 "     40   depcon            Dépendances et conflits\n"
 "    400   depcondetail      Sortie de nombreuses dépendances/conflits\n"
-"  10000   triggers          Activation et traitement des « déclenchements »\n"
-"  20000   triggersdetail    Affichage détaillé concernant les « "
-"déclenchements »\n"
-"  40000   triggersstupid    Affichage très détaillé concernant les « "
-"déclenchements »\n"
+"  10000   triggers          Activation et traitement des actions différées\n"
+"  20000   triggersdetail    Affichage détaillé des actions différées\n"
+"  40000   triggersstupid    Affichage très détaillé pour les\n"
+"                            actions différées\n"
 "   1000   veryverbose       Beaucoup de radotage à propos du répertoire dpkg/"
 "info\n"
 "   2000   stupidlyverbose   Quantité stupide de radotage\n"
@@ -2918,8 +2873,7 @@ msgstr ""
 #: src/main.c:273
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
-msgstr ""
-"--ignore-depends requiert un nom de paquet légal. « %.250s » ne l'est pas ; %s"
+msgstr "--ignore-depends requiert un nom de paquet légal. « %.250s » ne l'est pas ; %s"
 
 #: src/main.c:289 src/main.c:300
 #, c-format
@@ -3097,9 +3051,8 @@ msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"le paquet « %.250s » n'est pas prêt pour les traitement des « déclenchements "
-"»\n"
-" ( état actuel « %.250s » avec aucun déclenchement en attente )"
+"le paquet « %.250s » n'est pas prêt pour les traitement des actions différées\n"
+" ( état actuel « %.250s » sans action différée en attente)"
 
 #: src/packages.c:334
 #, c-format
@@ -3119,14 +3072,12 @@ msgstr "  La version de %s sur le système est %s.\n"
 #: src/packages.c:375
 #, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr ""
-"  Le paquet « %s » qui fournit « %s » attend le traitement de « déclenchements "
-"».\n"
+msgstr "  Le paquet « %s » qui fournit « %s » attend le traitement d'actions différées.\n"
 
 #: src/packages.c:379
 #, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  Le paquet « %s » attend le traitement de « déclenchements ».\n"
+msgstr "  Le paquet « %s » attend le traitement d'actions différées.\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3235,8 +3186,7 @@ msgstr ""
 
 #: src/processarc.c:188
 msgid "failed to exec dpkg-deb to extract control information"
-msgstr ""
-"impossible d'exécuter dpkg-deb pour l'extraction des informations de contrôle"
+msgstr "impossible d'exécuter dpkg-deb pour l'extraction des informations de contrôle"
 
 #: src/processarc.c:205
 #, c-format
@@ -3246,8 +3196,7 @@ msgstr "Enregistrement de l'information sur %s de %s.\n"
 #: src/processarc.c:214
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
-msgstr ""
-"l'architecture du paquet (%s) ne correspond pas à celle du système (%s)"
+msgstr "l'architecture du paquet (%s) ne correspond pas à celle du système (%s)"
 
 #: src/processarc.c:269
 #, c-format
@@ -3281,8 +3230,7 @@ msgstr "Dépaquetage de %s (à partir de %s) ...\n"
 #: src/processarc.c:323
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
-msgstr ""
-"le nom du conffile (commençant par « %.250s ») est trop long (>%d caractères)"
+msgstr "le nom du conffile (commençant par « %.250s ») est trop long (>%d caractères)"
 
 #: src/processarc.c:376
 #, c-format
@@ -3316,8 +3264,7 @@ msgstr "Dépaquetage de la mise à jour de %.250s ...\n"
 
 #: src/processarc.c:575
 msgid "unable to exec dpkg-deb to get filesystem archive"
-msgstr ""
-"impossible d'exécuter dpkg-deb pour obtenir l'archive du système de fichiers"
+msgstr "impossible d'exécuter dpkg-deb pour obtenir l'archive du système de fichiers"
 
 #: src/processarc.c:589
 msgid "error reading dpkg-deb tar output"
@@ -3371,8 +3318,7 @@ msgstr ""
 #: src/processarc.c:744
 #, c-format
 msgid "dpkg: warning - unable to %s old file `%%.250s': %%s\n"
-msgstr ""
-"dpkg : avertissement - impossible %s l'ancien fichier « %%.250s » : %%s\n"
+msgstr "dpkg : avertissement - impossible %s l'ancien fichier « %%.250s » : %%s\n"
 
 #: src/processarc.c:780 src/processarc.c:1028 src/remove.c:297
 msgid "cannot read info directory"
@@ -3428,8 +3374,7 @@ msgstr ""
 #: src/processarc.c:844
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
-msgstr ""
-"impossible d'installer le nouveau fichier info « %.250s » comme « %.250s »"
+msgstr "impossible d'installer le nouveau fichier info « %.250s » comme « %.250s »"
 
 #: src/processarc.c:1007
 #, c-format
@@ -3494,8 +3439,7 @@ msgstr "détournement localement en : %s\n"
 
 #: src/query.c:250
 msgid "--search needs at least one file name pattern argument"
-msgstr ""
-"--search a besoin d'au moins un motif de nom de fichier comme paramètre"
+msgstr "--search a besoin d'au moins un motif de nom de fichier comme paramètre"
 
 #: src/query.c:278
 #, c-format
@@ -3505,8 +3449,7 @@ msgstr "dpkg : %s introuvable.\n"
 #: src/query.c:316
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
-msgstr ""
-"Le paquet « %s » n'est pas installé et aucune information n'est disponible.\n"
+msgstr "Le paquet « %s » n'est pas installé et aucune information n'est disponible.\n"
 
 #: src/query.c:325
 #, c-format
@@ -3550,8 +3493,7 @@ msgstr ""
 #: src/query.c:455
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
-msgstr ""
-"Outil « %s » d'interrogation du programme de gestion de paquets Debian\n"
+msgstr "Outil « %s » d'interrogation du programme de gestion de paquets Debian\n"
 
 #: src/query.c:474
 #, c-format
@@ -3625,8 +3567,7 @@ msgstr ""
 
 #: src/remove.c:95
 #, c-format
-msgid ""
-"dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"
+msgid "dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"
 msgstr ""
 "dpkg - avertissement : requête ignorée : suppression de %.250s, qui n'est "
 "pas installé.\n"
@@ -3812,9 +3753,7 @@ msgstr "Taper « dpkg-trigger --help » pour obtenir de l'aide."
 #: src/trigcmd.c:72
 #, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr ""
-"Outil « %s » de déclenchements (« triggers ») du programme de gestion de paquets "
-"Debian\n"
+msgstr "Outil d'actions différées (« triggers ») du paquet Debian %s\n"
 
 #: src/trigcmd.c:86
 #, c-format
@@ -3823,7 +3762,7 @@ msgid ""
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Syntaxe : %s [<options> ...] <nom-déclenchements (trigger)>\n"
+"Syntaxe : %s [<options> ...] <nom-action-différée>\n"
 "       %s [<options> ...] <commande>\n"
 "\n"
 
@@ -3836,8 +3775,8 @@ msgid ""
 "\n"
 msgstr ""
 "Commandes:\n"
-"  --check-supported                Vérifie que la version de dpkg accepte "
-"les déclenchements (« triggers ») » .\n"
+"  --check-supported                Vérifie que la version de dpkg accepte\n"
+"                                   les actions différées (« triggers »).\n"
 "\n"
 
 #: src/trigcmd.c:105
@@ -3855,26 +3794,26 @@ msgid ""
 msgstr ""
 "Options:\n"
 "  --admindir=<répertoire>           Utilise <répertoire> au lieu de « %s ».\n"
-"  --by-package=<paquet>           Passe outre le traitement des « "
-"déclenchements (triggers)»\n"
-"                                     (normalement commandité par dpkg).\n"
-"  --no-await                       Les paquets n'attendent plus le "
-"traitement des déclenchements (« triggers »).\n"
-"  --no-act                         Pour test - pour le moment n'opère aucun "
-"changement.\n"
+"  --by-package=<paquet>             Passe outre le traitement des actions\n"
+"                                    différées (« triggers »)\n"
+"                                    (normalement commandité par dpkg).\n"
+"  --no-await                        Les paquets n'attendent plus le\n"
+"                                    traitement des actions différées\n"
+"  --no-act                          Pour test - pour le moment, n'opère\n"
+"                                    aucun changement.\n"
 "\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
 msgstr ""
-"%s : répertoire pour les données de « déclenchements (triggers) » pas encore "
+"%s : répertoire pour les données d'actions différées (« triggers ») pas encore "
 "créé \n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr "%s : registre des « déclenchements (trigger) » pas encore présent\n"
+msgstr "%s : registre des actions différées (« triggers ») pas encore présent\n"
 
 #: src/trigcmd.c:190
 msgid "dpkg-trigger --check-supported takes no arguments"
@@ -3883,8 +3822,8 @@ msgstr "« dpkg-trigger --check-supported » ne prend pas de paramètre"
 #: src/trigcmd.c:195
 msgid "dpkg-trigger takes one argument, the trigger name"
 msgstr ""
-"« dpkg-trigger » a besoin d'un seul paramètre , le nom du « déclenchement "
-"(trigger) »"
+"« dpkg-trigger » a besoin d'un seul paramètre , le nom de l'action différée "
+"(« trigger »)"
 
 #: src/trigcmd.c:200
 msgid ""
@@ -3903,7 +3842,7 @@ msgstr "« dpkg-trigger » : nom de paquet illégal « %.250s » : « %.250s »"
 #, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
 msgstr ""
-"« dpkg-trigger » : nom de « déclenchement (trigger) » invalide « %.250s » : « "
+"« dpkg-trigger » : nom d'action différée non valable « %.250s » : « "
 "%.250s »"
 
 #: src/trigproc.c:230
@@ -3912,7 +3851,7 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
-"« %s » : boucle détecté durant le traitement des « déclenchements » :\n"
+"« %s » : boucle détectée durant le traitement des actions différées :\n"
 " listes des paquets qui en sont responsables (normalement) :\n"
 
 #: src/trigproc.c:238
@@ -3922,17 +3861,16 @@ msgid ""
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
 "\n"
-" paquets bloqués par le traitement impossible de « déclenchements » requis :\n"
+" paquets bloqués par le traitement impossible d'actions différées requises :\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
-"bloqué en boucle sur le traitement des « déclenchements (triggers) », abandon"
+msgstr "bloqué en boucle sur le traitement des actions différées (« triggers »), abandon"
 
 #: src/trigproc.c:288
 #, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "Traitement des « déclenchements (triggers) » pour « %s »...\n"
+msgstr "Traitement des actions différées (« triggers ») pour « %s »...\n"
 
 #: src/update.c:44
 #, c-format
@@ -3946,8 +3884,7 @@ msgstr "--%s a besoin d'exactement un fichier « Packages »"
 
 #: src/update.c:57
 msgid "unable to access dpkg status area for bulk available update"
-msgstr ""
-"impossible d'accéder à la zone des états de dpkg pour une mise à jour massive"
+msgstr "impossible d'accéder à la zone des états de dpkg pour une mise à jour massive"
 
 #: src/update.c:59
 msgid "bulk available update requires write access to dpkg status area"
@@ -3958,14 +3895,12 @@ msgstr ""
 #: src/update.c:66
 #, c-format
 msgid "Replacing available packages info, using %s.\n"
-msgstr ""
-"Remplacement de l'information sur les paquets disponibles, en utilisant %s.\n"
+msgstr "Remplacement de l'information sur les paquets disponibles, en utilisant %s.\n"
 
 #: src/update.c:69
 #, c-format
 msgid "Updating available packages info, using %s.\n"
-msgstr ""
-"Mise à jour de l'information sur les paquets disponibles, en utilisant %s.\n"
+msgstr "Mise à jour de l'information sur les paquets disponibles, en utilisant %s.\n"
 
 #: src/update.c:94
 #, c-format
@@ -4031,8 +3966,7 @@ msgstr ""
 #: dpkg-deb/build.c:250
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
-msgstr ""
-"avertissement, « %s » contient le champ « %s » défini par l'utilisateur\n"
+msgstr "avertissement, « %s » contient le champ « %s » défini par l'utilisateur\n"
 
 #: dpkg-deb/build.c:256
 #, c-format
@@ -4054,8 +3988,7 @@ msgstr ""
 #: dpkg-deb/build.c:286
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
-msgstr ""
-"le script « %.50s » du responsable n'est pas un simple fichier ou un lien"
+msgstr "le script « %.50s » du responsable n'est pas un simple fichier ou un lien"
 
 #: dpkg-deb/build.c:288
 #, c-format
@@ -4077,8 +4010,7 @@ msgstr "« fgets » renvoie une chaîne vide en lisant les conffiles"
 
 #: dpkg-deb/build.c:304
 #, c-format
-msgid ""
-"warning, conffile name `%.50s...' is too long, or missing final newline\n"
+msgid "warning, conffile name `%.50s...' is too long, or missing final newline\n"
 msgstr ""
 "avertissement, le nom du conffile « %.50s... » est trop long, ou il manque le "
 "saut de ligne final\n"
@@ -4184,8 +4116,7 @@ msgstr "impossible d'exécuter « find »"
 
 #: dpkg-deb/build.c:459 dpkg-deb/build.c:466
 msgid "failed to write filename to tar pipe (data)"
-msgstr ""
-"l'écriture d'un nom de fichier à travers un tube tar (« data ») a échoué"
+msgstr "l'écriture d'un nom de fichier à travers un tube tar (« data ») a échoué"
 
 #: dpkg-deb/build.c:489
 #, c-format
@@ -4353,8 +4284,7 @@ msgstr "`%.255s » n'est pas une archive de format Debian"
 
 #: dpkg-deb/extract.c:255
 msgid "failed to open pipe descriptor `1' in paste"
-msgstr ""
-"échec d'ouverture de descripteur de tube (« pipe ») « 1 » lors du collage"
+msgstr "échec d'ouverture de descripteur de tube (« pipe ») « 1 » lors du collage"
 
 #: dpkg-deb/extract.c:257
 msgid "failed to write to gzip -dc"
@@ -4366,8 +4296,7 @@ msgstr "impossible de fermer « gzip -dc »"
 
 #: dpkg-deb/extract.c:265
 msgid "failed to syscall lseek to files archive portion"
-msgstr ""
-"échec de l'appel système « lseek » pour la portion d'archive des fichiers"
+msgstr "échec de l'appel système « lseek » pour la portion d'archive des fichiers"
 
 #: dpkg-deb/extract.c:273
 msgid "failed to write to pipe in copy"
@@ -4454,8 +4383,7 @@ msgstr "info_spew"
 #: dpkg-deb/info.c:110
 #, c-format
 msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
-msgstr ""
-"dpkg-deb : « %.255s » ne contient pas de composant de contrôle « %.255s »\n"
+msgstr "dpkg-deb : « %.255s » ne contient pas de composant de contrôle « %.255s »\n"
 
 #: dpkg-deb/info.c:114
 #, c-format
@@ -4642,8 +4570,7 @@ msgstr "le fichier « %.250s » est corrompu - %.250s manquant"
 #: dpkg-split/info.c:67
 #, c-format
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
-msgstr ""
-"le fichier « %.250s » est corrompu - saut de ligne après %.250s manquant"
+msgstr "le fichier « %.250s » est corrompu - saut de ligne après %.250s manquant"
 
 #: dpkg-split/info.c:91
 msgid "unable to seek back"
@@ -4673,8 +4600,7 @@ msgstr ""
 #: dpkg-split/info.c:124
 #, c-format
 msgid "file `%.250s' is corrupt - bad MD5 checksum `%.250s'"
-msgstr ""
-"le fichier « %.250s » est corrompu - mauvais code de contrôle MD5 « %.250s »"
+msgstr "le fichier « %.250s » est corrompu - mauvais code de contrôle MD5 « %.250s »"
 
 #: dpkg-split/info.c:131
 #, c-format
@@ -4793,14 +4719,12 @@ msgstr "fait\n"
 #: dpkg-split/join.c:84
 #, c-format
 msgid "files `%.250s' and `%.250s' are not parts of the same file"
-msgstr ""
-"les fichiers « %.250s » et « %.250s » ne sont pas des parties du même fichier"
+msgstr "les fichiers « %.250s » et « %.250s » ne sont pas des parties du même fichier"
 
 #: dpkg-split/join.c:89
 #, c-format
 msgid "there are several versions of part %d - at least `%.250s' and `%.250s'"
-msgstr ""
-"il y a plusieurs versions de la partie %d - au moins « %.250s » et « %.250s »"
+msgstr "il y a plusieurs versions de la partie %d - au moins « %.250s » et « %.250s »"
 
 #: dpkg-split/join.c:102
 msgid "--join requires one or more part file arguments"
@@ -4887,8 +4811,7 @@ msgstr "taille de partie beaucoup trop grande ou négative"
 #: dpkg-split/main.c:115
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
-msgstr ""
-"la taille de partie doit être d'au moins %dk (pour autoriser les en-têtes)"
+msgstr "la taille de partie doit être d'au moins %dk (pour autoriser les en-têtes)"
 
 #: dpkg-split/queue.c:69
 #, c-format
@@ -4931,8 +4854,7 @@ msgstr "impossible d'ouvrir un nouveau fichier de dépôt « %.250s »"
 #: dpkg-split/queue.c:161
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
-msgstr ""
-"impossible de changer le nom du fichier de dépôt « %.250s » en « %.250s »"
+msgstr "impossible de changer le nom du fichier de dépôt « %.250s » en « %.250s »"
 
 #: dpkg-split/queue.c:163
 #, c-format
@@ -5001,8 +4923,7 @@ msgstr "--split a besoin d'un nom de fichier source comme paramètre"
 
 #: dpkg-split/split.c:48
 msgid "--split takes at most a source filename and destination prefix"
-msgstr ""
-"--split prend au plus un nom de fichier source et un préfixe de destination"
+msgstr "--split prend au plus un nom de fichier source et un préfixe de destination"
 
 #: dpkg-split/split.c:62
 #, c-format
@@ -5537,8 +5458,7 @@ msgstr "Forçage multiples pour « %s », abandon"
 #: scripts/dpkg-statoverride.pl:208
 #, perl-format
 msgid "cannot open new statoverride file: %s"
-msgstr ""
-"impossible d'ouvrir le nouveau fichier des permissions (statoverride) : %s"
+msgstr "impossible d'ouvrir le nouveau fichier des permissions (statoverride) : %s"
 
 #: scripts/dpkg-statoverride.pl:215
 #, perl-format
@@ -5725,8 +5645,7 @@ msgstr "%s : aucune section, création de la section Miscellaneous."
 #: scripts/install-info.pl:381
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
-msgstr ""
-"%s : pas de section spécifiée pour la nouvelle entrée, placement à la fin"
+msgstr "%s : pas de section spécifiée pour la nouvelle entrée, placement à la fin"
 
 #: scripts/install-info.pl:418
 #, perl-format
@@ -6181,8 +6100,7 @@ msgstr "erreur d'écriture sur la sortie standard : %s"
 #: scripts/update-alternatives.pl:685
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
-msgstr ""
-"Les retours chariot sont interdits dans des fichiers update-alternatives (%s)"
+msgstr "Les retours chariot sont interdits dans des fichiers update-alternatives (%s)"
 
 #: scripts/update-alternatives.pl:690
 #, perl-format
@@ -6209,112 +6127,3 @@ msgstr "impossible d'installer %s en tant que %s : %s"
 msgid "Serious problem: %s"
 msgstr "Problème grave : %s"
 
-#~ msgid "couldn't allocate memory for strdup in findpackage(%s)"
-#~ msgstr ""
-#~ "impossible d'allouer de la mémoire pour « strdup » dans findpackage(%s)"
-
-#~ msgid "failed to allocate buffer in buffer_copy (%s)"
-#~ msgstr "l'allocation d'une mémoire tampon dans « buffer_copy » a échoué (%s)"
-
-#~ msgid "Error allocating memory for cfgfilename"
-#~ msgstr "Erreur d'allocation mémoire pour cfgfilename"
-
-#~ msgid "failed to malloc for info file `%.255s'"
-#~ msgstr "impossible de faire un « malloc » pour le fichier d'info  « %.255s »"
-
-#~ msgid "diversions file has too-long line or EOF [i]"
-#~ msgstr "le fichier des détournements a une ligne trop longue ou EOF [i]"
-
-#~ msgid "read error in diversions [ii]"
-#~ msgstr "erreur de lecture dans les détournements [ii]"
-
-#~ msgid "unexpected EOF in diversions [ii]"
-#~ msgstr "EOF inattendu dans les détournements [ii]"
-
-#~ msgid "fgets gave an empty string from diversions [ii]"
-#~ msgstr "« fgets » a renvoyé une chaîne vide provenant des détournements [ii]"
-
-#~ msgid "diversions file has too-long line or EOF [ii]"
-#~ msgstr "le fichier des détournements a une ligne trop longue ou EOF [ii]"
-
-#~ msgid "read error in diversions [iii]"
-#~ msgstr "erreur de lecture dans les détournements [iii]"
-
-#~ msgid "unexpected EOF in diversions [iii]"
-#~ msgstr "EOF inattendu dans les détournements [iii]"
-
-#~ msgid "fgets gave an empty string from diversions [iii]"
-#~ msgstr ""
-#~ "« fgets » a renvoyé une chaîne vide provenant des détournements [iii]"
-
-#~ msgid "couldn't malloc in execbackend"
-#~ msgstr "Impossible de faire un « malloc » dans « execbackend »"
-
-#~ msgid "couldn't strdup in execbackend"
-#~ msgstr "Impossible de faire un « strdup » dans « execbackend »"
-
-#~ msgid "failed allocating memory for variable `ctrlarea'"
-#~ msgstr "Erreur d'allocation mémoire pour la variable « ctrlarea »"
-
-#~ msgid "Cannot get ENOENT value from %s: %s"
-#~ msgstr "Impossible d'obtenir la valeur ENOENT depuis %s : %s"
-
-#~ msgid "unable to ensure %s nonexistent: %s"
-#~ msgstr "impossible de garantir l'inexistence de %s : %s"
-
-#~ msgid ""
-#~ "warning: %s is supposed to be a slave symlink to\n"
-#~ " %s, or nonexistent; however, readlink failed: %s"
-#~ msgstr ""
-#~ "avertissement : %s est censé être un lien symbolique secondaire vers\n"
-#~ "%s ou ne pas exister ; cependant, échec de readlink : %s"
-
-#~ msgid "warning"
-#~ msgstr "avertissement"
-
-#~ msgid "parse error"
-#~ msgstr "erreur d'analyse syntaxique"
-
-#~ msgid " (package: "
-#~ msgstr " (paquet : "
-
-#~ msgid ""
-#~ "dpkg: regarding %s containing %s:\n"
-#~ " package uses Breaks; not supported in this dpkg\n"
-#~ msgstr ""
-#~ "dpkg : concernant %s contenant %s :\n"
-#~ "ce paquet utilise la relation « Breaks », qui n'est pas gérée dans\n"
-#~ "cette version de dpkg\n"
-
-#~ msgid "unsupported dependency problem - not installing %.250s"
-#~ msgstr "problème de dépendance non gérée : %.250s non installé"
-
-#~ msgid "dpkg: warning - ignoring Breaks !\n"
-#~ msgstr "dpkg : avertissement - relation « Breaks » ignorée !\n"
-
-#~ msgid "diversion by %s"
-#~ msgstr "détourné par %s"
-
-#~ msgid "to"
-#~ msgstr "à"
-
-#~ msgid "from"
-#~ msgstr "de"
-
-#~ msgid "error reading %s"
-#~ msgstr "erreur de lecture sur %s"
-
-#~ msgid "two modes specified: %s and --%s"
-#~ msgstr "deux modes spécifiés : %s et --%s"
-
-#~ msgid "manflag"
-#~ msgstr "manflag"
-
-#~ msgid "%s: failed to exec gzip -dc"
-#~ msgstr "%s : impossible d'exécuter « gzip -dc »"
-
-#~ msgid "%s: failed to exec bzip2 -dc"
-#~ msgstr "%s : impossible d'exécuter « bzip2 -dc »"
-
-#~ msgid "%s: failed to exec bzip2 %s"
-#~ msgstr "%s : échec de l'exécution de bzip2 %s"
