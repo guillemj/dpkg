@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-05-13 05:54+0300\n"
-"PO-Revision-Date: 2008-02-09 12:34+0200\n"
+"PO-Revision-Date: 2008-06-28 18:35+0300\n"
 "Last-Translator: Eddy Petrișor <eddy.petrisor@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -165,7 +165,7 @@ msgstr "nu poate fi examinat directorul cu actualizări „%.255s”"
 #: lib/dbmodify.c:94
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
-msgstr "eșec la ștergerea fișierului cu actualizări încoroporat %.255s"
+msgstr "eșec la ștergerea fișierului cu actualizări încorporate %.255s"
 
 #: lib/dbmodify.c:112 src/archives.c:653 dpkg-deb/build.c:343
 #, c-format
@@ -251,7 +251,7 @@ msgstr "imposibil a activa utilizarea zonelor tampon pentru fișierul de stare"
 #: lib/dump.c:387
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
-msgstr "eșec la scrierea %s înregistrari despre „%.50s” la „%.250s”"
+msgstr "eșec la scrierea înregistrării %s despre „%.50s” în „%.250s”"
 
 #: lib/dump.c:395
 #, c-format
@@ -295,7 +295,7 @@ msgstr ""
 #: lib/ehandle.c:111
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
-msgstr "dpkg: prea multe erori îmbricate pe durata revenirii din eroare !!\n"
+msgstr "dpkg: prea multe erori imbricate pe durata revenirii din eroare !!\n"
 
 #: lib/ehandle.c:186
 msgid "out of memory for new cleanup entry with many arguments"
@@ -395,7 +395,7 @@ msgstr "câmpul „Revision” sau „Package-Revision” folosit este învechit
 
 #: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
-msgstr "valoare pentru „config-version” nepermisă în acest context"
+msgstr "valoare nepermisă pentru câmpul „config-version” în acest context"
 
 #: lib/fields.c:223
 #, c-format
@@ -498,34 +498,34 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternativele („|”) nu sunt permise în câmpul %s"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "valoare pentru „config-version” nepermisă în acest context"
+msgstr "valoare nepermisă pentru câmpul „triggers-pending” în acest context"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "câmpul „%s”, nume nevalid de pachet „%.255s”: %s"
+msgstr "nume de declanșator nevalid: „%.255s”: %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "declanșator duplicat în așteptare „%.255s”"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "valoare nepermisă pentru câmpul „status” în acest context"
+msgstr "valoare nepermisă pentru câmpul „triggers-awaited” în acest context"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "nume ilegal de pachet la linia %d: %.250s"
+msgstr "nume nelegal de pachet în declanșatorul așteptat „%.255s”: %s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "lista fișierelor pentru pachetul „%.250s”"
+msgstr ""
+"pachet declanșator așteptat în mod duplicat lista5fișierelor pentru pachetul "
+"„%.250s”"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -563,9 +563,8 @@ msgid "realloc failed (%ld bytes)"
 msgstr "eșec la realloc (%ld octeți)"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "eșec la crearea directorului"
+msgstr "eșec la alocarea memoriei"
 
 #: lib/mlib.c:85
 #, c-format
@@ -831,20 +830,23 @@ msgstr "Configured-Version pentru pachet cu Status inadecvat"
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "pachetul are starea %s, dar declanșatorii sunt așteptați"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
+"pachetul are starea triggers-awaited, dar nu se așteaptă nici un declanșator"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "pachetul are starea %s, dar declanșatorii sunt în așteptare"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
+"pachetul are starea triggers-pending, dar nu există nici un declanșator în "
+"așteptare"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -945,69 +947,79 @@ msgstr "Lipsește paranteza de închidere în format\n"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
+"nume de pachet nevalid „%.250s” în fișierul de declanșatori amânați „%.250s”"
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "fișier de înlocuire a pemisiunilor implicite „%.250s”"
+msgstr "fișier trunchiat de declanșatori amânați „%.250s”"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"eroare de sintaxă în fișierul de declanșatori amânați „%.250s” la caracterul "
+"„%s”%s"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "imposibil a deschide fișierul sursă „%.250s”"
+msgstr ""
+"imposibil a deschide/crea fișierul de blocare pentru declanșatori  sursă "
+"„%.250s”"
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "imposibil a debloca %s: %s"
+msgstr "imposibil a bloca zona declanșatorilor%s: %s"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "imposibilitate de stat a altor fișiere noi „%.250s”"
+msgstr ""
+"nu s-a putut realiza „stat” asupra fișierul de declanșatori amânați  noi "
+"„%.250s”"
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "imposibil a deschide fișierul sursă „%.250s”"
+msgstr "imposibil a deschide fișierul declanșatorilor amânați „%.250s”"
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "imposibil a deschide noul fișier depozit „%.250s”"
+msgstr "imposibil a deschide/crea noul fișier de declanșatori amânați „%.250s”"
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "eroare la citirea lui %s din fișierul %.255s"
+msgstr "eroare la citirea din fișierul declanșatorilor amânați „%.250s”"
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "imposibil a deschide noul fișier depozit „%.250s”"
+msgstr ""
+"imposibil a scrie  deschide noul fișier al declanșatorilor amânați „%.250s”"
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "imposibil a deschide noul fișier depozit „%.250s”"
+msgstr ""
+"imposibil a închide noul fișier al declanșatorilor amânați depozit „%.250s”"
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "imposibil a instala noua versiune a lui „%.255s”"
+msgstr ""
+"imposibil a instala noul fișier al declanșatorilor amânați  versiune a lui "
+"„%.255s”"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "nu se permit nume vide de declanșatori"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "numele de declanșator conține un caracter nevalid"
 
 #: lib/triglib.c:256
 #, c-format
@@ -1015,16 +1027,21 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
+"sintaxă nevalidă sau necunoscută în numele declanșatorului „%.250s” (în "
+"interesele în declanșatori ale pachetului „%.250s”)"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "imposibil a deschide noul fișier depozit „%.250s”"
+msgstr ""
+"imposibil a deschide noul fișier al intereselor în declanșatori „%.250s”"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "imposibil a citi fișierul volum „%.250s”"
+msgstr ""
+"imposibil a reface fișierul intereselor în declanșatori fișierul volum "
+"„%.250s”"
 
 #: lib/triglib.c:325
 #, c-format
@@ -1032,52 +1049,60 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"eroare de sintaxă în fișierul de interese în declanșatori „%.250s”; nume "
+"nelegal de pachet „%.250s”: %.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "imposibilitate de stat a altor fișiere noi „%.250s”"
+msgstr ""
+"imposibil a crea a un nou fișier al intereselor în declanșatori „%.250s”"
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "imposibilitate de stat a altor fișiere noi „%.250s”"
+msgstr ""
+"imposibil a scrie noul fișier al intereselor în declanșatori a altor fișiere "
+"noi „%.250s”"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "imposibil a instala noua versiune a lui „%.255s”"
+msgstr ""
+"imposibil a instala noul fișier al intereselor în declanșatori „%.255s”"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
-msgstr "imposibil a instala noul fișier de informații „%.250s” ca „%.250s”"
+msgstr ""
+"interes declanșat de un fișier duplicat pentru numele de fișier „%.250s” și "
+"pachetul „%.250s”"
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "imposibil a deschide noul fișier depozit „%.250s”"
+msgstr "imposibil a crea noul fișier de declanșatori „%.250s”"
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "imposibil a deschide noul fișier depozit „%.250s”"
+msgstr "imposibil a scrie noul fișier de declanșatori „%.250s”"
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr "imposibil a instala noul fișier de informații „%.250s” ca „%.250s”"
+msgstr "imposibil a instala noul fișier de declanșatori ca „%.250s”"
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "imposibil a citi fișierul volum „%.250s”"
+msgstr "imposibil a citi fișierul de declanșatori „%.250s”"
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "eroare de citire în fișierul de configurare „%.255s”"
+msgstr "eroare de sintaxă în fișierul de declanșatori „%.255s”"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1085,6 +1110,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"înregistrarea declanșatorilor bazați pe fișier menționează un nume nelegal "
+"de pachet „%.250s” (pentru interes în fișierul „%.250s”): %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1092,50 +1119,55 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"fișierul de declanșatori ci „%.250s” conține sintaxă nelegală în numele "
+"declanșatorului „%.250s”: %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "imposibil a deschide fișierul sursă „%.250s”"
+msgstr "imposibil a deschide fișierul de declanșatori ci „%.250s”"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
+"fișierul de declanșatori ci conține o sintaxă necunoscută pentru directive"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
+msgstr "fișierul de declanșatori ci conține o directivă necunoscută „%.250s”"
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "imposibil a citi directorul depozit „%.250s”"
+msgstr "imposibil a crea directorul de stări ale declanșatorilor „%.250s”"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "imposibil a citi directorul depozit „%.250s”"
+msgstr ""
+"imposibil a ajusta apartenența directorului de stări ale declanșatorilor "
+"„%.250s”"
 
 #: lib/utils.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "read error in `%.250s'"
-msgstr "eroare de citire în %.250s"
+msgstr "eroare de citire în „%.250s”"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "șir gol de la fgets din redirectări [i]"
+msgstr "fgets a dat un șir gol din „%.250s” din redirectări [i]"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr "fișierul „%.250s” este corupt - lipsește linie nouă după %.250s"
+msgstr "linie prea lungă sau fără sfârșit de linie în fișierul %.250s"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "sfârșit de fișier neașteptat în %.250s"
+msgstr "sfârșit de fișier neașteptat la citirea lui „%.250s”"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1167,9 +1199,7 @@ msgstr "eroare la setarea permisiunilor pentru „%.255s”"
 #: src/archives.c:341
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
-msgstr ""
-"eșec la citirea informațiilor (dereferire) despre legătura simbolică "
-"existentă „%.250s”"
+msgstr "eșec la stat (dereferire) pentru legătura simbolică existentă „%.250s”"
 
 #: src/archives.c:362
 #, c-format
@@ -1177,8 +1207,8 @@ msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
-"eșec la citirea informațiilor (dereferire) despre ținta legăturii simbolice "
-"nou propusă „%.250s” pentru legătura simbolică „%.250s”"
+"eșec la stat (dereferire) pentru ținta legăturii simbolice nou propuse "
+"„%.250s” pentru legătura simbolică „%.250s”"
 
 #: src/archives.c:414
 #, c-format
@@ -1379,7 +1409,8 @@ msgstr "instalarea lui „%.255s”"
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
 msgstr ""
-"dpkg: se ia în considerare deconfigurrea lui %s care va fi corupt de %s ...\n"
+"dpkg: se ia în considerare deconfigurarea lui %s care va fi corupt de %"
+"s ...\n"
 
 #: src/archives.c:927
 #, c-format
@@ -1407,7 +1438,7 @@ msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
-"instalarea lui %.250s ar duce la corupurea lui %.250s, iar\n"
+"instalarea lui %.250s ar duce la coruperea lui %.250s, iar\n"
 " deconfigurarea nu este permisă (--auto-deconfigure ar putea fi de ajutor)"
 
 #: src/archives.c:949
@@ -1833,7 +1864,7 @@ msgstr " ==> Distribuitorul pachetului a furnizat o versiune actualizată.\n"
 #: src/configure.c:573
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
-msgstr "     Versiunea din pachet estea aceiași ca la ultima instalare.\n"
+msgstr "     Versiunea din pachet este aceiași ca la ultima instalare.\n"
 
 #: src/configure.c:580
 #, c-format
@@ -2012,9 +2043,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (versiunea %.250s) este pe cale să fie instalat.\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (versiune %.250s) este %s.\n"
+msgstr "  %.250s (versiunea %.250s) este prezent și %s.\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -2022,9 +2053,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s furnizează %.250s și este pe cale să fie instalat.\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %.250s furnizează %.250s și este %s.\n"
+msgstr "  %.250s furnizează %.250s și este prezent și %s.\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2078,6 +2109,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Următoarele pachete așteptă procesarea unor declanșatori pe care i-au\n"
+"activat în alte pachete. Această procesare poate fi cerută folosind\n"
+"dselect sau dpkg --configure --pending (sau dpkg --triggers-only):\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2085,6 +2119,9 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Următoarele pachete au fost declanșate, dar procesarea declanșatorilor nu\n"
+"s-a efectuat încă. Procesarea declanșatorilor poate fi cerută folosind\n"
+"dselect sau dpkg --configure --pending (sau dpkg --triggers-only):\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2311,7 +2348,7 @@ msgstr "eșec la fstat asupra fișierului de înlocuire a permisiunilor implicit
 #: src/filesdb.c:365
 #, c-format
 msgid "statoverride file `%.250s'"
-msgstr "fișier de înlocuire a pemisiunilor implicite „%.250s”"
+msgstr "fișier de înlocuire a permisiunilor implicite „%.250s”"
 
 #: src/filesdb.c:378
 msgid "statoverride file contains empty line"
@@ -2347,9 +2384,8 @@ msgid "not installed but configs remain"
 msgstr "neinstalat dar configurarea rămâne"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "deteriorat datorită eșecului la îndepărtare"
+msgstr "deteriorat datorită eșecului la îndepărtare sau instalare"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2361,11 +2397,11 @@ msgstr "deteriorat datorită eșecului postinstalării"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "așteaptă procesarea declanșatorilor de către un alt pachet"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "declanșat"
 
 #: src/help.c:48
 msgid "installed"
@@ -2411,9 +2447,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "imposibil a stabili drepturile de execuție la „%.250s”"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "imposibil a citi starea în vsnprintf"
+msgstr "setenv imposibil pentru scriptul de întreținere"
 
 #: src/help.c:317
 #, c-format
@@ -2493,7 +2528,7 @@ msgstr "eșec la execuția rm pentru curățare"
 #: src/main.c:46
 #, c-format
 msgid "Debian `%s' package management program version %s.\n"
-msgstr "Debian „%s” versiunea programului de managment al pachetelor %s.\n"
+msgstr "Debian „%s” versiunea programului de management al pachetelor %s.\n"
 
 #: src/main.c:48 src/query.c:457 src/trigcmd.c:76 dpkg-deb/main.c:50
 #: dpkg-split/main.c:43
@@ -2503,7 +2538,7 @@ msgid ""
 "later for copying conditions. There is NO warranty.\n"
 "See %s --license for copyright and license details.\n"
 msgstr ""
-"Acesta este soft liber; vezi GNU General Public Licence versiunea 2 sau\n"
+"Acesta este soft liber; vezi GNU General Public License versiunea 2 sau\n"
 "ulterioară pentru condițiile de copiere. NU există NICI o garanție.\n"
 "Vezi %s --license pentru detaliile licenței și drepturi de autor.\n"
 
@@ -2517,7 +2552,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2547,38 +2582,38 @@ msgid ""
 "\n"
 msgstr ""
 "Comenzi:\n"
-"  -i|--install      <nume fișier .deb> ... | -R|--recursive <dir> ...\n"
-"  --unpack          <nume fișier .deb> ... | -R|--recursive <dir> ...\n"
-"  -A|--record-avail <nume fișier .deb> ... | -R|--recursive <dir> ...\n"
+"  -i|--install      <nume fișier .deb> ... | -R|--recursive <director> ...\n"
+"  --unpack          <nume fișier .deb> ... | -R|--recursive <director> ...\n"
+"  -A|--record-avail <nume fișier .deb> ... | -R|--recursive <director> ...\n"
 "  --configure       <pachet> ...    | -a|--pending\n"
+"  --triggers-only   <pachet> ...    | -a|--pending\n"
 "  -r|--remove       <pachet> ...    | -a|--pending\n"
 "  -P|--purge        <pachet> ...    | -a|--pending\n"
-"  --get-selections [<șablon> ...]   Afișează lista selecțiilor la ieșirea "
-"sandard.\n"
-"  --set-selections                  Activează selecțiile pachetelor de la "
-"intrarea standard.\n"
+"  --get-selections [<șablon> ...]   Afișează lista selecțiilor la ieșirea\n"
+"                                    standard.\n"
+"  --set-selections                  Activează selecțiile pachetelor de la\n"
+"                                    intrarea standard.\n"
 "  --clear-selections                Deselectează orice pachet neesențial.\n"
-"  --update-avail <fișier-Packages>  Înlocuiește informațiile pachetelor "
-"disponibile.\n"
+"  --update-avail <fișier-Packages>  Înlocuiește informațiile pachetelor\n"
+"                                    disponibile.\n"
 "  --merge-avail <fișier-Packages>   Fuzionează cu informațiile din fișier.\n"
-"  --clear-avail                     Șterge informațiile disponibile "
-"existente.\n"
-"  --forget-old-unavail              Uită de pachetele neinstalate și "
-"indisponibile\n"
+"  --clear-avail                     Șterge informațiile disponibile\n"
+"                                    existente.\n"
+"  --forget-old-unavail              Uită de pachetele neinstalate și\n"
+"                                    indisponibile\n"
 "  -s|--status <pachet> ...          Afișează detalii despre starea "
 "pachetului\n"
-"  -p|--print-avail <pachet> ...     Afișează detalii despre versiunile "
-"disponibile\n"
-"  -L|--listfiles <pachet> ...       Afișează fișierele aparținând pachetului"
-"(elor)\n"
+"  -p|--print-avail <pachet> ...     Afișează detalii despre versiunile \n"
+"                                    disponibile\n"
+"  -L|--listfiles <pachet> ...       Afișează fișierele aparținând\n"
+"                                    pachetului(pachetelor)\n"
 "  -l|--list [<șablon> ...]          Afișează concis pachetele\n"
-"  -S|--search <șablon> ...          Caută pachetul(ele) care conțin fișierul"
-"(ele)\n"
-"  -C|--audit                        Verifică dacă există pachet(e) "
-"deteriorate\n"
+"  -S|--search <șablon> ...          Caută pachetul(pachetele) care conțin\n"
+"                                    fișierul(fișierele)\n"
+"  -C|--audit                        Verifică dacă există pachet(pachete)\n"
+"                                    deteriorate\n"
 "  --print-architecture              Afișează arhitectura dpkg\n"
-"  --compare-versions <a> <op> <b>   Compară numerele de versiune - vezi mai "
-"jos\n"
+"  --compare-versions <a> <op> <b>   Compară numerele de versiune - vezi jos\n"
 "  --force-help                      Ajutor pentru forțare.\n"
 "  -Dh|--debug=help                  Ajutor pentru depanare\n"
 "\n"
@@ -2622,7 +2657,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2656,28 +2691,31 @@ msgstr ""
 "Opțiuni:\n"
 "  --admindir=<director>      Folosește <director> în loc de %s.\n"
 "  --root=<director>          Instalează pornind de la o altă rădăcină.\n"
-"  --instdir=<director>       Schimbă directorul de instalare fără schimbarea "
-"directorului admin.\n"
-"  -O|--selected-only         Sari peste pachetele neselectate pentru "
-"instalare/actualizare.\n"
-"  -E|--skip-same-version     Sari peste pachetele a căror versiune este "
-"instalată.\n"
-"  -G|--refuse-downgrade      Sari peste pachetele cu versiune anterioară "
-"celor instalate.\n"
+"  --instdir=<director>       Schimbă directorul de instalare fără "
+"schimbarea\n"
+"                             directorului admin.\n"
+"  -O|--selected-only         Sari peste pachetele neselectate pentru \n"
+"                             instalare/actualizare.\n"
+"  -E|--skip-same-version     Sari peste pachetele a căror versiune este\n"
+"                             instalată.\n"
+"  -G|--refuse-downgrade      Sari peste pachetele cu versiune anterioară\n"
+"                             celor instalate.\n"
 "  -B|--auto-deconfigure      Instalează chiar dacă s-ar strica alte "
 "pachete.\n"
+"  --[no-]triggers            Sare peste, sau forțează, procesarea\n"
+"                             consecutivă a declanșatorilor. processing.\n"
 "  --no-debsig                Nu încerca verificarea semnăturii pachetelor.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Doar spune ce s-ar face - fără să se facă\n"
-"  -D|--debug=<octal>         Activează depanarea - vezi -Dhelp sau --"
-"debug=help\n"
-"  --status-fd <n>            Trimite actualizarea legată de schimbarea "
-"stării la descriptorul de fișier <n>\n"
-"  --log=<nume fișier>            Jurnalizează schimbările de stare și "
-"acțiunile în <nume fișier>\n"
+"  -D|--debug=<octal>         Activează depanarea - vezi -Dhelp sau\n"
+"                             --debug=help\n"
+"  --status-fd <n>            Trimite actualizarea legată de schimbarea\n"
+"                             stării la descriptorul de fișier <n>\n"
+"  --log=<nume fișier>        Jurnalizează schimbările de stare și acțiunile\n"
+"                             în <nume fișier>\n"
 "  --ignore-depends=<pachet>,...  Ignoră dependențele care implică <pachet>\n"
-"  --force-...                    Forțează nerezolvarea problemelor - vezi --"
-"force-help\n"
+"  --force-...                    Forțează nerezolvarea problemelor - vezi \n"
+"                                 --force-help\n"
 "  --no-force-...|--refuse-...    Oprește-te la apariția unei probleme\n"
 "  --abort-after <n>              Abandonează după apariția a <n> erori\n"
 "\n"
@@ -2745,7 +2783,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "Avertisment: opțiune învechită „--%s”\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2780,6 +2818,10 @@ msgstr ""
 "configurare\n"
 "     40   depcon            Dependențe și conflicte\n"
 "    400   depcondetail      Multe detalii despre dependențe și conflicte\n"
+"  10000   triggers          Activarea declanșatorilor și procesarea lor\n"
+"rigger activation and procesMulte detalii despre declanșatori  Lots of "
+"output regarding trigCantități stupide de informații legate de\n"
+"                            declanșatorimounts of output regarding triggers\n"
 "   1000   veryverbose       Mult mai multe detalii ex. director dpkg/info\n"
 "   2000   stupidlyverbose   Cantități absurde de informații\n"
 "\n"
@@ -2809,7 +2851,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "întreg nevalid pentru --%s: „%.250s”"
 
 #: src/main.c:320
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2881,16 +2923,16 @@ msgstr ""
 "nici o opțiune implicită,\n"
 "                           veți fi întrebat doar dacă opțiunea confold\n"
 "                           sau confnew este de asemenea dată\n"
-"  confmiss [!]           Instalează întotdeauna fișierele de configurare "
-"lipsă\n"
+"  confmiss [!]           Instalează întotdeauna fișierele de configurare\n"
+"                         lipsă\n"
+"  breaks [!]             Instalează chiar dacă ar corupe un alt pachet\n"
 "  conflicts [!]          Permite instalarea de pachete conflictuale\n"
 "  architecture [!]       Procesează chiar pachete cu arhitectură greșită\n"
 "  overwrite-dir [!]      Rescrie directorul unui pachet cu fișierul altuia\n"
 "  remove-reinstreq [!]   Șterge pachetele ce au nevoie de instalare\n"
 "  remove-essential [!]   Șterge un pachet esențial\n"
 "\n"
-"AVERTISMENT - folosirea opțiunilor marcate cu [!] poate deteriora grav "
-"sistemul dvs.\n"
+"AVERTISMENT - opțiunile marcate cu [!] pot deteriora grav instalarea.\n"
 "Forțarea opțiunilor marcate cu [*] sunt implicit activate.\n"
 
 #: src/main.c:366
@@ -2969,13 +3011,13 @@ msgstr ""
 " în această execuție! Va fi configurat doar o dată.\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"pachetul %.250s nu este pregătit pentru configurare\n"
-" nu poate fi configurat (starea curentă „%.250s”)"
+"pachetul %.250s nu este pregătit pentru procesarea declanșatorilor\n"
+" (starea curentă e „%.250s” fără declanșatori în așteptare)"
 
 #: src/packages.c:334
 #, c-format
@@ -2993,14 +3035,15 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "  Versiunea lui %s în sistem este %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  Pachetul %s care furnizează %s va fi șters.\n"
+msgstr ""
+"  Pachetul %s care furnizează %s așteaptă procesarea declanșatorilor.\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  Pachetul %s va fi șters.\n"
+msgstr "  Pachetul %s așteaptă procesarea declanșatorilor.\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3310,7 +3353,6 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "imposibil a șterge fișierul cu informații de control dispărut „%.250s”"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3318,10 +3360,10 @@ msgid ""
 "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
 "uppercase=bad)\n"
 msgstr ""
-"Dorit=Necunoscut/Instalează/Șterge/Curăță/Păstrează\n"
-"| Stare=Nu/Instalat/Fișiere-config/Despachetat/Eșec-config/Jumătate-"
-"instalat\n"
-"|/ Err?=(nimic)/Păstrat/Reinst-necesar/X=ambele-probleme (Stare,Err: "
+"Dorit=necUnoscut/Instalează/șteRge/curăță(P)/păstrează(H)\n"
+"| St=Ne/Inst/fișCfg/desfăcUt/eșec-cFg/jum-inst(H)/așteaptă-dec(W)/dec-în-"
+"aștepT\n"
+"|/ Ero?=(nimic)/păstrat(H)/Reinst-nec/X=ambele-probl (St,Ero: "
 "majuscule=rău)\n"
 
 #: src/query.c:129
@@ -3674,24 +3716,23 @@ msgid "--clear-selections does not take any argument"
 msgstr "--clear-selections nu ia nici un argument"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Tastați dpkg-split --help pentru ajutor."
+msgstr "Tastați dpkg-trigger --help pentru ajutor despre acest utilitar."
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr ""
-"Debian „%s” unealtă de interogare a programului de management al pachetelor\n"
+msgstr "Debian %s - unealtă de declanșare a pachetelor.\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Utilizare: %s [<opțiune> ...] <comanda>\n"
+"Utilizare: %s [<opțiuni> ...] <nume-declanșator>\n"
+"           %s [<opțiuni> ...] <comandă>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3702,6 +3743,10 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"Comenzi:\n"
+"  --check-supported                Verifică dacă actualul dpkg are suport\n"
+"                                     pentru declanșatori.\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3716,42 +3761,52 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Opțiuni:\n"
+"  --admindir=<director>            Folosește <director> în loc de %s.\n"
+"  --by-package=<pachet>            Suprascrie pe cel ce așteaptă "
+"declanșatorul\n"
+"                                     (în mod normal ajustat de dpkg).\n"
+"  --no-await                       Nici un pachet nu trebuie să aștepte\n"
+"                                     procesarea.\n"
+"  --no-act                         Doar testează - nu schimbă, de fapt, "
+"nimic.\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s: directorul cu date despre declanșatori nu este creat încă\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s: înregistrările declanșatorilor nu există încă\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "--%s nu ia argumente"
+msgstr "dpkg-trigger --check-supported nu ia argumente"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s ia doar un argument (numele fișierului .deb)"
+msgstr "dpkg-trigger ia doar un argument, numele declanșatorului"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"dpkg-trigger trebuie să fie apelat dintr-un script de mentenanță (sau cu o "
+"opțiune --by-package)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "câmpul „%s”, nume nevalid de pachet „%.255s”: %s"
+msgstr "dpkg-trigger: nume nevalid de pachet așteptat „%.250s”: %.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "câmpul „%s”, nume nevalid de pachet „%.255s”: %s"
+msgstr "dpkg-trigger: nume declanșat nevalid „%.250s”: %.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3759,6 +3814,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: a fost găsit un ciclu în timpul procesării declanșatorilor:\n"
+" lanțul de pachete ale căror declanșatori ar putea fi responsabili:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3766,15 +3823,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" declanșatori în așteptare ai pachetelor care ar putea fi nerezolvabili:\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "declanșatorii erau în buclă, se renunță"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "Curăț fișierele de configurare pentru %s ...\n"
+msgstr "Se procesează declanșatorii pentru %s ...\n"
 
 #: src/update.c:44
 #, c-format
