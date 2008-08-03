@@ -904,17 +904,12 @@ pid_is_running(pid_t pid)
 static int
 pid_is_running(pid_t pid)
 {
-	struct stat sb;
-	char buf[32];
-
-	sprintf(buf, "/proc/%d", pid);
-	if (stat(buf, &sb) != 0) {
-		if (errno != ENOENT)
-			fatal("Error stating %s: %s", buf, strerror(errno));
+	if (kill(pid, 0) == 0 || errno == EPERM)
+		return 1;
+	else if (errno == ESRCH)
 		return 0;
-	}
-
-	return 1;
+	else
+		fatal("Error checking pid %u status: %s", pid, strerror(errno));
 }
 #endif
 
