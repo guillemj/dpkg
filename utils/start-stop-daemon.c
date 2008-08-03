@@ -652,68 +652,6 @@ parse_options(int argc, char * const *argv)
 
 }
 
-#if defined(OSLinux)
-static int
-pid_is_exec(pid_t pid, const struct stat *esb)
-{
-	char lname[32];
-	char lcontents[_POSIX_PATH_MAX];
-	const char deleted[] = " (deleted)";
-	int nread;
-	struct stat sb;
-
-	sprintf(lname, "/proc/%d/exe", pid);
-	nread = readlink(lname, lcontents, sizeof(lcontents));
-	if (nread == -1)
-		return 0;
-
-	lcontents[nread] = '\0';
-	if (strcmp(lcontents + nread - strlen(deleted), deleted) == 0)
-		lcontents[nread - strlen(deleted)] = '\0';
-
-	if (stat(lcontents, &sb) != 0)
-		return 0;
-
-	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
-}
-
-static int
-pid_is_user(pid_t pid, uid_t uid)
-{
-	struct stat sb;
-	char buf[32];
-
-	sprintf(buf, "/proc/%d", pid);
-	if (stat(buf, &sb) != 0)
-		return 0;
-	return (sb.st_uid == uid);
-}
-
-static int
-pid_is_cmd(pid_t pid, const char *name)
-{
-	char buf[32];
-	FILE *f;
-	int c;
-
-	sprintf(buf, "/proc/%d/stat", pid);
-	f = fopen(buf, "r");
-	if (!f)
-		return 0;
-	while ((c = getc(f)) != EOF && c != '(')
-		;
-	if (c != '(') {
-		fclose(f);
-		return 0;
-	}
-	/* this hopefully handles command names containing ')' */
-	while ((c = getc(f)) != EOF && c == *name)
-		name++;
-	fclose(f);
-	return (c == ')' && *name == '\0');
-}
-#endif /* OSLinux */
-
 #if defined(OSHURD)
 static void
 init_procset(void)
@@ -753,7 +691,78 @@ get_proc_stat (pid_t pid, ps_flags_t flags)
 
 	return ps;
 }
+#endif
 
+#if defined(OSLinux)
+static int
+pid_is_exec(pid_t pid, const struct stat *esb)
+{
+	char lname[32];
+	char lcontents[_POSIX_PATH_MAX];
+	const char deleted[] = " (deleted)";
+	int nread;
+	struct stat sb;
+
+	sprintf(lname, "/proc/%d/exe", pid);
+	nread = readlink(lname, lcontents, sizeof(lcontents));
+	if (nread == -1)
+		return 0;
+
+	lcontents[nread] = '\0';
+	if (strcmp(lcontents + nread - strlen(deleted), deleted) == 0)
+		lcontents[nread - strlen(deleted)] = '\0';
+
+	if (stat(lcontents, &sb) != 0)
+		return 0;
+
+	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
+}
+#elif defined(OShpux)
+static int
+pid_is_exec(pid_t pid, const struct stat *esb)
+{
+	struct pst_status pst;
+
+	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
+		return 0;
+	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev
+		&& (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
+}
+#elif defined(HAVE_KVM_H)
+static int
+pid_is_exec(pid_t pid, const char *name)
+{
+	kvm_t *kd;
+	int nentries;
+	struct kinfo_proc *kp;
+	char errbuf[_POSIX2_LINE_MAX], *pidexec;
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == NULL)
+		errx(1, "%s", errbuf);
+	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
+	if (kp == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+	pidexec = (&kp->kp_proc)->p_comm;
+	if (strlen(name) != strlen(pidexec))
+		return 0;
+	return (strcmp(name, pidexec) == 0) ? 1 : 0;
+}
+#endif
+
+#if defined(OSLinux)
+static int
+pid_is_user(pid_t pid, uid_t uid)
+{
+	struct stat sb;
+	char buf[32];
+
+	sprintf(buf, "/proc/%d", pid);
+	if (stat(buf, &sb) != 0)
+		return 0;
+	return (sb.st_uid == uid);
+}
+#elif defined(OSHURD)
 static int
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -762,7 +771,66 @@ pid_is_user(pid_t pid, uid_t uid)
 	ps = get_proc_stat(pid, PSTAT_OWNER_UID);
 	return ps && proc_stat_owner_uid(ps) == uid;
 }
+#elif defined(OShpux)
+static int
+pid_is_user(pid_t pid, uid_t uid)
+{
+	struct pst_status pst;
 
+	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
+		return 0;
+	return ((uid_t)pst.pst_uid == uid);
+}
+#elif defined(HAVE_KVM_H)
+static int
+pid_is_user(pid_t pid, uid_t uid)
+{
+	kvm_t *kd;
+	int nentries; /* Value not used */
+	uid_t proc_uid;
+	struct kinfo_proc *kp;
+	char errbuf[_POSIX2_LINE_MAX];
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == NULL)
+		errx(1, "%s", errbuf);
+	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
+	if (kp == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+	if (kp->kp_proc.p_cred)
+		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
+		         &proc_uid, sizeof(uid_t));
+	else
+		return 0;
+	return (proc_uid == (uid_t)uid);
+}
+#endif
+
+#if defined(OSLinux)
+static int
+pid_is_cmd(pid_t pid, const char *name)
+{
+	char buf[32];
+	FILE *f;
+	int c;
+
+	sprintf(buf, "/proc/%d/stat", pid);
+	f = fopen(buf, "r");
+	if (!f)
+		return 0;
+	while ((c = getc(f)) != EOF && c != '(')
+		;
+	if (c != '(') {
+		fclose(f);
+		return 0;
+	}
+	/* this hopefully handles command names containing ')' */
+	while ((c = getc(f)) != EOF && c == *name)
+		name++;
+	fclose(f);
+	return (c == ')' && *name == '\0');
+}
+#elif defined(OSHurd)
 static int
 pid_is_cmd(pid_t pid, const char *name)
 {
@@ -771,15 +839,68 @@ pid_is_cmd(pid_t pid, const char *name)
 	ps = get_proc_stat(pid, PSTAT_ARGS);
 	return ps && !strcmp(proc_stat_args(ps), name);
 }
+#elif defined(OShpux)
+static int
+pid_is_cmd(pid_t pid, const char *name)
+{
+	struct pst_status pst;
 
+	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
+		return 0;
+	return (strcmp(pst.pst_ucomm, name) == 0);
+}
+#elif defined(HAVE_KVM_H)
+static int
+pid_is_cmd(pid_t pid, const char *name)
+{
+	kvm_t *kd;
+	int nentries, argv_len = 0;
+	struct kinfo_proc *kp;
+	char errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
+	char **pid_argv_p;
+	char *start_argv_0_p, *end_argv_0_p;
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == NULL)
+		errx(1, "%s", errbuf);
+	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
+	if (kp == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+	pid_argv_p = kvm_getargv(kd, kp, argv_len);
+	if (pid_argv_p == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+
+	start_argv_0_p = *pid_argv_p;
+	/* Find and compare string */
+
+	/* Find end of argv[0] then copy and cut of str there. */
+	end_argv_0_p = strchr(*pid_argv_p, ' ');
+	if (end_argv_0_p == NULL)
+		/* There seems to be no space, so we have the command
+		 * allready in its desired form. */
+		start_argv_0_p = *pid_argv_p;
+	else {
+		/* Tests indicate that this never happens, since
+		 * kvm_getargv itself cuts of tailing stuff. This is
+		 * not what the manpage says, however. */
+		strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
+		buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
+		start_argv_0_p = buf;
+	}
+
+	if (strlen(name) != strlen(start_argv_0_p))
+		return 0;
+	return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
+}
+#endif
+
+#if defined(OSHURD)
 static int
 pid_is_running(pid_t pid)
 {
 	return get_proc_stat(pid, 0) != NULL;
 }
-
 #else /* !OSHURD */
-
 static int
 pid_is_running(pid_t pid)
 {
@@ -795,8 +916,7 @@ pid_is_running(pid_t pid)
 
 	return 1;
 }
-
-#endif /* OSHURD */
+#endif
 
 static void
 check(pid_t pid)
@@ -862,9 +982,7 @@ do_procinit(void)
 	if (!foundany)
 		fatal("nothing in /proc - not mounted?");
 }
-#endif /* OSLinux */
-
-#if defined(OSHURD)
+#elif defined(OSHURD)
 static int
 check_proc_stat(struct proc_stat *ps)
 {
@@ -880,134 +998,7 @@ do_procinit(void)
 
 	proc_stat_list_for_each(procset, check_proc_stat);
 }
-#endif /* OSHURD */
-
-#ifdef HAVE_KVM_H
-static int
-pid_is_cmd(pid_t pid, const char *name)
-{
-	kvm_t *kd;
-	int nentries, argv_len = 0;
-	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
-	char **pid_argv_p;
-	char *start_argv_0_p, *end_argv_0_p;
-
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == NULL)
-		errx(1, "%s", errbuf);
-	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
-	if (kp == NULL)
-		errx(1, "%s", kvm_geterr(kd));
-	pid_argv_p = kvm_getargv(kd, kp, argv_len);
-	if (pid_argv_p == NULL)
-		errx(1, "%s", kvm_geterr(kd));
-
-	start_argv_0_p = *pid_argv_p;
-	/* Find and compare string */
-
-	/* Find end of argv[0] then copy and cut of str there. */
-	end_argv_0_p = strchr(*pid_argv_p, ' ');
-	if (end_argv_0_p == NULL)
-		/* There seems to be no space, so we have the command
-		 * allready in its desired form. */
-		start_argv_0_p = *pid_argv_p;
-	else {
-		/* Tests indicate that this never happens, since
-		 * kvm_getargv itself cuts of tailing stuff. This is
-		 * not what the manpage says, however. */
-		strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
-		buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
-		start_argv_0_p = buf;
-	}
-
-	if (strlen(name) != strlen(start_argv_0_p))
-		return 0;
-	return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
-}
-
-static int
-pid_is_user(pid_t pid, uid_t uid)
-{
-	kvm_t *kd;
-	int nentries; /* Value not used */
-	uid_t proc_uid;
-	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX];
-
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == NULL)
-		errx(1, "%s", errbuf);
-	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
-	if (kp == NULL)
-		errx(1, "%s", kvm_geterr(kd));
-	if (kp->kp_proc.p_cred)
-		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
-		         &proc_uid, sizeof(uid_t));
-	else
-		return 0;
-	return (proc_uid == (uid_t)uid);
-}
-
-static int
-pid_is_exec(pid_t pid, const char *name)
-{
-	kvm_t *kd;
-	int nentries;
-	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX], *pidexec;
-
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == NULL)
-		errx(1, "%s", errbuf);
-	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
-	if (kp == NULL)
-		errx(1, "%s", kvm_geterr(kd));
-	pidexec = (&kp->kp_proc)->p_comm;
-	if (strlen(name) != strlen(pidexec))
-		return 0;
-	return (strcmp(name, pidexec) == 0) ? 1 : 0;
-}
-
-static void
-do_procinit(void)
-{
-	/* Nothing to do */
-}
-#endif /* OSOpenBSD */
-
-#if defined(OShpux)
-static int
-pid_is_user(pid_t pid, uid_t uid)
-{
-	struct pst_status pst;
-
-	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
-		return 0;
-	return ((uid_t)pst.pst_uid == uid);
-}
-
-static int
-pid_is_cmd(pid_t pid, const char *name)
-{
-	struct pst_status pst;
-
-	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
-		return 0;
-	return (strcmp(pst.pst_ucomm, name) == 0);
-}
-
-static int
-pid_is_exec(pid_t pid, const struct stat *esb)
-{
-	struct pst_status pst;
-
-	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
-		return 0;
-	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev
-		&& (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
-}
-
+#elif defined(OShpux)
 static void
 do_procinit(void)
 {
@@ -1021,7 +1012,13 @@ do_procinit(void)
 		idx = pst[count - 1].pst_idx + 1;
 	}
 }
-#endif /* OShpux */
+#elif defined(HAVE_KVM_H)
+static void
+do_procinit(void)
+{
+	/* Nothing to do */
+}
+#endif
 
 static void
 do_findprocs(void)
