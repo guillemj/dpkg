@@ -1071,15 +1071,8 @@ void process_archive(const char *filename) {
     otherpkg->want= want_purge;
     otherpkg->eflag= eflagv_ok;
 
-    otherpkg->installed.depends = NULL;
-    otherpkg->installed.essential= 0;
-    otherpkg->installed.description = otherpkg->installed.maintainer = NULL;
-    otherpkg->installed.installedsize = otherpkg->installed.source = NULL;
-    otherpkg->installed.origin = otherpkg->installed.bugs = NULL;
-    otherpkg->installed.architecture = NULL;
-    otherpkg->installed.conffiles = NULL;
-    blankversion(&otherpkg->installed.version);
-    otherpkg->installed.arbs = NULL;
+    blankpackageperfile(&otherpkg->installed);
+
     otherpkg->clientdata->fileslistvalid= 0;
 
     modstatdb_note(otherpkg);
