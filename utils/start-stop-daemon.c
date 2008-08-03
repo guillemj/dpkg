@@ -924,6 +924,9 @@ check(pid_t pid)
 #if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
 		return;
+#elif defined(HAVE_KVM_H)
+	if (execname && !pid_is_exec(pid, execname))
+		return;
 #elif defined(OSHURD) || defined(OSFreeBSD) || defined(OSNetBSD)
 	/* Let's try this to see if it works */
 	if (execname && !pid_is_cmd(pid, execname))
