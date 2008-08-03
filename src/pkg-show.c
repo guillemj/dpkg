@@ -32,7 +32,6 @@ limiteddescription(struct pkginfo *pkg,
                    int maxl, const char **pdesc_r, int *l_r)
 {
 	const char *pdesc, *p;
-	int l;
 
 	pdesc = pkg->installed.valid ? pkg->installed.description : NULL;
 	if (!pdesc)
@@ -40,8 +39,8 @@ limiteddescription(struct pkginfo *pkg,
 	p = strchr(pdesc, '\n');
 	if (!p)
 		p = pdesc + strlen(pdesc);
-	l = min(p - pdesc, maxl);
+
+	*l_r = min(p - pdesc, maxl);
 	*pdesc_r = pdesc;
-	*l_r = l;
 }
 
