@@ -144,8 +144,8 @@ int force_conflicts(struct deppossi *possi) {
 
 static const char* preexecscript(const char *path, char *const *argv) {
   /* returns the path to the script inside the chroot
-   * none of the stuff here will work if admindir isn't inside instdir
-   * as expected. - fixme
+   * FIXME: none of the stuff here will work if admindir isn't inside
+   * instdir as expected.
    */
   size_t instdirl;
 

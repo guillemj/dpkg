@@ -10,8 +10,8 @@ use Dpkg::Gettext;
 
 textdomain("dpkg");
 
-# fixme: sort entries
-# fixme: send to FSF ?
+# FIXME: sort entries
+# FIXME: send to FSF ?
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;

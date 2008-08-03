@@ -398,7 +398,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     if (readwrite && pkg->want == pkginfo::want_unknown) {
       state->suggested=
         pkg->status == pkginfo::stat_installed ||
-          pkg->priority <= pkginfo::pri_standard /* fixme: configurable */
+          pkg->priority <= pkginfo::pri_standard /* FIXME: configurable */
             ? pkginfo::want_install : pkginfo::want_purge;
       state->spriority= sp_inherit;
     } else {

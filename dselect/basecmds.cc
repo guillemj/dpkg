@@ -83,7 +83,7 @@ void baselist::kd_redraw() {
 //  RFSH(colheadspad); 
 //  RFSH(thisstatepad); 
 //  RFSH(titlewin); 
-//  RFSH(whatinfowin); /* fixme-ncurses: why does ncurses need this ? */
+//  RFSH(whatinfowin); /* FIXME: why does ncurses need this? */
   clearok(curscr,TRUE);
   redrawall();
   if (debug) fprintf(debug,"baselist[%p]::kd_redraw() done\n",this);
@@ -119,11 +119,11 @@ void baselist::kd_search() {
   strcpy(newsearchstring,searchstring);
   werase(querywin);
   mvwaddstr(querywin,0,0, _("Search for ? "));
-  echo(); /* fixme: ncurses documentation or implementation */
+  echo(); /* FIXME: ncurses documentation or implementation. */
   if (wgetnstr(querywin,newsearchstring,sizeof(newsearchstring)-1) == ERR)
     searchstring[0]= 0;
-  raise(SIGWINCH); /* fixme: ncurses and xterm arrow keys */
-  noecho(); /* fixme: ncurses */
+  raise(SIGWINCH); /* FIXME: ncurses and xterm arrow keys. */
+  noecho(); /* FIXME: ncurses. */
   if (whatinfo_height) { touchwin(whatinfowin); refreshinfo(); }
   else if (info_height) { touchwin(infopad); refreshinfo(); }
   else if (thisstate_height) redrawthisstate();

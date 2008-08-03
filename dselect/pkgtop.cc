@@ -155,7 +155,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
               gettext(statusstrings[pkg->status]));
       wprintw(listpad, "%-*.*s ",
               status_want_width, status_want_width,
-              /* fixme: keep this ? */
+              /* FIXME: keep this? */
               /*table[index]->original == table[index]->selected ? "(same)"
               : */gettext(wantstrings[table[index]->original]));
       wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
@@ -175,7 +175,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
       mvwaddch(listpad, screenline, 0, eflagchars[pkg->eflag]);
       waddch(listpad, statuschars[pkg->status]);
       waddch(listpad,
-             /* fixme: keep this feature? */
+             /* FIXME: keep this feature? */
              /*table[index]->original == table[index]->selected ? ' '
              : */wantchars[table[index]->original]);
     

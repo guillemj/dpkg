@@ -194,7 +194,7 @@ int packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *display
   if (best->spriority >= sp_deselecting) return 0;
   best->suggested=
     best->pkg->status == pkginfo::stat_notinstalled
-      ? pkginfo::want_purge : pkginfo::want_deinstall; /* fixme: configurable */
+      ? pkginfo::want_purge : pkginfo::want_deinstall; // FIXME: configurable.
   best->selected= best->suggested;
   best->spriority= sp_deselecting;
 
@@ -307,7 +307,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (depends->type != dep_recommends) {
       best->selected= best->suggested=
         best->pkg->status == pkginfo::stat_notinstalled
-          ? pkginfo::want_purge : pkginfo::want_deinstall; /* fixme: configurable */
+          ? pkginfo::want_purge : pkginfo::want_deinstall; // FIXME: configurable
       best->spriority= sp_deselecting;
     }
     return r ? 2 : 0;

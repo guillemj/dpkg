@@ -290,9 +290,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
                   _("package has status triggers-pending but no triggers "
                     "pending"));
 
-    /* There was a bug that could make a not-installed package have
+    /* FIXME: There was a bug that could make a not-installed package have
      * conffiles, so we check for them here and remove them (rather than
-     * calling it an error, which will do at some point -- fixme).
+     * calling it an error, which will do at some point).
      */
     if (!(flags & pdb_recordavailable) &&
         newpig.status == stat_notinstalled &&

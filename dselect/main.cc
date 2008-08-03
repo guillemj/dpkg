@@ -438,7 +438,7 @@ urqresult urq_menu(void) {
       dme(cursor,0); cursor+= entries-1; cursor %= entries; dme(cursor,1);
     } else if (c=='\n' || c=='\r' || c==KEY_ENTER) {
       clear(); refresh();
-      switch (menuentries[cursor].fn()) { /* fixme: trap errors in urq_... */
+      switch (menuentries[cursor].fn()) { /* FIXME: trap errors in urq_... */
       case urqr_quitmenu:
         return urqr_quitmenu;
       case urqr_normal:
@@ -475,8 +475,8 @@ urqresult urq_menu(void) {
 }
 
 urqresult urq_quit(void) {
+  /* FIXME: check packages OK. */
   return urqr_quitmenu;
-  /* fixme: check packages OK */
 }
 
 int main(int, const char *const *argv) {

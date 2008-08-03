@@ -646,7 +646,7 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 			else if (what & cfof_install) { cc= 'y'; break; }
 		}
 
-		/* fixme: say something if silently not install */
+		/* FIXME: say something if silently not install */
 		if (cc == 'd')
 			showdiff(realold, realnew);
 

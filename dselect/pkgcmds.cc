@@ -280,7 +280,7 @@ packagelist::kd_revertinstalled()
   redrawthisstate();
 }
 
-/* fixme: configurable purge/deselect */
+/* FIXME: configurable purge/deselect */
 
 void packagelist::kd_toggleinfo() {
   showinfo= (showinfo+2) % 3;

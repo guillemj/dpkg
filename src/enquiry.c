@@ -19,7 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-/* fixme: per-package audit */
+/* FIXME: per-package audit */
 #include <config.h>
 
 #include <stdio.h>

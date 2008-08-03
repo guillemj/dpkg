@@ -20,7 +20,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-/* fixme: don't write uninteresting packages */
+/* FIXME: don't write uninteresting packages */
 #include <config.h>
 
 #include <stdio.h>

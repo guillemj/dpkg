@@ -88,13 +88,16 @@ const struct namevalue priorityinfos[]= {  /* Note !  These must be in order ! *
   { "required",                       pri_required,     8 },
   { "important",                      pri_important,    9 },
   { "standard",                       pri_standard,     8 },
-  { "recommended",                    pri_recommended,  11 }, /* fixme: obsolete */
+  /* XXX: obsolete. */
+  { "recommended",                    pri_recommended,  11 },
   { "optional",                       pri_optional,     8 },
   { "extra",                          pri_extra,        5 },
-  { "contrib",                        pri_contrib,      7 }, /* fixme: keep? */
+  /* XXX: keep? */
+  { "contrib",                        pri_contrib,      7 },
   { "this is a bug - please report",  pri_other,        28 },
   { "unknown",                        pri_unknown,      7 },
-  { "base",                           pri_required,     4 }, /* fixme: alias, remove */
+  /* XXX: alias, remove. */
+  { "base",                           pri_required,     4 },
   {  NULL                                                 }
 };
 
@@ -108,8 +111,10 @@ const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
   { "triggers-pending", stat_triggerspending, 16 },
   { "installed",       stat_installed,       9 },
   /* These are additional entries for reading only, in any order ... */
-  { "postinst-failed", stat_halfconfigured,  15 }, /* fixme: backwards compat., remove */
-  { "removal-failed",  stat_halfinstalled,   14 }, /* fixme: backwards compat., remove */
+  /* XXX: backwards compat., remove. */
+  { "postinst-failed", stat_halfconfigured,  15 },
+  /* XXX: backwards compat., remove. */
+  { "removal-failed",  stat_halfinstalled,   14 },
   {  NULL                                       }
 };
 
