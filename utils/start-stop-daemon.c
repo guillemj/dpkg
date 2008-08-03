@@ -42,7 +42,7 @@
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
 
-#define MIN_POLL_INTERVAL 20000 /*us*/
+#define MIN_POLL_INTERVAL 20000 /* µs */
 
 #if defined(OSHURD)
 #include <hurd.h>
