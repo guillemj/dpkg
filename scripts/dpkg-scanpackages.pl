@@ -7,7 +7,7 @@ use IO::Handle;
 use IO::File;
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr subprocerr);
+use Dpkg::ErrorHandling qw(error syserr usageerr subprocerr);
 use Dpkg::Deps qw(@pkg_dep_fields);
 use Dpkg::Version qw(compare_versions);
 
@@ -112,9 +112,7 @@ sub load_override
 usage() and exit 1 if not $result;
 
 if (not @ARGV >= 1 && @ARGV <= 3) {
-    warn _g("1 to 3 args expected\n");
-    usage();
-    exit 1;
+    usageerr(_g("1 to 3 args expected"));
 }
 
 my $type = defined($options{type}) ? $options{type} :
