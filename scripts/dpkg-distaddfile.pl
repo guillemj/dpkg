@@ -72,4 +72,6 @@ if (open(X,"< $fileslistfile")) {
 print(Y "$file $section $priority\n")
     || &syserr(_g("write new entry to new files list file"));
 close(Y) || &syserr(_g("close new files list file"));
-rename("$fileslistfile.new",$fileslistfile) || &syserr(gettetx("install new files list file"));
+rename("$fileslistfile.new", $fileslistfile) ||
+    syserr(_g("install new files list file"));
+
