@@ -196,6 +196,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
     uvb.buf= m_malloc(uvb.size);
   }
 
+  trig_fixup_awaiters(cstatus);
   trig_incorporate(cstatus, admindir);
 
   return cstatus;

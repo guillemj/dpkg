@@ -1,3 +1,14 @@
+2008-08-15  Guillem Jover  <guillem@debian.org>
+
+	* lib/dpkg-db.h (trig_enqueue_awaited_pend): New function prototype.
+	(trig_fixup_awaiters): Likewise.
+	* lib/dbmodify.c (modstatdb_init): Call trig_fixup_awaiters.
+	* lib/fields.c (f_trigaw): Call trig_enqueue_awaited_pend.
+	* lib/triglib.c (struct pkg_list): New type.
+	(trig_awaited_pend_head): New variable.
+	(trig_enqueue_awaited_pend): New function definition.
+	(trig_fixup_awaiters): Likewise.
+
 2008-06-24  Raphael Hertzog  <hertzog@debian.org>
 
 	* debian/archtable: Add armel.

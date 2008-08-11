@@ -289,6 +289,9 @@ int trig_note_pend(struct pkginfo *pend, char *trig /*not copied!*/);
 int trig_note_aw(struct pkginfo *pend, struct pkginfo *aw);
 void trig_clear_awaiters(struct pkginfo *notpend);
 
+void trig_enqueue_awaited_pend(struct pkginfo *pend);
+void trig_fixup_awaiters(enum modstatdb_rw cstatus);
+
 void trig_file_interests_ensure(void);
 void trig_file_interests_save(void);
 

@@ -543,6 +543,8 @@ f_trigaw(struct pkginfo *aw, struct pkginfoperfile *pifp,
     if (!trig_note_aw(pend, aw))
       parseerr(NULL, filename, lno, warnto, warncount, aw, 0,
                _("duplicate awaited trigger package `%.255s'"), word);
+
+    trig_enqueue_awaited_pend(pend);
   }
 }
 
