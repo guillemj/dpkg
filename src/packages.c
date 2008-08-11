@@ -228,7 +228,8 @@ void process_queue(void) {
       /* give up on it from the point of view of other packages, ie reset istobe */
       pkg->clientdata->istobe= itb_normal;
       error_unwind(ehflag_bombout);
-      if (onerr_abort > 0) break;
+      if (onerr_abort > 0)
+        return;
       continue;
     }
     push_error_handler(&ejbuf,print_error_perpackage,pkg->name);
