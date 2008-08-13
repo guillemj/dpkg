@@ -298,9 +298,11 @@ trigproc(struct pkginfo *pkg)
 		pkg->status = stat_halfconfigured;
 		modstatdb_note(pkg);
 
-		sincenothing = 0;
-		maintainer_script_postinst(pkg, "triggered",
-		                           namesarg.buf + 1, NULL);
+		if (!f_noact) {
+			sincenothing = 0;
+			maintainer_script_postinst(pkg, "triggered",
+			                           namesarg.buf + 1, NULL);
+		}
 
 		/* This is to cope if the package triggers itself: */
 		pkg->status = pkg->trigaw.head ? stat_triggersawaited :
@@ -361,10 +363,10 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		              transitional_interest_callback_ro, NULL, pkg);
 	}
 	iterpkgend(it);
-	if (cstatus >= msdbrw_write)
+	if (cstatus >= msdbrw_write) {
 		modstatdb_checkpoint();
-
-	trig_file_interests_save();
+		trig_file_interests_save();
+	}
 }
 
 /*========== hook setup ==========*/

@@ -1,5 +1,17 @@
 2008-08-15  Guillem Jover  <guillem@debian.org>
 
+	* lib/dbmodify.c (modstatdb_note): Do not call modstatdb_note_core if
+	cstatus does not allow writting. Move the core functionallity to ...
+	(modstatdb_note_core): ... here. New function.
+	* src/help.c (post_postinst_tasks_core): Do not call trig_incorporate
+	if running under --no-act.
+	* src/trigproc.c (trigproc): Do not call maintainer_script_postinst
+	if running under --no-act.
+	(trig_transitional_activate): Do not call trig_file_interests_save
+	if cstatus does not allow writting.
+
+2008-08-15  Guillem Jover  <guillem@debian.org>
+
 	* lib/dpkg-db.h (trig_enqueue_awaited_pend): New function prototype.
 	(trig_fixup_awaiters): Likewise.
 	* lib/dbmodify.c (modstatdb_init): Call trig_fixup_awaiters.

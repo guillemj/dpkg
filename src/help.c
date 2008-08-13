@@ -239,8 +239,10 @@ post_postinst_tasks_core(struct pkginfo *pkg)
 {
   modstatdb_note(pkg);
 
-  debug(dbg_triggersdetail, "post_postinst_tasks_core - trig_incorporate");
-  trig_incorporate(msdbrw_write, admindir);
+  if (!f_noact) {
+    debug(dbg_triggersdetail, "post_postinst_tasks_core - trig_incorporate");
+    trig_incorporate(msdbrw_write, admindir);
+  }
 }
 
 static void
