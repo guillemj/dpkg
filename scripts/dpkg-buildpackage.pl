@@ -59,7 +59,7 @@ Options:
   -m<maint>      maintainer for package is <maint>.    }
   -e<maint>      maintainer for release is <maint>.    } only passed
   -C<descfile>   changes are described in <descfile>.  } to dpkg-genchanges
-  -si (default)  src includes orig for rev. 0 or 1.    }
+  -si (default)  src includes orig if new upstream.    }
   -sa            uploaded src always includes orig.    }
   -sd            uploaded src is diff and .dsc only.   }
   -sn            force Debian native source format.      }
