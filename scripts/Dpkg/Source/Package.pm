@@ -100,22 +100,27 @@ sub new {
         'options' => {},
     };
     bless $self, $class;
-    if (exists $args{"filename"}) {
-        $self->initialize($args{"filename"});
-    }
-    if (exists $args{"options"}) {
+    if (exists $args{'options'}) {
         $self->{'options'} = $args{'options'};
     }
-    $self->init_options();
+    if (exists $args{"filename"}) {
+        $self->initialize($args{"filename"});
+        $self->init_options();
+    }
     return $self;
 }
 
 sub init_options {
     my ($self) = @_;
     # Use full ignore list by default
+    # note: this function is not called by V1 packages
     $self->{'options'}{'diff_ignore_regexp'} ||= $diff_ignore_default_regexp;
-    $self->{'options'}{'tar_ignore'} = [ @tar_ignore_default_pattern ]
+    if (defined $self->{'options'}{'tar_ignore'}) {
+        $self->{'options'}{'tar_ignore'} = [ @tar_ignore_default_pattern ]
             unless @{$self->{'options'}{'tar_ignore'}};
+    } else {
+        $self->{'options'}{'tar_ignore'} = [ @tar_ignore_default_pattern ];
+    }
 }
 
 sub initialize {

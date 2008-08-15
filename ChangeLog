@@ -1,3 +1,12 @@
+2008-08-15  Raphael Hertzog  <hertzog@debian.org>
+
+	* Dpkg/Source/Package.pm (new): Call init_options() only if
+	initialize() has been called as it's supposed to be called
+	only after the object has been upgraded to its target type.
+	(init_options): add a comment that explains that this function is
+	not called by Dpkg::Source::Package::V1::init_options() and
+	render the function more robust.
+
 2008-08-15  Ian Jackson  <ian@davenant.greenend.org.uk>
 
 	* src/packages.c (process_queue): When onerr_abort is bigger than 0
