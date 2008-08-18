@@ -64,10 +64,7 @@
 #define REMOVECONFFEXTS    "~", ".bak", "%", \
                            DPKGTEMPEXT, DPKGNEWEXT, DPKGOLDEXT, DPKGDISTEXT
 
-#ifndef ARCHBINFMT
-#define ARCHBINFMT
-#endif
-#define DPKG_VERSION_ARCH  PACKAGE_VERSION " (" ARCHITECTURE ARCHBINFMT ")"
+#define DPKG_VERSION_ARCH  PACKAGE_VERSION " (" ARCHITECTURE ")"
 
 #define NEWCONFFILEFLAG    "newconffile"
 #define NONEXISTENTFLAG    "nonexistent"
