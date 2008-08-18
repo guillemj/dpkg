@@ -1,17 +1,3 @@
-/* Change: separate removal_bulk handling of halfinstalled or unpacked pkgs
- *         (ie, remove the real files in the .deb) into its own function.
- *         Note that "installed" state is converted to unpacked by 
- *         deferred_remove() or halfinstalled by process_archive())
- *
- * Change: separate purging of configfiles and running of postrm to its
- *         own function.
- *
- * Change: retry removing directories after postrm purge is finished, to
- *         handle directories that had conffiles or config files and so
- *         forth in them. also only warn about non-empty directories at
- *         that point.
- */
-
 /*
  * dpkg - main program for package management
  * remove.c - functionality for removing packages
