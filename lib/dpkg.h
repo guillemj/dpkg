@@ -89,8 +89,6 @@
 #define STATUSFILE        "status"
 #define AVAILFILE         "available"
 #define LOCKFILE          "lock"
-#define CMETHOPTFILE      "cmethopt"
-#define METHLOCKFILE      "methlock"
 #define DIVERSIONSFILE    "diversions"
 #define STATOVERRIDEFILE  "statoverride"
 #define UPDATESDIR        "updates/"
@@ -111,22 +109,12 @@
 #define MAINTSCRIPTDPKGENVVAR "DPKG_RUNNING_VERSION"
 
 #define LOCALLIBDIR         "/usr/local/lib/dpkg"
-#define METHODSDIR          "methods"
 
 #define NOJOBCTRLSTOPENV    "DPKG_NO_TSTP"
 #define SHELLENV            "SHELL"
 #define DEFAULTSHELL        "sh"
 #define PAGERENV            "PAGER"
 #define DEFAULTPAGER        "pager"
-
-#define IMETHODMAXLEN        50
-#define IOPTIONMAXLEN        IMETHODMAXLEN
-#define METHODOPTIONSFILE   "names"
-#define METHODSETUPSCRIPT   "setup"
-#define METHODUPDATESCRIPT  "update"
-#define METHODINSTALLSCRIPT "install"
-#define OPTIONSDESCPFX      "desc."
-#define OPTIONINDEXMAXLEN    5
 
 #define PKGSCRIPTMAXARGS     10
 #define MD5HASHLEN           32

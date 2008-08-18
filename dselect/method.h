@@ -23,6 +23,20 @@
 #ifndef METHOD_H
 #define METHOD_H
 
+#define CMETHOPTFILE		"cmethopt"
+#define METHLOCKFILE		"methlock"
+
+#define METHODSDIR		"methods"
+
+#define IMETHODMAXLEN		50
+#define IOPTIONMAXLEN		IMETHODMAXLEN
+#define METHODOPTIONSFILE	"names"
+#define METHODSETUPSCRIPT	"setup"
+#define METHODUPDATESCRIPT	"update"
+#define METHODINSTALLSCRIPT	"install"
+#define OPTIONSDESCPFX		"desc."
+#define OPTIONINDEXMAXLEN	5
+
 struct method {
   struct method *next, *back;
   char *name, *path, *pathinmeth;

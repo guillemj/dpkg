@@ -42,6 +42,7 @@ extern "C" {
 }
 #include "dselect.h"
 #include "bindings.h"
+#include "method.h"
 
 int noptions=0;
 struct dselect_option *options=0, *coption=0;
