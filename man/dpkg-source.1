@@ -398,7 +398,7 @@ finds binary files in the debian sub-directory unless they have been
 whitelisted through \fBdebian/source/include-binaries\fP.
 
 The updated debian directory and the list of modified binaries is then
-used to regenerate the debian tarball.
+used to generate the debian tarball.
 
 The automatically generated diff doesn't include changes on VCS specific
 files as well as many temporary files (see default value associated to
@@ -407,15 +407,19 @@ files as well as many temporary files (see default value associated to
 automatic patch.
 
 Note: \fBdpkg\-source\fP expects the source tree to have all patches
-applied when you generate the source package. This is not the case
-when the source tree has been obtained by unpacking a source package using
-the Format: 1.0 for instance. To mitigate the problem, \fBdpkg\-source\fP
-will apply patches before building unless it finds
-\fBdebian/patches/.dpkg-source-applied\fP. The presence of a \fB.pc\fP
-subdirectory is also interpreted as a sign that some patches have been
-applied and in this case \fBquilt unapplied\fP is called to verify that
-all patches are applied. The option \fB\-\-no\-preparation\fP can be used
-to disable this behaviour.
+listed in the series file applied when you generate the source package.
+This is not the case when the source tree has been obtained by unpacking a
+source package using the Format: 1.0 for instance. To mitigate the
+problem, \fBdpkg\-source\fP will apply the patches by itself if it
+believes that they have not yet been applied. To detect this situation, it
+uses the following heuristic: if a \fB.pc\fP subdirectory is detected, it
+will call \fBquilt unapplied\fP to find out if some patches are not
+applied. After that, it will take the first patch of the series (or the
+first unapplied patch returned by \fBquilt unapplied\fP, if any) and
+verify if it can be applied without errors. If the verification succeeds,
+it concludes that patches have not been applied and will apply them all.
+The option \fB\-\-no\-preparation\fP can be used to disable this
+behaviour.
 .PP
 .B Build options
 .TP
