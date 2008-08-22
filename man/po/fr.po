@@ -2285,12 +2285,12 @@ msgstr "09-04-2008"
 # type: Plain text
 #: ../../man/deb-triggers.5:4
 msgid "deb-triggers - package triggers"
-msgstr "deb-triggers - déclenchements du paquet"
+msgstr "deb-triggers - actions différées du paquet"
 
 # type: Plain text
 #: ../../man/deb-triggers.5:7
 msgid "triggers"
-msgstr "déclenchements"
+msgstr "actions différées"
 
 # type: Plain text
 #: ../../man/deb-triggers.5:12
@@ -2299,7 +2299,7 @@ msgid ""
 "I<triggers> file in its control archive (i.e. I<DEBIAN/triggers> during "
 "package creation)."
 msgstr ""
-"Un paquet déclare ses relations avec des déclenchements en incluant un "
+"Un paquet déclare ses relations avec des actions différées en incluant un "
 "fichier I<triggers> dans son archive de contrôle (c.-à-d. I<DEBIAN/triggers> "
 "au moment de la création du paquet)."
 
@@ -2317,12 +2317,12 @@ msgstr ""
 # type: Plain text
 #: ../../man/deb-triggers.5:18
 msgid "The trigger control directives currently supported are:"
-msgstr "Les directives de déclenchements actuellement reconnues sont\\ :"
+msgstr "Les directives actuellement reconnues sont\\ :"
 
 # type: Plain text
 #: ../../man/deb-triggers.5:22
 msgid "B<interest> I<trigger-name>"
-msgstr "B<interest>I<nom-de-fichier-à-déclenchement>"
+msgstr "B<interest> I<nom-action-différée>"
 
 # type: Plain text
 #: ../../man/deb-triggers.5:27
@@ -2331,14 +2331,14 @@ msgid ""
 "in which a package is interested must be listed using this directive in the "
 "triggers control file."
 msgstr ""
-"Indique que le paquet est lié à un déclenchement nommé. Tous les "
-"déclenchements liés au paquet doivent être listés en utilisant cette "
-"directive depuis le fichier de contrôle des déclenchements."
+"Indique que le paquet est associé à une action différée. Toutes les "
+"actions différées associées au paquet doivent être listées en utilisant cette "
+"directive depuis le fichier de contrôle des actions différées."
 
 # type: Plain text
 #: ../../man/deb-triggers.5:31
 msgid "B<activate> I<trigger-name>"
-msgstr "B<activate> I<nom-du-déclenchement>"
+msgstr "B<activate> I<nom-action-différée>"
 
 # type: Plain text
 #: ../../man/deb-triggers.5:37
@@ -2349,9 +2349,9 @@ msgid ""
 "conflicting package), purge and deconfigure."
 msgstr ""
 "Cette directive permet que tout changement dans l'état de ce paquet active "
-"le déclenchement spécifié. Le déclenchement activera le lancement des "
-"opérations suivantes\\ : dépaquetage, configuration, suppression (afin de "
-"régler un problème de conflit), purge et suppression de configuration."
+"l'action différée spécifiée. L'action différée sera activée au début des "
+"opérations suivantes\\ : dépaquetage, configuration, suppression (y compris "
+"en cas de remplacement par un paquet conflictuel), purge et déconfiguration."
 
 # type: Plain text
 #: ../../man/deb-triggers.5:45
@@ -2362,12 +2362,13 @@ msgid ""
 "installed, does not cause activations.  In the case of unpack, triggers "
 "mentioned in both the old and new versions of the package will be activated."
 msgstr ""
-"Si ce paquet disparaît durant le dépaquetage d'un autre paquet, le "
-"déclenchement sera activé lorsque la disparition est constatée vers la fin "
-"du dépaquetage. Le déclenchement se déroulera et le passage de déclenchement "
-"en attente, à déclenchement installé, ne provoquera pas l'activation. Dans "
-"le cas d'un dépaquetage, les déclenchements notés à la fois dans l'ancienne "
-"et la nouvelle version seront activés."
+"Si ce paquet disparaît durant le dépaquetage d'un autre paquet, l'action "
+"différée sera activée lorsque la disparition est constatée vers la fin "
+"du dépaquetage. L'exécution d'une action différée, et donc le passage du statut "
+"triggers-awaited (action-différée-attendue) à installed (installé), ne "
+"provoquera pas l'activation. Dans le cas d'un dépaquetage, les "
+"actions différées listées dans l'ancienne et la nouvelle version du "
+"paquet seront activées."
 
 # type: Plain text
 #: ../../man/deb-triggers.5:48
@@ -2443,7 +2444,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg.1:26
-#, fuzzy
 msgid ""
 "B<dpkg> is a tool to install, build, remove and manage Debian packages. The "
 "primary and more user-friendly front-end for B<dpkg> is B<aptitude>(1). "
@@ -2453,7 +2453,7 @@ msgid ""
 "some way."
 msgstr ""
 "B<dpkg> est un outil pour l'installation, la création, la suppression et la "
-"gestion des paquets Debian. B<dselect>(1) est la principale interface à "
+"gestion des paquets Debian. B<aptitude>(1) est la principale interface à "
 "B<dpkg> et la plus agréable pour l'utilisateur.  B<dpkg> lui-même est "
 "entièrement contrôlé par des paramètres sur la ligne de commande. Une "
 "commande comporte exactement une action et zéro ou plusieurs options. Le "
@@ -2591,23 +2591,24 @@ msgstr ""
 #: ../../man/dpkg.1:66
 #, no-wrap
 msgid "B<triggers-awaited>"
-msgstr "B<déclenchements-à-venir>"
+msgstr "B<triggers-awaited>"
 
 # type: Plain text
 #: ../../man/dpkg.1:69
 msgid "The package awaits trigger processing by another package."
-msgstr "Le paquet attend la fin d'un déclenchement en cours d'un autre paquet."
+msgstr "Le paquet attend l'exécution d'une action différée qui est à la "
+"charge d'un autre paquet."
 
 # type: TP
 #: ../../man/dpkg.1:69
 #, no-wrap
 msgid "B<triggers-pending>"
-msgstr "B<déclenchements-en-attente>"
+msgstr "B<triggers-pending>"
 
 # type: Plain text
 #: ../../man/dpkg.1:72
 msgid "The package has been triggered."
-msgstr "Les déclenchements du paquet ont été traités."
+msgstr "Une action différée de ce paquet a été activée, il reste à l'exécuter."
 
 # type: TP
 #: ../../man/dpkg.1:72
@@ -2848,11 +2849,11 @@ msgid ""
 "improper B<triggers-awaited> and B<triggers-pending> states. This can be "
 "fixed later by running: B<dpkg --configure --pending>."
 msgstr ""
-"Déroulement des déclenchements. Tous les déclenchements en attente seront "
-"traités. Si des noms des paquets sont réclamés, uniquement les "
-"déclenchements de ces paquets seront traités, une fois chacun. L'utilisation "
+"N'exécute que les actions différées. Toutes les actions différées en attente seront "
+"traitées. Si des noms des paquets sont fournis, les actions différées "
+"de ces paquets seront traitées, une fois chacune lorsque nécessaire. L'utilisation "
 "de cette option peut laisser des paquets dans les états incorrects de "
-"B<déclenchement-à-venir> et de B<déclenchement-en-attente>. Cela peut être "
+"B<triggers-awaited> et de B<triggers-pending>. Cela peut être "
 "corrigé plus tard en exécutant\\ : B<dpkg --configure --pending>."
 
 # type: TP
@@ -3349,9 +3350,9 @@ msgstr ""
 "   40   Dépendances et conflits\n"
 "  400   De nombreuses sorties pour les dépendances\n"
 "        et les conflits\n"
-"10000   Sortie sur l'activation et le traitement des déclenchements\n"
-"20000   De nombreuses sorties sur les déclenchements\n"
-"40000   Quantité stupide de sorties sur les déclenchements\n"
+"10000   Sortie sur l'activation et le traitement des actions différées\n"
+"20000   De nombreuses sorties sur les actions différées\n"
+"40000   Quantité stupide de sorties sur les actions différées\n"
 " 1000   Beaucoup de radotage à propos du répertoire\n"
 "        dpkg/info \n"
 " 2000   Quantité stupide de radotage\n"
@@ -3906,12 +3907,12 @@ msgid ""
 "awaited> and B<triggers-pending> states. This can be fixed later by running: "
 "B<dpkg --configure --pending>."
 msgstr ""
-"Durant ce traitement ne pas lancer de déclenchements (les activations seront "
+"Durant ce traitement ne pas lancer d'actions différées (les activations seront "
 "toujours enregistrées). S'il est utilisé avec B<--configure> I<paquet> ou "
 "B<--triggers-only> I<paquet> alors le postinst du paquet sera toujours "
-"exécuté même si seule l'exécution d'un déclenchement est nécessaire. "
+"exécuté même si seule l'exécution d'une action différée est nécessaire. "
 "L'utilisation de cette option peut laisser des paquets dans les mauvais "
-"états de B<déclenchement-à-venir> et B<déclenchement-en-attente>. Cela peut "
+"états B<triggers-awaited> et B<triggers-pending>. Cela peut "
 "être corrigé plus tard en exécutant B<dpkg --configure --pending>."
 
 # type: TP
@@ -4180,7 +4181,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg.1:645
-#, fuzzy
 msgid ""
 "Note that this will not actually install or remove anything, but just set "
 "the selection state on the requested packages. You will need some other "
@@ -4188,9 +4188,9 @@ msgid ""
 "example, run B<apt-get dselect-upgrade>."
 msgstr ""
 "On remarquera que cela n'installe ou ne supprime rien du tout\\ ; cela ne "
-"fait que déterminer l'état de sélection des paquets. Vous aurez besoin "
-"d'autres applications pour transférer et installer réellement les paquets "
-"requis. Par exemple, exécutez B<dselect> et choisissez I<Install>."
+"fait qu'enregistrer l'état souhaité des paquets. Vous aurez besoin "
+"d'autres applications pour récupérer et installer réellement les paquets "
+"requis. Par exemple, exécutez B<apt-get dselect-upgrade>."
 
 # type: Plain text
 #: ../../man/dpkg.1:648
@@ -4218,13 +4218,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg.1:665
-#, fuzzy
 msgid ""
 "B<aptitude>(1), B<apt>(1), B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), "
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
 msgstr ""
-"B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), B<deb>(5), B<deb-control>"
-"(5), B<dpkg.cfg>(5) et B<dpkg-reconfigure>(8)"
+"B<aptitude>(1), B<apt>(1), B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), "
+"B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5) et B<dpkg-reconfigure>(8)."
 
 # type: Plain text
 #: ../../man/dpkg.1:668
@@ -5139,9 +5138,9 @@ msgstr "dpkg-buildpackage"
 
 # type: TH
 #: ../../man/dpkg-buildpackage.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-08-15"
-msgstr "17-02-2008"
+msgstr "15-08-2008"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:4
@@ -10974,12 +10973,13 @@ msgstr "08-04-2008"
 # type: Plain text
 #: ../../man/dpkg-trigger.1:4
 msgid "dpkg-trigger - a package trigger utility"
-msgstr "dpkg-trigger - un paquet d'utilitaire sur les déclenchements"
+msgstr "dpkg-trigger - un utilitaire pour activer les "
+"actions différées de paquets"
 
 # type: Plain text
 #: ../../man/dpkg-trigger.1:8
 msgid "B<dpkg-trigger> [I<option>...] I<trigger-name>"
-msgstr "B<dpkg-trigger> [I<option>...] I<nom-du-déclenchement>"
+msgstr "B<dpkg-trigger> [I<option>...] I<nom-action-différée>"
 
 # type: Plain text
 #: ../../man/dpkg-trigger.1:11
@@ -10992,7 +10992,7 @@ msgid ""
 "B<dpkg-trigger> is a tool to explicitely activate triggers and check for its "
 "support on the running B<dpkg>."
 msgstr ""
-"B<dpkg-trigger> est un outil pour activer explicitement les déclenchements "
+"B<dpkg-trigger> est un outil pour activer explicitement les actions différées "
 "et pour vérifier leur support dans le fonctionnement de B<dpkg>."
 
 # type: Plain text
@@ -11005,17 +11005,19 @@ msgid ""
 "by dpkg-trigger)."
 msgstr ""
 "Utilisable par les scripts du mainteneur dans certaines situations complexes "
-"où le fichier des déclenchements ou la directive du fichier de contrôle des "
-"déclenchements en B<activate> sont insuffisamment fournis. Peut également "
-"être utilisé pour les essais et par les administrateurs système (mais notez "
-"que les déclencheurs n'ont pas à être exécutés par dpkg-trigger)."
+"où l'activation d'une action différée par mise à jour de fichiers "
+"ou par la directive B<activate> du fichier de contrôle ne sont pas "
+"suffisants. Peut également être utilisé par les administrateurs "
+"système, ou par des mainteneurs de paquets pour faire des essais "
+"(mais notez que les actions différées ne seront pas exécutées par "
+"dpkg-trigger)."
 
 # type: Plain text
 #: ../../man/dpkg-trigger.1:23
 msgid "Unrecognised trigger name syntaxes are an error for dpkg-trigger."
 msgstr ""
-"Les syntaxes de nom de déclenchement non reconnues sont traités par dpkg-"
-"trigger comme une erreur."
+"Les syntaxes non-reconnues pour le nom des actions différées constituent "
+"une erreur pour dpkg-trigger."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:25
@@ -11031,11 +11033,11 @@ msgid ""
 "error message to stderr if not. Normally, however, it is better just to "
 "activate the desired trigger with B<dpkg-trigger>."
 msgstr ""
-"Vérifie si le processus dpkg accepte les déclenchements (généralement appelé "
-"depuis un postinst). Retourne en sortie 0 si les déclencheurs sont supportés "
-"par dpkg, ou 1 avec un message d'erreur sur stderr si ce n'est pas le cas. "
-"Normalement, toutefois, il est préférable de simplement activer le "
-"déclenchement désiré à l'aide de B<dpkg-trigger>."
+"Vérifie si dpkg sait gérer les actions différées (généralement appelées "
+"depuis un postinst). Retourne en sortie 0 si c'est le cas, "
+"ou 1 avec un message d'erreur sur stderr si ce n'est pas le cas. "
+"Toutefois, en règle générale, il est préférable de simplement activer "
+"l'action différée désirée à l'aide de B<dpkg-trigger>."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:46
@@ -11051,10 +11053,11 @@ msgid ""
 "naming the package to which the script belongs, and this will be used by "
 "default)."
 msgstr ""
-"Remplace la valeur pour le déclenchement à venir (normalement fixé par la "
-"variable d'environnement DPKG_MAINTSCRIPT_PACKAGE dans les scripts du "
-"mainteneur, en nommant le paquet auquel le script appartient, et ce sera le "
-"comportement utilisé par défaut)."
+"Indique le paquet qui sera marqué en attente de l'exécution de l'action "
+"différée (normalement défini par la variable d'environnement "
+"DPKG_MAINTSCRIPT_PACKAGE dans les scripts du mainteneur, qui nomme le "
+"paquet auquel le script appartient, et qui constitue la valeur "
+"par défaut)."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:52
@@ -11070,11 +11073,12 @@ msgid ""
 "to T's trigger processing awaited list and T's status is unchanged.  T may "
 "be considered installed even though I may not yet have processed the trigger."
 msgstr ""
-"Cette option organise ce que le paquet appelant T (s'il existe) n'a pas "
-"besoin d'attendre le traitement de ce déclenchement\\ ; le(s) paquet(s) "
-"intéressé I, ne sera pas ajouté au déclenchement en attente de T et l'état "
-"de T reste inchangé. T peut être considéré installé même si I n'est pas "
-"encore traité par le déclenchement."
+"Cette option fait en sorte que le paquet appelant T (s'il existe) n'a pas "
+"besoin d'attendre l'exécution de cette action différée\\ ; I, le(s) paquet(s) "
+"associé(s) à l'action différée, ne sera pas ajouté à liste des paquets "
+"dont le traitement des actions différées est attendu par T et l'état "
+"de T reste inchangé. T peut être considéré installé même si les actions "
+"différées de I n'ont pas encore été exécutées."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:59
