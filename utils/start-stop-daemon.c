@@ -20,7 +20,7 @@
  * Changes by Ian Jackson: added --retry (and associated rearrangements).
  */
 
-#include "config.h"
+#include <config.h>
 
 #include <dpkg-def.h>
 

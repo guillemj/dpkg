@@ -19,6 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <config.h>
+
 #include "helpmsgs.h"
 
 const struct helpmessage hlp_listkeys = {

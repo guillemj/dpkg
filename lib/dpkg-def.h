@@ -22,8 +22,6 @@
 #ifndef DPKG_DEF_H
 #define DPKG_DEF_H
 
-#include <config.h>
-
 #if HAVE_C_ATTRIBUTE
 # define CONSTANT __attribute__((constant))
 # define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))

@@ -23,7 +23,6 @@
 #define HELPMSGS_H
 
 extern "C" {
-#include <config.h>
 #include <dpkg.h>
 }
 
