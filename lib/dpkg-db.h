@@ -23,6 +23,10 @@
 #ifndef DPKG_DB_H
 #define DPKG_DB_H
 
+#include <dpkg-def.h>
+
+DPKG_BEGIN_DECLS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -450,4 +454,7 @@ struct lstitem;
 struct lstitem* parseformat(const char* fmt);
 void freeformat(struct lstitem* head);
 void show1package(const struct lstitem* head, struct pkginfo *pkg);
+
+DPKG_END_DECLS
+
 #endif /* DPKG_DB_H */

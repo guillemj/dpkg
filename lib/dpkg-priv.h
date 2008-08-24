@@ -22,9 +22,9 @@
 #ifndef DPKG_PRIV_H
 #define DPKG_PRIV_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <dpkg-def.h>
+
+DPKG_BEGIN_DECLS
 
 #include <stddef.h>
 
@@ -56,9 +56,7 @@ const char *skip_slash_dotslash(const char *path);
 void setup_subproc_signals(const char *name);
 void cu_subproc_signals(int argc, void **argv);
 
-#ifdef __cplusplus
-}
-#endif
+DPKG_END_DECLS
 
 #endif /* DPKG_PRIV_H */
 

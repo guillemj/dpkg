@@ -23,14 +23,16 @@
 #ifndef DPKG_H
 #define DPKG_H
 
+#include <dpkg-def.h>
+
+DPKG_BEGIN_DECLS
+
 #include <setjmp.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <sys/types.h>
 
 #include <myopt.h>
-
-#include <dpkg-def.h>
 
 #ifdef HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
@@ -459,5 +461,7 @@ void unsetenv(const char *x);
 /* Make gettext a little friendlier */
 #define _(String) gettext (String)
 #define N_(String) gettext_noop (String)
+
+DPKG_END_DECLS
 
 #endif /* DPKG_H */

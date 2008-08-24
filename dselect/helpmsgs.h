@@ -22,9 +22,7 @@
 #ifndef HELPMSGS_H
 #define HELPMSGS_H
 
-extern "C" {
 #include <dpkg.h>
-}
 
 struct helpmessage {
   const char *title;

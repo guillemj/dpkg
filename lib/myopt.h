@@ -24,6 +24,8 @@
 
 #include <dpkg-def.h>
 
+DPKG_BEGIN_DECLS
+
 typedef void (*voidfnp)(void);
 
 struct cmdinfo {
@@ -50,5 +52,7 @@ void versiononly(const struct cmdinfo *cip, const char *value) NONRETURNING;
 /* To be defined by callers. */
 void usage(void);
 void printversion(void);
+
+DPKG_END_DECLS
 
 #endif /* MYOPT_H */

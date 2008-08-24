@@ -19,9 +19,8 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-extern "C" {
+
 #include <config.h>
-}
 
 #include <stdio.h>
 #include <string.h>
@@ -40,10 +39,9 @@ extern "C" {
 #include <fcntl.h>
 #include <sys/file.h>
 
-extern "C" {
 #include <dpkg.h>
 #include <dpkg-db.h>
-}
+
 #include <dpkg-priv.h>
 #include "dselect.h"
 #include "method.h"

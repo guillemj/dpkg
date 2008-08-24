@@ -34,4 +34,12 @@
 # define UNUSED
 #endif
 
+#ifdef __cplusplus
+#define DPKG_BEGIN_DECLS	extern "C" {
+#define DPKG_END_DECLS		}
+#else
+#define DPKG_BEGIN_DECLS
+#define DPKG_END_DECLS
+#endif
+
 #endif

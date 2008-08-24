@@ -1,5 +1,35 @@
 2008-08-24  Guillem Jover  <guillem@debian.org>
 
+	* lib/dpkg-def.h (DPKG_BEGIN_DECLS, DPKG_END_DECLS): New macros.
+	* lib/dpkg.h: Surround declarations with DPKG_BEGIN_DECLS and
+	DPKG_END_DECLS.
+	* lib/myopt.h: Likewise.
+	* lib/dpkg-db.h: Likewise. Include <dpkg-def.h>.
+	* lib/dpkg-priv.h: Include <dpkg-def.h>. Replace extern "C" context
+	with DPKG_BEGIN_DECLS and DPKG_END_DECLS.
+	* dselect/basecmds.cc: Remove surrounding extern "C" context from
+	header files.
+	* dselect/baselist.cc: Likewise.
+	* dselect/basetop.cc: Likewise.
+	* dselect/bindings.cc: Likewise.
+	* dselect/curkeys.cc: Likewise.
+	* dselect/helpmsgs.h: Likewise.
+	* dselect/main.cc: Likewise.
+	* dselect/methkeys.cc: Likewise.
+	* dselect/methlist.cc: Likewise.
+	* dselect/method.cc: Likewise.
+	* dselect/methparse.cc: Likewise.
+	* dselect/pkgcmds.cc: Likewise.
+	* dselect/pkgdepcon.cc: Likewise.
+	* dselect/pkgdisplay.cc: Likewise.
+	* dselect/pkginfo.cc: Likewise.
+	* dselect/pkgkeys.cc: Likewise.
+	* dselect/pkglist.cc: Likewise.
+	* dselect/pkgsublist.cc: Likewise.
+	* dselect/pkgtop.cc: Likewise.
+
+2008-08-24  Guillem Jover  <guillem@debian.org>
+
 	* lib/dpkg-def.h: Do not include <config.h>.
 	* dselect/helpmsgs.h: Likewise.
 	* dselect/helpmsgs.cc: Include <config.h>.
