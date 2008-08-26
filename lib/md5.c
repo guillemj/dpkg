@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <compat.h>
 
 #include <string.h>		/* for memcpy() */
 #include <sys/types.h>		/* for stupid systems */

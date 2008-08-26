@@ -20,13 +20,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <config.h>
+#include <compat.h>
 
 #include <dpkg-i18n.h>
 
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include "strnlen.h"
 
 #include <dpkg.h>
 #include <dpkg-db.h>

@@ -5,6 +5,7 @@
  * This is free software under the GNU General Public License.
  */
 #include <config.h>
+#include <compat.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -16,8 +17,6 @@
 #include <tarfn.h>
 #include <dpkg.h>
 #include <dpkg-priv.h>
-
-#include "strnlen.h"
 
 struct TarHeader {
 	char Name[100];

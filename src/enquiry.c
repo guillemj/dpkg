@@ -21,6 +21,7 @@
 
 /* FIXME: per-package audit */
 #include <config.h>
+#include <compat.h>
 
 #include <dpkg-i18n.h>
 

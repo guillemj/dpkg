@@ -21,6 +21,8 @@
  */
 
 #include <config.h>
+#include <compat.h>
+
 #include <dpkg-priv.h>
 
 char *

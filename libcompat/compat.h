@@ -1,8 +1,7 @@
 /*
- * libdpkg - Debian packaging suite library routines
- * path.c - path handling functions
+ * libcompat - system compatibility library
+ * compat.h - system compatibility declarations
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2008 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -20,36 +19,18 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include <compat.h>
+#ifndef COMPAT_H
+#define COMPAT_H
 
-#include <string.h>
-#include <dpkg-priv.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-size_t
-rtrim_slash_slashdot(char *path)
-{
-	char *end;
+#include <strnlen.h>
 
-	if (!path || !*path)
-		return 0;
-
-	for (end = path + strlen(path) - 1; end - path >= 1; end--) {
-		if (*end == '/' || (*(end - 1) == '/' && *end == '.'))
-			*end = '\0';
-		else
-			break;
-	}
-
-	return end - path + 1;
+#ifdef __cplusplus
 }
+#endif
 
-const char *
-skip_slash_dotslash(const char *path)
-{
-	while (path[0] == '/' || (path[0] == '.' && path[1] == '/'))
-		path++;
-
-	return path;
-}
+#endif /* COMPAT_H */
 

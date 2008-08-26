@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <compat.h>
 
 #include <dpkg.h>
 #include <stdio.h>
