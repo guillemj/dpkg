@@ -27,8 +27,8 @@
 
 DPKG_BEGIN_DECLS
 
+#include <sys/types.h>
 #include <stdio.h>
-#include <string.h>
 
 struct versionrevision {
   unsigned long epoch;

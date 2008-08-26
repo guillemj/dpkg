@@ -22,8 +22,6 @@
 #ifndef HELPMSGS_H
 #define HELPMSGS_H
 
-#include <dpkg.h>
-
 struct helpmessage {
   const char *title;
   const char *text;

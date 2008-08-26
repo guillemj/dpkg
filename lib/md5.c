@@ -25,7 +25,6 @@
 
 #include <string.h>		/* for memcpy() */
 #include <sys/types.h>		/* for stupid systems */
-#include <netinet/in.h>		/* for ntohl() */
 
 #include "md5.h"
 

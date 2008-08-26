@@ -16,8 +16,6 @@
 #endif
 
 #include <dpkg.h>
-
-#include "dpkg.h"
 #include "dpkg-db.h"
 
 static void
