@@ -21,6 +21,8 @@
  */
 #include <config.h>
 
+#include <dpkg-i18n.h>
+
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>

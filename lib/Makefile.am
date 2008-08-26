@@ -14,6 +14,7 @@ noinst_LIBRARIES = libdpkg.a
 libdpkg_a_SOURCES = \
 	dpkg-def.h \
 	dpkg.h \
+	dpkg-i18n.h \
 	dpkg-db.h \
 	dpkg-priv.h \
 	dlist.h \

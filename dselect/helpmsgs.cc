@@ -21,6 +21,8 @@
 
 #include <config.h>
 
+#include <dpkg-i18n.h>
+
 #include "helpmsgs.h"
 
 const struct helpmessage hlp_listkeys = {

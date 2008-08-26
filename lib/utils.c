@@ -19,6 +19,8 @@
  */
 
 #include <config.h>
+
+#include <dpkg-i18n.h>
 #include <dpkg.h>
 #include <string.h>
 

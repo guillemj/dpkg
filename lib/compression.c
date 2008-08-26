@@ -1,5 +1,7 @@
 #include <config.h>
 
+#include <dpkg-i18n.h>
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>

@@ -21,6 +21,8 @@
 
 #include <config.h>
 
+#include <dpkg-i18n.h>
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>

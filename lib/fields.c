@@ -21,6 +21,8 @@
  */
 #include <config.h>
 
+#include <dpkg-i18n.h>
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>

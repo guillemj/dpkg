@@ -23,6 +23,8 @@
 /* FIXME: don't write uninteresting packages */
 #include <config.h>
 
+#include <dpkg-i18n.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>

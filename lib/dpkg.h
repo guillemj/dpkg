@@ -453,14 +453,9 @@ void unsetenv(const char *x);
 
 /* Take care of NLS matters.  */
 
-#include <gettext.h>
 #if HAVE_LOCALE_H
 # include <locale.h>
 #endif
-
-/* Make gettext a little friendlier */
-#define _(String) gettext (String)
-#define N_(String) gettext_noop (String)
 
 DPKG_END_DECLS
 

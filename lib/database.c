@@ -20,6 +20,8 @@
  */
 #include <config.h>
 
+#include <dpkg-i18n.h>
+
 #include <ctype.h>
 #include <string.h>
 

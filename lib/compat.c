@@ -32,6 +32,9 @@
 #include <unistd.h>
 
 #include <dpkg.h>
+#include <gettext.h>
+
+#define _(str) gettext(str)
 
 #ifndef HAVE_VSNPRINTF
 int vsnprintf (char *buf, size_t maxsize, const char *fmt, va_list al) {

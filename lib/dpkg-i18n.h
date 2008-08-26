@@ -1,8 +1,8 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * myopt-util.c - command line option utilities
+ * dpkg-i18n.h - private i18n support
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -18,39 +18,19 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#include <config.h>
 
-#include <dpkg-i18n.h>
+#ifndef DPKG_I18N_H
+#define DPKG_I18N_H
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include <dpkg-def.h>
 
-#include <dpkg.h>
+DPKG_BEGIN_DECLS
 
-void
-helponly(const struct cmdinfo *cip, const char *value)
-{
-	usage();
-	exit(0);
-}
+#include <gettext.h>
 
-void
-versiononly(const struct cmdinfo *cip, const char *value)
-{
-	printversion();
-	exit(0);
-}
+#define _(str) gettext(str)
+#define N_(str) gettext_noop(str)
 
-void
-showcopyright(const struct cmdinfo *cip, const char *value)
-{
-	int fd;
+DPKG_END_DECLS
 
-	fd = open(COPYINGFILE, O_RDONLY);
-	if (fd < 0)
-		ohshite(_("cannot open GPL file"));
-	fd_fd_copy(fd, 1, -1, "showcopyright");
-	exit(0);
-}
-
+#endif /* DPKG_I18N_H */
