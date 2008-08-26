@@ -35,6 +35,10 @@
 #include <sys/termios.h>
 #include <fcntl.h>
 
+#if HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include <dpkg-priv.h>
@@ -554,6 +558,10 @@ static const struct cmdinfo cmdinfos[]= {
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
   static void (*actionfunction)(const char *const *argv);
+
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
 
   standard_startup(&ejbuf, argc, &argv, NULL, 0, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));

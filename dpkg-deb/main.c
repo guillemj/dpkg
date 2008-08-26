@@ -36,6 +36,10 @@
 #include <ctype.h>
 #include <assert.h>
 
+#if HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include <dpkg-priv.h>
@@ -198,6 +202,10 @@ int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
 
   setlocale(LC_NUMERIC, "POSIX");
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
+
   standard_startup(&ejbuf, argc, &argv, NULL, NULL, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 

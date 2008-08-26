@@ -155,9 +155,6 @@ extern const char printforhelp[];
 /*** from startup.c ***/
 
 #define standard_startup(ejbuf, argc, argv, prog, loadcfg, cmdinfos) do {\
-  setlocale(LC_ALL, "");\
-  bindtextdomain(PACKAGE, LOCALEDIR);\
-  textdomain(PACKAGE);\
   if (setjmp(*ejbuf)) { /* expect warning about possible clobbering of argv */\
     error_unwind(ehflag_bombout); exit(2);\
   }\
@@ -449,12 +446,6 @@ void unsetenv(const char *x);
  *  */
 #ifndef BUILDOLDPKGFORMAT
 #define BUILDOLDPKGFORMAT 0
-#endif
-
-/* Take care of NLS matters.  */
-
-#if HAVE_LOCALE_H
-# include <locale.h>
 #endif
 
 DPKG_END_DECLS

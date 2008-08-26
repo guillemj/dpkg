@@ -36,6 +36,10 @@
 #include <ctype.h>
 #include <fcntl.h>
 
+#if HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include <dpkg-priv.h>
@@ -622,6 +626,10 @@ printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
   static void (*actionfunction)(const char *const *argv);
+
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
 
   standard_startup(&ejbuf, argc, &argv, DPKG, 1, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));

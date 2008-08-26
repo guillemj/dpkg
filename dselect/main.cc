@@ -38,6 +38,10 @@
 #include <ctype.h>
 #include <assert.h>
 
+#if HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
 #include <ncursesw/term.h>
 
 #include <dpkg.h>
