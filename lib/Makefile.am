@@ -25,7 +25,6 @@ libdpkg_a_SOURCES = \
 	dump.c \
 	ehandle.c \
 	fields.c \
-	gettext.h \
 	lock.c \
 	log.c \
 	md5.c md5.h \
