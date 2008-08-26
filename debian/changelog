@@ -89,6 +89,64 @@ dpkg (1.15.0) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Tue, 29 Jul 2008 02:34:59 +0300
 
+dpkg (1.14.21) unstable; urgency=low
+
+  [ Raphael Hertzog ]
+  * Small fix in "3.0 (quilt)" source format when using non-standard name
+    of the quilt series.
+  * Handle debian.tar.gz files like diff.gz in dpkg-buildpackage and
+    dpkg-genchanges to detect the kind of upload.
+  * Add "armel" to /usr/share/dpkg/archtable. Closes: #487768
+  * Modified Dpkg::BuildOptions to recognize and use spaces as separator
+    in DEB_BUILD_OPTIONS (in order to conform with the Debian policy
+    ruling established in #430649).
+  * Fix dpkg-source to not use -i and -I by default with "1.0" source
+    packages. Closes: #495138
+
+  [ Guillem Jover ]
+  * When loading the status file fix up any inconsistent package in state
+    triggers-awaited w/o the corresponding package with pending triggers.
+    Closes: #487637, #486843, #489068
+  * Fix --no-act in triggers related code. Closes: #495097
+  * Do not assert when dpkg stops processing packages due to too many
+    errors occurred while configuring or removing packages.
+    Thanks to Ian Jackson <ian@davenant.greenend.org.uk>. Closes: #483655
+  * Move lzma from dpkg Suggests to Pre-Depends. Closes: #456332
+  * Match description of -si option in dpkg-buildpackage to the one in
+    dpkg-genchanges. Closes: #493743
+  * Close --status-fd file descriptors on exec, so that they are not
+    inherited by the childs. Closes: #471488, #487684
+  * State that the preferred front-end is aptitude and replace one instance
+    of dselect usage with apt-get. Closes: #483785
+
+  [ Updated manpages translations ]
+  * French (Florent Usseil).
+  * German (Helge Kreutzmann).
+
+  [ Updated scripts translations ]
+  * Russian (Yuri Kozlov). Closes: #490076
+  * German (Helge Kreutzmann).
+
+  [ Updated dpkg translations ]
+  * Basque (Piarres Beobide). Closes: #490905
+  * Czech (Miroslav Kure).
+  * French (Christian Perrier).
+  * German (Sven Joachim).
+  * Korean (Changwoo Ryu).
+  * Romanian (Eddy Petrișor).
+  * Russian (Yuri Kozlov). Closes: #488689
+  * Simplified Chinese (Deng Xiyue). Closes: #496176
+  * Slovak (Ivan Masár). Closes: #488903, #495505
+  * Thai (Theppitak Karoonboonyanan). Closes: #488090
+
+  [ Added dpkg translations ]
+  * Lithuanian (Gintautas Miliauskas). Closes: #493326
+
+  [ Updated dselect translations ]
+  * Romanian (Eddy Petrișor).
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 26 Aug 2008 05:32:39 +0300
+
 dpkg (1.14.20) unstable; urgency=low
 
   [ Guillem Jover ]
@@ -126,6 +184,7 @@ dpkg (1.14.20) unstable; urgency=low
   * Brazilian Portuguese (Felipe Augusto van de Wiel).
   * Catalan (Jordi Mallach). Closes: #383448
   * Czech (Miroslav Kure).
+  * French (Christian Perrier).
   * Galician (Jacobo Tarrio). Closes: #483441
   * German (Sven Joachim).
   * Norwegian Bokmal (Hans Fredrik Nordhaug). Closes: #480626
@@ -145,11 +204,6 @@ dpkg (1.14.20) unstable; urgency=low
   * Polish (Wiktor Wandachowicz).
   * Russian (Yuri Kozlov).
   * Swedish (Peter Karlsson).
-
-  [ Updated programs translations ]
-  * Basque (Piarres Beobide). Closes: #481043
-  * French (Christian Perrier).
-  * Polish (Wiktor Wandachowicz).
 
   [ Updated dselect translations ]
   * Brazilian Portuguese (Felipe Augusto van de Wiel).

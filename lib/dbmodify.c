@@ -194,6 +194,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
     varbufinit(&uvb, 10240);
   }
 
+  trig_fixup_awaiters(cstatus);
   trig_incorporate(cstatus, admindir);
 
   return cstatus;
@@ -238,6 +239,41 @@ void modstatdb_shutdown(void) {
   free(updatefnbuf);
 }
 
+static void
+modstatdb_note_core(struct pkginfo *pkg)
+{
+  assert(cstatus >= msdbrw_write);
+
+  varbufreset(&uvb);
+  varbufrecord(&uvb, pkg, &pkg->installed);
+
+  if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
+    ohshite(_("unable to write updated status of `%.250s'"), pkg->name);
+  if (fflush(importanttmp))
+    ohshite(_("unable to flush updated status of `%.250s'"), pkg->name);
+  if (ftruncate(fileno(importanttmp), uvb.used))
+    ohshite(_("unable to truncate for updated status of `%.250s'"), pkg->name);
+  if (fsync(fileno(importanttmp)))
+    ohshite(_("unable to fsync updated status of `%.250s'"), pkg->name);
+  if (fclose(importanttmp))
+    ohshite(_("unable to close updated status of `%.250s'"), pkg->name);
+  sprintf(updatefnrest, IMPORTANTFMT, nextupdate);
+  if (rename(importanttmpfile, updatefnbuf))
+    ohshite(_("unable to install updated status of `%.250s'"), pkg->name);
+
+  /* Have we made a real mess? */
+  assert(strlen(updatefnrest) <= IMPORTANTMAXLEN);
+
+  nextupdate++;
+
+  if (nextupdate > MAXUPDATES) {
+    modstatdb_checkpoint();
+    nextupdate = 0;
+  }
+
+  createimptmp();
+}
+
 /* Note: If anyone wants to set some triggers-pending, they must also
  * set status appropriately, or we will undo it. That is, it is legal
  * to call this when pkg->status and pkg->trigpend_head disagree and
@@ -246,8 +282,6 @@ void modstatdb_shutdown(void) {
  */
 void modstatdb_note(struct pkginfo *pkg) {
   struct trigaw *ta;
-
-  assert(cstatus >= msdbrw_write);
 
   onerr_abort++;
 
@@ -268,31 +302,8 @@ void modstatdb_note(struct pkginfo *pkg) {
 	      versiondescribe(&pkg->installed.version, vdew_nonambig));
   statusfd_send("status: %s: %s", pkg->name, statusinfos[pkg->status].name);
 
-  varbufreset(&uvb);
-  varbufrecord(&uvb, pkg, &pkg->installed);
-  if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
-    ohshite(_("unable to write updated status of `%.250s'"), pkg->name);
-  if (fflush(importanttmp))
-    ohshite(_("unable to flush updated status of `%.250s'"), pkg->name);
-  if (ftruncate(fileno(importanttmp), uvb.used))
-    ohshite(_("unable to truncate for updated status of `%.250s'"), pkg->name);
-  if (fsync(fileno(importanttmp)))
-    ohshite(_("unable to fsync updated status of `%.250s'"), pkg->name);
-  if (fclose(importanttmp))
-    ohshite(_("unable to close updated status of `%.250s'"), pkg->name);
-  sprintf(updatefnrest, IMPORTANTFMT, nextupdate);
-  if (rename(importanttmpfile, updatefnbuf))
-    ohshite(_("unable to install updated status of `%.250s'"), pkg->name);
-  assert(strlen(updatefnrest)<=IMPORTANTMAXLEN); /* or we've made a real mess */
-
-  nextupdate++;  
-
-  if (nextupdate > MAXUPDATES) {
-    modstatdb_checkpoint();
-    nextupdate= 0;
-  }
-
-  createimptmp();
+  if (cstatus >= msdbrw_write)
+    modstatdb_note_core(pkg);
 
   if (!pkg->trigpend_head && pkg->othertrigaw_head) {
     /* Automatically remove us from other packages' Triggers-Awaited.

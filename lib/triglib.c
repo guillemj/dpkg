@@ -169,6 +169,52 @@ trig_clear_awaiters(struct pkginfo *notpend)
 	}
 }
 
+/* FIXME: switch to use the generic pkg list for lenny+1 */
+struct pkg_list {
+	struct pkg_list *next;
+	struct pkginfo *pkg;
+};
+
+static struct pkg_list *trig_awaited_pend_head;
+
+void
+trig_enqueue_awaited_pend(struct pkginfo *pend)
+{
+	struct pkg_list *tp;
+
+	for (tp = trig_awaited_pend_head; tp; tp = tp->next)
+		if (tp->pkg == pend)
+			return;
+
+	tp = nfmalloc(sizeof(*tp));
+	tp->pkg = pend;
+	tp->next = trig_awaited_pend_head;
+	trig_awaited_pend_head = tp;
+}
+
+/*
+ * Fix up packages in state triggers-awaited w/o the corresponding package
+ * with pending triggers. This can happen when dpkg was interrupted
+ * while in modstatdb_note, and the package in triggers-pending had its
+ * state modified but dpkg could not clearing the awaiters.
+ *
+ * XXX: possibly get rid of some of the checks done somewhere else for
+ *      this condition at run-time.
+ */
+void
+trig_fixup_awaiters(enum modstatdb_rw cstatus)
+{
+	struct pkg_list *tp;
+
+	if (cstatus < msdbrw_write)
+		return;
+
+	for (tp = trig_awaited_pend_head; tp; tp = tp->next)
+		if (!tp->pkg->trigpend_head)
+			trig_clear_awaiters(tp->pkg);
+	trig_awaited_pend_head = NULL;
+}
+
 /*---------- generalised handling of trigger kinds ----------*/
 
 static const struct trigkindinfo tki_explicit, tki_file, tki_unknown;

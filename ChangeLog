@@ -786,6 +786,93 @@
 
 	* configure.ac: Bump version to 1.15.0~.
 
+2008-08-26  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.21.
+
+2008-08-26  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg.1: Escape hyphen in apt-get command.
+
+2008-08-17  Guillem Jover  <guillem@debian.org>
+
+	* man/dpkg.1: Change reference to dselect as being the preferred
+	fron-end to aptitude. And 'apt-get dselect-upgrade' to be used to
+	act on the current package selections. Add references to aptitude
+	and apt man pages in 'SEE ALSO'.
+
+2008-08-16  Guillem Jover  <guillem@debian.org>
+
+	* src/main.c (setpipe): Set file descriptors to close on exec.
+
+2008-08-15  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.pl (usage): Fix description of -si option.
+	* man/dpkg-buildpackage.1: Match description of -si option with the
+	one from dpkg-genchanges.1.
+
+2008-08-15  Raphael Hertzog  <hertzog@debian.org>
+
+	* Dpkg/Source/Package.pm (new): Call init_options() only if
+	initialize() has been called as it's supposed to be called
+	only after the object has been upgraded to its target type.
+	(init_options): add a comment that explains that this function is
+	not called by Dpkg::Source::Package::V1::init_options() and
+	render the function more robust.
+
+2008-08-15  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* src/packages.c (process_queue): When onerr_abort is bigger than 0
+	return instead of breaking out of the loop, to avoid wrongly
+	asserting that !queue.length.
+
+2008-08-15  Guillem Jover  <guillem@debian.org>
+
+	* lib/dbmodify.c (modstatdb_note): Do not call modstatdb_note_core if
+	cstatus does not allow writting. Move the core functionallity to ...
+	(modstatdb_note_core): ... here. New function.
+	* src/help.c (post_postinst_tasks_core): Do not call trig_incorporate
+	if running under --no-act.
+	* src/trigproc.c (trigproc): Do not call maintainer_script_postinst
+	if running under --no-act.
+	(trig_transitional_activate): Do not call trig_file_interests_save
+	if cstatus does not allow writting.
+
+2008-08-15  Guillem Jover  <guillem@debian.org>
+
+	* lib/dpkg-db.h (trig_enqueue_awaited_pend): New function prototype.
+	(trig_fixup_awaiters): Likewise.
+	* lib/dbmodify.c (modstatdb_init): Call trig_fixup_awaiters.
+	* lib/fields.c (f_trigaw): Call trig_enqueue_awaited_pend.
+	* lib/triglib.c (struct pkg_list): New type.
+	(trig_awaited_pend_head): New variable.
+	(trig_enqueue_awaited_pend): New function definition.
+	(trig_fixup_awaiters): Likewise.
+
+2008-06-24  Raphael Hertzog  <hertzog@debian.org>
+
+	* debian/archtable: Add armel.
+
+2008-06-21  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-buildpackage.pl, scripts/dpkg-genchanges.pl: Treat
+	debian.tar.gz files (used by 3.0 (quilt) source packages) like
+	diff.gz files when it comes to detection of the kind of upload.
+
+2008-06-21  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm: Define QUILT_SERIES
+	when running quilt in order to be able to use quilt series with
+	non-standard names (like debian.series or ubuntu.series).
+
+2008-06-18  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Bump version to 1.14.21~.
+
+2008-06-18  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Release 1.14.20.
+
 2008-06-16  Guillem Jover  <guillem@debian.org>
 
 	* lib/triglib.c (trig_file_interests_ensure): Pass the proper mask

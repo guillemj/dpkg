@@ -453,12 +453,12 @@ if (!is_binaryonly) {
 
     if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||
 	 $sourcestyle =~ m/d/) &&
-	grep(m/\.diff\.$comp_regex$/,@sourcefiles)) {
+	grep(m/\.(debian\.tar|diff)\.$comp_regex$/,@sourcefiles)) {
 	$origsrcmsg= _g("not including original source code in upload");
 	@sourcefiles= grep(!m/\.orig\.tar\.$comp_regex$/,@sourcefiles);
     } else {
 	if ($sourcestyle =~ m/d/ &&
-	    !grep(m/\.diff\.$comp_regex$/,@sourcefiles)) {
+	    !grep(m/\.(debian\.tar|diff)\.$comp_regex$/,@sourcefiles)) {
 	    warning(_g("ignoring -sd option for native Debian package"));
 	}
         $origsrcmsg= _g("including full source code in upload");

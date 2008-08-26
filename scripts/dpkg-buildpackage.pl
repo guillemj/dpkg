@@ -60,7 +60,7 @@ Options:
   -m<maint>      maintainer for package is <maint>.    }
   -e<maint>      maintainer for release is <maint>.    } only passed
   -C<descfile>   changes are described in <descfile>.  } to dpkg-genchanges
-  -si (default)  src includes orig for rev. 0 or 1.    }
+  -si (default)  src includes orig if new upstream.    }
   -sa            uploaded src always includes orig.    }
   -sd            uploaded src is diff and .dsc only.   }
   -sn            force Debian native source format.      }
@@ -422,10 +422,10 @@ close CHANGES or subprocerr(_g('dpkg-genchanges'));
 close OUT or syserr(_g('write changes file'));
 
 my $srcmsg;
-sub fileomitted { return $files !~ /$_[0]/ }
+sub fileomitted($) { return $files !~ /$_[0]/ }
 if (fileomitted '\.deb') {
     # source only upload
-    if (fileomitted "\.diff\.$comp_regex") {
+    if (fileomitted "\.diff\.$comp_regex" and fileomitted "\.debian\.tar\.$comp_regex") {
 	$srcmsg = _g('source only upload: Debian-native package');
     } elsif (fileomitted "\.orig\.tar\.$comp_regex") {
 	$srcmsg = _g('source only, diff-only upload (original source NOT included)');
@@ -436,7 +436,7 @@ if (fileomitted '\.deb') {
     $srcmsg = _g('full upload (original source is included)');
     if (fileomitted '\.dsc') {
 	$srcmsg = _g('binary only upload (no source included)');
-    } elsif (fileomitted "\.diff\.$comp_regex") {
+    } elsif (fileomitted "\.diff\.$comp_regex" and fileomitted "\.debian\.tar\.$comp_regex") {
 	$srcmsg = _g('full upload; Debian-native package (full source is included)');
     } elsif (fileomitted "\.orig\.tar\.$comp_regex") {
 	$srcmsg = _g('binary and diff upload (original source NOT included)');

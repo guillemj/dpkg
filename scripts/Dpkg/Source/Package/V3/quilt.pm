@@ -105,8 +105,13 @@ sub run_quilt {
     unless (File::Spec->file_name_is_absolute($absdir)) {
         $absdir = File::Spec->rel2abs($dir);
     }
+    my $series = $self->get_series_file($dir);
+    unless (File::Spec->file_name_is_absolute($series)) {
+        $series = File::Spec->rel2abs($series);
+    }
     my %opts = (
-        env => { QUILT_PATCHES => "$absdir/debian/patches" },
+        env => { QUILT_PATCHES => "$absdir/debian/patches",
+                 QUILT_SERIES => $series },
         'chdir' => $dir,
         'exec' => [ 'quilt', '--quiltrc', '/dev/null', @$params ],
         %more_opts
