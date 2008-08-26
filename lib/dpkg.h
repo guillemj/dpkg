@@ -165,11 +165,9 @@ extern const char printforhelp[];
   myopt(argv,cmdinfos);\
 } while (0)
 
-#define standard_shutdown(freemem) do {\
+#define standard_shutdown() do { \
   set_error_display(NULL, NULL); \
   error_unwind(ehflag_normaltidy);\
-  if (freemem)\
-    nffreeall();\
 } while (0)
 
 /*** from ehandle.c ***/

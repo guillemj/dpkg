@@ -514,7 +514,7 @@ int main(int, const char *const *argv) {
   }
 
   cursesoff();
-  standard_shutdown(0);
+  standard_shutdown();
   return(0);
 }
 

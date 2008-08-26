@@ -212,7 +212,7 @@ int main(int argc, const char *const *argv) {
 
   unsetenv("GZIP");
   action(argv);
-  standard_shutdown(NULL);
+  standard_shutdown();
   exit(0);
 }
 

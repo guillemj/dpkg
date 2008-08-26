@@ -234,7 +234,7 @@ main(int argc, const char *const *argv)
 		trigdef_process_done();
 	}
 
-	standard_shutdown(0);
+	standard_shutdown();
 
 	return 0;
 }

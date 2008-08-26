@@ -189,6 +189,6 @@ int main(int argc, const char *const *argv) {
 
   if (ferror(stderr)) werr("stderr");
   
-  standard_shutdown(0);
+  standard_shutdown();
   exit(0);
 }
