@@ -199,12 +199,12 @@ void baselist::startdisplay() {
 
   if (debug)
     fprintf(debug,
-            _("baselist::startdisplay() done ...\n\n"
+            "baselist::startdisplay() done ...\n\n"
             " xmax=%d, ymax=%d;\n\n"
             " title_height=%d, colheads_height=%d, list_height=%d;\n"
             " thisstate_height=%d, info_height=%d, whatinfo_height=%d;\n\n"
             " colheads_row=%d, thisstate_row=%d, info_row=%d;\n"
-            " whatinfo_row=%d, list_row=%d;\n\n"),
+            " whatinfo_row=%d, list_row=%d;\n\n",
             xmax, ymax,
             title_height, colheads_height, list_height,
             thisstate_height, info_height, whatinfo_height,

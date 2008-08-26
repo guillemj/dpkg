@@ -206,13 +206,13 @@ int packagelist::resolvedepcon(dependency *depends) {
 
   if (depdebug && debug) {
     fprintf(debug,"packagelist[%p]::resolvedepcon([%p] %s --%s-->",
-          this,depends,depends->up->name,gettext(relatestrings[depends->type]));
+            this, depends, depends->up->name, relatestrings[depends->type]);
     for (possi=depends->list; possi; possi=possi->next)
       fprintf(debug," %s",possi->ed->name);
     fprintf(debug,"); (ing)->want=%s\n",
             depends->up->clientdata
-            ? gettext(wantstrings[depends->up->clientdata->suggested])
-            : _("(no clientdata)"));
+            ? wantstrings[depends->up->clientdata->suggested]
+            : "(no clientdata)");
   }
   
   if (!depends->up->clientdata) return 0;
@@ -239,7 +239,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (depdebug && debug)
       fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): depends found %s\n",
               this,depends,
-              possi ? possi->ed->name : _("[none]"));
+              possi ? possi->ed->name : "[none]");
     if (possi) return 0;
 
     // Ensures all in the recursive list; adds info strings; ups priorities

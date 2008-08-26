@@ -52,14 +52,14 @@ void packagelist::add(pkginfo *pkg) {
 
 void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
   if (debug) fprintf(debug,"packagelist[%p]::add(pkginfo %s, %s)\n",
-                     this,pkg->name,gettext(wantstrings[nw]));
+                     this, pkg->name, wantstrings[nw]);
   add(pkg);  if (!pkg->clientdata) return;
   pkg->clientdata->direct= nw;
   selpriority np;
   np= would_like_to_install(nw,pkg) ? sp_selecting : sp_deselecting;
   if (pkg->clientdata->spriority > np) return;
   if (debug) fprintf(debug,"packagelist[%p]::add(pkginfo %s, %s) setting\n",
-                     this,pkg->name,gettext(wantstrings[nw]));
+                     this, pkg->name, wantstrings[nw]);
   pkg->clientdata->suggested= pkg->clientdata->selected= nw;
   pkg->clientdata->spriority= np;
     

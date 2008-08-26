@@ -118,8 +118,8 @@ void packagelist::addheading(enum ssavailval ssavail,
   
   if (debug) fprintf(debug,"packagelist[%p]::addheading(%d,%d,%d,%s,%s)\n",
                      this,ssavail,ssstate,priority,
-                     otherpriority ? otherpriority : _("<null>"),
-                     section ? section : _("<null>"));
+                     otherpriority ? otherpriority : "<null>",
+                     section ? section : "<null>");
 
   struct pkginfo *newhead= new pkginfo;
   newhead->name= 0;
