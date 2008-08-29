@@ -5,6 +5,9 @@ dpkg (1.14.22) UNRELEASED; urgency=low
     "3.0 (quilt)" format when they have local changes and no pre-existing
     quilt series file. Now always provide a valid name in QUILT_SERIES.
     Closes: #496920
+  * Fix permissions of the automatically generated pacth in "2.0" and "3.0
+    (quilt)" format. They were improperly set to 0600 due to tempfile()
+    and were not reset to a sane value. Closes: #496925
 
   [ Updated dpkg translations ]
   * Brazilian Portuguese (Felipe Augusto van de Wiel).

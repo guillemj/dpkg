@@ -337,7 +337,7 @@ sub do_build {
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
             %{$self->{'diff_options'}}, handle_binary_func => $handle_binary);
     error(_g("unrepresentable changes to source")) if not $diff->finish();
-    # The previous auto-patch must be removed, it has not been used and it
+    # The previous auto-patch must be removed, it has not been used and it
     # will be recreated if it's still needed
     my $autopatch = File::Spec->catfile($dir, "debian", "patches",
                                         $self->get_autopatch_name());
@@ -356,6 +356,8 @@ sub do_build {
         }
         rename($tmpdiff, $autopatch) ||
                 syserr(_g("cannot rename %s to %s"), $tmpdiff, $autopatch);
+        chmod(0666 & ~ umask(), $autopatch) ||
+                syserr(_g("unable to change permission of `%s'"), $autopatch);
     }
     $self->register_autopatch($dir);
     pop @Dpkg::Exit::handlers;
