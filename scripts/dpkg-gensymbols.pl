@@ -12,6 +12,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error syserr usageerr);
 use Dpkg::Control;
 use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Path qw(check_files_are_the_same);
 
 textdomain("dpkg-dev");
 
@@ -137,12 +138,18 @@ foreach my $file ($input, $output, "debian/$oppackage.symbols.$host_arch",
 
 # Scan package build dir looking for libraries
 if (not scalar @files) {
-    foreach my $path (@librarypaths) {
+    PATH: foreach my $path (@librarypaths) {
 	my $libdir = "$packagebuilddir$path";
 	$libdir =~ s{/+}{/}g;
 	lstat $libdir;
 	next if not -d _;
 	next if -l _; # Skip directories which are symlinks
+        # Skip any directory _below_ a symlink as well
+        my $updir = $libdir;
+        while (($updir =~ s{/[^/]*$}{}) and
+               not check_files_are_the_same($packagebuilddir, $updir)) {
+            next PATH if -l $updir;
+        }
 	opendir(DIR, "$libdir") ||
 	    syserr(_g("Can't read directory %s: %s"), $libdir, $!);
 	push @files, grep {

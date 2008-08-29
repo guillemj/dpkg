@@ -8,6 +8,10 @@ dpkg (1.14.22) UNRELEASED; urgency=low
   * Fix permissions of the automatically generated pacth in "2.0" and "3.0
     (quilt)" format. They were improperly set to 0600 due to tempfile()
     and were not reset to a sane value. Closes: #496925
+  * Fix dpkg-gensymbols to not scan (real) directories accessed through a
+    symlink contained in the build tree as they may well not be part of
+    the package (with absolute symlinks). It was already skipping symlinks
+    (since 1.14.16.6) for similar reasons.
 
   [ Updated dpkg translations ]
   * Brazilian Portuguese (Felipe Augusto van de Wiel).
