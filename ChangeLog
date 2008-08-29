@@ -1,3 +1,12 @@
+2008-08-29  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm: run_quilt() can be run
+	when no quilt series file exist yet. In that case we have to
+	provide the name of the series file that we want to create (as the
+	quilt command might create it). Up to now
+	File::Spec->rel2abs(undef) returned the name of the current
+	directory and we improperly used that as value of QUILT_SERIES.
+
 2008-08-26  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Bump version to 1.14.22~.
