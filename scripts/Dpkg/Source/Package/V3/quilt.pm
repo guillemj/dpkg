@@ -106,6 +106,8 @@ sub run_quilt {
         $absdir = File::Spec->rel2abs($dir);
     }
     my $series = $self->get_series_file($dir);
+    # Use default name if no series files exist yet
+    $series = "$absdir/debian/patches/series" unless defined $series;
     unless (File::Spec->file_name_is_absolute($series)) {
         $series = File::Spec->rel2abs($series);
     }

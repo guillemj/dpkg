@@ -1,3 +1,34 @@
+2008-09-05  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Release 1.14.22.
+
+2008-08-29  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-gensymbols.pl: It was already skipping symlinks
+	within the package build tree. Now it also skips real
+	directories accessed through a symlink contained in the package
+	build tree. Package like libc6-386 had symlinks usr/lib32
+	pointing to some directories outside of the build tree and
+	the LD_LIBRARY_PATH set by fakeroot led contained
+	/usr/lib32/libfakeroot which made dpkg-gensymbols scan this
+	directory and add libfakeroot to the libc6-386 symbols file!
+
+2008-08-29  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Package/V3/quilt.pm: run_quilt() can be run
+	when no quilt series file exist yet. In that case we have to
+	provide the name of the series file that we want to create (as the
+	quilt command might create it). Up to now
+	File::Spec->rel2abs(undef) returned the name of the current
+	directory and we improperly used that as value of QUILT_SERIES.
+	* scripts/Dpkg/Source/Package/V2.pm (do_build): Change permissions
+	of the automatically generated patch which is initially created
+	0600 with tempfile().
+
+2008-08-26  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.22~.
+
 2008-08-26  Guillem Jover  <guillem@debian.org>
 
 	* lib/gettext.h: Move to ..
