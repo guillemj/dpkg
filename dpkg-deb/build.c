@@ -24,6 +24,7 @@
 #include <compat.h>
 
 #include <dpkg-i18n.h>
+#include <myopt.h>
 
 #include <stdio.h>
 #include <string.h>

@@ -632,7 +632,9 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  standard_startup(&ejbuf, argc, &argv, DPKG, 1, cmdinfos);
+  standard_startup(&ejbuf, DPKG, 1, cmdinfos);
+  myopt(&argv, cmdinfos);
+
   if (!cipaction) badusage(_("need an action option"));
 
   if (!f_triggers)

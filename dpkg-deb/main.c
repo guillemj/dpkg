@@ -207,7 +207,9 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  standard_startup(&ejbuf, argc, &argv, NULL, NULL, cmdinfos);
+  standard_startup(&ejbuf, NULL, NULL, cmdinfos);
+  myopt(&argv, cmdinfos);
+
   if (!cipaction) badusage(_("need an action option"));
 
   unsetenv("GZIP");

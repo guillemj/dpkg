@@ -32,8 +32,6 @@ DPKG_BEGIN_DECLS
 #include <stdio.h>
 #include <sys/types.h>
 
-#include <myopt.h>
-
 #ifdef HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
@@ -154,7 +152,7 @@ extern const char printforhelp[];
 
 /*** from startup.c ***/
 
-#define standard_startup(ejbuf, argc, argv, prog, loadcfg, cmdinfos) do {\
+#define standard_startup(ejbuf, prog, loadcfg, cmdinfos) do {\
   if (setjmp(*ejbuf)) { /* expect warning about possible clobbering of argv */\
     error_unwind(ehflag_bombout); exit(2);\
   }\
@@ -162,7 +160,6 @@ extern const char printforhelp[];
   umask(022); /* Make sure all our status databases are readable. */\
   if (loadcfg)\
     loadcfgfile(prog, cmdinfos);\
-  myopt(argv,cmdinfos);\
 } while (0)
 
 #define standard_shutdown() do { \

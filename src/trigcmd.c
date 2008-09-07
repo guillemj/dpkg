@@ -193,7 +193,9 @@ main(int argc, const char *const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	standard_startup(&ejbuf, argc, &argv, NULL, 0, cmdinfos);
+	standard_startup(&ejbuf, NULL, 0, cmdinfos);
+	myopt(&argv, cmdinfos);
+
 	setvbuf(stdout, NULL, _IONBF, 0);
 
 	if (f_check) {
