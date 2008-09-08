@@ -99,7 +99,7 @@ DPKG_BEGIN_DECLS
 #define IMPORTANTTMP      "tmp.i"
 #define REASSEMBLETMP     "reassemble" DEBEXT
 #define IMPORTANTMAXLEN    10
-#define IMPORTANTFMT      "%04d" /* change => also change lib/database.c:cleanup_updates */
+#define IMPORTANTFMT      "%04d"
 #define MAXUPDATES         250
 
 #define MAINTSCRIPTPKGENVVAR "DPKG_MAINTSCRIPT_PACKAGE"
