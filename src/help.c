@@ -24,6 +24,7 @@
 #include <dpkg-i18n.h>
 
 #include <errno.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <assert.h>

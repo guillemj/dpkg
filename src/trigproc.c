@@ -26,6 +26,7 @@
 #include <dpkg-i18n.h>
 
 #include <assert.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/fcntl.h>
 

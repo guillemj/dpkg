@@ -25,6 +25,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>
