@@ -31,7 +31,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <dpkg.h>
 #include <gettext.h>
 
 #define _(str) gettext(str)
@@ -46,15 +45,23 @@ int vsnprintf (char *buf, size_t maxsize, const char *fmt, va_list al) {
 
   if (maxsize == 0) return -1;
   if (!file) {
-    file= tmpfile(); if (!file) ohshite(_("unable to open tmpfile for vsnprintf"));
+    file = tmpfile();
+    if (!file)
+      return -1;
   } else {
-    if (fseek(file,0,0)) ohshite(_("unable to rewind at start of vsnprintf"));
-    if (ftruncate(fileno(file),0)) ohshite(_("unable to truncate in vsnprintf"));
+    if (fseek(file, 0, 0))
+      return -1;
+    if (ftruncate(fileno(file), 0))
+      return -1;
   }
-  if (vfprintf(file,fmt,al) == EOF) ohshite(_("write error in vsnprintf"));
-  if (fflush(file)) ohshite(_("unable to flush in vsnprintf"));
-  if (fstat(fileno(file),&stab)) ohshite(_("unable to stat in vsnprintf"));
-  if (fseek(file,0,0)) ohshite(_("unable to rewind in vsnprintf"));
+  if (vfprintf(file, fmt, al) == EOF)
+    return -1;
+  if (fflush(file))
+    return -1;
+  if (fstat(fileno(file), &stab))
+    return -1;
+  if (fseek(file, 0, 0))
+    return -1;
   want= stab.st_size;
   if (want >= maxsize) {
     want= maxsize-1; retval= -1;
@@ -62,7 +69,8 @@ int vsnprintf (char *buf, size_t maxsize, const char *fmt, va_list al) {
     retval= want;
   }
   nr= fread(buf,1,want-1,file);
-  if (nr != want-1) ohshite(_("read error in vsnprintf truncated"));
+  if (nr != want - 1)
+    return -1;
   buf[want]= NULL;
 
   return retval;
