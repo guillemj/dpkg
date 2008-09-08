@@ -207,7 +207,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  standard_startup(&ejbuf, NULL, NULL, cmdinfos);
+  standard_startup(&ejbuf);
   myopt(&argv, cmdinfos);
 
   if (!cipaction) badusage(_("need an action option"));

@@ -152,14 +152,12 @@ extern const char printforhelp[];
 
 /*** from startup.c ***/
 
-#define standard_startup(ejbuf, prog, loadcfg, cmdinfos) do {\
+#define standard_startup(ejbuf) do {\
   if (setjmp(*ejbuf)) { /* expect warning about possible clobbering of argv */\
     error_unwind(ehflag_bombout); exit(2);\
   }\
   push_error_handler(ejbuf, print_error_fatal, NULL); \
   umask(022); /* Make sure all our status databases are readable. */\
-  if (loadcfg)\
-    loadcfgfile(prog, cmdinfos);\
 } while (0)
 
 #define standard_shutdown() do { \
