@@ -19,6 +19,7 @@
  */
 
 #include <config.h>
+#include <compat.h>
 
 #include <stddef.h>
 #include <stdarg.h>
@@ -31,9 +32,8 @@ snprintf(char *str, size_t n, char const *fmt, ...)
 	va_list ap;
 	int i;
 
-	(void)n;
 	va_start(ap, fmt);
-	i = vsprintf(str, fmt, ap);
+	i = vsnprintf(str, n, fmt, ap);
 	va_end(ap);
 
 	return i;
