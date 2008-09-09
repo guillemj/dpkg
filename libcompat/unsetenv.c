@@ -24,18 +24,18 @@
 #include <string.h>
 
 #ifndef HAVE_UNSETENV
-void
+int
 unsetenv(const char *p)
 {
 	char *q;
 
 	q = malloc(strlen(p) + 3);
 	if (!q)
-		return;
+		return -1;
 
 	strcpy(q, p);
 	strcat(q, "=");
-	putenv(q);
+	return putenv(q);
 }
 #endif
 

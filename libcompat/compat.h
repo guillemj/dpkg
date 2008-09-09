@@ -70,7 +70,7 @@ int alphasort(const struct dirent *a, const struct dirent *b);
 #endif
 
 #ifndef HAVE_UNSETENV
-void unsetenv(const char *x);
+int unsetenv(const char *x);
 #endif
 
 #ifdef __cplusplus
