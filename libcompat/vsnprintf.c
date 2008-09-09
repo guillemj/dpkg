@@ -70,7 +70,7 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 	nr = fread(buf, 1, want - 1, file);
 	if (nr != want - 1)
 		return -1;
-	buf[want] = NULL;
+	buf[want] = '\0';
 
 	return retval;
 }
