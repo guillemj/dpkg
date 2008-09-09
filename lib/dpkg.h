@@ -395,53 +395,6 @@ void compress_cat(enum compress_type type, int fd_in, int fd_out,
                   const char *compression, char *desc, ...)
                   NONRETURNING PRINTFFORMAT(5, 6);
 
-/*** from compat.c ***/
-
-#ifndef HAVE_STRERROR
-const char *strerror(int);
-#endif
-
-#ifndef HAVE_STRSIGNAL
-const char *strsignal(int);
-#endif
-
-#ifndef HAVE_SCANDIR
-struct dirent;
-int scandir(const char *dir, struct dirent ***namelist,
-	    int (*select)(const struct dirent *),
-	    int (*compar)(const void*, const void*));
-#endif
-
-#ifndef HAVE_ALPHASORT
-struct dirent;
-int alphasort(const struct dirent *a, const struct dirent *b);
-#endif
-
-#ifndef HAVE_UNSETENV
-void unsetenv(const char *x);
-#endif
-
-/*** other compatibility functions ***/
-
-#ifndef offsetof
-#define offsetof(st, m) ((size_t)&((st *)NULL)->m)
-#endif
-
-#ifndef HAVE_STRTOUL
-#define strtoul strtol
-#endif
-
-#ifndef HAVE_VA_COPY
-#define va_copy(dest, src) (dest) = (src)
-#endif
-
-/* Define WCOREDUMP if we don't have it already - coredumps won't be
- * detected, though.
- */
-#ifndef WCOREDUMP
-#define WCOREDUMP(x) 0
-#endif
-
 /* Set BUILDOLDPKGFORMAT to 1 to build old-format archives by default.
  *  */
 #ifndef BUILDOLDPKGFORMAT

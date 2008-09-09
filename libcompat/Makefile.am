@@ -25,3 +25,31 @@ if !HAVE_STRNLEN
 libcompat_a_SOURCES += strnlen.c strnlen.h
 endif
 
+if !HAVE_STRERROR
+libcompat_a_SOURCES += strerror.c
+endif
+
+if !HAVE_STRSIGNAL
+libcompat_a_SOURCES += strsignal.c
+endif
+
+if !HAVE_SNPRINTF
+libcompat_a_SOURCES += snprintf.c
+endif
+
+if !HAVE_VSNPRINTF
+libcompat_a_SOURCES += vsnprintf.c
+endif
+
+if !HAVE_ALPHASORT
+libcompat_a_SOURCES += alphasort.c
+endif
+
+if !HAVE_SCANDIR
+libcompat_a_SOURCES += scandir.c
+endif
+
+if !HAVE_UNSETENV
+libcompat_a_SOURCES += unsetenv.c
+endif
+

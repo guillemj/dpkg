@@ -19,7 +19,6 @@ libdpkg_a_SOURCES = \
 	dpkg-priv.h \
 	dlist.h \
 	cleanup.c \
-	compat.c \
 	compression.c \
 	database.c \
 	dbmodify.c \

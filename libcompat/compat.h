@@ -2,6 +2,7 @@
  * libcompat - system compatibility library
  * compat.h - system compatibility declarations
  *
+ * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2008 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -26,7 +27,51 @@
 extern "C" {
 #endif
 
+#ifndef offsetof
+#define offsetof(st, m) ((size_t)&((st *)NULL)->m)
+#endif
+
+/*
+ * Define WCOREDUMP if we don't have it already, coredumps won't be
+ * detected, though.
+ */
+#ifndef WCOREDUMP
+#define WCOREDUMP(x) 0
+#endif
+
+#ifndef HAVE_STRTOUL
+#define strtoul strtol
+#endif
+
+#ifndef HAVE_VA_COPY
+#define va_copy(dest, src) (dest) = (src)
+#endif
+
 #include <strnlen.h>
+
+#ifndef HAVE_STRERROR
+const char *strerror(int);
+#endif
+
+#ifndef HAVE_STRSIGNAL
+const char *strsignal(int);
+#endif
+
+#ifndef HAVE_SCANDIR
+struct dirent;
+int scandir(const char *dir, struct dirent ***namelist,
+            int (*select)(const struct dirent *),
+            int (*compar)(const void *, const void *));
+#endif
+
+#ifndef HAVE_ALPHASORT
+struct dirent;
+int alphasort(const struct dirent *a, const struct dirent *b);
+#endif
+
+#ifndef HAVE_UNSETENV
+void unsetenv(const char *x);
+#endif
 
 #ifdef __cplusplus
 }

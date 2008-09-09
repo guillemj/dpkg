@@ -1,5 +1,27 @@
 2008-09-14  Guillem Jover  <guillem@debian.org>
 
+	* configure.ac (AC_CHECK_FUNCS): Move 'vsnprintf', 'snprintf',
+	'strerror', 'strsignal', 'scandir', 'alphasort' and 'unsetenv' to ...
+	(DPKG_CHECK_COMPAT_FUNCS): ... here.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Remove 'compat.c'.
+	* lib/dpkg.h (strerror, strsignal, scandir, alphasort, unsetenv)
+	(offsetof, strtoul, va_copy, WCOREDUMP): Move declarations to ...
+	* libcompat/compat.h: ... here.
+	* libcompat/Makefile.am (libcompat_a_SOURCES): Add 'strerror.c',
+	'strsignal.c', 'snprintf.c', 'vsnprintf.c', 'alphasort.c',
+	'scandir.c' and 'unsetenv.c'.
+	* po/POTFILES.in: Remove 'lib/compat.c'.
+	* lib/compat.c: Split into ...
+	* libcompat/alphasort.c: ... here. New file.
+	* libcompat/scandir.c: Likewise.
+	* libcompat/snprintf.c: Likewise.
+	* libcompat/strerror.c: Likewise.
+	* libcompat/strsignal.c: Likewise.
+	* libcompat/unsetenv.c: Likewise.
+	* libcompat/vsnprintf.c: Likewise.
+
+2008-09-14  Guillem Jover  <guillem@debian.org>
+
 	* lib/compat.c: Do not include <dpkg.h> anymore.
 	(vsnprintf): Return negative on error instead of ohshite.
 
