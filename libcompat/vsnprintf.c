@@ -56,7 +56,7 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 		want = total;
 	if (fflush(file))
 		return -1;
-	if (fseek(file, 0, 0))
+	if (fseek(file, 0, SEEK_SET))
 		return -1;
 
 	nr = fread(buf, 1, want, file);
