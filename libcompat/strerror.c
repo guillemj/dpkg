@@ -37,7 +37,7 @@ strerror(int e)
 	if (e >= 0 && e < sys_nerr)
 		return sys_errlist[e];
 
-	sprintf(buf, _("System error no.%d"), e);
+	sprintf(buf, _("Unknown error %d"), e);
 
 	return buf;
 }
