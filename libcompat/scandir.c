@@ -47,7 +47,7 @@ scandir(const char *dir, struct dirent ***namelist,
 		return -1;
 
 	while ((e = readdir(d)) != NULL) {
-		if (!filter(e))
+		if (filter != NULL && !filter(e))
 			continue;
 
 		m = malloc(sizeof(struct dirent) + strlen(e->d_name));
@@ -68,7 +68,8 @@ scandir(const char *dir, struct dirent ***namelist,
 	}
 	(*namelist)[used] = NULL;
 
-	qsort(*namelist, used, sizeof(struct dirent *), cmp);
+	if (cmp != NULL)
+		qsort(*namelist, used, sizeof(struct dirent *), cmp);
 
 	return used;
 }
