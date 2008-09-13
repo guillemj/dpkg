@@ -29,6 +29,7 @@
 
 #ifndef HAVE_DECL_SYS_SIGLIST
 const char *const sys_siglist[] = {
+	NULL,		/* 0 */
 	"SIGHUP",	/* 1 */
 	"SIGINT",	/* 2 */
 	"SIGQUIT",	/* 3 */
