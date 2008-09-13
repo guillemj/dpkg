@@ -30,8 +30,8 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 {
 	static FILE *file = NULL;
 
-	unsigned long want, nr;
-	int total, retval;
+	size_t want, nr;
+	int total;
 
 	if (maxsize == 0)
 		return -1;
@@ -50,25 +50,21 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 	total = vfprintf(file, fmt, al);
 	if (total < 0)
 		return -1;
+	if (total >= (int)maxsize)
+		want = maxsize - 1;
+	else
+		want = total;
 	if (fflush(file))
 		return -1;
 	if (fseek(file, 0, 0))
 		return -1;
 
-	want = total;
-	if (want >= maxsize) {
-		want = maxsize - 1;
-		retval = -1;
-	} else {
-		retval = want;
-	}
-
-	nr = fread(buf, 1, want - 1, file);
-	if (nr != want - 1)
+	nr = fread(buf, 1, want, file);
+	if (nr != want)
 		return -1;
 	buf[want] = '\0';
 
-	return retval;
+	return total;
 }
 #endif
 

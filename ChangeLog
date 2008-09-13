@@ -1,5 +1,12 @@
 2008-09-14  Guillem Jover  <guillem@debian.org>
 
+	* libcompat/vsnprintf.c (vsnprintf): Change size and nr types from
+	unsigled long to size_t. Always return the amount that would be
+	written regardless of any truncation. Do not read one byte less from
+	the temporary file.
+
+2008-09-14  Guillem Jover  <guillem@debian.org>
+
 	* libcompat/vsnprintf.c (vsnprintf): Use the return value from
 	vfprintf as the formatted string size instead of using fstat to get
 	the file size.
