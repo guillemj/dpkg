@@ -28,7 +28,7 @@
 #define _(str) gettext(str)
 
 #ifndef HAVE_DECL_SYS_SIGLIST
-const char *const sys_siglist[32] = {
+const char *const sys_siglist[] = {
 	"SIGHUP",	/* 1 */
 	"SIGINT",	/* 2 */
 	"SIGQUIT",	/* 3 */
@@ -51,16 +51,6 @@ const char *const sys_siglist[32] = {
 	"SIGTSTP",	/* 20 */
 	"SIGTTIN",	/* 21 */
 	"SIGTTOU",	/* 22 */
-	"SIGXXX",	/* 23 */
-	"SIGXXX",	/* 24 */
-	"SIGXXX",	/* 25 */
-	"SIGXXX",	/* 26 */
-	"SIGXXX",	/* 27 */
-	"SIGXXX",	/* 28 */
-	"SIGXXX",	/* 29 */
-	"SIGXXX",	/* 30 */
-	"SIGXXX",	/* 31 */
-	"SIGXXX"	/* 32 */
 };
 #else
 extern const char *const sys_siglist[];
@@ -72,7 +62,7 @@ strsignal(int s)
 {
 	static char buf[100];
 
-	if (s >= 0 && s < NSIG)
+	if (s >= 0 && s < sizeof(sys_siglist) / sizeof(sys_siglist[0]))
 		return sys_siglist[s];
 
 	sprintf(buf, _("Signal no.%d"), s);
