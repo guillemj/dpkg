@@ -20,8 +20,6 @@
 
 #include <config.h>
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -32,9 +30,8 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 {
 	static FILE *file = NULL;
 
-	struct stat stab;
 	unsigned long want, nr;
-	int retval;
+	int total, retval;
 
 	if (maxsize == 0)
 		return -1;
@@ -50,16 +47,15 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 			return -1;
 	}
 
-	if (vfprintf(file, fmt, al) < 0)
+	total = vfprintf(file, fmt, al);
+	if (total < 0)
 		return -1;
 	if (fflush(file))
-		return -1;
-	if (fstat(fileno(file), &stab))
 		return -1;
 	if (fseek(file, 0, 0))
 		return -1;
 
-	want = stab.st_size;
+	want = total;
 	if (want >= maxsize) {
 		want = maxsize - 1;
 		retval = -1;
