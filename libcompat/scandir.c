@@ -28,8 +28,8 @@
 #ifndef HAVE_SCANDIR
 int
 scandir(const char *dir, struct dirent ***namelist,
-        int (*select)(const struct dirent *),
-        int (*compar)(const void *, const void *))
+        int (*filter)(const struct dirent *),
+        int (*cmp)(const void *, const void *))
 {
 	DIR *d;
 	int used, avail;
@@ -47,7 +47,7 @@ scandir(const char *dir, struct dirent ***namelist,
 		return -1;
 
 	while ((e = readdir(d)) != NULL) {
-		if (!select(e))
+		if (!filter(e))
 			continue;
 
 		m = malloc(sizeof(struct dirent) + strlen(e->d_name));
@@ -68,7 +68,7 @@ scandir(const char *dir, struct dirent ***namelist,
 	}
 	(*namelist)[used] = NULL;
 
-	qsort(*namelist, used, sizeof(struct dirent *), compar);
+	qsort(*namelist, used, sizeof(struct dirent *), cmp);
 
 	return used;
 }
