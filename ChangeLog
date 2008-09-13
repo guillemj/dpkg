@@ -1,5 +1,17 @@
 2008-09-14  Guillem Jover  <guillem@debian.org>
 
+	* libcompat/compat.h (alphasort): Change argument types to match
+	modern system ones (the current ones were missing one indirection
+	anyway).
+	* libcompat/alphasort.c (alphasort): Likewise. Properly dereference
+	arguments.
+	* libcompat/scandir.c (scandir_comparfn): Remove static function
+	variable.
+	(scandir_compar): Remove function.
+	(scandir): Pass compar function directly to qsort.
+
+2008-09-14  Guillem Jover  <guillem@debian.org>
+
 	* libcompat/strerror.c (strerror): Change string for unknown value.
 	* libcompat/strsignal.c (strsignal): Likewise.
 

@@ -26,14 +26,6 @@
 #include <string.h>
 
 #ifndef HAVE_SCANDIR
-static int (*scandir_comparfn)(const void *, const void *);
-static int
-scandir_compar(const void *a, const void *b)
-{
-	return scandir_comparfn(*(const struct dirent **)a,
-	                        *(const struct dirent **)b);
-}
-
 int
 scandir(const char *dir, struct dirent ***namelist,
         int (*select)(const struct dirent *),
@@ -76,8 +68,7 @@ scandir(const char *dir, struct dirent ***namelist,
 	}
 	(*namelist)[used] = NULL;
 
-	scandir_comparfn = compar;
-	qsort(*namelist, used, sizeof(struct dirent *), scandir_compar);
+	qsort(*namelist, used, sizeof(struct dirent *), compar);
 
 	return used;
 }

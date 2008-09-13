@@ -25,9 +25,11 @@
 
 #ifndef HAVE_ALPHASORT
 int
-alphasort(const struct dirent *a, const struct dirent *b)
+alphasort(const void *a, const void *b)
 {
-	return strcmp(a->d_name, b->d_name);
+	return strcmp((*(const struct dirent **)a)->d_name,
+	              (*(const struct dirent **)b)->d_name);
+
 }
 #endif
 

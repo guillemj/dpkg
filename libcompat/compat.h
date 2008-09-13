@@ -65,8 +65,7 @@ int scandir(const char *dir, struct dirent ***namelist,
 #endif
 
 #ifndef HAVE_ALPHASORT
-struct dirent;
-int alphasort(const struct dirent *a, const struct dirent *b);
+int alphasort(const void *a, const void *b);
 #endif
 
 #ifndef HAVE_UNSETENV
