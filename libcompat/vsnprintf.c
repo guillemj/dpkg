@@ -50,7 +50,7 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 			return -1;
 	}
 
-	if (vfprintf(file, fmt, al) == EOF)
+	if (vfprintf(file, fmt, al) < 0)
 		return -1;
 	if (fflush(file))
 		return -1;
