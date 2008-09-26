@@ -43,6 +43,7 @@ my %blacklist = (
     '_ftext' => 1,		# mips, mipsel
     '_GLOBAL_OFFSET_TABLE_' => 1,   # hppa, mips, mipsel
     '__gmon_start__' => 1,	# hppa
+    '__gnu_local_gp' => 1,      # mips, mipsel
     '_gp' => 1,			# mips, mipsel
     '_init' => 1,		# ALL
     '_PROCEDURE_LINKAGE_TABLE_' => 1, # sparc, alpha
