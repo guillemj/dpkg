@@ -70,6 +70,14 @@ void set_error_display(error_printer *printerror,
   econtext->contextstring= contextstring;
 }
 
+static void run_error_handler(void) NONRETURNING;
+
+static void
+run_error_handler(void)
+{
+  longjmp(*econtext->jbufp, 1);
+}
+
 void push_error_handler(jmp_buf *jbufp,
                         error_printer *printerror,
                         const char *contextstring) {
@@ -80,7 +88,8 @@ void push_error_handler(jmp_buf *jbufp,
     snprintf(errmsgbuf, sizeof(errmsgbuf), "%s%s", 
 	    _("out of memory pushing error handler: "), strerror(e));
     errmsg= errmsgbuf;
-    if (econtext) longjmp(*econtext->jbufp,1);
+    if (econtext)
+      run_error_handler();
     fprintf(stderr, "%s: %s\n", thisname, errmsgbuf); exit(2);
   }
   necp->next= econtext;
@@ -219,7 +228,8 @@ void ohshit(const char *fmt, ...) {
   vsnprintf(errmsgbuf,sizeof(errmsgbuf),fmt,al);
   va_end(al);
   errmsg= errmsgbuf;
-  longjmp(*econtext->jbufp,1);
+
+  run_error_handler();
 }
 
 void print_error_fatal(const char *emsg, const char *contextstring) {
@@ -232,13 +242,15 @@ void ohshitvb(struct varbuf *vb) {
   m= m_malloc(strlen(vb->buf));
   strcpy(m,vb->buf);
   errmsg= m;
-  longjmp(*econtext->jbufp,1);
+
+  run_error_handler();
 }
 
 void ohshitv(const char *fmt, va_list al) {
   vsnprintf(errmsgbuf,sizeof(errmsgbuf),fmt,al);
   errmsg= errmsgbuf;
-  longjmp(*econtext->jbufp,1);
+
+  run_error_handler();
 }
 
 void ohshite(const char *fmt, ...) {
@@ -253,7 +265,8 @@ void ohshite(const char *fmt, ...) {
 
   snprintf(errmsgbuf,sizeof(errmsgbuf),"%s: %s",buf,strerror(e));
   errmsg= errmsgbuf; 
-  longjmp(*econtext->jbufp,1);
+
+  run_error_handler();
 }
 
 void warningf(const char *fmt, ...) {
