@@ -42,7 +42,7 @@
 
 #include "main.h"
 
-int nerrs= 0;
+static int nerrs = 0;
 
 struct error_report {
   struct error_report *next;

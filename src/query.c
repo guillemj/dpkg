@@ -48,6 +48,7 @@
 #include "filesdb.h"
 #include "main.h"
 
+static int failures = 0;
 static const char* showformat		= "${Package}\t${Version}\n";
 
 static int getwidth(void) {
@@ -180,7 +181,7 @@ void listpackages(const char *const *argv) {
     for (ip = 0; ip < argc; ip++) {
       if (!found[ip]) {
         fprintf(stderr, _("No packages found matching %s.\n"), argv[ip]);
-        nerrs++;
+        failures++;
       }
     }
   }
@@ -275,7 +276,7 @@ void searchfiles(const char *const *argv) {
     }
     if (!found) {
       fprintf(stderr,_("dpkg: %s not found.\n"),thisarg);
-      nerrs++;
+      failures++;
       if (ferror(stderr)) werr("stderr");
     } else {
       if (ferror(stdout)) werr("stdout");
@@ -287,7 +288,6 @@ void searchfiles(const char *const *argv) {
 }
 
 void enqperpackage(const char *const *argv) {
-  int failures;
   const char *thisarg;
   struct fileinlist *file;
   struct pkginfo *pkg;
@@ -296,7 +296,6 @@ void enqperpackage(const char *const *argv) {
   if (!*argv)
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
-  failures= 0;
   if (cipaction->arg==act_listfiles)
     modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
   else 
@@ -376,7 +375,6 @@ void enqperpackage(const char *const *argv) {
   }
 
   if (failures) {
-    nerrs++;
     fputs(_("Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
          "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"),stderr);
     if (ferror(stdout)) werr("stdout");
@@ -392,7 +390,7 @@ void showpackages(const char *const *argv) {
   struct lstitem* fmt = parseformat(showformat);
 
   if (!fmt) {
-    nerrs++;
+    failures++;
     return;
   }
 
@@ -439,7 +437,7 @@ void showpackages(const char *const *argv) {
     for (ip = 0; ip < argc; ip++) {
       if (!found[ip]) {
         fprintf(stderr, _("No packages found matching %s.\n"), argv[ip]);
-        nerrs++;
+        failures++;
       }
     }
   }
@@ -517,7 +515,6 @@ int fc_hold=0;
 int fc_conflicts=0, fc_depends=0;
 int fc_badpath=0;
 
-int errabort = 50;
 const char *admindir= ADMINDIR;
 const char *instdir= "";
 
@@ -578,5 +575,5 @@ int main(int argc, const char *const *argv) {
 
   standard_shutdown();
 
-  return reportbroken_retexitstatus();
+  return !!failures;
 }

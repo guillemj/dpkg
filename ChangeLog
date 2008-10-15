@@ -1,3 +1,16 @@
+2008-10-15  Guillem Jover  <guillem@debian.org>
+
+	* src/Makefile.am (dpkg_query_SOURCES): Remove 'errors.c'.
+	* src/main.h (nerrs): Remove declaration.
+	* src/errors.c (nerrs): Change from extern to static.
+	* src/query.c (failures): New variable.
+	(errabort): Remove variable.
+	(listpackages): Use failures instead of nerrs.
+	(searchfiles): Likewise.
+	(showpackages): Likewise.
+	(enqperpackage): Likewise. Do not define nor initialize failures.
+	(main): Use failures variable instead of reportbroken_retexitstatus.
+
 2008-09-14  Guillem Jover  <guillem@debian.org>
 
 	* libcompat/scandir.c (scandir): Handle case when filter and cmp

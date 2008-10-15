@@ -38,7 +38,6 @@ dpkg_LDADD = \
 	$(SELINUX_LIBS)
 
 dpkg_query_SOURCES = \
-	errors.c \
 	filesdb.c filesdb.h \
 	pkg-list.c \
 	pkg-show.c \
