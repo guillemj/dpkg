@@ -152,11 +152,9 @@ static void run_cleanups(struct errorcontext *econ, int flagsetin) {
 }
 
 void error_unwind(int flagset) {
-  struct cleanupentry *cep;
   struct errorcontext *tecp;
 
   tecp= econtext;
-  cep= tecp->cleanups;
   econtext= tecp->next;
   run_cleanups(tecp,flagset);
   free(tecp);
