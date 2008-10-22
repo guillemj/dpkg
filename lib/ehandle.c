@@ -75,7 +75,19 @@ static void run_error_handler(void) NONRETURNING;
 static void
 run_error_handler(void)
 {
-  longjmp(*econtext->jbufp, 1);
+  if (onerr_abort) {
+    /* We arrived here due to a fatal error from which we cannot recover,
+     * and trying to do so would most probably get us here again. That's
+     * why we will not try to do any error unwinding either. We'll just
+     * abort. Hopefully the user can fix the situation (out of disk, out
+     * of memory, etc).
+     */
+    fprintf(stderr, _("%s: unrecoverable fatal error, aborting:\n %s\n"),
+            thisname, errmsg);
+    exit(2);
+  } else {
+    longjmp(*econtext->jbufp, 1);
+  }
 }
 
 void push_error_handler(jmp_buf *jbufp,
