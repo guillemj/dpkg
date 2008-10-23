@@ -111,10 +111,10 @@ while (@ARGV) {
         list_arches();
         exit unless @ARGV;
     } elsif (m/^-(h|-help)$/) {
-       &usage;
+        usage();
        exit 0;
     } elsif (m/^--version$/) {
-       &version;
+        version();
        exit 0;
     } else {
 	usageerr(_g("unknown option \`%s'"), $_);

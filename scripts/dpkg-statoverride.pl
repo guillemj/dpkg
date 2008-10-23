@@ -66,9 +66,11 @@ while (@ARGV) {
 	if (!m/^-/) {
 		unshift(@ARGV,$_); last;
 	} elsif (m/^--help$/) {
-		&usage; exit(0);
+		usage();
+		exit(0);
 	} elsif (m/^--version$/) {
-		&version; exit(0);
+		version();
+		exit(0);
 	} elsif (m/^--update$/) {
 		$doupdate=1;
 	} elsif (m/^--quiet$/) {
@@ -76,30 +78,30 @@ while (@ARGV) {
 	} elsif (m/^--force$/) {
 		$doforce=1;
 	} elsif (m/^--admindir$/) {
-		@ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
+		@ARGV || badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
 		$admindir= shift(@ARGV);
 	} elsif (m/^--add$/) {
-		&CheckModeConflict;
+		CheckModeConflict();
 		$mode= 'add';
 	} elsif (m/^--remove$/) {
-		&CheckModeConflict;
+		CheckModeConflict();
 		$mode= 'remove';
 	} elsif (m/^--list$/) {
-		&CheckModeConflict;
+		CheckModeConflict();
 		$mode= 'list';
 	} else {
-		&badusage(sprintf(_g("unknown option \`%s'"), $_));
+		badusage(sprintf(_g("unknown option \`%s'"), $_));
 	}
 }
 
 my $dowrite = 0;
 my $exitcode = 0;
 
-&badusage(_g("no mode specified")) unless $mode;
-&ReadOverrides;
+badusage(_g("no mode specified")) unless $mode;
+ReadOverrides();
 
 if ($mode eq "add") {
-	@ARGV==4 || &badusage(_g("--add needs four arguments"));
+	@ARGV == 4 || badusage(_g("--add needs four arguments"));
 
 	my $user = $ARGV[0];
 	my $uid = 0;
@@ -107,25 +109,28 @@ if ($mode eq "add") {
 
 	if ($user =~ m/^#([0-9]+)$/) {
 	    $uid=$1;
-	    &badusage(sprintf(_g("illegal user %s"), $user)) if ($uid<0);
+	    badusage(sprintf(_g("illegal user %s"), $user)) if ($uid < 0);
 	} else {
 	    my ($name, $pw);
-	    (($name,$pw,$uid)=getpwnam($user)) || &badusage(sprintf(_g("non-existing user %s"), $user));
+	    (($name, $pw, $uid) = getpwnam($user)) ||
+	        badusage(sprintf(_g("non-existing user %s"), $user));
 	}
 
 	my $group = $ARGV[1];
 	if ($group =~ m/^#([0-9]+)$/) {
 	    $gid=$1;
-	    &badusage(sprintf(_g("illegal group %s"), $group)) if ($gid<0);
+	    badusage(sprintf(_g("illegal group %s"), $group)) if ($gid < 0);
 	} else {
 	    my ($name, $pw);
-	    (($name,$pw,$gid)=getgrnam($group)) || &badusage(sprintf(_g("non-existing group %s"), $group));
+	    (($name, $pw, $gid) = getgrnam($group)) ||
+	        badusage(sprintf(_g("non-existing group %s"), $group));
 	}
 
 	my $mode = $ARGV[2];
-	(($mode<0) or (oct($mode)>07777) or ($mode !~ m/\d+/)) && &badusage(sprintf(_g("illegal mode %s"), $mode));
+	(($mode < 0) or (oct($mode) > 07777) or ($mode !~ m/\d+/)) &&
+	    badusage(sprintf(_g("illegal mode %s"), $mode));
 	my $file = $ARGV[3];
-	$file =~ m/\n/ && &badusage(_g("file may not contain newlines"));
+	$file =~ m/\n/ && badusage(_g("file may not contain newlines"));
 	$file =~ s,/+$,, && print STDERR _g("stripping trailing /")."\n";
 
 	if (defined $owner{$file}) {
@@ -151,7 +156,7 @@ if ($mode eq "add") {
 	    }
 	}
 } elsif ($mode eq "remove") {
-	@ARGV==1 || &badusage(sprintf(_g("--%s needs a single argument"), "remove"));
+	@ARGV == 1 || badusage(sprintf(_g("--%s needs a single argument"), "remove"));
 	my $file = $ARGV[0];
 	$file =~ s,/+$,, && print STDERR _g("stripping trailing /")."\n";
 	if (not defined $owner{$file}) {
@@ -185,12 +190,13 @@ if ($mode eq "add") {
 	}
 }
 
-&WriteOverrides if ($dowrite);
+WriteOverrides() if ($dowrite);
 
 exit($exitcode);
 
 sub ReadOverrides {
-	open(SO,"$admindir/statoverride") || &quit(sprintf(_g("cannot open statoverride: %s"), $!));
+	open(SO, "$admindir/statoverride") ||
+	    quit(sprintf(_g("cannot open statoverride: %s"), $!));
 	while (<SO>) {
 		my ($owner,$group,$mode,$file);
 		chomp;
@@ -209,18 +215,19 @@ sub ReadOverrides {
 sub WriteOverrides {
 	my ($file);
 
-	open(SO,">$admindir/statoverride-new") || &quit(sprintf(_g("cannot open new statoverride file: %s"), $!));
+	open(SO, ">$admindir/statoverride-new") ||
+	    quit(sprintf(_g("cannot open new statoverride file: %s"), $!));
 	foreach $file (keys %owner) {
 		print SO "$owner{$file} $group{$file} $mode{$file} $file\n";
 	}
 	close(SO);
 	chmod(0644, "$admindir/statoverride-new");
 	unlink("$admindir/statoverride-old") ||
-		$! == ENOENT || &quit(sprintf(_g("error removing statoverride-old: %s"), $!));
+		$! == ENOENT || quit(sprintf(_g("error removing statoverride-old: %s"), $!));
 	link("$admindir/statoverride","$admindir/statoverride-old") ||
-		$! == ENOENT || &quit(sprintf(_g("error creating new statoverride-old: %s"), $!));
+		$! == ENOENT || quit(sprintf(_g("error creating new statoverride-old: %s"), $!));
 	rename("$admindir/statoverride-new","$admindir/statoverride")
-		|| &quit(sprintf(_g("error installing new statoverride: %s"), $!));
+		|| quit(sprintf(_g("error installing new statoverride: %s"), $!));
 }
 
 
@@ -233,7 +240,7 @@ sub quit
 sub badusage
 {
 	printf STDERR "%s: %s\n\n", $0, "@_";
-	&usage;
+	usage();
 	exit(2);
 }
 

@@ -112,9 +112,11 @@ while (@ARGV) {
     } elsif (m/^-n/) {
         $forcefilename= $';
     } elsif (m/^-(h|-help)$/) {
-        &usage; exit(0);
+        usage();
+        exit(0);
     } elsif (m/^--version$/) {
-        &version; exit(0);
+        version();
+        exit(0);
     } else {
         usageerr(_g("unknown option \`%s'"), $_);
     }
@@ -288,7 +290,7 @@ if (!defined($substvars->get('Installed-Size'))) {
     if (!$c) {
         chdir("$packagebuilddir") ||
             syserr(_g("chdir for du to \`%s'"), $packagebuilddir);
-        exec("du","-k","-s",".") or &syserr(_g("exec du"));
+        exec("du", "-k", "-s", ".") or syserr(_g("exec du"));
     }
     my $duo = '';
     while (<DU>) {
@@ -316,7 +318,7 @@ for my $f (keys %remove) {
 }
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-open(Y, ">", "$fileslistfile.new") || &syserr(_g("open new files list file"));
+open(Y, ">", "$fileslistfile.new") || syserr(_g("open new files list file"));
 binmode(Y);
 if (open(X, "<", $fileslistfile)) {
     binmode(X);
@@ -327,11 +329,11 @@ if (open(X, "<", $fileslistfile)) {
 	        && ($3 eq $pkg_type)
 	        && (debarch_eq($2, $fields->{'Architecture'})
 		    || debarch_eq($2, 'all'));
-        print(Y "$_\n") || &syserr(_g("copy old entry to new files list file"));
+        print(Y "$_\n") || syserr(_g("copy old entry to new files list file"));
     }
-    close(X) || &syserr(_g("close old files list file"));
+    close(X) || syserr(_g("close old files list file"));
 } elsif ($! != ENOENT) {
-    &syserr(_g("read old files list file"));
+    syserr(_g("read old files list file"));
 }
 my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
@@ -341,9 +343,9 @@ $forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion, $fields->{'Archit
 print(Y $substvars->substvars(sprintf("%s %s %s\n", $forcefilename,
 				      $fields->{'Section'} || '-',
 				      $fields->{'Priority'} || '-')))
-    || &syserr(_g("write new entry to new files list file"));
-close(Y) || &syserr(_g("close new files list file"));
-rename("$fileslistfile.new",$fileslistfile) || &syserr(_g("install new files list file"));
+    || syserr(_g("write new entry to new files list file"));
+close(Y) || syserr(_g("close new files list file"));
+rename("$fileslistfile.new", $fileslistfile) || syserr(_g("install new files list file"));
 
 my $cf;
 my $fh_output;

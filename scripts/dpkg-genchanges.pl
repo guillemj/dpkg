@@ -133,18 +133,18 @@ Options:
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
-	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	is_sourceonly && usageerr(_g("cannot combine %s and -S"), $_);
 	$include = BIN;
     } elsif (m/^-B$/) {
-	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	is_sourceonly && usageerr(_g("cannot combine %s and -S"), $_);
 	$include = ARCH_DEP;
 	printf STDERR _g("%s: arch-specific upload - not including arch-independent packages")."\n", $progname;
     } elsif (m/^-A$/) {
-	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	is_sourceonly && usageerr(_g("cannot combine %s and -S"), $_);
 	$include = ARCH_INDEP;
 	printf STDERR _g("%s: arch-indep upload - not including arch-specific packages")."\n", $progname;
     } elsif (m/^-S$/) {
-	is_binaryonly && &usageerr(_g("cannot combine %s and -S"), binary_opt);
+	is_binaryonly && usageerr(_g("cannot combine %s and -S"), binary_opt);
 	$include = SOURCE;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
@@ -178,9 +178,11 @@ while (@ARGV) {
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
 	$substvars->set($1, $POSTMATCH);
     } elsif (m/^-(h|-help)$/) {
-        &usage; exit(0);
+	usage();
+	exit(0);
     } elsif (m/^--version$/) {
-        &version; exit(0);
+	version();
+	exit(0);
     } else {
         usageerr(_g("unknown option \`%s'"), $_);
     }
@@ -213,7 +215,7 @@ if (defined($prev_changelog) and
 }
 
 if (not is_sourceonly) {
-    open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
+    open(FL, "<", $fileslistfile) || syserr(_g("cannot read files list file"));
     while(<FL>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
@@ -343,7 +345,7 @@ foreach $_ (keys %{$changelog}) {
 
 if ($changesdescription) {
     $fields->{'Changes'} = '';
-    open(X,"<",$changesdescription) || &syserr(_g("read changesdescription"));
+    open(X, "<", $changesdescription) || syserr(_g("read changesdescription"));
     while(<X>) {
         s/\s*\n$//;
         $_= '.' unless m/\S/;
@@ -468,7 +470,7 @@ if (!is_binaryonly) {
 }
 
 print(STDERR "$progname: $origsrcmsg\n") ||
-    &syserr(_g("write original source message")) unless $quiet;
+    syserr(_g("write original source message")) unless $quiet;
 
 $fields->{'Format'} = $substvars->get("Format");
 

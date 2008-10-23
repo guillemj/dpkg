@@ -42,9 +42,11 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     if (m/^-f/) {
         $fileslistfile= $';
     } elsif (m/^-(h|-help)$/) {
-        &usage; exit(0);
+        usage();
+        exit(0);
     } elsif (m/^--version$/) {
-        &version; exit(0);
+        version();
+        exit(0);
     } elsif (m/^--$/) {
         last;
     } else {
@@ -52,26 +54,26 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     }
 }
 
-@ARGV==3 || &usageerr(_g("need exactly a filename, section and priority"));
+@ARGV == 3 || usageerr(_g("need exactly a filename, section and priority"));
 my ($file, $section, $priority) = @ARGV;
 
 ($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
-    &error(_g("filename, section and priority may contain no whitespace"));
+    error(_g("filename, section and priority may contain no whitespace"));
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-open(Y,"> $fileslistfile.new") || &syserr(_g("open new files list file"));
+open(Y, "> $fileslistfile.new") || syserr(_g("open new files list file"));
 if (open(X,"< $fileslistfile")) {
     while (<X>) {
         s/\n$//;
         next if m/^(\S+) / && $1 eq $file;
-        print(Y "$_\n") || &syserr(_g("copy old entry to new files list file"));
+        print(Y "$_\n") || syserr(_g("copy old entry to new files list file"));
     }
 } elsif ($! != ENOENT) {
-    &syserr(_g("read old files list file"));
+    syserr(_g("read old files list file"));
 }
 print(Y "$file $section $priority\n")
-    || &syserr(_g("write new entry to new files list file"));
-close(Y) || &syserr(_g("close new files list file"));
+    || syserr(_g("write new entry to new files list file"));
+close(Y) || syserr(_g("close new files list file"));
 rename("$fileslistfile.new", $fileslistfile) ||
     syserr(_g("install new files list file"));
 

@@ -35,7 +35,7 @@ my %field_case;
 
 use Getopt::Long qw(:config bundling);
 
-my %options = (help            => sub { &usage; exit 0; },
+my %options = (help            => sub { usage(); exit 0; },
 	       version         => \&version,
 	       type            => undef,
 	       udeb            => 0,
@@ -183,7 +183,7 @@ FILE:
 	
 	if (defined($packages{$p}) and not $options{multiversion}) {
 	    foreach (@{$packages{$p}}) {
-		if (&vercmp($tv{'Version'}, $_->{'Version'})) {
+		if (vercmp($tv{'Version'}, $_->{'Version'})) {
 		    printf(STDERR _g(
 			  " ! Package %s (filename %s) is repeat but newer version;\n".
 			  "   used that one and ignored data from %s !\n"), $p, $fn, $_->{Filename})
@@ -265,8 +265,8 @@ close(STDOUT) or syserr(_g("Couldn't close stdout"));
 
 my @spuriousover= grep(!defined($packages{$_}),sort keys %overridden);
 
-&writelist(_g("** Packages in archive but missing from override file: **"),
-           @missingover);
+writelist(_g("** Packages in archive but missing from override file: **"),
+          @missingover);
 if (@changedmaint) {
     print(STDERR
           _g(" ++ Packages in override file with incorrect old maintainer value: ++")."\n",

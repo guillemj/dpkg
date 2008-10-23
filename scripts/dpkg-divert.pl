@@ -83,9 +83,11 @@ while (@ARGV) {
     if (!m/^-/) {
         unshift(@ARGV,$_); last;
     } elsif (m/^--help$/) {
-        &usage; exit(0);
+        usage();
+        exit(0);
     } elsif (m/^--version$/) {
-        &version; exit(0);
+        version();
+        exit(0);
     } elsif (m/^--test$/) {
         $testmode= 1;
     } elsif (m/^--rename$/) {
@@ -95,86 +97,88 @@ while (@ARGV) {
     } elsif (m/^--local$/) {
         $package= ':';
     } elsif (m/^--add$/) {
-        &checkmanymodes;
+        checkmanymodes();
         $mode= 'add';
     } elsif (m/^--remove$/) {
-        &checkmanymodes;
+        checkmanymodes();
         $mode= 'remove';
     } elsif (m/^--list$/) {
-        &checkmanymodes;
+        checkmanymodes();
         $mode= 'list';
     } elsif (m/^--listpackage$/) {
-        &checkmanymodes;
+        checkmanymodes();
         $mode= 'listpackage';
     } elsif (m/^--truename$/) {
-        &checkmanymodes;
+        checkmanymodes();
         $mode= 'truename';
     } elsif (m/^--divert$/) {
-        @ARGV || &badusage(sprintf(_g("--%s needs a divert-to argument"), "divert"));
+        @ARGV || badusage(sprintf(_g("--%s needs a divert-to argument"), "divert"));
         $divertto= shift(@ARGV);
-        $divertto =~ m/\n/ && &badusage(_g("divert-to may not contain newlines"));
+        $divertto =~ m/\n/ && badusage(_g("divert-to may not contain newlines"));
     } elsif (m/^--package$/) {
-        @ARGV || &badusage(sprintf(_g("--%s needs a <package> argument"), "package"));
+        @ARGV || badusage(sprintf(_g("--%s needs a <package> argument"), "package"));
         $package= shift(@ARGV);
-        $package =~ m/\n/ && &badusage(_g("package may not contain newlines"));
+        $package =~ m/\n/ && badusage(_g("package may not contain newlines"));
     } elsif (m/^--admindir$/) {
-        @ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
+        @ARGV || badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
         $admindir= shift(@ARGV);
     } else {
-        &badusage(sprintf(_g("unknown option \`%s'"), $_));
+        badusage(sprintf(_g("unknown option \`%s'"), $_));
     }
 }
 
 $mode='add' unless $mode;
 
-open(O,"$admindir/diversions") || &quit(sprintf(_g("cannot open diversions: %s"), $!));
+open(O, "$admindir/diversions") || quit(sprintf(_g("cannot open diversions: %s"), $!));
 while(<O>) {
     s/\n$//; push(@contest,$_);
-    $_=<O>; s/\n$// || &badfmt(_g("missing altname"));
+    $_ = <O>;
+    s/\n$// || badfmt(_g("missing altname"));
     push(@altname,$_);
-    $_=<O>; s/\n$// || &badfmt(_g("missing package"));
+    $_ = <O>;
+    s/\n$// || badfmt(_g("missing package"));
     push(@package,$_);
 }
 close(O);
 
 if ($mode eq 'add') {
-    @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), "add"));
+    @ARGV == 1 || badusage(sprintf(_g("--%s needs a single argument"), "add"));
     $file= $ARGV[0];
-    $file =~ m#^/# || &badusage(sprintf(_g("filename \"%s\" is not absolute"), $file));
-    $file =~ m/\n/ && &badusage(_g("file may not contain newlines"));
-	-d $file && &badusage(_g("Cannot divert directories"));
+    $file =~ m#^/# || badusage(sprintf(_g("filename \"%s\" is not absolute"), $file));
+    $file =~ m/\n/ && badusage(_g("file may not contain newlines"));
+    -d $file && badusage(_g("Cannot divert directories"));
     $divertto= "$file.distrib" unless defined($divertto);
-    $divertto =~ m#^/# || &badusage(sprintf(_g("filename \"%s\" is not absolute"), $divertto));
+    $divertto =~ m#^/# || badusage(sprintf(_g("filename \"%s\" is not absolute"), $divertto));
     $package= ':' unless defined($package);
     for (my $i = 0; $i <= $#contest; $i++) {
         if ($contest[$i] eq $file || $altname[$i] eq $file ||
             $contest[$i] eq $divertto || $altname[$i] eq $divertto) {
             if ($contest[$i] eq $file && $altname[$i] eq $divertto &&
                 $package[$i] eq $package) {
-                printf(_g("Leaving \`%s'")."\n", &infon($i)) if $verbose > 0;
+                printf(_g("Leaving \`%s'")."\n", infon($i)) if $verbose > 0;
                 exit(0);
             }
-            &quit(sprintf(_g("\`%s' clashes with \`%s'"), &infoa, &infon($i)));
+            quit(sprintf(_g("\`%s' clashes with \`%s'"), infoa(), infon($i)));
         }
     }
     push(@contest,$file);
     push(@altname,$divertto);
     push(@package,$package);
-    printf(_g("Adding \`%s'")."\n", &infon($#contest)) if $verbose > 0;
-    &checkrename($file,$divertto);
-    &save;
-    &dorename($file,$divertto);
+    printf(_g("Adding \`%s'")."\n", infon($#contest)) if $verbose > 0;
+    checkrename($file, $divertto);
+    save();
+    dorename($file, $divertto);
     exit(0);
 } elsif ($mode eq 'remove') {
-    @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), "remove"));
+    @ARGV == 1 || badusage(sprintf(_g("--%s needs a single argument"), "remove"));
     $file= $ARGV[0];
     for (my $i = 0; $i <= $#contest; $i++) {
         next unless $file eq $contest[$i];
-        &quit(sprintf(_g("mismatch on divert-to\n  when removing \`%s'\n  found \`%s'"), &infoa, &infon($i)))
+        quit(sprintf(_g("mismatch on divert-to\n  when removing \`%s'\n  found \`%s'"), infoa(), infon($i)))
               if defined($divertto) && $altname[$i] ne $divertto;
-        &quit(sprintf(_g("mismatch on package\n  when removing \`%s'\n  found \`%s'"), &infoa, &infon($i)))
+        quit(sprintf(_g("mismatch on package\n  when removing \`%s'\n  found \`%s'"), infoa(), infon($i)))
               if defined($package) && $package[$i] ne $package;
-        printf(_g("Removing \`%s'")."\n", &infon($i)) if $verbose > 0;
+        printf(_g("Removing \`%s'")."\n", infon($i)) if $verbose > 0;
         my $orgfile = $contest[$i];
         my $orgdivertto = $altname[$i];
         @contest= (($i > 0 ? @contest[0..$i-1] : ()),
@@ -183,12 +187,13 @@ if ($mode eq 'add') {
                    ($i < $#altname ? @altname[$i+1..$#altname] : ()));
         @package= (($i > 0 ? @package[0..$i-1] : ()),
                    ($i < $#package ? @package[$i+1..$#package] : ()));
-        &checkrename($orgdivertto,$orgfile);
-        &dorename($orgdivertto,$orgfile);
-        &save;
+        checkrename($orgdivertto, $orgfile);
+        dorename($orgdivertto, $orgfile);
+        save();
         exit(0);
     }
-    printf(_g("No diversion \`%s', none removed")."\n", &infoa) if $verbose > 0;
+    printf(_g("No diversion \`%s', none removed")."\n", infoa())
+        if $verbose > 0;
     exit(0);
 } elsif ($mode eq 'list') {
     my @list;
@@ -204,11 +209,11 @@ if ($mode eq 'add') {
         next unless ($contest[$i] =~ m/$pat/o ||
                      $altname[$i] =~ m/$pat/o ||
                      $package[$i] =~ m/$pat/o);
-        print &infon($i),"\n";
+        print infon($i), "\n";
     }
     exit(0);
 } elsif ($mode eq 'truename') {
-    @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), "truename"));
+    @ARGV == 1 || badusage(sprintf(_g("--%s needs a single argument"), "truename"));
     $file= $ARGV[0];
     for (my $i = 0; $i <= $#contest; $i++) {
 	next unless $file eq $contest[$i];
@@ -218,7 +223,7 @@ if ($mode eq 'add') {
     print $file, "\n";
     exit(0);
 } elsif ($mode eq 'listpackage') {
-    @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), $mode));
+    @ARGV == 1 || badusage(sprintf(_g("--%s needs a single argument"), $mode));
     $file= $ARGV[0];
     for (my $i = 0; $i <= $#contest; $i++) {
 	next unless $file eq $contest[$i];
@@ -233,7 +238,7 @@ if ($mode eq 'add') {
     # print nothing if file is not diverted
     exit(0);
 } else {
-    &quit(sprintf(_g("internal error - bad mode \`%s'"), $mode));
+    quit(sprintf(_g("internal error - bad mode \`%s'"), $mode));
 }
 
 sub infol {
@@ -246,10 +251,10 @@ sub infol {
 sub checkrename {
     return unless $dorename;
     ($rsrc,$rdest) = @_;
-    (@ssrc= lstat($rsrc)) || $! == &ENOENT ||
-        &quit(sprintf(_g("cannot stat old name \`%s': %s"), $rsrc, $!));
-    (@sdest= lstat($rdest)) || $! == &ENOENT ||
-        &quit(sprintf(_g("cannot stat new name \`%s': %s"), $rdest, $!));
+    (@ssrc = lstat($rsrc)) || $! == ENOENT ||
+        quit(sprintf(_g("cannot stat old name \`%s': %s"), $rsrc, $!));
+    (@sdest = lstat($rdest)) || $! == ENOENT ||
+        quit(sprintf(_g("cannot stat new name \`%s': %s"), $rdest, $!));
     # Unfortunately we have to check for write access in both
     # places, just having +w is not enough, since people do
     # mount things RO, and we need to fail before we start
@@ -277,8 +282,8 @@ sub checkrename {
     }
     if (@ssrc && @sdest &&
         !($ssrc[0] == $sdest[0] && $ssrc[1] == $sdest[1])) {
-        &quit(sprintf(_g("rename involves overwriting \`%s' with\n".
-              "  different file \`%s', not allowed"), $rdest, $rsrc));
+        quit(sprintf(_g("rename involves overwriting \`%s' with\n".
+                        "  different file \`%s', not allowed"), $rdest, $rsrc));
     }
 }
 
@@ -292,7 +297,7 @@ sub dorename {
     return if $testmode;
     if (@ssrc) {
         if (@sdest) {
-            unlink($rsrc) || &quit(sprintf(_g("rename: remove duplicate old link \`%s': %s"), $rsrc, $!));
+            unlink($rsrc) || quit(sprintf(_g("rename: remove duplicate old link \`%s': %s"), $rsrc, $!));
         } else {
             rename_mv($rsrc, $rdest) ||
                 quit(sprintf(_g("rename: rename \`%s' to \`%s': %s"), $rsrc, $rdest, $!));
@@ -302,26 +307,30 @@ sub dorename {
     
 sub save {
     return if $testmode;
-    open(N,"> $admindir/diversions-new") || &quit(sprintf(_g("create diversions-new: %s"), $!));
+    open(N, "> $admindir/diversions-new") || quit(sprintf(_g("create diversions-new: %s"), $!));
     chmod 0644, "$admindir/diversions-new";
     for (my $i = 0; $i <= $#contest; $i++) {
         print(N "$contest[$i]\n$altname[$i]\n$package[$i]\n")
-            || &quit(sprintf(_g("write diversions-new: %s"), $!));
+            || quit(sprintf(_g("write diversions-new: %s"), $!));
     }
-    close(N) || &quit(sprintf(_g("close diversions-new: %s"), $!));
+    close(N) || quit(sprintf(_g("close diversions-new: %s"), $!));
     unlink("$admindir/diversions-old") ||
-        $! == &ENOENT || &quit(sprintf(_g("remove old diversions-old: %s"), $!));
+        $! == ENOENT || quit(sprintf(_g("remove old diversions-old: %s"), $!));
     link("$admindir/diversions","$admindir/diversions-old") ||
-        $! == &ENOENT || &quit(sprintf(_g("create new diversions-old: %s"), $!));
+        $! == ENOENT || quit(sprintf(_g("create new diversions-old: %s"), $!));
     rename("$admindir/diversions-new","$admindir/diversions")
-        || &quit(sprintf(_g("install new diversions: %s"), $!));
+        || quit(sprintf(_g("install new diversions: %s"), $!));
 }
 
-sub infoa { &infol($file,$divertto,$package); }
+sub infoa
+{
+    infol($file, $divertto, $package);
+}
+
 sub infon
 {
     my $i = shift;
-    &infol($contest[$i], $altname[$i], $package[$i]);
+    infol($contest[$i], $altname[$i], $package[$i]);
 }
 
 sub quit
@@ -333,8 +342,12 @@ sub quit
 sub badusage
 {
     printf STDERR "%s: %s\n\n", $progname, "@_";
-    &usage;
+    usage();
     exit(2);
 }
 
-sub badfmt { &quit(sprintf(_g("internal error: %s corrupt: %s"), "$admindir/diversions", $_[0])); }
+sub badfmt
+{
+    quit(sprintf(_g("internal error: %s corrupt: %s"), "$admindir/diversions", $_[0]));
+}
+

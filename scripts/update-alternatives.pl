@@ -117,7 +117,7 @@ sub quit
 sub badusage
 {
     printf STDERR "%s: %s\n\n", $progname, "@_";
-    &usage;
+    usage();
     exit(2);
 }
 
@@ -331,48 +331,50 @@ while (@ARGV) {
     $_= shift(@ARGV);
     last if m/^--$/;
     if (!m/^--/) {
-        &quit(sprintf(_g("unknown argument \`%s'"), $_));
+        quit(sprintf(_g("unknown argument \`%s'"), $_));
     } elsif (m/^--help$/) {
-        &usage; exit(0);
+        usage();
+        exit(0);
     } elsif (m/^--version$/) {
-        &version; exit(0);
+        version();
+        exit(0);
     } elsif (m/^--verbose$/) {
         $verbosemode= +1;
     } elsif (m/^--quiet$/) {
         $verbosemode= -1;
     } elsif (m/^--install$/) {
 	check_many_actions();
-        @ARGV >= 4 || &badusage(_g("--install needs <link> <name> <path> <priority>"));
+        @ARGV >= 4 || badusage(_g("--install needs <link> <name> <path> <priority>"));
         ($alink,$name,$apath,$apriority,@ARGV) = @ARGV;
-        $apriority =~ m/^[-+]?\d+/ || &badusage(_g("priority must be an integer"));
+        $apriority =~ m/^[-+]?\d+/ || badusage(_g("priority must be an integer"));
 	$action = 'install';
     } elsif (m/^--(remove|set)$/) {
 	check_many_actions();
-        @ARGV >= 2 || &badusage(sprintf(_g("--%s needs <name> <path>"), $1));
+        @ARGV >= 2 || badusage(sprintf(_g("--%s needs <name> <path>"), $1));
         ($name,$apath,@ARGV) = @ARGV;
 	$action = $1;
     } elsif (m/^--(display|query|auto|config|list|remove-all)$/) {
 	check_many_actions();
-        @ARGV || &badusage(sprintf(_g("--%s needs <name>"), $1));
+        @ARGV || badusage(sprintf(_g("--%s needs <name>"), $1));
 	$action = $1;
         $name= shift(@ARGV);
     } elsif (m/^--slave$/) {
-        @ARGV >= 3 || &badusage(_g("--slave needs <link> <name> <path>"));
+        @ARGV >= 3 || badusage(_g("--slave needs <link> <name> <path>"));
         ($slink,$sname,$spath,@ARGV) = @ARGV;
-        defined($aslavelink{$sname}) && &badusage(sprintf(_g("slave name %s duplicated"), $sname));
-        $aslavelinkcount{$slink}++ && &badusage(sprintf(_g("slave link %s duplicated"), $slink));
+        defined($aslavelink{$sname}) && badusage(sprintf(_g("slave name %s duplicated"), $sname));
+        $aslavelinkcount{$slink}++ && badusage(sprintf(_g("slave link %s duplicated"), $slink));
         $aslavelink{$sname}= $slink;
         $aslavepath{$sname}= $spath;
     } elsif (m/^--altdir$/) {
-        @ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "altdir"));
+        @ARGV || badusage(sprintf(_g("--%s needs a <directory> argument"), "altdir"));
         $altdir= shift(@ARGV);
     } elsif (m/^--admindir$/) {
-        @ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
+        @ARGV || badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
         $admindir= shift(@ARGV);
     } elsif (m/^--all$/) {
 	$action = 'all';
     } else {
-        &badusage(sprintf(_g("unknown option \`%s'"), $_));
+        badusage(sprintf(_g("unknown option \`%s'"), $_));
     }
 }
 
@@ -387,7 +389,7 @@ $action eq 'install' || !%aslavelink ||
   badusage(_g("--slave only allowed with --install"));
 
 if ($action eq 'all') {
-    &config_all();
+    config_all();
     exit 0;
 }
 
@@ -437,7 +439,7 @@ if (defined($linkname= readlink("$altdir/$name"))) {
     } else {
         $state= 'unexpected';
     }
-} elsif ($! == &ENOENT) {
+} elsif ($! == ENOENT) {
     $state= 'nonexistent';
 } else {
     $state= 'unexpected';
@@ -450,7 +452,7 @@ if (defined($linkname= readlink("$altdir/$name"))) {
 # all independent
 
 if ($action eq 'auto') {
-    &pr(sprintf(_g("Setting up automatic selection of %s."), $name))
+    pr(sprintf(_g("Setting up automatic selection of %s."), $name))
       if $verbosemode > 0;
     checked_rm("$altdir/$name.dpkg-tmp");
     checked_rm("$altdir/$name");
@@ -464,8 +466,8 @@ if ($action eq 'auto') {
 # action=auto <=> state=nonexistent
 
 if ($state eq 'unexpected' && $mode eq 'auto') {
-    &pr(sprintf(_g("%s has been changed (manually or by a script).\n".
-                   "Switching to manual updates only."), "$altdir/$name"))
+    pr(sprintf(_g("%s has been changed (manually or by a script).\n" .
+                  "Switching to manual updates only."), "$altdir/$name"))
       if $verbosemode > 0;
     $mode = 'manual';
 }
@@ -482,10 +484,10 @@ pr(sprintf(_g("Checking available versions of %s, updating links in %s ..."),
 
 if ($action eq 'install') {
     if (defined($link) && $link ne $alink) {
-        &pr(sprintf(_g("Renaming %s link from %s to %s."), $name, $link, $alink))
+        pr(sprintf(_g("Renaming %s link from %s to %s."), $name, $link, $alink))
           if $verbosemode > 0;
-        rename_mv($link,$alink) || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to rename %s to %s: %s"), $link, $alink, $!));
+        rename_mv($link,$alink) || $! == ENOENT ||
+            quit(sprintf(_g("unable to rename %s to %s: %s"), $link, $alink, $!));
     }
     $link= $alink;
     my $i;
@@ -504,12 +506,12 @@ if ($action eq 'install') {
         my $newslavelink = $aslavelink{$sname};
 	$slavelinkcount{$oldslavelink}-- if defined($oldslavelink);
         $slavelinkcount{$newslavelink}++ &&
-            &quit(sprintf(_g("slave link name %s duplicated"), $newslavelink));
+            quit(sprintf(_g("slave link name %s duplicated"), $newslavelink));
 	if (defined($oldslavelink) && $newslavelink ne $oldslavelink) {
-            &pr(sprintf(_g("Renaming %s slave link from %s to %s."), $sname, $oldslavelink, $newslavelink))
+            pr(sprintf(_g("Renaming %s slave link from %s to %s."), $sname, $oldslavelink, $newslavelink))
               if $verbosemode > 0;
-            rename_mv($oldslavelink,$newslavelink) || $! == &ENOENT ||
-                &quit(sprintf(_g("unable to rename %s to %s: %s"), $oldslavelink, $newslavelink, $!));
+            rename_mv($oldslavelink,$newslavelink) || $! == ENOENT ||
+                quit(sprintf(_g("unable to rename %s to %s: %s"), $oldslavelink, $newslavelink, $!));
         }
         $slavelinks[$j]= $newslavelink;
     }
@@ -523,7 +525,7 @@ if ($action eq 'install') {
 if ($action eq 'remove') {
     my $hits = 0;
     if ($mode eq "manual" and $state ne "expected" and (map { $hits += $apath eq $_ } @versions) and $hits and $linkname eq $apath) {
-	&pr(_g("Removing manually selected alternative - switching to auto mode"));
+        pr(_g("Removing manually selected alternative - switching to auto mode"));
 	$mode = "auto";
     }
     if (defined(my $i = $versionnum{$apath})) {
@@ -537,7 +539,7 @@ if ($action eq 'remove') {
             delete $slavepath{$k,$j};
         }
     } else {
-        &pr(sprintf(_g("Alternative %s for %s not registered, not removing."), $apath, $name))
+        pr(sprintf(_g("Alternative %s for %s not registered, not removing."), $apath, $name))
           if $verbosemode > 0;
     }
 }
@@ -564,7 +566,7 @@ for (my $j = 0; $j <= $#slavenames; $j++) {
         last if $slavepath{$i,$j} ne '';
     }
     if ($i > $#versions) {
-        &pr(sprintf(_g("Discarding obsolete slave link %s (%s)."), $slavenames[$j], $slavelinks[$j]))
+        pr(sprintf(_g("Discarding obsolete slave link %s (%s)."), $slavenames[$j], $slavelinks[$j]))
           if $verbosemode > 0;
         checked_rm("$altdir/$slavenames[$j]");
         checked_rm($slavelinks[$j]);
@@ -583,13 +585,13 @@ for (my $j = 0; $j <= $#slavenames; $j++) {
 }
         
 if ($mode eq 'manual') {
-    &pr(sprintf(_g("Automatic updates of %s are disabled, leaving it alone."), "$altdir/$name"))
+    pr(sprintf(_g("Automatic updates of %s are disabled, leaving it alone."), "$altdir/$name"))
       if $verbosemode > 0;
-    &pr(sprintf(_g("To return to automatic updates use \`update-alternatives --auto %s'."), $name))
+    pr(sprintf(_g("To return to automatic updates use \`update-alternatives --auto %s'."), $name))
       if $verbosemode > 0;
 } else {
     if ($state eq 'expected-inprogress') {
-        &pr(sprintf(_g("Recovering from previous failed update of %s ..."), $name));
+        pr(sprintf(_g("Recovering from previous failed update of %s ..."), $name));
 	checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
         $state= 'expected';
     }
@@ -603,30 +605,30 @@ if ($mode eq 'manual') {
 # mode=auto => state!=expected-inprogress && state!=unexpected
 
 open(AF,">$admindir/$name.dpkg-new") ||
-    &quit(sprintf(_g("unable to open %s for write: %s"), "$admindir/$name.dpkg-new", $!));
+    quit(sprintf(_g("unable to open %s for write: %s"), "$admindir/$name.dpkg-new", $!));
 paf($mode);
-&paf($link);
+paf($link);
 for (my $j = 0; $j <= $#slavenames; $j++) {
-    &paf($slavenames[$j]);
-    &paf($slavelinks[$j]);
+    paf($slavenames[$j]);
+    paf($slavelinks[$j]);
 }
 
 find_best_version();
 
-&paf('');
+paf('');
 for (my $i = 0; $i <= $#versions; $i++) {
-    &paf($versions[$i]);
-    &paf($priorities[$i]);
+    paf($versions[$i]);
+    paf($priorities[$i]);
     for (my $j = 0; $j <= $#slavenames; $j++) {
-        &paf($slavepath{$i,$j});
+        paf($slavepath{$i,$j});
     }
 }
-&paf('');
-close(AF) || &quit(sprintf(_g("unable to close %s: %s"), "$admindir/$name.dpkg-new", $!));
+paf('');
+close(AF) || quit(sprintf(_g("unable to close %s: %s"), "$admindir/$name.dpkg-new", $!));
 
 if ($mode eq 'auto') {
     if ($best eq '') {
-        &pr(sprintf(_g("Last package providing %s (%s) removed, deleting it."), $name, $link))
+        pr(sprintf(_g("Last package providing %s (%s) removed, deleting it."), $name, $link))
           if $verbosemode > 0;
         checked_rm("$altdir/$name");
         checked_rm("$link");
@@ -650,7 +652,7 @@ if ($mode eq 'auto') {
         $spath= $slavepath{$bestnum,$j};
         checked_rm("$altdir/$sname.dpkg-tmp");
         if ($spath eq '') {
-            &pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $sname, $slink, $best))
+            pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $sname, $slink, $best))
               if $verbosemode > 0;
             checked_rm("$altdir/$sname");
             checked_rm("$slink");
@@ -718,25 +720,30 @@ sub set_alternatives {
      }
    }
    if($preferred == -1){
-     &quit(sprintf(_g("Cannot find alternative `%s'."), $apath)."\n")
+     quit(sprintf(_g("Cannot find alternative `%s'."), $apath)."\n");
    }
    set_links($apath, $preferred);
 }
 
-sub pr { print(STDOUT "@_\n") || &quit(sprintf(_g("error writing stdout: %s"), $!)); }
+sub pr
+{
+    print(STDOUT "@_\n") ||
+        quit(sprintf(_g("error writing stdout: %s"), $!));
+}
+
 sub paf {
-    $_[0] =~ m/\n/ && &quit(sprintf(_g("newlines prohibited in update-alternatives files (%s)"), $_[0]));
-    print(AF "$_[0]\n") || &quit(sprintf(_g("error writing stdout: %s"), $!));
+    $_[0] =~ m/\n/ && quit(sprintf(_g("newlines prohibited in update-alternatives files (%s)"), $_[0]));
+    print(AF "$_[0]\n") || quit(sprintf(_g("error writing stdout: %s"), $!));
 }
 sub gl {
     $!=0; $_= <AF>;
     defined($_) || quit(sprintf(_g("error or eof reading %s for %s (%s)"),
                                 "$admindir/$name", $_[0], $!));
-    s/\n$// || &badfmt(sprintf(_g("missing newline after %s"), $_[0]));
+    s/\n$// || badfmt(sprintf(_g("missing newline after %s"), $_[0]));
     $_;
 }
 sub badfmt {
-    &quit(sprintf(_g("internal error: %s corrupt: %s"), "$admindir/$name", $_[0]));
+    quit(sprintf(_g("internal error: %s corrupt: %s"), "$admindir/$name", $_[0]));
 }
 sub rename_mv {
     return (rename($_[0], $_[1]) || (system(("mv", $_[0], $_[1])) == 0));
@@ -744,12 +751,12 @@ sub rename_mv {
 sub checked_symlink {
     my ($filename, $linkname) = @_;
     symlink($filename, $linkname) ||
-	&quit(sprintf(_g("unable to make %s a symlink to %s: %s"), $linkname, $filename, $!));
+        quit(sprintf(_g("unable to make %s a symlink to %s: %s"), $linkname, $filename, $!));
 }
 sub checked_mv {
     my ($source, $dest) = @_;
     rename_mv($source, $dest) ||
-	&quit(sprintf(_g("unable to install %s as %s: %s"), $source, $dest, $!));
+        quit(sprintf(_g("unable to install %s as %s: %s"), $source, $dest, $!));
 }
 sub config_all {
     opendir ADMINDIR, $admindir or die sprintf(_g("Serious problem: %s"), $!);

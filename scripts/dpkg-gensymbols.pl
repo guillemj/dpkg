@@ -96,9 +96,11 @@ while (@ARGV) {
     } elsif (m/^-O(.+)$/) {
 	$output = $1;
     } elsif (m/^-(h|-help)$/) {
-	&usage; exit(0);
+	usage();
+	exit(0);
     } elsif (m/^--version$/) {
-	&version; exit(0);
+	version();
+	exit(0);
     } else {
 	usageerr(_g("unknown option \`%s'"), $_);
     }
