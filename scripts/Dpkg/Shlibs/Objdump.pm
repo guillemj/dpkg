@@ -197,8 +197,15 @@ sub _parse {
 		$self->{HASH} = $1;
 	    } elsif (/^\s*GNU_HASH\s+(\S+)/) {
 		$self->{GNU_HASH} = $1;
+	    } elsif (/^\s*RUNPATH\s+(\S+)/) {
+                # RUNPATH takes precedence over RPATH but is
+                # considered after LD_LIBRARY_PATH while RPATH
+                # is considered before (if RUNPATH is not set).
+                $self->{RPATH} = [ split (/:/, $1) ];
 	    } elsif (/^\s*RPATH\s+(\S+)/) {
-		push @{$self->{RPATH}}, split (/:/, $1);
+                unless (scalar(@{$self->{RPATH}})) {
+                    $self->{RPATH} = [ split (/:/, $1) ];
+                }
 	    }
 	} elsif ($section eq "none") {
 	    if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
