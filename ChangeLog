@@ -1,5 +1,16 @@
 2008-11-14  Guillem Jover  <guillem@debian.org>
 
+	* src/main.h (abort_processing): New variable declaration.
+	* src/errors.c (abort_processing): New variable definition.
+	* src/archives.c (print_error_perpackage): Use abort_processing
+	instead of onerr_abort for non fatal errors.
+	(reportbroken_retexitstatus): Likewise. Do not check onerr_abort
+	for the exit value as it should not have reached this function.
+	* src/packages.c (process_queue): Likewise. Return on entering if
+	it should abort processing.
+
+2008-11-14  Guillem Jover  <guillem@debian.org>
+
 	* lib/ehandle.c (run_error_handler): New function.
 	(push_error_handler): Use run_error_handler instead of directly
 	calling longjmp.

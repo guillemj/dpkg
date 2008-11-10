@@ -102,6 +102,7 @@ extern int fc_nonroot, fc_overwritedir, fc_conff_new, fc_conff_miss;
 extern int fc_conff_old, fc_conff_def;
 extern int fc_badverify;
 
+extern int abort_processing;
 extern int errabort;
 extern const char *admindir;
 extern const char *instdir;

@@ -39,6 +39,7 @@
 
 #include "main.h"
 
+int abort_processing = 0;
 int nerrs= 0;
 
 struct error_report {
@@ -61,7 +62,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   nr= malloc(sizeof(struct error_report));
   if (!nr) {
     perror(_("dpkg: failed to allocate memory for new entry in list of failed packages."));
-    onerr_abort++;
+    abort_processing = 1;
     nr= &emergency;
   }
   nr->what= arg;
@@ -71,7 +72,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
     
   if (nerrs++ < errabort) return;
   fprintf(stderr, _("dpkg: too many errors, stopping\n"));
-  onerr_abort++;
+  abort_processing = 1;
 }
 
 int reportbroken_retexitstatus(void) {
@@ -82,10 +83,10 @@ int reportbroken_retexitstatus(void) {
       reports= reports->next;
     }
   }
-  if (onerr_abort) {
+  if (abort_processing) {
     fputs(_("Processing was halted because there were too many errors.\n"),stderr);
   }
-  return nerrs || onerr_abort ? 1 : 0;
+  return nerrs ? 1 : 0;
 }
 
 int skip_due_to_hold(struct pkginfo *pkg) {
