@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-08-17 18:05+0300\n"
+"POT-Creation-Date: 2008-11-14 10:21+0200\n"
 "PO-Revision-Date: 2008-08-23 15:45+0800\n"
 "Last-Translator: Deng Xiyue <manphiz-guest@users.alioth.debian.org>\n"
 "Language-Team: Debian Chinese [GB] <debian-chinese-gb@lists.debian.org>\n"
@@ -261,11 +261,18 @@ msgstr "建立“%.250s”到“%.250s”之间的链接时失败(该链接用�
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "将包含 %s 信息的“%.250s”安装为“%.250s”时失败"
 
-#: lib/ehandle.c:81
+#: lib/ehandle.c:85
+#, c-format
+msgid ""
+"%s: unrecoverable fatal error, aborting:\n"
+" %s\n"
+msgstr ""
+
+#: lib/ehandle.c:101
 msgid "out of memory pushing error handler: "
 msgstr "将错误处理函数压栈时发现内存不足: "
 
-#: lib/ehandle.c:96
+#: lib/ehandle.c:117
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -274,25 +281,25 @@ msgstr ""
 "%s: 作下列清理工作时发生错误:\n"
 " %s\n"
 
-#: lib/ehandle.c:111
+#: lib/ehandle.c:132
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg：在错误恢复过程中发生了太多的嵌套错误!!\n"
 
-#: lib/ehandle.c:186
+#: lib/ehandle.c:207
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "新的清理条目参数太多，内存不敷使用"
 
-#: lib/ehandle.c:198
+#: lib/ehandle.c:219
 msgid "out of memory for new cleanup entry"
 msgstr "新建的清理条目时内存不敷使用"
 
-#: lib/ehandle.c:284
+#: lib/ehandle.c:309
 #, c-format
 msgid "error writing `%s'"
 msgstr "“%s”写入错误"
 
-#: lib/ehandle.c:288
+#: lib/ehandle.c:313
 #, c-format
 msgid "%s:%d: internal error `%s'\n"
 msgstr "%s:%d: 内部错误“%s”\n"
@@ -1438,27 +1445,27 @@ msgstr "已搜索包文件，但是没有发现任何软件包（即与 *.deb �
 msgid "--%s needs at least one package archive file argument"
 msgstr "-- %s 需要至少一个软件包文件作为参数"
 
-#: src/archives.c:1238
+#: src/archives.c:1239
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "选中了曾被取消选择的软件包 %s。\n"
 
-#: src/archives.c:1243
+#: src/archives.c:1244
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "忽略了被取消选择的软件包 %s。\n"
 
-#: src/archives.c:1260
+#: src/archives.c:1261
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "%1$.250s 的 %2$.250s 版本已经安装，因而将不再安装它。\n"
 
-#: src/archives.c:1270
+#: src/archives.c:1271
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr "%s - 警告：即将把 %.250s 从 %.250s 降级到 %.250s。\n"
 
-#: src/archives.c:1276
+#: src/archives.c:1277
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr "由于不希望把 %.250s 从 %.250s 降级到 %.250s，因而将不再安装它。\n"
@@ -2077,7 +2084,7 @@ msgstr "--compare-versions 错误的比较关系"
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "dpkg: 版本号 “%s” 有语法错误：%s\n"
 
-#: src/errors.c:56
+#: src/errors.c:57
 #, c-format
 msgid ""
 "%s: error processing %s (--%s):\n"
@@ -2086,30 +2093,30 @@ msgstr ""
 "%s：处理 %s (--%s)时出错：\n"
 " %s\n"
 
-#: src/errors.c:63
+#: src/errors.c:64
 msgid ""
 "dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr "dpkg：在无法处理的软件包列表中添加表项时，申请表项所需的内存失败。"
 
-#: src/errors.c:73
+#: src/errors.c:74
 #, c-format
 msgid "dpkg: too many errors, stopping\n"
 msgstr "dpkg：出现过多错误，正在终止\n"
 
-#: src/errors.c:79
+#: src/errors.c:80
 msgid "Errors were encountered while processing:\n"
 msgstr "在处理时有错误发生：\n"
 
-#: src/errors.c:86
+#: src/errors.c:87
 msgid "Processing was halted because there were too many errors.\n"
 msgstr "由于出现了太多错误，处理过程被终止了。\n"
 
-#: src/errors.c:94
+#: src/errors.c:95
 #, c-format
 msgid "Package %s was on hold, processing it anyway as you request\n"
 msgstr "软件包 %s 本来被要求保持原来的版本，但还是如您所愿，继续对它进行操作\n"
 
-#: src/errors.c:98
+#: src/errors.c:99
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
@@ -2117,7 +2124,7 @@ msgstr ""
 "软件包 %s 被要求保持原来的版本，因而不会去改动它。请使用 --force-hold 选项来"
 "忽略该设置。\n"
 
-#: src/errors.c:107
+#: src/errors.c:108
 msgid ""
 "dpkg - warning, overriding problem because --force enabled:\n"
 " "
@@ -2816,12 +2823,12 @@ msgid ""
 msgstr ""
 "您必须通过软件包自身的名字来指定软件包，而不是直接引用软件包文件的文件名"
 
-#: src/packages.c:188
+#: src/packages.c:191
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr "多次列出了软件包 %s，它将只被处理一次。\n"
 
-#: src/packages.c:192
+#: src/packages.c:195
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -2830,7 +2837,7 @@ msgstr ""
 "在这此运行中，软件包 %s 有多个副本被解压缩了！\n"
 "现只配置它一次。\n"
 
-#: src/packages.c:239
+#: src/packages.c:242
 #, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
@@ -2839,76 +2846,76 @@ msgstr ""
 "软件包“%.250s”尚未准备好由触发器处理\n"
 " (目前状态为“%.250s”，没有未决的触发)"
 
-#: src/packages.c:335
+#: src/packages.c:338
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  提供了 %2$s 的软件包 %1$s 即将被删除。\n"
 
-#: src/packages.c:338
+#: src/packages.c:341
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  即将删除 %s。\n"
 
-#: src/packages.c:355
+#: src/packages.c:358
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "系统中 %s 的版本为 %s。\n"
 
-#: src/packages.c:376
+#: src/packages.c:379
 #, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr "  提供了 %2$s 的软件包 %1$s 正在等待触发器处理。\n"
 
-#: src/packages.c:380
+#: src/packages.c:383
 #, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  软件包 %s 正在等待触发器处理。\n"
 
-#: src/packages.c:411
+#: src/packages.c:414
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg：同时也对“%s”进行配置(“%s”需要如此)\n"
 
-#: src/packages.c:417
+#: src/packages.c:420
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  软件包 %s 提供了 %s，但是它还没有配置好。\n"
 
-#: src/packages.c:420
+#: src/packages.c:423
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  软件包 %s 还没有被配置。\n"
 
-#: src/packages.c:431
+#: src/packages.c:434
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  提供 %2$s 的软件包 %1$s 未曾安装。\n"
 
-#: src/packages.c:434
+#: src/packages.c:437
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  未曾安装软件包“%s”。\n"
 
-#: src/packages.c:472
+#: src/packages.c:475
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr "%s (%s)破坏 %s 并且 %s。\n"
 
-#: src/packages.c:480
+#: src/packages.c:483
 #, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "%s (%s)提供 %s。\n"
 
-#: src/packages.c:485
+#: src/packages.c:488
 #, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "将被配置的 %s 的版本为 %s。\n"
 
-#: src/packages.c:585
+#: src/packages.c:588
 msgid " depends on "
 msgstr " 依赖于 "
 
-#: src/packages.c:591
+#: src/packages.c:594
 msgid "; however:\n"
 msgstr "；然而：\n"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-08-17 18:05+0300\n"
+"POT-Creation-Date: 2008-11-14 10:21+0200\n"
 "PO-Revision-Date: 2008-07-19 23:48+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -261,11 +261,18 @@ msgstr ""
 "%3$s 정보가 들어 있는 `%1$.250s' 파일을 `%2$.250s' 파일로 설치하는 데 실패했"
 "습니다"
 
-#: lib/ehandle.c:81
+#: lib/ehandle.c:85
+#, c-format
+msgid ""
+"%s: unrecoverable fatal error, aborting:\n"
+" %s\n"
+msgstr ""
+
+#: lib/ehandle.c:101
 msgid "out of memory pushing error handler: "
 msgstr "오류 핸들러를 저장하는 데 메모리가 부족합니다: "
 
-#: lib/ehandle.c:96
+#: lib/ehandle.c:117
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -274,25 +281,25 @@ msgstr ""
 "%s: 정리하는 중에 오류가 발생했습니다:\n"
 " %s\n"
 
-#: lib/ehandle.c:111
+#: lib/ehandle.c:132
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: 오류를 복구하는 동안에 너무 많은 오류가 발생했습니다 !!\n"
 
-#: lib/ehandle.c:186
+#: lib/ehandle.c:207
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "인수가 많은 새 클린업 엔트리에 필요한 메모리가 부족합니다"
 
-#: lib/ehandle.c:198
+#: lib/ehandle.c:219
 msgid "out of memory for new cleanup entry"
 msgstr "새 클린업 엔트리에 필요한 메모리가 부족합니다"
 
-#: lib/ehandle.c:284
+#: lib/ehandle.c:309
 #, c-format
 msgid "error writing `%s'"
 msgstr "`%s' 파일을 쓰는 데 오류가 발생했습니다"
 
-#: lib/ehandle.c:288
+#: lib/ehandle.c:313
 #, c-format
 msgid "%s:%d: internal error `%s'\n"
 msgstr "%s:%d: 내부 오류 `%s' 발생했습니다\n"
@@ -1462,30 +1469,30 @@ msgstr "패키지를 찾을 수 없습니다 (*.deb과 일치하는 파일들)"
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s 옵션은 적어도 하나의 패키지 아카이브 파일 인수가 필요합니다."
 
-#: src/archives.c:1238
+#: src/archives.c:1239
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "전에 선택하지 않은 %s 패키지를 선택합니다.\n"
 
-#: src/archives.c:1243
+#: src/archives.c:1244
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "선택하지 않은 %s 패키지는 넘어갑니다.\n"
 
-#: src/archives.c:1260
+#: src/archives.c:1261
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr ""
 "%2$.250s 패키지의 %1$.250s 버전이 이미 설치되어 있습니다. 넘어갑니다.\n"
 
-#: src/archives.c:1270
+#: src/archives.c:1271
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr ""
 "%s - 경고: %.250s 패키지를 %.250s 버전에서 %.250s 버전으로 다운그레이드 합니"
 "다.\n"
 
-#: src/archives.c:1276
+#: src/archives.c:1277
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -2116,7 +2123,7 @@ msgstr "--compare-versions 옵션에 관계가 잘못되었습니다"
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "dpkg: 버전 '%s'의 형식이 잘못되었습니다: %s\n"
 
-#: src/errors.c:56
+#: src/errors.c:57
 #, c-format
 msgid ""
 "%s: error processing %s (--%s):\n"
@@ -2125,31 +2132,31 @@ msgstr ""
 "%s: %s을(를) 처리하는 데 오류가 발생했습니다 (--%s):\n"
 " %s\n"
 
-#: src/errors.c:63
+#: src/errors.c:64
 msgid ""
 "dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr ""
 "dpkg: 실패한 패키지의 목록의 새 엔트리를 위한 메모리 할당이 실패했습니다."
 
-#: src/errors.c:73
+#: src/errors.c:74
 #, c-format
 msgid "dpkg: too many errors, stopping\n"
 msgstr "dpkg: 오류가 너무 많아 중단합니다\n"
 
-#: src/errors.c:79
+#: src/errors.c:80
 msgid "Errors were encountered while processing:\n"
 msgstr "처리하는 데 오류가 발생했습니다:\n"
 
-#: src/errors.c:86
+#: src/errors.c:87
 msgid "Processing was halted because there were too many errors.\n"
 msgstr "오류가 너무 많아 처리를 중단했습니다.\n"
 
-#: src/errors.c:94
+#: src/errors.c:95
 #, c-format
 msgid "Package %s was on hold, processing it anyway as you request\n"
 msgstr "%s 패키지는 고정 상태였지만, 요청한 대로 처리합니다.\n"
 
-#: src/errors.c:98
+#: src/errors.c:99
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
@@ -2157,7 +2164,7 @@ msgstr ""
 "%s 패키지는 고정 상태로 건드리지 않습니다.  무시하려면 --force-hold 옵션을 사"
 "용하십시오.\n"
 
-#: src/errors.c:107
+#: src/errors.c:108
 msgid ""
 "dpkg - warning, overriding problem because --force enabled:\n"
 " "
@@ -2873,12 +2880,12 @@ msgid ""
 "the files they come in"
 msgstr "패키지를 패키지 이름으로 지정해야 합니다. 패키지 파일 이름이 아닙니다"
 
-#: src/packages.c:188
+#: src/packages.c:191
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr "%s 패키지가 두 번 이상 등장했습니다. 한 번만 처리합니다.\n"
 
-#: src/packages.c:192
+#: src/packages.c:195
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -2887,7 +2894,7 @@ msgstr ""
 "이번 실행할 때 %s 패키지를 두 번 이상 풀었습니다!\n"
 "설정은 한 번만 합니다.\n"
 
-#: src/packages.c:239
+#: src/packages.c:242
 #, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
@@ -2896,77 +2903,77 @@ msgstr ""
 "%.250s 패키지는 트리거 처리 준비가 되어 있지 않습니다.\n"
 " (현재 상태: `%.250s', 밀린 트리거 없음)"
 
-#: src/packages.c:335
+#: src/packages.c:338
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  %s 패키지는 %s을(를) 제공하지만 지울 에정입니다.\n"
 
-#: src/packages.c:338
+#: src/packages.c:341
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  %s 패키지는 지울 예정입니다.\n"
 
-#: src/packages.c:355
+#: src/packages.c:358
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  시스템에 있는 %s의 버전은 %s입니다.\n"
 
-#: src/packages.c:376
+#: src/packages.c:379
 #, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr "  %s 패키지는 (%s을(를) 제공) 트리거 처리를 기다립니다.\n"
 
-#: src/packages.c:380
+#: src/packages.c:383
 #, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  %s 패키지는 트리거 처리를 기다립니다.\n"
 
-#: src/packages.c:411
+#: src/packages.c:414
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: `%s'도 설정합니다 (`%s'때문에 필요)\n"
 
-#: src/packages.c:417
+#: src/packages.c:420
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  %s 패키지는 %s을(를) 제공하지만 아직 설정하지 않았습니다.\n"
 
-#: src/packages.c:420
+#: src/packages.c:423
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr " %s 패키지는 아직 설정하지 않았습니다.\n"
 
-#: src/packages.c:431
+#: src/packages.c:434
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  %s 패키지는 %s을(를) 제공하지만 설치하지 않았습니다.\n"
 
-#: src/packages.c:434
+#: src/packages.c:437
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  %s 패키지는 설치하지 않았습니다.\n"
 
-#: src/packages.c:472
+#: src/packages.c:475
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr "%s(%s) %s을(를) 망가뜨리며 %s입니다.\n"
 
-#: src/packages.c:480
+#: src/packages.c:483
 #, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "%s (%s) %s을(를) 제공합니다.\n"
 
-#: src/packages.c:485
+#: src/packages.c:488
 #, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  설정하려고 하는 %s의 버전은 %s입니다.\n"
 
-#: src/packages.c:585
+#: src/packages.c:588
 msgid " depends on "
 msgstr " 패키지는 다음 패키지에 의존: "
 
 # FIXME: bad msgid - grammar
-#: src/packages.c:591
+#: src/packages.c:594
 msgid "; however:\n"
 msgstr ": 하지만:\n"
 
