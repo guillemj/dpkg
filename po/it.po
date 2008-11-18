@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.10.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-08-17 18:05+0300\n"
+"POT-Creation-Date: 2008-11-14 10:21+0200\n"
 "PO-Revision-Date: 2006-09-09 15:11+0200\n"
 "Last-Translator: Stefano Canepa <sc@linux.it>\n"
 "Language-Team: italian <debian-l10n-italian@debian.org>\n"
@@ -297,11 +297,18 @@ msgstr ""
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "impossibile installare `%.250s' come `%.250s' contenente le info di %s"
 
-#: lib/ehandle.c:81
+#: lib/ehandle.c:85
+#, c-format
+msgid ""
+"%s: unrecoverable fatal error, aborting:\n"
+" %s\n"
+msgstr ""
+
+#: lib/ehandle.c:101
 msgid "out of memory pushing error handler: "
 msgstr "memoria esaurita installando il gestore di errori: "
 
-#: lib/ehandle.c:96
+#: lib/ehandle.c:117
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -310,25 +317,25 @@ msgstr ""
 "%s: errore durante la pulizia:\n"
 " %s\n"
 
-#: lib/ehandle.c:111
+#: lib/ehandle.c:132
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: troppi errori correlati durante il ripristino per errori !!\n"
 
-#: lib/ehandle.c:186
+#: lib/ehandle.c:207
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "memoria esaurita per la nuova entry di cleanup con molti parametri"
 
-#: lib/ehandle.c:198
+#: lib/ehandle.c:219
 msgid "out of memory for new cleanup entry"
 msgstr "memoria esaurita per la nuova entry di cleanup"
 
-#: lib/ehandle.c:284
+#: lib/ehandle.c:309
 #, c-format
 msgid "error writing `%s'"
 msgstr "errore nella scrittura di `%s'"
 
-#: lib/ehandle.c:288
+#: lib/ehandle.c:313
 #, c-format
 msgid "%s:%d: internal error `%s'\n"
 msgstr "%s:%d: errore interno `%s'\n"
@@ -1507,27 +1514,27 @@ msgstr "ricerca completata, senza trovare nessun pacchetto (file *.deb)"
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s richiede almeno un archivio di pacchetto come parametro"
 
-#: src/archives.c:1238
+#: src/archives.c:1239
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Selezionato il pacchetto %s, che non lo era.\n"
 
-#: src/archives.c:1243
+#: src/archives.c:1244
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Tralascio il pacchetto deselezionato %s.\n"
 
-#: src/archives.c:1260
+#: src/archives.c:1261
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "La versione %.250s di %.250s è già installata, lo salto.\n"
 
-#: src/archives.c:1270
+#: src/archives.c:1271
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr "%s - attenzione: riporto %.250s dalla versione %.250s alla %.250s.\n"
 
-#: src/archives.c:1276
+#: src/archives.c:1277
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -2174,7 +2181,7 @@ msgstr "--compare-versions relazione errata"
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "dpkg: la sintassi della versione `%s' è errata: %s\n"
 
-#: src/errors.c:56
+#: src/errors.c:57
 #, c-format
 msgid ""
 "%s: error processing %s (--%s):\n"
@@ -2183,34 +2190,34 @@ msgstr ""
 "%s: errore processando %s (--%s):\n"
 " %s\n"
 
-#: src/errors.c:63
+#: src/errors.c:64
 msgid ""
 "dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr ""
 "dpkg: impossibile allocare memoria per un nuovo elemento nella lista dei "
 "pacchetti in errore."
 
-#: src/errors.c:73
+#: src/errors.c:74
 #, c-format
 msgid "dpkg: too many errors, stopping\n"
 msgstr "dpkg: troppi errori, mi fermo\n"
 
-#: src/errors.c:79
+#: src/errors.c:80
 msgid "Errors were encountered while processing:\n"
 msgstr "Sono occorsi degli errori processando:\n"
 
-#: src/errors.c:86
+#: src/errors.c:87
 msgid "Processing was halted because there were too many errors.\n"
 msgstr ""
 "L'operazione è stata bloccata perché si sono verificati troppi errori.\n"
 
-#: src/errors.c:94
+#: src/errors.c:95
 #, c-format
 msgid "Package %s was on hold, processing it anyway as you request\n"
 msgstr ""
 "Il pacchetto %s era bloccato, viene processato comunque come richiesto\n"
 
-#: src/errors.c:98
+#: src/errors.c:99
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
@@ -2218,7 +2225,7 @@ msgstr ""
 "Il pacchetto %s è bloccato, non viene toccato.  Usa --force-hold per "
 "forzare.\n"
 
-#: src/errors.c:107
+#: src/errors.c:108
 msgid ""
 "dpkg - warning, overriding problem because --force enabled:\n"
 " "
@@ -2966,12 +2973,12 @@ msgstr ""
 "devi specificare i pacchetti con il loro nome, non riportando il nome dei "
 "file che li contengono"
 
-#: src/packages.c:188
+#: src/packages.c:191
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr "Il pacchetto %s è indicato più volte, processato una sola.\n"
 
-#: src/packages.c:192
+#: src/packages.c:195
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -2980,7 +2987,7 @@ msgstr ""
 "Più di una copia del pacchetto %s è stata spacchettata\n"
 " durante questa sessione !  Viene configurato una sola volta.\n"
 
-#: src/packages.c:239
+#: src/packages.c:242
 #, fuzzy, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
@@ -2989,76 +2996,76 @@ msgstr ""
 "il pacchetto %.250s non è pronto per la configurazione\n"
 " non posso configurarlo (stato corrente `%.250s')"
 
-#: src/packages.c:335
+#: src/packages.c:338
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  Il pacchetto %s che fornisce %s sta per essere rimosso.\n"
 
-#: src/packages.c:338
+#: src/packages.c:341
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  Il pacchetto %s sta per essere rimosso.\n"
 
-#: src/packages.c:355
+#: src/packages.c:358
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  La versione di %s presente sul sistema è %s.\n"
 
-#: src/packages.c:376
+#: src/packages.c:379
 #, fuzzy, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr "  Il pacchetto %s che fornisce %s sta per essere rimosso.\n"
 
-#: src/packages.c:380
+#: src/packages.c:383
 #, fuzzy, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  Il pacchetto %s sta per essere rimosso.\n"
 
-#: src/packages.c:411
+#: src/packages.c:414
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: verrà configurato anche `%s' (richiesto da `%s')\n"
 
-#: src/packages.c:417
+#: src/packages.c:420
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  Il pacchetto %s che fornisce %s non è ancora configurato.\n"
 
-#: src/packages.c:420
+#: src/packages.c:423
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  Il pacchetto %s non è ancora configurato.\n"
 
-#: src/packages.c:431
+#: src/packages.c:434
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  Il pacchetto %s che fornisce %s non è installato.\n"
 
-#: src/packages.c:434
+#: src/packages.c:437
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  Il pacchetto %s non è installato.\n"
 
-#: src/packages.c:472
+#: src/packages.c:475
 #, fuzzy, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr "  %.250s fornisce %.250s ed è %s.\n"
 
-#: src/packages.c:480
+#: src/packages.c:483
 #, fuzzy, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "%s (sottoprocesso): %s\n"
 
-#: src/packages.c:485
+#: src/packages.c:488
 #, fuzzy, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  La versione di %s presente sul sistema è %s.\n"
 
-#: src/packages.c:585
+#: src/packages.c:588
 msgid " depends on "
 msgstr " dipende da "
 
-#: src/packages.c:591
+#: src/packages.c:594
 msgid "; however:\n"
 msgstr "; comunque:\n"
 

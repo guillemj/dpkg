@@ -1206,7 +1206,8 @@ void archivefiles(const char *const *argv) {
   while ((thisarg = *argp++) != NULL) {
     if (setjmp(ejbuf)) {
       error_unwind(ehflag_bombout);
-      if (onerr_abort > 0) break;
+      if (abort_processing)
+        break;
       continue;
     }
     push_error_handler(&ejbuf,print_error_perpackage,thisarg);

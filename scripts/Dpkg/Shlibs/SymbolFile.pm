@@ -43,6 +43,7 @@ my %blacklist = (
     '_ftext' => 1,		# mips, mipsel
     '_GLOBAL_OFFSET_TABLE_' => 1,   # hppa, mips, mipsel
     '__gmon_start__' => 1,	# hppa
+    '__gnu_local_gp' => 1,      # mips, mipsel
     '_gp' => 1,			# mips, mipsel
     '_init' => 1,		# ALL
     '_PROCEDURE_LINKAGE_TABLE_' => 1, # sparc, alpha
@@ -100,7 +101,7 @@ sub clear_except {
 
 # Parameter seen is only used for recursive calls
 sub load {
-    my ($self, $file, $seen, $current_object) = @_;
+    my ($self, $file, $seen, $current_object_ref) = @_;
 
     if (defined($seen)) {
 	return if exists $seen->{$file}; # Avoid include loops
@@ -112,7 +113,11 @@ sub load {
 
     open(my $sym_file, "<", $file)
 	|| syserr(_g("cannot open %s"), $file);
-    my $object = $current_object;
+    if (not ref($current_object_ref)) {
+        my $obj;
+        $current_object_ref = \$obj;
+    }
+    local *object = $current_object_ref;
     while (defined($_ = <$sym_file>)) {
 	chomp($_);
 	if (/^\s+(\S+)\s(\S+)(?:\s(\d+))?/) {
@@ -136,7 +141,7 @@ sub load {
 	    my $filename = $1;
 	    my $dir = $file;
 	    $dir =~ s{[^/]+$}{}; # Strip filename
-	    $self->load("$dir$filename", $seen, $object);
+	    $self->load("$dir$filename", $seen, $current_object_ref);
 	} elsif (/^#(?:DEPRECATED|MISSING): ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    my $sym = {
 		minver => $3,

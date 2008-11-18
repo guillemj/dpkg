@@ -59,7 +59,7 @@ sub parseversion ($)
     {
 	$verhash{epoch} = 0;
     }
-    if ($ver =~ /(.+)-(.+)$/)
+    if ($ver =~ /(.+)-(.*)$/)
     {
 	$verhash{version} = $1;
 	$verhash{revision} = $2;
@@ -90,7 +90,7 @@ sub verrevcmp($$)
 	  #           : (x) + 256)
 	  # This comparison is out of dpkg's order to avoid
 	  # comparing things to undef and triggering warnings.
-	  if (not defined $x) {
+	  if (not defined $x or not length $x) {
 	       return 0;
 	  }
 	  elsif ($x eq '~') {
@@ -140,7 +140,7 @@ sub verrevcmp($$)
 	  }
 	  return 1 if defined $vc and $vc =~ /^\d$/;
 	  return -1 if defined $rc and $rc =~ /^\d$/;
-	  return $first_diff if $first_diff;
+	  return (($first_diff  > 0) ? 1 : -1) if $first_diff;
      }
      return 0;
 }

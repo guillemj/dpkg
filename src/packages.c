@@ -173,6 +173,9 @@ void process_queue(void) {
   jmp_buf ejbuf;
   enum istobes istobe= itb_normal;
   
+  if (abort_processing)
+    return;
+
   clear_istobes();
 
   switch (cipaction->arg) {
@@ -231,7 +234,7 @@ void process_queue(void) {
       /* give up on it from the point of view of other packages, ie reset istobe */
       pkg->clientdata->istobe= itb_normal;
       error_unwind(ehflag_bombout);
-      if (onerr_abort > 0)
+      if (abort_processing)
         return;
       continue;
     }

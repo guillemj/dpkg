@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-08-17 18:05+0300\n"
+"POT-Creation-Date: 2008-11-14 10:21+0200\n"
 "PO-Revision-Date: 2006-02-17 08:52+0200\n"
 "Last-Translator: Parlin Imanuel <parlin_i@yahoo.com>\n"
 "Language-Team: Debian Indonesia L10N Team <debian-l10n-id@gurame.fisika.ui."
@@ -266,11 +266,18 @@ msgstr "gagal membuat link `%.250s' ke `%.250s' untuk cadangan info %s"
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "gagal memasang `%.250s' sebagai `%.250s' yang berisi info %s"
 
-#: lib/ehandle.c:81
+#: lib/ehandle.c:85
+#, c-format
+msgid ""
+"%s: unrecoverable fatal error, aborting:\n"
+" %s\n"
+msgstr ""
+
+#: lib/ehandle.c:101
 msgid "out of memory pushing error handler: "
 msgstr "kehabisan memory saat memaksa penanganan kesalahan: "
 
-#: lib/ehandle.c:96
+#: lib/ehandle.c:117
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -279,25 +286,25 @@ msgstr ""
 "%s: ada kesalahan saat membersihkan: \n"
 " %s \n"
 
-#: lib/ehandle.c:111
+#: lib/ehandle.c:132
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: terlalu banyak kesalahan berantai saat memperbaiki kesalahan!\n"
 
-#: lib/ehandle.c:186
+#: lib/ehandle.c:207
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "kehabisan memory untuk masukan 'cleanup' baru dengan banyak argumen"
 
-#: lib/ehandle.c:198
+#: lib/ehandle.c:219
 msgid "out of memory for new cleanup entry"
 msgstr "kehabisan memory untuk masukan 'cleanup' baru"
 
-#: lib/ehandle.c:284
+#: lib/ehandle.c:309
 #, c-format
 msgid "error writing `%s'"
 msgstr "Ada kesalahan saat menulis `%s'"
 
-#: lib/ehandle.c:288
+#: lib/ehandle.c:313
 #, c-format
 msgid "%s:%d: internal error `%s'\n"
 msgstr "%s: %d: kesalahan internal `%s'\n"
@@ -1467,28 +1474,28 @@ msgstr ""
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s butuh sedikitnya satu argumen berkas arsip paket"
 
-#: src/archives.c:1238
+#: src/archives.c:1239
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Memilih paket %s yang sebelumnya tidak dipilih. \n"
 
-#: src/archives.c:1243
+#: src/archives.c:1244
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Abaikan paket yang tak dipilih: %s. \n"
 
-#: src/archives.c:1260
+#: src/archives.c:1261
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Versi %.250s dari paket %.250s telah dipasang, dilewati.\n"
 
-#: src/archives.c:1270
+#: src/archives.c:1271
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr ""
 "%s - PERINGATAN: menurunkan versi paket %.250s dari %.250s ke %.250s. \n"
 
-#: src/archives.c:1276
+#: src/archives.c:1277
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -2118,7 +2125,7 @@ msgstr "hubungan buruk --compare-version"
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "versi b mengandung salah sintaks: %s\n"
 
-#: src/errors.c:56
+#: src/errors.c:57
 #, c-format
 msgid ""
 "%s: error processing %s (--%s):\n"
@@ -2127,32 +2134,32 @@ msgstr ""
 "%s: ada kesalahan saat memproses %s (--%s): \n"
 " %s \n"
 
-#: src/errors.c:63
+#: src/errors.c:64
 msgid ""
 "dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr ""
 "dpkg: gagal mengalokasikan memory untuk data baru dalam daftar paket-paket "
 "yang gagal"
 
-#: src/errors.c:73
+#: src/errors.c:74
 #, c-format
 msgid "dpkg: too many errors, stopping\n"
 msgstr "dpkg: terlalu banyak kesalahan, dihentikan. \n"
 
-#: src/errors.c:79
+#: src/errors.c:80
 msgid "Errors were encountered while processing:\n"
 msgstr "Ada kesalahan saat memproses: \n"
 
-#: src/errors.c:86
+#: src/errors.c:87
 msgid "Processing was halted because there were too many errors.\n"
 msgstr "Pemrosesan dihentikan karena terlalu banyak kesalahan.\n"
 
-#: src/errors.c:94
+#: src/errors.c:95
 #, c-format
 msgid "Package %s was on hold, processing it anyway as you request\n"
 msgstr "Paket %s telah dicekal, tetap memproses sesuai permintaan\n"
 
-#: src/errors.c:98
+#: src/errors.c:99
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
@@ -2160,7 +2167,7 @@ msgstr ""
 "Paket %s sedang dicekal, tidak akan disentuh. \n"
 "Gunakan --force-hold untuk memprosesnya.\n"
 
-#: src/errors.c:107
+#: src/errors.c:108
 msgid ""
 "dpkg - warning, overriding problem because --force enabled:\n"
 " "
@@ -2805,12 +2812,12 @@ msgstr ""
 "Anda harus menentukan paket dengan namanya masing-masing, bukan dengan "
 "mengutip nama berkas-berkas yang dibawanya."
 
-#: src/packages.c:188
+#: src/packages.c:191
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr "Paket %s terdaftar lebih dari sekali, hanya memprosesnya sekali.\n"
 
-#: src/packages.c:192
+#: src/packages.c:195
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -2819,7 +2826,7 @@ msgstr ""
 "Lebih dari satu salinan paket %s yang telah dibuka\n"
 " dalam pemasangan ini! Hanya akan mengonfigurasi sekali saja.\n"
 
-#: src/packages.c:239
+#: src/packages.c:242
 #, fuzzy, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
@@ -2828,76 +2835,76 @@ msgstr ""
 "paket %.250s belum siap dikonfigurasi\n"
 "  tidak dapat dikonfigurasi (status sekarang `%.250s')"
 
-#: src/packages.c:335
+#: src/packages.c:338
 #, fuzzy, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "   %.250s menyediakan %.250s tetapi akan dibuang.\n"
 
-#: src/packages.c:338
+#: src/packages.c:341
 #, fuzzy, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "   %.250s akan dibuang.\n"
 
-#: src/packages.c:355
+#: src/packages.c:358
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr ""
 
-#: src/packages.c:376
+#: src/packages.c:379
 #, fuzzy, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr "   %.250s menyediakan %.250s tetapi akan dibuang.\n"
 
-#: src/packages.c:380
+#: src/packages.c:383
 #, fuzzy, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "   %.250s akan dibuang.\n"
 
-#: src/packages.c:411
+#: src/packages.c:414
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: juga mengonfigurasi `%s' (diperlukan oleh `%s')\n"
 
-#: src/packages.c:417
+#: src/packages.c:420
 #, fuzzy, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "   %.250s menyediakan %.250s tetapi akan didekonfigurasi.\n"
 
-#: src/packages.c:420
+#: src/packages.c:423
 #, fuzzy, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr " belum dikonfigurasi. \n"
 
-#: src/packages.c:431
+#: src/packages.c:434
 #, fuzzy, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "Paket `%s' tidak terpasang. \n"
 
-#: src/packages.c:434
+#: src/packages.c:437
 #, fuzzy, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "Paket `%s' tidak terpasang. \n"
 
-#: src/packages.c:472
+#: src/packages.c:475
 #, fuzzy, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr "  %.250s menyediakan %.250s dan %s. \n"
 
-#: src/packages.c:480
+#: src/packages.c:483
 #, fuzzy, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "%s (subproses): %s \n"
 
-#: src/packages.c:485
+#: src/packages.c:488
 #, fuzzy, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "   %.250s akan didekonfigurasi.\n"
 
-#: src/packages.c:585
+#: src/packages.c:588
 msgid " depends on "
 msgstr " bergantung pada "
 
-#: src/packages.c:591
+#: src/packages.c:594
 msgid "; however:\n"
 msgstr "; tetapi:\n"
 

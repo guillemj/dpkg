@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-08-17 18:05+0300\n"
-"PO-Revision-Date: 2008-06-06 00:24+0200\n"
+"POT-Creation-Date: 2008-11-14 10:21+0200\n"
+"PO-Revision-Date: 2008-09-25 02:53+0200\n"
 "Last-Translator: Jordi Mallach <jordi@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -266,11 +266,18 @@ msgstr ""
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "no s'ha pogut instal·lar «%.250s» com a «%.250s» amb informació de %s"
 
-#: lib/ehandle.c:81
+#: lib/ehandle.c:85
+#, c-format
+msgid ""
+"%s: unrecoverable fatal error, aborting:\n"
+" %s\n"
+msgstr ""
+
+#: lib/ehandle.c:101
 msgid "out of memory pushing error handler: "
 msgstr "S'ha exhaurit la memòria en cridar el gestor d'error: "
 
-#: lib/ehandle.c:96
+#: lib/ehandle.c:117
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -279,27 +286,27 @@ msgstr ""
 "%s: s'ha produït un error en netejar:\n"
 " %s\n"
 
-#: lib/ehandle.c:111
+#: lib/ehandle.c:132
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: s'han produït massa errors niuats durant la recuperació!\n"
 
-#: lib/ehandle.c:186
+#: lib/ehandle.c:207
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr ""
 "memòria esgotada per a l'entrada de reorganització nova amb\n"
 "massa arguments"
 
-#: lib/ehandle.c:198
+#: lib/ehandle.c:219
 msgid "out of memory for new cleanup entry"
 msgstr "memòria exhaurida per a una entrada nova de reorganització"
 
-#: lib/ehandle.c:284
+#: lib/ehandle.c:309
 #, c-format
 msgid "error writing `%s'"
 msgstr "s'ha produït un error en escriure «%s»"
 
-#: lib/ehandle.c:288
+#: lib/ehandle.c:313
 #, c-format
 msgid "%s:%d: internal error `%s'\n"
 msgstr "%s:%d: s'ha produït l'error intern «%s»\n"
@@ -485,34 +492,32 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "no s'admeten alternatives («|») en el camp %s"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "en aquest context no es permet un valor pel camp «config-version»"
+msgstr "en aquest context no es permet un valor pel camp «triggers-pending»"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "camp «%s», nom de paquet invàlid «%.255s»: %s"
+msgstr "el nom del gallet pendent «%.255s» és il·legal: %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "el gallet pendent «%.255s» és duplicat"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "el valor pel camp «status» no està permés en aquest context"
+msgstr "el valor pel camp «triggers-awaited» no està permés en aquest context"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "s'ha trobat un nom de paquet il·legal en la línia %d: %.250s"
+msgstr "el nom del paquet al gallet esperat «%.255s» és il·legal: %s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "el fitxer de la llista de fitxers del paquet «%.250s»"
+msgstr "el paquet del gallet esperat «%.255s» és duplicat"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -816,20 +821,20 @@ msgstr "camp «Configured-Version» per a un paquet amb Status no apropiat"
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "el paquet té l'estat %s però s'esperen gallets"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
-msgstr ""
+msgstr "el paquet té l'estat triggers-awaited però no s'espera cap gallet"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "el paquet té estat %s però els gallets són pendents"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
-msgstr ""
+msgstr "el paquet té l'estat triggers-pending però no hi ha cap gallet pendent"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -928,69 +933,70 @@ msgstr "Falta la clau que tanca al format\n"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
+"el nom del paquet «%.250s» és invàlid al fitxer de gallets ajornats «%0.250s»"
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "fitxer de statoverride «%.250s»"
+msgstr "el fitxer de gallets ajornats «%.250s» és truncat"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"error de sintaxi al fitxer de gallets ajornats «%.250s» al caràcter «%s»%s"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "no es pot obrir el fitxer font «%.250s»"
+msgstr "no es pot obrir el fitxer de blocatge de gallets «%.250s»"
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "no es pot desblocar %s: %s"
+msgstr "no es pot blocar l'àrea de gallets"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "no es pot fer «stat» sobre el fitxer nou «%.250s»"
+msgstr "no es pot fer «stat» sobre el fitxer de gallets ajornats «%.250s»"
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "no es pot obrir el fitxer font «%.250s»"
+msgstr "no es pot obrir el fitxer de gallets ajornats «%.250s»"
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "no es pot obrir el fitxer de dipòsit nou «%.250s»"
+msgstr "no es pot obrir/crear el fitxer de gallets ajornats nou «%.250s»"
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "s'ha produït un error en llegir %s del fitxer %.255s"
+msgstr "s'ha produït un error en llegir el fitxer de gallets ajornats «%.255s»"
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "no es pot obrir el fitxer de dipòsit nou «%.250s»"
+msgstr "no es pot escriure el fitxer de gallets ajornats nou «%.250s»"
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "no es pot obrir el fitxer de dipòsit nou «%.250s»"
+msgstr "no es pot tancar el fitxer de gallets ajornats nou «%.250s»"
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "no es pot instal·lar una versió nova de «%.255s»"
+msgstr "no es pot instal·lar el fitxer de gallets ajornats nou «%.250s»"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "no es permeten els noms de gallet buits"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "el nom del gallet conté un caràcter invàlid"
 
 #: lib/triglib.c:302
 #, c-format
@@ -998,16 +1004,18 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
+"la sintaxi del nom del gallet «%.250s» és invàlida o desconeguda (als gallets "
+"interessants per al paquet «%.250s»"
 
 #: lib/triglib.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "no es pot obrir el fitxer de dipòsit nou «%.250s»"
+msgstr "no es pot obrir el fitxer de gallets interessants «%.250s»"
 
 #: lib/triglib.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "no es pot llegir el fitxer part «%.250s»"
+msgstr "no es pot fer «rewind» al fitxer de gallets interessants «%.250s»"
 
 #: lib/triglib.c:371
 #, c-format
@@ -1015,21 +1023,23 @@ msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"error de sintaxi al fitxer de gallets interessants «%.250s»; el nom del "
+"paquet «%.250s» és il·legal: %.250s"
 
 #: lib/triglib.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "no es pot fer «stat» sobre el fitxer nou «%.250s»"
+msgstr "no es pot crear el fitxer de gallets interessants nou «%.250s»"
 
 #: lib/triglib.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "no es pot fer «stat» sobre el fitxer nou «%.250s»"
+msgstr "no es pot escriure el fitxer de gallets interessants «%.250s»"
 
 #: lib/triglib.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "no es pot instal·lar una versió nova de «%.255s»"
+msgstr "no es pot instal·lar el fitxer de gallets interessants nou «%.255s»"
 
 #: lib/triglib.c:467
 #, fuzzy, c-format
@@ -1038,29 +1048,29 @@ msgid ""
 msgstr "no es pot instal·lar el fitxer d'info. nou «%.250s» com a «%.250s»"
 
 #: lib/triglib.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "no es pot obrir el fitxer de dipòsit nou «%.250s»"
+msgstr "no es pot crear el fitxer de gallets de fitxer nou «%.250s»"
 
 #: lib/triglib.c:499
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "no es pot obrir el fitxer de dipòsit nou «%.250s»"
+msgstr "no es pot escriure el fitxer de gallets de fitxer nou «%.250s»"
 
 #: lib/triglib.c:504
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr "no es pot instal·lar el fitxer d'info. nou «%.250s» com a «%.250s»"
+msgstr "no es pot instal·lar el fitxer de gallets de fitxer nou com a «%.250s»"
 
 #: lib/triglib.c:525
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "no es pot llegir el fitxer part «%.250s»"
+msgstr "no es pot llegir el fitxer de gallets de fitxer «%.250s»"
 
 #: lib/triglib.c:533
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "error de lectura al fitxer de configuració «%.250s»"
+msgstr "error de sintaxi al fitxer de gallets de fitxer «%.250s»"
 
 #: lib/triglib.c:537
 #, c-format
@@ -1068,6 +1078,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"el registre de gallets de fitxer menciona el nom de paquet il·legal "
+"«%.250s» (per l'interés en el fitxer «%.250s»): %.250s"
 
 #: lib/triglib.c:631
 #, c-format
@@ -1075,25 +1087,31 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"el fitxer d'informació de control dels galets «%.250s» conté sintàxi de "
+"gallet il·legal al nom de gallet «%.250s»: %.250s"
 
 #: lib/triglib.c:651
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "no es pot obrir el fitxer font «%.250s»"
+msgstr "no es pot obrir el fitxer d'informació de control dels gallets «%.250s»"
 
 #: lib/triglib.c:666
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
+"el fitxer d'informació de control dels gallets conté sintaxi de directiva "
+"desconeguda"
 
 #: lib/triglib.c:675
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
+"el fitxer d'informació de control dels gallets conté la directiva "
+"desconeguda «%.250s»"
 
 #: lib/triglib.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "no es pot llegir el directori de dipòsit «%.250s»"
+msgstr "no es pot crear el directorio d'estat dels gallets «%.250s»"
 
 #: lib/triglib.c:733
 #, c-format
@@ -1107,20 +1125,19 @@ msgid "read error in `%.250s'"
 msgstr "error de lectura a «%.250s»"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "fgets ha donat una cadena buida des de les desviacions [i]"
+msgstr "fgets ha donat una cadena buida des de «%.250s»"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr ""
-"el fitxer «%.250s» està corromput - falta una línia nova després de %.250s"
+msgstr "la línia és massa llarga o manca una línia en blanc a «%.250s»"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "s'ha trobat un fi de fitxer inesperat en %.250s"
+msgstr "s'ha trobat un fi de fitxer inesperat en llegir «%.250s»"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1151,9 +1168,11 @@ msgid "error setting permissions of `%.255s'"
 msgstr "s'ha produït un error en establir els permisos de «%.255s»"
 
 #: src/archives.c:341
-#, fuzzy, c-format
+#, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
-msgstr "no es poden establir els permisos d'execució en «%.250s»"
+msgstr ""
+"no s'ha pogut fer «stat» (dereferència) sobre l'enllaç simbòlic existent "
+"«%.250s»"
 
 #: src/archives.c:362
 #, c-format
@@ -1161,22 +1180,23 @@ msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
+"no s'ha pogut fer «stat» (dereferència) sobre l'objectiu del nou enllaç "
+"simbòlic proposat «%.250s» per a l'enllaç simbòlic «%.250s»"
 
 #: src/archives.c:414
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
 msgstr ""
 "s'està intentant sobreescriure «%.250s», que és la versió desviada de "
-"«%.250s»%.10s%.100s%.10s"
+"«%.250s» (paquet: %.100s)"
 
 #: src/archives.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
-"s'està intentant sobreescriure «%.250s», que és la versió desviada de "
-"«%.250s»%.10s%.100s%.10s"
+"s'està intentant sobreescriure «%.250s», que és la versió desviada de «%.250s»"
 
 #: src/archives.c:443
 #, c-format
@@ -1309,62 +1329,62 @@ msgid "unable to install new version of `%.255s'"
 msgstr "no es pot instal·lar una versió nova de «%.255s»"
 
 #: src/archives.c:857
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
-"dpkg: avís - no es tindrà en compte el problema de dependència al "
-"desinstal·lar %s:\n"
+"dpkg: avís - no es tindrà en compte el problema de dependència amb %s:\n"
 "%s"
 
 #: src/archives.c:864
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
 " package %s, to enable %s.\n"
 msgstr ""
 "dpkg: avís - es considera la desconfiguració del paquet\n"
-" essencial %s, per a permetre la desinstal·lació de %s.\n"
+" essencial %s, per a habilitar %s.\n"
 
 #: src/archives.c:868
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
 " it in order to enable %s.\n"
 msgstr ""
 "dpkg: no, %s és essencial, no serà desconfigurat\n"
-" per a permetre la desinstal·lació de %s.\n"
+" per a habilitar %s.\n"
 
 #: src/archives.c:882
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"dpkg: no, no es pot desinstal·lar %s (--auto-deconfigure ajudarà):\n"
+"dpkg: no, no es pot continuar amb %s (--auto-deconfigure ajudarà):\n"
 "%s"
 
 #: src/archives.c:892
-#, fuzzy, c-format
+#, c-format
 msgid "removal of %.250s"
-msgstr "error de lectura en %.250s"
+msgstr "supressió de %.250s"
 
 #: src/archives.c:919
-#, fuzzy, c-format
+#, c-format
 msgid "installation of %.250s"
-msgstr "no es pot instal·lar una versió nova de «%.255s»"
+msgstr "instal·lació de «%.255s»"
 
 #: src/archives.c:920
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgstr "dpkg: es considera la desinstal·lació de %s en favor de %s ...\n"
+msgstr ""
+"dpkg: es considera la desinstal·lació de %s, que seria trencat per %s ...\n"
 
 #: src/archives.c:927
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
-msgstr "dpkg: sí, es desinstal·larà %s en favor de %s.\n"
+msgstr "dpkg: sí, es desconfigurarà %s (trencat per %s).\n"
 
 #: src/archives.c:931 src/archives.c:1056
 #, c-format
@@ -1392,7 +1412,7 @@ msgstr ""
 #: src/archives.c:949
 #, c-format
 msgid "installing %.250s would break existing software"
-msgstr ""
+msgstr "la instal·lació del paquet %.250s trencaria el programari existent"
 
 #: src/archives.c:982
 #, c-format
@@ -1484,27 +1504,27 @@ msgstr ""
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s necessita al menys un paquet arxiu com a argument"
 
-#: src/archives.c:1238
+#: src/archives.c:1239
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "S'està seleccionant el paquet %s prèviament no seleccionat.\n"
 
-#: src/archives.c:1243
+#: src/archives.c:1244
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "S'està ometent el paquet no seleccionat %s.\n"
 
-#: src/archives.c:1260
+#: src/archives.c:1261
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "La versió %.250s de %.250s ja és instal·lada, es descarta.\n"
 
-#: src/archives.c:1270
+#: src/archives.c:1271
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr "%s - avís: s'està desactualitzant %.250s de %.250s a %.250s.\n"
 
-#: src/archives.c:1276
+#: src/archives.c:1277
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -2022,7 +2042,7 @@ msgid ""
 "They must be configured using dpkg --configure or the configure\n"
 "menu option in dselect for them to work:\n"
 msgstr ""
-"Els següents paquets han estat desempaquetats però encara no estan\n"
+"Els paquets següents han estat desempaquetats però encara no estan\n"
 "configurats.  S'han de configurar emprant dpkg --configure o l'opció\n"
 "«configure» en dselect perquè funcionen:\n"
 
@@ -2032,7 +2052,7 @@ msgid ""
 "configuring them the first time.  The configuration should be retried using\n"
 "dpkg --configure <package> or the configure menu option in dselect:\n"
 msgstr ""
-"Els següents paquets només estan configurats a mitges, probablement\n"
+"Els paquets següents només estan configurats a mitges, probablement\n"
 "a causa de problemes en la configuració inicial.  S'ha de reintentar\n"
 "la configuració amb dpkg --configure <paquet> o l'opció configurar\n"
 "en el menú de dselect:\n"
@@ -2043,7 +2063,7 @@ msgid ""
 "installation.  The installation can probably be completed by retrying it;\n"
 "the packages can be removed using dselect or dpkg --remove:\n"
 msgstr ""
-"Els següents paquets només estan instal·lats a mitges, a causa de problemes\n"
+"Els paquets següents només estan instal·lats a mitges, a causa de problemes\n"
 "durant la instal·lació.  La instal·lació probablement es puga completar\n"
 "reintentant; els paquets es poden desinstal·lar amb dselect o\n"
 "dpkg --remove:\n"
@@ -2054,6 +2074,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Els paquets següents estan esperant el processat dels gallets que han\n"
+"estat activats per altresp aquets. Aquest processat es pot demanar\n"
+"emprant dselect o dpkg --configure --pending (o dpkg --triggers-only):\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2141,7 +2164,7 @@ msgstr "relació dolenta de --compare-versions"
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "dpkg: la versió «%s» té una sintaxi dolenta: %s\n"
 
-#: src/errors.c:56
+#: src/errors.c:57
 #, c-format
 msgid ""
 "%s: error processing %s (--%s):\n"
@@ -2150,34 +2173,34 @@ msgstr ""
 "%s: s'ha produït un error en processar %s (--%s):\n"
 " %s\n"
 
-#: src/errors.c:63
+#: src/errors.c:64
 msgid ""
 "dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr ""
 "dpkg: s'ha produït un error en assignar memòria per a l'entrada nova en la "
 "llista de paquets que han fallat"
 
-#: src/errors.c:73
+#: src/errors.c:74
 #, c-format
 msgid "dpkg: too many errors, stopping\n"
 msgstr "dpkg: massa errors, s'està aturant\n"
 
-#: src/errors.c:79
+#: src/errors.c:80
 msgid "Errors were encountered while processing:\n"
 msgstr "S'han trobat errors en processar:\n"
 
-#: src/errors.c:86
+#: src/errors.c:87
 msgid "Processing was halted because there were too many errors.\n"
 msgstr "Procés aturat per haver-hi massa errors.\n"
 
-#: src/errors.c:94
+#: src/errors.c:95
 #, c-format
 msgid "Package %s was on hold, processing it anyway as you request\n"
 msgstr ""
 "El paquet %s estava en mantindre, es processarà igualment tal com heu "
 "demanat\n"
 
-#: src/errors.c:98
+#: src/errors.c:99
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
@@ -2185,7 +2208,7 @@ msgstr ""
 "El paquet %s està en mantindre, no es toca.  Useu --force-hold per a forçar-"
 "ho\n"
 
-#: src/errors.c:107
+#: src/errors.c:108
 msgid ""
 "dpkg - warning, overriding problem because --force enabled:\n"
 " "
@@ -2340,7 +2363,7 @@ msgstr "trencat a causa d'un error en postinst"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "s'està esperant el processat dels gallets per un altre paquet"
 
 #: src/help.c:47
 msgid "triggered"
@@ -2390,9 +2413,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "no es poden establir els permisos d'execució en «%.250s»"
 
 #: src/help.c:287
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "no es pot fer «stat» en vsnprintf"
+msgstr "no es pot fer «setenv» per al script del mantenidor"
 
 #: src/help.c:319
 #, c-format
@@ -2497,7 +2519,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2527,9 +2549,9 @@ msgid ""
 "\n"
 msgstr ""
 "Ordres:\n"
-"  -i|--install       <fitxer .deb> ... | -R|--recursive <dir> ...\n"
-"  --unpack           <fitxer .deb> ... | -R|--recursive <dir> ...\n"
-"  -A|--record-avail  <fitxer .deb> ... | -R|--recursive <dir> ...\n"
+"  -i|--install       <fitxer .deb> ... | -R|--recursive <directori> ...\n"
+"  --unpack           <fitxer .deb> ... | -R|--recursive <directori> ...\n"
+"  -A|--record-avail  <fitxer .deb> ... | -R|--recursive <directori> ...\n"
 "  --configure             <paquet> ... | -a|--pending\n"
 "  -r|--remove             <paquet> ... | -a|--pending\n"
 "  -P|--purge              <paquet> ... | -a|--pending\n"
@@ -2537,11 +2559,13 @@ msgstr ""
 "                                       en l'eixida estàndard.\n"
 "  --set-selections                     Estableix seleccions de paquets des\n"
 "                                       de l'entrada estàndard.\n"
+"  --clear-selections                   Desselecciona tots els paquets no\n"
+"                                       essencials.\n"
 "  --update-avail <fitxer-Packages>     Reemplaça la informació de paquets\n"
 "                                       disponibles.\n"
 "  --merge-avail  <fitxer-Packages>     Fusiona amb la informació del "
 "fitxer.\n"
-"  --clear-avail                        Esborra la informació actual sobre "
+"  --clear-avail                        Suprimeix la informació actual sobre "
 "els\n"
 "                                       paquets disponibles.\n"
 "  --forget-old-unavail                 Oblida la informació sobre paquets "
@@ -2559,7 +2583,7 @@ msgstr ""
 "  -C|--audit                           Verifica els paquets trencats.\n"
 "  --print-architecture                 Mostra l'arquitectura de destí de "
 "dpkg.\n"
-"  --compare-versions <a> <rel> <b>     Compara els números de versió - "
+"  --compare-versions <a> <op> <b>      Compara els números de versió - "
 "mireu\n"
 "                                       més endavant.\n"
 "  --force-help                         Mostra l'ajuda sobre forçar.\n"
@@ -2603,7 +2627,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2635,37 +2659,35 @@ msgid ""
 "\n"
 msgstr ""
 "Opcions:\n"
-"  --admindir=<directori>     Utilitza <directori> en comptes de %s.\n"
-"  --root=<directori>         Instal·la en un sistema alternatiu amb "
-"directori\n"
-"                             arrel en un altre lloc.\n"
-"  --instdir=<directori>      Canvia l'arrel de la instal·lació sense alterar "
-"el\n"
-"                             directori de gestió.\n"
+"  --admindir=<directori>     Utilitza <directori> en lloc de %s.\n"
+"  --root=<directori>         Instal·la en un directori arrel diferent.\n"
+"  --instdir=<directori>      Canvia el directori d'instal·lació sense "
+"alterar\n"
+"                             el directori de gestió.\n"
 "  -O|--selected-only         Omet els paquets no seleccionats per a\n"
 "                             instal·lació o actualització.\n"
-"  -E|--skip-same-version     Omet els paquets en que la versió sigui la "
-"mateixa\n"
-"                             que la dels instal·lats.\n"
+"  -E|--skip-same-version     Omet els paquets que ja tinguen la mateixa "
+"versió\n"
+"                             instal·lada.\n"
 "  -G=--refuse-downgrade      Omet els paquets amb una versió anterior que "
 "la\n"
 "                             instal·lada.\n"
-"  -B|--auto-deconfigure      Instal·la encara que es pugui trencar algun "
+"  -B|--auto-deconfigure      Instal·la encara que es puga trencar algun "
 "altre\n"
 "                             paquet.\n"
 "  --no-debsig                No verifiques les signatures dels paquets.\n"
 "  --no-act|--dry-run|--simulate\n"
-"                             Només indica el que es faria, però no facis "
+"                             Indica només el que es faria, però no faces "
 "res.\n"
-"  -D|--debug=<octal>         Habilita la depuració, mireu -Dhelp ó --"
-"debug=help.\n"
+"  -D|--debug=<octal>         Habilita la depuració (vegeu -Dhelp ó --"
+"debug=help).\n"
 "  --status-fd <n>            Envia actualitzacions de canvis d'estat al\n"
 "                             descriptor de fitxer <n>.\n"
 "  --log=<fitxer>             Registra canvis d'estat i accions a <fitxer>.\n"
 "  --ignore-depends=<paquet>,...\n"
 "                             No tingues en compte les dependències que\n"
 "                             impliquen a <paquet>.\n"
-"  --force-...                Descarta problemes, mireu --force-help.\n"
+"  --force-...                Descarta problemes (vegeu --force-help).\n"
 "  --no-force-...|--refuse-...\n"
 "                             Atura't quan trobes problemes.\n"
 "  --abort-after <n>          Avorta després de trobar <n> errors.\n"
@@ -2740,7 +2762,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "Avís: l'opció és obsoleta «--%s»\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2764,17 +2786,20 @@ msgid ""
 msgstr ""
 "opció de depuració %s, --debug=<octal> o -D<octal>:\n"
 "\n"
-" número  referència de la font  descripció\n"
+" número  ref. al font      descripció\n"
 "      1  general           Informació de progrés generalment útil\n"
-"      2  scripts           Invocació i estat de les seqüències del paquet\n"
+"      2  scripts           Invocació i estat dels scripts del mantenidor\n"
 "     10  eachfile          Eixida per cada fitxer processat\n"
 "    100  eachfiledetail    Molta eixida per cada fitxer processat\n"
 "     20  conff             Eixida per cada conffile\n"
 "    200  conffdetail       Molta eixida per cada conffile\n"
 "     40  depcon            Dependències i conflictes\n"
 "    400  depcondetail      Molta eixida sobre dependències i conflictes\n"
-"   1000  veryverbose       Tonteries sobre el directori dpkg/info\n"
-"   2000  stupidlyverbose   Muntanyes de tonteries, molt insanes\n"
+"  10000  triggers          Activació i processat dels gallets\n"
+"  20000 triggersdetail     Molta eixida sobre gallets\n"
+"  40000 triggersstupid     Quantitat absurda d'eixida sobre gallets\n"
+"   1000  veryverbose       Tonteries sobre p. ex. el directori dpkg/info\n"
+"   2000  stupidlyverbose   Muntanyes de tonteries\n"
 "\n"
 "Les opcions de depuració es barregen fent l'OR bit a bit.\n"
 "Teniu en compte que els significats i els valors estan subjectes a canvis.\n"
@@ -2802,10 +2827,10 @@ msgstr "enter invàlid per a --%s: «%.250s»"
 
 #: src/main.c:302
 msgid "<package status and progress file descriptor>"
-msgstr ""
+msgstr "<estat del paquet i descriptor de fitxer de progrés>"
 
 #: src/main.c:322
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2847,15 +2872,16 @@ msgstr ""
 "Les opcions de forçat de %s - controlen el comportament quan hi ha "
 "problemes:\n"
 "  avisa però continua:      --force-<cosa>,<cosa>,...\n"
-"  es per a si hi ha error:  --refuse-<cosa>,<cosa>,... | --no-force-"
+"  atura't amb error:        --refuse-<cosa>,<cosa>,... | --no-force-"
 "<cosa>,...\n"
-" Coses que es poden forçar:\n"
-"  all                   Activa totes les opcions de forçat\n"
+" Forçat de coses:\n"
+"  all [!]               Activa totes les opcions de forçat\n"
 "  downgrade [*]         Reemplaça un paquet amb una versió menor\n"
 "  configure-any         Configura qualsevol paquet que pugui ajudar a "
 "aquest\n"
-"  hold                  Processa paquets accessori quan es mantenen\n"
-"  bad-path              Falten programes importants en la PATH, poden\n"
+"  hold                  Processa paquets accessori fins i tot si són "
+"retinguts\n"
+"  bad-path              Falten programes importants al PATH, poden\n"
 "                        haver-hi problemes\n"
 "  not-root              Intenta (des)instal·lar coses fins i tot sense ser "
 "root\n"
@@ -2884,8 +2910,8 @@ msgstr ""
 "errònia\n"
 "  overwrite-dir [!]     Sobreescriu el directori d'un paquet amb el fitxer\n"
 "                        d'un altre\n"
-"  remove-reinstreq [!]  Desinstal·la els paquets que precisen instal·lació\n"
-"  remove-essential [!]  Desinstal·la un paquet essencial\n"
+"  remove-reinstreq [!]  Suprimeix els paquets que precisen instal·lació\n"
+"  remove-essential [!]  Suprimeix un paquet essencial\n"
 "\n"
 "AVÍS - forçar l'ús de les opcions marcades amb [!] poden malmetre\n"
 "seriosament la instal·lació. Les opcions de forçat marcades amb [*] estan\n"
@@ -2951,12 +2977,12 @@ msgstr ""
 "heu d'especificar els paquets pels seus noms propis, no citant els noms dels "
 "fitxers en els que venen"
 
-#: src/packages.c:188
+#: src/packages.c:191
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr "Paquet %s llistat més d'una vegada, només es processarà una.\n"
 
-#: src/packages.c:192
+#: src/packages.c:195
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -2965,85 +2991,86 @@ msgstr ""
 "S'ha desempaquetat més d'una còpia del paquet %s!\n"
 " Només es configurarà una vegada.\n"
 
-#: src/packages.c:239
-#, fuzzy, c-format
+#: src/packages.c:242
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"el paquet %.250s no està llest per a configurar-se\n"
-" no es pot configurar (estat actual «%.250s»)"
+"el paquet %.250s no està llest per a processar gallets\n"
+" (estat actual «%.250s» amb cap gallet pendent)"
 
-#: src/packages.c:335
+#: src/packages.c:338
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  El paquet %s que proveeix %s serà desinstal·lat.\n"
 
-#: src/packages.c:338
+#: src/packages.c:341
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  El paquet %s serà desinstal·lat.\n"
 
-#: src/packages.c:355
+#: src/packages.c:358
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  La versió del paquet «%s» al sistema és %s.\n"
 
-#: src/packages.c:376
-#, fuzzy, c-format
+#: src/packages.c:379
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  El paquet %s que proveeix %s serà desinstal·lat.\n"
+msgstr ""
+"  El paquet %s que proveeix %s està esperant el processat dels gallets.\n"
 
-#: src/packages.c:380
-#, fuzzy, c-format
+#: src/packages.c:383
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  El paquet %s serà desinstal·lat.\n"
+msgstr "  El paquet %s està esperant el processat dels gallets.\n"
 
-#: src/packages.c:411
+#: src/packages.c:414
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: també configura «%s» (requerit per «%s»)\n"
 
-#: src/packages.c:417
+#: src/packages.c:420
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  El paquet %s que proveeix %s no està configurat.\n"
 
-#: src/packages.c:420
+#: src/packages.c:423
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  El paquet %s encara no està configurat.\n"
 
-#: src/packages.c:431
+#: src/packages.c:434
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  El paquet %s que proveeix %s no està instal·lat.\n"
 
-#: src/packages.c:434
+#: src/packages.c:437
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  El paquet %s no està instal·lat.\n"
 
-#: src/packages.c:472
-#, fuzzy, c-format
+#: src/packages.c:475
+#, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
-msgstr "  %.250s proveeix %.250s i és %s.\n"
+msgstr " %s (%s) trenca %s i és %s.\n"
 
-#: src/packages.c:480
-#, fuzzy, c-format
+#: src/packages.c:483
+#, c-format
 msgid "  %s (%s) provides %s.\n"
-msgstr "%s (subprocés): %s\n"
+msgstr "  %s (%s) proveeix %s.\n"
 
-#: src/packages.c:485
-#, fuzzy, c-format
+#: src/packages.c:488
+#, c-format
 msgid "  Version of %s to be configured is %s.\n"
-msgstr "  La versió del paquet «%s» al sistema és %s.\n"
+msgstr "  La versió del paquet %s que es configurarà és %s.\n"
 
-#: src/packages.c:585
+#: src/packages.c:588
 msgid " depends on "
 msgstr " depèn de "
 
-#: src/packages.c:591
+#: src/packages.c:594
 msgid "; however:\n"
 msgstr "; tot i així:\n"
 
@@ -3167,14 +3194,14 @@ msgid "error trying to open %.250s"
 msgstr "s'ha produït un error en intentar obrir %.250s"
 
 #: src/processarc.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
-msgstr "S'està desconfigurant %s, per a poder desinstal·lar %s ...\n"
+msgstr "S'està desconfigurant %s, per a permetre la supressió de %s ...\n"
 
 #: src/processarc.c:419
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s ...\n"
-msgstr "S'està desinstal·lant %s ...\n"
+msgstr "S'està desconfigurant %s ...\n"
 
 #: src/processarc.c:494
 #, c-format
@@ -3224,13 +3251,13 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "no es pot fer «stat» sobre el fitxer nou «%.250s»"
 
 #: src/processarc.c:703
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')\n"
 msgstr ""
 "dpkg: avís - el fitxer antic «%.250s» és igual que diversos fitxers nous! "
-"(«%.250s» i «%.250s»)"
+"(«%.250s» i «%.250s»)\n"
 
 #: src/processarc.c:744
 #, c-format
@@ -3305,7 +3332,6 @@ msgstr ""
 # jm: Açò jo no se si traduir-ho. Ha de caber en una línia i hem de dir
 # jm: quina lletra correspon a cada estat.
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3313,7 +3339,7 @@ msgid ""
 "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
 "uppercase=bad)\n"
 msgstr ""
-"Desitjat=Desconegut(u)/Instal·la(i)/Elimina(r)/Neteja(p)/Atura(h)\n"
+"Desitjat=desconegUt/Instal·la/SupRimeix/Purga/Retín(h)\n"
 "| Estat=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
 "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Estat,Err: majúsc."
 "=dolent)\n"
@@ -3336,22 +3362,22 @@ msgid "No packages found matching %s.\n"
 msgstr "No s'ha trobat cap paquet que correspongui amb %s.\n"
 
 #: src/query.c:219
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s from: %s\n"
-msgstr "desviat per %s cap a: %s\n"
+msgstr "desviat per %s des de: %s\n"
 
 #: src/query.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "desviat per %s cap a: %s\n"
 
 #: src/query.c:224
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion from: %s\n"
-msgstr "desviació local"
+msgstr "desviació local des de: %s\n"
 
 #: src/query.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion to: %s\n"
 msgstr "desviat localment cap a: %s\n"
 
@@ -3667,23 +3693,24 @@ msgid "--clear-selections does not take any argument"
 msgstr "--clear-selections no accepta cap argument"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Escriu dpkg-split --help per a obtindre ajuda."
+msgstr ""
+"Executeu dpkg-trigger --help per a obtenir-ne ajuda sobre aquesta utilitat."
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr "Eina de consultes al programa de gestió de paquets «%s» de Debian\n"
+msgstr "Utilitat de consulta de gallets «%s» de Debian\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Forma d'ús: %s [<opció> ...] <ordre>\n"
+"Forma d'ús: %s [<opcions> ...] <nom-gallet>\n"
+"            %s [<opcions> ...] <ordre>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3700,7 +3727,7 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c:105
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
@@ -3712,6 +3739,14 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Opcions:\n"
+"  --admindir=<directori>          Empra <directori en lloc de %s.\n"
+"  --by-package=<paquet>           Descarta el XXXXFIXMEXXXX (normalment\n"
+"                                  establert pel dpkg).\n"
+"  --no-await                      Cap paquet necessita esperar el "
+"processat.\n"
+"  --no-act                        Només comprova, no canvies res.\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
@@ -3736,16 +3771,18 @@ msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"s'ha d'executar dpkg-trigger des d'un script de mantenidor (o amb una opció "
+"--by-package)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "camp «%s», nom de paquet invàlid «%.255s»: %s"
+msgstr "dpkg-trigger: el nom de paquet esperat «%.255s» és il·legal: %.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "camp «%s», nom de paquet invàlid «%.255s»: %s"
+msgstr "dpkg-trigger: el nom de gallet «%.250s» és il·legal: %.250s»"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3753,6 +3790,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: s'ha trobat un bucle mentre es processaven els gallets:\n"
+" cadena de paquets gallets dels quals són o podrien ser els responsables:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3760,15 +3799,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+"gallets pendents de paquets que són o poden ser irresolubles:\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "hi ha un bucle de gallets, s'ha abandonat"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "S'estan purgant els fitxers de configuració de %s ...\n"
+msgstr "S'estan processant els gallets per a %s ...\n"
 
 #: src/update.c:44
 #, c-format
@@ -4398,7 +4439,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:89
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -4414,7 +4455,7 @@ msgid ""
 "\n"
 msgstr ""
 "Opcions:\n"
-"  --showformat=<format>      Usa un format alternatiu per a --show.\n"
+"  --showformat=<format>      Empra un format alternatiu per a --show.\n"
 "  -D                         Habilita l'eixida de depuració.\n"
 "  --old, --new               Selecciona el format de l'arxiu.\n"
 "  --nocheck                  Suprimeix la comprovació del fitxer de control\n"
@@ -4423,7 +4464,7 @@ msgstr ""
 "                             la construcció.\n"
 "  -Z<tipus>                  Estableix el tipus de compressió a utilitzar\n"
 "                             durant la construcció.\n"
-"                             Valors permesos: gzip, bzip2, none.\n"
+"                             Valors permesos: gzip, bzip2, lzma, none.\n"
 "\n"
 
 #: dpkg-deb/main.c:110
@@ -4680,7 +4721,7 @@ msgstr ""
 
 #: dpkg-split/main.c:85
 msgid "Type dpkg-split --help for help."
-msgstr "Escriu dpkg-split --help per a obtindre ajuda."
+msgstr "Executeu dpkg-split --help per a obtenir-ne ajuda."
 
 #: dpkg-split/main.c:95 dpkg-split/main.c:99
 #, c-format
@@ -5604,7 +5645,7 @@ msgstr ""
 "Copyright © 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:75
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5648,8 +5689,8 @@ msgstr ""
 "  --install <enllaç> <nom> <camí> <prioritat>\n"
 "    [--slave <enllaç> <nom> <camí>] ...\n"
 "                           afegeix un grup d'alternatives al sistema.\n"
-"  --remove <nom> <camí>    esborra <camí> del grup d'alternatives <nom>.\n"
-"  --remove-all <nom>       esborra del sistema el grup d'alternatives "
+"  --remove <nom> <camí>    suprimeix <camí> del grup d'alternatives <nom>.\n"
+"  --remove-all <nom>       suprimeix del sistema el grup d'alternatives "
 "<nom>.\n"
 "  --auto <nom>             canvia l'enllaç mestre <nom> a mode automàtic.\n"
 "  --display <nom>          mostra informació sobre el grup <nom>.\n"
@@ -5659,19 +5700,18 @@ msgstr ""
 "  --set <nom> <camí>       defineix <camí> com a alternativa per a <nom>.\n"
 "  --all                    crida --config sobre totes les alternatives.\n"
 "\n"
-"<enllaç> és un enllaç simbòlic que apunta a /etc/alternatives/<nom>.\n"
+"<enllaç> és un enllaç simbòlic que apunta a %s/<nom>.\n"
 "  (p.ex. /usr/bin/pager)\n"
 "<nom> és el nom mestre del grup d'enllaços.\n"
 "  (p.ex. pager)\n"
-"<camí> és la ubicació dels fitxers objectiu de les alternatives.\n"
+"<camí> és la ubicació de un dels fitxers objectiu de les alternatives.\n"
 "  (p.ex. /usr/bin/less)\n"
 "<prioritat> és un enter; les opcions amb un valor més gran tenen major\n"
-"  prioritat en el mode automàtic.\n"
+"  prioritat al mode automàtic.\n"
 "\n"
-"Options:\n"
+"Opcions:\n"
 "  --altdir <directori>     canvia el directori d'alternatives.\n"
 "  --admindir <directori>   canvia el directori administratiu.\n"
-"  --test                   no realitza res, només demostra.\n"
 "  --verbose                opera detalladament, amb més sortida.\n"
 "  --quiet                  opera silenciosament, amb la sortida mínima.\n"
 "  --help                   mostra aquest missatge d'ajuda.\n"
@@ -5754,13 +5794,13 @@ msgid "Current `best' version is %s."
 msgstr "Actualment la «millor» versió és %s."
 
 #: scripts/update-alternatives.pl:232
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "warning: %s is supposed to be a symlink to %s, \n"
 "or nonexistent; however, readlink failed: %s"
 msgstr ""
-"avís: %s hauria de ser un enllaç simbòlic a %s\n"
-" (o no existent); tanmateix, readlink ha fallat: %s"
+"avís: %s hauria de ser un enllaç simbòlic a %s, \n"
+"o inexistent; tanmateix, readlink ha fallat: %s"
 
 #: scripts/update-alternatives.pl:244
 #, perl-format
@@ -5773,19 +5813,19 @@ msgid "Updating %s (%s) to point to %s."
 msgstr "S'està actualitzant %s (%s) per apuntar cap a %s."
 
 #: scripts/update-alternatives.pl:256
-#, fuzzy, perl-format
+#, perl-format
 msgid "Using '%s' to provide '%s'."
-msgstr "S'utilitzarà «%s» per proveir «%s»."
+msgstr "S'està emprant «%s» per a proveir «%s»."
 
 #: scripts/update-alternatives.pl:270 scripts/update-alternatives.pl:614
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
-msgstr "S'està esborrant %s (%s), no és apropiat amb %s."
+msgstr "S'està suprimint %s (%s), no és apropiat amb %s."
 
 #: scripts/update-alternatives.pl:288
 #, perl-format
 msgid "unable to remove %s: %s"
-msgstr "no es pot esborrar %s: %s"
+msgstr "no es pot suprimir %s: %s"
 
 #: scripts/update-alternatives.pl:301
 #, perl-format

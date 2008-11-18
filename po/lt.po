@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-08-17 18:05+0300\n"
+"POT-Creation-Date: 2008-11-14 10:21+0200\n"
 "PO-Revision-Date: 2008-08-02 01:08-0400\n"
 "Last-Translator: Gintautas Miliauskas <gintas@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -259,11 +259,18 @@ msgstr "nepavyko susieti `%.250s' su `%.250s informacijos apie %s išsaugojimui"
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "nepavyko įdiegti `%.250s' kaip `%.250s' kuriame yra %s informacija"
 
-#: lib/ehandle.c:81
+#: lib/ehandle.c:85
+#, c-format
+msgid ""
+"%s: unrecoverable fatal error, aborting:\n"
+" %s\n"
+msgstr ""
+
+#: lib/ehandle.c:101
 msgid "out of memory pushing error handler: "
 msgstr "atmintis perpildyta, kviečiama klaidų tvarkyklė: "
 
-#: lib/ehandle.c:96
+#: lib/ehandle.c:117
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -272,25 +279,25 @@ msgstr ""
 "%s: klaida valant:\n"
 " %s\n"
 
-#: lib/ehandle.c:111
+#: lib/ehandle.c:132
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: too many nested errors during error recovery !!\n"
 
-#: lib/ehandle.c:186
+#: lib/ehandle.c:207
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "pritrūko atminties vykdant valymą naujam įrašui su daug parametrų"
 
-#: lib/ehandle.c:198
+#: lib/ehandle.c:219
 msgid "out of memory for new cleanup entry"
 msgstr "pritrūko atminties vykdant valymą naujam įrašui"
 
-#: lib/ehandle.c:284
+#: lib/ehandle.c:309
 #, c-format
 msgid "error writing `%s'"
 msgstr "klaida `%s' rašyme"
 
-#: lib/ehandle.c:288
+#: lib/ehandle.c:313
 #, c-format
 msgid "%s:%d: internal error `%s'\n"
 msgstr "%s:%d: vidinė `%s' klaida\n"
@@ -472,13 +479,11 @@ msgstr "laukelyje %s neleistinas alternatyvus (`|')"
 
 #: lib/fields.c:508
 #, fuzzy
-#| msgid "value for `config-version' field not allowed in this context"
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr "reišmė `config-version' laukui neleidžiama šiame kontekste"
 
 #: lib/fields.c:514
 #, fuzzy, c-format
-#| msgid "`%s' field, invalid package name `%.255s': %s"
 msgid "illegal pending trigger name `%.255s': %s"
 msgstr "laukelyje `%s', nekorektiškas paketo pavadinimas `%.255s': %s"
 
@@ -489,19 +494,16 @@ msgstr ""
 
 #: lib/fields.c:533
 #, fuzzy
-#| msgid "value for `status' field not allowed in this context"
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr "šitame kontekste, `status' laukelyje yra neleidžiama reikšmė"
 
 #: lib/fields.c:539
 #, fuzzy, c-format
-#| msgid "illegal package name at line %d: %.250s"
 msgid "illegal package name in awaited trigger `%.255s': %s"
 msgstr "nekorektiškas paketo vardas eilutėje %d: %.250s"
 
 #: lib/fields.c:545
 #, fuzzy, c-format
-#| msgid "files list for package `%.250s'"
 msgid "duplicate awaited trigger package `%.255s'"
 msgstr "Paketo „%.250s“ failų sąrašas"
 
@@ -542,7 +544,6 @@ msgstr "nepavyko perkelti malloc atminties (%ld baitai)"
 
 #: lib/mlib.c:78
 #, fuzzy
-#| msgid "failed to create directory"
 msgid "failed to allocate memory"
 msgstr "nepavyko sukurti aplanko"
 
@@ -923,7 +924,6 @@ msgstr ""
 
 #: lib/trigdeferred.l:71
 #, fuzzy, c-format
-#| msgid "unable to stat other new file `%.250s'"
 msgid "truncated triggers deferred file `%.250s'"
 msgstr "nepavyko patikrinti kito naujo failo „%.250s“"
 
@@ -934,55 +934,46 @@ msgstr ""
 
 #: lib/trigdeferred.l:112
 #, fuzzy, c-format
-#| msgid "unable to reopen part file `%.250s'"
 msgid "unable to open/create triggers lockfile `%.250s'"
 msgstr "nepavyko pakartotinai atverti `%.250s' dalinio failo"
 
 #: lib/trigdeferred.l:119
 #, fuzzy
-#| msgid "unable to access dpkg status area"
 msgid "unable to lock triggers area"
 msgstr "nepavyksta pasiekti dpkg būsenos vietos"
 
 #: lib/trigdeferred.l:130
 #, fuzzy, c-format
-#| msgid "unable to stat other new file `%.250s'"
 msgid "unable to stat triggers deferred file `%.250s'"
 msgstr "nepavyko patikrinti kito naujo failo „%.250s“"
 
 #: lib/trigdeferred.l:144
 #, fuzzy, c-format
-#| msgid "unable to reopen part file `%.250s'"
 msgid "unable to open triggers deferred file `%.250s'"
 msgstr "nepavyko pakartotinai atverti `%.250s' dalinio failo"
 
 #: lib/trigdeferred.l:158
 #, fuzzy, c-format
-#| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to open/create new triggers deferred file `%.250s'"
 msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%.250s“"
 
 #: lib/trigdeferred.l:178
 #, fuzzy, c-format
-#| msgid "error reading %s from file %.255s"
 msgid "error reading triggers deferred file `%.250s'"
 msgstr "klaida skaitant %s iš failo %.255s"
 
 #: lib/trigdeferred.l:186
 #, fuzzy, c-format
-#| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to write new triggers deferred file `%.250s'"
 msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%.250s“"
 
 #: lib/trigdeferred.l:191
 #, fuzzy, c-format
-#| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to close new triggers deferred file `%.250s'"
 msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%.250s“"
 
 #: lib/trigdeferred.l:195
 #, fuzzy, c-format
-#| msgid "unable to install new version of `%.255s'"
 msgid "unable to install new triggers deferred file `%.250s'"
 msgstr "negaliu įdiegti naujos `%.255s' versijos"
 
@@ -1003,13 +994,11 @@ msgstr ""
 
 #: lib/triglib.c:337
 #, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr "nepavyko atverti paketo „%.250s“ failų sarašo failo"
 
 #: lib/triglib.c:366
 #, fuzzy, c-format
-#| msgid "unable to stat other new file `%.250s'"
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "nepavyko patikrinti kito naujo failo „%.250s“"
 
@@ -1022,25 +1011,21 @@ msgstr ""
 
 #: lib/triglib.c:393
 #, fuzzy, c-format
-#| msgid "unable to stat other new file `%.250s'"
 msgid "unable to create new trigger interest file `%.250s'"
 msgstr "nepavyko patikrinti kito naujo failo „%.250s“"
 
 #: lib/triglib.c:405
 #, fuzzy, c-format
-#| msgid "unable to stat other new file `%.250s'"
 msgid "unable to write new trigger interest file `%.250s'"
 msgstr "nepavyko patikrinti kito naujo failo „%.250s“"
 
 #: lib/triglib.c:410
 #, fuzzy, c-format
-#| msgid "unable to install new version of `%.255s'"
 msgid "unable to install new trigger interest file `%.250s'"
 msgstr "negaliu įdiegti naujos `%.255s' versijos"
 
 #: lib/triglib.c:467
 #, fuzzy, c-format
-#| msgid "unable to install new info file `%.250s' as `%.250s'"
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr ""
@@ -1048,32 +1033,27 @@ msgstr ""
 
 #: lib/triglib.c:490
 #, fuzzy, c-format
-#| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to create new file triggers file `%.250s'"
 msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%.250s“"
 
 #: lib/triglib.c:499
 #, fuzzy, c-format
-#| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to write new file triggers file `%.250s'"
 msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%.250s“"
 
 #: lib/triglib.c:504
 #, fuzzy, c-format
-#| msgid "unable to install new info file `%.250s' as `%.250s'"
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr ""
 "nepavyko įdiegti naujo informacijos failo „%.250s“ su pavadinimu „%.250s“"
 
 #: lib/triglib.c:525
 #, fuzzy, c-format
-#| msgid "unable to reopen part file `%.250s'"
 msgid "unable to read file triggers file `%.250s'"
 msgstr "nepavyko pakartotinai atverti `%.250s' dalinio failo"
 
 #: lib/triglib.c:533
 #, fuzzy, c-format
-#| msgid "read error in configuration file `%.255s'"
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "nuskaitymo klaida konfigūracijos faile  `%.255s'"
 
@@ -1093,7 +1073,6 @@ msgstr ""
 
 #: lib/triglib.c:651
 #, fuzzy, c-format
-#| msgid "unable to reopen part file `%.250s'"
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "nepavyko pakartotinai atverti `%.250s' dalinio failo"
 
@@ -1108,19 +1087,16 @@ msgstr ""
 
 #: lib/triglib.c:730
 #, fuzzy, c-format
-#| msgid "unable to write updated status of `%.250s'"
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "neįmanoma įrašyti atnaujintos `%.250s' būsenos"
 
 #: lib/triglib.c:733
 #, fuzzy, c-format
-#| msgid "unable to change ownership of new dist conffile `%.250s'"
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "nepavyko pakeisti savininko naujam konfigūracijos failui „%.250s“"
 
 #: lib/utils.c:50
 #, fuzzy, c-format
-#| msgid "read error in %.250s"
 msgid "read error in `%.250s'"
 msgstr "skaitymo klaida %.250s"
 
@@ -1136,7 +1112,6 @@ msgstr ""
 
 #: lib/utils.c:69
 #, fuzzy, c-format
-#| msgid "unexpected end of file in %.250s"
 msgid "unexpected eof reading `%.250s'"
 msgstr "netikėta %.250s failo pabaiga"
 
@@ -1475,27 +1450,27 @@ msgstr ""
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s reikia nors vienos paketo archyvo failo reikšmės"
 
-#: src/archives.c:1238
+#: src/archives.c:1239
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Pažymime anksčiau nepažymėtą paketą %s.\n"
 
-#: src/archives.c:1243
+#: src/archives.c:1244
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Praleidžiame nepasirinktą paketą %s.\n"
 
-#: src/archives.c:1260
+#: src/archives.c:1261
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Versija %.250s paketui %.250s jau įdiegta, todėl praleidžiama.\n"
 
-#: src/archives.c:1270
+#: src/archives.c:1271
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr "%s: perspėjimas: sendinamas %.250s iš %.250s į %.250s.\n"
 
-#: src/archives.c:1276
+#: src/archives.c:1277
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr "Nesendinsiu %.250s įš versijos %.250s į %.250s, todėl praleidžiama.\n"
@@ -1965,7 +1940,6 @@ msgstr "  %.250s (versija %.250s) bus įdiegtas.\n"
 
 #: src/depcon.c:432
 #, fuzzy, c-format
-#| msgid "  %.250s (version %.250s) is %s.\n"
 msgid "  %.250s (version %.250s) is present and %s.\n"
 msgstr "  %.250s (versija %.250s) yra %s.\n"
 
@@ -1976,7 +1950,6 @@ msgstr "  %.250s teikia %.250s ir bus įdiegtas.\n"
 
 #: src/depcon.c:497
 #, fuzzy, c-format
-#| msgid "  %.250s provides %.250s and is %s.\n"
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s teikia %.250s ir yra %s.\n"
 
@@ -2119,7 +2092,7 @@ msgstr "blogas sąryšis su --compare-versions"
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "dpkg: versija '%s' su bloga sintakse: %s\n"
 
-#: src/errors.c:56
+#: src/errors.c:57
 #, c-format
 msgid ""
 "%s: error processing %s (--%s):\n"
@@ -2128,38 +2101,38 @@ msgstr ""
 "%s: klaida apdorojant %s (--%s):\n"
 " %s\n"
 
-#: src/errors.c:63
+#: src/errors.c:64
 msgid ""
 "dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr ""
 "dpkg: nepavyko skirti atminties naujam įrašui apie nepavykusius paketus."
 
-#: src/errors.c:73
+#: src/errors.c:74
 #, c-format
 msgid "dpkg: too many errors, stopping\n"
 msgstr "dpkg: per daug klaidų, stabdau\n"
 
-#: src/errors.c:79
+#: src/errors.c:80
 msgid "Errors were encountered while processing:\n"
 msgstr "Apdorojant įvyko klaidų:\n"
 
-#: src/errors.c:86
+#: src/errors.c:87
 msgid "Processing was halted because there were too many errors.\n"
 msgstr "Procesas buvo sustabdytas, dėl didelio klaidų kiekio.\n"
 
-#: src/errors.c:94
+#: src/errors.c:95
 #, c-format
 msgid "Package %s was on hold, processing it anyway as you request\n"
 msgstr "Paketas %s buvo sustabdytas, tačiau yra apdorojamas kaip nurodyta\n"
 
-#: src/errors.c:98
+#: src/errors.c:99
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
 msgstr ""
 "Paketas %s sulaikytas, neliečiu jo.  Naudokite --force-hold kad apdoroti.\n"
 
-#: src/errors.c:107
+#: src/errors.c:108
 msgid ""
 "dpkg - warning, overriding problem because --force enabled:\n"
 " "
@@ -2288,7 +2261,6 @@ msgstr "neįdiegtas, tačiau likę konfigūracijos failai"
 
 #: src/help.c:43
 #, fuzzy
-#| msgid "broken due to failed removal"
 msgid "broken due to failed removal or installation"
 msgstr "sugadintas dėl nepavykusio pašalinimo"
 
@@ -2353,7 +2325,6 @@ msgstr "nepavyko nustatyti vykdymo teisių „%.250s“"
 
 #: src/help.c:287
 #, fuzzy
-#| msgid "unable to stat in vsnprintf"
 msgid "unable to setenv for maint script"
 msgstr "nepavyko gauti vsnprintf būsenos"
 
@@ -2457,35 +2428,6 @@ msgstr ""
 
 #: src/main.c:65
 #, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail <Packages-file>   Replace available packages info.\n"
-#| "  --merge-avail <Packages-file>    Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit                       Check for broken package(s).\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2586,36 +2528,6 @@ msgstr ""
 
 #: src/main.c:109
 #, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir=<directory>     Use <directory> instead of %s.\n"
-#| "  --root=<directory>         Install on a different root directory.\n"
-#| "  --instdir=<directory>      Change installation dir without changing "
-#| "admin dir.\n"
-#| "  -O|--selected-only         Skip packages not selected for install/"
-#| "upgrade.\n"
-#| "  -E|--skip-same-version     Skip packages whose same version is "
-#| "installed.\n"
-#| "  -G|--refuse-downgrade      Skip packages with earlier version than "
-#| "installed.\n"
-#| "  -B|--auto-deconfigure      Install even if it would break some other "
-#| "package.\n"
-#| "  --no-debsig                Do not try to verify package signatures.\n"
-#| "  --no-act|--dry-run|--simulate\n"
-#| "                             Just say what we would do - don't do it.\n"
-#| "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --"
-#| "debug=help).\n"
-#| "  --status-fd <n>            Send status change updates to file "
-#| "descriptor <n>.\n"
-#| "  --log=<filename>           Log status changes and actions to "
-#| "<filename>.\n"
-#| "  --ignore-depends=<package>,...\n"
-#| "                             Ignore dependencies involving <package>.\n"
-#| "  --force-...                Override problems (see --force-help).\n"
-#| "  --no-force-...|--refuse-...\n"
-#| "                             Stop when problems encountered.\n"
-#| "  --abort-after <n>          Abort after encountering <n> errors.\n"
-#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2739,24 +2651,6 @@ msgstr "Įspėjimas: parametras „--%s“ nebenaudotinas\n"
 
 #: src/main.c:219
 #, fuzzy, c-format
-#| msgid ""
-#| "%s debugging option, --debug=<octal> or -D<octal>:\n"
-#| "\n"
-#| " number  ref. in source   description\n"
-#| "      1   general           Generally helpful progress information\n"
-#| "      2   scripts           Invocation and status of maintainer scripts\n"
-#| "     10   eachfile          Output for each file processed\n"
-#| "    100   eachfiledetail    Lots of output for each file processed\n"
-#| "     20   conff             Output for each configuration file\n"
-#| "    200   conffdetail       Lots of output for each configuration file\n"
-#| "     40   depcon            Dependencies and conflicts\n"
-#| "    400   depcondetail      Lots of dependencies/conflicts output\n"
-#| "   1000   veryverbose       Lots of drivel about eg the dpkg/info "
-#| "directory\n"
-#| "   2000   stupidlyverbose   Insane amounts of drivel\n"
-#| "\n"
-#| "Debugging options are be mixed using bitwise-or.\n"
-#| "Note that the meanings and values are subject to change.\n"
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2923,14 +2817,14 @@ msgid ""
 msgstr ""
 "turite nurodyti paketus jų vardais, o ne vardais failų, kuriuose jie yra"
 
-#: src/packages.c:188
+#: src/packages.c:191
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr ""
 "Paketas %s nurodytas daugiau nei vieną kartą, apdorotas bus tik vieną "
 "kartą.\n"
 
-#: src/packages.c:192
+#: src/packages.c:195
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -2939,11 +2833,8 @@ msgstr ""
 "Buvo išpakuota daugiau nei viena paketo %s versija !\n"
 "  Konfigūruosiu tik kartą.\n"
 
-#: src/packages.c:239
+#: src/packages.c:242
 #, fuzzy, c-format
-#| msgid ""
-#| "package %.250s is not ready for configuration\n"
-#| " cannot configure (current status `%.250s')"
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
@@ -2951,78 +2842,76 @@ msgstr ""
 "paketas %.250s neparuoštas konfigūravimui\n"
 " negaliu konfigūruoti (dabartinė būsena `%.250s')"
 
-#: src/packages.c:335
+#: src/packages.c:338
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  Paketas %s kuris teikia %s bus pašalintas.\n"
 
-#: src/packages.c:338
+#: src/packages.c:341
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  Paketas %s bus pašalintas.\n"
 
-#: src/packages.c:355
+#: src/packages.c:358
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  Sistemoje esantičio %s paketo versija yra %s.\n"
 
-#: src/packages.c:376
+#: src/packages.c:379
 #, fuzzy, c-format
-#| msgid "  Package %s which provides %s is to be removed.\n"
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr "  Paketas %s kuris teikia %s bus pašalintas.\n"
 
-#: src/packages.c:380
+#: src/packages.c:383
 #, fuzzy, c-format
-#| msgid "  Package %s is to be removed.\n"
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  Paketas %s bus pašalintas.\n"
 
-#: src/packages.c:411
+#: src/packages.c:414
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: taip pat konfigūruojamas `%s' (reikia paketui `%s')\n"
 
-#: src/packages.c:417
+#: src/packages.c:420
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  Paketas %s teikiantis %s dar nekonfigūruotas.\n"
 
-#: src/packages.c:420
+#: src/packages.c:423
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  Paketas %s dar nekonfigūruotas.\n"
 
-#: src/packages.c:431
+#: src/packages.c:434
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  Paketas %s teikiantis %s neįdiegtas.\n"
 
-#: src/packages.c:434
+#: src/packages.c:437
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  Paketas %s neįdiegtas.\n"
 
-#: src/packages.c:472
+#: src/packages.c:475
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr ""
 
-#: src/packages.c:480
+#: src/packages.c:483
 #, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "  %s (%s) teikia %s.\n"
 
-#: src/packages.c:485
+#: src/packages.c:488
 #, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  Bus konfigūruojama paketo %s versija %s.\n"
 
-#: src/packages.c:585
+#: src/packages.c:588
 msgid " depends on "
 msgstr " priklauso nuo "
 
-#: src/packages.c:591
+#: src/packages.c:594
 msgid "; however:\n"
 msgstr "; tačiau:\n"
 
@@ -3279,12 +3168,6 @@ msgstr "nepavyko pašalinti dingusio informacijos valdymo failo „%.250s“"
 
 #: src/query.c:125
 #, fuzzy
-#| msgid ""
-#| "Desired=Unknown/Install/Remove/Purge/Hold\n"
-#| "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-"
-#| "installed\n"
-#| "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-#| "uppercase=bad)\n"
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3643,21 +3526,16 @@ msgstr "--clear-selections parametras nereikalauja nurodyti jokių reikšmių"
 
 #: src/trigcmd.c:67
 #, fuzzy
-#| msgid "Type dpkg-split --help for help."
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Norėdami gauti pagalbą įvykdykite dpkg-split --help"
 
 #: src/trigcmd.c:72
 #, fuzzy, c-format
-#| msgid "Debian `%s' package management program query tool\n"
 msgid "Debian %s package trigger utility.\n"
 msgstr "Debian „%s“ paketų tvarkymo programos užklausų įrankis\n"
 
 #: src/trigcmd.c:86
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [<option> ...] <command>\n"
-#| "\n"
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
@@ -3701,13 +3579,11 @@ msgstr ""
 
 #: src/trigcmd.c:190
 #, fuzzy
-#| msgid "--%s takes no arguments"
 msgid "dpkg-trigger --check-supported takes no arguments"
 msgstr "--%s parametras nereikalauja nurodyti jokių reikšmių"
 
 #: src/trigcmd.c:195
 #, fuzzy
-#| msgid "--%s takes only one argument (.deb filename)"
 msgid "dpkg-trigger takes one argument, the trigger name"
 msgstr "--%s priima tik vieną parametrą (.deb failą)"
 
@@ -3719,13 +3595,11 @@ msgstr ""
 
 #: src/trigcmd.c:205
 #, fuzzy, c-format
-#| msgid "`%s' field, invalid package name `%.255s': %s"
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
 msgstr "laukelyje `%s', nekorektiškas paketo pavadinimas `%.255s': %s"
 
 #: src/trigcmd.c:210
 #, fuzzy, c-format
-#| msgid "`%s' field, invalid package name `%.255s': %s"
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
 msgstr "laukelyje `%s', nekorektiškas paketo pavadinimas `%.255s': %s"
 
@@ -3749,7 +3623,6 @@ msgstr ""
 
 #: src/trigproc.c:288
 #, fuzzy, c-format
-#| msgid "Purging configuration files for %s ...\n"
 msgid "Processing triggers for %s ...\n"
 msgstr "Šalinami %s konfigūracijos failai...\n"
 

@@ -375,6 +375,61 @@
 	* dselect/pkglist.cc (packagelist::addheading): Likewise.
 	* dselect/pkgsublist.cc (packagelist::add): Likewise.
 
+2008-11-18  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.23.
+
+2008-11-14  Guillem Jover  <guillem@debian.org>
+
+	* lib/ehandle.c (run_error_handler): In case of onerr_abort print an
+	error message and exit, otherwise longjmp.
+
+2008-11-14  Guillem Jover  <guillem@debian.org>
+
+	* src/main.h (abort_processing): New variable declaration.
+	* src/errors.c (abort_processing): New variable definition.
+	* src/archives.c (print_error_perpackage): Use abort_processing
+	instead of onerr_abort for non fatal errors.
+	(reportbroken_retexitstatus): Likewise. Do not check onerr_abort
+	for the exit value as it should not have reached this function.
+	* src/packages.c (process_queue): Likewise. Return on entering if
+	it should abort processing.
+
+2008-11-14  Guillem Jover  <guillem@debian.org>
+
+	* lib/ehandle.c (run_error_handler): New function.
+	(push_error_handler): Use run_error_handler instead of directly
+	calling longjmp.
+	(ohshit): Likewise.
+	(ohshitvb): Likewise.
+	(ohshitv): Likewise.
+	(ohshite): Likewise.
+
+2008-11-07  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Version.pm: Synchronize code with version used by
+	debbugs (add some bugfixes).
+	* scripts/t/900_Dpkg_Version.t: Add non-regression tests for
+	version comparison code.
+	* scripts/Makefile.am: Add new file in the dist tarball.
+
+2008-10-20  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (load): Let the recursively
+	nested calls to load() modify the name of the current object so
+	that the header can be set in an included file (like it's already
+	documented).
+
+2008-09-26  Thiemo Seufer  <ths@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm: add "__gnu_local_gp" symbol
+	  to the blacklist (mips/mipsel specific symbol that appeared with
+	  GCC 4.3).
+
+2008-09-05  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Bump version to 1.14.23~.
+
 2008-09-05  Raphael Hertzog  <hertzog@debian.org>
 
 	* configure.ac: Release 1.14.22.

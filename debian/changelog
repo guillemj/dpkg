@@ -94,6 +94,51 @@ dpkg (1.15.0) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Tue, 29 Jul 2008 02:34:59 +0300
 
+dpkg (1.14.23) unstable; urgency=low
+
+  [ Raphael Hertzog ]
+  * Blacklist "__gnu_local_gp" symbol for dpkg-gensymbols. Closes: #500188
+    Thanks to Thiemo Seufer <ths@debian.org>.
+  * Important bugfix in dpkg-gensymbols for people using includes in symbol
+    files: the current object didn't flow back from the included file to
+    the including file.
+  * Fix Dpkg::Version comparison code. Closes: #504135
+
+  [ Guillem Jover ]
+  * Untangle fatal abort condition from the “too many errors” one in the
+    archives and packages processing loop. Closes: #367226
+  * Abort on unrecoverable fatal errors instead of continuing execution, as
+    the recovery code assumed the execution would not be reaching it again
+    and some times bogus update files were created either with incompletely
+    written content or with '#padding' lines. Closes: #497041, #499070
+
+  [ Updated dpkg translations ]
+  * Brazilian Portuguese (Felipe Augusto van de Wiel).
+  * Catalan (Jordi Mallach).
+  * Czech (Miroslav Kure). Closes: #505910
+  * French (Christian Perrier)
+  * German (Sven Joachim).
+  * Greek (Emmanuel Galatoulas). Closes: #498585
+  * Japanese (Kenshi Muto).
+  * Korean (Changwoo Ryu). Closes: #505777
+  * Norwegian Bokmål (Hans F. Nordhaug).
+  * Polish (Wiktor Wandachowicz).
+  * Portuguese (Miguel Figueiredo). Closes: #505869
+  * Russian (Yuri Kozlov). Closes: #499028, #505735
+  * Romanian (Eddy Petrișor).
+  * Slovak (Ivan Masár). Closes: #506024
+  * Spanish (Javier Fernandez-Sanguino). Closes: #505836
+
+  [ Updated scripts translations ]
+  * Fix typo in Russian. Closes: #499736
+  * Fix wrong translation in French. Closes: #504123
+  * French (Christian Perrier).
+
+  [ Updated manpages translations ]
+  * German (Helge Kreutzmann).
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 18 Nov 2008 11:50:56 +0200
+
 dpkg (1.14.22) unstable; urgency=low
 
   [ Raphael Hertzog ]
