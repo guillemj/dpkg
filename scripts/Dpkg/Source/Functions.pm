@@ -46,8 +46,8 @@ sub fixperms {
             $modes_set .= qw(r w X)[$j];
         }
     }
-    system('chmod', '-R', $modes_set, '--', $dir);
-    subprocerr("chmod -R $modes_set $dir") if $?;
+    system('chmod', '-R', '--', $modes_set, $dir);
+    subprocerr("chmod -R -- $modes_set $dir") if $?;
 }
 
 sub is_binary($) {
