@@ -252,7 +252,7 @@ sub _parse {
 sub parse_dynamic_symbol {
     my ($self, $line) = @_;
     my $vis_re = '(\.protected|\.hidden|\.internal|0x\S+)';
-    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+\s+(\S+)?(?:(?:\s+$vis_re)?\s+(\S+))/) {
+    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+(?:\s+(\S+))?(?:\s+$vis_re)?\s+(\S+)/) {
 
 	my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
 

@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 36;
+use Test::More tests => 37;
 use IO::String;
 
 use strict;
@@ -44,6 +44,9 @@ my $sym = $obj->get_symbol('optarg@GLIBC_2.0');
 ok($sym, 'optarg@GLIBC_2.0 exists');
 ok(!$sym->{'defined'}, 'R_*_COPY relocations are taken into account');
 
+# Non-regression test for #506139
+$sym = $obj->get_symbol('singlespace');
+ok($sym, 'version less symbol separated by a single space are correctly parsed');
 
 open $objdump, '<', "$srcdir/objdump.libc6-2.6"
   or die "$srcdir/objdump.libc6-2.6: $!";
