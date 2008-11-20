@@ -392,8 +392,8 @@ static const struct cmdinfo cmdinfos[]= {
  { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
 #define OBSOLETE(longopt,shortopt) \
  { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
-#define ACTIONBACKEND(longopt,shortop, backend) \
- { longopt, shortop, 0, NULL, NULL, setaction, 0, (void *)backend, (voidfnp)execbackend }
+#define ACTIONBACKEND(longopt, shortopt, backend) \
+ { longopt, shortopt, 0, NULL, NULL, setaction, 0, (void *)backend, (voidfnp)execbackend }
 
   ACTION( "install",                        'i', act_install,              archivefiles    ),
   ACTION( "unpack",                          0,  act_unpack,               archivefiles    ),
