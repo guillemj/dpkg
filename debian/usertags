@@ -19,17 +19,20 @@ usertag		pseudo-tag	description
 assert		[ASSERT]	Errors caused by assert().
 segfault	[SEGFAULT]	Errors that cause segmentation faults.
 conffile	[CONFFILE]	Issues with configuration file handling.
+symlink				Issues related to symlink handling.
 depends		[DEPENDS]	Issues with dependency relationship handling.
 maint-script			Errors related to maintainer scripts.
 db				Issues handling the database.
+file-metadata			File metadata tracking (perm, acl, cap, hash).
 trivial		[TRIVIAL]	Bug should be trivial to fix.
 perf		[PERF]		Performance problems.
 new-field			Request for new control file fields.
 new-option			Request for new command-line option.
-wig-and-pen			Wig&Pen (aka dpkg-source v2).
+deb-format			Changes to the binary (.deb) format.
+dsc-format			Changes to the source (.dsc) format.
 arch		[ARCH]		Updates to ‘cputable’, ‘ostable’ and porting
 				patches.
-not-debian			Errors not affecting Debian systems.
+vendor				Vendor support and needed modifications.
 i18n		[UTF-8]		Conversion to the UTF-8 encoding.
 i18n		[INTL]		Internationalization problems.
 l10n		[INTL]		New or updated translations and bugs affecting
@@ -44,8 +47,7 @@ Being considered tags
 usertag			description
 -------			-----------
 
-integrity/audit		Integrity support (sign, hash, stat tracking).
-after-etch		Bugs to be fixed after this release.
+diversion		Issues related to diversions.
 apt-feature		??
 
 Program tags
@@ -76,12 +78,15 @@ dpkg-statoverride	[DPKG-STATOVERRIDE]
 s-s-d			[S-S-D]			start-stop-daemon
 u-a			[U-A]			update-alternatives
 
+libdpkg-perl					Dpkg perl modules.
+
 cleanup-info		[CLEANUP-INFO]
 install-info		[INSTALL-INFO]
 822-date		[822-DATE]
 
 dpkg-dev					Those should be reassigned to
 						the dpkg-dev package.
+
 			[DSELECT]		Those should be reassigned to
 						the dselect package.
 
@@ -93,7 +98,7 @@ user dpkg@packages.debian.org
 
 usercategory dpkg-program
  * Program
-  + dpkg [tag=dpkg]
+  + dpkg program [tag=dpkg]
   + dpkg-architecture [tag=dpkg-architecture]
   + dpkg-buildpackage [tag=dpkg-buildpackage]
   + dpkg-checkbuilddeps [tag=dpkg-checkbuilddeps]
@@ -112,6 +117,7 @@ usercategory dpkg-program
   + dpkg-source [tag=dpkg-source]
   + dpkg-split [tag=dpkg-split]
   + dpkg-statoverride [tag=dpkg-statoverride]
+  + Dpkg perl modules [tag=libdpkg-perl]
   + start-stop-daemon [tag=s-s-d]
   + update-alternatives [tag=u-a]
   + 822-date [tag=822-date]
@@ -132,15 +138,18 @@ usercategory dpkg-class
   + Assertion failure [assert]
   + Dependency relationship handling [depends]
   + Conffile handling [conffile]
+  + Symlink handling [symlink]
   + Database handling [db]
+  + File metadata tracking [file-metadata]
   + Maintainer script handling [maint-script]
   + Performance issue [perf]
   + Trivial fix [trivial]
   + New control field [new-field]
   + New command-line option [new-option]
-  + Wig and Pen [wig-and-pen]
+  + Binary package format [deb-format]
+  + Source package format [dsc-format]
   + Architecture specific issue [arch]
-  + Non-Debian issue [not-debian]
+  + Vendor specific issue [vendor]
   + Internationalization [i18n]
   + Localization [l10n]
   + Documentation [doc]
