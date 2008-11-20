@@ -946,7 +946,7 @@ void process_archive(const char *filename) {
   }
 
   /* We can just copy the arbitrary fields list, because it is
-   * never even rearragned.  Phew !
+   * never even rearranged. Phew!
    */
   pkg->installed.arbs= pkg->available.arbs;
 
