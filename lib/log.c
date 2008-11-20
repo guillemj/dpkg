@@ -89,6 +89,9 @@ statusfd_send(const char *fmt, ...)
 	va_start(al, fmt);
 	varbufreset(&vb);
 	varbufvprintf(&vb, fmt, al);
+	/* Sanitize string to not include new lines, as front-ends should be
+	 * doing their own word-wrapping. */
+	varbufsubstc(&vb, '\n', ' ');
 	varbufaddc(&vb, '\n');
 	va_end(al);
 
