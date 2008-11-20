@@ -212,7 +212,8 @@ sub do_build {
                           $sourcestyle);
                 }
             } else {
-                error("orig argument $origarg is not a plain file or directory");
+                error(_g("orig argument %s is not a plain file or directory"),
+                      $origarg);
             }
         } else {
             $sourcestyle =~ y/aA/nn/;

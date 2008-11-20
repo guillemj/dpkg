@@ -139,7 +139,7 @@ void extracthalf(const char *debar, const char *directory,
       if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
         ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),debar);
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
-                                   debar,"member length");
+                                   debar, _("member length"));
       if (!header_done) {
         if (memcmp(arh.ar_name,"debian-binary   ",sizeof(arh.ar_name)) &&
 	    memcmp(arh.ar_name,"debian-binary/   ",sizeof(arh.ar_name)))
@@ -319,8 +319,9 @@ void extracthalf(const char *debar, const char *directory,
     waitsubproc(c3,"tar",0);
   }
   
-  waitsubproc(c2,"<decompress>",PROCPIPE);
-  if (c1 != -1) waitsubproc(c1,"paste",0);
+  waitsubproc(c2, _("<decompress>"), PROCPIPE);
+  if (c1 != -1)
+    waitsubproc(c1, _("paste"), 0);
   if (oldformat && admininfo) {
     if (versionnum == 0.931F) {
       movecontrolfiles(OLDOLDDEBDIR);

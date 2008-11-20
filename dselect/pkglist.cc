@@ -415,7 +415,8 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     table[nitems]= state;
     nitems++;
   }
-  if (!nitems) ohshit("There are no packages.");
+  if (!nitems)
+    ohshit(_("There are no packages."));
   recursive= 0;
   sortorder= so_priority;
   statsortorder= sso_avail;
@@ -562,14 +563,18 @@ pkginfo **packagelist::display() {
   if (debug) fprintf(debug,"packagelist[%p]::display() entering loop\n",this);
   for (;;) {
     if (whatinfo_height) wcursyncup(whatinfowin);
-    if (doupdate() == ERR) ohshite("doupdate failed");
+    if (doupdate() == ERR)
+      ohshite(_("doupdate failed"));
     signallist= this;
-    if (sigprocmask(SIG_UNBLOCK,&sigwinchset,0)) ohshite("failed to unblock SIGWINCH");
+    if (sigprocmask(SIG_UNBLOCK, &sigwinchset, 0))
+      ohshite(_("failed to unblock SIGWINCH"));
     do
     response= getch();
     while (response == ERR && errno == EINTR);
-    if (sigprocmask(SIG_BLOCK,&sigwinchset,0)) ohshite("failed to re-block SIGWINCH");
-    if (response == ERR) ohshite("getch failed");
+    if (sigprocmask(SIG_BLOCK, &sigwinchset, 0))
+      ohshite(_("failed to re-block SIGWINCH"));
+    if (response == ERR)
+      ohshite(_("getch failed"));
     interp= (*bindings)(response);
     if (debug)
       fprintf(debug,"packagelist[%p]::display() response=%d interp=%s\n",

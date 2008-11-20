@@ -152,7 +152,8 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
   push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
   
    if(fstat(fd, &stat_buf))
-     ohshite("unable to stat files list file for package `%.250s'",pkg->name);
+     ohshite(_("unable to stat files list file for package '%.250s'"),
+             pkg->name);
 
    if (stat_buf.st_size) {
      loaded_list = nfmalloc(stat_buf.st_size);
@@ -164,7 +165,8 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
     thisline = loaded_list;
     while (thisline < loaded_list_end) {
       if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline))) 
-        ohshit("files list file for package `%.250s' is missing final newline",pkg->name);
+        ohshit(_("files list file for package '%.250s' is missing final newline"),
+               pkg->name);
       /* where to start next time around */
       nextline = ptr + 1;
       /* strip trailing "/" */
@@ -375,7 +377,7 @@ void ensure_statoverrides(void) {
     fso= nfmalloc(sizeof(struct filestatoverride));
 
     if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline))) 
-      ohshit("statoverride file is missing final newline");
+      ohshit(_("statoverride file is missing final newline"));
     /* where to start next time around */
     nextline = ptr + 1;
     if (ptr == thisline)
@@ -384,60 +386,62 @@ void ensure_statoverrides(void) {
 
     /* Extract the uid */
     if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
-      ohshit("syntax error in statoverride file ");
+      ohshit(_("syntax error in statoverride file"));
     *ptr=0;
     if (thisline[0]=='#') {
       fso->uid=strtol(thisline + 1, &endptr, 10);
       if (*endptr!=0)
-	ohshit("syntax error: invalid uid in statoverride file ");
+        ohshit(_("syntax error: invalid uid in statoverride file"));
     } else {
       struct passwd* pw = getpwnam(thisline);
       if (pw==NULL)
-	ohshit("syntax error: unknown user `%s' in statoverride file ", thisline);
+        ohshit(_("syntax error: unknown user '%s' in statoverride file"),
+               thisline);
       fso->uid=pw->pw_uid;
     }
 
     /* Move to the next bit */
     thisline=ptr+1;
     if (thisline>=loaded_list_end)
-      ohshit("unexpected end of line in statoverride file");
+      ohshit(_("unexpected end of line in statoverride file"));
 
     /* Extract the gid */
     if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
-      ohshit("syntax error in statoverride file ");
+      ohshit(_("syntax error in statoverride file"));
     *ptr=0;
     if (thisline[0]=='#') {
       fso->gid=strtol(thisline + 1, &endptr, 10);
       if (*endptr!=0)
-	ohshit("syntax error: invalid gid in statoverride file ");
+        ohshit(_("syntax error: invalid gid in statoverride file"));
     } else {
       struct group* gr = getgrnam(thisline);
       if (gr==NULL)
-	ohshit("syntax error: unknown group `%s' in statoverride file ", thisline);
+        ohshit(_("syntax error: unknown group '%s' in statoverride file"),
+               thisline);
       fso->gid=gr->gr_gid;
     }
 
     /* Move to the next bit */
     thisline=ptr+1;
     if (thisline>=loaded_list_end)
-      ohshit("unexpected end of line in statoverride file");
+      ohshit(_("unexpected end of line in statoverride file"));
 
     /* Extract the mode */
     if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
-      ohshit("syntax error in statoverride file ");
+      ohshit(_("syntax error in statoverride file"));
     *ptr=0;
     fso->mode=strtol(thisline, &endptr, 8);
     if (*endptr!=0)
-      ohshit("syntax error: invalid mode in statoverride file ");
+      ohshit(_("syntax error: invalid mode in statoverride file"));
 
     /* Move to the next bit */
     thisline=ptr+1;
     if (thisline>=loaded_list_end)
-      ohshit("unexecpted end of line in statoverride file");
+      ohshit(_("unexecpted end of line in statoverride file"));
 
     fnn= findnamenode(thisline, 0);
     if (fnn->statoverride)
-      ohshit("multiple statusoverides present for file `%.250s'", thisline);
+      ohshit(_("multiple statusoverides present for file '%.250s'"), thisline);
     fnn->statoverride=fso;
     /* Moving on.. */
     thisline=nextline;

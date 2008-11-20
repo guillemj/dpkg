@@ -96,7 +96,7 @@ statusfd_send(const char *fmt, ...)
 		for (p = vb.buf, l = vb.used; l;  p += r, l -= r) {
 			r = write(pipef->fd, vb.buf, vb.used);
 			if (r < 0)
-				ohshite("unable to write to status fd %d",
+				ohshite(_("unable to write to status fd %d"),
 				        pipef->fd);
 			assert(r && r <= l);
 		}

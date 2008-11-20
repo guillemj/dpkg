@@ -220,7 +220,7 @@ void do_queue(const char *const *argv) {
     if (!pq->info.md5sum) continue;
     mustgetpartinfo(pq->info.filename,&ti);
     fputs(gettext(head),stdout); head= "";
-    printf(" Package %s: part(s) ",ti.package);
+    printf(_(" Package %s: part(s) "), ti.package);
     bytes= 0;
     for (i=0; i<ti.maxpartn; i++) {
       for (qq= pq;

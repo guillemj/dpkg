@@ -257,8 +257,10 @@ void do_build(const char *const *argv) {
               controlfile, field->name);
       warns++;
     }
-    checkversion(checkedinfo->available.version.version,"(upstream) version",&errs);
-    checkversion(checkedinfo->available.version.revision,"Debian revision",&errs);
+    checkversion(checkedinfo->available.version.version,
+                 _("(upstream) version"), &errs);
+    checkversion(checkedinfo->available.version.revision,
+                 _("Debian revision"), &errs);
     if (errs) ohshit(_("%d errors in control file"),errs);
 
     if (subdir) {
@@ -275,8 +277,10 @@ void do_build(const char *const *argv) {
     /* Check file permissions */
     strcpy(controlfile, directory);
     strcat(controlfile, "/" BUILDCONTROLDIR "/");
-    if (lstat(controlfile,&mscriptstab)) ohshite("unable to stat control directory");
-    if (!S_ISDIR(mscriptstab.st_mode)) ohshit("control directory is not a directory");
+    if (lstat(controlfile, &mscriptstab))
+      ohshite(_("unable to stat control directory"));
+    if (!S_ISDIR(mscriptstab.st_mode))
+      ohshit(_("control directory is not a directory"));
     if ((mscriptstab.st_mode & 07757) != 0755)
       ohshit(_("control directory has bad permissions %03lo (must be >=0755 "
              "and <=0775)"), (unsigned long)(mscriptstab.st_mode & 07777));
@@ -472,7 +476,7 @@ void do_build(const char *const *argv) {
   /* All done, clean up wait for tar and gzip to finish their job */
   close(p1[1]);
   free_filist(symlist);
-  waitsubproc(c2,"<compress> from tar -cf",0);
+  waitsubproc(c2, _("<compress> from tar -cf"), 0);
   waitsubproc(c1,"tar -cf",0);
   /* Okay, we have data.tar.gz as well now, add it to the ar wrapper */
   if (!oldformatflag) {
