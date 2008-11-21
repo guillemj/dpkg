@@ -121,7 +121,9 @@ void m_pipe(int *fds) {
 int checksubprocerr(int status, const char *description, int flags) {
   int n;
   if (WIFEXITED(status)) {
-    n= WEXITSTATUS(status); if (!n) return n;
+    n = WEXITSTATUS(status);
+    if (!n)
+      return 0;
     if (flags & PROCNOERR)
       return -1;
     if (flags & PROCWARN)
