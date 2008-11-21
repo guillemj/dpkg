@@ -33,9 +33,9 @@ my $changelogformat;
 my @build_formats = ("1.0", "3.0 (native)");
 my %options = (
     # Compression related
-    compression => 'gzip',
-    comp_level => 9,
-    comp_ext => $comp_ext{'gzip'},
+    compression => $Dpkg::Source::Compressor::default_compression,
+    comp_level => $Dpkg::Source::Compressor::default_compression_level,
+    comp_ext => $comp_ext{$Dpkg::Source::Compressor::default_compression},
     # Ignore files
     tar_ignore => [],
     diff_ignore_regexp => '',
@@ -380,9 +380,9 @@ Build options:
                              (defaults to: '%s').
   -I[<pattern>]            filter out files when building tarballs
                              (defaults to: %s).
-  -Z<compression>          select compression to use (defaults to 'gzip',
+  -Z<compression>          select compression to use (defaults to '%s',
                              supported are: %s).
-  -z<level>                compression level to use (defaults to '9',
+  -z<level>                compression level to use (defaults to '%d',
                              supported are: '1'-'9', 'best', 'fast')
 
 Extract options:
@@ -399,6 +399,7 @@ See dpkg-source(1) for more info.
 "), $progname,
     $Dpkg::Source::Package::diff_ignore_default_regexp,
     join(' ', map { "-I$_" } @Dpkg::Source::Package::tar_ignore_default_pattern),
-    "@comp_supported";
+    $Dpkg::Source::Compressor::default_compression, "@comp_supported",
+    $Dpkg::Source::Compressor::default_compression_level;
 }
 
