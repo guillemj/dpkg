@@ -131,7 +131,11 @@ int checksubprocerr(int status, const char *description, int flags) {
     else
       ohshit(_("subprocess %s returned error exit status %d"), description, n);
   } else if (WIFSIGNALED(status)) {
-    n= WTERMSIG(status); if (!n || ((flags & PROCPIPE) && n==SIGPIPE)) return 0;
+    n = WTERMSIG(status);
+    if (!n)
+      return 0;
+    if ((flags & PROCPIPE) && n == SIGPIPE)
+      return 0;
     if (flags & PROCWARN)
       warning(_("%s killed by signal (%s)%s"),
               description, strsignal(n), WCOREDUMP(status) ? _(", core dumped") : "");
