@@ -404,10 +404,14 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 	}
 	if (signum > 0)
 		fprintf(nf, "%s\n", pkg->name);
-	if (ferror(nf) || fclose(nf))
+
+	if (ferror(nf))
 		ohshite(_("unable to write new trigger interest file `%.250s'"),
 		        newfn.buf);
 	pop_cleanup(ehflag_normaltidy);
+	if (fclose(nf))
+		ohshite(_("unable to close new trigger interest file `%.250s'"),
+		        newfn.buf);
 
 	if (rename(newfn.buf, trk_explicit_fn.buf))
 		ohshite(_("unable to install new trigger interest file `%.250s'"),
@@ -498,10 +502,13 @@ trig_file_interests_save(void)
 		fprintf(nf, "%s %s\n", trigh.namenode_name(tfi->fnn),
 		        tfi->pkg->name);
 
-	if (ferror(nf) || fclose(nf))
+	if (ferror(nf))
 		ohshite(_("unable to write new file triggers file `%.250s'"),
 		        triggersnewfilefile);
 	pop_cleanup(ehflag_normaltidy);
+	if (fclose(nf))
+		ohshite(_("unable to close new file triggers file `%.250s'"),
+		        triggersnewfilefile);
 
 	if (rename(triggersnewfilefile, triggersfilefile))
 		ohshite(_("unable to install new file triggers file as `%.250s'"),
