@@ -24,6 +24,8 @@
 
 #include <dpkg-i18n.h>
 
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
@@ -66,5 +68,60 @@ cu_subproc_signals(int argc, void **argv)
 			onerr_abort++;
 		}
 	}
+}
+
+int
+checksubprocerr(int status, const char *description, int flags)
+{
+	int n;
+
+	if (WIFEXITED(status)) {
+		n = WEXITSTATUS(status);
+		if (!n)
+			return 0;
+		if (flags & PROCNOERR)
+			return -1;
+		if (flags & PROCWARN)
+			warning(_("%s returned error exit status %d"),
+			        description, n);
+		else
+			ohshit(_("subprocess %s returned error exit status %d"),
+			       description, n);
+	} else if (WIFSIGNALED(status)) {
+		n = WTERMSIG(status);
+		if (!n)
+			return 0;
+		if ((flags & PROCPIPE) && n == SIGPIPE)
+			return 0;
+		if (flags & PROCWARN)
+			warning(_("%s killed by signal (%s)%s"),
+			        description, strsignal(n),
+			        WCOREDUMP(status) ? _(", core dumped") : "");
+		else
+			ohshit(_("subprocess %s killed by signal (%s)%s"),
+			       description, strsignal(n),
+			       WCOREDUMP(status) ? _(", core dumped") : "");
+	} else {
+		ohshit(_("subprocess %s failed with wait status code %d"),
+		       description, status);
+	}
+
+	return -1;
+}
+
+int
+waitsubproc(pid_t pid, const char *description, int flags)
+{
+	pid_t r;
+	int status;
+
+	while ((r = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
+
+	if (r != pid) {
+		onerr_abort++;
+		ohshite(_("wait for %s failed"), description);
+	}
+
+	return checksubprocerr(status, description, flags);
 }
 
