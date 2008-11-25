@@ -1,0 +1,36 @@
+TESTS_DEB := pkg-file-original pkg-file-takeover
+
+include ../Test.mk
+
+test-case: test-one-run-ordered test-two-run-ordered \
+           test-one-run-reverse test-two-run-reverse
+
+define VERIFY
+#test "`$(PKG_STATUS) pkg-file-original`" = "purge ok not-installed"
+test "`$(PKG_STATUS) pkg-file-original`" = "install ok installed"
+test "`$(PKG_STATUS) pkg-file-takeover`" = "install ok installed"
+test "`$(DPKG_QUERY) -S /test-file`" = "pkg-file-takeover: /test-file"
+endef
+
+test-one-run-ordered:
+	$(DPKG_INSTALL) pkg-file-original.deb pkg-file-takeover.deb
+	$(VERIFY)
+	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
+
+test-two-run-ordered:
+	$(DPKG_INSTALL) pkg-file-original.deb
+	$(DPKG_INSTALL) pkg-file-takeover.deb
+	$(VERIFY)
+	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
+
+test-one-run-reverse:
+	$(DPKG_INSTALL) pkg-file-takeover.deb pkg-file-original.deb
+	$(VERIFY)
+	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
+
+test-two-run-reverse:
+	$(DPKG_INSTALL) pkg-file-takeover.deb
+	$(DPKG_INSTALL) pkg-file-original.deb
+	$(VERIFY)
+	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
+
