@@ -328,7 +328,7 @@ foreach my $file (keys %exec) {
 	    my $minver = get_min_version_from_deps($build_deps, $dev_pkg);
 	    if (defined $minver) {
 		foreach my $dep ($symfile->get_dependencies($soname)) {
-		    update_dependency_version($dep, $minver);
+		    update_dependency_version($dep, $minver, 1);
 		}
 	    }
 	}
@@ -526,7 +526,7 @@ sub get_min_version_from_deps {
 }
 
 sub update_dependency_version {
-    my ($dep, $minver) = @_;
+    my ($dep, $minver, $existing_only) = @_;
     return if not defined($minver);
     foreach my $subdep (split /\s*,\s*/, $dep) {
 	if (exists $dependencies{$cur_field}{$subdep} and
@@ -538,7 +538,7 @@ sub update_dependency_version {
 	    {
 		$dependencies{$cur_field}{$subdep} = $minver;
 	    }
-	} else {
+	} elsif (!$existing_only) {
 	    $dependencies{$cur_field}{$subdep} = $minver;
 	}
     }
