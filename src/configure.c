@@ -251,44 +251,38 @@ void deferred_configure(struct pkginfo *pkg) {
 				case cfo_keep | cfof_backup:
 					strcpy(cdr2rest,DPKGOLDEXT);
 					if (unlink(cdr2.buf) && errno != ENOENT)
-						fprintf(stderr,
-								_("dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"),
-								pkg->name, cdr2.buf, strerror(errno));
+						warning(_("%s: failed to remove old backup '%.250s': %s"),
+						        pkg->name, cdr2.buf, strerror(errno));
 					cdr.used--;
 					varbufaddstr(&cdr,DPKGDISTEXT);
 					varbufaddc(&cdr,0);
 					strcpy(cdr2rest,DPKGNEWEXT);
 					trig_file_activate(usenode, pkg);
 					if (rename(cdr2.buf,cdr.buf))
-						fprintf(stderr,
-								_("dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"),
-								pkg->name, cdr2.buf, cdr.buf, strerror(errno));
+						warning(_("%s: failed to rename '%.250s' to '%.250s': %s"),
+						        pkg->name, cdr2.buf, cdr.buf, strerror(errno));
 					break;
 
 				case cfo_keep:
 					strcpy(cdr2rest,DPKGNEWEXT);
 					if (unlink(cdr2.buf))
-						fprintf(stderr,
-								_("dpkg: %s: warning - failed to remove `%.250s': %s\n"),
-								pkg->name, cdr2.buf, strerror(errno));
+						warning(_("%s: failed to remove '%.250s': %s"),
+						        pkg->name, cdr2.buf, strerror(errno));
 					break;
 
 				case cfo_install | cfof_backup:
 					strcpy(cdr2rest,DPKGDISTEXT);
 					if (unlink(cdr2.buf) && errno != ENOENT)
-						fprintf(stderr,
-								_("dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"),
-								pkg->name, cdr2.buf, strerror(errno));
+						warning(_("%s: failed to remove old distrib version '%.250s': %s"),
+						        pkg->name, cdr2.buf, strerror(errno));
 					strcpy(cdr2rest,DPKGOLDEXT);
 					if (unlink(cdr2.buf) && errno != ENOENT)
-						fprintf(stderr,
-								_("dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"),
-								pkg->name, cdr2.buf, strerror(errno));
+						warning(_("%s: failed to remove '%.250s' (before overwrite): %s"),
+						        pkg->name, cdr2.buf, strerror(errno));
 					if (!(what & cfof_userrmd))
 						if (link(cdr.buf,cdr2.buf))
-							fprintf(stderr,
-								_("dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"),
-								pkg->name, cdr.buf, cdr2.buf, strerror(errno));
+							warning(_("%s: failed to link '%.250s' to '%.250s': %s"),
+							        pkg->name, cdr.buf, cdr2.buf, strerror(errno));
 					/* fall through */
 				case cfo_install:
 					printf(_("Installing new version of config file %s ...\n"),
@@ -354,9 +348,9 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 		debug(dbg_conffdetail,"conffderef in=`%s' current working=`%s'", in, result->buf);
 		if (lstat(result->buf,&stab)) {
 			if (errno != ENOENT)
-				fprintf(stderr, _("dpkg: %s: warning - unable to stat config file `%s'\n"
-							" (= `%s'): %s\n"),
-						pkg->name, in, result->buf, strerror(errno));
+				warning(_("%s: unable to stat config file '%s'\n"
+				          " (= '%s'): %s"),
+				        pkg->name, in, result->buf, strerror(errno));
 			debug(dbg_conffdetail,"conffderef nonexistent");
 			return 0;
 		} else if (S_ISREG(stab.st_mode)) {
@@ -365,8 +359,8 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 		} else if (S_ISLNK(stab.st_mode)) {
 			debug(dbg_conffdetail,"conffderef symlink loopprotect=%d",loopprotect);
 			if (loopprotect++ >= 25) {
-				fprintf(stderr, _("dpkg: %s: warning - config file `%s' is a circular link\n"
-							" (= `%s')\n"), pkg->name, in, result->buf);
+				warning(_("%s: config file '%s' is a circular link\n"
+				          " (= '%s')"), pkg->name, in, result->buf);
 				return -1;
 			}
 			need= 255;
@@ -378,9 +372,9 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 				}
 				r= readlink(result->buf,linkreadbuf,linkreadbufsize-1);
 				if (r < 0) {
-					fprintf(stderr, _("dpkg: %s: warning - unable to readlink conffile `%s'\n"
-								" (= `%s'): %s\n"),
-							pkg->name, in, result->buf, strerror(errno));
+					warning(_("%s: unable to readlink conffile '%s'\n"
+					          " (= '%s'): %s"),
+					        pkg->name, in, result->buf, strerror(errno));
 					return -1;
 				}
 				debug(dbg_conffdetail,"conffderef readlink gave %d, `%.*s'",
@@ -397,10 +391,9 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 				for (r=result->used-2; r>0 && result->buf[r] != '/'; r--)
 					;
 				if (r < 0) {
-					fprintf(stderr,
-							_("dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
-								" (`%s' is a symlink to `%s')\n"),
-							pkg->name, in, result->buf, linkreadbuf);
+					warning(_("%s: conffile '%.250s' resolves to degenerate filename\n"
+					          " ('%s' is a symlink to '%s')"),
+					        pkg->name, in, result->buf, linkreadbuf);
 					return -1;
 				}
 				if (result->buf[r] == '/') r++;
@@ -411,9 +404,8 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 			varbufaddstr(result,linkreadbuf);
 			varbufaddc(result,0);
 		} else {
-			fprintf(stderr, _("dpkg: %s: warning - conffile `%.250s' is not a plain"
-						" file or symlink (= `%s')\n"),
-					pkg->name, in, result->buf);
+			warning(_("%s: conffile '%.250s' is not a plain file or symlink (= '%s')"),
+			        pkg->name, in, result->buf);
 			return -1;
 		}
 	}
@@ -435,8 +427,8 @@ static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn) {
 	} else if (errno==ENOENT) {
 		*hashbuf = m_strdup(NONEXISTENTFLAG);
 	} else {
-		fprintf(stderr, _("dpkg: %s: warning - unable to open conffile %s for hash: %s\n"),
-				pkg->name, fn, strerror(errno));
+		warning(_("%s: unable to open conffile %s for hash: %s"),
+		        pkg->name, fn, strerror(errno));
 		*hashbuf = m_strdup("-");
 	}
 }

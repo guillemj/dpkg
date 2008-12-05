@@ -380,8 +380,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
             scriptname,oldscriptpath);
       return 0;
     }
-    fprintf(stderr,
-            _("dpkg: warning - unable to stat %s `%.250s': %s\n"),
+    warning(_("unable to stat %s '%.250s': %s"),
             buf,oldscriptpath,strerror(errno));
   } else {
     if (!do_script(pkg->name, scriptname, oldscriptpath, &stab, arglist,

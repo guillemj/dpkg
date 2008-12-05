@@ -876,16 +876,13 @@ static int try_deconfigure_can(int (*force_p)(struct deppossi*),
   struct pkg_deconf_list *newdeconf;
   
   if (force_p && force_p(pdep)) {
-    fprintf(stderr, _("dpkg: warning - "
-                      "ignoring dependency problem with %s:\n%s"),
-            action, why);
+    warning(_("ignoring dependency problem with %s:\n%s"), action, why);
     return 2;
   } else if (f_autodeconf) {
     if (pkg->installed.essential) {
       if (fc_removeessential) {
-        fprintf(stderr, _("dpkg: warning - considering deconfiguration of essential\n"
-                          " package %s, to enable %s.\n"),
-                pkg->name, action);
+        warning(_("considering deconfiguration of essential\n"
+                  " package %s, to enable %s."), pkg->name, action);
       } else {
         fprintf(stderr, _("dpkg: no, %s is essential, will not deconfigure\n"
                           " it in order to enable %s.\n"),
@@ -956,8 +953,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
   if (ok > 0) return;
 
   if (force_breaks(dep->list)) {
-    fprintf(stderr, _("dpkg: warning - ignoring breakage,"
-                      " may proceed anyway !\n"));
+    warning(_("ignoring breakage, may proceed anyway!"));
     return;
   }
 
@@ -1074,7 +1070,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
           pfilename, pkg->name, conflictwhy.buf);
   if (!force_conflicts(dep->list))
     ohshit(_("conflicting packages - not installing %.250s"),pkg->name);
-  fprintf(stderr, _("dpkg: warning - ignoring conflict, may proceed anyway !\n"));
+  warning(_("ignoring conflict, may proceed anyway!"));
   varbuffree(&conflictwhy);
   
   return;
@@ -1287,8 +1283,8 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
     }
   } else {
     if (fc_downgrade) {
-      if (saywhy) fprintf(stderr, _("%s - warning: downgrading %.250s "
-             "from %.250s to %.250s.\n"), DPKG, pkg->name,
+      if (saywhy)
+        warning(_("downgrading %.250s from %.250s to %.250s."), pkg->name,
              versiondescribe(&pkg->installed.version, vdew_nonambig),
              versiondescribe(&pkg->available.version, vdew_nonambig));
       return 1;

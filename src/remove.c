@@ -80,17 +80,15 @@ void deferred_remove(struct pkginfo *pkg) {
   debug(dbg_general,"deferred_remove package %s",pkg->name);
   
   if (pkg->status == stat_notinstalled) {
-    fprintf(stderr,
-            _("dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"),
+    warning(_("ignoring request to remove %.250s which isn't installed."),
             pkg->name);
     pkg->clientdata->istobe= itb_normal;
     return;
   } else if (!f_pending &&
              pkg->status == stat_configfiles &&
              cipaction->arg != act_purge) {
-    fprintf(stderr,
-            _("dpkg - warning: ignoring request to remove %.250s, only the config\n"
-            " files of which are on the system.  Use --purge to remove them too.\n"),
+    warning(_("ignoring request to remove %.250s, only the config\n"
+              " files of which are on the system. Use --purge to remove them too."),
             pkg->name);
     pkg->clientdata->istobe= itb_normal;
     return;
@@ -253,9 +251,8 @@ static void removal_bulk_remove_files(
         push_leftover(&leftover,namenode);
         continue;
       } else if (errno == EBUSY || errno == EPERM) {
-        fprintf(stderr, _("dpkg - warning: while removing %.250s,"
-                " unable to remove directory `%.250s':"
-                " %s - directory may be a mount point ?\n"),
+        warning(_("while removing %.250s, unable to remove directory '%.250s': "
+                  "%s - directory may be a mount point?"),
                 pkg->name, namenode->name, strerror(errno));
         push_leftover(&leftover,namenode);
         continue;
@@ -368,16 +365,13 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
     if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
     if (errno == ENOTEMPTY || errno == EEXIST) {
-      fprintf(stderr,
-              _("dpkg - warning: while removing %.250s, directory `%.250s' not empty "
-              "so not removed.\n"),
+      warning(_("while removing %.250s, directory '%.250s' not empty so not removed."),
               pkg->name, namenode->name);
       push_leftover(&leftover,namenode);
       continue;
     } else if (errno == EBUSY || errno == EPERM) {
-      fprintf(stderr, _("dpkg - warning: while removing %.250s,"
-              " unable to remove directory `%.250s':"
-              " %s - directory may be a mount point ?\n"),
+      warning(_("while removing %.250s, unable to remove directory '%.250s': "
+                "%s - directory may be a mount point?"),
               pkg->name, namenode->name, strerror(errno));
       push_leftover(&leftover,namenode);
       continue;

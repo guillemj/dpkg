@@ -125,14 +125,13 @@ int checksubprocerr(int status, const char *description, int flags) {
     if (flags & PROCNOERR)
       return -1;
     if (flags & PROCWARN)
-      fprintf(stderr, _("dpkg: warning - %s returned error exit status %d\n"),
-              description, n);
+      warning(_("%s returned error exit status %d"), description, n);
     else
       ohshit(_("subprocess %s returned error exit status %d"), description, n);
   } else if (WIFSIGNALED(status)) {
     n= WTERMSIG(status); if (!n || ((flags & PROCPIPE) && n==SIGPIPE)) return 0;
     if (flags & PROCWARN)
-      fprintf(stderr, _("dpkg: warning - %s killed by signal (%s)%s\n"),
+      warning(_("%s killed by signal (%s)%s"),
               description, strsignal(n), WCOREDUMP(status) ? _(", core dumped") : "");
     else
       ohshit(_("subprocess %s killed by signal (%s)%s"),

@@ -225,8 +225,8 @@ void do_build(const char *const *argv) {
   if (nocheckflag) {
     if (subdir)
       ohshit(_("target is directory - cannot skip control file check"));
-    printf(_("dpkg-deb: warning, not checking contents of control area.\n"
-           "dpkg-deb: building an unknown package in `%s'.\n"), debar);
+    warning(_("not checking contents of control area."));
+    printf(_("dpkg-deb: building an unknown package in '%s'.\n"), debar);
   } else {
     controlfile= m_malloc(strlen(directory) + sizeof(BUILDCONTROLDIR) +
                           sizeof(CONTROLFILE) + sizeof(CONFFILESFILE) +
@@ -245,7 +245,7 @@ void do_build(const char *const *argv) {
         != strlen(checkedinfo->name))
       ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
     if (checkedinfo->priority == pri_other) {
-      fprintf(stderr, _("warning, `%s' contains user-defined Priority value `%s'\n"),
+      warning(_("'%s' contains user-defined Priority value '%s'"),
               controlfile, checkedinfo->otherpriority);
       warns++;
     }
@@ -253,7 +253,7 @@ void do_build(const char *const *argv) {
       if (known_arbitrary_field(field))
         continue;
 
-      fprintf(stderr, _("warning, `%s' contains user-defined field `%s'\n"),
+      warning(_("'%s' contains user-defined field '%s'"),
               controlfile, field->name);
       warns++;
     }
@@ -307,7 +307,7 @@ void do_build(const char *const *argv) {
         n= strlen(conffilename);
         if (!n) ohshite(_("empty string from fgets reading conffiles"));
         if (conffilename[n-1] != '\n') {
-          fprintf(stderr, _("warning, conffile name `%.50s...' is too long, or missing final newline\n"), 
+          warning(_("conffile name '%.50s...' is too long, or missing final newline"),
 		  conffilename);
           warns++;
           while ((c= getc(cf)) != EOF && c != '\n');
@@ -320,14 +320,13 @@ void do_build(const char *const *argv) {
         if (lstat(controlfile,&controlstab)) {
 	  if (errno == ENOENT) {
 	    if((n > 1) && isspace(conffilename[n-2]))
-	      fprintf(stderr, _("warning, "
-				"conffile filename `%s' contains trailing white spaces\n"), conffilename);
+	      warning(_("conffile filename '%s' contains trailing white spaces"),
+	              conffilename);
 	    ohshit(_("conffile `%.250s' does not appear in package"), conffilename);
 	  } else
 	    ohshite(_("conffile `%.250s' is not stattable"), conffilename);
         } else if (!S_ISREG(controlstab.st_mode)) {
-          fprintf(stderr, _("warning, conffile `%s'"
-                  " is not a plain file\n"), conffilename);
+          warning(_("conffile '%s' is not a plain file"), conffilename);
           warns++;
         }
       }

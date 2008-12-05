@@ -299,7 +299,7 @@ warning(const char *fmt, ...)
   vsnprintf(buf,sizeof(buf),fmt,al);
   va_end(al);
 
-  fprintf(stderr, "%s\n", buf);
+  fprintf(stderr, _("%s: warning: %s\n"), thisname, buf);
 }
 
 void badusage(const char *fmt, ...) {

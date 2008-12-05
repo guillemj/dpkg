@@ -109,7 +109,8 @@ void forcibleerr(int forceflag, const char *fmt, ...) {
   va_list al;
   va_start(al,fmt);
   if (forceflag) {
-    fputs(_("dpkg - warning, overriding problem because --force enabled:\n "),stderr);
+    warning(_("overriding problem because --force enabled:"));
+    fputc(' ', stderr);
     vfprintf(stderr,fmt,al);
     fputc('\n',stderr);
   } else {

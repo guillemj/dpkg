@@ -275,7 +275,7 @@ void process_archive(const char *filename) {
                 pfilename, pkg->name, depprobwhy.buf);
         if (!force_depends(dsearch->list))
           ohshit(_("pre-dependency problem - not installing %.250s"),pkg->name);
-        fprintf(stderr, _("dpkg: warning - ignoring pre-dependency problem !\n"));
+        warning(_("ignoring pre-dependency problem!"));
       }
     }
   }
@@ -656,22 +656,17 @@ void process_archive(const char *filename) {
 
     if (lstat(fnamevb.buf, &oldfs)) {
       if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-	fprintf(stderr,
-		_("dpkg: warning - could not stat old file `%.250s'"
-		  " so not deleting it: %s"),
-		fnamevb.buf, strerror(errno));
+	warning(_("could not stat old file '%.250s' so not deleting it: %s"),
+	        fnamevb.buf, strerror(errno));
       continue;
     }
     if (S_ISDIR(oldfs.st_mode)) {
       if (rmdir(fnamevb.buf)) {
-	fprintf(stderr,
-		_("dpkg: warning - unable to delete old directory"
-		  " `%.250s': %s\n"), namenode->name, strerror(errno));
+	warning(_("unable to delete old directory '%.250s': %s"),
+	        namenode->name, strerror(errno));
       } else if ((namenode->flags & fnnf_old_conff)) {
-	fprintf(stderr,
-		_("dpkg: warning - old conffile `%.250s' was an empty"
-		  " directory (and has now been deleted)\n"),
-		namenode->name);
+	warning(_("old conffile '%.250s' was an empty directory "
+	          "(and has now been deleted)"), namenode->name);
       }
     } else {
       /* Ok, it's an old file, but is it really not in the new package?
@@ -723,9 +718,8 @@ void process_archive(const char *filename) {
 	if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
 	    oldfs.st_ino == cfile->namenode->filestat->st_ino) {
 	  if (sameas)
-	    fprintf(stderr, _("dpkg: warning - old file `%.250s' is the same"
-		    " as several new files!  (both `%.250s' and `%.250s')\n"),
-		    fnamevb.buf,
+	    warning(_("old file '%.250s' is the same as several new files! "
+	              "(both '%.250s' and '%.250s')"), fnamevb.buf,
 		    sameas->namenode->name, cfile->namenode->name);
 	  sameas= cfile;
 	  debug(dbg_eachfile, "process_archive: not removing %s,"
@@ -766,7 +760,7 @@ void process_archive(const char *filename) {
       if (chmodsafe_unlink_statted(fnamevb.buf, &oldfs, &failed)) {
         const char *failed_local = gettext(failed);
 
-        fprintf(stderr, _("dpkg: warning - unable to %s old file '%.250s': %s\n"),
+        warning(_("unable to %s old file '%.250s': %s"),
                 failed_local, namenode->name, strerror(errno));
       }
 
@@ -858,8 +852,7 @@ void process_archive(const char *filename) {
       continue; /* ignore the control file */
     }
     if (!strcmp(de->d_name,LISTFILE)) {
-      fprintf(stderr, _("dpkg: warning - package %s"
-              " contained list as info file"), pkg->name);
+      warning(_("package %s contained list as info file"), pkg->name);
       continue;
     }
     /* Right, install it */

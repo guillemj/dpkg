@@ -141,9 +141,8 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
     onerr_abort--;
     if (pkg->status != stat_configfiles) {
       if (saidread == 1) putc('\n',stderr);
-      fprintf(stderr,
-              _("dpkg: serious warning: files list file for package `%.250s' missing,"
-              " assuming package has no files currently installed.\n"), pkg->name);
+      warning(_("files list file for package `%.250s' missing, assuming "
+                "package has no files currently installed."), pkg->name);
     }
     pkg->clientdata->files = NULL;
     pkg->clientdata->fileslistvalid= 1;
