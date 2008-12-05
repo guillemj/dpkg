@@ -193,7 +193,7 @@ void ohshite(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void ohshitvb(struct varbuf*) NONRETURNING;
 void badusage(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void werr(const char *what) NONRETURNING;
-void warningf(const char *fmt, ...) PRINTFFORMAT(1, 2);
+void warning(const char *fmt, ...) PRINTFFORMAT(1, 2);
 
 /*** log.c ***/
 

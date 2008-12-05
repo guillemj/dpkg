@@ -289,7 +289,9 @@ void ohshite(const char *fmt, ...) {
   run_error_handler();
 }
 
-void warningf(const char *fmt, ...) {
+void
+warning(const char *fmt, ...)
+{
   int e;
   va_list al;
   char buf[1024];
