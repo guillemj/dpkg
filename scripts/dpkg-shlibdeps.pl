@@ -131,6 +131,11 @@ my %global_soname_notfound;
 my %global_soname_used;
 my %global_soname_needed;
 
+# Symfile and objdump caches
+my %symfile_cache;
+my %objdump_cache;
+my %symfile_has_soname_cache;
+
 my $cur_field;
 foreach my $file (keys %exec) {
     $cur_field = $exec{$file};
@@ -193,17 +198,21 @@ foreach my $file (keys %exec) {
 
 	# Load symbols/shlibs files from packages providing libraries
 	foreach my $pkg (@{$file2pkg->{$lib}}) {
-	    my $dpkg_symfile;
+	    my $symfile_path;
 	    if ($packagetype eq "deb") {
 		# Use fine-grained dependencies only on real deb
-		$dpkg_symfile = find_symbols_file($pkg, $soname, $lib);
-		if (defined $dpkg_symfile) {
-		    # Load symbol information
-		    print "Using symbols file $dpkg_symfile for $soname\n" if $debug;
-		    $symfile->load($dpkg_symfile);
-		}
-	    }
-	    if (defined($dpkg_symfile) && $symfile->has_object($soname)) {
+		$symfile_path = find_symbols_file($pkg, $soname, $lib);
+            }
+            if (defined($symfile_path)) {
+                # Load symbol information
+                print "Using symbols file $symfile_path for $soname\n" if $debug;
+                unless (exists $symfile_cache{$symfile_path}) {
+                    $symfile_cache{$symfile_path} =
+                        Dpkg::Shlibs::SymbolFile->new($symfile_path);
+                }
+                $symfile->merge_object_from_symfile($symfile_cache{$symfile_path}, $soname);
+            }
+	    if (defined($symfile_path) && $symfile->has_object($soname)) {
 		# Initialize dependencies with the smallest minimal version
                 # of all symbols (unversioned dependency is not ok as the
                 # library might not have always been available in the
@@ -217,13 +226,17 @@ foreach my $file (keys %exec) {
 		}
 	    } else {
 		# No symbol file found, fall back to standard shlibs
-		my $id = $dumplibs_wo_symfile->parse($lib);
+                print "Using shlibs+objdump for $soname (file $lib)\n" if $debug;
+                unless (exists $objdump_cache{$lib}) {
+                    $objdump_cache{$lib} = Dpkg::Shlibs::Objdump::Object->new($lib);
+                }
+                my $libobj = $objdump_cache{$lib};
+                my $id = $dumplibs_wo_symfile->add_object($libobj);
 		if (($id ne $soname) and ($id ne $lib)) {
 		    warning(_g("%s has an unexpected SONAME (%s)"), $lib, $id);
 		    $alt_soname{$id} = $soname;
 		}
 		push @soname_wo_symfile, $soname;
-		my $libobj = $dumplibs_wo_symfile->get_object($id);
 		# Only try to generate a dependency for libraries with a SONAME
 		if ($libobj->is_public_library() and not
 		    add_shlibs_dep($soname, $pkg, $lib)) {
@@ -672,6 +685,11 @@ sub find_symbols_file {
 
 sub symfile_has_soname {
     my ($file, $soname) = @_;
+
+    if (exists $symfile_has_soname_cache{$file}{$soname}) {
+        return $symfile_has_soname_cache{$file}{$soname};
+    }
+
     open(SYM_FILE, "<", $file) ||
         syserr(_g("cannot open file %s"), $file);
     my $result = 0;
@@ -682,6 +700,7 @@ sub symfile_has_soname {
 	}
     }
     close(SYM_FILE);
+    $symfile_has_soname_cache{$file}{$soname} = $result;
     return $result;
 }
 

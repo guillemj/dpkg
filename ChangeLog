@@ -1,3 +1,14 @@
+2008-12-08  Modestas Vainius  <modestas@vainius.eu>
+	    Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/Objdump.pm (parse): Split into add_object()
+	and parse().
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (merge_object_from_symfile):
+	New function to reintegrate symbols from previous symfiles.
+	* scripts/dpkg-shlibdeps.pl: Optimizes it by caching parsed
+	symbols files and objdump objects. This way neither of the
+	libraries or symbols files are parsed more than once.
+
 2008-12-05  Guillem Jover  <guillem@debian.org>
 
 	* lib/mlib.c: Remove <sys/wait.h> include.

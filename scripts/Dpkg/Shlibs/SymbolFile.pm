@@ -175,6 +175,18 @@ sub load {
     delete $seen->{$file};
 }
 
+
+# Beware: we reuse the data structure of the provided symfile so make
+# sure to not modify them after having called this function
+sub merge_object_from_symfile {
+    my ($self, $src, $objid) = @_;
+    if (not $self->has_object($objid)) {
+        $self->{objects}{$objid} = $src->{objects}{$objid};
+    } else {
+        warning(_g("Tried to merge the same object (%s) twice in a symfile."), $objid);
+    }
+}
+
 sub save {
     my ($self, $file, $with_deprecated) = @_;
     $file = $self->{file} unless defined($file);

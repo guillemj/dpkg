@@ -30,10 +30,8 @@ sub new {
     return $self;
 }
 
-sub parse {
-    my ($self, $file) = @_;
-    my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
-
+sub add_object {
+    my ($self, $obj) = @_;
     my $id = $obj->get_id;
     if ($id) {
 	$self->{objects}{$id} = $obj;
@@ -41,6 +39,12 @@ sub parse {
     return $id;
 }
 
+sub parse {
+    my ($self, $file) = @_;
+    my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
+
+    return $self->add_object($obj);
+}
 
 sub locate_symbol {
     my ($self, $name) = @_;
@@ -55,10 +59,15 @@ sub locate_symbol {
 
 sub get_object {
     my ($self, $objid) = @_;
-    if (exists $self->{objects}{$objid}) {
+    if ($self->has_object($objid)) {
 	return $self->{objects}{$objid};
     }
     return undef;
+}
+
+sub has_object {
+    my ($self, $objid) = @_;
+    return exists $self->{objects}{$objid};
 }
 
 {
