@@ -292,16 +292,14 @@ void ohshite(const char *fmt, ...) {
 void
 warning(const char *fmt, ...)
 {
-  int e;
   va_list al;
   char buf[1024];
 
-  e=errno;
   va_start(al,fmt);
   vsnprintf(buf,sizeof(buf),fmt,al);
   va_end(al);
 
-  fprintf(stderr,"%s: %s\n",buf,strerror(e));
+  fprintf(stderr, "%s\n", buf);
 }
 
 void badusage(const char *fmt, ...) {

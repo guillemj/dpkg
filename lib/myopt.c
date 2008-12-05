@@ -40,7 +40,8 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   if (!file) {
     if (errno==ENOENT)
       return;
-    warning(_("failed to open configuration file `%.255s' for reading"), fn);
+    warning(_("failed to open configuration file '%.255s' for reading: %s"),
+            fn, strerror(errno));
     return;
   }
 
