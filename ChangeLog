@@ -1,3 +1,11 @@
+2008-12-01  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Archive.pm (extract): Do not create the temp
+	directory in the current directory but in the parent directory of
+	the target directory. Otherwise the code would fail when called
+	from a non-writable dir and rename could fail due to filesystem
+	boundaries beetwen the current dir and the target one.
+
 2008-12-01  Modestas Vainius  <modestas@vainius.eu>
 
 	* scripts/dpkg-shlibdeps.pl: Don't merge all dependency templates
