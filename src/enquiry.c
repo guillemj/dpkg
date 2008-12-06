@@ -154,7 +154,7 @@ static int yettobeunpacked(struct pkginfo *pkg, const char **thissect) {
       *thissect= pkg->section && *pkg->section ? pkg->section : _("<unknown>");
     return 1;
   default:
-    internerr("unknown status checking for unpackedness");
+    internerr("unknown package status '%d'", pkg->status);
   }
   return 0;
 }

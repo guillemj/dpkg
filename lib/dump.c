@@ -226,7 +226,8 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
       case dvr_earlierequal: varbufaddstr(vb,"<="); break;
       case dvr_laterstrict: varbufaddstr(vb,">>"); break;
       case dvr_earlierstrict: varbufaddstr(vb,"<<"); break;
-      default: internerr("unknown verrel");
+      default:
+        internerr("unknown verrel '%d'", dop->verrel);
       }
       varbufaddc(vb,' ');
       varbufversion(vb,&dop->version,vdew_nonambig);

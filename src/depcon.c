@@ -184,7 +184,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
     fmt = _("%s enhances %s");
     break;
   default:
-    internerr("unknown deptype");
+    internerr("unknown deptype '%d'", dep->type);
   }
 
   varbufdependency(&depstr, dep);
@@ -246,13 +246,13 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
     case stat_halfconfigured: case stat_unpacked:
       return 1;
     default:
-      internerr("unknown status depending");
+      internerr("unknown status depending '%d'", dep->up->status);
     }
     break;
   case itb_installnew: case itb_preinstall:
     break;
   default:
-    internerr("unknown istobe depending");
+    internerr("unknown istobe depending '%d'", dep->up->clientdata->istobe);
   }
 
   /* Describe the dependency, in case we have to moan about it. */
@@ -332,7 +332,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         }
         break;
       default:
-        internerr("unknown istobe depended");
+        internerr("unknown istobe depended '%d'", possi->ed->clientdata->istobe);
       }
       varbufaddstr(whynot, linebuf);
 
@@ -376,7 +376,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
                     gettext(statusstrings[provider->up->up->status]));
             break;
           default:
-            internerr("unknown istobe provider");
+            internerr("unknown istobe provider '%d'",
+                      provider->up->up->clientdata->istobe);
           }
           varbufaddstr(whynot, linebuf);
         }
@@ -449,7 +450,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         }
         break;
       default:
-        internerr("unknown istobe conflict");
+        internerr("unknown istobe conflict '%d'",
+                  possi->ed->clientdata->istobe);
       }
     }
 
@@ -514,7 +516,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           }
           break;
         default:
-          internerr("unknown istobe conflict provider");
+          internerr("unknown istobe conflict provider '%d'",
+                    provider->up->up->clientdata->istobe);
         }
       }
     }

@@ -256,7 +256,8 @@ static void discardsome(enum discardwhich which, const char *package) {
       break;
     case ds_all:
       break;
-    default: internerr("bad discardsome which");
+    default:
+      internerr("unknown discardwhich '%d'", which);
     }
     if (unlink(pq->info.filename))
       ohshite(_("unable to discard `%.250s'"),pq->info.filename);

@@ -88,7 +88,8 @@ int versionsatisfied3(const struct versionrevision *it,
   case dvr_earlierstrict:  return r < 0;
   case dvr_laterstrict:    return r > 0;
   case dvr_exact:          return r == 0;
-  default:                 internerr("unknown verrel");
+  default:
+    internerr("unknown depverrel '%d'", verrel);
   }
   return 0;
 }

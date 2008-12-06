@@ -366,7 +366,7 @@ void enqperpackage(const char *const *argv) {
       break;
 
     default:
-      internerr("unknown action");
+      internerr("unknown action '%d'", cipaction->arg);
     }
 
     if (*(argv + 1) == NULL)

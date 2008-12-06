@@ -750,7 +750,7 @@ int tarobject(struct TarInfo *ti) {
     newtarobject_allmodes(fnamenewvb.buf,ti,nifd->namenode->statoverride);
     break;
   default:
-    internerr("bad tar type, but already checked");
+    internerr("unknown tar type '%d', but already checked", ti->Type);
   }
   /* CLEANUP: Now we have extracted the new object in .dpkg-new (or,
    * if the file already exists as a directory and we were trying to extract
@@ -1227,7 +1227,7 @@ void archivefiles(const char *const *argv) {
   case act_avail:
     break;
   default:
-    internerr("unknown action");
+    internerr("unknown action '%d'", cipaction->arg);
   }
 
   trigproc_run_deferred();

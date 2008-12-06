@@ -295,7 +295,7 @@ void deferred_configure(struct pkginfo *pkg) {
 					break;
 
 				default:
-					internerr("unknown what");
+					internerr("unknown conffopt '%d'", what);
 			}
 
 			conff->hash= nfstrsave(newdisthash);
@@ -667,7 +667,7 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 			break;
 
 		default:
-			internerr("unknown response");
+			internerr("unknown response '%d'", cc);
 	}
 
 	return what;

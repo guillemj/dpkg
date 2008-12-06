@@ -52,7 +52,7 @@ sub create {
 
 sub _add_entry {
     my ($self, $file) = @_;
-    internerr("call create first") unless $self->{"tar_input"};
+    internerr("call create() first") unless $self->{"tar_input"};
     $file = $2 if ($file =~ /^\Q$self->{'cwd'}\E\/(.+)$/); # Relative names
     print({ $self->{'tar_input'} } "$file\0") ||
 	    syserr(_g("write on tar input"));

@@ -51,7 +51,7 @@ void updateavailable(const char *const *argv) {
       badusage(_("--%s needs exactly one Packages file argument"),cipaction->olong);
     break;
   default:
-    internerr("bad cipaction->arg in updateavailable");
+    internerr("unknown action '%d'", cipaction->arg);
   }
   
   if (!f_noact) {
@@ -74,7 +74,7 @@ void updateavailable(const char *const *argv) {
   case act_avclear:
     break;
   default:
-    internerr("bad cipaction->arg in update available");
+    internerr("unknown action '%d'", cipaction->arg);
   }
 
   varbufaddstr(&vb,admindir);

@@ -306,7 +306,8 @@ void extracthalf(const char *debar, const char *directory,
   if (taroption) {
     if (!(c3= m_fork())) {
       char buffer[30+2];
-      if(strlen(taroption) > 30) internerr(taroption);
+      if (strlen(taroption) > 30)
+        internerr("taroption is too long '%s'", taroption);
       strcpy(buffer, taroption);
       strcat(buffer, "f");
       m_dup2(p2[0],0);
