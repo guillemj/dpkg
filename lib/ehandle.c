@@ -316,8 +316,19 @@ void werr(const char *fn) {
   ohshite(_("error writing `%s'"),fn);
 }
 
-void do_internerr(const char *string, int line, const char *file) {
-  fprintf(stderr,_("%s:%d: internal error `%s'\n"),file,line,string);
+void
+do_internerr(const char *file, int line, const char *fmt, ...)
+{
+  va_list al;
+  char buf[1024];
+
+  va_start(al, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, al);
+  va_end(al);
+
+  fprintf(stderr, _("%s:%s:%d: internal error: %s\n"),
+          thisname, file, line, buf);
+
   abort();
 }
 

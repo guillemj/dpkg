@@ -183,8 +183,12 @@ void push_checkpoint(int mask, int value);
 void pop_cleanup(int flagset);
 enum { ehflag_normaltidy=01, ehflag_bombout=02, ehflag_recursiveerror=04 };
 
-void do_internerr(const char *string, int line, const char *file) NONRETURNING;
-#define internerr(s) do_internerr(s,__LINE__,__FILE__)
+void do_internerr(const char *file, int line, const char *fmt, ...) NONRETURNING;
+#if HAVE_C99
+#define internerr(...) do_internerr(__FILE__, __LINE__, __VA_ARGS__)
+#else
+#define internerr(args...) do_internerr(__FILE__, __LINE__, args)
+#endif
 
 struct varbuf;
 void ohshit(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
