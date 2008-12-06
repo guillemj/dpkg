@@ -8,8 +8,7 @@ use File::Basename;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning error failure syserr subprocerr usageerr
-                           $warnable_error);
+use Dpkg::ErrorHandling qw($warnable_error);
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version qw(check_version);

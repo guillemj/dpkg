@@ -22,7 +22,7 @@ use warnings;
 use Dpkg::Compression;
 use Dpkg::Source::Compressor;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr warning);
+use Dpkg::ErrorHandling;
 
 # Object methods
 sub new {

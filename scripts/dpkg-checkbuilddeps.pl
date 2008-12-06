@@ -7,7 +7,7 @@ use warnings;
 use Getopt::Long;
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error);
+use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Deps;
 use Dpkg::Control;

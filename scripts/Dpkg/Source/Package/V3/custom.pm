@@ -23,7 +23,7 @@ use base 'Dpkg::Source::Package';
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error);
+use Dpkg::ErrorHandling;
 
 our $CURRENT_MINOR_VERSION = "0";
 

@@ -7,7 +7,7 @@ use IO::Handle;
 use IO::File;
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr usageerr subprocerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Deps qw(@pkg_dep_fields);
 use Dpkg::Version qw(compare_versions);
 

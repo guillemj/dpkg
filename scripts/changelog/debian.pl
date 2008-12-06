@@ -8,7 +8,7 @@ use POSIX;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(usageerr failure);
+use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Debian;
 
 textdomain("dpkg-dev");

@@ -17,7 +17,7 @@
 package Dpkg::Shlibs::SymbolFile;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(syserr warning error);
+use Dpkg::ErrorHandling;
 use Dpkg::Version qw(vercmp);
 use Dpkg::Fields qw(capit);
 

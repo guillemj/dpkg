@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning);
+use Dpkg::ErrorHandling;
 
 sub parse {
     my ($env) = @_;

@@ -23,7 +23,7 @@ use base 'Dpkg::Source::Package';
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr info usageerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Functions qw(erasedir);

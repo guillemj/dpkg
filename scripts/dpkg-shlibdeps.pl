@@ -10,7 +10,7 @@ use File::Basename qw(dirname);
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning error failure syserr usageerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same);
 use Dpkg::Version qw(compare_versions);

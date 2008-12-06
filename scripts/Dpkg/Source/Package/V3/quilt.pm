@@ -24,7 +24,7 @@ use base 'Dpkg::Source::Package::V2';
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr info);
+use Dpkg::ErrorHandling;
 use Dpkg::Source::Patch;
 use Dpkg::IPC;
 use Dpkg::Vendor qw(get_current_vendor);

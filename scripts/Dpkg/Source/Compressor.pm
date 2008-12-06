@@ -22,7 +22,7 @@ use warnings;
 use Dpkg::Compression;
 use Dpkg::Gettext;
 use Dpkg::IPC;
-use Dpkg::ErrorHandling qw(error);
+use Dpkg::ErrorHandling;
 
 use POSIX;
 

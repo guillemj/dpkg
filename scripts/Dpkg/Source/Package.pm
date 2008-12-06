@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr warning internerr subprocerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Fields;
 use Dpkg::Cdata;
 use Dpkg::Checksums;

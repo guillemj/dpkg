@@ -5,7 +5,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning);
+use Dpkg::ErrorHandling;
 
 textdomain("dpkg-dev");
 

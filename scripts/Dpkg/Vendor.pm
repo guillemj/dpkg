@@ -19,7 +19,7 @@ package Dpkg::Vendor;
 use strict;
 use warnings;
 
-use Dpkg::ErrorHandling qw(syserr);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Cdata;
 

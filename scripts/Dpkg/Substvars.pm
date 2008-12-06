@@ -21,7 +21,7 @@ use warnings;
 
 use Dpkg qw($version);
 use Dpkg::Arch qw(get_host_arch);
-use Dpkg::ErrorHandling qw(error warning);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use POSIX qw(:errno_h);

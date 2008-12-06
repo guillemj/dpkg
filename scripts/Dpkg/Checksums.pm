@@ -5,8 +5,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(internerr syserr subprocerr failure error
-                           warning );
+use Dpkg::ErrorHandling;
 
 use base qw(Exporter);
 our @EXPORT = qw(@check_supported %check_supported %check_prog %check_regex

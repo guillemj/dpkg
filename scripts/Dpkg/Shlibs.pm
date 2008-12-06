@@ -25,7 +25,7 @@ our @EXPORT_OK = qw(@librarypaths find_library);
 use File::Spec;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(syserr);
+use Dpkg::ErrorHandling;
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Path qw(resolve_symlink canonpath);
 use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch);

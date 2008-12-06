@@ -70,7 +70,7 @@ use warnings;
 
 use Dpkg::Version qw(compare_versions);
 use Dpkg::Arch qw(get_host_arch);
-use Dpkg::ErrorHandling qw(warning);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 our @ISA = qw(Exporter);
@@ -507,7 +507,7 @@ use warnings;
 
 use Dpkg::Arch qw(debarch_is);
 use Dpkg::Version qw(compare_versions);
-use Dpkg::ErrorHandling qw(internerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 sub new {
@@ -777,7 +777,7 @@ Add a new dependency object at the end of the list.
 use strict;
 use warnings;
 
-use Dpkg::ErrorHandling qw(internerr);
+use Dpkg::ErrorHandling;
 
 sub new {
     my $this = shift;

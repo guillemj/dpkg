@@ -9,8 +9,7 @@ use English;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Checksums;
-use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
-                           subprocerr usageerr);
+use Dpkg::ErrorHandling qw(unknown);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Fields qw(:list capit);
 use Dpkg::Compression;

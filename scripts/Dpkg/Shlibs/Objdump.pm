@@ -20,7 +20,7 @@ use warnings;
 package Dpkg::Shlibs::Objdump;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(syserr subprocerr warning);
+use Dpkg::ErrorHandling;
 
 sub new {
     my $this = shift;
@@ -107,7 +107,7 @@ sub is_elf {
 package Dpkg::Shlibs::Objdump::Object;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(syserr warning);
+use Dpkg::ErrorHandling;
 
 sub new {
     my $this = shift;

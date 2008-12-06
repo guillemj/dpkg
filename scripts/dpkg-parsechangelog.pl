@@ -8,7 +8,7 @@ use POSIX;
 use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning error syserr subprocerr usageerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");

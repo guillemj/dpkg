@@ -21,7 +21,7 @@ package Dpkg::Version;
 use strict;
 use warnings;
 
-use Dpkg::ErrorHandling qw(error);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use Exporter;

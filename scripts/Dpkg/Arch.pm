@@ -14,7 +14,7 @@ our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(syserr subprocerr warning);
+use Dpkg::ErrorHandling;
 
 my (@cpu, @os);
 my (%cputable, %ostable);

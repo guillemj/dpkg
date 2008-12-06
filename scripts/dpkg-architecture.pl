@@ -24,7 +24,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning syserr usageerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
                   get_valid_arches debarch_eq debarch_is debarch_to_debtriplet
                   debarch_to_gnutriplet gnutriplet_to_debarch);

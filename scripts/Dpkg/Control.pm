@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Dpkg::Cdata;
-use Dpkg::ErrorHandling qw(syserr syntaxerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 =head1 NAME

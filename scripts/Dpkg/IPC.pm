@@ -20,7 +20,7 @@ package Dpkg::IPC;
 use strict;
 use warnings;
 
-use Dpkg::ErrorHandling qw(error syserr subprocerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use Exporter;

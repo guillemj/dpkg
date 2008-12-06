@@ -19,7 +19,7 @@ package Dpkg::Vars;
 use strict;
 use warnings;
 
-use Dpkg::ErrorHandling qw(error);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use Exporter;

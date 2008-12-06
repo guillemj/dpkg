@@ -7,7 +7,7 @@ use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(erasedir fixperms is_binary);
 
-use Dpkg::ErrorHandling qw(syserr subprocerr failure);
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::IPC;
 

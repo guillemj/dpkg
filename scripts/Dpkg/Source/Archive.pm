@@ -22,7 +22,7 @@ use warnings;
 use Dpkg::Source::Functions qw(erasedir fixperms);
 use Dpkg::Gettext;
 use Dpkg::IPC;
-use Dpkg::ErrorHandling qw(error syserr warning);
+use Dpkg::ErrorHandling;
 
 use POSIX;
 use File::Temp qw(tempdir);

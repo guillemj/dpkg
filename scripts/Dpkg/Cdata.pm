@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(syntaxerr);
+use Dpkg::ErrorHandling;
 use Dpkg::Fields qw(capit);;
 
 use Exporter;

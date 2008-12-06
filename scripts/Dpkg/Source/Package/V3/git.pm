@@ -33,7 +33,7 @@ use File::Temp qw(tempdir);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Compression;
-use Dpkg::ErrorHandling qw(error warning subprocerr syserr info);
+use Dpkg::ErrorHandling;
 use Dpkg::Version qw(check_version);
 use Dpkg::Source::Archive;
 use Dpkg::Exit;
