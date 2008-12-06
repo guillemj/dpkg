@@ -310,7 +310,7 @@ sub parse {
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
 	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or);
 	    if (not defined $dep_simple->{package}) {
-		warning(sprintf(_g("can't parse dependency %s"), $dep_and));
+		warning(_g("can't parse dependency %s"), $dep_and);
 		return undef;
 	    }
 	    $dep_simple->{arches} = undef if not $options{use_arch};
@@ -623,7 +623,8 @@ sub implies {
 	}
 	return $res;
     } else {
-	internerr(sprintf(_g("Dpkg::Deps::Simple can't evaluate implication with a %s!"), ref($o)));
+	internerr(_g("Dpkg::Deps::Simple can't evaluate implication with a %s!"),
+	          ref($o));
     }
 }
 
