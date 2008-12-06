@@ -1,5 +1,18 @@
 2008-12-08  Guillem Jover  <guillem@debian.org>
 
+	* scripts/Dpkg/ErrorHandling.pm (@EXPORT): Remove 'failure'.
+	(failure): Remove function.
+	(syserr): Rename 'failure' string to 'error'.
+	(subprocerr): Use error instead of failure.
+	* scripts/Dpkg/Checksums.pm (extractchecksum): Likewise.
+	* scripts/Dpkg/Source/Functions.pm (erasedir): Likewise.
+	* scripts/changelog/debian.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-shlibdeps.pl: Likewise.
+	* scripts/dpkg-buildpackage.pl: Use syserr instead of failure.
+
+2008-12-08  Guillem Jover  <guillem@debian.org>
+
 	* scripts/Dpkg/ErrorHandling.pm (@EXPORT_OK): Move info, warning,
 	warnerror, error, errormsg, failure, syserr, internerr, subprocerr,
 	usageerr and syntaxerr to ...

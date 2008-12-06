@@ -360,12 +360,12 @@ unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
 unless ($binaryonly) {
-    chdir('..') or failure('chdir ..');
+    chdir('..') or syserr('chdir ..');
     my @opts = @passopts;
     if ($diffignore) { push @opts, $diffignore }
     push @opts, @tarignore;
     withecho('dpkg-source', @opts, '-b', $dir);
-    chdir($dir) or failure("chdir $dir");
+    chdir($dir) or syserr("chdir $dir");
 }
 unless ($sourceonly) {
     withecho(@debian_rules, 'build');

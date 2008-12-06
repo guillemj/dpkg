@@ -159,7 +159,7 @@ foreach my $file (keys %exec) {
 			 "that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
 			 "find private libraries, you might need to set LD_LIBRARY_PATH.");
 	    if (scalar(split_soname($soname))) {
-		failure($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
+		error($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
 	    } else {
 		warning($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
 	    }
@@ -254,8 +254,8 @@ foreach my $file (keys %exec) {
 		    $ignore++ unless scalar(split_soname($soname));
 		    # 3/ when we have been asked to do so
 		    $ignore++ if $ignore_missing_info;
-		    failure(_g("no dependency information found for %s " .
-		               "(used by %s)."), $lib, $file)
+		    error(_g("no dependency information found for %s " .
+		             "(used by %s)."), $lib, $file)
 		        unless $ignore;
 		}
 	    }

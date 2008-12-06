@@ -4,7 +4,7 @@ use Dpkg;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT = qw(info warning warnerror error errormsg failure
+our @EXPORT = qw(info warning warnerror error errormsg
                  syserr internerr subprocerr usageerr syntaxerr);
 our @EXPORT_OK = qw(report unknown $warnable_error $quiet_warnings);
 
@@ -38,15 +38,10 @@ sub warnerror(@)
     }
 }
 
-sub failure($;@)
-{
-    die report(_g("failure"), @_);
-}
-
 sub syserr($;@)
 {
     my $msg = shift;
-    die report(_g("failure"), "$msg: $!", @_);
+    die report(_g("error"), "$msg: $!", @_);
 }
 
 sub error($;@)
@@ -81,11 +76,11 @@ sub subprocerr(@)
     require POSIX;
 
     if (POSIX::WIFEXITED($?)) {
-	failure(_g("%s gave error exit status %s"), $p, POSIX::WEXITSTATUS($?));
+	error(_g("%s gave error exit status %s"), $p, POSIX::WEXITSTATUS($?));
     } elsif (POSIX::WIFSIGNALED($?)) {
-	failure(_g("%s died from signal %s"), $p, POSIX::WTERMSIG($?));
+	error(_g("%s died from signal %s"), $p, POSIX::WTERMSIG($?));
     } else {
-	failure(_g("%s failed with unknown exit code %d"), $p, $?);
+	error(_g("%s failed with unknown exit code %d"), $p, $?);
     }
 }
 

@@ -25,7 +25,7 @@ sub erasedir {
         return if $! == ENOENT;
         syserr(_g("unable to check for removal of dir `%s'"), $dir);
     }
-    failure(_g("rm -rf failed to remove `%s'"), $dir);
+    error(_g("rm -rf failed to remove `%s'"), $dir);
 }
 
 sub fixperms {

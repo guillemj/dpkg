@@ -298,7 +298,7 @@ if (!defined($substvars->get('Installed-Size'))) {
     close(DU);
     $? && subprocerr(_g("du in \`%s'"), $packagebuilddir);
     $duo =~ m/^(\d+)\s+\.$/ ||
-        failure(_g("du gave unexpected output \`%s'"), $duo);
+        error(_g("du gave unexpected output \`%s'"), $duo);
     $substvars->set('Installed-Size', $1);
 }
 if (defined($substvars->get('Extra-Size'))) {

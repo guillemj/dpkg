@@ -22,7 +22,7 @@ our %check_regex = ( md5 => qr/[0-9a-f]{32}/,
 sub extractchecksum {
     my ($alg, $checksum) = @_;
     ($checksum =~ /^($check_regex{$alg})(\s|$)/m)
-	|| failure(_g("checksum program gave bogus output `%s'"), $checksum);
+	|| error(_g("checksum program gave bogus output `%s'"), $checksum);
     return $1;
 }
 

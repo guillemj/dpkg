@@ -115,15 +115,14 @@ my $opts = { since => $since, until => $until,
 
 if ($file eq '-') {
     $changes->parse({ inhandle => \*STDIN, %$opts })
-	or failure(_g('fatal error occured while parsing input'));
+	or error(_g('fatal error occured while parsing input'));
 } else {
     $changes->parse({ infile => $file, %$opts })
-	or failure(_g('fatal error occured while parsing %s'),
-		   $file );
+	or error(_g('fatal error occured while parsing %s'), $file);
 }
 
 
 eval("print \$changes->${format}_str(\$opts)");
 if ($@) {
-    failure("%s",$@);
+    error("%s", $@);
 }
