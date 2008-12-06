@@ -401,7 +401,7 @@ sub add_file {
     my ($self, $filename) = @_;
     my ($fn, $dir) = fileparse($filename);
     if (exists $self->{'files'}{$fn}) {
-        internerr(_g("tried to add file `%s' twice"), $fn);
+        internerr("tried to add file '%s' twice", $fn);
     }
     my (%sums, $size);
     getchecksums($filename, \%sums, \$size);

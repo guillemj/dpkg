@@ -623,7 +623,7 @@ sub implies {
 	}
 	return $res;
     } else {
-	internerr(_g("Dpkg::Deps::Simple can't evaluate implication with a %s!"),
+	internerr("Dpkg::Deps::Simple can't evaluate implication with a %s!",
 	          ref($o));
     }
 }

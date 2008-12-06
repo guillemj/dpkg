@@ -228,12 +228,12 @@ sub output {
         }
         $v =~ m/\S/ || next; # delete whitespace-only fields
         $v =~ m/\n\S/ &&
-            internerr(_g("field %s has newline then non whitespace >%s<"),
+            internerr("field %s has newline then non whitespace >%s<",
                       $f, $v);
         $v =~ m/\n[ \t]*\n/ &&
-            internerr(_g("field %s has blank lines >%s<"), $f, $v);
+            internerr("field %s has blank lines >%s<", $f, $v);
         $v =~ m/\n$/ &&
-            internerr(_g("field %s has trailing newline >%s<"), $f, $v);
+            internerr("field %s has trailing newline >%s<", $f, $v);
         if (defined($substvars)) {
            $v =~ s/,[\s,]*,/,/g;
            $v =~ s/^\s*,\s*//;
