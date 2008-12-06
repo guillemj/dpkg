@@ -177,7 +177,7 @@ do_check(void)
 	case -2:
 		exit(0);
 	default:
-		abort();
+		internerr("unknown trigdef_update_start return value '%d'", uf);
 	}
 }
 

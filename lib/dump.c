@@ -195,7 +195,7 @@ void w_status(struct varbuf *vb,
     assert(!AW);
     break;
   default:
-    abort();
+    internerr("unknown package status '%d'", pigp->status);
   }
 #undef PEND
 #undef AW

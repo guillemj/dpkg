@@ -372,7 +372,8 @@ sub extract {
 }
 
 sub do_extract {
-    error("Dpkg::Source::Package doesn't know how to unpack a source package. Use one of the subclasses.");
+    internerr("Dpkg::Source::Package doesn't know how to unpack a " .
+              "source package. Use one of the subclasses.");
 }
 
 # Function used specifically during creation of a source package
@@ -387,7 +388,8 @@ sub build {
 }
 
 sub do_build {
-    error("Dpkg::Source::Package doesn't know how to build a source package. Use one of the subclasses.");
+    internerr("Dpkg::Source::Package doesn't know how to build a " .
+              "source package. Use one of the subclasses.");
 }
 
 sub can_build {

@@ -52,7 +52,7 @@ sub create {
 
 sub _add_entry {
     my ($self, $file) = @_;
-    error("call create first") unless $self->{"tar_input"};
+    internerr("call create first") unless $self->{"tar_input"};
     $file = $2 if ($file =~ /^\Q$self->{'cwd'}\E\/(.+)$/); # Relative names
     print({ $self->{'tar_input'} } "$file\0") ||
 	    syserr(_g("write on tar input"));
@@ -64,7 +64,7 @@ sub add_file {
     if ($self->{"chdir"}) {
         $testfile = File::Spec->catfile($self->{"chdir"}, $file);
     }
-    error("add_file() doesn't handle directories") if not -l $testfile and -d _;
+    internerr("add_file() doesn't handle directories") if not -l $testfile and -d _;
     $self->_add_entry($file);
 }
 
@@ -74,7 +74,7 @@ sub add_directory {
     if ($self->{"chdir"}) {
         $testfile = File::Spec->catdir($self->{"chdir"}, $file);
     }
-    error("add_directory() only handles directories") unless not -l $testfile and -d _;
+    internerr("add_directory() only handles directories") unless not -l $testfile and -d _;
     $self->_add_entry($file);
 }
 

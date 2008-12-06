@@ -491,7 +491,7 @@ void do_build(const char *const *argv) {
       datamember = DATAMEMBER_CAT;
       break;
     default:
-      ohshit(_("Internal error, compress_type `%i' unknown!"), compress_type);
+      internerr("unkown compress_type '%i'", compress_type);
     }
     if (fstat(gzfd, &datastab))
       ohshite(_("failed to fstat tmpfile (data)"));

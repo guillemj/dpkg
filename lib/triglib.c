@@ -26,7 +26,6 @@
 #include <dpkg-i18n.h>
 
 #include <assert.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
 
@@ -755,7 +754,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 		trigdef_yylex();
 		break;
 	default:
-		abort();
+		internerr("unknown trigdef_update_start return value '%d'", ur);
 	}
 
 	/* Right, that's it. New (empty) Unincorp can be installed. */

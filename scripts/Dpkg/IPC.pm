@@ -128,7 +128,7 @@ listed in the array before calling exec.
 sub _sanity_check_opts {
     my (%opts) = @_;
 
-    error("exec parameter is mandatory in fork_and_exec()")
+    internerr("exec parameter is mandatory in fork_and_exec()")
 	unless $opts{"exec"};
 
     my $to = my $error_to = my $from = 0;
@@ -137,11 +137,11 @@ sub _sanity_check_opts {
 	$error_to++ if $opts{"error_to_$_"};
 	$from++ if $opts{"from_$_"};
     }
-    error("not more than one of to_* parameters is allowed")
+    internerr("not more than one of to_* parameters is allowed")
 	if $to > 1;
-    error("not more than one of error_to_* parameters is allowed")
+    internerr("not more than one of error_to_* parameters is allowed")
 	if $error_to > 1;
-    error("not more than one of from_* parameters is allowed")
+    internerr("not more than one of from_* parameters is allowed")
 	if $from > 1;
 
     foreach (qw(to_string error_to_string from_string
@@ -149,16 +149,16 @@ sub _sanity_check_opts {
     {
 	if (exists $opts{$_} and
 	    (!ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
-	    error("parameter $_ must be a scalar reference");
+	    internerr("parameter $_ must be a scalar reference");
 	}
     }
 
     if (exists $opts{"env"} and ref($opts{"env"}) ne 'HASH') {
-	error("parameter env must be a hash reference");
+	internerr("parameter env must be a hash reference");
     }
 
     if (exists $opts{"delete_env"} and ref($opts{"delete_env"}) ne 'ARRAY') {
-	error("parameter delete_env must be an array reference");
+	internerr("parameter delete_env must be an array reference");
     }
 
     return %opts;
@@ -173,7 +173,7 @@ sub fork_and_exec {
     } elsif (not ref($opts{"exec"})) {
 	push @prog, $opts{"exec"};
     } else {
-	error(_g("invalid exec parameter in fork_and_exec()"));
+	internerr("invalid exec parameter in fork_and_exec()");
     }
     my ($from_string_pipe, $to_string_pipe, $error_to_string_pipe);
     if ($opts{"to_string"}) {
@@ -308,7 +308,7 @@ non-zero return code).
 sub wait_child {
     my ($pid, %opts) = @_;
     $opts{"cmdline"} ||= _g("child process");
-    error(_g("no PID set, cannot wait end of process")) unless $pid;
+    internerr("no PID set, cannot wait end of process") unless $pid;
     $pid == waitpid($pid, 0) or syserr(_g("wait for %s"), $opts{"cmdline"});
     unless ($opts{"nocheck"}) {
 	subprocerr($opts{"cmdline"}) if $?;

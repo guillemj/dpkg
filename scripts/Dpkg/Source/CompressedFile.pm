@@ -83,8 +83,8 @@ sub get_filename {
     my $comp = $self->{"compression"};
     if ($self->{'add_comp_ext'}) {
 	if ($comp eq "auto") {
-	    error("automatic detection of compression is " .
-	          "incompatible with add_comp_ext");
+	    internerr("automatic detection of compression is " .
+	              "incompatible with add_comp_ext");
 	} elsif ($comp eq "none") {
 	    return $self->{"filename"};
 	} else {

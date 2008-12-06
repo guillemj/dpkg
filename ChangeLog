@@ -1,5 +1,28 @@
 2008-12-08  Guillem Jover  <guillem@debian.org>
 
+	* dpkg-deb/build.c (do_build): Use internerr instead of ohshit. Do not
+	mark the string for translation.
+	* src/trigcmd.c (do_check): Use internerr instead of abort.
+	* lib/dump.c (w_status): Likewise.
+	* lib/triglib.c (trig_incorporate): Likewise. Remove <stdlib.h>
+	include.
+	* scripts/Dpkg/IPC.pm (_sanity_check_opts): Use internerr instead of
+	error.
+	(fork_and_exec): Likewise. Do not mark the string for translation.
+	(wait_child): Likewise.
+	* scripts/Dpkg/Source/Archive.pm: Use internerr instead of error from
+	Dpkg::ErrorHandling.
+	(_add_entry, add_file, add_directory): Likewise.
+	* scripts/Dpkg/Source/CompressedFile.pm: Likewise.
+	(get_filename): Likewise.
+	* scripts/Dpkg/Source/Compressor.pm: Likewise.
+	(_sanity_check): Likewise.
+	* scripts/Dpkg/Source/Package.p (do_extract, do_build): Likewise.
+	* scripts/Dpkg/Source/Patch.pm (add_diff_file): Use error instead of
+	internerr.
+
+2008-12-08  Guillem Jover  <guillem@debian.org>
+
 	* lib/dpkg.h (do_internerr): Reorder arguments. Support format
 	strings.
 	(internerr): Likewise.

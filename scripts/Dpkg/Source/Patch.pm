@@ -111,8 +111,7 @@ sub add_diff_file {
                        "original or modified version)"), $new);
         } else {
             chomp;
-            internerr(_g("unknown line from diff -u on %s: `%s'"),
-                      $new, $_);
+            error(_g("unknown line from diff -u on %s: `%s'"), $new, $_);
         }
         print({ $self->{'handle'} } $_) || syserr(_g("failed to write"));
     }
