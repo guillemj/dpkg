@@ -32,6 +32,7 @@ lenny
    - Get rid of setjmp (at least in the general case, keep for dpkg itself?)
    - Coalesce hash and checksum functions.
    - Move parseerr arguments into a struct (need to push the patch).
+   - Split modstatdb_rw into mode and flags.
    - Move fd and block function out of mlib.
    - Cleanup status chars -> strings hardcoded mappings all over the place.
      (Fix tied field enum with its dselect description (pkgdisplay.cc))
@@ -40,9 +41,19 @@ lenny
      system version will not ohsite on us.
    - Fix ncursesw headers.
    - Consider ferror_fclose function.
+   - Fix naming consistency of next/prev members.
+   - Do more unused header include removal.
+   - Get rid of unuseful "unsigned" modifiers.
+
+ * Deprecate --force-not-root flag (remove modstatdb_rw rootneeded flags).
+
+ * Test and reenable --command-fd.
+
+ * Check --no-act for log_action().
 
  * Man pages:
    - Add example to dpkg-scanfoo manpages?
+   - Merge synopsis lines in dpkg-triggers.
    - Check all '<>' use bold instead.
    - Check all command vs action.
    - Check usage of '|' instead of ', '.
@@ -64,6 +75,7 @@ lenny
 
  * Cleanup libcompat:
    - Add fnmatch, IRIX5 doesn't have it.
+   - Fix scandir, leaks on malloc and realloc.
 
  * Get rid of install-info.
 
