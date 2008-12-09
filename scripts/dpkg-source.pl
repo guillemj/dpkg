@@ -6,7 +6,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(unknown $quiet_warnings);
+use Dpkg::ErrorHandling qw(:DEFAULT unknown $quiet_warnings);
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
 use Dpkg::Fields qw(:list capit);

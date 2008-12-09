@@ -7,7 +7,7 @@ use POSIX;
 use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(unknown);
+use Dpkg::ErrorHandling qw(:DEFAULT unknown);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
 use Dpkg::Fields qw(:list capit);

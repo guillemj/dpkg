@@ -8,7 +8,7 @@ use File::Basename;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw($warnable_error);
+use Dpkg::ErrorHandling qw(:DEFAULT $warnable_error);
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version qw(check_version);

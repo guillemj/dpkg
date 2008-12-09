@@ -9,7 +9,7 @@ use English;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Checksums;
-use Dpkg::ErrorHandling qw(unknown);
+use Dpkg::ErrorHandling qw(:DEFAULT unknown);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Fields qw(:list capit);
 use Dpkg::Compression;

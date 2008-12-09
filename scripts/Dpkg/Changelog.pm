@@ -39,7 +39,7 @@ use English;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(report);
+use Dpkg::ErrorHandling qw(:DEFAULT report);
 use Dpkg::Cdata;
 use Dpkg::Fields;
 
