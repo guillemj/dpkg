@@ -542,10 +542,11 @@ int tarobject(struct TarInfo *ti) {
 		stabtmp.st_ino == stab.st_ino)
 	      break;
 	  }
-	  if (conff)
+	  if (conff) {
 	    debug(dbg_eachfiledetail,"tarobject other's obsolete conffile");
 	    /* processarc.c will have copied its hash already. */
 	    continue;
+	  }
 	}
 
         if (does_replace(tc->pkg,&tc->pkg->available,otherpkg)) {
