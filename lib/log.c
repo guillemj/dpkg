@@ -94,7 +94,7 @@ statusfd_send(const char *fmt, ...)
 
 	for (pipef = status_pipes; pipef; pipef = pipef->next) {
 		for (p = vb.buf, l = vb.used; l;  p += r, l -= r) {
-			r = write(pipef->fd, vb.buf, vb.used);
+			r = write(pipef->fd, p, l);
 			if (r < 0)
 				ohshite(_("unable to write to status fd %d"),
 				        pipef->fd);
