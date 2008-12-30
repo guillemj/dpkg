@@ -40,6 +40,8 @@ struct cmdinfo {
   voidfnp farg;
 };
 
+void badusage(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
+
 void myfileopt(const char* fn, const struct cmdinfo* cmdinfos);
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos);
 void loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos);

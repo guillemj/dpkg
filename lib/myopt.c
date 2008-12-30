@@ -27,10 +27,24 @@
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
+#include <stdarg.h>
 #include <stdlib.h>
 
 #include <myopt.h>
 #include <dpkg.h>
+
+void
+badusage(const char *fmt, ...)
+{
+  char buf[1024];
+  va_list al;
+
+  va_start(al, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, al);
+  va_end(al);
+
+  ohshit("%s\n\n%s", buf, gettext(printforhelp));
+}
 
 void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   FILE* file;

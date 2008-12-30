@@ -302,16 +302,6 @@ warning(const char *fmt, ...)
   fprintf(stderr, _("%s: warning: %s\n"), thisname, buf);
 }
 
-void badusage(const char *fmt, ...) {
-  char buf[1024];
-  va_list al;
-  va_start(al,fmt);
-  vsnprintf(buf,sizeof(buf), fmt,al);
-  va_end(al);
-
-  ohshit("%s\n\n%s", buf, gettext(printforhelp));
-}
-
 void werr(const char *fn) {
   ohshite(_("error writing `%s'"),fn);
 }
