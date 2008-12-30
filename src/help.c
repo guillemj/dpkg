@@ -155,6 +155,8 @@ static const char* preexecscript(const char *path, char *const *argv) {
 
   if (*instdir) {
     if (chroot(instdir)) ohshite(_("failed to chroot to `%.250s'"),instdir);
+    if (chdir("/"))
+      ohshite(_("failed to chdir to `%.255s'"), "/");
   }
   if (f_debug & dbg_scripts) {
     struct varbuf args = VARBUF_INIT;
