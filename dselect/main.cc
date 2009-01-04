@@ -226,7 +226,9 @@ extern "C" {
     expertmode= 1;
   }
 
-  int findintable(const struct table_t *table, const char *item, const char *tablename) {
+  static int
+  findintable(const struct table_t *table, const char *item, const char *tablename)
+  {
     int i;
 
     for (i= 0;  item && (table[i].name!=NULL); i++)
@@ -359,7 +361,9 @@ urqresult urq_list(void) {
   return urqr_normal;
 }
 
-void dme(int i, int so) {
+static void
+dme(int i, int so)
+{
   char buf[120];
   const menuentry *me= &menuentries[i];
   sprintf(buf," %c %d. %-11.11s %-80.80s ",
@@ -375,7 +379,9 @@ void dme(int i, int so) {
   attrset(A_NORMAL);
 }
 
-int refreshmenu(void) {
+static int
+refreshmenu(void)
+{
   char buf[2048];
   static int l,lockfd;
   static char *lockfile;

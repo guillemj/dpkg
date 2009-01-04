@@ -58,7 +58,9 @@ static const char *const methoddirectories[]= {
 static char *methodlockfile= 0;
 static int methlockfd= -1;
 
-void sthfailed(const char * reasoning) {
+static void
+sthfailed(const char * reasoning)
+{
   char buf[2048];
 
   curseson();

@@ -35,7 +35,9 @@
 #include "dselect.h"
 #include "pkglist.h"
 
-const char *pkgprioritystring(const struct pkginfo *pkg) {
+static const char *
+pkgprioritystring(const struct pkginfo *pkg)
+{
   if (pkg->priority == pkginfo::pri_unset) {
     return 0;
   } else if (pkg->priority == pkginfo::pri_other) {
