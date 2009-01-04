@@ -48,7 +48,7 @@ badusage(const char *fmt, ...)
 
 void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   FILE* file;
-  char linebuf[MAXDIVERTFILENAME];
+  char linebuf[MAX_CONFIG_LINE];
 
   file= fopen(fn, "r");
   if (!file) {
