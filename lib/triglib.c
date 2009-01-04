@@ -75,7 +75,7 @@ illegal_triggername(const char *p)
 
 /* aw might be NULL, and trig is not copied! */
 static void
-trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, char *trig)
+trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *trig)
 {
 	if (pend->status < stat_triggersawaited)
 		/* Not interested then. */
@@ -97,7 +97,7 @@ trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, char *trig)
 
 /* NB that this is also called from fields.c where *pend is a temporary! */
 int
-trig_note_pend_core(struct pkginfo *pend, char *trig /*not copied!*/)
+trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/)
 {
 	struct trigpend *tp;
 
@@ -115,7 +115,7 @@ trig_note_pend_core(struct pkginfo *pend, char *trig /*not copied!*/)
 
 /* Returns: 1 for done, 0 for already noted. */
 int
-trig_note_pend(struct pkginfo *pend, char *trig /*not copied!*/)
+trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/)
 {
 	if (!trig_note_pend_core(pend, trig))
 		return 0;
@@ -566,7 +566,7 @@ trig_file_activate(struct filenamenode *trig, struct pkginfo *aw)
 
 	for (tfi = *trigh.namenode_interested(trig); tfi;
 	     tfi = tfi->samefile_next)
-		trig_record_activation(tfi->pkg, aw, (char*)trigh.namenode_name(trig));
+		trig_record_activation(tfi->pkg, aw, trigh.namenode_name(trig));
 }
 
 static void

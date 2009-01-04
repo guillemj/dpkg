@@ -293,8 +293,8 @@ extern struct trig_hooks trigh;
 void trig_file_activate_byname(const char *trig, struct pkginfo *aw);
 void trig_file_activate(struct filenamenode *trig, struct pkginfo *aw);
 
-int trig_note_pend_core(struct pkginfo *pend, char *trig /*not copied!*/);
-int trig_note_pend(struct pkginfo *pend, char *trig /*not copied!*/);
+int trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/);
+int trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/);
 int trig_note_aw(struct pkginfo *pend, struct pkginfo *aw);
 void trig_clear_awaiters(struct pkginfo *notpend);
 
