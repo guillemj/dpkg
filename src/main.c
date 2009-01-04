@@ -216,7 +216,7 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setobsolete(const struct cmdinfo *cip, const char *value) {
-  fprintf(stderr, _("Warning: obsolete option `--%s'\n"),cip->olong);
+  warning(_("obsolete option '--%s'\n"), cip->olong);
 }
 
 static void setdebug(const struct cmdinfo *cpi, const char *value) {
@@ -374,8 +374,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
       if (fip->opt)
 	*fip->opt= cip->arg;
       else
-	fprintf(stderr, _("Warning: obsolete force/refuse option `%s'\n"),
-		fip->name);
+	warning(_("obsolete force/refuse option '%s'\n"), fip->name);
     }
     if (!comma) break;
     value= ++comma;
