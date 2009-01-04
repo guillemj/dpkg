@@ -23,6 +23,8 @@
 #ifndef DSELECT_H
 #define DSELECT_H
 
+#define DSELECT		"dselect"
+
 #define TOTAL_LIST_WIDTH 180
 #define MAX_DISPLAY_INFO 120
 

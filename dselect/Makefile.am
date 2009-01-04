@@ -6,6 +6,7 @@ localedir = $(datadir)/locale
 INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
+	-DLOCALLIBDIR=\"/usr/local/lib/dpkg\" \
 	-idirafter $(top_srcdir)/libcompat \
 	-I$(top_srcdir)/lib
 

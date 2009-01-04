@@ -67,7 +67,11 @@ void reassemble(struct partinfo **partlist, const char *outputfile);
 void mustgetpartinfo(const char *filename, struct partinfo *ri);
 void addtopartlist(struct partinfo**, struct partinfo*, struct partinfo *refi);
 
+#define SPLITVERSION       "2.1"
+
 #define PARTMAGIC         "!<arch>\ndebian-split    "
 #define HEADERALLOWANCE    1024
+
+#define SPLITPARTDEFMAX    (450 * 1024)
 
 #endif /* DPKG_SPLIT_H */

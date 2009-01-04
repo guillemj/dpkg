@@ -40,27 +40,12 @@ DPKG_BEGIN_DECLS
 #include <stddef.h>
 #endif
 
-#ifdef PATH_MAX
-# define INTERPRETER_MAX PATH_MAX
-#else
-# define INTERPRETER_MAX 1024
-#endif
-
-#define ARCHIVEVERSION     "2.0"
-#define SPLITVERSION       "2.1"
-#define OLDARCHIVEVERSION  "0.939000"
-#define SPLITPARTDEFMAX    (450*1024)
-#define MAXFIELDNAME        200
 #define MAXCONFFILENAME     1000
 #define MAXDIVERTFILENAME   1024
 #define MAXCONTROLFILENAME  100
-#define BUILDCONTROLDIR    "DEBIAN"
-#define EXTRACTCONTROLDIR   BUILDCONTROLDIR
 #define DEBEXT             ".deb"
 #define OLDDBEXT           "-old"
 #define NEWDBEXT           "-new"
-#define OLDOLDDEBDIR       ".DEBIAN"
-#define OLDDEBDIR          "DEBIAN"
 #define REMOVECONFFEXTS    "~", ".bak", "%", \
                            DPKGTEMPEXT, DPKGNEWEXT, DPKGOLDEXT, DPKGDISTEXT
 
@@ -105,8 +90,6 @@ DPKG_BEGIN_DECLS
 #define MAINTSCRIPTPKGENVVAR "DPKG_MAINTSCRIPT_PACKAGE"
 #define MAINTSCRIPTDPKGENVVAR "DPKG_RUNNING_VERSION"
 
-#define LOCALLIBDIR         "/usr/local/lib/dpkg"
-
 #define NOJOBCTRLSTOPENV    "DPKG_NO_TSTP"
 #define SHELLENV            "SHELL"
 #define DEFAULTSHELL        "sh"
@@ -128,7 +111,6 @@ DPKG_BEGIN_DECLS
 #define BACKEND		"dpkg-deb"
 #define DPKGQUERY	"dpkg-query"
 #define SPLITTER	"dpkg-split"
-#define DSELECT		"dselect"
 #define DPKG		"dpkg"
 #define DEBSIGVERIFY	"/usr/bin/debsig-verify"
 
@@ -386,12 +368,6 @@ void decompress_cat(enum compress_type type, int fd_in, int fd_out,
 void compress_cat(enum compress_type type, int fd_in, int fd_out,
                   const char *compression, char *desc, ...)
                   NONRETURNING PRINTFFORMAT(5, 6);
-
-/* Set BUILDOLDPKGFORMAT to 1 to build old-format archives by default.
- *  */
-#ifndef BUILDOLDPKGFORMAT
-#define BUILDOLDPKGFORMAT 0
-#endif
 
 DPKG_END_DECLS
 
