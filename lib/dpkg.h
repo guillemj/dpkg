@@ -145,7 +145,6 @@ DPKG_BEGIN_DECLS
 #define TARBLKSZ	512
 
 extern const char thisname[]; /* defined separately in each program */
-extern const char printforhelp[];
 
 /*** from startup.c ***/
 
