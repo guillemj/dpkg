@@ -24,8 +24,8 @@ will scan the process table looking for any processes which
 match the process name, uid, and/or gid (if specified). Any
 matching process will prevent
 .BR \-\-start
-from starting the daemon. All matching processes will be
-sent the KILL signal if
+from starting the daemon. All matching processes will be sent the TERM
+signal (or the one specified via \fB\-\-signal\fP or \fB\-\-retry\fP) if
 .BR \-\-stop
 is specified. For daemons which have long-lived children
 which need to live through a
