@@ -138,10 +138,7 @@ DPKG_BEGIN_DECLS
 #define LZMA		"lzma"
 #define RM		"rm"
 #define FIND		"find"
-#define SHELL		"sh"
 #define DIFF		"diff"
-
-#define SHELLENVIR	"SHELL"
 
 #define FIND_EXPRSTARTCHARS "-(),!"
 
