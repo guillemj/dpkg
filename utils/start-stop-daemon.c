@@ -1267,8 +1267,13 @@ main(int argc, char **argv)
 			fatal("group `%s' not found\n", changegroup);
 		runas_gid = gr->gr_gid;
 	}
-	if (changeuser && sscanf(changeuser, "%d", &runas_uid) != 1) {
-		struct passwd *pw = getpwnam(changeuser);
+	if (changeuser) {
+		struct passwd *pw;
+
+		if (sscanf(changeuser, "%d", &runas_uid) == 1)
+			pw = getpwuid(runas_uid);
+		else
+			pw = getpwnam(changeuser);
 		if (!pw)
 			fatal("user `%s' not found\n", changeuser);
 		runas_uid = pw->pw_uid;
