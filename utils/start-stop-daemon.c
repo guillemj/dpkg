@@ -199,6 +199,17 @@ xmalloc(int size)
 	fatal("malloc(%d) failed", size);
 }
 
+static char *
+xstrdup(const char *str)
+{
+	char *new_str;
+
+	new_str = strdup(str);
+	if (new_str)
+		return new_str;
+	fatal("strdup(%s) failed", str);
+}
+
 static void
 xgettimeofday(struct timeval *tv)
 {
@@ -584,7 +595,7 @@ parse_options(int argc, char * const *argv)
 		case 'c':  /* --chuid <username>|<uid> */
 			/* we copy the string just in case we need the
 			 * argument later. */
-			changeuser = strdup(optarg);
+			changeuser = xstrdup(optarg);
 			changeuser = strtok(changeuser, ":");
 			changegroup = strtok(NULL, ":");
 			break;
