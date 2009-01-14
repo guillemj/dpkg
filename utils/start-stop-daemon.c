@@ -91,6 +91,14 @@
 #include <assert.h>
 #include <ctype.h>
 
+#ifdef _POSIX_PRIORITY_SCHEDULING
+#include <sched.h>
+#else
+#define SCHED_OTHER -1
+#define SCHED_FIFO -1
+#define SCHED_RR -1
+#endif
+
 #ifdef HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
@@ -142,6 +150,13 @@ struct pid_list {
 static struct pid_list *found = NULL;
 static struct pid_list *killed = NULL;
 
+/* Resource scheduling policy. */
+struct res_schedule {
+	const char *policy_name;
+	int policy;
+	int priority;
+};
+
 struct schedule_item {
 	enum {
 		sched_timeout,
@@ -151,6 +166,8 @@ struct schedule_item {
 	} type;
 	int value; /* Seconds, signal no., or index into array */
 };
+
+static struct res_schedule *proc_sched = NULL;
 
 static int schedule_length;
 static struct schedule_item *schedule = NULL;
@@ -319,6 +336,9 @@ do_help(void)
 "  -r|--chroot <directory>       chroot to <directory> before starting\n"
 "  -d|--chdir <directory>        change to <directory> (default is /)\n"
 "  -N|--nicelevel <incr>         add incr to the process's nice level\n"
+"  -P|--procsched <policy[:prio]>\n"
+"                                use <policy> with <prio> for the kernel\n"
+"                                  process scheduler (default prio is 0)\n"
 "  -k|--umask <mask>             change the umask to <mask> before starting\n"
 "  -b|--background               force the process to detach\n"
 "  -m|--make-pidfile             create the pidfile before starting\n"
@@ -333,6 +353,9 @@ do_help(void)
 " <timeout>                       wait that many seconds\n"
 " forever                         repeat remainder forever\n"
 "or <schedule> may be just <timeout>, meaning <signal>/<timeout>/KILL/<timeout>\n"
+"\n"
+"The process scheduler <policy> can be one of:\n"
+"  other, fifo or rr\n"
 "\n"
 "Exit status:  0 = done      1 = nothing done (=> 0 if --oknodo)\n"
 "              3 = trouble   2 = with --retry, processes wouldn't die\n");
@@ -428,6 +451,58 @@ parse_umask(const char *string, int *value_r)
 		return -1;
 	else
 		return 0;
+}
+
+static void
+parse_proc_schedule(const char *string)
+{
+	char *policy_str, *prio_str;
+	int prio = 0, prio_min, prio_max;
+
+	policy_str = xstrdup(string);
+	policy_str = strtok(policy_str, ":");
+	prio_str = strtok(NULL, ":");
+
+	if (prio_str && parse_integer(prio_str, &prio) != 0)
+		fatal("invalid process scheduler priority");
+
+	proc_sched = xmalloc(sizeof(*proc_sched));
+	proc_sched->policy_name = policy_str;
+
+	if (strcmp(policy_str, "other") == 0) {
+		proc_sched->policy = SCHED_OTHER;
+		proc_sched->priority = 0;
+	} else if (strcmp(policy_str, "fifo") == 0) {
+		proc_sched->policy = SCHED_FIFO;
+		proc_sched->priority = prio;
+	} else if (strcmp(policy_str, "rr") == 0) {
+		proc_sched->policy = SCHED_RR;
+		proc_sched->priority = prio;
+	} else
+		badusage("invalid process scheduler policy");
+
+#ifdef _POSIX_PRIORITY_SCHEDULING
+	prio_min = sched_get_priority_min(proc_sched->policy);
+	prio_max = sched_get_priority_max(proc_sched->policy);
+
+	if (proc_sched->priority < prio_min)
+		badusage("process scheduler priority less than min");
+	if (proc_sched->priority > prio_max)
+		badusage("process scheduler priority greater than max");
+#endif
+}
+
+static void
+set_proc_schedule(struct res_schedule *sched)
+{
+#ifdef _POSIX_PRIORITY_SCHEDULING
+	struct sched_param param;
+
+	param.sched_priority = sched->priority;
+
+	if (sched_setscheduler(getpid(), sched->policy, &param) == -1)
+		fatal("Unable to set process scheduler");
+#endif
 }
 
 static void
@@ -531,6 +606,7 @@ parse_options(int argc, char * const *argv)
 		{ "exec",	  1, NULL, 'x'},
 		{ "chuid",	  1, NULL, 'c'},
 		{ "nicelevel",	  1, NULL, 'N'},
+		{ "procsched",	  1, NULL, 'P'},
 		{ "umask",	  1, NULL, 'k'},
 		{ "background",	  0, NULL, 'b'},
 		{ "make-pidfile", 0, NULL, 'm'},
@@ -541,11 +617,12 @@ parse_options(int argc, char * const *argv)
 	const char *umask_str = NULL;
 	const char *signal_str = NULL;
 	const char *schedule_str = NULL;
+	const char *proc_schedule_str = NULL;
 	int c;
 
 	for (;;) {
 		c = getopt_long(argc, argv,
-		                "HKSVa:n:op:qr:s:tu:vx:c:N:k:bmR:g:d:",
+		                "HKSVa:n:op:qr:s:tu:vx:c:N:P:k:bmR:g:d:",
 		                longopts, NULL);
 		if (c == -1)
 			break;
@@ -608,6 +685,9 @@ parse_options(int argc, char * const *argv)
 		case 'N':  /* --nice */
 			nicelevel = atoi(optarg);
 			break;
+		case 'P':  /* --procsched */
+			proc_schedule_str = optarg;
+			break;
 		case 'k':  /* --umask <mask> */
 			umask_str = optarg;
 			break;
@@ -637,6 +717,9 @@ parse_options(int argc, char * const *argv)
 	if (schedule_str != NULL) {
 		parse_schedule(schedule_str);
 	}
+
+	if (proc_schedule_str != NULL)
+		parse_proc_schedule(proc_schedule_str);
 
 	if (umask_str != NULL) {
 		if (parse_umask(umask_str, &umask_value) != 0)
@@ -1324,6 +1407,9 @@ main(int argc, char **argv)
 			printf(" in directory %s", changeroot);
 		if (nicelevel)
 			printf(", and add %i to the priority", nicelevel);
+		if (proc_sched)
+			printf(", with scheduling policy %s with priority %i",
+			       proc_sched->policy_name, proc_sched->priority);
 		printf(".\n");
 	}
 	if (testmode)
@@ -1345,6 +1431,8 @@ main(int argc, char **argv)
 			fatal("Unable to alter nice level by %i: %s",
 			      nicelevel, strerror(errno));
 	}
+	if (proc_sched)
+		set_proc_schedule(proc_sched);
 	if (umask_value >= 0)
 		umask(umask_value);
 	if (mpidfile && pidfile != NULL) {

@@ -1,5 +1,22 @@
 2009-01-14  Guillem Jover  <guillem@debian.org>
 
+	* man/start-stop-daemon.8: Document new option --procsched.
+	* utils/start-stop-daemon.c [_POSIX_PRIORITY_SCHEDULING]: Include
+	<sched.h>.
+	[!_POSIX_PRIORITY_SCHEDULING]: Define SCHED_OTHER, SCHED_FIFO and
+	SCHED_RR with dummy values.
+	(struct res_schedule): New type.
+	(proc_sched): New variable.
+	(do_help): Document --procsched.
+	(parse_proc_schedule, set_proc_schedule): New functions.
+	(parse_options): Add 'procsched' to longopts. Add 'P:' to getopt_long
+	call. Handle 'P' as getopt_long return value. Call parse_proc_schedule
+	if proc_schedule_str is not NULL.
+	(main): Print proc_sched values if --test is used. Call
+	set_proc_schedule if proc_sched is not NULL.
+
+2009-01-14  Guillem Jover  <guillem@debian.org>
+
 	* utils/start-stop-daemon.c (xstrdup): New function.
 	(parse_options): Use xstrdup instead of strdup.
 
