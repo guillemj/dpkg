@@ -61,10 +61,10 @@ char *nfstrsave(const char *string) {
 }
 
 char *
-nfstrnsave(const char *string, size_t l)
+nfstrnsave(const char *string, size_t size)
 {
   OBSTACK_INIT;
-  return obstack_copy0 (&db_obs, string, l);
+  return obstack_copy0(&db_obs, string, size);
 }
 
 void nffreeall(void) {

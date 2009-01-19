@@ -387,7 +387,7 @@ void varbufreset(struct varbuf *v);
 void varbufextend(struct varbuf *v);
 void varbuffree(struct varbuf *v);
 #define varbufaddstr(v, s)      varbufaddbuf(v, s, strlen(s))
-extern void varbufaddbuf(struct varbuf *v, const void *s, size_t l);
+extern void varbufaddbuf(struct varbuf *v, const void *s, size_t size);
 
 /* varbufinit must be called exactly once before the use of each varbuf
  * (including before any call to varbuffree), or the variable must be

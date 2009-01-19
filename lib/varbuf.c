@@ -77,13 +77,13 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
 }
 
 void
-varbufaddbuf(struct varbuf *v, const void *s, size_t l)
+varbufaddbuf(struct varbuf *v, const void *s, size_t size)
 {
   int ou;
   ou= v->used;
-  v->used += l;
+  v->used += size;
   if (v->used >= v->size) varbufextend(v);
-  memcpy(v->buf + ou, s, l);
+  memcpy(v->buf + ou, s, size);
 }
 
 void
