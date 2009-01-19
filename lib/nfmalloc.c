@@ -60,7 +60,9 @@ char *nfstrsave(const char *string) {
   return obstack_copy0 (&db_obs, string, strlen(string));
 }
 
-char *nfstrnsave(const char *string, int l) {
+char *
+nfstrnsave(const char *string, size_t l)
+{
   OBSTACK_INIT;
   return obstack_copy0 (&db_obs, string, l);
 }

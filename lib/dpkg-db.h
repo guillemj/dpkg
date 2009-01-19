@@ -379,7 +379,7 @@ struct varbuf;
 #define VARBUF_INIT { 0, 0, NULL }
 
 extern void varbufaddc(struct varbuf *v, int c);
-extern void varbufdupc(struct varbuf *v, int c, ssize_t s);
+extern void varbufdupc(struct varbuf *v, int c, size_t s);
 int varbufprintf(struct varbuf *v, const char *fmt, ...) PRINTFFORMAT(2,3);
 int varbufvprintf(struct varbuf *v, const char *fmt, va_list va);
 void varbufinit(struct varbuf *v, size_t size);
@@ -387,7 +387,7 @@ void varbufreset(struct varbuf *v);
 void varbufextend(struct varbuf *v);
 void varbuffree(struct varbuf *v);
 #define varbufaddstr(v, s)      varbufaddbuf(v, s, strlen(s))
-extern void varbufaddbuf(struct varbuf *v, const void *s, const int l);
+extern void varbufaddbuf(struct varbuf *v, const void *s, size_t l);
 
 /* varbufinit must be called exactly once before the use of each varbuf
  * (including before any call to varbuffree), or the variable must be
@@ -446,7 +446,7 @@ int epochsdiffer(const struct versionrevision *a,
 /*** from nfmalloc.c ***/
 extern void *nfmalloc(size_t);
 char *nfstrsave(const char*);
-char *nfstrnsave(const char*, int);
+char *nfstrnsave(const char*, size_t);
 void nffreeall(void);
 
 /*** from showpkg.c ***/

@@ -35,7 +35,9 @@ varbufaddc(struct varbuf *v, int c)
   v->buf[v->used++]= c;
 }
 
-void varbufdupc(struct varbuf *v, int c, ssize_t n) {
+void
+varbufdupc(struct varbuf *v, int c, size_t n)
+{
   size_t old_used = v->used;
 
   v->used += n;
@@ -74,7 +76,9 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
   return r;
 }
 
-void varbufaddbuf(struct varbuf *v, const void *s, const int l) {
+void
+varbufaddbuf(struct varbuf *v, const void *s, size_t l)
+{
   int ou;
   ou= v->used;
   v->used += l;
