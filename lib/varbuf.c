@@ -46,6 +46,16 @@ varbufdupc(struct varbuf *v, int c, size_t n)
   memset(v->buf + old_used, c, n);
 }
 
+void
+varbufsubstc(struct varbuf *v, int c_src, int c_dst)
+{
+  size_t i;
+
+  for (i = 0; i < v->used; i++)
+    if (v->buf[i] == c_src)
+      v->buf[i] = c_dst;
+}
+
 int varbufprintf(struct varbuf *v, const char *fmt, ...) {
   int r;
   va_list al;

@@ -380,6 +380,7 @@ struct varbuf;
 
 extern void varbufaddc(struct varbuf *v, int c);
 extern void varbufdupc(struct varbuf *v, int c, size_t s);
+extern void varbufsubstc(struct varbuf *v, int c_src, int c_dst);
 int varbufprintf(struct varbuf *v, const char *fmt, ...) PRINTFFORMAT(2,3);
 int varbufvprintf(struct varbuf *v, const char *fmt, va_list va);
 void varbufinit(struct varbuf *v, size_t size);
