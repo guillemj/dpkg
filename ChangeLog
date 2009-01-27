@@ -1,3 +1,18 @@
+2009-01-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/t/900_Dpkg_Version.t: Renamed into...
+	* scripts/t/100_Dpkg_Version.t: and merged test cases previously
+	provided by this file so that there's no loss of tests. Also
+	adjusted test cases to match the change below.
+	* scripts/Dpkg/Version.pm (compare_versions): Handle "<" like "<="
+	and ">" like ">=" in order to be consistent with dpkg
+	--compare-versions. Emit warnings when they are used as they are
+	deprecated.
+	* scripts/Makefile.am: Drop scripts/t/900_Dpkg_Version.t from the
+	set of extra files to distribute.
+	* scripts/dpkg-genchanges.pl: Use "<<" instead of ambiguous "<" in
+	version comparison.
+
 2009-01-22  Guillem Jover  <guillem@debian.org>
 
 	* lib/log.c (statusfd_send): Use varbufsubstc to replace new lines

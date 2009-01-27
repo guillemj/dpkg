@@ -208,7 +208,7 @@ $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->parse($varlistfile) if -e $varlistfile;
 
 if (defined($prev_changelog) and
-    compare_versions($changelog->{"Version"}, '<', $prev_changelog->{"Version"})) {
+    compare_versions($changelog->{"Version"}, '<<', $prev_changelog->{"Version"})) {
     warning(_g("the current version (%s) is smaller than the previous one (%s)"),
 	$changelog->{"Version"}, $prev_changelog->{"Version"});
 }

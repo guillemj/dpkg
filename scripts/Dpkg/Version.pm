@@ -180,15 +180,18 @@ sub compare_versions ($$$)
     my $rel = $_[1];
     my $res = vercmp($_[0], $_[2]);
 
-    if ($rel eq 'gt' or $rel eq ">" or $rel eq ">>") {
+    warning("operator %s is deprecated in compare_versions(): use %s or %s",
+            $rel, "$rel$rel", "$rel=") if ($rel eq '>' or $rel eq '<');
+
+    if ($rel eq 'gt' or $rel eq '>>') {
 	return $res > 0;
-    } elsif ($rel eq 'ge' or $rel eq '>=') {
+    } elsif ($rel eq 'ge' or $rel eq '>=' or $rel eq '>') {
 	return $res >= 0;
     } elsif ($rel eq 'eq' or $rel eq '=') {
 	return $res == 0;
-    } elsif ($rel eq 'le' or $rel eq '<=') {
+    } elsif ($rel eq 'le' or $rel eq '<=' or $rel eq '<') {
 	return $res <= 0;
-    } elsif ($rel eq 'lt' or $rel eq "<" or $rel eq "<<") {
+    } elsif ($rel eq 'lt' or $rel eq '<<') {
 	return $res < 0;
     } else {
 	die "bad relation '$rel'";

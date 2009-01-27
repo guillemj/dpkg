@@ -78,8 +78,7 @@ EXTRA_DIST = \
 	t/600_Dpkg_Changelog/shadow \
 	t/700_Dpkg_Control.t \
 	t/700_Dpkg_Control/control-1 \
-	t/800_Dpkg_IPC.t \
-	t/900_Dpkg_Version.t
+	t/800_Dpkg_IPC.t
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \

@@ -1,80 +1,104 @@
 # -*- mode: cperl;-*-
 
 use Test::More;
+use Dpkg::ErrorHandling qw($quiet_warnings);
 
-use warnings;
+$quiet_warnings = 1;
+
 use strict;
+use warnings;
 
-# Default cmp '>'
-my @versions = ({a      => '1.0-1',
-		 b      => '2.0-2',
-		 result => -1,
-		 relation => 'lt',
-		},
-		{a      => '2.2~rc-4',
-		 b      => '2.2-1',
-		 result => -1,
-		 relation => 'lt',
-		},
-		{a      => '2.2-1',
-		 b      => '2.2~rc-4',
-		 result => 1,
-		 relation => 'gt',
-		},
-		{a      => '1.0000-1',
-		 b      => '1.0-1',
-		 result => 0,
-		 relation => 'eq',
-		},
-		{a      => '1.0000-1',
-		 b      => '1.0-1',
-		 result => 0,
-		 relation => 'ge',
-		},
-		{a      => '1',
-		 b      => '0:1',
-		 result => 0,
-		 relation => 'eq',
-		},
-		{a      => '2:2.5',
-		 b      => '1:7.5',
-		 result => 1,
-		 relation => 'gt',
-		},
-	       );
-my @test_failure = ({a      => '1.0-1',
-		     b      => '2.0-2',
-		     relation => 'gt',
-		    },
-		    {a      => '2.2~rc-4',
-		     b      => '2.2-1',
-		     relation => 'eq',
-		    },
-		   );
+my @tests = <DATA>;
+my @ops = ("<", "<<", "lt",
+	   "<=", "le",
+	   "=", "eq",
+	   ">=", "ge",
+	   ">", ">>", "gt");
 
-plan tests => @versions * 3 + @test_failure * 2 + 1;
+plan tests => scalar(@tests) * (2 * scalar(@ops) + 1) + 1;
 
-sub dpkg_vercmp{
-     my ($a,$b,$cmp) = @_;
-     $cmp = 'gt' if not defined $cmp;
-     return system('dpkg','--compare-versions',$a,$cmp,$b) == 0;
+sub dpkg_vercmp {
+     my ($a, $cmp, $b) = @_;
+     return system('dpkg', '--compare-versions', $a, $cmp, $b) == 0;
 }
 
+use_ok('Dpkg::Version', qw(vercmp compare_versions));
 
-use_ok('Dpkg::Version');
+my $truth = {
+    "-1" => {
+	"<<" => 1, "lt" => 1,
+	"<=" => 1, "le" => 1, "<" => 1,
+	"=" => 0, "eq" => 0,
+	">=" => 0, "ge" => 0, ">" => 0,
+	">>" => 0, "gt" => 0,
+    },
+    "0" => {
+	"<<" => 0, "lt" => 0,
+	"<=" => 1, "le" => 1, "<" => 1,
+	"=" => 1, "eq" => 1,
+	">=" => 1, "ge" => 1, ">" => 1,
+	">>" => 0, "gt" => 0,
+    },
+    "1" => {
+	"<<" => 0, "lt" => 0,
+	"<=" => 0, "le" => 0, "<" => 0,
+	"=" => 0, "eq" => 0,
+	">=" => 1, "ge" => 1, ">" => 1,
+	">>" => 1, "gt" => 1,
+    },
+};
 
-for my $version_cmp (@versions) {
-     ok(Dpkg::Version::vercmp($$version_cmp{a},$$version_cmp{b}) == $$version_cmp{result},
-	"vercmp: Version $$version_cmp{a} $$version_cmp{relation} $$version_cmp{b} ok");
-     ok(Dpkg::Version::compare_versions($$version_cmp{a},$$version_cmp{relation},$$version_cmp{b}),
-       "compare_versions: Version $$version_cmp{a} $$version_cmp{relation} $$version_cmp{b} ok");
-     ok(dpkg_vercmp($$version_cmp{a},$$version_cmp{b},$$version_cmp{relation}),
-	"Dpkg concures: Version $$version_cmp{a} $$version_cmp{relation} $$version_cmp{b}");
+foreach my $case (@tests) {
+    my ($a, $b, $res) = split " ", $case;
+    is(vercmp($a, $b), $res, "$a cmp $b => $res");
+    foreach my $op (@ops) {
+	if ($truth->{$res}{$op}) {
+	    ok(compare_versions($a, $op, $b), "$a $op $b => true");
+	    ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => true");
+	} else {
+	    ok(!compare_versions($a, $op, $b), "$a $op $b => false");
+	    ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => false");
+	}
+    }
 }
 
-for my $version_cmp (@test_failure) {
-     ok(!Dpkg::Version::compare_versions($$version_cmp{a},$$version_cmp{relation},$$version_cmp{b}),
-       "compare_versions: Version $$version_cmp{a} $$version_cmp{relation} $$version_cmp{b} false");
-     ok(!dpkg_vercmp($$version_cmp{a},$$version_cmp{b},$$version_cmp{relation}),
-	"Dpkg concures: Version $$version_cmp{a} $$version_cmp{relation} $$version_cmp{b}");
-}
+__DATA__
+1.0-1 2.0-2 -1
+2.2~rc-4 2.2-1 -1
+2.2-1 2.2~rc-4 1
+1.0000-1 1.0-1 0
+1 0:1 0
+2:2.5 1:7.5 1
+1:foo foo 1
+0:foo foo 0
+foo foo 0
+foo- foo 0
+foo fo 1
+foo- foo+ -1
+foo~1 foo -1
+foo~foo+Bar foo~foo+bar -1
+foo~~ foo~ -1
+12345+that-really-is-some-ver-0 12345+that-really-is-some-ver-10 -1
+foo-0 foo-01 -1
+foo.bar foobar 1
+foo.bar foo1bar 1
+foo.bar foo0bar 1
+1foo-1 foo-1 -1
+foo2.0 foo2 1
+foo2.0.0 foo2.10.0 -1
+foo2.0 foo2.0.0 -1
+foo2.0 foo2.10 -1
+foo2.1 foo2.10 -1
+1.09 1.9 0
+1.0.8+nmu1 1.0.8 1
+3.11 3.10+nmu1 1
+0.9j-20080306-4 0.9i-20070324-2 1
+1.2.0~b7-1 1.2.0~b6-1 1
+1.011-1 1.06-2 1
+0.0.9+dfsg1-1 0.0.8+dfsg1-3 1
+4.6.99+svn6582-1 4.6.99+svn6496-1 1
+53 52 1
+0.9.9~pre122-1 0.9.9~pre111-1 1
+2:2.3.2-2+lenny2 2:2.3.2-2 1
+1:3.8.1-1 3.8.GA-1 1
+1.0.1+gpl-1 1.0.1-2 1
