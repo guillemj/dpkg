@@ -19,6 +19,7 @@ libdpkg_a_SOURCES = \
 	dpkg-i18n.h \
 	dpkg-db.h \
 	dpkg-priv.h \
+	dpkg-test.h \
 	dlist.h \
 	cleanup.c \
 	compression.c \

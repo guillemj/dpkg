@@ -7,6 +7,7 @@ INCLUDES = \
 noinst_LIBRARIES = libcompat.a
 
 libcompat_a_SOURCES = \
+	compat.h \
 	gettext.h
 
 if !HAVE_GETOPT
