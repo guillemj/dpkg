@@ -13,6 +13,8 @@ TESTS := \
 	t-conffile-divert-conffile \
 	t-conffile-conflict \
 	t-conffile-replaces \
+	t-conffile-replaces-existing \
+	t-conffile-replaces-existing-and-upgrade \
 	t-conffile-replaces-disappear \
 	t-package-type \
 	t-symlink-dir \
