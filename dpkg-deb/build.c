@@ -344,12 +344,13 @@ void do_build(const char *const *argv) {
   if (setvbuf(ar, NULL, _IONBF, 0))
     ohshite(_("unable to unbuffer `%.255s'"), debar);
   /* Fork a tar to package the control-section of the package */
+  unsetenv("TAR_OPTIONS");
   m_pipe(p1);
   if (!(c1= m_fork())) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
     if (chdir(BUILDCONTROLDIR)) ohshite(_("failed to chdir to .../DEBIAN"));
-    execlp(TAR, "tar", "-cf", "-", ".", NULL);
+    execlp(TAR, "tar", "-cf", "-", "--format=gnu", ".", NULL);
     ohshite(_("failed to exec tar -cf"));
   }
   close(p1[1]);
@@ -422,7 +423,7 @@ void do_build(const char *const *argv) {
     m_dup2(p1[0],0); close(p1[0]); close(p1[1]);
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
-    execlp(TAR, "tar", "-cf", "-", "--null", "-T", "-", "--no-recursion", NULL);
+    execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "-T", "-", "--no-recursion", NULL);
     ohshite(_("failed to exec tar -cf"));
   }
   close(p1[0]);
