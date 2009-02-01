@@ -13,23 +13,27 @@ cmp ref-file /test-file
 endef
 
 test-two-run-ordered:
+	# test-two-run-ordered
 	$(DPKG_INSTALL) pkg-file-original.deb
 	$(DPKG_INSTALL) pkg-file-takeover.deb
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
 
 test-one-run-ordered:
+	# test-one-run-ordered
 	$(DPKG_INSTALL) pkg-file-original.deb pkg-file-takeover.deb
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
 
 test-two-run-reverse:
+	# test-two-run-reverse
 	$(DPKG_INSTALL) pkg-file-takeover.deb
 	$(DPKG_INSTALL) pkg-file-original.deb
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
 
 test-one-run-reverse:
+	# test-one-run-reverse
 	$(DPKG_INSTALL) pkg-file-takeover.deb pkg-file-original.deb
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
