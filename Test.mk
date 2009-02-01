@@ -12,6 +12,7 @@ DPKG_BUILD_DEB := dpkg-deb -b
 DPKG_BUILD_DSC := dpkg-source -b
 DPKG_QUERY := dpkg-query
 
+PKG_STATUS := $(DPKG_QUERY) -f '$${Status}' -W
 
 DEB = $(addsuffix .deb,$(TESTS_DEB))
 DSC = $(addsuffix .dsc,$(TESTS_DSC))
