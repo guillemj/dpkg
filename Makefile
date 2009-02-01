@@ -1,17 +1,19 @@
 #
 # Dpkg functional testsuite (kind of)
 #
-# Copyright © 2008 Guillem Jover <guillem@debian.org>
+# Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
 #
 
 TESTS := \
 	t-file-replaces \
+	t-file-replaces-disappear \
 	t-conffile-orphan \
 	t-conffile-prompt \
 	t-conffile-divert-normal \
 	t-conffile-divert-conffile \
 	t-conffile-conflict \
 	t-conffile-replaces \
+	t-conffile-replaces-disappear \
 	t-package-type \
 	t-symlink-dir \
 	t-substvars \
