@@ -711,6 +711,65 @@
 	* dselect/pkglist.cc (packagelist::addheading): Likewise.
 	* dselect/pkgsublist.cc (packagelist::add): Likewise.
 
+2009-02-03  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.25.
+
+2009-02-02  Guillem Jover  <guillem@debian.org>
+
+	* src/archives.c (tarobject): Do not call ensure_pathname_nonexisting
+	for .dpkg-tmp and .dpkg-new if we are going to return due to already
+	existing directory or a file to be skept.
+
+2008-02-02  Raphael Hertzog  <hertzog@debian.org>
+
+	* dpkg-deb/build.c: Ensure that data.tar and control.tar
+	archives created inside a .deb use the GNU format that is compatible
+	with dpkg itself. And remove TAR_OPTIONS from environment to
+	avoid unexpected user customizations of the resulting archives.
+
+2008-12-29  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.25~.
+
+2008-12-29  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.24.
+
+2008-12-20  Guillem Jover  <guillem@debian.org>
+
+	* src/archives.c (tarobject): Move a 'continue' inside a conditional
+	checking if the conffile to take over was obsolete on the other
+	package by adding missing bracese.
+
+2008-12-01  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Source/Archive.pm (extract): Do not create the temp
+	directory in the current directory but in the parent directory of
+	the target directory. Otherwise the code would fail when called
+	from a non-writable dir and rename could fail due to filesystem
+	boundaries beetwen the current dir and the target one.
+
+2008-12-01  Modestas Vainius  <modestas@vainius.eu>
+
+	* scripts/dpkg-shlibdeps.pl: Don't merge all dependency templates
+	into the generated dependency when Build-Depends-Package is
+	used in the symbols file. Instead simply modify the minimal
+	version on any pre-existing dependency.
+
+2008-11-19  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/Objdump.pm (parse_dynamic_symbol): Fix the
+	regular expression to not require two space between alignment and
+	symbol name.
+	* scripts/t/200_Dpkg_Shlibs.t,
+	scripts/t/200_Dpkg_Shlibs/objdump.ls: Add a non-regression test
+	corresponding to the above case.
+
+2008-11-18  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.24~.
+
 2008-11-18  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Release 1.14.23.

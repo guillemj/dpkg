@@ -118,6 +118,68 @@ dpkg (1.15.0) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Tue, 29 Jul 2008 02:34:59 +0300
 
+dpkg (1.14.25) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Fix typo in package description ('privides' -> 'provides').
+    Thanks to Pascal De Vuyst <pascal.devuyst@gmail.com>. Closes: #510755
+  * Do not lose conffiles while replacing them from another package on the
+    same install run. Closes: #513857
+    As a side effect this fixes the following symptoms:
+    - Do not do unneeded conffile prompts when it wasn't locally changed.
+    - Do not ensure (and thus do not output debug information) that the
+     .dpkg-new and .dpkg-tmp directories for an existing directory do not
+      exist. Closes: #80416
+
+  [ Raphael Hertzog ]
+  * dpkg-deb now always produces GNU tarballs inside .deb and ignores
+    TAR_OPTIONS. Closes: #513863
+
+  [ Updated dpkg translations ]
+  * Basque (Piarres Beobide). Closes: #506092, #509851
+  * Simplified Chinese (Deng Xiyue). Closes: #506177
+  * Traditional Chinese (Tetralet). Closes: #513312
+
+  [ Updated dselect translations ]
+  * Basque (Piarres Beobide). Closes: #509852
+  * Norwegian Bokmål (Hans F. Nordhaug).
+  * Portuguese (Miguel Figueiredo). Closes: #509904
+
+  [ Updated scripts translations ]
+  * Add missing space in French translation.
+    Thanks to Cyril "Oeil de lynx" Brulebois.
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 03 Feb 2009 00:00:41 +0200
+
+dpkg (1.14.24) unstable; urgency=low
+
+  [ Raphael Hertzog ]
+  * Fix parsing of objdump output (by dpkg-shlibdeps) in a special case where
+    the symbol name is separated only with a single space. Closes: #506139
+  * Fix dpkg-shlibdeps behaviour when Build-Depends-Package is used in the
+    symbols file. It was merging all dependency templates into the generated
+    dependency instead of simply modifying the minimal version. Thanks to
+    Modestas Vainius <modestas@vainius.eu>. Closes: #507346
+  * Fix dpkg-source to correctly extract a source package even when called
+    from a non-writable directory when a target directory has been specified
+    on the command line. Closes: #507217, #507219
+
+  [ Guillem Jover ]
+  * Do not allow installing packages with non-obsolete conffiles owned by
+    other packages without a proper Replaces field. Closes: #508392
+
+  [ Updated dselect translations ]
+  * Galician (Marce Villarino). Closes: #509887
+
+  [ Updated dpkg translations ]
+  * Galician (Marce Villarino). Closes: #509150
+  * Vietnamese (Clytie Siddall). Closes: #509424
+
+  [ Updated scripts translations ]
+  * Improve German translation.
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 29 Dec 2008 05:38:31 +0100
+
 dpkg (1.14.23) unstable; urgency=low
 
   [ Raphael Hertzog ]
@@ -152,6 +214,7 @@ dpkg (1.14.23) unstable; urgency=low
   * Romanian (Eddy Petrișor).
   * Slovak (Ivan Masár). Closes: #506024
   * Spanish (Javier Fernandez-Sanguino). Closes: #505836
+  * Swedish (Peter Krefting).
 
   [ Updated scripts translations ]
   * Fix typo in Russian. Closes: #499736

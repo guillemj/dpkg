@@ -28,6 +28,7 @@ use POSIX;
 use File::Temp qw(tempdir);
 use File::Basename qw(basename);
 use File::Spec;
+use Cwd;
 
 use base 'Dpkg::Source::CompressedFile';
 
@@ -103,7 +104,11 @@ sub extract {
         $tmp = $dest; # So that fixperms call works
     } else {
         my $template = basename($self->get_filename()) .  ".tmp-extract.XXXXX";
-        $tmp = tempdir($template, DIR => getcwd(), CLEANUP => 1);
+        unless (-e $dest) {
+            # Kludge so that realpath works
+            mkdir($dest) || syserr(_g("cannot create directory %s"), $dest);
+        }
+        $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
         $fork_opts{"chdir"} = $tmp;
     }
 
