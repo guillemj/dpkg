@@ -577,12 +577,6 @@ int tarobject(struct TarInfo *ti) {
     }
   }
        
-  /* Now, at this stage we want to make sure neither of .dpkg-new and .dpkg-tmp
-   * are hanging around.
-   */
-  ensure_pathname_nonexisting(fnamenewvb.buf);
-  ensure_pathname_nonexisting(fnametmpvb.buf);
-
   if (existingdirectory) return 0;
   if (keepexisting) {
     obstack_free(&tar_obs, nifd);
@@ -601,6 +595,12 @@ int tarobject(struct TarInfo *ti) {
 
     return 0;
   }
+
+  /* Now, at this stage we want to make sure neither of .dpkg-new and .dpkg-tmp
+   * are hanging around.
+   */
+  ensure_pathname_nonexisting(fnamenewvb.buf);
+  ensure_pathname_nonexisting(fnametmpvb.buf);
 
   /* Now we start to do things that we need to be able to undo
    * if something goes wrong.  Watch out for the CLEANUP comments to

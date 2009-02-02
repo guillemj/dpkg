@@ -3,6 +3,13 @@ dpkg (1.14.25) UNRELEASED; urgency=low
   [ Guillem Jover ]
   * Fix typo in package description ('privides' -> 'provides').
     Thanks to Pascal De Vuyst <pascal.devuyst@gmail.com>. Closes: #510755
+  * Do not lose conffiles while replacing them from another package on the
+    same install run. Closes: #513857
+    As a side effect this fixes the following symptoms:
+    - Do not do unneeded conffile prompts when it wasn't locally changed.
+    - Do not ensure (and thus do not output debug information) that the
+     .dpkg-new and .dpkg-tmp directories for an existing directory do not
+      exist. Closes: #80416
 
   [ Raphael Hertzog ]
   * dpkg-deb now always produces GNU tarballs inside .deb and ignores
