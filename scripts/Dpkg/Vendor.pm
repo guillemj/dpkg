@@ -1,4 +1,4 @@
-# Copyright © 2008 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,8 @@ use Dpkg::Cdata;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file);
+our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
+                    get_vendor_object run_vendor_hook);
 
 =head1 NAME
 
@@ -75,7 +76,7 @@ name.
 sub get_vendor_file(;$) {
     my $vendor = shift || "default";
     my $file;
-    foreach my $name ($vendor, lc($vendor), ucfirst($vendor)) {
+    foreach my $name ($vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor))) {
         $file = "/etc/dpkg/origins/$name" if -e "/etc/dpkg/origins/$name";
     }
     return $file;
@@ -97,6 +98,44 @@ sub get_current_vendor() {
     $f = get_vendor_info();
     return $f->{'Vendor'} if defined $f;
     return undef;
+}
+
+=item $object = Dpkg::Vendor::get_vendor_object($name)
+
+Return the Dpkg::Vendor::* object of the corresponding vendor.
+If $name is omitted, return the object of the current vendor.
+If no vendor can be identified, then return the Dpkg::Vendor::Default
+object.
+
+=cut
+my %OBJECT_CACHE;
+sub get_vendor_object {
+    my $vendor = shift || get_current_vendor() || "Default";
+    return $OBJECT_CACHE{$vendor} if exists $OBJECT_CACHE{$vendor};
+
+    my ($obj, @names);
+    if ($vendor ne "Default") {
+        push @names, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
+    }
+    foreach my $name (@names, "Default") {
+        eval qq{
+            require Dpkg::Vendor::$name;
+            \$obj = Dpkg::Vendor::$name->new();
+        };
+        last unless $@;
+    }
+    $OBJECT_CACHE{$vendor} = $obj;
+    return $obj;
+}
+
+=item Dpkg::Vendor::run_vendor_hook($hookid, @params)
+
+Run a hook implemented by the current vendor object.
+
+=cut
+sub run_vendor_hook {
+    my $vendor_obj = get_vendor_object();
+    $vendor_obj->run_hook(@_);
 }
 
 1;

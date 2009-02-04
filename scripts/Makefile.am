@@ -120,6 +120,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Substvars.pm \
 	Dpkg/Vars.pm \
 	Dpkg/Vendor.pm \
+	Dpkg/Vendor/Debian.pm \
+	Dpkg/Vendor/Default.pm \
 	Dpkg/Version.pm \
 	Dpkg.pm
 

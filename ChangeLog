@@ -1,3 +1,17 @@
+2009-02-04  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Vendor/Default.pm: Generic vendor object that will
+	be used to hook vendor-specific behaviour in multiple places.
+	* scripts/Dpkg/Vendor/Debian.pm: Debian variant of that object.
+	* scripts/Dpkg/Vendor.pm (get_vendor_object, run_vendor_hook):
+	New functions to retrieve the current vendor object and run
+	vendor-specific code.
+	* scripts/dpkg-source.pl, scripts/dpkg-genchanges.pl: Add first
+	vendor hooks to be used by Ubuntu.
+	* scripts/Makefile.am (EXTRA_DIST): Add
+	'scripts/Dpkg/Vendor/Default.pm' and
+	'scripts/Dpkg/Vendor/Debian.pm'.
+
 2009-01-29  Guillem Jover  <guillem@debian.org>
 
 	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'dpkg-test.h'.

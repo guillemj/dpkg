@@ -19,6 +19,7 @@ use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Version qw(parseversion compare_versions);
+use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain("dpkg-dev");
 
@@ -535,5 +536,6 @@ for my $f (keys %remove) {
 }
 
 tied(%{$fields})->set_field_importance(@changes_fields);
+run_vendor_hook('before-changes-creation', $fields);
 tied(%{$fields})->output(\*STDOUT); # Note: no substitution of variables
 

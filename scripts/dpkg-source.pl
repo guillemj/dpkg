@@ -18,6 +18,7 @@ use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Source::Compressor;
 use Dpkg::Source::Package;
+use Dpkg::Vendor qw(run_vendor_hook);
 
 use English;
 use File::Spec;
@@ -277,6 +278,7 @@ if ($options{'opmode'} eq 'build') {
     $srcpkg->init_options();
     $srcpkg->parse_cmdline_options(@cmdline_options);
 
+    run_vendor_hook("before-source-build", $srcpkg);
     # Build the files (.tar.gz, .diff.gz, etc)
     $srcpkg->build($dir);
 
