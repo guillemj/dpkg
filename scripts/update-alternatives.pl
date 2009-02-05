@@ -23,6 +23,7 @@ my $verbosemode = 0;
 
 my $action = '';      # Action to perform (display / query / install / remove / auto / config)
 my $mode = 'auto';    # Update mode for alternative (manual / auto)
+my $skip = '';        # Skip alternatives properly configured in auto mode (for --config)
 my $state;            # State of alternative:
                       #   expected: alternative with highest priority is the active alternative
                       #   expected-inprogress: busy selecting alternative with highest priority
@@ -101,6 +102,8 @@ Commands:
 Options:
   --altdir <directory>     change the alternatives directory.
   --admindir <directory>   change the administrative directory.
+  --skip-auto              skip prompt for alternatives correctly configured
+                           in automatic mode (relevant for --config only)
   --verbose                verbose operation, more output.
   --quiet                  quiet operation, minimal output.
   --help                   show this help message.
@@ -190,7 +193,8 @@ sub find_best_version
 
 sub display_link_group
 {
-    pr(sprintf(_g("%s - status is %s."), $name, $mode));
+    pr(sprintf("%s - %s", $name,
+        ($mode eq "auto") ? _g("auto mode") : _g("manual mode")));
     $linkname = readlink("$altdir/$name");
 
     if (defined($linkname)) {
@@ -286,7 +290,8 @@ sub set_links($$)
 {
     my ($spath, $preferred) = (@_);
 
-    printf STDOUT _g("Using '%s' to provide '%s'.") . "\n", $spath, $name;
+    printf STDOUT _g("Using '%s' to provide '%s' in %s.") . "\n", $spath,
+                    $name, ($mode eq "auto" ? _g("auto mode") : _g("manual mode"));
     checked_symlink("$spath","$altdir/$name.dpkg-tmp");
     checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
 
@@ -371,6 +376,8 @@ while (@ARGV) {
     } elsif (m/^--admindir$/) {
         @ARGV || badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
         $admindir= shift(@ARGV);
+    } elsif (m/^--skip-auto$/) {
+	$skip = '--skip-auto';
     } elsif (m/^--all$/) {
 	$action = 'all';
     } else {
@@ -671,22 +678,29 @@ sub config_message {
 	          "Nothing to configure.\n"), $name;
 	return -1;
     }
-    if ($#versions == 0) {
+    if ($skip && $mode eq 'auto' && $best eq readlink("$altdir/$name")) {
 	print "\n";
-	printf _g("There is only 1 program which provides %s\n".
+        display_link_group();
+        return -1;
+    }
+    if ($#versions == 0 && $mode eq 'auto' && $best eq readlink("$altdir/$name")) {
+	print "\n";
+	printf _g("There is only 1 program which provides %s properly in auto mode\n".
 	          "(%s). Nothing to configure.\n"), $name, $versions[0];
 	return -1;
     }
     print STDOUT "\n";
     printf(STDOUT _g("There are %s alternatives which provide \`%s'.\n\n".
-                     "  Selection    Alternative\n".
+                     " Selection    Alternative\n".
                      "-----------------------------------------------\n"),
                   $#versions+1, $name);
+    printf STDOUT "%s        0    %s (%s)\n",
+        ($mode eq "auto" && readlink("$altdir/$name") eq $best) ? '*' : ' ',
+        $best, _g("auto mode");
     for (my $i = 0; $i <= $#versions; $i++) {
-	printf(STDOUT "%s%s %8s    %s\n",
-	    (readlink("$altdir/$name") eq $versions[$i]) ? '*' : ' ',
-	    ($best eq $versions[$i]) ? '+' : ' ',
-	    $i+1, $versions[$i]);
+	printf STDOUT "%s %8s    %s (%s) priority=%s\n",
+	    (readlink("$altdir/$name") eq $versions[$i] && $mode eq "manual") ? '*' : ' ',
+	    $i+1, $versions[$i], _g("manual mode"), $priorities[$i];
     }
     printf(STDOUT "\n"._g("Press enter to keep the default[*], or type selection number: "));
     return 0;
@@ -698,14 +712,19 @@ sub config_alternatives {
 	return if config_message() < 0;
 	$preferred=<STDIN>;
 	chop($preferred);
-    } until $preferred eq '' || $preferred>=1 && $preferred<=$#versions+1 &&
+    } until $preferred eq '' || $preferred>=0 && $preferred<=$#versions+1 &&
 	($preferred =~ m/[0-9]*/);
     if ($preferred ne '') {
-	$mode = "manual";
-	$preferred--;
-	my $spath = $versions[$preferred];
+        if ($preferred == 0) {
+	    $action = "auto";
+	    $mode = "auto";
+	} else {
+	    $mode = "manual";
+	    $preferred--;
+	    my $spath = $versions[$preferred];
 
-	set_links($spath, $preferred);
+	    set_links($spath, $preferred);
+	}
     }
 }
 
@@ -763,7 +782,7 @@ sub config_all {
     my @filenames = grep !/^\.\.?$/, readdir ADMINDIR;
     close ADMINDIR;
     foreach my $name (@filenames) {
-        system "$0 --config $name";
+        system "$0 $skip --config $name";
         exit $? if $?;
     }
 }

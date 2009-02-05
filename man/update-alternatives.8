@@ -263,7 +263,9 @@ Remove all alternatives and all of their associated slave links.
 is a name in the alternatives directory.
 .TP
 .B \-\-all
-Call \fB\-\-config\fP on all alternatives.
+Call \fB\-\-config\fP on all alternatives. It can be usefully combined with
+\fB\-\-skip\-auto\fP to review and configure all alternatives which are
+not configured in automatic mode. Broken alternatives are also displayed.
 .TP
 \fB\-\-auto\fR \fIlink\fR
 Switch the master symlink
@@ -294,10 +296,7 @@ Display all targets of the link group.
 .TP
 \fB\-\-config\fR \fIlink\fR
 Show available alternatives for a link group and allow the user to
-interactively select which one to use. The link group is updated
-and taken out of
-.I auto
-mode.
+interactively select which one to use. The link group is updated.
 .TP
 .B \-\-help
 Show the usage message and exit.
@@ -314,6 +313,11 @@ different from the default.
 .BI \-\-admindir " directory"
 Specifies the administrative directory, when this is to be
 different from the default.
+.TP
+.BI \-\-skip\-auto
+Skip configuration prompt for alternatives which are properly configured
+in automatic mode. This option is only relevant with \fB\-\-config\fR or
+\fB\-\-all\fR.
 .TP
 .B \-\-verbose
 Generate more comments about what
