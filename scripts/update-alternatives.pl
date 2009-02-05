@@ -444,7 +444,11 @@ if (defined($linkname= readlink("$altdir/$name"))) {
     } elsif (defined(readlink("$altdir/$name.dpkg-tmp"))) {
         $state= 'expected-inprogress';
     } else {
-        $state= 'unexpected';
+        if (-e $linkname) {
+            $state = 'unexpected';
+        } else {
+            $state = 'nonexistent';
+        }
     }
 } elsif ($! == ENOENT) {
     $state= 'nonexistent';
@@ -475,7 +479,7 @@ if ($action eq 'auto') {
 if ($state eq 'unexpected' && $mode eq 'auto') {
     pr(sprintf(_g("%s has been changed (manually or by a script).\n" .
                   "Switching to manual updates only."), "$altdir/$name"))
-      if $verbosemode > 0;
+        if $verbosemode >= 0;
     $mode = 'manual';
 }
 
