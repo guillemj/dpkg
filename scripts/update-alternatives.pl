@@ -497,8 +497,8 @@ if ($action eq 'install') {
     if (defined($link) && $link ne $alink) {
         pr(sprintf(_g("Renaming %s link from %s to %s."), $name, $link, $alink))
           if $verbosemode > 0;
-        rename_mv($link,$alink) || $! == ENOENT ||
-            quit(sprintf(_g("unable to rename %s to %s: %s"), $link, $alink, $!));
+        rename_mv($link, $alink, 1) ||
+            quit(sprintf(_g("unable to rename %s to %s: see error above"), $link, $alink));
     }
     $link= $alink;
     my $i;
@@ -521,8 +521,8 @@ if ($action eq 'install') {
 	if (defined($oldslavelink) && $newslavelink ne $oldslavelink) {
             pr(sprintf(_g("Renaming %s slave link from %s to %s."), $sname, $oldslavelink, $newslavelink))
               if $verbosemode > 0;
-            rename_mv($oldslavelink,$newslavelink) || $! == ENOENT ||
-                quit(sprintf(_g("unable to rename %s to %s: %s"), $oldslavelink, $newslavelink, $!));
+            rename_mv($oldslavelink, $newslavelink, 1) ||
+                quit(sprintf(_g("unable to rename %s to %s: see error above"), $oldslavelink, $newslavelink));
         }
         $slavelinks[$j]= $newslavelink;
     }
@@ -769,7 +769,16 @@ sub badfmt {
     quit(sprintf(_g("internal error: %s corrupt: %s"), "$admindir/$name", $_[0]));
 }
 sub rename_mv {
-    return (rename($_[0], $_[1]) || (system(("mv", $_[0], $_[1])) == 0));
+    my ($source, $dest, $ignore_enoent) = @_;
+    $ignore_enoent = 0 unless defined($ignore_enoent);
+    return 1 if ($ignore_enoent and not -e $source);
+    if (not rename($source, $dest)) {
+        if (system("mv", $source, $dest) != 0) {
+            return $ignore_enoent if $! == ENOENT;
+            return 0;
+        }
+    }
+    return 1;
 }
 sub checked_symlink {
     my ($filename, $linkname) = @_;

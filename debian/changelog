@@ -118,6 +118,12 @@ dpkg (1.15.0) UNRELEASED; urgency=low
     with a broken symlink (instead let the current action fix it).
     Also ensure that a message is displayed by default when such a switch is
     made. Closes: #141325, #87677
+  * Fix update-alternatives' logic to rename files. It failed to ignore errors
+    in some cases where it wanted to when the source file didn't exist.
+    Closes: #99870
+    This also makes update-alternatives less noisy when this happens since we
+    don't call mv when we know that it's going to fail.
+    Closes: #98822
 
   [ Pierre Habouzit ]
   * Add a --query option to update-alternatives. Closes: #336091, #441904
