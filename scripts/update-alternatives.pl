@@ -465,7 +465,7 @@ if (defined($linkname= readlink("$altdir/$name"))) {
 #   $action      auto, install, remove, remove-all
 # all independent
 
-if ($action eq 'auto') {
+if (($action eq 'auto') || ($state eq 'nonexistent')) {
     pr(sprintf(_g("Setting up automatic selection of %s."), $name))
       if $verbosemode > 0;
     checked_rm("$altdir/$name.dpkg-tmp");
