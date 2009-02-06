@@ -286,12 +286,14 @@ sub checked_alternative($$$)
     }
 }
 
-sub set_links($$)
+sub set_links($$$;$)
 {
-    my ($spath, $preferred) = (@_);
+    my ($spath, $link, $preferred, $quiet) = (@_);
 
     printf STDOUT _g("Using '%s' to provide '%s' in %s.") . "\n", $spath,
-                    $name, ($mode eq "auto" ? _g("auto mode") : _g("manual mode"));
+                    $name, ($mode eq "auto" ? _g("auto mode") : _g("manual mode"))
+        unless $quiet;
+    checked_alternative($name, $link, $spath);
     checked_symlink("$spath","$altdir/$name.dpkg-tmp");
     checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
 
@@ -532,6 +534,11 @@ if ($action eq 'install') {
     }
 
     fill_missing_slavepaths();
+
+    if (($mode eq "manual") and defined($linkname) and ($linkname eq $apath)) {
+        # Recreate links to fix any links gone missing
+        set_alternatives(1); # quiet
+    }
 }
 
 if ($action eq 'remove') {
@@ -728,12 +735,13 @@ sub config_alternatives {
 	    $preferred--;
 	    my $spath = $versions[$preferred];
 
-	    set_links($spath, $preferred);
+	    set_links($spath, $link, $preferred);
 	}
     }
 }
 
 sub set_alternatives {
+    my ($quiet) = @_;
     $mode = "manual";
     # Get preferred number
     my $preferred = -1;
@@ -746,7 +754,7 @@ sub set_alternatives {
     if ($preferred == -1) {
         quit(sprintf(_g("Cannot find alternative `%s'."), $apath)."\n");
     }
-    set_links($apath, $preferred);
+    set_links($apath, $link, $preferred, $quiet);
 }
 
 sub pr
