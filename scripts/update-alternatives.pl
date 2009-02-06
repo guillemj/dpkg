@@ -556,9 +556,9 @@ if ($action eq 'remove') {
 }
 
 if ($action eq 'remove-all') {
-   $mode = "auto";
-   my $k = $#versions;
-   for (my $i = 0; $i <= $#versions; $i++) {
+    $mode = "auto";
+    my $k = $#versions;
+    for (my $i = 0; $i <= $#versions; $i++) {
         $k--;
         delete $versionnum{$versions[$i]};
 	$#priorities--;
@@ -566,10 +566,9 @@ if ($action eq 'remove-all') {
             $slavepath{$i,$j}= $slavepath{$k,$j};
             delete $slavepath{$k,$j};
         }
-      }
-   $#versions=$k;
- }
-
+    }
+    $#versions=$k;
+}
 
 for (my $j = 0; $j <= $#slavenames; $j++) {
     my $i;
@@ -733,19 +732,19 @@ sub config_alternatives {
 }
 
 sub set_alternatives {
-   $mode = "manual";
-   # Get prefered number
-   my $preferred = -1;
-   for (my $i = 0; $i <= $#versions; $i++) {
-     if($versions[$i] eq $apath) {
-       $preferred = $i;
-       last;
-     }
-   }
-   if($preferred == -1){
-     quit(sprintf(_g("Cannot find alternative `%s'."), $apath)."\n");
-   }
-   set_links($apath, $preferred);
+    $mode = "manual";
+    # Get preferred number
+    my $preferred = -1;
+    for (my $i = 0; $i <= $#versions; $i++) {
+        if($versions[$i] eq $apath) {
+            $preferred = $i;
+            last;
+        }
+    }
+    if ($preferred == -1) {
+        quit(sprintf(_g("Cannot find alternative `%s'."), $apath)."\n");
+    }
+    set_links($apath, $preferred);
 }
 
 sub pr
