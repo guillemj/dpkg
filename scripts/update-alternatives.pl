@@ -637,20 +637,21 @@ for (my $i = 0; $i <= $#versions; $i++) {
 paf('');
 close(AF) || quit(sprintf(_g("unable to close %s: %s"), "$admindir/$name.dpkg-new", $!));
 
+# Purge alternative when nothing left
+if ($best eq '') {
+    pr(sprintf(_g("Last package providing %s (%s) removed, deleting it."), $name, $link))
+        if $verbosemode > 0;
+    checked_rm("$altdir/$name");
+    checked_rm("$link");
+    checked_rm("$admindir/$name.dpkg-new");
+    checked_rm("$admindir/$name");
+    exit(0);
+}
+
 if ($mode eq 'auto') {
-    if ($best eq '') {
-        pr(sprintf(_g("Last package providing %s (%s) removed, deleting it."), $name, $link))
-          if $verbosemode > 0;
-        checked_rm("$altdir/$name");
-        checked_rm("$link");
-        checked_rm("$admindir/$name.dpkg-new");
-        checked_rm("$admindir/$name");
-        exit(0);
-    } else {
-	checked_alternative($name, $link, $best);
-        checked_rm("$altdir/$name.dpkg-tmp");
-        symlink($best,"$altdir/$name.dpkg-tmp");
-    }
+    checked_alternative($name, $link, $best);
+    checked_rm("$altdir/$name.dpkg-tmp");
+    checked_symlink($best, "$altdir/$name.dpkg-tmp");
 }
 
 checked_mv("$admindir/$name.dpkg-new", "$admindir/$name");
