@@ -1,4 +1,4 @@
-.TH deb 5 "2006-02-28" "Debian Project" "Debian"
+.TH deb 5 "2009-02-06" "Debian Project" "Debian"
 .SH NAME
 deb \- Debian binary package format
 .SH SYNOPSIS
@@ -16,8 +16,14 @@ old format are described in
 .SH FORMAT
 The file is an
 .B ar
-archive with a magic number of
+archive with a magic value of
 .BR !<arch> .
+The file names might contain a trailing slash.
+.PP
+The \fBtar\fP archives currently allowed are, the old-style (v7) format,
+the pre-POSIX ustar format, a subset of the GNU format (only the new
+style long pathnames and long linknames, supported since dpkg 1.4.1.17).
+Unrecognized tar typeflags are considered an error.
 .PP
 The first member is named
 .B debian-binary
@@ -45,23 +51,27 @@ tarball may optionally contain an entry for
 the current directory.
 .PP
 The third, last required member is named
-.BR data.tar.gz .
-It contains the filesystem archive as a gzipped tar archive.
+.BR data.tar .
+It contains the filesystem as a tar archive, either
+not compressed (supported since dpkg 1.10.24), or compressed with
+gzip (with \fB.gz\fP extension),
+bzip2 (with \fB.bz2\fP extension, supported since dpkg 1.10.24) or
+lzma (with \fB.lzma\fP extension, supported since dpkg 1.13.25).
 .PP
 These members must occur in this exact order. Current implementations
 should ignore any additional members after
-.BR data.tar.gz .
+.BR data.tar .
 Further members may be defined in the future, and (if possible) will be
 placed after these three. Any additional members that may need to be
 inserted before
-.B data.tar.gz
+.B data.tar
 and which should be safely ignored by older programs, will have names
 starting with an underscore,
 .RB ` _ '.
 .PP
 Those new members which won't be able to be safely ignored will be
 inserted before
-.B data.tar.gz
+.B data.tar
 with names starting with something other than underscores, or will
 (more likely) cause the major version number to be increased.
 .SH SEE ALSO
