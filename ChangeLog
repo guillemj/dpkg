@@ -3,6 +3,13 @@
 	* lib/dpkg.h (ohshitvb): Remove function prototype.
 	* lib/ehandle.c (ohshitvb): Remove function definition.
 
+2009-02-06  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/update-alternatives.pl (set_links): Remove slavelinks
+	if needed as well. We create slave links automatically, we should
+	remove them in the same way. Otherwise --config or --set will let
+	dangling symlinks on the system.
+
 2009-02-06  Guillem Jover  <guillem@debian.org>
 
 	* man/deb.5: Add detailed information of the currently supported

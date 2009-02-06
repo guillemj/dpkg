@@ -309,6 +309,7 @@ sub set_links($$)
 	               $slavelinks[$slnum], $versions[$preferred]))
 	        if $verbosemode > 0;
 	    checked_rm("$altdir/$slave");
+            checked_rm($slavelinks[$slnum]);
 	}
     }
 }
