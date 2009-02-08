@@ -256,16 +256,6 @@ void print_error_fatal(const char *emsg, const char *contextstring) {
   fprintf(stderr, "%s: %s\n",thisname,emsg);
 }
 
-void ohshitvb(struct varbuf *vb) {
-  char *m;
-  varbufaddc(vb,0);
-  m= m_malloc(strlen(vb->buf));
-  strcpy(m,vb->buf);
-  errmsg= m;
-
-  run_error_handler();
-}
-
 void ohshitv(const char *fmt, va_list al) {
   vsnprintf(errmsgbuf,sizeof(errmsgbuf),fmt,al);
   errmsg= errmsgbuf;

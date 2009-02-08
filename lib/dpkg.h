@@ -172,7 +172,6 @@ struct varbuf;
 void ohshit(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void ohshitv(const char *fmt, va_list al) NONRETURNING;
 void ohshite(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
-void ohshitvb(struct varbuf*) NONRETURNING;
 void werr(const char *what) NONRETURNING;
 void warning(const char *fmt, ...) PRINTFFORMAT(1, 2);
 
