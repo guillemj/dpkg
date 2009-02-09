@@ -126,6 +126,7 @@ sub badusage
 
 sub read_link_group
 {
+    return 1 if not -s "$admindir/$name"; # Ignore empty file
     if (open(AF, "$admindir/$name")) {
 	$mode = gl("update_mode");
 	$mode eq 'auto' || $mode eq 'manual' || badfmt(_g("invalid update mode"));
