@@ -239,7 +239,7 @@ void unpackchk(const char *const *argv) {
 
 static void
 assert_version_support(const char *const *argv,
-                       struct versionrevision *verrev_buf,
+                       struct versionrevision *version,
                        const char *feature_name)
 {
   struct pkginfo *pkg;
@@ -256,7 +256,7 @@ assert_version_support(const char *const *argv,
     break;
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
   case stat_triggersawaited:
-    if (versionsatisfied3(&pkg->configversion,verrev_buf,dvr_laterequal))
+    if (versionsatisfied3(&pkg->configversion, version, dvr_laterequal))
       break;
     printf(_("Version of dpkg with working %s support not yet configured.\n"
              " Please use 'dpkg --configure dpkg', and then try again.\n"),
