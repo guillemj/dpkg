@@ -239,7 +239,8 @@ void unpackchk(const char *const *argv) {
 
 static void
 assert_version_support(const char *const *argv,
-                       struct versionrevision *verrev_buf)
+                       struct versionrevision *verrev_buf,
+                       const char *feature_name)
 {
   struct pkginfo *pkg;
 
@@ -257,33 +258,35 @@ assert_version_support(const char *const *argv,
   case stat_triggersawaited:
     if (versionsatisfied3(&pkg->configversion,verrev_buf,dvr_laterequal))
       break;
-    printf(_("Version of dpkg with working epoch support not yet configured.\n"
-           " Please use `dpkg --configure dpkg', and then try again.\n"));
+    printf(_("Version of dpkg with working %s support not yet configured.\n"
+             " Please use 'dpkg --configure dpkg', and then try again.\n"),
+           feature_name);
     exit(1);
   default:
-    printf(_("dpkg not recorded as installed, cannot check for epoch support !\n"));
+    printf(_("dpkg not recorded as installed, cannot check for %s support!\n"),
+           feature_name);
     exit(1);
   }
 }
 
 void assertpredep(const char *const *argv) {
   struct versionrevision version = { 0, "1.1.0", NULL };
-  assert_version_support(argv, &version);
+  assert_version_support(argv, &version, _("Pre-Depends field"));
 }
 
 void assertepoch(const char *const *argv) {
   struct versionrevision version = { 0, "1.4.0.7", NULL };
-  assert_version_support(argv, &version);
+  assert_version_support(argv, &version, _("epoch"));
 }
 
 void assertlongfilenames(const char *const *argv) {
   struct versionrevision version = { 0, "1.4.1.17", NULL };
-  assert_version_support(argv, &version);
+  assert_version_support(argv, &version, _("long filenames"));
 }
 
 void assertmulticonrep(const char *const *argv) {
   struct versionrevision version = { 0, "1.4.1.19", NULL };
-  assert_version_support(argv, &version);
+  assert_version_support(argv, &version, _("multiple Conflicts and Replaces"));
 }
 
 void predeppackage(const char *const *argv) {
