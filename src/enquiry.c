@@ -239,8 +239,7 @@ void unpackchk(const char *const *argv) {
 
 static void
 assert_version_support(const char *const *argv,
-                       struct versionrevision *verrev_buf,
-                       const char *reqversion)
+                       struct versionrevision *verrev_buf)
 {
   struct pkginfo *pkg;
 
@@ -248,11 +247,7 @@ assert_version_support(const char *const *argv,
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
-  if (verrev_buf->epoch == ~0UL) {
-    verrev_buf->epoch= 0;
-    verrev_buf->version= nfstrsave(reqversion);
-    verrev_buf->revision = NULL;
-  }
+
   pkg= findpackage("dpkg");
   switch (pkg->status) {
   case stat_installed:
@@ -272,23 +267,23 @@ assert_version_support(const char *const *argv,
 }
 
 void assertpredep(const char *const *argv) {
-  static struct versionrevision predepversion = { ~0UL, NULL, NULL };
-  assert_version_support(argv, &predepversion, "1.1.0");
+  struct versionrevision version = { 0, "1.1.0", NULL };
+  assert_version_support(argv, &version);
 }
 
 void assertepoch(const char *const *argv) {
-  static struct versionrevision epochversion = { ~0UL, NULL, NULL };
-  assert_version_support(argv, &epochversion, "1.4.0.7");
+  struct versionrevision version = { 0, "1.4.0.7", NULL };
+  assert_version_support(argv, &version);
 }
 
 void assertlongfilenames(const char *const *argv) {
-  static struct versionrevision epochversion = { ~0UL, NULL, NULL };
-  assert_version_support(argv, &epochversion, "1.4.1.17");
+  struct versionrevision version = { 0, "1.4.1.17", NULL };
+  assert_version_support(argv, &version);
 }
 
 void assertmulticonrep(const char *const *argv) {
-  static struct versionrevision epochversion = { ~0UL, NULL, NULL };
-  assert_version_support(argv, &epochversion, "1.4.1.19");
+  struct versionrevision version = { 0, "1.4.1.19", NULL };
+  assert_version_support(argv, &version);
 }
 
 void predeppackage(const char *const *argv) {
