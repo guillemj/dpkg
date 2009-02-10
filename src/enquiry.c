@@ -237,9 +237,11 @@ void unpackchk(const char *const *argv) {
   if (ferror(stdout)) werr("stdout");
 }
 
-static void assertversion(const char *const *argv,
-			struct versionrevision *verrev_buf,
-			const char *reqversion) {
+static void
+assert_version_support(const char *const *argv,
+                       struct versionrevision *verrev_buf,
+                       const char *reqversion)
+{
   struct pkginfo *pkg;
 
   if (*argv)
@@ -271,22 +273,22 @@ static void assertversion(const char *const *argv,
 
 void assertpredep(const char *const *argv) {
   static struct versionrevision predepversion = { ~0UL, NULL, NULL };
-  assertversion(argv,&predepversion,"1.1.0");
+  assert_version_support(argv, &predepversion, "1.1.0");
 }
 
 void assertepoch(const char *const *argv) {
   static struct versionrevision epochversion = { ~0UL, NULL, NULL };
-  assertversion(argv,&epochversion,"1.4.0.7");
+  assert_version_support(argv, &epochversion, "1.4.0.7");
 }
 
 void assertlongfilenames(const char *const *argv) {
   static struct versionrevision epochversion = { ~0UL, NULL, NULL };
-  assertversion(argv,&epochversion,"1.4.1.17");
+  assert_version_support(argv, &epochversion, "1.4.1.17");
 }
 
 void assertmulticonrep(const char *const *argv) {
   static struct versionrevision epochversion = { ~0UL, NULL, NULL };
-  assertversion(argv,&epochversion,"1.4.1.19");
+  assert_version_support(argv, &epochversion, "1.4.1.19");
 }
 
 void predeppackage(const char *const *argv) {
