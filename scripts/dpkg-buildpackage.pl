@@ -43,6 +43,8 @@ Options:
   -p<sign-command>
   -d             do not check build dependencies and conflicts.
   -D             check build dependencies and conflicts.
+  -T<target>     call debian/rules <target> with the proper environment
+  --as-root      ensure -T calls the target with root rights
   -j[<number>]   specify jobs to run simultaneously } passed to debian/rules
   -k<keyid>      the key to use for signing.
   -sgpg          the sign-command is called like GPG.
@@ -102,6 +104,8 @@ my $signchanges = 1;
 my $diffignore = '';
 my $binarytarget = 'binary';
 my $targetarch = my $targetgnusystem = '';
+my $call_target = '';
+my $call_target_as_root = 0;
 
 while (@ARGV) {
     $_ = shift @ARGV;
@@ -112,6 +116,8 @@ while (@ARGV) {
     } elsif (/^--version$/) {
 	showversion;
 	exit 0;
+    } elsif (/^--admindir$/) {
+        $admindir = shift @ARGV;
     } elsif (/^--admindir=(.*)$/) {
 	$admindir = $1;
     } elsif (/^-j(\d*)$/) {
@@ -149,6 +155,12 @@ while (@ARGV) {
 	$cleansource = 1;
     } elsif (/^-t(.*)$/) {
 	$targetgnusystem = $1; # Order DOES matter!
+    } elsif (/^(--target|-T)$/) {
+        $call_target = shift @ARGV;
+    } elsif (/^(--target=|-T)(.+)$/) {
+        $call_target = $2;
+    } elsif (/^--as-root$/) {
+        $call_target_as_root = 1;
     } elsif (/^-nc$/) {
 	$noclean = 1;
 	if ($sourceonly) {
@@ -333,6 +345,8 @@ unless ($sourceonly) {
     $arch = 'source';
 }
 
+# Preparation of environment stops here
+
 (my $sversion = $version) =~ s/^\d+://;
 
 my $pv = "${pkg}_$sversion";
@@ -354,6 +368,17 @@ if ($checkbuilddep) {
 	    exit 3;
 	}
     }
+}
+
+if ($call_target) {
+    if ($call_target_as_root or
+        $call_target =~ /^(clean|binary(|-arch|-indep))$/)
+    {
+        withecho(@rootcommand, @debian_rules, $call_target);
+    } else {
+        withecho(@debian_rules, $call_target);
+    }
+    exit 0;
 }
 
 unless ($noclean) {
