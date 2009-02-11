@@ -141,6 +141,11 @@ dpkg (1.15.0) UNRELEASED; urgency=low
   * Add new --target and --as-root options to dpkg-buildpackage to call
     any debian/rules target with the proper build environment.
     Closes: #477916
+  * Move update-alternatives, dpkg-divert and dpkg-statoverride to /usr/bin
+    but keep compatibility symlinks in /usr/sbin for the squeeze release
+    until all maintainer scripts are fixed (see
+    http://lintian.debian.org/tags/command-with-path-in-maintainer-script.html).
+    Closes: #216606
 
   [ Pierre Habouzit ]
   * Add a --query option to update-alternatives. Closes: #336091, #441904

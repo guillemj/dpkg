@@ -8,6 +8,7 @@ bin_SCRIPTS = \
 	dpkg-buildpackage \
 	dpkg-checkbuilddeps \
 	dpkg-distaddfile \
+	dpkg-divert \
 	dpkg-genchanges \
 	dpkg-gencontrol \
 	dpkg-gensymbols \
@@ -16,13 +17,12 @@ bin_SCRIPTS = \
 	dpkg-scanpackages \
 	dpkg-scansources \
 	dpkg-shlibdeps \
-	dpkg-source
+	dpkg-statoverride \
+	dpkg-source \
+	update-alternatives
 
 sbin_SCRIPTS = \
-	cleanup-info \
-	dpkg-divert \
-	dpkg-statoverride \
-	update-alternatives
+	cleanup-info
 
 changelogdir = $(pkglibdir)/parsechangelog
 changelog_SCRIPTS = \
