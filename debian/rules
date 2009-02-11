@@ -92,14 +92,7 @@ binary-arch: install
 	dh_installchangelogs -a ChangeLog
 	dh_installdocs -a
 	dh_link -a
-
-	install -d debian/dpkg/usr/share/lintian/overrides
-	install -m 644 debian/dpkg.lintian-overrides \
-		       debian/dpkg/usr/share/lintian/overrides/dpkg
-	install -d debian/dselect/usr/share/lintian/overrides
-	install -m 644 debian/dselect.lintian-overrides \
-		       debian/dselect/usr/share/lintian/overrides/dselect
-
+	dh_lintian -a
 	dh_strip -a
 	dh_compress -a
 	dh_fixperms -a
@@ -118,11 +111,7 @@ binary-indep: install
 	dh_installchangelogs -i ChangeLog
 	dh_installdocs -i
 	dh_link -i
-
-	install -d debian/dpkg-dev/usr/share/lintian/overrides
-	install -m 644 debian/dpkg-dev.lintian-overrides \
-		       debian/dpkg-dev/usr/share/lintian/overrides/dpkg-dev
-
+	dh_lintian -i
 	dh_strip -i
 	dh_compress -i
 	dh_fixperms -i
@@ -138,6 +127,7 @@ binary: binary-arch binary-indep
 clean:
 	dh_testdir
 
+	[ ! -f Makefile ] || make distclean
 	rm -rf build-tree
 	dh_clean
 
