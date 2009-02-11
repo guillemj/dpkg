@@ -66,3 +66,11 @@ pkg_array_sort(struct pkg_array *a, pkg_sorter_func *pkg_sort)
 	qsort(a->pkgs, a->n_pkgs, sizeof(a->pkgs[0]), pkg_sort);
 }
 
+void
+pkg_array_free(struct pkg_array *a)
+{
+	a->n_pkgs = 0;
+	free(a->pkgs);
+	a->pkgs = NULL;
+}
+

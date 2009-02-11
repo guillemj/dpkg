@@ -78,6 +78,8 @@ void getselections(const char *const *argv) {
   }
   if (ferror(stdout)) werr("stdout");
   if (ferror(stderr)) werr("stderr");
+
+  pkg_array_free(&array);
 }
 
 void setselections(const char *const *argv) {

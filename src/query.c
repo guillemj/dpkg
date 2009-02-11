@@ -181,6 +181,8 @@ void listpackages(const char *const *argv) {
 
   if (ferror(stdout)) werr("stdout");
   if (ferror(stderr)) werr("stderr");  
+
+  pkg_array_free(&array);
   modstatdb_shutdown();
 }
 
@@ -427,6 +429,8 @@ void showpackages(const char *const *argv) {
 
   if (ferror(stdout)) werr("stdout");
   if (ferror(stderr)) werr("stderr");  
+
+  pkg_array_free(&array);
   freeformat(fmt);
   modstatdb_shutdown();
 }
