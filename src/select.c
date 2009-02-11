@@ -27,13 +27,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include <fnmatch.h>
 #include <ctype.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>
 
+#include "pkg-array.h"
 #include "filesdb.h"
 #include "main.h"
 
@@ -46,38 +46,29 @@ static void getsel1package(struct pkginfo *pkg) {
 }         
 
 void getselections(const char *const *argv) {
-  struct pkgiterator *it;
+  struct pkg_array array;
   struct pkginfo *pkg;
-  struct pkginfo **pkgl;
   const char *thisarg;
-  int np, i, head, found;
+  int i, head, found;
 
   modstatdb_init(admindir,msdbrw_readonly);
 
-  np= countpackages();
-  pkgl= m_malloc(sizeof(struct pkginfo*)*np);
-  it= iterpkgstart(); i=0;
-  while ((pkg= iterpkgnext(it))) {
-    assert(i<np);
-    pkgl[i++]= pkg;
-  }
-  iterpkgend(it);
-  assert(i==np);
+  pkg_array_init_from_db(&array);
+  pkg_array_sort(&array, pkglistqsortcmp);
 
-  qsort(pkgl,np,sizeof(struct pkginfo*),pkglistqsortcmp);
   head=0;
   
   if (!*argv) {
-    for (i=0; i<np; i++) {
-      pkg= pkgl[i];
+    for (i = 0; i < array.n_pkgs; i++) {
+      pkg = array.pkgs[i];
       if (pkg->status == stat_notinstalled) continue;
       getsel1package(pkg);
     }
   } else {
     while ((thisarg= *argv++)) {
       found= 0;
-      for (i=0; i<np; i++) {
-        pkg= pkgl[i];
+      for (i = 0; i < array.n_pkgs; i++) {
+        pkg = array.pkgs[i];
         if (fnmatch(thisarg,pkg->name,0)) continue;
         getsel1package(pkg); found++;
       }

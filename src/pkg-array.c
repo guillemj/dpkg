@@ -3,6 +3,7 @@
  * pkg-array.c - primitives for pkg array handling
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -22,11 +23,15 @@
 #include <config.h>
 #include <compat.h>
 
+#include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include <dpkg-priv.h>
+
+#include "pkg-array.h"
 
 int
 pkglistqsortcmp(const void *a, const void *b)
@@ -35,5 +40,29 @@ pkglistqsortcmp(const void *a, const void *b)
 	const struct pkginfo *pb = *(const struct pkginfo **)b;
 
 	return strcmp(pa->name, pb->name);
+}
+
+void
+pkg_array_init_from_db(struct pkg_array *a)
+{
+	struct pkgiterator *it;
+	struct pkginfo *pkg;
+	int i;
+
+	a->n_pkgs = countpackages();
+	a->pkgs = m_malloc(sizeof(a->pkgs[0]) * a->n_pkgs);
+
+	it = iterpkgstart();
+	for (i = 0; (pkg = iterpkgnext(it)); i++)
+		a->pkgs[i] = pkg;
+	iterpkgend(it);
+
+	assert(i == a->n_pkgs);
+}
+
+void
+pkg_array_sort(struct pkg_array *a, pkg_sorter_func *pkg_sort)
+{
+	qsort(a->pkgs, a->n_pkgs, sizeof(a->pkgs[0]), pkg_sort);
 }
 

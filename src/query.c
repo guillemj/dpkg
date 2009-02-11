@@ -28,7 +28,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <fnmatch.h>
-#include <assert.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -45,6 +44,7 @@
 #include <dpkg-priv.h>
 #include <myopt.h>
 
+#include "pkg-array.h"
 #include "filesdb.h"
 #include "main.h"
 
@@ -71,8 +71,9 @@ static int getwidth(void) {
   }
 }
 
-static void list1package(struct pkginfo *pkg, int *head,
-			 struct pkginfo **pkgl, int np) {
+static void
+list1package(struct pkginfo *pkg, int *head, struct pkg_array *array)
+{
   int i,l,w;
   static int nw,vw,dw;
   const char *pdesc;
@@ -82,15 +83,16 @@ static void list1package(struct pkginfo *pkg, int *head,
     w=getwidth();
     if (w == -1) {
       nw=14, vw=14, dw=44;
-      for (i=0; i<np; i++) {
+      for (i = 0; i < array->n_pkgs; i++) {
 	const char *pdesc;
 	int plen, vlen, dlen;
 
 	pdesc = pkg->installed.valid ? pkg->installed.description : NULL;
 	if (!pdesc) pdesc= _("(no description available)");
 
-	plen= strlen(pkgl[i]->name);
-	vlen = strlen(versiondescribe(&pkgl[i]->installed.version, vdew_nonambig));
+	plen = strlen(array->pkgs[i]->name);
+	vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
+	                              vdew_nonambig));
 	dlen= strcspn(pdesc, "\n");
 	if (plen > nw) nw = plen;
 	if (vlen > vw) vw = vlen;
@@ -132,31 +134,22 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
 }
 
 void listpackages(const char *const *argv) {
-  struct pkgiterator *it;
+  struct pkg_array array;
   struct pkginfo *pkg;
-  struct pkginfo **pkgl;
-  int np, i, head;
+  int i, head;
 
   modstatdb_init(admindir,msdbrw_readonly);
 
-  np= countpackages();
-  pkgl= m_malloc(sizeof(struct pkginfo*)*np);
-  it= iterpkgstart(); i=0;
-  while ((pkg= iterpkgnext(it))) {
-    assert(i<np);
-    pkgl[i++]= pkg;
-  }
-  iterpkgend(it);
-  assert(i==np);
+  pkg_array_init_from_db(&array);
+  pkg_array_sort(&array, pkglistqsortcmp);
 
-  qsort(pkgl, np, sizeof(struct pkginfo*), pkglistqsortcmp);
   head = 0;
 
   if (!*argv) {
-    for (i=0; i<np; i++) {
-      pkg= pkgl[i];
+    for (i = 0; i < array.n_pkgs; i++) {
+      pkg = array.pkgs[i];
       if (pkg->status == stat_notinstalled) continue;
-      list1package(pkg, &head, pkgl, np);
+      list1package(pkg, &head, &array);
     }
   } else {
     int argc, ip, *found;
@@ -165,11 +158,11 @@ void listpackages(const char *const *argv) {
     found = m_malloc(sizeof(int) * argc);
     memset(found, 0, sizeof(int) * argc);
 
-    for (i = 0; i < np; i++) {
-      pkg = pkgl[i];
+    for (i = 0; i < array.n_pkgs; i++) {
+      pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
         if (!fnmatch(argv[ip], pkg->name, 0)) {
-          list1package(pkg, &head, pkgl, np);
+          list1package(pkg, &head, &array);
           found[ip]++;
           break;
         }
@@ -383,10 +376,9 @@ void enqperpackage(const char *const *argv) {
 }
 
 void showpackages(const char *const *argv) {
-  struct pkgiterator *it;
+  struct pkg_array array;
   struct pkginfo *pkg;
-  struct pkginfo **pkgl;
-  int np, i;
+  int i;
   struct lstitem* fmt = parseformat(showformat);
 
   if (!fmt) {
@@ -396,21 +388,12 @@ void showpackages(const char *const *argv) {
 
   modstatdb_init(admindir,msdbrw_readonly);
 
-  np= countpackages();
-  pkgl= m_malloc(sizeof(struct pkginfo*)*np);
-  it= iterpkgstart(); i=0;
-  while ((pkg= iterpkgnext(it))) {
-    assert(i<np);
-    pkgl[i++]= pkg;
-  }
-  iterpkgend(it);
-  assert(i==np);
+  pkg_array_init_from_db(&array);
+  pkg_array_sort(&array, pkglistqsortcmp);
 
-  qsort(pkgl,np,sizeof(struct pkginfo*),pkglistqsortcmp);
-  
   if (!*argv) {
-    for (i=0; i<np; i++) {
-      pkg= pkgl[i];
+    for (i = 0; i < array.n_pkgs; i++) {
+      pkg = array.pkgs[i];
       if (pkg->status == stat_notinstalled) continue;
       show1package(fmt,pkg);
     }
@@ -421,8 +404,8 @@ void showpackages(const char *const *argv) {
     found = m_malloc(sizeof(int) * argc);
     memset(found, 0, sizeof(int) * argc);
 
-    for (i = 0; i < np; i++) {
-      pkg = pkgl[i];
+    for (i = 0; i < array.n_pkgs; i++) {
+      pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
         if (!fnmatch(argv[ip], pkg->name, 0)) {
           show1package(fmt, pkg);
