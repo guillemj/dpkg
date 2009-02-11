@@ -66,7 +66,6 @@ dist-hook: man.stamp
 
 dist_man_MANS = \
 	822-date.1 \
-	cleanup-info.8 \
 	deb-control.5 \
 	deb-version.5 \
 	deb-shlibs.5 \

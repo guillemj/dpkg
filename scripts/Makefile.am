@@ -21,9 +21,6 @@ bin_SCRIPTS = \
 	dpkg-source \
 	update-alternatives
 
-sbin_SCRIPTS = \
-	cleanup-info
-
 changelogdir = $(pkglibdir)/parsechangelog
 changelog_SCRIPTS = \
 	changelog/debian
@@ -44,7 +41,6 @@ EXTRA_DIST = \
 	dpkg-scansources.pl \
 	dpkg-shlibdeps.pl \
 	dpkg-source.pl \
-	cleanup-info.pl \
 	dpkg-divert.pl \
 	dpkg-statoverride.pl \
 	install-info.pl \
@@ -82,7 +78,7 @@ EXTRA_DIST = \
 	t/900_update_alternatives.t
 
 CLEANFILES = \
-	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
+	$(bin_SCRIPTS) $(changelog_SCRIPTS) \
 	install-info install-info-stamp
 
 perllibdir = $(PERL_LIBDIR)
