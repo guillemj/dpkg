@@ -458,10 +458,7 @@ printversion(void)
 	       "See %s --license for copyright and license details.\n"),
 	     DPKGQUERY) < 0) werr("stdout");
 }
-/*
-   options that need fixing:
-  dpkg --yet-to-unpack                 \n\
-  */
+
 void
 usage(void)
 {
