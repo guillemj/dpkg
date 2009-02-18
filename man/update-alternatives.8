@@ -5,7 +5,7 @@
 .\" by the Free Software Foundation; either version 2 of the License, or
 .\" (at your option) any later version.  There is NO WARRANTY.  You can
 .\" find the GNU GPL in /usr/share/common-licenses/GPL on any Debian system.
-.TH update\-alternatives 8 "2008-08-18" "Debian Project" "dpkg utilities"
+.TH update\-alternatives 8 "2009-02-18" "Debian Project" "dpkg utilities"
 .SH NAME
 update\-alternatives \- maintain symbolic links determining default commands
 .
@@ -67,9 +67,9 @@ is called to update information about that file in the alternatives system.
 .B update\-alternatives
 is usually called from the
 .B postinst
-or
+(configure) or
 .B prerm
-scripts in Debian packages.
+(install) scripts in Debian packages.
 .PP
 It is often useful for a number of alternatives to be synchronised,
 so that they are changed as a group; for example, when several versions
@@ -122,7 +122,7 @@ option,
 will list all of the choices for the link group
 of which given
 .I name
-is the master link. The current choice is marked with a '*'.
+is the master alternative name. The current choice is marked with a '*'.
 You will then be prompted for your choice regarding this link group.
 Depending on the choice made, the link group might no longer be in
 .I auto
@@ -138,11 +138,11 @@ option instead (see below).
 .PP
 Different packages providing the same file need to do so
 .BR cooperatively .
-That is - the usage of
+In other words, the usage of
 .B update\-alternatives
 is
 .B mandatory
-for all involved packages in such case - it is not possible to
+for all involved packages in such case. It is not possible to
 override some file in a package that does not employ the
 .B update\-alternatives
 mechanism.
@@ -153,18 +153,16 @@ Since the activities of
 are quite involved, some specific terms will help to explain its
 operation.
 .TP
-generic name
+generic name (or alternative link)
 A name, like
 .IR /usr/bin/editor ,
 which refers, via the alternatives system, to one of a number of
 files of similar function.
 .TP
-symlink
-Without any further qualification, this means a symbolic link in the
-alternatives directory: one which the system administrator is expected
-to adjust.
+alternative name
+The name of a symbolic link in the alternatives directory.
 .TP
-alternative
+alternative (or alternative path)
 The name of a specific file in the filesystem, which may be made
 accessible via a generic name using the alternatives system.
 .TP
@@ -184,11 +182,11 @@ link group
 A set of related symlinks, intended to be updated as a group.
 .TP
 master link
-The link in a link group which determines how the other links in the
+The alternative link in a link group which determines how the other links in the
 group are configured.
 .TP
 slave link
-A link in a link group which is controlled by the setting of
+An alternative link in a link group which is controlled by the setting of
 the master link.
 .TP
 automatic mode
@@ -204,22 +202,22 @@ to the system administrator's settings.
 .
 .SH COMMANDS
 .TP
-\fB\-\-install\fR \fIgenname symlink altern priority\fR [\fB\-\-slave\fR \fIgenname symlink altern\fR]...
+\fB\-\-install\fR \fIlink name path priority\fR [\fB\-\-slave\fR \fIlink name path\fR]...
 Add a group of alternatives to the system.
-.I genname
+.I link
 is the generic name for the master link,
-.I symlink
+.I name
 is the name of its symlink in the alternatives directory, and
-.I altern
+.I path
 is the alternative being introduced for the master link.
 The arguments after \fB\-\-slave\fR are the generic name, symlink name in the
-alternatives directory and the alternative for a slave link.
+alternatives directory and the alternative path for a slave link.
 Zero or more
 .B \-\-slave
 options, each followed by three arguments,
 may be specified.
 .IP
-If the master symlink specified exists already
+If the alternative name specified exists already
 in the alternatives system's records,
 the information supplied will be added as a new
 set of alternatives for the group.
@@ -251,7 +249,8 @@ could be linked. If
 is indeed linked to
 .IR path ,
 .I name
-will be updated to point to another appropriate alternative, or
+will be updated to point to another appropriate alternative
+(and the group is put back in automatic mode), or
 removed if there is no such alternative left.
 Associated slave links will be updated or removed, correspondingly.
 If the link is not currently pointing to
@@ -269,34 +268,31 @@ Call \fB\-\-config\fP on all alternatives. It can be usefully combined with
 \fB\-\-skip\-auto\fP to review and configure all alternatives which are
 not configured in automatic mode. Broken alternatives are also displayed.
 .TP
-\fB\-\-auto\fR \fIlink\fR
-Switch the master symlink
+\fB\-\-auto\fR \fIname\fR
+Switch the link group behind the alternative name
 .I link
 to automatic mode.
-In the process, this symlink and its slaves are updated
+In the process, the master symlink and its slaves are updated
 to point to the highest priority installed alternatives.
 .TP
-\fB\-\-display\fR \fIlink\fR
-Display information about the link group of which
-.I link
-is the master link.
+\fB\-\-display\fR \fIname\fR
+Display information about the link group.
 Information displayed includes the group's mode
 (auto or manual),
-which alternative the symlink currently points to,
+which alternative the master link currently points to,
 what other alternatives are available
 (and their corresponding slave alternatives),
 and the highest priority alternative currently installed.
 .TP
-\fB\-\-query\fR \fIlink\fR
-Display information about the link group of which
-.I link
-is the master link like \-\-display does, but in a machine parseable way
+\fB\-\-query\fR \fIname\fR
+Display information about the link group
+like \-\-display does, but in a machine parseable way
 (see section \fBQUERY FORMAT\fR below).
 .TP
-\fB\-\-list\fR \fIlink\fR
+\fB\-\-list\fR \fIname\fR
 Display all targets of the link group.
 .TP
-\fB\-\-config\fR \fIlink\fR
+\fB\-\-config\fR \fIname\fR
 Show available alternatives for a link group and allow the user to
 interactively select which one to use. The link group is updated.
 .TP
@@ -328,7 +324,6 @@ is doing.
 .TP
 .B \-\-quiet
 Don't generate any comments unless errors occur.
-This option is not yet implemented.
 .
 .SH FILES
 .TP
@@ -369,13 +364,8 @@ there is no alternatives available.
 .TP
 .BR Value: " <currently selected alternative> "
 The path of the currently selected alternative. It can also take the magic
-values \fBnone\fR or \fBerror\fR. The former is used if the link doesn't
-exist, and the latter in case of error.
+values \fBnone\fR. It is used if the link doesn't exist.
 .TP
-.BR Error: " <error details>"
-When \fBValue\fR is \fBerror\fR, this field is present and contains a human readable
-string explaining the error.
-.
 .TP
 The other blocks describe the available alternatives in the queried link group:
 .TP
@@ -422,6 +412,7 @@ Slaves:
 .fi
 .
 .SH DIAGNOSTICS
+With \fI--verbose\fR
 .B update\-alternatives
 chatters incessantly about its activities on its standard output channel.
 If problems occur,
@@ -459,21 +450,23 @@ this as root:
 .RE
 .
 .SH BUGS
-If you find a bug, please report it using the Debian bug-tracking system,
-or, if that is not possible, email the author directly.
+If you find a bug, please report it using the Debian bug-tracking system.
 .PP
 If you find any discrepancy between the operation of
 .B update\-alternatives
 and this manual page, it is a bug,
 either in the implementation or the documentation; please report it.
 .
-.SH AUTHOR
+.SH AUTHORS
 Copyright \(co 1995 Ian Jackson
+.br
+Copyright \(co 2009 Rapha\[:e]l Hertzog
 .sp
 This is free software; see the GNU General Public Licence version 2 or
 later for copying conditions. There is NO WARRANTY.
 .PP
-This manual page is copyright 1997,1998 Charles Briscoe-Smith.
+This manual page is copyright 1997,1998 Charles Briscoe-Smith and
+others.
 .sp
 This is free documentation; see the GNU General Public Licence version 2 or
 later for copying conditions. There is NO WARRANTY.
