@@ -99,8 +99,11 @@ sub set_choice {
 sub config_choice {
     my ($id, %opts) = @_;
     my ($input,	$output) = ("", "");
-    if (defined $id) {
-	$input = $id + 1;
+    if ($id >= 0) {
+	my $alt = $choices[$id];
+	$input = $alt->{path};
+    } else {
+	$input = "0";
     }
     $input .= "\n";
     $opts{from_string} = \$input;
@@ -162,7 +165,8 @@ sub check_choice {
     if (defined $id) {
 	# Check status
 	call_ua([ "--query", "$main_name" ], to_string => \$output);
-	ok(($output =~ /^Status: $mode$/im), "$msg: status is not $mode.");
+	$output =~ /^Status: (.*)$/im;
+	is($1, $mode, "$msg: status is not $mode.");
 	# Check links
 	my $alt = $choices[$id];
 	check_link("$altdir/$main_name", $alt->{path}, $msg);
@@ -221,11 +225,9 @@ ok(unlink("$altdir/generic-test"), "failed removal");
 install_choice(1);
 check_choice(0, "auto", "<altdir>/generic-test lost, back to auto");
 # test --config
-# TODO: for now order of choices in config depends on order of --install calls
-# it's not very "test-friendly"
-config_choice(1);
-check_choice(0, "manual", "config to best but manual");
 config_choice(0);
+check_choice(0, "manual", "config to best but manual");
+config_choice(1);
 check_choice(1, "manual", "config to manual");
 config_choice(-1);
 check_choice(0, "auto", "config auto");
@@ -263,4 +265,4 @@ system("echo garbage > $admindir/generic-test");
 install_choice(0, error_to_file => "/dev/null", expect_failure => 1);
 
 # TODO: add checks for invalid values of parameters, add checks for
-# usage of links as both master and slave
+# usage of links as both master and slave, install in non-existing dir
