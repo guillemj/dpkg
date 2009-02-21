@@ -32,6 +32,7 @@ $| = 1;
 # Main program
 #
 
+my @COPY_ARGV = @ARGV;
 while (@ARGV) {
     $_ = shift(@ARGV);
     last if m/^--$/;
@@ -136,6 +137,7 @@ if ($action eq 'display') {
 }
 
 # Actions below might modify the system
+log_msg("run with @COPY_ARGV");
 
 my $current_choice = '';
 if ($alternative->has_current_link()) {
@@ -245,13 +247,15 @@ if ($action eq 'set') {
 
 # No choice left, remove everything
 if (not scalar($alternative->choices())) {
+    log_msg("link group " . $alternative->name() . " fully removed");
     $alternative->remove();
     exit 0;
 }
 
 # New choice wanted
-#print "NEW: $new_choice, was $current_choice\n";
 if (defined($new_choice) and ($current_choice ne $new_choice)) {
+    log_msg("link group " . $alternative->name() .
+            " updated to point to " . $new_choice);
     printf _g("Using '%s' to provide '%s' in %s.") . "\n", $new_choice,
            $alternative->name(),
            ($alternative->status() eq "auto" ? _g("auto mode") : _g("manual mode"))
@@ -259,6 +263,7 @@ if (defined($new_choice) and ($current_choice ne $new_choice)) {
     $alternative->prepare_install($new_choice);
 } elsif ($alternative->is_broken()) {
     # TODO: warn & log
+    log_msg("auto-repair link group " . $alternative->name());
     $alternative->prepare_install($current_choice) if $current_choice;
 }
 
@@ -348,6 +353,24 @@ sub set_action {
         badusage(_g("two commands specified: --%s and --%s"), $value, $action);
     }
     $action = $value;
+}
+
+{
+    my $fh_log;
+    sub log_msg {
+        my ($msg) = @_;
+        # XXX: the C rewrite must use the std function to get the
+        # filename from /etc/dpkg/dpkg.cfg or from command line
+        if (!defined($fh_log) and -w "/var/log/dpkg.log") {
+            open($fh_log, ">>", "/var/log/dpkg.log") ||
+                quit(_g("Can't append to %s"), "/var/log/dpkg.log");
+        }
+        if (defined($fh_log)) {
+            $msg = POSIX::strftime("%Y-%m-%d %H:%M:%S", localtime()) .
+                   " $progname: $msg\n";
+            print $fh_log $msg;
+        }
+    }
 }
 
 sub config_all {
@@ -525,6 +548,7 @@ sub set_status {
     if (!defined($self->status()) or $status ne $self->status()) {
         $self->{modified} = 1;
     }
+    main::log_msg("status of link group " . $self->name() . " set to $status");
     $self->{status} = $status;
 }
 sub set_link {
