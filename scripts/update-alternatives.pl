@@ -122,9 +122,10 @@ foreach my $alt_name (get_all_alternatives()) {
     }
 }
 # Check that caller don't mix links between alternatives and don't mix
-# alternatives between
+# alternatives between slave/master, and that the various parameters
+# are fine
 if ($action eq "install") {
-    my ($name, $link) = ($inst_alt->name(), $inst_alt->link());
+    my ($name, $link, $file) = ($inst_alt->name(), $inst_alt->link(), $fileset->master());
     if (exists $ALL{parent}{$name} and $ALL{parent}{$name} ne $name) {
         badusage(_g("Alternative %s can't be master: %s"), $name,
                  sprintf(_g("it is a slave of %s"), $ALL{parent}{$name}));
@@ -133,8 +134,16 @@ if ($action eq "install") {
         badusage(_g("Alternative link %s is already managed by %s."),
                  $link, $ALL{parent}{$ALL{links}{$link}});
     }
+    badusage(_g("Alternative link (%s) is not absolute as it should be."),
+             $link) unless $link =~ m|^/|;
+    badusage(_g("Alternative path (%s) is not absolute as it should be."),
+             $file) unless $file =~ m|^/|;
+    badusage(_g("Alternative path (%s) doesn't exist."), $file)
+        unless -e $file;
+    badusage(_g("Alternative name (%s) is invalid."), $name) if $name =~ m|[/\s]|;
     foreach my $slave ($inst_alt->slaves()) {
         $link = $inst_alt->slave_link($slave);
+        $file = $fileset->slave($slave);
         if (exists $ALL{parent}{$slave} and $ALL{parent}{$slave} ne $name) {
             badusage(_g("Alternative %s can't be slave of %s: %s"),
                      $slave, $name, ($ALL{parent}{$slave} eq $slave) ?
@@ -146,6 +155,12 @@ if ($action eq "install") {
             badusage(_g("Alternative link %s is already managed by %s."),
                      $link, $ALL{parent}{$ALL{links}{$link}});
         }
+        badusage(_g("Alternative link (%s) is not absolute as it should be."),
+                 $link) unless $link =~ m|^/|;
+        badusage(_g("Alternative path (%s) is not absolute as it should be."),
+                 $file) unless $file =~ m|^/|;
+        badusage(_g("Alternative name (%s) is invalid."), $slave)
+            if $slave =~ m|[/\s]|;
     }
 }
 

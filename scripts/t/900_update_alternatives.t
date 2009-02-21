@@ -53,7 +53,7 @@ my @choices = (
 );
 my $nb_slaves = 2;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 18 # number of check_choices
-		+ 44;			      # rest
+		+ 49;			      # rest
 
 sub cleanup {
     system("rm -rf $srcdir/t.tmp/ua && mkdir -p $admindir && mkdir -p $altdir");
@@ -281,5 +281,21 @@ call_ua(["--install", "$bindir/slave1", "testmaster", "/bin/date", "10"],
 call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
 	 "--slave", "$bindir/generic-test", "testslave", "/bin/true" ],
 	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# lack of absolute filenames in links or file path, non-existing path,
+call_ua(["--install", "../testmaster", "testmaster", "/bin/date", "10"],
+        expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+call_ua(["--install", "$bindir/testmaster", "testmaster", "./update-alternatives.pl", "10"],
+        expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# non-existing alternative path
+call_ua(["--install", "$bindir/testmaster", "testmaster", "$bindir/doesntexist", "10"],
+        expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# invalid alternative name in master
+call_ua(["--install", "$bindir/testmaster", "test/master", "/bin/date", "10"],
+        expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# invalid alternative name in slave
+call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
+	 "--slave", "$bindir/testslave", "test slave", "/bin/true" ],
+	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
 
-# TODO: add checks for invalid values of parameters, install in non-existing dir
+# TODO: install in non-existing dir, handle of pre-existing files in place
+# of alternative links
