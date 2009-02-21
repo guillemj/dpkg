@@ -53,7 +53,7 @@ my @choices = (
 );
 my $nb_slaves = 2;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 18 # number of check_choices
-		+ 39;			      # rest
+		+ 44;			      # rest
 
 sub cleanup {
     system("rm -rf $srcdir/t.tmp/ua && mkdir -p $admindir && mkdir -p $altdir");
@@ -264,5 +264,22 @@ cleanup();
 system("echo garbage > $admindir/generic-test");
 install_choice(0, error_to_file => "/dev/null", expect_failure => 1);
 
-# TODO: add checks for invalid values of parameters, add checks for
-# usage of links as both master and slave, install in non-existing dir
+# test invalid usages
+cleanup();
+install_choice(0);
+# try to install a slave alternative as new master
+call_ua(["--install", "$bindir/testmaster", "slave1", "/bin/date", "10"],
+        expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# try to install a master alternative as slave
+call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
+	 "--slave", "$bindir/testslave", "generic-test", "/bin/true" ],
+	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# try to reuse links in master alternative
+call_ua(["--install", "$bindir/slave1", "testmaster", "/bin/date", "10"],
+        expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# try to reuse links in slave alternative
+call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
+	 "--slave", "$bindir/generic-test", "testslave", "/bin/true" ],
+	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+
+# TODO: add checks for invalid values of parameters, install in non-existing dir

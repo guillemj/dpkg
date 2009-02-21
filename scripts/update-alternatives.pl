@@ -108,6 +108,47 @@ while (@ARGV) {
 badusage(_g("need --display, --query, --list, --config, --set, --install," .
             "--remove, --all, --remove-all or --auto")) unless $action;
 
+# Load infos about all alternatives to be able to check for mistakes
+my %ALL;
+foreach my $alt_name (get_all_alternatives()) {
+    my $alt = Alternative->new($alt_name);
+    next unless $alt->load("$admdir/$alt_name", 1);
+    $ALL{objects}{$alt_name} = $alt;
+    $ALL{links}{$alt->link()} = $alt_name;
+    $ALL{parent}{$alt_name} = $alt_name;
+    foreach my $slave ($alt->slaves()) {
+        $ALL{links}{$alt->slave_link($slave)} = $slave;
+        $ALL{parent}{$slave} = $alt_name;
+    }
+}
+# Check that caller don't mix links between alternatives and don't mix
+# alternatives between
+if ($action eq "install") {
+    my ($name, $link) = ($inst_alt->name(), $inst_alt->link());
+    if (exists $ALL{parent}{$name} and $ALL{parent}{$name} ne $name) {
+        badusage(_g("Alternative %s can't be master: %s"), $name,
+                 sprintf(_g("it is a slave of %s"), $ALL{parent}{$name}));
+    }
+    if (exists $ALL{links}{$link} and $ALL{links}{$link} ne $name) {
+        badusage(_g("Alternative link %s is already managed by %s."),
+                 $link, $ALL{parent}{$ALL{links}{$link}});
+    }
+    foreach my $slave ($inst_alt->slaves()) {
+        $link = $inst_alt->slave_link($slave);
+        if (exists $ALL{parent}{$slave} and $ALL{parent}{$slave} ne $name) {
+            badusage(_g("Alternative %s can't be slave of %s: %s"),
+                     $slave, $name, ($ALL{parent}{$slave} eq $slave) ?
+                        _g("it is a master alternative.") :
+                        sprintf(_g("it is a slave of %s"), $ALL{parent}{$slave})
+                     );
+        }
+        if (exists $ALL{links}{$link} and $ALL{links}{$link} ne $slave) {
+            badusage(_g("Alternative link %s is already managed by %s."),
+                     $link, $ALL{parent}{$ALL{links}{$link}});
+        }
+    }
+}
+
 # Handle actions
 if ($action eq 'all') {
     config_all();
@@ -373,12 +414,16 @@ sub set_action {
     }
 }
 
-sub config_all {
+sub get_all_alternatives {
     opendir(ADMINDIR, $admdir)
         or quit(_g("can't readdir %s: %s"), $admdir, $!);
-    my @filenames = grep !/^\.\.?$/, readdir ADMINDIR;
+    my @filenames = grep { !/^\.\.?$/ and !/\.dpkg-tmp$/ } (readdir(ADMINDIR));
     close(ADMINDIR);
-    foreach my $name (@filenames) {
+    return sort @filenames;
+}
+
+sub config_all {
+    foreach my $name (get_all_alternatives()) {
         system "$0 $skip --config $name";
         exit $? if $?;
         print "\n";
