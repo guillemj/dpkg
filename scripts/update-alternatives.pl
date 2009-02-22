@@ -70,8 +70,8 @@ while (@ARGV) {
 	set_action($1);
         @ARGV || badusage(_g("--%s needs <name>"), $1);
         $alternative = Alternative->new(shift(@ARGV));
-    } elsif (m/^--all$/) {
-	set_action('all');
+    } elsif (m/^--(all|get-selections)$/) {
+	set_action($1);
     } elsif (m/^--slave$/) {
         badusage(_g("--slave only allowed with --install"))
             unless $action eq "install";
@@ -105,8 +105,9 @@ while (@ARGV) {
     }
 }
 
-badusage(_g("need --display, --query, --list, --config, --set, --install," .
-            "--remove, --all, --remove-all or --auto")) unless $action;
+badusage(_g("need --display, --query, --list, --get-selections, --config," .
+            "--set, --install, --remove, --all, --remove-all or --auto"))
+    unless $action;
 
 # Load infos about all alternatives to be able to check for mistakes
 my %ALL;
@@ -167,6 +168,12 @@ if ($action eq "install") {
 # Handle actions
 if ($action eq 'all') {
     config_all();
+    exit 0;
+} elsif ($action eq 'get-selections') {
+    foreach my $alt_name (sort keys %{$ALL{objects}}) {
+        my $obj = $ALL{objects}{$alt_name};
+        printf "%-30s %-8s %s\n", $alt_name, $obj->status(), $obj->current() || "";
+    }
     exit 0;
 }
 
