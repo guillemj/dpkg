@@ -106,6 +106,8 @@ while (@ARGV) {
     }
 }
 
+umask 0022; # ensure sane default permissions for created files
+
 if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
     $compare = $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL};
 }

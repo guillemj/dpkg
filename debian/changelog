@@ -150,6 +150,9 @@ dpkg (1.15.0) UNRELEASED; urgency=low
     (>= 6.0.7) for this. Update debhelper compatility level to 6 at the same
     time.
   * Drop cleanup-info script.
+  * Reset umask to 0022 in dpkg-gencontrol and dpkg-gensymbols to ensure that
+    files created in the DEBIAN directory have sane permissions.
+    Closes: #516481
 
   [ Pierre Habouzit ]
   * Add a --query option to update-alternatives. Closes: #336091, #441904

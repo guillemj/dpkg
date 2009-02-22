@@ -121,6 +121,7 @@ while (@ARGV) {
     }
 }
 
+umask 0022; # ensure sane default permissions for created files
 my %options = (file => $changelogfile);
 $options{"changelogformat"} = $changelogformat if $changelogformat;
 my $changelog = parse_changelog(%options);
