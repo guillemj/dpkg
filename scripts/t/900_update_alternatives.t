@@ -52,8 +52,8 @@ my @choices = (
     },
 );
 my $nb_slaves = 2;
-plan tests => (4 * ($nb_slaves + 1) + 2) * 18 # number of check_choices
-		+ 49;			      # rest
+plan tests => (4 * ($nb_slaves + 1) + 2) * 21 # number of check_choices
+		+ 54;			      # rest
 
 sub cleanup {
     system("rm -rf $srcdir/t.tmp/ua && mkdir -p $admindir && mkdir -p $altdir");
@@ -123,12 +123,14 @@ sub get_slaves_status {
 	    $slaves{$alt->{slaves}[$i]{name}}{"installed"} = 0;
 	}
     }
-    # except those of the current alternative
+    # except those of the current alternative (minus optional slaves)
     if (defined($id)) {
 	my $alt = $choices[$id];
 	for(my $i = 0; $i < @{$alt->{slaves}}; $i++) {
 	    $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
-	    $slaves{$alt->{slaves}[$i]{name}}{"installed"} = 1;
+	    if (-e $alt->{slaves}[$i]{path}) {
+		$slaves{$alt->{slaves}[$i]{name}}{"installed"} = 1;
+	    }
 	}
     }
     return sort { $a->{name} cmp $b->{name} } values %slaves;
@@ -296,6 +298,33 @@ call_ua(["--install", "$bindir/testmaster", "test/master", "/bin/date", "10"],
 call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
 	 "--slave", "$bindir/testslave", "test slave", "/bin/true" ],
 	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# install in non-existing dir should fail
+call_ua(["--install", "$bindir/doesntexist/testmaster", "testmaster", "/bin/date", "10",
+	 "--slave", "$bindir/testslave", "testslave", "/bin/true" ],
+	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
+	 "--slave", "$bindir/doesntexist/testslave", "testslave", "/bin/true" ],
+	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
 
-# TODO: install in non-existing dir, handle of pre-existing files in place
-# of alternative links
+# non-existing alternative path in slave is not a failure
+my $old_path = $choices[0]{"slaves"}[0]{"path"};
+$old_slave = $choices[0]{"slaves"}[0]{"link"};
+$choices[0]{"slaves"}[0]{"path"} = "$bindir/doesntexist";
+$choices[0]{"slaves"}[0]{"link"} = "$bindir/baddir/slave2";
+# test rename of slave link that existed but that doesnt anymore
+# and link is moved into non-existing dir at the same time
+install_choice(0);
+check_choice(0, "auto", "optional renamed slave2 in non-existing dir");
+# same but on fresh install
+cleanup();
+install_choice(0);
+check_choice(0, "auto", "optional slave2 in non-existing dir");
+$choices[0]{"slaves"}[0]{"link"} = $old_link;
+# test fresh install with a non-existing slave file
+cleanup();
+install_choice(0);
+check_choice(0, "auto", "optional slave2");
+$choices[0]{"slaves"}[0]{"path"} = $old_path;
+
+
+# TODO: handle of pre-existing files in place of alternative links

@@ -266,8 +266,7 @@ if ($action eq 'set') {
         if ($old ne $new and -l $old) {
             pr(_g("Renaming %s link from %s to %s."), $inst_alt->name(),
                $old, $new) if $verbosemode >= 0;
-            rename_mv($old, $new, 1) ||
-                quit(_g("unable to rename %s to %s: see error above"), $old, $new);
+            checked_mv($old, $new);
         }
         # Check if new slaves have been added, or existing ones renamed
         foreach my $slave ($inst_alt->slaves()) {
@@ -278,11 +277,17 @@ if ($action eq 'set') {
             }
             $old = $alternative->slave_link($slave);
             $alternative->add_slave($slave, $new);
+            my $new_file = ($current_choice eq $fileset->master()) ?
+                            $fileset->slave($slave) :
+                            readlink("$admdir/$slave") || "";
             if ($old ne $new and -l $old) {
-                pr(_g("Renaming %s slave link from %s to %s."), $slave,
-                   $old, $new) if $verbosemode >= 0;
-                rename_mv($old, $new, 1) ||
-                    quit(_g("unable to rename %s to %s: see error above"), $old, $new);
+                if (-e $new_file) {
+                    pr(_g("Renaming %s slave link from %s to %s."), $slave,
+                       $old, $new) if $verbosemode >= 0;
+                    checked_mv($old, $new);
+                } else {
+                    checked_rm($old);
+                }
             }
         }
     } else {
@@ -451,12 +456,11 @@ sub pr {
 }
 
 sub rename_mv {
-    my ($source, $dest, $ignore_enoent) = @_;
-    $ignore_enoent = 0 unless defined($ignore_enoent);
-    return 1 if ($ignore_enoent and not -e $source);
+    my ($source, $dest) = @_;
+    lstat($source);
+    return 0 if not -e _;
     if (not rename($source, $dest)) {
         if (system("mv", $source, $dest) != 0) {
-            return $ignore_enoent if $! == ENOENT;
             return 0;
         }
     }
@@ -915,7 +919,7 @@ sub prepare_install {
     # Take care of slaves links
     foreach my $slave ($self->slaves()) {
         my ($slink, $spath) = ($self->slave_link($slave), $fileset->slave($slave));
-        if ($fileset->has_slave($slave)) {
+        if ($fileset->has_slave($slave) and -e $spath) {
             # Setup slave link
             main::checked_rm("$slink.dpkg-tmp");
             main::checked_symlink("$altdir/$slave", "$slink.dpkg-tmp");
@@ -928,6 +932,10 @@ sub prepare_install {
                 main::checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
             });
         } else {
+            main::pr(_g("skip creation of %s because associated file %s (of" .
+                        "link group %s) doesn't exist"), $slink, $spath,
+                     $self->name())
+                if $verbosemode >= 0 and $fileset->has_slave($slave);
             # Drop unused slave
             $self->add_commit_op(sub {
                 main::checked_rm($slink);
@@ -977,7 +985,7 @@ sub is_broken {
     my $fileset = $self->fileset($self->current());
     foreach my $slave ($self->slaves()) {
         $file = readlink($self->slave_link($slave));
-        if ($fileset->has_slave($slave)) {
+        if ($fileset->has_slave($slave) and -e $fileset->slave($slave)) {
             return 1 if not defined($file);
             return 1 if $file ne "$altdir/$slave";
             $file = readlink("$altdir/$slave");
