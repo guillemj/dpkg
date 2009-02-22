@@ -23,6 +23,7 @@ my $alternative;      # Alternative worked on
 my $inst_alt;         # Alternative to install
 my $fileset;          # Set of files to install in the alternative
 my $path;             # Path of alternative we are offering
+my $log_file = "/var/log/dpkg.log";
 my $skip_auto = 0;    # Skip alternatives properly configured in auto mode (for --config)
 my $verbosemode = 0;
 my $force = 0;
@@ -96,6 +97,10 @@ while (@ARGV) {
         }
         $inst_alt->add_slave($sname, $slink);
         $fileset->add_slave($sname, $spath);
+    } elsif (m/^--log$/) {
+        @ARGV || badusage(_g("--%s needs a <file> argument"), "log");
+        $log_file = shift @ARGV;
+        push @pass_opts, $_, $log_file;
     } elsif (m/^--altdir$/) {
         @ARGV || badusage(_g("--%s needs a <directory> argument"), "altdir");
         $altdir = shift @ARGV;
@@ -472,9 +477,9 @@ sub set_action {
         my ($msg) = @_;
         # XXX: the C rewrite must use the std function to get the
         # filename from /etc/dpkg/dpkg.cfg or from command line
-        if (!defined($fh_log) and -w "/var/log/dpkg.log") {
-            open($fh_log, ">>", "/var/log/dpkg.log") ||
-                quit(_g("Can't append to %s"), "/var/log/dpkg.log");
+        if (!defined($fh_log) and -w $log_file) {
+            open($fh_log, ">>", $log_file) ||
+                quit(_g("Can't append to %s"), $log_file);
         }
         if (defined($fh_log)) {
             $msg = POSIX::strftime("%Y-%m-%d %H:%M:%S", localtime()) .

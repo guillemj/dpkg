@@ -1,5 +1,15 @@
 2009-02-22  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/update-alternatives.pl: Add new option --log to
+	log to another file than /var/log/dpkg.log.
+	* man/update-alternatives.8: Document the new option.
+	* scripts/t/900_update_alternatives.t: Call update-alternatives
+	with --log /dev/null since the test suite can be run with fakeroot
+	and it would try to write to /var/log/dpkg.log because fakeroot
+	makes it believe that it is writable.
+
+2009-02-22  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/update-alternatives.pl: update-alternatives should not
 	replace real files by symlinks. When --install is called, the
 	alternative link should either not exist or already be a link. It

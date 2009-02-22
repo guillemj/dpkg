@@ -12,8 +12,8 @@ my $admindir = File::Spec->rel2abs("$srcdir/t.tmp/ua/admindir"),
 my $altdir = File::Spec->rel2abs("$srcdir/t.tmp/ua/alternatives");
 my $bindir = File::Spec->rel2abs("$srcdir/t.tmp/ua/bin");
 # XXX: switch to version without .pl
-my @ua = ("$srcdir/update-alternatives.pl", "--quiet", "--admindir",
-	  "$admindir", "--altdir", "$altdir");
+my @ua = ("$srcdir/update-alternatives.pl", "--log", "/dev/null",
+          "--quiet", "--admindir", "$admindir", "--altdir", "$altdir");
 
 my $main_link = "$bindir/generic-test";
 my $main_name = "generic-test";
