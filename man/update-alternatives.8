@@ -218,7 +218,8 @@ options, each followed by three arguments,
 may be specified. Note that the master alternative must exist or the call
 will fail. However if a slave alternative doesn't exist, the corresponding
 slave alternative link will simply not be installed (a warning will still
-be displayed).
+be displayed). If some real file is installed where an alternative link
+has to be installed, it is kept unless \fB\-\-force\fR is used.
 .IP
 If the alternative name specified exists already
 in the alternatives system's records,
@@ -330,6 +331,10 @@ different from the default.
 Specifies the administrative directory, when this is to be
 different from the default.
 .TP
+.TP
+.BI \-\-force
+Let \fBupdate-alternatives\fR replace any real file that is installed
+where an alternative link has to be installed.
 .BI \-\-skip\-auto
 Skip configuration prompt for alternatives which are properly configured
 in automatic mode. This option is only relevant with \fB\-\-config\fR or

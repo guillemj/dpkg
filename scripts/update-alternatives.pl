@@ -19,12 +19,13 @@ my $altdir = '/etc/alternatives';
 my $admdir = $admindir . '/alternatives';
 
 my $action = '';      # Action to perform (display / query / install / remove / auto / config)
-my $skip_auto = '';   # Skip alternatives properly configured in auto mode (for --config)
 my $alternative;      # Alternative worked on
 my $inst_alt;         # Alternative to install
 my $fileset;          # Set of files to install in the alternative
 my $path;             # Path of alternative we are offering
+my $skip_auto = 0;    # Skip alternatives properly configured in auto mode (for --config)
 my $verbosemode = 0;
+my $force = 0;
 my @pass_opts;
 
 $| = 1;
@@ -105,6 +106,9 @@ while (@ARGV) {
         push @pass_opts, $_, $admdir;
     } elsif (m/^--skip-auto$/) {
 	$skip_auto = 1;
+        push @pass_opts, $_;
+    } elsif (m/^--force$/) {
+	$force = 1;
         push @pass_opts, $_;
     } else {
         badusage(_g("unknown option \`%s'"), $_);
@@ -572,6 +576,7 @@ sub slave {
 package Alternative;
 
 use Dpkg::Gettext;
+use POSIX qw(:errno_h);
 
 sub pr { main::pr(@_) }
 sub quit { main::quit(@_) }
@@ -951,32 +956,44 @@ sub prepare_install {
     my ($self, $choice) = @_;
     my ($link, $name) = ($self->link(), $self->name());
     my $fileset = $self->fileset($choice);
-    # Setup main link
-    main::checked_rm("$link.dpkg-tmp");
-    main::checked_symlink("$altdir/$name", "$link.dpkg-tmp");
-    # Setup main alternative link
+    # Create link in /etc/alternatives
     main::checked_rm("$altdir/$name.dpkg-tmp");
     main::checked_symlink($choice, "$altdir/$name.dpkg-tmp");
-    # Add commit operations
     $self->add_commit_op(sub {
-        main::checked_mv("$link.dpkg-tmp", $link);
         main::checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
     });
+    $! = 0; lstat($link);
+    if (-l _ or $! == ENOENT or $force) {
+        # Create alternative link
+        main::checked_rm("$link.dpkg-tmp");
+        main::checked_symlink("$altdir/$name", "$link.dpkg-tmp");
+        $self->add_commit_op(sub {
+            main::checked_mv("$link.dpkg-tmp", $link);
+        });
+    } else {
+        pr(_g("Not replacing %s with a link."), $link) if $verbosemode >= 0;
+    }
     # Take care of slaves links
     foreach my $slave ($self->slaves()) {
         my ($slink, $spath) = ($self->slave_link($slave), $fileset->slave($slave));
         if ($fileset->has_slave($slave) and -e $spath) {
-            # Setup slave link
-            main::checked_rm("$slink.dpkg-tmp");
-            main::checked_symlink("$altdir/$slave", "$slink.dpkg-tmp");
-            # Setup slave alternative link
+            # Create link in /etc/alternatives
             main::checked_rm("$altdir/$slave.dpkg-tmp");
             main::checked_symlink($spath, "$altdir/$slave.dpkg-tmp");
-            # Add commit operations
             $self->add_commit_op(sub {
-                main::checked_mv("$slink.dpkg-tmp", $slink);
                 main::checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
             });
+            $! = 0; lstat($slink);
+            if (-l _ or $! == ENOENT or $force) {
+                # Create alternative link
+                main::checked_rm("$slink.dpkg-tmp");
+                main::checked_symlink("$altdir/$slave", "$slink.dpkg-tmp");
+                $self->add_commit_op(sub {
+                    main::checked_mv("$slink.dpkg-tmp", $slink);
+                });
+            } else {
+                pr(_g("Not replacing %s with a link."), $link) if $verbosemode >= 0;
+            }
         } else {
             main::pr(_g("skip creation of %s because associated file %s (of" .
                         "link group %s) doesn't exist"), $slink, $spath,

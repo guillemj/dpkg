@@ -1,5 +1,17 @@
 2009-02-22  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/update-alternatives.pl: update-alternatives should not
+	replace real files by symlinks. When --install is called, the
+	alternative link should either not exist or already be a link. It
+	that's not the case, it will simply skip installing that link and
+	display a warning. However if --force is given, it will (try to)
+	replace the file.
+	* man/update-alternatives.8: Document this behaviour.
+	* scripts/t/900_update_alternatives.t: Add corresponding tests in
+	the test suite.
+
+2009-02-22  Raphael Hertzog  <hertzog@debian.org>
+
 	* man/update-alternatives.8: Document how --all can be used to
 	repair all alternatives on the system in a single command.
 	* scripts/update-alternatives.pl: Ensure the above explanation

@@ -30,7 +30,7 @@ my @choices = (
 	    {
 		"link" => "$bindir/slave1",
 		name => "slave1",
-		path => "/bin/yes",
+		path => "/usr/bin/yes",
 	    },
 	],
     },
@@ -52,8 +52,8 @@ my @choices = (
     },
 );
 my $nb_slaves = 2;
-plan tests => (4 * ($nb_slaves + 1) + 2) * 23 # number of check_choices
-		+ 56;			      # rest
+plan tests => (4 * ($nb_slaves + 1) + 2) * 24 # number of check_choices
+		+ 60;			      # rest
 
 sub cleanup {
     system("rm -rf $srcdir/t.tmp/ua && mkdir -p $admindir && mkdir -p $altdir");
@@ -74,8 +74,10 @@ sub call_ua {
 sub install_choice {
     my ($id, %opts) = @_;
     my $alt = $choices[$id];
-    my @params = ("--install", "$main_link", "$main_name",
-		  $alt->{path}, $alt->{priority});
+    my @params;
+    push @params, @{$opts{params}} if exists $opts{params};
+    push @params, "--install", "$main_link", "$main_name",
+		  $alt->{path}, $alt->{priority};
     foreach my $slave (@{ $alt->{slaves} }) {
 	push @params, "--slave", $slave->{"link"}, $slave->{"name"}, $slave->{"path"};
     }
@@ -266,6 +268,7 @@ $choices[0]{"slaves"}[0]{"link"} = "$bindir/generic-slave-bis";
 install_choice(0);
 check_choice(0, "auto", "rename lost file");
 check_no_link($old_slave, "rename lost file");
+$choices[0]{"slaves"}[0]{"link"} = "$bindir/slave2";
 # test install with empty admin file (#457863)
 cleanup();
 system("touch $admindir/generic-test");
@@ -328,12 +331,19 @@ check_choice(0, "auto", "optional renamed slave2 in non-existing dir");
 cleanup();
 install_choice(0);
 check_choice(0, "auto", "optional slave2 in non-existing dir");
-$choices[0]{"slaves"}[0]{"link"} = $old_link;
+$choices[0]{"slaves"}[0]{"link"} = $old_slave;
 # test fresh install with a non-existing slave file
 cleanup();
 install_choice(0);
 check_choice(0, "auto", "optional slave2");
 $choices[0]{"slaves"}[0]{"path"} = $old_path;
 
+# test management of pre-existing files
+cleanup();
+system("touch $main_link $bindir/slave1");
+install_choice(0);
+ok(!-l $main_link, "install preserves files that should be links");
+ok(!-l "$bindir/slave1", "install preserves files that should be slave links");
+install_choice(0, params => ["--force"]);
+check_choice(0, "auto", "install --force replaces files with links");
 
-# TODO: handle of pre-existing files in place of alternative links
