@@ -908,7 +908,7 @@ sub select_choice {
         my $selection = <STDIN>;
         return undef unless defined($selection);
         chomp($selection);
-        return $current if $selection eq "";
+        return ($current || $best) if $selection eq "";
         if (exists $sel{$selection}) {
             $self->set_status(($selection eq "0") ? "auto" : "manual");
             return $sel{$selection};
