@@ -52,8 +52,8 @@ my @choices = (
     },
 );
 my $nb_slaves = 2;
-plan tests => (4 * ($nb_slaves + 1) + 2) * 21 # number of check_choices
-		+ 54;			      # rest
+plan tests => (4 * ($nb_slaves + 1) + 2) * 23 # number of check_choices
+		+ 56;			      # rest
 
 sub cleanup {
     system("rm -rf $srcdir/t.tmp/ua && mkdir -p $admindir && mkdir -p $altdir");
@@ -110,7 +110,6 @@ sub config_choice {
     $opts{to_string} = \$output;
     my @params = ("--config", $main_name);
     call_ua(\@params, %opts);
-    #print STDERR "Output of @params for choice $input $output\n";
 }
 
 sub get_slaves_status {
@@ -195,6 +194,16 @@ install_choice(2); # 2 is lower prio, stays at 1
 check_choice(1, "auto", "initial install 2");
 install_choice(0); # 0 is higher priority
 check_choice(0, "auto", "initial install 3");
+# manual change with --set-selections
+my $input = "doesntexist auto /bin/date\ngeneric-test manual /bin/false\n";
+my $output = "";
+call_ua(["--set-selections"], from_string => \$input,
+        to_string => \$output);
+check_choice(1, "manual", "manual update with --set-selections");
+$input = "generic-test auto /bin/true\n";
+call_ua(["--set-selections"], from_string => \$input,
+        to_string => \$output);
+check_choice(0, "auto", "auto update with --set-selections");
 # manual change with set
 set_choice(2);
 check_choice(2, "manual", "manual update with --set"); # test #388313

@@ -25,6 +25,7 @@ my $inst_alt;         # Alternative to install
 my $fileset;          # Set of files to install in the alternative
 my $path;             # Path of alternative we are offering
 my $verbosemode = 0;
+my @pass_opts;
 
 $| = 1;
 
@@ -46,8 +47,10 @@ while (@ARGV) {
         exit(0);
     } elsif (m/^--verbose$/) {
         $verbosemode= +1;
+        push @pass_opts, $_;
     } elsif (m/^--quiet$/) {
         $verbosemode= -1;
+        push @pass_opts, $_;
     } elsif (m/^--install$/) {
 	set_action("install");
         @ARGV >= 4 || badusage(_g("--install needs <link> <name> <path> <priority>"));
@@ -70,7 +73,7 @@ while (@ARGV) {
 	set_action($1);
         @ARGV || badusage(_g("--%s needs <name>"), $1);
         $alternative = Alternative->new(shift(@ARGV));
-    } elsif (m/^--(all|get-selections)$/) {
+    } elsif (m/^--(all|get-selections|set-selections)$/) {
 	set_action($1);
     } elsif (m/^--slave$/) {
         badusage(_g("--slave only allowed with --install"))
@@ -95,18 +98,22 @@ while (@ARGV) {
     } elsif (m/^--altdir$/) {
         @ARGV || badusage(_g("--%s needs a <directory> argument"), "altdir");
         $altdir = shift @ARGV;
+        push @pass_opts, $_, $altdir;
     } elsif (m/^--admindir$/) {
         @ARGV || badusage(_g("--%s needs a <directory> argument"), "admindir");
         $admdir = shift @ARGV;
+        push @pass_opts, $_, $admdir;
     } elsif (m/^--skip-auto$/) {
 	$skip_auto = 1;
+        push @pass_opts, $_;
     } else {
         badusage(_g("unknown option \`%s'"), $_);
     }
 }
 
 badusage(_g("need --display, --query, --list, --get-selections, --config," .
-            "--set, --install, --remove, --all, --remove-all or --auto"))
+            "--set, --set-selections, --install, --remove, --all, " .
+            "--remove-all or --auto"))
     unless $action;
 
 # Load infos about all alternatives to be able to check for mistakes
@@ -175,7 +182,39 @@ if ($action eq 'all') {
         printf "%-30s %-8s %s\n", $alt_name, $obj->status(), $obj->current() || "";
     }
     exit 0;
+} elsif ($action eq 'set-selections') {
+    log_msg("run with @COPY_ARGV");
+    my $line;
+    while (defined($line = <STDIN>)) {
+        chomp($line);
+        my ($alt_name, $status, $choice) = split(/\s+/, $line, 3);
+        if (exists $ALL{objects}{$alt_name}) {
+            my $obj = $ALL{objects}{$alt_name};
+            if ($status eq "auto") {
+                pr("[$progname --set-selections] " . _g("Call %s."),
+                   "$0 --auto $alt_name");
+                system($0, @pass_opts, "--auto", $alt_name);
+                exit $? if $?;
+            } else {
+                if ($obj->has_choice($choice)) {
+                    pr("[$progname --set-selections] " . _g("Call %s."),
+                       "$0 --set $alt_name $choice");
+                    system($0, @pass_opts, "--set", $alt_name, $choice);
+                    exit $? if $?;
+                } else {
+                    pr("[$progname --set-selections] " .  _g("Alternative %s" .
+                       " unchanged because choice %s is not available."),
+                       $alt_name, $choice);
+                }
+            }
+        } else {
+            pr("[$progname --set-selections] " . _g("Skip unknown alternative %s."),
+               $alt_name);
+        }
+    }
+    exit 0;
 }
+
 
 # Load the alternative info, stop on failure except for --install
 if (not $alternative->load("$admdir/" . $alternative->name())
@@ -451,7 +490,7 @@ sub get_all_alternatives {
 
 sub config_all {
     foreach my $name (get_all_alternatives()) {
-        system "$0 $skip --config $name";
+        system($0, @pass_opts, "--config", $name);
         exit $? if $?;
         print "\n";
     }
