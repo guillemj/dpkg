@@ -225,6 +225,13 @@ starting it. The priority can be optionally specified by appending a \fB:\fP
 followed by the value. The default \fIpriority\fP is 0. The currently
 supported policy values are \fBother\fP, \fBfifo\fP and \fBrr\fP.
 .TP
+.BR \-I ", " \-\-iosched " \fIclass\fP\fB:\fP\fIpriority\fP"
+This alters the IO scheduler class and priority of the process before starting
+it. The priority can be optionally specified by appending a \fB:\fP followed
+by the value. The default \fIpriority\fP is 4, unless \fIclass\fP is \fBidle\fP,
+then \fIpriority\fP will always be 7. The currently supported values for
+\fIclass\fP are \fBidle\fP, \fBbest-effort\fP and \fBreal-time\fP.
+.TP
 .BR \-k ", " \-\-umask " \fImask\fP"
 This sets the umask of the process before starting it.
 .TP

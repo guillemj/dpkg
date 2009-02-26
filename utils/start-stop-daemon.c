@@ -111,6 +111,27 @@
 #include <error.h>
 #endif
 
+#ifdef HAVE_SYS_SYSCALL_H
+#include <sys/syscall.h>
+#endif
+
+#if defined(SYS_ioprio_set) && defined(linux)
+#define HAVE_IOPRIO_SET
+#endif
+
+enum {
+	IOPRIO_WHO_PROCESS = 1,
+	IOPRIO_WHO_PGRP,
+	IOPRIO_WHO_USER,
+};
+
+enum {
+	IOPRIO_CLASS_NONE,
+	IOPRIO_CLASS_RT,
+	IOPRIO_CLASS_BE,
+	IOPRIO_CLASS_IDLE,
+};
+
 static int testmode = 0;
 static int quietmode = 0;
 static int exitnodo = 1;
@@ -135,6 +156,11 @@ static char what_stop[1024];
 static const char *progname = "";
 static int nicelevel = 0;
 static int umask_value = -1;
+
+#define IOPRIO_CLASS_SHIFT 13
+#define IOPRIO_PRIO_VALUE(class, prio) (((class) << IOPRIO_CLASS_SHIFT) | (prio))
+#define IO_SCHED_PRIO_MIN 0
+#define IO_SCHED_PRIO_MAX 7
 
 static struct stat exec_stat;
 #if defined(OSHURD)
@@ -168,6 +194,7 @@ struct schedule_item {
 };
 
 static struct res_schedule *proc_sched = NULL;
+static struct res_schedule *io_sched = NULL;
 
 static int schedule_length;
 static struct schedule_item *schedule = NULL;
@@ -339,6 +366,8 @@ do_help(void)
 "  -P|--procsched <policy[:prio]>\n"
 "                                use <policy> with <prio> for the kernel\n"
 "                                  process scheduler (default prio is 0)\n"
+"  -I|--iosched <class[:prio]>   use <class> with <prio> to set the IO\n"
+"                                  scheduler (default prio is 4)\n"
 "  -k|--umask <mask>             change the umask to <mask> before starting\n"
 "  -b|--background               force the process to detach\n"
 "  -m|--make-pidfile             create the pidfile before starting\n"
@@ -493,6 +522,40 @@ parse_proc_schedule(const char *string)
 }
 
 static void
+parse_io_schedule(const char *string)
+{
+	char *class_str, *prio_str;
+	int prio = 4;
+
+	class_str = xstrdup(string);
+	class_str = strtok(class_str, ":");
+	prio_str = strtok(NULL, ":");
+
+	if (prio_str && parse_integer(prio_str, &prio) != 0)
+		fatal("invalid IO scheduler priority");
+
+	io_sched = xmalloc(sizeof(*io_sched));
+	io_sched->policy_name = class_str;
+
+	if (strcmp(class_str, "real-time") == 0) {
+		io_sched->policy = IOPRIO_CLASS_RT;
+		io_sched->priority = prio;
+	} else if (strcmp(class_str, "best-effort") == 0) {
+		io_sched->policy = IOPRIO_CLASS_BE;
+		io_sched->priority = prio;
+	} else if (strcmp(class_str, "idle") == 0) {
+		io_sched->policy = IOPRIO_CLASS_IDLE;
+		io_sched->priority = 7;
+	} else
+		badusage("invalid IO scheduler policy");
+
+	if (io_sched->priority < IO_SCHED_PRIO_MIN)
+		badusage("IO scheduler priority less than min");
+	if (io_sched->priority > IO_SCHED_PRIO_MAX)
+		badusage("IO scheduler priority greater than max");
+}
+
+static void
 set_proc_schedule(struct res_schedule *sched)
 {
 #ifdef _POSIX_PRIORITY_SCHEDULING
@@ -502,6 +565,26 @@ set_proc_schedule(struct res_schedule *sched)
 
 	if (sched_setscheduler(getpid(), sched->policy, &param) == -1)
 		fatal("Unable to set process scheduler");
+#endif
+}
+
+#ifdef HAVE_IOPRIO_SET
+static inline int
+ioprio_set(int which, int who, int ioprio)
+{
+	return syscall(SYS_ioprio_set, which, who, ioprio);
+}
+#endif
+
+static void
+set_io_schedule(struct res_schedule *sched)
+{
+#ifdef HAVE_IOPRIO_SET
+	int io_sched_mask;
+
+	io_sched_mask = IOPRIO_PRIO_VALUE(sched->policy, sched->priority);
+	if (ioprio_set(IOPRIO_WHO_PROCESS, getpid(), io_sched_mask) == -1)
+		fatal("Unable to alter IO priority to mask %i", io_sched_mask);
 #endif
 }
 
@@ -607,6 +690,7 @@ parse_options(int argc, char * const *argv)
 		{ "chuid",	  1, NULL, 'c'},
 		{ "nicelevel",	  1, NULL, 'N'},
 		{ "procsched",	  1, NULL, 'P'},
+		{ "iosched",	  1, NULL, 'I'},
 		{ "umask",	  1, NULL, 'k'},
 		{ "background",	  0, NULL, 'b'},
 		{ "make-pidfile", 0, NULL, 'm'},
@@ -618,11 +702,12 @@ parse_options(int argc, char * const *argv)
 	const char *signal_str = NULL;
 	const char *schedule_str = NULL;
 	const char *proc_schedule_str = NULL;
+	const char *io_schedule_str = NULL;
 	int c;
 
 	for (;;) {
 		c = getopt_long(argc, argv,
-		                "HKSVa:n:op:qr:s:tu:vx:c:N:P:k:bmR:g:d:",
+		                "HKSVa:n:op:qr:s:tu:vx:c:N:P:I:k:bmR:g:d:",
 		                longopts, NULL);
 		if (c == -1)
 			break;
@@ -688,6 +773,9 @@ parse_options(int argc, char * const *argv)
 		case 'P':  /* --procsched */
 			proc_schedule_str = optarg;
 			break;
+		case 'I':  /* --iosched */
+			io_schedule_str = optarg;
+			break;
 		case 'k':  /* --umask <mask> */
 			umask_str = optarg;
 			break;
@@ -720,6 +808,9 @@ parse_options(int argc, char * const *argv)
 
 	if (proc_schedule_str != NULL)
 		parse_proc_schedule(proc_schedule_str);
+
+	if (io_schedule_str != NULL)
+		parse_io_schedule(io_schedule_str);
 
 	if (umask_str != NULL) {
 		if (parse_umask(umask_str, &umask_value) != 0)
@@ -1410,6 +1501,9 @@ main(int argc, char **argv)
 		if (proc_sched)
 			printf(", with scheduling policy %s with priority %i",
 			       proc_sched->policy_name, proc_sched->priority);
+		if (io_sched)
+			printf(", with IO scheduling class %s with priority %i",
+			       io_sched->policy_name, io_sched->priority);
 		printf(".\n");
 	}
 	if (testmode)
@@ -1433,6 +1527,8 @@ main(int argc, char **argv)
 	}
 	if (proc_sched)
 		set_proc_schedule(proc_sched);
+	if (io_sched)
+		set_io_schedule(io_sched);
 	if (umask_value >= 0)
 		umask(umask_value);
 	if (mpidfile && pidfile != NULL) {
