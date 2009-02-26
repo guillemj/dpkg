@@ -40,6 +40,7 @@
 #include <dpkg-db.h>
 #include <dpkg-priv.h>
 
+#include "progress.h"
 #include "filesdb.h"
 #include "main.h"
 
@@ -214,19 +215,28 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
 void ensure_allinstfiles_available(void) {
   struct pkgiterator *it;
   struct pkginfo *pkg;
-    
+  struct progress progress;
+
   if (allpackagesdone) return;
   if (saidread<2) {
+    int max = countpackages();
+
     saidread=1;
-    printf(_("(Reading database ... "));
+    progress_init(&progress, _("(Reading database ... "), max);
   }
+
   it= iterpkgstart();
-  while ((pkg = iterpkgnext(it)) != NULL)
+  while ((pkg = iterpkgnext(it)) != NULL) {
     ensure_packagefiles_available(pkg);
+
+    if (saidread == 1)
+      progress_step(&progress);
+  }
   iterpkgend(it);
   allpackagesdone= 1;
 
   if (saidread==1) {
+    progress_done(&progress);
     printf(_("%d files and directories currently installed.)\n"),nfiles);
     saidread=2;
   }

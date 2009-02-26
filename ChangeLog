@@ -1,6 +1,15 @@
 2009-02-26  Romain Francoise <rfrancoise@debian.org>,
             Guillem Jover  <guillem@debian.org>
 
+	* src/filesdb.c: Include 'progress.h'.
+	(ensure_allinstfiles_available): Call progress_init instead of
+	directly printing. Call progress_step if needing to print on each
+	package iteration. And call progress_done if needing to print when
+	finished.
+
+2009-02-26  Romain Francoise <rfrancoise@debian.org>,
+            Guillem Jover  <guillem@debian.org>
+
 	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'progress.h' and
 	'progress.c'.
 	* lib/progress.h: New file.
