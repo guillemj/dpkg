@@ -39,6 +39,7 @@ libdpkg_a_SOURCES = \
 	parsehelp.c \
 	parsedump.h \
 	path.c \
+	progress.c progress.h \
 	showpkg.c \
 	string.c \
 	subproc.c \
