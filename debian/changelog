@@ -15,8 +15,6 @@ dpkg (1.15.0) UNRELEASED; urgency=low
   * Fix the support for passing more than one --status-fd option to dpkg.
     Until now only the last one was being used.
   * Replace realloc plus error checking usage with m_realloc.
-  * Close --status-fd file descriptors on exec, so that they are not
-    inherited by the childs. Closes: #471488
   * Add '.hgignore' to the default dpkg-source -i regex and -I pattern.
     Closes: #485365
   * Support diverting files when origin and destination are on different file
@@ -41,8 +39,6 @@ dpkg (1.15.0) UNRELEASED; urgency=low
   * Do not log repeated strings when the write call wrote partial data.
   * Change dir to / after chroot when using --instdir.
     Thanks to Colin Watson <cjwatson@ubuntu.com>. Closes: #509578
-  * Fix typo in package description ('privides' -> 'provides').
-    Thanks to Pascal De Vuyst <pascal.devuyst@gmail.com>. Closes: #510755
   * Make dpkg log files user readable. Closes: #480556
   * Clarify in the start-stop-daemon man page that the signal sent by default
     is TERM not KILL. Closes: #507568
@@ -79,9 +75,6 @@ dpkg (1.15.0) UNRELEASED; urgency=low
     Thanks to Daniel Hahler for the patch. Closes: #457135
   * dpkg-gencontrol can now again read the control file from its standard
     input with "-c-". Closes: #465340
-  * Modified Dpkg::BuildOptions to recognize and use spaces as separator
-    in DEB_BUILD_OPTIONS (in order to conform with the Debian policy
-    ruling estasblished in #430649). Closes: #486937
   * Add DEB_VENDOR environment variable in the build environment to be able
     to change behaviour dynamically depending on the vendor of the current
     system (or target system when the user overrides DEB_VENDOR by setting
@@ -342,7 +335,7 @@ dpkg (1.14.21) unstable; urgency=low
   * Add "armel" to /usr/share/dpkg/archtable. Closes: #487768
   * Modified Dpkg::BuildOptions to recognize and use spaces as separator
     in DEB_BUILD_OPTIONS (in order to conform with the Debian policy
-    ruling established in #430649).
+    ruling established in #430649). Closes: #486937
   * Fix dpkg-source to not use -i and -I by default with "1.0" source
     packages. Closes: #495138
 
