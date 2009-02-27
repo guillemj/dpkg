@@ -12,6 +12,13 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+enum tar_format {
+	tar_format_old,
+	tar_format_gnu,
+	tar_format_ustar,
+	tar_format_pax,
+};
+
 enum TarFileType {
 	NormalFile0 = '\0',	/* For compatibility with decades-old bug */
 	NormalFile1 = '0',
@@ -27,6 +34,7 @@ enum TarFileType {
 typedef enum TarFileType	TarFileType;
 
 struct	TarInfo {
+	enum tar_format	format;		/* Tar archive format. */
 	void *		UserData;	/* User passed this in as argument */
 	char *		Name;		/* File name */
 	mode_t		Mode;		/* Unix mode, including device bits. */

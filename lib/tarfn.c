@@ -18,6 +18,9 @@
 #include <dpkg.h>
 #include <dpkg-priv.h>
 
+#define TAR_MAGIC_USTAR "ustar\0" "00"
+#define TAR_MAGIC_GNU   "ustar "  " \0"
+
 struct TarHeader {
 	char Name[100];
 	char Mode[8];
@@ -33,6 +36,7 @@ struct TarHeader {
 	char GroupName[32];
 	char MajorDevice[8];
 	char MinorDevice[8];
+	char Prefix[155];	/* Only valid on ustar. */
 };
 typedef struct TarHeader	TarHeader;
 
@@ -81,12 +85,22 @@ DecodeTarHeader(char * block, TarInfo * d)
 	long			sum;
 	long			checksum;
 
+	if (memcmp(h->MagicNumber, TAR_MAGIC_GNU, 6) == 0)
+		d->format = tar_format_gnu;
+	else if (memcmp(h->MagicNumber, TAR_MAGIC_USTAR, 6) == 0)
+		d->format = tar_format_ustar;
+	else
+		d->format = tar_format_old;
+
 	if ( *h->UserName )
 		passwd = getpwnam(h->UserName);
 	if ( *h->GroupName )
 		group = getgrnam(h->GroupName);
 
-	d->Name = StoC(h->Name, sizeof(h->Name));
+	if (d->format == tar_format_ustar && h->Prefix[0] != '\0')
+		abort();
+	else
+		d->Name = StoC(h->Name, sizeof(h->Name));
 	d->LinkName = StoC(h->LinkName, sizeof(h->LinkName));
 	d->Mode = (mode_t)OtoL(h->Mode, sizeof(h->Mode));
 	d->Size = (size_t)OtoL(h->Size, sizeof(h->Size));

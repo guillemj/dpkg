@@ -1,5 +1,14 @@
 2009-02-27  Guillem Jover  <guillem@debian.org>
 
+	* lib/tarfn.h (enum tar_format): New type.
+	(struct TarInfo): Add new format member.
+	* lib/tarfn.c (TAR_MAGIC_USTAR, TAR_MAGIC_GNU): New macros.
+	(struct TarHeader): Add new Prefix member.
+	(DecodeTarHeader): Detect tar formats based on the magic values.
+	Abort on tar_format_ustar and an non-empty Prefix.
+
+2009-02-27  Guillem Jover  <guillem@debian.org>
+
 	* lib/fields.c (f_boolean): Use PKGPFIELD to assign to the correct
 	member instead of hardcoding to the essential member.
 
