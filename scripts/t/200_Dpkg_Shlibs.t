@@ -161,7 +161,7 @@ is_deeply($sym, { 'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
 
 # Check dump output
 my $io = IO::String->new();
-$sym_file->dump($io);
+$sym_file->dump($io, package => "libfake1");
 is(${$io->string_ref()},
 'libfake.so.1 libfake1 #MINVER#
 | libvirtualfake

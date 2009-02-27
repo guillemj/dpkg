@@ -188,7 +188,7 @@ sub merge_object_from_symfile {
 }
 
 sub save {
-    my ($self, $file, $with_deprecated) = @_;
+    my ($self, $file, %opts) = @_;
     $file = $self->{file} unless defined($file);
     my $fh;
     if ($file eq "-") {
@@ -197,23 +197,31 @@ sub save {
 	open($fh, ">", $file)
 	    || syserr(_g("cannot write %s"), $file);
     }
-    $self->dump($fh, $with_deprecated);
+    $self->dump($fh, %opts);
     close($fh) if ($file ne "-");
 }
 
 sub dump {
-    my ($self, $fh, $with_deprecated) = @_;
-    $with_deprecated = 1 unless defined($with_deprecated);
+    my ($self, $fh, %opts) = @_;
+    $opts{with_deprecated} = 1 unless exists $opts{with_deprecated};
     foreach my $soname (sort keys %{$self->{objects}}) {
 	my @deps = @{$self->{objects}{$soname}{deps}};
-	print $fh "$soname $deps[0]\n";
-	shift @deps;
-	print $fh "| $_\n" foreach (@deps);
+        my $dep = shift @deps;
+        $dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	print $fh "$soname $dep\n";
+        foreach $dep (@deps) {
+            $dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	    print $fh "| $dep\n";
+        }
 	my $f = $self->{objects}{$soname}{fields};
-	print $fh "* $_: $f->{$_}\n" foreach (sort keys %{$f});
+        foreach my $field (sort keys %{$f}) {
+            my $value = $f->{$field};
+            $value =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	    print $fh "* $field: $value\n";
+        }
 	foreach my $sym (sort keys %{$self->{objects}{$soname}{syms}}) {
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
-	    next if $info->{deprecated} and not $with_deprecated;
+	    next if $info->{deprecated} and not $opts{with_deprecated};
 	    print $fh "#MISSING: $info->{deprecated}#" if $info->{deprecated};
 	    print $fh " $sym $info->{minver}";
 	    print $fh " $info->{dep_id}" if $info->{dep_id};

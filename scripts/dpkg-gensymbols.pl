@@ -189,7 +189,7 @@ $symfile->clear_except(keys %{$od->{objects}});
 # Write out symbols files
 if ($stdout) {
     $output = "standard output";
-    $symfile->save("-");
+    $symfile->save("-", package => $oppackage);
 } else {
     unless (defined($output)) {
 	unless($symfile->is_empty()) {
@@ -199,7 +199,7 @@ if ($stdout) {
     }
     if (defined($output)) {
 	print "Storing symbols in $output.\n" if $debug;
-	$symfile->save($output);
+	$symfile->save($output, package => $oppackage);
     } else {
 	print "No symbol information to store.\n" if $debug;
     }
@@ -253,7 +253,8 @@ if ($compare) {
 	# and after
 	my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
 	my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-	$ref_symfile->dump($before); $symfile->dump($after);
+	$ref_symfile->dump($before, package => $oppackage);
+        $symfile->dump($after, package => $oppackage);
 	seek($before, 0, 0); seek($after, 0, 0);
 	my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
 	$md5_before->addfile($before);
