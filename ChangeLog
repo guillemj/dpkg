@@ -1,5 +1,12 @@
 2009-02-27  Guillem Jover  <guillem@debian.org>
 
+	* lib/tarfn.c (get_prefix_name): New function.
+	(DecodeTarHeader): On tar_format_ustar and if Prefix is not empty
+	call get_prefix_name instead of aborting.
+	* man/deb.5: Document that ustar format is now properly supported.
+
+2009-02-27  Guillem Jover  <guillem@debian.org>
+
 	* lib/tarfn.h (enum tar_format): New type.
 	(struct TarInfo): Add new format member.
 	* lib/tarfn.c (TAR_MAGIC_USTAR, TAR_MAGIC_GNU): New macros.

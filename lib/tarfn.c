@@ -74,6 +74,28 @@ StoC(const char *s, int size)
 	return str;
 }
 
+/* FIXME: Rewrite using varbuf, once it supports the needed functionality. */
+static char *
+get_prefix_name(TarHeader *h)
+{
+	char *prefix, *name, *s;
+
+	/* The size is not going to be bigger than that. */
+	s = m_malloc(257);
+
+	prefix =  StoC(h->Prefix, sizeof(h->Prefix));
+	name = StoC(h->Name, sizeof(h->Name));
+
+	strcpy(s, prefix);
+	strcat(s, "/");
+	strcat(s, name);
+
+	free(prefix);
+	free(name);
+
+	return s;
+}
+
 static int
 DecodeTarHeader(char * block, TarInfo * d)
 {
@@ -97,8 +119,9 @@ DecodeTarHeader(char * block, TarInfo * d)
 	if ( *h->GroupName )
 		group = getgrnam(h->GroupName);
 
+	/* Concatenate prefix and name to support ustar style long names. */
 	if (d->format == tar_format_ustar && h->Prefix[0] != '\0')
-		abort();
+		d->Name = get_prefix_name(h);
 	else
 		d->Name = StoC(h->Name, sizeof(h->Name));
 	d->LinkName = StoC(h->LinkName, sizeof(h->LinkName));
