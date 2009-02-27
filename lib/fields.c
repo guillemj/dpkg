@@ -130,10 +130,14 @@ void f_boolean(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                enum parsedbflags flags,
                const char *filename, int lno, FILE *warnto, int *warncount,
                const char *value, const struct fieldinfo *fip) {
+  int boolean;
+
   if (!*value)
     return;
-  pifp->essential = convert_string(filename, lno, _("yes/no in boolean field"),
-                                   -1, pigp, value, booleaninfos, NULL);
+
+  boolean = convert_string(filename, lno, _("yes/no in boolean field"),
+                           -1, pigp, value, booleaninfos, NULL);
+  PKGPFIELD(pifp, fip->integer, int) = boolean;
 }
 
 void f_section(struct pkginfo *pigp, struct pkginfoperfile *pifp,
