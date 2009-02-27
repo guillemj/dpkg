@@ -176,8 +176,9 @@ sub check_choice {
 	check_link($main_link, "$altdir/$main_name", $msg);
 	check_slaves($id, $msg);
     } else {
-	call_ua([ "--query", "$main_name" ], to_string => \$output, expect_failure => 1);
-	ok($output =~ /No alternatives/, "$msg: bad error message for --query.");
+	call_ua([ "--query", "$main_name" ], error_to_string => \$output,
+	        expect_failure => 1);
+	ok($output =~ /no alternatives/, "$msg: bad error message for --query.");
 	# Check that all links have disappeared
 	check_no_link("$altdir/$main_name", $msg);
 	check_no_link($main_link, $msg);

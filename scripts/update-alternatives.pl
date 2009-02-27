@@ -40,7 +40,7 @@ while (@ARGV) {
     $_ = shift(@ARGV);
     last if m/^--$/;
     if (!m/^--/) {
-        quit(_g("unknown argument \`%s'"), $_);
+        error(_g("unknown argument \`%s'"), $_);
     } elsif (m/^--help$/) {
         usage();
         exit(0);
@@ -144,39 +144,40 @@ foreach my $alt_name (get_all_alternatives()) {
 if ($action eq "install") {
     my ($name, $link, $file) = ($inst_alt->name(), $inst_alt->link(), $fileset->master());
     if (exists $ALL{parent}{$name} and $ALL{parent}{$name} ne $name) {
-        badusage(_g("Alternative %s can't be master: %s"), $name,
-                 sprintf(_g("it is a slave of %s"), $ALL{parent}{$name}));
+        error(_g("alternative %s can't be master: %s"), $name,
+              sprintf(_g("it is a slave of %s"), $ALL{parent}{$name}));
     }
     if (exists $ALL{links}{$link} and $ALL{links}{$link} ne $name) {
-        badusage(_g("Alternative link %s is already managed by %s."),
-                 $link, $ALL{parent}{$ALL{links}{$link}});
+        error(_g("alternative link %s is already managed by %s."),
+              $link, $ALL{parent}{$ALL{links}{$link}});
     }
-    badusage(_g("Alternative link (%s) is not absolute as it should be."),
-             $link) unless $link =~ m|^/|;
-    badusage(_g("Alternative path (%s) is not absolute as it should be."),
-             $file) unless $file =~ m|^/|;
-    badusage(_g("Alternative path (%s) doesn't exist."), $file)
+    error(_g("alternative link is not absolute as it should be: %s"),
+          $link) unless $link =~ m|^/|;
+    error(_g("alternative path is not absolute as it should be: %s"),
+          $file) unless $file =~ m|^/|;
+    error(_g("alternative path %s doesn't exist."), $file)
         unless -e $file;
-    badusage(_g("Alternative name (%s) is invalid."), $name) if $name =~ m|[/\s]|;
+    error(_g("alternative name (%s) must not contain “/” and spaces."), $name)
+        if $name =~ m|[/\s]|;
     foreach my $slave ($inst_alt->slaves()) {
         $link = $inst_alt->slave_link($slave);
         $file = $fileset->slave($slave);
         if (exists $ALL{parent}{$slave} and $ALL{parent}{$slave} ne $name) {
-            badusage(_g("Alternative %s can't be slave of %s: %s"),
-                     $slave, $name, ($ALL{parent}{$slave} eq $slave) ?
-                        _g("it is a master alternative.") :
-                        sprintf(_g("it is a slave of %s"), $ALL{parent}{$slave})
-                     );
+            error(_g("alternative %s can't be slave of %s: %s"),
+                  $slave, $name, ($ALL{parent}{$slave} eq $slave) ?
+                      _g("it is a master alternative.") :
+                      sprintf(_g("it is a slave of %s"), $ALL{parent}{$slave})
+                 );
         }
         if (exists $ALL{links}{$link} and $ALL{links}{$link} ne $slave) {
-            badusage(_g("Alternative link %s is already managed by %s."),
-                     $link, $ALL{parent}{$ALL{links}{$link}});
+            error(_g("alternative link %s is already managed by %s."),
+                  $link, $ALL{parent}{$ALL{links}{$link}});
         }
-        badusage(_g("Alternative link (%s) is not absolute as it should be."),
-                 $link) unless $link =~ m|^/|;
-        badusage(_g("Alternative path (%s) is not absolute as it should be."),
-                 $file) unless $file =~ m|^/|;
-        badusage(_g("Alternative name (%s) is invalid."), $slave)
+        error(_g("alternative link is not absolute as it should be: %s"),
+              $link) unless $link =~ m|^/|;
+        error(_g("alternative path is not absolute as it should be: %s"),
+              $file) unless $file =~ m|^/|;
+        error(_g("alternative name (%s) must not contain “/” and spaces."), $slave)
             if $slave =~ m|[/\s]|;
     }
 }
@@ -194,31 +195,28 @@ if ($action eq 'all') {
 } elsif ($action eq 'set-selections') {
     log_msg("run with @COPY_ARGV");
     my $line;
+    my $prefix = "[$progname --set-selections] ";
     while (defined($line = <STDIN>)) {
         chomp($line);
         my ($alt_name, $status, $choice) = split(/\s+/, $line, 3);
         if (exists $ALL{objects}{$alt_name}) {
             my $obj = $ALL{objects}{$alt_name};
             if ($status eq "auto") {
-                pr("[$progname --set-selections] " . _g("Call %s."),
-                   "$0 --auto $alt_name");
+                pr($prefix . _g("Call %s."), "$0 --auto $alt_name");
                 system($0, @pass_opts, "--auto", $alt_name);
                 exit $? if $?;
             } else {
                 if ($obj->has_choice($choice)) {
-                    pr("[$progname --set-selections] " . _g("Call %s."),
-                       "$0 --set $alt_name $choice");
+                    pr($prefix . _g("Call %s."), "$0 --set $alt_name $choice");
                     system($0, @pass_opts, "--set", $alt_name, $choice);
                     exit $? if $?;
                 } else {
-                    pr("[$progname --set-selections] " .  _g("Alternative %s" .
-                       " unchanged because choice %s is not available."),
-                       $alt_name, $choice);
+                    pr($prefix . _g("Alternative %s unchanged because choice " .
+                       "%s is not available."), $alt_name, $choice);
                 }
             }
         } else {
-            pr("[$progname --set-selections] " . _g("Skip unknown alternative %s."),
-               $alt_name);
+            pr($prefix . _g("Skip unknown alternative %s."), $alt_name);
         }
     }
     exit 0;
@@ -229,11 +227,13 @@ if ($action eq 'all') {
 if (not $alternative->load("$admdir/" . $alternative->name())
     and $action ne "install")
 {
-    pr(_g("No alternatives for %s."), $alternative->name());
     # FIXME: Be consistent for now with the case when we try to remove a
     # non-existing path from an existing link group file.
-    exit 0 if $action eq "remove";
-    exit 1;
+    if ($action eq "remove") {
+        verbose(_g("no alternatives for %s."), $alternative->name());
+        exit 0;
+    }
+    error(_g("no alternatives for %s."), $alternative->name());
 }
 
 if ($action eq 'display') {
@@ -256,17 +256,15 @@ if ($alternative->has_current_link()) {
     # Detect manually modified alternative, switch to manual
     if (not $alternative->has_choice($current_choice)) {
         if ($alternative->status() ne "manual") {
-            pr(_g("%s has been changed (manually or by a script).\n" .
-                  "Switching to manual updates only."),
-                  "$altdir/" . $alternative->name())
-                if $verbosemode >= 0;
+            warning(_g("%s has been changed (manually or by a script). " .
+                    "Switching to manual updates only."),
+                    "$altdir/" . $alternative->name());
             $alternative->set_status('manual');
         }
     }
 } else {
     # Lack of alternative link => automatic mode
-    pr(sprintf(_g("Setting up automatic selection of %s."), $alternative->name()))
-      if $verbosemode > 0;
+    verbose(_g("setting up automatic selection of %s."), $alternative->name());
     $alternative->set_status('auto');
 }
 
@@ -279,16 +277,16 @@ if ($action eq 'set') {
     $new_choice = $alternative->best();
 } elsif ($action eq 'config') {
     if (not scalar($alternative->choices())) {
-        printf _g("There is no program which provides %s.\n".
-                  "Nothing to configure.\n"), $alternative->name();
+        pr(_g("There is no program which provides %s."), $alternative->name());
+        pr(_g("Nothing to configure."));
     } elsif ($skip_auto && $alternative->status() eq 'auto') {
         $alternative->display_user();
     } elsif (scalar($alternative->choices()) == 1 and
              $alternative->status() eq 'auto' and
              $alternative->has_current_link()) {
-        printf _g("There is only 1 program which provides %s properly in auto mode\n".
-                  "(%s). Nothing to configure.\n"), $alternative->name(),
-                $alternative->current();
+        pr(_g("There is only one alternative in link group %s: %s"),
+           $alternative->name(), $alternative->current());
+        pr(_g("Nothing to configure."));
     } else {
         $new_choice = $alternative->select_choice();
     }
@@ -296,15 +294,15 @@ if ($action eq 'set') {
     if ($alternative->has_choice($path)) {
         $alternative->remove_choice($path);
     } else {
-        pr(_g("Alternative %s for %s not registered, not removing."),
-           $path, $alternative->name()) if $verbosemode > 0;
+        verbose(_g("alternative %s for %s not registered, not removing."),
+                $path, $alternative->name());
     }
     if ($current_choice eq $path) {
         # Current choice is removed
         if ($alternative->status() eq "manual") {
             # And it was manual, switch to auto
-            pr(_g("Removing manually selected alternative - switching to auto mode"))
-                if $verbosemode >= 0;
+            info(_g("removing manually selected alternative - " .
+                    "switching %s to auto mode"), $alternative->name());
             $alternative->set_status('auto');
         }
         $new_choice = $alternative->best();
@@ -319,8 +317,8 @@ if ($action eq 'set') {
         my ($old, $new) = ($alternative->link(), $inst_alt->link());
         $alternative->set_link($new);
         if ($old ne $new and -l $old) {
-            pr(_g("Renaming %s link from %s to %s."), $inst_alt->name(),
-               $old, $new) if $verbosemode >= 0;
+            info(_g("renaming %s link from %s to %s."), $inst_alt->name(),
+                 $old, $new);
             checked_mv($old, $new);
         }
         # Check if new slaves have been added, or existing ones renamed
@@ -337,8 +335,8 @@ if ($action eq 'set') {
                             readlink("$admdir/$slave") || "";
             if ($old ne $new and -l $old) {
                 if (-e $new_file) {
-                    pr(_g("Renaming %s slave link from %s to %s."), $slave,
-                       $old, $new) if $verbosemode >= 0;
+                    info(_g("renaming %s slave link from %s to %s."),
+                         $slave,$old, $new);
                     checked_mv($old, $new);
                 } else {
                     checked_rm($old);
@@ -354,10 +352,10 @@ if ($action eq 'set') {
         # Update automatic choice if needed
         $new_choice = $alternative->best();
     } else {
-        pr(_g("Automatic updates of %s are disabled, leaving it alone."),
-           "$altdir/" . $alternative->name()) if $verbosemode > 0;
-        pr(_g("To return to automatic updates use \`update-alternatives --auto %s'."),
-           $alternative->name()) if $verbosemode > 0;
+        verbose(_g("automatic updates of %s are disabled, leaving it alone."),
+                "$altdir/" . $alternative->name());
+        verbose(_g("to return to automatic updates use ".
+                   "\`update-alternatives --auto %s'."), $alternative->name());
     }
 }
 
@@ -372,14 +370,15 @@ if (not scalar($alternative->choices())) {
 if (defined($new_choice) and ($current_choice ne $new_choice)) {
     log_msg("link group " . $alternative->name() .
             " updated to point to " . $new_choice);
-    printf _g("Using '%s' to provide '%s' in %s.") . "\n", $new_choice,
-           $alternative->name(),
-           ($alternative->status() eq "auto" ? _g("auto mode") : _g("manual mode"))
-        if $verbosemode >= 0;
+    info(_g("using %s to provide %s (%s) in %s."), $new_choice,
+         $alternative->link(), $alternative->name(),
+         ($alternative->status() eq "auto" ? _g("auto mode") : _g("manual mode")));
     $alternative->prepare_install($new_choice);
 } elsif ($alternative->is_broken()) {
-    # TODO: warn & log
     log_msg("auto-repair link group " . $alternative->name());
+    warning(_g("forcing reinstallation of alternative %s " .
+               "because link group %s is broken."),
+            $current_choice, $alternative->name());
     $alternative->prepare_install($current_choice) if $current_choice;
 }
 
@@ -450,10 +449,11 @@ Options:
 "), $progname, $altdir;
 }
 
-sub quit {
+sub error {
     my ($format, @params) = @_;
     $! = 2;
-    die sprintf("%s: %s\n", $progname, sprintf($format, @params));
+    die sprintf("%s: %s: %s\n", $progname, _g("error"),
+                sprintf($format, @params));
 }
 
 sub badusage {
@@ -461,6 +461,34 @@ sub badusage {
     printf STDERR "%s: %s\n\n", $progname, sprintf($format, @params);
     usage();
     exit(2);
+}
+
+sub warning {
+    my ($format, @params) = @_;
+    if ($verbosemode >= 0) {
+        printf STDERR "%s: %s: %s\n", $progname, _g("warning"),
+                      sprintf($format, @params);
+    }
+}
+
+sub msg {
+    my ($min_level, $format, @params) = @_;
+    if ($verbosemode >= $min_level) {
+        printf STDOUT "%s: %s\n", $progname, sprintf($format, @params);
+    }
+}
+
+sub verbose {
+    msg(1, @_);
+}
+
+sub info {
+    msg(0, @_);
+}
+
+sub pr {
+    my ($format, @params) = @_;
+    printf ($format . "\n", @params);
 }
 
 sub set_action {
@@ -479,7 +507,7 @@ sub set_action {
         # filename from /etc/dpkg/dpkg.cfg or from command line
         if (!defined($fh_log) and -w $log_file) {
             open($fh_log, ">>", $log_file) ||
-                quit(_g("Can't append to %s"), $log_file);
+                error(_g("Can't append to %s"), $log_file);
         }
         if (defined($fh_log)) {
             $msg = POSIX::strftime("%Y-%m-%d %H:%M:%S", localtime()) .
@@ -491,7 +519,7 @@ sub set_action {
 
 sub get_all_alternatives {
     opendir(ADMINDIR, $admdir)
-        or quit(_g("can't readdir %s: %s"), $admdir, $!);
+        or error(_g("can't readdir %s: %s"), $admdir, $!);
     my @filenames = grep { !/^\.\.?$/ and !/\.dpkg-tmp$/ } (readdir(ADMINDIR));
     close(ADMINDIR);
     return sort @filenames;
@@ -503,11 +531,6 @@ sub config_all {
         exit $? if $?;
         print "\n";
     }
-}
-
-sub pr {
-    my ($format, @params) = @_;
-    print sprintf($format, @params) . "\n";
 }
 
 sub rename_mv {
@@ -525,18 +548,18 @@ sub rename_mv {
 sub checked_symlink {
     my ($filename, $linkname) = @_;
     symlink($filename, $linkname) ||
-        quit(_g("unable to make %s a symlink to %s: %s"), $linkname, $filename, $!);
+        error(_g("unable to make %s a symlink to %s: %s"), $linkname, $filename, $!);
 }
 
 sub checked_mv {
     my ($source, $dest) = @_;
     rename_mv($source, $dest) ||
-        quit(_g("unable to install %s as %s: %s"), $source, $dest, $!);
+        error(_g("unable to install %s as %s: %s"), $source, $dest, $!);
 }
 
 sub checked_rm {
     my ($f) = @_;
-    unlink($f) || $! == ENOENT || quit(_g("unable to remove %s: %s"), $f, $!);
+    unlink($f) || $! == ENOENT || error(_g("unable to remove %s: %s"), $f, $!);
 }
 
 ### OBJECTS ####
@@ -584,7 +607,7 @@ use Dpkg::Gettext;
 use POSIX qw(:errno_h);
 
 sub pr { main::pr(@_) }
-sub quit { main::quit(@_) }
+sub error { main::error(@_) }
 
 sub new {
     my ($class, $name) = @_;
@@ -698,22 +721,23 @@ sub remove_choice {
         undef $!;
         my $line = <$fh>;
         unless (defined($line)) {
-            quit(_g("error while reading %s: %s"), $filename, $!) if $!;
-            quit(_g("unexpected end of file in %s while trying to read %s"),
+            error(_g("while reading %s: %s"), $filename, $!) if $!;
+            error(_g("unexpected end of file in %s while trying to read %s"),
                  $filename, $_[0]);
         }
         chomp($line);
         return $line;
     }
     sub badfmt {
-        quit(_g("internal error: %s corrupt: %s"), $filename, sprintf(@_));
+        my ($format, @params) = @_;
+        error(_g("%s corrupt: %s"), $filename, sprintf($format, @params));
     }
     sub paf {
         my $line = shift @_;
         if ($line =~ m/\n/) {
-            quit(_g("newlines prohibited in update-alternatives files (%s)"), $line);
+            error(_g("newlines prohibited in update-alternatives files (%s)"), $line);
         }
-        print $fh "$line\n" || quit(_g("error writing %s: %s"), $filename, $!);
+        print $fh "$line\n" || error(_g("while writing %s: %s"), $filename, $!);
     }
 }
 
@@ -721,7 +745,7 @@ sub load {
     my ($self, $file, $must_not_die) = @_;
     return 0 unless -s $file;
     eval {
-        open(my $fh, "<", $file) || quit(_g(""), $file, $!);
+        open(my $fh, "<", $file) || error(_g(""), $file, $!);
         config_helper($fh, $file);
 	my $status = gl(_g("status"));
 	badfmt(_g("invalid status")) unless $status =~ /^(?:auto|manual)$/;
@@ -754,8 +778,10 @@ sub load {
                 push @filesets, $group;
 	    } else {
 		# File not found - remove
-		pr(_g("Alternative for %s points to %s - which wasn't found.  Removing from list of alternatives."),
-                   $alternative->name(), $main_file) if $verbosemode > 0;
+		main::warning(_g("alternative %s (part of link group %s) " .
+                                 "doesn't exist. Removing from list of ".
+                                 "alternatives."),
+                              $main_file, $self->name()) unless $must_not_die;
 		gl(_g("priority"));
                 foreach my $slave (@slaves) {
 		    gl(_g("slave file"));
@@ -791,14 +817,13 @@ sub save {
             $has_slave++ if $fileset->has_slave($slave);
         }
         unless ($has_slave) {
-            pr(_g("Discarding obsolete slave link %s (%s)."),
-               $slave, $self->slave_link($slave))
-                if $verbosemode > 0;
+            main::verbose(_g("discarding obsolete slave link %s (%s)."),
+                          $slave, $self->slave_link($slave));
             delete $self->{"slaves"}{$slave};
         }
     }
     # Write admin file
-    open(my $fh, ">", $file) || quit(_g("unable to write %s: %s"), $file, $!);
+    open(my $fh, ">", $file) || error(_g("unable to write %s: %s"), $file, $!);
     config_helper($fh, $file);
     paf($self->status());
     paf($self->link());
@@ -820,7 +845,7 @@ sub save {
         }
     }
     paf('');
-    close($fh) || quit(_g("unable to close %s: %s"), $file, $!);
+    close($fh) || error(_g("unable to close %s: %s"), $file, $!);
 }
 
 sub display_query {
@@ -948,7 +973,7 @@ sub current {
     my ($self) = @_;
     return undef unless $self->has_current_link();
     my $val = readlink("$altdir/$self->{master_name}");
-    pr(_g("readlink(%s) failed: %s"), "$altdir/$self->{master_name}", $!)
+    error(_g("readlink(%s) failed: %s"), "$altdir/$self->{master_name}", $!)
         unless defined $val;
     return $val;
 }
@@ -976,7 +1001,7 @@ sub prepare_install {
             main::checked_mv("$link.dpkg-tmp", $link);
         });
     } else {
-        pr(_g("Not replacing %s with a link."), $link) if $verbosemode >= 0;
+        main::warning(_g("not replacing %s with a link."), $link);
     }
     # Take care of slaves links
     foreach my $slave ($self->slaves()) {
@@ -997,13 +1022,13 @@ sub prepare_install {
                     main::checked_mv("$slink.dpkg-tmp", $slink);
                 });
             } else {
-                pr(_g("Not replacing %s with a link."), $link) if $verbosemode >= 0;
+                main::warning(_g("not replacing %s with a link."), $link);
             }
         } else {
-            main::pr(_g("skip creation of %s because associated file %s (of" .
-                        "link group %s) doesn't exist"), $slink, $spath,
-                     $self->name())
-                if $verbosemode >= 0 and $fileset->has_slave($slave);
+            main::warning(_g("skip creation of %s because associated file " .
+                             "%s (of link group %s) doesn't exist."),
+                          $slink, $spath, $self->name())
+                if $fileset->has_slave($slave);
             # Drop unused slave
             $self->add_commit_op(sub {
                 main::checked_rm($slink);
