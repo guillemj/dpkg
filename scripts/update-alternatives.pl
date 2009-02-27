@@ -60,6 +60,7 @@ while (@ARGV) {
         my $name = shift @ARGV;
         my $path = shift @ARGV;
         my $priority = shift @ARGV;
+        badusage(_g("<link> and <path> can't be the same")) if $link eq $path;
         $priority =~ m/^[-+]?\d+/ || badusage(_g("priority must be an integer"));
         $alternative = Alternative->new($name);
         $inst_alt = Alternative->new($name);
@@ -84,6 +85,7 @@ while (@ARGV) {
         my $slink = shift @ARGV;
         my $sname = shift @ARGV;
         my $spath = shift @ARGV;
+        badusage(_g("<link> and <path> can't be the same")) if $slink eq $spath;
         badusage(_g("name %s is both primary and slave"), $inst_alt->name())
             if $sname eq $inst_alt->name();
         if ($inst_alt->has_slave($sname)) {
