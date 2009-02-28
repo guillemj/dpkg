@@ -693,7 +693,8 @@ sub set_status {
     if (!defined($self->status()) or $status ne $self->status()) {
         $self->{modified} = 1;
     }
-    main::log_msg("status of link group " . $self->name() . " set to $status");
+    main::log_msg("status of link group " . $self->name() . " set to $status")
+        if defined($self->status()) and $status ne $self->status();
     $self->{status} = $status;
 }
 sub set_link {
