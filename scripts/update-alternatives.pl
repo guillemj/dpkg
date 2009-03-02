@@ -748,7 +748,7 @@ sub load {
     my ($self, $file, $must_not_die) = @_;
     return 0 unless -s $file;
     eval {
-        open(my $fh, "<", $file) || error(_g(""), $file, $!);
+        open(my $fh, "<", $file) || error(_g("unable to read %s: %s"), $file, $!);
         config_helper($fh, $file);
 	my $status = gl(_g("status"));
 	badfmt(_g("invalid status")) unless $status =~ /^(?:auto|manual)$/;
