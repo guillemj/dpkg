@@ -455,9 +455,10 @@ if (!is_binaryonly) {
 
     if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||
 	 $sourcestyle =~ m/d/) &&
-	grep(m/\.(debian\.tar|diff)\.$comp_regex$/,@sourcefiles)) {
+	grep(m/\.(debian\.tar|diff)\.$comp_regex$/,@sourcefiles))
+    {
 	$origsrcmsg= _g("not including original source code in upload");
-	@sourcefiles= grep(!m/\.orig\.tar\.$comp_regex$/,@sourcefiles);
+	@sourcefiles= grep(!m/\.orig(-.+)?\.tar\.$comp_regex$/,@sourcefiles);
     } else {
 	if ($sourcestyle =~ m/d/ &&
 	    !grep(m/\.(debian\.tar|diff)\.$comp_regex$/,@sourcefiles)) {
