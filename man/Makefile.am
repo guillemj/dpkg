@@ -103,7 +103,7 @@ dist_man_MANS = \
 	update-alternatives.8
 
 EXTRA_DIST = \
-	po/ChangeLog \
+	po/ChangeLog.old \
 	po/po4a.cfg \
 	po/dpkg-man.pot
 

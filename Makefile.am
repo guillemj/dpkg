@@ -23,6 +23,7 @@ ACLOCAL_AMFLAGS = -I m4
 dist_pkgdata_DATA = cputable ostable triplettable
 
 EXTRA_DIST = \
+	ChangeLog.old \
 	README.api \
 	README.feature-removal-schedule \
 	README.translators \
@@ -55,6 +56,11 @@ EXTRA_DIST = \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override
+
+.PHONY: ChangeLog
+
+ChangeLog:
+	git log -C --stat 1.15.0.. >$@
 
 # If we create the dist tarball from the git repository, make sure
 # that we're not forgetting some files...

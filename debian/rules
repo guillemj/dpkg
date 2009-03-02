@@ -89,7 +89,7 @@ binary-arch: install
 	install -d debian/dpkg/sbin
 	mv debian/dpkg/usr/sbin/start-stop-daemon debian/dpkg/sbin
 
-	dh_installchangelogs -a ChangeLog
+	dh_installchangelogs -a ChangeLog ChangeLog.old
 	dh_installdocs -a
 	dh_link -a
 	dh_lintian -a
@@ -108,7 +108,7 @@ binary-indep: install
 	dh_testroot -i
 	dh_install --sourcedir=debian/tmp -i -XDpkg/Gettext.pm
 
-	dh_installchangelogs -i ChangeLog
+	dh_installchangelogs -i ChangeLog ChangeLog.old
 	dh_installdocs -i
 	dh_link -i
 	dh_lintian -i

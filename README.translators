@@ -1,35 +1,10 @@
 Translators, when adding/updating your translation files, please follow
 the following rules:
 
-* Update debian/changelog and one of po/ChangeLog, dselect/po/ChangeLog,
-  scripts/po/ChangeLog or man/po/ChangeLog:
+* Update debian/changelog:
 
-  - Beware the you should NOT update the main ChangeLog file
-    for translation updates. Use the ChangeLog in the relevant
-    subdirectory instead.
-
-  - The format of entries in the subdirectories' ChangeLog is strict:
-
-==========================================================
-2006-02-11  Christian Perrier  <bubulle@debian.org>
-
-	* fr.po: Updated to 1011t.
-==========================================================
-
-    Note the date format AND the DOUBLE SPACE between the date and the
-    translator's email address.
-
-    Note also the TAB character before the entry. NOT multiple spaces.
-
-    Also note that the update should mention the file statistics as
-    XXXtYYYfZZZu.
-
-    "XXXt" means "XXX translated strings".
-    "YYYf" means "YYY fuzzy strings strings".
-    "ZZZu" means "ZZZ untranslated strings".
-    YYY or ZZZ may be omitted if they are null.
-
-    This file contents MUST be encoded in UTF-8.
+  - Beware the you should NOT update the any of the legacy ChangeLog.old
+    files for translation updates.
 
 * Format of entries in debian/changelog:
 
@@ -64,17 +39,24 @@ dpkg (1.13.15) unstable; urgency=low
 
 * Format of commit message
 
-  The formats above only apply to ChangeLog files and debian/changelog.
+  The formats above only apply to the debian/changelog file.
   They do not apply to the commit message. Following recommendations
   of http://wiki.debian.org/Teams/Dpkg/GitUsage you should start the
   commit message with a summary line, followed by an empty line and a
   a detailed/long description. For example:
 
 ==========================================================
-Updated german translation of manual pages
+Update german translation of manual pages
 
-	* man/po/fr.po: Updated to 1354t.
+Update to 1354t.
 ==========================================================
+
+  Note that the update should mention the file statistics as XXXtYYYfZZZu.
+
+  "XXXt" means "XXX translated strings".
+  "YYYf" means "YYY fuzzy strings strings".
+  "ZZZu" means "ZZZ untranslated strings".
+  YYY or ZZZ may be omitted if they are null.
 
 * Use of po/LINGUAS, dselect/po/LINGUAS or scripts/po/LINGUAS:
 
