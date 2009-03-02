@@ -159,7 +159,7 @@ if ($action eq "install") {
           $file) unless $file =~ m|^/|;
     error(_g("alternative path %s doesn't exist."), $file)
         unless -e $file;
-    error(_g("alternative name (%s) must not contain “/” and spaces."), $name)
+    error(_g("alternative name (%s) must not contain '/' and spaces."), $name)
         if $name =~ m|[/\s]|;
     foreach my $slave ($inst_alt->slaves()) {
         $link = $inst_alt->slave_link($slave);
@@ -179,7 +179,7 @@ if ($action eq "install") {
               $link) unless $link =~ m|^/|;
         error(_g("alternative path is not absolute as it should be: %s"),
               $file) unless $file =~ m|^/|;
-        error(_g("alternative name (%s) must not contain “/” and spaces."), $slave)
+        error(_g("alternative name (%s) must not contain '/' and spaces."), $slave)
             if $slave =~ m|[/\s]|;
     }
 }
@@ -401,9 +401,9 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
-Copyright © 1995 Ian Jackson.
-Copyright © 2000-2002 Wichert Akkerman.
-Copyright © 2009 Raphaël Hertzog.");
+Copyright (C) 1995 Ian Jackson.
+Copyright (C) 2000-2002 Wichert Akkerman.
+Copyright (C) 2009 Raphael Hertzog.");
 
     printf _g("
 This is free software; see the GNU General Public Licence version 2 or
