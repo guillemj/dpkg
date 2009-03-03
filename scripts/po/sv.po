@@ -1,13 +1,14 @@
-# Copyright (C) 2007-2008 Software in the Public Interest, Inc.
+# Swedish translation of dpkg
+# Copyright © 2007-2009 Software in the Public Interest
 # This file is distributed under the same license as the dpkg package.
-# Peter Krefting <peterk@debian.org>, 2007-2008.
+# Peter Krefting <peterk@debian.org>, 2007-2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2009-03-02 04:55+0200\n"
-"PO-Revision-Date: 2008-08-29 17:49+0100\n"
+"PO-Revision-Date: 2009-03-03 13:10+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +156,7 @@ msgstr ""
 "Copyright © 2007 Frank Lichtenheld."
 
 #: scripts/dpkg-buildpackage.pl:36
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "\n"
 "Usage: %s [<options> ...]\n"
@@ -217,6 +218,8 @@ msgstr ""
 "  -p<signeringskommando>\n"
 "  -d             kontrollera inte byggberoenden och -konflikter.\n"
 "  -D             kontrollera byggberoenden och -konflikter.\n"
+"  -T<mål>        anropa debian/rules <mål> med korrekt miljö.\n"
+"  --as-root      ser till att -T anropar målet med rootbehörighet.\n"
 "  -j[<antal>]    ange antal jobb att köra samtidigt } sänds till debian/"
 "rules\n"
 "  -k<nyckelid>   nyckeln som skall användas vid signering.\n"
@@ -1051,9 +1054,8 @@ msgid " * Unconditional maintainer override for %s *"
 msgstr " * Ovillkorlig överstyrning från paketansvariga för %s *"
 
 #: scripts/dpkg-scanpackages.pl:115
-#, fuzzy
 msgid "1 to 3 args expected"
-msgstr "1 till 3 argument förväntades\n"
+msgstr "1 till 3 argument förväntades"
 
 #: scripts/dpkg-scanpackages.pl:136
 #, perl-format
@@ -1342,7 +1344,7 @@ msgid "need at least one executable"
 msgstr "behöver minst en binär"
 
 #: scripts/dpkg-shlibdeps.pl:157
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s').\n"
 "Note: libraries are not searched in other binary packages that do not have "
@@ -1350,7 +1352,7 @@ msgid ""
 "To help dpkg-shlibdeps find private libraries, you might need to set "
 "LD_LIBRARY_PATH."
 msgstr ""
-"hittade inte biblioteket %s som behövs för %s (dess RPATH är \"%s\").\n"
+"hittade inte biblioteket %s som behövs för %s (ELF-format: \"%s\"; RPATH: \"%s\").\n"
 "Observera: andra binärpaket som inte har shlibs- eller symbols-filer söks "
 "inte genom efter bibliotek.\n"
 "För att hjälpa dpkg-shlibdeps att hitta privata bibliotek måste du kanske "
@@ -1376,6 +1378,7 @@ msgstr "symbolen %s, som används av %s, hittades inte i något av biblioteken."
 msgid ""
 "%s contains an unresolvable reference to symbol %s: it's probably a plugin."
 msgstr ""
+"%s innehåller en referens till symbolen %s som inte kan kopplas; det är troligen ett insticksprogram."
 
 #: scripts/dpkg-shlibdeps.pl:347
 #, perl-format
@@ -1636,9 +1639,9 @@ msgid "unpack target exists: %s"
 msgstr "mål för uppackning finns redan: %s"
 
 #: scripts/dpkg-source.pl:332
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s doesn't contain a valid OpenPGP signature"
-msgstr "innehåller inte något git-arkiv"
+msgstr "%s innehåller inte en giltig OpenPGP-signatur"
 
 #: scripts/dpkg-source.pl:334
 #, perl-format
@@ -1665,7 +1668,7 @@ msgstr ""
 "Copyright © 2008 Raphael Hertzog"
 
 #: scripts/dpkg-source.pl:373
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -1740,6 +1743,7 @@ msgstr ""
 "  --no-copy                kopiera inte .orig-tarbollar\n"
 "  --no-check               kontrollera inte signaturere och kontrollsummor\n"
 "                           före uppackning\n"
+"  --require-valid-signature avbryt om paketet saknar giltig signatur\n"
 "\n"
 "Allmänna flaggor:\n"
 "  -h, --help               visa detta hjälpmeddelande.\n"
@@ -2089,9 +2093,8 @@ msgstr ""
 "Filen %s har kontrollsumman %s istället för den förväntade %s (algoritm %s)"
 
 #: scripts/Dpkg/Control.pm:55
-#, fuzzy
 msgid "standard input"
-msgstr "skriv på tar-indata"
+msgstr "standard in"
 
 #: scripts/Dpkg/Control.pm:103
 msgid "first block lacks a source field"
@@ -2236,7 +2239,7 @@ msgstr "misslyckades att tolka en rad i %s: %s"
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:186
 #, perl-format
 msgid "Tried to merge the same object (%s) twice in a symfile."
-msgstr ""
+msgstr "Försökte slå ihop samma objekt (%s) två gånger i en symfil."
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:239
 msgid "Can't merge symbols from objects without SONAME."
@@ -2686,9 +2689,9 @@ msgstr ""
 "uppackad (orig/)"
 
 #: scripts/Dpkg/Source/Package/V1.pm:215
-#, fuzzy, perl-format
+#, perl-format
 msgid "orig argument %s is not a plain file or directory"
-msgstr "katalogargumentet %s är inte en katalog"
+msgstr "orig-parametern %s är inte en vanlig fil eller katalog"
 
 #: scripts/Dpkg/Source/Package/V1.pm:221
 #, perl-format
@@ -3068,13 +3071,13 @@ msgstr "källkodspaketet har två emotsägande värden - %s och %s"
 msgid ""
 "Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu "
 "address"
-msgstr ""
+msgstr "Versionsnumret indikerar Ubuntuändringar, men Maintainer: innehåller inte en Ubuntuadress"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm:59
 msgid ""
 "Version number suggests Ubuntu changes, but there is no XSBC-Original-"
 "Maintainer field"
-msgstr ""
+msgstr "Versionsnumret indikerar Ubuntuändringar, men fältet XSBC-Original-Maintainer saknas"
 
 #: scripts/Dpkg/Version.pm:209
 #, perl-format
