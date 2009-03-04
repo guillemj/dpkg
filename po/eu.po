@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2009-01-05 00:15+0200\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
@@ -858,6 +858,50 @@ msgstr "baliogabeko `%c' karakterea eremu zabaleran\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Itxierako giltza falta da formatuan\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "ezin zaio ez ikusi egin %s seinaleari script-a exekutatu aurretik"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "errorea %s seinalea harrapatu ez delako: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "%s azpiprozesuak %d errorea eman du irteeran"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "%s azpiprozesuak %d errorea eman du irteeran"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "%s azpiprozesua hil du (%s)%s seinaleak"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", nukleoa iraulirik"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "%s azpiprozesua hil du (%s)%s seinaleak"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "%s azpiprozesuak huts egin du itxaroteko %d egoera kodearekin"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "huts egin du %s(r)i itxarotean"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1997,7 +2041,7 @@ msgstr ""
 " (edo dpkg --triggers-only) erabilaiz eskatu daitezke:\n"
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2448,7 +2492,7 @@ msgstr "huts egin du rm garbitzeko exekutatzean"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian pakete kudeaketarako `%s' programaren %sbertsioa.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2461,7 +2505,7 @@ msgstr ""
 "EZ dago bermerik.\n"
 "Ikus %s --licence xehetasun gehiago izateko.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2536,7 +2580,7 @@ msgstr ""
 "  -Dh|--debug=help                    arazpen aukeren laguntza bistarazi\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2694,7 +2738,7 @@ msgstr ""
 "\n"
 " [*] duten aukerek irteera luze bat dute - `less' edo `more' bidez erabili!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "ekintza gatazkatsuak -%c (--%s) eta -%c (--%s)"
@@ -2887,7 +2931,7 @@ msgstr "ezin izan da `%i' ireki korronterako"
 msgid "unexpected eof before end of line %d"
 msgstr "ustekabeko eof %d lerroa amaitu aurretik"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "ekintza aukera bat behar da"
@@ -2897,7 +2941,7 @@ msgstr "ekintza aukera bat behar da"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending: ez du hartzen aukerakoa ez den argumenturik"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s: pakete izenaren argumentu bat behar du gutxienez"
@@ -3006,6 +3050,10 @@ msgstr " honen mendekoa da: "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; nolanahi ere:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(azalpena ez dago erabilgarri)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3261,11 +3309,7 @@ msgstr "(Kontuan hartu %s desagertu dela, guztiz ordeztu delako.)\n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "ezin da ezabatu desagertutako `%.250s' kontroleko inf. fitxategia"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(azalpena ez dago erabilgarri)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3279,88 +3323,88 @@ msgstr ""
 "|/ Err?=(batez)/Hold/Reinst-required/X=both-problems (Status,Err: "
 "uppercase=bad)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Izena"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Bertsioa"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Azalpena"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Ez dago honekin bat datorren paketerik: %s.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%s-(e)k hemendik desbideratuta: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "%s-(e)k hona desbideratuta: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "desbideratze lokala hemendik: %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "lokalki hona desbideratuta: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search: fitxategi-izeneko eredu-argumentu bat behar du gutxienez"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s ez da aurkitu.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "`%s' paketea ez dago instalatuta, eta ez dago inf. erabilgarririk.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "`%s' paketea ez dago erabilgarri.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "`%s' paketea ez dago instalatuta.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "`%s' paketeak ez dauka fitxategirik (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "lokalki hona desbideratuta: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "paketeak beste batzuk hona desbideratzen ditu: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "%s-(e)k hona desbideratuta: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3368,12 +3412,12 @@ msgstr ""
 "Erabili dpkg --info (= dpkg-deb --info) artxibo-fitxategiak aztertzeko,\n"
 "eta dpkg --contents (= dpkg-deb --contents) edukia zerrendatzeko.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian pakete kudeaketarako `%s' programaren kontsulta tresna\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3397,7 +3441,7 @@ msgstr ""
 "du\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3410,7 +3454,7 @@ msgstr ""
 "  -f|--showformat=<formatua>      --show-entzat beste formatu bat erabili\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3432,7 +3476,7 @@ msgstr ""
 "negatiboa\n"
 "  ez den bitartean kasu horretan ezkerretara lerrokatuko dira.\n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3567,42 +3611,42 @@ msgstr "ezin da kendu fitxategi zaharren zerrenda"
 msgid "can't remove old postrm script"
 msgstr "ezin da kendu postrm script zaharra"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "ustekabeko eof pakete izenaren %d lerroan"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "ustekabeko lerro-amaiera pakete izenaren %d lerroan"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "ustekabeko eof pakete izenaren ondoren %d lerroan"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "espero ez zen lerro-amaiera pakete izenaren ondoren %d lerroan"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "espero ez ziren datuak paketearen eta hautapenaren ondoren %d lerroan"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "pakete izen baliogabea %d lerroan: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "nahi zen egoera ezezaguna %d lerroan: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "irakurketa errorea sarrera estandarrean"
 
@@ -5975,23 +6019,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: abisua - %s: %d errorea eman du irteeran\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "%s azpiprozesuak %d errorea eman du irteeran"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: abisua - %s hil du (%s)%s seinaleak\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", nukleoa iraulirik"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "%s azpiprozesua hil du (%s)%s seinaleak"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "%s azpiprozesuak huts egin du itxaroteko %d egoera kodearekin"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "huts egin du %s(r)i itxarotean"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "huts egin du `%s' irakurtzean %d lerroan"
@@ -6028,12 +6057,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture: ez du argumenturik hartzen"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "errorea %s seinalea harrapatu ez delako: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "ezin zaio ez ikusi egin %s seinaleari script-a exekutatu aurretik"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "ezin da atzitu instalatuta dagoen `%2$.250s' %1$s script-a"

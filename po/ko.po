@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2009-02-03 00:40+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -853,6 +853,50 @@ msgstr "필드 너비에 쓸 수 없는 `%c' 문자가 들어 있습니다\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "형식에서 중괄호 닫기가 (`}') 빠졌습니다\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "스크립트를 실행하기 전 %s 시그널을 무시할 수 없습니다"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "%s 시그널을 잡는 데 오류가 발생했습니다: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "%s 하위 프로세스가 오류 %d번을 리턴했습니다"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "%s 하위 프로세스가 오류 %d번을 리턴했습니다"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "하위 프로세스 %s이(가) 시그널 (%s)%s에 의해 죽었습니다"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", 메모리 덤프"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "하위 프로세스 %s이(가) 시그널 (%s)%s에 의해 죽었습니다"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "하위 프로세스 %s이(가) 지연 상태 코드 %d을(를) 갖고 실패"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "%s 프로세스를 wait하는 데 실패했습니다"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1983,7 +2027,7 @@ msgstr ""
 "수 있습니다. (혹은 dpkg --trigger-only):\n"
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2425,7 +2469,7 @@ msgstr "정리를 위해 rm 실행 실패"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "데비안 '%s' 패키지 관리 프로그램 버전 %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2437,7 +2481,7 @@ msgstr ""
 "version 2 이후를 보십시오.  어떤 보증도 하지 않습니다.\n"
 "저작권 관련 정보를 보려면 %s --license를 참고하십시오.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2510,7 +2554,7 @@ msgstr ""
 "  -Dh|--debug=help                 디버깅에 관한 도움말을 표시합니다.\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2655,7 +2699,7 @@ msgstr ""
 "[*]표로 표시된 옵션은 출력하는 내용이 많습니다. - `less'나 `more'를 이용하십"
 "시오!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "-%c(--%s) 명령과 -%c(--%s) 명령은 충돌합니다"
@@ -2844,7 +2888,7 @@ msgstr "`%i' 파일디스크립터를 스트림으로 열 수 없습니다"
 msgid "unexpected eof before end of line %d"
 msgstr "%d번째 줄이 끝나기 전에 예상치 못하게 파일이 끝났습니다"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "명령 옵션이 필요합니다"
@@ -2854,7 +2898,7 @@ msgstr "명령 옵션이 필요합니다"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending에서는 옵션과 관계없는 인수를 받지 않습니다"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s 옵션은 적어도 하나의 패키지 이름 인수가 필요합니다"
@@ -2961,6 +3005,10 @@ msgstr " 패키지는 다음 패키지에 의존: "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr ": 하지만:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(설명 없음)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3215,11 +3263,7 @@ msgstr ""
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "지워야 할 컨트롤 정보 파일 `%.250s'을(를) 지울 수 없습니다"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(설명 없음)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3232,88 +3276,88 @@ msgstr ""
 "트리거밀림(T)\n"
 "|/ 오류?=(없음)/고정(H)/다시설치필요(R)/둘-다(X) (상태, 오류가 대문자=불량)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "이름"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "버전"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "설명"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "%s에 맞는 패키지가 없습니다.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%2$s 패키지가 %1$s 패키지에서 전환\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "%2$s 패키지가 %1$s 패키지로 전환\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "다음에서 로컬 전환: %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "다음으로 로컬 전환: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search 옵션은 적어도 하나의 파일 이름 패턴 인수가 필요합니다"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s이(가) 없습니다.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "`%s' 패키지는 설치하지 않았으며 정보도 없습니다.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "`%s' 패키지는 사용할 수 없습니다.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "`%s' 패키지는 설치하지 않았습니다.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "`%s' 패키지에는 어떠한 파일도 들어 있지 않습니다. (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "로컬에서 전환: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "이 패키지가 다른 패키지를 전환: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "%s 패키지가 이 패키지를 전환: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3322,12 +3366,12 @@ msgstr ""
 "아카이브 내용을 보려면 dpkg --contents를 실행하십시오 (= dpkg-deb --"
 "contents)\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "데비안 '%s' 패키지 관리 프로그램 조회 도구\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3350,7 +3394,7 @@ msgstr ""
 "  -S|--search <패턴> ...           파일이 들어 있는 패키지를 찾습니다\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3362,7 +3406,7 @@ msgstr ""
 "  --admindir=<디렉토리>            %s 대신에 <디렉토리> 사용합니다.\n"
 "  -f|--showformat=<형식>           --show에서 다른 형식을 사용합니다.\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3385,7 +3429,7 @@ msgstr ""
 "면 \n"
 "  왼쪽으로 정렬합니다.\n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3518,42 +3562,42 @@ msgstr "과거의 파일 목록을 지울 수 없습니다"
 msgid "can't remove old postrm script"
 msgstr "오래된 postrm 스크립트를 지울 수 없습니다"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "%d번째 줄에 있는 패키지 이름에 예상치 못하게 파일이 끝났습니다"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "%d번째 줄에 있는 패키지 이름에 예상치 못하게 줄이 끝났습니다"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "%d번째 줄에 있는 패키지 이름 뒤에 예상치 못하게 파일이 끝났습니다"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "%d번째 줄에 있는 패키지 이름 뒤에 예상치 못하게 줄이 끝났습니다"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "%d번째 줄에 있는 패키지와 선택 후 예상치 못한 데이터가 나왔습니다"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "%d번째 줄에 사용할 수 없는 패키지 이름이 나왔습니다: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "%d번째 줄에 알 수 없는 요청 상태가 나왔습니다: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "표준 입력을 읽는 데 오류가 발생했습니다"
 
@@ -5907,23 +5951,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: 경고 - %s 프로세스가 오류 상태 %d번을 리턴했습니다\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "%s 하위 프로세스가 오류 %d번을 리턴했습니다"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: 경고 - %s 프로세스가 시그널에 (%s) 의해 죽었습니다%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", 메모리 덤프"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "하위 프로세스 %s이(가) 시그널 (%s)%s에 의해 죽었습니다"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "하위 프로세스 %s이(가) 지연 상태 코드 %d을(를) 갖고 실패"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "%s 프로세스를 wait하는 데 실패했습니다"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "`%s' 파일의 %d번 줄에서 읽기가 실패했습니다"
@@ -5963,12 +5992,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture 옵션은 어떠한 인수도 받지 않습니다"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "%s 시그널을 잡는 데 오류가 발생했습니다: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "스크립트를 실행하기 전 %s 시그널을 무시할 수 없습니다"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "설치된 %s 스크립트 `%.250s'의 정보를 읽을 수 없습니다"

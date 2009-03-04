@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2009-02-08 01:33+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -858,6 +858,50 @@ msgstr "nesprávny znak „%c“ v poli width\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Uzatváracia zátvorka chýba vo formáte\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "nie je možné ignorovať signál %s pred spustením skriptu"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "chyba pri odblokovaní signálu %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "podproces %s vrátil chybový kód %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "podproces %s vrátil chybový kód %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "podproces %s ukončený signálom (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", bol uložený výpis pamäte"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "podproces %s ukončený signálom (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "podproces %s zlyhal s čakacím stavovým kódom %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "čakanie na %s zlyhalo"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1999,7 +2043,7 @@ msgstr ""
 "dselect alebo dpkg --configure --pending (alebo dpkg --triggers-only):\n"
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2443,7 +2487,7 @@ msgstr "rm sa nedá spustiť na čistenie"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian „%s“ program na údržbu balíkov, verzia %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2456,7 +2500,7 @@ msgstr ""
 "Neposkytuje sa ŽIADNA záruka. Použitím %s --licence získate viac "
 "informácií.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2527,7 +2571,7 @@ msgstr ""
 "  -Dh|--debug=help                 zobrazí pomocníka na ladenie.\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2677,7 +2721,7 @@ msgstr ""
 "\n"
 "Voľby označené [*] produkujú rozsiahly výstup - použite „less“ alebo „more“!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "odporujúce si operácie -%c (--%s) a -%c (--%s)"
@@ -2877,7 +2921,7 @@ msgstr "nie je možné otvoriť „%i“ pre tok"
 msgid "unexpected eof before end of line %d"
 msgstr "nečakaný koniec súboru pred koncom riadka %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "vyžaduje sa zadanie voľby určujúcej operáciu"
@@ -2887,7 +2931,7 @@ msgstr "vyžaduje sa zadanie voľby určujúcej operáciu"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending neprijíma žiadne argumenty"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s vyžaduje ako parameter aspoň jeden názov balíka"
@@ -2996,6 +3040,10 @@ msgstr " závisí na "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; aj keď:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(popis nie je k dispozícii)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3247,11 +3295,7 @@ msgstr "(Vyskytlo sa zmiznutie balíka %s, ktorý bol úplne nahradený.)\n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "nie je možné zrušiť zmiznutie riadiaceho info súboru „%.250s“"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(popis nie je k dispozícii)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3265,89 +3309,89 @@ msgstr ""
 "|/ Chyba?=(žiadna)/Podržať/Reinšt-vyžadovaná/X=oba-problémy (Stav,Chyba: "
 "veľké písmeno=zle)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Názov"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Verzia"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Popis"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Nenašli sa žiadne balíky vyhovujúce %s.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "odsunuté balíkom %s z: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "odsunuté balíkom %s do: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "lokálne odsunutie z: %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "lokálne odsunutie do: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search potrebuje najmenej jeden argument vzorky názvu súboru"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s nebol nájdený.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr ""
 "Balík „%s“ nie je nainštalovaný a nie sú o ňom dostupné žiadne informácie.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Balík „%s“ nie je dostupný.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Balík „%s“ nie je nainštalovaný.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Balík „%s“ neobsahuje žiadne súbory (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "lokálne odsunutý do: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "balík odsúva ostatné do: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "odsunuté balíkom %s do: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3355,13 +3399,13 @@ msgstr ""
 "Použite dpkg --info (= dpkg-deb --info) na preskúmanie súborov archívov,\n"
 "a dpkg --contents (= dpkg-deb --contents) na vypísanie ich obsahu.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr ""
 "Debian „%s“ nástroj na zadávanie požiadaviek programu na správu balíkov\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3382,7 +3426,7 @@ msgstr ""
 "  -S|--search <vzorka> ...         Nájde balík(y) vlastniaci(e) súbor(y).\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3395,7 +3439,7 @@ msgstr ""
 "  -f|--showformat=<format>           Použije alternatívny formát pre --show\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3416,7 +3460,7 @@ msgstr ""
 "  ${var[;šírka]}.  Polia budú zarovnané doprava, ak bude šírka záporná,\n"
 "  inak bude použité zarovnanie doľava. \n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3553,42 +3597,42 @@ msgstr "nie je možné odstrániť zoznam starých súborov"
 msgid "can't remove old postrm script"
 msgstr "nie je možné odstrániť starý postrm skript"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "neočakávaný koniec súboru v názve balíka na riadku %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "neočakávaný koniec riadka v názve balíka na riadku %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "neočakávaný koniec súboru za názvom balíka na riadku %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "neočakávaný koniec riadka za názvom balíka na riadku %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "neočakávané dáta za balíkom a výberom na riadku %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "nepovolený názov balíka na riadku %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "neznámy cieľový stav na riadku %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "chyba pri čítaní zo štandardného vstupu"
 
@@ -5939,23 +5983,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: upozornenie - %s vrátil chybový kód %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "podproces %s vrátil chybový kód %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: upozornenie - %s ukončený signálom (%s)%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", bol uložený výpis pamäte"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "podproces %s ukončený signálom (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "podproces %s zlyhal s čakacím stavovým kódom %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "čakanie na %s zlyhalo"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "zlyhalo čítanie „%s“ na riadku %d"
@@ -5992,12 +6021,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture musí byť zadaný bez argumentov"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "chyba pri odblokovaní signálu %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "nie je možné ignorovať signál %s pred spustením skriptu"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "nie je možné zistiť stav inštalovaného %s skriptu „%.250s“"

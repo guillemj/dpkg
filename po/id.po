@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2006-02-17 08:52+0200\n"
 "Last-Translator: Parlin Imanuel <parlin_i@yahoo.com>\n"
 "Language-Team: Debian Indonesia L10N Team <debian-l10n-id@gurame.fisika.ui."
@@ -859,6 +859,50 @@ msgstr "karakter `%c' tidak sah dalam lebar ruas\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "kurung tutup tidak ada dalam format\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "tidak bisa mengabaikan sinyal %s sebelum menjalankan skrip"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "Ada kesalahan saat melepaskan sinyal %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "subproses %s menghasilkan kesalahan status 'exit': %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "subproses %s menghasilkan kesalahan status 'exit': %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "subproses %s dihentikan oleh sinyal (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ""
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "subproses %s dihentikan oleh sinyal (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "subproses %s gagal dengan kode status 'wait' %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "gagal menunggu %s"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1974,7 +2018,7 @@ msgid ""
 msgstr ""
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2417,7 +2461,7 @@ msgstr "gagal menjalankan perintah 'rm' untuk membersihkan"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "`versi program pengelola paket"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, fuzzy, c-format
 msgid ""
@@ -2430,7 +2474,7 @@ msgstr ""
 "selanjutnya untuk persyaratan penggandaan. TIDAK ADA jaminan. \n"
 "Lihat dpkg-deb --license untuk rinciannya.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2468,7 +2512,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2570,7 +2614,7 @@ msgstr ""
 "Pilihan bertanda [*] menghasilkan banyak output - gunakan pipe ke `less' "
 "atau `more'!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, fuzzy, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "aksi --%s dan --%s berbenturan"
@@ -2763,7 +2807,7 @@ msgstr "tidak dapat membuka `%i' untuk stream"
 msgid "unexpected eof before end of line %d"
 msgstr "eof tidak diharapkan sebelum akhir baris %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "butuh suatu pilihan aksi"
@@ -2773,7 +2817,7 @@ msgstr "butuh suatu pilihan aksi"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending tidak butuh suatu argumen bukan-pilihan"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s butuh sedikitnya satu argumen nama paket"
@@ -2881,6 +2925,10 @@ msgstr " bergantung pada "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; tetapi:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(tidak ada keterangan yang tersedia)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3132,11 +3180,7 @@ msgstr "(Mencatat lenyapnya %s, yang telah diganti seutuhnya.) \n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "tidak bisa menghapus berkas info 'control' `%.250s' yang menghilang"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(tidak ada keterangan yang tersedia)"
-
-#: src/query.c:111
+#: src/query.c:113
 #, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
@@ -3150,88 +3194,88 @@ msgstr ""
 "|/ Salah?=(tiada)/Dicekal/Hrs-psg-ulang/X=keduanya (Status,Salah: huruf-"
 "besar=buruk)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Nama"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Versi"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Keterangan"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Tidak ada paket yang cocok dengan %s. \n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "Dialihkan oleh %s"
 
-#: src/query.c:207
+#: src/query.c:202
 #, fuzzy, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "Dialihkan oleh %s"
 
-#: src/query.c:210
+#: src/query.c:205
 #, fuzzy, c-format
 msgid "local diversion from: %s\n"
 msgstr "Pengalihan lokal"
 
-#: src/query.c:211
+#: src/query.c:206
 #, fuzzy, c-format
 msgid "local diversion to: %s\n"
 msgstr "dialihkan secara lokal"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search butuh setidaknya satu argumen pola nama berkas"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s tidak ada. \n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Paket `%s' tidak terpasang dan tidak ada info yang tersedia.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Paket `%s' tidak tersedia. \n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Paket `%s' tidak terpasang. \n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Paket `%s' tidak berisi suatu berkas pun!\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, fuzzy, c-format
 msgid "locally diverted to: %s\n"
 msgstr "dialihkan secara lokal"
 
-#: src/query.c:354
+#: src/query.c:349
 #, fuzzy, c-format
 msgid "package diverts others to: %s\n"
 msgstr "paket mengalihkan yang lain"
 
-#: src/query.c:357
+#: src/query.c:352
 #, fuzzy, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "Dialihkan oleh %s"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3239,12 +3283,12 @@ msgstr ""
 "Gunakan dpkg --info (= dpkg-deb --info) untuk meneliti berkas arsip,\n"
 "dan dpkg --contents (=dpkg-deb --contents) untuk melihat isinya.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, fuzzy, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "' sarana penelusur progam pengelola paket\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -3282,7 +3326,7 @@ msgstr ""
 "negatif \n"
 "  yang berarti rata-kiri akan digunakan. \n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3291,7 +3335,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3305,7 +3349,7 @@ msgid ""
 "  case left alignment will be used.\n"
 msgstr ""
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3442,42 +3486,42 @@ msgstr "tidak dapat membuang daftar berkas lama"
 msgid "can't remove old postrm script"
 msgstr "tidak dapat membuang skrip 'postrm' lama"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "EOF tak terduga dalam nama paket pada baris %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "akhir baris tak terduga dalam nama paket pada baris %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "eof tak terduga setelah nama paket pada baris %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "akhir baris tak terduga setelah nama paket pada baris %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "data tak terduga setelah nama paket dan pemilihan pada baris %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "nama paket tidak sah pada baris %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "status yang diinginkan tak dikenal pada baris %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "ada kesalahan membaca masukan standar (stdin)"
 
@@ -5674,20 +5718,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: PERINGATAN - %s menghasilkan kesalahan status 'exit': %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "subproses %s menghasilkan kesalahan status 'exit': %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: PERINGATAN - %s dihentikan oleh sinyal (%s)%s\n"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "subproses %s dihentikan oleh sinyal (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "subproses %s gagal dengan kode status 'wait' %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "gagal menunggu %s"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "gagal membaca `%s' pada baris %d"
@@ -5725,12 +5757,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture tidak butuh argumen"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "Ada kesalahan saat melepaskan sinyal %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "tidak bisa mengabaikan sinyal %s sebelum menjalankan skrip"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "tidak bisa melakukan 'stat' pada skrip %s yang terpasang `%.250s'"

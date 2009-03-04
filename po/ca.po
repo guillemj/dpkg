@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2008-09-25 02:53+0200\n"
 "Last-Translator: Jordi Mallach <jordi@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -864,6 +864,50 @@ msgstr "caràcter invàlid «%c» en l'amplada del camp\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Falta la clau que tanca al format\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "no es pot descartar el senyal %s abans d'executar la seqüència"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "s'ha produït en desassignar el senyal %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "el subprocés %s retornà el codi d'eixida d'error %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "el subprocés %s retornà el codi d'eixida d'error %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "el subprocés %s ha estat finalitzat pel senyal (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", s'ha generat un fitxer «core»"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "el subprocés %s ha estat finalitzat pel senyal (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "el subprocés %s ha fallat amb codi d'estat en espera %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "el «wait» per a %s ha fallat"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -2012,7 +2056,7 @@ msgid ""
 msgstr ""
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2475,7 +2519,7 @@ msgstr "s'ha produït un error en executar «rm» per a netejar"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Programa de gestió de paquets «%s» de Debian versió %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2487,7 +2531,7 @@ msgstr ""
 "o posterior per a les condicions de còpia. No hi ha CAP garantia.\n"
 "Vegeu %s --license per a veure'n més detalls.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2568,7 +2612,7 @@ msgstr ""
 "  -Dh|--debug=help                     Mostra l'ajuda sobre la depuració.\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2729,7 +2773,7 @@ msgstr ""
 "Les opcions marcades amb ([*]) produeixen una eixida estesa - canalitzeu-la "
 "a través de «less» o «more»!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "accions en conflicte -%c (--%s) i -%c (--%s)"
@@ -2932,7 +2976,7 @@ msgstr "no s'ha pogut obrir «%i» per a un flux"
 msgid "unexpected eof before end of line %d"
 msgstr "eof inesperat abans de la fí de la línia %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "es necessita una opció d'acció"
@@ -2942,7 +2986,7 @@ msgstr "es necessita una opció d'acció"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending no pren cap argument que no sigui una opció"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s almenys necessita un nom de paquet com a argument"
@@ -3051,6 +3095,10 @@ msgstr " depèn de "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; tot i així:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(no hi ha cap descripció disponible)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3305,13 +3353,9 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr ""
 "no es pot esborrar el fitxer d'info. de control «%.250s» que ha desaparegut"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(no hi ha cap descripció disponible)"
-
 # jm: Açò jo no se si traduir-ho. Ha de caber en una línia i hem de dir
 # jm: quina lletra correspon a cada estat.
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3324,88 +3368,88 @@ msgstr ""
 "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Estat,Err: majúsc."
 "=dolent)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Nom"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Versió"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Descripció"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "No s'ha trobat cap paquet que correspongui amb %s.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "desviat per %s des de: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "desviat per %s cap a: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "desviació local des de: %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "desviat localment cap a: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search al menys necessita un nom de fitxer pare com argument"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s no trobat.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "El paquet «%s» no està instal·lat i no hi ha informació disponible.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "El paquet «%s» no està disponible.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "El paquet «%s» no està instal·lat.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "El paquet «%s» no conté cap fitxer (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "desviat localment cap a: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "el paquet desvia a d'altres cap a %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "desviat per %s cap a: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3413,12 +3457,12 @@ msgstr ""
 "Useu dpkg --info (= dpkg-deb --info) per a examinar els fitxers d'arxiu,\n"
 "i dpkg --contents (= dpkg-deb --contents) per a llistar-ne el contingut.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Eina de consultes al programa de gestió de paquets «%s» de Debian\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3441,7 +3485,7 @@ msgstr ""
 "                                   els fitxers.\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3455,7 +3499,7 @@ msgstr ""
 "                                   a --show.\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3478,7 +3522,7 @@ msgstr ""
 "  dreta a menys que l'amplada siga negativa, en aquest cas s'utilitzarà\n"
 "  alineació a l'esquerra. \n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3618,46 +3662,46 @@ msgstr "no es pot eliminar la llista de fitxers antiga"
 msgid "can't remove old postrm script"
 msgstr "no es pot eliminar la seqüència postrm antiga"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "s'ha trobat un eof inesperat en el nom del paquet en la línia %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr ""
 "s'ha trobat un fi de línia inesperada en el nom del paquet en la línia %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "s'ha trobat un eof inesperat després del nom del paquet en la línia %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr ""
 "s'ha trobat un fi de línia inesperada després del nom del paquet en la línia "
 "%d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr ""
 "s'han trobat dades inesperades després del paquet i selecció en la línia %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "s'ha trobat un nom de paquet il·legal en la línia %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "s'ha trobat un estat desitjat desconegut en la línia %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "error de lectura en l'entrada estàndard"
 
@@ -6065,23 +6109,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: avís - %s retorna l'eixida d'error %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "el subprocés %s retornà el codi d'eixida d'error %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: avís - %s finalitzat pel senyal (%s)%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", s'ha generat un fitxer «core»"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "el subprocés %s ha estat finalitzat pel senyal (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "el subprocés %s ha fallat amb codi d'estat en espera %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "el «wait» per a %s ha fallat"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "s'ha produït un error en llegir «%s» en la línia %d"
@@ -6120,12 +6149,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture no pren cap argument"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "s'ha produït en desassignar el senyal %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "no es pot descartar el senyal %s abans d'executar la seqüència"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "no es pot fer «stat» sobre la seqüència %s instal·lada «%.250s»"

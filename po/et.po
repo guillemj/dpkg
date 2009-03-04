@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2007-07-12 22:06+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -838,6 +838,50 @@ msgstr ""
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Vormingus puudub sulgev sulg\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/subproc.c:66
+#, fuzzy, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "viga `%s' kontrollimisel: %s"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "alamprotsess %s tagastas lõpetamisel veakoodi %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "alamprotsess %s tagastas lõpetamisel veakoodi %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "alamprotsess %s kõrvaldati signaaliga (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ""
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "alamprotsess %s kõrvaldati signaaliga (%s)%s"
+
+#: lib/subproc.c:105
+#, fuzzy, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "alamprotsess %s tagastas lõpetamisel veakoodi %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "tõrge %s järel ootamisel"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1895,7 +1939,7 @@ msgid ""
 msgstr ""
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2320,7 +2364,7 @@ msgstr "tõrge rm käivitamisel (puhastamiseks)"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debiani pakihaldusprogrammi `%s' versioon %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2333,7 +2377,7 @@ msgstr ""
 "pole MITTE MINGISUGUST garantiid.\n"
 "Litsentsi ja autoriõiguste vaatamiseks kasuta %s --license.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2373,7 +2417,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2490,7 +2534,7 @@ msgstr ""
 "Märgiga [*] märgitud valikud väljastavad väga palju infot - suuna nende\n"
 "  käskude väljund programmidele `less' või `more' !"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "vastuolulised tegevused -%c (--%s) ja -%c (--%s)"
@@ -2625,7 +2669,7 @@ msgstr ""
 msgid "unexpected eof before end of line %d"
 msgstr ""
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "tegevuse võti on vajalik"
@@ -2635,7 +2679,7 @@ msgstr "tegevuse võti on vajalik"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr ""
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s vajab vähemalt ühte argumenti, mis oleks pakinimi"
@@ -2739,6 +2783,10 @@ msgstr " sõltub pakist "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; igatahes:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(kirjeldus pole saadaval)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -2977,11 +3025,7 @@ msgstr ""
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "juhtandmete kadunud faili `%.250s' pole võimalik kustutada"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(kirjeldus pole saadaval)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -2990,88 +3034,88 @@ msgid ""
 "uppercase=bad)\n"
 msgstr ""
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Nimi"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Versioon"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Kirjeldus"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Mustrile %s ei vasta ühtegi pakki.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "paki %s diversioonid"
 
-#: src/query.c:207
+#: src/query.c:202
 #, fuzzy, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "paki %s diversioonid"
 
-#: src/query.c:210
+#: src/query.c:205
 #, fuzzy, c-format
 msgid "local diversion from: %s\n"
 msgstr "kohalik diversioon"
 
-#: src/query.c:211
+#: src/query.c:206
 #, fuzzy, c-format
 msgid "local diversion to: %s\n"
 msgstr "kohalik ümbersuunamine failile: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search vajab argumendiks vähemalt ühte failinime mustrit"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s ei leitud.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Pakk `%s' pole paigaldatud ja andmeid pole saadaval.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Pakk `%s' pole saadaval.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Pakk `%s' pole paigaldatud.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Pakk `%s' ei sisalda ühtki faili (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "kohalik ümbersuunamine failile: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr ""
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr ""
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3079,12 +3123,12 @@ msgstr ""
 "Arhiivifaili vaatamiseks kasuta dpkg --info (= dpkg-deb --info),\n"
 "ja selle sisu vaatamiseks kasuta dpkg --contents (= dpkg-deb --contents).\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr ""
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3108,7 +3152,7 @@ msgstr ""
 "                                mustri järgi.\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3122,7 +3166,7 @@ msgstr ""
 "                                kasutamine.\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3136,7 +3180,7 @@ msgid ""
 "  case left alignment will be used.\n"
 msgstr ""
 
-#: src/query.c:502
+#: src/query.c:489
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL)."
@@ -3266,42 +3310,42 @@ msgstr "vanade failide nimekirja pole võimalik eemaldada"
 msgid "can't remove old postrm script"
 msgstr "vana postrm skripti pole võimalik eemaldada"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "ootamatu faililõpp pakinimes real %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "ootamatu realõpp pakinimes real %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "ootamatu faililõpp peale pakinime real %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "ootamatu realõpp peale pakinime real %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "ootamatud andmed peale pakki ja valikut real %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "vigane pakinimi real %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr ""
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "viga standardsisendist lugemisel"
 
@@ -5501,17 +5545,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: hoiatus - %s lõpetas veakoodiga %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "alamprotsess %s tagastas lõpetamisel veakoodi %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: hoiatus - %s kõrvaldati signaaliga (%s)%s\n"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "alamprotsess %s kõrvaldati signaaliga (%s)%s"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "tõrge %s järel ootamisel"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "tõrge `%s' lugemisel real %d"

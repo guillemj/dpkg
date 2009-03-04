@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2008-12-22 19:12+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -877,6 +877,50 @@ msgstr "ký tự sai « %c » trong chiều rộng của trường\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Thiếu dấu đóng ngoặc móc trong định dạng\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "không thể lờ đi tín hiệu %s trước khi chạy văn lệnh"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "gặp lỗi khi hủy bắt tín hiệu %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "tiến trình con %s bị diệt bởi tín hiệu (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", lõi bị đổ"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "tiến trình con %s bị diệt bởi tín hiệu (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "tiến trình con %s bị lỗi với mã trạng thái chờ %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "lỗi chờ %s"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -2015,7 +2059,7 @@ msgstr ""
 " • dpkg --triggers-only\n"
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2460,7 +2504,7 @@ msgstr "lỗi thực hiện rm (gỡ bỏ) để dọn dẹp"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Chương trình quản lý gói Debian « %s », phiên bản %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2473,7 +2517,7 @@ msgstr ""
 "KHÔNG có bảo hành gì cả.\n"
 "Xem « %s --license » để biết chi tiết bản quyền và giấy phép.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2574,7 +2618,7 @@ msgstr ""
 "\t(gỡ lỗi trợ giúp)\n"
 " \n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2757,7 +2801,7 @@ msgstr ""
 "Tùy chọn có dấu sao [*] cho ra kết xuất rất nhiều —\n"
 "hãy gởi hết qua ống dẫn tới chương trình « less » hoặc « more »."
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "hành động xung đột « -%c (--%s) » và « -%c  (--%s) »"
@@ -2980,7 +3024,7 @@ msgstr "không thể mở « %i » cho luồng"
 msgid "unexpected eof before end of line %d"
 msgstr "gặp kết thúc tập tin bất ngờ trước kết thúc dòng %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "cần một tùy chọn hành động"
@@ -2990,7 +3034,7 @@ msgstr "cần một tùy chọn hành động"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "« --%s --pending » (hoãn) không chấp nhận đối số khác tùy chọn"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "« --%s » cần ít nhất một đối số kiểu tên gói"
@@ -3098,6 +3142,10 @@ msgstr " phụ thuộc vào "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; tuy nhiên:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(không có mô tả)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3348,11 +3396,7 @@ msgstr "(Đang ghi lưu sự biến mất của %s, mà đã hoàn toàn đượ
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "không thể xóa tập tin thông tin điều khiển biến mất « %.250s »"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(không có mô tả)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3366,88 +3410,88 @@ msgstr ""
 "|/ Lỗi?=(không có)/Giữ lại/Cần cài đặt lại/X=cả hai vấn đề (Trạng thái,Lỗi: "
 "chữ_hoa=sai)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Tên"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Phiên bản"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Mô tả"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Không tìm thấy gói khớp vơi %s.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "bị trệch bởi %s từ : %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "bị trệch bởi %s tới : %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "trệch nội bộ từ : %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "bị trệch nội bộ tới : %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "« --search » cần ít nhất một đối số là kiểu mẫu tên tập tin"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: không tìm thấy %s.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Gói « %s » không được cài đặt và không có thông tin nào sẵn sàng.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Gói « %s » không sẵn sàng.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Gói « %s » không được cài đặt.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Gói « %s » không chứa tập tin nào (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "bị trệch nội bộ tới : %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "gói làm trệch những gói khác tới : %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "bị trệch bởi %s tới : %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3459,12 +3503,12 @@ msgstr ""
 "« dpkg --contents » (= « dpkg-deb --contents »)\n"
 "\t\tđể liệt kê nội dung của chúng.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Công cụ truy vấn chương trình quản lý gói Debian « %s »\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3492,7 +3536,7 @@ msgstr ""
 "\t(tìm kiếm)\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3507,7 +3551,7 @@ msgstr ""
 "\t\t(hiện định dạng)\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3531,7 +3575,7 @@ msgstr ""
 "  Trường được canh lề phải, nếu độ rộng không âm\n"
 "  (trong trường hợp đó, canh lề trái).\n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3669,42 +3713,42 @@ msgstr "không thể gỡ bỏ danh sách các tập tin cũ"
 msgid "can't remove old postrm script"
 msgstr "không thể gỡ bỏ văn lệnh postrm (sau khi gỡ bỏ) cũ"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "gặp kết thúc tập tin bất ngờ trong tên gói trên dòng %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "gặp kết thúc dòng bất ngờ trong tên gói trên dòng %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "gặp kết thúc tập tin bất ngờ sau tên gói trên dòng %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "gặp kết thúc dòng bất ngờ sau tên gói trên dòng %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "gặp dữ liệu bất ngờ sau gói và vùng chọn trên dòng %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "gặp tên gói không hợp lệ trên dòng %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "trạng thái mong muốn không rõ trên dòng %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "lỗi đọc trên thiết bị nhập chuẩn"
 
@@ -6140,23 +6184,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: cảnh báo : %s trả lại lỗi, trạng thái thoát %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: cảnh báo : %s bị diệt bởi tín hiệu (%s)%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", lõi bị đổ"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "tiến trình con %s bị diệt bởi tín hiệu (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "tiến trình con %s bị lỗi với mã trạng thái chờ %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "lỗi chờ %s"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "lỗi đọc « %s » trên dòng %d"
@@ -6193,12 +6222,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "« --print-architecture » (in ra kiến trúc) không chấp nhận đối số"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "gặp lỗi khi hủy bắt tín hiệu %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "không thể lờ đi tín hiệu %s trước khi chạy văn lệnh"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "không thể lấy trạng thái về văn lệnh %s đã cài đặt « %.250s »"

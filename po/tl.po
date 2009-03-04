@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2006-02-17 08:53+0200\n"
 "Last-Translator: Eric Pareja <xenos@upm.edu.ph>\n"
 "Language-Team: Tagalog <debian-tl@banwa.upm.edu.ph>\n"
@@ -865,6 +865,50 @@ msgstr "di tanggap na karakter `%c' sa lapad ng saklaw\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Kulang ang pansarang brace sa anyo\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "hindi maaring hindi pansinin ang hudyat %s bago patakbuhin ang skripto"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "errro sa pag-un-catch ng hudyat %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "nagbalik ang subprocess %s ng error exit status %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "nagbalik ang subprocess %s ng error exit status %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "subprocess %s ay pinatay ng hudyat (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ""
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "subprocess %s ay pinatay ng hudyat (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "subprocess %s ay bigo na may wait status code %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "paghintay sa %s ay bigo"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1988,7 +2032,7 @@ msgid ""
 msgstr ""
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2447,7 +2491,7 @@ msgstr "bigo sa pag-exec ng rm para sa paglinis"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "' programang tagapangasiwa ng mga pakete, bersyon "
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, fuzzy, c-format
 msgid ""
@@ -2460,7 +2504,7 @@ msgstr ""
 "mas-bago para sa kundisyon ng pangongopya. Walang waranti.\n"
 "Basahin ang dpkg-deb --licence para sa detalye.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2498,7 +2542,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2600,7 +2644,7 @@ msgstr ""
 "Mga opsyon na may markang [*] ay nagpapakita ng maraming output - i-pipe ito "
 "sa `less' o `more' !"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, fuzzy, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "magkatunggaling gagawin --%s at --%s"
@@ -2808,7 +2852,7 @@ msgstr "hindi mabuksan ang `%i' para sa stream"
 msgid "unexpected eof before end of line %d"
 msgstr "di inaasahang eof bago matapos ang linya %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "kailangan ng opsyon ng gagawin"
@@ -2818,7 +2862,7 @@ msgstr "kailangan ng opsyon ng gagawin"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending ay hindi tumatanggap ng argumentong hindi opsyon"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr ""
@@ -2931,6 +2975,10 @@ msgstr " nagdedepende sa "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; gayunpaman:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(walang paglalarawan)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3181,11 +3229,7 @@ msgstr "(Pinupuna ang pagkawala ng %s, na siyang napalitan ng buo.)\n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "hindi matanggal ang nawawalang talaksang control info `%.250s'"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(walang paglalarawan)"
-
-#: src/query.c:111
+#: src/query.c:113
 #, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
@@ -3200,91 +3244,91 @@ msgstr ""
 "|/ Err?=(wala)/Hold/Reinst-required/X=parehong-problema \n"
 "|       (Status, Err: masama kapag malaking letra)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Papangalan"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Bersyon"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Paglalarawan"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Walang paketeng tugma sa %s.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "dibertado ng %s"
 
-#: src/query.c:207
+#: src/query.c:202
 #, fuzzy, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "dibertado ng %s"
 
-#: src/query.c:210
+#: src/query.c:205
 #, fuzzy, c-format
 msgid "local diversion from: %s\n"
 msgstr "lokal na dibersyon"
 
-#: src/query.c:211
+#: src/query.c:206
 #, fuzzy, c-format
 msgid "local diversion to: %s\n"
 msgstr "dibertado na lokal"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr ""
 "--search ay nangangailangan ng hindi kukulang sa isang argumentong pattern "
 "ng\n"
 " pangalan ng talaksan"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: hindi nahanap ang %s.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Di nakaluklok ang paketeng `%s' at walang info tungkol dito.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Di magagamit ang paketeng `%s'.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Di nakaluklok ang paketeng `%s'.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Walang laman ang paketeng `%s' (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, fuzzy, c-format
 msgid "locally diverted to: %s\n"
 msgstr "dibertado na lokal"
 
-#: src/query.c:354
+#: src/query.c:349
 #, fuzzy, c-format
 msgid "package diverts others to: %s\n"
 msgstr "ang pakete ay nanghahalili sa iba"
 
-#: src/query.c:357
+#: src/query.c:352
 #, fuzzy, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "dibertado ng %s"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3292,12 +3336,12 @@ msgstr ""
 "Gamitin dpkg --info (= dpkg-deb --info) upang tignan ang talksang arkibo,\n"
 "at dpkg --contents (= dpkg-deb --contents) upang ilista ang nilalaman nila.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, fuzzy, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr " kasangkapan sa pagtanong ng programang tagapangasiwa ng mga pakete\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -3345,7 +3389,7 @@ msgstr ""
 "  maliban kung negatibo ang lapad at kung ganoon ay ayos-pakaliwa ang "
 "gagamitin.\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3354,7 +3398,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3368,7 +3412,7 @@ msgid ""
 "  case left alignment will be used.\n"
 msgstr ""
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3511,42 +3555,42 @@ msgstr "hindi matanggal ang lumang listahan ng talaksan"
 msgid "can't remove old postrm script"
 msgstr "hindi matanggal ang lumang skriptong postrm"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "di inaasahang eof sa pangalan ng pakete sa linya %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "di inaasahang dulo ng linya sa pangalan ng pakete sa linya %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "di inaasahang eof matapos ng pangalan ng pakete sa linya %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "di inaasahang dulo ng linya matapos ng pangalan ng pakete sa linya %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "di inaasahang datos matapos ng pakete at pinili sa linya %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "bawal na pangalan ng pakete sa linya %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "di kilalang kalagayan sa linya %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "error sa pagbasa ng standard input"
 
@@ -5780,20 +5824,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: babala - nagbalik ang %s ng error exit status %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "nagbalik ang subprocess %s ng error exit status %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: babala - pinatay ang %s ng hudyat (%s)%s\n"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "subprocess %s ay pinatay ng hudyat (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "subprocess %s ay bigo na may wait status code %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "paghintay sa %s ay bigo"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "bigo sa pagbasa ng `%s' sa linya %d"
@@ -5831,13 +5863,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture ay hindi tumatanggap ng argumento"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "errro sa pag-un-catch ng hudyat %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr ""
-#~ "hindi maaring hindi pansinin ang hudyat %s bago patakbuhin ang skripto"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "hindi ma-stat ang nakaluklok na %s skripto `%.250s'"

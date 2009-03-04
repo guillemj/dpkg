@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg git\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2009-02-03 00:39+0200\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
@@ -870,6 +870,50 @@ msgstr "フィールド幅に無効な文字 `%c' があります\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "フォーマットに閉じ括弧 (}) が抜けています\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "スクリプト実行前にシグナル %s を無視できません"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "エラー: 獲得できないシグナル %s : %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "サブプロセス %s はエラー終了ステータス %d を返しました"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "サブプロセス %s はエラー終了ステータス %d を返しました"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "サブプロセス %s がシグナル (%s)%s によって強制終了しました"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr "、コアダンプが作成されました"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "サブプロセス %s がシグナル (%s)%s によって強制終了しました"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "サブプロセス %s が wait ステータスコード %d を返して失敗しました"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "%s の終了まで待機できませんでした (wait 失敗)"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -2014,7 +2058,7 @@ msgstr ""
 "--triggers-only) の利用で要求できます。\n"
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2461,7 +2505,7 @@ msgstr "クリーンアップ用の rm の実行に失敗しました"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian `%s' パッケージ管理プログラム バージョン %s。\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2473,7 +2517,7 @@ msgstr ""
 "バージョン 2 もしくはそれ以降を参照してください。このソフトウェアは\n"
 "無保証です。詳細は %s --licence を参照してください。\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2544,7 +2588,7 @@ msgstr ""
 "  -Dh|--debug=help                   デバッグオプションのヘルプ\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2690,7 +2734,7 @@ msgstr ""
 "[*] のある物は大量の情報が出力されます。パイプを使い `less' や `more' で見て"
 "ください!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "アクション -%c (--%s) と -%c (--%s) が競合します"
@@ -2882,7 +2926,7 @@ msgstr "`%i' をストリームとしてオープンできませんでした"
 msgid "unexpected eof before end of line %d"
 msgstr "%d 行目の行末までに予期しない eof があります"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "アクションを指定するオプションが必要です"
@@ -2892,7 +2936,7 @@ msgstr "アクションを指定するオプションが必要です"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending はオプション以外の引数をとりません"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s は引数に少なくとも 1 つのパッケージ名が必要です"
@@ -3001,6 +3045,10 @@ msgstr " は以下に依存 (depends) します: "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr " ...しかし:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(説明 (description) がありません)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3260,11 +3308,7 @@ msgstr "(%s は完全に置換されているため、消えていることに�
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "コントロール情報ファイル `%.250s' が見つからないため削除できません"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(説明 (description) がありません)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3278,89 +3322,89 @@ msgstr ""
 "|/ エラー?=(空欄)無/(H)維持/(R)要再インストール/X=両方(状態,エラーの大文字=異"
 "常)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "名前"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "バージョン"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "説明"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "%s に一致するパッケージが見つかりません。\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%s による退避 (divert) 元: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "%s による退避 (divert) 先: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "ローカルな退避 (divert) 元: %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "ローカルな退避 (divert) 先: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search は引数に少なくとも 1 つのファイル名パターンが必要です"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s が見つかりません。\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr ""
 "パッケージ `%s' はまだインストールされておらず情報の利用は不可能です。\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "パッケージ `%s' はまだ利用可能でありません。\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "パッケージ `%s' はまだインストールされていません。\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "パッケージ `%s' はファイルを含んでいません (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "ローカルに退避 (divert) された: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "ほかのパッケージの同名ファイルは次の名前に退避した: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "%s により退避 (divert) された: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3369,12 +3413,12 @@ msgstr ""
 "その内容一覧を表示するには dpkg --contents (= dpkg-deb --contents) を使いま"
 "す。\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian `%s' パッケージ管理プログラムクエリツール\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3395,7 +3439,7 @@ msgstr ""
 "  -W|--show <パターン> ...            パッケージの情報の表示\n"
 "  -S|--search <パターン> ...          ファイルを所有するパッケージを検索\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3408,7 +3452,7 @@ msgstr ""
 "  --f|showformat=<フォーマット> --show に別のフォーマットを使用\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3429,7 +3473,7 @@ msgstr ""
 "  を挿入することで、含められます。width が負 (左寄せ) ではない場合\n"
 "  を除き、フィールドは右詰めされます。\n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3562,42 +3606,42 @@ msgstr "古いファイルリストを削除できません"
 msgid "can't remove old postrm script"
 msgstr "古い postrm スクリプトを削除できません"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "%d 行目のパッケージ名に予期しない eof があります"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "%d 行目のパッケージ名に予期しない eof があります"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "%d 行目のパッケージ名の後に予期しない eof があります"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "%d 行目のパッケージ名の後に予期しない改行があります"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "%d 行目のパッケージと選択の後に予期しないデータがあります"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "%d 行目のパッケージ名は不正です: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "%d 行目の要求状態は不明です: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "標準入力からの読み取り時にエラーが発生しました"
 
@@ -5971,23 +6015,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: 警告 - %s がエラーステータス %d を返しました\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "サブプロセス %s はエラー終了ステータス %d を返しました"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: 警告 - %s がシグナル (%s) %s によって強制終了しました\n"
-
-#~ msgid ", core dumped"
-#~ msgstr "、コアダンプが作成されました"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "サブプロセス %s がシグナル (%s)%s によって強制終了しました"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "サブプロセス %s が wait ステータスコード %d を返して失敗しました"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "%s の終了まで待機できませんでした (wait 失敗)"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "%2$d 行目で `%1$s' の読み込みに失敗しました"
@@ -6024,12 +6053,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture は引数をとりません"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "エラー: 獲得できないシグナル %s : %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "スクリプト実行前にシグナル %s を無視できません"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr ""

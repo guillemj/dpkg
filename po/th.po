@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2008-06-26 16:34+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -838,6 +838,50 @@ msgstr "ใช้อักขระ `%c' ไม่ได้ในความก
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "ขาดวงเล็บปีกกาปิดในฟอร์แมต\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "ไม่สามารถกำหนดให้เพิกเฉยต่อสัญญาณ %s ก่อนเรียกทำงานสคริปต์ได้"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "เกิดข้อผิดพลาดขณะเลิกดักสัญญาณ %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "โพรเซสย่อย %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "โพรเซสย่อย %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "โพรเซสย่อย %s ถูกฆ่าด้วยสัญญาณ (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", มีการดัมป์หน่วยความจำ"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "โพรเซสย่อย %s ถูกฆ่าด้วยสัญญาณ (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "โพรเซสย่อย %s ล้มเหลวด้วยรหัสสถานะการคอย %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "คอย %s ไม่สำเร็จ"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1928,7 +1972,7 @@ msgstr ""
 "โดยใช้ dselect หรือ dpkg --configure --pending (หรือ dpkg --triggers-only):\n"
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2368,7 +2412,7 @@ msgstr "ไม่สามารถเรียก rm เพื่อลบข�
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "โปรแกรมจัดการแพกเกจ `%s' ของเดเบียน รุ่น %s\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2380,7 +2424,7 @@ msgstr ""
 "License รุ่น 2 หรือใหม่กว่า ซอฟต์แวร์นี้ *ไม่มี* การรับประกันใดๆ\n"
 "ดูรายละเอียดลิขสิทธิ์และสัญญาอนุญาตได้จาก %s --license\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2446,7 +2490,7 @@ msgstr ""
 "  -Dh|--debug=help                 แสดงวิธีใช้ตัวเลือกสำหรับการดีบั๊กทั้งหลาย\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2584,7 +2628,7 @@ msgstr ""
 "\n"
 "ตัวเลือกที่มีเครื่องหมาย [*] จะแสดงข้อมูลมากมาย - ควรไปป์ไปยังคำสั่ง `less' หรือ `more'"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "การกระทำขัดแย้งกันระหว่าง -%c (--%s) และ -%c (--%s)"
@@ -2769,7 +2813,7 @@ msgstr "ไม่สามารถเปิด `%i' สำหรับสตร
 msgid "unexpected eof before end of line %d"
 msgstr "แฟ้มจบก่อนที่จะจบบรรทัดที่บรรทัด %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "ต้องมีตัวเลือกระบุการกระทำด้วย"
@@ -2779,7 +2823,7 @@ msgstr "ต้องมีตัวเลือกระบุการกระ
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending ไม่รับอาร์กิวเมนต์ที่ไม่ใช่ตัวเลือก"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์ที่เป็นชื่อแพกเกจอย่างน้อยหนึ่งตัว"
@@ -2885,6 +2929,10 @@ msgstr " ต้องใช้ "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; แต่ว่า:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(ไม่มีคำบรรยาย)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3127,11 +3175,7 @@ msgstr "(สังเกตการหายไปของ %s ซึ่งถ�
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "ไม่สามารถลบแฟ้มข้อมูลควบคุม `%.250s' ซึ่งถูกกำหนดให้หายไป"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(ไม่มีคำบรรยาย)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3144,88 +3188,88 @@ msgstr ""
 "pend\n"
 "|/ ปัญหา?=(ไม่มี)/Hold/Reinst-required/X=both-problems (สถานะ,ปัญหา: พิมพ์ใหญ่=แย่)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "ชื่อ"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "รุ่น"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "คำบรรยาย"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "ไม่พบแพกเกจที่ตรงกับ %s\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "การเบนแฟ้มโดย %s จาก: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "การเบนแฟ้มโดย %s ไปยัง: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "การเบนแฟ้มเป็นการภายในจาก: %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "การเบนแฟ้มเป็นการภายในไปยัง: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search ต้องระบุอาร์กิวเมนต์เป็นแพตเทิร์นของชื่อแฟ้มอย่างน้อยหนึ่งรายการด้วย"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: ไม่พบ %s\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "แพกเกจ `%s' ไม่ได้ติดตั้งไว้ และไม่มีข้อมูลสำหรับแพกเกจ\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "ไม่มีแพกเกจ `%s'\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "แพกเกจ `%s' ไม่ได้ติดตั้งไว้\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "แพกเกจ `%s' ไม่มีแฟ้มใดเลย (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "ถูกเบนแฟ้มเป็นการภายในไปยัง: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "แพกเกจเบนแฟ้มของแพกเกจอื่นไปยัง: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "ถูกเบนแฟ้มโดย %s ไปยัง: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3233,12 +3277,12 @@ msgstr ""
 "ใช้ dpkg --info (= dpkg-deb --info) ถ้าจะดูข้อมูลของแฟ้มแพกเกจ\n"
 "และ dpkg --contents (= dpkg-deb --contents) ถ้าจะดูเนื้อหาภายใน\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "เครื่องมือสอบถาม `%s' สำหรับโปรแกรมจัดการแพกเกจของเดเบียน\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3259,7 +3303,7 @@ msgstr ""
 "  -S|--search <แพตเทิร์น> ...        แสดงแพกเกจที่เป็นเจ้าของแฟ้ม\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3272,7 +3316,7 @@ msgstr ""
 "  -f|--showformat=<รูปแบบ>          ใช้รูปแบบอื่นสำหรับ --show\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3292,7 +3336,7 @@ msgstr ""
 "  การแสดงเขตข้อมูลจะเรียงชิดขวาเสมอ นอกจากจะใช้ความกว้างเป็นลบ จึงจะเรียง\n"
 "  ชิดซ้าย\n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3424,42 +3468,42 @@ msgstr "ไม่สามารถลบรายชื่อแฟ้มเก
 msgid "can't remove old postrm script"
 msgstr "ไม่สามารถลบสคริปต์ postrm เก่า"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "พบจุดจบแฟ้มก่อนกำหนดในชื่อแพกเกจที่บรรทัด %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "พบจุดจบบรรทัดก่อนกำหนดในชื่อแพกเกจที่บรรทัด %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "พบจุดจบแฟ้มก่อนกำหนดหลังชื่อแพกเกจที่บรรทัด %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "พบจุดจบบรรทัดก่อนกำหนดหลังชื่อแพกเกจที่บรรทัด %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "มีข้อมูลที่ไม่ต้องการหลังชื่อแพกเกจและการเลือกรุ่นที่บรรทัด %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "ชื่อแพกเกจผิดรูปแบบที่บรรทัด %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "ไม่รู้จักสถานะที่ต้องการที่บรรทัด %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "การอ่านข้อมูลผิดพลาดที่อินพุตมาตรฐาน"
 
@@ -5779,23 +5823,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: คำเตือน - %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "โพรเซสย่อย %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: คำเตือน - %s ถูกฆ่าด้วยสัญญาณ (%s)%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", มีการดัมป์หน่วยความจำ"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "โพรเซสย่อย %s ถูกฆ่าด้วยสัญญาณ (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "โพรเซสย่อย %s ล้มเหลวด้วยรหัสสถานะการคอย %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "คอย %s ไม่สำเร็จ"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "ไม่สามารถอ่าน `%s' ที่บรรทัด %d"
@@ -5832,12 +5861,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture ไม่รับอาร์กิวเมนต์"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "เกิดข้อผิดพลาดขณะเลิกดักสัญญาณ %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "ไม่สามารถกำหนดให้เพิกเฉยต่อสัญญาณ %s ก่อนเรียกทำงานสคริปต์ได้"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "ไม่สามารถ stat สคริปต์ %s `%.250s' ที่ติดตั้งไว้ได้"

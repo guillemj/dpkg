@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.10.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2006-09-09 15:11+0200\n"
 "Last-Translator: Stefano Canepa <sc@linux.it>\n"
 "Language-Team: italian <debian-l10n-italian@debian.org>\n"
@@ -894,6 +894,50 @@ msgstr "carattere non valido '%c' nella dimensione del campo\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Manca la parentesi di chiusura nella stringa di formato\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "impossibile ignorare il segnale %s prima di lanciare lo script"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "errore nel ripristino del segnale %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "il sottoprocesso %s ha restituito un codice di errore %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "il sottoprocesso %s ha restituito un codice di errore %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "il sottoprocesso %s è stato terminato dal segnale (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", scritto un core dump"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "il sottoprocesso %s è stato terminato dal segnale (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "il sottoprocesso %s è fallito con un codice di wait %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "l'attesa della fine dell'esecuzione di %s è scaduta"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -2030,7 +2074,7 @@ msgid ""
 msgstr ""
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2495,7 +2539,7 @@ msgstr "impossibile eseguire rm per fare pulizia"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian `%s' programma di gestione dei pacchetti versione %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2507,7 +2551,7 @@ msgstr ""
 "o successiva per le condizioni di copia. NON c'è alcuna garanzia.\n"
 "Vedi %s --license per il copyright e i dettagli sulla licenza.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2578,7 +2622,7 @@ msgstr ""
 "  -Dh|--debug=help                 Mostra l'aiuto sulle opzioni di debug.\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2728,7 +2772,7 @@ msgstr ""
 "Le opzioni marcate con [*] producono molto output - utilizza una pipe con\n"
 "`less' o `more' per leggerlo!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "le azioni %c (--%s) e %c (--%s) sono in conflitto"
@@ -2929,7 +2973,7 @@ msgstr "impossibile aprire `%i' per ricevere il flusso"
 msgid "unexpected eof before end of line %d"
 msgstr "eof inaspettato prima della fine della linea %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "è necessaria una opzione che indichi che azione svolgere"
@@ -2939,7 +2983,7 @@ msgstr "è necessaria una opzione che indichi che azione svolgere"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending non accetta alcun parametro che non sia un'opzione"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s richiede il nome di almeno un pacchetto come parametro"
@@ -3047,6 +3091,10 @@ msgstr " dipende da "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; comunque:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(descrizione non disponibile)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3308,11 +3356,7 @@ msgstr "(Noto la scomparsa di %s, che è stato sostituito completamente.)\n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "impossibile cancellare il file con le info di controllo `%.250s'"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(descrizione non disponibile)"
-
-#: src/query.c:111
+#: src/query.c:113
 #, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
@@ -3327,89 +3371,89 @@ msgstr ""
 "|/ Err?=(nessuno)/H:bloc./necess.Reinst./X=entrambi (Stato,Err: maiusc."
 "=grave)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Nome"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Versione"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Descrizione"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Nessun pacchetto corrisponde a %s.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "diversificato da %s verso: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, fuzzy, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "diversificato da %s verso: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, fuzzy, c-format
 msgid "local diversion from: %s\n"
 msgstr "diversione locale"
 
-#: src/query.c:211
+#: src/query.c:206
 #, fuzzy, c-format
 msgid "local diversion to: %s\n"
 msgstr "diversificato localmente a: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search richiede almeno un modello di nome come parametro"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s non trovato.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr ""
 "Il pacchetto `%s' non è installato e non è disponibile alcuna informazione.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Il pacchetto `%s' non è disponibile.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Il pacchetto `%s' non è installato.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Il pacchetto `%s' non contiene nessun file (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "diversificato localmente a: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "il pacchetto diversifica altri a: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "diversificato da %s verso: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3417,12 +3461,12 @@ msgstr ""
 "Usa dpkg --info (= dpkg-deb --info) per esaminare i file archivio,\n"
 "e dpkg --contents (= dpkg-deb --contents) per mostrarne il contenuto.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian `%s' strumento di interrogazione della gestione dei pacchetti\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3445,7 +3489,7 @@ msgstr ""
 "  -S|--search <modello> ...        Cerca i pacchetti contenenti i file.\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3458,7 +3502,7 @@ msgstr ""
 "  -f|--showformat=<formato>        Usa un formato alternativo per --show.\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3480,7 +3524,7 @@ msgstr ""
 "  saranno allineati a destra a meno che non sia specificata una\n"
 "  dimensione negativa, nel qual caso verranno allineati a sinistra.\n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3621,43 +3665,43 @@ msgstr "impossibile rimuovere la vecchia lista dei file"
 msgid "can't remove old postrm script"
 msgstr "impossibile rimuovere il vecchio script postrm"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "eof inaspettato nel nome del pacchetto alla riga %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "fine riga inaspettata nel nome del pacchetto alla riga %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "eof inaspettato dopo il nome del pacchetto alla riga %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "fine riga inaspettata dopo il pacchetto e la selezione alla riga %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "dati inaspettati dopo il pacchetto e la selezione alla riga %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "nome di pacchetto illegale alla riga %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr ""
 "lo stato desiderato del pacchetto alla riga %d è incomprensibile: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "errore di lettura da standard input"
 
@@ -6046,23 +6090,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: attenzione - il %s ha restituito un codice di errore %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "il sottoprocesso %s ha restituito un codice di errore %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: attenzione - il %s terminato dal segnale (%s)%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", scritto un core dump"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "il sottoprocesso %s è stato terminato dal segnale (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "il sottoprocesso %s è fallito con un codice di wait %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "l'attesa della fine dell'esecuzione di %s è scaduta"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "errore di lettura da `%s' alla riga %d"
@@ -6100,12 +6129,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture non accetta parametri"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "errore nel ripristino del segnale %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "impossibile ignorare il segnale %s prima di lanciare lo script"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "impossibile fare stat() sullo script di %s installato `%.250s'"

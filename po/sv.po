@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2009-03-03 14:16+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -852,6 +852,50 @@ msgstr "ogiltigt tecken \"%c\" i fältbredd\n"
 msgid "Closing brace missing in format\n"
 msgstr "Avslutande klammerparentes i format\n"
 
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "kunde inte ignorera signal %s innan skriptet startas"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "kunde inte stänga av hantering av signalen %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "underprocess %s gav felkod %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "underprocess %s gav felkod %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "underprocess %s dödad av signal (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", minnesutskrift skapad"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "underprocess %s dödad av signal (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "underprocess %s misslyckades med statuskod %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "väntan på %s misslyckades"
+
 #: lib/trigdeferred.l:66
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
@@ -1549,8 +1593,8 @@ msgstr "%s: misslyckades med att ta bort \"%.250s\": %s"
 #: src/configure.c:276
 #, c-format
 msgid "%s: failed to remove old distrib version '%.250s': %s"
-msgstr "%s: misslyckades med att ta bort tidigare distribuerad "
-"version \"%.250s\": %s"
+msgstr ""
+"%s: misslyckades med att ta bort tidigare distribuerad version \"%.250s\": %s"
 
 #: src/configure.c:280
 #, c-format
@@ -1612,8 +1656,8 @@ msgstr ""
 #, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
-"%s: konfigurationfilen \"%.250s\" är inte en vanlig fil "
-"eller symbolisk länk (= \"%s\")"
+"%s: konfigurationfilen \"%.250s\" är inte en vanlig fil eller symbolisk länk "
+"(= \"%s\")"
 
 #: src/configure.c:424
 msgid "md5hash"
@@ -1622,8 +1666,7 @@ msgstr "md5hash"
 #: src/configure.c:430
 #, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
-msgstr ""
-"%s: kunde inte öppna konfigurationsfilen %s för hashning: %s"
+msgstr "%s: kunde inte öppna konfigurationsfilen %s för hashning: %s"
 
 #: src/configure.c:448
 #, c-format
@@ -1971,7 +2014,7 @@ msgstr ""
 "dpkg --configure --pending (eller dpkg --triggers-only):\n"
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2094,8 +2137,7 @@ msgstr "Paketet %s kvarhålles, rör det inte. --force-hold ignorerar.\n"
 
 #: src/errors.c:112
 msgid "overriding problem because --force enabled:"
-msgstr ""
-"ignorerar problem då --force använts:"
+msgstr "ignorerar problem då --force använts:"
 
 #: src/filesdb.c:141
 #, c-format
@@ -2402,7 +2444,7 @@ msgstr "kunde inte utföra rm för upprensning"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian \"%s\" pakethanteringsprogram version %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2414,7 +2456,7 @@ msgstr ""
 "eller senare för kopieringsvillkor. Det finns INGEN garanti.\n"
 "Se %s --licence för upphovsrättsliga och licenstekniska detaljer.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2477,7 +2519,7 @@ msgstr ""
 "  --force-help                     Visa hjälp för tvingande.\n"
 "  -Dh|--debug=help                 Visa hjälp för felsökning.\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2618,7 +2660,7 @@ msgstr ""
 "Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller \"more"
 "\"!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "motstridiga åtgärder %c (--%s) och -%c (--%s)"
@@ -2809,7 +2851,7 @@ msgstr "kunde inte öppna \"%i\" för ström"
 msgid "unexpected eof before end of line %d"
 msgstr "oväntat filslut före slut på rad %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "behöver en åtgärd att utföra"
@@ -2819,7 +2861,7 @@ msgstr "behöver en åtgärd att utföra"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending tar inga argument som inte är flaggor"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s behöver åtminstone ett paket som argument"
@@ -2928,6 +2970,10 @@ msgstr " är beroende av "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr ", men:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(beskrivning saknas)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3080,8 +3126,7 @@ msgstr "dpkg-deb: dödar möjliga avslutande nollor"
 #: src/processarc.c:659
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
-msgstr "kunde inte ta status på gammal fil \"%.250s\" så den tas inte "
-"bort: %s"
+msgstr "kunde inte ta status på gammal fil \"%.250s\" så den tas inte bort: %s"
 
 #: src/processarc.c:665
 #, c-format
@@ -3091,7 +3136,9 @@ msgstr "kunde inte ta bort gammal katalog \"%.250s\": %s"
 #: src/processarc.c:668
 #, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
-msgstr "gammal konfigurationfil \"%.250s\" var en tom katalog (och har nu tagits bort)"
+msgstr ""
+"gammal konfigurationfil \"%.250s\" var en tom katalog (och har nu tagits "
+"bort)"
 
 #: src/processarc.c:710
 #, c-format
@@ -3104,8 +3151,8 @@ msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
 "'%.250s')"
 msgstr ""
-"gammal fil \"%.250s\" är samma som ett flertal nya filer! "
-"(både \"%.250s\" och \"%.250s\")"
+"gammal fil \"%.250s\" är samma som ett flertal nya filer! (både \"%.250s\" "
+"och \"%.250s\")"
 
 #: src/processarc.c:763
 #, c-format
@@ -3177,11 +3224,7 @@ msgstr "(Noterar att %s försvunnit, vilken helt har ersatts.)\n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "kunde inte ta bort försvinnande kontrollfil \"%.250s\""
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(beskrivning saknas)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3194,88 +3237,88 @@ msgstr ""
 "Föres.utl(T)\n"
 "|/ Fel?Inget(=)/Håll(H)/Ominstallera(R)/Båda(X) (Status,Fel: versaler=illa)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Namn"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Version"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Beskrivning"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Inga paket matchar %s.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "omdirigering av %s från: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "omdirigering av %s till: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "lokal omdirigering från: %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "lokal omdirigering till: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search behöver åtminstone ett filnamnsmönsterargument"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s kunde ej hittas.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Paketet \"%s\" är inte installerat och ingen information finns.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Paketet \"%s\" är ej tillgängligt.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Paketet \"%s\" är ej installerat.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Paketet \"%s\" innehåller inga filer (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "lokalt omdirigerad till: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "paketet omdirigerar andra till: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "omdirigerat av %s till: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3283,12 +3326,12 @@ msgstr ""
 "Använd dpkg --info (= dpkg-deb --info) för att undersöka arkivfiler,\n"
 "och dpkg --contents (= dpkg-deb --contents) för att visa innehållet.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian \"%s\" frågeverktyg för pakethanteringsprogrammet\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3309,7 +3352,7 @@ msgstr ""
 "  -S|--search <mönster> ...        Sök paket som äver fil(er)\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3322,7 +3365,7 @@ msgstr ""
 "  -f|--showformat=<format>         Använd alternativt format för --show\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3344,7 +3387,7 @@ msgstr ""
 "  ${var[;bredd]}. Fälten kommer att högerjusteras såvida inte bredden anges\n"
 "  negativt, i vilket fall vänsterjustering kommer användas.\n"
 
-#: src/query.c:502
+#: src/query.c:489
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL)."
@@ -3356,8 +3399,7 @@ msgstr ""
 #: src/remove.c:83
 #, c-format
 msgid "ignoring request to remove %.250s which isn't installed."
-msgstr ""
-"ignorerar begäran att ta bort %.250s som inte har installerats."
+msgstr "ignorerar begäran att ta bort %.250s som inte har installerats."
 
 #: src/remove.c:90
 #, c-format
@@ -3418,8 +3460,8 @@ msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
 "may be a mount point?"
 msgstr ""
-"när %.250s togs bort kunde inte katalogen \"%.250s\" tas "
-"bort: %s - katalogen kan vara en monteringspunkt?"
+"när %.250s togs bort kunde inte katalogen \"%.250s\" tas bort: %s - "
+"katalogen kan vara en monteringspunkt?"
 
 #: src/remove.c:260 src/remove.c:379
 #, c-format
@@ -3440,8 +3482,8 @@ msgstr "kunde inte ta bort kontrollinformationsfil \"%.250s\""
 #, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed."
 msgstr ""
-"när %.250s togs bort var inte katalogen \"%.250s\" tom, så "
-"den togs inte bort."
+"när %.250s togs bort var inte katalogen \"%.250s\" tom, så den togs inte "
+"bort."
 
 #: src/remove.c:402
 #, c-format
@@ -3477,42 +3519,42 @@ msgstr "kan inte ta bort gammal fillista"
 msgid "can't remove old postrm script"
 msgstr "kunde inte ta bort gammalt postrm-skript"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "oväntat filslut i paketnamn på rad %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "oväntat radslut i paketnamn på rad %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "oväntat filslut efter paketnamn på rad %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "oväntat radslut efter paketnamn på rad %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "oväntad data efter paket och val på rad %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "ogiltigt paketnamn på rad %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "okänd önskad status på rad %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "läsfel på standard in"
 
@@ -3715,8 +3757,7 @@ msgstr "paketnamnet har tecken som inte är gemena alfanumeriska eller \"-+.\""
 #: dpkg-deb/build.c:248
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
-msgstr ""
-"\"%s\" innehåller användardefinierat värde för Priority \"%s\""
+msgstr "\"%s\" innehåller användardefinierat värde för Priority \"%s\""
 
 #: dpkg-deb/build.c:256
 #, c-format
@@ -3783,14 +3824,13 @@ msgstr "tom sträng från fgets när conffiles lästes"
 #, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
-"konfigurationsfilnamnet \"%.50s...\" är för långt eller saknar "
-"nyradstecken på slutet"
+"konfigurationsfilnamnet \"%.50s...\" är för långt eller saknar nyradstecken "
+"på slutet"
 
 #: dpkg-deb/build.c:327
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
-msgstr ""
-"konfigurationsfilnamnet \"%s\" innehåller avslutande blanksteg"
+msgstr "konfigurationsfilnamnet \"%s\" innehåller avslutande blanksteg"
 
 #: dpkg-deb/build.c:329
 #, c-format
@@ -5566,8 +5606,8 @@ msgid ""
 "%s has been changed (manually or by a script). Switching to manual updates "
 "only."
 msgstr ""
-"%s har ändrats (manuellt eller av ett skript). "
-"Växlar till enbart manuella uppdateringar."
+"%s har ändrats (manuellt eller av ett skript). Växlar till enbart manuella "
+"uppdateringar."
 
 #: scripts/update-alternatives.pl:269
 #, perl-format
@@ -5577,8 +5617,7 @@ msgstr "aktiverar automatiskt val av %s."
 #: scripts/update-alternatives.pl:282
 #, perl-format
 msgid "There is no program which provides %s."
-msgstr ""
-"Det finns inga program som tillhandahåller %s."
+msgstr "Det finns inga program som tillhandahåller %s."
 
 #: scripts/update-alternatives.pl:283 scripts/update-alternatives.pl:291
 msgid "Nothing to configure."
@@ -5793,7 +5832,8 @@ msgstr "Status"
 #: scripts/update-alternatives.pl:945
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
-"Tryck Enter för att behålla standardvärdet[*], eller ange nummer på önskat val: "
+"Tryck Enter för att behålla standardvärdet[*], eller ange nummer på önskat "
+"val: "
 
 #: scripts/update-alternatives.pl:979
 #, perl-format
@@ -5847,23 +5887,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: varning - %s returnerade felstatus %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "underprocess %s gav felkod %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: varning - %s dödades av signal (%s)%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", minnesutskrift skapad"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "underprocess %s dödad av signal (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "underprocess %s misslyckades med statuskod %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "väntan på %s misslyckades"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "kunde inte öppna \"%s\" på rad %d"
@@ -5904,12 +5929,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture tar inget argument"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "kunde inte stänga av hantering av signalen %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "kunde inte ignorera signal %s innan skriptet startas"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "kunde inte ta status på installerat %s-skript \"%.250s\""

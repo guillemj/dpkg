@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2008-11-17 01:59+0100\n"
 "Last-Translator: Hans Fredrik Nordhaug <hans@nordhaug.priv.no>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.ui.no>\n"
@@ -848,6 +848,50 @@ msgstr "ugyldig tegn «%c» i feltbredden\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Høyreparentes mangler i formatet\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "klarte ikke ignorere signalet %s før skriptet ble kjørt"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "feil ved blokkering av signalet %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "underprosessen %s returnerte feilstatus %d"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "underprosessen %s returnerte feilstatus %d"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "underprosessen %s drept med signal (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ",  lagret minnet"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "underprosessen %s drept med signal (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "underprosessen %s mislyktes med ventestatuskode %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "venting på %s mislyktes"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1972,7 +2016,7 @@ msgstr ""
 "eller dpkg --configure --pending (eller dpkg --triggers-only):\n"
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2413,7 +2457,7 @@ msgstr "klarte ikke kjøre «rm» for opprydding"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian «%s» brukergrensesnitt for pakkehåndtering versjon %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2425,7 +2469,7 @@ msgstr ""
 "GNU General Public Licence versjon 2 eller nyere. Det finnes INGEN garanti.\n"
 "Se «%s --licence» for opphavsrett og lisensdetaljer.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2496,7 +2540,7 @@ msgstr ""
 "  -Dh|--debug=help                 vis hjelp om avlusing.\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2647,7 +2691,7 @@ msgstr ""
 "Valg markert med [*] gir mye tekst - bruk «less» eller «more» for å lese "
 "informasjonen!"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "handlinger i konflikt -%c (--%s) og -%c (--%s)"
@@ -2837,7 +2881,7 @@ msgstr "klarte ikke åpne «%i» for strøm"
 msgid "unexpected eof before end of line %d"
 msgstr "uventet slutt på fil før slutten av linje %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "trenger et handlingsvalg"
@@ -2847,7 +2891,7 @@ msgstr "trenger et handlingsvalg"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending tar ingen parametre som ikke er valg"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s trenger minst ett pakkenavn som parameter"
@@ -2954,6 +2998,10 @@ msgstr " krever "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr ". Men:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(ingen beskrivelse tilgjengelig)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3202,11 +3250,7 @@ msgstr "(Legg merke til at %s er forsvunnet, og fullstendig erstattet.)\n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "klarte ikke slette den forsvinnende kontrollinformasjonsfila «%.250s»"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(ingen beskrivelse tilgjengelig)"
-
-#: src/query.c:111
+#: src/query.c:113
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3220,89 +3264,89 @@ msgstr ""
 "|/ Feil?=(ingen)/Holdt tilbake/Må inst. på nytt/X=begge-deler (Status,Feil: "
 "versalar=dumt)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Navn"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Versjon"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Beskrivelse"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Fant ingen pakker som passer til «%s».\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "omdirigert av %s fra: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "omdirigert av %s til: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "lokal omdirigering fra: %s\n"
 
-#: src/query.c:211
+#: src/query.c:206
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "lokalt omdirigert til: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search krever minst ett filnavnsmønster som parameter"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: fant ikke %s.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr ""
 "Pakken «%s» er ikke installert og det finnes ingen informasjon om den.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Pakken «%s» er ikke tilgjengelig.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Pakken «%s» er ikke installert.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Pakken «%s» inneholder ingen filer (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "lokalt omdirigert: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "pakke omdirigerer andre til: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "omdirigert av %s til:%s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3310,12 +3354,12 @@ msgstr ""
 "Bruk dpkg --info (= dpkg-deb --info) for å undersøke arkivfiler,\n"
 "og dpkg --contents (= dpkg-deb --contents) for å vise innholdet i dem.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian «%s» pakkehåndtering program.\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3336,7 +3380,7 @@ msgstr ""
 "  -S|--search <mønster> ...           finn pakker som eier fil(er)\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3348,7 +3392,7 @@ msgstr ""
 "  --admindir=<katalog>          Bruk <katalog> istedenfor %s\n"
 "  -f|--showformat=<format>      Bruk alternativt format for --show\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3370,7 +3414,7 @@ msgstr ""
 "  ${var[;bredde]}. Feltene vil være høyrejusterte, med mindre bredden er \n"
 "negativ. I så fall vil de være venstrejusterte.\n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3506,42 +3550,42 @@ msgstr "klarte ikke fjerne gammel filliste"
 msgid "can't remove old postrm script"
 msgstr "klarte ikke fjerne gammelt etterfjerningsskript"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "uventet slutt på fil i pakkenavnet på linje %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "uventet slutt på linje i pakkenavnet på linje %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "uventet slutt på fil etter pakkenavnet på linje %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "uventet slutt på linje etter pakkenavnet på linje %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "uventet data etter pakke og valg på linje %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "ugyldig pakkenavn på linje %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "ukjent ønsket-status på linje %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "lesefeil fra standard-inn"
 
@@ -5886,23 +5930,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: Advarsel - %s returnerte feilstatus %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "underprosessen %s returnerte feilstatus %d"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: Advarsel - %s drept med signal (%s)%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ",  lagret minnet"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "underprosessen %s drept med signal (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "underprosessen %s mislyktes med ventestatuskode %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "venting på %s mislyktes"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "klarte ikke lese «%s» ved linje «%d»"
@@ -5939,12 +5968,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture  tar ingen parametre"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "feil ved blokkering av signalet %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "klarte ikke ignorere signalet %s før skriptet ble kjørt"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr "fant ikke det installerte %s-skriptet «%.250s»"

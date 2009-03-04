@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.9.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-02 05:03+0200\n"
+"POT-Creation-Date: 2009-03-04 23:22+0200\n"
 "PO-Revision-Date: 2007-05-10 16:19+0100\n"
 "Last-Translator: Bart Cornelis <cobaco@skolelinux.no>\n"
 "Language-Team: Dutch <debian-l10n-dutch@debian.org>\n"
@@ -853,6 +853,50 @@ msgstr "Ongeldig karakter '%c' in het veld width\n"
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Sluitend haakje niet in het formaat aanwezig\n"
+
+#: lib/subproc.c:53
+#, fuzzy, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "kan signaal %s niet negeren alvorens het script te starten"
+
+#: lib/subproc.c:66
+#, c-format
+msgid "error un-catching signal %s: %s\n"
+msgstr "fout bij ont-afvangen van signaal %s: %s\n"
+
+#: lib/subproc.c:85
+#, fuzzy, c-format
+msgid "%s returned error exit status %d"
+msgstr "subproces %s gaf een foutwaarde %d terug"
+
+#: lib/subproc.c:88
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "subproces %s gaf een foutwaarde %d terug"
+
+#: lib/subproc.c:97
+#, fuzzy, c-format
+msgid "%s killed by signal (%s)%s"
+msgstr "subproces %s werd gedood door signaal (%s)%s"
+
+#: lib/subproc.c:99 lib/subproc.c:103
+msgid ", core dumped"
+msgstr ", kern gedumpt"
+
+#: lib/subproc.c:101
+#, c-format
+msgid "subprocess %s killed by signal (%s)%s"
+msgstr "subproces %s werd gedood door signaal (%s)%s"
+
+#: lib/subproc.c:105
+#, c-format
+msgid "subprocess %s failed with wait status code %d"
+msgstr "subproces %s  is mislukt met wachtstatuscode %d"
+
+#: lib/subproc.c:122
+#, c-format
+msgid "wait for %s failed"
+msgstr "wachten op %s is mislukt"
 
 #: lib/trigdeferred.l:66
 #, c-format
@@ -1982,7 +2026,7 @@ msgid ""
 msgstr ""
 
 #: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:101 src/select.c:158 src/update.c:47
+#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
 #: dpkg-split/queue.c:200
 #, c-format
 msgid "--%s takes no arguments"
@@ -2432,7 +2476,7 @@ msgstr "kan rm niet uitvoeren om op te ruimen"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian '%s'  pakketbeheersprogramma versie %s.\n"
 
-#: src/main.c:56 src/query.c:456 src/trigcmd.c:83 dpkg-deb/main.c:58
+#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
 #: dpkg-split/main.c:51
 #, c-format
 msgid ""
@@ -2444,7 +2488,7 @@ msgstr ""
 "of later voor kopiëervoorwaarden.  Er is GEEN garantie.\n"
 "Zie %s --license voor auteursrechten en licentiedetails.\n"
 
-#: src/main.c:69 src/query.c:466 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2512,7 +2556,7 @@ msgstr ""
 "debug=help                  hulp over debuggen.\n"
 "\n"
 
-#: src/main.c:101 src/query.c:480 src/trigcmd.c:105 dpkg-deb/main.c:85
+#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
 #: dpkg-split/main.c:75
 #, c-format
 msgid ""
@@ -2660,7 +2704,7 @@ msgstr ""
 "Opties gemarkeerd met [*] produceren een hoop uitvoer - pijp het door `less' "
 "of `more' !"
 
-#: src/main.c:213 src/query.c:520 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "tegenstrijdige acties -%c (--%s) en -%c (--%s)"
@@ -2857,7 +2901,7 @@ msgstr "kan `%i' niet openen voor stream"
 msgid "unexpected eof before end of line %d"
 msgstr "onverwacht bestandseinde voor einde regel %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:564 dpkg-deb/main.c:213
+#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
 #: dpkg-split/main.c:179
 msgid "need an action option"
 msgstr "heb een actie-optie nodig"
@@ -2867,7 +2911,7 @@ msgstr "heb een actie-optie nodig"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending accepteert geen niet-optie argumenten"
 
-#: src/packages.c:146 src/query.c:297
+#: src/packages.c:146 src/query.c:292
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s heeft ten minste een pakketnaam argument nodig"
@@ -2975,6 +3019,10 @@ msgstr " is afhankelijk van "
 #: src/packages.c:596
 msgid "; however:\n"
 msgstr "; maar:\n"
+
+#: src/pkg-show.c:41 src/query.c:91
+msgid "(no description available)"
+msgstr "(geen beschrijving beschikbaar)"
 
 #: src/processarc.c:106
 msgid "cannot access archive"
@@ -3225,11 +3273,7 @@ msgstr "(Verdwijning van %s is opgemerkt, het is totaal vervangen is.)\n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "kan oude verdwijnende besturings infobestand `%.250s' niet verwijderen"
 
-#: src/query.c:90
-msgid "(no description available)"
-msgstr "(geen beschrijving beschikbaar)"
-
-#: src/query.c:111
+#: src/query.c:113
 #, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
@@ -3242,88 +3286,88 @@ msgstr ""
 "| Status=Niet/geInstalleerd/Config/Uitgepakt/(F)config-mislukt/Half-geinst\n"
 "|/ Fout?=(geen)/Hold/Reinst nodig/X=beide (Status,Fout: hoofdlett=ernstig)\n"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Name"
 msgstr "Naam"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Version"
 msgstr "Versie"
 
-#: src/query.c:115
+#: src/query.c:117
 msgid "Description"
 msgstr "Omschrijving"
 
-#: src/query.c:183 src/query.c:439 src/select.c:85
+#: src/query.c:176 src/query.c:424 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Geen pakketten gevonden overeenkomend met %s.\n"
 
-#: src/query.c:205
+#: src/query.c:200
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "omgeleid door %s naar: %s\n"
 
-#: src/query.c:207
+#: src/query.c:202
 #, fuzzy, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "omgeleid door %s naar: %s\n"
 
-#: src/query.c:210
+#: src/query.c:205
 #, fuzzy, c-format
 msgid "local diversion from: %s\n"
 msgstr "lokale verwijzing"
 
-#: src/query.c:211
+#: src/query.c:206
 #, fuzzy, c-format
 msgid "local diversion to: %s\n"
 msgstr "lokaal omgeleid naar: %s\n"
 
-#: src/query.c:237
+#: src/query.c:232
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search heeft ten minste een bestandsnaam patroon argument nodig"
 
-#: src/query.c:278
+#: src/query.c:273
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s niet gevonden.\n"
 
-#: src/query.c:316
+#: src/query.c:311
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Pakket `%s' is niet geïnstalleerd en geen info is beschikbaar.\n"
 
-#: src/query.c:325
+#: src/query.c:320
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Pakket `%s' is niet beschikbaar.\n"
 
-#: src/query.c:335
+#: src/query.c:330
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Pakket `%s' is niet geïnstalleerd.\n"
 
-#: src/query.c:344
+#: src/query.c:339
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Pakket `%s' bevat geen bestanden (!)\n"
 
-#: src/query.c:351
+#: src/query.c:346
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "lokaal omgeleid naar: %s\n"
 
-#: src/query.c:354
+#: src/query.c:349
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "pakket leidt andere om naar: %s\n"
 
-#: src/query.c:357
+#: src/query.c:352
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "omgeleid door %s naar: %s\n"
 
-#: src/query.c:378
+#: src/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3331,12 +3375,12 @@ msgstr ""
 "Gebruik dpkg --info (= dpkg-deb --info) om archiefbestanden te bekijken,\n"
 "en dpkg --contents (= dpkg-deb --contents) om de inhoud weer te geven.\n"
 
-#: src/query.c:454
+#: src/query.c:441
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian '%s' pakketbeheer bevragingsprogramma\n"
 
-#: src/query.c:470
+#: src/query.c:457
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3357,7 +3401,7 @@ msgstr ""
 "  -S|--search <patroon> ...    vindt het pakket van wie het bestand is\n"
 "\n"
 
-#: src/query.c:486
+#: src/query.c:473
 #, c-format
 msgid ""
 "Options:\n"
@@ -3370,7 +3414,7 @@ msgstr ""
 "  --showformat=<formaat> Gebruik alternatief formaat voor --show\n"
 "\n"
 
-#: src/query.c:492 dpkg-deb/main.c:109
+#: src/query.c:479 dpkg-deb/main.c:109
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3393,7 +3437,7 @@ msgstr ""
 "uitgelijnd\n"
 "  worden.\n"
 
-#: src/query.c:502
+#: src/query.c:489
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3529,42 +3573,42 @@ msgstr "kan oude bestandenlijst niet verwijderen"
 msgid "can't remove old postrm script"
 msgstr "kan oud postrm script niet verwijderen"
 
-#: src/select.c:118
+#: src/select.c:111
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "onverwacht bestandseinde in pakketnaam op regel %d"
 
-#: src/select.c:119
+#: src/select.c:112
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "onverwacht regeleinde in pakketnaam op regel %d"
 
-#: src/select.c:123
+#: src/select.c:116
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "onverwacht bestandseinde na pakketnaam op regel %d"
 
-#: src/select.c:124
+#: src/select.c:117
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "onverwacht regeleinde na pakketnaam op regel %d"
 
-#: src/select.c:133
+#: src/select.c:126
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "onverwachte gegevens na pakket en selectie op regel %d"
 
-#: src/select.c:138
+#: src/select.c:131
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "ongeldige pakketnaam op regel %d: %.250s"
 
-#: src/select.c:140
+#: src/select.c:133
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "onbekende gewenst-status op regel %d: %.250s"
 
-#: src/select.c:146
+#: src/select.c:139
 msgid "read error on standard input"
 msgstr "leesfout op standaard invoer"
 
@@ -5921,23 +5965,8 @@ msgstr ""
 #~ msgid "dpkg: warning - %s returned error exit status %d\n"
 #~ msgstr "dpkg: waarschuwing - %s gaf een foutcode %d\n"
 
-#~ msgid "subprocess %s returned error exit status %d"
-#~ msgstr "subproces %s gaf een foutwaarde %d terug"
-
 #~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 #~ msgstr "dpkg: waarschuwing - %s gedood door signaal (%s)%s\n"
-
-#~ msgid ", core dumped"
-#~ msgstr ", kern gedumpt"
-
-#~ msgid "subprocess %s killed by signal (%s)%s"
-#~ msgstr "subproces %s werd gedood door signaal (%s)%s"
-
-#~ msgid "subprocess %s failed with wait status code %d"
-#~ msgstr "subproces %s  is mislukt met wachtstatuscode %d"
-
-#~ msgid "wait for %s failed"
-#~ msgstr "wachten op %s is mislukt"
 
 #~ msgid "failed to read `%s' at line %d"
 #~ msgstr "kan `%s' niet lezen op regel %d"
@@ -5975,12 +6004,6 @@ msgstr ""
 
 #~ msgid "--print-architecture does not take any argument"
 #~ msgstr "--print-architecture accepteert geen argumenten"
-
-#~ msgid "error un-catching signal %s: %s\n"
-#~ msgstr "fout bij ont-afvangen van signaal %s: %s\n"
-
-#~ msgid "unable to ignore signal %s before running script"
-#~ msgstr "kan signaal %s niet negeren alvorens het script te starten"
 
 #~ msgid "unable to stat installed %s script `%.250s'"
 #~ msgstr ""
