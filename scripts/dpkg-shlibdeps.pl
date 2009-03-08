@@ -199,8 +199,15 @@ foreach my $file (keys %exec) {
 	# Load symbols/shlibs files from packages providing libraries
 	foreach my $pkg (@{$file2pkg->{$lib}}) {
 	    my $symfile_path;
-	    if ($packagetype eq "deb") {
+            my $haslocaldep = 0;
+            if (-e $shlibslocal and
+                defined(extract_from_shlibs($soname, $shlibslocal)))
+            {
+                $haslocaldep = 1;
+            }
+            if ($packagetype eq "deb" and not $haslocaldep) {
 		# Use fine-grained dependencies only on real deb
+                # and only if the dependency is not provided by shlibs.local
 		$symfile_path = find_symbols_file($pkg, $soname, $lib);
             }
             if (defined($symfile_path)) {
