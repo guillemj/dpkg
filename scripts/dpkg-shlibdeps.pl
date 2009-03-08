@@ -280,8 +280,14 @@ foreach my $file (keys %exec) {
     # Disable warnings about missing symbols when we have not been able to
     # find all libs
     my $disable_warnings = scalar(keys(%soname_notfound));
-    my $parent_dir = "/" . dirname(relative_to_pkg_root($file));
-    my $in_public_dir = (grep { $parent_dir eq $_ } @librarypaths) ? 1 : 0;
+    my $in_public_dir = 1;
+    if (my $relname = relative_to_pkg_root($file)) {
+        my $parent_dir = "/" . dirname($relname);
+        $in_public_dir = (grep { $parent_dir eq $_ } @librarypaths) ? 1 : 0;
+    } else {
+        warning(_g("binaries to analyze should already be " .
+                   "installed in their package's directory."));
+    }
     foreach my $sym ($obj->get_undefined_dynamic_symbols()) {
 	my $name = $sym->{name};
 	if ($sym->{version}) {
