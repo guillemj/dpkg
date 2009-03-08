@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007, 2008.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2009-03-02 04:55+0200\n"
-"PO-Revision-Date: 2008-12-27 22:54+0100\n"
+"PO-Revision-Date: 2009-03-08 20:40+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgstr ""
 "Copyright (C) 2007 Frank Lichtenheld"
 
 #: scripts/dpkg-buildpackage.pl:36
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "\n"
 "Usage: %s [<options> ...]\n"
@@ -221,6 +221,8 @@ msgstr ""
 "  -p<signier-Befehl>\n"
 "  -d             prüfe Bauabhängigkeiten und -konflikte nicht.\n"
 "  -D             prüfe Bauabhängigkeiten und -konflikte.\n"
+"  -T<Ziel>       rufe debian/rules <Ziel> mit der korrekten Umgebung auf\n"
+"  --as-root      stelle sicher, dass -T das Ziel mir root-Rechten aufruft\n"
 "  -j[<Nummer>]   Angabe der simultanen Jobs } an debian/rules weitergegeben\n"
 "  -k<Schlüssel-ID>\n"
 "                 Schlüssel zum Signieren.\n"
@@ -1077,9 +1079,8 @@ msgid " * Unconditional maintainer override for %s *"
 msgstr " * Bedingungsloser Übersteuerung (»override«) des Betreuers für %s *"
 
 #: scripts/dpkg-scanpackages.pl:115
-#, fuzzy
 msgid "1 to 3 args expected"
-msgstr "1 bis 3 Argumente erwartet\n"
+msgstr "1 bis 3 Argumente erwartet"
 
 #: scripts/dpkg-scanpackages.pl:136
 #, perl-format
@@ -1366,7 +1367,7 @@ msgid "need at least one executable"
 msgstr "benötige mindestens ein Programm"
 
 #: scripts/dpkg-shlibdeps.pl:157
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s').\n"
 "Note: libraries are not searched in other binary packages that do not have "
@@ -1374,7 +1375,8 @@ msgid ""
 "To help dpkg-shlibdeps find private libraries, you might need to set "
 "LD_LIBRARY_PATH."
 msgstr ""
-"konnte Bibliothek %s benötigt von %s nicht finden (ihr RPATH ist »%s«).\n"
+"konnte Bibliothek %s benötigt von %s nicht finden (ELF-Format: »%s«; RPATH: "
+"»%s«).\n"
 "Hinweis: Bibliotheken werden nicht in anderen Binärpaketen, die keine Shlibs-"
 "oder Symbol-Datei haben, gesucht.\n"
 "Um dpkg-shlibdeps dabei zu helfen, private Bibliotheken zu finden, könnte es "
@@ -1400,6 +1402,8 @@ msgstr "Symbol %s, verwendet von %s, in keiner der Bibliotheken gefunden."
 msgid ""
 "%s contains an unresolvable reference to symbol %s: it's probably a plugin."
 msgstr ""
+"%s enthält eine nicht-auflösbare Referenz auf Symbol %s: wahrscheinlich eine "
+"Erweiterung."
 
 #: scripts/dpkg-shlibdeps.pl:347
 #, perl-format
@@ -1670,9 +1674,9 @@ msgid "unpack target exists: %s"
 msgstr "Entpackziel existiert: %s"
 
 #: scripts/dpkg-source.pl:332
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s doesn't contain a valid OpenPGP signature"
-msgstr "enthält kein Git-Depot"
+msgstr "%s enthält keine gültige OpenPGP-Signatur"
 
 #: scripts/dpkg-source.pl:334
 #, perl-format
@@ -1699,7 +1703,7 @@ msgstr ""
 "Copyright (C) 2008 Raphael Hertzog"
 
 #: scripts/dpkg-source.pl:373
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -1772,8 +1776,10 @@ msgstr ""
 "\n"
 "Extrahierungsoptionen:\n"
 "  --no-copy                kopiere .orig-Tarbälle nicht.\n"
-"  --no-check               prüfe vor dem Entpacken Signaturen und\n"
-"                             Prüfsummen nicht.\n"
+"  --no-check               prüfe vor dem Entpacken Signaturen und "
+" Prüfsummen nicht.\n"
+"  --require-valid-signature breche ab, falls das Paket keine gültige Signatur "
+"hat\n"
 "\n"
 "Allgemeine Optionen:\n"
 "  -h, --help               zeige diese Hilfemeldung.\n"
@@ -2129,9 +2135,8 @@ msgid "File %s has checksum %s instead of expected %s (algorithm %s)"
 msgstr "Datei %s hat Prüfsumme %s statt der erwarteten %s (Algorithmus %s)"
 
 #: scripts/Dpkg/Control.pm:55
-#, fuzzy
 msgid "standard input"
-msgstr "schreibe auf Tar-Eingabe"
+msgstr "Standardeingabe"
 
 #: scripts/Dpkg/Control.pm:103
 msgid "first block lacks a source field"
@@ -2279,6 +2284,7 @@ msgstr "Konnte eine Zeile in %s nicht auswerten: %s"
 #, perl-format
 msgid "Tried to merge the same object (%s) twice in a symfile."
 msgstr ""
+"Versuchte zweimal in einer Symdatei das gleiche Objekt (%s) zusammenzuführen."
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:239
 msgid "Can't merge symbols from objects without SONAME."
@@ -2728,9 +2734,9 @@ msgstr ""
 "entpackt (.orig/)"
 
 #: scripts/Dpkg/Source/Package/V1.pm:215
-#, fuzzy, perl-format
+#, perl-format
 msgid "orig argument %s is not a plain file or directory"
-msgstr "Verzeichnis-Argument %s ist kein Verzeichnis"
+msgstr "Original-Argument %s ist keine einfache Datei oder Verzeichnis"
 
 #: scripts/Dpkg/Source/Package/V1.pm:221
 #, perl-format
@@ -3117,12 +3123,16 @@ msgid ""
 "Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu "
 "address"
 msgstr ""
+"Versionsnummer lässt Ubuntu-Änderungen vermuten, aber Maintainer: enthält "
+"keine Ubuntu-Adresse"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm:59
 msgid ""
 "Version number suggests Ubuntu changes, but there is no XSBC-Original-"
 "Maintainer field"
 msgstr ""
+"Versionsnummer lässt Ubuntu-Änderungen vermuten, aber es gibt kein Feld "
+"XSBC-Original-Maintainer"
 
 #: scripts/Dpkg/Version.pm:209
 #, perl-format
