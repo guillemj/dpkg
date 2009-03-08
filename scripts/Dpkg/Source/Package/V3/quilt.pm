@@ -138,35 +138,44 @@ sub apply_patches {
         }
     }
 
-    # Apply patches
+    # Apply patches
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);
     my $now = time();
-    foreach my $patch ($self->get_patches($dir, $skip_auto)) {
+    my $pobj = {};
+    my $panalysis = {};
+    my @patches = $self->get_patches($dir, $skip_auto);
+    foreach my $patch (@patches) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
-        my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
-        if (not $self->{'options'}{'without_quilt'}) {
-            info(_g("applying %s with quilt"), $patch) unless $skip_auto;
-            my $analysis = $patch_obj->analyze($dir);
-            foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
+        $pobj->{$patch} = Dpkg::Source::Patch->new(filename => $path);
+        if ($self->{'options'}{'without_quilt'}) {
+            info(_g("applying %s"), $patch) unless $skip_auto;
+            $pobj->{$patch}->apply($dir, timestamp => $now,
+                    force_timestamp => 1, create_dirs => 1,
+                    add_options => [ '-E' ]);
+            print APPLIED "$patch\n";
+        } else {
+            $panalysis->{$patch} = $pobj->{$patch}->analyze($dir);
+            foreach my $dir (keys %{$panalysis->{$patch}->{'dirtocreate'}}) {
                 eval { mkpath($dir); };
                 syserr(_g("cannot create directory %s"), $dir) if $@;
             }
-            $self->run_quilt($dir, ['push', $patch],
-                             delete_env => ['QUILT_PATCH_OPTS'],
-                             wait_child => 1,
-                             to_file => '/dev/null');
-            foreach my $fn (keys %{$analysis->{'filepatched'}}) {
+        }
+    }
+    if (not $self->{'options'}{'without_quilt'}) {
+        my %opts;
+        $opts{"to_file"} = "/dev/null" if $skip_auto;
+        info(_g("applying all patches with %s"), "quilt push -a -q") unless $skip_auto;
+        $self->run_quilt($dir, ['push', '-a', '-q'],
+                         delete_env => ['QUILT_PATCH_OPTS'],
+                         wait_child => 1, %opts);
+        foreach my $patch (@patches) {
+            foreach my $fn (keys %{$panalysis->{$patch}->{'filepatched'}}) {
                 utime($now, $now, $fn) || $! == ENOENT ||
                     syserr(_g("cannot change timestamp for %s"), $fn);
             }
-        } else {
-            info(_g("applying %s"), $patch) unless $skip_auto;
-            $patch_obj->apply($dir, timestamp => $now,
-                    force_timestamp => 1, create_dirs => 1,
-                    add_options => [ '-E' ]);
+            print APPLIED "$patch\n";
         }
-        print APPLIED "$patch\n";
     }
     close(APPLIED);
 }
