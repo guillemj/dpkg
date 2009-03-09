@@ -44,6 +44,7 @@ sub init_options {
     # Don't call $self->SUPER::init_options() on purpose, V1.0 has no
     # ignore by default
     $self->{'options'}{'sourcestyle'} ||= 'X';
+    $self->{'options'}{'skip_debianization'} ||= 0;
 }
 
 sub parse_cmdline_option {
@@ -54,6 +55,9 @@ sub parse_cmdline_option {
                 $o->{'sourcestyle'}) if $o->{'sourcestyle'} ne 'X';
         $o->{'sourcestyle'} = $1;
         $o->{'copy_orig_tarballs'} = 0 if $1 eq 'n'; # Extract option -sn
+        return 1;
+    } elsif ($opt =~ m/^--skip-debianization$/) {
+        $o->{'skip_debianization'} = 1;
         return 1;
     }
     return 0;
@@ -135,7 +139,7 @@ sub do_extract {
         }
     }
 
-    if ($difffile) {
+    if ($difffile and not $self->{'options'}{'skip_debianization'}) {
         my $patch = "$dscdir$difffile";
 	info(_g("applying %s"), $difffile);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);

@@ -53,7 +53,8 @@ sub init_options {
         unless exists $self->{'options'}{'preparation'};
     $self->{'options'}{'skip_patches'} = 0
         unless exists $self->{'options'}{'skip_patches'};
-
+    $self->{'options'}{'skip_debianization'} = 0
+        unless exists $self->{'options'}{'skip_debianization'};
 }
 
 sub parse_cmdline_option {
@@ -72,6 +73,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ /^--skip-patches$/) {
         $self->{'options'}{'skip_patches'} = 1;
+        return 1;
+    } elsif ($opt =~ /^--skip-debianization$/) {
+        $self->{'options'}{'skip_debianization'} = 1;
         return 1;
     }
     return 0;
@@ -128,6 +132,9 @@ sub do_extract {
         $tar = Dpkg::Source::Archive->new(filename => "$dscdir$file");
         $tar->extract("$newdirectory/$subdir", no_fixperms => 1);
     }
+
+    # Stop here if debianization is not wanted
+    return if $self->{'options'}{'skip_debianization'};
 
     # Extract debian tarball after removing the debian directory
     info(_g("unpacking %s"), $debianfile);

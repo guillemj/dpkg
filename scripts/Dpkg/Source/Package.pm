@@ -124,6 +124,9 @@ sub init_options {
     } else {
         $self->{'options'}{'tar_ignore'} = [ @tar_ignore_default_pattern ];
     }
+    # Skip debianization while specific to some formats has an impact
+    # on code common to all formats
+    $self->{'options'}{'skip_debianization'} ||= 0;
 }
 
 sub initialize {
@@ -346,7 +349,9 @@ sub extract {
     }
 
     # Store format if non-standard so that next build keeps the same format
-    if ($self->{'fields'}{'Format'} ne "1.0") {
+    if ($self->{'fields'}{'Format'} ne "1.0" and
+        not $self->{'options'}{'skip_debianization'})
+    {
         my $srcdir = File::Spec->catdir($newdirectory, "debian", "source");
         my $format_file = File::Spec->catfile($srcdir, "format");
         mkdir($srcdir) unless -e $srcdir;
@@ -362,7 +367,8 @@ sub extract {
         unless ($! == ENOENT) {
             syserr(_g("cannot stat %s"), $rules);
         }
-        warning(_g("%s does not exist"), $rules);
+        warning(_g("%s does not exist"), $rules)
+            unless $self->{'options'}{'skip_debianization'};
     } elsif (-f _) {
         chmod($s[2] | 0111, $rules) ||
             syserr(_g("cannot make %s executable"), $rules);
