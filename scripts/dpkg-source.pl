@@ -164,7 +164,7 @@ if ($options{'opmode'} eq 'build') {
 	if (m/^Source$/i) {
 	    set_source_package($v);
 	    $fields->{$_} = $v;
-	} elsif (m/^(Format|Standards-Version|Origin|Maintainer|Homepage)$/i ||
+	} elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
 		 m/^Dm-Upload-Allowed$/i ||
 		 m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 	    $fields->{$_} = $v;
@@ -252,9 +252,7 @@ if ($options{'opmode'} eq 'build') {
     $fields->{'Binary'} = join(', ', @binarypackages);
 
     # Generate list of formats to try
-    my @try_formats;
-    push @try_formats, $fields->{'Format'} if exists $fields->{'Format'};
-    push @try_formats, @cmdline_formats;
+    my @try_formats = (@cmdline_formats);
     if (-e "$dir/debian/source/format") {
         open(FORMAT, "<", "$dir/debian/source/format") ||
             syserr(_g("cannot read %s"), "$dir/debian/source/format");
