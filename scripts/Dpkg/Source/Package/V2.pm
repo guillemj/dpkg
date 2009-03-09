@@ -287,7 +287,7 @@ sub do_build {
         open(INC, "<", $incbin_file) || syserr(_g("can't read %s"), $incbin_file);
         while(defined($_ = <INC>)) {
             chomp; s/^\s*//; s/\s*$//;
-            next if /^#/;
+            next if /^#/ or /^$/;
             $auth_bin_files{$_} = 1;
         }
         close(INC);

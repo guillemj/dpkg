@@ -1,5 +1,5 @@
 .\" Authors: Ian Jackson, Raphael Hertzog
-.TH dpkg\-source 1 "2008-08-18" "Debian Project" "dpkg utilities"
+.TH dpkg\-source 1 "2009-03-09" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-source \- Debian source package (.dsc) manipulation tool
 .
@@ -481,6 +481,24 @@ don't have any non-ignored uncommitted changes.
 Then the VCS specific part of the source directory is copied over to a
 temporary directory. Before this temporary directory is packed in a tarball,
 various cleanup are done to save space.
+.SH FILE FORMATS
+.SS debian/source/format
+This file contains on a single line the format that should be used to
+build the source package (possible formats are described above). No leading
+or trailing spaces are allowed.
+.SS debian/source/include-binaries
+This file contains a list of binary files (one per line) that should be
+included in the debian tarball. Leading and trailing spaces are stripped.
+Lines starting with "#" are comments and are skipped. Empty lines are ignored.
+.SS debian/patches/series
+This file lists all patches that have to be applied (in the given order)
+on top of the upstream source package. Leading and trailing spaces are
+stripped. Lines starting with "#" are comments and are skipped. Empty
+lines are ignored. Remaining lines start with a patch filename (relative
+to the \fBdebian/patches/\fP directory) up to the first space character or
+the end of line. Optional quilt options can follow up to the end of line
+or the first "#" preceded by one or more spaces (which marks the start of
+a comment up to the end of line).
 .SH BUGS
 The point at which field overriding occurs compared to certain
 standard output field settings is rather confused.
@@ -494,7 +512,7 @@ Copyright \(co 1995-1996 Ian Jackson
 .br
 Copyright \(co 2000 Wichert Akkerman
 .br
-Copyright \(co 2008 Rapha\[:e]l Hertzog
+Copyright \(co 2008-2009 Rapha\[:e]l Hertzog
 .sp
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO WARRANTY.
