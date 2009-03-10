@@ -1,6 +1,6 @@
 # German translation of the manpages in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2008.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2009.
 # (C) Florian Rehnisch <eixman@gmx.de>, 2007.
 # (C) Sven Joachim <svenjoac@gmx.de>, 2008.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2009-03-02 04:41+0200\n"
-"PO-Revision-Date: 2008-11-18 13:32+0200\n"
+"PO-Revision-Date: 2009-03-10 21:29+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -253,9 +253,9 @@ msgstr "deb"
 
 # type: TH
 #: ../../man/deb.5:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2009-02-27"
-msgstr "2006-02-28"
+msgstr "2009-02-27"
 
 # type: TH
 #: ../../man/deb.5:1 ../../man/deb-control.5:3 ../../man/deb-version.5:5
@@ -302,13 +302,12 @@ msgstr "FORMAT"
 
 # type: Plain text
 #: ../../man/deb.5:22
-#, fuzzy
 msgid ""
 "The file is an B<ar> archive with a magic value of B<!E<lt>archE<gt>>.  The "
 "file names might contain a trailing slash."
 msgstr ""
 "Die Datei ist ein B<ar>-Archiv mit einer magischen Zahl von B<!"
-"E<lt>archE<gt>>."
+"E<lt>archE<gt>>. Der Dateiname kann mit einem Schrägstrich abschließen."
 
 # type: Plain text
 #: ../../man/deb.5:28
@@ -319,6 +318,11 @@ msgid ""
 "ustar format (long names supported since dpkg 1.15.0).  Unrecognized tar "
 "typeflags are considered an error."
 msgstr ""
+"Derzeit werden die folgenden B<tar>-Archive erlaubt: alter Stil (V7-)Format, "
+"pre-POSIX-ustar-Format, eine Teilmenge des GNU-Formats (nur der neue Stil "
+"mit langen Pfadnamen und langen Linknamen, unterstützt seit Dpkg 1.4.1.17) "
+"und das POSIX-ustar-Format (lange Namen seit Dpkg 1.15.0 unterstützt). "
+"Unbekannte Tar-Typeinstellungen werden als Fehler betrachtet."
 
 # type: Plain text
 #: ../../man/deb.5:38
@@ -377,10 +381,14 @@ msgid ""
 "bz2> extension, supported since dpkg 1.10.24) or lzma (with B<.lzma> "
 "extension, supported since dpkg 1.13.25)."
 msgstr ""
+"Das dritte, zwingend benötigte Mitglied heißt B<data.tar>. Es enthält das "
+"Dateisystem als Tar-Archiv, entweder unkomprimiert (seit Dpkg 1.10.24 "
+"unterstützt) oder mit gzip (Dateiendung B<.gz>), bzip2 (Dateiendung B<.bz2>, "
+"seit Dpkg 1.10.24 unterstützt) oder lzma (Dateiendung B<.lzma>, seit Dpkg "
+"1.13.25 unterstützt) komprimiert."
 
 # type: Plain text
 #: ../../man/deb.5:72
-#, fuzzy
 msgid ""
 "These members must occur in this exact order. Current implementations should "
 "ignore any additional members after B<data.tar>.  Further members may be "
@@ -390,16 +398,15 @@ msgid ""
 "with an underscore, `B<_>'."
 msgstr ""
 "Diese Mitglieder müssen in genau dieser Reihenfolge auftauchen. Aktuelle "
-"Implementationen sollten zusätzliche Mitglieder nach B<data.tar.gz> "
+"Implementationen sollten zusätzliche Mitglieder nach B<data.tar> "
 "ignorieren. Weitere Mitglieder könnten in der Zukunft definiert werden und "
 "werden (falls möglich) nach diesen drei platziert. Alle zusätzlichen "
-"Mitglieder, die vor B<data.tar.gz> eingefügt werden könnten und die "
+"Mitglieder, die vor B<data.tar> eingefügt werden könnten und die "
 "problemlos von älteren Programmen ignoriert werden sollten, werden Namen "
 "haben, die mit einem Unterstrich »B<_>« anfangen."
 
 # type: Plain text
 #: ../../man/deb.5:78
-#, fuzzy
 msgid ""
 "Those new members which won't be able to be safely ignored will be inserted "
 "before B<data.tar> with names starting with something other than "
@@ -407,7 +414,7 @@ msgid ""
 "increased."
 msgstr ""
 "Solche neuen Mitglieder, die nicht problemlos ignoriert werden können, "
-"werden vor B<data.tar.gz> mit Namen, die nicht mit einem Unterstrich "
+"werden vor B<data.tar> mit Namen, die nicht mit einem Unterstrich "
 "anfangen, eingefügt oder werden (wahrscheinlicher) dazu führen, dass die "
 "Hauptversionsnummer erhöht wird."
 
@@ -1000,9 +1007,9 @@ msgstr "deb-version"
 #: ../../man/dpkg-source.1:2 ../../man/dpkg-split.1:2
 #: ../../man/dpkg-statoverride.8:1 ../../man/dpkg-trigger.1:1
 #: ../../man/install-info.8:5
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-08-18"
-msgstr "2008-08-15"
+msgstr "2008-08-18"
 
 # type: Plain text
 #: ../../man/deb-version.5:8
@@ -1278,15 +1285,13 @@ msgstr "AUTOREN"
 # Kodierung ist hier nicht richtig!
 # type: Plain text
 #: ../../man/deb-version.5:122
-#, fuzzy
 msgid "Copyright \\(co 1996,1997,1998 Ian Jackson and Christian Schwarz"
-msgstr "Copyright (©) 1996,1997,1998 Ian Jackson and Christian Schwarz"
+msgstr "Copyright \\(co 1996,1997,1998 Ian Jackson and Christian Schwarz"
 
 # type: Plain text
 #: ../../man/deb-version.5:124 ../../man/dpkg-buildpackage.1:323
-#, fuzzy
 msgid "Copyright \\(co 2007 Frank Lichtenheld"
-msgstr "Copyright (C) 2007 Frank Lichtenheld"
+msgstr "Copyright \\(co 2007 Frank Lichtenheld"
 
 # type: Plain text
 #: ../../man/deb-version.5:126 ../../man/deb-substvars.5:142
@@ -1930,9 +1935,8 @@ msgstr ""
 #: ../../man/dpkg-genchanges.1:148 ../../man/dpkg-gencontrol.1:142
 #: ../../man/dpkg-parsechangelog.1:124 ../../man/dpkg-shlibdeps.1:332
 #: ../../man/dpkg-source.1:494 ../../man/dpkg-split.1:234
-#, fuzzy
 msgid "Copyright \\(co 1995-1996 Ian Jackson"
-msgstr "Copyright (C) 1995-1996 Ian Jackson"
+msgstr "Copyright \\(co 1995-1996 Ian Jackson"
 
 # type: Plain text
 #: ../../man/deb-substvars.5:140 ../../man/dpkg-buildpackage.1:321
@@ -1940,9 +1944,8 @@ msgstr "Copyright (C) 1995-1996 Ian Jackson"
 #: ../../man/dpkg-gencontrol.1:144 ../../man/dpkg-parsechangelog.1:126
 #: ../../man/dpkg-shlibdeps.1:334 ../../man/dpkg-source.1:496
 #: ../../man/dpkg-statoverride.8:83
-#, fuzzy
 msgid "Copyright \\(co 2000 Wichert Akkerman"
-msgstr "Copyright (C) 2000 Wichert Akkerman"
+msgstr "Copyright \\(co 2000 Wichert Akkerman"
 
 # type: TH
 #: ../../man/deb-symbols.5:2
@@ -2670,14 +2673,12 @@ msgstr "Die Konfiguration besteht aus folgenden Schritten:"
 
 # type: Plain text
 #: ../../man/dpkg.1:147
-#, fuzzy
 msgid ""
 "B<1.> Unpack the conffiles, and at the same time back up the old conffiles, "
 "so that they can be restored if something goes wrong."
 msgstr ""
-"B<1.> Entpacke die Konfigurationsdateien und sichere gleichzeitig die alten "
-"Konfigurationsdateien, so dass diese, falls etwas schief geht, "
-"wiederhergestellt werden können."
+"B<1.> Entpacke die Conffiles und sichere gleichzeitig die alten Conffiles, so "
+"dass diese, falls etwas schief geht, wiederhergestellt werden können."
 
 # type: Plain text
 #: ../../man/dpkg.1:150
@@ -2792,6 +2793,11 @@ msgid ""
 "B<dselect> but an APT-based frontend: APT has its own system to keep track "
 "of available packages."
 msgstr ""
+"Ein einfacher Befehl, um die Datei I<available> in einem Rutsch zu holen "
+"und zu aktualisieren ist B<dselect update>. Beachten Sie, dass diese Datei "
+"nahezu nutzlos ist, falls Sie nicht B<dselect> sondern eine APT-basierte "
+"Oberfläche verwenden: APT verfügt über sein eigenes System, die "
+"verfügbaren Pakete zu überwachen."
 
 # type: TP
 #: ../../man/dpkg.1:198
@@ -2859,14 +2865,14 @@ msgstr "B<--get-selections> [I<Paket-Name-Muster>...]"
 
 # type: Plain text
 #: ../../man/dpkg.1:220
-#, fuzzy
 msgid ""
 "Get list of package selections, and write it to stdout. Without a pattern, "
 "non-installed packages (i.e. those which have been previously purged)  will "
 "not be shown."
 msgstr ""
 "Hole Liste von Paketauswahlen und schreibe sie auf die Standardausgabe. Ohne "
-"Muster werden Pakete im Zustand »Vollständig löschen« nicht angezeigt."
+"Muster werden nicht-installierte Pakete (d.h. solche, die vorher »vollständig "
+"gelöscht« wurden) werden nicht angezeigt."
 
 # type: TP
 #: ../../man/dpkg.1:220 ../../man/update-alternatives.8:300
@@ -3367,13 +3373,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg.1:410
-#, fuzzy
 msgid ""
 "B<confmiss>: Always install a missing conffile. This is dangerous, since it "
 "means not preserving a change (removing) made to the file."
 msgstr ""
-"B<confmiss>: Installiere immer fehlende Konfigurationsdateien. Dies ist "
-"gefährlich, da es bedeutet, dass eine Änderung (die Entfernung) an der Datei "
+"B<confmiss>: Installiere immer ein fehlendes Conffile. Dies ist gefährlich, "
+"da es bedeutet, dass eine Änderung (die Entfernung) an der Datei "
 "nicht erhalten wird."
 
 # type: Plain text
@@ -3713,9 +3718,8 @@ msgstr "B<status: >I<Datei>B< : conffile-prompt : »>I<echt-alt>B<« »>I<echt-neu>
 
 # type: Plain text
 #: ../../man/dpkg.1:525
-#, fuzzy
 msgid "User is being asked a conffile question."
-msgstr "Dem Benutzer wird eine Konfigurationsdateifrage gestellt."
+msgstr "Dem Benutzer wird eine Conffile-Frage gestellt."
 
 # type: TP
 #: ../../man/dpkg.1:525
@@ -4025,12 +4029,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg.1:635
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "     B<cd /cdrom/pool/main/v/vim>\n"
 "     B<dpkg -i vim_4.5-3.deb>\n"
 msgstr ""
-"     B<cd /cdrom/hamm/hamm/binary/editors>\n"
+"     B<cd /cdrom/pool/main/v/vim>\n"
 "     B<dpkg -i vim_4.5-3.deb>\n"
 
 # type: Plain text
@@ -5064,12 +5068,14 @@ msgid ""
 "B<dpkg-buildpackage> is a program that automates the process of building a "
 "Debian package. It consists of the following steps:"
 msgstr ""
+"B<dpkg-buildpackage> ist ein Programm, das den Prozess des Bauens eines "
+"Debian-Paketes automatisiert. Es besteht aus den folgenden Schritten:"
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:13
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<1.>"
-msgstr "B<-G>"
+msgstr "B<1.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:16
@@ -5077,27 +5083,29 @@ msgid ""
 "It prepares the build environment by setting various environment variables "
 "(see B<ENVIRONMENT VARIABLES>)."
 msgstr ""
+"Es bereitet die Bauumgebung vor, indem verschiedene Umgebungsvariablen "
+"gesetzt werden (siehe B<UMGEBUNGSVARIABLEN>)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:16
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<2.>"
-msgstr "B<-G>"
+msgstr "B<2.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:19
-#, fuzzy
 msgid ""
 "It checks that the build-dependencies and build-conflicts are satisfied "
 "(unless B<-d> is specified)."
 msgstr ""
-"Überprüfe Bauabhängigkeiten und -konflikte; Abbruch falls nicht erfüllt."
+"Es prüft, dass Bauabhängigkeiten und -konflikte erfüllt sind (falls B<-d> "
+"nicht angegeben ist)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:19
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<3.>"
-msgstr "B<-G>"
+msgstr "B<3.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:24
@@ -5106,12 +5114,16 @@ msgid ""
 "it calls that target and stops here. Otherwise it calls B<fakeroot debian/"
 "rules clean> to clean the build-tree (unless B<-nc> is specified)."
 msgstr ""
+"Falls ein spezielles Ziel mit der Option B<-T> oder B<--target> ausgewählt "
+"wurde, ruft es diese Ziel auf und endet hier. Andernfalls ruft es B<fakeroot "
+"debian/ rules clean> auf, um den Bau-Baum zu bereinigen (falls B<-nc> nicht "
+"angegeben ist)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:24
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<4.>"
-msgstr "B<-G>"
+msgstr "B<4.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:28
@@ -5119,12 +5131,14 @@ msgid ""
 "It calls B<dpkg-source> to generate the source package (unless a binary-only "
 "build has been requested with B<-b>, B<-B> or B<-A>)."
 msgstr ""
+"Es ruft B<dpkg-source> auf, um das Quellpaket zu erstellen (falls nicht mit "
+"B<-b>, B<-B> oder B<-A> ein rein-binärer Bau erbeten wurde)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:28
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<5.>"
-msgstr "B<-G>"
+msgstr "B<5.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:35
@@ -5138,9 +5152,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:35
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<6.>"
-msgstr "B<-G>"
+msgstr "B<6.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:38
@@ -5148,12 +5162,14 @@ msgid ""
 "It calls B<gpg> to sign the B<.dsc> file (if any, unless B<-us> is "
 "specified)."
 msgstr ""
+"Es ruft B<gpg> auf, um die B<.dsc>-Datei zu signieren (falls vorhanden und "
+"B<-us> nicht angegeben wurde)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:38
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<7.>"
-msgstr "B<-G>"
+msgstr "B<7.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:42
@@ -5161,30 +5177,37 @@ msgid ""
 "It calls B<dpkg-genchanges> to generate a B<.changes> file.  Many B<dpkg-"
 "buildpackage> options are forwarded to B<dpkg-genchanges>."
 msgstr ""
+"Es ruft B<dpkg-genchanges> auf, um eine B<.changes>-Datei zu erstellen. "
+"Viele Optionen von B<dpkg-buildpackage> werden an B<dpkg-genchanges> "
+"weitergeleitet."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:42
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<8.>"
-msgstr "B<-G>"
+msgstr "B<8.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:45
 msgid ""
 "It calls B<gpg> to sign the B<.changes> file (unless B<-uc> is specified)."
 msgstr ""
+"Es ruft B<gpg> auf, um die B<.changes>-Datei zu signieren (falls B<-uc> "
+"nicht angegeben wurde)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:45
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<9.>"
-msgstr "B<-G>"
+msgstr "B<9.>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:48
 msgid ""
 "If B<-tc> is specified, it will call B<fakeroot debian/rules clean> again."
 msgstr ""
+"Falls B<-tc> angegeben ist, wird B<fakeroot debian/rules clean> erneut "
+"aufgerufen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:50
@@ -5194,13 +5217,13 @@ msgstr "B<-b>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:54
-#, fuzzy
 msgid ""
 "Specifies a binary-only build, no source files are to be built and/or "
 "distributed. Passed to B<dpkg-genchanges>."
 msgstr ""
 "Spezifiziert einen rein binären Bau, keine Quelldateien sollen gebaut und/"
-"oder vertrieben (im Sinne von verteilen) werden."
+"oder vertrieben (im Sinne von verteilen) werden. Wird an B<dpkg-genchanges> "
+"weitergegeben."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:54 ../../man/dpkg-checkbuilddeps.1:23
@@ -5210,29 +5233,27 @@ msgstr "B<-B>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:58
-#, fuzzy
 msgid ""
 "Specifies a binary-only build, limited to architecture dependent packages.  "
 "Passed to B<dpkg-genchanges>."
 msgstr ""
-"Spezifiziert einen rein binären Bau, es werden auch keine "
-"architekturunabhängigen Binärpaketdateien vertrieben."
+"Spezifiziert einen rein binären Bau, beschränkt auf architekturabhängige "
+"Pakete. Wird an B<dpkg-genchanges> weitergegeben."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:58
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-A>"
-msgstr "B<-G>"
+msgstr "B<-A>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:62
-#, fuzzy
 msgid ""
 "Specifies a binary-only build, limited to architecture independent packages. "
 "Passed to B<dpkg-genchanges>."
 msgstr ""
-"Spezifiziert einen rein binären Bau, es werden auch keine "
-"architekturunabhängigen Binärpaketdateien vertrieben."
+"Spezifiziert einen rein binären Bau, beschränkt auf architekturunabhängige "
+"Pakete. Wird an B<dpkg-genchanges> weitergegeben."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:62 ../../man/dpkg-genchanges.1:27
@@ -5242,31 +5263,27 @@ msgstr "B<-S>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:66
-#, fuzzy
 msgid ""
 "Specifies a source-only build, no binary packages need to be made.  Passed "
 "to B<dpkg-genchanges>."
 msgstr ""
 "Spezifiziert einen reinen Bau der Quellen, keine Binärpakete müssen erstellt "
-"werden."
+"werden. Wird an B<dpkg-genchanges> weitergegeben."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:68
-#, fuzzy
 msgid "B<--target=>I<target>"
-msgstr "B<--target-format=>I<Wert>"
+msgstr "B<--target=>I<Ziel>"
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:70
-#, fuzzy
 msgid "B<--target >I<target>"
-msgstr "B<--target-format=>I<Wert>"
+msgstr "B<--target >I<Ziel>"
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:72
-#, fuzzy
 msgid "B<-T>I<target>"
-msgstr "B<-t>I<Typ>"
+msgstr "B<-T>I<Ziel>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:78
@@ -5279,9 +5296,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:79
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--as-root>"
-msgstr "B<--test>"
+msgstr "B<--as-root>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:83
@@ -5335,11 +5352,10 @@ msgstr "B<-e>I<Betreueradresse>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:99
-#, fuzzy
 msgid "Passed unchanged to B<dpkg-genchanges>. See its manual page."
 msgstr ""
-"Wird unverändert an B<dpkg-source> weitergegeben. Kann mehrfach wiederholt "
-"werden."
+"Wird unverändert an B<dpkg-source> weitergegeben. Lesen Sie dessen "
+"Handbuchseite."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:100
@@ -5563,9 +5579,8 @@ msgstr "B<-uc>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:196
-#, fuzzy
 msgid "Do not sign the B<.changes> file."
-msgstr "Die .changes-Datei nicht signieren."
+msgstr "Die B<.changes>-Datei nicht signieren."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:198 ../../man/dpkg-source.1:127
@@ -5590,15 +5605,15 @@ msgstr "B<-z>, B<-Z>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:207
-#, fuzzy
 msgid "Passed unchanged to B<dpkg-source>. See its manual page."
-msgstr "Wird unverändert an B<dpkg-source> weitergegeben."
+msgstr ""
+"Wird unverändert an B<dpkg-source> weitergegeben. Lesen Sie dessen "
+"Handbuchseite."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:212
-#, fuzzy
 msgid "B<--admindir >I<dir>"
-msgstr "B<--admindir=>I<Verz>"
+msgstr "B<--admindir >I<Verz>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:215 ../../man/dpkg-checkbuilddeps.1:23
@@ -5641,9 +5656,9 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:230
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "Variables set by dpkg-architecture"
-msgstr "Die folgenden Variablen werden von B<dpkg-architecture> gesetzt:"
+msgstr "Von dpkg-architecture gesetzte Variablen"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:234
@@ -5657,7 +5672,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:234
 #, no-wrap
 msgid "Compiler flags"
-msgstr ""
+msgstr "Compiler-Schalter"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:240
@@ -5811,7 +5826,7 @@ msgid ""
 msgstr ""
 "Optionen die beim Linken von Programmen oder Laufzeitbibliotheken an den "
 "Compiler weitergegeben werden (falls der Linker direkt aufgerufen wird, "
-"müssen B<-Wl> und B<,> aus diesen Optionen entfernt werden. Standardmäßig "
+"müssen B<-Wl> und B<,> aus diesen Optionen entfernt werden). Standardmäßig "
 "leer."
 
 # type: TP
@@ -5842,19 +5857,17 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:316
-#, fuzzy
 msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), "
 "B<fakeroot>(1), B<gpg>(1)."
 msgstr ""
-"B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), B<gpg>"
-"(1), B<pgp>(1)."
+"B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), "
+"B<fakeroot>(1), B<gpg>(1)."
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:325 ../../man/dpkg-source.1:498
-#, fuzzy
 msgid "Copyright \\(co 2008 Rapha\\[:e]l Hertzog"
-msgstr "Copyright (C) 2008 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2008 Rapha\\[:e]l Hertzog"
 
 # type: TH
 #: ../../man/dpkg-checkbuilddeps.1:1
@@ -5931,9 +5944,8 @@ msgstr "B<-h>"
 
 # type: Plain text
 #: ../../man/dpkg-checkbuilddeps.1:39
-#, fuzzy
 msgid "Copyright \\(co 2001 Joey Hess"
-msgstr "Copyright (C) 2001 Joey Hess"
+msgstr "Copyright \\(co 2001 Joey Hess"
 
 # type: TH
 #: ../../man/dpkg-distaddfile.1:1
@@ -6020,9 +6032,9 @@ msgstr "dpkg-deb"
 
 # type: TH
 #: ../../man/dpkg-deb.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2009-01-07"
-msgstr "2007-03-07"
+msgstr "2009-01-07"
 
 # type: Plain text
 #: ../../man/dpkg-deb.1:4
@@ -6588,9 +6600,9 @@ msgstr "Liste Umleitungen auf, die auf I<Glob-Muster> passen."
 
 # type: TP
 #: ../../man/dpkg-divert.8:34
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--listpackage>I< file>"
-msgstr "B<--package>I< Paket>"
+msgstr "B<--listpackage>I< Datei>"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:38
@@ -6830,9 +6842,8 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:127 ../../man/update-alternatives.8:488
-#, fuzzy
 msgid "Copyright \\(co 1995 Ian Jackson"
-msgstr "Copyright (C) 1995 Ian Jackson"
+msgstr "Copyright \\(co 1995 Ian Jackson"
 
 # type: TH
 #: ../../man/dpkg-genchanges.1:1
@@ -6863,9 +6874,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-genchanges.1:18
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-b>, B<-B>, B<-A>"
-msgstr "B<-b>, B<-B>"
+msgstr "B<-b>, B<-B>, B<-A>"
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:27
@@ -6898,7 +6909,7 @@ msgid ""
 "B> haven't been used)."
 msgstr ""
 "Die B<-s>I<x> Optionen steuern, ob das Original-Quellarchiv dem Upload "
-"hinzugefügt wird, falls die Quellen erzeugt werden (d.h. B<-b> or B<-B> "
+"hinzugefügt wird, falls die Quellen erzeugt werden (d.h. B<-b> oder B<-B> "
 "nicht verwendet wurden)."
 
 # type: Plain text
@@ -7352,9 +7363,8 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-gencontrol.1:146 ../../man/dpkg-shlibdeps.1:338
-#, fuzzy
 msgid "Copyright \\(co 2007-2008 Rapha\\[:e]l Hertzog"
-msgstr "Copyright (C) 2007-2008 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2007-2008 Rapha\\[:e]l Hertzog"
 
 # type: TH
 #: ../../man/dpkg-name.1:6
@@ -7581,9 +7591,8 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-name.1:108
-#, fuzzy
 msgid "Copyright \\(co 1995,1996 Erick Branderhorst"
-msgstr "Copyright 1995,1996 Erick Branderhorst"
+msgstr "Copyright \\(co 1995,1996 Erick Branderhorst"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:1
@@ -7873,9 +7882,8 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:128
-#, fuzzy
 msgid "Copyright \\(co 2007, 2008 Frank Lichtenheld"
-msgstr "Copyright (C) 2007, 2008 Frank Lichtenheld"
+msgstr "Copyright \\(co 2007, 2008 Frank Lichtenheld"
 
 # type: TH
 #: ../../man/dpkg-query.1:1
@@ -8032,6 +8040,10 @@ msgid ""
 "I<package-name> instead as the I<available> file is only kept up-to-date "
 "when using B<dselect>."
 msgstr ""
+"Zeige Details über I<Paketname> an, wie diese in I</var/lib/dpkg/available> "
+"vorliegen. Benutzer APT-basierter Oberflächen sollten B<apt-cache show> "
+"I<Paketname> verwenden, da die Datei I<available> nur bei der Benutzung von "
+"B<dselect> aktuell bleibt."
 
 # type: TP
 #: ../../man/dpkg-query.1:77
@@ -8194,9 +8206,8 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-query.1:158
-#, fuzzy
 msgid "Copyright \\(co 2001 Wichert Akkerman"
-msgstr "Copyright (C) 2001 Wichert Akkerman"
+msgstr "Copyright \\(co 2001 Wichert Akkerman"
 
 # type: TH
 #: ../../man/dpkg-scanpackages.1:16
@@ -9295,9 +9306,8 @@ msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:336
-#, fuzzy
 msgid "Copyright \\(co 2006 Frank Lichtenheld"
-msgstr "Copyright (C) 2006 Frank Lichtenheld"
+msgstr "Copyright \\(co 2006 Frank Lichtenheld"
 
 # type: TH
 #: ../../man/dpkg-source.1:2
@@ -9685,7 +9695,7 @@ msgstr "Prüfe Signaturen und Prüfsummen vor dem Entpacken nicht."
 #: ../../man/dpkg-source.1:185
 #, no-wrap
 msgid "B<--require-valid-signature>"
-msgstr ""
+msgstr "B<--require-valid-signature>"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:192
@@ -10161,13 +10171,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:402
-#, fuzzy
 msgid ""
 "The updated debian directory and the list of modified binaries is then used "
 "to generate the debian tarball."
 msgstr ""
 "Das aktualisierte debian-Verzeichnis und die Liste der veränderten Programme "
-"wird dann zur Neuerstellung des Debian-Tarballs verwandt."
+"wird dann zur Erstellung des Debian-Tarballs verwandt."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:408
@@ -11122,9 +11131,9 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-trigger.1:23
-#, fuzzy
 msgid "Unrecognised trigger name syntaxes are an error for B<dpkg-trigger>."
-msgstr "Nicht erkannte Triggernamen-Syntaxen sind für dpkg-trigger ein Fehler."
+msgstr ""
+"Nicht erkannte Triggernamen-Syntaxen sind für B<dpkg-trigger> ein Fehler."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:25
@@ -11134,18 +11143,17 @@ msgstr "B<--check-supported>"
 
 # type: Plain text
 #: ../../man/dpkg-trigger.1:31
-#, fuzzy
 msgid ""
 "Check if the running B<dpkg> supports triggers (usually called from a "
 "postinst). Will exit 0 if a triggers-capable B<dpkg> has run, or 1 with an "
 "error message to stderr if not. Normally, however, it is better just to "
 "activate the desired trigger with B<dpkg-trigger>."
 msgstr ""
-"Überprüfe, ob der laufende Dpkg Trigger unterstützt (normalerweise vom "
-"Postinst aufgerufen). Endet mit 0, falls ein Trigger-fähiger Dpkg ausgeführt "
-"wurde, oder mit 1 und einer Fehlermeldung nach Stderr, falls nicht. "
-"Normalerweise ist es allerdings besser, einfach den gewünschten Trigger mit "
-"B<dpkg-trigger> zu aktivieren."
+"Überprüfe, ob der laufende B<dpkg> Trigger unterstützt (normalerweise vom "
+"Postinst aufgerufen). Endet mit 0, falls ein Trigger-fähiger B<dpkg> "
+"ausgeführt wurde, oder mit 1 und einer Fehlermeldung nach Stderr, falls "
+"nicht. Normalerweise ist es allerdings besser, einfach den gewünschten "
+"Trigger mit B<dpkg-trigger> zu aktivieren."
 
 # type: TP
 #: ../../man/dpkg-trigger.1:46
@@ -11155,16 +11163,15 @@ msgstr "B<--by-package=>I<Paket>"
 
 # type: Plain text
 #: ../../man/dpkg-trigger.1:52
-#, fuzzy
 msgid ""
 "Override trigger awaiter (normally set by B<dpkg> through the "
 "DPKG_MAINTSCRIPT_PACKAGE environment variable of the maintainer scripts, "
 "naming the package to which the script belongs, and this will be used by "
 "default)."
 msgstr ""
-"Überschreibe den Trigger-Erwartenden (normalerweise wird dies von Dpkg durch "
-"die Umgebungsvariable DPKG_MAINTSCRIPT_PACKAGE der Betreuerskripte gesetzt, "
-"wobei das Paket benannt wird, zu dem das Skript gehört und dies wird "
+"Überschreibe den Trigger-Erwartenden (normalerweise wird dies von B<dpkg> "
+"durch die Umgebungsvariable DPKG_MAINTSCRIPT_PACKAGE der Betreuerskripte "
+"gesetzt, wobei das Paket benannt wird, zu dem das Skript gehört und dies wird "
 "standardmäßig verwandt)."
 
 # type: TP
@@ -12996,9 +13003,8 @@ msgstr "B<emacs>(1), B<info>(1), B<gzip(1).>"
 
 # type: Plain text
 #: ../../man/install-info.8:293
-#, fuzzy
 msgid "Copyright \\(co 1994 Ian Jackson"
-msgstr "Copyright 1994 Ian Jackson."
+msgstr "Copyright \\(co 1994 Ian Jackson"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:1
@@ -13008,9 +13014,9 @@ msgstr "start-stop-daemon"
 
 # type: TH
 #: ../../man/start-stop-daemon.8:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2009-01-04"
-msgstr "2007-01-24"
+msgstr "2009-01-04"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:4
@@ -13206,13 +13212,12 @@ msgstr "B<-s>, B<--signal> I<Signal>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:109
-#, fuzzy
 msgid ""
 "With B<--stop>, specifies the signal to send to processes being stopped "
 "(default TERM)."
 msgstr ""
 "Mit B<--stop> wird das an den zu beendenden Prozess zu sendende Signal "
-"spezifiziert (standardmäßig 15)."
+"spezifiziert (standardmäßig TERM)."
 
 # type: TP
 #: ../../man/start-stop-daemon.8:109
@@ -13444,9 +13449,9 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:227
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-I>, B<--iosched> I<class>B<:>I<priority>"
-msgstr "B<-I>, B<--info> I<Teil>..."
+msgstr "B<-I>, B<--iosched> I<Klasse>B<:>I<Priorität>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:234
@@ -13591,9 +13596,9 @@ msgstr "update-alternatives"
 
 # type: TH
 #: ../../man/update-alternatives.8:8
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2009-02-18"
-msgstr "2008-08-15"
+msgstr "2009-02-18"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:11
@@ -13823,9 +13828,9 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/update-alternatives.8:155
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "generic name (or alternative link)"
-msgstr "Der Debian-CPU-Name der Host-Maschine."
+msgstr "generischer Name (oder Alternativ-Link)"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:161
@@ -13838,20 +13843,20 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:161
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "alternative name"
-msgstr "Alternative"
+msgstr "Alternativ-Name"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:164
 msgid "The name of a symbolic link in the alternatives directory."
-msgstr ""
+msgstr "Der Name eines symbolischen Links im Alternativ-Verzeichnis."
 
 # type: TP
 #: ../../man/update-alternatives.8:164
 #, no-wrap
 msgid "alternative (or alternative path)"
-msgstr ""
+msgstr "Alternative (oder Alternativ-Pfad)"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:168
@@ -13911,13 +13916,12 @@ msgstr "Master-Link"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:187
-#, fuzzy
 msgid ""
 "The alternative link in a link group which determines how the other links in "
 "the group are configured."
 msgstr ""
-"Der Link in einer Linkgruppe der bestimmt, wie die anderen Links in der "
-"Gruppe konfiguriert werden."
+"Der Alternativ-Link in einer Linkgruppe der bestimmt, wie die anderen Links "
+"in der Gruppe konfiguriert werden."
 
 # type: TP
 #: ../../man/update-alternatives.8:187
@@ -13927,13 +13931,12 @@ msgstr "Slave-Link"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:191
-#, fuzzy
 msgid ""
 "An alternative link in a link group which is controlled by the setting of "
 "the master link."
 msgstr ""
-"Ein Link in einer Linkgruppe, der durch die Einstellung des Master-Links "
-"bestimmt wird."
+"Ein Alternativ-Link in einer Linkgruppe, der durch die Einstellung des "
+"Master-Links gesteuert wird."
 
 # type: TP
 #: ../../man/update-alternatives.8:191
@@ -13969,13 +13972,13 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:204
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--install> I<link name path priority> [B<--slave> I<link name path>]..."
-msgstr "B<--install> I<Genname Symlink Altern Priorität> [B<--slave> I<Genname Symlink Altern>] ..."
+msgstr ""
+"B<--install> I<Link Name Pfad Priorität> [B<--slave> I<Link Name Pfad>] ..."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:223
-#, fuzzy
 msgid ""
 "Add a group of alternatives to the system.  I<link> is the generic name for "
 "the master link, I<name> is the name of its symlink in the alternatives "
@@ -13989,13 +13992,19 @@ msgid ""
 "displayed). If some real file is installed where an alternative link has to "
 "be installed, it is kept unless B<--force> is used."
 msgstr ""
-"Füge eine Gruppe von Alternativen zum System hinzu. I<Genname> ist der "
-"generische Name des Master-Links, I<Symlink> ist der Name seines Symlinks im "
-"Alternativ-Verzeichnis und I<Altern> ist die Alternative, die für den Master-"
+"Füge eine Gruppe von Alternativen zum System hinzu. I<Link> ist der "
+"generische Name des Master-Links, I<Name> ist der Name seines Symlinks im "
+"Alternativ-Verzeichnis und I<Pfad> ist die Alternative, die für den Master-"
 "Link eingeführt wird. Die Argumente nach B<--slave> sind der generische "
-"Name, Symlink-Name in dem Alternativ-Verzeichnis und die Alternative für den "
-"Slave-Link. Null oder mehrere B<--slave>-Optionen, jede von drei Argumenten "
-"gefolgt, können spezifiziert werden."
+"Name, Symlink-Name in dem Alternativ-Verzeichnis und der Alternativ-Pfad für "
+"den Slave-Link. Null oder mehrere B<--slave>-Optionen, jede von drei "
+"Argumenten gefolgt, können spezifiziert werden. Beachten Sie, dass die "
+"Master-Alternative existieren muss, ansonsten schlägt der Aufruf fehl. Falls "
+"allerdings eine Slave-Alternative nicht existiert wird der zugehörige "
+"Slave-Alternative-Link einfach nicht installiert (es wird noch eine Warnung "
+"ausgegeben). Falls eine echte Datei an einer Stelle installiert wird, an der "
+"ein Alternativ-Link installiert werden muss, wird diese beibehalten, solange "
+"B<--force> nicht verwandt wird."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:234
@@ -14088,9 +14097,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:276
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--auto> I<name>"
-msgstr "B<--auto> I<Link>"
+msgstr "B<--auto> I<Name>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:283
@@ -14106,9 +14115,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:283
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--display> I<name>"
-msgstr "B<--display> I<Link>"
+msgstr "B<--display> I<Name>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:292
@@ -14129,9 +14138,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:292
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--get-selections>"
-msgstr "B<--set-selections>"
+msgstr "B<--get-selections>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:300
@@ -14150,12 +14159,15 @@ msgid ""
 "Read configuration of alternatives on standard input in the format generated "
 "by B<update-alternatives --get-selections> and reconfigure them accordingly."
 msgstr ""
+"Lese eine Konfiguration von Alternativen über die Standardeingabe im von "
+"B<update-alternatives --get-selections> generierten Format und konfiguriere "
+"die Alternativen entsprechend neu."
 
 # type: TP
 #: ../../man/update-alternatives.8:305
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--query> I<name>"
-msgstr "B<--auto> I<Link>"
+msgstr "B<--query> I<Name>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:310
@@ -14163,12 +14175,15 @@ msgid ""
 "Display information about the link group like --display does, but in a "
 "machine parseable way (see section B<QUERY FORMAT> below)."
 msgstr ""
+"Zeige alle Informationen über die Linkgruppe an, wie dies auch von --display "
+"erfolgt, allerdings in einem maschinenlesbaren Format (siehe Abschnitt "
+"B<ABFRAGE-FORMAT> unten)."
 
 # type: TP
 #: ../../man/update-alternatives.8:310
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--list> I<name>"
-msgstr "B<--list> I<Link>"
+msgstr "B<--list> I<Name>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:313
@@ -14177,20 +14192,19 @@ msgstr "Zeige alle Ziele der Linkgruppe an."
 
 # type: TP
 #: ../../man/update-alternatives.8:313
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--config> I<name>"
-msgstr "B<--config> I<Link>"
+msgstr "B<--config> I<Name>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:317
-#, fuzzy
 msgid ""
 "Show available alternatives for a link group and allow the user to "
 "interactively select which one to use. The link group is updated."
 msgstr ""
 "Zeige die verfügbaren Alternativen für eine Linkgruppe an und erlaube es dem "
 "Benutzer interaktiv auszuwählen, welche zu benutzen ist. Die Linkgruppe wird "
-"aktualisiert und aus dem I<automatischen> Modus genommen."
+"aktualisiert."
 
 # type: TP
 #: ../../man/update-alternatives.8:325
@@ -14218,9 +14232,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:333
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--log>I< file>"
-msgstr "B<--log=>I<Dateiname>"
+msgstr "B<--log>I< Datei>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:337
@@ -14254,11 +14268,8 @@ msgstr "Erzeugt mehr Kommentare über die Tätigkeit von B<update-alternatives>."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:353
-#, fuzzy
 msgid "Don't generate any comments unless errors occur."
-msgstr ""
-"Erzeuge keine Kommentare, es sei denn, ein Fehler tritt auf. Diese Option "
-"ist noch nicht implementiert."
+msgstr "Erzeuge keine Kommentare, es sei denn, ein Fehler tritt auf."
 
 # type: TP
 #: ../../man/update-alternatives.8:355
@@ -14318,9 +14329,9 @@ msgstr ""
 
 # type: SH
 #: ../../man/update-alternatives.8:375
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "QUERY FORMAT"
-msgstr "FORMAT"
+msgstr "ABFRAGE-FORMAT"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:380
@@ -14330,24 +14341,27 @@ msgid ""
 "alternatives available in the queried link group. The first block contains "
 "the following fields:"
 msgstr ""
+"Das Format von B<update-alternatives> I<--query> ist ein RFC822-artiges, "
+"flaches Format. Es besteht aus I<n>+1 Blöcken, wobei I<n> die Anzahl der in "
+"einer abgefragten Linkgruppe verfügbaren Alternativen ist. Der erste Block "
+"enthält die folgenden Felder:"
 
 # type: TP
 #: ../../man/update-alternatives.8:380
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Link:> E<lt>linkE<gt>"
-msgstr "B<Origin:> E<lt>NameE<gt>"
+msgstr "B<Link:> E<lt>LinkE<gt>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:383
-#, fuzzy
 msgid "The generic name of the alternative."
-msgstr "Der Debian-CPU-Name der Host-Maschine."
+msgstr "Der generische Name der Alternative."
 
 # type: TP
 #: ../../man/update-alternatives.8:383
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Status:> E<lt>statusE<gt>"
-msgstr "B<Date:> E<lt>DatumE<gt>"
+msgstr "B<Status:> E<lt>StatusE<gt>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:386
@@ -14356,9 +14370,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:386
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Best:> E<lt>best choiceE<gt>"
-msgstr "B<Date:> E<lt>DatumE<gt>"
+msgstr "B<Best:> E<lt>beste WahlE<gt>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:390
@@ -14369,50 +14383,55 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:390
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Value:> E<lt>currently selected alternativeE<gt> "
-msgstr "B<Source:> E<lt>Quell-NameE<gt>"
+msgstr "B<Value:> E<lt>derzeit ausgewählte AlternativeE<gt>"
 
+#FIXME: s/values/value/
 # type: Plain text
 #: ../../man/update-alternatives.8:394
 msgid ""
 "The path of the currently selected alternative. It can also take the magic "
 "values B<none>. It is used if the link doesn't exist."
 msgstr ""
+"Der Pfad der derzeit ausgewählten Alternative. Es akzeptiert auch den "
+"magischen Wert B<none>, der verwandt wird, falls der Link nicht existiert."
 
 # type: TP
 #: ../../man/update-alternatives.8:395
 #, no-wrap
 msgid "The other blocks describe the available alternatives in the queried link group:"
 msgstr ""
+"Die anderen Blöcke beschreiben die verfügbaren Alternativen in der "
+"abgefragten Linkgruppe:"
 
 # type: TP
 #: ../../man/update-alternatives.8:397
 #, no-wrap
 msgid "B<Alternative:> E<lt>path of this alternativeE<gt>"
-msgstr ""
+msgstr "B<Alternative:> E<lt>Pfad dieser AlternativenE<gt>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:400
 msgid "Path to this block's alternative."
-msgstr ""
+msgstr "Pfad zum Block dieser Alternativen."
 
 # type: TP
 #: ../../man/update-alternatives.8:400
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Priority:> E<lt>priority valueE<gt>"
-msgstr "B<Priority:> E<lt>PrioritätE<gt>"
+msgstr "B<Priority:> E<lt>PrioritätswertE<gt>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:403
 msgid "Value of the priority of this alternative."
-msgstr ""
+msgstr "Wert der Priorität dieser Alternativen."
 
 # type: TP
 #: ../../man/update-alternatives.8:403
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Slaves:> E<lt>list of slavesE<gt>"
-msgstr "B<Replaces:> E<lt>PaketlisteE<gt>"
+msgstr "B<Slaves:> E<lt>Liste von SlavesE<gt>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:409
@@ -14425,9 +14444,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/update-alternatives.8:410
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Example>"
-msgstr "B<Extra-Size>"
+msgstr "B<Beispiel>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:418
@@ -14439,6 +14458,11 @@ msgid ""
 "Best: /usr/bin/vim.gtk\n"
 "Value: /usr/bin/vim.gtk\n"
 msgstr ""
+"$ update-alternatives --query editor\n"
+"Link: editor\n"
+"Status: auto\n"
+"Best: /usr/bin/vim.gtk\n"
+"Value: /usr/bin/vim.gtk\n"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:423
@@ -14449,6 +14473,10 @@ msgid ""
 "Slaves:\n"
 " editor.1.gz /usr/share/man/man1/ed.1.gz\n"
 msgstr ""
+"Alternative: /bin/ed\n"
+"Priority: -100\n"
+"Slaves:\n"
+" editor.1.gz /usr/share/man/man1/ed.1.gz\n"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:438
@@ -14469,6 +14497,20 @@ msgid ""
 " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
 " editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
 msgstr ""
+"Alternative: /usr/bin/vim.gtk\n"
+"Priority: 50\n"
+"Slaves:\n"
+" editor.1.gz /usr/share/man/man1/vim.1.gz\n"
+" editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
+" editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
+" editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
+" editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
+" editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
+" editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
+" editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
+" editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
+" editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
+" editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:450
@@ -14543,13 +14585,11 @@ msgstr "B<update-alternatives --auto vi>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:480
-#, fuzzy
 msgid ""
 "If you find a bug, please report it using the Debian bug-tracking system."
 msgstr ""
-"Falls Sie einen Fehler finden, melden Sie ihn bitte über das Debian "
-"Fehlerverfolgungssystem, oder, falls dies nicht möglich ist, schicken Sie "
-"eine E-Mail (auf Englisch) direkt an den Autor."
+"Falls Sie einen Fehler finden, melden Sie ihn bitte über die Fehlerdatenbank "
+"von Debian."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:485
@@ -14564,17 +14604,16 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/update-alternatives.8:490
-#, fuzzy
 msgid "Copyright \\(co 2009 Rapha\\[:e]l Hertzog"
-msgstr "Copyright (C) 2008 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2008 Rapha\\[:e]l Hertzog"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:496
-#, fuzzy
 msgid ""
 "This manual page is copyright 1997,1998 Charles Briscoe-Smith and others."
 msgstr ""
-"Diese Handbuchseite ist Copyright 1997,1998 durch Charles Briscoe-Smith."
+"Diese Handbuchseite ist Copyright 1997,1998 durch Charles Briscoe-Smith und "
+"anderen."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:499
@@ -14684,9 +14723,8 @@ msgstr ""
 #~ msgstr "B<install-info>(8), B<info>(1)."
 
 # type: Plain text
-#, fuzzy
 #~ msgid "Copyright \\(co 1996 Kim-Minh Kaplan"
-#~ msgstr "Copyright (C) 1996 Kim-Minh Kaplan"
+#~ msgstr "Copyright \\(co 1996 Kim-Minh Kaplan"
 
 # type: Plain text
 #~ msgid ""
@@ -14723,9 +14761,8 @@ msgstr ""
 #~ msgstr "Rufe B<--config> für alle Alternativen auf."
 
 # type: TP
-#, fuzzy
 #~ msgid "B<Error:> E<lt>error detailsE<gt>"
-#~ msgstr "B<Priority:> E<lt>PrioritätE<gt>"
+#~ msgstr "B<Error:> E<lt>FehlerdetailsE<gt>"
 
 # type: UR
 #~ msgid "mailto:joeyh@debian.org"
@@ -14764,15 +14801,14 @@ msgstr ""
 #~ "Bauens von Paketen verwendet werden kann."
 
 # type: Plain text
-#, fuzzy
 #~ msgid ""
 #~ "The B<-s>I<x> options control whether the original source archive is "
 #~ "included in the upload if any source is being generated (i.e.  B<-b>, B<-"
 #~ "B> or B<-A> haven't been used)."
 #~ msgstr ""
-#~ "Die B<-s>I<x> Optionen steuern, ob das Original-Quellarchiv dem Upload "
-#~ "hinzugefügt wird, falls die Quellen erzeugt werden (d.h. B<-b> or B<-B> "
-#~ "nicht verwendet wurden)."
+#~ "Die B<-s>I<x>-Optionen steuern, ob das Original-Quellarchiv dem Upload "
+#~ "hinzugefügt wird, falls irgendwelche Quellen erzeugt werden (d.h. B<-b>, "
+#~ "B<-B> oder B<-A> nicht verwendet wurden)."
 
 # type: Plain text
 #~ msgid ""
@@ -14919,9 +14955,8 @@ msgstr ""
 #~ "useredited distedited« berichtet."
 
 # type: TH
-#, fuzzy
 #~ msgid "2008-01-03"
-#~ msgstr "2008-01-13"
+#~ msgstr "2008-01-03"
 
 # type: Plain text
 #~ msgid ""
@@ -14944,9 +14979,8 @@ msgstr ""
 #~ "nicht."
 
 # type: TH
-#, fuzzy
 #~ msgid "2007-09-24"
-#~ msgstr "2007-01-24"
+#~ msgstr "2007-09-24"
 
 # type: Plain text
 #~ msgid "B<-b> I<directory> [I<orig-directory>|I<orig-targz>|\\(aq\\(aq]"
@@ -14971,9 +15005,8 @@ msgstr ""
 #~ "in Paketnamen oder Versionsnummern keine gültigen Zeichen sind."
 
 # type: TH
-#, fuzzy
 #~ msgid "2007-03-08"
-#~ msgstr "2007-10-08"
+#~ msgstr "2007-03-08"
 
 # type: Plain text
 #~ msgid "shlibs"
@@ -14992,9 +15025,8 @@ msgstr ""
 #~ "ist noch nicht implementiert."
 
 # type: TH
-#, fuzzy
 #~ msgid "2007-09-28"
-#~ msgstr "2007-09-08"
+#~ msgstr "2007-09-28"
 
 # type: Plain text
 #~ msgid ""
