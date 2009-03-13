@@ -43,7 +43,6 @@ EXTRA_DIST = \
 	dpkg-divert.pl \
 	dpkg-statoverride.pl \
 	dpkg-vendor.pl \
-	install-info.pl \
 	update-alternatives.pl \
 	changelog/debian.pl \
 	t/000_pod.t \
@@ -85,8 +84,7 @@ EXTRA_DIST = \
 	t/900_update_alternatives.t
 
 CLEANFILES = \
-	$(bin_SCRIPTS) $(changelog_SCRIPTS) \
-	install-info install-info-stamp
+	$(bin_SCRIPTS) $(changelog_SCRIPTS)
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
@@ -142,18 +140,6 @@ do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \
 	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
 	$(do_perl_subst) <$< >$@
 	chmod +x $@
-
-
-# Automake has its own install-info rule, gah
-all-local: install-info-stamp
-install-info-stamp: $(srcdir)/install-info.pl
-	$(do_perl_subst) <$< >install-info
-	chmod +x install-info
-	touch $@
-
-install-exec-local: install-info-stamp
-	$(mkdir_p) $(DESTDIR)$(sbindir)
-	$(INSTALL_SCRIPT) install-info $(DESTDIR)$(sbindir)
 
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives

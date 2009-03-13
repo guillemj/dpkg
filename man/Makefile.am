@@ -102,7 +102,6 @@ dist_man_MANS = \
 	dpkg-vendor.1 \
 	dpkg.1 \
 	dpkg.cfg.5 \
-	install-info.8 \
 	update-alternatives.8
 
 if WITH_DSELECT

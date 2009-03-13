@@ -16,3 +16,16 @@ if WITH_START_STOP_DAEMON
   start_stop_daemon_LDADD = ../libcompat/libcompat.a $(SSD_LIBS)
 endif
 
+EXTRA_DIST = install-info.c
+CLEANFILES = install-info install-info-stamp
+
+# Automake has its own install-info rule, gah
+all-local: install-info-stamp
+install-info-stamp: $(srcdir)/install-info.c
+	$(CC) $(CFLAGS) -o install-info $(srcdir)/install-info.c
+	touch $@
+
+install-exec-local: install-info-stamp
+	$(mkdir_p) $(DESTDIR)$(sbindir)
+	$(INSTALL_PROGRAM) install-info $(DESTDIR)$(sbindir)
+
