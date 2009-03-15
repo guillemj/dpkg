@@ -238,7 +238,7 @@ if ($options{'opmode'} eq 'build') {
 	    set_source_package($v);
 	    $fields->{$_} = $v;
 	} elsif (m/^Version$/) {
-	    check_version($v);
+	    check_version($v, 1);
 	    $fields->{$_} = $v;
 	} elsif (s/^X[BS]*C[BS]*-//i) {
 	    $fields->{$_} = $v;

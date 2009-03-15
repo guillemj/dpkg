@@ -27,7 +27,6 @@ use Dpkg::ErrorHandling;
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
-use Dpkg::Version qw(check_version);
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
 use Dpkg::Source::Package::V3::native;
@@ -74,8 +73,6 @@ sub do_extract {
 	         $sourcestyle);
 
     my $dscdir = $self->{'basedir'};
-
-    check_version($fields->{'Version'});
 
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);

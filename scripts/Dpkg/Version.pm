@@ -198,15 +198,23 @@ sub compare_versions ($$$)
     }
 }
 
-=item check_version($version)
+=item check_version($version, $die)
 
-Check the version string and fails it it's invalid.
+If $die is false (or unset), returns true if the version is valid and
+false if it contains illegal characters. If $die is true, it dies with
+an error message if it contains illegal characters, otherwise it returns
+true.
 
 =cut
-sub check_version ($) {
-    my $version = shift || '';
-    $version =~ m/[^-+:.0-9a-zA-Z~]/o &&
-        error(_g("version number contains illegal character `%s'"), $&);
+sub check_version ($;$) {
+    my ($version, $die) = @_;
+    $version ||= "";
+
+    if ($version =~ m/[^-+:.0-9a-zA-Z~]/o) {
+        error(_g("version number contains illegal character `%s'"), $&) if $die;
+        return 0;
+    }
+    return 1;
 }
 
 =back

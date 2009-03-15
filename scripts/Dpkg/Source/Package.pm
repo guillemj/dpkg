@@ -24,7 +24,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Fields;
 use Dpkg::Cdata;
 use Dpkg::Checksums;
-use Dpkg::Version qw(parseversion);
+use Dpkg::Version qw(parseversion check_version);
 use Dpkg::Deps qw(@src_dep_fields);
 use Dpkg::Compression;
 use Dpkg::Exit;
@@ -323,6 +323,8 @@ sub parse_cmdline_option {
 sub extract {
     my $self = shift;
     my $newdirectory = $_[0];
+
+    check_version($self->{'fields'}{'Version'}, 1);
 
     # Copy orig tarballs
     if ($self->{'options'}{'copy_orig_tarballs'}) {

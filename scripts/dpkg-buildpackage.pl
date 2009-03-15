@@ -11,7 +11,6 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT $warnable_error);
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
-use Dpkg::Version qw(check_version);
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Arch qw(get_build_arch debarch_to_gnutriplet);
 use Dpkg::Vendor qw(get_current_vendor);
@@ -297,7 +296,7 @@ my $changelog = parse_changelog();
 
 my $pkg = mustsetvar($changelog->{source}, _g('source package'));
 my $version = mustsetvar($changelog->{version}, _g('source version'));
-check_version($version);
+check_version($version, 1);
 
 my $maintainer;
 if ($changedby) {
