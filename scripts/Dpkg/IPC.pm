@@ -1,4 +1,4 @@
-# Copyright © 2008 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2008 Frank Lichtenheld <djpig@debian.org>
 
 # This program is free software; you can redistribute it and/or modify
@@ -103,6 +103,10 @@ returning. The return value will of fork_and_exec() will be a true value,
 but not the pid.
 
 =item nocheck
+
+Scalar. Option of the wait_child() call.
+
+=item timeout
 
 Scalar. Option of the wait_child() call.
 
@@ -253,7 +257,7 @@ sub fork_and_exec {
 	# Execute the program
 	exec({ $prog[0] } @prog) or syserr(_g("exec %s"), "@prog");
     }
-    # Close handle that we can't use any more
+    # Close handle that we can't use any more
     close($opts{"from_handle"}) if exists $opts{"from_handle"};
     close($opts{"to_handle"}) if exists $opts{"to_handle"};
     close($opts{"error_to_handle"}) if exists $opts{"error_to_handle"};
@@ -271,7 +275,8 @@ sub fork_and_exec {
 	${$opts{"error_to_string"}} = readline($error_to_string_pipe);
     }
     if ($opts{"wait_child"}) {
-	wait_child($pid, nocheck => $opts{"nocheck"}, cmdline => "@prog");
+	wait_child($pid, nocheck => $opts{"nocheck"},
+                   timeout => $opts{"timeout"}, cmdline => "@prog");
 	return 1;
     }
 
@@ -301,6 +306,11 @@ If true do not check the return status of the child (and thus
 do not fail it it has been killed or if it exited with a
 non-zero return code).
 
+=item timeout
+
+Set a maximum time to wait for the process, after that fail
+with an error message.
+
 =back
 
 =cut
@@ -309,7 +319,19 @@ sub wait_child {
     my ($pid, %opts) = @_;
     $opts{"cmdline"} ||= _g("child process");
     internerr("no PID set, cannot wait end of process") unless $pid;
-    $pid == waitpid($pid, 0) or syserr(_g("wait for %s"), $opts{"cmdline"});
+    eval {
+        local $SIG{ALRM} = sub { die "alarm\n" };
+        alarm($opts{"timeout"}) if defined($opts{"timeout"});
+        $pid == waitpid($pid, 0) or syserr(_g("wait for %s"), $opts{"cmdline"});
+        alarm(0) if defined($opts{"timeout"});
+    };
+    if ($@) {
+        die $@ unless $@ eq "alarm\n";
+        error(ngettext("%s didn't complete in %d second",
+                       "%s didn't complete in %d seconds",
+                       $opts{"timeout"}),
+              $opts{"cmdline"}, $opts{"timeout"});
+    }
     unless ($opts{"nocheck"}) {
 	subprocerr($opts{"cmdline"}) if $?;
     }
