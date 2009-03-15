@@ -327,7 +327,7 @@ if (open(X, "<", $fileslistfile)) {
         next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.(a-z+) /
                 && ($1 eq $oppackage)
 	        && ($3 eq $pkg_type)
-	        && (debarch_eq($2, $fields->{'Architecture'})
+	        && (debarch_eq($2, $fields->{'Architecture'} || "")
 		    || debarch_eq($2, 'all'));
         print(Y "$_\n") || syserr(_g("copy old entry to new files list file"));
     }
@@ -337,8 +337,8 @@ if (open(X, "<", $fileslistfile)) {
 }
 my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
-$forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion, $fields->{'Architecture'},
-			 $pkg_type)
+$forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion,
+                         $fields->{'Architecture'} || "", $pkg_type)
 	   unless ($forcefilename);
 print(Y $substvars->substvars(sprintf("%s %s %s\n", $forcefilename,
 				      $fields->{'Section'} || '-',
