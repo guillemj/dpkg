@@ -26,6 +26,11 @@ dpkg (1.15.1) UNRELEASED; urgency=low
     Closes: #489238
   * dpkg-source's signature check is now done with gpgv if possible and
     timeouts if not completed within 10 seconds. Closes: #490929
+  * Update dpkg-dev dependencies: Closes: #472942
+    - Move gnupg to Recommends. It's needed to sign .dsc and .changes.
+    - Add gpgv to Recommends. Useful to check signatures of extracted packages.
+    - Add debian-maintainers to Suggests. Together with debian-keyring they
+    contain all the GPG keys required to verify official Debian packages.
 
   [ Guillem Jover ]
   * Fix typo in dpkg output (‘unexecpted’ → ‘unexpected’). Closes: #519082
