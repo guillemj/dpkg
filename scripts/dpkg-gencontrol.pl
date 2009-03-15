@@ -242,14 +242,16 @@ foreach my $field (@pkg_dep_fields) {
 	if ($dep_field_type{$field} eq 'normal') {
 	    $dep = Dpkg::Deps::parse($field_value, use_arch => 1,
                                      reduce_arch => 1);
-	    error(_g("error occurred while parsing %s"), $field_value) unless defined $dep;
+	    error(_g("error occurred while parsing %s field: %s"), $field,
+                  $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
 	    # Remember normal deps to simplify even further weaker deps
 	    push @seen_deps, $dep if $dep_field_type{$field} eq 'normal';
 	} else {
 	    $dep = Dpkg::Deps::parse($field_value, use_arch => 1,
                                      reduce_arch => 1, union => 1);
-	    error(_g("error occurred while parsing %s"), $field_value) unless defined $dep;
+	    error(_g("error occurred while parsing %s field: %s"), $field,
+                  $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);
             $dep->sort();
 	}

@@ -335,7 +335,13 @@ sub parse {
     } else {
 	$dep_and = Dpkg::Deps::AND->new();
     }
-    $dep_and->add($_) foreach (@dep_list);
+    foreach my $dep (@dep_list) {
+        if (not $dep->isa("Dpkg::Deps::Simple")) {
+            warning(_g("an union dependency can only contain simple dependencies"));
+            return undef;
+        }
+        $dep_and->add($dep);
+    }
     return $dep_and;
 }
 
