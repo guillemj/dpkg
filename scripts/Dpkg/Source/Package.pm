@@ -300,6 +300,8 @@ sub check_signature {
                 $self->{'options'}{'require_valid_signature'}))
             {
                 error(_g("failed to verify signature on %s"), $dsc);
+            } elsif ($gpg_status) {
+                warning(_g("failed to verify signature on %s"), $dsc);
             }
         } else {
             subprocerr("@exec");
