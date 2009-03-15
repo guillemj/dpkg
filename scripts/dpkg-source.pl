@@ -336,11 +336,7 @@ if ($options{'opmode'} eq 'build') {
     }
 
     # Unpack the source package (delegated to Dpkg::Source::Package::*)
-    #XXX: we have to keep the old output until sbuild stop parsing
-    # dpkg-source's output
-    #info(_g("extracting %s in %s"), $srcpkg->{'fields'}{'Source'}, $newdirectory);
-    printf(_g("%s: extracting %s in %s")."\n", $progname,
-           $srcpkg->{'fields'}{'Source'}, $newdirectory);
+    info(_g("extracting %s in %s"), $srcpkg->{'fields'}{'Source'}, $newdirectory);
     $srcpkg->extract($newdirectory);
 
     exit(0);
