@@ -41,7 +41,7 @@ our $diff_ignore_default_regexp = '
 # Ignore emacs recovery files
 (?:^|/)\.#.*$|
 # Ignore vi swap files
-(?:^|/)\..*\.swp$|
+(?:^|/)\..*\.sw.$|
 # Ignore baz-style junk files or directories
 (?:^|/),,.*(?:$|/.*$)|
 # File-names that should be ignored (never directories)
@@ -59,7 +59,7 @@ our @tar_ignore_default_pattern = qw(
 *.la
 *.o
 *.so
-*.swp
+.*.sw?
 *~
 ,,*
 .[#~]*
