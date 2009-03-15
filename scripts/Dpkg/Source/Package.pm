@@ -274,8 +274,13 @@ sub is_signed {
 sub check_signature {
     my ($self) = @_;
     my $dsc = $self->get_filename();
-    if (-x '/usr/bin/gpg') {
-        my @exec = ("gpg", "-q", "--verify");
+    my @exec;
+    if (-x '/usr/bin/gpgv') {
+        push @exec, "gpgv";
+    } elsif (-x '/usr/bin/gpg') {
+        push @exec, "gpg", "--no-default-keyring", "-q", "--verify";
+    }
+    if (scalar(@exec)) {
         if (-r '/usr/share/keyrings/debian-keyring.gpg') {
             push @exec, "--keyring", "/usr/share/keyrings/debian-keyring.gpg";
         }
@@ -286,7 +291,8 @@ sub check_signature {
 
         my ($stdout, $stderr);
         fork_and_exec('exec' => \@exec, wait_child => 1, nocheck => 1,
-                      to_string => \$stdout, error_to_string => \$stderr);
+                      to_string => \$stdout, error_to_string => \$stderr,
+                      timeout => 10);
         if (WIFEXITED($?)) {
             my $gpg_status = WEXITSTATUS($?);
             print STDERR "$stdout$stderr" if $gpg_status;
