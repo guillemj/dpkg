@@ -1,4 +1,4 @@
-# Copyright © 2007 Raphael Hertzog <hertzog@debian.org>
+# Copyright © 2007-2009 Raphael Hertzog <hertzog@debian.org>
 #
 # This program is free software; you may redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -336,7 +336,7 @@ sub parse {
 	$dep_and = Dpkg::Deps::AND->new();
     }
     foreach my $dep (@dep_list) {
-        if (not $dep->isa("Dpkg::Deps::Simple")) {
+        if ($options{union} and not $dep->isa("Dpkg::Deps::Simple")) {
             warning(_g("an union dependency can only contain simple dependencies"));
             return undef;
         }
