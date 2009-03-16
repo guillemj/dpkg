@@ -14,7 +14,6 @@ SUBDIRS = \
 	utils \
 	scripts \
 	po \
-	origins \
 	man
 
 ACLOCAL_AMFLAGS = -I m4
