@@ -1,6 +1,6 @@
 # -*- mode: cperl -*-
 
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 use strict;
 use warnings;
@@ -45,7 +45,8 @@ is($string2, $string, "{from,to}_handle");
 $pid = fork_and_exec(exec => "cat",
 		     from_file => $tmp_name,
 		     to_file => $tmp2_name,
-		     wait_child => 1);
+		     wait_child => 1,
+		     timeout => 5);
 
 ok($pid);
 
@@ -54,6 +55,13 @@ $string2 = <TMP>;
 close TMP;
 
 is($string2, $string, "{from,to}_file");
+
+eval {
+    $pid = fork_and_exec(exec => ["sleep", "10"],
+		         wait_child => 1,
+		         timeout => 5);
+};
+ok($@, "fails on timeout");
 
 unlink($tmp_name);
 unlink($tmp2_name);

@@ -157,6 +157,11 @@ sub _sanity_check_opts {
 	}
     }
 
+    if (exists $opts{"timeout"} and defined($opts{"timeout"}) and
+        $opts{"timeout"} !~ /^\d+$/) {
+	internerr("parameter timeout must be an integer");
+    }
+
     if (exists $opts{"env"} and ref($opts{"env"}) ne 'HASH') {
 	internerr("parameter env must be a hash reference");
     }
