@@ -18,6 +18,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <config.h>
+
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
@@ -27,40 +29,40 @@
 #define SELF "/usr/sbin/install-info"
 #define WRAPPED "/usr/bin/install-info"
 
-#define WARN "install-info: warning: "
-#define FAIL "install-info: failure: "
+#if HAVE_C99
+#define warn(...) fprintf(stderr, "install-info: warning: " __VA_ARGS__)
+#define error(...) fprintf(stderr, "install-info: error: " __VA_ARGS__)
+#else
+#define warn(msg...) fprintf(stderr, "install-info: warning: " msg)
+#define error(msg...) fprintf(stderr, "install-info: error: " msg)
+#endif
 
 int
 main(int argc, char **argv)
 {
     if (strcmp(argv[0], SELF) == 0) {
-	fprintf(stderr, WARN "don't call programs like install-info with "
-	                "an absolute path\n");
-	fprintf(stderr, WARN "%s provided by "
-	                "dpkg is deprecated and will go away soon\n", SELF);
-	fprintf(stderr, WARN "its replacement lives in /usr/bin/\n");
+	warn("don't call programs like install-info with an absolute path\n");
+	warn("%s provided by dpkg is deprecated and will go away soon\n",
+	     SELF);
+	warn("its replacement lives in /usr/bin/\n");
     }
 
     if (access(WRAPPED, X_OK) == 0) {
 	execv(WRAPPED, argv);
-	fprintf(stderr, FAIL "can't execute %s: %s\n",
-	        WRAPPED, strerror(errno));
+	error("can't execute %s: %s\n", WRAPPED, strerror(errno));
 	return 1; /* exec failed */
     } else {
 	if (errno == ENOENT) {
 	    if (getenv("DPKG_RUNNING_VERSION") != NULL) {
-		fprintf(stderr, WARN "maintainer scripts should not call "
-				"install-info anymore\n");
-		fprintf(stderr, WARN "a dpkg trigger provided by the install-info "
-		                "package takes care of the job\n");
-		fprintf(stderr, WARN "this package should be updated\n");
+		warn("maintainer scripts should not call install-info anymore\n");
+		warn("a dpkg trigger provided by the install-info "
+		     "package takes care of the job\n");
+		warn("this package should be updated\n");
 	    } else {
-		fprintf(stderr, WARN "nothing done since %s doesn't exist\n",
-		        WRAPPED);
+		warn("nothing done since %s doesn't exist\n", WRAPPED);
 	    }
 	} else {
-	    fprintf(stderr, FAIL "can't execute %s: %s\n",
-	            WRAPPED, strerror(errno));
+	    error("can't execute %s: %s\n", WRAPPED, strerror(errno));
 	    return 1;
 	}
     }
