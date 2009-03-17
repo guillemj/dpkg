@@ -54,10 +54,14 @@ main(int argc, char **argv)
     } else {
 	if (errno == ENOENT) {
 	    if (getenv("DPKG_RUNNING_VERSION") != NULL) {
+		const char *pkg;
+
+		pkg = getenv("DPKG_MAINTSCRIPT_PACKAGE");
+
 		warn("maintainer scripts should not call install-info anymore\n");
 		warn("a dpkg trigger provided by the install-info "
 		     "package takes care of the job\n");
-		warn("this package should be updated\n");
+		warn("the package '%s' should be updated\n", pkg);
 	    } else {
 		warn("nothing done since %s doesn't exist\n", WRAPPED);
 	    }
