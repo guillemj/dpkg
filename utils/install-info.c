@@ -41,10 +41,10 @@ int
 main(int argc, char **argv)
 {
     if (strcmp(argv[0], SELF) == 0) {
-	warn("don't call programs like install-info with an absolute path\n");
-	warn("%s provided by dpkg is deprecated and will go away soon\n",
+	warn("don't call programs like install-info with an absolute path,\n");
+	warn("%s provided by dpkg is deprecated and will go away soon;\n",
 	     SELF);
-	warn("its replacement lives in /usr/bin/\n");
+	warn("its replacement lives in /usr/bin/.\n");
     }
 
     if (access(WRAPPED, X_OK) == 0) {
@@ -58,12 +58,13 @@ main(int argc, char **argv)
 
 		pkg = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 
-		warn("maintainer scripts should not call install-info anymore\n");
-		warn("a dpkg trigger provided by the install-info "
-		     "package takes care of the job\n");
-		warn("the package '%s' should be updated\n", pkg);
+		warn("maintainer scripts should not call install-info anymore,\n");
+		warn("this is handled now by a dpkg trigger provided by the\n");
+		warn("install-info package; package %s should be updated.\n",
+		     pkg);
 	    } else {
-		warn("nothing done since %s doesn't exist\n", WRAPPED);
+		warn("nothing done since %s doesn't exist,\n", WRAPPED);
+		warn("you might want to install an info-browser package.\n");
 	    }
 	} else {
 	    error("can't execute %s: %s\n", WRAPPED, strerror(errno));
