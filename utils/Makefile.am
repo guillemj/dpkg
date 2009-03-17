@@ -6,9 +6,10 @@ INCLUDES = \
 	-idirafter $(top_srcdir)/libcompat \
 	-I$(top_srcdir)/lib
 
+sbin_PROGRAMS =
 
 if WITH_START_STOP_DAEMON
-  sbin_PROGRAMS = start-stop-daemon
+  sbin_PROGRAMS += start-stop-daemon
 
   start_stop_daemon_SOURCES = \
 	start-stop-daemon.c
@@ -16,16 +17,12 @@ if WITH_START_STOP_DAEMON
   start_stop_daemon_LDADD = ../libcompat/libcompat.a $(SSD_LIBS)
 endif
 
-EXTRA_DIST = install-info.c
-CLEANFILES = install-info install-info-stamp
+sbin_PROGRAMS += dpkg-install-info
 
 # Automake has its own install-info rule, gah
-all-local: install-info-stamp
-install-info-stamp: $(srcdir)/install-info.c
-	$(CC) $(CFLAGS) -o install-info $(srcdir)/install-info.c
-	touch $@
+dpkg_install_info_SOURCES = install-info.c
 
-install-exec-local: install-info-stamp
-	$(mkdir_p) $(DESTDIR)$(sbindir)
-	$(INSTALL_PROGRAM) install-info $(DESTDIR)$(sbindir)
+dpkg_install_info_LDADD = ../libcompat/libcompat.a
+
+transform = s/dpkg-install-info/install-info/; $(program_transform_name)
 
