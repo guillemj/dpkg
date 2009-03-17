@@ -335,7 +335,7 @@ sub get_smallest_version {
     my $minver;
     foreach my $sym (values %{$self->{objects}{$soname}{syms}}) {
         next if $dep_id != $sym->{dep_id};
-        $minver ||= $sym->{minver};
+        $minver = $sym->{minver} unless defined($minver);
         if (vercmp($minver, $sym->{minver}) > 0) {
             $minver = $sym->{minver};
         }

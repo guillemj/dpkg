@@ -34,6 +34,10 @@ dpkg (1.15.1) UNRELEASED; urgency=low
     - Add debian-maintainers to Suggests. Together with debian-keyring they
     contain all the GPG keys required to verify official Debian packages.
   * Drop /etc/dpkg/origins as it's taken over by base-files (see #487437).
+  * Fix dpkg-shlibdeps to properly initialize a symbol-based dependency
+    even when some symbols are associated with a (fake) version "0". Such a
+    version means that the symbol has always existed in all versions of the
+    package.
 
   [ Guillem Jover ]
   * Fix typo in dpkg output (‘unexecpted’ → ‘unexpected’). Closes: #519082

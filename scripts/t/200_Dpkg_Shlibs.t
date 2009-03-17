@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 37;
+use Test::More tests => 39;
 use IO::String;
 
 use strict;
@@ -148,9 +148,12 @@ is_deeply($sym, {'minver' => '1.0', 'dep_id' => 0, 'deprecated' => 0,
 	    'overrides order with #include');
 
 $sym = $sym_file->lookup_symbol('symbol3_fake1@Base', ['libfake.so.1']);
-is_deeply($sym, { 'minver' => '1.1', 'dep_id' => 0, 'deprecated' => 0,
+is_deeply($sym, { 'minver' => '0', 'dep_id' => 0, 'deprecated' => 0,
 		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
 	    'overrides order with #include');
+
+is($sym_file->get_smallest_version('libfake.so.1'), "0",
+   'get_smallest_version with null version');
 
 $sym_file = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbols.include-2");
 
@@ -158,6 +161,9 @@ $sym = $sym_file->lookup_symbol('symbol1_fake2@Base', ['libfake.so.1']);
 is_deeply($sym, { 'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
 		  'depends' => 'libvirtualfake', 'soname' => 'libfake.so.1' }, 
 	    'overrides order with circular #include');
+
+is($sym_file->get_smallest_version('libfake.so.1'), "1.0",
+   'get_smallest_version');
 
 # Check dump output
 my $io = IO::String->new();
@@ -168,7 +174,7 @@ is(${$io->string_ref()},
 * Build-Depends-Package: libfake-dev
  symbol1_fake2@Base 1.0 1
  symbol2_fake2@Base 1.0
- symbol3_fake2@Base 1.0
+ symbol3_fake2@Base 1.1
 ', "Dump of $srcdir/symbols.include-2");
 
 
