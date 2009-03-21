@@ -113,7 +113,6 @@ AC_CONFIG_FILES([ Makefile
 		  lib/Makefile
 		  lib/test/Makefile
 		  man/Makefile
-		  origins/Makefile
 		  po/Makefile.in
 		  scripts/Makefile
 		  scripts/po/Makefile.in
