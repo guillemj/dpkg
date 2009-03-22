@@ -293,7 +293,7 @@ static void setinteger(const struct cmdinfo *cip, const char *value) {
   char *ep;
 
   v= strtoul(value,&ep,0);
-  if (*ep || v > INT_MAX)
+  if (!*value || *ep || v > INT_MAX)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
   *cip->iassignto= v;
 }
