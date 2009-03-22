@@ -499,7 +499,7 @@ void execbackend(const char *const *argv) {
     pass_admindir = 1;
   }
 
-  nargv = m_malloc(sizeof(char *) * (argc + 2));
+  nargv = m_malloc(sizeof(char *) * (argc + 3));
   nargv[i] = m_strdup(cipaction->parg);
 
   i++, offset++;
@@ -514,6 +514,11 @@ void execbackend(const char *const *argv) {
   strcpy(nargv[i], "--");
   strcat(nargv[i], cipaction->olong);
   i++, offset++;
+
+  /* Exlicitely separate arguments from options as any user-supplied
+   * separator got stripped by the option parser */
+  nargv[i] = "--";
+  i++, argc++, offset++;
 
   /* Copy arguments from argv to nargv. */
   for (; i <= argc; i++)

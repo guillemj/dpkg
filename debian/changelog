@@ -38,6 +38,11 @@ dpkg (1.15.1) UNRELEASED; urgency=low
     even when some symbols are associated with a (fake) version "0". Such a
     version means that the symbol has always existed in all versions of the
     package.
+  * When dpkg delegates to dpkg-query or dpkg-deb to do the actual work, add
+    the "--" marker to explicitely document the end of options so that
+    arguments starting with a dash are not interpreted as options.
+    Closes: #293163
+    Thanks to Bill Allombert for the patch.
 
   [ Guillem Jover ]
   * Fix typo in dpkg output (‘unexecpted’ → ‘unexpected’). Closes: #519082
