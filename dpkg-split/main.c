@@ -115,6 +115,8 @@ static void setpartsize(const struct cmdinfo *cip, const char *value) {
   char *endp;
 
   newpartsize= strtol(value,&endp,10);
+  if (value == endp || *endp)
+    badusage(_("invalid integer for --%s: `%.250s'"), cip->olong, value);
   if (newpartsize <= 0 || newpartsize > (INT_MAX >> 10))
     badusage(_("part size is far too large or is not positive"));
 

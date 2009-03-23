@@ -248,7 +248,7 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
   }
   
   f_debug= strtoul(value,&endp,8);
-  if (*endp) badusage(_("--debug requires an octal argument"));
+  if (value == endp || *endp) badusage(_("--debug requires an octal argument"));
 }
 
 static void setroot(const struct cmdinfo *cip, const char *value) {
@@ -293,7 +293,7 @@ static void setinteger(const struct cmdinfo *cip, const char *value) {
   char *ep;
 
   v= strtoul(value,&ep,0);
-  if (!*value || *ep || v > INT_MAX)
+  if (value == ep || *ep || v > INT_MAX)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
   *cip->iassignto= v;
 }
@@ -305,7 +305,7 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
   char *ep;
 
   v= strtoul(value,&ep,0);
-  if (*ep || v > INT_MAX)
+  if (value == ep || *ep || v > INT_MAX)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
 
   setcloexec(v, _("<package status and progress file descriptor>"));
@@ -537,7 +537,8 @@ void commandfd(const char *const *argv) {
   const char **newargs;
   char *ptr, *endptr;
   FILE *in;
-  int c, lno, infd, i, skipchar;
+  unsigned long infd;
+  int c, lno, i, skipchar;
   static void (*actionfunction)(const char *const *argv);
 
   pipein = *argv++;
@@ -545,10 +546,12 @@ void commandfd(const char *const *argv) {
     badusage(_("--command-fd takes one argument, not zero"));
   if (*argv)
     badusage(_("--command-fd only takes one argument"));
-  if ((infd= strtol(pipein, (char **)NULL, 10)) == -1)
-    ohshite(_("invalid number for --command-fd"));
+  errno = 0;
+  infd = strtoul(pipein, &endptr, 10);
+  if (pipein == endptr || *endptr || infd > INT_MAX)
+    ohshite(_("invalid integer for --%s: `%.250s'"), "command-fd", pipein);
   if ((in= fdopen(infd, "r")) == NULL)
-    ohshite(_("couldn't open `%i' for stream"), infd);
+    ohshite(_("couldn't open `%i' for stream"), (int) infd);
 
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);

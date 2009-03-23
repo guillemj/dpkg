@@ -400,7 +400,7 @@ void ensure_statoverrides(void) {
     *ptr=0;
     if (thisline[0]=='#') {
       fso->uid=strtol(thisline + 1, &endptr, 10);
-      if (*endptr!=0)
+      if (thisline + 1 == endptr || *endptr)
         ohshit(_("syntax error: invalid uid in statoverride file"));
     } else {
       struct passwd* pw = getpwnam(thisline);
@@ -421,7 +421,7 @@ void ensure_statoverrides(void) {
     *ptr=0;
     if (thisline[0]=='#') {
       fso->gid=strtol(thisline + 1, &endptr, 10);
-      if (*endptr!=0)
+      if (thisline + 1 == endptr || *endptr)
         ohshit(_("syntax error: invalid gid in statoverride file"));
     } else {
       struct group* gr = getgrnam(thisline);
@@ -441,7 +441,7 @@ void ensure_statoverrides(void) {
       ohshit(_("syntax error in statoverride file"));
     *ptr=0;
     fso->mode=strtol(thisline, &endptr, 8);
-    if (*endptr!=0)
+    if (thisline == endptr || *endptr)
       ohshit(_("syntax error: invalid mode in statoverride file"));
 
     /* Move to the next bit */

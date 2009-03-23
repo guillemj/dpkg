@@ -43,7 +43,7 @@ static unsigned long unsignedlong(const char *value, const char *fn, const char 
   char *endp;
 
   r= strtoul(value,&endp,10);
-  if (*endp)
+  if (value == endp || *endp)
     ohshit(_("file `%.250s' is corrupt - bad digit (code %d) in %s"),fn,*endp,what);
   return r;
 }

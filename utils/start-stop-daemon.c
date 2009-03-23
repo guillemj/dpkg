@@ -444,7 +444,7 @@ parse_integer(const char *string, int *value_r)
 		return -1;
 
 	ul = strtoul(string, &ep, 10);
-	if (ul > INT_MAX || *ep != '\0')
+	if (string == ep || ul > INT_MAX || *ep != '\0')
 		return -1;
 
 	*value_r = ul;
