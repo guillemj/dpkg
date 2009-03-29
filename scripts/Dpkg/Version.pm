@@ -99,7 +99,7 @@ sub verrevcmp($$)
 	  elsif ($x =~ /^\d$/) {
 	       return 0;
 	  }
-	  elsif ($x =~ /^[A-Z]$/i) {
+	  elsif ($x =~ /^[A-Za-z]$/) {
 	       return ord($x);
 	  }
 	  else {
@@ -107,17 +107,13 @@ sub verrevcmp($$)
 	  }
      }
 
-     sub next_elem(\@){
-	  my $a = shift;
-	  return @{$a} ? shift @{$a} : undef;
-     }
      my ($val, $ref) = @_;
      $val = "" if not defined $val;
      $ref = "" if not defined $ref;
      my @val = split //,$val;
      my @ref = split //,$ref;
-     my $vc = next_elem @val;
-     my $rc = next_elem @ref;
+     my $vc = shift @val;
+     my $rc = shift @ref;
      while (defined $vc or defined $rc) {
 	  my $first_diff = 0;
 	  while ((defined $vc and $vc !~ /^\d$/) or
@@ -125,18 +121,18 @@ sub verrevcmp($$)
 	       my $vo = order($vc); my $ro = order($rc);
 	       # Unlike dpkg's verrevcmp, we only return 1 or -1 here.
 	       return (($vo - $ro > 0) ? 1 : -1) if $vo != $ro;
-	       $vc = next_elem @val; $rc = next_elem @ref;
+	       $vc = shift @val; $rc = shift @ref;
 	  }
 	  while (defined $vc and $vc eq '0') {
-	       $vc = next_elem @val;
+	       $vc = shift @val;
 	  }
 	  while (defined $rc and $rc eq '0') {
-	       $rc = next_elem @ref;
+	       $rc = shift @ref;
 	  }
 	  while (defined $vc and $vc =~ /^\d$/ and
 		 defined $rc and $rc =~ /^\d$/) {
 	       $first_diff = ord($vc) - ord($rc) if !$first_diff;
-	       $vc = next_elem @val; $rc = next_elem @ref;
+	       $vc = shift @val; $rc = shift @ref;
 	  }
 	  return 1 if defined $vc and $vc =~ /^\d$/;
 	  return -1 if defined $rc and $rc =~ /^\d$/;
