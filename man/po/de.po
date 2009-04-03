@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2009-03-11 02:41+0200\n"
-"PO-Revision-Date: 2009-03-27 21:26+0100\n"
+"PO-Revision-Date: 2009-04-03 20:33+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -9154,6 +9154,19 @@ msgid ""
 "linking to it are using an RPATH so that the dynamic loader finds it. In "
 "that case, the library is broken and needs to be fixed."
 msgstr ""
+"Das angegebene Symbol wurde nicht in den Bibliotheken gefunden, die mit "
+"diesem Programm verlinkt sind. Das I<Progamm> ist höchstwahrscheinlich eine "
+"Erweiterung und das Symbol wird von dem Programm bereitgestellt, das diese "
+"Erweiterung lädt. Theoretisch verfügt eine Erweiterung nicht über einen "
+"SONAMEn, allerdings ist dies bei diesem Programm der Fall und daher konnte es "
+"nicht eindeutig als Erweiterung erkannt werden. Die Tatsache, dass dieses "
+"Programm in einem nicht-öffentlichen Verzeichnis gespeichert wird ist "
+"allerdings ein starkes Anzeichen dafür, dass es keine normale gemeinsam "
+"benutzte Bibliothek ist. Falls dieses Programm tatsächlich eine Erweiterung "
+"ist, ignorieren Sie die Warnung. Allerdings besteht immer die Möglichkeit, "
+"dass es eine echte Bibliothek ist und dass Programme, die damit verlinken, "
+"einen RPATH verwenden, so dass der dynamische Lader sie findet. In diesem "
+"Fall ist die Bibliothek beschädigt und muss repariert werden."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:251
@@ -9743,6 +9756,10 @@ msgid ""
 "official Debian keyrings (I</usr/share/keyrings/debian-keyring.gpg> and I</"
 "usr/share/keyrings/debian-maintainers.gpg>)."
 msgstr ""
+"Entpacken des Quellpakets ablehnen, falls es keine OpenPGP-Signatur enthält, "
+"die entweder mit dem Schlüsselring des Benutzers oder mit einem der "
+"offiziellen Debian-Schüsselringe (I</usr/share/keyrings/debian-keyring.gpg> "
+"und I</usr/share/keyrings/debian-maintainers.gpg>) überprüft werden kann."
 
 # type: SS
 #: ../../man/dpkg-source.1:191
@@ -10046,6 +10063,8 @@ msgstr "B<--skip-debianization>"
 #: ../../man/dpkg-source.1:329
 msgid "Skips application of the debian diff on top of the upstream sources."
 msgstr ""
+"Überspringt die Anwendung des Debian-Diffs auf die Quellen der "
+"Originalautoren."
 
 # type: TP
 #: ../../man/dpkg-source.1:330
@@ -10243,7 +10262,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:424
-#, fuzzy
 msgid ""
 "Note: B<dpkg-source> expects the source tree to have all patches listed in "
 "the series file applied when you generate the source package.  This is not "
@@ -10259,16 +10277,20 @@ msgid ""
 "will apply them all.  The option B<--no-preparation> can be used to disable "
 "this behaviour."
 msgstr ""
-"Hinweis: B<dpkg-source> erwartet, dass alle Patches auf dem Quellbaum "
-"angewandt wurden, wenn Sie das Quellpaket generieren. Dies ist z.B. nicht "
-"der Fall, wenn der Quellbaum durch Entpacken eines Quellpakets im Format: "
-"1.0 erhalten wurde. Um das Problem zu entschärfen, wird B<dpkg-source> "
-"Patches vor dem Bau anwenden, falls es B<debian/patches/.dpkg-source-"
-"applied> nicht findet. Die Existenz des Unterverzeichnisses B<.pc> wird auch "
-"als Zeichen interpretiert, dass einige Patches angewandt wurden und in "
-"diesem Fall wird B<quilt unapplied> aufgerufen, um sicherzustellen, dass "
-"alle Patches angewandt wurden. Die Option B<--no-preparation> kann zum "
-"Abschalten dieses Verhaltens verwandt werden."
+"Hinweis: B<dpkg-source> erwartet, dass alle Patches aus der Series-Datei auf "
+"dem Quellbaum angewandt wurden, wenn Sie das Quellpaket generieren. Dies ist "
+"z.B. nicht der Fall, wenn der Quellbaum durch Entpacken eines Quellpakets im "
+"Format: 1.0 erhalten wurde. Um das Problem zu entschärfen, wird "
+"B<dpkg-source> die Patches selbst anwenden, falls es glaubt, dass sie noch "
+"nicht angewandt wurden. Um diese Situation zu erkennen, verwendet es die "
+"folgende Heuristik: Falls ein Unterverzeichnis B<.pc> erkannt wird, wird "
+"B<quilt unapplied> aufgerufen, um herauszufinden, ob einige Patches noch "
+"nicht angewandt wurden. Danach wird es den ersten Patch der Serie (oder - "
+"falls vorhandenden - den ersten von B<quilt unapplied> zurückgelieferten "
+"nicht angewandten Patch) anwenden und überprüfen, dass er ohne Fehler "
+"angewandt werden kann. Falls diese Überprüfung gelingt schließt es, dass "
+"die Patches noch nicht angewandt wurden und wendet sie alle an. Die Option "
+"B<--no-preparation> kann zum Abschalten dieses Verhaltens verwandt werden."
 
 # type: TP
 #: ../../man/dpkg-source.1:426 ../../man/dpkg-source.1:461
@@ -10343,6 +10365,8 @@ msgstr "B<Extrahierungs-Optionen>"
 #: ../../man/dpkg-source.1:447
 msgid "Skips extraction of the debian tarball on top of the upstream sources."
 msgstr ""
+"Überspringt das Entpacken des Debian-Tarballs auf die Quellen der "
+"Originalautoren."
 
 # type: TP
 #: ../../man/dpkg-source.1:447
@@ -10481,6 +10505,9 @@ msgid ""
 "the source package (possible formats are described above). No leading or "
 "trailing spaces are allowed."
 msgstr ""
+"Diese Datei enthält auf einer einzelnen Zeile das Format, das zum Bau des "
+"Quellpakets verwandt werden soll (mögliche Formate sind oben beschrieben). "
+"Leerzeichen am Zeilenanfang oder -ende sind nicht erlaubt."
 
 # type: TP
 #: ../../man/dpkg-source.1:493
@@ -10496,6 +10523,10 @@ msgid ""
 "Lines starting with \"#\" are comments and are skipped. Empty lines are "
 "ignored."
 msgstr ""
+"Diese Datei enthält eine Liste von Binärdateien (eine pro Zeile), die in den "
+"Debian-Tarball aufgenommen werden sollen. Leerzeichen am Anfang und Ende der "
+"Zeile werden entfernt. Zeilen, die mit »#« anfangen, sind Kommentare und "
+"werden übersprungen. Leere Zeilen werden ignoriert."
 
 # type: SS
 #: ../../man/dpkg-source.1:497
@@ -10515,6 +10546,15 @@ msgid ""
 "first \"#\" preceded by one or more spaces (which marks the start of a "
 "comment up to the end of line)."
 msgstr ""
+"Diese Datei führt alle Patches auf, die (in der angegebenen Reihenfolge) auf "
+"das Quellpaket der Originalautoren angewandt werden müssen. Leerzeichen am "
+"Anfang und Ende werden entfernt. Zeilen, die mit »#« anfangen, sind "
+"Kommentare und werden übersprungen. Leere Zeilen werden ignoriert. Die "
+"verbleibenen Zeilen beginnen mit dem Dateinamen eines Patches (relativ zum "
+"Verzeichnis B<debian/patches/>) bis zum ersten Leerzeichen oder bis zum "
+"Zeilenende. Bis zum Ende der Zeile oder bis zum ersten »#« gefolgt von einem "
+"oder mehreren Leerzeichen (dies markiert den Beginn eines Kommentars, der bis "
+"zum Zeilenende geht) können optionale Quilt-Befehle folgen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:513
@@ -13878,7 +13918,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/update-alternatives.8:134
-#, fuzzy
 msgid ""
 "When using the I<--config> option, B<update-alternatives> will list all of "
 "the choices for the link group of which given I<name> is the master "
@@ -13890,12 +13929,13 @@ msgid ""
 msgstr ""
 "Wird die I<--config>-Option verwendet, dann zeigt B<update-alternatives> "
 "alle Auswahlmöglichkeiten für die Link-Gruppe an, für die der gegebene "
-"I<Name> der Master-Link ist. Die aktuelle Auswahl ist mit »*« markiert, und "
-"die Auswahl mit der höchsten Priorität mit »+«. Sie werden dann aufgefordert "
-"anzugeben, Ihre Auswahl bezüglich der Linkgruppe anzugeben. Sobald Sie eine "
-"Änderung durchführen, befindet sich die Linkgruppe nicht mehr im "
-"I<automatischen> Modus. Sie müssen dann die I<--auto> Option verwenden, um "
-"wieder in den automatischen Zustand zurückzukehren."
+"I<Name> der Master-Alternative-Name ist. Die aktuelle Auswahl ist mit »*« "
+"markiert. Sie werden dann aufgefordert, Ihre Auswahl bezüglich der Linkgruppe "
+"anzugeben. Abhängig von der getroffenen Auswahl könnte sich die Link-Gruppe "
+"nicht mehr im I<automatischen> Modus befinden. Sie müssen dann die Option "
+"I<--auto> verwenden, um wieder in den automatischen Zustand zurückzukehren "
+"(oder Sie können I<--config> erneut ausführen und den als automatisch "
+"markierten Eintrag auswählen)."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:138
@@ -14125,6 +14165,14 @@ msgid ""
 "alternatives for this group, the symlinks will be updated to point to the "
 "newly added alternatives."
 msgstr ""
+"Falls der angegebene Alternativ-Name bereits in den Aufzeichnungen des "
+"Alternativ-Systems existiert, werden die angegebenen Informationen als neuer "
+"Satz von Alternativen für die Gruppe hinzugefügt. Andernfalls wird eine neue "
+"Gruppe, eingestellt im automatischen Modus, mit dieser Information "
+"hinzugefügt. Falls die Gruppe sich im automatischen Modus befindet und die "
+"Priorität der neu hinzugefügten Alternative höher ist als die jeder anderen "
+"installierten Alternative für diese Gruppe werden die Symlinks aktualisiert, "
+"so dass sie auf die neu hinzugefügte Alternative zeigen."
 
 # type: TP
 #: ../../man/update-alternatives.8:234
@@ -14149,7 +14197,6 @@ msgstr "B<--remove> I<Name Pfad>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:264
-#, fuzzy
 msgid ""
 "Remove an alternative and all of its associated slave links.  I<name> is a "
 "name in the alternatives directory, and I<path> is an absolute filename to "
@@ -14163,11 +14210,12 @@ msgstr ""
 "Entferne eine Alternative und alle zugehörigen Slave-Links. I<Name> ist ein "
 "Name im Alternativ-Verzeichnis, und I<Pfad> ist ein absoluter Dateiname zu "
 "dem I<Name> gelinkt werden könnte. Falls I<Name> tatsächlich nach I<Pfad> "
-"gelinkt ist, dann wird I<Name> aktualisiert um auf eine andere geeignete "
-"Alternative zu zeigen, oder entfernt, falls keine solche Alternative übrig "
-"bleibt. Zugehörige Slave-Links werden entsprechend aktualisiert oder "
-"entfernt. Falls der Link derzeit nicht auf I<Pfad> zeigt, werden keine Links "
-"geändert; nur die Information über die Alternative wird entfernt."
+"gelinkt ist, dann wird I<Name> aktualisiert, um auf eine andere geeignete "
+"Alternative zu zeigen (und die Gruppe wird wieder in den automatischen Modus "
+"versetzt) oder entfernt, falls keine solche Alternative übrig bleibt. "
+"Zugehörige Slave-Links werden entsprechend aktualisiert oder entfernt. Falls "
+"der Link derzeit nicht auf I<Pfad> zeigt, werden keine Links geändert; nur "
+"die Information über die Alternative wird entfernt."
 
 # type: TP
 #: ../../man/update-alternatives.8:264
@@ -14193,6 +14241,12 @@ msgid ""
 "way to fix all broken alternatives is to call B<yes \\[aq]\\[aq] | update-"
 "alternatives --force --all>."
 msgstr ""
+"Ruft B<--config> für alle Alternativen auf. In der Kombination mit B<--"
+"skip-auto> kann dies nützlich sein, um alle Alternativen zu prüfen und zu "
+"konfigurieren, die sich nicht im automatischen Modus befinden. Defekte "
+"Alternativen werden auch angezeigt. Um alle defekten Alternativen zu "
+"reparieren dient daher ein einfacher Aufruf von B<yes \\[aq]\\[aq] | "
+"update-alternatives --force --all>."
 
 # type: TP
 #: ../../man/update-alternatives.8:276
@@ -14202,15 +14256,15 @@ msgstr "B<--auto> I<Name>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:283
-#, fuzzy
 msgid ""
 "Switch the link group behind the alternative name I<link> to automatic "
 "mode.  In the process, the master symlink and its slaves are updated to "
 "point to the highest priority installed alternatives."
 msgstr ""
-"Überführt den Master-Link I<Link> in den automatischen Modus. Bei diesem "
-"Prozess werden dieser Symlink und seine Slave-Links aktualisiert, um auf die "
-"installierte Alternative mit höchster Priorität zu zeigen."
+"Überführt die Linkgruppe hinter der Alternative mit Name I<Link> in den "
+"automatischen Modus. Bei diesem Prozess werden der Master-Symlink und seine "
+"Slave-Links aktualisiert, um auf die installierte Alternative mit höchster "
+"Priorität zu zeigen."
 
 # type: TP
 #: ../../man/update-alternatives.8:283
@@ -14220,7 +14274,6 @@ msgstr "B<--display> I<Name>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:292
-#, fuzzy
 msgid ""
 "Display information about the link group.  Information displayed includes "
 "the group's mode (auto or manual), which alternative the master link "
@@ -14228,12 +14281,11 @@ msgid ""
 "corresponding slave alternatives), and the highest priority alternative "
 "currently installed."
 msgstr ""
-"Zeige Informationen über die Linkgruppe an, von der I<Link> der Master-Link "
-"ist. Die angezeigten Informationen enthalten den Modus der Gruppe "
-"(automatisch oder manuell), auf welche Alternative der Symlink derzeit "
-"zeigt, welche weiteren Alternativen zur Verfügung stehen (und ihre "
-"zugehörigen Slave-Alternativen), und die installierte Alternative mit der "
-"höchsten Priorität."
+"Zeige Informationen über die Linkgruppe an. Die angezeigten Informationen "
+"enthalten den Modus der Gruppe (automatisch oder manuell), auf welche "
+"Alternative der Master-Link derzeit zeigt, welche weiteren Alternativen zur "
+"Verfügung stehen (und ihre zugehörigen Slave-Alternativen), und die "
+"installierte Alternative mit der höchsten Priorität."
 
 # type: TP
 #: ../../man/update-alternatives.8:292
@@ -14251,6 +14303,12 @@ msgid ""
 "current choice in the alternative (beware: it's a filename and thus might "
 "contain spaces)."
 msgstr ""
+"Führe alle Master-Alternativ-Namen (die eine Linkgruppe steuern) mit ihrem "
+"Status auf. Jede Zeile enthält bis zu 3 Felder (getrennt durch mindestens "
+"ein Leerzeichen). Im ersten Feld steht der Alternativ-Name, im zweiten der "
+"Status (entweder »auto« oder »manual«) und im letzten die derzeitige Wahl "
+"der Alternative (Achtung: Dies ist ein Dateiname, der Leerzeichen enthalten "
+"kann)."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:305
@@ -14352,6 +14410,11 @@ msgid ""
 "prompt for alternatives which are properly configured in automatic mode. "
 "This option is only relevant with B<--config> or B<--all>."
 msgstr ""
+"Lässt B<update-alternatives> alle echten Dateien ersetzen, die sich an "
+"Stellen befinden, an denen ein Alternativ-Link installiert werden muss. "
+"B<--skip-auto> überspringt die Konfigurationsabfrage für Alternativen, die "
+"korrekt im automatische Modus konfiguriert sind. Diese Option ist nur mit "
+"B<--config> oder B<--all> relevant."
 
 # type: TP
 #: ../../man/update-alternatives.8:345
@@ -14478,6 +14541,8 @@ msgid ""
 "The path of the best alternative for this link group. Not present if there "
 "is no alternatives available."
 msgstr ""
+"Der Pfad der besten Alternative für diese Linkgruppe. Nicht vorhanden, "
+"falls keine Alternative verfügbar ist."
 
 # type: TP
 #: ../../man/update-alternatives.8:390
@@ -14536,6 +14601,11 @@ msgid ""
 "line. Each line contains one space, the generic name of the slave "
 "alternative, another space, and the path to the slave alternative."
 msgstr ""
+"Wenn diese Kopfzeile vorhanden ist enthält die B<nächste> Zeile alle "
+"Slave-Alternativen, die dem Masterlink dieser Alternativen zugeordnet sind. "
+"Pro Zeile wird ein Slave aufgeführt. Jede Zeile enthält ein Leerzeichen, "
+"den generischen Namen des Slaves, ein weiteres Leerzeichen und den Pfad zu "
+"der Slave-Alternative."
 
 # type: TP
 #: ../../man/update-alternatives.8:410
@@ -14609,7 +14679,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/update-alternatives.8:450
-#, fuzzy
 msgid ""
 "With I<--verbose> B<update-alternatives> chatters incessantly about its "
 "activities on its standard output channel.  If problems occur, B<update-"
@@ -14617,11 +14686,12 @@ msgid ""
 "returns an exit status of 2.  These diagnostics should be self-explanatory; "
 "if you do not find them so, please report this as a bug."
 msgstr ""
-"B<update-alternatives> quatscht ohne Unterlass über seine Aktivitäten auf "
-"seinem Standardausgabekanal. Falls Probleme auftreten, gibt B<update-"
-"alternatives> eine Fehlermeldung auf seinem Standardfehlerkanal aus und "
-"beendet sich mit dem Exit-Status 2. Die Diagnostiken sollten selbsterklärend "
-"sein; falls Sie dies nicht so empfinden, melden Sie dies bitte als Fehler."
+"Mit I<--verbose> quatscht B<update-alternatives> ohne Unterlass über seine "
+"Aktivitäten auf seinem Standardausgabekanal. Falls Probleme auftreten, gibt "
+"B<update-alternatives> eine Fehlermeldung auf seinem Standardfehlerkanal aus "
+"und beendet sich mit dem Exit-Status 2. Die Diagnostiken sollten "
+"selbsterklärend sein; falls Sie dies nicht so empfinden, melden Sie dies "
+"bitte als Fehler."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:456
