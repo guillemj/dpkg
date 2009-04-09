@@ -23,6 +23,7 @@ use Dpkg::Compression;
 use Dpkg::Source::Compressor;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use POSIX;
 
 # Object methods
 sub new {
@@ -35,6 +36,7 @@ sub new {
     $self->{"compressor"} = Dpkg::Source::Compressor->new();
     $self->{"add_comp_ext"} = $args{"add_compression_extension"} ||
 	    $args{"add_comp_ext"} || 0;
+    $self->{"allow_sigpipe"} = 0;
     if (exists $args{"filename"}) {
 	$self->set_filename($args{"filename"});
     }
@@ -126,6 +128,7 @@ sub open_for_read {
     if ($self->use_compression()) {
 	$self->{'compressor'}->uncompress(to_pipe => \$handle,
 		from_file => $self->get_filename());
+        $self->{'allow_sigpipe'} = 1;
     } else {
 	open($handle, '<', $self->get_filename()) ||
 		syserr(_g("cannot read %s"), $self->get_filename());
@@ -135,7 +138,12 @@ sub open_for_read {
 
 sub cleanup_after_open {
     my ($self) = @_;
-    $self->{"compressor"}->wait_end_process();
+    $self->{"compressor"}->wait_end_process(nocheck => $self->{'allow_sigpipe'});
+    if ($self->{'allow_sigpipe'}) {
+        unless (($? == 0) || (WIFSIGNALED($?) && (WTERMSIG($?) == SIGPIPE))) {
+            subprocerr($self->{"compressor"}{"cmdline"});
+        }
+    }
 }
 
 1;
