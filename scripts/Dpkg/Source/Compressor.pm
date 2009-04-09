@@ -122,8 +122,9 @@ sub uncompress {
 }
 
 sub wait_end_process {
-    my ($self) = @_;
-    wait_child($self->{"pid"}, cmdline => $self->{"cmdline"}) if $self->{'pid'};
+    my ($self, %opts) = @_;
+    $opts{"cmdline"} ||= $self->{"cmdline"};
+    wait_child($self->{"pid"}, %opts) if $self->{'pid'};
     delete $self->{"pid"};
     delete $self->{"cmdline"};
 }
