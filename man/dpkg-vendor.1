@@ -1,0 +1,53 @@
+.TH dpkg\-vendor 1 "2009-05-10" "Debian Project" "dpkg suite"
+.SH NAME
+dpkg\-vendor \- queries information about distribution vendors
+.
+.SH SYNOPSIS
+.B dpkg\-vendor
+.RI [ option "...] " command
+.
+.SH DESCRIPTION
+\fBdpkg\-vendor\fP is a tool to query information about vendors listed in
+\fB/etc/dpkg/origins\fP. \fB/etc/dpkg/origins/default\fP contains
+information about the current vendor.
+.
+.SH COMMANDS
+.TP
+.BI \-\-is " vendor"
+Exits with 0 if the current vendor is \fIvendor\fP. Otherwise exits
+with non-zero.
+.TP
+.BI \-\-derives\-from " vendor"
+Exits with 0 if the current vendor distribution is a derivative of
+\fIvendor\fP, otherwise exits with non-zero. It uses the "Parent" field
+to browse all ancestors of the current vendor.
+.TP
+.BI \-\-query " field"
+Print on standard output the value of the vendor-specific \fIfield\fP for
+the current vendor.
+.TP
+.B \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH OPTIONS
+.TP
+.BI \-\-vendor " vendor"
+Assumes the current vendor is \fIvendor\fP instead of discovering it
+with the DEB_VENDOR environment variable or
+\fB/etc/dpkg/origins/default\fP.
+.
+.SH ENVIRONMENT
+.TP
+\fBDEB_VENDOR\fP
+This setting defines the current vendor. If not set, il will discover the
+current vendor by reading \fB/etc/dpkg/origins/default\fP.
+.
+.SH AUTHOR
+Copyright \(co 2009 Rapha\[:e]l Hertzog
+.sp
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO WARRANTY.
+

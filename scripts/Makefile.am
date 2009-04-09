@@ -19,6 +19,7 @@ bin_SCRIPTS = \
 	dpkg-shlibdeps \
 	dpkg-statoverride \
 	dpkg-source \
+	dpkg-vendor \
 	update-alternatives
 
 changelogdir = $(pkglibdir)/parsechangelog
@@ -43,6 +44,7 @@ EXTRA_DIST = \
 	dpkg-source.pl \
 	dpkg-divert.pl \
 	dpkg-statoverride.pl \
+	dpkg-vendor.pl \
 	install-info.pl \
 	update-alternatives.pl \
 	changelog/debian.pl \

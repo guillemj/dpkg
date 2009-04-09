@@ -100,6 +100,7 @@ dist_man_MANS = \
 	dpkg-split.1 \
 	dpkg-statoverride.8 \
 	dpkg-trigger.1 \
+	dpkg-vendor.1 \
 	dpkg.1 \
 	dpkg.cfg.5 \
 	install-info.8 \
