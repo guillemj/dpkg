@@ -93,6 +93,8 @@ fi
 # Check for curses library.
 AC_DEFUN([DPKG_LIB_CURSES],
 [AC_ARG_VAR([CURSES_LIBS], [linker flags for curses library])dnl
+AC_CHECK_HEADERS([ncursesw/ncurses.h ncurses/ncurses.h ncurses.h curses.h \
+                  ncursesw/term.h ncurses/term.h term.h])
 AC_CHECK_LIB([ncursesw], [initscr], [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lncursesw"],
 	[AC_CHECK_LIB([ncurses], [initscr], [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lncurses"],
 		[AC_CHECK_LIB([curses], [initscr], [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lcurses"],

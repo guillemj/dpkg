@@ -43,7 +43,13 @@
 #include <locale.h>
 #endif
 
+#if defined(HAVE_NCURSESW_TERM_H)
 #include <ncursesw/term.h>
+#elif defined(HAVE_NCURSES_TERM_H)
+#include <ncurses/term.h>
+#else
+#include <term.h>
+#endif
 
 #include <dpkg.h>
 #include <dpkg-db.h>

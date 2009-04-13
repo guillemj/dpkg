@@ -15,6 +15,7 @@ bin_PROGRAMS = dselect
 
 dselect_SOURCES = \
 	dselect.h \
+	dselect-curses.h \
 	basecmds.cc \
 	baselist.cc \
 	basetop.cc \
@@ -47,8 +48,9 @@ CLEANFILES = curkeys.h
 
 curkeys.$(OBJEXT): curkeys.h
 curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl
-	cursesfile=`echo '#include <ncursesw/curses.h>' | \
-		$(CPP) - | grep 'curses.h' | head -n 1 | \
+	cursesfile=`echo '#include <dselect-curses.h>' | \
+		$(CPP) -I$(top_srcdir) -I$(srcdir) - | \
+		grep 'curses.h' | head -n 1 | \
 		sed -e 's/^[^"]*"//; s/".*$$//'`; \
 	if [ "$$cursesfile" = "" ]; then \
 		echo "can't find curses file"; exit 1; \
