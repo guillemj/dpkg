@@ -304,6 +304,10 @@ sub parse {
     $options{host_arch} = get_host_arch() if not exists $options{host_arch};
     $options{union} = 0 if not exists $options{union};
 
+    # Strip trailing/leading spaces
+    $dep_line =~ s/^\s+//;
+    $dep_line =~ s/\s+$//;
+
     my @dep_list;
     foreach my $dep_and (split(/\s*,\s*/m, $dep_line)) {
         my @or_list = ();
