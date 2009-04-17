@@ -259,7 +259,7 @@ sub find_original_tarballs {
         next unless defined($dir) and -d $dir;
         opendir(DIR, $dir) || syserr(_g("cannot opendir %s"), $dir);
         push @tar, map { "$dir/$_" }
-                  grep { /^\Q$basename\E\.orig(-\w+)?\.tar\.$ext$/ }
+                  grep { /^\Q$basename\E\.orig(-[\w-]+)?\.tar\.$ext$/ }
                   readdir(DIR);
         closedir(DIR);
     }
