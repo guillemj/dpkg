@@ -45,7 +45,8 @@ sub create {
     $fork_opts{"to_handle"} = $self->open_for_write();
     $fork_opts{"from_pipe"} = \$self->{'tar_input'};
     # Call tar creation process
-    $fork_opts{'exec'} = [ 'tar', '--null', '-T', '-',
+    $fork_opts{'exec'} = [ 'tar', '--null', '-T', '-', '--numeric-owner',
+                           '--owner', '0', '--group', '0',
 			   @{$opts{"options"}}, '-cf', '-' ];
     $self->{"pid"} = fork_and_exec(%fork_opts);
     $self->{"cwd"} = getcwd();
