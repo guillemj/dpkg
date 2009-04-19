@@ -324,7 +324,29 @@ sub do_build {
             }
         }
     };
-    find({ wanted => $check_binary, no_chdir => 1 }, File::Spec->catdir($dir, "debian"));
+    my $tar_ignore_glob = "{" . join(",",
+        map {
+            my $copy = $_;
+            $copy =~ s/,/\\,/g;
+            $copy;
+        } @{$self->{'options'}{'tar_ignore'}}) . "}";
+    my $filter_ignore = sub {
+        # Filter out files that are not going to be included in the debian
+        # tarball due to ignores. Note that the filter logic does not
+        # correspond 100% to the logic of tar --exclude as it doesn't
+        # handle matching files on their full path inside the tarball
+        my %exclude;
+        foreach my $fn (glob($tar_ignore_glob)) {
+            $exclude{$fn} = 1;
+        }
+        my @result;
+        foreach my $fn (@_) {
+            push @result, $fn unless exists $exclude{$fn};
+        }
+        return @result;
+    };
+    find({ wanted => $check_binary, preprocess => $filter_ignore,
+           no_chdir => 1 }, File::Spec->catdir($dir, "debian"));
     error(_g("detected %d unwanted binary file(s) " .
         "(add them in debian/source/include-binaries to allow their " .
         "inclusion)."), $unwanted_binaries) if $unwanted_binaries;
