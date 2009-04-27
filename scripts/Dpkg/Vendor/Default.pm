@@ -78,6 +78,12 @@ The hook is called just before the content of .changes file is output
 by dpkg-genchanges. The first parameter is a Dpkg::Fields::Object
 representing all the fields that are going to be output.
 
+=item keyrings ()
+
+The hook is called when dpkg-source is checking a signature on a source
+package. It takes no parameters, but returns a (possibly empty) list of
+vendor-specific keyrings.
+
 =back
 
 =cut
@@ -88,6 +94,8 @@ sub run_hook {
         my $srcpkg = shift @params;
     } elsif ($hook eq "before-changes-creation") {
         my $fields = shift @params;
+    } elsif ($hook eq "keyrings") {
+        return ();
     }
 }
 

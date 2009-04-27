@@ -30,6 +30,7 @@ use Dpkg::Compression;
 use Dpkg::Exit;
 use Dpkg::Path qw(check_files_are_the_same);
 use Dpkg::IPC;
+use Dpkg::Vendor qw(run_vendor_hook);
 
 use POSIX;
 use File::Basename;
@@ -281,6 +282,11 @@ sub check_signature {
         push @exec, "gpg", "--no-default-keyring", "-q", "--verify";
     }
     if (scalar(@exec)) {
+        foreach my $vendor_keyring (run_vendor_hook('keyrings')) {
+            if (-r $vendor_keyring) {
+                push @exec, "--keyring", $vendor_keyring;
+            }
+        }
         if (-r '/usr/share/keyrings/debian-keyring.gpg') {
             push @exec, "--keyring", "/usr/share/keyrings/debian-keyring.gpg";
         }

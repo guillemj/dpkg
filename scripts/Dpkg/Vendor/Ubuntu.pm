@@ -68,6 +68,9 @@ sub run_hook {
         if (scalar(@{$bugs})) {
             $fields->{"Launchpad-Bugs-Fixed"} = join(" ", @{$bugs});
         }
+
+    } elsif ($hook eq "keyrings") {
+        return '/usr/share/keyrings/ubuntu-archive-keyring.gpg';
     }
 }
 
