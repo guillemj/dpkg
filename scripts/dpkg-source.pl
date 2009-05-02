@@ -195,31 +195,23 @@ if ($options{'opmode'} eq 'build') {
 	foreach $_ (keys %{$pkg}) {
 	    my $v = $pkg->{$_};
             if (m/^Architecture$/) {
-		if (debarch_eq($v, 'any')) {
-                    @sourcearch= ('any');
-		} elsif (debarch_eq($v, 'all')) {
-                    if (!@sourcearch || $sourcearch[0] eq 'all') {
-                        @sourcearch= ('all');
-                    } else {
-                        @sourcearch= ('any');
-                    }
+                # Gather all binary architectures in one set. 'any' and 'all'
+                # are special-cased as they need to be the only ones in the
+                # current stanza if present.
+                if (debarch_eq($v, 'any') || debarch_eq($v, 'all')) {
+                    push(@sourcearch, $v) unless $archadded{$v}++;
                 } else {
-		    if (@sourcearch && grep($sourcearch[0] eq $_, 'any', 'all')) {
-			@sourcearch= ('any');
-		    } else {
-			for my $a (split(/\s+/, $v)) {
-			    error(_g("`%s' is not a legal architecture string"),
-			          $a)
-				unless $a =~ /^[\w-]+$/;
-			    error(_g("architecture %s only allowed on its " .
-			             "own (list for package %s is `%s')"),
-			          $a, $p, $a)
-				if grep($a eq $_, 'any','all');
-                            push(@sourcearch,$a) unless $archadded{$a}++;
-                        }
+                    for my $a (split(/\s+/, $v)) {
+                        error(_g("`%s' is not a legal architecture string"),
+                              $a)
+                            unless $a =~ /^[\w-]+$/;
+                        error(_g("architecture %s only allowed on its " .
+                                 "own (list for package %s is `%s')"),
+                              $a, $p, $a)
+                            if grep($a eq $_, 'any', 'all');
+                        push(@sourcearch, $a) unless $archadded{$a}++;
+                    }
                 }
-                }
-                $fields->{'Architecture'}= join(' ',@sourcearch);
             } elsif (s/^X[BC]*S[BC]*-//i) { # Include XS-* fields
                 $fields->{$_} = $v;
             } elsif (m/^$control_pkg_field_regex$/ ||
@@ -229,6 +221,11 @@ if ($options{'opmode'} eq 'build') {
             }
 	}
     }
+    if (grep($_ eq 'any', @sourcearch)) {
+        # If we encounter one 'any' then the other arches become insignificant.
+        @sourcearch = ('any');
+    }
+    $fields->{'Architecture'} = join(' ', @sourcearch);
 
     # Scan fields of dpkg-parsechangelog
     foreach $_ (keys %{$changelog}) {
