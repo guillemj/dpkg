@@ -53,7 +53,7 @@ my @choices = (
 );
 my $nb_slaves = 2;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 24 # number of check_choices
-		+ 60;			      # rest
+		+ 63;			      # rest
 
 sub cleanup {
     system("rm -rf t.tmp/ua && mkdir -p $admindir && mkdir -p $altdir");
@@ -345,6 +345,9 @@ system("touch $main_link $bindir/slave1");
 install_choice(0);
 ok(!-l $main_link, "install preserves files that should be links");
 ok(!-l "$bindir/slave1", "install preserves files that should be slave links");
+remove_choice(0);
+ok(-f $main_link, "removal keeps real file installed as master link");
+ok(-f "$bindir/slave1", "removal keeps real files installed as slave links");
 install_choice(0, params => ["--force"]);
 check_choice(0, "auto", "install --force replaces files with links");
 

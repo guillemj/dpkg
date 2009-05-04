@@ -1045,13 +1045,13 @@ sub remove {
     my ($self) = @_;
     my ($link, $name) = ($self->link(), $self->name());
     main::checked_rm("$link.dpkg-tmp");
-    main::checked_rm($link);
+    main::checked_rm($link) if -l $link;
     main::checked_rm("$altdir/$name.dpkg-tmp");
     main::checked_rm("$altdir/$name");
     foreach my $slave ($self->slaves()) {
         my $slink = $self->slave_link($slave);
         main::checked_rm("$slink.dpkg-tmp");
-        main::checked_rm($slink);
+        main::checked_rm($slink) if -l $slink;
         main::checked_rm("$altdir/$slave.dpkg-tmp");
         main::checked_rm("$altdir/$slave");
     }
