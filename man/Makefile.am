@@ -25,7 +25,7 @@ update-po:
 			./po4a.cfg 
 
 # Extract the list of languages from the po4a config file.
-LINGUAS = $(shell sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg)
+LINGUAS = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
 
 install-data-local: install-data-local-@USE_NLS@
 
