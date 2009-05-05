@@ -57,6 +57,7 @@ EXTRA_DIST = \
 	debian/shlibs.override
 
 .PHONY: ChangeLog
+DISTCLEANFILES = ChangeLog
 
 ChangeLog:
 	git log -C --stat 1.15.0.. >$@
