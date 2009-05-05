@@ -32,13 +32,16 @@ install-data-local: install-data-local-@USE_NLS@
 install-data-local-no:
 install-data-local-yes:
 	for lang in $(LINGUAS); do \
-		if [ -d $(srcdir)/$$lang ]; then \
-			files=$$(echo $(srcdir)/$$lang/*.[1-9]); \
-			$(MAKE) install-man \
-				mandir="$(mandir)/$$lang" \
-				man_MANS="" \
-				dist_man_MANS="$$files"; \
-		fi \
+		files=""; \
+		for trans in $(dist_man_MANS); do \
+			if [ -f $(srcdir)/$$lang/$$trans ]; then \
+				files="$$files $(srcdir)/$$lang/$$trans"; \
+			fi; \
+		done; \
+		$(MAKE) install-man \
+			mandir="$(mandir)/$$lang" \
+			man_MANS="" \
+			dist_man_MANS="$$files"; \
 	done
 
 uninstall-local: uninstall-local-@USE_NLS@
@@ -46,13 +49,16 @@ uninstall-local: uninstall-local-@USE_NLS@
 uninstall-local-no:
 uninstall-local-yes:
 	for lang in $(LINGUAS); do \
-		if [ -d $(srcdir)/$$lang ]; then \
-			files=$$(echo $(srcdir)/$$lang/*.[1-9]); \
-			$(MAKE) uninstall-man \
-				mandir="$(mandir)/$$lang" \
-				man_MANS="" \
-				dist_man_MANS="$$files"; \
-		fi \
+		files=""; \
+		for trans in $(dist_man_MANS); do \
+			if [ -f $(srcdir)/$$lang/$$trans ]; then \
+				files="$$files $(srcdir)/$$lang/$$trans"; \
+			fi; \
+		done; \
+		$(MAKE) uninstall-man \
+			mandir="$(mandir)/$$lang" \
+			man_MANS="" \
+			dist_man_MANS="$$files"; \
 	done
 
 dist-hook: man.stamp
@@ -96,11 +102,19 @@ dist_man_MANS = \
 	dpkg-trigger.1 \
 	dpkg.1 \
 	dpkg.cfg.5 \
-	dselect.1 \
-	dselect.cfg.5 \
 	install-info.8 \
-	start-stop-daemon.8 \
 	update-alternatives.8
+
+if WITH_DSELECT
+dist_man_MANS += \
+	dselect.1 \
+	dselect.cfg.5
+endif
+
+if WITH_START_STOP_DAEMON
+dist_man_MANS += \
+	start-stop-daemon.8
+endif
 
 EXTRA_DIST = \
 	po/ChangeLog.old \
