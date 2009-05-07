@@ -288,12 +288,6 @@ sub check_signature {
                 push @exec, "--keyring", $vendor_keyring;
             }
         }
-        if (-r '/usr/share/keyrings/debian-keyring.gpg') {
-            push @exec, "--keyring", "/usr/share/keyrings/debian-keyring.gpg";
-        }
-        if (-r '/usr/share/keyrings/debian-maintainers.gpg') {
-            push @exec, "--keyring", "/usr/share/keyrings/debian-maintainers.gpg";
-        }
         push @exec, $dsc;
 
         my ($stdout, $stderr);

@@ -29,9 +29,22 @@ Dpkg::Vendor::Debian - Debian vendor object
 
 =head1 DESCRIPTION
 
-This object is empty. It inherits everything from
-Dpkg::Vendor::Default.
+This vendor object customize the behaviour of dpkg scripts
+for Debian specific actions.
 
 =cut
+
+sub run_hook {
+    my ($self, $hook, @params) = @_;
+
+    if ($hook eq "before-source-build") {
+        my $srcpkg = shift @params;
+    } elsif ($hook eq "before-changes-creation") {
+        my $fields = shift @params;
+    } elsif ($hook eq "keyrings") {
+        return ('/usr/share/keyrings/debian-keyring.gpg',
+                '/usr/share/keyrings/debian-maintainers.gpg');
+    }
+}
 
 1;

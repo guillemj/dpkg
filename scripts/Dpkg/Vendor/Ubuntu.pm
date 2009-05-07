@@ -21,11 +21,10 @@ package Dpkg::Vendor::Ubuntu;
 use strict;
 use warnings;
 
-use Dpkg::Vendor::Default;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-our @ISA = qw(Dpkg::Vendor::Default);
+use base 'Dpkg::Vendor::Debian';
 
 =head1 NAME
 
@@ -70,7 +69,10 @@ sub run_hook {
         }
 
     } elsif ($hook eq "keyrings") {
-        return '/usr/share/keyrings/ubuntu-archive-keyring.gpg';
+        my @keyrings = $self->SUPER::run_hook($hook);
+
+        push(@keyrings, '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
+        return @keyrings;
     }
 }
 
