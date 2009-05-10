@@ -391,6 +391,9 @@ do_help(void)
 "The process scheduler <policy> can be one of:\n"
 "  other, fifo or rr\n"
 "\n"
+"The IO scheduler <class> can be one of:\n"
+"  real-time, best-effort or idle\n"
+"\n"
 "Exit status:  0 = done      1 = nothing done (=> 0 if --oknodo)\n"
 "              3 = trouble   2 = with --retry, processes wouldn't die\n");
 }
