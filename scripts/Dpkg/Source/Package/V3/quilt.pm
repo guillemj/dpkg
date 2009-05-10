@@ -248,13 +248,15 @@ sub register_autopatch {
                 not $self->{'options'}{'without_quilt'})
             {
                 # Registering the new patch with quilt requires some
-                # trickery: reverse-apply the patch, import it, apply it
-                # again with quilt this time
+                # trickery: reverse-apply the patch, create a new quilt patch,
+                # fold the patch into the quilt-managed one
                 my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
                 $patch_obj->apply($dir, add_options => ['-R', '-E']);
-                $self->run_quilt($dir, ['import', "$absdir/debian/patches/$auto_patch"],
+                $self->run_quilt($dir, ['new', "$auto_patch"],
                                  wait_child => 1, to_file => '/dev/null');
-                $self->run_quilt($dir, ['push'], wait_child => 1, to_file => '/dev/null');
+                $self->run_quilt($dir, ['fold'],
+                                 from_file => "$absdir/debian/patches/$auto_patch",
+                                 wait_child => 1, to_file => '/dev/null');
             } else {
                 open(SERIES, ">>", $series) || syserr(_g("cannot write %s"), $series);
                 print SERIES "$auto_patch\n";
@@ -263,6 +265,18 @@ sub register_autopatch {
             open(APPLIED, ">>", $applied) || syserr(_g("cannot write %s"), $applied);
             print APPLIED "$auto_patch\n";
             close(APPLIED);
+        } else {
+            # If quilt was used, ensure its meta-information are
+            # synchronized with the updated patch
+            if (-d "$dir/.pc" and not $self->{'options'}{'without_quilt'}) {
+                # Some trickery needed: reverse-apply the patch, fold the
+                # new patch into the quilt-managed one
+                my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
+                $patch_obj->apply($dir, add_options => ['-R', '-E']);
+                $self->run_quilt($dir, ['fold'],
+                                 from_file => "$absdir/debian/patches/$auto_patch",
+                                 wait_child => 1, to_file => '/dev/null');
+            }
         }
     } else {
         # Remove auto_patch from series
