@@ -352,6 +352,11 @@ unless ($sourceonly) {
 my $pv = "${pkg}_$sversion";
 my $pva = "${pkg}_${sversion}_$arch";
 
+if (not -x "debian/rules") {
+    warning(_g("debian/rules is not executable: fixing that."));
+    chmod(0755, "debian/rules"); # No checks of failures, non fatal
+}
+
 if ($checkbuilddep) {
     if ($admindir) {
 	push @checkbuilddep_args, "--admindir=$admindir";
