@@ -229,7 +229,11 @@ fatal(const char *format, ...)
 	va_start(arglist, format);
 	vfprintf(stderr, format, arglist);
 	va_end(arglist);
-	fprintf(stderr, " (%s)\n", strerror(errno_fatal));
+	if (errno_fatal)
+		fprintf(stderr, " (%s)\n", strerror(errno_fatal));
+	else
+		fprintf(stderr, "\n");
+
 	exit(2);
 }
 
