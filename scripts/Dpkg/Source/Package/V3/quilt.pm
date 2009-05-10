@@ -253,9 +253,6 @@ sub register_autopatch {
                 print SERIES "$auto_patch\n";
                 close(SERIES);
             }
-            open(APPLIED, ">>", $applied) || syserr(_g("cannot write %s"), $applied);
-            print APPLIED "$auto_patch\n";
-            close(APPLIED);
         } else {
             # If quilt was used, ensure its meta-information are
             # synchronized with the updated patch
@@ -284,6 +281,8 @@ sub register_autopatch {
                                  wait_child => 1, to_file => '/dev/null');
             }
         }
+        # Clean up empty series
+        unlink($series) if not -s $series;
     }
 }
 

@@ -360,6 +360,7 @@ sub do_build {
                 syserr(_g("unable to change permission of `%s'"), $autopatch);
     }
     $self->register_autopatch($dir);
+    rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
     pop @Dpkg::Exit::handlers;
 
     # Remove the temporary directory
