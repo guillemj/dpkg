@@ -63,7 +63,7 @@ while (@ARGV) {
     if (m/^--vendor$/) {
         $vendor = shift(@ARGV);
     } elsif (m/^--(is|derives-from|query)$/) {
-        badusage(_g("two commands specified: --%s and --%s"), $1, $action)
+        usageerr(_g("two commands specified: --%s and --%s"), $1, $action)
             if defined($action);
         $action = $1;
         $param = shift(@ARGV);
