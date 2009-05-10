@@ -42,6 +42,7 @@ Create a new Dpkg::Control object for $file. If $file is omitted, it parses
 debian/control. If file is "-", it parses the standard input.
 
 =cut
+
 sub new {
     my ($this, $arg) = @_;
     my $class = ref($this) || $this;
@@ -67,6 +68,7 @@ sub new {
 Resets what got read.
 
 =cut
+
 sub reset {
     my $self = shift;
     $self->{source} = undef;
@@ -78,6 +80,7 @@ sub reset {
 Parse the content of $file. Exits in case of errors.
 
 =cut
+
 sub parse {
     my ($self, $file) = @_;
     open(CDATA, "<", $file) || syserr(_g("cannot read %s"), $file);
@@ -93,6 +96,7 @@ or a description of where the data comes from. It's used in error
 messages.
 
 =cut
+
 sub parse_fh {
     my ($self, $fh, $desc) = @_;
     $self->reset();
@@ -118,6 +122,7 @@ Returns a reference to a hash containing the fields concerning the
 source package. The hash is tied to Dpkg::Fields::Object.
 
 =cut
+
 sub get_source {
     my $self = shift;
     return $self->{source};
@@ -130,6 +135,7 @@ package numbered $idx (starting at 1). The hash is tied to
 Dpkg::Fields::Object.
 
 =cut
+
 sub get_pkg_by_idx {
     my ($self, $idx) = @_;
     return $self->{packages}[--$idx];
@@ -141,6 +147,7 @@ Returns a reference to a hash containing the fields concerning the binary
 package named $name. The hash is tied to Dpkg::Fields::Object.
 
 =cut
+
 sub get_pkg_by_name {
     my ($self, $name) = @_;
     foreach my $pkg (@{$self->{packages}}) {
@@ -155,6 +162,7 @@ sub get_pkg_by_name {
 Returns a list containing the hashes for all binary packages.
 
 =cut
+
 sub get_packages {
     my $self = shift;
     return @{$self->{packages}};
@@ -165,6 +173,7 @@ sub get_packages {
 Dump the content into a filehandle.
 
 =cut
+
 sub dump {
     my ($self, $fh) = @_;
     tied(%{$self->{source}})->dump($fh);

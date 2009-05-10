@@ -52,6 +52,7 @@ Creates the default vendor object. Can be inherited by all vendor objects
 if they don't need any specific initialization at object creation time.
 
 =cut
+
 sub new {
     my ($this) = @_;
     my $class = ref($this) || $this;
@@ -87,6 +88,7 @@ vendor-specific keyrings.
 =back
 
 =cut
+
 sub run_hook {
     my ($self, $hook, @params) = @_;
 
@@ -102,4 +104,5 @@ sub run_hook {
 =back
 
 =cut
+
 1;

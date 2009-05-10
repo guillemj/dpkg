@@ -24,7 +24,7 @@ Dpkg::Changelog
 
 =head1 DESCRIPTION
 
-to be written
+FIXME: to be written
 
 =head2 Functions
 
@@ -722,6 +722,7 @@ as "--<key>". If the value of the corresponding hash entry is defined, then
 it's passed as the parameter that follows.
 
 =cut
+
 sub parse_changelog {
     my (%options) = @_;
     my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
@@ -820,6 +821,8 @@ sub parse_changelog {
 Dpkg::Changelog::Entry - represents one entry in a Debian changelog
 
 =head1 SYNOPSIS
+
+FIXME: to be written
 
 =head1 DESCRIPTION
 

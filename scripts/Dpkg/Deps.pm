@@ -116,6 +116,7 @@ The arguments can also be undef in case there's no explicit architecture
 restriction.
 
 =cut
+
 sub arch_is_superset {
     my ($p, $q) = @_;
     my $p_arch_neg = defined($p) && $p->[0] =~ /^!/;
@@ -186,6 +187,7 @@ dependency. It returns 0 if the "p" dependency implies that "q" is
 not satisfied. It returns undef when there's no implication.
 
 =cut
+
 sub version_implies {
     my ($rel_p, $v_p, $rel_q, $v_q) = @_;
 
@@ -296,6 +298,7 @@ this when parsing non-dependency fields like Conflicts (see
 =back
 
 =cut
+
 sub parse {
     my $dep_line = shift;
     my %options = (@_);
@@ -357,6 +360,7 @@ dumping.
 =back
 
 =cut
+
 sub compare {
     my ($a, $b) = @_;
     return -1 if $a->is_empty();
@@ -785,6 +789,7 @@ Add a new dependency object at the end of the list.
 =back
 
 =cut
+
 use strict;
 use warnings;
 
@@ -1113,6 +1118,7 @@ packages provided (by the set of installed packages).
 Create a new object.
 
 =cut
+
 use strict;
 use warnings;
 
@@ -1131,6 +1137,7 @@ undefined we know that the package is installed but we don't know which
 version it is.
 
 =cut
+
 sub add_installed_package {
     my ($self, $pkg, $ver) = @_;
     $self->{pkg}{$pkg} = $ver;
@@ -1143,6 +1150,7 @@ and $version correspond to the associated relation given in the Provides
 field. This might be used in the future for versioned provides.
 
 =cut
+
 sub add_provided_package {
     my ($self, $pkg, $rel, $ver, $by) = @_;
     if (not exists $self->{virtualpkg}{$pkg}) {
@@ -1161,6 +1169,7 @@ listed as [ $provider, $relation, $version ]).
 =back
 
 =cut
+
 sub check_package {
     my ($self, $pkg) = @_;
     if (exists $self->{pkg}{$pkg}) {

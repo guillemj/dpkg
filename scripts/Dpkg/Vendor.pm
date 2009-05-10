@@ -57,6 +57,7 @@ to the vendor of the currently installed operating system. Returns undef
 if there's no file for the given vendor.
 
 =cut
+
 sub get_vendor_info(;$) {
     my $vendor = shift || "default";
     my $file = get_vendor_file($vendor);
@@ -73,6 +74,7 @@ Check if there's a file for the given vendor and returns its
 name.
 
 =cut
+
 sub get_vendor_file(;$) {
     my $vendor = shift || "default";
     my $file;
@@ -89,6 +91,7 @@ that first, otherwise it falls back to parsing /etc/dpkg/origins/default.
 If that file doesn't exist, it returns undef.
 
 =cut
+
 sub get_current_vendor() {
     my $f;
     if ($ENV{'DEB_VENDOR'}) {
@@ -108,6 +111,7 @@ If no vendor can be identified, then return the Dpkg::Vendor::Default
 object.
 
 =cut
+
 my %OBJECT_CACHE;
 sub get_vendor_object {
     my $vendor = shift || get_current_vendor() || "Default";
@@ -133,9 +137,14 @@ sub get_vendor_object {
 Run a hook implemented by the current vendor object.
 
 =cut
+
 sub run_vendor_hook {
     my $vendor_obj = get_vendor_object();
     $vendor_obj->run_hook(@_);
 }
+
+=back
+
+=cut
 
 1;

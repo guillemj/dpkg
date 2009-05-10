@@ -51,6 +51,7 @@ and ${dpkg:Upstream-Version}.
 Additional substitutions will be read from the $file passed as parameter.
 
 =cut
+
 sub new {
     my ($this, $arg) = @_;
     my $class = ref($this) || $this;
@@ -74,6 +75,7 @@ sub new {
 Add/replace a substitution.
 
 =cut
+
 sub set {
     my ($self, $key, $value) = @_;
     $self->{$key} = $value;
@@ -84,6 +86,7 @@ sub set {
 Get the value of a given substitution.
 
 =cut
+
 sub get {
     my ($self, $key) = @_;
     return $self->{$key};
@@ -94,6 +97,7 @@ sub get {
 Remove a given substitution.
 
 =cut
+
 sub delete {
     my ($self, $key) = @_;
     return delete $self->{$key};
@@ -104,6 +108,7 @@ sub delete {
 Add new substitutions read from $file.
 
 =cut
+
 sub parse {
     my ($self, $varlistfile) = @_;
     $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
@@ -129,6 +134,7 @@ Defines ${binary:Version}, ${source:Version} and
 ${source:Upstream-Version} based on the given version string.
 
 =cut
+
 sub set_version_substvars {
     my ($self, $version) = @_;
 
@@ -159,6 +165,7 @@ sub set_arch_substvars {
 Substitutes variables in $string and return the result in $newstring.
 
 =cut
+
 sub substvars {
     my ($self, $v) = @_;
     my $lhs;

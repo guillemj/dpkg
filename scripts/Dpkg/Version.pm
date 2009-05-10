@@ -202,6 +202,7 @@ an error message if it contains illegal characters, otherwise it returns
 true.
 
 =cut
+
 sub check_version ($;$) {
     my ($version, $die) = @_;
     $version ||= "";

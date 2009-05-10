@@ -36,6 +36,7 @@ This vendor object customize the behaviour of dpkg-source
 to check that Maintainers have been modified if necessary.
 
 =cut
+
 sub run_hook {
     my ($self, $hook, @params) = @_;
 
@@ -87,6 +88,7 @@ which are references to bugs on Launchpad. Returns all closed bug
 numbers in an array reference.
 
 =cut
+
 sub find_launchpad_closes {
     my ($changes) = @_;
     my @closes = ();
@@ -104,4 +106,5 @@ sub find_launchpad_closes {
 =back
 
 =cut
+
 1;

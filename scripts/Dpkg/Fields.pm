@@ -46,6 +46,7 @@ Dpkg::Fields::capit). It also stores the order in which fields have been
 added in order to be able to dump them in the same order.
 
 =cut
+
 use Tie::Hash;
 our @ISA = qw(Tie::ExtraHash Tie::Hash);
 
@@ -66,6 +67,7 @@ Return a reference to a tied hash implementing storage of simple
 "field: value" mapping as used in many Debian-specific files.
 
 =cut
+
 sub new {
     my $hash = {};
     tie %{$hash}, 'Dpkg::Fields::Object';
@@ -138,6 +140,7 @@ following regex: /X[SBC]+-$name/i. Return the name of the field found or
 undef if nothing has been found.
 
 =cut
+
 sub find_custom_field {
     my ($self, $name) = @_;
     foreach my $key (keys %{$self->[0]}) {
@@ -151,6 +154,7 @@ sub find_custom_field {
 Identify a user field and retrieve its value.
 
 =cut
+
 sub get_custom_field {
     my ($self, $name) = @_;
     my $key = $self->find_custom_field($name);
@@ -164,6 +168,7 @@ sub get_custom_field {
 Dump the raw content of the hash either as a string or to a filehandle.
 
 =cut
+
 sub dump {
     my ($self, $fh) = @_;
     my $str = "";
@@ -181,6 +186,7 @@ sub dump {
 Define the order in which fields will be displayed in the output() method.
 
 =cut
+
 sub set_field_importance {
     my ($self, @fields) = @_;
     my $i = 1;
@@ -197,6 +203,7 @@ substitution of variables defined in the Dpkg::Substvars object.
 Also returns the string of what would printed on the filehandle.
 
 =cut
+
 sub output {
     my ($self, $fh, $substvars) = @_;
     my $str = "";

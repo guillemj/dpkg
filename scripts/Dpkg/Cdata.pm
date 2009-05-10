@@ -52,6 +52,7 @@ The return value is a reference to a tied hash (Dpkg::Fields::Object) that
 can be used to access the various fields.
 
 =cut
+
 sub parsecdata {
     my ($input, $file, %options) = @_;
 
@@ -121,4 +122,5 @@ sub parsecdata {
 =back
 
 =cut
+
 1;

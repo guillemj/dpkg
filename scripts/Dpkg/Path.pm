@@ -88,6 +88,7 @@ It can still return undef if a file outside of the debian sub-directory is
 provided.
 
 =cut
+
 sub guess_pkg_root_dir($) {
     my $file = shift;
     my $root = get_pkg_root_dir($file);
@@ -113,6 +114,7 @@ numbers and the inode numbers returned by stat()/lstat() are the same. If
 $resolve_symlink is true then stat() is used, otherwise lstat() is used.
 
 =cut
+
 sub check_files_are_the_same($$;$) {
     my ($file1, $file2, $resolve_symlink) = @_;
     return 0 if ((! -e $file1) || (! -e $file2));
@@ -137,6 +139,7 @@ previous element is not a symlink. Thus it should only be used on real
 filenames.
 
 =cut
+
 sub canonpath($) {
     my $path = shift;
     $path = File::Spec->canonpath($path);
@@ -170,6 +173,7 @@ Return the filename of the file pointed by the symlink. The new name is
 canonicalized by canonpath().
 
 =cut
+
 sub resolve_symlink($) {
     my $symlink = shift;
     my $content = readlink($symlink);
