@@ -223,12 +223,13 @@ static void
 fatal(const char *format, ...)
 {
 	va_list arglist;
+	int errno_fatal = errno;
 
 	fprintf(stderr, "%s: ", progname);
 	va_start(arglist, format);
 	vfprintf(stderr, format, arglist);
 	va_end(arglist);
-	fprintf(stderr, " (%s)\n", strerror (errno));
+	fprintf(stderr, " (%s)\n", strerror(errno_fatal));
 	exit(2);
 }
 
