@@ -3,6 +3,10 @@ dpkg (1.14.27) UNRELEASED; urgency=low
   * Cherry-pick some fixes from squeeze concerning new source formats:
     - dpkg-source now accepts additional tarballs (in format "3.0 (quilt)")
       with a "component" name containing dashes. Closes: #524376
+    - ensure that the automatic patch created in format "3.0 (quilt)" is
+      always well registered with quilt even when it's updated by a new call
+      to dpkg-source. Thanks to Goswin von Brederlow for the initial patch.
+      Closes: #525858
 
  -- Raphael Hertzog <hertzog@debian.org>  Thu, 09 Apr 2009 20:32:31 +0200
 
