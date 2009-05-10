@@ -179,6 +179,8 @@ sub get_patches {
 
 sub apply_patches {
     my ($self, $dir, $skip_auto) = @_;
+    my @patches = $self->get_patches($dir, $skip_auto);
+    return unless scalar(@patches);
     my $timestamp = time();
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);

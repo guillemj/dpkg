@@ -137,6 +137,8 @@ sub apply_patches {
                 syserr(_g("can't create symlink %s"), $dest);
         }
     }
+    my @patches = $self->get_patches($dir, $skip_auto);
+    return unless scalar(@patches);
 
     # Apply patches
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
@@ -144,7 +146,6 @@ sub apply_patches {
     my $now = time();
     my $pobj = {};
     my $panalysis = {};
-    my @patches = $self->get_patches($dir, $skip_auto);
     foreach my $patch (@patches) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
         $pobj->{$patch} = Dpkg::Source::Patch->new(filename => $path);
