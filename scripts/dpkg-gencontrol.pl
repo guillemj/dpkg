@@ -126,6 +126,7 @@ my %options = (file => $changelogfile);
 $options{"changelogformat"} = $changelogformat if $changelogformat;
 my $changelog = parse_changelog(%options);
 $substvars->set_version_substvars($changelog->{"Version"});
+$substvars->set_arch_substvars();
 $substvars->parse($varlistfile) if -e $varlistfile;
 $substvars->set("binary:Version", $forceversion) if defined $forceversion;
 my $control = Dpkg::Control->new($controlfile);

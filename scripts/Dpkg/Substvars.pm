@@ -45,8 +45,8 @@ strings.
 =item my $s = Dpkg::Substvars->new($file)
 
 Create a new object that can do substitutions. By default it contains
-generic substitutions like ${Newline}, ${Space}, ${Tab}, ${dpkg:Version},
-${dpkg:Upstream-Version} and ${Arch}.
+generic substitutions like ${Newline}, ${Space}, ${Tab}, ${dpkg:Version}
+and ${dpkg:Upstream-Version}.
 
 Additional substitutions will be read from the $file passed as parameter.
 
@@ -60,7 +60,6 @@ sub new {
 	"Tab" => "\t",
 	"dpkg:Version" => $version,
 	"dpkg:Upstream-Version" => $version,
-	"Arch" => get_host_arch(),
     };
     $self->{'dpkg:Upstream-Version'} =~ s/-[^-]+$//;
     bless $self, $class;
@@ -141,6 +140,18 @@ sub set_version_substvars {
 
     # XXX: Source-Version is now deprecated, remove in the future.
     $self->{'Source-Version'} = $version;
+}
+
+=item $s->set_arch_substvars()
+
+Defines architecture variables: ${Arch}.
+
+=cut
+
+sub set_arch_substvars {
+    my ($self) = @_;
+
+    $self->{'Arch'} = get_host_arch();
 }
 
 =item $newstring = $s->substvars($string)

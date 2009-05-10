@@ -206,6 +206,7 @@ $bad_parser = 1 if ($@);
 my $control = Dpkg::Control->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
 $substvars->set_version_substvars($changelog->{"Version"});
+$substvars->set_arch_substvars();
 $substvars->parse($varlistfile) if -e $varlistfile;
 
 if (defined($prev_changelog) and
