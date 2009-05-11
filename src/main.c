@@ -423,7 +423,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "assert-long-filenames",           0,  act_assertlongfilenames,  assertlongfilenames ),
   ACTION( "assert-multi-conrep",             0,  act_assertmulticonrep,    assertmulticonrep ),
   ACTION( "print-architecture",              0,  act_printarch,            printarch   ),
-  ACTION( "print-installation-architecture", 0,  act_printinstarch,        printarch   ),
+  ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch  ),
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
 /*

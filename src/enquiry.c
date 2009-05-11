@@ -387,6 +387,14 @@ void printarch(const char *const *argv) {
   if (fflush(stdout)) werr("stdout");
 }
 
+void
+printinstarch(const char *const *argv)
+{
+  warning(_("obsolete option '--%s', please use '--%s' instead."),
+          "print-installation-architecture", "print-architecture");
+  printarch(argv);
+}
+
 void cmpversions(const char *const *argv) {
   struct relationinfo {
     const char *string;
