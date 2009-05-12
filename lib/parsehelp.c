@@ -92,16 +92,10 @@ const struct namevalue priorityinfos[]= {  /* Note !  These must be in order ! *
   { "required",                       pri_required,     8 },
   { "important",                      pri_important,    9 },
   { "standard",                       pri_standard,     8 },
-  /* XXX: obsolete. */
-  { "recommended",                    pri_recommended,  11 },
   { "optional",                       pri_optional,     8 },
   { "extra",                          pri_extra,        5 },
-  /* XXX: keep? */
-  { "contrib",                        pri_contrib,      7 },
   { "this is a bug - please report",  pri_other,        28 },
   { "unknown",                        pri_unknown,      7 },
-  /* XXX: alias, remove. */
-  { "base",                           pri_required,     4 },
   {  NULL                                                 }
 };
 

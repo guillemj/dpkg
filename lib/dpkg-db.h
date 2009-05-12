@@ -164,8 +164,11 @@ struct pkginfo { /* pig */
     stat_installed
   } status;
   enum pkgpriority {
-    pri_required, pri_important, pri_standard, pri_recommended,
-    pri_optional, pri_extra, pri_contrib,
+    pri_required,
+    pri_important,
+    pri_standard,
+    pri_optional,
+    pri_extra,
     pri_other, pri_unknown, pri_unset=-1
   } priority;
   const char *otherpriority;
