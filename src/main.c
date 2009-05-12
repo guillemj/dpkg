@@ -447,8 +447,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-also-select",    'N', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "skip-same-version", 'E', 0, &f_skipsame,   NULL,      NULL,    1 },
   { "auto-deconfigure",  'B', 0, &f_autodeconf, NULL,      NULL,    1 },
-  OBSOLETE( "largemem", 0 ),
-  OBSOLETE( "smallmem", 0 ),
   { "root",              0,   1, NULL,          NULL,      setroot,       0 },
   { "abort-after",       0,   1, &errabort,     NULL,      setinteger,    0 },
   { "admindir",          0,   1, NULL,          &admindir, NULL,          0 },

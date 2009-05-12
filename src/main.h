@@ -86,7 +86,7 @@ extern const char *const statusstrings[];
 
 extern const struct cmdinfo *cipaction;
 extern int f_pending, f_recursive, f_alsoselect, f_skipsame, f_noact;
-extern int f_autodeconf, f_largemem, f_nodebsig;
+extern int f_autodeconf, f_nodebsig;
 extern int f_triggers;
 extern unsigned long f_debug;
 extern int fc_downgrade, fc_configureany, fc_hold, fc_removereinstreq, fc_overwrite;
