@@ -203,8 +203,6 @@ static const struct forceinfo {
   { "overwrite-dir",       &fc_overwritedir             },
   { "architecture",        &fc_architecture             },
   { "bad-verify",          &fc_badverify                },
-  /* FIXME: obsolete options, remove in the future. */
-  { "auto-select",         NULL                         },
   {  NULL                                               }
 };
 
