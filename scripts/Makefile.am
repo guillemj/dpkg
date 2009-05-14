@@ -3,7 +3,6 @@
 SUBDIRS = po
 
 bin_SCRIPTS = \
-	822-date \
 	dpkg-architecture \
 	dpkg-buildpackage \
 	dpkg-checkbuilddeps \
@@ -28,7 +27,6 @@ changelog_SCRIPTS = \
 
 EXTRA_DIST = \
 	README.alternatives \
-	822-date.pl \
 	dpkg-architecture.pl \
 	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
