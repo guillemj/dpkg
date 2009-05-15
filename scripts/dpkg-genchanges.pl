@@ -133,18 +133,18 @@ Options:
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
-	is_sourceonly && usageerr(_g("cannot combine %s and -S"), $_);
+	is_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = BIN;
     } elsif (m/^-B$/) {
-	is_sourceonly && usageerr(_g("cannot combine %s and -S"), $_);
+	is_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = ARCH_DEP;
 	printf STDERR _g("%s: arch-specific upload - not including arch-independent packages")."\n", $progname;
     } elsif (m/^-A$/) {
-	is_sourceonly && usageerr(_g("cannot combine %s and -S"), $_);
+	is_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = ARCH_INDEP;
 	printf STDERR _g("%s: arch-indep upload - not including arch-specific packages")."\n", $progname;
     } elsif (m/^-S$/) {
-	is_binaryonly && usageerr(_g("cannot combine %s and -S"), binary_opt);
+	is_binaryonly && usageerr(_g("cannot combine %s and %s"), binary_opt, "-S");
 	$include = SOURCE;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
