@@ -163,12 +163,6 @@ while (@ARGV) {
         $call_target_as_root = 1;
     } elsif (/^-nc$/) {
 	$noclean = 1;
-	if ($sourceonly) {
-	    usageerr(_g("cannot combine %s and %s"), '-nc', '-S');
-	}
-	unless ($binaryonly) {
-	    $binaryonly = '-b';
-	}
     } elsif (/^-b$/) {
 	$binaryonly = '-b';
 	@checkbuilddep_args = ();
@@ -215,6 +209,11 @@ while (@ARGV) {
     } else {
 	usageerr(_g("unknown option or argument %s"), $_);
     }
+}
+
+if ($noclean) {
+    # -nc without -b/-B/-A/-S implies -b
+    $binaryonly = '-b' unless ($binaryonly or $sourceonly);
 }
 
 if ($< == 0) {
@@ -390,6 +389,9 @@ unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
 unless ($binaryonly) {
+    warning(_g("it is a bad idea to generate a source package " .
+               "without cleaning up first, it might contain undesired " .
+               "files.")) if $noclean;
     chdir('..') or syserr('chdir ..');
     my @opts = @passopts;
     if ($diffignore) { push @opts, $diffignore }
