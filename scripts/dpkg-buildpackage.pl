@@ -167,29 +167,17 @@ while (@ARGV) {
 	$binaryonly = '-b';
 	@checkbuilddep_args = ();
 	$binarytarget = 'binary';
-	if ($sourceonly) {
-	    usageerr(_g("cannot combine %s and %s"), '-b', '-S');
-	}
     } elsif (/^-B$/) {
 	$binaryonly = '-B';
 	@checkbuilddep_args = ('-B');
 	$binarytarget = 'binary-arch';
-	if ($sourceonly) {
-	    usageerr(_g("cannot combine %s and %s"), '-B', '-S');
-	}
     } elsif (/^-A$/) {
 	$binaryonly = '-A';
 	@checkbuilddep_args = ();
 	$binarytarget = 'binary-indep';
-	if ($sourceonly) {
-	    usageerr(_g("cannot combine %s and %s"), '-A', '-S');
-	}
     } elsif (/^-S$/) {
 	$sourceonly = '-S';
 	@checkbuilddep_args = ('-B');
-	if ($binaryonly) {
-	    usageerr(_g("cannot combine %s and %s"), $binaryonly, '-S');
-	}
     } elsif (/^-v(.*)$/) {
 	$since = $1;
     } elsif (/^-m(.*)$/) {
@@ -211,6 +199,9 @@ while (@ARGV) {
     }
 }
 
+if ($binaryonly and $sourceonly) {
+    usageerr(_g("cannot combine %s and %s"), $binaryonly, $sourceonly);
+}
 if ($noclean) {
     # -nc without -b/-B/-A/-S implies -b
     $binaryonly = '-b' unless ($binaryonly or $sourceonly);
