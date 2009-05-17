@@ -5,6 +5,7 @@ use warnings;
 
 use Cwd;
 use File::Basename;
+use POSIX;
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -344,7 +345,10 @@ if ($checkbuilddep) {
 	push @checkbuilddep_args, "--admindir=$admindir";
     }
 
-    if (system('dpkg-checkbuilddeps', @checkbuilddep_args)) {
+    system('dpkg-checkbuilddeps', @checkbuilddep_args);
+    if (not WIFEXITED($?)) {
+        subprocerr('dpkg-checkbuilddeps');
+    } elsif (WEXITSTATUS($?)) {
 	warning(_g("Build dependencies/conflicts unsatisfied; aborting."));
 	warning(_g("(Use -d flag to override.)"));
 
