@@ -14,7 +14,6 @@ use Dpkg::Compression;
 use Dpkg::Version qw(check_version);
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Arch qw(get_build_arch debarch_to_gnutriplet);
-use Dpkg::Vendor qw(get_current_vendor);
 
 textdomain("dpkg-dev");
 
@@ -319,13 +318,6 @@ if ($targetgnusystem and
 {
    $ENV{PKG_CONFIG_LIBDIR} ||= "/usr/$targetgnusystem/lib/pkgconfig/:" .
                                "/usr/share/pkgconfig/";
-}
-
-my $vendor = get_current_vendor();
-if (defined $vendor) {
-    $ENV{'DEB_VENDOR'} = $vendor;
-} else {
-    delete $ENV{'DEB_VENDOR'};
 }
 
 my $arch;
