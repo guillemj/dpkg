@@ -225,23 +225,25 @@ sub data {
 sub __sanity_check_range {
     my ( $data, $from, $to, $since, $until, $start, $end ) = @_;
 
-    if (($$start || $$end) && ($$from || $$since || $$to || $$until)) {
+    if (($$start || $$end) &&
+        (length($$from) || length($$since) || length($$to) || length($$until)))
+    {
 	warning(_g( "you can't combine 'count' or 'offset' with any other range option" ));
 	$$from = $$since = $$to = $$until = '';
     }
-    if ($$from && $$since) {
+    if (length($$from) && length($$since)) {
 	warning(_g( "you can only specify one of 'from' and 'since', using 'since'" ));
 	$$from = '';
     }
-    if ($$to && $$until) {
+    if (length($$to) && length($$until)) {
 	warning(_g( "you can only specify one of 'to' and 'until', using 'until'" ));
 	$$to = '';
     }
-    if ($$since && ($data->[0]{Version} eq $$since)) {
+    if (length($$since) && ($data->[0]{Version} eq $$since)) {
 	warning(_g( "'since' option specifies most recent version, ignoring" ));
 	$$since = '';
     }
-    if ($$until && ($data->[$#{$data}]{Version} eq $$until)) {
+    if (length($$until) && ($data->[$#{$data}]{Version} eq $$until)) {
 	warning(_g( "'until' option specifies oldest version, ignoring" ));
 	$$until = '';
     }
@@ -261,12 +263,13 @@ sub _data_range {
 
     return [ @$data ] if $config->{all};
 
-    my $since = $config->{since} || '';
-    my $until = $config->{until} || '';
-    my $from = $config->{from} || '';
-    my $to = $config->{to} || '';
-    my $count = $config->{count} || 0;
-    my $offset = $config->{offset} || 0;
+    my ($since, $until, $from, $to, $count, $offset) = ('', '', '', '', 0, 0);
+    $since = $config->{since} if defined($config->{since});
+    $until = $config->{until} if defined($config->{until});
+    $from = $config->{from} if defined($config->{from});
+    $to = $config->{to} if defined($config->{to});
+    $count = $config->{count} if defined($config->{count});
+    $offset = $config->{offset} if defined($config->{offset});
 
     return if $offset and not $count;
     if ($offset > 0) {
@@ -285,7 +288,9 @@ sub _data_range {
 					\$start, \$end );
 
 
-    unless ($from or $to or $since or $until or $start or $end) {
+    unless (length($from) or length($to) or length($since) or length($until)
+            or $start or $end)
+    {
 	return [ @$data ] if $config->{default_all} and not $count;
 	return [ $data->[0] ];
     }
@@ -295,7 +300,7 @@ sub _data_range {
     my @result;
 
     my $include = 1;
-    $include = 0 if $to or $until;
+    $include = 0 if length($to) or length($until);
     foreach (@$data) {
 	my $v = $_->{Version};
 	$include = 1 if $v eq $to;
@@ -321,12 +326,13 @@ sub _abort_early {
 
     return if $config->{all};
 
-    my $since = $config->{since} || '';
-    my $until = $config->{until} || '';
-    my $from = $config->{from} || '';
-    my $to = $config->{to} || '';
-    my $count = $config->{count} || 0;
-    my $offset = $config->{offset} || 0;
+    my ($since, $until, $from, $to, $count, $offset) = ('', '', '', '', 0, 0);
+    $since = $config->{since} if defined($config->{since});
+    $until = $config->{until} if defined($config->{until});
+    $from = $config->{from} if defined($config->{from});
+    $to = $config->{to} if defined($config->{to});
+    $count = $config->{count} if defined($config->{count});
+    $offset = $config->{offset} if defined($config->{offset});
 
     return if $offset and not $count;
     return if $offset < 0 or $count < 0;
@@ -336,7 +342,9 @@ sub _abort_early {
     my $start = my $end = $offset;
     $end += $count-1 if $count > 0;
 
-    unless ($from or $to or $since or $until or $start or $end) {
+    unless (length($from) or length($to) or length($since) or length($until)
+            or $start or $end)
+    {
 	return if not $count;
 	return 1 if @$data;
     }
@@ -344,7 +352,7 @@ sub _abort_early {
     return 1 if ($start or $end)
 	and $start < @$data and $end < @$data;
 
-    return unless $since or $from;
+    return unless length($since) or length($from);
     foreach (@$data) {
 	my $v = $_->{Version};
 

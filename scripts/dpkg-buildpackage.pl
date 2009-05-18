@@ -410,10 +410,10 @@ if ($binaryonly) { push @change_opts, $binaryonly }
 if ($sourceonly) { push @change_opts, $sourceonly }
 if ($sourcestyle) { push @change_opts, $sourcestyle }
 
-if ($maint) { push @change_opts, "-m$maint" }
-if ($changedby) { push @change_opts, "-e$changedby" }
-if ($since) { push @change_opts, "-v$since" }
-if ($desc) { push @change_opts, "-C$desc" }
+if (defined($maint)) { push @change_opts, "-m$maint" }
+if (defined($changedby)) { push @change_opts, "-e$changedby" }
+if (defined($since)) { push @change_opts, "-v$since" }
+if (defined($desc)) { push @change_opts, "-C$desc" }
 
 my $chg = "../$pva.changes";
 print STDERR " dpkg-genchanges @change_opts >$chg\n";

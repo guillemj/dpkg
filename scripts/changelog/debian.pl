@@ -103,8 +103,10 @@ my $changes = Dpkg::Changelog::Debian->init();
 
 $file ||= $default_file;
 $label ||= $file;
-unless ($since or $until or $from or $to or
-	$offset or $count or $all) {
+unless (defined($since) or defined($until) or defined($from) or
+        defined($to) or defined($offset) or defined($count) or
+        defined($all))
+{
     $count = 1;
 }
 my @all = $all ? ( all => $all ) : ();

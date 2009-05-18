@@ -191,7 +191,7 @@ while (@ARGV) {
 # Retrieve info from the current changelog entry
 my %options = (file => $changelogfile);
 $options{"changelogformat"} = $changelogformat if $changelogformat;
-$options{"since"} = $since if $since;
+$options{"since"} = $since if defined($since);
 my $changelog = parse_changelog(%options);
 # Change options to retrieve info of the former changelog entry
 delete $options{"since"};
