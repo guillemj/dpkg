@@ -2,6 +2,7 @@
 # Dpkg::Changelog
 #
 # Copyright © 2005, 2007 Frank Lichtenheld <frank@lichtenheld.de>
+# Copyright © 2009       Raphaël Hertzog <hertzog@debian.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -42,6 +43,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
 use Dpkg::Cdata;
 use Dpkg::Fields;
+use Dpkg::Version qw(compare_versions);
 
 use base qw(Exporter);
 
@@ -239,6 +241,71 @@ sub __sanity_check_range {
 	warning(_g( "you can only specify one of 'to' and 'until', using 'until'" ));
 	$$to = '';
     }
+    $$start = 0 if $$start < 0;
+    return if $$start > $#$data;
+    $$end = $#$data if $$end > $#$data;
+    return if $$end < 0;
+    $$end = $$start if $$end < $$start;
+
+    # Handle non-existing versions
+    my (%versions, @versions);
+    foreach my $entry (@{$data}) {
+        $versions{$entry->{Version}} = 1;
+        push @versions, $entry->{Version};
+    }
+    if ((length($$since) and not exists $versions{$$since})) {
+        warning(_g("'%s' option specifies non-existing version"), "since");
+        warning(_g("use newest entry that is smaller than the one specified"));
+        foreach my $v (@versions) {
+            if (compare_versions($v, "<<", $$since)) {
+                $$since = $v;
+                last;
+            }
+        }
+        $$since = '' if not exists $versions{$$since}; # No version was smaller
+    }
+    if ((length($$from) and not exists $versions{$$from})) {
+        warning(_g("'%s' option specifies non-existing version"), "from");
+        warning(_g("use oldest entry that is bigger than the one specified"));
+        my $oldest;
+        foreach my $v (@versions) {
+            if (compare_versions($v, ">>", $$from)) {
+                $oldest = $v;
+            }
+        }
+        if (defined($oldest)) {
+            $$from = $oldest;
+        } else {
+            $$from = ''; # No version was bigger
+        }
+    }
+    if ((length($$until) and not exists $versions{$$until})) {
+        warning(_g("'%s' option specifies non-existing version"), "until");
+        warning(_g("use oldest entry that is bigger than the one specified"));
+        my $oldest;
+        foreach my $v (@versions) {
+            if (compare_versions($v, ">>", $$until)) {
+                $oldest = $v;
+            }
+        }
+        if (defined($oldest)) {
+            $$until = $oldest;
+        } else {
+            $$until = ''; # No version was bigger
+        }
+    }
+    if ((length($$to) and not exists $versions{$$to})) {
+        warning(_g("'%s' option specifies non-existing version"), "to");
+        warning(_g("use newest entry that is smaller than the one specified"));
+        foreach my $v (@versions) {
+            if (compare_versions($v, "<<", $$to)) {
+                $$to = $v;
+                last;
+            }
+        }
+        $$to = '' if not exists $versions{$$to}; # No version was smaller
+    }
+
     if (length($$since) && ($data->[0]{Version} eq $$since)) {
 	warning(_g( "'since' option specifies most recent version, ignoring" ));
 	$$since = '';
@@ -247,12 +314,6 @@ sub __sanity_check_range {
 	warning(_g( "'until' option specifies oldest version, ignoring" ));
 	$$until = '';
     }
-    $$start = 0 if $$start < 0;
-    return if $$start > $#$data;
-    $$end = $#$data if $$end > $#$data;
-    return if $$end < 0;
-    $$end = $$start if $$end < $$start;
-    #TODO: compare versions
     return 1;
 }
 
@@ -312,7 +373,8 @@ sub _data_range {
 	last if $v eq $from;
     }
 
-    return \@result;
+    return \@result if scalar(@result);
+    return undef;
 }
 
 sub _abort_early {
@@ -872,6 +934,7 @@ Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>
 =head1 COPYRIGHT AND LICENSE
 
 Copyright E<copy> 2005, 2007 by Frank Lichtenheld
+Copyright E<copy> 2009 by Raphael Hertzog
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
