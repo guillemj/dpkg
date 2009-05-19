@@ -103,10 +103,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $options{'require_valid_signature'} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvars->set($1, $POSTMATCH);
-        warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-T/) {
         $varlistfile = $POSTMATCH;
-        warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-(h|-help)$/) {
         usage();
         exit(0);
