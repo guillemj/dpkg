@@ -252,7 +252,7 @@ my @missingover=();
 
 my $records_written = 0;
 for my $p (sort keys %packages) {
-    if (not defined($overridden{$p})) {
+    if (defined($override) and not defined($overridden{$p})) {
         push(@missingover,$p);
     }
     for my $package (@{$packages{$p}}) {
