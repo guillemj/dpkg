@@ -38,7 +38,7 @@ use Getopt::Long qw(:config bundling);
 my %options = (help            => sub { usage(); exit 0; },
 	       version         => \&version,
 	       type            => undef,
-	       udeb            => 0,
+	       udeb            => \&set_type_udeb,
 	       arch            => undef,
 	       multiversion    => 0,
 	      );
@@ -64,6 +64,12 @@ Options:
   -h, --help               show this help message.
       --version            show the version.
 "), $progname;
+}
+
+sub set_type_udeb()
+{
+    warning(_g("-u, --udeb option is deprecated (see README.feature-removal-schedule)"));
+    $options{type} = 'udeb';
 }
 
 sub load_override
@@ -115,8 +121,7 @@ if (not @ARGV >= 1 && @ARGV <= 3) {
     usageerr(_g("1 to 3 args expected"));
 }
 
-my $type = defined($options{type}) ? $options{type} :
-				     $options{udeb} ? 'udeb' : 'deb';
+my $type = defined($options{type}) ? $options{type} : 'deb';
 my $arch = $options{arch};
 
 my @find_args;
