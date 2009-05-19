@@ -61,7 +61,7 @@ progress_step(struct progress *progress)
 
 	progress->last_percent = cur_percent;
 
-	printf("\r%s%3d%%", progress->text, cur_percent);
+	printf("\r%s%d%%", progress->text, cur_percent);
 }
 
 void
