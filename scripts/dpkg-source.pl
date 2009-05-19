@@ -372,7 +372,7 @@ Build options:
   -l<changelogfile>        get per-version info from this file.
   -F<changelogformat>      force change log format.
   -V<name>=<value>         set a substitution variable.
-  -T<varlistfile>          read variables here, not debian/substvars.
+  -T<varlistfile>          read variables here.
   -D<field>=<value>        override or add a .dsc field and value.
   -U<field>                remove a field.
   -q                       quiet mode.
