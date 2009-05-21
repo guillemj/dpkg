@@ -70,8 +70,14 @@ static const char *arbitrary_fields[] = {
   NULL
 };
 
+static const char *private_prefix = "Private-";
+
 static int known_arbitrary_field(const struct arbitraryfield *field) {
   const char **known;
+
+  /* Always accept fields starting with a private field prefix. */
+  if (strncasecmp(field->name, private_prefix, strlen(private_prefix)) == 0)
+    return 1;
 
   for (known= arbitrary_fields; *known; known++)
     if (strcasecmp(field->name, *known) == 0)
