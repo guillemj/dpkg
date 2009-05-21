@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg git\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-10 16:03+0200\n"
+"POT-Creation-Date: 2009-05-21 06:30+0200\n"
 "PO-Revision-Date: 2009-02-03 00:39+0200\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
@@ -116,7 +116,7 @@ msgstr "updates ディレクトリ `%.255s' を走査できません"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "統合した更新用ファイル %.255s の削除に失敗しました"
 
-#: lib/dbmodify.c:115 dpkg-deb/build.c:352
+#: lib/dbmodify.c:115 dpkg-deb/build.c:358
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "`%.255s' を作成できません"
@@ -818,45 +818,45 @@ msgstr "中止しています"
 msgid "failed to write parsing warning"
 msgstr "解析警告の書き込みに失敗しました"
 
-#: lib/parsehelp.c:147
+#: lib/parsehelp.c:141
 msgid "may not be empty string"
 msgstr "空の文字ではいけません"
 
-#: lib/parsehelp.c:148
+#: lib/parsehelp.c:142
 msgid "must start with an alphanumeric"
 msgstr "英数字で始まらなければなりません"
 
-#: lib/parsehelp.c:157
+#: lib/parsehelp.c:151
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "文字 `%c' は許可されていません (文字、数値と '%s' のみ使用可能です)"
 
-#: lib/parsehelp.c:212
+#: lib/parsehelp.c:206
 msgid "<none>"
 msgstr "<なし>"
 
-#: lib/parsehelp.c:227
+#: lib/parsehelp.c:221
 msgid "version string is empty"
 msgstr "バージョン文字が空です"
 
-#: lib/parsehelp.c:238
+#: lib/parsehelp.c:232
 msgid "version string has embedded spaces"
 msgstr "バージョン文字列にスペースが埋め込まれています"
 
-#: lib/parsehelp.c:243
+#: lib/parsehelp.c:237
 msgid "epoch in version is not number"
 msgstr "バージョン中の epoch が数値ではありません"
 
-#: lib/parsehelp.c:244
+#: lib/parsehelp.c:238
 msgid "nothing after colon in version number"
 msgstr "バージョン番号のコロンの後に何もありません"
 
-#: lib/parsehelp.c:264 lib/parsehelp.c:278
+#: lib/parsehelp.c:258 lib/parsehelp.c:272
 #, c-format
 msgid "missing %s"
 msgstr "%s が見つかりません"
 
-#: lib/parsehelp.c:266 lib/parsehelp.c:281
+#: lib/parsehelp.c:260 lib/parsehelp.c:275
 #, c-format
 msgid "empty value for %s"
 msgstr "%s の空の値"
@@ -2125,18 +2125,23 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "(%2$.250s が要求する) %1$.250s の先行依存 (pre-dependencies) を解決できません"
 
-#: src/enquiry.c:426
+#: src/enquiry.c:393
+#, fuzzy, c-format
+msgid "obsolete option '--%s', please use '--%s' instead."
+msgstr "警告: 時代遅れのオプション `--%s'\n"
+
+#: src/enquiry.c:434
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "--compare-versions は 3 つの引数 (<バージョン> <関係> <バージョン>) をとりま"
 "す"
 
-#: src/enquiry.c:431
+#: src/enquiry.c:439
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions の不正な比較"
 
-#: src/enquiry.c:436 src/enquiry.c:447
+#: src/enquiry.c:444 src/enquiry.c:455
 #, c-format
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "dpkg: バージョン '%s' は不正な構文です: %s\n"
@@ -2414,8 +2419,8 @@ msgstr ""
 msgid "failed to chroot to `%.250s'"
 msgstr "`%.255s' への chroot に失敗しました"
 
-#: src/help.c:159 dpkg-deb/build.c:360 dpkg-deb/build.c:434
-#: dpkg-deb/build.c:455
+#: src/help.c:159 dpkg-deb/build.c:366 dpkg-deb/build.c:440
+#: dpkg-deb/build.c:461
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "`%.255s' ディレクトリへの移動に失敗しました"
@@ -2729,17 +2734,17 @@ msgstr ""
 "[*] のある物は大量の情報が出力されます。パイプを使い `less' や `more' で見て"
 "ください!"
 
-#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:211 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:162
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "アクション -%c (--%s) と -%c (--%s) が競合します"
 
-#: src/main.c:219
+#: src/main.c:217
 #, fuzzy, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "警告: 時代遅れのオプション `--%s'\n"
 
-#: src/main.c:227
+#: src/main.c:225
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2783,33 +2788,33 @@ msgstr ""
 "デバッグオプションはビットごとの OR 演算で混合されます。\n"
 "その意味や値は変更されることに注意してください。\n"
 
-#: src/main.c:251
+#: src/main.c:249
 msgid "--debug requires an octal argument"
 msgstr "--debug は 8 進数の引数が 1 つ必要です。"
 
-#: src/main.c:275
+#: src/main.c:273
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "--ignore-depends の引数 (コンマで区切られたリスト) `%.250s' に空のパッケージ"
 "名"
 
-#: src/main.c:281
+#: src/main.c:279
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends は正当なパッケージ名を必要とします。`%.250s' は不正です; %s"
 
-#: src/main.c:297 src/main.c:309
+#: src/main.c:295 src/main.c:307 src/main.c:548 dpkg-split/main.c:119
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "--%s に対する不正な整数です: `%.250s'"
 
-#: src/main.c:311
+#: src/main.c:309
 msgid "<package status and progress file descriptor>"
 msgstr "<パッケージ状態と進捗ファイルデスクリプタ>"
 
-#: src/main.c:326
+#: src/main.c:324
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2884,45 +2889,41 @@ msgstr ""
 "警告: [!] のあるオプションを使用すると、インストール時に深刻なダメージを\n"
 "受ける場合がある。[*] の付いたオプションはデフォルトで有効。\n"
 
-#: src/main.c:372
+#: src/main.c:370
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "不明な強制・拒否 (force/refuse) オプション `%.*s'"
 
-#: src/main.c:377
+#: src/main.c:375
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "警告: 時代遅れの強制・拒否 (force/refuse) オプション `%s'\n"
 
-#: src/main.c:525
+#: src/main.c:526
 #, c-format
 msgid "failed to exec %s"
 msgstr "%s の実行に失敗しました"
 
-#: src/main.c:540
+#: src/main.c:542
 msgid "--command-fd takes one argument, not zero"
 msgstr "--command-fd は 1 つの引数 (なしではありません) をとります"
 
-#: src/main.c:542
+#: src/main.c:544
 msgid "--command-fd only takes one argument"
 msgstr "--command-fd は引数を 1 つだけ引数をとります"
 
-#: src/main.c:544
-msgid "invalid number for --command-fd"
-msgstr "--command-fd への値が不正です"
-
-#: src/main.c:546
+#: src/main.c:550
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "`%i' をストリームとしてオープンできませんでした"
 
-#: src/main.c:571
+#: src/main.c:575
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "%d 行目の行末までに予期しない eof があります"
 
-#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
-#: dpkg-split/main.c:179
+#: src/main.c:619 src/main.c:641 src/query.c:551 dpkg-deb/main.c:213
+#: dpkg-split/main.c:181
 msgid "need an action option"
 msgstr "アクションを指定するオプションが必要です"
 
@@ -3795,103 +3796,103 @@ msgstr "%d 個のパッケージ情報が更新されました。\n"
 msgid "--forget-old-unavail takes no arguments"
 msgstr "--forget-old-unavail は引数をとりません"
 
-#: dpkg-deb/build.c:91
+#: dpkg-deb/build.c:97
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - エラー: %s (`%s') が数字を含んでいません\n"
 
-#: dpkg-deb/build.c:135
+#: dpkg-deb/build.c:141
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr "ファイル名 '%.50s...' は長すぎます"
 
-#: dpkg-deb/build.c:198 scripts/dpkg-divert.pl:123
+#: dpkg-deb/build.c:204 scripts/dpkg-divert.pl:123
 #: scripts/dpkg-statoverride.pl:81 scripts/update-alternatives.pl:107
 #: scripts/update-alternatives.pl:111
 #, c-format, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s は引数として <ディレクトリ> が必要です"
 
-#: dpkg-deb/build.c:208
+#: dpkg-deb/build.c:214
 msgid "--build takes at most two arguments"
 msgstr "--build は多くとも 2 つの引数しかとりません"
 
-#: dpkg-deb/build.c:212
+#: dpkg-deb/build.c:218
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "アーカイブ `%.250s' の存在を確認できません"
 
-#: dpkg-deb/build.c:227
+#: dpkg-deb/build.c:233
 msgid "target is directory - cannot skip control file check"
 msgstr "対象がディレクトリです。コントロールファイル検証をスキップできません"
 
-#: dpkg-deb/build.c:228
+#: dpkg-deb/build.c:234
 msgid "not checking contents of control area."
 msgstr ""
 
-#: dpkg-deb/build.c:229
+#: dpkg-deb/build.c:235
 #, fuzzy, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: `%2$s' にパッケージ `%1$s' を構築しています。\n"
 
-#: dpkg-deb/build.c:246
+#: dpkg-deb/build.c:252
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "パッケージ名に小文字アルファベット、英数字、`-+.' 以外の文字があります"
 
-#: dpkg-deb/build.c:248
+#: dpkg-deb/build.c:254
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "警告、`%s' がユーザ定義の優先度 `%s' を含んでいます\n"
 
-#: dpkg-deb/build.c:256
+#: dpkg-deb/build.c:262
 #, fuzzy, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "警告、`%s' がユーザ定義のフィールド `%s' を含んでいます\n"
 
-#: dpkg-deb/build.c:261
+#: dpkg-deb/build.c:267
 msgid "(upstream) version"
 msgstr ""
 
-#: dpkg-deb/build.c:263
+#: dpkg-deb/build.c:269
 #, fuzzy
 msgid "Debian revision"
 msgstr "Debian %s バージョン %s。\n"
 
-#: dpkg-deb/build.c:264
+#: dpkg-deb/build.c:270
 #, c-format
 msgid "%d errors in control file"
 msgstr "コントロールファイルに %d 個のエラーがあります"
 
-#: dpkg-deb/build.c:275
+#: dpkg-deb/build.c:281
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: `%2$s' にパッケージ `%1$s' を構築しています。\n"
 
-#: dpkg-deb/build.c:281
+#: dpkg-deb/build.c:287
 #, fuzzy
 msgid "unable to stat control directory"
 msgstr "一時コントロールディレクトリをオープンできません"
 
-#: dpkg-deb/build.c:283
+#: dpkg-deb/build.c:289
 #, fuzzy
 msgid "control directory is not a directory"
 msgstr "情報ディレクトリを読み取れません"
 
-#: dpkg-deb/build.c:285
+#: dpkg-deb/build.c:291
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "コントロールディレクトリの許可属性 %03lo は不正です (>=0755 かつ <=0775 でな"
 "ければなりません)"
 
-#: dpkg-deb/build.c:296
+#: dpkg-deb/build.c:302
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 "メンテナスクリプト `%.50s' がテキストファイルかシンボリックリンクではありませ"
 "ん。"
 
-#: dpkg-deb/build.c:298
+#: dpkg-deb/build.c:304
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3900,134 +3901,134 @@ msgstr ""
 "メンテナスクリプト `%.50s' の許可属性 %03lo は不正です (>=0555 かつ <=0775 で"
 "なければなりません)"
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:308
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "メンテナスクリプト `%.50s' の状態を取得できません"
 
-#: dpkg-deb/build.c:312
+#: dpkg-deb/build.c:318
 msgid "empty string from fgets reading conffiles"
 msgstr "conffiles の読み取り中に fgets からの空の文字"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:320
 #, fuzzy, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr "警告、設定ファイル名 `%.50s...' は長すぎるか、最後の改行がありません\n"
 
-#: dpkg-deb/build.c:327
+#: dpkg-deb/build.c:333
 #, fuzzy, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr ""
 "警告、設定ファイル `%s' の後ろに空白が付いています\n"
 "\n"
 
-#: dpkg-deb/build.c:329
+#: dpkg-deb/build.c:335
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "設定ファイル `%.250s' がパッケージ内にありません"
 
-#: dpkg-deb/build.c:331
+#: dpkg-deb/build.c:337
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "設定ファイル `%.250s' の状態を取得できません"
 
-#: dpkg-deb/build.c:333
+#: dpkg-deb/build.c:339
 #, fuzzy, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "警告、設定ファイル `%s' がテキストファイルではありません\n"
 
-#: dpkg-deb/build.c:337
+#: dpkg-deb/build.c:343
 msgid "error reading conffiles file"
 msgstr "conffiles ファイルの読み取り中にエラーが発生しました"
 
-#: dpkg-deb/build.c:340
+#: dpkg-deb/build.c:346
 msgid "error opening conffiles file"
 msgstr "conffiles ファイルのオープン中にエラーが発生しました"
 
-#: dpkg-deb/build.c:343
+#: dpkg-deb/build.c:349
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: コントロールファイルの %d 個の警告を無視します\n"
 
-#: dpkg-deb/build.c:354
+#: dpkg-deb/build.c:360
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "`%.255s' 用のバッファを開放できません"
 
-#: dpkg-deb/build.c:361
+#: dpkg-deb/build.c:367
 msgid "failed to chdir to .../DEBIAN"
 msgstr ".../DEBIAN ディレクトリへの移動に失敗しました"
 
-#: dpkg-deb/build.c:363 dpkg-deb/build.c:436
+#: dpkg-deb/build.c:369 dpkg-deb/build.c:442
 msgid "failed to exec tar -cf"
 msgstr "tar -cf の実行に失敗しました"
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:375
 msgid "failed to make tmpfile (control)"
 msgstr "一時ファイルの作成に失敗しました (control)"
 
-#: dpkg-deb/build.c:370
+#: dpkg-deb/build.c:376
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "一時ファイル %s のオープンに失敗しました (control)"
 
-#: dpkg-deb/build.c:373
+#: dpkg-deb/build.c:379
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "一時ファイル %s の unlink に失敗しました (control)"
 
-#: dpkg-deb/build.c:381 dpkg-deb/build.c:410
+#: dpkg-deb/build.c:387 dpkg-deb/build.c:416
 msgid "control"
 msgstr "control"
 
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:392
 msgid "failed to fstat tmpfile (control)"
 msgstr "一時ファイルの fstat に失敗しました (control)"
 
-#: dpkg-deb/build.c:409
+#: dpkg-deb/build.c:415
 msgid "failed to rewind tmpfile (control)"
 msgstr "一時ファイルの rewind に失敗しました (control)"
 
-#: dpkg-deb/build.c:417
+#: dpkg-deb/build.c:423
 msgid "failed to make tmpfile (data)"
 msgstr "一時ファイルの作成に失敗しました (data)"
 
-#: dpkg-deb/build.c:418
+#: dpkg-deb/build.c:424
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "一時ファイル %s のオープンに失敗しました (data)"
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:427
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "一時ファイルのアンリンクに失敗しました (data), %s"
 
-#: dpkg-deb/build.c:445 dpkg-deb/extract.c:290
+#: dpkg-deb/build.c:451 dpkg-deb/extract.c:290
 msgid "data"
 msgstr "データ"
 
-#: dpkg-deb/build.c:458
+#: dpkg-deb/build.c:464
 msgid "failed to exec find"
 msgstr "find の実行に失敗しました"
 
-#: dpkg-deb/build.c:469 dpkg-deb/build.c:476
+#: dpkg-deb/build.c:475 dpkg-deb/build.c:482
 msgid "failed to write filename to tar pipe (data)"
 msgstr "tar パイプへの書き込みに失敗しました (data)"
 
-#: dpkg-deb/build.c:480
+#: dpkg-deb/build.c:486
 msgid "<compress> from tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c:502
+#: dpkg-deb/build.c:508
 #, fuzzy
 msgid "failed to fstat tmpfile (data)"
 msgstr "一時ファイルの作成に失敗しました (data)"
 
-#: dpkg-deb/build.c:512
+#: dpkg-deb/build.c:518
 msgid "failed to rewind tmpfile (data)"
 msgstr "一時ファイルの rewind に失敗しました (data)"
 
-#: dpkg-deb/build.c:513
+#: dpkg-deb/build.c:519
 msgid "cat (data)"
 msgstr "cat (データ)"
 
@@ -4754,11 +4755,11 @@ msgstr "%.250s の読み取り中にエラーが発生しました"
 msgid "unexpected end of file in %.250s"
 msgstr "%.250s 内で予期しないファイルの終わりです"
 
-#: dpkg-split/main.c:119
+#: dpkg-split/main.c:121
 msgid "part size is far too large or is not positive"
 msgstr "パートサイズが大きすぎるか、または正値でありません"
 
-#: dpkg-split/main.c:123
+#: dpkg-split/main.c:125
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
 msgstr ""
@@ -5976,6 +5977,9 @@ msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
+
+#~ msgid "invalid number for --command-fd"
+#~ msgstr "--command-fd への値が不正です"
 
 #, fuzzy
 #~ msgid "unexecpted end of line in statoverride file"

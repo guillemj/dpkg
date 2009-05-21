@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-10 16:03+0200\n"
+"POT-Creation-Date: 2009-05-21 06:30+0200\n"
 "PO-Revision-Date: 2009-05-02 19:22+0400\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -110,7 +110,7 @@ msgstr "не удалось просмотреть каталог обновле
 msgid "failed to remove incorporated update file %.255s"
 msgstr "не удалось удалить втянутый файл обновлений %.255s"
 
-#: lib/dbmodify.c:115 dpkg-deb/build.c:352
+#: lib/dbmodify.c:115 dpkg-deb/build.c:358
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "не удалось создать %.255s"
@@ -821,46 +821,46 @@ msgstr "предупреждение"
 msgid "failed to write parsing warning"
 msgstr "не удалось вывести предупреждение о нештатной ситуации при разборе"
 
-#: lib/parsehelp.c:147
+#: lib/parsehelp.c:141
 msgid "may not be empty string"
 msgstr "не может быть пустой строкой"
 
-#: lib/parsehelp.c:148
+#: lib/parsehelp.c:142
 msgid "must start with an alphanumeric"
 msgstr "должно начинаться с латинской буквы или цифры"
 
-#: lib/parsehelp.c:157
+#: lib/parsehelp.c:151
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr ""
 "символ `%c' недопустим (допустимы латинские буквы, цифры и символы `%s')"
 
-#: lib/parsehelp.c:212
+#: lib/parsehelp.c:206
 msgid "<none>"
 msgstr "<нет>"
 
-#: lib/parsehelp.c:227
+#: lib/parsehelp.c:221
 msgid "version string is empty"
 msgstr "строка версии пуста"
 
-#: lib/parsehelp.c:238
+#: lib/parsehelp.c:232
 msgid "version string has embedded spaces"
 msgstr "в строке версии есть пробелы"
 
-#: lib/parsehelp.c:243
+#: lib/parsehelp.c:237
 msgid "epoch in version is not number"
 msgstr "эпоха версии не является числом"
 
-#: lib/parsehelp.c:244
+#: lib/parsehelp.c:238
 msgid "nothing after colon in version number"
 msgstr "после двоеточия в номере версии ничего не следует"
 
-#: lib/parsehelp.c:264 lib/parsehelp.c:278
+#: lib/parsehelp.c:258 lib/parsehelp.c:272
 #, c-format
 msgid "missing %s"
 msgstr "отсутствует %s"
 
-#: lib/parsehelp.c:266 lib/parsehelp.c:281
+#: lib/parsehelp.c:260 lib/parsehelp.c:275
 #, c-format
 msgid "empty value for %s"
 msgstr "пустое значение там, где ожидается %s"
@@ -2121,18 +2121,23 @@ msgstr ""
 "установить пакет %.250s невозможно, однако это необходимо сделать до "
 "установки %.250s"
 
-#: src/enquiry.c:426
+#: src/enquiry.c:393
+#, fuzzy, c-format
+msgid "obsolete option '--%s', please use '--%s' instead."
+msgstr "устаревший параметр `--%s'\n"
+
+#: src/enquiry.c:434
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "параметр --compare-versions требует наличия трёх аргументов: <версия> "
 "<отношение> <версия>"
 
-#: src/enquiry.c:431
+#: src/enquiry.c:439
 msgid "--compare-versions bad relation"
 msgstr "в качестве аргумента --compare-versions указано недопустимое отношение"
 
-#: src/enquiry.c:436 src/enquiry.c:447
+#: src/enquiry.c:444 src/enquiry.c:455
 #, c-format
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "dpkg: версия '%s' имеет неправильный синтаксис: %s\n"
@@ -2401,8 +2406,8 @@ msgstr ""
 msgid "failed to chroot to `%.250s'"
 msgstr "не удалось выполнить chroot в %.250s"
 
-#: src/help.c:159 dpkg-deb/build.c:360 dpkg-deb/build.c:434
-#: dpkg-deb/build.c:455
+#: src/help.c:159 dpkg-deb/build.c:366 dpkg-deb/build.c:440
+#: dpkg-deb/build.c:461
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "не удалось перейти в каталог %.255s"
@@ -2736,17 +2741,17 @@ msgstr ""
 "Команды, отмеченные [*], выводят большое количество информации.\n"
 "Объедините их в конвейер с программами `less' или `more'!"
 
-#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:211 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:162
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "несовместимые действия -%c (--%s) и -%c (--%s)"
 
-#: src/main.c:219
+#: src/main.c:217
 #, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "устаревший параметр `--%s'\n"
 
-#: src/main.c:227
+#: src/main.c:225
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2789,35 +2794,35 @@ msgstr ""
 "Параметры отладки объединяются побитовой операцией \"или\".\n"
 "Имейте в виду, что значения и их смысловая нагрузка могут быть изменены.\n"
 
-#: src/main.c:251
+#: src/main.c:249
 msgid "--debug requires an octal argument"
 msgstr "параметр --debug принимает в качестве аргумента восьмеричное число"
 
-#: src/main.c:275
+#: src/main.c:273
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "пустое имя пакета в разделённом запятыми списке игнорируемых зависимостей `"
 "%.250s'"
 
-#: src/main.c:281
+#: src/main.c:279
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends требует корректного имени пакета. `%.250s' таковым не "
 "является: %s"
 
-#: src/main.c:297 src/main.c:309
+#: src/main.c:295 src/main.c:307 src/main.c:548 dpkg-split/main.c:119
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr ""
 "аргумент --%s (`%.250s') не является допустимым целочисленным значением"
 
-#: src/main.c:311
+#: src/main.c:309
 msgid "<package status and progress file descriptor>"
 msgstr "<состояние пакета и дескриптор файла-индикатора выполнения>"
 
-#: src/main.c:326
+#: src/main.c:324
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2901,45 +2906,41 @@ msgstr ""
 "повредить вашу систему. Параметры, отмеченные [*], задействованы по "
 "умолчанию.\n"
 
-#: src/main.c:372
+#: src/main.c:370
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "недопустимый параметр игнорирования/обработки проблем `%.*s'"
 
-#: src/main.c:377
+#: src/main.c:375
 #, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "устаревший параметр игнорирования/обработки `%s'\n"
 
-#: src/main.c:525
+#: src/main.c:526
 #, c-format
 msgid "failed to exec %s"
 msgstr "не удалось запустить %s"
 
-#: src/main.c:540
+#: src/main.c:542
 msgid "--command-fd takes one argument, not zero"
 msgstr "параметр --command-fd принимает один аргумент, а не ноль"
 
-#: src/main.c:542
+#: src/main.c:544
 msgid "--command-fd only takes one argument"
 msgstr "параметр --command-fd принимает только один аргумент"
 
-#: src/main.c:544
-msgid "invalid number for --command-fd"
-msgstr "аргумент параметра --command-fd не является числом"
-
-#: src/main.c:546
+#: src/main.c:550
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "не удалось открыть поток дескриптора `%i'"
 
-#: src/main.c:571
+#: src/main.c:575
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "неожиданный конец файла, ещё не кончилась строка %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
-#: dpkg-split/main.c:179
+#: src/main.c:619 src/main.c:641 src/query.c:551 dpkg-deb/main.c:213
+#: dpkg-split/main.c:181
 msgid "need an action option"
 msgstr "укажите требуемое действие"
 
@@ -3814,104 +3815,104 @@ msgstr "Обновлена информация о %d пакетах.\n"
 msgid "--forget-old-unavail takes no arguments"
 msgstr "параметр --forget-old-unavail не принимает аргументов"
 
-#: dpkg-deb/build.c:91
+#: dpkg-deb/build.c:97
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb: ошибка -- %s (%s) не содержит ни одной цифры\n"
 
-#: dpkg-deb/build.c:135
+#: dpkg-deb/build.c:141
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr "имя файла '%.50s...' слишком длинное"
 
-#: dpkg-deb/build.c:198 scripts/dpkg-divert.pl:123
+#: dpkg-deb/build.c:204 scripts/dpkg-divert.pl:123
 #: scripts/dpkg-statoverride.pl:81 scripts/update-alternatives.pl:107
 #: scripts/update-alternatives.pl:111
 #, c-format, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s требуется аргумент <каталог>"
 
-#: dpkg-deb/build.c:208
+#: dpkg-deb/build.c:214
 msgid "--build takes at most two arguments"
 msgstr "параметр --build может иметь не более двух аргументов"
 
-#: dpkg-deb/build.c:212
+#: dpkg-deb/build.c:218
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "не удалось проверить существование архива `%.250s'"
 
-#: dpkg-deb/build.c:227
+#: dpkg-deb/build.c:233
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "в качестве места назначения задан каталог, пропустить проверку управляющего "
 "файла невозможно"
 
-#: dpkg-deb/build.c:228
+#: dpkg-deb/build.c:234
 msgid "not checking contents of control area."
 msgstr "не проверяется содержимое управляющей области."
 
-#: dpkg-deb/build.c:229
+#: dpkg-deb/build.c:235
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: сборка неизвестного пакета в %s.\n"
 
-#: dpkg-deb/build.c:246
+#: dpkg-deb/build.c:252
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "имя пакета содержит символы, отличные от строчных латинских букв, цифр, -, + "
 "и ."
 
-#: dpkg-deb/build.c:248
+#: dpkg-deb/build.c:254
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "%s содержит определённое пользователем значение приоритета %s"
 
-#: dpkg-deb/build.c:256
+#: dpkg-deb/build.c:262
 #, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "%s содержит определённое пользователем поле %s"
 
-#: dpkg-deb/build.c:261
+#: dpkg-deb/build.c:267
 msgid "(upstream) version"
 msgstr "версия (оригинальная)"
 
-#: dpkg-deb/build.c:263
+#: dpkg-deb/build.c:269
 msgid "Debian revision"
 msgstr "Debian-редакция"
 
-#: dpkg-deb/build.c:264
+#: dpkg-deb/build.c:270
 #, c-format
 msgid "%d errors in control file"
 msgstr "в управляющем файле обнаружено %d ошибок"
 
-#: dpkg-deb/build.c:275
+#: dpkg-deb/build.c:281
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: сборка пакета %s в файл %s.\n"
 
-#: dpkg-deb/build.c:281
+#: dpkg-deb/build.c:287
 msgid "unable to stat control directory"
 msgstr "не удалось выполнить stat для каталога control"
 
-#: dpkg-deb/build.c:283
+#: dpkg-deb/build.c:289
 msgid "control directory is not a directory"
 msgstr "каталог control не является каталогом"
 
-#: dpkg-deb/build.c:285
+#: dpkg-deb/build.c:291
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "каталог control имеет недопустимые права доступа %03lo (должно быть >=0755 и "
 "<=0775)"
 
-#: dpkg-deb/build.c:296
+#: dpkg-deb/build.c:302
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 "сценарий сопровождающего %.50s не является обычным файлом или символической "
 "ссылкой"
 
-#: dpkg-deb/build.c:298
+#: dpkg-deb/build.c:304
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3920,134 +3921,134 @@ msgstr ""
 "у сценария сопровождающего %.50s установлен недопустимые права доступа %03lo "
 "(должно быть >=0755 и <=0775)"
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:308
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "получить информацию о сценарии сопровождающего %.50s невозможно"
 
-#: dpkg-deb/build.c:312
+#: dpkg-deb/build.c:318
 msgid "empty string from fgets reading conffiles"
 msgstr "при чтении списка файлов настройки функция fgets вернула пустую строку"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:320
 #, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
 "имя conffile-файла (%.50s...) слишком длинное или в конце нет символа новой "
 "строки"
 
-#: dpkg-deb/build.c:327
+#: dpkg-deb/build.c:333
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "имя conffile-файла '%s' содержит в конце пробельные символы"
 
-#: dpkg-deb/build.c:329
+#: dpkg-deb/build.c:335
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "в пакете отсутствует conffile `%.250s'"
 
-#: dpkg-deb/build.c:331
+#: dpkg-deb/build.c:337
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "невозможно получить информацию о conffile-файле `%.250s'"
 
-#: dpkg-deb/build.c:333
+#: dpkg-deb/build.c:339
 #, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "conffile-файл `%s' не является обычным файлом"
 
-#: dpkg-deb/build.c:337
+#: dpkg-deb/build.c:343
 msgid "error reading conffiles file"
 msgstr "ошибка чтения списка conffiles-файлов"
 
-#: dpkg-deb/build.c:340
+#: dpkg-deb/build.c:346
 msgid "error opening conffiles file"
 msgstr "ошибка при открытии списка conffiles-файлов"
 
-#: dpkg-deb/build.c:343
+#: dpkg-deb/build.c:349
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: проигнорировано %d предупреждений об управляющих файлах\n"
 
-#: dpkg-deb/build.c:354
+#: dpkg-deb/build.c:360
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "не удалось отменить буферизацию %.255s"
 
-#: dpkg-deb/build.c:361
+#: dpkg-deb/build.c:367
 msgid "failed to chdir to .../DEBIAN"
 msgstr "не удалось перейти в каталог .../DEBIAN"
 
-#: dpkg-deb/build.c:363 dpkg-deb/build.c:436
+#: dpkg-deb/build.c:369 dpkg-deb/build.c:442
 msgid "failed to exec tar -cf"
 msgstr "не удалось запустить tar -cf"
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:375
 msgid "failed to make tmpfile (control)"
 msgstr "не удалось создать временный файл (управляющая информация)"
 
-#: dpkg-deb/build.c:370
+#: dpkg-deb/build.c:376
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "не удалось открыть временный файл (управляющая информация) %s"
 
-#: dpkg-deb/build.c:373
+#: dpkg-deb/build.c:379
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "не удалось удалить временный файл (управляющая информация) %s"
 
-#: dpkg-deb/build.c:381 dpkg-deb/build.c:410
+#: dpkg-deb/build.c:387 dpkg-deb/build.c:416
 msgid "control"
 msgstr "управляющая информация"
 
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:392
 msgid "failed to fstat tmpfile (control)"
 msgstr ""
 "не удалось получить информацию о временном файле (управляющая информация)"
 
-#: dpkg-deb/build.c:409
+#: dpkg-deb/build.c:415
 msgid "failed to rewind tmpfile (control)"
 msgstr "не удалось перейти к началу временного файла (управляющая информация)"
 
-#: dpkg-deb/build.c:417
+#: dpkg-deb/build.c:423
 msgid "failed to make tmpfile (data)"
 msgstr "не удалось создать временный файл (данные)"
 
-#: dpkg-deb/build.c:418
+#: dpkg-deb/build.c:424
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "не удалось открыть временный файл (данные) %s"
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:427
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "не удалось удалить временный файл (данные) %s"
 
-#: dpkg-deb/build.c:445 dpkg-deb/extract.c:290
+#: dpkg-deb/build.c:451 dpkg-deb/extract.c:290
 msgid "data"
 msgstr "данные"
 
-#: dpkg-deb/build.c:458
+#: dpkg-deb/build.c:464
 msgid "failed to exec find"
 msgstr "не удалось запустить find"
 
-#: dpkg-deb/build.c:469 dpkg-deb/build.c:476
+#: dpkg-deb/build.c:475 dpkg-deb/build.c:482
 msgid "failed to write filename to tar pipe (data)"
 msgstr "не удалось записать имя файла в канал программы tar (данные)"
 
-#: dpkg-deb/build.c:480
+#: dpkg-deb/build.c:486
 msgid "<compress> from tar -cf"
 msgstr "<compress> из tar -cf"
 
-#: dpkg-deb/build.c:502
+#: dpkg-deb/build.c:508
 msgid "failed to fstat tmpfile (data)"
 msgstr "не удалось выполнить fstat для tmpfile (данные)"
 
-#: dpkg-deb/build.c:512
+#: dpkg-deb/build.c:518
 msgid "failed to rewind tmpfile (data)"
 msgstr "не удалось перейти к началу tmpfile (данные)"
 
-#: dpkg-deb/build.c:513
+#: dpkg-deb/build.c:519
 msgid "cat (data)"
 msgstr "cat (данные)"
 
@@ -4776,11 +4777,11 @@ msgstr "ошибка чтения %.250s"
 msgid "unexpected end of file in %.250s"
 msgstr "неожиданный конец файла %.250s"
 
-#: dpkg-split/main.c:119
+#: dpkg-split/main.c:121
 msgid "part size is far too large or is not positive"
 msgstr "размер части слишком велик или не положителен"
 
-#: dpkg-split/main.c:123
+#: dpkg-split/main.c:125
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
 msgstr "размер части должен быть, по крайней мере, %dКб (размер заголовка)"
@@ -5995,3 +5996,6 @@ msgid ""
 msgstr ""
 "пропуск создания %s, так как связанный с ней файл %s (из группы ссылок %s) "
 "не существует."
+
+#~ msgid "invalid number for --command-fd"
+#~ msgstr "аргумент параметра --command-fd не является числом"

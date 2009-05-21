@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-03-10 16:03+0200\n"
+"POT-Creation-Date: 2009-05-21 06:30+0200\n"
 "PO-Revision-Date: 2008-05-02 15:45+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -107,7 +107,7 @@ msgstr "nem tudom átnézni az updates könyvtárat: `%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "nem tudom törölni a beépített %.255s fájlt"
 
-#: lib/dbmodify.c:115 dpkg-deb/build.c:352
+#: lib/dbmodify.c:115 dpkg-deb/build.c:358
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "`%.255s' nem hozható létre"
@@ -792,46 +792,46 @@ msgstr "figyelj!"
 msgid "failed to write parsing warning"
 msgstr "az elemzési értesítés kiírása sikertelen"
 
-#: lib/parsehelp.c:147
+#: lib/parsehelp.c:141
 msgid "may not be empty string"
 msgstr "nem lehet üres szöveg"
 
-#: lib/parsehelp.c:148
+#: lib/parsehelp.c:142
 msgid "must start with an alphanumeric"
 msgstr "alfanumerikussal kell kezdődnie"
 
-#: lib/parsehelp.c:157
+#: lib/parsehelp.c:151
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr ""
 "`%c' karakter tilos (csak betűk, számok és `%s' karakterek adhatók meg)"
 
-#: lib/parsehelp.c:212
+#: lib/parsehelp.c:206
 msgid "<none>"
 msgstr "<nincs>"
 
-#: lib/parsehelp.c:227
+#: lib/parsehelp.c:221
 msgid "version string is empty"
 msgstr "a verzió helye üres"
 
-#: lib/parsehelp.c:238
+#: lib/parsehelp.c:232
 msgid "version string has embedded spaces"
 msgstr "a verziószámban szóközök vannak"
 
-#: lib/parsehelp.c:243
+#: lib/parsehelp.c:237
 msgid "epoch in version is not number"
 msgstr "hiányzó szám a verzióban"
 
-#: lib/parsehelp.c:244
+#: lib/parsehelp.c:238
 msgid "nothing after colon in version number"
 msgstr "nincs semmi a : után a verziószámban"
 
-#: lib/parsehelp.c:264 lib/parsehelp.c:278
+#: lib/parsehelp.c:258 lib/parsehelp.c:272
 #, c-format
 msgid "missing %s"
 msgstr "hiányzik: %s"
 
-#: lib/parsehelp.c:266 lib/parsehelp.c:281
+#: lib/parsehelp.c:260 lib/parsehelp.c:275
 #, c-format
 msgid "empty value for %s"
 msgstr "üres érték ehhez: %s"
@@ -2050,17 +2050,22 @@ msgstr ""
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "teljesítetlen elő-függőségek ehhez: %.250s (%.250s miatt kellenek)"
 
-#: src/enquiry.c:426
+#: src/enquiry.c:393
+#, fuzzy, c-format
+msgid "obsolete option '--%s', please use '--%s' instead."
+msgstr "Figyelem: elavult lehetőség `--%s'\n"
+
+#: src/enquiry.c:434
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "a --compare-versions 3 argumentumot vár: <version> <relation> <version>"
 
-#: src/enquiry.c:431
+#: src/enquiry.c:439
 msgid "--compare-versions bad relation"
 msgstr "rossz --compare-versions reláció"
 
-#: src/enquiry.c:436 src/enquiry.c:447
+#: src/enquiry.c:444 src/enquiry.c:455
 #, c-format
 msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "dpkg: '%s' verzió nyelvtana hibás: %s\n"
@@ -2337,8 +2342,8 @@ msgstr ""
 msgid "failed to chroot to `%.250s'"
 msgstr "meghiúsult a chroot ide: `%.250s'"
 
-#: src/help.c:159 dpkg-deb/build.c:360 dpkg-deb/build.c:434
-#: dpkg-deb/build.c:455
+#: src/help.c:159 dpkg-deb/build.c:366 dpkg-deb/build.c:440
+#: dpkg-deb/build.c:461
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "sikertelen chdir ide: `%.255s'"
@@ -2648,17 +2653,17 @@ msgstr ""
 "A [*]-gal jelölt lehetőségek nagy kimenetet írnak - használd a pipát a "
 "`less' vagy `more' parancson keresztül!"
 
-#: src/main.c:213 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:160
+#: src/main.c:211 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:162
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "ütköző műveletek -%c (--%s) and -%c (--%s)"
 
-#: src/main.c:219
+#: src/main.c:217
 #, fuzzy, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "Figyelem: elavult lehetőség `--%s'\n"
 
-#: src/main.c:227
+#: src/main.c:225
 #, fuzzy, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2700,32 +2705,32 @@ msgstr ""
 "A hibakeresési kapcsolók keverhetők bitenkénti vagy segítségével.\n"
 "Ne feledd, hogy a jelentések és értékek változhatnak.\n"
 
-#: src/main.c:251
+#: src/main.c:249
 msgid "--debug requires an octal argument"
 msgstr "a --debug egy oktális argumentumot igényel"
 
-#: src/main.c:275
+#: src/main.c:273
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "nincs csomagnév az --ignore-depends vesszővel elválasztott listájában: `"
 "%.250s'"
 
-#: src/main.c:281
+#: src/main.c:279
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "Az --ignore-depends helyes csomagnevet követel. `%.250s' nem az; %s"
 
-#: src/main.c:297 src/main.c:309
+#: src/main.c:295 src/main.c:307 src/main.c:548 dpkg-split/main.c:119
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "érvénytelem egész a --%s számára: `%.250s'"
 
-#: src/main.c:311
+#: src/main.c:309
 msgid "<package status and progress file descriptor>"
 msgstr ""
 
-#: src/main.c:326
+#: src/main.c:324
 #, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2814,45 +2819,41 @@ msgstr ""
 "FIGYELMEZTETÉS - a [!] jelű kapcsolók használata súlyosan károsíthatja a\n"
 "telepítést. A [*] jelű kapcsolók alapértelmezésben engedélyezettek.\n"
 
-#: src/main.c:372
+#: src/main.c:370
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "ismeretlen `%.*s' kényszerítő/elutasító opció"
 
-#: src/main.c:377
+#: src/main.c:375
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "Figyelem: elavult `--%s' kényszerítő/elutasító opció\n"
 
-#: src/main.c:525
+#: src/main.c:526
 #, c-format
 msgid "failed to exec %s"
 msgstr "sikertelen futtatás: %s"
 
-#: src/main.c:540
+#: src/main.c:542
 msgid "--command-fd takes one argument, not zero"
 msgstr "a --command-fd 1 argumentumot vár"
 
-#: src/main.c:542
+#: src/main.c:544
 msgid "--command-fd only takes one argument"
 msgstr "a --command-fd csak 1 argumentumot vár"
 
-#: src/main.c:544
-msgid "invalid number for --command-fd"
-msgstr "érvénytelen szám a --command-fd számára"
-
-#: src/main.c:546
+#: src/main.c:550
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "`%i' nem nyitható meg az áramoltatásra"
 
-#: src/main.c:571
+#: src/main.c:575
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "váratlan eof e sor vége előtt: %d"
 
-#: src/main.c:615 src/main.c:637 src/query.c:551 dpkg-deb/main.c:213
-#: dpkg-split/main.c:179
+#: src/main.c:619 src/main.c:641 src/query.c:551 dpkg-deb/main.c:213
+#: dpkg-split/main.c:181
 msgid "need an action option"
 msgstr "egy művelet opciót igényel"
 
@@ -3687,102 +3688,102 @@ msgstr "%d csomag információja frissült.\n"
 msgid "--forget-old-unavail takes no arguments"
 msgstr "A --forget-old-unavail nem vár argumentumot"
 
-#: dpkg-deb/build.c:91
+#: dpkg-deb/build.c:97
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - error: %s (`%s') nem tartalmaz számot\n"
 
-#: dpkg-deb/build.c:135
+#: dpkg-deb/build.c:141
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr ""
 
-#: dpkg-deb/build.c:198 scripts/dpkg-divert.pl:123
+#: dpkg-deb/build.c:204 scripts/dpkg-divert.pl:123
 #: scripts/dpkg-statoverride.pl:81 scripts/update-alternatives.pl:107
 #: scripts/update-alternatives.pl:111
 #, c-format, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s egy <könyvtár> argumentumot vár"
 
-#: dpkg-deb/build.c:208
+#: dpkg-deb/build.c:214
 msgid "--build takes at most two arguments"
 msgstr "a --builds 2 argumentumot fogad"
 
-#: dpkg-deb/build.c:212
+#: dpkg-deb/build.c:218
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "nem ellenőrizhető az alábbi archívum léte: `%.250s'"
 
-#: dpkg-deb/build.c:227
+#: dpkg-deb/build.c:233
 msgid "target is directory - cannot skip control file check"
 msgstr "a cél egy könyvtár - nem mellőzhető a control fájl ellenőrzése"
 
-#: dpkg-deb/build.c:228
+#: dpkg-deb/build.c:234
 msgid "not checking contents of control area."
 msgstr ""
 
-#: dpkg-deb/build.c:229
+#: dpkg-deb/build.c:235
 #, fuzzy, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: `%s' csomag építése itt: `%s'.\n"
 
-#: dpkg-deb/build.c:246
+#: dpkg-deb/build.c:252
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "a csomagnév kisbetűs alfanumerikus és `-+.'-tól eltérő karaktereket tartalmaz"
 
-#: dpkg-deb/build.c:248
+#: dpkg-deb/build.c:254
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "figyelem, `%s' felhasználói `%s' elsőbbségi értéket tartalmaz\n"
 
-#: dpkg-deb/build.c:256
+#: dpkg-deb/build.c:262
 #, fuzzy, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "figyelem, `%s' felhasználói `%s' mezőt tartalmaz\n"
 
-#: dpkg-deb/build.c:261
+#: dpkg-deb/build.c:267
 msgid "(upstream) version"
 msgstr ""
 
-#: dpkg-deb/build.c:263
+#: dpkg-deb/build.c:269
 #, fuzzy
 msgid "Debian revision"
 msgstr "Debian %s %s verzió.\n"
 
-#: dpkg-deb/build.c:264
+#: dpkg-deb/build.c:270
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d hiba az ellenőrző fájlban"
 
-#: dpkg-deb/build.c:275
+#: dpkg-deb/build.c:281
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: `%s' csomag építése itt: `%s'.\n"
 
-#: dpkg-deb/build.c:281
+#: dpkg-deb/build.c:287
 #, fuzzy
 msgid "unable to stat control directory"
 msgstr "nem tudom megnyitni az átmeneti ellenőrző könyvtárat"
 
-#: dpkg-deb/build.c:283
+#: dpkg-deb/build.c:289
 #, fuzzy
 msgid "control directory is not a directory"
 msgstr "az info könyvtár nem olvasható"
 
-#: dpkg-deb/build.c:285
+#: dpkg-deb/build.c:291
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "az ellenőrző könyvtárnak hibás %03lo jogai vannak (>=0755 és <=775 kell "
 "legyen)"
 
-#: dpkg-deb/build.c:296
+#: dpkg-deb/build.c:302
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "A karbantartói szkript (`%.50s') nem sima fájl vagy jelképes lánc"
 
-#: dpkg-deb/build.c:298
+#: dpkg-deb/build.c:304
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3790,133 +3791,133 @@ msgid ""
 msgstr ""
 "`%.50s' karbantartói szkript jogok hibásak (%03lo) (>=0555 és <=0775 kell)"
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:308
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "`%.50s' karbantartói szkript nem található"
 
-#: dpkg-deb/build.c:312
+#: dpkg-deb/build.c:318
 msgid "empty string from fgets reading conffiles"
 msgstr "üres szöveg az fgets-ből a konffájl olvasásakor"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:320
 #, fuzzy, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
 "figyelem, `%.50s...' konffájl név túl hosszú, vagy hiányzó végső újsor\n"
 
-#: dpkg-deb/build.c:327
+#: dpkg-deb/build.c:333
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr ""
 
-#: dpkg-deb/build.c:329
+#: dpkg-deb/build.c:335
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "úgy fest, `%.250s' konffájl nincs a csomagban"
 
-#: dpkg-deb/build.c:331
+#: dpkg-deb/build.c:337
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "`%.250s' konffájl nem található"
 
-#: dpkg-deb/build.c:333
+#: dpkg-deb/build.c:339
 #, fuzzy, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "figyelem, `%s' konffájl nem sima fájl\n"
 
-#: dpkg-deb/build.c:337
+#: dpkg-deb/build.c:343
 msgid "error reading conffiles file"
 msgstr "hiba a conffiles fájl olvasásakor"
 
-#: dpkg-deb/build.c:340
+#: dpkg-deb/build.c:346
 msgid "error opening conffiles file"
 msgstr "hiba a conffiles fájl megnyitásakor"
 
-#: dpkg-deb/build.c:343
+#: dpkg-deb/build.c:349
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: %d figyelmeztetés átlépése az ellenőrző fájl(ok)ról\n"
 
-#: dpkg-deb/build.c:354
+#: dpkg-deb/build.c:360
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:361
+#: dpkg-deb/build.c:367
 msgid "failed to chdir to .../DEBIAN"
 msgstr "nem tudtam a ../DEBIAN könyvtárba váltani"
 
-#: dpkg-deb/build.c:363 dpkg-deb/build.c:436
+#: dpkg-deb/build.c:369 dpkg-deb/build.c:442
 msgid "failed to exec tar -cf"
 msgstr "sikertelen tar -d futtatás"
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:375
 msgid "failed to make tmpfile (control)"
 msgstr "az ideiglenes fájl (vezérlő) létrehozása meghiúsult"
 
-#: dpkg-deb/build.c:370
+#: dpkg-deb/build.c:376
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "az ideiglenes fájl (vezérlő) megnyitása meghiúsult, %s"
 
-#: dpkg-deb/build.c:373
+#: dpkg-deb/build.c:379
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "az ideiglenes fájl (vezérlő) törlése meghiúsult, %s"
 
-#: dpkg-deb/build.c:381 dpkg-deb/build.c:410
+#: dpkg-deb/build.c:387 dpkg-deb/build.c:416
 msgid "control"
 msgstr "vezérlés"
 
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:392
 msgid "failed to fstat tmpfile (control)"
 msgstr "az ideiglenes fájl (vezérlő) fstat-olása meghiúsult"
 
-#: dpkg-deb/build.c:409
+#: dpkg-deb/build.c:415
 msgid "failed to rewind tmpfile (control)"
 msgstr "az ideiglenes fájl (vezérlő) visszaállítása meghiúsult"
 
-#: dpkg-deb/build.c:417
+#: dpkg-deb/build.c:423
 msgid "failed to make tmpfile (data)"
 msgstr "tmpfájl létrehozása sikertelen (adat)"
 
-#: dpkg-deb/build.c:418
+#: dpkg-deb/build.c:424
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "tmpfájl megnyitása sikertelen (adat), %s"
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:427
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "tmpfájl elláncolása sikertelen (adat), %s"
 
-#: dpkg-deb/build.c:445 dpkg-deb/extract.c:290
+#: dpkg-deb/build.c:451 dpkg-deb/extract.c:290
 msgid "data"
 msgstr "adatok"
 
-#: dpkg-deb/build.c:458
+#: dpkg-deb/build.c:464
 msgid "failed to exec find"
 msgstr "sikertelen find futtatás"
 
-#: dpkg-deb/build.c:469 dpkg-deb/build.c:476
+#: dpkg-deb/build.c:475 dpkg-deb/build.c:482
 msgid "failed to write filename to tar pipe (data)"
 msgstr "fájlnév írás a tar csőbe (adatok) meghiúsult"
 
-#: dpkg-deb/build.c:480
+#: dpkg-deb/build.c:486
 msgid "<compress> from tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c:502
+#: dpkg-deb/build.c:508
 #, fuzzy
 msgid "failed to fstat tmpfile (data)"
 msgstr "tmpfájl létrehozása sikertelen (adat)"
 
-#: dpkg-deb/build.c:512
+#: dpkg-deb/build.c:518
 msgid "failed to rewind tmpfile (data)"
 msgstr "az ideiglenes fájl (adatok) visszaállítása meghiúsult"
 
-#: dpkg-deb/build.c:513
+#: dpkg-deb/build.c:519
 msgid "cat (data)"
 msgstr "cat (adatok)"
 
@@ -4623,11 +4624,11 @@ msgstr "olvasási hiba: %.250s"
 msgid "unexpected end of file in %.250s"
 msgstr "váratlan fájl vége jel itt: %.250s"
 
-#: dpkg-split/main.c:119
+#: dpkg-split/main.c:121
 msgid "part size is far too large or is not positive"
 msgstr "a rész mérete bőven túl vagy nem pozitív"
 
-#: dpkg-split/main.c:123
+#: dpkg-split/main.c:125
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
 msgstr "a rész mérete legalább %dk kell legyen (a fejléchez)"
@@ -5808,6 +5809,9 @@ msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
+
+#~ msgid "invalid number for --command-fd"
+#~ msgstr "érvénytelen szám a --command-fd számára"
 
 #, fuzzy
 #~ msgid "unexecpted end of line in statoverride file"
