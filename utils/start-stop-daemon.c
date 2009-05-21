@@ -220,6 +220,17 @@ static void badusage(const char *msg)
 	NONRETURNING;
 
 static void
+warning(const char *format, ...)
+{
+	va_list arglist;
+
+	fprintf(stderr, "%s: warning: ", progname);
+	va_start(arglist, format);
+	vfprintf(stderr, format, arglist);
+	va_end(arglist);
+}
+
+static void
 fatal(const char *format, ...)
 {
 	va_list arglist;
@@ -1249,8 +1260,8 @@ do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled, int retry
 			(*n_killed)++;
 		} else {
 			if (signal_nr)
-				printf("%s: warning: failed to kill %d: %s\n",
-				       progname, p->pid, strerror(errno));
+				warning("failed to kill %d: %s\n",
+				        p->pid, strerror(errno));
 			(*n_notkilled)++;
 		}
 	}
