@@ -73,9 +73,6 @@ static const char *arbitrary_fields[] = {
 static int known_arbitrary_field(const struct arbitraryfield *field) {
   const char **known;
 
-  /* always accept fields starting with x- */
-  if (strncasecmp(field->name, "x-", 2) == 0)
-    return 1;
   for (known= arbitrary_fields; *known; known++)
     if (strcasecmp(field->name, *known) == 0)
       return 1;
