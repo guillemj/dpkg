@@ -115,6 +115,11 @@
 #include <sys/syscall.h>
 #endif
 
+#if defined(OSLinux)
+/* This comes from TASK_COMM_LEN defined in linux's include/linux/sched.h. */
+#define PROCESS_NAME_SIZE 15
+#endif
+
 #if defined(SYS_ioprio_set) && defined(linux)
 #define HAVE_IOPRIO_SET
 #endif
@@ -841,6 +846,13 @@ parse_options(int argc, char * const *argv)
 
 	if (!execname && !pidfile && !userspec && !cmdname)
 		badusage("need at least one of --exec, --pidfile, --user or --name");
+
+#ifdef PROCESS_NAME_SIZE
+	if (cmdname && strlen(cmdname) > PROCESS_NAME_SIZE)
+		warning("this system is not able to track process names\n"
+		        "longer than %d characters, please use --exec "
+		        "instead of --name.\n", PROCESS_NAME_SIZE);
+#endif
 
 	if (!startas)
 		startas = execname;
