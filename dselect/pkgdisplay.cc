@@ -62,10 +62,8 @@ const char
   *const prioritystrings[]=  { N_("Required"),
 			       N_("Important"),
 			       N_("Standard"),
-			       N_("Recommended"),
 			       N_("Optional"),
 			       N_("Extra"),
-			       N_("Contrib"),
 			       N_("!Bug!"),
 			       N_("Unclassified"),
 			       0 },
@@ -84,10 +82,8 @@ const char
   *const priorityabbrevs[]=  { N_("Req"),
 			       N_("Imp"),
 			       N_("Std"),
-			       N_("Rec"),
 			       N_("Opt"),
 			       N_("Xtr"),
-			       N_("Ctb"),
 			       N_("bUG"),
 			       N_("?") };
 
