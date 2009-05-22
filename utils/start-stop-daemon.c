@@ -27,7 +27,7 @@
 #if defined(linux) || (defined(__FreeBSD_kernel__) && defined(__GLIBC__))
 #  define OSLinux
 #elif defined(__GNU__)
-#  define OSHURD
+#  define OSHurd
 #elif defined(__sun)
 #  define OSsunos
 #elif defined(OPENBSD) || defined(__OpenBSD__)
@@ -44,7 +44,7 @@
 
 #define MIN_POLL_INTERVAL 20000 /* µs */
 
-#if defined(OSHURD)
+#if defined(OSHurd)
 #include <hurd.h>
 #include <ps.h>
 #endif
@@ -168,7 +168,7 @@ static int umask_value = -1;
 #define IO_SCHED_PRIO_MAX 7
 
 static struct stat exec_stat;
-#if defined(OSHURD)
+#if defined(OSHurd)
 static struct proc_stat_list *procset = NULL;
 #endif
 
@@ -868,7 +868,7 @@ parse_options(int argc, char * const *argv)
 
 }
 
-#if defined(OSHURD)
+#if defined(OSHurd)
 static void
 init_procset(void)
 {
@@ -978,7 +978,7 @@ pid_is_user(pid_t pid, uid_t uid)
 		return 0;
 	return (sb.st_uid == uid);
 }
-#elif defined(OSHURD)
+#elif defined(OSHurd)
 static int
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -1110,13 +1110,13 @@ pid_is_cmd(pid_t pid, const char *name)
 }
 #endif
 
-#if defined(OSHURD)
+#if defined(OSHurd)
 static int
 pid_is_running(pid_t pid)
 {
 	return get_proc_stat(pid, 0) != NULL;
 }
-#else /* !OSHURD */
+#else /* !OSHurd */
 static int
 pid_is_running(pid_t pid)
 {
@@ -1138,7 +1138,7 @@ check(pid_t pid)
 #elif defined(HAVE_KVM_H)
 	if (execname && !pid_is_exec(pid, execname))
 		return;
-#elif defined(OSHURD) || defined(OSFreeBSD) || defined(OSNetBSD)
+#elif defined(OSHurd) || defined(OSFreeBSD) || defined(OSNetBSD)
 	/* Let's try this to see if it works */
 	if (execname && !pid_is_cmd(pid, execname))
 		return;
@@ -1196,7 +1196,7 @@ do_procinit(void)
 	if (!foundany)
 		fatal("nothing in /proc - not mounted?");
 }
-#elif defined(OSHURD)
+#elif defined(OSHurd)
 static int
 check_proc_stat(struct proc_stat *ps)
 {
