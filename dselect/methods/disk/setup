@@ -41,6 +41,13 @@ yesno () {
 	done
 }
 
+print_partition_table()
+{
+	device="$1"
+
+	echo -e "p\nq\n" | fdisk "$device" 2>/dev/null
+}
+
 getblockdev () {
 	mountpoint="$vardir/methods/mnt"
 	if [ -z "$defaultdevice" ]
@@ -72,7 +79,7 @@ getblockdev () {
 		then
 			blockbase="`echo \"$tryblockdevice\" | sed -e 's/[0-9]\{1,\}$//'`"
 			set +e
-			echo -e "p\nq\n" | fdisk "$blockbase" 2>/dev/null >$tp.f
+			print_partition_table "$blockbase" >$tp.f
 			set -e
 			proposeddevice="$tryblockdevice" perl -ne '
 next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
@@ -285,10 +292,10 @@ fi
 if [ $option = harddisk ]
 then
 	set +e
-	echo -e 'p\nq\n' | fdisk /dev/hda 2>/dev/null >$tp.f
+	print_partition_table /dev/hda >$tp.f
 	if [ $? != 0 ]
 	then
-		echo -e 'p\nq\n' | fdisk /dev/sda 2>/dev/null >$tp.f
+		print_partition_table /dev/sda >$tp.f
 	fi
 	set -e
 	perl -ne '
