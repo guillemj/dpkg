@@ -82,9 +82,9 @@ getblockdev () {
 			print_partition_table "$blockbase" >$tp.f
 			set -e
 			proposeddevice="$tryblockdevice" perl -ne '
-next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
+next unless /^ *Device +Boot +Start +End +Blocks +Id +System *$/i .. !/\S/;
 next unless s:^/\S+:: && $& eq $ENV{"proposeddevice"};
-next unless s/^ +(\* +)?\d+ +\d+ +\d+ +\d+\+? +//;
+next unless s/^ +(\* +)?\d+ +\d+ +\d+\+? +//;
 next unless m/^([0-9a-f]{1,2}) /i;
 %types= ( "1","msdos", "4","msdos", "6","msdos", "7","hpfs", "80","minix",
           "81","minix", "83","ext2" );
@@ -299,7 +299,7 @@ then
 	fi
 	set -e
 	perl -ne '
-next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
+next unless /^ *Device +Boot +Start +End +Blocks +Id +System *$/i .. !/\S/;
 next unless / [146] +DOS \d+-bit \S+$/;
 next unless m:^/\S+:;
 print $&;		' <$tp.f >$tp.d
