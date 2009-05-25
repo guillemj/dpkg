@@ -507,10 +507,26 @@ parse_umask(const char *string, int *value_r)
 }
 
 static void
+validate_proc_schedule(void)
+{
+#ifdef _POSIX_PRIORITY_SCHEDULING
+	int prio_min, prio_max;
+
+	prio_min = sched_get_priority_min(proc_sched->policy);
+	prio_max = sched_get_priority_max(proc_sched->policy);
+
+	if (proc_sched->priority < prio_min)
+		badusage("process scheduler priority less than min");
+	if (proc_sched->priority > prio_max)
+		badusage("process scheduler priority greater than max");
+#endif
+}
+
+static void
 parse_proc_schedule(const char *string)
 {
 	char *policy_str, *prio_str;
-	int prio = 0, prio_min, prio_max;
+	int prio = 0;
 
 	policy_str = xstrdup(string);
 	policy_str = strtok(policy_str, ":");
@@ -534,15 +550,7 @@ parse_proc_schedule(const char *string)
 	} else
 		badusage("invalid process scheduler policy");
 
-#ifdef _POSIX_PRIORITY_SCHEDULING
-	prio_min = sched_get_priority_min(proc_sched->policy);
-	prio_max = sched_get_priority_max(proc_sched->policy);
-
-	if (proc_sched->priority < prio_min)
-		badusage("process scheduler priority less than min");
-	if (proc_sched->priority > prio_max)
-		badusage("process scheduler priority greater than max");
-#endif
+	validate_proc_schedule();
 }
 
 static void
