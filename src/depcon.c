@@ -153,6 +153,7 @@ int findbreakcycle(struct pkginfo *pkg) {
   for (iter = iterpkgstart(); (tpkg=iterpkgnext(iter)); ) {
     tpkg->color = white;
   }
+  iterpkgend(iter);
 
   return findbreakcyclerecursive(pkg, NULL);
 }
