@@ -312,6 +312,9 @@ void extracthalf(const char *debar, const char *directory,
       strcat(buffer, "f");
       m_dup2(p2[0],0);
       close(p2[0]);
+
+      unsetenv("TAR_OPTIONS");
+
       execlp(TAR, "tar", buffer, "-", NULL);
       ohshite(_("failed to exec tar"));
     }
