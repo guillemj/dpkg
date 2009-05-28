@@ -45,6 +45,7 @@ sub create {
     $fork_opts{"to_handle"} = $self->open_for_write();
     $fork_opts{"from_pipe"} = \$self->{'tar_input'};
     # Call tar creation process
+    $fork_opts{"delete_env"} = [ "TAR_OPTIONS" ];
     $fork_opts{'exec'} = [ 'tar', '--null', '-T', '-', '--numeric-owner',
                            '--owner', '0', '--group', '0',
 			   @{$opts{"options"}}, '-cf', '-' ];
@@ -117,6 +118,7 @@ sub extract {
     $fork_opts{"from_handle"} = $self->open_for_read();
 
     # Call tar extraction process
+    $fork_opts{"delete_env"} = [ "TAR_OPTIONS" ];
     $fork_opts{'exec'} = [ 'tar', '--no-same-owner', '--no-same-permissions',
                            @{$opts{"options"}}, '-xkf', '-' ];
     fork_and_exec(%fork_opts);
