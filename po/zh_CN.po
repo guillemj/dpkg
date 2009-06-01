@@ -7,16 +7,16 @@
 # Ming Hua <minghua@rice.edu>, 2006.
 # Carlos Z.F. Liu <carlosliu@users.sourceforge.net>, 2004,2006.
 # Anthony Wong <ypwong@debian.org.hk>, 2007.
-# Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007, 2008.
+# Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007, 2008, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2009-05-26 01:10+0200\n"
-"PO-Revision-Date: 2008-11-19 08:44+0800\n"
+"PO-Revision-Date: 2009-06-01 15:40+0800\n"
 "Last-Translator: Deng Xiyue <manphiz-guest@users.alioth.debian.org>\n"
-"Language-Team: Debian Chinese [GB] <debian-chinese-gb@lists.debian.org>\n"
+"Language-Team: Simplified Chinese <debian-chinese-gb@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -255,9 +255,9 @@ msgid "out of memory for new cleanup entry"
 msgstr "新建的清理条目时内存不敷使用"
 
 #: lib/ehandle.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "%s: warning: %s\n"
-msgstr "%s：写入 %s 错误：%s"
+msgstr "%s：警告：%s\n"
 
 #: lib/ehandle.c:296
 #, c-format
@@ -265,9 +265,9 @@ msgid "error writing `%s'"
 msgstr "“%s”写入错误"
 
 #: lib/ehandle.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "%s:%s:%d: internal error: %s\n"
-msgstr "%s:%d: 内部错误“%s”\n"
+msgstr "%s:%s:%d: 内部错误：%s\n"
 
 #: lib/fields.c:46
 #, c-format
@@ -497,9 +497,9 @@ msgid "couldn't open log `%s': %s\n"
 msgstr "无法打开日志文件“%s”：%s\n"
 
 #: lib/log.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to status fd %d"
-msgstr "无法写入“%.250s”的更新状态"
+msgstr "无法写入状态 fd %d"
 
 #: lib/mlib.c:49
 #, c-format
@@ -594,9 +594,9 @@ msgid "short read in buffer_copy (%s)"
 msgstr "buffer_copy (%s) 未读完所有数据"
 
 #: lib/myopt.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open configuration file '%.255s' for reading: %s"
-msgstr "无法打开配置文件 “%.255s”，以备读取"
+msgstr "无法打开配置文件 “%.255s”以备读取：%s"
 
 #: lib/myopt.c:91
 #, c-format
@@ -770,18 +770,22 @@ msgid "no package information in `%.255s'"
 msgstr "在”%.255s“中没有软件包的相关信息"
 
 #: lib/parsehelp.c:42
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s, in file '%.255s' near line %d package '%.255s':\n"
 " "
-msgstr "警告，在“%.255s”文件的第“%d”行附近"
+msgstr ""
+"%s，在文件“%.255s”第“%d”行附近，软件包“%.255s”:\n"
+" "
 
 #: lib/parsehelp.c:45
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s, in file '%.255s' near line %d:\n"
 " "
-msgstr "警告，在“%.255s”文件的第“%d”行附近"
+msgstr ""
+"%s，在文件“%.255s”第“%d”行附近:\n"
+" "
 
 #: lib/parsehelp.c:56
 msgid "parse error"
@@ -849,9 +853,9 @@ msgid "Closing brace missing in format\n"
 msgstr "没有发现格式字串中配对的右括弧\n"
 
 #: lib/subproc.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "unable to ignore signal %s before running %.250s"
-msgstr "无法在运行 %2$.250s 之前忽略信号 %1$d"
+msgstr "无法在运行 %2$.250s 之前忽略信号 %1$s"
 
 #: lib/subproc.c:66
 #, c-format
@@ -859,9 +863,9 @@ msgid "error un-catching signal %s: %s\n"
 msgstr "当恢复不处理(un-catching)信号 %s 时出错：%s\n"
 
 #: lib/subproc.c:85
-#, fuzzy, c-format
+#, c-format
 msgid "%s returned error exit status %d"
-msgstr "返回了错误的退出状态码 %d。\n"
+msgstr "%s 返回了错误的退出状态码 %d"
 
 #: lib/subproc.c:88
 #, c-format
@@ -869,13 +873,13 @@ msgid "subprocess %s returned error exit status %d"
 msgstr "子进程 %s 返回了错误号 %d"
 
 #: lib/subproc.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "%s killed by signal (%s)%s"
-msgstr "子进程 %s 被信号(%s)终止了%s"
+msgstr "%s 被信号(%s)%s 终止了"
 
 #: lib/subproc.c:99 lib/subproc.c:103
 msgid ", core dumped"
-msgstr "，core dumped"
+msgstr ", core dumped"
 
 #: lib/subproc.c:101
 #, c-format
@@ -1096,7 +1100,7 @@ msgstr "从 dpkg-deb 的管道读取数据时出错"
 #: src/archives.c:255
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
-msgstr ""
+msgstr "已跳过未解包文件“%.255s”(已替换或已排除？)"
 
 #: src/archives.c:296
 #, c-format
@@ -1181,9 +1185,9 @@ msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr "正试图覆盖“%.250s”，它属于软件包 %.250s"
 
 #: src/archives.c:676
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
-msgstr "读取“%.255s”(于“%.255s”目录)失败"
+msgstr "无法创建“%.255s”(处理“%.255s”时)"
 
 #: src/archives.c:681
 #, c-format
@@ -1256,22 +1260,22 @@ msgid "unable to install new version of `%.255s'"
 msgstr "无法安装“%.255s”的新版本"
 
 #: src/archives.c:880
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
-"dpkg: 警告 - 忽视 %s 的依赖关系问题：\n"
+"忽视 %s 的依赖关系问题：\n"
 "%s"
 
 #: src/archives.c:885
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "considering deconfiguration of essential\n"
 " package %s, to enable %s."
 msgstr ""
-"dpkg: 警告 - 正在考虑反配置基础\n"
-" 软件包 %s，以开启 %s。\n"
+"正在考虑反配置基础\n"
+" 软件包 %s，以启用 %s。"
 
 #: src/archives.c:888
 #, c-format
@@ -1322,9 +1326,8 @@ msgstr ""
 "%3$s"
 
 #: src/archives.c:957
-#, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
-msgstr "dpkg：警告 - 忽视了软件包间的破坏，无论怎样，继续安装！\n"
+msgstr "忽视了软件包间的破坏，无论怎样，继续安装！"
 
 #: src/archives.c:962
 #, c-format
@@ -1385,9 +1388,8 @@ msgid "conflicting packages - not installing %.250s"
 msgstr "软件包相互冲突 - 将不安装 %.250s"
 
 #: src/archives.c:1074
-#, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
-msgstr "dpkg：警告 - 忽视了软件包间的冲突，无论怎样，继续安装！\n"
+msgstr "忽视了软件包间的冲突，无论怎样，继续安装！"
 
 #: src/archives.c:1115
 #, c-format
@@ -1422,7 +1424,7 @@ msgstr "已搜索包文件，但是没有发现任何软件包（即与 *.deb �
 #: src/archives.c:1181
 #, c-format
 msgid "--%s needs at least one package archive file argument"
-msgstr "-- %s 需要至少一个软件包文件作为参数"
+msgstr "--%s 需要至少一个软件包文件作为参数"
 
 #: src/archives.c:1255
 #, c-format
@@ -1440,9 +1442,9 @@ msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "%1$.250s 的 %2$.250s 版本已经安装，因而将不再安装它。\n"
 
 #: src/archives.c:1288
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
-msgstr "%s - 警告：即将把 %.250s 从 %.250s 降级到 %.250s。\n"
+msgstr "即将把 %.250s 从 %.250s 降级到 %.250s。"
 
 #: src/archives.c:1293
 #, c-format
@@ -1547,35 +1549,34 @@ msgstr ""
 "如您所愿，安装了新的配置文件。\n"
 
 #: src/configure.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
-msgstr "dpkg：%s：警告 - 无法删除以前的备份文件“%.250s”：%s\n"
+msgstr "%s：无法删除以前的备份文件“%.250s”：%s"
 
 #: src/configure.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
-msgstr "dpkg：%s：警告 - 无法将“%.250s”改名为“%.250s”：%s\n"
+msgstr "%s：无法将“%.250s”改名为“%.250s”：%s"
 
 #: src/configure.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s：执行 ‘%s %s” 失败"
+msgstr "%s：删除“%.250s”失败：%s"
 
 #: src/configure.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to remove old distrib version '%.250s': %s"
-msgstr "dpkg：%s：警告 - 无法删除以前的发布版本“%.250s”：%s\n"
+msgstr "%s：无法删除以前的发布版本“%.250s”：%s"
 
 #: src/configure.c:280
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
-msgstr "dpkg：%s：警告 - 无法删除“%.250s”(在覆盖前)：%s\n"
+msgstr "%s：无法删除“%.250s”(在覆盖前)：%s"
 
 #: src/configure.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
-msgstr ""
-"dpkg：%1$s：警告 - 无法新建一个指向“%2$.250s”的硬链接“%3$.250s”：%4$s\n"
+msgstr "%s：将“%.250s”链接到“%.250s”失败：%s"
 
 #: src/configure.c:288
 #, c-format
@@ -1588,54 +1589,54 @@ msgid "unable to install `%.250s' as `%.250s'"
 msgstr "无法把“%.250s”安装到“%.250s”"
 
 #: src/configure.c:351
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
 " (= '%s'): %s"
 msgstr ""
-"dpkg：%s：警告 - 无法删除 stat 配置文件“%s”\n"
-" (= “%s”)：%s\n"
+"%s：无法删除 stat 配置文件“%s”\n"
+" (= “%s”)：%s"
 
 #: src/configure.c:362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
 " (= '%s')"
 msgstr ""
-"dpkg：%s：警告 - 配置文件“%s”是一个循环(最终指向自己)链接\n"
-" (= “%s”)\n"
+"%s：配置文件“%s”是一个循环(最终指向自己)链接\n"
+" (= “%s”)"
 
 #: src/configure.c:375
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
 " (= '%s'): %s"
 msgstr ""
-"dpkg：%s：警告 - 无法 readlink conffile“%s”\n"
-" (= “%s”)：%s\n"
+"%s：无法 readlink conffile “%s”\n"
+" (= “%s”)：%s"
 
 #: src/configure.c:394
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
 " ('%s' is a symlink to '%s')"
 msgstr ""
-"dpkg：%s：警告 - 无法找到符号链接 conffile“%.250s”最终指向的文件\n"
-" (“%s”是一个指向“%s”的符号链接)\n"
+"%s：无法找到 conffile “%.250s”最终指向的文件\n"
+" (“%s”是一个指向“%s”的符号链接)"
 
 #: src/configure.c:407
-#, fuzzy, c-format
+#, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
-msgstr "dpkg：%s：警告 - conffile “%.250s”不是普通文件或者符号链接 (= “%s“)\n"
+msgstr "%s：警告 - conffile “%.250s”不是普通文件或者符号链接 (= “%s”)"
 
 #: src/configure.c:424
 msgid "md5hash"
 msgstr "md5hash"
 
 #: src/configure.c:430
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
-msgstr "dpkg：%s：警告 - 无法打开 conffile %s 来作哈希处理：%s\n"
+msgstr "%s：无法打开 conffile %s 来作哈希处理：%s"
 
 #: src/configure.c:448
 #, c-format
@@ -2002,35 +2003,34 @@ msgid " %d packages, from the following sections:"
 msgstr " 在下列类别中，有 %d 个软件包："
 
 #: src/enquiry.c:261
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
 " Please use 'dpkg --configure dpkg', and then try again.\n"
 msgstr ""
-"带有版次(epoch)支持的 dpkg 版本尚未配置好。\n"
+"带有可工作 %s 支持的 dpkg 版本尚未配置好。\n"
 " 请运行“dpkg --configure dpkg”，然后再尝试一下。\n"
 
 #: src/enquiry.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr "记录中显示，dpkg 并没有被安装，因而不能断定它是否支持版次(epoch)！\n"
+msgstr "记录中显示，dpkg 并没有被安装，因而不能断定它是否支持 %s！\n"
 
 #: src/enquiry.c:274
-#, fuzzy
 msgid "Pre-Depends field"
-msgstr "预依赖于"
+msgstr "预依赖域"
 
 #: src/enquiry.c:279
 msgid "epoch"
-msgstr ""
+msgstr "纪元"
 
 #: src/enquiry.c:284
 msgid "long filenames"
-msgstr ""
+msgstr "长文件名"
 
 #: src/enquiry.c:289
 msgid "multiple Conflicts and Replaces"
-msgstr ""
+msgstr "多个冲突和替换"
 
 #: src/enquiry.c:364
 #, c-format
@@ -2047,9 +2047,9 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "无法满足对 %.250s 预依赖关系(pre-dependencies)，起因是 %.250s"
 
 #: src/enquiry.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
-msgstr "警告：已废弃不用的选项“--%s”\n"
+msgstr "废弃的选项“--%s”，请使用“--%s”"
 
 #: src/enquiry.c:434
 msgid ""
@@ -2107,11 +2107,8 @@ msgstr ""
 "忽略该设置。\n"
 
 #: src/errors.c:112
-#, fuzzy
 msgid "overriding problem because --force enabled:"
-msgstr ""
-"dpkg - 警告，由于您打开了 --force 选项，我忽略了一些问题的存在：\n"
-" "
+msgstr "由于开启了 --force 选项，以下问题被忽略："
 
 #: src/filesdb.c:141
 #, c-format
@@ -2119,18 +2116,18 @@ msgid "unable to open files list file for package `%.250s'"
 msgstr "无法打开软件包“%.250s”的文件名列表文件"
 
 #: src/filesdb.c:145
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "files list file for package `%.250s' missing, assuming package has no files "
 "currently installed."
 msgstr ""
-"dpkg：严重警告：无法找到软件包“%.250s”的文件名列表文件，现假定该软件包目前没"
-"有任何文件被安装在系统里。\n"
+"无法找到软件包“%.250s”的文件名列表文件，现假定该软件包目前没有任何文件被安装"
+"在系统里。"
 
 #: src/filesdb.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat files list file for package '%.250s'"
-msgstr "无法打开软件包“%.250s”的文件名列表文件"
+msgstr "无法取得软件包“%.250s”的文件名列表文件"
 
 #: src/filesdb.c:163
 #, c-format
@@ -2138,9 +2135,9 @@ msgid "files list for package `%.250s'"
 msgstr "软件包“%.250s”的文件名列表文件"
 
 #: src/filesdb.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "files list file for package '%.250s' is missing final newline"
-msgstr "软件包“%.250s”的文件名列表文件含有空的文件名"
+msgstr "软件包“%.250s”的文件名列表文件最后结尾的换行符"
 
 #: src/filesdb.c:177
 #, c-format
@@ -2209,53 +2206,47 @@ msgid "statoverride file `%.250s'"
 msgstr "statoverride 文件 “%.250s”"
 
 #: src/filesdb.c:390
-#, fuzzy
 msgid "statoverride file is missing final newline"
-msgstr "statoverride 文件含有空行"
+msgstr "statoverride 文件缺少最后结尾的换行符"
 
 #: src/filesdb.c:394
 msgid "statoverride file contains empty line"
 msgstr "statoverride 文件含有空行"
 
 #: src/filesdb.c:399 src/filesdb.c:420 src/filesdb.c:441
-#, fuzzy
 msgid "syntax error in statoverride file"
-msgstr "无法打开 statoverride 文件"
+msgstr "statoverride 文件有语法错误"
 
 #: src/filesdb.c:404
-#, fuzzy
 msgid "syntax error: invalid uid in statoverride file"
-msgstr "安装新的 statoverride 时出错：%s"
+msgstr "语法错误： statoverride 文件有无效的 uid"
 
 #: src/filesdb.c:408
 #, c-format
 msgid "syntax error: unknown user '%s' in statoverride file"
-msgstr ""
+msgstr "语法错误：在 statoverride 文件中有未知用户“%s”"
 
 #: src/filesdb.c:416 src/filesdb.c:437 src/filesdb.c:450
-#, fuzzy
 msgid "unexpected end of line in statoverride file"
-msgstr "在第 %d 行的软件包名中发现该行在此结束，这出乎我们的意料"
+msgstr "statoverride 文件有非预期的行结束符"
 
 #: src/filesdb.c:425
-#, fuzzy
 msgid "syntax error: invalid gid in statoverride file"
-msgstr "安装新的 statoverride 时出错：%s"
+msgstr "语法错误：statoverride 文件有无效的 gid"
 
 #: src/filesdb.c:429
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error: unknown group '%s' in statoverride file"
-msgstr "无法打开 statoverride 文件"
+msgstr "语法错误：statoverride 文件有无效组“%s”"
 
 #: src/filesdb.c:445
-#, fuzzy
 msgid "syntax error: invalid mode in statoverride file"
-msgstr "无法打开 statoverride 文件"
+msgstr "语法错误：statoverride 文件有无效权限模式"
 
 #: src/filesdb.c:454
-#, fuzzy, c-format
+#, c-format
 msgid "multiple statusoverides present for file '%.250s'"
-msgstr "statoverride 文件 “%.250s”"
+msgstr "存在多个 statoverride 用于文件 “%.250s”"
 
 #: src/filesdb.c:481
 msgid "failed to open diversions file"
@@ -2345,14 +2336,13 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "无法设置 %s 的执行权限位(execute permissions)"
 
 #: src/help.c:265
-#, fuzzy
 msgid "unable to setenv for maintainer script"
 msgstr "无法为维护脚本设置环境变量"
 
 #: src/help.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "installed %s script"
-msgstr "原先的 %s 脚本"
+msgstr "已安装的 %s 脚本"
 
 #: src/help.c:297 src/help.c:355 src/help.c:407
 #, c-format
@@ -2375,9 +2365,9 @@ msgid "old %s script"
 msgstr "原先的 %s 脚本"
 
 #: src/help.c:385
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat %s '%.250s': %s"
-msgstr "无法 stat %s “%.250s”"
+msgstr "无法 stat %s “%.250s”：%s"
 
 #: src/help.c:394
 #, c-format
@@ -2406,9 +2396,9 @@ msgid "delete"
 msgstr "删除"
 
 #: src/help.c:543
-#, fuzzy, c-format
+#, c-format
 msgid "failed to %s '%.255s'"
-msgstr "%s“%%.255s”失败"
+msgstr "%s “%.255s”失败"
 
 #: src/help.c:548 dpkg-deb/info.c:57
 msgid "failed to exec rm for cleanup"
@@ -2642,9 +2632,9 @@ msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "-%c (--%s) 和 -%c (--%s) 两个操作之间有矛盾"
 
 #: src/main.c:217
-#, fuzzy, c-format
+#, c-format
 msgid "obsolete option '--%s'\n"
-msgstr "警告：已废弃不用的选项“--%s”\n"
+msgstr "废弃的选项“--%s”\n"
 
 #: src/main.c:225
 #, c-format
@@ -2756,7 +2746,7 @@ msgstr ""
 "%s 强制选项 - 可指定遇到问题时的处理手段：\n"
 "  警告的同时继续执行：  --force-<手段>，<手段>，...\n"
 "  有错误时立即中止：    --refuse-<手段>，<手段>，... | --no-force-<手段"
-">，...\n"
+">>，...\n"
 " 强制执行的各种手段：\n"
 "  all [!]                应用所有的强制手段\n"
 "  downgrade [*]          把软件包替换成更低版本的软件包\n"
@@ -2792,9 +2782,9 @@ msgid "unknown force/refuse option `%.*s'"
 msgstr "无法识别的 force/refuse 选项“%.*s”"
 
 #: src/main.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "obsolete force/refuse option '%s'\n"
-msgstr "警告：已废弃不用的强制或拒绝选项“--%s”\n"
+msgstr "废弃的强制或拒绝选项“%s”\n"
 
 #: src/main.c:526
 #, c-format
@@ -3025,9 +3015,8 @@ msgid "pre-dependency problem - not installing %.250s"
 msgstr "预依赖(pre-dependency)问题 - 将不安装%.250s"
 
 #: src/processarc.c:278
-#, fuzzy
 msgid "ignoring pre-dependency problem!"
-msgstr "dpkg：警告 - 忽视了预依赖(pre-dependency)问题！\n"
+msgstr "忽略预依赖(pre-dependency)问题！"
 
 #: src/processarc.c:293
 #, c-format
@@ -3091,19 +3080,19 @@ msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb：截去了最后的零数据(zeros)"
 
 #: src/processarc.c:659
-#, fuzzy, c-format
+#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
-msgstr "dpkg：警告 - 无法 stat 原有的文件“%.250s”因此拒绝删除之：%s"
+msgstr "无法 stat 旧文件“%.250s”因此不删除它：%s"
 
 #: src/processarc.c:665
-#, fuzzy, c-format
+#, c-format
 msgid "unable to delete old directory '%.250s': %s"
-msgstr "dpkg：警告 - 无法删除原有的目录“%.250s”：%s\n"
+msgstr "无法删除原有的目录“%.250s”：%s"
 
 #: src/processarc.c:668
-#, fuzzy, c-format
+#, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
-msgstr "dpkg：警告 - 原有 conffile “%.250s”是一个空目录 (现在已被删除)\n"
+msgstr "原有 conffile “%.250s”是一个空目录(现在已被删除)"
 
 #: src/processarc.c:710
 #, c-format
@@ -3111,16 +3100,16 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "无法 stat 其它新文件“%.250s”"
 
 #: src/processarc.c:721
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
 "'%.250s')"
-msgstr "dpkg：警告 - 旧文件“%.250s”与多个新文件相同！(“%.250s”和“%.250s”)\n"
+msgstr "旧文件“%.250s”与多个新文件相同！(“%.250s”和“%.250s”)"
 
 #: src/processarc.c:763
-#, fuzzy, c-format
+#, c-format
 msgid "unable to %s old file '%.250s': %s"
-msgstr "dpkg：警告 - 无法 %s 原有的文件“%%.250s”：%%s\n"
+msgstr "无法 %s 原有的文件“%.250s”：%s"
 
 #: src/processarc.c:798 src/processarc.c:1045 src/remove.c:288
 msgid "cannot read info directory"
@@ -3161,9 +3150,9 @@ msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr "软件包控制信息，rmdir “%.250s”也没有说这不是一个目录"
 
 #: src/processarc.c:855
-#, fuzzy, c-format
+#, c-format
 msgid "package %s contained list as info file"
-msgstr "dpkg：警告 - 软件包 %s 把一个列表作为信息文件使用"
+msgstr "软件包 %s 把一个列表作为信息文件使用"
 
 #: src/processarc.c:861
 #, c-format
@@ -3344,28 +3333,26 @@ msgstr ""
 "  那么字段将会靠左对齐。\n"
 
 #: src/query.c:489
-#, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL)."
 msgstr ""
 "使用 --help 可获得软件包查询方面的帮助；\n"
-"使用 --licence 可阅读版权、许可证和无担保的说明 (GNU GPL)。\n"
-"\n"
+"使用 --licence 可阅读版权、许可证和无担保的说明 (GNU GPL)。"
 
 #: src/remove.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring request to remove %.250s which isn't installed."
-msgstr "dpkg - 警告：忽略了删除 %.250s 的要求，系统没有安装该软件包。\n"
+msgstr "忽略删除 %.250s 的要求，系统没有安装该软件包。"
 
 #: src/remove.c:90
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
 " files of which are on the system. Use --purge to remove them too."
 msgstr ""
-"dpkg - 警告：忽略了删除 %.250s 的要求，系统中仅存在\n"
-"其配置文件。可使用 --purge 来把这些配置文件一并删除。\n"
+"忽略删除 %.250s 的要求，系统中仅存在其配置文件。\n"
+"可使用 --purge 来把这些配置文件一并删除。"
 
 #: src/remove.c:99
 msgid "This is an essential package - it should not be removed."
@@ -3412,13 +3399,12 @@ msgid "Removing %s ...\n"
 msgstr "正在删除 %s ...\n"
 
 #: src/remove.c:254 src/remove.c:373
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
 "may be a mount point?"
 msgstr ""
-"dpkg - 警告：当删除 %.250s 时，无法删掉目录“%.250s”：%s - 该目录会不会是一个"
-"挂载点呢？\n"
+"当删除 %.250s 时，无法删掉目录“%.250s”：%s - 该目录会不会是一个挂载点呢？"
 
 #: src/remove.c:260 src/remove.c:379
 #, c-format
@@ -3436,9 +3422,9 @@ msgid "unable to delete control info file `%.250s'"
 msgstr "无法删除控制信息文件“%.250s”"
 
 #: src/remove.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed."
-msgstr "dpkg - 警告：当删除“%.250s”，目录“%.250s”非空，因而不会删除该目录。\n"
+msgstr "当删除“%.250s”时，目录“%.250s”非空，因而不会删除该目录。"
 
 #: src/remove.c:402
 #, c-format
@@ -3575,14 +3561,12 @@ msgid "%s: trigger records not yet in existence\n"
 msgstr "%s：触发器记录尚不存在\n"
 
 #: src/trigcmd.c:203
-#, fuzzy
 msgid "--check-supported takes no arguments"
-msgstr "dpkg-trigger --check-supported 不需要带任何参数"
+msgstr "--check-supported 不接受任何参数"
 
 #: src/trigcmd.c:208
-#, fuzzy
 msgid "takes one argument, the trigger name"
-msgstr "dpkg-trigger 只带一个参数，触发器名"
+msgstr "只接受一个参数，触发器名"
 
 #: src/trigcmd.c:213
 msgid ""
@@ -3596,9 +3580,9 @@ msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
 msgstr "dpkg-trigger：非法的等待软件包名“%.250s”:%.250s"
 
 #: src/trigcmd.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid trigger name `%.250s': %.250s"
-msgstr "dpkg-trigger：无效的触发器名“%.250s”:%.250s"
+msgstr "无效的触发器名“%.250s”:%.250s"
 
 #: src/trigproc.c:235
 #, c-format
@@ -3691,35 +3675,34 @@ msgstr "目标是一个目录 - 无法忽略主控文件的检查步骤"
 
 #: dpkg-deb/build.c:234
 msgid "not checking contents of control area."
-msgstr ""
+msgstr "不检查控制区域的内容。"
 
 #: dpkg-deb/build.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
-msgstr "dpkg-deb：正在新建软件包“%s”，包文件为“%s”。\n"
+msgstr "dpkg-deb：正在“%s”中构建未知软件包。\n"
 
 #: dpkg-deb/build.c:252
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "软件包的名字含有不是小写字母或“-+”的字符"
 
 #: dpkg-deb/build.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
-msgstr "警告，“%s”含有用户自定义的优先级别(Priority value) “%s”\n"
+msgstr "“%s”含有用户自定义的优先级别(Priority value) “%s”"
 
 #: dpkg-deb/build.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' contains user-defined field '%s'"
-msgstr "警告，“%s”含有用户自定义的字段“%s”\n"
+msgstr "“%s”含有用户自定义的字段“%s”"
 
 #: dpkg-deb/build.c:267
 msgid "(upstream) version"
-msgstr ""
+msgstr "(上游)版本"
 
 #: dpkg-deb/build.c:269
-#, fuzzy
 msgid "Debian revision"
-msgstr "Debian %s 版本 %s。\n"
+msgstr "Debian 版本"
 
 #: dpkg-deb/build.c:270
 #, c-format
@@ -3732,14 +3715,12 @@ msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb：正在新建软件包“%s”，包文件为“%s”。\n"
 
 #: dpkg-deb/build.c:287
-#, fuzzy
 msgid "unable to stat control directory"
-msgstr "无法打开临时主控目录"
+msgstr "无法 stat 控制目录"
 
 #: dpkg-deb/build.c:289
-#, fuzzy
 msgid "control directory is not a directory"
-msgstr "无法读取信息(info)目录"
+msgstr "控制目录不是目录"
 
 #: dpkg-deb/build.c:291
 #, c-format
@@ -3768,14 +3749,14 @@ msgid "empty string from fgets reading conffiles"
 msgstr "通过 fgets 读取 conffile 时，返回了空字符串"
 
 #: dpkg-deb/build.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
-msgstr "警告，conffile 的文件名“%.50s”超长，或是缺少最后结尾的换行符\n"
+msgstr "conffile 的文件名“%.50s...”超长，或是缺少最后结尾的换行符"
 
 #: dpkg-deb/build.c:333
-#, fuzzy, c-format
+#, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
-msgstr "警告，conffile “%s” 的文件名后面含有空格\n"
+msgstr "conffile “%s” 的文件名后面含有空格"
 
 #: dpkg-deb/build.c:335
 #, c-format
@@ -3788,9 +3769,9 @@ msgid "conffile `%.250s' is not stattable"
 msgstr "无法 conffile “%.50s”的状态"
 
 #: dpkg-deb/build.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "conffile '%s' is not a plain file"
-msgstr "警告，conffile “%s”不是普通文件\n"
+msgstr "conffile “%s”不是普通文件"
 
 #: dpkg-deb/build.c:343
 msgid "error reading conffiles file"
@@ -3872,12 +3853,11 @@ msgstr "写入文件名到 tar 的管道(数据)失败"
 
 #: dpkg-deb/build.c:486
 msgid "<compress> from tar -cf"
-msgstr ""
+msgstr "<压缩> 自 tar -cf"
 
 #: dpkg-deb/build.c:508
-#, fuzzy
 msgid "failed to fstat tmpfile (data)"
-msgstr "新建临时文件(数据)失败"
+msgstr "fstat 临时文件(数据)失败"
 
 #: dpkg-deb/build.c:518
 msgid "failed to rewind tmpfile (data)"
@@ -3948,7 +3928,7 @@ msgstr "文件“%.250s”已损毁 - 在第一个文件头末尾有错误的魔
 
 #: dpkg-deb/extract.c:142
 msgid "member length"
-msgstr ""
+msgstr "成员长度"
 
 #: dpkg-deb/extract.c:146
 #, c-format
@@ -4073,14 +4053,12 @@ msgid "failed to exec tar"
 msgstr "exec tar 失败"
 
 #: dpkg-deb/extract.c:322
-#, fuzzy
 msgid "<decompress>"
-msgstr "%s：解除压缩"
+msgstr "<解压缩>"
 
 #: dpkg-deb/extract.c:324
-#, fuzzy
 msgid "paste"
-msgstr "验证通过\n"
+msgstr "粘贴"
 
 #: dpkg-deb/extract.c:340 dpkg-deb/extract.c:355 dpkg-deb/info.c:71
 #, c-format
@@ -4323,7 +4301,7 @@ msgstr "无法向后 seek"
 
 #: dpkg-split/info.c:101
 msgid "info length"
-msgstr ""
+msgstr "信息长度"
 
 #: dpkg-split/info.c:110
 #, c-format
@@ -4336,9 +4314,8 @@ msgid "file `%.250s' is corrupt - nulls in info section"
 msgstr "文件“%.250s”已经损毁 - info 小节中发现了空字符(null)"
 
 #: dpkg-split/info.c:119
-#, fuzzy
 msgid "format version number"
-msgstr "版本号"
+msgstr "格式化版本号"
 
 #: dpkg-split/info.c:121
 #, c-format
@@ -4347,18 +4324,16 @@ msgstr ""
 "文件“%.250s”格式的版本是“%.250s” - 您需要用更新版本的 dpkg-split 来处理它"
 
 #: dpkg-split/info.c:124
-#, fuzzy
 msgid "package name"
-msgstr " (软件包："
+msgstr "软件包名："
 
 #: dpkg-split/info.c:125
-#, fuzzy
 msgid "package version number"
-msgstr "版本号"
+msgstr "软件包版本号"
 
 #: dpkg-split/info.c:126
 msgid "package file MD5 checksum"
-msgstr ""
+msgstr "软件包文件 MD5 校验和"
 
 #: dpkg-split/info.c:129
 #, c-format
@@ -4367,16 +4342,15 @@ msgstr "文件“%.250s”已经损毁 - MD5 校验码“%.250s”不符"
 
 #: dpkg-split/info.c:131 dpkg-split/info.c:132
 msgid "total length"
-msgstr ""
+msgstr "总长度"
 
 #: dpkg-split/info.c:133 dpkg-split/info.c:134
 msgid "part offset"
-msgstr ""
+msgstr "部分偏移量"
 
 #: dpkg-split/info.c:136
-#, fuzzy
 msgid "part numbers"
-msgstr "版本号"
+msgstr "部分版本号"
 
 #: dpkg-split/info.c:138
 #, c-format
@@ -4385,17 +4359,16 @@ msgstr "文件“%.250s”已经损毁 - 在分块编号之间没有发现斜杠
 
 #: dpkg-split/info.c:141
 msgid "number of parts"
-msgstr ""
+msgstr "部分的数量"
 
 #: dpkg-split/info.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "file '%.250s' is corrupt - bad number of parts"
-msgstr "文件“%.250s”已经损毁 - 分块编号有误"
+msgstr "文件“%.250s”已经损毁 - 部分编号有误"
 
 #: dpkg-split/info.c:145
-#, fuzzy
 msgid "parts number"
-msgstr "版本号"
+msgstr "部分号"
 
 #: dpkg-split/info.c:147
 #, c-format
@@ -4414,7 +4387,7 @@ msgstr "文件“%.250s”已经损毁 - 第二个成员不是数据成员"
 
 #: dpkg-split/info.c:157
 msgid "data length"
-msgstr ""
+msgstr "数据长度"
 
 #: dpkg-split/info.c:161
 #, c-format
@@ -4476,9 +4449,9 @@ msgstr ""
 "\n"
 
 #: dpkg-split/info.c:227 dpkg-split/join.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "--%s requires one or more part file arguments"
-msgstr "--info 选项需要一个或多个分块文件的文件名作为参数"
+msgstr "--%s 需要一个或多个部分文件作为参数"
 
 #: dpkg-split/info.c:238
 #, c-format
@@ -4488,7 +4461,7 @@ msgstr "文件“%s” 不是一个包文件的分块文件\n"
 #: dpkg-split/join.c:44
 #, c-format
 msgid "Putting package %s together from %d parts: "
-msgstr ""
+msgstr "从 %2$d 个部分整合软件包 %1$s："
 
 #: dpkg-split/join.c:52
 #, c-format
@@ -4680,7 +4653,7 @@ msgstr "包文件尚未被重新组合好：\n"
 #: dpkg-split/queue.c:223
 #, c-format
 msgid " Package %s: part(s) "
-msgstr ""
+msgstr " 软件包 %s: 部分"
 
 #: dpkg-split/queue.c:234
 #, c-format
@@ -4756,7 +4729,7 @@ msgstr ""
 "第二版或其更新的版本。该软件【不】提供任何担保。\n"
 
 #: scripts/dpkg-divert.pl:31
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -4791,6 +4764,7 @@ msgstr ""
 "  [--add] <文件名>         添加一个转移项。\n"
 "  --remove <文件名>        删除这个转移项。\n"
 "  --list [<glob 模式>]     列出各文件转移项。\n"
+"  --listpackage <文件>     显示哪个软件包转移了指定文件。\n"
 "  --truename <文件名>      返回被转移的原始文件。\n"
 "\n"
 "选项：\n"
@@ -5407,15 +5381,15 @@ msgstr "dbg：%s"
 #: scripts/update-alternatives.pl:43
 #, perl-format
 msgid "unknown argument `%s'"
-msgstr "无法识别的参数 “%s”"
+msgstr "无法识别的参数“%s”"
 
 #: scripts/update-alternatives.pl:58
 msgid "--install needs <link> <name> <path> <priority>"
-msgstr "--install 需要 <link> <name> <path> <priority>"
+msgstr "--install 需要 <链接> <名称> <路径> <优先级>"
 
 #: scripts/update-alternatives.pl:63 scripts/update-alternatives.pl:88
 msgid "<link> and <path> can't be the same"
-msgstr ""
+msgstr "<链接> 和 <路径> 不能相同"
 
 #: scripts/update-alternatives.pl:64
 msgid "priority must be an integer"
@@ -5424,12 +5398,12 @@ msgstr "优先级必须为整数"
 #: scripts/update-alternatives.pl:72
 #, perl-format
 msgid "--%s needs <name> <path>"
-msgstr "--%s 需要 <name> <path>"
+msgstr "--%s 需要 <名称> <路径>"
 
 #: scripts/update-alternatives.pl:77
 #, perl-format
 msgid "--%s needs <name>"
-msgstr "--%s 需要 <name>"
+msgstr "--%s 需要 <名称>"
 
 #: scripts/update-alternatives.pl:82
 msgid "--slave only allowed with --install"
@@ -5437,7 +5411,7 @@ msgstr "--slave 只能搭配 --install 使用"
 
 #: scripts/update-alternatives.pl:84
 msgid "--slave needs <link> <name> <path>"
-msgstr "--slave 需要 <link> <name> <path>"
+msgstr "--slave 需要 <链接> <名称> <路径>"
 
 #: scripts/update-alternatives.pl:89
 #, perl-format
@@ -5460,147 +5434,142 @@ msgid "link %s is both primary and slave"
 msgstr "链接 %s 同時是主要(primary)和次要(slave)"
 
 #: scripts/update-alternatives.pl:103
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <file> argument"
-msgstr "--%s 需要一个参数"
+msgstr "--%s 需要一个<文件>参数"
 
 #: scripts/update-alternatives.pl:125
-#, fuzzy
 msgid ""
 "need --display, --query, --list, --get-selections, --config,--set, --set-"
 "selections, --install, --remove, --all, --remove-all or --auto"
 msgstr ""
-"需要 --display, --config, --set, --install, --remove, --all, --remove-all 或 "
-"--auto 选项"
+"需要 --display, --query, --list, --get-selections, --config, --set, --set-"
+"selections, --install, --remove, --all, --remove-all 或 --auto"
 
 #: scripts/update-alternatives.pl:149
 #, perl-format
 msgid "alternative %s can't be master: %s"
-msgstr ""
+msgstr "替换项 %s 不能是主要项：%s"
 
 #: scripts/update-alternatives.pl:150 scripts/update-alternatives.pl:171
-#, fuzzy, perl-format
+#, perl-format
 msgid "it is a slave of %s"
-msgstr " slave %s：%s"
+msgstr "这是 %s 的一个次要项"
 
 #: scripts/update-alternatives.pl:153 scripts/update-alternatives.pl:175
 #, perl-format
 msgid "alternative link %s is already managed by %s."
-msgstr ""
+msgstr "替换链接 %s 已经由 %s 来管理了。"
 
 #: scripts/update-alternatives.pl:156 scripts/update-alternatives.pl:178
 #, perl-format
 msgid "alternative link is not absolute as it should be: %s"
-msgstr ""
+msgstr "替换链接不是绝对链接，它应该是绝对链接：%s"
 
 #: scripts/update-alternatives.pl:158 scripts/update-alternatives.pl:180
 #, perl-format
 msgid "alternative path is not absolute as it should be: %s"
-msgstr ""
+msgstr "替换路径不是绝对路径，它应该是绝对路径：%s"
 
 #: scripts/update-alternatives.pl:160
-#, fuzzy, perl-format
+#, perl-format
 msgid "alternative path %s doesn't exist."
-msgstr "警告：--update 已指定但 %s 不存在"
+msgstr "替代路径 %s 不存在"
 
 #: scripts/update-alternatives.pl:162 scripts/update-alternatives.pl:182
 #, perl-format
 msgid "alternative name (%s) must not contain '/' and spaces."
-msgstr ""
+msgstr "替换名称(%s)不可包含“/”和空格。"
 
 #: scripts/update-alternatives.pl:168
-#, fuzzy, perl-format
+#, perl-format
 msgid "alternative %s can't be slave of %s: %s"
-msgstr "%s：无法创建 %s：%s"
+msgstr "替代项 %s 作为 %s 的次要项：%s"
 
 #: scripts/update-alternatives.pl:170
 msgid "it is a master alternative."
-msgstr ""
+msgstr "这是一个主替换项。"
 
 #: scripts/update-alternatives.pl:207 scripts/update-alternatives.pl:212
 #, perl-format
 msgid "Call %s."
-msgstr ""
+msgstr "调用 %s。"
 
 #: scripts/update-alternatives.pl:216
 #, perl-format
 msgid "Alternative %s unchanged because choice %s is not available."
-msgstr ""
+msgstr "替换项 %s 未改变，因为选项 %s 不可用。"
 
 #: scripts/update-alternatives.pl:221
-#, fuzzy, perl-format
+#, perl-format
 msgid "Skip unknown alternative %s."
-msgstr "找不到替换项 “%s”。"
+msgstr "跳过位置替换项 %s。"
 
 #: scripts/update-alternatives.pl:235 scripts/update-alternatives.pl:238
-#, fuzzy, perl-format
+#, perl-format
 msgid "no alternatives for %s."
 msgstr "无 %s 的替换项。"
 
 #: scripts/update-alternatives.pl:261
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "%s has been changed (manually or by a script). Switching to manual updates "
 "only."
-msgstr ""
-"%s 已更改（由于手动更改或通过脚本）。\n"
-"切换成只允许手动更新。"
+msgstr "%s 已更改（由于手动更改或通过脚本）。切换成仅手动更新。"
 
 #: scripts/update-alternatives.pl:269
-#, fuzzy, perl-format
+#, perl-format
 msgid "setting up automatic selection of %s."
-msgstr "正在设置 %s 的自動选择"
+msgstr "正在设置 %s 的自動选择。"
 
 #: scripts/update-alternatives.pl:282
-#, fuzzy, perl-format
+#, perl-format
 msgid "There is no program which provides %s."
-msgstr ""
-"没有程序提供 %s。\n"
-"无须做任何配置。\n"
+msgstr "没有程序提供 %s。"
 
 #: scripts/update-alternatives.pl:283 scripts/update-alternatives.pl:291
 msgid "Nothing to configure."
-msgstr ""
+msgstr "无需配置。"
 
 #: scripts/update-alternatives.pl:289
 #, perl-format
 msgid "There is only one alternative in link group %s: %s"
-msgstr ""
+msgstr "链接组 %s 中只有一个替换项：%s"
 
 #: scripts/update-alternatives.pl:299
-#, fuzzy, perl-format
+#, perl-format
 msgid "alternative %s for %s not registered, not removing."
-msgstr "%2$s 的替换项 %1$s 没有注册，无法移除。"
+msgstr "%2$s 的替换项 %1$s 没有注册，不予移除。"
 
 #: scripts/update-alternatives.pl:306
-#, fuzzy, perl-format
+#, perl-format
 msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "正在移除手动选择的替代项 - 切换为自动模式"
+msgstr "正在移除手动选择的替代项 - 切换 %s 到自动模式"
 
 #: scripts/update-alternatives.pl:322
-#, fuzzy, perl-format
+#, perl-format
 msgid "renaming %s link from %s to %s."
-msgstr "正在更改链接 %s 的名称，从 %s 改成 %s。"
+msgstr "正在将链接 %s 的名称从 %s 改成 %s。"
 
 #: scripts/update-alternatives.pl:340
-#, fuzzy, perl-format
+#, perl-format
 msgid "renaming %s slave link from %s to %s."
-msgstr "正在更改次要链接 %s 的名称，从 %s 改成 %s。"
+msgstr "正在将次要链接 %s 的名称从 %s 改成 %s。"
 
 #: scripts/update-alternatives.pl:357
-#, fuzzy, perl-format
+#, perl-format
 msgid "automatic updates of %s are disabled, leaving it alone."
-msgstr "取消 %s 的自动更新功能。"
+msgstr "%s 的自动更新功能已禁用，保持现状。"
 
 #: scripts/update-alternatives.pl:359
-#, fuzzy, perl-format
+#, perl-format
 msgid "to return to automatic updates use `update-alternatives --auto %s'."
-msgstr "要回复成自动更新，请执行 “update-alternatives --auto %s”。"
+msgstr "要回复成自动更新请执行 “update-alternatives --auto %s”。"
 
 #: scripts/update-alternatives.pl:375
-#, fuzzy, perl-format
+#, perl-format
 msgid "using %s to provide %s (%s) in %s."
-msgstr "使用“%s”来提供“%s”。"
+msgstr "使用 %s 来提供 %s (%s)，于 %s 中。"
 
 #: scripts/update-alternatives.pl:553
 #, perl-format
@@ -5618,19 +5587,19 @@ msgid "unable to remove %s: %s"
 msgstr "无法移除 %s：%s"
 
 #: scripts/update-alternatives.pl:727
-#, fuzzy, perl-format
+#, perl-format
 msgid "while reading %s: %s"
-msgstr "读取 %s：%s"
+msgstr "当读取 %s 时：%s"
 
 #: scripts/update-alternatives.pl:728
-#, fuzzy, perl-format
+#, perl-format
 msgid "unexpected end of file in %s while trying to read %s"
-msgstr "在 %2$.255s 中读取 %1$s 时遇到意料之外的文件结束符"
+msgstr "在读取 %2$s 时在 %1$s 中遇到非预期的文件结束符"
 
 #: scripts/update-alternatives.pl:736
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s corrupt: %s"
-msgstr "内部错误：%s 损坏：%s"
+msgstr "%s 损坏：%s"
 
 #: scripts/update-alternatives.pl:741
 #, perl-format
@@ -5638,28 +5607,25 @@ msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "update-alternatives 文件（%s）禁止换行符"
 
 #: scripts/update-alternatives.pl:743
-#, fuzzy, perl-format
+#, perl-format
 msgid "while writing %s: %s"
-msgstr "%s：写入 %s 错误：%s"
+msgstr "当写入 %s 时：%s"
 
 #: scripts/update-alternatives.pl:753
-#, fuzzy
 msgid "status"
-msgstr " (按状态)"
+msgstr "状态"
 
 #: scripts/update-alternatives.pl:754
-#, fuzzy
 msgid "invalid status"
-msgstr "无效的更新模式"
+msgstr "无效状态"
 
 #: scripts/update-alternatives.pl:757
 msgid "slave name"
-msgstr ""
+msgstr "次要名称"
 
 #: scripts/update-alternatives.pl:758
-#, fuzzy
 msgid "slave link"
-msgstr "重复的次要(slave)链接 %s"
+msgstr "次要链接"
 
 #: scripts/update-alternatives.pl:759
 #, perl-format
@@ -5677,9 +5643,8 @@ msgid "duplicate slave link %s"
 msgstr "重复的次要(slave)链接 %s"
 
 #: scripts/update-alternatives.pl:770
-#, fuzzy
 msgid "master file"
-msgstr "doupdate 失败"
+msgstr "主要文件"
 
 #: scripts/update-alternatives.pl:771
 #, perl-format
@@ -5687,38 +5652,37 @@ msgid "duplicate path %s"
 msgstr "重复路径 %s"
 
 #: scripts/update-alternatives.pl:774 scripts/update-alternatives.pl:788
-#, fuzzy
 msgid "priority"
-msgstr "优先级 %s %s"
+msgstr "优先级"
 
 #: scripts/update-alternatives.pl:775
-#, fuzzy, perl-format
+#, perl-format
 msgid "priority of %s: %s"
-msgstr "优先级 %s %s"
+msgstr "%s 的优先级：%s"
 
 #: scripts/update-alternatives.pl:779 scripts/update-alternatives.pl:790
 msgid "slave file"
-msgstr ""
+msgstr "次要文件"
 
 #: scripts/update-alternatives.pl:784
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist. Removing from list of "
 "alternatives."
-msgstr "找不到指向 %2$s 的替换项 %1$s。正从替换项列表中移除。"
+msgstr "替换项 %s(链接组 %s 的一部分)不存在。从替换项列表中移除。"
 
 #: scripts/update-alternatives.pl:823
-#, fuzzy, perl-format
+#, perl-format
 msgid "discarding obsolete slave link %s (%s)."
-msgstr "舍弃已废弃的次要链接 %s（%s）。"
+msgstr "舍弃废弃的次要链接 %s(%s)。"
 
 #: scripts/update-alternatives.pl:886 scripts/update-alternatives.pl:932
 msgid "auto mode"
-msgstr ""
+msgstr "自动模式"
 
 #: scripts/update-alternatives.pl:886 scripts/update-alternatives.pl:941
 msgid "manual mode"
-msgstr ""
+msgstr "手动模式"
 
 #: scripts/update-alternatives.pl:889
 #, perl-format
@@ -5751,54 +5715,47 @@ msgstr "无适用版本。"
 #: scripts/update-alternatives.pl:921
 #, perl-format
 msgid "There are %s choices for the alternative %s (providing %s)."
-msgstr ""
+msgstr "有 %s 个选项可用于替换项 %s (提供 %s)。"
 
 #: scripts/update-alternatives.pl:927
-#, fuzzy
 msgid "Selection"
-msgstr "所属大类"
+msgstr "选择"
 
 #: scripts/update-alternatives.pl:928
 msgid "Path"
-msgstr ""
+msgstr "路径"
 
 #: scripts/update-alternatives.pl:928
-#, fuzzy
 msgid "Priority"
-msgstr "优先级 %s %s"
+msgstr "优先级"
 
 #: scripts/update-alternatives.pl:928
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
 #: scripts/update-alternatives.pl:945
-#, fuzzy
 msgid "Press enter to keep the current choice[*], or type selection number: "
-msgstr "要维持缺省值[*]，按回车键，或者键入选择的编号："
+msgstr "要维持当前值[*]请按回车键，或者键入选择的编号："
 
 #: scripts/update-alternatives.pl:979
 #, perl-format
 msgid "readlink(%s) failed: %s"
-msgstr ""
+msgstr "readlink(%s) 失败：%s"
 
 #: scripts/update-alternatives.pl:1007 scripts/update-alternatives.pl:1028
 #, perl-format
 msgid "not replacing %s with a link."
-msgstr ""
+msgstr "未将 %s 替换为链接。"
 
 #: scripts/update-alternatives.pl:1031
 #, perl-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
-msgstr ""
+msgstr "跳过创建 %s 因为所关联文件 %s (位于链接组 %s)不存在。"
 
 #~ msgid "invalid number for --command-fd"
 #~ msgstr "--command-fd 有一个无效的数字参数"
-
-#, fuzzy
-#~ msgid "unexecpted end of line in statoverride file"
-#~ msgstr "在第 %d 行的软件包名中发现该行在此结束，这出乎我们的意料"
 
 #~ msgid "unable to open tmpfile for vsnprintf"
 #~ msgstr "无法为 vsnprintf 新建临时文件"
