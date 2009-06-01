@@ -4,6 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman
+ * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -108,6 +109,12 @@ struct pkgbin {
   struct deppossi *depended;
   /* The ‘essential’ flag, true = yes, false = no (absent). */
   bool essential;
+  enum pkgmultiarch {
+    multiarch_no,
+    multiarch_same,
+    multiarch_allowed,
+    multiarch_foreign,
+  } multiarch;
   const char *description;
   const char *maintainer;
   const char *source;
@@ -282,6 +289,7 @@ void copy_dependency_links(struct pkginfo *pkg,
 #include <dpkg/namevalue.h>
 
 extern const struct namevalue booleaninfos[];
+extern const struct namevalue multiarchinfos[];
 extern const struct namevalue priorityinfos[];
 extern const struct namevalue statusinfos[];
 extern const struct namevalue eflaginfos[];

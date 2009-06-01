@@ -4,6 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,6 +71,7 @@ typedef void freadfunction(struct pkginfo *pigp, struct pkgbin *pifp,
 freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
 freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
 freadfunction f_configversion;
+freadfunction f_multiarch;
 freadfunction f_trigpend, f_trigaw;
 
 enum fwriteflags {
@@ -82,6 +84,7 @@ typedef void fwritefunction(struct varbuf*,
 			    enum fwriteflags flags, const struct fieldinfo*);
 fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configversion;
 fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
+fwritefunction w_multiarch;
 fwritefunction w_filecharf;
 fwritefunction w_trigpend, w_trigaw;
 

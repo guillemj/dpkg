@@ -1140,6 +1140,7 @@ void process_archive(const char *filename) {
    * can find out what other packages refer to this one. So,
    * we don't copy it. We go straight on to copy the text fields. */
   pkg->installed.essential= pkg->available.essential;
+  pkg->installed.multiarch = pkg->available.multiarch;
   pkg->installed.description= pkg->available.description;
   pkg->installed.maintainer= pkg->available.maintainer;
   pkg->installed.source= pkg->available.source;

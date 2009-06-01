@@ -4,6 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
+ * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -154,6 +155,21 @@ f_boolean(struct pkginfo *pigp, struct pkgbin *pifp,
   boolean = parse_nv_last(ps, _("yes/no in boolean field"),
                           booleaninfos, value);
   PKGPFIELD(pifp, fip->integer, bool) = boolean;
+}
+
+void
+f_multiarch(struct pkginfo *pigp, struct pkgbin *pifp,
+            struct parsedb_state *ps,
+            const char *value, const struct fieldinfo *fip)
+{
+  int multiarch;
+
+  if (!*value)
+    return;
+
+  multiarch = parse_nv_last(ps, _("foreign/allowed/same/no in quadstate field"),
+                            multiarchinfos, value);
+  PKGPFIELD(pifp, fip->integer, int) = multiarch;
 }
 
 void

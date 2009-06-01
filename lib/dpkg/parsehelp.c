@@ -3,6 +3,7 @@
  * parsehelp.c - helpful routines for parsing and writing
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,6 +74,14 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
 const struct namevalue booleaninfos[] = {
   NAMEVALUE_DEF("no",  false),
   NAMEVALUE_DEF("yes", true),
+  { .name = NULL }
+};
+
+const struct namevalue multiarchinfos[] = {
+  NAMEVALUE_DEF("no",      multiarch_no),
+  NAMEVALUE_DEF("same",    multiarch_same),
+  NAMEVALUE_DEF("allowed", multiarch_allowed),
+  NAMEVALUE_DEF("foreign", multiarch_foreign),
   { .name = NULL }
 };
 

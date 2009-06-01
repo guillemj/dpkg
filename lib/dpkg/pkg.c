@@ -3,7 +3,7 @@
  * pkg.c - primitives for pkg handling
  *
  * Copyright © 1995, 1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ void
 pkgbin_blank(struct pkgbin *pkgbin)
 {
 	pkgbin->essential = false;
+	pkgbin->multiarch = multiarch_no;
 	pkgbin->depends = NULL;
 	pkgbin->depended = NULL;
 	pkgbin->description = NULL;

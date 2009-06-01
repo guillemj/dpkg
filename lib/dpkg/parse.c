@@ -3,6 +3,7 @@
  * parse.c - database file parsing, main package/field loop
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006,2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +52,7 @@ const struct fieldinfo fieldinfos[]= {
   { "Package",          f_name,            w_name                                     },
   { "Essential",        f_boolean,         w_booleandefno,   PKGIFPOFF(essential)     },
   { "Status",           f_status,          w_status                                   },
+  { "Multi-Arch",       f_multiarch,       w_multiarch,      PKGIFPOFF(multiarch)     },
   { "Priority",         f_priority,        w_priority                                 },
   { "Section",          f_section,         w_section                                  },
   { "Installed-Size",   f_charfield,       w_charfield,      PKGIFPOFF(installedsize) },

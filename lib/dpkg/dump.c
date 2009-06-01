@@ -4,6 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
+ * Copyright © 2006,2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -163,6 +164,26 @@ w_booleandefno(struct varbuf *vb,
   assert(value == true);
   varbuf_add_str(vb, fip->name);
   varbuf_add_str(vb, ": yes\n");
+}
+
+void
+w_multiarch(struct varbuf *vb,
+            const struct pkginfo *pigp, const struct pkgbin *pifp,
+            enum fwriteflags flags, const struct fieldinfo *fip)
+{
+  int value = PKGPFIELD(pifp, fip->integer, int);
+
+  if (!(flags & fw_printheader)) {
+    varbuf_add_str(vb, multiarchinfos[value].name);
+    return;
+  }
+  if (!value)
+    return;
+
+  varbuf_add_str(vb, fip->name);
+  varbuf_add_str(vb, ": ");
+  varbuf_add_str(vb, multiarchinfos[value].name);
+  varbuf_add_char(vb, '\n');
 }
 
 void
