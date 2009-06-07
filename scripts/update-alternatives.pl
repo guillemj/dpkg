@@ -257,7 +257,11 @@ if ($alternative->has_current_link()) {
     $current_choice = $alternative->current();
     # Detect manually modified alternative, switch to manual
     if (not $alternative->has_choice($current_choice)) {
-        if ($alternative->status() ne "manual") {
+        if (not -e $current_choice) {
+            warning("%s is dangling, it will be updated with best choice.",
+                    "$altdir/" . $alternative->name());
+            $alternative->set_status('auto');
+        } elsif ($alternative->status() ne "manual") {
             warning(_g("%s has been changed (manually or by a script). " .
                     "Switching to manual updates only."),
                     "$altdir/" . $alternative->name());
@@ -989,6 +993,8 @@ sub prepare_install {
     my ($self, $choice) = @_;
     my ($link, $name) = ($self->link(), $self->name());
     my $fileset = $self->fileset($choice);
+    main::error("can't install unknown choice %s", $choice)
+        if not defined($choice);
     # Create link in /etc/alternatives
     main::checked_rm("$altdir/$name.dpkg-tmp");
     main::checked_symlink($choice, "$altdir/$name.dpkg-tmp");
