@@ -138,10 +138,11 @@ sub open_for_read {
 
 sub cleanup_after_open {
     my ($self) = @_;
+    my $cmdline = $self->{"compressor"}{"cmdline"} || "";
     $self->{"compressor"}->wait_end_process(nocheck => $self->{'allow_sigpipe'});
     if ($self->{'allow_sigpipe'}) {
         unless (($? == 0) || (WIFSIGNALED($?) && (WTERMSIG($?) == SIGPIPE))) {
-            subprocerr($self->{"compressor"}{"cmdline"});
+            subprocerr($cmdline);
         }
     }
 }
