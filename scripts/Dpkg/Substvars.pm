@@ -50,6 +50,10 @@ and ${dpkg:Upstream-Version}.
 
 Additional substitutions will be read from the $file passed as parameter.
 
+It keeps track of which substitutions were actually used (only counting
+substvars(), not get()), and warns about unused substvars when asked to. The
+substitutions that are always present are not included in these warnings.
+
 =cut
 
 sub new {
@@ -63,6 +67,8 @@ sub new {
 	"dpkg:Upstream-Version" => $version,
     };
     $self->{'dpkg:Upstream-Version'} =~ s/-[^-]+$//;
+    $self->{_used} = {};
+    $self->{_used}{$_}++ foreach keys %$self;
     bless $self, $class;
     if ($arg) {
         $self->parse($arg);
@@ -100,7 +106,20 @@ Remove a given substitution.
 
 sub delete {
     my ($self, $key) = @_;
+    delete $self->{_used}{$key};
     return delete $self->{$key};
+}
+
+=item $s->no_warn($key)
+
+Prevents warnings about a unused substitution, for example if it is provided by
+default.
+
+=cut
+
+sub no_warn {
+    my ($self, $key) = @_;
+    $self->{_used}{$key}++;
 }
 
 =item $s->parse($file)
@@ -133,6 +152,8 @@ sub parse {
 Defines ${binary:Version}, ${source:Version} and
 ${source:Upstream-Version} based on the given version string.
 
+These will never be warned about when unused.
+
 =cut
 
 sub set_version_substvars {
@@ -146,11 +167,15 @@ sub set_version_substvars {
 
     # XXX: Source-Version is now deprecated, remove in the future.
     $self->{'Source-Version'} = $version;
+
+    $self->no_warn($_) foreach qw/binary:Version source:Version source:Upstream-Version Source-Version/;
 }
 
 =item $s->set_arch_substvars()
 
 Defines architecture variables: ${Arch}.
+
+This will never be warned about when unused.
 
 =cut
 
@@ -158,6 +183,7 @@ sub set_arch_substvars {
     my ($self) = @_;
 
     $self->{'Arch'} = get_host_arch();
+    $self->no_warn('Arch');
 }
 
 =item $newstring = $s->substvars($string)
@@ -183,6 +209,7 @@ sub substvars {
         $lhs = $PREMATCH; $vn = $1; $rhs = $POSTMATCH;
         if (defined($self->{$vn})) {
             $v = $lhs . $self->{$vn} . $rhs;
+	    $self->{_used}{$vn}++;
             $count++;
         } else {
             warning(_g("unknown substitution variable \${%s}"), $vn);
@@ -190,6 +217,25 @@ sub substvars {
         }
     }
     return $v;
+}
+
+=item $s->warn_about_unused()
+
+Issues warning about any variables that were set, but not used
+
+=cut
+
+sub warn_about_unused {
+    my ($self) = @_;
+
+    foreach my $vn (keys %$self) {
+        next if $self->{_used}{$vn};
+        # Empty substitutions variables are ignored on the basis
+        # that they are not required in the current situation
+        # (example: debhelper's misc:Depends in many cases)
+        next if $self->{$vn} eq "";
+        warning(_g("unused substitution variables \${%s}"), $vn);
+    }
 }
 
 =back

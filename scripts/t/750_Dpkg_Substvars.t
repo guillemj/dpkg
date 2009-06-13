@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 24;
+use Test::More tests => 26;
 
 use strict;
 use warnings;
@@ -72,3 +72,19 @@ is($s->substvars('This is a string with ${rvar}'),
 is($s->substvars('Nothing to $ ${substitute  here}, is it ${}?, it ${is'),
                  'Nothing to $ ${substitute  here}, is it ${}?, it ${is',
 		 "substvars strange");
+
+# Warnings about unused variables
+$output = '';
+$SIG{'__WARN__'} = sub { $output .= $_[0] };
+$s->warn_about_unused();
+delete $SIG{'__WARN__'};
+is($output, '750_Dpkg_Substvars.t: warning: unused substitution variables ${var2}'."\n",
+          , 'unused variables warnings');
+
+# Disable warnings for a certain variable
+$s->no_warn('var2');
+$output = '';
+$SIG{'__WARN__'} = sub { $output .= $_[0] };
+$s->warn_about_unused();
+delete $SIG{'__WARN__'};
+is($output, '', 'disabled unused variables warnings');
