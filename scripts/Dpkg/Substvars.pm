@@ -115,7 +115,7 @@ sub parse {
     if (open(SV, "<", $varlistfile)) {
 	binmode(SV);
 	while (<SV>) {
-	    next if m/^\#/ || !m/\S/;
+	    next if m/^\s*\#/ || !m/\S/;
 	    s/\s*\n$//;
 	    m/^(\w[-:0-9A-Za-z]*)\=/ ||
 		error(_g("bad line in substvars file %s at line %d"),
