@@ -213,6 +213,7 @@ sub output {
     if (defined($substvars)) {
 	foreach my $f (keys %{$self->[0]}) {
 	    $substvars->set("F:$f", $self->[0]->{$f});
+	    $substvars->no_warn("F:$f");
 	}
     }
 

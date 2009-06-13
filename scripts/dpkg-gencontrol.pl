@@ -312,6 +312,7 @@ if (defined($substvars->get('Extra-Size'))) {
 if (defined($substvars->get('Installed-Size'))) {
     $fields->{'Installed-Size'} = $substvars->get('Installed-Size');
 }
+$substvars->no_warn('Installed-Size');
 
 for my $f (keys %override) {
     $fields->{$f} = $override{$f};
@@ -370,4 +371,5 @@ if (!$stdout) {
         syserr(_g("cannot install output control file \`%s'"), $cf);
 }
 
+$substvars->warn_about_unused();
 
