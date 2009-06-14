@@ -13,6 +13,9 @@ use Dpkg::Version qw(compare_versions);
 
 textdomain("dpkg-dev");
 
+# Do not pollute STDOUT with info messages
+report_options(info_fh => \*STDERR);
+
 my (@samemaint, @changedmaint);
 my @spuriousover;
 my %packages;
@@ -273,4 +276,5 @@ if (@spuriousover) {
     warning("  %s", join(' ', @spuriousover));
 }
 
-printf(STDERR _g(" Wrote %s entries to output Packages file.")."\n", $records_written) || die $!;
+info(_g("Wrote %s entries to output Packages file."), $records_written);
+
