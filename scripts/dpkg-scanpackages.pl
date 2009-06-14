@@ -99,14 +99,14 @@ sub load_override
 		    my $debmaint = $$package{Maintainer};
 		    if (!grep($debmaint eq $_, split(m:\s*//\s*:, $oldmaint))) {
 			push(@changedmaint,
-			     "  $p (package says $$package{Maintainer}, not $oldmaint)\n");
+			     "  $p (package says $$package{Maintainer}, not $oldmaint)");
 		    } else {
 			$$package{Maintainer} = $newmaint;
 		    }
 		} elsif ($$package{Maintainer} eq $maintainer) {
-		    push(@samemaint, "  $p ($maintainer)\n");
+		    push(@samemaint, "  $p ($maintainer)");
 		} else {
-		    printf(STDERR _g(" * Unconditional maintainer override for %s *")."\n", $p) || die $!;
+		    warning(_g("Unconditional maintainer override for %s"), $p);
 		    $$package{Maintainer} = $maintainer;
 		}
 	    }
@@ -165,11 +165,13 @@ FILE:
 	my $fn = $_;
 	my $control = `dpkg-deb -I $fn control`;
 	if ($control eq "") {
-	    warn sprintf(_g("Couldn't call dpkg-deb on %s: %s, skipping package"), $fn, $!)."\n";
+	    warning(_g("Couldn't call dpkg-deb on %s: %s, skipping package"),
+	            $fn, $!);
 	    next;
 	}
 	if ($?) {
-	    warn sprintf(_g("\`dpkg-deb -I %s control' exited with %d, skipping package"), $fn, $?)."\n";
+	    warning(_g("\`dpkg-deb -I %s control' exited with %d, skipping package"),
+	            $fn, $?);
 	    next;
 	}
 	
@@ -193,21 +195,20 @@ FILE:
 	if (defined($packages{$p}) and not $options{multiversion}) {
 	    foreach (@{$packages{$p}}) {
 		if (vercmp($tv{'Version'}, $_->{'Version'})) {
-		    printf(STDERR _g(
-			  " ! Package %s (filename %s) is repeat but newer version;\n".
-			  "   used that one and ignored data from %s !\n"), $p, $fn, $_->{Filename})
-			|| die $!;
+		    warning(_g("Package %s (filename %s) is repeat but newer version;"),
+		            $p, $fn);
+		    warning(_g("used that one and ignored data from %s!"),
+		            $_->{Filename});
 		    $packages{$p} = [];
 		} else {
-		    printf(STDERR _g(
-			  " ! Package %s (filename %s) is repeat;\n".
-			  "   ignored that one and using data from %s !\n"), $p, $fn, $_->{Filename})
-			or die $!;
+		    warning(_g("Package %s (filename %s) is repeat;"), $p, $fn);
+		    warning(_g("ignored that one and using data from %s!"),
+		            $_->{Filename});
 		    next FILE;
 		}
 	    }
 	}
-	printf(STDERR _g(" ! Package %s (filename %s) has Filename field!\n"), $p, $fn) || die $!
+	warning(_g("Package %s (filename %s) has Filename field!"), $p, $fn)
 	    if defined($tv{'Filename'});
 	
 	$tv{'Filename'}= "$pathprefix$fn";
@@ -233,23 +234,6 @@ FILE:
     }
 close($find_h);
 
-select(STDERR); $= = 1000; select(STDOUT);
-
-sub writelist {
-    my $title= shift(@_);
-    return unless @_;
-
-    print(STDERR " $title\n") || die $!;
-    my $packages= join(' ',sort @_);
-
-format STDERR =
-  ^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-$packages
-.
-    while (length($packages)) { write(STDERR) || die $!; }
-    print(STDERR "\n") || die $!;
-}
-
 load_override($override) if defined $override;
 
 my @missingover=();
@@ -272,25 +256,21 @@ for my $p (sort keys %packages) {
 }
 close(STDOUT) or syserr(_g("Couldn't close stdout"));
 
-writelist(_g("** Packages in archive but missing from override file: **"),
-          @missingover);
+if (@missingover) {
+    warning(_g("Packages in archive but missing from override file:"));
+    warning("  %s", join(' ', @missingover));
+}
 if (@changedmaint) {
-    print(STDERR
-          _g(" ++ Packages in override file with incorrect old maintainer value: ++")."\n",
-          @changedmaint,
-          "\n") || die $!;
+    warning(_g("Packages in override file with incorrect old maintainer value:"));
+    warning($_) foreach (@changedmaint);
 }
 if (@samemaint) {
-    print(STDERR
-          _g(" -- Packages specifying same maintainer as override file: --")."\n",
-          @samemaint,
-          "\n") || die $!;
+    warning(_g("Packages specifying same maintainer as override file:"));
+    warning($_) foreach (@samemaint);
 }
 if (@spuriousover) {
-    print(STDERR
-          _g(" -- Packages in override file but not in archive: --"). "\n  ",
-          join(' ', @spuriousover),
-          "\n") || die $!;
+    warning(_g("Packages in override file but not in archive:"));
+    warning("  %s", join(' ', @spuriousover));
 }
 
 printf(STDERR _g(" Wrote %s entries to output Packages file.")."\n", $records_written) || die $!;
