@@ -6,7 +6,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(:DEFAULT unknown $quiet_warnings);
+use Dpkg::ErrorHandling qw(:DEFAULT unknown);
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
 use Dpkg::Fields qw(:list capit);
@@ -115,7 +115,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         # Deprecated option
         warning(_g("-E and -W are deprecated, they are without effect"));
     } elsif (m/^-q$/) {
-        $quiet_warnings = 1;
+        report_options(quiet_warnings => 1);
         $options{'quiet'} = 1;
     } elsif (m/^--$/) {
         last;

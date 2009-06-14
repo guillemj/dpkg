@@ -1,6 +1,7 @@
 # -*- mode: cperl;-*-
 
 use Test::More tests => 6;
+use Dpkg::ErrorHandling;
 
 use strict;
 use warnings;
@@ -11,7 +12,7 @@ use_ok('Dpkg::BuildOptions');
     no warnings;
     # Disable warnings related to invalid values fed during
     # the tests
-    $Dpkg::ErrorHandling::quiet_warnings = 1;
+    report_options(quiet_warnings => 1);
 }
 
 $ENV{DEB_BUILD_OPTIONS} = 'noopt foonostripbar parallel=3 bazNOCHECK';

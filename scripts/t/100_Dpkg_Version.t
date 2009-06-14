@@ -1,12 +1,12 @@
 # -*- mode: cperl;-*-
 
 use Test::More;
-use Dpkg::ErrorHandling qw($quiet_warnings);
-
-$quiet_warnings = 1;
+use Dpkg::ErrorHandling;
 
 use strict;
 use warnings;
+
+report_options(quiet_warnings => 1);
 
 my @tests = <DATA>;
 my @ops = ("<", "<<", "lt",

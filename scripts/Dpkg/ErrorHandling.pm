@@ -4,11 +4,20 @@ use Dpkg;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT = qw(info warning error errormsg
+our @EXPORT = qw(report_options info warning error errormsg
                  syserr internerr subprocerr usageerr syntaxerr);
-our @EXPORT_OK = qw(report unknown $quiet_warnings);
+our @EXPORT_OK = qw(report unknown);
 
-our $quiet_warnings = 0;
+my $quiet_warnings = 0;
+
+sub report_options
+{
+    my (%options) = @_;
+
+    if (exists $options{quiet_warnings}) {
+        $quiet_warnings = $options{quiet_warnings};
+    }
+}
 
 sub report(@)
 {
