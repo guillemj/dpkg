@@ -14,6 +14,7 @@ use Dpkg::Version qw(compare_versions);
 textdomain("dpkg-dev");
 
 my (@samemaint, @changedmaint);
+my @spuriousover;
 my %packages;
 my %overridden;
 
@@ -85,7 +86,10 @@ sub load_override
 
 	my ($p, $priority, $section, $maintainer) = split(/\s+/, $_, 4);
 
-	next unless defined($packages{$p});
+	if (not defined($packages{$p})) {
+	    push(@spuriousover, $p);
+	    next;
+	}
 
 	for my $package (@{$packages{$p}}) {
 	    if ($maintainer) {
@@ -267,8 +271,6 @@ for my $p (sort keys %packages) {
     }
 }
 close(STDOUT) or syserr(_g("Couldn't close stdout"));
-
-my @spuriousover= grep(!defined($packages{$_}),sort keys %overridden);
 
 writelist(_g("** Packages in archive but missing from override file: **"),
           @missingover);
