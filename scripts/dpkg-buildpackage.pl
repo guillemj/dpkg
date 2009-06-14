@@ -9,7 +9,7 @@ use POSIX;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(:DEFAULT $warnable_error);
+use Dpkg::ErrorHandling;
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version qw(check_version);
@@ -71,8 +71,6 @@ Options:
   -nc            do not clean source tree (implies -b).
   -tc            clean source tree when finished.
   -ap            add pause before starting signature process.
-  -E             turn certain warnings into errors.       } passed to
-  -W             when -E is turned on, -W turns it off.   } dpkg-source
   -i[<regex>]    ignore diffs of files matching regex.    } only passed
   -I[<pattern>]  filter out files when building tarballs. } to dpkg-source
   --admindir=<directory>
@@ -186,12 +184,9 @@ while (@ARGV) {
 	$changedby = $1;
     } elsif (/^-C(.*)$/) {
 	$desc = $1;
-    } elsif (/^-W$/) {
-	$warnable_error = 1;
-	push @passopts, '-W';
-    } elsif (/^-E$/) {
-	$warnable_error = 0;
-	push @passopts, '-E';
+    } elsif (m/^-[EW]$/) {
+	# Deprecated option
+	warning(_g("-E and -W are deprecated, they are without effect"));
     } elsif (/^-R(.*)$/) {
 	@debian_rules = split /\s+/, $1;
     } else {

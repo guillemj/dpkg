@@ -4,11 +4,10 @@ use Dpkg;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT = qw(info warning warnerror error errormsg
+our @EXPORT = qw(info warning error errormsg
                  syserr internerr subprocerr usageerr syntaxerr);
-our @EXPORT_OK = qw(report unknown $warnable_error $quiet_warnings);
+our @EXPORT_OK = qw(report unknown $quiet_warnings);
 
-our $warnable_error = 1;
 our $quiet_warnings = 0;
 
 sub report(@)
@@ -27,15 +26,6 @@ sub info($;@)
 sub warning($;@)
 {
     warn report(_g("warning"), @_) if (!$quiet_warnings);
-}
-
-sub warnerror(@)
-{
-    if ($warnable_error) {
-	warning(@_);
-    } else {
-	error(@_);
-    }
 }
 
 sub syserr($;@)
