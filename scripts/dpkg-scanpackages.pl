@@ -288,8 +288,8 @@ if (@samemaint) {
 }
 if (@spuriousover) {
     print(STDERR
-          _g(" -- Packages in override file but not in archive: --")."\n",
-          @spuriousover,
+          _g(" -- Packages in override file but not in archive: --"). "\n  ",
+          join(' ', @spuriousover),
           "\n") || die $!;
 }
 
