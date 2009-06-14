@@ -9,6 +9,7 @@ our @EXPORT = qw(report_options info warning error errormsg
 our @EXPORT_OK = qw(report unknown);
 
 my $quiet_warnings = 0;
+my $info_fh = \*STDOUT;
 
 sub report_options
 {
@@ -16,6 +17,9 @@ sub report_options
 
     if (exists $options{quiet_warnings}) {
         $quiet_warnings = $options{quiet_warnings};
+    }
+    if (exists $options{info_fh}) {
+        $info_fh = $options{info_fh};
     }
 }
 
@@ -29,7 +33,7 @@ sub report(@)
 
 sub info($;@)
 {
-    print report(_g("info"), @_) if (!$quiet_warnings);
+    print $info_fh report(_g("info"), @_) if (!$quiet_warnings);
 }
 
 sub warning($;@)
