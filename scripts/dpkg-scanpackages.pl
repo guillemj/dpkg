@@ -256,10 +256,6 @@ for my $p (sort keys %packages) {
 }
 close(STDOUT) or syserr(_g("Couldn't close stdout"));
 
-if (@missingover) {
-    warning(_g("Packages in archive but missing from override file:"));
-    warning("  %s", join(' ', @missingover));
-}
 if (@changedmaint) {
     warning(_g("Packages in override file with incorrect old maintainer value:"));
     warning($_) foreach (@changedmaint);
@@ -267,6 +263,10 @@ if (@changedmaint) {
 if (@samemaint) {
     warning(_g("Packages specifying same maintainer as override file:"));
     warning($_) foreach (@samemaint);
+}
+if (@missingover) {
+    warning(_g("Packages in archive but missing from override file:"));
+    warning("  %s", join(' ', @missingover));
 }
 if (@spuriousover) {
     warning(_g("Packages in override file but not in archive:"));
