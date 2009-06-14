@@ -29,6 +29,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
 
 textdomain("dpkg-dev");
 
@@ -69,25 +70,6 @@ my @Option_spec = (
 
 sub debug {
     print @_, "\n" if $Debug;
-}
-
-sub xwarndie_mess {
-    my @mess = ("$progname: ", @_);
-    $mess[$#mess] =~ s/:$/: $!\n/;	# XXX loses if it's really /:\n/
-    return @mess;
-}
-
-sub xdie {
-    die xwarndie_mess @_;
-}
-
-sub xwarn {
-    warn xwarndie_mess @_;
-    $Exit ||= 1;
-}
-
-sub xwarn_noerror {
-    warn xwarndie_mess @_;
 }
 
 sub version {
@@ -150,7 +132,7 @@ sub load_override {
     my $file = shift;
     local $_;
 
-    open OVERRIDE, $file or xdie sprintf(_g("can't read override file %s:"), $file);
+    open OVERRIDE, $file or syserr(_g("can't read override file %s"), $file);
     while (<OVERRIDE>) {
     	s/#.*//;
 	next if /^\s*$/;
@@ -158,22 +140,19 @@ sub load_override {
 
 	my @data = split ' ', $_, 4;
 	unless (@data == 3 || @data == 4) {
-	    xwarn_noerror sprintf(_g(
-	                      "invalid override entry at line %d (%d fields)"),
-	                          $., 0+@data)."\n";
+	    warning(_g("invalid override entry at line %d (%d fields)"),
+	            $., 0 + @data);
 	    next;
 	}
 	my ($package, $priority, $section, $maintainer) = @data;
 	if (exists $Override{$package}) {
-	    xwarn_noerror sprintf(_g(
-	                "ignoring duplicate override entry for %s at line %d"),
-	                          $package, $.)."\n";
+	    warning(_g("ignoring duplicate override entry for %s at line %d"),
+	            $package, $.);
 	    next;
 	}
 	if (!$Priority{$priority}) {
-	    xwarn_noerror sprintf(_g(
-	                "ignoring override entry for %s, invalid priority %s"),
-	                          $package, $priority)."\n";
+	    warning(_g("ignoring override entry for %s, invalid priority %s"),
+	            $package, $priority);
 	    next;
 	}
 
@@ -191,7 +170,7 @@ sub load_override {
 	    $Override{$package}[O_MAINT_TO] = $maintainer;
 	}
     }
-    close OVERRIDE or xdie _g("error closing override file:");
+    close OVERRIDE or syserr(_g("error closing override file"));
 }
 
 sub load_src_override {
@@ -212,7 +191,7 @@ sub load_src_override {
     debug "source override file $file";
     unless (open SRC_OVERRIDE, $file) {
 	return if !defined $user_file;
-	xdie sprintf(_g("can't read source override file %s:"), $file);
+	syserr(_g("can't read source override file %s"), $file);
     }
     while (<SRC_OVERRIDE>) {
     	s/#.*//;
@@ -221,24 +200,22 @@ sub load_src_override {
 
 	my @data = split ' ', $_;
 	unless (@data == 2) {
-	    xwarn_noerror sprintf(_g(
-	               "invalid source override entry at line %d (%d fields)"),
-	                          $., 0+@data)."\n";
+	    warning(_g("invalid source override entry at line %d (%d fields)"),
+	            $., 0 + @data);
 	    next;
 	}
 
 	my ($package, $section) = @data;
 	my $key = "source/$package";
 	if (exists $Override{$key}) {
-	    xwarn_noerror sprintf(_g(
-	         "ignoring duplicate source override entry for %s at line %d"),
-	                          $package, $.)."\n";
+	    warning(_g("ignoring duplicate source override entry for %s at line %d"),
+	            $package, $.);
 	    next;
 	}
 	$Override{$key} = [];
 	$Override{$key}[O_SECTION] = $section;
     }
-    close SRC_OVERRIDE or xdie _g("error closing source override file:");
+    close SRC_OVERRIDE or syserr(_g("error closing source override file"));
 }
 
 # Given FILENAME (for error reporting) and STRING, drop the PGP info
@@ -252,7 +229,7 @@ sub de_pgp {
 			.*?\n
 			-----END\040PGP\040SIGNATURE-----\n
 		    //xs) {
-	    xwarn_noerror sprintf(_g("%s has PGP start token but not end token"), $file)."\n";
+	    warning(_g("%s has PGP start token but not end token"), $file);
 	    return;
 	}
 	$s =~ s/^- //mg;
@@ -268,13 +245,13 @@ sub read_dsc {
     my ($size, $md5, $nread, $contents);
 
     unless (open FILE, $file) {
-	xwarn_noerror sprintf(_g("can't read %s:"), $file);
+	warning(_g("can't read %s: %s"), $file, $!);
 	return;
     }
 
     $size = -s FILE;
     unless (defined $size) {
-	xwarn_noerror sprintf(_g("error doing fstat on %s:"), $file);
+	warning(_g("error doing fstat on %s: %s"), $file, $!);
 	return;
     }
 
@@ -282,7 +259,7 @@ sub read_dsc {
     do {
 	$nread = read FILE, $contents, 16*1024, length $contents;
 	unless (defined $nread) {
-	    xwarn_noerror sprintf(_g("error reading from %s:"), $file);
+	    warning(_g("error reading from %s: %s"), $file, $!);
 	    return;
 	}
     } while $nread > 0;
@@ -290,27 +267,27 @@ sub read_dsc {
     # Rewind the .dsc file and feed it to md5sum as stdin.
     my $pid = open MD5, '-|';
     unless (defined $pid) {
-	xwarn_noerror _g("can't fork:");
+	warning(_g("can't fork: %s", $!));
 	return;
     }
     if (!$pid) {
-	open STDIN, '<&FILE' or xdie sprintf(_g("can't dup %s:"), $file);
-	seek STDIN, 0, 0     or xdie sprintf(_g("can't rewind %s:"), $file);
-	exec 'md5sum'        or xdie _g("can't exec md5sum:");
+	open STDIN, '<&FILE' or syserr(_g("can't dup %s"), $file);
+	seek STDIN, 0, 0     or syserr(_g("can't rewind %s"), $file);
+	exec 'md5sum'        or syserr(_g("can't exec md5sum"));
     }
     chomp($md5 = join '', <MD5>);
     unless (close MD5) {
-	xwarn_noerror close_msg 'md5sum';
+	warning(close_msg, 'md5sum');
 	return;
     }
     $md5 =~ s/ *-$//; # Remove trailing spaces and -, to work with GNU md5sum
     unless (length($md5) == 32 && $md5 !~ /[^\da-f]/i) {
-	xwarn_noerror sprintf(_g("invalid md5 output for %s (%s)"), $file, $md5)."\n";
+	warning(_g("invalid md5 output for %s (%s)"), $file, $md5);
 	return;
     }
 
     unless (close FILE) {
-	xwarn_noerror sprintf(_g("error closing %s:"), $file);
+	warning(_g("error closing %s: %s"), $file, $!);
 	return;
     }
 
@@ -335,7 +312,7 @@ sub process_dsc {
     $contents =~ s/\n\n+\Z/\n/;
 
     if ($contents =~ /^\n/ || $contents =~ /\n\n/) {
-	xwarn_noerror sprintf(_g("%s invalid (contains blank line)"), $file)."\n";
+	warning(_g("%s invalid (contains blank line)"), $file);
 	return;
     }
 
@@ -362,7 +339,7 @@ sub process_dsc {
 	$s =~ s/\s+$//;
 	$s =~ s/\n\s+/ /g;
 	unless ($s =~ s/^([^:\s]+):\s*//) {
-	    xwarn_noerror sprintf(_g("invalid field in %s: %s"), $file, $orig_field);
+	    warning(_g("invalid field in %s: %s"), $file, $orig_field);
 	    return;
 	}
 	my ($key, $val) = (lc $1, $s);
@@ -370,11 +347,11 @@ sub process_dsc {
 	# $source
 	if ($key eq 'source') {
 	    if (defined $source) {
-		xwarn_noerror sprintf(_g("duplicate source field in %s"), $file)."\n";
+		warning(_g("duplicate source field in %s"), $file);
 		return;
 	    }
 	    if ($val =~ /\s/) {
-		xwarn_noerror sprintf(_g("invalid source field in %s"), $file)."\n";
+		warning(_g("invalid source field in %s"), $file);
 		return;
 	    }
 	    $source = $val;
@@ -384,12 +361,12 @@ sub process_dsc {
 	# @binary
 	if ($key eq 'binary') {
 	    if (@binary) {
-		xwarn_noerror sprintf(_g("duplicate binary field in %s"), $file)."\n";
+		warning(_g("duplicate binary field in %s"), $file);
 		return;
 	    }
 	    @binary = split /\s*,\s*/, $val;
 	    unless (@binary) {
-		xwarn_noerror sprintf(_g("no binary packages specified in %s"), $file)."\n";
+		warning(_g("no binary packages specified in %s"), $file);
 		return;
 	    }
 	}
@@ -502,7 +479,7 @@ sub main {
     my (@out);
 
     init;
-    @ARGV >= 1 && @ARGV <= 3 or xwarn _g("1 to 3 args expected\n") and usage;
+    @ARGV >= 1 && @ARGV <= 3 or usageerr(_g("1 to 3 args expected\n"));
 
     push @ARGV, undef		if @ARGV < 2;
     push @ARGV, ''		if @ARGV < 3;
@@ -512,7 +489,7 @@ sub main {
     load_src_override $Src_override, $override;
 
     open FIND, "find \Q$dir\E -follow -name '*.dsc' -print |"
-	or xdie _g("can't fork:");
+	or syserr(_g("can't fork"));
     while (<FIND>) {
     	chomp;
 	s-^\./+--;
@@ -524,7 +501,7 @@ sub main {
 	    push @out, [$source, $out];
 	}
     }
-    close FIND or xdie close_msg 'find';
+    close FIND or error(close_msg, 'find');
 
     if (@out) {
 	print map { $_->[1] } sort { $a->[0] cmp $b->[0] } @out;
