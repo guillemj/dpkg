@@ -102,7 +102,8 @@ sub load_override
 		    my $debmaint = $$package{Maintainer};
 		    if (!grep($debmaint eq $_, split(m:\s*//\s*:, $oldmaint))) {
 			push(@changedmaint,
-			     "  $p (package says $$package{Maintainer}, not $oldmaint)");
+			     sprintf(_g("  %s (package says %s, not %s)"),
+			             $p, $$package{Maintainer}, $oldmaint));
 		    } else {
 			$$package{Maintainer} = $newmaint;
 		    }
