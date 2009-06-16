@@ -48,8 +48,6 @@
 
 static int allpackagesdone= 0;
 static int nfiles= 0;
-static struct diversion *diversions = NULL;
-static FILE *diversionsfile = NULL;
 
 void
 ensure_package_clientdata(struct pkginfo *pkg)
@@ -331,76 +329,6 @@ void reversefilelist_abort(struct reversefilelistiter *iterptr) {
    * been called until it returned 0.
    */
   while (reversefilelist_next(iterptr));
-}
-
-void ensure_diversions(void) {
-  static struct varbuf vb;
-
-  struct stat stab1, stab2;
-  char linebuf[MAXDIVERTFILENAME];
-  FILE *file;
-  struct diversion *ov, *oicontest, *oialtname;
-  int l;
-  
-  varbufreset(&vb);
-  varbufaddstr(&vb,admindir);
-  varbufaddstr(&vb,"/" DIVERSIONSFILE);
-  varbufaddc(&vb,0);
-
-  onerr_abort++;
-  
-  file= fopen(vb.buf,"r");
-  if (!file) {
-    if (errno != ENOENT) ohshite(_("failed to open diversions file"));
-    if (!diversionsfile) { onerr_abort--; return; }
-  } else if (diversionsfile) {
-    if (fstat(fileno(diversionsfile),&stab1))
-      ohshite(_("failed to fstat previous diversions file"));
-    if (fstat(fileno(file),&stab2))
-      ohshite(_("failed to fstat diversions file"));
-    if (stab1.st_dev == stab2.st_dev && stab1.st_ino == stab2.st_ino) {
-      fclose(file); onerr_abort--; return;
-    }
-  }
-  if (diversionsfile) fclose(diversionsfile);
-  diversionsfile= file;
-  setcloexec(fileno(diversionsfile), vb.buf);
-
-  for (ov= diversions; ov; ov= ov->next) {
-    ov->useinstead->divert->camefrom->divert = NULL;
-    ov->useinstead->divert = NULL;
-  }
-  diversions = NULL;
-  if (!file) { onerr_abort--; return; }
-
-  while ((l = fgets_checked(linebuf, sizeof(linebuf), file, vb.buf)) >= 0) {
-    oicontest= nfmalloc(sizeof(struct diversion));
-    oialtname= nfmalloc(sizeof(struct diversion));
-
-    oialtname->camefrom= findnamenode(linebuf, 0);
-    oialtname->useinstead = NULL;
-
-    fgets_must(linebuf, sizeof(linebuf), file, vb.buf);
-    oicontest->useinstead= findnamenode(linebuf, 0);
-    oicontest->camefrom = NULL;
-
-    fgets_must(linebuf, sizeof(linebuf), file, vb.buf);
-    oicontest->pkg= oialtname->pkg=
-      strcmp(linebuf, ":") ? findpackage(linebuf) : NULL;
-
-    if (oialtname->camefrom->divert || oicontest->useinstead->divert)
-      ohshit(_("conflicting diversions involving `%.250s' or `%.250s'"),
-             oialtname->camefrom->name, oicontest->useinstead->name);
-
-    oialtname->camefrom->divert= oicontest;
-    oicontest->useinstead->divert= oialtname;
-
-    oicontest->next= diversions;
-    diversions= oicontest;
-  }
-  if (ferror(file)) ohshite(_("read error in diversions [i]"));
-
-  onerr_abort--;
 }
 
 struct fileiterator {

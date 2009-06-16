@@ -18,6 +18,7 @@ dpkg_SOURCES = \
 	enquiry.c \
 	errors.c \
 	filesdb.c filesdb.h \
+	divertdb.c \
 	statdb.c \
 	help.c \
 	main.c main.h \
@@ -40,6 +41,7 @@ dpkg_LDADD = \
 
 dpkg_query_SOURCES = \
 	filesdb.c filesdb.h \
+	divertdb.c \
 	pkg-array.c pkg-array.h \
 	pkg-show.c \
 	query.c
