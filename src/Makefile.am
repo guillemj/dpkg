@@ -18,6 +18,7 @@ dpkg_SOURCES = \
 	enquiry.c \
 	errors.c \
 	filesdb.c filesdb.h \
+	statdb.c \
 	help.c \
 	main.c main.h \
 	packages.c \
