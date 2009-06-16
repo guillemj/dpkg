@@ -136,6 +136,10 @@ void iterfileend(struct fileiterator *i);
 void ensure_package_clientdata(struct pkginfo *pkg);
 
 void ensure_diversions(void);
+
+uid_t statdb_parse_uid(const char *str);
+gid_t statdb_parse_gid(const char *str);
+mode_t statdb_parse_mode(const char *str);
 void ensure_statoverrides(void);
 
 void ensure_packagefiles_available(struct pkginfo *pkg);

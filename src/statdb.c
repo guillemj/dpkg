@@ -46,6 +46,61 @@
 
 static FILE *statoverridefile = NULL;
 
+uid_t
+statdb_parse_uid(const char *str)
+{
+	char* endptr;
+	uid_t uid;
+
+	if (str[0] == '#') {
+		uid = strtol(str + 1, &endptr, 10);
+		if (str + 1 == endptr || *endptr)
+			ohshit(_("syntax error: invalid uid in statoverride file"));
+	} else {
+		struct passwd* pw = getpwnam(str);
+		if (pw == NULL)
+			ohshit(_("syntax error: unknown user '%s' in statoverride file"),
+			       str);
+		uid = pw->pw_uid;
+	}
+
+	return uid;
+}
+
+gid_t
+statdb_parse_gid(const char *str)
+{
+	char* endptr;
+	gid_t gid;
+
+	if (str[0] == '#') {
+		gid = strtol(str + 1, &endptr, 10);
+		if (str + 1 == endptr || *endptr)
+			ohshit(_("syntax error: invalid gid in statoverride file"));
+	} else {
+		struct group* gr = getgrnam(str);
+		if (gr == NULL)
+			ohshit(_("syntax error: unknown group '%s' in statoverride file"),
+			       str);
+		gid = gr->gr_gid;
+	}
+
+	return gid;
+}
+
+mode_t
+statdb_parse_mode(const char *str)
+{
+	char* endptr;
+	mode_t mode;
+
+	mode = strtol(str, &endptr, 8);
+	if (str == endptr || *endptr)
+		ohshit(_("syntax error: invalid mode in statoverride file"));
+
+	return mode;
+}
+
 void
 ensure_statoverrides(void)
 {
@@ -106,8 +161,6 @@ ensure_statoverrides(void)
 
 	thisline = loaded_list;
 	while (thisline < loaded_list_end) {
-		char* endptr;
-
 		fso = nfmalloc(sizeof(struct filestatoverride));
 
 		if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
@@ -122,17 +175,8 @@ ensure_statoverrides(void)
 		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
 			ohshit(_("syntax error in statoverride file"));
 		*ptr = 0;
-		if (thisline[0] == '#') {
-			fso->uid = strtol(thisline + 1, &endptr, 10);
-			if (thisline + 1 == endptr || *endptr)
-				ohshit(_("syntax error: invalid uid in statoverride file"));
-		} else {
-			struct passwd* pw = getpwnam(thisline);
-			if (pw == NULL)
-				ohshit(_("syntax error: unknown user '%s' in statoverride file"),
-				       thisline);
-			fso->uid = pw->pw_uid;
-		}
+
+		fso->uid = statdb_parse_uid(thisline);
 
 		/* Move to the next bit */
 		thisline = ptr + 1;
@@ -143,17 +187,8 @@ ensure_statoverrides(void)
 		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
 			ohshit(_("syntax error in statoverride file"));
 		*ptr = 0;
-		if (thisline[0] == '#') {
-			fso->gid = strtol(thisline + 1, &endptr, 10);
-			if (thisline + 1 == endptr || *endptr)
-				ohshit(_("syntax error: invalid gid in statoverride file"));
-		} else {
-			struct group* gr = getgrnam(thisline);
-			if (gr == NULL)
-				ohshit(_("syntax error: unknown group '%s' in statoverride file"),
-				       thisline);
-			fso->gid = gr->gr_gid;
-		}
+
+		fso->gid = statdb_parse_gid(thisline);
 
 		/* Move to the next bit */
 		thisline = ptr + 1;
@@ -164,9 +199,8 @@ ensure_statoverrides(void)
 		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
 			ohshit(_("syntax error in statoverride file"));
 		*ptr = 0;
-		fso->mode = strtol(thisline, &endptr, 8);
-		if (thisline == endptr || *endptr)
-			ohshit(_("syntax error: invalid mode in statoverride file"));
+
+		fso->mode = statdb_parse_mode(thisline);
 
 		/* Move to the next bit */
 		thisline = ptr + 1;
