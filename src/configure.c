@@ -132,7 +132,7 @@ void deferred_configure(struct pkginfo *pkg) {
 	} else if (aemsgs.used) {
 		varbufaddc(&aemsgs,0);
 		fprintf(stderr,
-				_("dpkg: %s: dependency problems, but configuring anyway as you request:\n%s"),
+				_("dpkg: %s: dependency problems, but configuring anyway as you requested:\n%s"),
 				pkg->name, aemsgs.buf);
 	}
 	varbuffree(&aemsgs);
@@ -216,7 +216,7 @@ void deferred_configure(struct pkginfo *pkg) {
 				what= cfo_identical;
 			} else if (!strcmp(currenthash,NONEXISTENTFLAG) && fc_conff_miss) {
 				fprintf(stderr, _("\nConfiguration file `%s', does not exist on system.\n"
-				                  "Installing new config file as you request.\n"),
+				                  "Installing new config file as you requested.\n"),
 				        usenode->name);
 				what= cfo_newconff;
 				useredited= -1;

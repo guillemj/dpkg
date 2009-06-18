@@ -155,7 +155,7 @@ void process_archive(const char *filename) {
 	if (! fc_badverify) {
 	  ohshit(_("Verification on package %s failed!"), filename);
 	} else {
-	  fprintf(stderr, _("Verification on package %s failed,\nbut installing anyway as you request.\n"), filename);
+	  fprintf(stderr, _("Verification on package %s failed,\nbut installing anyway as you requested.\n"), filename);
 	}
       } else {
 	printf(_("passed\n"));

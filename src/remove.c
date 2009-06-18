@@ -127,7 +127,7 @@ void deferred_remove(struct pkginfo *pkg) {
   } else if (raemsgs.used) {
     varbufaddc(&raemsgs,0);
     fprintf(stderr,
-            _("dpkg: %s: dependency problems, but removing anyway as you request:\n%s"),
+            _("dpkg: %s: dependency problems, but removing anyway as you requested:\n%s"),
             pkg->name, raemsgs.buf);
   }
   varbuffree(&raemsgs);
