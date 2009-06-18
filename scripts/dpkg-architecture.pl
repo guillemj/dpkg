@@ -77,7 +77,6 @@ sub list_arches()
 
 my $req_host_arch = '';
 my $req_host_gnu_type = '';
-my $req_build_gnu_type = '';
 my $req_eq_arch = '';
 my $req_is_arch = '';
 my $req_variable_to_print;
