@@ -453,7 +453,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         ohshite(_("cannot remove old config file `%.250s' (= `%.250s')"),
                 conff->name, fnvb.buf);
       p= strrchr(fnvb.buf,'/'); if (!p) continue;
-      *p= 0;
+      *p = '\0';
       varbufreset(&removevb);
       varbufaddstr(&removevb,fnvb.buf);
       varbufaddc(&removevb,'/');

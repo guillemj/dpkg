@@ -132,7 +132,7 @@ static struct _finfo* getfi(const char* root, int fd) {
     }
     if (res==0)	// EOF -> parent died
       return NULL;
-    if (fn[i]==0)
+    if (fn[i] == '\0')
       break;
 
     i++;
@@ -323,7 +323,7 @@ void do_build(const char *const *argv) {
           while ((c= getc(cf)) != EOF && c != '\n');
           continue;
         }
-        conffilename[n-1]= 0;
+        conffilename[n - 1] = '\0';
         strcpy(controlfile, directory);
         strcat(controlfile, "/");
         strcat(controlfile, conffilename);

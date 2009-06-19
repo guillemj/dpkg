@@ -181,13 +181,14 @@ void process_archive(const char *filename) {
   }
   cidirrest= cidir + strlen(cidir);
 
-  assert(*cidir && cidirrest[-1] == '/'); cidirrest[-1]= 0;
+  assert(*cidir && cidirrest[-1] == '/');
+  cidirrest[-1] = '\0';
   ensure_pathname_nonexisting(cidir); cidirrest[-1]= '/';
   
   push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);
   c1= m_fork();
   if (!c1) {
-    cidirrest[-1]= 0;
+    cidirrest[-1] = '\0';
     execlp(BACKEND, BACKEND, "--control", filename, cidir, NULL);
     ohshite(_("failed to exec dpkg-deb to extract control information"));
   }
@@ -329,7 +330,7 @@ void process_archive(const char *filename) {
                conffilenamebuf, MAXCONFFILENAME);
       while (p > conffilenamebuf && isspace(p[-1])) --p;
       if (p == conffilenamebuf) continue;
-      *p= 0;
+      *p = '\0';
       namenode= findnamenode(conffilenamebuf, 0);
       namenode->oldhash= NEWCONFFILEFLAG;
       newconff= newconff_append(&newconffileslastp, namenode);
@@ -828,7 +829,7 @@ void process_archive(const char *filename) {
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
   
-  *cidirrest= 0; /* the directory itself */
+  *cidirrest = '\0'; /* the directory itself */
   dsd= opendir(cidir);
   if (!dsd) ohshite(_("unable to open temp control directory"));
   push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);

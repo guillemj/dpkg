@@ -53,7 +53,8 @@ static int decompose_filename(const char *filename, struct partqueue *pq) {
 
   if (strspn(filename,"0123456789abcdef") != 32 || filename[32] != '.') return 0;
   q= nfmalloc(33);
-  memcpy(q,filename,32); q[32]= 0;
+  memcpy(q, filename, 32);
+  q[32] = '\0';
   pq->info.md5sum= q;
   p= filename+33;
   pq->info.maxpartlen= strtol(p,&q,16); if (q==p || *q++ != '.') return 0;

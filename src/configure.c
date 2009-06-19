@@ -382,7 +382,7 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 				if (r < linkreadbufsize-1) break;
 				need= r<<2;
 			}
-			linkreadbuf[r]= 0;
+			linkreadbuf[r] = '\0';
 			if (linkreadbuf[0] == '/') {
 				varbufreset(result);
 				varbufaddstr(result,instdir);

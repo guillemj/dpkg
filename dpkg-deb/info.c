@@ -142,7 +142,8 @@ static void info_list(const char *debar, const char *directory) {
     if (S_ISREG(stab.st_mode)) {
       if (!(cc= fopen(cdep->d_name,"r")))
         ohshite(_("cannot open `%.255s' (in `%.255s')"),cdep->d_name,directory);
-      lines= 0; interpreter[0]= 0;
+      lines = 0;
+      interpreter[0] = '\0';
       if ((c= getc(cc))== '#') {
         if ((c= getc(cc))== '!') {
           while ((c= getc(cc))== ' ');
@@ -150,7 +151,7 @@ static void info_list(const char *debar, const char *directory) {
           while (il<INTERPRETER_MAX && !isspace(c) && c!=EOF) {
             *p++= c; il++; c= getc(cc);
           }
-          *p++= 0;
+          *p++ = '\0';
           if (c=='\n') lines++;
         }
       }
@@ -200,7 +201,7 @@ static void info_field(const char *debar, const char *directory,
       for (pf=fieldname, fnl=0;
            fnl <= MAXFIELDNAME && c!=EOF && !isspace(c) && c!=':';
            c= getc(cc)) { *pf++= c; fnl++; }
-      *pf++= 0;
+      *pf++ = '\0';
       doing= fnl >= MAXFIELDNAME || c=='\n' || c==EOF;
       for (fp=fields; !doing && *fp; fp++)
         if (!strcasecmp(*fp,fieldname)) doing=1;

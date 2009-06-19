@@ -253,7 +253,7 @@ trig_classify_byname(const char *name)
 
 		slash = name;
 		while (slash) {
-			if (slash[1] == 0 || slash[1] == '/')
+			if (slash[1] == '\0' || slash[1] == '/')
 				goto invalid;
 
 			slash = strchr(slash + 2, '/');
@@ -535,7 +535,7 @@ trig_file_interests_ensure(void)
 		if (!space || linebuf[0] != '/')
 			ohshit(_("syntax error in file triggers file `%.250s'"),
 			       triggersfilefile);
-		*space++ = 0;
+		*space++ = '\0';
 		if ((emsg = illegal_packagename(space, NULL)))
 			ohshit(_("file triggers record mentions illegal "
 			         "package name `%.250s' (for interest in file "
@@ -662,12 +662,12 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		for (eol = linebuf + l; eol > cmd && cisspace(eol[-1]); eol--);
 		if (eol == cmd)
 			continue;
-		*eol = 0;
+		*eol = '\0';
 
 		for (spc = cmd; *spc && !cisspace(*spc); spc++);
 		if (!*spc)
 			ohshit(_("triggers ci file contains unknown directive syntax"));
-		*spc++ = 0;
+		*spc++ = '\0';
 		while (cisspace(*spc))
 			spc++;
 		if (!strcmp(cmd, "interest")) {

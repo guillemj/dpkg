@@ -57,7 +57,7 @@ static unsigned long parseheaderlength(const char *inh, size_t len,
   assert(sizeof(lintbuf) > len);
   memcpy(lintbuf,inh,len);
   lintbuf[len]= ' ';
-  *strchr(lintbuf,' ')= 0;
+  *strchr(lintbuf, ' ') = '\0';
   return unsignedlong(lintbuf,fn,what);
 }
 
@@ -71,7 +71,7 @@ static char *nextline(char **ripp, const char *fn, const char *what) {
     ohshit(_("file `%.250s' is corrupt - missing newline after %.250s"),fn,what);
   *ripp= newline+1;
   while (newline > rip && isspace(newline[-1])) newline--;
-  *newline= 0;
+  *newline = '\0';
   return rip;
 }
 
@@ -109,7 +109,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
     if (c != '\n')
       ohshit(_("file `%.250s' is corrupt - bad padding character (code %d)"),fn,c);
   }
-  readinfobuf[thisilen]= 0;
+  readinfobuf[thisilen] = '\0';
   if (memchr(readinfobuf,0,thisilen))
     ohshit(_("file `%.250s' is corrupt - nulls in info section"),fn);
 
@@ -136,7 +136,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   partnums = nextline(&rip, fn, _("part numbers"));
   slash= strchr(partnums,'/');
   if (!slash) ohshit(_("file `%.250s' is corrupt - no slash between part numbers"),fn);
-  *slash++= 0;
+  *slash++ = '\0';
 
   templong = unsignedlong(slash, fn, _("number of parts"));
   if (templong <= 0 || templong > INT_MAX)

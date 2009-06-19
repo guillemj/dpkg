@@ -56,7 +56,7 @@ void do_split(const char *const *argv) {
     strcpy(palloc,sourcefile);
     if (!strcmp(palloc+l-(sizeof(DEBEXT)-1),DEBEXT)) {
       l -= (sizeof(DEBEXT)-1);
-      palloc[l]= 0;
+      palloc[l] = '\0';
     }
     prefix= palloc;
   }

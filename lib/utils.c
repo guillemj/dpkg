@@ -58,7 +58,7 @@ fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn)
 		ohshit(_("fgets gave an empty string from `%.250s'"), fn);
 	if (buf[--l] != '\n')
 		ohshit(_("too-long line or missing newline in `%.250s'"), fn);
-	buf[l] = 0;
+	buf[l] = '\0';
 
 	return l;
 }

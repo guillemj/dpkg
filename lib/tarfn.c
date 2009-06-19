@@ -69,7 +69,7 @@ StoC(const char *s, int size)
 	len = strnlen(s, size);
 	str = m_malloc(len + 1);
 	memcpy(str, s, len);
-	str[len] = 0;
+	str[len] = '\0';
 
 	return str;
 }

@@ -160,7 +160,7 @@ off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc
 	    sprintf((char *)hash, "%02x", *p++);
 	    hash += 2;
 	  }
-	  *hash = 0;
+	  *hash = '\0';
 	  free(ctx);
 	}
 	break;

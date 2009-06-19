@@ -79,7 +79,7 @@ list1package(struct pkginfo *pkg, int *head, struct pkg_array *array)
   const char *pdesc;
   static char format[80]   = "";
     
-  if (format[0]==0) {
+  if (format[0] == '\0') {
     w=getwidth();
     if (w == -1) {
       nw=14, vw=14, dw=44;

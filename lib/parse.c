@@ -202,7 +202,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
 /* trim ending space on value */
       while (valuelen && isspace(*(valuestart+valuelen-1)))
  valuelen--;
-      for (nick= nicknames; nick->nick && (strncasecmp(nick->nick,fieldstart, fieldlen) || nick->nick[fieldlen] != 0); nick++);
+      for (nick = nicknames;
+           nick->nick && (strncasecmp(nick->nick, fieldstart, fieldlen) ||
+                          nick->nick[fieldlen] != '\0'); nick++) ;
       if (nick->nick) {
 	fieldstart= nick->canon;
 	fieldlen= strlen(fieldstart);
@@ -213,7 +215,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       if (fip->name) {
         value = m_realloc(value, valuelen + 1);
 	memcpy(value,valuestart,valuelen);
-	*(value+valuelen)= 0;
+        *(value + valuelen) = '\0';
         if (*ip++)
           parse_error(filename, lno, &newpig,
                       _("duplicate value for `%s' field"), fip->name);

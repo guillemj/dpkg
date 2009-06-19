@@ -97,7 +97,7 @@ quote_filename(char *buf, int size, char *s)
       size -= 2;
       break;
     default:
-      if (((*s) & 0x80) == 0) {
+      if (((*s) & 0x80) == '\0') {
         *buf++ = *s++;
         --size;
       } else {
@@ -1080,7 +1080,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
 void cu_cidir(int argc, void **argv) {
   char *cidir= (char*)argv[0];
   char *cidirrest= (char*)argv[1];
-  cidirrest[-1]= 0;
+  cidirrest[-1] = '\0';
   ensure_pathname_nonexisting(cidir);
 }  
 
@@ -1171,7 +1171,7 @@ void archivefiles(const char *const *argv) {
     p= findoutput.buf; i=0;
     while (*p) {
       arglist[i++]= p;
-      while ((c= *p++) != 0);
+      while ((c = *p++) != '\0') ;
     }
     arglist[i] = NULL;
     argp= arglist;

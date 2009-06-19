@@ -75,7 +75,7 @@ static void cleanupdates(void) {
 
   parsedb(statusfile, pdb_weakclassification, NULL,NULL,NULL);
 
-  *updatefnrest= 0;
+  *updatefnrest = '\0';
   updateslength= -1;
   cdn= scandir(updatefnbuf, &cdlist, &ulist_select, alphasort);
   if (cdn == -1) ohshite(_("cannot scan updates directory `%.255s'"),updatefnbuf);

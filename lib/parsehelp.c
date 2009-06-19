@@ -140,7 +140,7 @@ const char *illegal_packagename(const char *p, const char **ep) {
   
   if (!*p) return _("may not be empty string");
   if (!isalnum(*p)) return _("must start with an alphanumeric");
-  while ((c= *p++)!=0)
+  while ((c = *p++) != '\0')
     if (!isalnum(c) && !strchr(alsoallowed,c)) break;
   if (!c) return NULL;
   if (isspace(c) && ep) {
@@ -243,7 +243,8 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   }
   rversion->version= nfstrnsave(string,end-string);
   hyphen= strrchr(rversion->version,'-');
-  if (hyphen) *hyphen++= 0;
+  if (hyphen)
+    *hyphen++ = '\0';
   rversion->revision= hyphen ? hyphen : "";
   
   return NULL;

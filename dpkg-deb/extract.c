@@ -79,7 +79,7 @@ parseheaderlength(const char *inh, size_t len,
   assert(sizeof(lintbuf) > len);
   memcpy(lintbuf,inh,len);
   lintbuf[len]= ' ';
-  *strchr(lintbuf,' ')= 0;
+  *strchr(lintbuf, ' ') = '\0';
   r = strtol(lintbuf, &endp, 10);
   if (r < 0)
     ohshit(_("file `%.250s' is corrupt - negative member length %zi"), fn, r);
@@ -147,18 +147,18 @@ void extracthalf(const char *debar, const char *directory,
         infobuf= m_malloc(memberlen+1);
         if (fread(infobuf,1, memberlen + (memberlen&1), ar) != memberlen + (memberlen&1))
           readfail(ar,debar,_("header info member"));
-        infobuf[memberlen]= 0;
+        infobuf[memberlen] = '\0';
         cur= strchr(infobuf,'\n');
         if (!cur) ohshit(_("archive has no newlines in header"));
-        *cur= 0;
+        *cur = '\0';
         cur= strchr(infobuf,'.');
         if (!cur) ohshit(_("archive has no dot in version number"));
-        *cur= 0;
+        *cur = '\0';
         if (strcmp(infobuf,"2"))
           ohshit(_("archive version %.250s not understood, get newer dpkg-deb"), infobuf);
         *cur= '.';
         strncpy(versionbuf,infobuf,sizeof(versionbuf));
-        versionbuf[sizeof(versionbuf)-1]= 0;
+        versionbuf[sizeof(versionbuf) - 1] = '\0';
         header_done= 1;
       } else if (arh.ar_name[0] == '_') {
           /* Members with `_' are noncritical, and if we don't understand them
@@ -215,7 +215,9 @@ void extracthalf(const char *debar, const char *directory,
              nlc == '\n') {
     
     oldformat= 1;
-    l= strlen(versionbuf); if (l && versionbuf[l-1]=='\n') versionbuf[l-1]=0;
+    l = strlen(versionbuf);
+    if (l && versionbuf[l - 1] == '\n')
+      versionbuf[l - 1] = '\0';
     if (!fgets(ctrllenbuf,sizeof(ctrllenbuf),ar))
       readfail(ar, debar, _("control information length"));
     if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')

@@ -169,12 +169,12 @@ ensure_statoverrides(void)
 		nextline = ptr + 1;
 		if (ptr == thisline)
 			ohshit(_("statoverride file contains empty line"));
-		*ptr = 0;
+		*ptr = '\0';
 
 		/* Extract the uid. */
 		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
 			ohshit(_("syntax error in statoverride file"));
-		*ptr = 0;
+		*ptr = '\0';
 
 		fso->uid = statdb_parse_uid(thisline);
 
@@ -186,7 +186,7 @@ ensure_statoverrides(void)
 		/* Extract the gid */
 		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
 			ohshit(_("syntax error in statoverride file"));
-		*ptr = 0;
+		*ptr = '\0';
 
 		fso->gid = statdb_parse_gid(thisline);
 
@@ -198,7 +198,7 @@ ensure_statoverrides(void)
 		/* Extract the mode */
 		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
 			ohshit(_("syntax error in statoverride file"));
-		*ptr = 0;
+		*ptr = '\0';
 
 		fso->mode = statdb_parse_mode(thisline);
 

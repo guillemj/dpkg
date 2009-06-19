@@ -96,7 +96,8 @@ void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   cpos= nfstrsave(value);
   while (*cpos) {
     space= cpos; while (*space && !isspace(*space)) space++;
-    if (*space) *space++= 0;
+    if (*space)
+      *space++ = '\0';
     fdp= *fdpp;
     if (!fdp) {
       if (!allowextend)
@@ -273,7 +274,7 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       parse_error(filename, lno, pigp,
                   _("value for `conffiles' has line starting with non-space `%c'"),
                   c);
-    for (endent= value; (c= *endent)!=0 && c != '\n'; endent++);
+    for (endent = value; (c = *endent) != '\0' && c != '\n'; endent++) ;
     conffvalue_lastword(value, endent, endent,
 			&hashstart, &hashlen, &endfn,
                         filename, lno, pigp);
@@ -292,10 +293,11 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     newptr = nfmalloc(namelen+2);
     newptr[0]= '/';
     memcpy(newptr+1,value,namelen);
-    newptr[namelen+1]= 0;
+    newptr[namelen+1] = '\0';
     newlink->name= newptr;
     newptr= nfmalloc(hashlen+1);
-    memcpy(newptr,hashstart,hashlen); newptr[hashlen]= 0;
+    memcpy(newptr, hashstart, hashlen);
+    newptr[hashlen] = '\0';
     newlink->hash= newptr;
     newlink->obsolete= obsolete;
     newlink->next =NULL;
@@ -342,7 +344,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
         depname = m_realloc(depname, depnamelength + 1);
       }
       strncpy(depname, depnamestart, depnamelength);
-      *(depname + depnamelength)= 0;
+      *(depname + depnamelength) = '\0';
       if (!*depname)
         parse_error(filename, lno, pigp,
                     _("`%s' field, missing package name, or garbage where "
@@ -431,7 +433,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           parse_error(filename, lno, pigp,
                       _("`%s' field, reference to `%.255s': "
                         "version contains `%c'"), fip->name,depname, ' ');
-        else if (*p == 0)
+        else if (*p == '\0')
           parse_error(filename, lno, pigp,
                       _("`%s' field, reference to `%.255s': "
                         "version unterminated"), fip->name, depname);
@@ -440,7 +442,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           version = m_realloc(version, versionlength + 1);
 	}
 	strncpy(version,  versionstart, versionlength);
-	*(version + versionlength)= 0;
+        *(version + versionlength) = '\0';
         emsg= parseversion(&dop->version,version);
         if (emsg)
           parse_error(filename, lno, pigp,
@@ -505,7 +507,7 @@ scan_word(const char **valp)
     buf = m_realloc(buf, avail);
   }
   memcpy(buf, start, l);
-  buf[l] = 0;
+  buf[l] = '\0';
   *valp = p;
 
   return buf;

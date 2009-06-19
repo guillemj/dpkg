@@ -172,7 +172,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
       /* add the file to the list */
       if (ptr == thisline)
         ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
-      *ptr = 0;
+      *ptr = '\0';
       newent= nfmalloc(sizeof(struct fileinlist));
       newent->namenode= findnamenode(thisline, fnn_nocopy);
       newent->next = NULL;

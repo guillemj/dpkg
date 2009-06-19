@@ -300,7 +300,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
            * Later on, if nothing has put anything in linebuf, we know that it
            * isn't and issue a diagnostic then.
            */
-          *linebuf= 0;
+          *linebuf = '\0';
           break;
         case stat_unpacked:
         case stat_halfconfigured:

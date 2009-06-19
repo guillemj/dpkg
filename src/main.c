@@ -265,10 +265,10 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
 
   copy= m_malloc(strlen(value)+2);
   strcpy(copy,value);
-  copy[strlen(value)+1]= 0;
+  copy[strlen(value) + 1] = '\0';
   for (p=copy; *p; p++) {
     if (*p != ',') continue;
-    *p++= 0;
+    *p++ = '\0';
     if (!*p || *p==',' || p==copy+1)
       badusage(_("null package name in --ignore-depends comma-separated list `%.250s'"),
                value);
@@ -590,7 +590,7 @@ void commandfd(const char *const *argv) {
 	continue;
       } else if (isspace(*ptr)) {
 	if (mode == 1) {
-	  *ptr= 0;
+	  *ptr = '\0';
 	  mode= 0;
 	}
       } else {
@@ -602,7 +602,7 @@ void commandfd(const char *const *argv) {
       }
       ptr++;
     }
-    *ptr= 0;
+    *ptr = '\0';
     newargs[argc++] = NULL;
 
 /* We strdup each argument, but never free it, because the error messages
