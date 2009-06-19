@@ -1,12 +1,14 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 39;
+use Test::More tests => 61;
 use IO::String;
 
 use strict;
 use warnings;
 
 use_ok('Dpkg::Shlibs');
+
+my @tmp;
 
 my @save_paths = @Dpkg::Shlibs::librarypaths;
 @Dpkg::Shlibs::librarypaths = ();
@@ -77,7 +79,7 @@ is_deeply( $sym, { name => '_IO_stdin_used', version => '',
 		   soname => 'libc.so.6', objid => 'libc.so.6',
 		   section => '*UND*', dynamic => 1,
 		   debug => '', type => ' ', weak => 1,
-		   local => '', global => '', visibility => '',   
+		   local => '', global => '', visibility => '',
 		   hidden => '', defined => '' }, 'Symbol 2' );
 
 my @syms = $obj->get_exported_dynamic_symbols;
@@ -95,10 +97,11 @@ close $objdump;
 
 
 use_ok('Dpkg::Shlibs::SymbolFile');
+use_ok('Dpkg::Shlibs::Symbol');
 
-my $sym_file = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbol_file.tmp");
-my $sym_file_dup = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbol_file.tmp");
-my $sym_file_old = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbol_file.tmp");
+my $sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbol_file.tmp");
+my $sym_file_dup = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbol_file.tmp");
+my $sym_file_old = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbol_file.tmp");
 
 $sym_file->merge_symbols($obj_old, "2.3.6.ds1-13");
 $sym_file_old->merge_symbols($obj_old, "2.3.6.ds1-13");
@@ -114,9 +117,11 @@ is( $sym_file_old->lookup_symbol('__bss_start@Base', ['libc.so.6']),
     undef, 'internal symbols are blacklisted');
 
 $sym = $sym_file->lookup_symbol('_errno@GLIBC_2.0', ['libc.so.6'], 1);
-is_deeply($sym, { 'minver' => '2.3.6.ds1-13', 'dep_id' => 0, 
-		  'deprecated' => '2.6-1', 'depends' => '', 
-		  'soname' => 'libc.so.6' }, 'deprecated symbol');
+isa_ok($sym, 'Dpkg::Shlibs::Symbol');
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => '_errno@GLIBC_2.0',
+		  'minver' => '2.3.6.ds1-13', 'dep_id' => 0,
+		  'deprecated' => '2.6-1', 'depends' => '',
+		  'soname' => 'libc.so.6' ), 'deprecated symbol');
 
 use File::Temp;
 
@@ -130,36 +135,41 @@ $sym_file_dup->{file} = "$srcdir/symbol_file.tmp";
 is_deeply($sym_file_dup, $sym_file, 'save -> load' );
 
 # Test include mechanism of SymbolFile
-$sym_file = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbols.include-1");
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbols.include-1");
 
 $sym = $sym_file->lookup_symbol('symbol_before@Base', ['libfake.so.1']);
-is_deeply($sym, { 'minver' => '0.9', 'dep_id' => 0, 'deprecated' => 0,
-		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol_before@Base',
+		  'minver' => '0.9', 'dep_id' => 0, 'deprecated' => 0,
+		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' ),
 	    'symbol before include not lost');
 
 $sym = $sym_file->lookup_symbol('symbol_after@Base', ['libfake.so.1']);
-is_deeply($sym, {'minver' => '1.1', 'dep_id' => 0, 'deprecated' => 0, 
-		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol_after@Base',
+		  'minver' => '1.1', 'dep_id' => 0, 'deprecated' => 0,
+		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' ),
 	    'symbol after include not lost');
 
 $sym = $sym_file->lookup_symbol('symbol1_fake1@Base', ['libfake.so.1']);
-is_deeply($sym, {'minver' => '1.0', 'dep_id' => 0, 'deprecated' => 0, 
-		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol1_fake1@Base',
+		  'minver' => '1.0', 'dep_id' => 0, 'deprecated' => 0,
+		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' ),
 	    'overrides order with #include');
 
 $sym = $sym_file->lookup_symbol('symbol3_fake1@Base', ['libfake.so.1']);
-is_deeply($sym, { 'minver' => '0', 'dep_id' => 0, 'deprecated' => 0,
-		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
+is_deeply($sym, Dpkg::Shlibs::Symbol->new ( 'symbol' => 'symbol3_fake1@Base',
+		  'minver' => '0', 'dep_id' => 0, 'deprecated' => 0,
+		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' ),
 	    'overrides order with #include');
 
 is($sym_file->get_smallest_version('libfake.so.1'), "0",
    'get_smallest_version with null version');
 
-$sym_file = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbols.include-2");
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbols.include-2");
 
 $sym = $sym_file->lookup_symbol('symbol1_fake2@Base', ['libfake.so.1']);
-is_deeply($sym, { 'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
-		  'depends' => 'libvirtualfake', 'soname' => 'libfake.so.1' }, 
+is_deeply($sym, Dpkg::Shlibs::Symbol->new ( 'symbol' => 'symbol1_fake2@Base',
+		  'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
+		  'depends' => 'libvirtualfake', 'soname' => 'libfake.so.1' ),
 	    'overrides order with circular #include');
 
 is($sym_file->get_smallest_version('libfake.so.1'), "1.0",
@@ -193,6 +203,153 @@ is_deeply( $sym, { name => 'IA__g_free', version => '',
 		   section => '.text', dynamic => 1,
 		   debug => '', type => 'F', weak => '',
 		   local => 1, global => '', visibility => 'hidden',
-		   hidden => '', defined => 1 }, 
+		   hidden => '', defined => 1 },
 		   'symbol with visibility without version' );
 
+####### Test symbol tagging support  ######
+
+# Parsing/dumping
+# Template mode
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbols.tags.in", arch => 'amd64');
+$sym_file->save($save_file->filename, template_mode => 1);
+
+$sym_file_dup = Dpkg::Shlibs::SymbolFile->new(file => $save_file, arch => 'amd64');
+$sym_file_dup->{file} = "$srcdir/symbols.tags.in";
+
+is_deeply($sym_file_dup, $sym_file, 'template save -> load' );
+is( system("diff -u '$srcdir/symbols.tags.in' '" . $save_file->filename . "' >&2"), 0, "symbols.tags.in template dumped identical" );
+
+# Dumping in non-template mode (amd64) (test for arch, subst tags)
+$io = IO::String->new();
+$sym_file->dump($io);
+is(${$io->string_ref()},
+'libsymboltags.so.1 libsymboltags1 #MINVER#
+| libsymboltags1 (>= 1.1)
+ symbol11_optional@Base 1.1 1
+ symbol21_amd64@Base 2.1
+ symbol31_randomtag@Base 3.1
+ symbol51_untagged@Base 5.1
+', "template vs. non-template on amd64" );
+
+# Dumping in non-template mode (i386) (test for arch, subst tags)
+$io = IO::String->new();
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbols.tags.in", arch => 'i386');
+$sym_file_dup = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbols.tags.in", arch => 'i386');
+$sym_file->dump($io);
+is(${$io->string_ref()},
+'libsymboltags.so.1 libsymboltags1 #MINVER#
+| libsymboltags1 (>= 1.1)
+ symbol11_optional@Base 1.1 1
+ symbol22_i386@Base 2.2
+ symbol31_randomtag@Base 3.1
+ symbol41_i386_and_optional@Base 4.1
+ symbol51_untagged@Base 5.1
+', "template vs. non-template on i386" );
+
+ok (defined $sym_file->{objects}{'libsymboltags.so.1'}{syms}{'symbol21_amd64@Base'},
+    "syms keys are symbol names without quotes");
+
+# Preload objdumps
+my $tags_obj_i386 = Dpkg::Shlibs::Objdump::Object->new();
+open $objdump, '<', "$srcdir/objdump.tags-i386" or die "$srcdir/objdump.tags-i386: $!";
+$tags_obj_i386->_parse($objdump);
+close $objdump;
+$sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
+is_deeply($sym_file, $sym_file_dup, "is objdump.tags-i386 and symbols.tags.in in sync");
+
+my $tags_obj_amd64 = Dpkg::Shlibs::Objdump::Object->new();
+open $objdump, '<', "$srcdir/objdump.tags-amd64" or die "$srcdir/objdump.tags-amd64: $!";
+$tags_obj_amd64->_parse($objdump);
+close $objdump;
+
+# Merge/get_{new,lost} tests for optional tag:
+#  - disappeared
+my $symbol11 = $tags_obj_i386->get_symbol('symbol11_optional@Base');
+delete $tags_obj_i386->{dynsyms}{'symbol11_optional@Base'};
+$sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
+
+$sym = $sym_file->lookup_symbol('symbol11_optional@Base', ['libsymboltags.so.1'], 1);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol11_optional@Base', 'symbol_templ' => 'symbol11_optional@Base',
+		  'minver' => '1.1', 'dep_id' => 1, 'deprecated' => '100.MISSING',
+		  'depends' => 'libsymboltags1 (>= 1.1)', 'soname' => 'libsymboltags.so.1',
+		  'tags' => { 'optional' => undef }, 'tagorder' => [ 'optional' ] ),
+	    'disappered optional symbol gets deprecated');
+
+$sym_file->merge_symbols($tags_obj_i386, '101.MISSING');
+$sym = $sym_file->lookup_symbol('symbol11_optional@Base', ['libsymboltags.so.1'], 1);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol11_optional@Base', 'symbol_templ' => 'symbol11_optional@Base',
+		  'minver' => '1.1', 'dep_id' => 1, 'deprecated' => '101.MISSING',
+		  'depends' => 'libsymboltags1 (>= 1.1)', 'soname' => 'libsymboltags.so.1',
+		  'tags' => { 'optional' => undef }, 'tagorder' => [ 'optional' ] ),
+	    'deprecated text of MISSING optional symbol gets rebumped each merge');
+
+is( scalar($sym_file->get_lost_symbols($sym_file_dup)), 0, "missing optional symbol is not LOST");
+
+# - reappeared (undeprecate, minver should be 1.1, not 100.MISSED)
+$tags_obj_i386->add_dynamic_symbol($symbol11);
+$sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
+$sym = $sym_file->lookup_symbol('symbol11_optional@Base', ['libsymboltags.so.1']);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol11_optional@Base', 'symbol_templ' => 'symbol11_optional@Base',
+		  'minver' => '1.1', 'dep_id' => 1, 'deprecated' => 0,
+		  'depends' => 'libsymboltags1 (>= 1.1)', 'soname' => 'libsymboltags.so.1',
+		  'tags' => { 'optional' => undef }, 'tagorder' => [ 'optional' ] ),
+	    'reappered optional symbol gets undeprecated + minver');
+is( scalar($sym_file->get_lost_symbols($sym_file_dup) +
+           $sym_file->get_new_symbols($sym_file_dup)), 0, "reappeared optional symbol: neither NEW nor LOST");
+
+# Merge/get_{new,lost} tests for arch tag:
+# - arch specific appears on wrong arch: 'arch' tag should be removed
+my $symbol21 = $tags_obj_amd64->get_symbol('symbol21_amd64@Base');
+$tags_obj_i386->add_dynamic_symbol($symbol21);
+$sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
+$sym = $sym_file->lookup_symbol('symbol21_amd64@Base', ['libsymboltags.so.1']);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol21_amd64@Base', 'symbol_templ' => 'symbol21_amd64@Base',
+		  'symbol_quoted' => "'", 'minver' => '2.1', 'dep_id' => 0, 'deprecated' => 0,
+		  'depends' => 'libsymboltags1 #MINVER#', 'soname' => 'libsymboltags.so.1' ),
+	    'symbol appears on foreign arch, arch tag should be removed');
+@tmp = map { $_->get_symbolname() } $sym_file->get_new_symbols($sym_file_dup);
+is_deeply( \@tmp, [ 'symbol21_amd64@Base' ], "symbol from foreign arch is NEW");
+is( $sym->get_symbolspec(1), ' symbol21_amd64@Base 2.1', 'no tags => no quotes in the symbol name' );
+
+# - arch specific symbol disappears
+delete $tags_obj_i386->{dynsyms}{'symbol22_i386@Base'};
+delete $tags_obj_i386->{dynsyms}{'symbol41_i386_and_optional@Base'};
+$sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
+
+$sym = $sym_file->lookup_symbol('symbol22_i386@Base', ['libsymboltags.so.1'], 1);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol22_i386@Base', 'symbol_templ' => 'symbol22_i386@Base',
+		  'minver' => '2.2', 'dep_id' => 0, 'deprecated' => '100.MISSING',
+		  'depends' => 'libsymboltags1 #MINVER#', 'soname' => 'libsymboltags.so.1',
+		  'tags' => { 'arch' => '!amd64 !ia64 !alpha' }, 'tagorder' => [ 'arch' ] ),
+	    'disappeared arch specific symbol gets deprecated');
+$sym = $sym_file->lookup_symbol('symbol41_i386_and_optional@Base', ['libsymboltags.so.1'], 1);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol41_i386_and_optional@Base',
+		  'symbol_templ' => 'symbol41_i386_and_optional@Base', 'symbol_quoted' => '"',
+		  'minver' => '4.1', 'dep_id' => 0, 'deprecated' => '100.MISSING',
+		  'depends' => 'libsymboltags1 #MINVER#', 'soname' => 'libsymboltags.so.1',
+		  'tags' => { 'arch' => 'i386', 'optional' => 'reason' }, 'tagorder' => [ 'arch', 'optional' ] ),
+	    'disappeared optional arch specific symbol gets deprecated');
+@tmp = map { $_->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
+is_deeply( \@tmp, [ 'symbol22_i386@Base' ], "missing arch specific is LOST, but optional arch specific isn't");
+
+# Tests for tagged #includes
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbols.include-3", arch => 'i386');
+$sym = $sym_file->lookup_symbol('symbol2_fake1@Base', ['libsymboltags.so.2']);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol2_fake1@Base',
+		  'minver' => '1.0', 'depends' => 'libsymboltags2', 'soname' => 'libsymboltags.so.2',
+		  'tags' => { 'optional' => undef, 'random tag' => 'random value' },
+		  'tagorder' => [ 'optional', 'random tag' ] ),
+	    'symbols from #included file inherits tags');
+$sym = $sym_file->lookup_symbol('symbol41_i386_and_optional@Base', ['libsymboltags.so.1']);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol41_i386_and_optional@Base',
+		  'symbol_templ' => 'symbol41_i386_and_optional@Base', symbol_quoted => '"',
+		  'minver' => '4.1', 'depends' => 'libsymboltags1 #MINVER#', 'soname' => 'libsymboltags.so.1',
+		  'tags' => { 'optional' => 'reason', 't' => 'v', 'arch' => 'i386' },
+		  'tagorder' => [ 'optional', 't', 'arch' ] ),
+	    'symbols in #included file can override tag values');
+$sym = $sym_file->lookup_symbol('symbol51_untagged@Base', ['libsymboltags.so.1']);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol51_untagged@Base',
+		  'minver' => '5.1', 'depends' => 'libsymboltags1 #MINVER#', 'soname' => 'libsymboltags.so.1',
+		  'tags' => { 'optional' => 'from parent', 't' => 'v' },
+		  'tagorder' => [ 'optional', 't' ] ),
+	    'symbols are properly cloned when #including');

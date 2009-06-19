@@ -53,6 +53,9 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs/symbols.fake-2 \
 	t/200_Dpkg_Shlibs/symbols.include-1 \
 	t/200_Dpkg_Shlibs/symbols.include-2 \
+	t/200_Dpkg_Shlibs/symbols.include-3 \
+	t/200_Dpkg_Shlibs/symbols.tags.in \
+	t/200_Dpkg_Shlibs/symboltags.c \
 	t/200_Dpkg_Shlibs/ld.so.conf \
 	t/200_Dpkg_Shlibs/ld.so.conf_2 \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/normal.conf \
@@ -63,6 +66,8 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.6 \
 	t/200_Dpkg_Shlibs/objdump.dbd-pg \
 	t/200_Dpkg_Shlibs/objdump.ls \
+	t/200_Dpkg_Shlibs/objdump.tags-amd64 \
+	t/200_Dpkg_Shlibs/objdump.tags-i386 \
 	t/300_Dpkg_BuildOptions.t \
 	t/400_Dpkg_Deps.t \
 	t/500_Dpkg_Path.t \
@@ -100,6 +105,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Path.pm \
 	Dpkg/Shlibs.pm \
 	Dpkg/Shlibs/Objdump.pm \
+	Dpkg/Shlibs/Symbol.pm \
 	Dpkg/Shlibs/SymbolFile.pm \
 	Dpkg/Source/Archive.pm \
 	Dpkg/Source/CompressedFile.pm \
@@ -170,8 +176,20 @@ clean-local:
 	[ ! -d t.tmp ] || chmod -R +w t.tmp
 	rm -fr t.tmp
 
-check: $(TEST_FILES) $(wildcard $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf*)
-# a bit hacky...
+mkdir_t_tmp:
 	$(mkdir_p) t.tmp
+
+check: $(TEST_FILES) $(wildcard $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf*) mkdir_t_tmp
+# a bit hacky...
 	cp -dRl $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf* t.tmp/
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(PATH)" srcdir=$(srcdir) PERL5LIB=$(srcdir) DPKG_DATADIR=$(srcdir)/.. PERL_DL_NONLAZY=1 $(PERL) -I$(srcdir) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)
+
+objdump_lib_name = lib$(shell basename $@).so
+$(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-amd64 $(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-i386: $(srcdir)/t/200_Dpkg_Shlibs/symboltags.c
+	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libsymboltags.so.1 $< \
+	  $(if $(findstring amd64,$@),-DAMD64,) -o $(objdump_lib_name)
+	objdump -w -f -p -T -R $(objdump_lib_name) | sed 's/$(objdump_lib_name)/libsymboltags.so.1/g' > $@
+	rm -f $(objdump_lib_name)
+
+update-objdumps .PHONY: $(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-amd64
+update-objdumps .PHONY: $(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-i386

@@ -1,4 +1,5 @@
 # Copyright (C) 2007  Raphael Hertzog
+#           (C) 2009  Modestas Vainius
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,6 +21,8 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Version qw(vercmp);
 use Dpkg::Fields qw(capit);
+use Dpkg::Shlibs::Symbol;
+use Dpkg::Arch qw(get_host_arch);
 
 my %blacklist = (
     '__bss_end__' => 1,		# arm
@@ -72,14 +75,14 @@ unwind_cpp_pr2 uread4 uread8 uwrite4 uwrite8));
 
 sub new {
     my $this = shift;
-    my $file = shift;
+    my %opts=@_;
     my $class = ref($this) || $this;
-    my $self = { };
+    my $self = \%opts;
     bless $self, $class;
+    $self->{arch} = get_host_arch() unless exists $self->{arch};
     $self->clear();
-    if (defined($file) ) {
-	$self->{file} = $file;
-	$self->load($file) if -e $file;
+    if (defined($self->{file})) {
+	$self->load($self->{file}) if -e $self->{file};
     }
     return $self;
 }
@@ -99,9 +102,30 @@ sub clear_except {
     }
 }
 
+sub add_symbol {
+    my ($self, $soname, $symbol) = @_;
+    my $object = (ref $soname) ? $soname : $self->{objects}{$soname};
+
+    if (!$symbol->{deprecated} && (my $ver = $symbol->get_wildcard_version())) {
+	error(_g("you can't use wildcards on unversioned symbols: %s"), $_) if $1 eq "Base";
+	$object->{wildcards}{$ver} = $symbol;
+	return 'wildcards';
+    } else {
+	$object->{syms}{$symbol->get_symbolname()} = $symbol;
+	return 'syms';
+    }
+}
+
 # Parameter seen is only used for recursive calls
 sub load {
-    my ($self, $file, $seen, $current_object_ref) = @_;
+    my ($self, $file, $seen, $current_object_ref, $base_symbol) = @_;
+
+    my $_new_symbol = sub {
+	if (defined $base_symbol) {
+	    return (ref $base_symbol) ? $base_symbol->clone(@_) : $base_symbol->new(@_);
+	}
+	return Dpkg::Shlibs::Symbol->new(@_);
+    };
 
     if (defined($seen)) {
 	return if exists $seen->{$file}; # Avoid include loops
@@ -120,35 +144,31 @@ sub load {
     local *object = $current_object_ref;
     while (defined($_ = <$sym_file>)) {
 	chomp($_);
-	if (/^\s+(\S+)\s(\S+)(?:\s(\d+))?/) {
+
+	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
 	    if (not defined ($object)) {
 		error(_g("Symbol information must be preceded by a header (file %s, line %s)."), $file, $.);
 	    }
-	    my $name = $1;
-	    # New symbol
-	    my $sym = {
-		minver => $2,
-		dep_id => defined($3) ? $3 : 0,
-		deprecated => 0
-	    };
-	    if ($name =~ /^\*@(.*)$/) {
-		error(_g("you can't use wildcards on unversioned symbols: %s"), $_) if $1 eq "Base";
-		$self->{objects}{$object}{wildcards}{$1} = $sym;
+	    # Symbol specification
+	    my $deprecated = ($1) ? $1 : 0;
+	    my $sym = &$_new_symbol(deprecated => $deprecated);
+	    if ($sym->parse($2)) {
+		$sym->process_tags(arch => $self->{arch});
+		$self->add_symbol($object, $sym);
 	    } else {
-		$self->{objects}{$object}{syms}{$name} = $sym;
+		warning(_g("Failed to parse line in %s: %s"), $file, $_);
 	    }
-	} elsif (/^#include\s+"([^"]+)"/) {
-	    my $filename = $1;
+	} elsif (/^(\(.*\))?#include\s+"([^"]+)"/) {
+	    my $tagspec = $1;
+	    my $filename = $2;
 	    my $dir = $file;
+	    my $new_base_symbol;
+	    if (defined $tagspec) {
+		$new_base_symbol = &$_new_symbol();
+		$new_base_symbol->parse_tagspec($tagspec);
+	    }
 	    $dir =~ s{[^/]+$}{}; # Strip filename
-	    $self->load("$dir$filename", $seen, $current_object_ref);
-	} elsif (/^#(?:DEPRECATED|MISSING): ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
-	    my $sym = {
-		minver => $3,
-		dep_id => defined($4) ? $4 : 0,
-		deprecated => $1
-	    };
-	    $self->{objects}{$object}{syms}{$2} = $sym;
+	    $self->load("$dir$filename", $seen, $current_object_ref, $new_base_symbol);
 	} elsif (/^#/) {
 	    # Skip possible comments
 	} elsif (/^\|\s*(.*)$/) {
@@ -203,6 +223,7 @@ sub save {
 
 sub dump {
     my ($self, $fh, %opts) = @_;
+    $opts{template_mode} = 0 unless exists $opts{template_mode};
     $opts{with_deprecated} = 1 unless exists $opts{with_deprecated};
     foreach my $soname (sort keys %{$self->{objects}}) {
 	my @deps = @{$self->{objects}{$soname}{deps}};
@@ -219,13 +240,15 @@ sub dump {
             $value =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
 	    print $fh "* $field: $value\n";
         }
-	foreach my $sym (sort keys %{$self->{objects}{$soname}{syms}}) {
+	my $syms = $self->{objects}{$soname}{syms};
+	foreach my $sym (sort { $syms->{$a}->get_symboltempl() cmp $syms->{$b}->get_symboltempl() }
+	                      keys %$syms) {
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
 	    next if $info->{deprecated} and not $opts{with_deprecated};
-	    print $fh "#MISSING: $info->{deprecated}#" if $info->{deprecated};
-	    print $fh " $sym $info->{minver}";
-	    print $fh " $info->{dep_id}" if $info->{dep_id};
-	    print $fh "\n";
+	    # Do not dump symbols from foreign arch unless dumping a template.
+	    next if !$opts{template_mode} && !$info->arch_is_concerned($self->{arch});
+	    # Dump symbol specification. Dump symbol tags only in template mode.
+	    print $fh $info->get_symbolspec($opts{template_mode}), "\n";
 	}
     }
 }
@@ -259,31 +282,33 @@ sub merge_symbols {
 	    if ($info->{deprecated}) {
 		# Symbol reappeared somehow
 		$info->{deprecated} = 0;
-		$info->{minver} = $minver;
-		next;
+		$info->{minver} = $minver if (!$info->is_optional());
+	    } else {
+		# We assume that the right dependency information is already
+		# there.
+		if (vercmp($minver, $info->{minver}) < 0) {
+		    $info->{minver} = $minver;
+		}
 	    }
-	    # We assume that the right dependency information is already
-	    # there.
-	    if (vercmp($minver, $info->{minver}) < 0) {
-		$info->{minver} = $minver;
+	    if (!$info->arch_is_concerned($self->{arch})) {
+		# Remove arch tag because it is incorrect.
+		$info->delete_tag('arch');
 	    }
 	} else {
 	    # The symbol is new and not present in the file
 	    my $info;
 	    my $symobj = $dynsyms{$sym};
-	    if ($symobj->{version} and exists $obj->{wildcards}{$symobj->{version}}) {
+	    my $w_obj = $obj->{wildcards}{$symobj->{version}};
+	    if ($symobj->{version} and defined $w_obj
+	        and $w_obj->arch_is_concerned($self->{arch})) {
 		# Get the info from wildcards
 		$info = $obj->{wildcards}{$symobj->{version}};
 		$self->{used_wildcards}++;
 	    } else {
 		# New symbol provided by the current release
-		$info = {
-		    minver => $minver,
-		    deprecated => 0,
-		    dep_id => 0
-		};
+		$info = Dpkg::Shlibs::Symbol->new(symbol => $sym, minver => $minver);
 	    }
-	    $obj->{syms}{$sym} = $info;
+	    $self->add_symbol($obj, $info);
 	}
     }
 
@@ -292,12 +317,16 @@ sub merge_symbols {
     # the symbol was introduced)
     foreach my $sym (keys %{$self->{objects}{$soname}{syms}}) {
 	if (! exists $dynsyms{$sym}) {
-	    # Do nothing if already deprecated
-	    next if $self->{objects}{$soname}{syms}{$sym}{deprecated};
-
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
-	    if (vercmp($minver, $info->{minver}) > 0) {
-		$self->{objects}{$soname}{syms}{$sym}{deprecated} = $minver;
+
+	    # Ignore symbols from foreign arch
+	    next if (!$info->arch_is_concerned($self->{arch}));
+
+	    if ($info->{deprecated}) {
+		# Bump deprecated if the symbol is optional.
+		$info->{deprecated} = $minver if ($info->is_optional());
+	    } elsif (vercmp($minver, $info->{minver}) > 0) {
+		$info->{deprecated} = $minver;
 	    }
 	}
     }
@@ -382,11 +411,10 @@ sub lookup_symbol {
 	    $self->{objects}{$so}{syms}{$name}{deprecated}))
 	{
 	    my $dep_id = $self->{objects}{$so}{syms}{$name}{dep_id};
-	    return {
-		'depends' => $self->{objects}{$so}{deps}[$dep_id],
-		'soname' => $so,
-		%{$self->{objects}{$so}{syms}{$name}}
-	    };
+	    my $clone = $self->{objects}{$so}{syms}{$name}->clone();
+	    $clone->{depends} = $self->{objects}{$so}{deps}[$dep_id];
+	    $clone->{soname} = $so;
+	    return $clone;
 	}
     }
     return undef;
@@ -399,17 +427,16 @@ sub get_new_symbols {
 	my $mysyms = $self->{objects}{$soname}{syms};
 	next if not exists $ref->{objects}{$soname};
 	my $refsyms = $ref->{objects}{$soname}{syms};
-	foreach my $sym (grep { not $mysyms->{$_}{deprecated} }
+	foreach my $sym (grep {  not $mysyms->{$_}{deprecated} and
+	                         not $mysyms->{$_}->is_optional() and
+	                         $mysyms->{$_}->arch_is_concerned($self->{arch}) }
 	    keys %{$mysyms})
 	{
 	    if ((not exists $refsyms->{$sym}) or
-		$refsyms->{$sym}{deprecated})
+		$refsyms->{$sym}{deprecated} or
+		not $refsyms->{$sym}->arch_is_concerned($self->{arch}) )
 	    {
-		push @res, {
-		    'soname' => $soname,
-		    'name' => $sym,
-		    %{$mysyms->{$sym}}
-		};
+		push @res, $mysyms->{$sym}->clone(soname => $soname);
 	    }
 	}
     }

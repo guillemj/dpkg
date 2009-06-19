@@ -215,7 +215,7 @@ foreach my $file (keys %exec) {
                 print "Using symbols file $symfile_path for $soname\n" if $debug;
                 unless (exists $symfile_cache{$symfile_path}) {
                     $symfile_cache{$symfile_path} =
-                        Dpkg::Shlibs::SymbolFile->new($symfile_path);
+                        Dpkg::Shlibs::SymbolFile->new(file => $symfile_path);
                 }
                 $symfile->merge_object_from_symfile($symfile_cache{$symfile_path}, $soname);
             }
