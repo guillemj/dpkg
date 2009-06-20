@@ -78,7 +78,7 @@ $output = '';
 $SIG{'__WARN__'} = sub { $output .= $_[0] };
 $s->warn_about_unused();
 delete $SIG{'__WARN__'};
-is($output, '750_Dpkg_Substvars.t: warning: unused substitution variables ${var2}'."\n",
+is($output, "750_Dpkg_Substvars.t: warning: unused substitution variable \${var2}\n",
           , 'unused variables warnings');
 
 # Disable warnings for a certain variable
