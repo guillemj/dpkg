@@ -194,7 +194,8 @@ $symfile->clear_except(keys %{$od->{objects}});
 # Write out symbols files
 if ($stdout) {
     $output = "standard output";
-    $symfile->save("-", package => $oppackage, template_mode => $template_mode);
+    $symfile->save("-", package => $oppackage,
+                   template_mode => $template_mode, with_deprecated => 0);
 } else {
     unless (defined($output)) {
 	unless($symfile->is_empty()) {
@@ -204,7 +205,8 @@ if ($stdout) {
     }
     if (defined($output)) {
 	print "Storing symbols in $output.\n" if $debug;
-	$symfile->save($output, package => $oppackage, template_mode => $template_mode);
+	$symfile->save($output, package => $oppackage,
+                       template_mode => $template_mode, with_deprecated => 0);
     } else {
 	print "No symbol information to store.\n" if $debug;
     }
