@@ -211,7 +211,9 @@ $substvars->parse($varlistfile) if -e $varlistfile;
 if (defined($prev_changelog) and
     compare_versions($changelog->{"Version"}, '<<', $prev_changelog->{"Version"})) {
     warning(_g("the current version (%s) is smaller than the previous one (%s)"),
-	$changelog->{"Version"}, $prev_changelog->{"Version"});
+	$changelog->{"Version"}, $prev_changelog->{"Version"})
+        # ~bpo and ~vola are backports and have lower version number by definition
+        unless $changelog->{"Version"} =~ /~(?:bpo|vola)/;
 }
 
 if (not is_sourceonly) {
