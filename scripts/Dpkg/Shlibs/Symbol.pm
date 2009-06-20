@@ -174,14 +174,24 @@ sub delete_tag {
     return 0;
 }
 
+sub has_tag {
+    my ($self, $tag) = @_;
+    return exists $self->{tags}{$tag};
+}
+
+sub get_tag_value {
+    my ($self, $tag) = @_;
+    return $self->{tags}{$tag};
+}
+
 sub is_optional {
     my $self = shift;
-    return exists $self->{tags}{optional};
+    return $self->has_tag("optional");
 }
 
 sub is_arch_specific {
     my $self = shift;
-    return exists $self->{tags}{arch};
+    return $self->has_tag("arch");
 }
 
 sub arch_is_concerned {
