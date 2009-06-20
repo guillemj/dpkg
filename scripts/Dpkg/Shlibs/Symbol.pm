@@ -22,9 +22,7 @@ use warnings;
 use Dpkg::Gettext;
 use Dpkg::Deps;
 use Dpkg::ErrorHandling;
-use Storable qw( dclone );
-
-my $arches64bit = qr/amd64|ia64|alpha/;
+use Storable qw(dclone);
 
 sub new {
     my $this = shift;
@@ -170,10 +168,7 @@ sub delete_tag {
     my ($self, $tagname) = @_;
     if (exists $self->{tags}{$tagname}) {
 	delete $self->{tags}{$tagname};
-	for (my $i = 0; $i <= $#{$self->{tagorder}}; $i++) {
-	    delete $self->{tagorder}->[$i];
-	    last;
-	}
+        $self->{tagorder} = [ grep { $_ ne $tagname } @{$self->{tagorder}} ];
 	return 1;
     }
     return 0;
@@ -237,3 +232,5 @@ sub get_symbolspec {
     $spec .= " $self->{dep_id}" if $self->{dep_id};
     return $spec;
 }
+
+1;
