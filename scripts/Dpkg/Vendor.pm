@@ -78,7 +78,11 @@ name.
 sub get_vendor_file(;$) {
     my $vendor = shift || "default";
     my $file;
-    foreach my $name ($vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor))) {
+    my @tries = ($vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor)));
+    if ($vendor =~ s/\s+/-/) {
+        push @tries, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
+    }
+    foreach my $name (@tries) {
         $file = "/etc/dpkg/origins/$name" if -e "/etc/dpkg/origins/$name";
     }
     return $file;
