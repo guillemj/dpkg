@@ -266,7 +266,7 @@ sub merge_symbols {
 	if ($sym->{version}) {
 	    $dynsyms{$sym->{name} . '@' . $sym->{version}} = $sym;
 	} else {
-	    $dynsyms{$sym->{name}} = $sym;
+	    $dynsyms{$sym->{name} . '@Base' } = $sym;
 	}
     }
 
