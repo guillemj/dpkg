@@ -320,8 +320,8 @@ sub merge_symbols {
 	    next if not $sym->arch_is_concerned($self->{arch});
 
 	    if ($sym->{deprecated}) {
-		# Bump deprecated if the symbol is optional.
-                # XXX: Why?
+		# Bump deprecated if the symbol is optional so that it
+                # keeps reappering in the diff while it's missing
 		$sym->{deprecated} = $minver if $sym->is_optional();
 	    } elsif (vercmp($minver, $sym->{minver}) > 0) {
 		$sym->{deprecated} = $minver;
