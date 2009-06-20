@@ -149,6 +149,14 @@ second one anywhere except on armel.
 
  (arch=alpha amd64 ia64)a_64bit_specific_symbol@Base 1.0
  (arch=!armel)symbol_armel_does_not_have@Base 1.0
+.TP
+.B ignore\-blacklist
+dpkg\-gensymbols has an internal blacklist of symbols that should not
+appear in symbols files as they are usually only side-effects of
+implementation details of the toolchain. If for some reason, you really
+want one of those symbols to be included in the symbols file, you should
+tag the symbol with \fBignore\-blacklist\fP. It can be necessary for
+some low level toolchain libraries like libgcc.
 .SS Using includes
 .P 
 When the set of exported symbols differ between architectures, it may become

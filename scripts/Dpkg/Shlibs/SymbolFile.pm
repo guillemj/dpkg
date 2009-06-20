@@ -262,12 +262,13 @@ sub merge_symbols {
     my $soname = $object->{SONAME} || error(_g("Can't merge symbols from objects without SONAME."));
     my %dynsyms;
     foreach my $sym ($object->get_exported_dynamic_symbols()) {
-	next if exists $blacklist{$sym->{name}};
-	if ($sym->{version}) {
-	    $dynsyms{$sym->{name} . '@' . $sym->{version}} = $sym;
-	} else {
-	    $dynsyms{$sym->{name} . '@Base' } = $sym;
-	}
+        my $name = $sym->{name} . '@' .
+                   ($sym->{version} ? $sym->{version} : "Base");
+        my $symobj = $self->lookup_symbol($name, [ $soname ]);
+        if (exists $blacklist{$sym->{name}}) {
+            next unless (defined $symobj and $symobj->has_tag("ignore-blacklist"));
+        }
+        $dynsyms{$name} = $sym;
     }
 
     unless (exists $self->{objects}{$soname}) {
