@@ -17,6 +17,12 @@ dpkg (1.15.3) UNRELEASED; urgency=low
     Andersson <avtobiff@gmail.com>. Closes: #532769
   * Fix english mistake (“as you request” → “as you requested”) in several
     places. Thanks to David Stansby for the patch. Closes: #533171
+  * Support tags before symbols in symbols file contained in source packages.
+    The first two tags are "optional" (use it to not fail if the symbol might
+    disappear from the library without breaking the ABI) and "arch" to
+    restrict the set of architectures where the symbol is supposed to exist.
+    Thanks to Modestas Vainius <modestas@vainius.eu> for the patch.
+    See dpkg-gensymbols(1) for more information. Closes: #521551
 
   [ Updated dpkg translations ]
   * Simplified Chinese (Deng Xiyue). Closes: #531387
