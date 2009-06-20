@@ -31,6 +31,9 @@ dpkg (1.15.3) UNRELEASED; urgency=low
     normally blacklisted. This can be useful for libgcc to include symbols
     that the toolchain allows to be shared but that are often static (and
     hence are blacklisted for this reason). Closes: #533642
+  * In dpkg-source, explicitely pass --keyring ~/.gnupg/trustedkeys.gpg to
+    gpgv as it does not use it if other --keyring parameters are given.
+    Closes: #530769
 
   [ Joachim Breitner ]
   * Warn about unused substvars in dpkg-gencontrol. Closes: #532760
