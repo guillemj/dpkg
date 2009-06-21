@@ -336,7 +336,7 @@ sub add_dynamic_symbol {
     if ($symbol->{version}) {
 	$self->{dynsyms}{$symbol->{name} . '@' . $symbol->{version}} = $symbol;
     } else {
-	$self->{dynsyms}{$symbol->{name}} = $symbol;
+	$self->{dynsyms}{$symbol->{name} . '@Base'} = $symbol;
     }
 }
 
