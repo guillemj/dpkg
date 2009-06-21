@@ -69,7 +69,7 @@ inside a binary package.
 Symbol tagging is useful for marking symbols that are special in some way.  Any
 symbol can have an arbitrary number of tags associated with it. While all tags are
 parsed and stored, only a some of them are understood by
-\fBdpkg-gensymbols\fR and trigger special handling of the symbols. See
+\fBdpkg\-gensymbols\fR and trigger special handling of the symbols. See
 subsection \fBStandard symbol tags\fR for reference of these tags.
 .P
 Tag specification comes right before the symbol name (no whitespace is allowed
@@ -94,12 +94,12 @@ that has no value. The second symbol named \fItagged_unquoted_symbol\fR is
 only tagged with the tag named \fIoptional\fR. The last symbol is an
 example of the normal untagged symbol.
 .P
-Since symbol tags are an extension of the \fIdeb-symbols(5)\fR format, they can
-only be part of the symbols files used in source packages (those files
+Since symbol tags are an extension of the \fIdeb\-symbols(5)\fR format, they
+can only be part of the symbols files used in source packages (those files
 should then be seen as templates used to build the symbols files that are
 embedded in binary packages). When
-\fBdpkg-gensymbols\fR is called without the \fI\-t\fR option, it will
-output symbols files compatible to the \fIdeb-symbols(5)\fR format:
+\fBdpkg\-gensymbols\fR is called without the \fI\-t\fR option, it will
+output symbols files compatible to the \fIdeb\-symbols(5)\fR format:
 it fully processes symbols according to the requirements of their standard tags
 and strips all tags from the output. On the contrary, in template mode
 (\fI\-t\fR) all symbols and their tags (both standard and unknown ones)
@@ -109,7 +109,7 @@ loaded.
 .TP
 .B optional
 A symbol marked as optional can disappear from the library at any time and that
-will never cause \fBdpkg-gensymbols\fR to fail. However, disappeared optional
+will never cause \fBdpkg\-gensymbols\fR to fail. However, disappeared optional
 symbols will continuously appear as MISSING in the diff in each new package
 revision.  This behaviour serves as a reminder for the maintainer that such a
 symbol needs to be removed from the symbol file or readded to the library. When
@@ -129,7 +129,7 @@ discovered in the library, all arch-specific symbols which do not concern
 the current host architecture are treated as if they did not exist. If an
 arch-specific symbol matching the current host architecture does not exist
 in the library, normal procedures for missing symbols apply and it may
-cause \fBdpkg-gensymbols\fR to fail. On the other hand, if the
+cause \fBdpkg\-gensymbols\fR to fail. On the other hand, if the
 arch-specific symbol is found when it was not supposed to exist (because
 the current host architecture is not listed in the tag), it is made arch
 neutral (i.e. the arch tag is dropped and the symbol will appear in the
