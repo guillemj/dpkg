@@ -30,6 +30,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Checksums;
 
 textdomain("dpkg-dev");
 
@@ -242,16 +243,10 @@ sub de_pgp {
 
 sub read_dsc {
     my $file = shift;
-    my ($size, $md5, $nread, $contents);
+    my ($size, $nread, $contents);
 
     unless (open FILE, $file) {
 	warning(_g("can't read %s: %s"), $file, $!);
-	return;
-    }
-
-    $size = -s FILE;
-    unless (defined $size) {
-	warning(_g("error doing fstat on %s: %s"), $file, $!);
 	return;
     }
 
@@ -264,27 +259,9 @@ sub read_dsc {
 	}
     } while $nread > 0;
 
-    # Rewind the .dsc file and feed it to md5sum as stdin.
-    my $pid = open MD5, '-|';
-    unless (defined $pid) {
-	warning(_g("can't fork: %s", $!));
-	return;
-    }
-    if (!$pid) {
-	open STDIN, '<&FILE' or syserr(_g("can't dup %s"), $file);
-	seek STDIN, 0, 0     or syserr(_g("can't rewind %s"), $file);
-	exec 'md5sum'        or syserr(_g("can't exec md5sum"));
-    }
-    chomp($md5 = join '', <MD5>);
-    unless (close MD5) {
-	warning(close_msg, 'md5sum');
-	return;
-    }
-    $md5 =~ s/ *-$//; # Remove trailing spaces and -, to work with GNU md5sum
-    unless (length($md5) == 32 && $md5 !~ /[^\da-f]/i) {
-	warning(_g("invalid md5 output for %s (%s)"), $file, $md5);
-	return;
-    }
+    # Get checksums
+    my $sums = {};
+    getchecksums($file, $sums, \$size);
 
     unless (close FILE) {
 	warning(_g("error closing %s: %s"), $file, $!);
@@ -294,7 +271,7 @@ sub read_dsc {
     $contents = de_pgp $file, $contents;
     return unless defined $contents;
 
-    return $size, $md5, $contents;
+    return $size, $sums, $contents;
 }
 
 # Given PREFIX and DSC-FILE, process the file and returning the source
@@ -305,7 +282,7 @@ sub process_dsc {
     my ($source, @binary, $priority, $section, $maintainer_override,
 	$dir, $dir_field, $dsc_field_start);
 
-    my ($size, $md5, $contents) = read_dsc $file or return;
+    my ($size, $sums, $contents) = read_dsc $file or return;
 
     # Allow blank lines at the end of a file, because the other programs
     # do.
@@ -403,7 +380,15 @@ sub process_dsc {
     $dir_field .= "Directory: $dir\n";
 
     # The files field will get an entry for the .dsc file itself.
-    $dsc_field_start = "Files:\n $md5 $size $file\n";
+    my %listing;
+    foreach my $alg (@check_supported) {
+        if ($alg eq "md5") {
+            $listing{$alg} = "Files:\n $sums->{$alg} $size $file\n";
+        } else {
+            $listing{$alg} = "Checksum-" . ucfirst($alg) .
+                             ":\n $sums->{$alg} $size $file\n";
+        }
+    }
 
     # Loop through @field, doing nececessary processing and building up
     # @new_field.
@@ -430,8 +415,15 @@ sub process_dsc {
 	    push @new_field, $dir_field;
 	    $dir_field = undef;
 	    $_ = " $_" if length;
-	    $_ = "$dsc_field_start$_";
+	    $_ = "$listing{md5}$_";
 	}
+
+        if (/Checksums-(.*):/i) {
+            my $alg = lc($1);
+            s/Checksums-([^:]*):\s*//i;
+            $_ = " $_" if length;
+            $_ = "$listing{$alg}$_";
+        }
 
 	# Modify the maintainer if necessary.
 	if ($maintainer_override

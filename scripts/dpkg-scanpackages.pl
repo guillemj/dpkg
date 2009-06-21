@@ -10,6 +10,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Deps qw(@pkg_dep_fields);
 use Dpkg::Version qw(compare_versions);
+use Dpkg::Checksums;
 
 textdomain("dpkg-dev");
 
@@ -27,11 +28,17 @@ my %kmap= (optional         => 'suggests',
 	   package_revision => 'revision',
 	  );
 
+my @sums;
+foreach (@check_supported) {
+    my $copy = uc($_);
+    $copy = "MD5sum" if $_ eq "md5";
+    push @sums, $copy;
+}
 my @fieldpri = (qw(Package Package-Type Source Version Kernel-Version
                    Architecture Subarchitecture Essential Origin Bugs
                    Maintainer Installed-Size Installer-Menu-Item),
-                @pkg_dep_fields, qw(Filename Size MD5sum Section Priority
-                   Homepage Description Tag));
+                @pkg_dep_fields, qw(Filename Size), @sums,
+                qw(Section Priority Homepage Description Tag));
 
 # This maps the fields into the proper case
 my %field_case;
@@ -217,17 +224,17 @@ FILE:
 	
 	$tv{'Filename'}= "$pathprefix$fn";
 	
-	open(C,"md5sum <$fn |") || die "$fn $!";
-	chop($_ = <C>);
-	close(C);
-	$? and subprocerr("'md5sum < %s'", $fn);;
-	/^([0-9a-f]{32})\s*-?\s*$/ or
-	    error(_g("Strange text from 'md5sum < %s': '%s'"), $fn, $_);
-	$tv{'MD5sum'}= $1;
-	
-	my @stat = stat($fn) or syserr(_g("Couldn't stat %s"), $fn);
-	$stat[7] or error(_g("file %s is empty"), $fn);
-	$tv{'Size'}= $stat[7];
+        my $sums = {};
+        my $size;
+        getchecksums($fn, $sums, \$size);
+        foreach my $alg (@check_supported) {
+            if ($alg eq "md5") {
+	        $tv{'MD5sum'} = $sums->{'md5'};
+            } else {
+                $tv{uc($alg)} = $sums->{$alg};
+            }
+        }
+	$tv{'Size'} = $size;
 	
 	if (defined $tv{Revision} and length($tv{Revision})) {
 	    $tv{Version}.= '-'.$tv{Revision};
