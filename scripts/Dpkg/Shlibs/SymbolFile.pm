@@ -121,9 +121,8 @@ sub load {
     my ($self, $file, $seen, $current_object_ref, $base_symbol) = @_;
 
     sub new_symbol {
-        my $base = shift;
-        return $base->clone(@_) if defined $base;
-        return Dpkg::Shlibs::Symbol->new(@_);
+        my $base = shift || 'Dpkg::Shlibs::Symbol';
+        return (ref $base) ? $base->clone(@_) : $base->new(@_);
     }
 
     if (defined($seen)) {
