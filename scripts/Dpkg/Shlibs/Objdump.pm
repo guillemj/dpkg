@@ -350,6 +350,11 @@ sub get_symbol {
     if (exists $self->{dynsyms}{$name}) {
 	return $self->{dynsyms}{$name};
     }
+    if ($name !~ /@/) {
+        if (exists $self->{dynsyms}{$name . '@Base'}) {
+            return $self->{dynsyms}{$name . '@Base'};
+        }
+    }
     return undef;
 }
 
