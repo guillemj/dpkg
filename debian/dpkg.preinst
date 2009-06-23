@@ -26,15 +26,30 @@ upgrade_dpkg_non_conffile()
     fi
 }
 
-clean_alternative()
-{
+kill_bad_alternatives () {
+    local IFS=""
     ALTDIR="/var/lib/dpkg/alternatives"
-    if [ -e "$ALTDIR/$2" ]; then
-        if [ -e "$ALTDIR/$1" ] && grep -q "^$2$" "$ALTDIR/$1"; then
-            echo "Removing conflicting alternative $2 ..."
-            rm -f "$ALTDIR/$2"
+    for alt in $ALTDIR/*; do
+        if [ ! -e $alt ]; then
+            # In case it's been removed by the code below
+            continue
         fi
-    fi
+        {
+            read mode
+            read mainlink
+            while true; do
+                read slave
+                if [ "$slave" = "" ]; then
+                    break
+                fi
+                if [ -e "$ALTDIR/$slave" ]; then
+                    echo "Removing conflicting master alternative $slave (it is slave of $(basename $alt))..."
+                    rm -f "$ALTDIR/$slave"
+                fi
+                read slavelink
+            done
+        } <$alt
+    done
 }
 
 case "$1" in
@@ -43,11 +58,10 @@ case "$1" in
 
     upgrade)
         # Cleanup bad alternatives that would choke with new
-        # update-alternatives (see #530633, #531611, #532739)
-        clean_alternative x-terminal-emulator x-terminal-emulator.1.gz
-        clean_alternative x-session-manager x-session-manager.1.gz
-        clean_alternative x-window-manager x-window-manager.1.gz
-        clean_alternative awk nawk
+        # update-alternatives (see #530633, #531611, #532739, #521760)
+        if dpkg --compare-versions "$2" lt 1.15.3; then
+            kill_bad_alternatives
+        fi
 
 	case "$2" in
 	    # Upgrade from pre-conffile dpkg.cfg

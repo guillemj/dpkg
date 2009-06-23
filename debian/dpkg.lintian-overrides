@@ -3,3 +3,8 @@ dpkg: redundant-bugs-field
 dpkg: arch-dep-package-has-big-usr-share
 # By design, to be able to recover from broken/missing zlib
 dpkg: embedded-zlib ./usr/bin/dpkg-deb
+# False positives, we read from a file not from a tty
+dpkg: read-in-maintainer-script preinst:38
+dpkg: read-in-maintainer-script preinst:39
+dpkg: read-in-maintainer-script preinst:41
+dpkg: read-in-maintainer-script preinst:49
