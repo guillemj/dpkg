@@ -27,7 +27,7 @@
 #include <dpkg-priv.h>
 
 size_t
-rtrim_slash_slashdot(char *path)
+path_rtrim_slash_slashdot(char *path)
 {
 	char *end;
 
@@ -45,7 +45,7 @@ rtrim_slash_slashdot(char *path)
 }
 
 const char *
-skip_slash_dotslash(const char *path)
+path_skip_slash_dotslash(const char *path)
 {
 	while (path[0] == '/' || (path[0] == '.' && path[1] == '/'))
 		path++;

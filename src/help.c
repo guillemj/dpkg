@@ -523,7 +523,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
   int c1;
   const char *u, *failed;
 
-  u= skip_slash_dotslash(pathname);
+  u = path_skip_slash_dotslash(pathname);
   assert(*u);
 
   debug(dbg_eachfile,"ensure_pathname_nonexisting `%s'",pathname);

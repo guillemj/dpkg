@@ -246,7 +246,7 @@ void searchfiles(const char *const *argv) {
       varbufaddstr(&path, thisarg);
       varbufaddc(&path, '\0');
 
-      path.used = rtrim_slash_slashdot(path.buf);
+      path.used = path_rtrim_slash_slashdot(path.buf);
       thisarg = path.buf;
     }
 

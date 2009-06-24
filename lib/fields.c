@@ -285,7 +285,7 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
 			  &hashstart, &hashlen, &endfn,
                           filename, lno, pigp);
     newlink= nfmalloc(sizeof(struct conffile));
-    value= skip_slash_dotslash(value);
+    value = path_skip_slash_dotslash(value);
     namelen= (int)(endfn-value);
     if (namelen <= 0)
       parse_error(filename, lno, pigp,

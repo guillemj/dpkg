@@ -50,8 +50,8 @@ char *str_escape_fmt(char *dest, const char *src);
 
 /* Path handling. */
 
-size_t rtrim_slash_slashdot(char *path);
-const char *skip_slash_dotslash(const char *path);
+size_t path_rtrim_slash_slashdot(char *path);
+const char *path_skip_slash_dotslash(const char *path);
 
 /* Subprocess handling. */
 

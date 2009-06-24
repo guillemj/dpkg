@@ -29,7 +29,7 @@
 #define test_trim_eq_ref(p, ref) \
 do { \
 	char *t = strdup((p)); \
-	rtrim_slash_slashdot(t); \
+	path_rtrim_slash_slashdot(t); \
 	test_str(t, ==, (ref)); \
 	free(t); \
 } while (0)
@@ -55,18 +55,18 @@ test_path_rtrim(void)
 static void
 test_path_skip(void)
 {
-	test_str(skip_slash_dotslash("./././."), ==, ".");
-	test_str(skip_slash_dotslash("./././"), ==, "");
-	test_str(skip_slash_dotslash("./."), ==, ".");
-	test_str(skip_slash_dotslash("./"), ==, "");
-	test_str(skip_slash_dotslash("/./././."), ==, ".");
-	test_str(skip_slash_dotslash("/./"), ==, "");
-	test_str(skip_slash_dotslash("/."), ==, ".");
-	test_str(skip_slash_dotslash("/"), ==, "");
-	test_str(skip_slash_dotslash("/./../."), ==, "../.");
-	test_str(skip_slash_dotslash("/foo/bar/./"), ==, "foo/bar/./");
-	test_str(skip_slash_dotslash("./foo/bar/./"), ==, "foo/bar/./");
-	test_str(skip_slash_dotslash("/./foo/bar/./"), ==, "foo/bar/./");
+	test_str(path_skip_slash_dotslash("./././."), ==, ".");
+	test_str(path_skip_slash_dotslash("./././"), ==, "");
+	test_str(path_skip_slash_dotslash("./."), ==, ".");
+	test_str(path_skip_slash_dotslash("./"), ==, "");
+	test_str(path_skip_slash_dotslash("/./././."), ==, ".");
+	test_str(path_skip_slash_dotslash("/./"), ==, "");
+	test_str(path_skip_slash_dotslash("/."), ==, ".");
+	test_str(path_skip_slash_dotslash("/"), ==, "");
+	test_str(path_skip_slash_dotslash("/./../."), ==, "../.");
+	test_str(path_skip_slash_dotslash("/foo/bar/./"), ==, "foo/bar/./");
+	test_str(path_skip_slash_dotslash("./foo/bar/./"), ==, "foo/bar/./");
+	test_str(path_skip_slash_dotslash("/./foo/bar/./"), ==, "foo/bar/./");
 }
 
 static void

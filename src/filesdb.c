@@ -392,7 +392,7 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   const char *orig_name = name;
 
   /* We skip initial slashes and ./ pairs, and add our own single leading slash. */
-  name= skip_slash_dotslash(name);
+  name = path_skip_slash_dotslash(name);
 
   pointerp= bins + (hash(name) & (BINS-1));
   while (*pointerp) {
