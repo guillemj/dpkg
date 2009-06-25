@@ -122,7 +122,7 @@ static void setpartsize(const struct cmdinfo *cip, const char *value) {
 
   maxpartsize= newpartsize << 10;
   if (maxpartsize <= HEADERALLOWANCE)
-    badusage(_("part size must be at least %dk (to allow for header)"),
+    badusage(_("part size must be at least %d KiB (to allow for header)"),
              (HEADERALLOWANCE >> 10) + 1);
 }
 
