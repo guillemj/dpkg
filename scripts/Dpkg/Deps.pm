@@ -317,7 +317,7 @@ sub parse {
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
 	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or);
 	    if (not defined $dep_simple->{package}) {
-		warning(_g("can't parse dependency %s"), $dep_and);
+		warning(_g("can't parse dependency %s"), $dep_or);
 		return undef;
 	    }
 	    $dep_simple->{arches} = undef if not $options{use_arch};
@@ -555,7 +555,7 @@ sub parse {
                 \s* \]                      # closing bracket
               )?                            # end of optional architecture
 	      \s*$			    # trailing spaces at end
-            /mx;
+            /x;
     $self->{package} = $1;
     $self->{relation} = $2;
     $self->{version} = $3;

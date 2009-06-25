@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 15;
+use Test::More tests => 16;
 
 use strict;
 use warnings;
@@ -62,4 +62,9 @@ is($dep_empty1->dump(), "", "Empty dependency");
 
 my $dep_empty2 = Dpkg::Deps::parse(" , , ", union => 1);
 is($dep_empty2->dump(), "", "' , , ' is also an empty dependency");
+
+$SIG{'__WARN__'} = sub {};
+my $dep_bad_multiline = Dpkg::Deps::parse("a, foo\nbar, c");
+ok(!defined($dep_bad_multiline), "invalid dependency split over multiple line");
+delete $SIG{'__WARN__'};
 
