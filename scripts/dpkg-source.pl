@@ -6,10 +6,10 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(:DEFAULT unknown);
+use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
-use Dpkg::Fields qw(:list capit);
+use Dpkg::Fields qw(:list capit unknown);
 use Dpkg::Compression;
 use Dpkg::Control;
 use Dpkg::Substvars;

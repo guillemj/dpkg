@@ -6,7 +6,7 @@ use Dpkg::Gettext;
 use base qw(Exporter);
 our @EXPORT = qw(report_options info warning error errormsg
                  syserr internerr subprocerr usageerr syntaxerr);
-our @EXPORT_OK = qw(report unknown);
+our @EXPORT_OK = qw(report);
 
 my $quiet_warnings = 0;
 my $info_fh = \*STDOUT;
@@ -60,14 +60,6 @@ sub errormsg($;@)
 sub internerr($;@)
 {
     die report(_g("internal error"), @_);
-}
-
-sub unknown($$)
-{
-    my ($field, $desc) = @_;
-
-    warning(_g("unknown information field '%s' in input data in %s"),
-            $field, $desc);
 }
 
 sub subprocerr(@)
