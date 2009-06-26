@@ -149,8 +149,6 @@ else {
 }
 push @find_args, '-follow';
 
-#push @ARGV, undef	if @ARGV < 2;
-#push @ARGV, ''		if @ARGV < 3;
 my ($binarydir, $override, $pathprefix) = @ARGV;
 
 -d $binarydir or error(_g("Binary dir %s not found"), $binarydir);
