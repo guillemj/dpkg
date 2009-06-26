@@ -182,7 +182,7 @@ if ($options{'opmode'} eq 'build') {
 	} elsif (m/^$control_src_field_regex$/i || m/^X[BC]+-/i) {
 	    # Silently ignore valid fields
 	} else {
-	    unknown(_g('general section of control info file'));
+	    unknown($_, _g('general section of control info file'));
 	}
     }
 
@@ -215,7 +215,7 @@ if ($options{'opmode'} eq 'build') {
             } elsif (m/^$control_pkg_field_regex$/ ||
                      m/^X[BC]+-/i) { # Silently ignore valid fields
             } else {
-                unknown(_g("package's section of control info file"));
+                unknown($_, _g("package's section of control info file"));
             }
 	}
     }
@@ -240,7 +240,7 @@ if ($options{'opmode'} eq 'build') {
 	} elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/i ||
 		 m/^X[BS]+-/i) {
 	} else {
-	    unknown(_g("parsed version of changelog"));
+	    unknown($_, _g("parsed version of changelog"));
 	}
     }
     

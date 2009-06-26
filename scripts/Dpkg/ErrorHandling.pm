@@ -62,12 +62,12 @@ sub internerr($;@)
     die report(_g("internal error"), @_);
 }
 
-sub unknown($)
+sub unknown($$)
 {
-    # XXX: implicit argument
-    my $field = $_;
+    my ($field, $desc) = @_;
+
     warning(_g("unknown information field '%s' in input data in %s"),
-            $field, $_[0]);
+            $field, $desc);
 }
 
 sub subprocerr(@)

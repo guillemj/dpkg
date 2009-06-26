@@ -270,7 +270,7 @@ foreach $_ (keys %{$src_fields}) {
     } elsif (m/^X[BS]+-/i || m/^$control_src_field_regex$/i) {
 	# Silently ignore valid fields
     } else {
-	unknown(_g('general section of control info file'));
+	unknown($_, _g('general section of control info file'));
     }
 }
 
@@ -324,7 +324,7 @@ foreach my $pkg ($control->get_packages()) {
 	} elsif (m/^$control_pkg_field_regex$/ || m/^X[BS]+-/i) {
 	    # Silently ignore valid fields
 	} else {
-	    unknown(_g("package's section of control info file"));
+	    unknown($_, _g("package's section of control info file"));
 	}
     }
 }
@@ -341,7 +341,7 @@ foreach $_ (keys %{$changelog}) {
     } elsif (s/^X[BS]*C[BS]*-//i) {
 	$fields->{$_} = $v;
     } elsif (!m/^X[BS]+-/i) {
-	unknown(_g("parsed version of changelog"));
+	unknown($_, _g("parsed version of changelog"));
     }
 }
 
