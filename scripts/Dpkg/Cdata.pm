@@ -23,8 +23,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Fields qw(capit);;
 
-use Exporter;
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 our @EXPORT = qw(parsecdata);
 
 =head1 NAME

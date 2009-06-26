@@ -22,8 +22,7 @@ use warnings;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use Exporter;
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 our @EXPORT = qw($sourcepackage set_source_package);
 
 our $sourcepackage;

@@ -3,8 +3,7 @@ package Dpkg::Source::Functions;
 use strict;
 use warnings;
 
-use Exporter;
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 our @EXPORT_OK = qw(erasedir fixperms is_binary);
 
 use Dpkg::ErrorHandling;

@@ -3,8 +3,7 @@ package Dpkg::Arch;
 use strict;
 use warnings;
 
-use Exporter;
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     get_build_arch get_host_arch get_gcc_host_gnu_type
                     get_valid_arches debarch_eq debarch_is

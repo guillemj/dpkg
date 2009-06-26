@@ -3,10 +3,9 @@ package Dpkg::Fields;
 use strict;
 use warnings;
 
-use Exporter;
+use base qw(Exporter);
 use Dpkg::Deps qw(@src_dep_fields @pkg_dep_fields);
 
-our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(capit %control_src_fields %control_pkg_fields
     $control_src_field_regex $control_pkg_field_regex);
 our %EXPORT_TAGS = ('list' => [qw(%control_src_fields %control_pkg_fields

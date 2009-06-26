@@ -23,8 +23,7 @@ use warnings;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use Exporter;
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 our @EXPORT = qw(fork_and_exec wait_child);
 
 =head1 NAME

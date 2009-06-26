@@ -24,8 +24,7 @@ use warnings;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use Exporter;
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 our @EXPORT_OK = qw(vercmp compare_versions check_version parseversion);
 
 =head1 NAME

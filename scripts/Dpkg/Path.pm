@@ -19,10 +19,9 @@ package Dpkg::Path;
 use strict;
 use warnings;
 
-use Exporter;
+use base qw(Exporter);
 use File::Spec;
 use Cwd qw(realpath);
-our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root
 		    guess_pkg_root_dir check_files_are_the_same
 		    resolve_symlink canonpath);

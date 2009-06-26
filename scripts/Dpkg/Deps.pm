@@ -73,7 +73,7 @@ use Dpkg::Arch qw(get_host_arch);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 our @EXPORT_OK = qw(@pkg_dep_fields @src_dep_fields %dep_field_type
 		    %relation_ordering);
 

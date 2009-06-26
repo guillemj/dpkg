@@ -23,8 +23,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Cdata;
 
-use Exporter;
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
                     get_vendor_object run_vendor_hook);
 
