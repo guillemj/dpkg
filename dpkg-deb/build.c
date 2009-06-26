@@ -188,7 +188,7 @@ void do_build(const char *const *argv) {
   const char *envbuf;
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
-  FILE *ar, *gz, *cf;
+  FILE *ar, *cf;
   int p1[2],p2[2],p3[2], warns, errs, n, c, subdir, gzfd;
   pid_t c1,c2,c3;
   struct stat controlstab, datastab, mscriptstab, debarstab;
@@ -373,8 +373,6 @@ void do_build(const char *const *argv) {
    * our temporary file so others can't mess with it.
    */
   if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (control)"));
-  if ((gz= fdopen(gzfd,"a")) == NULL) ohshite(_("failed to open tmpfile "
-      "(control), %s"), tfbuf);
   /* make sure it's gone, the fd will remain until we close it */
   if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (control), %s"),
       tfbuf);
@@ -419,10 +417,8 @@ void do_build(const char *const *argv) {
    * a new temporary file. Immediately unlink the temporary file so others
    * can't mess with it. */
   if (!oldformatflag) {
-    fclose(gz);
+    close(gzfd);
     if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (data)"));
-    if ((gz= fdopen(gzfd,"a")) == NULL) ohshite(_("failed to open tmpfile "
-        "(data), %s"), tfbuf);
     /* make sure it's gone, the fd will remain until we close it */
     if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (data), %s"),
         tfbuf);
