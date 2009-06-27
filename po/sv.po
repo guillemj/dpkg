@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-06-20 16:20+0100\n"
+"POT-Creation-Date: 2009-06-27 19:08+0200\n"
 "PO-Revision-Date: 2009-06-20 16:21+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -996,49 +996,59 @@ msgstr ""
 msgid "unable to create new trigger interest file `%.250s'"
 msgstr "kunde inte skapa ny utlösarintressefil \"%.250s\""
 
-#: lib/triglib.c:408
+#: lib/triglib.c:409
 #, c-format
 msgid "unable to write new trigger interest file `%.250s'"
 msgstr "kunde inte skriva ny utlösarintressefil \"%.250s\""
 
 #: lib/triglib.c:413
+#, fuzzy, c-format
+msgid "unable to close new trigger interest file `%.250s'"
+msgstr "kunde inte skapa ny utlösarintressefil \"%.250s\""
+
+#: lib/triglib.c:417
 #, c-format
 msgid "unable to install new trigger interest file `%.250s'"
 msgstr "kunde inte installera ny utlösarintressefil \"%.250s\""
 
-#: lib/triglib.c:470
+#: lib/triglib.c:474
 #, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr ""
 "dubblerad filutlösarintresse för filnamnet \"%.250s\" och paketet \"%.250s\""
 
-#: lib/triglib.c:493
+#: lib/triglib.c:497
 #, c-format
 msgid "unable to create new file triggers file `%.250s'"
 msgstr "kunde inte öppna ny filutlösarfil \"%.250s\""
 
-#: lib/triglib.c:502
+#: lib/triglib.c:506
 #, c-format
 msgid "unable to write new file triggers file `%.250s'"
 msgstr "kunde inte skriva ny filutlösarfil \"%.250s\""
 
-#: lib/triglib.c:507
+#: lib/triglib.c:510
+#, fuzzy, c-format
+msgid "unable to close new file triggers file `%.250s'"
+msgstr "kunde inte öppna ny filutlösarfil \"%.250s\""
+
+#: lib/triglib.c:514
 #, c-format
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr "kunde inte installera ny filutlösarfil som \"%.250s\""
 
-#: lib/triglib.c:528
+#: lib/triglib.c:535
 #, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "kunde inte läsa filutlösarfil \"%.250s\""
 
-#: lib/triglib.c:536
+#: lib/triglib.c:543
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "syntaxfel i filutlösarfil \"%.250s\""
 
-#: lib/triglib.c:540
+#: lib/triglib.c:547
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
@@ -1047,7 +1057,7 @@ msgstr ""
 "filutlösarpost anger det ogiltiga paketnamnet \"%.250s\" (för intresse för "
 "filen \"%.250s\"): %.250s"
 
-#: lib/triglib.c:634
+#: lib/triglib.c:641
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
@@ -1056,26 +1066,26 @@ msgstr ""
 "utlösar-ci-filen \"%.250s\" innehåller ogiltig utlösarsyntax i utlösarnamnet "
 "%.250s: %.250s"
 
-#: lib/triglib.c:654
+#: lib/triglib.c:661
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "kunde inte öppna utlösar-ci-fil \"%.250s\""
 
-#: lib/triglib.c:669
+#: lib/triglib.c:676
 msgid "triggers ci file contains unknown directive syntax"
 msgstr "utlösar-ci-filen innehåller ogiltig syntax för direktiv"
 
-#: lib/triglib.c:678
+#: lib/triglib.c:685
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr "utlösar-ci-filen innehåller okänt direktiv \"%.250s\""
 
-#: lib/triglib.c:733
+#: lib/triglib.c:740
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "kunde inte skapa utlösarstatuskatalogen \"%.250s\""
 
-#: lib/triglib.c:736
+#: lib/triglib.c:743
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "kunde inte sätta ägare för utlösarstatuskatalogen \"%.250s\""
@@ -1953,6 +1963,27 @@ msgstr "  %.250s tillhandahåller %.250s och kommer att installeras.\n"
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s tillhandahåller %.250s och är närvarande och %s.\n"
 
+#: src/divertdb.c:71
+msgid "failed to open diversions file"
+msgstr "kunde inte öppna omdirigeringsfil"
+
+#: src/divertdb.c:78
+msgid "failed to fstat previous diversions file"
+msgstr "kunde inte ta status på tidigare omdirigeringsfil"
+
+#: src/divertdb.c:80
+msgid "failed to fstat diversions file"
+msgstr "kunde inte ta status på omdirigeringsfil"
+
+#: src/divertdb.c:120
+#, c-format
+msgid "conflicting diversions involving `%.250s' or `%.250s'"
+msgstr "motsägande omdirigeringar av \"%.250s\" eller \"%.250s\""
+
+#: src/divertdb.c:130
+msgid "read error in diversions [i]"
+msgstr "läsfel i omdirigeringsfil [i]"
+
 #: src/enquiry.c:66
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
@@ -2278,8 +2309,8 @@ msgstr ""
 msgid "failed to chroot to `%.250s'"
 msgstr "kunde inte byta filsystemsrot till \"%.250s\""
 
-#: src/help.c:159 dpkg-deb/build.c:366 dpkg-deb/build.c:440
-#: dpkg-deb/build.c:461
+#: src/help.c:159 dpkg-deb/build.c:366 dpkg-deb/build.c:436
+#: dpkg-deb/build.c:457
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "kunde inte byta katalog till \"%.255s\""
@@ -3474,6 +3505,70 @@ msgstr "okänd önskad status på rad %d: %.250s"
 msgid "read error on standard input"
 msgstr "läsfel på standard in"
 
+#: src/statdb.c:58
+msgid "syntax error: invalid uid in statoverride file"
+msgstr "syntaxfel: ogiltig användar-id i statoverride-fil"
+
+#: src/statdb.c:62
+#, c-format
+msgid "syntax error: unknown user '%s' in statoverride file"
+msgstr "syntaxfel: användaren \"%s\" i statoverride-filen är okänd"
+
+#: src/statdb.c:79
+msgid "syntax error: invalid gid in statoverride file"
+msgstr "syntaxfel: ogiltig grupp-id i statoverride-fil"
+
+#: src/statdb.c:83
+#, c-format
+msgid "syntax error: unknown group '%s' in statoverride file"
+msgstr "syntaxfel: gruppen \"%s\" i statoverride-filen är okänd"
+
+#: src/statdb.c:99
+msgid "syntax error: invalid mode in statoverride file"
+msgstr "syntaxfel: ogiltigt läge i statoverride-fil"
+
+#: src/statdb.c:125
+msgid "failed to open statoverride file"
+msgstr "kunde inte öppna statoverride-fil"
+
+#: src/statdb.c:132
+msgid "failed to fstat statoverride file"
+msgstr "kunde inte ta status på statoverride-fil"
+
+#: src/statdb.c:135
+msgid "failed to fstat previous statoverride file"
+msgstr "kunde inte ta status på tidigare statoverride-fil"
+
+#: src/statdb.c:160
+#, c-format
+msgid "statoverride file `%.250s'"
+msgstr "statoverride-fil \"%.250s\""
+
+#: src/statdb.c:167
+msgid "statoverride file is missing final newline"
+msgstr "statoverride-fil saknar avslutande radbrytning"
+
+#: src/statdb.c:171
+msgid "statoverride file contains empty line"
+msgstr "statoverride-fil innehåller tomrad"
+
+#: src/statdb.c:176 src/statdb.c:188 src/statdb.c:200
+msgid "syntax error in statoverride file"
+msgstr "syntaxfel i statoverride-fil"
+
+#: src/statdb.c:184 src/statdb.c:196
+msgid "unexpected end of line in statoverride file"
+msgstr "oväntat radslut i statoverride-fil"
+
+#: src/statdb.c:208
+msgid "unexecpted end of line in statoverride file"
+msgstr "oväntat radslut i statoverride-fil"
+
+#: src/statdb.c:212
+#, c-format
+msgid "multiple statusoverides present for file '%.250s'"
+msgstr "flera statoverride är satta för filen \"%.250s\""
+
 #: src/trigcmd.c:74
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Skriv dpkg-trigger --help för hjälp om detta verktyg."
@@ -3785,7 +3880,7 @@ msgstr "kunde inte stänga av buffert för \"%.255s\""
 msgid "failed to chdir to .../DEBIAN"
 msgstr "kunde inte byta katalog till .../DEBIAN"
 
-#: dpkg-deb/build.c:369 dpkg-deb/build.c:442
+#: dpkg-deb/build.c:369 dpkg-deb/build.c:438
 msgid "failed to exec tar -cf"
 msgstr "kunde inte köra tar -cf"
 
@@ -3793,67 +3888,57 @@ msgstr "kunde inte köra tar -cf"
 msgid "failed to make tmpfile (control)"
 msgstr "kunde inte skapa temporärfil (kontrolldel)"
 
-#: dpkg-deb/build.c:376
-#, c-format
-msgid "failed to open tmpfile (control), %s"
-msgstr "kunde inte öppna temporärfil (kontrolldel), %s"
-
-#: dpkg-deb/build.c:379
+#: dpkg-deb/build.c:377
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "kunde inte ta bort temporärfil (kontrolldel), %s"
 
-#: dpkg-deb/build.c:387 dpkg-deb/build.c:416
+#: dpkg-deb/build.c:385 dpkg-deb/build.c:414
 msgid "control"
 msgstr "kontrolldel"
 
-#: dpkg-deb/build.c:392
+#: dpkg-deb/build.c:390
 msgid "failed to fstat tmpfile (control)"
 msgstr "kunde inte ta status på temporär fil (kontrolldel)"
 
-#: dpkg-deb/build.c:415
+#: dpkg-deb/build.c:413
 msgid "failed to rewind tmpfile (control)"
 msgstr "kunde inte gå till början av temporär fil (kontrolldel)"
 
-#: dpkg-deb/build.c:423
+#: dpkg-deb/build.c:421
 msgid "failed to make tmpfile (data)"
 msgstr "kunde inte skapa temporärfil (datadel)"
 
-#: dpkg-deb/build.c:424
-#, c-format
-msgid "failed to open tmpfile (data), %s"
-msgstr "kunde inte öppna temporärfil (datadel), %s"
-
-#: dpkg-deb/build.c:427
+#: dpkg-deb/build.c:423
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "kunde inte ta bort temporärfil (datadel), %s"
 
-#: dpkg-deb/build.c:451 dpkg-deb/extract.c:292
+#: dpkg-deb/build.c:447 dpkg-deb/extract.c:292
 msgid "data"
 msgstr "datadel"
 
-#: dpkg-deb/build.c:464
+#: dpkg-deb/build.c:460
 msgid "failed to exec find"
 msgstr "kunde inte köra find"
 
-#: dpkg-deb/build.c:475 dpkg-deb/build.c:482
+#: dpkg-deb/build.c:471 dpkg-deb/build.c:478
 msgid "failed to write filename to tar pipe (data)"
 msgstr "kunde inte skriva filnamn till tar-rör (datadel)"
 
-#: dpkg-deb/build.c:486
+#: dpkg-deb/build.c:482
 msgid "<compress> from tar -cf"
 msgstr "<komprimerare> från tar -cf"
 
-#: dpkg-deb/build.c:508
+#: dpkg-deb/build.c:504
 msgid "failed to fstat tmpfile (data)"
 msgstr "kunde inte ta status (fstat) på temporärfil"
 
-#: dpkg-deb/build.c:518
+#: dpkg-deb/build.c:514
 msgid "failed to rewind tmpfile (data)"
 msgstr "kunde inte gå till början av temporär fil (datadel)"
 
-#: dpkg-deb/build.c:519
+#: dpkg-deb/build.c:515
 msgid "cat (data)"
 msgstr "cat (data)"
 
@@ -4561,8 +4646,8 @@ msgid "part size is far too large or is not positive"
 msgstr "delstorlek är för stor eller ej positiv"
 
 #: dpkg-split/main.c:125
-#, c-format
-msgid "part size must be at least %dk (to allow for header)"
+#, fuzzy, c-format
+msgid "part size must be at least %d KiB (to allow for header)"
 msgstr "delstorleken måste vara minst %dk (för att tillåta huvud)"
 
 #: dpkg-split/queue.c:74
@@ -5770,68 +5855,14 @@ msgstr ""
 "hoppar över att skapa %s då den associerade filen %s (från länkgruppen %s) "
 "inte finns."
 
-#~ msgid "failed to open statoverride file"
-#~ msgstr "kunde inte öppna statoverride-fil"
+#~ msgid "failed to open tmpfile (control), %s"
+#~ msgstr "kunde inte öppna temporärfil (kontrolldel), %s"
 
-#~ msgid "failed to fstat statoverride file"
-#~ msgstr "kunde inte ta status på statoverride-fil"
-
-#~ msgid "failed to fstat previous statoverride file"
-#~ msgstr "kunde inte ta status på tidigare statoverride-fil"
-
-#~ msgid "statoverride file `%.250s'"
-#~ msgstr "statoverride-fil \"%.250s\""
-
-#~ msgid "statoverride file is missing final newline"
-#~ msgstr "statoverride-fil saknar avslutande radbrytning"
-
-#~ msgid "statoverride file contains empty line"
-#~ msgstr "statoverride-fil innehåller tomrad"
-
-#~ msgid "syntax error in statoverride file"
-#~ msgstr "syntaxfel i statoverride-fil"
-
-#~ msgid "syntax error: invalid uid in statoverride file"
-#~ msgstr "syntaxfel: ogiltig användar-id i statoverride-fil"
-
-#~ msgid "syntax error: unknown user '%s' in statoverride file"
-#~ msgstr "syntaxfel: användaren \"%s\" i statoverride-filen är okänd"
-
-#~ msgid "unexpected end of line in statoverride file"
-#~ msgstr "oväntat radslut i statoverride-fil"
-
-#~ msgid "syntax error: invalid gid in statoverride file"
-#~ msgstr "syntaxfel: ogiltig grupp-id i statoverride-fil"
-
-#~ msgid "syntax error: unknown group '%s' in statoverride file"
-#~ msgstr "syntaxfel: gruppen \"%s\" i statoverride-filen är okänd"
-
-#~ msgid "syntax error: invalid mode in statoverride file"
-#~ msgstr "syntaxfel: ogiltigt läge i statoverride-fil"
-
-#~ msgid "multiple statusoverides present for file '%.250s'"
-#~ msgstr "flera statoverride är satta för filen \"%.250s\""
-
-#~ msgid "failed to open diversions file"
-#~ msgstr "kunde inte öppna omdirigeringsfil"
-
-#~ msgid "failed to fstat previous diversions file"
-#~ msgstr "kunde inte ta status på tidigare omdirigeringsfil"
-
-#~ msgid "failed to fstat diversions file"
-#~ msgstr "kunde inte ta status på omdirigeringsfil"
-
-#~ msgid "conflicting diversions involving `%.250s' or `%.250s'"
-#~ msgstr "motsägande omdirigeringar av \"%.250s\" eller \"%.250s\""
-
-#~ msgid "read error in diversions [i]"
-#~ msgstr "läsfel i omdirigeringsfil [i]"
+#~ msgid "failed to open tmpfile (data), %s"
+#~ msgstr "kunde inte öppna temporärfil (datadel), %s"
 
 #~ msgid "invalid number for --command-fd"
 #~ msgstr "ogiltigt tal för --command-fd"
-
-#~ msgid "unexecpted end of line in statoverride file"
-#~ msgstr "oväntat radslut i statoverride-fil"
 
 #~ msgid "unable to open tmpfile for vsnprintf"
 #~ msgstr "kunde inte skapa temporärfil för vsnprintf"
