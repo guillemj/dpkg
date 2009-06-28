@@ -276,7 +276,10 @@ if ($compare) {
 			$output);
 	    }
 	    my ($a, $b) = ($before->filename, $after->filename);
-	    system("diff", "-u", "-L", "dpkg-gensymbols_${oppackage}_${host_arch}", $a, $b) if -x "/usr/bin/diff";
+	    my $diff_label = sprintf("%s (%s %s)",
+	    ($ref_symfile->{file}) ? $ref_symfile->{file} : "new_symbol_file",
+	    $oppackage, $host_arch);
+	    system("diff", "-u", "-L", $diff_label, $a, $b) if -x "/usr/bin/diff";
 	}
     }
 }
