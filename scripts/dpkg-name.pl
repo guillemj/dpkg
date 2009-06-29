@@ -110,7 +110,7 @@ sub getarch($$)
     my $arch = $fields->{Architecture};
     if (!$fields->{Architecture} and !$options{architecture}) {
         $arch = get_host_arch();
-        warning(g_("assuming architecture '%s' for '%s'"), $arch, $filename);
+        warning(_g("assuming architecture '%s' for '%s'"), $arch, $filename);
     }
 
     return $arch;
