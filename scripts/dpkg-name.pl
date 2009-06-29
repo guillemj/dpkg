@@ -122,11 +122,6 @@ sub getname($$$)
 
     my $pkg = $fields->{Package};
     (my $version = $fields->{Version}) =~ s/.*://;
-    my $revision = $fields->{Revision} || $fields->{Package_Revision};
-    if ($revision) {
-        $version .= "-$revision";
-    }
-
     my $type = $fields->{'Package-Type'} || 'deb';
 
     my $tname;
