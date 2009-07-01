@@ -227,11 +227,6 @@ FILE:
         }
 	$tv{'Size'} = $size;
 	
-	if (defined $tv{Revision} and length($tv{Revision})) {
-	    $tv{Version}.= '-'.$tv{Revision};
-	    delete $tv{Revision};
-	}
-	
 	push @{$packages{$p}}, {%tv};
     }
 close($find_h);
