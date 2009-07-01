@@ -22,12 +22,6 @@ my @spuriousover;
 my %packages;
 my %overridden;
 
-my %kmap= (optional         => 'suggests',
-	   recommended      => 'recommends',
-	   class            => 'priority',
-	   package_revision => 'revision',
-	  );
-
 my @sums;
 foreach (@check_supported) {
     my $copy = uc($_);
@@ -188,7 +182,6 @@ FILE:
 	my $temp = $control;
 	while ($temp =~ s/^\n*(\S+):[ \t]*(.*(\n[ \t].*)*)\n//) {
 	    my ($key,$value)= (lc $1,$2);
-	    if (defined($kmap{$key})) { $key= $kmap{$key}; }
 	    if (defined($field_case{$key})) { $key= $field_case{$key}; }
 	    $value =~ s/\s+$//;
 	    $tv{$key}= $value;
