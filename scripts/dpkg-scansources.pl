@@ -225,8 +225,6 @@ sub load_src_override {
 
 sub process_dsc {
     my ($prefix, $file) = @_;
-    my ($source, @binary, $priority, $section, $maintainer_override,
-        $dir);
 
     # Parse ‘.dsc’ file.
     open(CDATA, '<', $file) || syserr(_g("cannot open %s"), $file);
@@ -241,8 +239,8 @@ sub process_dsc {
     my $sums = {};
     getchecksums($file, $sums, \$size);
 
-    $source = $fields->{Source};
-    @binary = split /\s*,\s*/, $fields->{Binary};
+    my $source = $fields->{Source};
+    my @binary = split /\s*,\s*/, $fields->{Binary};
 
     error(_g("no binary packages specified in %s"), $file) unless (@binary);
 
@@ -258,7 +256,7 @@ sub process_dsc {
 	    ($Override{$b} ? $Priority{$Override{$b}[O_PRIORITY]} : 0)
 	} @binary;
     my $priority_override = $Override{$binary_by_priority[-1]};
-    $priority = $priority_override
+    my $priority = $priority_override
 			? $priority_override->[O_PRIORITY]
 			: undef;
     $fields->{Priority} = $priority if defined $priority;
@@ -266,14 +264,14 @@ sub process_dsc {
     # For the section override, first check for a record from the source
     # override file, else use the regular override file.
     my $section_override = $Override{"source/$source"} || $Override{$source};
-    $section = $section_override
+    my $section = $section_override
 			? $section_override->[O_SECTION]
 			: undef;
     $fields->{Section} = $section if defined $section;
 
     # For the maintainer override, use the override record for the first
     # binary. Modify the maintainer if necessary.
-    $maintainer_override = $Override{$binary[0]};
+    my $maintainer_override = $Override{$binary[0]};
     if ($maintainer_override && defined $maintainer_override->[O_MAINT_TO]) {
         if (!defined $maintainer_override->[O_MAINT_FROM] ||
             grep { $fields->{Maintainer} eq $_ }
@@ -283,6 +281,7 @@ sub process_dsc {
     }
 
     # A directory field will be inserted just before the files field.
+    my $dir;
     $dir = ($file =~ s-(.*)/--) ? $1 : '';
     $dir = "$prefix$dir";
     $dir =~ s-/+$--;
