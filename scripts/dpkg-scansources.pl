@@ -2,6 +2,7 @@
 #
 # Copyright © 1999 Roderick Schertler
 # Copyright © 2002 Wichert Akkerman <wakkerma@debian.org>
+# Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,6 +31,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Cdata;
 use Dpkg::Checksums;
 
 textdomain("dpkg-dev");
@@ -219,135 +221,34 @@ sub load_src_override {
     close SRC_OVERRIDE or syserr(_g("error closing source override file"));
 }
 
-# Given FILENAME (for error reporting) and STRING, drop the PGP info
-# from the string and undo the encoding (if present) and return it.
-
-sub de_pgp {
-    my ($file, $s) = @_;
-    if ($s =~ s/^-----BEGIN PGP SIGNED MESSAGE-----.*?\n\n//s) {
-	unless ($s =~ s/\n
-			-----BEGIN\040PGP\040SIGNATURE-----\n
-			.*?\n
-			-----END\040PGP\040SIGNATURE-----\n
-		    //xs) {
-	    warning(_g("%s has PGP start token but not end token"), $file);
-	    return;
-	}
-	$s =~ s/^- //mg;
-    }
-    return $s;
-}
-
-# Load DSC-FILE and return its size, MD5 and translated (de-PGPed)
-# contents.
-
-sub read_dsc {
-    my $file = shift;
-    my ($size, $nread, $contents);
-
-    unless (open FILE, $file) {
-	warning(_g("can't read %s: %s"), $file, $!);
-	return;
-    }
-
-    $contents = '';
-    do {
-	$nread = read FILE, $contents, 16*1024, length $contents;
-	unless (defined $nread) {
-	    warning(_g("error reading from %s: %s"), $file, $!);
-	    return;
-	}
-    } while $nread > 0;
-
-    # Get checksums
-    my $sums = {};
-    getchecksums($file, $sums, \$size);
-
-    unless (close FILE) {
-	warning(_g("error closing %s: %s"), $file, $!);
-	return;
-    }
-
-    $contents = de_pgp $file, $contents;
-    return unless defined $contents;
-
-    return $size, $sums, $contents;
-}
-
-# Given PREFIX and DSC-FILE, process the file and returning the source
-# package name and index record.
+# Given PREFIX and DSC-FILE, process the file and returns the fields.
 
 sub process_dsc {
     my ($prefix, $file) = @_;
     my ($source, @binary, $priority, $section, $maintainer_override,
-	$dir, $dir_field, $dsc_field_start);
+        $dir);
 
-    my ($size, $sums, $contents) = read_dsc $file or return;
+    # Parse ‘.dsc’ file.
+    open(CDATA, '<', $file) || syserr(_g("cannot open %s"), $file);
+    my $fields = parsecdata(\*CDATA,
+                            sprintf(_g("source control file %s"), $file),
+                            allow_pgp => 1);
+    error(_g("parsing an empty file %s"), $file) unless (defined $fields);
+    close(CDATA) || syserr(_g("cannot close %s"), $file);
 
-    # Allow blank lines at the end of a file, because the other programs
-    # do.
-    $contents =~ s/\n\n+\Z/\n/;
+    # Get checksums
+    my $size;
+    my $sums = {};
+    getchecksums($file, $sums, \$size);
 
-    if ($contents =~ /^\n/ || $contents =~ /\n\n/) {
-	warning(_g("%s invalid (contains blank line)"), $file);
-	return;
-    }
+    $source = $fields->{Source};
+    @binary = split /\s*,\s*/, $fields->{Binary};
 
-    # Take the $contents and create a list of (possibly multi-line)
-    # fields.  Fields can be continued by starting the next line with
-    # white space.  The tricky part is I don't want to modify the data
-    # at all, so I can't just collapse continued fields.
-    #
-    # Implementation is to start from the last line and work backwards
-    # to the second.  If this line starts with space, append it to the
-    # previous line and undef it.  When done drop the undef entries.
-    my @line = split /\n/, $contents;
-    for (my $i = $#line; $i > 0; $i--) {
-    	if ($line[$i] =~ /^\s/) {
-	    $line[$i-1] .= "\n$line[$i]";
-	    $line[$i] = undef;
-	}
-    }
-    my @field = map { "$_\n" } grep { defined } @line;
+    error(_g("no binary packages specified in %s"), $file) unless (@binary);
 
-    # Extract information from the record.
-    for my $orig_field (@field) {
-	my $s = $orig_field;
-	$s =~ s/\s+$//;
-	$s =~ s/\n\s+/ /g;
-	unless ($s =~ s/^([^:\s]+):\s*//) {
-	    warning(_g("invalid field in %s: %s"), $file, $orig_field);
-	    return;
-	}
-	my ($key, $val) = (lc $1, $s);
-
-	# $source
-	if ($key eq 'source') {
-	    if (defined $source) {
-		warning(_g("duplicate source field in %s"), $file);
-		return;
-	    }
-	    if ($val =~ /\s/) {
-		warning(_g("invalid source field in %s"), $file);
-		return;
-	    }
-	    $source = $val;
-	    next;
-	}
-
-	# @binary
-	if ($key eq 'binary') {
-	    if (@binary) {
-		warning(_g("duplicate binary field in %s"), $file);
-		return;
-	    }
-	    @binary = split /\s*,\s*/, $val;
-	    unless (@binary) {
-		warning(_g("no binary packages specified in %s"), $file);
-		return;
-	    }
-	}
-    }
+    # Rename the source field to package.
+    $fields->{Package} = $fields->{Source};
+    delete $fields->{Source};
 
     # The priority for the source package is the highest priority of the
     # binary packages it produces.
@@ -360,6 +261,7 @@ sub process_dsc {
     $priority = $priority_override
 			? $priority_override->[O_PRIORITY]
 			: undef;
+    $fields->{Priority} = $priority if defined $priority;
 
     # For the section override, first check for a record from the source
     # override file, else use the regular override file.
@@ -367,105 +269,48 @@ sub process_dsc {
     $section = $section_override
 			? $section_override->[O_SECTION]
 			: undef;
+    $fields->{Section} = $section if defined $section;
 
     # For the maintainer override, use the override record for the first
-    # binary.
+    # binary. Modify the maintainer if necessary.
     $maintainer_override = $Override{$binary[0]};
+    if ($maintainer_override && defined $maintainer_override->[O_MAINT_TO]) {
+        if (!defined $maintainer_override->[O_MAINT_FROM] ||
+            grep { $fields->{Maintainer} eq $_ }
+                @{ $maintainer_override->[O_MAINT_FROM] }) {
+            $fields->{Maintainer} = $maintainer_override->[O_MAINT_TO];
+        }
+    }
 
     # A directory field will be inserted just before the files field.
     $dir = ($file =~ s-(.*)/--) ? $1 : '';
     $dir = "$prefix$dir";
     $dir =~ s-/+$--;
     $dir = '.' if $dir eq '';
-    $dir_field .= "Directory: $dir\n";
+    $fields->{Directory} = $dir;
 
     # The files field will get an entry for the .dsc file itself.
-    my %listing;
     foreach my $alg (@check_supported) {
         if ($alg eq "md5") {
-            $listing{$alg} = "Files:\n $sums->{$alg} $size $file\n";
+            $fields->{Files} =~ s/^\n/\n $sums->{$alg} $size $file\n/;
         } else {
-            $listing{$alg} = "Checksum-" . ucfirst($alg) .
-                             ":\n $sums->{$alg} $size $file\n";
+            my $name = "Checksums-" . ucfirst($alg);
+            $fields->{$name} =~ s/^\n/\n $sums->{$alg} $size $file\n/
+                if defined $fields->{$name};
         }
     }
 
-    # Loop through @field, doing nececessary processing and building up
-    # @new_field.
-    my @new_field;
-    for (@field) {
-	# Rename the source field to package.
-    	s/^Source:/Package:/i;
-
-	# Override the user's priority field.
-	if (/^Priority:/i && defined $priority) {
-	    $_ = "Priority: $priority\n";
-	    undef $priority;
-	}
-
-	# Override the user's section field.
-	if (/^Section:/i && defined $section) {
-	    $_ = "Section: $section\n";
-	    undef $section;
-	}
-
-    	# Insert the directory line just before the files entry, and add
-	# the dsc file to the files list.
-    	if (defined $dir_field && s/^Files:\s*//i) {
-	    push @new_field, $dir_field;
-	    $dir_field = undef;
-	    $_ = " $_" if length;
-	    $_ = "$listing{md5}$_";
-	}
-
-        if (/Checksums-(.*):/i) {
-            my $alg = lc($1);
-            s/Checksums-([^:]*):\s*//i;
-            $_ = " $_" if length;
-            $_ = "$listing{$alg}$_";
-        }
-
-	# Modify the maintainer if necessary.
-	if ($maintainer_override
-		&& defined $maintainer_override->[O_MAINT_TO]
-		&& /^Maintainer:\s*(.*)\n/is) {
-	    my $maintainer = $1;
-	    $maintainer =~ s/\n\s+/ /g;
-	    if (!defined $maintainer_override->[O_MAINT_FROM]
-	    	    || grep { $maintainer eq $_ }
-			    @{ $maintainer_override->[O_MAINT_FROM] }){
-		$_ = "Maintainer: $maintainer_override->[O_MAINT_TO]\n";
-	    }
-	}
-    }
-    continue {
-	push @new_field, $_ if defined $_;
-    }
-
-    # If there was no files entry, add one.
-    if (defined $dir_field) {
-	push @new_field, $dir_field;
-	push @new_field, $dsc_field_start;
-    }
-
-    # Add the section field if it didn't override one the user supplied.
-    if (defined $section) {
-	# If the record starts with a package field put it after that,
-	# otherwise put it first.
-	my $pos = $new_field[0] =~ /^Package:/i ? 1 : 0;
-	splice @new_field, $pos, 0, "Section: $section\n";
-    }
-
-    # Add the priority field if it didn't override one the user supplied.
-    if (defined $priority) {
-	# If the record starts with a package field put it after that,
-	# otherwise put it first.
-	my $pos = $new_field[0] =~ /^Package:/i ? 1 : 0;
-	splice @new_field, $pos, 0, "Priority: $priority\n";
-    }
-
-    return $source, join '', @new_field, "\n";
+    return $fields;
 }
+
+# FIXME: Try to reuse from Dpkg::Source::Package
+use Dpkg::Deps qw(@src_dep_fields);
+my @src_fields = (qw(Format Package Binary Architecture Version Origin
+                     Maintainer Uploaders Dm-Upload-Allowed Homepage
+                     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
+                     Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
+                  @src_dep_fields,
+                  qw(Directory Files Checksums-Md5 Checksums-Sha1 Checksums-Sha256));
 
 sub main {
     my (@out);
@@ -485,18 +330,36 @@ sub main {
     while (<FIND>) {
     	chomp;
 	s-^\./+--;
-    	my ($source, $out) = process_dsc $prefix, $_ or next;
+
+        my $fields;
+
+        # FIXME: Fix it instead to not die on syntax and general errors?
+        eval {
+            $fields = process_dsc($prefix, $_);
+        };
+        if ($@) {
+            warn $@;
+            next;
+        }
+
+        tied(%{$fields})->set_field_importance(@src_fields);
 	if ($No_sort) {
-	    print $out;
+            tied(%{$fields})->output(\*STDOUT);
+            print "\n";
 	}
 	else {
-	    push @out, [$source, $out];
+            push @out, $fields;
 	}
     }
     close FIND or error(close_msg, 'find');
 
     if (@out) {
-	print map { $_->[1] } sort { $a->[0] cmp $b->[0] } @out;
+        map {
+            tied(%{$_})->output(\*STDOUT);
+            print "\n";
+        } sort {
+            $a->{Package} cmp $b->{Package}
+        } @out;
     }
 
     return 0;
