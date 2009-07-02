@@ -95,7 +95,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
   struct pkginfoperfile *newpifp, *pifp;
   struct arbitraryfield *arp, **larpp;
   struct trigaw *ta;
-  int lno;
   int pdone;
   int fieldencountered[sizeof_array(fieldinfos)];
   const struct fieldinfo *fip;
@@ -106,8 +105,14 @@ int parsedb(const char *filename, enum parsedbflags flags,
   int fieldlen= 0, valuelen= 0;
   int *ip, c;
   struct stat stat;
+  struct parsedb_state ps;
 
-  if (warncount) *warncount= 0;
+  ps.filename = filename;
+  ps.flags = flags;
+  ps.lno = 0;
+  ps.warnto = warnto;
+  ps.warncount = 0;
+
   newpifp= (flags & pdb_recordavailable) ? &newpig.available : &newpig.installed;
   fd= open(filename, O_RDONLY);
   if (fd == -1) ohshite(_("failed to open package info file `%.255s' for reading"),filename);
@@ -132,7 +137,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
     data= dataptr= endptr= NULL;
   }
 
-  lno = 0;
   pdone= 0;
 #define EOF_mmap(dataptr, endptr)	(dataptr >= endptr)
 #define getc_mmap(dataptr)		*dataptr++;
@@ -145,7 +149,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 /* Skip adjacent new lines */
     while(!EOF_mmap(dataptr, endptr)) {
       c= getc_mmap(dataptr); if (c!='\n' && c!=MSDOS_EOF_CHAR ) break;
-      lno++;
+      ps.lno++;
     }
     if (EOF_mmap(dataptr, endptr)) break;
     for (;;) { /* loop per field */
@@ -155,17 +159,17 @@ int parsedb(const char *filename, enum parsedbflags flags,
       fieldlen= dataptr - fieldstart - 1;
       while (!EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
       if (EOF_mmap(dataptr, endptr))
-        parse_error(filename, lno, &newpig,
+        parse_error(&ps, &newpig,
                     _("EOF after field name `%.*s'"), fieldlen, fieldstart);
       if (c == '\n')
-        parse_error(filename, lno, &newpig,
+        parse_error(&ps, &newpig,
                     _("newline in field name `%.*s'"), fieldlen, fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parse_error(filename, lno, &newpig,
+        parse_error(&ps, &newpig,
                     _("MSDOS EOF (^Z) in field name `%.*s'"),
                     fieldlen, fieldstart);
       if (c != ':')
-        parse_error(filename, lno, &newpig,
+        parse_error(&ps, &newpig,
                     _("field name `%.*s' must be followed by colon"),
                     fieldlen, fieldstart);
 /* Skip space after ':' but before value and eol */
@@ -174,17 +178,17 @@ int parsedb(const char *filename, enum parsedbflags flags,
         if (c == '\n' || !isspace(c)) break;
       }
       if (EOF_mmap(dataptr, endptr))
-        parse_error(filename, lno, &newpig,
+        parse_error(&ps, &newpig,
                     _("EOF before value of field `%.*s' (missing final newline)"),
                  fieldlen,fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parse_error(filename, lno, &newpig,
+        parse_error(&ps, &newpig,
                     _("MSDOS EOF char in value of field `%.*s' (missing newline?)"),
                     fieldlen,fieldstart);
       valuestart= dataptr - 1;
       for (;;) {
         if (c == '\n' || c == MSDOS_EOF_CHAR) {
-          lno++;
+          ps.lno++;
 	  if (EOF_mmap(dataptr, endptr)) break;
           c= getc_mmap(dataptr);
 /* Found double eol, or start of new field */
@@ -192,7 +196,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
           ungetc_mmap(c,dataptr, data);
           c= '\n';
         } else if (EOF_mmap(dataptr, endptr)) {
-          parse_error(filename, lno, &newpig,
+          parse_error(&ps, &newpig,
                       _("EOF during value of field `%.*s' (missing final newline)"),
                       fieldlen,fieldstart);
         }
@@ -217,18 +221,18 @@ int parsedb(const char *filename, enum parsedbflags flags,
 	memcpy(value,valuestart,valuelen);
         *(value + valuelen) = '\0';
         if (*ip++)
-          parse_error(filename, lno, &newpig,
+          parse_error(&ps, &newpig,
                       _("duplicate value for `%s' field"), fip->name);
-        fip->rcall(&newpig,newpifp,flags,filename,lno,warnto,warncount,value,fip);
+        fip->rcall(&newpig, newpifp, &ps, value, fip);
       } else {
         if (fieldlen<2)
-          parse_error(filename, lno, &newpig,
+          parse_error(&ps, &newpig,
                       _("user-defined field name `%.*s' too short"),
                       fieldlen, fieldstart);
         larpp= &newpifp->arbs;
         while ((arp= *larpp) != NULL) {
           if (!strncasecmp(arp->name,fieldstart,fieldlen))
-            parse_error(filename, lno, &newpig,
+            parse_error(&ps, &newpig,
                        _("duplicate value for user-defined field `%.*s'"),
                        fieldlen, fieldstart);
           larpp= &arp->next;
@@ -242,20 +246,20 @@ int parsedb(const char *filename, enum parsedbflags flags,
       if (EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
     } /* loop per field */
     if (pdone && donep)
-      parse_error(filename, lno, &newpig,
+      parse_error(&ps, &newpig,
                   _("several package info entries found, only one allowed"));
-    parse_must_have_field(filename, lno, &newpig, newpig.name, "package name");
+    parse_must_have_field(&ps, &newpig, newpig.name, "package name");
     if ((flags & pdb_recordavailable) || newpig.status != stat_notinstalled) {
-      parse_ensure_have_field(filename, lno, warnto, warncount, &newpig,
+      parse_ensure_have_field(&ps, &newpig,
                               &newpifp->description, "description");
-      parse_ensure_have_field(filename, lno, warnto, warncount, &newpig,
+      parse_ensure_have_field(&ps, &newpig,
                               &newpifp->maintainer, "maintainer");
       if (newpig.status != stat_halfinstalled)
-        parse_must_have_field(filename, lno, &newpig,
+        parse_must_have_field(&ps, &newpig,
                               newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
-      parse_ensure_have_field(filename, lno, warnto, warncount, &newpig,
+      parse_ensure_have_field(&ps, &newpig,
                               &newpifp->architecture, "architecture");
 
     /* Check the Config-Version information:
@@ -267,7 +271,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (!(flags & pdb_recordavailable)) {
       if (newpig.configversion.version) {
         if (newpig.status == stat_installed || newpig.status == stat_notinstalled)
-          parse_error(filename, lno, &newpig,
+          parse_error(&ps, &newpig,
                       _("Configured-Version for package with inappropriate Status"));
       } else {
         if (newpig.status == stat_installed) newpig.configversion= newpifp->version;
@@ -277,22 +281,22 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (newpig.trigaw.head &&
         (newpig.status <= stat_configfiles ||
          newpig.status >= stat_triggerspending))
-      parse_error(filename, lno, &newpig,
+      parse_error(&ps, &newpig,
                   _("package has status %s but triggers are awaited"),
                   statusinfos[newpig.status].name);
     else if (newpig.status == stat_triggersawaited && !newpig.trigaw.head)
-      parse_error(filename, lno, &newpig,
+      parse_error(&ps, &newpig,
                   _("package has status triggers-awaited but no triggers "
                     "awaited"));
 
     if (!(newpig.status == stat_triggerspending ||
           newpig.status == stat_triggersawaited) &&
         newpig.trigpend_head)
-      parse_error(filename, lno, &newpig,
+      parse_error(&ps, &newpig,
                   _("package has status %s but triggers are pending"),
                   statusinfos[newpig.status].name);
     else if (newpig.status == stat_triggerspending && !newpig.trigpend_head)
-      parse_error(filename, lno, &newpig,
+      parse_error(&ps, &newpig,
                   _("package has status triggers-pending but no triggers "
                     "pending"));
 
@@ -303,7 +307,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (!(flags & pdb_recordavailable) &&
         newpig.status == stat_notinstalled &&
         newpifp->conffiles) {
-      parse_warn(filename, lno, warnto, warncount, &newpig,
+      parse_warn(&ps, &newpig,
                  _("Package which in state not-installed has conffiles, "
                    "forgetting them"));
       newpifp->conffiles= NULL;
@@ -361,7 +365,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (donep) *donep= pigp;
     pdone++;
     if (EOF_mmap(dataptr, endptr)) break;
-    if (c == '\n') lno++;
+    if (c == '\n')
+      ps.lno++;
   }
   if (data != NULL) {
 #ifdef HAVE_MMAP
@@ -374,6 +379,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
   pop_cleanup(ehflag_normaltidy);
   if (close(fd)) ohshite(_("failed to close after read: `%.255s'"),filename);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
+
+  if (warncount)
+    *warncount = ps.warncount;
 
   return pdone;
 }

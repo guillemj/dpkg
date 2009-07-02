@@ -25,6 +25,14 @@
 
 struct fieldinfo;
 
+struct parsedb_state {
+	enum parsedbflags flags;
+	const char *filename;
+	int lno;
+	FILE *warnto;
+	int warncount;
+};
+
 #define PKGIFPOFF(f) (offsetof(struct pkginfoperfile, f))
 #define PKGPFIELD(pifp,of,type) (*(type*)((char*)(pifp)+(of)))
 
@@ -32,8 +40,7 @@ struct fieldinfo;
 #define FILEFFIELD(filedetail,of,type) (*(type*)((char*)(filedetail)+(of)))
 
 typedef void freadfunction(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-                           enum parsedbflags flags,
-                           const char *filename, int lno, FILE *warnto, int *warncount,
+                           struct parsedb_state *ps,
                            const char *value, const struct fieldinfo *fip);
 freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
 freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
@@ -59,16 +66,14 @@ struct fieldinfo {
   size_t integer;
 };
 
-void parse_error(const char *filename, int lno, const struct pkginfo *pigp,
-                 const char *fmt, ...) PRINTFFORMAT(4,5);
-void parse_warn(const char *filename, int lno, FILE *warnto, int *warncount,
-                const struct pkginfo *pigp,
-                const char *fmt, ...) PRINTFFORMAT(6,7);
-void parse_must_have_field(const char *filename, int lno,
+void parse_error(struct parsedb_state *ps, const struct pkginfo *pigp,
+                 const char *fmt, ...) PRINTFFORMAT(3,4);
+void parse_warn(struct parsedb_state *ps, const struct pkginfo *pigp,
+                const char *fmt, ...) PRINTFFORMAT(3,4);
+void parse_must_have_field(struct parsedb_state *ps,
                            const struct pkginfo *pigp,
                            const char *value, const char *what);
-void parse_ensure_have_field(const char *filename, int lno,
-                             FILE *warnto, int *warncount,
+void parse_ensure_have_field(struct parsedb_state *ps,
                              const struct pkginfo *pigp,
                              const char **value, const char *what);
 

@@ -35,25 +35,25 @@
 #include "parsedump.h"
 
 static void
-parse_error_msg(const char *filename, int lno, const struct pkginfo *pigp,
+parse_error_msg(struct parsedb_state *ps, const struct pkginfo *pigp,
                 const char *type, char *buf)
 {
   if (pigp && pigp->name)
     sprintf(buf, _("%s, in file '%.255s' near line %d package '%.255s':\n "),
-            type, filename, lno, pigp->name);
+            type, ps->filename, ps->lno, pigp->name);
   else
     sprintf(buf, _("%s, in file '%.255s' near line %d:\n "),
-            type, filename, lno);
+            type, ps->filename, ps->lno);
 }
 
 void
-parse_error(const char *filename, int lno,
+parse_error(struct parsedb_state *ps,
             const struct pkginfo *pigp, const char *fmt, ...)
 {
   va_list al;
   char buf1[768], buf2[1000], *q;
 
-  parse_error_msg(filename, lno, pigp, _("parse error"), buf1);
+  parse_error_msg(ps, pigp, _("parse error"), buf1);
   q = str_escape_fmt(buf2, buf1);
   strcat(q,fmt);
 
@@ -62,21 +62,21 @@ parse_error(const char *filename, int lno,
 }
 
 void
-parse_warn(const char *filename, int lno, FILE *warnto, int *warncount,
+parse_warn(struct parsedb_state *ps,
            const struct pkginfo *pigp, const char *fmt, ...)
 {
   va_list al;
   char buf1[768], buf2[1000], *q;
 
-  parse_error_msg(filename, lno, pigp, _("warning"), buf1);
+  parse_error_msg(ps, pigp, _("warning"), buf1);
   q = str_escape_fmt(buf2, buf1);
   strcat(q, fmt);
 
   va_start(al, fmt);
-  if (warncount) (*warncount)++;
-  if (warnto) {
+  ps->warncount++;
+  if (ps->warnto) {
     strcat(q,"\n");
-    if (vfprintf(warnto,buf2,al) == EOF)
+    if (vfprintf(ps->warnto, buf2, al) == EOF)
       ohshite(_("failed to write parsing warning"));
   }
   va_end(al);
@@ -251,29 +251,28 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
 }
 
 void
-parse_must_have_field(const char *filename, int lno,
+parse_must_have_field(struct parsedb_state *ps,
                       const struct pkginfo *pigp,
                       const char *value, const char *what)
 {
   if (!value)
-    parse_error(filename, lno, pigp, _("missing %s"), what);
+    parse_error(ps, pigp, _("missing %s"), what);
   else if (!*value)
-    parse_error(filename, lno, pigp, _("empty value for %s"), what);
+    parse_error(ps, pigp, _("empty value for %s"), what);
 }
 
 void
-parse_ensure_have_field(const char *filename, int lno,
-                        FILE *warnto, int *warncount,
+parse_ensure_have_field(struct parsedb_state *ps,
                         const struct pkginfo *pigp,
                         const char **value, const char *what)
 {
   static const char *empty = "";
 
   if (!*value) {
-    parse_warn(filename, lno, warnto, warncount, pigp, _("missing %s"), what);
+    parse_warn(ps, pigp, _("missing %s"), what);
     *value = empty;
   } else if (!**value) {
-    parse_warn(filename, lno, warnto, warncount, pigp, _("empty value for %s"), what);
+    parse_warn(ps, pigp, _("empty value for %s"), what);
   }
 }
 
