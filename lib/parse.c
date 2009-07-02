@@ -132,7 +132,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     data= dataptr= endptr= NULL;
   }
 
-  lno= 1;
+  lno = 0;
   pdone= 0;
 #define EOF_mmap(dataptr, endptr)	(dataptr >= endptr)
 #define getc_mmap(dataptr)		*dataptr++;
@@ -219,7 +219,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         if (*ip++)
           parse_error(filename, lno, &newpig,
                       _("duplicate value for `%s' field"), fip->name);
-        fip->rcall(&newpig,newpifp,flags,filename,lno-1,warnto,warncount,value,fip);
+        fip->rcall(&newpig,newpifp,flags,filename,lno,warnto,warncount,value,fip);
       } else {
         if (fieldlen<2)
           parse_error(filename, lno, &newpig,
