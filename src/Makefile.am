@@ -11,7 +11,11 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib
 
 
-bin_PROGRAMS = dpkg dpkg-query dpkg-trigger
+bin_PROGRAMS = \
+	dpkg \
+	dpkg-query \
+	dpkg-statoverride \
+	dpkg-trigger
 
 dpkg_SOURCES = \
 	archives.c archives.h \
@@ -48,6 +52,16 @@ dpkg_query_SOURCES = \
 	query.c
 
 dpkg_query_LDADD = \
+	../lib/dpkg/libdpkg.a \
+	../lib/compat/libcompat.a \
+	$(LIBINTL)
+
+dpkg_statoverride_SOURCES = \
+	filesdb.c filesdb.h \
+	statdb.c \
+	statcmd.c
+
+dpkg_statoverride_LDADD = \
 	../lib/dpkg/libdpkg.a \
 	../lib/compat/libcompat.a \
 	$(LIBINTL)

@@ -16,7 +16,6 @@ bin_SCRIPTS = \
 	dpkg-scanpackages \
 	dpkg-scansources \
 	dpkg-shlibdeps \
-	dpkg-statoverride \
 	dpkg-source \
 	dpkg-vendor \
 	update-alternatives
@@ -41,7 +40,6 @@ EXTRA_DIST = \
 	dpkg-shlibdeps.pl \
 	dpkg-source.pl \
 	dpkg-divert.pl \
-	dpkg-statoverride.pl \
 	dpkg-vendor.pl \
 	update-alternatives.pl \
 	changelog/debian.pl \
