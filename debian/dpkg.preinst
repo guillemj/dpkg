@@ -30,8 +30,9 @@ kill_bad_alternatives () {
     local IFS=""
     ALTDIR="/var/lib/dpkg/alternatives"
     for alt in $ALTDIR/*; do
-        if [ ! -e $alt ]; then
-            # In case it's been removed by the code below
+        if [ ! -f $alt ]; then
+            # In case it's been removed by the code below, or in case
+            # it's not a real file
             continue
         fi
         {
