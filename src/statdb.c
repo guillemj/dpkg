@@ -205,7 +205,7 @@ ensure_statoverrides(void)
 		/* Move to the next bit */
 		thisline = ptr + 1;
 		if (thisline >= loaded_list_end)
-			ohshit(_("unexecpted end of line in statoverride file"));
+			ohshit(_("unexpected end of line in statoverride file"));
 
 		fnn = findnamenode(thisline, 0);
 		if (fnn->statoverride)
