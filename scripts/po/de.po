@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-06-27 19:08+0200\n"
-"PO-Revision-Date: 2009-07-04 15:23+0200\n"
+"POT-Creation-Date: 2009-07-05 08:23+0200\n"
+"PO-Revision-Date: 2009-07-05 08:32+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: scripts/dpkg-distaddfile.pl:18 scripts/dpkg-genchanges.pl:89
 #: scripts/dpkg-gencontrol.pl:45 scripts/dpkg-gensymbols.pl:32
 #: scripts/dpkg-name.pl:48 scripts/dpkg-parsechangelog.pl:19
-#: scripts/dpkg-scanpackages.pl:62 scripts/dpkg-scansources.pl:77
+#: scripts/dpkg-scanpackages.pl:56 scripts/dpkg-scansources.pl:79
 #: scripts/dpkg-shlibdeps.pl:502 scripts/dpkg-source.pl:348
 #: scripts/changelog/debian.pl:19
 #, perl-format
@@ -679,7 +679,8 @@ msgstr "fehlende Priorität für Quelldateien"
 msgid "cannot open .dsc file %s"
 msgstr "kann .dsc-Datei %s nicht öffnen"
 
-#: scripts/dpkg-genchanges.pl:409 scripts/Dpkg/Source/Package.pm:153
+#: scripts/dpkg-genchanges.pl:409 scripts/dpkg-scansources.pl:232
+#: scripts/Dpkg/Source/Package.pm:153
 #, perl-format
 msgid "source control file %s"
 msgstr "Quell-Steuerdatei %s"
@@ -1007,10 +1008,10 @@ msgstr ""
 msgid "cannot find '%s'"
 msgstr "kann »%s« nicht finden"
 
-#: scripts/dpkg-name.pl:98 scripts/Dpkg/Changelog.pm:870
-#: scripts/Dpkg/IPC.pm:238 scripts/Dpkg/Shlibs.pm:77
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:137 scripts/Dpkg/Source/Package.pm:142
-#: scripts/Dpkg/Source/Package.pm:151
+#: scripts/dpkg-name.pl:98 scripts/dpkg-scansources.pl:230
+#: scripts/Dpkg/Changelog.pm:870 scripts/Dpkg/IPC.pm:238
+#: scripts/Dpkg/Shlibs.pm:77 scripts/Dpkg/Shlibs/SymbolFile.pm:137
+#: scripts/Dpkg/Source/Package.pm:142 scripts/Dpkg/Source/Package.pm:151
 #, perl-format
 msgid "cannot open %s"
 msgstr "kann %s nicht öffnen"
@@ -1020,7 +1021,12 @@ msgstr "kann %s nicht öffnen"
 msgid "binary control file %s"
 msgstr "binäre Steuerdatei %s"
 
-#: scripts/dpkg-name.pl:222
+#: scripts/dpkg-name.pl:113
+#, perl-format
+msgid "assuming architecture '%s' for '%s'"
+msgstr "vermute Architektur »%s« für »%s«"
+
+#: scripts/dpkg-name.pl:217
 msgid "need at least a filename"
 msgstr "benötige mindestens einen Dateinamen"
 
@@ -1102,7 +1108,7 @@ msgstr ""
 msgid "%s takes no non-option arguments"
 msgstr "%s akzeptiert kein nicht-Options-Argument"
 
-#: scripts/dpkg-scanpackages.pl:68
+#: scripts/dpkg-scanpackages.pl:62
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
@@ -1128,56 +1134,56 @@ msgstr ""
 "  -h, --help               zeige diese Hilfemeldung.\n"
 "      --version            zeige die Version.\n"
 
-#: scripts/dpkg-scanpackages.pl:82
+#: scripts/dpkg-scanpackages.pl:76
 msgid "-u, --udeb option is deprecated (see README.feature-removal-schedule)"
 msgstr ""
 "Option -u, --udeb ist veraltet (lesen Sie README.feature-removal-schedule)"
 
-#: scripts/dpkg-scanpackages.pl:90
+#: scripts/dpkg-scanpackages.pl:84
 #, perl-format
 msgid "Couldn't open override file %s"
 msgstr "konnte override-Datei %s nicht öffnen"
 
-#: scripts/dpkg-scanpackages.pl:112
+#: scripts/dpkg-scanpackages.pl:106
 #, perl-format
 msgid "  %s (package says %s, not %s)"
 msgstr "  %s (laut Paket %s, nicht %s)"
 
-#: scripts/dpkg-scanpackages.pl:120
+#: scripts/dpkg-scanpackages.pl:114
 #, perl-format
 msgid "Unconditional maintainer override for %s"
 msgstr "Bedingungsloser Übersteuerung (»override«) des Betreuers für %s"
 
-#: scripts/dpkg-scanpackages.pl:136
+#: scripts/dpkg-scanpackages.pl:130
 msgid "1 to 3 args expected"
 msgstr "1 bis 3 Argumente erwartet"
 
-#: scripts/dpkg-scanpackages.pl:154
+#: scripts/dpkg-scanpackages.pl:148
 #, perl-format
 msgid "Binary dir %s not found"
 msgstr "Binärverzeichnis %s nicht gefunden"
 
-#: scripts/dpkg-scanpackages.pl:156
+#: scripts/dpkg-scanpackages.pl:150
 #, perl-format
 msgid "Override file %s not found"
 msgstr "Override-Datei %s nicht gefunden"
 
-#: scripts/dpkg-scanpackages.pl:170
+#: scripts/dpkg-scanpackages.pl:164
 #, perl-format
 msgid "Couldn't open %s for reading"
 msgstr "Konnte %s nicht zum Lesen öffnen"
 
-#: scripts/dpkg-scanpackages.pl:177
+#: scripts/dpkg-scanpackages.pl:171
 #, perl-format
 msgid "Couldn't call dpkg-deb on %s: %s, skipping package"
 msgstr "Konnte dpkg-deb auf %s nicht aufrufen: %s, überspringe Paket"
 
-#: scripts/dpkg-scanpackages.pl:182
+#: scripts/dpkg-scanpackages.pl:176
 #, perl-format
 msgid "`dpkg-deb -I %s control' exited with %d, skipping package"
 msgstr "»dpkg-deb -I %s control« beendete sich mit %d, überspringe Paket"
 
-#: scripts/dpkg-scanpackages.pl:197
+#: scripts/dpkg-scanpackages.pl:190
 #, perl-format
 msgid ""
 "Unprocessed text from %s control file; info:\n"
@@ -1186,66 +1192,66 @@ msgstr ""
 "Unbearbeiteter Text aus %s Steuerdatei; Information:\n"
 "%s / %s"
 
-#: scripts/dpkg-scanpackages.pl:201
+#: scripts/dpkg-scanpackages.pl:194
 #, perl-format
 msgid "No Package field in control file of %s"
 msgstr "Kein »Package«-Feld in Steuerdatei von %s"
 
-#: scripts/dpkg-scanpackages.pl:207
+#: scripts/dpkg-scanpackages.pl:200
 #, perl-format
 msgid "Package %s (filename %s) is repeat but newer version;"
 msgstr "Paket %s (Dateiname %s) ist wiederholt aber neuere Version;"
 
-#: scripts/dpkg-scanpackages.pl:209
+#: scripts/dpkg-scanpackages.pl:202
 #, perl-format
 msgid "used that one and ignored data from %s!"
 msgstr "verwendete dieses und ignorierte Daten aus %s!"
 
-#: scripts/dpkg-scanpackages.pl:213
+#: scripts/dpkg-scanpackages.pl:206
 #, perl-format
 msgid "Package %s (filename %s) is repeat;"
 msgstr "Paket %s (Dateiname %s) ist wiederholt;"
 
-#: scripts/dpkg-scanpackages.pl:214
+#: scripts/dpkg-scanpackages.pl:207
 #, perl-format
 msgid "ignored that one and using data from %s!"
 msgstr "ignorierte dieses und verwende Daten aus %s!"
 
-#: scripts/dpkg-scanpackages.pl:220
+#: scripts/dpkg-scanpackages.pl:213
 #, perl-format
 msgid "Package %s (filename %s) has Filename field!"
 msgstr "Paket %s (Dateiname %s) hat Feld Filename!"
 
-#: scripts/dpkg-scanpackages.pl:263
+#: scripts/dpkg-scanpackages.pl:251
 msgid "Failed when writing stdout"
 msgstr "Fehler beim Schreiben nach Stdout"
 
-#: scripts/dpkg-scanpackages.pl:266
+#: scripts/dpkg-scanpackages.pl:254
 msgid "Couldn't close stdout"
 msgstr "konnte Stdout nicht schließen"
 
-#: scripts/dpkg-scanpackages.pl:269
+#: scripts/dpkg-scanpackages.pl:257
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr "Pakete in Override-Datei mit ungültigem alten Betreuer-Wert:"
 
-#: scripts/dpkg-scanpackages.pl:273
+#: scripts/dpkg-scanpackages.pl:261
 msgid "Packages specifying same maintainer as override file:"
 msgstr "Pakete spezifizieren gleichen Betreuer wie Override-Datei:"
 
-#: scripts/dpkg-scanpackages.pl:277
+#: scripts/dpkg-scanpackages.pl:265
 msgid "Packages in archive but missing from override file:"
 msgstr "Pakete im Archiv, die aber in Override-Datei fehlen:"
 
-#: scripts/dpkg-scanpackages.pl:281
+#: scripts/dpkg-scanpackages.pl:269
 msgid "Packages in override file but not in archive:"
 msgstr "Pakete in Override-Datei aber nicht im Archiv:"
 
-#: scripts/dpkg-scanpackages.pl:285
+#: scripts/dpkg-scanpackages.pl:273
 #, perl-format
 msgid "Wrote %s entries to output Packages file."
 msgstr "%s Einträge in Ausgabe-Paketdatei geschrieben."
 
-#: scripts/dpkg-scansources.pl:83
+#: scripts/dpkg-scansources.pl:85
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
@@ -1279,109 +1285,74 @@ msgstr ""
 "\n"
 "Lesen Sie die Handbuchseite für die komplette Dokumentation.\n"
 
-#: scripts/dpkg-scansources.pl:123
+#: scripts/dpkg-scansources.pl:125
 #, perl-format
 msgid "error closing %s ($? %d, $! `%s')"
 msgstr "Fehler beim Schließen von %s ($? %d, $! »%s«)"
 
-#: scripts/dpkg-scansources.pl:136
+#: scripts/dpkg-scansources.pl:138
 #, perl-format
 msgid "can't read override file %s"
 msgstr "kann Override-Datei %s nicht lesen"
 
-#: scripts/dpkg-scansources.pl:144
+#: scripts/dpkg-scansources.pl:146
 #, perl-format
 msgid "invalid override entry at line %d (%d fields)"
 msgstr "ungültiger Override-Eintrag in Zeile %d (%d Felder)"
 
-#: scripts/dpkg-scansources.pl:150
+#: scripts/dpkg-scansources.pl:152
 #, perl-format
 msgid "ignoring duplicate override entry for %s at line %d"
 msgstr "ignoriere doppelte Override-Einträge für %s in Zeile %d"
 
-#: scripts/dpkg-scansources.pl:155
+#: scripts/dpkg-scansources.pl:157
 #, perl-format
 msgid "ignoring override entry for %s, invalid priority %s"
 msgstr "ignoriere Override-Eintrag für %s, ungültige Priorität %s"
 
-#: scripts/dpkg-scansources.pl:174
+#: scripts/dpkg-scansources.pl:176
 msgid "error closing override file"
 msgstr "Fehler beim Schließen der Override-Datei"
 
-#: scripts/dpkg-scansources.pl:195
+#: scripts/dpkg-scansources.pl:197
 #, perl-format
 msgid "can't read source override file %s"
 msgstr "kann Quell-Override-Datei %s nicht lesen"
 
-#: scripts/dpkg-scansources.pl:204
+#: scripts/dpkg-scansources.pl:206
 #, perl-format
 msgid "invalid source override entry at line %d (%d fields)"
 msgstr "ungültiger Quell-Override-Eintrag in Zeile %d (%d Felder)"
 
-#: scripts/dpkg-scansources.pl:212
+#: scripts/dpkg-scansources.pl:214
 #, perl-format
 msgid "ignoring duplicate source override entry for %s at line %d"
 msgstr "ignoriere doppelte Quell-Override-Einträge für %s in Zeile %d"
 
-#: scripts/dpkg-scansources.pl:219
+#: scripts/dpkg-scansources.pl:221
 msgid "error closing source override file"
 msgstr "Fehler beim Schließen der Quell-Override-Datei"
 
-#: scripts/dpkg-scansources.pl:233
+#: scripts/dpkg-scansources.pl:234
 #, perl-format
-msgid "%s has PGP start token but not end token"
-msgstr "%s hat PGP »start«-Markierung aber keine »end«-Markierung"
+msgid "parsing an empty file %s"
+msgstr "kann leere Datei %s nicht auswerten"
 
-#: scripts/dpkg-scansources.pl:249
+#: scripts/dpkg-scansources.pl:235 scripts/Dpkg/Source/Patch.pm:250
 #, perl-format
-msgid "can't read %s: %s"
-msgstr "kann %s nicht lesen: %s"
+msgid "cannot close %s"
+msgstr "kann %s nicht schließen"
 
-#: scripts/dpkg-scansources.pl:257
-#, perl-format
-msgid "error reading from %s: %s"
-msgstr "Fehler beim Lesen von %s: %s"
-
-#: scripts/dpkg-scansources.pl:267
-#, perl-format
-msgid "error closing %s: %s"
-msgstr "Fehler beim Schließen von %s: %s"
-
-#: scripts/dpkg-scansources.pl:292
-#, perl-format
-msgid "%s invalid (contains blank line)"
-msgstr "%s ungültig (enthält Leerzeile)"
-
-#: scripts/dpkg-scansources.pl:319
-#, perl-format
-msgid "invalid field in %s: %s"
-msgstr "ungültiges Feld in %s: %s"
-
-#: scripts/dpkg-scansources.pl:327
-#, perl-format
-msgid "duplicate source field in %s"
-msgstr "doppeltes Quell-Feld in %s"
-
-#: scripts/dpkg-scansources.pl:331
-#, perl-format
-msgid "invalid source field in %s"
-msgstr "ungültiges Quell-Feld in %s"
-
-#: scripts/dpkg-scansources.pl:341
-#, perl-format
-msgid "duplicate binary field in %s"
-msgstr "doppeltes Binärfeld in %s"
-
-#: scripts/dpkg-scansources.pl:346
+#: scripts/dpkg-scansources.pl:245
 #, perl-format
 msgid "no binary packages specified in %s"
 msgstr "keine Binärpakete in %s angegeben"
 
-#: scripts/dpkg-scansources.pl:474
+#: scripts/dpkg-scansources.pl:318
 msgid "1 to 3 args expected\n"
 msgstr "1 bis 3 Argumente erwartet\n"
 
-#: scripts/dpkg-scansources.pl:484
+#: scripts/dpkg-scansources.pl:328
 msgid "can't fork"
 msgstr "kann keinen Fork durchführen"
 
@@ -2473,11 +2444,6 @@ msgstr "ignoriere Löschen des Verzeichnisses %s"
 msgid "ignoring deletion of symlink %s"
 msgstr "ignoriere Löschen des Symlinks %s"
 
-#: scripts/Dpkg/Source/Patch.pm:250
-#, perl-format
-msgid "cannot close %s"
-msgstr "kann %s nicht schließen"
-
 #: scripts/Dpkg/Source/Patch.pm:262 scripts/Dpkg/Source/Package/V2.pm:310
 #, perl-format
 msgid "cannot represent change to %s: %s"
@@ -3202,6 +3168,33 @@ msgstr ""
 #, perl-format
 msgid "version number contains illegal character `%s'"
 msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
+
+#~ msgid "%s has PGP start token but not end token"
+#~ msgstr "%s hat PGP »start«-Markierung aber keine »end«-Markierung"
+
+#~ msgid "can't read %s: %s"
+#~ msgstr "kann %s nicht lesen: %s"
+
+#~ msgid "error reading from %s: %s"
+#~ msgstr "Fehler beim Lesen von %s: %s"
+
+#~ msgid "error closing %s: %s"
+#~ msgstr "Fehler beim Schließen von %s: %s"
+
+#~ msgid "%s invalid (contains blank line)"
+#~ msgstr "%s ungültig (enthält Leerzeile)"
+
+#~ msgid "invalid field in %s: %s"
+#~ msgstr "ungültiges Feld in %s: %s"
+
+#~ msgid "duplicate source field in %s"
+#~ msgstr "doppeltes Quell-Feld in %s"
+
+#~ msgid "invalid source field in %s"
+#~ msgstr "ungültiges Quell-Feld in %s"
+
+#~ msgid "duplicate binary field in %s"
+#~ msgstr "doppeltes Binärfeld in %s"
 
 #~ msgid "Strange text from 'md5sum < %s': '%s'"
 #~ msgstr "Merkwürdiger Text von »md5sum < %s«: »%s«"
