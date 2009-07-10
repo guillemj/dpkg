@@ -221,14 +221,17 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   if (!*string) return _("version string is empty");
 
   /* trim leading and trailing space */
-  while (*string && (*string == ' ' || *string == '\t') ) string++;
+  while (*string && isblank(*string))
+    string++;
   /* string now points to the first non-whitespace char */
   end = string;
   /* find either the end of the string, or a whitespace char */
-  while (*end && *end != ' ' && *end != '\t' ) end++;
+  while (*end && !isblank(*end))
+    end++;
   /* check for extra chars after trailing space */
   ptr = end;
-  while (*ptr && ( *ptr == ' ' || *ptr == '\t' ) ) ptr++;
+  while (*ptr && isblank(*ptr))
+    ptr++;
   if (*ptr) return _("version string has embedded spaces");
 
   colon= strchr(string,':');
