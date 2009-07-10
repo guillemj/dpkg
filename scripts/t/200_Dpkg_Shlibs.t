@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 61;
+use Test::More tests => 62;
 use IO::String;
 
 use strict;
@@ -123,6 +123,17 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => '_errno@GLIBC_2.0',
 		  'deprecated' => '2.6-1', 'depends' => '',
 		  'soname' => 'libc.so.6' ), 'deprecated symbol');
 
+# Wildcard test
+$sym = Dpkg::Shlibs::Symbol->new(symbol => '*@GLIBC_PRIVATE', minver => '2.3.6.wildcard');
+$sym_file_old->add_symbol('libc.so.6', $sym);
+$sym_file_old->merge_symbols($obj, "2.6-1");
+$sym = $sym_file_old->lookup_symbol('__nss_services_lookup@GLIBC_PRIVATE', ['libc.so.6']);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => '__nss_services_lookup@GLIBC_PRIVATE',
+		  'minver' => '2.3.6.wildcard', 'dep_id' => 0,
+		  'deprecated' => 0, 'depends' => '',
+		  'soname' => 'libc.so.6' ), 'wildcarded symbol');
+
+# Save -> Load test
 use File::Temp;
 
 my $save_file = new File::Temp;

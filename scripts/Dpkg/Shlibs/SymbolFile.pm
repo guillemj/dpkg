@@ -336,7 +336,7 @@ sub symbol_match_wildcard {
         my $w_sym = $obj->{wildcards}{$version};
         return undef unless $w_sym->arch_is_concerned($self->{arch});
         $self->{used_wildcards}++;
-        return $w_sym->clone(symbol => $name . '@' . $version);
+        return $w_sym->clone(symbol => $name);
     }
     return undef;
 }
