@@ -26,7 +26,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>

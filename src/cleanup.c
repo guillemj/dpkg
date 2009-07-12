@@ -29,7 +29,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <utime.h>
-#include <assert.h>
 #include <time.h>
 #include <ctype.h>
 #include <fcntl.h>
