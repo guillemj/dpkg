@@ -1065,9 +1065,10 @@ void process_archive(const char *filename) {
     pop_cleanup(ehflag_normaltidy); /* closedir */
     
     otherpkg->status= stat_notinstalled;
-    otherpkg->want= want_purge;
+    otherpkg->want = want_unknown;
     otherpkg->eflag= eflagv_ok;
 
+    blankversion(&otherpkg->configversion);
     blankpackageperfile(&otherpkg->installed);
 
     otherpkg->clientdata->fileslistvalid= 0;

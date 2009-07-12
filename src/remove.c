@@ -549,6 +549,7 @@ void removal_bulk(struct pkginfo *pkg) {
     debug(dbg_general, "removal_bulk no postrm, no conffiles, purging");
     pkg->want= want_purge;
 
+    blankversion(&pkg->configversion);
   } else if (pkg->want == want_purge) {
 
     removal_bulk_remove_configfiles(pkg);
@@ -580,6 +581,7 @@ void removal_bulk(struct pkginfo *pkg) {
     if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("can't remove old postrm script"));
 
     pkg->status= stat_notinstalled;
+    pkg->want = want_unknown;
 
     /* This will mess up reverse links, but if we follow them
      * we won't go back because pkg->status is stat_notinstalled.
