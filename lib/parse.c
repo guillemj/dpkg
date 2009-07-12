@@ -313,6 +313,19 @@ int parsedb(const char *filename, enum parsedbflags flags,
       newpifp->conffiles= NULL;
     }
 
+    /* XXX: Mark not-installed leftover packages for automatic removal on
+     * next database dump. This code can be removed after dpkg 1.16.x, when
+     * there's guarantee that no leftover is found on the status file on
+     * major distributions. */
+    if (!(flags & pdb_recordavailable) &&
+        newpig.status == stat_notinstalled &&
+        newpig.eflag == eflagv_ok &&
+        (newpig.want == want_purge ||
+         newpig.want == want_deinstall ||
+         newpig.want == want_hold)) {
+      newpig.want = want_unknown;
+    }
+
     pigp= findpackage(newpig.name);
     pifp= (flags & pdb_recordavailable) ? &pigp->available : &pigp->installed;
     if (!pifp->valid) blankpackageperfile(pifp);

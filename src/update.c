@@ -98,35 +98,8 @@ void updateavailable(const char *const *argv) {
 }
 
 void forgetold(const char *const *argv) {
-  struct pkgiterator *it;
-  struct pkginfo *pkg;
-  enum pkgwant oldwant;
-
   if (*argv) badusage(_("--forget-old-unavail takes no arguments"));
 
-  modstatdb_init(admindir, f_noact ? msdbrw_readonly : msdbrw_write);
-
-  it= iterpkgstart();
-  while ((pkg= iterpkgnext(it))) {
-    debug(dbg_eachfile,"forgetold checking %s",pkg->name);
-    if (informative(pkg,&pkg->available)) {
-      debug(dbg_eachfile,"forgetold ... informative available");
-      continue;
-    }
-    if (pkg->want != want_purge && pkg->want != want_deinstall) {
-      debug(dbg_eachfile,"forgetold ... informative want");
-      continue;
-    }
-    oldwant= pkg->want;
-    pkg->want= want_unknown;
-    if (informative(pkg,&pkg->installed)) {
-      debug(dbg_eachfile,"forgetold ... informative installed");
-      pkg->want= oldwant;
-      continue;
-    }
-    debug(dbg_general,"forgetold forgetting %s",pkg->name);
-  }
-  iterpkgend(it);
-  
-  modstatdb_shutdown();
+  warning(_("obsolete '--%s' option, unavailable packages are automatically cleaned up."),
+          cipaction->olong);
 }
