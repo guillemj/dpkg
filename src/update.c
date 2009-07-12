@@ -98,7 +98,8 @@ void updateavailable(const char *const *argv) {
 }
 
 void forgetold(const char *const *argv) {
-  if (*argv) badusage(_("--forget-old-unavail takes no arguments"));
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
 
   warning(_("obsolete '--%s' option, unavailable packages are automatically cleaned up."),
           cipaction->olong);

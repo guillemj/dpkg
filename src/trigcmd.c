@@ -200,7 +200,8 @@ main(int argc, const char *const *argv)
 
 	if (f_check) {
 		if (*argv)
-			badusage(_("--check-supported takes no arguments"));
+			badusage(_("--%s takes no arguments"),
+			         "check-supported");
 		do_check();
 	}
 
