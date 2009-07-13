@@ -101,10 +101,6 @@ extern const char *instdir;
 extern struct pkginqueue *ignoredependss;
 extern const char architecture[];
 
-/* from filesdb.c */
-
-void filesdbinit(void);
-
 /* from archives.c */
 
 void archivefiles(const char *const *argv);

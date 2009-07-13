@@ -128,6 +128,8 @@ struct filepackages {
    */
 };
 
+void filesdbinit(void);
+
 struct fileiterator;
 struct fileiterator *iterfilestart(void);
 struct filenamenode *iterfilenext(struct fileiterator *i);

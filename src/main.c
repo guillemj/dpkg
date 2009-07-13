@@ -47,6 +47,7 @@
 #include <myopt.h>
 
 #include "main.h"
+#include "filesdb.h"
 
 void
 printversion(void)
