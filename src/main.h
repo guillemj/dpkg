@@ -71,7 +71,6 @@ enum conffopt {
   cfof_isnew         =   00400,
   cfof_isold         =   01000,
   cfof_userrmd       =   02000,
-  cfom_main          =     007,
   cfo_keep           =   cfof_keep,
   cfo_prompt_keep    =   cfof_keep | cfof_prompt,
   cfo_prompt         =               cfof_prompt,
