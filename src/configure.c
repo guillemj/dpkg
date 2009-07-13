@@ -49,7 +49,11 @@
 #include "filesdb.h"
 #include "main.h"
 
-static int conffoptcells[2][2] = { CONFFOPTCELLS };
+static int conffoptcells[2][2] = {
+	/* Distro !edited. */	/* Distro edited. */
+	{ cfo_keep,		cfo_install },		/* User !edited. */
+	{ cfo_keep,		cfo_prompt_keep },	/* User edited. */
+};
 
 static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn);
 static void copyfileperm(const char* source, const char* target);

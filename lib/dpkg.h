@@ -100,12 +100,6 @@ DPKG_BEGIN_DECLS
 #define MD5HASHLEN           32
 #define MAXTRIGDIRECTIVE     256
 
-#define CONFFOPTCELLS  /* int conffoptcells[2] {* 1= user edited *}              \
-                                           [2] {* 1= distributor edited *} = */  \
-                                  /* dist not */     /* dist edited */           \
-   /* user did not edit */    {     cfo_keep,           cfo_install    },        \
-   /* user did edit     */    {     cfo_keep,         cfo_prompt_keep  }
-
 #define ARCHIVE_FILENAME_PATTERN "*.deb"
 
 #define BACKEND		"dpkg-deb"
