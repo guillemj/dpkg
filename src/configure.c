@@ -49,7 +49,7 @@
 #include "filesdb.h"
 #include "main.h"
 
-int conffoptcells[2][2]= { CONFFOPTCELLS };
+static int conffoptcells[2][2] = { CONFFOPTCELLS };
 
 static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn);
 static void copyfileperm(const char* source, const char* target);

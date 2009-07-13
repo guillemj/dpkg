@@ -80,7 +80,6 @@ enum conffopt {
   cfo_identical      =   cfof_keep
 };
 
-extern int conffoptcells[2][2];
 extern const char *const statusstrings[];
 
 extern const struct cmdinfo *cipaction;
