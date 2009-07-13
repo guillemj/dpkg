@@ -62,7 +62,8 @@ void do_split(const char *const *argv) {
   sprintf(partsizebuf,"%ld",maxpartsize-HEADERALLOWANCE);
   sprintf(partsizeallowbuf,"%ld",maxpartsize);
   fd= open(sourcefile,O_RDONLY);
-  if (!fd) ohshite(_("unable to open source file `%.250s'"),sourcefile);
+  if (fd < 0)
+    ohshite(_("unable to open source file `%.250s'"), sourcefile);
   if (fstat(fd,&stab)) ohshite(_("unable to fstat source file"));
   if (!S_ISREG(stab.st_mode)) ohshit(_("source file `%.250s' not a plain file"),sourcefile);
   sprintf(lengthbuf,"%lu",(unsigned long)stab.st_size);
