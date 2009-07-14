@@ -88,7 +88,7 @@ const char
 			       N_("?") };
 
 const char statuschars[] = " -IUCWt*";
-const char eflagchars[]=     " R?#";
+const char eflagchars[] = " R";
 const char wantchars[]=     "n*=-_";
 
 /* These MUST be in the same order as the corresponding enums in pkglist.h */

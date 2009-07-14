@@ -171,10 +171,6 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                               -1, pigp, value, wantinfos, &ep);
   pigp->eflag = convert_string(ps, _("second (error) word in `status' field"),
                                -1, pigp, ep, eflaginfos, &ep);
-  if (pigp->eflag & eflagf_obsoletehold) {
-    pigp->want= want_hold;
-    pigp->eflag &= ~eflagf_obsoletehold;
-  }
   pigp->status = convert_string(ps, _("third (status) word in `status' field"),
                                 -1, pigp, ep, statusinfos, NULL);
 }

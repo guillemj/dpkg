@@ -119,8 +119,6 @@ const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
 const struct namevalue eflaginfos[]= {  /* Note !  These must be in order ! */
   { "ok",                      eflagv_ok,                2 },
   { "reinstreq",               eflagv_reinstreq,         9 },
-  { "hold",                    eflagv_obsoletehold,      4 },
-  { "hold-reinstreq",          eflagv_obsoleteboth,      14 },
   {  NULL                                                   }
 };
 

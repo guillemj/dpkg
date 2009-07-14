@@ -147,12 +147,9 @@ struct pkginfo { /* pig */
   } want;
   enum pkgeflag {
     eflagf_reinstreq    = 01,
-    eflagf_obsoletehold = 02,
     eflagv_ok           = 0,
     eflagv_reinstreq    =    eflagf_reinstreq,
-    eflagv_obsoletehold =                       eflagf_obsoletehold,
-    eflagv_obsoleteboth =    eflagf_reinstreq | eflagf_obsoletehold
-  } eflag; /* bitmask, but obsoletehold no longer used except when reading */
+  } eflag; /* Bitmask. */
   enum pkgstatus {
     stat_notinstalled,
     stat_configfiles,
