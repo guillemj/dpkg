@@ -182,11 +182,11 @@ int packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *display
     best = er;
   else if (er->spriority < ed->spriority) best= er; // We'd rather change the
   else if (er->spriority > ed->spriority) best= ed; // one with the lowest priority.
-  else if (er->pkg->priority >
-           er->pkg->priority) best= er;         // ... failing that the one with
-  else if (er->pkg->priority <                  //  the highest priority
-           er->pkg->priority) best= ed;
-  
+  // ... failing that the one with the highest priority
+  else if (er->pkg->priority > ed->pkg->priority)
+    best = er;
+  else if (er->pkg->priority < ed->pkg->priority)
+    best = ed;
   else best= ed;                                      // ... failing that, the second
 
   if (depdebug && debug)
