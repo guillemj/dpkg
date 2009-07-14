@@ -129,7 +129,7 @@ void assertmulticonrep(const char *const *argv);
 void predeppackage(const char *const *argv);
 void printarch(const char *const *argv);
 void printinstarch(const char *const *argv);
-void cmpversions(const char *const *argv) NONRETURNING;
+void cmpversions(const char *const *argv) DPKG_ATTR_NORET;
 
 /* Intended for use as a comparison function for qsort when
  * sorting an array of pointers to struct pkginfo:
@@ -178,7 +178,7 @@ void cu_prermremove(int argc, void **argv);
 /* from errors.c */
 
 void print_error_perpackage(const char *emsg, const char *arg);
-void forcibleerr(int forceflag, const char *format, ...) PRINTFFORMAT(2);
+void forcibleerr(int forceflag, const char *format, ...) DPKG_ATTR_PRINTF(2);
 int reportbroken_retexitstatus(void);
 int skip_due_to_hold(struct pkginfo *pkg);
 
@@ -240,7 +240,7 @@ enum debugflags {
   dbg_triggersstupid =  040000,
 };
   
-void debug(int which, const char *fmt, ...) PRINTFFORMAT(2);
+void debug(int which, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 void log_action(const char *action, struct pkginfo *pkg);
 
 /* from trigproc.c */

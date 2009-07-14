@@ -83,7 +83,7 @@ static void print_error_forked(const char *emsg, const char *contextstring) {
   fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
 }
 
-static void cu_m_fork(int argc, void **argv) NONRETURNING;
+static void cu_m_fork(int argc, void **argv) DPKG_ATTR_NORET;
 static void cu_m_fork(int argc, void **argv) {
   exit(2);
   /* Don't do the other cleanups, because they'll be done by/in the parent

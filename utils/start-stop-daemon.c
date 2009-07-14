@@ -220,9 +220,9 @@ static int pid_is_exec(pid_t pid, const struct stat *esb);
 
 
 static void fatal(const char *format, ...)
-	NONRETURNING PRINTFFORMAT(1);
+	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 static void badusage(const char *msg)
-	NONRETURNING;
+	DPKG_ATTR_NORET;
 
 static void
 warning(const char *format, ...)

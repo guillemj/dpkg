@@ -23,7 +23,7 @@
 #define DPKG_SPLIT_H
 
 typedef void dofunction(const char *const *argv);
-dofunction do_split NONRETURNING;
+dofunction do_split DPKG_ATTR_NORET;
 dofunction do_join, do_info, do_auto, do_queue, do_discard;
 
 struct partinfo {
@@ -57,8 +57,8 @@ extern const char *depotdir, *outputfile;
 extern struct partqueue *queue;
 extern int npquiet, msdos;
 
-void rerr(const char *fn) NONRETURNING;
-void rerreof(FILE *f, const char *fn) NONRETURNING;
+void rerr(const char *fn) DPKG_ATTR_NORET;
+void rerreof(FILE *f, const char *fn) DPKG_ATTR_NORET;
 void print_info(const struct partinfo *pi);
 struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir);
 

@@ -23,15 +23,15 @@
 #define DPKG_DEF_H
 
 #if HAVE_C_ATTRIBUTE
-# define CONSTANT __attribute__((constant))
-# define PRINTFFORMAT(n) __attribute__((format(printf, n, n + 1)))
-# define NONRETURNING __attribute__((noreturn))
-# define UNUSED __attribute__((unused))
+#define DPKG_ATTR_UNUSED	__attribute__((unused))
+#define DPKG_ATTR_CONST		__attribute__((constant))
+#define DPKG_ATTR_NORET		__attribute__((noreturn))
+#define DPKG_ATTR_PRINTF(n)	__attribute__((format(printf, n, n + 1)))
 #else
-# define CONSTANT
-# define PRINTFFORMAT(n)
-# define NONRETURNING
-# define UNUSED
+#define DPKG_ATTR_UNUSED
+#define DPKG_ATTR_CONST
+#define DPKG_ATTR_NORET
+#define DPKG_ATTR_PRINTF(n)
 #endif
 
 #ifdef __cplusplus

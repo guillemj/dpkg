@@ -382,7 +382,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 
 static const char okpassshortopts[]= "D";
 
-void execbackend(const char *const *argv) NONRETURNING;
+void execbackend(const char *const *argv) DPKG_ATTR_NORET;
 void commandfd(const char *const *argv);
 static const struct cmdinfo cmdinfos[]= {
   /* This table has both the action entries in it and the normal options.

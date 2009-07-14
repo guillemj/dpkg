@@ -80,7 +80,7 @@ void set_error_display(error_printer *printerror,
   econtext->contextstring= contextstring;
 }
 
-static void run_error_handler(void) NONRETURNING;
+static void run_error_handler(void) DPKG_ATTR_NORET;
 
 static void
 run_error_handler(void)

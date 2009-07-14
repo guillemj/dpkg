@@ -57,7 +57,7 @@ static void movecontrolfiles(const char *thing) {
   waitsubproc(c1,"sh -c mv foo/* &c",0);
 }
 
-static void readfail(FILE *a, const char *filename, const char *what) NONRETURNING;
+static void readfail(FILE *a, const char *filename, const char *what) DPKG_ATTR_NORET;
 static void readfail(FILE *a, const char *filename, const char *what) {
   if (ferror(a)) {
     ohshite(_("error reading %s from file %.255s"), what, filename);
