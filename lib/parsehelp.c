@@ -117,9 +117,9 @@ const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
 };
 
 const struct namevalue eflaginfos[]= {  /* Note !  These must be in order ! */
-  { "ok",                      eflagv_ok,                2 },
-  { "reinstreq",               eflagv_reinstreq,         9 },
-  {  NULL                                                   }
+  { "ok",        eflag_ok,        2 },
+  { "reinstreq", eflag_reinstreq, 9 },
+  {  NULL                           }
 };
 
 const struct namevalue wantinfos[]= {  /* Note !  These must be in order ! */

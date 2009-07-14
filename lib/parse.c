@@ -319,7 +319,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
      * major distributions. */
     if (!(flags & pdb_recordavailable) &&
         newpig.status == stat_notinstalled &&
-        newpig.eflag == eflagv_ok &&
+        newpig.eflag == eflag_ok &&
         (newpig.want == want_purge ||
          newpig.want == want_deinstall ||
          newpig.want == want_hold)) {

@@ -168,7 +168,7 @@ void w_status(struct varbuf *vb,
               enum fwriteflags flags, const struct fieldinfo *fip) {
   if (pifp != &pigp->installed) return;
   assert(pigp->want <= want_purge);
-  assert(pigp->eflag <= eflagv_reinstreq);
+  assert(pigp->eflag <= eflag_reinstreq);
 
 #define PEND pigp->trigpend_head
 #define AW pigp->trigaw.head

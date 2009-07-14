@@ -113,7 +113,7 @@ void cu_prermupgrade(int argc, void **argv) {
                              versiondescribe(&pkg->available.version,
                                              vdew_nonambig),
                              NULL);
-  pkg->eflag &= ~eflagf_reinstreq;
+  pkg->eflag &= ~eflag_reinstreq;
   post_postinst_tasks(pkg, stat_installed);
   cleanup_pkg_failed--;
 }
@@ -162,7 +162,7 @@ void cu_prerminfavour(int argc, void **argv) {
                              versiondescribe(&infavour->available.version,
                                              vdew_nonambig),
                              NULL);
-  conflictor->eflag &= ~eflagf_reinstreq;
+  conflictor->eflag &= ~eflag_reinstreq;
   post_postinst_tasks(conflictor, stat_installed);
   cleanup_conflictor_failed--;
 }
@@ -176,7 +176,7 @@ void cu_preinstverynew(int argc, void **argv) {
   maintainer_script_new(pkg->name, POSTRMFILE,"post-removal",cidir,cidirrest,
                         "abort-install", NULL);
   pkg->status= stat_notinstalled;
-  pkg->eflag &= ~eflagf_reinstreq;
+  pkg->eflag &= ~eflag_reinstreq;
   blankpackageperfile(&pkg->installed);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
@@ -193,7 +193,7 @@ void cu_preinstnew(int argc, void **argv) {
                                                          vdew_nonambig),
                         NULL);
   pkg->status= stat_configfiles;
-  pkg->eflag &= ~eflagf_reinstreq;
+  pkg->eflag &= ~eflag_reinstreq;
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
 }
@@ -211,7 +211,7 @@ void cu_preinstupgrade(int argc, void **argv) {
                                         vdew_nonambig),
                         NULL);
   pkg->status= *oldstatusp;
-  pkg->eflag &= ~eflagf_reinstreq;
+  pkg->eflag &= ~eflag_reinstreq;
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
 }
@@ -233,7 +233,7 @@ void cu_prermremove(int argc, void **argv) {
 
   if (cleanup_pkg_failed++) return;
   maintainer_script_postinst(pkg, "abort-remove", NULL);
-  pkg->eflag &= ~eflagf_reinstreq;
+  pkg->eflag &= ~eflag_reinstreq;
   post_postinst_tasks(pkg, *oldpkgstatus);
   cleanup_pkg_failed--;
 }

@@ -404,7 +404,7 @@ void process_archive(const char *filename) {
       oldversionstatus == stat_triggersawaited ||
       oldversionstatus == stat_triggerspending ||
       oldversionstatus == stat_installed) {
-    pkg->eflag |= eflagf_reinstreq;
+    pkg->eflag |= eflag_reinstreq;
     pkg->status= stat_halfconfigured;
     modstatdb_note(pkg);
     push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
@@ -473,7 +473,7 @@ void process_archive(const char *filename) {
     modstatdb_note(conflictor[i]);
   }
 
-  pkg->eflag |= eflagf_reinstreq;
+  pkg->eflag |= eflag_reinstreq;
   if (pkg->status == stat_notinstalled)
     pkg->installed.version= pkg->available.version;
   pkg->status= stat_halfinstalled;
@@ -1066,7 +1066,7 @@ void process_archive(const char *filename) {
     
     otherpkg->status= stat_notinstalled;
     otherpkg->want = want_unknown;
-    otherpkg->eflag= eflagv_ok;
+    otherpkg->eflag = eflag_ok;
 
     blankversion(&otherpkg->configversion);
     blankpackageperfile(&otherpkg->installed);
@@ -1161,7 +1161,7 @@ void process_archive(const char *filename) {
   /* OK, we're now fully done with the main package.
    * This is quite a nice state, so we don't unwind past here.
    */
-  pkg->eflag= eflagv_ok;
+  pkg->eflag = eflag_ok;
   modstatdb_note(pkg);
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 

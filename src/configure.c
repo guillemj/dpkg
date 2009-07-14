@@ -142,7 +142,7 @@ void deferred_configure(struct pkginfo *pkg) {
 	varbuffree(&aemsgs);
 	sincenothing= 0;
 
-	if (pkg->eflag & eflagf_reinstreq)
+	if (pkg->eflag & eflag_reinstreq)
 		forcibleerr(fc_removereinstreq,
 				_("Package is in a very bad inconsistent state - you should\n"
 					" reinstall it before attempting configuration."));
@@ -324,7 +324,7 @@ void deferred_configure(struct pkginfo *pkg) {
 	                                           vdew_nonambig) : "",
 	                           NULL);
 
-	pkg->eflag= eflagv_ok;
+	pkg->eflag = eflag_ok;
 	post_postinst_tasks(pkg, stat_installed);
 }
 

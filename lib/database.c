@@ -65,7 +65,7 @@ void blankversion(struct versionrevision *version) {
 void blankpackage(struct pkginfo *pigp) {
   pigp->name= NULL;
   pigp->status= stat_notinstalled;
-  pigp->eflag= eflagv_ok;
+  pigp->eflag = eflag_ok;
   pigp->want= want_unknown;
   pigp->priority= pri_unknown;
   pigp->otherpriority = NULL;
@@ -104,7 +104,7 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
    */
   if (info == &pkg->installed &&
       (pkg->want != want_unknown ||
-       pkg->eflag != eflagv_ok ||
+       pkg->eflag != eflag_ok ||
        pkg->status != stat_notinstalled ||
        informativeversion(&pkg->configversion)))
     /* We ignore Section and Priority, as these tend to hang around. */

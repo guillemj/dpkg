@@ -1041,7 +1041,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       if (!pdep && skip_due_to_hold(fixbyrm)) {
         pdep= &flagdeppossi;
       }
-      if (!pdep && (fixbyrm->eflag & eflagf_reinstreq)) {
+      if (!pdep && (fixbyrm->eflag & eflag_reinstreq)) {
         if (fc_removereinstreq) {
           fprintf(stderr, _("dpkg: package %s requires reinstallation, but will"
                   " remove anyway as you requested.\n"), fixbyrm->name);

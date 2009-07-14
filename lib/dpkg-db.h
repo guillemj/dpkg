@@ -146,9 +146,8 @@ struct pkginfo { /* pig */
                      in some places */
   } want;
   enum pkgeflag {
-    eflagf_reinstreq    = 01,
-    eflagv_ok           = 0,
-    eflagv_reinstreq    =    eflagf_reinstreq,
+    eflag_ok		= 0,
+    eflag_reinstreq	= 1,
   } eflag; /* Bitmask. */
   enum pkgstatus {
     stat_notinstalled,

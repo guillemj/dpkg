@@ -133,7 +133,7 @@ void deferred_remove(struct pkginfo *pkg) {
   varbuffree(&raemsgs);
   sincenothing= 0;
 
-  if (pkg->eflag & eflagf_reinstreq)
+  if (pkg->eflag & eflag_reinstreq)
     forcibleerr(fc_removereinstreq,
                 _("Package is in a very bad inconsistent state - you should\n"
                 " reinstall it before attempting a removal."));
@@ -589,7 +589,7 @@ void removal_bulk(struct pkginfo *pkg) {
     blankpackageperfile(&pkg->installed);
   }
       
-  pkg->eflag= eflagv_ok;
+  pkg->eflag = eflag_ok;
   modstatdb_note(pkg);
 
   debug(dbg_general, "removal done");
