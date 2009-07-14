@@ -178,7 +178,7 @@ void cu_prermremove(int argc, void **argv);
 /* from errors.c */
 
 void print_error_perpackage(const char *emsg, const char *arg);
-void forcibleerr(int forceflag, const char *format, ...) PRINTFFORMAT(2,3);
+void forcibleerr(int forceflag, const char *format, ...) PRINTFFORMAT(2);
 int reportbroken_retexitstatus(void);
 int skip_due_to_hold(struct pkginfo *pkg);
 
@@ -240,7 +240,7 @@ enum debugflags {
   dbg_triggersstupid =  040000,
 };
   
-void debug(int which, const char *fmt, ...) PRINTFFORMAT(2,3);
+void debug(int which, const char *fmt, ...) PRINTFFORMAT(2);
 void log_action(const char *action, struct pkginfo *pkg);
 
 /* from trigproc.c */

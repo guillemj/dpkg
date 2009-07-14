@@ -42,7 +42,7 @@ struct cmdinfo {
 
 extern const char printforhelp[];
 
-void badusage(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
+void badusage(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1);
 
 #define MAX_CONFIG_LINE 1024
 

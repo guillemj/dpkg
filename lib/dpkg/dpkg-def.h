@@ -24,12 +24,12 @@
 
 #if HAVE_C_ATTRIBUTE
 # define CONSTANT __attribute__((constant))
-# define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
+# define PRINTFFORMAT(n) __attribute__((format(printf, n, n + 1)))
 # define NONRETURNING __attribute__((noreturn))
 # define UNUSED __attribute__((unused))
 #else
 # define CONSTANT
-# define PRINTFFORMAT(si, tc)
+# define PRINTFFORMAT(n)
 # define NONRETURNING
 # define UNUSED
 #endif

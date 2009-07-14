@@ -67,9 +67,9 @@ struct fieldinfo {
 };
 
 void parse_error(struct parsedb_state *ps, const struct pkginfo *pigp,
-                 const char *fmt, ...) PRINTFFORMAT(3,4);
+                 const char *fmt, ...) PRINTFFORMAT(3);
 void parse_warn(struct parsedb_state *ps, const struct pkginfo *pigp,
-                const char *fmt, ...) PRINTFFORMAT(3,4);
+                const char *fmt, ...) PRINTFFORMAT(3);
 void parse_must_have_field(struct parsedb_state *ps,
                            const struct pkginfo *pigp,
                            const char *value, const char *what);

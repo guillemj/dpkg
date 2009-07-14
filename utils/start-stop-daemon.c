@@ -220,7 +220,7 @@ static int pid_is_exec(pid_t pid, const struct stat *esb);
 
 
 static void fatal(const char *format, ...)
-	NONRETURNING PRINTFFORMAT(1, 2);
+	NONRETURNING PRINTFFORMAT(1);
 static void badusage(const char *msg)
 	NONRETURNING;
 

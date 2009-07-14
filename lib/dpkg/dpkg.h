@@ -163,16 +163,16 @@ void do_internerr(const char *file, int line, const char *fmt, ...) NONRETURNING
 #endif
 
 struct varbuf;
-void ohshit(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
+void ohshit(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1);
 void ohshitv(const char *fmt, va_list al) NONRETURNING;
-void ohshite(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
+void ohshite(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1);
 void werr(const char *what) NONRETURNING;
-void warning(const char *fmt, ...) PRINTFFORMAT(1, 2);
+void warning(const char *fmt, ...) PRINTFFORMAT(1);
 
 /*** log.c ***/
 
 extern const char *log_file;
-void log_message(const char *fmt, ...) PRINTFFORMAT(1, 2);
+void log_message(const char *fmt, ...) PRINTFFORMAT(1);
 
 /* FIXME: pipef and status_pipes should not be publicly exposed. */
 struct pipef {
@@ -321,16 +321,16 @@ struct buffer_data {
 
 off_t buffer_copy_setup_PtrInt(void *p, int typeIn, void *procIn,
 					int i, int typeOut, void *procOut,
-					off_t limit, const char *desc, ...) PRINTFFORMAT(8, 9);
+					off_t limit, const char *desc, ...) PRINTFFORMAT(8);
 off_t buffer_copy_setup_PtrPtr(void *p1, int typeIn, void *procIn,
 					void *p2, int typeOut, void *procOut,
-					off_t limit, const char *desc, ...) PRINTFFORMAT(8, 9);
+					off_t limit, const char *desc, ...) PRINTFFORMAT(8);
 off_t buffer_copy_setup_IntPtr(int i, int typeIn, void *procIn,
 					void *p, int typeOut, void *procOut,
-					off_t limit, const char *desc, ...) PRINTFFORMAT(8, 9);
+					off_t limit, const char *desc, ...) PRINTFFORMAT(8);
 off_t buffer_copy_setup_IntInt(int i1, int typeIn, void *procIn,
 					int i2, int typeOut, void *procOut,
-					off_t limit, const char *desc, ...) PRINTFFORMAT(8, 9);
+					off_t limit, const char *desc, ...) PRINTFFORMAT(8);
 off_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
 		       buffer_arg argOut, int typeOut, void *procOut,
 		       off_t limit, const char *desc);
@@ -357,10 +357,10 @@ enum compress_type {
 };
 
 void decompress_cat(enum compress_type type, int fd_in, int fd_out,
-                    char *desc, ...) NONRETURNING PRINTFFORMAT(4, 5);
+                    char *desc, ...) NONRETURNING PRINTFFORMAT(4);
 void compress_cat(enum compress_type type, int fd_in, int fd_out,
                   const char *compression, char *desc, ...)
-                  NONRETURNING PRINTFFORMAT(5, 6);
+                  NONRETURNING PRINTFFORMAT(5);
 
 DPKG_END_DECLS
 
