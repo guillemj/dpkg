@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 62;
+use Test::More tests => 63;
 use IO::String;
 
 use strict;
@@ -174,6 +174,12 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new ( 'symbol' => 'symbol3_fake1@Base',
 
 is($sym_file->get_smallest_version('libfake.so.1'), "0",
    'get_smallest_version with null version');
+
+$sym = $sym_file->lookup_symbol('symbol_in_libdivert@Base', ['libdivert.so.1']);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new ( 'symbol' => 'symbol_in_libdivert@Base',
+		  'minver' => '1.0~beta1', 'dep_id' => 0, 'deprecated' => 0,
+		  'depends' => 'libdivert1 #MINVER#', 'soname' => 'libdivert.so.1'),
+	    '#include can change current object');
 
 $sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$srcdir/symbols.include-2");
 
