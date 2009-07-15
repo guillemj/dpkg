@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * dpkg-i18n.h - private i18n support
+ * i18n.h - i18n support
  *
  * Copyright © 2008 Guillem Jover <guillem@debian.org>
  *

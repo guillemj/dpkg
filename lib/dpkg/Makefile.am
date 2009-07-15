@@ -16,7 +16,6 @@ noinst_LIBRARIES = libdpkg.a
 
 libdpkg_a_SOURCES = \
 	dpkg.h \
-	dpkg-i18n.h \
 	dpkg-db.h \
 	dpkg-priv.h \
 	dpkg-test.h \
@@ -28,6 +27,7 @@ libdpkg_a_SOURCES = \
 	dump.c \
 	ehandle.c \
 	fields.c \
+	i18n.h \
 	lock.c \
 	log.c \
 	macros.h \
