@@ -120,7 +120,7 @@ sub add_symbol {
 
 # Parameter seen is only used for recursive calls
 sub load {
-    my ($self, $file, $seen, $current_object_ref, $base_symbol) = @_;
+    my ($self, $file, $seen, $obj_ref, $base_symbol) = @_;
 
     sub new_symbol {
         my $base = shift || 'Dpkg::Shlibs::Symbol';
@@ -135,18 +135,17 @@ sub load {
     }
     $seen->{$file} = 1;
 
+    if (not ref($obj_ref)) { # Init ref to name of current object/lib
+        $$obj_ref = undef;
+    }
+
     open(my $sym_file, "<", $file)
 	|| syserr(_g("cannot open %s"), $file);
-    if (not ref($current_object_ref)) {
-        my $obj;
-        $current_object_ref = \$obj;
-    }
-    my $object = $$current_object_ref;
     while (defined($_ = <$sym_file>)) {
 	chomp($_);
 
 	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
-	    if (not defined ($object)) {
+	    if (not defined ($$obj_ref)) {
 		error(_g("Symbol information must be preceded by a header (file %s, line %s)."), $file, $.);
 	    }
 	    # Symbol specification
@@ -154,7 +153,7 @@ sub load {
 	    my $sym = new_symbol($base_symbol, deprecated => $deprecated);
 	    if ($sym->parse($2)) {
 		$sym->process_tags(arch => $self->{arch});
-		$self->add_symbol($object, $sym);
+		$self->add_symbol($$obj_ref, $sym);
 	    } else {
 		warning(_g("Failed to parse line in %s: %s"), $file, $_);
 	    }
@@ -168,24 +167,24 @@ sub load {
 		$new_base_symbol->parse_tagspec($tagspec);
 	    }
 	    $dir =~ s{[^/]+$}{}; # Strip filename
-	    $self->load("$dir$filename", $seen, \$object, $new_base_symbol);
+	    $self->load("$dir$filename", $seen, $obj_ref, $new_base_symbol);
 	} elsif (/^#/) {
 	    # Skip possible comments
 	} elsif (/^\|\s*(.*)$/) {
 	    # Alternative dependency template
-	    push @{$self->{objects}{$object}{deps}}, "$1";
+	    push @{$self->{objects}{$$obj_ref}{deps}}, "$1";
 	} elsif (/^\*\s*([^:]+):\s*(.*\S)\s*$/) {
 	    # Add meta-fields
-	    $self->{objects}{$object}{fields}{capit($1)} = $2;
+	    $self->{objects}{$$obj_ref}{fields}{capit($1)} = $2;
 	} elsif (/^(\S+)\s+(.*)$/) {
 	    # New object and dependency template
-	    $$current_object_ref = $object = $1;
-	    if (exists $self->{objects}{$object}) {
+	    $$obj_ref = $1;
+	    if (exists $self->{objects}{$$obj_ref}) {
 		# Update/override infos only
-		$self->{objects}{$object}{deps} = [ "$2" ];
+		$self->{objects}{$$obj_ref}{deps} = [ "$2" ];
 	    } else {
 		# Create a new object
-		$self->create_object($object, "$2");
+		$self->create_object($$obj_ref, "$2");
 	    }
 	} else {
 	    warning(_g("Failed to parse a line in %s: %s"), $file, $_);
