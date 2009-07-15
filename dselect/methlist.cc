@@ -30,8 +30,8 @@
 #include <assert.h>
 #include <errno.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 #include "dselect.h"
 #include "bindings.h"

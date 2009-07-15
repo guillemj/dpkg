@@ -22,7 +22,6 @@
 #include <compat.h>
 
 #include <dpkg/i18n.h>
-#include <myopt.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,8 +29,10 @@
 #include <assert.h>
 #include <string.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
+
 #include "dpkg-split.h"
 
 void reassemble(struct partinfo **partlist, const char *outputfile) {

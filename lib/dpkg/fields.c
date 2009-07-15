@@ -28,10 +28,10 @@
 #include <ctype.h>
 #include <string.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <dpkg-priv.h>
-#include "parsedump.h"
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/dpkg-priv.h>
+#include <dpkg/parsedump.h>
 
 static int
 convert_string(struct parsedb_state *ps, const char *what, int otherwise,

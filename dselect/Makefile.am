@@ -8,7 +8,7 @@ INCLUDES = \
 	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
 	-DLOCALLIBDIR=\"/usr/local/lib/dpkg\" \
 	-idirafter $(top_srcdir)/lib/compat \
-	-I$(top_srcdir)/lib/dpkg \
+	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 
 
@@ -49,7 +49,7 @@ CLEANFILES = curkeys.h
 
 curkeys.$(OBJEXT): curkeys.h
 curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl
-	cursesfile=`echo '#include <dselect-curses.h>' | \
+	cursesfile=`echo '#include "dselect-curses.h"' | \
 		$(CPP) -I$(top_srcdir) -I$(srcdir) - | \
 		grep 'curses.h' | head -n 1 | \
 		sed -e 's/^[^"]*"//; s/".*$$//'`; \

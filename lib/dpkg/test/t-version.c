@@ -20,7 +20,7 @@
  */
 
 #include <dpkg/test.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg-db.h>
 
 #define version(epoch, version, revision) \
 	(struct versionrevision) { (epoch), (version), (revision) }

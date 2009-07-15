@@ -34,9 +34,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <md5.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/md5.h>
 
 void *m_malloc(size_t amount) {
 #ifdef MDEBUG

@@ -26,7 +26,7 @@
 #include <compat.h>
 
 #ifndef TEST_MAIN_PROVIDED
-#include <dpkg.h>
+#include <dpkg/dpkg.h>
 #endif
 
 #include <assert.h>

@@ -25,11 +25,10 @@
 
 #include <stdlib.h>
 #include <string.h>
-
-#include <dpkg.h>
-#include <dpkg-db.h>
-
 #include <obstack.h>
+
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 #define obstack_chunk_alloc m_malloc
 #define obstack_chunk_free free

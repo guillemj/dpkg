@@ -20,7 +20,7 @@
  */
 
 #include <dpkg/test.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg-db.h>
 
 static void
 test_pkginfo_informative(void)

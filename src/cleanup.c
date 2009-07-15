@@ -35,10 +35,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <tarfn.h>
-#include <myopt.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/tarfn.h>
+#include <dpkg/myopt.h>
 
 #include "filesdb.h"
 #include "main.h"

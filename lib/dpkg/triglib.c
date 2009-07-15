@@ -32,9 +32,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <dlist.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/dlist.h>
 
 const char *
 illegal_triggername(const char *p)

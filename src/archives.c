@@ -41,10 +41,10 @@
 #define obstack_chunk_alloc m_malloc
 #define obstack_chunk_free free
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <tarfn.h>
-#include <myopt.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/tarfn.h>
+#include <dpkg/myopt.h>
 
 #ifdef WITH_SELINUX
 #include <selinux/selinux.h>

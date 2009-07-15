@@ -14,10 +14,10 @@
 #include <pwd.h>
 #include <grp.h>
 #include <errno.h>
-#include <tarfn.h>
 
 #include <dpkg/macros.h>
-#include <dpkg.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/tarfn.h>
 
 #define TAR_MAGIC_USTAR "ustar\0" "00"
 #define TAR_MAGIC_GNU   "ustar "  " \0"

@@ -15,8 +15,8 @@
 #include <bzlib.h>
 #endif
 
-#include <dpkg.h>
-#include "dpkg-db.h"
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 static void
 fd_fd_filter(int fd_in, int fd_out,

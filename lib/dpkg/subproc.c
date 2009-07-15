@@ -31,8 +31,8 @@
 #include <string.h>
 #include <signal.h>
 
-#include <dpkg.h>
-#include <dpkg-priv.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-priv.h>
 
 static int catch_signals[] = { SIGQUIT, SIGINT };
 static struct sigaction uncatch_signals[sizeof_array(catch_signals)];

@@ -51,9 +51,9 @@
 #include <term.h>
 #endif
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <myopt.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
 
 #include "dselect.h"
 #include "bindings.h"

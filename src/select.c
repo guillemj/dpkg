@@ -22,7 +22,6 @@
 #include <compat.h>
 
 #include <dpkg/i18n.h>
-#include <myopt.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,8 +29,9 @@
 #include <fnmatch.h>
 #include <ctype.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
 
 #include "pkg-array.h"
 #include "filesdb.h"

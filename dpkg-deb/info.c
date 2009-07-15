@@ -37,9 +37,10 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <myopt.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
+
 #include "dpkg-deb.h"
 
 static void cu_info_prepare(int argc, void **argv) {

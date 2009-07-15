@@ -41,9 +41,10 @@
 #include <zlib.h>
 #endif
 
-#include <dpkg.h>
-#include <dpkg-deb.h>
-#include <myopt.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/myopt.h>
+
+#include "dpkg-deb.h"
 
 static void movecontrolfiles(const char *thing) {
   char buf[200];

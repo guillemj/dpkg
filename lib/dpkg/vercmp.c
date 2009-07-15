@@ -24,9 +24,9 @@
 #include <ctype.h>
 #include <string.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include "parsedump.h"
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/parsedump.h>
 
 int epochsdiffer(const struct versionrevision *a,
                  const struct versionrevision *b) {

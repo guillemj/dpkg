@@ -36,11 +36,11 @@
 #include <grp.h>
 #include <sys/types.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <dpkg-priv.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/dpkg-priv.h>
+#include <dpkg/progress.h>
 
-#include "progress.h"
 #include "filesdb.h"
 #include "main.h"
 

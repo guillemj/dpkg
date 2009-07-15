@@ -36,9 +36,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include "parsedump.h"
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/parsedump.h>
 
 void w_name(struct varbuf *vb,
             const struct pkginfo *pigp, const struct pkginfoperfile *pifp,

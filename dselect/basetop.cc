@@ -22,7 +22,7 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg-db.h>
+#include <dpkg/dpkg-db.h>
 
 #include "dselect.h"
 

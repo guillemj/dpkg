@@ -20,7 +20,7 @@
  */
 
 #include <dpkg/test.h>
-#include <dpkg-priv.h>
+#include <dpkg/dpkg-priv.h>
 
 #include <string.h>
 

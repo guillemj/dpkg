@@ -2,7 +2,7 @@
 
 INCLUDES = \
 	-idirafter $(top_srcdir)/lib/compat \
-	-I$(top_srcdir)/lib/dpkg \
+	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 
 

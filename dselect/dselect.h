@@ -29,7 +29,8 @@
 #define MAX_DISPLAY_INFO 120
 
 #include <signal.h>
-#include <dselect-curses.h>
+
+#include "dselect-curses.h"
 
 struct helpmenuentry {
   char key;

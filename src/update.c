@@ -30,9 +30,9 @@
 #include <fnmatch.h>
 #include <unistd.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <myopt.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
 
 #include "main.h"
 

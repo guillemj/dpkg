@@ -24,7 +24,8 @@
 #include <compat.h>
 
 #include <string.h>
-#include <dpkg-priv.h>
+
+#include <dpkg/dpkg-priv.h>
 
 size_t
 path_rtrim_slash_slashdot(char *path)

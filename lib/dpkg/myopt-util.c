@@ -22,13 +22,13 @@
 #include <compat.h>
 
 #include <dpkg/i18n.h>
-#include <myopt.h>
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 
-#include <dpkg.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/myopt.h>
 
 void
 helponly(const struct cmdinfo *cip, const char *value)

@@ -32,8 +32,8 @@
 #include <assert.h>
 
 #include <dpkg/macros.h>
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 static const char *errmsg; /* points to errmsgbuf or malloc'd */
 static char errmsgbuf[4096];

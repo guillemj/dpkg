@@ -25,8 +25,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 void
 varbufaddc(struct varbuf *v, int c)

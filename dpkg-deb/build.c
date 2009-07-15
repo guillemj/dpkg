@@ -24,7 +24,6 @@
 #include <compat.h>
 
 #include <dpkg/i18n.h>
-#include <myopt.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -44,10 +43,12 @@
 #include <zlib.h>
 #endif
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/dpkg-priv.h>
+#include <dpkg/myopt.h>
+
 #include "dpkg-deb.h"
-#include "dpkg-priv.h"
 
 #ifndef S_ISLNK
 # define S_ISLNK(mode) ((mode&0xF000) == S_IFLNK)

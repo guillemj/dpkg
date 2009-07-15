@@ -28,8 +28,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 #include "dselect.h"
 #include "bindings.h"

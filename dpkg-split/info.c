@@ -22,7 +22,6 @@
 #include <compat.h>
 
 #include <dpkg/i18n.h>
-#include <myopt.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,8 +33,10 @@
 #include <ar.h>
 #include <ctype.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
+
 #include "dpkg-split.h"
 
 static unsigned long unsignedlong(const char *value, const char *fn, const char *what) {

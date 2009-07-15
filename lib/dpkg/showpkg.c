@@ -26,10 +26,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-
-#include <parsedump.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/parsedump.h>
 
 
 typedef enum { invalid, string, field } itemtype_t;

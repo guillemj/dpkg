@@ -31,7 +31,6 @@
 #include <compat.h>
 
 #include <dpkg/i18n.h>
-#include <myopt.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,8 +42,10 @@
 #include <dirent.h>
 #include <string.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
+
 #include "dpkg-split.h"
 
 static int decompose_filename(const char *filename, struct partqueue *pq) {

@@ -22,10 +22,11 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <dirent.h>
+
+#include <dpkg/dpkg.h>
 
 void
 cu_closepipe(int argc, void **argv)

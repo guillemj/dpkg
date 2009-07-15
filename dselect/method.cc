@@ -42,10 +42,10 @@
 #include <fcntl.h>
 #include <sys/file.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/dpkg-priv.h>
 
-#include <dpkg-priv.h>
 #include "dselect.h"
 #include "method.h"
 

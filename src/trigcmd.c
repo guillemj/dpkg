@@ -39,9 +39,9 @@
 #include <locale.h>
 #endif
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <myopt.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
 
 static const char *bypackage, *activate, *admindir = ADMINDIR;
 static int f_noact, f_check;

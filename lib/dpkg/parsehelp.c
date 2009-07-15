@@ -28,11 +28,10 @@
 #include <ctype.h>
 #include <string.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <dpkg-priv.h>
-
-#include "parsedump.h"
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/dpkg-priv.h>
+#include <dpkg/parsedump.h>
 
 static void
 parse_error_msg(struct parsedb_state *ps, const struct pkginfo *pigp,

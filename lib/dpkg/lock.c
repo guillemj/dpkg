@@ -32,8 +32,8 @@
 #include <fcntl.h>
 #include <sys/file.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 static void
 cu_unlock_file(int argc, void **argv)

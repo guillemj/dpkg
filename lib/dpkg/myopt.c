@@ -30,8 +30,8 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-#include <myopt.h>
-#include <dpkg.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/myopt.h>
 
 void
 badusage(const char *fmt, ...)

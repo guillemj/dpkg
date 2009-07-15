@@ -27,8 +27,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 #include "dselect.h"
 #include "pkglist.h"

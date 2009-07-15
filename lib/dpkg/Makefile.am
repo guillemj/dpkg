@@ -9,6 +9,7 @@ INCLUDES = \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
 	-DCOPYINGFILE=\"$(datadir)/common-licenses/GPL-2\" \
 	-idirafter $(top_srcdir)/lib/compat \
+	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 
 

@@ -42,8 +42,8 @@
 #include <sys/stat.h>
 #include <sys/fcntl.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 #define YY_NO_INPUT
 

@@ -27,8 +27,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
 
 #define BINS 8191
  /* This must always be a prime for optimal performance.

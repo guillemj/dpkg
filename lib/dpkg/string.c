@@ -23,7 +23,7 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg-priv.h>
+#include <dpkg/dpkg-priv.h>
 
 char *
 str_escape_fmt(char *dst, const char *src)

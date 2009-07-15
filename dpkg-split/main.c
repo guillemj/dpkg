@@ -36,9 +36,9 @@
 #endif
 
 #include <dpkg/macros.h>
-#include <dpkg.h>
-#include <dpkg-db.h>
-#include <myopt.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
 
 #include "dpkg-split.h"
 

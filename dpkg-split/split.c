@@ -22,7 +22,6 @@
 #include <compat.h>
 
 #include <dpkg/i18n.h>
-#include <myopt.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,8 +31,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include <dpkg.h>
-#include <dpkg-db.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/dpkg-db.h>
+#include <dpkg/myopt.h>
+
 #include "dpkg-split.h"
 
 void do_split(const char *const *argv) {
