@@ -17,6 +17,8 @@
 
 package Dpkg::Shlibs::SymbolFile;
 
+use strict;
+use warnings;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Version qw(vercmp);
@@ -139,7 +141,7 @@ sub load {
         my $obj;
         $current_object_ref = \$obj;
     }
-    local *object = $current_object_ref;
+    my $object = $$current_object_ref;
     while (defined($_ = <$sym_file>)) {
 	chomp($_);
 
@@ -166,7 +168,7 @@ sub load {
 		$new_base_symbol->parse_tagspec($tagspec);
 	    }
 	    $dir =~ s{[^/]+$}{}; # Strip filename
-	    $self->load("$dir$filename", $seen, $current_object_ref, $new_base_symbol);
+	    $self->load("$dir$filename", $seen, \$object, $new_base_symbol);
 	} elsif (/^#/) {
 	    # Skip possible comments
 	} elsif (/^\|\s*(.*)$/) {
@@ -177,7 +179,7 @@ sub load {
 	    $self->{objects}{$object}{fields}{capit($1)} = $2;
 	} elsif (/^(\S+)\s+(.*)$/) {
 	    # New object and dependency template
-	    $object = $1;
+	    $$current_object_ref = $object = $1;
 	    if (exists $self->{objects}{$object}) {
 		# Update/override infos only
 		$self->{objects}{$object}{deps} = [ "$2" ];
