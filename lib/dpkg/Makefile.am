@@ -15,7 +15,6 @@ INCLUDES = \
 noinst_LIBRARIES = libdpkg.a
 
 libdpkg_a_SOURCES = \
-	dpkg-def.h \
 	dpkg.h \
 	dpkg-i18n.h \
 	dpkg-db.h \
@@ -31,6 +30,7 @@ libdpkg_a_SOURCES = \
 	fields.c \
 	lock.c \
 	log.c \
+	macros.h \
 	md5.c md5.h \
 	mlib.c \
 	myopt.c myopt.h \

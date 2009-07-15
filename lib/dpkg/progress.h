@@ -22,7 +22,7 @@
 #ifndef DPKG_PROGRESS_H
 #define DPKG_PROGRESS_H
 
-#include <dpkg-def.h>
+#include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
 

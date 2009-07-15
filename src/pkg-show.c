@@ -26,9 +26,9 @@
 
 #include <string.h>
 
+#include <dpkg/macros.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
-#include <dpkg-priv.h>
 
 void
 limiteddescription(struct pkginfo *pkg,

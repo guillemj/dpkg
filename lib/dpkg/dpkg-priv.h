@@ -22,26 +22,12 @@
 #ifndef DPKG_PRIV_H
 #define DPKG_PRIV_H
 
-#include <dpkg-def.h>
+#include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
 
 #ifdef HAVE_STDDEF_H
 #include <stddef.h>
-#endif
-
-/* Language definitions. */
-
-#ifndef sizeof_array
-#define sizeof_array(a) (sizeof(a) / sizeof((a)[0]))
-#endif
-
-#ifndef min
-#define min(a, b) ((a) < (b) ? (a) : (b))
-#endif
-
-#ifndef max
-#define max(a, b) ((a) > (b) ? (a) : (b))
 #endif
 
 /* String handling. */

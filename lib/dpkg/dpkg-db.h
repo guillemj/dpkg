@@ -23,7 +23,7 @@
 #ifndef DPKG_DB_H
 #define DPKG_DB_H
 
-#include <dpkg-def.h>
+#include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
 

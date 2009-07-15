@@ -22,7 +22,7 @@
 
 #include <config.h>
 
-#include <dpkg-def.h>
+#include <dpkg/macros.h>
 
 #if defined(linux) || (defined(__FreeBSD_kernel__) && defined(__GLIBC__))
 #  define OSLinux

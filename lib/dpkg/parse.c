@@ -36,9 +36,9 @@
 #include <fcntl.h>
 #include <assert.h>
 
+#include <dpkg/macros.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
-#include <dpkg-priv.h>
 #include "parsedump.h"
 
 #ifdef HAVE_MMAP

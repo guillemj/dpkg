@@ -20,7 +20,7 @@
  */
 
 #include <dpkg-test.h>
-#include <dpkg-priv.h>
+#include <dpkg/macros.h>
 
 static void
 test(void)

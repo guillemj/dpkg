@@ -1,8 +1,8 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * dpkg-def.h - C language support definitions
+ * macros.h - C language support macros
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -19,8 +19,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_DEF_H
-#define DPKG_DEF_H
+#ifndef DPKG_MACROS_H
+#define DPKG_MACROS_H
+
+/* Language definitions. */
 
 #if HAVE_C_ATTRIBUTE
 #define DPKG_ATTR_UNUSED	__attribute__((unused))
@@ -42,4 +44,17 @@
 #define DPKG_END_DECLS
 #endif
 
+#ifndef sizeof_array
+#define sizeof_array(a) (sizeof(a) / sizeof((a)[0]))
 #endif
+
+#ifndef min
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#endif
+
+#ifndef max
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#endif
+
+#endif /* DPKG_MACROS_H */
+

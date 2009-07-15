@@ -42,9 +42,9 @@
 #include <time.h>
 #include <sys/termios.h>
 
+#include <dpkg/macros.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
-#include <dpkg-priv.h>
 
 #include "filesdb.h"
 #include "main.h"

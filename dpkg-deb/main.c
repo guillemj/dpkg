@@ -41,9 +41,9 @@
 #include <locale.h>
 #endif
 
+#include <dpkg/macros.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
-#include <dpkg-priv.h>
 #include <myopt.h>
 
 #include "dpkg-deb.h"

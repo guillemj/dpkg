@@ -22,7 +22,7 @@
 #ifndef DPKG_I18N_H
 #define DPKG_I18N_H
 
-#include <dpkg-def.h>
+#include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
 
