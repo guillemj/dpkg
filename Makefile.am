@@ -5,7 +5,6 @@ if WITH_DSELECT
 endif
 
 SUBDIRS = \
-	libcompat \
 	lib \
 	src \
 	$(MAYBE_DSELECT) \

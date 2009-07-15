@@ -2,7 +2,7 @@
 
 AC_PREREQ(2.59)
 AC_INIT([dpkg], [1.15.4~], [debian-dpkg@lists.debian.org])
-AC_CONFIG_SRCDIR([lib/dpkg.h])
+AC_CONFIG_SRCDIR([lib/dpkg/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
 
@@ -109,9 +109,10 @@ AC_CONFIG_FILES([ Makefile
 		  dselect/Makefile
 		  dselect/methods/Makefile
 		  dselect/po/Makefile.in
-		  libcompat/Makefile
 		  lib/Makefile
-		  lib/test/Makefile
+		  lib/compat/Makefile
+		  lib/dpkg/Makefile
+		  lib/dpkg/test/Makefile
 		  man/Makefile
 		  po/Makefile.in
 		  scripts/Makefile

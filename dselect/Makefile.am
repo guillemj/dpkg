@@ -7,7 +7,8 @@ INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
 	-DLOCALLIBDIR=\"/usr/local/lib/dpkg\" \
-	-idirafter $(top_srcdir)/libcompat \
+	-idirafter $(top_srcdir)/lib/compat \
+	-I$(top_srcdir)/lib/dpkg \
 	-I$(top_srcdir)/lib
 
 
@@ -38,8 +39,8 @@ dselect_SOURCES = \
 
 dselect_LDADD = \
 	$(CURSES_LIBS) \
-	../lib/libdpkg.a \
-	../libcompat/libcompat.a \
+	../lib/dpkg/libdpkg.a \
+	../lib/compat/libcompat.a \
 	$(LIBINTL)
 
 

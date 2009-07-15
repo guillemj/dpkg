@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 INCLUDES = \
-	-idirafter $(top_srcdir)/libcompat
+	-idirafter $(top_srcdir)/lib/compat
 
 
 noinst_LIBRARIES = libcompat.a

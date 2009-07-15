@@ -3,7 +3,8 @@
 localedir = $(datadir)/locale
 INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-idirafter $(top_srcdir)/libcompat \
+	-idirafter $(top_srcdir)/lib/compat \
+	-I$(top_srcdir)/lib/dpkg \
 	-I$(top_srcdir)/lib
 
 
@@ -17,8 +18,8 @@ dpkg_deb_SOURCES = \
 	main.c
 
 dpkg_deb_LDADD = \
-	../lib/libdpkg.a \
-	../libcompat/libcompat.a \
+	../lib/dpkg/libdpkg.a \
+	../lib/compat/libcompat.a \
 	$(LIBINTL) \
 	$(ZLIB_LIBS) \
 	$(BZ2_LIBS) \

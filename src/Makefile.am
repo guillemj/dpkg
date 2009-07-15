@@ -4,7 +4,8 @@ localedir = $(datadir)/locale
 INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" \
-	-idirafter $(top_srcdir)/libcompat \
+	-idirafter $(top_srcdir)/lib/compat \
+	-I$(top_srcdir)/lib/dpkg \
 	-I$(top_srcdir)/lib
 
 
@@ -32,8 +33,8 @@ dpkg_SOURCES = \
 	update.c
 
 dpkg_LDADD = \
-	../lib/libdpkg.a \
-	../libcompat/libcompat.a \
+	../lib/dpkg/libdpkg.a \
+	../lib/compat/libcompat.a \
 	$(LIBINTL) \
 	$(ZLIB_LIBS) \
 	$(BZ2_LIBS) \
@@ -47,16 +48,16 @@ dpkg_query_SOURCES = \
 	query.c
 
 dpkg_query_LDADD = \
-	../lib/libdpkg.a \
-	../libcompat/libcompat.a \
+	../lib/dpkg/libdpkg.a \
+	../lib/compat/libcompat.a \
 	$(LIBINTL)
 
 dpkg_trigger_SOURCES = \
 	trigcmd.c
 
 dpkg_trigger_LDADD = \
-	../lib/libdpkg.a \
-	../libcompat/libcompat.a \
+	../lib/dpkg/libdpkg.a \
+	../lib/compat/libcompat.a \
 	$(LIBINTL)
 
 install-data-local:

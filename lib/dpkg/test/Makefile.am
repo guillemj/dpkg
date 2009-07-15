@@ -1,7 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
 INCLUDES = \
-	-idirafter $(top_srcdir)/libcompat \
+	-idirafter $(top_srcdir)/lib/compat \
+	-I$(top_srcdir)/lib/dpkg \
 	-I$(top_srcdir)/lib
 
 
