@@ -113,6 +113,8 @@ sub add_symbol {
 	$object->{wildcards}{$ver} = $symbol;
 	return 'wildcards';
     } else {
+	# invalidate the minimum version cache
+        $object->{minver_cache} = [];
 	$object->{syms}{$symbol->get_symbolname()} = $symbol;
 	return 'syms';
     }
@@ -275,8 +277,12 @@ sub merge_symbols {
 	$self->create_object($soname, '');
     }
     # Scan all symbols provided by the objects
+    my $obj = $self->{objects}{$soname};
+    # invalidate the minimum version cache - it is not sufficient to
+    # invalidate in add_symbol, since we might change a minimum
+    # version for a particular symbol without adding it
+    $obj->{minver_cache} = [];
     foreach my $name (keys %dynsyms) {
-	my $obj = $self->{objects}{$soname};
         my $sym;
 	if (exists $obj->{syms}{$name}) {
 	    # If the symbol is already listed in the file
@@ -358,7 +364,8 @@ sub create_object {
 	syms => {},
 	fields => {},
 	wildcards => {},
-	deps => [ @deps ]
+	deps => [ @deps ],
+        minver_cache => []
     };
 }
 
@@ -371,14 +378,17 @@ sub get_dependency {
 sub get_smallest_version {
     my ($self, $soname, $dep_id) = @_;
     $dep_id = 0 unless defined($dep_id);
+    my $so_object = $self->{objects}{$soname};
+    return $so_object->{minver_cache}[$dep_id] if(defined($so_object->{minver_cache}[$dep_id]));
     my $minver;
-    foreach my $sym (values %{$self->{objects}{$soname}{syms}}) {
+    foreach my $sym (values %{$so_object->{syms}}) {
         next if $dep_id != $sym->{dep_id};
         $minver = $sym->{minver} unless defined($minver);
         if (vercmp($minver, $sym->{minver}) > 0) {
             $minver = $sym->{minver};
         }
     }
+    $so_object->{minver_cache}[$dep_id] = $minver;
     return $minver;
 }
 
