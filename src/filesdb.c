@@ -38,7 +38,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
-#include <dpkg/dpkg-priv.h>
+#include <dpkg/path.h>
 #include <dpkg/progress.h>
 
 #include "filesdb.h"

@@ -1,8 +1,7 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * path.c - path handling functions
+ * path.h - path handling routines
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2008 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -20,37 +19,21 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include <compat.h>
+#ifndef DPKG_PATH_H
+#define DPKG_PATH_H
 
-#include <string.h>
+#include <dpkg/macros.h>
 
-#include <dpkg/path.h>
+#ifdef HAVE_STDDEF_H
+#include <stddef.h>
+#endif
 
-size_t
-path_rtrim_slash_slashdot(char *path)
-{
-	char *end;
+DPKG_BEGIN_DECLS
 
-	if (!path || !*path)
-		return 0;
+size_t path_rtrim_slash_slashdot(char *path);
+const char *path_skip_slash_dotslash(const char *path);
 
-	for (end = path + strlen(path) - 1; end - path >= 1; end--) {
-		if (*end == '/' || (*(end - 1) == '/' && *end == '.'))
-			*end = '\0';
-		else
-			break;
-	}
+DPKG_END_DECLS
 
-	return end - path + 1;
-}
-
-const char *
-path_skip_slash_dotslash(const char *path)
-{
-	while (path[0] == '/' || (path[0] == '.' && path[1] == '/'))
-		path++;
-
-	return path;
-}
+#endif /* DPKG_PATH_H */
 

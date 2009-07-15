@@ -44,7 +44,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
-#include <dpkg/dpkg-priv.h>
+#include <dpkg/subproc.h>
 
 #include "dselect.h"
 #include "method.h"

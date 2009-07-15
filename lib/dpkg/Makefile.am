@@ -18,7 +18,6 @@ noinst_LIBRARIES = libdpkg.a
 libdpkg_a_SOURCES = \
 	dpkg.h \
 	dpkg-db.h \
-	dpkg-priv.h \
 	dpkg-test.h \
 	dlist.h \
 	cleanup.c \
@@ -40,11 +39,11 @@ libdpkg_a_SOURCES = \
 	parse.c \
 	parsehelp.c \
 	parsedump.h \
-	path.c \
+	path.c path.h \
 	progress.c progress.h \
 	showpkg.c \
-	string.c \
-	subproc.c \
+	string.c string.h \
+	subproc.c subproc.h \
 	tarfn.c tarfn.h \
 	triglib.c \
 	trigdeferred.l \
