@@ -39,7 +39,6 @@
 
 #include <dpkg.h>
 #include <dpkg-db.h>
-#include <dpkg-priv.h>
 #include <myopt.h>
 
 #include "filesdb.h"
