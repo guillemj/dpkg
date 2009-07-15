@@ -22,12 +22,21 @@
 #ifndef DPKG_SUBPROC_H
 #define DPKG_SUBPROC_H
 
+#include <sys/types.h>
+
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
 
 void setup_subproc_signals(const char *name);
 void cu_subproc_signals(int argc, void **argv);
+
+#define PROCPIPE 1
+#define PROCWARN 2
+#define PROCNOERR 4
+
+int checksubprocerr(int status, const char *desc, int flags);
+int waitsubproc(pid_t pid, const char *desc, int flags);
 
 DPKG_END_DECLS
 

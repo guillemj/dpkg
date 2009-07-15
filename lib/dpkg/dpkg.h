@@ -206,12 +206,6 @@ int m_fork(void);
 void m_dup2(int oldfd, int newfd);
 void m_pipe(int fds[2]);
 
-#define PROCPIPE 1
-#define PROCWARN 2
-#define PROCNOERR 4
-int checksubprocerr(int status, const char *description, int flags);
-int waitsubproc(pid_t pid, const char *description, int flags);
-
 #define BUFFER_WRITE_BUF 0
 #define BUFFER_WRITE_VBUF 1
 #define BUFFER_WRITE_FD 2

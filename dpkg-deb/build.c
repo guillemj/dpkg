@@ -46,6 +46,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/subproc.h>
 #include <dpkg/myopt.h>
 
 #include "dpkg-deb.h"
