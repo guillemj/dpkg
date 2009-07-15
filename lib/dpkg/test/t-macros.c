@@ -19,7 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <dpkg-test.h>
+#include <dpkg/test.h>
 #include <dpkg/macros.h>
 
 static void

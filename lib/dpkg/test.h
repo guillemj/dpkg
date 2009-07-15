@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * dpkg-test.h - private test suite support
+ * test.h - test suite support
  *
  * Copyright © 2009 Guillem Jover <guillem@debian.org>
  *
