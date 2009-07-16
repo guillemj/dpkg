@@ -8,6 +8,7 @@ INCLUDES = \
 	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
 	-DLOCALLIBDIR=\"/usr/local/lib/dpkg\" \
 	-idirafter $(top_srcdir)/lib/compat \
+	-iquote $(builddir) \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 
