@@ -36,10 +36,10 @@ kill_bad_alternatives () {
             continue
         fi
         {
-            read mode
-            read mainlink
+            read mode || continue
+            read mainlink || continue
             while true; do
-                read slave
+                read slave || break
                 if [ "$slave" = "" ]; then
                     break
                 fi
@@ -47,7 +47,7 @@ kill_bad_alternatives () {
                     echo "Removing conflicting master alternative $slave (it is slave of $(basename $alt))..."
                     rm -f "$ALTDIR/$slave"
                 fi
-                read slavelink
+                read slavelink || break
             done
         } <$alt
     done
