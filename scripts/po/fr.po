@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2009-06-27 19:08+0200\n"
-"PO-Revision-Date: 2009-03-09 06:49+0100\n"
+"PO-Revision-Date: 2009-07-21 19:22+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 0.3\n"
 
 #: scripts/dpkg-architecture.pl:35 scripts/dpkg-buildpackage.pl:22
 #: scripts/dpkg-distaddfile.pl:18 scripts/dpkg-genchanges.pl:89
@@ -161,7 +161,7 @@ msgstr ""
 "Copyright (C) 2007 Frank Lichtenheld."
 
 #: scripts/dpkg-buildpackage.pl:36
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "\n"
 "Usage: %s [<options> ...]\n"
@@ -262,9 +262,6 @@ msgstr ""
 "  -tc            nettoyer l'arborescence des sources à la fin.\n"
 "  -ap            ajouter une pause avant de lancer le processus de "
 "signature.\n"
-"  -E             transformer certains avertissements en erreurs.} passé à\n"
-"  -W             quand -E est activé, -W le désactive.          } dpkg-"
-"source\n"
 "  -i[<regex>]    ignorer les différences de fichiers correspondant à "
 "regex. } uniquement passé\n"
 "  -I[<format>]   filtrer les fichiers lors de la construction des "
@@ -348,7 +345,7 @@ msgstr "architecture hôte"
 
 #: scripts/dpkg-buildpackage.pl:334
 msgid "debian/rules is not executable: fixing that."
-msgstr ""
+msgstr "debian/rules n'est pas exécutable: corrigé."
 
 #: scripts/dpkg-buildpackage.pl:347
 msgid "Build dependencies/conflicts unsatisfied; aborting."
@@ -371,6 +368,8 @@ msgid ""
 "it is a bad idea to generate a source package without cleaning up first, it "
 "might contain undesired files."
 msgstr ""
+"Il est déconseillé de créer un paquet source sans le nettoyer préalablement. "
+"Il peut contenir des fichiers non souhaités."
 
 #: scripts/dpkg-buildpackage.pl:390
 msgid "Press the return key to start signing process\n"
@@ -870,9 +869,9 @@ msgstr ""
 "d'architecture du paquet (%s)"
 
 #: scripts/dpkg-gencontrol.pl:246 scripts/dpkg-gencontrol.pl:254
-#, fuzzy, perl-format
+#, perl-format
 msgid "error occurred while parsing %s field: %s"
-msgstr "erreur rencontrée lors de l'analyse de %s"
+msgstr "erreur rencontrée lors de l'analyse du cmap %s : %s"
 
 #: scripts/dpkg-gencontrol.pl:279
 #, perl-format
@@ -925,7 +924,7 @@ msgstr ""
 "Copyright (C) 2007 Raphael Hertzog.\n"
 
 #: scripts/dpkg-gensymbols.pl:46
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...]\n"
 "\n"
@@ -975,6 +974,9 @@ msgstr ""
 "symbols.\n"
 "  -O                       écrire dans la sortie standard au lieu de .../"
 "DEBIAN/symbols.\n"
+"  -t                       écrire en mode modèle (template). Les étiquettes\n"
+"                           ne sont pas traitées et sont oncluses dans la "
+"sortie.\n"
 "  -d                       afficher les informations de déboguage pendant le "
 "traitement.\n"
 "  -h, --help               afficher ce message d'aide.\n"
@@ -1028,7 +1030,7 @@ msgstr "pas de fichier debian/symbols utilisé comme base pour générer %s"
 #: scripts/dpkg-name.pl:53
 #, perl-format
 msgid "Usage: %s [<option>...] <file>...\n"
-msgstr ""
+msgstr "Utilisation : %s [<option>...] <fichier>...\n"
 
 #: scripts/dpkg-name.pl:55
 msgid ""
@@ -1045,11 +1047,28 @@ msgid ""
 "file.deb changes to <package>_<version>_<architecture>.<package_type>\n"
 "according to the 'underscores convention'.\n"
 msgstr ""
+"\n"
+"Options:\n"
+"  -a, --no-architecture    pas de partie architecture dans le nom de "
+"fichier.\n"
+"  -o, --overwrite          écraser si le fichier existe.\n"
+"  -k, --symlink            ne pas créer de nouveau fichier mais un lien "
+"symbolique.\n"
+"  -s, --subdir [dir]       déplacer le fichier dans u sous-répertoire "
+"(utiliser                            avec précaution).\n"
+"  -c, --create-dir         créer le répertoire cible si absent (utiliser "
+"avec                            précaution).\n"
+"  -h, --help               afficher ce message d'aide.\n"
+"  -v, --version            afficher la version.\n"
+"\n"
+"modification de fichier.deb en <paquet>_<version>_<architecture>."
+"<type_paquet>\n"
+"selon la « convention des 'underscores' ».\n"
 
 #: scripts/dpkg-name.pl:77
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot find '%s'"
-msgstr "impossible de lire %s"
+msgstr "impossible de trouver %s"
 
 #: scripts/dpkg-name.pl:98 scripts/Dpkg/Changelog.pm:870
 #: scripts/Dpkg/IPC.pm:238 scripts/Dpkg/Shlibs.pm:77
@@ -1060,14 +1079,13 @@ msgid "cannot open %s"
 msgstr "impossible d'ouvrir %s"
 
 #: scripts/dpkg-name.pl:100
-#, fuzzy, perl-format
+#, perl-format
 msgid "binary control file %s"
-msgstr "fichier de contrôle des sources %s"
+msgstr "fichier de contrôle binaire %s"
 
 #: scripts/dpkg-name.pl:222
-#, fuzzy
 msgid "need at least a filename"
-msgstr "au moins un exécutable est nécessaire"
+msgstr "au moins un nom de fichier est nécessaire"
 
 #: scripts/dpkg-parsechangelog.pl:21
 msgid ""
@@ -1080,7 +1098,7 @@ msgstr ""
 "Copyright (C) 2001 Wichert Akkerman"
 
 #: scripts/dpkg-parsechangelog.pl:33
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...]\n"
 "\n"
@@ -1179,11 +1197,8 @@ msgstr ""
 "      --version         afficher la version.\n"
 
 #: scripts/dpkg-scanpackages.pl:82
-#, fuzzy
 msgid "-u, --udeb option is deprecated (see README.feature-removal-schedule)"
-msgstr ""
-"La gestion de PGP est obsolète (voir le fichier README.feature-removal-"
-"schedule)."
+msgstr "-u, --udeb option obsolète (voir README.feature-removal-schedule)"
 
 #: scripts/dpkg-scanpackages.pl:90
 #, perl-format
@@ -1193,12 +1208,12 @@ msgstr "Impossible d'ouvrir le fichier d'override %s"
 #: scripts/dpkg-scanpackages.pl:112
 #, perl-format
 msgid "  %s (package says %s, not %s)"
-msgstr ""
+msgstr "  %s (le paquet dit %s, pas %s)"
 
 #: scripts/dpkg-scanpackages.pl:120
-#, fuzzy, perl-format
+#, perl-format
 msgid "Unconditional maintainer override for %s"
-msgstr " * Annulation inconditionnelle du responsable pour %s *"
+msgstr "Annulation inconditionnelle du responsable pour %s"
 
 #: scripts/dpkg-scanpackages.pl:136
 msgid "1 to 3 args expected"
@@ -1244,33 +1259,29 @@ msgid "No Package field in control file of %s"
 msgstr "Pas de champ Package dans le fichier de contrôle de %s"
 
 #: scripts/dpkg-scanpackages.pl:207
-#, fuzzy, perl-format
+#, perl-format
 msgid "Package %s (filename %s) is repeat but newer version;"
-msgstr ""
-" ! Paquet %s (nom %s) répété, mais version plus récente ;\n"
-"   utilisation de celle-ci, données de %s ignorées !\n"
+msgstr "Le paquet %s (nom %s) répété, mais version plus récente"
 
 #: scripts/dpkg-scanpackages.pl:209
 #, perl-format
 msgid "used that one and ignored data from %s!"
-msgstr ""
+msgstr "celui-ci a été ignoré et les données de %s ont été ignorées !"
 
 #: scripts/dpkg-scanpackages.pl:213
-#, fuzzy, perl-format
+#, perl-format
 msgid "Package %s (filename %s) is repeat;"
-msgstr " ! Paquet %s (nom %s) a un champ Filename !\n"
+msgstr "Le paquet %s (nom %s) est répété ;"
 
 #: scripts/dpkg-scanpackages.pl:214
-#, fuzzy, perl-format
+#, perl-format
 msgid "ignored that one and using data from %s!"
-msgstr ""
-" ! Paquet %s (nom %s) répété ;\n"
-"   version ignorée, utilisation des données de %s !\n"
+msgstr "celui-ci a été ignoré et les données de %s ont été utilisées !"
 
 #: scripts/dpkg-scanpackages.pl:220
-#, fuzzy, perl-format
+#, perl-format
 msgid "Package %s (filename %s) has Filename field!"
-msgstr " ! Paquet %s (nom %s) a un champ Filename !\n"
+msgstr "Le paquet %s (nom %s) a un champ Filename !"
 
 #: scripts/dpkg-scanpackages.pl:263
 msgid "Failed when writing stdout"
@@ -1281,30 +1292,25 @@ msgid "Couldn't close stdout"
 msgstr "Impossible de fermer stdout"
 
 #: scripts/dpkg-scanpackages.pl:269
-#, fuzzy
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr ""
-"++  Paquets dans le fichier d'override avec valeur incorrecte pour l'ancien "
-"responsable : ++"
+"Paquets dans le fichier d'override avec valeur incorrecte pour l'ancien "
+"responsable :"
 
 #: scripts/dpkg-scanpackages.pl:273
-#, fuzzy
 msgid "Packages specifying same maintainer as override file:"
-msgstr ""
-"-- Paquets indiquant le même responsable que le fichier d'override : --"
+msgstr "Paquets indiquant le même responsable que le fichier d'override :"
 
 #: scripts/dpkg-scanpackages.pl:277
-#, fuzzy
 msgid "Packages in archive but missing from override file:"
-msgstr "** Paquets dans l'archive mais pas dans le fichier d'override : **"
+msgstr "Paquets dans l'archive mais pas dans le fichier d'override :"
 
 #: scripts/dpkg-scanpackages.pl:281
-#, fuzzy
 msgid "Packages in override file but not in archive:"
-msgstr "-- Paquets dans le fichier d'override mais pas dans l'archive : --"
+msgstr "Paquets dans le fichier d'override mais pas dans l'archive :"
 
 #: scripts/dpkg-scanpackages.pl:285
-#, fuzzy, perl-format
+#, perl-format
 msgid "Wrote %s entries to output Packages file."
 msgstr "%s entrées écrites dans le fichier Packages."
 
@@ -1346,9 +1352,9 @@ msgid "error closing %s ($? %d, $! `%s')"
 msgstr "erreur en fermant %s ($? %d, $! `%s')"
 
 #: scripts/dpkg-scansources.pl:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't read override file %s"
-msgstr "impossible de lire le fichier d'override %s :"
+msgstr "impossible de lire le fichier d'override %s"
 
 #: scripts/dpkg-scansources.pl:144
 #, perl-format
@@ -1366,14 +1372,13 @@ msgid "ignoring override entry for %s, invalid priority %s"
 msgstr "entrée en double %s ignorée, priorité %s non valable"
 
 #: scripts/dpkg-scansources.pl:174
-#, fuzzy
 msgid "error closing override file"
 msgstr "erreur en fermant le fichier d'override"
 
 #: scripts/dpkg-scansources.pl:195
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't read source override file %s"
-msgstr "impossible de lire le fichier d'override %s pour les sources :"
+msgstr "impossible de lire le fichier d'override pour les sources %s"
 
 #: scripts/dpkg-scansources.pl:204
 #, perl-format
@@ -1390,7 +1395,6 @@ msgstr ""
 "ligne %d"
 
 #: scripts/dpkg-scansources.pl:219
-#, fuzzy
 msgid "error closing source override file"
 msgstr "erreur en fermant le fichier d'override pour les sources"
 
@@ -1400,19 +1404,19 @@ msgid "%s has PGP start token but not end token"
 msgstr "%s possède un indicateur de début de PGP mais pas de fin"
 
 #: scripts/dpkg-scansources.pl:249
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't read %s: %s"
-msgstr "impossible de lire %s :"
+msgstr "impossible de lire %s : %s"
 
 #: scripts/dpkg-scansources.pl:257
-#, fuzzy, perl-format
+#, perl-format
 msgid "error reading from %s: %s"
-msgstr "erreur en lisant depuis %s :"
+msgstr "erreur en lisant depuis %s : %s"
 
 #: scripts/dpkg-scansources.pl:267
-#, fuzzy, perl-format
+#, perl-format
 msgid "error closing %s: %s"
-msgstr "erreur en fermant %s :"
+msgstr "erreur en fermant %s : %s"
 
 #: scripts/dpkg-scansources.pl:292
 #, perl-format
@@ -1449,9 +1453,8 @@ msgid "1 to 3 args expected\n"
 msgstr "de 1 à 3 paramètres attendus\n"
 
 #: scripts/dpkg-scansources.pl:484
-#, fuzzy
 msgid "can't fork"
-msgstr "fork impossible :"
+msgstr "fork impossible"
 
 #: scripts/dpkg-shlibdeps.pl:79
 #, perl-format
@@ -1497,6 +1500,8 @@ msgstr "pas d'information de dépendance trouvée pour %s (utilisé par %s)."
 msgid ""
 "binaries to analyze should already be installed in their package's directory."
 msgstr ""
+"les binaires à analyser devraient déjà être présents dans le répertoire de "
+"leur paquet."
 
 #: scripts/dpkg-shlibdeps.pl:339
 #, perl-format
@@ -1788,9 +1793,9 @@ msgid "extracting unsigned source package (%s)"
 msgstr "extraction d'un paquet source non signé (%s)"
 
 #: scripts/dpkg-source.pl:334
-#, fuzzy, perl-format
+#, perl-format
 msgid "extracting %s in %s"
-msgstr "%s : extraction de %s dans %s"
+msgstr "extraction de %s dans %s"
 
 #: scripts/dpkg-source.pl:342
 msgid "only one of -x or -b allowed, and only once"
@@ -1807,7 +1812,7 @@ msgstr ""
 "Copyright (C) 2008 Raphael Hertzog"
 
 #: scripts/dpkg-source.pl:362
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -1874,11 +1879,11 @@ msgstr ""
 "  -I[<format>]               éliminer des fichiers en construisant les "
 "tarballs\n"
 "                             (par défaut : %s).\n"
-"  -Z<compression>            choisir la compression à utiliser (par défaut, "
-"« gzip» ,\n"
+"  -Z<compression>            choisir la compression à utiliser (par défaut, %"
+"s ,\n"
 "                             les valeurs gérées sont : %s).\n"
-"  -z<niveau>                 niveau de compression à utiliser (par défaut, "
-"« 9 »,\n"
+"  -z<niveau>                 niveau de compression à utiliser (par défaut, %"
+"d,\n"
 "                             les valeurs gérées sont : « 1 » - « 9 », « best », "
 "« fast »)\n"
 "\n"
@@ -2087,17 +2092,19 @@ msgstr ""
 
 #: scripts/Dpkg/Changelog.pm:257 scripts/Dpkg/Changelog.pm:268
 #: scripts/Dpkg/Changelog.pm:283 scripts/Dpkg/Changelog.pm:298
-#, fuzzy, perl-format
+#, perl-format
 msgid "'%s' option specifies non-existing version"
-msgstr "l'option « until » indique la version la plus ancienne et est ignorée"
+msgstr "l'option « %s » indique une version inexistante"
 
 #: scripts/Dpkg/Changelog.pm:258 scripts/Dpkg/Changelog.pm:299
 msgid "use newest entry that is smaller than the one specified"
 msgstr ""
+"utiliser la version la plus récente qui est inférieure à la version indiquée"
 
 #: scripts/Dpkg/Changelog.pm:269 scripts/Dpkg/Changelog.pm:284
 msgid "use oldest entry that is bigger than the one specified"
 msgstr ""
+"utiliser la version la plus ancienne qui est supérieure à celle indiquée"
 
 #: scripts/Dpkg/Changelog.pm:310
 msgid "'since' option specifies most recent version, ignoring"
@@ -2278,7 +2285,7 @@ msgstr "impossible d'analyser la dépendance %s"
 
 #: scripts/Dpkg/Deps.pm:347
 msgid "an union dependency can only contain simple dependencies"
-msgstr ""
+msgstr "Une union de dépendances ne peut pas contenir de simple dépendances"
 
 #: scripts/Dpkg/ErrorHandling.pm:36
 msgid "info"
@@ -2367,11 +2374,11 @@ msgid "wait for %s"
 msgstr "attente de %s"
 
 #: scripts/Dpkg/IPC.pm:334
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s didn't complete in %d second"
 msgid_plural "%s didn't complete in %d seconds"
-msgstr[0] "%s ne correspond pas complètement à %s"
-msgstr[1] "%s ne correspond pas complètement à %s"
+msgstr[0] "%s ne s'est pas terminé en %d seconde"
+msgstr[1] "%s ne s'est pas terminé en %d secondes"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:83
 msgid "cannot fork for objdump"
@@ -2412,7 +2419,7 @@ msgstr ""
 "s, ligne %s)."
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:157
-#, fuzzy, perl-format
+#, perl-format
 msgid "Failed to parse line in %s: %s"
 msgstr "Impossible d'analyser une ligne dans %s : %s"
 
@@ -3232,9 +3239,9 @@ msgid "can't create symlink %s"
 msgstr "impossible de lire le lien symbolique %s"
 
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:169
-#, fuzzy, perl-format
+#, perl-format
 msgid "applying all patches with %s"
-msgstr "application de %s avec quilt"
+msgstr "application de toutes les corrections avec %s"
 
 #: scripts/Dpkg/Substvars.pm:142
 #, perl-format
@@ -3257,9 +3264,9 @@ msgid "unknown substitution variable ${%s}"
 msgstr "variable de substitution inconnue ${%s}"
 
 #: scripts/Dpkg/Substvars.pm:239
-#, fuzzy, perl-format
+#, perl-format
 msgid "unused substitution variable ${%s}"
-msgstr "variable de substitution inconnue ${%s}"
+msgstr "variable de substitution inutilisée ${%s}"
 
 #: scripts/Dpkg/Vars.pm:33
 #, perl-format
