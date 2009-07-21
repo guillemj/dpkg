@@ -262,7 +262,12 @@ sub __sanity_check_range {
                 last;
             }
         }
-        $$since = '' if not exists $versions{$$since}; # No version was smaller
+        if (not exists $versions{$$since}) {
+            # No version was smaller, include all
+            warning(_g("none found, starting from the oldest entry"));
+            $$since = '';
+            $$from = $versions[-1];
+        }
     }
     if ((length($$from) and not exists $versions{$$from})) {
         warning(_g("'%s' option specifies non-existing version"), "from");
@@ -276,6 +281,7 @@ sub __sanity_check_range {
         if (defined($oldest)) {
             $$from = $oldest;
         } else {
+            warning(_g("no such entry found, ignoring '%s' parameter"), "from");
             $$from = ''; # No version was bigger
         }
     }
@@ -291,6 +297,7 @@ sub __sanity_check_range {
         if (defined($oldest)) {
             $$until = $oldest;
         } else {
+            warning(_g("no such entry found, ignoring '%s' parameter"), "until");
             $$until = ''; # No version was bigger
         }
     }
@@ -303,7 +310,11 @@ sub __sanity_check_range {
                 last;
             }
         }
-        $$to = '' if not exists $versions{$$to}; # No version was smaller
+        if (not exists $versions{$$to}) {
+            # No version was smaller
+            warning(_g("no such entry found, ignoring '%s' parameter"), "to");
+            $$to = '';
+        }
     }
 
     if (length($$since) && ($data->[0]{Version} eq $$since)) {
