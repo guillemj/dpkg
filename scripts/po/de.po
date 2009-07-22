@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-07-05 08:23+0200\n"
-"PO-Revision-Date: 2009-07-05 08:32+0200\n"
+"POT-Creation-Date: 2009-07-22 10:30+0200\n"
+"PO-Revision-Date: 2009-07-22 10:33+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -1009,8 +1009,8 @@ msgid "cannot find '%s'"
 msgstr "kann »%s« nicht finden"
 
 #: scripts/dpkg-name.pl:98 scripts/dpkg-scansources.pl:230
-#: scripts/Dpkg/Changelog.pm:870 scripts/Dpkg/IPC.pm:238
-#: scripts/Dpkg/Shlibs.pm:77 scripts/Dpkg/Shlibs/SymbolFile.pm:137
+#: scripts/Dpkg/Changelog.pm:881 scripts/Dpkg/IPC.pm:238
+#: scripts/Dpkg/Shlibs.pm:77 scripts/Dpkg/Shlibs/SymbolFile.pm:143
 #: scripts/Dpkg/Source/Package.pm:142 scripts/Dpkg/Source/Package.pm:151
 #, perl-format
 msgid "cannot open %s"
@@ -1977,58 +1977,68 @@ msgstr ""
 msgid "you can only specify one of 'to' and 'until', using 'until'"
 msgstr "Sie können nur entweder »to« oder »until« spezifizieren, verwende »until«"
 
-#: scripts/Dpkg/Changelog.pm:257 scripts/Dpkg/Changelog.pm:268
-#: scripts/Dpkg/Changelog.pm:283 scripts/Dpkg/Changelog.pm:298
+#: scripts/Dpkg/Changelog.pm:257 scripts/Dpkg/Changelog.pm:273
+#: scripts/Dpkg/Changelog.pm:289 scripts/Dpkg/Changelog.pm:305
 #, perl-format
 msgid "'%s' option specifies non-existing version"
 msgstr "Option »%s« spezifiziert nicht-existierende Version"
 
-#: scripts/Dpkg/Changelog.pm:258 scripts/Dpkg/Changelog.pm:299
+#: scripts/Dpkg/Changelog.pm:258 scripts/Dpkg/Changelog.pm:306
 msgid "use newest entry that is smaller than the one specified"
 msgstr "benutze neusten Eintrag der kleiner als der angegebene ist"
 
-#: scripts/Dpkg/Changelog.pm:269 scripts/Dpkg/Changelog.pm:284
+#: scripts/Dpkg/Changelog.pm:267
+msgid "none found, starting from the oldest entry"
+msgstr "keiner gefunden, beginne beim ältesten Eintrag"
+
+#: scripts/Dpkg/Changelog.pm:274 scripts/Dpkg/Changelog.pm:290
 msgid "use oldest entry that is bigger than the one specified"
 msgstr "benutze ältesten Eintrag der größer als der angegebene ist"
 
-#: scripts/Dpkg/Changelog.pm:310
+#: scripts/Dpkg/Changelog.pm:284 scripts/Dpkg/Changelog.pm:300
+#: scripts/Dpkg/Changelog.pm:315
+#, perl-format
+msgid "no such entry found, ignoring '%s' parameter"
+msgstr "kein solcher Eintrag gefunden, ignoriere den Parameter »%s«"
+
+#: scripts/Dpkg/Changelog.pm:321
 msgid "'since' option specifies most recent version, ignoring"
 msgstr "Option »since« spezifiziert die neuste Version, ignoriere"
 
-#: scripts/Dpkg/Changelog.pm:314
+#: scripts/Dpkg/Changelog.pm:325
 msgid "'until' option specifies oldest version, ignoring"
 msgstr "Option »until« spezifiziert die älteste Version, ignoriere"
 
-#: scripts/Dpkg/Changelog.pm:834
+#: scripts/Dpkg/Changelog.pm:845
 #, perl-format
 msgid "tail of %s"
 msgstr "Ende von %s"
 
-#: scripts/Dpkg/Changelog.pm:846
+#: scripts/Dpkg/Changelog.pm:857
 #, perl-format
 msgid "format parser %s not executable"
 msgstr "Formatparser %s nicht ausführbar"
 
-#: scripts/Dpkg/Changelog.pm:849
+#: scripts/Dpkg/Changelog.pm:860
 #, perl-format
 msgid "changelog format %s is unknown"
 msgstr "unbekanntes Changelog-Format %s"
 
-#: scripts/Dpkg/Changelog.pm:866 scripts/Dpkg/IPC.pm:220
+#: scripts/Dpkg/Changelog.pm:877 scripts/Dpkg/IPC.pm:220
 #, perl-format
 msgid "fork for %s"
 msgstr "Fork für %s"
 
-#: scripts/Dpkg/Changelog.pm:872
+#: scripts/Dpkg/Changelog.pm:883
 #, perl-format
 msgid "cannot exec format parser: %s"
 msgstr "kann Formatparser nicht ausführen: %s"
 
-#: scripts/Dpkg/Changelog.pm:877
+#: scripts/Dpkg/Changelog.pm:888
 msgid "output of changelog parser"
 msgstr "Ausgabe des Changelog-Parsers"
 
-#: scripts/Dpkg/Changelog.pm:880
+#: scripts/Dpkg/Changelog.pm:891
 #, perl-format
 msgid "changelog parser %s"
 msgstr "Changelog-Parser %s"
@@ -2227,7 +2237,7 @@ msgid "reopen stdin"
 msgstr "öffne Stdin erneut"
 
 #: scripts/Dpkg/IPC.pm:246 scripts/Dpkg/IPC.pm:254
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:216
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:217
 #: scripts/Dpkg/Source/CompressedFile.pm:120
 #: scripts/Dpkg/Source/Package.pm:464 scripts/Dpkg/Source/Package/V2.pm:186
 #: scripts/Dpkg/Source/Package/V2.pm:430
@@ -2287,36 +2297,36 @@ msgstr "Konnte dynamischen Relozierungs-Eintrag nicht auswerten: %s"
 msgid "Couldn't parse dynamic symbol definition: %s"
 msgstr "Konnte die Definition der dynamischen Symbole nicht auswerten: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:110
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:112
 #, perl-format
 msgid "you can't use wildcards on unversioned symbols: %s"
 msgstr ""
 "Sie können keine Joker-Zeichen für unversionierte Symbole verwenden: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:148
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:149
 #, perl-format
 msgid "Symbol information must be preceded by a header (file %s, line %s)."
 msgstr ""
 "Symbol-Informationen müssen durch Kopfzeile eingeleitet werden (Datei %s, "
 "Zeile %s)."
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:157
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:158
 #, perl-format
 msgid "Failed to parse line in %s: %s"
 msgstr "Konnte Zeile in %s nicht auswerten: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:189
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:190
 #, perl-format
 msgid "Failed to parse a line in %s: %s"
 msgstr "Konnte eine Zeile in %s nicht auswerten: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:204
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:205
 #, perl-format
 msgid "Tried to merge the same object (%s) twice in a symfile."
 msgstr ""
 "Versuchte zweimal in einer Symdatei das gleiche Objekt (%s) zusammenzuführen."
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:261
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:262
 msgid "Can't merge symbols from objects without SONAME."
 msgstr "Kann Symbole von Objekten ohne SONAME nicht zusammenführen."
 
