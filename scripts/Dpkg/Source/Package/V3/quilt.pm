@@ -166,8 +166,8 @@ sub apply_patches {
     if (not $self->{'options'}{'without_quilt'}) {
         my %opts;
         $opts{"to_file"} = "/dev/null" if $skip_auto;
-        info(_g("applying all patches with %s"), "quilt push -a -q") unless $skip_auto;
-        $self->run_quilt($dir, ['push', '-a', '-q'],
+        info(_g("applying all patches with %s"), "quilt push -q " . $patches[-1]) unless $skip_auto;
+        $self->run_quilt($dir, ['push', '-q', $patches[-1]],
                          delete_env => ['QUILT_PATCH_OPTS'],
                          wait_child => 1, %opts);
         foreach my $patch (@patches) {
