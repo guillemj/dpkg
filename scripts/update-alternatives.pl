@@ -1031,7 +1031,7 @@ sub prepare_install {
                     main::checked_mv("$slink.dpkg-tmp", $slink);
                 });
             } else {
-                main::warning(_g("not replacing %s with a link."), $link);
+                main::warning(_g("not replacing %s with a link."), $slink);
             }
         } else {
             main::warning(_g("skip creation of %s because associated file " .
