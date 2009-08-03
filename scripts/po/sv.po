@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-06-27 19:08+0200\n"
-"PO-Revision-Date: 2009-06-20 17:03+0100\n"
+"POT-Creation-Date: 2009-08-03 20:24+0100\n"
+"PO-Revision-Date: 2009-08-03 20:28+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: scripts/dpkg-distaddfile.pl:18 scripts/dpkg-genchanges.pl:89
 #: scripts/dpkg-gencontrol.pl:45 scripts/dpkg-gensymbols.pl:32
 #: scripts/dpkg-name.pl:48 scripts/dpkg-parsechangelog.pl:19
-#: scripts/dpkg-scanpackages.pl:62 scripts/dpkg-scansources.pl:77
+#: scripts/dpkg-scanpackages.pl:56 scripts/dpkg-scansources.pl:79
 #: scripts/dpkg-shlibdeps.pl:502 scripts/dpkg-source.pl:348
 #: scripts/changelog/debian.pl:19
 #, perl-format
@@ -667,7 +667,8 @@ msgstr "\"Priority\" saknas för källfiler"
 msgid "cannot open .dsc file %s"
 msgstr "kan inte öppna .dsc-filen %s"
 
-#: scripts/dpkg-genchanges.pl:409 scripts/Dpkg/Source/Package.pm:153
+#: scripts/dpkg-genchanges.pl:409 scripts/dpkg-scansources.pl:232
+#: scripts/Dpkg/Source/Package.pm:153
 #, perl-format
 msgid "source control file %s"
 msgstr "källstyrfilen %s"
@@ -858,7 +859,7 @@ msgstr ""
 "Copyright © 2007 Raphael Hertzog.\n"
 
 #: scripts/dpkg-gensymbols.pl:46
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...]\n"
 "\n"
@@ -902,6 +903,8 @@ msgstr ""
 "                           istället för standardfilen.\n"
 "  -O<fil>                  skriv till <fil>, inte .../DEBIAN/symbols.\n"
 "  -O                       skriv till standard ut, inte .../DEBIAN/symbols.\n"
+"  -t                       skriv i malläge (taggar behandlas inte och\n"
+"                           tas med i utdata).\n"
 "  -d                       visa felsökningsinformation under körnng.\n"
 "  -h, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
@@ -988,10 +991,10 @@ msgstr ""
 msgid "cannot find '%s'"
 msgstr "kan inte hitta %s"
 
-#: scripts/dpkg-name.pl:98 scripts/Dpkg/Changelog.pm:870
-#: scripts/Dpkg/IPC.pm:238 scripts/Dpkg/Shlibs.pm:77
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:137 scripts/Dpkg/Source/Package.pm:142
-#: scripts/Dpkg/Source/Package.pm:151
+#: scripts/dpkg-name.pl:98 scripts/dpkg-scansources.pl:230
+#: scripts/Dpkg/Changelog.pm:881 scripts/Dpkg/IPC.pm:238
+#: scripts/Dpkg/Shlibs.pm:77 scripts/Dpkg/Shlibs/SymbolFile.pm:143
+#: scripts/Dpkg/Source/Package.pm:142 scripts/Dpkg/Source/Package.pm:151
 #, perl-format
 msgid "cannot open %s"
 msgstr "kan inte öppna %s"
@@ -1001,7 +1004,12 @@ msgstr "kan inte öppna %s"
 msgid "binary control file %s"
 msgstr "binär styrfil %s"
 
-#: scripts/dpkg-name.pl:222
+#: scripts/dpkg-name.pl:113
+#, perl-format
+msgid "assuming architecture '%s' for '%s'"
+msgstr "antar arkitekturen \"%s\" för \"%s\""
+
+#: scripts/dpkg-name.pl:217
 msgid "need at least a filename"
 msgstr "behöver minst ett filnamn"
 
@@ -1080,7 +1088,7 @@ msgstr ""
 msgid "%s takes no non-option arguments"
 msgstr "%s tar inga argument som inte är flaggor"
 
-#: scripts/dpkg-scanpackages.pl:68
+#: scripts/dpkg-scanpackages.pl:62
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
@@ -1106,55 +1114,55 @@ msgstr ""
 "  -h, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
-#: scripts/dpkg-scanpackages.pl:82
+#: scripts/dpkg-scanpackages.pl:76
 msgid "-u, --udeb option is deprecated (see README.feature-removal-schedule)"
 msgstr "flaggorna -u och --udeb undanbes (se README.feature-removal-schedule)"
 
-#: scripts/dpkg-scanpackages.pl:90
+#: scripts/dpkg-scanpackages.pl:84
 #, perl-format
 msgid "Couldn't open override file %s"
 msgstr "Kunde inte öppna överstyrningsfilen %s"
 
-#: scripts/dpkg-scanpackages.pl:112
+#: scripts/dpkg-scanpackages.pl:106
 #, perl-format
 msgid "  %s (package says %s, not %s)"
 msgstr "  %s (paketet säger %s, inte %s)"
 
-#: scripts/dpkg-scanpackages.pl:120
+#: scripts/dpkg-scanpackages.pl:114
 #, perl-format
 msgid "Unconditional maintainer override for %s"
 msgstr "Ovillkorlig överstyrning från paketansvariga för %s"
 
-#: scripts/dpkg-scanpackages.pl:136
+#: scripts/dpkg-scanpackages.pl:130
 msgid "1 to 3 args expected"
 msgstr "1 till 3 argument förväntades"
 
-#: scripts/dpkg-scanpackages.pl:154
+#: scripts/dpkg-scanpackages.pl:148
 #, perl-format
 msgid "Binary dir %s not found"
 msgstr "Binärkatalogen %s hittades inte"
 
-#: scripts/dpkg-scanpackages.pl:156
+#: scripts/dpkg-scanpackages.pl:150
 #, perl-format
 msgid "Override file %s not found"
 msgstr "Överstyrningsfilen %s hittades inte"
 
-#: scripts/dpkg-scanpackages.pl:170
+#: scripts/dpkg-scanpackages.pl:164
 #, perl-format
 msgid "Couldn't open %s for reading"
 msgstr "Kunde inte öppna %s för läsning"
 
-#: scripts/dpkg-scanpackages.pl:177
+#: scripts/dpkg-scanpackages.pl:171
 #, perl-format
 msgid "Couldn't call dpkg-deb on %s: %s, skipping package"
 msgstr "Kunde inte anropa dpkg-deb på %s: %s, hoppar över paket"
 
-#: scripts/dpkg-scanpackages.pl:182
+#: scripts/dpkg-scanpackages.pl:176
 #, perl-format
 msgid "`dpkg-deb -I %s control' exited with %d, skipping package"
 msgstr "\"dpkg-deb -l %s control\" avslutades med %d, hoppar över paket"
 
-#: scripts/dpkg-scanpackages.pl:197
+#: scripts/dpkg-scanpackages.pl:190
 #, perl-format
 msgid ""
 "Unprocessed text from %s control file; info:\n"
@@ -1163,66 +1171,66 @@ msgstr ""
 "Ohanterad text från styrfilen %s, info:\n"
 "%s / %s"
 
-#: scripts/dpkg-scanpackages.pl:201
+#: scripts/dpkg-scanpackages.pl:194
 #, perl-format
 msgid "No Package field in control file of %s"
 msgstr "Inget Package-fält i styrfilen för %s"
 
-#: scripts/dpkg-scanpackages.pl:207
+#: scripts/dpkg-scanpackages.pl:200
 #, perl-format
 msgid "Package %s (filename %s) is repeat but newer version;"
 msgstr "Paketet (%s) (filnamn %s) repeterades men nyare version;"
 
-#: scripts/dpkg-scanpackages.pl:209
+#: scripts/dpkg-scanpackages.pl:202
 #, perl-format
 msgid "used that one and ignored data from %s!"
 msgstr "använde·den·och·ignorerade·data·från·%s!"
 
-#: scripts/dpkg-scanpackages.pl:213
+#: scripts/dpkg-scanpackages.pl:206
 #, perl-format
 msgid "Package %s (filename %s) is repeat;"
 msgstr "Paketet (%s) (filnamn %s) repeterades;"
 
-#: scripts/dpkg-scanpackages.pl:214
+#: scripts/dpkg-scanpackages.pl:207
 #, perl-format
 msgid "ignored that one and using data from %s!"
 msgstr "ignorerade·den·och·använde·data·från·%s!"
 
-#: scripts/dpkg-scanpackages.pl:220
+#: scripts/dpkg-scanpackages.pl:213
 #, perl-format
 msgid "Package %s (filename %s) has Filename field!"
 msgstr "Paketet %s (filnamn %s) har Filename-fält!"
 
-#: scripts/dpkg-scanpackages.pl:263
+#: scripts/dpkg-scanpackages.pl:251
 msgid "Failed when writing stdout"
 msgstr "Misslyckades vid skrivning på standard ut"
 
-#: scripts/dpkg-scanpackages.pl:266
+#: scripts/dpkg-scanpackages.pl:254
 msgid "Couldn't close stdout"
 msgstr "Kunde inte stänga standard ut"
 
-#: scripts/dpkg-scanpackages.pl:269
+#: scripts/dpkg-scanpackages.pl:257
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr "Paket i överstyrningsfilen med felaktigt värde på gammal ansvarig:"
 
-#: scripts/dpkg-scanpackages.pl:273
+#: scripts/dpkg-scanpackages.pl:261
 msgid "Packages specifying same maintainer as override file:"
 msgstr "Paket som anger samma ansvarig i överstyrningsfilen:"
 
-#: scripts/dpkg-scanpackages.pl:277
+#: scripts/dpkg-scanpackages.pl:265
 msgid "Packages in archive but missing from override file:"
 msgstr "Paket i arkivet men som saknas i överstyrningsfilen:"
 
-#: scripts/dpkg-scanpackages.pl:281
+#: scripts/dpkg-scanpackages.pl:269
 msgid "Packages in override file but not in archive:"
 msgstr "Paket i överstyrningsfilen men inte i arkivet:"
 
-#: scripts/dpkg-scanpackages.pl:285
+#: scripts/dpkg-scanpackages.pl:273
 #, perl-format
 msgid "Wrote %s entries to output Packages file."
 msgstr "Skrev %s poster till den skapade Packages-filen."
 
-#: scripts/dpkg-scansources.pl:83
+#: scripts/dpkg-scansources.pl:85
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
@@ -1257,109 +1265,74 @@ msgstr ""
 "\n"
 "Se manualsidan för fullständig dokumentation.\n"
 
-#: scripts/dpkg-scansources.pl:123
+#: scripts/dpkg-scansources.pl:125
 #, perl-format
 msgid "error closing %s ($? %d, $! `%s')"
 msgstr "fel vid stängning av %s ($? %d, $! \"%s\")"
 
-#: scripts/dpkg-scansources.pl:136
+#: scripts/dpkg-scansources.pl:138
 #, perl-format
 msgid "can't read override file %s"
 msgstr "kan inte läsa överstyrningsfil %s"
 
-#: scripts/dpkg-scansources.pl:144
+#: scripts/dpkg-scansources.pl:146
 #, perl-format
 msgid "invalid override entry at line %d (%d fields)"
 msgstr "felaktig överstyrningspost på rad %d (%d fält)"
 
-#: scripts/dpkg-scansources.pl:150
+#: scripts/dpkg-scansources.pl:152
 #, perl-format
 msgid "ignoring duplicate override entry for %s at line %d"
 msgstr "ignorerar duplicerad överstyrningspost för %s på rad %d"
 
-#: scripts/dpkg-scansources.pl:155
+#: scripts/dpkg-scansources.pl:157
 #, perl-format
 msgid "ignoring override entry for %s, invalid priority %s"
 msgstr "ignorerar överstyrningspost för %s, ogiltig prioritet %s"
 
-#: scripts/dpkg-scansources.pl:174
+#: scripts/dpkg-scansources.pl:176
 msgid "error closing override file"
 msgstr "fel vid stängning av överstyrningsfil"
 
-#: scripts/dpkg-scansources.pl:195
+#: scripts/dpkg-scansources.pl:197
 #, perl-format
 msgid "can't read source override file %s"
 msgstr "kan inte läsa källkodsöverstyrningsfil %s"
 
-#: scripts/dpkg-scansources.pl:204
+#: scripts/dpkg-scansources.pl:206
 #, perl-format
 msgid "invalid source override entry at line %d (%d fields)"
 msgstr "felaktig källkodsöverstyrningspost på rad %d (%d fält)"
 
-#: scripts/dpkg-scansources.pl:212
+#: scripts/dpkg-scansources.pl:214
 #, perl-format
 msgid "ignoring duplicate source override entry for %s at line %d"
 msgstr "ignorerar duplicerad källkodsöverstyrningspost för %s på rad %d"
 
-#: scripts/dpkg-scansources.pl:219
+#: scripts/dpkg-scansources.pl:221
 msgid "error closing source override file"
 msgstr "fel vid stängning av källkodsöverstyrningsfil"
 
-#: scripts/dpkg-scansources.pl:233
+#: scripts/dpkg-scansources.pl:234
 #, perl-format
-msgid "%s has PGP start token but not end token"
-msgstr "%s har inledande men inte avslutande PGP-märke"
+msgid "parsing an empty file %s"
+msgstr "tolkar den tomma filen %s"
 
-#: scripts/dpkg-scansources.pl:249
+#: scripts/dpkg-scansources.pl:235 scripts/Dpkg/Source/Patch.pm:250
 #, perl-format
-msgid "can't read %s: %s"
-msgstr "kan inte läsa %s: %s"
+msgid "cannot close %s"
+msgstr "kan inte stänga %s"
 
-#: scripts/dpkg-scansources.pl:257
-#, perl-format
-msgid "error reading from %s: %s"
-msgstr "fel vid läsning från %s: %s"
-
-#: scripts/dpkg-scansources.pl:267
-#, perl-format
-msgid "error closing %s: %s"
-msgstr "fel vid stängning av %s: %s"
-
-#: scripts/dpkg-scansources.pl:292
-#, perl-format
-msgid "%s invalid (contains blank line)"
-msgstr "%s ogiltig (innehåller blank rad)"
-
-#: scripts/dpkg-scansources.pl:319
-#, perl-format
-msgid "invalid field in %s: %s"
-msgstr "ogiltigt fält i %s: %s"
-
-#: scripts/dpkg-scansources.pl:327
-#, perl-format
-msgid "duplicate source field in %s"
-msgstr "duplicerat källkodsfält i %s"
-
-#: scripts/dpkg-scansources.pl:331
-#, perl-format
-msgid "invalid source field in %s"
-msgstr "ogiltigt källkodsfält i %s"
-
-#: scripts/dpkg-scansources.pl:341
-#, perl-format
-msgid "duplicate binary field in %s"
-msgstr "duplicerat binärfält i %s"
-
-#: scripts/dpkg-scansources.pl:346
+#: scripts/dpkg-scansources.pl:245
 #, perl-format
 msgid "no binary packages specified in %s"
 msgstr "inget binärpaket angivet i %s"
 
-#: scripts/dpkg-scansources.pl:474
+#: scripts/dpkg-scansources.pl:318
 msgid "1 to 3 args expected\n"
 msgstr "1 till 3 argument förväntades\n"
 
-#: scripts/dpkg-scansources.pl:484
+#: scripts/dpkg-scansources.pl:328
 msgid "can't fork"
 msgstr "kan inte grena"
 
@@ -1966,58 +1939,68 @@ msgstr "du kan bara ange en av \"from\" och \"since\", använder \"since\""
 msgid "you can only specify one of 'to' and 'until', using 'until'"
 msgstr "du kan bara ange en av \"to\" och \"until\", använder \"until\""
 
-#: scripts/Dpkg/Changelog.pm:257 scripts/Dpkg/Changelog.pm:268
-#: scripts/Dpkg/Changelog.pm:283 scripts/Dpkg/Changelog.pm:298
+#: scripts/Dpkg/Changelog.pm:257 scripts/Dpkg/Changelog.pm:273
+#: scripts/Dpkg/Changelog.pm:289 scripts/Dpkg/Changelog.pm:305
 #, perl-format
 msgid "'%s' option specifies non-existing version"
 msgstr "\"%s\"-flaggan anger en icke-existerande version"
 
-#: scripts/Dpkg/Changelog.pm:258 scripts/Dpkg/Changelog.pm:299
+#: scripts/Dpkg/Changelog.pm:258 scripts/Dpkg/Changelog.pm:306
 msgid "use newest entry that is smaller than the one specified"
 msgstr "använd den nyaste posten som är mindre än den angivna"
 
-#: scripts/Dpkg/Changelog.pm:269 scripts/Dpkg/Changelog.pm:284
-msgid "use oldest entry that is bigger than the one specified"
-msgstr "använd den äldta posten som är större än den angivna"
+#: scripts/Dpkg/Changelog.pm:267
+msgid "none found, starting from the oldest entry"
+msgstr "hittade ingen, börjar från den äldsta posten"
 
-#: scripts/Dpkg/Changelog.pm:310
+#: scripts/Dpkg/Changelog.pm:274 scripts/Dpkg/Changelog.pm:290
+msgid "use oldest entry that is bigger than the one specified"
+msgstr "använd den äldsta posten som är större än den angivna"
+
+#: scripts/Dpkg/Changelog.pm:284 scripts/Dpkg/Changelog.pm:300
+#: scripts/Dpkg/Changelog.pm:315
+#, perl-format
+msgid "no such entry found, ignoring '%s' parameter"
+msgstr "hittade ingen sådan post, ignorerar parametern \"%s\""
+
+#: scripts/Dpkg/Changelog.pm:321
 msgid "'since' option specifies most recent version, ignoring"
 msgstr "\"since\"-flaggan anger den senaste versionen, ignorerar"
 
-#: scripts/Dpkg/Changelog.pm:314
+#: scripts/Dpkg/Changelog.pm:325
 msgid "'until' option specifies oldest version, ignoring"
 msgstr "\"until\"-flaggan anger den äldsta versionen, ignorerar"
 
-#: scripts/Dpkg/Changelog.pm:834
+#: scripts/Dpkg/Changelog.pm:845
 #, perl-format
 msgid "tail of %s"
 msgstr "tail för %s"
 
-#: scripts/Dpkg/Changelog.pm:846
+#: scripts/Dpkg/Changelog.pm:857
 #, perl-format
 msgid "format parser %s not executable"
 msgstr "formattolk %s ej körbar"
 
-#: scripts/Dpkg/Changelog.pm:849
+#: scripts/Dpkg/Changelog.pm:860
 #, perl-format
 msgid "changelog format %s is unknown"
 msgstr "ändringsloggformatet %s okänt"
 
-#: scripts/Dpkg/Changelog.pm:866 scripts/Dpkg/IPC.pm:220
+#: scripts/Dpkg/Changelog.pm:877 scripts/Dpkg/IPC.pm:220
 #, perl-format
 msgid "fork for %s"
 msgstr "grenar för %s"
 
-#: scripts/Dpkg/Changelog.pm:872
+#: scripts/Dpkg/Changelog.pm:883
 #, perl-format
 msgid "cannot exec format parser: %s"
 msgstr "kan inte exekvera formattolk: %s"
 
-#: scripts/Dpkg/Changelog.pm:877
+#: scripts/Dpkg/Changelog.pm:888
 msgid "output of changelog parser"
 msgstr "utdata från ändringsloggparser"
 
-#: scripts/Dpkg/Changelog.pm:880
+#: scripts/Dpkg/Changelog.pm:891
 #, perl-format
 msgid "changelog parser %s"
 msgstr "ändringsloggparser %s"
@@ -2216,7 +2199,7 @@ msgid "reopen stdin"
 msgstr "öppna standard in på nytt"
 
 #: scripts/Dpkg/IPC.pm:246 scripts/Dpkg/IPC.pm:254
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:216
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:217
 #: scripts/Dpkg/Source/CompressedFile.pm:120
 #: scripts/Dpkg/Source/Package.pm:464 scripts/Dpkg/Source/Package/V2.pm:186
 #: scripts/Dpkg/Source/Package/V2.pm:430
@@ -2276,33 +2259,33 @@ msgstr "Kunde inte tolka dynamisk relokeringspost: %s"
 msgid "Couldn't parse dynamic symbol definition: %s"
 msgstr "Kunde inte tolka definition av dynamisk symbol: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:110
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:112
 #, perl-format
 msgid "you can't use wildcards on unversioned symbols: %s"
 msgstr ""
 "du kan inte använda jokertecken på symboler som inte är versionerade: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:148
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:149
 #, perl-format
 msgid "Symbol information must be preceded by a header (file %s, line %s)."
 msgstr "Symbolinformation måste föregås av ett huvud (fil %s, rad %s)."
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:157
-#, fuzzy, perl-format
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:158
+#, perl-format
 msgid "Failed to parse line in %s: %s"
-msgstr "misslyckades att tolka en rad i %s: %s"
+msgstr "Misslyckades att tolka en rad i %s: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:189
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:190
 #, perl-format
 msgid "Failed to parse a line in %s: %s"
 msgstr "misslyckades att tolka en rad i %s: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:204
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:205
 #, perl-format
 msgid "Tried to merge the same object (%s) twice in a symfile."
 msgstr "Försökte slå ihop samma objekt (%s) två gånger i en symfil."
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:261
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:262
 msgid "Can't merge symbols from objects without SONAME."
 msgstr "Kan inte slå ihop symboler från objekt utan SONAMN."
 
@@ -2431,11 +2414,6 @@ msgstr "ignorerar borttagning av katalogen %s"
 #, perl-format
 msgid "ignoring deletion of symlink %s"
 msgstr "ignorerar borttagning av symboliska länken %s"
-
-#: scripts/Dpkg/Source/Patch.pm:250
-#, perl-format
-msgid "cannot close %s"
-msgstr "kan inte stänga %s"
 
 #: scripts/Dpkg/Source/Patch.pm:262 scripts/Dpkg/Source/Package/V2.pm:310
 #, perl-format
@@ -3114,9 +3092,9 @@ msgid "unknown substitution variable ${%s}"
 msgstr "okänd substitueringsvariabel ${%s}"
 
 #: scripts/Dpkg/Substvars.pm:239
-#, fuzzy, perl-format
+#, perl-format
 msgid "unused substitution variable ${%s}"
-msgstr "okänd substitueringsvariabel ${%s}"
+msgstr "oanvänd substitueringsvariabel ${%s}"
 
 #: scripts/Dpkg/Vars.pm:33
 #, perl-format
@@ -3153,6 +3131,33 @@ msgstr ""
 #, perl-format
 msgid "version number contains illegal character `%s'"
 msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
+
+#~ msgid "%s has PGP start token but not end token"
+#~ msgstr "%s har inledande men inte avslutande PGP-märke"
+
+#~ msgid "can't read %s: %s"
+#~ msgstr "kan inte läsa %s: %s"
+
+#~ msgid "error reading from %s: %s"
+#~ msgstr "fel vid läsning från %s: %s"
+
+#~ msgid "error closing %s: %s"
+#~ msgstr "fel vid stängning av %s: %s"
+
+#~ msgid "%s invalid (contains blank line)"
+#~ msgstr "%s ogiltig (innehåller blank rad)"
+
+#~ msgid "invalid field in %s: %s"
+#~ msgstr "ogiltigt fält i %s: %s"
+
+#~ msgid "duplicate source field in %s"
+#~ msgstr "duplicerat källkodsfält i %s"
+
+#~ msgid "invalid source field in %s"
+#~ msgstr "ogiltigt källkodsfält i %s"
+
+#~ msgid "duplicate binary field in %s"
+#~ msgstr "duplicerat binärfält i %s"
 
 #~ msgid "Strange text from 'md5sum < %s': '%s'"
 #~ msgstr "Underlig text från \"md5sum < %s\": \"%s\""
