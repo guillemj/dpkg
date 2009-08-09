@@ -594,9 +594,12 @@ int tarobject(struct TarInfo *ti) {
 	  keepexisting = 1;
         } else {
           if (!statr && S_ISDIR(stab.st_mode)) {
-            forcibleerr(fc_overwritedir, _("trying to overwrite directory `%.250s' "
-                        "in package %.250s with nondirectory"),
-                        nifd->namenode->name,otherpkg->name);
+            forcibleerr(fc_overwritedir,
+                        _("trying to overwrite directory '%.250s' "
+                          "in package %.250s %.250s with nondirectory"),
+                        nifd->namenode->name, otherpkg->name,
+                        versiondescribe(&otherpkg->installed.version,
+                                        vdew_always));
           } else {
             /* WTA: At this point we are replacing something without a Replaces.
 	     * if the new object is a directory and the previous object does not
@@ -604,8 +607,11 @@ int tarobject(struct TarInfo *ti) {
 	     */
             if (! (statr && ti->Type==Directory))
               forcibleerr(fc_overwrite,
-                        _("trying to overwrite `%.250s', which is also in package %.250s"),
-                        nifd->namenode->name,otherpkg->name);
+                          _("trying to overwrite '%.250s', "
+                            "which is also in package %.250s %.250s"),
+                          nifd->namenode->name, otherpkg->name,
+                          versiondescribe(&otherpkg->installed.version,
+                                          vdew_always));
           }
         }
       }
