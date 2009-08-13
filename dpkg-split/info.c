@@ -125,8 +125,8 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   ir->package = nfstrsave(nextline(&rip, fn, _("package name")));
   ir->version = nfstrsave(nextline(&rip, fn, _("package version number")));
   ir->md5sum = nfstrsave(nextline(&rip, fn, _("package file MD5 checksum")));
-  if (strlen(ir->md5sum) != 32 ||
-      strspn(ir->md5sum,"0123456789abcdef") != 32)
+  if (strlen(ir->md5sum) != MD5HASHLEN ||
+      strspn(ir->md5sum, "0123456789abcdef") != MD5HASHLEN)
     ohshit(_("file `%.250s' is corrupt - bad MD5 checksum `%.250s'"),fn,ir->md5sum);
 
   ir->orglength = unsignedlong(nextline(&rip, fn, _("total length")), fn,
