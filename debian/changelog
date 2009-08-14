@@ -52,6 +52,11 @@ dpkg (1.15.4) UNRELEASED; urgency=low
     Millan for the patch. Closes: #537559
   * Update sample in dpkg-gensymbols(1) to give an accurate listing of
     64 bit arches. Thanks to Julien Cristau for the patch. Closes: #540382
+  * Create /etc/cron.daily/dpkg to handle the backup of
+    /var/lib/dpkg/status in /var/backups. This is taken out of the cron
+    package and need no conflicts/breaks as the code does nothing if
+    the current status file is already backupped. Thanks to Leo 'costela'
+    Antunes <costela@debian.org> for the patch. Closes: #541412
 
   [ Modestas Vainius ]
   * Provide a meaningful label for dpkg-gensymbols diff.

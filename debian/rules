@@ -84,6 +84,7 @@ binary-arch: install
 	dh_testdir -a
 	dh_testroot -a
 	dh_install --sourcedir=debian/tmp -a
+	dh_installcron -a
 	dh_installlogrotate -a
 
 	install -d debian/dpkg/sbin
@@ -107,7 +108,7 @@ binary-indep: install
 	dh_testdir -i
 	dh_testroot -i
 	dh_install --sourcedir=debian/tmp -i -XDpkg/Gettext.pm
-
+	dh_installcron -i
 	dh_installchangelogs -i ChangeLog*
 	dh_installdocs -i
 	dh_link -i
