@@ -105,6 +105,10 @@ The Debian architecture of the build machine.
 The Debian system name of the build machine.
 .IP "\s-1DEB_BUILD_ARCH_CPU\s0" 4
 The Debian cpu name of the build machine.
+.IP "\s-1DEB_BUILD_ARCH_BITS\s0" 4
+The pointer size of the build machine (in bits).
+.IP "\s-1DEB_BUILD_ARCH_ENDIAN\s0" 4
+The endianness of the build machine (little / big).
 .IP "\s-1DEB_BUILD_GNU_TYPE\s0" 4
 The \s-1GNU\s0 system type of the build machine.
 .IP "\s-1DEB_BUILD_GNU_CPU\s0" 4
@@ -117,6 +121,10 @@ The Debian architecture of the host machine.
 The Debian system name of the host machine.
 .IP "\s-1DEB_HOST_ARCH_CPU\s0" 4
 The Debian cpu name of the host machine.
+.IP "\s-1DEB_BUILD_ARCH_BITS\s0" 4
+The pointer size of the host machine (in bits).
+.IP "\s-1DEB_BUILD_ARCH_ENDIAN\s0" 4
+The endianness of the host machine (little / big).
 .IP "\s-1DEB_HOST_GNU_TYPE\s0" 4
 The \s-1GNU\s0 system type of the host machine.
 .IP "\s-1DEB_HOST_GNU_CPU\s0" 4
@@ -179,11 +187,14 @@ Especially the \-\-print\-architecture option is unreliable since we have
 Debian architectures which don't equal a processor name.
 .
 .SH "BACKWARD COMPATIBILITY"
-The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were only introduced
-in relatively recent versions of \fBdpkg\-architecture\fR (since dpkg 1.13.2),
-before this \fIdebian/rules\fR files tended to check the values of the
-DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which have been subject
-to change.
+The DEB_*_ARCH_BITS and DEB_*_ARCH_ENDIAN variables were introduced
+in dpkg-dev 1.15.4. Using them in \fIdebian/rules\fR thus requires a
+build-dependency on dpkg-dev (>= 1.15.4).
+.PP
+The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were introduced
+in dpkg-dev 1.13.2. Before this \fIdebian/rules\fR files tended to check
+the values of the DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which
+have been subject to change.
 .PP
 Where \fIdebian/rules\fR files check these variables to decide how or what
 to compile, this should be updated to use the new variables and values.

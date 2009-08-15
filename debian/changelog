@@ -61,6 +61,13 @@ dpkg (1.15.4) UNRELEASED; urgency=low
     information if the version provided is older than the one already listed
     in the available file. Thanks to Ian Jackson
     <ian@davenant.greenend.org.uk> for the patch. Closes: #496114
+  * dpkg-architecture can now export DEB_{HOST,BUILD}_ARCH_{BITS,ENDIAN}
+    (pointer size and endianness):
+    - cputable (in dpkg) modified to contain those information
+    - dpkg-dev depends on dpkg (>= 1.15.4) to ensure that we have an updated
+      cputable (and so that a versioned build-dependency on dpkg-dev is enough
+      to use this new feature)
+    Closes: #531307
 
   [ Modestas Vainius ]
   * Provide a meaningful label for dpkg-gensymbols diff.

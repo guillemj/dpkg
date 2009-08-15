@@ -126,10 +126,10 @@ while (@ARGV) {
 my %v;
 
 my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
-                 DEB_BUILD_ARCH_BITS DEB_BUILD_ARCH_ENDIANNESS
+                 DEB_BUILD_ARCH_BITS DEB_BUILD_ARCH_ENDIAN
                  DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE
                  DEB_HOST_ARCH DEB_HOST_ARCH_OS DEB_HOST_ARCH_CPU
-                 DEB_HOST_ARCH_BITS DEB_HOST_ARCH_ENDIANNESS
+                 DEB_HOST_ARCH_BITS DEB_HOST_ARCH_ENDIAN
                  DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE);
 
 $v{DEB_BUILD_ARCH} = get_raw_build_arch();
@@ -183,8 +183,8 @@ my $abi;
 ($v{DEB_HOST_GNU_CPU}, $v{DEB_HOST_GNU_SYSTEM}) = split(/-/, $v{DEB_HOST_GNU_TYPE}, 2);
 ($v{DEB_BUILD_GNU_CPU}, $v{DEB_BUILD_GNU_SYSTEM}) = split(/-/, $v{DEB_BUILD_GNU_TYPE}, 2);
 
-($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIANNESS}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH});
-($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIANNESS}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH});
+($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH});
+($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH});
 
 for my $k (@ordered) {
     $v{$k} = $ENV{$k} if (defined ($ENV{$k}) && !$force);
