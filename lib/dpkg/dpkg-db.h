@@ -338,7 +338,8 @@ enum parsedbflags {
   pdb_recordavailable   =001, /* Store in `available' in-core structures, not `status' */
   pdb_rejectstatus      =002, /* Throw up an error if `Status' encountered             */
   pdb_weakclassification=004, /* Ignore priority/section info if we already have any   */
-  pdb_ignorefiles       =010  /* Ignore files info if we already have them             */
+  pdb_ignorefiles       =010, /* Ignore files info if we already have them             */
+  pdb_ignoreolder       =020  /* Ignore packages with older versions already read      */
 };
 
 const char *illegal_packagename(const char *p, const char **ep);
