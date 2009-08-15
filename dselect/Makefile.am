@@ -3,7 +3,7 @@
 SUBDIRS = methods po
 
 localedir = $(datadir)/locale
-INCLUDES = \
+AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
 	-DLOCALLIBDIR=\"/usr/local/lib/dpkg\" \

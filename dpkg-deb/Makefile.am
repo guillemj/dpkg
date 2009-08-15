@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = \
+AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
