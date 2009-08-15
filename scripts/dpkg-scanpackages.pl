@@ -67,7 +67,7 @@ Options:
   -u, --udeb               scan for udebs (obsolete alias for -tudeb).
   -a, --arch <arch>        architecture to scan for.
   -m, --multiversion       allow multiple versions of a single package.
-  -e, --extraoverride <file> extra override file
+  -e, --extraoverride <file> extra override file.
   -h, --help               show this help message.
       --version            show the version.
 "), $progname;
