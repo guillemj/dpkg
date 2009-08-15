@@ -1,12 +1,12 @@
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
+AC_PREREQ(2.60)
 AC_INIT([dpkg], [1.15.4~], [debian-dpkg@lists.debian.org])
 AC_CONFIG_SRCDIR([lib/dpkg/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
 
-AC_GNU_SOURCE
+AC_USE_SYSTEM_EXTENSIONS
 DPKG_ARCHITECTURE
 
 AM_INIT_AUTOMAKE([1.8 gnu nostdinc])
