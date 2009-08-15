@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-07-22 10:30+0200\n"
-"PO-Revision-Date: 2009-07-22 10:33+0200\n"
+"POT-Creation-Date: 2009-08-15 10:09+0200\n"
+"PO-Revision-Date: 2009-08-15 17:50+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: scripts/dpkg-distaddfile.pl:18 scripts/dpkg-genchanges.pl:89
 #: scripts/dpkg-gencontrol.pl:45 scripts/dpkg-gensymbols.pl:32
 #: scripts/dpkg-name.pl:48 scripts/dpkg-parsechangelog.pl:19
-#: scripts/dpkg-scanpackages.pl:56 scripts/dpkg-scansources.pl:79
+#: scripts/dpkg-scanpackages.pl:57 scripts/dpkg-scansources.pl:79
 #: scripts/dpkg-shlibdeps.pl:502 scripts/dpkg-source.pl:348
 #: scripts/changelog/debian.pl:19
 #, perl-format
@@ -1108,7 +1108,7 @@ msgstr ""
 msgid "%s takes no non-option arguments"
 msgstr "%s akzeptiert kein nicht-Options-Argument"
 
-#: scripts/dpkg-scanpackages.pl:62
+#: scripts/dpkg-scanpackages.pl:63
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
@@ -1119,6 +1119,7 @@ msgid ""
 "  -u, --udeb               scan for udebs (obsolete alias for -tudeb).\n"
 "  -a, --arch <arch>        architecture to scan for.\n"
 "  -m, --multiversion       allow multiple versions of a single package.\n"
+"  -e, --extraoverride <file> extra override file.\n"
 "  -h, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
@@ -1128,62 +1129,63 @@ msgstr ""
 "Optionen:\n"
 "  -t, --type <Typ>         suche nach <Typ>-Paketen (standardmäßig »deb«).\n"
 "  -u, --udeb               suche nach udebs (veralteter Alias für -tudeb).\n"
-"  -a, --arch <Arch>        suche für Architektur <Arch>.\n"
+"  -a, --arch <Arch>        Architektur, nach der gesucht werden soll.\n"
 "  -m, --multiversion       erlaube mehrere Versionen eines einzelnen "
 "Pakets.\n"
+"  -e, --extraoverride <Datei> zusätzliche Override-Datei.\n"
 "  -h, --help               zeige diese Hilfemeldung.\n"
 "      --version            zeige die Version.\n"
 
-#: scripts/dpkg-scanpackages.pl:76
+#: scripts/dpkg-scanpackages.pl:78
 msgid "-u, --udeb option is deprecated (see README.feature-removal-schedule)"
 msgstr ""
 "Option -u, --udeb ist veraltet (lesen Sie README.feature-removal-schedule)"
 
-#: scripts/dpkg-scanpackages.pl:84
+#: scripts/dpkg-scanpackages.pl:86 scripts/dpkg-scanpackages.pl:132
 #, perl-format
 msgid "Couldn't open override file %s"
 msgstr "konnte override-Datei %s nicht öffnen"
 
-#: scripts/dpkg-scanpackages.pl:106
+#: scripts/dpkg-scanpackages.pl:108
 #, perl-format
 msgid "  %s (package says %s, not %s)"
 msgstr "  %s (laut Paket %s, nicht %s)"
 
-#: scripts/dpkg-scanpackages.pl:114
+#: scripts/dpkg-scanpackages.pl:116
 #, perl-format
 msgid "Unconditional maintainer override for %s"
 msgstr "Bedingungsloser Übersteuerung (»override«) des Betreuers für %s"
 
-#: scripts/dpkg-scanpackages.pl:130
+#: scripts/dpkg-scanpackages.pl:154
 msgid "1 to 3 args expected"
 msgstr "1 bis 3 Argumente erwartet"
 
-#: scripts/dpkg-scanpackages.pl:148
+#: scripts/dpkg-scanpackages.pl:172
 #, perl-format
 msgid "Binary dir %s not found"
 msgstr "Binärverzeichnis %s nicht gefunden"
 
-#: scripts/dpkg-scanpackages.pl:150
+#: scripts/dpkg-scanpackages.pl:174
 #, perl-format
 msgid "Override file %s not found"
 msgstr "Override-Datei %s nicht gefunden"
 
-#: scripts/dpkg-scanpackages.pl:164
+#: scripts/dpkg-scanpackages.pl:188
 #, perl-format
 msgid "Couldn't open %s for reading"
 msgstr "Konnte %s nicht zum Lesen öffnen"
 
-#: scripts/dpkg-scanpackages.pl:171
+#: scripts/dpkg-scanpackages.pl:195
 #, perl-format
 msgid "Couldn't call dpkg-deb on %s: %s, skipping package"
 msgstr "Konnte dpkg-deb auf %s nicht aufrufen: %s, überspringe Paket"
 
-#: scripts/dpkg-scanpackages.pl:176
+#: scripts/dpkg-scanpackages.pl:200
 #, perl-format
 msgid "`dpkg-deb -I %s control' exited with %d, skipping package"
 msgstr "»dpkg-deb -I %s control« beendete sich mit %d, überspringe Paket"
 
-#: scripts/dpkg-scanpackages.pl:190
+#: scripts/dpkg-scanpackages.pl:214
 #, perl-format
 msgid ""
 "Unprocessed text from %s control file; info:\n"
@@ -1192,61 +1194,61 @@ msgstr ""
 "Unbearbeiteter Text aus %s Steuerdatei; Information:\n"
 "%s / %s"
 
-#: scripts/dpkg-scanpackages.pl:194
+#: scripts/dpkg-scanpackages.pl:218
 #, perl-format
 msgid "No Package field in control file of %s"
 msgstr "Kein »Package«-Feld in Steuerdatei von %s"
 
-#: scripts/dpkg-scanpackages.pl:200
+#: scripts/dpkg-scanpackages.pl:224
 #, perl-format
 msgid "Package %s (filename %s) is repeat but newer version;"
 msgstr "Paket %s (Dateiname %s) ist wiederholt aber neuere Version;"
 
-#: scripts/dpkg-scanpackages.pl:202
+#: scripts/dpkg-scanpackages.pl:226
 #, perl-format
 msgid "used that one and ignored data from %s!"
 msgstr "verwendete dieses und ignorierte Daten aus %s!"
 
-#: scripts/dpkg-scanpackages.pl:206
+#: scripts/dpkg-scanpackages.pl:230
 #, perl-format
 msgid "Package %s (filename %s) is repeat;"
 msgstr "Paket %s (Dateiname %s) ist wiederholt;"
 
-#: scripts/dpkg-scanpackages.pl:207
+#: scripts/dpkg-scanpackages.pl:231
 #, perl-format
 msgid "ignored that one and using data from %s!"
 msgstr "ignorierte dieses und verwende Daten aus %s!"
 
-#: scripts/dpkg-scanpackages.pl:213
+#: scripts/dpkg-scanpackages.pl:237
 #, perl-format
 msgid "Package %s (filename %s) has Filename field!"
 msgstr "Paket %s (Dateiname %s) hat Feld Filename!"
 
-#: scripts/dpkg-scanpackages.pl:251
+#: scripts/dpkg-scanpackages.pl:276
 msgid "Failed when writing stdout"
 msgstr "Fehler beim Schreiben nach Stdout"
 
-#: scripts/dpkg-scanpackages.pl:254
+#: scripts/dpkg-scanpackages.pl:279
 msgid "Couldn't close stdout"
 msgstr "konnte Stdout nicht schließen"
 
-#: scripts/dpkg-scanpackages.pl:257
+#: scripts/dpkg-scanpackages.pl:282
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr "Pakete in Override-Datei mit ungültigem alten Betreuer-Wert:"
 
-#: scripts/dpkg-scanpackages.pl:261
+#: scripts/dpkg-scanpackages.pl:286
 msgid "Packages specifying same maintainer as override file:"
 msgstr "Pakete spezifizieren gleichen Betreuer wie Override-Datei:"
 
-#: scripts/dpkg-scanpackages.pl:265
+#: scripts/dpkg-scanpackages.pl:290
 msgid "Packages in archive but missing from override file:"
 msgstr "Pakete im Archiv, die aber in Override-Datei fehlen:"
 
-#: scripts/dpkg-scanpackages.pl:269
+#: scripts/dpkg-scanpackages.pl:294
 msgid "Packages in override file but not in archive:"
 msgstr "Pakete in Override-Datei aber nicht im Archiv:"
 
-#: scripts/dpkg-scanpackages.pl:273
+#: scripts/dpkg-scanpackages.pl:298
 #, perl-format
 msgid "Wrote %s entries to output Packages file."
 msgstr "%s Einträge in Ausgabe-Paketdatei geschrieben."
