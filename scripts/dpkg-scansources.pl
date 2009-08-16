@@ -48,6 +48,7 @@ sub O_PRIORITY		() { 0 }
 sub O_SECTION		() { 1 }
 sub O_MAINT_FROM	() { 2 } # undef for non-specific, else listref
 sub O_MAINT_TO		() { 3 } # undef if there's no maint override
+my %Extra_Override;
 
 my %Priority = (
      'extra'		=> 1,
@@ -62,12 +63,14 @@ my %Priority = (
 my $Debug	= 0;
 my $No_sort	= 0;
 my $Src_override = undef;
+my $Extra_override_file = undef;
 
 my @Option_spec = (
     'debug!'		=> \$Debug,
     'help!'		=> \&usage,
     'no-sort|n'		=> \$No_sort,
     'source-override|s=s' => \$Src_override,
+    'extra-override|e=s' => \$Extra_override_file,
     'version'		=> \&version,
 );
 
@@ -86,6 +89,8 @@ sub usage {
 
 Options:
   -n, --no-sort            don't sort by package before outputting.
+  -e, --extra-override <file>
+                           use extra override file.
   -s, --source-override <file>
                            use file for additional source overrides, default
                            is regular override file with .src appended.
@@ -221,6 +226,23 @@ sub load_src_override {
     close SRC_OVERRIDE or syserr(_g("error closing source override file"));
 }
 
+sub load_override_extra
+{
+    my $extra_override = shift;
+    open(OVERRIDE, "<", $extra_override) or
+        syserr(_g("Couldn't open override file %s"), $extra_override);
+
+    while (<OVERRIDE>) {
+	s/\#.*//;
+	s/\s+$//;
+	next unless $_;
+
+	my ($p, $field, $value) = split(/\s+/, $_, 3);
+        $Extra_Override{$p}{$field} = $value;
+    }
+    close(OVERRIDE);
+}
+
 # Given PREFIX and DSC-FILE, process the file and returns the fields.
 
 sub process_dsc {
@@ -280,6 +302,14 @@ sub process_dsc {
         }
     }
 
+    # Process extra override
+    if (exists $Extra_Override{$source}) {
+        my ($field, $value);
+        while(($field, $value) = each %{$Extra_Override{$source}}) {
+            $fields->{$field} = $value;
+        }
+    }
+
     # A directory field will be inserted just before the files field.
     my $dir;
     $dir = ($file =~ s-(.*)/--) ? $1 : '';
@@ -323,6 +353,7 @@ sub main {
 
     load_override $override if defined $override;
     load_src_override $Src_override, $override;
+    load_extra_override $Extra_override_file if defined $Extra_override_file;
 
     open FIND, "find \Q$dir\E -follow -name '*.dsc' -print |"
 	or syserr(_g("can't fork"));
