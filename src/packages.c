@@ -169,7 +169,7 @@ void packages(const char *const *argv) {
 void process_queue(void) {
   struct pkginqueue *removeent, *rundown;
   struct pkginfo *volatile pkg;
-  enum action action_todo;
+  volatile enum action action_todo;
   jmp_buf ejbuf;
   enum istobes istobe= itb_normal;
   
