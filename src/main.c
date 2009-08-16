@@ -368,7 +368,8 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 	  if (fip->opt)
 	    *fip->opt= cip->arg;
       } else
-	badusage(_("unknown force/refuse option `%.*s'"), min(l, 250), value);
+	badusage(_("unknown force/refuse option `%.*s'"),
+	         (int)min(l, 250), value);
     } else {
       if (fip->opt)
 	*fip->opt= cip->arg;
