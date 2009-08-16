@@ -46,12 +46,12 @@ my %options = (help            => sub { usage(); exit 0; },
 	       udeb            => \&set_type_udeb,
 	       arch            => undef,
 	       multiversion    => 0,
-	       extraoverride   => undef,
+	       'extra-override'=> undef,
 	      );
 
 my $result = GetOptions(\%options,
                         'help|h|?', 'version', 'type|t=s', 'udeb|u!',
-                        'arch|a=s', 'multiversion|m!', 'extraoverride|e=s');
+                        'arch|a=s', 'multiversion|m!', 'extra-override|e=s');
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -67,7 +67,8 @@ Options:
   -u, --udeb               scan for udebs (obsolete alias for -tudeb).
   -a, --arch <arch>        architecture to scan for.
   -m, --multiversion       allow multiple versions of a single package.
-  -e, --extraoverride <file> extra override file.
+  -e, --extra-override <file>
+                           use extra override file.
   -h, --help               show this help message.
       --version            show the version.
 "), $progname;
@@ -128,8 +129,9 @@ sub load_override
 
 sub load_override_extra
 {
-    my $override_fh = new IO::File $options{extraoverride}, 'r' or
-        syserr(_g("Couldn't open override file %s"), $options{extraoverride});
+    my $extra_override = shift;
+    my $override_fh = new IO::File $extra_override, 'r' or
+        syserr(_g("Couldn't open override file %s"), $extra_override);
 
     while (<$override_fh>) {
 	s/\#.*//;
@@ -256,7 +258,7 @@ FILE:
 close($find_h);
 
 load_override($override) if defined $override;
-load_override_extra($options{extraoverride}) if defined $options{extraoverride};
+load_override_extra($options{'extra-override'}) if defined $options{'extra-override'};
 
 my @missingover=();
 
