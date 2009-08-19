@@ -793,7 +793,7 @@ void process_archive(const char *filename) {
   debug(dbg_general, "process_archive updating info directory");
   varbufreset(&infofnvb);
   varbufaddstr(&infofnvb,admindir);
-  varbufaddstr(&infofnvb,"/" INFODIR "/");
+  varbufaddstr(&infofnvb, "/" INFODIR);
   infodirlen= infofnvb.used;
   varbufaddc(&infofnvb,0);
   dsd= opendir(infofnvb.buf);

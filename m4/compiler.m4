@@ -35,9 +35,10 @@ fi])dnl
 # Check whether the C compiler supports __attribute__, defines HAVE_C_ATTRIBUTE
 AC_DEFUN([DPKG_C_ATTRIBUTE],
 [AC_CACHE_CHECK([whether compiler supports __attribute__], [dpkg_cv_attribute],
-[AC_TRY_COMPILE([],
-[extern int testfunction(int x) __attribute__((unused))
-],
+	[AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+		[[]],
+		[[extern int testfunction(int x) __attribute__((unused))]]
+	)],
 	[dpkg_cv_attribute=yes],
 	[dpkg_cv_attribute=no])])
 AS_IF([test "x$dpkg_cv_attribute" = "xyes"],
@@ -50,7 +51,7 @@ AS_IF([test "x$dpkg_cv_attribute" = "xyes"],
 # ------------------------------------------------------
 # Try compiling some C99 code to see whether it works
 AC_DEFUN([DPKG_TRY_C99],
-[AC_TRY_COMPILE([
+[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <stdio.h>
 #include <stdbool.h>
 #include <inttypes.h>
@@ -58,8 +59,8 @@ AC_DEFUN([DPKG_TRY_C99],
 
 /* Variadic macro arguments */
 #define variadic_macro(foo, ...) printf(foo, __VA_ARGS__)
-],
-[
+]],
+[[
 	/* Compound initialisers */
 	struct { int a, b; } foo = { .a = 1, .b = 2 };
 
@@ -75,7 +76,7 @@ AC_DEFUN([DPKG_TRY_C99],
 
 	/* Magic __func__ variable */
 	printf("%s", __func__);
-], [$1], [$2])dnl
+]])], [$1], [$2])dnl
 ])# DPKG_TRY_C99
 
 # DPKG_C_C99

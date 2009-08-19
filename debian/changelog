@@ -12,7 +12,7 @@ dpkg (1.15.4) UNRELEASED; urgency=low
     handled already by “dpkg-deb -I”.
   * Properly mark packages being purged for disappearance from the database.
     This will make the status database not be left behind with traces of old
-    not-installed packages.
+    not-installed packages. Closes: #472208
   * On parse mark not-installed leftover packages for automatic removal from
     the database on next dump. This obsoletes the --forget-old-unavail option,
     thus making it now a no-op. Closes: #33394, #429262
@@ -26,6 +26,11 @@ dpkg (1.15.4) UNRELEASED; urgency=low
   * Add uClibc Linux support to ostable and triplettable. Closes: #455501
   * Add uClinux support to ostable and triplettable.
     Thanks to Simon Richter <sjr@debian.org>.
+  * When aborting due to file conflicts print the version of the conflicted
+    package. Closes: #540019
+  * Remove double slash in database path visible to the user in some error
+    conditions.
+  * Stop macthing sparc64-*-* GNU triplets with sparc Debian architecture.
 
   [ Raphael Hertzog ]
   * Replace install-info by a wrapper around GNU's install-info. The wrapper
@@ -44,6 +49,31 @@ dpkg (1.15.4) UNRELEASED; urgency=low
     Closes: #537800
   * Fix update-alternatives to mention the correct slave link that can't
     be installed due to a conflicting file instead of quoting the master link.
+  * Add support for extra override file in dpkg-scanpackages. Thanks to Robert
+    Millan for the patch. Closes: #537559
+  * Add support for extra override file in dpkg-scansources.
+  * Document format of extra override file in a new manual page
+    deb-extra-override(5).
+  * Update sample in dpkg-gensymbols(1) to give an accurate listing of
+    64 bit arches. Thanks to Julien Cristau for the patch. Closes: #540382
+  * Create /etc/cron.daily/dpkg to handle the backup of
+    /var/lib/dpkg/status in /var/backups. This is taken out of the cron
+    package and need no conflicts/breaks as the code does nothing if
+    the current status file is already backupped. Thanks to Leo 'costela'
+    Antunes <costela@debian.org> for the patch. Closes: #541412
+  * Change behaviour of dpkg --merge-avail to not update a package's
+    information if the version provided is older than the one already listed
+    in the available file. Thanks to Ian Jackson
+    <ian@davenant.greenend.org.uk> for the patch. Closes: #496114
+  * dpkg-architecture can now export DEB_{HOST,BUILD}_ARCH_{BITS,ENDIAN}
+    (pointer size and endianness):
+    - cputable (in dpkg) modified to contain those information
+    - dpkg-dev depends on dpkg (>= 1.15.4) to ensure that we have an updated
+      cputable (and so that a versioned build-dependency on dpkg-dev is enough
+      to use this new feature)
+    Closes: #531307
+  * Split overly long Binary: field values over multiple lines. This is
+    allowed since policy 3.8.3. Closes: #494714
 
   [ Modestas Vainius ]
   * Provide a meaningful label for dpkg-gensymbols diff.
@@ -62,8 +92,8 @@ dpkg (1.15.4) UNRELEASED; urgency=low
   * Slovak (Ivan Masár). Closes: #537741
 
   [ Updated man page translations ]
-  * German (Helge Kreutzmann), proofreading by Jens Seidel.
   * French completed (Christian Perrier).
+  * German (Helge Kreutzmann), proofreading by Jens Seidel.
   * Swedish (Peter Krefting).
 
   [ Updated scripts translations ]

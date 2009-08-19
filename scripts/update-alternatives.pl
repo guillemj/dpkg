@@ -258,7 +258,7 @@ if ($alternative->has_current_link()) {
     # Detect manually modified alternative, switch to manual
     if (not $alternative->has_choice($current_choice)) {
         if (not -e $current_choice) {
-            warning("%s is dangling, it will be updated with best choice.",
+            warning(_g("%s is dangling, it will be updated with best choice."),
                     "$altdir/" . $alternative->name());
             $alternative->set_status('auto');
         } elsif ($alternative->status() ne "manual") {

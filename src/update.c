@@ -84,7 +84,8 @@ void updateavailable(const char *const *argv) {
     parsedb(vb.buf, pdb_recordavailable | pdb_rejectstatus, NULL, NULL, NULL);
 
   if (cipaction->arg != act_avclear)
-    count += parsedb(sourcefile, pdb_recordavailable | pdb_rejectstatus,
+    count += parsedb(sourcefile,
+		     pdb_recordavailable | pdb_rejectstatus | pdb_ignoreolder,
                      NULL, NULL, NULL);
 
   if (!f_noact) {

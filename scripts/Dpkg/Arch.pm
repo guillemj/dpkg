@@ -7,6 +7,7 @@ use base qw(Exporter);
 our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     get_build_arch get_host_arch get_gcc_host_gnu_type
                     get_valid_arches debarch_eq debarch_is
+                    debarch_to_cpuattrs
                     debarch_to_gnutriplet gnutriplet_to_debarch
                     debtriplet_to_gnutriplet gnutriplet_to_debtriplet
                     debtriplet_to_debarch debarch_to_debtriplet);
@@ -18,6 +19,7 @@ use Dpkg::ErrorHandling;
 my (@cpu, @os);
 my (%cputable, %ostable);
 my (%cputable_re, %ostable_re);
+my (%cpubits, %cpuendian);
 
 my %debtriplet_to_debarch;
 my %debarch_to_debtriplet;
@@ -119,9 +121,11 @@ sub read_cputable
     open CPUTABLE, "$pkgdatadir/cputable"
 	or syserr(_g("unable to open cputable"));
     while (<CPUTABLE>) {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
+	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
 	    $cputable_re{$1} = $3;
+	    $cpubits{$1} = $4;
+	    $cpuendian{$1} = $5;
 	    push @cpu, $1;
 	}
     }
@@ -284,6 +288,18 @@ sub debwildcard_to_debtriplet($)
 	}
     } else {
 	return debarch_to_debtriplet($_);
+    }
+}
+
+sub debarch_to_cpuattrs($)
+{
+    my ($arch) = @_;
+    my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
+
+    if (defined($cpu)) {
+        return ($cpubits{$cpu}, $cpuendian{$cpu});
+    } else {
+        return undef;
     }
 }
 

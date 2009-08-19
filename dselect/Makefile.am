@@ -3,7 +3,7 @@
 SUBDIRS = methods po
 
 localedir = $(datadir)/locale
-INCLUDES = \
+AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
 	-DLOCALLIBDIR=\"/usr/local/lib/dpkg\" \
@@ -51,7 +51,7 @@ CLEANFILES = curkeys.h
 curkeys.$(OBJEXT): curkeys.h
 curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl
 	cursesfile=`echo '#include "dselect-curses.h"' | \
-		$(CPP) -I$(top_srcdir) -I$(srcdir) - | \
+		$(CPP) -I$(top_builddir) -I $(srcdir) - | \
 		grep 'curses.h' | head -n 1 | \
 		sed -e 's/^[^"]*"//; s/".*$$//'`; \
 	if [ "$$cursesfile" = "" ]; then \

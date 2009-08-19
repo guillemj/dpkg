@@ -32,7 +32,7 @@ my @fieldpri = (qw(Package Package-Type Source Version Kernel-Version
                    Architecture Subarchitecture Essential Origin Bugs
                    Maintainer Installed-Size Installer-Menu-Item),
                 @pkg_dep_fields, qw(Filename Size), @sums,
-                qw(Section Priority Homepage Description Tag));
+                qw(Section Priority Homepage Description Tag Task));
 
 # This maps the fields into the proper case
 my %field_case;
@@ -46,11 +46,12 @@ my %options = (help            => sub { usage(); exit 0; },
 	       udeb            => \&set_type_udeb,
 	       arch            => undef,
 	       multiversion    => 0,
+	       'extra-override'=> undef,
 	      );
 
 my $result = GetOptions(\%options,
                         'help|h|?', 'version', 'type|t=s', 'udeb|u!',
-                        'arch|a=s', 'multiversion|m!');
+                        'arch|a=s', 'multiversion|m!', 'extra-override|e=s');
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -66,6 +67,8 @@ Options:
   -u, --udeb               scan for udebs (obsolete alias for -tudeb).
   -a, --arch <arch>        architecture to scan for.
   -m, --multiversion       allow multiple versions of a single package.
+  -e, --extra-override <file>
+                           use extra override file.
   -h, --help               show this help message.
       --version            show the version.
 "), $progname;
@@ -119,6 +122,29 @@ sub load_override
 	    $$package{Section} = $section;
 	}
 	$overridden{$p} = 1;
+    }
+
+    close($override_fh);
+}
+
+sub load_override_extra
+{
+    my $extra_override = shift;
+    my $override_fh = new IO::File $extra_override, 'r' or
+        syserr(_g("Couldn't open override file %s"), $extra_override);
+
+    while (<$override_fh>) {
+	s/\#.*//;
+	s/\s+$//;
+	next unless $_;
+
+	my ($p, $field, $value) = split(/\s+/, $_, 3);
+
+	next unless defined($packages{$p});
+
+	for my $package (@{$packages{$p}}) {
+	    $$package{$field} = $value;
+	}
     }
 
     close($override_fh);
@@ -232,6 +258,7 @@ FILE:
 close($find_h);
 
 load_override($override) if defined $override;
+load_override_extra($options{'extra-override'}) if defined $options{'extra-override'};
 
 my @missingover=();
 

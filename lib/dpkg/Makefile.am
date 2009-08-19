@@ -4,7 +4,7 @@ SUBDIRS = test
 
 localedir = $(datadir)/locale
 pkgconfdir = $(sysconfdir)/@PACKAGE@
-INCLUDES = \
+AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
 	-DCOPYINGFILE=\"$(datadir)/common-licenses/GPL-2\" \

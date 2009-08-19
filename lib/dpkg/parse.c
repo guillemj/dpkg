@@ -328,6 +328,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     pigp= findpackage(newpig.name);
     pifp= (flags & pdb_recordavailable) ? &pigp->available : &pigp->installed;
+
+    if ((flags & pdb_ignoreolder) &&
+	versioncompare(&newpifp->version, &pifp->version) < 0)
+      continue;
+
     if (!pifp->valid) blankpackageperfile(pifp);
 
     /* Copy the priority and section across, but don't overwrite existing

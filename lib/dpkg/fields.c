@@ -53,7 +53,7 @@ convert_string(struct parsedb_state *ps, const char *what, int otherwise,
   if (!nvip->name) {
     if (otherwise != -1) return otherwise;
     parse_error(ps, pigp, _("`%.*s' is not allowed for %s"),
-                strnlen(startp, 50), startp, what);
+                (int)strnlen(startp, 50), startp, what);
   }
 
   ep = startp + nvip->length;

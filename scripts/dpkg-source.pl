@@ -245,6 +245,8 @@ if ($options{'opmode'} eq 'build') {
     }
     
     $fields->{'Binary'} = join(', ', @binarypackages);
+    # Avoid overly long line (>~1000 chars) by splitting over multiple lines
+    $fields->{'Binary'} =~ s/(.{980,}?), ?/$1,\n /g;
 
     # Generate list of formats to try
     my @try_formats = (@cmdline_formats);

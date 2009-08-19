@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2009-07-21 18:52+0300\n"
-"PO-Revision-Date: 2009-07-30 18:37+0200\n"
+"PO-Revision-Date: 2009-08-16 09:28+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -3827,6 +3827,16 @@ msgstr ""
 "oder nicht usw. Lesen Sie den Abschnitt B<INFORMATIONEN ÜBER PAKETE> für "
 "weitere Informationen."
 
+# type: Plain text
+#: ../../man/dpkg.1:583
+msgid ""
+"The status file is backed up daily in I</var/backups>. It can be useful if "
+"it's lost or corrupted due to filesystems troubles."
+msgstr ""
+"Die Statusdatei wird täglich nach I</var/backups> gesichert. Dies kann "
+"hilfreich sein, falls sie aufgrund von Problemen mit dem Dateisystem "
+"verloren gegangen oder beschädigt worden ist."
+
 #. type: Plain text
 #: ../../man2/dpkg.1:583
 msgid ""
@@ -4461,6 +4471,24 @@ msgstr "\\s-1DEB_BUILD_ARCH_CPU\\s0"
 msgid "The Debian cpu name of the build machine."
 msgstr "Der Debian-CPU-Name der Baumaschine."
 
+#: ../../man/dpkg-architecture.1:108 ../../man/dpkg-architecture.1:124
+#, no-wrap
+msgid "\\s-1DEB_BUILD_ARCH_BITS\\s0"
+msgstr "\\s-1DEB_BUILD_ARCH_BITS\\s0"
+
+#: ../../man/dpkg-architecture.1:110
+msgid "The pointer size of the build machine (in bits)."
+msgstr "Die Zeigergröße der Baumaschine in Bits."
+
+#: ../../man/dpkg-architecture.1:110 ../../man/dpkg-architecture.1:126
+#, no-wrap
+msgid "\\s-1DEB_BUILD_ARCH_ENDIAN\\s0"
+msgstr "\\s-1DEB_BUILD_ARCH_ENDIAN\\s0"
+
+#: ../../man/dpkg-architecture.1:112
+msgid "The endianness of the build machine (little / big)."
+msgstr "Die Endianness der Baumaschine (little/big)."
+
 #. type: IP
 #: ../../man2/dpkg-architecture.1:108
 #, no-wrap
@@ -4526,6 +4554,14 @@ msgstr "\\s-1DEB_HOST_ARCH_CPU\\s0"
 #: ../../man2/dpkg-architecture.1:120
 msgid "The Debian cpu name of the host machine."
 msgstr "Der Debian-CPU-Name der Host-Maschine."
+
+#: ../../man/dpkg-architecture.1:126
+msgid "The pointer size of the host machine (in bits)."
+msgstr "Die Zeigergröße der Host-Maschine in Bits."
+
+#: ../../man/dpkg-architecture.1:128
+msgid "The endianness of the host machine (little / big)."
+msgstr "Die Endianness der Host-Maschine (little/big)."
 
 #. type: IP
 #: ../../man2/dpkg-architecture.1:120
@@ -4685,6 +4721,28 @@ msgstr ""
 #, no-wrap
 msgid "BACKWARD COMPATIBILITY"
 msgstr "RÜCKWÄRTSKOMPATIBILITÄT"
+
+# type: Plain text
+#: ../../man/dpkg-architecture.1:193
+msgid ""
+"The DEB_*_ARCH_BITS and DEB_*_ARCH_ENDIAN variables were introduced in dpkg-"
+"dev 1.15.4. Using them in I<debian/rules> thus requires a build-dependency "
+"on dpkg-dev (E<gt>= 1.15.4)."
+msgstr ""
+"Die Variablen DEB_*_ARCH_BITS und DEB_*_ARCH_ENDIAN wurden in dpkg-dev 1.15.4 ""eingeführt. Werden sie in I<debian/rules> verwandt, benötigen sie daher eine "
+"Bauabhängigkeit von dpkg-dev (E<gt>= 1.15.4)."
+
+#: ../../man/dpkg-architecture.1:198
+msgid ""
+"The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were introduced in dpkg-"
+"dev 1.13.2. Before this I<debian/rules> files tended to check the values of "
+"the DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which have been subject "
+"to change."
+msgstr ""
+"Die DEB_HOST_ARCH_CPU- und DEB_HOST_ARCH_OS-Variablen wurden in dpkg-dev "
+"1.13.2 eingeführt. Vorher tendierten die I<debian/rules>-Dateien dazu, die "
+"Werte der DEB_HOST_GNU_CPU- oder DEB_HOST_GNU_TYPE-Variablen zu überprüfen, "
+"die aber Änderungen unterlagen."
 
 #. type: Plain text
 #: ../../man2/dpkg-architecture.1:187
@@ -8261,10 +8319,11 @@ msgstr ""
 #: ../../man2/dpkg-scanpackages.1:64
 msgid ""
 "I<overridefile> is the name of a file to read which contains information "
-"about how the package fits into the distribution; see below."
+"about how the package fits into the distribution; see B<deb-override>(5)."
 msgstr ""
-"I<override-Datei> ist der Name der einzulesenden Datei, die Informationen "
-"darüber enthält, wie das Paket in die Distribution passt; siehe unten."
+"I<override-Datei> ist der Name einer einzulesenden Datei, die Informationen "
+"darüber enthält, wie das Paket in die Distribution passt; siehe "
+"B<deb-override>(5)."
 
 #. type: Plain text
 #: ../../man2/dpkg-scanpackages.1:67
@@ -8306,6 +8365,17 @@ msgstr "B<-u>, B<--udeb>"
 #: ../../man2/dpkg-scanpackages.1:79
 msgid "B<Obsolete> alias for B<-tudeb>."
 msgstr "B<Veralteter> Alias für B<-tudeb>."
+
+msgid "B<-e>, B<--extra-override> I<file>"
+msgstr "B<-e>, B<--extra-override> I<Datei>"
+
+msgid ""
+"Scan I<file> to find supplementary overrides. Each line contains 3 space "
+"separated fields: package name, field name to override, new field value."
+msgstr ""
+"Durchsuche I<Datei> um zusätzliche Overrides zu finden. Jede Zeile enthält "
+"drei durch Leerzeichen getrennte Felder: Paketname, zu überschreibender "
+"Feldname und neuer Feldwert."
 
 #. type: TP
 #: ../../man2/dpkg-scanpackages.1:79
