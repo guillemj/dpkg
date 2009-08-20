@@ -90,15 +90,18 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
       }
     }
 
-    if (!cip->olong) ohshite(_("configuration error: unknown option %s"), linebuf);
+    if (!cip->olong)
+      ohshit(_("configuration error: unknown option %s"), linebuf);
 
     if (cip->takesvalue) {
-      if (!opt) ohshite(_("configuration error: %s needs a value"), linebuf);
+      if (!opt)
+        ohshit(_("configuration error: %s needs a value"), linebuf);
       if (cip->call) cip->call(cip,opt);
       else
         *cip->sassignto = m_strdup(opt);
     } else {
-      if (opt) ohshite(_("configuration error: %s does not take a value"), linebuf);
+      if (opt)
+        ohshit(_("configuration error: %s does not take a value"), linebuf);
       if (cip->call) cip->call(cip,NULL);
       else *cip->iassignto= cip->arg;
     }
