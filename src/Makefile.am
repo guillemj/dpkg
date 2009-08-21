@@ -1,6 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
+pkgconfdir = $(sysconfdir)/@PACKAGE@
+
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" \
@@ -61,6 +63,7 @@ dpkg_trigger_LDADD = \
 	$(LIBINTL)
 
 install-data-local:
+	$(mkdir_p) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
 	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives
 	$(mkdir_p) $(DESTDIR)$(admindir)/info
 	$(mkdir_p) $(DESTDIR)$(admindir)/updates

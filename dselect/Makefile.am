@@ -3,6 +3,8 @@
 SUBDIRS = methods po
 
 localedir = $(datadir)/locale
+pkgconfdir = $(sysconfdir)/@PACKAGE@
+
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
@@ -58,3 +60,6 @@ curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl
 		echo "can't find curses file"; exit 1; \
 	fi; \
 	perl $(srcdir)/mkcurkeys.pl $< $$cursesfile >$@
+
+install-data-local:
+	$(mkdir_p) $(DESTDIR)$(pkgconfdir)/dselect.cfg.d
