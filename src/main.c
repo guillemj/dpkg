@@ -3,6 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -315,6 +316,62 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
   *pipe_head = pipe_new;
 }
 
+static int
+is_invoke_action(enum action action)
+{
+  switch (action) {
+  case act_unpack:
+  case act_configure:
+  case act_install:
+  case act_triggers:
+  case act_remove:
+  case act_purge:
+    return 1;
+  default:
+    return 0;
+  }
+}
+
+struct invoke_hook *pre_invoke_hooks = NULL;
+struct invoke_hook **pre_invoke_hooks_tail = &pre_invoke_hooks;
+struct invoke_hook *post_invoke_hooks = NULL;
+struct invoke_hook **post_invoke_hooks_tail = &post_invoke_hooks;
+
+static void
+set_invoke_hook(const struct cmdinfo *cip, const char *value)
+{
+  struct invoke_hook ***hook_tail = cip->parg;
+  struct invoke_hook *hook_new;
+
+  hook_new = nfmalloc(sizeof(struct invoke_hook));
+  hook_new->command = nfstrsave(value);
+  hook_new->next = NULL;
+
+  /* Add the new hook at the tail of the list to preserve the order. */
+  **hook_tail = hook_new;
+  *hook_tail = &hook_new->next;
+}
+
+static void
+run_invoke_hooks(const char *action, struct invoke_hook *hook_head)
+{
+  struct invoke_hook *hook;
+
+  setenv("DPKG_HOOK_ACTION", action, 1);
+
+  for (hook = hook_head; hook; hook = hook->next) {
+    int status;
+
+    /* XXX: As an optimization, use exec instead if no shell metachar are
+     * used “!$=&|\\`'"^~;<>{}[]()?*#”. */
+    status = system(hook->command);
+    if (status != 0)
+      ohshit("error executing hook '%s', exit code %d", hook->command, status);
+  }
+
+  unsetenv("DPKG_HOOK_ACTION");
+}
+
 static void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   size_t l;
@@ -430,6 +487,8 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),
 */
   
+  { "pre-invoke",        0,   1, NULL,          NULL,      set_invoke_hook, 0, &pre_invoke_hooks_tail },
+  { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
   { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0, &status_pipes },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },
   { "pending",           'a', 0, &f_pending,    NULL,      NULL,    1 },
@@ -646,6 +705,10 @@ int main(int argc, const char *const *argv) {
     f_triggers = (cipaction->arg == act_triggers && *argv) ? -1 : 1;
 
   setvbuf(stdout, NULL, _IONBF, 0);
+
+  if (is_invoke_action(cipaction->arg))
+    run_invoke_hooks(cipaction->olong, pre_invoke_hooks);
+
   filesdbinit();
 
   actionfunction= (void (*)(const char* const*))cipaction->farg;
@@ -653,6 +716,9 @@ int main(int argc, const char *const *argv) {
   actionfunction(argv);
 
   standard_shutdown();
+
+  if (is_invoke_action(cipaction->arg))
+    run_invoke_hooks(cipaction->olong, post_invoke_hooks);
 
   return reportbroken_retexitstatus();
 }

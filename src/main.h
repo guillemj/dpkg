@@ -101,6 +101,11 @@ extern const char *instdir;
 extern struct pkginqueue *ignoredependss;
 extern const char architecture[];
 
+struct invoke_hook {
+	struct invoke_hook *next;
+	const char *command;
+};
+
 /* from archives.c */
 
 void archivefiles(const char *const *argv);
