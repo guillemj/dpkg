@@ -204,7 +204,7 @@ struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
 /* all ...'s are const char*'s ... */
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                                 const char *description, ...);
-int maintainer_script_new(const char *pkgname,
+int maintainer_script_new(struct pkginfo *pkg,
 			  const char *scriptname, const char *description,
                           const char *cidir, char *cidirrest, ...);
 int maintainer_script_alternative(struct pkginfo *pkg,

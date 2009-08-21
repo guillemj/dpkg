@@ -245,7 +245,12 @@ static void setexecute(const char *path, struct stat *stab) {
   if (!chmod(path,0755)) return;
   ohshite(_("unable to set execute permissions on `%.250s'"),path);
 }
-static int do_script(const char *pkg, const char *scriptname, const char *scriptpath, struct stat *stab, char *const arglist[], const char *desc, const char *name, int warn) {
+
+static int
+do_script(struct pkginfo *pkg,
+          const char *scriptname, const char *scriptpath, struct stat *stab,
+          char *const arglist[], const char *desc, const char *name, int warn)
+{
   const char *scriptexec;
   int c1, r;
   setexecute(scriptpath,stab);
@@ -261,7 +266,7 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
       narglist[r]= arglist[r];
     scriptexec= preexecscript(scriptpath,(char * const *)narglist);
     narglist[0]= scriptexec;
-    if (setenv(MAINTSCRIPTPKGENVVAR, pkg, 1) ||
+    if (setenv(MAINTSCRIPTPKGENVVAR, pkg->name, 1) ||
         setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));
     execv(scriptexec,(char * const *)narglist);
@@ -297,7 +302,7 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
     }
     ohshite(_("unable to stat %s `%.250s'"), buf, scriptpath);
   }
-  do_script(pkg->name, scriptname, scriptpath, &stab, arglist, _("unable to execute %s"), buf, 0);
+  do_script(pkg, scriptname, scriptpath, &stab, arglist, _("unable to execute %s"), buf, 0);
 
   return 1;
 }
@@ -334,9 +339,11 @@ maintainer_script_postinst(struct pkginfo *pkg, ...)
   return r;
 }
 
-int maintainer_script_new(const char *pkgname,
-			  const char *scriptname, const char *description,
-                          const char *cidir, char *cidirrest, ...) {
+int
+maintainer_script_new(struct pkginfo *pkg,
+                      const char *scriptname, const char *description,
+                      const char *cidir, char *cidirrest, ...)
+{
   char *const *arglist;
   struct stat stab;
   va_list ap;
@@ -355,7 +362,7 @@ int maintainer_script_new(const char *pkgname,
     }
     ohshite(_("unable to stat %s `%.250s'"), buf, cidir);
   }
-  do_script(pkgname, scriptname, cidir, &stab, arglist,
+  do_script(pkg, scriptname, cidir, &stab, arglist,
             _("unable to execute %s"), buf, 0);
   post_script_tasks();
 
@@ -386,7 +393,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
     warning(_("unable to stat %s '%.250s': %s"),
             buf,oldscriptpath,strerror(errno));
   } else {
-    if (!do_script(pkg->name, scriptname, oldscriptpath, &stab, arglist,
+    if (!do_script(pkg, scriptname, oldscriptpath, &stab, arglist,
                    _("unable to execute %s"), buf, PROCWARN)) {
       post_script_tasks();
       return 1;
@@ -408,7 +415,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
       ohshite(_("unable to stat %s `%.250s'"),buf,cidir);
   }
 
-  do_script(pkg->name, scriptname, cidir, &stab, arglist, _("unable to execute %s"), buf, 0);
+  do_script(pkg, scriptname, cidir, &stab, arglist, _("unable to execute %s"), buf, 0);
   fprintf(stderr, _("dpkg: ... it looks like that went OK.\n"));
 
   post_script_tasks();
