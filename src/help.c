@@ -267,6 +267,7 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
     scriptexec= preexecscript(scriptpath,(char * const *)narglist);
     narglist[0]= scriptexec;
     if (setenv(MAINTSCRIPTPKGENVVAR, pkg->name, 1) ||
+        setenv(MAINTSCRIPTARCHENVVAR, pif->architecture, 1) ||
         setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));
     execv(scriptexec,(char * const *)narglist);
