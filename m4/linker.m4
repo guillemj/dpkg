@@ -1,9 +1,9 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
 
-# SJR_LINKER_OPTIMISATIONS
+# DPKG_LINKER_OPTIMISATIONS
 # --------------------------
 # Add configure option to disable linker optimisations.
-AC_DEFUN([SJR_LINKER_OPTIMISATIONS],
+AC_DEFUN([DPKG_LINKER_OPTIMISATIONS],
 [AC_ARG_ENABLE(linker-optimisations,
 	AS_HELP_STRING([--disable-linker-optimisations],
 		       [Disable linker optimisations]),

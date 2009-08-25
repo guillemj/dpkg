@@ -98,9 +98,9 @@ DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
                          scandir alphasort unsetenv])
 AC_CHECK_FUNCS([strtoul isascii bcopy memcpy lchown setsid getdtablesize])
 
-SJR_COMPILER_WARNINGS
-SJR_COMPILER_OPTIMISATIONS
-SJR_LINKER_OPTIMISATIONS
+DPKG_COMPILER_WARNINGS
+DPKG_COMPILER_OPTIMISATIONS
+DPKG_LINKER_OPTIMISATIONS
 
 AC_CONFIG_FILES([ Makefile
 		  dpkg-deb/Makefile

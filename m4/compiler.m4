@@ -1,10 +1,10 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
 
-# SJR_COMPILER_WARNINGS
+# DPKG_COMPILER_WARNINGS
 # ---------------------
 # Add configure option to enable additional compiler warnings and treat
 # them as errors.
-AC_DEFUN([SJR_COMPILER_WARNINGS],
+AC_DEFUN([DPKG_COMPILER_WARNINGS],
 [AC_ARG_ENABLE(compiler-warnings,
 	AS_HELP_STRING([--enable-compiler-warnings],
 	               [Enable additional compiler warnings]),
@@ -18,10 +18,10 @@ AC_DEFUN([SJR_COMPILER_WARNINGS],
 fi])dnl
 ])
 
-# SJR_COMPILER_OPTIMISATIONS
+# DPKG_COMPILER_OPTIMISATIONS
 # --------------------------
 # Add configure option to disable optimisations.
-AC_DEFUN([SJR_COMPILER_OPTIMISATIONS],
+AC_DEFUN([DPKG_COMPILER_OPTIMISATIONS],
 [AC_ARG_ENABLE(compiler-optimisations,
 	AS_HELP_STRING([--disable-compiler-optimisations],
 		       [Disable compiler optimisations]),
