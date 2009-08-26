@@ -5,7 +5,7 @@ all-local: all-local-@USE_NLS@
 all-local-no:
 all-local-yes: man.stamp
 
-PO4A_COMMON_OPTS = --variable builddir=$(CURDIR)
+PO4A_COMMON_OPTS = --previous --variable builddir=$(CURDIR)
 PO4A_BUILD_OPTS = $(PO4A_COMMON_OPTS) --no-backups
 PO4A_CLEAN_OPTS = $(PO4A_COMMON_OPTS) --rm-backups --rm-translations
 
