@@ -24,6 +24,7 @@
 #define DPKG_DB_H
 
 #include <dpkg/macros.h>
+#include <dpkg/varbuf.h>
 
 DPKG_BEGIN_DECLS
 
@@ -371,56 +372,6 @@ void varbufversion(struct varbuf*, const struct versionrevision*,
 const char *parseversion(struct versionrevision *rversion, const char*);
 const char *versiondescribe(const struct versionrevision*,
                             enum versiondisplayepochwhen);
-
-/*** from varbuf.c ***/
-
-struct varbuf;
-
-#define VARBUF_INIT { 0, 0, NULL }
-
-extern void varbufaddc(struct varbuf *v, int c);
-extern void varbufdupc(struct varbuf *v, int c, size_t s);
-extern void varbufsubstc(struct varbuf *v, int c_src, int c_dst);
-int varbufprintf(struct varbuf *v, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
-int varbufvprintf(struct varbuf *v, const char *fmt, va_list va);
-void varbufinit(struct varbuf *v, size_t size);
-void varbufreset(struct varbuf *v);
-void varbufextend(struct varbuf *v);
-void varbuffree(struct varbuf *v);
-#define varbufaddstr(v, s)      varbufaddbuf(v, s, strlen(s))
-extern void varbufaddbuf(struct varbuf *v, const void *s, size_t size);
-
-/* varbufinit must be called exactly once before the use of each varbuf
- * (including before any call to varbuffree), or the variable must be
- * initialized with VARBUF_INIT.
- *
- * However, varbufs allocated `static' are properly initialised anyway and
- * do not need varbufinit; multiple consecutive calls to varbufinit before
- * any use are allowed.
- *
- * varbuffree must be called after a varbuf is finished with, if anything
- * other than varbufinit has been done.  After this you are allowed but
- * not required to call varbufinit again if you want to start using the
- * varbuf again.
- *
- * Callers using C++ need not worry about any of this.
- */
-struct varbuf {
-  size_t used, size;
-  char *buf;
-
-#ifdef __cplusplus
-  void init(size_t _size = 0) { varbufinit(this, _size); }
-  void free() { varbuffree(this); }
-  varbuf(size_t _size = 0) { varbufinit(this, _size); }
-  ~varbuf() { varbuffree(this); }
-  void operator()(int c) { varbufaddc(this,c); }
-  void operator()(const char *s) { varbufaddstr(this,s); }
-  void terminate(void/*to shut 2.6.3 up*/) { varbufaddc(this,0); used--; }
-  void reset() { used=0; }
-  const char *string() { terminate(); return buf; }
-#endif
-};
 
 /*** from dump.c ***/
 

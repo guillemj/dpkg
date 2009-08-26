@@ -163,7 +163,6 @@ void do_internerr(const char *file, int line, const char *fmt, ...) DPKG_ATTR_NO
 #define internerr(args...) do_internerr(__FILE__, __LINE__, args)
 #endif
 
-struct varbuf;
 void ohshit(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 void ohshitv(const char *fmt, va_list al) DPKG_ATTR_NORET;
 void ohshite(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);

@@ -48,5 +48,5 @@ libdpkg_a_SOURCES = \
 	triglib.c \
 	trigdeferred.l \
 	utils.c \
-	varbuf.c \
+	varbuf.c varbuf.h \
 	vercmp.c
