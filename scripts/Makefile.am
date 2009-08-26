@@ -50,6 +50,7 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs.t \
 	t/200_Dpkg_Shlibs/symbols.fake-1 \
 	t/200_Dpkg_Shlibs/symbols.fake-2 \
+	t/200_Dpkg_Shlibs/symbols.fake-3 \
 	t/200_Dpkg_Shlibs/symbols.include-1 \
 	t/200_Dpkg_Shlibs/symbols.include-2 \
 	t/200_Dpkg_Shlibs/symbols.include-3 \

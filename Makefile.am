@@ -36,6 +36,7 @@ EXTRA_DIST = \
 	debian/dpkg-dev.preinst \
 	debian/dpkg-dev.lintian-overrides \
 	debian/dpkg.cfg \
+	debian/dpkg.cron.daily \
 	debian/dpkg.docs \
 	debian/dpkg.install \
 	debian/dpkg.postinst \
