@@ -7,22 +7,22 @@ all-local-yes: man.stamp
 
 # FIXME: Use a stamp file until po4a supports them internally.
 man.stamp:
-	po4a --no-backups --variable srcdir=$(srcdir) \
-		$(srcdir)/po/po4a.cfg
+	cd $(srcdir) && \
+	po4a --no-backups --variable builddir=$(CURDIR) po/po4a.cfg
 	touch $@
 
 clean-local: clean-local-@USE_NLS@
 
 clean-local-no:
 clean-local-yes:
-	po4a --rm-backups --rm-translations --variable srcdir=$(srcdir) \
-		$(srcdir)/po/po4a.cfg
+	cd $(srcdir) && \
+	po4a --rm-backups --rm-translations --variable builddir=$(CURDIR) \
+		po/po4a.cfg
 	rm -f man.stamp
 
 update-po:
-	cd $(srcdir)/po && \
-		po4a --no-backups --force --variable srcdir=../../man \
-			./po4a.cfg 
+	cd $(srcdir) && \
+	po4a --no-backups --force --variable builddir=$(CURDIR) po/po4a.cfg
 
 # Extract the list of languages from the po4a config file.
 LINGUAS = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
