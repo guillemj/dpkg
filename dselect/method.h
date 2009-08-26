@@ -89,8 +89,8 @@ extern int noptions;
 extern struct dselect_option *options, *coption;
 extern struct method *methods;
 
-extern void readmethods(const char *pathbase, dselect_option **optionspp, int *nread);
-extern void getcurrentopt();
-extern void writecurrentopt();
+void readmethods(const char *pathbase, dselect_option **optionspp, int *nread);
+void getcurrentopt();
+void writecurrentopt();
 
 #endif /* METHOD_H */

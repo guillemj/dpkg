@@ -62,6 +62,6 @@ struct TarFunctions {
 };
 typedef struct TarFunctions	TarFunctions;
 
-extern int	TarExtractor(void * userData, const TarFunctions * functions);
+int TarExtractor(void *userData, const TarFunctions *functions);
 
 #endif

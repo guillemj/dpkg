@@ -445,7 +445,7 @@ int epochsdiffer(const struct versionrevision *a,
                  const struct versionrevision *b);
 
 /*** from nfmalloc.c ***/
-extern void *nfmalloc(size_t);
+void *nfmalloc(size_t);
 char *nfstrsave(const char*);
 char *nfstrnsave(const char*, size_t);
 void nffreeall(void);
