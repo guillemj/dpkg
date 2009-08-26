@@ -177,7 +177,8 @@ objdump_lib_name = lib`basename $@`.so
 $(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-amd64 $(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-i386: $(srcdir)/t/200_Dpkg_Shlibs/symboltags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libsymboltags.so.1 $< \
 	  $(if $(findstring amd64,$@),-DAMD64,) -o $(objdump_lib_name)
-	objdump -w -f -p -T -R $(objdump_lib_name) | sed 's/$(objdump_lib_name)/libsymboltags.so.1/g' > $@
+	objdump -w -f -p -T -R $(objdump_lib_name) | \
+	  sed "s/$(objdump_lib_name)/libsymboltags.so.1/g" > $@
 	rm -f $(objdump_lib_name)
 
 update-objdumps .PHONY: $(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-amd64
