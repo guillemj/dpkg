@@ -39,6 +39,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/buffer.h>
 #include <dpkg/progress.h>
 
 #include "filesdb.h"

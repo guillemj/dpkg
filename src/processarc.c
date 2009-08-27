@@ -40,6 +40,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/myopt.h>

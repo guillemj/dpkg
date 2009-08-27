@@ -17,6 +17,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/buffer.h>
 
 static void
 fd_fd_filter(int fd_in, int fd_out,

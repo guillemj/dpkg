@@ -40,6 +40,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/parsedump.h>
+#include <dpkg/buffer.h>
 
 #ifdef HAVE_MMAP
 #include <sys/mman.h>

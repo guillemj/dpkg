@@ -28,6 +28,7 @@
 #include <fcntl.h>
 
 #include <dpkg/dpkg.h>
+#include <dpkg/buffer.h>
 #include <dpkg/myopt.h>
 
 void

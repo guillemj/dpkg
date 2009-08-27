@@ -38,6 +38,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/buffer.h>
 
 #include "filesdb.h"
 #include "main.h"
