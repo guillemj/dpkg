@@ -235,6 +235,10 @@ reason still haven't been installed.
 .B \-\-print\-architecture
 Print architecture of packages \fBdpkg\fP installs (for example, "i386").
 .TP
+.B \-\-print\-foreign\-architectures
+Print a space-separated list of the extra architectures \fBdpkg\fP is
+configured to allow packages to be installed for.
+.TP
 .B \-\-compare\-versions \fIver1 op ver2\fP
 Compare version numbers, where \fIop\fP is a binary operator. \fBdpkg\fP
 returns success (zero result) if the specified condition is satisfied,
@@ -567,6 +571,12 @@ These two options can be specified multiple times, and interleaved with
 each other. Both are processed in the given order, with the last rule that
 matches a file name making the decision.
 .RE
+.TP
+.B \-\-foreign\-architecture \fIarchitecture\fP
+Add \fIarchitecture\fP to the list of architectures for which packages can
+be installed without using \fB\-\-force\-architecture\fP, in addition to
+the architecture \fBdpkg\fP is built for (i.e.: the output of
+\fB\-\-print\-architecture\fP).
 .TP
 \fB\-\-status\-fd \fR\fIn\fR
 Send machine-readable package status and progress information to file

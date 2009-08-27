@@ -80,6 +80,7 @@ enum action {
 
 	act_printarch,
 	act_printinstarch,
+	act_printforeignarches,
 
 	act_assertpredep,
 	act_assertepoch,
@@ -169,6 +170,7 @@ int assertmulticonrep(const char *const *argv);
 int predeppackage(const char *const *argv);
 int printarch(const char *const *argv);
 int printinstarch(const char *const *argv);
+int print_foreign_arches(const char *const *argv);
 int cmpversions(const char *const *argv);
 
 /* from select.c */

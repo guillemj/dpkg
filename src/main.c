@@ -46,6 +46,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/arch.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
 #include <dpkg/options.h>
@@ -104,6 +105,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -C|--audit                       Check for broken package(s).\n"
 "  --print-architecture             Print dpkg architecture.\n"
+"  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -131,6 +133,8 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --instdir=<directory>      Change installation dir without changing admin dir.\n"
 "  --path-exclude=<pattern>   Do not install paths which match a shell pattern.\n"
 "  --path-include=<pattern>   Re-include a pattern after a previous exclusion.\n"
+"  --foreign-architecture=<arch>\n"
+"                             Add <arch> to the list of foreign architectures.\n"
 "  -O|--selected-only         Skip packages not selected for install/upgrade.\n"
 "  -E|--skip-same-version     Skip packages whose same version is installed.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than installed.\n"
@@ -469,6 +473,24 @@ run_status_loggers(struct invoke_hook *hook_head)
   }
 }
 
+static void
+set_foreign_arch(const struct cmdinfo *cip, const char *value)
+{
+  struct dpkg_arch *arch;
+
+  arch = dpkg_arch_find(value);
+  if (arch->type == arch_foreign)
+    return;
+  else if (arch->type == arch_unknown)
+    arch->type = arch_foreign;
+  else if (arch->type == arch_illegal)
+    warning(_("ignoring option --%s=%s: %s"), cip->olong, value,
+            dpkg_arch_name_is_illegal(value));
+  else
+    warning(_("ignoring option --%s=%s: %s"), cip->olong, value,
+            _("this architecture cannot be foreign"));
+}
+
 static void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   size_t l;
@@ -554,6 +576,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "assert-multi-conrep",             0,  act_assertmulticonrep,    assertmulticonrep ),
   ACTION( "print-architecture",              0,  act_printarch,            printarch   ),
   ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch  ),
+  ACTION( "print-foreign-architectures",     0,  act_printforeignarches,   print_foreign_arches ),
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
 /*
@@ -564,6 +587,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
   { "path-exclude",      0,   1, NULL,          NULL,      setfilter,     0 },
   { "path-include",      0,   1, NULL,          NULL,      setfilter,     1 },
+  { "foreign-architecture", 0, 1, NULL,         NULL,      set_foreign_arch, 0 },
   { "status-logger",     0,   1, NULL,          NULL,      set_invoke_hook, 0, &status_loggers_tail },
   { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0 },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },

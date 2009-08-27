@@ -39,6 +39,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/arch.h>
 #include <dpkg/pkg-show.h>
 #include <dpkg/options.h>
 
@@ -472,6 +473,28 @@ printinstarch(const char *const *argv)
   warning(_("obsolete option '--%s', please use '--%s' instead."),
           "print-installation-architecture", "print-architecture");
   return printarch(argv);
+}
+
+int
+print_foreign_arches(const char *const *argv)
+{
+  struct dpkg_arch *arch;
+  const char *sep = "";
+
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
+
+  for (arch = dpkg_arch_get_list(); arch; arch = arch->next) {
+    if (arch->type != arch_foreign)
+      continue;
+    printf("%s%s", sep, arch->name);
+    sep = " ";
+  }
+  printf("\n");
+
+  m_output(stdout, _("<standard output>"));
+
+  return 0;
 }
 
 int
