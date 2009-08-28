@@ -41,11 +41,6 @@ DPKG_BEGIN_DECLS
 #define BUFFER_READ_FD			0
 #define BUFFER_READ_STREAM		1
 
-#define BUFFER_WRITE_SETUP		1 << 16
-#define BUFFER_READ_SETUP		1 << 17
-#define BUFFER_WRITE_SHUTDOWN		1 << 18
-#define BUFFER_READ_SHUTDOWN		1 << 19
-
 typedef struct buffer_data *buffer_data_t;
 
 typedef off_t (*buffer_proc_t)(buffer_data_t data, void *buf, off_t size,
@@ -169,6 +164,8 @@ off_t buffer_write(buffer_data_t data, void *buf,
                    off_t length, const char *desc);
 off_t buffer_read(buffer_data_t data, void *buf,
                   off_t length, const char *desc);
+off_t buffer_init(buffer_data_t read_data, buffer_data_t write_data);
+off_t buffer_done(buffer_data_t read_data, buffer_data_t write_data);
 off_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data,
                   off_t limit, const char *desc);
 

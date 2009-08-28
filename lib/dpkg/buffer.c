@@ -54,6 +54,17 @@ buffer_md5_init(buffer_data_t data)
 	MD5Init(&ctx->ctx);
 }
 
+off_t
+buffer_init(buffer_data_t read_data, buffer_data_t write_data)
+{
+	switch (write_data->type) {
+	case BUFFER_WRITE_MD5:
+		buffer_md5_init(write_data);
+		break;
+	}
+	return 0;
+}
+
 static void
 buffer_md5_done(buffer_data_t data)
 {
@@ -74,27 +85,20 @@ buffer_md5_done(buffer_data_t data)
 }
 
 off_t
+buffer_done(buffer_data_t read_data, buffer_data_t write_data)
+{
+	switch (write_data->type) {
+	case BUFFER_WRITE_MD5:
+		buffer_md5_done(write_data);
+		break;
+	}
+	return 0;
+}
+
+off_t
 buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc)
 {
 	off_t ret = length;
-
-	if (data->type & BUFFER_WRITE_SETUP) {
-		switch (data->type ^ BUFFER_WRITE_SETUP) {
-		case BUFFER_WRITE_MD5:
-			buffer_md5_init(data);
-			break;
-		}
-		return 0;
-	}
-
-	if (data->type & BUFFER_WRITE_SHUTDOWN) {
-		switch (data->type ^ BUFFER_WRITE_SHUTDOWN) {
-		case BUFFER_WRITE_MD5:
-			buffer_md5_done(data);
-			break;
-		}
-		return 0;
-	}
 
 	switch (data->type) {
 	case BUFFER_WRITE_BUF:
@@ -135,11 +139,6 @@ buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc)
 {
 	off_t ret = length;
 
-	if (data->type & BUFFER_READ_SETUP)
-		return 0;
-	if (data->type & BUFFER_READ_SHUTDOWN)
-		return 0;
-
 	switch (data->type) {
 	case BUFFER_READ_FD:
 		ret = read(data->data.i, buf, length);
@@ -175,21 +174,9 @@ buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
 	if (procOut == NULL)
 		write_data.proc = buffer_write;
 
-	read_data.type |= BUFFER_READ_SETUP;
-	read_data.proc(&read_data, NULL, 0, desc);
-	read_data.type = typeIn;
-
-	write_data.type |= BUFFER_WRITE_SETUP;
-	write_data.proc(&write_data, NULL, 0, desc);
-	write_data.type = typeOut;
-
+	buffer_init(&read_data, &write_data);
 	ret = buffer_copy(&read_data, &write_data, limit, desc);
-
-	write_data.type |= BUFFER_WRITE_SHUTDOWN;
-	write_data.proc(&write_data, NULL, 0, desc);
-
-	read_data.type |= BUFFER_READ_SHUTDOWN;
-	read_data.proc(&read_data, NULL, 0, desc);
+	buffer_done(&read_data, &write_data);
 
 	return ret;
 }
