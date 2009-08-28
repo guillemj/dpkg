@@ -153,9 +153,7 @@ off_t buffer_copy_setup_IntInt(int i1, int typeIn,
                                int i2, int typeOut,
                                off_t limit, const char *desc,
                                ...) DPKG_ATTR_PRINTF(6);
-off_t buffer_copy_setup(buffer_arg argIn, int typeIn,
-                        buffer_arg argOut, int typeOut,
-                        off_t limit, const char *desc);
+
 off_t buffer_write(buffer_data_t data, void *buf,
                    off_t length, const char *desc);
 off_t buffer_read(buffer_data_t data, void *buf,

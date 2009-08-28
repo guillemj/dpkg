@@ -160,23 +160,6 @@ buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc)
 	return ret;
 }
 
-off_t
-buffer_copy_setup(buffer_arg argIn, int typeIn,
-                  buffer_arg argOut, int typeOut,
-                  off_t limit, const char *desc)
-{
-	struct buffer_data read_data = { argIn, typeIn },
-	                   write_data = { argOut, typeOut };
-	off_t ret;
-
-	buffer_init(&read_data, &write_data);
-	ret = buffer_copy(&read_data, &write_data, limit, desc);
-	buffer_done(&read_data, &write_data);
-
-	return ret;
-}
-
-
 #define buffer_copy_setup_dual(name, type1, name1, type2, name2) \
 off_t \
 buffer_copy_setup_##name(type1 n1, int typeIn, \
@@ -184,17 +167,23 @@ buffer_copy_setup_##name(type1 n1, int typeIn, \
                          off_t limit, const char *desc, ...) \
 { \
 	va_list al; \
-	buffer_arg a1, a2; \
+	struct buffer_data read_data, write_data; \
 	struct varbuf v = VARBUF_INIT; \
 	off_t ret; \
 \
-	a1.name1 = n1; \
-	a2.name2 = n2; \
+	read_data.data.name1 = n1; \
+	read_data.type = typeIn; \
+	write_data.data.name2 = n2; \
+	write_data.type = typeOut; \
+\
 	va_start(al, desc); \
 	varbufvprintf(&v, desc, al); \
 	va_end(al); \
 \
-	ret = buffer_copy_setup(a1, typeIn, a2, typeOut, limit, v.buf); \
+	buffer_init(&read_data, &write_data); \
+	ret = buffer_copy(&read_data, &write_data, limit, v.buf); \
+	buffer_done(&read_data, &write_data); \
+\
 	varbuffree(&v); \
 \
 	return ret; \
