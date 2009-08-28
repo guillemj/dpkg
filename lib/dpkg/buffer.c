@@ -162,9 +162,9 @@ buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc)
 
 #define buffer_copy_TYPE(name, type1, name1, type2, name2) \
 off_t \
-buffer_copy_setup_##name(type1 n1, int typeIn, \
-                         type2 n2, int typeOut, \
-                         off_t limit, const char *desc, ...) \
+buffer_copy_##name(type1 n1, int typeIn, \
+                   type2 n2, int typeOut, \
+                   off_t limit, const char *desc, ...) \
 { \
 	va_list al; \
 	struct buffer_data read_data, write_data; \
