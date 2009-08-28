@@ -43,6 +43,36 @@ struct buffer_write_md5ctx {
 	unsigned char **hash;
 };
 
+static void
+buffer_md5_init(buffer_data_t data)
+{
+	struct buffer_write_md5ctx *ctx;
+
+	ctx = m_malloc(sizeof(struct buffer_write_md5ctx));
+	ctx->hash = data->data.ptr;
+	data->data.ptr = ctx;
+	MD5Init(&ctx->ctx);
+}
+
+static void
+buffer_md5_done(buffer_data_t data)
+{
+	struct buffer_write_md5ctx *ctx;
+	unsigned char digest[16], *p = digest;
+	unsigned char *hash;
+	int i;
+
+	ctx = (struct buffer_write_md5ctx *)data->data.ptr;
+	*ctx->hash = hash = m_malloc(MD5HASHLEN + 1);
+	MD5Final(digest, &ctx->ctx);
+	for (i = 0; i < 16; ++i) {
+		sprintf((char *)hash, "%02x", *p++);
+		hash += 2;
+	}
+	*hash = '\0';
+	free(ctx);
+}
+
 off_t
 buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc)
 {
@@ -51,14 +81,7 @@ buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc)
 	if (data->type & BUFFER_WRITE_SETUP) {
 		switch (data->type ^ BUFFER_WRITE_SETUP) {
 		case BUFFER_WRITE_MD5:
-		{
-			struct buffer_write_md5ctx *ctx;
-
-			ctx = m_malloc(sizeof(struct buffer_write_md5ctx));
-			ctx->hash = data->data.ptr;
-			data->data.ptr = ctx;
-			MD5Init(&ctx->ctx);
-		}
+			buffer_md5_init(data);
 			break;
 		}
 		return 0;
@@ -67,22 +90,7 @@ buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc)
 	if (data->type & BUFFER_WRITE_SHUTDOWN) {
 		switch (data->type ^ BUFFER_WRITE_SHUTDOWN) {
 		case BUFFER_WRITE_MD5:
-		{
-			struct buffer_write_md5ctx *ctx;
-			unsigned char digest[16], *p = digest;
-			unsigned char *hash;
-			int i;
-
-			ctx = (struct buffer_write_md5ctx *)data->data.ptr;
-			*ctx->hash = hash = m_malloc(MD5HASHLEN + 1);
-			MD5Final(digest, &ctx->ctx);
-			for (i = 0; i < 16; ++i) {
-				sprintf((char *)hash, "%02x", *p++);
-				hash += 2;
-			}
-			*hash = '\0';
-			free(ctx);
-		}
+			buffer_md5_done(data);
 			break;
 		}
 		return 0;
