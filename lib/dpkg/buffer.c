@@ -160,7 +160,7 @@ buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc)
 	return ret;
 }
 
-#define buffer_copy_setup_dual(name, type1, name1, type2, name2) \
+#define buffer_copy_TYPE(name, type1, name1, type2, name2) \
 off_t \
 buffer_copy_setup_##name(type1 n1, int typeIn, \
                          type2 n2, int typeOut, \
@@ -189,10 +189,10 @@ buffer_copy_setup_##name(type1 n1, int typeIn, \
 	return ret; \
 }
 
-buffer_copy_setup_dual(IntInt, int, i, int, i);
-buffer_copy_setup_dual(IntPtr, int, i, void *, ptr);
-buffer_copy_setup_dual(PtrInt, void *, ptr, int, i);
-buffer_copy_setup_dual(PtrPtr, void *, ptr, void *, ptr);
+buffer_copy_TYPE(IntInt, int, i, int, i);
+buffer_copy_TYPE(IntPtr, int, i, void *, ptr);
+buffer_copy_TYPE(PtrInt, void *, ptr, int, i);
+buffer_copy_TYPE(PtrPtr, void *, ptr, void *, ptr);
 
 off_t
 buffer_copy(buffer_data_t read_data, buffer_data_t write_data,
