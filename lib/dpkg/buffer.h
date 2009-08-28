@@ -43,122 +43,118 @@ DPKG_BEGIN_DECLS
 
 typedef struct buffer_data *buffer_data_t;
 
-typedef off_t (*buffer_proc_t)(buffer_data_t data, void *buf, off_t size,
-                               const char *desc);
-
 typedef union buffer_arg {
 	void *ptr;
 	int i;
 } buffer_arg;
 
 struct buffer_data {
-	buffer_proc_t proc;
 	buffer_arg data;
 	int type;
 };
 
 #if HAVE_C99
 # define fd_md5(fd, hash, limit, ...) \
-	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-	                         hash, BUFFER_WRITE_MD5, NULL, \
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, \
+	                         hash, BUFFER_WRITE_MD5, \
 	                         limit, __VA_ARGS__)
 # define stream_md5(file, hash, limit, ...) \
-	buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, NULL, \
-	                         hash, BUFFER_WRITE_MD5, NULL, \
+	buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, \
+	                         hash, BUFFER_WRITE_MD5, \
 	                         limit, __VA_ARGS__)
 # define fd_fd_copy(fd1, fd2, limit, ...) \
-	buffer_copy_setup_IntInt(fd1, BUFFER_READ_FD, NULL, \
-	                         fd2, BUFFER_WRITE_FD, NULL, \
+	buffer_copy_setup_IntInt(fd1, BUFFER_READ_FD, \
+	                         fd2, BUFFER_WRITE_FD, \
 	                         limit, __VA_ARGS__)
 # define fd_buf_copy(fd, buf, limit, ...) \
-	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-	                         buf, BUFFER_WRITE_BUF, NULL, \
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, \
+	                         buf, BUFFER_WRITE_BUF, \
 	                         limit, __VA_ARGS__)
 # define fd_vbuf_copy(fd, buf, limit, ...) \
-	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-	                         buf, BUFFER_WRITE_VBUF, NULL, \
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, \
+	                         buf, BUFFER_WRITE_VBUF, \
 	                         limit, __VA_ARGS__)
 # define fd_null_copy(fd, limit, ...) \
 	if (lseek(fd, limit, SEEK_CUR) == -1) { \
 		if (errno != ESPIPE) \
 			ohshite(__VA_ARGS__); \
-		buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-		                         NULL, BUFFER_WRITE_NULL, NULL, \
+		buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, \
+		                         NULL, BUFFER_WRITE_NULL, \
 		                         limit, __VA_ARGS__); \
 	}
 # define stream_null_copy(file, limit, ...) \
 	if (fseek(file, limit, SEEK_CUR) == -1) { \
 		if (errno != EBADF) \
 			ohshite(__VA_ARGS__); \
-		buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, NULL, \
-		                         NULL, BUFFER_WRITE_NULL, NULL, \
+		buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, \
+		                         NULL, BUFFER_WRITE_NULL, \
 		                         limit, __VA_ARGS__); \
 	}
 # define stream_fd_copy(file, fd, limit, ...) \
-	buffer_copy_setup_PtrInt(file, BUFFER_READ_STREAM, NULL, \
-	                         fd, BUFFER_WRITE_FD, NULL, \
+	buffer_copy_setup_PtrInt(file, BUFFER_READ_STREAM, \
+	                         fd, BUFFER_WRITE_FD, \
 	                         limit, __VA_ARGS__)
 #else /* HAVE_C99 */
 # define fd_md5(fd, hash, limit, desc...) \
-	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-	                         hash, BUFFER_WRITE_MD5, NULL, \
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, \
+	                         hash, BUFFER_WRITE_MD5, \
 	                         limit, desc)
 # define stream_md5(file, hash, limit, desc...) \
-	buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, NULL, \
-	                         hash, BUFFER_WRITE_MD5, NULL, \
+	buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, \
+	                         hash, BUFFER_WRITE_MD5, \
 	                         limit, desc)
 # define fd_fd_copy(fd1, fd2, limit, desc...) \
-	buffer_copy_setup_IntInt(fd1, BUFFER_READ_FD, NULL, \
-	                         fd2, BUFFER_WRITE_FD, NULL, \
+	buffer_copy_setup_IntInt(fd1, BUFFER_READ_FD, \
+	                         fd2, BUFFER_WRITE_FD, \
 	                         limit, desc)
 # define fd_buf_copy(fd, buf, limit, desc...) \
-	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-	                         buf, BUFFER_WRITE_BUF, NULL, \
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, \
+	                         buf, BUFFER_WRITE_BUF, \
 	                         limit, desc)
 # define fd_vbuf_copy(fd, buf, limit, desc...) \
-	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-	                         buf, BUFFER_WRITE_VBUF, NULL, \
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, \
+	                         buf, BUFFER_WRITE_VBUF, \
 	                         limit, desc)
 # define fd_null_copy(fd, limit, desc...) \
 	if (lseek(fd, limit, SEEK_CUR) == -1) { \
 		if (errno != ESPIPE) \
 			ohshite(desc); \
-		buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-		                         NULL, BUFFER_WRITE_NULL, NULL, \
+		buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, \
+		                         NULL, BUFFER_WRITE_NULL, \
 		                         limit, desc); \
 	}
 # define stream_null_copy(file, limit, desc...) \
 	if (fseek(file, limit, SEEK_CUR) == -1) { \
 		if (errno != EBADF) \
 			ohshite(desc); \
-		buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, NULL, \
-		                         NULL, BUFFER_WRITE_NULL, NULL, \
+		buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, \
+		                         NULL, BUFFER_WRITE_NULL, \
 		                         limit, desc); \
 	}
 # define stream_fd_copy(file, fd, limit, desc...)\
-	buffer_copy_setup_PtrInt(file, BUFFER_READ_STREAM, NULL, \
-	                         fd, BUFFER_WRITE_FD, NULL, \
+	buffer_copy_setup_PtrInt(file, BUFFER_READ_STREAM, \
+	                         fd, BUFFER_WRITE_FD, \
 	                         limit, desc)
 #endif /* HAVE_C99 */
 
-off_t buffer_copy_setup_PtrInt(void *p, int typeIn, void *procIn,
-                               int i, int typeOut, void *procOut,
+off_t buffer_copy_setup_PtrInt(void *p, int typeIn,
+                               int i, int typeOut,
                                off_t limit, const char *desc,
-                               ...) DPKG_ATTR_PRINTF(8);
-off_t buffer_copy_setup_PtrPtr(void *p1, int typeIn, void *procIn,
-                               void *p2, int typeOut, void *procOut,
+                               ...) DPKG_ATTR_PRINTF(6);
+off_t buffer_copy_setup_PtrPtr(void *p1, int typeIn,
+                               void *p2, int typeOut,
                                off_t limit, const char *desc,
-                               ...) DPKG_ATTR_PRINTF(8);
-off_t buffer_copy_setup_IntPtr(int i, int typeIn, void *procIn,
-                               void *p, int typeOut, void *procOut,
+                               ...) DPKG_ATTR_PRINTF(6);
+off_t buffer_copy_setup_IntPtr(int i, int typeIn,
+                               void *p, int typeOut,
                                off_t limit, const char *desc,
-                               ...) DPKG_ATTR_PRINTF(8);
-off_t buffer_copy_setup_IntInt(int i1, int typeIn, void *procIn,
-                               int i2, int typeOut, void *procOut,
+                               ...) DPKG_ATTR_PRINTF(6);
+off_t buffer_copy_setup_IntInt(int i1, int typeIn,
+                               int i2, int typeOut,
                                off_t limit, const char *desc,
-                               ...) DPKG_ATTR_PRINTF(8);
-off_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
-                        buffer_arg argOut, int typeOut, void *procOut,
+                               ...) DPKG_ATTR_PRINTF(6);
+off_t buffer_copy_setup(buffer_arg argIn, int typeIn,
+                        buffer_arg argOut, int typeOut,
                         off_t limit, const char *desc);
 off_t buffer_write(buffer_data_t data, void *buf,
                    off_t length, const char *desc);

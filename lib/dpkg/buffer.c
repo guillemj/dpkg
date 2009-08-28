@@ -161,18 +161,13 @@ buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc)
 }
 
 off_t
-buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
-                  buffer_arg argOut, int typeOut, void *procOut,
+buffer_copy_setup(buffer_arg argIn, int typeIn,
+                  buffer_arg argOut, int typeOut,
                   off_t limit, const char *desc)
 {
-	struct buffer_data read_data = { procIn, argIn, typeIn },
-	                   write_data = { procOut, argOut, typeOut };
+	struct buffer_data read_data = { argIn, typeIn },
+	                   write_data = { argOut, typeOut };
 	off_t ret;
-
-	if (procIn == NULL)
-		read_data.proc = buffer_read;
-	if (procOut == NULL)
-		write_data.proc = buffer_write;
 
 	buffer_init(&read_data, &write_data);
 	ret = buffer_copy(&read_data, &write_data, limit, desc);
@@ -184,8 +179,8 @@ buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
 
 #define buffer_copy_setup_dual(name, type1, name1, type2, name2) \
 off_t \
-buffer_copy_setup_##name(type1 n1, int typeIn, void *procIn, \
-                         type2 n2, int typeOut, void *procOut, \
+buffer_copy_setup_##name(type1 n1, int typeIn, \
+                         type2 n2, int typeOut, \
                          off_t limit, const char *desc, ...) \
 { \
 	va_list al; \
@@ -199,9 +194,7 @@ buffer_copy_setup_##name(type1 n1, int typeIn, void *procIn, \
 	varbufvprintf(&v, desc, al); \
 	va_end(al); \
 \
-	ret = buffer_copy_setup(a1, typeIn, procIn, \
-	                        a2, typeOut, procOut, \
-	                        limit, v.buf); \
+	ret = buffer_copy_setup(a1, typeIn, a2, typeOut, limit, v.buf); \
 	varbuffree(&v); \
 \
 	return ret; \
@@ -229,7 +222,7 @@ buffer_copy(buffer_data_t read_data, buffer_data_t write_data,
 	writebuf = buf = m_malloc(bufsize);
 
 	while (bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
-		bytesread = read_data->proc(read_data, buf, bufsize, desc);
+		bytesread = buffer_read(read_data, buf, bufsize, desc);
 		if (bytesread < 0) {
 			if (errno == EINTR || errno == EAGAIN)
 				continue;
@@ -246,7 +239,7 @@ buffer_copy(buffer_data_t read_data, buffer_data_t write_data,
 		}
 		writebuf = buf;
 		while (bytesread) {
-			byteswritten = write_data->proc(write_data, writebuf, bytesread, desc);
+			byteswritten = buffer_write(write_data, writebuf, bytesread, desc);
 			if (byteswritten == -1) {
 				if (errno == EINTR || errno == EAGAIN)
 					continue;
