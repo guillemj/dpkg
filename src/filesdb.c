@@ -122,6 +122,54 @@ pkg_files_blank(struct pkginfo *pkg)
   pkg->clientdata->files = NULL;
 }
 
+struct fileinlist **
+pkg_files_add_file(struct pkginfo *pkg, const char *filename,
+                   enum fnnflags flags, struct fileinlist **file_tail)
+{
+  struct fileinlist *newent, *current;
+  struct filepackages *packageslump;
+  int putat = 0;
+
+  ensure_package_clientdata(pkg);
+
+  if (file_tail == NULL)
+    file_tail = &pkg->clientdata->files;
+
+  /* Make sure we're at the end. */
+  while ((*file_tail) != NULL) {
+    file_tail = &((*file_tail)->next);
+  }
+
+  /* Create a new node. */
+  newent = nfmalloc(sizeof(struct fileinlist));
+  newent->namenode = findnamenode(filename, flags);
+  newent->next = NULL;
+  *file_tail = newent;
+  file_tail = &newent->next;
+
+  /* Add pkg to newent's package list. */
+  packageslump = newent->namenode->packages;
+  putat = 0;
+  if (packageslump) {
+    while (putat < PERFILEPACKAGESLUMP && packageslump->pkgs[putat])
+       putat++;
+    if (putat >= PERFILEPACKAGESLUMP)
+      packageslump = NULL;
+  }
+  if (!packageslump) {
+    packageslump = nfmalloc(sizeof(struct filepackages));
+    packageslump->more = newent->namenode->packages;
+    newent->namenode->packages = packageslump;
+    putat = 0;
+  }
+  packageslump->pkgs[putat]= pkg;
+  if (++putat < PERFILEPACKAGESLUMP)
+    packageslump->pkgs[putat] = NULL;
+
+  /* Return the position for the next guy. */
+  return file_tail;
+}
+
 /**
  * Load the list of files in this package into memory, or update the
  * list if it is there but stale.
@@ -131,9 +179,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 {
   int fd;
   const char *filelistfile;
-  struct fileinlist **lendp, *newent, *current;
-  struct filepackages *packageslump;
-  int putat;
+  struct fileinlist **lendp;
   struct stat stat_buf;
   char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
 
@@ -195,11 +241,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
       if (ptr == thisline)
         ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
       *ptr = '\0';
-      newent= nfmalloc(sizeof(struct fileinlist));
-      newent->namenode= findnamenode(thisline, fnn_nocopy);
-      newent->next = NULL;
-      *lendp= newent;
-      lendp= &newent->next;
+      lendp = pkg_files_add_file(pkg, thisline, fnn_nocopy, lendp);
       thisline = nextline;
     }
   }
@@ -209,25 +251,6 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   onerr_abort--;
 
-  for (newent= pkg->clientdata->files; newent; newent= newent->next) {
-    packageslump= newent->namenode->packages;
-    putat= 0;
-    if (packageslump) {
-      for (; putat < PERFILEPACKAGESLUMP && packageslump->pkgs[putat];
-           putat++);
-      if (putat >= PERFILEPACKAGESLUMP)
-        packageslump = NULL;
-    }
-    if (!packageslump) {
-      packageslump= nfmalloc(sizeof(struct filepackages));
-      packageslump->more= newent->namenode->packages;
-      newent->namenode->packages= packageslump;
-      putat= 0;
-    }
-    packageslump->pkgs[putat]= pkg;
-    if (++putat < PERFILEPACKAGESLUMP)
-      packageslump->pkgs[putat] = NULL;
-  }      
   pkg->clientdata->fileslistvalid= 1;
 }
 
