@@ -23,7 +23,7 @@ $control_src_fields{$_} = 1 foreach (qw(Bugs Dm-Upload-Allowed
 $control_src_fields{$_} = 1 foreach (@src_dep_fields);
 $control_pkg_fields{$_} = 1 foreach (qw(Architecture Bugs Description Essential
     Homepage Installer-Menu-Item Kernel-Version Package Package-Type
-    Priority Section Subarchitecture Tag));
+    Priority Section Subarchitecture Tag Multi-Arch));
 $control_pkg_fields{$_} = 1 foreach (@pkg_dep_fields);
 
 our $control_src_field_regex = "(?:" . join("|", keys %control_src_fields) . ")";

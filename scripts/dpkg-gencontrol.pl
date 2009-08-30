@@ -22,7 +22,7 @@ my @control_fields = (qw(Package Package-Type Source Version Kernel-Version
                          Architecture Subarchitecture Installer-Menu-Item
                          Essential Origin Bugs Maintainer Installed-Size),
                       @pkg_dep_fields,
-                      qw(Section Priority Homepage Description Tag));
+                      qw(Section Priority Multi-Arch Homepage Description Tag));
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
