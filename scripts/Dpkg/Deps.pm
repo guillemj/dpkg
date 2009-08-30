@@ -473,6 +473,11 @@ undefined when there's no restriction, otherwise it's an
 array ref. It can contain an exclusion list, in that case each
 architecture is prefixed with an exclamation mark.
 
+=item archqual
+
+The arch qualifier of the dependency (can be undef if there's none).
+In the dependency "python:any (>= 2.6)", the arch qualifier is "any".
+
 =back
 
 =head3 Methods
@@ -519,6 +524,7 @@ sub reset {
     $self->{'relation'} = undef;
     $self->{'version'} = undef;
     $self->{'arches'} = undef;
+    $self->{'archqual'} = undef;
 }
 
 sub parse {
@@ -534,6 +540,10 @@ sub parse_string {
             /^\s*                           # skip leading whitespace
               ([a-zA-Z0-9][a-zA-Z0-9+.-]*)  # package name
               (?:                           # start of optional part
+                :                           # colon for architecture
+                (any)                       # architecture name
+              )?                            # end of optional part
+              (?:                           # start of optional part
                 \s* \(                      # open parenthesis for version part
                 \s* (<<|<=|=|>=|>>|<|>)     # relation part
                 \s* (.*?)                   # do not attempt to parse version
@@ -547,18 +557,22 @@ sub parse_string {
 	      \s*$			    # trailing spaces at end
             /x;
     $self->{package} = $1;
-    $self->{relation} = version_normalize_relation($2) if defined($2);
-    if (defined($3)) {
-        $self->{version} = Dpkg::Version->new($3);
-    }
+    $self->{archqual} = $2 if defined($2);
+    $self->{relation} = version_normalize_relation($3) if defined($3);
     if (defined($4)) {
-	$self->{arches} = [ split(/\s+/, $4) ];
+	$self->{version} = Dpkg::Version->new($4);
+    }
+    if (defined($5)) {
+	$self->{arches} = [ split(/\s+/, $5) ];
     }
 }
 
 sub output {
     my ($self, $fh) = @_;
     my $res = $self->{package};
+    if (defined($self->{archqual})) {
+	$res .= ":" . $self->{archqual};
+    }
     if (defined($self->{relation})) {
 	$res .= " (" . $self->{relation} . " " . $self->{version} .  ")";
     }
@@ -1211,6 +1225,9 @@ sub check_package {
 =over
 
 =item * Add new $dep->reset() method that all dependency objects support.
+
+=item * Dpkg::Deps::Simple now recognizes the arch qualifier "any" and
+stores it in the "archqual" property when present.
 
 =back
 
