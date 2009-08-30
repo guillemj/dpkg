@@ -1091,6 +1091,8 @@ void process_archive(const char *filename) {
       newpossi->ed= possi->ed;
       newpossi->next = NULL;
       newpossi->rev_next = newpossi->rev_prev = NULL;
+      newpossi->arch_is_implicit = possi->arch_is_implicit;
+      newpossi->arch = possi->arch;
       newpossi->verrel= possi->verrel;
       if (possi->verrel != dvr_none)
         newpossi->version= possi->version;

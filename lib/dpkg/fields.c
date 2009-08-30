@@ -5,6 +5,7 @@
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
  * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009 Canonical Ltd.
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -32,6 +33,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/arch.h>
 #include <dpkg/path.h>
 #include <dpkg/parsedump.h>
 #include <dpkg/triglib.h>
@@ -386,9 +388,9 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
     for (;;) {
       depnamestart= p;
       /* Skip over package name characters. */
-      while (*p && !isspace(*p) && *p != '(' && *p != ',' && *p != '|') {
-	p++;
-      }
+      while (*p && !isspace(*p) && *p != ':' && *p != '(' && *p != ',' &&
+             *p != '|')
+        p++;
       depnamelength= p - depnamestart ;
       if (depnamelength == 0)
         parse_error(ps,
@@ -419,6 +421,48 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
       dop->rev_prev = NULL;
 
       dop->cyclebreak = false;
+
+      /* See if we have an architecture qualifier. */
+      if (*p == ':') {
+        static struct varbuf arch;
+        const char *archstart;
+        int archlength;
+
+        archstart = ++p;
+        while (*p && !isspace(*p) && *p != '(' && *p != ',' && *p != '|')
+          p++;
+        archlength = p - archstart;
+        if (archlength == 0)
+          parse_error(ps, _("'%s' field, missing architecture name, or garbage "
+                            "where architecture name expected"), fip->name);
+
+        varbuf_reset(&arch);
+        varbuf_add_buf(&arch, archstart, archlength);
+        varbuf_end_str(&arch);
+
+        dop->arch_is_implicit = false;
+        dop->arch = dpkg_arch_find(arch.buf);
+
+        if (dop->arch->type == arch_illegal)
+          emsg = dpkg_arch_name_is_illegal(arch.buf);
+        else if (dop->arch->type != arch_wildcard)
+          emsg = _("a value different from 'any' is currently not allowed");
+        if (emsg)
+          parse_error(ps, _("'%s' field, reference to '%.255s': "
+                            "invalid architecture name '%.255s': %s"),
+                      fip->name, depname.buf, arch.buf, emsg);
+      } else if (fip->integer == dep_conflicts || fip->integer == dep_breaks ||
+                 fip->integer == dep_replaces) {
+        /* Conflics/Breaks/Replaces get an implicit "any" arch qualifier. */
+        dop->arch_is_implicit = true;
+        dop->arch = dpkg_arch_find("any");
+      } else {
+        /* Otherwise use the pkgbin architecture, which will be assigned to
+         * later on by parse.c, once we can guarantee we have parsed it from
+         * the control stanza. */
+        dop->arch_is_implicit = true;
+        dop->arch = NULL;
+      }
 
       /* Skip whitespace after package name. */
       while (isspace(*p)) p++;

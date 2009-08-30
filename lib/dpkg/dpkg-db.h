@@ -72,8 +72,10 @@ struct deppossi {
   struct dependency *up;
   struct pkgset *ed;
   struct deppossi *next, *rev_next, *rev_prev;
+  const struct dpkg_arch *arch;
   struct versionrevision version;
   enum depverrel verrel;
+  bool arch_is_implicit;
   bool cyclebreak;
 };
 

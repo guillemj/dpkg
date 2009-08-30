@@ -170,6 +170,9 @@ static void
 pkg_parse_verify(struct parsedb_state *ps,
                  struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
+  struct dependency *dep;
+  struct deppossi *dop;
+
   parse_must_have_field(ps, pkg->set->name, "package name");
 
   /* XXX: We need to check for status != stat_halfinstalled as while
@@ -203,6 +206,12 @@ pkg_parse_verify(struct parsedb_state *ps,
   if (pkgbin->arch->type == arch_all && pkgbin->multiarch == multiarch_same)
     parse_error(ps, _("package has field '%s' but is architecture all"),
                 "Multi-Arch: same");
+
+  /* Initialize deps to be arch-specific unless stated otherwise. */
+  for (dep = pkgbin->depends; dep; dep = dep->next)
+    for (dop = dep->list; dop; dop = dop->next)
+      if (!dop->arch)
+        dop->arch = pkgbin->arch;
 
   /* Check the Config-Version information:
    * If there is a Config-Version it is definitely to be used, but
