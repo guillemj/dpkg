@@ -4,6 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2002 Wichert Akkerman <wichert@deephackmode.org>
+ * Copyright © 2008,2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -45,6 +46,19 @@ badusage(const char *fmt, ...)
   va_end(al);
 
   ohshit("%s\n\n%s", buf, gettext(printforhelp));
+}
+
+static void
+config_error(const char *fmt, ...)
+{
+  char buf[1024];
+  va_list al;
+
+  va_start(al, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, al);
+  va_end(al);
+
+  ohshit(_("configuration error: %s"), buf);
 }
 
 void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
@@ -92,17 +106,17 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
     }
 
     if (!cip->olong)
-      ohshit(_("configuration error: unknown option %s"), linebuf);
+      config_error(_("unknown option '%s'"), linebuf);
 
     if (cip->takesvalue) {
       if (!opt)
-        ohshit(_("configuration error: %s needs a value"), linebuf);
+        config_error(_("'%s' needs a value"), linebuf);
       if (cip->call) cip->call(cip,opt);
       else
         *cip->sassignto = m_strdup(opt);
     } else {
       if (opt)
-        ohshit(_("configuration error: %s does not take a value"), linebuf);
+        config_error(_("'%s' does not take a value"), linebuf);
       if (cip->call) cip->call(cip,NULL);
       else *cip->iassignto= cip->arg;
     }
