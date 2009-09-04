@@ -3,7 +3,7 @@
  * string.c - string handling routines
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -23,6 +23,8 @@
 #include <config.h>
 #include <compat.h>
 
+#include <string.h>
+
 #include <dpkg/string.h>
 
 char *
@@ -40,5 +42,23 @@ str_escape_fmt(char *dst, const char *src)
 	*d = '\0';
 
 	return d;
+}
+
+/* Check and strip possible surrounding quotes in string. */
+char *
+str_strip_quotes(char *str)
+{
+	if (str[0] == '"' || str[0] == '\'') {
+		size_t str_len = strlen(str);
+
+		if (str[0] != str[str_len - 1])
+			return NULL;
+
+		/* Remove surrounding quotes. */
+		str[str_len - 1] = '\0';
+		str++;
+	}
+
+	return str;
 }
 

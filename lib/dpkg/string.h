@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * string.h - string handling routines
  *
- * Copyright © 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -27,6 +27,7 @@
 DPKG_BEGIN_DECLS
 
 char *str_escape_fmt(char *dest, const char *src);
+char *str_strip_quotes(char *str);
 
 DPKG_END_DECLS
 

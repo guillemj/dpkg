@@ -51,8 +51,51 @@ test_str_escape_fmt(void)
 }
 
 static void
+test_str_strip_quotes(void)
+{
+	char buf[1024], *str;
+
+	strcpy(buf, "unquoted text");
+	str = str_strip_quotes(buf);
+	test_str(str, ==, "unquoted text");
+
+	strcpy(buf, "contained 'quoted text'");
+	str = str_strip_quotes(buf);
+	test_str(str, ==, "contained 'quoted text'");
+
+	strcpy(buf, "contained \"quoted text\"");
+	str = str_strip_quotes(buf);
+	test_str(str, ==, "contained \"quoted text\"");
+
+	strcpy(buf, "'unbalanced quotes");
+	str = str_strip_quotes(buf);
+	test_pass(str == NULL);
+
+	strcpy(buf, "\"unbalanced quotes");
+	str = str_strip_quotes(buf);
+	test_pass(str == NULL);
+
+	strcpy(buf, "'mismatched quotes\"");
+	str = str_strip_quotes(buf);
+	test_pass(str == NULL);
+
+	strcpy(buf, "\"mismatched quotes'");
+	str = str_strip_quotes(buf);
+	test_pass(str == NULL);
+
+	strcpy(buf, "'completely quoted text'");
+	str = str_strip_quotes(buf);
+	test_str(str, ==, "completely quoted text");
+
+	strcpy(buf, "\"completely quoted text\"");
+	str = str_strip_quotes(buf);
+	test_str(str, ==, "completely quoted text");
+}
+
+static void
 test(void)
 {
 	test_str_escape_fmt();
+	test_str_strip_quotes();
 }
 
