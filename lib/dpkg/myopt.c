@@ -49,7 +49,7 @@ badusage(const char *fmt, ...)
 }
 
 static void
-config_error(const char *fmt, ...)
+config_error(const char *file_name, int line_num, const char *fmt, ...)
 {
   char buf[1024];
   va_list al;
@@ -58,11 +58,12 @@ config_error(const char *fmt, ...)
   vsnprintf(buf, sizeof(buf), fmt, al);
   va_end(al);
 
-  ohshit(_("configuration error: %s"), buf);
+  ohshit(_("configuration error: %s:%d: %s"), file_name, line_num, buf);
 }
 
 void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   FILE* file;
+  int line_num = 0;
   char linebuf[MAX_CONFIG_LINE];
 
   file= fopen(fn, "r");
@@ -78,6 +79,8 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
     char* opt;
     const struct cmdinfo *cip;
     int l;
+
+    line_num++;
 
     if ((linebuf[0] == '#') || (linebuf[0] == '\n') || (linebuf[0] == '\0'))
       continue;
@@ -106,17 +109,17 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
     }
 
     if (!cip->olong)
-      config_error(_("unknown option '%s'"), linebuf);
+      config_error(fn, line_num, _("unknown option '%s'"), linebuf);
 
     if (cip->takesvalue) {
       if (!opt)
-        config_error(_("'%s' needs a value"), linebuf);
+        config_error(fn, line_num, _("'%s' needs a value"), linebuf);
       if (cip->call) cip->call(cip,opt);
       else
         *cip->sassignto = m_strdup(opt);
     } else {
       if (opt)
-        config_error(_("'%s' does not take a value"), linebuf);
+        config_error(fn, line_num, _("'%s' does not take a value"), linebuf);
       if (cip->call) cip->call(cip,NULL);
       else *cip->iassignto= cip->arg;
     }
