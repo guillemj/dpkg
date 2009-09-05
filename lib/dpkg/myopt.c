@@ -33,6 +33,7 @@
 #include <stdlib.h>
 
 #include <dpkg/dpkg.h>
+#include <dpkg/string.h>
 #include <dpkg/myopt.h>
 
 void
@@ -94,6 +95,10 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
       *opt++ = '\0';
       if (*opt=='=') opt++;
       while (isspace(*opt)) opt++;
+
+      opt = str_strip_quotes(opt);
+      if (opt == NULL)
+        config_error(fn, line_num, _("unbalanced quotes in '%s'"), linebuf);
     }
 
     for (cip=cmdinfos; cip->olong || cip->oshort; cip++) {
