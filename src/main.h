@@ -51,16 +51,48 @@ struct pkginqueue {
   struct pkginfo *pkg;
 };
 
-enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
-              act_triggers,
-              act_remove, act_purge, act_listpackages, act_avreplace, act_avmerge,
-              act_unpackchk, act_status, act_searchfiles, act_audit, act_listfiles,
-              act_assertpredep, act_printarch, act_predeppackage, act_cmpversions,
-              act_printinstarch, act_compareversions, act_printavail, act_avclear,
-              act_forgetold,
-              act_getselections, act_setselections, act_clearselections,
-              act_assertepoch, act_assertlongfilenames, act_assertmulticonrep,
-	      act_commandfd };
+enum action {
+	act_unset,
+
+	act_unpack,
+	act_configure,
+	act_install,
+	act_triggers,
+	act_remove,
+	act_purge,
+	act_commandfd,
+
+	act_status,
+	act_listpackages,
+	act_listfiles,
+	act_searchfiles,
+
+	act_cmpversions,
+	act_compareversions,
+
+	act_printarch,
+	act_printinstarch,
+
+	act_assertpredep,
+	act_assertepoch,
+	act_assertlongfilenames,
+	act_assertmulticonrep,
+
+	act_audit,
+	act_unpackchk,
+	act_predeppackage,
+
+	act_getselections,
+	act_setselections,
+	act_clearselections,
+
+	act_avail,
+	act_printavail,
+	act_avclear,
+	act_avreplace,
+	act_avmerge,
+	act_forgetold,
+};
 
 enum conffopt {
   cfof_prompt        =     001,
