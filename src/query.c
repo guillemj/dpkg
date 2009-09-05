@@ -43,10 +43,10 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg-array.h>
 #include <dpkg/path.h>
 #include <dpkg/myopt.h>
 
-#include "pkg-array.h"
 #include "filesdb.h"
 #include "main.h"
 

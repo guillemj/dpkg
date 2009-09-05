@@ -29,8 +29,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
-
-#include "pkg-array.h"
+#include <dpkg/pkg-array.h>
 
 int
 pkglistqsortcmp(const void *a, const void *b)
