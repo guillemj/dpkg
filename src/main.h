@@ -68,7 +68,6 @@ enum action {
 	act_searchfiles,
 
 	act_cmpversions,
-	act_compareversions,
 
 	act_printarch,
 	act_printinstarch,
