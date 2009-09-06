@@ -356,7 +356,7 @@ sub main {
     load_extra_override $Extra_override_file if defined $Extra_override_file;
 
     open FIND, "find \Q$dir\E -follow -name '*.dsc' -print |"
-	or syserr(_g("can't fork"));
+        or syserr(_g("cannot fork for %s"), "find");
     while (<FIND>) {
     	chomp;
 	s-^\./+--;

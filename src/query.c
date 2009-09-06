@@ -311,7 +311,7 @@ void enqperpackage(const char *const *argv) {
         fprintf(stderr,_("Package `%s' is not installed and no info is available.\n"),pkg->name);
         failures++;
       } else {
-        writerecord(stdout, "<stdout>", pkg, &pkg->installed);
+        writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
       }
       break;
 
@@ -320,7 +320,7 @@ void enqperpackage(const char *const *argv) {
         fprintf(stderr,_("Package `%s' is not available.\n"),pkg->name);
         failures++;
       } else {
-        writerecord(stdout, "<stdout>", pkg, &pkg->available);
+        writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
       }
       break;
       

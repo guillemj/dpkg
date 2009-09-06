@@ -119,7 +119,7 @@ sub read_cputable
     local $/ = "\n";
 
     open CPUTABLE, "$pkgdatadir/cputable"
-	or syserr(_g("unable to open cputable"));
+	or syserr(_g("cannot open %s"), "cputable");
     while (<CPUTABLE>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
@@ -138,7 +138,7 @@ sub read_ostable
     local $/ = "\n";
 
     open OSTABLE, "$pkgdatadir/ostable"
-	or syserr(_g("unable to open ostable"));
+	or syserr(_g("cannot open %s"), "ostable");
     while (<OSTABLE>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $ostable{$1} = $2;
@@ -157,7 +157,7 @@ sub read_triplettable()
     local $/ = "\n";
 
     open TRIPLETTABLE, "$pkgdatadir/triplettable"
-	or syserr(_g("unable to open triplettable"));
+	or syserr(_g("cannot open %s"), "triplettable");
     while (<TRIPLETTABLE>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)/) {
 	    my $debtriplet = $1;

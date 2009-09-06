@@ -293,7 +293,7 @@ if (!defined($substvars->get('Installed-Size'))) {
     if (!$c) {
         chdir("$packagebuilddir") ||
             syserr(_g("chdir for du to \`%s'"), $packagebuilddir);
-        exec("du", "-k", "-s", ".") or syserr(_g("exec du"));
+        exec("du", "-k", "-s", ".") or syserr(_g("exec %s"), "du");
     }
     my $duo = '';
     while (<DU>) {

@@ -799,7 +799,7 @@ sub find_packages {
     return $pkgmatch unless scalar(@files);
 
     my $pid = open(DPKG, "-|");
-    syserr(_g("cannot fork for dpkg --search")) unless defined($pid);
+    syserr(_g("cannot fork for %s"), "dpkg --search") unless defined($pid);
     if (!$pid) {
 	# Child process running dpkg --search and discarding errors
 	close STDERR;

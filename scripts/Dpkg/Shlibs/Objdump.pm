@@ -80,7 +80,7 @@ sub has_object {
 	} else {
 	    local $ENV{LC_ALL} = "C";
 	    open(P, "-|", "objdump", "-a", "--", $file)
-		|| syserr(_g("cannot fork for objdump"));
+		|| syserr(_g("cannot fork for %s"), "objdump");
 	    while (<P>) {
 		chomp;
 		if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
@@ -154,7 +154,7 @@ sub _read {
 
     local $ENV{LC_ALL} = 'C';
     open(my $objdump, "-|", "objdump", "-w", "-f", "-p", "-T", "-R", $file)
-	|| syserr(_g("cannot fork %s"), "objdump");
+	|| syserr(_g("cannot fork for %s"), "objdump");
     my $ret = $self->_parse($objdump);
     close($objdump);
     return $ret;

@@ -290,7 +290,7 @@ sub do_build {
     my %auth_bin_files;
     my $incbin_file = File::Spec->catfile($dir, "debian", "source", "include-binaries");
     if (-f $incbin_file) {
-        open(INC, "<", $incbin_file) || syserr(_g("can't read %s"), $incbin_file);
+        open(INC, "<", $incbin_file) || syserr(_g("cannot read %s"), $incbin_file);
         while(defined($_ = <INC>)) {
             chomp; s/^\s*//; s/\s*$//;
             next if /^#/ or /^$/;
@@ -398,7 +398,7 @@ sub do_build {
     # Update debian/source/include-binaries if needed
     if (scalar(@binary_files) and $include_binaries) {
         mkpath(File::Spec->catdir($dir, "debian", "source"));
-        open(INC, ">>", $incbin_file) || syserr(_g("can't write %s"), $incbin_file);
+        open(INC, ">>", $incbin_file) || syserr(_g("cannot write %s"), $incbin_file);
         foreach my $binary (@binary_files) {
             unless ($auth_bin_files{$binary}) {
                 print INC "$binary\n";
