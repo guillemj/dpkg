@@ -163,28 +163,29 @@ static void info_list(const char *debar, const char *directory) {
       if (ferror(cc)) ohshite(_("failed to read `%.255s' (in `%.255s')"),
                               cdep->d_name,directory);
       fclose(cc);
-      if (printf(_(" %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"),
-                 (long)stab.st_size, lines,
-                 S_IXUSR & stab.st_mode ? '*' : ' ',
-                 cdep->d_name, interpreter) == EOF)
-        werr("stdout");
+      printf(_(" %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"),
+             (long)stab.st_size, lines, S_IXUSR & stab.st_mode ? '*' : ' ',
+             cdep->d_name, interpreter);
     } else {
-      if (printf(_("     not a plain file          %.255s\n"),cdep->d_name) == EOF)
-        werr("stdout");
+      printf(_("     not a plain file          %.255s\n"), cdep->d_name);
     }
   }
   if (!(cc= fopen("control","r"))) {
     if (errno != ENOENT) ohshite(_("failed to read `control' (in `%.255s')"),directory);
-    if (fputs(_("(no `control' file in control archive!)\n"),stdout) < 0) werr("stdout");
+    fputs(_("(no `control' file in control archive!)\n"), stdout);
   } else {
     lines= 1;
     while ((c= getc(cc))!= EOF) {
-      if (lines) if (putc(' ',stdout) == EOF) werr("stdout");
-      if (putc(c,stdout) == EOF) werr("stdout");
+      if (lines)
+        putc(' ', stdout);
+      putc(c, stdout);
       lines= c=='\n';
     }
-    if (!lines) if (putc('\n',stdout) == EOF) werr("stdout");
+    if (!lines)
+      putc('\n', stdout);
   }
+
+  m_output(stdout, _("<standard output>"));
 }
 
 static void info_field(const char *debar, const char *directory,

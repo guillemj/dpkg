@@ -169,54 +169,58 @@ static const char licensestring[]= N_(
 void
 printversion(void)
 {
-  if (printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH) < 0)
-    werr("stdout");
-  if (printf(gettext(copyrightstring)) < 0) werr("stdout");
-  if (printf(gettext(licensestring), DSELECT) < 0) werr("stdout");
+  printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
+  printf(gettext(copyrightstring));
+  printf(gettext(licensestring), DSELECT);
+
+  m_output(stdout, _("<standard output>"));
 }
 
 void
 usage(void)
 {
   int i;
-  if (printf(_(
-"Usage: %s [<option> ...] [<action> ...]\n"
-"\n"), DSELECT) < 0) werr("stdout");
 
-  if (printf(_(
+  printf(_(
+"Usage: %s [<option> ...] [<action> ...]\n"
+"\n"), DSELECT);
+
+  printf(_(
 "Options:\n"
 "  --admindir <directory>     Use <directory> instead of %s.\n"
 "  --expert                   Turn on expert mode.\n"
 "  --debug <file> | -D<file>  Turn on debugging, sending output to <file>.\n"
 "  --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]\n"
 "                             Configure screen colours.\n"
-"\n"), ADMINDIR) < 0) werr("stdout");
+"\n"), ADMINDIR);
 
-  if (printf(_(
+  printf(_(
 "  --help                     Show this help message.\n"
 "  --version                  Show the version.\n"
 "  --license | --licence      Show the license.\n"
-"\n")) < 0) werr("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "Actions:\n"
 "  access update select install config remove quit\n"
-"\n")) < 0) werr("stdout");
+"\n"));
 
   printf(_("Screenparts:\n"));
   for (i=0; screenparttable[i].name; i++)
     printf("  %s", screenparttable[i].name);
-  if (!fputs("\n\n", stdout)) werr("stdout");
+  fputs("\n\n", stdout);
 
   printf(_("Colours:\n"));
   for (i=0; colourtable[i].name; i++)
     printf("  %s", colourtable[i].name);
-  if (!fputs("\n\n", stdout)) werr("stdout");
+  fputs("\n\n", stdout);
 
   printf(_("Attributes:\n"));
   for (i=0; attrtable[i].name; i++)
     printf("  %s", attrtable[i].name);
-  if (!fputs("\n\n", stdout)) werr("stdout");
+  fputs("\n\n", stdout);
+
+  m_output(stdout, _("<standard output>"));
 }
 
 /* These are called by C code, so need to have C calling convention */

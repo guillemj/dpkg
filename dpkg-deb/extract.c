@@ -207,12 +207,12 @@ void extracthalf(const char *debar, const char *directory,
       }
     }
 
-    if (admininfo >= 2)
-      if (printf(_(" new debian package, version %s.\n"
-                 " size %ld bytes: control archive= %zi bytes.\n"),
-                 versionbuf, (long)stab.st_size, ctrllennum) == EOF ||
-          fflush(stdout)) werr("stdout");
-    
+    if (admininfo >= 2) {
+      printf(_(" new debian package, version %s.\n"
+               " size %ld bytes: control archive= %zi bytes.\n"),
+             versionbuf, (long)stab.st_size, ctrllennum);
+      m_output(stdout, _("<standard output>"));
+    }
   } else if (!strncmp(versionbuf,"0.93",4) &&
              sscanf(versionbuf,"%f%c%d",&versionnum,&nlc,&dummy) == 2 &&
              nlc == '\n') {
@@ -226,13 +226,14 @@ void extracthalf(const char *debar, const char *directory,
     if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
       ohshit(_("archive has malformatted control length `%s'"), ctrllenbuf);
 
-    if (admininfo >= 2)
-      if (printf(_(" old debian package, version %s.\n"
-                 " size %ld bytes: control archive= %zi, main archive= %ld.\n"),
-                 versionbuf, (long)stab.st_size, ctrllennum,
-                 (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l)) == EOF ||
-          fflush(stdout)) werr("stdout");
-    
+    if (admininfo >= 2) {
+      printf(_(" old debian package, version %s.\n"
+               " size %ld bytes: control archive= %zi, main archive= %ld.\n"),
+             versionbuf, (long)stab.st_size, ctrllennum,
+             (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l));
+      m_output(stdout, _("<standard output>"));
+    }
+
     ctrlarea = m_malloc(ctrllennum);
 
     errno=0; if (fread(ctrlarea,1,ctrllennum,ar) != ctrllennum)

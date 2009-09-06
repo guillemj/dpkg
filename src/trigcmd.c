@@ -75,47 +75,45 @@ const char printforhelp[] = N_(
 void
 printversion(void)
 {
-	if (printf(_("Debian %s package trigger utility.\n"), thisname) < 0)
-		werr("stdout");
+	printf(_("Debian %s package trigger utility.\n"), thisname);
 
-	if (printf(_(
+	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
-"See %s --license for copyright and license details.\n"), thisname) < 0)
-		werr("stdout");
+"See %s --license for copyright and license details.\n"), thisname);
+
+	m_output(stdout, _("<standard output>"));
 }
 
 void
 usage(void)
 {
-	if (printf(_(
+	printf(_(
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
-"\n"), thisname, thisname) < 0)
-		werr ("stdout");
+"\n"), thisname, thisname);
 
-	if (printf(_(
+	printf(_(
 "Commands:\n"
 "  --check-supported                Check if the running dpkg supports triggers.\n"
-"\n")) < 0)
-		werr ("stdout");
+"\n"));
 
-	if (printf(_(
+	printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
 "  --license|--licence              Show the copyright licensing terms.\n"
-"\n")) < 0)
-		werr ("stdout");
+"\n"));
 
-	if (printf(_(
+	printf(_(
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --no-await                       No package needs to await the processing.\n"
 "  --no-act                         Just test - don't actually change anything.\n"
-"\n"), admindir) < 0)
-		werr("stdout");
+"\n"), admindir);
+
+	m_output(stdout, _("<standard output>"));
 }
 
 static int done_trig, ctrig;

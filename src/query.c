@@ -439,22 +439,23 @@ void showpackages(const char *const *argv) {
 void
 printversion(void)
 {
-  if (printf(_("Debian `%s' package management program query tool\n"),
-	     DPKGQUERY) < 0) werr("stdout");
-  if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
-	       "later for copying conditions. There is NO warranty.\n"
-	       "See %s --license for copyright and license details.\n"),
-	     DPKGQUERY) < 0) werr("stdout");
+  printf(_("Debian `%s' package management program query tool\n"), DPKGQUERY);
+  printf(_(
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
+"See %s --license for copyright and license details.\n"), DPKGQUERY);
+
+  m_output(stdout, _("<standard output>"));
 }
 
 void
 usage(void)
 {
-  if (printf(_(
+  printf(_(
 "Usage: %s [<option> ...] <command>\n"
-"\n"), DPKGQUERY) < 0) werr ("stdout");
+"\n"), DPKGQUERY);
 
-  if (printf(_(
+  printf(_(
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
 "  -p|--print-avail <package> ...   Display available version details.\n"
@@ -462,28 +463,30 @@ usage(void)
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -W|--show <pattern> ...          Show information on package(s).\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"\n")) < 0) werr ("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
 "  --license|--licence              Show the copyright licensing terms.\n"
-"\n")) < 0) werr ("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
-"\n"), ADMINDIR) < 0) werr ("stdout");
+"\n"), ADMINDIR);
 
-  if (printf(_(
+  printf(_(
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
 "  by inserting variable references to package fields using the ${var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in which\n"
-"  case left alignment will be used.\n")) < 0) werr ("stdout");
+"  case left alignment will be used.\n"));
+
+  m_output(stdout, _("<standard output>"));
 }
 
 const char thisname[]= "dpkg-query";

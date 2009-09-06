@@ -53,22 +53,24 @@ const char* showformat	= "${Package}\t${Version}\n";
 void
 printversion(void)
 {
-  if (printf(_("Debian `%s' package archive backend version %s.\n"),
-	     BACKEND, DPKG_VERSION_ARCH) < 0) werr("stdout");
-  if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
-	       "later for copying conditions. There is NO warranty.\n"
-	       "See %s --license for copyright and license details.\n"),
-	     BACKEND) < 0) werr("stdout");
+  printf(_("Debian `%s' package archive backend version %s.\n"),
+         BACKEND, DPKG_VERSION_ARCH);
+  printf(_(
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
+"See %s --license for copyright and license details.\n"), BACKEND);
+
+  m_output(stdout, _("<standard output>"));
 }
 
 void
 usage(void)
 {
-  if (printf(_(
+  printf(_(
 "Usage: %s [<option> ...] <command>\n"
-"\n"), BACKEND) < 0) werr("stdout");
+"\n"), BACKEND);
 
-  if (printf(_(
+  printf(_(
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
 "  -c|--contents <deb>              List contents.\n"
@@ -79,21 +81,21 @@ usage(void)
 "  -x|--extract <deb> <directory>   Extract files.\n"
 "  -X|--vextract <deb> <directory>  Extract & list files.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
-"\n")) < 0) werr("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
 "  --license|--licence              Show the copyright licensing terms.\n"
-"\n")) < 0) werr("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
 "<cfield> is the name of a field in the main `control' file.\n"
-"\n")) < 0) werr("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
 "  -D                               Enable debugging output.\n"
@@ -103,23 +105,24 @@ usage(void)
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
 "                                     Allowed values: gzip, bzip2, lzma, none.\n"
-"\n")) < 0) werr("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
 "  by inserting variable references to package fields using the ${var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in which\n"
-"  case left alignment will be used.\n")) < 0) werr("stdout");
+"  case left alignment will be used.\n"));
 
-  if (printf(_(
+  printf(_(
 "\n"
 "Use `dpkg' to install and remove packages from your system, or\n"
 "`dselect' or `aptitude' for user-friendly package management.  Packages\n"
-"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n")) < 0)
-    werr("stdout");
+"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"));
+
+  m_output(stdout, _("<standard output>"));
 }
 
 const char thisname[]= BACKEND;

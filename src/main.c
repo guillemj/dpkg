@@ -53,12 +53,14 @@
 void
 printversion(void)
 {
-  if (printf(_("Debian `%s' package management program version %s.\n"),
-	     DPKG, DPKG_VERSION_ARCH) < 0) werr("stdout");
-  if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
-	       "later for copying conditions. There is NO warranty.\n"
-	       "See %s --license for copyright and license details.\n"),
-	     DPKG) < 0) werr("stdout");
+  printf(_("Debian `%s' package management program version %s.\n"),
+         DPKG, DPKG_VERSION_ARCH);
+  printf(_(
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
+"See %s --license for copyright and license details.\n"), DPKG);
+
+  m_output(stdout, _("<standard output>"));
 }
 /*
    options that need fixing:
@@ -67,11 +69,11 @@ printversion(void)
 void
 usage(void)
 {
-  if (fprintf (stdout, _(
+  printf(_(
 "Usage: %s [<option> ...] <command>\n"
-"\n"), DPKG) < 0) werr ("stdout");
+"\n"), DPKG);
 
-  if (fprintf (stdout, _(
+  printf(_(
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
 "  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -97,25 +99,25 @@ usage(void)
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
-"\n")) < 0) werr ("stdout");
+"\n"));
 
-  if (fprintf (stdout, _(
+  printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
 "  --license|--licence              Show the copyright licensing terms.\n"
-"\n")) < 0) werr ("stdout");
+"\n"));
 
-  if (fprintf (stdout, _(
+  printf(_(
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
-"\n"), BACKEND) < 0) werr ("stdout");
+"\n"), BACKEND);
 
-  if (fprintf (stdout, _(
+  printf(_(
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
-"\n")) < 0) werr ("stdout");
+"\n"));
 
-  if (fprintf (stdout, _(
+  printf(_(
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
 "  --root=<directory>         Install on a different root directory.\n"
@@ -137,18 +139,19 @@ usage(void)
 "  --no-force-...|--refuse-...\n"
 "                             Stop when problems encountered.\n"
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
-"\n"), ADMINDIR) < 0) werr ("stdout");
+"\n"), ADMINDIR);
 
-  if (fprintf (stdout, _(
+  printf(_(
 "Comparison operators for --compare-versions are:\n"
 "  lt le eq ne ge gt       (treat empty version as earlier than any version);\n"
 "  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n"
 "  < << <= = >= >> >       (only for compatibility with control file syntax).\n"
-"\n")) < 0) werr ("stdout");
+"\n"));
 
-  if (fprintf (stdout, _(
-"Use `dselect' or `aptitude' for user-friendly package management.\n")) < 0)
-  werr ("stdout");
+  printf(_(
+"Use `dselect' or `aptitude' for user-friendly package management.\n"));
+
+  m_output(stdout, _("<standard output>"));
 }
 
 const char thisname[]= "dpkg";
@@ -223,7 +226,7 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
 
   if (*value == 'h') {
-    if (printf(_(
+    printf(_(
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
 " number  ref. in source   description\n"
@@ -242,8 +245,8 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
 "   2000   stupidlyverbose   Insane amounts of drivel\n"
 "\n"
 "Debugging options are be mixed using bitwise-or.\n"
-"Note that the meanings and values are subject to change.\n"),
-             DPKG) < 0) werr("stdout");
+"Note that the meanings and values are subject to change.\n"), DPKG);
+    m_output(stdout, _("<standard output>"));
     exit(0);
   }
   
@@ -378,7 +381,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   const struct forceinfo *fip;
 
   if (!strcmp(value,"help")) {
-    if (printf(_(
+    printf(_(
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
@@ -409,8 +412,8 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 "  remove-essential [!]   Remove an essential package\n"
 "\n"
 "WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"),
-               DPKG) < 0) werr("stdout");
+"Forcing options marked [*] are enabled by default.\n"), DPKG);
+    m_output(stdout, _("<standard output>"));
     exit(0);
   }
 

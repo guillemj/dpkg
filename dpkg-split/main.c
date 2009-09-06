@@ -45,23 +45,25 @@
 void
 printversion(void)
 {
-  if (printf(_("Debian `%s' package split/join tool; version %s.\n"),
-	     SPLITTER, DPKG_VERSION_ARCH) < 0) werr ("stdout");
-  if (printf(_("Copyright (C) 1994-1996 Ian Jackson.\n")) < 0) werr ("stdout");
-  if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
-	       "later for copying conditions. There is NO warranty.\n"
-	       "See %s --license for copyright and license details.\n"),
-	     SPLITTER) < 0) werr("stdout");
+  printf(_("Debian `%s' package split/join tool; version %s.\n"),
+         SPLITTER, DPKG_VERSION_ARCH);
+  printf(_("Copyright (C) 1994-1996 Ian Jackson.\n"));
+  printf(_(
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
+"See %s --license for copyright and license details.\n"), SPLITTER);
+
+  m_output(stdout, _("<standard output>"));
 }
 
 void
 usage(void)
 {
-  if (printf(_(
+  printf(_(
 "Usage: %s [<option> ...] <command>\n"
-"\n"), SPLITTER) < 0) werr("stdout");
+"\n"), SPLITTER);
 
-  if (printf(_(
+  printf(_(
 "Commands:\n"
 "  -s|--split <file> [<prefix>]     Split an archive.\n"
 "  -j|--join <part> <part> ...      Join parts together.\n"
@@ -69,15 +71,15 @@ usage(void)
 "  -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
 "  -l|--listq                       List unmatched pieces.\n"
 "  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
-"\n")) < 0) werr("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
 "  --license|--licence              Show the copyright licensing terms.\n"
-"\n")) < 0) werr("stdout");
+"\n"));
 
-  if (printf(_(
+  printf(_(
 "Options:\n"
 "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
 "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
@@ -86,7 +88,9 @@ usage(void)
 "  --msdos                          Generate 8.3 filenames.\n"
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"),
-	     ADMINDIR, PARTSDIR) < 0) werr("stdout");
+         ADMINDIR, PARTSDIR);
+
+  m_output(stdout, _("<standard output>"));
 }
 
 const char thisname[]= SPLITTER;
