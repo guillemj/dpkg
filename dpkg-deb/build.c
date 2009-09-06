@@ -351,10 +351,8 @@ void do_build(const char *const *argv) {
     } else if (errno != ENOENT) {
       ohshite(_("error opening conffiles file"));
     }
-    if (warns) {
-      if (fprintf(stderr, _("dpkg-deb: ignoring %d warnings about the control"
-                  " file(s)\n"), warns) == EOF) werr("stderr");
-    }
+    if (warns)
+      warning(_("ignoring %d warnings about the control file(s)\n"), warns);
   }
   if (ferror(stdout)) werr("stdout");
   
