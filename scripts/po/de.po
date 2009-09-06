@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-08-19 18:27+0200\n"
+"POT-Creation-Date: 2009-09-06 09:04+0200\n"
 "PO-Revision-Date: 2009-08-19 18:33+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
@@ -835,9 +835,10 @@ msgstr "Fork für du"
 msgid "chdir for du to `%s'"
 msgstr "chdir nach »%s« für du"
 
-#: scripts/dpkg-gencontrol.pl:296
-msgid "exec du"
-msgstr "exec du"
+#: scripts/dpkg-gencontrol.pl:296 scripts/Dpkg/IPC.pm:262
+#, perl-format
+msgid "exec %s"
+msgstr "führe %s aus"
 
 #: scripts/dpkg-gencontrol.pl:303
 #, perl-format
@@ -1009,8 +1010,9 @@ msgid "cannot find '%s'"
 msgstr "kann »%s« nicht finden"
 
 #: scripts/dpkg-name.pl:98 scripts/dpkg-scansources.pl:252
+#: scripts/Dpkg/Arch.pm:122 scripts/Dpkg/Arch.pm:141 scripts/Dpkg/Arch.pm:160
 #: scripts/Dpkg/Changelog.pm:881 scripts/Dpkg/IPC.pm:238
-#: scripts/Dpkg/Shlibs.pm:77 scripts/Dpkg/Shlibs/SymbolFile.pm:143
+#: scripts/Dpkg/Shlibs.pm:77 scripts/Dpkg/Shlibs/SymbolFile.pm:145
 #: scripts/Dpkg/Source/Package.pm:142 scripts/Dpkg/Source/Package.pm:151
 #, perl-format
 msgid "cannot open %s"
@@ -1361,9 +1363,11 @@ msgstr "keine Binärpakete in %s angegeben"
 msgid "1 to 3 args expected\n"
 msgstr "1 bis 3 Argumente erwartet\n"
 
-#: scripts/dpkg-scansources.pl:359
-msgid "can't fork"
-msgstr "kann keinen Fork durchführen"
+#: scripts/dpkg-scansources.pl:359 scripts/dpkg-shlibdeps.pl:802
+#: scripts/Dpkg/Shlibs/Objdump.pm:83 scripts/Dpkg/Shlibs/Objdump.pm:157
+#, fuzzy, perl-format
+msgid "cannot fork for %s"
+msgstr "kann %s nicht forken"
 
 #: scripts/dpkg-shlibdeps.pl:79
 #, perl-format
@@ -1585,10 +1589,6 @@ msgstr ""
 "nicht identifiziert werden, da das DEBIAN-Unterverzeichnis in der Wurzel des "
 "Paketbaubaums fehlt."
 
-#: scripts/dpkg-shlibdeps.pl:802
-msgid "cannot fork for dpkg --search"
-msgstr "kann Fork für »dpkg --search« nicht durchführen"
-
 #: scripts/dpkg-shlibdeps.pl:809
 msgid "cannot exec dpkg"
 msgstr "kann dpkg nicht ausführen"
@@ -1647,6 +1647,7 @@ msgstr "Architektur %s ist nur alleine erlaubt (Liste für Paket %s lautet »%s«)"
 
 #: scripts/dpkg-source.pl:255 scripts/Dpkg/Control.pm:86
 #: scripts/Dpkg/Shlibs/Objdump.pm:98 scripts/Dpkg/Source/CompressedFile.pm:134
+#: scripts/Dpkg/Source/Package/V2.pm:293
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:79
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:283 scripts/Dpkg/Vendor.pm:64
 #, perl-format
@@ -1905,18 +1906,6 @@ msgid ""
 "Unknown gcc system type %s, falling back to default (native compilation)"
 msgstr ""
 "Unbekannter gcc-Systemtyp %s, falle auf Standard (native Übersetzung) zurück"
-
-#: scripts/Dpkg/Arch.pm:122
-msgid "unable to open cputable"
-msgstr "konnte cputable nicht öffnen"
-
-#: scripts/Dpkg/Arch.pm:141
-msgid "unable to open ostable"
-msgstr "konnte ostable nicht öffnen"
-
-#: scripts/Dpkg/Arch.pm:160
-msgid "unable to open triplettable"
-msgstr "konnte triplettable nicht öffnen"
 
 #: scripts/Dpkg/Cdata.pm:78
 #, perl-format
@@ -2246,9 +2235,10 @@ msgid "reopen stdin"
 msgstr "öffne Stdin erneut"
 
 #: scripts/Dpkg/IPC.pm:246 scripts/Dpkg/IPC.pm:254
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:217
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:219
 #: scripts/Dpkg/Source/CompressedFile.pm:120
-#: scripts/Dpkg/Source/Package.pm:464 scripts/Dpkg/Source/Package/V2.pm:186
+#: scripts/Dpkg/Source/Package.pm:372 scripts/Dpkg/Source/Package.pm:464
+#: scripts/Dpkg/Source/Package/V2.pm:186 scripts/Dpkg/Source/Package/V2.pm:401
 #: scripts/Dpkg/Source/Package/V2.pm:430
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:145
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:262
@@ -2260,11 +2250,6 @@ msgstr "kann %s nicht schreiben"
 #: scripts/Dpkg/IPC.pm:248 scripts/Dpkg/IPC.pm:256
 msgid "reopen stdout"
 msgstr "öffne Stdout erneut"
-
-#: scripts/Dpkg/IPC.pm:262
-#, perl-format
-msgid "exec %s"
-msgstr "führe %s aus"
 
 #: scripts/Dpkg/IPC.pm:324
 msgid "child process"
@@ -2282,19 +2267,10 @@ msgid_plural "%s didn't complete in %d seconds"
 msgstr[0] "%s beendete sich nicht innerhalb von %d Sekunden"
 msgstr[1] "%s beendeten sich nicht innerhalb von %d Sekunden"
 
-#: scripts/Dpkg/Shlibs/Objdump.pm:83
-msgid "cannot fork for objdump"
-msgstr "kann keinen Fork für Objdump ausführen"
-
 #: scripts/Dpkg/Shlibs/Objdump.pm:91
 #, perl-format
 msgid "objdump on `%s'"
 msgstr "objdump auf »%s«"
-
-#: scripts/Dpkg/Shlibs/Objdump.pm:157
-#, perl-format
-msgid "cannot fork %s"
-msgstr "kann %s nicht forken"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:198
 #, perl-format
@@ -2312,30 +2288,30 @@ msgid "you can't use wildcards on unversioned symbols: %s"
 msgstr ""
 "Sie können keine Joker-Zeichen für unversionierte Symbole verwenden: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:149
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:151
 #, perl-format
 msgid "Symbol information must be preceded by a header (file %s, line %s)."
 msgstr ""
 "Symbol-Informationen müssen durch Kopfzeile eingeleitet werden (Datei %s, "
 "Zeile %s)."
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:158
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:160
 #, perl-format
 msgid "Failed to parse line in %s: %s"
 msgstr "Konnte Zeile in %s nicht auswerten: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:190
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:192
 #, perl-format
 msgid "Failed to parse a line in %s: %s"
 msgstr "Konnte eine Zeile in %s nicht auswerten: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:205
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:207
 #, perl-format
 msgid "Tried to merge the same object (%s) twice in a symfile."
 msgstr ""
 "Versuchte zweimal in einer Symdatei das gleiche Objekt (%s) zusammenzuführen."
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:262
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:264
 msgid "Can't merge symbols from objects without SONAME."
 msgstr "Kann Symbole von Objekten ohne SONAME nicht zusammenführen."
 
@@ -2649,11 +2625,6 @@ msgstr "konnte Signatur von %s nicht überprüfen, da Gpg nicht installiert ist"
 msgid "%s is not a valid option for %s"
 msgstr "%s ist keine gültige Option für %s"
 
-#: scripts/Dpkg/Source/Package.pm:372 scripts/Dpkg/Source/Package/V2.pm:401
-#, perl-format
-msgid "can't write %s"
-msgstr "kann %s nicht schreiben"
-
 #: scripts/Dpkg/Source/Package.pm:384
 #, perl-format
 msgid "%s does not exist"
@@ -2912,11 +2883,6 @@ msgstr "-b akzeptiert nur einen Parameter mit dem Format »%s«"
 #: scripts/Dpkg/Source/Package/V2.pm:284
 msgid "copy of the debian directory"
 msgstr "Kopie des debian-Verzeichnisses"
-
-#: scripts/Dpkg/Source/Package/V2.pm:293
-#, perl-format
-msgid "can't read %s"
-msgstr "kann %s nicht lesen"
 
 #: scripts/Dpkg/Source/Package/V2.pm:312
 #, perl-format
@@ -3187,6 +3153,33 @@ msgstr ""
 #, perl-format
 msgid "version number contains illegal character `%s'"
 msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
+
+#~ msgid "exec du"
+#~ msgstr "exec du"
+
+#~ msgid "can't fork"
+#~ msgstr "kann keinen Fork durchführen"
+
+#~ msgid "cannot fork for dpkg --search"
+#~ msgstr "kann Fork für »dpkg --search« nicht durchführen"
+
+#~ msgid "unable to open cputable"
+#~ msgstr "konnte cputable nicht öffnen"
+
+#~ msgid "unable to open ostable"
+#~ msgstr "konnte ostable nicht öffnen"
+
+#~ msgid "unable to open triplettable"
+#~ msgstr "konnte triplettable nicht öffnen"
+
+#~ msgid "cannot fork for objdump"
+#~ msgstr "kann keinen Fork für Objdump ausführen"
+
+#~ msgid "can't write %s"
+#~ msgstr "kann %s nicht schreiben"
+
+#~ msgid "can't read %s"
+#~ msgstr "kann %s nicht lesen"
 
 #~ msgid "%s has PGP start token but not end token"
 #~ msgstr "%s hat PGP »start«-Markierung aber keine »end«-Markierung"

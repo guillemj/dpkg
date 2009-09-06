@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-06-27 19:08+0200\n"
+"POT-Creation-Date: 2009-09-06 09:04+0200\n"
 "PO-Revision-Date: 2008-12-22 19:12+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -17,71 +17,114 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: LocFactoryEditor 1.8\n"
 
-#: lib/compression.c:35
+#: lib/dpkg/buffer.c:114
+#, c-format
+msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
+msgstr ""
+"bị lỗi trong buffer_write(fd) [ghi bộ đệm(mô tả tập tin)] (%i, ret=%li): %s"
+
+#: lib/dpkg/buffer.c:122
+#, c-format
+msgid "eof in buffer_write(stream): %s"
+msgstr ""
+"gặp kết thúc tập tin trong buffer_write(stream) [bộ đệm_ghi(luồng)]: %s"
+
+#: lib/dpkg/buffer.c:124
+#, c-format
+msgid "error in buffer_write(stream): %s"
+msgstr "lỗi trong buffer_write(stream [bộ đệm_ghi(luồng)]: %s"
+
+#: lib/dpkg/buffer.c:130
+#, c-format
+msgid "unknown data type `%i' in buffer_write\n"
+msgstr "kiểu dữ liệu không rõ « %i » trong buffer_write [bộ đệm_ghi]\n"
+
+#: lib/dpkg/buffer.c:146
+#, c-format
+msgid "failed in buffer_read(fd): %s"
+msgstr "bị lỗi trong buffer_read(fd) [bộ đệm_đọc(mô tả tập tin)]: %s"
+
+#: lib/dpkg/buffer.c:153
+#, c-format
+msgid "error in buffer_read(stream): %s"
+msgstr "lỗi trong buffer_read(stream) [bộ đệm_đọc(luồng)]: %s"
+
+#: lib/dpkg/buffer.c:156
+#, c-format
+msgid "unknown data type `%i' in buffer_read\n"
+msgstr "kiểu dữ liệu không rõ « %i » trong buffer_read [bộ đệm_đọc]\n"
+
+#: lib/dpkg/buffer.c:247
+#, c-format
+msgid "failed in buffer_copy (%s)"
+msgstr "bị lỗi trong buffer_copy [bộ đệm_chép] (%s)"
+
+#: lib/dpkg/buffer.c:249
+#, c-format
+msgid "short read in buffer_copy (%s)"
+msgstr "đọc ngắn trong buffer_copy [bộ đệm_chép] (%s)"
+
+#: lib/dpkg/compression.c:36
 #, c-format
 msgid "%s: failed to exec '%s %s'"
 msgstr "%s: lỗi thực hiện « %s %s »"
 
-#: lib/compression.c:61
+#: lib/dpkg/compression.c:62
 #, c-format
 msgid "%s: internal gzip error: `%s'"
 msgstr "%s: lỗi nội bộ của gzip: « %s »"
 
-#: lib/compression.c:84
+#: lib/dpkg/compression.c:85
 #, c-format
 msgid "%s: internal bzip2 error: `%s'"
 msgstr "%s: lỗi nội bộ của bzip2: « %s »"
 
-#: lib/compression.c:96
+#: lib/dpkg/compression.c:97
 #, c-format
 msgid "%s: decompression"
 msgstr "%s: giải nén"
 
-#: lib/compression.c:129
+#: lib/dpkg/compression.c:130
 #, c-format
 msgid "%s: internal gzip error: read: `%s'"
 msgstr "%s: lỗi nội bộ của gzip: đọc: « %s »"
 
-#: lib/compression.c:139
+#: lib/dpkg/compression.c:140
 #, c-format
 msgid "%s: internal gzip error: write: `%s'"
 msgstr "%s: lỗi nội bộ của gzip: ghi: « %s »"
 
-#: lib/compression.c:142
+#: lib/dpkg/compression.c:143
 #, c-format
 msgid "%s: internal gzip error: read(%i) != write(%i)"
 msgstr "%s: lỗi nội bộ của gzip: đọc(%i) != ghi(%i)"
 
-#: lib/compression.c:164
+#: lib/dpkg/compression.c:165
 #, c-format
 msgid "%s: internal bzip2 error: read: `%s'"
 msgstr "%s: lỗi nội bộ của bzip2: đọc: « %s »"
 
-#: lib/compression.c:174
+#: lib/dpkg/compression.c:175
 #, c-format
 msgid "%s: internal bzip2 error: write: `%s'"
 msgstr "%s: lỗi nội bộ của bzip2: ghi: « %s »"
 
-#: lib/compression.c:177
+#: lib/dpkg/compression.c:178
 #, c-format
 msgid "%s: internal bzip2 error: read(%i) != write(%i)"
 msgstr "%s: lỗi nội bộ của bzip2: đọc(%i) != ghi(%i)"
 
-#: lib/compression.c:192
+#: lib/dpkg/compression.c:193
 #, c-format
 msgid "%s: compression"
 msgstr "%s: nén"
 
-#: lib/database.c:199
+#: lib/dpkg/database.c:199
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "kích cỡ %7d xuất hiện %5d lần\n"
 
-#: lib/database.c:200
-msgid "failed write during hashreport"
-msgstr "lỗi ghi trong khi hashreport (thông báo băm)"
-
-#: lib/dbmodify.c:63
+#: lib/dpkg/dbmodify.c:63
 #, c-format
 msgid ""
 "updates directory contains file `%.250s' whose name is too long (length=%d, "
@@ -89,7 +132,7 @@ msgid ""
 msgstr ""
 "thư mục cập nhật chứa tập tin « %.250s » có tên quá dài (độ dài=%d, tối đa=%d)"
 
-#: lib/dbmodify.c:67
+#: lib/dpkg/dbmodify.c:67
 #, c-format
 msgid ""
 "updates directory contains files with different length names (both %d and %d)"
@@ -97,128 +140,128 @@ msgstr ""
 "thư mục cập nhật chứa các tập tin có tên có chiều dài khác nhau (cả hai %d "
 "và %d)"
 
-#: lib/dbmodify.c:81
+#: lib/dpkg/dbmodify.c:81
 #, c-format
 msgid "cannot scan updates directory `%.255s'"
 msgstr "không thể quét thư mục cập nhật « %.255s »"
 
-#: lib/dbmodify.c:97
+#: lib/dpkg/dbmodify.c:97
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
 msgstr "lỗi gỡ bỏ tập tin cập nhật đã hợp nhất %.255s"
 
-#: lib/dbmodify.c:115 dpkg-deb/build.c:358
+#: lib/dpkg/dbmodify.c:115 dpkg-deb/build.c:362
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "không thể tạo « %.255s »"
 
-#: lib/dbmodify.c:119
+#: lib/dpkg/dbmodify.c:119
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr "không thể làm đầy %.250s bằng các ký tự đệm lót"
 
-#: lib/dbmodify.c:121
+#: lib/dpkg/dbmodify.c:121
 #, c-format
 msgid "unable to flush %.250s after padding"
 msgstr "không thể xóa sạch %.250s sau khi đệm lót"
 
-#: lib/dbmodify.c:123
+#: lib/dpkg/dbmodify.c:123
 #, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "không thể tìm vị trí tới đầu của %.250s sau khi đệm lót"
 
-#: lib/dbmodify.c:160
+#: lib/dpkg/dbmodify.c:160
 msgid "requested operation requires superuser privilege"
 msgstr "thao tác đã yêu cầu cần thiết quyền của siêu người dùng (superuser)"
 
-#: lib/dbmodify.c:165
+#: lib/dpkg/dbmodify.c:165
 msgid "unable to access dpkg status area"
 msgstr "không thể truy cập vùng trạng thái của dpkg"
 
-#: lib/dbmodify.c:167
+#: lib/dpkg/dbmodify.c:167
 msgid "operation requires read/write access to dpkg status area"
 msgstr "thao tác cần thiết quyền đọc/ghi trong vùng trạng thái của dpkg"
 
-#: lib/dbmodify.c:216
+#: lib/dpkg/dbmodify.c:216
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "lỗi gỡ bỏ tập tin cập nhật của mình %.255s"
 
-#: lib/dbmodify.c:254
+#: lib/dpkg/dbmodify.c:254
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "không thể ghi trạng thái đã cập nhật của « %.250s »"
 
-#: lib/dbmodify.c:256
+#: lib/dpkg/dbmodify.c:256
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "không thể xóa sạch trạng thái đã cập nhật của « %.250s »"
 
-#: lib/dbmodify.c:258
+#: lib/dpkg/dbmodify.c:258
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "không thể cắt ngắn cho trạng thái đã cập nhật của « %.250s »"
 
-#: lib/dbmodify.c:260
+#: lib/dpkg/dbmodify.c:260
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "không thể fsync (đồng bộ tập tin) trạng thái đã cập nhật của « %.250s »"
 
-#: lib/dbmodify.c:262
+#: lib/dpkg/dbmodify.c:262
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "không thể đóng trạng thái đã cập nhật của « %.250s »"
 
-#: lib/dbmodify.c:265
+#: lib/dpkg/dbmodify.c:265
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "không thể cài đặt trạng thái đã cập nhật của « %.250s »"
 
-#: lib/dump.c:350
+#: lib/dpkg/dump.c:350
 #, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr "lỗi ghi chi tiết về « %.50s » vào « %.250s »"
 
-#: lib/dump.c:376
+#: lib/dpkg/dump.c:376
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "lỗi mở « %s » để ghi thông tin %s"
 
-#: lib/dump.c:379
+#: lib/dpkg/dump.c:379
 msgid "unable to set buffering on status file"
 msgstr "không thể đặt khả năng bộ đệm trên tập tin trạng thái"
 
-#: lib/dump.c:390
+#: lib/dpkg/dump.c:390
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "lỗi ghi mục %s về « %.50s » vào « %.250s »"
 
-#: lib/dump.c:398
+#: lib/dpkg/dump.c:398
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "lỗi xóa sách thông tin %s ra « %.250s »"
 
-#: lib/dump.c:400
+#: lib/dpkg/dump.c:400
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "lỗi fsync (đồng bộ tập tin) thông tin %s với « %.250s »"
 
-#: lib/dump.c:402
+#: lib/dpkg/dump.c:402
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "lỗi đóng « %.250s » sau khi ghi thông tin %s"
 
-#: lib/dump.c:406
+#: lib/dpkg/dump.c:406
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr "lỗi liên kết « %.250s » tới « %.250s » để sao lưu thông tin %s"
 
-#: lib/dump.c:409
+#: lib/dpkg/dump.c:409
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "lỗi cài đặt « %.250s » như là « %.250s » chứa thông tin %s"
 
-#: lib/ehandle.c:95
+#: lib/dpkg/ehandle.c:95
 #, c-format
 msgid ""
 "%s: unrecoverable fatal error, aborting:\n"
@@ -227,11 +270,11 @@ msgstr ""
 "%s: gặp lỗi nghiêm trọng mà không thể phục hồi nên hủy bỏ :\n"
 "%s\n"
 
-#: lib/ehandle.c:111
+#: lib/dpkg/ehandle.c:111
 msgid "out of memory pushing error handler: "
 msgstr "hết bộ nhớ khi đầy bộ quản lý lỗi: "
 
-#: lib/ehandle.c:127
+#: lib/dpkg/ehandle.c:127
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -240,157 +283,157 @@ msgstr ""
 "%s: lỗi khi dọn dẹp:\n"
 " %s\n"
 
-#: lib/ehandle.c:142
+#: lib/dpkg/ehandle.c:142
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: quá nhiều lỗi lồng nhau trong khi phục hồi lỗi.\n"
 
-#: lib/ehandle.c:215
+#: lib/dpkg/ehandle.c:215
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "không đủ bộ nhớ cho mục dọn dẹp mới có nhiều đối số"
 
-#: lib/ehandle.c:227
+#: lib/dpkg/ehandle.c:227
 msgid "out of memory for new cleanup entry"
 msgstr "không đủ bộ nhớ cho mục dọn dẹp mới"
 
-#: lib/ehandle.c:292
+#: lib/dpkg/ehandle.c:292
 #, fuzzy, c-format
 msgid "%s: warning: %s\n"
 msgstr ""
 "%s: lỗi khi dọn dẹp:\n"
 " %s\n"
 
-#: lib/ehandle.c:296
+#: lib/dpkg/ehandle.c:296
 #, c-format
 msgid "error writing `%s'"
 msgstr "lỗi ghi « %s »"
 
-#: lib/ehandle.c:309
+#: lib/dpkg/ehandle.c:309
 #, fuzzy, c-format
 msgid "%s:%s:%d: internal error: %s\n"
 msgstr "%s:%d: lỗi nội bộ « %s »\n"
 
-#: lib/fields.c:46
+#: lib/dpkg/fields.c:46
 #, c-format
 msgid "%s is missing"
 msgstr "%s còn thiếu"
 
-#: lib/fields.c:55
+#: lib/dpkg/fields.c:55
 #, c-format
 msgid "`%.*s' is not allowed for %s"
 msgstr "không cho phép « %*s » cho %s"
 
-#: lib/fields.c:63
+#: lib/dpkg/fields.c:63
 #, c-format
 msgid "junk after %s"
 msgstr "rác nằm sau %s"
 
-#: lib/fields.c:73
+#: lib/dpkg/fields.c:75
 #, c-format
 msgid "invalid package name (%.250s)"
 msgstr "tên gói không hợp lệ (%.250s)"
 
-#: lib/fields.c:89
+#: lib/dpkg/fields.c:90
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "trường chi tiết tập tin rỗng « %s »"
 
-#: lib/fields.c:92
+#: lib/dpkg/fields.c:93
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "không cho phép trường chi tiết tập tin « %s » trong tập tin trạng thái"
 
-#: lib/fields.c:105
+#: lib/dpkg/fields.c:106
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr ""
 "quá nhiều giá trị trong trường chi tiết tập tin « %s » (so sánh với những cái "
 "khác)"
 
-#: lib/fields.c:119
+#: lib/dpkg/fields.c:120
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 "quá ít giá trị trong trường chi tiết tập tin « %s » (so sánh với những cái "
 "khác)"
 
-#: lib/fields.c:139
+#: lib/dpkg/fields.c:138
 msgid "yes/no in boolean field"
 msgstr "có/không trong trường hợp lý (đúng/sai)"
 
-#: lib/fields.c:157
+#: lib/dpkg/fields.c:154
 msgid "word in `priority' field"
 msgstr "gặp từ trong trường « priority » (ưu tiên)"
 
-#: lib/fields.c:170
+#: lib/dpkg/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr ""
 "không cho phép giá trị cho trường « status » (trạng thái) trong ngữ cảnh này"
 
-#: lib/fields.c:174
+#: lib/dpkg/fields.c:170
 msgid "first (want) word in `status' field"
 msgstr "từ thứ nhất (want [muốn]) trong trường « status » (trạng thái)"
 
-#: lib/fields.c:177
+#: lib/dpkg/fields.c:172
 msgid "second (error) word in `status' field"
 msgstr "từ thứ hai (error [lỗi]) trong trường « status » (trạng thái)"
 
-#: lib/fields.c:183
+#: lib/dpkg/fields.c:174
 msgid "third (status) word in `status' field"
 msgstr "từ thứ ba (status [trạng thái]) trong trường « status » (trạng thái)"
 
-#: lib/fields.c:196
+#: lib/dpkg/fields.c:186
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "lỗi trong chuỗi Phiên bản « %.250s »: %.250s"
 
-#: lib/fields.c:206
+#: lib/dpkg/fields.c:195
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr ""
 "đã dùng trường « Revision » (bản sửa đổi) hoặc « Package-Revision » (bản sửa "
 "đổi gói) cũ"
 
-#: lib/fields.c:224
+#: lib/dpkg/fields.c:212
 msgid "value for `config-version' field not allowed in this context"
 msgstr ""
 "không cho phép giá trị cho trường « config-version » (phiên bản cấu hình) "
 "trong ngữ cảnh này"
 
-#: lib/fields.c:230
+#: lib/dpkg/fields.c:219
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr ""
 "lỗi trong chuỗi « Config-Version » (phiên bản cấu hình) « %.250s »: %.250s"
 
-#: lib/fields.c:255
+#: lib/dpkg/fields.c:244
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr ""
 "giá trị cho « conffiles » (các tập tin cấu hình) có dòng dạng sai « %.*s »"
 
-#: lib/fields.c:275
+#: lib/dpkg/fields.c:263
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "giá trị cho « conffiles » (các tập tin cấu hình) có dòng với ký tự đầu không "
 "phải khoảng trắng « %c »"
 
-#: lib/fields.c:292
+#: lib/dpkg/fields.c:280
 msgid "root or null directory is listed as a conffile"
 msgstr "thư mục gốc hay rỗng được liệt kê như là một tập tin cấu hình"
 
-#: lib/fields.c:350
+#: lib/dpkg/fields.c:337
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr "trường « %s », tên gói bị thiếu, hoặc rác ở nơi chờ đợi tên gói"
 
-#: lib/fields.c:355
+#: lib/dpkg/fields.c:342
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "trường « %s », tên gói không hợp lệ « %.255s »: %s"
 
-#: lib/fields.c:385
+#: lib/dpkg/fields.c:372
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -399,7 +442,7 @@ msgstr ""
 "trường « %s », tham chiếu đến « %.255s »:\n"
 " quan hệ phiên bản sai %c%c"
 
-#: lib/fields.c:391
+#: lib/dpkg/fields.c:378
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -408,7 +451,7 @@ msgstr ""
 "trường « %s », tham chiếu đến « %.255s »:\n"
 " « %c » là cũ, dùng « %c= » hay « %c%c » thay thế"
 
-#: lib/fields.c:401
+#: lib/dpkg/fields.c:388
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -417,11 +460,11 @@ msgstr ""
 "trường « %s », tham chiếu đến « %.255s »:\n"
 " khớp chính xác ngầm số phiên bản, đề nghị dùng « = » thay thế"
 
-#: lib/fields.c:409
+#: lib/dpkg/fields.c:396
 msgid "Only exact versions may be used for Provides"
 msgstr "Chỉ dùng được phiên bản chính xác cho Provides (miễn là)"
 
-#: lib/fields.c:413
+#: lib/dpkg/fields.c:400
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -430,568 +473,541 @@ msgstr ""
 "trường « %s », tham chiếu đến « %.255s »:\n"
 " giá trị phiên bản bắt đầu với ký tự không phải chữ số, đề nghị thêm dấu cách"
 
-#: lib/fields.c:430 lib/fields.c:434
+#: lib/dpkg/fields.c:417 lib/dpkg/fields.c:421
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
 msgstr "trường « %s », tham chiếu đến « %.255s »: phiên bản chứa « %c »"
 
-#: lib/fields.c:438
+#: lib/dpkg/fields.c:425
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "trường « %s », tham chiếu đến « %.255s »: phiên bản chưa được kết thúc"
 
-#: lib/fields.c:449
+#: lib/dpkg/fields.c:436
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "trường « %s », tham chiếu đến « %.255s »: lỗi trong phiên bản: %.255s"
 
-#: lib/fields.c:459
+#: lib/dpkg/fields.c:446
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "trường « %s », lỗi cú pháp ở sau tham chiếu đến gói « %.255s »"
 
-#: lib/fields.c:466
+#: lib/dpkg/fields.c:453
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "không cho phép điều xen kẽ (« | ») trong trường %s"
 
-#: lib/fields.c:526
+#: lib/dpkg/fields.c:512
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr ""
 "không cho phép giá trị cho trường « triggers-pending » (bộ gây nên bị hoãn) "
 "trong ngữ cảnh này"
 
-#: lib/fields.c:533
+#: lib/dpkg/fields.c:519
 #, c-format
 msgid "illegal pending trigger name `%.255s': %s"
 msgstr "tên bộ gây nên cấm « %.255s »: %s"
 
-#: lib/fields.c:537
+#: lib/dpkg/fields.c:523
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
 msgstr "bộ gây nên trùng bị hoãn « %.255s »"
 
-#: lib/fields.c:552
+#: lib/dpkg/fields.c:537
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr ""
 "không cho phép giá trị cho trường « triggers-awaited » (các bộ gây nên mong "
 "đợi) trong ngữ cảnh này"
 
-#: lib/fields.c:559
+#: lib/dpkg/fields.c:544
 #, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
 msgstr "gặp tên gói không hợp lệ trong bộ gây nên mong đợi « %.255s »: %s"
 
-#: lib/fields.c:565
+#: lib/dpkg/fields.c:550
 #, c-format
 msgid "duplicate awaited trigger package `%.255s'"
 msgstr "gói bộ gây nên trùng mong đợi « %.255s »"
 
-#: lib/lock.c:50
+#: lib/dpkg/lock.c:50
 msgid "unable to unlock dpkg status database"
 msgstr "không thể mở khóa cơ sở dữ liệu trạng thái của dpkg"
 
-#: lib/lock.c:102
+#: lib/dpkg/lock.c:102
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "không có quyền khóa cơ sở dữ liệu trạng thái của dpkg"
 
-#: lib/lock.c:103
+#: lib/dpkg/lock.c:103
 msgid "unable to open/create status database lockfile"
 msgstr "không thể mở/tạo tập tin khóa của cơ sở dữ liệu trạng thái"
 
-#: lib/lock.c:108
+#: lib/dpkg/lock.c:108
 msgid "unable to lock dpkg status database"
 msgstr "không thể khóa cơ sở dữ liệu trạng thái của dpkg"
 
-#: lib/lock.c:109
+#: lib/dpkg/lock.c:109
 msgid "status database area is locked by another process"
 msgstr "vùng cơ sở dữ liệu trạng thái bị tiến trình khác khóa"
 
-#: lib/log.c:54
+#: lib/dpkg/log.c:54
 #, c-format
 msgid "couldn't open log `%s': %s\n"
 msgstr "không thể mở bản ghi « %s »: %s\n"
 
-#: lib/log.c:102
+#: lib/dpkg/log.c:102
 #, fuzzy, c-format
 msgid "unable to write to status fd %d"
 msgstr "không thể ghi trạng thái đã cập nhật của « %.250s »"
 
-#: lib/mlib.c:49
+#: lib/dpkg/mlib.c:48
 #, c-format
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc (cấp phát bộ nhớ) bị lỗi (%ld byte)"
 
-#: lib/mlib.c:62
+#: lib/dpkg/mlib.c:61
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc (cấp phát lại) bị lỗi (%ld byte)"
 
-#: lib/mlib.c:76
+#: lib/dpkg/mlib.c:75
 msgid "failed to allocate memory"
 msgstr "lỗi cấp phát bộ nhớ"
 
-#: lib/mlib.c:83
+#: lib/dpkg/mlib.c:82
 #, c-format
 msgid "%s (subprocess): %s\n"
 msgstr "%s (tiến trình con): %s\n"
 
-#: lib/mlib.c:97
+#: lib/dpkg/mlib.c:96
 msgid "fork failed"
 msgstr "lỗi tạo tiến trình con"
 
-#: lib/mlib.c:110
+#: lib/dpkg/mlib.c:109
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "lỗi dup (nhân đôi?) cho std%s"
 
-#: lib/mlib.c:111
+#: lib/dpkg/mlib.c:110
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "lỗi dup (nhân đôi?) cho fd %d"
 
-#: lib/mlib.c:117
+#: lib/dpkg/mlib.c:116
 msgid "failed to create pipe"
 msgstr "lỗi tạo ống dẫn"
 
-#: lib/mlib.c:124
+#: lib/dpkg/mlib.c:124
+#, fuzzy, c-format
+msgid "error writing to '%s'"
+msgstr "lỗi ghi « %s »"
+
+#: lib/dpkg/mlib.c:131
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "không thể đọc các cờ filedescriptor (mô tả tập tin) cho %.250s"
 
-#: lib/mlib.c:126
+#: lib/dpkg/mlib.c:133
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "không thể đặt cờ close-on-exec (đóng khi thực hiện) cho %.250s"
 
-#: lib/mlib.c:180
-#, c-format
-msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
-msgstr ""
-"bị lỗi trong buffer_write(fd) [ghi bộ đệm(mô tả tập tin)] (%i, ret=%li): %s"
+#: lib/dpkg/myopt.c:62
+#, fuzzy, c-format
+msgid "configuration error: %s:%d: %s"
+msgstr "lỗi cấu hình: %s cần một giá trị"
 
-#: lib/mlib.c:187
-#, c-format
-msgid "eof in buffer_write(stream): %s"
-msgstr ""
-"gặp kết thúc tập tin trong buffer_write(stream) [bộ đệm_ghi(luồng)]: %s"
-
-#: lib/mlib.c:189
-#, c-format
-msgid "error in buffer_write(stream): %s"
-msgstr "lỗi trong buffer_write(stream [bộ đệm_ghi(luồng)]: %s"
-
-#: lib/mlib.c:195
-#, c-format
-msgid "unknown data type `%i' in buffer_write\n"
-msgstr "kiểu dữ liệu không rõ « %i » trong buffer_write [bộ đệm_ghi]\n"
-
-#: lib/mlib.c:211
-#, c-format
-msgid "failed in buffer_read(fd): %s"
-msgstr "bị lỗi trong buffer_read(fd) [bộ đệm_đọc(mô tả tập tin)]: %s"
-
-#: lib/mlib.c:218
-#, c-format
-msgid "error in buffer_read(stream): %s"
-msgstr "lỗi trong buffer_read(stream) [bộ đệm_đọc(luồng)]: %s"
-
-#: lib/mlib.c:221
-#, c-format
-msgid "unknown data type `%i' in buffer_read\n"
-msgstr "kiểu dữ liệu không rõ « %i » trong buffer_read [bộ đệm_đọc]\n"
-
-#: lib/mlib.c:316
-#, c-format
-msgid "failed in buffer_copy (%s)"
-msgstr "bị lỗi trong buffer_copy [bộ đệm_chép] (%s)"
-
-#: lib/mlib.c:317
-#, c-format
-msgid "short read in buffer_copy (%s)"
-msgstr "đọc ngắn trong buffer_copy [bộ đệm_chép] (%s)"
-
-#: lib/myopt.c:57
+#: lib/dpkg/myopt.c:74
 #, fuzzy, c-format
 msgid "failed to open configuration file '%.255s' for reading: %s"
 msgstr "lỗi mở tập tin cấu hình « %.255s » để đọc"
 
-#: lib/myopt.c:93
+#: lib/dpkg/myopt.c:101
 #, c-format
-msgid "configuration error: unknown option %s"
-msgstr "lỗi cấu hình: không rõ tùy chọn %s"
+msgid "unbalanced quotes in '%s'"
+msgstr ""
 
-#: lib/myopt.c:96
-#, c-format
-msgid "configuration error: %s needs a value"
-msgstr "lỗi cấu hình: %s cần một giá trị"
+#: lib/dpkg/myopt.c:117
+#, fuzzy, c-format
+msgid "unknown option '%s'"
+msgstr "không biết tùy chọn « %s »"
 
-#: lib/myopt.c:101
-#, c-format
-msgid "configuration error: %s does not take a value"
-msgstr "lỗi cấu hình: %s không chấp nhận giá trị"
+#: lib/dpkg/myopt.c:121
+#, fuzzy, c-format
+msgid "'%s' needs a value"
+msgstr "tùy chọn « --%s » cần thiết một giá trị"
 
-#: lib/myopt.c:106
+#: lib/dpkg/myopt.c:127
+#, fuzzy, c-format
+msgid "'%s' does not take a value"
+msgstr "tùy chọn « --%s » không chấp nhận giá trị"
+
+#: lib/dpkg/myopt.c:132
 #, c-format
 msgid "read error in configuration file `%.255s'"
 msgstr "lỗi đọc trong tập tin cấu hình « %.255s »"
 
-#: lib/myopt.c:107
+#: lib/dpkg/myopt.c:133
 #, c-format
 msgid "error closing configuration file `%.255s'"
 msgstr "lỗi đóng tập tin cấu hình « %.255s »"
 
-#: lib/myopt.c:149
+#: lib/dpkg/myopt.c:170
+#, fuzzy, c-format
+msgid "error opening configuration directory '%s'"
+msgstr "lỗi đóng tập tin cấu hình « %.255s »"
+
+#: lib/dpkg/myopt.c:230
 #, c-format
 msgid "unknown option --%s"
 msgstr "tùy chọn không rõ « --%s »"
 
-#: lib/myopt.c:153
+#: lib/dpkg/myopt.c:234
 #, c-format
 msgid "--%s option takes a value"
 msgstr "tùy chọn « --%s » cần thiết một giá trị"
 
-#: lib/myopt.c:158
+#: lib/dpkg/myopt.c:239
 #, c-format
 msgid "--%s option does not take a value"
 msgstr "tùy chọn « --%s » không chấp nhận giá trị"
 
-#: lib/myopt.c:165
+#: lib/dpkg/myopt.c:246
 #, c-format
 msgid "unknown option -%c"
 msgstr "tùy chọn không rõ « -%c »"
 
-#: lib/myopt.c:170
+#: lib/dpkg/myopt.c:251
 #, c-format
 msgid "-%c option takes a value"
 msgstr "tùy chọn « -%c » cần thiết một giá trị"
 
-#: lib/myopt.c:178
+#: lib/dpkg/myopt.c:259
 #, c-format
 msgid "-%c option does not take a value"
 msgstr "tùy chọn « -%c » không chấp nhận giá trị"
 
-#: lib/myopt-util.c:54
+#: lib/dpkg/myopt-util.c:55
 msgid "cannot open GPL file"
 msgstr ""
 "không thể mở tập tin GPL (Giấy Phép Công Cộng GNU, xem cũng « http://vi."
 "wikisource.org/wiki/GPL »)"
 
-#: lib/parse.c:113
+#: lib/dpkg/parse.c:119
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr "lỗi mở tập tin thông tin gói « %.255s » để đọc"
 
-#: lib/parse.c:118
+#: lib/dpkg/parse.c:124
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr "không thể lấy các thông tin về tập tin thông tin gói « %.255s »"
 
-#: lib/parse.c:123
+#: lib/dpkg/parse.c:129
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr "không thể mmap (ánh xạ bộ nhớ) tập tin thông tin gói « %.255s »"
 
-#: lib/parse.c:127
+#: lib/dpkg/parse.c:133
 #, c-format
 msgid "copy info file `%.255s'"
 msgstr "sao chép tập tin thông tin « %.255s »"
 
-#: lib/parse.c:159
+#: lib/dpkg/parse.c:164
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "gặp kết thúc tập tin sau tên trường « %.*s »"
 
-#: lib/parse.c:162
+#: lib/dpkg/parse.c:167
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "dòng mới trong tên trường « %.*s »"
 
-#: lib/parse.c:165
+#: lib/dpkg/parse.c:170
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "gặp kết thúc tập tin dạng MSDOS (^Z) trong tên trường « %.*s »"
 
-#: lib/parse.c:169
+#: lib/dpkg/parse.c:174
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "tên trường « %.*s » phải có dấu hai chấm theo sau"
 
-#: lib/parse.c:178
+#: lib/dpkg/parse.c:183
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr ""
 "gặp kết thúc tập tin nằm trước giá trị của trường « %.*s » (còn thiếu dòng "
 "mới cuối cùng)"
 
-#: lib/parse.c:182
+#: lib/dpkg/parse.c:187
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr ""
 "ký tự kết thúc tập tin dạng MSDOS trong giá trị của trường « %.*s » (thiếu "
 "dòng mới?)"
 
-#: lib/parse.c:196
+#: lib/dpkg/parse.c:201
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr ""
 "gặp kết thúc tập tin trong giá trị của trường « %.*s » (còn thiếu dòng mới "
 "cuối cùng)"
 
-#: lib/parse.c:221
+#: lib/dpkg/parse.c:226
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "giá trị nhân đôi cho trường « %s »"
 
-#: lib/parse.c:226
+#: lib/dpkg/parse.c:231
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "tên trường do người dùng xác định « %.*s » quá ngắn"
 
-#: lib/parse.c:232
+#: lib/dpkg/parse.c:237
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "giá trị nhân đôi cho trường do người dùng xác định « %.*s »"
 
-#: lib/parse.c:246
+#: lib/dpkg/parse.c:251
 msgid "several package info entries found, only one allowed"
 msgstr "tìm thấy vài mục nhập thông tin gói, chỉ cho phép một mục"
 
-#: lib/parse.c:271
+#: lib/dpkg/parse.c:276
 msgid "Configured-Version for package with inappropriate Status"
 msgstr ""
 "Configured-Version (phiên bản đã cấu hình) cho gói với Status (trạng thái) "
 "không thích hợp"
 
-#: lib/parse.c:281
+#: lib/dpkg/parse.c:286
 #, c-format
 msgid "package has status %s but triggers are awaited"
 msgstr "gói có trạng thái %s nhưng mong đợi bộ gây nên"
 
-#: lib/parse.c:285
+#: lib/dpkg/parse.c:290
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr "gói có trạng thái mong đợi bộ gây nên nhưng không mong đợi bộ gây nên"
 
-#: lib/parse.c:292
+#: lib/dpkg/parse.c:297
 #, c-format
 msgid "package has status %s but triggers are pending"
 msgstr "gói có trạng thái %s nhưng có bộ gây nên bị hoãn"
 
-#: lib/parse.c:296
+#: lib/dpkg/parse.c:301
 msgid "package has status triggers-pending but no triggers pending"
 msgstr "gói có trạng thái bộ gây nên bị hoãn nhưng không có bộ gây nên bị hoãn"
 
-#: lib/parse.c:307
+#: lib/dpkg/parse.c:312
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
 "Gói trong trạng thái not-installed (chưa cài đặt) có các tập tin cấu hình mà "
 "quên chúng"
 
-#: lib/parse.c:375
+#: lib/dpkg/parse.c:399
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "lỗi đóng sau khi đọc: « %.255s »"
 
-#: lib/parse.c:376
+#: lib/dpkg/parse.c:400
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "không có thông tin gói trong « %.255s »"
 
-#: lib/parsehelp.c:42
+#: lib/dpkg/parsehelp.c:41
 #, fuzzy, c-format
 msgid ""
 "%s, in file '%.255s' near line %d package '%.255s':\n"
 " "
 msgstr "cảnh báo, trong tập tin « %.255s » gần dòng %d"
 
-#: lib/parsehelp.c:45
+#: lib/dpkg/parsehelp.c:44
 #, fuzzy, c-format
 msgid ""
 "%s, in file '%.255s' near line %d:\n"
 " "
 msgstr "cảnh báo, trong tập tin « %.255s » gần dòng %d"
 
-#: lib/parsehelp.c:56
+#: lib/dpkg/parsehelp.c:55
 msgid "parse error"
 msgstr ""
 
-#: lib/parsehelp.c:71
+#: lib/dpkg/parsehelp.c:70
 #, fuzzy
 msgid "warning"
 msgstr "đang hủy bỏ"
 
-#: lib/parsehelp.c:80
+#: lib/dpkg/parsehelp.c:79
 msgid "failed to write parsing warning"
 msgstr "lỗi ghi cảnh báo về phân tích"
 
-#: lib/parsehelp.c:141
+#: lib/dpkg/parsehelp.c:138
 msgid "may not be empty string"
 msgstr "có thể không phải là chuỗi rỗng"
 
-#: lib/parsehelp.c:142
+#: lib/dpkg/parsehelp.c:139
 msgid "must start with an alphanumeric"
 msgstr "cần phải bắt đầu với một chữ số"
 
-#: lib/parsehelp.c:151
+#: lib/dpkg/parsehelp.c:148
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr ""
 "không cho phép ký tự « %c » : chỉ cho phép chữ cái, chữ số và ký tự « %s »"
 
-#: lib/parsehelp.c:206
+#: lib/dpkg/parsehelp.c:203
 msgid "<none>"
 msgstr "<không có>"
 
-#: lib/parsehelp.c:221
+#: lib/dpkg/parsehelp.c:218
 msgid "version string is empty"
 msgstr "chuỗi phiên bản là rỗng"
 
-#: lib/parsehelp.c:232
+#: lib/dpkg/parsehelp.c:232
 msgid "version string has embedded spaces"
 msgstr "chuỗi phiên bản có khoảng trắng nhúng"
 
-#: lib/parsehelp.c:237
+#: lib/dpkg/parsehelp.c:237
 msgid "epoch in version is not number"
 msgstr "kỷ nguyên trong phiên bản không phải là con số"
 
-#: lib/parsehelp.c:238
+#: lib/dpkg/parsehelp.c:238
 msgid "nothing after colon in version number"
 msgstr "không có gì nằm sau dấu hai chấm trong số thứ tự phiên bản"
 
-#: lib/parsehelp.c:259 lib/parsehelp.c:273
+#: lib/dpkg/parsehelp.c:259 lib/dpkg/parsehelp.c:272
 #, c-format
 msgid "missing %s"
 msgstr "thiếu %s"
 
-#: lib/parsehelp.c:261 lib/parsehelp.c:276
+#: lib/dpkg/parsehelp.c:261 lib/dpkg/parsehelp.c:275
 #, c-format
 msgid "empty value for %s"
 msgstr "giá trị rỗng cho %s"
 
-#: lib/showpkg.c:73
+#: lib/dpkg/showpkg.c:72
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr "ký tự sai « %c » trong chiều rộng của trường\n"
 
-#: lib/showpkg.c:160
+#: lib/dpkg/showpkg.c:159
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Thiếu dấu đóng ngoặc móc trong định dạng\n"
 
-#: lib/subproc.c:53
+#: lib/dpkg/subproc.c:53
 #, fuzzy, c-format
 msgid "unable to ignore signal %s before running %.250s"
 msgstr "không thể lờ đi tín hiệu %s trước khi chạy văn lệnh"
 
-#: lib/subproc.c:66
+#: lib/dpkg/subproc.c:66
 #, c-format
 msgid "error un-catching signal %s: %s\n"
 msgstr "gặp lỗi khi hủy bắt tín hiệu %s: %s\n"
 
-#: lib/subproc.c:85
+#: lib/dpkg/subproc.c:85
 #, fuzzy, c-format
 msgid "%s returned error exit status %d"
 msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
 
-#: lib/subproc.c:88
+#: lib/dpkg/subproc.c:88
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
 
-#: lib/subproc.c:97
+#: lib/dpkg/subproc.c:97
 #, fuzzy, c-format
 msgid "%s killed by signal (%s)%s"
 msgstr "tiến trình con %s bị diệt bởi tín hiệu (%s)%s"
 
-#: lib/subproc.c:99 lib/subproc.c:103
+#: lib/dpkg/subproc.c:99 lib/dpkg/subproc.c:103
 msgid ", core dumped"
 msgstr ", lõi bị đổ"
 
-#: lib/subproc.c:101
+#: lib/dpkg/subproc.c:101
 #, c-format
 msgid "subprocess %s killed by signal (%s)%s"
 msgstr "tiến trình con %s bị diệt bởi tín hiệu (%s)%s"
 
-#: lib/subproc.c:105
+#: lib/dpkg/subproc.c:105
 #, c-format
 msgid "subprocess %s failed with wait status code %d"
 msgstr "tiến trình con %s bị lỗi với mã trạng thái chờ %d"
 
-#: lib/subproc.c:122
+#: lib/dpkg/subproc.c:122
 #, c-format
 msgid "wait for %s failed"
 msgstr "lỗi chờ %s"
 
-#: lib/trigdeferred.l:66
+#: lib/dpkg/trigdeferred.l:66
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
 "tên gói không hợp lệ « %.250s » trong tập tin bộ gây nên trì hoãn « %.250s »"
 
-#: lib/trigdeferred.l:75
+#: lib/dpkg/trigdeferred.l:75
 #, c-format
 msgid "truncated triggers deferred file `%.250s'"
 msgstr "tập tin bộ gây nên trì hoãn bị cắt ngắn « %.250s »"
 
-#: lib/trigdeferred.l:79
+#: lib/dpkg/trigdeferred.l:79
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
 "gặp lỗi cú pháp trong tập tin bộ gây nên trì hoãn « %.250s » ở ký tự `%s'%s"
 
-#: lib/trigdeferred.l:116
+#: lib/dpkg/trigdeferred.l:116
 #, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
 msgstr "không thể mở/tạo tập tin khoá bộ gây nên « %.250s »"
 
-#: lib/trigdeferred.l:123
+#: lib/dpkg/trigdeferred.l:123
 msgid "unable to lock triggers area"
 msgstr "không thể khoá vùng bộ gây nên"
 
-#: lib/trigdeferred.l:134
+#: lib/dpkg/trigdeferred.l:134
 #, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
 msgstr "không thể lấy trạng thái về tập tin bộ gây nên trì hoãn « %.250s »"
 
-#: lib/trigdeferred.l:148
+#: lib/dpkg/trigdeferred.l:148
 #, c-format
 msgid "unable to open triggers deferred file `%.250s'"
 msgstr "không thể mở tập tin bộ gây nên trì hoãn « %.250s »"
 
-#: lib/trigdeferred.l:162
+#: lib/dpkg/trigdeferred.l:162
 #, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
 msgstr "không thể mở/tạo tập tin bộ gây nên trì hoãn mới « %.250s »"
 
-#: lib/trigdeferred.l:182
+#: lib/dpkg/trigdeferred.l:182
 #, c-format
 msgid "error reading triggers deferred file `%.250s'"
 msgstr "gặp lỗi khi đọc tập tin bộ gây nên trì hoãn « %.250s »"
 
-#: lib/trigdeferred.l:190
+#: lib/dpkg/trigdeferred.l:190
 #, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
 msgstr "không thể mở tập tin bộ gây nên trì hoãn mới « %.250s »"
 
-#: lib/trigdeferred.l:195
+#: lib/dpkg/trigdeferred.l:195
 #, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
 msgstr "không thể mở tập tin bộ gây nên trì hoãn mới « %.250s »"
 
-#: lib/trigdeferred.l:199
+#: lib/dpkg/trigdeferred.l:199
 #, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
 msgstr "không thể cài đặt tập tin bộ gây nên trì hoãn mới « %.250s »"
 
-#: lib/triglib.c:45
+#: lib/dpkg/triglib.c:45
 msgid "empty trigger names are not permitted"
 msgstr "không cho phép tên bộ gây nên rỗng"
 
-#: lib/triglib.c:49
+#: lib/dpkg/triglib.c:49
 msgid "trigger name contains invalid character"
 msgstr "tên bộ gây nên chứa ký tự không hợp lệ"
 
-#: lib/triglib.c:305
+#: lib/dpkg/triglib.c:305
 #, c-format
 msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
@@ -1000,17 +1016,17 @@ msgstr ""
 "gặp cú pháp không hợp lệ hoặc không rõ trong tên bộ gây nên « %.250s » (trong "
 "sự quan tâm bộ gây nên đối với gói « %.250s »"
 
-#: lib/triglib.c:340
+#: lib/dpkg/triglib.c:340
 #, c-format
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr "lỗi mở tập tin danh sách sự quan tâm bộ gây nên « %.250s »"
 
-#: lib/triglib.c:369
+#: lib/dpkg/triglib.c:369
 #, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "lỗi quay trả lại tập tin danh sách sự quan tâm bộ gây nên « %.250s »"
 
-#: lib/triglib.c:374
+#: lib/dpkg/triglib.c:374
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
@@ -1019,27 +1035,27 @@ msgstr ""
 "gặp lỗi cú pháp trong tập tin sự quan tâm bộ gây nên « %.250s »; tên gói cấm « "
 "%.250s »: %.250s"
 
-#: lib/triglib.c:396
+#: lib/dpkg/triglib.c:396
 #, c-format
 msgid "unable to create new trigger interest file `%.250s'"
 msgstr "không thể tạo tập tin sự quan tâm bộ gây nên mới « %.250s »"
 
-#: lib/triglib.c:409
+#: lib/dpkg/triglib.c:409
 #, c-format
 msgid "unable to write new trigger interest file `%.250s'"
 msgstr "không thể viết tập tin sự quan tâm bộ gây nên mới « %.250s »"
 
-#: lib/triglib.c:413
+#: lib/dpkg/triglib.c:413
 #, fuzzy, c-format
 msgid "unable to close new trigger interest file `%.250s'"
 msgstr "không thể tạo tập tin sự quan tâm bộ gây nên mới « %.250s »"
 
-#: lib/triglib.c:417
+#: lib/dpkg/triglib.c:417
 #, c-format
 msgid "unable to install new trigger interest file `%.250s'"
 msgstr "không thể cài đặt tập tin sự quan tâm bộ gây nên mới « %.250s »"
 
-#: lib/triglib.c:474
+#: lib/dpkg/triglib.c:474
 #, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
@@ -1047,37 +1063,37 @@ msgstr ""
 "sự quan tâm bộ gây nên tập tin trùng đối với tên tập tin « %.250s » và gói « "
 "%.250s »"
 
-#: lib/triglib.c:497
+#: lib/dpkg/triglib.c:497
 #, c-format
 msgid "unable to create new file triggers file `%.250s'"
 msgstr "không thể tạo tập tin bộ gây nên tập tin mới « %.250s »"
 
-#: lib/triglib.c:506
+#: lib/dpkg/triglib.c:506
 #, c-format
 msgid "unable to write new file triggers file `%.250s'"
 msgstr "không thể viết tập tin bộ gây nên tập tin mới « %.250s »"
 
-#: lib/triglib.c:510
+#: lib/dpkg/triglib.c:510
 #, fuzzy, c-format
 msgid "unable to close new file triggers file `%.250s'"
 msgstr "không thể tạo tập tin bộ gây nên tập tin mới « %.250s »"
 
-#: lib/triglib.c:514
+#: lib/dpkg/triglib.c:514
 #, c-format
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr "không thể cài đặt tập tin bộ gây nên tập tin mới dạng « %.250s »"
 
-#: lib/triglib.c:535
+#: lib/dpkg/triglib.c:535
 #, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "không thể đọc tập tin bộ gây nên tập tin « %.250s »"
 
-#: lib/triglib.c:543
+#: lib/dpkg/triglib.c:543
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "lỗi cú pháp trong tập tin bộ gây nên tập tin « %.250s »"
 
-#: lib/triglib.c:547
+#: lib/dpkg/triglib.c:547
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
@@ -1086,7 +1102,7 @@ msgstr ""
 "mục ghi bộ gây nên tập tin chứa tên gói cấm « %.250s » (đối với sự quan tâm "
 "trong tập tin « %.250s »): %.250s"
 
-#: lib/triglib.c:641
+#: lib/dpkg/triglib.c:641
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
@@ -1095,82 +1111,82 @@ msgstr ""
 "tập tin ci bộ gây nên « %.250s » chứa cú pháp bộ gây nên cấm trong tên bộ gây "
 "nên « %.250s »: %.250s"
 
-#: lib/triglib.c:661
+#: lib/dpkg/triglib.c:661
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "không thể mở tập tin ci bộ gây nên « %.250s »"
 
-#: lib/triglib.c:676
+#: lib/dpkg/triglib.c:676
 msgid "triggers ci file contains unknown directive syntax"
 msgstr "tập tin ci bộ gây nên chứa cú pháp chỉ thị không rõ"
 
-#: lib/triglib.c:685
+#: lib/dpkg/triglib.c:685
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr "tập tin ci bộ gây nên chứa chỉ thị không rõ « %.250s »"
 
-#: lib/triglib.c:740
+#: lib/dpkg/triglib.c:740
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "không thể tạo thư mục tình trạng bộ gây nên « %.250s »"
 
-#: lib/triglib.c:743
+#: lib/dpkg/triglib.c:743
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "không thể đặt quyền sở hữu của thư mục tình trạng bộ gây nên « %.250s »"
 
-#: lib/utils.c:53
+#: lib/dpkg/utils.c:55
 #, c-format
 msgid "read error in `%.250s'"
 msgstr "lỗi đọc trong « %.250s »"
 
-#: lib/utils.c:58
+#: lib/dpkg/utils.c:60
 #, c-format
 msgid "fgets gave an empty string from `%.250s'"
 msgstr "fgets đưa ra một chuỗi rỗng từ « %.250s »"
 
-#: lib/utils.c:60
+#: lib/dpkg/utils.c:62
 #, c-format
 msgid "too-long line or missing newline in `%.250s'"
 msgstr "dòng quá dài hoặc dòng mới bị thiếu trong « %.250s »"
 
-#: lib/utils.c:72
+#: lib/dpkg/utils.c:74
 #, c-format
 msgid "unexpected eof reading `%.250s'"
 msgstr "gặp kết thúc tập tin bất thường khi đọc « %.250s »"
 
-#: src/archives.c:231
+#: src/archives.c:233
 msgid "error reading from dpkg-deb pipe"
 msgstr "gặp lỗi khi đọc từ ống dẫn dpkg-deb"
 
-#: src/archives.c:255
+#: src/archives.c:257
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
 msgstr ""
 
-#: src/archives.c:296
+#: src/archives.c:298
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "gặp lỗi khi đặt nhãn thời gian của « %.255s »"
 
-#: src/archives.c:303 src/archives.c:693
+#: src/archives.c:305 src/archives.c:701
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "gặp lỗi khi đặt quyền sở hữu « %.255s »"
 
-#: src/archives.c:305 src/archives.c:696
+#: src/archives.c:307 src/archives.c:704
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "gặp lỗi khi đặt quyền hạn của « %.255s »"
 
-#: src/archives.c:371
+#: src/archives.c:373
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr ""
 "lỗi lấy trạng thái về (gỡ bỏ tham chiếu đến) liên kết tượng trưng đã tồn tại "
 "« %.250s »"
 
-#: src/archives.c:392
+#: src/archives.c:394
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1179,7 +1195,7 @@ msgstr ""
 "lỗi lấy trạng thái về (gỡ bỏ tham chiếu đến) đích liên kết tượng trưng mới "
 "đã đề nghị « %.250s » đối với liên kết tượng trưng « %.250s »"
 
-#: src/archives.c:445
+#: src/archives.c:447
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1188,17 +1204,17 @@ msgstr ""
 "đang thử ghi đè lên « %.255s », phiên bản đã chuyển hướng của « %.255s » (gói: "
 "%.100s)"
 
-#: src/archives.c:451
+#: src/archives.c:453
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr "đang thử ghi đè lên « %.255s », phiên bản đã chuyển hướng của « %.255s »"
 
-#: src/archives.c:477
+#: src/archives.c:479
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "không thể lấy trạng thái về « %.255s » (mà trình này sắp cài đặt)"
 
-#: src/archives.c:485
+#: src/archives.c:487
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1206,120 +1222,121 @@ msgid ""
 msgstr ""
 "không thể dọn dẹp sự lộn xộn quanh « %.255s » trước khi cài đặt phiên bản khác"
 
-#: src/archives.c:491
+#: src/archives.c:493
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "không thể lấy trạng thái về « %.255s » đã phục hồi trước khi cài đặt phiên "
 "bản khác"
 
-#: src/archives.c:526
+#: src/archives.c:528
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "kho nén chứa đối tượng « %.255s » có kiểu không rõ 0x%x"
 
-#: src/archives.c:587
+#: src/archives.c:589
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Đang thay thế các tập tin trong gói cũ %s ...\n"
 
-#: src/archives.c:590
+#: src/archives.c:592
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Được thay thế bằng các tập tin trong gói đã cài đặt %s ...\n"
 
-#: src/archives.c:596
-#, c-format
+#: src/archives.c:599
+#, fuzzy, c-format
 msgid ""
-"trying to overwrite directory `%.250s' in package %.250s with nondirectory"
+"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"nondirectory"
 msgstr ""
 "đang cố ghi đè lên thư mục « %.255s » trong gói %.250s với điều khác thư mục"
 
-#: src/archives.c:606
-#, c-format
-msgid "trying to overwrite `%.250s', which is also in package %.250s"
+#: src/archives.c:611
+#, fuzzy, c-format
+msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "đang cố ghi đè lên « %.255s », mà cũng nằm trong gói %.250s"
 
-#: src/archives.c:676
+#: src/archives.c:684
 #, fuzzy, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "lỗi đọc « %.250s » (trong « %.250s »)"
 
-#: src/archives.c:681
+#: src/archives.c:689
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "hậu phương dpkg-deb trong tiến trình « %.255s »"
 
-#: src/archives.c:699
+#: src/archives.c:707
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "lỗi đóng/ghi « %.255s »"
 
-#: src/archives.c:704
+#: src/archives.c:712
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "lỗi tạo ống dẫn « %.255s »"
 
-#: src/archives.c:710 src/archives.c:716
+#: src/archives.c:718 src/archives.c:724
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "lỗi tạo thiết bị « %.255s »"
 
-#: src/archives.c:725
+#: src/archives.c:733
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "lỗi tạo liên kết cứng « %.255s »"
 
-#: src/archives.c:732
+#: src/archives.c:740
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "lỗi tạo liên kết tượng trưng « %.255s »"
 
-#: src/archives.c:738 src/archives.c:743
+#: src/archives.c:746 src/archives.c:751
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "lỗi thiết lập quyền sở hữu liên kết tượng trưng « %.255s »"
 
-#: src/archives.c:749
+#: src/archives.c:757
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "lỗi tạo thư mục « %.255s »"
 
-#: src/archives.c:784
+#: src/archives.c:792
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "không thể di chuyển « %.255s » riêng ra để cài đặt phiên bản mới"
 
-#: src/archives.c:793
+#: src/archives.c:801
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "không thể đọc liên kết « %.255s »"
 
-#: src/archives.c:797
+#: src/archives.c:805
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "không thể tạo liên kết tượng trưng sao lưu cho « %.255s »"
 
-#: src/archives.c:800 src/archives.c:803
+#: src/archives.c:808 src/archives.c:811
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 "không thể chown (chuyển đổi tính trạng sở hữu) liên kết tượng trưng sao lưu "
 "cho « %.255s »"
 
-#: src/archives.c:808
+#: src/archives.c:816
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "không thể tạo liên kết tượng trưng sao lưu của « %.255s » trước khi cài đặt "
 "phiên bản mới"
 
-#: src/archives.c:833
+#: src/archives.c:841
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "không thể cài đặt phiên bản mới của « %.255s »"
 
-#: src/archives.c:880
+#: src/archives.c:888
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1328,7 +1345,7 @@ msgstr ""
 "dpkg: cảnh báo : lờ đi vấn đề phụ thuộc với %s:\n"
 "%s"
 
-#: src/archives.c:885
+#: src/archives.c:893
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1337,7 +1354,7 @@ msgstr ""
 "dpkg: cảnh báo : coi như hủy cấu hình của\n"
 "gói cốt yếu %s, để hiệu lực %s.\n"
 
-#: src/archives.c:888
+#: src/archives.c:896
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1346,7 +1363,7 @@ msgstr ""
 "dpkg: không, %s là cốt yếu, sẽ không hủy\n"
 "cấu hình nó để hiệu lực %s.\n"
 
-#: src/archives.c:902
+#: src/archives.c:910
 #, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1356,28 +1373,28 @@ msgstr ""
 "hình] sẽ giúp):\n"
 "%s"
 
-#: src/archives.c:912
+#: src/archives.c:920
 #, c-format
 msgid "removal of %.250s"
 msgstr "việc gỡ bỏ %.250s"
 
-#: src/archives.c:937
+#: src/archives.c:945
 #, c-format
 msgid "installation of %.250s"
 msgstr "việc cài đặt %.255s"
 
-#: src/archives.c:938
+#: src/archives.c:946
 #, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
 msgstr "dpkg: coi như hủy cấu hình %s, mà sẽ bị %s vỡ ...\n"
 
-#: src/archives.c:945
+#: src/archives.c:953
 #, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg: có, sẽ hủy cấu hình %s (bị %s vỡ).\n"
 
-#: src/archives.c:949 src/archives.c:1070
+#: src/archives.c:957 src/archives.c:1078
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1386,12 +1403,12 @@ msgstr ""
 "dpkg: về trường hợp %s chứa %s:\n"
 "%s"
 
-#: src/archives.c:957
+#: src/archives.c:965
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "dpkg: cảnh báo : lờ đi trường hợp vỡ, vẫn có thể tiếp tục lại.\n"
 
-#: src/archives.c:962
+#: src/archives.c:970
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1400,27 +1417,27 @@ msgstr ""
 "cài đặt %.250s nên vỡ %.250s, cũng không cho phép\n"
 "hủy cấu hình (« --auto-deconfigure » [tự động hủy cấu hình] sẽ giúp)"
 
-#: src/archives.c:966
+#: src/archives.c:974
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "cài đặt %.250s nên vỡ phần mềm đã có"
 
-#: src/archives.c:996
+#: src/archives.c:1004
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: coi như gỡ bỏ %s để ủng hộ %s ...\n"
 
-#: src/archives.c:1002
+#: src/archives.c:1010
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr "%s chưa cài đặt đúng : lờ đi điều nào phụ thuộc vào nó.\n"
 
-#: src/archives.c:1031
+#: src/archives.c:1039
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr "dpkg: có thể gặp khó khăn trong việc gỡ bỏ %s, vì nó cung cấp %s ...\n"
 
-#: src/archives.c:1046
+#: src/archives.c:1054
 #, fuzzy, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -1428,96 +1445,115 @@ msgid ""
 msgstr ""
 "dpkg: gói %s yêu cầu cài đặt lại, nhưng sẽ vẫn gỡ bỏ theo yêu cầu bạn.\n"
 
-#: src/archives.c:1049
+#: src/archives.c:1057
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: gói %s yêu cầu cài đặt lại nên sẽ không gỡ bỏ.\n"
 
-#: src/archives.c:1056
+#: src/archives.c:1064
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
 msgstr "gói %s có quá nhiều cặp Xung đột/Thay thế"
 
-#: src/archives.c:1062
+#: src/archives.c:1070
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: có, sẽ gỡ bỏ %s để ủng hộ %s.\n"
 
-#: src/archives.c:1073
+#: src/archives.c:1081
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "gói xung đột với nhau nên không cài đặt %.250s"
 
-#: src/archives.c:1074
+#: src/archives.c:1082
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "dpkg: cảnh báo : lờ đi trường hợp xung đột, vẫn có thể tiếp tục lại.\n"
 
-#: src/archives.c:1115
+#: src/archives.c:1123
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive (đệ quy) cần ít nhất một tham số đường dẫn"
 
-#: src/archives.c:1147
+#: src/archives.c:1155
 msgid "failed to exec find for --recursive"
 msgstr "lỗi thực hiện find (tìm) cho « --recursive » (đệ qui)"
 
-#: src/archives.c:1152
+#: src/archives.c:1160
 msgid "failed to fdopen find's pipe"
 msgstr "lỗi fdopen ống dẫn của find (tìm)"
 
-#: src/archives.c:1158
+#: src/archives.c:1166
 msgid "error reading find's pipe"
 msgstr "gặp lỗi khi đọc ống dẫn của find (tìm)"
 
-#: src/archives.c:1159
+#: src/archives.c:1167
 msgid "error closing find's pipe"
 msgstr "gặp lỗi khi đóng ống dẫn của find (tìm)"
 
-#: src/archives.c:1162
+#: src/archives.c:1170
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr ""
 "việc find (tìm) cho « --recursive » (đệ qui) trả lại lỗi không được quản lý %i"
 
-#: src/archives.c:1165
+#: src/archives.c:1173
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "đã tìm kiếm, nhưng không tìm thấy gói nào (tập tin khớp với *.deb)"
 
-#: src/archives.c:1181
+#: src/archives.c:1189
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "« --%s » cần ít nhất một đối số kiểu tập tin kho lưu gói"
 
-#: src/archives.c:1255
+#: src/archives.c:1221 src/enquiry.c:136 src/enquiry.c:238 src/enquiry.c:379
+#: src/enquiry.c:381 src/enquiry.c:390 src/main.c:63 src/main.c:154
+#: src/main.c:249 src/main.c:416 src/packages.c:268 src/query.c:184
+#: src/query.c:279 src/query.c:316 src/query.c:325 src/query.c:372
+#: src/query.c:433 src/query.c:565 src/query.c:608 src/select.c:80
+#: src/trigcmd.c:85 src/trigcmd.c:116 dpkg-deb/build.c:357
+#: dpkg-deb/extract.c:214 dpkg-deb/extract.c:234 dpkg-deb/info.c:188
+#: dpkg-deb/info.c:231 dpkg-deb/main.c:63 dpkg-deb/main.c:125
+#: dpkg-split/info.c:241 dpkg-split/main.c:56 dpkg-split/main.c:93
+#: dpkg-split/queue.c:125 dpkg-split/queue.c:245
+msgid "<standard output>"
+msgstr ""
+
+#: src/archives.c:1222 src/packages.c:269 src/query.c:185 src/query.c:277
+#: src/query.c:378 src/query.c:434 src/select.c:81 dpkg-split/main.c:198
+#: dpkg-split/queue.c:192
+msgid "<standard error>"
+msgstr ""
+
+#: src/archives.c:1263
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Đang chọn gói đã hủy chọn trước đây %s.\n"
 
-#: src/archives.c:1260
+#: src/archives.c:1268
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Đang bỏ qua gói đã hủy chọn %s.\n"
 
-#: src/archives.c:1277
+#: src/archives.c:1285
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Phiên bản %.250s của %.250s đã được cài đặt nên bỏ qua.\n"
 
-#: src/archives.c:1288
+#: src/archives.c:1296
 #, fuzzy, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr ""
 "%s - cảnh báo : đang hạ thấp phiên bản của %.250s từ %.250s xuống %.250s.\n"
 
-#: src/archives.c:1293
+#: src/archives.c:1301
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
 "Sẽ không hạ thấp phiên bản %.250s từ phiên bản %.250s xuống %.250s nên bỏ "
 "qua.\n"
 
-#: src/cleanup.c:86
+#: src/cleanup.c:85
 #, c-format
 msgid ""
 "unable to remove newly-installed version of `%.250s' to allow reinstallation "
@@ -1526,32 +1562,32 @@ msgstr ""
 "không thể gỡ bỏ phiên bản mới cài đặt của « %.250s » để cho phép cài đặt lại "
 "bản sao lưu"
 
-#: src/cleanup.c:93
+#: src/cleanup.c:92
 #, c-format
 msgid "unable to restore backup version of `%.250s'"
 msgstr "không thể phục hồi phiên bản sao lưu của « %.250s »"
 
-#: src/cleanup.c:97
+#: src/cleanup.c:96
 #, c-format
 msgid "unable to remove newly-installed version of `%.250s'"
 msgstr "không thể gỡ bỏ phiên bản mới cài đặt của « %.250s »"
 
-#: src/cleanup.c:104
+#: src/cleanup.c:103
 #, c-format
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "không thể gỡ bỏ phiên bản mới giải phóng của « %.250s »"
 
-#: src/configure.c:95
+#: src/configure.c:100
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "không có gói tên « %s » được cài đặt nên không thể cấu hình"
 
-#: src/configure.c:97
+#: src/configure.c:102
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "gói %.250s đã được cài đặt và cấu hình"
 
-#: src/configure.c:99
+#: src/configure.c:104
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1560,7 +1596,7 @@ msgstr ""
 "gói %.250s chưa sẵn sàng để cấu hình\n"
 " nên không thể cấu hình (trạng thái hiện thời « %.250s »)"
 
-#: src/configure.c:128
+#: src/configure.c:133
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1569,11 +1605,11 @@ msgstr ""
 "dpkg: vấn đề quan hệ phụ thuộc ngăn cản việc cấu hình %s:\n"
 "%s"
 
-#: src/configure.c:131
+#: src/configure.c:136
 msgid "dependency problems - leaving unconfigured"
 msgstr "vấn đề quan hệ phụ thuộc - để nguyên chưa được cấu hình"
 
-#: src/configure.c:135
+#: src/configure.c:140
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -1582,7 +1618,7 @@ msgstr ""
 "dpkg: %s: vấn đề quan hệ phụ thuộc, nhưng vẫn cấu hình như bạn yêu cầu:\n"
 "%s"
 
-#: src/configure.c:143
+#: src/configure.c:148
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1590,25 +1626,25 @@ msgstr ""
 "Gói ở trong trạng thái hay thay đổi rất xấu - nên cài đặt\n"
 " lại trước khi thử cấu hình."
 
-#: src/configure.c:146
+#: src/configure.c:151
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Đang thiết lập %s (%s) ...\n"
 
-#: src/configure.c:199
+#: src/configure.c:204
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr ""
 "không thể lấy các thông tin vê tập tin cấu hình bản phát hành mới « %.250s »"
 
-#: src/configure.c:209 src/configure.c:444
+#: src/configure.c:214 src/configure.c:449
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr ""
 "không thể lấy các thông tin vê tập tin cấu hình hiện thời được cài đặt « "
 "%.250s »"
 
-#: src/configure.c:218
+#: src/configure.c:223
 #, c-format
 msgid ""
 "\n"
@@ -1619,47 +1655,47 @@ msgstr ""
 "Tập tin cấu hình « %s » không nằm trên hệ thống.\n"
 "Đang cài đặt tập tin cấu hình mới như bạn yêu cầu.\n"
 
-#: src/configure.c:254
+#: src/configure.c:259
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "dpkg: %s: cảnh báo  — lỗi gỡ bỏ bản sao lưu cũ « %.250s »: %s\n"
 
-#: src/configure.c:262
+#: src/configure.c:267
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "dpkg: %s: cảnh báo — lỗi thay đổi tên « %.250s » thành « %.250s »: %s\n"
 
-#: src/configure.c:269
+#: src/configure.c:274
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: lỗi thực hiện « %s %s »"
 
-#: src/configure.c:276
+#: src/configure.c:281
 #, fuzzy, c-format
 msgid "%s: failed to remove old distrib version '%.250s': %s"
 msgstr "dpkg: %s: cảnh báo — lỗi gỡ bỏ bản phát hành cũ « %.250s »: %s\n"
 
-#: src/configure.c:280
+#: src/configure.c:285
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr "dpkg: %s: cảnh báo — lỗi gỡ bỏ « %.250s » (trước khi ghi đè): %s\n"
 
-#: src/configure.c:284
+#: src/configure.c:289
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr "dpkg: %s: cảnh báo — lỗi liên kết « %.250s » tới « %.250s »: %s\n"
 
-#: src/configure.c:288
+#: src/configure.c:293
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "Đang cài đặt phiên bản mới của tập tin cấu hình %s ...\n"
 
-#: src/configure.c:294
+#: src/configure.c:299
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "không thể cài đặt « %.250s » như là « %.250s »"
 
-#: src/configure.c:351
+#: src/configure.c:356
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -1668,7 +1704,7 @@ msgstr ""
 "dpkg: %s: cảnh báo — không thể lấy các thông tin về tập tin cấu hình « %s »\n"
 " (= `%s'): %s\n"
 
-#: src/configure.c:362
+#: src/configure.c:367
 #, fuzzy, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -1677,7 +1713,7 @@ msgstr ""
 "dpkg: %s: cảnh báo — tập tin cấu hình « %s » là một liên kết vòng tròn\n"
 " (= `%s')\n"
 
-#: src/configure.c:375
+#: src/configure.c:380
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -1687,7 +1723,7 @@ msgstr ""
 "« %s »\n"
 " (= `%s'): %s\n"
 
-#: src/configure.c:394
+#: src/configure.c:399
 #, fuzzy, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -1697,7 +1733,7 @@ msgstr ""
 "hoá\n"
 " (« %s » là liên kết tượng trưng tới « %s »)\n"
 
-#: src/configure.c:407
+#: src/configure.c:412
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
@@ -1705,49 +1741,49 @@ msgstr ""
 "hay liên kết tượng trưng (= `%s')\n"
 
 # Name: don't translate/Tên: đừng dịch
-#: src/configure.c:424
+#: src/configure.c:429
 msgid "md5hash"
 msgstr "md5hash"
 
-#: src/configure.c:430
+#: src/configure.c:435
 #, fuzzy, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
 msgstr "dpkg: %s: cảnh báo — không thể mở tập tin cấu hình %s cho băm: %s\n"
 
-#: src/configure.c:448
+#: src/configure.c:453
 #, c-format
 msgid "unable to change ownership of new dist conffile `%.250s'"
 msgstr ""
 "không thể thay đổi quyền sở hữu tập tin cấu hình phát hành mới « %.250s »"
 
-#: src/configure.c:451
+#: src/configure.c:456
 #, c-format
 msgid "unable to set mode of new dist conffile `%.250s'"
 msgstr "không thể đặt chế độ của tập tin cấu hình phát hành mới « %.250s »"
 
-#: src/configure.c:481
+#: src/configure.c:486
 #, c-format
 msgid "failed to run %s (%.250s)"
 msgstr "lỗi chạy %s (%.250s)"
 
-#: src/configure.c:490 src/configure.c:528
+#: src/configure.c:495 src/configure.c:533
 msgid "wait for shell failed"
 msgstr "lỗi chờ trình bao"
 
-#: src/configure.c:510
+#: src/configure.c:515
 msgid "Type `exit' when you're done.\n"
 msgstr "Gõ « exit » (thoát) khi hoàn tất.\n"
 
-#: src/configure.c:519
+#: src/configure.c:524
 #, c-format
 msgid "failed to exec shell (%.250s)"
 msgstr "lỗi thực hiện trình bao (%.250s)"
 
-#: src/configure.c:531
+#: src/configure.c:536
 msgid "Don't forget to foreground (`fg') this process when you're done !\n"
 msgstr "Đừng quên đưa tiến trình này lên trước (« fg ») khi hoàn tất.\n"
 
-#: src/configure.c:558
+#: src/configure.c:563
 #, c-format
 msgid ""
 "\n"
@@ -1756,12 +1792,12 @@ msgstr ""
 "\n"
 "Tập tin cấu hình « %s »"
 
-#: src/configure.c:560
+#: src/configure.c:565
 #, c-format
 msgid " (actually `%s')"
 msgstr " (thực sự « %s »)"
 
-#: src/configure.c:564
+#: src/configure.c:569
 #, c-format
 msgid ""
 "\n"
@@ -1772,7 +1808,7 @@ msgstr ""
 " ==> Tập tin trên hệ thống tạo bởi người dùng hoặc bởi một văn lệnh.\n"
 " ==> Tập tin cũng nằm trong gói cung cấp bởi nhà duy trì gói.\n"
 
-#: src/configure.c:569
+#: src/configure.c:574
 #, c-format
 msgid ""
 "\n"
@@ -1781,7 +1817,7 @@ msgstr ""
 "\n"
 "     Chưa sửa đổi kể từ lúc cài đặt.\n"
 
-#: src/configure.c:571
+#: src/configure.c:576
 #, c-format
 msgid ""
 "\n"
@@ -1790,7 +1826,7 @@ msgstr ""
 "\n"
 " ==> Đã sửa đổi (bởi người dùng hay văn lệnh) kể từ lúc cài đặt.\n"
 
-#: src/configure.c:572
+#: src/configure.c:577
 #, c-format
 msgid ""
 "\n"
@@ -1799,37 +1835,37 @@ msgstr ""
 "\n"
 " ==> Đã xoá (bởi bạn hay văn lệnh) kể từ lúc cài đặt.\n"
 
-#: src/configure.c:575
+#: src/configure.c:580
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Nhà phân phối gói đã cung cấp một phiên bản đã cập nhật.\n"
 
-#: src/configure.c:576
+#: src/configure.c:581
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     Phiên bản trong gói là trùng với phiên bản cài đặt cuối cùng.\n"
 
-#: src/configure.c:583
+#: src/configure.c:588
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Đang sử dụng tập tin mới như bạn yêu cầu.\n"
 
-#: src/configure.c:587
+#: src/configure.c:592
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Đang sử dụng tập tin cũ hiện thời như bạn yêu cầu.\n"
 
-#: src/configure.c:597
+#: src/configure.c:602
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Đang giữ tập tin cấu hình cũ làm mặc định.\n"
 
-#: src/configure.c:601
+#: src/configure.c:606
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Đang dùng tập tin cấu hình mới làm mặc định.\n"
 
-#: src/configure.c:609
+#: src/configure.c:614
 #, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -1844,39 +1880,39 @@ msgstr ""
 "      D     : hiển thị sự khác nhau giữa hai phiên bản\n"
 "      Z     : đưa tiến trình này về sau để xem lại trường hợp\n"
 
-#: src/configure.c:616
+#: src/configure.c:621
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " Hành động mặc định là giữ phiên bản hiện thời.\n"
 
-#: src/configure.c:618
+#: src/configure.c:623
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " Hành vi mặc định là cài đặt phiên bản mới.\n"
 
-#: src/configure.c:624
+#: src/configure.c:629
 msgid "[default=N]"
 msgstr "[mặc định=N]"
 
-#: src/configure.c:625
+#: src/configure.c:630
 msgid "[default=Y]"
 msgstr "[mặc định=Y]"
 
-#: src/configure.c:625
+#: src/configure.c:630
 msgid "[no default]"
 msgstr "[không có giá trị mặc định]"
 
-#: src/configure.c:628
+#: src/configure.c:633
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 "gặp lỗi khi ghi ra thiết bị lỗi chuẩn, phát hiện trước khi xem dấu nhắc tập "
 "tin cấu hình"
 
-#: src/configure.c:635
+#: src/configure.c:640
 msgid "read error on stdin at conffile prompt"
 msgstr "lỗi đọc trên thiết bị nhập chuẩn ở dấu nhắc tập tin cấu hình"
 
-#: src/configure.c:636
+#: src/configure.c:641
 msgid "EOF on stdin at conffile prompt"
 msgstr ""
 "gặp kết thúc tập tin trên thiết bị nhập chuẩn ở dấu nhắc tập tin cấu hình"
@@ -2001,24 +2037,24 @@ msgstr "  %.250s cung cấp %.250s và sẽ được cài đặt.\n"
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s cung cấp %.250s và đã có và %s.\n"
 
-#: src/divertdb.c:71
+#: src/divertdb.c:69
 msgid "failed to open diversions file"
 msgstr "lỗi mở tập tin diversions (sự trệch đi)"
 
-#: src/divertdb.c:78
+#: src/divertdb.c:76
 msgid "failed to fstat previous diversions file"
 msgstr "lỗi fstat tập tin diversions (sự trệch đi) trước"
 
-#: src/divertdb.c:80
+#: src/divertdb.c:78
 msgid "failed to fstat diversions file"
 msgstr "lỗi fstat tập tin diversions (sự trệch đi)"
 
-#: src/divertdb.c:120
+#: src/divertdb.c:118
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "diversions (sự trệch đi) xung đột với « %.250s » hay « %.250s »"
 
-#: src/divertdb.c:130
+#: src/divertdb.c:128
 msgid "read error in diversions [i]"
 msgstr "lỗi đọc trong diversions (sự trệch đi) [i]"
 
@@ -2089,28 +2125,28 @@ msgstr ""
 " • dpkg --configure --pending\n"
 " • dpkg --triggers-only\n"
 
-#: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
-#: dpkg-split/queue.c:201
+#: src/enquiry.c:117 src/enquiry.c:173 src/enquiry.c:249 src/enquiry.c:312
+#: src/enquiry.c:386 src/select.c:95 src/select.c:152 src/trigcmd.c:200
+#: src/update.c:46 src/update.c:102 dpkg-split/queue.c:204
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "« --%s » không chấp nhận đối số"
 
-#: src/enquiry.c:154
+#: src/enquiry.c:155
 msgid "<unknown>"
 msgstr "<không rõ>"
 
-#: src/enquiry.c:211
+#: src/enquiry.c:212
 #, c-format
 msgid " %d in %s: "
 msgstr " %d trong %s: "
 
-#: src/enquiry.c:226
+#: src/enquiry.c:227
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d gói, từ những phần sau :"
 
-#: src/enquiry.c:261
+#: src/enquiry.c:262
 #, fuzzy, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2120,30 +2156,30 @@ msgstr ""
 " Xin hãy dùng lệnh cấu hình  « dpkg --configure dpkg »,\n"
 "và thử lại lần nữa.\n"
 
-#: src/enquiry.c:266
+#: src/enquiry.c:267
 #, fuzzy, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 "dpkg chưa được ghi nhận là đã cài đặt nên không thể kiểm tra hỗ trợ kỷ "
 "nguyên.\n"
 
-#: src/enquiry.c:274
+#: src/enquiry.c:275
 msgid "Pre-Depends field"
 msgstr ""
 
-#: src/enquiry.c:279
+#: src/enquiry.c:280
 msgid "epoch"
 msgstr ""
 
-#: src/enquiry.c:284
+#: src/enquiry.c:285
 msgid "long filenames"
 msgstr ""
 
-#: src/enquiry.c:289
+#: src/enquiry.c:290
 msgid "multiple Conflicts and Replaces"
 msgstr ""
 
-#: src/enquiry.c:364
+#: src/enquiry.c:365
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -2152,31 +2188,31 @@ msgstr ""
 "dpkg: không biết cách thoả mãn quan hệ phụ thuộc sẵn:\n"
 " %s\n"
 
-#: src/enquiry.c:365
+#: src/enquiry.c:366
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "không thể thoả mãn các quan hệ phụ thuộc sẵn cho %.250s (cần do %.250s)"
 
-#: src/enquiry.c:393
+#: src/enquiry.c:396
 #, fuzzy, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "Cảnh báo: tùy chọn cũ « --%s »\n"
 
-#: src/enquiry.c:434
+#: src/enquiry.c:437
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "« --compare-versions » (so sánh phiên bản) chấp nhận ba đối số: <version> "
 "(phiên bản 1) <relation> (quan hệ) và <version> (phiên bản 2)"
 
-#: src/enquiry.c:439
+#: src/enquiry.c:442
 msgid "--compare-versions bad relation"
 msgstr "« --compare-versions » (so sánh phiên bản) có quan hệ sai"
 
-#: src/enquiry.c:444 src/enquiry.c:455
-#, c-format
-msgid "dpkg: version '%s' has bad syntax: %s\n"
+#: src/enquiry.c:447 src/enquiry.c:454
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax: %s"
 msgstr "dpkg: phiên bản « %s » có cú pháp sai: %s\n"
 
 #: src/errors.c:61
@@ -2228,12 +2264,12 @@ msgstr ""
 "dpkg — cảnh báo, có vấn đề đè vì « --force » (buộc) đã bật:\n"
 " "
 
-#: src/filesdb.c:138
+#: src/filesdb.c:139
 #, c-format
 msgid "unable to open files list file for package `%.250s'"
 msgstr "không thể mở tập tin liệt kê nội dung gói « %.250s »"
 
-#: src/filesdb.c:142
+#: src/filesdb.c:143
 #, fuzzy, c-format
 msgid ""
 "files list file for package `%.250s' missing, assuming package has no files "
@@ -2242,112 +2278,112 @@ msgstr ""
 "dpkg: cảnh báo trầm trọng: thiếu tập tin liệt kê nội dung gói « %.250s », giả "
 "sử gói không có tập tin hiện thời được cài đặt.\n"
 
-#: src/filesdb.c:153
+#: src/filesdb.c:154
 #, fuzzy, c-format
 msgid "unable to stat files list file for package '%.250s'"
 msgstr "không thể mở tập tin liệt kê nội dung gói « %.250s »"
 
-#: src/filesdb.c:160
+#: src/filesdb.c:161
 #, c-format
 msgid "files list for package `%.250s'"
 msgstr "nội dung gói « %.250s »"
 
-#: src/filesdb.c:166
+#: src/filesdb.c:167
 #, fuzzy, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr "tập tin liệt kê nội dung gói « %.250s » chứa tên tập tin rỗng"
 
-#: src/filesdb.c:174
+#: src/filesdb.c:175
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr "tập tin liệt kê nội dung gói « %.250s » chứa tên tập tin rỗng"
 
-#: src/filesdb.c:186
+#: src/filesdb.c:187
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "gặp lỗi khi đóng tập tin liệt kê nội dung gói « %.250s »"
 
-#: src/filesdb.c:222
+#: src/filesdb.c:223
 msgid "(Reading database ... "
 msgstr "(Đang đọc cơ sở dữ liệu ... "
 
-#: src/filesdb.c:237
+#: src/filesdb.c:238
 #, c-format
 msgid "%d files and directories currently installed.)\n"
 msgstr "%d tập tin và thư mục hiện thời được cài đặt.)\n"
 
-#: src/filesdb.c:268
+#: src/filesdb.c:269
 #, c-format
 msgid "unable to create updated files list file for package %s"
 msgstr "không thể tạo tập tin liệt kê nội dung đã cập nhật cho gói %s"
 
-#: src/filesdb.c:278
+#: src/filesdb.c:279
 #, c-format
 msgid "failed to write to updated files list file for package %s"
 msgstr "lỗi ghi vào tập tin liệt kê nội dung đã cập nhật cho gói %s"
 
-#: src/filesdb.c:280
+#: src/filesdb.c:281
 #, c-format
 msgid "failed to flush updated files list file for package %s"
 msgstr "lỗi xóa sạch tập tin liệt kê nội dung đã cập nhật cho gói %s"
 
-#: src/filesdb.c:282
+#: src/filesdb.c:283
 #, c-format
 msgid "failed to sync updated files list file for package %s"
 msgstr "lỗi đồng bộ hoá tập tin liệt kê nội dung đã cập nhật cho gói %s"
 
-#: src/filesdb.c:285
+#: src/filesdb.c:286
 #, c-format
 msgid "failed to close updated files list file for package %s"
 msgstr "lỗi đóng tập tin liệt kê nội dung đã cập nhật cho gói %s"
 
-#: src/filesdb.c:287
+#: src/filesdb.c:288
 #, c-format
 msgid "failed to install updated files list file for package %s"
 msgstr "lỗi cài đặt tập tin liệt kê nội dung đã cập nhật cho gói %s"
 
-#: src/help.c:45
+#: src/help.c:46
 msgid "not installed"
 msgstr "chưa cài đặt"
 
-#: src/help.c:46
+#: src/help.c:47
 msgid "not installed but configs remain"
 msgstr "không được cài đặt nhưng vẫn còn có các cấu hình"
 
-#: src/help.c:47
+#: src/help.c:48
 msgid "broken due to failed removal or installation"
 msgstr "bị vỡ do việc gỡ bỏ hoặc cài đặt mà bị lỗi"
 
-#: src/help.c:48
+#: src/help.c:49
 msgid "unpacked but not configured"
 msgstr "đã mở gói nhưng chưa cấu hình"
 
-#: src/help.c:49
+#: src/help.c:50
 msgid "broken due to postinst failure"
 msgstr "bị vỡ do việc bị lỗi sau khi cài đặt"
 
-#: src/help.c:50
+#: src/help.c:51
 msgid "awaiting trigger processing by another package"
 msgstr "đang đợi một gói khác xử lý bộ gây nên"
 
-#: src/help.c:51
+#: src/help.c:52
 msgid "triggered"
 msgstr "đã gây nên"
 
-#: src/help.c:52
+#: src/help.c:53
 msgid "installed"
 msgstr "đã cài đặt"
 
-#: src/help.c:99
+#: src/help.c:100
 msgid "dpkg - error: PATH is not set.\n"
 msgstr "dpkg — lỗi: chưa đặt PATH (đường dẫn).\n"
 
-#: src/help.c:114
+#: src/help.c:115
 #, c-format
 msgid "dpkg: `%s' not found on PATH.\n"
 msgstr "dpkg: không tìm thấy « %s » trong PATH (đường dẫn).\n"
 
-#: src/help.c:121
+#: src/help.c:122
 #, c-format
 msgid ""
 "%d expected program(s) not found on PATH.\n"
@@ -2357,99 +2393,99 @@ msgstr ""
 "NB: PATH của người chủ thường chứa « /usr/local/sbin », « /usr/sbin » và « /"
 "sbin »."
 
-#: src/help.c:157
+#: src/help.c:158
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr "lỗi chroot tới « %.250s »"
 
-#: src/help.c:159 dpkg-deb/build.c:366 dpkg-deb/build.c:436
-#: dpkg-deb/build.c:457
+#: src/help.c:160 dpkg-deb/build.c:370 dpkg-deb/build.c:440
+#: dpkg-deb/build.c:461
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "lỗi chdir (chuyển đổi thư mục) sang « %.250s »"
 
-#: src/help.c:245
+#: src/help.c:246
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "không thể đặt quyền thực hiện cho « %.250s »"
 
-#: src/help.c:265
+#: src/help.c:272
 #, fuzzy
 msgid "unable to setenv for maintainer script"
 msgstr "không thể setenv (đặt môi trường) đối với văn lệnh duy trì"
 
-#: src/help.c:289
+#: src/help.c:296
 #, fuzzy, c-format
 msgid "installed %s script"
 msgstr "văn lệnh %s cũ"
 
-#: src/help.c:297 src/help.c:355 src/help.c:407
+#: src/help.c:304 src/help.c:365 src/help.c:417
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "không thể lấy các thông tin về %s « %.250s »"
 
-#: src/help.c:299 src/help.c:358 src/help.c:389 src/help.c:410
+#: src/help.c:307 src/help.c:368 src/help.c:399 src/help.c:421
 #, c-format
 msgid "unable to execute %s"
 msgstr "không thể thực hiện %s"
 
-#: src/help.c:347 src/help.c:401
+#: src/help.c:357 src/help.c:411
 #, c-format
 msgid "new %s script"
 msgstr "văn lệnh %s mới"
 
-#: src/help.c:378
+#: src/help.c:388
 #, c-format
 msgid "old %s script"
 msgstr "văn lệnh %s cũ"
 
-#: src/help.c:385
+#: src/help.c:395
 #, fuzzy, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "không thể lấy các thông tin về %s « %.250s »"
 
-#: src/help.c:394
+#: src/help.c:404
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg — đang thử văn lệnh từ gói mới để thay thế ...\n"
 
-#: src/help.c:405
+#: src/help.c:415
 msgid "there is no script in the new version of the package - giving up"
 msgstr "không có văn lệnh trong phiên bản mới của gói nên chịu thua"
 
-#: src/help.c:411
+#: src/help.c:422
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... có vẻ như việc đã làm được.\n"
 
-#: src/help.c:502
+#: src/help.c:513
 msgid "unlink"
 msgstr "hủy liên kết"
 
-#: src/help.c:516
+#: src/help.c:527
 msgid "chmod"
 msgstr "chmod (chuyển đổi chế độ)"
 
-#: src/help.c:532 src/processarc.c:760
+#: src/help.c:543 src/processarc.c:762
 msgid "delete"
 msgstr "xoá"
 
-#: src/help.c:543
+#: src/help.c:554
 #, fuzzy, c-format
 msgid "failed to %s '%.255s'"
 msgstr "lỗi %s « %%.255s »"
 
-#: src/help.c:548 dpkg-deb/info.c:57
+#: src/help.c:559 dpkg-deb/info.c:60
 msgid "failed to exec rm for cleanup"
 msgstr "lỗi thực hiện rm (gỡ bỏ) để dọn dẹp"
 
-#: src/main.c:54
+#: src/main.c:56
 #, c-format
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Chương trình quản lý gói Debian « %s », phiên bản %s.\n"
 
-#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
-#: dpkg-split/main.c:51
+#: src/main.c:59 src/query.c:561 src/trigcmd.c:81 dpkg-deb/main.c:59
+#: dpkg-split/main.c:52
 #, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2461,7 +2497,7 @@ msgstr ""
 "KHÔNG có bảo hành gì cả.\n"
 "Xem « %s --license » để biết chi tiết bản quyền và giấy phép.\n"
 
-#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:73 src/query.c:572 dpkg-deb/main.c:70 dpkg-split/main.c:63
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2470,7 +2506,7 @@ msgstr ""
 "Cách sử dụng: %s [<tùy_chọn> ...] <lệnh>\n"
 "\n"
 
-#: src/main.c:73
+#: src/main.c:77
 #, c-format
 msgid ""
 "Commands:\n"
@@ -2562,8 +2598,8 @@ msgstr ""
 "\t(gỡ lỗi trợ giúp)\n"
 " \n"
 
-#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
-#: dpkg-split/main.c:75
+#: src/main.c:105 src/query.c:588 src/trigcmd.c:102 dpkg-deb/main.c:87
+#: dpkg-split/main.c:77
 #, c-format
 msgid ""
 "  -h|--help                        Show this help message.\n"
@@ -2579,7 +2615,7 @@ msgstr ""
 " \t(giấy phép)\n"
 "\n"
 
-#: src/main.c:107
+#: src/main.c:111
 #, c-format
 msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -2598,7 +2634,7 @@ msgstr ""
 " (gõ « %s --help » để xem trợ giúp).\n"
 "\n"
 
-#: src/main.c:112
+#: src/main.c:116
 #, c-format
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
@@ -2613,7 +2649,7 @@ msgstr ""
 "   --assert-multi-conrep\t\t\tkhẳng định thông báo nhiều cấu hình\n"
 " \n"
 
-#: src/main.c:117
+#: src/main.c:121
 #, c-format
 msgid ""
 "Options:\n"
@@ -2692,7 +2728,7 @@ msgstr ""
 " \t(hủy bỏ sau khi)\n"
 "\n"
 
-#: src/main.c:141
+#: src/main.c:145
 #, c-format
 msgid ""
 "Comparison operators for --compare-versions are:\n"
@@ -2713,14 +2749,14 @@ msgstr ""
 "khiển.\n"
 " \n"
 
-#: src/main.c:148
+#: src/main.c:152
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
 "Khuyên bạn sử dụng « dselect » hay « aptitude »\n"
 " \tđể quản lý gói một cách thân thiện với người dùng.\n"
 
-#: src/main.c:155
+#: src/main.c:160
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2745,17 +2781,17 @@ msgstr ""
 "Tùy chọn có dấu sao [*] cho ra kết xuất rất nhiều —\n"
 "hãy gởi hết qua ống dẫn tới chương trình « less » hoặc « more »."
 
-#: src/main.c:211 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:162
+#: src/main.c:216 src/query.c:630 dpkg-deb/main.c:185 dpkg-split/main.c:166
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "hành động xung đột « -%c (--%s) » và « -%c  (--%s) »"
 
-#: src/main.c:217
+#: src/main.c:222
 #, fuzzy, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "Cảnh báo: tùy chọn cũ « --%s »\n"
 
-#: src/main.c:225
+#: src/main.c:230
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2800,32 +2836,32 @@ msgstr ""
 "Tùy chọn gỡ lỗi có thể gộp lại dùng phép toán « bitwise-or ».\n"
 "Chú ý rằng các ý nghĩa và giá trị vẫn có thể thay đổi.\n"
 
-#: src/main.c:249
+#: src/main.c:254
 msgid "--debug requires an octal argument"
 msgstr "« --debug » (gỡ lỗi) cần một đối số kiểu bát phân"
 
-#: src/main.c:273
+#: src/main.c:278
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "gặp tên gói vô giá trị trong danh sách định giới bằng dấu phẩy « --ignore-"
 "depends » (lờ đi các quan hệ phụ thuộc) « %.250s »"
 
-#: src/main.c:279
+#: src/main.c:284
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "« --ignore-depends » cần một tên gói hợp lệ. « %.250s » không phải; %s"
 
-#: src/main.c:295 src/main.c:307 src/main.c:548 dpkg-split/main.c:119
+#: src/main.c:300 src/main.c:312 src/main.c:612 dpkg-split/main.c:123
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "số nguyên không hợp lệ cho « --%s »: « %.250s »"
 
-#: src/main.c:309
+#: src/main.c:314
 msgid "<package status and progress file descriptor>"
 msgstr "<bộ mô tả trạng thái gói và tập tin tiến hành>"
 
-#: src/main.c:324
+#: src/main.c:385
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2930,42 +2966,42 @@ msgstr ""
 "thống.\n"
 "Tùy chọn ép buộc có dấu sao [*] được bật theo mặc định.\n"
 
-#: src/main.c:370
+#: src/main.c:431
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "tùy chọn ép buộc/từ chối không rõ « %.*s »"
 
-#: src/main.c:375
+#: src/main.c:437
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "Cảnh báo: tùy chọn ép buộc/từ chối cũ « %s »\n"
 
-#: src/main.c:526
+#: src/main.c:590
 #, c-format
 msgid "failed to exec %s"
 msgstr "lỗi thực hiện %s"
 
-#: src/main.c:542
+#: src/main.c:606
 msgid "--command-fd takes one argument, not zero"
 msgstr ""
 "« --command-fd » (lệnh mô tả tập tin) chấp nhận một đối số (không phải 0)"
 
-#: src/main.c:544
+#: src/main.c:608
 msgid "--command-fd only takes one argument"
 msgstr "« --command-fd » (lệnh mô tả tập tin) chỉ chấp nhận một đối số"
 
-#: src/main.c:550
+#: src/main.c:614
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "không thể mở « %i » cho luồng"
 
-#: src/main.c:575
+#: src/main.c:639
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "gặp kết thúc tập tin bất ngờ trước kết thúc dòng %d"
 
-#: src/main.c:619 src/main.c:641 src/query.c:551 dpkg-deb/main.c:213
-#: dpkg-split/main.c:181
+#: src/main.c:683 src/main.c:705 src/query.c:675 dpkg-deb/main.c:216
+#: dpkg-split/main.c:185
 msgid "need an action option"
 msgstr "cần một tùy chọn hành động"
 
@@ -2974,7 +3010,7 @@ msgstr "cần một tùy chọn hành động"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "« --%s --pending » (hoãn) không chấp nhận đối số khác tùy chọn"
 
-#: src/packages.c:146 src/query.c:292
+#: src/packages.c:146 src/query.c:294 src/query.c:532
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "« --%s » cần ít nhất một đối số kiểu tên gói"
@@ -3083,49 +3119,49 @@ msgstr " phụ thuộc vào "
 msgid "; however:\n"
 msgstr "; tuy nhiên:\n"
 
-#: src/pkg-show.c:41 src/query.c:91
+#: src/pkg-show.c:41 src/query.c:93
 msgid "(no description available)"
 msgstr "(không có mô tả)"
 
-#: src/processarc.c:106
+#: src/processarc.c:108
 msgid "cannot access archive"
 msgstr "không thể truy cập kho lưu"
 
-#: src/processarc.c:116
+#: src/processarc.c:118
 #, c-format
 msgid "error ensuring `%.250s' doesn't exist"
 msgstr "gặp lỗi khi bảo đảm « %.250s » không tồn tại"
 
-#: src/processarc.c:121
+#: src/processarc.c:123
 msgid "failed to exec dpkg-split to see if it's part of a multiparter"
 msgstr ""
 "lỗi thực hiện « dpkg-split » (chia tách) để xem nếu nó là một phần của điều "
 "đa phần"
 
-#: src/processarc.c:124
+#: src/processarc.c:126
 msgid "wait for dpkg-split failed"
 msgstr "lỗi chờ « dpkg-split » (chia tách)"
 
-#: src/processarc.c:130
+#: src/processarc.c:132
 msgid "reassembled package file"
 msgstr "tập tin gói đã tập hợp lại"
 
-#: src/processarc.c:145
+#: src/processarc.c:147
 #, c-format
 msgid "Authenticating %s ...\n"
 msgstr "Đang xác thực %s ...\n"
 
-#: src/processarc.c:150
+#: src/processarc.c:152
 msgid "failed to execl debsig-verify"
 msgstr ""
 "lỗi execl (thực hiện rồi chấm dứt) « debsig-verify » (thẩm tra chữ ký Debian)"
 
-#: src/processarc.c:156
+#: src/processarc.c:158
 #, c-format
 msgid "Verification on package %s failed!"
 msgstr "Lỗi thẩm tra gói %s."
 
-#: src/processarc.c:158
+#: src/processarc.c:160
 #, c-format
 msgid ""
 "Verification on package %s failed,\n"
@@ -3134,30 +3170,30 @@ msgstr ""
 "Lỗi thẩm tra gói %s,\n"
 "nhưng vẫn đang cài đặt như bạn yêu cầu.\n"
 
-#: src/processarc.c:161
+#: src/processarc.c:163
 #, c-format
 msgid "passed\n"
 msgstr "đã qua\n"
 
-#: src/processarc.c:170
+#: src/processarc.c:172
 msgid "unable to get unique filename for control info"
 msgstr "không thể lấy tên tập tin duy nhất cho thông tin điều khiển"
 
-#: src/processarc.c:193
+#: src/processarc.c:195
 msgid "failed to exec dpkg-deb to extract control information"
 msgstr "lỗi thực hiện « dpkg-deb » để giải nén thông tin điều khiển"
 
-#: src/processarc.c:211
+#: src/processarc.c:213
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "Đã ghi lưu thông tin về %s từ %s.\n"
 
-#: src/processarc.c:220
+#: src/processarc.c:222
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "kiến trúc gói (%s) không khớp với hệ thống (%s)"
 
-#: src/processarc.c:275
+#: src/processarc.c:277
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
@@ -3166,102 +3202,102 @@ msgstr ""
 "dpkg: về %s chứa %s, vấn đề quan hệ phụ thuộc sẵn:\n"
 "%s"
 
-#: src/processarc.c:278
+#: src/processarc.c:280
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "vấn đề quan hệ phụ thuộc sẵn nên không cài đặt %.250s"
 
-#: src/processarc.c:279
+#: src/processarc.c:281
 #, fuzzy
 msgid "ignoring pre-dependency problem!"
 msgstr "dpkg: cảnh báo — đang lờ đi vấn đề quan hệ phụ thuộc sẵn.\n"
 
-#: src/processarc.c:294
+#: src/processarc.c:296
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "Đang chuẩn bị thay thế %s %s (bằng %s) ...\n"
 
-#: src/processarc.c:300
+#: src/processarc.c:302
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Đang mở gói %s (từ %s) ...\n"
 
-#: src/processarc.c:329
+#: src/processarc.c:331
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr "tên của tập tin cấu hình (bắt đầu « %.250s ») quá dài (>%d ký tự)"
 
-#: src/processarc.c:382
+#: src/processarc.c:384
 #, c-format
 msgid "read error in %.250s"
 msgstr "gặp lỗi đọc trong %.250s"
 
-#: src/processarc.c:384
+#: src/processarc.c:386
 #, c-format
 msgid "error closing %.250s"
 msgstr "gặp lỗi khi đóng %.250s"
 
-#: src/processarc.c:386
+#: src/processarc.c:388
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "gặp lỗi khi cố mở %.250s"
 
-#: src/processarc.c:422
+#: src/processarc.c:424
 #, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "Đang huỷ cấu hình %s, để có khả năng gỡ bỏ %s ...\n"
 
-#: src/processarc.c:425
+#: src/processarc.c:427
 #, c-format
 msgid "De-configuring %s ...\n"
 msgstr "Đang hủy cấu hình %s ...\n"
 
-#: src/processarc.c:500
+#: src/processarc.c:502
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Đang mở gói điều thay thế %.250s ...\n"
 
-#: src/processarc.c:581
+#: src/processarc.c:583
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr "không thể thực hiện « dpkg-deb » để lấy kho lưu hệ thống tập tin"
 
-#: src/processarc.c:595
+#: src/processarc.c:597
 msgid "error reading dpkg-deb tar output"
 msgstr "gặp lỗi khi đọc kết xuất tar của « dpkg-deb »"
 
-#: src/processarc.c:597
+#: src/processarc.c:599
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "tập tin .tar của hệ thống tập tin bị hỏng — kho lưu gói bị hỏng"
 
-#: src/processarc.c:600
+#: src/processarc.c:602
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: sửa các số không đi sau có thể"
 
-#: src/processarc.c:660
+#: src/processarc.c:662
 #, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "dpkg: cảnh báo — không thể lấy các thông tin về tập tin cũ « %.250s » nên "
 "không xoá nó : %s"
 
-#: src/processarc.c:666
+#: src/processarc.c:668
 #, fuzzy, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "dpkg: cảnh báo — không thể xóa thư mục cũ « %.250s »: %s\n"
 
-#: src/processarc.c:669
+#: src/processarc.c:671
 #, fuzzy, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
 "dpkg: cảnh báo — tập tin cấu hình cũ « %.250s » là thư mục trống (thì đã được "
 "xoá).\n"
 
-#: src/processarc.c:711
+#: src/processarc.c:713
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "không thể lấy các thông tin về tập tin mới khác « %.250s »"
 
-#: src/processarc.c:722
+#: src/processarc.c:724
 #, fuzzy, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -3270,79 +3306,79 @@ msgstr ""
 "dpkg: cảnh báo — tập tin cũ « %.250s » là cùng một tập tin với vài tập tin "
 "mới (cả hai « %.250s » và « %.250s »).\n"
 
-#: src/processarc.c:764
+#: src/processarc.c:766
 #, fuzzy, c-format
 msgid "unable to %s old file '%.250s': %s"
 msgstr "dpkg: cảnh báo — không thể %s tập tin cũ « %%.250s »: %%s\n"
 
-#: src/processarc.c:799 src/processarc.c:1046 src/remove.c:288
+#: src/processarc.c:801 src/processarc.c:1048 src/query.c:479 src/remove.c:288
 msgid "cannot read info directory"
 msgstr "không thể đọc thư mục thông tin"
 
-#: src/processarc.c:812
+#: src/processarc.c:814
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "phiên bản cũ của gói có tên tập tin thông tin quá dài bắt đầu « %.250s »"
 
-#: src/processarc.c:824
+#: src/processarc.c:826
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "không thể gỡ bỏ tập tin thông tin cũ « %.250s »"
 
-#: src/processarc.c:827
+#: src/processarc.c:829
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "không thể cài đặt tập tin thông tin (giả thiết) mới « %.250s »"
 
-#: src/processarc.c:834
+#: src/processarc.c:836
 msgid "unable to open temp control directory"
 msgstr "không thể mở thư mục điều khiển tạm thời"
 
-#: src/processarc.c:843
+#: src/processarc.c:845
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr "gói chứa tên tập tin thông tin điều khiển quá dài (bắt đầu « %.50s »)"
 
-#: src/processarc.c:848
+#: src/processarc.c:850
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "thông tin điều khiển gói chứa thư mục « %.250s »"
 
-#: src/processarc.c:850
+#: src/processarc.c:852
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "việc rmdir (gỡ bỏ thư mục) kiểu thông tin điều khiển gói của « %.250s » không "
 "nói « không phải là thư mục »"
 
-#: src/processarc.c:856
+#: src/processarc.c:858
 #, fuzzy, c-format
 msgid "package %s contained list as info file"
 msgstr "dpkg: cảnh báo — gói %s chứa danh sách dạng tập tin thông tin"
 
-#: src/processarc.c:862
+#: src/processarc.c:864
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "không thể cài đặt tập tin thông tin mới « %.250s » dạng « %.250s »"
 
-#: src/processarc.c:1025
+#: src/processarc.c:1027
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Đang ghi lưu sự biến mất của %s, mà đã hoàn toàn được thay thế.)\n"
 
-#: src/processarc.c:1062
+#: src/processarc.c:1064
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "không thể xóa tập tin thông tin điều khiển biến mất « %.250s »"
 
-#: src/query.c:113
+#: src/query.c:115
+#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-"uppercase=bad)\n"
+"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "Đã muốn=Không rõ/Cài đặt/Gỡ bỏ/Tẩy/Giữ lại\n"
 "| Trạng thái=Không/Đã cài đặt/Tập tin cấu hình/Đã mở gói/Lỗi cấu hình/Nửa "
@@ -3350,88 +3386,88 @@ msgstr ""
 "|/ Lỗi?=(không có)/Giữ lại/Cần cài đặt lại/X=cả hai vấn đề (Trạng thái,Lỗi: "
 "chữ_hoa=sai)\n"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Name"
 msgstr "Tên"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Version"
 msgstr "Phiên bản"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Description"
 msgstr "Mô tả"
 
-#: src/query.c:176 src/query.c:424 src/select.c:76
+#: src/query.c:178 src/query.c:427 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Không tìm thấy gói khớp vơi %s.\n"
 
-#: src/query.c:200
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "bị trệch bởi %s từ : %s\n"
 
-#: src/query.c:202
+#: src/query.c:204
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "bị trệch bởi %s tới : %s\n"
 
-#: src/query.c:205
+#: src/query.c:207
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "trệch nội bộ từ : %s\n"
 
-#: src/query.c:206
+#: src/query.c:208
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "bị trệch nội bộ tới : %s\n"
 
-#: src/query.c:232
+#: src/query.c:234
 msgid "--search needs at least one file name pattern argument"
 msgstr "« --search » cần ít nhất một đối số là kiểu mẫu tên tập tin"
 
-#: src/query.c:273
+#: src/query.c:275
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: không tìm thấy %s.\n"
 
-#: src/query.c:311
+#: src/query.c:313
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Gói « %s » không được cài đặt và không có thông tin nào sẵn sàng.\n"
 
-#: src/query.c:320
+#: src/query.c:322
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Gói « %s » không sẵn sàng.\n"
 
-#: src/query.c:330
+#: src/query.c:332 src/query.c:546
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Gói « %s » không được cài đặt.\n"
 
-#: src/query.c:339
+#: src/query.c:341
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Gói « %s » không chứa tập tin nào (!)\n"
 
-#: src/query.c:346
+#: src/query.c:348
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "bị trệch nội bộ tới : %s\n"
 
-#: src/query.c:349
+#: src/query.c:351
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "gói làm trệch những gói khác tới : %s\n"
 
-#: src/query.c:352
+#: src/query.c:354
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "bị trệch bởi %s tới : %s\n"
 
-#: src/query.c:373
+#: src/query.c:376
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3443,13 +3479,18 @@ msgstr ""
 "« dpkg --contents » (= « dpkg-deb --contents »)\n"
 "\t\tđể liệt kê nội dung của chúng.\n"
 
-#: src/query.c:441
+#: src/query.c:539
+#, c-format
+msgid "control file contains %c"
+msgstr ""
+
+#: src/query.c:559
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Công cụ truy vấn chương trình quản lý gói Debian « %s »\n"
 
-#: src/query.c:457
-#, c-format
+#: src/query.c:576
+#, fuzzy, c-format
 msgid ""
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
@@ -3458,6 +3499,8 @@ msgid ""
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -W|--show <pattern> ...          Show information on package(s).\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+"  -c|--control-path <package> [<file>]\n"
+"                                   Print path for package control file.\n"
 "\n"
 msgstr ""
 "Lệnh:\n"
@@ -3476,7 +3519,7 @@ msgstr ""
 "\t(tìm kiếm)\n"
 "\n"
 
-#: src/query.c:473
+#: src/query.c:594
 #, c-format
 msgid ""
 "Options:\n"
@@ -3491,7 +3534,7 @@ msgstr ""
 "\t\t(hiện định dạng)\n"
 "\n"
 
-#: src/query.c:479 dpkg-deb/main.c:109
+#: src/query.c:600 dpkg-deb/main.c:111
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3515,7 +3558,7 @@ msgstr ""
 "  Trường được canh lề phải, nếu độ rộng không âm\n"
 "  (trong trường hợp đó, canh lề trái).\n"
 
-#: src/query.c:489
+#: src/query.c:612
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3645,134 +3688,129 @@ msgstr "không thể gỡ bỏ tập tin cấu hình sao lưu cũ « %.250s » (
 msgid "unable to check existence of `%.250s'"
 msgstr "không thể kiểm tra sự tồn tại của « %.250s »"
 
-#: src/remove.c:574
+#: src/remove.c:575
 msgid "cannot remove old files list"
 msgstr "không thể gỡ bỏ danh sách các tập tin cũ"
 
-#: src/remove.c:580
+#: src/remove.c:581
 msgid "can't remove old postrm script"
 msgstr "không thể gỡ bỏ văn lệnh postrm (sau khi gỡ bỏ) cũ"
 
-#: src/select.c:111
+#: src/select.c:112
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "gặp kết thúc tập tin bất ngờ trong tên gói trên dòng %d"
 
-#: src/select.c:112
+#: src/select.c:113
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "gặp kết thúc dòng bất ngờ trong tên gói trên dòng %d"
 
-#: src/select.c:116
+#: src/select.c:117
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "gặp kết thúc tập tin bất ngờ sau tên gói trên dòng %d"
 
-#: src/select.c:117
+#: src/select.c:118
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "gặp kết thúc dòng bất ngờ sau tên gói trên dòng %d"
 
-#: src/select.c:126
+#: src/select.c:127
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "gặp dữ liệu bất ngờ sau gói và vùng chọn trên dòng %d"
 
-#: src/select.c:131
+#: src/select.c:132
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "gặp tên gói không hợp lệ trên dòng %d: %.250s"
 
-#: src/select.c:133
+#: src/select.c:134
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "trạng thái mong muốn không rõ trên dòng %d: %.250s"
 
-#: src/select.c:139
+#: src/select.c:140
 msgid "read error on standard input"
 msgstr "lỗi đọc trên thiết bị nhập chuẩn"
 
-#: src/statdb.c:58
+#: src/statdb.c:57
 #, fuzzy
 msgid "syntax error: invalid uid in statoverride file"
 msgstr "gặp lỗi khi cài đặt « statoverride » mới: %s"
 
-#: src/statdb.c:62
+#: src/statdb.c:61
 #, c-format
 msgid "syntax error: unknown user '%s' in statoverride file"
 msgstr ""
 
-#: src/statdb.c:79
+#: src/statdb.c:78
 #, fuzzy
 msgid "syntax error: invalid gid in statoverride file"
 msgstr "gặp lỗi khi cài đặt « statoverride » mới: %s"
 
-#: src/statdb.c:83
+#: src/statdb.c:82
 #, fuzzy, c-format
 msgid "syntax error: unknown group '%s' in statoverride file"
 msgstr "lỗi mở tập tin statoverride (ghi đè lên tình trạng)"
 
-#: src/statdb.c:99
+#: src/statdb.c:98
 #, fuzzy
 msgid "syntax error: invalid mode in statoverride file"
 msgstr "lỗi mở tập tin statoverride (ghi đè lên tình trạng)"
 
-#: src/statdb.c:125
+#: src/statdb.c:124
 msgid "failed to open statoverride file"
 msgstr "lỗi mở tập tin statoverride (ghi đè lên tình trạng)"
 
-#: src/statdb.c:132
+#: src/statdb.c:131
 msgid "failed to fstat statoverride file"
 msgstr "lỗi fstat tập tin statoverride (ghi đè lên tình trạng)"
 
-#: src/statdb.c:135
+#: src/statdb.c:134
 msgid "failed to fstat previous statoverride file"
 msgstr "lỗi fstat tập tin statoverride trước"
 
-#: src/statdb.c:160
+#: src/statdb.c:159
 #, c-format
 msgid "statoverride file `%.250s'"
 msgstr "tập tin statoverride « %.250s »"
 
-#: src/statdb.c:167
+#: src/statdb.c:166
 #, fuzzy
 msgid "statoverride file is missing final newline"
 msgstr "tập tin statoverride chứa dòng rỗng"
 
-#: src/statdb.c:171
+#: src/statdb.c:170
 msgid "statoverride file contains empty line"
 msgstr "tập tin statoverride chứa dòng rỗng"
 
-#: src/statdb.c:176 src/statdb.c:188 src/statdb.c:200
+#: src/statdb.c:175 src/statdb.c:187 src/statdb.c:199
 #, fuzzy
 msgid "syntax error in statoverride file"
 msgstr "lỗi mở tập tin statoverride (ghi đè lên tình trạng)"
 
-#: src/statdb.c:184 src/statdb.c:196
+#: src/statdb.c:183 src/statdb.c:195 src/statdb.c:207
 #, fuzzy
 msgid "unexpected end of line in statoverride file"
 msgstr "gặp kết thúc dòng bất ngờ trong tên gói trên dòng %d"
 
-#: src/statdb.c:208
-#, fuzzy
-msgid "unexecpted end of line in statoverride file"
-msgstr "gặp kết thúc dòng bất ngờ trong tên gói trên dòng %d"
-
-#: src/statdb.c:212
+#: src/statdb.c:211
 #, fuzzy, c-format
 msgid "multiple statusoverides present for file '%.250s'"
 msgstr "tập tin statoverride « %.250s »"
 
-#: src/trigcmd.c:74
+#: src/trigcmd.c:73
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Gõ « dpkg-trigger --help » để xem trợ giúp về tiện ích này."
 
-#: src/trigcmd.c:79
+#: src/trigcmd.c:78
 #, c-format
 msgid "Debian %s package trigger utility.\n"
 msgstr "Tiện ích gây nên gói %s của Debian.\n"
 
-#: src/trigcmd.c:93
+#: src/trigcmd.c:92
 #, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
@@ -3783,7 +3821,7 @@ msgstr ""
 "       %s [<tùy_chọn> ...] <câu_lệnh>\n"
 "\n"
 
-#: src/trigcmd.c:99
+#: src/trigcmd.c:97
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3794,7 +3832,7 @@ msgstr ""
 "Câu lệnh:\n"
 "  --check-supported   Kiểm tra nếu dpkg đang chạy có hỗ trợ bộ gây nên\n"
 
-#: src/trigcmd.c:112
+#: src/trigcmd.c:108
 #, c-format
 msgid ""
 "Options:\n"
@@ -3815,27 +3853,22 @@ msgstr ""
 "  --no-act                        Chỉ thử, không thật thay đổi gì.\n"
 "\n"
 
-#: src/trigcmd.c:169
+#: src/trigcmd.c:166
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
 msgstr "%s: chưa tạo thư mục dữ liệu bộ gây nên\n"
 
-#: src/trigcmd.c:173
+#: src/trigcmd.c:170
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
 msgstr "%s: mục ghi bộ gây nên chưa tồn tại\n"
 
-#: src/trigcmd.c:203
-#, fuzzy
-msgid "--check-supported takes no arguments"
-msgstr "« dpkg-trigger --check-supported » không chấp nhận đối số"
-
-#: src/trigcmd.c:208
+#: src/trigcmd.c:206
 #, fuzzy
 msgid "takes one argument, the trigger name"
 msgstr "« dpkg-trigger » chấp nhận chỉ một đối số: tên của bộ gây nên"
 
-#: src/trigcmd.c:213
+#: src/trigcmd.c:211
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
@@ -3843,12 +3876,12 @@ msgstr ""
 "« dpkg-trigger » phải được gọi từ một văn lệnh duy trì (hoặc với tùy chọn « -"
 "by-package »)"
 
-#: src/trigcmd.c:218
+#: src/trigcmd.c:216
 #, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
 msgstr "dpkg-trigger: tên gói mong đợi cấm « %.250s »: %.250s"
 
-#: src/trigcmd.c:223
+#: src/trigcmd.c:221
 #, fuzzy, c-format
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "dpkg-trigger: tên bộ gây nên không hợp lệ « %.250s »: %.250s"
@@ -3880,27 +3913,27 @@ msgstr "bộ gây nên đi vòng lặp nên bị hủy"
 msgid "Processing triggers for %s ...\n"
 msgstr "Đang xử lý các bộ gây nên đối với %s ...\n"
 
-#: src/update.c:51
+#: src/update.c:50
 #, c-format
 msgid "--%s needs exactly one Packages file argument"
 msgstr "« --%s » cần chính xác một đối số kiểu tập tin Packages (Gói)"
 
-#: src/update.c:60
+#: src/update.c:59
 msgid "unable to access dpkg status area for bulk available update"
 msgstr ""
 "không thể truy cập vùng trạng thái dpkg cho việc cập nhật sẵn sàng hàng loạt"
 
-#: src/update.c:62
+#: src/update.c:61
 msgid "bulk available update requires write access to dpkg status area"
 msgstr ""
 "việc cập nhật sẵn sàng hàng loạt cần thiết quyền ghi vào vùng trạng thái dpkg"
 
-#: src/update.c:69
+#: src/update.c:68
 #, c-format
 msgid "Replacing available packages info, using %s.\n"
 msgstr "Đang thay thế thông tin gói sẵn sàng, bằng %s.\n"
 
-#: src/update.c:72
+#: src/update.c:71
 #, c-format
 msgid "Updating available packages info, using %s.\n"
 msgstr "Đang cập nhật thông tin gói sẵn sàng, bằng %s.\n"
@@ -3910,108 +3943,109 @@ msgstr "Đang cập nhật thông tin gói sẵn sàng, bằng %s.\n"
 msgid "Information about %d package(s) was updated.\n"
 msgstr "Thông tin về %d gói đã được cập nhật.\n"
 
-#: src/update.c:105
-msgid "--forget-old-unavail takes no arguments"
+#: src/update.c:104
+#, c-format
+msgid ""
+"obsolete '--%s' option, unavailable packages are automatically cleaned up."
 msgstr ""
-"« --forget-old-unavail » (quên cũ không sẵn sàng) không chấp nhận đối số"
 
-#: dpkg-deb/build.c:97
+#: dpkg-deb/build.c:101
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - lỗi: %s (« %s ») không chứa chữ số nào\n"
 
-#: dpkg-deb/build.c:141
+#: dpkg-deb/build.c:145
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr "tên tập tin « %.50s.. » quá dài"
 
-#: dpkg-deb/build.c:204 scripts/dpkg-divert.pl:123
+#: dpkg-deb/build.c:208 scripts/dpkg-divert.pl:123
 #: scripts/dpkg-statoverride.pl:81 scripts/update-alternatives.pl:107
 #: scripts/update-alternatives.pl:111
 #, c-format, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "« --%s » cần một đối số kiểu <thư mục>"
 
-#: dpkg-deb/build.c:214
+#: dpkg-deb/build.c:218
 msgid "--build takes at most two arguments"
 msgstr "« --build » (xây dựng) chấp nhận nhiều nhất hai đối số"
 
-#: dpkg-deb/build.c:218
+#: dpkg-deb/build.c:222
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "không thể kiểm tra sự tồn tại của kho lưu « %.250s »"
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:239
 msgid "target is directory - cannot skip control file check"
 msgstr "đích là thư mục — không thể bỏ qua việc kiểm tra tập tin điều khiển"
 
-#: dpkg-deb/build.c:234
+#: dpkg-deb/build.c:240
 msgid "not checking contents of control area."
 msgstr ""
 
-#: dpkg-deb/build.c:235
+#: dpkg-deb/build.c:241
 #, fuzzy, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: đang xây dựng gói « %s » trong « %s ».\n"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:258
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "tên gói chứa ký tự không phải chữ cái, chữ số viết thường hoặc dấu cộng, dấu "
 "trừ « -+ »."
 
-#: dpkg-deb/build.c:254
+#: dpkg-deb/build.c:260
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "cảnh báo, « %s » chứa giá trị Ưu tiên « %s » được người dùng xác định\n"
 
-#: dpkg-deb/build.c:262
+#: dpkg-deb/build.c:268
 #, fuzzy, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "cảnh báo, « %s » chứa vùng « %s » được người dùng xác định\n"
 
-#: dpkg-deb/build.c:267
+#: dpkg-deb/build.c:273
 msgid "(upstream) version"
 msgstr ""
 
-#: dpkg-deb/build.c:269
+#: dpkg-deb/build.c:275
 #, fuzzy
 msgid "Debian revision"
 msgstr "Debian %s phiên bản %s.\n"
 
-#: dpkg-deb/build.c:270
+#: dpkg-deb/build.c:276
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d lỗi trong tập tin điều khiển"
 
-#: dpkg-deb/build.c:281
+#: dpkg-deb/build.c:287
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: đang xây dựng gói « %s » trong « %s ».\n"
 
-#: dpkg-deb/build.c:287
+#: dpkg-deb/build.c:293
 #, fuzzy
 msgid "unable to stat control directory"
 msgstr "không thể mở thư mục điều khiển tạm thời"
 
-#: dpkg-deb/build.c:289
+#: dpkg-deb/build.c:295
 #, fuzzy
 msgid "control directory is not a directory"
 msgstr "không thể đọc thư mục thông tin"
 
-#: dpkg-deb/build.c:291
+#: dpkg-deb/build.c:297
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr "thư mục điều khiển có quyền hạn sai %03lo (phải là ≥0755 và ≤0775)"
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:308
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 "văn lệnh nhà duy trì « %.50s » không phải là tập tin chuẩn hay liên kết tượng "
 "trưng"
 
-#: dpkg-deb/build.c:304
+#: dpkg-deb/build.c:310
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -4019,232 +4053,232 @@ msgid ""
 msgstr ""
 "văn lệnh nhà duy trì « %.50s » có quyền hạn sai %03lo (phải là ≥0755 và ≤0775)"
 
-#: dpkg-deb/build.c:308
+#: dpkg-deb/build.c:314
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "văn lệnh nhà duy trì « %.50s » không có khả năng cung cấp các thông tin"
 
-#: dpkg-deb/build.c:318
+#: dpkg-deb/build.c:324
 msgid "empty string from fgets reading conffiles"
 msgstr "chuỗi rỗng từ fgets đọc các tập tin cấu hình"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:326
 #, fuzzy, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
 "cảnh báo, tên tập tin cấu hình « %.50s... » quá dài, hoặc thiếu dòng mới cuối "
 "cùng\n"
 
-#: dpkg-deb/build.c:333
+#: dpkg-deb/build.c:339
 #, fuzzy, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "cảnh báo, tên tập tin cấu hình « %s » chứa dấu cách theo sau\n"
 
-#: dpkg-deb/build.c:335
+#: dpkg-deb/build.c:341
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "tập tin cấu hình « %.250s » không nằm trong gói"
 
-#: dpkg-deb/build.c:337
+#: dpkg-deb/build.c:343
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "tập tin cấu hình « %.250s » không có khả năng cung cấp các thông tin"
 
-#: dpkg-deb/build.c:339
+#: dpkg-deb/build.c:345
 #, fuzzy, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "cảnh báo, tập tin cấu hình « %s » không phải là tập tin chuẩn\n"
 
-#: dpkg-deb/build.c:343
+#: dpkg-deb/build.c:349
 msgid "error reading conffiles file"
 msgstr "gặp lỗi khi đọc tập tin cấu hình"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:352
 msgid "error opening conffiles file"
 msgstr "gặp lỗi khi mở tập tin cấu hình"
 
-#: dpkg-deb/build.c:349
-#, c-format
-msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
+#: dpkg-deb/build.c:355
+#, fuzzy, c-format
+msgid "ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: đang lờ đi %d cảnh báo về (các) tập tin điều khiển\n"
 
-#: dpkg-deb/build.c:360
+#: dpkg-deb/build.c:364
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "không thể hủy đệm « %.250s »"
 
-#: dpkg-deb/build.c:367
+#: dpkg-deb/build.c:371
 msgid "failed to chdir to .../DEBIAN"
 msgstr "lỗi chdir (chuyển đổi thư mục) sang « .../DEBIAN »"
 
-#: dpkg-deb/build.c:369 dpkg-deb/build.c:438
+#: dpkg-deb/build.c:373 dpkg-deb/build.c:442
 msgid "failed to exec tar -cf"
 msgstr "lỗi thực hiện « tar -cf »"
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:379
 msgid "failed to make tmpfile (control)"
 msgstr "lỗi tạo tập tin tạm thời (điều khiển)"
 
-#: dpkg-deb/build.c:377
+#: dpkg-deb/build.c:381
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "lỗi hủy liên kết tập tin tạm thời (điều khiển), %s"
 
-#: dpkg-deb/build.c:385 dpkg-deb/build.c:414
+#: dpkg-deb/build.c:389 dpkg-deb/build.c:418
 msgid "control"
 msgstr "điều khiển"
 
-#: dpkg-deb/build.c:390
+#: dpkg-deb/build.c:394
 msgid "failed to fstat tmpfile (control)"
 msgstr "lỗi fstat tập tin tạm thời (điều khiển)"
 
-#: dpkg-deb/build.c:413
+#: dpkg-deb/build.c:417
 msgid "failed to rewind tmpfile (control)"
 msgstr "lỗi tua lại tập tin tạm thời (điều khiển)"
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:425
 msgid "failed to make tmpfile (data)"
 msgstr "lỗi tạo tập tin tạm thời (dữ liệu)"
 
-#: dpkg-deb/build.c:423
+#: dpkg-deb/build.c:427
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "lỗi hủy liên kết tập tin tạm thời (dữ liệu), %s"
 
-#: dpkg-deb/build.c:447 dpkg-deb/extract.c:292
+#: dpkg-deb/build.c:451 dpkg-deb/extract.c:295
 msgid "data"
 msgstr "dữ liệu"
 
-#: dpkg-deb/build.c:460
+#: dpkg-deb/build.c:464
 msgid "failed to exec find"
 msgstr "lỗi thực hiện tiến trình find (tìm)"
 
-#: dpkg-deb/build.c:471 dpkg-deb/build.c:478
+#: dpkg-deb/build.c:475 dpkg-deb/build.c:482
 msgid "failed to write filename to tar pipe (data)"
 msgstr "lỗi ghi tên tập tin tới đường ống dẫn tar (dữ liệu)"
 
-#: dpkg-deb/build.c:482
+#: dpkg-deb/build.c:486
 msgid "<compress> from tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c:504
+#: dpkg-deb/build.c:508
 #, fuzzy
 msgid "failed to fstat tmpfile (data)"
 msgstr "lỗi tạo tập tin tạm thời (dữ liệu)"
 
-#: dpkg-deb/build.c:514
+#: dpkg-deb/build.c:518
 msgid "failed to rewind tmpfile (data)"
 msgstr "lỗi tua lại tập tin tạm thời (dữ liệu)"
 
-#: dpkg-deb/build.c:515
+#: dpkg-deb/build.c:519
 msgid "cat (data)"
 msgstr "cat (dữ liệu)"
 
-#: dpkg-deb/extract.c:55
+#: dpkg-deb/extract.c:58
 msgid "failed to exec sh -c mv foo/* &c"
 msgstr "lỗi thực hiện « sh -c mv foo/* &c »"
 
-#: dpkg-deb/extract.c:63
+#: dpkg-deb/extract.c:66
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "gặp lỗi khi đọc %s từ tập tin %.255s"
 
-#: dpkg-deb/extract.c:65
+#: dpkg-deb/extract.c:68
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "gặp kết thúc tập tin bất ngờ trong %s trong %.255s"
 
-#: dpkg-deb/extract.c:78 dpkg-split/info.c:56
+#: dpkg-deb/extract.c:81 dpkg-split/info.c:57
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
 msgstr "tập tin « %.250s » bị hỏng — chiều dài %.250s chứa những số không"
 
-#: dpkg-deb/extract.c:85
+#: dpkg-deb/extract.c:88
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "tập tin « %.250s » bị hỏng — chiều dài bộ phạn âm %zi"
 
-#: dpkg-deb/extract.c:87 dpkg-split/info.c:47
+#: dpkg-deb/extract.c:90 dpkg-split/info.c:48
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "tập tin « %.250s » bị hỏng — chữ số sai (mã %d) trong %s"
 
-#: dpkg-deb/extract.c:100
+#: dpkg-deb/extract.c:103
 msgid "failed getting the current file position"
 msgstr "lỗi lấy vị trí tập tin hiện thời"
 
-#: dpkg-deb/extract.c:103
+#: dpkg-deb/extract.c:106
 msgid "failed setting the current file position"
 msgstr "lỗi đặt vị trí tập tin hiện thời"
 
-#: dpkg-deb/extract.c:127
+#: dpkg-deb/extract.c:130
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "lỗi đọc kho lưu « %.250s »"
 
-#: dpkg-deb/extract.c:128
+#: dpkg-deb/extract.c:131
 msgid "failed to fstat archive"
 msgstr "lỗi fstat kho lưu"
 
-#: dpkg-deb/extract.c:129
+#: dpkg-deb/extract.c:132
 msgid "version number"
 msgstr "số phiên bản"
 
-#: dpkg-deb/extract.c:138
+#: dpkg-deb/extract.c:141
 msgid "between members"
 msgstr "giữa các bộ phạn"
 
-#: dpkg-deb/extract.c:140 dpkg-split/info.c:99
+#: dpkg-deb/extract.c:143 dpkg-split/info.c:100
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 "tập tin « %.250s » bị hỏng — ma thuật sai ở kết thúc của phần đầu thứ nhất"
 
-#: dpkg-deb/extract.c:142
+#: dpkg-deb/extract.c:145
 msgid "member length"
 msgstr ""
 
-#: dpkg-deb/extract.c:146
+#: dpkg-deb/extract.c:149
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr ""
 "tập tin « %.250s » không phải là một kho nén nhị phân Debian (thử « dpkg-split "
 "» (chia tách)?)"
 
-#: dpkg-deb/extract.c:149
+#: dpkg-deb/extract.c:152
 msgid "header info member"
 msgstr "bộ phạn thông tin phần đầu"
 
-#: dpkg-deb/extract.c:152
+#: dpkg-deb/extract.c:155
 msgid "archive has no newlines in header"
 msgstr "kho lưu không có dòng mới nào trong phần đầu"
 
-#: dpkg-deb/extract.c:155
+#: dpkg-deb/extract.c:158
 msgid "archive has no dot in version number"
 msgstr "kho lưu không có dấu chấm trong số thứ tự phiên bản"
 
-#: dpkg-deb/extract.c:158
+#: dpkg-deb/extract.c:161
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "không hiểu phiên bản kho lưu %.250s, hãy lấy « dpkg-deb » mới hơn"
 
-#: dpkg-deb/extract.c:167 dpkg-deb/extract.c:200
+#: dpkg-deb/extract.c:170 dpkg-deb/extract.c:203
 #, c-format
 msgid "skipped member data from %s"
 msgstr "đã bỏ qua dữ liệu bộ phạn từ %s"
 
-#: dpkg-deb/extract.c:190
+#: dpkg-deb/extract.c:193
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr ""
 "tập tin « %.250s » chứa bộ phạn dữ liệu không được hiểu %.*s nên chịu thua"
 
-#: dpkg-deb/extract.c:196
+#: dpkg-deb/extract.c:199
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "tập tin « %.250s » chứa hai bộ phạn điều khiển nên chịu thua"
 
-#: dpkg-deb/extract.c:208
+#: dpkg-deb/extract.c:211
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -4253,16 +4287,16 @@ msgstr ""
 " gói Debian mới, phiên bản %s.\n"
 " kích cỡ %ld byte: kho lưu điều khiển= %zi byte.\n"
 
-#: dpkg-deb/extract.c:222
+#: dpkg-deb/extract.c:225
 msgid "control information length"
 msgstr "độ dài thông tin điều khiển"
 
-#: dpkg-deb/extract.c:224
+#: dpkg-deb/extract.c:227
 #, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "kho lưu có độ dài điều khiển dạng sai « %s »"
 
-#: dpkg-deb/extract.c:227
+#: dpkg-deb/extract.c:230
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -4271,11 +4305,11 @@ msgstr ""
 " gói Debian cũ, phiên bản %s.\n"
 " kích cỡ %ld byte: kho lưu điều khiển= %zi byte, kho lưu chính= %ld.\n"
 
-#: dpkg-deb/extract.c:236
+#: dpkg-deb/extract.c:240
 msgid "control area"
 msgstr "vùng điều khiển"
 
-#: dpkg-deb/extract.c:242
+#: dpkg-deb/extract.c:246
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -4284,67 +4318,67 @@ msgstr ""
 "dpkg-deb: \ttập tin có vẻ là một kho nén đã bị hỏng\n"
 "dpkg-deb: \tdo việc tải xuống trong chế độ ASCII\n"
 
-#: dpkg-deb/extract.c:247
+#: dpkg-deb/extract.c:250
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "« %.250s » không phải là kho nén định dạng Debian"
 
-#: dpkg-deb/extract.c:260
+#: dpkg-deb/extract.c:263
 msgid "failed to open pipe descriptor `1' in paste"
 msgstr "lỗi mở mô tả ống dẫn « 1 »  trong việc dán"
 
-#: dpkg-deb/extract.c:262
+#: dpkg-deb/extract.c:265
 msgid "failed to write to gzip -dc"
 msgstr "lỗi ghi vào « gzip -dc »"
 
-#: dpkg-deb/extract.c:263
+#: dpkg-deb/extract.c:266
 msgid "failed to close gzip -dc"
 msgstr "lỗi đóng « gzip -dc »"
 
-#: dpkg-deb/extract.c:270
+#: dpkg-deb/extract.c:273
 msgid "failed to syscall lseek to files archive portion"
 msgstr "lỗi « syscall lseek » (gọi hệ thống |tìm) tới phần tập tin của kho lưu"
 
-#: dpkg-deb/extract.c:278
+#: dpkg-deb/extract.c:281
 msgid "failed to write to pipe in copy"
 msgstr "lỗi ghi tới ống dẫn trong copy (sao chép)"
 
-#: dpkg-deb/extract.c:279
+#: dpkg-deb/extract.c:282
 msgid "failed to close pipe in copy"
 msgstr "lỗi đóng ống dẫn trong copy (sao chép)"
 
-#: dpkg-deb/extract.c:300
+#: dpkg-deb/extract.c:303
 msgid "failed to create directory"
 msgstr "lỗi tạo thư mục"
 
-#: dpkg-deb/extract.c:301
+#: dpkg-deb/extract.c:304
 msgid "failed to chdir to directory after creating it"
 msgstr "lỗi chdir (chuyển đổi thư mục) sang thư mục sau khi tạo nó"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:306
 msgid "failed to chdir to directory"
 msgstr "lỗi chdir (chuyển đổi thư mục) sang thư mục"
 
-#: dpkg-deb/extract.c:321
+#: dpkg-deb/extract.c:324
 msgid "failed to exec tar"
 msgstr "lỗi thực hiện tar"
 
-#: dpkg-deb/extract.c:327
+#: dpkg-deb/extract.c:330
 #, fuzzy
 msgid "<decompress>"
 msgstr "%s: giải nén"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:332
 #, fuzzy
 msgid "paste"
 msgstr "đã qua\n"
 
-#: dpkg-deb/extract.c:345 dpkg-deb/extract.c:360 dpkg-deb/info.c:71
+#: dpkg-deb/extract.c:348 dpkg-deb/extract.c:363 dpkg-deb/info.c:74
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "« --%s » cần một đỗi số kiểu tên tập tin .deb"
 
-#: dpkg-deb/extract.c:348
+#: dpkg-deb/extract.c:351
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4353,116 +4387,116 @@ msgstr ""
 "« --%s » cần một thư mục đích.\n"
 "Có thể cần sử dụng « dpkg --install » ?"
 
-#: dpkg-deb/extract.c:351
+#: dpkg-deb/extract.c:354
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "« --%s » chấp nhận nhiều nhất hai đối số (.deb và thư mục)"
 
-#: dpkg-deb/extract.c:362
+#: dpkg-deb/extract.c:365
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "« --%s » chỉ chấp nhận một đối số (tên tập tin .deb)"
 
-#: dpkg-deb/info.c:52
+#: dpkg-deb/info.c:55
 msgid "failed to chdir to `/' for cleanup"
 msgstr "lỗi chdir (chuyển đổi thư mục) sang « / » để dọn sạch"
 
-#: dpkg-deb/info.c:54
+#: dpkg-deb/info.c:57
 msgid "failed to fork for cleanup"
 msgstr "lỗi tạo tiến trình con để dọn sạch"
 
-#: dpkg-deb/info.c:59
+#: dpkg-deb/info.c:62
 msgid "failed to wait for rm cleanup"
 msgstr "lỗi chờ việc rm (gỡ bỏ) dọn sạch"
 
-#: dpkg-deb/info.c:60
+#: dpkg-deb/info.c:63
 #, c-format
 msgid "rm cleanup failed, code %d\n"
 msgstr "lỗi rm (gỡ bỏ) dọn sạch, mã %d\n"
 
-#: dpkg-deb/info.c:74
+#: dpkg-deb/info.c:77
 msgid "failed to make temporary directoryname"
 msgstr "lỗi tạo tên thư mục tạm thời"
 
-#: dpkg-deb/info.c:79
+#: dpkg-deb/info.c:82
 msgid "failed to exec rm -rf"
 msgstr "lỗi thực hiện « rm -rf »"
 
-#: dpkg-deb/info.c:109
+#: dpkg-deb/info.c:112
 msgid "info_spew"
 msgstr "info_spew (đổ hết thông tin)"
 
-#: dpkg-deb/info.c:111
+#: dpkg-deb/info.c:115
 #, c-format
 msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
 msgstr "dpkg-deb: « %.250s » không chứa thành phần điều khiển nào « %.250s »\n"
 
-#: dpkg-deb/info.c:115
+#: dpkg-deb/info.c:119
 #, c-format
 msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
 msgstr "việc mở thành phần « %.250s » (trong %.255s) bị lỗi một cách bất ngờ"
 
-#: dpkg-deb/info.c:121
+#: dpkg-deb/info.c:125
 msgid "One requested control component is missing"
 msgstr "Thiếu một thành phần điều khiển đã yêu cầu"
 
-#: dpkg-deb/info.c:123
+#: dpkg-deb/info.c:127
 #, c-format
 msgid "%d requested control components are missing"
 msgstr "Thiếu %d thành phần điều khiển đã yêu cầu"
 
-#: dpkg-deb/info.c:136
+#: dpkg-deb/info.c:140
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "không thể quét thư mục « %.250s »"
 
-#: dpkg-deb/info.c:141
+#: dpkg-deb/info.c:145
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
 msgstr "không thể lấy các thông tin về « %.250s » (trong « %.250s »)"
 
-#: dpkg-deb/info.c:144
+#: dpkg-deb/info.c:148
 #, c-format
 msgid "cannot open `%.255s' (in `%.255s')"
 msgstr "không thể mở « %.250s » (trong « %.250s »)"
 
-#: dpkg-deb/info.c:159
+#: dpkg-deb/info.c:163
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
 msgstr "lỗi đọc « %.250s » (trong « %.250s »)"
 
-#: dpkg-deb/info.c:162
+#: dpkg-deb/info.c:166
 #, c-format
 msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7ld byte, %5d dòng   %c  %-20.127s %.127s\n"
 
-#: dpkg-deb/info.c:168
+#: dpkg-deb/info.c:170
 #, c-format
 msgid "     not a plain file          %.255s\n"
 msgstr "     không phải tập tin chuẩn          %.255s\n"
 
-#: dpkg-deb/info.c:173
+#: dpkg-deb/info.c:174
 #, c-format
 msgid "failed to read `control' (in `%.255s')"
 msgstr "lỗi đọc « control » (điều khiển) (trong « %.250s »)"
 
-#: dpkg-deb/info.c:174
+#: dpkg-deb/info.c:175
 msgid "(no `control' file in control archive!)\n"
 msgstr "(không có tập tin « control » (điều khiển) trong kho lưu điều khiển!)\n"
 
-#: dpkg-deb/info.c:194
+#: dpkg-deb/info.c:199
 msgid "could not open the `control' component"
 msgstr "không thể mở thành phần « control » (điều khiển)"
 
-#: dpkg-deb/info.c:224
+#: dpkg-deb/info.c:229
 msgid "failed during read of `control' component"
 msgstr "bị lỗi trong khi đọc thành phần « control » (điều khiển)"
 
-#: dpkg-deb/info.c:235
+#: dpkg-deb/info.c:240
 msgid "Error in format"
 msgstr "Lỗi trong định dạng"
 
-#: dpkg-deb/info.c:271
+#: dpkg-deb/info.c:276
 msgid "--contents takes exactly one argument"
 msgstr "« --contents » (nội dung) chấp nhận chính xác một đối số"
 
@@ -4471,7 +4505,7 @@ msgstr "« --contents » (nội dung) chấp nhận chính xác một đối s�
 msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Hậu phương kho lưu gói Debian « %s » phiên bản %s.\n"
 
-#: dpkg-deb/main.c:72
+#: dpkg-deb/main.c:74
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4509,7 +4543,7 @@ msgstr ""
 "\t(tập tin tar hệ thống tập tin)\n"
 "\n"
 
-#: dpkg-deb/main.c:91
+#: dpkg-deb/main.c:93
 #, c-format
 msgid ""
 "<deb> is the filename of a Debian format archive.\n"
@@ -4522,7 +4556,7 @@ msgstr ""
 "<trường_dk> là tên của trường trong tập tin « điều khiển » chính.\n"
 "\n"
 
-#: dpkg-deb/main.c:97
+#: dpkg-deb/main.c:99
 #, c-format
 msgid ""
 "Options:\n"
@@ -4554,7 +4588,7 @@ msgstr ""
 "\t\tgiá trị có thể: gzip, bzip2, lzma, none (không có)\n"
 " \n"
 
-#: dpkg-deb/main.c:118
+#: dpkg-deb/main.c:120
 #, c-format
 msgid ""
 "\n"
@@ -4568,7 +4602,7 @@ msgstr ""
 "một cách thân thiện với người dùng. Ghi chú : gói được giải nén\n"
 "bằng lệnh « dpkg-deb --extract » sẽ được cài đặt sai.\n"
 
-#: dpkg-deb/main.c:127
+#: dpkg-deb/main.c:130
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -4577,152 +4611,152 @@ msgstr ""
 "dpkg-deb --help\t\tđể xem trợ giúp về thao tác tập tin *.deb;\n"
 "dpkg --help\t\t\tđể xem trợ giúp về việc cài đặt và gỡ bỏ gói."
 
-#: dpkg-deb/main.c:199
+#: dpkg-deb/main.c:202
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "kiểu nén không rõ « %s »."
 
-#: dpkg-split/info.c:68
+#: dpkg-split/info.c:69
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s missing"
 msgstr "tập tin « %.250s » bị hỏng — %.250s còn thiếu"
 
-#: dpkg-split/info.c:71
+#: dpkg-split/info.c:72
 #, c-format
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
 msgstr "tập tin « %.250s » bị hỏng — thiếu dòng mới ở sau %.250s"
 
-#: dpkg-split/info.c:95
+#: dpkg-split/info.c:96
 msgid "unable to seek back"
 msgstr "không thể tìm vị trí về ngược"
 
-#: dpkg-split/info.c:101
+#: dpkg-split/info.c:102
 msgid "info length"
 msgstr ""
 
-#: dpkg-split/info.c:110
+#: dpkg-split/info.c:111
 #, c-format
 msgid "file `%.250s' is corrupt - bad padding character (code %d)"
 msgstr "tập tin « %.250s » bị hỏng — ký tự đệm sai (mã %d)"
 
-#: dpkg-split/info.c:114
+#: dpkg-split/info.c:115
 #, c-format
 msgid "file `%.250s' is corrupt - nulls in info section"
 msgstr "tập tin « %.250s » bị hỏng — các số không ở trong phần thông tin"
 
-#: dpkg-split/info.c:119
+#: dpkg-split/info.c:120
 #, fuzzy
 msgid "format version number"
 msgstr "số phiên bản"
 
-#: dpkg-split/info.c:121
+#: dpkg-split/info.c:122
 #, c-format
 msgid "file `%.250s' is format version `%.250s' - you need a newer dpkg-split"
 msgstr ""
 "tập tin « %.250s » có định dạng phiên bản « %.250s » — cần « dpkg-split » mới "
 "hơn"
 
-#: dpkg-split/info.c:124
+#: dpkg-split/info.c:125
 msgid "package name"
 msgstr ""
 
-#: dpkg-split/info.c:125
+#: dpkg-split/info.c:126
 #, fuzzy
 msgid "package version number"
 msgstr "số phiên bản"
 
-#: dpkg-split/info.c:126
+#: dpkg-split/info.c:127
 msgid "package file MD5 checksum"
 msgstr ""
 
-#: dpkg-split/info.c:129
+#: dpkg-split/info.c:130
 #, c-format
 msgid "file `%.250s' is corrupt - bad MD5 checksum `%.250s'"
 msgstr "tập tin « %.250s » bị hỏng — tổng kiểm tra MD5 %.250s sai"
 
-#: dpkg-split/info.c:131 dpkg-split/info.c:132
+#: dpkg-split/info.c:132 dpkg-split/info.c:133
 msgid "total length"
 msgstr ""
 
-#: dpkg-split/info.c:133 dpkg-split/info.c:134
+#: dpkg-split/info.c:134 dpkg-split/info.c:135
 msgid "part offset"
 msgstr ""
 
-#: dpkg-split/info.c:136
+#: dpkg-split/info.c:137
 #, fuzzy
 msgid "part numbers"
 msgstr "số phiên bản"
 
-#: dpkg-split/info.c:138
+#: dpkg-split/info.c:139
 #, c-format
 msgid "file `%.250s' is corrupt - no slash between part numbers"
 msgstr "tập tin « %.250s » bị hỏng — không có dấu xuyệc giữa các số hiệu phần"
 
-#: dpkg-split/info.c:141
+#: dpkg-split/info.c:142
 msgid "number of parts"
 msgstr ""
 
-#: dpkg-split/info.c:143
+#: dpkg-split/info.c:144
 #, fuzzy, c-format
 msgid "file '%.250s' is corrupt - bad number of parts"
 msgstr "tập tin « %.250s » bị hỏng — số hiệu phần sai"
 
-#: dpkg-split/info.c:145
+#: dpkg-split/info.c:146
 #, fuzzy
 msgid "parts number"
 msgstr "số phiên bản"
 
-#: dpkg-split/info.c:147
+#: dpkg-split/info.c:148
 #, c-format
 msgid "file `%.250s' is corrupt - bad part number"
 msgstr "tập tin « %.250s » bị hỏng — số hiệu phần sai"
 
-#: dpkg-split/info.c:152
+#: dpkg-split/info.c:153
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of second header"
 msgstr "tập tin « %.250s » bị hỏng — ma thuật sai ở cuối phần đầu thứ hai"
 
-#: dpkg-split/info.c:154
+#: dpkg-split/info.c:155
 #, c-format
 msgid "file `%.250s' is corrupt - second member is not data member"
 msgstr ""
 "tập tin « %.250s » bị hỏng — bộ phạn thứ hai không phải là bộ phạn dữ liệu"
 
-#: dpkg-split/info.c:157
+#: dpkg-split/info.c:158
 msgid "data length"
 msgstr ""
 
-#: dpkg-split/info.c:161
+#: dpkg-split/info.c:162
 #, c-format
 msgid "file `%.250s' is corrupt - wrong number of parts for quoted sizes"
 msgstr "tập tin « %.250s » bị hỏng — sai số phần cho các kích cỡ đã xác định"
 
-#: dpkg-split/info.c:165
+#: dpkg-split/info.c:166
 #, c-format
 msgid "file `%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "tập tin « %.250s » bị hỏng — kích cỡ sai cho số hiệu phần đã xác định"
 
-#: dpkg-split/info.c:171
+#: dpkg-split/info.c:172
 #, c-format
 msgid "unable to fstat part file `%.250s'"
 msgstr "không thể fstat tập tin phần « %.250s »"
 
-#: dpkg-split/info.c:177
+#: dpkg-split/info.c:178
 #, c-format
 msgid "file `%.250s' is corrupt - too short"
 msgstr "tập tin « %.250s » bị hỏng — quá ngắn"
 
-#: dpkg-split/info.c:189 dpkg-split/info.c:232
+#: dpkg-split/info.c:190 dpkg-split/info.c:233
 #, c-format
 msgid "cannot open archive part file `%.250s'"
 msgstr "không thể mở tập tin phần của kho nén « %.250s »"
 
-#: dpkg-split/info.c:191
+#: dpkg-split/info.c:192
 #, c-format
 msgid "file `%.250s' is not an archive part"
 msgstr "tập tin « %.250s » không phải là một phần kho nén"
 
-#: dpkg-split/info.c:196
+#: dpkg-split/info.c:197
 #, c-format
 msgid ""
 "%s:\n"
@@ -4751,49 +4785,49 @@ msgstr ""
 "    Kích cỡ tập tin phần (vùng đã dùng):  %lu byte\n"
 "\n"
 
-#: dpkg-split/info.c:227 dpkg-split/join.c:107
+#: dpkg-split/info.c:228 dpkg-split/join.c:108
 #, fuzzy, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "« --info » (thông tin) cần một hay vài đối số kiểu tập tin phần"
 
-#: dpkg-split/info.c:238
+#: dpkg-split/info.c:239
 #, c-format
 msgid "file `%s' is not an archive part\n"
 msgstr "tập tin « %s » không phải là phần kho nén\n"
 
-#: dpkg-split/join.c:44
+#: dpkg-split/join.c:45
 #, c-format
 msgid "Putting package %s together from %d parts: "
 msgstr ""
 
-#: dpkg-split/join.c:52
+#: dpkg-split/join.c:53
 #, c-format
 msgid "unable to open output file `%.250s'"
 msgstr "không thể mở tập tin kết xuất « %.250s »"
 
-#: dpkg-split/join.c:56
+#: dpkg-split/join.c:57
 #, c-format
 msgid "unable to (re)open input part file `%.250s'"
 msgstr "không thể mở (lại) tập tin phần nhập « %.250s »"
 
-#: dpkg-split/join.c:72
+#: dpkg-split/join.c:73
 #, c-format
 msgid "done\n"
 msgstr "hoàn tất\n"
 
-#: dpkg-split/join.c:88
+#: dpkg-split/join.c:89
 #, c-format
 msgid "files `%.250s' and `%.250s' are not parts of the same file"
 msgstr ""
 "tập tin « %.250s » và « %.250s » không phải là hai phần của cùng một tập tin"
 
-#: dpkg-split/join.c:93
+#: dpkg-split/join.c:94
 #, c-format
 msgid "there are several versions of part %d - at least `%.250s' and `%.250s'"
 msgstr ""
 "có vài phiên bản khác nhau của phần %d — ít nhất « %.250s » và « %.250s »"
 
-#: dpkg-split/join.c:130
+#: dpkg-split/join.c:131
 #, c-format
 msgid "part %d is missing"
 msgstr "phần %d còn thiếu"
@@ -4808,7 +4842,7 @@ msgstr "Công cụ chia tách/nối lại gói Debian « %s »; phiên bản %s.
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
 msgstr "Tác quyền © năm 1994-1996 của Ian Jackson.\n"
 
-#: dpkg-split/main.c:65
+#: dpkg-split/main.c:67
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4835,7 +4869,7 @@ msgstr ""
 "\t(hủy)\n"
 " \n"
 
-#: dpkg-split/main.c:81
+#: dpkg-split/main.c:83
 #, c-format
 msgid ""
 "Options:\n"
@@ -4865,131 +4899,131 @@ msgstr ""
 " \t1\t-a không phải là phần;\n"
 " \t2\tnghiêm trọng !\n"
 
-#: dpkg-split/main.c:93
+#: dpkg-split/main.c:97
 msgid "Type dpkg-split --help for help."
 msgstr "Gõ « dpkg-split --help » để xem trợ giúp."
 
-#: dpkg-split/main.c:103 dpkg-split/main.c:107
+#: dpkg-split/main.c:107 dpkg-split/main.c:111
 #, c-format
 msgid "error reading %.250s"
 msgstr "gặp lỗi khi đọc %.250s"
 
-#: dpkg-split/main.c:108
+#: dpkg-split/main.c:112
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "gặp kết thúc tập tin bất thường trong %.250s"
 
-#: dpkg-split/main.c:121
+#: dpkg-split/main.c:125
 msgid "part size is far too large or is not positive"
 msgstr "kích cỡ phần quá dài hoặc không phải là số dương"
 
-#: dpkg-split/main.c:125
+#: dpkg-split/main.c:129
 #, fuzzy, c-format
 msgid "part size must be at least %d KiB (to allow for header)"
 msgstr "kích cỡ phần ít nhất phải là %dk (để chứa phần đầu)"
 
-#: dpkg-split/queue.c:74
+#: dpkg-split/queue.c:77
 #, c-format
 msgid "unable to read depot directory `%.250s'"
 msgstr "không thể đọc thư mục kho chứa (depot) « %.250s »"
 
-#: dpkg-split/queue.c:112
+#: dpkg-split/queue.c:115
 msgid "--auto requires the use of the --output option"
 msgstr "« --auto » (tự động) cũng cần sử dụng tùy chọn « --output » (kết xuất)"
 
-#: dpkg-split/queue.c:114
+#: dpkg-split/queue.c:117
 msgid "--auto requires exactly one part file argument"
 msgstr "« --auto » (tự động) cần chính xác một đối số kiểu tập tin phần"
 
-#: dpkg-split/queue.c:118
+#: dpkg-split/queue.c:121
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "không thể đọc tập tin phần « %.250s »"
 
-#: dpkg-split/queue.c:121
+#: dpkg-split/queue.c:124
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "Tập tin « %.250s » không phải là phần của một kho đa phần.\n"
 
-#: dpkg-split/queue.c:149
+#: dpkg-split/queue.c:152
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "không thể mở lại tập tin phần « %.250s »"
 
-#: dpkg-split/queue.c:153
+#: dpkg-split/queue.c:156
 #, c-format
 msgid "part file `%.250s' has trailing garbage"
 msgstr "tập tin phần « %.250s » có rác theo sau"
 
-#: dpkg-split/queue.c:162
+#: dpkg-split/queue.c:165
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "không thể mở tập tin kho chứa (depot) mới « %.250s »"
 
-#: dpkg-split/queue.c:166
+#: dpkg-split/queue.c:169
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr ""
 "không thể thay đổi tên tập tin kho chứa (depot) mới « %.250s » thành « %.250s »"
 
-#: dpkg-split/queue.c:168
+#: dpkg-split/queue.c:171
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "Phần %d của gói %s đã được ghi lưu (vẫn muốn "
 
-#: dpkg-split/queue.c:172
+#: dpkg-split/queue.c:175
 msgid " and "
 msgstr " và "
 
-#: dpkg-split/queue.c:185
+#: dpkg-split/queue.c:188
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "không thể xóa tập tin kho chứa (depot) tiêu thụ « %.250s »"
 
-#: dpkg-split/queue.c:204
+#: dpkg-split/queue.c:207
 msgid "Junk files left around in the depot directory:\n"
 msgstr "Tập tin rác vẫn còn nằm trong thư mục kho chứa (depot):\n"
 
-#: dpkg-split/queue.c:209 dpkg-split/queue.c:233
+#: dpkg-split/queue.c:212 dpkg-split/queue.c:236
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "không thể lấy các thông tin về « %.250s »"
 
-#: dpkg-split/queue.c:212
+#: dpkg-split/queue.c:215
 #, c-format
 msgid " %s (%lu bytes)\n"
 msgstr " %s (%lu byte)\n"
 
-#: dpkg-split/queue.c:214
+#: dpkg-split/queue.c:217
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (không phải là tập tin chuẩn)\n"
 
-#: dpkg-split/queue.c:219
+#: dpkg-split/queue.c:222
 msgid "Packages not yet reassembled:\n"
 msgstr "Gói chưa được thu thập lại:\n"
 
-#: dpkg-split/queue.c:224
+#: dpkg-split/queue.c:227
 #, c-format
 msgid " Package %s: part(s) "
 msgstr ""
 
-#: dpkg-split/queue.c:235
+#: dpkg-split/queue.c:238
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "tập tin phần « %.250s » không phải là tập tin chuẩn"
 
-#: dpkg-split/queue.c:240
+#: dpkg-split/queue.c:243
 #, c-format
 msgid "(total %lu bytes)\n"
 msgstr "(tổng %lu byte)\n"
 
-#: dpkg-split/queue.c:264
+#: dpkg-split/queue.c:267
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "không thể hủy « %.250s »"
 
-#: dpkg-split/queue.c:265
+#: dpkg-split/queue.c:268
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "Đã xóa %s.\n"
@@ -5004,26 +5038,25 @@ msgstr ""
 "« --split » (chia tách) chấp nhận nhiều nhất một tên tập tin nguồn và một "
 "tiền tố đích"
 
-#: dpkg-split/split.c:66
+#: dpkg-split/split.c:67
 #, c-format
 msgid "unable to open source file `%.250s'"
 msgstr "không thể mở tập tin nguồn « %.250s »"
 
-#: dpkg-split/split.c:67
+#: dpkg-split/split.c:68
 msgid "unable to fstat source file"
 msgstr "không thể fstat tập tin nguồn"
 
-#: dpkg-split/split.c:68
+#: dpkg-split/split.c:69
 #, c-format
 msgid "source file `%.250s' not a plain file"
 msgstr "tập tin nguồn « %.250s » không phải là tập tin chuẩn"
 
-#: dpkg-split/split.c:74
+#: dpkg-split/split.c:75
 msgid "unable to exec mksplit"
 msgstr "không thể thực hiện mksplit (tạo chia tách)"
 
 #: scripts/dpkg-divert.pl:17 scripts/dpkg-statoverride.pl:27
-#: scripts/install-info.pl:17
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s phiên bản %s.\n"
@@ -5039,7 +5072,6 @@ msgstr ""
 "Tác quyền © năm 2000,2001 của Wichert Akkerman."
 
 #: scripts/dpkg-divert.pl:23 scripts/dpkg-statoverride.pl:32
-#: scripts/install-info.pl:22
 msgid ""
 "\n"
 "This is free software; see the GNU General Public Licence version 2 or\n"
@@ -5463,292 +5495,6 @@ msgstr "gặp lỗi khi tạo « statoverride-old » mới: %s"
 msgid "error installing new statoverride: %s"
 msgstr "gặp lỗi khi cài đặt « statoverride » mới: %s"
 
-#: scripts/install-info.pl:19
-msgid ""
-"\n"
-"Copyright (C) 1994,1995 Ian Jackson."
-msgstr ""
-"\n"
-"Tác quyền © năm 1994,1995 của Ian Jackson."
-
-#: scripts/install-info.pl:31
-#, perl-format
-msgid ""
-"Usage: %s [<options> ...] [--] <filename>\n"
-"\n"
-"Options:\n"
-"  --section <regexp> <title>\n"
-"                           put the new entry in the <regex> matched section\n"
-"                           or create a new one with <title> if non-"
-"existent.\n"
-"  --menuentry=<text>       set the menu entry.\n"
-"  --description=<text>     set the description to be used in the menu "
-"entry.\n"
-"  --info-file=<path>       specify info file to install in the directory.\n"
-"  --dir-file=<path>        specify file name of info directory file.\n"
-"  --infodir=<directory>    same as '--dir-file=<directory>/dir'.\n"
-"  --info-dir=<directory>   likewise.\n"
-"  --keep-old               do not replace entries nor remove empty ones.\n"
-"  --remove                 remove the entry specified by <filename> "
-"basename.\n"
-"  --remove-exactly         remove the exact <filename> entry.\n"
-"  --test                   enables test mode (no actions taken).\n"
-"  --debug                  enables debug mode (show more information).\n"
-"  --quiet                  do not show output messages.\n"
-"  --help                   show this help message.\n"
-"  --version                show the version.\n"
-msgstr ""
-"Cách sử dụng: %s [<các_tùy_chọn> ...] [--] <tên_tập_tin>\n"
-"\n"
-"Tùy chọn:\n"
-"  --section <btcq> <tựa>\n"
-"\t\tđể mục mới vào phần khớp với biểu thức chính quy này\n"
-"\t\thoặc tạo điều mới với tựa này nếu chưa có.\n"
-"\t(phần)\n"
-"  --menuentry=<đoạn>\tđặt mục trình đơn.\n"
-"\t(mục trình đơn)\n"
-"  --description=<đoạn>\tđặt mô tả cần dùng trong mục trình đơn.\n"
-"\t(mô tả)\n"
-"  --info-file=<đường_dẫn>\n"
-"\t\txác định tập tin thông tin cần cài đặt vào thư mục\n"
-"\t(tập tin thông tin)\n"
-"  --dir-file=<đường_dẫn>\txác định tên của tập tin thư mục thông tin.\n"
-"\t(tập tin thư mục)\n"
-"  --infodir=<thư_mục> \tbằng « --dir-file=<thư_mục>/thư_mục ».\n"
-"  --info-dir=<thư_mục>   \tcũng vậy.\n"
-"  --keep-old            \t\tkhông thay thế mục hay gỡ bỏ mục rỗng.\n"
-"\t(giữ cũ)\n"
-"  --remove\tgỡ bỏ mục được xác định bởi tên cơ bản <tên_tập_tin>.\n"
-"\t(gỡ bỏ)\n"
-"  --remove-exactly         \tgỡ bỏ mục <tên_tập_tin> chính xác.\n"
-"\t(gỡ bỏ chính xác)\n"
-"  --test                   \t\tbật chế độ thử ra (không làm gì).\n"
-"\t(thử ra)\n"
-"  --debug                 \t\tbật chế độ gỡ lỗi (hiện thông tin thêm).\n"
-"\t(gỡ lỗi)\n"
-"  --quiet                  \t\tkhông hiện thông điệp xuất.\n"
-"\t(im)\n"
-"   --help                  \t\thiện trợ giúp này.\n"
-"\t(trợ giúp)\n"
-"  --version                \t\thiện phiên bản.\n"
-"\t(phiên bản)\n"
-
-#: scripts/install-info.pl:97
-#, perl-format
-msgid "could not open stderr for output! %s"
-msgstr "không thể mở thiết bị lỗi chuẩn để xuất. %s"
-
-#: scripts/install-info.pl:101
-#, perl-format
-msgid "%s: --section needs two more args"
-msgstr "%s: « --section » (phần) cần hai đối số thêm nữa"
-
-#: scripts/install-info.pl:107
-#, perl-format
-msgid "%s: option --%s is deprecated (ignored)"
-msgstr "%s: tùy chọn « --%s » bị phản đối (bị lờ đi)"
-
-#: scripts/install-info.pl:119
-#, perl-format
-msgid "%s: unknown option `%s'"
-msgstr "%s: không biết tùy chọn « %s »"
-
-#: scripts/install-info.pl:130
-#, perl-format
-msgid "%s: too many arguments"
-msgstr "%s: quá nhiều đối số"
-
-#: scripts/install-info.pl:133
-#, perl-format
-msgid "%s: --section ignored with --remove"
-msgstr "%s: « --section » (phần) bị lờ đi khi cùng với « --remove » (gỡ bỏ)"
-
-#: scripts/install-info.pl:134
-#, perl-format
-msgid "%s: --description ignored with --remove"
-msgstr "%s: « --description » (mô tả) bị lờ đi khi cùng với « --remove » (gỡ bỏ)"
-
-#: scripts/install-info.pl:137
-#, perl-format
-msgid "%s: test mode - dir file will not be updated"
-msgstr "%s: chế độ thử ra — tập tin thư mục sẽ không được cập nhật"
-
-#: scripts/install-info.pl:167 scripts/install-info.pl:209
-#: scripts/install-info.pl:316 scripts/update-alternatives.pl:755
-#, perl-format
-msgid "unable to read %s: %s"
-msgstr "không thể đọc %s: %s"
-
-#: scripts/install-info.pl:193
-#, perl-format
-msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-msgstr ""
-"%s: cảnh báo :đang lờ đi INFO-DIR-ENTRY (mục nhập thư mục thông tin) lạ "
-"trong tập tin."
-
-#: scripts/install-info.pl:202
-msgid "invalid info entry"
-msgstr "mục nhập thông tin không hợp lệ"
-
-#: scripts/install-info.pl:228
-#, perl-format
-msgid ""
-"\n"
-"No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
-"%s: unable to determine description for `dir' entry - giving up\n"
-msgstr ""
-"\n"
-"Không có « START-INFO-DIR-ENTRY » (bắt đầu mục nhập thư mục thông tin),\n"
-"cũng không có « This file documents » (tập tin này diễn tả trong tài liệu).\n"
-"%s: không thể quyết định mô tả cho mục nhập « dir » (thư mục) — nên chịu "
-"thua.\n"
-
-#: scripts/install-info.pl:281
-#, perl-format
-msgid "%s: no file %s, retrieving backup file %s."
-msgstr "%s: không có tập tin %s, nên đang lấy các tập tin sao lưu %s."
-
-#: scripts/install-info.pl:284 scripts/install-info.pl:294
-#, perl-format
-msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr "%s: lỗi sao chép %s sang %s nên chịu thua: %s"
-
-#: scripts/install-info.pl:290
-#, perl-format
-msgid "%s: no backup file %s available, retrieving default file."
-msgstr ""
-"%s: không có tập tin sao lưu %s sẵn sảng nên đang lấy tập tin mặc định."
-
-#: scripts/install-info.pl:299
-#, perl-format
-msgid "%s: no backup file %s available."
-msgstr "%s: không có tập tin sao lưu %s sẵn sảng."
-
-#: scripts/install-info.pl:300
-#, perl-format
-msgid "%s: no default file %s available, giving up."
-msgstr "%s: không có tập tin mặc định %s sẵn sảng nên chịu thua."
-
-#: scripts/install-info.pl:307
-#, perl-format
-msgid "%s: failed to lock dir for editing! %s"
-msgstr "%s: lỗi khoá thư mục để chỉnh sửa. %s"
-
-#: scripts/install-info.pl:309
-#, perl-format
-msgid "try deleting %s?"
-msgstr "thử xoá %s ?"
-
-#: scripts/install-info.pl:314
-#, perl-format
-msgid "unable to open %s: %s"
-msgstr "không thể mở %s: %s"
-
-#: scripts/install-info.pl:317
-#, perl-format
-msgid "unable to close %s after read: %s"
-msgstr "không thể đóng %s sau khi đọc: %s"
-
-#: scripts/install-info.pl:350
-#, perl-format
-msgid "%s: existing entry for `%s' not replaced"
-msgstr "%s: mục nhập tồn tại cho « %s » không được thay thế"
-
-#: scripts/install-info.pl:353
-#, perl-format
-msgid "%s: replacing existing dir entry for `%s'"
-msgstr "%s: đang thay thế mục nhập thư mục tồn tại cho « %s »"
-
-#: scripts/install-info.pl:366
-#, perl-format
-msgid "%s: creating new section `%s'"
-msgstr "%s: đang tạo phần mới « %s »"
-
-#: scripts/install-info.pl:369
-#, perl-format
-msgid "%s: no sections yet, creating Miscellaneous section too."
-msgstr "%s: chưa có phần nào, cũng đang tạo phần Lặt Vặt."
-
-#: scripts/install-info.pl:387
-#, perl-format
-msgid "%s: no section specified for new entry, placing at end"
-msgstr "%s: chưa xác định phần cho mục nhập mới nên để ở kết thúc"
-
-#: scripts/install-info.pl:424
-#, perl-format
-msgid "%s: deleting entry `%s ...'"
-msgstr "%s: đang xoá mục nhập « %s ... »"
-
-#: scripts/install-info.pl:430
-#, perl-format
-msgid "%s: empty section `%s' not removed"
-msgstr "%s: chưa gỡ bỏ phần rỗng « %s »"
-
-#: scripts/install-info.pl:433
-#, perl-format
-msgid "%s: deleting empty section `%s'"
-msgstr "%s: đang xoá phần rỗng « %s »"
-
-#: scripts/install-info.pl:440
-#, perl-format
-msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr "%s: không có mục nhập cho tập tin « %s » và mục trình đơn « %s »"
-
-#: scripts/install-info.pl:442
-#, perl-format
-msgid "%s: no entry for file `%s'"
-msgstr "%s: không có mục nhập cho tập tin « %s »"
-
-#: scripts/install-info.pl:484
-#, perl-format
-msgid "unable to create %s: %s"
-msgstr "không thể tạo %s: %s"
-
-#: scripts/install-info.pl:487 scripts/update-alternatives.pl:833
-#, perl-format
-msgid "unable to write %s: %s"
-msgstr "không thể ghi %s: %s"
-
-#: scripts/install-info.pl:488 scripts/update-alternatives.pl:855
-#, perl-format
-msgid "unable to close %s: %s"
-msgstr "không thể đóng %s: %s"
-
-#: scripts/install-info.pl:492
-#, perl-format
-msgid "unable to backup old %s, giving up: %s"
-msgstr "không thể sao lưu %s cũ nên chịu thua: %s"
-
-#: scripts/install-info.pl:495
-#, perl-format
-msgid "unable to install new %s: %s"
-msgstr "không thể cài đặt %s mới: %s"
-
-#: scripts/install-info.pl:498
-#, perl-format
-msgid "unable to unlock %s: %s"
-msgstr "không thể mở khoá %s: %s"
-
-#: scripts/install-info.pl:500
-#, perl-format
-msgid "%s: could not backup %s in %s: %s"
-msgstr "%s: không thể sao lưu %s trong %s: %s"
-
-#: scripts/install-info.pl:510
-#, perl-format
-msgid "%s: warning - unable to unlock %s: %s"
-msgstr "%s: cảnh báo — không thể mở khoá %s: %s"
-
-#: scripts/install-info.pl:517
-#, perl-format
-msgid "unable to read %s: %d"
-msgstr "không thể đọc %s: %d"
-
-#: scripts/install-info.pl:521
-#, perl-format
-msgid "dbg: %s"
-msgstr "dbg: %s"
-
 #: scripts/update-alternatives.pl:43
 #, perl-format
 msgid "unknown argument `%s'"
@@ -5892,6 +5638,11 @@ msgstr "Không tìm thấy điều xen kẽ « %s »."
 msgid "no alternatives for %s."
 msgstr "Không có điều xen kẽ cho %s."
 
+#: scripts/update-alternatives.pl:261
+#, perl-format
+msgid "%s is dangling, it will be updated with best choice."
+msgstr ""
+
 #: scripts/update-alternatives.pl:265
 #, fuzzy, perl-format
 msgid ""
@@ -6001,6 +5752,11 @@ msgstr ""
 msgid "while writing %s: %s"
 msgstr "gặp lỗi khi ghi thiết bị xuất: %s"
 
+#: scripts/update-alternatives.pl:755
+#, perl-format
+msgid "unable to read %s: %s"
+msgstr "không thể đọc %s: %s"
+
 #: scripts/update-alternatives.pl:757
 msgid "status"
 msgstr ""
@@ -6070,6 +5826,16 @@ msgstr ""
 #, fuzzy, perl-format
 msgid "discarding obsolete slave link %s (%s)."
 msgstr "Đang hủy liên kết phụ cũ %s (%s)."
+
+#: scripts/update-alternatives.pl:833
+#, perl-format
+msgid "unable to write %s: %s"
+msgstr "không thể ghi %s: %s"
+
+#: scripts/update-alternatives.pl:855
+#, perl-format
+msgid "unable to close %s: %s"
+msgstr "không thể đóng %s: %s"
 
 #: scripts/update-alternatives.pl:890 scripts/update-alternatives.pl:936
 msgid "auto mode"
@@ -6151,6 +5917,223 @@ msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
+
+#~ msgid "failed write during hashreport"
+#~ msgstr "lỗi ghi trong khi hashreport (thông báo băm)"
+
+#~ msgid "configuration error: unknown option %s"
+#~ msgstr "lỗi cấu hình: không rõ tùy chọn %s"
+
+#~ msgid "configuration error: %s does not take a value"
+#~ msgstr "lỗi cấu hình: %s không chấp nhận giá trị"
+
+#, fuzzy
+#~ msgid "unexecpted end of line in statoverride file"
+#~ msgstr "gặp kết thúc dòng bất ngờ trong tên gói trên dòng %d"
+
+#, fuzzy
+#~ msgid "--check-supported takes no arguments"
+#~ msgstr "« dpkg-trigger --check-supported » không chấp nhận đối số"
+
+#~ msgid "--forget-old-unavail takes no arguments"
+#~ msgstr ""
+#~ "« --forget-old-unavail » (quên cũ không sẵn sàng) không chấp nhận đối số"
+
+#~ msgid ""
+#~ "\n"
+#~ "Copyright (C) 1994,1995 Ian Jackson."
+#~ msgstr ""
+#~ "\n"
+#~ "Tác quyền © năm 1994,1995 của Ian Jackson."
+
+#~ msgid ""
+#~ "Usage: %s [<options> ...] [--] <filename>\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --section <regexp> <title>\n"
+#~ "                           put the new entry in the <regex> matched "
+#~ "section\n"
+#~ "                           or create a new one with <title> if non-"
+#~ "existent.\n"
+#~ "  --menuentry=<text>       set the menu entry.\n"
+#~ "  --description=<text>     set the description to be used in the menu "
+#~ "entry.\n"
+#~ "  --info-file=<path>       specify info file to install in the "
+#~ "directory.\n"
+#~ "  --dir-file=<path>        specify file name of info directory file.\n"
+#~ "  --infodir=<directory>    same as '--dir-file=<directory>/dir'.\n"
+#~ "  --info-dir=<directory>   likewise.\n"
+#~ "  --keep-old               do not replace entries nor remove empty ones.\n"
+#~ "  --remove                 remove the entry specified by <filename> "
+#~ "basename.\n"
+#~ "  --remove-exactly         remove the exact <filename> entry.\n"
+#~ "  --test                   enables test mode (no actions taken).\n"
+#~ "  --debug                  enables debug mode (show more information).\n"
+#~ "  --quiet                  do not show output messages.\n"
+#~ "  --help                   show this help message.\n"
+#~ "  --version                show the version.\n"
+#~ msgstr ""
+#~ "Cách sử dụng: %s [<các_tùy_chọn> ...] [--] <tên_tập_tin>\n"
+#~ "\n"
+#~ "Tùy chọn:\n"
+#~ "  --section <btcq> <tựa>\n"
+#~ "\t\tđể mục mới vào phần khớp với biểu thức chính quy này\n"
+#~ "\t\thoặc tạo điều mới với tựa này nếu chưa có.\n"
+#~ "\t(phần)\n"
+#~ "  --menuentry=<đoạn>\tđặt mục trình đơn.\n"
+#~ "\t(mục trình đơn)\n"
+#~ "  --description=<đoạn>\tđặt mô tả cần dùng trong mục trình đơn.\n"
+#~ "\t(mô tả)\n"
+#~ "  --info-file=<đường_dẫn>\n"
+#~ "\t\txác định tập tin thông tin cần cài đặt vào thư mục\n"
+#~ "\t(tập tin thông tin)\n"
+#~ "  --dir-file=<đường_dẫn>\txác định tên của tập tin thư mục thông tin.\n"
+#~ "\t(tập tin thư mục)\n"
+#~ "  --infodir=<thư_mục> \tbằng « --dir-file=<thư_mục>/thư_mục ».\n"
+#~ "  --info-dir=<thư_mục>   \tcũng vậy.\n"
+#~ "  --keep-old            \t\tkhông thay thế mục hay gỡ bỏ mục rỗng.\n"
+#~ "\t(giữ cũ)\n"
+#~ "  --remove\tgỡ bỏ mục được xác định bởi tên cơ bản <tên_tập_tin>.\n"
+#~ "\t(gỡ bỏ)\n"
+#~ "  --remove-exactly         \tgỡ bỏ mục <tên_tập_tin> chính xác.\n"
+#~ "\t(gỡ bỏ chính xác)\n"
+#~ "  --test                   \t\tbật chế độ thử ra (không làm gì).\n"
+#~ "\t(thử ra)\n"
+#~ "  --debug                 \t\tbật chế độ gỡ lỗi (hiện thông tin thêm).\n"
+#~ "\t(gỡ lỗi)\n"
+#~ "  --quiet                  \t\tkhông hiện thông điệp xuất.\n"
+#~ "\t(im)\n"
+#~ "   --help                  \t\thiện trợ giúp này.\n"
+#~ "\t(trợ giúp)\n"
+#~ "  --version                \t\thiện phiên bản.\n"
+#~ "\t(phiên bản)\n"
+
+#~ msgid "could not open stderr for output! %s"
+#~ msgstr "không thể mở thiết bị lỗi chuẩn để xuất. %s"
+
+#~ msgid "%s: --section needs two more args"
+#~ msgstr "%s: « --section » (phần) cần hai đối số thêm nữa"
+
+#~ msgid "%s: option --%s is deprecated (ignored)"
+#~ msgstr "%s: tùy chọn « --%s » bị phản đối (bị lờ đi)"
+
+#~ msgid "%s: unknown option `%s'"
+#~ msgstr "%s: không biết tùy chọn « %s »"
+
+#~ msgid "%s: too many arguments"
+#~ msgstr "%s: quá nhiều đối số"
+
+#~ msgid "%s: --section ignored with --remove"
+#~ msgstr "%s: « --section » (phần) bị lờ đi khi cùng với « --remove » (gỡ bỏ)"
+
+#~ msgid "%s: --description ignored with --remove"
+#~ msgstr ""
+#~ "%s: « --description » (mô tả) bị lờ đi khi cùng với « --remove » (gỡ bỏ)"
+
+#~ msgid "%s: test mode - dir file will not be updated"
+#~ msgstr "%s: chế độ thử ra — tập tin thư mục sẽ không được cập nhật"
+
+#~ msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
+#~ msgstr ""
+#~ "%s: cảnh báo :đang lờ đi INFO-DIR-ENTRY (mục nhập thư mục thông tin) lạ "
+#~ "trong tập tin."
+
+#~ msgid "invalid info entry"
+#~ msgstr "mục nhập thông tin không hợp lệ"
+
+#~ msgid ""
+#~ "\n"
+#~ "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
+#~ "%s: unable to determine description for `dir' entry - giving up\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Không có « START-INFO-DIR-ENTRY » (bắt đầu mục nhập thư mục thông tin),\n"
+#~ "cũng không có « This file documents » (tập tin này diễn tả trong tài "
+#~ "liệu).\n"
+#~ "%s: không thể quyết định mô tả cho mục nhập « dir » (thư mục) — nên chịu "
+#~ "thua.\n"
+
+#~ msgid "%s: no file %s, retrieving backup file %s."
+#~ msgstr "%s: không có tập tin %s, nên đang lấy các tập tin sao lưu %s."
+
+#~ msgid "%s: copying %s to %s failed, giving up: %s"
+#~ msgstr "%s: lỗi sao chép %s sang %s nên chịu thua: %s"
+
+#~ msgid "%s: no backup file %s available, retrieving default file."
+#~ msgstr ""
+#~ "%s: không có tập tin sao lưu %s sẵn sảng nên đang lấy tập tin mặc định."
+
+#~ msgid "%s: no backup file %s available."
+#~ msgstr "%s: không có tập tin sao lưu %s sẵn sảng."
+
+#~ msgid "%s: no default file %s available, giving up."
+#~ msgstr "%s: không có tập tin mặc định %s sẵn sảng nên chịu thua."
+
+#~ msgid "%s: failed to lock dir for editing! %s"
+#~ msgstr "%s: lỗi khoá thư mục để chỉnh sửa. %s"
+
+#~ msgid "try deleting %s?"
+#~ msgstr "thử xoá %s ?"
+
+#~ msgid "unable to open %s: %s"
+#~ msgstr "không thể mở %s: %s"
+
+#~ msgid "unable to close %s after read: %s"
+#~ msgstr "không thể đóng %s sau khi đọc: %s"
+
+#~ msgid "%s: existing entry for `%s' not replaced"
+#~ msgstr "%s: mục nhập tồn tại cho « %s » không được thay thế"
+
+#~ msgid "%s: replacing existing dir entry for `%s'"
+#~ msgstr "%s: đang thay thế mục nhập thư mục tồn tại cho « %s »"
+
+#~ msgid "%s: creating new section `%s'"
+#~ msgstr "%s: đang tạo phần mới « %s »"
+
+#~ msgid "%s: no sections yet, creating Miscellaneous section too."
+#~ msgstr "%s: chưa có phần nào, cũng đang tạo phần Lặt Vặt."
+
+#~ msgid "%s: no section specified for new entry, placing at end"
+#~ msgstr "%s: chưa xác định phần cho mục nhập mới nên để ở kết thúc"
+
+#~ msgid "%s: deleting entry `%s ...'"
+#~ msgstr "%s: đang xoá mục nhập « %s ... »"
+
+#~ msgid "%s: empty section `%s' not removed"
+#~ msgstr "%s: chưa gỡ bỏ phần rỗng « %s »"
+
+#~ msgid "%s: deleting empty section `%s'"
+#~ msgstr "%s: đang xoá phần rỗng « %s »"
+
+#~ msgid "%s: no entry for file `%s' and menu entry `%s'"
+#~ msgstr "%s: không có mục nhập cho tập tin « %s » và mục trình đơn « %s »"
+
+#~ msgid "%s: no entry for file `%s'"
+#~ msgstr "%s: không có mục nhập cho tập tin « %s »"
+
+#~ msgid "unable to create %s: %s"
+#~ msgstr "không thể tạo %s: %s"
+
+#~ msgid "unable to backup old %s, giving up: %s"
+#~ msgstr "không thể sao lưu %s cũ nên chịu thua: %s"
+
+#~ msgid "unable to install new %s: %s"
+#~ msgstr "không thể cài đặt %s mới: %s"
+
+#~ msgid "unable to unlock %s: %s"
+#~ msgstr "không thể mở khoá %s: %s"
+
+#~ msgid "%s: could not backup %s in %s: %s"
+#~ msgstr "%s: không thể sao lưu %s trong %s: %s"
+
+#~ msgid "%s: warning - unable to unlock %s: %s"
+#~ msgstr "%s: cảnh báo — không thể mở khoá %s: %s"
+
+#~ msgid "unable to read %s: %d"
+#~ msgstr "không thể đọc %s: %d"
+
+#~ msgid "dbg: %s"
+#~ msgstr "dbg: %s"
 
 #~ msgid "failed to open tmpfile (control), %s"
 #~ msgstr "lỗi mở tập tin tạm thời (điều khiển), %s"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-08-27 12:09+0100\n"
+"POT-Creation-Date: 2009-09-06 09:04+0200\n"
 "PO-Revision-Date: 2009-08-27 12:10+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -822,9 +822,10 @@ msgstr "grenar för du"
 msgid "chdir for du to `%s'"
 msgstr "chdir för du till \"%s\""
 
-#: scripts/dpkg-gencontrol.pl:296
-msgid "exec du"
-msgstr "kör du"
+#: scripts/dpkg-gencontrol.pl:296 scripts/Dpkg/IPC.pm:262
+#, perl-format
+msgid "exec %s"
+msgstr "exekverar %s"
 
 #: scripts/dpkg-gencontrol.pl:303
 #, perl-format
@@ -992,6 +993,7 @@ msgid "cannot find '%s'"
 msgstr "kan inte hitta %s"
 
 #: scripts/dpkg-name.pl:98 scripts/dpkg-scansources.pl:252
+#: scripts/Dpkg/Arch.pm:122 scripts/Dpkg/Arch.pm:141 scripts/Dpkg/Arch.pm:160
 #: scripts/Dpkg/Changelog.pm:881 scripts/Dpkg/IPC.pm:238
 #: scripts/Dpkg/Shlibs.pm:77 scripts/Dpkg/Shlibs/SymbolFile.pm:145
 #: scripts/Dpkg/Source/Package.pm:142 scripts/Dpkg/Source/Package.pm:151
@@ -1341,9 +1343,11 @@ msgstr "inget binärpaket angivet i %s"
 msgid "1 to 3 args expected\n"
 msgstr "1 till 3 argument förväntades\n"
 
-#: scripts/dpkg-scansources.pl:359
-msgid "can't fork"
-msgstr "kan inte grena"
+#: scripts/dpkg-scansources.pl:359 scripts/dpkg-shlibdeps.pl:802
+#: scripts/Dpkg/Shlibs/Objdump.pm:83 scripts/Dpkg/Shlibs/Objdump.pm:157
+#, fuzzy, perl-format
+msgid "cannot fork for %s"
+msgstr "kan inte grena %s"
 
 #: scripts/dpkg-shlibdeps.pl:79
 #, perl-format
@@ -1555,10 +1559,6 @@ msgstr ""
 "identifieras på grund av DEBIAN-underkatalogen saknas i roten av paketets "
 "byggträd"
 
-#: scripts/dpkg-shlibdeps.pl:802
-msgid "cannot fork for dpkg --search"
-msgstr "kunde inte grena för dpkg --search"
-
 #: scripts/dpkg-shlibdeps.pl:809
 msgid "cannot exec dpkg"
 msgstr "kunde inte exekvera dpkg"
@@ -1617,6 +1617,7 @@ msgstr "arkitektur %s tillåts inte ensamt (listan för paketet %s är \"%s\")"
 
 #: scripts/dpkg-source.pl:255 scripts/Dpkg/Control.pm:86
 #: scripts/Dpkg/Shlibs/Objdump.pm:98 scripts/Dpkg/Source/CompressedFile.pm:134
+#: scripts/Dpkg/Source/Package/V2.pm:293
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:79
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:283 scripts/Dpkg/Vendor.pm:64
 #, perl-format
@@ -1869,18 +1870,6 @@ msgid ""
 "Unknown gcc system type %s, falling back to default (native compilation)"
 msgstr ""
 "Okänd gcc-systemtyp %s, faller tillbaka på standard (lokal kompilering)"
-
-#: scripts/Dpkg/Arch.pm:122
-msgid "unable to open cputable"
-msgstr "kan inte öppna cputable"
-
-#: scripts/Dpkg/Arch.pm:141
-msgid "unable to open ostable"
-msgstr "kan inte öppna ostable"
-
-#: scripts/Dpkg/Arch.pm:160
-msgid "unable to open triplettable"
-msgstr "kan inte öppna triplettable"
 
 #: scripts/Dpkg/Cdata.pm:78
 #, perl-format
@@ -2210,7 +2199,8 @@ msgstr "öppna standard in på nytt"
 #: scripts/Dpkg/IPC.pm:246 scripts/Dpkg/IPC.pm:254
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:219
 #: scripts/Dpkg/Source/CompressedFile.pm:120
-#: scripts/Dpkg/Source/Package.pm:464 scripts/Dpkg/Source/Package/V2.pm:186
+#: scripts/Dpkg/Source/Package.pm:372 scripts/Dpkg/Source/Package.pm:464
+#: scripts/Dpkg/Source/Package/V2.pm:186 scripts/Dpkg/Source/Package/V2.pm:401
 #: scripts/Dpkg/Source/Package/V2.pm:430
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:145
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:262
@@ -2222,11 +2212,6 @@ msgstr "kan inte skriva %s"
 #: scripts/Dpkg/IPC.pm:248 scripts/Dpkg/IPC.pm:256
 msgid "reopen stdout"
 msgstr "öppna standard ut på nytt"
-
-#: scripts/Dpkg/IPC.pm:262
-#, perl-format
-msgid "exec %s"
-msgstr "exekverar %s"
 
 #: scripts/Dpkg/IPC.pm:324
 msgid "child process"
@@ -2244,19 +2229,10 @@ msgid_plural "%s didn't complete in %d seconds"
 msgstr[0] "%s blev inte färdigt på %d sekund"
 msgstr[1] "%s blev inte färdigt på %d sekunder"
 
-#: scripts/Dpkg/Shlibs/Objdump.pm:83
-msgid "cannot fork for objdump"
-msgstr "kunde inte grena för objdump"
-
 #: scripts/Dpkg/Shlibs/Objdump.pm:91
 #, perl-format
 msgid "objdump on `%s'"
 msgstr "objdump på \"%s\""
-
-#: scripts/Dpkg/Shlibs/Objdump.pm:157
-#, perl-format
-msgid "cannot fork %s"
-msgstr "kan inte grena %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:198
 #, perl-format
@@ -2608,11 +2584,6 @@ msgstr "kunde inte verifiera signaturen på %s eftersom gpg inte installerats"
 msgid "%s is not a valid option for %s"
 msgstr "%s är inte en giltig flagga för %s"
 
-#: scripts/Dpkg/Source/Package.pm:372 scripts/Dpkg/Source/Package/V2.pm:401
-#, perl-format
-msgid "can't write %s"
-msgstr "kan inte skriva %s"
-
 #: scripts/Dpkg/Source/Package.pm:384
 #, perl-format
 msgid "%s does not exist"
@@ -2868,11 +2839,6 @@ msgstr "-b tar bara en parameter för formatet \"%s\""
 #: scripts/Dpkg/Source/Package/V2.pm:284
 msgid "copy of the debian directory"
 msgstr "kopia av debian-katalogen"
-
-#: scripts/Dpkg/Source/Package/V2.pm:293
-#, perl-format
-msgid "can't read %s"
-msgstr "kan inte läsa %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:312
 #, perl-format
@@ -3140,6 +3106,33 @@ msgstr ""
 #, perl-format
 msgid "version number contains illegal character `%s'"
 msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
+
+#~ msgid "exec du"
+#~ msgstr "kör du"
+
+#~ msgid "can't fork"
+#~ msgstr "kan inte grena"
+
+#~ msgid "cannot fork for dpkg --search"
+#~ msgstr "kunde inte grena för dpkg --search"
+
+#~ msgid "unable to open cputable"
+#~ msgstr "kan inte öppna cputable"
+
+#~ msgid "unable to open ostable"
+#~ msgstr "kan inte öppna ostable"
+
+#~ msgid "unable to open triplettable"
+#~ msgstr "kan inte öppna triplettable"
+
+#~ msgid "cannot fork for objdump"
+#~ msgstr "kunde inte grena för objdump"
+
+#~ msgid "can't write %s"
+#~ msgstr "kan inte skriva %s"
+
+#~ msgid "can't read %s"
+#~ msgstr "kan inte läsa %s"
 
 #~ msgid "%s has PGP start token but not end token"
 #~ msgstr "%s har inledande men inte avslutande PGP-märke"

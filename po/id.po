@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-06-27 19:08+0200\n"
+"POT-Creation-Date: 2009-09-06 09:04+0200\n"
 "PO-Revision-Date: 2006-02-17 08:52+0200\n"
 "Last-Translator: Parlin Imanuel <parlin_i@yahoo.com>\n"
 "Language-Team: Debian Indonesia L10N Team <debian-l10n-id@gurame.fisika.ui."
@@ -22,71 +22,112 @@ msgstr ""
 "X-Poedit-Country: INDONESIA\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 
-#: lib/compression.c:35
+#: lib/dpkg/buffer.c:114
+#, c-format
+msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
+msgstr "gagal dalam buffer_write(fd) (%i, ret=%li): %s"
+
+#: lib/dpkg/buffer.c:122
+#, c-format
+msgid "eof in buffer_write(stream): %s"
+msgstr "akhir file (eof) dalam buffer_write(stream): %s"
+
+#: lib/dpkg/buffer.c:124
+#, c-format
+msgid "error in buffer_write(stream): %s"
+msgstr "ada kesalahan dalam buffer_write(stream): %s"
+
+#: lib/dpkg/buffer.c:130
+#, c-format
+msgid "unknown data type `%i' in buffer_write\n"
+msgstr "jenis data `%i' dalam buffer_write tidak dikenal\n"
+
+#: lib/dpkg/buffer.c:146
+#, c-format
+msgid "failed in buffer_read(fd): %s"
+msgstr "gagal dalam buffer_read(fd): %s"
+
+#: lib/dpkg/buffer.c:153
+#, c-format
+msgid "error in buffer_read(stream): %s"
+msgstr "ada kesalahan dalam buffer_read(stream): %s"
+
+#: lib/dpkg/buffer.c:156
+#, c-format
+msgid "unknown data type `%i' in buffer_read\n"
+msgstr "jenis data `%i' dalam buffer_read tidak dikenal\n"
+
+#: lib/dpkg/buffer.c:247
+#, c-format
+msgid "failed in buffer_copy (%s)"
+msgstr "gagal menjalankan perintah buffer_copy (%s)"
+
+#: lib/dpkg/buffer.c:249
+#, c-format
+msgid "short read in buffer_copy (%s)"
+msgstr "pembacaan singkat dalam buffer_copy (%s)"
+
+#: lib/dpkg/compression.c:36
 #, fuzzy, c-format
 msgid "%s: failed to exec '%s %s'"
 msgstr "%s: gagal menjalankan perintah 'gzip %s'"
 
-#: lib/compression.c:61
+#: lib/dpkg/compression.c:62
 #, c-format
 msgid "%s: internal gzip error: `%s'"
 msgstr "%s: ada kesalahan gzip internal: `%s'"
 
-#: lib/compression.c:84
+#: lib/dpkg/compression.c:85
 #, c-format
 msgid "%s: internal bzip2 error: `%s'"
 msgstr "%s: ada kesalahan bzip2 internal: `%s'"
 
-#: lib/compression.c:96
+#: lib/dpkg/compression.c:97
 #, c-format
 msgid "%s: decompression"
 msgstr "%s: dekompresi"
 
-#: lib/compression.c:129
+#: lib/dpkg/compression.c:130
 #, c-format
 msgid "%s: internal gzip error: read: `%s'"
 msgstr "%s: ada kesalahan gzip internal: read: `%s'"
 
-#: lib/compression.c:139
+#: lib/dpkg/compression.c:140
 #, c-format
 msgid "%s: internal gzip error: write: `%s'"
 msgstr "%s: ada kesalahan gzip internal: write: `%s'"
 
-#: lib/compression.c:142
+#: lib/dpkg/compression.c:143
 #, c-format
 msgid "%s: internal gzip error: read(%i) != write(%i)"
 msgstr "%s: kesalahan gzip internal: read(%i) != write (%i)"
 
-#: lib/compression.c:164
+#: lib/dpkg/compression.c:165
 #, c-format
 msgid "%s: internal bzip2 error: read: `%s'"
 msgstr "%s: ada kesalahan bzip2 internal: read: `%s'"
 
-#: lib/compression.c:174
+#: lib/dpkg/compression.c:175
 #, c-format
 msgid "%s: internal bzip2 error: write: `%s'"
 msgstr "%s: ada kesalahan bzip2 internal: write: `%s'"
 
-#: lib/compression.c:177
+#: lib/dpkg/compression.c:178
 #, c-format
 msgid "%s: internal bzip2 error: read(%i) != write(%i)"
 msgstr "%s: ada kesalahan bzip2 internal: read(%i) != write(%i)"
 
-#: lib/compression.c:192
+#: lib/dpkg/compression.c:193
 #, c-format
 msgid "%s: compression"
 msgstr "%s: kompresi"
 
-#: lib/database.c:199
+#: lib/dpkg/database.c:199
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "ukuran %7d muncul %5d kali\n"
 
-#: lib/database.c:200
-msgid "failed write during hashreport"
-msgstr "Gagal menulis selama 'hashreport'"
-
-#: lib/dbmodify.c:63
+#: lib/dpkg/dbmodify.c:63
 #, c-format
 msgid ""
 "updates directory contains file `%.250s' whose name is too long (length=%d, "
@@ -95,7 +136,7 @@ msgstr ""
 "direktori 'updates' berisi berkas `%.250s' yang namanya terlalu panjang \n"
 "(panjang=%d, maks=%d)"
 
-#: lib/dbmodify.c:67
+#: lib/dpkg/dbmodify.c:67
 #, c-format
 msgid ""
 "updates directory contains files with different length names (both %d and %d)"
@@ -103,139 +144,139 @@ msgstr ""
 "direktori 'updates' berisi berkas dengan panjang namanya berbeda \n"
 "(keduanya %d dan %d)"
 
-#: lib/dbmodify.c:81
+#: lib/dpkg/dbmodify.c:81
 #, c-format
 msgid "cannot scan updates directory `%.255s'"
 msgstr "tidak dapat memindai direktori 'updates' `%.255s'"
 
-#: lib/dbmodify.c:97
+#: lib/dpkg/dbmodify.c:97
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
 msgstr "gagal membuang berkas terbaru %.255s yang tidak dapat digabungkan"
 
-#: lib/dbmodify.c:115 dpkg-deb/build.c:358
+#: lib/dpkg/dbmodify.c:115 dpkg-deb/build.c:362
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "tidak bisa membuat `%.255s'"
 
-#: lib/dbmodify.c:119
+#: lib/dpkg/dbmodify.c:119
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr "tidak bisa mengisi %.250s dengan padding"
 
-#: lib/dbmodify.c:121
+#: lib/dpkg/dbmodify.c:121
 #, fuzzy, c-format
 msgid "unable to flush %.250s after padding"
 msgstr "Tidak bisa mengosongkan %.250s setelah padding"
 
-#: lib/dbmodify.c:123
+#: lib/dpkg/dbmodify.c:123
 #, fuzzy, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "Tidak bisa mencoba memulai %.250s setelah padding"
 
-#: lib/dbmodify.c:160
+#: lib/dpkg/dbmodify.c:160
 msgid "requested operation requires superuser privilege"
 msgstr "operasi yang diminta membutuhkan kewenangan superuser"
 
-#: lib/dbmodify.c:165
+#: lib/dpkg/dbmodify.c:165
 msgid "unable to access dpkg status area"
 msgstr "tidak bisa mengakses area status dpkg"
 
-#: lib/dbmodify.c:167
+#: lib/dpkg/dbmodify.c:167
 msgid "operation requires read/write access to dpkg status area"
 msgstr "operasi ini membutuhkan akses baca/tulis ke area status dpkg"
 
-#: lib/dbmodify.c:216
+#: lib/dpkg/dbmodify.c:216
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "gagal membuang berkas terbaru saya: %.250s"
 
-#: lib/dbmodify.c:254
+#: lib/dpkg/dbmodify.c:254
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "tidak bisa menulis status terbaru dari `%.250s'"
 
-#: lib/dbmodify.c:256
+#: lib/dpkg/dbmodify.c:256
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "tidak bisa mengosongkan status terbaru dari `%.250s'"
 
-#: lib/dbmodify.c:258
+#: lib/dpkg/dbmodify.c:258
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "tidak bisa memotong status terbaru `%.250s'"
 
-#: lib/dbmodify.c:260
+#: lib/dpkg/dbmodify.c:260
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "tidak bisa melakukan 'fsync' status terbaru dari `%.250s'"
 
-#: lib/dbmodify.c:262
+#: lib/dpkg/dbmodify.c:262
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "tidak bisa menutup status terbaru `%.250s'"
 
-#: lib/dbmodify.c:265
+#: lib/dpkg/dbmodify.c:265
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "tidak bisa memasang status terbaru dari `%.250s'"
 
-#: lib/dump.c:350
+#: lib/dpkg/dump.c:350
 #, fuzzy, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr "gagal menulis rekaman %s tentang `%.50s' ke `%.250s'"
 
-#: lib/dump.c:376
+#: lib/dpkg/dump.c:376
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "Gagal membuka `%s' untuk menulis informasi %s"
 
-#: lib/dump.c:379
+#: lib/dpkg/dump.c:379
 msgid "unable to set buffering on status file"
 msgstr "tidak bisa menyetel penyangga (buffer) pada berkas status"
 
-#: lib/dump.c:390
+#: lib/dpkg/dump.c:390
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "gagal menulis rekaman %s tentang `%.50s' ke `%.250s'"
 
-#: lib/dump.c:398
+#: lib/dpkg/dump.c:398
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "gagal memindahkan informasi %s ke `%.250s'"
 
-#: lib/dump.c:400
+#: lib/dpkg/dump.c:400
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "gagal melakukan 'fsync' informasi %s ke `%.250s'"
 
-#: lib/dump.c:402
+#: lib/dpkg/dump.c:402
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "gagal menutup `%.250s' setelah menulis informasi %s"
 
-#: lib/dump.c:406
+#: lib/dpkg/dump.c:406
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr "gagal membuat link `%.250s' ke `%.250s' untuk cadangan info %s"
 
-#: lib/dump.c:409
+#: lib/dpkg/dump.c:409
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "gagal memasang `%.250s' sebagai `%.250s' yang berisi info %s"
 
-#: lib/ehandle.c:95
+#: lib/dpkg/ehandle.c:95
 #, c-format
 msgid ""
 "%s: unrecoverable fatal error, aborting:\n"
 " %s\n"
 msgstr ""
 
-#: lib/ehandle.c:111
+#: lib/dpkg/ehandle.c:111
 msgid "out of memory pushing error handler: "
 msgstr "kehabisan memory saat memaksa penanganan kesalahan: "
 
-#: lib/ehandle.c:127
+#: lib/dpkg/ehandle.c:127
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -244,138 +285,138 @@ msgstr ""
 "%s: ada kesalahan saat membersihkan: \n"
 " %s \n"
 
-#: lib/ehandle.c:142
+#: lib/dpkg/ehandle.c:142
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: terlalu banyak kesalahan berantai saat memperbaiki kesalahan!\n"
 
-#: lib/ehandle.c:215
+#: lib/dpkg/ehandle.c:215
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "kehabisan memory untuk masukan 'cleanup' baru dengan banyak argumen"
 
-#: lib/ehandle.c:227
+#: lib/dpkg/ehandle.c:227
 msgid "out of memory for new cleanup entry"
 msgstr "kehabisan memory untuk masukan 'cleanup' baru"
 
-#: lib/ehandle.c:292
+#: lib/dpkg/ehandle.c:292
 #, fuzzy, c-format
 msgid "%s: warning: %s\n"
 msgstr "Ada kesalahan saat menulis `%s'"
 
-#: lib/ehandle.c:296
+#: lib/dpkg/ehandle.c:296
 #, c-format
 msgid "error writing `%s'"
 msgstr "Ada kesalahan saat menulis `%s'"
 
-#: lib/ehandle.c:309
+#: lib/dpkg/ehandle.c:309
 #, fuzzy, c-format
 msgid "%s:%s:%d: internal error: %s\n"
 msgstr "%s: %d: kesalahan internal `%s'\n"
 
-#: lib/fields.c:46
+#: lib/dpkg/fields.c:46
 #, c-format
 msgid "%s is missing"
 msgstr "%s hilang"
 
-#: lib/fields.c:55
+#: lib/dpkg/fields.c:55
 #, c-format
 msgid "`%.*s' is not allowed for %s"
 msgstr "`%.*s' tidak diperkenankan untuk %s"
 
-#: lib/fields.c:63
+#: lib/dpkg/fields.c:63
 #, c-format
 msgid "junk after %s"
 msgstr "rongsokan setelah %s"
 
-#: lib/fields.c:73
+#: lib/dpkg/fields.c:75
 #, c-format
 msgid "invalid package name (%.250s)"
 msgstr "nama paket (%.250s) tidak sah."
 
-#: lib/fields.c:89
+#: lib/dpkg/fields.c:90
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "ruas 'file details' `%s' kosong"
 
-#: lib/fields.c:92
+#: lib/dpkg/fields.c:93
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "ruas 'file details' `%s' tidak diizinkan dalam berkas status"
 
-#: lib/fields.c:105
+#: lib/dpkg/fields.c:106
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr ""
 "terlalu banyak nilai dalam ruas 'file details' `%s' (dibandingkan lainnya)"
 
-#: lib/fields.c:119
+#: lib/dpkg/fields.c:120
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 "terlalu sedikit nilai dalam ruas 'file details' `%s' (dibandingkan lainnya)"
 
-#: lib/fields.c:139
+#: lib/dpkg/fields.c:138
 msgid "yes/no in boolean field"
 msgstr "ya/tidak dalam ruas boolean"
 
-#: lib/fields.c:157
+#: lib/dpkg/fields.c:154
 msgid "word in `priority' field"
 msgstr ""
 
-#: lib/fields.c:170
+#: lib/dpkg/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "nilai untuk ruas 'status' tidak diizinkan dalam konteks ini"
 
-#: lib/fields.c:174
+#: lib/dpkg/fields.c:170
 #, fuzzy
 msgid "first (want) word in `status' field"
 msgstr "kalimat (status) ketiga dalam ruas `status'"
 
-#: lib/fields.c:177
+#: lib/dpkg/fields.c:172
 #, fuzzy
 msgid "second (error) word in `status' field"
 msgstr "kalimat (status) ketiga dalam ruas `status'"
 
-#: lib/fields.c:183
+#: lib/dpkg/fields.c:174
 msgid "third (status) word in `status' field"
 msgstr "kalimat (status) ketiga dalam ruas `status'"
 
-#: lib/fields.c:196
+#: lib/dpkg/fields.c:186
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "Ada kesalahan dalam string 'Version' `%.250s': %.250s"
 
-#: lib/fields.c:206
+#: lib/dpkg/fields.c:195
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "Ruas 'Revision' atau 'Package-Revision' yang sudah usang digunakan"
 
-#: lib/fields.c:224
+#: lib/dpkg/fields.c:212
 msgid "value for `config-version' field not allowed in this context"
 msgstr "nilai untuk ruas 'config-version' tidak diizinkan dalam konteks ini"
 
-#: lib/fields.c:230
+#: lib/dpkg/fields.c:219
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "Ada kesalahan dalam string 'Config-Version' `%.250s': %.250s"
 
-#: lib/fields.c:255
+#: lib/dpkg/fields.c:244
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "nilai untuk 'conffiles' mengandung baris yang salah bentuk: `%.*s'"
 
-#: lib/fields.c:275
+#: lib/dpkg/fields.c:263
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "nilai untuk 'conffiles' mengandung baris yang diawali tanpa-spasi: `%c'"
 
-#: lib/fields.c:292
+#: lib/dpkg/fields.c:280
 msgid "root or null directory is listed as a conffile"
 msgstr ""
 "direktori kosong atau root terdaftar sebagai sebuah berkas konfigurasi "
 "(conffile)"
 
-#: lib/fields.c:350
+#: lib/dpkg/fields.c:337
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -383,12 +424,12 @@ msgstr ""
 "ruas `%s', di tempat yang seharusnya ada nama paket, nama paket hilang atau "
 "salah"
 
-#: lib/fields.c:355
+#: lib/dpkg/fields.c:342
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "ruas `%s', nama paket `%.255s': %s tidak sah"
 
-#: lib/fields.c:385
+#: lib/dpkg/fields.c:372
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -397,7 +438,7 @@ msgstr ""
 "ruas `%s', yang mengacu ke `%.255s': \n"
 "memiliki hubungan versi %c%c yang buruk."
 
-#: lib/fields.c:391
+#: lib/dpkg/fields.c:378
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -406,7 +447,7 @@ msgstr ""
 "ruas `%s', yang mengacu ke `%.255s':\n"
 "`%c' sudah usang, gunakan saja `%c=' atau `%c%c'"
 
-#: lib/fields.c:401
+#: lib/dpkg/fields.c:388
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -415,11 +456,11 @@ msgstr ""
 "ruas `%s', yang mengacu ke `%.255s':\n"
 "nomor versi cocok secara tersirat, saran: gunakan saja `='"
 
-#: lib/fields.c:409
+#: lib/dpkg/fields.c:396
 msgid "Only exact versions may be used for Provides"
 msgstr "Hanya versi yang tepat yang dapat digunakan untuk 'Provides'"
 
-#: lib/fields.c:413
+#: lib/dpkg/fields.c:400
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -428,725 +469,700 @@ msgstr ""
 "ruas `%s', yang mengacu ke `%.255s':\n"
 "nilai versi dimulai tanpa alphanumerik, saran: tambahkan sebuah spasi"
 
-#: lib/fields.c:430 lib/fields.c:434
+#: lib/dpkg/fields.c:417 lib/dpkg/fields.c:421
 #, fuzzy, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
 msgstr "ruas `%s', yang mengacu ke `%.255s': versi berisi '('"
 
-#: lib/fields.c:438
+#: lib/dpkg/fields.c:425
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "ruas `%s', yang mengacu ke `%.255s': versi tidak diakhiri"
 
-#: lib/fields.c:449
+#: lib/dpkg/fields.c:436
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "ruas `%s', yang mengacu ke `%.255s': kesalahan dalam versi: %.255s"
 
-#: lib/fields.c:459
+#: lib/dpkg/fields.c:446
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "ruas `%s', salah syntax setelah mengacu ke paket `%.255s'"
 
-#: lib/fields.c:466
+#: lib/dpkg/fields.c:453
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternatif ('|') tidak diizinkan dalam ruas %s"
 
-#: lib/fields.c:526
+#: lib/dpkg/fields.c:512
 #, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr "nilai untuk ruas 'config-version' tidak diizinkan dalam konteks ini"
 
-#: lib/fields.c:533
+#: lib/dpkg/fields.c:519
 #, fuzzy, c-format
 msgid "illegal pending trigger name `%.255s': %s"
 msgstr "ruas `%s', nama paket `%.255s': %s tidak sah"
 
-#: lib/fields.c:537
+#: lib/dpkg/fields.c:523
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
 msgstr ""
 
-#: lib/fields.c:552
+#: lib/dpkg/fields.c:537
 #, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr "nilai untuk ruas 'status' tidak diizinkan dalam konteks ini"
 
-#: lib/fields.c:559
+#: lib/dpkg/fields.c:544
 #, fuzzy, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
 msgstr "nama paket tidak sah pada baris %d: %.250s"
 
-#: lib/fields.c:565
+#: lib/dpkg/fields.c:550
 #, fuzzy, c-format
 msgid "duplicate awaited trigger package `%.255s'"
 msgstr "daftar berkas untuk paket `%.250s'"
 
-#: lib/lock.c:50
+#: lib/dpkg/lock.c:50
 msgid "unable to unlock dpkg status database"
 msgstr "tidak bisa mengunci basis data status dpkg"
 
-#: lib/lock.c:102
+#: lib/dpkg/lock.c:102
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "Anda tidak memiliki izin untuk mengunci basis data status dpkg"
 
-#: lib/lock.c:103
+#: lib/dpkg/lock.c:103
 msgid "unable to open/create status database lockfile"
 msgstr "tidak bisa membuka/membuat berkas kunci(lock) basis data status"
 
-#: lib/lock.c:108
+#: lib/dpkg/lock.c:108
 msgid "unable to lock dpkg status database"
 msgstr "tidak bisa mengunci basis data status dpkg"
 
-#: lib/lock.c:109
+#: lib/dpkg/lock.c:109
 msgid "status database area is locked by another process"
 msgstr "area basis data status dikunci oleh proses lain"
 
-#: lib/log.c:54
+#: lib/dpkg/log.c:54
 #, c-format
 msgid "couldn't open log `%s': %s\n"
 msgstr "tak dapat membuka log `%s': %s\n"
 
-#: lib/log.c:102
+#: lib/dpkg/log.c:102
 #, fuzzy, c-format
 msgid "unable to write to status fd %d"
 msgstr "tidak bisa menulis status terbaru dari `%.250s'"
 
-#: lib/mlib.c:49
+#: lib/dpkg/mlib.c:48
 #, c-format
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc gagal (%ld byte)"
 
-#: lib/mlib.c:62
+#: lib/dpkg/mlib.c:61
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc gagal (%ld byte)"
 
-#: lib/mlib.c:76
+#: lib/dpkg/mlib.c:75
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "gagal membuat direktori"
 
-#: lib/mlib.c:83
+#: lib/dpkg/mlib.c:82
 #, c-format
 msgid "%s (subprocess): %s\n"
 msgstr "%s (subproses): %s \n"
 
-#: lib/mlib.c:97
+#: lib/dpkg/mlib.c:96
 msgid "fork failed"
 msgstr "'fork' gagal "
 
-#: lib/mlib.c:110
+#: lib/dpkg/mlib.c:109
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "gagal melakukan 'dup' untuk std%s"
 
-#: lib/mlib.c:111
+#: lib/dpkg/mlib.c:110
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "gagal melakukan 'dup' untuk fd %d"
 
-#: lib/mlib.c:117
+#: lib/dpkg/mlib.c:116
 msgid "failed to create pipe"
 msgstr "gagal membuat pipe"
 
-#: lib/mlib.c:124
+#: lib/dpkg/mlib.c:124
+#, fuzzy, c-format
+msgid "error writing to '%s'"
+msgstr "Ada kesalahan saat menulis `%s'"
+
+#: lib/dpkg/mlib.c:131
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "tidak bisa membaca tanda deskriptor berkas untuk %.250s"
 
-#: lib/mlib.c:126
+#: lib/dpkg/mlib.c:133
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "tidak bisa menyetel 'close' pada tanda 'exec' untuk %.250s"
 
-#: lib/mlib.c:180
-#, c-format
-msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
-msgstr "gagal dalam buffer_write(fd) (%i, ret=%li): %s"
+#: lib/dpkg/myopt.c:62
+#, fuzzy, c-format
+msgid "configuration error: %s:%d: %s"
+msgstr "Kesalahan konfigurasi: %s butuh suatu nilai"
 
-#: lib/mlib.c:187
-#, c-format
-msgid "eof in buffer_write(stream): %s"
-msgstr "akhir file (eof) dalam buffer_write(stream): %s"
-
-#: lib/mlib.c:189
-#, c-format
-msgid "error in buffer_write(stream): %s"
-msgstr "ada kesalahan dalam buffer_write(stream): %s"
-
-#: lib/mlib.c:195
-#, c-format
-msgid "unknown data type `%i' in buffer_write\n"
-msgstr "jenis data `%i' dalam buffer_write tidak dikenal\n"
-
-#: lib/mlib.c:211
-#, c-format
-msgid "failed in buffer_read(fd): %s"
-msgstr "gagal dalam buffer_read(fd): %s"
-
-#: lib/mlib.c:218
-#, c-format
-msgid "error in buffer_read(stream): %s"
-msgstr "ada kesalahan dalam buffer_read(stream): %s"
-
-#: lib/mlib.c:221
-#, c-format
-msgid "unknown data type `%i' in buffer_read\n"
-msgstr "jenis data `%i' dalam buffer_read tidak dikenal\n"
-
-#: lib/mlib.c:316
-#, c-format
-msgid "failed in buffer_copy (%s)"
-msgstr "gagal menjalankan perintah buffer_copy (%s)"
-
-#: lib/mlib.c:317
-#, c-format
-msgid "short read in buffer_copy (%s)"
-msgstr "pembacaan singkat dalam buffer_copy (%s)"
-
-#: lib/myopt.c:57
+#: lib/dpkg/myopt.c:74
 #, fuzzy, c-format
 msgid "failed to open configuration file '%.255s' for reading: %s"
 msgstr "gagal membuka berkas konfigurasi `%.255s' untuk dibaca"
 
-#: lib/myopt.c:93
+#: lib/dpkg/myopt.c:101
 #, c-format
-msgid "configuration error: unknown option %s"
-msgstr "Kesalahan konfigurasi: pilihan %s tidak dikenal"
+msgid "unbalanced quotes in '%s'"
+msgstr ""
 
-#: lib/myopt.c:96
-#, c-format
-msgid "configuration error: %s needs a value"
-msgstr "Kesalahan konfigurasi: %s butuh suatu nilai"
+#: lib/dpkg/myopt.c:117
+#, fuzzy, c-format
+msgid "unknown option '%s'"
+msgstr "pilihan --%s tak dikenal"
 
-#: lib/myopt.c:101
-#, c-format
-msgid "configuration error: %s does not take a value"
-msgstr "kesalahan konfigurasi: %s tidak ada nilainya"
+#: lib/dpkg/myopt.c:121
+#, fuzzy, c-format
+msgid "'%s' needs a value"
+msgstr "pilihan --%s butuh suatu nilai"
 
-#: lib/myopt.c:106
+#: lib/dpkg/myopt.c:127
+#, fuzzy, c-format
+msgid "'%s' does not take a value"
+msgstr "pilihan --%s tidak ada nilainya"
+
+#: lib/dpkg/myopt.c:132
 #, c-format
 msgid "read error in configuration file `%.255s'"
 msgstr "ada kesalahan membaca berkas konfigurasi `%.255s'"
 
-#: lib/myopt.c:107
+#: lib/dpkg/myopt.c:133
 #, c-format
 msgid "error closing configuration file `%.255s'"
 msgstr "ada kesalahan menutup berkas konfigurasi `%.255s'"
 
-#: lib/myopt.c:149
+#: lib/dpkg/myopt.c:170
+#, fuzzy, c-format
+msgid "error opening configuration directory '%s'"
+msgstr "ada kesalahan menutup berkas konfigurasi `%.255s'"
+
+#: lib/dpkg/myopt.c:230
 #, c-format
 msgid "unknown option --%s"
 msgstr "pilihan --%s tak dikenal"
 
-#: lib/myopt.c:153
+#: lib/dpkg/myopt.c:234
 #, c-format
 msgid "--%s option takes a value"
 msgstr "pilihan --%s butuh suatu nilai"
 
-#: lib/myopt.c:158
+#: lib/dpkg/myopt.c:239
 #, c-format
 msgid "--%s option does not take a value"
 msgstr "pilihan --%s tidak ada nilainya"
 
-#: lib/myopt.c:165
+#: lib/dpkg/myopt.c:246
 #, c-format
 msgid "unknown option -%c"
 msgstr "pilihan -%c tak dikenal"
 
-#: lib/myopt.c:170
+#: lib/dpkg/myopt.c:251
 #, c-format
 msgid "-%c option takes a value"
 msgstr "pilihan -%c butuh suatu nilai"
 
-#: lib/myopt.c:178
+#: lib/dpkg/myopt.c:259
 #, c-format
 msgid "-%c option does not take a value"
 msgstr "pilihan -%c tidak ada nilainya"
 
-#: lib/myopt-util.c:54
+#: lib/dpkg/myopt-util.c:55
 #, fuzzy
 msgid "cannot open GPL file"
 msgstr "tidak dapat membuka berkas GPL"
 
-#: lib/parse.c:113
+#: lib/dpkg/parse.c:119
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr "gagal membuka berkas info paket `%.255s' untuk dibaca"
 
-#: lib/parse.c:118
+#: lib/dpkg/parse.c:124
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr "tak ada status berkas info paket `%.255s'"
 
-#: lib/parse.c:123
+#: lib/dpkg/parse.c:129
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr "tak bisa melakukan 'mmap' pada berkas info paket `%.255s'"
 
-#: lib/parse.c:127
+#: lib/dpkg/parse.c:133
 #, c-format
 msgid "copy info file `%.255s'"
 msgstr "menyalin berkas info `%.255s'"
 
-#: lib/parse.c:159
+#: lib/dpkg/parse.c:164
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "Ada EOF setelah nama ruas `%.*s'"
 
-#: lib/parse.c:162
+#: lib/dpkg/parse.c:167
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "ada baris-baru dalam nama ruas `%.*s'"
 
-#: lib/parse.c:165
+#: lib/dpkg/parse.c:170
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "EOF MSDOS (^Z) dalam nama ruas `%.*s'"
 
-#: lib/parse.c:169
+#: lib/dpkg/parse.c:174
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "nama ruas `%.*s' harus diikuti oleh titik-dua"
 
-#: lib/parse.c:178
+#: lib/dpkg/parse.c:183
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr "Ada EOF sebelum nilai ruas `%.*s' (baris-baru terakhir tiada)"
 
-#: lib/parse.c:182
+#: lib/dpkg/parse.c:187
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "Karakter EOF MSDOS dalam nilai ruas `%.*s' (baris-baru tiada?)"
 
-#: lib/parse.c:196
+#: lib/dpkg/parse.c:201
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "Ada EOF sekitar nilai ruas `%.*s' (baris-baru terakhir tiada)"
 
-#: lib/parse.c:221
+#: lib/dpkg/parse.c:226
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "nilai ganda untuk ruas `%s'"
 
-#: lib/parse.c:226
+#: lib/dpkg/parse.c:231
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "nama ruas definisi pengguna `%.*s' terlalu singkat"
 
-#: lib/parse.c:232
+#: lib/dpkg/parse.c:237
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "nilai ganda untuk ruas definisi pengguna `%.*s'"
 
-#: lib/parse.c:246
+#: lib/dpkg/parse.c:251
 msgid "several package info entries found, only one allowed"
 msgstr "ditemukan beberapa baris info paket; hanya satu yang diizinkan"
 
-#: lib/parse.c:271
+#: lib/dpkg/parse.c:276
 msgid "Configured-Version for package with inappropriate Status"
 msgstr "Configured-Version untuk paket dengan Status tak sesuai"
 
-#: lib/parse.c:281
+#: lib/dpkg/parse.c:286
 #, c-format
 msgid "package has status %s but triggers are awaited"
 msgstr ""
 
-#: lib/parse.c:285
+#: lib/dpkg/parse.c:290
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
 
-#: lib/parse.c:292
+#: lib/dpkg/parse.c:297
 #, c-format
 msgid "package has status %s but triggers are pending"
 msgstr ""
 
-#: lib/parse.c:296
+#: lib/dpkg/parse.c:301
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
 
-#: lib/parse.c:307
+#: lib/dpkg/parse.c:312
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr "Paket dengan status 'tak-terpasang' memiliki conffiles, abaikan saja"
 
-#: lib/parse.c:375
+#: lib/dpkg/parse.c:399
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "gagal menutup setelah membaca: `%.255s'"
 
-#: lib/parse.c:376
+#: lib/dpkg/parse.c:400
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "tidak ada informasi paket dalam `%.255s'"
 
-#: lib/parsehelp.c:42
+#: lib/dpkg/parsehelp.c:41
 #, fuzzy, c-format
 msgid ""
 "%s, in file '%.255s' near line %d package '%.255s':\n"
 " "
 msgstr "%s, dalam berkas `%.255s' dekat baris %d"
 
-#: lib/parsehelp.c:45
+#: lib/dpkg/parsehelp.c:44
 #, fuzzy, c-format
 msgid ""
 "%s, in file '%.255s' near line %d:\n"
 " "
 msgstr "%s, dalam berkas `%.255s' dekat baris %d"
 
-#: lib/parsehelp.c:56
+#: lib/dpkg/parsehelp.c:55
 msgid "parse error"
 msgstr "Ada kesalahan 'parse'"
 
-#: lib/parsehelp.c:71
+#: lib/dpkg/parsehelp.c:70
 msgid "warning"
 msgstr "PERINGATAN"
 
-#: lib/parsehelp.c:80
+#: lib/dpkg/parsehelp.c:79
 msgid "failed to write parsing warning"
 msgstr "gagal menulis peringatan 'parse'"
 
-#: lib/parsehelp.c:141
+#: lib/dpkg/parsehelp.c:138
 msgid "may not be empty string"
 msgstr "tidak boleh string kosong"
 
-#: lib/parsehelp.c:142
+#: lib/dpkg/parsehelp.c:139
 msgid "must start with an alphanumeric"
 msgstr "harus dimulai dengan sebuah alfanumerik"
 
-#: lib/parsehelp.c:151
+#: lib/dpkg/parsehelp.c:148
 #, fuzzy, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "karakter `%c' tidak diizinkan - hanya huruf, digit, dan %s saja."
 
-#: lib/parsehelp.c:206
+#: lib/dpkg/parsehelp.c:203
 msgid "<none>"
 msgstr "<tidak ada>"
 
-#: lib/parsehelp.c:221
+#: lib/dpkg/parsehelp.c:218
 msgid "version string is empty"
 msgstr "string versi kosong"
 
-#: lib/parsehelp.c:232
+#: lib/dpkg/parsehelp.c:232
 msgid "version string has embedded spaces"
 msgstr "string versi mengandung spasi"
 
-#: lib/parsehelp.c:237
+#: lib/dpkg/parsehelp.c:237
 msgid "epoch in version is not number"
 msgstr "epoch pada versi bukan suatu angka"
 
-#: lib/parsehelp.c:238
+#: lib/dpkg/parsehelp.c:238
 msgid "nothing after colon in version number"
 msgstr "tidak ada apa-apa setelah titik-dua pada nomor versi"
 
-#: lib/parsehelp.c:259 lib/parsehelp.c:273
+#: lib/dpkg/parsehelp.c:259 lib/dpkg/parsehelp.c:272
 #, c-format
 msgid "missing %s"
 msgstr "%s hilang"
 
-#: lib/parsehelp.c:261 lib/parsehelp.c:276
+#: lib/dpkg/parsehelp.c:261 lib/dpkg/parsehelp.c:275
 #, c-format
 msgid "empty value for %s"
 msgstr "nilai kosong untuk %s"
 
-#: lib/showpkg.c:73
+#: lib/dpkg/showpkg.c:72
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr "karakter `%c' tidak sah dalam lebar ruas\n"
 
-#: lib/showpkg.c:160
+#: lib/dpkg/showpkg.c:159
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "kurung tutup tidak ada dalam format\n"
 
-#: lib/subproc.c:53
+#: lib/dpkg/subproc.c:53
 #, fuzzy, c-format
 msgid "unable to ignore signal %s before running %.250s"
 msgstr "tidak bisa mengabaikan sinyal %s sebelum menjalankan skrip"
 
-#: lib/subproc.c:66
+#: lib/dpkg/subproc.c:66
 #, c-format
 msgid "error un-catching signal %s: %s\n"
 msgstr "Ada kesalahan saat melepaskan sinyal %s: %s\n"
 
-#: lib/subproc.c:85
+#: lib/dpkg/subproc.c:85
 #, fuzzy, c-format
 msgid "%s returned error exit status %d"
 msgstr "subproses %s menghasilkan kesalahan status 'exit': %d"
 
-#: lib/subproc.c:88
+#: lib/dpkg/subproc.c:88
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "subproses %s menghasilkan kesalahan status 'exit': %d"
 
-#: lib/subproc.c:97
+#: lib/dpkg/subproc.c:97
 #, fuzzy, c-format
 msgid "%s killed by signal (%s)%s"
 msgstr "subproses %s dihentikan oleh sinyal (%s)%s"
 
-#: lib/subproc.c:99 lib/subproc.c:103
+#: lib/dpkg/subproc.c:99 lib/dpkg/subproc.c:103
 msgid ", core dumped"
 msgstr ""
 
-#: lib/subproc.c:101
+#: lib/dpkg/subproc.c:101
 #, c-format
 msgid "subprocess %s killed by signal (%s)%s"
 msgstr "subproses %s dihentikan oleh sinyal (%s)%s"
 
-#: lib/subproc.c:105
+#: lib/dpkg/subproc.c:105
 #, c-format
 msgid "subprocess %s failed with wait status code %d"
 msgstr "subproses %s gagal dengan kode status 'wait' %d"
 
-#: lib/subproc.c:122
+#: lib/dpkg/subproc.c:122
 #, c-format
 msgid "wait for %s failed"
 msgstr "gagal menunggu %s"
 
-#: lib/trigdeferred.l:66
+#: lib/dpkg/trigdeferred.l:66
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
 
-#: lib/trigdeferred.l:75
+#: lib/dpkg/trigdeferred.l:75
 #, fuzzy, c-format
 msgid "truncated triggers deferred file `%.250s'"
 msgstr "berkas statoverride `%.250s'"
 
-#: lib/trigdeferred.l:79
+#: lib/dpkg/trigdeferred.l:79
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
 
-#: lib/trigdeferred.l:116
+#: lib/dpkg/trigdeferred.l:116
 #, fuzzy, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
 msgstr "gagal membuka berkas sumber %.250s'"
 
-#: lib/trigdeferred.l:123
+#: lib/dpkg/trigdeferred.l:123
 #, fuzzy
 msgid "unable to lock triggers area"
 msgstr "tidak bisa menjalankan perintah %s"
 
-#: lib/trigdeferred.l:134
+#: lib/dpkg/trigdeferred.l:134
 #, fuzzy, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
 msgstr "tidak bisa melakukan 'fstat' berkas 'part' `%.250s'"
 
-#: lib/trigdeferred.l:148
+#: lib/dpkg/trigdeferred.l:148
 #, fuzzy, c-format
 msgid "unable to open triggers deferred file `%.250s'"
 msgstr "gagal membuka berkas sumber %.250s'"
 
-#: lib/trigdeferred.l:162
+#: lib/dpkg/trigdeferred.l:162
 #, fuzzy, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
 msgstr "tidak bisa membuka berkas 'depot' `%.250s' yang baru"
 
-#: lib/trigdeferred.l:182
+#: lib/dpkg/trigdeferred.l:182
 #, fuzzy, c-format
 msgid "error reading triggers deferred file `%.250s'"
 msgstr "ada kesalahan saat membaca %s dari %.255s"
 
-#: lib/trigdeferred.l:190
+#: lib/dpkg/trigdeferred.l:190
 #, fuzzy, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
 msgstr "tidak bisa membuka berkas 'depot' `%.250s' yang baru"
 
-#: lib/trigdeferred.l:195
+#: lib/dpkg/trigdeferred.l:195
 #, fuzzy, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
 msgstr "tidak bisa membuka berkas 'depot' `%.250s' yang baru"
 
-#: lib/trigdeferred.l:199
+#: lib/dpkg/trigdeferred.l:199
 #, fuzzy, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
 msgstr "tidak bisa memasang versi baru dari `%.255s'"
 
-#: lib/triglib.c:45
+#: lib/dpkg/triglib.c:45
 msgid "empty trigger names are not permitted"
 msgstr ""
 
-#: lib/triglib.c:49
+#: lib/dpkg/triglib.c:49
 msgid "trigger name contains invalid character"
 msgstr ""
 
-#: lib/triglib.c:305
+#: lib/dpkg/triglib.c:305
 #, c-format
 msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
 
-#: lib/triglib.c:340
+#: lib/dpkg/triglib.c:340
 #, fuzzy, c-format
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr "tidak bisa membuka berkas 'depot' `%.250s' yang baru"
 
-#: lib/triglib.c:369
+#: lib/dpkg/triglib.c:369
 #, fuzzy, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "tidak bisa membaca berkas 'part' `%.250s'"
 
-#: lib/triglib.c:374
+#: lib/dpkg/triglib.c:374
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
 
-#: lib/triglib.c:396
+#: lib/dpkg/triglib.c:396
 #, fuzzy, c-format
 msgid "unable to create new trigger interest file `%.250s'"
 msgstr "tidak bisa melakukan 'fstat' berkas 'part' `%.250s'"
 
-#: lib/triglib.c:409
+#: lib/dpkg/triglib.c:409
 #, fuzzy, c-format
 msgid "unable to write new trigger interest file `%.250s'"
 msgstr "tidak bisa melakukan 'fstat' berkas 'part' `%.250s'"
 
-#: lib/triglib.c:413
+#: lib/dpkg/triglib.c:413
 #, fuzzy, c-format
 msgid "unable to close new trigger interest file `%.250s'"
 msgstr "tidak bisa melakukan 'fstat' berkas 'part' `%.250s'"
 
-#: lib/triglib.c:417
+#: lib/dpkg/triglib.c:417
 #, fuzzy, c-format
 msgid "unable to install new trigger interest file `%.250s'"
 msgstr "tidak bisa memasang versi baru dari `%.255s'"
 
-#: lib/triglib.c:474
+#: lib/dpkg/triglib.c:474
 #, fuzzy, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr "tidak bisa memasang berkas 'info' baru `%.250s' sebagai `%.250s'"
 
-#: lib/triglib.c:497
+#: lib/dpkg/triglib.c:497
 #, fuzzy, c-format
 msgid "unable to create new file triggers file `%.250s'"
 msgstr "tidak bisa membuka berkas 'depot' `%.250s' yang baru"
 
-#: lib/triglib.c:506
+#: lib/dpkg/triglib.c:506
 #, fuzzy, c-format
 msgid "unable to write new file triggers file `%.250s'"
 msgstr "tidak bisa membuka berkas 'depot' `%.250s' yang baru"
 
-#: lib/triglib.c:510
+#: lib/dpkg/triglib.c:510
 #, fuzzy, c-format
 msgid "unable to close new file triggers file `%.250s'"
 msgstr "tidak bisa membuka berkas 'depot' `%.250s' yang baru"
 
-#: lib/triglib.c:514
+#: lib/dpkg/triglib.c:514
 #, fuzzy, c-format
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr "tidak bisa memasang berkas 'info' baru `%.250s' sebagai `%.250s'"
 
-#: lib/triglib.c:535
+#: lib/dpkg/triglib.c:535
 #, fuzzy, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "tidak bisa membaca berkas 'part' `%.250s'"
 
-#: lib/triglib.c:543
+#: lib/dpkg/triglib.c:543
 #, fuzzy, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "ada kesalahan membaca berkas konfigurasi `%.255s'"
 
-#: lib/triglib.c:547
+#: lib/dpkg/triglib.c:547
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
 
-#: lib/triglib.c:641
+#: lib/dpkg/triglib.c:641
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
 
-#: lib/triglib.c:661
+#: lib/dpkg/triglib.c:661
 #, fuzzy, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "gagal membuka berkas sumber %.250s'"
 
-#: lib/triglib.c:676
+#: lib/dpkg/triglib.c:676
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
 
-#: lib/triglib.c:685
+#: lib/dpkg/triglib.c:685
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
 
-#: lib/triglib.c:740
+#: lib/dpkg/triglib.c:740
 #, fuzzy, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "tidak bisa membaca direktori 'depot' `%.250s'"
 
-#: lib/triglib.c:743
+#: lib/dpkg/triglib.c:743
 #, fuzzy, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "tidak bisa membaca direktori 'depot' `%.250s'"
 
-#: lib/utils.c:53
+#: lib/dpkg/utils.c:55
 #, fuzzy, c-format
 msgid "read error in `%.250s'"
 msgstr "Ada kesalahan saat membaca %.250s"
 
-#: lib/utils.c:58
+#: lib/dpkg/utils.c:60
 #, fuzzy, c-format
 msgid "fgets gave an empty string from `%.250s'"
 msgstr "fgets memberikan string kosong dari diversions [i]"
 
-#: lib/utils.c:60
+#: lib/dpkg/utils.c:62
 #, fuzzy, c-format
 msgid "too-long line or missing newline in `%.250s'"
 msgstr "berkas `%.250s' terkorupsi - baris-baru hilang setelah %.250s"
 
-#: lib/utils.c:72
+#: lib/dpkg/utils.c:74
 #, fuzzy, c-format
 msgid "unexpected eof reading `%.250s'"
 msgstr "akhiran berkas dalam %.250s tidak diharapkan"
 
-#: src/archives.c:231
+#: src/archives.c:233
 msgid "error reading from dpkg-deb pipe"
 msgstr "ada kesalahan saat membaca pipe dpkg-deb"
 
-#: src/archives.c:255
+#: src/archives.c:257
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
 msgstr ""
 
-#: src/archives.c:296
+#: src/archives.c:298
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "Ada kesalahan penyetelan tanda waktu pada `%.255s'"
 
-#: src/archives.c:303 src/archives.c:693
+#: src/archives.c:305 src/archives.c:701
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "Ada kesalahan penyetelan kepemilikan pada `%.255s'"
 
-#: src/archives.c:305 src/archives.c:696
+#: src/archives.c:307 src/archives.c:704
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "Ada kesalahan penyetelan perizinan pada `%.255s'"
 
-#: src/archives.c:371
+#: src/archives.c:373
 #, fuzzy, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr "tidak bisa menyetel izin eksekusi pada `%.250s'"
 
-#: src/archives.c:392
+#: src/archives.c:394
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
 
-#: src/archives.c:445
+#: src/archives.c:447
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1155,19 +1171,19 @@ msgstr ""
 "mencoba menimpa `%.250s', yang merupakan versi `%.250s'%.10s%.100s%.10s yang "
 "dialihkan"
 
-#: src/archives.c:451
+#: src/archives.c:453
 #, fuzzy, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 "mencoba menimpa `%.250s', yang merupakan versi `%.250s'%.10s%.100s%.10s yang "
 "dialihkan"
 
-#: src/archives.c:477
+#: src/archives.c:479
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "tidak bisa melakukan 'stat' pada `%.255s' (yang ingin saya pasang)"
 
-#: src/archives.c:485
+#: src/archives.c:487
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1175,116 +1191,117 @@ msgid ""
 msgstr ""
 "gagal membersihkan kekacauan sekitar `%.255s' sebelum memasang versi lain."
 
-#: src/archives.c:491
+#: src/archives.c:493
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr "gagal mengembalikan 'stat' pada `%.255s' sebelum memasang versi lain "
 
-#: src/archives.c:526
+#: src/archives.c:528
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "arsip berisi obyek `%.255s' dari jenis 0x%x yang tak dikenal"
 
-#: src/archives.c:587
+#: src/archives.c:589
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Sedang mengganti berkas-berkas dalam paket lama %s ... \n"
 
-#: src/archives.c:590
+#: src/archives.c:592
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Digantikan oleh berkas-berkas dalam paket terinstal %s ... \n"
 
-#: src/archives.c:596
-#, c-format
+#: src/archives.c:599
+#, fuzzy, c-format
 msgid ""
-"trying to overwrite directory `%.250s' in package %.250s with nondirectory"
+"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"nondirectory"
 msgstr ""
 "sedang mencoba menimpa direktori `%.250s' dalam paket %.250s dengan non-"
 "direktori"
 
-#: src/archives.c:606
-#, c-format
-msgid "trying to overwrite `%.250s', which is also in package %.250s"
+#: src/archives.c:611
+#, fuzzy, c-format
+msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "sedang mencoba menimpa `%.250s', yang juga ada dalam paket %.250s"
 
-#: src/archives.c:676
+#: src/archives.c:684
 #, fuzzy, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "gagal membaca `%.255s' (dalam `%.255s')"
 
-#: src/archives.c:681
+#: src/archives.c:689
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "backend dpkg-deb saat `%.255s'"
 
-#: src/archives.c:699
+#: src/archives.c:707
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "Ada kesalahan menutup/menulis `%.255s'"
 
-#: src/archives.c:704
+#: src/archives.c:712
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "Ada kesalahan saat membuat pipe `%.255s'"
 
-#: src/archives.c:710 src/archives.c:716
+#: src/archives.c:718 src/archives.c:724
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "Ada kesalahan saat membuat piranti `%.255s'"
 
-#: src/archives.c:725
+#: src/archives.c:733
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "ada kesalahan saat membuat 'hard link' `%.255s'"
 
-#: src/archives.c:732
+#: src/archives.c:740
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "ada kesalahan saat membuat link simbolik `%.255s'"
 
-#: src/archives.c:738 src/archives.c:743
+#: src/archives.c:746 src/archives.c:751
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "ada kesalahan saat menyetel kepemilikan symlink `%.255s'"
 
-#: src/archives.c:749
+#: src/archives.c:757
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "Ada kesalahan saat membuat direktori `%.255s'"
 
-#: src/archives.c:784
+#: src/archives.c:792
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "tidak bisa memindahkan `%.255s' untuk memasang versi yang baru"
 
-#: src/archives.c:793
+#: src/archives.c:801
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "tidak bisa membaca link `%.255s'"
 
-#: src/archives.c:797
+#: src/archives.c:805
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "tidak bisa membuat symlink cadangan untuk `%.255s'"
 
-#: src/archives.c:800 src/archives.c:803
+#: src/archives.c:808 src/archives.c:811
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "tidak dapat melakukan 'chown' symlink cadangan untuk `%.255s'"
 
-#: src/archives.c:808
+#: src/archives.c:816
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "tidak bisa membuat link cadangan untuk `%.255s' sebelum memasang versi baru"
 
-#: src/archives.c:833
+#: src/archives.c:841
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "tidak bisa memasang versi baru dari `%.255s'"
 
-#: src/archives.c:880
+#: src/archives.c:888
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1294,7 +1311,7 @@ msgstr ""
 "s: \n"
 "%s"
 
-#: src/archives.c:885
+#: src/archives.c:893
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1303,7 +1320,7 @@ msgstr ""
 "dpkg: PERINGATAN - sedang mencoba dekonfigurasi paket-paket sangat penting \n"
 "%s, agar dapat membuang paket %s.\n"
 
-#: src/archives.c:888
+#: src/archives.c:896
 #, fuzzy, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1312,7 +1329,7 @@ msgstr ""
 "dpkg: tidak, %s sangat penting, tidak akan melakukan dekonfigurasi \n"
 "agar dapat membuang paket %s. \n"
 
-#: src/archives.c:902
+#: src/archives.c:910
 #, fuzzy, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1322,28 +1339,28 @@ msgstr ""
 "membantu): \n"
 "%s"
 
-#: src/archives.c:912
+#: src/archives.c:920
 #, fuzzy, c-format
 msgid "removal of %.250s"
 msgstr "Ada kesalahan saat membaca %.250s"
 
-#: src/archives.c:937
+#: src/archives.c:945
 #, fuzzy, c-format
 msgid "installation of %.250s"
 msgstr "tidak bisa memasang versi baru dari `%.255s'"
 
-#: src/archives.c:938
+#: src/archives.c:946
 #, fuzzy, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
 msgstr "dpkg: sedang mencoba membuang %s sehubungan dengan paket %s ... \n"
 
-#: src/archives.c:945
+#: src/archives.c:953
 #, fuzzy, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg: ya, akan membuang %s sehubungan dengan paket %s.\n"
 
-#: src/archives.c:949 src/archives.c:1070
+#: src/archives.c:957 src/archives.c:1078
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1352,43 +1369,43 @@ msgstr ""
 "dpkg: memandang %s berisi %s: \n"
 "%s"
 
-#: src/archives.c:957
+#: src/archives.c:965
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "dpkg: PERINGATAN - abaikan paket yang bentrok, proses dilanjutkan! \n"
 
-#: src/archives.c:962
+#: src/archives.c:970
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
 
-#: src/archives.c:966
+#: src/archives.c:974
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr ""
 
-#: src/archives.c:996
+#: src/archives.c:1004
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: sedang mencoba membuang %s sehubungan dengan paket %s ... \n"
 
-#: src/archives.c:1002
+#: src/archives.c:1010
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr ""
 "%s tidak terpasang dengan benar - abaikan semua ketergantungan dengan paket "
 "ini. \n"
 
-#: src/archives.c:1031
+#: src/archives.c:1039
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr ""
 "dpkg: mungkin ada masalah saat membuang %s, karena paket ini menyediakan %"
 "s ... \n"
 
-#: src/archives.c:1046
+#: src/archives.c:1054
 #, fuzzy, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -1397,99 +1414,118 @@ msgstr ""
 "dpkg: paket %s perlu dipasang ulang, tetapi akan dibuang sesuai dengan "
 "permintaan Anda. \n"
 
-#: src/archives.c:1049
+#: src/archives.c:1057
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: paket %s perlu dipasang ulang, tidak akan dibuang.\n"
 
-#: src/archives.c:1056
+#: src/archives.c:1064
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
 msgstr ""
 
-#: src/archives.c:1062
+#: src/archives.c:1070
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: ya, akan membuang %s sehubungan dengan paket %s.\n"
 
-#: src/archives.c:1073
+#: src/archives.c:1081
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "paket-paket berbenturan - tidak akan memasang %.250s"
 
-#: src/archives.c:1074
+#: src/archives.c:1082
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "dpkg: PERINGATAN - abaikan paket yang bentrok, proses dilanjutkan! \n"
 
-#: src/archives.c:1115
+#: src/archives.c:1123
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive perlu sedikitnya satu argumen path"
 
-#: src/archives.c:1147
+#: src/archives.c:1155
 msgid "failed to exec find for --recursive"
 msgstr "gagal menjalankan perintah 'find' untuk --recursive"
 
-#: src/archives.c:1152
+#: src/archives.c:1160
 msgid "failed to fdopen find's pipe"
 msgstr "Gagal melakukan fdopen pipe 'find'"
 
-#: src/archives.c:1158
+#: src/archives.c:1166
 msgid "error reading find's pipe"
 msgstr "Ada kesalahan saat membaca pipe 'find'"
 
-#: src/archives.c:1159
+#: src/archives.c:1167
 msgid "error closing find's pipe"
 msgstr "Ada kesalahan saat menutup pipe 'find'"
 
-#: src/archives.c:1162
+#: src/archives.c:1170
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr ""
 "perintah 'find' untuk --recursive menghasilkan kesalahan yang tak teratasi: %"
 "i"
 
-#: src/archives.c:1165
+#: src/archives.c:1173
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 "telah dicari, tetapi tidak menemukan suatu paket pun (berkas-berkas yang "
 "cocok dengan *.deb)"
 
-#: src/archives.c:1181
+#: src/archives.c:1189
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s butuh sedikitnya satu argumen berkas arsip paket"
 
-#: src/archives.c:1255
+#: src/archives.c:1221 src/enquiry.c:136 src/enquiry.c:238 src/enquiry.c:379
+#: src/enquiry.c:381 src/enquiry.c:390 src/main.c:63 src/main.c:154
+#: src/main.c:249 src/main.c:416 src/packages.c:268 src/query.c:184
+#: src/query.c:279 src/query.c:316 src/query.c:325 src/query.c:372
+#: src/query.c:433 src/query.c:565 src/query.c:608 src/select.c:80
+#: src/trigcmd.c:85 src/trigcmd.c:116 dpkg-deb/build.c:357
+#: dpkg-deb/extract.c:214 dpkg-deb/extract.c:234 dpkg-deb/info.c:188
+#: dpkg-deb/info.c:231 dpkg-deb/main.c:63 dpkg-deb/main.c:125
+#: dpkg-split/info.c:241 dpkg-split/main.c:56 dpkg-split/main.c:93
+#: dpkg-split/queue.c:125 dpkg-split/queue.c:245
+msgid "<standard output>"
+msgstr ""
+
+#: src/archives.c:1222 src/packages.c:269 src/query.c:185 src/query.c:277
+#: src/query.c:378 src/query.c:434 src/select.c:81 dpkg-split/main.c:198
+#: dpkg-split/queue.c:192
+msgid "<standard error>"
+msgstr ""
+
+#: src/archives.c:1263
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Memilih paket %s yang sebelumnya tidak dipilih. \n"
 
-#: src/archives.c:1260
+#: src/archives.c:1268
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Abaikan paket yang tak dipilih: %s. \n"
 
-#: src/archives.c:1277
+#: src/archives.c:1285
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Versi %.250s dari paket %.250s telah dipasang, dilewati.\n"
 
-#: src/archives.c:1288
+#: src/archives.c:1296
 #, fuzzy, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr ""
 "%s - PERINGATAN: menurunkan versi paket %.250s dari %.250s ke %.250s. \n"
 
-#: src/archives.c:1293
+#: src/archives.c:1301
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
 "Tidak akan menurunkan versi paket %.250s dari versi %.250s ke %.250s, "
 "dilewati. \n"
 
-#: src/cleanup.c:86
+#: src/cleanup.c:85
 #, c-format
 msgid ""
 "unable to remove newly-installed version of `%.250s' to allow reinstallation "
@@ -1498,32 +1534,32 @@ msgstr ""
 "tidak bisa membuang versi terbaru dari paket `%.250s' agar dapat memasang "
 "ulang salinan cadangannya"
 
-#: src/cleanup.c:93
+#: src/cleanup.c:92
 #, c-format
 msgid "unable to restore backup version of `%.250s'"
 msgstr "tidak bisa mengembalikan versi cadangan dari paket `%.250s'"
 
-#: src/cleanup.c:97
+#: src/cleanup.c:96
 #, c-format
 msgid "unable to remove newly-installed version of `%.250s'"
 msgstr "tak dapat membuang versi yg baru diinstal dari `%.250s'"
 
-#: src/cleanup.c:104
+#: src/cleanup.c:103
 #, c-format
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "Tidak dapat membuang versi yang baru diekstrak darri `%.250s'"
 
-#: src/configure.c:95
+#: src/configure.c:100
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "tidak ada paket bernama `%s' yang dipasang; tidak dapat dikonfigurasi"
 
-#: src/configure.c:97
+#: src/configure.c:102
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "paket %.250s telah dipasang dan dikonfigurasi"
 
-#: src/configure.c:99
+#: src/configure.c:104
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1532,7 +1568,7 @@ msgstr ""
 "paket %.250s belum siap dikonfigurasi\n"
 "  tidak dapat dikonfigurasi (status sekarang `%.250s')"
 
-#: src/configure.c:128
+#: src/configure.c:133
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1541,11 +1577,11 @@ msgstr ""
 "dpkg: masalah ketergantungan mencekal konfigurasi %s: \n"
 " %s"
 
-#: src/configure.c:131
+#: src/configure.c:136
 msgid "dependency problems - leaving unconfigured"
 msgstr "ada masalah ketergantungan - biarkan tidak dikonfigurasi"
 
-#: src/configure.c:135
+#: src/configure.c:140
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -1555,7 +1591,7 @@ msgstr ""
 "permintaan: \n"
 "%s"
 
-#: src/configure.c:143
+#: src/configure.c:148
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1563,22 +1599,22 @@ msgstr ""
 "Paket dalam keadaan tidak konsisten yang parah - \n"
 "Anda harus memasang ulang sebelum melakukan konfigurasi"
 
-#: src/configure.c:146
+#: src/configure.c:151
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Sedang menyetel %s (%s) ... \n"
 
-#: src/configure.c:199
+#: src/configure.c:204
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr "tidak bisa melakukan 'stat' conffile dist `%.250s' yang baru"
 
-#: src/configure.c:209 src/configure.c:444
+#: src/configure.c:214 src/configure.c:449
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr "tidak bisa melakukan 'stat' conffile `%.250s' yang telah dipasang"
 
-#: src/configure.c:218
+#: src/configure.c:223
 #, c-format
 msgid ""
 "\n"
@@ -1589,51 +1625,51 @@ msgstr ""
 "Berkas konfigurasi `%s' tidak ada pada sistem. \n"
 "Memasang berkas konfigurasi baru sesuai permintaan. \n"
 
-#: src/configure.c:254
+#: src/configure.c:259
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr ""
 "dpkg: %s: PERINGATAN - gagal membuang berkas cadangan lama `%.250s': %s \n"
 
-#: src/configure.c:262
+#: src/configure.c:267
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: PERINGATAN - gagal mengganti nama `%.250s' ke `%.250s': %s \n"
 
-#: src/configure.c:269
+#: src/configure.c:274
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: gagal menjalankan perintah 'gzip %s'"
 
-#: src/configure.c:276
+#: src/configure.c:281
 #, fuzzy, c-format
 msgid "%s: failed to remove old distrib version '%.250s': %s"
 msgstr ""
 "dpkg: %s: PERINGATAN - gagal membuang versi distribusi lama `%.250s': %s \n"
 
-#: src/configure.c:280
+#: src/configure.c:285
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 "dpkg: %s: PERINGATAN - gagal membuang `%.250s' (sebelum menimpa): %s \n"
 
-#: src/configure.c:284
+#: src/configure.c:289
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr "dpkg: %s: PERINGATAN - gagal membuat link `%.250s' ke `%.250s: %s \n"
 
-#: src/configure.c:288
+#: src/configure.c:293
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "Memasang berkas konfigurasi baru %s ... \n"
 
-#: src/configure.c:294
+#: src/configure.c:299
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "tidak bisa memasang `%.250s' sebagai `%.250s'"
 
-#: src/configure.c:351
+#: src/configure.c:356
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -1642,7 +1678,7 @@ msgstr ""
 "dpkg: %s: PERINGATAN - tidak bisa melakukan 'stat' berkas konfigurasi `%s' \n"
 " (= `%s'): %s \n"
 
-#: src/configure.c:362
+#: src/configure.c:367
 #, fuzzy, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -1651,7 +1687,7 @@ msgstr ""
 "dpkg: %s: PERINGATAN - berkas konfigurasi `%s' adalah link sirkular \n"
 " (= `%s') \n"
 
-#: src/configure.c:375
+#: src/configure.c:380
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -1660,7 +1696,7 @@ msgstr ""
 "dpkg: %s: PERINGATAN - tidak bisa melakukan 'readlink' conffile `%s'\n"
 "  (= `%s'): %s\n"
 
-#: src/configure.c:394
+#: src/configure.c:399
 #, fuzzy, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -1670,57 +1706,57 @@ msgstr ""
 "terdegenerasi \n"
 " (`%s' adalah symlink ke `%s') \n"
 
-#: src/configure.c:407
+#: src/configure.c:412
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "dpkg: %s: PERINGATAN - conffile `%.250s' bukan sebuah berkas normal atau "
 "symlink (= `%s') \n"
 
-#: src/configure.c:424
+#: src/configure.c:429
 msgid "md5hash"
 msgstr "hash md5"
 
-#: src/configure.c:430
+#: src/configure.c:435
 #, fuzzy, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
 msgstr "dpkg: %s: PERINGATAN - tidak bisa membuka conffile %s untuk hash: %s\n"
 
-#: src/configure.c:448
+#: src/configure.c:453
 #, c-format
 msgid "unable to change ownership of new dist conffile `%.250s'"
 msgstr "tidak bisa mengubah kepemilikan conffile distribusi baru `%.250s'"
 
-#: src/configure.c:451
+#: src/configure.c:456
 #, c-format
 msgid "unable to set mode of new dist conffile `%.250s'"
 msgstr "tidak bisa menyetel modus conffile distribusi baru `%.250s'"
 
-#: src/configure.c:481
+#: src/configure.c:486
 #, c-format
 msgid "failed to run %s (%.250s)"
 msgstr "Gagal menjalankan %s (%.250s)"
 
-#: src/configure.c:490 src/configure.c:528
+#: src/configure.c:495 src/configure.c:533
 msgid "wait for shell failed"
 msgstr "gagal menunggu shell"
 
-#: src/configure.c:510
+#: src/configure.c:515
 msgid "Type `exit' when you're done.\n"
 msgstr "Ketik 'exit' bila telah selesai.\n"
 
-#: src/configure.c:519
+#: src/configure.c:524
 #, c-format
 msgid "failed to exec shell (%.250s)"
 msgstr "gagal menjalankan shell (%.250s)"
 
-#: src/configure.c:531
+#: src/configure.c:536
 msgid "Don't forget to foreground (`fg') this process when you're done !\n"
 msgstr ""
 "Jangan lupa menjadikan proses ini sebagai foreground ('fg') bila telah "
 "selesai!\n"
 
-#: src/configure.c:558
+#: src/configure.c:563
 #, c-format
 msgid ""
 "\n"
@@ -1729,12 +1765,12 @@ msgstr ""
 "\n"
 "Berkas konfigurasi `%s'"
 
-#: src/configure.c:560
+#: src/configure.c:565
 #, c-format
 msgid " (actually `%s')"
 msgstr " (sebenarnya `%s')"
 
-#: src/configure.c:564
+#: src/configure.c:569
 #, c-format
 msgid ""
 "\n"
@@ -1745,7 +1781,7 @@ msgstr ""
 " ==> Berkas pada sistem yang dibuat oleh Anda atau suatu skrip.\n"
 " ==> Berkas juga ada dalam paket yang disediakan oleh pemelihara paket.\n"
 
-#: src/configure.c:569
+#: src/configure.c:574
 #, c-format
 msgid ""
 "\n"
@@ -1754,7 +1790,7 @@ msgstr ""
 "\n"
 "     Tidak diubah sejak pemasangan. \n"
 
-#: src/configure.c:571
+#: src/configure.c:576
 #, c-format
 msgid ""
 "\n"
@@ -1763,7 +1799,7 @@ msgstr ""
 "\n"
 " ==> Telah diubah (oleh Anda atau suatu skrip) sejak pemasangan.\n"
 
-#: src/configure.c:572
+#: src/configure.c:577
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -1772,37 +1808,37 @@ msgstr ""
 "\n"
 " ==> Telah diubah (oleh Anda atau suatu skrip) sejak pemasangan.\n"
 
-#: src/configure.c:575
+#: src/configure.c:580
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Distributor paket telah membawa suatu versi terbaru.\n"
 
-#: src/configure.c:576
+#: src/configure.c:581
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     Versi dalam paket sama dengan pemasangan terakhir.\n"
 
-#: src/configure.c:583
+#: src/configure.c:588
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Gunakan berkas baru sesuai permintaan.\n"
 
-#: src/configure.c:587
+#: src/configure.c:592
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Gunakan berkas lama sesuai permintaan.\n"
 
-#: src/configure.c:597
+#: src/configure.c:602
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Pertahankan berkas konfigurasi lama sebagai bawaan.\n"
 
-#: src/configure.c:601
+#: src/configure.c:606
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Gunakan berkas konfigurasi baru sebagai bawaan.\n"
 
-#: src/configure.c:609
+#: src/configure.c:614
 #, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -1817,38 +1853,38 @@ msgstr ""
 "       D    : tunjukkan perbedaan antara keduanya\n"
 "       Z    : jadikan proses ini sebagai 'background' untuk melihat keadaan\n"
 
-#: src/configure.c:616
+#: src/configure.c:621
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " Tindakan bawaan adalah mempertahankan versi yang ada.\n"
 
-#: src/configure.c:618
+#: src/configure.c:623
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " Tindakan bawaan adalah memasang versi yang baru.\n"
 
-#: src/configure.c:624
+#: src/configure.c:629
 msgid "[default=N]"
 msgstr "[bawaan=N]"
 
-#: src/configure.c:625
+#: src/configure.c:630
 msgid "[default=Y]"
 msgstr "[bawaan=Y]"
 
-#: src/configure.c:625
+#: src/configure.c:630
 msgid "[no default]"
 msgstr "[tiada bawaan]"
 
-#: src/configure.c:628
+#: src/configure.c:633
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 "ada kesalahan saat menulis ke stderr, ditemukan sebelum prompt 'conffile'"
 
-#: src/configure.c:635
+#: src/configure.c:640
 msgid "read error on stdin at conffile prompt"
 msgstr "ada kesalahan pada stdin di prompt 'conffile'"
 
-#: src/configure.c:636
+#: src/configure.c:641
 msgid "EOF on stdin at conffile prompt"
 msgstr "Ada EOF pada stdin di prompt 'conffile'"
 
@@ -1972,24 +2008,24 @@ msgstr "   %.250s menyediakan %.250s dan akan dipasang.\n"
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s menyediakan %.250s dan %s. \n"
 
-#: src/divertdb.c:71
+#: src/divertdb.c:69
 msgid "failed to open diversions file"
 msgstr "gagal membuka berkas 'diversions'"
 
-#: src/divertdb.c:78
+#: src/divertdb.c:76
 msgid "failed to fstat previous diversions file"
 msgstr "gagal melakukan 'fstat' pada berkas 'diversions' sebelumnya"
 
-#: src/divertdb.c:80
+#: src/divertdb.c:78
 msgid "failed to fstat diversions file"
 msgstr "Gagal menjalankan 'fstat' pada berkas 'diversions'"
 
-#: src/divertdb.c:120
+#: src/divertdb.c:118
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "'diversions' yang bentrok melibatkan `%.250s' atau '%.250s'"
 
-#: src/divertdb.c:130
+#: src/divertdb.c:128
 msgid "read error in diversions [i]"
 msgstr "Ada kesalahan membaca 'diversions' [i]"
 
@@ -2048,28 +2084,28 @@ msgid ""
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
 
-#: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
-#: dpkg-split/queue.c:201
+#: src/enquiry.c:117 src/enquiry.c:173 src/enquiry.c:249 src/enquiry.c:312
+#: src/enquiry.c:386 src/select.c:95 src/select.c:152 src/trigcmd.c:200
+#: src/update.c:46 src/update.c:102 dpkg-split/queue.c:204
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s tidak perlu argumen"
 
-#: src/enquiry.c:154
+#: src/enquiry.c:155
 msgid "<unknown>"
 msgstr "<tidak dikenal>"
 
-#: src/enquiry.c:211
+#: src/enquiry.c:212
 #, c-format
 msgid " %d in %s: "
 msgstr "  %d dalam %s: "
 
-#: src/enquiry.c:226
+#: src/enquiry.c:227
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d paket, dari bagian berikut ini:"
 
-#: src/enquiry.c:261
+#: src/enquiry.c:262
 #, fuzzy, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2078,30 +2114,30 @@ msgstr ""
 "Versi dpkg dengan dukungan 'epoch' bagus belum dikonfigurasi.\n"
 "  Mohon gunakan 'dpkg --configure dpkg', lalu silakan coba lagi.\n"
 
-#: src/enquiry.c:266
+#: src/enquiry.c:267
 #, fuzzy, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 "dpkg tidak dicatat sebagai terpasang, tidak dapat memeriksa dukungan "
 "terhadap 'epoch'!\n"
 
-#: src/enquiry.c:274
+#: src/enquiry.c:275
 msgid "Pre-Depends field"
 msgstr ""
 
-#: src/enquiry.c:279
+#: src/enquiry.c:280
 msgid "epoch"
 msgstr ""
 
-#: src/enquiry.c:284
+#: src/enquiry.c:285
 msgid "long filenames"
 msgstr ""
 
-#: src/enquiry.c:289
+#: src/enquiry.c:290
 msgid "multiple Conflicts and Replaces"
 msgstr ""
 
-#: src/enquiry.c:364
+#: src/enquiry.c:365
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -2110,30 +2146,30 @@ msgstr ""
 "dpkg: tidak dapat mengetahui cara memenuhi pra-syarat awal:\n"
 " %s\n"
 
-#: src/enquiry.c:365
+#: src/enquiry.c:366
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "tidak dapat memenuhi pra-syarat awal untuk %.250s (dibutuhkan oleh %.250s)"
 
-#: src/enquiry.c:393
+#: src/enquiry.c:396
 #, fuzzy, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "PERINGATAN: pilihan '--%s' sudah usang \n"
 
-#: src/enquiry.c:434
+#: src/enquiry.c:437
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions butuh tiga argumen: <versi><hubungan><versi>"
 
-#: src/enquiry.c:439
+#: src/enquiry.c:442
 msgid "--compare-versions bad relation"
 msgstr "hubungan buruk --compare-version"
 
-#: src/enquiry.c:444 src/enquiry.c:455
+#: src/enquiry.c:447 src/enquiry.c:454
 #, fuzzy, c-format
-msgid "dpkg: version '%s' has bad syntax: %s\n"
-msgstr "versi b mengandung salah sintaks: %s\n"
+msgid "version '%s' has bad syntax: %s"
+msgstr "versi a mengandung salah sintaks: %s\n"
 
 #: src/errors.c:61
 #, c-format
@@ -2182,12 +2218,12 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "dpkg - PERINGATAN, ada masalah penimpaan karena --force dihidupkan:"
 
-#: src/filesdb.c:138
+#: src/filesdb.c:139
 #, c-format
 msgid "unable to open files list file for package `%.250s'"
 msgstr "tidak bisa membuka berkas daftar berkas untuk paket `%.250s'"
 
-#: src/filesdb.c:142
+#: src/filesdb.c:143
 #, fuzzy, c-format
 msgid ""
 "files list file for package `%.250s' missing, assuming package has no files "
@@ -2197,114 +2233,114 @@ msgstr ""
 "hilang; \n"
 "anggap paket tidak memiliki berkas yang sudah terpasang.\n"
 
-#: src/filesdb.c:153
+#: src/filesdb.c:154
 #, fuzzy, c-format
 msgid "unable to stat files list file for package '%.250s'"
 msgstr "tidak bisa membuka berkas daftar berkas untuk paket `%.250s'"
 
-#: src/filesdb.c:160
+#: src/filesdb.c:161
 #, c-format
 msgid "files list for package `%.250s'"
 msgstr "daftar berkas untuk paket `%.250s'"
 
-#: src/filesdb.c:166
+#: src/filesdb.c:167
 #, fuzzy, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr "berkas daftar berkas untuk paket `%.250s' berisi nama berkas kosong"
 
-#: src/filesdb.c:174
+#: src/filesdb.c:175
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr "berkas daftar berkas untuk paket `%.250s' berisi nama berkas kosong"
 
-#: src/filesdb.c:186
+#: src/filesdb.c:187
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "ada kesalahan saat menutup berkas daftar berkas untuk paket `%.250s'"
 
-#: src/filesdb.c:222
+#: src/filesdb.c:223
 msgid "(Reading database ... "
 msgstr "(Sedang membaca basis data ..."
 
-#: src/filesdb.c:237
+#: src/filesdb.c:238
 #, c-format
 msgid "%d files and directories currently installed.)\n"
 msgstr "%d berkas dan direktori telah terpasang.)\n"
 
-#: src/filesdb.c:268
+#: src/filesdb.c:269
 #, c-format
 msgid "unable to create updated files list file for package %s"
 msgstr "tidak bisa membuat berkas daftar berkas terbaru untuk paket %s"
 
-#: src/filesdb.c:278
+#: src/filesdb.c:279
 #, c-format
 msgid "failed to write to updated files list file for package %s"
 msgstr "gagal menulis berkas daftar berkas terbaru untuk paket %s"
 
-#: src/filesdb.c:280
+#: src/filesdb.c:281
 #, c-format
 msgid "failed to flush updated files list file for package %s"
 msgstr "gagal membersihkan berkas terbaru daftar berkas untuk paket %s"
 
-#: src/filesdb.c:282
+#: src/filesdb.c:283
 #, c-format
 msgid "failed to sync updated files list file for package %s"
 msgstr ""
 "gagal untuk sinkronisasi berkas daftar berkas-berkas terbaru untuk paket %s"
 
-#: src/filesdb.c:285
+#: src/filesdb.c:286
 #, c-format
 msgid "failed to close updated files list file for package %s"
 msgstr "gagal menutup berkas daftar berkas-berkas terbaru untuk paket %s"
 
-#: src/filesdb.c:287
+#: src/filesdb.c:288
 #, c-format
 msgid "failed to install updated files list file for package %s"
 msgstr "gagal memasang berkas daftar berkas-berkas terbaru untuk paket %s"
 
-#: src/help.c:45
+#: src/help.c:46
 msgid "not installed"
 msgstr "tak dipasang"
 
-#: src/help.c:46
+#: src/help.c:47
 msgid "not installed but configs remain"
 msgstr "tidak terpasang tetapi konfigurasi masih ada"
 
-#: src/help.c:47
+#: src/help.c:48
 #, fuzzy
 msgid "broken due to failed removal or installation"
 msgstr "rusak karena kegagalan membuang"
 
-#: src/help.c:48
+#: src/help.c:49
 msgid "unpacked but not configured"
 msgstr "dibuka tetapi tidak dikonfigurasi"
 
-#: src/help.c:49
+#: src/help.c:50
 msgid "broken due to postinst failure"
 msgstr "rusak karena kegagalan 'postinst'"
 
-#: src/help.c:50
+#: src/help.c:51
 msgid "awaiting trigger processing by another package"
 msgstr ""
 
-#: src/help.c:51
+#: src/help.c:52
 msgid "triggered"
 msgstr ""
 
-#: src/help.c:52
+#: src/help.c:53
 msgid "installed"
 msgstr "terpasang"
 
-#: src/help.c:99
+#: src/help.c:100
 msgid "dpkg - error: PATH is not set.\n"
 msgstr "dpkg - salah: PATH tidak disetel.\n"
 
-#: src/help.c:114
+#: src/help.c:115
 #, c-format
 msgid "dpkg: `%s' not found on PATH.\n"
 msgstr "dpkg: `%s' tidak ditemukan pada PATH.\n"
 
-#: src/help.c:121
+#: src/help.c:122
 #, c-format
 msgid ""
 "%d expected program(s) not found on PATH.\n"
@@ -2313,100 +2349,100 @@ msgstr ""
 "%d program yang diharapkan tidak ditemukan pada PATH.\n"
 "NB: PATH root harus selalu berisi /usr/local/sbin, /usr/sbin, dan /sbin"
 
-#: src/help.c:157
+#: src/help.c:158
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr "gagal melakukan chroot ke `%.250s'"
 
-#: src/help.c:159 dpkg-deb/build.c:366 dpkg-deb/build.c:436
-#: dpkg-deb/build.c:457
+#: src/help.c:160 dpkg-deb/build.c:370 dpkg-deb/build.c:440
+#: dpkg-deb/build.c:461
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "Gagal melakukan chdir ke `%.255s'"
 
-#: src/help.c:245
+#: src/help.c:246
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "tidak bisa menyetel izin eksekusi pada `%.250s'"
 
-#: src/help.c:265
+#: src/help.c:272
 #, fuzzy
 msgid "unable to setenv for maintainer script"
 msgstr "Tidak bisa melakukan 'stat' dalam vsnprintf"
 
-#: src/help.c:289
+#: src/help.c:296
 #, fuzzy, c-format
 msgid "installed %s script"
 msgstr "script %s lama"
 
-#: src/help.c:297 src/help.c:355 src/help.c:407
+#: src/help.c:304 src/help.c:365 src/help.c:417
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "gagal melakukan 'stat' %s `%.250s'"
 
-#: src/help.c:299 src/help.c:358 src/help.c:389 src/help.c:410
+#: src/help.c:307 src/help.c:368 src/help.c:399 src/help.c:421
 #, c-format
 msgid "unable to execute %s"
 msgstr "tidak bisa menjalankan perintah %s"
 
-#: src/help.c:347 src/help.c:401
+#: src/help.c:357 src/help.c:411
 #, c-format
 msgid "new %s script"
 msgstr "skrip %s baru"
 
-#: src/help.c:378
+#: src/help.c:388
 #, c-format
 msgid "old %s script"
 msgstr "script %s lama"
 
-#: src/help.c:385
+#: src/help.c:395
 #, fuzzy, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "gagal melakukan 'stat' %s `%.250s'"
 
-#: src/help.c:394
+#: src/help.c:404
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - mencoba skrip dari paket baru saja ... \n"
 
-#: src/help.c:405
+#: src/help.c:415
 msgid "there is no script in the new version of the package - giving up"
 msgstr "tidak ada skrip dalam paket versi terbaru - menyerah"
 
-#: src/help.c:411
+#: src/help.c:422
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... tampaknya semua berjalan BAIK.\n"
 
-#: src/help.c:502
+#: src/help.c:513
 msgid "unlink"
 msgstr ""
 
-#: src/help.c:516
+#: src/help.c:527
 #, fuzzy
 msgid "chmod"
 msgstr "tahan"
 
-#: src/help.c:532 src/processarc.c:760
+#: src/help.c:543 src/processarc.c:762
 msgid "delete"
 msgstr ""
 
-#: src/help.c:543
+#: src/help.c:554
 #, fuzzy, c-format
 msgid "failed to %s '%.255s'"
 msgstr "Gagal melakukan chdir ke `%.255s'"
 
-#: src/help.c:548 dpkg-deb/info.c:57
+#: src/help.c:559 dpkg-deb/info.c:60
 msgid "failed to exec rm for cleanup"
 msgstr "gagal menjalankan perintah 'rm' untuk membersihkan"
 
-#: src/main.c:54
+#: src/main.c:56
 #, fuzzy, c-format
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "`versi program pengelola paket"
 
-#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
-#: dpkg-split/main.c:51
+#: src/main.c:59 src/query.c:561 src/trigcmd.c:81 dpkg-deb/main.c:59
+#: dpkg-split/main.c:52
 #, fuzzy, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2418,14 +2454,14 @@ msgstr ""
 "selanjutnya untuk persyaratan penggandaan. TIDAK ADA jaminan. \n"
 "Lihat dpkg-deb --license untuk rinciannya.\n"
 
-#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:73 src/query.c:572 dpkg-deb/main.c:70 dpkg-split/main.c:63
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
 msgstr ""
 
-#: src/main.c:73
+#: src/main.c:77
 #, c-format
 msgid ""
 "Commands:\n"
@@ -2456,8 +2492,8 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
-#: dpkg-split/main.c:75
+#: src/main.c:105 src/query.c:588 src/trigcmd.c:102 dpkg-deb/main.c:87
+#: dpkg-split/main.c:77
 #, c-format
 msgid ""
 "  -h|--help                        Show this help message.\n"
@@ -2466,7 +2502,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:107
+#: src/main.c:111
 #, c-format
 msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -2474,7 +2510,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:112
+#: src/main.c:116
 #, c-format
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
@@ -2482,7 +2518,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:117
+#: src/main.c:121
 #, c-format
 msgid ""
 "Options:\n"
@@ -2515,7 +2551,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:141
+#: src/main.c:145
 #, c-format
 msgid ""
 "Comparison operators for --compare-versions are:\n"
@@ -2527,12 +2563,12 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:148
+#: src/main.c:152
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
 
-#: src/main.c:155
+#: src/main.c:160
 #, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
@@ -2558,17 +2594,17 @@ msgstr ""
 "Pilihan bertanda [*] menghasilkan banyak output - gunakan pipe ke `less' "
 "atau `more'!"
 
-#: src/main.c:211 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:162
+#: src/main.c:216 src/query.c:630 dpkg-deb/main.c:185 dpkg-split/main.c:166
 #, fuzzy, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "aksi --%s dan --%s berbenturan"
 
-#: src/main.c:217
+#: src/main.c:222
 #, fuzzy, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "PERINGATAN: pilihan '--%s' sudah usang \n"
 
-#: src/main.c:225
+#: src/main.c:230
 #, fuzzy, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2609,31 +2645,31 @@ msgstr ""
 "Pilihan-pilihan debug akan saling dipadukan dengan operasi 'bit or'.\n"
 "Ingat bahwa arti dan nilai di atas bisa saja berubah.\n"
 
-#: src/main.c:249
+#: src/main.c:254
 msgid "--debug requires an octal argument"
 msgstr "--debug membutuhkan sebuah argumen oktal"
 
-#: src/main.c:273
+#: src/main.c:278
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr "nama paket nihil dalam daftar terpisah-koma --ignore-depends `%.250s'"
 
-#: src/main.c:279
+#: src/main.c:284
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends memerlukan sebuah nama paket yang sah. `%.250s' tidak; %s"
 
-#: src/main.c:295 src/main.c:307 src/main.c:548 dpkg-split/main.c:119
+#: src/main.c:300 src/main.c:312 src/main.c:612 dpkg-split/main.c:123
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "integer untuk --%s tidak sah: `%.250s'"
 
-#: src/main.c:309
+#: src/main.c:314
 msgid "<package status and progress file descriptor>"
 msgstr ""
 
-#: src/main.c:324
+#: src/main.c:385
 #, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2712,43 +2748,43 @@ msgstr ""
 "parah.\n"
 "Pilihan paksaan bertanda [*] akan langsung diaktifkan.\n"
 
-#: src/main.c:370
+#: src/main.c:431
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "Pilihan force/refuse `%.*s' tak dikenal"
 
-#: src/main.c:375
+#: src/main.c:437
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "PERINGATAN: pilihan '--%s' sudah usang \n"
 
-#: src/main.c:526
+#: src/main.c:590
 #, c-format
 msgid "failed to exec %s"
 msgstr "Gagal menjalankan perintah %s"
 
-#: src/main.c:542
+#: src/main.c:606
 #, fuzzy
 msgid "--command-fd takes one argument, not zero"
 msgstr "--command-fd butuh 1 argumen, bukan 0"
 
-#: src/main.c:544
+#: src/main.c:608
 #, fuzzy
 msgid "--command-fd only takes one argument"
 msgstr "--command-fd hanya butuh 1 argumen"
 
-#: src/main.c:550
+#: src/main.c:614
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "tidak dapat membuka `%i' untuk stream"
 
-#: src/main.c:575
+#: src/main.c:639
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "eof tidak diharapkan sebelum akhir baris %d"
 
-#: src/main.c:619 src/main.c:641 src/query.c:551 dpkg-deb/main.c:213
-#: dpkg-split/main.c:181
+#: src/main.c:683 src/main.c:705 src/query.c:675 dpkg-deb/main.c:216
+#: dpkg-split/main.c:185
 msgid "need an action option"
 msgstr "butuh suatu pilihan aksi"
 
@@ -2757,7 +2793,7 @@ msgstr "butuh suatu pilihan aksi"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending tidak butuh suatu argumen bukan-pilihan"
 
-#: src/packages.c:146 src/query.c:292
+#: src/packages.c:146 src/query.c:294 src/query.c:532
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s butuh sedikitnya satu argumen nama paket"
@@ -2866,48 +2902,48 @@ msgstr " bergantung pada "
 msgid "; however:\n"
 msgstr "; tetapi:\n"
 
-#: src/pkg-show.c:41 src/query.c:91
+#: src/pkg-show.c:41 src/query.c:93
 msgid "(no description available)"
 msgstr "(tidak ada keterangan yang tersedia)"
 
-#: src/processarc.c:106
+#: src/processarc.c:108
 msgid "cannot access archive"
 msgstr "tidak dapat mengakses arsip"
 
-#: src/processarc.c:116
+#: src/processarc.c:118
 #, c-format
 msgid "error ensuring `%.250s' doesn't exist"
 msgstr "ada kesalahan saat memastikan `%.250s' tidak ada"
 
-#: src/processarc.c:121
+#: src/processarc.c:123
 msgid "failed to exec dpkg-split to see if it's part of a multiparter"
 msgstr ""
 "gagal menjalankan 'dpkg-split' untuk melihat jika bagiannya merupakan suatu "
 "banyak-bagian (multiparter)"
 
-#: src/processarc.c:124
+#: src/processarc.c:126
 msgid "wait for dpkg-split failed"
 msgstr "gagal menunggu dpkg-split"
 
-#: src/processarc.c:130
+#: src/processarc.c:132
 msgid "reassembled package file"
 msgstr "menyusun ulang berkas paket"
 
-#: src/processarc.c:145
+#: src/processarc.c:147
 #, c-format
 msgid "Authenticating %s ...\n"
 msgstr "Melakukan otentikasi (%s) ... \n"
 
-#: src/processarc.c:150
+#: src/processarc.c:152
 msgid "failed to execl debsig-verify"
 msgstr "gagal menjalankan 'debsig'verify'"
 
-#: src/processarc.c:156
+#: src/processarc.c:158
 #, c-format
 msgid "Verification on package %s failed!"
 msgstr "Pemeriksaan paket %s gagal!"
 
-#: src/processarc.c:158
+#: src/processarc.c:160
 #, c-format
 msgid ""
 "Verification on package %s failed,\n"
@@ -2916,30 +2952,30 @@ msgstr ""
 "Verifikasi paket %s gagal,\n"
 "tetapi tetap memasangnya sesuai permintaan.\n"
 
-#: src/processarc.c:161
+#: src/processarc.c:163
 #, c-format
 msgid "passed\n"
 msgstr "dilewati\n"
 
-#: src/processarc.c:170
+#: src/processarc.c:172
 msgid "unable to get unique filename for control info"
 msgstr "tidak bisa mendapatkan nama berkas unik untuk info 'control'"
 
-#: src/processarc.c:193
+#: src/processarc.c:195
 msgid "failed to exec dpkg-deb to extract control information"
 msgstr "Gagal menjalankan 'dpkg-deb' untuk mengekstrak informasi 'control'"
 
-#: src/processarc.c:211
+#: src/processarc.c:213
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "Merekam info tentang %s dari %s.\n"
 
-#: src/processarc.c:220
+#: src/processarc.c:222
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "arsitektur paket (%s) tidak cocok dengan sistem (%s)"
 
-#: src/processarc.c:275
+#: src/processarc.c:277
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
@@ -2948,102 +2984,102 @@ msgstr ""
 "dpkg: memandang %s berisi %s, masalah pra-ketergantungan:\n"
 "%s"
 
-#: src/processarc.c:278
+#: src/processarc.c:280
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "Ada masalah pra-ketergantungan - tidak akan memasang %.250s"
 
-#: src/processarc.c:279
+#: src/processarc.c:281
 #, fuzzy
 msgid "ignoring pre-dependency problem!"
 msgstr "dpkg: PERINGATAN - mengabaikan masalah pra-ketergantungan! \n"
 
-#: src/processarc.c:294
+#: src/processarc.c:296
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "Bersiap-siap mengganti %s %s (dengan %s) ... \n"
 
-#: src/processarc.c:300
+#: src/processarc.c:302
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Sedang membuka paket %s (dari %s) ... \n"
 
-#: src/processarc.c:329
+#: src/processarc.c:331
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 "nama 'conffile' (dimulai dengan `%.250s') terlalu panjang (>%d karakter)"
 
-#: src/processarc.c:382
+#: src/processarc.c:384
 #, c-format
 msgid "read error in %.250s"
 msgstr "Ada kesalahan saat membaca %.250s"
 
-#: src/processarc.c:384
+#: src/processarc.c:386
 #, c-format
 msgid "error closing %.250s"
 msgstr "Ada kesalahan saat menutup %.250s"
 
-#: src/processarc.c:386
+#: src/processarc.c:388
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "Ada kesalahan saat membuka %.250s"
 
-#: src/processarc.c:422
+#: src/processarc.c:424
 #, fuzzy, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "Sedang dekonfigurasi %s, sehingga kita dapat membuang %s ... \n"
 
-#: src/processarc.c:425
+#: src/processarc.c:427
 #, fuzzy, c-format
 msgid "De-configuring %s ...\n"
 msgstr "Sedang membuang %s ... \n"
 
-#: src/processarc.c:500
+#: src/processarc.c:502
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Sedang membuka pengganti %.250s ... \n"
 
-#: src/processarc.c:581
+#: src/processarc.c:583
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr ""
 "tidak bisa menjalankan 'dpkg-deb' untuk mendapatkan arsip berkas sistem"
 
-#: src/processarc.c:595
+#: src/processarc.c:597
 msgid "error reading dpkg-deb tar output"
 msgstr "ada kesalahan saat membaca keluaran tar dpkg-deb"
 
-#: src/processarc.c:597
+#: src/processarc.c:599
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "berkas tar dari sistem berkas terkorupsi - arsip paket terkorupsi"
 
-#: src/processarc.c:600
+#: src/processarc.c:602
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: kemungkinan 'zap' berakhiran banyak nol"
 
-#: src/processarc.c:660
+#: src/processarc.c:662
 #, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "dpkg: PERINGATAN - tidak bisa menghapus berkas lama `%.250s': %s\n"
 
-#: src/processarc.c:666
+#: src/processarc.c:668
 #, fuzzy, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "dpkg: PERINGATAN - tidak bisa menghapus berkas lama `%.250s': %s\n"
 
-#: src/processarc.c:669
+#: src/processarc.c:671
 #, fuzzy, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
 "dpkg: %s: PERINGATAN - conffile `%.250s' bukan sebuah berkas normal atau "
 "symlink (= `%s') \n"
 
-#: src/processarc.c:711
+#: src/processarc.c:713
 #, fuzzy, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "tidak bisa melakukan 'fstat' berkas 'part' `%.250s'"
 
-#: src/processarc.c:722
+#: src/processarc.c:724
 #, fuzzy, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -3052,170 +3088,169 @@ msgstr ""
 "dpkg: %s: PERINGATAN - conffile `%.250s' bukan sebuah berkas normal atau "
 "symlink (= `%s') \n"
 
-#: src/processarc.c:764
+#: src/processarc.c:766
 #, fuzzy, c-format
 msgid "unable to %s old file '%.250s': %s"
 msgstr "dpkg: PERINGATAN - tidak bisa menghapus berkas lama `%.250s': %s\n"
 
-#: src/processarc.c:799 src/processarc.c:1046 src/remove.c:288
+#: src/processarc.c:801 src/processarc.c:1048 src/query.c:479 src/remove.c:288
 msgid "cannot read info directory"
 msgstr "tidak dapat membaca direktori 'info'"
 
-#: src/processarc.c:812
+#: src/processarc.c:814
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "versi lama paket ini memiliki nama berkas 'info' yang terlalu panjang mulai "
 "dari `%.250s'"
 
-#: src/processarc.c:824
+#: src/processarc.c:826
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "tidak bisa membuang berkas 'info' `%.250s' yang sudah usang"
 
-#: src/processarc.c:827
+#: src/processarc.c:829
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "tidak bisa memasang berkas 'info' (tampaknya) baru `%.150s'"
 
-#: src/processarc.c:834
+#: src/processarc.c:836
 msgid "unable to open temp control directory"
 msgstr "tidak bisa membuka direktori 'control' sementara"
 
-#: src/processarc.c:843
+#: src/processarc.c:845
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "paket berisi nama berkas info 'control' yang terlalu panjang (mulai dari `"
 "%.250s)"
 
-#: src/processarc.c:848
+#: src/processarc.c:850
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "info 'control' paket berisi direktori `%.250s'"
 
-#: src/processarc.c:850
+#: src/processarc.c:852
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "proses rmdir dari info 'control' paket `%.250s' mengatakan ini bukan dir"
 
-#: src/processarc.c:856
+#: src/processarc.c:858
 #, fuzzy, c-format
 msgid "package %s contained list as info file"
 msgstr "dpkg: PERINGATAN - paket %s berisi daftar sebagai berkas 'info'"
 
-#: src/processarc.c:862
+#: src/processarc.c:864
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "tidak bisa memasang berkas 'info' baru `%.250s' sebagai `%.250s'"
 
-#: src/processarc.c:1025
+#: src/processarc.c:1027
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Mencatat lenyapnya %s, yang telah diganti seutuhnya.) \n"
 
-#: src/processarc.c:1062
+#: src/processarc.c:1064
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "tidak bisa menghapus berkas info 'control' `%.250s' yang menghilang"
 
-#: src/query.c:113
+#: src/query.c:115
 #, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-"uppercase=bad)\n"
+"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "Harapan=Tak-dikenal/Pasang/Buang/Musnahkan/Tahan\n"
 "| Status=Tak/Terpasang/Berkas-konfig/Dibuka/Konfig-gagal/Setengah-terpasang\n"
 "|/ Salah?=(tiada)/Dicekal/Hrs-psg-ulang/X=keduanya (Status,Salah: huruf-"
 "besar=buruk)\n"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Name"
 msgstr "Nama"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Version"
 msgstr "Versi"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Description"
 msgstr "Keterangan"
 
-#: src/query.c:176 src/query.c:424 src/select.c:76
+#: src/query.c:178 src/query.c:427 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Tidak ada paket yang cocok dengan %s. \n"
 
-#: src/query.c:200
+#: src/query.c:202
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "Dialihkan oleh %s"
 
-#: src/query.c:202
+#: src/query.c:204
 #, fuzzy, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "Dialihkan oleh %s"
 
-#: src/query.c:205
+#: src/query.c:207
 #, fuzzy, c-format
 msgid "local diversion from: %s\n"
 msgstr "Pengalihan lokal"
 
-#: src/query.c:206
+#: src/query.c:208
 #, fuzzy, c-format
 msgid "local diversion to: %s\n"
 msgstr "dialihkan secara lokal"
 
-#: src/query.c:232
+#: src/query.c:234
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search butuh setidaknya satu argumen pola nama berkas"
 
-#: src/query.c:273
+#: src/query.c:275
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s tidak ada. \n"
 
-#: src/query.c:311
+#: src/query.c:313
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Paket `%s' tidak terpasang dan tidak ada info yang tersedia.\n"
 
-#: src/query.c:320
+#: src/query.c:322
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Paket `%s' tidak tersedia. \n"
 
-#: src/query.c:330
+#: src/query.c:332 src/query.c:546
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Paket `%s' tidak terpasang. \n"
 
-#: src/query.c:339
+#: src/query.c:341
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Paket `%s' tidak berisi suatu berkas pun!\n"
 
-#: src/query.c:346
+#: src/query.c:348
 #, fuzzy, c-format
 msgid "locally diverted to: %s\n"
 msgstr "dialihkan secara lokal"
 
-#: src/query.c:349
+#: src/query.c:351
 #, fuzzy, c-format
 msgid "package diverts others to: %s\n"
 msgstr "paket mengalihkan yang lain"
 
-#: src/query.c:352
+#: src/query.c:354
 #, fuzzy, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "Dialihkan oleh %s"
 
-#: src/query.c:373
+#: src/query.c:376
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3223,12 +3258,17 @@ msgstr ""
 "Gunakan dpkg --info (= dpkg-deb --info) untuk meneliti berkas arsip,\n"
 "dan dpkg --contents (=dpkg-deb --contents) untuk melihat isinya.\n"
 
-#: src/query.c:441
+#: src/query.c:539
+#, c-format
+msgid "control file contains %c"
+msgstr ""
+
+#: src/query.c:559
 #, fuzzy, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "' sarana penelusur progam pengelola paket\n"
 
-#: src/query.c:457
+#: src/query.c:576
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -3238,6 +3278,8 @@ msgid ""
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -W|--show <pattern> ...          Show information on package(s).\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+"  -c|--control-path <package> [<file>]\n"
+"                                   Print path for package control file.\n"
 "\n"
 msgstr ""
 " [<pilihan>]<perintah>\n"
@@ -3266,7 +3308,7 @@ msgstr ""
 "negatif \n"
 "  yang berarti rata-kiri akan digunakan. \n"
 
-#: src/query.c:473
+#: src/query.c:594
 #, c-format
 msgid ""
 "Options:\n"
@@ -3275,7 +3317,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/query.c:479 dpkg-deb/main.c:109
+#: src/query.c:600 dpkg-deb/main.c:111
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3289,7 +3331,7 @@ msgid ""
 "  case left alignment will be used.\n"
 msgstr ""
 
-#: src/query.c:489
+#: src/query.c:612
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3418,135 +3460,130 @@ msgstr ""
 msgid "unable to check existence of `%.250s'"
 msgstr "tidak dapat memeriksa keberadaan `%.250s'"
 
-#: src/remove.c:574
+#: src/remove.c:575
 msgid "cannot remove old files list"
 msgstr "tidak dapat membuang daftar berkas lama"
 
-#: src/remove.c:580
+#: src/remove.c:581
 msgid "can't remove old postrm script"
 msgstr "tidak dapat membuang skrip 'postrm' lama"
 
-#: src/select.c:111
+#: src/select.c:112
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "EOF tak terduga dalam nama paket pada baris %d"
 
-#: src/select.c:112
+#: src/select.c:113
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "akhir baris tak terduga dalam nama paket pada baris %d"
 
-#: src/select.c:116
+#: src/select.c:117
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "eof tak terduga setelah nama paket pada baris %d"
 
-#: src/select.c:117
+#: src/select.c:118
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "akhir baris tak terduga setelah nama paket pada baris %d"
 
-#: src/select.c:126
+#: src/select.c:127
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "data tak terduga setelah nama paket dan pemilihan pada baris %d"
 
-#: src/select.c:131
+#: src/select.c:132
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "nama paket tidak sah pada baris %d: %.250s"
 
-#: src/select.c:133
+#: src/select.c:134
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "status yang diinginkan tak dikenal pada baris %d: %.250s"
 
-#: src/select.c:139
+#: src/select.c:140
 msgid "read error on standard input"
 msgstr "ada kesalahan membaca masukan standar (stdin)"
 
-#: src/statdb.c:58
+#: src/statdb.c:57
 #, fuzzy
 msgid "syntax error: invalid uid in statoverride file"
 msgstr "gagal membuka berkas 'statoverride'"
 
-#: src/statdb.c:62
+#: src/statdb.c:61
 #, c-format
 msgid "syntax error: unknown user '%s' in statoverride file"
 msgstr ""
 
-#: src/statdb.c:79
+#: src/statdb.c:78
 #, fuzzy
 msgid "syntax error: invalid gid in statoverride file"
 msgstr "gagal membuka berkas 'statoverride'"
 
-#: src/statdb.c:83
+#: src/statdb.c:82
 #, fuzzy, c-format
 msgid "syntax error: unknown group '%s' in statoverride file"
 msgstr "gagal membuka berkas 'statoverride'"
 
-#: src/statdb.c:99
+#: src/statdb.c:98
 #, fuzzy
 msgid "syntax error: invalid mode in statoverride file"
 msgstr "gagal membuka berkas 'statoverride'"
 
-#: src/statdb.c:125
+#: src/statdb.c:124
 msgid "failed to open statoverride file"
 msgstr "gagal membuka berkas 'statoverride'"
 
-#: src/statdb.c:132
+#: src/statdb.c:131
 msgid "failed to fstat statoverride file"
 msgstr "Gagal menjalankan 'fstat' pada berkas 'statoverride'"
 
-#: src/statdb.c:135
+#: src/statdb.c:134
 msgid "failed to fstat previous statoverride file"
 msgstr "gagal melakukan 'fstat' pada berkas 'statpverride' sebelumnya"
 
-#: src/statdb.c:160
+#: src/statdb.c:159
 #, c-format
 msgid "statoverride file `%.250s'"
 msgstr "berkas statoverride `%.250s'"
 
-#: src/statdb.c:167
+#: src/statdb.c:166
 #, fuzzy
 msgid "statoverride file is missing final newline"
 msgstr "berkas 'statoverride' mengandung baris kosong"
 
-#: src/statdb.c:171
+#: src/statdb.c:170
 msgid "statoverride file contains empty line"
 msgstr "berkas 'statoverride' mengandung baris kosong"
 
-#: src/statdb.c:176 src/statdb.c:188 src/statdb.c:200
+#: src/statdb.c:175 src/statdb.c:187 src/statdb.c:199
 #, fuzzy
 msgid "syntax error in statoverride file"
 msgstr "gagal membuka berkas 'statoverride'"
 
-#: src/statdb.c:184 src/statdb.c:196
+#: src/statdb.c:183 src/statdb.c:195 src/statdb.c:207
 #, fuzzy
 msgid "unexpected end of line in statoverride file"
 msgstr "akhir baris tak terduga dalam nama paket pada baris %d"
 
-#: src/statdb.c:208
-#, fuzzy
-msgid "unexecpted end of line in statoverride file"
-msgstr "akhir baris tak terduga dalam nama paket pada baris %d"
-
-#: src/statdb.c:212
+#: src/statdb.c:211
 #, fuzzy, c-format
 msgid "multiple statusoverides present for file '%.250s'"
 msgstr "berkas statoverride `%.250s'"
 
-#: src/trigcmd.c:74
+#: src/trigcmd.c:73
 #, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Ketik 'dpkg-split --help' untuk bantuan"
 
-#: src/trigcmd.c:79
+#: src/trigcmd.c:78
 #, fuzzy, c-format
 msgid "Debian %s package trigger utility.\n"
 msgstr "' sarana penelusur progam pengelola paket\n"
 
-#: src/trigcmd.c:93
+#: src/trigcmd.c:92
 #, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
@@ -3554,7 +3591,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:99
+#: src/trigcmd.c:97
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3563,7 +3600,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:112
+#: src/trigcmd.c:108
 #, c-format
 msgid ""
 "Options:\n"
@@ -3577,38 +3614,33 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:169
+#: src/trigcmd.c:166
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
 msgstr ""
 
-#: src/trigcmd.c:173
+#: src/trigcmd.c:170
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
 msgstr ""
 
-#: src/trigcmd.c:203
-#, fuzzy
-msgid "--check-supported takes no arguments"
-msgstr "--%s tidak perlu argumen"
-
-#: src/trigcmd.c:208
+#: src/trigcmd.c:206
 #, fuzzy
 msgid "takes one argument, the trigger name"
 msgstr "--%s hanya butuh satu argumen (nama berkas .deb)"
 
-#: src/trigcmd.c:213
+#: src/trigcmd.c:211
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
 
-#: src/trigcmd.c:218
+#: src/trigcmd.c:216
 #, fuzzy, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
 msgstr "ruas `%s', nama paket `%.255s': %s tidak sah"
 
-#: src/trigcmd.c:223
+#: src/trigcmd.c:221
 #, fuzzy, c-format
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "ruas `%s', nama paket `%.255s': %s tidak sah"
@@ -3636,29 +3668,29 @@ msgstr ""
 msgid "Processing triggers for %s ...\n"
 msgstr "Sedang memusnahkan berkas konfigurasi untuk %s ... \n"
 
-#: src/update.c:51
+#: src/update.c:50
 #, c-format
 msgid "--%s needs exactly one Packages file argument"
 msgstr "--%s butuh tepat satu argumen berkas paket"
 
-#: src/update.c:60
+#: src/update.c:59
 msgid "unable to access dpkg status area for bulk available update"
 msgstr ""
 "tidak bisa mengakses area status dpkg untuk pembaharuan massal paket yang "
 "tersedia"
 
-#: src/update.c:62
+#: src/update.c:61
 msgid "bulk available update requires write access to dpkg status area"
 msgstr ""
 "pembaharuan massal paket yang tersedia memerlukan akses tulis ke area status "
 "dpkg"
 
-#: src/update.c:69
+#: src/update.c:68
 #, c-format
 msgid "Replacing available packages info, using %s.\n"
 msgstr "Sedang mengganti info paket yang tersedia, dengan %s.\n"
 
-#: src/update.c:72
+#: src/update.c:71
 #, c-format
 msgid "Updating available packages info, using %s.\n"
 msgstr "Sedang memperbaharui info paket yang tersedia, dengan %s.\n"
@@ -3668,106 +3700,108 @@ msgstr "Sedang memperbaharui info paket yang tersedia, dengan %s.\n"
 msgid "Information about %d package(s) was updated.\n"
 msgstr "Informasi tentang %d paket telah diperbaharui.\n"
 
-#: src/update.c:105
-msgid "--forget-old-unavail takes no arguments"
-msgstr "--forget-old-unavail tidak butuh argumen"
+#: src/update.c:104
+#, c-format
+msgid ""
+"obsolete '--%s' option, unavailable packages are automatically cleaned up."
+msgstr ""
 
-#: dpkg-deb/build.c:97
+#: dpkg-deb/build.c:101
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - ADA KESALAHAN: %s (`%s') tidak berisi suatu digit pun.\n"
 
-#: dpkg-deb/build.c:141
+#: dpkg-deb/build.c:145
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr ""
 
-#: dpkg-deb/build.c:204 scripts/dpkg-divert.pl:123
+#: dpkg-deb/build.c:208 scripts/dpkg-divert.pl:123
 #: scripts/dpkg-statoverride.pl:81 scripts/update-alternatives.pl:107
 #: scripts/update-alternatives.pl:111
 #, fuzzy, c-format, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--build butuh sebuah argumen direktori"
 
-#: dpkg-deb/build.c:214
+#: dpkg-deb/build.c:218
 msgid "--build takes at most two arguments"
 msgstr "--build butuh paling banyak dua argumen"
 
-#: dpkg-deb/build.c:218
+#: dpkg-deb/build.c:222
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "tidak dapat memeriksa keberadaan arsip `%.250s'"
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:239
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "target adalah direktori - tidak dapat melompati pemeriksaan berkas 'control'"
 
-#: dpkg-deb/build.c:234
+#: dpkg-deb/build.c:240
 msgid "not checking contents of control area."
 msgstr ""
 
-#: dpkg-deb/build.c:235
+#: dpkg-deb/build.c:241
 #, fuzzy, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: membuat paket `%s' di dalam `%s'.\n"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:258
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "nama paket berisi karakter yang bukan huruf kecil atau `-+'"
 
-#: dpkg-deb/build.c:254
+#: dpkg-deb/build.c:260
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "PERINGATAN, `%s' berisi nilai Prioritas definisi pengguna `%s'\n"
 
-#: dpkg-deb/build.c:262
+#: dpkg-deb/build.c:268
 #, fuzzy, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "PERINGATAN, `%s' berisi ruas `%s' definisi pengguna \n"
 
-#: dpkg-deb/build.c:267
+#: dpkg-deb/build.c:273
 msgid "(upstream) version"
 msgstr ""
 
-#: dpkg-deb/build.c:269
+#: dpkg-deb/build.c:275
 #, fuzzy
 msgid "Debian revision"
 msgstr "'versi 'backend' arsip paket"
 
-#: dpkg-deb/build.c:270
+#: dpkg-deb/build.c:276
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d kesalahan dalam berkas 'control'"
 
-#: dpkg-deb/build.c:281
+#: dpkg-deb/build.c:287
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: membuat paket `%s' di dalam `%s'.\n"
 
-#: dpkg-deb/build.c:287
+#: dpkg-deb/build.c:293
 #, fuzzy
 msgid "unable to stat control directory"
 msgstr "tidak bisa membuka direktori 'control' sementara"
 
-#: dpkg-deb/build.c:289
+#: dpkg-deb/build.c:295
 #, fuzzy
 msgid "control directory is not a directory"
 msgstr "tidak dapat membaca direktori 'info'"
 
-#: dpkg-deb/build.c:291
+#: dpkg-deb/build.c:297
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "direktori 'control' memiliki izin yang buruk: %03lo (seharusnya >= 0755 dan "
 "<=0755)"
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:308
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "skrip pengelola `%.250s' bukan berkas biasa atau symlink"
 
-#: dpkg-deb/build.c:304
+#: dpkg-deb/build.c:310
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3776,228 +3810,228 @@ msgstr ""
 "skrip pengelola `%.50s' memiliki izin yang buruk: %03lo (seharusnya >=0555 "
 "dan <=0755)"
 
-#: dpkg-deb/build.c:308
+#: dpkg-deb/build.c:314
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "skrip pengelola `%.50s' tidak bisa di-'stat'"
 
-#: dpkg-deb/build.c:318
+#: dpkg-deb/build.c:324
 msgid "empty string from fgets reading conffiles"
 msgstr "string kosong dari fgets yang membaca 'conffiles'"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:326
 #, fuzzy, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
 "PERINGATAN, nama berkas 'conffile' `%.50s...' terlalu panjang, atau tidak "
 "ada baris-barunya\n"
 
-#: dpkg-deb/build.c:333
+#: dpkg-deb/build.c:339
 #, fuzzy, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "PERINGATAN, berkas 'conffile' `%s' bukan berkas biasa\n"
 
-#: dpkg-deb/build.c:335
+#: dpkg-deb/build.c:341
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "berkas 'conffile' `%.250s' tidak ada dalam paket"
 
-#: dpkg-deb/build.c:337
+#: dpkg-deb/build.c:343
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "conffile '%.250s' tidak bisa di-'stat'"
 
-#: dpkg-deb/build.c:339
+#: dpkg-deb/build.c:345
 #, fuzzy, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "PERINGATAN, berkas 'conffile' `%s' bukan berkas biasa\n"
 
-#: dpkg-deb/build.c:343
+#: dpkg-deb/build.c:349
 msgid "error reading conffiles file"
 msgstr "ada kesalahan saat membaca berkas 'conffile'"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:352
 msgid "error opening conffiles file"
 msgstr "ada kesalahan saat membuka berkas 'conffile'"
 
-#: dpkg-deb/build.c:349
-#, c-format
-msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
+#: dpkg-deb/build.c:355
+#, fuzzy, c-format
+msgid "ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: mengabaikan %d peringatan tentang berkas 'control'\n"
 
-#: dpkg-deb/build.c:360
+#: dpkg-deb/build.c:364
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "tidak bisa mematikan penyangga (buffer) `%.255s'"
 
-#: dpkg-deb/build.c:367
+#: dpkg-deb/build.c:371
 msgid "failed to chdir to .../DEBIAN"
 msgstr "gagal melakukan chdir ke .../DEBIAN"
 
-#: dpkg-deb/build.c:369 dpkg-deb/build.c:438
+#: dpkg-deb/build.c:373 dpkg-deb/build.c:442
 msgid "failed to exec tar -cf"
 msgstr "gagal menjalankan perintah 'tar -cf'"
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:379
 msgid "failed to make tmpfile (control)"
 msgstr "gagal membuat berkas tmp (control)"
 
-#: dpkg-deb/build.c:377
+#: dpkg-deb/build.c:381
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "Gagal membuang link berkas tmp (control), %s"
 
-#: dpkg-deb/build.c:385 dpkg-deb/build.c:414
+#: dpkg-deb/build.c:389 dpkg-deb/build.c:418
 msgid "control"
 msgstr "control"
 
-#: dpkg-deb/build.c:390
+#: dpkg-deb/build.c:394
 msgid "failed to fstat tmpfile (control)"
 msgstr "gagal melakukan 'fstat' pada berkas tmp (control)"
 
-#: dpkg-deb/build.c:413
+#: dpkg-deb/build.c:417
 msgid "failed to rewind tmpfile (control)"
 msgstr "gagal mengulangi berkas tmp (control)"
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:425
 msgid "failed to make tmpfile (data)"
 msgstr "gagal membuat berkas tmp (data)"
 
-#: dpkg-deb/build.c:423
+#: dpkg-deb/build.c:427
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "gagal membuang link berkas tmp (data), %s"
 
-#: dpkg-deb/build.c:447 dpkg-deb/extract.c:292
+#: dpkg-deb/build.c:451 dpkg-deb/extract.c:295
 msgid "data"
 msgstr "data"
 
-#: dpkg-deb/build.c:460
+#: dpkg-deb/build.c:464
 msgid "failed to exec find"
 msgstr "gagal menjalankan perintah 'find'"
 
-#: dpkg-deb/build.c:471 dpkg-deb/build.c:478
+#: dpkg-deb/build.c:475 dpkg-deb/build.c:482
 msgid "failed to write filename to tar pipe (data)"
 msgstr "gagal menulis nama berkas ke pipe tar (data)"
 
-#: dpkg-deb/build.c:482
+#: dpkg-deb/build.c:486
 msgid "<compress> from tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c:504
+#: dpkg-deb/build.c:508
 #, fuzzy
 msgid "failed to fstat tmpfile (data)"
 msgstr "gagal membuat berkas tmp (data)"
 
-#: dpkg-deb/build.c:514
+#: dpkg-deb/build.c:518
 msgid "failed to rewind tmpfile (data)"
 msgstr "Gagal mengulangi berkas tmp (data)"
 
-#: dpkg-deb/build.c:515
+#: dpkg-deb/build.c:519
 msgid "cat (data)"
 msgstr "cat (data)"
 
-#: dpkg-deb/extract.c:55
+#: dpkg-deb/extract.c:58
 msgid "failed to exec sh -c mv foo/* &c"
 msgstr "gagal menjalankan sh -c mv foo/* &c"
 
-#: dpkg-deb/extract.c:63
+#: dpkg-deb/extract.c:66
 #, fuzzy, c-format
 msgid "error reading %s from file %.255s"
 msgstr "ada kesalahan saat membaca %s dari %.255s"
 
-#: dpkg-deb/extract.c:65
+#: dpkg-deb/extract.c:68
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "akhir berkas yang tak terduga pada %s dalam %.255s"
 
-#: dpkg-deb/extract.c:78 dpkg-split/info.c:56
+#: dpkg-deb/extract.c:81 dpkg-split/info.c:57
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
 msgstr "berkas `%.250s' terkorupsi - panjang %.250s tidak berisi apa-apa."
 
-#: dpkg-deb/extract.c:85
+#: dpkg-deb/extract.c:88
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "berkas `%.250s' terkorupsi - panjang anggota negatif: %zi"
 
-#: dpkg-deb/extract.c:87 dpkg-split/info.c:47
+#: dpkg-deb/extract.c:90 dpkg-split/info.c:48
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "berkas `%.250s' terkorupsi - digit buruk (kode %d) dalam %s"
 
-#: dpkg-deb/extract.c:100
+#: dpkg-deb/extract.c:103
 msgid "failed getting the current file position"
 msgstr ""
 
-#: dpkg-deb/extract.c:103
+#: dpkg-deb/extract.c:106
 msgid "failed setting the current file position"
 msgstr ""
 
-#: dpkg-deb/extract.c:127
+#: dpkg-deb/extract.c:130
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "gagal membaca arsip `%.255s'"
 
-#: dpkg-deb/extract.c:128
+#: dpkg-deb/extract.c:131
 msgid "failed to fstat archive"
 msgstr "Gagal melakukan 'fstat' pada arsip"
 
-#: dpkg-deb/extract.c:129
+#: dpkg-deb/extract.c:132
 msgid "version number"
 msgstr "nomor versi"
 
-#: dpkg-deb/extract.c:138
+#: dpkg-deb/extract.c:141
 msgid "between members"
 msgstr "antara anggota"
 
-#: dpkg-deb/extract.c:140 dpkg-split/info.c:99
+#: dpkg-deb/extract.c:143 dpkg-split/info.c:100
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr "berkas `%.250s' terkorupsi - 'magic' buruk pada akhir header pertama"
 
-#: dpkg-deb/extract.c:142
+#: dpkg-deb/extract.c:145
 msgid "member length"
 msgstr ""
 
-#: dpkg-deb/extract.c:146
+#: dpkg-deb/extract.c:149
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "berkas `%.250s' bukan suatu arsip biner debian (coba dpkg-split?)"
 
-#: dpkg-deb/extract.c:149
+#: dpkg-deb/extract.c:152
 msgid "header info member"
 msgstr "keterangan header anggota"
 
-#: dpkg-deb/extract.c:152
+#: dpkg-deb/extract.c:155
 msgid "archive has no newlines in header"
 msgstr "arsip tidak mengandung baris-baru di headernya"
 
-#: dpkg-deb/extract.c:155
+#: dpkg-deb/extract.c:158
 msgid "archive has no dot in version number"
 msgstr "arsip tidak mengandung titik pada nomor versinya"
 
-#: dpkg-deb/extract.c:158
+#: dpkg-deb/extract.c:161
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "versi arsip %.250s tidak dipahami, gunakan dpkg-deb terbaru"
 
-#: dpkg-deb/extract.c:167 dpkg-deb/extract.c:200
+#: dpkg-deb/extract.c:170 dpkg-deb/extract.c:203
 #, c-format
 msgid "skipped member data from %s"
 msgstr "abaikan data anggota dari %s"
 
-#: dpkg-deb/extract.c:190
+#: dpkg-deb/extract.c:193
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr "berkas `%.250s' berisi anggota data %.*s yang tak dipahami, menyerah"
 
-#: dpkg-deb/extract.c:196
+#: dpkg-deb/extract.c:199
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "berkas `%.250s' berisi dua anggota 'control', menyerah"
 
-#: dpkg-deb/extract.c:208
+#: dpkg-deb/extract.c:211
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -4006,17 +4040,17 @@ msgstr ""
 " paket baru debian, versi %s.\n"
 " besar %ld byte: arsip 'control'= %zi byte.\n"
 
-#: dpkg-deb/extract.c:222
+#: dpkg-deb/extract.c:225
 #, fuzzy
 msgid "control information length"
 msgstr "panjang informasi ctrl"
 
-#: dpkg-deb/extract.c:224
+#: dpkg-deb/extract.c:227
 #, fuzzy, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "arsip mengandung 'ctrl len' `%s' yang salah bentuk"
 
-#: dpkg-deb/extract.c:227
+#: dpkg-deb/extract.c:230
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -4025,12 +4059,12 @@ msgstr ""
 " paket lama debian, versi %s.\n"
 " besar %ld byte: arsip 'control'= %zi, arsip utama= %ld.\n"
 
-#: dpkg-deb/extract.c:236
+#: dpkg-deb/extract.c:240
 #, fuzzy
 msgid "control area"
 msgstr "area ctrl"
 
-#: dpkg-deb/extract.c:242
+#: dpkg-deb/extract.c:246
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -4039,68 +4073,68 @@ msgstr ""
 "dpkg-deb: berkas tampaknya seperti suatu arsip yang telah \n"
 "dpkg-deb:      terkorupsi saat diambil dengan modus ASCII\n"
 
-#: dpkg-deb/extract.c:247
+#: dpkg-deb/extract.c:250
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "`%.250s' bukan suatu arsip berformat debian"
 
-#: dpkg-deb/extract.c:260
+#: dpkg-deb/extract.c:263
 #, fuzzy
 msgid "failed to open pipe descriptor `1' in paste"
 msgstr "gagal melakukan 'fdopen p1' saat menempelkan "
 
-#: dpkg-deb/extract.c:262
+#: dpkg-deb/extract.c:265
 msgid "failed to write to gzip -dc"
 msgstr "gagal menulis ke gzip -dc"
 
-#: dpkg-deb/extract.c:263
+#: dpkg-deb/extract.c:266
 msgid "failed to close gzip -dc"
 msgstr "gagal menutup gzip -dc"
 
-#: dpkg-deb/extract.c:270
+#: dpkg-deb/extract.c:273
 msgid "failed to syscall lseek to files archive portion"
 msgstr "gagal melakukan 'syscall lseek' untuk memberkasi sebahagian arsip"
 
-#: dpkg-deb/extract.c:278
+#: dpkg-deb/extract.c:281
 msgid "failed to write to pipe in copy"
 msgstr "gagal menulis ke pipe dalam penyalinan"
 
-#: dpkg-deb/extract.c:279
+#: dpkg-deb/extract.c:282
 msgid "failed to close pipe in copy"
 msgstr "gagal menutup pipe dalam penyalinan"
 
-#: dpkg-deb/extract.c:300
+#: dpkg-deb/extract.c:303
 msgid "failed to create directory"
 msgstr "gagal membuat direktori"
 
-#: dpkg-deb/extract.c:301
+#: dpkg-deb/extract.c:304
 msgid "failed to chdir to directory after creating it"
 msgstr "gagal melakukan 'chdir' ke direktori setelah membuatnya"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:306
 msgid "failed to chdir to directory"
 msgstr "gagal melakukan chdir ke direktori"
 
-#: dpkg-deb/extract.c:321
+#: dpkg-deb/extract.c:324
 msgid "failed to exec tar"
 msgstr "gagal menjalankan perintah tar"
 
-#: dpkg-deb/extract.c:327
+#: dpkg-deb/extract.c:330
 #, fuzzy
 msgid "<decompress>"
 msgstr "%s: dekompresi"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:332
 #, fuzzy
 msgid "paste"
 msgstr "dilewati\n"
 
-#: dpkg-deb/extract.c:345 dpkg-deb/extract.c:360 dpkg-deb/info.c:71
+#: dpkg-deb/extract.c:348 dpkg-deb/extract.c:363 dpkg-deb/info.c:74
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s butuh suatu argumen nama berkas .deb"
 
-#: dpkg-deb/extract.c:348
+#: dpkg-deb/extract.c:351
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4109,117 +4143,117 @@ msgstr ""
 "--%s butuh suatu direktori target.\n"
 "Mungkin Anda harus menggunakan dpkg --install ?"
 
-#: dpkg-deb/extract.c:351
+#: dpkg-deb/extract.c:354
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s butuh paling banyak dua argumen (.deb dan direktori)"
 
-#: dpkg-deb/extract.c:362
+#: dpkg-deb/extract.c:365
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s hanya butuh satu argumen (nama berkas .deb)"
 
-#: dpkg-deb/info.c:52
+#: dpkg-deb/info.c:55
 msgid "failed to chdir to `/' for cleanup"
 msgstr "gagal melakukan chdir ke `/' untuk membersihkan"
 
-#: dpkg-deb/info.c:54
+#: dpkg-deb/info.c:57
 msgid "failed to fork for cleanup"
 msgstr "Gagal melakukan 'fork' untuk membersihkan"
 
-#: dpkg-deb/info.c:59
+#: dpkg-deb/info.c:62
 msgid "failed to wait for rm cleanup"
 msgstr "gagal menunggu 'rm' untuk membersihkan"
 
-#: dpkg-deb/info.c:60
+#: dpkg-deb/info.c:63
 #, c-format
 msgid "rm cleanup failed, code %d\n"
 msgstr "pembersihan dengan 'rm' gagal, kode %d\n"
 
-#: dpkg-deb/info.c:74
+#: dpkg-deb/info.c:77
 msgid "failed to make temporary directoryname"
 msgstr "gagal membuat nama direktori sementara"
 
-#: dpkg-deb/info.c:79
+#: dpkg-deb/info.c:82
 msgid "failed to exec rm -rf"
 msgstr "gagal menjalankan perintah rm -rf"
 
-#: dpkg-deb/info.c:109
+#: dpkg-deb/info.c:112
 msgid "info_spew"
 msgstr "info_spew"
 
-#: dpkg-deb/info.c:111
+#: dpkg-deb/info.c:115
 #, c-format
 msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
 msgstr "dpkg-deb: `%.255s' tidak berisi komponen 'control' %.255s'\n"
 
-#: dpkg-deb/info.c:115
+#: dpkg-deb/info.c:119
 #, c-format
 msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
 msgstr ""
 "gagal membuka komponen `%.255s' (dalam %.255s) dengan hasil yang tak terduga"
 
-#: dpkg-deb/info.c:121
+#: dpkg-deb/info.c:125
 msgid "One requested control component is missing"
 msgstr "Satu komponen 'control' yang diperlukan hilang"
 
-#: dpkg-deb/info.c:123
+#: dpkg-deb/info.c:127
 #, c-format
 msgid "%d requested control components are missing"
 msgstr "%d komponen 'control' yang diperlukan hilang"
 
-#: dpkg-deb/info.c:136
+#: dpkg-deb/info.c:140
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "tidak dapat memindai direktori `%.255s'"
 
-#: dpkg-deb/info.c:141
+#: dpkg-deb/info.c:145
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
 msgstr "tidak dapat melakukan 'stat' pada `%.255s' (dalam `%.255s')"
 
-#: dpkg-deb/info.c:144
+#: dpkg-deb/info.c:148
 #, c-format
 msgid "cannot open `%.255s' (in `%.255s')"
 msgstr "tidak dapat membuka `%.255s' (dalam `%.255s')"
 
-#: dpkg-deb/info.c:159
+#: dpkg-deb/info.c:163
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
 msgstr "gagal membaca `%.255s' (dalam `%.255s')"
 
-#: dpkg-deb/info.c:162
+#: dpkg-deb/info.c:166
 #, c-format
 msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr "  %7ld byte, %5d byte  %c  %-20.127s  %.127s \n"
 
-#: dpkg-deb/info.c:168
+#: dpkg-deb/info.c:170
 #, c-format
 msgid "     not a plain file          %.255s\n"
 msgstr "     bukan sebuah berkas biasa         %.255s\n"
 
-#: dpkg-deb/info.c:173
+#: dpkg-deb/info.c:174
 #, c-format
 msgid "failed to read `control' (in `%.255s')"
 msgstr "gagal membaca `control' (dalam `%.255s')"
 
-#: dpkg-deb/info.c:174
+#: dpkg-deb/info.c:175
 msgid "(no `control' file in control archive!)\n"
 msgstr "(tidak ada berkas `control' dalam arsip!) \n"
 
-#: dpkg-deb/info.c:194
+#: dpkg-deb/info.c:199
 msgid "could not open the `control' component"
 msgstr "tidak dapat membuka komponen `control'"
 
-#: dpkg-deb/info.c:224
+#: dpkg-deb/info.c:229
 msgid "failed during read of `control' component"
 msgstr "gagal selama membaca komponen `control'"
 
-#: dpkg-deb/info.c:235
+#: dpkg-deb/info.c:240
 msgid "Error in format"
 msgstr "salah format"
 
-#: dpkg-deb/info.c:271
+#: dpkg-deb/info.c:276
 msgid "--contents takes exactly one argument"
 msgstr "--contents butuh tepat satu argumen"
 
@@ -4228,7 +4262,7 @@ msgstr "--contents butuh tepat satu argumen"
 msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "'versi 'backend' arsip paket"
 
-#: dpkg-deb/main.c:72
+#: dpkg-deb/main.c:74
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4244,7 +4278,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dpkg-deb/main.c:91
+#: dpkg-deb/main.c:93
 #, c-format
 msgid ""
 "<deb> is the filename of a Debian format archive.\n"
@@ -4253,7 +4287,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dpkg-deb/main.c:97
+#: dpkg-deb/main.c:99
 #, c-format
 msgid ""
 "Options:\n"
@@ -4270,7 +4304,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dpkg-deb/main.c:118
+#: dpkg-deb/main.c:120
 #, c-format
 msgid ""
 "\n"
@@ -4279,7 +4313,7 @@ msgid ""
 "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
 
-#: dpkg-deb/main.c:127
+#: dpkg-deb/main.c:130
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -4287,152 +4321,152 @@ msgstr ""
 "Ketik dpkg-deb --help untuk panduan dalam manipulasi berkas *.deb;\n"
 "Ketik dpkg --help untuk panduan dalam pemasangan dan pembuangan paket."
 
-#: dpkg-deb/main.c:199
+#: dpkg-deb/main.c:202
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "jenis kompresi `%s' tidak dikenal!"
 
-#: dpkg-split/info.c:68
+#: dpkg-split/info.c:69
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s missing"
 msgstr "berkas `%.250s' terkorupsi - %.250s hilang"
 
-#: dpkg-split/info.c:71
+#: dpkg-split/info.c:72
 #, c-format
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
 msgstr "berkas `%.250s' terkorupsi - baris-baru hilang setelah %.250s"
 
-#: dpkg-split/info.c:95
+#: dpkg-split/info.c:96
 msgid "unable to seek back"
 msgstr "tidak bisa mencari kembali"
 
-#: dpkg-split/info.c:101
+#: dpkg-split/info.c:102
 msgid "info length"
 msgstr ""
 
-#: dpkg-split/info.c:110
+#: dpkg-split/info.c:111
 #, c-format
 msgid "file `%.250s' is corrupt - bad padding character (code %d)"
 msgstr "berkas `%.250s' terkorupsi - karekter 'padding' buruk (kode %d)"
 
-#: dpkg-split/info.c:114
+#: dpkg-split/info.c:115
 #, c-format
 msgid "file `%.250s' is corrupt - nulls in info section"
 msgstr "berkas `%.250s' terkorupsi - bagian 'info' kosong"
 
-#: dpkg-split/info.c:119
+#: dpkg-split/info.c:120
 #, fuzzy
 msgid "format version number"
 msgstr "nomor versi"
 
-#: dpkg-split/info.c:121
+#: dpkg-split/info.c:122
 #, c-format
 msgid "file `%.250s' is format version `%.250s' - you need a newer dpkg-split"
 msgstr ""
 "berkas `%.250s' berformat versi `%.250s' - Anda butuh dpkg-split terbaru"
 
-#: dpkg-split/info.c:124
+#: dpkg-split/info.c:125
 #, fuzzy
 msgid "package name"
 msgstr "(paket: "
 
-#: dpkg-split/info.c:125
+#: dpkg-split/info.c:126
 #, fuzzy
 msgid "package version number"
 msgstr "nomor versi"
 
-#: dpkg-split/info.c:126
+#: dpkg-split/info.c:127
 msgid "package file MD5 checksum"
 msgstr ""
 
-#: dpkg-split/info.c:129
+#: dpkg-split/info.c:130
 #, c-format
 msgid "file `%.250s' is corrupt - bad MD5 checksum `%.250s'"
 msgstr "berkas `%.250s' terkorupsi - checksum MD5 buruk: `%.250s'"
 
-#: dpkg-split/info.c:131 dpkg-split/info.c:132
+#: dpkg-split/info.c:132 dpkg-split/info.c:133
 msgid "total length"
 msgstr ""
 
-#: dpkg-split/info.c:133 dpkg-split/info.c:134
+#: dpkg-split/info.c:134 dpkg-split/info.c:135
 msgid "part offset"
 msgstr ""
 
-#: dpkg-split/info.c:136
+#: dpkg-split/info.c:137
 #, fuzzy
 msgid "part numbers"
 msgstr "nomor versi"
 
-#: dpkg-split/info.c:138
+#: dpkg-split/info.c:139
 #, c-format
 msgid "file `%.250s' is corrupt - no slash between part numbers"
 msgstr "berkas `%.250s' terkorupsi - tidak ada garis miring antar nomor bagian"
 
-#: dpkg-split/info.c:141
+#: dpkg-split/info.c:142
 msgid "number of parts"
 msgstr ""
 
-#: dpkg-split/info.c:143
+#: dpkg-split/info.c:144
 #, fuzzy, c-format
 msgid "file '%.250s' is corrupt - bad number of parts"
 msgstr "berkas `%.250s' terkorupsi - nomor bagian buruk"
 
-#: dpkg-split/info.c:145
+#: dpkg-split/info.c:146
 #, fuzzy
 msgid "parts number"
 msgstr "nomor versi"
 
-#: dpkg-split/info.c:147
+#: dpkg-split/info.c:148
 #, c-format
 msgid "file `%.250s' is corrupt - bad part number"
 msgstr "berkas `%.250s' terkorupsi - nomor bagian buruk"
 
-#: dpkg-split/info.c:152
+#: dpkg-split/info.c:153
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of second header"
 msgstr "berkas `%.250s' terkorupsi - 'magic' buruk pada akhir header kedua"
 
-#: dpkg-split/info.c:154
+#: dpkg-split/info.c:155
 #, c-format
 msgid "file `%.250s' is corrupt - second member is not data member"
 msgstr "berkas `%.250s' terkorupsi - anggota kedua bukan anggota data"
 
-#: dpkg-split/info.c:157
+#: dpkg-split/info.c:158
 msgid "data length"
 msgstr ""
 
-#: dpkg-split/info.c:161
+#: dpkg-split/info.c:162
 #, c-format
 msgid "file `%.250s' is corrupt - wrong number of parts for quoted sizes"
 msgstr ""
 "berkas `%.250s' terkorupsi - salah nomor bagian untuk ukuran yang termaktub"
 
-#: dpkg-split/info.c:165
+#: dpkg-split/info.c:166
 #, c-format
 msgid "file `%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "berkas `%.250s' terkorupsi - salah ukuran untuk nomor bagian termaktub"
 
-#: dpkg-split/info.c:171
+#: dpkg-split/info.c:172
 #, c-format
 msgid "unable to fstat part file `%.250s'"
 msgstr "tidak bisa melakukan 'fstat' berkas 'part' `%.250s'"
 
-#: dpkg-split/info.c:177
+#: dpkg-split/info.c:178
 #, c-format
 msgid "file `%.250s' is corrupt - too short"
 msgstr "berkas `%.250s' terkorupsi - terlalu pendek"
 
-#: dpkg-split/info.c:189 dpkg-split/info.c:232
+#: dpkg-split/info.c:190 dpkg-split/info.c:233
 #, c-format
 msgid "cannot open archive part file `%.250s'"
 msgstr "tidak dapat membuka berkas bagian arsip `%.250s'"
 
-#: dpkg-split/info.c:191
+#: dpkg-split/info.c:192
 #, c-format
 msgid "file `%.250s' is not an archive part"
 msgstr "berkas `%.250s' bukan suatu bagian arsip"
 
-#: dpkg-split/info.c:196
+#: dpkg-split/info.c:197
 #, c-format
 msgid ""
 "%s:\n"
@@ -4461,47 +4495,47 @@ msgstr ""
 "    Ukuran berkas bagian (yang digunakan):    %lu byte\n"
 "\n"
 
-#: dpkg-split/info.c:227 dpkg-split/join.c:107
+#: dpkg-split/info.c:228 dpkg-split/join.c:108
 #, fuzzy, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "--info butuh satu atau lebih argumen berkas bagian"
 
-#: dpkg-split/info.c:238
+#: dpkg-split/info.c:239
 #, c-format
 msgid "file `%s' is not an archive part\n"
 msgstr "berkas `%s' bukan bagian dari arsip\n"
 
-#: dpkg-split/join.c:44
+#: dpkg-split/join.c:45
 #, c-format
 msgid "Putting package %s together from %d parts: "
 msgstr ""
 
-#: dpkg-split/join.c:52
+#: dpkg-split/join.c:53
 #, c-format
 msgid "unable to open output file `%.250s'"
 msgstr "tidak bisa membuka berkas keluaran `%.250s'"
 
-#: dpkg-split/join.c:56
+#: dpkg-split/join.c:57
 #, c-format
 msgid "unable to (re)open input part file `%.250s'"
 msgstr "tidak bisa membuka ulang berkas bagian input `%.250s'"
 
-#: dpkg-split/join.c:72
+#: dpkg-split/join.c:73
 #, c-format
 msgid "done\n"
 msgstr "selesai.\n"
 
-#: dpkg-split/join.c:88
+#: dpkg-split/join.c:89
 #, c-format
 msgid "files `%.250s' and `%.250s' are not parts of the same file"
 msgstr "berkas `%.250s' dan `%.250s' bukan bagian dari berkas yang sama"
 
-#: dpkg-split/join.c:93
+#: dpkg-split/join.c:94
 #, c-format
 msgid "there are several versions of part %d - at least `%.250s' and `%.250s'"
 msgstr "ada beberapa versi dari bagian %d - setidaknya `%.250s' dan `%.250s'"
 
-#: dpkg-split/join.c:130
+#: dpkg-split/join.c:131
 #, c-format
 msgid "part %d is missing"
 msgstr "bagian %d hilang"
@@ -4516,7 +4550,7 @@ msgstr "Sarana pemisah/pemadu paket Debian GNU/Linux `dpkg-split'; versi "
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
 msgstr ""
 
-#: dpkg-split/main.c:65
+#: dpkg-split/main.c:67
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4529,7 +4563,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dpkg-split/main.c:81
+#: dpkg-split/main.c:83
 #, c-format
 msgid ""
 "Options:\n"
@@ -4543,131 +4577,131 @@ msgid ""
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
 
-#: dpkg-split/main.c:93
+#: dpkg-split/main.c:97
 msgid "Type dpkg-split --help for help."
 msgstr "Ketik 'dpkg-split --help' untuk bantuan"
 
-#: dpkg-split/main.c:103 dpkg-split/main.c:107
+#: dpkg-split/main.c:107 dpkg-split/main.c:111
 #, c-format
 msgid "error reading %.250s"
 msgstr "ada kesalahan saat membaca %.250s"
 
-#: dpkg-split/main.c:108
+#: dpkg-split/main.c:112
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "akhiran berkas dalam %.250s tidak diharapkan"
 
-#: dpkg-split/main.c:121
+#: dpkg-split/main.c:125
 msgid "part size is far too large or is not positive"
 msgstr "ukuran bagian terlampau besar atau tidak positif"
 
-#: dpkg-split/main.c:125
+#: dpkg-split/main.c:129
 #, fuzzy, c-format
 msgid "part size must be at least %d KiB (to allow for header)"
 msgstr "ukuran bagian harus sekurangnya %dk (teruntuk header)"
 
-#: dpkg-split/queue.c:74
+#: dpkg-split/queue.c:77
 #, c-format
 msgid "unable to read depot directory `%.250s'"
 msgstr "tidak bisa membaca direktori 'depot' `%.250s'"
 
-#: dpkg-split/queue.c:112
+#: dpkg-split/queue.c:115
 msgid "--auto requires the use of the --output option"
 msgstr "--auto butuh penggunaan pilihan --output"
 
-#: dpkg-split/queue.c:114
+#: dpkg-split/queue.c:117
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto butuh tepat satu argumen berkas bagian"
 
-#: dpkg-split/queue.c:118
+#: dpkg-split/queue.c:121
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "tidak bisa membaca berkas 'part' `%.250s'"
 
-#: dpkg-split/queue.c:121
+#: dpkg-split/queue.c:124
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "Berkas `%.250s' bukan bagian dari arsip banyak-bagian.\n"
 
-#: dpkg-split/queue.c:149
+#: dpkg-split/queue.c:152
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "tidak bisa membuka ulang berkas 'part' `%.250s'"
 
-#: dpkg-split/queue.c:153
+#: dpkg-split/queue.c:156
 #, c-format
 msgid "part file `%.250s' has trailing garbage"
 msgstr "berkas bagian `%.250s' mengandung akhiran sampah"
 
-#: dpkg-split/queue.c:162
+#: dpkg-split/queue.c:165
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "tidak bisa membuka berkas 'depot' `%.250s' yang baru"
 
-#: dpkg-split/queue.c:166
+#: dpkg-split/queue.c:169
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr ""
 "tidak bisa mengganti nama berkas 'depot' `%.250s' yang baru ke `%.250s'"
 
-#: dpkg-split/queue.c:168
+#: dpkg-split/queue.c:171
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "Bagian %d dari paket %s telah diberkaskan (masih ingin"
 
-#: dpkg-split/queue.c:172
+#: dpkg-split/queue.c:175
 msgid " and "
 msgstr " dan "
 
-#: dpkg-split/queue.c:185
+#: dpkg-split/queue.c:188
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "tidak bisa menghapus berkas depot `%.250s' yang telah terpakai"
 
-#: dpkg-split/queue.c:204
+#: dpkg-split/queue.c:207
 msgid "Junk files left around in the depot directory:\n"
 msgstr "Berkas-berkas sampah yang tertinggal di dalam direktori depot: \n"
 
-#: dpkg-split/queue.c:209 dpkg-split/queue.c:233
+#: dpkg-split/queue.c:212 dpkg-split/queue.c:236
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "gagal melakukan 'stat' pada `%.250s'"
 
-#: dpkg-split/queue.c:212
+#: dpkg-split/queue.c:215
 #, c-format
 msgid " %s (%lu bytes)\n"
 msgstr "%s (%lu bytes)\n"
 
-#: dpkg-split/queue.c:214
+#: dpkg-split/queue.c:217
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr "%s (bukan berkas biasa)\n"
 
-#: dpkg-split/queue.c:219
+#: dpkg-split/queue.c:222
 msgid "Packages not yet reassembled:\n"
 msgstr "Paket belum disusun ulang: \n"
 
-#: dpkg-split/queue.c:224
+#: dpkg-split/queue.c:227
 #, c-format
 msgid " Package %s: part(s) "
 msgstr ""
 
-#: dpkg-split/queue.c:235
+#: dpkg-split/queue.c:238
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "berkas bagian `%.250s' bukan suatu berkas biasa"
 
-#: dpkg-split/queue.c:240
+#: dpkg-split/queue.c:243
 #, c-format
 msgid "(total %lu bytes)\n"
 msgstr "(seluruhnya %lu bytes)\n"
 
-#: dpkg-split/queue.c:264
+#: dpkg-split/queue.c:267
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "gagal mengabaikan `%.250s'"
 
-#: dpkg-split/queue.c:265
+#: dpkg-split/queue.c:268
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "%s telah dihapus.\n"
@@ -4680,26 +4714,25 @@ msgstr "--split butuh suatu argumen nama berkas sumber"
 msgid "--split takes at most a source filename and destination prefix"
 msgstr "--split butuh paling banyak satu nama berkas sumber dan awalan tujuan"
 
-#: dpkg-split/split.c:66
+#: dpkg-split/split.c:67
 #, c-format
 msgid "unable to open source file `%.250s'"
 msgstr "gagal membuka berkas sumber %.250s'"
 
-#: dpkg-split/split.c:67
+#: dpkg-split/split.c:68
 msgid "unable to fstat source file"
 msgstr "Gagal melakukan 'fstat' pada berkas sumber"
 
-#: dpkg-split/split.c:68
+#: dpkg-split/split.c:69
 #, c-format
 msgid "source file `%.250s' not a plain file"
 msgstr "berkas sumber `%.250s' bukan suatu berkas biasa"
 
-#: dpkg-split/split.c:74
+#: dpkg-split/split.c:75
 msgid "unable to exec mksplit"
 msgstr "gagal menjalankan perintah mksplit"
 
 #: scripts/dpkg-divert.pl:17 scripts/dpkg-statoverride.pl:27
-#: scripts/install-info.pl:17
 #, fuzzy, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "'versi 'backend' arsip paket"
@@ -4712,7 +4745,6 @@ msgid ""
 msgstr ""
 
 #: scripts/dpkg-divert.pl:23 scripts/dpkg-statoverride.pl:32
-#: scripts/install-info.pl:22
 #, fuzzy
 msgid ""
 "\n"
@@ -5067,248 +5099,6 @@ msgstr "Ada kesalahan saat membuat piranti `%.255s'"
 msgid "error installing new statoverride: %s"
 msgstr ""
 
-#: scripts/install-info.pl:19
-msgid ""
-"\n"
-"Copyright (C) 1994,1995 Ian Jackson."
-msgstr ""
-
-#: scripts/install-info.pl:31
-#, perl-format
-msgid ""
-"Usage: %s [<options> ...] [--] <filename>\n"
-"\n"
-"Options:\n"
-"  --section <regexp> <title>\n"
-"                           put the new entry in the <regex> matched section\n"
-"                           or create a new one with <title> if non-"
-"existent.\n"
-"  --menuentry=<text>       set the menu entry.\n"
-"  --description=<text>     set the description to be used in the menu "
-"entry.\n"
-"  --info-file=<path>       specify info file to install in the directory.\n"
-"  --dir-file=<path>        specify file name of info directory file.\n"
-"  --infodir=<directory>    same as '--dir-file=<directory>/dir'.\n"
-"  --info-dir=<directory>   likewise.\n"
-"  --keep-old               do not replace entries nor remove empty ones.\n"
-"  --remove                 remove the entry specified by <filename> "
-"basename.\n"
-"  --remove-exactly         remove the exact <filename> entry.\n"
-"  --test                   enables test mode (no actions taken).\n"
-"  --debug                  enables debug mode (show more information).\n"
-"  --quiet                  do not show output messages.\n"
-"  --help                   show this help message.\n"
-"  --version                show the version.\n"
-msgstr ""
-
-#: scripts/install-info.pl:97
-#, fuzzy, perl-format
-msgid "could not open stderr for output! %s"
-msgstr "tidak dapat membuka komponen `control'"
-
-#: scripts/install-info.pl:101
-#, perl-format
-msgid "%s: --section needs two more args"
-msgstr ""
-
-#: scripts/install-info.pl:107
-#, perl-format
-msgid "%s: option --%s is deprecated (ignored)"
-msgstr ""
-
-#: scripts/install-info.pl:119
-#, fuzzy, perl-format
-msgid "%s: unknown option `%s'"
-msgstr "pilihan --%s tak dikenal"
-
-#: scripts/install-info.pl:130
-#, fuzzy, perl-format
-msgid "%s: too many arguments"
-msgstr "--%s tidak perlu argumen"
-
-#: scripts/install-info.pl:133
-#, perl-format
-msgid "%s: --section ignored with --remove"
-msgstr ""
-
-#: scripts/install-info.pl:134
-#, perl-format
-msgid "%s: --description ignored with --remove"
-msgstr ""
-
-#: scripts/install-info.pl:137
-#, perl-format
-msgid "%s: test mode - dir file will not be updated"
-msgstr ""
-
-#: scripts/install-info.pl:167 scripts/install-info.pl:209
-#: scripts/install-info.pl:316 scripts/update-alternatives.pl:755
-#, fuzzy, perl-format
-msgid "unable to read %s: %s"
-msgstr "tidak bisa menjalankan perintah %s"
-
-#: scripts/install-info.pl:193
-#, perl-format
-msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-msgstr ""
-
-#: scripts/install-info.pl:202
-msgid "invalid info entry"
-msgstr ""
-
-#: scripts/install-info.pl:228
-#, perl-format
-msgid ""
-"\n"
-"No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
-"%s: unable to determine description for `dir' entry - giving up\n"
-msgstr ""
-
-#: scripts/install-info.pl:281
-#, perl-format
-msgid "%s: no file %s, retrieving backup file %s."
-msgstr ""
-
-#: scripts/install-info.pl:284 scripts/install-info.pl:294
-#, perl-format
-msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr ""
-
-#: scripts/install-info.pl:290
-#, perl-format
-msgid "%s: no backup file %s available, retrieving default file."
-msgstr ""
-
-#: scripts/install-info.pl:299
-#, perl-format
-msgid "%s: no backup file %s available."
-msgstr ""
-
-#: scripts/install-info.pl:300
-#, perl-format
-msgid "%s: no default file %s available, giving up."
-msgstr ""
-
-#: scripts/install-info.pl:307
-#, fuzzy, perl-format
-msgid "%s: failed to lock dir for editing! %s"
-msgstr "%s: gagal menjalankan perintah 'gzip %s'"
-
-#: scripts/install-info.pl:309
-#, perl-format
-msgid "try deleting %s?"
-msgstr ""
-
-#: scripts/install-info.pl:314
-#, fuzzy, perl-format
-msgid "unable to open %s: %s"
-msgstr "tidak bisa menjalankan perintah %s"
-
-#: scripts/install-info.pl:317
-#, fuzzy, perl-format
-msgid "unable to close %s after read: %s"
-msgstr "gagal menutup setelah membaca: `%.255s'"
-
-#: scripts/install-info.pl:350
-#, perl-format
-msgid "%s: existing entry for `%s' not replaced"
-msgstr ""
-
-#: scripts/install-info.pl:353
-#, perl-format
-msgid "%s: replacing existing dir entry for `%s'"
-msgstr ""
-
-#: scripts/install-info.pl:366
-#, fuzzy, perl-format
-msgid "%s: creating new section `%s'"
-msgstr "Ada kesalahan saat membuat direktori `%.255s'"
-
-#: scripts/install-info.pl:369
-#, perl-format
-msgid "%s: no sections yet, creating Miscellaneous section too."
-msgstr ""
-
-#: scripts/install-info.pl:387
-#, perl-format
-msgid "%s: no section specified for new entry, placing at end"
-msgstr ""
-
-#: scripts/install-info.pl:424
-#, perl-format
-msgid "%s: deleting entry `%s ...'"
-msgstr ""
-
-#: scripts/install-info.pl:430
-#, perl-format
-msgid "%s: empty section `%s' not removed"
-msgstr ""
-
-#: scripts/install-info.pl:433
-#, perl-format
-msgid "%s: deleting empty section `%s'"
-msgstr ""
-
-#: scripts/install-info.pl:440
-#, perl-format
-msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr ""
-
-#: scripts/install-info.pl:442
-#, fuzzy, perl-format
-msgid "%s: no entry for file `%s'"
-msgstr "menyalin berkas info `%.255s'"
-
-#: scripts/install-info.pl:484
-#, fuzzy, perl-format
-msgid "unable to create %s: %s"
-msgstr "tidak bisa menjalankan perintah %s"
-
-#: scripts/install-info.pl:487 scripts/update-alternatives.pl:833
-#, fuzzy, perl-format
-msgid "unable to write %s: %s"
-msgstr "tidak bisa menjalankan perintah %s"
-
-#: scripts/install-info.pl:488 scripts/update-alternatives.pl:855
-#, fuzzy, perl-format
-msgid "unable to close %s: %s"
-msgstr "tidak bisa menjalankan perintah %s"
-
-#: scripts/install-info.pl:492
-#, fuzzy, perl-format
-msgid "unable to backup old %s, giving up: %s"
-msgstr "tidak bisa menjalankan perintah %s"
-
-#: scripts/install-info.pl:495
-#, fuzzy, perl-format
-msgid "unable to install new %s: %s"
-msgstr "tidak bisa memasang `%.250s' sebagai `%.250s'"
-
-#: scripts/install-info.pl:498
-#, fuzzy, perl-format
-msgid "unable to unlock %s: %s"
-msgstr "tidak bisa menjalankan perintah %s"
-
-#: scripts/install-info.pl:500
-#, fuzzy, perl-format
-msgid "%s: could not backup %s in %s: %s"
-msgstr "tak dapat membuka log `%s': %s\n"
-
-#: scripts/install-info.pl:510
-#, fuzzy, perl-format
-msgid "%s: warning - unable to unlock %s: %s"
-msgstr "dpkg: PERINGATAN - tidak bisa melakukan 'stat' pada %s `%.250s': %s\n"
-
-#: scripts/install-info.pl:517
-#, fuzzy, perl-format
-msgid "unable to read %s: %d"
-msgstr "tidak bisa menjalankan perintah %s"
-
-#: scripts/install-info.pl:521
-#, perl-format
-msgid "dbg: %s"
-msgstr ""
-
 #: scripts/update-alternatives.pl:43
 #, fuzzy, perl-format
 msgid "unknown argument `%s'"
@@ -5439,6 +5229,11 @@ msgstr "jenis kompresi `%s' tidak dikenal!"
 msgid "no alternatives for %s."
 msgstr ""
 
+#: scripts/update-alternatives.pl:261
+#, perl-format
+msgid "%s is dangling, it will be updated with best choice."
+msgstr ""
+
 #: scripts/update-alternatives.pl:265
 #, perl-format
 msgid ""
@@ -5540,6 +5335,11 @@ msgstr ""
 msgid "while writing %s: %s"
 msgstr "Ada kesalahan saat menulis `%s'"
 
+#: scripts/update-alternatives.pl:755
+#, fuzzy, perl-format
+msgid "unable to read %s: %s"
+msgstr "tidak bisa menjalankan perintah %s"
+
 #: scripts/update-alternatives.pl:757
 msgid "status"
 msgstr ""
@@ -5605,6 +5405,16 @@ msgstr ""
 #, fuzzy, perl-format
 msgid "discarding obsolete slave link %s (%s)."
 msgstr "nilai ganda untuk ruas `%s'"
+
+#: scripts/update-alternatives.pl:833
+#, fuzzy, perl-format
+msgid "unable to write %s: %s"
+msgstr "tidak bisa menjalankan perintah %s"
+
+#: scripts/update-alternatives.pl:855
+#, fuzzy, perl-format
+msgid "unable to close %s: %s"
+msgstr "tidak bisa menjalankan perintah %s"
 
 #: scripts/update-alternatives.pl:890 scripts/update-alternatives.pl:936
 msgid "auto mode"
@@ -5685,6 +5495,91 @@ msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
+
+#~ msgid "failed write during hashreport"
+#~ msgstr "Gagal menulis selama 'hashreport'"
+
+#~ msgid "configuration error: unknown option %s"
+#~ msgstr "Kesalahan konfigurasi: pilihan %s tidak dikenal"
+
+#~ msgid "configuration error: %s does not take a value"
+#~ msgstr "kesalahan konfigurasi: %s tidak ada nilainya"
+
+#, fuzzy
+#~ msgid "dpkg: version '%s' has bad syntax: %s\n"
+#~ msgstr "versi b mengandung salah sintaks: %s\n"
+
+#, fuzzy
+#~ msgid "unexecpted end of line in statoverride file"
+#~ msgstr "akhir baris tak terduga dalam nama paket pada baris %d"
+
+#, fuzzy
+#~ msgid "--check-supported takes no arguments"
+#~ msgstr "--%s tidak perlu argumen"
+
+#~ msgid "--forget-old-unavail takes no arguments"
+#~ msgstr "--forget-old-unavail tidak butuh argumen"
+
+#, fuzzy
+#~ msgid "could not open stderr for output! %s"
+#~ msgstr "tidak dapat membuka komponen `control'"
+
+#, fuzzy
+#~ msgid "%s: unknown option `%s'"
+#~ msgstr "pilihan --%s tak dikenal"
+
+#, fuzzy
+#~ msgid "%s: too many arguments"
+#~ msgstr "--%s tidak perlu argumen"
+
+#, fuzzy
+#~ msgid "%s: failed to lock dir for editing! %s"
+#~ msgstr "%s: gagal menjalankan perintah 'gzip %s'"
+
+#, fuzzy
+#~ msgid "unable to open %s: %s"
+#~ msgstr "tidak bisa menjalankan perintah %s"
+
+#, fuzzy
+#~ msgid "unable to close %s after read: %s"
+#~ msgstr "gagal menutup setelah membaca: `%.255s'"
+
+#, fuzzy
+#~ msgid "%s: creating new section `%s'"
+#~ msgstr "Ada kesalahan saat membuat direktori `%.255s'"
+
+#, fuzzy
+#~ msgid "%s: no entry for file `%s'"
+#~ msgstr "menyalin berkas info `%.255s'"
+
+#, fuzzy
+#~ msgid "unable to create %s: %s"
+#~ msgstr "tidak bisa menjalankan perintah %s"
+
+#, fuzzy
+#~ msgid "unable to backup old %s, giving up: %s"
+#~ msgstr "tidak bisa menjalankan perintah %s"
+
+#, fuzzy
+#~ msgid "unable to install new %s: %s"
+#~ msgstr "tidak bisa memasang `%.250s' sebagai `%.250s'"
+
+#, fuzzy
+#~ msgid "unable to unlock %s: %s"
+#~ msgstr "tidak bisa menjalankan perintah %s"
+
+#, fuzzy
+#~ msgid "%s: could not backup %s in %s: %s"
+#~ msgstr "tak dapat membuka log `%s': %s\n"
+
+#, fuzzy
+#~ msgid "%s: warning - unable to unlock %s: %s"
+#~ msgstr ""
+#~ "dpkg: PERINGATAN - tidak bisa melakukan 'stat' pada %s `%.250s': %s\n"
+
+#, fuzzy
+#~ msgid "unable to read %s: %d"
+#~ msgstr "tidak bisa menjalankan perintah %s"
 
 #~ msgid "failed to open tmpfile (control), %s"
 #~ msgstr "gagal membuka berkas tmp (control), %s"
@@ -5978,9 +5873,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "unable to install %s as %s"
 #~ msgstr "tidak bisa memasang `%.250s' sebagai `%.250s'"
-
-#~ msgid "version a has bad syntax: %s\n"
-#~ msgstr "versi a mengandung salah sintaks: %s\n"
 
 #, fuzzy
 #~ msgid ""

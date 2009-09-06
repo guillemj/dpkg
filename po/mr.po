@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-06-27 19:08+0200\n"
+"POT-Creation-Date: 2009-09-06 09:04+0200\n"
 "PO-Revision-Date: 2006-08-17 16:02+0200\n"
 "Last-Translator: Priti Patil <prithisd@gmail.com>\n"
 "Language-Team:  Marathi, janabhaaratii, C-DAC, Mumbai, India "
@@ -13,71 +13,112 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/compression.c:35
+#: lib/dpkg/buffer.c:114
+#, c-format
+msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
+msgstr "बफर_लेखन(एफडी) (%i, ret=%li): %s मधे अयशस्वी झाले"
+
+#: lib/dpkg/buffer.c:122
+#, c-format
+msgid "eof in buffer_write(stream): %s"
+msgstr "बफर_लेखन(धारा): %s मधे इओएफ"
+
+#: lib/dpkg/buffer.c:124
+#, c-format
+msgid "error in buffer_write(stream): %s"
+msgstr "बफर_लेखन(धारा): %s मधे त्रुटी"
+
+#: lib/dpkg/buffer.c:130
+#, fuzzy, c-format
+msgid "unknown data type `%i' in buffer_write\n"
+msgstr "बफर_लेखन मधील डेटाचा प्रकार अपरिचीत \n"
+
+#: lib/dpkg/buffer.c:146
+#, c-format
+msgid "failed in buffer_read(fd): %s"
+msgstr "बफर_वाचन(एफडी): %s मधे अयशस्वी झाले"
+
+#: lib/dpkg/buffer.c:153
+#, c-format
+msgid "error in buffer_read(stream): %s"
+msgstr "बफर_वाचन(धारा): %s"
+
+#: lib/dpkg/buffer.c:156
+#, fuzzy, c-format
+msgid "unknown data type `%i' in buffer_read\n"
+msgstr "बफर_वाचन मधील डेटाचा प्रकार अपरिचीत \n"
+
+#: lib/dpkg/buffer.c:247
+#, c-format
+msgid "failed in buffer_copy (%s)"
+msgstr "बफर_नक्कल (%s) मधे अयशस्वी झाले"
+
+#: lib/dpkg/buffer.c:249
+#, c-format
+msgid "short read in buffer_copy (%s)"
+msgstr "बफर_नक्कल (%s) मधे तोकडे वाचन"
+
+#: lib/dpkg/compression.c:36
 #, fuzzy, c-format
 msgid "%s: failed to exec '%s %s'"
 msgstr "%s: जीझिप ची अंमलबजावणी होउ शकली नाही %s"
 
-#: lib/compression.c:61
+#: lib/dpkg/compression.c:62
 #, c-format
 msgid "%s: internal gzip error: `%s'"
 msgstr "%s: आंतरिक जीझिप त्रुटी: `%s'"
 
-#: lib/compression.c:84
+#: lib/dpkg/compression.c:85
 #, c-format
 msgid "%s: internal bzip2 error: `%s'"
 msgstr "%s: आंतरिक बीझिप२ त्रुटी: `%s'"
 
-#: lib/compression.c:96
+#: lib/dpkg/compression.c:97
 #, c-format
 msgid "%s: decompression"
 msgstr "%s: डिकाँंप्रेशन"
 
-#: lib/compression.c:129
+#: lib/dpkg/compression.c:130
 #, c-format
 msgid "%s: internal gzip error: read: `%s'"
 msgstr "%s: आंतरिक जीझिप त्रुटी: वाचन: `%s'"
 
-#: lib/compression.c:139
+#: lib/dpkg/compression.c:140
 #, c-format
 msgid "%s: internal gzip error: write: `%s'"
 msgstr "%s: आंतरिक जीझिप त्रुटी: लेखन: `%s'"
 
-#: lib/compression.c:142
+#: lib/dpkg/compression.c:143
 #, c-format
 msgid "%s: internal gzip error: read(%i) != write(%i)"
 msgstr "%s: आंतरिक जीझिप त्रुटी: वाचन(%i) != लेखन(%i)"
 
-#: lib/compression.c:164
+#: lib/dpkg/compression.c:165
 #, c-format
 msgid "%s: internal bzip2 error: read: `%s'"
 msgstr "%s: आंतरिक बीझिप२ त्रुटी: वाचन: `%s"
 
-#: lib/compression.c:174
+#: lib/dpkg/compression.c:175
 #, c-format
 msgid "%s: internal bzip2 error: write: `%s'"
 msgstr "%s: आंतरिक बीझिप२ त्रुटी: लेखन: `%s"
 
-#: lib/compression.c:177
+#: lib/dpkg/compression.c:178
 #, c-format
 msgid "%s: internal bzip2 error: read(%i) != write(%i)"
 msgstr "%s: आंतरिक बीझिप२ त्रुटी: वाचन(%i) != लेखन(%i)"
 
-#: lib/compression.c:192
+#: lib/dpkg/compression.c:193
 #, c-format
 msgid "%s: compression"
 msgstr "%s: काँंप्रेशन"
 
-#: lib/database.c:199
+#: lib/dpkg/database.c:199
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "%7d माप %5d वेळा आढळते\n"
 
-#: lib/database.c:200
-msgid "failed write during hashreport"
-msgstr "हॅशरिपोर्ट दरम्यान लेखन होउ शकले नाही"
-
-#: lib/dbmodify.c:63
+#: lib/dpkg/dbmodify.c:63
 #, c-format
 msgid ""
 "updates directory contains file `%.250s' whose name is too long (length=%d, "
@@ -86,145 +127,145 @@ msgstr ""
 "सुधारणा निर्देशिकेत असलेल्या `%.250s' या फाइलचे नाव जास्त लांब आहे (लांबी=%d, "
 "जास्तीतजास्त=%d)"
 
-#: lib/dbmodify.c:67
+#: lib/dpkg/dbmodify.c:67
 #, c-format
 msgid ""
 "updates directory contains files with different length names (both %d and %d)"
 msgstr "सुधारणा निर्देशिकेत असलेल्या फाईलींच्या नावांची लांबी वेगवेगळी आहे (दोन्ही %d व %d)"
 
-#: lib/dbmodify.c:81
+#: lib/dpkg/dbmodify.c:81
 #, c-format
 msgid "cannot scan updates directory `%.255s'"
 msgstr "`%.255s' सुधारणा निर्देशिका तपासता येत नाही"
 
-#: lib/dbmodify.c:97
+#: lib/dpkg/dbmodify.c:97
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
 msgstr "अंतर्भुत सुधारणा फाईल %.255s काढून टाकता आली नाही"
 
-#: lib/dbmodify.c:115 dpkg-deb/build.c:358
+#: lib/dpkg/dbmodify.c:115 dpkg-deb/build.c:362
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "`%.255s' ची रचना करता येत नाही"
 
-#: lib/dbmodify.c:119
+#: lib/dpkg/dbmodify.c:119
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr "%.250s पँडिंगने भरता येत नाही"
 
-#: lib/dbmodify.c:121
+#: lib/dpkg/dbmodify.c:121
 #, c-format
 msgid "unable to flush %.250s after padding"
 msgstr "पँडिंगनंतर %.250s एकजीव करता येत नाही"
 
-#: lib/dbmodify.c:123
+#: lib/dpkg/dbmodify.c:123
 #, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "पँडिंगनंतर %.250s च्या सुरूवातीला जाता येत नाही"
 
-#: lib/dbmodify.c:160
+#: lib/dpkg/dbmodify.c:160
 msgid "requested operation requires superuser privilege"
 msgstr "या संक्रियेसाठी सुपरयुझरचे हक्क आवश्यक आहेत"
 
-#: lib/dbmodify.c:165
+#: lib/dpkg/dbmodify.c:165
 msgid "unable to access dpkg status area"
 msgstr "डीपीकेजी दर्जा स्थानात प्रवेश मिळत नाही"
 
-#: lib/dbmodify.c:167
+#: lib/dpkg/dbmodify.c:167
 msgid "operation requires read/write access to dpkg status area"
 msgstr "या संक्रियेसाठी डीपीकेजी दर्जा स्थानाचे वाचन/लेखन हक्क आवश्यक आहेत"
 
-#: lib/dbmodify.c:216
+#: lib/dpkg/dbmodify.c:216
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "माझी स्वतःची सुधारणा फाईल %.255s  काढून टाकता आली नाही"
 
-#: lib/dbmodify.c:254
+#: lib/dpkg/dbmodify.c:254
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "`%.250s' ची सुधारित स्थिती लिहिता येत नाही"
 
-#: lib/dbmodify.c:256
+#: lib/dpkg/dbmodify.c:256
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "`%.250s' ची सुधारित स्थिती एकजीव करता येत नाही"
 
-#: lib/dbmodify.c:258
+#: lib/dpkg/dbmodify.c:258
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "`%.250s' च्या सुधारित स्थितीत काटछाट करता येत नाही"
 
-#: lib/dbmodify.c:260
+#: lib/dpkg/dbmodify.c:260
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "%.250s' ची सुधारित स्थिती एफसिन्क करता येत नाही"
 
-#: lib/dbmodify.c:262
+#: lib/dpkg/dbmodify.c:262
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "%.250s' ची सुधारित स्थिती बंद करता येत नाही"
 
-#: lib/dbmodify.c:265
+#: lib/dpkg/dbmodify.c:265
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "%.250s' ची सुधारित स्थिती अधिष्ठापित करता येत नाही"
 
-#: lib/dump.c:350
+#: lib/dpkg/dump.c:350
 #, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr "`%.50s' to `%.250s' चे तपशील लिहिता आले नाहीत"
 
-#: lib/dump.c:376
+#: lib/dpkg/dump.c:376
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "%s माहिती लिहिण्यासाठी `%s' उघडता आले नाही"
 
-#: lib/dump.c:379
+#: lib/dpkg/dump.c:379
 msgid "unable to set buffering on status file"
 msgstr "सद्यस्थिती फाइलचे बफरिंग निश्चित करता येत नाही"
 
-#: lib/dump.c:390
+#: lib/dpkg/dump.c:390
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "`%.50s' बद्दलची %s माहिती `%.250s' मध्ये लिहिता आली नाही"
 
-#: lib/dump.c:398
+#: lib/dpkg/dump.c:398
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "%s माहिती `%.250s' मध्ये एकजीव करता आली नाही"
 
-#: lib/dump.c:400
+#: lib/dpkg/dump.c:400
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "%s माहिती `%.250s' मध्ये एफसिन्क करता आली नाही"
 
-#: lib/dump.c:402
+#: lib/dpkg/dump.c:402
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "%s माहिती लिहिल्यानंतर `%.250s' बंद करता आली नाही"
 
-#: lib/dump.c:406
+#: lib/dpkg/dump.c:406
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr "%s च्या बॅक-अपसाठी `%.250s' `%.250s' शी जोडता आले नाही"
 
-#: lib/dump.c:409
+#: lib/dpkg/dump.c:409
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "`%.250s' %s माहिती समावलेले `%.250s'म्हणून अधिष्ठापित करता आले नाही"
 
-#: lib/ehandle.c:95
+#: lib/dpkg/ehandle.c:95
 #, c-format
 msgid ""
 "%s: unrecoverable fatal error, aborting:\n"
 " %s\n"
 msgstr ""
 
-#: lib/ehandle.c:111
+#: lib/dpkg/ehandle.c:111
 msgid "out of memory pushing error handler: "
 msgstr "मेमरी अपूरी त्रुटी प्रबंधक येतेवेळीः ???"
 
-#: lib/ehandle.c:127
+#: lib/dpkg/ehandle.c:127
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -233,144 +274,144 @@ msgstr ""
 "%s: सफाई करताना चूक:\n"
 " %s\n"
 
-#: lib/ehandle.c:142
+#: lib/dpkg/ehandle.c:142
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "डीपीकेजी: त्रुटी सुधारणेदरम्यान पुष्कळच नेस्टेड चुका  !!\n"
 
-#: lib/ehandle.c:215
+#: lib/dpkg/ehandle.c:215
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "बहुपर्यायांसहित नवीन क्लीनअप नोंदीकरिता मेमरी अपूरी"
 
-#: lib/ehandle.c:227
+#: lib/dpkg/ehandle.c:227
 msgid "out of memory for new cleanup entry"
 msgstr "वीन क्लीनअप नोंदीकरिता मेमरी अपूरी"
 
-#: lib/ehandle.c:292
+#: lib/dpkg/ehandle.c:292
 #, fuzzy, c-format
 msgid "%s: warning: %s\n"
 msgstr ""
 "%s: सफाई करताना चूक:\n"
 " %s\n"
 
-#: lib/ehandle.c:296
+#: lib/dpkg/ehandle.c:296
 #, c-format
 msgid "error writing `%s'"
 msgstr "`%s' लिहिताना त्रुटी"
 
-#: lib/ehandle.c:309
+#: lib/dpkg/ehandle.c:309
 #, fuzzy, c-format
 msgid "%s:%s:%d: internal error: %s\n"
 msgstr "%s:%d: अंतर्गत त्रुटी `%s'\n"
 
-#: lib/fields.c:46
+#: lib/dpkg/fields.c:46
 #, c-format
 msgid "%s is missing"
 msgstr "%s हरवले आहे"
 
-#: lib/fields.c:55
+#: lib/dpkg/fields.c:55
 #, fuzzy, c-format
 msgid "`%.*s' is not allowed for %s"
 msgstr "%s साठी `%.*s' ला अनुमती नाही"
 
-#: lib/fields.c:63
+#: lib/dpkg/fields.c:63
 #, c-format
 msgid "junk after %s"
 msgstr "%s नंतर अडगळ"
 
-#: lib/fields.c:73
+#: lib/dpkg/fields.c:75
 #, c-format
 msgid "invalid package name (%.250s)"
 msgstr "पॅकेजचे नाव अयोग्य (%.250s)"
 
-#: lib/fields.c:89
+#: lib/dpkg/fields.c:90
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "फाइलचे विवरण क्षेत्र रिकामे `%s'"
 
-#: lib/fields.c:92
+#: lib/dpkg/fields.c:93
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "सद्यस्थितीदर्शक फाइलमधे फाइल विवरण क्षेत्र `%s' ला अनुमती नाही"
 
-#: lib/fields.c:105
+#: lib/dpkg/fields.c:106
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr "फाइल विवरण क्षेत्र `%s' मधे खुपच अधिक मूल्ये (इतरांच्या तुलनेत)"
 
-#: lib/fields.c:119
+#: lib/dpkg/fields.c:120
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr "फाइल विवरण क्षेत्र `%s' मधे खुपच कमी मूल्ये (इतरांच्या तुलनेत)"
 
-#: lib/fields.c:139
+#: lib/dpkg/fields.c:138
 msgid "yes/no in boolean field"
 msgstr "बुलियन क्षेत्रामधे हो/नाही"
 
-#: lib/fields.c:157
+#: lib/dpkg/fields.c:154
 msgid "word in `priority' field"
 msgstr " `अग्रक्रम' क्षेत्रामधे शब्द"
 
-#: lib/fields.c:170
+#: lib/dpkg/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "येथील संदर्भात `सद्यस्थिती' क्षेत्रासाठी मूल्य ठरवण्याची अनुमती नाही"
 
-#: lib/fields.c:174
+#: lib/dpkg/fields.c:170
 msgid "first (want) word in `status' field"
 msgstr "`सद्यस्थिती' क्षेत्रातील पहिला (जरुर) शब्द"
 
-#: lib/fields.c:177
+#: lib/dpkg/fields.c:172
 msgid "second (error) word in `status' field"
 msgstr "`सद्यस्थिती' क्षेत्रातील दुसरा (चूक) शब्द"
 
-#: lib/fields.c:183
+#: lib/dpkg/fields.c:174
 msgid "third (status) word in `status' field"
 msgstr "`सद्यस्थिती' क्षेत्रातील तिसरा (सद्यस्थितीदर्शक) शब्द"
 
-#: lib/fields.c:196
+#: lib/dpkg/fields.c:186
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "आवृत्ती श्रृंखला `%.250s': %.250s मधे त्रुटी"
 
-#: lib/fields.c:206
+#: lib/dpkg/fields.c:195
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "कालबाह्य `उजळणी' किंवा `पॅकेज-उजळणी' क्षेत्र वापरले"
 
-#: lib/fields.c:224
+#: lib/dpkg/fields.c:212
 msgid "value for `config-version' field not allowed in this context"
 msgstr "येथील संदर्भात `विन्यास-आवृत्ती' क्षेत्रासाठी मूल्य ठरवण्याची अनुमती नाही"
 
-#: lib/fields.c:230
+#: lib/dpkg/fields.c:219
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "विन्यास-आवृत्ती श्रृंखला `%.250s': %.250s मधे त्रुटी"
 
-#: lib/fields.c:255
+#: lib/dpkg/fields.c:244
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "`विन्यासफाईल' च्या मूल्यामधील ओळ कुरूप आहे `%.*s'"
 
-#: lib/fields.c:275
+#: lib/dpkg/fields.c:263
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr "`विन्यासफाईल' च्या मूल्यामध्ये रिक्त जागेने न सुरू होणारी ओळ आहे `%c'"
 
-#: lib/fields.c:292
+#: lib/dpkg/fields.c:280
 msgid "root or null directory is listed as a conffile"
 msgstr "विन्यासफाईल म्हणून मूल किंवा रिक्त निर्देशिकेची नोंद केली आहे"
 
-#: lib/fields.c:350
+#: lib/dpkg/fields.c:337
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr "`%s' क्षेत्र, पॅकेजचे नाव गायब, किंवा पॅकेजच्या नावाच्या अपेक्षित ठिकाणी कचरा"
 
-#: lib/fields.c:355
+#: lib/dpkg/fields.c:342
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "`%s' क्षेत्र, पॅकेजचे नाव अयोग्य `%.255s': %s"
 
-#: lib/fields.c:385
+#: lib/dpkg/fields.c:372
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -379,7 +420,7 @@ msgstr ""
 "`%s' क्षेत्र, संदर्भ `%.255s':\n"
 " आवृत्ती नाते खराब %c%c"
 
-#: lib/fields.c:391
+#: lib/dpkg/fields.c:378
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -388,742 +429,717 @@ msgstr ""
 "`%s' क्षेत्र, संदर्भ `%.255s':\n"
 " `%c' कालबाह्य आहे, त्याएेवजी %c=' किंवा `%c%c' वापरा"
 
-#: lib/fields.c:401
+#: lib/dpkg/fields.c:388
 #, fuzzy, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " implicit exact match on version number, suggest using `=' instead"
 msgstr "आवृत्ती क्रमांक तंतोतंत जुळल्याचे दिसते, त्याएेवजी `=' चा वापर सुचित"
 
-#: lib/fields.c:409
+#: lib/dpkg/fields.c:396
 msgid "Only exact versions may be used for Provides"
 msgstr "प्रोव्हाईड्ससाठी तंतोतंत आवृत्त्याच वापराव्यात"
 
-#: lib/fields.c:413
+#: lib/dpkg/fields.c:400
 #, fuzzy, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " version value starts with non-alphanumeric, suggest adding a space"
 msgstr "आवृत्ती मूल्य अंक-अक्षरांशिवाय सुरू होतेय, रिक्त जागा अंतर्भुत करण्याचे सुचित"
 
-#: lib/fields.c:430 lib/fields.c:434
+#: lib/dpkg/fields.c:417 lib/dpkg/fields.c:421
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
 msgstr "`%s' क्षेत्र, संदर्भ `%.255s': आवृत्तीत `%c' चा समावेश आहे"
 
-#: lib/fields.c:438
+#: lib/dpkg/fields.c:425
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "`%s' क्षेत्र, संदर्भ `%.255s': आवृत्ती अ-रहित"
 
-#: lib/fields.c:449
+#: lib/dpkg/fields.c:436
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "`%s' क्षेत्र, संदर्भ `%.255s': आवृत्तीत त्रुटी: %.255s"
 
-#: lib/fields.c:459
+#: lib/dpkg/fields.c:446
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "`%s' क्षेत्र, पॅकेज `%.255s' संदर्भात नियमबाह्य लेखन त्रुटी "
 
-#: lib/fields.c:466
+#: lib/dpkg/fields.c:453
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "%s क्षेत्रात (`|') पर्यायांना अनुमती नाही"
 
-#: lib/fields.c:526
+#: lib/dpkg/fields.c:512
 #, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr "येथील संदर्भात `विन्यास-आवृत्ती' क्षेत्रासाठी मूल्य ठरवण्याची अनुमती नाही"
 
-#: lib/fields.c:533
+#: lib/dpkg/fields.c:519
 #, fuzzy, c-format
 msgid "illegal pending trigger name `%.255s': %s"
 msgstr "`%s' क्षेत्र, पॅकेजचे नाव अयोग्य `%.255s': %s"
 
-#: lib/fields.c:537
+#: lib/dpkg/fields.c:523
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
 msgstr ""
 
-#: lib/fields.c:552
+#: lib/dpkg/fields.c:537
 #, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr "येथील संदर्भात `सद्यस्थिती' क्षेत्रासाठी मूल्य ठरवण्याची अनुमती नाही"
 
-#: lib/fields.c:559
+#: lib/dpkg/fields.c:544
 #, fuzzy, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
 msgstr "बेकायदेशीर पॅकेजचे नाव %d ओळीवर: %.250s"
 
-#: lib/fields.c:565
+#: lib/dpkg/fields.c:550
 #, fuzzy, c-format
 msgid "duplicate awaited trigger package `%.255s'"
 msgstr "पॅकेज `%.250s'साठी असलेली फाइलची सुची"
 
-#: lib/lock.c:50
+#: lib/dpkg/lock.c:50
 msgid "unable to unlock dpkg status database"
 msgstr "डीपीकेजी सद्यस्थिती डेटाबेसचे टाळे काढता येत नाही"
 
-#: lib/lock.c:102
+#: lib/dpkg/lock.c:102
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "आपणांस डीपीकेजी सद्यस्थिती डेटाबेसला टाळे लावण्याची परवानगी नाही"
 
-#: lib/lock.c:103
+#: lib/dpkg/lock.c:103
 msgid "unable to open/create status database lockfile"
 msgstr "डीपीकेजी सद्यस्थिती डेटाबेस लोॅकफ़ाईल उघडता/बनवता येत नाही"
 
-#: lib/lock.c:108
+#: lib/dpkg/lock.c:108
 msgid "unable to lock dpkg status database"
 msgstr "डीपीकेजी सद्यस्थिती डेटाबेसला टाळे लावता येत नाही"
 
-#: lib/lock.c:109
+#: lib/dpkg/lock.c:109
 msgid "status database area is locked by another process"
 msgstr "सद्यस्थिती डेटाबेस क्षेत्राला इतर प्रक्रियेने टाळे लावले आहे "
 
-#: lib/log.c:54
+#: lib/dpkg/log.c:54
 #, c-format
 msgid "couldn't open log `%s': %s\n"
 msgstr "नोंद `%s': %s उघडता आली नाही \n"
 
-#: lib/log.c:102
+#: lib/dpkg/log.c:102
 #, fuzzy, c-format
 msgid "unable to write to status fd %d"
 msgstr "`%.250s' ची सुधारित स्थिती लिहिता येत नाही"
 
-#: lib/mlib.c:49
+#: lib/dpkg/mlib.c:48
 #, c-format
 msgid "malloc failed (%ld bytes)"
 msgstr "मॅलोॅक अयशस्वी (%ld बाइट्स)"
 
-#: lib/mlib.c:62
+#: lib/dpkg/mlib.c:61
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "रिअललोॅक अयशस्वी (%ld बाइट्स)"
 
-#: lib/mlib.c:76
+#: lib/dpkg/mlib.c:75
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "निर्देशिका बनवता आली नाही"
 
-#: lib/mlib.c:83
+#: lib/dpkg/mlib.c:82
 #, c-format
 msgid "%s (subprocess): %s\n"
 msgstr "%s (उपप्रक्रिया): %s\n"
 
-#: lib/mlib.c:97
+#: lib/dpkg/mlib.c:96
 msgid "fork failed"
 msgstr "विशाख अयशस्वी"
 
-#: lib/mlib.c:110
+#: lib/dpkg/mlib.c:109
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "एसटीडी%s साठी डीयुपी करणे अयशस्वी"
 
-#: lib/mlib.c:111
+#: lib/dpkg/mlib.c:110
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "एफ़डी %d साठी डीयुपी करणे अयशस्वी"
 
-#: lib/mlib.c:117
+#: lib/dpkg/mlib.c:116
 msgid "failed to create pipe"
 msgstr "पाइप बनवणे अयशस्वी"
 
-#: lib/mlib.c:124
+#: lib/dpkg/mlib.c:124
+#, fuzzy, c-format
+msgid "error writing to '%s'"
+msgstr "`%s' लिहिताना त्रुटी"
+
+#: lib/dpkg/mlib.c:131
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "%.250s साठी फाईलडीस्क्रिप्टर फ्लॅग वाचणे जमत नाही"
 
-#: lib/mlib.c:126
+#: lib/dpkg/mlib.c:133
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "%.250s साठी क्लोज-ऑन-इअेक्सइसी फ्लॅग निश्चित करणे जमत नाही"
 
-#: lib/mlib.c:180
-#, c-format
-msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
-msgstr "बफर_लेखन(एफडी) (%i, ret=%li): %s मधे अयशस्वी झाले"
-
-#: lib/mlib.c:187
-#, c-format
-msgid "eof in buffer_write(stream): %s"
-msgstr "बफर_लेखन(धारा): %s मधे इओएफ"
-
-#: lib/mlib.c:189
-#, c-format
-msgid "error in buffer_write(stream): %s"
-msgstr "बफर_लेखन(धारा): %s मधे त्रुटी"
-
-#: lib/mlib.c:195
+#: lib/dpkg/myopt.c:62
 #, fuzzy, c-format
-msgid "unknown data type `%i' in buffer_write\n"
-msgstr "बफर_लेखन मधील डेटाचा प्रकार अपरिचीत \n"
+msgid "configuration error: %s:%d: %s"
+msgstr "संरचना त्रुटी: %s चे मूल्य आवश्यक"
 
-#: lib/mlib.c:211
-#, c-format
-msgid "failed in buffer_read(fd): %s"
-msgstr "बफर_वाचन(एफडी): %s मधे अयशस्वी झाले"
-
-#: lib/mlib.c:218
-#, c-format
-msgid "error in buffer_read(stream): %s"
-msgstr "बफर_वाचन(धारा): %s"
-
-#: lib/mlib.c:221
-#, fuzzy, c-format
-msgid "unknown data type `%i' in buffer_read\n"
-msgstr "बफर_वाचन मधील डेटाचा प्रकार अपरिचीत \n"
-
-#: lib/mlib.c:316
-#, c-format
-msgid "failed in buffer_copy (%s)"
-msgstr "बफर_नक्कल (%s) मधे अयशस्वी झाले"
-
-#: lib/mlib.c:317
-#, c-format
-msgid "short read in buffer_copy (%s)"
-msgstr "बफर_नक्कल (%s) मधे तोकडे वाचन"
-
-#: lib/myopt.c:57
+#: lib/dpkg/myopt.c:74
 #, fuzzy, c-format
 msgid "failed to open configuration file '%.255s' for reading: %s"
 msgstr "संरचना फाईल `%.255s' वाचनासाठी उघडता आली नाही"
 
-#: lib/myopt.c:93
+#: lib/dpkg/myopt.c:101
 #, c-format
-msgid "configuration error: unknown option %s"
-msgstr "संरचना त्रुटी: अपरिचित पर्याय %s"
+msgid "unbalanced quotes in '%s'"
+msgstr ""
 
-#: lib/myopt.c:96
-#, c-format
-msgid "configuration error: %s needs a value"
-msgstr "संरचना त्रुटी: %s चे मूल्य आवश्यक"
+#: lib/dpkg/myopt.c:117
+#, fuzzy, c-format
+msgid "unknown option '%s'"
+msgstr "अपरिचीत पर्याय `%s'"
 
-#: lib/myopt.c:101
-#, c-format
-msgid "configuration error: %s does not take a value"
-msgstr "संरचना त्रुटी: %s मूल्य धारण करत नाही"
+#: lib/dpkg/myopt.c:121
+#, fuzzy, c-format
+msgid "'%s' needs a value"
+msgstr "--%s पर्याय मूल्य धारण करतो"
 
-#: lib/myopt.c:106
+#: lib/dpkg/myopt.c:127
+#, fuzzy, c-format
+msgid "'%s' does not take a value"
+msgstr "--%s पर्याय मूल्य धारण करत नाही"
+
+#: lib/dpkg/myopt.c:132
 #, c-format
 msgid "read error in configuration file `%.255s'"
 msgstr "`%.255s' संरचना फाईलमधे वाचन त्रुटी"
 
-#: lib/myopt.c:107
+#: lib/dpkg/myopt.c:133
 #, c-format
 msgid "error closing configuration file `%.255s'"
 msgstr "`%.255s' संरचना फाईल बंद करताना त्रुटी"
 
-#: lib/myopt.c:149
+#: lib/dpkg/myopt.c:170
+#, fuzzy, c-format
+msgid "error opening configuration directory '%s'"
+msgstr "`%.255s' संरचना फाईल बंद करताना त्रुटी"
+
+#: lib/dpkg/myopt.c:230
 #, c-format
 msgid "unknown option --%s"
 msgstr "अपरिचित पर्याय --%s"
 
-#: lib/myopt.c:153
+#: lib/dpkg/myopt.c:234
 #, c-format
 msgid "--%s option takes a value"
 msgstr "--%s पर्याय मूल्य धारण करतो"
 
-#: lib/myopt.c:158
+#: lib/dpkg/myopt.c:239
 #, c-format
 msgid "--%s option does not take a value"
 msgstr "--%s पर्याय मूल्य धारण करत नाही"
 
-#: lib/myopt.c:165
+#: lib/dpkg/myopt.c:246
 #, c-format
 msgid "unknown option -%c"
 msgstr "अपरिचित पर्याय -%c"
 
-#: lib/myopt.c:170
+#: lib/dpkg/myopt.c:251
 #, c-format
 msgid "-%c option takes a value"
 msgstr "-%c पर्याय मूल्य धारण करतो"
 
-#: lib/myopt.c:178
+#: lib/dpkg/myopt.c:259
 #, c-format
 msgid "-%c option does not take a value"
 msgstr "-%c पर्याय मूल्य धारण करत नाही"
 
-#: lib/myopt-util.c:54
+#: lib/dpkg/myopt-util.c:55
 msgid "cannot open GPL file"
 msgstr "जीपीएल फाइल उघडता येत नाही"
 
-#: lib/parse.c:113
+#: lib/dpkg/parse.c:119
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr "पॅकेज इनफो फाईल `%.255s' वाचनासाठी उघडता आली नाही"
 
-#: lib/parse.c:118
+#: lib/dpkg/parse.c:124
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr "पॅकेज इनफो फाईल `%.255s' स्टॅट करता येत नाही"
 
-#: lib/parse.c:123
+#: lib/dpkg/parse.c:129
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr "पॅकेज इनफो फाईल `%.255s' एममॅप करता येत नाही"
 
-#: lib/parse.c:127
+#: lib/dpkg/parse.c:133
 #, c-format
 msgid "copy info file `%.255s'"
 msgstr "`%.255s' इनफो फाईलची नक्कल करा "
 
-#: lib/parse.c:159
+#: lib/dpkg/parse.c:164
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "क्षेत्र नाव `%.*s' नंतर इओएफ"
 
-#: lib/parse.c:162
+#: lib/dpkg/parse.c:167
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "क्षेत्र नाव `%.*s' मधे न्यूलाइन"
 
-#: lib/parse.c:165
+#: lib/dpkg/parse.c:170
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "क्षेत्र नाव `%.*s' मधे एमएसडोॅस इओएफ (^Z)"
 
-#: lib/parse.c:169
+#: lib/dpkg/parse.c:174
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "क्षेत्र नाव `%.*s' नंतर कोलन असणे आवश्यक"
 
-#: lib/parse.c:178
+#: lib/dpkg/parse.c:183
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr "`%.*s' क्षेत्राच्या मूल्यापुर्वी इओएफ (अंतिम न्यूलाइन गायब)"
 
-#: lib/parse.c:182
+#: lib/dpkg/parse.c:187
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "`%.*s' क्षेत्राच्या मूल्यात एमएसडोॅस इओएफ कॅर (न्यूलाइन गायब?)"
 
-#: lib/parse.c:196
+#: lib/dpkg/parse.c:201
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "`%.*s' क्षेत्राच्या मूल्यादरम्यान इओएफ (अंतिम न्यूलाइन गायब)"
 
-#: lib/parse.c:221
+#: lib/dpkg/parse.c:226
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "`%s' क्षेत्रासाठी मूल्य पुनरावृत्ती"
 
-#: lib/parse.c:226
+#: lib/dpkg/parse.c:231
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "वापरकर्त्याने ठरविलेेले क्षेत्र नाव `%.*s' फारच छोटे"
 
-#: lib/parse.c:232
+#: lib/dpkg/parse.c:237
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "वापरकर्त्याने ठरविलेेल्या क्षेत्रात `%.*s' मूल्य पुनरावृत्ती"
 
-#: lib/parse.c:246
+#: lib/dpkg/parse.c:251
 msgid "several package info entries found, only one allowed"
 msgstr "अनेक पॅकेज इनफो नोंदी आढळल्या, फक्त एकालाच अनुमती"
 
-#: lib/parse.c:271
+#: lib/dpkg/parse.c:276
 msgid "Configured-Version for package with inappropriate Status"
 msgstr "पॅकेजची संरचित आवृत्ती अनुचित स्थितीत"
 
-#: lib/parse.c:281
+#: lib/dpkg/parse.c:286
 #, c-format
 msgid "package has status %s but triggers are awaited"
 msgstr ""
 
-#: lib/parse.c:285
+#: lib/dpkg/parse.c:290
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
 
-#: lib/parse.c:292
+#: lib/dpkg/parse.c:297
 #, c-format
 msgid "package has status %s but triggers are pending"
 msgstr ""
 
-#: lib/parse.c:296
+#: lib/dpkg/parse.c:301
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
 
-#: lib/parse.c:307
+#: lib/dpkg/parse.c:312
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr "अधिष्ठापन न केलेल्या पॅकेजमधे कोॅन्फफाइल आहेत, त्यांच्याकडे दुर्लक्ष"
 
-#: lib/parse.c:375
+#: lib/dpkg/parse.c:399
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "वाचनानंतर बंद करता आले नाही: `%.255s'"
 
-#: lib/parse.c:376
+#: lib/dpkg/parse.c:400
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "`%.255s' मधे पॅकेजची माहिती नाही"
 
-#: lib/parsehelp.c:42
+#: lib/dpkg/parsehelp.c:41
 #, fuzzy, c-format
 msgid ""
 "%s, in file '%.255s' near line %d package '%.255s':\n"
 " "
 msgstr "%s, `%.255s' फायलीत  %d ओळीजवळ"
 
-#: lib/parsehelp.c:45
+#: lib/dpkg/parsehelp.c:44
 #, fuzzy, c-format
 msgid ""
 "%s, in file '%.255s' near line %d:\n"
 " "
 msgstr "%s, `%.255s' फायलीत  %d ओळीजवळ"
 
-#: lib/parsehelp.c:56
+#: lib/dpkg/parsehelp.c:55
 msgid "parse error"
 msgstr "पार्स त्रुटी"
 
-#: lib/parsehelp.c:71
+#: lib/dpkg/parsehelp.c:70
 msgid "warning"
 msgstr "धोक्याची सुचना"
 
-#: lib/parsehelp.c:80
+#: lib/dpkg/parsehelp.c:79
 msgid "failed to write parsing warning"
 msgstr "पार्सिंग ची धोक्याची सुचना लिहीता आली नाही"
 
-#: lib/parsehelp.c:141
+#: lib/dpkg/parsehelp.c:138
 msgid "may not be empty string"
 msgstr "रिकामी श्रृंखला नसावी"
 
-#: lib/parsehelp.c:142
+#: lib/dpkg/parsehelp.c:139
 msgid "must start with an alphanumeric"
 msgstr "अंक-अक्षराने सुरुवात होणे आवश्यक"
 
-#: lib/parsehelp.c:151
+#: lib/dpkg/parsehelp.c:148
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "चिन्ह `%c' ला अनुमती नाही (फक्त अक्षरे, अंक व चिन्हे `%s')"
 
-#: lib/parsehelp.c:206
+#: lib/dpkg/parsehelp.c:203
 msgid "<none>"
 msgstr "<काही नाही>"
 
-#: lib/parsehelp.c:221
+#: lib/dpkg/parsehelp.c:218
 msgid "version string is empty"
 msgstr "आवृत्ती श्रृंखला रिकामी आहे"
 
-#: lib/parsehelp.c:232
+#: lib/dpkg/parsehelp.c:232
 msgid "version string has embedded spaces"
 msgstr "आवृत्ती श्रृंखलेत वेढलेल्या रिक्त जागा आहेत"
 
-#: lib/parsehelp.c:237
+#: lib/dpkg/parsehelp.c:237
 msgid "epoch in version is not number"
 msgstr "आवृत्तीतील इपोच हा अंक नाही"
 
-#: lib/parsehelp.c:238
+#: lib/dpkg/parsehelp.c:238
 msgid "nothing after colon in version number"
 msgstr "आवृत्ती अंकात कोलन नंतर काही नाही"
 
-#: lib/parsehelp.c:259 lib/parsehelp.c:273
+#: lib/dpkg/parsehelp.c:259 lib/dpkg/parsehelp.c:272
 #, c-format
 msgid "missing %s"
 msgstr "%s गायब"
 
-#: lib/parsehelp.c:261 lib/parsehelp.c:276
+#: lib/dpkg/parsehelp.c:261 lib/dpkg/parsehelp.c:275
 #, c-format
 msgid "empty value for %s"
 msgstr "%s साठी रिक्त मूल्य"
 
-#: lib/showpkg.c:73
+#: lib/dpkg/showpkg.c:72
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr "क्षेत्र रुंदीत `%c' अयोग्य \n"
 
-#: lib/showpkg.c:160
+#: lib/dpkg/showpkg.c:159
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "संरूप मधे बंद करण्याचा ब्रेस गायब \n"
 
-#: lib/subproc.c:53
+#: lib/dpkg/subproc.c:53
 #, fuzzy, c-format
 msgid "unable to ignore signal %s before running %.250s"
 msgstr "स्क्रिप्ट रन करण्याआधी सिग्नल %sकडे दुर्लक्ष करण्यास असमर्थ आहे"
 
-#: lib/subproc.c:66
+#: lib/dpkg/subproc.c:66
 #, c-format
 msgid "error un-catching signal %s: %s\n"
 msgstr "दोष अनकॅचिंग सिग्नल %s: %s \n"
 
-#: lib/subproc.c:85
+#: lib/dpkg/subproc.c:85
 #, fuzzy, c-format
 msgid "%s returned error exit status %d"
 msgstr "उपप्रक्रिया %s कडुन त्रुटी निर्गम स्थिती %d"
 
-#: lib/subproc.c:88
+#: lib/dpkg/subproc.c:88
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "उपप्रक्रिया %s कडुन त्रुटी निर्गम स्थिती %d"
 
-#: lib/subproc.c:97
+#: lib/dpkg/subproc.c:97
 #, fuzzy, c-format
 msgid "%s killed by signal (%s)%s"
 msgstr "उपप्रक्रिया %s ला (%s)%s संकेताने नष्ट केले"
 
-#: lib/subproc.c:99 lib/subproc.c:103
+#: lib/dpkg/subproc.c:99 lib/dpkg/subproc.c:103
 msgid ", core dumped"
 msgstr ", गाभा अडगळीत टाकला"
 
-#: lib/subproc.c:101
+#: lib/dpkg/subproc.c:101
 #, c-format
 msgid "subprocess %s killed by signal (%s)%s"
 msgstr "उपप्रक्रिया %s ला (%s)%s संकेताने नष्ट केले"
 
-#: lib/subproc.c:105
+#: lib/dpkg/subproc.c:105
 #, fuzzy, c-format
 msgid "subprocess %s failed with wait status code %d"
 msgstr "थांबणे स्थिती कोड %d नुसार उपप्रक्रिया %s अयशस्वी झाली "
 
-#: lib/subproc.c:122
+#: lib/dpkg/subproc.c:122
 #, c-format
 msgid "wait for %s failed"
 msgstr "%s साठी वाट पहाणे अयशस्वी झाले"
 
-#: lib/trigdeferred.l:66
+#: lib/dpkg/trigdeferred.l:66
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
 
-#: lib/trigdeferred.l:75
+#: lib/dpkg/trigdeferred.l:75
 #, fuzzy, c-format
 msgid "truncated triggers deferred file `%.250s'"
 msgstr "स्टॅटओवरराइड फाइल `%.250s'"
 
-#: lib/trigdeferred.l:79
+#: lib/dpkg/trigdeferred.l:79
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
 
-#: lib/trigdeferred.l:116
+#: lib/dpkg/trigdeferred.l:116
 #, fuzzy, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
 msgstr "उगम फाइल `%.250s' उघडता येत नाही"
 
-#: lib/trigdeferred.l:123
+#: lib/dpkg/trigdeferred.l:123
 #, fuzzy
 msgid "unable to lock triggers area"
 msgstr "%s चे टाळे उघडता येत नाही: %s"
 
-#: lib/trigdeferred.l:134
+#: lib/dpkg/trigdeferred.l:134
 #, fuzzy, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
 msgstr "दुस~या नविन `%.250s फाइलचे स्टॅट करणे अशक्य"
 
-#: lib/trigdeferred.l:148
+#: lib/dpkg/trigdeferred.l:148
 #, fuzzy, c-format
 msgid "unable to open triggers deferred file `%.250s'"
 msgstr "उगम फाइल `%.250s' उघडता येत नाही"
 
-#: lib/trigdeferred.l:162
+#: lib/dpkg/trigdeferred.l:162
 #, fuzzy, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' उघडता येत नाही"
 
-#: lib/trigdeferred.l:182
+#: lib/dpkg/trigdeferred.l:182
 #, fuzzy, c-format
 msgid "error reading triggers deferred file `%.250s'"
 msgstr "%.255s फाइल मधुन %s वाचताना त्रुटी"
 
-#: lib/trigdeferred.l:190
+#: lib/dpkg/trigdeferred.l:190
 #, fuzzy, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' उघडता येत नाही"
 
-#: lib/trigdeferred.l:195
+#: lib/dpkg/trigdeferred.l:195
 #, fuzzy, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' उघडता येत नाही"
 
-#: lib/trigdeferred.l:199
+#: lib/dpkg/trigdeferred.l:199
 #, fuzzy, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
 msgstr "`%.255s'ची नविन आवृत्ती स्थापन करणे अशक्य"
 
-#: lib/triglib.c:45
+#: lib/dpkg/triglib.c:45
 msgid "empty trigger names are not permitted"
 msgstr ""
 
-#: lib/triglib.c:49
+#: lib/dpkg/triglib.c:49
 msgid "trigger name contains invalid character"
 msgstr ""
 
-#: lib/triglib.c:305
+#: lib/dpkg/triglib.c:305
 #, c-format
 msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
 
-#: lib/triglib.c:340
+#: lib/dpkg/triglib.c:340
 #, fuzzy, c-format
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' उघडता येत नाही"
 
-#: lib/triglib.c:369
+#: lib/dpkg/triglib.c:369
 #, fuzzy, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "भाग फाइल `%.250s' वाचता येत नाही"
 
-#: lib/triglib.c:374
+#: lib/dpkg/triglib.c:374
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
 
-#: lib/triglib.c:396
+#: lib/dpkg/triglib.c:396
 #, fuzzy, c-format
 msgid "unable to create new trigger interest file `%.250s'"
 msgstr "दुस~या नविन `%.250s फाइलचे स्टॅट करणे अशक्य"
 
-#: lib/triglib.c:409
+#: lib/dpkg/triglib.c:409
 #, fuzzy, c-format
 msgid "unable to write new trigger interest file `%.250s'"
 msgstr "दुस~या नविन `%.250s फाइलचे स्टॅट करणे अशक्य"
 
-#: lib/triglib.c:413
+#: lib/dpkg/triglib.c:413
 #, fuzzy, c-format
 msgid "unable to close new trigger interest file `%.250s'"
 msgstr "दुस~या नविन `%.250s फाइलचे स्टॅट करणे अशक्य"
 
-#: lib/triglib.c:417
+#: lib/dpkg/triglib.c:417
 #, fuzzy, c-format
 msgid "unable to install new trigger interest file `%.250s'"
 msgstr "`%.255s'ची नविन आवृत्ती स्थापन करणे अशक्य"
 
-#: lib/triglib.c:474
+#: lib/dpkg/triglib.c:474
 #, fuzzy, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr "नवी माहिती फाइल `%.250s' हिची `%.250s' म्हणून स्थापना करण्यास असमर्थ आहे"
 
-#: lib/triglib.c:497
+#: lib/dpkg/triglib.c:497
 #, fuzzy, c-format
 msgid "unable to create new file triggers file `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' उघडता येत नाही"
 
-#: lib/triglib.c:506
+#: lib/dpkg/triglib.c:506
 #, fuzzy, c-format
 msgid "unable to write new file triggers file `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' उघडता येत नाही"
 
-#: lib/triglib.c:510
+#: lib/dpkg/triglib.c:510
 #, fuzzy, c-format
 msgid "unable to close new file triggers file `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' उघडता येत नाही"
 
-#: lib/triglib.c:514
+#: lib/dpkg/triglib.c:514
 #, fuzzy, c-format
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr "नवी माहिती फाइल `%.250s' हिची `%.250s' म्हणून स्थापना करण्यास असमर्थ आहे"
 
-#: lib/triglib.c:535
+#: lib/dpkg/triglib.c:535
 #, fuzzy, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "भाग फाइल `%.250s' वाचता येत नाही"
 
-#: lib/triglib.c:543
+#: lib/dpkg/triglib.c:543
 #, fuzzy, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "`%.255s' संरचना फाईलमधे वाचन त्रुटी"
 
-#: lib/triglib.c:547
+#: lib/dpkg/triglib.c:547
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
 
-#: lib/triglib.c:641
+#: lib/dpkg/triglib.c:641
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
 
-#: lib/triglib.c:661
+#: lib/dpkg/triglib.c:661
 #, fuzzy, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "उगम फाइल `%.250s' उघडता येत नाही"
 
-#: lib/triglib.c:676
+#: lib/dpkg/triglib.c:676
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
 
-#: lib/triglib.c:685
+#: lib/dpkg/triglib.c:685
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
 
-#: lib/triglib.c:740
+#: lib/dpkg/triglib.c:740
 #, fuzzy, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "डिपोॅट निर्देशिका `%.250s' वाचता येत नाही"
 
-#: lib/triglib.c:743
+#: lib/dpkg/triglib.c:743
 #, fuzzy, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "डिपोॅट निर्देशिका `%.250s' वाचता येत नाही"
 
-#: lib/utils.c:53
+#: lib/dpkg/utils.c:55
 #, fuzzy, c-format
 msgid "read error in `%.250s'"
 msgstr "%.250sमध्ये वाचनाची समस्या"
 
-#: lib/utils.c:58
+#: lib/dpkg/utils.c:60
 #, fuzzy, c-format
 msgid "fgets gave an empty string from `%.250s'"
 msgstr "एफगेट्स डाइव्हर्जन्स [i] मधून रिकामा स्ट्रिंग देतो"
 
-#: lib/utils.c:60
+#: lib/dpkg/utils.c:62
 #, fuzzy, c-format
 msgid "too-long line or missing newline in `%.250s'"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - %.250s नंतर न्यूलाइन गायब"
 
-#: lib/utils.c:72
+#: lib/dpkg/utils.c:74
 #, fuzzy, c-format
 msgid "unexpected eof reading `%.250s'"
 msgstr "%.250s मधील फाइलचा अनपेक्षित शेवट"
 
-#: src/archives.c:231
+#: src/archives.c:233
 msgid "error reading from dpkg-deb pipe"
 msgstr "डिपिकेजी-डेब पाइप मधुन वाचन त्रुटी"
 
-#: src/archives.c:255
+#: src/archives.c:257
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
 msgstr ""
 
-#: src/archives.c:296
+#: src/archives.c:298
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "`%.255s'चा समयशिक्का निर्धारीत करताना त्रुटी"
 
-#: src/archives.c:303 src/archives.c:693
+#: src/archives.c:305 src/archives.c:701
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "`%.255s' ची मालकी निश्चित करताना त्रुटी"
 
-#: src/archives.c:305 src/archives.c:696
+#: src/archives.c:307 src/archives.c:704
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "`%.255s' च्या परवानग्या निर्धारीत करताना त्रुटी"
 
-#: src/archives.c:371
+#: src/archives.c:373
 #, fuzzy, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr "`%.250s' वरिल एग्झिक्युट परवानगी सेट करण्यास असमर्थ आहे"
 
-#: src/archives.c:392
+#: src/archives.c:394
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
 
-#: src/archives.c:445
+#: src/archives.c:447
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1132,132 +1148,133 @@ msgstr ""
 "`%.250s'%.10s%.100s%.10s ची वळवलेली आवृत्ती असलेल्या `%.250s' वर पुनर्लेखन करण्याच्या "
 "प्रयत्नात"
 
-#: src/archives.c:451
+#: src/archives.c:453
 #, fuzzy, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 "`%.250s'%.10s%.100s%.10s ची वळवलेली आवृत्ती असलेल्या `%.250s' वर पुनर्लेखन करण्याच्या "
 "प्रयत्नात"
 
-#: src/archives.c:477
+#: src/archives.c:479
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "`%.255s' स्टॅट करता येत नाही (जे मी आता अधिष्ठापित करणार होतो)"
 
-#: src/archives.c:485
+#: src/archives.c:487
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
 "version"
 msgstr "अन्य आवृत्ती अधिष्ठापित करण्यापुर्वी `%.255s' भोवतालचा घोळ निस्तारता येत नाही"
 
-#: src/archives.c:491
+#: src/archives.c:493
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr "अन्य आवृत्ती अधिष्ठापित करण्यापुर्वी `%.255s' स्टॅट रिस्टोअर्ड करता येत नाही"
 
-#: src/archives.c:526
+#: src/archives.c:528
 #, fuzzy, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "आर्काइवमधे 0x%x या अपरिचित प्रकाराचे `%.255s' ओॅब्जेक्ट होते"
 
-#: src/archives.c:587
+#: src/archives.c:589
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "%s ... जुन्या पॅकेजमधील फायली बदलल्या जात आहेत \n"
 
-#: src/archives.c:590
+#: src/archives.c:592
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "%s ... अधिष्ठापित पॅकेजमधील फायलींनी बदलले \n"
 
-#: src/archives.c:596
-#, c-format
+#: src/archives.c:599
+#, fuzzy, c-format
 msgid ""
-"trying to overwrite directory `%.250s' in package %.250s with nondirectory"
+"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"nondirectory"
 msgstr "%.250s पॅकेजमधील `%.250s' निर्देशिकेवर नाॅननिर्देशिकेने पुनर्लेखन करण्याच्या प्रयत्नात"
 
-#: src/archives.c:606
-#, c-format
-msgid "trying to overwrite `%.250s', which is also in package %.250s"
+#: src/archives.c:611
+#, fuzzy, c-format
+msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "%.250s पॅकेजमधेही असल्याने, `%.250s' वर पुनर्लेखन करण्याच्या प्रयत्नात"
 
-#: src/archives.c:676
+#: src/archives.c:684
 #, fuzzy, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "`%.255s' (`%.255s' मधील) वाचता आली नाही"
 
-#: src/archives.c:681
+#: src/archives.c:689
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "`%.255s' दरम्यान बॅकएन्ड डिपिकेजी-डेब"
 
-#: src/archives.c:699
+#: src/archives.c:707
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "`%.255s बंद करताना/लिहिताना त्रुटी "
 
-#: src/archives.c:704
+#: src/archives.c:712
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "`%.255s' पाइप बनवताना त्रुटी"
 
-#: src/archives.c:710 src/archives.c:716
+#: src/archives.c:718 src/archives.c:724
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "`%.255s' उपकरण बनवताना त्रुटी"
 
-#: src/archives.c:725
+#: src/archives.c:733
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "`%.255s' हार्ड साखळी बनवताना त्रुटी"
 
-#: src/archives.c:732
+#: src/archives.c:740
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "`%.255s' प्रतीकात्मक साखळी बनवताना त्रुटी"
 
-#: src/archives.c:738 src/archives.c:743
+#: src/archives.c:746 src/archives.c:751
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "`%.255s' सिमलिंकची मालकी निश्चित करताना त्रुटी"
 
-#: src/archives.c:749
+#: src/archives.c:757
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "`%.255s' निर्देशिका बनवताना त्रुटी"
 
-#: src/archives.c:784
+#: src/archives.c:792
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "नविन आवृत्ती स्थापन करण्यासाठी `%.255s' बाजूला करण्यास अशक्य"
 
-#: src/archives.c:793
+#: src/archives.c:801
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "`%.255s' साखळी/लिंक वाचण्यास अशक्य"
 
-#: src/archives.c:797
+#: src/archives.c:805
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "`%.255s'चे सिमलिंक बॅकप घेणे अशक्य"
 
-#: src/archives.c:800 src/archives.c:803
+#: src/archives.c:808 src/archives.c:811
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "`%.255s'चे chown सिमलिंक बॅकप घेणे अशक्य"
 
-#: src/archives.c:808
+#: src/archives.c:816
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr "नविन आवृत्ती स्थापन करण्याआधी `%.255s'चे सिमलिंक बॅकप घेणे अशक्य"
 
-#: src/archives.c:833
+#: src/archives.c:841
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "`%.255s'ची नविन आवृत्ती स्थापन करणे अशक्य"
 
-#: src/archives.c:880
+#: src/archives.c:888
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1266,7 +1283,7 @@ msgstr ""
 "डिपिकेजी: ताकिद - %s काढून टाकून अवलंबुन रहाण्याची समस्या दुर्लक्षित करित आहे:\n"
 "%s"
 
-#: src/archives.c:885
+#: src/archives.c:893
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1275,7 +1292,7 @@ msgstr ""
 "डिपिकेजी: ताकिद - %s काढुन टकण्यासाठी जरुरी असलेल्या\n"
 " %s पॅकेजची अजुळवणी विचारात घेत आहे.\n"
 
-#: src/archives.c:888
+#: src/archives.c:896
 #, fuzzy, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1283,7 +1300,7 @@ msgid ""
 msgstr ""
 "डिपिकेजी: नाही, %s हे जरूरी आहे, %s काढुन टाकण्यासाठी त्याची अजुळवणी करणे शक्य नाही.\n"
 
-#: src/archives.c:902
+#: src/archives.c:910
 #, fuzzy, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1292,28 +1309,28 @@ msgstr ""
 "डिपिकेजी: नाही, %s काढू शकत नाही  (--स्वयंचलीत-अजुळवणी मदत करू शकते):\n"
 "%s"
 
-#: src/archives.c:912
+#: src/archives.c:920
 #, fuzzy, c-format
 msgid "removal of %.250s"
 msgstr "%.250sमध्ये वाचनाची समस्या"
 
-#: src/archives.c:937
+#: src/archives.c:945
 #, fuzzy, c-format
 msgid "installation of %.250s"
 msgstr "`%.255s'ची नविन आवृत्ती स्थापन करणे अशक्य"
 
-#: src/archives.c:938
+#: src/archives.c:946
 #, fuzzy, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
 msgstr "डिपिकेजी: %s च्या मर्जीनुसार %s काढून टाकण्याचा विचार करत आहे ...\n"
 
-#: src/archives.c:945
+#: src/archives.c:953
 #, fuzzy, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "डिपिकेजी: हो %sच्या मर्जीनुसार %s कढून टाकले जाइल.\n"
 
-#: src/archives.c:949 src/archives.c:1070
+#: src/archives.c:957 src/archives.c:1078
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1322,40 +1339,40 @@ msgstr ""
 "डिपिकेजी: %s बद्दल ज्याच्यात %s आहे:\n"
 "%s"
 
-#: src/archives.c:957
+#: src/archives.c:965
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "डिपिकेजी: ताकिद - परस्परविरोधाकडे दुर्लक्ष करित आहे, तरी पुढे जाऊ शकता !\n"
 
-#: src/archives.c:962
+#: src/archives.c:970
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
 
-#: src/archives.c:966
+#: src/archives.c:974
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr ""
 
-#: src/archives.c:996
+#: src/archives.c:1004
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "डिपिकेजी: %s च्या मर्जीनुसार %s काढून टाकण्याचा विचार करत आहे ...\n"
 
-#: src/archives.c:1002
+#: src/archives.c:1010
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr ""
 "%s ची बरोबर स्थापना झालेली नाही - त्यावर अवलंबित असलेल्या बाबींकडे दुर्लक्ष करित आहे.\n"
 
-#: src/archives.c:1031
+#: src/archives.c:1039
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr "डिपिकेजी: %s काढुन टकण्यास समस्या येइल कारण ती %s पुरवते ...\n"
 
-#: src/archives.c:1046
+#: src/archives.c:1054
 #, fuzzy, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -1363,92 +1380,111 @@ msgid ""
 msgstr ""
 "डिपिकेजी: पॅकेज %sला पुर्नस्थापनेची जरूरी आहे, पण तुमच्या विनंती नुसार ते काढूनटाकले जाइल\n"
 
-#: src/archives.c:1049
+#: src/archives.c:1057
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "डिपिकेजी: पॅकेज %sला पुर्नस्थापनेची जरूरी आहे, ते काढून टाकले जाणार नाही.\n"
 
-#: src/archives.c:1056
+#: src/archives.c:1064
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
 msgstr ""
 
-#: src/archives.c:1062
+#: src/archives.c:1070
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "डिपिकेजी: हो %sच्या मर्जीनुसार %s कढून टाकले जाइल.\n"
 
-#: src/archives.c:1073
+#: src/archives.c:1081
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "परस्परविरोधी पॅकेजेस - %.250sची स्थापना होत नाही"
 
-#: src/archives.c:1074
+#: src/archives.c:1082
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "डिपिकेजी: ताकिद - परस्परविरोधाकडे दुर्लक्ष करित आहे, तरी पुढे जाऊ शकता !\n"
 
-#: src/archives.c:1115
+#: src/archives.c:1123
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --रिकर्सीव्ह/पुन्हा: पुन्हा: लागणारी गरज कमीतकमी एक पाथ आरग्युमेन्ट"
 
-#: src/archives.c:1147
+#: src/archives.c:1155
 msgid "failed to exec find for --recursive"
 msgstr "--रिकर्सीव्हला लागणारा शोध अमलात आणण्यास अयशस्वी"
 
-#: src/archives.c:1152
+#: src/archives.c:1160
 msgid "failed to fdopen find's pipe"
 msgstr "फाइन्ड्स पाइप एफडीओपन करण्यास अयशस्वी"
 
-#: src/archives.c:1158
+#: src/archives.c:1166
 msgid "error reading find's pipe"
 msgstr "फाइन्ड्स पाइप वाचण्यास दोष येतोय"
 
-#: src/archives.c:1159
+#: src/archives.c:1167
 msgid "error closing find's pipe"
 msgstr "फाइन्ड्स पाइप बंद करण्यास दोष येतोय"
 
-#: src/archives.c:1162
+#: src/archives.c:1170
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "--पुन्हाः पुन्हाः परत येणारी नादुरुस्त झालेली %i चूक शोधा"
 
-#: src/archives.c:1165
+#: src/archives.c:1173
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "शोध घेतला, पण पॅकेजेस (फाइल *.deb) सापडले नाही"
 
-#: src/archives.c:1181
+#: src/archives.c:1189
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s ला कमीतकमी एका पॅकेजच्या अर्काइव्ह फाइलच्या आरग्यूमेंटची गरज आहे"
 
-#: src/archives.c:1255
+#: src/archives.c:1221 src/enquiry.c:136 src/enquiry.c:238 src/enquiry.c:379
+#: src/enquiry.c:381 src/enquiry.c:390 src/main.c:63 src/main.c:154
+#: src/main.c:249 src/main.c:416 src/packages.c:268 src/query.c:184
+#: src/query.c:279 src/query.c:316 src/query.c:325 src/query.c:372
+#: src/query.c:433 src/query.c:565 src/query.c:608 src/select.c:80
+#: src/trigcmd.c:85 src/trigcmd.c:116 dpkg-deb/build.c:357
+#: dpkg-deb/extract.c:214 dpkg-deb/extract.c:234 dpkg-deb/info.c:188
+#: dpkg-deb/info.c:231 dpkg-deb/main.c:63 dpkg-deb/main.c:125
+#: dpkg-split/info.c:241 dpkg-split/main.c:56 dpkg-split/main.c:93
+#: dpkg-split/queue.c:125 dpkg-split/queue.c:245
+msgid "<standard output>"
+msgstr ""
+
+#: src/archives.c:1222 src/packages.c:269 src/query.c:185 src/query.c:277
+#: src/query.c:378 src/query.c:434 src/select.c:81 dpkg-split/main.c:198
+#: dpkg-split/queue.c:192
+msgid "<standard error>"
+msgstr ""
+
+#: src/archives.c:1263
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "अगोदर निवड रद्द झालेल्या %s पॅकेजची निवड होत आहे.\n"
 
-#: src/archives.c:1260
+#: src/archives.c:1268
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "निवड रद्द झालेल्या %s पॅकेज वगळत आहे.\n"
 
-#: src/archives.c:1277
+#: src/archives.c:1285
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "%.250s ची %.250s आवृत्ती अगोदर स्थापन केलीली आहे, वगळत आहे.\n"
 
-#: src/archives.c:1288
+#: src/archives.c:1296
 #, fuzzy, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr "%s - ताकिद : %.250s हे %.250sला  %.250s वरून खाली आणते.\n"
 
-#: src/archives.c:1293
+#: src/archives.c:1301
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr "%.250s हे %.250sला  %.250s वरून खाली आणणार नाही, वगळत आहे.\n"
 
-#: src/cleanup.c:86
+#: src/cleanup.c:85
 #, c-format
 msgid ""
 "unable to remove newly-installed version of `%.250s' to allow reinstallation "
@@ -1456,32 +1492,32 @@ msgid ""
 msgstr ""
 "पुर्नस्थापना करण्यासाठी `%.250s'ची नवीन स्थापन केलेली आवृत्ती काढुन टाकण्यास असमर्थ आहे"
 
-#: src/cleanup.c:93
+#: src/cleanup.c:92
 #, c-format
 msgid "unable to restore backup version of `%.250s'"
 msgstr "`%.250s'च्या बॅकप आवृत्तीची पुनर्रचना करण्यास असमर्थ आहे"
 
-#: src/cleanup.c:97
+#: src/cleanup.c:96
 #, c-format
 msgid "unable to remove newly-installed version of `%.250s'"
 msgstr "`%.250s'ची नवीन स्थापन केलेली आवृत्ती काढून टाकण्यास असमर्थ आहे"
 
-#: src/cleanup.c:104
+#: src/cleanup.c:103
 #, c-format
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "`%.250s'ची नवीन वेचलेली /extracted आवृत्ती काढून टाकण्यास असमर्थ आहे"
 
-#: src/configure.c:95
+#: src/configure.c:100
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "`%s' हे नाव नसलेले पॅकेज प्रस्थापित झाले आहे, त्याची जुळवणी शक्य नाही"
 
-#: src/configure.c:97
+#: src/configure.c:102
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "पॅकेज %.250s ची स्थापना आणि जुळवणी आधीच झालेली आहे"
 
-#: src/configure.c:99
+#: src/configure.c:104
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1490,7 +1526,7 @@ msgstr ""
 "पॅकेज %.250s हे जुळवणीसाठी तयार नाही\n"
 "जुळवणी शक्य नाही (सध्याची स्थिती `%.250s')"
 
-#: src/configure.c:128
+#: src/configure.c:133
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1499,11 +1535,11 @@ msgstr ""
 "डिपिकेजी: यावर अवलंबून असलेल्या समस्यांमुळे %sची जुळवणी करण्यास मज्जाव करते:\n"
 "%s"
 
-#: src/configure.c:131
+#: src/configure.c:136
 msgid "dependency problems - leaving unconfigured"
 msgstr "अवलंबून असलेल्या समस्यांमुळे - ज़ुळवणी न करिता सोडून देते"
 
-#: src/configure.c:135
+#: src/configure.c:140
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -1512,7 +1548,7 @@ msgstr ""
 "डिपिकेजी: %s: अवलंबून असलेल्या समस्यांमुळे, परंतू तुम्ही केलेल्या विनंतीनुसार जुळवणी करित आहे:\n"
 "%s"
 
-#: src/configure.c:143
+#: src/configure.c:148
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1520,22 +1556,22 @@ msgstr ""
 "तुमचे पॅकेज अतिशय विसंगत परिस्थितीत आहे - त्याची जुळवणी करण्याच्या प्रयत्नाआधी तुम्ही त्याची "
 "पुर्नस्थापना करा"
 
-#: src/configure.c:146
+#: src/configure.c:151
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "सेटिंग होत आहे %s (%s) ...\n"
 
-#: src/configure.c:199
+#: src/configure.c:204
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr "नवीन डिस्ट कॉनफाइल `%.250s' स्टॅट होण्यास अयशस्वी"
 
-#: src/configure.c:209 src/configure.c:444
+#: src/configure.c:214 src/configure.c:449
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr "चालू स्थापन केलेली `%.250s' कॉनफाइल स्टॅट होण्यास अयशस्वी"
 
-#: src/configure.c:218
+#: src/configure.c:223
 #, c-format
 msgid ""
 "\n"
@@ -1546,51 +1582,51 @@ msgstr ""
 "कॉनफिगरेशन फाइल '%s' सिस्टमवर/संगणकावर अस्तित्वात नाही.\n"
 "तुमच्या विनंतीनुसार नवीन कॉनफिग फाइलची स्थापना होत आहे.\n"
 
-#: src/configure.c:254
+#: src/configure.c:259
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "डिपिकेजी: %s: ताकिद -  `%.250s' हे जुने बॅकप काढून टाकण्यास अयशस्वी: %s\n"
 
-#: src/configure.c:262
+#: src/configure.c:267
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "डिपिकेजी: %s: ताकिद - `%.250s' चे `%.250s' पुन्हा नामांकन करण्यास अयशस्वी: %s\n"
 
-#: src/configure.c:269
+#: src/configure.c:274
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: जीझिप ची अंमलबजावणी होउ शकली नाही %s"
 
-#: src/configure.c:276
+#: src/configure.c:281
 #, fuzzy, c-format
 msgid "%s: failed to remove old distrib version '%.250s': %s"
 msgstr ""
 "डिपिकेजी: %s: ताकिद - `जुनी %.250s' डिस्ट्रिब आवृत्ती काढून टाकण्यास अयशस्वी: %s\n"
 
-#: src/configure.c:280
+#: src/configure.c:285
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 "डिपिकेजी: %s: ताकिद - `%.250s' काढून टाकण्यास अयशस्वी (पुन्हा लिहिण्याच्या आधी): %s\n"
 
-#: src/configure.c:284
+#: src/configure.c:289
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr ""
 "डिपिकेजी: %s: ताकिद - %.250s' हि `%.250s' ला लिंक करण्यास अयशस्वी झाली आहे: %s\n"
 
-#: src/configure.c:288
+#: src/configure.c:293
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "%s या कॉनफिग फाइलच्या नवीन आवृत्तीची स्थापना करित आहे....\n"
 
-#: src/configure.c:294
+#: src/configure.c:299
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "`%.250s' हे `%.250s' म्हणून स्थापना करण्यास असमर्थ आहे"
 
-#: src/configure.c:351
+#: src/configure.c:356
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -1599,7 +1635,7 @@ msgstr ""
 "डिपिकेजी: %s: ताकिद - `%s' कॉनफिग फाइल स्टॅट होण्यास असमर्थ आहे\n"
 " (= `%s'): %s\n"
 
-#: src/configure.c:362
+#: src/configure.c:367
 #, fuzzy, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -1608,7 +1644,7 @@ msgstr ""
 "डिपिकेजी: %s: ताकिद - कॉनफिग फाइल `%s' हि सर्क्युलर लिंक आहे\n"
 " (= `%s')\n"
 
-#: src/configure.c:375
+#: src/configure.c:380
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -1617,7 +1653,7 @@ msgstr ""
 "डिपिकेजी: %s: ताकिद - `%s' कॉनफाइल रिडलिंक करण्यास असमर्थ आहे\n"
 " (= `%s'): %s\n"
 
-#: src/configure.c:394
+#: src/configure.c:399
 #, fuzzy, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -1626,55 +1662,55 @@ msgstr ""
 "डिपिकेजी: %s: ताकिद -  कॉनफाइल `%.250s' फाइलनावाचे विघटन करण्याचे ठरविते\n"
 " (`%s' हे `%s' ला सिमलिंक आहे)\n"
 
-#: src/configure.c:407
+#: src/configure.c:412
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "डिपिकेजी: %s: ताकिद - कॉनफाइल `%.250s' हि साधी फाइल किंवा सिमलिंक नाही (= `%"
 "s')\n"
 
-#: src/configure.c:424
+#: src/configure.c:429
 msgid "md5hash"
 msgstr "md5hash"
 
-#: src/configure.c:430
+#: src/configure.c:435
 #, fuzzy, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
 msgstr "डिपिकेजी: %s: ताकिद - कॉनफाइल %s हि हॅशसाठी उघडण्यास असमर्थ आहे: %s\n"
 
-#: src/configure.c:448
+#: src/configure.c:453
 #, c-format
 msgid "unable to change ownership of new dist conffile `%.250s'"
 msgstr "नवीन डिस्ट कॉनफाइल `%.250s'चा मालकीहक्क बदलण्यास असमर्थ आहे "
 
-#: src/configure.c:451
+#: src/configure.c:456
 #, c-format
 msgid "unable to set mode of new dist conffile `%.250s'"
 msgstr "नवीन डिस्ट कॉनफाइल `%.250s'चा मोड निश्चित करण्यास असमर्थ आहे"
 
-#: src/configure.c:481
+#: src/configure.c:486
 #, fuzzy, c-format
 msgid "failed to run %s (%.250s)"
 msgstr "(%.250s) रन करण्यास अयशस्वी झाले आहे"
 
-#: src/configure.c:490 src/configure.c:528
+#: src/configure.c:495 src/configure.c:533
 msgid "wait for shell failed"
 msgstr "शेल अयशस्वी झाले म्हणून थांबा"
 
-#: src/configure.c:510
+#: src/configure.c:515
 msgid "Type `exit' when you're done.\n"
 msgstr "तुमचे झाल्यावर 'एग्झिट' टाइप करा.\n"
 
-#: src/configure.c:519
+#: src/configure.c:524
 #, c-format
 msgid "failed to exec shell (%.250s)"
 msgstr "(%.250s) शेल अमलात आणण्यास अयशस्वी झाले आहे"
 
-#: src/configure.c:531
+#: src/configure.c:536
 msgid "Don't forget to foreground (`fg') this process when you're done !\n"
 msgstr "तुमचे काम झाल्यावर हि प्रोसेस फोरग्राउन्ड (`fg') करण्यास विसरू नका !\n"
 
-#: src/configure.c:558
+#: src/configure.c:563
 #, c-format
 msgid ""
 "\n"
@@ -1683,12 +1719,12 @@ msgstr ""
 "\n"
 "काॅनफिगरेशन फाइल `%s'"
 
-#: src/configure.c:560
+#: src/configure.c:565
 #, c-format
 msgid " (actually `%s')"
 msgstr "(प्रत्यक्ष `%s')"
 
-#: src/configure.c:564
+#: src/configure.c:569
 #, c-format
 msgid ""
 "\n"
@@ -1699,7 +1735,7 @@ msgstr ""
 "==> सिस्टमवरील/संगणकावरिल फाइल हि तुम्ही किंवा स्क्रिप्टने बनवलेली आहे.\n"
 "==> पॅकेजमधील फाइल हि पॅकेज मेंटेनरकडून पुरवलेली आहे.\n"
 
-#: src/configure.c:569
+#: src/configure.c:574
 #, c-format
 msgid ""
 "\n"
@@ -1708,7 +1744,7 @@ msgstr ""
 "\n"
 "स्थापना झाल्यापासून बदललेली नाही.\n"
 
-#: src/configure.c:571
+#: src/configure.c:576
 #, c-format
 msgid ""
 "\n"
@@ -1717,7 +1753,7 @@ msgstr ""
 "\n"
 " ==> स्थापना केल्यापासून (तुम्ही अथवा स्क्रिप्टने) बदल केले आहेत.\n"
 
-#: src/configure.c:572
+#: src/configure.c:577
 #, c-format
 msgid ""
 "\n"
@@ -1726,37 +1762,37 @@ msgstr ""
 "\n"
 " ==> स्थापना केल्यापासून (तुम्ही अथवा स्क्रिप्टने) काढून टाकलेले.\n"
 
-#: src/configure.c:575
+#: src/configure.c:580
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> पॅकेज वितकराने अद्ययावत/अपडेट केलेल्या आवृत्ती पाठवल्या आहेत.\n"
 
-#: src/configure.c:576
+#: src/configure.c:581
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     पॅकेजमधील आवृत्ती आणि गेल्यावेळी स्थापन केलेली आवृत्ती या दोन्ही सारख्या आहेत.\n"
 
-#: src/configure.c:583
+#: src/configure.c:588
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> तुम्ही विनंती केल्याप्रमाणे नवीन फाइल वापरत आहे.\n"
 
-#: src/configure.c:587
+#: src/configure.c:592
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> तुम्ही विनंती केल्याप्रमाणे चालू जुनी फाइल वापरत आहे.\n"
 
-#: src/configure.c:597
+#: src/configure.c:602
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> जुनी कॉनफिग फाइल डिफॉल्ट म्हणून ठेवत आहे.\n"
 
-#: src/configure.c:601
+#: src/configure.c:606
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> नवीन कॉनफिग फाइल डिफॉल्ट म्हणून वापरत आहे.\n"
 
-#: src/configure.c:609
+#: src/configure.c:614
 #, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -1771,37 +1807,37 @@ msgstr ""
 "      डि        : आवृत्तीमधिल फरक दखवा\n"
 "      झेड       : परिस्थिती तपासण्यासाठी ही प्रक्रिया बॅकग्राउंड मध्ये करा\n"
 
-#: src/configure.c:616
+#: src/configure.c:621
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " तुमची चालू आवृत्ती ठेवणे हि डिफोॅल्ट कृती आहे.\n"
 
-#: src/configure.c:618
+#: src/configure.c:623
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr "नवी आवृत्ती स्थापन करणे हि डिफोॅल्ट कृती आहे.\n"
 
-#: src/configure.c:624
+#: src/configure.c:629
 msgid "[default=N]"
 msgstr "[डिफोॅल्ट=एन]"
 
-#: src/configure.c:625
+#: src/configure.c:630
 msgid "[default=Y]"
 msgstr "[डिफोॅल्ट=वाय]"
 
-#: src/configure.c:625
+#: src/configure.c:630
 msgid "[no default]"
 msgstr "[डिफोॅल्ट नाही]"
 
-#: src/configure.c:628
+#: src/configure.c:633
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr "एसटीडीइआरआर लिहिण्यास येणारा दोष हा कॉनफाइल प्रॉम्प्टच्या आधी शोधण्यात आला"
 
-#: src/configure.c:635
+#: src/configure.c:640
 msgid "read error on stdin at conffile prompt"
 msgstr "कॉनफाइल प्रॉम्प्टच्या एसटिडिइनवरचा दोष वाचा"
 
-#: src/configure.c:636
+#: src/configure.c:641
 msgid "EOF on stdin at conffile prompt"
 msgstr "कॉनफाइल प्रॉम्प्टच्या एसटिडीइनवरची EOF "
 
@@ -1925,24 +1961,24 @@ msgstr "  %.250s हे %.250s पुरवतात आणि त्याच�
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s हे %.250s पुरवतात आणि ते %s आहे.\n"
 
-#: src/divertdb.c:71
+#: src/divertdb.c:69
 msgid "failed to open diversions file"
 msgstr "डाइव्हर्जन्स फाइल उघडण्यास अयशस्वी"
 
-#: src/divertdb.c:78
+#: src/divertdb.c:76
 msgid "failed to fstat previous diversions file"
 msgstr "अगोदरची डाइव्हर्जन्स फाइल एफस्टॅट होण्यास अयशस्वी"
 
-#: src/divertdb.c:80
+#: src/divertdb.c:78
 msgid "failed to fstat diversions file"
 msgstr "डाइव्हर्जन्स फाइल एफस्टॅट होण्यास अयशस्वी"
 
-#: src/divertdb.c:120
+#: src/divertdb.c:118
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "`%.250s' किंवा `%.250s' यामध्ये सामावलेले परस्परविरोधी डाइव्हर्जन्स"
 
-#: src/divertdb.c:130
+#: src/divertdb.c:128
 msgid "read error in diversions [i]"
 msgstr "डाइव्हर्जन्स [i] मधला दोष वाचा"
 
@@ -2000,28 +2036,28 @@ msgid ""
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
 
-#: src/enquiry.c:117 src/enquiry.c:172 src/enquiry.c:248 src/enquiry.c:311
-#: src/enquiry.c:384 src/select.c:94 src/select.c:151 src/update.c:47
-#: dpkg-split/queue.c:201
+#: src/enquiry.c:117 src/enquiry.c:173 src/enquiry.c:249 src/enquiry.c:312
+#: src/enquiry.c:386 src/select.c:95 src/select.c:152 src/trigcmd.c:200
+#: src/update.c:46 src/update.c:102 dpkg-split/queue.c:204
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s पर्याय घेत नाही"
 
-#: src/enquiry.c:154
+#: src/enquiry.c:155
 msgid "<unknown>"
 msgstr "<अनोळखी>"
 
-#: src/enquiry.c:211
+#: src/enquiry.c:212
 #, c-format
 msgid " %d in %s: "
 msgstr "%d %s मध्ये आहे:"
 
-#: src/enquiry.c:226
+#: src/enquiry.c:227
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d पॅकेजेस खालील विभागामधून"
 
-#: src/enquiry.c:261
+#: src/enquiry.c:262
 #, fuzzy, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2030,30 +2066,30 @@ msgstr ""
 "महत्त्वाच्या प्रचलित/चालू आधार/सपोर्ट असलेली डिपिकेजीच्या आवृत्तीची जुळवणी झाली नाही.\n"
 "कृपया 'डिपिकेजी -- कॉनफिगर डिपिकेजी' वापरा, आणि पुन्हा प्रयत्न करा.\n"
 
-#: src/enquiry.c:266
+#: src/enquiry.c:267
 #, fuzzy, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 "डिपिकेजीची स्थापना झाल्याची नोंद नाही, प्रचलित/चालू आधार/सपोर्टसाठी तपासू शकत "
 "नाही !\n"
 
-#: src/enquiry.c:274
+#: src/enquiry.c:275
 msgid "Pre-Depends field"
 msgstr ""
 
-#: src/enquiry.c:279
+#: src/enquiry.c:280
 msgid "epoch"
 msgstr ""
 
-#: src/enquiry.c:284
+#: src/enquiry.c:285
 msgid "long filenames"
 msgstr ""
 
-#: src/enquiry.c:289
+#: src/enquiry.c:290
 msgid "multiple Conflicts and Replaces"
 msgstr ""
 
-#: src/enquiry.c:364
+#: src/enquiry.c:365
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -2062,30 +2098,30 @@ msgstr ""
 "डिपिकेजी: प्रि-डिपेन्डसीचे/आधी अवलंबुन रहाणा~या समस्यांचे कसे समाधान होते ते समजत नाही:\n"
 " %s\n"
 
-#: src/enquiry.c:365
+#: src/enquiry.c:366
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "%.250s साठी प्रि-डिपेन्डसीचे/आधी अवलंबुन रहाणा~या समस्यांचे समाधान करू शकत नाही "
 "( %.250s साठी पाहिजे आहे)"
 
-#: src/enquiry.c:393
+#: src/enquiry.c:396
 #, fuzzy, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "ताकिद: अप्रचलित पर्याय `--%s'\n"
 
-#: src/enquiry.c:434
+#: src/enquiry.c:437
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--कंपेअर-वर्जन तीन पर्याय घेते: <वर्जन> <रिलेशन> <वर्जन>"
 
-#: src/enquiry.c:439
+#: src/enquiry.c:442
 msgid "--compare-versions bad relation"
 msgstr "--कंपेअर-वर्जन चुकिचे रिलेशन"
 
-#: src/enquiry.c:444 src/enquiry.c:455
-#, c-format
-msgid "dpkg: version '%s' has bad syntax: %s\n"
+#: src/enquiry.c:447 src/enquiry.c:454
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax: %s"
 msgstr "डिपिकेजी: वर्जन '%s' ची चुकीची सिन्टॅक्स/वाक्यरचना आहे: %s\n"
 
 #: src/errors.c:61
@@ -2135,12 +2171,12 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "डिपिकेजी - ताकिद, समस्येवर दुर्लक्ष करित आहे कारण --फोर्स कार्यक्षम करतो:\n"
 
-#: src/filesdb.c:138
+#: src/filesdb.c:139
 #, c-format
 msgid "unable to open files list file for package `%.250s'"
 msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
 
-#: src/filesdb.c:142
+#: src/filesdb.c:143
 #, fuzzy, c-format
 msgid ""
 "files list file for package `%.250s' missing, assuming package has no files "
@@ -2149,113 +2185,113 @@ msgstr ""
 "डिपिकेजी: गंभीर ताकिद: पॅकेज `%.250s'साठी फाइल्सची सुची असलेली फाइल हरवली आहे, असे "
 "गृहित धरुया कि पॅकेजमध्ये स्थापन केलेली कोणतीही फाइल नाही.\n"
 
-#: src/filesdb.c:153
+#: src/filesdb.c:154
 #, fuzzy, c-format
 msgid "unable to stat files list file for package '%.250s'"
 msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
 
-#: src/filesdb.c:160
+#: src/filesdb.c:161
 #, c-format
 msgid "files list for package `%.250s'"
 msgstr "पॅकेज `%.250s'साठी असलेली फाइलची सुची"
 
-#: src/filesdb.c:166
+#: src/filesdb.c:167
 #, fuzzy, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
 
-#: src/filesdb.c:174
+#: src/filesdb.c:175
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
 
-#: src/filesdb.c:186
+#: src/filesdb.c:187
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "दोषामुळे पॅकेज `%.250s'साठी फाइलची सुची असलेली फाइल बंद होत आहे"
 
-#: src/filesdb.c:222
+#: src/filesdb.c:223
 msgid "(Reading database ... "
 msgstr "(डेटाबेस वाचत आहे ... "
 
-#: src/filesdb.c:237
+#: src/filesdb.c:238
 #, c-format
 msgid "%d files and directories currently installed.)\n"
 msgstr "%d फाइल्स आणि डिरेक्टरीज यांची सध्या स्थापना झालेली आहे.)\n"
 
-#: src/filesdb.c:268
+#: src/filesdb.c:269
 #, c-format
 msgid "unable to create updated files list file for package %s"
 msgstr "पॅकेज %sच्या अद्ययावत फाइलची सुची असलेली फाइल बनवण्यास असमर्थ आहे"
 
-#: src/filesdb.c:278
+#: src/filesdb.c:279
 #, c-format
 msgid "failed to write to updated files list file for package %s"
 msgstr "पॅकेज %sच्या अद्ययावत फाइलची सुची असलेली फाइल लिहिण्यास अयशस्वी झाले आहे"
 
-#: src/filesdb.c:280
+#: src/filesdb.c:281
 #, c-format
 msgid "failed to flush updated files list file for package %s"
 msgstr "पॅकेज %sच्या अद्ययावत फाइलची सुची असलेली फाइल फ्लश करण्यास अयशस्वी"
 
-#: src/filesdb.c:282
+#: src/filesdb.c:283
 #, c-format
 msgid "failed to sync updated files list file for package %s"
 msgstr "पॅकेज %sच्या अद्ययावत फाइलची सुची असलेली फाइल सिंक करण्यास अयशस्वी"
 
-#: src/filesdb.c:285
+#: src/filesdb.c:286
 #, c-format
 msgid "failed to close updated files list file for package %s"
 msgstr "पॅकेज %sच्या अद्ययावत फाइलची सुची असलेली फाइल बंद करण्यास अयशस्वी"
 
-#: src/filesdb.c:287
+#: src/filesdb.c:288
 #, c-format
 msgid "failed to install updated files list file for package %s"
 msgstr "पॅकेज %sच्या अद्ययावत फाइलची सुची असलेली फाइल स्थापन करण्यास अयशस्वी"
 
-#: src/help.c:45
+#: src/help.c:46
 msgid "not installed"
 msgstr "स्थापना झाली नाही"
 
-#: src/help.c:46
+#: src/help.c:47
 msgid "not installed but configs remain"
 msgstr "स्थापना झाली नाही परंतु जुळवणी तशीच आहे"
 
-#: src/help.c:47
+#: src/help.c:48
 #, fuzzy
 msgid "broken due to failed removal or installation"
 msgstr "काढुन टाकण्यास असमर्थ असल्यामुळे तुटले आहे"
 
-#: src/help.c:48
+#: src/help.c:49
 msgid "unpacked but not configured"
 msgstr "अनपॅक्ड परंतु जुळवणी झालेली नाही"
 
-#: src/help.c:49
+#: src/help.c:50
 msgid "broken due to postinst failure"
 msgstr "पोस्टइन्स्ट अयशस्वी झाल्यामुळे तुटले आहे"
 
-#: src/help.c:50
+#: src/help.c:51
 msgid "awaiting trigger processing by another package"
 msgstr ""
 
-#: src/help.c:51
+#: src/help.c:52
 msgid "triggered"
 msgstr ""
 
-#: src/help.c:52
+#: src/help.c:53
 msgid "installed"
 msgstr "स्थापना झाली आहे"
 
-#: src/help.c:99
+#: src/help.c:100
 msgid "dpkg - error: PATH is not set.\n"
 msgstr "डिपिकेजी - दोष: पाथ निश्चित केलेला नाही.\n"
 
-#: src/help.c:114
+#: src/help.c:115
 #, c-format
 msgid "dpkg: `%s' not found on PATH.\n"
 msgstr "डिपिकेजी: पाथवर `%s' मिळाले नाहित.\n"
 
-#: src/help.c:121
+#: src/help.c:122
 #, c-format
 msgid ""
 "%d expected program(s) not found on PATH.\n"
@@ -2264,99 +2300,99 @@ msgstr ""
 "%d अपेक्षित प्रोग्रॅम(स) पाथवर सापडला नाही.\n"
 "एनबी: रूट/मूळ पाथमध्ये /usr/local/sbin, /usr/sbin and /sbin हे असायला पाहिजेत."
 
-#: src/help.c:157
+#: src/help.c:158
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr "`%.250s'ला  सिएचरूट करण्यास अयशस्वी"
 
-#: src/help.c:159 dpkg-deb/build.c:366 dpkg-deb/build.c:436
-#: dpkg-deb/build.c:457
+#: src/help.c:160 dpkg-deb/build.c:370 dpkg-deb/build.c:440
+#: dpkg-deb/build.c:461
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "`%.255s' ला सीएचडीआयआर करता आली नाही"
 
-#: src/help.c:245
+#: src/help.c:246
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "`%.250s' वरिल एग्झिक्युट परवानगी सेट करण्यास असमर्थ आहे"
 
-#: src/help.c:265
+#: src/help.c:272
 #, fuzzy
 msgid "unable to setenv for maintainer script"
 msgstr "व्हीएसएनप्रिंटएफ़मधे सुरूवात करणे जमत नाही"
 
-#: src/help.c:289
+#: src/help.c:296
 #, fuzzy, c-format
 msgid "installed %s script"
 msgstr "जुनी %s स्क्रिप्ट"
 
-#: src/help.c:297 src/help.c:355 src/help.c:407
+#: src/help.c:304 src/help.c:365 src/help.c:417
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "%s `%.250s' स्टॅट करण्यास असमर्थ आहे"
 
-#: src/help.c:299 src/help.c:358 src/help.c:389 src/help.c:410
+#: src/help.c:307 src/help.c:368 src/help.c:399 src/help.c:421
 #, c-format
 msgid "unable to execute %s"
 msgstr "%s अमलात आणण्यास असमर्थ आहे"
 
-#: src/help.c:347 src/help.c:401
+#: src/help.c:357 src/help.c:411
 #, c-format
 msgid "new %s script"
 msgstr "नविन %s स्क्रिप्ट"
 
-#: src/help.c:378
+#: src/help.c:388
 #, c-format
 msgid "old %s script"
 msgstr "जुनी %s स्क्रिप्ट"
 
-#: src/help.c:385
+#: src/help.c:395
 #, fuzzy, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "%s `%.250s' स्टॅट करण्यास असमर्थ आहे"
 
-#: src/help.c:394
+#: src/help.c:404
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "डिपिकेजी: त्याऐवजी नविन पॅकेज मधल्या स्क्रिप्टचा प्रयत्न करते ...\n"
 
-#: src/help.c:405
+#: src/help.c:415
 msgid "there is no script in the new version of the package - giving up"
 msgstr "पॅकेजच्या नव्या आवृत्तीमध्ये स्क्रिप्ट नाही आहे - सोडून देत आहे"
 
-#: src/help.c:411
+#: src/help.c:422
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "डिपिकेजी: ... ते बरोबर झाल्यासरखे दिसत आहे.\n"
 
-#: src/help.c:502
+#: src/help.c:513
 msgid "unlink"
 msgstr "अनलिंक/साखळी तुटली"
 
-#: src/help.c:516
+#: src/help.c:527
 msgid "chmod"
 msgstr "सीएचमोड"
 
-#: src/help.c:532 src/processarc.c:760
+#: src/help.c:543 src/processarc.c:762
 msgid "delete"
 msgstr "डिलिट"
 
-#: src/help.c:543
+#: src/help.c:554
 #, fuzzy, c-format
 msgid "failed to %s '%.255s'"
 msgstr "%s `%%.255s अयशस्वी"
 
-#: src/help.c:548 dpkg-deb/info.c:57
+#: src/help.c:559 dpkg-deb/info.c:60
 msgid "failed to exec rm for cleanup"
 msgstr "एग्झेक आरएमने स्वछ करणे/क्लिन अप अशक्य"
 
-#: src/main.c:54
+#: src/main.c:56
 #, c-format
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "डेबिअन `%s' पॅकेज व्यवस्थापन आज्ञवली आवृत्ति %s.\n"
 
-#: src/main.c:56 src/query.c:443 src/trigcmd.c:83 dpkg-deb/main.c:58
-#: dpkg-split/main.c:51
+#: src/main.c:59 src/query.c:561 src/trigcmd.c:81 dpkg-deb/main.c:59
+#: dpkg-split/main.c:52
 #, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2367,7 +2403,7 @@ msgstr ""
 "नंतर नक्कल करण्याच्या अटिंसाठी. याची हमी नाही.\n"
 "पहा %s --लाइसन्स नक्कल करण्यासाठी परवाना आणि परवान्याचे तपशील.\n"
 
-#: src/main.c:69 src/query.c:453 dpkg-deb/main.c:68 dpkg-split/main.c:61
+#: src/main.c:73 src/query.c:572 dpkg-deb/main.c:70 dpkg-split/main.c:63
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2376,7 +2412,7 @@ msgstr ""
 "उप्युक्तता: %s [<पर्याय> ...] <आज्ञा>\n"
 "\n"
 
-#: src/main.c:73
+#: src/main.c:77
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -2432,8 +2468,8 @@ msgstr ""
 "  -Dh|--डिबग=हेल्प \t\tदोष/चुक शोधण्याची मदत दाखवते.\n"
 "\n"
 
-#: src/main.c:101 src/query.c:467 src/trigcmd.c:105 dpkg-deb/main.c:85
-#: dpkg-split/main.c:75
+#: src/main.c:105 src/query.c:588 src/trigcmd.c:102 dpkg-deb/main.c:87
+#: dpkg-split/main.c:77
 #, c-format
 msgid ""
 "  -h|--help                        Show this help message.\n"
@@ -2446,7 +2482,7 @@ msgstr ""
 "  --लाइसन्स|--लाइसन्स\t\tनक्कल करण्याच्या परवान्याचे अटी दाखवतात.\n"
 "\n"
 
-#: src/main.c:107
+#: src/main.c:111
 #, c-format
 msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -2458,7 +2494,7 @@ msgstr ""
 "करा %s --हेल्प).\n"
 "\n"
 
-#: src/main.c:112
+#: src/main.c:116
 #, c-format
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
@@ -2469,7 +2505,7 @@ msgstr ""
 "  --अॅसर्ट-वर्किंग्-एपोक | --अॅसर्ट-लॉन्ग-फाइलनेम्स् | --अॅसर्ट-मल्टि-कॉनरेप.\n"
 "\n"
 
-#: src/main.c:117
+#: src/main.c:121
 #, fuzzy, c-format
 msgid ""
 "Options:\n"
@@ -2525,7 +2561,7 @@ msgstr ""
 "  --अॅबॉर्ट-आफ्टर् <n>          आकस्मिक <n> दोष उद्भवल्यानंतर बाहेर पडते.\n"
 "\n"
 
-#: src/main.c:141
+#: src/main.c:145
 #, c-format
 msgid ""
 "Comparison operators for --compare-versions are:\n"
@@ -2544,12 +2580,12 @@ msgstr ""
 "  < << <= = >= >> >       (फक्त नियंत्रण फाइलच्या वाक्यरचने बरोबरच्या सुसंगतीसाठी).\n"
 "\n"
 
-#: src/main.c:148
+#: src/main.c:152
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr "`डिसिलेक्ट' किंवा `अॅप्टिट्युड' युजर-फ्रेन्डली पॅकेज व्यवस्थापनासाठी वापरा.\n"
 
-#: src/main.c:155
+#: src/main.c:160
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2573,17 +2609,17 @@ msgstr ""
 "[*] हे ठळक पर्याय प्रचंड प्रमाणात आउटपुट/उत्पादन देतो - त्याला 'लेस' किंवा 'मोर'ने मार्गी "
 "लावा!"
 
-#: src/main.c:211 src/query.c:507 dpkg-deb/main.c:182 dpkg-split/main.c:162
+#: src/main.c:216 src/query.c:630 dpkg-deb/main.c:185 dpkg-split/main.c:166
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr " परस्परविरुद्ध कृती -%c (--%s) आणि -%c (--%s)"
 
-#: src/main.c:217
+#: src/main.c:222
 #, fuzzy, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "ताकिद: अप्रचलित पर्याय `--%s'\n"
 
-#: src/main.c:225
+#: src/main.c:230
 #, fuzzy, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2624,30 +2660,30 @@ msgstr ""
 "दोष शोधण्याचे पर्याय बिटवाईज-ऑर वापरुन संमिश्र करावेत.\n"
 "कृपया नोंद घ्या अर्थ आणि किंमती बदलत असतात.\n"
 
-#: src/main.c:249
+#: src/main.c:254
 msgid "--debug requires an octal argument"
 msgstr "--डिबगला ऑक्टल आरग्युमेन्टची/पर्यायाची गरज आहे"
 
-#: src/main.c:273
+#: src/main.c:278
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr "null/नल पॅकेज नाव --इग्नोर-डिपेन्डस कॉमा-सेपरेटेड `%.250s' सुचीमधिल"
 
-#: src/main.c:279
+#: src/main.c:284
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "--इग्नॉर-डिपेन्डसला  कायदेशीर पॅकेज नाव आवश्यक आहे. `%.250s' हे नाही; %s"
 
-#: src/main.c:295 src/main.c:307 src/main.c:548 dpkg-split/main.c:119
+#: src/main.c:300 src/main.c:312 src/main.c:612 dpkg-split/main.c:123
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "--%sसाठी अयोग्य पूर्णांक : `%.250s'"
 
-#: src/main.c:309
+#: src/main.c:314
 msgid "<package status and progress file descriptor>"
 msgstr ""
 
-#: src/main.c:324
+#: src/main.c:385
 #, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2719,41 +2755,41 @@ msgstr ""
 "ताकिद - [!] ठळक पर्यायांचा वापर तुमच्या स्थापनेला गंभीर नुकसान पोहचवू शकते.\n"
 "[*] हे फोर्सिंगचे ठळक पर्याय डिफॉल्टनी शक्य असतात.\n"
 
-#: src/main.c:370
+#: src/main.c:431
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr " अज्ञात फोर्स/रिफ्युज पर्याय `%.*s'"
 
-#: src/main.c:375
+#: src/main.c:437
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "ताकिद: अप्रचलित फोर्स/रिफ्युज पर्याय `%.*s'\n"
 
-#: src/main.c:526
+#: src/main.c:590
 #, c-format
 msgid "failed to exec %s"
 msgstr "%s एग्झेक करण्यास अयशस्वी"
 
-#: src/main.c:542
+#: src/main.c:606
 msgid "--command-fd takes one argument, not zero"
 msgstr "--कमांड-एफडि एक आर्ग्युमेन्ट/पर्याय घेते, शून्य नाही"
 
-#: src/main.c:544
+#: src/main.c:608
 msgid "--command-fd only takes one argument"
 msgstr "--कमांड-एफडि फक्त एक आर्ग्युमेन्ट/पर्याय घेते"
 
-#: src/main.c:550
+#: src/main.c:614
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "स्ट्रीमसाठी `%i' उघडू शकत नाही"
 
-#: src/main.c:575
+#: src/main.c:639
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "%d ओळीच्या शेवटाच्या अगोदर अनपेक्षित इओएफ/फाइलचा शेवट"
 
-#: src/main.c:619 src/main.c:641 src/query.c:551 dpkg-deb/main.c:213
-#: dpkg-split/main.c:181
+#: src/main.c:683 src/main.c:705 src/query.c:675 dpkg-deb/main.c:216
+#: dpkg-split/main.c:185
 msgid "need an action option"
 msgstr "क्रियेच्या पर्यायाची आवश्यक्ता आहे"
 
@@ -2762,7 +2798,7 @@ msgstr "क्रियेच्या पर्यायाची आवश्�
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --पेन्डिंग कोणतिही अपर्यायी आर्ग्युमेन्ट घेत नाही"
 
-#: src/packages.c:146 src/query.c:292
+#: src/packages.c:146 src/query.c:294 src/query.c:532
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s कमित कमी एका पॅकेजच्या नावाच्या आर्ग्युमेन्टची/पर्यायीची आवशक्यता आहे"
@@ -2871,46 +2907,46 @@ msgstr " च्यावर अवलंबुन "
 msgid "; however:\n"
 msgstr "; तथापी:\n"
 
-#: src/pkg-show.c:41 src/query.c:91
+#: src/pkg-show.c:41 src/query.c:93
 msgid "(no description available)"
 msgstr "(वर्णन उपलब्ध नाही)"
 
-#: src/processarc.c:106
+#: src/processarc.c:108
 msgid "cannot access archive"
 msgstr "आर्काइव्हमध्ये प्रवेश करणे अशक्य"
 
-#: src/processarc.c:116
+#: src/processarc.c:118
 #, c-format
 msgid "error ensuring `%.250s' doesn't exist"
 msgstr "`%.250s'ची खात्री करणारा दोष अस्तित्वात नाही"
 
-#: src/processarc.c:121
+#: src/processarc.c:123
 msgid "failed to exec dpkg-split to see if it's part of a multiparter"
 msgstr "तो अनेकविभाजकाचा भाग आहे हे पहाण्यासाठी डिपिकेजी-स्प्लिट अमलात आणण्यास अयशस्वी"
 
-#: src/processarc.c:124
+#: src/processarc.c:126
 msgid "wait for dpkg-split failed"
 msgstr "डिपिकेजी-स्प्लिट अयशस्वी झाले म्हणुन थांबा"
 
-#: src/processarc.c:130
+#: src/processarc.c:132
 msgid "reassembled package file"
 msgstr "पॅकेज फाइल पुन्हः एकत्र केली"
 
-#: src/processarc.c:145
+#: src/processarc.c:147
 #, c-format
 msgid "Authenticating %s ...\n"
 msgstr "%sचा खरेपणा सिद्ध करित आहे...\n"
 
-#: src/processarc.c:150
+#: src/processarc.c:152
 msgid "failed to execl debsig-verify"
 msgstr "डेबसिग-वेरिफाय अमलात आणण्यास अयशस्वी"
 
-#: src/processarc.c:156
+#: src/processarc.c:158
 #, c-format
 msgid "Verification on package %s failed!"
 msgstr "%s पॅकेजची पडताळणी अयशस्वी"
 
-#: src/processarc.c:158
+#: src/processarc.c:160
 #, c-format
 msgid ""
 "Verification on package %s failed,\n"
@@ -2919,132 +2955,132 @@ msgstr ""
 "%s पॅकेजची पडताळणी अयशस्वी,\n"
 "परंतु तुमच्या मागणी/विनंती नुसार स्थापना करीत आहे.\n"
 
-#: src/processarc.c:161
+#: src/processarc.c:163
 #, c-format
 msgid "passed\n"
 msgstr " मंजूर झाले\n"
 
-#: src/processarc.c:170
+#: src/processarc.c:172
 msgid "unable to get unique filename for control info"
 msgstr "नियंत्रण/नियमन माहितीसाठी अद्वितिय फाइलनाव मिळणे अशक्य"
 
-#: src/processarc.c:193
+#: src/processarc.c:195
 msgid "failed to exec dpkg-deb to extract control information"
 msgstr "नियंत्रण/नियमन माहिती मिळवण्यास डिपिकेजी-डेब अमलात आणण्यास अयशस्वी"
 
-#: src/processarc.c:211
+#: src/processarc.c:213
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "%s मधुन %sच्या माहितीची नोंद केली.\n"
 
-#: src/processarc.c:220
+#: src/processarc.c:222
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "(%s) पॅकेज आर्किटेक्चर (%s) प्रणाली बरोबर जुळत नाही"
 
-#: src/processarc.c:275
+#: src/processarc.c:277
 #, fuzzy, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
 "%s"
 msgstr "डिपिकेजी: %s बद्दल ज्यात %s आहे, प्रि-डिपेन्डन्सी समस्या:\n"
 
-#: src/processarc.c:278
+#: src/processarc.c:280
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "प्रि-डिपेन्डन्सी समस्या - %.250s स्थापना करत नाही"
 
-#: src/processarc.c:279
+#: src/processarc.c:281
 #, fuzzy
 msgid "ignoring pre-dependency problem!"
 msgstr "डिपिकेजी: ताकिद - प्रि-डिपेन्डन्सी समस्यांकडे दुर्लक्ष करत आहे !\n"
 
-#: src/processarc.c:294
+#: src/processarc.c:296
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "%s %s बदली करण्याची तयारी करत आहे (%s उपयोगात आणा) ...\n"
 
-#: src/processarc.c:300
+#: src/processarc.c:302
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "%s अनपॅक करत आहे (%s मधुन) ...\n"
 
-#: src/processarc.c:329
+#: src/processarc.c:331
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr "कॉन्फफाइलचे नाव (`%.250s' पासुन सुरवात) खूप मोठे आहे (>%d अक्षरे)"
 
-#: src/processarc.c:382
+#: src/processarc.c:384
 #, c-format
 msgid "read error in %.250s"
 msgstr "%.250sमध्ये वाचनाची समस्या"
 
-#: src/processarc.c:384
+#: src/processarc.c:386
 #, c-format
 msgid "error closing %.250s"
 msgstr "समस्या %.250s बंद करत आहे"
 
-#: src/processarc.c:386
+#: src/processarc.c:388
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "समस्या %.250s उघडण्याचा प्रयत्न करत आहे"
 
-#: src/processarc.c:422
+#: src/processarc.c:424
 #, fuzzy, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "%sची अजुळवणी करत आहे, जेणे करुन आपण %s काढुन टाकू शकतो...\n"
 
-#: src/processarc.c:425
+#: src/processarc.c:427
 #, fuzzy, c-format
 msgid "De-configuring %s ...\n"
 msgstr "%s काढून टाकत आहे...\n"
 
-#: src/processarc.c:500
+#: src/processarc.c:502
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "%.250sची अदलाबदली अनपॅक करत आहे ...\n"
 
-#: src/processarc.c:581
+#: src/processarc.c:583
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr "आर्काइव्ह फाइलप्रणाली मिळवण्यासाठी डिपिकेजी-डेब अमलात आणणे अशक्य"
 
-#: src/processarc.c:595
+#: src/processarc.c:597
 msgid "error reading dpkg-deb tar output"
 msgstr "डिपिकेजी-डेब टार आउट्पुट/उत्पादन वाचनाची समस्या"
 
-#: src/processarc.c:597
+#: src/processarc.c:599
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "दुषित फाइलप्रणाली टारफाइल - दुषित आर्काइव्ह पॅकेज"
 
-#: src/processarc.c:600
+#: src/processarc.c:602
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "डिपिकेजी-डेब: शक्य असलेली मागिल शून्ये झॅप करा/ काढून टाका"
 
-#: src/processarc.c:660
+#: src/processarc.c:662
 #, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "डिपिकेजी: ताकिद - जुनी `%.250s' फाइल स्टॅट करण्यास अशक्य म्हणुन ती डिलिट करत नाही: %"
 "s "
 
-#: src/processarc.c:666
+#: src/processarc.c:668
 #, fuzzy, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "डिपिकेजी: ताकिद - जुनी `%.250s' डिरेक्टरी डिलिट करण्यास/काढण्यास अशक्य: %s\n"
 
-#: src/processarc.c:669
+#: src/processarc.c:671
 #, fuzzy, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
 "डिपिकेजी: ताकिद - जुनी `%.250s' कॉन्फफाइल रिकामी डिरेक्टरी होती (आणि ती आता डिलिट "
 "करण्यात /काढून टाकण्यात आली आहे)\n"
 
-#: src/processarc.c:711
+#: src/processarc.c:713
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "दुस~या नविन `%.250s फाइलचे स्टॅट करणे अशक्य"
 
-#: src/processarc.c:722
+#: src/processarc.c:724
 #, fuzzy, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -3053,165 +3089,164 @@ msgstr ""
 "डिपिकेजी: ताकिद - जुनी `%.250s' फाइल ही अनेक नविन फाइलींप्रमाणे आहे!  (दोन्ही "
 "%.250s' आणि `%.250s')"
 
-#: src/processarc.c:764
+#: src/processarc.c:766
 #, fuzzy, c-format
 msgid "unable to %s old file '%.250s': %s"
 msgstr "डिपिकेजी: ताकिद - जुनी `%%.250s' फाइल %s करण्यास अशक्य : %%s\n"
 
-#: src/processarc.c:799 src/processarc.c:1046 src/remove.c:288
+#: src/processarc.c:801 src/processarc.c:1048 src/query.c:479 src/remove.c:288
 msgid "cannot read info directory"
 msgstr "माहितीची डिरेक्टरी वाचू शकत नाही"
 
-#: src/processarc.c:812
+#: src/processarc.c:814
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr "जुन्य़ा पॅकेजच्या आवृत्तीत `%.250s'नी सुरुवात होणारे फारच मोठे माहिती फाइलचे नाव आहे"
 
-#: src/processarc.c:824
+#: src/processarc.c:826
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "अप्रचलित माहिती फाइल `%.250s' काढण्यास अशक्य"
 
-#: src/processarc.c:827
+#: src/processarc.c:829
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "`%.250s' नविन माहितीच्या फाइलची स्थापना(गृहीत धरलेले) करण्यास अशक्य"
 
-#: src/processarc.c:834
+#: src/processarc.c:836
 msgid "unable to open temp control directory"
 msgstr "टेम्प/तात्पुर्ती नियंत्रण डिरेक्टरी उघडण्यास अशक्य "
 
-#: src/processarc.c:843
+#: src/processarc.c:845
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr "(`%.50s'नी सुरुवात होणारे) फारच मोठे नियंत्रण माहिती फाइल नाव पॅकेजमध्ये आहे"
 
-#: src/processarc.c:848
+#: src/processarc.c:850
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "`%.250s' डिरेक्टरी पॅकेजच्या नियंत्रण माहितीमध्ये समाविष्ट आहे"
 
-#: src/processarc.c:850
+#: src/processarc.c:852
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "पॅकेजची नियंत्रण माहिती `%.250s'ची आरएमडिआयआर/rmdir डिआयआर नाही असे म्हंटले नाही"
 
-#: src/processarc.c:856
+#: src/processarc.c:858
 #, fuzzy, c-format
 msgid "package %s contained list as info file"
 msgstr "डिपिकेजी: ताकिद - पॅकेज %sमध्ये माहिती फाइलची सुची समाविष्ट आहे"
 
-#: src/processarc.c:862
+#: src/processarc.c:864
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "नवी माहिती फाइल `%.250s' हिची `%.250s' म्हणून स्थापना करण्यास असमर्थ आहे"
 
-#: src/processarc.c:1025
+#: src/processarc.c:1027
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(नोंद करत आहे %s नाहिसे झाले आहे, ते पुर्णपणे बदलले गेले आहेत.)\n"
 
-#: src/processarc.c:1062
+#: src/processarc.c:1064
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "`%.250s' नियंत्रण माहिती फाइल जी नाहिशी होत आहे ती काढून टाकण्यास असमर्थ आहे"
 
-#: src/query.c:113
+#: src/query.c:115
 #, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-"uppercase=bad)\n"
+"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "डिझायर्ड=अननोन/इन्स्टॉल/रिमुव्ह/पर्ज/होल्ड\n"
 "| स्टेटस=नॉट/इन्स्टॉल्ड/कॉन्फिग-फाइल्स/अनपॅक्ड/फेल्ड-कॉन्फिग/हाफ-इन्स्टॉल्ड\n"
 "|/ एर्र?=(नन)/होल्ड/रिइन्स्ट-रिक्वायर्ड/एक्स=बोथ-प्रॉब्लेम्स (स्टेटस,एर्र: अप्परकेस=बॅड)\n"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Name"
 msgstr "नाव"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Version"
 msgstr "आवृत्ती"
 
-#: src/query.c:117
+#: src/query.c:119
 msgid "Description"
 msgstr "वर्णन"
 
-#: src/query.c:176 src/query.c:424 src/select.c:76
+#: src/query.c:178 src/query.c:427 src/select.c:76
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "%sशी जुळणारी पॅकेजेस मिळाली नाहित\n"
 
-#: src/query.c:200
+#: src/query.c:202
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%sनी वळवले आहे: %s\n"
 
-#: src/query.c:202
+#: src/query.c:204
 #, fuzzy, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "%sनी वळवले आहे: %s\n"
 
-#: src/query.c:205
+#: src/query.c:207
 #, fuzzy, c-format
 msgid "local diversion from: %s\n"
 msgstr "स्थानिक फेराफार/तफावत"
 
-#: src/query.c:206
+#: src/query.c:208
 #, fuzzy, c-format
 msgid "local diversion to: %s\n"
 msgstr "स्थानिक वळवत आहे: %s\n"
 
-#: src/query.c:232
+#: src/query.c:234
 msgid "--search needs at least one file name pattern argument"
 msgstr "--सर्च साठी कमीतकमी एका फाइलच्या नावाच्या नमुना आवश्यक आहे"
 
-#: src/query.c:273
+#: src/query.c:275
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "डिपिकेजी: %s मिळाले नाही.\n"
 
-#: src/query.c:311
+#: src/query.c:313
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "पॅकेज `%s' ची स्थापना केलेली नाही आणि त्याबद्दल कोणतीही माहिती उपलब्ध नाही.\n"
 
-#: src/query.c:320
+#: src/query.c:322
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "पॅकेज `%s' हे उपलब्ध नाही.\n"
 
-#: src/query.c:330
+#: src/query.c:332 src/query.c:546
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "पॅकेज `%s' ची स्थापना केलेली नाही\n"
 
-#: src/query.c:339
+#: src/query.c:341
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "पॅकेज `%s'मध्ये कोणतीही फाइल नाही (!)\n"
 
-#: src/query.c:346
+#: src/query.c:348
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "स्थानिक वळवत आहे: %s\n"
 
-#: src/query.c:349
+#: src/query.c:351
 #, fuzzy, c-format
 msgid "package diverts others to: %s\n"
 msgstr "पॅकेज दुस~य्यांना वळवत आहे: %\n"
 
-#: src/query.c:352
+#: src/query.c:354
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "%sनी वळवले आहे: %s\n"
 
-#: src/query.c:373
+#: src/query.c:376
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3220,13 +3255,18 @@ msgstr ""
 "आणि डिपिकेजी --कन्टेन्टस (= डिपिकेजी-डेब --कन्टेन्टस) त्यांचा मजकूर दाखवण्यासाठी वापर "
 "करा.\n"
 
-#: src/query.c:441
+#: src/query.c:539
+#, c-format
+msgid "control file contains %c"
+msgstr ""
+
+#: src/query.c:559
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "डेबिअन `%s' पॅकेज व्यवस्थापन प्रोग्रॅम क्वेरी/शंका साधन\n"
 
-#: src/query.c:457
-#, c-format
+#: src/query.c:576
+#, fuzzy, c-format
 msgid ""
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
@@ -3235,6 +3275,8 @@ msgid ""
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -W|--show <pattern> ...          Show information on package(s).\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+"  -c|--control-path <package> [<file>]\n"
+"                                   Print path for package control file.\n"
 "\n"
 msgstr ""
 "आज्ञा:\n"
@@ -3247,7 +3289,7 @@ msgstr ""
 "   -S|--सर्च <पॅटर्न> ...              पॅकेजेसच्या `मालकिच्या' फाईल्स शोधते.\n"
 "\n"
 
-#: src/query.c:473
+#: src/query.c:594
 #, c-format
 msgid ""
 "Options:\n"
@@ -3259,7 +3301,7 @@ msgstr ""
 "  --अॅडमिनडिआयआर=<डिरेक्टरी>          %sच्या ऐवजी <डिरेक्टरी> वापरा.\n"
 "  -f|--शोफॉरमॅट=<फॉरमॅट>              --शो साठी दुसरे स्वरुप वापरा.\n"
 
-#: src/query.c:479 dpkg-deb/main.c:109
+#: src/query.c:600 dpkg-deb/main.c:111
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3279,7 +3321,7 @@ msgstr ""
 "  वापरून पॅकेजमध्ये माहिती समाविष्ट करता येते\n"
 "  फिल्ड/क्षेत्र उजव्या बाजुला असावे जर व्याप्ती ऋण असेल तर डाव्या बाजुला असावे.\n"
 
-#: src/query.c:489
+#: src/query.c:612
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3405,135 +3447,130 @@ msgstr "(%.250s'ची) जुनी बॅकप कॉन्फिग फा�
 msgid "unable to check existence of `%.250s'"
 msgstr "%.250s'चे अस्तित्व तपासण्यास असमर्थ"
 
-#: src/remove.c:574
+#: src/remove.c:575
 msgid "cannot remove old files list"
 msgstr "जुन्या फाइलची सुची काढू शकत नाही"
 
-#: src/remove.c:580
+#: src/remove.c:581
 msgid "can't remove old postrm script"
 msgstr "जुने पोस्टआरएम/postrm स्क्रिप्ट काढू शकत नाही"
 
-#: src/select.c:111
+#: src/select.c:112
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित इओएफ"
 
-#: src/select.c:112
+#: src/select.c:113
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित उद्भवलेला ओळीचा शेवट/एण्ड ऑफ लाइन"
 
-#: src/select.c:116
+#: src/select.c:117
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "%d ओळीवर पॅकेजच्या नावानंतर अनपेक्षित उद्भवलेले इओएफ"
 
-#: src/select.c:117
+#: src/select.c:118
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "%d ओळीवर पॅकेजच्या नावानंतर अनपेक्षित उद्भवलेला ओळीचा शेवट/एण्ड ऑफ लाइन"
 
-#: src/select.c:126
+#: src/select.c:127
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "पॅकेजनंतर उद्भवलेला अनपेक्षित डेटा आणि %d ओळीवरची निवड"
 
-#: src/select.c:131
+#: src/select.c:132
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "बेकायदेशीर पॅकेजचे नाव %d ओळीवर: %.250s"
 
-#: src/select.c:133
+#: src/select.c:134
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "%d ओळीवर अपरिचीत पाहिजे असलेला दर्जा: %.250s "
 
-#: src/select.c:139
+#: src/select.c:140
 msgid "read error on standard input"
 msgstr "स्टॅण्डर्ड इनपूटवर दोष वाचा"
 
-#: src/statdb.c:58
+#: src/statdb.c:57
 #, fuzzy
 msgid "syntax error: invalid uid in statoverride file"
 msgstr "नवीन स्टॅटअोव्हरराइड: %s अधिष्ठापन करताना त्रुटी"
 
-#: src/statdb.c:62
+#: src/statdb.c:61
 #, c-format
 msgid "syntax error: unknown user '%s' in statoverride file"
 msgstr ""
 
-#: src/statdb.c:79
+#: src/statdb.c:78
 #, fuzzy
 msgid "syntax error: invalid gid in statoverride file"
 msgstr "नवीन स्टॅटअोव्हरराइड: %s अधिष्ठापन करताना त्रुटी"
 
-#: src/statdb.c:83
+#: src/statdb.c:82
 #, fuzzy, c-format
 msgid "syntax error: unknown group '%s' in statoverride file"
 msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
 
-#: src/statdb.c:99
+#: src/statdb.c:98
 #, fuzzy
 msgid "syntax error: invalid mode in statoverride file"
 msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
 
-#: src/statdb.c:125
+#: src/statdb.c:124
 msgid "failed to open statoverride file"
 msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
 
-#: src/statdb.c:132
+#: src/statdb.c:131
 msgid "failed to fstat statoverride file"
 msgstr "स्टॅटओवरराइड फाइल एफस्टॅट होण्यास अयशस्वी"
 
-#: src/statdb.c:135
+#: src/statdb.c:134
 msgid "failed to fstat previous statoverride file"
 msgstr "अगोदरची स्टॅटओवरराइड फाइल एफस्टॅट होण्यास अयशस्वी"
 
-#: src/statdb.c:160
+#: src/statdb.c:159
 #, c-format
 msgid "statoverride file `%.250s'"
 msgstr "स्टॅटओवरराइड फाइल `%.250s'"
 
-#: src/statdb.c:167
+#: src/statdb.c:166
 #, fuzzy
 msgid "statoverride file is missing final newline"
 msgstr "स्टॅटओवरराइड फाइलमध्ये रिकामी ओळ/लाइन आहे"
 
-#: src/statdb.c:171
+#: src/statdb.c:170
 msgid "statoverride file contains empty line"
 msgstr "स्टॅटओवरराइड फाइलमध्ये रिकामी ओळ/लाइन आहे"
 
-#: src/statdb.c:176 src/statdb.c:188 src/statdb.c:200
+#: src/statdb.c:175 src/statdb.c:187 src/statdb.c:199
 #, fuzzy
 msgid "syntax error in statoverride file"
 msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
 
-#: src/statdb.c:184 src/statdb.c:196
+#: src/statdb.c:183 src/statdb.c:195 src/statdb.c:207
 #, fuzzy
 msgid "unexpected end of line in statoverride file"
 msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित उद्भवलेला ओळीचा शेवट/एण्ड ऑफ लाइन"
 
-#: src/statdb.c:208
-#, fuzzy
-msgid "unexecpted end of line in statoverride file"
-msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित उद्भवलेला ओळीचा शेवट/एण्ड ऑफ लाइन"
-
-#: src/statdb.c:212
+#: src/statdb.c:211
 #, fuzzy, c-format
 msgid "multiple statusoverides present for file '%.250s'"
 msgstr "स्टॅटओवरराइड फाइल `%.250s'"
 
-#: src/trigcmd.c:74
+#: src/trigcmd.c:73
 #, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "मदतीसाठी डिपिकेजी-तोडा --मदत टाइप करा"
 
-#: src/trigcmd.c:79
+#: src/trigcmd.c:78
 #, fuzzy, c-format
 msgid "Debian %s package trigger utility.\n"
 msgstr "डेबिअन `%s' पॅकेज व्यवस्थापन प्रोग्रॅम क्वेरी/शंका साधन\n"
 
-#: src/trigcmd.c:93
+#: src/trigcmd.c:92
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
@@ -3543,7 +3580,7 @@ msgstr ""
 "उप्युक्तता: %s [<पर्याय> ...] <आज्ञा>\n"
 "\n"
 
-#: src/trigcmd.c:99
+#: src/trigcmd.c:97
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3552,7 +3589,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:112
+#: src/trigcmd.c:108
 #, c-format
 msgid ""
 "Options:\n"
@@ -3566,38 +3603,33 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:169
+#: src/trigcmd.c:166
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
 msgstr ""
 
-#: src/trigcmd.c:173
+#: src/trigcmd.c:170
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
 msgstr ""
 
-#: src/trigcmd.c:203
-#, fuzzy
-msgid "--check-supported takes no arguments"
-msgstr "--%s पर्याय घेत नाही"
-
-#: src/trigcmd.c:208
+#: src/trigcmd.c:206
 #, fuzzy
 msgid "takes one argument, the trigger name"
 msgstr "--%s फक्त एकच पर्याय घेउ शकतो (.डेब फाइलनाव)"
 
-#: src/trigcmd.c:213
+#: src/trigcmd.c:211
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
 
-#: src/trigcmd.c:218
+#: src/trigcmd.c:216
 #, fuzzy, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
 msgstr "`%s' क्षेत्र, पॅकेजचे नाव अयोग्य `%.255s': %s"
 
-#: src/trigcmd.c:223
+#: src/trigcmd.c:221
 #, fuzzy, c-format
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "`%s' क्षेत्र, पॅकेजचे नाव अयोग्य `%.255s': %s"
@@ -3625,29 +3657,29 @@ msgstr ""
 msgid "Processing triggers for %s ...\n"
 msgstr "%sसाठी जुळवणी फाइल पर्ज करत आहे...\n"
 
-#: src/update.c:51
+#: src/update.c:50
 #, c-format
 msgid "--%s needs exactly one Packages file argument"
 msgstr "--%sला नेमका एक पॅकेजेस फाइल आर्ग्युमेन्ट/पर्याय लागतो"
 
-#: src/update.c:60
+#: src/update.c:59
 msgid "unable to access dpkg status area for bulk available update"
 msgstr ""
 "मोठ्या प्रमाणात उपलब्ध असलेल्या अद्ययावत माहितीसाठी डिपिकेज़ि दर्जाच्या क्षेत्रात प्रवेश करु "
 "शकत नाही"
 
-#: src/update.c:62
+#: src/update.c:61
 msgid "bulk available update requires write access to dpkg status area"
 msgstr ""
 "मोठ्या प्रमाणात उपलब्ध असलेल्या अद्ययावत महितीसाठी डिपिकेजि दर्जाच्या क्षेत्रात "
 "लिहिण्याची परवानगी लागते"
 
-#: src/update.c:69
+#: src/update.c:68
 #, c-format
 msgid "Replacing available packages info, using %s.\n"
 msgstr "उपलब्द्ध असलेली पॅकेजेसची माहिती %s. वापरून बदलत आहे.\n"
 
-#: src/update.c:72
+#: src/update.c:71
 #, c-format
 msgid "Updating available packages info, using %s.\n"
 msgstr "उपलब्द्ध असलेली पॅकेजेसची माहिती %s. वापरून अद्ययावत करता येते.\n"
@@ -3657,103 +3689,105 @@ msgstr "उपलब्द्ध असलेली पॅकेजेसची 
 msgid "Information about %d package(s) was updated.\n"
 msgstr "%d पॅकेजेसची माहिती अद्ययावत आहे.\n"
 
-#: src/update.c:105
-msgid "--forget-old-unavail takes no arguments"
-msgstr "--फरगेट-ओल्ड-अनअव्हेल आर्ग्युमेन्टस्/पर्याय घेत नाही."
+#: src/update.c:104
+#, c-format
+msgid ""
+"obsolete '--%s' option, unavailable packages are automatically cleaned up."
+msgstr ""
 
-#: dpkg-deb/build.c:97
+#: dpkg-deb/build.c:101
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "डिपिकेजि-डेब - दोष: %s (`%s') मध्ये कोणतेही अंक नाहीत\n"
 
-#: dpkg-deb/build.c:141
+#: dpkg-deb/build.c:145
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr ""
 
-#: dpkg-deb/build.c:204 scripts/dpkg-divert.pl:123
+#: dpkg-deb/build.c:208 scripts/dpkg-divert.pl:123
 #: scripts/dpkg-statoverride.pl:81 scripts/update-alternatives.pl:107
 #: scripts/update-alternatives.pl:111
 #, c-format, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s साठी  <निर्देशिका> पर्यायाची गरज आहे"
 
-#: dpkg-deb/build.c:214
+#: dpkg-deb/build.c:218
 msgid "--build takes at most two arguments"
 msgstr " --बिल्ड जास्तीत जास्त दोन आर्ग्युमेन्टस्/पर्याय घेते"
 
-#: dpkg-deb/build.c:218
+#: dpkg-deb/build.c:222
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "`%.250s' आर्काइव्हचे अस्तित्व तपासण्यास असमर्थ आहे"
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:239
 msgid "target is directory - cannot skip control file check"
 msgstr "लक्ष्य डिरेक्टरी आहे - नियंत्रण फाइल तपासणी गाळू शकत नाही"
 
-#: dpkg-deb/build.c:234
+#: dpkg-deb/build.c:240
 msgid "not checking contents of control area."
 msgstr ""
 
-#: dpkg-deb/build.c:235
+#: dpkg-deb/build.c:241
 #, fuzzy, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "डिपिकेजी-डेब: `%s' मधे `%s' पॅकेज निर्माण केली जात आहेत\n"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:258
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "पॅकेजच्या नावामध्ये अशी अक्षरे आहेत जी लोअरकेस संख्याअक्षरे किंवा `-+.' नाहीत"
 
-#: dpkg-deb/build.c:254
+#: dpkg-deb/build.c:260
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "ताकिद, `%s'मध्ये वापरणा~यांनी स्पष्ट नेमुन दिलेल्या अग्रस्थानी किमंती `%s' आहेत \n"
 
-#: dpkg-deb/build.c:262
+#: dpkg-deb/build.c:268
 #, fuzzy, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "ताकिद, `%s'मध्ये युझर-डिफाइन्ड/वापरणा~यांनी स्पष्ट नेमुन दिलेले क्षेत्र `%s' आहे\n"
 
-#: dpkg-deb/build.c:267
+#: dpkg-deb/build.c:273
 msgid "(upstream) version"
 msgstr ""
 
-#: dpkg-deb/build.c:269
+#: dpkg-deb/build.c:275
 #, fuzzy
 msgid "Debian revision"
 msgstr "डेबियन %s आवृत्ती %s.\n"
 
-#: dpkg-deb/build.c:270
+#: dpkg-deb/build.c:276
 #, c-format
 msgid "%d errors in control file"
 msgstr "नियंत्रण फाइलमधे %d त्रुटी"
 
-#: dpkg-deb/build.c:281
+#: dpkg-deb/build.c:287
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "डिपिकेजी-डेब: `%s' मधे `%s' पॅकेज निर्माण केली जात आहेत\n"
 
-#: dpkg-deb/build.c:287
+#: dpkg-deb/build.c:293
 #, fuzzy
 msgid "unable to stat control directory"
 msgstr "टेम्प/तात्पुर्ती नियंत्रण डिरेक्टरी उघडण्यास अशक्य "
 
-#: dpkg-deb/build.c:289
+#: dpkg-deb/build.c:295
 #, fuzzy
 msgid "control directory is not a directory"
 msgstr "माहितीची डिरेक्टरी वाचू शकत नाही"
 
-#: dpkg-deb/build.c:291
+#: dpkg-deb/build.c:297
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr "नियंत्रण निर्देशिकेत %03lo खराब परवानग्या आहेत (>=0755 आणी <=0775 आवश्यक)"
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:308
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "परिरक्षक परिभाषा `%.50s' ही निव्वळ मजकूर फाइल अथवा सिमलिंक नाही"
 
-#: dpkg-deb/build.c:304
+#: dpkg-deb/build.c:310
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3761,226 +3795,226 @@ msgid ""
 msgstr ""
 "परिरक्षक परिभाषा `%.50s' मधे %03lo खराब परवानग्या आहेत (>=0555 आणी <=0775 आवश्यक)"
 
-#: dpkg-deb/build.c:308
+#: dpkg-deb/build.c:314
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "परिरक्षक परिभाषा `%.50s' स्टॅट करण्यायोग्य नाही"
 
-#: dpkg-deb/build.c:318
+#: dpkg-deb/build.c:324
 msgid "empty string from fgets reading conffiles"
 msgstr "कोॅन्फफाईल वाचताना एफगेट्स कडून रिकामी श्रृंखला"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:326
 #, fuzzy, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr "धोक्याची सूचना, कोॅन्फफाईलचे नाव `%.50s...'खुपच मोठे, किंवा गायब अंतिम न्यूलाईन\n"
 
-#: dpkg-deb/build.c:333
+#: dpkg-deb/build.c:339
 #, fuzzy, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "धोक्याची सूचना, `%s' कोॅन्फफाईलच्या नावात पाठी श्वेत रिक्त जागा\n"
 
-#: dpkg-deb/build.c:335
+#: dpkg-deb/build.c:341
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "कोॅन्फफाईल `%.250s' पॅकेजमधे आढळत नाही"
 
-#: dpkg-deb/build.c:337
+#: dpkg-deb/build.c:343
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "कोॅन्फफाईल `%.250s' स्टॅट करण्यायोग्य नाही"
 
-#: dpkg-deb/build.c:339
+#: dpkg-deb/build.c:345
 #, fuzzy, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "धोक्याची सूचना, कोॅन्फफाईल `%s' ही निव्वळ मजकूर फाइल नाही\n"
 
-#: dpkg-deb/build.c:343
+#: dpkg-deb/build.c:349
 msgid "error reading conffiles file"
 msgstr "कोॅन्फफाईल्स फाइल वाचताना त्रुटी"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:352
 msgid "error opening conffiles file"
 msgstr "कोॅन्फफाईल्स फाइल उघडताना त्रुटी"
 
-#: dpkg-deb/build.c:349
-#, c-format
-msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
+#: dpkg-deb/build.c:355
+#, fuzzy, c-format
+msgid "ignoring %d warnings about the control file(s)\n"
 msgstr "डिपिकेजी-डेब: नियंत्रण फाइल(ली) बद्दलच्या %d धोक्याच्या सूचनांकडे दुर्लक्ष केले जातेय\n"
 
-#: dpkg-deb/build.c:360
+#: dpkg-deb/build.c:364
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "`%.255s' अनबफर करता येत नाही"
 
-#: dpkg-deb/build.c:367
+#: dpkg-deb/build.c:371
 msgid "failed to chdir to .../DEBIAN"
 msgstr ".../DEBIAN ला सीएचडीआयआर करता आली नाही"
 
-#: dpkg-deb/build.c:369 dpkg-deb/build.c:438
+#: dpkg-deb/build.c:373 dpkg-deb/build.c:442
 msgid "failed to exec tar -cf"
 msgstr "टार -सीएफ इक्सइसी करता आले नाही"
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:379
 msgid "failed to make tmpfile (control)"
 msgstr "टीएमपीफाईल (नियंत्रण) बनवता आली नाही"
 
-#: dpkg-deb/build.c:377
+#: dpkg-deb/build.c:381
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "टीएमपीफाईल (नियंत्रण), %s अनलिंक करता आली नाही"
 
-#: dpkg-deb/build.c:385 dpkg-deb/build.c:414
+#: dpkg-deb/build.c:389 dpkg-deb/build.c:418
 msgid "control"
 msgstr "नियंत्रण"
 
-#: dpkg-deb/build.c:390
+#: dpkg-deb/build.c:394
 msgid "failed to fstat tmpfile (control)"
 msgstr "टीएमपीफाईल (नियंत्रण) एफस्टॅट करता आली नाही"
 
-#: dpkg-deb/build.c:413
+#: dpkg-deb/build.c:417
 msgid "failed to rewind tmpfile (control)"
 msgstr "टीएमपीफाईल (नियंत्रण)रिवाइंड करता आली नाही"
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:425
 msgid "failed to make tmpfile (data)"
 msgstr "टीएमपीफाईल (डेटा) बनवता आली नाही"
 
-#: dpkg-deb/build.c:423
+#: dpkg-deb/build.c:427
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "टीएमपीफाईल (डेटा), %s अनलिंक करता आली नाही"
 
-#: dpkg-deb/build.c:447 dpkg-deb/extract.c:292
+#: dpkg-deb/build.c:451 dpkg-deb/extract.c:295
 msgid "data"
 msgstr "डेटा"
 
-#: dpkg-deb/build.c:460
+#: dpkg-deb/build.c:464
 msgid "failed to exec find"
 msgstr "फाइंड इएक्सइसी करता आली नाही"
 
-#: dpkg-deb/build.c:471 dpkg-deb/build.c:478
+#: dpkg-deb/build.c:475 dpkg-deb/build.c:482
 msgid "failed to write filename to tar pipe (data)"
 msgstr "टार पाइप (डेटा) त फाइलनाम लिहिता आले नाही"
 
-#: dpkg-deb/build.c:482
+#: dpkg-deb/build.c:486
 msgid "<compress> from tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c:504
+#: dpkg-deb/build.c:508
 #, fuzzy
 msgid "failed to fstat tmpfile (data)"
 msgstr "टीएमपीफाईल (डेटा) बनवता आली नाही"
 
-#: dpkg-deb/build.c:514
+#: dpkg-deb/build.c:518
 msgid "failed to rewind tmpfile (data)"
 msgstr "टीएमपीफाईल (डेटा) रिवाइंड करता आली नाही"
 
-#: dpkg-deb/build.c:515
+#: dpkg-deb/build.c:519
 msgid "cat (data)"
 msgstr "कॅट (डेटा)"
 
-#: dpkg-deb/extract.c:55
+#: dpkg-deb/extract.c:58
 msgid "failed to exec sh -c mv foo/* &c"
 msgstr "एसएच -सी एमव्ही एफओओ/* &सी इएक्सइसी करता आली नाही"
 
-#: dpkg-deb/extract.c:63
+#: dpkg-deb/extract.c:66
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "%.255s फाइल मधुन %s वाचताना त्रुटी"
 
-#: dpkg-deb/extract.c:65
+#: dpkg-deb/extract.c:68
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "%.255s तील %s मधील फाइलचा अनपेक्षित शेवट"
 
-#: dpkg-deb/extract.c:78 dpkg-split/info.c:56
+#: dpkg-deb/extract.c:81 dpkg-split/info.c:57
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - %.250s लांबीत रिक्त जागा"
 
-#: dpkg-deb/extract.c:85
+#: dpkg-deb/extract.c:88
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - ॠण सदस्य लांबी %zi"
 
-#: dpkg-deb/extract.c:87 dpkg-split/info.c:47
+#: dpkg-deb/extract.c:90 dpkg-split/info.c:48
 #, fuzzy, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - %s मधे खराब अंक (कोड %d)"
 
-#: dpkg-deb/extract.c:100
+#: dpkg-deb/extract.c:103
 msgid "failed getting the current file position"
 msgstr "फाइलची सद्यस्थिती मिळवता आली नाही"
 
-#: dpkg-deb/extract.c:103
+#: dpkg-deb/extract.c:106
 msgid "failed setting the current file position"
 msgstr "फाइलची सद्यस्थिती सेट करता आली नाही"
 
-#: dpkg-deb/extract.c:127
+#: dpkg-deb/extract.c:130
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "आर्काइव `%.255s' वाचता आले नाही"
 
-#: dpkg-deb/extract.c:128
+#: dpkg-deb/extract.c:131
 msgid "failed to fstat archive"
 msgstr "आर्काइव एफस्टॅट करता आले नाही"
 
-#: dpkg-deb/extract.c:129
+#: dpkg-deb/extract.c:132
 msgid "version number"
 msgstr "आवृत्ती क्रमांक"
 
-#: dpkg-deb/extract.c:138
+#: dpkg-deb/extract.c:141
 msgid "between members"
 msgstr "सदस्यांदरम्यान"
 
-#: dpkg-deb/extract.c:140 dpkg-split/info.c:99
+#: dpkg-deb/extract.c:143 dpkg-split/info.c:100
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - प्रथम शिर्षकाच्या शेवटी जादुटोणा"
 
-#: dpkg-deb/extract.c:142
+#: dpkg-deb/extract.c:145
 msgid "member length"
 msgstr ""
 
-#: dpkg-deb/extract.c:146
+#: dpkg-deb/extract.c:149
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "फाइल `%.250s' ही डेबियन बायनरी आर्काइव नाही  (डिपिकेजी-स्प्लिट वापरुन पहा?)"
 
-#: dpkg-deb/extract.c:149
+#: dpkg-deb/extract.c:152
 msgid "header info member"
 msgstr "शीर्षक माहिती सदस्य"
 
-#: dpkg-deb/extract.c:152
+#: dpkg-deb/extract.c:155
 msgid "archive has no newlines in header"
 msgstr "आर्काइव मधील शिर्षकामधे न्युलाइन नाही"
 
-#: dpkg-deb/extract.c:155
+#: dpkg-deb/extract.c:158
 msgid "archive has no dot in version number"
 msgstr "आर्काइव मधील आवृत्ती क्रमांकात बिंदू नाही"
 
-#: dpkg-deb/extract.c:158
+#: dpkg-deb/extract.c:161
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "आर्काइव आवृत्ती %.250s समजत नाही, नवीन डिपिकेजी-डेब मिळवा"
 
-#: dpkg-deb/extract.c:167 dpkg-deb/extract.c:200
+#: dpkg-deb/extract.c:170 dpkg-deb/extract.c:203
 #, c-format
 msgid "skipped member data from %s"
 msgstr "%s मधील सदस्य डेटा सोडून दिला"
 
-#: dpkg-deb/extract.c:190
+#: dpkg-deb/extract.c:193
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr "फाइल `%.250s' मधे न समजणारा डेटा सदस्य %.*s आहे, सोडुन देत आहे"
 
-#: dpkg-deb/extract.c:196
+#: dpkg-deb/extract.c:199
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "फाइल `%.250s' मधे दोन नियंत्रण सदस्य आहेत, सोडुन देत आहे"
 
-#: dpkg-deb/extract.c:208
+#: dpkg-deb/extract.c:211
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -3989,16 +4023,16 @@ msgstr ""
 "नवीन डेबियन पॅकेज, आवृत्ती %s.\n"
 "आकार %ld बाइट्स: नियंत्रण आर्काइव= %zi बाइट्स.\n"
 
-#: dpkg-deb/extract.c:222
+#: dpkg-deb/extract.c:225
 msgid "control information length"
 msgstr "नियंत्रण माहिती लांबी"
 
-#: dpkg-deb/extract.c:224
+#: dpkg-deb/extract.c:227
 #, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "आर्काइवमधील नियंत्रण लांबी `%s' चे फॉरमॅट चुकीचे आहे"
 
-#: dpkg-deb/extract.c:227
+#: dpkg-deb/extract.c:230
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -4007,11 +4041,11 @@ msgstr ""
 "जुने डेबियन पॅकेज, आवृत्ती %s.\n"
 "आकार %ld बाइट्स: नियंत्रण आर्काइव= %zi, मुख्य आर्काइव= %ld.\n"
 
-#: dpkg-deb/extract.c:236
+#: dpkg-deb/extract.c:240
 msgid "control area"
 msgstr "नियंत्रण क्षेत्र"
 
-#: dpkg-deb/extract.c:242
+#: dpkg-deb/extract.c:246
 #, fuzzy, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -4020,67 +4054,67 @@ msgstr ""
 "डिपिकेजी-डेब: फाइल आर्काइव असल्यासारखी वाटते, जी\n"
 "डिपिकेजी-डेब: आस्की पद्धतीत डाउनलोड झाल्याने भ्रष्ट झाली आहे\n"
 
-#: dpkg-deb/extract.c:247
+#: dpkg-deb/extract.c:250
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "`%.255s' हे डेबियन फॉरमॅट आर्काइव नाही"
 
-#: dpkg-deb/extract.c:260
+#: dpkg-deb/extract.c:263
 msgid "failed to open pipe descriptor `1' in paste"
 msgstr "पाइप वर्णनकर्ता `1' पेस्टमधे उघडता आला नाही"
 
-#: dpkg-deb/extract.c:262
+#: dpkg-deb/extract.c:265
 msgid "failed to write to gzip -dc"
 msgstr "जिझिप -डीसीमधे लेखन करता आले नाही"
 
-#: dpkg-deb/extract.c:263
+#: dpkg-deb/extract.c:266
 msgid "failed to close gzip -dc"
 msgstr "जिझिप -डीसी बंद करता आली नाही"
 
-#: dpkg-deb/extract.c:270
+#: dpkg-deb/extract.c:273
 msgid "failed to syscall lseek to files archive portion"
 msgstr "आयसीक फायली आर्काइव स्थितीत सिसकाॅल करता आले नाही"
 
-#: dpkg-deb/extract.c:278
+#: dpkg-deb/extract.c:281
 msgid "failed to write to pipe in copy"
 msgstr "प्रतिलिपीतील पाइपमधे लेखन करता आले नाही"
 
-#: dpkg-deb/extract.c:279
+#: dpkg-deb/extract.c:282
 msgid "failed to close pipe in copy"
 msgstr "प्रतिलिपीतील पाइप बंद करता आला नाही"
 
-#: dpkg-deb/extract.c:300
+#: dpkg-deb/extract.c:303
 msgid "failed to create directory"
 msgstr "निर्देशिका बनवता आली नाही"
 
-#: dpkg-deb/extract.c:301
+#: dpkg-deb/extract.c:304
 msgid "failed to chdir to directory after creating it"
 msgstr "निर्देशिका बनवल्यानंतर तिच्यात सीएचडिआयआर करता आले नाही"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:306
 msgid "failed to chdir to directory"
 msgstr "निर्देशिकेत सीएचडिआयआर करता आले नाही"
 
-#: dpkg-deb/extract.c:321
+#: dpkg-deb/extract.c:324
 msgid "failed to exec tar"
 msgstr "टार इक्सइसी करता आले नाही"
 
-#: dpkg-deb/extract.c:327
+#: dpkg-deb/extract.c:330
 #, fuzzy
 msgid "<decompress>"
 msgstr "%s: डिकाँंप्रेशन"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:332
 #, fuzzy
 msgid "paste"
 msgstr " मंजूर झाले\n"
 
-#: dpkg-deb/extract.c:345 dpkg-deb/extract.c:360 dpkg-deb/info.c:71
+#: dpkg-deb/extract.c:348 dpkg-deb/extract.c:363 dpkg-deb/info.c:74
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s  साठी .डेब फाइलनाव पर्यायाची गरज आहे"
 
-#: dpkg-deb/extract.c:348
+#: dpkg-deb/extract.c:351
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4089,116 +4123,116 @@ msgstr ""
 "--%s  साठी लक्ष निर्देशिकेची गरज आहे.\n"
 "कदाचित आपणास डिपिकेजी --इन्स्टाल चा वापर करावा लागेल ?"
 
-#: dpkg-deb/extract.c:351
+#: dpkg-deb/extract.c:354
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s जास्तित जास्त दोनच पर्याय घेउ शकतो (.डेब आणी निर्देशिका)"
 
-#: dpkg-deb/extract.c:362
+#: dpkg-deb/extract.c:365
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s फक्त एकच पर्याय घेउ शकतो (.डेब फाइलनाव)"
 
-#: dpkg-deb/info.c:52
+#: dpkg-deb/info.c:55
 msgid "failed to chdir to `/' for cleanup"
 msgstr "साफसफाईसाठी `/' ला सीएचडिआयआर करता आले नाही"
 
-#: dpkg-deb/info.c:54
+#: dpkg-deb/info.c:57
 msgid "failed to fork for cleanup"
 msgstr "साफसफाईसाठी विशाख करता आला नाही"
 
-#: dpkg-deb/info.c:59
+#: dpkg-deb/info.c:62
 msgid "failed to wait for rm cleanup"
 msgstr "आरएम साफसफाईसाठी वाट पहाता आली नाही"
 
-#: dpkg-deb/info.c:60
+#: dpkg-deb/info.c:63
 #, c-format
 msgid "rm cleanup failed, code %d\n"
 msgstr "आरएम साफसफाई अयशस्वी झाली, कोड %d\n"
 
-#: dpkg-deb/info.c:74
+#: dpkg-deb/info.c:77
 msgid "failed to make temporary directoryname"
 msgstr "अस्थायी निर्देशिकानाव बनवता आले नाही"
 
-#: dpkg-deb/info.c:79
+#: dpkg-deb/info.c:82
 msgid "failed to exec rm -rf"
 msgstr "आरएम -आरएफ इक्सइसी करता आले नाही"
 
-#: dpkg-deb/info.c:109
+#: dpkg-deb/info.c:112
 msgid "info_spew"
 msgstr "इन्फो_स्प्यू"
 
-#: dpkg-deb/info.c:111
+#: dpkg-deb/info.c:115
 #, c-format
 msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
 msgstr "डिपिकेजी-डेब: `%.255s'  मधे कोणताही नियंत्रण घटक नाही `%.255s'\n"
 
-#: dpkg-deb/info.c:115
+#: dpkg-deb/info.c:119
 #, c-format
 msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
 msgstr "चालू असलेला घटक `%.255s' (%.255s मधील) अनपेक्षित रित्या बंद पडला"
 
-#: dpkg-deb/info.c:121
+#: dpkg-deb/info.c:125
 msgid "One requested control component is missing"
 msgstr "मागितलेल्यांपैकी एक नियंत्रण घटक सापडत नाही"
 
-#: dpkg-deb/info.c:123
+#: dpkg-deb/info.c:127
 #, c-format
 msgid "%d requested control components are missing"
 msgstr "मागितलेल्यांपैकी %d नियंत्रण घटक सापडत नाहीत"
 
-#: dpkg-deb/info.c:136
+#: dpkg-deb/info.c:140
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "`%.255s' निर्देशिका चाळता येत नाही"
 
-#: dpkg-deb/info.c:141
+#: dpkg-deb/info.c:145
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
 msgstr "`%.255s' (`%.255s' मधील) स्टॅट करता येत नाही"
 
-#: dpkg-deb/info.c:144
+#: dpkg-deb/info.c:148
 #, c-format
 msgid "cannot open `%.255s' (in `%.255s')"
 msgstr "`%.255s' (`%.255s' मधील) उघडता येत नाही"
 
-#: dpkg-deb/info.c:159
+#: dpkg-deb/info.c:163
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
 msgstr "`%.255s' (`%.255s' मधील) वाचता आली नाही"
 
-#: dpkg-deb/info.c:162
+#: dpkg-deb/info.c:166
 #, fuzzy, c-format
 msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7ld बाइट्स, %5d ओळी %c %-20.127s %.127s\n"
 
-#: dpkg-deb/info.c:168
+#: dpkg-deb/info.c:170
 #, fuzzy, c-format
 msgid "     not a plain file          %.255s\n"
 msgstr "निव्वळ मजकूर फाइल नाही %.255s\n"
 
-#: dpkg-deb/info.c:173
+#: dpkg-deb/info.c:174
 #, c-format
 msgid "failed to read `control' (in `%.255s')"
 msgstr "`नियंत्रण' (`%.255s' मधील) वाचता आले नाही"
 
-#: dpkg-deb/info.c:174
+#: dpkg-deb/info.c:175
 msgid "(no `control' file in control archive!)\n"
 msgstr "(नियंत्रण आर्काइवमधे `नियंत्रण' फाइल नाही!)\n"
 
-#: dpkg-deb/info.c:194
+#: dpkg-deb/info.c:199
 msgid "could not open the `control' component"
 msgstr "`नियंत्रण' घटक उघडता आला नाही"
 
-#: dpkg-deb/info.c:224
+#: dpkg-deb/info.c:229
 msgid "failed during read of `control' component"
 msgstr "`नियंत्रण' घटक वाचता आला नाही"
 
-#: dpkg-deb/info.c:235
+#: dpkg-deb/info.c:240
 msgid "Error in format"
 msgstr "फॉरमॅट मधे त्रुटी"
 
-#: dpkg-deb/info.c:271
+#: dpkg-deb/info.c:276
 msgid "--contents takes exactly one argument"
 msgstr "--मजकूर फक्त एकच पर्याय घेतो"
 
@@ -4207,7 +4241,7 @@ msgstr "--मजकूर फक्त एकच पर्याय घेतो
 msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "डेबियन `%s' पॅकेज बॅकएंड आर्काइव आवृत्ती %s.\n"
 
-#: dpkg-deb/main.c:72
+#: dpkg-deb/main.c:74
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -4234,7 +4268,7 @@ msgstr ""
 " --एफसिस-टारफाइल टारफाइल फाइलप्रणाली निर्गत करा.\n"
 "\n"
 
-#: dpkg-deb/main.c:91
+#: dpkg-deb/main.c:93
 #, fuzzy, c-format
 msgid ""
 "<deb> is the filename of a Debian format archive.\n"
@@ -4247,7 +4281,7 @@ msgstr ""
 " हे मुख्य `नियंत्रण' फाइलमधील क्षेत्राचे नाव आहे.\n"
 "\n"
 
-#: dpkg-deb/main.c:97
+#: dpkg-deb/main.c:99
 #, fuzzy, c-format
 msgid ""
 "Options:\n"
@@ -4274,7 +4308,7 @@ msgstr ""
 " अनुमती दिलेली मूल्ये: जीझिप, बीझिप२, काहीनाही.\n"
 "\n"
 
-#: dpkg-deb/main.c:118
+#: dpkg-deb/main.c:120
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -4289,7 +4323,7 @@ msgstr ""
 "एक्सट्रॅक्ट' वापरुन\n"
 " उलगडलेली पॅकेजेस् व्यवस्थित अधिष्ठापित होणार नाहीत !\n"
 
-#: dpkg-deb/main.c:127
+#: dpkg-deb/main.c:130
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -4297,151 +4331,151 @@ msgstr ""
 "*.डेब फायलींच्या हाताळणीसंबंधी मदतीसाठी डिपिकेजी-डेब --मदत टाइप करा;\n"
 "पॅकेजेस् अधिष्ठापन करणे व काढून टाकणे यासाठी डिपिकेजी --मदत टाइप करा."
 
-#: dpkg-deb/main.c:199
+#: dpkg-deb/main.c:202
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "अपरिचीत संकोच प्रकार `%s'!"
 
-#: dpkg-split/info.c:68
+#: dpkg-split/info.c:69
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s missing"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - %.250s गायब"
 
-#: dpkg-split/info.c:71
+#: dpkg-split/info.c:72
 #, c-format
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - %.250s नंतर न्यूलाइन गायब"
 
-#: dpkg-split/info.c:95
+#: dpkg-split/info.c:96
 msgid "unable to seek back"
 msgstr "परत मिळवता येत नाही"
 
-#: dpkg-split/info.c:101
+#: dpkg-split/info.c:102
 msgid "info length"
 msgstr ""
 
-#: dpkg-split/info.c:110
+#: dpkg-split/info.c:111
 #, c-format
 msgid "file `%.250s' is corrupt - bad padding character (code %d)"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - खराब पॅडिंग कॅरॅक्टर (कोड %d)"
 
-#: dpkg-split/info.c:114
+#: dpkg-split/info.c:115
 #, c-format
 msgid "file `%.250s' is corrupt - nulls in info section"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - माहिती विभागात रिक्त जागा"
 
-#: dpkg-split/info.c:119
+#: dpkg-split/info.c:120
 #, fuzzy
 msgid "format version number"
 msgstr "आवृत्ती क्रमांक"
 
-#: dpkg-split/info.c:121
+#: dpkg-split/info.c:122
 #, c-format
 msgid "file `%.250s' is format version `%.250s' - you need a newer dpkg-split"
 msgstr ""
 "फाइल `%.250s' ही फॉरमॅट आवृत्ती `%.250s' आहे - तुम्हाला अलीकडील डिपिकेजी-स्प्लिट हवी"
 
-#: dpkg-split/info.c:124
+#: dpkg-split/info.c:125
 #, fuzzy
 msgid "package name"
 msgstr "(पॅकेज: "
 
-#: dpkg-split/info.c:125
+#: dpkg-split/info.c:126
 #, fuzzy
 msgid "package version number"
 msgstr "आवृत्ती क्रमांक"
 
-#: dpkg-split/info.c:126
+#: dpkg-split/info.c:127
 msgid "package file MD5 checksum"
 msgstr ""
 
-#: dpkg-split/info.c:129
+#: dpkg-split/info.c:130
 #, c-format
 msgid "file `%.250s' is corrupt - bad MD5 checksum `%.250s'"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - खराब एमडी५ चेकसम `%.250s'"
 
-#: dpkg-split/info.c:131 dpkg-split/info.c:132
+#: dpkg-split/info.c:132 dpkg-split/info.c:133
 msgid "total length"
 msgstr ""
 
-#: dpkg-split/info.c:133 dpkg-split/info.c:134
+#: dpkg-split/info.c:134 dpkg-split/info.c:135
 msgid "part offset"
 msgstr ""
 
-#: dpkg-split/info.c:136
+#: dpkg-split/info.c:137
 #, fuzzy
 msgid "part numbers"
 msgstr "आवृत्ती क्रमांक"
 
-#: dpkg-split/info.c:138
+#: dpkg-split/info.c:139
 #, c-format
 msgid "file `%.250s' is corrupt - no slash between part numbers"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - भाग क्रमांकांदरम्यान स्लॅश नाही"
 
-#: dpkg-split/info.c:141
+#: dpkg-split/info.c:142
 msgid "number of parts"
 msgstr ""
 
-#: dpkg-split/info.c:143
+#: dpkg-split/info.c:144
 #, fuzzy, c-format
 msgid "file '%.250s' is corrupt - bad number of parts"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - खराब भाग क्रमांक"
 
-#: dpkg-split/info.c:145
+#: dpkg-split/info.c:146
 #, fuzzy
 msgid "parts number"
 msgstr "आवृत्ती क्रमांक"
 
-#: dpkg-split/info.c:147
+#: dpkg-split/info.c:148
 #, c-format
 msgid "file `%.250s' is corrupt - bad part number"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - खराब भाग क्रमांक"
 
-#: dpkg-split/info.c:152
+#: dpkg-split/info.c:153
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of second header"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - दुसऱ्या शिर्षकाच्या शेवटी जादूटोणा"
 
-#: dpkg-split/info.c:154
+#: dpkg-split/info.c:155
 #, c-format
 msgid "file `%.250s' is corrupt - second member is not data member"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - दुसरा सदस्य हा डेटा सदस्य नाही"
 
-#: dpkg-split/info.c:157
+#: dpkg-split/info.c:158
 msgid "data length"
 msgstr ""
 
-#: dpkg-split/info.c:161
+#: dpkg-split/info.c:162
 #, c-format
 msgid "file `%.250s' is corrupt - wrong number of parts for quoted sizes"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - दिलेल्या आकारासाठी भागांची संख्या चुकीची"
 
-#: dpkg-split/info.c:165
+#: dpkg-split/info.c:166
 #, c-format
 msgid "file `%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - दिलेल्या भाग क्रमांकासाठी आकार चुकीचा"
 
-#: dpkg-split/info.c:171
+#: dpkg-split/info.c:172
 #, c-format
 msgid "unable to fstat part file `%.250s'"
 msgstr "भाग फाइल `%.250s' एफस्टॅट करता येत नाही"
 
-#: dpkg-split/info.c:177
+#: dpkg-split/info.c:178
 #, c-format
 msgid "file `%.250s' is corrupt - too short"
 msgstr "फाइल `%.250s' भ्रष्ट आहे - फारच लहान"
 
-#: dpkg-split/info.c:189 dpkg-split/info.c:232
+#: dpkg-split/info.c:190 dpkg-split/info.c:233
 #, c-format
 msgid "cannot open archive part file `%.250s'"
 msgstr "आर्काइव भाग फाइल `%.250s' उघडता येत नाही"
 
-#: dpkg-split/info.c:191
+#: dpkg-split/info.c:192
 #, c-format
 msgid "file `%.250s' is not an archive part"
 msgstr "फाइल `%.250s' ही आर्काइव भाग नाही"
 
-#: dpkg-split/info.c:196
+#: dpkg-split/info.c:197
 #, fuzzy, c-format
 msgid ""
 "%s:\n"
@@ -4470,47 +4504,47 @@ msgstr ""
 " भाग फाइल आकार (वापरलेला भाग): %lu bytes\n"
 "\n"
 
-#: dpkg-split/info.c:227 dpkg-split/join.c:107
+#: dpkg-split/info.c:228 dpkg-split/join.c:108
 #, fuzzy, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "--माहिती साठी एक अथवा अनेक भाग फाइल पर्याय आवश्यक आहेत"
 
-#: dpkg-split/info.c:238
+#: dpkg-split/info.c:239
 #, c-format
 msgid "file `%s' is not an archive part\n"
 msgstr "फाइल `%s' ही आर्काइव भाग नाही\n"
 
-#: dpkg-split/join.c:44
+#: dpkg-split/join.c:45
 #, c-format
 msgid "Putting package %s together from %d parts: "
 msgstr ""
 
-#: dpkg-split/join.c:52
+#: dpkg-split/join.c:53
 #, c-format
 msgid "unable to open output file `%.250s'"
 msgstr "निर्गत फाइल `%.250s' उघडता येत नाही"
 
-#: dpkg-split/join.c:56
+#: dpkg-split/join.c:57
 #, c-format
 msgid "unable to (re)open input part file `%.250s'"
 msgstr "आगत भाग फाइल `%.250s' (पुन्हा)उघडता येत नाही"
 
-#: dpkg-split/join.c:72
+#: dpkg-split/join.c:73
 #, c-format
 msgid "done\n"
 msgstr "झाले\n"
 
-#: dpkg-split/join.c:88
+#: dpkg-split/join.c:89
 #, c-format
 msgid "files `%.250s' and `%.250s' are not parts of the same file"
 msgstr "फायली `%.250s' आणी `%.250s' हे एकाच फाइलचे भाग नाहीत"
 
-#: dpkg-split/join.c:93
+#: dpkg-split/join.c:94
 #, c-format
 msgid "there are several versions of part %d - at least `%.250s' and `%.250s'"
 msgstr "%d भागाच्या अनेक आवृत्त्या आहेत - कमीतकमी %.250s' आणी `%.250s"
 
-#: dpkg-split/join.c:130
+#: dpkg-split/join.c:131
 #, c-format
 msgid "part %d is missing"
 msgstr "भाग %d गायब आहे"
@@ -4525,7 +4559,7 @@ msgstr "डेबियन `%s' पॅकेज तोडा/जोडा टू
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
 msgstr "सर्वाधिकार (C) १९९४-१९९५ आयन जॅकसन.\n"
 
-#: dpkg-split/main.c:65
+#: dpkg-split/main.c:67
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -4546,7 +4580,7 @@ msgstr ""
 " -d|--त्यागा [ ...] न जुळलेल्या भागांचा त्याग करा.\n"
 "\n"
 
-#: dpkg-split/main.c:81
+#: dpkg-split/main.c:83
 #, fuzzy, c-format
 msgid ""
 "Options:\n"
@@ -4568,130 +4602,130 @@ msgstr ""
 "\n"
 "निर्गम स्थिती: 0 = ठीक; 1 = -a हा भाग नाही; 2 = संकट!\n"
 
-#: dpkg-split/main.c:93
+#: dpkg-split/main.c:97
 msgid "Type dpkg-split --help for help."
 msgstr "मदतीसाठी डिपिकेजी-तोडा --मदत टाइप करा"
 
-#: dpkg-split/main.c:103 dpkg-split/main.c:107
+#: dpkg-split/main.c:107 dpkg-split/main.c:111
 #, c-format
 msgid "error reading %.250s"
 msgstr "%.250s वाचताना त्रुटी"
 
-#: dpkg-split/main.c:108
+#: dpkg-split/main.c:112
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "%.250s मधील फाइलचा अनपेक्षित शेवट"
 
-#: dpkg-split/main.c:121
+#: dpkg-split/main.c:125
 msgid "part size is far too large or is not positive"
 msgstr "भाग आकार खुपच मोठा आहे किंवा धन नाही"
 
-#: dpkg-split/main.c:125
+#: dpkg-split/main.c:129
 #, fuzzy, c-format
 msgid "part size must be at least %d KiB (to allow for header)"
 msgstr "भाग आकार कमीतकमी %dk असणे आवश्यक (शिर्षक समाविष्ट होण्यासाठी)"
 
-#: dpkg-split/queue.c:74
+#: dpkg-split/queue.c:77
 #, c-format
 msgid "unable to read depot directory `%.250s'"
 msgstr "डिपोॅट निर्देशिका `%.250s' वाचता येत नाही"
 
-#: dpkg-split/queue.c:112
+#: dpkg-split/queue.c:115
 msgid "--auto requires the use of the --output option"
 msgstr "--स्वयं साठी --निर्गम हा पर्याय वापरणे आवश्यक"
 
-#: dpkg-split/queue.c:114
+#: dpkg-split/queue.c:117
 msgid "--auto requires exactly one part file argument"
 msgstr "--स्वयं साठी फक्त एकच भाग फाइल पर्याय आवश्यक"
 
-#: dpkg-split/queue.c:118
+#: dpkg-split/queue.c:121
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "भाग फाइल `%.250s' वाचता येत नाही"
 
-#: dpkg-split/queue.c:121
+#: dpkg-split/queue.c:124
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "फाइल `%.250s' ही एका बहुभाग आर्काइवचा भाग नाही\n"
 
-#: dpkg-split/queue.c:149
+#: dpkg-split/queue.c:152
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "भाग फाइल `%.250s' पुन्हा उघडता येत नाही"
 
-#: dpkg-split/queue.c:153
+#: dpkg-split/queue.c:156
 #, c-format
 msgid "part file `%.250s' has trailing garbage"
 msgstr "भाग फाइल `%.250s' मधे पाठी कचरा आहे"
 
-#: dpkg-split/queue.c:162
+#: dpkg-split/queue.c:165
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' उघडता येत नाही"
 
-#: dpkg-split/queue.c:166
+#: dpkg-split/queue.c:169
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "नवीन डेपोॅट फाइल `%.250s' चे पुनर्नामांकन `%.250s' मधे करता येत नाही"
 
-#: dpkg-split/queue.c:168
+#: dpkg-split/queue.c:171
 #, fuzzy, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "पॅकेज %s चा भाग %d भरलेला (अजून पाहिजे "
 
-#: dpkg-split/queue.c:172
+#: dpkg-split/queue.c:175
 msgid " and "
 msgstr " आणी"
 
-#: dpkg-split/queue.c:185
+#: dpkg-split/queue.c:188
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "वापरलेली डेपोॅट फाइल `%.250s' काढून टाकता येत नाही"
 
-#: dpkg-split/queue.c:204
+#: dpkg-split/queue.c:207
 msgid "Junk files left around in the depot directory:\n"
 msgstr "डेपोॅट निर्दिशिकेत अडगळ शिल्लक आहे\n"
 
-#: dpkg-split/queue.c:209 dpkg-split/queue.c:233
+#: dpkg-split/queue.c:212 dpkg-split/queue.c:236
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "`%.250s' स्टॅट करता येत नाही"
 
-#: dpkg-split/queue.c:212
+#: dpkg-split/queue.c:215
 #, c-format
 msgid " %s (%lu bytes)\n"
 msgstr " %s (%lu बाइट्स)\n"
 
-#: dpkg-split/queue.c:214
+#: dpkg-split/queue.c:217
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (निव्वळ मजकूर फाइल नाही)\n"
 
-#: dpkg-split/queue.c:219
+#: dpkg-split/queue.c:222
 msgid "Packages not yet reassembled:\n"
 msgstr "पॅकेजेस अजून रीअसेंबल केली नाहीत:\n"
 
-#: dpkg-split/queue.c:224
+#: dpkg-split/queue.c:227
 #, c-format
 msgid " Package %s: part(s) "
 msgstr ""
 
-#: dpkg-split/queue.c:235
+#: dpkg-split/queue.c:238
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "भाग फाइल `%.250s' ही निव्वळ मजकूर फाइल नाही"
 
-#: dpkg-split/queue.c:240
+#: dpkg-split/queue.c:243
 #, c-format
 msgid "(total %lu bytes)\n"
 msgstr "(बेरीज %lu बाइट्स)\n"
 
-#: dpkg-split/queue.c:264
+#: dpkg-split/queue.c:267
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "`%.250s' चा त्याग करता येत नाही"
 
-#: dpkg-split/queue.c:265
+#: dpkg-split/queue.c:268
 #, c-format
 msgid "Deleted %s.\n"
 msgstr ""
@@ -4706,26 +4740,25 @@ msgstr "--तोडा साठी उगम फाइलनाव पर्य
 msgid "--split takes at most a source filename and destination prefix"
 msgstr "--तोडा साठी जास्तित जास्त उगम फाइलनाव आणी अंतिमस्थान उपसर्ग देता येतात"
 
-#: dpkg-split/split.c:66
+#: dpkg-split/split.c:67
 #, c-format
 msgid "unable to open source file `%.250s'"
 msgstr "उगम फाइल `%.250s' उघडता येत नाही"
 
-#: dpkg-split/split.c:67
+#: dpkg-split/split.c:68
 msgid "unable to fstat source file"
 msgstr "उगम फाइल एफस्टॅट करता येत नाही"
 
-#: dpkg-split/split.c:68
+#: dpkg-split/split.c:69
 #, c-format
 msgid "source file `%.250s' not a plain file"
 msgstr "उगम फाइल `%.250s' निव्वळ मजकूर फाइल नाही"
 
-#: dpkg-split/split.c:74
+#: dpkg-split/split.c:75
 msgid "unable to exec mksplit"
 msgstr "एमकेस्प्लिट इएक्सइसी करता येत नाही"
 
 #: scripts/dpkg-divert.pl:17 scripts/dpkg-statoverride.pl:27
-#: scripts/install-info.pl:17
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "डेबियन %s आवृत्ती %s.\n"
@@ -4741,7 +4774,6 @@ msgstr ""
 "सर्वाधिकार (C) २०००,२००१ विचर्ट अॅक्केरमन."
 
 #: scripts/dpkg-divert.pl:23 scripts/dpkg-statoverride.pl:32
-#: scripts/install-info.pl:22
 msgid ""
 "\n"
 "This is free software; see the GNU General Public Licence version 2 or\n"
@@ -5135,278 +5167,6 @@ msgstr "नवीन स्टॅटअोव्हरराइड-जुनी:
 msgid "error installing new statoverride: %s"
 msgstr "नवीन स्टॅटअोव्हरराइड: %s अधिष्ठापन करताना त्रुटी"
 
-#: scripts/install-info.pl:19
-msgid ""
-"\n"
-"Copyright (C) 1994,1995 Ian Jackson."
-msgstr ""
-"\n"
-"सर्वाधिकार (C) १९९४,१९९५ आयन जॅकसन."
-
-#: scripts/install-info.pl:31
-#, perl-format
-msgid ""
-"Usage: %s [<options> ...] [--] <filename>\n"
-"\n"
-"Options:\n"
-"  --section <regexp> <title>\n"
-"                           put the new entry in the <regex> matched section\n"
-"                           or create a new one with <title> if non-"
-"existent.\n"
-"  --menuentry=<text>       set the menu entry.\n"
-"  --description=<text>     set the description to be used in the menu "
-"entry.\n"
-"  --info-file=<path>       specify info file to install in the directory.\n"
-"  --dir-file=<path>        specify file name of info directory file.\n"
-"  --infodir=<directory>    same as '--dir-file=<directory>/dir'.\n"
-"  --info-dir=<directory>   likewise.\n"
-"  --keep-old               do not replace entries nor remove empty ones.\n"
-"  --remove                 remove the entry specified by <filename> "
-"basename.\n"
-"  --remove-exactly         remove the exact <filename> entry.\n"
-"  --test                   enables test mode (no actions taken).\n"
-"  --debug                  enables debug mode (show more information).\n"
-"  --quiet                  do not show output messages.\n"
-"  --help                   show this help message.\n"
-"  --version                show the version.\n"
-msgstr ""
-"रीत: %s [<पर्याय> ...] [--] <फाइलनाव>\n"
-"\n"
-"पर्याय:\n"
-"  --विभाग <रजिएक्सप> <शीर्षक>\n"
-"                            <रजिएक्स> जुळवलेल्या विभागात नवीन नोंद ठेवा\n"
-"                          किंवा अस्तित्वात नसल्यास <शीर्षक> सह नवीन नोंद बनवा.\n"
-"  --मेन्यूनोंद=<मजकूर>       मेन्यूची नोंद निश्चित करा.\n"
-"  --वर्णन=<मजकूर>     मेन्यू नोंदीमधे वापरण्याचे वर्णन निश्चित करा.\n"
-"  --माहिती-फाइल=<मार्ग>       निर्देशिकेत अधिष्ठापन करण्याची माहिती फाइल निर्धारीत "
-"करा.\n"
-"  --निर्देशिका-फाइल=<मार्ग>       माहिती निर्देशिका फाइलचे नाव निर्धारीत करा.\n"
-"  --माहितीनिर्देशिका=<निर्देशिका>    '--निर्देशिका-फाइल=<निर्देशिका>/निर्देशिका' "
-"सारखेच.\n"
-"  --माहिती-निर्देशिका=<निर्देशिका>   वरीलप्रमाणे.\n"
-"  --ठेवा-जुने               नोंदी बदलू नका किंवा रिकाम्या नोंदी काढून टाकू नका.\n"
-"  --काढा                  <फाइलनाव> पाया नावाने निर्धारीत केलेली नोंद काढून टाका.\n"
-"  --काढा-विषिष्ठ         विषिष्ठ <फाइलनाव> नोंद काढून टाका.\n"
-"  --चाचणी                   चाचणी पद्धत कार्यसक्षम करतो (काहीही क्रिया नाहीत).\n"
-"  --दोषमार्जन                 दोषमार्जन पद्धत कार्यसक्षम करतो (आणखी माहिती "
-"दाखवा).\n"
-"  --शांत                  निर्गम संदेश दाखवू नका.\n"
-"   --मदत                   हा मदतीचा संदेश दाखवा.\n"
-"  --आवृत्ती                आवृत्तीची माहिती दाखवा.\n"
-
-#: scripts/install-info.pl:97
-#, perl-format
-msgid "could not open stderr for output! %s"
-msgstr "निर्गम %s साठी स्टॅडएरर् उघडता आले नाही!"
-
-#: scripts/install-info.pl:101
-#, perl-format
-msgid "%s: --section needs two more args"
-msgstr "%s: -- विभागासाठी अजून दोन पर्याय आवशयक"
-
-#: scripts/install-info.pl:107
-#, perl-format
-msgid "%s: option --%s is deprecated (ignored)"
-msgstr "%s:  पर्याय --%s अस्विकृत झालेला आहे (दुर्लक्षिला)"
-
-#: scripts/install-info.pl:119
-#, perl-format
-msgid "%s: unknown option `%s'"
-msgstr "%s: अपरिचित पर्याय `%s'"
-
-#: scripts/install-info.pl:130
-#, perl-format
-msgid "%s: too many arguments"
-msgstr "%s: खुपच जास्त पर्याय"
-
-#: scripts/install-info.pl:133
-#, perl-format
-msgid "%s: --section ignored with --remove"
-msgstr "%s: --काढा सह --विभाग दुर्लक्षिला"
-
-#: scripts/install-info.pl:134
-#, perl-format
-msgid "%s: --description ignored with --remove"
-msgstr "%s: --काढा सह --वर्णन दुर्लक्षिला"
-
-#: scripts/install-info.pl:137
-#, perl-format
-msgid "%s: test mode - dir file will not be updated"
-msgstr "%s: चाचणी पद्धत - निर्देशिका फाइल सुधारित केली जाणार नाही"
-
-#: scripts/install-info.pl:167 scripts/install-info.pl:209
-#: scripts/install-info.pl:316 scripts/update-alternatives.pl:755
-#, perl-format
-msgid "unable to read %s: %s"
-msgstr "%s: %s वाचता येत नाही"
-
-#: scripts/install-info.pl:193
-#, perl-format
-msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-msgstr ""
-"%s: धोक्याची सूचना, फाइलमधील गोंधळात टाकणारी माहिती-निर्देशिका-नोंद दुर्लक्षित केली "
-"जात आहे."
-
-#: scripts/install-info.pl:202
-msgid "invalid info entry"
-msgstr "सदोष माहिती नोंद"
-
-#: scripts/install-info.pl:228
-#, perl-format
-msgid ""
-"\n"
-"No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
-"%s: unable to determine description for `dir' entry - giving up\n"
-msgstr ""
-"\n"
-"`सुरू-माहिती-निर्देशिका-नोंद' नाही आणी `या फायलीत दस्तावेज' नाही.\n"
-"%s: `निर्देशिका' नोंदीसाठी विवरण ठरवता येत नाही  - सोडून देत आहे\n"
-
-#: scripts/install-info.pl:281
-#, perl-format
-msgid "%s: no file %s, retrieving backup file %s."
-msgstr "%s: %s फाइल नाही, बॅकअप फाइल परत मिळवत आहे %s."
-
-#: scripts/install-info.pl:284 scripts/install-info.pl:294
-#, perl-format
-msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr "%s: %s ची %s मधे नक्कल बनवता आली नाही, सोडून देत आहे: %s"
-
-#: scripts/install-info.pl:290
-#, perl-format
-msgid "%s: no backup file %s available, retrieving default file."
-msgstr "%s: बॅकअप फाइल %s उपलब्ध नाही, डिफॉल्ट फाइल परत मिळवत आहे."
-
-#: scripts/install-info.pl:299
-#, perl-format
-msgid "%s: no backup file %s available."
-msgstr "%s: बॅकअप फाइल %s उपलब्ध नाही."
-
-#: scripts/install-info.pl:300
-#, perl-format
-msgid "%s: no default file %s available, giving up."
-msgstr "%s: डिफॉल्ट फाइल %s उपलब्ध नाही, सोडून देत आहे."
-
-#: scripts/install-info.pl:307
-#, perl-format
-msgid "%s: failed to lock dir for editing! %s"
-msgstr "%s: डिआयआर ला संपादनासाठी टाळे लावता आले नाही! %s"
-
-#: scripts/install-info.pl:309
-#, perl-format
-msgid "try deleting %s?"
-msgstr "%s काढून टाकून पहा?"
-
-#: scripts/install-info.pl:314
-#, perl-format
-msgid "unable to open %s: %s"
-msgstr "%s: %s उघडता येत नाही"
-
-#: scripts/install-info.pl:317
-#, perl-format
-msgid "unable to close %s after read: %s"
-msgstr ": %s वाचल्यानंतर %s बंद करता येत नाही"
-
-#: scripts/install-info.pl:350
-#, perl-format
-msgid "%s: existing entry for `%s' not replaced"
-msgstr "%s: `%s' साठीची अस्तित्वात असलेली नोंद बदलली नाही"
-
-#: scripts/install-info.pl:353
-#, perl-format
-msgid "%s: replacing existing dir entry for `%s'"
-msgstr "%s: `%s' साठीची अस्तित्वात असलेली निर्देशिका नोंद बदलत आहे"
-
-#: scripts/install-info.pl:366
-#, perl-format
-msgid "%s: creating new section `%s'"
-msgstr "%s: नवीन विभाग `%s' बनवत आहे"
-
-#: scripts/install-info.pl:369
-#, perl-format
-msgid "%s: no sections yet, creating Miscellaneous section too."
-msgstr "%s: अजून विभाग केले नाहीत, विविध विभाग सुद्धा बनवत आहे."
-
-#: scripts/install-info.pl:387
-#, perl-format
-msgid "%s: no section specified for new entry, placing at end"
-msgstr "%s: नवीन नोंदीकरिता विभाग निर्धारीत केलेला नाही, शेवटी ठेवत आहे"
-
-#: scripts/install-info.pl:424
-#, perl-format
-msgid "%s: deleting entry `%s ...'"
-msgstr "%s: `%s ...' नोंद काढून टाकत आहे"
-
-#: scripts/install-info.pl:430
-#, perl-format
-msgid "%s: empty section `%s' not removed"
-msgstr "%s: रिकामा विभाग `%s' काढून टाकला नाही"
-
-#: scripts/install-info.pl:433
-#, perl-format
-msgid "%s: deleting empty section `%s'"
-msgstr "%s: रिकामा विभाग `%s' काढून टाकला"
-
-#: scripts/install-info.pl:440
-#, perl-format
-msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr "%s: फाइल `%s' साठी नोंद नाही आणी मेन्यू नोंद `%s'"
-
-#: scripts/install-info.pl:442
-#, perl-format
-msgid "%s: no entry for file `%s'"
-msgstr "%s: फाइल `%s' साठी नोंद नाही"
-
-#: scripts/install-info.pl:484
-#, perl-format
-msgid "unable to create %s: %s"
-msgstr "%s: %s बनवता येत नाही"
-
-#: scripts/install-info.pl:487 scripts/update-alternatives.pl:833
-#, perl-format
-msgid "unable to write %s: %s"
-msgstr "%s: %s लिहिता येत नाही"
-
-#: scripts/install-info.pl:488 scripts/update-alternatives.pl:855
-#, perl-format
-msgid "unable to close %s: %s"
-msgstr "%s: %s बंद करता येत नाही"
-
-#: scripts/install-info.pl:492
-#, perl-format
-msgid "unable to backup old %s, giving up: %s"
-msgstr "जुनी %s बॅक-अपकरता येत नाही, सोडुन देत आहे: %s"
-
-#: scripts/install-info.pl:495
-#, perl-format
-msgid "unable to install new %s: %s"
-msgstr "नवीन %s अधिष्ठापन करता येत नाही: %s"
-
-#: scripts/install-info.pl:498
-#, perl-format
-msgid "unable to unlock %s: %s"
-msgstr "%s चे टाळे उघडता येत नाही: %s"
-
-#: scripts/install-info.pl:500
-#, perl-format
-msgid "%s: could not backup %s in %s: %s"
-msgstr "%s: %s मधील %s ला बॅकअप करता आले नाही: %s"
-
-#: scripts/install-info.pl:510
-#, perl-format
-msgid "%s: warning - unable to unlock %s: %s"
-msgstr "%s: धोक्याची सुचना - %s: %s चे टाळे काढता येत नाही"
-
-#: scripts/install-info.pl:517
-#, perl-format
-msgid "unable to read %s: %d"
-msgstr "%s वाचता येत नाही: %d"
-
-#: scripts/install-info.pl:521
-#, perl-format
-msgid "dbg: %s"
-msgstr "डीबीजी: %s"
-
 #: scripts/update-alternatives.pl:43
 #, perl-format
 msgid "unknown argument `%s'"
@@ -5540,6 +5300,11 @@ msgstr "विकल्प `%s' सापडत नाही."
 msgid "no alternatives for %s."
 msgstr "%s साठी विकल्प नाही."
 
+#: scripts/update-alternatives.pl:261
+#, perl-format
+msgid "%s is dangling, it will be updated with best choice."
+msgstr ""
+
 #: scripts/update-alternatives.pl:265
 #, fuzzy, perl-format
 msgid ""
@@ -5645,6 +5410,11 @@ msgstr "सुधार-विकल्प फायलींमधे न्य
 msgid "while writing %s: %s"
 msgstr "एसटीडीआउट लिहीताना त्रुटी"
 
+#: scripts/update-alternatives.pl:755
+#, perl-format
+msgid "unable to read %s: %s"
+msgstr "%s: %s वाचता येत नाही"
+
 #: scripts/update-alternatives.pl:757
 msgid "status"
 msgstr ""
@@ -5713,6 +5483,16 @@ msgstr ""
 #, fuzzy, perl-format
 msgid "discarding obsolete slave link %s (%s)."
 msgstr "कालबाह्य गुलाम साखळी %s (%s) त्यागत आहे."
+
+#: scripts/update-alternatives.pl:833
+#, perl-format
+msgid "unable to write %s: %s"
+msgstr "%s: %s लिहिता येत नाही"
+
+#: scripts/update-alternatives.pl:855
+#, perl-format
+msgid "unable to close %s: %s"
+msgstr "%s: %s बंद करता येत नाही"
 
 #: scripts/update-alternatives.pl:890 scripts/update-alternatives.pl:936
 msgid "auto mode"
@@ -5794,6 +5574,208 @@ msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
+
+#~ msgid "failed write during hashreport"
+#~ msgstr "हॅशरिपोर्ट दरम्यान लेखन होउ शकले नाही"
+
+#~ msgid "configuration error: unknown option %s"
+#~ msgstr "संरचना त्रुटी: अपरिचित पर्याय %s"
+
+#~ msgid "configuration error: %s does not take a value"
+#~ msgstr "संरचना त्रुटी: %s मूल्य धारण करत नाही"
+
+#, fuzzy
+#~ msgid "unexecpted end of line in statoverride file"
+#~ msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित उद्भवलेला ओळीचा शेवट/एण्ड ऑफ लाइन"
+
+#, fuzzy
+#~ msgid "--check-supported takes no arguments"
+#~ msgstr "--%s पर्याय घेत नाही"
+
+#~ msgid "--forget-old-unavail takes no arguments"
+#~ msgstr "--फरगेट-ओल्ड-अनअव्हेल आर्ग्युमेन्टस्/पर्याय घेत नाही."
+
+#~ msgid ""
+#~ "\n"
+#~ "Copyright (C) 1994,1995 Ian Jackson."
+#~ msgstr ""
+#~ "\n"
+#~ "सर्वाधिकार (C) १९९४,१९९५ आयन जॅकसन."
+
+#~ msgid ""
+#~ "Usage: %s [<options> ...] [--] <filename>\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --section <regexp> <title>\n"
+#~ "                           put the new entry in the <regex> matched "
+#~ "section\n"
+#~ "                           or create a new one with <title> if non-"
+#~ "existent.\n"
+#~ "  --menuentry=<text>       set the menu entry.\n"
+#~ "  --description=<text>     set the description to be used in the menu "
+#~ "entry.\n"
+#~ "  --info-file=<path>       specify info file to install in the "
+#~ "directory.\n"
+#~ "  --dir-file=<path>        specify file name of info directory file.\n"
+#~ "  --infodir=<directory>    same as '--dir-file=<directory>/dir'.\n"
+#~ "  --info-dir=<directory>   likewise.\n"
+#~ "  --keep-old               do not replace entries nor remove empty ones.\n"
+#~ "  --remove                 remove the entry specified by <filename> "
+#~ "basename.\n"
+#~ "  --remove-exactly         remove the exact <filename> entry.\n"
+#~ "  --test                   enables test mode (no actions taken).\n"
+#~ "  --debug                  enables debug mode (show more information).\n"
+#~ "  --quiet                  do not show output messages.\n"
+#~ "  --help                   show this help message.\n"
+#~ "  --version                show the version.\n"
+#~ msgstr ""
+#~ "रीत: %s [<पर्याय> ...] [--] <फाइलनाव>\n"
+#~ "\n"
+#~ "पर्याय:\n"
+#~ "  --विभाग <रजिएक्सप> <शीर्षक>\n"
+#~ "                            <रजिएक्स> जुळवलेल्या विभागात नवीन नोंद ठेवा\n"
+#~ "                          किंवा अस्तित्वात नसल्यास <शीर्षक> सह नवीन नोंद बनवा.\n"
+#~ "  --मेन्यूनोंद=<मजकूर>       मेन्यूची नोंद निश्चित करा.\n"
+#~ "  --वर्णन=<मजकूर>     मेन्यू नोंदीमधे वापरण्याचे वर्णन निश्चित करा.\n"
+#~ "  --माहिती-फाइल=<मार्ग>       निर्देशिकेत अधिष्ठापन करण्याची माहिती फाइल "
+#~ "निर्धारीत करा.\n"
+#~ "  --निर्देशिका-फाइल=<मार्ग>       माहिती निर्देशिका फाइलचे नाव निर्धारीत करा.\n"
+#~ "  --माहितीनिर्देशिका=<निर्देशिका>    '--निर्देशिका-फाइल=<निर्देशिका>/निर्देशिका' "
+#~ "सारखेच.\n"
+#~ "  --माहिती-निर्देशिका=<निर्देशिका>   वरीलप्रमाणे.\n"
+#~ "  --ठेवा-जुने               नोंदी बदलू नका किंवा रिकाम्या नोंदी काढून टाकू नका.\n"
+#~ "  --काढा                  <फाइलनाव> पाया नावाने निर्धारीत केलेली नोंद काढून "
+#~ "टाका.\n"
+#~ "  --काढा-विषिष्ठ         विषिष्ठ <फाइलनाव> नोंद काढून टाका.\n"
+#~ "  --चाचणी                   चाचणी पद्धत कार्यसक्षम करतो (काहीही क्रिया "
+#~ "नाहीत).\n"
+#~ "  --दोषमार्जन                 दोषमार्जन पद्धत कार्यसक्षम करतो (आणखी माहिती "
+#~ "दाखवा).\n"
+#~ "  --शांत                  निर्गम संदेश दाखवू नका.\n"
+#~ "   --मदत                   हा मदतीचा संदेश दाखवा.\n"
+#~ "  --आवृत्ती                आवृत्तीची माहिती दाखवा.\n"
+
+#~ msgid "could not open stderr for output! %s"
+#~ msgstr "निर्गम %s साठी स्टॅडएरर् उघडता आले नाही!"
+
+#~ msgid "%s: --section needs two more args"
+#~ msgstr "%s: -- विभागासाठी अजून दोन पर्याय आवशयक"
+
+#~ msgid "%s: option --%s is deprecated (ignored)"
+#~ msgstr "%s:  पर्याय --%s अस्विकृत झालेला आहे (दुर्लक्षिला)"
+
+#~ msgid "%s: unknown option `%s'"
+#~ msgstr "%s: अपरिचित पर्याय `%s'"
+
+#~ msgid "%s: too many arguments"
+#~ msgstr "%s: खुपच जास्त पर्याय"
+
+#~ msgid "%s: --section ignored with --remove"
+#~ msgstr "%s: --काढा सह --विभाग दुर्लक्षिला"
+
+#~ msgid "%s: --description ignored with --remove"
+#~ msgstr "%s: --काढा सह --वर्णन दुर्लक्षिला"
+
+#~ msgid "%s: test mode - dir file will not be updated"
+#~ msgstr "%s: चाचणी पद्धत - निर्देशिका फाइल सुधारित केली जाणार नाही"
+
+#~ msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
+#~ msgstr ""
+#~ "%s: धोक्याची सूचना, फाइलमधील गोंधळात टाकणारी माहिती-निर्देशिका-नोंद दुर्लक्षित केली "
+#~ "जात आहे."
+
+#~ msgid "invalid info entry"
+#~ msgstr "सदोष माहिती नोंद"
+
+#~ msgid ""
+#~ "\n"
+#~ "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
+#~ "%s: unable to determine description for `dir' entry - giving up\n"
+#~ msgstr ""
+#~ "\n"
+#~ "`सुरू-माहिती-निर्देशिका-नोंद' नाही आणी `या फायलीत दस्तावेज' नाही.\n"
+#~ "%s: `निर्देशिका' नोंदीसाठी विवरण ठरवता येत नाही  - सोडून देत आहे\n"
+
+#~ msgid "%s: no file %s, retrieving backup file %s."
+#~ msgstr "%s: %s फाइल नाही, बॅकअप फाइल परत मिळवत आहे %s."
+
+#~ msgid "%s: copying %s to %s failed, giving up: %s"
+#~ msgstr "%s: %s ची %s मधे नक्कल बनवता आली नाही, सोडून देत आहे: %s"
+
+#~ msgid "%s: no backup file %s available, retrieving default file."
+#~ msgstr "%s: बॅकअप फाइल %s उपलब्ध नाही, डिफॉल्ट फाइल परत मिळवत आहे."
+
+#~ msgid "%s: no backup file %s available."
+#~ msgstr "%s: बॅकअप फाइल %s उपलब्ध नाही."
+
+#~ msgid "%s: no default file %s available, giving up."
+#~ msgstr "%s: डिफॉल्ट फाइल %s उपलब्ध नाही, सोडून देत आहे."
+
+#~ msgid "%s: failed to lock dir for editing! %s"
+#~ msgstr "%s: डिआयआर ला संपादनासाठी टाळे लावता आले नाही! %s"
+
+#~ msgid "try deleting %s?"
+#~ msgstr "%s काढून टाकून पहा?"
+
+#~ msgid "unable to open %s: %s"
+#~ msgstr "%s: %s उघडता येत नाही"
+
+#~ msgid "unable to close %s after read: %s"
+#~ msgstr ": %s वाचल्यानंतर %s बंद करता येत नाही"
+
+#~ msgid "%s: existing entry for `%s' not replaced"
+#~ msgstr "%s: `%s' साठीची अस्तित्वात असलेली नोंद बदलली नाही"
+
+#~ msgid "%s: replacing existing dir entry for `%s'"
+#~ msgstr "%s: `%s' साठीची अस्तित्वात असलेली निर्देशिका नोंद बदलत आहे"
+
+#~ msgid "%s: creating new section `%s'"
+#~ msgstr "%s: नवीन विभाग `%s' बनवत आहे"
+
+#~ msgid "%s: no sections yet, creating Miscellaneous section too."
+#~ msgstr "%s: अजून विभाग केले नाहीत, विविध विभाग सुद्धा बनवत आहे."
+
+#~ msgid "%s: no section specified for new entry, placing at end"
+#~ msgstr "%s: नवीन नोंदीकरिता विभाग निर्धारीत केलेला नाही, शेवटी ठेवत आहे"
+
+#~ msgid "%s: deleting entry `%s ...'"
+#~ msgstr "%s: `%s ...' नोंद काढून टाकत आहे"
+
+#~ msgid "%s: empty section `%s' not removed"
+#~ msgstr "%s: रिकामा विभाग `%s' काढून टाकला नाही"
+
+#~ msgid "%s: deleting empty section `%s'"
+#~ msgstr "%s: रिकामा विभाग `%s' काढून टाकला"
+
+#~ msgid "%s: no entry for file `%s' and menu entry `%s'"
+#~ msgstr "%s: फाइल `%s' साठी नोंद नाही आणी मेन्यू नोंद `%s'"
+
+#~ msgid "%s: no entry for file `%s'"
+#~ msgstr "%s: फाइल `%s' साठी नोंद नाही"
+
+#~ msgid "unable to create %s: %s"
+#~ msgstr "%s: %s बनवता येत नाही"
+
+#~ msgid "unable to backup old %s, giving up: %s"
+#~ msgstr "जुनी %s बॅक-अपकरता येत नाही, सोडुन देत आहे: %s"
+
+#~ msgid "unable to install new %s: %s"
+#~ msgstr "नवीन %s अधिष्ठापन करता येत नाही: %s"
+
+#~ msgid "unable to unlock %s: %s"
+#~ msgstr "%s चे टाळे उघडता येत नाही: %s"
+
+#~ msgid "%s: could not backup %s in %s: %s"
+#~ msgstr "%s: %s मधील %s ला बॅकअप करता आले नाही: %s"
+
+#~ msgid "%s: warning - unable to unlock %s: %s"
+#~ msgstr "%s: धोक्याची सुचना - %s: %s चे टाळे काढता येत नाही"
+
+#~ msgid "unable to read %s: %d"
+#~ msgstr "%s वाचता येत नाही: %d"
+
+#~ msgid "dbg: %s"
+#~ msgstr "डीबीजी: %s"
 
 #~ msgid "failed to open tmpfile (control), %s"
 #~ msgstr "टीएमपीफाईल (नियंत्रण), %s उघडता आली नाही"
