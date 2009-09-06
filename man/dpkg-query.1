@@ -1,4 +1,4 @@
-.TH dpkg\-query 1 "2008-08-18" "Debian Project" "dpkg suite"
+.TH dpkg\-query 1 "2009-09-06" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-query \- a tool to query the dpkg database
 .
@@ -46,6 +46,14 @@ the installed package status database.
 List files installed to your system from \fIpackage-name\fP.
 However, note that files created by package-specific
 installation-scripts are not listed.
+.TP
+.BR \-c ", " \-\-control\-path " \fIpackage-name\fP [\fIcontrol-file\fP]"
+List paths for control files installed to your system from \fIpackage-name\fP.
+If \fIcontrol-file\fP is specified then only list the path for that control
+file if it is present. \fBWarning\fP: this command is semi-public, it should
+be used only as a last resort solution, and if no other interface is
+available. It might get deprecated later on if better interfaces or the
+current architectural deficiencies have been solved.
 .TP
 .BR \-S ", " \-\-search " \fIfilename-search-pattern\fP..."
 Search for a filename from installed packages. All standard shell

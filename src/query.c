@@ -4,6 +4,7 @@
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -34,6 +35,7 @@
 #include <sys/ioctl.h>
 #include <sys/termios.h>
 #include <fcntl.h>
+#include <dirent.h>
 
 #if HAVE_LOCALE_H
 #include <locale.h>
@@ -436,6 +438,121 @@ void showpackages(const char *const *argv) {
   modstatdb_shutdown();
 }
 
+static void
+control_path_file(struct pkginfo *pkg, const char *control_file)
+{
+  const char *control_path;
+  struct stat st;
+
+  /* Do not expose internal database files. */
+  if (strcmp(control_file, LISTFILE) == 0 ||
+      strcmp(control_file, CONFFILESFILE) == 0)
+    return;
+
+  control_path = pkgadminfile(pkg, control_file);
+
+  if (stat(control_path, &st) < 0)
+    return;
+
+  if (!S_ISREG(st.st_mode))
+    return;
+
+  printf("%s\n", control_path);
+}
+
+static void
+control_path_pkg(struct pkginfo *pkg)
+{
+  DIR *db_dir;
+  struct dirent *db_de;
+  struct varbuf db_path;
+  size_t db_path_len;
+
+  varbufinit(&db_path, 0);
+  varbufaddstr(&db_path, admindir);
+  varbufaddstr(&db_path, "/" INFODIR);
+  db_path_len = db_path.used;
+  varbufaddc(&db_path, '\0');
+
+  db_dir = opendir(db_path.buf);
+  if (!db_dir)
+    ohshite(_("cannot read info directory"));
+
+  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)db_dir);
+  while ((db_de = readdir(db_dir)) != NULL) {
+    const char *p;
+
+    /* Ignore dotfiles, including ‘.’ and ‘..’. */
+    if (db_de->d_name[0] == '.')
+      continue;
+
+    /* Ignore anything odd. */
+    p = strrchr(db_de->d_name, '.');
+    if (!p)
+      continue;
+
+    /* Ignore files from other packages. */
+    if (strlen(pkg->name) != (size_t)(p - db_de->d_name) ||
+        strncmp(db_de->d_name, pkg->name, p - db_de->d_name))
+      continue;
+
+    /* Skip past the full stop. */
+    p++;
+
+    /* Do not expose internal database files. */
+    if (strcmp(p, LISTFILE) == 0 ||
+        strcmp(p, CONFFILESFILE) == 0)
+      continue;
+
+    if (strlen(p) > MAXCONTROLFILENAME)
+      continue;
+
+    db_path.used = db_path_len;
+    varbufaddstr(&db_path, db_de->d_name);
+    varbufaddc(&db_path, '\0');
+
+    printf("%s\n", db_path.buf);
+  }
+  pop_cleanup(ehflag_normaltidy); /* closedir */
+
+  varbuffree(&db_path);
+}
+
+static void
+control_path(const char *const *argv)
+{
+  struct pkginfo *pkg;
+  const char *pkg_name;
+  const char *control_file;
+
+  pkg_name = *argv++;
+  control_file = *argv++;
+
+  if (!pkg_name)
+    badusage(_("--%s needs at least one package name argument"),
+             cipaction->olong);
+
+  /* Validate control file name for sanity. */
+  if (control_file) {
+    for (const char *c = "/."; *c; c++)
+      if (strchr(control_file, *c))
+        badusage(_("control file contains %c"), *c);
+  }
+
+  modstatdb_init(admindir, msdbrw_readonly | msdbrw_noavail);
+
+  pkg = findpackage(pkg_name);
+  if (pkg->status == stat_notinstalled)
+    badusage(_("Package `%s' is not installed.\n"), pkg->name);
+
+  if (control_file)
+    control_path_file(pkg, control_file);
+  else
+    control_path_pkg(pkg);
+
+  modstatdb_shutdown();
+}
+
 void
 printversion(void)
 {
@@ -463,6 +580,8 @@ usage(void)
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -W|--show <pattern> ...          Show information on package(s).\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+"  -c|--control-path <package> [<file>]\n"
+"                                   Print path for package control file.\n"
 "\n"));
 
   printf(_(
@@ -529,6 +648,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "list",                           'l', act_listpackages,  listpackages    ),
   ACTION( "search",                         'S', act_searchfiles,   searchfiles     ),
   ACTION( "show",                           'W', act_listpackages,  showpackages    ),
+  ACTION( "control-path",                   'c', act_controlpath,   control_path    ),
 
   { "admindir",   0,   1, NULL, &admindir,   NULL          },
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
