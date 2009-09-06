@@ -111,8 +111,9 @@ static void info_spew(const char *debar, const char *directory,
     if (co) {
       stream_fd_copy(co, 1, -1, _("info_spew"));
     } else if (errno == ENOENT) {
-      if (fprintf(stderr, _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
-		  debar, component) == EOF) werr("stderr");
+      fprintf(stderr,
+              _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
+              debar, component);
       re++;
     } else {
       ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),
