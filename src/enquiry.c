@@ -132,7 +132,9 @@ void audit(const char *const *argv) {
     iterpkgend(it);
     if (head) putchar('\n');
   }
-  if (ferror(stderr)) werr("stderr");  
+
+  if (ferror(stdout))
+    werr("stdout");
 }
 
 struct sectionentry {
