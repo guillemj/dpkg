@@ -116,6 +116,14 @@ void m_pipe(int *fds) {
   ohshite(_("failed to create pipe"));
 }
 
+void
+m_output(FILE *f, const char *name)
+{
+  fflush(f);
+  if (ferror(f))
+    ohshite(_("error writing to '%s'"), name);
+}
+
 void setcloexec(int fd, const char* fn) {
   int f;
 
