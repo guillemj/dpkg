@@ -238,6 +238,6 @@ void do_info(const char *const *argv) {
     } else {
       printf(_("file `%s' is not an archive part\n"),thisarg);
     }
-    if (ferror(stdout)) werr("stdout");
+    m_output(stdout, _("<standard output>"));
   }
 }

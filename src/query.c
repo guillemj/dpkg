@@ -179,8 +179,8 @@ void listpackages(const char *const *argv) {
     }
   }
 
-  if (ferror(stdout)) werr("stdout");
-  if (ferror(stderr)) werr("stderr");  
+  m_output(stdout, _("<standard output>"));
+  m_output(stderr, _("<standard error>"));
 
   pkg_array_free(&array);
   modstatdb_shutdown();
@@ -272,9 +272,9 @@ void searchfiles(const char *const *argv) {
     if (!found) {
       fprintf(stderr,_("dpkg: %s not found.\n"),thisarg);
       failures++;
-      if (ferror(stderr)) werr("stderr");
+      m_output(stderr, _("<standard error>"));
     } else {
-      if (ferror(stdout)) werr("stdout");
+      m_output(stdout, _("<standard output>"));
     }
   }
   modstatdb_shutdown();
@@ -366,13 +366,14 @@ void enqperpackage(const char *const *argv) {
 
     if (*(argv + 1) == NULL)
       putchar('\n');
-    if (ferror(stdout)) werr("stdout");
+
+    m_output(stdout, _("<standard output>"));
   }
 
   if (failures) {
     fputs(_("Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
          "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"),stderr);
-    if (ferror(stdout)) werr("stdout");
+    m_output(stderr, _("<standard error>"));
   }
   modstatdb_shutdown();
 }
@@ -427,8 +428,8 @@ void showpackages(const char *const *argv) {
     }
   }
 
-  if (ferror(stdout)) werr("stdout");
-  if (ferror(stderr)) werr("stderr");  
+  m_output(stdout, _("<standard output>"));
+  m_output(stderr, _("<standard error>"));
 
   pkg_array_free(&array);
   freeformat(fmt);

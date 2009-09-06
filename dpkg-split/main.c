@@ -191,7 +191,7 @@ int main(int argc, const char *const *argv) {
   setvbuf(stdout,NULL,_IONBF,0);
   action(argv);
 
-  if (ferror(stderr)) werr("stderr");
+  m_output(stderr, _("<standard error>"));
   
   standard_shutdown();
   exit(0);

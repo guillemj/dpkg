@@ -227,7 +227,7 @@ static void info_field(const char *debar, const char *directory,
   }
   if (ferror(cc)) ohshite(_("failed during read of `control' component"));
   if (doing) putc('\n',stdout);
-  if (ferror(stdout)) werr("stdout");
+  m_output(stdout, _("<standard output>"));
 }
 
 void do_showinfo(const char* const* argv) {

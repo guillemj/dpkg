@@ -133,8 +133,7 @@ void audit(const char *const *argv) {
     if (head) putchar('\n');
   }
 
-  if (ferror(stdout))
-    werr("stdout");
+  m_output(stdout, _("<standard output>"));
 }
 
 struct sectionentry {
@@ -235,8 +234,8 @@ void unpackchk(const char *const *argv) {
     }
     putchar('\n');
   }
-  fflush(stdout);
-  if (ferror(stdout)) werr("stdout");
+
+  m_output(stdout, _("<standard output>"));
 }
 
 static void
@@ -378,7 +377,8 @@ void predeppackage(const char *const *argv) {
 
   /* OK, we've found it - pkg has no unsatisfied pre-dependencies ! */
   writerecord(stdout,"<stdout>",pkg,&pkg->available);
-  if (fflush(stdout)) werr("stdout");
+
+  m_output(stdout, _("<standard output>"));
 }
 
 void printarch(const char *const *argv) {
@@ -386,7 +386,8 @@ void printarch(const char *const *argv) {
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   if (printf("%s\n",architecture) == EOF) werr("stdout");
-  if (fflush(stdout)) werr("stdout");
+
+  m_output(stdout, _("<standard output>"));
 }
 
 void
@@ -445,7 +446,7 @@ void cmpversions(const char *const *argv) {
     if (emsg) {
       if (printf(_("dpkg: version '%s' has bad syntax: %s\n"), argv[0], emsg) == EOF)
         werr("stdout");
-      if (fflush(stdout)) werr("stdout");
+      m_output(stdout, _("<standard output>"));
       exit(1);
     }
   } else {
@@ -456,7 +457,7 @@ void cmpversions(const char *const *argv) {
     if (emsg) {
       if (printf(_("dpkg: version '%s' has bad syntax: %s\n"), argv[2], emsg) == EOF)
         werr("stdout");
-      if (fflush(stdout)) werr("stdout");
+      m_output(stdout, _("<standard output>"));
       exit(1);
     }
   } else {

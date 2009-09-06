@@ -76,8 +76,9 @@ void getselections(const char *const *argv) {
         fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
     }
   }
-  if (ferror(stdout)) werr("stdout");
-  if (ferror(stderr)) werr("stderr");
+
+  m_output(stdout, _("<standard output>"));
+  m_output(stderr, _("<standard error>"));
 
   pkg_array_free(&array);
 }

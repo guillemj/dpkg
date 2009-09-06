@@ -354,7 +354,7 @@ void do_build(const char *const *argv) {
     if (warns)
       warning(_("ignoring %d warnings about the control file(s)\n"), warns);
   }
-  if (ferror(stdout)) werr("stdout");
+  m_output(stdout, _("<standard output>"));
   
   /* Now that we have verified everything its time to actually
    * build something. Lets start by making the ar-wrapper.

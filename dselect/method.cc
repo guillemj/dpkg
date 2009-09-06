@@ -180,8 +180,7 @@ urqresult falliblesubprocess(const char *exepath, const char *name,
     fprintf(stderr,_("failed with an unknown wait return code %d.\n"),status);
   }
   fprintf(stderr,_("Press <enter> to continue.\n"));
-  if (ferror(stderr))
-    ohshite(_("write error on standard error"));
+  m_output(stderr, _("<standard error>"));
   do { c= fgetc(stdin); } while ((c == ERR && errno==EINTR) || ((c != '\n') && c != EOF));
   if ((c == ERR) || (c == EOF))
     ohshite(_("error reading acknowledgement of program failure message"));

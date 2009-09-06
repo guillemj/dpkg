@@ -197,7 +197,9 @@ void hashreport(FILE *file) {
   }
   for (i=npackages; i>0 && freq[i]==0; i--);
   while (i>=0) { fprintf(file,_("size %7d occurs %5d times\n"),i,freq[i]); i--; }
-  if (ferror(file)) ohshite(_("failed write during hashreport"));
+
+  m_output(file, "<hash report>");
+
   free(freq);
 }
 

@@ -122,7 +122,7 @@ void do_auto(const char *const *argv) {
   if (!read_info(part,partfile,refi)) {
     if (!npquiet)
       printf(_("File `%.250s' is not part of a multipart archive.\n"),partfile);
-    if (fclose(stdout)) werr("stdout");
+    m_output(stdout, _("<standard output>"));
     exit(1);
   }
   fclose(part);
@@ -189,7 +189,7 @@ void do_auto(const char *const *argv) {
 
   }
 
-  if (ferror(stderr)) werr("stderr");
+  m_output(stderr, _("<standard error>"));
 }
 
 void do_queue(const char *const *argv) {
@@ -242,7 +242,7 @@ void do_queue(const char *const *argv) {
     }
     printf(_("(total %lu bytes)\n"),bytes);
   }
-  if (fclose(stdout)) werr("stdout");
+  m_output(stdout, _("<standard output>"));
 }
 
 enum discardwhich { ds_junk, ds_package, ds_all };

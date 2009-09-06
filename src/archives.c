@@ -1218,8 +1218,8 @@ void archivefiles(const char *const *argv) {
     push_error_handler(&ejbuf,print_error_perpackage,thisarg);
     process_archive(thisarg);
     onerr_abort++;
-    if (ferror(stdout)) werr("stdout");
-    if (ferror(stderr)) werr("stderr");
+    m_output(stdout, _("<standard output>"));
+    m_output(stderr, _("<standard error>"));
     onerr_abort--;
     set_error_display(NULL, NULL);
     error_unwind(ehflag_normaltidy);

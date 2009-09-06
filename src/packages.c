@@ -265,8 +265,8 @@ void process_queue(void) {
     default:
       internerr("unknown action '%d'", cipaction->arg);
     }
-    if (ferror(stdout)) werr("stdout");
-    if (ferror(stderr)) werr("stderr");
+    m_output(stdout, _("<standard output>"));
+    m_output(stderr, _("<standard error>"));
     set_error_display(NULL, NULL);
     error_unwind(ehflag_normaltidy);
   }
