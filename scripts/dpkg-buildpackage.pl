@@ -27,6 +27,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildFlags;
 use Dpkg::BuildOptions;
+use Dpkg::BuildFeatures;
 use Dpkg::Compression;
 use Dpkg::Version;
 use Dpkg::Changelog::Parse;
@@ -119,6 +120,7 @@ my $checkbuilddep = 1;
 my $signsource = 1;
 my $signchanges = 1;
 my $binarytarget = 'binary';
+my $buildtarget = 'build';
 my $targetarch = my $targetgnusystem = '';
 my $call_target = '';
 my $call_target_as_root = 0;
@@ -202,18 +204,21 @@ while (@ARGV) {
 	$include = BUILD_BINARY;
 	push @changes_opts, '-b';
 	@checkbuilddep_opts = ();
+	$buildtarget = 'build';
 	$binarytarget = 'binary';
     } elsif (/^-B$/) {
 	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = BUILD_ARCH_DEP;
 	push @changes_opts, '-B';
 	@checkbuilddep_opts = ('-B');
+	$buildtarget = 'build-arch';
 	$binarytarget = 'binary-arch';
     } elsif (/^-A$/) {
 	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = BUILD_ARCH_INDEP;
 	push @changes_opts, '-A';
 	@checkbuilddep_opts = ();
+	$buildtarget = 'build-indep';
 	$binarytarget = 'binary-indep';
     } elsif (/^-S$/) {
 	build_binaryonly && usageerr(_g("cannot combine %s and %s"), build_opt, "-S");
@@ -246,6 +251,9 @@ if ($noclean) {
     # -nc without -b/-B/-A/-S/-F implies -b
     $include = BUILD_BINARY if ($include & BUILD_DEFAULT);
 }
+
+my $buildfeats = Dpkg::BuildFeatures->new();
+$buildtarget = 'build' unless $buildfeats->has('build-arch');
 
 if ($< == 0) {
     warning(_g("using a gain-root-command while being root")) if (@rootcommand);
@@ -403,7 +411,7 @@ unless (build_binaryonly) {
     chdir($dir) or syserr("chdir $dir");
 }
 unless (build_sourceonly) {
-    withecho(@debian_rules, 'build');
+    withecho(@debian_rules, $buildtarget);
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 if ($usepause &&
