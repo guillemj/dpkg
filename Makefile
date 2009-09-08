@@ -10,6 +10,7 @@ TESTS := \
 	t-conflict \
 	t-file-replaces \
 	t-file-replaces-disappear \
+	t-conffile-obsolete \
 	t-conffile-orphan \
 	t-conffile-prompt \
 	t-conffile-divert-normal \
