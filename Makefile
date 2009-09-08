@@ -7,6 +7,7 @@
 TESTS := \
 	t-normal \
 	t-disappear \
+	t-conflict \
 	t-file-replaces \
 	t-file-replaces-disappear \
 	t-conffile-orphan \
