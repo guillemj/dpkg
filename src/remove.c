@@ -441,7 +441,6 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       if (conff->obsolete) {
 	debug(dbg_conffdetail, "removal_bulk conffile obsolete %s",
 	      conff->name);
-	continue;
       }
       varbufreset(&fnvb);
       r= conffderef(pkg, &fnvb, conff->name);
