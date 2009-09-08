@@ -5,6 +5,7 @@
 #
 
 TESTS := \
+	t-disappear \
 	t-file-replaces \
 	t-file-replaces-disappear \
 	t-conffile-orphan \
