@@ -5,6 +5,7 @@
 #
 
 TESTS := \
+	t-normal \
 	t-disappear \
 	t-file-replaces \
 	t-file-replaces-disappear \
