@@ -13,6 +13,7 @@ TESTS := \
 	t-conffile-obsolete \
 	t-conffile-orphan \
 	t-conffile-prompt \
+	t-conffile-forcenew \
 	t-conffile-divert-normal \
 	t-conffile-divert-conffile \
 	t-conffile-conflict \
