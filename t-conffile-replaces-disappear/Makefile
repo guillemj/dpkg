@@ -6,7 +6,7 @@ test-case: test-two-run-ordered test-one-run-ordered \
            test-two-run-reverse test-one-run-reverse
 
 define VERIFY
-test "`$(PKG_STATUS) pkg-conff-original`" = "purge ok not-installed"
+test "`$(PKG_STATUS) pkg-conff-original`" = "unknown ok not-installed"
 test "`$(PKG_STATUS) pkg-conff-takeover`" = "install ok installed"
 test "`$(DPKG_QUERY) -S /test-conffile`" = "pkg-conff-takeover: /test-conffile"
 cmp ref-conffile /test-conffile
