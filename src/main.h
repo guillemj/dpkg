@@ -231,8 +231,8 @@ int force_conff_miss(struct deppossi *possi);
 int force_conflicts(struct deppossi *possi);
 void oldconffsetflags(const struct conffile *searchconff);
 void ensure_pathname_nonexisting(const char *pathname);
-int chmodsafe_unlink(const char *pathname);
-int chmodsafe_unlink_statted(const char *pathname, const struct stat *stab);
+int secure_unlink(const char *pathname);
+int secure_unlink_statted(const char *pathname, const struct stat *stab);
 void checkpath(void);
 
 struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);

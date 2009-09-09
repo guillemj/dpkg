@@ -505,17 +505,17 @@ void oldconffsetflags(const struct conffile *searchconff) {
 }
 
 int
-chmodsafe_unlink(const char *pathname)
+secure_unlink(const char *pathname)
 {
   struct stat stab;
 
   if (lstat(pathname,&stab)) return -1;
 
-  return chmodsafe_unlink_statted(pathname, &stab);
+  return secure_unlink_statted(pathname, &stab);
 }
 
 int
-chmodsafe_unlink_statted(const char *pathname, const struct stat *stab)
+secure_unlink_statted(const char *pathname, const struct stat *stab)
 {
   if (S_ISREG(stab->st_mode) ? (stab->st_mode & 07000) :
       !(S_ISLNK(stab->st_mode) || S_ISDIR(stab->st_mode) ||
@@ -544,7 +544,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
     /* Either it's a file, or one of the path components is.  If one
      * of the path components is this will fail again ...
      */
-    if (chmodsafe_unlink(pathname) == 0)
+    if (secure_unlink(pathname) == 0)
       return; /* OK, it was */
     if (errno == ENOTDIR) return;
   }

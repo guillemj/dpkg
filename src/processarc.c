@@ -759,7 +759,7 @@ void process_archive(const char *filename) {
       if (sameas)
 	continue;
 
-      if (chmodsafe_unlink_statted(fnamevb.buf, &oldfs)) {
+      if (secure_unlink_statted(fnamevb.buf, &oldfs)) {
         warning(_("unable to securely remove old file '%.250s': %s"),
                 namenode->name, strerror(errno));
       }
