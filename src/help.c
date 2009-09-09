@@ -504,27 +504,27 @@ void oldconffsetflags(const struct conffile *searchconff) {
   }
 }
 
-int chmodsafe_unlink(const char *pathname, const char **failed) {
-  /* Sets *failed to `chmod' or `unlink' if those calls fail (which is
-   * always unexpected).  If stat fails it leaves *failed alone. */
+int
+chmodsafe_unlink(const char *pathname)
+{
   struct stat stab;
 
   if (lstat(pathname,&stab)) return -1;
-  *failed= N_("unlink");
-  return chmodsafe_unlink_statted(pathname, &stab, failed);
+
+  return chmodsafe_unlink_statted(pathname, &stab);
 }
-  
-int chmodsafe_unlink_statted(const char *pathname, const struct stat *stab,
-			     const char **failed) {
-  /* Sets *failed to `chmod'' if that call fails (which is always
-   * unexpected).  If unlink fails it leaves *failed alone. */
+
+int
+chmodsafe_unlink_statted(const char *pathname, const struct stat *stab)
+{
   if (S_ISREG(stab->st_mode) ? (stab->st_mode & 07000) :
       !(S_ISLNK(stab->st_mode) || S_ISDIR(stab->st_mode) ||
 	S_ISFIFO(stab->st_mode) || S_ISSOCK(stab->st_mode))) {
     /* We chmod it if it is 1. a sticky or set-id file, or 2. an unrecognised
      * object (ie, not a file, link, directory, fifo or socket)
      */
-    if (chmod(pathname,0600)) { *failed= N_("chmod"); return -1; }
+    if (chmod(pathname, 0600))
+      return -1;
   }
   if (unlink(pathname)) return -1;
   return 0;
@@ -532,7 +532,7 @@ int chmodsafe_unlink_statted(const char *pathname, const struct stat *stab,
 
 void ensure_pathname_nonexisting(const char *pathname) {
   int c1;
-  const char *u, *failed;
+  const char *u;
 
   u = path_skip_slash_dotslash(pathname);
   assert(*u);
@@ -540,18 +540,16 @@ void ensure_pathname_nonexisting(const char *pathname) {
   debug(dbg_eachfile,"ensure_pathname_nonexisting `%s'",pathname);
   if (!rmdir(pathname)) return; /* Deleted it OK, it was a directory. */
   if (errno == ENOENT || errno == ELOOP) return;
-  failed= N_("delete");
   if (errno == ENOTDIR) {
     /* Either it's a file, or one of the path components is.  If one
      * of the path components is this will fail again ...
      */
-    if (!chmodsafe_unlink(pathname, &failed)) return; /* OK, it was */
+    if (chmodsafe_unlink(pathname) == 0)
+      return; /* OK, it was */
     if (errno == ENOTDIR) return;
   }
   if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh ? */
-    const char *failed_local = gettext(failed);
-
-    ohshite(_("failed to %s '%.255s'"), failed_local, pathname);
+    ohshite(_("unable to securely remove '%.255s'"), pathname);
   }
   c1= m_fork();
   if (!c1) {

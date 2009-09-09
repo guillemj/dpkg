@@ -74,7 +74,7 @@ void process_archive(const char *filename) {
   char *cidir, *cidirrest, *p;
   char *pfilenamebuf, conffilenamebuf[MAXCONFFILENAME];
   char *psize;
-  const char *pfilename, *newinfofilename, *failed;
+  const char *pfilename, *newinfofilename;
   struct fileinlist *newconff, **newconffileslastp;
   struct fileinlist *cfile;
   struct reversefilelistiter rlistit;
@@ -759,12 +759,9 @@ void process_archive(const char *filename) {
       if (sameas)
 	continue;
 
-      failed= N_("delete");
-      if (chmodsafe_unlink_statted(fnamevb.buf, &oldfs, &failed)) {
-        const char *failed_local = gettext(failed);
-
-        warning(_("unable to %s old file '%.250s': %s"),
-                failed_local, namenode->name, strerror(errno));
+      if (chmodsafe_unlink_statted(fnamevb.buf, &oldfs)) {
+        warning(_("unable to securely remove old file '%.250s': %s"),
+                namenode->name, strerror(errno));
       }
 
     } /* !S_ISDIR */
