@@ -80,11 +80,16 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
 
 void checkpath(void) {
 /* Verify that some programs can be found in the PATH. */
-  static const char *const checklist[]= { "ldconfig", 
+  static const char *const checklist[] = {
+    DEFAULTSHELL,
+    RM,
+    TAR,
+    FIND,
+    BACKEND,
+    "ldconfig",
 #if WITH_START_STOP_DAEMON
     "start-stop-daemon",
 #endif    
-    "install-info",
     "update-rc.d",
     NULL
   };
