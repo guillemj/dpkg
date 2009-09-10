@@ -259,23 +259,8 @@ static void removal_bulk_remove_files(
       }
       if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
       debug(dbg_eachfiledetail, "removal_bulk unlinking `%s'", fnvb.buf);
-      {
-        /*
-         * If file to remove is a device or s[gu]id, change its mode
-         * so that a malicious user cannot use it even if it's linked
-         * to another file
-         */
-        struct stat stat_buf;
-        if (lstat(fnvb.buf,&stat_buf)==0) {
-          if (S_ISCHR(stat_buf.st_mode) || S_ISBLK(stat_buf.st_mode)) {
-            chmod(fnvb.buf,0);
-          }
-          if (stat_buf.st_mode & (S_ISUID|S_ISGID)) {
-            chmod(fnvb.buf,stat_buf.st_mode & ~(S_ISUID|S_ISGID));
-          }
-        }
-      }
-      if (unlink(fnvb.buf)) ohshite(_("cannot remove file `%.250s'"),fnvb.buf);
+      if (secure_unlink(fnvb.buf))
+        ohshite(_("unable to securely remove '%.250s'"), fnvb.buf);
     }
     write_filelist_except(pkg,leftover,0);
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
