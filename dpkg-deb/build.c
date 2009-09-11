@@ -58,10 +58,10 @@
 
 /* Simple structure to store information about a file.
  */
-struct _finfo {
+struct file_info {
+  struct file_info *next;
   struct stat	st;
   char*	fn;
-  struct _finfo* next;
 };
 
 static const char *arbitrary_fields[] = {
@@ -103,14 +103,17 @@ static void checkversion(const char *vstring, const char *valuename, int *errs) 
   (*errs)++;
 }
 
-/* Read the next filename from a filedescriptor and create a _info struct
+/*
+ * Read the next filename from a filedescriptor and create a file_info struct
  * for it. If there is nothing to read return NULL.
  */
-static struct _finfo* getfi(const char* root, int fd) {
+static struct file_info *
+getfi(const char *root, int fd)
+{
   static char* fn = NULL;
   static size_t fnlen = 0;
   size_t i= 0;
-  struct _finfo *fi;
+  struct file_info *fi;
   size_t rl = strlen(root);
 
   if (fn == NULL) {
@@ -145,24 +148,26 @@ static struct _finfo* getfi(const char* root, int fd) {
       ohshit(_("file name '%.50s...' is too long"), fn + rl + 1);
   }
 
-  fi = m_malloc(sizeof(struct _finfo));
+  fi = m_malloc(sizeof(*fi));
   lstat(fn, &(fi->st));
   fi->fn = m_strdup(fn + rl + 1);
   fi->next=NULL;
   return fi;
 }
 
-/* Add a new _finfo struct to a single linked list of _finfo structs.
+/*
+ * Add a new file_info struct to a single linked list of file_info structs.
  * We perform a slight optimization to work around a `feature' in tar: tar
  * always recurses into subdirectories if you list a subdirectory. So if an
  * entry is added and the previous entry in the list is its subdirectory we
  * remove the subdirectory. 
  *
- * After a _finfo struct is added to a list it may no longer be freed, we
+ * After a file_info struct is added to a list it may no longer be freed, we
  * assume full responsibility for its memory.
  */
 static void
-add_to_filist(struct _finfo **start, struct _finfo **end, struct _finfo *fi)
+add_to_filist(struct file_info **start, struct file_info **end,
+              struct file_info *fi)
 {
   if (*start==NULL)
     *start=*end=fi;
@@ -170,11 +175,15 @@ add_to_filist(struct _finfo **start, struct _finfo **end, struct _finfo *fi)
     *end=(*end)->next=fi;
 }
 
-/* Free the memory for all entries in a list of _finfo structs
+/*
+ * Free the memory for all entries in a list of file_info structs.
  */
-static void free_filist(struct _finfo* fi) {
+static void
+free_filist(struct file_info *fi)
+{
   while (fi) {
-    struct _finfo* fl;
+    struct file_info *fl;
+
     free(fi->fn);
     fl=fi; fi=fi->next;
     free(fl);
@@ -200,9 +209,9 @@ void do_build(const char *const *argv) {
   struct stat controlstab, datastab, mscriptstab, debarstab;
   char conffilename[MAXCONFFILENAME+1];
   time_t thetime= 0;
-  struct _finfo *fi;
-  struct _finfo *symlist = NULL;
-  struct _finfo *symlist_end = NULL;
+  struct file_info *fi;
+  struct file_info *symlist = NULL;
+  struct file_info *symlist_end = NULL;
   
 /* Decode our arguments */
   directory = *argv++;
