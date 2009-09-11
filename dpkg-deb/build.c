@@ -103,6 +103,18 @@ static void checkversion(const char *vstring, const char *valuename, int *errs) 
   (*errs)++;
 }
 
+static struct file_info *
+file_info_new(const char *filename)
+{
+  struct file_info *fi;
+
+  fi = m_malloc(sizeof(*fi));
+  fi->fn = m_strdup(filename);
+  fi->next = NULL;
+
+  return fi;
+}
+
 /*
  * Read the next filename from a filedescriptor and create a file_info struct
  * for it. If there is nothing to read return NULL.
@@ -148,10 +160,9 @@ getfi(const char *root, int fd)
       ohshit(_("file name '%.50s...' is too long"), fn + rl + 1);
   }
 
-  fi = m_malloc(sizeof(*fi));
+  fi = file_info_new(fn + rl + 1);
   lstat(fn, &(fi->st));
-  fi->fn = m_strdup(fn + rl + 1);
-  fi->next=NULL;
+
   return fi;
 }
 
