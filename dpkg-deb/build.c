@@ -115,6 +115,18 @@ file_info_new(const char *filename)
   return fi;
 }
 
+static struct file_info *
+file_info_find_name(struct file_info *list, const char *filename)
+{
+  struct file_info *node;
+
+  for (node = list; node; node = node->next)
+    if (strcmp(node->fn, filename) == 0)
+      return node;
+
+  return NULL;
+}
+
 /*
  * Read the next filename from a filedescriptor and create a file_info struct
  * for it. If there is nothing to read return NULL.
@@ -341,6 +353,9 @@ void do_build(const char *const *argv) {
     strcpy(controlfile, directory);
     strcat(controlfile, "/" BUILDCONTROLDIR "/" CONFFILESFILE);
     if ((cf= fopen(controlfile,"r"))) {
+      struct file_info *conffiles_head = NULL;
+      struct file_info *conffiles_tail = NULL;
+
       while (fgets(conffilename,MAXCONFFILENAME+1,cf)) {
         n= strlen(conffilename);
         if (!n) ohshite(_("empty string from fgets reading conffiles"));
@@ -367,7 +382,19 @@ void do_build(const char *const *argv) {
           warning(_("conffile '%s' is not a plain file"), conffilename);
           warns++;
         }
+
+        if (file_info_find_name(conffiles_head, conffilename))
+          warning(_("conffile name '%s' is duplicated"), conffilename);
+        else {
+          struct file_info *conffile;
+
+          conffile = file_info_new(conffilename);
+          add_to_filist(&conffiles_head, &conffiles_tail, conffile);
+        }
       }
+
+      free_filist(conffiles_head);
+
       if (ferror(cf)) ohshite(_("error reading conffiles file"));
       fclose(cf);
     } else if (errno != ENOENT) {
