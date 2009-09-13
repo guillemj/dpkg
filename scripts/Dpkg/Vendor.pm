@@ -21,7 +21,7 @@ use warnings;
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-use Dpkg::Cdata;
+use Dpkg::Control;
 
 use base qw(Exporter);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file

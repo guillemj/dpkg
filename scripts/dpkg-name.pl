@@ -29,7 +29,7 @@ use File::Path;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Cdata;
+use Dpkg::Control;
 use Dpkg::Arch qw(get_host_arch);
 
 textdomain("dpkg-dev");

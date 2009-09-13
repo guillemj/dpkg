@@ -19,7 +19,7 @@ package Dpkg::Control::Info;
 use strict;
 use warnings;
 
-use Dpkg::Cdata;
+use Dpkg::Control;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 

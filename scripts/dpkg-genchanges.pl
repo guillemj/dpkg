@@ -14,7 +14,7 @@ use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Fields qw(:list capit unknown);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
-use Dpkg::Cdata;
+use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);

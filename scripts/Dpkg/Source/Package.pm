@@ -22,7 +22,7 @@ use warnings;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Fields;
-use Dpkg::Cdata;
+use Dpkg::Control;
 use Dpkg::Checksums;
 use Dpkg::Version qw(parseversion check_version);
 use Dpkg::Deps qw(@src_dep_fields);

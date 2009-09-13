@@ -41,7 +41,7 @@ use English;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
-use Dpkg::Cdata;
+use Dpkg::Control;
 use Dpkg::Fields;
 use Dpkg::Version qw(compare_versions);
 

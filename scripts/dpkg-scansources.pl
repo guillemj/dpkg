@@ -31,7 +31,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Cdata;
+use Dpkg::Control;
 use Dpkg::Checksums;
 
 textdomain("dpkg-dev");

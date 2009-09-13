@@ -91,11 +91,11 @@ perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
 	Dpkg/BuildOptions.pm \
-	Dpkg/Cdata.pm \
 	Dpkg/Changelog.pm \
 	Dpkg/Changelog/Debian.pm \
 	Dpkg/Checksums.pm \
 	Dpkg/Compression.pm \
+	Dpkg/Control.pm \
 	Dpkg/Control/Info.pm \
 	Dpkg/Deps.pm \
 	Dpkg/ErrorHandling.pm \

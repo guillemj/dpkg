@@ -14,7 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Dpkg::Cdata;
+package Dpkg::Control;
 
 use strict;
 use warnings;
@@ -28,18 +28,18 @@ our @EXPORT = qw(parsecdata);
 
 =head1 NAME
 
-Dpkg::Cdata - parse and manipulate a block of RFC822-like fields
+Dpkg::Control - parse and manipulate a block of RFC822-like fields
 
 =head1 DESCRIPTION
 
-The Dpkg::Cdata module exports one function 'parsecdata' that reads a
+The Dpkg::Control module exports one function 'parsecdata' that reads a
 block of data (usually a block following the debian/control format)
 
 =head1 FUNCTIONS
 
 =over 4
 
-=item $obj = Dpkg::Cdata::parsecdata($input, $file, %options)
+=item $obj = Dpkg::Control::parsecdata($input, $file, %options)
 
 $input is a filehandle, $file is the name of the file corresponding to
 $input. %options can contain two parameters: allow_pgp=>1 allows the parser
