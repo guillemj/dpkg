@@ -11,7 +11,7 @@ use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
 use Dpkg::Fields qw(:list capit unknown);
 use Dpkg::Compression;
-use Dpkg::Control;
+use Dpkg::Control::Info;
 use Dpkg::Substvars;
 use Dpkg::Version qw(check_version);
 use Dpkg::Vars;
@@ -146,7 +146,7 @@ if ($options{'opmode'} eq 'build') {
     my %ch_options = (file => $changelogfile);
     $ch_options{"changelogformat"} = $changelogformat if $changelogformat;
     my $changelog = parse_changelog(%ch_options);
-    my $control = Dpkg::Control->new($controlfile);
+    my $control = Dpkg::Control::Info->new($controlfile);
 
     my $srcpkg = Dpkg::Source::Package->new(options => \%options);
     my $fields = $srcpkg->{'fields'};

@@ -14,7 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Dpkg::Control;
+package Dpkg::Control::Info;
 
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ use Dpkg::Gettext;
 
 =head1 NAME
 
-Dpkg::Control - parse files like debian/control
+Dpkg::Control::Info - parse files like debian/control
 
 =head1 DESCRIPTION
 
@@ -36,9 +36,9 @@ syntax than debian/control.
 
 =over 4
 
-=item $c = Dpkg::Control->new($file)
+=item $c = Dpkg::Control::Info->new($file)
 
-Create a new Dpkg::Control object for $file. If $file is omitted, it parses
+Create a new Dpkg::Control::Info object for $file. If $file is omitted, it parses
 debian/control. If file is "-", it parses the standard input.
 
 =cut

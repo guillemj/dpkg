@@ -20,7 +20,7 @@ use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Fields qw(capit);
 use Dpkg::Deps;
-use Dpkg::Control;
+use Dpkg::Control::Info;
 
 
 use constant {
@@ -116,7 +116,7 @@ foreach (@ARGV) {
 
 scalar keys %exec || usageerr(_g("need at least one executable"));
 
-my $control = Dpkg::Control->new();
+my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
 my $build_depends = defined($fields->{"Build-Depends"}) ?
 		    $fields->{"Build-Depends"} : "";

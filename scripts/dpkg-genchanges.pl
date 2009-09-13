@@ -13,7 +13,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Fields qw(:list capit unknown);
 use Dpkg::Compression;
-use Dpkg::Control;
+use Dpkg::Control::Info;
 use Dpkg::Cdata;
 use Dpkg::Substvars;
 use Dpkg::Vars;
@@ -202,7 +202,7 @@ eval { # Do not fail if parser failed due to unsupported options
 };
 $bad_parser = 1 if ($@);
 # Other initializations
-my $control = Dpkg::Control->new($controlfile);
+my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->set_arch_substvars();

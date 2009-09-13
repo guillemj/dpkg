@@ -10,7 +10,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Deps;
-use Dpkg::Control;
+use Dpkg::Control::Info;
 
 textdomain("dpkg-dev");
 
@@ -49,7 +49,7 @@ if ($want_help) {
 
 my $controlfile = shift || "debian/control";
 
-my $control = Dpkg::Control->new($controlfile);
+my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = $control->get_source();
 
 my $facts = parse_status("$admindir/status");

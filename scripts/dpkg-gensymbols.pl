@@ -10,7 +10,7 @@ use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Control;
+use Dpkg::Control::Info;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Path qw(check_files_are_the_same);
 
@@ -122,7 +122,7 @@ if (not defined($sourceversion)) {
     $sourceversion = $changelog->{"Version"};
 }
 if (not defined($oppackage)) {
-    my $control = Dpkg::Control->new();
+    my $control = Dpkg::Control::Info->new();
     my @packages = map { $_->{'Package'} } $control->get_packages();
     @packages == 1 ||
 	error(_g("must specify package since control info has many (%s)"),
