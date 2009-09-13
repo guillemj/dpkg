@@ -54,7 +54,7 @@ is($pkg->{Depends}, 'hello', 'Name of third package');
 
 $pkg = $c->get_pkg_by_idx(2);
 $io = IO::String->new();
-tied(%{$pkg})->dump($io);
+$pkg->output($io);
 
 is(${$io->string_ref()},
 'Package: mypackage2

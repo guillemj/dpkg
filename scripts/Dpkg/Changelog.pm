@@ -42,7 +42,6 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
 use Dpkg::Control;
-use Dpkg::Fields;
 use Dpkg::Version qw(compare_versions);
 
 use base qw(Exporter);
@@ -494,15 +493,15 @@ See L<dpkg>.
 
 =cut
 
-our ( @CHANGELOG_FIELDS, %CHANGELOG_FIELDS );
+our ( @CHANGELOG_FIELDS, $CHANGELOG_FIELDS );
 our ( @URGENCIES, %URGENCIES );
 BEGIN {
     @CHANGELOG_FIELDS = qw(Source Version Distribution
                            Urgency Maintainer Date Closes Changes
                            Timestamp Header Items Trailer
                            Urgency_comment Urgency_lc);
-    tie %CHANGELOG_FIELDS, 'Dpkg::Fields::Object';
-    %CHANGELOG_FIELDS = map { $_ => 1 } @CHANGELOG_FIELDS;
+    $CHANGELOG_FIELDS = Dpkg::Control->new(type => CTRL_CHANGELOG);
+    %$CHANGELOG_FIELDS = map { $_ => 1 } @CHANGELOG_FIELDS;
     @URGENCIES = qw(low medium high critical emergency);
     my $i = 1;
     %URGENCIES = map { $_ => $i++ } @URGENCIES;
@@ -523,7 +522,7 @@ sub dpkg {
     }
     # handle unknown fields
     foreach my $field (keys %{$data->[0]}) {
-	next if $CHANGELOG_FIELDS{$field};
+	next if $CHANGELOG_FIELDS->{$field};
 	$f->{$field} = $data->[0]{$field};
     }
 
@@ -546,7 +545,7 @@ sub dpkg {
 
 	# handle unknown fields
 	foreach my $field (keys %$entry) {
-	    next if $CHANGELOG_FIELDS{$field};
+	    next if $CHANGELOG_FIELDS->{$field};
 	    next if exists $f->{$field};
 	    $f->{$field} = $entry->{$field};
 	}
@@ -608,7 +607,7 @@ sub rfc822 {
 
 	# handle unknown fields
 	foreach my $field (keys %$entry) {
-	    next if $CHANGELOG_FIELDS{$field};
+	    next if $CHANGELOG_FIELDS->{$field};
 	    $f->{$field} = $entry->{$field};
 	}
 
@@ -779,7 +778,7 @@ sub get_dpkg_changes {
 =head3 my $fields = parse_changelog(%opt)
 
 This function will parse a changelog. In list context, it return as many
-Dpkg::Fields::Object as the parser did output. In scalar context, it will
+Dpkg::Control object as the parser did output. In scalar context, it will
 return only the first one. If the parser didn't return any data, it will
 return an empty in list context or undef on scalar context. If the parser
 failed, it will die.
@@ -883,9 +882,11 @@ sub parse_changelog {
 	exec(@exec) || syserr(_g("cannot exec format parser: %s"), $parser);
     }
 
-    # Get the output into several Dpkg::Fields::Object
+    # Get the output into several Dpkg::Control objects
     my (@res, $fields);
-    while ($fields = parsecdata(\*P, _g("output of changelog parser"))) {
+    while (1) {
+        $fields = Dpkg::Control->new(type => CTRL_CHANGELOG);
+        last unless $fields->parse_fh(\*P, _g("output of changelog parser"));
 	push @res, $fields;
     }
     close(P) or subprocerr(_g("changelog parser %s"), $parser);
@@ -911,12 +912,14 @@ FIXME: to be written
 
 package Dpkg::Changelog::Entry;
 
+use Dpkg::Control;
+use base qw(Dpkg::Control);
+
 sub new {
     my ($classname) = @_;
 
-    tie my %entry, 'Dpkg::Fields::Object';
-    tied(%entry)->set_field_importance(@CHANGELOG_FIELDS);
-    my $entry = \%entry;
+    my $entry = Dpkg::Control->new(type => CTRL_CHANGELOG);
+    $entry->set_output_order(@CHANGELOG_FIELDS);
     bless $entry, $classname;
 }
 
@@ -928,11 +931,6 @@ sub is_empty {
 	     || $self->{Version}
 	     || $self->{Maintainer}
 	     || $self->{Date});
-}
-
-sub output {
-    my $self = shift;
-    return tied(%$self)->output(@_);
 }
 
 1;

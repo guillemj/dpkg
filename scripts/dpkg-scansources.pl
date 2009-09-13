@@ -250,10 +250,9 @@ sub process_dsc {
 
     # Parse ‘.dsc’ file.
     open(CDATA, '<', $file) || syserr(_g("cannot open %s"), $file);
-    my $fields = parsecdata(\*CDATA,
-                            sprintf(_g("source control file %s"), $file),
-                            allow_pgp => 1);
-    error(_g("parsing an empty file %s"), $file) unless (defined $fields);
+    my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
+    $fields->parse_fh(\*CDATA, sprintf(_g("source control file %s"), $file)) ||
+        error(_g("parsing an empty file %s"), $file);
     close(CDATA) || syserr(_g("cannot close %s"), $file);
 
     # Get checksums
@@ -372,9 +371,9 @@ sub main {
             next;
         }
 
-        tied(%{$fields})->set_field_importance(@src_fields);
+        $fields->set_output_order(@src_fields);
 	if ($No_sort) {
-            tied(%{$fields})->output(\*STDOUT);
+            $fields->output(\*STDOUT);
             print "\n";
 	}
 	else {
@@ -385,7 +384,7 @@ sub main {
 
     if (@out) {
         map {
-            tied(%{$_})->output(\*STDOUT);
+            $_->output(\*STDOUT);
             print "\n";
         } sort {
             $a->{Package} cmp $b->{Package}

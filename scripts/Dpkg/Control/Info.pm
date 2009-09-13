@@ -100,15 +100,15 @@ messages.
 sub parse_fh {
     my ($self, $fh, $desc) = @_;
     $self->reset();
-    my $cdata = parsecdata($fh, $desc);
-    return if not defined $cdata;
+    my $cdata = Dpkg::Control->new(type => CTRL_INFO_SRC);
+    return if not $cdata->parse_fh($fh, $desc);
     $self->{source} = $cdata;
     unless (exists $cdata->{Source}) {
 	syntaxerr($desc, _g("first block lacks a source field"));
     }
     while (1) {
-	$cdata = parsecdata($fh, $desc);
-	last if not defined $cdata;
+	$cdata = Dpkg::Control->new(type => CTRL_INFO_PKG);
+        last if not $cdata->parse_fh($fh, $desc);
 	push @{$self->{packages}}, $cdata;
 	unless (exists $cdata->{Package}) {
 	    syntaxerr($desc, _g("block lacks a package field"));
@@ -118,8 +118,8 @@ sub parse_fh {
 
 =item $c->get_source()
 
-Returns a reference to a hash containing the fields concerning the
-source package. The hash is tied to Dpkg::Fields::Object.
+Returns a Dpkg::Control object containing the fields concerning the
+source package.
 
 =cut
 
@@ -130,9 +130,8 @@ sub get_source {
 
 =item $c->get_pkg_by_idx($idx)
 
-Returns a reference to a hash containing the fields concerning the binary
-package numbered $idx (starting at 1). The hash is tied to
-Dpkg::Fields::Object.
+Returns a Dpkg::Control object containing the fields concerning the binary
+package numbered $idx (starting at 1).
 
 =cut
 
@@ -143,8 +142,8 @@ sub get_pkg_by_idx {
 
 =item $c->get_pkg_by_name($name)
 
-Returns a reference to a hash containing the fields concerning the binary
-package named $name. The hash is tied to Dpkg::Fields::Object.
+Returns a Dpkg::Control object containing the fields concerning the binary
+package named $name.
 
 =cut
 
@@ -159,7 +158,7 @@ sub get_pkg_by_name {
 
 =item $c->get_packages()
 
-Returns a list containing the hashes for all binary packages.
+Returns a list containing the Dpkg::Control objects for all binary packages.
 
 =cut
 
@@ -176,10 +175,10 @@ Dump the content into a filehandle.
 
 sub dump {
     my ($self, $fh) = @_;
-    tied(%{$self->{source}})->dump($fh);
+    $self->{source}->output($fh);
     foreach my $pkg (@{$self->{packages}}) {
 	print $fh "\n";
-	tied(%{$pkg})->dump($fh);
+	$pkg->output($fh);
     }
 }
 

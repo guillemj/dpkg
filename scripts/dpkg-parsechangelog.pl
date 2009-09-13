@@ -108,6 +108,6 @@ my $count = 0;
 my @fields = parse_changelog(%options);
 foreach my $f (@fields) {
     print "\n" if $count++;
-    print tied(%$f)->dump();
+    print $f->output();
 }
 

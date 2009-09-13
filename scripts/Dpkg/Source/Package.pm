@@ -21,7 +21,6 @@ use warnings;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Fields;
 use Dpkg::Control;
 use Dpkg::Checksums;
 use Dpkg::Version qw(parseversion check_version);
@@ -101,7 +100,7 @@ sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
     my $self = {
-        'fields' => Dpkg::Fields::Object->new(),
+        'fields' => Dpkg::Control->new(type => CTRL_PKG_SRC),
         'options' => {},
     };
     bless $self, $class;
@@ -149,9 +148,8 @@ sub initialize {
     close(DSC);
     # Read the fields
     open(CDATA, "<", $filename) || syserr(_g("cannot open %s"), $filename);
-    my $fields = parsecdata(\*CDATA,
-            sprintf(_g("source control file %s"), $filename),
-            allow_pgp => 1);
+    my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
+    $fields->parse_fh(\*CDATA, sprintf(_g("source control file %s"), $filename));
     close(CDATA);
     $self->{'fields'} = $fields;
 
@@ -464,8 +462,9 @@ sub write_dsc {
     open(DSC, ">", $filename) || syserr(_g("cannot write %s"), $filename);
 
     delete $fields->{'Checksums-Md5'}; # identical with Files field
-    tied(%{$fields})->set_field_importance(@dsc_fields);
-    tied(%{$fields})->output(\*DSC, $opts{'substvars'});
+    $fields->set_output_order(@dsc_fields);
+    $fields->apply_substvars($opts{'substvars'});
+    $fields->output(\*DSC);
     close(DSC);
 }
 

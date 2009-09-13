@@ -10,7 +10,8 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
-use Dpkg::Fields qw(:list capit unknown);
+use Dpkg::Fields qw(:list unknown);
+use Dpkg::Control;
 use Dpkg::Control::Info;
 use Dpkg::Substvars;
 use Dpkg::Vars;
@@ -130,7 +131,7 @@ $substvars->set_arch_substvars();
 $substvars->parse($varlistfile) if -e $varlistfile;
 $substvars->set("binary:Version", $forceversion) if defined $forceversion;
 my $control = Dpkg::Control::Info->new($controlfile);
-my $fields = Dpkg::Fields::Object->new();
+my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
 
 my $pkg;
 
@@ -270,7 +271,7 @@ for my $f (qw(Maintainer Description Architecture)) {
 $oppackage = $fields->{'Package'};
 
 my $pkg_type = $pkg->{'Package-Type'} ||
-               tied(%$pkg)->get_custom_field('Package-Type') || 'deb';
+               $pkg->get_custom_field('Package-Type') || 'deb';
 
 if ($pkg_type eq 'udeb') {
     delete $fields->{'Homepage'};
@@ -362,8 +363,9 @@ if (!$stdout) {
     $fh_output = \*STDOUT;
 }
 
-tied(%{$fields})->set_field_importance(@control_fields);
-tied(%{$fields})->output($fh_output, $substvars);
+$fields->set_output_order(@control_fields);
+$fields->apply_substvars($substvars);
+$fields->output($fh_output);
 
 if (!$stdout) {
     close($fh_output);

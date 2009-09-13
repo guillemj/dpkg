@@ -76,7 +76,7 @@ just before the execution of $srcpkg->build().
 =item before-changes-creation ($fields)
 
 The hook is called just before the content of .changes file is output
-by dpkg-genchanges. The first parameter is a Dpkg::Fields::Object
+by dpkg-genchanges. The first parameter is a Dpkg::Control object
 representing all the fields that are going to be output.
 
 =item keyrings ()

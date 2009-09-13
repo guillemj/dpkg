@@ -49,7 +49,7 @@ The file should be named according to the vendor name.
 
 =item $fields = Dpkg::Vendor::get_vendor_info($name)
 
-Returns a Dpkg::Fields object with the information parsed from the
+Returns a Dpkg::Control object with the information parsed from the
 corresponding vendor file in /etc/dpkg/origins/. If $name is omitted,
 it will use /etc/dpkg/origins/default which is supposed to be a symlink
 to the vendor of the currently installed operating system. Returns undef
@@ -62,7 +62,8 @@ sub get_vendor_info(;$) {
     my $file = get_vendor_file($vendor);
     return undef unless $file;
     open(my $fh, "<", $file) || syserr(_g("cannot read %s"), $file);
-    my $fields = parsecdata($fh, $file);
+    my $fields = Dpkg::Control->new(type => CTRL_FILE_VENDOR);
+    $fields->parse_fh($fh, $file) || error(_g("%s is empty"), $file);
     close($fh);
     return $fields;
 }

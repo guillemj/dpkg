@@ -203,7 +203,7 @@ eval { # Do not fail if parser failed due to unsupported options
 $bad_parser = 1 if ($@);
 # Other initializations
 my $control = Dpkg::Control::Info->new($controlfile);
-my $fields = Dpkg::Fields::Object->new();
+my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->set_arch_substvars();
 $substvars->parse($varlistfile) if -e $varlistfile;
@@ -281,7 +281,7 @@ foreach my $pkg ($control->get_packages()) {
     my $d = $pkg->{"Description"} || "no description available";
     $d = $1 if $d =~ /^(.*)\n/;
     my $pkg_type = $pkg->{"Package-Type"} ||
-                   tied(%$pkg)->get_custom_field("Package-Type") || "deb";
+                   $pkg->get_custom_field("Package-Type") || "deb";
 
     my @f; # List of files for this binary package
     push @f, @{$p2f{$p}} if defined $p2f{$p};
@@ -406,8 +406,9 @@ if (!is_binaryonly) {
     open(CDATA, "<", $dsc) || syserr(_g("cannot open .dsc file %s"), $dsc);
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
-    my $dsc_fields = parsecdata(\*CDATA, sprintf(_g("source control file %s"), $dsc),
-				allow_pgp => 1);
+    my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
+    $dsc_fields->parse_fh(\*CDATA, sprintf(_g("source control file %s"), $dsc)) ||
+        error(_g("%s is empty", $dsc));
 
     readallchecksums($dsc_fields, \%checksum, \%size);
 
@@ -540,7 +541,7 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-tied(%{$fields})->set_field_importance(@changes_fields);
+$fields->set_output_order(@changes_fields);
 run_vendor_hook('before-changes-creation', $fields);
-tied(%{$fields})->output(\*STDOUT); # Note: no substitution of variables
+$fields->output(\*STDOUT); # Note: no substitution of variables
 

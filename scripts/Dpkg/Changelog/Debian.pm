@@ -267,12 +267,13 @@ sub parse {
 						    $expect), "$_" ];
 		    }
 		};
-	    $entry->{'Changes'} .= (" \n" x $blanklines)." $_\n";
+	    $entry->{'Changes'} .= ($entry->{'Changes'} ? "\n" : "") .
+                                   (" .\n" x $blanklines) . " $_";
 	    if (!$entry->{'Items'} || ($1 eq '*')) {
 		$entry->{'Items'} ||= [];
 		push @{$entry->{'Items'}}, "$_\n";
 	    } else {
-		$entry->{'Items'}[-1] .= (" \n" x $blanklines)." $_\n";
+		$entry->{'Items'}[-1] .= (" .\n" x $blanklines)." $_\n";
 	    }
 	    $blanklines = 0;
 	    $expect = 'more change data or trailer';
@@ -291,12 +292,13 @@ sub parse {
 		|| $expect eq 'more change data or trailer')
 		&& do {
 		    # lets assume change data if we expected it
-		    $entry->{'Changes'} .= (" \n" x $blanklines)." $_\n";
+		    $entry->{'Changes'} .= ($entry->{'Changes'} ? "\n" : "") .
+                                           (" .\n" x $blanklines) . " $_";
 		    if (!$entry->{'Items'}) {
 			$entry->{'Items'} ||= [];
 			push @{$entry->{'Items'}}, "$_\n";
 		    } else {
-			$entry->{'Items'}[-1] .= (" \n" x $blanklines)." $_\n";
+			$entry->{'Items'}[-1] .= (" .\n" x $blanklines)." $_\n";
 		    }
 		    $blanklines = 0;
 		    $expect = 'more change data or trailer';
@@ -327,7 +329,7 @@ sub parse {
     }
 
 #    use Data::Dumper;
-#    print Dumper( $self );
+#    print STDERR Dumper( $self );
 
     return $self;
 }
