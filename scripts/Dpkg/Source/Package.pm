@@ -24,7 +24,6 @@ use Dpkg::ErrorHandling;
 use Dpkg::Control;
 use Dpkg::Checksums;
 use Dpkg::Version qw(parseversion check_version);
-use Dpkg::Deps qw(@src_dep_fields);
 use Dpkg::Compression;
 use Dpkg::Exit;
 use Dpkg::Path qw(check_files_are_the_same);
@@ -86,14 +85,6 @@ _MTN
 _darcs
 {arch}
 );
-
-# Private stuff
-my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
-		     Maintainer Uploaders Dm-Upload-Allowed Homepage
-		     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
-		     Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
-                  @src_dep_fields,
-                  qw(Checksums-Md5 Checksums-Sha1 Checksums-Sha256 Files));
 
 # Object methods
 sub new {
@@ -462,7 +453,6 @@ sub write_dsc {
     open(DSC, ">", $filename) || syserr(_g("cannot write %s"), $filename);
 
     delete $fields->{'Checksums-Md5'}; # identical with Files field
-    $fields->set_output_order(@dsc_fields);
     $fields->apply_substvars($opts{'substvars'});
     $fields->output(\*DSC);
     close(DSC);

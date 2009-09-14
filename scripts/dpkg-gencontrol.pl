@@ -9,7 +9,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
-use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
+use Dpkg::Deps;
 use Dpkg::Fields qw(:list unknown);
 use Dpkg::Control;
 use Dpkg::Control::Info;
@@ -19,6 +19,7 @@ use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
+my @pkg_dep_fields = field_list_pkg_dep();
 my @control_fields = (qw(Package Package-Type Source Version Kernel-Version
                          Architecture Subarchitecture Installer-Menu-Item
                          Essential Origin Bugs Maintainer Installed-Size),
@@ -241,14 +242,14 @@ foreach my $field (@pkg_dep_fields) {
     if (exists $pkg->{$field}) {
 	my $dep;
 	my $field_value = $substvars->substvars($pkg->{$field});
-	if ($dep_field_type{$field} eq 'normal') {
+	if (field_get_dep_type($field) eq 'normal') {
 	    $dep = Dpkg::Deps::parse($field_value, use_arch => 1,
                                      reduce_arch => 1);
 	    error(_g("error occurred while parsing %s field: %s"), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
 	    # Remember normal deps to simplify even further weaker deps
-	    push @seen_deps, $dep if $dep_field_type{$field} eq 'normal';
+	    push @seen_deps, $dep;
 	} else {
 	    $dep = Dpkg::Deps::parse($field_value, use_arch => 1,
                                      reduce_arch => 1, union => 1);

@@ -32,6 +32,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
+use Dpkg::Control::Fields;
 use Dpkg::Checksums;
 
 textdomain("dpkg-dev");
@@ -332,12 +333,11 @@ sub process_dsc {
 }
 
 # FIXME: Try to reuse from Dpkg::Source::Package
-use Dpkg::Deps qw(@src_dep_fields);
 my @src_fields = (qw(Format Package Binary Architecture Version Origin
                      Maintainer Uploaders Dm-Upload-Allowed Homepage
                      Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
                      Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
-                  @src_dep_fields,
+                  field_list_src_dep(),
                   qw(Directory Files Checksums-Md5 Checksums-Sha1 Checksums-Sha256));
 
 sub main {

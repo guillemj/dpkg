@@ -8,7 +8,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(debarch_eq);
-use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
+use Dpkg::Deps;
 use Dpkg::Fields qw(:list unknown);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
@@ -171,7 +171,7 @@ if ($options{'opmode'} eq 'build') {
 	    ($fields->{$_} = $v) =~ s/[\r\n]//g; # Merge in a single-line
 	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 	    my $dep;
-	    my $type = $dep_field_type{field_capitalize($_)};
+	    my $type = field_get_dep_type($_);
 	    $dep = Dpkg::Deps::parse($v, union => $type eq 'union');
 	    error(_g("error occurred while parsing %s"), $_) unless defined $dep;
 	    my $facts = Dpkg::Deps::KnownFacts->new();

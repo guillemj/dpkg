@@ -36,29 +36,6 @@ The Dpkg::Deps module provides one generic Dpkg::Deps::parse() function
 to turn a dependency line in a set of Dpkg::Deps::{Simple,AND,OR,Union}
 objects depending on the case.
 
-It also provides some constants:
-
-=over 4
-
-=item @pkg_dep_fields
-
-List of fields that contains dependency-like information in a binary
-Debian package. The fields that express real dependencies are sorted from
-the stronger to the weaker.
-
-=item @src_dep_fields
-
-List of fields that contains dependencies-like information in a binary
-Debian package.
-
-=item %dep_field_type
-
-Associate to each field a type, either "normal" for a real dependency field
-(Pre-Depends, Depends, ...) or "union" for other relation fields sharing
-the same syntax (Conflicts, Breaks, etc.).
-
-=back
-
 =head1 FUNCTIONS
 
 =over 4
@@ -74,30 +51,9 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT_OK = qw(@pkg_dep_fields @src_dep_fields %dep_field_type
-		    %relation_ordering);
+our @EXPORT_OK = qw(%relation_ordering);
 
 # Some generic variables
-our @pkg_dep_fields = qw(Pre-Depends Depends Recommends Suggests Enhances
-                         Conflicts Breaks Replaces Provides);
-our @src_dep_fields = qw(Build-Depends Build-Depends-Indep
-                         Build-Conflicts Build-Conflicts-Indep);
-our %dep_field_type = (
-	'Pre-Depends' => 'normal',
-	'Depends' => 'normal',
-	'Recommends' => 'normal',
-	'Suggests' => 'normal',
-	'Enhances' => 'union',
-	'Conflicts' => 'union',
-	'Breaks' => 'union',
-	'Replaces' => 'union',
-	'Provides' => 'union',
-	'Build-Depends' => 'normal',
-	'Build-Depends-Indep' => 'normal',
-	'Build-Conflicts' => 'union',
-	'Build-Conflicts-Indep' => 'union',
-);
-
 our %relation_ordering = (
 	'undef' => 0,
 	'>=' => 1,
@@ -292,8 +248,7 @@ current architecture.
 =item union (defaults to 0)
 
 If set to 1, returns a Dpkg::Deps::Union instead of a Dpkg::Deps::AND. Use
-this when parsing non-dependency fields like Conflicts (see
-%dep_field_type).
+this when parsing non-dependency fields like Conflicts.
 
 =back
 

@@ -8,7 +8,7 @@ use IO::File;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Deps qw(@pkg_dep_fields);
+use Dpkg::Control::Fields;
 use Dpkg::Version qw(compare_versions);
 use Dpkg::Checksums;
 
@@ -31,7 +31,7 @@ foreach (@check_supported) {
 my @fieldpri = (qw(Package Package-Type Source Version Kernel-Version
                    Architecture Subarchitecture Essential Origin Bugs
                    Maintainer Installed-Size Installer-Menu-Item),
-                @pkg_dep_fields, qw(Filename Size), @sums,
+                field_list_pkg_dep(), qw(Filename Size), @sums,
                 qw(Section Priority Homepage Description Tag Task));
 
 # This maps the fields into the proper case
