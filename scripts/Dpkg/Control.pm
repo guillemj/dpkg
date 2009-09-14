@@ -24,6 +24,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Fields qw(capit);
 use Dpkg::Control::Types;
 use Dpkg::Control::Hash;
+use Dpkg::Control::Fields;
 
 use base qw(Dpkg::Control::Hash Exporter);
 our @EXPORT = qw(CTRL_UNKNOWN CTRL_INFO_SRC CTRL_INFO_PKG CTRL_APT_SRC
@@ -164,6 +165,7 @@ sub set_options {
         } elsif ($t == CTRL_FILE_STATUS) {
             $$self->{'name'} = _g("entry in dpkg's status file");
         }
+        $self->set_output_order(field_ordered_list($opts{'type'}));
     }
 
     # Options set by the user override default values
