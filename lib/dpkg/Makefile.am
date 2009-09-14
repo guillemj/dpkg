@@ -41,6 +41,7 @@ libdpkg_a_SOURCES = \
 	parsedump.h \
 	path.c path.h \
 	pkg-array.c pkg-array.h \
+	pkg-list.c pkg-list.h \
 	progress.c progress.h \
 	showpkg.c \
 	string.c string.h \
