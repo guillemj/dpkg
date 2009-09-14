@@ -22,7 +22,7 @@ use warnings;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Version qw(vercmp);
-use Dpkg::Fields qw(capit);
+use Dpkg::Control::Fields;
 use Dpkg::Shlibs::Symbol;
 use Dpkg::Arch qw(get_host_arch);
 
@@ -177,7 +177,7 @@ sub load {
 	    push @{$self->{objects}{$$obj_ref}{deps}}, "$1";
 	} elsif (/^\*\s*([^:]+):\s*(.*\S)\s*$/) {
 	    # Add meta-fields
-	    $self->{objects}{$$obj_ref}{fields}{capit($1)} = $2;
+	    $self->{objects}{$$obj_ref}{fields}{field_capitalize($1)} = $2;
 	} elsif (/^(\S+)\s+(.*)$/) {
 	    # New object and dependency template
 	    $$obj_ref = $1;

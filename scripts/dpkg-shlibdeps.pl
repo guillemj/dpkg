@@ -18,9 +18,9 @@ use Dpkg::Shlibs qw(find_library @librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
-use Dpkg::Fields qw(capit);
 use Dpkg::Deps;
 use Dpkg::Control::Info;
+use Dpkg::Control::Fields;
 
 
 use constant {
@@ -78,7 +78,7 @@ foreach (@ARGV) {
 	-d $admindir ||
 	    error(_g("administrative directory '%s' does not exist"), $admindir);
     } elsif (m/^-d(.*)$/) {
-	$dependencyfield = capit($1);
+	$dependencyfield = field_capitalize($1);
 	defined($depstrength{$dependencyfield}) ||
 	    warning(_g("unrecognised dependency field \`%s'"), $dependencyfield);
     } elsif (m/^-e(.*)$/) {

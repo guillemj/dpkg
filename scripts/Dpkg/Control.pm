@@ -21,7 +21,6 @@ use warnings;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Fields qw(capit);
 use Dpkg::Control::Types;
 use Dpkg::Control::Hash;
 use Dpkg::Control::Fields;

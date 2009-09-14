@@ -11,7 +11,7 @@ use Dpkg::Gettext;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
-use Dpkg::Fields qw(:list capit unknown);
+use Dpkg::Fields qw(:list unknown);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
 use Dpkg::Control;
