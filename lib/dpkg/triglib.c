@@ -34,6 +34,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg-list.h>
 #include <dpkg/dlist.h>
 
 const char *
@@ -172,12 +173,6 @@ trig_clear_awaiters(struct pkginfo *notpend)
 	}
 }
 
-/* FIXME: switch to use the generic pkg list for lenny+1 */
-struct pkg_list {
-	struct pkg_list *next;
-	struct pkginfo *pkg;
-};
-
 static struct pkg_list *trig_awaited_pend_head;
 
 void
@@ -189,10 +184,7 @@ trig_enqueue_awaited_pend(struct pkginfo *pend)
 		if (tp->pkg == pend)
 			return;
 
-	tp = nfmalloc(sizeof(*tp));
-	tp->pkg = pend;
-	tp->next = trig_awaited_pend_head;
-	trig_awaited_pend_head = tp;
+	pkg_list_prepend(&trig_awaited_pend_head, pend);
 }
 
 /*
@@ -215,6 +207,8 @@ trig_fixup_awaiters(enum modstatdb_rw cstatus)
 	for (tp = trig_awaited_pend_head; tp; tp = tp->next)
 		if (!tp->pkg->trigpend_head)
 			trig_clear_awaiters(tp->pkg);
+
+	pkg_list_free(trig_awaited_pend_head);
 	trig_awaited_pend_head = NULL;
 }
 

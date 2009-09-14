@@ -130,7 +130,7 @@ void checkpath(void) {
 }
 
 int ignore_depends(struct pkginfo *pkg) {
-  struct pkginqueue *id;
+  struct pkg_list *id;
   for (id= ignoredependss; id; id= id->next)
     if (id->pkg == pkg) return 1;
   return 0;

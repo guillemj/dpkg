@@ -38,6 +38,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg-list.h>
 #include <dpkg/myopt.h>
 
 #include "filesdb.h"
@@ -48,14 +49,13 @@ static PKGQUEUE_DEF_INIT(queue);
 
 int sincenothing = 0, dependtry = 0;
 
-struct pkginqueue *
+struct pkg_list *
 add_to_some_queue(struct pkginfo *pkg, struct pkgqueue *q)
 {
-  struct pkginqueue *newent;
+  struct pkg_list *newent;
 
-  newent= m_malloc(sizeof(struct pkginqueue));
-  newent->pkg= pkg;
-  newent->next = NULL;
+  newent = pkg_list_new(pkg, NULL);
+
   *q->tail = newent;
   q->tail = &newent->next;
   q->length++;
@@ -63,10 +63,10 @@ add_to_some_queue(struct pkginfo *pkg, struct pkgqueue *q)
   return newent;
 }
 
-struct pkginqueue *
+struct pkg_list *
 remove_from_some_queue(struct pkgqueue *q)
 {
-  struct pkginqueue *removeent = q->head;
+  struct pkg_list *removeent = q->head;
 
   if (!removeent)
     return NULL;
@@ -167,7 +167,7 @@ void packages(const char *const *argv) {
 }
 
 void process_queue(void) {
-  struct pkginqueue *removeent, *rundown;
+  struct pkg_list *removeent, *rundown;
   struct pkginfo *volatile pkg;
   volatile enum action action_todo;
   jmp_buf ejbuf;

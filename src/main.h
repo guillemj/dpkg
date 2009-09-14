@@ -22,6 +22,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <dpkg/pkg-list.h>
+
 struct fileinlist; /* these two are defined in filesdb.h */
 struct filenamenode;
 
@@ -43,12 +45,7 @@ struct perpackagestate {
   int replacingfilesandsaid;
 
   /* Non-NULL iff in trigproc.c:deferred. */
-  struct pkginqueue *trigprocdeferred;
-};
-
-struct pkginqueue {
-  struct pkginqueue *next;
-  struct pkginfo *pkg;
+  struct pkg_list *trigprocdeferred;
 };
 
 enum action {
@@ -130,7 +127,7 @@ extern int abort_processing;
 extern int errabort;
 extern const char *admindir;
 extern const char *instdir;
-extern struct pkginqueue *ignoredependss;
+extern struct pkg_list *ignoredependss;
 extern const char architecture[];
 
 struct invoke_hook {
@@ -199,14 +196,14 @@ void deferred_configure(struct pkginfo *pkg);
 extern int sincenothing, dependtry;
 
 struct pkgqueue {
-  struct pkginqueue *head, **tail;
+  struct pkg_list *head, **tail;
   int length;
 };
 
 #define PKGQUEUE_DEF_INIT(name) struct pkgqueue name = { NULL, &name.head, 0 }
 
-struct pkginqueue *add_to_some_queue(struct pkginfo *pkg, struct pkgqueue *q);
-struct pkginqueue *remove_from_some_queue(struct pkgqueue *q);
+struct pkg_list *add_to_some_queue(struct pkginfo *pkg, struct pkgqueue *q);
+struct pkg_list *remove_from_some_queue(struct pkgqueue *q);
 
 /* from cleanup.c (most of these are declared in archives.h) */
 

@@ -102,7 +102,7 @@ trigproc_enqueue_deferred(struct pkginfo *pend)
 void
 trigproc_run_deferred(void)
 {
-	struct pkginqueue *node;
+	struct pkg_list *node;
 	struct pkginfo *pkg;
 
 	debug(dbg_triggers, "trigproc_run_deferred");
