@@ -1,5 +1,13 @@
 ## Process this file with automake to produce Makefile.in
 
+PO4A_V = $(PO4A_V_$(V))
+PO4A_V_ = $(PO4A_V_$(AM_DEFAULT_VERBOSITY))
+PO4A_V_0 = @echo "  PO4A   $@";
+
+PO4A_RM_V = $(PO4A_RM_V_$(V))
+PO4A_RM_V_ = $(PO4A_RM_V_$(AM_DEFAULT_VERBOSITY))
+PO4A_RM_V_0 = @echo "  PO4ARM $@";
+
 all-local: all-local-@USE_NLS@
 
 all-local-no:
@@ -11,20 +19,20 @@ PO4A_CLEAN_OPTS = $(PO4A_COMMON_OPTS) --rm-backups --rm-translations
 
 # FIXME: Use a stamp file until po4a supports them internally.
 man.stamp:
-	cd $(srcdir) && \
+	$(PO4A_V) cd $(srcdir) && \
 	po4a $(PO4A_BUILD_OPTS) po/po4a.cfg
-	touch $@
+	$(AM_V_at) touch $@
 
 clean-local: clean-local-@USE_NLS@
 
 clean-local-no:
 clean-local-yes:
-	cd $(srcdir) && \
+	$(PO4A_RM_V) cd $(srcdir) && \
 	po4a $(PO4A_CLEAN_OPTS) po/po4a.cfg
-	rm -f man.stamp
+	$(AM_V_at) rm -f man.stamp
 
 update-po:
-	cd $(srcdir) && \
+	$(PO4A_V) cd $(srcdir) && \
 	po4a $(PO4A_BUILD_OPTS) --force po/po4a.cfg
 
 # Extract the list of languages from the po4a config file.

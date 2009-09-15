@@ -130,7 +130,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Version.pm \
 	Dpkg.pm
 
-do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \
+do_perl_subst = $(AM_V_GEN) \
+		sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \
 		    -e "s:\$$dpkglibdir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$dpkglibdir=\"$(pkglibdir)\":" \
 		    -e "s:\$$pkgdatadir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$pkgdatadir=\"$(pkgdatadir)\":" \
 		    -e "s:\$$admindir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$admindir=\"$(admindir)\":" \
@@ -140,7 +141,7 @@ do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \
 %: %.pl Makefile
 	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
 	$(do_perl_subst) <$< >$@
-	chmod +x $@
+	$(AM_V_at) chmod +x $@
 
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives
