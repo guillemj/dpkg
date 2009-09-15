@@ -161,7 +161,9 @@ static struct _finfo* getfi(const char* root, int fd) {
  * After a _finfo struct is added to a list it may no longer be freed, we
  * assume full responsibility for its memory.
  */
-static void add_to_filist(struct _finfo* fi, struct _finfo** start, struct _finfo **end) {
+static void
+add_to_filist(struct _finfo **start, struct _finfo **end, struct _finfo *fi)
+{
   if (*start==NULL)
     *start=*end=fi;
   else 
@@ -469,7 +471,7 @@ void do_build(const char *const *argv) {
    */
   while ((fi=getfi(directory, p3[0]))!=NULL)
     if (S_ISLNK(fi->st.st_mode))
-      add_to_filist(fi,&symlist,&symlist_end);
+      add_to_filist(&symlist, &symlist_end, fi);
     else {
       if (write(p1[1], fi->fn, strlen(fi->fn)+1) ==- 1)
 	ohshite(_("failed to write filename to tar pipe (data)"));
