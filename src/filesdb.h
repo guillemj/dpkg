@@ -144,6 +144,8 @@ gid_t statdb_parse_gid(const char *str);
 mode_t statdb_parse_mode(const char *str);
 void ensure_statoverrides(void);
 
+#define LISTFILE           "list"
+
 void ensure_packagefiles_available(struct pkginfo *pkg);
 void ensure_allinstfiles_available(void);
 void ensure_allinstfiles_available_quiet(void);

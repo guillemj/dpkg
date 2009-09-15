@@ -65,7 +65,6 @@ DPKG_BEGIN_DECLS
 #define POSTINSTFILE       "postinst"
 #define PRERMFILE          "prerm"
 #define POSTRMFILE         "postrm"
-#define LISTFILE           "list"
 #define TRIGGERSCIFILE     "triggers"
 
 #define STATUSFILE        "status"
