@@ -266,7 +266,7 @@ parse_ensure_have_field(struct parsedb_state *ps,
                         const struct pkginfo *pigp,
                         const char **value, const char *what)
 {
-  static const char *empty = "";
+  static const char empty[] = "";
 
   if (!*value) {
     parse_warn(ps, pigp, _("missing %s"), what);

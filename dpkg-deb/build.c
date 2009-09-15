@@ -74,7 +74,7 @@ static const char *arbitrary_fields[] = {
   NULL
 };
 
-static const char *private_prefix = "Private-";
+static const char private_prefix[] = "Private-";
 
 static int known_arbitrary_field(const struct arbitraryfield *field) {
   const char **known;

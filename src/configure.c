@@ -94,7 +94,7 @@ void deferred_configure(struct pkginfo *pkg) {
 	char *currenthash = NULL, *newdisthash = NULL;
 	struct stat stab;
 	enum conffopt what;
-	static const char *EMPTY_HASH = "-";
+	static const char EMPTY_HASH[] = "-";
 
 	if (pkg->status == stat_notinstalled)
 		ohshit(_("no package named `%s' is installed, cannot configure"),pkg->name);
