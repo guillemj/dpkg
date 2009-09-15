@@ -504,6 +504,15 @@ void oldconffsetflags(const struct conffile *searchconff) {
   }
 }
 
+/*
+ * If the pathname to remove is:
+ *
+ * 1. a sticky or set-id file, or
+ * 2. an unknown object (i.e., not a file, link, directory, fifo or socket)
+ *
+ * we change its mode so that a malicious user cannot use it, even if it's
+ * linked to another file.
+ */
 int
 secure_unlink(const char *pathname)
 {
@@ -520,9 +529,6 @@ secure_unlink_statted(const char *pathname, const struct stat *stab)
   if (S_ISREG(stab->st_mode) ? (stab->st_mode & 07000) :
       !(S_ISLNK(stab->st_mode) || S_ISDIR(stab->st_mode) ||
 	S_ISFIFO(stab->st_mode) || S_ISSOCK(stab->st_mode))) {
-    /* We chmod it if it is 1. a sticky or set-id file, or 2. an unrecognised
-     * object (ie, not a file, link, directory, fifo or socket)
-     */
     if (chmod(pathname, 0600))
       return -1;
   }
