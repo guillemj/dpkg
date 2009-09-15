@@ -69,6 +69,8 @@ void addtopartlist(struct partinfo**, struct partinfo*, struct partinfo *refi);
 
 #define SPLITVERSION       "2.1"
 
+#define PARTSDIR          "parts/"
+
 #define PARTMAGIC         "!<arch>\ndebian-split    "
 #define HEADERALLOWANCE    1024
 

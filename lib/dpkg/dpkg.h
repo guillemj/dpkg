@@ -75,7 +75,6 @@ DPKG_BEGIN_DECLS
 #define STATOVERRIDEFILE  "statoverride"
 #define UPDATESDIR        "updates/"
 #define INFODIR           "info/"
-#define PARTSDIR          "parts/"
 #define TRIGGERSDIR       "triggers/"
 #define TRIGGERSFILEFILE  "File"
 #define TRIGGERSDEFERREDFILE "Unincorp"
