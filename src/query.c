@@ -614,13 +614,6 @@ Use --help for help about querying packages;\n\
 Use --license for copyright license and lack of warranty (GNU GPL).");
 
 const struct cmdinfo *cipaction = NULL;
-int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
-int f_autodeconf=0, f_nodebsig=0;
-unsigned long f_debug=0;
-/* Change fc_overwrite to 1 to enable force-overwrite by default */
-int fc_hold=0;
-int fc_conflicts=0, fc_depends=0;
-int fc_badpath=0;
 
 const char *admindir= ADMINDIR;
 const char *instdir= "";
