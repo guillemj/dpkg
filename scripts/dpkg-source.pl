@@ -9,7 +9,6 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps;
-use Dpkg::Fields qw(:list unknown);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
@@ -163,10 +162,6 @@ if ($options{'opmode'} eq 'build') {
 	if (m/^Source$/i) {
 	    set_source_package($v);
 	    $fields->{$_} = $v;
-	} elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
-		 m/^Dm-Upload-Allowed$/i ||
-		 m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
-	    $fields->{$_} = $v;
 	} elsif (m/^Uploaders$/i) {
 	    ($fields->{$_} = $v) =~ s/[\r\n]//g; # Merge in a single-line
 	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
@@ -178,12 +173,8 @@ if ($options{'opmode'} eq 'build') {
 	    $dep->simplify_deps($facts);
 	    $dep->sort() if $type eq 'union';
 	    $fields->{$_} = $dep->dump();
-	} elsif (s/^X[BC]*S[BC]*-//i) { # Include XS-* fields
-	    $fields->{$_} = $v;
-	} elsif (m/^$control_src_field_regex$/i || m/^X[BC]+-/i) {
-	    # Silently ignore valid fields
 	} else {
-	    unknown($_, _g('general section of control info file'));
+            field_transfer_single($src_fields, $fields);
 	}
     }
 
@@ -211,12 +202,10 @@ if ($options{'opmode'} eq 'build') {
                         push(@sourcearch, $a) unless $archadded{$a}++;
                     }
                 }
-            } elsif (s/^X[BC]*S[BC]*-//i) { # Include XS-* fields
-                $fields->{$_} = $v;
-            } elsif (m/^$control_pkg_field_regex$/ ||
-                     m/^X[BC]+-/i) { # Silently ignore valid fields
+            } elsif (m/^Homepage$/) {
+                # Do not overwrite the same field from the source entry
             } else {
-                unknown($_, _g("package's section of control info file"));
+                field_transfer_single($pkg, $fields);
             }
 	}
     }
@@ -236,12 +225,10 @@ if ($options{'opmode'} eq 'build') {
 	} elsif (m/^Version$/) {
 	    check_version($v, 1);
 	    $fields->{$_} = $v;
-	} elsif (s/^X[BS]*C[BS]*-//i) {
-	    $fields->{$_} = $v;
-	} elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/i ||
-		 m/^X[BS]+-/i) {
+	} elsif (m/^Maintainer$/i) {
+            # Do not replace the field coming from the source entry
 	} else {
-	    unknown($_, _g("parsed version of changelog"));
+            field_transfer_single($changelog, $fields);
 	}
     }
     

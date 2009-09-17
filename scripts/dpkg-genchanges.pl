@@ -11,9 +11,9 @@ use Dpkg::Gettext;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
-use Dpkg::Fields qw(:list unknown);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
+use Dpkg::Control::Fields;
 use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Vars;
@@ -258,14 +258,8 @@ foreach $_ (keys %{$src_fields}) {
 	set_source_package($v);
     } elsif (m/^Section$|^Priority$/i) {
 	$sourcedefault{$_} = $v;
-    } elsif (m/^Maintainer$/i) {
-	$fields->{$_} = $v;
-    } elsif (s/^X[BS]*C[BS]*-//i) { # Include XC-* fields
-	$fields->{$_} = $v;
-    } elsif (m/^X[BS]+-/i || m/^$control_src_field_regex$/i) {
-	# Silently ignore valid fields
     } else {
-	unknown($_, _g('general section of control info file'));
+        field_transfer_single($src_fields, $fields);
     }
 }
 
@@ -306,8 +300,6 @@ foreach my $pkg ($control->get_packages()) {
 	    $f2seccf{$_} = $v foreach (@f);
 	} elsif (m/^Priority$/) {
 	    $f2pricf{$_} = $v foreach (@f);
-	} elsif (s/^X[BS]*C[BS]*-//i) { # Include XC-* fields
-	    $fields->{$_} = $v;
 	} elsif (m/^Architecture$/) {
 	    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
 		and ($include & ARCH_DEP)) {
@@ -316,10 +308,10 @@ foreach my $pkg ($control->get_packages()) {
 		$v = '';
 	    }
 	    push(@archvalues,$v) unless !$v || $archadded{$v}++;
-	} elsif (m/^$control_pkg_field_regex$/ || m/^X[BS]+-/i) {
-	    # Silently ignore valid fields
+        } elsif (m/^Description$/) {
+            # Description in changes is computed, do not copy this field
 	} else {
-	    unknown($_, _g("package's section of control info file"));
+            field_transfer_single($pkg, $fields);
 	}
     }
 }
@@ -331,12 +323,8 @@ foreach $_ (keys %{$changelog}) {
 	set_source_package($v);
     } elsif (m/^Maintainer$/i) {
 	$fields->{"Changed-By"} = $v;
-    } elsif (m/^(Version|Changes|Urgency|Distribution|Date|Closes)$/i) {
-	$fields->{$_} = $v;
-    } elsif (s/^X[BS]*C[BS]*-//i) {
-	$fields->{$_} = $v;
-    } elsif (!m/^X[BS]+-/i) {
-	unknown($_, _g("parsed version of changelog"));
+    } else {
+        field_transfer_single($changelog, $fields);
     }
 }
 

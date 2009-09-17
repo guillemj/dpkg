@@ -19,7 +19,6 @@ use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
-my @pkg_dep_fields = field_list_pkg_dep();
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
@@ -142,29 +141,20 @@ if (defined($oppackage)) {
     $pkg = $control->get_pkg_by_idx(1);
 }
 
-my %pkg_dep_fields = map { $_ => 1 } @pkg_dep_fields;
-
 # Scan source package
 my $src_fields = $control->get_source();
 foreach $_ (keys %{$src_fields}) {
-    my $v = $src_fields->{$_};
-    if (m/^(Origin|Bugs|Maintainer|Section|Priority|Homepage)$/) {
-	$fields->{$_} = $v;
-    } elsif (m/^Source$/) {
-	set_source_package($v);
-    } elsif (s/^X[CS]*B[CS]*-//i) { # Include XB-* fields
-	$fields->{$_} = $v;
-    } elsif (m/^X[CS]+-/i || m/^$control_src_field_regex$/i) {
-	# Silently ignore valid fields
+    if (m/^Source$/) {
+	set_source_package($src_fields->{$_});
     } else {
-	unknown($_, _g('general section of control info file'));
+        field_transfer_single($src_fields, $fields);
     }
 }
 
 # Scan binary package
 foreach $_ (keys %{$pkg}) {
     my $v = $pkg->{$_};
-    if (exists($pkg_dep_fields{$_})) {
+    if (field_get_dep_type($_)) {
 	# Delay the parsing until later
     } elsif (m/^Architecture$/) {
 	my $host_arch = get_host_arch();
@@ -185,12 +175,8 @@ foreach $_ (keys %{$pkg}) {
 		      $host_arch, "@archlist");
 	    $fields->{$_} = $host_arch;
 	}
-    } elsif (m/^$control_pkg_field_regex$/) {
-	$fields->{$_} = $v;
-    } elsif (s/^X[CS]*B[CS]*-//i) { # Include XB-* fields
-	$fields->{$_} = $v;
-    } elsif (!m/^X[CS]+-/i) {
-	unknown($_, _g("package's section of control info file"));
+    } else {
+        field_transfer_single($pkg, $fields);
     }
 }
 
@@ -203,11 +189,11 @@ foreach $_ (keys %{$changelog}) {
     } elsif (m/^Version$/) {
 	$sourceversion = $v;
 	$fields->{$_} = $v unless defined($forceversion);
-    } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/) {
-    } elsif (s/^X[CS]*B[CS]*-//i) {
-	$fields->{$_} = $v;
-    } elsif (!m/^X[CS]+-/i) {
-	unknown($_, _g("parsed version of changelog"));
+    } elsif (m/^Maintainer$/) {
+        # That field must not be copied from changelog even if it's
+        # allowed in the binary package control information
+    } else {
+        field_transfer_single($changelog, $fields);
     }
 }
 
@@ -233,7 +219,7 @@ if (exists $pkg->{"Provides"}) {
 }
 
 my (@seen_deps);
-foreach my $field (@pkg_dep_fields) {
+foreach my $field (field_list_pkg_dep()) {
     if (exists $pkg->{$field}) {
 	my $dep;
 	my $field_value = $substvars->substvars($pkg->{$field});
