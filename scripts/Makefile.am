@@ -96,6 +96,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Checksums.pm \
 	Dpkg/Compression.pm \
 	Dpkg/Control.pm \
+	Dpkg/Control/Fields.pm \
 	Dpkg/Control/Info.pm \
 	Dpkg/Control/Hash.pm \
 	Dpkg/Control/Types.pm \
