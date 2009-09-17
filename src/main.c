@@ -287,6 +287,8 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
 
     p+= strlen(p)+1;
   }
+
+  free(copy);
 }
 
 static void setinteger(const struct cmdinfo *cip, const char *value) {
