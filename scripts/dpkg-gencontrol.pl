@@ -10,9 +10,9 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Deps;
-use Dpkg::Fields qw(:list unknown);
 use Dpkg::Control;
 use Dpkg::Control::Info;
+use Dpkg::Control::Fields;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
@@ -20,11 +20,6 @@ use Dpkg::Changelog qw(parse_changelog);
 textdomain("dpkg-dev");
 
 my @pkg_dep_fields = field_list_pkg_dep();
-my @control_fields = (qw(Package Package-Type Source Version Kernel-Version
-                         Architecture Subarchitecture Installer-Menu-Item
-                         Essential Origin Bugs Maintainer Installed-Size),
-                      @pkg_dep_fields,
-                      qw(Section Priority Multi-Arch Homepage Description Tag));
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
@@ -364,7 +359,6 @@ if (!$stdout) {
     $fh_output = \*STDOUT;
 }
 
-$fields->set_output_order(@control_fields);
 $fields->apply_substvars($substvars);
 $fields->output($fh_output);
 

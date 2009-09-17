@@ -23,11 +23,6 @@ use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain("dpkg-dev");
 
-my @changes_fields = qw(Format Date Source Binary Architecture Version
-                        Distribution Urgency Maintainer Changed-By
-                        Description Closes Changes Checksums-Md5
-                        Checksums-Sha1 Checksums-Sha256 Files);
-
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
 my $changelogformat;
@@ -541,7 +536,6 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-$fields->set_output_order(@changes_fields);
 run_vendor_hook('before-changes-creation', $fields);
 $fields->output(\*STDOUT); # Note: no substitution of variables
 
