@@ -97,6 +97,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Compression.pm \
 	Dpkg/Control.pm \
 	Dpkg/Control/Info.pm \
+	Dpkg/Control/Hash.pm \
+	Dpkg/Control/Types.pm \
 	Dpkg/Deps.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Exit.pm \
