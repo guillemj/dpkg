@@ -93,21 +93,18 @@ static int ilist_select(const struct dirent *de) {
 static void info_spew(const char *debar, const char *directory,
                       const char *const *argv) {
   const char *component;
-  size_t pathlen;
-  char *controlfile = NULL;
+  struct varbuf controlfile = VARBUF_INIT;
   FILE *co;
   int re= 0;
 
   while ((component = *argv++) != NULL) {
-    pathlen = strlen(directory) + strlen(component) + 2;
-    controlfile = m_realloc(controlfile, pathlen);
-    memset(controlfile, 0, sizeof(controlfile));
+    varbufreset(&controlfile);
+    varbufaddstr(&controlfile, directory);
+    varbufaddc(&controlfile, '/');
+    varbufaddstr(&controlfile, component);
+    varbufaddc(&controlfile, '\0');
 
-    strcat(controlfile, directory);
-    strcat(controlfile, "/");
-    strcat(controlfile, component);
-    co= fopen(controlfile,"r");
-
+    co = fopen(controlfile.buf, "r");
     if (co) {
       stream_fd_copy(co, 1, -1, _("info_spew"));
     } else if (errno == ENOENT) {
@@ -120,7 +117,8 @@ static void info_spew(const char *debar, const char *directory,
 	      component, directory);
     }
   }
-  free(controlfile);
+  varbuffree(&controlfile);
+
   if (re==1)
     ohshit(_("One requested control component is missing"));
   else if (re>1)
