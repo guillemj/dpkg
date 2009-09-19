@@ -13,6 +13,15 @@ dpkg (1.15.5) UNRELEASED; urgency=low
   * Add versioned dependency on base-files (>= 5.0.0) to dpkg-dev to ensure
     that /etc/dpkg/origins/default exists. Closes: #545274
   * Update Standards-Version to 3.8.3 (no changes needed).
+  * Major changes to the perl API:
+    - Dpkg::Control is now Dpkg::Control::Info
+    - Dpkg::Cdata is gone and is replaced by a new Dpkg::Control
+    - Dpkg::Control::Fields contains authoritative information
+      about fields allowed in various types of control information
+      (and can be customized by each vendor). It also integrates
+      information that was previously available through Dpkg::Deps.
+  * All dpkg-* perl programs that work with control information have been
+    updated to use the new Dpkg::Control interface.
 
   [ Updated dpkg translations ]
   * German (Sven Joachim).
