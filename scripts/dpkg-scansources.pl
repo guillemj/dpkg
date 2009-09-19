@@ -32,7 +32,6 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
-use Dpkg::Control::Fields;
 use Dpkg::Checksums;
 
 textdomain("dpkg-dev");
@@ -250,11 +249,9 @@ sub process_dsc {
     my ($prefix, $file) = @_;
 
     # Parse ‘.dsc’ file.
-    open(CDATA, '<', $file) || syserr(_g("cannot open %s"), $file);
     my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $fields->parse_fh(\*CDATA, sprintf(_g("source control file %s"), $file)) ||
-        error(_g("parsing an empty file %s"), $file);
-    close(CDATA) || syserr(_g("cannot close %s"), $file);
+    $fields->parse($file);
+    $fields->set_options(type => CTRL_APT_SRC);
 
     # Get checksums
     my $size;
@@ -332,14 +329,6 @@ sub process_dsc {
     return $fields;
 }
 
-# FIXME: Try to reuse from Dpkg::Source::Package
-my @src_fields = (qw(Format Package Binary Architecture Version Origin
-                     Maintainer Uploaders Dm-Upload-Allowed Homepage
-                     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
-                     Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
-                  field_list_src_dep(),
-                  qw(Directory Files Checksums-Md5 Checksums-Sha1 Checksums-Sha256));
-
 sub main {
     my (@out);
 
@@ -371,7 +360,6 @@ sub main {
             next;
         }
 
-        $fields->set_output_order(@src_fields);
 	if ($No_sort) {
             $fields->output(\*STDOUT);
             print "\n";
