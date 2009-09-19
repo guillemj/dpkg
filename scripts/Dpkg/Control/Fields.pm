@@ -24,6 +24,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
 use Dpkg::Checksums qw(@check_supported %check_supported);
+use Dpkg::Vendor qw(run_vendor_hook);
 
 our @EXPORT = qw(field_capitalize field_is_official field_is_allowed_in
                  field_transfer_single field_transfer_all
@@ -312,6 +313,20 @@ $FIELD_ORDER{CTRL_APT_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
 @{$FIELD_ORDER{CTRL_APT_SRC()}} = map { $_ eq "Source" ? "Package" : $_ }
                                   @{$FIELD_ORDER{CTRL_PKG_SRC()}};
 &field_insert_before(CTRL_APT_SRC, "Checksums-Md5", "Directory");
+
+# Register vendor specifics fields
+foreach my $op (run_vendor_hook("register-custom-fields")) {
+    my $func = shift @$op;
+    if ($func eq "register") {
+        &field_register(@$op);
+    } elsif ($func eq "insert_before") {
+        &field_insert_before(@$op);
+    } elsif ($func eq "insert_after") {
+        &field_insert_after(@$op);
+    } else {
+        error("vendor hook register-custom-fields sent bad data: @$op");
+    }
+}
 
 =head1 NAME
 

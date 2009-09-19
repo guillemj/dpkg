@@ -21,7 +21,7 @@ use warnings;
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-use Dpkg::Control;
+use Dpkg::Control::Hash;
 
 use base qw(Exporter);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
@@ -62,7 +62,7 @@ sub get_vendor_info(;$) {
     my $file = get_vendor_file($vendor);
     return undef unless $file;
     open(my $fh, "<", $file) || syserr(_g("cannot read %s"), $file);
-    my $fields = Dpkg::Control->new(type => CTRL_FILE_VENDOR);
+    my $fields = Dpkg::Control::Hash->new();
     $fields->parse_fh($fh, $file) || error(_g("%s is empty"), $file);
     close($fh);
     return $fields;

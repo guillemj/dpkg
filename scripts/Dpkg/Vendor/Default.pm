@@ -85,6 +85,17 @@ The hook is called when dpkg-source is checking a signature on a source
 package. It takes no parameters, but returns a (possibly empty) list of
 vendor-specific keyrings.
 
+=item register-custom-fields ()
+
+The hook is called in Dpkg::Control::Fields to register custom fields.
+You should return a list of arrays. Each array is an operation to perform.
+The first item is the name of the operation and corresponds
+to a field_* function provided by Dpkg::Control::Fields. The remaining
+fields are the parameters that are passed unchanged to the corresponding
+function.
+
+Known operations are "register", "insert_after" and "insert_before".
+
 =back
 
 =cut
@@ -97,6 +108,8 @@ sub run_hook {
     } elsif ($hook eq "before-changes-creation") {
         my $fields = shift @params;
     } elsif ($hook eq "keyrings") {
+        return ();
+    } elsif ($hook eq "register-custom-fields") {
         return ();
     }
 }
