@@ -8,7 +8,7 @@ use IO::File;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Control::Fields;
+use Dpkg::Control;
 use Dpkg::Version qw(compare_versions);
 use Dpkg::Checksums;
 
@@ -21,22 +21,6 @@ my (@samemaint, @changedmaint);
 my @spuriousover;
 my %packages;
 my %overridden;
-
-my @sums;
-foreach (@check_supported) {
-    my $copy = uc($_);
-    $copy = "MD5sum" if $_ eq "md5";
-    push @sums, $copy;
-}
-my @fieldpri = (qw(Package Package-Type Source Version Kernel-Version
-                   Architecture Subarchitecture Essential Origin Bugs
-                   Maintainer Installed-Size Installer-Menu-Item),
-                field_list_pkg_dep(), qw(Filename Size), @sums,
-                qw(Section Priority Homepage Description Tag Task));
-
-# This maps the fields into the proper case
-my %field_case;
-@field_case{map{lc($_)} @fieldpri} = @fieldpri;
 
 use Getopt::Long qw(:config bundling);
 
@@ -204,25 +188,24 @@ FILE:
 	    next;
 	}
 	
-	my %tv = ();
+	my $fields = Dpkg::Control->new(type => CTRL_APT_PKG);
 	my $temp = $control;
 	while ($temp =~ s/^\n*(\S+):[ \t]*(.*(\n[ \t].*)*)\n//) {
-	    my ($key,$value)= (lc $1,$2);
-	    if (defined($field_case{$key})) { $key= $field_case{$key}; }
+	    my ($key, $value) = ($1, $2);
 	    $value =~ s/\s+$//;
-	    $tv{$key}= $value;
+	    $fields->{$key} = $value;
 	}
 	$temp =~ /^\n*$/
 	    or error(_g("Unprocessed text from %s control file; info:\n%s / %s"),
 	             $fn, $control, $temp);
 	
-	defined($tv{'Package'})
+	defined($fields->{'Package'})
 	    or error(_g("No Package field in control file of %s"), $fn);
-	my $p= $tv{'Package'}; delete $tv{'Package'};
+	my $p = $fields->{'Package'};
 	
 	if (defined($packages{$p}) and not $options{multiversion}) {
 	    foreach (@{$packages{$p}}) {
-		if (vercmp($tv{'Version'}, $_->{'Version'})) {
+		if (vercmp($fields->{'Version'}, $_->{'Version'})) {
 		    warning(_g("Package %s (filename %s) is repeat but newer version;"),
 		            $p, $fn);
 		    warning(_g("used that one and ignored data from %s!"),
@@ -237,23 +220,23 @@ FILE:
 	    }
 	}
 	warning(_g("Package %s (filename %s) has Filename field!"), $p, $fn)
-	    if defined($tv{'Filename'});
+	    if defined($fields->{'Filename'});
 	
-	$tv{'Filename'}= "$pathprefix$fn";
+	$fields->{'Filename'} = "$pathprefix$fn";
 	
         my $sums = {};
         my $size;
         getchecksums($fn, $sums, \$size);
         foreach my $alg (@check_supported) {
             if ($alg eq "md5") {
-	        $tv{'MD5sum'} = $sums->{'md5'};
+	        $fields->{'MD5sum'} = $sums->{'md5'};
             } else {
-                $tv{uc($alg)} = $sums->{$alg};
+                $fields->{$alg} = $sums->{$alg};
             }
         }
-	$tv{'Size'} = $size;
+	$fields->{'Size'} = $size;
 	
-	push @{$packages{$p}}, {%tv};
+	push @{$packages{$p}}, $fields;
     }
 close($find_h);
 
@@ -268,14 +251,8 @@ for my $p (sort keys %packages) {
         push(@missingover,$p);
     }
     for my $package (@{$packages{$p}}) {
-	 my $record= "Package: $p\n";
-	 for my $key (@fieldpri) {
-	      next unless defined $$package{$key};
-	      $record .= "$key: $$package{$key}\n";
-	 }
-	 $record .= "\n";
-	 $records_written++;
-	 print(STDOUT $record) or syserr(_g("Failed when writing stdout"));
+	 print(STDOUT "$package\n") or syserr(_g("Failed when writing stdout"));
+         $records_written++;
     }
 }
 close(STDOUT) or syserr(_g("Couldn't close stdout"));
