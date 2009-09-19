@@ -19,9 +19,8 @@ package Dpkg::Vendor::Debian;
 use strict;
 use warnings;
 
-use Dpkg::Vendor::Default;
-
-our @ISA = qw(Dpkg::Vendor::Default);
+use base qw(Dpkg::Vendor::Default);
+use Dpkg::Control::Types;
 
 =head1 NAME
 
@@ -44,6 +43,13 @@ sub run_hook {
     } elsif ($hook eq "keyrings") {
         return ('/usr/share/keyrings/debian-keyring.gpg',
                 '/usr/share/keyrings/debian-maintainers.gpg');
+    } elsif ($hook eq "register-custom-fields") {
+        return (
+            [ "register", "Dm-Upload-Allowed",
+              CTRL_INFO_SRC | CTRL_APT_SRC | CTRL_PKG_SRC ],
+            [ "insert_after", CTRL_APT_SRC, "Uploaders", "Dm-Upload-Allowed" ],
+            [ "insert_after", CTRL_PKG_SRC, "Uploaders", "Dm-Upload-Allowed" ],
+        );
     }
 }
 

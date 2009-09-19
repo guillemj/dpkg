@@ -114,9 +114,6 @@ our %FIELDS = (
     'Distribution' => {
         allowed => ALL_CHANGES,
     },
-    'Dm-Upload-Allowed' => {
-        allowed => ALL_SRC,
-    },
     'Enhances' => {
         allowed => ALL_PKG,
         dependency => 'union',
@@ -283,7 +280,7 @@ our %FIELD_ORDER = (
     ],
     CTRL_PKG_SRC() => [
         qw(Format Source Binary Architecture Version Origin Maintainer
-        Uploaders Dm-Upload-Allowed Homepage Standards-Version Vcs-Browser
+        Uploaders Homepage Standards-Version Vcs-Browser
         Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn
         Vcs-Svn), &field_list_src_dep(), @checksum_fields, qw(Files)
     ],
