@@ -96,6 +96,12 @@ function.
 
 Known operations are "register", "insert_after" and "insert_before".
 
+=item post-process-changelog-entry ($fields)
+
+The hook is called in Dpkg::Changelog to post-process a
+Dpkg::Changelog::Entry after it has been created and filled with the
+appropriate values.
+
 =back
 
 =cut
@@ -111,7 +117,10 @@ sub run_hook {
         return ();
     } elsif ($hook eq "register-custom-fields") {
         return ();
+    } elsif ($hook eq "post-process-changelog-entry") {
+        my $fields = shift @params;
     }
+
 }
 
 =back

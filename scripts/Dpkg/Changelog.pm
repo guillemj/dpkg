@@ -43,6 +43,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
 use Dpkg::Control;
 use Dpkg::Version qw(compare_versions);
+use Dpkg::Vendor qw(run_vendor_hook);
 
 use base qw(Exporter);
 
@@ -553,6 +554,7 @@ sub dpkg {
 
     $f->{Closes} = join " ", sort { $a <=> $b } @{$f->{Closes}};
     $f->{Urgency} .= $urg_comment;
+    run_vendor_hook("post-process-changelog-entry", $f);
 
     return %$f if wantarray;
     return $f;
@@ -610,6 +612,8 @@ sub rfc822 {
 	    next if $CHANGELOG_FIELDS->{$field};
 	    $f->{$field} = $entry->{$field};
 	}
+
+        run_vendor_hook("post-process-changelog-entry", $f);
 
 	push @out_data, $f;
     }
