@@ -72,12 +72,6 @@ supported hooks are:
 The first parameter is a Dpkg::Source::Package object. The hook is called
 just before the execution of $srcpkg->build().
 
-=item before-changes-creation ($fields)
-
-The hook is called just before the content of .changes file is output
-by dpkg-genchanges. The first parameter is a Dpkg::Control object
-representing all the fields that are going to be output.
-
 =item keyrings ()
 
 The hook is called when dpkg-source is checking a signature on a source
@@ -110,8 +104,6 @@ sub run_hook {
 
     if ($hook eq "before-source-build") {
         my $srcpkg = shift @params;
-    } elsif ($hook eq "before-changes-creation") {
-        my $fields = shift @params;
     } elsif ($hook eq "keyrings") {
         return ();
     } elsif ($hook eq "register-custom-fields") {
