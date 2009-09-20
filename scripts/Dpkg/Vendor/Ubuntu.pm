@@ -64,17 +64,12 @@ sub run_hook {
     } elsif ($hook eq "before-changes-creation") {
         my $fields = shift @params;
 
-        # Add Launchpad-Bugs-Fixed field
-        my $bugs = find_launchpad_closes($fields->{"Changes"} || "");
-        if (scalar(@{$bugs})) {
-            $fields->{"Launchpad-Bugs-Fixed"} = join(" ", @{$bugs});
-        }
-
     } elsif ($hook eq "keyrings") {
         my @keyrings = $self->SUPER::run_hook($hook);
 
         push(@keyrings, '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
         return @keyrings;
+
     } elsif ($hook eq "register-custom-fields") {
         my @field_ops = $self->SUPER::run_hook($hook);
         push @field_ops,
@@ -83,6 +78,15 @@ sub run_hook {
             [ "insert_after", CTRL_FILE_CHANGES, "Closes", "Launchpad-Bugs-Fixed" ],
             [ "insert_after", CTRL_CHANGELOG, "Closes", "Launchpad-Bugs-Fixed" ];
         return @field_ops;
+
+    } elsif ($hook eq "post-process-changelog-entry") {
+        my $fields = shift @params;
+
+        # Add Launchpad-Bugs-Fixed field
+        my $bugs = find_launchpad_closes($fields->{"Changes"} || "");
+        if (scalar(@$bugs)) {
+            $fields->{"Launchpad-Bugs-Fixed"} = join(" ", @$bugs);
+        }
     }
 
 }
