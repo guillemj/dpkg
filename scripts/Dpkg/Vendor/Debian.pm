@@ -36,11 +36,7 @@ for Debian specific actions.
 sub run_hook {
     my ($self, $hook, @params) = @_;
 
-    if ($hook eq "before-source-build") {
-        my $srcpkg = shift @params;
-    } elsif ($hook eq "before-changes-creation") {
-        my $fields = shift @params;
-    } elsif ($hook eq "keyrings") {
+    if ($hook eq "keyrings") {
         return ('/usr/share/keyrings/debian-keyring.gpg',
                 '/usr/share/keyrings/debian-maintainers.gpg');
     } elsif ($hook eq "register-custom-fields") {
@@ -50,6 +46,8 @@ sub run_hook {
             [ "insert_after", CTRL_APT_SRC, "Uploaders", "Dm-Upload-Allowed" ],
             [ "insert_after", CTRL_PKG_SRC, "Uploaders", "Dm-Upload-Allowed" ],
         );
+    } else {
+        return $self->SUPER::run_hook($hook, @params);
     }
 }
 

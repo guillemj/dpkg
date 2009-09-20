@@ -120,6 +120,9 @@ sub run_hook {
         my $fields = shift @params;
     }
 
+    # Default return value for unknown/unimplemented hooks
+    return () if wantarray;
+    return undef;
 }
 
 =back

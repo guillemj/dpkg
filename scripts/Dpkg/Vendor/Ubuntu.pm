@@ -61,9 +61,6 @@ sub run_hook {
            }
         }
 
-    } elsif ($hook eq "before-changes-creation") {
-        my $fields = shift @params;
-
     } elsif ($hook eq "keyrings") {
         my @keyrings = $self->SUPER::run_hook($hook);
 
@@ -87,6 +84,9 @@ sub run_hook {
         if (scalar(@$bugs)) {
             $fields->{"Launchpad-Bugs-Fixed"} = join(" ", @$bugs);
         }
+
+    } else {
+        return $self->SUPER::run_hook($hook, @params);
     }
 
 }
