@@ -21,8 +21,7 @@ use warnings;
 
 # If you use this file as template to create a new vendor object, please
 # uncomment the following lines
-#use Dpkg::Vendor::Default;
-#our @ISA = qw(Dpkg::Vendor::Default);
+#use base qw(Dpkg::Vendor::Default);
 
 =head1 NAME
 
