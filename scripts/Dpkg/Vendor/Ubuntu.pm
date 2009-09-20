@@ -23,6 +23,7 @@ use warnings;
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
+use Dpkg::Control::Types;
 
 use base 'Dpkg::Vendor::Debian';
 
@@ -74,7 +75,16 @@ sub run_hook {
 
         push(@keyrings, '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
         return @keyrings;
+    } elsif ($hook eq "register-custom-fields") {
+        my @field_ops = $self->SUPER::run_hook($hook);
+        push @field_ops,
+            [ "register", "Launchpad-Bugs-Fixed",
+              CTRL_FILE_CHANGES | CTRL_CHANGELOG  ],
+            [ "insert_after", CTRL_FILE_CHANGES, "Closes", "Launchpad-Bugs-Fixed" ],
+            [ "insert_after", CTRL_CHANGELOG, "Closes", "Launchpad-Bugs-Fixed" ];
+        return @field_ops;
     }
+
 }
 
 =head1 PUBLIC FUNCTIONS
