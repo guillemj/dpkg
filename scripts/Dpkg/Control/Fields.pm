@@ -313,6 +313,7 @@ $FIELD_ORDER{CTRL_APT_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
 
 # Register vendor specifics fields
 foreach my $op (run_vendor_hook("register-custom-fields")) {
+    next if not (defined $op and ref $op); # Skip when not implemented by vendor
     my $func = shift @$op;
     if ($func eq "register") {
         &field_register(@$op);
