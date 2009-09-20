@@ -64,6 +64,151 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 		const char* realnew, int useredited, int distedited,
 		enum conffopt what);
 
+static void
+deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
+{
+	struct filenamenode *usenode;
+	static const char EMPTY_HASH[] = "-";
+	char *currenthash = NULL, *newdisthash = NULL;
+	int useredited, distedited;
+	enum conffopt what;
+	struct stat stab;
+	struct varbuf cdr = VARBUF_INIT, cdr2 = VARBUF_INIT;
+	char *cdr2rest;
+	int r;
+
+	usenode = namenodetouse(findnamenode(conff->name, fnn_nocopy), pkg);
+
+	r = conffderef(pkg, &cdr, usenode->name);
+	if (r == -1) {
+		conff->hash = EMPTY_HASH;
+		return;
+	}
+	md5hash(pkg, &currenthash, cdr.buf);
+
+	varbufreset(&cdr2);
+	varbufaddstr(&cdr2, cdr.buf);
+	cdr2.used += 50;
+	varbufaddc(&cdr2, 0);
+	cdr2rest = cdr2.buf + strlen(cdr.buf);
+	/* From now on we can just strcpy(cdr2rest, extension); */
+
+	strcpy(cdr2rest, DPKGNEWEXT);
+	/* If the .dpkg-new file is no longer there, ignore this one. */
+	if (lstat(cdr2.buf, &stab)) {
+		if (errno == ENOENT)
+			return;
+		ohshite(_("unable to stat new dist conffile `%.250s'"), cdr2.buf);
+	}
+	md5hash(pkg, &newdisthash, cdr2.buf);
+
+	/* Copy the permissions from the installed version to the new
+	 * distributed version. */
+	if (!stat(cdr.buf, &stab))
+		copyfileperm(cdr.buf, cdr2.buf);
+	else if (errno != ENOENT)
+		ohshite(_("unable to stat current installed conffile `%.250s'"),
+		        cdr.buf);
+
+	/* Select what to do. */
+	if (!strcmp(currenthash, newdisthash)) {
+		/* They're both the same so there's no point asking silly
+		 * questions. */
+		useredited = -1;
+		distedited = -1;
+		what = cfo_identical;
+	} else if (!strcmp(currenthash, NONEXISTENTFLAG) && fc_conff_miss) {
+		fprintf(stderr,
+		        _("\n"
+		          "Configuration file `%s', does not exist on system.\n"
+		          "Installing new config file as you requested.\n"),
+		        usenode->name);
+		what = cfo_newconff;
+		useredited = -1;
+		distedited = -1;
+	} else if (!strcmp(conff->hash, NEWCONFFILEFLAG)) {
+		if (!strcmp(currenthash, NONEXISTENTFLAG)) {
+			what = cfo_newconff;
+			useredited = -1;
+			distedited = -1;
+		} else {
+			useredited = 1;
+			distedited = 1;
+			what = conffoptcells[useredited][distedited] |
+			       cfof_isnew;
+		}
+	} else {
+		useredited = strcmp(conff->hash, currenthash) != 0;
+		distedited = strcmp(conff->hash, newdisthash) != 0;
+		what = conffoptcells[useredited][distedited];
+		if (!strcmp(currenthash, NONEXISTENTFLAG))
+			what |= cfof_userrmd;
+	}
+
+	debug(dbg_conff,
+	      "deferred_configure '%s' (= '%s') useredited=%d distedited=%d what=%o",
+	      usenode->name, cdr.buf, useredited, distedited, what);
+
+	what = promptconfaction(usenode->name, cdr.buf, cdr2.buf,
+	                        useredited, distedited, what);
+
+	switch (what & ~(cfof_isnew | cfof_userrmd)) {
+	case cfo_keep | cfof_backup:
+		strcpy(cdr2rest, DPKGOLDEXT);
+		if (unlink(cdr2.buf) && errno != ENOENT)
+			warning(_("%s: failed to remove old backup '%.250s': %s"),
+			        pkg->name, cdr2.buf, strerror(errno));
+		cdr.used--;
+		varbufaddstr(&cdr, DPKGDISTEXT);
+		varbufaddc(&cdr, 0);
+		strcpy(cdr2rest, DPKGNEWEXT);
+		trig_file_activate(usenode, pkg);
+		if (rename(cdr2.buf, cdr.buf))
+			warning(_("%s: failed to rename '%.250s' to '%.250s': %s"),
+			        pkg->name, cdr2.buf, cdr.buf, strerror(errno));
+		break;
+	case cfo_keep:
+		strcpy(cdr2rest, DPKGNEWEXT);
+		if (unlink(cdr2.buf))
+			warning(_("%s: failed to remove '%.250s': %s"),
+			        pkg->name, cdr2.buf, strerror(errno));
+		break;
+	case cfo_install | cfof_backup:
+		strcpy(cdr2rest, DPKGDISTEXT);
+		if (unlink(cdr2.buf) && errno != ENOENT)
+			warning(_("%s: failed to remove old distrib version '%.250s': %s"),
+			        pkg->name, cdr2.buf, strerror(errno));
+		strcpy(cdr2rest, DPKGOLDEXT);
+		if (unlink(cdr2.buf) && errno != ENOENT)
+			warning(_("%s: failed to remove '%.250s' (before overwrite): %s"),
+			        pkg->name, cdr2.buf, strerror(errno));
+		if (!(what & cfof_userrmd))
+			if (link(cdr.buf, cdr2.buf))
+				warning(_("%s: failed to link '%.250s' to '%.250s': %s"),
+				        pkg->name, cdr.buf, cdr2.buf, strerror(errno));
+		/* Fall through. */
+	case cfo_install:
+		printf(_("Installing new version of config file %s ...\n"),
+		       usenode->name);
+	case cfo_newconff:
+		strcpy(cdr2rest, DPKGNEWEXT);
+		trig_file_activate(usenode, pkg);
+		if (rename(cdr2.buf, cdr.buf))
+			ohshite(_("unable to install `%.250s' as `%.250s'"),
+			        cdr2.buf, cdr.buf);
+		break;
+	default:
+		internerr("unknown conffopt '%d'", what);
+	}
+
+	conff->hash = nfstrsave(newdisthash);
+	modstatdb_note(pkg);
+
+	free(newdisthash);
+	free(currenthash);
+	varbuffree(&cdr);
+	varbuffree(&cdr2);
+}
 
 void deferred_configure(struct pkginfo *pkg) {
 	/* The algorithm for deciding what to configure first is as follows:
@@ -87,14 +232,8 @@ void deferred_configure(struct pkginfo *pkg) {
 	 *  Do anyway.
 	 */
 	struct varbuf aemsgs = VARBUF_INIT;
-	struct varbuf cdr = VARBUF_INIT, cdr2 = VARBUF_INIT;
-	char *cdr2rest;
-	int ok, r, useredited, distedited;
 	struct conffile *conff;
-	char *currenthash = NULL, *newdisthash = NULL;
-	struct stat stab;
-	enum conffopt what;
-	static const char EMPTY_HASH[] = "-";
+	int ok;
 
 	if (pkg->status == stat_notinstalled)
 		ohshit(_("no package named `%s' is installed, cannot configure"),pkg->name);
@@ -179,138 +318,8 @@ void deferred_configure(struct pkginfo *pkg) {
 		 * If `*.dpkg-new' no longer exists we assume that we've already
 		 * processed this one.
 		 */
-		for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-			struct filenamenode *usenode;
-
-			usenode = namenodetouse(findnamenode(conff->name,
-			                                     fnn_nocopy), pkg);
-
-			r = conffderef(pkg, &cdr, usenode->name);
-			if (r == -1) {
-				conff->hash= EMPTY_HASH;
-				continue;
-			}
-			md5hash(pkg,&currenthash,cdr.buf);
-
-			varbufreset(&cdr2);
-			varbufaddstr(&cdr2,cdr.buf);
-			cdr2.used+=50; varbufaddc(&cdr2,0); cdr2rest= cdr2.buf+strlen(cdr.buf);
-			/* From now on we can just strcpy(cdr2rest,extension); */
-
-			strcpy(cdr2rest,DPKGNEWEXT);
-			/* If the .dpkg-new file is no longer there, ignore this one. */
-			if (lstat(cdr2.buf,&stab)) {
-				if (errno == ENOENT) continue;
-				ohshite(_("unable to stat new dist conffile `%.250s'"),cdr2.buf);
-			}
-			md5hash(pkg,&newdisthash,cdr2.buf);
-
-			/* Copy the permissions from the installed version to the new
-			 * distributed version.
-			 */
-			if (!stat(cdr.buf,&stab))
-				copyfileperm(cdr.buf, cdr2.buf);
-			else if (errno != ENOENT)
-				ohshite(_("unable to stat current installed conffile `%.250s'"),cdr.buf);
-
-			/* Select what the do */
-			if (!strcmp(currenthash,newdisthash)) {
-				/* They're both the same so there's no point asking silly questions. */
-				useredited= -1;
-				distedited= -1;
-				what= cfo_identical;
-			} else if (!strcmp(currenthash,NONEXISTENTFLAG) && fc_conff_miss) {
-				fprintf(stderr, _("\nConfiguration file `%s', does not exist on system.\n"
-				                  "Installing new config file as you requested.\n"),
-				        usenode->name);
-				what= cfo_newconff;
-				useredited= -1;
-				distedited= -1;
-			} else if (!strcmp(conff->hash,NEWCONFFILEFLAG)) {
-				if (!strcmp(currenthash,NONEXISTENTFLAG)) {
-					what= cfo_newconff;
-					useredited= -1;
-					distedited= -1;
-				} else {
-					useredited= 1;
-					distedited= 1;
-					what= conffoptcells[useredited][distedited] | cfof_isnew;
-				}
-			} else {
-				useredited= strcmp(conff->hash,currenthash) != 0;
-				distedited= strcmp(conff->hash,newdisthash) != 0;
-				what= conffoptcells[useredited][distedited];
-				if (!strcmp(currenthash,NONEXISTENTFLAG))
-					what |= cfof_userrmd;
-			}
-
-			debug(dbg_conff,
-					"deferred_configure `%s' (= `%s') useredited=%d distedited=%d what=%o",
-			      usenode->name, cdr.buf, useredited, distedited,
-			      what);
-
-			what = promptconfaction(usenode->name, cdr.buf, cdr2.buf,
-			                        useredited, distedited, what);
-
-			switch (what & ~(cfof_isnew|cfof_userrmd)) {
-				case cfo_keep | cfof_backup:
-					strcpy(cdr2rest,DPKGOLDEXT);
-					if (unlink(cdr2.buf) && errno != ENOENT)
-						warning(_("%s: failed to remove old backup '%.250s': %s"),
-						        pkg->name, cdr2.buf, strerror(errno));
-					cdr.used--;
-					varbufaddstr(&cdr,DPKGDISTEXT);
-					varbufaddc(&cdr,0);
-					strcpy(cdr2rest,DPKGNEWEXT);
-					trig_file_activate(usenode, pkg);
-					if (rename(cdr2.buf,cdr.buf))
-						warning(_("%s: failed to rename '%.250s' to '%.250s': %s"),
-						        pkg->name, cdr2.buf, cdr.buf, strerror(errno));
-					break;
-
-				case cfo_keep:
-					strcpy(cdr2rest,DPKGNEWEXT);
-					if (unlink(cdr2.buf))
-						warning(_("%s: failed to remove '%.250s': %s"),
-						        pkg->name, cdr2.buf, strerror(errno));
-					break;
-
-				case cfo_install | cfof_backup:
-					strcpy(cdr2rest,DPKGDISTEXT);
-					if (unlink(cdr2.buf) && errno != ENOENT)
-						warning(_("%s: failed to remove old distrib version '%.250s': %s"),
-						        pkg->name, cdr2.buf, strerror(errno));
-					strcpy(cdr2rest,DPKGOLDEXT);
-					if (unlink(cdr2.buf) && errno != ENOENT)
-						warning(_("%s: failed to remove '%.250s' (before overwrite): %s"),
-						        pkg->name, cdr2.buf, strerror(errno));
-					if (!(what & cfof_userrmd))
-						if (link(cdr.buf,cdr2.buf))
-							warning(_("%s: failed to link '%.250s' to '%.250s': %s"),
-							        pkg->name, cdr.buf, cdr2.buf, strerror(errno));
-					/* fall through */
-				case cfo_install:
-					printf(_("Installing new version of config file %s ...\n"),
-					       usenode->name);
-				case cfo_newconff:
-					strcpy(cdr2rest,DPKGNEWEXT);
-					trig_file_activate(usenode, pkg);
-					if (rename(cdr2.buf,cdr.buf))
-						ohshite(_("unable to install `%.250s' as `%.250s'"),cdr2.buf,cdr.buf);
-					break;
-
-				default:
-					internerr("unknown conffopt '%d'", what);
-			}
-
-			conff->hash= nfstrsave(newdisthash);
-			modstatdb_note(pkg);
-			free(newdisthash);
-			free(currenthash);
-
-		} /* for (conff= ... */
-		varbuffree(&cdr);
-		varbuffree(&cdr2);
+		for (conff = pkg->installed.conffiles; conff; conff = conff->next)
+			deferred_configure_conffile(pkg, conff);
 
 		pkg->status= stat_halfconfigured;
 	}
