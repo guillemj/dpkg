@@ -1253,7 +1253,6 @@ do_findprocs(void)
 		do_procinit();
 }
 
-/* return 1 on failure */
 static void
 do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled, int retry_nr)
 {
