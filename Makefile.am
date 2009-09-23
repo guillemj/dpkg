@@ -22,9 +22,9 @@ dist_pkgdata_DATA = cputable ostable triplettable
 
 EXTRA_DIST = \
 	ChangeLog.old \
-	README.api \
-	README.feature-removal-schedule \
 	README.translators \
+	doc/README.api \
+	doc/README.feature-removal-schedule \
 	doc/triggers.txt \
 	debian/archtable \
 	debian/changelog \
