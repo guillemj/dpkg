@@ -117,7 +117,7 @@ void extracthalf(const char *debar, const char *directory,
   size_t ctrllennum, memberlen= 0;
   int dummy, l= 0;
   pid_t c1=0,c2,c3;
-  unsigned char *ctrlarea = NULL;
+  void *ctrlarea = NULL;
   int p1[2], p2[2];
   FILE *ar, *pi;
   struct stat stab;
