@@ -49,8 +49,8 @@ buffer_md5_init(buffer_data_t data)
 	struct buffer_write_md5ctx *ctx;
 
 	ctx = m_malloc(sizeof(struct buffer_write_md5ctx));
-	ctx->hash = data->data.ptr;
-	data->data.ptr = ctx;
+	ctx->hash = data->arg.ptr;
+	data->arg.ptr = ctx;
 	MD5Init(&ctx->ctx);
 }
 
@@ -73,7 +73,7 @@ buffer_md5_done(buffer_data_t data)
 	char *hash;
 	int i;
 
-	ctx = (struct buffer_write_md5ctx *)data->data.ptr;
+	ctx = (struct buffer_write_md5ctx *)data->arg.ptr;
 	hash = ctx->hash;
 	MD5Final(digest, &ctx->ctx);
 	for (i = 0; i < 16; ++i) {
@@ -102,29 +102,29 @@ buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc)
 
 	switch (data->type) {
 	case BUFFER_WRITE_BUF:
-		memcpy(data->data.ptr, buf, length);
-		data->data.ptr += length;
+		memcpy(data->arg.ptr, buf, length);
+		data->arg.ptr += length;
 		break;
 	case BUFFER_WRITE_VBUF:
-		varbufaddbuf((struct varbuf *)data->data.ptr, buf, length);
+		varbufaddbuf((struct varbuf *)data->arg.ptr, buf, length);
 		break;
 	case BUFFER_WRITE_FD:
-		ret = write(data->data.i, buf, length);
+		ret = write(data->arg.i, buf, length);
 		if (ret < 0 && errno != EINTR)
 			ohshite(_("failed in buffer_write(fd) (%i, ret=%li): %s"),
-			        data->data.i, (long)ret, desc);
+			        data->arg.i, (long)ret, desc);
 		break;
 	case BUFFER_WRITE_NULL:
 		break;
 	case BUFFER_WRITE_STREAM:
-		ret = fwrite(buf, 1, length, (FILE *)data->data.ptr);
-		if (feof((FILE *)data->data.ptr))
+		ret = fwrite(buf, 1, length, (FILE *)data->arg.ptr);
+		if (feof((FILE *)data->arg.ptr))
 			ohshite(_("eof in buffer_write(stream): %s"), desc);
-		if(ferror((FILE *)data->data.ptr))
+		if(ferror((FILE *)data->arg.ptr))
 			ohshite(_("error in buffer_write(stream): %s"), desc);
 		break;
 	case BUFFER_WRITE_MD5:
-		MD5Update(&(((struct buffer_write_md5ctx *)data->data.ptr)->ctx), buf, length);
+		MD5Update(&(((struct buffer_write_md5ctx *)data->arg.ptr)->ctx), buf, length);
 		break;
 	default:
 		internerr("unknown data type '%i' in buffer_write",
@@ -141,15 +141,15 @@ buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc)
 
 	switch (data->type) {
 	case BUFFER_READ_FD:
-		ret = read(data->data.i, buf, length);
+		ret = read(data->arg.i, buf, length);
 		if(ret < 0 && errno != EINTR)
 			ohshite(_("failed in buffer_read(fd): %s"), desc);
 		break;
 	case BUFFER_READ_STREAM:
-		ret = fread(buf, 1, length, (FILE *)data->data.ptr);
-		if (feof((FILE *)data->data.ptr))
+		ret = fread(buf, 1, length, (FILE *)data->arg.ptr);
+		if (feof((FILE *)data->arg.ptr))
 			return ret;
-		if (ferror((FILE *)data->data.ptr))
+		if (ferror((FILE *)data->arg.ptr))
 			ohshite(_("error in buffer_read(stream): %s"), desc);
 		break;
 	default:
@@ -171,9 +171,9 @@ buffer_copy_##name(type1 n1, int typeIn, \
 	struct varbuf v = VARBUF_INIT; \
 	off_t ret; \
 \
-	read_data.data.name1 = n1; \
+	read_data.arg.name1 = n1; \
 	read_data.type = typeIn; \
-	write_data.data.name2 = n2; \
+	write_data.arg.name2 = n2; \
 	write_data.type = typeOut; \
 \
 	va_start(al, desc); \

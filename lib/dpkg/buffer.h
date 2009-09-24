@@ -47,7 +47,7 @@ struct buffer_data {
 	union {
 		void *ptr;
 		int i;
-	} data;
+	} arg;
 	int type;
 };
 
