@@ -19,7 +19,7 @@ AM_GNU_GETTEXT([external])
 # Allow compilation without dselect
 AC_ARG_WITH(dselect,
 	AS_HELP_STRING([--without-dselect],
-		       [don't build dselect package-management frontend]),
+		       [do not build dselect package-management frontend]),
 	[build_dselect=$with_dselect],
 	[build_dselect=yes])
 AM_CONDITIONAL(WITH_DSELECT, [test "x$build_dselect" = "xyes"])
@@ -27,7 +27,7 @@ AM_CONDITIONAL(WITH_DSELECT, [test "x$build_dselect" = "xyes"])
 # Allow compilation without start-stop-daemon
 AC_ARG_WITH(start-stop-daemon,
 	AS_HELP_STRING([--without-start-stop-daemon],
-		       [don't build or use start-stop-daemon]),
+		       [do not build or use start-stop-daemon]),
 	[build_start_stop_daemon=$with_start_stop_daemon],
 	[build_start_stop_daemon=yes])
 AM_CONDITIONAL(WITH_START_STOP_DAEMON,
