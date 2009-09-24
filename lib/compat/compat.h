@@ -35,7 +35,7 @@ extern "C" {
  * Define WCOREDUMP if we don't have it already, coredumps won't be
  * detected, though.
  */
-#ifndef WCOREDUMP
+#ifndef HAVE_WCOREDUMP
 #define WCOREDUMP(x) 0
 #endif
 
