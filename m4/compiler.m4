@@ -26,7 +26,7 @@ AC_DEFUN([DPKG_COMPILER_OPTIMISATIONS],
 	AS_HELP_STRING([--disable-compiler-optimisations],
 		       [Disable compiler optimisations]),
 [if test "x$enable_compiler_optimisations" = "xno"; then
-	[CFLAGS=`echo "$CFLAGS" | sed -e "s/ -O[1-9]*\b/ -O0/g"`]
+	[CFLAGS=$(echo "$CFLAGS" | sed -e "s/ -O[1-9]*\b/ -O0/g")]
 fi])dnl
 ])
 
@@ -43,7 +43,7 @@ AC_DEFUN([DPKG_C_ATTRIBUTE],
 	[dpkg_cv_attribute=no])])
 AS_IF([test "x$dpkg_cv_attribute" = "xyes"],
 	[AC_DEFINE([HAVE_C_ATTRIBUTE], 1,
-		[Define to 1 if compiler supports `__attribute__', 0 otherwise.])],
+		[Define to 1 if compiler supports '__attribute__', 0 otherwise.])],
 	[AC_DEFINE([HAVE_C_ATTRIBUTE], 0)])dnl
 ])# DPKG_C_ATTRIBUTE
 

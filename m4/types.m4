@@ -6,7 +6,7 @@
 AC_DEFUN([DPKG_TYPE_PTRDIFF_T],
 [AC_CHECK_TYPE([ptrdiff_t],,
 	AC_DEFINE_UNQUOTED([ptrdiff_t], [int],
-			   [Define to `int' if <malloc.h> does not define.]))dnl
+			   [Define to 'int' if <malloc.h> does not define.]))dnl
 ])# DPKG_TYPE_PTRDIFF_T
 
 # DPKG_DECL_SYS_SIGLIST
@@ -44,7 +44,7 @@ AC_DEFUN([DPKG_CHECK_DEFINE],
 	[dpkg_cv_define_$1=yes],
 	[dpkg_cv_define_$1=no])])
 AS_IF([test "x$dpkg_cv_define" = "xyes"],
-	[AC_DEFINE([HAVE_]$1, 1, [Define to 1 if you have the macro `]$1[' in
-				  `]$2[', and to 0 if you don't.])],
+	[AC_DEFINE([HAVE_]$1, 1, [Define to 1 if you have the macro ']$1[' in
+				  <$2>, and to 0 if you don't.])],
 	[AC_DEFINE([HAVE_]$1, 0)])[]dnl
 ])# DPKG_CHECK_DEFINE
