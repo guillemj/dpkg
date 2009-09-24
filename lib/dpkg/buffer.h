@@ -43,13 +43,11 @@ DPKG_BEGIN_DECLS
 
 typedef struct buffer_data *buffer_data_t;
 
-typedef union buffer_arg {
-	void *ptr;
-	int i;
-} buffer_arg;
-
 struct buffer_data {
-	buffer_arg data;
+	union {
+		void *ptr;
+		int i;
+	} data;
 	int type;
 };
 
