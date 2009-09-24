@@ -52,10 +52,6 @@
 
 #include "dpkg-deb.h"
 
-#ifndef S_ISLNK
-# define S_ISLNK(mode) ((mode&0xF000) == S_IFLNK)
-#endif
-
 /* Simple structure to store information about a file.
  */
 struct file_info {
