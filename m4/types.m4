@@ -1,3 +1,5 @@
+# Copyright © 2009 Guillem Jover <guillem@debian.org>
+
 # DPKG_TYPE_PTRDIFF_T
 # -------------------
 # Check for the ptrdiff_t type, defining to int if not defined
@@ -20,6 +22,17 @@ AC_CHECK_DECLS([sys_siglist],,,
 #endif
 ])dnl
 ])# DPKG_DECL_SYS_SIGLIST
+
+# DPKG_CHECK_DECL([DECL], [HEADER])
+# -----------------
+# Define HAVE_DECL to 1 if declared in HEADER
+AC_DEFUN([DPKG_CHECK_DECL],
+[
+  AC_CHECK_DECL($1,
+                [AC_DEFINE([HAVE_]$1, 1,
+                           [Define to 1 if ']$1[' is declared in <$2>])],,
+                [[#include <$2>]])
+])# DPKG_CHECK_DECL
 
 # DPKG_CHECK_DEFINE([DEFINE], [HEADER])
 # -------------------------------------
