@@ -40,7 +40,7 @@
 
 struct buffer_write_md5ctx {
 	struct MD5Context ctx;
-	char **hash;
+	char *hash;
 };
 
 static void
@@ -74,7 +74,7 @@ buffer_md5_done(buffer_data_t data)
 	int i;
 
 	ctx = (struct buffer_write_md5ctx *)data->data.ptr;
-	*ctx->hash = hash = m_malloc(MD5HASHLEN + 1);
+	hash = ctx->hash;
 	MD5Final(digest, &ctx->ctx);
 	for (i = 0; i < 16; ++i) {
 		sprintf(hash, "%02x", *p++);

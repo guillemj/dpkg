@@ -56,7 +56,7 @@ static int conffoptcells[2][2] = {
 	{ cfo_keep,		cfo_prompt_keep },	/* User edited. */
 };
 
-static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn);
+static void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
 static void copyfileperm(const char* source, const char* target);
 static void showdiff(const char* old, const char* new);
 static void suspend(void);
@@ -69,7 +69,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 {
 	struct filenamenode *usenode;
 	static const char EMPTY_HASH[] = "-";
-	char *currenthash = NULL, *newdisthash = NULL;
+	char currenthash[MD5HASHLEN + 1], newdisthash[MD5HASHLEN + 1];
 	int useredited, distedited;
 	enum conffopt what;
 	struct stat stab;
@@ -84,7 +84,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		conff->hash = EMPTY_HASH;
 		return;
 	}
-	md5hash(pkg, &currenthash, cdr.buf);
+	md5hash(pkg, currenthash, cdr.buf);
 
 	varbufreset(&cdr2);
 	varbufaddstr(&cdr2, cdr.buf);
@@ -100,7 +100,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 			return;
 		ohshite(_("unable to stat new dist conffile `%.250s'"), cdr2.buf);
 	}
-	md5hash(pkg, &newdisthash, cdr2.buf);
+	md5hash(pkg, newdisthash, cdr2.buf);
 
 	/* Copy the permissions from the installed version to the new
 	 * distributed version. */
@@ -204,8 +204,6 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	conff->hash = nfstrsave(newdisthash);
 	modstatdb_note(pkg);
 
-	free(newdisthash);
-	free(currenthash);
 	varbuffree(&cdr);
 	varbuffree(&cdr2);
 }
@@ -425,10 +423,13 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 	}
 }
     
-/* Generate a MD5 hash for fn and store it in *hashbuf. Memory is allocated
- * by this function and should be freed manually.
+/*
+ * Generate a MD5 hash for fn and store it in hashbuf, which needs to be
+ * at least MD5HASHLEN + 1 characters long.
  */
-static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn) {
+static void
+md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
+{
 	static int fd;
 
 	fd=open(fn,O_RDONLY);
@@ -439,11 +440,11 @@ static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn) {
 		pop_cleanup(ehflag_normaltidy); /* fd= open(cdr.buf) */
 		close(fd);
 	} else if (errno==ENOENT) {
-		*hashbuf = m_strdup(NONEXISTENTFLAG);
+		strcpy(hashbuf, NONEXISTENTFLAG);
 	} else {
 		warning(_("%s: unable to open conffile %s for hash: %s"),
 		        pkg->name, fn, strerror(errno));
-		*hashbuf = m_strdup("-");
+		strcpy(hashbuf, "-");
 	}
 }
 
