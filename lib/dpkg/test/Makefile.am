@@ -11,6 +11,7 @@ check_PROGRAMS = \
 	t-test \
 	t-macros \
 	t-string \
+	t-buffer \
 	t-path \
 	t-varbuf \
 	t-version \
@@ -22,6 +23,7 @@ t_macros_LDADD = $(CHECK_LDADD)
 t_path_LDADD = $(CHECK_LDADD)
 t_pkginfo_LDADD = $(CHECK_LDADD)
 t_string_LDADD = $(CHECK_LDADD)
+t_buffer_LDADD = $(CHECK_LDADD)
 t_test_LDADD = $(CHECK_LDADD)
 t_varbuf_LDADD = $(CHECK_LDADD)
 t_version_LDADD = $(CHECK_LDADD)

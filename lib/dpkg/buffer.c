@@ -196,6 +196,19 @@ buffer_copy_TYPE(PtrInt, void *, ptr, int, i);
 buffer_copy_TYPE(PtrPtr, void *, ptr, void *, ptr);
 
 off_t
+buffer_hash(const void *input, void *output, int type, off_t limit)
+{
+	struct buffer_data data = { output, type };
+	off_t ret;
+
+	buffer_init(NULL, &data);
+	ret = buffer_write(&data, input, limit, NULL);
+	buffer_done(NULL, &data);
+
+	return ret;
+}
+
+off_t
 buffer_copy(buffer_data_t read_data, buffer_data_t write_data,
             off_t limit, const char *desc)
 {
