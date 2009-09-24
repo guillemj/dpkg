@@ -127,8 +127,8 @@ buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc)
 		MD5Update(&(((struct buffer_write_md5ctx *)data->data.ptr)->ctx), buf, length);
 		break;
 	default:
-		fprintf(stderr, _("unknown data type `%i' in buffer_write\n"),
-		        data->type);
+		internerr("unknown data type '%i' in buffer_write",
+		          data->type);
 	}
 
 	return ret;
@@ -153,8 +153,8 @@ buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc)
 			ohshite(_("error in buffer_read(stream): %s"), desc);
 		break;
 	default:
-		fprintf(stderr, _("unknown data type `%i' in buffer_read\n"),
-		        data->type);
+		internerr("unknown data type '%i' in buffer_read\n",
+		          data->type);
 	}
 
 	return ret;
