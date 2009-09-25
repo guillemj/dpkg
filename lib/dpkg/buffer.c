@@ -44,7 +44,7 @@ struct buffer_write_md5ctx {
 };
 
 static void
-buffer_md5_init(buffer_data_t data)
+buffer_md5_init(struct buffer_data *data)
 {
 	struct buffer_write_md5ctx *ctx;
 
@@ -55,7 +55,7 @@ buffer_md5_init(buffer_data_t data)
 }
 
 off_t
-buffer_init(buffer_data_t read_data, buffer_data_t write_data)
+buffer_init(struct buffer_data *read_data, struct buffer_data *write_data)
 {
 	switch (write_data->type) {
 	case BUFFER_WRITE_MD5:
@@ -66,7 +66,7 @@ buffer_init(buffer_data_t read_data, buffer_data_t write_data)
 }
 
 static void
-buffer_md5_done(buffer_data_t data)
+buffer_md5_done(struct buffer_data *data)
 {
 	struct buffer_write_md5ctx *ctx;
 	unsigned char digest[16], *p = digest;
@@ -85,7 +85,7 @@ buffer_md5_done(buffer_data_t data)
 }
 
 off_t
-buffer_done(buffer_data_t read_data, buffer_data_t write_data)
+buffer_done(struct buffer_data *read_data, struct buffer_data *write_data)
 {
 	switch (write_data->type) {
 	case BUFFER_WRITE_MD5:
@@ -96,7 +96,7 @@ buffer_done(buffer_data_t read_data, buffer_data_t write_data)
 }
 
 off_t
-buffer_write(buffer_data_t data, const void *buf, off_t length,
+buffer_write(struct buffer_data *data, const void *buf, off_t length,
              const char *desc)
 {
 	off_t ret = length;
@@ -136,7 +136,8 @@ buffer_write(buffer_data_t data, const void *buf, off_t length,
 }
 
 off_t
-buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc)
+buffer_read(struct buffer_data *data, void *buf, off_t length,
+            const char *desc)
 {
 	off_t ret = length;
 
@@ -209,7 +210,7 @@ buffer_hash(const void *input, void *output, int type, off_t limit)
 }
 
 off_t
-buffer_copy(buffer_data_t read_data, buffer_data_t write_data,
+buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
             off_t limit, const char *desc)
 {
 	char *buf, *writebuf;

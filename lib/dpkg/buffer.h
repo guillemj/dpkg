@@ -41,8 +41,6 @@ DPKG_BEGIN_DECLS
 #define BUFFER_READ_FD			0
 #define BUFFER_READ_STREAM		1
 
-typedef struct buffer_data *buffer_data_t;
-
 struct buffer_data {
 	union {
 		void *ptr;
@@ -140,13 +138,16 @@ off_t buffer_copy_IntInt(int i1, int typeIn, int i2, int typeOut,
                          ...) DPKG_ATTR_PRINTF(6);
 off_t buffer_hash(const void *buf, void *hash, int typeOut, off_t length);
 
-off_t buffer_write(buffer_data_t data, const void *buf,
+off_t buffer_write(struct buffer_data *data, const void *buf,
                    off_t length, const char *desc);
-off_t buffer_read(buffer_data_t data, void *buf,
+off_t buffer_read(struct buffer_data *data, void *buf,
                   off_t length, const char *desc);
-off_t buffer_init(buffer_data_t read_data, buffer_data_t write_data);
-off_t buffer_done(buffer_data_t read_data, buffer_data_t write_data);
-off_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data,
+off_t buffer_init(struct buffer_data *read_data,
+                  struct buffer_data *write_data);
+off_t buffer_done(struct buffer_data *read_data,
+                  struct buffer_data *write_data);
+off_t buffer_copy(struct buffer_data *read_data,
+                  struct buffer_data *write_data,
                   off_t limit, const char *desc);
 
 DPKG_END_DECLS
