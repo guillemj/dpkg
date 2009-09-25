@@ -49,9 +49,9 @@ setup_subproc_signals(const char *name)
 	sigemptyset(&catchsig.sa_mask);
 	catchsig.sa_flags = 0;
 	for (i = 0; i < sizeof_array(catch_signals); i++)
-	if (sigaction(catch_signals[i], &catchsig, &uncatch_signals[i]))
-		ohshite(_("unable to ignore signal %s before running %.250s"),
-		        strsignal(catch_signals[i]), name);
+		if (sigaction(catch_signals[i], &catchsig, &uncatch_signals[i]))
+			ohshite(_("unable to ignore signal %s before running %.250s"),
+			        strsignal(catch_signals[i]), name);
 	push_cleanup(cu_subproc_signals, ~0, NULL, 0, 0);
 	onerr_abort--;
 }

@@ -195,7 +195,7 @@ struct schedule_item {
 		sched_goto,
 		sched_forever /* Only seen within parse_schedule and callees */
 	} type;
-	int value; /* Seconds, signal no., or index into array */
+	int value; /* Seconds, signal no., or index into array. */
 };
 
 static struct res_schedule *proc_sched = NULL;
@@ -312,10 +312,10 @@ daemonize(void)
 	pid = fork();
 	if (pid < 0)
 		fatal("Unable to do first fork.\n");
-	else if (pid) /* Parent */
+	else if (pid) /* Parent. */
 		_exit(0);
 
-	/* Create a new session */
+	/* Create a new session. */
 #ifdef HAVE_SETSID
 	setsid();
 #else
@@ -325,7 +325,7 @@ daemonize(void)
 	pid = fork();
 	if (pid < 0)
 		fatal("Unable to do second fork.\n");
-	else if (pid) /* Parent */
+	else if (pid) /* Parent. */
 		_exit(0);
 
 	if (quietmode < 0)
@@ -427,7 +427,7 @@ badusage(const char *msg)
 {
 	if (msg)
 		fprintf(stderr, "%s: %s\n", progname, msg);
-	fprintf(stderr, "Try `%s --help' for more information.\n", progname);
+	fprintf(stderr, "Try '%s --help' for more information.\n", progname);
 	exit(3);
 }
 
@@ -637,7 +637,7 @@ parse_schedule_item(const char *string, struct schedule_item *item)
 		item->type = sched_signal;
 	} else {
 		badusage("invalid schedule item (must be [-]<signal-name>, "
-		         "-<signal-number>, <timeout> or `forever'");
+		         "-<signal-number>, <timeout> or 'forever'");
 	}
 }
 
@@ -684,7 +684,7 @@ parse_schedule(const char *schedule_str)
 			parse_schedule_item(item_buf, &schedule[count]);
 			if (schedule[count].type == sched_forever) {
 				if (repeatat >= 0)
-					badusage("invalid schedule: `forever'"
+					badusage("invalid schedule: 'forever'"
 					         " appears more than once");
 				repeatat = count;
 				continue;
@@ -825,14 +825,15 @@ parse_options(int argc, char * const *argv)
 			changedir = optarg;
 			break;
 		default:
-			badusage(NULL);  /* message printed by getopt */
+			/* Message printed by getopt. */
+			badusage(NULL);
 		}
 	}
 
 	if (signal_str != NULL) {
 		if (parse_signal(signal_str, &signal_nr) != 0)
 			badusage("signal value must be numeric or name"
-				 " of signal (KILL, INT, ...)");
+			         " of signal (KILL, INT, ...)");
 	}
 
 	if (schedule_str != NULL) {
@@ -950,8 +951,8 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return 0;
-	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev
-		&& (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
+	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev &&
+	        (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
 }
 #elif defined(HAVE_KVM_H)
 static int
@@ -1011,7 +1012,7 @@ static int
 pid_is_user(pid_t pid, uid_t uid)
 {
 	kvm_t *kd;
-	int nentries; /* Value not used */
+	int nentries; /* Value not used. */
 	uid_t proc_uid;
 	struct kinfo_proc *kp;
 	char errbuf[_POSIX2_LINE_MAX];
@@ -1049,7 +1050,7 @@ pid_is_cmd(pid_t pid, const char *name)
 		fclose(f);
 		return 0;
 	}
-	/* this hopefully handles command names containing ')' */
+	/* This hopefully handles command names containing ')'. */
 	while ((c = getc(f)) != EOF && c == *name)
 		name++;
 	fclose(f);
@@ -1096,7 +1097,7 @@ pid_is_cmd(pid_t pid, const char *name)
 		errx(1, "%s", kvm_geterr(kd));
 
 	start_argv_0_p = *pid_argv_p;
-	/* Find and compare string */
+	/* Find and compare string. */
 
 	/* Find end of argv[0] then copy and cut of str there. */
 	end_argv_0_p = strchr(*pid_argv_p, ' ');
@@ -1148,7 +1149,7 @@ check(pid_t pid)
 	if (execname && !pid_is_exec(pid, execname))
 		return;
 #elif defined(OSHurd) || defined(OSFreeBSD) || defined(OSNetBSD)
-	/* Let's try this to see if it works */
+	/* Let's try this to see if it works. */
 	if (execname && !pid_is_cmd(pid, execname))
 		return;
 #endif
@@ -1239,7 +1240,7 @@ do_procinit(void)
 static void
 do_procinit(void)
 {
-	/* Nothing to do */
+	/* Nothing to do. */
 }
 #endif
 
@@ -1255,7 +1256,8 @@ do_findprocs(void)
 }
 
 static void
-do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled, int retry_nr)
+do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled,
+        int retry_nr)
 {
 	struct pid_list *p;
 
@@ -1322,9 +1324,9 @@ run_stop_schedule(void)
 	else if (execname)
 		set_what_stop(execname);
 	else if (pidfile)
-		sprintf(what_stop, "process in pidfile `%.200s'", pidfile);
+		sprintf(what_stop, "process in pidfile '%.200s'", pidfile);
 	else if (userspec)
-		sprintf(what_stop, "process(es) owned by `%.200s'", userspec);
+		sprintf(what_stop, "process(es) owned by '%.200s'", userspec);
 	else
 		fatal("internal error, please report");
 
@@ -1341,7 +1343,7 @@ run_stop_schedule(void)
 	}
 
 	for (position = 0; position < schedule_length; ) {
-		value= schedule[position].value;
+		value = schedule[position].value;
 		n_notkilled = 0;
 
 		switch (schedule[position].type) {
@@ -1372,7 +1374,7 @@ run_stop_schedule(void)
   * poll.  However, if that would put us past the end of the timeout
   * period we wait only as long as the timeout period, but in any case
   * we always wait at least MIN_POLL_INTERVAL (20ms).  The multiple
-  * (`ratio') starts out as 2, and increases by 1 for each poll to a
+  * (‘ratio’) starts out as 2, and increases by 1 for each poll to a
   * maximum of 10; so we use up to between 30% and 10% of the
   * machine's resources (assuming a few reasonable things about system
   * performance).
@@ -1480,7 +1482,7 @@ main(int argc, char **argv)
 
 		pw = getpwnam(userspec);
 		if (!pw)
-			fatal("user `%s' not found\n", userspec);
+			fatal("user '%s' not found\n", userspec);
 
 		user_id = pw->pw_uid;
 	}
@@ -1488,7 +1490,7 @@ main(int argc, char **argv)
 	if (changegroup && sscanf(changegroup, "%d", &runas_gid) != 1) {
 		struct group *gr = getgrnam(changegroup);
 		if (!gr)
-			fatal("group `%s' not found\n", changegroup);
+			fatal("group '%s' not found\n", changegroup);
 		runas_gid = gr->gr_gid;
 	}
 	if (changeuser) {
@@ -1499,11 +1501,11 @@ main(int argc, char **argv)
 		else
 			pw = getpwnam(changeuser);
 		if (!pw)
-			fatal("user `%s' not found\n", changeuser);
+			fatal("user '%s' not found\n", changeuser);
 		runas_uid = pw->pw_uid;
 		if (changegroup == NULL) {
-			/* Pass the default group of this user */
-			changegroup = ""; /* Just empty */
+			/* Pass the default group of this user. */
+			changegroup = ""; /* Just empty. */
 			runas_gid = pw->pw_gid;
 		}
 		if (access(pw->pw_dir, F_OK) == 0)
@@ -1550,13 +1552,14 @@ main(int argc, char **argv)
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
-	if (background) { /* ok, we need to detach this process */
+	if (background) {
+		/* Ok, we need to detach this process. */
 		daemonize();
 
 #ifdef HAVE_TIOCNOTTY
-		tty_fd=open("/dev/tty", O_RDWR);
+		tty_fd = open("/dev/tty", O_RDWR);
 #endif
-		devnull_fd=open("/dev/null", O_RDWR);
+		devnull_fd = open("/dev/null", O_RDWR);
 	}
 	if (nicelevel) {
 		errno = 0;
@@ -1571,11 +1574,11 @@ main(int argc, char **argv)
 	if (umask_value >= 0)
 		umask(umask_value);
 	if (mpidfile && pidfile != NULL) {
-		/* User wants _us_ to make the pidfile :) */
+		/* User wants _us_ to make the pidfile. :) */
 		FILE *pidf = fopen(pidfile, "w");
 		pid_t pidt = getpid();
 		if (pidf == NULL)
-			fatal("Unable to open pidfile `%s' for writing: %s",
+			fatal("Unable to open pidfile '%s' for writing: %s",
 			      pidfile, strerror(errno));
 		fprintf(pidf, "%d\n", pidt);
 		fclose(pidf);
@@ -1611,20 +1614,20 @@ main(int argc, char **argv)
 	}
 
 	if (background) {
-		/* Continue background setup */
+		/* Continue background setup. */
 		int i;
 #ifdef HAVE_TIOCNOTTY
-		 /* Change tty */
+		 /* Change tty. */
 		ioctl(tty_fd, TIOCNOTTY, 0);
 		close(tty_fd);
 #endif
 		if (umask_value < 0)
-			umask(022); /* Set a default for dumb programs */
+			umask(022); /* Set a default for dumb programs. */
 		dup2(devnull_fd, 0); /* stdin */
 		dup2(devnull_fd, 1); /* stdout */
 		dup2(devnull_fd, 2); /* stderr */
 
-		 /* Now close all extra fds */
+		 /* Now close all extra fds. */
 		for (i = get_open_fd_max() - 1; i >= 3; --i)
 			close(i);
 	}

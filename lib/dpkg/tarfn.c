@@ -4,6 +4,7 @@
  * Copyright © 1995 Bruce Perens
  * This is free software under the GNU General Public License.
  */
+
 #include <config.h>
 #include <compat.h>
 
@@ -39,22 +40,22 @@ struct TarHeader {
 	char MinorDevice[8];
 	char Prefix[155];	/* Only valid on ustar. */
 };
-typedef struct TarHeader	TarHeader;
+typedef struct TarHeader TarHeader;
 
 static const size_t TarChecksumOffset = offsetof(TarHeader, Checksum);
 
 /* Octal-ASCII-to-long */
 static long
-OtoL(const char * s, int size)
+OtoL(const char *s, int size)
 {
-	int	n = 0;
+	int n = 0;
 
-	while ( *s == ' ' ) {
+	while (*s == ' ') {
 		s++;
 		size--;
 	}
 
-	while ( --size >= 0 && *s >= '0' && *s <= '7' )
+	while (--size >= 0 && *s >= '0' && *s <= '7')
 		n = (n * 010) + (*s++ - '0');
 
 	return n;
@@ -64,8 +65,8 @@ OtoL(const char * s, int size)
 static char *
 StoC(const char *s, int size)
 {
-	int	len;
-	char *	str;
+	int len;
+	char *str;
 
 	len = strnlen(s, size);
 	str = m_malloc(len + 1);
@@ -84,7 +85,7 @@ get_prefix_name(TarHeader *h)
 	/* The size is not going to be bigger than that. */
 	s = m_malloc(257);
 
-	prefix =  StoC(h->Prefix, sizeof(h->Prefix));
+	prefix = StoC(h->Prefix, sizeof(h->Prefix));
 	name = StoC(h->Name, sizeof(h->Name));
 
 	strcpy(s, prefix);
@@ -100,13 +101,13 @@ get_prefix_name(TarHeader *h)
 static int
 DecodeTarHeader(char * block, TarInfo * d)
 {
-	TarHeader *		h = (TarHeader *)block;
-	unsigned char *		s = (unsigned char *)block;
-	struct passwd *		passwd = NULL;
-	struct group *		group = NULL;
-	unsigned int		i;
-	long			sum;
-	long			checksum;
+	TarHeader *h = (TarHeader *)block;
+	unsigned char *s = (unsigned char *)block;
+	struct passwd *passwd = NULL;
+	struct group *group = NULL;
+	unsigned int i;
+	long sum;
+	long checksum;
 
 	if (memcmp(h->MagicNumber, TAR_MAGIC_GNU, 6) == 0)
 		d->format = tar_format_gnu;
@@ -115,9 +116,9 @@ DecodeTarHeader(char * block, TarInfo * d)
 	else
 		d->format = tar_format_old;
 
-	if ( *h->UserName )
+	if (*h->UserName)
 		passwd = getpwnam(h->UserName);
-	if ( *h->GroupName )
+	if (*h->GroupName)
 		group = getgrnam(h->GroupName);
 
 	/* Concatenate prefix and name to support ustar style long names. */
@@ -128,30 +129,32 @@ DecodeTarHeader(char * block, TarInfo * d)
 	d->LinkName = StoC(h->LinkName, sizeof(h->LinkName));
 	d->Mode = (mode_t)OtoL(h->Mode, sizeof(h->Mode));
 	d->Size = (size_t)OtoL(h->Size, sizeof(h->Size));
-	d->ModTime = (time_t)OtoL(h->ModificationTime
-	 ,sizeof(h->ModificationTime));
-	d->Device = ((OtoL(h->MajorDevice, sizeof(h->MajorDevice)) & 0xff) << 8)
-	 | (OtoL(h->MinorDevice, sizeof(h->MinorDevice)) & 0xff);
+	d->ModTime = (time_t)OtoL(h->ModificationTime,
+	                          sizeof(h->ModificationTime));
+	d->Device = ((OtoL(h->MajorDevice,
+	                   sizeof(h->MajorDevice)) & 0xff) << 8) |
+	            (OtoL(h->MinorDevice, sizeof(h->MinorDevice)) & 0xff);
 	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
 	d->UserID = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
 	d->GroupID = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
 	d->Type = (TarFileType)h->LinkFlag;
 
-	if ( passwd )
+	if (passwd)
 		d->UserID = passwd->pw_uid;
 
-	if ( group )
+	if (group)
 		d->GroupID = group->gr_gid;
 
-	
-	sum = ' ' * sizeof(h->Checksum);/* Treat checksum field as all blank */
-	for ( i = TarChecksumOffset; i > 0; i-- )
+	/* Treat checksum field as all blank. */
+	sum = ' ' * sizeof(h->Checksum);
+	for (i = TarChecksumOffset; i > 0; i--)
 		sum += *s++;
-	s += sizeof(h->Checksum);	/* Skip the real checksum field */
-	for ( i = (512 - TarChecksumOffset - sizeof(h->Checksum)); i > 0; i-- )
+	/* Skip the real checksum field. */
+	s += sizeof(h->Checksum);
+	for (i = (512 - TarChecksumOffset - sizeof(h->Checksum)); i > 0; i--)
 		sum += *s++;
 
-	return ( sum == checksum );
+	return (sum == checksum);
 }
 
 typedef struct symlinkList {
@@ -160,23 +163,21 @@ typedef struct symlinkList {
 } symlinkList;
 
 int
-TarExtractor(
- void *			userData
-,const TarFunctions *	functions)
+TarExtractor(void *userData, const TarFunctions *functions)
 {
-	int	status;
-	char	buffer[512];
-	TarInfo	h;
+	int status;
+	char buffer[512];
+	TarInfo h;
 
-       char    *next_long_name, *next_long_link;
-       char    *bp;
-       char    **longp;
-       int     long_read;
+	char *next_long_name, *next_long_link;
+	char *bp;
+	char **longp;
+	int long_read;
 	symlinkList *symListTop, *symListBottom, *symListPointer;
 
-       next_long_name = NULL;
-       next_long_link = NULL;
-       long_read = 0;
+	next_long_name = NULL;
+	next_long_link = NULL;
+	long_read = 0;
 	symListBottom = symListPointer = symListTop = m_malloc(sizeof(symlinkList));
 	symListTop->next = NULL;
 
@@ -184,50 +185,52 @@ TarExtractor(
 	h.LinkName = NULL;
 	h.UserData = userData;
 
-	while ( (status = functions->Read(userData, buffer, 512)) == 512 ) {
-		int	nameLength;
+	while ((status = functions->Read(userData, buffer, 512)) == 512) {
+		int nameLength;
 
-		if ( !DecodeTarHeader(buffer, &h) ) {
-			if ( h.Name[0] == '\0' ) {
-				status = 0;	/* End of tape */
+		if (!DecodeTarHeader(buffer, &h)) {
+			if (h.Name[0] == '\0') {
+				/* End of tape. */
+				status = 0;
 			} else {
-				errno = 0;	/* Indicates broken tarfile */
-				status = -1;	/* Header checksum error */
+				/* Indicates broken tarfile:
+				 * “Header checksum error”. */
+				errno = 0;
+				status = -1;
 			}
 			break;
 		}
-               if ( h.Type != GNU_LONGLINK && h.Type != GNU_LONGNAME ) {
-                 if (next_long_name) {
-                   h.Name = next_long_name;
-                 }
+		if (h.Type != GNU_LONGLINK && h.Type != GNU_LONGNAME) {
+			if (next_long_name)
+				h.Name = next_long_name;
 
-                 if (next_long_link) {
-                   h.LinkName = next_long_link;
-                 }
+			if (next_long_link)
+				h.LinkName = next_long_link;
 
-                 next_long_link = NULL;
-                 next_long_name = NULL;
-               }
+			next_long_link = NULL;
+			next_long_name = NULL;
+		}
 
-		if ( h.Name[0] == '\0' ) {
-			errno = 0;	/* Indicates broken tarfile */
-			status = -1;	/* Bad header data */
+		if (h.Name[0] == '\0') {
+			/* Indicates broken tarfile: “Bad header data”. */
+			errno = 0;
+			status = -1;
 			break;
 		}
 
 		nameLength = strlen(h.Name);
 
-		switch ( h.Type ) {
+		switch (h.Type) {
 		case NormalFile0:
 		case NormalFile1:
-			/* Compatibility with pre-ANSI ustar */
-			if ( h.Name[nameLength - 1] != '/' ) {
+			/* Compatibility with pre-ANSI ustar. */
+			if (h.Name[nameLength - 1] != '/') {
 				status = (*functions->ExtractFile)(&h);
 				break;
 			}
-			/* Else, Fall Through */
+			/* Else, fall through. */
 		case Directory:
-			if ( h.Name[nameLength - 1] == '/' ) {
+			if (h.Name[nameLength - 1] == '/') {
 				h.Name[nameLength - 1] = '\0';
 			}
 			status = (*functions->MakeDirectory)(&h);
@@ -250,58 +253,65 @@ TarExtractor(
 		case FIFO:
 			status = (*functions->MakeSpecialFile)(&h);
 			break;
-               case GNU_LONGLINK:
-               case GNU_LONGNAME:
-                 // set longp to the location of the long filename or link
-                 // we're trying to deal with
-                 longp = ((h.Type == GNU_LONGNAME)
-                          ? &next_long_name
-                          : &next_long_link);
+		case GNU_LONGLINK:
+		case GNU_LONGNAME:
+			/* Set longp to the location of the long filename or
+			 * link we're trying to deal with. */
+			longp = ((h.Type == GNU_LONGNAME) ?
+			         &next_long_name :
+			         &next_long_link);
 
-                 if (*longp)
-                   free(*longp);
+			if (*longp)
+				free(*longp);
 
-		*longp = m_malloc(h.Size);
-                 bp = *longp;
+			*longp = m_malloc(h.Size);
+			bp = *longp;
 
-                 // the way the GNU long{link,name} stuff works is like this:  
-		 // The first header is a "dummy" header that contains the size
-		 // of the filename.  The next N headers contain the filename.
-		 // After the headers with the filename comes the "real" header
-		 // with a bogus name or link.
-                 for (long_read = h.Size; long_read > 0;
-                      long_read -= 512) {
+			/* The way the GNU long{link,name} stuff works is like
+			 * this:
+			 *
+			 * The first header is a “dummy” header that contains
+			 *   the size of the filename.
+			 * The next N headers contain the filename.
+			 * After the headers with the filename comes the
+			 *   “real” header with a bogus name or link. */
+			for (long_read = h.Size;
+			     long_read > 0;
+			     long_read -= 512) {
+				int copysize;
 
-                   int copysize;
-
-                   status = functions->Read(userData, buffer, 512);
-                   // if we didn't get 512 bytes read, punt
-                   if (512 != status) {
-		     if ( status > 0 ) { /* Read partial header record */
-		       errno = 0;
-		       status = -1;
-                     }
-                     break;
-		   }
+				status = functions->Read(userData, buffer, 512);
+				/* If we didn't get 512 bytes read, punt. */
+				if (512 != status) {
+					 /* Read partial header record? */
+					if (status > 0) {
+						errno = 0;
+						status = -1;
+					}
+					break;
+				}
 				copysize = min(long_read, 512);
-                   memcpy (bp, buffer, copysize);
-                   bp += copysize;
+				memcpy (bp, buffer, copysize);
+				bp += copysize;
+			};
 
-                 };
-                 // This decode function expects status to be 0 after
-                 // the case statement if we successfully decoded.  I
-                 // guess what we just did was successful.
-                 status = 0;
-                 break;
+			/* This decode function expects status to be 0 after
+			 * the case statement if we successfully decoded. I
+			 * guess what we just did was successful. */
+			status = 0;
+			break;
 		default:
-			errno = 0;	/* Indicates broken tarfile */
-			status = -1;	/* Bad header field */
+			/* Indicates broken tarfile: “Bad header field”. */
+			errno = 0;
+			status = -1;
 		}
-		if ( status != 0 )
-			break;	/* Pass on status from coroutine */
+		if (status != 0)
+			/* Pass on status from coroutine. */
+			break;
 	}
-	while(symListPointer->next) {
-		if ( status == 0 )
+
+	while (symListPointer->next) {
+		if (status == 0)
 			status = (*functions->MakeSymbolicLink)(&symListPointer->h);
 		symListBottom = symListPointer->next;
 		free(symListPointer->h.Name);
@@ -312,11 +322,14 @@ TarExtractor(
 	free(symListPointer);
 	free(h.Name);
 	free(h.LinkName);
-	if ( status > 0 ) {	/* Read partial header record */
-		errno = 0;	/* Indicates broken tarfile */
+
+	if (status > 0) {
+		/* Indicates broken tarfile: “Read partial header record”. */
+		errno = 0;
 		return -1;
 	} else {
-		return status;	/* Whatever I/O function returned */
+		/* Return whatever I/O function returned. */
+		return status;
 	}
 }
 
