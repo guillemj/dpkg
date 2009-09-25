@@ -616,7 +616,8 @@ set_io_schedule(struct res_schedule *sched)
 
 	io_sched_mask = IOPRIO_PRIO_VALUE(sched->policy, sched->priority);
 	if (ioprio_set(IOPRIO_WHO_PROCESS, getpid(), io_sched_mask) == -1)
-		fatal("Unable to alter IO priority to mask %i", io_sched_mask);
+		warning("Unable to alter IO priority to mask %i (%s)\n",
+		        io_sched_mask, strerror(errno));
 #endif
 }
 
