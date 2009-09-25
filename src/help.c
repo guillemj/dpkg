@@ -117,7 +117,7 @@ void checkpath(void) {
       s= p; if (s) s++;
     }
     if (!s) {
-      fprintf(stderr,_("dpkg: `%s' not found on PATH.\n"),*clp);
+      warning(_("'%s' not found on PATH."), *clp);
       warned++;
     }
   }
