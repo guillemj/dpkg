@@ -31,7 +31,7 @@ endif
 DEB_HOST_ARCH_OS  ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 
 ifeq ($(DEB_HOST_ARCH_OS),linux)
-	confflags += --with-selinux=static
+	confflags += --with-selinux
 endif
 
 
@@ -54,8 +54,8 @@ build-tree/config.status: configure
 		--infodir=\$${datadir}/info \
 		--sysconfdir=/etc \
 		--localstatedir=/var/lib \
-		--with-zlib=static \
-		--with-bz2=static
+		--with-zlib \
+		--with-bz2
 
 # Build the package in build-tree
 build: build-tree/config.status
