@@ -11,7 +11,8 @@ DPKG_ARCHITECTURE
 
 AM_INIT_AUTOMAKE([1.8 gnu nostdinc])
 
-m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])],
+                            [AC_SUBST([AM_DEFAULT_VERBOSITY], [1])])
 
 AM_GNU_GETTEXT_VERSION([0.16.1])
 AM_GNU_GETTEXT([external])
