@@ -8,12 +8,13 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS],
 [AC_ARG_ENABLE(compiler-warnings,
 	AS_HELP_STRING([--enable-compiler-warnings],
 	               [Enable additional compiler warnings]),
-[if test "x$enable_compiler_warnings" = "xyes"; then
+[WFLAGS="-Wall -Werror"
+if test "x$enable_compiler_warnings" = "xyes"; then
 	if test "x$GCC" = "xyes"; then
-                CFLAGS="-Wall -Werror $CFLAGS"
+		CFLAGS="$WFLAGS $CFLAGS"
         fi
 	if test "x$GXX" = "xyes"; then
-		CXXFLAGS="-Wall -Werror $CXXFLAGS"
+		CXXFLAGS="$WFLAGS $CXXFLAGS"
 	fi
 fi])dnl
 ])
