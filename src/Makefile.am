@@ -41,8 +41,6 @@ dpkg_LDADD = \
 	../lib/dpkg/libdpkg.a \
 	../lib/compat/libcompat.a \
 	$(LIBINTL) \
-	$(ZLIB_LIBS) \
-	$(BZ2_LIBS) \
 	$(SELINUX_LIBS)
 
 dpkg_query_SOURCES = \
