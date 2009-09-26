@@ -52,9 +52,12 @@ statdb_parse_uid(const char *str)
 	uid_t uid;
 
 	if (str[0] == '#') {
-		uid = strtol(str + 1, &endptr, 10);
-		if (str + 1 == endptr || *endptr)
+		long int value;
+
+		value = strtol(str + 1, &endptr, 10);
+		if (str + 1 == endptr || *endptr || value < 0)
 			ohshit(_("syntax error: invalid uid in statoverride file"));
+		uid = (uid_t)value;
 	} else {
 		struct passwd* pw = getpwnam(str);
 		if (pw == NULL)
@@ -73,9 +76,12 @@ statdb_parse_gid(const char *str)
 	gid_t gid;
 
 	if (str[0] == '#') {
-		gid = strtol(str + 1, &endptr, 10);
-		if (str + 1 == endptr || *endptr)
+		long int value;
+
+		value = strtol(str + 1, &endptr, 10);
+		if (str + 1 == endptr || *endptr || value < 0)
 			ohshit(_("syntax error: invalid gid in statoverride file"));
+		gid = (gid_t)value;
 	} else {
 		struct group* gr = getgrnam(str);
 		if (gr == NULL)
@@ -91,13 +97,13 @@ mode_t
 statdb_parse_mode(const char *str)
 {
 	char* endptr;
-	mode_t mode;
+	long int mode;
 
 	mode = strtol(str, &endptr, 8);
-	if (str == endptr || *endptr)
+	if (str == endptr || *endptr || mode < 0 || mode > 07777)
 		ohshit(_("syntax error: invalid mode in statoverride file"));
 
-	return mode;
+	return (mode_t)mode;
 }
 
 void
