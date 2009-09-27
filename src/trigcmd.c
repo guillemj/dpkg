@@ -43,30 +43,6 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/myopt.h>
 
-static const char *bypackage, *activate, *admindir = ADMINDIR;
-static int f_noact, f_check;
-
-static void
-noawait(const struct cmdinfo *ci, const char *value)
-{
-	bypackage = "-";
-}
-
-static const struct cmdinfo cmdinfos[] = {
-	{ "admindir",        0,   1, NULL,     &admindir },
-	{ "by-package",      'f', 1, NULL,     &bypackage },
-	{ "no-await",        0,   0, NULL,     &bypackage, noawait },
-	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
-	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
-	{ "help",            'h', 0, NULL,     NULL,       helponly },
-	{ "version",         0,   0, NULL,     NULL,       versiononly },
-	/* UK spelling */
-	{ "licence",         0,   0, NULL,     NULL,       showcopyright },
-	/* US spelling */
-	{ "license",         0,   0, NULL,     NULL,       showcopyright },
-	{  NULL  }
-};
-
 const char thisname[] = "dpkg-trigger";
 
 const char printforhelp[] = N_(
@@ -116,7 +92,17 @@ usage(void)
 	m_output(stdout, _("<standard output>"));
 }
 
+static const char *admindir = ADMINDIR;
+static int f_noact, f_check;
+
+static const char *bypackage, *activate;
 static int done_trig, ctrig;
+
+static void
+noawait(const struct cmdinfo *ci, const char *value)
+{
+	bypackage = "-";
+}
 
 static void
 yespackage(const char *awname)
@@ -177,6 +163,21 @@ do_check(void)
 		internerr("unknown trigdef_update_start return value '%d'", uf);
 	}
 }
+
+static const struct cmdinfo cmdinfos[] = {
+	{ "admindir",        0,   1, NULL,     &admindir },
+	{ "by-package",      'f', 1, NULL,     &bypackage },
+	{ "no-await",        0,   0, NULL,     &bypackage, noawait },
+	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
+	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
+	{ "help",            'h', 0, NULL,     NULL,       helponly },
+	{ "version",         0,   0, NULL,     NULL,       versiononly },
+	/* UK spelling */
+	{ "licence",         0,   0, NULL,     NULL,       showcopyright },
+	/* US spelling */
+	{ "license",         0,   0, NULL,     NULL,       showcopyright },
+	{  NULL  }
+};
 
 int
 main(int argc, const char *const *argv)
