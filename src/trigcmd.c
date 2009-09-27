@@ -111,7 +111,7 @@ usage(void)
 "                                     by dpkg).\n"
 "  --no-await                       No package needs to await the processing.\n"
 "  --no-act                         Just test - don't actually change anything.\n"
-"\n"), admindir);
+"\n"), ADMINDIR);
 
 	m_output(stdout, _("<standard output>"));
 }
