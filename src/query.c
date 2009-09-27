@@ -553,8 +553,8 @@ control_path(const char *const *argv)
   modstatdb_shutdown();
 }
 
-void
-printversion(void)
+static void
+printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(_("Debian `%s' package management program query tool\n"), DPKGQUERY);
   printf(_(
@@ -563,10 +563,12 @@ printversion(void)
 "See %s --license for copyright and license details.\n"), DPKGQUERY);
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
-void
-usage(void)
+static void
+usage(const struct cmdinfo *ci, const char *value)
 {
   printf(_(
 "Usage: %s [<option> ...] <command>\n"
@@ -606,6 +608,8 @@ usage(void)
 "  case left alignment will be used.\n"));
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
 const char thisname[]= "dpkg-query";
@@ -644,8 +648,8 @@ static const struct cmdinfo cmdinfos[]= {
 
   { "admindir",   0,   1, NULL, &admindir,   NULL          },
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
-  { "help",       'h', 0, NULL, NULL,        helponly      },
-  { "version",    0,   0, NULL, NULL,        versiononly   },
+  { "help",       'h', 0, NULL, NULL,        usage         },
+  { "version",    0,   0, NULL, NULL,        printversion  },
   /* UK spelling. */
   { "licence",    0,   0, NULL, NULL,        showcopyright },
   /* US spelling */

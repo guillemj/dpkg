@@ -166,18 +166,20 @@ static const char licensestring[]= N_(
       "later for copying conditions. There is NO warranty.\n"
       "See %s --license for copyright and license details.\n");
 
-void
-printversion(void)
+static void
+printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
   printf(gettext(copyrightstring));
   printf(gettext(licensestring), DSELECT);
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
-void
-usage(void)
+static void
+usage(const struct cmdinfo *ci, const char *value)
 {
   int i;
 
@@ -221,6 +223,8 @@ usage(void)
   fputs("\n\n", stdout);
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
 /* These are called by C code, so need to have C calling convention */
@@ -304,8 +308,8 @@ static const struct cmdinfo cmdinfos[]= {
   { "admindir",     0,   1,  0,  &admindir,  0               },
   { "debug",       'D',  1,  0,  0,          setdebug        },
   { "expert",      'E',  0,  0,  0,          setexpert       },
-  { "help",        'h',  0,  0,  0,          helponly        },
-  { "version",      0,   0,  0,  0,          versiononly     },
+  { "help",        'h',  0,  0,  0,          usage           },
+  { "version",      0,   0,  0,  0,          printversion    },
   { "licence",      0,   0,  0,  0,          showcopyright   }, /* UK spelling */
   { "license",      0,   0,  0,  0,          showcopyright   }, /* US spelling */
   { "color",        0,   1,  0,  0,          setcolor        }, /* US spelling */

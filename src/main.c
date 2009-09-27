@@ -50,8 +50,8 @@
 #include "main.h"
 #include "filesdb.h"
 
-void
-printversion(void)
+static void
+printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(_("Debian `%s' package management program version %s.\n"),
          DPKG, DPKG_VERSION_ARCH);
@@ -61,13 +61,15 @@ printversion(void)
 "See %s --license for copyright and license details.\n"), DPKG);
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 /*
    options that need fixing:
   dpkg --yet-to-unpack                 \n\
   */
-void
-usage(void)
+static void
+usage(const struct cmdinfo *ci, const char *value)
 {
   printf(_(
 "Usage: %s [<option> ...] <command>\n"
@@ -152,6 +154,8 @@ usage(void)
 "Use `dselect' or `aptitude' for user-friendly package management.\n"));
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
 const char thisname[]= "dpkg";
@@ -516,8 +520,8 @@ static const struct cmdinfo cmdinfos[]= {
   { "refuse",            0,   2, NULL,          NULL,      setforce,      0 },
   { "no-force",          0,   2, NULL,          NULL,      setforce,      0 },
   { "debug",             'D', 1, NULL,          NULL,      setdebug,      0 },
-  { "help",              'h', 0, NULL,          NULL,      helponly,      0 },
-  { "version",           0,   0, NULL,          NULL,      versiononly,   0 },
+  { "help",              'h', 0, NULL,          NULL,      usage,         0 },
+  { "version",           0,   0, NULL,          NULL,      printversion,  0 },
   /* UK spelling. */
   { "licence",           0,   0, NULL,          NULL,      showcopyright, 0 },
   /* US spelling. */

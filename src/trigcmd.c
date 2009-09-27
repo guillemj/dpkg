@@ -48,8 +48,8 @@ const char thisname[] = "dpkg-trigger";
 const char printforhelp[] = N_(
 "Type dpkg-trigger --help for help about this utility.");
 
-void
-printversion(void)
+static void
+printversion(const struct cmdinfo *ci, const char *value)
 {
 	printf(_("Debian %s package trigger utility.\n"), thisname);
 
@@ -59,10 +59,12 @@ printversion(void)
 "See %s --license for copyright and license details.\n"), thisname);
 
 	m_output(stdout, _("<standard output>"));
+
+	exit(0);
 }
 
-void
-usage(void)
+static void
+usage(const struct cmdinfo *ci, const char *value)
 {
 	printf(_(
 "Usage: %s [<options> ...] <trigger-name>\n"
@@ -90,6 +92,8 @@ usage(void)
 "\n"), ADMINDIR);
 
 	m_output(stdout, _("<standard output>"));
+
+	exit(0);
 }
 
 static const char *admindir = ADMINDIR;
@@ -170,8 +174,8 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "no-await",        0,   0, NULL,     &bypackage, noawait },
 	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
 	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
-	{ "help",            'h', 0, NULL,     NULL,       helponly },
-	{ "version",         0,   0, NULL,     NULL,       versiononly },
+	{ "help",            'h', 0, NULL,     NULL,       usage   },
+	{ "version",         0,   0, NULL,     NULL,       printversion  },
 	/* UK spelling */
 	{ "licence",         0,   0, NULL,     NULL,       showcopyright },
 	/* US spelling */

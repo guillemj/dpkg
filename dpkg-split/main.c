@@ -42,8 +42,8 @@
 
 #include "dpkg-split.h"
 
-void
-printversion(void)
+static void
+printversion(const struct cmdinfo *cip, const char *value)
 {
   printf(_("Debian `%s' package split/join tool; version %s.\n"),
          SPLITTER, DPKG_VERSION_ARCH);
@@ -54,10 +54,12 @@ printversion(void)
 "See %s --license for copyright and license details.\n"), SPLITTER);
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
-void
-usage(void)
+static void
+usage(const struct cmdinfo *cip, const char *value)
 {
   printf(_(
 "Usage: %s [<option> ...] <command>\n"
@@ -91,6 +93,8 @@ usage(void)
          ADMINDIR, PARTSDIR);
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
 const char thisname[]= SPLITTER;
@@ -149,8 +153,8 @@ static const struct cmdinfo cmdinfos[]= {
   { "auto",         'a',  0,  NULL, NULL,             setaction           },
   { "listq",        'l',  0,  NULL, NULL,             setaction           },
   { "discard",      'd',  0,  NULL, NULL,             setaction           },
-  { "help",         'h',  0,  NULL, NULL,             helponly            },
-  { "version",       0,   0,  NULL, NULL,             versiononly         },
+  { "help",         'h',  0,  NULL, NULL,             usage               },
+  { "version",       0,   0,  NULL, NULL,             printversion        },
   { "licence",       0,   0,  NULL, NULL,             showcopyright       }, /* UK spelling */
   { "license",       0,   0,  NULL, NULL,             showcopyright       }, /* US spelling */
   { "depotdir",      0,   1,  NULL, &depotdir,     NULL                   },

@@ -52,12 +52,6 @@ void loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos);
 
 /* Utility functions. */
 void showcopyright(const struct cmdinfo *cip, const char *value) DPKG_ATTR_NORET;
-void helponly(const struct cmdinfo *cip, const char *value) DPKG_ATTR_NORET;
-void versiononly(const struct cmdinfo *cip, const char *value) DPKG_ATTR_NORET;
-
-/* To be defined by callers. */
-void usage(void);
-void printversion(void);
 
 DPKG_END_DECLS
 

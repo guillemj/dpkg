@@ -32,20 +32,6 @@
 #include <dpkg/myopt.h>
 
 void
-helponly(const struct cmdinfo *cip, const char *value)
-{
-	usage();
-	exit(0);
-}
-
-void
-versiononly(const struct cmdinfo *cip, const char *value)
-{
-	printversion();
-	exit(0);
-}
-
-void
 showcopyright(const struct cmdinfo *cip, const char *value)
 {
 	int fd;

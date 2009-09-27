@@ -50,8 +50,8 @@
 
 const char* showformat	= "${Package}\t${Version}\n";
 
-void
-printversion(void)
+static void
+printversion(const struct cmdinfo *cip, const char *value)
 {
   printf(_("Debian `%s' package archive backend version %s.\n"),
          BACKEND, DPKG_VERSION_ARCH);
@@ -61,10 +61,12 @@ printversion(void)
 "See %s --license for copyright and license details.\n"), BACKEND);
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
-void
-usage(void)
+static void
+usage(const struct cmdinfo *cip, const char *value)
 {
   printf(_(
 "Usage: %s [<option> ...] <command>\n"
@@ -123,6 +125,8 @@ usage(void)
 "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"));
 
   m_output(stdout, _("<standard output>"));
+
+  exit(0);
 }
 
 const char thisname[]= BACKEND;
@@ -171,8 +175,8 @@ static const struct cmdinfo cmdinfos[]= {
   { "compression",   'z', 1, NULL,           &compression, NULL,          1 },
   { "compress_type", 'Z', 1, NULL,           NULL,         setcompresstype  },
   { "showformat",    0,   1, NULL,           &showformat,  NULL             },
-  { "help",          'h', 0, NULL,           NULL,         helponly         },
-  { "version",       0,   0, NULL,           NULL,         versiononly      },
+  { "help",          'h', 0, NULL,           NULL,         usage            },
+  { "version",       0,   0, NULL,           NULL,         printversion     },
   /* UK spelling. */
   { "licence",       0,   0, NULL,           NULL,         showcopyright    },
   /* US spelling. */
