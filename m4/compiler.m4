@@ -65,6 +65,9 @@ AC_DEFUN([DPKG_TRY_C99],
 	/* Compound initialisers */
 	struct { int a, b; } foo = { .a = 1, .b = 2 };
 
+	/* Trailing comma in enum */
+	enum { first, second, } quux;
+
 	/* Boolean type */
 	bool bar = false;
 
