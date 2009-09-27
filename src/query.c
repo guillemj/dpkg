@@ -616,7 +616,6 @@ Use --license for copyright license and lack of warranty (GNU GPL).");
 const struct cmdinfo *cipaction = NULL;
 
 const char *admindir= ADMINDIR;
-const char *instdir= "";
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
