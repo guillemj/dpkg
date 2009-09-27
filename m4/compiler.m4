@@ -74,10 +74,6 @@ AC_DEFUN([DPKG_TRY_C99],
 	/* Specific size type */
 	uint32_t baz = 0;
 
-	/* C99-style for-loop declarations */
-	for (int i = 0; i < 10; i++)
-		continue;
-
 	/* Magic __func__ variable */
 	printf("%s", __func__);
 ]])], [$1], [$2])dnl
