@@ -3,16 +3,16 @@
 # Piotr Roszatycki <dexter@debian.org>, 1999.
 # Bartosz Feński <fenio@debian.org>, 2004-2005
 # Robert Luberda <robert@debian.org>, 2006-2008
-# Wiktor Wandachowicz <siryes@gmail.com>, 2008
+# Wiktor Wandachowicz <siryes@gmail.com>, 2008-2009
 #
 # Nazewnictwo i spójność tłumaczeń programów apt, aptitude, synaptic i innych:
 # http://wiki.debian.org/PolishL10N/PackageInstallers
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.14.22\n"
+"Project-Id-Version: dpkg 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2009-09-06 09:04+0200\n"
-"PO-Revision-Date: 2008-11-15 12:55+0100\n"
+"PO-Revision-Date: 2009-09-22 11:39+0100\n"
 "Last-Translator: Wiktor Wandachowicz <siryes@gmail.com>\n"
 "Language-Team: Polish <debian-l10-n-polish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -304,11 +304,9 @@ msgid "out of memory for new cleanup entry"
 msgstr "brak pamięci na nową pozycję dla obsługi czyszczenia środowiska"
 
 #: lib/dpkg/ehandle.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "%s: warning: %s\n"
-msgstr ""
-"%s: błąd podczas czyszczenia środowiska:\n"
-" %s\n"
+msgstr "%s: ostrzeżenie: %s\n"
 
 #: lib/dpkg/ehandle.c:296
 #, c-format
@@ -316,9 +314,9 @@ msgid "error writing `%s'"
 msgstr "błąd zapisu \"%s\""
 
 #: lib/dpkg/ehandle.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "%s:%s:%d: internal error: %s\n"
-msgstr "%s:%d: wewnętrzny błąd \"%s\"\n"
+msgstr "%s:%s:%d: wewnętrzny błąd: %s\n"
 
 #: lib/dpkg/fields.c:46
 #, c-format
@@ -554,9 +552,9 @@ msgid "couldn't open log `%s': %s\n"
 msgstr "nie można otworzyć pliku dziennika \"%s\": %s\n"
 
 #: lib/dpkg/log.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to status fd %d"
-msgstr "nie można zapisać uaktualnionego pliku \"%.250s\""
+msgstr "nie można zapisać statusu do fd %d"
 
 #: lib/dpkg/mlib.c:48
 #, c-format
@@ -596,9 +594,9 @@ msgid "failed to create pipe"
 msgstr "nie można utworzyć potoku"
 
 #: lib/dpkg/mlib.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "error writing to '%s'"
-msgstr "błąd zapisu \"%s\""
+msgstr "błąd zapisu do '%s'"
 
 #: lib/dpkg/mlib.c:131
 #, c-format
@@ -611,34 +609,34 @@ msgid "unable to set close-on-exec flag for %.250s"
 msgstr "nie można ustawić flagi close-on-exec dla \"%.250s\""
 
 #: lib/dpkg/myopt.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "configuration error: %s:%d: %s"
-msgstr "błąd konfiguracji: %s wymaga podania wartości"
+msgstr "błąd konfiguracji: %s:%d: %s"
 
 #: lib/dpkg/myopt.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open configuration file '%.255s' for reading: %s"
-msgstr "nie można otworzyć do odczytu pliku konfiguracyjnego \"%.255s\""
+msgstr "nie można otworzyć do odczytu pliku konfiguracyjnego \"%.255s\": %s"
 
 #: lib/dpkg/myopt.c:101
 #, c-format
 msgid "unbalanced quotes in '%s'"
-msgstr ""
+msgstr "niesparowane cudzysłowy w \"%s\""
 
 #: lib/dpkg/myopt.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "unknown option '%s'"
 msgstr "nieznana opcja \"%s\""
 
 #: lib/dpkg/myopt.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' needs a value"
-msgstr "opcja --%s wymaga podania wartości"
+msgstr "opcja \"%s\" wymaga podania wartości"
 
 #: lib/dpkg/myopt.c:127
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' does not take a value"
-msgstr "opcja --%s nie przyjmuje żadnych wartości"
+msgstr "opcja \"%s\" nie przyjmuje żadnych wartości"
 
 #: lib/dpkg/myopt.c:132
 #, c-format
@@ -651,9 +649,9 @@ msgid "error closing configuration file `%.255s'"
 msgstr "błąd przy zamykaniu pliku konfiguracyjnego \"%.250s\""
 
 #: lib/dpkg/myopt.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "error opening configuration directory '%s'"
-msgstr "błąd przy zamykaniu pliku konfiguracyjnego \"%.250s\""
+msgstr "błąd przy otwarciu katalogu konfiguracji \"%s\""
 
 #: lib/dpkg/myopt.c:230
 #, c-format
@@ -807,27 +805,30 @@ msgid "no package information in `%.255s'"
 msgstr "brak informacji o pakiecie w \"%.255s\""
 
 #: lib/dpkg/parsehelp.c:41
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s, in file '%.255s' near line %d package '%.255s':\n"
 " "
-msgstr "ostrzeżenie, w pliku \"%.255s\" niedaleko linii %d"
+msgstr ""
+"%s, w pliku \"%.255s\" niedaleko linii %d pakiet \"%.255s\":\n"
+" "
 
 #: lib/dpkg/parsehelp.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s, in file '%.255s' near line %d:\n"
 " "
-msgstr "ostrzeżenie, w pliku \"%.255s\" niedaleko linii %d"
+msgstr ""
+"%s, w pliku \"%.255s\" niedaleko linii %d\n"
+" "
 
 #: lib/dpkg/parsehelp.c:55
 msgid "parse error"
-msgstr ""
+msgstr "błąd parsowania"
 
 #: lib/dpkg/parsehelp.c:70
-#, fuzzy
 msgid "warning"
-msgstr "przerywanie"
+msgstr "ostrzeżenie"
 
 #: lib/dpkg/parsehelp.c:79
 msgid "failed to write parsing warning"
@@ -887,9 +888,9 @@ msgid "Closing brace missing in format\n"
 msgstr "W formacie brakuje nawiasu zamykającego\n"
 
 #: lib/dpkg/subproc.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "unable to ignore signal %s before running %.250s"
-msgstr "nie można zignorować sygnału %s przed wykonaniem skryptu"
+msgstr "nie można zignorować sygnału %s przed wykonaniem %.250s"
 
 #: lib/dpkg/subproc.c:66
 #, c-format
@@ -897,9 +898,9 @@ msgid "error un-catching signal %s: %s\n"
 msgstr "nie można odzyskać sygnału %s: %s\n"
 
 #: lib/dpkg/subproc.c:85
-#, fuzzy, c-format
+#, c-format
 msgid "%s returned error exit status %d"
-msgstr "podproces %s zwrócił kod błędu %d"
+msgstr "%s zwrócił kod błędu %d"
 
 #: lib/dpkg/subproc.c:88
 #, c-format
@@ -907,9 +908,9 @@ msgid "subprocess %s returned error exit status %d"
 msgstr "podproces %s zwrócił kod błędu %d"
 
 #: lib/dpkg/subproc.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "%s killed by signal (%s)%s"
-msgstr "podproces %s został zabity sygnałem (%s)%s"
+msgstr "%s został zabity sygnałem (%s)%s"
 
 #: lib/dpkg/subproc.c:99 lib/dpkg/subproc.c:103
 msgid ", core dumped"
@@ -1046,10 +1047,10 @@ msgstr ""
 "nie można zapisać nowego pliku warunków uruchomienia wyzwalacza \"%.250s\""
 
 #: lib/dpkg/triglib.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new trigger interest file `%.250s'"
 msgstr ""
-"nie można utworzyć nowego pliku warunków uruchomienia wyzwalacza \"%.250s\""
+"nie można zamknąć nowego pliku warunków uruchomienia wyzwalacza \"%.250s\""
 
 #: lib/dpkg/triglib.c:417
 #, c-format
@@ -1077,9 +1078,9 @@ msgid "unable to write new file triggers file `%.250s'"
 msgstr "nie można zapisać nowego pliku wyzwalaczy plikowych \"%.250s\""
 
 #: lib/dpkg/triglib.c:510
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new file triggers file `%.250s'"
-msgstr "nie można utworzyć nowego pliku wyzwalaczy plikowych \"%.250s\""
+msgstr "nie można zamknąć nowego pliku wyzwalaczy plikowych \"%.250s\""
 
 #: lib/dpkg/triglib.c:514
 #, c-format
@@ -1168,7 +1169,7 @@ msgstr "nie można odczytać potoku z \"dpkg-deb\""
 #: src/archives.c:257
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
-msgstr ""
+msgstr "pominięcie rozpakowania pliku \"%.255s\" (zastąpiony lub wyłączony?)"
 
 #: src/archives.c:298
 #, c-format
@@ -1249,23 +1250,24 @@ msgid "Replaced by files in installed package %s ...\n"
 msgstr "Zastąpienie przez pliki z instalowanego pakietu %s ...\n"
 
 #: src/archives.c:599
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
 "nondirectory"
 msgstr ""
-"próba nadpisania katalogu \"%.250s\" przez obiekt nie będący katalogiem z "
-"pakietu %.250s"
+"próba nadpisania katalogu \"%.250s\" w pakiecie %.250s %.250s przez obiekt "
+"nie będący katalogiem"
 
 #: src/archives.c:611
-#, fuzzy, c-format
+#, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
-msgstr "próba nadpisania \"%.250s\", który istnieje także w pakiecie %.250s"
+msgstr ""
+"próba nadpisania \"%.250s\", który istnieje także w pakiecie %.250s %.250s"
 
 #: src/archives.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
-msgstr "nie można odczytać \"%.255s\" (w \"%.255s\")"
+msgstr "nie można utworzyć \"%.255s\" (podczas przetwarzania \"%.255s\")"
 
 #: src/archives.c:689
 #, c-format
@@ -1341,22 +1343,22 @@ msgid "unable to install new version of `%.255s'"
 msgstr "nie można zainstalować nowej wersji \"%.255s\""
 
 #: src/archives.c:888
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
-"dpkg: ostrzeżenie - zignorowanie problemu z zależnościami w %s:\n"
+"zignorowanie problemu z zależnościami w %s:\n"
 "%s"
 
 #: src/archives.c:893
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "considering deconfiguration of essential\n"
 " package %s, to enable %s."
 msgstr ""
-"dpkg: ostrzeżenie - rozważanie dekonfiguracji istotnego\n"
-" pakietu %s, aby włączyć %s.\n"
+"rozważanie dekonfiguracji istotnego\n"
+" pakietu %s, aby włączyć %s."
 
 #: src/archives.c:896
 #, c-format
@@ -1411,11 +1413,8 @@ msgstr ""
 "%s"
 
 #: src/archives.c:965
-#, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
-msgstr ""
-"dpkg: ostrzeżenie - zignorowanie naruszenia zależności, dalsze "
-"przetwarzanie!\n"
+msgstr "zignorowanie naruszenia zależności, dalsze przetwarzanie!"
 
 #: src/archives.c:970
 #, c-format
@@ -1451,7 +1450,7 @@ msgstr ""
 "dpkg: mogą wystąpić problemy przy usuwaniu %s, jako że dostarcza %s ...\n"
 
 #: src/archives.c:1054
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
 "requested.\n"
@@ -1480,9 +1479,8 @@ msgid "conflicting packages - not installing %.250s"
 msgstr "konflikt pakietów - nie będzie instalowany %.250s"
 
 #: src/archives.c:1082
-#, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
-msgstr "dpkg: ostrzeżenie - zignorowanie konfliktu, dalsze przetwarzanie!\n"
+msgstr "zignorowanie konfliktu, dalsze przetwarzanie!"
 
 #: src/archives.c:1123
 #, c-format
@@ -1530,13 +1528,13 @@ msgstr "--%s wymaga co najmniej jednego argumentu będącego plikiem archiwum"
 #: dpkg-split/info.c:241 dpkg-split/main.c:56 dpkg-split/main.c:93
 #: dpkg-split/queue.c:125 dpkg-split/queue.c:245
 msgid "<standard output>"
-msgstr ""
+msgstr "<standardowe wyjście>"
 
 #: src/archives.c:1222 src/packages.c:269 src/query.c:185 src/query.c:277
 #: src/query.c:378 src/query.c:434 src/select.c:81 dpkg-split/main.c:198
 #: dpkg-split/queue.c:192
 msgid "<standard error>"
-msgstr ""
+msgstr "<standardowe wyjście błędów>"
 
 #: src/archives.c:1263
 #, c-format
@@ -1554,11 +1552,9 @@ msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Wersja %.250s pakietu %.250s jest już zainstalowana.\n"
 
 #: src/archives.c:1296
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
-msgstr ""
-"%s - ostrzeżenie: zastąpienie %.250s w wersji %.250s wcześniejszą wersją "
-"%.250s.\n"
+msgstr "zastąpienie %.250s w wersji %.250s wcześniejszą wersją %.250s."
 
 #: src/archives.c:1301
 #, c-format
@@ -1668,41 +1664,34 @@ msgstr ""
 "Instalowanie nowego pliku konfiguracyjnego według żądania.\n"
 
 #: src/configure.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
-msgstr ""
-"dpkg: %s: ostrzeżenie - nie można usunąć poprzedniej kopii \"%.250s\": %s\n"
+msgstr "%s: nie można usunąć poprzedniej kopii \"%.250s\": %s"
 
 #: src/configure.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
-msgstr ""
-"dpkg: %s: ostrzeżenie - nie można zmienić nazwy \"%.250s\" na \"%.250s\": %"
-"s\n"
+msgstr "%s: nie można zmienić nazwy \"%.250s\" na \"%.250s\": %s"
 
 #: src/configure.c:274
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: nie można wykonać \"%s %s\""
+msgstr "%s: nie można usunąć \"%.250s\": %s"
 
 #: src/configure.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to remove old distrib version '%.250s': %s"
-msgstr ""
-"dpkg: %s: ostrzeżenie - nie można usunąć poprzedniej wersji \"%.250s\": %s\n"
+msgstr "%s: nie można usunąć poprzedniej wersji \"%.250s\": %s"
 
 #: src/configure.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
-msgstr ""
-"dpkg: %s: ostrzeżenie - nie można usunąć \"%.250s\" (przed nadpisaniem): %s\n"
+msgstr "%s: nie można usunąć \"%.250s\" (przed nadpisaniem): %s"
 
 #: src/configure.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
-msgstr ""
-"dpkg: %s: ostrzeżenie - nie można utworzyć dowiązania \"%.250s\" do \"%.250s"
-"\": %s\n"
+msgstr "%s: nie można utworzyć dowiązania \"%.250s\" do \"%.250s\": %s"
 
 #: src/configure.c:293
 #, c-format
@@ -1715,62 +1704,58 @@ msgid "unable to install `%.250s' as `%.250s'"
 msgstr "nie można zainstalować \"%.250s\" jako \"%.250s\""
 
 #: src/configure.c:356
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
 " (= '%s'): %s"
 msgstr ""
-"dpkg: %s: ostrzeżenie - nie można ustalić stanu pliku konfiguracyjnego \"%s"
-"\"\n"
-" (= \"%s\"): %s\n"
+"%s: nie można ustalić stanu pliku konfiguracyjnego \"%s\"\n"
+" (= \"%s\"): %s"
 
 #: src/configure.c:367
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
 " (= '%s')"
 msgstr ""
-"dpkg: %s: ostrzeżenie - plik konfiguracyjny \"%s\" jest zapętlonym "
-"dowiązaniem\n"
-" (= \"%s\")\n"
+"%s: plik konfiguracyjny \"%s\" jest zapętlonym dowiązaniem\n"
+" (= \"%s\")"
 
 #: src/configure.c:380
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
 " (= '%s'): %s"
 msgstr ""
-"dpkg: %s: ostrzeżenie - nie można określić dowiązania do pliku "
-"konfiguracyjnego \"%s\"\n"
-" (= \"%s\"): %s\n"
+"%s: nie można określić dowiązania do pliku konfiguracyjnego \"%s\"\n"
+" (= \"%s\"): %s"
 
 #: src/configure.c:399
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
 " ('%s' is a symlink to '%s')"
 msgstr ""
-"dpkg: %s: ostrzeżenie - plik konfiguracyjny \"%.250s\" jest dowiązaniem do "
-"błędnego pliku\n"
-" (\"%s\" jest dowiązaniem do \"%s\")\n"
+"%s: plik konfiguracyjny \"%.250s\" jest dowiązaniem do błędnego pliku\n"
+" (\"%s\" jest dowiązaniem do \"%s\")"
 
 #: src/configure.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
-"dpkg: %s: ostrzeżenie - plik konfiguracyjny \"%.250s\" nie jest plikiem ani "
-"dowiązaniem (= \"%s\")\n"
+"%s: plik konfiguracyjny \"%.250s\" nie jest plikiem ani dowiązaniem (= \"%s"
+"\")"
 
 #: src/configure.c:429
 msgid "md5hash"
 msgstr "skrót md5"
 
 #: src/configure.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
 msgstr ""
-"dpkg: %s: ostrzeżenie - nie można otworzyć pliku konfiguracyjnego %s dla "
-"sprawdzenia sumy kontrolnej: %s\n"
+"%s: nie można otworzyć pliku konfiguracyjnego %s dla sprawdzenia sumy "
+"kontrolnej: %s"
 
 #: src/configure.c:453
 #, c-format
@@ -2164,36 +2149,35 @@ msgid " %d packages, from the following sections:"
 msgstr " %d pakietów, z następujących sekcji:"
 
 #: src/enquiry.c:262
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
 " Please use 'dpkg --configure dpkg', and then try again.\n"
 msgstr ""
-"Wersja dpkg obsługująca epoki nie jest jeszcze skonfigurowana.\n"
+"Wersja dpkg obsługująca %s nie jest jeszcze skonfigurowana.\n"
 " Należy wykonać \"dpkg --configure dpkg\" i później spróbować ponownie.\n"
 
 #: src/enquiry.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
-"nie odnaleziono dpkg w bazie danych, nie można sprawdzić czy obsługuje "
-"epoki!\n"
+"nie odnaleziono dpkg w bazie danych, nie można sprawdzić czy obsługuje %s!\n"
 
 #: src/enquiry.c:275
 msgid "Pre-Depends field"
-msgstr ""
+msgstr "pole Pre-Depends"
 
 #: src/enquiry.c:280
 msgid "epoch"
-msgstr ""
+msgstr "epoka"
 
 #: src/enquiry.c:285
 msgid "long filenames"
-msgstr ""
+msgstr "długie nazwy plików"
 
 #: src/enquiry.c:290
 msgid "multiple Conflicts and Replaces"
-msgstr ""
+msgstr "wielokrotne określenia Conflicts i Replaces"
 
 #: src/enquiry.c:365
 #, c-format
@@ -2212,9 +2196,10 @@ msgstr ""
 "dla %.250s)"
 
 #: src/enquiry.c:396
-#, fuzzy, c-format
+#, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
-msgstr "Uwaga: niewykorzystywana już opcja \"--%s\"\n"
+msgstr ""
+"niewykorzystywana już opcja \"--%s\", zamiast niej proszę używać \"--%s\"."
 
 #: src/enquiry.c:437
 msgid ""
@@ -2228,9 +2213,9 @@ msgid "--compare-versions bad relation"
 msgstr "błędna relacja dla --compare-versions"
 
 #: src/enquiry.c:447 src/enquiry.c:454
-#, fuzzy, c-format
+#, c-format
 msgid "version '%s' has bad syntax: %s"
-msgstr "dpkg: wersja \"%s\" ma złą składnię: %s\n"
+msgstr "wersja \"%s\" ma złą składnię: %s"
 
 #: src/errors.c:61
 #, c-format
@@ -2276,11 +2261,8 @@ msgstr ""
 "jego przetworzenie.\n"
 
 #: src/errors.c:112
-#, fuzzy
 msgid "overriding problem because --force enabled:"
-msgstr ""
-"dpkg - ostrzeżenie, problem zignorowany po użyciu opcji --force:\n"
-" "
+msgstr "problem zignorowany po użyciu opcji --force:"
 
 #: src/filesdb.c:139
 #, c-format
@@ -2288,18 +2270,18 @@ msgid "unable to open files list file for package `%.250s'"
 msgstr "nie można otworzyć listy plików pakietu \"%.250s\""
 
 #: src/filesdb.c:143
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "files list file for package `%.250s' missing, assuming package has no files "
 "currently installed."
 msgstr ""
-"dpkg: poważne ostrzeżenie: brak listy plików pakietu \"%.250s\", przyjęcie "
-"że pakiet nie ma zainstalowanych plików.\n"
+"brak listy plików pakietu \"%.250s\", przyjęcie że pakiet nie ma "
+"zainstalowanych plików."
 
 #: src/filesdb.c:154
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat files list file for package '%.250s'"
-msgstr "nie można otworzyć listy plików pakietu \"%.250s\""
+msgstr "nie można ustalić stanu listy plików pakietu \"%.250s\""
 
 #: src/filesdb.c:161
 #, c-format
@@ -2307,9 +2289,9 @@ msgid "files list for package `%.250s'"
 msgstr "lista plików pakietu \"%.250s\""
 
 #: src/filesdb.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "files list file for package '%.250s' is missing final newline"
-msgstr "lista plików pakietu \"%.250s\" zawiera pustą nazwę pliku"
+msgstr "lista plików pakietu \"%.250s\" nie zawiera kończącej pustej linii"
 
 #: src/filesdb.c:175
 #, c-format
@@ -2428,14 +2410,13 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "nie można ustawić praw do wykonywania \"%.250s\""
 
 #: src/help.c:272
-#, fuzzy
 msgid "unable to setenv for maintainer script"
 msgstr "błąd ustawiania zmiennych środowiska dla skryptu od opiekuna pakietu"
 
 #: src/help.c:296
-#, fuzzy, c-format
+#, c-format
 msgid "installed %s script"
-msgstr "poprzedni skrypt %s"
+msgstr "zainstalowany skrypt %s"
 
 #: src/help.c:304 src/help.c:365 src/help.c:417
 #, c-format
@@ -2458,9 +2439,9 @@ msgid "old %s script"
 msgstr "poprzedni skrypt %s"
 
 #: src/help.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat %s '%.250s': %s"
-msgstr "nie można ustalić stanu %s \"%.250s\""
+msgstr "nie można ustalić stanu %s \"%.250s\": %s"
 
 #: src/help.c:404
 #, c-format
@@ -2489,9 +2470,9 @@ msgid "delete"
 msgstr "usunąć"
 
 #: src/help.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "failed to %s '%.255s'"
-msgstr "nie można %s \"%%.255s\""
+msgstr "nie można %s \"%.255s\""
 
 #: src/help.c:559 dpkg-deb/info.c:60
 msgid "failed to exec rm for cleanup"
@@ -2738,9 +2719,9 @@ msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "konflikt między działaniem -%c (--%s) i -%c (--%s)"
 
 #: src/main.c:222
-#, fuzzy, c-format
+#, c-format
 msgid "obsolete option '--%s'\n"
-msgstr "Uwaga: niewykorzystywana już opcja \"--%s\"\n"
+msgstr "niewykorzystywana już opcja \"--%s\"\n"
 
 #: src/main.c:230
 #, c-format
@@ -2897,9 +2878,9 @@ msgid "unknown force/refuse option `%.*s'"
 msgstr "nieznana opcja force/refuse \"%.*s\""
 
 #: src/main.c:437
-#, fuzzy, c-format
+#, c-format
 msgid "obsolete force/refuse option '%s'\n"
-msgstr "Uwaga: niewykorzystywana już opcja force/refuse \"%s\"\n"
+msgstr "niewykorzystywana już opcja force/refuse \"%s\"\n"
 
 #: src/main.c:590
 #, c-format
@@ -3132,9 +3113,8 @@ msgid "pre-dependency problem - not installing %.250s"
 msgstr "problem ze wstępnymi wymaganiami - %.250s nie będzie instalowany"
 
 #: src/processarc.c:281
-#, fuzzy
 msgid "ignoring pre-dependency problem!"
-msgstr "dpkg: ostrzeżenie - zignorowanie problemu ze wstępnymi wymaganiami!\n"
+msgstr "zignorowanie problemu ze wstępnymi wymaganiami!"
 
 #: src/processarc.c:296
 #, c-format
@@ -3200,24 +3180,23 @@ msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: usunięcie prawdopodobnych zer na końcu"
 
 #: src/processarc.c:662
-#, fuzzy, c-format
+#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
-"dpkg: ostrzeżenie - nie można ustalić stanu poprzedniego pliku \"%.250s\", "
-"plik nie będzie usuwany: %s"
+"nie można ustalić stanu poprzedniego pliku \"%.250s\", plik nie będzie "
+"usuwany: %s"
 
 #: src/processarc.c:668
-#, fuzzy, c-format
+#, c-format
 msgid "unable to delete old directory '%.250s': %s"
-msgstr ""
-"dpkg: ostrzeżenie - nie można usunąć poprzedniego katalogu \"%.250s\": %s\n"
+msgstr "nie można usunąć poprzedniego katalogu \"%.250s\": %s"
 
 #: src/processarc.c:671
-#, fuzzy, c-format
+#, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
-"dpkg: ostrzeżenie - poprzedni plik konfiguracyjny \"%.250s\" był pustym "
-"katalogiem  (i właśnie został usunięty)\n"
+"poprzedni plik konfiguracyjny \"%.250s\" był pustym katalogiem  (i właśnie "
+"został usunięty)"
 
 #: src/processarc.c:713
 #, c-format
@@ -3225,18 +3204,18 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "nie można ustalić stanu nowego pliku \"%.250s\""
 
 #: src/processarc.c:724
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
 "'%.250s')"
 msgstr ""
-"dpkg: ostrzeżenie - stary plik \"%.250s\" jest taki sam, jak kilka nowych "
-"plików (zarówno \"%.250s, jak i \"%.250s\")\n"
+"stary plik \"%.250s\" jest taki sam, jak kilka nowych plików! (zarówno "
+"\"%.250s, jak i \"%.250s\")"
 
 #: src/processarc.c:766
-#, fuzzy, c-format
+#, c-format
 msgid "unable to %s old file '%.250s': %s"
-msgstr "dpkg: ostrzeżenie - nie można %s poprzedniego pliku \"%%.250s\": %%s\n"
+msgstr "nie można %s poprzedniego pliku \"%.250s\": %s"
 
 #: src/processarc.c:801 src/processarc.c:1048 src/query.c:479 src/remove.c:288
 msgid "cannot read info directory"
@@ -3282,10 +3261,9 @@ msgstr ""
 "próba usunięcia katalogu \"%.250s\" nie wykazała, że to nie jest katalog"
 
 #: src/processarc.c:858
-#, fuzzy, c-format
+#, c-format
 msgid "package %s contained list as info file"
-msgstr ""
-"dpkg: ostrzeżenie - pakiet %s zawiera listę plików jako plik informacyjny"
+msgstr "pakiet %s zawierał listę plików jako plik informacyjny"
 
 #: src/processarc.c:864
 #, c-format
@@ -3304,7 +3282,6 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "nie można usunąć brakującego pliku kontrolnego \"%.250s\""
 
 #: src/query.c:115
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3314,8 +3291,7 @@ msgstr ""
 "Wybór=U=Nieznany/I=Instalacja/R=Usunięcie/P=Wyczyszczenie/H=Zatrzymanie\n"
 "| Stan=N=Brak/I=Zainst./C=Skonfig./U=Rozpak./F=Nieskonfig./H=Wpół-zainst./"
 "W=Wyzw-czek/T=Wyzw-zapl\n"
-"|/ Błędy?=(brak)/H=Wstrzym./R=Do przeinst./X=Obydwa (Stan,Błędy:wielk.lit."
-"=źle)\n"
+"|/ Błędy?=(brak)/H=Wstrzym./R=Do przeinst. (Stan,Błędy:wielk.lit.=źle)\n"
 
 #: src/query.c:119
 msgid "Name"
@@ -3410,7 +3386,7 @@ msgstr ""
 #: src/query.c:539
 #, c-format
 msgid "control file contains %c"
-msgstr ""
+msgstr "plik kontrolny zawiera %c"
 
 #: src/query.c:559
 #, c-format
@@ -3418,7 +3394,7 @@ msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian \"%s\", narzędzie do przeszukiwania pakietów\n"
 
 #: src/query.c:576
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
@@ -3432,14 +3408,17 @@ msgid ""
 "\n"
 msgstr ""
 "Polecenia:\n"
-"  -s|--status <nazwa-pakietu> ...      Podanie szczegółów o stanie pakietu.\n"
-"  -p|--print-avail <nazwa-pakietu> ... Podanie szczegółów o dostępnej "
+"  -s|--status <nazwa-pakietu> ...      Pokazanie szczegółów o stanie "
+"pakietu.\n"
+"  -p|--print-avail <nazwa-pakietu> ... Pokazanie szczegółów o dostępnej "
 "wersji.\n"
 "  -L|--listfiles <nazwa-pakietu> ...   Lista plików danego pakietu.\n"
 "  -l|--list [<wzorzec> ...]            Zwięzła lista pakietów.\n"
-"  -W|--show <wzorzec> ...              Podanie informacji o pakiecie.\n"
+"  -W|--show <wzorzec> ...              Pokazanie informacji o pakiecie.\n"
 "  -S|--search <wzorzec> ...            Znajdź pakiet(y) zawierające plik"
 "(i).\n"
+"  -c|--control-path <pakiet> [<plik>]                               "
+"Pokazanie ścieżki dla pliku kontrolnego pakietu.\n"
 "\n"
 
 #: src/query.c:594
@@ -3478,31 +3457,28 @@ msgstr ""
 "  przesunięcie do strony lewej.\n"
 
 #: src/query.c:612
-#, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL)."
 msgstr ""
-"Użyj --help, aby uzyskać pomoc o wyszukiwanych pakietach;\n"
+"Użyj --help, aby uzyskać pomoc o wyszukiwaniu pakietów;\n"
 "Użyj --licence, aby uzyskać informacje o prawach autorskich i braku\n"
-"       gwarancji (GNU GPL).\n"
+"       gwarancji (GNU GPL)."
 
 #: src/remove.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring request to remove %.250s which isn't installed."
-msgstr ""
-"dpkg - ostrzeżenie: zignorowanie żądania usunięcia %.250s, który nie jest "
-"zainstalowany.\n"
+msgstr "zignorowanie żądania usunięcia %.250s, który nie jest zainstalowany."
 
 #: src/remove.c:90
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
 " files of which are on the system. Use --purge to remove them too."
 msgstr ""
-"dpkg - ostrzeżenie: zignorowanie żądania usunięcia %.250s, ponieważ\n"
+"zignorowanie żądania usunięcia %.250s, ponieważ\n"
 " w systemie są tylko jego pliki konfiguracyjne. --purge usunie także te "
-"pliki.\n"
+"pliki."
 
 #: src/remove.c:99
 msgid "This is an essential package - it should not be removed."
@@ -3549,13 +3525,13 @@ msgid "Removing %s ...\n"
 msgstr "Usuwanie %s ...\n"
 
 #: src/remove.c:254 src/remove.c:373
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
 "may be a mount point?"
 msgstr ""
-"dpkg - ostrzeżenie: podczas usuwania %.250s nie można usunąć katalogu "
-"\"%.250s\": %s - być może katalog jest punktem montowania?\n"
+"podczas usuwania %.250s nie można usunąć katalogu \"%.250s\": %s - być może "
+"katalog jest punktem montowania?"
 
 #: src/remove.c:260 src/remove.c:379
 #, c-format
@@ -3573,11 +3549,11 @@ msgid "unable to delete control info file `%.250s'"
 msgstr "nie można usunąć pliku kontrolnego \"%.250s\""
 
 #: src/remove.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed."
 msgstr ""
-"dpkg - ostrzeżenie: podczas usuwania %.250s, katalog \"%.250s\" nie był "
-"pusty, więc nie został usunięty.\n"
+"podczas usuwania %.250s, katalog \"%.250s\" nie był pusty, więc nie został "
+"usunięty."
 
 #: src/remove.c:402
 #, c-format
@@ -3658,29 +3634,26 @@ msgid "read error on standard input"
 msgstr "nie można odczytać standardowego wejścia"
 
 #: src/statdb.c:57
-#, fuzzy
 msgid "syntax error: invalid uid in statoverride file"
-msgstr "błąd instalowania nowego pliku statoverride: %s"
+msgstr "błąd składni: niewłaściwy uid w pliku statoverride"
 
 #: src/statdb.c:61
 #, c-format
 msgid "syntax error: unknown user '%s' in statoverride file"
-msgstr ""
+msgstr "błąd składni: nieznany użytkownik \"%s\" w pliku statoverride"
 
 #: src/statdb.c:78
-#, fuzzy
 msgid "syntax error: invalid gid in statoverride file"
-msgstr "błąd instalowania nowego pliku statoverride: %s"
+msgstr "błąd składni: niewłaściwy gid w pliku statoverride: %s"
 
 #: src/statdb.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error: unknown group '%s' in statoverride file"
-msgstr "nie można otworzyć listy pliku statoverride"
+msgstr "błąd składni: nieznana grupa \"%s\" w pliku statoverride"
 
 #: src/statdb.c:98
-#, fuzzy
 msgid "syntax error: invalid mode in statoverride file"
-msgstr "nie można otworzyć listy pliku statoverride"
+msgstr "błąd składni: niewłaściwy tryb w pliku statoverride"
 
 #: src/statdb.c:124
 msgid "failed to open statoverride file"
@@ -3700,28 +3673,25 @@ msgid "statoverride file `%.250s'"
 msgstr "pliku statoverride \"%.250s\""
 
 #: src/statdb.c:166
-#, fuzzy
 msgid "statoverride file is missing final newline"
-msgstr "plik statoverride zawiera pustą linię"
+msgstr "plik statoverride nie zawiera kończącej pustej linii"
 
 #: src/statdb.c:170
 msgid "statoverride file contains empty line"
 msgstr "plik statoverride zawiera pustą linię"
 
 #: src/statdb.c:175 src/statdb.c:187 src/statdb.c:199
-#, fuzzy
 msgid "syntax error in statoverride file"
-msgstr "nie można otworzyć listy pliku statoverride"
+msgstr "błąd składni w pliku statoverride"
 
 #: src/statdb.c:183 src/statdb.c:195 src/statdb.c:207
-#, fuzzy
 msgid "unexpected end of line in statoverride file"
-msgstr "niespodziewany koniec linii w nazwie pakietu w linii %d"
+msgstr "niespodziewany koniec linii w pliku statoverride"
 
 #: src/statdb.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "multiple statusoverides present for file '%.250s'"
-msgstr "pliku statoverride \"%.250s\""
+msgstr "wielokrotne określenia statusoverride dla pliku \"%.250s\""
 
 #: src/trigcmd.c:73
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -3790,9 +3760,8 @@ msgid "%s: trigger records not yet in existence\n"
 msgstr "%s: informacje o wyzwalaczach jeszcze nie istnieją\n"
 
 #: src/trigcmd.c:206
-#, fuzzy
 msgid "takes one argument, the trigger name"
-msgstr "dpkg-trigger wymaga podania jednego argumentu - nazwy wyzwalacza"
+msgstr "wymaga podania jednego argumentu - nazwy wyzwalacza"
 
 #: src/trigcmd.c:211
 msgid ""
@@ -3809,9 +3778,9 @@ msgstr ""
 "dpkg-trigger: nieprawidłowa nazwa pakietu do oczekiwania \"%.250s\": %.250s"
 
 #: src/trigcmd.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "invalid trigger name `%.250s': %.250s"
-msgstr "dpkg-trigger: niewłaściwa nazwa wyzwalacza \"%.250s\": %.250s"
+msgstr "niewłaściwa nazwa wyzwalacza \"%.250s\": %.250s"
 
 #: src/trigproc.c:235
 #, c-format
@@ -3873,6 +3842,8 @@ msgstr "Informacje o %d pakietach zostały zaktualizowane.\n"
 msgid ""
 "obsolete '--%s' option, unavailable packages are automatically cleaned up."
 msgstr ""
+"niewykorzystywana już opcja \"--%s\", niedostępne pakiety będą automatycznie "
+"czyszczone."
 
 #: dpkg-deb/build.c:101
 #, c-format
@@ -3906,12 +3877,12 @@ msgstr "cel jest katalogiem - nie można pominąć sprawdzenia pliku kontrolnego
 
 #: dpkg-deb/build.c:240
 msgid "not checking contents of control area."
-msgstr ""
+msgstr "pominięcie sprawdzenia zawartości obszaru kontrolnego."
 
 #: dpkg-deb/build.c:241
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
-msgstr "dpkg-deb: budowanie pakietu \"%s\" w \"%s\".\n"
+msgstr "dpkg-deb: budowanie nieznanego pakietu w \"%s\".\n"
 
 #: dpkg-deb/build.c:258
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
@@ -3919,25 +3890,22 @@ msgstr ""
 "nazwa pakietu zawiera znaki nie będące małymi literami, cyframi lub \"-+.\""
 
 #: dpkg-deb/build.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
-msgstr ""
-"ostrzeżenie, \"%s\" zawiera zdefiniowany przez użytkownika Priorytet \"%s\"\n"
+msgstr "\"%s\" zawiera zdefiniowany przez użytkownika Priorytet \"%s\""
 
 #: dpkg-deb/build.c:268
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' contains user-defined field '%s'"
-msgstr ""
-"ostrzeżenie, \"%s\" zawiera pole zdefiniowane przez użytkownika \"%s\"\n"
+msgstr "\"%s\" zawiera pole zdefiniowane przez użytkownika \"%s\""
 
 #: dpkg-deb/build.c:273
 msgid "(upstream) version"
-msgstr ""
+msgstr "wersja (upstream)"
 
 #: dpkg-deb/build.c:275
-#, fuzzy
 msgid "Debian revision"
-msgstr "Debian %s w wersji %s.\n"
+msgstr "Wydanie Debiana"
 
 #: dpkg-deb/build.c:276
 #, c-format
@@ -3950,14 +3918,12 @@ msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: budowanie pakietu \"%s\" w \"%s\".\n"
 
 #: dpkg-deb/build.c:293
-#, fuzzy
 msgid "unable to stat control directory"
-msgstr "nie można otworzyć tymczasowego katalogu kontrolnego"
+msgstr "nie można ustalić stanu katalogu kontrolnego"
 
 #: dpkg-deb/build.c:295
-#, fuzzy
 msgid "control directory is not a directory"
-msgstr "nie można odczytać katalogu informacyjnego"
+msgstr "katalog kontrolny nie jest katalogiem"
 
 #: dpkg-deb/build.c:297
 #, c-format
@@ -3991,16 +3957,16 @@ msgstr ""
 "konfiguracyjnego"
 
 #: dpkg-deb/build.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
-"ostrzeżenie, nazwa pliku konfiguracyjnego \"%.50s...\" jest za długa lub "
-"brak w niej znaku końca linii\n"
+"nazwa pliku konfiguracyjnego \"%.50s...\" jest za długa lub brak w niej "
+"znaku końca linii"
 
 #: dpkg-deb/build.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
-msgstr "ostrzeżenie, nazwa pliku konfiguracyjnego \"%s\" kończy się spacjami\n"
+msgstr "nazwa pliku konfiguracyjnego \"%s\" kończy się spacjami"
 
 #: dpkg-deb/build.c:341
 #, c-format
@@ -4013,9 +3979,9 @@ msgid "conffile `%.250s' is not stattable"
 msgstr "nie można sprawdzić stanu pliku konfiguracyjnego \"%.250s\""
 
 #: dpkg-deb/build.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "conffile '%s' is not a plain file"
-msgstr "ostrzeżenie, plik konfiguracyjny \"%s\" nie jest zwykłym plikiem\n"
+msgstr "plik konfiguracyjny \"%s\" nie jest zwykłym plikiem"
 
 #: dpkg-deb/build.c:349
 msgid "error reading conffiles file"
@@ -4026,9 +3992,9 @@ msgid "error opening conffiles file"
 msgstr "nie można otworzyć pliku konfiguracyjnego"
 
 #: dpkg-deb/build.c:355
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring %d warnings about the control file(s)\n"
-msgstr "dpkg-deb: zignorowanie %d ostrzeżeń na temat plików kontrolnych\n"
+msgstr "zignorowanie %d ostrzeżeń na temat plików kontrolnych\n"
 
 #: dpkg-deb/build.c:364
 #, c-format
@@ -4087,12 +4053,11 @@ msgstr "nie można wpisać nazwy pliku do potoku do programu tar (sekcja data)"
 
 #: dpkg-deb/build.c:486
 msgid "<compress> from tar -cf"
-msgstr ""
+msgstr "<kompresja> z tar -cf"
 
 #: dpkg-deb/build.c:508
-#, fuzzy
 msgid "failed to fstat tmpfile (data)"
-msgstr "nie można utworzyć tymczasowego pliku (sekcja data)"
+msgstr "nie można ustalić stanu tymczasowego pliku (sekcja data)"
 
 #: dpkg-deb/build.c:518
 msgid "failed to rewind tmpfile (data)"
@@ -4165,7 +4130,7 @@ msgstr ""
 
 #: dpkg-deb/extract.c:145
 msgid "member length"
-msgstr ""
+msgstr "rozmiar składnika"
 
 #: dpkg-deb/extract.c:149
 #, c-format
@@ -4293,14 +4258,12 @@ msgid "failed to exec tar"
 msgstr "nie można wywołać \"tar\""
 
 #: dpkg-deb/extract.c:330
-#, fuzzy
 msgid "<decompress>"
-msgstr "%s: dekompresja"
+msgstr "<dekompresja>"
 
 #: dpkg-deb/extract.c:332
-#, fuzzy
 msgid "paste"
-msgstr "powiodło się\n"
+msgstr "wklej"
 
 #: dpkg-deb/extract.c:348 dpkg-deb/extract.c:363 dpkg-deb/info.c:74
 #, c-format
@@ -4548,7 +4511,7 @@ msgstr "nie można zmienić położenia w pliku"
 
 #: dpkg-split/info.c:102
 msgid "info length"
-msgstr ""
+msgstr "rozmiar informacji"
 
 #: dpkg-split/info.c:111
 #, c-format
@@ -4561,9 +4524,8 @@ msgid "file `%.250s' is corrupt - nulls in info section"
 msgstr "plik \"%.250s\" jest uszkodzony - puste znaki w sekcji informacyjnej"
 
 #: dpkg-split/info.c:120
-#, fuzzy
 msgid "format version number"
-msgstr "numer wersji"
+msgstr "numer wersji formatu"
 
 #: dpkg-split/info.c:122
 #, c-format
@@ -4574,16 +4536,15 @@ msgstr ""
 
 #: dpkg-split/info.c:125
 msgid "package name"
-msgstr ""
+msgstr "nazwa pakietu"
 
 #: dpkg-split/info.c:126
-#, fuzzy
 msgid "package version number"
-msgstr "numer wersji"
+msgstr "numer wersji pakietu"
 
 #: dpkg-split/info.c:127
 msgid "package file MD5 checksum"
-msgstr ""
+msgstr "suma kontrolna MD5 pliku pakietu"
 
 #: dpkg-split/info.c:130
 #, c-format
@@ -4592,16 +4553,15 @@ msgstr "plik \"%.250s\" jest uszkodzony - zły skrót MD5 \"%.250s\""
 
 #: dpkg-split/info.c:132 dpkg-split/info.c:133
 msgid "total length"
-msgstr ""
+msgstr "rozmiar całkowity"
 
 #: dpkg-split/info.c:134 dpkg-split/info.c:135
 msgid "part offset"
-msgstr ""
+msgstr "offset części"
 
 #: dpkg-split/info.c:137
-#, fuzzy
 msgid "part numbers"
-msgstr "numer wersji"
+msgstr "numery części"
 
 #: dpkg-split/info.c:139
 #, c-format
@@ -4610,17 +4570,16 @@ msgstr "plik \"%.250s\" jest uszkodzony - brak ukośnika między numerami częś
 
 #: dpkg-split/info.c:142
 msgid "number of parts"
-msgstr ""
+msgstr "ilość części"
 
 #: dpkg-split/info.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "file '%.250s' is corrupt - bad number of parts"
-msgstr "plik \"%.250s\" jest uszkodzony - zły numer części"
+msgstr "plik \"%.250s\" jest uszkodzony - zła ilość części"
 
 #: dpkg-split/info.c:146
-#, fuzzy
 msgid "parts number"
-msgstr "numer wersji"
+msgstr "ilość części"
 
 #: dpkg-split/info.c:148
 #, c-format
@@ -4642,7 +4601,7 @@ msgstr ""
 
 #: dpkg-split/info.c:158
 msgid "data length"
-msgstr ""
+msgstr "rozmiar danych"
 
 #: dpkg-split/info.c:162
 #, c-format
@@ -4706,10 +4665,10 @@ msgstr ""
 "\n"
 
 #: dpkg-split/info.c:228 dpkg-split/join.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr ""
-"--info wymaga podania co najmniej jednego argumentu będącego plikiem części"
+"--%s wymaga podania co najmniej jednego argumentu będącego plikiem części"
 
 #: dpkg-split/info.c:239
 #, c-format
@@ -4719,7 +4678,7 @@ msgstr "plik \"%s\" nie jest częścią archiwum\n"
 #: dpkg-split/join.c:45
 #, c-format
 msgid "Putting package %s together from %d parts: "
-msgstr ""
+msgstr "Składanie pakietu %s z %d części: "
 
 #: dpkg-split/join.c:53
 #, c-format
@@ -4824,9 +4783,9 @@ msgid "part size is far too large or is not positive"
 msgstr "rozmiar części jest za duży lub jest liczbą ujemną"
 
 #: dpkg-split/main.c:129
-#, fuzzy, c-format
+#, c-format
 msgid "part size must be at least %d KiB (to allow for header)"
-msgstr "rozmiar części musi mieć co najmniej %dk"
+msgstr "rozmiar części musi mieć co najmniej %dk KiB (aby zmieścić nagłówek)"
 
 #: dpkg-split/queue.c:77
 #, c-format
@@ -4911,7 +4870,7 @@ msgstr "Pakiety jeszcze nie przebudowane:\n"
 #: dpkg-split/queue.c:227
 #, c-format
 msgid " Package %s: part(s) "
-msgstr ""
+msgstr " Pakiet %s: część(i) "
 
 #: dpkg-split/queue.c:238
 #, c-format
@@ -4989,7 +4948,7 @@ msgstr ""
 "Brak JAKIEJKOLWIEK gwarancji.\n"
 
 #: scripts/dpkg-divert.pl:31
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5024,6 +4983,7 @@ msgstr ""
 "  [--add] <plik>           dodaje ominięcie.\n"
 "  --remove <plik>          usuwa ominięcie.\n"
 "  --list [<wzorzec-glob>]  pokazuje ominięcia pliku.\n"
+"  --listpackage <plik>     pokazuje pakiet zawierający ominięcie pliku.\n"
 "  --truename <plik>        zwraca ominięty plik.\n"
 "\n"
 "Opcje:\n"
@@ -5381,11 +5341,11 @@ msgstr "nieznany argument \"%s\""
 
 #: scripts/update-alternatives.pl:58
 msgid "--install needs <link> <name> <path> <priority>"
-msgstr "--install wymaga podania <linku> <nazwy> <ścieżki> <priorytetu>"
+msgstr "--install wymaga podania <dowiązania> <nazwy> <ścieżki> <priorytetu>"
 
 #: scripts/update-alternatives.pl:63 scripts/update-alternatives.pl:88
 msgid "<link> and <path> can't be the same"
-msgstr ""
+msgstr "<dowiązanie> i <ścieżka> nie mogą być takie same"
 
 #: scripts/update-alternatives.pl:64
 msgid "priority must be an integer"
@@ -5407,7 +5367,7 @@ msgstr "opcja --slave dopuszczalna tylko z --install"
 
 #: scripts/update-alternatives.pl:84
 msgid "--slave needs <link> <name> <path>"
-msgstr "--slave wymaga <linku> <nazwy> <ścieżki>"
+msgstr "--slave wymaga <dowiązania> <nazwy> <ścieżki>"
 
 #: scripts/update-alternatives.pl:89
 #, perl-format
@@ -5430,154 +5390,153 @@ msgid "link %s is both primary and slave"
 msgstr "dowiązanie %s jest zarówno główne, jak i podrzędne"
 
 #: scripts/update-alternatives.pl:103
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <file> argument"
-msgstr "--%s wymaga podania pojedynczego argumentu"
+msgstr "--%s wymaga podania argumentu <plik>"
 
 #: scripts/update-alternatives.pl:125
-#, fuzzy
 msgid ""
 "need --display, --query, --list, --get-selections, --config,--set, --set-"
 "selections, --install, --remove, --all, --remove-all or --auto"
 msgstr ""
-"należy podać --display, --config, --set, --install, --remove, --all, --"
-"remove-all lub --auto"
+"należy podać --display, --query, --list, --get-selections, --config,--set, --"
+"set-selections, --install, --remove, --all, --remove-all lub --auto"
 
 #: scripts/update-alternatives.pl:149
 #, perl-format
 msgid "alternative %s can't be master: %s"
-msgstr ""
+msgstr "alternatywa %s nie może być nadrzędna: %s"
 
 #: scripts/update-alternatives.pl:150 scripts/update-alternatives.pl:171
-#, fuzzy, perl-format
+#, perl-format
 msgid "it is a slave of %s"
-msgstr " dowiązanie podrzędne %s: %s"
+msgstr "jest dowiązaniem podrzędnym %s"
 
 #: scripts/update-alternatives.pl:153 scripts/update-alternatives.pl:175
 #, perl-format
 msgid "alternative link %s is already managed by %s."
-msgstr ""
+msgstr "dowiązanie alternatywy %s jest już zarządzane przez %s."
 
 #: scripts/update-alternatives.pl:156 scripts/update-alternatives.pl:178
 #, perl-format
 msgid "alternative link is not absolute as it should be: %s"
-msgstr ""
+msgstr "dowiązanie alternatywy nie jest bezwzględne jak jest to wymagane: %s"
 
 #: scripts/update-alternatives.pl:158 scripts/update-alternatives.pl:180
 #, perl-format
 msgid "alternative path is not absolute as it should be: %s"
-msgstr ""
+msgstr "ścieżka alternatywy nie jest bezwzględna jak jest to wymagane: %s"
 
 #: scripts/update-alternatives.pl:160
-#, fuzzy, perl-format
+#, perl-format
 msgid "alternative path %s doesn't exist."
-msgstr "ostrzeżenie: podano --update, ale %s nie istnieje"
+msgstr "ścieżka alternatywy %s nie istnieje."
 
 #: scripts/update-alternatives.pl:162 scripts/update-alternatives.pl:182
 #, perl-format
 msgid "alternative name (%s) must not contain '/' and spaces."
-msgstr ""
+msgstr "nazwa alternatywy (%s) nie może zawierać \"/\" i spacji."
 
 #: scripts/update-alternatives.pl:168
 #, perl-format
 msgid "alternative %s can't be slave of %s: %s"
-msgstr ""
+msgstr "alternatywa %s nie może być podrzędna względem %s: %s"
 
 #: scripts/update-alternatives.pl:170
 msgid "it is a master alternative."
-msgstr ""
+msgstr "jest alternatywą nadrzędną."
 
 #: scripts/update-alternatives.pl:207 scripts/update-alternatives.pl:212
 #, perl-format
 msgid "Call %s."
-msgstr ""
+msgstr "Wywołanie %s."
 
 #: scripts/update-alternatives.pl:216
 #, perl-format
 msgid "Alternative %s unchanged because choice %s is not available."
-msgstr ""
+msgstr "Nie zmieniona alternatywa %s ponieważ wybór %s jest niedostępny."
 
 #: scripts/update-alternatives.pl:221
-#, fuzzy, perl-format
+#, perl-format
 msgid "Skip unknown alternative %s."
-msgstr "Nie można znaleźć alternatywy \"%s\"."
+msgstr "Pominięcie nieznanej alternatywy %s."
 
 #: scripts/update-alternatives.pl:235 scripts/update-alternatives.pl:238
-#, fuzzy, perl-format
+#, perl-format
 msgid "no alternatives for %s."
-msgstr "Brak alternatyw dla %s."
+msgstr "brak alternatyw dla %s."
 
 #: scripts/update-alternatives.pl:261
 #, perl-format
 msgid "%s is dangling, it will be updated with best choice."
 msgstr ""
+"%s nie jest poprawnym dowiązaniem, zostanie zaktualizowane najlepszym "
+"wyborem."
 
 #: scripts/update-alternatives.pl:265
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "%s has been changed (manually or by a script). Switching to manual updates "
 "only."
 msgstr ""
-"%s został zmieniony (ręcznie lub przez skrypt).\n"
-"Przełączanie do trybu ręcznych aktualizacji."
+"%s został zmieniony (ręcznie lub przez skrypt). Przełączanie do trybu "
+"ręcznych aktualizacji."
 
 #: scripts/update-alternatives.pl:273
-#, fuzzy, perl-format
+#, perl-format
 msgid "setting up automatic selection of %s."
-msgstr "Ustawianie automatycznego wybierania %s"
+msgstr "ustawianie automatycznego wybierania %s."
 
 #: scripts/update-alternatives.pl:286
-#, fuzzy, perl-format
+#, perl-format
 msgid "There is no program which provides %s."
-msgstr ""
-"Nie znaleziono programu, który dostarcza %s.\n"
-"Nie ma nic do skonfigurowania.\n"
+msgstr "Nie znaleziono programu, który dostarcza %s."
 
 #: scripts/update-alternatives.pl:287 scripts/update-alternatives.pl:295
 msgid "Nothing to configure."
-msgstr ""
+msgstr "Nie ma nic do skonfigurowania."
 
 #: scripts/update-alternatives.pl:293
 #, perl-format
 msgid "There is only one alternative in link group %s: %s"
-msgstr ""
+msgstr "Jest tylko jedna alternatywa w grupie dowiązań %s: %s"
 
 #: scripts/update-alternatives.pl:303
-#, fuzzy, perl-format
+#, perl-format
 msgid "alternative %s for %s not registered, not removing."
-msgstr "Alternatywa %s dla %s nie jest zarejestrowana, nie będzie usunięta."
+msgstr "alternatywa %s dla %s nie jest zarejestrowana, nie będzie usunięta."
 
 #: scripts/update-alternatives.pl:310
-#, fuzzy, perl-format
+#, perl-format
 msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "Usuwanie alternatywy wybranej ręcznie - przełączanie do trybu auto"
+msgstr "usuwanie alternatywy wybranej ręcznie - przełączanie %s do trybu auto"
 
 #: scripts/update-alternatives.pl:326
-#, fuzzy, perl-format
+#, perl-format
 msgid "renaming %s link from %s to %s."
-msgstr "Zmienianie nazwy dowiązania %s z %s na %s."
+msgstr "zmiana nazwy dowiązania %s z %s na %s."
 
 #: scripts/update-alternatives.pl:344
-#, fuzzy, perl-format
+#, perl-format
 msgid "renaming %s slave link from %s to %s."
-msgstr "Zmienianie nazwy dowiązania podrzędnego %s z %s na %s."
+msgstr "zmiana nazwy dowiązania podrzędnego %s z %s na %s."
 
 #: scripts/update-alternatives.pl:361
-#, fuzzy, perl-format
+#, perl-format
 msgid "automatic updates of %s are disabled, leaving it alone."
-msgstr "Automatyczne aktualizacje %s są wyłączone, zostawianie go bez zmian."
+msgstr "automatyczne aktualizacje %s są wyłączone, pozostawianie go bez zmian."
 
 #: scripts/update-alternatives.pl:363
-#, fuzzy, perl-format
+#, perl-format
 msgid "to return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
-"Aby powrócić do aktualizacji automatycznych, użyj \"update-alternatives --"
+"aby powrócić do aktualizacji automatycznych, użyj \"update-alternatives --"
 "auto %s\"."
 
 #: scripts/update-alternatives.pl:379
-#, fuzzy, perl-format
+#, perl-format
 msgid "using %s to provide %s (%s) in %s."
-msgstr "Używanie \"%s\" jako dostarczającego \"%s\"."
+msgstr "użycie %s jako dostarczającego %s (%s) w %s."
 
 #: scripts/update-alternatives.pl:557
 #, perl-format
@@ -5595,19 +5554,19 @@ msgid "unable to remove %s: %s"
 msgstr "nie można usunąć %s: %s"
 
 #: scripts/update-alternatives.pl:731
-#, fuzzy, perl-format
+#, perl-format
 msgid "while reading %s: %s"
-msgstr "nie można odczytać %s: %s"
+msgstr "podczas odczytu %s: %s"
 
 #: scripts/update-alternatives.pl:732
-#, fuzzy, perl-format
+#, perl-format
 msgid "unexpected end of file in %s while trying to read %s"
-msgstr "niespodziewany koniec linii w %s w %.255s"
+msgstr "niespodziewany koniec pliku w %s podczas próby odczytu %s"
 
 #: scripts/update-alternatives.pl:740
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s corrupt: %s"
-msgstr "błąd wewnętrzny: uszkodzone %s: %s"
+msgstr "%s uszkodzone: %s"
 
 #: scripts/update-alternatives.pl:745
 #, perl-format
@@ -5615,9 +5574,9 @@ msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "znaki nowej linii są zabronione w plikach update-alternatives (%s)"
 
 #: scripts/update-alternatives.pl:747
-#, fuzzy, perl-format
+#, perl-format
 msgid "while writing %s: %s"
-msgstr "błąd zapisu na standardowe wyjście: %s"
+msgstr "podczas zapisu %s: %s"
 
 #: scripts/update-alternatives.pl:755
 #, perl-format
@@ -5626,21 +5585,19 @@ msgstr "nie można odczytać %s: %s"
 
 #: scripts/update-alternatives.pl:757
 msgid "status"
-msgstr ""
+msgstr "status"
 
 #: scripts/update-alternatives.pl:758
-#, fuzzy
 msgid "invalid status"
-msgstr "niepoprawny tryb aktualizacji"
+msgstr "niepoprawny status"
 
 #: scripts/update-alternatives.pl:761
 msgid "slave name"
-msgstr ""
+msgstr "nazwa podrzędna"
 
 #: scripts/update-alternatives.pl:762
-#, fuzzy
 msgid "slave link"
-msgstr "powielone dowiązanie podrzędne %s"
+msgstr "dowiązanie podrzędne"
 
 #: scripts/update-alternatives.pl:763
 #, perl-format
@@ -5659,7 +5616,7 @@ msgstr "powielone dowiązanie podrzędne %s"
 
 #: scripts/update-alternatives.pl:774
 msgid "master file"
-msgstr ""
+msgstr "plik nadrzędny"
 
 #: scripts/update-alternatives.pl:775
 #, perl-format
@@ -5667,32 +5624,31 @@ msgid "duplicate path %s"
 msgstr "powielona ścieżka %s"
 
 #: scripts/update-alternatives.pl:778 scripts/update-alternatives.pl:792
-#, fuzzy
 msgid "priority"
-msgstr "priorytet %s %s"
+msgstr "priorytet"
 
 #: scripts/update-alternatives.pl:779
-#, fuzzy, perl-format
+#, perl-format
 msgid "priority of %s: %s"
-msgstr "priorytet %s %s"
+msgstr "priorytet %s: %s"
 
 #: scripts/update-alternatives.pl:783 scripts/update-alternatives.pl:794
 msgid "slave file"
-msgstr ""
+msgstr "plik podrzędny"
 
 #: scripts/update-alternatives.pl:788
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist. Removing from list of "
 "alternatives."
 msgstr ""
-"Alternatywa dla %s wskazuje na %s, który nie został znaleziony. Usuwanie jej "
-"z listy alternatyw."
+"alternatywa %s (zawarta w grupie dowiązań %s) nie istnieje. Usuwanie jej z "
+"listy alternatyw."
 
 #: scripts/update-alternatives.pl:827
-#, fuzzy, perl-format
+#, perl-format
 msgid "discarding obsolete slave link %s (%s)."
-msgstr "Wyrzucanie przestarzałego dowiązania podrzędnego %s (%s)"
+msgstr "odrzucanie przestarzałego dowiązania podrzędnego %s (%s)."
 
 #: scripts/update-alternatives.pl:833
 #, perl-format
@@ -5706,11 +5662,11 @@ msgstr "nie można zamknąć %s: %s"
 
 #: scripts/update-alternatives.pl:890 scripts/update-alternatives.pl:936
 msgid "auto mode"
-msgstr ""
+msgstr "tryb auto"
 
 #: scripts/update-alternatives.pl:890 scripts/update-alternatives.pl:945
 msgid "manual mode"
-msgstr ""
+msgstr "tryb ręczny"
 
 #: scripts/update-alternatives.pl:893
 #, perl-format
@@ -5743,41 +5699,38 @@ msgstr "Żadna wersja nie jest dostępna."
 #: scripts/update-alternatives.pl:925
 #, perl-format
 msgid "There are %s choices for the alternative %s (providing %s)."
-msgstr ""
+msgstr "Jest %s dostępnych alternatyw dla %s (dostarczających %s)."
 
 #: scripts/update-alternatives.pl:931
-#, fuzzy
 msgid "Selection"
-msgstr "Opis"
+msgstr "Wybór"
 
 #: scripts/update-alternatives.pl:932
 msgid "Path"
-msgstr ""
+msgstr "Ścieżka"
 
 #: scripts/update-alternatives.pl:932
-#, fuzzy
 msgid "Priority"
-msgstr "priorytet %s %s"
+msgstr "Priorytet"
 
 #: scripts/update-alternatives.pl:932
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: scripts/update-alternatives.pl:949
-#, fuzzy
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
-"Naciśnij Enter, aby zatrzymać wartość domyślną [*], albo wpisz wybrany numer:"
+"Naciśnij Enter, aby pozostawić bieżący wybór[*], albo wpisz wybrany numer:"
 
 #: scripts/update-alternatives.pl:983
 #, perl-format
 msgid "readlink(%s) failed: %s"
-msgstr ""
+msgstr "nieudane readlink(%s): %s"
 
 #: scripts/update-alternatives.pl:1013 scripts/update-alternatives.pl:1034
 #, perl-format
 msgid "not replacing %s with a link."
-msgstr ""
+msgstr "pominięcie zastąpienia %s dowiązaniem."
 
 #: scripts/update-alternatives.pl:1037
 #, perl-format
@@ -5785,521 +5738,5 @@ msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
-
-#~ msgid "failed write during hashreport"
-#~ msgstr "błąd zapisu podczas wykonania funkcji hashreport"
-
-#~ msgid "configuration error: unknown option %s"
-#~ msgstr "błąd konfiguracji: nieznana opcja %s"
-
-#~ msgid "configuration error: %s does not take a value"
-#~ msgstr "błąd konfiguracji: %s nie przyjmuje żadnych wartości"
-
-#, fuzzy
-#~ msgid "unexecpted end of line in statoverride file"
-#~ msgstr "niespodziewany koniec linii w nazwie pakietu w linii %d"
-
-#, fuzzy
-#~ msgid "--check-supported takes no arguments"
-#~ msgstr "dpkg-trigger --check-supported nie wymaga podawania argumentów"
-
-#~ msgid "--forget-old-unavail takes no arguments"
-#~ msgstr "--forget-old-unavail nie wymaga podawania argumentów"
-
-#~ msgid ""
-#~ "\n"
-#~ "Copyright (C) 1994,1995 Ian Jackson."
-#~ msgstr ""
-#~ "\n"
-#~ "Copyright (C) 1994,1995 Ian Jackson."
-
-#~ msgid ""
-#~ "Usage: %s [<options> ...] [--] <filename>\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --section <regexp> <title>\n"
-#~ "                           put the new entry in the <regex> matched "
-#~ "section\n"
-#~ "                           or create a new one with <title> if non-"
-#~ "existent.\n"
-#~ "  --menuentry=<text>       set the menu entry.\n"
-#~ "  --description=<text>     set the description to be used in the menu "
-#~ "entry.\n"
-#~ "  --info-file=<path>       specify info file to install in the "
-#~ "directory.\n"
-#~ "  --dir-file=<path>        specify file name of info directory file.\n"
-#~ "  --infodir=<directory>    same as '--dir-file=<directory>/dir'.\n"
-#~ "  --info-dir=<directory>   likewise.\n"
-#~ "  --keep-old               do not replace entries nor remove empty ones.\n"
-#~ "  --remove                 remove the entry specified by <filename> "
-#~ "basename.\n"
-#~ "  --remove-exactly         remove the exact <filename> entry.\n"
-#~ "  --test                   enables test mode (no actions taken).\n"
-#~ "  --debug                  enables debug mode (show more information).\n"
-#~ "  --quiet                  do not show output messages.\n"
-#~ "  --help                   show this help message.\n"
-#~ "  --version                show the version.\n"
-#~ msgstr ""
-#~ "Użycie: %s [<opcje> ...] [--] <nazwa_pliku>\n"
-#~ "\n"
-#~ "Opcje:\n"
-#~ "  --section <regexp> <tytuł>\n"
-#~ "                           wstawia nowy wpis w sekcji pasującej do "
-#~ "<regex> lub\n"
-#~ "                           tworzy nowy o zadanym <tytule>, jeśli nie "
-#~ "istnieje.\n"
-#~ "  --menuentry=<tekst>      ustawia wpis w menu.\n"
-#~ "  --description=<tekst>    ustawia opis używany we wpisie w menu.\n"
-#~ "  --info-file=<ścieżka>    określa plik info do zainstalowania w "
-#~ "katalogu.\n"
-#~ "  --dir-file=<ścieżka>     określa nazwę pliku katalogu info.\n"
-#~ "  --infodir=<katalog>      to samo co \"--dir-file=<katalog>/dir\".\n"
-#~ "  --info-dir=<katalog>     jak wyżej.\n"
-#~ "  --keep-old               nie zamienia wpisów i nie usuwa pustych.\n"
-#~ "  --remove                 usuwa wpis pasujący do bazowej <nazwy_pliku>.\n"
-#~ "  --remove-exactly         usuwa wpis ściśle pasujący do <nazwy_pliku>.\n"
-#~ "  --test                   włącza tryb testowy (nie wykonuje żadnych "
-#~ "akcji).\n"
-#~ "  --debug                  włącza tryb debugowania (dodatkowe "
-#~ "informacje).\n"
-#~ "  --quiet                  nie wyświetla żadnych komunikatów na wyjściu.\n"
-#~ "  --help                   wyświetla ten komunikat pomocy.\n"
-#~ "  --version                wyświetla informacje o wersji.\n"
-
-#~ msgid "could not open stderr for output! %s"
-#~ msgstr "nie można otworzyć wyjścia błędów do zapisu! %s"
-
-#~ msgid "%s: --section needs two more args"
-#~ msgstr "%s: --section wymaga jeszcze dwu argumentów"
-
-#~ msgid "%s: option --%s is deprecated (ignored)"
-#~ msgstr "%s: opcja --%s jest przestarzała (ignorowanie)"
-
-#~ msgid "%s: unknown option `%s'"
-#~ msgstr "%s: nieznana opcja \"%s\""
-
-#~ msgid "%s: too many arguments"
-#~ msgstr "%s: zbyt wiele argumentów"
-
-#~ msgid "%s: --section ignored with --remove"
-#~ msgstr "%s: --section ignorowany, bo podano --remove"
-
-#~ msgid "%s: --description ignored with --remove"
-#~ msgstr "%s: --description ignorowany, bo podano --remove"
-
-#~ msgid "%s: test mode - dir file will not be updated"
-#~ msgstr "%s: tryb testowy - plik dir nie zostanie zaktualizowany"
-
-#~ msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-#~ msgstr "%s: ostrzeżenie, ignorowanie mylącego wpisu INFO-DIR-ENTRY w pliku."
-
-#~ msgid "invalid info entry"
-#~ msgstr "niepoprawny wpis info"
-
-#~ msgid ""
-#~ "\n"
-#~ "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
-#~ "%s: unable to determine description for `dir' entry - giving up\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Brak \"START-INFO-DIR-ENTRY\" oraz brak \"This file documents\".\n"
-#~ "%s: nie można znaleźć opisu dla wpisu \"dir\" - przerywanie\n"
-
-#~ msgid "%s: no file %s, retrieving backup file %s."
-#~ msgstr "%s: brak pliku %s, pobieranie pliku kopii zapasowej %s."
-
-#~ msgid "%s: copying %s to %s failed, giving up: %s"
-#~ msgstr "%s: błąd kopiowania %s do %s, przerywanie: %s"
-
-#~ msgid "%s: no backup file %s available, retrieving default file."
-#~ msgstr "%s: brak pliku kopii zapasowej %s, pobieranie domyślnego pliku."
-
-#~ msgid "%s: no backup file %s available."
-#~ msgstr "%s: brak pliku kopii zapasowej %s"
-
-#~ msgid "%s: no default file %s available, giving up."
-#~ msgstr "%s: brak domyślnego pliku %s, przerywanie."
-
-#~ msgid "%s: failed to lock dir for editing! %s"
-#~ msgstr "%s: nie można zablokować katalogu do edycji! %s"
-
-#~ msgid "try deleting %s?"
-#~ msgstr "spróbować usunąć %s?"
-
-#~ msgid "unable to open %s: %s"
-#~ msgstr "nie można otworzyć %s: %s"
-
-#~ msgid "unable to close %s after read: %s"
-#~ msgstr "nie można zamknąć %s po czytaniu: %s"
-
-#~ msgid "%s: existing entry for `%s' not replaced"
-#~ msgstr "%s: istniejący wpis dla \"%s\" nie został zastąpiony"
-
-#~ msgid "%s: replacing existing dir entry for `%s'"
-#~ msgstr "%s: zastępowanie istniejącego wpisu w pliku dir dla \"%s\""
-
-#~ msgid "%s: creating new section `%s'"
-#~ msgstr "%s: tworzenie nowej sekcji \"%s\""
-
-#~ msgid "%s: no sections yet, creating Miscellaneous section too."
-#~ msgstr ""
-#~ "%s: nie ma jeszcze żadnych sekcji, tworzenie także sekcji \"Miscellaneous"
-#~ "\""
-
-#~ msgid "%s: no section specified for new entry, placing at end"
-#~ msgstr "%s: nie podano sekcji dla nowego wpisu, umieszczanie z tyłu"
-
-#~ msgid "%s: deleting entry `%s ...'"
-#~ msgstr "%s: usuwanie wpisu \"%s ...\""
-
-#~ msgid "%s: empty section `%s' not removed"
-#~ msgstr "%s: nie usunięto pustej sekcji \"%s\""
-
-#~ msgid "%s: deleting empty section `%s'"
-#~ msgstr "%s: usuwanie pustej sekcji \"%s\""
-
-#~ msgid "%s: no entry for file `%s' and menu entry `%s'"
-#~ msgstr "%s: brak wpisu dla pliku \"%s\" i wpisu w menu \"%s\""
-
-#~ msgid "%s: no entry for file `%s'"
-#~ msgstr "%s: brak wpisu dla pliku \"%s\""
-
-#~ msgid "unable to create %s: %s"
-#~ msgstr "nie można utworzyć %s: %s"
-
-#~ msgid "unable to backup old %s, giving up: %s"
-#~ msgstr "nie można utworzyć kopii zapasowej starego %s, przerywanie: %s"
-
-#~ msgid "unable to install new %s: %s"
-#~ msgstr "nie można zainstalować nowego %s: %s"
-
-#~ msgid "unable to unlock %s: %s"
-#~ msgstr "nie można odblokować %s: %s"
-
-#~ msgid "%s: could not backup %s in %s: %s"
-#~ msgstr "%s: nie można utworzyć kopii zapasowej %s w %s : %s"
-
-#~ msgid "%s: warning - unable to unlock %s: %s"
-#~ msgstr "%s: ostrzeżenie - nie można odblokować %s: %s"
-
-#~ msgid "unable to read %s: %d"
-#~ msgstr "nie można odczytać %s: %d"
-
-#~ msgid "dbg: %s"
-#~ msgstr "dbg: %s"
-
-#~ msgid "failed to open tmpfile (control), %s"
-#~ msgstr "nie można otworzyć tymczasowego pliku (sekcja control), %s"
-
-#~ msgid "failed to open tmpfile (data), %s"
-#~ msgstr "nie można otworzyć tymczasowego pliku (sekcja data), %s"
-
-#~ msgid "invalid number for --command-fd"
-#~ msgstr "nieprawidłowy numer przy --command-fd"
-
-#~ msgid "unable to open tmpfile for vsnprintf"
-#~ msgstr "nie można otworzyć pliku tymczasowego dla vsnprintf"
-
-#~ msgid "unable to rewind at start of vsnprintf"
-#~ msgstr "nie można cofnąć się do początku dla vsnprintf"
-
-#~ msgid "unable to truncate in vsnprintf"
-#~ msgstr "nie można uciąć pliku dla vsnprintf"
-
-#~ msgid "write error in vsnprintf"
-#~ msgstr "błąd zapisu dla vsnprintf"
-
-#~ msgid "unable to flush in vsnprintf"
-#~ msgstr "nie można opróżnić buforów dla vsnprintf"
-
-#~ msgid "unable to stat in vsnprintf"
-#~ msgstr "nie można ustalić stanu pliku dla vsnprintf"
-
-#~ msgid "unable to rewind in vsnprintf"
-#~ msgstr "nie można przewinąć pliku dla vsnprintf"
-
-#~ msgid "read error in vsnprintf truncated"
-#~ msgstr "błąd odczytu dla vsnprintf"
-
-#~ msgid "System error no.%d"
-#~ msgstr "Błąd systemowy nr %d"
-
-#~ msgid "Signal no.%d"
-#~ msgstr "Sygnał nr %d"
-
-#~ msgid "dpkg: warning - %s returned error exit status %d\n"
-#~ msgstr "dpkg: ostrzeżenie - %s zwrócił kod błędu %d\n"
-
-#~ msgid "dpkg: warning - %s killed by signal (%s)%s\n"
-#~ msgstr "dpkg: ostrzeżenie - %s zabity sygnałem (%s)%s\n"
-
-#~ msgid "failed to read `%s' at line %d"
-#~ msgstr "nie można odczytać \"%s\" w linii %d"
-
-#~ msgid "parse error, in file `%.255s' near line %d"
-#~ msgstr "błąd parsowania, w pliku \"%.255s\" niedaleko linii %d"
-
-#~ msgid " package `%.255s'"
-#~ msgstr " pakiet \"%.255s\""
-
-#~ msgid "failed to realloc for variable buffer"
-#~ msgstr ""
-#~ "nie można wykonać funkcji \"realloc\" dla bufora o zmiennym rozmiarze"
-
-#~ msgid "process_archive ...  already disappeared !"
-#~ msgstr "process_archive ...  zniknął!"
-
-#~ msgid "gobble replaced file `%.255s'"
-#~ msgstr "pominięcie zastąpionego pliku \"%.255s\""
-
-#~ msgid "dpkg: %s: warning - failed to remove `%.250s': %s\n"
-#~ msgstr "dpkg: %s: ostrzeżenie - nie można usunąć \"%.250s\": %s\n"
-
-#~ msgid "--audit does not take any arguments"
-#~ msgstr "--audit nie wymaga podawania argumentów"
-
-#~ msgid "--yet-to-unpack does not take any arguments"
-#~ msgstr "--yet-to-unpack nie wymaga podawania argumentów"
-
-#~ msgid "--assert-* does not take any arguments"
-#~ msgstr "--assert-* nie wymaga podawania argumentów"
-
-#~ msgid "--predep-package does not take any argument"
-#~ msgstr "--predep-package nie wymaga podawania argumentów"
-
-#~ msgid "--print-architecture does not take any argument"
-#~ msgstr "--print-architecture nie wymaga podawania argumentów"
-
-#~ msgid "unable to stat installed %s script `%.250s'"
-#~ msgstr "nie można ustalić stanu zainstalowanego skryptu %s \"%.250s\""
-
-#~ msgid "unable to stat new %s script `%.250s'"
-#~ msgstr "nie można ustalić stanu nowego skryptu %s \"%.250s\""
-
-#~ msgid "unable to execute new %s"
-#~ msgstr "nie można wykonać nowego %s"
-
-#~ msgid "dpkg: warning - unable to stat %s `%.250s': %s\n"
-#~ msgstr "dpkg: ostrzeżenie - nie można ustalić stanu %s \"%.250s\": %s\n"
-
-#~ msgid "--set-selections does not take any argument"
-#~ msgstr "--set-selections wymaga niepodawania argumentu"
-
-#~ msgid "--clear-selections does not take any argument"
-#~ msgstr "--clear-selections nie wymaga podawania argumentów"
-
-#~ msgid "--build needs a directory argument"
-#~ msgstr "--build wymaga podania argumentu będącego katalogiem"
-
-#~ msgid ""
-#~ "dpkg-deb: warning, not checking contents of control area.\n"
-#~ "dpkg-deb: building an unknown package in `%s'.\n"
-#~ msgstr ""
-#~ "dpkg-deb: ostrzeżenie, zawartość pliku kontrolnego nie będzie "
-#~ "sprawdzana.\n"
-#~ "dpkg-deb: budowanie nieznanego pakietu w \"%s\".\n"
-
-#~ msgid "Internal error, compress_type `%i' unknown!"
-#~ msgstr "Błąd wewnętrzny, compress_type \"%i\" nieznany!"
-
-#~ msgid "realloc failed (%zu bytes)"
-#~ msgstr "błąd funkcji \"realloc\" (%zu bajtów)"
-
-#~ msgid "--join requires one or more part file arguments"
-#~ msgstr ""
-#~ "--join wymaga podania co najmniej jednego argumentu będącego plikiem "
-#~ "części"
-
-#~ msgid "--listq does not take any arguments"
-#~ msgstr "--listq nie wymaga podawania argumentów"
-
-#~ msgid ""
-#~ "\n"
-#~ "Copyright (C) 1996 Kim-Minh Kaplan."
-#~ msgstr ""
-#~ "\n"
-#~ "Copyright (C) 1996 Kim-Minh Kaplan."
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] [--] [<dirname>]\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --unsafe     set some additional possibly useful options.\n"
-#~ "               warning: this option may garble an otherwise correct "
-#~ "file.\n"
-#~ "  --help       show this help message.\n"
-#~ "  --version    show the version.\n"
-#~ msgstr ""
-#~ "Użycie: %s [<opcja> ...] [--] [<katalog>]\n"
-#~ "\n"
-#~ "Opcje:\n"
-#~ "  --unsafe     ustawia kilka dodatkowych opcji, które mogą być "
-#~ "użyteczne.\n"
-#~ "               uwaga: ta opcja może zniszczyć poprawny plik.\n"
-#~ "  --help       pokazuje ten komunikat pomocy.\n"
-#~ "  --version    pokazuje informacje o wersji programu.\n"
-
-#~ msgid "try deleting %s"
-#~ msgstr "próba usuwania %s"
-
-#~ msgid "failed to install %s; it will be left as %s: %s"
-#~ msgstr "błąd instalowania %s; pozostawienie go jako %s: %s"
-
-#~ msgid "%s: unable to unlock %s: %s"
-#~ msgstr "%s: nie można odblokować %s: %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Copyright (C) 1995 Ian Jackson.\n"
-#~ "Copyright (C) 2000-2002 Wichert Akkerman."
-#~ msgstr ""
-#~ "\n"
-#~ "Copyright (C) 1995 Ian Jackson.\n"
-#~ "Copyright (C) 2000-2002 Wichert Akkerman."
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  --install <link> <name> <path> <priority>\n"
-#~ "    [--slave <link> <name> <path>] ...\n"
-#~ "                           add a group of alternatives to the system.\n"
-#~ "  --remove <name> <path>   remove <path> from the <name> group "
-#~ "alternative.\n"
-#~ "  --remove-all <name>      remove <name> group from the alternatives "
-#~ "system.\n"
-#~ "  --auto <name>            switch the master link <name> to automatic "
-#~ "mode.\n"
-#~ "  --display <name>         display information about the <name> group.\n"
-#~ "  --list <name>            display all targets of the <name> group.\n"
-#~ "  --config <name>          show alternatives for the <name> group and ask "
-#~ "the\n"
-#~ "                           user to select which one to use.\n"
-#~ "  --set <name> <path>      set <path> as alternative for <name>.\n"
-#~ "  --all                    call --config on all alternatives.\n"
-#~ "\n"
-#~ "<link> is the symlink pointing to %s/<name>.\n"
-#~ "  (e.g. /usr/bin/pager)\n"
-#~ "<name> is the master name for this link group.\n"
-#~ "  (e.g. pager)\n"
-#~ "<path> is the location of one of the alternative target files.\n"
-#~ "  (e.g. /usr/bin/less)\n"
-#~ "<priority> is an integer; options with higher numbers have higher "
-#~ "priority in\n"
-#~ "  automatic mode.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --altdir <directory>     change the alternatives directory.\n"
-#~ "  --admindir <directory>   change the administrative directory.\n"
-#~ "  --verbose                verbose operation, more output.\n"
-#~ "  --quiet                  quiet operation, minimal output.\n"
-#~ "  --help                   show this help message.\n"
-#~ "  --version                show the version.\n"
-#~ msgstr ""
-#~ "Użycie: %s [<opcja> ...] <polecenie>\n"
-#~ "\n"
-#~ "Polecenia:\n"
-#~ "  --install <link> <nazwa> <ścieżka> <priorytet>\n"
-#~ "    [--slave <link> <nazwa> <ścieżka>] ...\n"
-#~ "                           dodaje grupę alternatyw do systemu.\n"
-#~ "  --remove <nazwa> <ścieżka> usuwa <ścieżkę> z grup alternatyw <nazwa>.\n"
-#~ "  --remove-all <nazwa>     usuwa grupę <nazwa> z systemu alternatyw.\n"
-#~ "  --auto <nazwa>           przełącza link główny <nazwy> w tryb automat.\n"
-#~ "  --display <nazwa>        wyświetla informacje o grupie <nazwa>.\n"
-#~ "  --list <nazwa>           wyświetla wszystkie cele w grupie <nazwa>.\n"
-#~ "  --config <nazwa>         pokazuje alternatywy w grupie <nazwa > i "
-#~ "prosi\n"
-#~ "                             użytkownika o wybranie jednej z nich.\n"
-#~ "  --set <nazwa> <ścieżka>  ustawia <ścieżkę> jako alternatywę dla "
-#~ "<nazwy>.\n"
-#~ "  --all                    wywołuje --config dla wszystkich alternatyw.\n"
-#~ "\n"
-#~ "<link> jest dowiązaniem prowadzącym do %s/<nazwa>.\n"
-#~ "  (np. /usr/bin/pager)\n"
-#~ "<nazwa> jest główną nazwą dla tej grupy dowiązań.\n"
-#~ "  (np. pager)\n"
-#~ "<ścieżka> jest położeniem jednego z plików docelowych alternatywy.\n"
-#~ "  (np. /usr/bin/less)\n"
-#~ "<priorytet> jest liczbą, w trybie automatycznym wybierane są opcje\n"
-#~ "  o większym priorytecie\n"
-#~ "\n"
-#~ "Opcje:\n"
-#~ "  --altdir <katalog>       zmienia katalog alternatyw.\n"
-#~ "  --admindir <katalog>     zmienia katalog administracyjny.\n"
-#~ "  --verbose                tryb gadatliwy, więcej komunikatów na "
-#~ "wyjściu.\n"
-#~ "  --quiet                  tryb cichy, komunikaty ograniczone do "
-#~ "minimum.\n"
-#~ "  --help                   wyświetla ten komunikat pomocy.\n"
-#~ "  --version                wyświetla informacje o wersji.\n"
-
-#~ msgid "%s - status is %s."
-#~ msgstr "%s - status jest %s."
-
-#~ msgid " link unreadable - %s"
-#~ msgstr " nie można odczytać dowiązania - %s"
-
-#~ msgid ""
-#~ "warning: %s is supposed to be a symlink to %s, \n"
-#~ "or nonexistent; however, readlink failed: %s"
-#~ msgstr ""
-#~ "ostrzeżenie: %s powinien być dowiązaniem symbolicznym do %s\n"
-#~ "lub nie powinien istnieć; jednak \"readlink\" zwrócił błąd: %s"
-
-#~ msgid "Leaving %s (%s) pointing to %s."
-#~ msgstr "Zostawianie %s (%s) wskazującego na %s."
-
-#~ msgid "Updating %s (%s) to point to %s."
-#~ msgstr "Aktualizowanie %s (%s), żeby wskazywał na %s."
-
-#~ msgid "Removing %s (%s), not appropriate with %s."
-#~ msgstr "Usuwanie %s (%s), nieodpowiednie dla %s."
-
-#~ msgid ""
-#~ "Checking available versions of %s, updating links in %s ...\n"
-#~ "(You may modify the symlinks there yourself if desired - see `man ln'.)"
-#~ msgstr ""
-#~ "Sprawdzanie dostępnych wersji %s, aktualizowanie dowiązań w %s...\n"
-#~ "(można samodzielnie zmienić te dowiązania symboliczne - patrz \"man ln\")."
-
-#~ msgid "unable to rename %s to %s: %s"
-#~ msgstr "nie można zmienić nazwy %s na %s: %s"
-
-#~ msgid "slave link name %s duplicated"
-#~ msgstr "powielona nazwa dowiązania podrzędnego %s"
-
-#~ msgid "Recovering from previous failed update of %s ..."
-#~ msgstr "Odtwarzanie z poprzedniej nieudanej aktualizacji %s ..."
-
-#~ msgid "unable to open %s for write: %s"
-#~ msgstr "nie można otworzyć %s do zapisu: %s"
-
-#~ msgid "Last package providing %s (%s) removed, deleting it."
-#~ msgstr "Usunięto ostatni pakiet dostarczający %s (%s), usuwanie jej."
-
-#~ msgid ""
-#~ "There is only 1 program which provides %s\n"
-#~ "(%s). Nothing to configure.\n"
-#~ msgstr ""
-#~ "Jest tylko jeden program, który dostarcza %s\n"
-#~ "(%s). Nie ma nic do skonfigurowania.\n"
-
-#~ msgid ""
-#~ "There are %s alternatives which provide `%s'.\n"
-#~ "\n"
-#~ "  Selection    Alternative\n"
-#~ "-----------------------------------------------\n"
-#~ msgstr ""
-#~ "Jest %s alternatyw dostarczających \"%s\".\n"
-#~ "\n"
-#~ "  Wybór        Alternatywa\n"
-#~ "-----------------------------------------------\n"
-
-#~ msgid "error or eof reading %s for %s (%s)"
-#~ msgstr "nie można odczytać %s dla %s (%s)"
-
-#~ msgid "missing newline after %s"
-#~ msgstr "brakujący znak nowej linii po %s"
-
-#~ msgid "Serious problem: %s"
-#~ msgstr "Poważny problem: %s"
+"pominięcie tworzenia %s ponieważ powiązany plik %s (lub grupa dowiązań %s) "
+"nie istnieje."
