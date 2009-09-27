@@ -534,7 +534,9 @@ control_path(const char *const *argv)
 
   /* Validate control file name for sanity. */
   if (control_file) {
-    for (const char *c = "/."; *c; c++)
+    const char *c;
+
+    for (c = "/."; *c; c++)
       if (strchr(control_file, *c))
         badusage(_("control file contains %c"), *c);
   }
