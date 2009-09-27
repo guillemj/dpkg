@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the dpkg package.
 #
 # Robert Luberda <robert@debian.org>, 2007-2008
-# Wiktor Wandachowicz <siryes@gmail.com>, 2008
+# Wiktor Wandachowicz <siryes@gmail.com>, 2008-2009
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.14.24\n"
+"Project-Id-Version: dpkg 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2009-09-06 09:04+0200\n"
-"PO-Revision-Date: 2009-02-04 10:08+0100\n"
+"PO-Revision-Date: 2009-09-22 16:17+0100\n"
 "Last-Translator: Wiktor Wandachowicz <siryes@gmail.com>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,7 @@ msgstr ""
 "Copyright (C) 2007 Frank Lichtenheld"
 
 #: scripts/dpkg-buildpackage.pl:36
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "\n"
 "Usage: %s [<options> ...]\n"
@@ -210,6 +210,8 @@ msgstr ""
 "  -p<polecenie-podpisywania>\n"
 "  -d             nie sprawdza zależności i konfliktów czasu budowania.\n"
 "  -D             sprawdza zależności i konflikty czasu budowania.\n"
+"  -T<cel>        wywołanie debian/rules <cel> z odpowiednim środowiskiem\n"
+"  --as-root      zapewnienie, że -T wywoła cel z prawami administratora\n"
 "  -j[<liczba>]   liczba zadań wykonywanych jednocześnie } przekazywane do\n"
 "                                                        } debian/rules\n"
 "  -k<id-klucza>  klucz używany do podpisywania.\n"
@@ -238,8 +240,6 @@ msgstr ""
 "  -nc            nie czyści drzewa źródeł (wymusza -b).\n"
 "  -tc            czyści drzewo źródeł po zakończeniu.\n"
 "  -ap            dodaje pauzę przez rozpoczęciem podpisywania.\n"
-"  -E             zmienia niektóre ostrzeżenia w błędy.  } przekazywane do\n"
-"  -W             jeśli -E jest włączone, -W je wyłącza. } dpkg-source\n"
 "  -i[<wyr-reg>]  ignorowanie różnic pasujących plików.     } tylko przek.\n"
 "  -I[<wzorzec>]  odfiltrowanie plików podczas budowania tar} do dpkg-source\n"
 "  --admindir=<katalog>\n"
@@ -317,7 +317,7 @@ msgstr "architektura gościa"
 
 #: scripts/dpkg-buildpackage.pl:334
 msgid "debian/rules is not executable: fixing that."
-msgstr ""
+msgstr "debian/rules nie jest plikiem wykonywalnym: naprawianie."
 
 #: scripts/dpkg-buildpackage.pl:347
 msgid "Build dependencies/conflicts unsatisfied; aborting."
@@ -340,6 +340,8 @@ msgid ""
 "it is a bad idea to generate a source package without cleaning up first, it "
 "might contain undesired files."
 msgstr ""
+"generowanie pakietu źródłowego bez wcześniejszego czyszczenia jest złym "
+"pomysłem, może on zawierać niepotrzebne pliki."
 
 #: scripts/dpkg-buildpackage.pl:390
 msgid "Press the return key to start signing process\n"
@@ -816,9 +818,9 @@ msgstr ""
 "pakietu (%s)"
 
 #: scripts/dpkg-gencontrol.pl:246 scripts/dpkg-gencontrol.pl:254
-#, fuzzy, perl-format
+#, perl-format
 msgid "error occurred while parsing %s field: %s"
-msgstr "wystąpił błąd podczas przetwarzania %s"
+msgstr "wystąpił błąd podczas przetwarzania pola %s: %s"
 
 #: scripts/dpkg-gencontrol.pl:279
 #, perl-format
@@ -872,7 +874,7 @@ msgstr ""
 "Copyright (C) 2007 Raphael Hertzog.\n"
 
 #: scripts/dpkg-gensymbols.pl:46
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...]\n"
 "\n"
@@ -910,15 +912,16 @@ msgstr ""
 "                           wersja wyciągnięta z debian/changelog).\n"
 "  -c<poziom>               porównuje wygenerowany plik symboli\n"
 "                           z plikiem reference w katalogu debian.\n"
-"\t\t\t   Kończy się błędem, jeśli różnice zbyt ważne\n"
-"\t\t\t   (poziom od 0 - żadnych sprawdzeń do 4 \n"
-"\t\t\t   - wszystkie sprawdzenia).Domyślny poziom\n"
+"\t\t\t   Kończy się błędem, jeśli różnice są zbyt ważne\n"
+"\t\t\t   (poziom od 0 - żadnych sprawdzeń do 4\n"
+"\t\t\t   - wszystkie sprawdzenia). Domyślny poziom\n"
 "\t\t\t   to 1.\n"
-"  -I<plik>                 wymusza użycie <pliku>\n"
-" jako pliku symboli                           zamiast używać domyślnego "
-"pliku.\n"
+"  -I<plik>                 wymusza użycie <pliku> jako pliku symboli\n"
+"                           zamiast używać domyślnego pliku.\n"
 "  -O<plik>                 zapisuje do <pliku>, zamiast .../DEBIAN/symbols.\n"
 "  -O                       zapisuje na stdout, zamiast .../DEBIAN/symbols.\n"
+"  -t                       zapisuje w trybie szablonu (tagi nie są\n"
+"                           przetwarzane i włączone na wyjściu).\n"
 "  -d                       podczas pracy wyświetla komunikaty debugowania.\n"
 "  -h, --help               wyświetla ten komunikat pomocy.\n"
 "      --version            wyświetla informacje o wersji.\n"
@@ -970,7 +973,7 @@ msgstr "do generowania %s nie użyto żadnego pliku debian/symbols"
 #: scripts/dpkg-name.pl:53
 #, perl-format
 msgid "Usage: %s [<option>...] <file>...\n"
-msgstr ""
+msgstr "Użycie: %s [<opcja>...] <plik>...\n"
 
 #: scripts/dpkg-name.pl:55
 msgid ""
@@ -987,11 +990,24 @@ msgid ""
 "file.deb changes to <package>_<version>_<architecture>.<package_type>\n"
 "according to the 'underscores convention'.\n"
 msgstr ""
+"\n"
+"Opcje:\n"
+"  -a, --no-architecture    bez określenia architektury w nazwie pliku.\n"
+"  -o, --overwrite          nadpisywanie jeśli plik istnieje.\n"
+"  -k, --symlink            tworzenie dowiązania zamiast nowego pliku.\n"
+"  -s, --subdir [katalog]   przeniesienie pliku do podkatalogu (ostrożnie!).\n"
+"  -c, --create-dir         tworzenie kat.docelowego jeśli brak "
+"(ostrożnie!).\n"
+"  -h, --help               wyświetla ten komunikat pomocy.\n"
+"  -v, --version            wyświetla informacje o wersji programu.\n"
+"\n"
+"plik.deb jest zmieniany na <pakiet>_<wersja>_<architektura>.<typ_pakietu>\n"
+"zgodnie z \"regułami podkreślania\".\n"
 
 #: scripts/dpkg-name.pl:77
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot find '%s'"
-msgstr "nie można odczytać %s"
+msgstr "nie można odnaleźć \"%s\""
 
 #: scripts/dpkg-name.pl:98 scripts/dpkg-scansources.pl:252
 #: scripts/Dpkg/Arch.pm:122 scripts/Dpkg/Arch.pm:141 scripts/Dpkg/Arch.pm:160
@@ -1003,19 +1019,18 @@ msgid "cannot open %s"
 msgstr "nie można otworzyć %s"
 
 #: scripts/dpkg-name.pl:100
-#, fuzzy, perl-format
+#, perl-format
 msgid "binary control file %s"
-msgstr "źródłowy plik kontrolny %s"
+msgstr "binarny plik kontrolny %s"
 
 #: scripts/dpkg-name.pl:113
 #, perl-format
 msgid "assuming architecture '%s' for '%s'"
-msgstr ""
+msgstr "przyjęcie architektury \"%s\" dla \"%s\""
 
 #: scripts/dpkg-name.pl:217
-#, fuzzy
 msgid "need at least a filename"
-msgstr "wymaga co najmniej jednego argumentu będącego plikiem wykonywalnym"
+msgstr "wymaga co najmniej jednego argumentu będącego nazwą pliku"
 
 #: scripts/dpkg-parsechangelog.pl:21
 msgid ""
@@ -1028,7 +1043,7 @@ msgstr ""
 "Copyright (C) 2001 Wichert Akkerman"
 
 #: scripts/dpkg-parsechangelog.pl:33
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...]\n"
 "\n"
@@ -1072,19 +1087,21 @@ msgstr ""
 "                                stronie podręcznika, domyślnym jest \"dpkg"
 "\"\n"
 "                                dla zachowania kompatybilności z dpkg-dev\n"
-"    --since, -s, -v <wersja>    włącza wszystkie zmianty późniejsze od "
+"    --since <wersja>,           włącza wszystkie zmiany późniejsze od "
 "wersji\n"
-"    --until, -u <wersja>        włącza wszystkie zmiany wcześniejsze od "
+"      -s<wersja>, -v<wersja>\n"
+"    --until <wersja>,           włącza wszystkie zmiany wcześniejsze od "
 "wersji\n"
-"    --from, -f <wersja>         włącza wszystkie zmiany późniejsze od "
+"      -u<wersja>\n"
+"    --from <wersja>,            włącza wszystkie zmiany późniejsze od "
 "wersji\n"
-"                                lub jej równe\n"
-"    --to, -t <wersja>           włącza wszystkie zmiany aż do danej wersji,\n"
+"      -f<wersja>                lub jej równe\n"
+"    --to <wersja>, -t<wersja>   włącza wszystkie zmiany aż do danej wersji,\n"
 "                                łącznie z tą wersją\n"
-"    --count, -c, -n <liczba>    włącza <liczba> początkowych wpisów (lub\n"
-"                                końcowych, gdy <liczba> jest mniejsza od 0)\n"
-"    --offset, -o <liczba>       zmienia punkt początkowy dla --count,\n"
-"                                licząc od początku pliku (lub końca,\n"
+"    --count <liczba>,           włącza <liczba> początkowych wpisów (lub\n"
+"      -c<liczba>, -n<liczba>    końcowych, gdy <liczba> jest mniejsza od 0)\n"
+"    --offset <liczba>,          zmienia punkt początkowy dla --count,\n"
+"      -o<liczba>                licząc od początku pliku (lub końca,\n"
 "                                gdy <liczba> jest mniejsza od 0)\n"
 "    --all                       włącza wszystkie zmiany\n"
 
@@ -1094,7 +1111,7 @@ msgid "%s takes no non-option arguments"
 msgstr "%s wymaga niepodawania argumentu nie będącego opcją"
 
 #: scripts/dpkg-scanpackages.pl:63
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
 "Packages\n"
@@ -1114,17 +1131,18 @@ msgstr ""
 "\n"
 "Opcje:\n"
 "  -t, --type <typ>         skanuje pakiety o <typie> (domyślnie \"deb\").\n"
-"  -u, --udeb               skanuje pakiety *.udeb.\n"
+"  -u, --udeb               skanuje pakiety udeb (stary alias dla -tudeb).\n"
 "  -a, --arch <arch>        architektura, która będzie skanowana.\n"
 "  -m, --multiversion       dopuszcza wiele wersji pojedynczego pakietu.\n"
+"  -e, --extra-override <plik>\n"
+"                           używa dodatkowego pliku nadpisań.\n"
 "  -h,--help                wyświetla ten komunikat pomocy.\n"
 "  --version                wyświetla informacje o wersji programu.\n"
 
 #: scripts/dpkg-scanpackages.pl:79
-#, fuzzy
 msgid "-u, --udeb option is deprecated (see README.feature-removal-schedule)"
 msgstr ""
-"Wsparcie dla PGP jest przestarzałe (patrz README.feature-removal-schedule)"
+"-u, --udeb są opcjami przestarzałymi (patrz README.feature-removal-schedule)"
 
 #: scripts/dpkg-scanpackages.pl:87 scripts/dpkg-scanpackages.pl:134
 #: scripts/dpkg-scansources.pl:233
@@ -1135,17 +1153,16 @@ msgstr "Nie można otworzyć pliku nadpisań %s"
 #: scripts/dpkg-scanpackages.pl:109
 #, perl-format
 msgid "  %s (package says %s, not %s)"
-msgstr ""
+msgstr "  %s (pakiet zawiera %s, nie %s)"
 
 #: scripts/dpkg-scanpackages.pl:117
-#, fuzzy, perl-format
+#, perl-format
 msgid "Unconditional maintainer override for %s"
-msgstr " * Bezwarunkowe nadpisanie opiekuna dla %s *"
+msgstr "Bezwarunkowe nadpisanie opiekuna dla %s"
 
 #: scripts/dpkg-scanpackages.pl:156
-#, fuzzy
 msgid "1 to 3 args expected"
-msgstr "Oczekiwano od 1 do 3 argumentów\n"
+msgstr "Oczekiwano od 1 do 3 argumentów"
 
 #: scripts/dpkg-scanpackages.pl:174
 #, perl-format
@@ -1188,33 +1205,29 @@ msgid "No Package field in control file of %s"
 msgstr "Brak pola Package w pliku kontrolnym %s"
 
 #: scripts/dpkg-scanpackages.pl:226
-#, fuzzy, perl-format
+#, perl-format
 msgid "Package %s (filename %s) is repeat but newer version;"
-msgstr ""
-" ! Pakiet %s (plik %s) jest powtórzony, ale w nowszej wersji;\n"
-"   używanie tej wersji i ignorowanie danych z %s !\n"
+msgstr "Pakiet %s (plik %s) jest powtórzony, ale w nowszej wersji;"
 
 #: scripts/dpkg-scanpackages.pl:228
 #, perl-format
 msgid "used that one and ignored data from %s!"
-msgstr ""
+msgstr "użycie tej wersji i używanie danych z %s!"
 
 #: scripts/dpkg-scanpackages.pl:232
-#, fuzzy, perl-format
+#, perl-format
 msgid "Package %s (filename %s) is repeat;"
-msgstr " ! Pakiet %s (plik %s) zawiera pole Filename!\n"
+msgstr "Pakiet %s (plik %s) jest powtórzony;"
 
 #: scripts/dpkg-scanpackages.pl:233
-#, fuzzy, perl-format
+#, perl-format
 msgid "ignored that one and using data from %s!"
-msgstr ""
-" ! Pakiet %s (plik %s) jest powtórzony;\n"
-"   ignorowanie tej wersji i używanie danych z %s !\n"
+msgstr "ignorowanie tej wersji i używanie danych z %s!"
 
 #: scripts/dpkg-scanpackages.pl:239
-#, fuzzy, perl-format
+#, perl-format
 msgid "Package %s (filename %s) has Filename field!"
-msgstr " ! Pakiet %s (plik %s) zawiera pole Filename!\n"
+msgstr "Pakiet %s (plik %s) zawiera pole Filename!"
 
 #: scripts/dpkg-scanpackages.pl:278
 msgid "Failed when writing stdout"
@@ -1225,35 +1238,29 @@ msgid "Couldn't close stdout"
 msgstr "Nie można zamknąć stdout"
 
 #: scripts/dpkg-scanpackages.pl:284
-#, fuzzy
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr ""
-" ++ Pakiety w pliku nadpisań z niepoprawną wartością poprzedniego opiekuna: +"
-"+"
+"Pakiety w pliku nadpisań z niepoprawną wartością poprzedniego opiekuna:"
 
 #: scripts/dpkg-scanpackages.pl:288
-#, fuzzy
 msgid "Packages specifying same maintainer as override file:"
-msgstr ""
-" -- Pakiety mające tego samego opiekuna, jak wymieniony w pliku nadpisań: --"
+msgstr "Pakiety mające tego samego opiekuna, jak wymieniony w pliku nadpisań:"
 
 #: scripts/dpkg-scanpackages.pl:292
-#, fuzzy
 msgid "Packages in archive but missing from override file:"
-msgstr "** Pakiety w archiwum, których brakuje w pliku nadpisań: **"
+msgstr "Pakiety w archiwum, których brakuje w pliku nadpisań:"
 
 #: scripts/dpkg-scanpackages.pl:296
-#, fuzzy
 msgid "Packages in override file but not in archive:"
-msgstr " -- Pakiety w pliku nadpisań, ale nie w archiwum: --"
+msgstr "Pakiety w pliku nadpisań, ale nie w archiwum:"
 
 #: scripts/dpkg-scanpackages.pl:300
-#, fuzzy, perl-format
+#, perl-format
 msgid "Wrote %s entries to output Packages file."
-msgstr " Zapisano %s wpisów do wyjściowego pliku Packages."
+msgstr "Zapisano %s wpisów do wyjściowego pliku Packages."
 
 #: scripts/dpkg-scansources.pl:88
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
 "Sources\n"
@@ -1272,11 +1279,13 @@ msgid ""
 "\n"
 "See the man page for the full documentation.\n"
 msgstr ""
-"Użycie: %s [<opcja> ...] <ścieżka_bianriów> [plik_nadpisań> "
+"Użycie: %s [<opcja> ...] <ścieżka_binariów> [plik_nadpisań> "
 "[<prefiks_ścieżki>]] > Sources\n"
 "\n"
 "Opcje:\n"
 "  -n, --no-sort            nie sortuje wyjścia po nazwach pakietów.\n"
+"  -e, --extra-override <plik>\n"
+"                           używa dodatkowego pliku nadpisań.\n"
 "  -s, --source-override <plik>\n"
 "                           używa pliku jako dodatkowych nadpisań źródeł, "
 "domyślnie\n"
@@ -1294,9 +1303,9 @@ msgid "error closing %s ($? %d, $! `%s')"
 msgstr "nie można zamknąć %s ($? %d, $! \"%s\")"
 
 #: scripts/dpkg-scansources.pl:143
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't read override file %s"
-msgstr "nie można odczytać pliku nadpisań %s:"
+msgstr "nie można odczytać pliku nadpisań %s"
 
 #: scripts/dpkg-scansources.pl:151
 #, perl-format
@@ -1314,14 +1323,13 @@ msgid "ignoring override entry for %s, invalid priority %s"
 msgstr "ignorowanie wpisu nadpisania dla %s; niepoprawny priorytet %s"
 
 #: scripts/dpkg-scansources.pl:181
-#, fuzzy
 msgid "error closing override file"
-msgstr "błąd zamknięcia pliku nadpisań:"
+msgstr "błąd zamknięcia pliku nadpisań"
 
 #: scripts/dpkg-scansources.pl:202
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't read source override file %s"
-msgstr "nie można czytać pliku nadpisań źródeł %s:"
+msgstr "nie można czytać pliku nadpisań źródeł %s"
 
 #: scripts/dpkg-scansources.pl:211
 #, perl-format
@@ -1336,14 +1344,13 @@ msgstr ""
 "linii %d"
 
 #: scripts/dpkg-scansources.pl:226
-#, fuzzy
 msgid "error closing source override file"
-msgstr "błąd zapisywania pliku nadpisań źródeł:"
+msgstr "błąd zapisywania pliku nadpisań źródeł"
 
 #: scripts/dpkg-scansources.pl:256
-#, fuzzy, perl-format
+#, perl-format
 msgid "parsing an empty file %s"
-msgstr "nie można otworzyć pliku %s"
+msgstr "przetwarzanie pustego pliku %s"
 
 #: scripts/dpkg-scansources.pl:257 scripts/Dpkg/Source/Patch.pm:250
 #, perl-format
@@ -1361,9 +1368,9 @@ msgstr "Oczekiwano od 1 do 3 argumentów\n"
 
 #: scripts/dpkg-scansources.pl:359 scripts/dpkg-shlibdeps.pl:802
 #: scripts/Dpkg/Shlibs/Objdump.pm:83 scripts/Dpkg/Shlibs/Objdump.pm:157
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot fork for %s"
-msgstr "błąd funkcji fork %s"
+msgstr "nie można wykonać funkcji fork dla %s"
 
 #: scripts/dpkg-shlibdeps.pl:79
 #, perl-format
@@ -1380,7 +1387,7 @@ msgid "need at least one executable"
 msgstr "wymaga co najmniej jednego argumentu będącego plikiem wykonywalnym"
 
 #: scripts/dpkg-shlibdeps.pl:157
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s').\n"
 "Note: libraries are not searched in other binary packages that do not have "
@@ -1388,7 +1395,8 @@ msgid ""
 "To help dpkg-shlibdeps find private libraries, you might need to set "
 "LD_LIBRARY_PATH."
 msgstr ""
-"nie można znaleźć biblioteki %s potrzebnej dla %s (RPATH to \"%s\").\n"
+"nie można znaleźć biblioteki %s potrzebnej dla %s (format ELF: \"%s\"; "
+"RPATH: \"%s\").\n"
 "Uwaga: bibliotek nie szuka się w innych pakietach binarnych, które nie mają "
 "żadnego pliku shlibs lub symbols.\n"
 "Aby pomóc dpkg-shlibdeps w znajdowaniu prywatnych bibliotek, być może należy "
@@ -1408,6 +1416,8 @@ msgstr "nie znaleziono informacji o zależnościach dla %s (używanego przez %s)
 msgid ""
 "binaries to analyze should already be installed in their package's directory."
 msgstr ""
+"pliki binarne do analizy powinny już być zainstalowane w katalogu ich "
+"pakietu."
 
 #: scripts/dpkg-shlibdeps.pl:339
 #, perl-format
@@ -1419,6 +1429,8 @@ msgstr "w żadnej z bibliotek nie znaleziono symbolu %s używanego przez %s."
 msgid ""
 "%s contains an unresolvable reference to symbol %s: it's probably a plugin."
 msgstr ""
+"%s zawiera nierozwiązywalne odniesienia do symbolu %s: prawdopodobnie jest "
+"to plugin."
 
 #: scripts/dpkg-shlibdeps.pl:364
 #, perl-format
@@ -1678,9 +1690,9 @@ msgid "unpack target exists: %s"
 msgstr "cel rozpakowania istnieje: %s"
 
 #: scripts/dpkg-source.pl:327
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s doesn't contain a valid OpenPGP signature"
-msgstr "nie zawiera repozytorium git"
+msgstr "%s nie zawiera ważnego podpisu OpenPGP"
 
 #: scripts/dpkg-source.pl:329
 #, perl-format
@@ -1688,9 +1700,9 @@ msgid "extracting unsigned source package (%s)"
 msgstr "wydobywanie niepodpisanych pakietów źródłowych (%s)"
 
 #: scripts/dpkg-source.pl:336
-#, fuzzy, perl-format
+#, perl-format
 msgid "extracting %s in %s"
-msgstr "%s: rozpakowywanie %s w %s"
+msgstr "rozpakowywanie %s w %s"
 
 #: scripts/dpkg-source.pl:344
 msgid "only one of -x or -b allowed, and only once"
@@ -1707,7 +1719,7 @@ msgstr ""
 "Copyright (C) 2008 Raphael Hertzog"
 
 #: scripts/dpkg-source.pl:364
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -1754,7 +1766,7 @@ msgstr ""
 "Polecenia:\n"
 "  -x <nazwa_pliku>.dsc [<katalog_wyjściowy>]\n"
 "                           rozpakowuje pakiet źródłowy.\n"
-"  -b <katalog> [<katalog_orig>|<orig_targz>|\"\"]\n"
+"  -b <katalog>\n"
 "                           buduje pakiet źródłowy.\n"
 "\n"
 "Opcje budowania:\n"
@@ -1762,25 +1774,25 @@ msgstr ""
 "  -l<plik_zmian>           pobiera informacje dot. wersji z tego pliku.\n"
 "  -F<format_pliku_zmian>   wymusza format pliku zmian.\n"
 "  -V<nazwa>=<wartość>      ustawia zmienną podstawiania.\n"
-"  -T<plik_zmiennych>       czyta zmienne z tego pliku, a nie z debian/"
-"substvars.\n"
+"  -T<plik_zmiennych>       czyta zmienne z tego pliku.\n"
 "  -D<pole>=<wartość>       nadpisuje lub dodaje pole do .dsc wraz z "
 "wartością.\n"
 "  -U<pole>                 usuwa pole.\n"
 "  -q                       tryb cichy, pomija wypisywanie ostrzeżeń.\n"
-"  -i[<wyraż_reg>]          podczas tworzenia pliku różnic, pomijanie plików\n"
-"                           pasujących do tego wyraż. (domyślnie: \"%s\").\n"
-"  -I<wzorzec>              pomijanie plików podczas tworzenie archiwum tar.\n"
+"  -i[<wyraż_reg>]          pomijanie plików podczas tworzenia pliku różnic\n"
+"                             (domyślnie: \"%s\").\n"
+"  -I<wzorzec>              pomijanie plików podczas tworzenia archiwum tar.\n"
 "                             (domyślnie: %s)\n"
-"  -Z<kompresja>            wybór używanej kompresji (domyślnie \"gzip\",\n"
+"  -Z<kompresja>            wybór używanej kompresji (domyślnie \"%s\",\n"
 "                             obsługiwane: %s).\n"
-"  -z<poziom>               używany poziom kompresji (domyślnie \"9\",\n"
+"  -z<poziom>               używany poziom kompresji (domyślnie \"%d\",\n"
 "                             obsługiwane: \"1\"-\"9\", \"best\", \"fast\")\n"
 "\n"
 "Opcje rozpakowywania:\n"
 "  --no-copy                nie kopiuje oryg. spakowanych źródeł\n"
 "  --no-check               nie sprawdza podpisów i sum kontrolnych przed\n"
 "                             rozpakowaniem\n"
+"  --require-valid-signature przerwanie gdy pakiet nie ma ważnego podpisu\n"
 "\n"
 "Opcje ogólne:\n"
 "  -h, --help               wyświetla ten komunikat pomocy.\n"
@@ -1957,27 +1969,27 @@ msgstr "można podać tylko jedno z \"to\" i \"until\", używanie \"until\""
 
 #: scripts/Dpkg/Changelog.pm:257 scripts/Dpkg/Changelog.pm:273
 #: scripts/Dpkg/Changelog.pm:289 scripts/Dpkg/Changelog.pm:305
-#, fuzzy, perl-format
+#, perl-format
 msgid "'%s' option specifies non-existing version"
-msgstr "opcja \"until\" określa już najstarszą wersję, ignorowanie"
+msgstr "opcja \"%s\" określa nieistniejącą wersję"
 
 #: scripts/Dpkg/Changelog.pm:258 scripts/Dpkg/Changelog.pm:306
 msgid "use newest entry that is smaller than the one specified"
-msgstr ""
+msgstr "użycie najnowszego wpisu, który jest mniejszy niż określony"
 
 #: scripts/Dpkg/Changelog.pm:267
 msgid "none found, starting from the oldest entry"
-msgstr ""
+msgstr "nie znaleziono, rozpoczynanie od najstarszego wpisu"
 
 #: scripts/Dpkg/Changelog.pm:274 scripts/Dpkg/Changelog.pm:290
 msgid "use oldest entry that is bigger than the one specified"
-msgstr ""
+msgstr "użycie najstarszego wpisu, który jest większy niż określony"
 
 #: scripts/Dpkg/Changelog.pm:284 scripts/Dpkg/Changelog.pm:300
 #: scripts/Dpkg/Changelog.pm:315
 #, perl-format
 msgid "no such entry found, ignoring '%s' parameter"
-msgstr ""
+msgstr "nie znaleziono takiego wpisu, ignorowanie parametru \"%s\""
 
 #: scripts/Dpkg/Changelog.pm:321
 msgid "'since' option specifies most recent version, ignoring"
@@ -2137,9 +2149,8 @@ msgid "File %s has checksum %s instead of expected %s (algorithm %s)"
 msgstr "Plik %s ma sumę kontrolną %s zamiast oczekiwanej %s (algorytm %s)"
 
 #: scripts/Dpkg/Control.pm:56
-#, fuzzy
 msgid "standard input"
-msgstr "zapisywanie na wejściu tar"
+msgstr "standardowe wejście"
 
 #: scripts/Dpkg/Control.pm:107
 msgid "first block lacks a source field"
@@ -2156,7 +2167,7 @@ msgstr "nie można przetworzyć zależności %s"
 
 #: scripts/Dpkg/Deps.pm:347
 msgid "an union dependency can only contain simple dependencies"
-msgstr ""
+msgstr "suma zależności może zawierać jedynie proste zależności"
 
 #: scripts/Dpkg/ErrorHandling.pm:36
 msgid "info"
@@ -2241,12 +2252,12 @@ msgid "wait for %s"
 msgstr "czekanie na %s"
 
 #: scripts/Dpkg/IPC.pm:334
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s didn't complete in %d second"
 msgid_plural "%s didn't complete in %d seconds"
-msgstr[0] "%s całkowicie nie pasuje do %s"
-msgstr[1] "%s całkowicie nie pasuje do %s"
-msgstr[2] "%s całkowicie nie pasuje do %s"
+msgstr[0] "%s nie zakończył się w %d sekundę"
+msgstr[1] "%s nie zakończył się w %d sekundy"
+msgstr[2] "%s nie zakończył się w %d sekund"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:91
 #, perl-format
@@ -2275,7 +2286,7 @@ msgstr ""
 "Informacje o symbolach muszą być poprzedzone nagłówkiem (plik %s, linia %s)."
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:160
-#, fuzzy, perl-format
+#, perl-format
 msgid "Failed to parse line in %s: %s"
 msgstr "Błąd przetwarzania linii w %s: %s"
 
@@ -2287,7 +2298,7 @@ msgstr "Błąd przetwarzania linii w %s: %s"
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:207
 #, perl-format
 msgid "Tried to merge the same object (%s) twice in a symfile."
-msgstr ""
+msgstr "Próba dwukrotnego połączenia tego samego obiektu (%s) w pliku symboli"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:264
 msgid "Can't merge symbols from objects without SONAME."
@@ -2735,9 +2746,9 @@ msgstr ""
 "niespakowanego (.orig/)"
 
 #: scripts/Dpkg/Source/Package/V1.pm:216
-#, fuzzy, perl-format
+#, perl-format
 msgid "orig argument %s is not a plain file or directory"
-msgstr "argument %s nie jest katalogiem"
+msgstr "argument oryg %s nie jest zwykłym plikiem ani katalogiem"
 
 #: scripts/Dpkg/Source/Package/V1.pm:222
 #, perl-format
@@ -3077,9 +3088,9 @@ msgid "can't create symlink %s"
 msgstr "nie można utworzyć linku symbolicznego \"%s\""
 
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:169
-#, fuzzy, perl-format
+#, perl-format
 msgid "applying all patches with %s"
-msgstr "nakładanie %s z użyciem quilt"
+msgstr "nakładanie wszystkich łatek z użyciem %s"
 
 #: scripts/Dpkg/Substvars.pm:142
 #, perl-format
@@ -3102,9 +3113,9 @@ msgid "unknown substitution variable ${%s}"
 msgstr "nieznana zmienna podstawiania ${%s}"
 
 #: scripts/Dpkg/Substvars.pm:239
-#, fuzzy, perl-format
+#, perl-format
 msgid "unused substitution variable ${%s}"
-msgstr "nieznana zmienna podstawiania ${%s}"
+msgstr "nieużywana zmienna podstawiania ${%s}"
 
 #: scripts/Dpkg/Vars.pm:33
 #, perl-format
@@ -3127,12 +3138,15 @@ msgid ""
 "Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu "
 "address"
 msgstr ""
+"Numer wersji sugeruje zmiany z Ubuntu, ale Maintainer: nie określa adresu z "
+"Ubuntu"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm:59
 msgid ""
 "Version number suggests Ubuntu changes, but there is no XSBC-Original-"
 "Maintainer field"
 msgstr ""
+"Numer wersji sugeruje zmiany z Ubuntu, ale brak pola XSBC-Original-Maintainer"
 
 #: scripts/Dpkg/Version.pm:210
 #, perl-format
