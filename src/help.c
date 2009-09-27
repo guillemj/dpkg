@@ -80,7 +80,7 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
 
 void checkpath(void) {
 /* Verify that some programs can be found in the PATH. */
-  static const char *const checklist[] = {
+  static const char *const prog_list[] = {
     DEFAULTSHELL,
     RM,
     TAR,
@@ -95,35 +95,40 @@ void checkpath(void) {
   };
 
   struct stat stab;
-  const char *const *clp;
-  const char *path, *s, *p;
-  char* buf;
+  const char *const *prog;
+  const char *path_list, *path, *path_end;
+  char *filename;
   int warned= 0;
-  long l;
+  long path_len;
 
-  path= getenv("PATH");
-  if (!path)
+  path_list = getenv("PATH");
+  if (!path_list)
     ohshit(_("error: PATH is not set."));
-  buf=(char*)m_malloc(strlen(path)+2+strlen("start-stop-daemon"));
+  filename = m_malloc(strlen(path_list) + 2 + strlen("start-stop-daemon"));
   
-  for (clp=checklist; *clp; clp++) {
-    s= path;
-    while (s) {
-      p= strchr(s,':');
-      l= p ? p-s : (long)strlen(s);
-      memcpy(buf,s,l);
-      if (l) buf[l++]= '/';
-      strcpy(buf+l,*clp);
-      if (stat(buf,&stab) == 0 && (stab.st_mode & 0111)) break;
-      s= p; if (s) s++;
+  for (prog = prog_list; *prog; prog++) {
+    path = path_list;
+    while (path) {
+      path_end = strchr(path, ':');
+      path_len = path_end ? path_end - path : (long)strlen(path);
+      memcpy(filename, path, path_len);
+      if (path_len)
+        filename[path_len++] = '/';
+      strcpy(filename + path_len, *prog);
+      if (stat(filename, &stab) == 0 && (stab.st_mode & 0111))
+        break;
+      path = path_end;
+      if (path)
+        path++;
     }
-    if (!s) {
-      warning(_("'%s' not found on PATH."), *clp);
+    if (!path) {
+      warning(_("'%s' not found on PATH."), *prog);
       warned++;
     }
   }
 
-  free(buf);
+  free(filename);
+
   if (warned)
     forcibleerr(fc_badpath,_("%d expected program(s) not found on PATH.\nNB: root's "
                 "PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."),
