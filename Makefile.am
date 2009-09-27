@@ -6,11 +6,11 @@ endif
 
 SUBDIRS = \
 	lib \
-	src \
-	$(MAYBE_DSELECT) \
 	dpkg-deb \
 	dpkg-split \
+	src \
 	utils \
+	$(MAYBE_DSELECT) \
 	scripts \
 	po \
 	man
