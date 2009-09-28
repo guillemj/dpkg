@@ -36,7 +36,7 @@ sub obj_vercmp {
      return $a gt $b if $cmp eq "gt";
 }
 
-use_ok('Dpkg::Version', qw(vercmp compare_versions));
+use_ok('Dpkg::Version');
 
 my $truth = {
     "-1" => {
@@ -67,15 +67,16 @@ foreach my $case (@tests) {
     my $va = Dpkg::Version->new($a);
     my $vb = Dpkg::Version->new($b);
 
-    is(vercmp($a, $b), $res, "$a cmp $b => $res");
+    is(version_compare($a, $b), $res, "$a cmp $b => $res");
     is($va <=> $vb, $res, "Dpkg::Version($a) <=> Dpkg::Version($b) => $res");
     foreach my $op (@ops) {
+        my $norm_op = version_normalize_cmp_op($op);
 	if ($truth->{$res}{$op}) {
-	    ok(compare_versions($a, $op, $b), "$a $op $b => true");
+	    ok(version_compare_op($a, $norm_op, $b), "$a $op $b => true");
 	    ok(obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => true");
 	    ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => true");
 	} else {
-	    ok(!compare_versions($a, $op, $b), "$a $op $b => false");
+	    ok(!version_compare_op($a, $norm_op, $b), "$a $op $b => false");
 	    ok(!obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
 	    ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => false");
 	}
