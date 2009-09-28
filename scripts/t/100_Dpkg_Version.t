@@ -15,11 +15,25 @@ my @ops = ("<", "<<", "lt",
 	   ">=", "ge",
 	   ">", ">>", "gt");
 
-plan tests => scalar(@tests) * (2 * scalar(@ops) + 1) + 1;
+plan tests => scalar(@tests) * (3 * scalar(@ops) + 2) + 1;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
      return system('dpkg', '--compare-versions', $a, $cmp, $b) == 0;
+}
+
+sub obj_vercmp {
+     my ($a, $cmp, $b) = @_;
+     return $a < $b  if $cmp eq "<<";
+     return $a lt $b if $cmp eq "lt";
+     return $a <= $b if $cmp eq "<=" or $cmp eq "<";
+     return $a le $b if $cmp eq "le";
+     return $a == $b if $cmp eq "=";
+     return $a eq $b if $cmp eq "eq";
+     return $a >= $b if $cmp eq ">=" or $cmp eq ">";
+     return $a ge $b if $cmp eq "ge";
+     return $a > $b  if $cmp eq ">>";
+     return $a gt $b if $cmp eq "gt";
 }
 
 use_ok('Dpkg::Version', qw(vercmp compare_versions));
@@ -50,13 +64,19 @@ my $truth = {
 
 foreach my $case (@tests) {
     my ($a, $b, $res) = split " ", $case;
+    my $va = Dpkg::Version->new($a);
+    my $vb = Dpkg::Version->new($b);
+
     is(vercmp($a, $b), $res, "$a cmp $b => $res");
+    is($va <=> $vb, $res, "Dpkg::Version($a) <=> Dpkg::Version($b) => $res");
     foreach my $op (@ops) {
 	if ($truth->{$res}{$op}) {
 	    ok(compare_versions($a, $op, $b), "$a $op $b => true");
+	    ok(obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => true");
 	    ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => true");
 	} else {
 	    ok(!compare_versions($a, $op, $b), "$a $op $b => false");
+	    ok(!obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
 	    ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => false");
 	}
     }
@@ -68,16 +88,19 @@ __DATA__
 2.2-1 2.2~rc-4 1
 1.0000-1 1.0-1 0
 1 0:1 0
+0 0:0-0 0
 2:2.5 1:7.5 1
 1:foo foo 1
 0:foo foo 0
 foo foo 0
 foo- foo 0
+foo- foo-0 0
 foo fo 1
 foo- foo+ -1
 foo~1 foo -1
 foo~foo+Bar foo~foo+bar -1
 foo~~ foo~ -1
+1~ 1 -1
 12345+that-really-is-some-ver-0 12345+that-really-is-some-ver-10 -1
 foo-0 foo-01 -1
 foo.bar foobar 1
@@ -102,3 +125,4 @@ foo2.1 foo2.10 -1
 2:2.3.2-2+lenny2 2:2.3.2-2 1
 1:3.8.1-1 3.8.GA-1 1
 1.0.1+gpl-1 1.0.1-2 1
+1a 1000a -1
