@@ -9,7 +9,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
-use Dpkg::Version qw(compare_versions);
+use Dpkg::Version;
 use Dpkg::Checksums;
 use Dpkg::Source::CompressedFile;
 
@@ -167,14 +167,6 @@ defined($override) and (-e $override or
 
 $pathprefix = '' if not defined $pathprefix;
 
-my %vercache;
-sub vercmp {
-     my ($a,$b)=@_;
-     return $vercache{$a}{$b} if exists $vercache{$a}{$b};
-     $vercache{$a}{$b} = compare_versions($a, 'gt', $b);
-     return $vercache{$a}{$b};
-}
-
 my $find_h = new IO::Handle;
 open($find_h,'-|','find',"$binarydir/",@find_args,'-print')
      or syserr(_g("Couldn't open %s for reading"), $binarydir);
@@ -211,7 +203,9 @@ FILE:
 	
 	if (defined($packages{$p}) and not $options{multiversion}) {
 	    foreach (@{$packages{$p}}) {
-		if (vercmp($fields->{'Version'}, $_->{'Version'})) {
+		if (version_compare_op($fields->{'Version'}, CMP_OP_GT,
+                                       $_->{'Version'}))
+                {
 		    warning(_g("Package %s (filename %s) is repeat but newer version;"),
 		            $p, $fn);
 		    warning(_g("used that one and ignored data from %s!"),

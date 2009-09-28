@@ -18,7 +18,7 @@ use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
-use Dpkg::Version qw(parseversion compare_versions);
+use Dpkg::Version;
 
 textdomain("dpkg-dev");
 
@@ -203,7 +203,9 @@ $substvars->set_arch_substvars();
 $substvars->parse($varlistfile) if -e $varlistfile;
 
 if (defined($prev_changelog) and
-    compare_versions($changelog->{"Version"}, '<<', $prev_changelog->{"Version"})) {
+    version_compare_op($changelog->{"Version"}, CMP_OP_LT,
+                       $prev_changelog->{"Version"}))
+{
     warning(_g("the current version (%s) is smaller than the previous one (%s)"),
 	$changelog->{"Version"}, $prev_changelog->{"Version"})
         # ~bpo and ~vola are backports and have lower version number by definition
@@ -424,9 +426,9 @@ if (!is_binaryonly) {
     # the .orig tarballs must be included
     my $include_tarball;
     if (defined($prev_changelog)) {
-	my %cur = parseversion($changelog->{"Version"});
-	my %prev = parseversion($prev_changelog->{"Version"});
-	$include_tarball = ($cur{"version"} ne $prev{"version"}) ? 1 : 0;
+	my $cur = Dpkg::Version->new($changelog->{"Version"});
+	my $prev = Dpkg::Version->new($prev_changelog->{"Version"});
+	$include_tarball = ($cur->version() ne $prev->version()) ? 1 : 0;
     } else {
 	if ($bad_parser) {
 	    # The parser doesn't support extracting a previous version

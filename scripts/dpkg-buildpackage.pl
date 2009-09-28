@@ -12,7 +12,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
-use Dpkg::Version qw(check_version);
+use Dpkg::Version;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Arch qw(get_build_arch debarch_to_gnutriplet);
 
@@ -282,7 +282,8 @@ my $changelog = parse_changelog();
 
 my $pkg = mustsetvar($changelog->{source}, _g('source package'));
 my $version = mustsetvar($changelog->{version}, _g('source version'));
-check_version($version, 1);
+my ($ok, $error) = version_check($version);
+error($error) unless $ok;
 
 my $maintainer;
 if ($changedby) {

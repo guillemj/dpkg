@@ -21,7 +21,7 @@ use strict;
 use warnings;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Version qw(vercmp);
+use Dpkg::Version;
 use Dpkg::Control::Fields;
 use Dpkg::Shlibs::Symbol;
 use Dpkg::Arch qw(get_host_arch);
@@ -294,7 +294,7 @@ sub merge_symbols {
 	    } else {
 		# We assume that the right dependency information is already
 		# there.
-		if (vercmp($minver, $sym->{minver}) < 0) {
+		if (version_compare($minver, $sym->{minver}) < 0) {
 		    $sym->{minver} = $minver;
 		}
 	    }
@@ -329,7 +329,7 @@ sub merge_symbols {
 		# Bump deprecated if the symbol is optional so that it
                 # keeps reappering in the diff while it's missing
 		$sym->{deprecated} = $minver if $sym->is_optional();
-	    } elsif (vercmp($minver, $sym->{minver}) > 0) {
+	    } elsif (version_compare($minver, $sym->{minver}) > 0) {
 		$sym->{deprecated} = $minver;
 	    }
 	}
@@ -384,7 +384,7 @@ sub get_smallest_version {
     foreach my $sym (values %{$so_object->{syms}}) {
         next if $dep_id != $sym->{dep_id};
         $minver = $sym->{minver} unless defined($minver);
-        if (vercmp($minver, $sym->{minver}) > 0) {
+        if (version_compare($minver, $sym->{minver}) > 0) {
             $minver = $sym->{minver};
         }
     }

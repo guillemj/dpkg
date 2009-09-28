@@ -13,7 +13,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same);
-use Dpkg::Version qw(compare_versions);
+use Dpkg::Version;
 use Dpkg::Shlibs qw(find_library @librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
@@ -452,7 +452,8 @@ sub filter_deps {
 	    $stronger = 0; # If the dep is unversionned
 	} elsif ($depseen{$dep} eq '') {
 	    $stronger = 1; # If the dep seen is unversionned
-	} elsif (compare_versions($depseen{$dep}, '>>', $dependencies{$field}{$dep})) {
+	} elsif (version_compare_op($depseen{$dep}, CMP_OP_GT,
+                                    $dependencies{$field}{$dep})) {
 	    # The version of the dep seen is stronger...
 	    $stronger = 0;
 	} else {
@@ -561,7 +562,7 @@ sub get_min_version_from_deps {
 	    my $minver = get_min_version_from_deps($subdep, $pkg);
 	    next if not defined $minver;
 	    if (defined $res) {
-		if (compare_versions($minver, '>>', $res)) {
+		if (version_compare_op($minver, CMP_OP_GT, $res)) {
 		    $res = $minver;
 		}
 	    } else {
@@ -580,8 +581,8 @@ sub update_dependency_version {
 	    defined($dependencies{$cur_field}{$subdep}))
 	{
 	    if ($dependencies{$cur_field}{$subdep} eq '' or
-		compare_versions($minver, '>>',
-				 $dependencies{$cur_field}{$subdep}))
+		version_compare_op($minver, CMP_OP_GT,
+				   $dependencies{$cur_field}{$subdep}))
 	    {
 		$dependencies{$cur_field}{$subdep} = $minver;
 	    }

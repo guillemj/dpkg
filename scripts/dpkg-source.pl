@@ -13,7 +13,7 @@ use Dpkg::Compression;
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
 use Dpkg::Substvars;
-use Dpkg::Version qw(check_version);
+use Dpkg::Version;
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Source::Compressor;
@@ -223,7 +223,8 @@ if ($options{'opmode'} eq 'build') {
 	    set_source_package($v);
 	    $fields->{$_} = $v;
 	} elsif (m/^Version$/) {
-	    check_version($v, 1);
+	    my ($ok, $error) = version_check($v);
+            error($error) unless $ok;
 	    $fields->{$_} = $v;
 	} elsif (m/^Maintainer$/i) {
             # Do not replace the field coming from the source entry

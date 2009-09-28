@@ -42,7 +42,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
 use Dpkg::Control;
-use Dpkg::Version qw(compare_versions);
+use Dpkg::Version;
 use Dpkg::Vendor qw(run_vendor_hook);
 
 use base qw(Exporter);
@@ -257,7 +257,7 @@ sub __sanity_check_range {
         warning(_g("'%s' option specifies non-existing version"), "since");
         warning(_g("use newest entry that is smaller than the one specified"));
         foreach my $v (@versions) {
-            if (compare_versions($v, "<<", $$since)) {
+            if (version_compare_op($v, CMP_OP_LT, $$since)) {
                 $$since = $v;
                 last;
             }
@@ -274,7 +274,7 @@ sub __sanity_check_range {
         warning(_g("use oldest entry that is bigger than the one specified"));
         my $oldest;
         foreach my $v (@versions) {
-            if (compare_versions($v, ">>", $$from)) {
+            if (version_compare_op($v, CMP_OP_GT, $$from)) {
                 $oldest = $v;
             }
         }
@@ -290,7 +290,7 @@ sub __sanity_check_range {
         warning(_g("use oldest entry that is bigger than the one specified"));
         my $oldest;
         foreach my $v (@versions) {
-            if (compare_versions($v, ">>", $$until)) {
+            if (version_compare_op($v, CMP_OP_GT, $$until)) {
                 $oldest = $v;
             }
         }
@@ -305,7 +305,7 @@ sub __sanity_check_range {
         warning(_g("'%s' option specifies non-existing version"), "to");
         warning(_g("use newest entry that is smaller than the one specified"));
         foreach my $v (@versions) {
-            if (compare_versions($v, "<<", $$to)) {
+            if (version_compare_op($v, CMP_OP_LT, $$to)) {
                 $$to = $v;
                 last;
             }

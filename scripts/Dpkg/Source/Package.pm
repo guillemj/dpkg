@@ -23,7 +23,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
 use Dpkg::Checksums;
-use Dpkg::Version qw(parseversion check_version);
+use Dpkg::Version;
 use Dpkg::Compression;
 use Dpkg::Exit;
 use Dpkg::Path qw(check_files_are_the_same);
@@ -233,10 +233,10 @@ sub get_basename {
     unless (exists $f->{'Source'} and exists $f->{'Version'}) {
         error(_g("source and version are required to compute the source basename"));
     }
-    my %v = parseversion($f->{'Version'});
-    my $basename = $f->{'Source'} . "_" . $v{"version"};
+    my $v = Dpkg::Version->new($f->{'Version'});
+    my $basename = $f->{'Source'} . "_" . $v->version();
     if ($with_revision and $f->{'Version'} =~ /-/) {
-        $basename .= "-" . $v{'revision'};
+        $basename .= "-" . $v->revision();
     }
     return $basename;
 }
@@ -325,7 +325,8 @@ sub extract {
     my $self = shift;
     my $newdirectory = $_[0];
 
-    check_version($self->{'fields'}{'Version'}, 1);
+    my ($ok, $error) = version_check($self->{'fields'}{'Version'});
+    error($error) unless $ok;
 
     # Copy orig tarballs
     if ($self->{'options'}{'copy_orig_tarballs'}) {

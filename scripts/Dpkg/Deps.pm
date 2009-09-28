@@ -45,7 +45,7 @@ objects depending on the case.
 use strict;
 use warnings;
 
-use Dpkg::Version qw(compare_versions);
+use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -142,24 +142,30 @@ This functions returns 1 if the "p" dependency implies the "q"
 dependency. It returns 0 if the "p" dependency implies that "q" is
 not satisfied. It returns undef when there's no implication.
 
+The $v_p and $v_q parameter should be Dpkg::Version objects.
+
 =cut
 
 sub version_implies {
     my ($rel_p, $v_p, $rel_q, $v_q) = @_;
 
+    # If versions are not valid, we can't decide of any implication
+    return 0 unless ref($v_p) and $v_p->isa("Dpkg::Version");
+    return 0 unless ref($v_q) and $v_q->isa("Dpkg::Version");
+
     # q wants an exact version, so p must provide that exact version.  p
     # disproves q if q's version is outside the range enforced by p.
     if ($rel_q eq '=') {
         if ($rel_p eq '<<') {
-            return compare_versions($v_p, '<=', $v_q) ? 0 : undef;
+            return ($v_p <= $v_q) ? 0 : undef;
         } elsif ($rel_p eq '<=') {
-            return compare_versions($v_p, '<<', $v_q) ? 0 : undef;
+            return ($v_p < $v_q) ? 0 : undef;
         } elsif ($rel_p eq '>>') {
-            return compare_versions($v_p, '>=', $v_q) ? 0 : undef;
+            return ($v_p >= $v_q) ? 0 : undef;
         } elsif ($rel_p eq '>=') {
-            return compare_versions($v_p, '>>', $v_q) ? 0 : undef;
+            return ($v_p > $v_q) ? 0 : undef;
         } elsif ($rel_p eq '=') {
-            return compare_versions($v_p, '=', $v_q);
+            return ($v_p == $v_q);
         }
     }
 
@@ -168,13 +174,13 @@ sub version_implies {
     # p's clause is <<, <=, or =, the version must be <= q's to imply q.
     if ($rel_q eq '<=') {
         if ($rel_p eq '>>') {
-            return compare_versions($v_p, '>=', $v_q) ? 0 : undef;
+            return ($v_p >= $v_q) ? 0 : undef;
         } elsif ($rel_p eq '>=') {
-            return compare_versions($v_p, '>>', $v_q) ? 0 : undef;
+            return ($v_p > $v_q) ? 0 : undef;
 	} elsif ($rel_p eq '=') {
-            return compare_versions($v_p, '<=', $v_q) ? 1 : 0;
+            return ($v_p <= $v_q) ? 1 : 0;
         } else { # <<, <=
-            return compare_versions($v_p, '<=', $v_q) ? 1 : undef;
+            return ($v_p <= $v_q) ? 1 : undef;
         }
     }
 
@@ -182,37 +188,37 @@ sub version_implies {
     # version if the p relation is <= or =.
     if ($rel_q eq '<<') {
         if ($rel_p eq '>>' or $rel_p eq '>=') {
-            return compare_versions($v_p, '>=', $v_p) ? 0 : undef;
+            return ($v_p >= $v_p) ? 0 : undef;
         } elsif ($rel_p eq '<<') {
-            return compare_versions($v_p, '<=', $v_q) ? 1 : undef;
+            return ($v_p <= $v_q) ? 1 : undef;
 	} elsif ($rel_p eq '=') {
-            return compare_versions($v_p, '<<', $v_q) ? 1 : 0;
+            return ($v_p < $v_q) ? 1 : 0;
         } else { # <<, <=
-            return compare_versions($v_p, '<<', $v_q) ? 1 : undef;
+            return ($v_p < $v_q) ? 1 : undef;
         }
     }
 
     # Same logic as above, only inverted.
     if ($rel_q eq '>=') {
         if ($rel_p eq '<<') {
-            return compare_versions($v_p, '<=', $v_q) ? 0 : undef;
+            return ($v_p <= $v_q) ? 0 : undef;
         } elsif ($rel_p eq '<=') {
-            return compare_versions($v_p, '<<', $v_q) ? 0 : undef;
+            return ($v_p < $v_q) ? 0 : undef;
 	} elsif ($rel_p eq '=') {
-            return compare_versions($v_p, '>=', $v_q) ? 1 : 0;
+            return ($v_p >= $v_q) ? 1 : 0;
         } else { # >>, >=
-            return compare_versions($v_p, '>=', $v_q) ? 1 : undef;
+            return ($v_p >= $v_q) ? 1 : undef;
         }
     }
     if ($rel_q eq '>>') {
         if ($rel_p eq '<<' or $rel_p eq '<=') {
-            return compare_versions($v_p, '<=', $v_q) ? 0 : undef;
+            return ($v_p <= $v_q) ? 0 : undef;
         } elsif ($rel_p eq '>>') {
-            return compare_versions($v_p, '>=', $v_q) ? 1 : undef;
+            return ($v_p >= $v_q) ? 1 : undef;
 	} elsif ($rel_p eq '=') {
-            return compare_versions($v_p, '>>', $v_q) ? 1 : 0;
+            return ($v_p > $v_q) ? 1 : 0;
         } else {
-            return compare_versions($v_p, '>>', $v_q) ? 1 : undef;
+            return ($v_p > $v_q) ? 1 : undef;
         }
     }
 
@@ -475,7 +481,7 @@ use strict;
 use warnings;
 
 use Dpkg::Arch qw(debarch_is);
-use Dpkg::Version qw(compare_versions);
+use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
@@ -512,15 +518,12 @@ sub parse {
 	      \s*$			    # trailing spaces at end
             /x;
     $self->{package} = $1;
-    $self->{relation} = $2;
-    $self->{version} = $3;
+    $self->{relation} = version_normalize_cmp_op($2) if defined($2);
+    if (defined($3)) {
+        $self->{version} = Dpkg::Version->new($3) || $3;
+    }
     if (defined($4)) {
 	$self->{arches} = [ split(/\s+/, $4) ];
-    }
-    # Standardize relation field
-    if (defined($self->{relation})) {
-	$self->{relation} = '<<' if ($self->{relation} eq '<');
-	$self->{relation} = '>>' if ($self->{relation} eq '>');
     }
 }
 
@@ -661,7 +664,7 @@ sub get_evaluation {
 		return 0;
 	    } else {
 		if (defined($param)) {
-		    if (compare_versions($param, $self->{relation}, $self->{version})) {
+		    if (version_compare_op($param, $self->{relation}, $self->{version})) {
 			return 1;
 		    } else {
 			return 0;
