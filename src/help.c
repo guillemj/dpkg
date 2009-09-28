@@ -94,12 +94,10 @@ void checkpath(void) {
     NULL
   };
 
-  struct stat stab;
   const char *const *prog;
-  const char *path_list, *path, *path_end;
+  const char *path_list;
   char *filename;
   int warned= 0;
-  size_t path_len;
 
   path_list = getenv("PATH");
   if (!path_list)
@@ -107,6 +105,10 @@ void checkpath(void) {
   filename = m_malloc(strlen(path_list) + 2 + strlen("start-stop-daemon"));
   
   for (prog = prog_list; *prog; prog++) {
+    struct stat stab;
+    const char *path, *path_end;
+    size_t path_len;
+
     path = path_list;
     while (path) {
       path_end = strchr(path, ':');
