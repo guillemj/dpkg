@@ -26,6 +26,7 @@ libdpkg_a_SOURCES = \
 	dbmodify.c \
 	dump.c \
 	ehandle.c \
+	file.c file.h \
 	fields.c \
 	i18n.h \
 	lock.c \

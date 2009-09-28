@@ -47,6 +47,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/buffer.h>
+#include <dpkg/file.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -58,7 +59,6 @@ static int conffoptcells[2][2] = {
 };
 
 static void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
-static void copyfileperm(const char *source, const char *target);
 static void showdiff(const char *old, const char *new);
 static void suspend(void);
 static enum conffopt promptconfaction(const char *cfgfile,
@@ -108,7 +108,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	/* Copy the permissions from the installed version to the new
 	 * distributed version. */
 	if (!stat(cdr.buf, &stab))
-		copyfileperm(cdr.buf, cdr2.buf);
+		file_copy_perms(cdr.buf, cdr2.buf);
 	else if (errno != ENOENT)
 		ohshite(_("unable to stat current installed conffile `%.250s'"),
 		        cdr.buf);
@@ -462,30 +462,6 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 		        pkg->name, fn, strerror(errno));
 		strcpy(hashbuf, "-");
 	}
-}
-
-/*
- * Copy file ownership and permissions from one file to another.
- */
-static void
-copyfileperm(const char *source, const char *target)
-{
-	struct stat stab;
-
-	if (stat(source, &stab) == -1) {
-		if (errno == ENOENT)
-			return;
-		ohshite(_("unable to stat current installed conffile `%.250s'"),
-		        source);
-	}
-
-	if (chown(target, stab.st_uid, stab.st_gid) == -1)
-		ohshite(_("unable to change ownership of new dist conffile `%.250s'"),
-		        target);
-
-	if (chmod(target, (stab.st_mode & 07777)) == -1)
-		ohshite(_("unable to set mode of new dist conffile `%.250s'"),
-		        target);
 }
 
 /*
