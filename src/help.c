@@ -99,7 +99,7 @@ void checkpath(void) {
   const char *path_list, *path, *path_end;
   char *filename;
   int warned= 0;
-  long path_len;
+  size_t path_len;
 
   path_list = getenv("PATH");
   if (!path_list)
@@ -110,7 +110,7 @@ void checkpath(void) {
     path = path_list;
     while (path) {
       path_end = strchr(path, ':');
-      path_len = path_end ? path_end - path : (long)strlen(path);
+      path_len = path_end ? (size_t)(path_end - path) : strlen(path);
       memcpy(filename, path, path_len);
       if (path_len)
         filename[path_len++] = '/';
