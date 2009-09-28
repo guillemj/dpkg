@@ -32,6 +32,7 @@ DPKG_BEGIN_DECLS
 
 size_t path_rtrim_slash_slashdot(char *path);
 const char *path_skip_slash_dotslash(const char *path);
+char *path_quote_filename(char *buf, int size, char *s);
 
 DPKG_END_DECLS
 
