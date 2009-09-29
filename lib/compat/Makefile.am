@@ -34,12 +34,8 @@ if !HAVE_STRSIGNAL
 libcompat_a_SOURCES += strsignal.c
 endif
 
-if !HAVE_SNPRINTF
-libcompat_a_SOURCES += snprintf.c
-endif
-
-if !HAVE_VSNPRINTF
-libcompat_a_SOURCES += vsnprintf.c
+if !HAVE_C99_SNPRINTF
+libcompat_a_SOURCES += snprintf.c vsnprintf.c
 endif
 
 if !HAVE_ALPHASORT

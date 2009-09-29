@@ -96,9 +96,10 @@ DPKG_C_ATTRIBUTE
 
 # Checks for library functions.
 DPKG_FUNC_VA_COPY
+DPKG_FUNC_C99_SNPRINTF
 DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
-                         vsnprintf snprintf strnlen strerror strsignal \
+                         strnlen strerror strsignal \
                          scandir alphasort unsetenv])
 AC_CHECK_FUNCS([strtoul isascii bcopy memcpy lchown setsid getdtablesize])
 
