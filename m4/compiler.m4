@@ -91,7 +91,8 @@ AS_IF([test "x$dpkg_cv_c99" = "xyes"],
 		[dpkg_cv_c99_arg],
 		[dpkg_cv_c99_arg=none
 		 dpkg_save_CC="$CC"
-		 for arg in "-std=gnu99" "-std=c99" "-c99"; do
+		 for arg in "-std=gnu99" "-std=c99" "-c99" "-AC99" \
+		            "-xc99=all" "-qlanglvl=extc99"; do
 		    CC="$dpkg_save_CC $arg"
 		    DPKG_TRY_C99([dpkg_arg_worked=yes], [dpkg_arg_worked=no])
 		    CC="$dpkg_save_CC"
