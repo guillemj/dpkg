@@ -3,6 +3,7 @@
  * varbuf.c - variable length expandable buffer handling
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -109,6 +110,21 @@ varbufinit(struct varbuf *v, size_t size)
 
 void varbufreset(struct varbuf *v) {
   v->used= 0;
+}
+
+void
+varbuf_grow(struct varbuf *v, size_t need_size)
+{
+  /* Make sure the varbuf is in a sane state. */
+  if (v->size < v->used)
+    internerr("inconsistent varbuf: size(%d) < used(%d)", v->size, v->used);
+
+  /* Check if we already have enough room. */
+  if ((v->size - v->used) >= need_size)
+    return;
+
+  v->size = (v->size + need_size) * 2;
+  v->buf = m_realloc(v->buf, v->size);
 }
 
 void varbufextend(struct varbuf *v) {

@@ -55,6 +55,39 @@ test_varbuf_prealloc(void)
 }
 
 static void
+test_varbuf_grow(void)
+{
+	struct varbuf vb;
+	size_t old_size;
+	int i;
+
+	varbufinit(&vb, 10);
+
+	/* Test that we grow when needed. */
+	varbuf_grow(&vb, 100);
+	test_pass(vb.used == 0);
+	test_pass(vb.size >= 100);
+
+	old_size = vb.size;
+
+	/* Test that we are not leaking. */
+	for (i = 0; i < 10; i++) {
+		varbuf_grow(&vb, 100);
+		test_pass(vb.used == 0);
+		test_pass(vb.size >= 100);
+		test_pass(vb.size == old_size);
+	}
+
+	/* Test that we grow when needed, with used space. */
+	vb.used = 10;
+	varbuf_grow(&vb, 100);
+	test_pass(vb.used == 10);
+	test_pass(vb.size >= 110);
+
+	varbuffree(&vb);
+}
+
+static void
 test_varbuf_addbuf(void)
 {
 	struct varbuf vb;
@@ -167,6 +200,7 @@ test(void)
 {
 	test_varbuf_init();
 	test_varbuf_prealloc();
+	test_varbuf_grow();
 	test_varbuf_addbuf();
 	test_varbuf_addc();
 	test_varbuf_dupc();
