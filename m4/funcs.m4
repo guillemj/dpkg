@@ -19,16 +19,7 @@ exit (0);
 	[dpkg_cv_va_copy=no])])
 AS_IF([test "x$dpkg_cv_va_copy" = "xyes"],
 	[AC_DEFINE([HAVE_VA_COPY], 1,
-		  [Define to 1 if the 'va_copy' macro exists])],
-	[AC_CACHE_CHECK([for va_list assignment by copy],
-		       [dpkg_cv_va_list_copy],
-[AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-[[#include <stdarg.h>]],
-[[va_list v1, v2;
-v1 = v2;
-]])],
-		       [dpkg_cv_va_list_copy=yes],
-		       [dpkg_cv_va_list_copy=no])])])
+	           [Define to 1 if the 'va_copy' macro exists])])
 ])# DPKG_FUNC_VA_COPY
 
 # DPKG_CHECK_COMPAT_FUNCS(LIST)

@@ -44,7 +44,8 @@ extern "C" {
 #endif
 
 #ifndef HAVE_VA_COPY
-#define va_copy(dest, src) (dest) = (src)
+#include <string.h>
+#define va_copy(dest, src) memcpy(&(dest), &(src), sizeof(va_list))
 #endif
 
 #include <strnlen.h>
