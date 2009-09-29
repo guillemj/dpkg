@@ -93,16 +93,19 @@ int reportbroken_retexitstatus(void) {
   return nerrs ? 1 : 0;
 }
 
-int skip_due_to_hold(struct pkginfo *pkg) {
-  if (pkg->want != want_hold) return 0;
+bool
+skip_due_to_hold(struct pkginfo *pkg)
+{
+  if (pkg->want != want_hold)
+    return false;
   if (fc_hold) {
     fprintf(stderr, _("Package %s was on hold, processing it anyway as you requested\n"),
             pkg->name);
-    return 0;
+    return false;
   }
   printf(_("Package %s is on hold, not touching it.  Use --force-hold to override.\n"),
          pkg->name);
-  return 1;
+  return true;
 }
 
 void forcibleerr(int forceflag, const char *fmt, ...) {

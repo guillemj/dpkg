@@ -22,6 +22,8 @@
 #ifndef ARCHIVES_H
 #define ARCHIVES_H
 
+#include <stdbool.h>
+
 struct tarcontext {
   int backendpipe;
   struct pkginfo *pkg;
@@ -66,8 +68,8 @@ int unlinkorrmdir(const char *filename);
 int tarobject(struct TarInfo *ti);
 int tarfileread(void *ud, char *buf, int len);
 
-int filesavespackage(struct fileinlist*, struct pkginfo*,
-                     struct pkginfo *pkgbeinginstalled);
+bool filesavespackage(struct fileinlist *, struct pkginfo *,
+                      struct pkginfo *pkgbeinginstalled);
 
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                     const char *pfilename);

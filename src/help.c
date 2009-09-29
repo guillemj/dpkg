@@ -130,26 +130,35 @@ void checkpath(void) {
                 warned);
 }
 
-int ignore_depends(struct pkginfo *pkg) {
+bool
+ignore_depends(struct pkginfo *pkg)
+{
   struct pkg_list *id;
   for (id= ignoredependss; id; id= id->next)
-    if (id->pkg == pkg) return 1;
-  return 0;
+    if (id->pkg == pkg)
+      return true;
+  return false;
 }
 
-int force_depends(struct deppossi *possi) {
+bool
+force_depends(struct deppossi *possi)
+{
   return fc_depends ||
          ignore_depends(possi->ed) ||
          ignore_depends(possi->up->up);
 }
 
-int force_breaks(struct deppossi *possi) {
+bool
+force_breaks(struct deppossi *possi)
+{
   return fc_breaks ||
          ignore_depends(possi->ed) ||
          ignore_depends(possi->up->up);
 }
 
-int force_conflicts(struct deppossi *possi) {
+bool
+force_conflicts(struct deppossi *possi)
+{
   return fc_conflicts;
 }
 
@@ -455,8 +464,13 @@ void debug(int which, const char *fmt, ...) {
   putc('\n',stderr);
 }
 
-int hasdirectoryconffiles(struct filenamenode *file, struct pkginfo *pkg) {
-  /* Returns 1 if the directory contains conffiles belonging to pkg, 0 otherwise. */
+/*
+ * Returns true if the directory contains conffiles belonging to pkg,
+ * false otherwise.
+ */
+bool
+hasdirectoryconffiles(struct filenamenode *file, struct pkginfo *pkg)
+{
   struct conffile *conff;
   size_t namelen;
 
@@ -467,16 +481,20 @@ int hasdirectoryconffiles(struct filenamenode *file, struct pkginfo *pkg) {
       if (!strncmp(file->name,conff->name,namelen)) {
 	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
 	      file->name, conff->name, pkg->name);
-	return 1;
+	return true;
       }
   }
   debug(dbg_veryverbose, "hasdirectoryconffiles no");
-  return 0;
+  return false;
 }
 
-
-int isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg) {
-  /* Returns 1 if the file is used by packages other than pkg, 0 otherwise. */
+/*
+ * Returns true if the file is used by packages other than pkg,
+ * false otherwise.
+ */
+bool
+isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg)
+{
   struct filepackages *packageslump;
   int i;
     
@@ -489,11 +507,11 @@ int isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg) {
       debug(dbg_veryverbose, "isdirectoryinuse considering [%d] %s ...", i,
             packageslump->pkgs[i]->name);
       if (packageslump->pkgs[i] == pkg) continue;
-      return 1;
+      return true;
     }
   }
   debug(dbg_veryverbose, "isdirectoryinuse no");
-  return 0;
+  return false;
 }
 
 void oldconffsetflags(const struct conffile *searchconff) {

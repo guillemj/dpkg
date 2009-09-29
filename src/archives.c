@@ -159,8 +159,11 @@ static void destroyobstack(void) {
   }
 }
 
-int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
-                     struct pkginfo *pkgbeinginstalled) {
+bool
+filesavespackage(struct fileinlist *file,
+                 struct pkginfo *pkgtobesaved,
+                 struct pkginfo *pkgbeinginstalled)
+{
   struct pkginfo *divpkg, *thirdpkg;
   struct filepackages *packageslump;
   int i;
@@ -181,14 +184,14 @@ int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
     divpkg= file->namenode->divert->pkg;
     if (divpkg == pkgtobesaved || divpkg == pkgbeinginstalled) {
       debug(dbg_eachfiledetail,"filesavespackage ... diverted -- save!");
-      return 1;
+      return true;
     }
   }
   /* Is the file in the package being installed ?  If so then it can't save.
    */
   if (file->namenode->flags & fnnf_new_inarchive) {
     debug(dbg_eachfiledetail,"filesavespackage ... in new archive -- no save");
-    return 0;
+    return false;
   }
   /* Look for a 3rd package which can take over the file (in case
    * it's a directory which is shared by many packages.
@@ -215,11 +218,11 @@ int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
       }
       /* We've found a package that can take this file. */
       debug(dbg_eachfiledetail, "filesavespackage ...  taken -- no save");
-      return 0;
+      return false;
     }
   }
   debug(dbg_eachfiledetail, "filesavespackage ... not taken -- save !");
-  return 1;
+  return true;
 }
 
 void cu_pathname(int argc, void **argv) {
@@ -270,9 +273,10 @@ struct pkg_deconf_list *deconfigure = NULL;
 
 static time_t currenttime;
 
-static int does_replace(struct pkginfo *newpigp,
-                          struct pkginfoperfile *newpifp,
-                          struct pkginfo *oldpigp) {
+static int
+does_replace(struct pkginfo *newpigp, struct pkginfoperfile *newpifp,
+             struct pkginfo *oldpigp)
+{
   struct dependency *dep;
   
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",newpigp->name,
@@ -284,10 +288,10 @@ static int does_replace(struct pkginfo *newpigp,
           versiondescribe(&dep->list->version,vdew_always));
     if (!versionsatisfied(&oldpigp->installed,dep->list)) continue;
     debug(dbg_depcon,"does_replace ... yes");
-    return 1;
+    return true;
   }
   debug(dbg_depcon,"does_replace ... no");
-  return 0;
+  return false;
 }
 
 static void newtarobject_utime(const char *path, struct TarInfo *ti) {
@@ -360,9 +364,10 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
   return nifd;
 }
 
-static int linktosameexistingdir(const struct TarInfo *ti,
-                                 const char *fname,
-                                 struct varbuf *symlinkfn) {
+static bool
+linktosameexistingdir(const struct TarInfo *ti, const char *fname,
+                      struct varbuf *symlinkfn)
+{
   struct stat oldstab, newstab;
   int statr;
   const char *lastslash;
@@ -372,9 +377,10 @@ static int linktosameexistingdir(const struct TarInfo *ti,
     if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
       ohshite(_("failed to stat (dereference) existing symlink `%.250s'"),
               fname);
-    return 0;
+    return false;
   }
-  if (!S_ISDIR(oldstab.st_mode)) return 0;
+  if (!S_ISDIR(oldstab.st_mode))
+    return false;
 
   /* But is it to the same dir ? */
   varbufreset(symlinkfn);
@@ -393,12 +399,14 @@ static int linktosameexistingdir(const struct TarInfo *ti,
     if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
       ohshite(_("failed to stat (dereference) proposed new symlink target"
                 " `%.250s' for symlink `%.250s'"), symlinkfn->buf, fname);
-    return 0;
+    return false;
   }
-  if (!S_ISDIR(newstab.st_mode)) return 0;
+  if (!S_ISDIR(newstab.st_mode))
+    return false;
   if (newstab.st_dev != oldstab.st_dev ||
-      newstab.st_ino != oldstab.st_ino) return 0;
-  return 1;
+      newstab.st_ino != oldstab.st_ino)
+    return false;
+  return true;
 }
 
 int tarobject(struct TarInfo *ti) {
@@ -864,12 +872,11 @@ int tarobject(struct TarInfo *ti) {
   return 0;
 }
 
-static int try_deconfigure_can(int (*force_p)(struct deppossi*),
-                               struct pkginfo *pkg,
-                               struct deppossi *pdep,
-                               const char *action,
-                               struct pkginfo *removal,
-                          const char *why) {
+static int
+try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
+                    struct deppossi *pdep, const char *action,
+                    struct pkginfo *removal, const char *why)
+{
   /* Also checks whether the pdep is forced, first, according to force_p.
    * force_p may be 0 in which case nothing is considered forced.
    *

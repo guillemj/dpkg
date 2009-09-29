@@ -25,6 +25,7 @@
 
 #include <dpkg/i18n.h>
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -45,18 +46,22 @@
 #include "main.h"
 
 struct badstatinfo {
-  int (*yesno)(struct pkginfo*, const struct badstatinfo *bsi);
+  bool (*yesno)(struct pkginfo *, const struct badstatinfo *bsi);
   int val;
   const char *explanation;
 };
 
-static int bsyn_reinstreq(struct pkginfo *pkg, const struct badstatinfo *bsi) {
+static bool
+bsyn_reinstreq(struct pkginfo *pkg, const struct badstatinfo *bsi)
+{
   return pkg->eflag &= eflag_reinstreq;
 }
 
-static int bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi) {
+static bool
+bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
+{
   if (pkg->eflag &= eflag_reinstreq)
-    return 0;
+    return false;
   return (int)pkg->status == bsi->val;
 }
 
@@ -142,22 +147,25 @@ struct sectionentry {
   int count;
 };
 
-static int yettobeunpacked(struct pkginfo *pkg, const char **thissect) {
-  if (pkg->want != want_install) return 0;
+static bool
+yettobeunpacked(struct pkginfo *pkg, const char **thissect)
+{
+  if (pkg->want != want_install)
+    return false;
 
   switch (pkg->status) {
   case stat_unpacked: case stat_installed: case stat_halfconfigured:
   case stat_triggerspending:
   case stat_triggersawaited:
-    return 0;
+    return false;
   case stat_notinstalled: case stat_halfinstalled: case stat_configfiles:
     if (thissect)
       *thissect= pkg->section && *pkg->section ? pkg->section : _("<unknown>");
-    return 1;
+    return true;
   default:
     internerr("unknown package status '%d'", pkg->status);
   }
-  return 0;
+  return false;
 }
 
 void unpackchk(const char *const *argv) {

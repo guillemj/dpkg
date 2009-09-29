@@ -29,6 +29,7 @@
 DPKG_BEGIN_DECLS
 
 #include <sys/types.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 struct versionrevision {
@@ -323,7 +324,7 @@ struct pkginfo *findpackage(const char *name);
 void blankpackage(struct pkginfo *pp);
 void blankpackageperfile(struct pkginfoperfile *pifp);
 void blankversion(struct versionrevision*);
-int informative(struct pkginfo *pkg, struct pkginfoperfile *info);
+bool informative(struct pkginfo *pkg, struct pkginfoperfile *info);
 int countpackages(void);
 void resetpackages(void);
 
@@ -386,14 +387,14 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep);
 
 /*** from vercmp.c ***/
 
-int versionsatisfied(struct pkginfoperfile *it, struct deppossi *against);
-int versionsatisfied3(const struct versionrevision *it,
-                      const struct versionrevision *ref,
-                      enum depverrel verrel);
+bool versionsatisfied(struct pkginfoperfile *it, struct deppossi *against);
+bool versionsatisfied3(const struct versionrevision *it,
+                       const struct versionrevision *ref,
+                       enum depverrel verrel);
 int versioncompare(const struct versionrevision *version,
                    const struct versionrevision *refversion);
-int epochsdiffer(const struct versionrevision *a,
-                 const struct versionrevision *b);
+bool epochsdiffer(const struct versionrevision *a,
+                  const struct versionrevision *b);
 
 /*** from nfmalloc.c ***/
 void *nfmalloc(size_t);

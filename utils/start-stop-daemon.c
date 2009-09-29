@@ -71,6 +71,7 @@
 #endif
 
 #include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -208,14 +209,14 @@ static void *xmalloc(int size);
 static void push(struct pid_list **list, pid_t pid);
 static void do_help(void);
 static void parse_options(int argc, char * const *argv);
-static int pid_is_user(pid_t pid, uid_t uid);
-static int pid_is_cmd(pid_t pid, const char *name);
+static bool pid_is_user(pid_t pid, uid_t uid);
+static bool pid_is_cmd(pid_t pid, const char *name);
 static void check(pid_t pid);
 static void do_pidfile(const char *name);
 static void do_stop(int signal_nr, int quietmode,
                     int *n_killed, int *n_notkilled, int retry_nr);
 #if defined(OSLinux) || defined(OShpux)
-static int pid_is_exec(pid_t pid, const struct stat *esb);
+static bool pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
 
@@ -920,7 +921,7 @@ get_proc_stat (pid_t pid, ps_flags_t flags)
 #endif
 
 #if defined(OSLinux)
-static int
+static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	char lname[32];
@@ -932,30 +933,30 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	sprintf(lname, "/proc/%d/exe", pid);
 	nread = readlink(lname, lcontents, sizeof(lcontents));
 	if (nread == -1)
-		return 0;
+		return false;
 
 	lcontents[nread] = '\0';
 	if (strcmp(lcontents + nread - strlen(deleted), deleted) == 0)
 		lcontents[nread - strlen(deleted)] = '\0';
 
 	if (stat(lcontents, &sb) != 0)
-		return 0;
+		return false;
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
 #elif defined(OShpux)
-static int
+static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	struct pst_status pst;
 
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
-		return 0;
+		return false;
 	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev &&
 	        (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
 }
 #elif defined(HAVE_KVM_H)
-static int
+static bool
 pid_is_exec(pid_t pid, const char *name)
 {
 	kvm_t *kd;
@@ -971,13 +972,13 @@ pid_is_exec(pid_t pid, const char *name)
 		errx(1, "%s", kvm_geterr(kd));
 	pidexec = (&kp->kp_proc)->p_comm;
 	if (strlen(name) != strlen(pidexec))
-		return 0;
+		return false;
 	return (strcmp(name, pidexec) == 0) ? 1 : 0;
 }
 #endif
 
 #if defined(OSLinux)
-static int
+static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
 	struct stat sb;
@@ -985,11 +986,11 @@ pid_is_user(pid_t pid, uid_t uid)
 
 	sprintf(buf, "/proc/%d", pid);
 	if (stat(buf, &sb) != 0)
-		return 0;
+		return false;
 	return (sb.st_uid == uid);
 }
 #elif defined(OSHurd)
-static int
+static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
 	struct proc_stat *ps;
@@ -998,17 +999,17 @@ pid_is_user(pid_t pid, uid_t uid)
 	return ps && proc_stat_owner_uid(ps) == uid;
 }
 #elif defined(OShpux)
-static int
+static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
 	struct pst_status pst;
 
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
-		return 0;
+		return false;
 	return ((uid_t)pst.pst_uid == uid);
 }
 #elif defined(HAVE_KVM_H)
-static int
+static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
 	kvm_t *kd;
@@ -1027,13 +1028,13 @@ pid_is_user(pid_t pid, uid_t uid)
 		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
 		         &proc_uid, sizeof(uid_t));
 	else
-		return 0;
+		return false;
 	return (proc_uid == (uid_t)uid);
 }
 #endif
 
 #if defined(OSLinux)
-static int
+static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	char buf[32];
@@ -1043,12 +1044,12 @@ pid_is_cmd(pid_t pid, const char *name)
 	sprintf(buf, "/proc/%d/stat", pid);
 	f = fopen(buf, "r");
 	if (!f)
-		return 0;
+		return false;
 	while ((c = getc(f)) != EOF && c != '(')
 		;
 	if (c != '(') {
 		fclose(f);
-		return 0;
+		return false;
 	}
 	/* This hopefully handles command names containing ')'. */
 	while ((c = getc(f)) != EOF && c == *name)
@@ -1057,7 +1058,7 @@ pid_is_cmd(pid_t pid, const char *name)
 	return (c == ')' && *name == '\0');
 }
 #elif defined(OSHurd)
-static int
+static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	struct proc_stat *ps;
@@ -1066,17 +1067,17 @@ pid_is_cmd(pid_t pid, const char *name)
 	return ps && !strcmp(proc_stat_args(ps), name);
 }
 #elif defined(OShpux)
-static int
+static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	struct pst_status pst;
 
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
-		return 0;
+		return false;
 	return (strcmp(pst.pst_ucomm, name) == 0);
 }
 #elif defined(HAVE_KVM_H)
-static int
+static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	kvm_t *kd;
@@ -1115,25 +1116,25 @@ pid_is_cmd(pid_t pid, const char *name)
 	}
 
 	if (strlen(name) != strlen(start_argv_0_p))
-		return 0;
+		return false;
 	return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
 }
 #endif
 
 #if defined(OSHurd)
-static int
+static bool
 pid_is_running(pid_t pid)
 {
 	return get_proc_stat(pid, 0) != NULL;
 }
 #else /* !OSHurd */
-static int
+static bool
 pid_is_running(pid_t pid)
 {
 	if (kill(pid, 0) == 0 || errno == EPERM)
-		return 1;
+		return true;
 	else if (errno == ESRCH)
-		return 0;
+		return false;
 	else
 		fatal("Error checking pid %u status: %s", pid, strerror(errno));
 }

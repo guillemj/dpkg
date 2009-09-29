@@ -97,7 +97,9 @@ void blankpackageperfile(struct pkginfoperfile *pifp) {
 
 static int nes(const char *s) { return s && *s; }
 
-int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
+bool
+informative(struct pkginfo *pkg, struct pkginfoperfile *info)
+{
   /* Used by dselect and dpkg query options as an aid to decide
    * whether to display things, and by dump to decide whether to write them
    * out.
@@ -108,8 +110,9 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
        pkg->status != stat_notinstalled ||
        informativeversion(&pkg->configversion)))
     /* We ignore Section and Priority, as these tend to hang around. */
-    return 1;
-  if (!info->valid) return 0;
+    return true;
+  if (!info->valid)
+    return false;
   if (info->depends ||
       nes(info->description) ||
       nes(info->maintainer) ||
@@ -119,8 +122,9 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
       nes(info->source) ||
       informativeversion(&info->version) ||
       info->conffiles ||
-      info->arbs) return 1;
-  return 0;
+      info->arbs)
+    return true;
+  return false;
 }
 
 struct pkginfo *findpackage(const char *inname) {

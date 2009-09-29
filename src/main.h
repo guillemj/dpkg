@@ -214,18 +214,18 @@ void cu_prermremove(int argc, void **argv);
 void print_error_perpackage(const char *emsg, const char *arg);
 void forcibleerr(int forceflag, const char *format, ...) DPKG_ATTR_PRINTF(2);
 int reportbroken_retexitstatus(void);
-int skip_due_to_hold(struct pkginfo *pkg);
+bool skip_due_to_hold(struct pkginfo *pkg);
 
 /* from help.c */
 
 struct stat;
 
-int ignore_depends(struct pkginfo *pkg);
-int force_breaks(struct deppossi *possi);
-int force_depends(struct deppossi *possi);
-int force_conff_new(struct deppossi *possi);
-int force_conff_miss(struct deppossi *possi);
-int force_conflicts(struct deppossi *possi);
+bool ignore_depends(struct pkginfo *pkg);
+bool force_breaks(struct deppossi *possi);
+bool force_depends(struct deppossi *possi);
+bool force_conff_new(struct deppossi *possi);
+bool force_conff_miss(struct deppossi *possi);
+bool force_conflicts(struct deppossi *possi);
 void oldconffsetflags(const struct conffile *searchconff);
 void ensure_pathname_nonexisting(const char *pathname);
 int secure_unlink(const char *pathname);
@@ -254,8 +254,8 @@ void post_postinst_tasks_core(struct pkginfo *pkg);
 void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
 
 void clear_istobes(void);
-int isdirectoryinuse(struct filenamenode *namenode, struct pkginfo *pkg);
-int hasdirectoryconffiles(struct filenamenode *namenode, struct pkginfo *pkg);
+bool isdirectoryinuse(struct filenamenode *namenode, struct pkginfo *pkg);
+bool hasdirectoryconffiles(struct filenamenode *namenode, struct pkginfo *pkg);
 
 enum debugflags {
   dbg_general=           00001,
@@ -291,10 +291,10 @@ void trig_activate_packageprocessing(struct pkginfo *pkg);
 
 /* from depcon.c */
 
-int depisok(struct dependency *dep, struct varbuf *whynot,
-            struct pkginfo **fixbyrm, int allowunconfigd);
+bool depisok(struct dependency *dep, struct varbuf *whynot,
+             struct pkginfo **fixbyrm, int allowunconfigd);
 struct cyclesofarlink;
-int findbreakcycle(struct pkginfo *pkg);
+bool findbreakcycle(struct pkginfo *pkg);
 void describedepcon(struct varbuf *addto, struct dependency *dep);
 
 #endif /* MAIN_H */

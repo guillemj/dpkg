@@ -40,17 +40,19 @@ struct cyclesofarlink {
   struct deppossi *possi;
 };
 
-static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar);
+static bool findbreakcyclerecursive(struct pkginfo *pkg,
+                                    struct cyclesofarlink *sofar);
 
-static int foundcyclebroken(struct cyclesofarlink *thislink,
-                            struct cyclesofarlink *sofar,
-                            struct pkginfo *dependedon,
-                            struct deppossi *possi) {
+static bool
+foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
+                 struct pkginfo *dependedon, struct deppossi *possi)
+{
   struct cyclesofarlink *sol;
   const char *postinstfilename;
   struct stat stab;
 
-  if(!possi) return 0;
+  if(!possi)
+    return false;
   /* We're investigating the dependency `possi' to see if it
    * is part of a loop.  To this end we look to see whether the
    * depended-on package is already one of the packages whose
@@ -86,10 +88,12 @@ static int foundcyclebroken(struct cyclesofarlink *thislink,
   sol->possi->cyclebreak= 1;
   debug(dbg_depcon,"cycle broken at %s -> %s\n",
         sol->possi->up->up->name, sol->possi->ed->name);
-  return 1;
+  return true;
 }
 
-static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar) {
+static bool
+findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
+{
   /* Cycle breaking works recursively down the package dependency
    * tree.  `sofar' is the list of packages we've descended down
    * already - if we encounter any of its packages again in a
@@ -101,7 +105,7 @@ static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *s
   struct pkginfo *provider;
 
   if (pkg->color == black)
-    return 0;
+    return false;
   pkg->color = gray;
   
   if (f_debug & dbg_depcondetail) {
@@ -125,7 +129,8 @@ static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *s
       /* Don't find the same cycles again. */
       if (possi->cyclebreak) continue;
       thislink.possi= possi;
-      if (foundcyclebroken(&thislink,sofar,possi->ed,possi)) return 1;
+      if (foundcyclebroken(&thislink, sofar, possi->ed,possi))
+        return true;
       /* Right, now we try all the providers ... */
       for (providelink= possi->ed->installed.depended;
            providelink;
@@ -136,16 +141,19 @@ static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *s
         /* We don't break things at `provides' links, so `possi' is
          * still the one we use.
          */
-        if (foundcyclebroken(&thislink,sofar,provider,possi)) return 1;
+        if (foundcyclebroken(&thislink, sofar, provider, possi))
+          return true;
       }
     }
   }
   /* Nope, we didn't find a cycle to break. */
   pkg->color = black;
-  return 0;
+  return false;
 }
 
-int findbreakcycle(struct pkginfo *pkg) {
+bool
+findbreakcycle(struct pkginfo *pkg)
+{
   struct pkgiterator *iter;
   struct pkginfo *tpkg;
 	
@@ -195,18 +203,20 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   varbuffree(&depstr);
 }
   
-int depisok(struct dependency *dep, struct varbuf *whynot,
-            struct pkginfo **canfixbyremove, int allowunconfigd) {
+bool
+depisok(struct dependency *dep, struct varbuf *whynot,
+        struct pkginfo **canfixbyremove, int allowunconfigd)
+{
   /* *whynot must already have been initialised; it need not be
    * empty though - it will be reset before use.
-   * If depisok returns 0 for `not OK' it will contain a description,
+   * If depisok returns false for ‘not OK’ it will contain a description,
    * newline-terminated BUT NOT NULL-TERMINATED, of the reason.
-   * If depisok returns 1 it will contain garbage.
+   * If depisok returns true it will contain garbage.
    * allowunconfigd should be non-zero during the `Pre-Depends' checking
    * before a package is unpacked, when it is sufficient for the package
    * to be unpacked provided that both the unpacked and previously-configured
    * versions are acceptable.
-   * On 0 return (`not OK'), *canfixbyremove refers to a package which
+   * On false return (‘not OK’), *canfixbyremove refers to a package which
    * if removed (dep_conflicts) or deconfigured (dep_breaks) will fix
    * the problem.  Caller may pass 0 for canfixbyremove and need not
    * initialise *canfixbyremove.
@@ -235,7 +245,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
    */
   switch (dep->up->clientdata->istobe) {
   case itb_remove: case itb_deconfigure:
-    return 1;
+    return true;
   case itb_normal:
     /* Only installed packages can be make dependency problems */
     switch (dep->up->status) {
@@ -245,7 +255,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
       break;
     case stat_notinstalled: case stat_configfiles: case stat_halfinstalled:
     case stat_halfconfigured: case stat_unpacked:
-      return 1;
+      return true;
     default:
       internerr("unknown status depending '%d'", dep->up->status);
     }
@@ -267,9 +277,9 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
       dep->type == dep_recommends || dep->type == dep_suggests ) {
     
     /* Go through the alternatives.  As soon as we find one that
-     * we like, we return `1' straight away.  Otherwise, when we get to
+     * we like, we return ‘true’ straight away. Otherwise, when we get to
      * the end we'll have accumulated all the reasons in whynot and
-     * can return `0'.
+     * can return ‘false’.
      */
 
     for (possi= dep->list; possi; possi= possi->next) {
@@ -281,7 +291,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         sprintf(linebuf,_("  %.250s is to be deconfigured.\n"),possi->ed->name);
         break;
       case itb_installnew:
-        if (versionsatisfied(&possi->ed->available,possi)) return 1;
+        if (versionsatisfied(&possi->ed->available, possi))
+          return true;
         sprintf(linebuf,_("  %.250s is to be installed, but is version %.250s.\n"),
                 possi->ed->name,
                 versiondescribe(&possi->ed->available.version,vdew_nonambig));
@@ -290,7 +301,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         switch (possi->ed->status) {
         case stat_installed:
         case stat_triggerspending:
-          if (versionsatisfied(&possi->ed->installed,possi)) return 1;
+          if (versionsatisfied(&possi->ed->installed, possi))
+            return true;
           sprintf(linebuf,_("  %.250s is installed, but is version %.250s.\n"),
                   possi->ed->name,
                   versiondescribe(&possi->ed->installed.version,vdew_nonambig));
@@ -322,7 +334,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
                       versiondescribe(&possi->ed->configversion,vdew_nonambig));
               break;
             } else {
-              return 1;
+              return true;
             }
           }
           /* Fall through. */
@@ -345,7 +357,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
              provider;
              provider= provider->nextrev) {
           if (provider->up->type != dep_provides) continue;
-          if (provider->up->up->clientdata->istobe == itb_installnew) return 1;
+          if (provider->up->up->clientdata->istobe == itb_installnew)
+            return true;
         }
 
         /* Now look at the packages already on the system. */
@@ -371,7 +384,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
                     provider->up->up->name, possi->ed->name);
             break;
           case itb_normal: case itb_preinstall:
-            if (provider->up->up->status == stat_installed) return 1;
+            if (provider->up->up->status == stat_installed)
+              return true;
             sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
                     provider->up->up->name, possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));
@@ -393,14 +407,14 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
       }
     }
 
-    return 0;
+    return false;
 
   } else {
     
     /* It's conflicts or breaks.  There's only one main alternative,
-     * but we also have to consider Providers.  We return `0' as soon
+     * but we also have to consider Providers. We return ‘false’ as soon
      * as we find something that matches the conflict, and only describe
-     * it then.  If we get to the end without finding anything we return `1'.
+     * it then. If we get to the end without finding anything we return ‘true’.
      */
 
     possi= dep->list;
@@ -422,7 +436,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
                 possi->ed->name,
                 versiondescribe(&possi->ed->available.version,vdew_nonambig));
         varbufaddstr(whynot, linebuf);
-        if (!canfixbyremove) return 0;
+        if (!canfixbyremove)
+          return false;
         nconflicts++;
         *canfixbyremove= possi->ed;
         break;
@@ -445,7 +460,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
                   versiondescribe(&possi->ed->installed.version,vdew_nonambig),
                   gettext(statusstrings[possi->ed->status]));
           varbufaddstr(whynot, linebuf);
-          if (!canfixbyremove) return 0;
+          if (!canfixbyremove)
+            return false;
           nconflicts++;
           *canfixbyremove= possi->ed;
         }
@@ -472,7 +488,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         /* We can't remove the one we're about to install: */
         if (canfixbyremove)
           *canfixbyremove = NULL;
-        return 0;
+        return false;
       }
 
       /* Now look at the packages already on the system. */
@@ -510,7 +526,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
                     provider->up->up->name, possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));
             varbufaddstr(whynot, linebuf);
-            if (!canfixbyremove) return 0;
+            if (!canfixbyremove)
+              return false;
             nconflicts++;
             *canfixbyremove= provider->up->up;
             break;
@@ -523,10 +540,11 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
       }
     }
 
-    if (!nconflicts) return 1;
+    if (!nconflicts)
+      return true;
     if (nconflicts > 1)
       *canfixbyremove = NULL;
-    return 0;
+    return false;
 
   } /* if (dependency) {...} else {...} */
 }

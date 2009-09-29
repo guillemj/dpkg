@@ -25,6 +25,7 @@
 
 #include <dpkg/i18n.h>
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -72,18 +73,20 @@ static const char *arbitrary_fields[] = {
 
 static const char private_prefix[] = "Private-";
 
-static int known_arbitrary_field(const struct arbitraryfield *field) {
+static bool
+known_arbitrary_field(const struct arbitraryfield *field)
+{
   const char **known;
 
   /* Always accept fields starting with a private field prefix. */
   if (strncasecmp(field->name, private_prefix, strlen(private_prefix)) == 0)
-    return 1;
+    return true;
 
   for (known= arbitrary_fields; *known; known++)
     if (strcasecmp(field->name, *known) == 0)
-      return 1;
+      return true;
 
-  return 0;
+  return false;
 }
 
 /* Do a quick check if vstring is a valid versionnumber. Valid in this case

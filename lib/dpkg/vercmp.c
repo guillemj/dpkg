@@ -28,8 +28,10 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/parsedump.h>
 
-int epochsdiffer(const struct versionrevision *a,
-                 const struct versionrevision *b) {
+bool
+epochsdiffer(const struct versionrevision *a,
+             const struct versionrevision *b)
+{
   return a->epoch != b->epoch;
 }
 
@@ -76,11 +78,14 @@ int versioncompare(const struct versionrevision *version,
   return verrevcmp(version->revision,refversion->revision);
 }
 
-int versionsatisfied3(const struct versionrevision *it,
-                      const struct versionrevision *ref,
-                      enum depverrel verrel) {
+bool
+versionsatisfied3(const struct versionrevision *it,
+                  const struct versionrevision *ref,
+                  enum depverrel verrel)
+{
   int r;
-  if (verrel == dvr_none) return 1;
+  if (verrel == dvr_none)
+    return true;
   r= versioncompare(it,ref);
   switch (verrel) {
   case dvr_earlierequal:   return r <= 0;
@@ -91,9 +96,11 @@ int versionsatisfied3(const struct versionrevision *it,
   default:
     internerr("unknown depverrel '%d'", verrel);
   }
-  return 0;
+  return false;
 }
 
-int versionsatisfied(struct pkginfoperfile *it, struct deppossi *against) {
+bool
+versionsatisfied(struct pkginfoperfile *it, struct deppossi *against)
+{
   return versionsatisfied3(&it->version,&against->version,against->verrel);
 }

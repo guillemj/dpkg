@@ -24,6 +24,7 @@
 
 #include <dpkg/i18n.h>
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -323,7 +324,7 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
   *pipe_head = pipe_new;
 }
 
-static int
+static bool
 is_invoke_action(enum action action)
 {
   switch (action) {
@@ -333,9 +334,9 @@ is_invoke_action(enum action action)
   case act_triggers:
   case act_remove:
   case act_purge:
-    return 1;
+    return true;
   default:
-    return 0;
+    return false;
   }
 }
 
