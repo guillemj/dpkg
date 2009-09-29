@@ -1,0 +1,159 @@
+Dpkg C coding style 2009-09-29
+===================
+
+C language extensions
+~~~~~~~~~~~~~~~~~~~~~
+
+The code base assumes C89 plus the following C99 extensions:
+
+ * Named initializers.
+ * Trailing comma in enum.
+ * Variadic macros.
+ * Working bool type in <stdbool.h>.
+
+Those are checked at build time, and it will abort in case a needed extension
+is not supported.
+
+General
+~~~~~~~
+
+Most of the Linux CodingStyle applies.
+
+The code has a mix of an old coding style being phased out and the new
+style. New files should use the new style, changes to files with the old
+style should switch the code being touched except for the indentation level,
+which should be preserved to match (2 spaces).
+
+Code should generally strive for clarity. Monster functions should be split
+into logical and small pieces.
+
+Variable and function names should be generally descriptive, not needed
+for variables commonly used (for example and index inside a loop, etc),
+acronyms should only be used if they are widely known externally or
+inside the project. The names should separate logical concepts within
+with underscores.
+
+On comments use UTF-8 characters for quotes, copyrigth symbols, etc.
+
+On strings in code use simple or double quotes «''» «""». Not the unpaired
+ones «`'». Strings marked for translation, should only be fixed if there's
+other changes to be done on them, oterwise we get unneeded fuzzies.
+
+  <http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html>
+
+Indentation, alignment and spacing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Lines should be 80 chars max. Indentation is done with hard tabs (which
+should be considered to take 8 spaces width). Aligning with spaces:
+
+static void
+function(void *ptr, int value)
+{
+	void *ref_ptr = get_ref(ptr);
+	int ref_value = get_value(ref);
+
+	if (value > 10)
+		do_something(GLOBAL_MACRO, ptr, value, "some-string",
+	                     ref_ptr, ref_value, "other-string",
+	                     "extra-string");
+}
+
+When wrapping, logical operators should be kept on the preceeding line:
+
+	if (really_long_variable_to_be_checked_against_a &&
+	    really_long_variable_to_be_checked_against_b)
+		foo();
+
+Spaces between operators:
+
+	if (a && (b || c) && c == d)
+		break;
+
+	a = (b + 4 * (5 - 6)) & 0xff;
+
+Spaces between asignments:
+
+	a += b;
+
+Spaces after comma:
+
+	foo(a, b);
+
+Space after keywords (for, while, do, if, etc, but sizeof should be
+treated like a function):
+
+	for (i = 0; i < 10; i++)
+		foo(i);
+
+	memcpy(dst, src, sizeof(src));
+
+Definition of local variables, related code blocks, functions bodies
+should be split with blank lines:
+
+int
+function(void)
+{
+	int a;
+
+	foo();
+	bar();
+
+	quux();
+
+	return 0;
+}
+
+Braces
+~~~~~~
+
+Braces should be placed on the same line as the keyword, but on a new line
+for the function body. No braces should be used for unambiguous one line
+statements:
+
+	if (a > 0) {
+		foo(a);
+		bar(a);
+	} else {
+		quux(0)
+		bar(0);
+	}
+
+	for (;;) {
+		foo();
+		bar();
+	}
+
+	do {
+		foo();
+		bar();
+	} while (quux());
+
+	switch (foo) {
+	case a:
+		bar();
+		break;
+	case b:
+	default:
+		baz();
+		break;
+	}
+
+Code conventions
+~~~~~~~~~~~~~~~~
+
+Prefer assigning outside of conditionals:
+
+	n = read_items();
+	if (n < 100)
+		foo();
+
+String comparisons should use comparison operators to make it easier to
+see what operation is being done:
+
+	if (strcmp(a, b) == 0)
+		foo();
+
+	if (strcmp(a, b) < 0)
+		foo();
+
