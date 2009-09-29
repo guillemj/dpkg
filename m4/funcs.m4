@@ -7,7 +7,8 @@ AC_DEFUN([DPKG_FUNC_VA_COPY],
 [AC_CACHE_CHECK([for va_copy], [dpkg_cv_va_copy],
 	[AC_RUN_IFELSE([AC_LANG_SOURCE(
 [[#include <stdarg.h>
-main() {
+int main()
+{
 va_list v1, v2;
 va_copy (v1, v2);
 exit (0);
