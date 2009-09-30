@@ -69,21 +69,27 @@ int varbufprintf(struct varbuf *v, const char *fmt, ...) {
 }
 
 int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
-  size_t ou;
-  int r;
   va_list al;
+  int needed, r;
 
-  ou= v->used;
-  v->used+= strlen(fmt);
+  va_copy(al, va);
+  needed = vsnprintf(NULL, 0, fmt, al);
+  va_end(al);
 
-  do {
-    varbufextend(v);
-    va_copy(al, va);
-    r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
-    va_end(al);
-    if (r < 0) r= (v->size-ou+1) * 2;
-    v->used= ou+r;
-  } while (r >= (int)(v->size - ou - 1));
+  if (needed < 0)
+    ohshite("error printing into varbuf variable");
+
+  varbuf_grow(v, needed + 1);
+
+  va_copy(al, va);
+  r = vsnprintf(v->buf + v->used, needed + 1, fmt, al);
+  va_end(al);
+
+  if (r < 0)
+    ohshite("error printing into varbuf variable");
+
+  v->used += r;
+
   return r;
 }
 

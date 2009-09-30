@@ -20,6 +20,9 @@ dpkg (1.15.5) UNRELEASED; urgency=low
   * Make dpkg as strict as dpkg-statoverride on input when validating the
     parsed data from the statdb.
   * Rewrite dpkg-statoverride in C.
+  * Use C99 snprintf function family semantics to avoid having to call them
+    in a loop to grow the varbuf buffer. This should reduce memory usage and
+    be slightly faster on varbufprintf calls.
 
   [ Raphaël Hertzog ]
   * Add versioned dependency on base-files (>= 5.0.0) to dpkg-dev to ensure

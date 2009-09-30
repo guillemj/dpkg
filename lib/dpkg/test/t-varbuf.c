@@ -175,6 +175,33 @@ test_varbuf_substc(void)
 }
 
 static void
+test_varbuf_printf(void)
+{
+	struct varbuf vb;
+
+	varbufinit(&vb, 5);
+
+	/* Test normal format printing. */
+	varbufprintf(&vb, "format %s number %d", "string", 10);
+	varbufaddc(&vb, '\0');
+	test_pass(vb.used == sizeof("format string number 10"));
+	test_pass(vb.size >= vb.used);
+	test_str(vb.buf, ==, "format string number 10");
+
+	varbufreset(&vb);
+
+	/* Test concatenated format printing. */
+	varbufprintf(&vb, "format %s number %d", "string", 10);
+	varbufprintf(&vb, " extra %s", "string");
+	varbufaddc(&vb, '\0');
+	test_pass(vb.used == sizeof("format string number 10 extra string"));
+	test_pass(vb.size >= vb.used);
+	test_str(vb.buf, ==, "format string number 10 extra string");
+
+	varbuffree(&vb);
+}
+
+static void
 test_varbuf_reset(void)
 {
 	struct varbuf vb;
@@ -205,6 +232,7 @@ test(void)
 	test_varbuf_addc();
 	test_varbuf_dupc();
 	test_varbuf_substc();
+	test_varbuf_printf();
 	test_varbuf_reset();
 
 	/* FIXME: Complete. */
