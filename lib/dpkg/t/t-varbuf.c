@@ -200,6 +200,32 @@ test_varbuf_add_buf(void)
 }
 
 static void
+test_varbuf_add_str(void)
+{
+	struct varbuf vb;
+
+	varbuf_init(&vb, 5);
+
+	varbuf_add_str(&vb, "1234567890");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "1234567890");
+
+	varbuf_add_str(&vb, "abcd");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "1234567890abcd");
+
+	varbuf_add_strn(&vb, "1234567890", 5);
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "1234567890abcd12345");
+
+	varbuf_add_strn(&vb, "abcd", 0);
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "1234567890abcd12345");
+
+	varbuf_destroy(&vb);
+}
+
+static void
 test_varbuf_add_char(void)
 {
 	struct varbuf vb;
@@ -477,7 +503,7 @@ test_varbuf_detach(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(158);
+	test_plan(162);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();
@@ -486,6 +512,7 @@ TEST_ENTRY(test)
 	test_varbuf_trunc();
 	test_varbuf_add_varbuf();
 	test_varbuf_add_buf();
+	test_varbuf_add_str();
 	test_varbuf_add_char();
 	test_varbuf_dup_char();
 	test_varbuf_map_char();
