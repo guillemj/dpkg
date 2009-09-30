@@ -26,6 +26,8 @@ dpkg (1.15.5) UNRELEASED; urgency=low
   * Use the size from stat to allocate the buffers for readlink, instead of
     indefinitely calling readlink and growing the buffer. This should reduce
     memory usage when handling lots of symlinks, and be slightly faster.
+  * Rework varbuf api to avoid increasing buffers indefinitely when adding
+    content to them, regardless of space being already available.
 
   [ Raphaël Hertzog ]
   * Add versioned dependency on base-files (>= 5.0.0) to dpkg-dev to ensure

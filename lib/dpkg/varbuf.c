@@ -32,19 +32,16 @@
 void
 varbufaddc(struct varbuf *v, int c)
 {
-  if (v->used >= v->size) varbufextend(v);
+  varbuf_grow(v, 1);
   v->buf[v->used++]= c;
 }
 
 void
 varbufdupc(struct varbuf *v, int c, size_t n)
 {
-  size_t old_used = v->used;
-
+  varbuf_grow(v, n);
+  memset(v->buf + v->used, c, n);
   v->used += n;
-  if (v->used >= v->size) varbufextend(v);
-
-  memset(v->buf + old_used, c, n);
 }
 
 void
@@ -96,11 +93,9 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
 void
 varbufaddbuf(struct varbuf *v, const void *s, size_t size)
 {
-  int ou;
-  ou= v->used;
+  varbuf_grow(v, size);
+  memcpy(v->buf + v->used, s, size);
   v->used += size;
-  if (v->used >= v->size) varbufextend(v);
-  memcpy(v->buf + ou, s, size);
 }
 
 void
