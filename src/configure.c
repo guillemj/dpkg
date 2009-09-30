@@ -90,8 +90,9 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 
 	varbufreset(&cdr2);
 	varbufaddstr(&cdr2, cdr.buf);
-	cdr2.used += 50;
 	varbufaddc(&cdr2, 0);
+	/* XXX: Make sure there's enough room for extensions. */
+	varbuf_grow(&cdr2, 50);
 	cdr2rest = cdr2.buf + strlen(cdr.buf);
 	/* From now on we can just strcpy(cdr2rest, extension); */
 
