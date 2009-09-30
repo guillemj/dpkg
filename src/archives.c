@@ -803,11 +803,11 @@ int tarobject(struct TarInfo *ti) {
        * (Pretend that making a copy of a symlink is the same as linking to it.)
        */
       varbufreset(&symlinkfn);
-      do {
-        varbufextend(&symlinkfn);
-        r= readlink(fnamevb.buf,symlinkfn.buf,symlinkfn.size);
-        if (r<0) ohshite(_("unable to read link `%.255s'"),ti->Name);
-      } while ((size_t)r == symlinkfn.size);
+      varbuf_grow(&symlinkfn, stab.st_size + 1);
+      r = readlink(fnamevb.buf, symlinkfn.buf, symlinkfn.size);
+      if (r < 0)
+        ohshite(_("unable to read link `%.255s'"), ti->Name);
+      assert(r == stab.st_size);
       symlinkfn.used= r; varbufaddc(&symlinkfn,0);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for `%.255s'"),ti->Name);

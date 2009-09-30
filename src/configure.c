@@ -354,10 +354,9 @@ deferred_configure(struct pkginfo *pkg)
 int
 conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 {
-	static char *linkreadbuf = NULL;
-	static int linkreadbufsize = 0;
+	static struct varbuf symlink = VARBUF_INIT;
 	struct stat stab;
-	int r, need;
+	int r;
 	int loopprotect;
 
 	varbufreset(result);
@@ -391,31 +390,25 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				          " (= '%s')"), pkg->name, in, result->buf);
 				return -1;
 			}
-			need = 255;
-			for (;;) {
-				if (need > linkreadbufsize) {
-					linkreadbuf = m_realloc(linkreadbuf, need);
-					linkreadbufsize = need;
-					debug(dbg_conffdetail,
-					      "conffderef readlink realloc(%d)=%p",
-					      need, linkreadbuf);
-				}
-				r = readlink(result->buf, linkreadbuf, linkreadbufsize - 1);
-				if (r < 0) {
-					warning(_("%s: unable to readlink conffile '%s'\n"
-					          " (= '%s'): %s"),
-					        pkg->name, in, result->buf, strerror(errno));
-					return -1;
-				}
-				debug(dbg_conffdetail,
-				      "conffderef readlink gave %d, '%.*s'",
-				      r, max(r, 0), linkreadbuf);
-				if (r < linkreadbufsize - 1)
-					break;
-				need = r << 2;
+
+			varbufreset(&symlink);
+			varbuf_grow(&symlink, stab.st_size + 1);
+			r = readlink(result->buf, symlink.buf, symlink.size);
+			if (r < 0) {
+				warning(_("%s: unable to readlink conffile '%s'\n"
+				          " (= '%s'): %s"),
+				        pkg->name, in, result->buf, strerror(errno));
+				return -1;
 			}
-			linkreadbuf[r] = '\0';
-			if (linkreadbuf[0] == '/') {
+			assert(r == stab.st_size); // XXX: debug
+			symlink.used = r;
+			varbufaddc(&symlink, '\0');
+
+			debug(dbg_conffdetail,
+			      "conffderef readlink gave %d, '%s'",
+			      r, symlink.buf);
+
+			if (symlink.buf[0] == '/') {
 				varbufreset(result);
 				varbufaddstr(result, instdir);
 				debug(dbg_conffdetail,
@@ -426,7 +419,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				if (r < 0) {
 					warning(_("%s: conffile '%.250s' resolves to degenerate filename\n"
 					          " ('%s' is a symlink to '%s')"),
-					        pkg->name, in, result->buf, linkreadbuf);
+					        pkg->name, in, result->buf, symlink.buf);
 					return -1;
 				}
 				if (result->buf[r] == '/')
@@ -436,7 +429,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				      "conffderef readlink relative to '%.*s'",
 				      (int)result->used, result->buf);
 			}
-			varbufaddstr(result, linkreadbuf);
+			varbufaddbuf(result, symlink.buf, symlink.used);
 			varbufaddc(result, 0);
 		} else {
 			warning(_("%s: conffile '%.250s' is not a plain file or symlink (= '%s')"),

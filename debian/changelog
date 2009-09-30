@@ -23,6 +23,9 @@ dpkg (1.15.5) UNRELEASED; urgency=low
   * Use C99 snprintf function family semantics to avoid having to call them
     in a loop to grow the varbuf buffer. This should reduce memory usage and
     be slightly faster on varbufprintf calls.
+  * Use the size from stat to allocate the buffers for readlink, instead of
+    indefinitely calling readlink and growing the buffer. This should reduce
+    memory usage when handling lots of symlinks, and be slightly faster.
 
   [ Raphaël Hertzog ]
   * Add versioned dependency on base-files (>= 5.0.0) to dpkg-dev to ensure
