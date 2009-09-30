@@ -128,16 +128,6 @@ varbuf_grow(struct varbuf *v, size_t need_size)
   v->buf = m_realloc(v->buf, v->size);
 }
 
-void varbufextend(struct varbuf *v) {
-  int newsize;
-  char *newbuf;
-
-  newsize= v->size + 80 + v->used;
-  newbuf = m_realloc(v->buf, newsize);
-  v->size= newsize;
-  v->buf= newbuf;
-}
-
 void varbuffree(struct varbuf *v) {
   free(v->buf); v->buf=NULL; v->size=0; v->used=0;
 }

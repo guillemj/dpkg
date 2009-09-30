@@ -67,7 +67,6 @@ struct varbuf {
 
 void varbufinit(struct varbuf *v, size_t size);
 void varbuf_grow(struct varbuf *v, size_t need_size);
-void varbufextend(struct varbuf *v);
 void varbufreset(struct varbuf *v);
 void varbuffree(struct varbuf *v);
 
