@@ -12,7 +12,11 @@ nobase_dist_methods_DATA = \
 	floppy/desc.floppy \
 	ftp/names \
 	ftp/desc.ftp \
-	ftp/README.mirrors.txt
+	ftp/README.mirrors.txt \
+	multicd/names \
+	multicd/desc.multi_cd \
+	multicd/desc.multi_mount \
+	multicd/desc.multi_nfs
 
 nobase_dist_methods_SCRIPTS = \
 	disk/setup \
@@ -23,13 +27,19 @@ nobase_dist_methods_SCRIPTS = \
 	floppy/install \
 	ftp/setup \
 	ftp/update \
-	ftp/install
+	ftp/install \
+	multicd/setup \
+	multicd/update \
+	multicd/install
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = Debian/Dselect/Ftp.pm
+
+EXTRA_DIST = multicd/README.multicd
 
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(admindir)/methods/mnt
 	$(mkdir_p) $(DESTDIR)$(admindir)/methods/disk
 	$(mkdir_p) $(DESTDIR)$(admindir)/methods/floppy
 	$(mkdir_p) $(DESTDIR)$(admindir)/methods/ftp
+	$(mkdir_p) $(DESTDIR)$(admindir)/methods/multicd
