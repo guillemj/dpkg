@@ -32,11 +32,13 @@ my %options = (help            => sub { usage(); exit 0; },
 	       arch            => undef,
 	       multiversion    => 0,
 	       'extra-override'=> undef,
+               medium          => undef,
 	      );
 
 my $result = GetOptions(\%options,
                         'help|h|?', 'version', 'type|t=s', 'udeb|u!',
-                        'arch|a=s', 'multiversion|m!', 'extra-override|e=s');
+                        'arch|a=s', 'multiversion|m!', 'extra-override|e=s',
+                        'medium|M=s');
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -54,6 +56,7 @@ Options:
   -m, --multiversion       allow multiple versions of a single package.
   -e, --extra-override <file>
                            use extra override file.
+  -M, --medium <medium>    add X-Medium field for dselect multicd access method
   -h, --help               show this help message.
       --version            show the version.
 "), $progname;
@@ -238,6 +241,7 @@ FILE:
             }
         }
 	$fields->{'Size'} = $size;
+        $fields->{'X-Medium'} = $options{medium} if defined $options{medium};
 	
 	push @{$packages{$p}}, $fields;
     }
