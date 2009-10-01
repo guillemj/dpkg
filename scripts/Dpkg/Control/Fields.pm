@@ -167,7 +167,7 @@ our %FIELDS = (
         dep_order => 1,
     },
     'Priority' => {
-        allowed => CTRL_INFO_SRC | ALL_PKG,
+        allowed => CTRL_INFO_SRC | CTRL_APT_SRC | ALL_PKG,
     },
     'Provides' => {
         allowed => ALL_PKG,
@@ -185,7 +185,7 @@ our %FIELDS = (
         dep_order => 8,
     },
     'Section' => {
-        allowed => CTRL_INFO_SRC | ALL_PKG,
+        allowed => CTRL_INFO_SRC | CTRL_APT_SRC | ALL_PKG,
     },
     'Size' => {
         allowed => CTRL_APT_PKG,
@@ -309,6 +309,7 @@ $FIELD_ORDER{CTRL_APT_PKG()} = [ @{$FIELD_ORDER{CTRL_PKG_DEB()}} ];
 $FIELD_ORDER{CTRL_APT_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
 @{$FIELD_ORDER{CTRL_APT_SRC()}} = map { $_ eq "Source" ? "Package" : $_ }
                                   @{$FIELD_ORDER{CTRL_PKG_SRC()}};
+&field_insert_after(CTRL_APT_SRC, "Version", "Priority", "Section");
 &field_insert_before(CTRL_APT_SRC, "Checksums-Md5", "Directory");
 
 # Register vendor specifics fields
