@@ -18,8 +18,8 @@ stdout.
 .PP
 The \fIoverride-file\fR, if given, is used to set priorities in the resulting
 index records and to override the maintainer field given in the \fI.dsc\fR
-files. See
-.BR dpkg-scanpackages (1)
+files. The file can be compressed. See
+.BR deb-override (5)
 for the format of this file. \s-1NB:\s0  Since
 the override file is indexed by binary, not source, packages, there's a bit
 of a problem here. The current implementation uses the highest priority of
@@ -48,12 +48,14 @@ Don't sort the index records. Normally they are sorted by source package
 name.
 .TP
 .IP "\fB\-e\fR, \fB\-\-extra\-override\fR \fIfile\fP" 4
-Scan \fIfile\fP to find supplementary overrides. See
+Scan \fIfile\fP to find supplementary overrides (the file can be
+compressed). See
 .BR deb\-extra\-override (5)
 for more information on its format.
 .IP "\fB\-s\fR, \fB\-\-source\-override\fR \fIfile\fR" 4
-Use \fIfile\fR as the source override file. The default is the name of the
-override file you specified with \fI.src\fR appended.
+Use \fIfile\fR as the source override file (the file can be compressed).
+The default is the name of the override file you specified with \fI.src\fR
+appended.
 .sp
 The source override file is in a different format from the binary override
 file. It contains only two whitespace separated fields, the first is the

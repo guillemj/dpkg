@@ -33,6 +33,8 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
 use Dpkg::Checksums;
+use Dpkg::Source::CompressedFile;
+use Dpkg::Compression;
 
 textdomain("dpkg-dev");
 
@@ -140,8 +142,9 @@ sub load_override {
     my $file = shift;
     local $_;
 
-    open OVERRIDE, $file or syserr(_g("can't read override file %s"), $file);
-    while (<OVERRIDE>) {
+    my $comp_file = Dpkg::Source::CompressedFile->new(filename => $file);
+    my $override_fh = $comp_file->open_for_read();
+    while (<$override_fh>) {
     	s/#.*//;
 	next if /^\s*$/;
 	s/\s+$//;
@@ -178,7 +181,8 @@ sub load_override {
 	    $Override{$package}[O_MAINT_TO] = $maintainer;
 	}
     }
-    close OVERRIDE or syserr(_g("error closing override file"));
+    close($override_fh);
+    $comp_file->cleanup_after_open();
 }
 
 sub load_src_override {
@@ -190,18 +194,23 @@ sub load_src_override {
 	$file = $user_file;
     }
     elsif (defined $regular_file) {
-	$file = "$regular_file.src";
+        my $comp = get_compression_from_filename($regular_file);
+        if (defined($comp)) {
+	    $file = $regular_file;
+            $file =~ s/\.$comp_ext{$comp}$/.src.$comp_ext{$comp}/;
+        } else {
+	    $file = "$regular_file.src";
+        }
+        return unless -e $file;
     }
     else {
 	return;
     }
 
     debug "source override file $file";
-    unless (open SRC_OVERRIDE, $file) {
-	return if !defined $user_file;
-	syserr(_g("can't read source override file %s"), $file);
-    }
-    while (<SRC_OVERRIDE>) {
+    my $comp_file = Dpkg::Source::CompressedFile->new(filename => $file);
+    my $override_fh = $comp_file->open_for_read();
+    while (<$override_fh>) {
     	s/#.*//;
 	next if /^\s*$/;
 	s/\s+$//;
@@ -223,16 +232,17 @@ sub load_src_override {
 	$Override{$key} = [];
 	$Override{$key}[O_SECTION] = $section;
     }
-    close SRC_OVERRIDE or syserr(_g("error closing source override file"));
+    close($override_fh);
+    $comp_file->cleanup_after_open();
 }
 
 sub load_override_extra
 {
     my $extra_override = shift;
-    open(OVERRIDE, "<", $extra_override) or
-        syserr(_g("Couldn't open override file %s"), $extra_override);
+    my $comp_file = Dpkg::Source::CompressedFile->new(filename => $extra_override);
+    my $override_fh = $comp_file->open_for_read();
 
-    while (<OVERRIDE>) {
+    while (<$override_fh>) {
 	s/\#.*//;
 	s/\s+$//;
 	next unless $_;
@@ -240,7 +250,8 @@ sub load_override_extra
 	my ($p, $field, $value) = split(/\s+/, $_, 3);
         $Extra_Override{$p}{$field} = $value;
     }
-    close(OVERRIDE);
+    close($override_fh);
+    $comp_file->cleanup_after_open();
 }
 
 # Given PREFIX and DSC-FILE, process the file and returns the fields.

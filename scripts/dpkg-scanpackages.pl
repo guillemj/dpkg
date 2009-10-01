@@ -11,6 +11,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Control;
 use Dpkg::Version qw(compare_versions);
 use Dpkg::Checksums;
+use Dpkg::Source::CompressedFile;
 
 textdomain("dpkg-dev");
 
@@ -67,8 +68,8 @@ sub set_type_udeb()
 sub load_override
 {
     my $override = shift;
-    my $override_fh = new IO::File $override, 'r' or
-        syserr(_g("Couldn't open override file %s"), $override);
+    my $comp_file = Dpkg::Source::CompressedFile->new(filename => $override);
+    my $override_fh = $comp_file->open_for_read();
 
     while (<$override_fh>) {
 	s/\#.*//;
@@ -109,13 +110,14 @@ sub load_override
     }
 
     close($override_fh);
+    $comp_file->cleanup_after_open();
 }
 
 sub load_override_extra
 {
     my $extra_override = shift;
-    my $override_fh = new IO::File $extra_override, 'r' or
-        syserr(_g("Couldn't open override file %s"), $extra_override);
+    my $comp_file = Dpkg::Source::CompressedFile->new(filename => $extra_override);
+    my $override_fh = $comp_file->open_for_read();
 
     while (<$override_fh>) {
 	s/\#.*//;
@@ -132,6 +134,7 @@ sub load_override_extra
     }
 
     close($override_fh);
+    $comp_file->cleanup_after_open();
 }
 
 usage() and exit 1 if not $result;
