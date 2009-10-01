@@ -60,29 +60,15 @@ Preparing multiple binary CD-ROMs
  which contains the symbolic name for the CD-ROM as specified by
  "X-Medium:".
 
- In order to be able to create the modified `Packages.cd' files, this
- package installs a modified version of `dpkg-scanpackages' in
- /usr/bin.  You'll need to specify the used medium with `-m medium'.
+ In order to be able to create the modified `Packages.cd' files, you
+ have to use the `-M medium' option of dpkg-scanpackages (supported
+ in dpkg-dev >= 1.15.5).
 
  To split the `main' distribution into two CD-ROMs you'll need to
  create a `Packages.cd' file for each `binary-$arch' directory.
  Afterwards you simply append the second one to the first one and
  put the resulting `Packages.cd' file into both `binary-$arch'
  directories.
-
-dpkg-scanpackages
------------------
-
- This package provides an improved version of `dpkg-scanpackages'
- which comes with the following additional features:
-
-  . It can read compressed overrides files
-
-  . Using `-m <medium>' you can tell the program to add the new data
-    field "X-Medium:" for each record in the output.
-
- This version is installed using `dpkg-divert' which will disable the
- original `dpkg-scanpackages' program.
 
 Sample Layout
 -------------
@@ -113,18 +99,18 @@ Sample Layout
 
  To re-generate the Packages file you have to chdir into
  `dists/stable/$part' and issue `dpkg-scanpackages' as follows.  It's
- assumed that you regular compressed overrides files in
+ assumed that you use regular compressed overrides files in
  /pub/debian/indices.
 
- CD1: dpkg-scanpackages -m "Debian GNU/Linux binary-i386" \
+ CD1: dpkg-scanpackages -M "Debian GNU/Linux binary-i386" \
         binary-i386 /pub/debian/indices/override.hamm.gz \
         dists/stable/ > binary-i386/Packages
 
- CD2: dpkg-scanpackages -m "Debian GNU/Linux contrib-i386" \
+ CD2: dpkg-scanpackages -M "Debian GNU/Linux contrib-i386" \
         binary-i386 /pub/debian/indices/override.hamm.contrib.gz \
         dists/stable/ > binary-i386/Packages
 
- CD3: dpkg-scanpackages -m "Debian GNU/Linux non-free-i386" \
+ CD3: dpkg-scanpackages -M "Debian GNU/Linux non-free-i386" \
         binary-i386 /pub/debian/indices/override.hamm.non-free.gz \
         dists/stable/ > binary-i386/Packages
 
