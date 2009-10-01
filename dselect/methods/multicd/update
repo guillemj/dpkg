@@ -20,7 +20,7 @@ set -e
 vardir="$1"
 method=$2
 option=$3
-iarch=`dpkg --print-installation-architecture`
+iarch=`dpkg --print-architecture`
 
 cd "$vardir/methods/$method"
 
@@ -123,8 +123,6 @@ do
 done
 
 cp -f $vardir/available $vardir/methods/$method
-
-dpkg --forget-old-unavail
 
 echo -n 'Update OK.  Hit RETURN.  '
 read response
