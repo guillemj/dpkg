@@ -119,7 +119,7 @@ getblockdev () {
 		then
 			blockbase="`echo \"$tryblockdevice\" | sed -e 's/[0-9]\{1,\}$//'`"
 			set +e
-			echo -e "p\nq\n" | fdisk "$blockbase" 2>/dev/null >$tp.f
+			printf 'p\nq\n' | fdisk "$blockbase" 2>/dev/null >$tp.f
 			set -e
 			proposeddevice="$tryblockdevice" perl -ne '
 next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
@@ -334,10 +334,10 @@ fi
 if [ $option = harddisk2 ]
 then
 	set +e
-	echo -e 'p\nq\n' | fdisk /dev/hda 2>/dev/null >$tp.f
+	printf 'p\nq\n' | fdisk /dev/hda 2>/dev/null >$tp.f
 	if [ $? != 0 ]
 	then
-		echo -e 'p\nq\n' | fdisk /dev/sda 2>/dev/null >$tp.f
+		printf 'p\nq\n' | fdisk /dev/sda 2>/dev/null >$tp.f
 	fi
 	set -e
 	perl -ne '
