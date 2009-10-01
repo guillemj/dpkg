@@ -15,7 +15,7 @@ my @ops = ("<", "<<", "lt",
 	   ">=", "ge",
 	   ">", ">>", "gt");
 
-plan tests => scalar(@tests) * (3 * scalar(@ops) + 2) + 1;
+plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 1;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
@@ -66,6 +66,9 @@ foreach my $case (@tests) {
     my ($a, $b, $res) = split " ", $case;
     my $va = Dpkg::Version->new($a);
     my $vb = Dpkg::Version->new($b);
+
+    is("$va", $a, "String representation of Dpkg::Version($a) is $a");
+    is("$vb", $b, "String representation of Dpkg::Version($b) is $b");
 
     is(version_compare($a, $b), $res, "$a cmp $b => $res");
     is($va <=> $vb, $res, "Dpkg::Version($a) <=> Dpkg::Version($b) => $res");
