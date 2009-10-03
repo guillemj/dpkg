@@ -32,7 +32,7 @@
 #include <dpkg/pkg-array.h>
 
 int
-pkglistqsortcmp(const void *a, const void *b)
+pkg_sorter_by_name(const void *a, const void *b)
 {
 	const struct pkginfo *pa = *(const struct pkginfo **)a;
 	const struct pkginfo *pb = *(const struct pkginfo **)b;

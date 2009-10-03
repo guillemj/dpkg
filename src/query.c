@@ -143,7 +143,7 @@ void listpackages(const char *const *argv) {
   modstatdb_init(admindir,msdbrw_readonly);
 
   pkg_array_init_from_db(&array);
-  pkg_array_sort(&array, pkglistqsortcmp);
+  pkg_array_sort(&array, pkg_sorter_by_name);
 
   head = 0;
 
@@ -394,7 +394,7 @@ void showpackages(const char *const *argv) {
   modstatdb_init(admindir,msdbrw_readonly);
 
   pkg_array_init_from_db(&array);
-  pkg_array_sort(&array, pkglistqsortcmp);
+  pkg_array_sort(&array, pkg_sorter_by_name);
 
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {

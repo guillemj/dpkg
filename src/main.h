@@ -168,7 +168,7 @@ void cmpversions(const char *const *argv) DPKG_ATTR_NORET;
 /* Intended for use as a comparison function for qsort when
  * sorting an array of pointers to struct pkginfo:
  */
-int pkglistqsortcmp(const void *a, const void *b);
+int pkg_sorter_by_name(const void *a, const void *b);
 
 void limiteddescription(struct pkginfo *pkg,
                         int maxl, const char **pdesc_r, int *l_r);
