@@ -96,7 +96,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "  --version                show the version.\n"
 "\n"));
 
-	m_output(stdout, _("<standard output"));
+	m_output(stdout, _("<standard output>"));
 
 	exit(0);
 }
