@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-09-26 19:01+0200\n"
-"PO-Revision-Date: 2009-09-26 19:21+0200\n"
+"POT-Creation-Date: 2009-10-03 09:43+0200\n"
+"PO-Revision-Date: 2009-10-03 09:46+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: scripts/dpkg-distaddfile.pl:18 scripts/dpkg-genchanges.pl:83
 #: scripts/dpkg-gencontrol.pl:41 scripts/dpkg-gensymbols.pl:32
 #: scripts/dpkg-name.pl:48 scripts/dpkg-parsechangelog.pl:19
-#: scripts/dpkg-scanpackages.pl:41 scripts/dpkg-scansources.pl:82
+#: scripts/dpkg-scanpackages.pl:44 scripts/dpkg-scansources.pl:84
 #: scripts/dpkg-shlibdeps.pl:502 scripts/dpkg-source.pl:338
 #: scripts/changelog/debian.pl:19
 #, perl-format
@@ -1099,7 +1099,7 @@ msgstr ""
 msgid "%s takes no non-option arguments"
 msgstr "%s akzeptiert kein nicht-Options-Argument"
 
-#: scripts/dpkg-scanpackages.pl:47
+#: scripts/dpkg-scanpackages.pl:50
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
@@ -1112,6 +1112,8 @@ msgid ""
 "  -m, --multiversion       allow multiple versions of a single package.\n"
 "  -e, --extra-override <file>\n"
 "                           use extra override file.\n"
+"  -M, --medium <medium>    add X-Medium field for dselect multicd access "
+"method\n"
 "  -h, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
@@ -1126,60 +1128,56 @@ msgstr ""
 "Pakets.\n"
 "  -e, --extra-override <Datei>\n"
 "                           verwende zusätzliche Override-Datei.\n"
+"  -M, --medium <Medium>    füge Feld X-Medium für Dselects\n"
+"                           Multicd-Zugriffsmethode hinzu\n"
 "  -h, --help               zeige diese Hilfemeldung.\n"
 "      --version            zeige die Version.\n"
 
-#: scripts/dpkg-scanpackages.pl:63
+#: scripts/dpkg-scanpackages.pl:67
 msgid "-u, --udeb option is deprecated (see README.feature-removal-schedule)"
 msgstr ""
 "Option -u, --udeb ist veraltet (lesen Sie README.feature-removal-schedule)"
 
-#: scripts/dpkg-scanpackages.pl:71 scripts/dpkg-scanpackages.pl:118
-#: scripts/dpkg-scansources.pl:233
-#, perl-format
-msgid "Couldn't open override file %s"
-msgstr "konnte override-Datei %s nicht öffnen"
-
-#: scripts/dpkg-scanpackages.pl:93
+#: scripts/dpkg-scanpackages.pl:97
 #, perl-format
 msgid "  %s (package says %s, not %s)"
 msgstr "  %s (laut Paket %s, nicht %s)"
 
-#: scripts/dpkg-scanpackages.pl:101
+#: scripts/dpkg-scanpackages.pl:105
 #, perl-format
 msgid "Unconditional maintainer override for %s"
 msgstr "Bedingungsloser Übersteuerung (»override«) des Betreuers für %s"
 
-#: scripts/dpkg-scanpackages.pl:140
+#: scripts/dpkg-scanpackages.pl:146
 msgid "1 to 3 args expected"
 msgstr "1 bis 3 Argumente erwartet"
 
-#: scripts/dpkg-scanpackages.pl:158
+#: scripts/dpkg-scanpackages.pl:164
 #, perl-format
 msgid "Binary dir %s not found"
 msgstr "Binärverzeichnis %s nicht gefunden"
 
-#: scripts/dpkg-scanpackages.pl:160
+#: scripts/dpkg-scanpackages.pl:166
 #, perl-format
 msgid "Override file %s not found"
 msgstr "Override-Datei %s nicht gefunden"
 
-#: scripts/dpkg-scanpackages.pl:174
+#: scripts/dpkg-scanpackages.pl:180
 #, perl-format
 msgid "Couldn't open %s for reading"
 msgstr "Konnte %s nicht zum Lesen öffnen"
 
-#: scripts/dpkg-scanpackages.pl:181
+#: scripts/dpkg-scanpackages.pl:187
 #, perl-format
 msgid "Couldn't call dpkg-deb on %s: %s, skipping package"
 msgstr "Konnte dpkg-deb auf %s nicht aufrufen: %s, überspringe Paket"
 
-#: scripts/dpkg-scanpackages.pl:186
+#: scripts/dpkg-scanpackages.pl:192
 #, perl-format
 msgid "`dpkg-deb -I %s control' exited with %d, skipping package"
 msgstr "»dpkg-deb -I %s control« beendete sich mit %d, überspringe Paket"
 
-#: scripts/dpkg-scanpackages.pl:199
+#: scripts/dpkg-scanpackages.pl:205
 #, perl-format
 msgid ""
 "Unprocessed text from %s control file; info:\n"
@@ -1188,66 +1186,66 @@ msgstr ""
 "Unbearbeiteter Text aus %s Steuerdatei; Information:\n"
 "%s / %s"
 
-#: scripts/dpkg-scanpackages.pl:203
+#: scripts/dpkg-scanpackages.pl:209
 #, perl-format
 msgid "No Package field in control file of %s"
 msgstr "Kein »Package«-Feld in Steuerdatei von %s"
 
-#: scripts/dpkg-scanpackages.pl:209
+#: scripts/dpkg-scanpackages.pl:215
 #, perl-format
 msgid "Package %s (filename %s) is repeat but newer version;"
 msgstr "Paket %s (Dateiname %s) ist wiederholt aber neuere Version;"
 
-#: scripts/dpkg-scanpackages.pl:211
+#: scripts/dpkg-scanpackages.pl:217
 #, perl-format
 msgid "used that one and ignored data from %s!"
 msgstr "verwendete dieses und ignorierte Daten aus %s!"
 
-#: scripts/dpkg-scanpackages.pl:215
+#: scripts/dpkg-scanpackages.pl:221
 #, perl-format
 msgid "Package %s (filename %s) is repeat;"
 msgstr "Paket %s (Dateiname %s) ist wiederholt;"
 
-#: scripts/dpkg-scanpackages.pl:216
+#: scripts/dpkg-scanpackages.pl:222
 #, perl-format
 msgid "ignored that one and using data from %s!"
 msgstr "ignorierte dieses und verwende Daten aus %s!"
 
-#: scripts/dpkg-scanpackages.pl:222
+#: scripts/dpkg-scanpackages.pl:228
 #, perl-format
 msgid "Package %s (filename %s) has Filename field!"
 msgstr "Paket %s (Dateiname %s) hat Feld Filename!"
 
-#: scripts/dpkg-scanpackages.pl:254
+#: scripts/dpkg-scanpackages.pl:261
 msgid "Failed when writing stdout"
 msgstr "Fehler beim Schreiben nach Stdout"
 
-#: scripts/dpkg-scanpackages.pl:258
+#: scripts/dpkg-scanpackages.pl:265
 msgid "Couldn't close stdout"
 msgstr "konnte Stdout nicht schließen"
 
-#: scripts/dpkg-scanpackages.pl:261
+#: scripts/dpkg-scanpackages.pl:268
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr "Pakete in Override-Datei mit ungültigem alten Betreuer-Wert:"
 
-#: scripts/dpkg-scanpackages.pl:265
+#: scripts/dpkg-scanpackages.pl:272
 msgid "Packages specifying same maintainer as override file:"
 msgstr "Pakete spezifizieren gleichen Betreuer wie Override-Datei:"
 
-#: scripts/dpkg-scanpackages.pl:269
+#: scripts/dpkg-scanpackages.pl:276
 msgid "Packages in archive but missing from override file:"
 msgstr "Pakete im Archiv, die aber in Override-Datei fehlen:"
 
-#: scripts/dpkg-scanpackages.pl:273
+#: scripts/dpkg-scanpackages.pl:280
 msgid "Packages in override file but not in archive:"
 msgstr "Pakete in Override-Datei aber nicht im Archiv:"
 
-#: scripts/dpkg-scanpackages.pl:277
+#: scripts/dpkg-scanpackages.pl:284
 #, perl-format
 msgid "Wrote %s entries to output Packages file."
 msgstr "%s Einträge in Ausgabe-Paketdatei geschrieben."
 
-#: scripts/dpkg-scansources.pl:88
+#: scripts/dpkg-scansources.pl:90
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > "
@@ -1285,64 +1283,46 @@ msgstr ""
 "\n"
 "Lesen Sie die Handbuchseite für die komplette Dokumentation.\n"
 
-#: scripts/dpkg-scansources.pl:130
+#: scripts/dpkg-scansources.pl:132
 #, perl-format
 msgid "error closing %s ($? %d, $! `%s')"
 msgstr "Fehler beim Schließen von %s ($? %d, $! »%s«)"
 
-#: scripts/dpkg-scansources.pl:143
-#, perl-format
-msgid "can't read override file %s"
-msgstr "kann Override-Datei %s nicht lesen"
-
-#: scripts/dpkg-scansources.pl:151
+#: scripts/dpkg-scansources.pl:154
 #, perl-format
 msgid "invalid override entry at line %d (%d fields)"
 msgstr "ungültiger Override-Eintrag in Zeile %d (%d Felder)"
 
-#: scripts/dpkg-scansources.pl:157
+#: scripts/dpkg-scansources.pl:160
 #, perl-format
 msgid "ignoring duplicate override entry for %s at line %d"
 msgstr "ignoriere doppelte Override-Einträge für %s in Zeile %d"
 
-#: scripts/dpkg-scansources.pl:162
+#: scripts/dpkg-scansources.pl:165
 #, perl-format
 msgid "ignoring override entry for %s, invalid priority %s"
 msgstr "ignoriere Override-Eintrag für %s, ungültige Priorität %s"
 
-#: scripts/dpkg-scansources.pl:181
-msgid "error closing override file"
-msgstr "Fehler beim Schließen der Override-Datei"
-
-#: scripts/dpkg-scansources.pl:202
-#, perl-format
-msgid "can't read source override file %s"
-msgstr "kann Quell-Override-Datei %s nicht lesen"
-
-#: scripts/dpkg-scansources.pl:211
+#: scripts/dpkg-scansources.pl:220
 #, perl-format
 msgid "invalid source override entry at line %d (%d fields)"
 msgstr "ungültiger Quell-Override-Eintrag in Zeile %d (%d Felder)"
 
-#: scripts/dpkg-scansources.pl:219
+#: scripts/dpkg-scansources.pl:228
 #, perl-format
 msgid "ignoring duplicate source override entry for %s at line %d"
 msgstr "ignoriere doppelte Quell-Override-Einträge für %s in Zeile %d"
 
-#: scripts/dpkg-scansources.pl:226
-msgid "error closing source override file"
-msgstr "Fehler beim Schließen der Quell-Override-Datei"
-
-#: scripts/dpkg-scansources.pl:264
+#: scripts/dpkg-scansources.pl:275
 #, perl-format
 msgid "no binary packages specified in %s"
 msgstr "keine Binärpakete in %s angegeben"
 
-#: scripts/dpkg-scansources.pl:336
+#: scripts/dpkg-scansources.pl:347
 msgid "1 to 3 args expected\n"
 msgstr "1 bis 3 Argumente erwartet\n"
 
-#: scripts/dpkg-scansources.pl:347 scripts/dpkg-shlibdeps.pl:802
+#: scripts/dpkg-scansources.pl:358 scripts/dpkg-shlibdeps.pl:802
 #: scripts/Dpkg/Shlibs/Objdump.pm:83 scripts/Dpkg/Shlibs/Objdump.pm:157
 #, perl-format
 msgid "cannot fork for %s"
@@ -2140,12 +2120,12 @@ msgstr "Lieferanten (vendor-)Datei"
 msgid "entry in dpkg's status file"
 msgstr "Eintrag in Dpkgs Statusdatei"
 
-#: scripts/Dpkg/Control/Fields.pm:432
+#: scripts/Dpkg/Control/Fields.pm:433
 #, perl-format
 msgid "unknown information field '%s' in input data in %s"
 msgstr "unbekanntes Informationsfeld »%s« in den Eingabedaten in %s"
 
-#: scripts/Dpkg/Control/Fields.pm:433
+#: scripts/Dpkg/Control/Fields.pm:434
 msgid "control information"
 msgstr "Steuerinformation"
 
@@ -3176,6 +3156,21 @@ msgstr ""
 #, perl-format
 msgid "version number contains illegal character `%s'"
 msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
+
+#~ msgid "Couldn't open override file %s"
+#~ msgstr "konnte override-Datei %s nicht öffnen"
+
+#~ msgid "can't read override file %s"
+#~ msgstr "kann Override-Datei %s nicht lesen"
+
+#~ msgid "error closing override file"
+#~ msgstr "Fehler beim Schließen der Override-Datei"
+
+#~ msgid "can't read source override file %s"
+#~ msgstr "kann Quell-Override-Datei %s nicht lesen"
+
+#~ msgid "error closing source override file"
+#~ msgstr "Fehler beim Schließen der Quell-Override-Datei"
 
 #~ msgid "parsing an empty file %s"
 #~ msgstr "kann leere Datei %s nicht auswerten"
