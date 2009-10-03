@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2009-09-06 09:05+0300\n"
-"PO-Revision-Date: 2009-09-27 05:48+0200\n"
+"PO-Revision-Date: 2009-10-03 10:25+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -8412,6 +8412,16 @@ msgstr ""
 "darüber enthält, wie das Paket in die Distribution passt; siehe B<deb-"
 "override>(5)."
 
+#: dpkg-scanpackages.1:65
+msgid ""
+"I<overridefile> is the name of a file to read which contains information "
+"about how the package fits into the distribution (it can be a compressed "
+"file); see B<deb-override>(5)."
+msgstr ""
+"I<override-Datei> ist der Name einer einzulesenden Datei, die Informationen "
+"darüber enthält, wie das Paket in die Distribution passt (sie kann eine "
+"komprimierte Datei sein); siehe B<deb-override>(5)."
+
 #. type: Plain text
 #: dpkg-scanpackages.1:68
 msgid ""
@@ -8469,6 +8479,16 @@ msgstr ""
 "Durchsuche I<Datei>, um zusätzliche Overrides zu finden. Lesen Sie B<deb-"
 "extra-override>(5) für weitere Informationen über deren Format."
 
+# type: Plain text
+#: dpkg-scanpackages.1:86 dpkg-scansources.1:55
+msgid ""
+"Scan I<file> to find supplementary overrides (the file can be compressed). "
+"See B<deb-extra-override>(5)  for more information on its format."
+msgstr ""
+"Durchsuche I<Datei>, um zusätzliche Overrides zu finden (die Datei kann "
+"komprimiert sein). Lesen Sie B<deb-extra-override>(5) für weitere "
+"Informationen über deren Format."
+
 #. type: TP
 #: dpkg-scanpackages.1:85
 #, no-wrap
@@ -8494,6 +8514,22 @@ msgstr "B<-m>, B<--multiversion>"
 #: dpkg-scanpackages.1:92
 msgid "Include all found packages in the output."
 msgstr "Nimm alle gefundenen Pakete in der Ausgabe auf."
+
+#: dpkg-scanpackages.1:93
+#, no-wrap
+msgid "B<-M>, B<--medium> I<id-string>"
+msgstr "B<-M>, B<--medium> I<ID-Zeichenkette>"
+
+# type: Plain text
+#: dpkg-scanpackages.1:98
+msgid ""
+"Add an X-Medium field containing the value I<id-string>. This field is "
+"required if you want to generate B<Packages.cd> files for use by the multicd "
+"access method of dselect."
+msgstr ""
+"Füge ein Feld X-Medium hinzu, dass den Wert von I<ID-Zeichenkette> enthält. "
+"Dieses Feld wird benötigt, falls Sie die Dateien B<Packages.cd> für den "
+"Einsatz mit der Multicd-Zugriffsmethode von Dselect erstellen wollen."
 
 #. type: SH
 #: dpkg-scanpackages.1:99 update-alternatives.8:441
@@ -8559,6 +8595,29 @@ msgstr ""
 "B<dpkg-scansources> durchsucht das übergebene I<Binär-Verz> nach I<.dsc>-"
 "Dateien. Diese werden verwendet, um einen Debian-Quell-Index zu erstellen, "
 "der auf der Standardausgabe ausgegeben wird."
+
+#: dpkg-scansources.1:29
+msgid ""
+"The I<override-file>, if given, is used to set priorities in the resulting "
+"index records and to override the maintainer field given in the I<.dsc> "
+"files. The file can be compressed. See B<deb-override>(5)  for the format of "
+"this file. \\s-1NB:\\s0 Since the override file is indexed by binary, not "
+"source, packages, there's a bit of a problem here. The current "
+"implementation uses the highest priority of all the binary packages produced "
+"by a I<.dsc> file for the priority of the source package, and the override "
+"entry for the first binary package listed in the I<.dsc> file to modify "
+"maintainer information. This might change."
+msgstr ""
+"Die I<override-Datei> wird, falls angegeben, verwendet, um die Prioritäten "
+"in den ergebenen Index-Datensätzen zu setzen und sich über das Betreuer-Feld "
+"in den I<.dsc>-Dateien hinwegzusetzen. Diese Datei kann komprimiert sein. "
+"Lesen Sie B<dpkg-scanpackages>(1) für das Format dieser Datei. \\s-1Beachten "
+"Sie\\s0: Da die override-Datei nach Binär- und nicht Quellpaketen indiziert "
+"wird, gibt es ein hier kleines Problem. Die aktuelle Implementierung "
+"verwendet die höchste Priorität aller von einer I<.dsc>-Datei erzeugten "
+"Binärpakete für die Priorität des Quellpakets, und den Inhalt für das "
+"Hinwegsetzen über die Betreuer-Information aus dem Eintrag für das erste in "
+"der I<.dsc>-Datei aufgeführte Binärpaket. Dies könnte sich ändern."
 
 #. type: Plain text
 #: dpkg-scansources.1:29
@@ -8630,6 +8689,15 @@ msgstr ""
 #, no-wrap
 msgid "B<-s>, B<--source-override> I<file>"
 msgstr "B<-s>, B<--source-override> I<Datei>"
+
+#: dpkg-scansources.1:59
+msgid ""
+"Use I<file> as the source override file (the file can be compressed).  The "
+"default is the name of the override file you specified with I<.src> appended."
+msgstr ""
+"Verwenden Sie I<Datei> als Quell-override-Datei (die Datei kann komprimiert "
+"sein). Die Standardeinstellung ist der Name der override-Datei, die Sie "
+"angegeben haben, um I<.src> ergänzt."
 
 #. type: Plain text
 #: dpkg-scansources.1:57
