@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * pkg-array.h - primitives for pkg array handling
+ * pkg.h - primitives for pkg handling
  *
  * Copyright © 2009 Guillem Jover <guillem@debian.org>
  *
@@ -19,26 +19,17 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_PKG_ARRAY_H
-#define DPKG_PKG_ARRAY_H
+#ifndef DPKG_PKG_H
+#define DPKG_PKG_H
 
-#include <config.h>
-#include <compat.h>
-
-#include <dpkg/dpkg-db.h>
-#include <dpkg/pkg.h>
+#include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
 
-struct pkg_array {
-	int n_pkgs;
-	struct pkginfo **pkgs;
-};
+typedef int pkg_sorter_func(const void *a, const void *b);
 
-void pkg_array_init_from_db(struct pkg_array *a);
-void pkg_array_sort(struct pkg_array *a, pkg_sorter_func *pkg_sort);
-void pkg_array_free(struct pkg_array *a);
+int pkg_sorter_by_name(const void *a, const void *b);
 
 DPKG_END_DECLS
 
-#endif /* DPKG_PKG_ARRAY_H */
+#endif /* DPKG_PKG_H */
