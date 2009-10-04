@@ -28,6 +28,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/i18n.h>
 
 void
 varbufaddc(struct varbuf *v, int c)
@@ -74,7 +75,7 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
   va_end(al);
 
   if (needed < 0)
-    ohshite("error printing into varbuf variable");
+    ohshite(_("error formatting string into varbuf variable"));
 
   varbuf_grow(v, needed + 1);
 
@@ -83,7 +84,7 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
   va_end(al);
 
   if (r < 0)
-    ohshite("error printing into varbuf variable");
+    ohshite(_("error formatting string into varbuf variable"));
 
   v->used += r;
 
