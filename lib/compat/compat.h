@@ -3,7 +3,7 @@
  * compat.h - system compatibility declarations
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-#ifndef offsetof
+#ifndef HAVE_OFFSETOF
 #define offsetof(st, m) ((size_t)&((st *)NULL)->m)
 #endif
 
