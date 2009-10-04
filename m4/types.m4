@@ -29,7 +29,7 @@ AC_CHECK_DECLS([sys_siglist],,,
 AC_DEFUN([DPKG_CHECK_DECL],
 [
   AC_CHECK_DECL($1,
-                [AC_DEFINE([HAVE_]$1, 1,
+                [AC_DEFINE([HAVE_]AS_TR_CPP($1), 1,
                            [Define to 1 if ']$1[' is declared in <$2>])],,
                 [[#include <$2>]])
 ])# DPKG_CHECK_DECL
@@ -38,13 +38,14 @@ AC_DEFUN([DPKG_CHECK_DECL],
 # -------------------------------------
 # Defines HAVE_DEFINE to 1 if declared in HEADER, 0 otherwise
 AC_DEFUN([DPKG_CHECK_DEFINE],
-[AC_CACHE_CHECK([whether $1 is defined in $2], [dpkg_cv_define_$1],
+[AC_CACHE_CHECK([whether $1 is defined in $2], [dpkg_cv_define_]AS_TR_SH($1),
 [AC_COMPILE_IFELSE(
 	[AC_LANG_PROGRAM([[#include <$2>]], [[int i = $1;]])],
-	[dpkg_cv_define_$1=yes],
-	[dpkg_cv_define_$1=no])])
-AS_IF([test "x$dpkg_cv_define_$1" = "xyes"],
-	[AC_DEFINE([HAVE_]$1, 1, [Define to 1 if you have the macro ']$1[' in
-				  <$2>, and to 0 if you don't.])],
-	[AC_DEFINE([HAVE_]$1, 0)])[]dnl
+	[dpkg_cv_define_]AS_TR_SH($1)[=yes],
+	[dpkg_cv_define_]AS_TR_SH($1)[=no])])
+AS_IF([test "x$dpkg_cv_define_[]AS_TR_SH($1)" = "xyes"],
+	[AC_DEFINE([HAVE_]AS_TR_CPP($1), 1,
+	           [Define to 1 if you have the macro ']$1[' in <$2>,
+	            and to 0 if you don't.])],
+	[AC_DEFINE([HAVE_]AS_TR_CPP($1), 0)])[]dnl
 ])# DPKG_CHECK_DEFINE
