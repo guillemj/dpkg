@@ -43,7 +43,7 @@ AC_DEFUN([DPKG_CHECK_DEFINE],
 	[AC_LANG_PROGRAM([[#include <$2>]], [[int i = $1;]])],
 	[dpkg_cv_define_$1=yes],
 	[dpkg_cv_define_$1=no])])
-AS_IF([test "x$dpkg_cv_define" = "xyes"],
+AS_IF([test "x$dpkg_cv_define_$1" = "xyes"],
 	[AC_DEFINE([HAVE_]$1, 1, [Define to 1 if you have the macro ']$1[' in
 				  <$2>, and to 0 if you don't.])],
 	[AC_DEFINE([HAVE_]$1, 0)])[]dnl
