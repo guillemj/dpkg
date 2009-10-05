@@ -257,7 +257,7 @@ sub __sanity_check_range {
         warning(_g("'%s' option specifies non-existing version"), "since");
         warning(_g("use newest entry that is smaller than the one specified"));
         foreach my $v (@versions) {
-            if (version_compare_op($v, CMP_OP_LT, $$since)) {
+            if (version_compare_relation($v, REL_LT, $$since)) {
                 $$since = $v;
                 last;
             }
@@ -274,7 +274,7 @@ sub __sanity_check_range {
         warning(_g("use oldest entry that is bigger than the one specified"));
         my $oldest;
         foreach my $v (@versions) {
-            if (version_compare_op($v, CMP_OP_GT, $$from)) {
+            if (version_compare_relation($v, REL_GT, $$from)) {
                 $oldest = $v;
             }
         }
@@ -290,7 +290,7 @@ sub __sanity_check_range {
         warning(_g("use oldest entry that is bigger than the one specified"));
         my $oldest;
         foreach my $v (@versions) {
-            if (version_compare_op($v, CMP_OP_GT, $$until)) {
+            if (version_compare_relation($v, REL_GT, $$until)) {
                 $oldest = $v;
             }
         }
@@ -305,7 +305,7 @@ sub __sanity_check_range {
         warning(_g("'%s' option specifies non-existing version"), "to");
         warning(_g("use newest entry that is smaller than the one specified"));
         foreach my $v (@versions) {
-            if (version_compare_op($v, CMP_OP_LT, $$to)) {
+            if (version_compare_relation($v, REL_LT, $$to)) {
                 $$to = $v;
                 last;
             }

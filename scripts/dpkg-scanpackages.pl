@@ -203,8 +203,8 @@ FILE:
 	
 	if (defined($packages{$p}) and not $options{multiversion}) {
 	    foreach (@{$packages{$p}}) {
-		if (version_compare_op($fields->{'Version'}, CMP_OP_GT,
-                                       $_->{'Version'}))
+		if (version_compare_relation($fields->{'Version'}, REL_GT,
+					     $_->{'Version'}))
                 {
 		    warning(_g("Package %s (filename %s) is repeat but newer version;"),
 		            $p, $fn);

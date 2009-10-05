@@ -73,13 +73,13 @@ foreach my $case (@tests) {
     is(version_compare($a, $b), $res, "$a cmp $b => $res");
     is($va <=> $vb, $res, "Dpkg::Version($a) <=> Dpkg::Version($b) => $res");
     foreach my $op (@ops) {
-        my $norm_op = version_normalize_cmp_op($op);
+        my $norm_op = version_normalize_relation($op);
 	if ($truth->{$res}{$op}) {
-	    ok(version_compare_op($a, $norm_op, $b), "$a $op $b => true");
+	    ok(version_compare_relation($a, $norm_op, $b), "$a $op $b => true");
 	    ok(obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => true");
 	    ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => true");
 	} else {
-	    ok(!version_compare_op($a, $norm_op, $b), "$a $op $b => false");
+	    ok(!version_compare_relation($a, $norm_op, $b), "$a $op $b => false");
 	    ok(!obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
 	    ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => false");
 	}

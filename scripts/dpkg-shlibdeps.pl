@@ -452,8 +452,8 @@ sub filter_deps {
 	    $stronger = 0; # If the dep is unversionned
 	} elsif ($depseen{$dep} eq '') {
 	    $stronger = 1; # If the dep seen is unversionned
-	} elsif (version_compare_op($depseen{$dep}, CMP_OP_GT,
-                                    $dependencies{$field}{$dep})) {
+	} elsif (version_compare_relation($depseen{$dep}, REL_GT,
+                                          $dependencies{$field}{$dep})) {
 	    # The version of the dep seen is stronger...
 	    $stronger = 0;
 	} else {
@@ -562,7 +562,7 @@ sub get_min_version_from_deps {
 	    my $minver = get_min_version_from_deps($subdep, $pkg);
 	    next if not defined $minver;
 	    if (defined $res) {
-		if (version_compare_op($minver, CMP_OP_GT, $res)) {
+		if (version_compare_relation($minver, REL_GT, $res)) {
 		    $res = $minver;
 		}
 	    } else {
@@ -581,8 +581,8 @@ sub update_dependency_version {
 	    defined($dependencies{$cur_field}{$subdep}))
 	{
 	    if ($dependencies{$cur_field}{$subdep} eq '' or
-		version_compare_op($minver, CMP_OP_GT,
-				   $dependencies{$cur_field}{$subdep}))
+		version_compare_relation($minver, REL_GT,
+				         $dependencies{$cur_field}{$subdep}))
 	    {
 		$dependencies{$cur_field}{$subdep} = $minver;
 	    }

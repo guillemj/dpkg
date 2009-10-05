@@ -26,17 +26,17 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT = qw(version_compare version_compare_op
-                 version_normalize_cmp_op version_compare_string
+our @EXPORT = qw(version_compare version_compare_relation
+                 version_normalize_relation version_compare_string
                  version_compare_part version_split_digits version_check
-                 CMP_OP_LT CMP_OP_LE CMP_OP_EQ CMP_OP_GE CMP_OP_GT);
+                 REL_LT REL_LE REL_EQ REL_GE REL_GT);
 
 use constant {
-    CMP_OP_LT => '<<',
-    CMP_OP_LE => '<=',
-    CMP_OP_EQ => '=',
-    CMP_OP_GE => '>=',
-    CMP_OP_GT => '>>',
+    REL_LT => '<<',
+    REL_LE => '<=',
+    REL_EQ => '=',
+    REL_GE => '>=',
+    REL_GT => '>>',
 };
 
 use overload
@@ -176,64 +176,64 @@ sub version_compare($$) {
     return $va <=> $vb;
 }
 
-=item version_compare_op($a, $op, $b)
+=item version_compare_relation($a, $rel, $b)
 
 Returns the result (0 or 1) of the given comparison operation. This
 function is implemented on top of version_compare().
 
-Allowed values for $op are the exported constants CMP_OP_GT, CMP_OP_GE,
-CMP_OP_EQ, CMP_OP_LE, CMP_OP_LT. Use version_normalize_cmp_op() if you
+Allowed values for $rel are the exported constants REL_GT, REL_GE,
+REL_EQ, REL_LE, REL_LT. Use version_normalize_relation() if you
 have an input string containing the operator.
 
 =cut
 
-sub version_compare_op($$$) {
+sub version_compare_relation($$$) {
     my ($a, $op, $b) = @_;
     my $res = version_compare($a, $b);
 
-    if ($op eq CMP_OP_GT) {
+    if ($op eq REL_GT) {
 	return $res > 0;
-    } elsif ($op eq CMP_OP_GE) {
+    } elsif ($op eq REL_GE) {
 	return $res >= 0;
-    } elsif ($op eq CMP_OP_EQ) {
+    } elsif ($op eq REL_EQ) {
 	return $res == 0;
-    } elsif ($op eq CMP_OP_LE) {
+    } elsif ($op eq REL_LE) {
 	return $res <= 0;
-    } elsif ($op eq CMP_OP_LT) {
+    } elsif ($op eq REL_LT) {
 	return $res < 0;
     } else {
-	internerr("unsupported operator for version_compare_op(): '$op'");
+	internerr("unsupported relation for version_compare_relation(): '$op'");
     }
 }
 
-=item my $cmp_op = version_normalize_cmp_op($op)
+=item my $rel = version_normalize_relation($rel_string)
 
-Returns the normalized constant of the comparison operator $op (a value
-among CMP_OP_GT, CMP_OP_GE, CMP_OP_EQ, CMP_OP_LE and CMP_OP_LT). Supported
-operators names in input are: "gt", "ge", "eq", "le", "lt", ">>", ">=",
+Returns the normalized constant of the relation $rel (a value
+among REL_GT, REL_GE, REL_EQ, REL_LE and REL_LT). Supported
+relations names in input are: "gt", "ge", "eq", "le", "lt", ">>", ">=",
 "=", "<=", "<<". ">" and "<" are also supported but should not be used as
 they are obsolete aliases of ">=" and "<=".
 
 =cut
 
-sub version_normalize_cmp_op($) {
+sub version_normalize_relation($) {
     my $op = shift;
 
-    warning("operator %s is deprecated: use %s or %s",
+    warning("relation %s is deprecated: use %s or %s",
             $op, "$op$op", "$op=") if ($op eq '>' or $op eq '<');
 
     if ($op eq '>>' or $op eq 'gt') {
-	return CMP_OP_GT;
+	return REL_GT;
     } elsif ($op eq '>=' or $op eq 'ge' or $op eq '>') {
-	return CMP_OP_GE;
+	return REL_GE;
     } elsif ($op eq '=' or $op eq 'eq') {
-	return CMP_OP_EQ;
+	return REL_EQ;
     } elsif ($op eq '<=' or $op eq 'le' or $op eq '<') {
-	return CMP_OP_LE;
+	return REL_LE;
     } elsif ($op eq '<<' or $op eq 'lt') {
-	return CMP_OP_LT;
+	return REL_LT;
     } else {
-	internerr("bad comparison operator '$op'");
+	internerr("bad relation '$op'");
     }
 }
 

@@ -203,8 +203,8 @@ $substvars->set_arch_substvars();
 $substvars->parse($varlistfile) if -e $varlistfile;
 
 if (defined($prev_changelog) and
-    version_compare_op($changelog->{"Version"}, CMP_OP_LT,
-                       $prev_changelog->{"Version"}))
+    version_compare_relation($changelog->{"Version"}, REL_LT,
+                             $prev_changelog->{"Version"}))
 {
     warning(_g("the current version (%s) is smaller than the previous one (%s)"),
 	$changelog->{"Version"}, $prev_changelog->{"Version"})

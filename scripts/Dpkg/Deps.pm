@@ -518,7 +518,7 @@ sub parse {
 	      \s*$			    # trailing spaces at end
             /x;
     $self->{package} = $1;
-    $self->{relation} = version_normalize_cmp_op($2) if defined($2);
+    $self->{relation} = version_normalize_relation($2) if defined($2);
     if (defined($3)) {
         $self->{version} = Dpkg::Version->new($3) || $3;
     }
@@ -664,7 +664,8 @@ sub get_evaluation {
 		return 0;
 	    } else {
 		if (defined($param)) {
-		    if (version_compare_op($param, $self->{relation}, $self->{version})) {
+		    if (version_compare_relation($param, $self->{relation},
+						 $self->{version})) {
 			return 1;
 		    } else {
 			return 0;
