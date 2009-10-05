@@ -150,8 +150,8 @@ sub version_implies {
     my ($rel_p, $v_p, $rel_q, $v_q) = @_;
 
     # If versions are not valid, we can't decide of any implication
-    return 0 unless ref($v_p) and $v_p->isa("Dpkg::Version");
-    return 0 unless ref($v_q) and $v_q->isa("Dpkg::Version");
+    return undef unless ref($v_p) and $v_p->isa("Dpkg::Version");
+    return undef unless ref($v_q) and $v_q->isa("Dpkg::Version");
 
     # q wants an exact version, so p must provide that exact version.  p
     # disproves q if q's version is outside the range enforced by p.
