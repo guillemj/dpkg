@@ -201,7 +201,7 @@ tarfile_skip_one_forward(struct TarInfo *ti,
 
     fd_null_copy(tc->backendpipe, ti->Size,
                  _("skipped unpacking file '%.255s' (replaced or excluded?)"),
-                 path_quote_filename(fnamebuf, 256, ti->Name));
+                 path_quote_filename(fnamebuf, ti->Name, 256));
     r = ti->Size % TARBLKSZ;
     if (r > 0)
       r = safe_read(tc->backendpipe, databuf, TARBLKSZ - r);
@@ -639,7 +639,7 @@ int tarobject(struct TarInfo *ti) {
     { char fnamebuf[256];
     fd_fd_copy(tc->backendpipe, fd, ti->Size,
                _("backend dpkg-deb during `%.255s'"),
-               path_quote_filename(fnamebuf, 256, ti->Name));
+               path_quote_filename(fnamebuf, ti->Name, 256));
     }
     r= ti->Size % TARBLKSZ;
     if (r > 0) r= safe_read(tc->backendpipe,databuf,TARBLKSZ - r);

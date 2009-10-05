@@ -77,40 +77,40 @@ path_skip_slash_dotslash(const char *path)
  * - ukai@debian.or.jp
  */
 char *
-path_quote_filename(char *buf, size_t size, const char *s)
+path_quote_filename(char *dst, const char *src, size_t size)
 {
-	char *r = buf;
+	char *r = dst;
 
 	while (size > 0) {
-		switch (*s) {
+		switch (*src) {
 		case '\0':
-			*buf = '\0';
+			*dst = '\0';
 			return r;
 		case '\\':
-			*buf++ = '\\';
-			*buf++ = '\\';
+			*dst++ = '\\';
+			*dst++ = '\\';
 			size -= 2;
 			break;
 		default:
-			if (((*s) & 0x80) == '\0') {
-				*buf++ = *s++;
+			if (((*src) & 0x80) == '\0') {
+				*dst++ = *src++;
 				--size;
 			} else {
 				if (size > 4) {
-					sprintf(buf, "\\%03o",
-					        *(unsigned char *)s);
+					sprintf(dst, "\\%03o",
+					        *(unsigned char *)src);
 					size -= 4;
-					buf += 4;
-					s++;
+					dst += 4;
+					src++;
 				} else {
 					/* Buffer full. */
-					*buf = '\0'; /* XXX */
+					*dst = '\0'; /* XXX */
 					return r;
 				}
 			}
 		}
 	}
-	*buf = '\0'; /* XXX */
+	*dst = '\0'; /* XXX */
 
 	return r;
 }
