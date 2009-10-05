@@ -58,23 +58,23 @@ path_skip_slash_dotslash(const char *path)
 /*
  * snprintf(3) doesn't work if format contains %.<nnn>s and an argument has
  * invalid char for locale, then it returns -1.
- * ohshite() is ok, but fd_fd_copy(), which is used in tarobject() in this
- * file, is not ok, because
- * - fd_fd_copy() == buffer_copy_setup() [include/dpkg.h]
- * - buffer_copy_setup() uses varbufvprintf(&v, desc, al); [lib/mlib.c]
- * - varbufvprintf() fails and memory exausted, because it call
- *    fmt = "backend dpkg-deb during `%.255s'
- *    arg may contain some invalid char, for example,
- *    /usr/share/doc/console-tools/examples/unicode/\342\231\252\342\231\254
+ * ohshite() is ok, but fd_fd_copy(), which is used in tarobject(), is not
+ * ok, because:
+ *
+ * - fd_fd_copy() == buffer_copy_TYPE() ‘lib/dpkg/buffer.h’.
+ * - buffer_copy_TYPE() uses varbufvprintf(&v, desc, al); ‘lib/dpkg/buffer.c’.
+ * - varbufvprintf() fails, because it calls with:
+ *     fmt = "backend dpkg-deb during '%.255s'"
+ *   arg may contain some invalid char, for example,
+ *   «/usr/share/doc/console-tools/examples/unicode/\342\231\252\342\231\254»
  *   in console-tools.
- *   In this case, if user uses some locale which doesn't support \342\231...,
- *   vsnprintf() always returns -1 and varbufextend() get called again
- *   and again until memory is exausted and it aborts.
+ *
+ * In this case, if the user uses some locale which doesn't support
+ * “\342\231...”, vsnprintf() always returns -1 and varbufextend() fails.
  *
  * So, we need to escape invalid char, probably as in
- * tar-1.13.19/lib/quotearg.c: quotearg_buffer_restyled()
- * but here I escape all 8bit chars, in order to be simple.
- * - ukai@debian.or.jp
+ * ‘tar-1.13.19/lib/quotearg.c: quotearg_buffer_restyled()’
+ * but here we escape all 8 bit chars, in order make it simple.
  */
 char *
 path_quote_filename(char *dst, const char *src, size_t size)
