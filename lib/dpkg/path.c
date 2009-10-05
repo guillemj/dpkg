@@ -77,7 +77,7 @@ path_skip_slash_dotslash(const char *path)
  * - ukai@debian.or.jp
  */
 char *
-path_quote_filename(char *buf, int size, const char *s)
+path_quote_filename(char *buf, size_t size, const char *s)
 {
 	char *r = buf;
 
