@@ -144,7 +144,7 @@ sub parse {
 		$self->_do_parse_error(@{$entry->{ERROR}});
 	    }
 	    unless ($entry->is_empty) {
-		$entry->{'Closes'} = find_closes( $entry->{Changes} );
+		$entry->{'Closes'} = find_closes(join("\n", @{$entry->{Changes}}));
 #		    print STDERR, Dumper($entry);
 		push @{$self->{data}}, $entry;
 		$entry = new Dpkg::Changelog::Entry;
@@ -155,7 +155,8 @@ sub parse {
 		$entry->{'Version'} = "$2";
 		$entry->{'Header'} = "$_";
 		($entry->{'Distribution'} = "$3") =~ s/^\s+//;
-		$entry->{'Changes'} = $entry->{'Urgency_comment'} = '';
+		$entry->{'Changes'} = [];
+		$entry->{'Urgency_comment'} = '';
 		$entry->{'Urgency'} = $entry->{'Urgency_lc'} = 'unknown';
 	    }
 	    (my $rhs = $POSTMATCH) =~ s/^\s+//;
@@ -253,7 +254,7 @@ sub parse {
 		    if (($expect eq 'next heading or eof')
 			&& !$entry->is_empty) {
 			# lets assume we have missed the actual header line
-			$entry->{'Closes'} = find_closes( $entry->{Changes} );
+			$entry->{'Closes'} = find_closes(join("\n", @{$entry->{Changes}}));
 #		    print STDERR, Dumper($entry);
 			push @{$self->{data}}, $entry;
 			$entry = new Dpkg::Changelog::Entry;
@@ -267,8 +268,8 @@ sub parse {
 						    $expect), "$_" ];
 		    }
 		};
-	    $entry->{'Changes'} .= ($entry->{'Changes'} ? "\n" : "") .
-                                   (" .\n" x $blanklines) . " $_";
+	    # Keep raw changes
+	    push @{$entry->{'Changes'}}, ("") x $blanklines, $_;
 	    if (!$entry->{'Items'} || ($1 eq '*')) {
 		$entry->{'Items'} ||= [];
 		push @{$entry->{'Items'}}, "$_\n";
@@ -292,8 +293,7 @@ sub parse {
 		|| $expect eq 'more change data or trailer')
 		&& do {
 		    # lets assume change data if we expected it
-		    $entry->{'Changes'} .= ($entry->{'Changes'} ? "\n" : "") .
-                                           (" .\n" x $blanklines) . " $_";
+		    push @{$entry->{'Changes'}}, ("") x $blanklines, $_;
 		    if (!$entry->{'Items'}) {
 			$entry->{'Items'} ||= [];
 			push @{$entry->{'Items'}}, "$_\n";
@@ -316,7 +316,7 @@ sub parse {
 	    $self->_do_parse_error( @{$entry->{ERROR}} );
 	};
     unless ($entry->is_empty) {
-	$entry->{'Closes'} = find_closes( $entry->{Changes} );
+	$entry->{'Closes'} = find_closes(join("\n", @{$entry->{Changes}}));
 	push @{$self->{data}}, $entry;
     }
 
