@@ -772,9 +772,11 @@ in the output format of C<dpkg-parsechangelog>.
 
 sub get_dpkg_changes {
     my $entry = shift;
+    $entry->{Header} =~ s/\s+$// if defined $entry->{Header};
     my $changes = "\n " . ($entry->{Header} || '') . "\n .\n";
     foreach my $line (@{$entry->{Changes}}) {
-	if ($line =~ /^\s*$/) {
+	$line =~ s/\s+$//;
+	if ($line eq "") {
 	    $changes .= " .\n";
 	} else {
 	    $changes .= " $line\n";

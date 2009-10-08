@@ -128,11 +128,11 @@ sub parse {
 # based on /usr/lib/dpkg/parsechangelog/debian
     my $expect='first heading';
     my $entry = new Dpkg::Changelog::Entry;
-    my $blanklines = 0;
+    my @blanklines = ();
     my $unknowncounter = 1; # to make version unique, e.g. for using as id
 
     while (<$fh>) {
-	s/\s*\n$//;
+	chomp;
 #	printf(STDERR "%-39.39s %-39.39s\n",$expect,$_);
 	my $name_chars = qr/[-+0-9a-z.]/i;
 	if (m/^(\w$name_chars*) \(([^\(\) \t]+)\)((\s+$name_chars+)+)\;/i) {
@@ -189,7 +189,7 @@ sub parse {
 		}
 	    }
 	    $expect= 'start of change data';
-	    $blanklines = 0;
+	    @blanklines = ();
 	} elsif (m/^(;;\s*)?Local variables:/io) {
 	    last; # skip Emacs variables at end of file
 	} elsif (m/^vim:/io) {
@@ -205,9 +205,9 @@ sub parse {
 		 || m/^(\w[-+0-9a-z.]*) \(([^\(\) \t]+)\)\;?/io
 		 || m/^([\w.+-]+)(-| )(\S+) Debian (\S+)/io
 		 || m/^Changes from version (.*) to (.*):/io
-		 || m/^Changes for [\w.+-]+-[\w.+-]+:?$/io
-		 || m/^Old Changelog:$/io
-		 || m/^(?:\d+:)?\w[\w.+~-]*:?$/o) {
+		 || m/^Changes for [\w.+-]+-[\w.+-]+:?\s*$/io
+		 || m/^Old Changelog:\s*$/io
+		 || m/^(?:\d+:)?\w[\w.+~-]*:?\s*$/o) {
 	    # save entries on old changelog format verbatim
 	    # we assume the rest of the file will be in old format once we
 	    # hit it for the first time
@@ -216,7 +216,7 @@ sub parse {
 	} elsif (m/^\S/) {
 	    $self->_do_parse_error($file, $NR,
 				  _g("badly formatted heading line"), "$_");
-	} elsif (m/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)$/o) {
+	} elsif (m/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)\s*$/o) {
 	    $expect eq 'more change data or trailer' ||
 		$self->_do_parse_error($file, $NR,
 				       sprintf(_g("found trailer where expected %s"),
@@ -269,14 +269,16 @@ sub parse {
 		    }
 		};
 	    # Keep raw changes
-	    push @{$entry->{'Changes'}}, ("") x $blanklines, $_;
+	    push @{$entry->{'Changes'}}, @blanklines, $_;
 	    if (!$entry->{'Items'} || ($1 eq '*')) {
 		$entry->{'Items'} ||= [];
 		push @{$entry->{'Items'}}, "$_\n";
 	    } else {
-		$entry->{'Items'}[-1] .= (" .\n" x $blanklines)." $_\n";
+		my $blank = '';
+		$blank = join("\n", @blanklines) . "\n" if scalar @blanklines;
+		$entry->{'Items'}[-1] .= "$blank$_\n";
 	    }
-	    $blanklines = 0;
+	    @blanklines = ();
 	    $expect = 'more change data or trailer';
 	} elsif (!m/\S/) {
 	    next if $expect eq 'start of change data'
@@ -285,7 +287,7 @@ sub parse {
 		|| $self->_do_parse_error($file, $NR,
 					  sprintf(_g("found blank line where expected %s"),
 						  $expect));
-	    $blanklines++;
+	    push @blanklines, $_;
 	} else {
 	    $self->_do_parse_error($file, $NR, _g( "unrecognised line" ),
 				   "$_");
@@ -293,14 +295,17 @@ sub parse {
 		|| $expect eq 'more change data or trailer')
 		&& do {
 		    # lets assume change data if we expected it
-		    push @{$entry->{'Changes'}}, ("") x $blanklines, $_;
+		    push @{$entry->{'Changes'}}, @blanklines, $_;
 		    if (!$entry->{'Items'}) {
 			$entry->{'Items'} ||= [];
 			push @{$entry->{'Items'}}, "$_\n";
 		    } else {
-			$entry->{'Items'}[-1] .= (" .\n" x $blanklines)." $_\n";
+			my $blank = '';
+			$blank = join("\n", @blanklines) . "\n"
+				if scalar @blanklines;
+			$entry->{'Items'}[-1] .= "$blank$_\n";
 		    }
-		    $blanklines = 0;
+		    @blanklines = ();
 		    $expect = 'more change data or trailer';
 		    $entry->{ERROR} = [ $file, $NR, _g( "unrecognised line" ),
 					"$_" ];
