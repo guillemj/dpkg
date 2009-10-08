@@ -500,6 +500,8 @@ BEGIN {
     @CHANGELOG_FIELDS = qw(Source Version Distribution
                            Urgency Maintainer Date Closes Changes
                            Timestamp Header Items Trailer
+			   BlankAfterHeader BlankAfterChanges
+			   BlankAfterTrailer
                            Urgency_comment Urgency_lc);
     $CHANGELOG_FIELDS = Dpkg::Control->new(type => CTRL_CHANGELOG);
     %$CHANGELOG_FIELDS = map { $_ => 1 } @CHANGELOG_FIELDS;

@@ -156,6 +156,9 @@ sub parse {
 		$entry->{'Header'} = "$_";
 		($entry->{'Distribution'} = "$3") =~ s/^\s+//;
 		$entry->{'Changes'} = [];
+		$entry->{'BlankAfterHeader'} = [];
+		$entry->{'BlankAfterChanges'} = [];
+		$entry->{'BlankAfterTrailer'} = [];
 		$entry->{'Urgency_comment'} = '';
 		$entry->{'Urgency'} = $entry->{'Urgency_lc'} = 'unknown';
 	    }
@@ -226,6 +229,8 @@ sub parse {
 				       _g( "badly formatted trailer line" ),
 				       "$_");
 	    }
+	    push @{$entry->{BlankAfterChanges}}, @blanklines;
+	    @blanklines = ();
 	    $entry->{'Trailer'} = $_;
 	    $entry->{'Maintainer'} = "$1 <$2>" unless $entry->{'Maintainer'};
 	    unless($entry->{'Date'} && defined $entry->{'Timestamp'}) {
@@ -281,12 +286,16 @@ sub parse {
 	    @blanklines = ();
 	    $expect = 'more change data or trailer';
 	} elsif (!m/\S/) {
-	    next if $expect eq 'start of change data'
-		|| $expect eq 'next heading or eof';
-	    $expect eq 'more change data or trailer'
-		|| $self->_do_parse_error($file, $NR,
-					  sprintf(_g("found blank line where expected %s"),
-						  $expect));
+	    if ($expect eq 'start of change data') {
+		push @{$entry->{BlankAfterHeader}}, $_;
+		next;
+	    } elsif ($expect eq 'next heading or eof') {
+		push @{$entry->{BlankAfterTrailer}}, $_;
+		next;
+	    } elsif ($expect ne 'more change data or trailer') {
+		$self->_do_parse_error($file, $NR,
+		      sprintf(_g("found blank line where expected %s"), $expect));
+	    }
 	    push @blanklines, $_;
 	} else {
 	    $self->_do_parse_error($file, $NR, _g( "unrecognised line" ),
