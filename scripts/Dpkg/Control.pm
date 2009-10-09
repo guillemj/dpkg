@@ -26,8 +26,8 @@ use Dpkg::Control::Hash;
 use Dpkg::Control::Fields;
 
 use base qw(Dpkg::Control::Hash Exporter);
-our @EXPORT = qw(CTRL_UNKNOWN CTRL_INFO_SRC CTRL_INFO_PKG CTRL_APT_SRC
-                 CTRL_APT_PKG CTRL_PKG_SRC CTRL_PKG_DEB CTRL_FILE_CHANGES
+our @EXPORT = qw(CTRL_UNKNOWN CTRL_INFO_SRC CTRL_INFO_PKG CTRL_INDEX_SRC
+                 CTRL_INDEX_PKG CTRL_PKG_SRC CTRL_PKG_DEB CTRL_FILE_CHANGES
                  CTRL_FILE_VENDOR CTRL_FILE_STATUS CTRL_CHANGELOG);
 
 =head1 NAME
@@ -61,12 +61,12 @@ a Debian source package.
 Corresponds to subsequent blocks of information in a debian/control file
 in a Debian source package.
 
-=item CTRL_APT_SRC
+=item CTRL_INDEX_SRC
 
 Corresponds to an entry in a Sources file of an APT source package
 repository.
 
-=item CTRL_APT_PKG
+=item CTRL_INDEX_PKG
 
 Corresponds to an entry in a Packages file of an APT binary package
 repository.
@@ -149,9 +149,9 @@ sub set_options {
             $$self->{'name'} = _g("package's section of control info file");
         } elsif ($t == CTRL_CHANGELOG) {
             $$self->{'name'} = _g("parsed version of changelog");
-        } elsif ($t == CTRL_APT_SRC) {
+        } elsif ($t == CTRL_INDEX_SRC) {
             $$self->{'name'} = sprintf(_g("entry of APT's %s file"), "Sources");
-        } elsif ($t == CTRL_APT_PKG) {
+        } elsif ($t == CTRL_INDEX_PKG) {
             $$self->{'name'} = sprintf(_g("entry of APT's %s file"), "Packages");
         } elsif ($t == CTRL_PKG_SRC) {
             $$self->{'name'} = sprintf(_g("%s file"), ".dsc");

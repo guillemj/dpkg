@@ -33,8 +33,8 @@ our @EXPORT = qw(field_capitalize field_is_official field_is_allowed_in
                  field_insert_after field_insert_before);
 
 use constant {
-    ALL_PKG => CTRL_INFO_PKG | CTRL_APT_PKG | CTRL_PKG_DEB | CTRL_FILE_STATUS,
-    ALL_SRC => CTRL_INFO_SRC | CTRL_APT_SRC | CTRL_PKG_SRC,
+    ALL_PKG => CTRL_INFO_PKG | CTRL_INDEX_PKG | CTRL_PKG_DEB | CTRL_FILE_STATUS,
+    ALL_SRC => CTRL_INFO_SRC | CTRL_INDEX_SRC | CTRL_PKG_SRC,
     ALL_CHANGES => CTRL_FILE_CHANGES | CTRL_CHANGELOG,
 };
 
@@ -109,7 +109,7 @@ our %FIELDS = (
         allowed => ALL_PKG | CTRL_FILE_CHANGES,
     },
     'Directory' => {
-        allowed => CTRL_APT_SRC,
+        allowed => CTRL_INDEX_SRC,
     },
     'Distribution' => {
         allowed => ALL_CHANGES,
@@ -123,7 +123,7 @@ our %FIELDS = (
         allowed => ALL_PKG,
     },
     'Filename' => {
-        allowed => CTRL_APT_PKG,
+        allowed => CTRL_INDEX_PKG,
     },
     'Files' => {
         allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
@@ -167,7 +167,7 @@ our %FIELDS = (
         dep_order => 1,
     },
     'Priority' => {
-        allowed => CTRL_INFO_SRC | CTRL_APT_SRC | ALL_PKG,
+        allowed => CTRL_INFO_SRC | CTRL_INDEX_SRC | ALL_PKG,
     },
     'Provides' => {
         allowed => ALL_PKG,
@@ -185,14 +185,14 @@ our %FIELDS = (
         dep_order => 8,
     },
     'Section' => {
-        allowed => CTRL_INFO_SRC | CTRL_APT_SRC | ALL_PKG,
+        allowed => CTRL_INFO_SRC | CTRL_INDEX_SRC | ALL_PKG,
     },
     'Size' => {
-        allowed => CTRL_APT_PKG,
+        allowed => CTRL_INDEX_PKG,
     },
     'Source' => {
         allowed => (ALL_PKG | ALL_SRC | ALL_CHANGES) &
-                   (~(CTRL_APT_SRC | CTRL_INFO_PKG)),
+                   (~(CTRL_INDEX_SRC | CTRL_INFO_PKG)),
     },
     'Standards-Version' => {
         allowed => ALL_SRC,
@@ -269,7 +269,7 @@ my @checksum_fields = map { field_capitalize("Checksums-$_") } @check_supported;
 my @sum_fields = map { $_ eq "md5" ? "MD5sum" : field_capitalize($_) }
                  @check_supported;
 &field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES) foreach @checksum_fields;
-&field_register($_, CTRL_APT_PKG) foreach @sum_fields;
+&field_register($_, CTRL_INDEX_PKG) foreach @sum_fields;
 
 our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
@@ -302,15 +302,15 @@ our %FIELD_ORDER = (
         Triggers-Awaited)
     ],
 );
-# Order for CTRL_APT_PKG is derived from CTRL_PKG_DEB
-$FIELD_ORDER{CTRL_APT_PKG()} = [ @{$FIELD_ORDER{CTRL_PKG_DEB()}} ];
-&field_insert_before(CTRL_APT_PKG, 'Section', 'Filename', 'Size', @sum_fields);
-# Order for CTRL_APT_SRC is derived from CTRL_PKG_SRC
-$FIELD_ORDER{CTRL_APT_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
-@{$FIELD_ORDER{CTRL_APT_SRC()}} = map { $_ eq "Source" ? "Package" : $_ }
+# Order for CTRL_INDEX_PKG is derived from CTRL_PKG_DEB
+$FIELD_ORDER{CTRL_INDEX_PKG()} = [ @{$FIELD_ORDER{CTRL_PKG_DEB()}} ];
+&field_insert_before(CTRL_INDEX_PKG, 'Section', 'Filename', 'Size', @sum_fields);
+# Order for CTRL_INDEX_SRC is derived from CTRL_PKG_SRC
+$FIELD_ORDER{CTRL_INDEX_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
+@{$FIELD_ORDER{CTRL_INDEX_SRC()}} = map { $_ eq "Source" ? "Package" : $_ }
                                   @{$FIELD_ORDER{CTRL_PKG_SRC()}};
-&field_insert_after(CTRL_APT_SRC, "Version", "Priority", "Section");
-&field_insert_before(CTRL_APT_SRC, "Checksums-Md5", "Directory");
+&field_insert_after(CTRL_INDEX_SRC, "Version", "Priority", "Section");
+&field_insert_before(CTRL_INDEX_SRC, "Checksums-Md5", "Directory");
 
 # Register vendor specifics fields
 foreach my $op (run_vendor_hook("register-custom-fields")) {

@@ -262,7 +262,7 @@ sub process_dsc {
     # Parse ‘.dsc’ file.
     my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
     $fields->parse($file);
-    $fields->set_options(type => CTRL_APT_SRC);
+    $fields->set_options(type => CTRL_INDEX_SRC);
 
     # Get checksums
     my $size;

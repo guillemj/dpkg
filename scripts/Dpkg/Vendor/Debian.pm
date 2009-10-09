@@ -42,8 +42,8 @@ sub run_hook {
     } elsif ($hook eq "register-custom-fields") {
         return (
             [ "register", "Dm-Upload-Allowed",
-              CTRL_INFO_SRC | CTRL_APT_SRC | CTRL_PKG_SRC ],
-            [ "insert_after", CTRL_APT_SRC, "Uploaders", "Dm-Upload-Allowed" ],
+              CTRL_INFO_SRC | CTRL_INDEX_SRC | CTRL_PKG_SRC ],
+            [ "insert_after", CTRL_INDEX_SRC, "Uploaders", "Dm-Upload-Allowed" ],
             [ "insert_after", CTRL_PKG_SRC, "Uploaders", "Dm-Upload-Allowed" ],
         );
     } else {

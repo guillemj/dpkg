@@ -186,7 +186,7 @@ FILE:
 	    next;
 	}
 	
-	my $fields = Dpkg::Control->new(type => CTRL_APT_PKG);
+	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
 	my $temp = $control;
 	while ($temp =~ s/^\n*(\S+):[ \t]*(.*(\n[ \t].*)*)\n//) {
 	    my ($key, $value) = ($1, $2);
