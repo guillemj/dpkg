@@ -59,6 +59,14 @@ EXTRA_DIST = \
 	debian/shlibs.default \
 	debian/shlibs.override
 
+.PHONY: doc
+
+doc:
+	$(DOXYGEN) doc/Doxyfile
+
+clean-local:
+	rm -rf doc/html/
+
 .PHONY: ChangeLog
 DISTCLEANFILES = ChangeLog
 

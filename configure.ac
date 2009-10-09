@@ -57,6 +57,8 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_LEX
 AC_PROG_RANLIB
+AC_CHECK_PROGS([DOXYGEN], [doxygen])
+AC_CHECK_PROG([HAVE_DOT], [dot], [YES], [NO])
 DPKG_PROG_PERL
 
 # Checks for operating system services and capabilities.
@@ -118,6 +120,7 @@ AC_CONFIG_FILES([ Makefile
 		  lib/compat/Makefile
 		  lib/dpkg/Makefile
 		  lib/dpkg/test/Makefile
+		  doc/Doxyfile
 		  man/Makefile
 		  po/Makefile.in
 		  scripts/Makefile
