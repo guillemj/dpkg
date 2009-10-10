@@ -400,7 +400,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				        pkg->name, in, result->buf, strerror(errno));
 				return -1;
 			}
-			assert(r == stab.st_size); // XXX: debug
+			assert(r == stab.st_size); /* XXX: debug */
 			symlink.used = r;
 			varbufaddc(&symlink, '\0');
 

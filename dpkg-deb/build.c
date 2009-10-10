@@ -160,7 +160,7 @@ getfi(const char *root, int fd)
       else
 	return NULL;
     }
-    if (res==0)	// EOF -> parent died
+    if (res == 0) /* EOF -> parent died. */
       return NULL;
     if (fn[i] == '\0')
       break;
