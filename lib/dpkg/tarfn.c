@@ -173,13 +173,13 @@ TarExtractor(void *userData, const TarFunctions *functions)
 	char *bp;
 	char **longp;
 	int long_read;
-	symlinkList *symListTop, *symListBottom, *symListPointer;
+	symlinkList *symlink_head, *symlink_tail, *symlink_node;
 
 	next_long_name = NULL;
 	next_long_link = NULL;
 	long_read = 0;
-	symListBottom = symListPointer = symListTop = m_malloc(sizeof(symlinkList));
-	symListTop->next = NULL;
+	symlink_tail = symlink_node = symlink_head = m_malloc(sizeof(symlinkList));
+	symlink_head->next = NULL;
 
 	h.Name = NULL;
 	h.LinkName = NULL;
@@ -239,13 +239,13 @@ TarExtractor(void *userData, const TarFunctions *functions)
 			status = (*functions->MakeHardLink)(&h);
 			break;
 		case SymbolicLink:
-			memcpy(&symListBottom->h, &h, sizeof(TarInfo));
-			symListBottom->h.Name = m_strdup(h.Name);
-			symListBottom->h.LinkName = m_strdup(h.LinkName);
-			symListBottom->next = m_malloc(sizeof(symlinkList));
+			memcpy(&symlink_tail->h, &h, sizeof(TarInfo));
+			symlink_tail->h.Name = m_strdup(h.Name);
+			symlink_tail->h.LinkName = m_strdup(h.LinkName);
+			symlink_tail->next = m_malloc(sizeof(symlinkList));
 
-			symListBottom = symListBottom->next;
-			symListBottom->next = NULL;
+			symlink_tail = symlink_tail->next;
+			symlink_tail->next = NULL;
 			status = 0;
 			break;
 		case CharacterDevice:
@@ -310,16 +310,16 @@ TarExtractor(void *userData, const TarFunctions *functions)
 			break;
 	}
 
-	while (symListPointer->next) {
+	while (symlink_node->next) {
 		if (status == 0)
-			status = (*functions->MakeSymbolicLink)(&symListPointer->h);
-		symListBottom = symListPointer->next;
-		free(symListPointer->h.Name);
-		free(symListPointer->h.LinkName);
-		free(symListPointer);
-		symListPointer = symListBottom;
+			status = (*functions->MakeSymbolicLink)(&symlink_node->h);
+		symlink_tail = symlink_node->next;
+		free(symlink_node->h.Name);
+		free(symlink_node->h.LinkName);
+		free(symlink_node);
+		symlink_node = symlink_tail;
 	}
-	free(symListPointer);
+	free(symlink_node);
 	free(h.Name);
 	free(h.LinkName);
 
