@@ -31,6 +31,11 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-array.h>
 
+/**
+ * Initialize a package array from the package database.
+ *
+ * @param a The array to initialize.
+ */
 void
 pkg_array_init_from_db(struct pkg_array *a)
 {
@@ -49,12 +54,23 @@ pkg_array_init_from_db(struct pkg_array *a)
 	assert(i == a->n_pkgs);
 }
 
+/**
+ * Sort a package array.
+ *
+ * @param a The array to sort.
+ * @param pkg_sort The function to sort the array.
+ */
 void
 pkg_array_sort(struct pkg_array *a, pkg_sorter_func *pkg_sort)
 {
 	qsort(a->pkgs, a->n_pkgs, sizeof(a->pkgs[0]), pkg_sort);
 }
 
+/**
+ * Free a package array.
+ *
+ * @param a The array to free.
+ */
 void
 pkg_array_free(struct pkg_array *a)
 {

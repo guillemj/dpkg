@@ -30,6 +30,9 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * Holds an array of pointers to package data.
+ */
 struct pkg_array {
 	int n_pkgs;
 	struct pkginfo **pkgs;

@@ -209,7 +209,9 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	varbuffree(&cdr2);
 }
 
-/*
+/**
+ * Process the deferred configure package.
+ *
  * The algorithm for deciding what to configure first is as follows:
  * Loop through all packages doing a ‘try 1’ until we've been round
  * and nothing has been done, then do ‘try 2’ and ‘try 3’ likewise.
@@ -233,6 +235,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
  *
  * Try 4 (only if --force-depends):
  *   Do anyway.
+ *
+ * @param pkg The package to act on.
  */
 void
 deferred_configure(struct pkginfo *pkg)
@@ -345,9 +349,16 @@ deferred_configure(struct pkginfo *pkg)
 	post_postinst_tasks(pkg, stat_installed);
 }
 
-/*
+/**
  * Dereference a file by following all possibly used symlinks.
- * Returns 0 if everything went ok, -1 otherwise.
+ *
+ * @param[in] pkg The package to act on.
+ * @param[out] result The dereference conffile path.
+ * @param[in] in The conffile path to dereference.
+ *
+ * @return An error code for the operation.
+ * @retval 0 Everything went ok.
+ * @retval -1 Otherwise.
  */
 int
 conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
@@ -437,9 +448,15 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 	}
 }
 
-/*
- * Generate a MD5 hash for fn and store it in hashbuf, which needs to be
+/**
+ * Generate a file contents MD5 hash.
+ *
+ * The caller is responsible for providing a buffer for the hash result
  * at least MD5HASHLEN + 1 characters long.
+ *
+ * @param[in] pkg The package to act on.
+ * @param[out] hashbuf The buffer to store the generated hash.
+ * @param[in] fn The filename.
  */
 static void
 md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
@@ -462,8 +479,11 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 	}
 }
 
-/*
+/**
  * Show a diff between two files.
+ *
+ * @param old The path to the old file.
+ * @param new The path to the new file.
  */
 static void
 showdiff(const char *old, const char *new)
@@ -503,8 +523,11 @@ showdiff(const char *old, const char *new)
 	}
 }
 
-/*
+/**
  * Suspend dpkg temporarily.
+ *
+ * Either create a subprocess and execute a shell or background the current
+ * process to allow the user to manually solve the conffile conflict.
  */
 static void
 suspend(void)
