@@ -51,8 +51,12 @@
 
 void process_archive(const char *filename) {
   static const struct TarFunctions tf = {
-    tarfileread,
-    tarobject, tarobject, tarobject, tarobject, tarobject
+    .Read = tarfileread,
+    .ExtractFile = tarobject,
+    .MakeDirectory = tarobject,
+    .MakeHardLink = tarobject,
+    .MakeSymbolicLink = tarobject,
+    .MakeSpecialFile = tarobject,
   };
 
   /* These need to be static so that we can pass their addresses to

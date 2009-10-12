@@ -228,10 +228,10 @@ struct trigkindinfo {
 
 #define TKI_DEFINE(kindname)				\
   static const struct trigkindinfo tki_##kindname= {	\
-    trk_##kindname##_activate_start,			\
-    trk_##kindname##_activate_awaiter,			\
-    trk_##kindname##_activate_done,			\
-    trk_##kindname##_interest_change			\
+    .activate_start = trk_##kindname##_activate_start,		\
+    .activate_awaiter = trk_##kindname##_activate_awaiter,	\
+    .activate_done = trk_##kindname##_activate_done,		\
+    .interest_change = trk_##kindname##_interest_change,	\
   };
 
 static const struct trigkindinfo *dtki;
@@ -796,10 +796,10 @@ th_simple_nn_find(const char *name, int nonew)
 TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS
 
 struct trig_hooks trigh = {
-	NULL,
-	NULL,
-	th_simple_nn_find,
-	th_nn_interested,
-	th_nn_name
+	.enqueue_deferred = NULL,
+	.transitional_activate = NULL,
+	.namenode_find = th_simple_nn_find,
+	.namenode_interested = th_nn_interested,
+	.namenode_name = th_nn_name,
 };
 

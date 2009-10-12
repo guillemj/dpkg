@@ -388,11 +388,11 @@ th_proper_nn_find(const char *name, int nonew)
 TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS
 
 static const struct trig_hooks trig_our_hooks = {
-	trigproc_enqueue_deferred,
-	trig_transitional_activate,
-	th_proper_nn_find,
-	th_nn_interested,
-	th_nn_name
+	.enqueue_deferred = trigproc_enqueue_deferred,
+	.transitional_activate = trig_transitional_activate,
+	.namenode_find = th_proper_nn_find,
+	.namenode_interested = th_nn_interested,
+	.namenode_name = th_nn_name,
 };
 
 void

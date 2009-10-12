@@ -140,9 +140,9 @@ tdm_add_trig_end(void)
 }
 
 static const struct trigdefmeths tdm_add = {
-	tdm_add_trig_begin,
-	tdm_add_package,
-	tdm_add_trig_end
+	.trig_begin = tdm_add_trig_begin,
+	.package = tdm_add_package,
+	.trig_end = tdm_add_trig_end,
 };
 
 static void
