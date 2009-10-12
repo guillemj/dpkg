@@ -226,14 +226,6 @@ struct trigkindinfo {
 	void (*interest_change)(const char *name, struct pkginfo *pkg, int signum);
 };
 
-#define TKI_DEFINE(kindname)				\
-  static const struct trigkindinfo tki_##kindname= {	\
-    .activate_start = trk_##kindname##_activate_start,		\
-    .activate_awaiter = trk_##kindname##_activate_awaiter,	\
-    .activate_done = trk_##kindname##_activate_done,		\
-    .interest_change = trk_##kindname##_interest_change,	\
-  };
-
 static const struct trigkindinfo *dtki;
 
 /* As passed into activate_start. */
@@ -301,7 +293,12 @@ trk_unknown_interest_change(const char *trig, struct pkginfo *pkg, int signum)
 	       trig, pkg->name);
 }
 
-TKI_DEFINE(unknown);
+static const struct trigkindinfo tki_unknown = {
+	.activate_start = trk_unknown_activate_start,
+	.activate_awaiter = trk_unknown_activate_awaiter,
+	.activate_done = trk_unknown_activate_done,
+	.interest_change = trk_unknown_interest_change,
+};
 
 /*---------- explicit triggers ----------*/
 
@@ -412,7 +409,12 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 		        trk_explicit_fn.buf);
 }
 
-TKI_DEFINE(explicit);
+static const struct trigkindinfo tki_explicit = {
+	.activate_start = trk_explicit_activate_start,
+	.activate_awaiter = trk_explicit_activate_awaiter,
+	.activate_done = trk_explicit_activate_done,
+	.interest_change = trk_explicit_interest_change,
+};
 
 /*---------- file triggers ----------*/
 
@@ -589,7 +591,12 @@ trk_file_activate_done(void)
 {
 }
 
-TKI_DEFINE(file);
+static const struct trigkindinfo tki_file = {
+	.activate_start = trk_file_activate_start,
+	.activate_awaiter = trk_file_activate_awaiter,
+	.activate_done = trk_file_activate_done,
+	.interest_change = trk_file_interest_change,
+};
 
 /*---------- trigger control info file ----------*/
 
