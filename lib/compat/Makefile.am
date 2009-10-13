@@ -1,7 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
 AM_CPPFLAGS = \
-	-idirafter $(top_srcdir)/lib/compat
+	-idirafter $(top_srcdir)/lib/compat \
+	-I$(top_builddir)
 
 
 noinst_LIBRARIES = libcompat.a
