@@ -393,9 +393,9 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("list",   'p', act_printavail, statoverride_list),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
-	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL          },
-	{ "force",      0,   0,  &opt_force,   NULL,      NULL          },
-	{ "update",     0,   0,  &opt_update,  NULL,      NULL          },
+	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
+	{ "force",      0,   0,  &opt_force,   NULL,      NULL, 1       },
+	{ "update",     0,   0,  &opt_update,  NULL,      NULL, 1       },
 	{ "help",       'h', 0,  NULL,         NULL,      usage         },
 	{ "version",    0,   0,  NULL,         NULL,      printversion  },
 	/* UK spelling */
