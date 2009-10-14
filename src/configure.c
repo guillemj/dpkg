@@ -59,7 +59,7 @@ static int conffoptcells[2][2] = {
 static void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
 static void showdiff(const char *old, const char *new);
 static void suspend(void);
-static enum conffopt promptconfaction(const char *cfgfile,
+static enum conffopt promptconfaction(struct pkginfo *pkg, const char *cfgfile,
                                       const char *realold, const char *realnew,
                                       int useredited, int distedited,
                                       enum conffopt what);
@@ -150,7 +150,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	      "deferred_configure '%s' (= '%s') useredited=%d distedited=%d what=%o",
 	      usenode->name, cdr.buf, useredited, distedited, what);
 
-	what = promptconfaction(usenode->name, cdr.buf, cdr2.buf,
+	what = promptconfaction(pkg, usenode->name, cdr.buf, cdr2.buf,
 	                        useredited, distedited, what);
 
 	switch (what & ~(cfof_isnew | cfof_userrmd)) {
@@ -575,7 +575,8 @@ suspend(void)
  * Select what to do with a configuration file.
  */
 static enum conffopt
-promptconfaction(const char *cfgfile, const char *realold, const char *realnew,
+promptconfaction(struct pkginfo *pkg, const char *cfgfile,
+                 const char *realold, const char *realnew,
                  int useredited, int distedited, enum conffopt what)
 {
 	const char *s;
