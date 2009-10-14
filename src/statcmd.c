@@ -194,14 +194,18 @@ statdb_node_print(FILE *out, struct filenamenode *file)
 		return;
 
 	pw = getpwuid(filestat->uid);
-	if (pw == NULL)
-		ohshite(_("error getting user name for uid %d"), filestat->uid);
-	gr = getgrgid(filestat->gid);
-	if (gr == NULL)
-		ohshite(_("error getting group name for gid %d"), filestat->gid);
+	if (pw)
+		fprintf(out, "%s ", pw->pw_name);
+	else
+		fprintf(out, "#%d ", filestat->uid);
 
-	fprintf(out, "%s %s %o %s\n", pw->pw_name, gr->gr_name, filestat->mode,
-	        file->name);
+	gr = getgrgid(filestat->gid);
+	if (gr)
+		fprintf(out, "%s ", gr->gr_name);
+	else
+		fprintf(out, "#%d ", filestat->gid);
+
+	fprintf(out, "%o %s\n", filestat->mode, file->name);
 }
 
 static void
