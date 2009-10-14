@@ -49,15 +49,13 @@ void getselections(const char *const *argv) {
   struct pkg_array array;
   struct pkginfo *pkg;
   const char *thisarg;
-  int i, head, found;
+  int i, found;
 
   modstatdb_init(admindir,msdbrw_readonly);
 
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_name);
 
-  head=0;
-  
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
