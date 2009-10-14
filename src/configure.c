@@ -571,8 +571,29 @@ suspend(void)
 	}
 }
 
-/*
- * Select what to do with a configuration file.
+/**
+ * Prompt the user for how to resolve a conffile conflict.
+ *
+ * When encountering a conffile conflict during configuration, the user will
+ * normally be presented with a textual menu of possible actions. This
+ * behavior is modified via various --force flags and perhaps on whether
+ * or not a terminal is available to do the prompting.
+ *
+ * @param pkg The package owning the conffile.
+ * @param cfgfile The path to the old conffile.
+ * @param realold The path to the old conffile, dereferenced in case of a
+ *        symlink, otherwise equal to cfgfile.
+ * @param realnew The path to the new conffile, dereferenced in case of a
+ *        symlink).
+ * @param useredited A flag to indicate whether the file has been edited
+ *        locally. Set to nonzero to indicate that the file has been modified.
+ * @param distedited A flag to indicate whether the file has been updated
+ *        between package versions. Set to nonzero to indicate that the file
+ *        has been updated.
+ * @param what Hints on what action should be taken by defualt.
+ *
+ * @return The action which should be taken based on user input and/or the
+ *         default actions as configured by cmdline/configuration options.
  */
 static enum conffopt
 promptconfaction(struct pkginfo *pkg, const char *cfgfile,
