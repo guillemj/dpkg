@@ -2,6 +2,7 @@
  * libcompat - system compatibility library
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -33,7 +34,7 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 	size_t want, nr;
 	int total;
 
-	if (maxsize == 0)
+	if (maxsize != 0 && buf == NULL)
 		return -1;
 
 	if (!file) {
@@ -50,6 +51,8 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 	total = vfprintf(file, fmt, al);
 	if (total < 0)
 		return -1;
+	if (maxsize == 0)
+		return total;
 	if (total >= (int)maxsize)
 		want = maxsize - 1;
 	else
