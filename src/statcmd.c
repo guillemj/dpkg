@@ -60,7 +60,7 @@ printversion(const struct cmdinfo *cip, const char *value)
 
 	printf(_(
 "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
-"Copyright (C) 2006-2009 Guillem Jover."));
+"Copyright (C) 2006-2009 Guillem Jover.\n"));
 
 	printf(_(
 "This is free software; see the GNU General Public Licence version 2 or\n"
