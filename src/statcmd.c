@@ -269,7 +269,7 @@ statoverride_add(const char *const *argv)
 	filename = path_cleanup(path);
 
 	filestat = statdb_node_find(filename);
-	if (*filestat == NULL) {
+	if (*filestat != NULL) {
 		if (opt_force)
 			warning(_("An override for '%s' already exists, "
 			          "but --force specified so will be ignored."),
