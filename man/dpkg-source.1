@@ -114,8 +114,9 @@ Remove an output control file field.
 Specify the compression to use for created files (tarballs and diffs).
 Note that this option will not cause existing tarballs to be recompressed,
 it only affects new files. Supported values are:
-.IR gzip ", " bzip2 ", and " lzma .
-\fIgzip\fP is the default.
+.IR gzip ", " bzip2 ", " lzma " and " xz .
+\fIgzip\fP is the default. \fIxz\fP is only supported since
+dpkg-dev 1.15.5.
 .TP
 .BR \-z \fIlevel\fP
 Compression level to use. As with \fB\-Z\fP it only affects newly created
@@ -351,7 +352,7 @@ as well as many temporary files (see default value associated to
 .SS Format: 3.0 (quilt)
 A source package in this format contains at least
 an original tarball (\fB.orig.tar.\fP\fIext\fP where \fIext\fP can be
-\fBgz\fP, \fBbz2\fP and \fBlzma\fP) and a debian tarball
+\fBgz\fP, \fBbz2\fP, \fBlzma\fP and \fBxz\fP) and a debian tarball
 (\fB.debian.tar.\fP\fIext\fP). It can also contain additional original
 tarballs (\fB.orig-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP).
 \fIcomponent\fP can only contain alphanumeric characters and dashes ("-").
