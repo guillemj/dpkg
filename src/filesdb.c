@@ -126,7 +126,7 @@ struct fileinlist **
 pkg_files_add_file(struct pkginfo *pkg, const char *filename,
                    enum fnnflags flags, struct fileinlist **file_tail)
 {
-  struct fileinlist *newent, *current;
+  struct fileinlist *newent;
   struct filepackages *packageslump;
   int putat = 0;
 
