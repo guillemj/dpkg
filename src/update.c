@@ -27,7 +27,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <fnmatch.h>
 #include <unistd.h>
 
 #include <dpkg/dpkg.h>
