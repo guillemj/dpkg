@@ -18,33 +18,31 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdarg.h>
-
-
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <fcntl.h>
+#ifdef HAVE_MMAP
+#include <sys/mman.h>
+#endif
+
 #include <assert.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <dpkg/macros.h>
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/parsedump.h>
 #include <dpkg/buffer.h>
-
-#ifdef HAVE_MMAP
-#include <sys/mman.h>
-#endif
 
 const struct fieldinfo fieldinfos[]= {
   /* NB: capitalisation of these strings is important. */

@@ -22,9 +22,9 @@
 #include <config.h>
 #include <compat.h>
 
-#include <stdio.h>
-#include <unistd.h>
 #include <dirent.h>
+#include <unistd.h>
+#include <stdio.h>
 
 #include <dpkg/dpkg.h>
 

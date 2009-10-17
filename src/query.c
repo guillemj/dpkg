@@ -20,27 +20,27 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <fnmatch.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/termios.h>
-#include <fcntl.h>
-#include <dirent.h>
 
 #if HAVE_LOCALE_H
 #include <locale.h>
 #endif
+#include <string.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <fnmatch.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-array.h>

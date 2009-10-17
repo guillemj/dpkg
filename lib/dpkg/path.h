@@ -22,11 +22,11 @@
 #ifndef DPKG_PATH_H
 #define DPKG_PATH_H
 
-#include <dpkg/macros.h>
-
 #ifdef HAVE_STDDEF_H
 #include <stddef.h>
 #endif
+
+#include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
 

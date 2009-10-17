@@ -21,9 +21,9 @@
 
 #include <config.h>
 
+#include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <unistd.h>
 
 #ifndef HAVE_VSNPRINTF
 int

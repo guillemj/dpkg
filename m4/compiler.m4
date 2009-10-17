@@ -53,10 +53,9 @@ AS_IF([test "x$dpkg_cv_attribute" = "xyes"],
 # Try compiling some C99 code to see whether it works
 AC_DEFUN([DPKG_TRY_C99],
 [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-#include <stdio.h>
-#include <stdbool.h>
 #include <inttypes.h>
-
+#include <stdbool.h>
+#include <stdio.h>
 
 /* Variadic macro arguments */
 #define variadic_macro(foo, ...) printf(foo, __VA_ARGS__)

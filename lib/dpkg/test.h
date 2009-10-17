@@ -25,12 +25,12 @@
 #include <config.h>
 #include <compat.h>
 
+#include <assert.h>
+#include <string.h>
+
 #ifndef TEST_MAIN_PROVIDED
 #include <dpkg/dpkg.h>
 #endif
-
-#include <assert.h>
-#include <string.h>
 
 /* XXX: Using assert is problematic with NDEBUG. */
 

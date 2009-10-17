@@ -19,10 +19,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <stdio.h>
+
 #include <dpkg/test.h>
 #include <dpkg/buffer.h>
-
-#include <stdio.h>
 
 static void
 test_buffer_hash(void)

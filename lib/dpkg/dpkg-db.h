@@ -23,14 +23,15 @@
 #ifndef DPKG_DB_H
 #define DPKG_DB_H
 
+#include <sys/types.h>
+
+#include <stdbool.h>
+#include <stdio.h>
+
 #include <dpkg/macros.h>
 #include <dpkg/varbuf.h>
 
 DPKG_BEGIN_DECLS
-
-#include <sys/types.h>
-#include <stdbool.h>
-#include <stdio.h>
 
 struct versionrevision {
   unsigned long epoch;

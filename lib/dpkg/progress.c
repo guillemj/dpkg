@@ -23,10 +23,10 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
 #include <unistd.h>
 #include <stdio.h>
+
+#include <dpkg/i18n.h>
 
 #include "progress.h"
 

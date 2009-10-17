@@ -44,6 +44,14 @@
 
 #define MIN_POLL_INTERVAL 20000 /* µs */
 
+#ifdef HAVE_SYS_CDEFS_H
+#include <sys/cdefs.h>
+#endif
+
+#ifdef HAVE_SYS_SYSCALL_H
+#include <sys/syscall.h>
+#endif
+
 #if defined(OSHurd)
 #include <hurd.h>
 #include <ps.h>
@@ -52,17 +60,15 @@
 #if defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
 #include <sys/param.h>
 #include <sys/proc.h>
-#include <sys/stat.h>
-#include <sys/types.h>
 
 #include <err.h>
-#include <limits.h>
 #endif
 
 #ifdef HAVE_KVM_H
-#include <kvm.h>
 #include <sys/sysctl.h>
 #include <sys/user.h>
+
+#include <kvm.h>
 #endif
 
 #if defined(OShpux)
@@ -70,27 +76,35 @@
 #include <sys/pstat.h>
 #endif
 
-#include <errno.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-#include <signal.h>
-#include <sys/stat.h>
-#include <dirent.h>
+#include <sys/types.h>
 #include <sys/time.h>
-#include <unistd.h>
-#include <getopt.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <sys/termios.h>
+
+#include <assert.h>
+#include <errno.h>
+#include <limits.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <ctype.h>
+#include <string.h>
 #include <pwd.h>
 #include <grp.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/termios.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <assert.h>
-#include <ctype.h>
+#include <signal.h>
+#include <unistd.h>
+#ifdef HAVE_STDDEF_H
+#include <stddef.h>
+#endif
+#include <stdbool.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <getopt.h>
+
+#ifdef HAVE_ERROR_H
+#include <error.h>
+#endif
 
 #ifdef _POSIX_PRIORITY_SCHEDULING
 #include <sched.h>
@@ -98,22 +112,6 @@
 #define SCHED_OTHER -1
 #define SCHED_FIFO -1
 #define SCHED_RR -1
-#endif
-
-#ifdef HAVE_SYS_CDEFS_H
-#include <sys/cdefs.h>
-#endif
-
-#ifdef HAVE_STDDEF_H
-#include <stddef.h>
-#endif
-
-#ifdef HAVE_ERROR_H
-#include <error.h>
-#endif
-
-#ifdef HAVE_SYS_SYSCALL_H
-#include <sys/syscall.h>
 #endif
 
 #if defined(OSLinux)

@@ -18,20 +18,20 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <assert.h>
 #include <errno.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdarg.h>
-#include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <dpkg/macros.h>
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 

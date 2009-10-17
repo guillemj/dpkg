@@ -23,22 +23,21 @@
 #ifndef DPKG_H
 #define DPKG_H
 
-#include <dpkg/macros.h>
-
-DPKG_BEGIN_DECLS
-
-#include <setjmp.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <sys/types.h>
-
 #ifdef HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
+#include <sys/types.h>
 
+#include <setjmp.h>
 #ifdef HAVE_STDDEF_H
 #include <stddef.h>
 #endif
+#include <stdarg.h>
+#include <stdio.h>
+
+#include <dpkg/macros.h>
+
+DPKG_BEGIN_DECLS
 
 #define MAXCONFFILENAME     1000
 #define MAXDIVERTFILENAME   1024

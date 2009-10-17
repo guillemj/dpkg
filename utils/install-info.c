@@ -20,11 +20,11 @@
 
 #include <config.h>
 
-#include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define SELF "/usr/sbin/install-info"
 #define WRAPPED "/usr/bin/install-info"

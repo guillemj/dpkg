@@ -8,13 +8,13 @@
 #include <config.h>
 #include <compat.h>
 
-#include <stdlib.h>
+#include <errno.h>
 #include <string.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <pwd.h>
 #include <grp.h>
-#include <errno.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <dpkg/macros.h>
 #include <dpkg/dpkg.h>

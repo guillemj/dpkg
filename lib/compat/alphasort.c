@@ -20,8 +20,8 @@
 
 #include <config.h>
 
-#include <dirent.h>
 #include <string.h>
+#include <dirent.h>
 
 #ifndef HAVE_ALPHASORT
 int

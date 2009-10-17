@@ -23,15 +23,14 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <assert.h>
-#include <unistd.h>
-#include <errno.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <assert.h>
+#include <errno.h>
+#include <unistd.h>
+
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-list.h>

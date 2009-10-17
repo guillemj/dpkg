@@ -23,13 +23,13 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
+#include <sys/fcntl.h>
+#include <sys/stat.h>
 
 #include <assert.h>
 #include <stdlib.h>
-#include <sys/stat.h>
-#include <sys/fcntl.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 

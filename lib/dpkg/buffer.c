@@ -24,15 +24,15 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
 #include <sys/types.h>
+
 #include <errno.h>
 #include <string.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/md5.h>

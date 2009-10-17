@@ -22,15 +22,15 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
 #include <sys/types.h>
 #include <sys/wait.h>
+
 #include <errno.h>
-#include <stdio.h>
 #include <string.h>
 #include <signal.h>
+#include <stdio.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/subproc.h>
 

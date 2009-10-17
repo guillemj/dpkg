@@ -22,11 +22,10 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 

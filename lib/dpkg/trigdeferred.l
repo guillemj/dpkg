@@ -37,11 +37,10 @@
 
 #include <config.h>
 
-#include <dpkg/i18n.h>
-
 #include <sys/stat.h>
 #include <sys/fcntl.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 

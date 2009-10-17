@@ -23,25 +23,24 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/file.h>
 #include <sys/wait.h>
+
+#include <assert.h>
 #include <errno.h>
-#include <unistd.h>
-#include <dirent.h>
 #include <limits.h>
 #include <ctype.h>
-#include <assert.h>
-#include <unistd.h>
+#include <string.h>
 #include <fcntl.h>
-#include <sys/file.h>
+#include <dirent.h>
+#include <signal.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/subproc.h>

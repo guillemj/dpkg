@@ -18,22 +18,23 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <errno.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <dirent.h>
-#include <assert.h>
-#include <string.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
-#include <time.h>
 
+#include <assert.h>
+#include <errno.h>
+#include <string.h>
+#include <time.h>
+#include <dirent.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>

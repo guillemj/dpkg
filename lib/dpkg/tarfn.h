@@ -8,9 +8,10 @@
  * This is free software under the GNU General Public License.
  */
 
-#include <stdlib.h>
-#include <unistd.h>
 #include <sys/types.h>
+
+#include <unistd.h>
+#include <stdlib.h>
 
 enum tar_format {
 	tar_format_old,

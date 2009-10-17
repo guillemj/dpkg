@@ -23,16 +23,16 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <ctype.h>
-#include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/termios.h>
 
+#include <assert.h>
+#include <ctype.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdio.h>
+
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 

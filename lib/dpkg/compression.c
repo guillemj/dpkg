@@ -1,12 +1,10 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
 #include <errno.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 #ifdef WITH_ZLIB
 #include <zlib.h>
@@ -15,6 +13,7 @@
 #include <bzlib.h>
 #endif
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/buffer.h>

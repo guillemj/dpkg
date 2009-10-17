@@ -27,21 +27,22 @@
  *  <md5sum>.<maxpartlen>.<thispartn>.<maxpartn>
  * all numbers in hex
  */
+
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <assert.h>
-#include <unistd.h>
 #include <sys/stat.h>
+
+#include <assert.h>
+#include <limits.h>
+#include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
-#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/myopt.h>

@@ -19,10 +19,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <stdlib.h>
+
 #include <dpkg/test.h>
 #include <dpkg/path.h>
-
-#include <stdlib.h>
 
 /* Use the test_trim_eq_ref macro to avoid leaking the string and to get
  * meaningful line numbers from assert. */

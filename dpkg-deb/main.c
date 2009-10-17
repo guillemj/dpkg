@@ -18,30 +18,30 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
-#include <errno.h>
-#include <unistd.h>
-#include <dirent.h>
-#include <limits.h>
-#include <ctype.h>
-#include <assert.h>
 
+#include <assert.h>
+#include <errno.h>
+#include <limits.h>
 #if HAVE_LOCALE_H
 #include <locale.h>
 #endif
+#include <ctype.h>
+#include <string.h>
+#include <dirent.h>
+#include <signal.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <dpkg/macros.h>
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/myopt.h>

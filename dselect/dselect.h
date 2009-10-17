@@ -23,14 +23,14 @@
 #ifndef DSELECT_H
 #define DSELECT_H
 
+#include <signal.h>
+
+#include "dselect-curses.h"
+
 #define DSELECT		"dselect"
 
 #define TOTAL_LIST_WIDTH 180
 #define MAX_DISPLAY_INFO 120
-
-#include <signal.h>
-
-#include "dselect-curses.h"
 
 struct helpmenuentry {
   char key;

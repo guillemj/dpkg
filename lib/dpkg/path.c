@@ -23,8 +23,8 @@
 #include <config.h>
 #include <compat.h>
 
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 
 #include <dpkg/path.h>
 

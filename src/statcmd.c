@@ -23,23 +23,23 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
+
 #include <errno.h>
-#include <signal.h>
+#if HAVE_LOCALE_H
+#include <locale.h>
+#endif
+#include <string.h>
 #include <grp.h>
 #include <pwd.h>
 #include <fnmatch.h>
+#include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-#if HAVE_LOCALE_H
-#include <locale.h>
-#endif
-
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>

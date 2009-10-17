@@ -20,18 +20,18 @@
  * License along with this file; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/i18n.h>
-
-#include <string.h>
 #include <errno.h>
 #include <ctype.h>
+#include <string.h>
 #include <dirent.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/string.h>
 #include <dpkg/myopt.h>

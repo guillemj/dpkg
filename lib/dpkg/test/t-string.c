@@ -19,10 +19,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <string.h>
+
 #include <dpkg/test.h>
 #include <dpkg/string.h>
-
-#include <string.h>
 
 static void
 test_str_escape_fmt(void)
