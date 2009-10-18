@@ -91,9 +91,12 @@ nobase_dist_perllib_DATA = \
 	Dpkg/BuildOptions.pm \
 	Dpkg/Changelog.pm \
 	Dpkg/Changelog/Debian.pm \
+	Dpkg/Changelog/Entry.pm \
+	Dpkg/Changelog/Entry/Debian.pm \
 	Dpkg/Checksums.pm \
 	Dpkg/Compression.pm \
 	Dpkg/Control.pm \
+	Dpkg/Control/Changelog.pm \
 	Dpkg/Control/Fields.pm \
 	Dpkg/Control/Info.pm \
 	Dpkg/Control/Hash.pm \
