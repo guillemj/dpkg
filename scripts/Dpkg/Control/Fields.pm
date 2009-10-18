@@ -399,11 +399,14 @@ If appropriate, copy the value of the field named $field taken from the
 $from Dpkg::Control object to the $to Dpkg::Control object.
 
 Official fields are copied only if the field is allowed in both types of
-objects. Custom fields are not copied except if the target object matches
-the target destination encoded in the field name. The initial X denoting
-custom fields can be followed by one or more letters among "S" (Source:
-corresponds to CTRL_PKG_SRC), "B" (Binary: corresponds to CTRL_PKG_DEB) or "C"
-(Changes: corresponds to CTRL_FILE_CHANGES).
+objects. Custom fields are treated in a specific manner. When the target
+is not among CTRL_PKG_SRC, CTRL_PKG_DEB or CTRL_FILE_CHANGES, then they
+are alway copied as is (the X- prefix is kept). Otherwise they are not
+copied except if the target object matches the target destination encoded
+in the field name. The initial X denoting custom fields can be followed by
+one or more letters among "S" (Source: corresponds to CTRL_PKG_SRC), "B"
+(Binary: corresponds to CTRL_PKG_DEB) or "C" (Changes: corresponds to
+CTRL_FILE_CHANGES).
 
 Returns undef if nothing has been copied or the name of the new field
 added to $to otherwise.
@@ -428,7 +431,13 @@ sub field_transfer_single($$_) {
             $new =~ s/^X([SBC]*)-//i;
             $to->{$new} = $from->{$field};
             return $new;
-        }
+        } elsif ($to_type != CTRL_PKG_DEB and
+		 $to_type != CTRL_PKG_SRC and
+		 $to_type != CTRL_FILE_CHANGES)
+	{
+	    $to->{$field} = $from->{$field};
+	    return $field;
+	}
     } elsif (not field_is_allowed_in($field, $from_type)) {
         warning(_g("unknown information field '%s' in input data in %s"),
                 $field, $from->get_option("name") || _g("control information"));
