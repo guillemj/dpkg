@@ -719,14 +719,14 @@ numbers in an array reference.
 
 sub find_closes {
     my $changes = shift;
-    my @closes = ();
+    my %closes;
 
     while ($changes &&
 	   ($changes =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig)) {
-	push(@closes, $& =~ /\#?\s?(\d+)/g);
+	$closes{$_} = 1 foreach($& =~ /\#?\s?(\d+)/g);
     }
 
-    @closes = sort { $a <=> $b } @closes;
+    my @closes = sort { $a <=> $b } keys %closes;
     return \@closes;
 }
 
