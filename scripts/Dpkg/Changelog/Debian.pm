@@ -61,14 +61,15 @@ package Dpkg::Changelog::Debian;
 use strict;
 use warnings;
 
-use Fcntl qw( :flock );
+use Fcntl qw(:flock);
 use English;
 use Date::Parse;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::Changelog qw( :util );
+use Dpkg::Changelog qw(:util);
 use base qw(Dpkg::Changelog);
+use Dpkg::Changelog::Entry::Debian qw($regex_header $regex_trailer);
 
 =pod
 
@@ -127,45 +128,28 @@ sub parse {
 
 # based on /usr/lib/dpkg/parsechangelog/debian
     my $expect='first heading';
-    my $entry = new Dpkg::Changelog::Entry;
+    my $entry = Dpkg::Changelog::Entry::Debian->new();
     my @blanklines = ();
     my $unknowncounter = 1; # to make version unique, e.g. for using as id
 
     while (<$fh>) {
 	chomp;
-#	printf(STDERR "%-39.39s %-39.39s\n",$expect,$_);
-	my $name_chars = qr/[-+0-9a-z.]/i;
-	if (m/^(\w$name_chars*) \(([^\(\) \t]+)\)((\s+$name_chars+)+)\;/i) {
+	if ($_ =~ $regex_header) {
+	    (my $options = $4) =~ s/^\s+//;
 	    unless ($expect eq 'first heading'
 		    || $expect eq 'next heading or eof') {
-		$entry->{ERROR} = [ $file, $NR,
-				    sprintf(_g("found start of entry where expected %s"),
-					    $expect), "$_" ];
-		$self->_do_parse_error(@{$entry->{ERROR}});
+		$self->_do_parse_error($file, $NR,
+		    sprintf(_g("found start of entry where expected %s"),
+		    $expect), "$_");
 	    }
 	    unless ($entry->is_empty) {
-		$entry->{'Closes'} = find_closes(join("\n", @{$entry->{Changes}}));
-#		    print STDERR, Dumper($entry);
 		push @{$self->{data}}, $entry;
-		$entry = new Dpkg::Changelog::Entry;
+		$entry = Dpkg::Changelog::Entry::Debian->new();
 		last if $self->_abort_early;
 	    }
-	    {
-		$entry->{'Source'} = "$1";
-		$entry->{'Version'} = "$2";
-		$entry->{'Header'} = "$_";
-		($entry->{'Distribution'} = "$3") =~ s/^\s+//;
-		$entry->{'Changes'} = [];
-		$entry->{'BlankAfterHeader'} = [];
-		$entry->{'BlankAfterChanges'} = [];
-		$entry->{'BlankAfterTrailer'} = [];
-		$entry->{'Urgency_comment'} = '';
-		$entry->{'Urgency'} = $entry->{'Urgency_lc'} = 'unknown';
-	    }
-	    (my $rhs = $POSTMATCH) =~ s/^\s+//;
+	    $entry->set_part('header', $_);
 	    my %kvdone;
-#	    print STDERR "RHS: $rhs\n";
-	    for my $kv (split(/\s*,\s*/,$rhs)) {
+	    for my $kv (split(/\s*,\s*/, $options)) {
 		$kv =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i ||
 		    $self->_do_parse_error($file, $NR,
 					   sprintf(_g("bad key-value after \`;': \`%s'"), $kv));
@@ -178,17 +162,10 @@ sub parse {
 			$self->_do_parse_error($file, $NR,
 					      _g("badly formatted urgency value"),
 					      $v);
-		    $entry->{'Urgency'} = "$1";
-		    $entry->{'Urgency_lc'} = lc("$1");
-		    $entry->{'Urgency_comment'} = "$2";
 		} elsif ($k =~ m/^X[BCS]+-/i) {
-		    # Extensions - XB for putting in Binary,
-		    # XC for putting in Control, XS for putting in Source
-		    $entry->{$k}= $v;
 		} else {
 		    $self->_do_parse_error($file, $NR,
 					   sprintf(_g("unknown key-value key %s - copying to XS-%s"), $k, $k));
-		    $entry->{"XS-$k"} = $v;
 		}
 	    }
 	    $expect= 'start of change data';
@@ -219,7 +196,7 @@ sub parse {
 	} elsif (m/^\S/) {
 	    $self->_do_parse_error($file, $NR,
 				  _g("badly formatted heading line"), "$_");
-	} elsif (m/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)\s*$/o) {
+	} elsif ($_ =~ $regex_trailer) {
 	    $expect eq 'more change data or trailer' ||
 		$self->_do_parse_error($file, $NR,
 				       sprintf(_g("found trailer where expected %s"),
@@ -229,24 +206,19 @@ sub parse {
 				       _g( "badly formatted trailer line" ),
 				       "$_");
 	    }
-	    push @{$entry->{BlankAfterChanges}}, @blanklines;
+	    $entry->set_part("trailer", $_);
+	    $entry->extend_part("blank_after_changes", [ @blanklines ]);
 	    @blanklines = ();
-	    $entry->{'Trailer'} = $_;
-	    $entry->{'Maintainer'} = "$1 <$2>" unless $entry->{'Maintainer'};
-	    unless($entry->{'Date'} && defined $entry->{'Timestamp'}) {
-		$entry->{'Date'} = "$4";
-		$entry->{'Timestamp'} = str2time($4);
-		unless (defined $entry->{'Timestamp'}) {
-		    $self->_do_parse_error( $file, $NR,
-					    sprintf(_g("couldn't parse date %s"),
-						    "$4"));
-		}
+	    $entry->{'Timestamp'} = str2time($4);
+	    unless (defined $entry->{'Timestamp'}) {
+		$self->_do_parse_error( $file, $NR,
+					sprintf(_g("couldn't parse date %s"),
+						"$4"));
 	    }
 	    $expect = 'next heading or eof';
 	} elsif (m/^ \-\-/) {
-	    $entry->{ERROR} = [ $file, $NR,
-				_g( "badly formatted trailer line" ), "$_" ];
-	    $self->_do_parse_error(@{$entry->{ERROR}});
+	    $self->_do_parse_error($file, $NR,
+				   _g( "badly formatted trailer line" ), "$_");
 #	    $expect = 'next heading or eof'
 #		if $expect eq 'more change data or trailer';
 	} elsif (m/^\s{2,}(\S)/) {
@@ -259,38 +231,21 @@ sub parse {
 		    if (($expect eq 'next heading or eof')
 			&& !$entry->is_empty) {
 			# lets assume we have missed the actual header line
-			$entry->{'Closes'} = find_closes(join("\n", @{$entry->{Changes}}));
-#		    print STDERR, Dumper($entry);
 			push @{$self->{data}}, $entry;
-			$entry = new Dpkg::Changelog::Entry;
-			$entry->{Source} =
-			    $entry->{Distribution} = $entry->{Urgency} =
-			    $entry->{Urgency_LC} = 'unknown';
-			$entry->{Version} = 'unknown'.($unknowncounter++);
-			$entry->{Urgency_Comment} = '';
-			$entry->{ERROR} = [ $file, $NR,
-					    sprintf(_g("found change data where expected %s"),
-						    $expect), "$_" ];
+			$entry = Dpkg::Changelog::Entry::Debian->new();
+			$entry->set_part('header', "unknown (unknown" . ($unknowncounter++) . ") unknown; urgency=unknown");
 		    }
 		};
 	    # Keep raw changes
-	    push @{$entry->{'Changes'}}, @blanklines, $_;
-	    if (!$entry->{'Items'} || ($1 eq '*')) {
-		$entry->{'Items'} ||= [];
-		push @{$entry->{'Items'}}, "$_\n";
-	    } else {
-		my $blank = '';
-		$blank = join("\n", @blanklines) . "\n" if scalar @blanklines;
-		$entry->{'Items'}[-1] .= "$blank$_\n";
-	    }
+	    $entry->extend_part('changes', [ @blanklines, $_ ]);
 	    @blanklines = ();
 	    $expect = 'more change data or trailer';
 	} elsif (!m/\S/) {
 	    if ($expect eq 'start of change data') {
-		push @{$entry->{BlankAfterHeader}}, $_;
+		$entry->extend_part("blank_after_header", $_);
 		next;
 	    } elsif ($expect eq 'next heading or eof') {
-		push @{$entry->{BlankAfterTrailer}}, $_;
+		$entry->extend_part("blank_after_trailer", $_);
 		next;
 	    } elsif ($expect ne 'more change data or trailer') {
 		$self->_do_parse_error($file, $NR,
@@ -304,33 +259,19 @@ sub parse {
 		|| $expect eq 'more change data or trailer')
 		&& do {
 		    # lets assume change data if we expected it
-		    push @{$entry->{'Changes'}}, @blanklines, $_;
-		    if (!$entry->{'Items'}) {
-			$entry->{'Items'} ||= [];
-			push @{$entry->{'Items'}}, "$_\n";
-		    } else {
-			my $blank = '';
-			$blank = join("\n", @blanklines) . "\n"
-				if scalar @blanklines;
-			$entry->{'Items'}[-1] .= "$blank$_\n";
-		    }
+		    $entry->extend_part("changes", [ @blanklines, $_]);
 		    @blanklines = ();
 		    $expect = 'more change data or trailer';
-		    $entry->{ERROR} = [ $file, $NR, _g( "unrecognised line" ),
-					"$_" ];
 		};
 	}
     }
 
     $expect eq 'next heading or eof'
 	|| do {
-	    $entry->{ERROR} = [ $file, $NR,
-				sprintf(_g("found eof where expected %s"),
-					$expect) ];
-	    $self->_do_parse_error( @{$entry->{ERROR}} );
+	    $self->_do_parse_error($file, $NR,
+		sprintf(_g("found eof where expected %s"), $expect));
 	};
     unless ($entry->is_empty) {
-	$entry->{'Closes'} = find_closes(join("\n", @{$entry->{Changes}}));
 	push @{$self->{data}}, $entry;
     }
 
@@ -341,9 +282,6 @@ sub parse {
 	    return undef;
 	};
     }
-
-#    use Data::Dumper;
-#    print STDERR Dumper( $self );
 
     return $self;
 }

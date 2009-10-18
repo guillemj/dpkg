@@ -43,7 +43,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 #    use Data::Dumper;
 #    diag(Dumper($changes));
 
-    ok( !$errors, "Parse example changelog $file without errors" );
+    is($errors, '', "Parse example changelog $file without errors" );
 
     my @data = $changes->data;
 
@@ -59,7 +59,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 
 	# test range options
 	cmp_ok( @data, '==', 7, "no options -> count" );
-	my $all_versions = join( '/', map { $_->{Version} } @data);
+	my $all_versions = join( '/', map { $_->get_version() } @data);
 
 	sub check_options {
 	    my ($changes, $data, $options, $count, $versions,
@@ -71,7 +71,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 		is_deeply( \@cnt, $data, "$check_name -> returns all" );
 
 	    } else {
-		is( join( "/", map { $_->{Version} } @cnt),
+		is( join( "/", map { $_->get_version() } @cnt),
 		    $versions, "$check_name -> versions" );
 	    }
 	}
@@ -173,7 +173,7 @@ Distribution: stable
 Urgency: high
 Maintainer: Frank Lichtenheld <frank@lichtenheld.de>
 Date: Sun, 13 Jan 2008 15:49:19 +0100
-Closes: 1000000 1111111 1111111 2222222 2222222
+Closes: 1000000 1111111 2222222
 Changes: 
  fields (2.0-0etch1) stable; urgency=low
  .

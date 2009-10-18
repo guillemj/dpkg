@@ -41,7 +41,8 @@ use English;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
-use Dpkg::Control;
+use Dpkg::Control::Changelog;
+use Dpkg::Control::Fields;
 use Dpkg::Version;
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -250,8 +251,8 @@ sub __sanity_check_range {
     # Handle non-existing versions
     my (%versions, @versions);
     foreach my $entry (@{$data}) {
-        $versions{$entry->{Version}} = 1;
-        push @versions, $entry->{Version};
+        $versions{$entry->get_version()->as_string()} = 1;
+        push @versions, $entry->get_version()->as_string();
     }
     if ((length($$since) and not exists $versions{$$since})) {
         warning(_g("'%s' option specifies non-existing version"), "since");
@@ -317,11 +318,11 @@ sub __sanity_check_range {
         }
     }
 
-    if (length($$since) && ($data->[0]{Version} eq $$since)) {
+    if (length($$since) && ($data->[0]->get_version() eq $$since)) {
 	warning(_g( "'since' option specifies most recent version, ignoring" ));
 	$$since = '';
     }
-    if (length($$until) && ($data->[$#{$data}]{Version} eq $$until)) {
+    if (length($$until) && ($data->[$#{$data}]->get_version() eq $$until)) {
 	warning(_g( "'until' option specifies oldest version, ignoring" ));
 	$$until = '';
     }
@@ -374,14 +375,14 @@ sub _data_range {
     my $include = 1;
     $include = 0 if length($to) or length($until);
     foreach (@$data) {
-	my $v = $_->{Version};
-	$include = 1 if $v eq $to;
-	last if $v eq $since;
+	my $v = $_->get_version();
+	$include = 1 if $to and $v eq $to;
+	last if $since and $v eq $since;
 
 	push @result, $_ if $include;
 
-	$include = 1 if $v eq $until;
-	last if $v eq $from;
+	$include = 1 if $until and $v eq $until;
+	last if $from and $v eq $from;
     }
 
     return \@result if scalar(@result);
@@ -427,7 +428,7 @@ sub _abort_early {
 
     return unless length($since) or length($from);
     foreach (@$data) {
-	my $v = $_->{Version};
+	my $v = $_->get_version();
 
 	return 1 if $v eq $since;
 	return 1 if $v eq $from;
@@ -494,17 +495,8 @@ See L<dpkg>.
 
 =cut
 
-our ( @CHANGELOG_FIELDS, $CHANGELOG_FIELDS );
 our ( @URGENCIES, %URGENCIES );
 BEGIN {
-    @CHANGELOG_FIELDS = qw(Source Version Distribution
-                           Urgency Maintainer Date Closes Changes
-                           Timestamp Header Items Trailer
-			   BlankAfterHeader BlankAfterChanges
-			   BlankAfterTrailer
-                           Urgency_comment Urgency_lc);
-    $CHANGELOG_FIELDS = Dpkg::Control->new(type => CTRL_CHANGELOG);
-    %$CHANGELOG_FIELDS = map { $_ => 1 } @CHANGELOG_FIELDS;
     @URGENCIES = qw(low medium high critical emergency);
     my $i = 1;
     %URGENCIES = map { $_ => $i++ } @URGENCIES;
@@ -518,19 +510,26 @@ sub dpkg {
     $config = $self->{config}{DPKG} || {};
     my $data = $self->_data_range( $config ) or return undef;
 
-    my $f = new Dpkg::Changelog::Entry;
-    foreach my $field (qw( Urgency Source Version
-			   Distribution Maintainer Date )) {
-	$f->{$field} = $data->[0]{$field};
-    }
-    # handle unknown fields
-    foreach my $field (keys %{$data->[0]}) {
-	next if $CHANGELOG_FIELDS->{$field};
-	$f->{$field} = $data->[0]{$field};
-    }
+    my $f = Dpkg::Control::Changelog->new();
+    $f->{Urgency} = $data->[0]->get_urgency() || "unknown";
+    $f->{Source} = $data->[0]->get_source() || "unknown";
+    $f->{Version} = $data->[0]->get_version() || "unknown";
+    $f->{Distribution} = join(" ", $data->[0]->get_distributions());
+    $f->{Maintainer} = $data->[0]->get_maintainer() || '';
+    $f->{Date} = $data->[0]->get_timestamp() || '';
+    $f->{Changes} = get_dpkg_changes($data->[0]);
 
-    $f->{Changes} = get_dpkg_changes( $data->[0] );
-    $f->{Closes} = [ @{$data->[0]{Closes}} ];
+    # handle optional fields
+    my $opts = $data->[0]->get_optional_fields();
+    my %closes;
+    foreach (keys %$opts) {
+	if (/^Urgency$/i) { # Already dealt
+	} elsif (/^Closes$/i) {
+	    $closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
+	} else {
+	    field_transfer_single($opts, $f);
+	}
+    }
 
     my $first = 1; my $urg_comment = '';
     foreach my $entry (@$data) {
@@ -538,24 +537,26 @@ sub dpkg {
 
 	my $oldurg = $f->{Urgency} || '';
 	my $oldurgn = $URGENCIES{$f->{Urgency}} || -1;
-	my $newurg = $entry->{Urgency_lc} || '';
-	my $newurgn = $URGENCIES{$entry->{Urgency_lc}} || -1;
+	my $newurg = $entry->get_urgency() || '';
+	my $newurgn = $URGENCIES{$newurg} || -1;
 	$f->{Urgency} = ($newurgn > $oldurgn) ? $newurg : $oldurg;
-	$urg_comment .= $entry->{Urgency_comment};
 
-	$f->{Changes} .= "\n .".get_dpkg_changes( $entry );
-	push @{$f->{Closes}}, @{$entry->{Closes}};
+	$f->{Changes} .= "\n ." . get_dpkg_changes($entry);
 
-	# handle unknown fields
-	foreach my $field (keys %$entry) {
-	    next if $CHANGELOG_FIELDS->{$field};
-	    next if exists $f->{$field};
-	    $f->{$field} = $entry->{$field};
+	# handle optional fields
+	$opts = $entry->get_optional_fields();
+	foreach (keys %$opts) {
+	    if (/^Closes$/i) {
+		$closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
+	    } elsif (not exists $f->{$_}) { # Don't overwrite an existing field
+		field_transfer_single($opts, $f);
+	    }
 	}
     }
 
-    $f->{Closes} = join " ", sort { $a <=> $b } @{$f->{Closes}};
-    $f->{Urgency} .= $urg_comment;
+    if (scalar keys %closes) {
+	$f->{Closes} = join " ", sort { $a <=> $b } keys %closes;
+    }
     run_vendor_hook("post-process-changelog-entry", $f);
 
     return %$f if wantarray;
@@ -599,20 +600,19 @@ sub rfc822 {
     my @out_data;
 
     foreach my $entry (@$data) {
-	my $f = new Dpkg::Changelog::Entry;
-	foreach my $field (qw( Urgency Source Version
-			       Distribution Maintainer Date )) {
-	    $f->{$field} = $entry->{$field};
-	}
+	my $f = Dpkg::Control::Changelog->new();
+	$f->{Urgency} = $entry->get_urgency() || "unknown";
+	$f->{Source} = $entry->get_source() || "unknown";
+	$f->{Version} = $entry->get_version() || "unknown";
+	$f->{Distribution} = join(" ", $entry->get_distributions());
+	$f->{Maintainer} = $entry->get_maintainer() || "";
+	$f->{Date} = $entry->get_timestamp() || "";
+	$f->{Changes} = get_dpkg_changes($entry);
 
-	$f->{Urgency} .= $entry->{Urgency_Comment};
-	$f->{Changes} = get_dpkg_changes( $entry );
-	$f->{Closes} = join " ", sort { $a <=> $b } @{$entry->{Closes}};
-
-	# handle unknown fields
-	foreach my $field (keys %$entry) {
-	    next if $CHANGELOG_FIELDS->{$field};
-	    $f->{$field} = $entry->{$field};
+	# handle optional fields
+	my $opts = $entry->get_optional_fields();
+	foreach (keys %$opts) {
+	    field_transfer_single($opts, $f) unless exists $f->{$_};
 	}
 
         run_vendor_hook("post-process-changelog-entry", $f);
@@ -774,9 +774,10 @@ in the output format of C<dpkg-parsechangelog>.
 
 sub get_dpkg_changes {
     my $entry = shift;
-    $entry->{Header} =~ s/\s+$// if defined $entry->{Header};
-    my $changes = "\n " . ($entry->{Header} || '') . "\n .\n";
-    foreach my $line (@{$entry->{Changes}}) {
+    my $header = $entry->get_part("header") || "";
+    $header =~ s/\s+$//;
+    my $changes = "\n $header\n .\n";
+    foreach my $line (@{$entry->get_part("changes")}) {
 	$line =~ s/\s+$//;
 	if ($line eq "") {
 	    $changes .= " .\n";
@@ -900,7 +901,7 @@ sub parse_changelog {
     # Get the output into several Dpkg::Control objects
     my (@res, $fields);
     while (1) {
-        $fields = Dpkg::Control->new(type => CTRL_CHANGELOG);
+        $fields = Dpkg::Control::Changelog->new();
         last unless $fields->parse_fh(\*P, _g("output of changelog parser"));
 	push @res, $fields;
     }
@@ -911,41 +912,6 @@ sub parse_changelog {
 	return $res[0] if (@res);
 	return undef;
     }
-}
-
-=head1 NAME
-
-Dpkg::Changelog::Entry - represents one entry in a Debian changelog
-
-=head1 SYNOPSIS
-
-FIXME: to be written
-
-=head1 DESCRIPTION
-
-=cut
-
-package Dpkg::Changelog::Entry;
-
-use Dpkg::Control;
-use base qw(Dpkg::Control);
-
-sub new {
-    my ($classname) = @_;
-
-    my $entry = Dpkg::Control->new(type => CTRL_CHANGELOG);
-    $entry->set_output_order(@CHANGELOG_FIELDS);
-    bless $entry, $classname;
-}
-
-sub is_empty {
-    my ($self) = @_;
-
-    return !($self->{Changes}
-	     || $self->{Source}
-	     || $self->{Version}
-	     || $self->{Maintainer}
-	     || $self->{Date});
 }
 
 1;
