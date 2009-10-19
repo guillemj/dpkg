@@ -192,8 +192,12 @@ void packagelist::ensurestatsortinfo() {
       case pkginfo::stat_configfiles:
         if (!informativeversion(&pkg->available.version)) {
           table[index]->ssavail= ssa_notinst_gone;
+// FIXME: Disable for now as a workaround, until dselect knows how to properly
+//        store seen packages.
+#if 0
         } else if (table[index]->original == pkginfo::want_unknown) {
           table[index]->ssavail= ssa_notinst_unseen;
+#endif
         } else {
           table[index]->ssavail= ssa_notinst_seen;
         }
