@@ -8,6 +8,7 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libcompat.a
 
 libcompat_a_SOURCES = \
+	empty.c \
 	compat.h \
 	gettext.h
 

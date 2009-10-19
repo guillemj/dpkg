@@ -1,0 +1,1 @@
+/* Some implementations of ar cannot create an empty archive. */
