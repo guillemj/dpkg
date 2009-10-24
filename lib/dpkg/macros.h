@@ -26,7 +26,7 @@
 
 #if HAVE_C_ATTRIBUTE
 #define DPKG_ATTR_UNUSED	__attribute__((unused))
-#define DPKG_ATTR_CONST		__attribute__((constant))
+#define DPKG_ATTR_CONST		__attribute__((const))
 #define DPKG_ATTR_NORET		__attribute__((noreturn))
 #define DPKG_ATTR_PRINTF(n)	__attribute__((format(printf, n, n + 1)))
 #else
