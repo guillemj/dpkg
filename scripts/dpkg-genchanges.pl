@@ -17,7 +17,7 @@ use Dpkg::Control::Fields;
 use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Vars;
-use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Changelog::Parse;
 use Dpkg::Version;
 
 textdomain("dpkg-dev");
@@ -185,14 +185,14 @@ while (@ARGV) {
 my %options = (file => $changelogfile);
 $options{"changelogformat"} = $changelogformat if $changelogformat;
 $options{"since"} = $since if defined($since);
-my $changelog = parse_changelog(%options);
+my $changelog = changelog_parse(%options);
 # Change options to retrieve info of the former changelog entry
 delete $options{"since"};
 $options{"count"} = 1;
 $options{"offset"} = 1;
 my ($prev_changelog, $bad_parser);
 eval { # Do not fail if parser failed due to unsupported options
-    $prev_changelog = parse_changelog(%options);
+    $prev_changelog = changelog_parse(%options);
 };
 $bad_parser = 1 if ($@);
 # Other initializations

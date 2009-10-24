@@ -15,7 +15,7 @@ use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
 use Dpkg::Substvars;
 use Dpkg::Vars;
-use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Changelog::Parse;
 
 textdomain("dpkg-dev");
 
@@ -120,7 +120,7 @@ while (@ARGV) {
 umask 0022; # ensure sane default permissions for created files
 my %options = (file => $changelogfile);
 $options{"changelogformat"} = $changelogformat if $changelogformat;
-my $changelog = parse_changelog(%options);
+my $changelog = changelog_parse(%options);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->set_arch_substvars();
 $substvars->parse($varlistfile) if -e $varlistfile;

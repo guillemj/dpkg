@@ -11,7 +11,7 @@ use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Info;
-use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Changelog::Parse;
 use Dpkg::Path qw(check_files_are_the_same);
 
 textdomain("dpkg-dev");
@@ -118,7 +118,7 @@ if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
 }
 
 if (not defined($sourceversion)) {
-    my $changelog = parse_changelog();
+    my $changelog = changelog_parse();
     $sourceversion = $changelog->{"Version"};
 }
 if (not defined($oppackage)) {

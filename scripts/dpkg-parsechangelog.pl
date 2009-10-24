@@ -9,7 +9,7 @@ use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Changelog::Parse;
 
 textdomain("dpkg-dev");
 
@@ -105,7 +105,7 @@ while (@ARGV) {
 @ARGV && usageerr(_g("%s takes no non-option arguments"), $progname);
 
 my $count = 0;
-my @fields = parse_changelog(%options);
+my @fields = changelog_parse(%options);
 foreach my $f (@fields) {
     print "\n" if $count++;
     print $f->output();

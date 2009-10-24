@@ -15,7 +15,7 @@ use Dpkg::Control::Fields;
 use Dpkg::Substvars;
 use Dpkg::Version;
 use Dpkg::Vars;
-use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Changelog::Parse;
 use Dpkg::Source::Compressor;
 use Dpkg::Source::Package;
 use Dpkg::Vendor qw(run_vendor_hook);
@@ -145,7 +145,7 @@ if ($options{'opmode'} eq 'build') {
     
     my %ch_options = (file => $changelogfile);
     $ch_options{"changelogformat"} = $changelogformat if $changelogformat;
-    my $changelog = parse_changelog(%ch_options);
+    my $changelog = changelog_parse(%ch_options);
     my $control = Dpkg::Control::Info->new($controlfile);
 
     my $srcpkg = Dpkg::Source::Package->new(options => \%options);
