@@ -1,4 +1,4 @@
-# Copyright © 2007-2009 Raphael Hertzog <hertzog@debian.org>
+# Copyright © 2007-2009 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you may redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

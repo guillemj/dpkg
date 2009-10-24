@@ -1,5 +1,5 @@
-# Copyright (C) 2007  Raphael Hertzog
-#           (C) 2009  Modestas Vainius
+# Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2009 Modestas Vainius <modestas@vainius.eu>
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

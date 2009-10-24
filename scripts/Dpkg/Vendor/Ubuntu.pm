@@ -1,6 +1,7 @@
+# Copyright © 2008 Ian Jackson <ian@davenant.greenend.org.uk>
+# Copyright © 2008 Colin Watson <cjwatson@ubuntu.com>
+# Copyright © 2008 James Westby <jw+debian@jameswestby.net>
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2008 Ian Jackson <ian@davenant.greenend.org.uk>, Colin Watson
-# <cjwatson@ubuntu.com>, James Westby <jw+debian@jameswestby.net>
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
