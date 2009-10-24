@@ -190,11 +190,7 @@ my $changelog = changelog_parse(%options);
 delete $options{"since"};
 $options{"count"} = 1;
 $options{"offset"} = 1;
-my ($prev_changelog, $bad_parser);
-eval { # Do not fail if parser failed due to unsupported options
-    $prev_changelog = changelog_parse(%options);
-};
-$bad_parser = 1 if ($@);
+my $prev_changelog = changelog_parse(%options);
 # Other initializations
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
@@ -430,14 +426,8 @@ if (!is_binaryonly) {
 	my $prev = Dpkg::Version->new($prev_changelog->{"Version"});
 	$include_tarball = ($cur->version() ne $prev->version()) ? 1 : 0;
     } else {
-	if ($bad_parser) {
-	    # The parser doesn't support extracting a previous version
-	    # Fallback to version check
-	    $include_tarball = ($sversion =~ /-(0|1|0\.1)$/) ? 1 : 0;
-	} else {
-	    # No previous entry means first upload, tarball required
-	    $include_tarball = 1;
-	}
+	# No previous entry means first upload, tarball required
+	$include_tarball = 1;
     }
 
     if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||

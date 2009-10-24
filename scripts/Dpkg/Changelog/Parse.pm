@@ -93,13 +93,6 @@ sub changelog_parse {
 	delete $options{"changelogformat"};
 	$force = 1;
     }
-    # XXX: For compatibility with old parsers, don't use --since but -v
-    # This can be removed later (in lenny+1 for example)
-    if (exists $options{"since"}) {
-	my $since = $options{"since"};
-	$options{"-v$since"} = undef;
-	delete $options{"since"};
-    }
 
     # Extract the format from the changelog file if possible
     unless($force or ($changelogfile eq "-")) {
