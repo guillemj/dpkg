@@ -24,6 +24,7 @@ EXTRA_DIST = \
 	.mailmap \
 	ChangeLog.old \
 	README.translators \
+	get-version \
 	doc/README.api \
 	doc/README.feature-removal-schedule \
 	doc/coding-style.txt \
@@ -67,6 +68,7 @@ ChangeLog:
 # If we create the dist tarball from the git repository, make sure
 # that we're not forgetting some files...
 dist-hook:
+	echo $(VERSION) >$(distdir)/.dist-version
 	if [ -e .git ]; then \
 		for file in `git ls-files | grep -v .gitignore`; do \
 			if [ ! -e "$(distdir)/$$file" ]; then \

@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+# get-version
+#
+# Copyright © 2009 Guillem Jover <guillem@debian.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+#
+
+if [ -f .dist-version ]; then
+  # Get the version from the file distributed in the tarball.
+  version=$(cat .dist-version)
+elif [ -d .git ]; then
+  # Ger the version from the git repository.
+  version=$(git describe --abbrev=4 HEAD 2>/dev/null)
+
+  # Check if we are on a dirty checkout.
+  git update-index --refresh -q >/dev/null
+  dirty=$(git diff-index --name-only HEAD 2>/dev/null)
+  if [ -n "$dirty" ]; then
+    version="$version-dirty"
+  fi
+else
+  echo "error: cannot get project version." 1>&2
+  exit 1
+fi
+
+# Use printf to avoid the trailing new line that m4_esyscmd would not handle.
+printf "$version"
+
