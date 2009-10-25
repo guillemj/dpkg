@@ -24,7 +24,9 @@ use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;
 
 use overload
-    '""' => \&output;
+    '""' => \&output,
+    'eq' => sub { defined($_[1]) and "$_[0]" eq "$_[1]" },
+    fallback => 1;
 
 =head1 NAME
 

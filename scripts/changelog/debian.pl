@@ -99,8 +99,6 @@ if (@ARGV) {
     $file = $ARGV[0];
 }
 
-my $changes = Dpkg::Changelog::Debian->init();
-
 $file ||= $default_file;
 $label ||= $file;
 unless (defined($since) or defined($until) or defined($from) or
@@ -109,22 +107,25 @@ unless (defined($since) or defined($until) or defined($from) or
 {
     $count = 1;
 }
-my @all = $all ? ( all => $all ) : ();
-my $opts = { since => $since, until => $until,
-	     from => $from, to => $to,
-	     count => $count, offset => $offset,
-	     @all, reportfile => $label };
+my %all = $all ? ( all => $all ) : ();
+my $range = {
+    since => $since, until => $until, from => $from, to => $to,
+    count => $count, offset => $offset,
+    %all
+};
+
+my $changes = Dpkg::Changelog::Debian->new(reportfile => $label, range => $range);
 
 if ($file eq '-') {
-    $changes->parse({ inhandle => \*STDIN, %$opts })
+    $changes->parse(\*STDIN, _g("standard input"))
 	or error(_g('fatal error occured while parsing input'));
 } else {
-    $changes->parse({ infile => $file, %$opts })
+    $changes->load($file)
 	or error(_g('fatal error occured while parsing %s'), $file);
 }
 
 
-eval("print \$changes->${format}_str(\$opts)");
+eval("print \$changes->${format}(\$range)");
 if ($@) {
     error("%s", $@);
 }

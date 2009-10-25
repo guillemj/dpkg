@@ -57,58 +57,21 @@ use constant {
 
 =pod
 
-=head3 parse
+=head3 $c->parse($fh, $description)
 
-Parses either the file named in configuration item C<infile>, the content
-of the filehandle in configuration item C<inhandle>, or the string
-saved in configuration item C<instring> (the latter requires IO::String).
-You can set a filename to use for reporting errors with configuration
-item C<reportfile>.
-Accepts a hash ref as optional argument which can contain configuration
-items.
-
-Returns C<undef> in case of error (e.g. "file not found", B<not> parse
-errors) and the object if successful. If C<undef> was returned, you
-can get the reason for the failure by calling the L<get_error> method.
+Read the filehandle and parse a Debian changelog in it. Returns the number
+of changelog entries that have been parsed with success.
 
 =cut
 
 sub parse {
-    my ($self, $config) = @_;
-
-    foreach my $c (keys %$config) {
-	$self->{config}{$c} = $config->{$c};
-    }
-
-    my ($fh, $file);
-    if ($file = $self->{config}{infile}) {
-	open $fh, '<', $file or do {
-	    $self->_do_fatal_error( _g("can't open file %s: %s"),
-					$file, $! );
-	    return undef;
-	};
-    } elsif ($fh = $self->{config}{inhandle}) {
-	$file = 'FileHandle';
-    } elsif (my $string = $self->{config}{instring}) {
-	eval { require IO::String };
-	if ($@) {
-	    $self->_do_fatal_error( _g("can't load IO::String: %s"),
-					$@ );
-	    return undef;
-	}
-	$fh = IO::String->new( $string );
-	$file = 'String';
-    } else {
-	$self->_do_fatal_error(_g('no changelog file specified'));
-	return undef;
-    }
-    if (defined($self->{config}{reportfile})) {
-	$file = $self->{config}{reportfile};
-    }
+    my ($self, $fh, $file) = @_;
+    $file = $self->{reportfile} if exists $self->{reportfile};
 
     $self->reset_parse_errors;
 
     $self->{data} = [];
+    $self->set_unparsed_tail(undef);
 
     my $expect = FIRST_HEADING;
     my $entry = Dpkg::Changelog::Entry::Debian->new();
@@ -120,18 +83,18 @@ sub parse {
 	if ($_ =~ $regex_header) {
 	    (my $options = $4) =~ s/^\s+//;
 	    unless ($expect eq FIRST_HEADING || $expect eq NEXT_OR_EOF) {
-		$self->_do_parse_error($file, $.,
+		$self->parse_error($file, $.,
 		    sprintf(_g("found start of entry where expected %s"),
 		    $expect), "$_");
 	    }
 	    unless ($entry->is_empty) {
 		push @{$self->{data}}, $entry;
 		$entry = Dpkg::Changelog::Entry::Debian->new();
-		last if $self->_abort_early;
+		last if $self->abort_early();
 	    }
 	    $entry->set_part('header', $_);
 	    foreach my $error ($entry->check_header()) {
-		$self->_do_parse_error($file, $., $error, $_);
+		$self->parse_error($file, $., $error, $_);
 	    }
 	    $expect= START_CHANGES;
 	    @blanklines = ();
@@ -156,29 +119,26 @@ sub parse {
 	    # save entries on old changelog format verbatim
 	    # we assume the rest of the file will be in old format once we
 	    # hit it for the first time
-	    $self->{oldformat} = "$_\n";
-	    $self->{oldformat} .= join "", <$fh>;
+	    $self->set_unparsed_tail("$_\n" . join("", <$fh>));
 	} elsif (m/^\S/) {
-	    $self->_do_parse_error($file, $.,
-				  _g("badly formatted heading line"), "$_");
+	    $self->parse_error($file, $., _g("badly formatted heading line"), "$_");
 	} elsif ($_ =~ $regex_trailer) {
 	    unless ($expect eq CHANGES_OR_TRAILER) {
-		$self->_do_parse_error($file, $.,
+		$self->parse_error($file, $.,
 		    sprintf(_g("found trailer where expected %s"), $expect), "$_");
 	    }
 	    $entry->set_part("trailer", $_);
 	    $entry->extend_part("blank_after_changes", [ @blanklines ]);
 	    @blanklines = ();
 	    foreach my $error ($entry->check_header()) {
-		$self->_do_parse_error($file, $., $error, $_);
+		$self->parse_error($file, $., $error, $_);
 	    }
 	    $expect = NEXT_OR_EOF;
 	} elsif (m/^ \-\-/) {
-	    $self->_do_parse_error($file, $.,
-				   _g( "badly formatted trailer line" ), "$_");
+	    $self->parse_error($file, $., _g("badly formatted trailer line"), "$_");
 	} elsif (m/^\s{2,}(\S)/) {
 	    unless ($expect eq START_CHANGES or $expect eq CHANGES_OR_TRAILER) {
-		$self->_do_parse_error($file, $., sprintf(_g("found change data" .
+		$self->parse_error($file, $., sprintf(_g("found change data" .
 		    " where expected %s"), $expect), "$_");
 		if ($expect eq NEXT_OR_EOF and not $entry->is_empty) {
 		    # lets assume we have missed the actual header line
@@ -199,12 +159,12 @@ sub parse {
 		$entry->extend_part("blank_after_trailer", $_);
 		next;
 	    } elsif ($expect ne CHANGES_OR_TRAILER) {
-		$self->_do_parse_error($file, $.,
-		      sprintf(_g("found blank line where expected %s"), $expect));
+		$self->parse_error($file, $.,
+		    sprintf(_g("found blank line where expected %s"), $expect));
 	    }
 	    push @blanklines, $_;
 	} else {
-	    $self->_do_parse_error($file, $., _g("unrecognised line"), "$_");
+	    $self->parse_error($file, $., _g("unrecognised line"), "$_");
 	    unless ($expect eq START_CHANGES or $expect eq CHANGES_OR_TRAILER) {
 		# lets assume change data if we expected it
 		$entry->extend_part("changes", [ @blanklines, $_]);
@@ -215,22 +175,14 @@ sub parse {
     }
 
     unless ($expect eq NEXT_OR_EOF) {
-	$self->_do_parse_error($file, $.,
-	    sprintf(_g("found eof where expected %s"), $expect));
+	$self->parse_error($file, $., sprintf(_g("found eof where expected %s"),
+					      $expect));
     }
     unless ($entry->is_empty) {
 	push @{$self->{data}}, $entry;
     }
 
-    if ($self->{config}{infile}) {
-	close $fh or do {
-	    $self->_do_fatal_error( _g("can't close file %s: %s"),
-				    $file, $!);
-	    return undef;
-	};
-    }
-
-    return $self;
+    return scalar @{$self->{data}};
 }
 
 1;

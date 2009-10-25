@@ -12,7 +12,7 @@ BEGIN {
 	+ $no_err_examples * 2
 	+ 26 # countme
 	+  2 # fields
-	+ 24;
+	+ 21;
 
     require Test::More;
     import Test::More tests => $no_tests;
@@ -27,16 +27,11 @@ $srcdir .= '/t/600_Dpkg_Changelog';
 
 #########################
 
-my $test = Dpkg::Changelog::Debian->init( { infile => '/nonexistant',
-					    quiet => 1 } );
-ok( !defined($test), "fatal parse errors lead to init() returning undef");
-
-my $save_data;
 foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
     "$srcdir/regressions") {
 
-    my $changes = Dpkg::Changelog::Debian->init( { infile => $file,
-						   quiet => 1 } );
+    my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
+    $changes->load($file);
     my $errors = $changes->get_parse_errors();
     my $basename = basename( $file );
 
@@ -45,18 +40,16 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 
     is($errors, '', "Parse example changelog $file without errors" );
 
-    my @data = $changes->data;
+    my @data = @$changes;
 
     ok( @data, "data is not empty" );
 
-    my $str = $changes->dpkg_str();
+    my $str = $changes->dpkg();
 
 #    is( $str, `dpkg-parsechangelog -l$file`,
 #	'Output of dpkg_str equal to output of dpkg-parsechangelog' );
 
     if ($file eq "$srcdir/countme") {
-	$save_data = $changes->rfc822_str({ all => 1 });
-
 	# test range options
 	cmp_ok( @data, '==', 7, "no options -> count" );
 	my $all_versions = join( '/', map { $_->get_version() } @data);
@@ -65,7 +58,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 	    my ($changes, $data, $options, $count, $versions,
 		$check_name) = @_;
 
-	    my @cnt = $changes->data( $options );
+	    my @cnt = $changes->get_range($options);
 	    cmp_ok( @cnt, '==', $count, "$check_name -> count" );
 	    if ($count == @$data) {
 		is_deeply( \@cnt, $data, "$check_name -> returns all" );
@@ -78,7 +71,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 
 	check_options( $changes, \@data,
 		       { count => 3 }, 3, '2:2.0-1/1:2.0~rc2-3/1:2.0~rc2-2',
-		       'positve count' );
+		       'positive count' );
 	check_options( $changes, \@data,
 		       { count => -3 }, 3,
 		       '1:2.0~rc2-1sarge2/1:2.0~rc2-1sarge1/1.5-1',
@@ -166,7 +159,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 	#TODO: test combinations
     }
     if ($file eq "$srcdir/fields") {
-	my $str = $changes->dpkg_str({ all => 1 });
+	my $str = $changes->dpkg({ all => 1 });
 	my $expected = 'Source: fields
 Version: 2.0-0etch1
 Distribution: stable
@@ -194,7 +187,7 @@ Xc-Userfield: foobar
 ';
 	cmp_ok($str,'eq',$expected,"fields handling");
 
-	$str = $changes->dpkg_str({ offset => 1, count => 2 });
+	$str = $changes->dpkg({ offset => 1, count => 2 });
 	$expected = 'Source: fields
 Version: 2.0-1
 Distribution: unstable
@@ -224,43 +217,29 @@ Xc-Userfield: foobar
 #     }
 
     SKIP: {
-	skip("avoid spurios warning with only one entry", 2)
+	skip("avoid spurious warning with only one entry", 2)
 	    if @data == 1;
 
 	my $oldest_version = $data[-1]->{Version};
-	$str = $changes->dpkg_str({ since => $oldest_version });
+	$str = $changes->dpkg({ since => $oldest_version });
 
-	$str = $changes->rfc822_str();
+	$str = $changes->rfc822();
 
 	ok( 1 );
 
-	$str = $changes->rfc822_str({ since => $oldest_version });
+	$str = $changes->rfc822({ since => $oldest_version });
 
 	ok( 1 );
     }
 }
 
-open CHANGES, '<', "$srcdir/countme";
-my $string = join('',<CHANGES>);
-
-my $str_changes = Dpkg::Changelog::Debian->init( { instring => $string,
-						   quiet => 1 } );
-my $errors = $str_changes->get_parse_errors();
-ok( !$errors,
-    "Parse example changelog $srcdir/countme without errors from string" );
-
-my $str_data = $str_changes->rfc822_str({ all => 1 });
-is( $str_data, $save_data,
-    "Compare result of parse from string with result of parse from file" );
-
-
 foreach my $test (( [ "$srcdir/misplaced-tz", 6 ])) {
 
     my $file = shift @$test;
-    my $changes = Dpkg::Changelog::Debian->init( { infile => $file,
-						   quiet => 1 } );
+    my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
+    $changes->load($file);
     my @errors = $changes->get_parse_errors();
 
-    ok( @errors, 'errors occoured' );
+    ok(@errors, 'errors occured');
     is_deeply( [ map { $_->[1] } @errors ], $test, 'check line numbers' );
 }
