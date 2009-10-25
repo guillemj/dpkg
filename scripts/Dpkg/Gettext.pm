@@ -1,4 +1,3 @@
-#!/usr/bin/perl -w
 # Copied from /usr/share/perl5/Debconf/Gettext.pm
 #
 # Redistribution and use in source and binary forms, with or without

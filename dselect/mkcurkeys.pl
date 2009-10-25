@@ -1,4 +1,4 @@
-#!/usr/bin/perl --
+#!/usr/bin/perl
 #
 # dselect - Debian package maintenance user interface
 # mkcurkeys.pl - generate strings mapping key names to ncurses numbers

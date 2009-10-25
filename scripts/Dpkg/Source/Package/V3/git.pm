@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 #
 # git support for dpkg-source
 #

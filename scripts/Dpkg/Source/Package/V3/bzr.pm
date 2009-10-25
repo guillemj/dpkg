@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 #
 # bzr support for dpkg-source
 #
