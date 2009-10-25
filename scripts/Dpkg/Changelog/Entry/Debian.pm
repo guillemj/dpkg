@@ -22,13 +22,12 @@ use warnings;
 use Exporter;
 use Dpkg::Changelog::Entry;
 use base qw(Exporter Dpkg::Changelog::Entry);
-our @EXPORT_OK = qw($regex_header $regex_trailer);
+our @EXPORT_OK = qw($regex_header $regex_trailer find_closes);
 
 use Date::Parse;
 
 use Dpkg::Control::Changelog;
 use Dpkg::Version;
-use Dpkg::Changelog qw(:util);
 
 =head1 NAME
 
@@ -208,9 +207,9 @@ sub get_optional_fields {
 	    }
 	}
     }
-    my $closes = find_closes(join("\n", @{$self->{changes}}));
-    if (@$closes) {
-	$f->{Closes} = join(" ", @$closes);
+    my @closes = find_closes(join("\n", @{$self->{changes}}));
+    if (@closes) {
+	$f->{Closes} = join(" ", @closes);
     }
     return $f;
 }
@@ -242,6 +241,29 @@ sub get_timestamp {
 }
 
 =back
+
+=head1 UTILITY FUNCTIONS
+
+=head3 my @closed_bugs = find_closes($changes)
+
+Takes one string as argument and finds "Closes: #123456, #654321" statements
+as supported by the Debian Archive software in it. Returns all closed bug
+numbers in an array.
+
+=cut
+
+sub find_closes {
+    my $changes = shift;
+    my %closes;
+
+    while ($changes &&
+           ($changes =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig)) {
+        $closes{$_} = 1 foreach($& =~ /\#?\s?(\d+)/g);
+    }
+
+    my @closes = sort { $a <=> $b } keys %closes;
+    return @closes;
+}
 
 =head1 AUTHOR
 

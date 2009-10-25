@@ -47,7 +47,6 @@ use Dpkg::Vendor qw(run_vendor_hook);
 use base qw(Exporter);
 
 our %EXPORT_TAGS = ( 'util' => [ qw(
-                find_closes
                 data2rfc822
                 data2rfc822_mult
                 get_dpkg_changes
@@ -705,29 +704,6 @@ C<until> and C<to> returns the intersection of the two results
 with only one of the options specified.
 
 =head1 UTILITY FUNCTIONS
-
-=head3 find_closes
-
-Takes one string as argument and finds "Closes: #123456, #654321" statements
-as supported by the Debian Archive software in it. Returns all closed bug
-numbers in an array reference.
-
-=cut
-
-sub find_closes {
-    my $changes = shift;
-    my %closes;
-
-    while ($changes &&
-	   ($changes =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig)) {
-	$closes{$_} = 1 foreach($& =~ /\#?\s?(\d+)/g);
-    }
-
-    my @closes = sort { $a <=> $b } keys %closes;
-    return \@closes;
-}
-
-=pod
 
 =head3 data2rfc822
 
