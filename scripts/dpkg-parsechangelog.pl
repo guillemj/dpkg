@@ -3,9 +3,6 @@
 use strict;
 use warnings;
 
-use English;
-use POSIX;
-use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
