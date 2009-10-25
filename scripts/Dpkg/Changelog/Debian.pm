@@ -70,6 +70,13 @@ use Dpkg::Changelog qw(:util);
 use base qw(Dpkg::Changelog);
 use Dpkg::Changelog::Entry::Debian qw($regex_header $regex_trailer);
 
+use constant {
+    FIRST_HEADING => _g('first heading'),
+    NEXT_OR_EOF => _g('next heading or eof'),
+    START_CHANGES => _g('start of change data'),
+    CHANGES_OR_TRAILER => _g('more change data or trailer'),
+};
+
 =pod
 
 =head3 parse
@@ -125,8 +132,7 @@ sub parse {
 
     $self->{data} = [];
 
-# based on /usr/lib/dpkg/parsechangelog/debian
-    my $expect='first heading';
+    my $expect = FIRST_HEADING;
     my $entry = Dpkg::Changelog::Entry::Debian->new();
     my @blanklines = ();
     my $unknowncounter = 1; # to make version unique, e.g. for using as id
@@ -135,8 +141,8 @@ sub parse {
 	chomp;
 	if ($_ =~ $regex_header) {
 	    (my $options = $4) =~ s/^\s+//;
-	    unless ($expect eq 'first heading'
-		    || $expect eq 'next heading or eof') {
+	    unless ($expect eq FIRST_HEADING
+		    || $expect eq NEXT_OR_EOF) {
 		$self->_do_parse_error($file, $NR,
 		    sprintf(_g("found start of entry where expected %s"),
 		    $expect), "$_");
@@ -150,7 +156,7 @@ sub parse {
 	    foreach my $error ($entry->check_header()) {
 		$self->_do_parse_error($file, $NR, $error, $_);
 	    }
-	    $expect= 'start of change data';
+	    $expect= START_CHANGES;
 	    @blanklines = ();
 	} elsif (m/^(;;\s*)?Local variables:/io) {
 	    last; # skip Emacs variables at end of file
@@ -179,7 +185,7 @@ sub parse {
 	    $self->_do_parse_error($file, $NR,
 				  _g("badly formatted heading line"), "$_");
 	} elsif ($_ =~ $regex_trailer) {
-	    $expect eq 'more change data or trailer' ||
+	    $expect eq CHANGES_OR_TRAILER ||
 		$self->_do_parse_error($file, $NR,
 				       sprintf(_g("found trailer where expected %s"),
 					       $expect), "$_");
@@ -189,20 +195,20 @@ sub parse {
 	    foreach my $error ($entry->check_header()) {
 		$self->_do_parse_error($file, $NR, $error, $_);
 	    }
-	    $expect = 'next heading or eof';
+	    $expect = NEXT_OR_EOF;
 	} elsif (m/^ \-\-/) {
 	    $self->_do_parse_error($file, $NR,
 				   _g( "badly formatted trailer line" ), "$_");
-#	    $expect = 'next heading or eof'
-#		if $expect eq 'more change data or trailer';
+#	    $expect = NEXT_OR_EOF
+#		if $expect eq CHANGES_OR_TRAILER;
 	} elsif (m/^\s{2,}(\S)/) {
-	    $expect eq 'start of change data'
-		|| $expect eq 'more change data or trailer'
+	    $expect eq START_CHANGES
+		|| $expect eq CHANGES_OR_TRAILER
 		|| do {
 		    $self->_do_parse_error($file, $NR,
 					   sprintf(_g("found change data where expected %s"),
 						   $expect), "$_");
-		    if (($expect eq 'next heading or eof')
+		    if (($expect eq NEXT_OR_EOF)
 			&& !$entry->is_empty) {
 			# lets assume we have missed the actual header line
 			push @{$self->{data}}, $entry;
@@ -213,15 +219,15 @@ sub parse {
 	    # Keep raw changes
 	    $entry->extend_part('changes', [ @blanklines, $_ ]);
 	    @blanklines = ();
-	    $expect = 'more change data or trailer';
+	    $expect = CHANGES_OR_TRAILER;
 	} elsif (!m/\S/) {
-	    if ($expect eq 'start of change data') {
+	    if ($expect eq START_CHANGES) {
 		$entry->extend_part("blank_after_header", $_);
 		next;
-	    } elsif ($expect eq 'next heading or eof') {
+	    } elsif ($expect eq NEXT_OR_EOF) {
 		$entry->extend_part("blank_after_trailer", $_);
 		next;
-	    } elsif ($expect ne 'more change data or trailer') {
+	    } elsif ($expect ne CHANGES_OR_TRAILER) {
 		$self->_do_parse_error($file, $NR,
 		      sprintf(_g("found blank line where expected %s"), $expect));
 	    }
@@ -229,18 +235,18 @@ sub parse {
 	} else {
 	    $self->_do_parse_error($file, $NR, _g( "unrecognised line" ),
 				   "$_");
-	    ($expect eq 'start of change data'
-		|| $expect eq 'more change data or trailer')
+	    ($expect eq START_CHANGES
+		|| $expect eq CHANGES_OR_TRAILER)
 		&& do {
 		    # lets assume change data if we expected it
 		    $entry->extend_part("changes", [ @blanklines, $_]);
 		    @blanklines = ();
-		    $expect = 'more change data or trailer';
+		    $expect = CHANGES_OR_TRAILER;
 		};
 	}
     }
 
-    $expect eq 'next heading or eof'
+    $expect eq NEXT_OR_EOF
 	|| do {
 	    $self->_do_parse_error($file, $NR,
 		sprintf(_g("found eof where expected %s"), $expect));
