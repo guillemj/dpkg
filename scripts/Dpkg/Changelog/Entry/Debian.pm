@@ -58,6 +58,43 @@ our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}
 
 =over 4
 
+=item my @items = $entry->get_change_items()
+
+Return a list of change items. Each item contains at least one line.
+A change line starting with an asterisk denotes the start of a new item.
+Any change line like "[ Raphael Hertzog ]" is treated like an item of its
+own even if it starts a set of items attributed to this person (the
+following line necessarily starts a new item).
+
+=cut
+
+sub get_change_items {
+    my ($self) = @_;
+    my (@items, @blanks, $item);
+    foreach my $line (@{$self->get_part("changes")}) {
+	if ($line =~ /^\s*\*/) {
+	    push @items, $item if defined $item;
+	    $item = "$line\n";
+	} elsif ($line =~ /^\s*\[\s[^\]]+\s\]\s*$/) {
+	    push @items, $item if defined $item;
+	    push @items, "$line\n";
+	    $item = undef;
+	    @blanks = ();
+	} elsif ($line =~ /^\s*$/) {
+	    push @blanks, "$line\n";
+	} else {
+	    if (defined $item) {
+		$item .= "@blanks$line\n";
+	    } else {
+		$item = "$line\n";
+	    }
+	    @blanks = ();
+	}
+    }
+    push @items, $item if defined $item;
+    return @items;
+}
+
 =item $entry->normalize()
 
 Normalize the content. Strip whitespaces at end of lines, use a single
