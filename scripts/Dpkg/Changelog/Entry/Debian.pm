@@ -24,6 +24,8 @@ use Dpkg::Changelog::Entry;
 use base qw(Exporter Dpkg::Changelog::Entry);
 our @EXPORT_OK = qw($regex_header $regex_trailer);
 
+use Date::Parse;
+
 use Dpkg::Control::Changelog;
 use Dpkg::Version;
 use Dpkg::Changelog qw(:util);
@@ -93,6 +95,63 @@ sub get_change_items {
     }
     push @items, $item if defined $item;
     return @items;
+}
+
+=item my @errors = $entry->check_header()
+
+=item my @errors = $entry->check_trailer()
+
+Return a list of errors. Each item in the list is an error message
+describing the problem. If the empty list is returned, no errors
+have been found.
+
+=cut
+
+sub check_header {
+    my ($self) = @_;
+    my @errors;
+    if (defined($self->{header}) and $self->{header} =~ $regex_header) {
+	my $options = $4;
+	$options =~ s/^\s+//;
+	my %optdone;
+	foreach my $opt (split(/\s*,\s*/, $options)) {
+	    unless ($opt =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i) {
+		push @errors, sprintf(_g("bad key-value after \`;': \`%s'"), $opt);
+		next;
+	    }
+	    my ($k, $v) = (ucfirst($1), $2);
+	    if ($optdone{$k}) {
+		push @errors, sprintf(_g("repeated key-value %s"), $k);
+	    }
+	    $optdone{$k} = 1;
+	    if ($k eq 'Urgency') {
+		push @errors, sprintf(_g("badly formatted urgency value: %s"), $v)
+		    unless ($v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i);
+	    } elsif ($k =~ m/^X[BCS]+-/i) {
+	    } else {
+		push @errors, sprintf(_g("unknown key-value %s"), $k);
+	    }
+	}
+    } else {
+	push @errors, _g("the header doesn't match the expected regex");
+    }
+    return @errors;
+}
+
+sub check_trailer {
+    my ($self) = @_;
+    my @errors;
+    if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
+	if ($3 ne '  ') {
+	    push @errors, _g("badly formatted trailer line");
+	}
+	unless (defined str2time($4)) {
+	    push @errors, sprintf(_g("couldn't parse date %s"), $4);
+	}
+    } else {
+	push @errors, _g("the trailer doesn't match the expected regex");
+    }
+    return @errors;
 }
 
 =item $entry->normalize()

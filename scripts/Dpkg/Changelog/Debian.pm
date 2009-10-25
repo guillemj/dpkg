@@ -63,7 +63,6 @@ use warnings;
 
 use Fcntl qw(:flock);
 use English;
-use Date::Parse;
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -148,25 +147,8 @@ sub parse {
 		last if $self->_abort_early;
 	    }
 	    $entry->set_part('header', $_);
-	    my %kvdone;
-	    for my $kv (split(/\s*,\s*/, $options)) {
-		$kv =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i ||
-		    $self->_do_parse_error($file, $NR,
-					   sprintf(_g("bad key-value after \`;': \`%s'"), $kv));
-		my $k = ucfirst $1;
-		my $v = $2;
-		$kvdone{$k}++ && $self->_do_parse_error($file, $NR,
-							sprintf(_g("repeated key-value %s"), $k));
-		if ($k eq 'Urgency') {
-		    $v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i ||
-			$self->_do_parse_error($file, $NR,
-					      _g("badly formatted urgency value"),
-					      $v);
-		} elsif ($k =~ m/^X[BCS]+-/i) {
-		} else {
-		    $self->_do_parse_error($file, $NR,
-					   sprintf(_g("unknown key-value key %s - copying to XS-%s"), $k, $k));
-		}
+	    foreach my $error ($entry->check_header()) {
+		$self->_do_parse_error($file, $NR, $error, $_);
 	    }
 	    $expect= 'start of change data';
 	    @blanklines = ();
@@ -201,19 +183,11 @@ sub parse {
 		$self->_do_parse_error($file, $NR,
 				       sprintf(_g("found trailer where expected %s"),
 					       $expect), "$_");
-	    if ($3 ne '  ') {
-		$self->_do_parse_error($file, $NR,
-				       _g( "badly formatted trailer line" ),
-				       "$_");
-	    }
 	    $entry->set_part("trailer", $_);
 	    $entry->extend_part("blank_after_changes", [ @blanklines ]);
 	    @blanklines = ();
-	    $entry->{'Timestamp'} = str2time($4);
-	    unless (defined $entry->{'Timestamp'}) {
-		$self->_do_parse_error( $file, $NR,
-					sprintf(_g("couldn't parse date %s"),
-						"$4"));
+	    foreach my $error ($entry->check_header()) {
+		$self->_do_parse_error($file, $NR, $error, $_);
 	    }
 	    $expect = 'next heading or eof';
 	} elsif (m/^ \-\-/) {
