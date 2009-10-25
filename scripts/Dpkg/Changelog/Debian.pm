@@ -1,8 +1,6 @@
-#
-# Dpkg::Changelog::Debian
-#
 # Copyright © 1996 Ian Jackson
 # Copyright © 2005 Frank Lichtenheld <frank@lichtenheld.de>
+# Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,22 +20,6 @@
 =head1 NAME
 
 Dpkg::Changelog::Debian - parse Debian changelogs
-
-=head1 SYNOPSIS
-
-    use Parse::DebianChangelog;
-
-    my $chglog = Parse::DebianChangelog->init( { infile => 'debian/changelog',
-                                                 HTML => { outfile => 'changelog.html' } );
-    $chglog->html;
-
-    # the following is semantically equivalent
-    my $chglog = Parse::DebianChangelog->init();
-    $chglog->parse( { infile => 'debian/changelog' } );
-    $chglog->html( { outfile => 'changelog.html' } );
-
-    my $changes = $chglog->dpkg_str( { since => '1.0-1' } );
-    print $changes;
 
 =head1 DESCRIPTION
 
@@ -61,7 +43,6 @@ package Dpkg::Changelog::Debian;
 use strict;
 use warnings;
 
-use Fcntl qw(:flock);
 use English;
 
 use Dpkg;
@@ -276,26 +257,9 @@ Dpkg::Changelog
 Description of the Debian changelog format in the Debian policy:
 L<http://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog>.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2005 by Frank Lichtenheld
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+Raphaël Hertzog, E<lt>hertzog@debian.orgE<gt>
 
 =cut
