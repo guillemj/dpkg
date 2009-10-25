@@ -36,8 +36,6 @@ package Dpkg::Changelog;
 use strict;
 use warnings;
 
-use English;
-
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
@@ -116,9 +114,9 @@ sub _do_parse_error {
 
     unless ($self->{config}{quiet}) {
 	if ($line) {
-	    warning("%20s(l$NR): $error\nLINE: $line", $file);
+	    warning("%20s(l$.): $error\nLINE: $line", $file);
 	} else {
-	    warning("%20s(l$NR): $error", $file);
+	    warning("%20s(l$.): $error", $file);
 	}
     }
 }

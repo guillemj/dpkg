@@ -43,8 +43,6 @@ package Dpkg::Changelog::Debian;
 use strict;
 use warnings;
 
-use English;
-
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Changelog qw(:util);
@@ -124,7 +122,7 @@ sub parse {
 	    (my $options = $4) =~ s/^\s+//;
 	    unless ($expect eq FIRST_HEADING
 		    || $expect eq NEXT_OR_EOF) {
-		$self->_do_parse_error($file, $NR,
+		$self->_do_parse_error($file, $.,
 		    sprintf(_g("found start of entry where expected %s"),
 		    $expect), "$_");
 	    }
@@ -135,7 +133,7 @@ sub parse {
 	    }
 	    $entry->set_part('header', $_);
 	    foreach my $error ($entry->check_header()) {
-		$self->_do_parse_error($file, $NR, $error, $_);
+		$self->_do_parse_error($file, $., $error, $_);
 	    }
 	    $expect= START_CHANGES;
 	    @blanklines = ();
@@ -163,22 +161,22 @@ sub parse {
 	    $self->{oldformat} = "$_\n";
 	    $self->{oldformat} .= join "", <$fh>;
 	} elsif (m/^\S/) {
-	    $self->_do_parse_error($file, $NR,
+	    $self->_do_parse_error($file, $.,
 				  _g("badly formatted heading line"), "$_");
 	} elsif ($_ =~ $regex_trailer) {
 	    $expect eq CHANGES_OR_TRAILER ||
-		$self->_do_parse_error($file, $NR,
+		$self->_do_parse_error($file, $.,
 				       sprintf(_g("found trailer where expected %s"),
 					       $expect), "$_");
 	    $entry->set_part("trailer", $_);
 	    $entry->extend_part("blank_after_changes", [ @blanklines ]);
 	    @blanklines = ();
 	    foreach my $error ($entry->check_header()) {
-		$self->_do_parse_error($file, $NR, $error, $_);
+		$self->_do_parse_error($file, $., $error, $_);
 	    }
 	    $expect = NEXT_OR_EOF;
 	} elsif (m/^ \-\-/) {
-	    $self->_do_parse_error($file, $NR,
+	    $self->_do_parse_error($file, $.,
 				   _g( "badly formatted trailer line" ), "$_");
 #	    $expect = NEXT_OR_EOF
 #		if $expect eq CHANGES_OR_TRAILER;
@@ -186,7 +184,7 @@ sub parse {
 	    $expect eq START_CHANGES
 		|| $expect eq CHANGES_OR_TRAILER
 		|| do {
-		    $self->_do_parse_error($file, $NR,
+		    $self->_do_parse_error($file, $.,
 					   sprintf(_g("found change data where expected %s"),
 						   $expect), "$_");
 		    if (($expect eq NEXT_OR_EOF)
@@ -209,12 +207,12 @@ sub parse {
 		$entry->extend_part("blank_after_trailer", $_);
 		next;
 	    } elsif ($expect ne CHANGES_OR_TRAILER) {
-		$self->_do_parse_error($file, $NR,
+		$self->_do_parse_error($file, $.,
 		      sprintf(_g("found blank line where expected %s"), $expect));
 	    }
 	    push @blanklines, $_;
 	} else {
-	    $self->_do_parse_error($file, $NR, _g( "unrecognised line" ),
+	    $self->_do_parse_error($file, $., _g( "unrecognised line" ),
 				   "$_");
 	    ($expect eq START_CHANGES
 		|| $expect eq CHANGES_OR_TRAILER)
@@ -229,7 +227,7 @@ sub parse {
 
     $expect eq NEXT_OR_EOF
 	|| do {
-	    $self->_do_parse_error($file, $NR,
+	    $self->_do_parse_error($file, $.,
 		sprintf(_g("found eof where expected %s"), $expect));
 	};
     unless ($entry->is_empty) {
