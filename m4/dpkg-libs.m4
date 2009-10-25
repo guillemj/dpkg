@@ -70,10 +70,18 @@ if test "x$with_selinux" != "xno"; then
 	AC_CHECK_LIB([selinux], [is_selinux_enabled],
 		[AC_DEFINE(WITH_SELINUX, 1,
 			[Define to 1 to compile in SELinux support])
-		 if test "x$with_selinux" = "xstatic"; then
-			dpkg_selinux_libs="-Wl,-Bstatic "$(pkg-config --static --libs libselinux)" -Wl,-Bdynamic"
+		 if test $(pkg-config --exists libselinux); then
+			if test "x$with_selinux" = "xstatic"; then
+				dpkg_selinux_libs="-Wl,-Bstatic "$(pkg-config --static --libs libselinux)" -Wl,-Bdynamic"
+			else
+				dpkg_selinux_libs=$(pkg-config --libs libselinux)
+			fi
 		 else
-			dpkg_selinux_libs=$(pkg-config --libs libselinux)
+			if test "x$with_selinux" = "xstatic"; then
+				dpkg_selinux_libs="-Wl,-Bstatic -lselinux -lsepol -Wl,-Bdynamic"
+			else
+				dpkg_selinux_libs="-lselinux"
+			fi
 		 fi
 		 SELINUX_LIBS="${SELINUX_LIBS:+$SELINUX_LIBS }$dpkg_selinux_libs"
 		 with_selinux="yes"],
