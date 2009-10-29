@@ -1,5 +1,10 @@
-ROADMAP
+RoadMap
 =======
+
+  <http://wiki.debian.org/Teams/Dpkg/RoadMap>
+
+TODO
+====
 
 1.15.x (squeeze)
 ~~~~~~
@@ -26,14 +31,16 @@ ROADMAP
    - Get rid of setjmp (at least in the general case, keep for dpkg itself?)
    - Coalesce hash and checksum functions.
    - Split modstatdb_rw into mode and flags.
-   - Move fd and block function out of mlib.
+   - Move fd function out of mlib.
    - Cleanup status chars -> strings hardcoded mappings all over the place.
      (Fix tied field enum with its dselect description (pkgdisplay.cc))
    - Refactor src/processarc.c.
    - Make sure all vsnprintf callers are checking the return value, as the
      system version will not ohsite on us.
    - Fix naming consistency of next/prev members.
+   - Split dpkg.h into independent headers.
    - Do more unused header include removal.
+   - Add needed includes to all header files.
    - Get rid of unuseful "unsigned" modifiers.
    - Use internerr instead of assert, and print more meaninful messages.
    - Make actionfunction return int, and avoid global exitcode variables.
@@ -47,11 +54,9 @@ ROADMAP
    - Make deb build version a version instead of doing checks over a string.
    - Use enums for currently hardcoded literals (tdus, dependtry, etc).
 
- * Deprecate --force-not-root flag (remove modstatdb_rw rootneeded flags).
-
- * Test and reenable --command-fd.
-
- * Check --no-act for log_action().
+ * Cleanup libcompat:
+   - Add fnmatch, IRIX5 doesn't have it.
+   - Fix scandir, leaks on malloc and realloc.
 
  * Man pages:
    - Add example to dpkg-scanfoo manpages?
@@ -73,40 +78,18 @@ ROADMAP
  * Discuss and implement
    http://www.hadrons.org/~guillem/debian/docs/origin.proposal
 
+ * Deprecate --force-not-root flag (remove modstatdb_rw rootneeded flags).
+
+ * Test and reenable --command-fd.
+
+ * Check --no-act for log_action().
+
  * Add non-regression tests for Dpkg::Source::*
-
- * Cleanup libcompat:
-   - Add fnmatch, IRIX5 doesn't have it.
-   - Fix scandir, leaks on malloc and realloc.
-
- * Add multiarch support.
-
- * Merge stuff back:
-   - debsums (metadata storage).
-   - ucf (cleverer conffile handling).
-   - debconf (dpkg-*configure and add new status):
-     + dpkg --reconfigure <pkg> <pkg>
-       <pkg>.postinst reconfigure <ver>
-       Fail if pkg is not in the configured state.
-   - dpkg-cross (multiarch + dpkg cross compilation support).
-   - dpkg-sig (dak fixed, import code, needs reply, #340306).
-   - apt: deb-*/ dirs, apt-extracttemplates (libdpkg).
-   - (maybe parts of wajig, aptitude, synaptic, ept, ...).
-
- * Start exposing libdpkg.
-   - Split dpkg.h into dpkg-priv.h.
-   - Add needed includes to all header files.
 
  * Add UTF-8 support to all programs.
 
- * Modify database to store per-file flags.
-   - Store checksums and stat data in per-file flags.
-   - Add md5sums and/or sha1sums package support. (#155676)
-
  * Allow packages to register additional files, declare ownership of files for
    dpkg -S and -L without having dpkg act on this (.psuedolist?).
-
- * Some kind of test-suite (Esteban).
 
  * Make dpkg-checkbuilddeps easier to use by other programs such as pbuilder
    or sbuild, so that they can start using the new architecture wildcards
@@ -115,15 +98,11 @@ ROADMAP
 
  * Remove conffile background support? (#38334)
 
- * Make dpkg-deb --build check for duped conffiles. (#131633)
-
  * Propagate --admindir to programs run from maintainer scritpts. (#97076)
 
  * Fix conflicting action -%c, when short is 0.
 
  * We should set our own obstack_alloc_failed_handler.
-
- * Fix quotes? <http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html>
 
 1.16.x (squeeze + 1)
 ~~~~~~
@@ -133,8 +112,7 @@ ROADMAP
  * Remove install-info wrapper.
 
 
-TODO
-====
+------------------------------------------------------------------------------
 
 Old TODO entries from Scott:
 
