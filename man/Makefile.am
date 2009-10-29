@@ -8,7 +8,7 @@ PO4A_RM_V = $(PO4A_RM_V_$(V))
 PO4A_RM_V_ = $(PO4A_RM_V_$(AM_DEFAULT_VERBOSITY))
 PO4A_RM_V_0 = @echo "  PO4ARM $@";
 
-all-local: all-local-@USE_NLS@
+all-local: all-local-@USE_PO4A@
 
 all-local-no:
 all-local-yes: man.stamp
@@ -20,25 +20,25 @@ PO4A_CLEAN_OPTS = $(PO4A_COMMON_OPTS) --rm-backups --rm-translations
 # FIXME: Use a stamp file until po4a supports them internally.
 man.stamp:
 	$(PO4A_V) cd $(srcdir) && \
-	po4a $(PO4A_BUILD_OPTS) po/po4a.cfg
+	$(PO4A) $(PO4A_BUILD_OPTS) po/po4a.cfg
 	$(AM_V_at) touch $@
 
-clean-local: clean-local-@USE_NLS@
+clean-local: clean-local-@USE_PO4A@
 
 clean-local-no:
 clean-local-yes:
 	$(PO4A_RM_V) cd $(srcdir) && \
-	po4a $(PO4A_CLEAN_OPTS) po/po4a.cfg
+	$(PO4A) $(PO4A_CLEAN_OPTS) po/po4a.cfg
 	$(AM_V_at) rm -f man.stamp
 
 update-po:
 	$(PO4A_V) cd $(srcdir) && \
-	po4a $(PO4A_BUILD_OPTS) --force po/po4a.cfg
+	$(PO4A) $(PO4A_BUILD_OPTS) --force po/po4a.cfg
 
 # Extract the list of languages from the po4a config file.
 LINGUAS = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
 
-install-data-local: install-data-local-@USE_NLS@
+install-data-local: install-data-local-@USE_PO4A@
 
 install-data-local-no:
 install-data-local-yes:
@@ -55,7 +55,7 @@ install-data-local-yes:
 			dist_man_MANS="$$files"; \
 	done
 
-uninstall-local: uninstall-local-@USE_NLS@
+uninstall-local: uninstall-local-@USE_PO4A@
 
 uninstall-local-no:
 uninstall-local-yes:
