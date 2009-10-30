@@ -61,8 +61,9 @@ fi
 # DPKG_LIB_SELINUX
 # ----------------
 # Check for selinux library.
-AC_DEFUN([DPKG_LIB_SELINUX],
-[AC_ARG_VAR([SELINUX_LIBS], [linker flags for selinux library])dnl
+AC_DEFUN([DPKG_LIB_SELINUX], [
+AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+AC_ARG_VAR([SELINUX_LIBS], [linker flags for selinux library])dnl
 AC_ARG_WITH(selinux,
 	AS_HELP_STRING([--with-selinux],
 		       [use selinux library to set security contexts]))
@@ -70,19 +71,19 @@ if test "x$with_selinux" != "xno"; then
 	AC_CHECK_LIB([selinux], [is_selinux_enabled],
 		[AC_DEFINE(WITH_SELINUX, 1,
 			[Define to 1 to compile in SELinux support])
-		 if test $(pkg-config --exists libselinux); then
+		PKG_CHECK_EXISTS([libselinux], [
 			if test "x$with_selinux" = "xstatic"; then
-				dpkg_selinux_libs="-Wl,-Bstatic "$(pkg-config --static --libs libselinux)" -Wl,-Bdynamic"
+				dpkg_selinux_libs="-Wl,-Bstatic "$($PKG_CONFIG --static --libs libselinux)" -Wl,-Bdynamic"
 			else
-				dpkg_selinux_libs=$(pkg-config --libs libselinux)
+				dpkg_selinux_libs=$($PKG_CONFIG --libs libselinux)
 			fi
-		 else
+		], [
 			if test "x$with_selinux" = "xstatic"; then
 				dpkg_selinux_libs="-Wl,-Bstatic -lselinux -lsepol -Wl,-Bdynamic"
 			else
 				dpkg_selinux_libs="-lselinux"
 			fi
-		 fi
+		])
 		 SELINUX_LIBS="${SELINUX_LIBS:+$SELINUX_LIBS }$dpkg_selinux_libs"
 		 with_selinux="yes"],
 		[if test -n "$with_selinux"; then
