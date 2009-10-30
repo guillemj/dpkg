@@ -273,6 +273,30 @@ sub get_timestamp {
     return undef;
 }
 
+=item my $str = $entry->get_dpkg_changes()
+
+Returns a string that is suitable for usage in a C<Changes> field
+in the output format of C<dpkg-parsechangelog>.
+
+=cut
+
+sub get_dpkg_changes {
+    my ($self) = @_;
+    my $header = $self->get_part("header") || "";
+    $header =~ s/\s+$//;
+    my $changes = "\n $header\n .\n";
+    foreach my $line (@{$self->get_part("changes")}) {
+        $line =~ s/\s+$//;
+        if ($line eq "") {
+            $changes .= " .\n";
+        } else {
+            $changes .= " $line\n";
+        }
+    }
+    chomp $changes;
+    return $changes;
+}
+
 =back
 
 =head1 AUTHOR
