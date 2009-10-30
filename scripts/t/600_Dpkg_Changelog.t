@@ -8,10 +8,10 @@ use File::Basename;
 BEGIN {
     my $no_examples = 4;
     my $no_err_examples = 1;
-    my $no_tests = $no_examples * 4
+    my $no_tests = $no_examples * 5
 	+ $no_err_examples * 2
 	+ 26 # countme
-	+  2 # fields
+	+ 13 # fields
 	+ 21;
 
     require Test::More;
@@ -32,23 +32,20 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
     $changes->load($file);
+
+    open(CLOG, "<", "$file") || die "Can't open $file\n";
+    my $content = join("", <CLOG>);
+    close(CLOG);
+    cmp_ok($content, 'eq', "$changes", "string output of Dpkg::Changelog on $file");
+
     my $errors = $changes->get_parse_errors();
     my $basename = basename( $file );
-
-#    use Data::Dumper;
-#    diag(Dumper($changes));
-
     is($errors, '', "Parse example changelog $file without errors" );
 
     my @data = @$changes;
+    ok(@data, "data is not empty");
 
-    ok( @data, "data is not empty" );
-
-    my $str = $changes->dpkg();
-
-#    is( $str, `dpkg-parsechangelog -l$file`,
-#	'Output of dpkg_str equal to output of dpkg-parsechangelog' );
-
+    my $str;
     if ($file eq "$srcdir/countme") {
 	# test range options
 	cmp_ok( @data, '==', 7, "no options -> count" );
@@ -172,17 +169,25 @@ Changes:
  .
    * Upload to stable (Closes: #1111111, #2222222)
  .
- fields (2.0-1) unstable; urgency=medium
+ fields (2.0-1) unstable  frozen; urgency=medium
  .
+   [ Frank Lichtenheld ]
    * Upload to unstable (Closes: #1111111, #2222222)
+ .
+   [ Raphael Hertzog ]
+   * New upstream release.
+     - implements a
+     - implements b
+   * Update S-V.
  .
  fields (2.0~b1-1) unstable; urgency=low,xc-userfield=foobar
  .
    * Beta
  .
- fields (1.0) experimental; urgency=high
+ fields (1.0) experimental; urgency=high,xb-userfield2=foobar
  .
    * First upload (Closes: #1000000)
+Xb-Userfield2: foobar
 Xc-Userfield: foobar
 ';
 	cmp_ok($str,'eq',$expected,"fields handling");
@@ -190,15 +195,22 @@ Xc-Userfield: foobar
 	$str = $changes->dpkg({ offset => 1, count => 2 });
 	$expected = 'Source: fields
 Version: 2.0-1
-Distribution: unstable
+Distribution: unstable frozen
 Urgency: medium
 Maintainer: Frank Lichtenheld <djpig@debian.org>
 Date: Sun, 12 Jan 2008 15:49:19 +0100
 Closes: 1111111 2222222
 Changes: 
- fields (2.0-1) unstable; urgency=medium
+ fields (2.0-1) unstable  frozen; urgency=medium
  .
+   [ Frank Lichtenheld ]
    * Upload to unstable (Closes: #1111111, #2222222)
+ .
+   [ Raphael Hertzog ]
+   * New upstream release.
+     - implements a
+     - implements b
+   * Update S-V.
  .
  fields (2.0~b1-1) unstable; urgency=low,xc-userfield=foobar
  .
@@ -207,14 +219,56 @@ Xc-Userfield: foobar
 ';
 	cmp_ok($str,'eq',$expected,"fields handling 2");
 
-    }
+	$str = $changes->rfc822({ offset => 2, count => 2 });
+	$expected = 'Source: fields
+Version: 2.0~b1-1
+Distribution: unstable
+Urgency: low
+Maintainer: Frank Lichtenheld <frank@lichtenheld.de>
+Date: Sun, 11 Jan 2008 15:49:19 +0100
+Changes: 
+ fields (2.0~b1-1) unstable; urgency=low,xc-userfield=foobar
+ .
+   * Beta
+Xc-Userfield: foobar
 
-#     if ($file eq 'Changes') {
-# 	my $v = $data[0]->Version;
-# 	$v =~ s/[a-z]$//;
-# 	cmp_ok( $v, 'eq', $Parse::DebianChangelog::VERSION,
-# 		'version numbers in module and Changes match' );
-#     }
+Source: fields
+Version: 1.0
+Distribution: experimental
+Urgency: high
+Maintainer: Frank Lichtenheld <djpig@debian.org>
+Date: Sun, 10 Jan 2008 15:49:19 +0100
+Closes: 1000000
+Changes: 
+ fields (1.0) experimental; urgency=high,xb-userfield2=foobar
+ .
+   * First upload (Closes: #1000000)
+Xb-Userfield2: foobar
+
+';
+	cmp_ok($str, 'eq', $expected, "fields handling 3");
+
+	# Test Dpkg::Changelog::Entry methods
+	is($data[1]->get_version(), "2.0-1", "get_version");
+	is($data[1]->get_source(), "fields", "get_source");
+	is(scalar $data[1]->get_distributions(), "unstable", "get_distribution");
+	is(join("|", $data[1]->get_distributions()), "unstable|frozen",
+	    "get_distributions");
+	is($data[3]->get_optional_fields(),
+	    "Urgency: high\nCloses: 1000000\nXb-Userfield2: foobar\n",
+	    "get_optional_fields");
+	is($data[1]->get_maintainer(), 'Frank Lichtenheld <djpig@debian.org>',
+	    "get_maintainer");
+	is($data[1]->get_timestamp(), 'Sun, 12 Jan 2008 15:49:19 +0100',
+	    "get_timestamp");
+	my @items = $data[1]->get_change_items();
+	is($items[0], "  [ Frank Lichtenheld ]\n", "change items 1");
+	is($items[3], "  * New upstream release.
+    - implements a
+    - implements b
+", "change items 2");
+	is($items[4], "  * Update S-V.\n", "change items 3");
+    }
 
     SKIP: {
 	skip("avoid spurious warning with only one entry", 2)
