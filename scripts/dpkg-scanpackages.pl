@@ -28,7 +28,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Control;
 use Dpkg::Version;
 use Dpkg::Checksums;
-use Dpkg::Source::CompressedFile;
+use Dpkg::Compression::CompressedFile;
 use Dpkg::IPC;
 
 textdomain("dpkg-dev");
@@ -87,7 +87,7 @@ sub set_type_udeb()
 sub load_override
 {
     my $override = shift;
-    my $comp_file = Dpkg::Source::CompressedFile->new(filename => $override);
+    my $comp_file = Dpkg::Compression::CompressedFile->new(filename => $override);
     my $override_fh = $comp_file->open_for_read();
 
     while (<$override_fh>) {
@@ -135,7 +135,7 @@ sub load_override
 sub load_override_extra
 {
     my $extra_override = shift;
-    my $comp_file = Dpkg::Source::CompressedFile->new(filename => $extra_override);
+    my $comp_file = Dpkg::Compression::CompressedFile->new(filename => $extra_override);
     my $override_fh = $comp_file->open_for_read();
 
     while (<$override_fh>) {
