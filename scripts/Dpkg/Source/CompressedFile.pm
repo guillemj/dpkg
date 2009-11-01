@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use Dpkg::Compression;
-use Dpkg::Source::Compressor;
+use Dpkg::Compression::Compressor;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use POSIX;
@@ -32,7 +32,7 @@ sub new {
 	"compression" => "auto"
     };
     bless $self, $class;
-    $self->{"compressor"} = Dpkg::Source::Compressor->new();
+    $self->{"compressor"} = Dpkg::Compression::Compressor->new();
     $self->{"add_comp_ext"} = $args{"add_compression_extension"} ||
 	    $args{"add_comp_ext"} || 0;
     $self->{"allow_sigpipe"} = 0;

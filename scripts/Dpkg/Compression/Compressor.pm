@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package Dpkg::Source::Compressor;
+package Dpkg::Compression::Compressor;
 
 use strict;
 use warnings;
@@ -87,7 +87,7 @@ sub get_uncompress_cmdline {
 sub _sanity_check {
     my ($self, %opts) = @_;
     # Check for proper cleaning before new start
-    error(_g("Dpkg::Source::Compressor can only start one subprocess at a time"))
+    error(_g("Dpkg::Compression::Compressor can only start one subprocess at a time"))
 	    if $self->{"pid"};
     # Check options
     my $to = my $from = 0;

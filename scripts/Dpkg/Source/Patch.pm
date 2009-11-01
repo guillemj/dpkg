@@ -20,7 +20,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Source::CompressedFile;
-use Dpkg::Source::Compressor;
+use Dpkg::Compression::Compressor;
 use Dpkg::Compression;
 use Dpkg::Gettext;
 use Dpkg::IPC;

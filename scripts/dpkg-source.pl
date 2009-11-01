@@ -42,7 +42,7 @@ use Dpkg::Substvars;
 use Dpkg::Version;
 use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
-use Dpkg::Source::Compressor;
+use Dpkg::Compression::Compressor;
 use Dpkg::Source::Package;
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -58,9 +58,9 @@ my $changelogformat;
 my @build_formats = ("1.0", "3.0 (quilt)", "3.0 (native)");
 my %options = (
     # Compression related
-    compression => $Dpkg::Source::Compressor::default_compression,
-    comp_level => $Dpkg::Source::Compressor::default_compression_level,
-    comp_ext => $comp_ext{$Dpkg::Source::Compressor::default_compression},
+    compression => $Dpkg::Compression::Compressor::default_compression,
+    comp_level => $Dpkg::Compression::Compressor::default_compression_level,
+    comp_ext => $comp_ext{$Dpkg::Compression::Compressor::default_compression},
     # Ignore files
     tar_ignore => [],
     diff_ignore_regexp => '',
@@ -129,13 +129,13 @@ while (@options) {
 	$options{'comp_ext'} = $comp_ext{$compression};
 	usageerr(_g("%s is not a supported compression"), $compression)
 	    unless $comp_supported{$compression};
-	Dpkg::Source::Compressor->set_default_compression($compression);
+	Dpkg::Compression::Compressor->set_default_compression($compression);
     } elsif (m/^-(?:z|-compression-level=)(.*)$/) {
 	my $comp_level = $1;
 	$options{'comp_level'} = $comp_level;
 	usageerr(_g("%s is not a compression level"), $comp_level)
 	    unless $comp_level =~ /^([1-9]|fast|best)$/;
-	Dpkg::Source::Compressor->set_default_compression_level($comp_level);
+	Dpkg::Compression::Compressor->set_default_compression_level($comp_level);
     } elsif (m/^-c(.*)$/) {
         $controlfile = $1;
     } elsif (m/^-l(.*)$/) {
@@ -449,7 +449,7 @@ See dpkg-source(1) for more info.") . "\n",
     $progname,
     $Dpkg::Source::Package::diff_ignore_default_regexp,
     join(' ', map { "-I$_" } @Dpkg::Source::Package::tar_ignore_default_pattern),
-    $Dpkg::Source::Compressor::default_compression, "@comp_supported",
-    $Dpkg::Source::Compressor::default_compression_level;
+    $Dpkg::Compression::Compressor::default_compression, "@comp_supported",
+    $Dpkg::Compression::Compressor::default_compression_level;
 }
 
