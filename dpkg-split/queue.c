@@ -92,6 +92,7 @@ void scandepot(void) {
     pq->nextinqueue= queue;
     queue= pq;
   }
+  closedir(depot);
 }
 
 static int partmatches(struct partinfo *pi, struct partinfo *refi) {
