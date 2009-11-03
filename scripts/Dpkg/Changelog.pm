@@ -333,9 +333,13 @@ sub get_range {
     my ($self, $range) = @_;
     $range = {} unless defined $range;
     my $res = $self->_data_range($range);
-    return undef unless defined $res;
-    return @$res if wantarray;
-    return $res;
+    if (defined $res) {
+	return @$res if wantarray;
+	return $res;
+    } else {
+	return () if wantarray;
+	return undef;
+    }
 }
 
 sub _data_range {

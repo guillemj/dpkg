@@ -124,8 +124,10 @@ if ($file eq '-') {
 	or error(_g('fatal error occured while parsing %s'), $file);
 }
 
-
-eval("print \$changes->${format}(\$range)");
+eval qq{
+    my \$output = \$changes->$format(\$range);
+    print \$output if defined \$output;
+};
 if ($@) {
     error("%s", $@);
 }
