@@ -148,6 +148,9 @@ dpkg (1.15.6) UNRELEASED; urgency=low
   * Switch SE Linux support to explicitly set path context. This fixes the
     mislabeling of files under <admindir> on conffile extraction or on unpack
     errors, due to improper default context restoration. Closes: #498438
+  * Use FIEMAP when available (on Linux based systems) to sort the .list
+    files loading order. With a cold cache it improves up to a 70%.
+    Thanks to Morten Hustveit <morten@debian.org>.
 
   [ Modestas Vainius ]
   * Implement symbol patterns (Closes: #563752). From now on, it is possible to

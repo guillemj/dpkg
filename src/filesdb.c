@@ -22,6 +22,11 @@
 #include <config.h>
 #include <compat.h>
 
+#ifdef HAVE_LINUX_FIEMAP_H
+#include <linux/fiemap.h>
+#include <linux/fs.h>
+#include <sys/ioctl.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -39,6 +44,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
 #include <dpkg/buffer.h>
+#include <dpkg/pkg-array.h>
 #include <dpkg/progress.h>
 
 #include "filesdb.h"
@@ -59,6 +65,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
   pkg->clientdata->color = white;
   pkg->clientdata->fileslistvalid = 0;
   pkg->clientdata->files = NULL;
+  pkg->clientdata->listfile_phys_offs = 0;
   pkg->clientdata->trigprocdeferred = NULL;
 }
 
@@ -254,10 +261,81 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   pkg->clientdata->fileslistvalid= 1;
 }
 
+#if defined(HAVE_LINUX_FIEMAP_H)
+static int
+pkg_sorter_by_listfile_phys_offs(const void *a, const void *b)
+{
+  const struct pkginfo *pa = *(const struct pkginfo **)a;
+  const struct pkginfo *pb = *(const struct pkginfo **)b;
+
+  /* We can't simply subtract, because the difference may be greater than
+   * INT_MAX. */
+  if (pa->clientdata->listfile_phys_offs < pb->clientdata->listfile_phys_offs)
+    return -1;
+  else
+    return 1;
+}
+
+static void
+pkg_files_optimize_load(struct pkg_array *array)
+{
+  int i;
+  int blocksize = 0;
+
+  /* Sort packages by the physical location of their list files, so that
+   * scanning them later will minimize disk drive head movements. */
+  for (i = 0; i < array->n_pkgs; i++) {
+    struct pkginfo *pkg = array->pkgs[i];
+    struct {
+      struct fiemap fiemap;
+      struct fiemap_extent extent;
+    } fm;
+    const char *listfile;
+    int fd;
+
+    ensure_package_clientdata(pkg);
+
+    if (pkg->status == stat_notinstalled ||
+        pkg->clientdata->listfile_phys_offs != 0)
+      continue;
+
+    pkg->clientdata->listfile_phys_offs = -1;
+
+    listfile = pkgadminfile(pkg, LISTFILE);
+
+    fd = open(listfile, O_RDONLY);
+    if (fd < 0)
+      continue;
+
+    if (!blocksize && ioctl(fd, FIGETBSZ, &blocksize) < 0)
+      break;
+
+    memset(&fm, 0, sizeof(fm));
+    fm.fiemap.fm_start = 0;
+    fm.fiemap.fm_length = blocksize;
+    fm.fiemap.fm_flags = 0;
+    fm.fiemap.fm_extent_count = 1;
+
+    if (ioctl(fd, FS_IOC_FIEMAP, (unsigned long)&fm) == 0)
+      pkg->clientdata->listfile_phys_offs = fm.fiemap.fm_extents[0].fe_physical;
+
+    close(fd);
+  }
+
+  pkg_array_sort(array, pkg_sorter_by_listfile_phys_offs);
+}
+#else
+static void
+pkg_files_optimize_load(struct pkg_array *array)
+{
+}
+#endif
+
 void ensure_allinstfiles_available(void) {
-  struct pkgiterator *it;
+  struct pkg_array array;
   struct pkginfo *pkg;
   struct progress progress;
+  int i;
 
   if (allpackagesdone) return;
   if (saidread<2) {
@@ -267,14 +345,20 @@ void ensure_allinstfiles_available(void) {
     progress_init(&progress, _("(Reading database ... "), max);
   }
 
-  it= iterpkgstart();
-  while ((pkg = iterpkgnext(it)) != NULL) {
+  pkg_array_init_from_db(&array);
+
+  pkg_files_optimize_load(&array);
+
+  for (i = 0; i < array.n_pkgs; i++) {
+    pkg = array.pkgs[i];
     ensure_packagefiles_available(pkg);
 
     if (saidread == 1)
       progress_step(&progress);
   }
-  iterpkgend(it);
+
+  pkg_array_destroy(&array);
+
   allpackagesdone= 1;
 
   if (saidread==1) {
