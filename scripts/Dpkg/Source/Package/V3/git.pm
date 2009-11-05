@@ -145,7 +145,7 @@ sub do_build {
     my $core_excludesfile = `git config --get core.excludesfile`;
     chomp $core_excludesfile;
     if (length $core_excludesfile && -e $core_excludesfile) {
-	push @ignores, "--exclude-from='$core_excludesfile'";
+	push @ignores, "--exclude-from=$core_excludesfile";
     }
     if (-e ".git/info/exclude") {
 	push @ignores, "--exclude-from=.git/info/exclude";
