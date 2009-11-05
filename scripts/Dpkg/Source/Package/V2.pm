@@ -332,16 +332,17 @@ sub do_build {
         } @{$self->{'options'}{'tar_ignore'}}) . "}";
     my $filter_ignore = sub {
         # Filter out files that are not going to be included in the debian
-        # tarball due to ignores. Note that the filter logic does not
-        # correspond 100% to the logic of tar --exclude as it doesn't
-        # handle matching files on their full path inside the tarball
+        # tarball due to ignores.
         my %exclude;
+        my $reldir = File::Spec->abs2rel($File::Find::dir, $dir);
         foreach my $fn (glob($tar_ignore_glob)) {
             $exclude{$fn} = 1;
         }
         my @result;
         foreach my $fn (@_) {
-            push @result, $fn unless exists $exclude{$fn};
+            unless (exists $exclude{$fn} or exists $exclude{"$reldir/$fn"}) {
+                push @result, $fn;
+            }
         }
         return @result;
     };
