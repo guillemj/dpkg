@@ -349,8 +349,8 @@ sub do_build {
         }
         return @result;
     };
-    find({ wanted => $check_binary, preprocess => $filter_ignore },
-         File::Spec->catdir($dir, "debian"));
+    find({ wanted => $check_binary, preprocess => $filter_ignore,
+           no_chdir => 1 }, File::Spec->catdir($dir, "debian"));
     error(_g("detected %d unwanted binary file(s) " .
         "(add them in debian/source/include-binaries to allow their " .
         "inclusion)."), $unwanted_binaries) if $unwanted_binaries;
