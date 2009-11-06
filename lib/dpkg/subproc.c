@@ -80,7 +80,7 @@ subproc_check(int status, const char *desc, int flags)
 		if (!n)
 			return 0;
 		if (flags & PROCNOERR)
-			return -1;
+			return n;
 		if (flags & PROCWARN)
 			warning(_("%s returned error exit status %d"),
 			        desc, n);
