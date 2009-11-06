@@ -5,7 +5,6 @@ use warnings;
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
-use English;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Checksums;
@@ -144,32 +143,32 @@ while (@ARGV) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
         $quiet= 1;
-    } elsif (m/^-c/) {
-	$controlfile= $POSTMATCH;
-    } elsif (m/^-l/) {
-	$changelogfile= $POSTMATCH;
-    } elsif (m/^-C/) {
-	$changesdescription= $POSTMATCH;
-    } elsif (m/^-f/) {
-	$fileslistfile= $POSTMATCH;
-    } elsif (m/^-v/) {
-	$since= $POSTMATCH;
-    } elsif (m/^-T/) {
-	$varlistfile= $POSTMATCH;
-    } elsif (m/^-m/) {
-	$forcemaint= $POSTMATCH;
-    } elsif (m/^-e/) {
-	$forcechangedby= $POSTMATCH;
+    } elsif (m/^-c(.*)$/) {
+	$controlfile = $1;
+    } elsif (m/^-l(.*)$/) {
+	$changelogfile = $1;
+    } elsif (m/^-C(.*)$/) {
+	$changesdescription = $1;
+    } elsif (m/^-f(.*)$/) {
+	$fileslistfile = $1;
+    } elsif (m/^-v(.*)$/) {
+	$since = $1;
+    } elsif (m/^-T(.*)$/) {
+	$varlistfile = $1;
+    } elsif (m/^-m(.*)$/) {
+	$forcemaint = $1;
+    } elsif (m/^-e(.*)$/) {
+	$forcechangedby = $1;
     } elsif (m/^-F([0-9a-z]+)$/) {
-        $changelogformat=$1;
-    } elsif (m/^-D([^\=:]+)[=:]/) {
-	$override{$1}= $POSTMATCH;
-    } elsif (m/^-u/) {
-	$uploadfilesdir= $POSTMATCH;
+        $changelogformat = $1;
+    } elsif (m/^-D([^\=:]+)[=:](.*)$/) {
+	$override{$1} = $2;
+    } elsif (m/^-u(.*)$/) {
+	$uploadfilesdir = $1;
     } elsif (m/^-U([^\=:]+)$/) {
-        $remove{$1}= 1;
-    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-	$substvars->set($1, $POSTMATCH);
+        $remove{$1} = 1;
+    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/) {
+	$substvars->set($1, $2);
     } elsif (m/^-(h|-help)$/) {
 	usage();
 	exit(0);
@@ -214,7 +213,7 @@ if (not is_sourceonly) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
 		warning(_g("duplicate files list entry for package %s (line %d)"),
-			$2, $NR);
+			$2, $.);
 	    $f2p{$1}= $2;
 	    $pa2f{"$2 $4"}= $1;
 	    $p2f{$2} ||= [];
@@ -222,7 +221,7 @@ if (not is_sourceonly) {
 	    $p2ver{$2}= $3;
 	    defined($f2sec{$1}) &&
 		warning(_g("duplicate files list entry for file %s (line %d)"),
-			$1, $NR);
+			$1, $.);
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
 	    push(@archvalues,$4) unless !$4 || $archadded{$4}++;
@@ -236,12 +235,12 @@ if (not is_sourceonly) {
 	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
 	    defined($f2sec{$1}) &&
 		warning(_g("duplicate files list entry for file %s (line %d)"),
-			$1, $NR);
+			$1, $.);
 	    $f2sec{$1}= $2;
 	    $f2pri{$1}= $3;
 	    push(@fileslistfiles,$1);
 	} else {
-	    error(_g("badly formed line in files list file, line %d"), $NR);
+	    error(_g("badly formed line in files list file, line %d"), $.);
 	}
     }
     close(FL);

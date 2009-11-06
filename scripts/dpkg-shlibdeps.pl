@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use English;
 use POSIX qw(:errno_h :signal_h);
 use Cwd qw(realpath);
 use File::Basename qw(dirname);

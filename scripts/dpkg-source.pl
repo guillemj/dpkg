@@ -20,7 +20,6 @@ use Dpkg::Source::Compressor;
 use Dpkg::Source::Package;
 use Dpkg::Vendor qw(run_vendor_hook);
 
-use English;
 use File::Spec;
 
 textdomain("dpkg-dev");
@@ -62,27 +61,27 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('extract');
     } elsif (m/^--format=(.*)$/) {
         push @cmdline_formats, $1;
-    } elsif (m/^-Z/) {
-	my $compression = $POSTMATCH;
+    } elsif (m/^-Z(.*)$/) {
+	my $compression = $1;
 	$options{'compression'} = $compression;
 	$options{'comp_ext'} = $comp_ext{$compression};
 	usageerr(_g("%s is not a supported compression"), $compression)
 	    unless $comp_supported{$compression};
 	Dpkg::Source::Compressor->set_default_compression($compression);
-    } elsif (m/^-z/) {
-	my $comp_level = $POSTMATCH;
+    } elsif (m/^-z(.*)$/) {
+	my $comp_level = $1;
 	$options{'comp_level'} = $comp_level;
 	usageerr(_g("%s is not a compression level"), $comp_level)
 	    unless $comp_level =~ /^([1-9]|fast|best)$/;
 	Dpkg::Source::Compressor->set_default_compression_level($comp_level);
-    } elsif (m/^-c/) {
-        $controlfile = $POSTMATCH;
-    } elsif (m/^-l/) {
-        $changelogfile = $POSTMATCH;
+    } elsif (m/^-c(.*)$/) {
+        $controlfile = $1;
+    } elsif (m/^-l(.*)$/) {
+        $changelogfile = $1;
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat = $1;
-    } elsif (m/^-D([^\=:]+)[=:]/) {
-        $override{$1} = $POSTMATCH;
+    } elsif (m/^-D([^\=:]+)[=:](.*)$/) {
+        $override{$1} = $2;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
     } elsif (m/^-i(.*)$/) {
@@ -101,10 +100,10 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $options{'no_check'} = 1;
     } elsif (m/^--require-valid-signature$/) {
         $options{'require_valid_signature'} = 1;
-    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvars->set($1, $POSTMATCH);
-    } elsif (m/^-T/) {
-        $varlistfile = $POSTMATCH;
+    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/) {
+        $substvars->set($1, $2);
+    } elsif (m/^-T(.*)$/) {
+        $varlistfile = $1;
     } elsif (m/^-(h|-help)$/) {
         usage();
         exit(0);

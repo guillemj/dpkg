@@ -25,7 +25,6 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use POSIX qw(:errno_h);
-use English;
 
 my $maxsubsts = 50;
 
@@ -138,10 +137,10 @@ sub parse {
 	while (<SV>) {
 	    next if m/^\s*\#/ || !m/\S/;
 	    s/\s*\n$//;
-	    m/^(\w[-:0-9A-Za-z]*)\=/ ||
+	    m/^(\w[-:0-9A-Za-z]*)\=(.*)$/ ||
 		error(_g("bad line in substvars file %s at line %d"),
 		      $varlistfile, $.);
-	    $self->{'vars'}{$1} = $';
+	    $self->{'vars'}{$1} = $2;
 	}
 	close(SV);
     } elsif ($! != ENOENT) {
@@ -201,14 +200,14 @@ sub substvars {
     my $rhs = '';
     my $count = 0;
 
-    while ($v =~ m/\$\{([-:0-9a-z]+)\}/i) {
+    while ($v =~ m/^(.*?)\$\{([-:0-9a-z]+)\}(.*)$/si) {
         # If we have consumed more from the leftover data, then
         # reset the recursive counter.
-        $count = 0 if (length($POSTMATCH) < length($rhs));
+        $count = 0 if (length($3) < length($rhs));
 
         $count < $maxsubsts ||
             error(_g("too many substitutions - recursive ? - in \`%s'"), $v);
-        $lhs = $PREMATCH; $vn = $1; $rhs = $POSTMATCH;
+        $lhs = $1; $vn = $2; $rhs = $3;
         if (defined($self->{'vars'}{$vn})) {
             $v = $lhs . $self->{'vars'}{$vn} . $rhs;
 	    $self->no_warn($vn);
