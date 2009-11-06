@@ -82,7 +82,7 @@ static void info_prepare(const char *const **argvp,
     execlp(RM, "rm", "-rf", dbuf, NULL);
     ohshite(_("failed to exec rm -rf"));
   }
-  waitsubproc(c1,"rm -rf",0);
+  subproc_wait_check(c1, "rm -rf", 0);
   push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
   extracthalf(*debarp, dbuf, "mx", admininfo);
 }

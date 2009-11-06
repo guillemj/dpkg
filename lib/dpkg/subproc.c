@@ -38,7 +38,7 @@ static int catch_signals[] = { SIGQUIT, SIGINT };
 static struct sigaction uncatch_signals[sizeof_array(catch_signals)];
 
 void
-setup_subproc_signals(const char *name)
+subproc_signals_setup(const char *name)
 {
 	size_t i;
 	struct sigaction catchsig;
@@ -52,12 +52,12 @@ setup_subproc_signals(const char *name)
 		if (sigaction(catch_signals[i], &catchsig, &uncatch_signals[i]))
 			ohshite(_("unable to ignore signal %s before running %.250s"),
 			        strsignal(catch_signals[i]), name);
-	push_cleanup(cu_subproc_signals, ~0, NULL, 0, 0);
+	push_cleanup(subproc_signals_cleanup, ~0, NULL, 0, 0);
 	onerr_abort--;
 }
 
 void
-cu_subproc_signals(int argc, void **argv)
+subproc_signals_cleanup(int argc, void **argv)
 {
 	size_t i;
 
@@ -71,7 +71,7 @@ cu_subproc_signals(int argc, void **argv)
 }
 
 int
-checksubprocerr(int status, const char *description, int flags)
+subproc_check(int status, const char *description, int flags)
 {
 	int n;
 
@@ -110,7 +110,7 @@ checksubprocerr(int status, const char *description, int flags)
 }
 
 int
-waitsubproc(pid_t pid, const char *description, int flags)
+subproc_wait_check(pid_t pid, const char *description, int flags)
 {
 	pid_t r;
 	int status;
@@ -122,6 +122,6 @@ waitsubproc(pid_t pid, const char *description, int flags)
 		ohshite(_("wait for %s failed"), description);
 	}
 
-	return checksubprocerr(status, description, flags);
+	return subproc_check(status, description, flags);
 }
 

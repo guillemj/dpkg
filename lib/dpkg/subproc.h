@@ -28,15 +28,15 @@
 
 DPKG_BEGIN_DECLS
 
-void setup_subproc_signals(const char *name);
-void cu_subproc_signals(int argc, void **argv);
+void subproc_signals_setup(const char *name);
+void subproc_signals_cleanup(int argc, void **argv);
 
 #define PROCPIPE 1
 #define PROCWARN 2
 #define PROCNOERR 4
 
-int checksubprocerr(int status, const char *desc, int flags);
-int waitsubproc(pid_t pid, const char *desc, int flags);
+int subproc_check(int status, const char *desc, int flags);
+int subproc_wait_check(pid_t pid, const char *desc, int flags);
 
 DPKG_END_DECLS
 

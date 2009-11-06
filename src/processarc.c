@@ -143,7 +143,7 @@ void process_archive(const char *filename) {
       /* No, it wasn't a part. */
       break;
     default:
-      checksubprocerr(status,SPLITTER,0);
+      subproc_check(status, SPLITTER, 0);
     }
   }
   
@@ -199,7 +199,7 @@ void process_archive(const char *filename) {
     execlp(BACKEND, BACKEND, "--control", filename, cidir, NULL);
     ohshite(_("failed to exec dpkg-deb to extract control information"));
   }
-  waitsubproc(c1,BACKEND " --control",0);
+  subproc_wait_check(c1, BACKEND " --control", 0);
   strcpy(cidirrest,CONTROLFILE);
 
   parsedb(cidir, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles,
@@ -607,7 +607,7 @@ void process_archive(const char *filename) {
   fd_null_copy(p1[0], -1, _("dpkg-deb: zap possible trailing zeros"));
   close(p1[0]);
   p1[0] = -1;
-  waitsubproc(c1,BACKEND " --fsys-tarfile",PROCPIPE);
+  subproc_wait_check(c1, BACKEND " --fsys-tarfile", PROCPIPE);
 
   if (oldversionstatus == stat_halfinstalled || oldversionstatus == stat_unpacked) {
     /* Packages that were in `installed' and `postinstfailed' have been reduced

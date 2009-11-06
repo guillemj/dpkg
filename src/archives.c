@@ -1117,7 +1117,7 @@ void archivefiles(const char *const *argv) {
     }
     if (ferror(pf)) ohshite(_("error reading find's pipe"));
     if (fclose(pf)) ohshite(_("error closing find's pipe"));
-    r= waitsubproc(fc,"find",PROCNOERR);
+    r = subproc_wait_check(fc, "find", PROCNOERR);
     if(!(r==0 || r==1))
       ohshit(_("find for --recursive returned unhandled error %i"),r);
 

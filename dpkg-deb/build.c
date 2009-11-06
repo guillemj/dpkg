@@ -437,8 +437,8 @@ void do_build(const char *const *argv) {
     compress_cat(compress_type_gzip, 0, 1, "9", _("control"));
   }
   close(p1[0]);
-  waitsubproc(c2,"gzip -9c",0);
-  waitsubproc(c1,"tar -cf",0);
+  subproc_wait_check(c2, "gzip -9c", 0);
+  subproc_wait_check(c1, "tar -cf", 0);
   if (fstat(gzfd,&controlstab)) ohshite(_("failed to fstat tmpfile (control)"));
   /* We have our first file for the ar-archive. Write a header for it to the
    * package and insert it.
@@ -523,7 +523,7 @@ void do_build(const char *const *argv) {
 	ohshite(_("failed to write filename to tar pipe (data)"));
     }
   close(p3[0]);
-  waitsubproc(c3,"find",0);
+  subproc_wait_check(c3, "find", 0);
 
   for (fi= symlist;fi;fi= fi->next)
     if (write(p1[1], fi->fn, strlen(fi->fn)+1) == -1)
@@ -531,8 +531,8 @@ void do_build(const char *const *argv) {
   /* All done, clean up wait for tar and gzip to finish their job */
   close(p1[1]);
   free_filist(symlist);
-  waitsubproc(c2, _("<compress> from tar -cf"), 0);
-  waitsubproc(c1,"tar -cf",0);
+  subproc_wait_check(c2, _("<compress> from tar -cf"), 0);
+  subproc_wait_check(c1, "tar -cf", 0);
   /* Okay, we have data.tar.gz as well now, add it to the ar wrapper */
   if (!oldformatflag) {
     const char *datamember;

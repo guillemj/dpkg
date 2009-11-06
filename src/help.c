@@ -296,8 +296,8 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
     execv(scriptexec,(char * const *)narglist);
     ohshite(desc,name);
   }
-  setup_subproc_signals(name); /* This does a push_cleanup() */
-  r= waitsubproc(c1,name,warn);
+  subproc_signals_setup(name); /* This does a push_cleanup() */
+  r = subproc_wait_check(c1, name, warn);
   pop_cleanup(ehflag_normaltidy);
 
   pop_cleanup(ehflag_normaltidy);
@@ -595,7 +595,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
     ohshite(_("failed to exec rm for cleanup"));
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
-  waitsubproc(c1,"rm cleanup",0);
+  subproc_wait_check(c1, "rm cleanup", 0);
 }
 
 void log_action(const char *action, struct pkginfo *pkg) {

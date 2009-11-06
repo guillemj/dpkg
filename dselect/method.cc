@@ -143,10 +143,10 @@ urqresult falliblesubprocess(const char *exepath, const char *name,
   
   cursesoff();
 
-  setup_subproc_signals(name);
+  subproc_signals_setup(name);
 
   if (!(c1= m_fork())) {
-    cu_subproc_signals(0, 0);
+    subproc_signals_cleanup(0, 0);
     execvp(exepath,(char* const*) args);
     ohshite(_("unable to run %.250s process `%.250s'"),name,exepath);
   }
