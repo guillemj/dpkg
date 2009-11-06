@@ -307,7 +307,7 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
 
 static int
 vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
-                             const char *description, va_list ap)
+                             const char *desc, va_list ap)
 {
   const char *scriptpath;
   char *const *arglist;
@@ -316,7 +316,7 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
 
   scriptpath= pkgadminfile(pkg,scriptname);
   arglist= vbuildarglist(scriptname,ap);
-  sprintf(buf, _("installed %s script"), description);
+  sprintf(buf, _("installed %s script"), desc);
 
   if (stat(scriptpath,&stab)) {
     if (errno == ENOENT) {
@@ -335,13 +335,13 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
 /* All ...'s are const char*'s. */
 int
 maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
-                            const char *description, ...)
+                            const char *desc, ...)
 {
   int r;
   va_list ap;
 
-  va_start(ap, description);
-  r = vmaintainer_script_installed(pkg, scriptname, description, ap);
+  va_start(ap, desc);
+  r = vmaintainer_script_installed(pkg, scriptname, desc, ap);
   va_end(ap);
   if (r)
     post_script_tasks();
@@ -366,7 +366,7 @@ maintainer_script_postinst(struct pkginfo *pkg, ...)
 
 int
 maintainer_script_new(struct pkginfo *pkg,
-                      const char *scriptname, const char *description,
+                      const char *scriptname, const char *desc,
                       const char *cidir, char *cidirrest, ...)
 {
   char *const *arglist;
@@ -377,7 +377,7 @@ maintainer_script_new(struct pkginfo *pkg,
   va_start(ap,cidirrest);
   arglist= vbuildarglist(scriptname,ap);
   va_end(ap);
-  sprintf(buf, _("new %s script"), description);
+  sprintf(buf, _("new %s script"), desc);
 
   strcpy(cidirrest,scriptname);
   if (stat(cidir,&stab)) {
@@ -395,7 +395,7 @@ maintainer_script_new(struct pkginfo *pkg,
 }
 
 int maintainer_script_alternative(struct pkginfo *pkg,
-                                  const char *scriptname, const char *description,
+                                  const char *scriptname, const char *desc,
                                   const char *cidir, char *cidirrest,
                                   const char *ifok, const char *iffallback) {
   const char *oldscriptpath;
@@ -408,7 +408,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                         ifok,versiondescribe(&pkg->available.version,
                                              vdew_nonambig),
                         NULL);
-  sprintf(buf,_("old %s script"),description);
+  sprintf(buf, _("old %s script"), desc);
   if (stat(oldscriptpath,&stab)) {
     if (errno == ENOENT) {
       debug(dbg_scripts,"maintainer_script_alternative nonexistent %s `%s'",
@@ -431,7 +431,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                                                    vdew_nonambig),
                         NULL);
   strcpy(cidirrest,scriptname);
-  sprintf(buf,_("new %s script"),description);
+  sprintf(buf, _("new %s script"), desc);
 
   if (stat(cidir,&stab)) {
     if (errno == ENOENT)
