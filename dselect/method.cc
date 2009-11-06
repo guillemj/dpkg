@@ -138,7 +138,7 @@ static enum urqresult lockmethod(void) {
 
 urqresult falliblesubprocess(const char *exepath, const char *name,
                              const char *const *args) {
-  pid_t c1, cr;
+  pid_t c1;
   int status, i, c;
   
   cursesoff();
@@ -151,10 +151,7 @@ urqresult falliblesubprocess(const char *exepath, const char *name,
     ohshite(_("unable to run %.250s process `%.250s'"),name,exepath);
   }
 
-  while ((cr= waitpid(c1,&status,0)) == -1)
-    if (errno != EINTR) ohshite(_("unable to wait for %.250s"),name);
-  if (cr != c1)
-    ohshit(_("got wrong child's status - asked for %ld, got %ld"),(long)c1,(long)cr);
+  status = subproc_wait(c1, name);
 
   pop_cleanup(ehflag_normaltidy);
 

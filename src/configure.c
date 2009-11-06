@@ -46,6 +46,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/buffer.h>
 #include <dpkg/file.h>
+#include <dpkg/subproc.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -489,8 +490,6 @@ static void
 showdiff(const char *old, const char *new)
 {
 	int pid;
-	int r;
-	int status;
 
 	pid = m_fork();
 	if (!pid) {
@@ -514,13 +513,7 @@ showdiff(const char *old, const char *new)
 	}
 
 	/* Parent process. */
-	while (((r = waitpid(pid, &status, 0)) == -1) && (errno == EINTR))
-		;
-
-	if (r != pid) {
-		onerr_abort++;
-		ohshite(_("wait for shell failed"));
-	}
+	subproc_wait(pid, "shell");
 }
 
 /**
@@ -540,9 +533,6 @@ suspend(void)
 		/* Do not job control to suspend but fork and start a new
 		 * shell instead. */
 
-		int status;	/* waitpid status */
-		int r;		/* waitpid result */
-
 		fputs(_("Type `exit' when you're done.\n"), stderr);
 
 		pid = m_fork();
@@ -557,13 +547,7 @@ suspend(void)
 		}
 
 		/* Parent process. */
-		while (((r = waitpid(pid, &status, 0)) == -1) && (errno == EINTR))
-			;
-
-		if (r != pid) {
-			onerr_abort++;
-			ohshite(_("wait for shell failed"));
-		}
+		subproc_wait(pid, "shell");
 	} else {
 		fputs(_("Don't forget to foreground (`fg') this "
 		        "process when you're done !\n"), stderr);

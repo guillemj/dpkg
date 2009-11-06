@@ -127,8 +127,7 @@ void process_archive(const char *filename) {
       execlp(SPLITTER, SPLITTER, "-Qao", reasmbuf, filename, NULL);
       ohshite(_("failed to exec dpkg-split to see if it's part of a multiparter"));
     }
-    while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);
-    if (r != c1) { onerr_abort++; ohshite(_("wait for dpkg-split failed")); }
+    status = subproc_wait(c1, SPLITTER);
     switch (WIFEXITED(status) ? WEXITSTATUS(status) : -1) {
     case 0:
       /* It was a part - is it complete ? */
@@ -157,7 +156,8 @@ void process_archive(const char *filename) {
       ohshite(_("failed to execl debsig-verify"));
     } else {
       int status;
-      waitpid(c1, &status, 0);
+
+      status = subproc_wait(c1, "debsig-verify");
       if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
 	if (! fc_badverify) {
 	  ohshit(_("Verification on package %s failed!"), filename);
