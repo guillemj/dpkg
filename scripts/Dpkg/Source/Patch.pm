@@ -32,6 +32,7 @@ use File::Find;
 use File::Basename;
 use File::Spec;
 use File::Path;
+use File::Compare;
 use Fcntl ':mode';
 #XXX: Needed for sub-second timestamps, require recent perl
 #use Time::HiRes qw(stat);
@@ -63,6 +64,8 @@ sub add_diff_file {
         my ($self, $old, $new) = @_;
         $self->_fail_with_msg($new, _g("binary file contents changed"));
     };
+    # Optimization to avoid forking diff if unnecessary
+    return 1 if compare($old, $new, 4096) == 0;
     # Default diff options
     my @options;
     if ($opts{"options"}) {
