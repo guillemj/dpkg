@@ -388,7 +388,7 @@ sub TIEHASH  {
 
 sub FETCH {
     my ($self, $key) = @_;
-    $key = field_capitalize($key);
+    $key = lc($key);
     return $self->[0]->{$key} if exists $self->[0]->{$key};
     return undef;
 }
@@ -407,16 +407,16 @@ sub STORE {
         internerr("field %s has trailing newline >%s<", $key, $value);
     }
     # Store it
-    $key = field_capitalize($key);
+    $key = lc($key);
     if (not exists $self->[0]->{$key}) {
-	push @{$$parent->{'in_order'}}, $key;
+	push @{$$parent->{'in_order'}}, field_capitalize($key);
     }
     $self->[0]->{$key} = $value;
 }
 
 sub EXISTS {
     my ($self, $key) = @_;
-    $key = field_capitalize($key);
+    $key = lc($key);
     return exists $self->[0]->{$key};
 }
 
@@ -424,10 +424,10 @@ sub DELETE {
     my ($self, $key) = @_;
     my $parent = $self->[1];
     my $in_order = $$parent->{'in_order'};
-    $key = field_capitalize($key);
+    $key = lc($key);
     if (exists $self->[0]->{$key}) {
 	delete $self->[0]->{$key};
-	@{$in_order} = grep { $_ ne $key } @{$in_order};
+	@$in_order = grep { lc($_) ne $key } @$in_order;
 	return 1;
     } else {
 	return 0;
@@ -438,7 +438,7 @@ sub FIRSTKEY {
     my $self = shift;
     my $parent = $self->[1];
     foreach (@{$$parent->{'in_order'}}) {
-	return $_ if exists $self->[0]->{$_};
+	return $_ if exists $self->[0]->{lc($_)};
     }
 }
 
@@ -448,7 +448,7 @@ sub NEXTKEY {
     my $found = 0;
     foreach (@{$$parent->{'in_order'}}) {
 	if ($found) {
-	    return $_ if exists $self->[0]->{$_};
+	    return $_ if exists $self->[0]->{lc($_)};
 	} else {
 	    $found = 1 if $_ eq $last;
 	}
