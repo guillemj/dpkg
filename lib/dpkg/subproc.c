@@ -110,7 +110,7 @@ subproc_check(int status, const char *desc, int flags)
 }
 
 int
-subproc_wait_check(pid_t pid, const char *desc, int flags)
+subproc_wait(pid_t pid, const char *desc)
 {
 	pid_t r;
 	int status;
@@ -121,6 +121,16 @@ subproc_wait_check(pid_t pid, const char *desc, int flags)
 		onerr_abort++;
 		ohshite(_("wait for %s failed"), desc);
 	}
+
+	return status;
+}
+
+int
+subproc_wait_check(pid_t pid, const char *desc, int flags)
+{
+	int status;
+
+	status = subproc_wait(pid, desc);
 
 	return subproc_check(status, desc, flags);
 }
