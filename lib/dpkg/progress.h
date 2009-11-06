@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_PROGRESS_H
-#define DPKG_PROGRESS_H
+#ifndef LIBDPKG_PROGRESS_H
+#define LIBDPKG_PROGRESS_H
 
 #include <dpkg/macros.h>
 

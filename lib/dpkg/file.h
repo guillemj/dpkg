@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_FILE_H
-#define DPKG_FILE_H
+#ifndef LIBDPKG_FILE_H
+#define LIBDPKG_FILE_H
 
 #include <dpkg/macros.h>
 
@@ -33,5 +33,5 @@ void file_copy_perms(const char *src, const char *dst);
 
 DPKG_END_DECLS
 
-#endif /* DPKG_FILE_H */
+#endif /* LIBDPKG_FILE_H */
 

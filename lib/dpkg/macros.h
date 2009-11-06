@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_MACROS_H
-#define DPKG_MACROS_H
+#ifndef LIBDPKG_MACROS_H
+#define LIBDPKG_MACROS_H
 
 /* Language definitions. */
 
@@ -56,5 +56,5 @@
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #endif
 
-#endif /* DPKG_MACROS_H */
+#endif /* LIBDPKG_MACROS_H */
 

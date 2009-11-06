@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_STRING_H
-#define DPKG_STRING_H
+#ifndef LIBDPKG_STRING_H
+#define LIBDPKG_STRING_H
 
 #include <dpkg/macros.h>
 
@@ -31,5 +31,5 @@ char *str_strip_quotes(char *str);
 
 DPKG_END_DECLS
 
-#endif /* DPKG_STRING_H */
+#endif /* LIBDPKG_STRING_H */
 

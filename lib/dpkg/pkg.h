@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_PKG_H
-#define DPKG_PKG_H
+#ifndef LIBDPKG_PKG_H
+#define LIBDPKG_PKG_H
 
 #include <dpkg/macros.h>
 
@@ -32,4 +32,4 @@ int pkg_sorter_by_name(const void *a, const void *b);
 
 DPKG_END_DECLS
 
-#endif /* DPKG_PKG_H */
+#endif /* LIBDPKG_PKG_H */

@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_PKG_LIST_H
-#define DPKG_PKG_LIST_H
+#ifndef LIBDPKG_PKG_LIST_H
+#define LIBDPKG_PKG_LIST_H
 
 #include <config.h>
 #include <compat.h>
@@ -40,4 +40,4 @@ void pkg_list_prepend(struct pkg_list **head, struct pkginfo *pkg);
 
 DPKG_END_DECLS
 
-#endif /* DPKG_PKG_LIST_H */
+#endif /* LIBDPKG_PKG_LIST_H */

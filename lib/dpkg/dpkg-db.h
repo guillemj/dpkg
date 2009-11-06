@@ -20,8 +20,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_DB_H
-#define DPKG_DB_H
+#ifndef LIBDPKG_DPKG_DB_H
+#define LIBDPKG_DPKG_DB_H
 
 #include <sys/types.h>
 
@@ -413,4 +413,4 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg);
 
 DPKG_END_DECLS
 
-#endif /* DPKG_DB_H */
+#endif /* LIBDPKG_DPKG_DB_H */

@@ -22,8 +22,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_BUFFER_H
-#define DPKG_BUFFER_H
+#ifndef LIBDPKG_BUFFER_H
+#define LIBDPKG_BUFFER_H
 
 #include <sys/types.h>
 
@@ -152,4 +152,4 @@ off_t buffer_copy(struct buffer_data *read_data,
 
 DPKG_END_DECLS
 
-#endif /* DPKG_BUFFER_H */
+#endif /* LIBDPKG_BUFFER_H */

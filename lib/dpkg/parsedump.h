@@ -20,8 +20,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_PARSEDUMP_H
-#define DPKG_PARSEDUMP_H
+#ifndef LIBDPKG_PARSEDUMP_H
+#define LIBDPKG_PARSEDUMP_H
 
 struct fieldinfo;
 
@@ -88,4 +88,4 @@ extern const struct fieldinfo fieldinfos[];
 extern const struct nickname nicknames[];
 extern const int nfields; /* = elements in fieldinfos, including the sentinels */
 
-#endif /* DPKG_PARSEDUMP_H */
+#endif /* LIBDPKG_PARSEDUMP_H */

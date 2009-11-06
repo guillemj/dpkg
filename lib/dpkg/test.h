@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_TEST_H
-#define DPKG_TEST_H
+#ifndef LIBDPKG_TEST_H
+#define LIBDPKG_TEST_H
 
 #include <config.h>
 #include <compat.h>

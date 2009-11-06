@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_I18N_H
-#define DPKG_I18N_H
+#ifndef LIBDPKG_I18N_H
+#define LIBDPKG_I18N_H
 
 #include <dpkg/macros.h>
 
@@ -33,4 +33,4 @@ DPKG_BEGIN_DECLS
 
 DPKG_END_DECLS
 
-#endif /* DPKG_I18N_H */
+#endif /* LIBDPKG_I18N_H */

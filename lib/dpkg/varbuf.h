@@ -20,8 +20,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_VARBUF_H
-#define DPKG_VARBUF_H
+#ifndef LIBDPKG_VARBUF_H
+#define LIBDPKG_VARBUF_H
 
 #include <stddef.h>
 #include <stdarg.h>
@@ -139,4 +139,4 @@ varbuf::string()
 }
 #endif
 
-#endif /* DPKG_VARBUF_H */
+#endif /* LIBDPKG_VARBUF_H */

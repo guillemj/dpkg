@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_SUBPROC_H
-#define DPKG_SUBPROC_H
+#ifndef LIBDPKG_SUBPROC_H
+#define LIBDPKG_SUBPROC_H
 
 #include <sys/types.h>
 
@@ -40,5 +40,5 @@ int waitsubproc(pid_t pid, const char *desc, int flags);
 
 DPKG_END_DECLS
 
-#endif /* DPKG_SUBPROC_H */
+#endif /* LIBDPKG_SUBPROC_H */
 

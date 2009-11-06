@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_PATH_H
-#define DPKG_PATH_H
+#ifndef LIBDPKG_PATH_H
+#define LIBDPKG_PATH_H
 
 #ifdef HAVE_STDDEF_H
 #include <stddef.h>
@@ -36,5 +36,5 @@ char *path_quote_filename(char *dst, const char *src, size_t size);
 
 DPKG_END_DECLS
 
-#endif /* DPKG_PATH_H */
+#endif /* LIBDPKG_PATH_H */
 

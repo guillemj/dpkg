@@ -1,12 +1,12 @@
-#ifndef	_TAR_FUNCTION_H_
-#define	_TAR_FUNCTION_H_
-
 /*
  * Functions for extracting tar archives.
  * Bruce Perens, April-May 1995
  * Copyright © 1995 Bruce Perens
  * This is free software under the GNU General Public License.
  */
+
+#ifndef LIBDPKG_TARFN_H
+#define LIBDPKG_TARFN_H
 
 #include <sys/types.h>
 

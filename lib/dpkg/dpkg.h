@@ -20,8 +20,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef DPKG_H
-#define DPKG_H
+#ifndef LIBDPKG_DPKG_H
+#define LIBDPKG_DPKG_H
 
 #ifdef HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
@@ -230,4 +230,4 @@ void compress_cat(enum compress_type type, int fd_in, int fd_out,
 
 DPKG_END_DECLS
 
-#endif /* DPKG_H */
+#endif /* LIBDPKG_DPKG_H */
