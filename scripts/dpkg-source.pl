@@ -163,7 +163,7 @@ if ($options{'opmode'} eq 'build') {
 	    set_source_package($v);
 	    $fields->{$_} = $v;
 	} elsif (m/^Uploaders$/i) {
-	    ($fields->{$_} = $v) =~ s/[\r\n]//g; # Merge in a single-line
+	    ($fields->{$_} = $v) =~ s/[\r\n]/ /g; # Merge in a single-line
 	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 	    my $dep;
 	    my $type = field_get_dep_type($_);
@@ -235,7 +235,7 @@ if ($options{'opmode'} eq 'build') {
     
     $fields->{'Binary'} = join(', ', @binarypackages);
     # Avoid overly long line (>~1000 chars) by splitting over multiple lines
-    $fields->{'Binary'} =~ s/(.{980,}?), ?/$1,\n /g;
+    $fields->{'Binary'} =~ s/(.{980,}?), ?/$1,\n/g;
 
     # Generate list of formats to try
     my @try_formats = (@cmdline_formats);

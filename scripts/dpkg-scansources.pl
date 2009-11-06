@@ -329,10 +329,10 @@ sub process_dsc {
     # The files field will get an entry for the .dsc file itself.
     foreach my $alg (@check_supported) {
         if ($alg eq "md5") {
-            $fields->{Files} =~ s/^\n/\n $sums->{$alg} $size $file\n/;
+            $fields->{Files} =~ s/^\n/\n$sums->{$alg} $size $file\n/;
         } else {
             my $name = "Checksums-" . ucfirst($alg);
-            $fields->{$name} =~ s/^\n/\n $sums->{$alg} $size $file\n/
+            $fields->{$name} =~ s/^\n/\n$sums->{$alg} $size $file\n/
                 if defined $fields->{$name};
         }
     }

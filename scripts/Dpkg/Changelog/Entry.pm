@@ -286,17 +286,7 @@ sub get_dpkg_changes {
     my ($self) = @_;
     my $header = $self->get_part("header") || "";
     $header =~ s/\s+$//;
-    my $changes = "\n $header\n .\n";
-    foreach my $line (@{$self->get_part("changes")}) {
-        $line =~ s/\s+$//;
-        if ($line eq "") {
-            $changes .= " .\n";
-        } else {
-            $changes .= " $line\n";
-        }
-    }
-    chomp $changes;
-    return $changes;
+    return "\n$header\n\n" . join("\n", @{$self->get_part("changes")});
 }
 
 =back

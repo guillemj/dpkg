@@ -46,6 +46,13 @@ The order in which fields have been set is remembered and is used
 to be able to dump back the same content. The output order can also be
 overriden if needed.
 
+You can store arbitrary values in the hash, they will always be properly
+escaped in the output to conform to the syntax of control files. This is
+relevant mainly for multilines values: while the first line is always output
+unchanged directly after the field name, supplementary lines are
+modified. Empty lines and lines containing only dots are prefixed with
+" ." (space + dot) while other lines are prefixed with a single space.
+
 =head1 FUNCTIONS
 
 =over 4
@@ -162,7 +169,7 @@ sub parse_fh {
 	next if (m/^$/ and $paraborder);
 	next if (m/^#/);
 	$paraborder = 0;
-	if (m/^(\S+?)\s*:\s*(.*)$/) {
+	if (m/^(\S+?)\s*:\s?(.*)$/) {
 	    if (exists $self->{$1}) {
 		unless ($$self->{'allow_duplicate'}) {
 		    syntaxerr($desc, sprintf(_g("duplicate field %s found"), $1));
@@ -170,11 +177,15 @@ sub parse_fh {
 	    }
 	    $self->{$1} = $2;
 	    $cf = $1;
-	} elsif (m/^\s+\S/) {
+	} elsif (m/^\s(\s*\S.*)$/) {
+	    my $line = $1;
 	    unless (defined($cf)) {
                 syntaxerr($desc, _g("continued value line not in field"));
             }
-	    $self->{$cf} .= "\n$_";
+	    if ($line =~ /^\.+$/) {
+		$line = substr $line, 1;
+	    }
+	    $self->{$cf} .= "\n$line";
 	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE/) {
 	    $expect_pgp_sig = 1;
 	    if ($$self->{'allow_pgp'}) {
@@ -280,16 +291,28 @@ sub output {
         @keys = @{$$self->{'in_order'}};
     }
 
-    foreach (@keys) {
-	if (exists $self->{$_}) {
+    foreach my $key (@keys) {
+	if (exists $self->{$key}) {
+	    my $value = $self->{$key};
             # Skip whitespace-only fields
-            next if $$self->{'drop_empty'} and ($self->{$_} !~ m/\S/);
-
+            next if $$self->{'drop_empty'} and $value !~ m/\S/;
+	    # Escape data to follow control file syntax
+	    my @lines = split(/\n/, $value);
+	    $value = (scalar @lines) ? shift @lines : "";
+	    foreach (@lines) {
+		s/\s+$//;
+		if (/^$/ or /^\.+$/) {
+		    $value .= "\n .$_";
+		} else {
+		    $value .= "\n $_";
+		}
+	    }
+	    # Print it out
             if ($fh) {
-	        print $fh "$_: " . $self->{$_} . "\n" ||
+	        print $fh "$key: $value\n" ||
                     syserr(_g("write error on control data"));
             }
-	    $str .= "$_: " . $self->{$_} . "\n" if defined wantarray;
+	    $str .= "$key: $value\n" if defined wantarray;
 	}
     }
     return $str;
@@ -325,13 +348,16 @@ sub apply_substvars {
 
     foreach my $f (keys %$self) {
         my $v = $substvars->substvars($self->{$f});
-        $v =~ s/\n[ \t]*(\n|$)/$1/; # Drop empty/whitespace-only lines
-
-        # TODO: do this only for dependency fields
-        $v =~ s/,[\s,]*,/,/g;
-        $v =~ s/^\s*,\s*//;
-        $v =~ s/\s*,\s*$//;
-
+	if ($v ne $self->{$f}) {
+	    # If we replaced stuff, ensure we're not breaking
+	    # a dependency field by introducing empty lines, or multiple
+	    # commas
+	    $v =~ s/\n[ \t]*(\n|$)/$1/; # Drop empty/whitespace-only lines
+	    # TODO: do this only for dependency fields
+	    $v =~ s/,[\s,]*,/,/g;
+	    $v =~ s/^\s*,\s*//;
+	    $v =~ s/\s*,\s*$//;
+	}
         $v =~ s/\$\{\}/\$/g; # XXX: what for?
 
         $self->{$f} = $v;
@@ -396,17 +422,6 @@ sub FETCH {
 sub STORE {
     my ($self, $key, $value) = @_;
     my $parent = $self->[1];
-    # Check value is sane
-    if ($value =~ m/\n[ \t]*\n/) {
-        internerr("field %s has blank lines >%s<", $key, $value);
-    }
-    if ($value =~ m/\n\S/) {
-        internerr("field %s has newline then non whitespace >%s<", $key, $value);
-    }
-    if ($value =~ m/\n$/) {
-        internerr("field %s has trailing newline >%s<", $key, $value);
-    }
-    # Store it
     $key = lc($key);
     if (not exists $self->[0]->{$key}) {
 	push @{$$parent->{'in_order'}}, field_capitalize($key);

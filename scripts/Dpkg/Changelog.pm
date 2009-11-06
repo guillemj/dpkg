@@ -549,7 +549,7 @@ sub dpkg {
 	my $newurg = $entry->get_urgency() || '';
 	my $newurgn = $URGENCIES{$newurg} || -1;
 	$f->{Urgency} = ($newurgn > $oldurgn) ? $newurg : $oldurg;
-	$f->{Changes} .= "\n ." . $entry->get_dpkg_changes();
+	$f->{Changes} .= "\n" . $entry->get_dpkg_changes();
 
 	# handle optional fields
 	$opts = $entry->get_optional_fields();

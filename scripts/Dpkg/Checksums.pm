@@ -37,7 +37,7 @@ sub readchecksums {
 	return;
     }
     my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
-    for my $checksum (split /\n /, $fieldtext) {
+    for my $checksum (split /\n */, $fieldtext) {
 	next if $checksum eq '';
 	$checksum =~ m/^($check_regex{$alg})\s+(\d+)\s+($rx_fname)$/
 	    || do {

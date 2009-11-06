@@ -194,7 +194,7 @@ sub parse_files {
     my ($self) = @_;
     my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
     my $files = $self->{'fields'}{'Files'};
-    foreach my $file (split(/\n /, $files)) {
+    foreach my $file (split(/\n/, $files)) {
         next if $file eq '';
         $file =~ m/^($check_regex{md5})                    # checksum
                     [ \t]+(\d+)                            # size
@@ -417,9 +417,9 @@ sub add_file {
     getchecksums($filename, \%sums, \$size);
     $self->{'files'}{$fn} = $size;
     foreach my $alg (sort keys %sums) {
-        $self->{'fields'}{"Checksums-$alg"} .= "\n $sums{$alg} $size $fn";
+        $self->{'fields'}{"Checksums-$alg"} .= "\n$sums{$alg} $size $fn";
     }
-    $self->{'fields'}{'Files'}.= "\n $sums{md5} $size $fn";
+    $self->{'fields'}{'Files'}.= "\n$sums{md5} $size $fn";
 }
 
 sub write_dsc {

@@ -5,6 +5,7 @@ use strict;
 
 use IO::Handle;
 use IO::File;
+use IO::String;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -187,15 +188,9 @@ FILE:
 	}
 	
 	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
-	my $temp = $control;
-	while ($temp =~ s/^\n*(\S+):[ \t]*(.*(\n[ \t].*)*)\n//) {
-	    my ($key, $value) = ($1, $2);
-	    $value =~ s/\s+$//;
-	    $fields->{$key} = $value;
-	}
-	$temp =~ /^\n*$/
-	    or error(_g("Unprocessed text from %s control file; info:\n%s / %s"),
-	             $fn, $control, $temp);
+	my $io = IO::String->new($control);
+	$fields->parse_fh($io, $fn)
+	    or error(_g("couldn't parse control information from %s."), $fn);
 	
 	defined($fields->{'Package'})
 	    or error(_g("No Package field in control file of %s"), $fn);

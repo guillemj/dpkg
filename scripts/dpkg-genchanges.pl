@@ -326,13 +326,9 @@ foreach $_ (keys %{$changelog}) {
 }
 
 if ($changesdescription) {
-    $fields->{'Changes'} = '';
     open(X, "<", $changesdescription) || syserr(_g("read changesdescription"));
-    while(<X>) {
-        s/\s*\n$//;
-        $_= '.' unless m/\S/;
-        $fields->{'Changes'}.= "\n $_";
-    }
+    $fields->{'Changes'} = "\n" . join("", <X>);
+    close(X);
 }
 
 for my $pa (keys %pa2f) {
@@ -394,7 +390,7 @@ if (!is_binaryonly) {
 
     my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
     my $files = $dsc_fields->{'Files'};
-    for my $line (split(/\n /, $files)) {
+    for my $line (split(/\n/, $files)) {
 	next if $line eq '';
 	$line =~ m/^($check_regex{md5})[ \t]+(\d+)[ \t]+($rx_fname)$/
 	    || error(_g("Files field contains bad line \`%s'"), $line);
@@ -460,7 +456,7 @@ if (!defined($fields->{'Date'})) {
 
 $fields->{'Binary'} = join(' ', map { $_->{'Package'} } $control->get_packages());
 # Avoid overly long line (>~1000 chars) by splitting over multiple lines
-$fields->{'Binary'} =~ s/(.{980,}?) /$1\n /g;
+$fields->{'Binary'} =~ s/(.{980,}?) /$1\n/g;
 
 unshift(@archvalues,'source') unless is_binaryonly;
 @archvalues = ('all') if $include == ARCH_INDEP;
@@ -468,7 +464,7 @@ unshift(@archvalues,'source') unless is_binaryonly;
     unless $include & ARCH_INDEP;
 $fields->{'Architecture'} = join(' ',@archvalues);
 
-$fields->{'Description'} = "\n ".join("\n ",sort @descriptions);
+$fields->{'Description'} = "\n" . join("\n", sort @descriptions);
 
 $fields->{'Files'} = '';
 
@@ -482,9 +478,9 @@ for my $f (@sourcefiles, @fileslistfiles) {
     $checksum{$f} ||= {};
     getchecksums($uf, $checksum{$f}, \$size{$f});
     foreach my $alg (sort keys %{$checksum{$f}}) {
-	$fields->{"Checksums-$alg"} .= "\n $checksum{$f}{$alg} $size{$f} $f";
+	$fields->{"Checksums-$alg"} .= "\n$checksum{$f}{$alg} $size{$f} $f";
     }
-    $fields->{'Files'} .= "\n $checksum{$f}{md5} $size{$f} $f2sec{$f} $f2pri{$f} $f";
+    $fields->{'Files'} .= "\n$checksum{$f}{md5} $size{$f} $f2sec{$f} $f2pri{$f} $f";
 }
 
 # redundant with the Files field
