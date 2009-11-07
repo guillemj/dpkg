@@ -35,7 +35,10 @@ fd_fd_filter(int fd_in, int fd_out,
   ohshite(_("%s: failed to exec '%s %s'"), desc, cmd, args);
 }
 
-void decompress_cat(enum compress_type type, int fd_in, int fd_out, char *desc, ...) {
+void
+decompress_cat(enum compress_type type, int fd_in, int fd_out,
+               const char *desc, ...)
+{
   va_list al;
   struct varbuf v = VARBUF_INIT;
 
@@ -100,7 +103,10 @@ void decompress_cat(enum compress_type type, int fd_in, int fd_out, char *desc, 
   }
 }
 
-void compress_cat(enum compress_type type, int fd_in, int fd_out, const char *compression, char *desc, ...) {
+void
+compress_cat(enum compress_type type, int fd_in, int fd_out,
+             const char *compression, const char *desc, ...)
+{
   va_list al;
   struct varbuf v = VARBUF_INIT;
   char combuf[6];

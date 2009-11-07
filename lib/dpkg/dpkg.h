@@ -223,9 +223,9 @@ enum compress_type {
 };
 
 void decompress_cat(enum compress_type type, int fd_in, int fd_out,
-                    char *desc, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(4);
+                    const char *desc, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(4);
 void compress_cat(enum compress_type type, int fd_in, int fd_out,
-                  const char *compression, char *desc, ...)
+                  const char *compression, const char *desc, ...)
                   DPKG_ATTR_NORET DPKG_ATTR_PRINTF(5);
 
 DPKG_END_DECLS
