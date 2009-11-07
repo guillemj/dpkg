@@ -151,8 +151,8 @@ Please change the discs and press <RETURN>.
 				defined($c= open(X,"-|")) ||
 					die "failed to fork for find: $!\n";
 				if (!$c) {
-					exec("find", length($binaryprefix)
-					     ? $binaryprefix : ".","-follow",
+					exec("find", "-L",
+					     length($binaryprefix) ? $binaryprefix : ".",
 					     "-name",$base,"-o","-name",$msdosbase);
 					die "failed to exec find: $!\n";
 				}

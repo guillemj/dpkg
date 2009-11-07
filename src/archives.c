@@ -1082,7 +1082,8 @@ void archivefiles(const char *const *argv) {
       for (i=0, ap=argv; *ap; ap++, i++);
       arglist = m_malloc(sizeof(char *) * (i + 15));
       arglist[0] = FIND;
-      for (i=1, ap=argv; *ap; ap++, i++) {
+      arglist[1] = "-L";
+      for (i = 2, ap = argv; *ap; ap++, i++) {
         if (strchr(FIND_EXPRSTARTCHARS,(*ap)[0])) {
           char *a;
           a= m_malloc(strlen(*ap)+10);
@@ -1096,7 +1097,6 @@ void archivefiles(const char *const *argv) {
       /* When editing these, make sure that arglist is malloced big enough,
        * above.
        */
-      arglist[i++] = "-follow";
       arglist[i++] = "-name";
       arglist[i++] = ARCHIVE_FILENAME_PATTERN;
       arglist[i++] = "-type";

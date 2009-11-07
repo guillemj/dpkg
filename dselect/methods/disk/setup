@@ -428,7 +428,7 @@ check_binary () {
 		return
 	fi
 
-	if ! ( find "$mountpoint$2/" -follow -name '*.deb' -print \
+	if ! ( find -L "$mountpoint$2/" -name '*.deb' -print \
 	        | head -n 1 ) 2>/dev/null  | grep . >/dev/null
 	then
 		echo "\`$2' does not contain any *.deb packages.  Hmmpf."

@@ -158,7 +158,6 @@ if ($options{arch}) {
 else {
      @find_args = ('-name', "*.$type");
 }
-push @find_args, '-follow';
 
 my ($binarydir, $override, $pathprefix) = @ARGV;
 
@@ -169,7 +168,7 @@ defined($override) and (-e $override or
 $pathprefix = '' if not defined $pathprefix;
 
 my $find_h = new IO::Handle;
-open($find_h,'-|','find',"$binarydir/",@find_args,'-print')
+open($find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print')
      or syserr(_g("Couldn't open %s for reading"), $binarydir);
 FILE:
     while (<$find_h>) {
