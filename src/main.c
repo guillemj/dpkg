@@ -721,10 +721,10 @@ int main(int argc, const char *const *argv) {
 
   actionfunction(argv);
 
-  standard_shutdown();
-
   if (is_invoke_action(cipaction->arg))
     run_invoke_hooks(cipaction->olong, post_invoke_hooks);
+
+  standard_shutdown();
 
   return reportbroken_retexitstatus();
 }
