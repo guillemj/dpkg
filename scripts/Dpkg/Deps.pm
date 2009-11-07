@@ -10,11 +10,8 @@
 # fitness for a particular purpose. See the GNU General Public License
 # for more details.
 #
-# A copy of the GNU General Public License is available as
-# /usr/share/common-licenses/GPL in the Debian GNU/Linux distribution
-# or on the World Wide Web at http://www.gnu.org/copyleft/gpl.html.
-# You can also obtain it by writing to the Free Software Foundation, Inc.,
-# 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #########################################################################
 # Several parts are inspired by lib/Dep.pm from lintian (same license)
 #
