@@ -199,19 +199,6 @@ parseformat(const char *fmt)
 	return head;
 }
 
-#define dumpchain(head) \
-{ \
-	const struct lstitem *ptr = head; \
-\
-	while (ptr) { \
-		printf("Type: %s\n", (ptr->type == string) ? "string" : "field"); \
-		printf("Width: %d\n", ptr->width); \
-		printf("Data: %s\n", ptr->data); \
-		printf("\n"); \
-		ptr = ptr->next; \
-	} \
-}
-
 void
 show1package(const struct lstitem *head, struct pkginfo *pkg)
 {
