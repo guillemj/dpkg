@@ -49,6 +49,29 @@
 #include "main.h"
 #include "archives.h"
 
+static const char *
+summarize_filename(const char *filename)
+{
+  const char *pfilename;
+  char *pfilenamebuf;
+
+  for (pfilename = filename;
+       pfilename && strlen(pfilename) > 30 && strchr(pfilename, '/') != NULL;
+       pfilename++)
+    pfilename = strchr(pfilename, '/');
+
+  if (pfilename && pfilename != filename) {
+    pfilenamebuf = nfmalloc(strlen(pfilename) + 5);
+    strcpy(pfilenamebuf, ".../");
+    strcat(pfilenamebuf, pfilename);
+    pfilename = pfilenamebuf;
+  } else {
+    pfilename = filename;
+  }
+
+  return pfilename;
+}
+
 void process_archive(const char *filename) {
   static const struct TarFunctions tf = {
     .Read = tarfileread,
@@ -76,7 +99,7 @@ void process_archive(const char *filename) {
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg, *divpkg;
   char *cidir, *cidirrest, *p;
-  char *pfilenamebuf, conffilenamebuf[MAXCONFFILENAME];
+  char conffilenamebuf[MAXCONFFILENAME];
   char *psize;
   const char *pfilename, *newinfofilename;
   struct fileinlist *newconff, **newconffileslastp;
@@ -97,17 +120,7 @@ void process_archive(const char *filename) {
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
   admindirlen= strlen(admindir);
 
-  for (pfilename= filename ; pfilename && strlen(pfilename) > 30 &&
-      strchr(pfilename,'/') != NULL ; pfilename++ )
-    pfilename= strchr(pfilename,'/');
-  if (pfilename && pfilename != filename) {
-    pfilenamebuf= (char *)nfmalloc(strlen(pfilename)+5);
-    strcpy(pfilenamebuf,".../");
-    strcat(pfilenamebuf,pfilename);
-    pfilename= pfilenamebuf;
-  } else {
-    pfilename= filename;
-  }
+  pfilename = summarize_filename(filename);
 
   if (stat(filename,&stab)) ohshite(_("cannot access archive"));
 
