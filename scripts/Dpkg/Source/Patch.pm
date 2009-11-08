@@ -148,7 +148,7 @@ sub add_diff_directory {
 
     my %files_in_new;
     my $scan_new = sub {
-        my $fn = File::Spec->abs2rel($_, $new);
+        my $fn = (length > length($new)) ? substr($_, length($new) + 1) : '.';
         return if &$diff_ignore($fn);
         $files_in_new{$fn} = 1;
         lstat("$new/$fn") || syserr(_g("cannot stat file %s"), "$new/$fn");
@@ -221,7 +221,7 @@ sub add_diff_directory {
         }
     };
     my $scan_old = sub {
-        my $fn = File::Spec->abs2rel($_, $old);
+        my $fn = (length > length($old)) ? substr($_, length($old) + 1) : '.';
         return if &$diff_ignore($fn);
         return if $files_in_new{$fn};
         lstat("$old/$fn") || syserr(_g("cannot stat file %s"), "$old/$fn");
