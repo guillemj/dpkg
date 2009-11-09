@@ -57,12 +57,8 @@ scandir(const char *dir, struct dirent ***namelist,
 	if (!d)
 		return -1;
 
-	used = 0;
-	avail = 20;
-
-	list = malloc(avail * sizeof(struct dirent *));
-	if (!list)
-		return cleanup(d, list, used);
+	list = NULL;
+	used = avail = 0;
 
 	while ((e = readdir(d)) != NULL) {
 		if (filter != NULL && !filter(e))
@@ -71,7 +67,10 @@ scandir(const char *dir, struct dirent ***namelist,
 		if (used >= avail - 1) {
 			struct dirent **newlist;
 
-			avail += avail;
+			if (avail)
+				avail *= 2;
+			else
+				avail = 20;
 			newlist = realloc(list, avail * sizeof(struct dirent *));
 			if (!newlist)
 				return cleanup(d, list, used);
