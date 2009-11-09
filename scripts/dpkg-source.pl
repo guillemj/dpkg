@@ -264,7 +264,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
         push @try_formats, $format;
     }
     push @try_formats, @build_formats;
-    # Try all suggested formats until one is acceptable
+    # Try all suggested formats until one is acceptable
     foreach my $format (@try_formats) {
         $fields->{'Format'} = $format;
         $srcpkg->upgrade_object_type(); # Fails if format is unsupported
@@ -299,7 +299,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 
 } elsif ($options{'opmode'} eq '-x') {
 
-    # Check command line
+    # Check command line
     unless (scalar(@ARGV)) {
 	usageerr(_g("-x needs at least one argument, the .dsc"));
     }
@@ -378,9 +378,9 @@ Commands:
                            extract source package.
   -b <dir>                 build source package.
   --print-format <dir>     print the source format that would be
-                           used to build the source package.
-
-Build options:
+                           used to build the source package.")
+    . "\n\n" . _g(
+"Build options:
   -c<controlfile>          get control info from this file.
   -l<changelogfile>        get per-version info from this file.
   -F<changelogformat>      force change log format.
@@ -396,20 +396,20 @@ Build options:
   -Z<compression>          select compression to use (defaults to '%s',
                              supported are: %s).
   -z<level>                compression level to use (defaults to '%d',
-                             supported are: '1'-'9', 'best', 'fast')
-
-Extract options:
+                             supported are: '1'-'9', 'best', 'fast')")
+    . "\n\n" . _g(
+"Extract options:
   --no-copy                don't copy .orig tarballs
   --no-check               don't check signature and checksums before unpacking
-  --require-valid-signature abort if the package doesn't have a valid signature
-
-General options:
+  --require-valid-signature abort if the package doesn't have a valid signature")
+    . "\n\n" . _g(
+"General options:
   -h, --help               show this help message.
-      --version            show the version.
-
-More options are available but they depend on the source package format.
-See dpkg-source(1) for more info.
-"), $progname,
+      --version            show the version.")
+    . "\n\n" . _g(
+"More options are available but they depend on the source package format.
+See dpkg-source(1) for more info.") . "\n",
+    $progname,
     $Dpkg::Source::Package::diff_ignore_default_regexp,
     join(' ', map { "-I$_" } @Dpkg::Source::Package::tar_ignore_default_pattern),
     $Dpkg::Source::Compressor::default_compression, "@comp_supported",
