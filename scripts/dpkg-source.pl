@@ -71,9 +71,11 @@ my @cmdline_formats;
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_ = shift(@ARGV);
     if (m/^-b$/) {
-        setopmode('build');
+        setopmode('-b');
     } elsif (m/^-x$/) {
-        setopmode('extract');
+        setopmode('-x');
+    } elsif (m/^--print-format$/) {
+	setopmode('--print-format');
     } elsif (m/^--format=(.*)$/) {
         push @cmdline_formats, $1;
     } elsif (m/^-Z(.*)$/) {
@@ -142,10 +144,10 @@ unless (defined($options{'opmode'})) {
     usageerr(_g("need -x or -b"));
 }
 
-if ($options{'opmode'} eq 'build') {
+if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 
     if (not scalar(@ARGV)) {
-	usageerr(_g("-b needs a directory"));
+	usageerr(_g("%s needs a directory"), $options{'opmode'});
     }
     my $dir = File::Spec->catdir(shift(@ARGV));
     stat($dir) || syserr(_g("cannot stat directory %s"), $dir);
@@ -268,7 +270,12 @@ if ($options{'opmode'} eq 'build') {
         $srcpkg->upgrade_object_type(); # Fails if format is unsupported
         my ($res, $msg) = $srcpkg->can_build($dir);
         last if $res;
-        info(_g("source format `%s' discarded: %s"), $format, $msg);
+        info(_g("source format `%s' discarded: %s"), $format, $msg)
+	    unless $options{'opmode'} eq "--print-format";
+    }
+    if ($options{'opmode'} eq "--print-format") {
+	print $fields->{'Format'} . "\n";
+	exit(0);
     }
     info(_g("using source format `%s'"), $fields->{'Format'});
 
@@ -290,7 +297,7 @@ if ($options{'opmode'} eq 'build') {
 		       substvars => $substvars);
     exit(0);
 
-} elsif ($options{'opmode'} eq 'extract') {
+} elsif ($options{'opmode'} eq '-x') {
 
     # Check command line
     unless (scalar(@ARGV)) {
@@ -344,7 +351,7 @@ if ($options{'opmode'} eq 'build') {
 
 sub setopmode {
     if (defined($options{'opmode'})) {
-	usageerr(_g("only one of -x or -b allowed, and only once"));
+	usageerr(_g("only one of -x, -b or --print-format allowed, and only once"));
     }
     $options{'opmode'} = $_[0];
 }
@@ -369,8 +376,9 @@ sub usage {
 Commands:
   -x <filename>.dsc [<output-dir>]
                            extract source package.
-  -b <dir>
-                           build source package.
+  -b <dir>                 build source package.
+  --print-format <dir>     print the source format that would be
+                           used to build the source package.
 
 Build options:
   -c<controlfile>          get control info from this file.
