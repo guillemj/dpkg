@@ -2,6 +2,7 @@
  * libcompat - system compatibility library
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,14 +27,31 @@
 #include <stdlib.h>
 
 #ifndef HAVE_SCANDIR
+static int
+cleanup(DIR *dir, struct dirent **dirlist, int used)
+{
+	if (dir)
+		closedir(dir);
+
+	if (dirlist) {
+		int i;
+
+		for (i = 0; i < used; i++)
+			free(dirlist[i]);
+		free(dirlist);
+	}
+
+	return -1;
+}
+
 int
 scandir(const char *dir, struct dirent ***namelist,
         int (*filter)(const struct dirent *),
         int (*cmp)(const void *, const void *))
 {
 	DIR *d;
+	struct dirent *e, *m, **list;
 	int used, avail;
-	struct dirent *e, *m;
 
 	d = opendir(dir);
 	if (!d)
@@ -42,34 +60,40 @@ scandir(const char *dir, struct dirent ***namelist,
 	used = 0;
 	avail = 20;
 
-	*namelist = malloc(avail * sizeof(struct dirent *));
-	if (!*namelist)
-		return -1;
+	list = malloc(avail * sizeof(struct dirent *));
+	if (!list)
+		return cleanup(d, list, used);
 
 	while ((e = readdir(d)) != NULL) {
 		if (filter != NULL && !filter(e))
 			continue;
 
+		if (used >= avail - 1) {
+			struct dirent **newlist;
+
+			avail += avail;
+			newlist = realloc(list, avail * sizeof(struct dirent *));
+			if (!newlist)
+				return cleanup(d, list, used);
+		}
+
 		m = malloc(sizeof(struct dirent) + strlen(e->d_name));
 		if (!m)
-			return -1;
+			return cleanup(d, list, used);
 		*m = *e;
 		strcpy(m->d_name, e->d_name);
 
-		if (used >= avail - 1) {
-			avail += avail;
-			*namelist = realloc(*namelist, avail * sizeof(struct dirent *));
-			if (!*namelist)
-				return -1;
-		}
-
-		(*namelist)[used] = m;
+		list[used] = m;
 		used++;
 	}
-	(*namelist)[used] = NULL;
+	list[used] = NULL;
+
+	closedir(d);
 
 	if (cmp != NULL)
-		qsort(*namelist, used, sizeof(struct dirent *), cmp);
+		qsort(list, used, sizeof(struct dirent *), cmp);
+
+	*namelist = list;
 
 	return used;
 }
