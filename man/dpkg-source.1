@@ -503,6 +503,15 @@ or trailing spaces are allowed.
 This file contains a list of binary files (one per line) that should be
 included in the debian tarball. Leading and trailing spaces are stripped.
 Lines starting with "#" are comments and are skipped. Empty lines are ignored.
+.SS debian/source/options
+This file contains a list of options that should be automatically
+prepended to the set of command line options of a \fBdpkg\-source \-b\fR
+or \fBdpkg\-source \-\-print\-format\fR call. Options like \fB\-Z\fR and
+\fB\-z\fR are well suited for this file.
+.P
+Each option should be put on a separate line. Empty lines and lines
+starting with "#" are ignored. \fB\-\-format\fR options are not accepted
+in this file, you should use \fBdebian/source/format\fR instead.
 .SS debian/patches/series
 This file lists all patches that have to be applied (in the given order)
 on top of the upstream source package. Leading and trailing spaces are

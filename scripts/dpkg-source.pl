@@ -25,6 +25,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps;
 use Dpkg::Compression;
+use Dpkg::Conf;
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
 use Dpkg::Substvars;
@@ -66,6 +67,7 @@ my %override;
 my $substvars = Dpkg::Substvars->new();
 my $tar_ignore_default_pattern_done;
 
+my @options;
 my @cmdline_options;
 my @cmdline_formats;
 while (@ARGV && $ARGV[0] =~ m/^-/) {
@@ -76,7 +78,38 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('-x');
     } elsif (m/^--print-format$/) {
 	setopmode('--print-format');
-    } elsif (m/^--format=(.*)$/) {
+    } else {
+	push @options, $_;
+    }
+}
+
+my $dir;
+if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
+    if (not scalar(@ARGV)) {
+	usageerr(_g("%s needs a directory"), $options{'opmode'});
+    }
+    $dir = File::Spec->catdir(shift(@ARGV));
+    stat($dir) || syserr(_g("cannot stat directory %s"), $dir);
+    if (not -d $dir) {
+	error(_g("directory argument %s is not a directory"), $dir);
+    }
+    my $conf = Dpkg::Conf->new();
+    my $optfile = File::Spec->catfile($dir, "debian", "source", "options");
+    $conf->load($optfile) if -f $optfile;
+    # --format options are not allowed, they would take precedence
+    # over real command line options, debian/source/format should be used
+    # instead
+    @$conf = grep { ! /^--format=/ } @$conf;
+    if (@$conf) {
+	info(_g("using options from %s: %s"), $optfile, "$conf")
+	    unless $options{'opmode'} eq "--print-format";
+	unshift @options, @$conf;
+    }
+}
+
+while (@options) {
+    $_ = shift(@options);
+    if (m/^--format=(.*)$/) {
         push @cmdline_formats, $1;
     } elsif (m/^-Z(.*)$/) {
 	my $compression = $1;
@@ -146,14 +179,6 @@ unless (defined($options{'opmode'})) {
 
 if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 
-    if (not scalar(@ARGV)) {
-	usageerr(_g("%s needs a directory"), $options{'opmode'});
-    }
-    my $dir = File::Spec->catdir(shift(@ARGV));
-    stat($dir) || syserr(_g("cannot stat directory %s"), $dir);
-    if (not -d $dir) {
-	error(_g("directory argument %s is not a directory"), $dir);
-    }
     $options{'ARGV'} = \@ARGV;
 
     $changelogfile ||= "$dir/debian/changelog";
