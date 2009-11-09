@@ -225,6 +225,8 @@ static void info_field(const char *debar, const char *directory,
     if (c == EOF) break;
   }
   if (ferror(cc)) ohshite(_("failed during read of `control' component"));
+  if (fclose(cc))
+    ohshite(_("error closing the '%s' component"), "control");
   if (doing) putc('\n',stdout);
   m_output(stdout, _("<standard output>"));
 }
