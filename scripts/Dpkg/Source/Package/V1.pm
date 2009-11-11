@@ -1,4 +1,4 @@
-# Copyright © 2008 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -346,6 +346,16 @@ sub do_build {
                                 # default -p option
         $diff->finish() || $ur++;
         pop @Dpkg::Exit::handlers;
+
+	my $analysis = $diff->analyze($origdir);
+	my @files = grep { ! m{^debian/} } map { s{^[^/]+/+}{}; $_ }
+		    sort keys %{$analysis->{'filepatched'}};
+	if (scalar @files) {
+	    warning(_g("the diff modifies the following upstream files: %s"),
+	            "\n " . join("\n ", @files));
+	    info(_g("use the '3.0 (quilt)' format to have separate and " .
+	            "documented changes to upstream files, see dpkg-source(1)"));
+	}
 
 	rename($newdiffgz, $diffname) ||
 	    syserr(_g("unable to rename `%s' (newly created) to `%s'"),
