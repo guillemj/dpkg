@@ -121,8 +121,6 @@ ensure_diversions(void)
 		oicontest->next = diversions;
 		diversions = oicontest;
 	}
-	if (ferror(file))
-		ohshite(_("read error in diversions [i]"));
 
 	onerr_abort--;
 }
