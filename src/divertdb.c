@@ -52,7 +52,6 @@ ensure_diversions(void)
 	char linebuf[MAXDIVERTFILENAME];
 	FILE *file;
 	struct diversion *ov, *oicontest, *oialtname;
-	int l;
 
 	varbufreset(&vb);
 	varbufaddstr(&vb, admindir);
@@ -96,7 +95,7 @@ ensure_diversions(void)
 		return;
 	}
 
-	while ((l = fgets_checked(linebuf, sizeof(linebuf), file, vb.buf)) >= 0) {
+	while (fgets_checked(linebuf, sizeof(linebuf), file, vb.buf) >= 0) {
 		oicontest = nfmalloc(sizeof(struct diversion));
 		oialtname = nfmalloc(sizeof(struct diversion));
 
