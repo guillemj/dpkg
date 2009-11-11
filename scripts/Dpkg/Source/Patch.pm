@@ -457,6 +457,7 @@ sub apply {
 	    unlink($fn) || syserr(_g("remove patch backup file %s"), $fn);
 	}
     }
+    return $analysis;
 }
 
 # Verify if check will work...
