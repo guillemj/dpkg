@@ -20,6 +20,7 @@ use warnings;
 
 use base qw(Dpkg::Vendor::Default);
 use Dpkg::Control::Types;
+use Dpkg::Vendor::Ubuntu;
 
 =head1 NAME
 
@@ -45,6 +46,18 @@ sub run_hook {
             [ "insert_after", CTRL_INDEX_SRC, "Uploaders", "Dm-Upload-Allowed" ],
             [ "insert_after", CTRL_PKG_SRC, "Uploaders", "Dm-Upload-Allowed" ],
         );
+    } elsif ($hook eq "extend-patch-header") {
+        my ($textref, $ch_info) = @params;
+	if ($ch_info->{'Closes'}) {
+	    foreach my $bug (split(/\s+/, $ch_info->{'Closes'})) {
+		$$textref .= "Bug-Debian: http://bugs.debian.org/$bug\n";
+	    }
+	}
+
+	my $b = Dpkg::Vendor::Ubuntu::find_launchpad_closes($ch_info->{'Changes'});
+	foreach my $bug (@$b) {
+	    $$textref .= "Bug-Ubuntu: https://bugs.launchpad.net/bugs/$bug\n";
+	}
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }

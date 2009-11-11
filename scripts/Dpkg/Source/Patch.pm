@@ -42,6 +42,7 @@ sub create {
     my ($self, %opts) = @_;
     $self->{'handle'} = $self->open_for_write();
     $self->{'errors'} = 0;
+    $self->{'empty'} = 1;
     if ($opts{'old'} and $opts{'new'}) {
         $opts{'old'} = "/dev/null" unless -e $opts{'old'};
         $opts{'new'} = "/dev/null" unless -e $opts{'new'};
@@ -54,6 +55,11 @@ sub create {
         }
         $self->finish() unless $opts{"nofinish"};
     }
+}
+
+sub set_header {
+    my ($self, $header) = @_;
+    $self->{'header'} = $header;
 }
 
 sub add_diff_file {
@@ -115,6 +121,11 @@ sub add_diff_file {
             chomp;
             error(_g("unknown line from diff -u on %s: `%s'"), $new, $_);
         }
+	if ($self->{'empty'} and defined($self->{'header'})) {
+	    print { $self->{'handle'} } $self->{'header'} or
+		syserr(_g("failed to write"));
+	    $self->{'empty'} = 0;
+	}
         print({ $self->{'handle'} } $_) || syserr(_g("failed to write"));
     }
     close($diffgen) or syserr("close on diff pipe");

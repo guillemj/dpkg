@@ -109,6 +109,8 @@ sub run_hook {
         return ();
     } elsif ($hook eq "post-process-changelog-entry") {
         my $fields = shift @params;
+    } elsif ($hook eq "extend-patch-header") {
+	my ($textref, $ch_info) = @params;
     }
 
     # Default return value for unknown/unimplemented hooks

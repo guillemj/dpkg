@@ -356,19 +356,20 @@ sub do_build {
         "inclusion)."), $unwanted_binaries) if $unwanted_binaries;
 
     # Create a patch
+    my $autopatch = File::Spec->catfile($dir, "debian", "patches",
+                                        $self->get_autopatch_name());
     my ($difffh, $tmpdiff) = tempfile("$basenamerev.diff.XXXXXX",
                                       DIR => $updir, UNLINK => 0);
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => "none");
     $diff->create();
+    $diff->set_header($self->get_patch_header($dir, $autopatch));
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
             %{$self->{'diff_options'}}, handle_binary_func => $handle_binary);
     error(_g("unrepresentable changes to source")) if not $diff->finish();
     # The previous auto-patch must be removed, it has not been used and it
     # will be recreated if it's still needed
-    my $autopatch = File::Spec->catfile($dir, "debian", "patches",
-                                        $self->get_autopatch_name());
     if (-e $autopatch) {
         unlink($autopatch) || syserr(_g("cannot remove %s"), $autopatch);
     }
@@ -419,6 +420,14 @@ sub do_build {
     $tar->finish();
 
     $self->add_file($debianfile);
+}
+
+sub get_patch_header {
+    my ($self, $dir, $previous) = @_;
+    return "Description: Undocumented upstream changes
+ This patch has been created by dpkg-source during the package build
+ but it might have accumulated changes from several uploads. Please
+ check the changelog to (hopefully) learn more on those changes.\n\n";
 }
 
 sub register_autopatch {

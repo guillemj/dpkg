@@ -26,7 +26,9 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Source::Patch;
 use Dpkg::IPC;
-use Dpkg::Vendor qw(get_current_vendor);
+use Dpkg::Vendor qw(get_current_vendor run_vendor_hook);
+use Dpkg::Control;
+use Dpkg::Changelog::Parse;
 
 use POSIX;
 use File::Basename;
@@ -293,6 +295,38 @@ sub register_autopatch {
         # Clean up empty series
         unlink($series) if not -s $series;
     }
+}
+
+sub get_patch_header {
+    my ($self, $dir, $previous) = @_;
+    my $ch_info = changelog_parse(offset => 0, count => 1,
+        file => File::Spec->catfile($dir, "debian", "changelog"));
+    return '' if not defined $ch_info;
+    my $header = Dpkg::Control->new(type => CTRL_UNKNOWN);
+    $header->{'Description'} = "Upstream changes introduced in version " .
+                               $ch_info->{'Version'} . "\n";
+    $header->{'Description'} .=
+"This patch has been created by dpkg-source during the package build.
+Here's the last changelog entry, hopefully it gives details on why
+those changes were made:\n";
+    $header->{'Description'} .= $ch_info->{'Changes'} . "\n";
+    $header->{'Description'} .=
+"\nThe person named in the Author field signed this changelog entry.\n";
+    $header->{'Author'} = $ch_info->{'Maintainer'};
+    my $text = "$header";
+    run_vendor_hook("extend-patch-header", \$text, $ch_info);
+    $text .= "\n---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>\n\n";
+    return $text;
 }
 
 # vim:et:sw=4:ts=8
