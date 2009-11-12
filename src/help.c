@@ -96,14 +96,13 @@ void checkpath(void) {
 
   const char *const *prog;
   const char *path_list;
-  char *filename;
+  struct varbuf filename = VARBUF_INIT;
   int warned= 0;
 
   path_list = getenv("PATH");
   if (!path_list)
     ohshit(_("error: PATH is not set."));
-  filename = m_malloc(strlen(path_list) + 2 + strlen("start-stop-daemon"));
-  
+
   for (prog = prog_list; *prog; prog++) {
     struct stat stab;
     const char *path, *path_end;
@@ -113,11 +112,15 @@ void checkpath(void) {
     while (path) {
       path_end = strchr(path, ':');
       path_len = path_end ? (size_t)(path_end - path) : strlen(path);
-      memcpy(filename, path, path_len);
+
+      varbufreset(&filename);
+      varbufaddbuf(&filename, path, path_len);
       if (path_len)
-        filename[path_len++] = '/';
-      strcpy(filename + path_len, *prog);
-      if (stat(filename, &stab) == 0 && (stab.st_mode & 0111))
+        varbufaddc(&filename, '/');
+      varbufaddstr(&filename, *prog);
+      varbufaddc(&filename, '\0');
+
+      if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111))
         break;
       path = path_end;
       if (path)
@@ -129,7 +132,7 @@ void checkpath(void) {
     }
   }
 
-  free(filename);
+  varbuffree(&filename);
 
   if (warned)
     forcibleerr(fc_badpath,_("%d expected program(s) not found on PATH.\nNB: root's "
