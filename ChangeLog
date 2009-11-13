@@ -1,3 +1,23 @@
+2009-11-13  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Release 1.14.27.
+
+2009-11-02  Raphael Hertzog  <hertzog@debian.org>
+
+	* Cherry-pick fixes from master branch concerning the new source
+	formats.
+	* scripts/Dpkg/Source/Package/V2.pm (apply_patches): do not try to
+	apply empty patch set.
+	(do_build): remove debian/patches dir when empty.
+	* scripts/Dpkg/Source/Package/V3/quilt.pm (apply_patches): apply
+	all quilt patches in a single quilt invocation.
+	(register_autopatch): remove series file if empty and ensure
+	automatic patch is always well registered with quilt.
+	* scripts/Dpkg/Source/Package.pm (find_original_tarballs),
+	scripts/Dpkg/Source/Package/V2.pm (do_extract, do_build):
+	recognize supplementary upstream tarballs containing dashes in
+	the "component" part of the filename.
+
 2009-04-09  Raphael Hertzog  <hertzog@debian.org>
 
 	* configure.ac: Bump version to 1.14.27~.
