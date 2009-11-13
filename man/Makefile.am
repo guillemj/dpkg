@@ -85,6 +85,7 @@ dist_man_MANS = \
 	deb-control.5 \
 	deb-version.5 \
 	deb-shlibs.5 \
+	deb-split.5 \
 	deb-substvars.5 \
 	deb-symbols.5 \
 	deb-triggers.5 \

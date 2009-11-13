@@ -1,0 +1,38 @@
+.TH deb\-split 5 "2009-12-31" "Debian Project" "Debian"
+.SH NAME
+deb\-split \- Debian multi-part binary package format
+.SH SYNOPSIS
+.IB filename .deb
+.SH DESCRIPTION
+The multi-part \fB.deb\fP format is used to split big packages into smaller
+pieces to ease transport in small media.
+.SH FORMAT
+The file is an \fBar\fP archive with a magic value of \fB!<arch>\fP.
+.PP
+The first member is named \fBdebian\-split\fP and contains a series
+of lines, separated by newlines. Currently seven lines are present.
+The first is the format version number, \fB2.1\fP at the time this
+manual page was written. The second is the package name. The third
+is the package version. The fourth is the md5sum of the package.
+The fifth is the total size of the package. The sixth is the maximum
+part size. The seventh is the current part number, followed by a slash
+and the total amount of parts (as in \(oq1/10\(cq).
+.PP
+Programs which read multi-part archives should be prepared for additional
+lines to be present, and should ignore these if this is the case.
+.PP
+If the version number has changed, an incompatible change has been made
+and the program should stop. If it has not, then the program should
+be able to safely continue, unless it encounters an unexpected member
+in the archive (except at the end), as described below.
+.PP
+The second, last required member is named \fBdata.\fPN, where N denotes
+the part number. It contains the raw part data.
+.PP
+These members must occur in this exact order. Current implementations
+should ignore any additional members after \fBdata.\fPN.
+Further members may be defined in the future, and (if possible) will be
+placed after these two.
+.SH SEE ALSO
+.BR deb (5),
+.BR dpkg\-split (1).
