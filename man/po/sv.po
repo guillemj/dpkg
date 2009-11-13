@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-13 12:17+0100\n"
-"PO-Revision-Date: 2009-10-29 20:10+0100\n"
+"PO-Revision-Date: 2009-11-13 13:38+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -3611,7 +3611,6 @@ msgstr "B<processing: >I<skede>B<: >I<paket>"
 
 #. type: Plain text
 #: dpkg.1:546
-#, fuzzy
 #| msgid ""
 #| "Sent just before a processing stage starts. I<stage> is one of "
 #| "B<upgrade>, B<install> (both sent before unpacking), B<configure>, "
@@ -3623,7 +3622,7 @@ msgid ""
 msgstr ""
 "Sänds precis innan ett hanteringsskede påbörjas. I<Skede> är något av "
 "B<upgrade>, B<install> (båda sänds innan paketet packas upp), B<configure>, "
-"B<trigproc>, B<remove>, B<purge>."
+"B<trigproc>, B<disappear>, B<remove>, B<purge>."
 
 #. type: TP
 #: dpkg.1:547
@@ -8199,7 +8198,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-scanpackages.1:64
-#, fuzzy
 #| msgid ""
 #| "I<overridefile> is the name of a file to read which contains information "
 #| "about how the package fits into the distribution; see B<deb-override>(5)."
@@ -8209,8 +8207,8 @@ msgid ""
 "file); see B<deb-override>(5)."
 msgstr ""
 "I<överstyrningsfil> är namnet på en fil som skall läsas in och som "
-"innehåller information om hur paketet passar in i distributionen; se B<deb-"
-"override>(5)."
+"innehåller information om hur paketet passar in i distributionen "
+"(kan vara en komprimerad fil); se B<deb-override>(5)."
 
 #. type: Plain text
 #: dpkg-scanpackages.1:67
@@ -8261,7 +8259,6 @@ msgstr "B<-e>, B<--extra-override> I<fil>"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:85 dpkg-scansources.1:55
-#, fuzzy
 #| msgid ""
 #| "Scan I<file> to find supplementary overrides. See B<deb-extra-override>"
 #| "(5)  for more information on its format."
@@ -8269,8 +8266,9 @@ msgid ""
 "Scan I<file> to find supplementary overrides (the file can be compressed). "
 "See B<deb-extra-override>(5)  for more information on its format."
 msgstr ""
-"Läs I<fil> för att hitta ytterligare överstyrningar. Se B<deb-extra-override>"
-"(5) för mer information om dess format."
+"Läs I<fil> för att hitta ytterligare överstyrningar (filen kan vara "
+"komprimerad). Se B<deb-extra-override>(5) för mer information om dess "
+"format."
 
 #. type: TP
 #: dpkg-scanpackages.1:85
@@ -8300,10 +8298,10 @@ msgstr "Ta med alla paket som hittas i utdata."
 
 #. type: TP
 #: dpkg-scanpackages.1:92
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-p>, B<--pidfile> I<pid-file>"
 msgid "B<-M>, B<--medium> I<id-string>"
-msgstr "B<-p>, B<--pidfile> I<pidfil>"
+msgstr "B<-M>, B<--medium> I<idsträng>"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:97
@@ -8312,6 +8310,9 @@ msgid ""
 "required if you want to generate B<Packages.cd> files for use by the multicd "
 "access method of dselect."
 msgstr ""
+"Lägg till ett X-Medium-fält som innehåller värdet I<idsträng>. Fältet är "
+"nödvändigt om du vill generera B<Packages.cd>-filer som kan användas med "
+"dselect:s multicd-åtkomstmetod."
 
 #. type: SH
 #: dpkg-scanpackages.1:104 update-alternatives.8:441
@@ -8379,7 +8380,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-scansources.1:29
-#, fuzzy
 #| msgid ""
 #| "The I<override-file>, if given, is used to set priorities in the "
 #| "resulting index records and to override the maintainer field given in the "
@@ -8403,7 +8403,7 @@ msgid ""
 msgstr ""
 "I<Överstyrningsfil>en, om den anges, används för att ställa in prioriteter i "
 "de skapade indexposterna, samt för att ersätta fält de paketansvariga ger i "
-"I<.dsc>-filerna. Se B<dpkg-scanpackages>(1) för en beskrivning av formatet "
+"I<.dsc>-filerna. Filen kan vara komprimerad. Se B<deb-override>(5) för en beskrivning av formatet "
 "för denna fil. \\s-1Obs!\\s0 Eftersom överstyrningsfilen indexerar per "
 "binärpaket, inte källkodspaket, uppstår det ett problem här. Nuvarande "
 "implementation använder den högsta prioriteten av samtliga binärpaket som "
@@ -8458,7 +8458,6 @@ msgstr "B<-s>, B<--source-override> I<fil>"
 
 #. type: Plain text
 #: dpkg-scansources.1:59
-#, fuzzy
 #| msgid ""
 #| "Use I<file> as the source override file. The default is the name of the "
 #| "override file you specified with I<.src> appended."
@@ -8466,7 +8465,8 @@ msgid ""
 "Use I<file> as the source override file (the file can be compressed).  The "
 "default is the name of the override file you specified with I<.src> appended."
 msgstr ""
-"Använd I<fil> som överstyrningsfil för källkoden. Standardnamnet är namnet "
+"Använd I<fil> som överstyrningsfil för källkoden (filen kan vara "
+"komprimerad). Standardnamnet är namnet "
 "på den överstyrningsfil du angav, med tillägget I<.src>."
 
 #. type: Plain text
@@ -9397,10 +9397,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:65
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--admindir>I< directory>"
 msgid "B<--print-format> I<directory>"
-msgstr "B<--admindir>I< katalog>"
+msgstr "B<--print-format> I<katalog>"
 
 #. type: Plain text
 #: dpkg-source.1:70
@@ -9409,6 +9409,9 @@ msgid ""
 "B<dpkg-source -b >I<directory> was called (in the same conditions and with "
 "the same options)."
 msgstr ""
+"Visa formatet som skulle användas för att bygga källkodspaketet om "
+"B<dpkg-source -b> I<katalog> skulle köras (i samma katalog och med "
+"samma flaggor)."
 
 #. type: SH
 #: dpkg-source.1:78
@@ -9472,7 +9475,6 @@ msgstr "B<-Z>I<komprimeringstyp>"
 
 #. type: Plain text
 #: dpkg-source.1:126
-#, fuzzy
 #| msgid ""
 #| "Specify the compression to use for created files (tarballs and diffs).  "
 #| "Note that this option will not cause existing tarballs to be "
@@ -9488,7 +9490,8 @@ msgstr ""
 "Anger vilken komprimering som skall användas för de skapade filerna (tar-"
 "bollar och diffar). Observera att flaggan inte gör att befintliga tar-bollar "
 "packas om, utan enbart påverkar nya filer. Värden som stöds är: I<gzip>, "
-"I<bzip2> samt I<lzma>. I<gzip> är förvalet."
+"I<bzip2>, I<lzma> samt I<xz>. I<gzip> är förvalet. Stöd för I<xz> finns "
+"bara från och med dpkg-dev 1.15.5."
 
 #. type: TP
 #: dpkg-source.1:126
@@ -9681,6 +9684,11 @@ msgid ""
 "default formats in the near future. See http://wiki.debian.org/Projects/"
 "DebSrc3.0 for information on the deployment of those formats within Debian."
 msgstr ""
+"Om du inte vet vilket källkodspaketformat du skall använda, bör du "
+"antagligen välja antingen \"3.0 (quilt)\" eller \"3.0 (native)\". De "
+"kommer bli standardformaten inom en nära förestående framtid. Se "
+"http://wiki.debian.org/Projects/DebSrc3.0 för information om hur "
+"dessa format sätts i produktion i Debian."
 
 #. type: SS
 #: dpkg-source.1:205
@@ -10035,7 +10043,6 @@ msgstr "Format: 3.0 (quilt)"
 
 #. type: Plain text
 #: dpkg-source.1:370
-#, fuzzy
 #| msgid ""
 #| "A source package in this format contains at least an original tarball (B<."
 #| "orig.tar.>I<ext> where I<ext> can be B<gz>, B<bz2> and B<lzma>) and a "
@@ -10050,7 +10057,8 @@ msgid ""
 "only contain alphanumeric characters and dashes (\"-\")."
 msgstr ""
 "Ett källkodspaket i detta format innehåller åtminstone en original-tarboll "
-"(B<.orig.tar.>I<ext>, där I<ext> kan vara B<gz>, B<bz2> och B<lzma>) och en "
+"(B<.orig.tar.>I<ext>, där I<ext> kan vara B<gz>, B<bz2>, B<lzma> eller "
+"B<xz>) och en "
 "Debiantarboll (B<.debian.tar.>I<ext>). Den kan även innehålla ytterligare "
 "original-tarbollar (B<.orig->I<komponent>B<.tar.>I<ext>). I<komponent> kan "
 "endast innehålla alfanumeriska tecken och bindestreck (\"-\")."
@@ -10432,10 +10440,10 @@ msgstr ""
 
 #. type: SS
 #: dpkg-source.1:511
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "debian/source/format"
 msgid "debian/source/options"
-msgstr "debian/source/format"
+msgstr "debian/source/options"
 
 #. type: Plain text
 #: dpkg-source.1:516
@@ -10445,6 +10453,10 @@ msgid ""
 "print-format> call. Options like B<-Z> and B<-z> are well suited for this "
 "file."
 msgstr ""
+"Filen innehåller en lista över flaggor som automatiskt sätts in före "
+"kommandoradsflaggorna som anges i ett anrop til B<dpkg-source -b> eller "
+"B<dpkg-source --print-format>. Flaggor som B<-Z> och B<-z> är lämpliga "
+"att lägga in i den  här filen."
 
 #. type: Plain text
 #: dpkg-source.1:520
@@ -10453,6 +10465,9 @@ msgid ""
 "with \"#\" are ignored. B<--format> options are not accepted in this file, "
 "you should use B<debian/source/format> instead."
 msgstr ""
+"Ange varje flagga på en egen rad. Tomma rader och rader som börjar med "
+"\"#\" ignoreras. B<--format>-flaggor tillåts inte i den här filen, du "
+"bör använda filen B<debian/source/format> istället."
 
 #. type: SS
 #: dpkg-source.1:520
