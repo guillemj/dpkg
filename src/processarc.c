@@ -124,6 +124,39 @@ deb_reassemble(const char **filename, const char **pfilename)
   return true;
 }
 
+static void
+deb_verify(const char *filename)
+{
+  struct stat stab;
+  pid_t pid;
+
+  if (stat(DEBSIGVERIFY, &stab) < 0)
+    return;
+
+  printf(_("Authenticating %s ...\n"), filename);
+  fflush(stdout);
+  pid = subproc_fork();
+  if (!pid) {
+    execl(DEBSIGVERIFY, DEBSIGVERIFY, "-q", filename, NULL);
+    ohshite(_("unable to execute %s (%s)"),
+            _("package signature verification"), DEBSIGVERIFY);
+  } else {
+    int status;
+
+    status = subproc_wait(pid, "debsig-verify");
+    if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
+      if (!fc_badverify)
+        ohshit(_("Verification on package %s failed!"), filename);
+      else
+        fprintf(stderr, _("Verification on package %s failed,\n"
+                          "but installing anyway as you requested.\n"),
+                filename);
+    } else {
+      printf(_("passed\n"));
+    }
+  }
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -181,30 +214,8 @@ void process_archive(const char *filename) {
   }
 
   /* Verify the package. */
-  if (!f_nodebsig && (stat(DEBSIGVERIFY, &stab)==0)) {
-    printf(_("Authenticating %s ...\n"), filename);
-    fflush(stdout);
-    c1 = subproc_fork();
-    if (!c1) {
-      execl(DEBSIGVERIFY, DEBSIGVERIFY, "-q", filename, NULL);
-      ohshite(_("unable to execute %s (%s)"),
-              _("package signature verification"), DEBSIGVERIFY);
-    } else {
-      int status;
-
-      status = subproc_wait(c1, "debsig-verify");
-      if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
-	if (! fc_badverify) {
-	  ohshit(_("Verification on package %s failed!"), filename);
-	} else {
-	  fprintf(stderr, _("Verification on package %s failed,\nbut installing anyway as you requested.\n"), filename);
-	}
-      } else {
-	printf(_("passed\n"));
-      }
-    }
-  }
-
+  if (!f_nodebsig)
+    deb_verify(filename);
 
   if (f_noact) {
     if (!cidirbuf)
