@@ -1040,7 +1040,7 @@ void process_archive(const char *filename) {
 
     printf(_("(Noting disappearance of %s, which has been completely replaced.)\n"),
            otherpkg->name);
-    log_action("disappear", otherpkg->name);
+    log_action("disappear", otherpkg);
     debug(dbg_general, "process_archive disappearing %s",otherpkg->name);
     /* No, we're disappearing it.  This is the wrong time to go and
      * run maintainer scripts and things, as we can't back out.  But
