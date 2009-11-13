@@ -80,6 +80,50 @@ summarize_filename(const char *filename)
   return pfilename;
 }
 
+static bool
+deb_reassemble(const char **filename, const char **pfilename)
+{
+  static char *reasmbuf = NULL;
+  struct stat stab;
+  int status;
+  pid_t pid;
+
+  if (!reasmbuf)
+    m_asprintf(&reasmbuf, "%s/%s", admindir, REASSEMBLETMP);
+  if (unlink(reasmbuf) && errno != ENOENT)
+    ohshite(_("error ensuring `%.250s' doesn't exist"), reasmbuf);
+
+  push_cleanup(cu_pathname, ~0, NULL, 0, 1, (void *)reasmbuf);
+
+  pid = subproc_fork();
+  if (!pid) {
+    execlp(SPLITTER, SPLITTER, "-Qao", reasmbuf, *filename, NULL);
+    ohshite(_("unable to execute %s (%s)"),
+            _("split package reassembly"), SPLITTER);
+  }
+  status = subproc_wait(pid, SPLITTER);
+  switch (WIFEXITED(status) ? WEXITSTATUS(status) : -1) {
+  case 0:
+    /* It was a part - is it complete? */
+    if (!stat(reasmbuf, &stab)) {
+      /* Yes. */
+      *filename = reasmbuf;
+      *pfilename = _("reassembled package file");
+      break;
+    } else if (errno == ENOENT) {
+      /* No. That's it, we skip it. */
+      return false;
+    }
+  case 1:
+    /* No, it wasn't a part. */
+    break;
+  default:
+    subproc_check(status, SPLITTER, 0);
+  }
+
+  return true;
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -95,7 +139,7 @@ void process_archive(const char *filename) {
    * we unwind the stack before processing the cleanup list, and these
    * variables had better still exist ... */
   static int p1[2];
-  static char *cidirbuf = NULL, *reasmbuf = NULL;
+  static char *cidirbuf = NULL;
   static struct fileinlist *newconffiles, *newfileslist;
   static enum pkgstatus oldversionstatus;
   static struct varbuf infofnvb, fnvb, depprobwhy;
@@ -130,39 +174,10 @@ void process_archive(const char *filename) {
 
   if (stat(filename,&stab)) ohshite(_("cannot access archive"));
 
+  /* We can't ‘tentatively-reassemble’ packages. */
   if (!f_noact) {
-    int status;
-
-    /* We can't ‘tentatively-reassemble’ packages. */
-    if (!reasmbuf)
-      m_asprintf(&reasmbuf, "%s/%s", admindir, REASSEMBLETMP);
-    if (unlink(reasmbuf) && errno != ENOENT)
-      ohshite(_("error ensuring `%.250s' doesn't exist"),reasmbuf);
-    push_cleanup(cu_pathname, ~0, NULL, 0, 1, (void *)reasmbuf);
-    c1 = subproc_fork();
-    if (!c1) {
-      execlp(SPLITTER, SPLITTER, "-Qao", reasmbuf, filename, NULL);
-      ohshite(_("unable to execute %s (%s)"),
-              _("split package reassembly"), SPLITTER);
-    }
-    status = subproc_wait(c1, SPLITTER);
-    switch (WIFEXITED(status) ? WEXITSTATUS(status) : -1) {
-    case 0:
-      /* It was a part - is it complete? */
-      if (!stat(reasmbuf,&stab)) { /* Yes. */
-        filename= reasmbuf;
-        pfilename= _("reassembled package file");
-        break;
-      } else if (errno == ENOENT) {
-        /* No. That's it, we skip it. */
-        return;
-      }
-    case 1:
-      /* No, it wasn't a part. */
-      break;
-    default:
-      subproc_check(status, SPLITTER, 0);
-    }
+    if (!deb_reassemble(&filename, &pfilename))
+      return;
   }
 
   /* Verify the package. */
