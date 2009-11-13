@@ -412,7 +412,7 @@ int
 main(int argc, const char *const *argv)
 {
 	jmp_buf ejbuf;
-	static int (*actionfunction)(const char *const *argv);
+	int (*actionfunction)(const char *const *argv);
 	int ret;
 
 	setlocale(LC_ALL, "");

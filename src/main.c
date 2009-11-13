@@ -601,7 +601,7 @@ void commandfd(const char *const *argv) {
   FILE *in;
   unsigned long infd;
   int c, lno, i, skipchar;
-  static void (*actionfunction)(const char *const *argv);
+  void (*actionfunction)(const char *const *argv);
 
   pipein = *argv++;
   if (pipein == NULL)
@@ -693,7 +693,7 @@ void commandfd(const char *const *argv) {
 
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
-  static void (*actionfunction)(const char *const *argv);
+  void (*actionfunction)(const char *const *argv);
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);

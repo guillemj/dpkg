@@ -662,7 +662,7 @@ static const struct cmdinfo cmdinfos[]= {
 
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
-  static void (*actionfunction)(const char *const *argv);
+  void (*actionfunction)(const char *const *argv);
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);

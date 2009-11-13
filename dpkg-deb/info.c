@@ -67,7 +67,7 @@ static void info_prepare(const char *const **argvp,
                          const char **debarp,
                          const char **directoryp,
                          int admininfo) {
-  static char *dbuf;
+  char *dbuf;
   pid_t c1;
   
   *debarp= *(*argvp)++;
