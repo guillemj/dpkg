@@ -1,61 +1,48 @@
+# DPKG_WITH_COMPRESS_LIB(NAME, HEADER, FUNC, LINK)
+# -------------------------------------------------
+# Check for availability of a compression library.
+AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
+  AC_ARG_VAR(AS_TR_CPP($1)[_LIBS], [linker flags for $1 library])
+  AC_ARG_WITH($1,
+    AS_HELP_STRING([--with-$1],
+                   [use $1 library for compression and decompression]))
+  if test "x$with_$1" != "xno"; then
+    AC_CHECK_LIB([$4], [$3], [
+      AC_DEFINE([WITH_]AS_TR_CPP($1), 1,
+                [Define to 1 to use $1 rather than console tool])
+      if test "x$with_$1" = "xstatic"; then
+        dpkg_$1_libs="-Wl,-Bstatic -l$4 -Wl,-Bdynamic"
+      else
+        dpkg_$1_libs="-l$4"
+      fi
+      AS_TR_CPP($1)_LIBS="${AS_TR_CPP($1)_LIBS:+$AS_TR_CPP($1)_LIBS }$dpkg_$1_libs"
+      with_$1="yes"
+    ], [
+      if test -n "$with_$1"; then
+        AC_MSG_FAILURE([$1 library not found])
+      fi
+    ])
+
+    AC_CHECK_HEADER([$2], [], [
+      if test -n "$with_$1"; then
+        AC_MSG_FAILURE([$1 header not found])
+      fi
+    ])
+  fi
+])# DPKG_WITH_COMPRESS_LIB
+
 # DPKG_LIB_ZLIB
 # -------------
 # Check for zlib library.
-AC_DEFUN([DPKG_LIB_ZLIB],
-[AC_ARG_VAR([ZLIB_LIBS], [linker flags for zlib library])dnl
-AC_ARG_WITH(zlib,
-	AS_HELP_STRING([--with-zlib],
-		       [use zlib library for compression and decompression]))
-if test "x$with_zlib" != "xno"; then
-	AC_CHECK_LIB([z], [gzdopen],
-		[AC_DEFINE(WITH_ZLIB, 1,
-			[Define to 1 to use zlib rather than console tool])
-		 if test "x$with_zlib" = "xstatic"; then
-			dpkg_zlib_libs="-Wl,-Bstatic -lz -Wl,-Bdynamic"
-		 else
-			dpkg_zlib_libs="-lz"
-		 fi
-		 ZLIB_LIBS="${ZLIB_LIBS:+$ZLIB_LIBS }$dpkg_zlib_libs"
-		 with_zlib="yes"],
-		[if test -n "$with_zlib"; then
-			AC_MSG_FAILURE([zlib library not found])
-		 fi])
-
-	AC_CHECK_HEADER([zlib.h],,
-		[if test -n "$with_zlib"; then
-			AC_MSG_FAILURE([zlib header not found])
-		 fi])
-fi
+AC_DEFUN([DPKG_LIB_ZLIB], [
+  DPKG_WITH_COMPRESS_LIB([zlib], [zlib.h], [gzdopen], [z])
 ])# DPKG_LIB_ZLIB
 
 # DPKG_LIB_BZ2
 # ------------
 # Check for bz2 library.
-AC_DEFUN([DPKG_LIB_BZ2],
-[AC_ARG_VAR([BZ2_LIBS], [linker flags for bz2 library])dnl
-AC_ARG_WITH(bz2,
-	AS_HELP_STRING([--with-bz2],
-		       [use bz2 library for compression and decompression]))
-if test "x$with_bz2" != "xno"; then
-	AC_CHECK_LIB([bz2], [BZ2_bzdopen],
-		[AC_DEFINE(WITH_BZ2, 1,
-			[Define to 1 to use libbz2 rather than console tool])
-		 if test "x$with_bz2" = "xstatic"; then
-			dpkg_bz2_libs="-Wl,-Bstatic -lbz2 -Wl,-Bdynamic"
-		 else
-			dpkg_bz2_libs="-lbz2"
-		 fi
-		 BZ2_LIBS="${BZ2_LIBS:+$BZ2_LIBS }$dpkg_bz2_libs"
-		 with_bz2="yes"],
-		[if test -n "$with_bz2"; then
-			AC_MSG_FAILURE([bz2 library not found])
-		 fi])
-
-	AC_CHECK_HEADER([bzlib.h],,
-		[if test -n "$with_bz2"; then
-			AC_MSG_FAILURE([bz2 header not found])
-		 fi])
-fi
+AC_DEFUN([DPKG_LIB_BZ2], [
+  DPKG_WITH_COMPRESS_LIB([bz2], [bzlib.h], [BZ2_bzdopen], [bz2])
 ])# DPKG_LIB_BZ2
 
 # DPKG_LIB_SELINUX
