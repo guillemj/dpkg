@@ -65,7 +65,7 @@ printversion(const struct cmdinfo *cip, const char *value)
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"));
 
-	m_output(stdout, _("<standard output"));
+	m_output(stdout, _("<standard output>"));
 
 	exit(0);
 }
