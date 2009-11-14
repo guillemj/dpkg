@@ -549,7 +549,7 @@ void do_build(const char *const *argv) {
       datamember = DATAMEMBER_CAT;
       break;
     default:
-      internerr("unkown compress_type '%i'", compress_type);
+      internerr("unknown compress_type '%i'", compress_type);
     }
     if (fstat(gzfd, &datastab))
       ohshite(_("failed to fstat tmpfile (data)"));
