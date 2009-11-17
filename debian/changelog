@@ -9,6 +9,7 @@ dpkg (1.15.5) UNRELEASED; urgency=low
   * Make the upstream build system silent by default with automake 1.11 or
     newer, and always verbose when building the Debian packages.
   * Fix small leak when parsing ‘--ignore-depends’ option values.
+  * Define compatibility WCOREDUMP only if the system does not have it.
   * When start-stop-daemon fails to set the io scheduling warn instead of
     finishing fatally. Closes: #553580
   * Update md5 file paths in debian/copyright.
@@ -38,6 +39,9 @@ dpkg (1.15.5) UNRELEASED; urgency=low
     Thanks to Robert Millan.
   * Update the FSF postal address in the source code license headers by
     replacing it with a URL to the gnu.org page.
+  * Fix a file descriptor leak in dpkg-deb.
+    Reported by Raphael Geissert <atomo64@gmail.com>.
+  * Fix resource leaks on error conditions in compat scandir.
   * Add a new status-fd action when disappearing a package. Closes: #537338
 
   [ Raphaël Hertzog ]
@@ -92,27 +96,26 @@ dpkg (1.15.5) UNRELEASED; urgency=low
 
   [ Updated dpkg translations ]
   * Czech (Miroslav Kure).
+  * French (Christian Perrier).
   * German (Sven Joachim).
   * Italian (Milo Casagrande). Closes: #548615, #555806
   * Polish (Wiktor Wandachowicz). Closes: #548541
   * Swedish (Peter Krefting).
-  * French (Christian Perrier).
 
   [ Updated dselect translations ]
   * Czech (Miroslav Kure).
+  * French (Christian Perrier).
   * German (Sven Joachim).
   * Polish (Wiktor Wandachowicz). Closes: #548541
   * Swedish (Peter Krefting).
-  * French (Christian Perrier).
 
   [ Updated man page translations ]
+  * French (Christian Perrier).
   * French translation error fixed (Christian Perrier)
-    Thanks to Pietro Battiston for spotting it
-    Closes: #545446
+    Thanks to Pietro Battiston for spotting it. Closes: #545446
   * German (Helge Kreutzmann).
   * Polish (Wiktor Wandachowicz). Closes: #548541
   * Swedish (Peter Krefting).
-  * French (Christian Perrier).
 
   [ Updated scripts translations ]
   * German (Helge Kreutzmann).
