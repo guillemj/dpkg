@@ -112,14 +112,14 @@ while (@options) {
     $_ = shift(@options);
     if (m/^--format=(.*)$/) {
         push @cmdline_formats, $1;
-    } elsif (m/^-Z(.*)$/) {
+    } elsif (m/^-(?:Z|-compression=)(.*)$/) {
 	my $compression = $1;
 	$options{'compression'} = $compression;
 	$options{'comp_ext'} = $comp_ext{$compression};
 	usageerr(_g("%s is not a supported compression"), $compression)
 	    unless $comp_supported{$compression};
 	Dpkg::Source::Compressor->set_default_compression($compression);
-    } elsif (m/^-z(.*)$/) {
+    } elsif (m/^-(?:z|-compression-level=)(.*)$/) {
 	my $comp_level = $1;
 	$options{'comp_level'} = $comp_level;
 	usageerr(_g("%s is not a compression level"), $comp_level)

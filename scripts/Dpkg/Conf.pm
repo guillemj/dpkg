@@ -51,6 +51,7 @@ sub new {
 
     my $self = {
 	options => [],
+	allow_short => 0,
     };
     bless $self, $class;
 
@@ -88,6 +89,10 @@ sub parse {
 	s/\s+=\s+/=/;         # Remove spaces around the first =
 	s/\s+/=/ unless m/=/; # First spaces becomes = if no =
 	next if /^#/ or /^$/; # Skip empty lines and comments
+	if (/^-[^-]/ and not $self->{'allow_short'}) {
+	    warning(_g("short option not allowed in %s, line %d"), $desc, $.);
+	    next;
+	}
 	if (/^(\S+)(?:=(.*))?$/) {
 	    my ($name, $value) = ($1, $2);
 	    $name = "--$name" unless $name =~ /^-/;
