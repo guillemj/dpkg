@@ -84,7 +84,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 }
 
 my $dir;
-if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
+if (defined($options{'opmode'}) &&
+    $options{'opmode'} =~ /^(-b|--print-format)$/) {
     if (not scalar(@ARGV)) {
 	usageerr(_g("%s needs a directory"), $options{'opmode'});
     }
