@@ -93,7 +93,7 @@ sub parse {
 	    warning(_g("short option not allowed in %s, line %d"), $desc, $.);
 	    next;
 	}
-	if (/^(\S+)(?:=(.*))?$/) {
+	if (/^([^=]+)(?:=(.*))?$/) {
 	    my ($name, $value) = ($1, $2);
 	    $name = "--$name" unless $name =~ /^-/;
 	    if (defined $value) {
