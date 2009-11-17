@@ -18,10 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-
 #include <dpkg/test.h>
 #include <dpkg/buffer.h>
+
+#include <stdio.h>
 
 static void
 test_buffer_hash(void)

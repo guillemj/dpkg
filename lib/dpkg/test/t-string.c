@@ -18,10 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <string.h>
-
 #include <dpkg/test.h>
 #include <dpkg/string.h>
+
+#include <string.h>
 
 static void
 test_str_escape_fmt(void)

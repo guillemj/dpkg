@@ -18,10 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdlib.h>
-
 #include <dpkg/test.h>
 #include <dpkg/path.h>
+
+#include <stdlib.h>
 
 /* Use the test_trim_eq_ref macro to avoid leaking the string and to get
  * meaningful line numbers from assert. */
