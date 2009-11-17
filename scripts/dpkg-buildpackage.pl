@@ -82,7 +82,7 @@ Options:
   -sn            force Debian native source format.      }
   -s[sAkurKUR]   see dpkg-source for explanation.        } only passed
   -z<level>      compression level of source             } to dpkg-source
-  -Z(gz|bz2|lzma) compression to use for source          }
+  -Z<compressor> compression to use for source           }
   -nc            do not clean source tree (implies -b).
   -tc            clean source tree when finished.
   -ap            add pause before starting signature process.
