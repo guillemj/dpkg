@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dpkg-1.15.4.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2009-11-14 17:44+0100\n"
-"PO-Revision-Date: 2009-11-14 17:50+0100\n"
+"PO-Revision-Date: 2009-11-16 16:59-0600\n"
 "Last-Translator: Milo Casagrande <milo@ubuntu.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -1186,7 +1186,7 @@ msgstr "eof non attesa in \"%.250s\""
 
 #: lib/dpkg/varbuf.c:78 lib/dpkg/varbuf.c:87
 msgid "error formatting string into varbuf variable"
-msgstr ""
+msgstr "errore nel formattare la stringa in una variabile varbuf"
 
 #: src/archives.c:178
 msgid "error reading from dpkg-deb pipe"
@@ -2438,14 +2438,13 @@ msgid "installed"
 msgstr "installato"
 
 #: src/help.c:104
-#, fuzzy
 msgid "error: PATH is not set."
-msgstr "dpkg - errore: variabile PATH non impostata.\n"
+msgstr "errore: variabile PATH non impostata."
 
 #: src/help.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' not found on PATH."
-msgstr "dpkg: \"%s\" non trovato nella variabile PATH.\n"
+msgstr "\"%s\" non trovato nella variabile PATH."
 
 #: src/help.c:138
 #, c-format
@@ -2521,9 +2520,9 @@ msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... sembra tutto sia andato correttamente.\n"
 
 #: src/help.c:592
-#, fuzzy, c-format
+#, c-format
 msgid "unable to securely remove '%.255s'"
-msgstr "impossibile creare \"%.255s\""
+msgstr "impossibile rimuovere in sicurezza \"%.255s\""
 
 #: src/help.c:597 dpkg-deb/info.c:60
 msgid "failed to exec rm for cleanup"
@@ -3292,12 +3291,10 @@ msgstr ""
 "il vecchio file \"%.250s\" è lo stesso di molti nuovi file (sia \"%.250s\" "
 "che \"%.250s\")"
 
-# FIXME
-# (ndt) qui c'è il problema di 'delete' di cui sopra
 #: src/processarc.c:780
-#, fuzzy, c-format
+#, c-format
 msgid "unable to securely remove old file '%.250s': %s"
-msgstr "impossibile %s il vecchio file \"%.250s\": %s"
+msgstr "impossibile rimuovere in sicurezza il vecchio file \"%.250s\": %s"
 
 #: src/processarc.c:815 src/processarc.c:1063 src/query.c:478 src/remove.c:271
 msgid "cannot read info directory"
@@ -3634,9 +3631,9 @@ msgid "cannot remove `%.250s'"
 msgstr "impossibile rimuovere \"%.250s\""
 
 #: src/remove.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "unable to securely remove '%.250s'"
-msgstr "impossibile creare \"%.255s\""
+msgstr "impossibile rimuovere in sicurezza \"%.250s\""
 
 #: src/remove.c:294
 #, c-format
@@ -3735,22 +3732,20 @@ msgid "Debian %s version %s.\n"
 msgstr "Debian %s versione %s.\n"
 
 #: src/statcmd.c:61
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
 "Copyright (C) 2006-2009 Guillem Jover.\n"
 msgstr ""
-"\n"
-"Copyright © 1995 Ian Jackson.\n"
-"Copyright © 2000,2001 Wichert Akkerman."
+"Copyright © 2000, 2001 Wichert Akkerman.\n"
+"Copyright © 2006-2009 Guillem Jover.\n"
 
 #: src/statcmd.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
 msgstr ""
-"\n"
 "Questo è software libero; consultare la GNU General Public Licence v.2\n"
 "o successiva per le condizioni di copia. NON c'è alcuna garanzia.\n"
 
@@ -3764,9 +3759,14 @@ msgid ""
 "  --list [<glob-pattern>]  list current overrides in the database.\n"
 "\n"
 msgstr ""
+"Comandi:\n"
+"  --add <proprietario> <gruppo> <modalità> <file>\n"
+"                           Aggiunge una nuova voce al database\n"
+"  --remove <file>          Rimuove il file dal database\n"
+"  --list [<glob-pattern>]  Elenca gli override nel database\n"
 
 #: src/statcmd.c:89
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
@@ -3777,14 +3777,6 @@ msgid ""
 "  --version                show the version.\n"
 "\n"
 msgstr ""
-"Uso: %s [<opzione> ...] <comando>\n"
-"\n"
-"Comandi:\n"
-"  --add <proprietario> <gruppo> <modalità> <file>\n"
-"                           Aggiunge una nuova voce al database\n"
-"  --remove <file>          Rimuove il file dal database\n"
-"  --list [<glob-pattern>]  Elenca gli override nel database\n"
-"\n"
 "Opzioni:\n"
 "  --admindir <directory>   Imposta la directory con il file di statoverride\n"
 "  --update                 Aggiorna immediatamente i permessi del file\n"
@@ -3798,9 +3790,9 @@ msgid "stripping trailing /"
 msgstr "vengono tolti gli / in coda"
 
 #: src/statcmd.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "--update given but %s does not exist"
-msgstr "attenzione: fornito --update, ma %s non esiste"
+msgstr "fornito --update, ma %s non esiste"
 
 #: src/statcmd.c:177
 #, c-format
@@ -3813,24 +3805,20 @@ msgid "failed to chmod %s: %s"
 msgstr "chmod di %s non riuscita: %s"
 
 #: src/statcmd.c:234
-#, fuzzy
 msgid "cannot open new statoverride file"
-msgstr "impossibile aprire il nuovo file statoverride: %s"
+msgstr "impossibile aprire il nuovo file statoverride"
 
 #: src/statcmd.c:245
-#, fuzzy
 msgid "error removing statoverride-old"
-msgstr "errore nel rimuovere statoverride-old: %s"
+msgstr "errore nel rimuovere statoverride-old"
 
 #: src/statcmd.c:247
-#, fuzzy
 msgid "error creating new statoverride-old"
-msgstr "errore nel creare il nuovo statoverride-old: %s"
+msgstr "errore nel creare il nuovo statoverride-old"
 
 #: src/statcmd.c:249
-#, fuzzy
 msgid "error installing new statoverride"
-msgstr "errore nell'installare il nuovo statoverride: %s"
+msgstr "errore nell'installare il nuovo statoverride"
 
 #: src/statcmd.c:267
 msgid "--add needs four arguments"
@@ -3841,16 +3829,18 @@ msgid "file may not contain newlines"
 msgstr "il file non dovrebbe contenere newline"
 
 #: src/statcmd.c:277
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An override for '%s' already exists, but --force specified so will be "
 "ignored."
-msgstr "ma l'opzione --force è stata specificata, quindi viene ignorato."
+msgstr ""
+"Esiste già un override per \"%s\", ma l'opzione --force è stata specificata, "
+"quindi viene ignorato."
 
 #: src/statcmd.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "An override for '%s' already exists, aborting."
-msgstr "Esiste già un override per \"%s\", "
+msgstr "Esiste già un override per \"%s\", uscita."
 
 #: src/statcmd.c:304 scripts/dpkg-divert.pl:160 scripts/dpkg-divert.pl:188
 #: scripts/dpkg-divert.pl:231 scripts/dpkg-divert.pl:241
@@ -3863,9 +3853,8 @@ msgid "No override present."
 msgstr "Nessun override presente."
 
 #: src/statcmd.c:317
-#, fuzzy
 msgid "--update is useless for --remove"
-msgstr "attenzione: --update è inutile per --remove"
+msgstr "--update è inutile per --remove"
 
 #: src/statdb.c:57
 msgid "syntax error: invalid uid in statoverride file"
@@ -4224,9 +4213,9 @@ msgid "conffile '%s' is not a plain file"
 msgstr "il file di configurazione \"%s\" non è un file normale"
 
 #: dpkg-deb/build.c:385
-#, fuzzy, c-format
+#, c-format
 msgid "conffile name '%s' is duplicated"
-msgstr "nome slave %s duplicato"
+msgstr "il file di configurazione \"%s\" è duplicato"
 
 #: dpkg-deb/build.c:396
 msgid "error reading conffiles file"
@@ -4645,9 +4634,9 @@ msgid "failed during read of `control' component"
 msgstr "lettura del componente \"control\" non riuscita"
 
 #: dpkg-deb/info.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "error closing the '%s' component"
-msgstr "errore nel chiudere la pipe di find"
+msgstr "errore nel chiudere il componente \"%s\""
 
 #: dpkg-deb/info.c:240
 msgid "Error in format"
