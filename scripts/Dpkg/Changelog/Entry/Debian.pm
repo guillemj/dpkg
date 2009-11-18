@@ -176,7 +176,7 @@ sub get_source {
 sub get_version {
     my ($self) = @_;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	return Dpkg::Version->new($2) || $2;
+	return Dpkg::Version->new($2);
     }
     return undef;
 }

@@ -42,7 +42,8 @@ use overload
     '<=>' => \&comparison,
     'cmp' => \&comparison,
     '""'  => \&as_string,
-    'bool' => sub { return 1 };
+    'bool' => sub { return $_[0]->is_valid(); },
+    'fallback' => 1;
 
 =head1 NAME
 
@@ -60,19 +61,27 @@ them.
 
 =over 4
 
-=item my $v = Dpkg::Version->new($version)
+=item my $v = Dpkg::Version->new($version, %opts)
 
 Create a new Dpkg::Version object corresponding to the version indicated in
-the string (scalar) $version. Returns undef if the string doesn't contain
-a valid version (see version_check for details).
+the string (scalar) $version. By default it will accepts any string
+and consider it as a valid version. If you pass the option "check => 1",
+it will return undef if the version is invalid (see version_check for
+details).
+
+You can always call $v->is_valid() later on to verify that the version is
+valid.
 
 =cut
 
 sub new {
-    my ($this, $ver) = @_;
+    my ($this, $ver, %opts) = @_;
     my $class = ref($this) || $this;
     $ver = "$ver" if ref($ver); # Try to stringify objects
-    return undef unless version_check($ver);
+
+    if ($opts{'check'}) {
+	return undef unless version_check($ver);
+    }
 
     my $self = {};
     if ($ver =~ /^(\d*):(.+)$/) {
@@ -92,6 +101,17 @@ sub new {
     }
 
     return bless $self, $class;
+}
+
+=item $v->is_valid()
+
+Returns true if the version is valid, false otherwise.
+
+=cut
+
+sub is_valid {
+    my ($self) = @_;
+    return scalar version_check($self);
 }
 
 =item $v->epoch(), $v->version(), $v->revision()
@@ -170,8 +190,8 @@ If $a or $b are not valid version numbers, it dies with an error.
 
 sub version_compare($$) {
     my ($a, $b) = @_;
-    my $va = Dpkg::Version->new($a) || error(_g("%s is not a valid version"), "$a");
-    my $vb = Dpkg::Version->new($b) || error(_g("%s is not a valid version"), "$b");
+    my $va = Dpkg::Version->new($a, check => 1) || error(_g("%s is not a valid version"), "$a");
+    my $vb = Dpkg::Version->new($b, check => 1) || error(_g("%s is not a valid version"), "$b");
     return $va <=> $vb;
 }
 

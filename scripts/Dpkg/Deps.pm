@@ -517,7 +517,7 @@ sub parse {
     $self->{package} = $1;
     $self->{relation} = version_normalize_relation($2) if defined($2);
     if (defined($3)) {
-        $self->{version} = Dpkg::Version->new($3) || $3;
+        $self->{version} = Dpkg::Version->new($3);
     }
     if (defined($4)) {
 	$self->{arches} = [ split(/\s+/, $4) ];

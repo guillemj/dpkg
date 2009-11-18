@@ -28,7 +28,7 @@ my @ops = ("<", "<<", "lt",
 	   ">=", "ge",
 	   ">", ">>", "gt");
 
-plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 1;
+plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 8;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
@@ -75,10 +75,23 @@ my $truth = {
     },
 };
 
+# Handling of empty/invalid versions
+my $empty = Dpkg::Version->new("");
+ok($empty eq "", "Dpkg::Version->new('') eq ''");
+ok($empty->as_string() eq "", "Dpkg::Version->new('')->as_string() eq ''");
+ok(!$empty->is_valid(), "empty version is invalid");
+my $ver = Dpkg::Version->new("10a:5.2");
+ok(!$ver->is_valid(), "bad epoch is invalid");
+ok($ver eq '10a:5.2', "invalid still same string 1/2");
+$ver = Dpkg::Version->new('5.2@3-2');
+ok($ver eq '5.2@3-2', "invalid still same string 2/2");
+ok(!$ver->is_valid(), "illegal character is invalid");
+
+# Comparisons
 foreach my $case (@tests) {
     my ($a, $b, $res) = split " ", $case;
-    my $va = Dpkg::Version->new($a);
-    my $vb = Dpkg::Version->new($b);
+    my $va = Dpkg::Version->new($a, check => 1);
+    my $vb = Dpkg::Version->new($b, check => 1);
 
     is("$va", $a, "String representation of Dpkg::Version($a) is $a");
     is("$vb", $b, "String representation of Dpkg::Version($b) is $b");
