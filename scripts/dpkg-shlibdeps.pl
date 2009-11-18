@@ -242,7 +242,7 @@ foreach my $file (keys %exec) {
 		my $minver = $symfile->get_smallest_version($soname) || '';
 		foreach my $subdep (split /\s*,\s*/, $dep) {
 		    if (not exists $dependencies{$cur_field}{$subdep}) {
-			$dependencies{$cur_field}{$subdep} = $minver;
+			$dependencies{$cur_field}{$subdep} = Dpkg::Version->new($minver);
                         print " Initialize dependency ($subdep) with minimal " .
                               "version ($minver)\n" if $debug > 1;
 		    }
@@ -590,6 +590,7 @@ sub get_min_version_from_deps {
 sub update_dependency_version {
     my ($dep, $minver, $existing_only) = @_;
     return if not defined($minver);
+    $minver = Dpkg::Version->new($minver);
     foreach my $subdep (split /\s*,\s*/, $dep) {
 	if (exists $dependencies{$cur_field}{$subdep} and
 	    defined($dependencies{$cur_field}{$subdep}))
@@ -630,8 +631,8 @@ sub add_shlibs_dep {
 	    print " Found $dep in $file\n" if $debug;
 	    foreach (split(/,\s*/, $dep)) {
 		# Note: the value is empty for shlibs based dependency
-		# symbol based dependency will put a version as value
-		$dependencies{$cur_field}{$_} = '';
+		# symbol based dependency will put a valid version as value
+		$dependencies{$cur_field}{$_} = Dpkg::Version->new('');
 	    }
 	    return 1;
 	}
