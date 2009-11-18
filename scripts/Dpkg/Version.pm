@@ -270,7 +270,7 @@ of the character is used to sort between characters.
 =cut
 
 sub version_compare_string($$) {
-    sub order(_) {
+    sub order {
         my ($x) = @_;
 	if ($x eq '~') {
 	    return -1;
@@ -282,8 +282,8 @@ sub version_compare_string($$) {
 	    return ord($x) + 256;
 	}
     }
-    my @a = map(order, split(//, shift));
-    my @b = map(order, split(//, shift));
+    my @a = map(order($_), split(//, shift));
+    my @b = map(order($_), split(//, shift));
     while (1) {
         my ($a, $b) = (shift @a, shift @b);
         return 0 if not defined($a) and not defined($b);
