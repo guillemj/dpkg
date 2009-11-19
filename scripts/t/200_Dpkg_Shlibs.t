@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use Test::More tests => 63;
+use Cwd;
 use IO::String;
 
 use strict;
@@ -29,7 +30,13 @@ my @save_paths = @Dpkg::Shlibs::librarypaths;
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/200_Dpkg_Shlibs';
 
-Dpkg::Shlibs::parse_ldso_conf("t.tmp/ld.so.conf");
+# We want relative paths inside the ld.so.conf fragments to work, and $srcdir
+# is usually a relative path, so let's temporarily switch directory.
+# XXX: An alternative would be to make parse_ldso_conf relative path aware.
+my $cwd = cwd();
+chdir($srcdir);
+Dpkg::Shlibs::parse_ldso_conf("$datadir/ld.so.conf");
+chdir($cwd);
 
 use Data::Dumper;
 is_deeply([qw(/nonexistant32 /nonexistant/lib64

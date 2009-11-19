@@ -169,13 +169,10 @@ TEST_FILES= $(srcdir)/t/*.t
 TEST_VERBOSE= 0
 
 clean-local:
-	[ ! -d t.tmp ] || chmod -R +w t.tmp
 	rm -fr t.tmp
 
 check: $(TEST_FILES) $(wildcard $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf*)
 	$(mkdir_p) t.tmp
-# a bit hacky...
-	cp -dRl $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf* t.tmp/
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(PATH)" srcdir=$(srcdir) PERL5LIB=$(srcdir) DPKG_DATADIR=$(srcdir)/.. PERL_DL_NONLAZY=1 $(PERL) -I$(srcdir) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)
 
 objdump_lib_name = lib`basename $@`.so
