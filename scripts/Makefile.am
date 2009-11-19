@@ -173,7 +173,12 @@ clean-local:
 
 check: $(TEST_FILES) $(wildcard $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf*)
 	$(mkdir_p) t.tmp
-	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(PATH)" srcdir=$(srcdir) PERL5LIB=$(srcdir) DPKG_DATADIR=$(srcdir)/.. PERL_DL_NONLAZY=1 $(PERL) -I$(srcdir) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)
+	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(PATH)" \
+	  srcdir=$(srcdir) DPKG_DATADIR=$(srcdir)/.. \
+	  PERL5LIB=$(srcdir) PERL_DL_NONLAZY=1 \
+	  $(PERL) -I$(srcdir) -MExtUtils::Command::MM \
+	          -e "test_harness($(TEST_VERBOSE), '.')" \
+	          $(TEST_FILES)
 
 objdump_lib_name = lib`basename $@`.so
 $(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-amd64 $(srcdir)/t/200_Dpkg_Shlibs/objdump.tags-i386: $(srcdir)/t/200_Dpkg_Shlibs/symboltags.c
