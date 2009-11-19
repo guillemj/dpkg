@@ -24,11 +24,11 @@ use Dpkg::Arch qw(get_host_arch);
 use_ok('Dpkg::Substvars');
 
 my $srcdir = $ENV{srcdir} || '.';
-$srcdir .= '/t/750_Dpkg_Substvars';
+my $datadir = $srcdir . '/t/750_Dpkg_Substvars';
 
 my $s = Dpkg::Substvars->new();
 
-$s->parse("$srcdir/substvars1");
+$s->parse("$datadir/substvars1");
 
 # simple value tests
 is($s->get('var1'), 'Some value', 'var1');

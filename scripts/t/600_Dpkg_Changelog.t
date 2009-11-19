@@ -36,12 +36,12 @@ BEGIN {
 };
 
 my $srcdir = $ENV{srcdir} || '.';
-$srcdir .= '/t/600_Dpkg_Changelog';
+my $datadir = $srcdir . '/t/600_Dpkg_Changelog';
 
 #########################
 
-foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
-    "$srcdir/regressions") {
+foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
+    "$datadir/regressions") {
 
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
     $changes->load($file);
@@ -59,7 +59,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
     ok(@data, "data is not empty");
 
     my $str;
-    if ($file eq "$srcdir/countme") {
+    if ($file eq "$datadir/countme") {
 	# test range options
 	cmp_ok( @data, '==', 7, "no options -> count" );
 	my $all_versions = join( '/', map { $_->get_version() } @data);
@@ -168,7 +168,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
 		       'until => "1:2.0~rc2-1sarge2"' );
 	#TODO: test combinations
     }
-    if ($file eq "$srcdir/fields") {
+    if ($file eq "$datadir/fields") {
 	my $str = $changes->dpkg({ all => 1 });
 	my $expected = 'Source: fields
 Version: 2.0-0etch1
@@ -300,7 +300,7 @@ Xb-Userfield2: foobar
     }
 }
 
-foreach my $test (( [ "$srcdir/misplaced-tz", 6 ])) {
+foreach my $test (( [ "$datadir/misplaced-tz", 6 ])) {
 
     my $file = shift @$test;
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);

@@ -22,9 +22,9 @@ use IO::String;
 use_ok('Dpkg::Control::Info');
 
 my $srcdir = $ENV{srcdir} || '.';
-$srcdir .= '/t/700_Dpkg_Control';
+my $datadir = $srcdir . '/t/700_Dpkg_Control';
 
-my $c = Dpkg::Control::Info->new("$srcdir/control-1");
+my $c = Dpkg::Control::Info->new("$datadir/control-1");
 
 my $io = IO::String->new();
 $c->dump($io);
@@ -52,7 +52,7 @@ Description:   short one
  long one
  very long one
 ';
-is($value, $expected, "Dump of $srcdir/control-1");
+is($value, $expected, "Dump of $datadir/control-1");
 
 my $src = $c->get_source();
 is($src->{'my-field-one'}, 'myvalue1', "Access field through badly capitalized field name");
@@ -79,5 +79,5 @@ $pkg->output($io);
 is(${$io->string_ref()},
 'Package: mypackage2
 Depends: hello
-', "Dump of second binary package of $srcdir/control-1");
+', "Dump of second binary package of $datadir/control-1");
 
