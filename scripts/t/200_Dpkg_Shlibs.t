@@ -29,6 +29,7 @@ my @save_paths = @Dpkg::Shlibs::librarypaths;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/200_Dpkg_Shlibs';
+my $tmpdir = 't.tmp/200_Dpkg_Shlibs';
 
 # We want relative paths inside the ld.so.conf fragments to work, and $srcdir
 # is usually a relative path, so let's temporarily switch directory.
@@ -288,14 +289,16 @@ ok (defined $sym_file->{objects}{'libsymboltags.so.1'}{syms}{'symbol21_amd64@Bas
 
 # Preload objdumps
 my $tags_obj_i386 = Dpkg::Shlibs::Objdump::Object->new();
-open $objdump, '<', "$datadir/objdump.tags-i386" or die "$datadir/objdump.tags-i386: $!";
+open $objdump, '<', "$tmpdir/objdump.tags-i386"
+    or die "$tmpdir/objdump.tags-i386: $!";
 $tags_obj_i386->_parse($objdump);
 close $objdump;
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 is_deeply($sym_file, $sym_file_dup, "is objdump.tags-i386 and symbols.tags.in in sync");
 
 my $tags_obj_amd64 = Dpkg::Shlibs::Objdump::Object->new();
-open $objdump, '<', "$datadir/objdump.tags-amd64" or die "$datadir/objdump.tags-amd64: $!";
+open $objdump, '<', "$tmpdir/objdump.tags-amd64"
+    or die "$tmpdir/objdump.tags-amd64: $!";
 $tags_obj_amd64->_parse($objdump);
 close $objdump;
 
