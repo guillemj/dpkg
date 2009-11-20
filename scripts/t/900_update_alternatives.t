@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 my $srcdir = $ENV{srcdir} || '.';
-my $tmpdir = 't.tmp';
+my $tmpdir = 't.tmp/900_update_alternatives';
 my $admindir = File::Spec->rel2abs("$tmpdir/admindir"),
 my $altdir = File::Spec->rel2abs("$tmpdir/alternatives");
 my $bindir = File::Spec->rel2abs("$tmpdir/bin");
