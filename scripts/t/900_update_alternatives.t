@@ -21,9 +21,10 @@ use strict;
 use warnings;
 
 my $srcdir = $ENV{srcdir} || '.';
-my $admindir = File::Spec->rel2abs("t.tmp/ua/admindir"),
-my $altdir = File::Spec->rel2abs("t.tmp/ua/alternatives");
-my $bindir = File::Spec->rel2abs("t.tmp/ua/bin");
+my $tmpdir = 't.tmp';
+my $admindir = File::Spec->rel2abs("$tmpdir/admindir"),
+my $altdir = File::Spec->rel2abs("$tmpdir/alternatives");
+my $bindir = File::Spec->rel2abs("$tmpdir/bin");
 # XXX: switch to version without .pl
 my @ua = ("$srcdir/update-alternatives.pl", "--log", "/dev/null",
           "--quiet", "--admindir", "$admindir", "--altdir", "$altdir");
@@ -69,7 +70,7 @@ plan tests => (4 * ($nb_slaves + 1) + 2) * 24 # number of check_choices
 		+ 63;			      # rest
 
 sub cleanup {
-    system("rm -rf t.tmp/ua && mkdir -p $admindir && mkdir -p $altdir");
+    system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
     system("mkdir -p $bindir/more");
 }
 

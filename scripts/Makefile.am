@@ -132,6 +132,8 @@ uninstall-local:
 
 TEST_VERBOSE= 0
 
+test_tmpdir = t.tmp
+
 test_cases = \
 	t/000_pod.t \
 	t/100_Dpkg_Version.t \
@@ -175,10 +177,10 @@ test_data = \
 	t/750_Dpkg_Substvars/substvars1
 
 clean-local:
-	rm -fr t.tmp
+	rm -fr $(test_tmpdir)
 
 check: $(test_data) $(test_cases)
-	$(mkdir_p) t.tmp
+	$(mkdir_p) $(test_tmpdir)
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(PATH)" \
 	  srcdir=$(srcdir) DPKG_DATADIR=$(srcdir)/.. \
 	  PERL5LIB=$(srcdir) PERL_DL_NONLAZY=1 \

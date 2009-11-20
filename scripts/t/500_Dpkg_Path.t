@@ -22,35 +22,37 @@ use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
        'check_files_are_the_same', 'get_pkg_root_dir',
        'guess_pkg_root_dir', 'relative_to_pkg_root');
 
-mkdir "t.tmp/a";
-mkdir "t.tmp/a/b";
-mkdir "t.tmp/a/b/c";
-mkdir "t.tmp/a/DEBIAN";
-mkdir "t.tmp/debian";
-mkdir "t.tmp/debian/a";
-mkdir "t.tmp/debian/a/b";
-mkdir "t.tmp/debian/a/b/c";
-symlink "a/b/c", "t.tmp/cbis";
-symlink "/this/does/not/exist", "t.tmp/tmp";
-symlink ".", "t.tmp/here";
+my $tmpdir = 't.tmp';
 
-is(canonpath("t.tmp/./a///b/c"), "t.tmp/a/b/c", "canonpath basic test");
-is(canonpath("t.tmp/a/b/../../a/b/c"), "t.tmp/a/b/c", "canonpath and ..");
-is(canonpath("t.tmp/a/b/c/../../"), "t.tmp/a", "canonpath .. at end");
-is(canonpath("t.tmp/cbis/../"), "t.tmp/cbis/..", "canonpath .. after symlink");
+mkdir "$tmpdir/a";
+mkdir "$tmpdir/a/b";
+mkdir "$tmpdir/a/b/c";
+mkdir "$tmpdir/a/DEBIAN";
+mkdir "$tmpdir/debian";
+mkdir "$tmpdir/debian/a";
+mkdir "$tmpdir/debian/a/b";
+mkdir "$tmpdir/debian/a/b/c";
+symlink "a/b/c", "$tmpdir/cbis";
+symlink "/this/does/not/exist", "$tmpdir/tmp";
+symlink ".", "$tmpdir/here";
 
-is(resolve_symlink("t.tmp/here/cbis"), "t.tmp/here/a/b/c", "resolve_symlink");
-is(resolve_symlink("t.tmp/tmp"), "/this/does/not/exist", "resolve_symlink absolute");
-is(resolve_symlink("t.tmp/here"), "t.tmp", "resolve_symlink .");
+is(canonpath("$tmpdir/./a///b/c"), "$tmpdir/a/b/c", "canonpath basic test");
+is(canonpath("$tmpdir/a/b/../../a/b/c"), "$tmpdir/a/b/c", "canonpath and ..");
+is(canonpath("$tmpdir/a/b/c/../../"), "$tmpdir/a", "canonpath .. at end");
+is(canonpath("$tmpdir/cbis/../"), "$tmpdir/cbis/..", "canonpath .. after symlink");
 
-ok(!check_files_are_the_same("t.tmp/here", "t.tmp"), "Symlink is not the same!");
-ok(check_files_are_the_same("t.tmp/here/a", "t.tmp/a"), "Same directory");
+is(resolve_symlink("$tmpdir/here/cbis"), "$tmpdir/here/a/b/c", "resolve_symlink");
+is(resolve_symlink("$tmpdir/tmp"), "/this/does/not/exist", "resolve_symlink absolute");
+is(resolve_symlink("$tmpdir/here"), $tmpdir, "resolve_symlink .");
 
-is(get_pkg_root_dir("t.tmp/a/b/c"), "t.tmp/a", "get_pkg_root_dir");
-is(guess_pkg_root_dir("t.tmp/a/b/c"), "t.tmp/a", "guess_pkg_root_dir");
-is(relative_to_pkg_root("t.tmp/a/b/c"), "b/c", "relative_to_pkg_root");
+ok(!check_files_are_the_same("$tmpdir/here", $tmpdir), "Symlink is not the same!");
+ok(check_files_are_the_same("$tmpdir/here/a", "$tmpdir/a"), "Same directory");
 
-chdir("t.tmp");
+is(get_pkg_root_dir("$tmpdir/a/b/c"), "$tmpdir/a", "get_pkg_root_dir");
+is(guess_pkg_root_dir("$tmpdir/a/b/c"), "$tmpdir/a", "guess_pkg_root_dir");
+is(relative_to_pkg_root("$tmpdir/a/b/c"), "b/c", "relative_to_pkg_root");
+
+chdir($tmpdir);
 
 ok(!defined(get_pkg_root_dir("debian/a/b/c")), "get_pkg_root_dir undef");
 ok(!defined(relative_to_pkg_root("debian/a/b/c")), "relative_to_pkg_root");
