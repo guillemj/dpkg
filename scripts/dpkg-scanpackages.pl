@@ -20,7 +20,6 @@ use strict;
 
 use IO::Handle;
 use IO::File;
-use IO::String;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -28,6 +27,7 @@ use Dpkg::Control;
 use Dpkg::Version;
 use Dpkg::Checksums;
 use Dpkg::Source::CompressedFile;
+use Dpkg::IPC;
 
 textdomain("dpkg-dev");
 
@@ -189,22 +189,18 @@ FILE:
     while (<$find_h>) {
 	chomp;
 	my $fn = $_;
-	my $control = `dpkg-deb -I $fn control`;
-	if ($control eq "") {
-	    warning(_g("Couldn't call dpkg-deb on %s: %s, skipping package"),
-	            $fn, $!);
-	    next;
-	}
+	my $output;
+	my $pid = fork_and_exec('exec' => [ "dpkg-deb", "-I", $fn, "control" ],
+				'to_pipe' => \$output);
+	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
+	$fields->parse_fh($output, $fn)
+	    or error(_g("couldn't parse control information from %s."), $fn);
+	wait_child($pid, no_check => 1);
 	if ($?) {
 	    warning(_g("\`dpkg-deb -I %s control' exited with %d, skipping package"),
 	            $fn, $?);
 	    next;
 	}
-	
-	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
-	my $io = IO::String->new($control);
-	$fields->parse_fh($io, $fn)
-	    or error(_g("couldn't parse control information from %s."), $fn);
 	
 	defined($fields->{'Package'})
 	    or error(_g("No Package field in control file of %s"), $fn);
