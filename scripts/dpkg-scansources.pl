@@ -20,6 +20,8 @@
 use strict;
 use warnings;
 
+use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -29,8 +31,6 @@ use Dpkg::Source::CompressedFile;
 use Dpkg::Compression;
 
 textdomain("dpkg-dev");
-
-use Getopt::Long ();
 
 # Errors with a single package are warned about but don't affect the
 # exit code. Only errors which affect everything cause a non-zero exit.
@@ -100,36 +100,10 @@ See the man page for the full documentation.
     exit;
 }
 
-# Getopt::Long has some really awful defaults.  This function loads it
-# then configures it to use more sane settings.
-
-sub getopt(@);
-sub configure_getopt {
-    Getopt::Long->import(2.11);
-    *getopt = \&Getopt::Long::GetOptions;
-
-    # I'm setting this environment variable lest he sneaks more bad
-    # defaults into the module.
-    local $ENV{POSIXLY_CORRECT} = 1;
-    Getopt::Long::config qw(
-	default
-	no_autoabbrev
-	no_getopt_compat
-	require_order
-	bundling
-	no_ignorecase
-    );
-}
-
 sub close_msg {
     my $name = shift;
     return sprintf(_g("error closing %s (\$? %d, \$! `%s')"),
                    $name, $?, $!)."\n";
-}
-
-sub init {
-    configure_getopt;
-    getopt @Option_spec or usage;
 }
 
 sub load_override {
@@ -337,7 +311,7 @@ sub process_dsc {
 sub main {
     my (@out);
 
-    init;
+    GetOptions(@Option_spec) or usage;
     @ARGV >= 1 && @ARGV <= 3 or usageerr(_g("1 to 3 args expected\n"));
 
     push @ARGV, undef		if @ARGV < 2;
