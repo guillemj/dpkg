@@ -39,10 +39,9 @@ sub version()
 
 sub usage {
 	printf _g(
-"Usage: %s [<option> ...] [<control-file>]
-
-Options:
-  control-file   control file to process (default: debian/control).
+"Usage: %s [<option>...] [<control-file>]")
+	. "\n\n" . _g(
+"Options:
   -B             binary-only, ignore -Indep.
   -d build-deps  use given string as build dependencies instead of
                  retrieving them from control file
@@ -51,8 +50,10 @@ Options:
   --admindir=<directory>
                  change the administrative directory.
   -h, --help     show this help message.
-      --version  show the version.
-"), $progname;
+      --version  show the version.")
+	. "\n\n" . _g(
+"<control-file> is the control file to process (default: debian/control).")
+	. "\n", $progname;
 }
 
 my $binary_only=0;
