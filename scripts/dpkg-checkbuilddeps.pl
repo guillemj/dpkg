@@ -31,6 +31,12 @@ use Dpkg::Control::Info;
 
 textdomain("dpkg-dev");
 
+sub version()
+{
+	printf(_g("Debian %s version %s.\n"), $progname, $version);
+	exit(0);
+}
+
 sub usage {
 	printf _g(
 "Usage: %s [<option> ...] [<control-file>]
@@ -45,6 +51,7 @@ Options:
   --admindir=<directory>
                  change the administrative directory.
   -h, --help     show this help message.
+      --version  show the version.
 "), $progname;
 }
 
@@ -53,6 +60,7 @@ my $want_help=0;
 my ($bd_value, $bc_value);
 if (!GetOptions('B' => \$binary_only,
                 'help|h' => \$want_help,
+                'version' => \&version,
                 'd=s' => \$bd_value,
                 'c=s' => \$bc_value,
                 'admindir=s' => \$admindir)) {
