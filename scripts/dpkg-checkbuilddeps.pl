@@ -51,11 +51,11 @@ Options:
 my $binary_only=0;
 my $want_help=0;
 my ($bd_value, $bc_value);
-if (! GetOptions('-B' => \$binary_only,
-		 '-h' => \$want_help,
-		 '-d=s' => \$bd_value,
-		 '-c=s' => \$bc_value,
-		 '--admindir=s' => \$admindir)) {
+if (!GetOptions('B' => \$binary_only,
+                'h' => \$want_help,
+                'd=s' => \$bd_value,
+                'c=s' => \$bc_value,
+                'admindir=s' => \$admindir)) {
 	usage();
 	exit(2);
 }
