@@ -208,7 +208,7 @@ $symfile->clear_except(keys %{$od->{objects}});
 
 # Write out symbols files
 if ($stdout) {
-    $output = "standard output";
+    $output = _g("<standard output>");
     $symfile->save("-", package => $oppackage,
                    template_mode => $template_mode, with_deprecated => 0);
 } else {

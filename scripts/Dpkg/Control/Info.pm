@@ -52,7 +52,7 @@ sub new {
     bless $self, $class;
     if ($arg) {
         if ($arg eq "-") {
-            $self->parse_fh(\*STDIN, _g("standard input"));
+            $self->parse_fh(\*STDIN, _g("<standard input>"));
         } else {
             $self->parse($arg);
         }

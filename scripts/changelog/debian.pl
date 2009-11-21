@@ -132,7 +132,7 @@ my $range = {
 my $changes = Dpkg::Changelog::Debian->new(reportfile => $label, range => $range);
 
 if ($file eq '-') {
-    $changes->parse(\*STDIN, _g("standard input"))
+    $changes->parse(\*STDIN, _g("<standard input>"))
 	or error(_g('fatal error occured while parsing input'));
 } else {
     $changes->load($file)
