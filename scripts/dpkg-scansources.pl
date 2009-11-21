@@ -17,13 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Errors with a single package are warned about but don't affect the
-# exit code.  Only errors which affect everything cause a non-zero exit.
-#
-# Dependencies are by request non-existant.  I used to use the MD5 and
-# Proc::WaitStat modules.
-
-
 use strict;
 use warnings;
 
@@ -39,6 +32,8 @@ textdomain("dpkg-dev");
 
 use Getopt::Long ();
 
+# Errors with a single package are warned about but don't affect the
+# exit code. Only errors which affect everything cause a non-zero exit.
 my $Exit = 0;
 
 # %Override is a hash of lists.  The subs following describe what's in
