@@ -20,7 +20,8 @@
 use strict;
 use warnings;
 
-use Getopt::Long;
+use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

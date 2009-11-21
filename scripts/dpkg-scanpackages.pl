@@ -21,6 +21,8 @@ use strict;
 use IO::Handle;
 use IO::File;
 use IO::String;
+use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -38,8 +40,6 @@ my (@samemaint, @changedmaint);
 my @spuriousover;
 my %packages;
 my %overridden;
-
-use Getopt::Long qw(:config bundling);
 
 my %options = (help            => sub { usage(); exit 0; },
 	       version         => \&version,
