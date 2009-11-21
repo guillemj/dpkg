@@ -44,7 +44,7 @@ Options:
                  retrieving them from control file
   --admindir=<directory>
                  change the administrative directory.
-  -h             show this help message.
+  -h, --help     show this help message.
 "), $progname;
 }
 
@@ -52,7 +52,7 @@ my $binary_only=0;
 my $want_help=0;
 my ($bd_value, $bc_value);
 if (!GetOptions('B' => \$binary_only,
-                'h' => \$want_help,
+                'help|h' => \$want_help,
                 'd=s' => \$bd_value,
                 'c=s' => \$bc_value,
                 'admindir=s' => \$admindir)) {
