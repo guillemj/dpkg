@@ -56,20 +56,15 @@ Options:
 }
 
 my $binary_only=0;
-my $want_help=0;
 my ($bd_value, $bc_value);
 if (!GetOptions('B' => \$binary_only,
-                'help|h' => \$want_help,
+                'help|h' => sub { usage(); exit(0); },
                 'version' => \&version,
                 'd=s' => \$bd_value,
                 'c=s' => \$bc_value,
                 'admindir=s' => \$admindir)) {
 	usage();
 	exit(2);
-}
-if ($want_help) {
-	usage();
-	exit(0);
 }
 
 my $controlfile = shift || "debian/control";
