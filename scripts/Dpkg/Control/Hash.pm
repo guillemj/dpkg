@@ -168,7 +168,7 @@ sub parse_fh {
 	next if (m/^$/ and $paraborder);
 	next if (m/^#/);
 	$paraborder = 0;
-	if (m/^(\S+?)\s*:\s?(.*)$/) {
+	if (m/^(\S+?)\s*:\s*(.*)$/) {
 	    if (exists $self->{$1}) {
 		unless ($$self->{'allow_duplicate'}) {
 		    syntaxerr($desc, sprintf(_g("duplicate field %s found"), $1));

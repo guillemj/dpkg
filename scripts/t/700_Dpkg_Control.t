@@ -48,7 +48,7 @@ Depends: hello
 
 Package: mypackage3
 Depends: hello
-Description:   short one
+Description: short one
  long one
  very long one
 ';
