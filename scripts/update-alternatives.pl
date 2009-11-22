@@ -905,23 +905,23 @@ sub display_user {
         ($self->status() eq "auto") ? _g("auto mode") : _g("manual mode"));
 
     if ($self->has_current_link()) {
-	pr(_g(" link currently points to %s"), $self->current());
+	pr(_g("  link currently points to %s"), $self->current());
     } else {
-	pr(_g(" link currently absent"));
+	pr(_g("  link currently absent"));
     }
     foreach my $choice ($self->choices()) {
         my $fileset = $self->fileset($choice);
 	pr(_g("%s - priority %s"), $choice, $fileset->priority());
         foreach my $slave ($self->slaves()) {
             if ($fileset->has_slave($slave)) {
-                pr(_g(" slave %s: %s"), $slave, $fileset->slave($slave));
+                pr(_g("  slave %s: %s"), $slave, $fileset->slave($slave));
             }
 	}
     }
 
     my $best = $self->best();
     if (defined($best) && $best) {
-	pr(_g("Current \`best' version is %s."), $best);
+	pr(_g("Current 'best' version is '%s'."), $best);
     } else {
 	pr(_g("No versions available."));
     }
