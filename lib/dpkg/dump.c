@@ -363,7 +363,7 @@ void writedb(const char *filename, int available, int mustsync) {
   struct varbuf vb = VARBUF_INIT;
   int old_umask;
 
-  which= available ? "available" : "status";
+  which = available ? _("available") : _("status");
   oldfn= m_malloc(strlen(filename)+sizeof(OLDDBEXT));
   strcpy(oldfn,filename); strcat(oldfn,OLDDBEXT);
   newfn= m_malloc(strlen(filename)+sizeof(NEWDBEXT));
@@ -372,10 +372,11 @@ void writedb(const char *filename, int available, int mustsync) {
   old_umask = umask(022);
   file= fopen(newfn,"w");
   umask(old_umask);
-  if (!file) ohshite(_("failed to open `%s' for writing %s information"),filename,which);
+  if (!file)
+    ohshite(_("failed to open '%s' for writing %s database"), filename, which);
   
   if (setvbuf(file,writebuf,_IOFBF,sizeof(writebuf)))
-    ohshite(_("unable to set buffering on status file"));
+    ohshite(_("unable to set buffering on %s database file"), which);
 
   it= iterpkgstart();
   while ((pigp= iterpkgnext(it)) != NULL) {
@@ -386,7 +387,7 @@ void writedb(const char *filename, int available, int mustsync) {
     varbufrecord(&vb,pigp,pifp);
     varbufaddc(&vb,'\n'); varbufaddc(&vb,0);
     if (fputs(vb.buf,file) < 0)
-      ohshite(_("failed to write %s record about `%.50s' to `%.250s'"),
+      ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
               which, pigp->name, filename);
     varbufreset(&vb);      
   }
@@ -394,18 +395,19 @@ void writedb(const char *filename, int available, int mustsync) {
   varbuffree(&vb);
   if (mustsync) {
     if (fflush(file))
-      ohshite(_("failed to flush %s information to `%.250s'"), which, filename);
+      ohshite(_("failed to flush %s database to '%.250s'"), which, filename);
     if (fsync(fileno(file)))
-      ohshite(_("failed to fsync %s information to `%.250s'"), which, filename);
+      ohshite(_("failed to fsync %s database to '%.250s'"), which, filename);
   }
-  if (fclose(file)) ohshite(_("failed to close `%.250s' after writing %s information"),
-                            filename, which);
+  if (fclose(file))
+    ohshite(_("failed to close '%.250s' after writing %s database"),
+            filename, which);
   unlink(oldfn);
   if (link(filename,oldfn) && errno != ENOENT)
-    ohshite(_("failed to link `%.250s' to `%.250s' for backup of %s info"),
+    ohshite(_("failed to link '%.250s' to '%.250s' for backup of %s database"),
             filename, oldfn, which);
   if (rename(newfn,filename))
-    ohshite(_("failed to install `%.250s' as `%.250s' containing %s info"),
+    ohshite(_("failed to install '%.250s' as '%.250s' containing %s database"),
             newfn, filename, which);
   free(newfn);
   free(oldfn);
