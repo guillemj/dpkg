@@ -51,7 +51,7 @@ const char
 			    N_("removed (configs remain)"),
 			    N_("half installed"),
 			    N_("unpacked (not set up)"),
-			    N_("failed config"),
+			    N_("half configured (config failed)"),
 			    N_("awaiting trigger processing"),
 			    N_("triggered"),
 			    N_("installed"),

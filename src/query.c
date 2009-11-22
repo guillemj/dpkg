@@ -113,7 +113,7 @@ list1package(struct pkginfo *pkg, int *head, struct pkg_array *array)
   if (!*head) {
     fputs(_("\
 Desired=Unknown/Install/Remove/Purge/Hold\n\
-| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-pend\n\
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
     printf(format,'|','|','/', _("Name"), _("Version"), 40, _("Description"));
     printf("+++-");					/* status */
