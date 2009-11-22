@@ -291,8 +291,13 @@ if ($alternative->has_current_link()) {
 
 my $new_choice;
 if ($action eq 'set') {
+    if ($alternative->has_choice($path)) {
+        $new_choice = $path;
+    } else {
+        error(_g("alternative %s for %s not registered, not setting."),
+              $path, $alternative->name());
+    }
     $alternative->set_status('manual');
-    $new_choice = $path;
 } elsif ($action eq 'auto') {
     $alternative->set_status('auto');
     $new_choice = $alternative->best();
