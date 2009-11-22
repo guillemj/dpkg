@@ -45,7 +45,7 @@ my $controlfile;
 my $changelogfile;
 my $changelogformat;
 
-my @build_formats = ("1.0", "3.0 (native)");
+my @build_formats = ("1.0", "3.0 (quilt)", "3.0 (native)");
 my %options = (
     # Compression related
     compression => $Dpkg::Source::Compressor::default_compression,
