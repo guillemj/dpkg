@@ -114,7 +114,10 @@ sub run_quilt {
     }
     my %opts = (
         env => { QUILT_PATCHES => "$absdir/debian/patches",
-                 QUILT_SERIES => $series },
+                 QUILT_SERIES => $series,
+                 # Kept as close as possible to default patch options in
+                 # Dpkg::Source::Patch (used in without_quilt mode)
+                 QUILT_PATCH_OPTS => "-t -F 0 -N -u -V never -g0" },
         'chdir' => $dir,
         'exec' => [ 'quilt', '--quiltrc', '/dev/null', @$params ],
         %more_opts
@@ -169,7 +172,6 @@ sub apply_patches {
         $opts{"to_file"} = "/dev/null" if $skip_auto;
         info(_g("applying all patches with %s"), "quilt push -q " . $patches[-1]) unless $skip_auto;
         $self->run_quilt($dir, ['push', '-q', $patches[-1]],
-                         delete_env => ['QUILT_PATCH_OPTS'],
                          wait_child => 1, %opts);
         foreach my $patch (@patches) {
             foreach my $fn (keys %{$panalysis->{$patch}->{'filepatched'}}) {
