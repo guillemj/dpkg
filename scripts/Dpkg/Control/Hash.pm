@@ -52,6 +52,9 @@ unchanged directly after the field name, supplementary lines are
 modified. Empty lines and lines containing only dots are prefixed with
 " ." (space + dot) while other lines are prefixed with a single space.
 
+During parsing, trailing spaces are stripped on all lines while leading
+spaces are stripped only on the first line of each field.
+
 =head1 FUNCTIONS
 
 =over 4
