@@ -80,53 +80,56 @@ parse_warn(struct parsedb_state *ps,
   va_end(al);
 }
 
-const struct namevalue booleaninfos[]= {  /* Note !  These must be in order ! */
-  { "no",                             0,                 2 },
-  { "yes",                            1,                 3 },
-  {  NULL                                                  }
+#define NAMEVALUE_DEF(n, v) \
+	[v] = { .name = n, .value = v, .length = sizeof(n) - 1 }
+
+const struct namevalue booleaninfos[] = {
+  NAMEVALUE_DEF("no",  0),
+  NAMEVALUE_DEF("yes", 1),
+  { .name = NULL }
 };
 
-const struct namevalue priorityinfos[]= {  /* Note !  These must be in order ! */
-  { "required",                       pri_required,     8 },
-  { "important",                      pri_important,    9 },
-  { "standard",                       pri_standard,     8 },
-  { "optional",                       pri_optional,     8 },
-  { "extra",                          pri_extra,        5 },
-  { "this is a bug - please report",  pri_other,        28 },
-  { "unknown",                        pri_unknown,      7 },
-  {  NULL                                                 }
+const struct namevalue priorityinfos[] = {
+  NAMEVALUE_DEF("required",                      pri_required),
+  NAMEVALUE_DEF("important",                     pri_important),
+  NAMEVALUE_DEF("standard",                      pri_standard),
+  NAMEVALUE_DEF("optional",                      pri_optional),
+  NAMEVALUE_DEF("extra",                         pri_extra),
+  NAMEVALUE_DEF("this is a bug - please report", pri_other),
+  NAMEVALUE_DEF("unknown",                       pri_unknown),
+  { .name = NULL }
 };
 
-const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
-  { "not-installed",   stat_notinstalled,    13 },
-  { "config-files",    stat_configfiles,     12 },
-  { "half-installed",  stat_halfinstalled,   14 },
-  { "unpacked",        stat_unpacked,        8 },
-  { "half-configured", stat_halfconfigured,  15, },
-  { "triggers-awaited", stat_triggersawaited, 16 },
-  { "triggers-pending", stat_triggerspending, 16 },
-  { "installed",       stat_installed,       9 },
+const struct namevalue statusinfos[] = {
+  NAMEVALUE_DEF("not-installed",    stat_notinstalled),
+  NAMEVALUE_DEF("config-files",     stat_configfiles),
+  NAMEVALUE_DEF("half-installed",   stat_halfinstalled),
+  NAMEVALUE_DEF("unpacked",         stat_unpacked),
+  NAMEVALUE_DEF("half-configured",  stat_halfconfigured),
+  NAMEVALUE_DEF("triggers-awaited", stat_triggersawaited),
+  NAMEVALUE_DEF("triggers-pending", stat_triggerspending),
+  NAMEVALUE_DEF("installed",        stat_installed),
   /* These are additional entries for reading only, in any order ... */
   /* XXX: backwards compat., remove. */
-  { "postinst-failed", stat_halfconfigured,  15 },
+  { .name = "postinst-failed", .value = stat_halfconfigured, .length = 15 },
   /* XXX: backwards compat., remove. */
-  { "removal-failed",  stat_halfinstalled,   14 },
-  {  NULL                                       }
+  { .name = "removal-failed",  .value = stat_halfinstalled, .length = 14 },
+  { .name = NULL }
 };
 
-const struct namevalue eflaginfos[]= {  /* Note !  These must be in order ! */
-  { "ok",        eflag_ok,        2 },
-  { "reinstreq", eflag_reinstreq, 9 },
-  {  NULL                           }
+const struct namevalue eflaginfos[] = {
+  NAMEVALUE_DEF("ok",        eflag_ok),
+  NAMEVALUE_DEF("reinstreq", eflag_reinstreq),
+  { .name = NULL }
 };
 
-const struct namevalue wantinfos[]= {  /* Note !  These must be in order ! */
-  { "unknown",   want_unknown,    7 },
-  { "install",   want_install,    7 },
-  { "hold",      want_hold,       4 },
-  { "deinstall", want_deinstall,  9 },
-  { "purge",     want_purge,      5 },
-  {  NULL                           }
+const struct namevalue wantinfos[] = {
+  NAMEVALUE_DEF("unknown",   want_unknown),
+  NAMEVALUE_DEF("install",   want_install),
+  NAMEVALUE_DEF("hold",      want_hold),
+  NAMEVALUE_DEF("deinstall", want_deinstall),
+  NAMEVALUE_DEF("purge",     want_purge),
+  { .name = NULL }
 };
 
 const char *illegal_packagename(const char *p, const char **ep) {

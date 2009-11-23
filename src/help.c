@@ -43,14 +43,14 @@
 #include "main.h"
 
 const char *const statusstrings[]= {
-  N_("not installed"),
-  N_("not installed but configs remain"),
-  N_("broken due to failed removal or installation"),
-  N_("unpacked but not configured"),
-  N_("broken due to postinst failure"),
-  N_("awaiting trigger processing by another package"),
-  N_("triggered"),
-  N_("installed")
+  [stat_notinstalled]    = N_("not installed"),
+  [stat_configfiles]     = N_("not installed but configs remain"),
+  [stat_halfinstalled]   = N_("broken due to failed removal or installation"),
+  [stat_unpacked]        = N_("unpacked but not configured"),
+  [stat_halfconfigured]  = N_("broken due to postinst failure"),
+  [stat_triggersawaited] = N_("awaiting trigger processing by another package"),
+  [stat_triggerspending] = N_("triggered"),
+  [stat_installed]       = N_("installed")
 };
 
 struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg) {
