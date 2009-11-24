@@ -53,6 +53,24 @@ sub parse_cmdline_option {
     return 0;
 }
 
+sub can_build {
+    my ($self, $dir) = @_;
+    my ($code, $msg) = $self->SUPER::can_build($dir);
+    return ($code, $msg) if $code eq 0;
+    my $pd = File::Spec->catdir($dir, "debian", "patches");
+    if (-e $pd and not -d _) {
+        return (0, sprintf(_g("%s should be a directory or non-existing"), $pd));
+    }
+    my $series_vendor = $self->get_series_file($dir);
+    my $series_main = File::Spec->catfile($pd, "series");
+    foreach my $series ($series_vendor, $series_main) {
+        if (defined($series) and -e $series and not -f _) {
+            return (0, sprintf(_g("%s should be a file or non-existing"), $series));
+        }
+    }
+    return (1, "");
+}
+
 sub get_autopatch_name {
     my ($self) = @_;
     return "debian-changes-" . $self->{'fields'}{'Version'};
