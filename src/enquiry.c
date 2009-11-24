@@ -45,7 +45,7 @@
 
 struct badstatinfo {
   bool (*yesno)(struct pkginfo *, const struct badstatinfo *bsi);
-  int val;
+  int value;
   const char *explanation;
 };
 
@@ -60,7 +60,7 @@ bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
 {
   if (pkg->eflag &= eflag_reinstreq)
     return false;
-  return (int)pkg->status == bsi->val;
+  return (int)pkg->status == bsi->value;
 }
 
 static const struct badstatinfo badstatinfos[]= {
