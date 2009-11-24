@@ -154,12 +154,12 @@ const char *illegal_packagename(const char *p, const char **ep) {
 
 const struct nickname nicknames[]= {
   /* NB: capitalisation of these strings is important. */
-  { "Recommended",       "Recommends"  },
-  { "Optional",          "Suggests"    },
-  { "Class",             "Priority"    },
-  { "Package-Revision",  "Revision"    },
-  { "Package_Revision",  "Revision"    },
-  {  NULL                              }
+  { .nick = "Recommended",      .canon = "Recommends" },
+  { .nick = "Optional",         .canon = "Suggests" },
+  { .nick = "Class",            .canon = "Priority" },
+  { .nick = "Package-Revision", .canon = "Revision" },
+  { .nick = "Package_Revision", .canon = "Revision" },
+  { .nick = NULL }
 };
 
 int informativeversion(const struct versionrevision *version) {

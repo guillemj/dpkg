@@ -65,37 +65,49 @@ bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
 
 static const struct badstatinfo badstatinfos[]= {
   {
-    bsyn_reinstreq, 0,
-    N_("The following packages are in a mess due to serious problems during\n"
+    .yesno = bsyn_reinstreq,
+    .value = 0,
+    .explanation = N_(
+    "The following packages are in a mess due to serious problems during\n"
     "installation.  They must be reinstalled for them (and any packages\n"
     "that depend on them) to function properly:\n")
   }, {
-    bsyn_status, stat_unpacked,
-    N_("The following packages have been unpacked but not yet configured.\n"
+    .yesno = bsyn_status,
+    .value = stat_unpacked,
+    .explanation = N_(
+    "The following packages have been unpacked but not yet configured.\n"
     "They must be configured using dpkg --configure or the configure\n"
     "menu option in dselect for them to work:\n")
   }, {
-    bsyn_status, stat_halfconfigured,
-    N_("The following packages are only half configured, probably due to problems\n"
+    .yesno = bsyn_status,
+    .value = stat_halfconfigured,
+    .explanation = N_(
+    "The following packages are only half configured, probably due to problems\n"
     "configuring them the first time.  The configuration should be retried using\n"
     "dpkg --configure <package> or the configure menu option in dselect:\n")
   }, {
-    bsyn_status, stat_halfinstalled,
-    N_("The following packages are only half installed, due to problems during\n"
+    .yesno = bsyn_status,
+    .value = stat_halfinstalled,
+    .explanation = N_(
+    "The following packages are only half installed, due to problems during\n"
     "installation.  The installation can probably be completed by retrying it;\n"
     "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
-    bsyn_status, stat_triggersawaited,
-    N_("The following packages are awaiting processing of triggers that they\n"
+    .yesno = bsyn_status,
+    .value = stat_triggersawaited,
+    .explanation = N_(
+    "The following packages are awaiting processing of triggers that they\n"
     "have activated in other packages.  This processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
-    bsyn_status, stat_triggerspending,
-    N_("The following packages have been triggered, but the trigger processing\n"
+    .yesno = bsyn_status,
+    .value = stat_triggerspending,
+    .explanation = N_(
+    "The following packages have been triggered, but the trigger processing\n"
     "has not yet been done.  Trigger processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
-    NULL
+    .yesno = NULL
   }
 };
 

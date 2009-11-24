@@ -198,7 +198,7 @@ buffer_copy_TYPE(PtrPtr, void *, ptr, void *, ptr);
 off_t
 buffer_hash(const void *input, void *output, int type, off_t limit)
 {
-	struct buffer_data data = { { output }, type };
+	struct buffer_data data = { .arg.ptr = output, .type = type };
 	off_t ret;
 
 	buffer_init(NULL, &data);

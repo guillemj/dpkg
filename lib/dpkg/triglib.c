@@ -711,9 +711,9 @@ tdm_incorp_trig_end(void)
 }
 
 static const struct trigdefmeths tdm_incorp = {
-	tdm_incorp_trig_begin,
-	tdm_incorp_package,
-	tdm_incorp_trig_end
+	.trig_begin = tdm_incorp_trig_begin,
+	.package = tdm_incorp_package,
+	.trig_end = tdm_incorp_trig_end
 };
 
 void
