@@ -170,16 +170,10 @@ statdb_node_remove(const char *filename)
 static void
 statdb_node_apply(const char *filename, struct filestatoverride *filestat)
 {
-	if (access(filename, F_OK) != 0) {
-		warning(_("--update given but %s does not exist"), filename);
-	} else {
-		if (chown(filename, filestat->uid, filestat->gid) < 0)
-			warning(_("failed to chown %s: %s"), filename,
-			        strerror(errno));
-		if (chmod(filename, filestat->mode))
-			warning(_("failed to chmod %s: %s"), filename,
-			        strerror(errno));
-	}
+	if (chown(filename, filestat->uid, filestat->gid) < 0)
+		warning(_("failed to chown %s: %s"), filename, strerror(errno));
+	if (chmod(filename, filestat->mode))
+		warning(_("failed to chmod %s: %s"), filename, strerror(errno));
 }
 
 static void
@@ -284,8 +278,13 @@ statoverride_add(const char *const *argv)
 
 	*filestat = statdb_node_new(user, group, mode);
 
-	if (opt_update)
-		statdb_node_apply(filename, *filestat);
+	if (opt_update) {
+		if (access(filename, F_OK) == 0)
+			statdb_node_apply(filename, *filestat);
+		else
+			warning(_("--update given but %s does not exist"),
+			        filename);
+	}
 
 	statdb_write();
 
