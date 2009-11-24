@@ -123,7 +123,7 @@ path_cleanup(const char *path)
 	char *new_path = m_strdup(path);
 
 	path_rtrim_slash_slashdot(new_path);
-	if (strcmp(path, new_path) != 0)
+	if (opt_verbose && strcmp(path, new_path) != 0)
 		warning(_("stripping trailing /"));
 
 	return new_path;
@@ -281,7 +281,7 @@ statoverride_add(const char *const *argv)
 	if (opt_update) {
 		if (access(filename, F_OK) == 0)
 			statdb_node_apply(filename, *filestat);
-		else
+		else if (opt_verbose)
 			warning(_("--update given but %s does not exist"),
 			        filename);
 	}
@@ -305,14 +305,15 @@ statoverride_remove(const char *const *argv)
 	filename = path_cleanup(path);
 
 	if (!statdb_node_remove(filename)) {
-		warning(_("No override present."));
+		if (opt_verbose)
+			warning(_("No override present."));
 		if (opt_force)
 			exit(0);
 		else
 			exit(2);
 	}
 
-	if (opt_update)
+	if (opt_update && opt_verbose)
 		warning(_("--update is useless for --remove"));
 
 	statdb_write();
