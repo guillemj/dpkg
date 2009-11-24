@@ -13,6 +13,9 @@ dpkg (1.15.5.3) UNRELEASED; urgency=low
   * When building "3.0 (quilt)" source packages, use QUILT_PATCH_OPTS="-t -F 0
     -N -u -V never -g0" so that quilt is as strict as dpkg-source's internal
     implementation of quilt. Closes: #557664
+  * Before accepting to build a 3.0 (quilt) source packages, ensure that
+    debian/patches is a directory (or non-existing) and that
+    debian/patches/series is a file (or non-existing). Closes: #557618
 
   [ Guillem Jover ]
   * Verify that the alternative used in update-alternatives --set has been
