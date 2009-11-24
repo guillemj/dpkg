@@ -171,9 +171,9 @@ static void
 statdb_node_apply(const char *filename, struct filestatoverride *filestat)
 {
 	if (chown(filename, filestat->uid, filestat->gid) < 0)
-		warning(_("failed to chown %s: %s"), filename, strerror(errno));
+		ohshite(_("error setting ownership of `%.255s'"), filename);
 	if (chmod(filename, filestat->mode))
-		warning(_("failed to chmod %s: %s"), filename, strerror(errno));
+		ohshite(_("error setting permissions of `%.255s'"), filename);
 }
 
 static void

@@ -17,6 +17,9 @@ dpkg (1.15.6) UNRELEASED; urgency=low
     header and dselect package status printing for consistency.
   * Make “dpkg-statoverride --quiet” actually do something, and quiesce
     most of the inoquous warning messages. Closes: #403211
+  * Make “dpkg-statoverride --update --add” fail if it cannot update the
+    mode and owner of the file. This would fail later on when dpkg itself
+    applies the overrides, so better to signal this earlier.
 
   [ Updated man page translations ]
   * German (Helge Kreutzmann).
