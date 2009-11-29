@@ -38,12 +38,19 @@ our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;
+    $self->{'options'}{'allow-version-of-quilt-db'} = []
+        unless exists $self->{'options'}{'allow-version-of-quilt-db'};
+
     $self->SUPER::init_options();
 }
 
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);
+    if ($opt =~ /^--allow-version-of-quilt-db=(.*)$/) {
+        push @{$self->{'options'}{'allow-version-of-quilt-db'}}, $1;
+        return 1;
+    }
     return 0;
 }
 
@@ -202,6 +209,29 @@ sub prepare_build {
         return 0;
     };
     $self->{'diff_options'}{'diff_ignore_func'} = $func;
+}
+
+sub do_build {
+    my ($self, $dir) = @_;
+    my $pc_ver = File::Spec->catfile($dir, ".pc", ".version");
+    if (-f $pc_ver) {
+        open(VER, "<", $pc_ver) || syserr(_g("cannot read %s"), $pc_ver);
+        my $version = <VER>;
+        chomp $version;
+        close(VER);
+        if ($version != 2) {
+            if (scalar grep { $version eq $_ }
+                @{$self->{'options'}{'allow-version-of-quilt-db'}})
+            {
+                warning(_g("unsupported version of the quilt metadata: %s"),
+                        $version);
+            } else {
+                error(_g("unsupported version of the quilt metadata: %s"),
+                      $version);
+            }
+        }
+    }
+    $self->SUPER::do_build($dir);
 }
 
 sub check_patches_applied {
