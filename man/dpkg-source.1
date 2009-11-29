@@ -402,10 +402,14 @@ patches have been applied during the extraction.
 All original tarballs found in the current directory are extracted in a
 temporary directory by following the same logic as for the unpack, the
 debian directory is copied over in the temporary directory, and all
-patches except \fBdebian-changes-\fP\fIversion\fP are applied.
-The temporary directory is compared to the source package directory
-and the diff (if non-empty) is stored in
-\fBdebian/patches/debian-changes-\fP\fIversion\fP. Any change
+patches except the automatic patch (\fBdebian-changes-\fP\fIversion\fP
+or \fBdebian-changes\fP, depending on \fB\-\-single\-debian\-patch\fP) are
+applied. The temporary directory is compared to the source package
+directory and the diff (if non-empty) is stored in the automatic patch.
+If the automatic patch is created/deleted, it's added/removed from the
+series file and from the quilt metadata.
+
+Any change
 on a binary file is not representable in a diff and will thus lead to a
 failure unless the maintainer deliberately decided to include that
 modified binary file in the debian tarball (by listing it in
@@ -452,6 +456,14 @@ in subsequent builds and this option is thus no more needed.
 .B \-\-no\-preparation
 Do not try to prepare the build tree by applying patches which are
 apparently unapplied.
+.TP
+.B \-\-single\-debian\-patch
+Use \fBdebian/patches/debian-changes\fP instead of
+\fBdebian/patches/debian-changes-\fP\fIversion\fP for the name of the
+automatic patch generated during build. This option is particularly
+useful when you maintain a package in a VCS and you can't reliably
+generate a patch set, instead you just want to store the current
+diff with upstream in a single patch.
 .PP
 .B Extract options
 .TP
@@ -518,6 +530,8 @@ Here's an example of such a file:
   # let dpkg-source create a debian.tar.bz2 with maximal compression
   compression = "bzip2"
   compression-level = 9
+  # use debian/patches/debian-changes as automatic patch
+  single-debian-patch
 .P
 Note: \fBformat\fR options are not accepted in this file, you should
 use \fBdebian/source/format\fR instead.

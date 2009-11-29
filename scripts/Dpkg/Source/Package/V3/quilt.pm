@@ -40,12 +40,19 @@ our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;
+    $self->{'options'}{'single-debian-patch'} = 0
+        unless exists $self->{'options'}{'single-debian-patch'};
+
     $self->SUPER::init_options();
 }
 
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);
+    if ($opt =~ /^--single-debian-patch$/) {
+        $self->{'options'}{'single-debian-patch'} = 1;
+        return 1;
+    }
     return 0;
 }
 
@@ -69,7 +76,11 @@ sub can_build {
 
 sub get_autopatch_name {
     my ($self) = @_;
-    return "debian-changes-" . $self->{'fields'}{'Version'};
+    if ($self->{'options'}{'single-debian-patch'}) {
+        return "debian-changes";
+    } else {
+        return "debian-changes-" . $self->{'fields'}{'Version'};
+    }
 }
 
 sub get_series_file {
@@ -286,6 +297,8 @@ sub get_patch_header {
     my $ch_info = changelog_parse(offset => 0, count => 1,
         file => File::Spec->catfile($dir, "debian", "changelog"));
     return '' if not defined $ch_info;
+    return $self->SUPER::get_patch_header($dir, $previous)
+        if $self->{'options'}{'single-debian-patch'};
     my $header = Dpkg::Control->new(type => CTRL_UNKNOWN);
     $header->{'Description'} = "Upstream changes introduced in version " .
                                $ch_info->{'Version'} . "\n";
