@@ -2,6 +2,11 @@ dpkg (1.15.5.4) UNRELEASED; urgency=low
 
   * Fix Dpkg::Index::get() and remove(). Thanks to Roderich Schupp
     <roderich.schupp@googlemail.com> for the patch. Closes: #558595
+  * Modify implementation of "3.0 (quilt)" source format to not be
+    behave differently depending on whether quilt is installed or not.
+    The option --without-quilt is thus gone and dpkg-source creates
+    and relies on the .pc directory to know whether patches are applied
+    or not. Closes: #557667
 
  -- Raphael Hertzog <hertzog@debian.org>  Sun, 29 Nov 2009 18:15:16 +0100
 
