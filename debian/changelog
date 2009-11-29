@@ -10,6 +10,11 @@ dpkg (1.14.28) UNRELEASED; urgency=low
     - before accepting to build a 3.0 (quilt) source packages, ensure that
       debian/patches is a directory (or non-existing) and that
       debian/patches/series is a file (or non-existing). Closes: #557618
+    - modify implementation of "3.0 (quilt)" source format to not be
+      behave differently depending on whether quilt is installed or not.
+      The option --without-quilt is thus gone and dpkg-source creates and
+      relies on the .pc directory to know whether patches are applied or
+      not. Closes: #557667
 
  -- Raphael Hertzog <hertzog@debian.org>  Sun, 03 Jan 2010 18:21:35 +0100
 

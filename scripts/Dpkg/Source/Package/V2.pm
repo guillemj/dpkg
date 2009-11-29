@@ -148,7 +148,8 @@ sub do_extract {
                   @exclude_symlinks ]);
 
     # Apply patches (in a separate method as it might be overriden)
-    $self->apply_patches($newdirectory) unless $self->{'options'}{'skip_patches'};
+    $self->apply_patches($newdirectory, usage => 'unpack')
+        unless $self->{'options'}{'skip_patches'};
 }
 
 sub get_autopatch_name {
@@ -156,7 +157,8 @@ sub get_autopatch_name {
 }
 
 sub get_patches {
-    my ($self, $dir, $skip_auto) = @_;
+    my ($self, $dir, %opts) = @_;
+    $opts{"skip_auto"} = 0 unless defined($opts{"skip_auto"});
     my @patches;
     my $pd = "$dir/debian/patches";
     my $auto_patch = $self->get_autopatch_name();
@@ -165,7 +167,7 @@ sub get_patches {
         foreach my $patch (sort readdir(DIR)) {
             # patches match same rules as run-parts
             next unless $patch =~ /^[\w-]+$/ and -f "$pd/$patch";
-            next if $skip_auto and $patch eq $auto_patch;
+            next if $opts{"skip_auto"} and $patch eq $auto_patch;
             push @patches, $patch;
         }
         closedir(DIR);
@@ -174,15 +176,16 @@ sub get_patches {
 }
 
 sub apply_patches {
-    my ($self, $dir, $skip_auto) = @_;
-    my @patches = $self->get_patches($dir, $skip_auto);
+    my ($self, $dir, %opts) = @_;
+    $opts{"skip_auto"} = 0 unless defined($opts{"skip_auto"});
+    my @patches = $self->get_patches($dir, %opts);
     return unless scalar(@patches);
     my $timestamp = time();
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);
-    foreach my $patch ($self->get_patches($dir, $skip_auto)) {
+    foreach my $patch ($self->get_patches($dir, %opts)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
-        info(_g("applying %s"), $patch) unless $skip_auto;
+        info(_g("applying %s"), $patch) unless $opts{"skip_auto"};
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
         $patch_obj->apply($dir, force_timestamp => 1,
                           timestamp => $timestamp,
@@ -217,7 +220,7 @@ sub check_patches_applied {
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     unless (-e $applied) {
         warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
-        $self->apply_patches($dir);
+        $self->apply_patches($dir, usage => 'preparation');
     }
 }
 
@@ -284,7 +287,7 @@ sub do_build {
     subprocerr(_g("copy of the debian directory")) if $?;
 
     # Apply all patches except the last automatic one
-    $self->apply_patches($tmp, 1);
+    $self->apply_patches($tmp, skip_auto => 1, usage => 'build');
 
     # Prepare handling of binary files
     my %auth_bin_files;

@@ -371,7 +371,7 @@ such options, and the build is likely to fail.
 .PP
 Similarly to quilt's default behaviour, the patches can remove files too.
 .PP
-The file \fBdebian/patches/.dpkg-source-applied\fP is created if some
+The file \fB.pc/applied-patches\fP is created if some
 patches have been applied during the extraction.
 .PP
 .B Building
@@ -400,15 +400,17 @@ files as well as many temporary files (see default value associated to
 automatic patch.
 
 Note: \fBdpkg\-source\fP expects the source tree to have all patches
-applied when you generate the source package. This is not the case
-when the source tree has been obtained by unpacking a source package using
-the Format: 1.0 for instance. To mitigate the problem, \fBdpkg\-source\fP
-will apply patches before building unless it finds
-\fBdebian/patches/.dpkg-source-applied\fP. The presence of a \fB.pc\fP
-subdirectory is also interpreted as a sign that some patches have been
-applied and in this case \fBquilt unapplied\fP is called to verify that
-all patches are applied. The option \fB\-\-no\-preparation\fP can be used
-to disable this behaviour.
+applied when you generate the source package.
+This is not the case when the source tree has been obtained by unpacking a
+source package using the Format: 1.0 for instance. To mitigate the
+problem, \fBdpkg\-source\fP will apply the patches by itself if it
+believes that they have not yet been applied. To detect this situation, it
+uses the following heuristic: it finds the list of supposedly unapplied
+patches (they are listed in the \fBseries\fP file but not in
+\fB.pc/applied-patches\fP), and if the first patch in that set can be
+applied without errors, it will apply them all.
+The option \fB\-\-no\-preparation\fP can be used to disable this
+behaviour.
 .PP
 .B Build options
 .TP
@@ -432,11 +434,6 @@ apparently unapplied.
 .TP
 .B \-\-skip\-patches
 Do not apply patches at the end of the extraction.
-.TP
-.B \-\-without\-quilt
-Don't use quilt to apply patches but dpkg-source's own code. It won't be
-possible to use quilt directly on the unpacked directory but it will be
-free of quilt's temporary files as well.
 .
 .SS Format: 3.0 (custom)
 This format is particular. It doesn't represent a real source package
