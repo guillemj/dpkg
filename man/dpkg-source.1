@@ -461,9 +461,12 @@ apparently unapplied.
 Use \fBdebian/patches/debian-changes\fP instead of
 \fBdebian/patches/debian-changes-\fP\fIversion\fP for the name of the
 automatic patch generated during build. This option is particularly
-useful when you maintain a package in a VCS and you can't reliably
-generate a patch set, instead you just want to store the current
-diff with upstream in a single patch.
+useful when the package is maintained in a VCS and a patch set can't reliably
+be generated. Instead the current diff with upstream should be stored in a
+single patch. When using this option, it is recommended to create
+a debian/source/patch-header file explaining how the Debian changes can be
+best reviewed, for example in the VCS that is used.
+
 .PP
 .B Extract options
 .TP
@@ -535,6 +538,9 @@ Here's an example of such a file:
 .P
 Note: \fBformat\fR options are not accepted in this file, you should
 use \fBdebian/source/format\fR instead.
+.SS debian/source/patch-header
+Free form text that is put on top of the automatic patch generated
+in formats "2.0" or "3.0 (quilt)".
 .SS debian/patches/series
 This file lists all patches that have to be applied (in the given order)
 on top of the upstream source package. Leading and trailing spaces are

@@ -294,6 +294,14 @@ sub register_autopatch {
 
 sub get_patch_header {
     my ($self, $dir, $previous) = @_;
+    my $ph = File::Spec->catfile($dir, "debian", "source", "patch-header");
+    my $text;
+    if (-f $ph) {
+        open(PH, "<", $ph) || syserr(_g("cannot read %s"), $ph);
+        $text = join("", <PH>);
+        close(PH);
+        return $text;
+    }
     my $ch_info = changelog_parse(offset => 0, count => 1,
         file => File::Spec->catfile($dir, "debian", "changelog"));
     return '' if not defined $ch_info;
@@ -310,7 +318,7 @@ those changes were made:\n";
     $header->{'Description'} .=
 "\nThe person named in the Author field signed this changelog entry.\n";
     $header->{'Author'} = $ch_info->{'Maintainer'};
-    my $text = "$header";
+    $text = "$header";
     run_vendor_hook("extend-patch-header", \$text, $ch_info);
     $text .= "\n---
 The information above should follow the Patch Tagging Guidelines, please

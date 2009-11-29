@@ -431,6 +431,14 @@ sub do_build {
 
 sub get_patch_header {
     my ($self, $dir, $previous) = @_;
+    my $ph = File::Spec->catfile($dir, "debian", "source", "patch-header");
+    my $text;
+    if (-f $ph) {
+        open(PH, "<", $ph) || syserr(_g("cannot read %s"), $ph);
+        $text = join("", <PH>);
+        close(PH);
+        return $text;
+    }
     return "Description: Undocumented upstream changes
  This patch has been created by dpkg-source during the package build
  but it might have accumulated changes from several uploads. Please
