@@ -278,8 +278,14 @@ sub fork_and_exec {
 	${$opts{"error_to_string"}} = readline($error_to_string_pipe);
     }
     if ($opts{"wait_child"}) {
+	my $cmdline = "@prog";
+	if ($opts{"env"}) {
+	    foreach (keys %{$opts{"env"}}) {
+		$cmdline = "$_=\"" . $opts{"env"}{$_} . "\" $cmdline";
+	    }
+	}
 	wait_child($pid, nocheck => $opts{"nocheck"},
-                   timeout => $opts{"timeout"}, cmdline => "@prog");
+                   timeout => $opts{"timeout"}, cmdline => $cmdline);
 	return 1;
     }
 

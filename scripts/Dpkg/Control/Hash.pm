@@ -52,6 +52,9 @@ unchanged directly after the field name, supplementary lines are
 modified. Empty lines and lines containing only dots are prefixed with
 " ." (space + dot) while other lines are prefixed with a single space.
 
+During parsing, trailing spaces are stripped on all lines while leading
+spaces are stripped only on the first line of each field.
+
 =head1 FUNCTIONS
 
 =over 4
@@ -168,7 +171,7 @@ sub parse_fh {
 	next if (m/^$/ and $paraborder);
 	next if (m/^#/);
 	$paraborder = 0;
-	if (m/^(\S+?)\s*:\s?(.*)$/) {
+	if (m/^(\S+?)\s*:\s*(.*)$/) {
 	    if (exists $self->{$1}) {
 		unless ($$self->{'allow_duplicate'}) {
 		    syntaxerr($desc, sprintf(_g("duplicate field %s found"), $1));

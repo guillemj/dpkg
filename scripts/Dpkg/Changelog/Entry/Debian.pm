@@ -25,6 +25,7 @@ our @EXPORT_OK = qw($regex_header $regex_trailer find_closes);
 
 use Date::Parse;
 
+use Dpkg::Gettext;
 use Dpkg::Control::Changelog;
 use Dpkg::Version;
 

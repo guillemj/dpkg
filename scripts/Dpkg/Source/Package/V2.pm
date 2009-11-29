@@ -248,6 +248,10 @@ sub do_build {
     my @origtarballs;
     foreach (sort $self->find_original_tarballs()) {
         if (/\.orig\.tar\.$comp_regex$/) {
+            if (defined($tarfile)) {
+                error(_g("several orig.tar files found (%s and %s) but only " .
+                         "one is allowed"), $tarfile, $_);
+            }
             $tarfile = $_;
             push @origtarballs, $_;
             $self->add_file($_);

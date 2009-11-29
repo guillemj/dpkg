@@ -55,6 +55,24 @@ sub parse_cmdline_option {
     return 0;
 }
 
+sub can_build {
+    my ($self, $dir) = @_;
+    my ($code, $msg) = $self->SUPER::can_build($dir);
+    return ($code, $msg) if $code eq 0;
+    my $pd = File::Spec->catdir($dir, "debian", "patches");
+    if (-e $pd and not -d _) {
+        return (0, sprintf(_g("%s should be a directory or non-existing"), $pd));
+    }
+    my $series_vendor = $self->get_series_file($dir);
+    my $series_main = File::Spec->catfile($pd, "series");
+    foreach my $series ($series_vendor, $series_main) {
+        if (defined($series) and -e $series and not -f _) {
+            return (0, sprintf(_g("%s should be a file or non-existing"), $series));
+        }
+    }
+    return (1, "");
+}
+
 sub get_autopatch_name {
     my ($self) = @_;
     return "debian-changes-" . $self->{'fields'}{'Version'};
@@ -114,7 +132,10 @@ sub run_quilt {
     }
     my %opts = (
         env => { QUILT_PATCHES => "$absdir/debian/patches",
-                 QUILT_SERIES => $series },
+                 QUILT_SERIES => $series,
+                 # Kept as close as possible to default patch options in
+                 # Dpkg::Source::Patch (used in without_quilt mode)
+                 QUILT_PATCH_OPTS => "-t -F 0 -N -u -V never -g0" },
         'chdir' => $dir,
         'exec' => [ 'quilt', '--quiltrc', '/dev/null', @$params ],
         %more_opts
@@ -169,7 +190,6 @@ sub apply_patches {
         $opts{"to_file"} = "/dev/null" if $skip_auto;
         info(_g("applying all patches with %s"), "quilt push -q " . $patches[-1]) unless $skip_auto;
         $self->run_quilt($dir, ['push', '-q', $patches[-1]],
-                         delete_env => ['QUILT_PATCH_OPTS'],
                          wait_child => 1, %opts);
         foreach my $patch (@patches) {
             foreach my $fn (keys %{$panalysis->{$patch}->{'filepatched'}}) {
