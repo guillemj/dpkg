@@ -834,7 +834,7 @@ The output method uses ", " to join the list of sub-dependencies.
 use strict;
 use warnings;
 
-our @ISA = qw(Dpkg::Deps::Multiple);
+use base qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
@@ -939,7 +939,7 @@ The output method uses " | " to join the list of sub-dependencies.
 use strict;
 use warnings;
 
-our @ISA = qw(Dpkg::Deps::Multiple);
+use base qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
@@ -1046,7 +1046,7 @@ It uses $simple_dep->merge_union($other_dep) to get the its job done.
 use strict;
 use warnings;
 
-our @ISA = qw(Dpkg::Deps::Multiple);
+use base qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
