@@ -254,7 +254,7 @@ foreach my $field (field_list_pkg_dep()) {
 	    $dep->simplify_deps($facts);
             $dep->sort();
 	}
-	$fields->{$field} = $dep->dump();
+	$fields->{$field} = $dep->output();
 	delete $fields->{$field} unless $fields->{$field}; # Delete empty field
     }
 }

@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 16;
+use Test::More tests => 17;
 
 use strict;
 use warnings;
@@ -28,7 +28,7 @@ my $field_multiline_sorted = "libatk1.0-0 (>= 1.13.2), libc6 (>= 2.5-5), libcair
 
 my $dep_multiline = Dpkg::Deps::parse($field_multiline);
 $dep_multiline->sort();
-is($dep_multiline->dump(), $field_multiline_sorted, "Parse, sort and dump");
+is($dep_multiline->output(), $field_multiline_sorted, "Parse, sort and output");
 
 my $dep_subset = Dpkg::Deps::parse("libatk1.0-0 (>> 1.10), libc6, libcairo2");
 is($dep_multiline->implies($dep_subset), 1, "Dep implies subset of itself");
@@ -45,9 +45,9 @@ my $field_arch = "libc6 (>= 2.5) [!alpha !hurd-i386], libc6.1 [alpha], libc0.1 [
 my $dep_i386 = Dpkg::Deps::parse($field_arch, reduce_arch => 1, host_arch => 'i386');
 my $dep_alpha = Dpkg::Deps::parse($field_arch, reduce_arch => 1, host_arch => 'alpha');
 my $dep_hurd = Dpkg::Deps::parse($field_arch, reduce_arch => 1, host_arch => 'hurd-i386');
-is($dep_i386->dump(), "libc6 (>= 2.5)", "Arch reduce 1/3");
-is($dep_alpha->dump(), "libc6.1", "Arch reduce 2/3");
-is($dep_hurd->dump(), "libc0.1", "Arch reduce 3/3");
+is($dep_i386->output(), "libc6 (>= 2.5)", "Arch reduce 1/3");
+is($dep_alpha->output(), "libc6.1", "Arch reduce 2/3");
+is($dep_hurd->output(), "libc0.1", "Arch reduce 3/3");
 
 
 my $facts = Dpkg::Deps::KnownFacts->new();
@@ -58,23 +58,24 @@ my $field_duplicate = "libc6 (>= 2.3), libc6 (>= 2.6-1), mypackage (>=
 1.3), myvirtual | something, python (>= 2.5)";
 my $dep_dup = Dpkg::Deps::parse($field_duplicate);
 $dep_dup->simplify_deps($facts, $dep_opposite);
-is($dep_dup->dump(), "libc6 (>= 2.6-1)", "Simplify deps");
+is($dep_dup->output(), "libc6 (>= 2.6-1)", "Simplify deps");
 
 my $field_dup_union = "libc6 (>> 2.3), libc6 (>= 2.6-1), fake (<< 2.0),
 fake(>> 3.0), fake (= 2.5), python (<< 2.5), python (= 2.4)";
 my $dep_dup_union = Dpkg::Deps::parse($field_dup_union, union => 1);
 $dep_dup_union->simplify_deps($facts);
-is($dep_dup_union->dump(), "libc6 (>> 2.3), fake (<< 2.0), fake (>> 3.0), fake (= 2.5), python (<< 2.5)", "Simplify union deps");
+is($dep_dup_union->output(), "libc6 (>> 2.3), fake (<< 2.0), fake (>> 3.0), fake (= 2.5), python (<< 2.5)", "Simplify union deps");
 
 my $dep_red = Dpkg::Deps::parse("abc | xyz, two, abc");
 $dep_red->simplify_deps($facts, $dep_opposite);
-is($dep_red->dump(), "abc, two", "Simplification respect order");
+is($dep_red->output(), "abc, two", "Simplification respect order");
+is("$dep_red", $dep_red->output(), "Stringification == output()");
 
 my $dep_empty1 = Dpkg::Deps::parse("");
-is($dep_empty1->dump(), "", "Empty dependency");
+is($dep_empty1->output(), "", "Empty dependency");
 
 my $dep_empty2 = Dpkg::Deps::parse(" , , ", union => 1);
-is($dep_empty2->dump(), "", "' , , ' is also an empty dependency");
+is($dep_empty2->output(), "", "' , , ' is also an empty dependency");
 
 $SIG{'__WARN__'} = sub {};
 my $dep_bad_multiline = Dpkg::Deps::parse("a, foo\nbar, c");

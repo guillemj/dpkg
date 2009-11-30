@@ -103,11 +103,11 @@ if ($bc_value) {
 
 if (@unmet) {
 	printf STDERR _g("%s: Unmet build dependencies: "), $progname;
-	print STDERR join(" ", map { $_->dump() } @unmet), "\n";
+	print STDERR join(" ", map { $_->output() } @unmet), "\n";
 }
 if (@conflicts) {
 	printf STDERR _g("%s: Build conflicts: "), $progname;
-	print STDERR join(" ", map { $_->dump() } @conflicts), "\n";
+	print STDERR join(" ", map { $_->output() } @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;
 

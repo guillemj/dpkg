@@ -214,7 +214,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 	    my $facts = Dpkg::Deps::KnownFacts->new();
 	    $dep->simplify_deps($facts);
 	    $dep->sort() if $type eq 'union';
-	    $fields->{$_} = $dep->dump();
+	    $fields->{$_} = $dep->output();
 	} else {
             field_transfer_single($src_fields, $fields);
 	}

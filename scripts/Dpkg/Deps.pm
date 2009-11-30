@@ -378,9 +378,12 @@ an empty list of dependencies.
 Return a list of sub-dependencies. For Dpkg::Deps::Simple it returns
 itself.
 
-=item $dep->dump()
+=item $dep->output([$fh])
 
-Return a string representing the dependency.
+=item "$dep"
+
+Return a string representing the dependency. If $fh is set, it prints
+the string to the filehandle.
 
 =item $dep->implies($other_dep)
 
@@ -482,6 +485,8 @@ use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
+use overload '""' => sub { $_[0]->output() };
+
 sub new {
     my ($this, $arg) = @_;
     my $class = ref($this) || $this;
@@ -524,14 +529,17 @@ sub parse {
     }
 }
 
-sub dump {
-    my $self = shift;
+sub output {
+    my ($self, $fh) = @_;
     my $res = $self->{package};
     if (defined($self->{relation})) {
 	$res .= " (" . $self->{relation} . " " . $self->{version} .  ")";
     }
     if (defined($self->{'arches'})) {
 	$res .= " [" . join(" ", @{$self->{arches}}) . "]";
+    }
+    if (defined($fh)) {
+	print $fh $res;
     }
     return $res;
 }
@@ -751,6 +759,8 @@ use warnings;
 
 use Dpkg::ErrorHandling;
 
+use overload '""' => sub { $_[0]->output() };
+
 sub new {
     my $this = shift;
     my $class = ref($this) || $this;
@@ -813,9 +823,9 @@ time.
 
 =over 4
 
-=item $and->dump()
+=item $and->output([$fh])
 
-The dump method uses ", " to join the list of sub-dependencies.
+The output method uses ", " to join the list of sub-dependencies.
 
 =back
 
@@ -826,9 +836,13 @@ use warnings;
 
 our @ISA = qw(Dpkg::Deps::Multiple);
 
-sub dump {
-    my $self = shift;
-    return join(", ", map { $_->dump() } grep { not $_->is_empty() } $self->get_deps());
+sub output {
+    my ($self, $fh) = @_;
+    my $res = join(", ", map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
+    if (defined($fh)) {
+	print $fh $res;
+    }
+    return $res;
 }
 
 sub implies {
@@ -914,9 +928,9 @@ for the dependency to be true.
 
 =over 4
 
-=item $or->dump()
+=item $or->output([$fh])
 
-The dump method uses " | " to join the list of sub-dependencies.
+The output method uses " | " to join the list of sub-dependencies.
 
 =back
 
@@ -927,9 +941,13 @@ use warnings;
 
 our @ISA = qw(Dpkg::Deps::Multiple);
 
-sub dump {
-    my $self = shift;
-    return join(" | ", map { $_->dump() } grep { not $_->is_empty() } $self->get_deps());
+sub output {
+    my ($self, $fh) = @_;
+    my $res = join(" | ", map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
+    if (defined($fh)) {
+	print $fh $res;
+    }
+    return $res;
 }
 
 sub implies {
@@ -1007,9 +1025,9 @@ This object represents a list of relationships.
 
 =over 4
 
-=item $union->dump()
+=item $union->output([$fh])
 
-The dump method uses ", " to join the list of relationships.
+The output method uses ", " to join the list of relationships.
 
 =item $union->implies($other_dep)
 =item $union->get_evaluation($other_dep)
@@ -1030,9 +1048,13 @@ use warnings;
 
 our @ISA = qw(Dpkg::Deps::Multiple);
 
-sub dump {
-    my $self = shift;
-    return join(", ", map { $_->dump() } grep { not $_->is_empty() } $self->get_deps());
+sub output {
+    my ($self, $fh) = @_;
+    my $res = join(", ", map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
+    if (defined($fh)) {
+	print $fh $res;
+    }
+    return $res;
 }
 
 sub implies {

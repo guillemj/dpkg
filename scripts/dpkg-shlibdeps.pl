@@ -498,7 +498,7 @@ foreach my $field (reverse @depfields) {
         my $obj = Dpkg::Deps::parse($dep);
         error(_g("invalid dependency got generated: %s"), $dep) unless defined $obj;
         $obj->sort();
-	print $fh "$varnameprefix:$field=" . $obj->dump() . "\n";
+	print $fh "$varnameprefix:$field=$obj\n";
     }
 }
 
