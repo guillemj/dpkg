@@ -220,8 +220,8 @@ $fields->{'Version'} = $forceversion if defined($forceversion);
 my $facts = Dpkg::Deps::KnownFacts->new();
 $facts->add_installed_package($fields->{'Package'}, $fields->{'Version'});
 if (exists $pkg->{"Provides"}) {
-    my $provides = Dpkg::Deps::parse($substvars->substvars($pkg->{"Provides"}),
-                                     reduce_arch => 1, union => 1);
+    my $provides = deps_parse($substvars->substvars($pkg->{"Provides"}),
+                              reduce_arch => 1, union => 1);
     if (defined $provides) {
 	foreach my $subdep ($provides->get_deps()) {
 	    if ($subdep->isa('Dpkg::Deps::Simple')) {
@@ -239,16 +239,15 @@ foreach my $field (field_list_pkg_dep()) {
 	my $dep;
 	my $field_value = $substvars->substvars($pkg->{$field});
 	if (field_get_dep_type($field) eq 'normal') {
-	    $dep = Dpkg::Deps::parse($field_value, use_arch => 1,
-                                     reduce_arch => 1);
+	    $dep = deps_parse($field_value, use_arch => 1, reduce_arch => 1);
 	    error(_g("error occurred while parsing %s field: %s"), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
 	    # Remember normal deps to simplify even further weaker deps
 	    push @seen_deps, $dep;
 	} else {
-	    $dep = Dpkg::Deps::parse($field_value, use_arch => 1,
-                                     reduce_arch => 1, union => 1);
+	    $dep = deps_parse($field_value, use_arch => 1,
+                              reduce_arch => 1, union => 1);
 	    error(_g("error occurred while parsing %s field: %s"), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);

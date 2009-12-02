@@ -94,11 +94,11 @@ my (@unmet, @conflicts);
 
 if ($bd_value) {
 	push @unmet, build_depends('Build-Depends/Build-Depends-Indep)',
-		Dpkg::Deps::parse($bd_value, reduce_arch => 1), $facts);
+		deps_parse($bd_value, reduce_arch => 1), $facts);
 }
 if ($bc_value) {
 	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Indep',
-		Dpkg::Deps::parse($bc_value, reduce_arch => 1, union => 1), $facts);
+		deps_parse($bc_value, reduce_arch => 1, union => 1), $facts);
 }
 
 if (@unmet) {
@@ -126,8 +126,7 @@ sub parse_status {
 		$facts->add_installed_package($package, $version);
 	
 		if (/^Provides: (.*)$/m) {
-			my $provides = Dpkg::Deps::parse($1,
-                            reduce_arch => 1, union => 1);
+			my $provides = deps_parse($1, reduce_arch => 1, union => 1);
 			next if not defined $provides;
 			foreach (grep { $_->isa('Dpkg::Deps::Simple') }
                                  $provides->get_deps())

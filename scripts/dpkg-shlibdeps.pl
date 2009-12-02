@@ -134,7 +134,7 @@ my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
 my $build_depends = defined($fields->{"Build-Depends"}) ?
 		    $fields->{"Build-Depends"} : "";
-my $build_deps = Dpkg::Deps::parse($build_depends, reduce_arch => 1);
+my $build_deps = deps_parse($build_depends, reduce_arch => 1);
 
 my %dependencies;
 my %shlibs;
@@ -495,7 +495,7 @@ foreach my $field (reverse @depfields) {
 	    keys %{$dependencies{$field}};
     }
     if ($dep) {
-        my $obj = Dpkg::Deps::parse($dep);
+        my $obj = deps_parse($dep);
         error(_g("invalid dependency got generated: %s"), $dep) unless defined $obj;
         $obj->sort();
 	print $fh "$varnameprefix:$field=$obj\n";
@@ -564,8 +564,8 @@ sub get_min_version_from_deps {
     if ($dep->isa('Dpkg::Deps::Simple')) {
 	if (($dep->{package} eq $pkg) &&
 	    defined($dep->{relation}) &&
-	    (($dep->{relation} eq ">=") ||
-	     ($dep->{relation} eq ">>")))
+	    (($dep->{relation} eq REL_GE) ||
+	     ($dep->{relation} eq REL_GT)))
 	{
 	    return $dep->{version};
 	}

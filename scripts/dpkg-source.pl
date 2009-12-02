@@ -209,7 +209,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 	    my $dep;
 	    my $type = field_get_dep_type($_);
-	    $dep = Dpkg::Deps::parse($v, union => $type eq 'union');
+	    $dep = deps_parse($v, union => $type eq 'union');
 	    error(_g("error occurred while parsing %s"), $_) unless defined $dep;
 	    my $facts = Dpkg::Deps::KnownFacts->new();
 	    $dep->simplify_deps($facts);

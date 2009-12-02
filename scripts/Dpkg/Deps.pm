@@ -29,11 +29,15 @@ Dpkg::Deps - parse and manipulate dependencies of Debian packages
 
 =head1 DESCRIPTION
 
-The Dpkg::Deps module provides one generic Dpkg::Deps::parse() function
-to turn a dependency line in a set of Dpkg::Deps::{Simple,AND,OR,Union}
-objects depending on the case.
+The Dpkg::Deps module provides objects implementing various types of
+dependencies.
+
+The most important function is deps_parse(), it turns a dependency line in
+a set of Dpkg::Deps::{Simple,AND,OR,Union} objects depending on the case.
 
 =head1 FUNCTIONS
+
+All the deps_* functions are exported by default.
 
 =over 4
 
@@ -48,29 +52,17 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT_OK = qw(%relation_ordering);
-
-# Some generic variables
-our %relation_ordering = (
-	'undef' => 0,
-	'>=' => 1,
-	'>>' => 2,
-	'=' => 3,
-	'<<' => 4,
-	'<=' => 5,
-);
+our @EXPORT = qw(deps_parse deps_eval_implication deps_compare);
 
 # Some factorized function
 
-=item Dpkg::Deps::arch_is_superset(\@p, \@q)
+# Dpkg::Deps::_arch_is_superset(\@p, \@q)
+#
+# Returns true if the arch list @p is a superset of arch list @q.
+# The arguments can also be undef in case there's no explicit architecture
+# restriction.
 
-Returns true if the arch list @p is a superset of arch list @q.
-The arguments can also be undef in case there's no explicit architecture
-restriction.
-
-=cut
-
-sub arch_is_superset {
+sub _arch_is_superset {
     my ($p, $q) = @_;
     my $p_arch_neg = defined($p) && $p->[0] =~ /^!/;
     my $q_arch_neg = defined($q) && $q->[0] =~ /^!/;
@@ -129,11 +121,11 @@ sub arch_is_superset {
     return 1;
 }
 
-=item Dpkg::Deps::version_implies($rel_p, $v_p, $rel_q, $v_q)
+=item deps_eval_implication($rel_p, $v_p, $rel_q, $v_q)
 
 ($rel_p, $v_p) and ($rel_q, $v_q) express two dependencies as (relation,
-version). The relation variable can have the following values: '=', '<<',
-'<=', '>=', '>>'.
+version). The relation variable can have the following values that are
+exported by Dpkg::Version: REL_EQ, REL_LT, REL_LE, REL_GT, REL_GT.
 
 This functions returns 1 if the "p" dependency implies the "q"
 dependency. It returns 0 if the "p" dependency implies that "q" is
@@ -143,25 +135,25 @@ The $v_p and $v_q parameter should be Dpkg::Version objects.
 
 =cut
 
-sub version_implies {
+sub deps_eval_implication {
     my ($rel_p, $v_p, $rel_q, $v_q) = @_;
 
     # If versions are not valid, we can't decide of any implication
-    return undef unless ref($v_p) and $v_p->isa("Dpkg::Version");
-    return undef unless ref($v_q) and $v_q->isa("Dpkg::Version");
+    return undef unless defined($v_p) and $v_p->is_valid();
+    return undef unless defined($v_q) and $v_q->is_valid();
 
     # q wants an exact version, so p must provide that exact version.  p
     # disproves q if q's version is outside the range enforced by p.
-    if ($rel_q eq '=') {
-        if ($rel_p eq '<<') {
+    if ($rel_q eq REL_EQ) {
+        if ($rel_p eq REL_LT) {
             return ($v_p <= $v_q) ? 0 : undef;
-        } elsif ($rel_p eq '<=') {
+        } elsif ($rel_p eq REL_LE) {
             return ($v_p < $v_q) ? 0 : undef;
-        } elsif ($rel_p eq '>>') {
+        } elsif ($rel_p eq REL_GT) {
             return ($v_p >= $v_q) ? 0 : undef;
-        } elsif ($rel_p eq '>=') {
+        } elsif ($rel_p eq REL_GE) {
             return ($v_p > $v_q) ? 0 : undef;
-        } elsif ($rel_p eq '=') {
+        } elsif ($rel_p eq REL_EQ) {
             return ($v_p == $v_q);
         }
     }
@@ -169,12 +161,12 @@ sub version_implies {
     # A greater than clause may disprove a less than clause. An equal
     # cause might as well.  Otherwise, if
     # p's clause is <<, <=, or =, the version must be <= q's to imply q.
-    if ($rel_q eq '<=') {
-        if ($rel_p eq '>>') {
+    if ($rel_q eq REL_LE) {
+        if ($rel_p eq REL_GT) {
             return ($v_p >= $v_q) ? 0 : undef;
-        } elsif ($rel_p eq '>=') {
+        } elsif ($rel_p eq REL_GE) {
             return ($v_p > $v_q) ? 0 : undef;
-	} elsif ($rel_p eq '=') {
+	} elsif ($rel_p eq REL_EQ) {
             return ($v_p <= $v_q) ? 1 : 0;
         } else { # <<, <=
             return ($v_p <= $v_q) ? 1 : undef;
@@ -183,12 +175,12 @@ sub version_implies {
 
     # Similar, but << is stronger than <= so p's version must be << q's
     # version if the p relation is <= or =.
-    if ($rel_q eq '<<') {
-        if ($rel_p eq '>>' or $rel_p eq '>=') {
+    if ($rel_q eq REL_LT) {
+        if ($rel_p eq REL_GT or $rel_p eq REL_GE) {
             return ($v_p >= $v_p) ? 0 : undef;
-        } elsif ($rel_p eq '<<') {
+        } elsif ($rel_p eq REL_LT) {
             return ($v_p <= $v_q) ? 1 : undef;
-	} elsif ($rel_p eq '=') {
+	} elsif ($rel_p eq REL_EQ) {
             return ($v_p < $v_q) ? 1 : 0;
         } else { # <<, <=
             return ($v_p < $v_q) ? 1 : undef;
@@ -196,23 +188,23 @@ sub version_implies {
     }
 
     # Same logic as above, only inverted.
-    if ($rel_q eq '>=') {
-        if ($rel_p eq '<<') {
+    if ($rel_q eq REL_GE) {
+        if ($rel_p eq REL_LT) {
             return ($v_p <= $v_q) ? 0 : undef;
-        } elsif ($rel_p eq '<=') {
+        } elsif ($rel_p eq REL_LE) {
             return ($v_p < $v_q) ? 0 : undef;
-	} elsif ($rel_p eq '=') {
+	} elsif ($rel_p eq REL_EQ) {
             return ($v_p >= $v_q) ? 1 : 0;
         } else { # >>, >=
             return ($v_p >= $v_q) ? 1 : undef;
         }
     }
-    if ($rel_q eq '>>') {
-        if ($rel_p eq '<<' or $rel_p eq '<=') {
+    if ($rel_q eq REL_GT) {
+        if ($rel_p eq REL_LT or $rel_p eq REL_LE) {
             return ($v_p <= $v_q) ? 0 : undef;
-        } elsif ($rel_p eq '>>') {
+        } elsif ($rel_p eq REL_GT) {
             return ($v_p >= $v_q) ? 1 : undef;
-	} elsif ($rel_p eq '=') {
+	} elsif ($rel_p eq REL_EQ) {
             return ($v_p > $v_q) ? 1 : 0;
         } else {
             return ($v_p > $v_q) ? 1 : undef;
@@ -222,7 +214,7 @@ sub version_implies {
     return undef;
 }
 
-=item Dpkg::Deps::parse($line, %options)
+=item my $dep = deps_parse($line, %options)
 
 This function parse the dependency line and returns an object, either a
 Dpkg::Deps::AND or a Dpkg::Deps::Union. Various options can alter the
@@ -257,7 +249,7 @@ this when parsing non-dependency fields like Conflicts.
 
 =cut
 
-sub parse {
+sub deps_parse {
     my $dep_line = shift;
     my %options = (@_);
     $options{use_arch} = 1 if not exists $options{use_arch};
@@ -310,16 +302,25 @@ sub parse {
     return $dep_and;
 }
 
-=item Dpkg::Deps::compare($a, $b)
+=item deps_compare($a, $b)
 
-This functions is used to order AND and Union dependencies prior to
-dumping.
+Implements a comparison operator between two dependency objects.
+This function is mainly used to implement the sort() method.
 
 =back
 
 =cut
 
-sub compare {
+our %relation_ordering = (
+	'undef' => 0,
+	REL_GE => 1,
+	REL_GT => 2,
+	REL_EQ => 3,
+	REL_LT => 4,
+	REL_LE => 5,
+);
+
+sub deps_compare {
     my ($a, $b) = @_;
     return -1 if $a->is_empty();
     return 1 if $b->is_empty();
@@ -555,7 +556,7 @@ sub implies {
 
 	# Our architecture set must be a superset of the architectures for
 	# o, otherwise we can't conclude anything.
-	return undef unless Dpkg::Deps::arch_is_superset($self->{arches}, $o->{arches});
+	return undef unless Dpkg::Deps::_arch_is_superset($self->{arches}, $o->{arches});
 
 	# If o has no version clause, then our dependency is stronger
 	return 1 if not defined $o->{relation};
@@ -563,8 +564,8 @@ sub implies {
 	# can't be an implication
 	return undef if not defined $self->{relation};
 
-	return Dpkg::Deps::version_implies($self->{relation}, $self->{version},
-		$o->{relation}, $o->{version});
+	return Dpkg::Deps::deps_eval_implication($self->{relation},
+		$self->{version}, $o->{relation}, $o->{version});
 
     } elsif ($o->isa('Dpkg::Deps::AND')) {
 	# TRUE: Need to imply all individual elements
@@ -782,7 +783,7 @@ sub get_deps {
 sub sort {
     my $self = shift;
     my @res = ();
-    @res = sort { Dpkg::Deps::compare($a, $b) } @{$self->{list}};
+    @res = sort { Dpkg::Deps::deps_compare($a, $b) } @{$self->{list}};
     $self->{list} = [ @res ];
 }
 
