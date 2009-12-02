@@ -36,7 +36,7 @@ my $tmpdir = 't.tmp/200_Dpkg_Shlibs';
 # XXX: An alternative would be to make parse_ldso_conf relative path aware.
 my $cwd = cwd();
 chdir($srcdir);
-Dpkg::Shlibs::parse_ldso_conf("$datadir/ld.so.conf");
+Dpkg::Shlibs::parse_ldso_conf("t/200_Dpkg_Shlibs/ld.so.conf");
 chdir($cwd);
 
 use Data::Dumper;
