@@ -63,7 +63,7 @@ EXTRA_DIST = \
 
 .PHONY: doc
 
-doc:
+doc: doc/Doxyfile
 	$(DOXYGEN) doc/Doxyfile
 
 clean-local:
