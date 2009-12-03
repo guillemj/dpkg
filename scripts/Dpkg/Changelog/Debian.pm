@@ -128,7 +128,7 @@ sub parse {
 	    $entry->set_part("trailer", $_);
 	    $entry->extend_part("blank_after_changes", [ @blanklines ]);
 	    @blanklines = ();
-	    foreach my $error ($entry->check_header()) {
+	    foreach my $error ($entry->check_trailer()) {
 		$self->parse_error($file, $., $error, $_);
 	    }
 	    $expect = NEXT_OR_EOF;
