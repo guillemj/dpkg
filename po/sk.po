@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2009-11-27 18:45+0100\n"
-"PO-Revision-Date: 2009-07-20 17:38+0100\n"
+"PO-Revision-Date: 2009-12-03 10:34+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -573,9 +573,9 @@ msgid "failed to create pipe"
 msgstr "chyba pri vytváraní rúry"
 
 #: lib/dpkg/mlib.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "error writing to '%s'"
-msgstr "chyba pri zápise „%.250s“"
+msgstr "chyba pri zápise „%s“"
 
 #: lib/dpkg/mlib.c:129
 #, c-format
@@ -588,9 +588,9 @@ msgid "unable to set close-on-exec flag for %.250s"
 msgstr "nie je možné nastaviť príznak close-on-exec na „%.250s“"
 
 #: lib/dpkg/myopt.c:61
-#, fuzzy, c-format
+#, c-format
 msgid "configuration error: %s:%d: %s"
-msgstr "konfiguračná chyba: %s vyžaduje hodnotu"
+msgstr "konfiguračná chyba: %s:%d: %s"
 
 #: lib/dpkg/myopt.c:73
 #, c-format
@@ -600,22 +600,22 @@ msgstr "zlyhalo otvorenie konfiguračného súboru „%.255s“ na čítanie: %s
 #: lib/dpkg/myopt.c:100
 #, c-format
 msgid "unbalanced quotes in '%s'"
-msgstr ""
+msgstr "nespárované úvodzovky „%s“"
 
 #: lib/dpkg/myopt.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "unknown option '%s'"
 msgstr "neznáma voľba „%s“"
 
 #: lib/dpkg/myopt.c:120
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' needs a value"
-msgstr "voľba --%s má priradenú hodnotu"
+msgstr "„%s“ vyžaduje uvedenie hodnoty"
 
 #: lib/dpkg/myopt.c:126
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' does not take a value"
-msgstr "voľba --%s nemá priradenú hodnotu"
+msgstr "„%s“ neberie hodnotu"
 
 #: lib/dpkg/myopt.c:131
 #, c-format
@@ -628,9 +628,9 @@ msgid "error closing configuration file `%.255s'"
 msgstr "chyba pri uzatváraní konfiguračného súboru „%.255s“"
 
 #: lib/dpkg/myopt.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "error opening configuration directory '%s'"
-msgstr "chyba pri uzatváraní konfiguračného súboru „%.255s“"
+msgstr "chyba pri otváraní konfiguračného súboru „%s“"
 
 #: lib/dpkg/myopt.c:229
 #, c-format
@@ -1128,7 +1128,7 @@ msgstr "neočakávaný koniec súboru pri čítaní „%.250s“"
 
 #: lib/dpkg/varbuf.c:78 lib/dpkg/varbuf.c:87
 msgid "error formatting string into varbuf variable"
-msgstr ""
+msgstr "chyba pri formátovaní reťazca do premennej varbuf"
 
 #: src/archives.c:178
 msgid "error reading from dpkg-deb pipe"
@@ -1220,16 +1220,17 @@ msgid "Replaced by files in installed package %s ...\n"
 msgstr "Nahradzujú sa súbory v nainštalovanom balíku %s ...\n"
 
 #: src/archives.c:549
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
 "nondirectory"
-msgstr " adresár „%.250s“ v balíku %.250s neadresárom"
+msgstr ""
+"pokus o prepísanie adresára „%.250s“ v balíku %.250s %.250s neadresárom"
 
 #: src/archives.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
-msgstr "pokus o prepísanie „%.250s“, ktorý je tiež v balíku %.250s"
+msgstr "pokus o prepísanie „%.250s“, ktorý je tiež v balíku %.250s %.250s"
 
 #: src/archives.c:634
 #, c-format
@@ -1489,13 +1490,13 @@ msgstr "--%s vyžaduje ako argument aspoň jeden súbor s balíkom"
 #: dpkg-deb/main.c:126 dpkg-split/info.c:241 dpkg-split/main.c:54
 #: dpkg-split/main.c:93 dpkg-split/queue.c:126 dpkg-split/queue.c:246
 msgid "<standard output>"
-msgstr ""
+msgstr "<štand. výstup>"
 
 #: src/archives.c:1173 src/packages.c:267 src/query.c:184 src/query.c:276
 #: src/query.c:377 src/query.c:433 src/select.c:78 dpkg-split/main.c:200
 #: dpkg-split/queue.c:193
 msgid "<standard error>"
-msgstr ""
+msgstr "<štand. chybový>"
 
 #: src/archives.c:1214
 #, c-format
@@ -2153,9 +2154,9 @@ msgid "--compare-versions bad relation"
 msgstr "--compare-versions zlá relácia"
 
 #: src/enquiry.c:453 src/enquiry.c:460
-#, fuzzy, c-format
+#, c-format
 msgid "version '%s' has bad syntax: %s"
-msgstr "dpkg: verzia „%s“ má chybnú syntax: %s\n"
+msgstr "verzia „%s“ má chybnú syntax: %s"
 
 #: src/errors.c:61
 #, c-format
@@ -2199,11 +2200,11 @@ msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
 msgstr ""
 "Balík %s je v stave podržaný, ponecháva sa. Použite --force-hold na "
-"potlačenie.\n"
+"prekonanie.\n"
 
 #: src/errors.c:115
 msgid "overriding problem because --force enabled:"
-msgstr "potláča sa problém, pretože je nastavené --force: "
+msgstr "prekonáva sa problém, pretože je nastavené --force: "
 
 #: src/filesdb.c:205
 #, c-format
@@ -2316,14 +2317,13 @@ msgid "installed"
 msgstr "inštalovaný"
 
 #: src/help.c:104
-#, fuzzy
 msgid "error: PATH is not set."
-msgstr "dpkg - chyba: premenná PATH nie je nastavená.\n"
+msgstr "chyba: premenná PATH nie je nastavená."
 
 #: src/help.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' not found on PATH."
-msgstr "dpkg: „%s“ nebol nájdený v premennej PATH.\n"
+msgstr "„%s“ nebol nájdený v premennej PATH."
 
 #: src/help.c:138
 #, c-format
@@ -2400,9 +2400,9 @@ msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... vyzerá to tak, že sa to podarilo.\n"
 
 #: src/help.c:592
-#, fuzzy, c-format
+#, c-format
 msgid "unable to securely remove '%.255s'"
-msgstr "nedá sa vytvoriť „%.255s“"
+msgstr "nedá sa bezpečne odstrániť „%.255s“"
 
 #: src/help.c:597 dpkg-deb/info.c:60
 msgid "failed to exec rm for cleanup"
@@ -3145,9 +3145,9 @@ msgstr ""
 "„%.250s“)"
 
 #: src/processarc.c:780
-#, fuzzy, c-format
+#, c-format
 msgid "unable to securely remove old file '%.250s': %s"
-msgstr "nedá sa %s starý súbor „%.250s“: %s"
+msgstr "nedá sa bezpečne odstrániť starý súbor „%.250s“: %s"
 
 #: src/processarc.c:815 src/processarc.c:1063 src/query.c:478 src/remove.c:271
 msgid "cannot read info directory"
@@ -3212,18 +3212,17 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "nie je možné zrušiť zmiznutie riadiaceho info súboru „%.250s“"
 
 #: src/query.c:114
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
 "pend\n"
 "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
-"Požadovaný=Neznámy/Inštalovať/Odstrániť/Vyčistiť\n"
+"Požadovaný=Neznámy/Inštalovať/Odstrániť/Vyčistiť/Podržať\n"
 "| Stav=Nie/Inštalovaný/Konfig-súbory/Rozbalený/Zlý-konfig/Polo-inštalovaný/"
 "očak-spúšť/čaká-na-spúšť\n"
-"|/ Chyba?=(žiadna)/Podržať/Reinšt-vyžadovaná/X=oba-problémy (Stav,Chyba: "
-"veľké písmeno=zle)\n"
+"|/ Chyba?=(žiadna)/Podržať/Reinšt-vyžadovaná (Stav,Chyba: veľké "
+"písmeno=zle)\n"
 
 #: src/query.c:118
 msgid "Name"
@@ -3318,7 +3317,7 @@ msgstr ""
 #: src/query.c:540
 #, c-format
 msgid "control file contains %c"
-msgstr ""
+msgstr "riadiaci súbor obsahuje %c"
 
 #: src/query.c:560
 #, c-format
@@ -3327,7 +3326,7 @@ msgstr ""
 "Debian „%s“ nástroj na zadávanie požiadaviek programu na správu balíkov\n"
 
 #: src/query.c:579
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
@@ -3347,6 +3346,9 @@ msgstr ""
 "  -l|--list [<vzorka> ...]         Zobrazí zoznam balíkov.\n"
 "  -W|--show <vzorka> ...           Zobrazí informácie o balíku(och).\n"
 "  -S|--search <vzorka> ...         Nájde balík(y) vlastniaci(e) súbor(y).\n"
+"  -c|--control-path <balík> [<súbor>]\n"
+"                                   Vypísať cestu k riadiacemu súboru "
+"balíka.\n"
 "\n"
 
 #: src/query.c:597
@@ -3465,9 +3467,9 @@ msgid "cannot remove `%.250s'"
 msgstr "nie je možné odstrániť „%.250s“"
 
 #: src/remove.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "unable to securely remove '%.250s'"
-msgstr "nedá sa vytvoriť „%.255s“"
+msgstr "nedá sa bezpečne odstrániť „%.255s“"
 
 #: src/remove.c:294
 #, c-format
@@ -3561,22 +3563,20 @@ msgid "Debian %s version %s.\n"
 msgstr "Debian %s verzia %s.\n"
 
 #: src/statcmd.c:61
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
 "Copyright (C) 2006-2009 Guillem Jover.\n"
 msgstr ""
-"\n"
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000-2002 Wichert Akkerman."
+"Copyright (C) 2000, 2001 Wichert Akkerman.\n"
+"Copyright (C) 2006-2009 Guillem Jover.\n"
 
 #: src/statcmd.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
 msgstr ""
-"\n"
 "Toto je slobodný softvér; podrobnosti o pravidlách kopírovania\n"
 "nájdete v GNU General Public Licence verzia 2 alebo neskoršej.\n"
 "Neposkytuje sa ŽIADNA záruka.\n"
@@ -3591,9 +3591,15 @@ msgid ""
 "  --list [<glob-pattern>]  list current overrides in the database.\n"
 "\n"
 msgstr ""
+"Príkazy:\n"
+"  --add <vlastník> <skupina> <režim> <súbor>\n"
+"                           pridať nový záznam do databázy.\n"
+"  --remove <súbor>         odstrániť súbor z databázy.\n"
+"  --list [<glob-vzor>]     vypísať aktuálne prekonania v databáze.\n"
+"\n"
 
 #: src/statcmd.c:89
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
@@ -3604,14 +3610,6 @@ msgid ""
 "  --version                show the version.\n"
 "\n"
 msgstr ""
-"Použitie: %s [<voľby> ...] <príkaz>\n"
-"\n"
-"Príkazy:\n"
-"  --add <vlastník> <skupina> <režim> <súbor>\n"
-"                           pridá do databázy nový záznam\n"
-"  --remove <súbor>         odstráni súbor z databázy\n"
-"  --list [<vzor-glob>]     vypíše aktuálny zoznam povýšení\n"
-"\n"
 "Voľby:\n"
 "  --admindir <adresár>     nastaví adresár so súborom statoverride\n"
 "  --update                 okamžite aktualizuje prístupové práva k súborom\n"
@@ -3619,15 +3617,16 @@ msgstr ""
 "  --quiet                  stručný režim, minimálny výstup\n"
 "  --help                   zobrazí tohto pomocníka\n"
 "  --version                zobrazí verziu\n"
+"\n"
 
 #: src/statcmd.c:127
 msgid "stripping trailing /"
 msgstr "odstraňujú sa koncové /"
 
 #: src/statcmd.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "--update given but %s does not exist"
-msgstr "upozornenie: bolo zadané --update, ale %s neexistuje"
+msgstr "bolo zadané --update, ale %s neexistuje"
 
 #: src/statcmd.c:177
 #, c-format
@@ -3640,24 +3639,20 @@ msgid "failed to chmod %s: %s"
 msgstr "zlyhala zmena atribútov %s: %s"
 
 #: src/statcmd.c:234
-#, fuzzy
 msgid "cannot open new statoverride file"
-msgstr "nedá sa otvoriť nový súbor statoverride: %s"
+msgstr "nedá sa otvoriť nový súbor statoverride"
 
 #: src/statcmd.c:245
-#, fuzzy
 msgid "error removing statoverride-old"
-msgstr "chyba pri odstraňovaní súboru statoverride-old: %s"
+msgstr "chyba pri odstraňovaní súboru statoverride-old"
 
 #: src/statcmd.c:247
-#, fuzzy
 msgid "error creating new statoverride-old"
-msgstr "chyba pri vytváraní nového súboru statoverride-old: %s"
+msgstr "chyba pri vytváraní nového súboru statoverride-old"
 
 #: src/statcmd.c:249
-#, fuzzy
 msgid "error installing new statoverride"
-msgstr "chyba pri inštalovaní nového súboru statoverride-old: %s"
+msgstr "chyba pri inštalovaní nového súboru statoverride"
 
 #: src/statcmd.c:267
 msgid "--add needs four arguments"
@@ -3668,16 +3663,17 @@ msgid "file may not contain newlines"
 msgstr "názov súboru nemôže obsahovať znaky nového riadka"
 
 #: src/statcmd.c:277
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An override for '%s' already exists, but --force specified so will be "
 "ignored."
-msgstr "ale kvôli --force bude ignorovaný."
+msgstr ""
+"Prekonanie „%s“ už existuje, ale kvôli uvedenému --force bude ignorovaný."
 
 #: src/statcmd.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "An override for '%s' already exists, aborting."
-msgstr "Prepísanie „%s“ už existuje, "
+msgstr "Prekonanie „%s“ už existuje, prerušuje sa."
 
 #: src/statcmd.c:304 scripts/dpkg-divert.pl:160 scripts/dpkg-divert.pl:188
 #: scripts/dpkg-divert.pl:231 scripts/dpkg-divert.pl:241
@@ -3687,12 +3683,11 @@ msgstr "--%s vyžaduje jediný parameter"
 
 #: src/statcmd.c:309
 msgid "No override present."
-msgstr "Neexistuje žiadne povýšenie."
+msgstr "Neexistuje žiadne prekonanie."
 
 #: src/statcmd.c:317
-#, fuzzy
 msgid "--update is useless for --remove"
-msgstr "upozornenie: --update je nepoužiteľný pri --remove"
+msgstr "--update je nepoužiteľný pri --remove"
 
 #: src/statdb.c:57
 msgid "syntax error: invalid uid in statoverride file"
@@ -3903,7 +3898,7 @@ msgstr "Informácie o %d balíku(och) boli aktualizované.\n"
 #, c-format
 msgid ""
 "obsolete '--%s' option, unavailable packages are automatically cleaned up."
-msgstr ""
+msgstr "zastaralá voľba „--%s“, nedostupné balíky budú automaticky vyčistené."
 
 #: dpkg-deb/build.c:99
 #, c-format
@@ -4038,9 +4033,9 @@ msgid "conffile '%s' is not a plain file"
 msgstr "konfiguračný súbor „%s“ nie je čistý súbor"
 
 #: dpkg-deb/build.c:385
-#, fuzzy, c-format
+#, c-format
 msgid "conffile name '%s' is duplicated"
-msgstr "závislý názov %s je duplicitný"
+msgstr "názov confsúboru „%s“ je duplicitný"
 
 #: dpkg-deb/build.c:396
 msgid "error reading conffiles file"
@@ -4051,9 +4046,9 @@ msgid "error opening conffiles file"
 msgstr "chyba pri otváraní konfiguračných súborov"
 
 #: dpkg-deb/build.c:402
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring %d warnings about the control file(s)\n"
-msgstr "dpkg-deb: ignoruje sa %d upozornenie o riadiacom súbore(och)\n"
+msgstr "ignoruje sa %d upozornení o riadiacom súbore(och)\n"
 
 #: dpkg-deb/build.c:411
 #, c-format
@@ -4440,9 +4435,9 @@ msgid "failed during read of `control' component"
 msgstr "zlyhanie počas čítania „control“ komponentu"
 
 #: dpkg-deb/info.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "error closing the '%s' component"
-msgstr "chyba pri uzatváraní rúry príkazu find"
+msgstr "chyba pri uzatváraní zložky „%s“"
 
 #: dpkg-deb/info.c:240
 msgid "Error in format"
@@ -5355,7 +5350,7 @@ msgstr "žiadne alternatívy pre %s."
 #: scripts/update-alternatives.pl:276
 #, perl-format
 msgid "%s is dangling, it will be updated with best choice."
-msgstr ""
+msgstr "%s visí, bude sa aktualizovaný najlepšou voľbou."
 
 #: scripts/update-alternatives.pl:280
 #, perl-format
@@ -5372,9 +5367,9 @@ msgid "setting up automatic selection of %s."
 msgstr "nastavuje sa automatický výber %s."
 
 #: scripts/update-alternatives.pl:297
-#, fuzzy, perl-format
+#, perl-format
 msgid "alternative %s for %s not registered, not setting."
-msgstr "alternatíva %s pre %s nie je registrovaná, takže sa neodstraňuje."
+msgstr "alternatíva %s pre %s nie je registrovaná, takže sa nenastavuje."
 
 #: scripts/update-alternatives.pl:306
 #, perl-format
