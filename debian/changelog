@@ -42,6 +42,25 @@ dpkg (1.15.6) UNRELEASED; urgency=low
 
  -- Raphaël Hertzog <hertzog@debian.org>  Tue, 17 Nov 2009 17:24:47 +0100
 
+dpkg (1.15.5.4) unstable; urgency=low
+
+  * Fix Dpkg::Index::get() and remove(). Thanks to Roderich Schupp
+    <roderich.schupp@googlemail.com> for the patch. Closes: #558595
+  * Modify implementation of "3.0 (quilt)" source format to not be
+    behave differently depending on whether quilt is installed or not.
+    The option --without-quilt is thus gone and dpkg-source creates
+    and relies on the .pc directory to know whether patches are applied
+    or not. Closes: #557667
+  * Add new dpkg-source option --single-debian-patch supported by the source
+    format "3.0 (quilt)" so that it behaves more like 1.0 and its single diff
+    that is constantly updated with all upstream changes. Useful if the
+    workflow is VCS based and can't generate a full patch set.
+  * dpkg-source now uses debian/source/patch-header as header of the automatic
+    Debian patch in format "3.0 (quilt)".
+  * Fix Debian changelog parser so that the trailer line is again checked.
+
+ -- Raphael Hertzog <hertzog@debian.org>  Mon, 07 Dec 2009 09:24:31 +0100
+
 dpkg (1.15.5.3) unstable; urgency=low
 
   [ Raphael Hertzog ]

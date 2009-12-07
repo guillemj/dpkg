@@ -1,4 +1,4 @@
-# Copyright © 2008 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Source::Patch;
+use Dpkg::Source::Functions qw(erasedir);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(get_current_vendor run_vendor_hook);
 use Dpkg::Control;
@@ -39,17 +40,22 @@ our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;
+    $self->{'options'}{'single-debian-patch'} = 0
+        unless exists $self->{'options'}{'single-debian-patch'};
+    $self->{'options'}{'allow-version-of-quilt-db'} = []
+        unless exists $self->{'options'}{'allow-version-of-quilt-db'};
+
     $self->SUPER::init_options();
-    # By default use quilt, unless it's not available
-    $self->{'options'}{'without_quilt'} = (-x "/usr/bin/quilt") ? 0 : 1
-        unless exists $self->{'options'}{'without_quilt'};
 }
 
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);
-    if ($opt =~ /^--without-quilt$/) {
-        $self->{'options'}{'without_quilt'} = 1;
+    if ($opt =~ /^--single-debian-patch$/) {
+        $self->{'options'}{'single-debian-patch'} = 1;
+        return 1;
+    } elsif ($opt =~ /^--allow-version-of-quilt-db=(.*)$/) {
+        push @{$self->{'options'}{'allow-version-of-quilt-db'}}, $1;
         return 1;
     }
     return 0;
@@ -75,7 +81,11 @@ sub can_build {
 
 sub get_autopatch_name {
     my ($self) = @_;
-    return "debian-changes-" . $self->{'fields'}{'Version'};
+    if ($self->{'options'}{'single-debian-patch'}) {
+        return "debian-changes";
+    } else {
+        return "debian-changes-" . $self->{'fields'}{'Version'};
+    }
 }
 
 sub get_series_file {
@@ -89,63 +99,80 @@ sub get_series_file {
     return undef;
 }
 
-sub get_patches {
-    my ($self, $dir, $skip_auto) = @_;
+sub read_patch_list {
+    my ($self, $file, %opts) = @_;
+    return () if not defined $file or not -f $file;
+    $opts{"warn_options"} = 0 unless defined($opts{"warn_options"});
+    $opts{"skip_auto"} = 0 unless defined($opts{"skip_auto"});
     my @patches;
     my $auto_patch = $self->get_autopatch_name();
-    my $series = $self->get_series_file($dir);
-    if (defined($series)) {
-        open(SERIES, "<" , $series) || syserr(_g("cannot read %s"), $series);
-        while(defined($_ = <SERIES>)) {
-            chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
-            s/(^|\s+)#.*$//; # Strip comment
-            next unless $_;
-            if (/^(\S+)\s+(.*)$/) {
-                $_ = $1;
-                if ($2 ne '-p1') {
-                    warning(_g("the series file (%s) contains unsupported " .
-                               "options ('%s', line %s), dpkg-source might " .
-                               "fail when applying patches."),
-                            $series, $2, $.) unless $skip_auto;
-                }
+    open(SERIES, "<" , $file) || syserr(_g("cannot read %s"), $file);
+    while(defined($_ = <SERIES>)) {
+        chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
+        s/(^|\s+)#.*$//; # Strip comment
+        next unless $_;
+        if (/^(\S+)\s+(.*)$/) {
+            $_ = $1;
+            if ($2 ne '-p1') {
+                warning(_g("the series file (%s) contains unsupported " .
+                           "options ('%s', line %s), dpkg-source might " .
+                           "fail when applying patches."),
+                        $file, $2, $.) if $opts{"warn_options"};
             }
-            next if $skip_auto and $_ eq $auto_patch;
-            push @patches, $_;
         }
-        close(SERIES);
+        next if $opts{"skip_auto"} and $_ eq $auto_patch;
+        push @patches, $_;
     }
+    close(SERIES);
     return @patches;
 }
 
-sub run_quilt {
-    my ($self, $dir, $params, %more_opts) = @_;
-    $params = [ $params ] unless ref($params) eq "ARRAY";
-    my $absdir = $dir;
-    unless (File::Spec->file_name_is_absolute($absdir)) {
-        $absdir = File::Spec->rel2abs($dir);
+sub create_quilt_db {
+    my ($self, $dir) = @_;
+    my $db_dir = File::Spec->catdir($dir, ".pc");
+    if (not -d $db_dir) {
+        mkdir $db_dir or syserr(_g("cannot mkdir %s"), $db_dir);
     }
+    my $version_file = File::Spec->catfile($db_dir, ".version");
+    if (not -e $version_file) {
+        open(VERSION, ">", $version_file);
+        print VERSION "2\n";
+        close(VERSION);
+    }
+}
+
+sub apply_quilt_patch {
+    my ($self, $dir, $patch, %opts) = @_;
+    $opts{"verbose"} = 0 unless defined($opts{"verbose"});
+    $opts{"timestamp"} = time() unless defined($opts{"timestamp"});
+    my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
+    my $obj = Dpkg::Source::Patch->new(filename => $path);
+
+    info(_g("applying %s"), $patch) if $opts{"verbose"};
+    $obj->apply($dir, timestamp => $opts{"timestamp"},
+                force_timestamp => 1, create_dirs => 1, remove_backup => 0,
+                options => [ '-s', '-t', '-F', '0', '-N', '-p1', '-u',
+                             '-V', 'never', '-g0', '-E', '-b',
+                             '-B', ".pc/$patch/" ]);
+}
+
+sub get_patches {
+    my ($self, $dir, %opts) = @_;
     my $series = $self->get_series_file($dir);
-    # Use default name if no series files exist yet
-    $series = "$absdir/debian/patches/series" unless defined $series;
-    unless (File::Spec->file_name_is_absolute($series)) {
-        $series = File::Spec->rel2abs($series);
-    }
-    my %opts = (
-        env => { QUILT_PATCHES => "$absdir/debian/patches",
-                 QUILT_SERIES => $series,
-                 # Kept as close as possible to default patch options in
-                 # Dpkg::Source::Patch (used in without_quilt mode)
-                 QUILT_PATCH_OPTS => "-t -F 0 -N -u -V never -g0" },
-        'chdir' => $dir,
-        'exec' => [ 'quilt', '--quiltrc', '/dev/null', @$params ],
-        %more_opts
-    );
-    my $pid = fork_and_exec(%opts);
-    return $pid;
+    return $self->read_patch_list($series, %opts);
 }
 
 sub apply_patches {
-    my ($self, $dir, $skip_auto) = @_;
+    my ($self, $dir, %opts) = @_;
+
+    if ($opts{'usage'} eq 'unpack') {
+        $opts{'verbose'} = 1;
+    } elsif ($opts{'usage'} eq 'build') {
+        $opts{'warn_options'} = 1;
+        $opts{'verbose'} = 0;
+    }
+
+    my $patches = $opts{"patches"};
 
     # Update debian/patches/series symlink if needed to allow quilt usage
     my $series = $self->get_series_file($dir);
@@ -159,45 +186,22 @@ sub apply_patches {
                 syserr(_g("can't create symlink %s"), $dest);
         }
     }
-    my @patches = $self->get_patches($dir, $skip_auto);
-    return unless scalar(@patches);
+
+    unless (defined($patches)) {
+        $patches = [ $self->get_patches($dir, %opts) ];
+    }
+    return unless scalar(@$patches);
 
     # Apply patches
-    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
-    open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);
-    my $now = time();
-    my $pobj = {};
-    my $panalysis = {};
-    foreach my $patch (@patches) {
-        my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
-        $pobj->{$patch} = Dpkg::Source::Patch->new(filename => $path);
-        if ($self->{'options'}{'without_quilt'}) {
-            info(_g("applying %s"), $patch) unless $skip_auto;
-            $pobj->{$patch}->apply($dir, timestamp => $now,
-                    force_timestamp => 1, create_dirs => 1,
-                    add_options => [ '-E' ]);
-            print APPLIED "$patch\n";
-        } else {
-            $panalysis->{$patch} = $pobj->{$patch}->analyze($dir);
-            foreach my $dir (keys %{$panalysis->{$patch}->{'dirtocreate'}}) {
-                eval { mkpath($dir); };
-                syserr(_g("cannot create directory %s"), $dir) if $@;
-            }
-        }
-    }
-    if (not $self->{'options'}{'without_quilt'}) {
-        my %opts;
-        $opts{"to_file"} = "/dev/null" if $skip_auto;
-        info(_g("applying all patches with %s"), "quilt push -q " . $patches[-1]) unless $skip_auto;
-        $self->run_quilt($dir, ['push', '-q', $patches[-1]],
-                         wait_child => 1, %opts);
-        foreach my $patch (@patches) {
-            foreach my $fn (keys %{$panalysis->{$patch}->{'filepatched'}}) {
-                utime($now, $now, $fn) || $! == ENOENT ||
-                    syserr(_g("cannot change timestamp for %s"), $fn);
-            }
-            print APPLIED "$patch\n";
-        }
+    $self->create_quilt_db($dir);
+    my $pc_applied = File::Spec->catfile($dir, ".pc", "applied-patches");
+    my @applied = $self->read_patch_list($pc_applied);
+    my @patches = $self->read_patch_list($self->get_series_file($dir));
+    open(APPLIED, '>>', $pc_applied) || syserr(_g("cannot write %s"), $pc_applied);
+    $opts{"timestamp"} = time();
+    foreach my $patch (@$patches) {
+        $self->apply_quilt_patch($dir, $patch, %opts);
+        print APPLIED "$patch\n";
     }
     close(APPLIED);
 }
@@ -210,7 +214,6 @@ sub prepare_build {
     # stamp file created by ourselves
     my $func = sub {
         return 1 if $_[0] =~ m{^debian/patches/series$} and -l $_[0];
-        return 1 if $_[0] =~ m{^debian/patches/.dpkg-source-applied$};
         return 1 if $_[0] =~ /^.pc(\/|$)/;
         return 1 if $_[0] =~ /$self->{'options'}{'diff_ignore_regexp'}/;
         return 0;
@@ -218,99 +221,99 @@ sub prepare_build {
     $self->{'diff_options'}{'diff_ignore_func'} = $func;
 }
 
+sub do_build {
+    my ($self, $dir) = @_;
+    my $pc_ver = File::Spec->catfile($dir, ".pc", ".version");
+    if (-f $pc_ver) {
+        open(VER, "<", $pc_ver) || syserr(_g("cannot read %s"), $pc_ver);
+        my $version = <VER>;
+        chomp $version;
+        close(VER);
+        if ($version != 2) {
+            if (scalar grep { $version eq $_ }
+                @{$self->{'options'}{'allow-version-of-quilt-db'}})
+            {
+                warning(_g("unsupported version of the quilt metadata: %s"),
+                        $version);
+            } else {
+                error(_g("unsupported version of the quilt metadata: %s"),
+                      $version);
+            }
+        }
+    }
+    $self->SUPER::do_build($dir);
+}
+
 sub check_patches_applied {
     my ($self, $dir) = @_;
-    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
-    my $auto_patch = $self->get_autopatch_name();
-    my @patches ;
-    # First we try to get a list of patches that are probably not napplied
-    if (not $self->{'options'}{'without_quilt'}) {
-        my $pipe;
-        my $pid = $self->run_quilt($dir, ['unapplied'], error_to_file => '/dev/null',
-                                   to_pipe => \$pipe);
-        @patches = map { chomp; $_ } (<$pipe>);
-        close ($pipe) || syserr("close on 'quilt unapplied' pipe");
-        wait_child($pid, cmdline => "quilt unapplied", nocheck => 1);
-        subprocerr("quilt unapplied") unless WIFEXITED($?);
-    } else {
-        @patches = $self->get_patches($dir);
+    my $pc_applied = File::Spec->catfile($dir, ".pc", "applied-patches");
+    my @applied = $self->read_patch_list($pc_applied);
+    my @patches = $self->read_patch_list($self->get_series_file($dir));
+    my @to_apply;
+    foreach my $patch (@patches) {
+        next if scalar grep { $_ eq $patch } @applied;
+        push @to_apply, $patch;
     }
-    # Then we check if it's applicable, and if yes, we make the
-    # assumption that patches are not applied and need to be applied
-    if (scalar(@patches)) {
-        my $first_patch = File::Spec->catfile($dir, "debian", "patches", $patches[0]);
+    if (scalar(@to_apply)) {
+        my $first_patch = File::Spec->catfile($dir, "debian", "patches",
+                                              $to_apply[0]);
         my $patch_obj = Dpkg::Source::Patch->new(filename => $first_patch);
         if ($patch_obj->check_apply($dir)) {
-            warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
-            $self->apply_patches($dir);
+            warning(_g("patches have not been applied, applying them now " .
+                       "(use --no-preparation to override)"));
+            $self->apply_patches($dir, usage => 'preparation', verbose => 1,
+                                 patches => \@to_apply);
         }
     }
 }
 
 sub register_autopatch {
     my ($self, $dir) = @_;
+
+    sub add_line {
+        my ($file, $line) = @_;
+        open(FILE, ">>", $file) || syserr(_g("cannot write %s"), $file);
+        print FILE "$line\n";
+        close(FILE);
+    }
+
+    sub drop_line {
+        my ($file, $re) = @_;
+        open(FILE, "<", $file) || syserr(_g("cannot read %s"), $file);
+        my @lines = <FILE>;
+        close(FILE);
+        open(FILE, ">", $file) || syserr(_g("cannot write %s"), $file);
+        print(FILE $_) foreach grep { not /^\Q$re\E\s*$/ } @lines;
+        close(FILE);
+    }
+
     my $auto_patch = $self->get_autopatch_name();
     my @patches = $self->get_patches($dir);
     my $has_patch = (grep { $_ eq $auto_patch } @patches) ? 1 : 0;
     my $series = $self->get_series_file($dir);
     $series ||= File::Spec->catfile($dir, "debian", "patches", "series");
-    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+    my $applied = File::Spec->catfile($dir, ".pc", "applied-patches");
     my $patch = File::Spec->catfile($dir, "debian", "patches", $auto_patch);
-    my $absdir = $dir;
-    unless (File::Spec->file_name_is_absolute($absdir)) {
-        $absdir = File::Spec->rel2abs($dir);
-    }
+
     if (-e $patch) {
         # Add auto_patch to series file
         if (not $has_patch) {
-            # Use quilt to register only if it's wanted/available AND :
-            # - either we have patches and quilt has been used (.pc dir exists)
-            # - or we don't have patches, hence quilt couldn't be used
-            if ((-d "$dir/.pc" or not scalar(@patches)) and
-                not $self->{'options'}{'without_quilt'})
-            {
-                # Registering the new patch with quilt requires some
-                # trickery: reverse-apply the patch, create a new quilt patch,
-                # fold the patch into the quilt-managed one
-                my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
-                $patch_obj->apply($dir, add_options => ['-R', '-E']);
-                $self->run_quilt($dir, ['new', "$auto_patch"],
-                                 wait_child => 1, to_file => '/dev/null');
-                $self->run_quilt($dir, ['fold'],
-                                 from_file => "$absdir/debian/patches/$auto_patch",
-                                 wait_child => 1, to_file => '/dev/null');
-            } else {
-                open(SERIES, ">>", $series) || syserr(_g("cannot write %s"), $series);
-                print SERIES "$auto_patch\n";
-                close(SERIES);
-            }
-        } else {
-            # If quilt was used, ensure its meta-information are
-            # synchronized with the updated patch
-            if (-d "$dir/.pc" and not $self->{'options'}{'without_quilt'}) {
-                # Some trickery needed: reverse-apply the patch, fold the
-                # new patch into the quilt-managed one
-                my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
-                $patch_obj->apply($dir, add_options => ['-R', '-E']);
-                $self->run_quilt($dir, ['fold'],
-                                 from_file => "$absdir/debian/patches/$auto_patch",
-                                 wait_child => 1, to_file => '/dev/null');
-            }
+            add_line($series, $auto_patch);
+            add_line($applied, $auto_patch);
         }
+        # Ensure quilt meta-data are created and in sync with some trickery:
+        # reverse-apply the patch, drop .pc/$patch, re-apply it
+        # with the correct options to recreate the backup files
+        my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
+        $patch_obj->apply($dir, add_options => ['-R', '-E']);
+        erasedir(File::Spec->catdir($dir, ".pc", $auto_patch));
+        $self->apply_quilt_patch($dir, $auto_patch);
     } else {
         # Remove auto_patch from series
         if ($has_patch) {
-            if ($self->{'options'}{'without_quilt'}) {
-                open(SERIES, "<", $series) || syserr(_g("cannot read %s"), $series);
-                my @lines = <SERIES>;
-                close(SERIES);
-                open(SERIES, ">", $series) || syserr(_g("cannot write %s"), $series);
-                print(SERIES $_) foreach grep { not /^\Q$auto_patch\E\s*$/ } @lines;
-                close(SERIES);
-            } else {
-                $self->run_quilt($dir, ['delete', $auto_patch],
-                                 wait_child => 1, to_file => '/dev/null');
-            }
+            drop_line($series, $auto_patch);
+            drop_line($applied, $auto_patch);
+            erasedir(File::Spec->catdir($dir, ".pc", $auto_patch));
         }
         # Clean up empty series
         unlink($series) if not -s $series;
@@ -319,9 +322,19 @@ sub register_autopatch {
 
 sub get_patch_header {
     my ($self, $dir, $previous) = @_;
+    my $ph = File::Spec->catfile($dir, "debian", "source", "patch-header");
+    my $text;
+    if (-f $ph) {
+        open(PH, "<", $ph) || syserr(_g("cannot read %s"), $ph);
+        $text = join("", <PH>);
+        close(PH);
+        return $text;
+    }
     my $ch_info = changelog_parse(offset => 0, count => 1,
         file => File::Spec->catfile($dir, "debian", "changelog"));
     return '' if not defined $ch_info;
+    return $self->SUPER::get_patch_header($dir, $previous)
+        if $self->{'options'}{'single-debian-patch'};
     my $header = Dpkg::Control->new(type => CTRL_UNKNOWN);
     $header->{'Description'} = "Upstream changes introduced in version " .
                                $ch_info->{'Version'} . "\n";
@@ -333,7 +346,7 @@ those changes were made:\n";
     $header->{'Description'} .=
 "\nThe person named in the Author field signed this changelog entry.\n";
     $header->{'Author'} = $ch_info->{'Maintainer'};
-    my $text = "$header";
+    $text = "$header";
     run_vendor_hook("extend-patch-header", \$text, $ch_info);
     $text .= "\n---
 The information above should follow the Patch Tagging Guidelines, please

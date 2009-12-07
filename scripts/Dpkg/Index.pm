@@ -262,7 +262,7 @@ Returns all the items that matches all the criteria.
 
 sub get {
     my ($self, %crit) = @_;
-    return map { $self->{'items'}{$_} } $self->get_by_keys(%crit);
+    return map { $self->{'items'}{$_} } $self->get_keys(%crit);
 }
 
 =item $index->remove_by_key($key)
@@ -285,7 +285,7 @@ Returns and removes all the items that matches all the criteria.
 
 sub remove {
     my ($self, %crit) = @_;
-    my @keys = $self->get_by_keys(%crit);
+    my @keys = $self->get_keys(%crit);
     my (%keys, @ret);
     foreach my $key (@keys) {
 	$keys{$key} = 1;
