@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2009-11-27 18:45+0100\n"
-"PO-Revision-Date: 2009-11-30 18:26+0100\n"
+"PO-Revision-Date: 2009-12-07 21:20+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -10393,6 +10393,53 @@ msgstr ""
 "Die Datei B<debian/patches/.dpkg-source-applied> wird angelegt, falls einige "
 "Patches während der Extrahierung angewandt wurden."
 
+#: dpkg-source.1:399
+msgid ""
+"The file B<.pc/applied-patches> is created if some patches have been applied "
+"during the extraction."
+msgstr ""
+"Die Datei B<.pc/applied-patches> wird angelegt, falls einige Patches während "
+"der Extrahierung angewandt wurden."
+
+#: dpkg-source.1:411
+msgid ""
+"All original tarballs found in the current directory are extracted in a "
+"temporary directory by following the same logic as for the unpack, the "
+"debian directory is copied over in the temporary directory, and all patches "
+"except the automatic patch (B<debian-changes->I<version> or B<debian-"
+"changes>, depending on B<--single-debian-patch>) are applied. The temporary "
+"directory is compared to the source package directory and the diff (if non-"
+"empty) is stored in the automatic patch.  If the automatic patch is created/"
+"deleted, it's added/removed from the series file and from the quilt metadata."
+msgstr ""
+"Alle im aktuellen Verzeichnis gefundenen Original-Tarbälle werden in ein "
+"temporäres Verzeichnis entpackt. Hierbei wird die gleiche Logik wie für das "
+"Entpacken verwandt, das debian-Verzeichnis wird in das temporäre Verzeichnis "
+"kopiert und alle Patches außer dem automatischen Patch (B<debian-changes->"
+"I<Version> oder B<debian-changes>, abhängig von B<--single-debian-patch>) "
+"werden angewandt. Das temporäre Verzeichnis wird mit dem "
+"Quellpaketverzeichnis verglichen und der Diff (falls nicht-leer) wird im "
+"automatischen Patch gespeichert. Falls der automatische Patch "
+"erzeugt/gelöscht wird, wird er zu der Datei series und den Quilt-Metadaten "
+"hinzugefügt bzw. aus diesen gelöscht."
+
+#: dpkg-source.1:419
+msgid ""
+"Any change on a binary file is not representable in a diff and will thus "
+"lead to a failure unless the maintainer deliberately decided to include that "
+"modified binary file in the debian tarball (by listing it in B<debian/source/"
+"include-binaries>). The build will also fail if it finds binary files in the "
+"debian sub-directory unless they have been whitelisted through B<debian/"
+"source/include-binaries>."
+msgstr ""
+"Änderungen an Binärdateien können in einem Diff nicht dargestellt werden und "
+"führen daher zu einem Fehlschlag, es sei denn, der Betreuer hat sich "
+"absichtlich dazu entschlossen, die veränderte Binärdatei dem Debian-Tarball "
+"hinzuzufügen (indem er sie in B<debian/source/include-binaries> aufgeführt "
+"hat). Der Bau wird auch fehlschlagen, falls er Binärdateien im debian-"
+"Unterverzeichnis findet, die nicht über B<debian/source/include-binaries> "
+"freigegeben wurden."
+
 #. type: Plain text
 #: dpkg-source.1:415
 msgid ""
@@ -10476,10 +10523,55 @@ msgstr ""
 "noch nicht angewandt wurden und wendet sie alle an. Die Option B<--no-"
 "preparation> kann zum Abschalten dieses Verhaltens verwandt werden."
 
+#: dpkg-source.1:441
+msgid ""
+"Note: B<dpkg-source> expects the source tree to have all patches listed in "
+"the series file applied when you generate the source package.  This is not "
+"the case when the source tree has been obtained by unpacking a source "
+"package using the Format: 1.0 for instance. To mitigate the problem, B<dpkg-"
+"source> will apply the patches by itself if it believes that they have not "
+"yet been applied. To detect this situation, it uses the following heuristic: "
+"it finds the list of supposedly unapplied patches (they are listed in the "
+"B<series> file but not in B<.pc/applied-patches>), and if the first patch in "
+"that set can be applied without errors, it will apply them all.  The option "
+"B<--no-preparation> can be used to disable this behaviour."
+msgstr ""
+"Hinweis: B<dpkg-source> erwartet, dass alle Patches aus der Series-Datei auf "
+"dem Quellbaum angewandt wurden, wenn Sie das Quellpaket generieren. Dies ist "
+"z.B. nicht der Fall, wenn der Quellbaum durch Entpacken eines Quellpakets im "
+"Format: 1.0 erhalten wurde. Um das Problem zu entschärfen, wird B<dpkg-"
+"source> die Patches selbst anwenden, falls es glaubt, dass sie noch nicht "
+"angewandt wurden. Um diese Situation zu erkennen, verwendet es die folgende "
+"Heuristik: Es findet die Liste der vermutlich noch nicht angewandten Patches "
+"(sie sind in der Datei B<series>, aber nicht in der Datei "
+"B<.pc/applied-patches> aufgeführt) und wenn der erste Patch in dem Satz "
+"ohne Fehler angewandt werden kann, werden sie alle angewandt. Die Option "
+"B<--no-preparation> kann zum Abschalten dieses Verhaltens verwandt werden."
+
 #. type: Plain text
 #: dpkg-source.1:441 dpkg-source.1:476
 msgid "B<Build options>"
 msgstr "B<Bau-Optionen>"
+
+#: dpkg-source.1:443
+#, no-wrap
+msgid "B<--allow-version-of-quilt-db=>I<version>"
+msgstr "B<--allow-version-of-quilt-db=>I<Version>"
+
+# type: Plain text
+#: dpkg-source.1:451
+msgid ""
+"Allow B<dpkg-source> to build the source package if the version of the quilt "
+"metadata is the one specified, even if B<dpkg-source> doesn't know about it. "
+"Effectively this says that the given version of the quilt metadata is "
+"compatible with the version 2 that B<dpkg-source> currently supports. The "
+"version of the quilt metadata is stored in B<.pc/.version>."
+msgstr ""
+"Erlaubt es B<dpkg-source>, ein Quellpaket zu bauen, falls die Version der "
+"Quilt-Metadaten die angegebene ist, selbst falls B<dpkg-source> nichts davon "
+"weiß. Effektiv teilt dies mit, dass die angegebene Version der Quilt-"
+"Metadaten zu Version 2, die B<dpkg-source> derzeit unterstützt, kompatibel "
+"ist. Die Version der Quilt-Metadaten wird in B<.pc/.version> gespeichert."
 
 #. type: TP
 #: dpkg-source.1:441
@@ -10539,6 +10631,31 @@ msgid ""
 msgstr ""
 "Versuche nicht den Bau-Baum durch Anwenden aller derzeit nicht angewandten "
 "Patches vorzubreiten."
+
+#: dpkg-source.1:467
+#, no-wrap
+msgid "B<--single-debian-patch>"
+msgstr "B<--single-debian-patch>"
+
+# type: Plain text
+#: dpkg-source.1:477
+msgid ""
+"Use B<debian/patches/debian-changes> instead of B<debian/patches/debian-"
+"changes->I<version> for the name of the automatic patch generated during "
+"build. This option is particularly useful when the package is maintained in "
+"a VCS and a patch set can't reliably be generated. Instead the current diff "
+"with upstream should be stored in a single patch. When using this option, it "
+"is recommended to create a debian/source/patch-header file explaining how "
+"the Debian changes can be best reviewed, for example in the VCS that is used."
+msgstr ""
+"Verwende B<debian/patches/debian-changes> statt B<debian/patches/debian-"
+"changes->I<Version> als Namen für den während des Baus automatisch "
+"generierten Patch. Diese Option ist insbesondere nützlich, wenn das Paket in "
+"einem VCS betreut wird und ein Patch-Satz nicht zuverlässig erstellt werden "
+"kann. Stattdessen sollte der aktuelle Diff zu den Quellen der Originalautoren ""in einem einzelnen Patch gespeichert werden. Beim Verwenden dieser Option "
+"wird empfohlen, eine Datei debian/source/patch-header zu erstellen, in der "
+"erklärt wird, wie die Debian-Änderungen am besten begutachtet werden können, "
+"beispielsweise im eingesetzten VCS."
 
 #. type: Plain text
 #: dpkg-source.1:459
@@ -10761,6 +10878,22 @@ msgstr ""
 "  compression = \"bzip2\"\n"
 "  compression-level = 9\n"
 
+#: dpkg-source.1:546
+#, no-wrap
+msgid ""
+"  # let dpkg-source create a debian.tar.bz2 with maximal compression\n"
+"  compression = \"bzip2\"\n"
+"  compression-level = 9\n"
+"  # use debian/patches/debian-changes as automatic patch\n"
+"  single-debian-patch\n"
+msgstr ""
+"  # lass dpkg-source ein debian.tar.bz2 mit maximaler Komprimierung\n"
+"  # erstellen\n"
+"  compression = \"bzip2\"\n"
+"  compression-level = 9\n"
+"  # verwende debian/patches/debian-changes als automatischen Patch\n"
+"  single-debian-patch\n"
+
 # type: Plain text
 #. type: Plain text
 #: dpkg-source.1:530
@@ -10770,6 +10903,19 @@ msgid ""
 msgstr ""
 "Hinweis: B<--format>-Optionen werden in dieser Datei nicht akzeptiert, Sie "
 "sollten stattdessen B<debian/source/format> verwenden."
+
+#: dpkg-source.1:549
+#, no-wrap
+msgid "debian/source/patch-header"
+msgstr "debian/source/patch-header"
+
+# type: Plain text
+#: dpkg-source.1:552
+msgid ""
+"Free form text that is put on top of the automatic patch generated in "
+"formats \"2.0\" or \"3.0 (quilt)\"."
+msgstr ""
+"Formloser Text, der an den Anfang des in den Formaten »2.0« und »3.0 (quilt)« ""generierten automatischen Patches gestellt wird."
 
 #. type: SS
 #: dpkg-source.1:531
