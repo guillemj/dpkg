@@ -363,7 +363,7 @@ void writedb(const char *filename, int available, int mustsync) {
   struct varbuf vb = VARBUF_INIT;
   int old_umask;
 
-  which = available ? _("available") : _("status");
+  which = available ? "available" : "status";
   oldfn= m_malloc(strlen(filename)+sizeof(OLDDBEXT));
   strcpy(oldfn,filename); strcat(oldfn,OLDDBEXT);
   newfn= m_malloc(strlen(filename)+sizeof(NEWDBEXT));
