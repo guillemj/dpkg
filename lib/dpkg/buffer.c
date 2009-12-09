@@ -138,7 +138,7 @@ off_t
 buffer_read(struct buffer_data *data, void *buf, off_t length,
             const char *desc)
 {
-	off_t ret = length;
+	off_t ret;
 
 	switch (data->type) {
 	case BUFFER_READ_FD:
@@ -222,7 +222,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 	if (bufsize == 0)
 		return 0;
 
-	writebuf = buf = m_malloc(bufsize);
+	buf = m_malloc(bufsize);
 
 	while (bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize, desc);

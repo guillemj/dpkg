@@ -1130,7 +1130,7 @@ void archivefiles(const char *const *argv) {
     p= findoutput.buf; i=0;
     while (*p) {
       arglist[i++]= p;
-      while ((c = *p++) != '\0') ;
+      while (*p++ != '\0') ;
     }
     arglist[i] = NULL;
     argp= arglist;

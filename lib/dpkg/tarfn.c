@@ -190,7 +190,6 @@ TarExtractor(void *userData, const TarFunctions *functions)
 
 	next_long_name = NULL;
 	next_long_link = NULL;
-	long_read = 0;
 	symlink_tail = symlink_node = symlink_head = m_malloc(sizeof(symlinkList));
 	symlink_head->next = NULL;
 

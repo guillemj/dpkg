@@ -619,7 +619,7 @@ void commandfd(const char *const *argv) {
     error_unwind(ehflag_bombout); exit(2);
   }
 
-  for (;;lno= 0) {
+  for (;;) {
     const char **oldargs= NULL;
     int argc= 1, mode= 0;
     lno= 0;

@@ -146,8 +146,8 @@ static void info_list(const char *debar, const char *directory) {
         ohshite(_("cannot open `%.255s' (in `%.255s')"),cdep->d_name,directory);
       lines = 0;
       interpreter[0] = '\0';
-      if ((c= getc(cc))== '#') {
-        if ((c= getc(cc))== '!') {
+      if (getc(cc) == '#') {
+        if (getc(cc) == '!') {
           while ((c= getc(cc))== ' ');
           p=interpreter; *p++='#'; *p++='!'; il=2;
           while (il<INTERPRETER_MAX && !isspace(c) && c!=EOF) {
@@ -200,7 +200,6 @@ static void info_field(const char *debar, const char *directory,
     c= getc(cc);  if (c==EOF) { doing=0; break; }
     if (c == '\n') { lno++; doing=1; continue; }
     if (!isspace(c)) {
-      doing= 0;
       for (pf=fieldname, fnl=0;
            fnl <= MAXFIELDNAME && c!=EOF && !isspace(c) && c!=':';
            c= getc(cc)) { *pf++= c; fnl++; }
