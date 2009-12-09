@@ -36,7 +36,7 @@ struct helpmenuentry {
   const struct helpmessage *msg;
 };
 
-class keybindings;
+struct keybindings;
 
 class baselist {
 protected:
