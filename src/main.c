@@ -596,7 +596,7 @@ void commandfd(const char *const *argv) {
   jmp_buf ejbuf;
   struct varbuf linevb = VARBUF_INIT;
   const char * pipein;
-  const char **newargs;
+  const char **newargs = NULL;
   char *ptr, *endptr;
   FILE *in;
   unsigned long infd;
@@ -620,7 +620,6 @@ void commandfd(const char *const *argv) {
   }
 
   for (;;) {
-    const char **oldargs= NULL;
     int argc= 1, mode= 0;
     lno= 0;
     push_error_handler(&ejbuf, print_error_fatal, NULL);
@@ -641,7 +640,7 @@ void commandfd(const char *const *argv) {
     if (c == EOF) ohshit(_("unexpected eof before end of line %d"),lno);
     if (!argc) continue;
     varbufaddc(&linevb,0);
-    oldargs = newargs = m_realloc(oldargs, sizeof(const char *) * (argc + 1));
+    newargs = m_realloc(newargs, sizeof(const char *) * (argc + 1));
     argc= 1;
     ptr= linevb.buf;
     endptr= ptr + linevb.used;
