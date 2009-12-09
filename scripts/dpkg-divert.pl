@@ -164,6 +164,7 @@ if ($mode eq 'add') {
     -d $file && badusage(_g("Cannot divert directories"));
     $divertto= "$file.distrib" unless defined($divertto);
     $divertto =~ m#^/# || badusage(sprintf(_g("filename \"%s\" is not absolute"), $divertto));
+    $file ne $divertto || badusage(sprintf(_g("cannot divert file '%s' to itself"), $file));
     $package= ':' unless defined($package);
     for (my $i = 0; $i <= $#contest; $i++) {
         if ($contest[$i] eq $file || $altname[$i] eq $file ||
