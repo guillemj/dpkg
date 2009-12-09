@@ -1101,7 +1101,7 @@ void archivefiles(const char *const *argv) {
       arglist[i++] = "-type";
       arglist[i++] = "f";
       arglist[i++] = "-print0";
-      arglist[i++] = NULL;
+      arglist[i] = NULL;
       execvp(FIND, (char *const *)arglist);
       ohshite(_("failed to exec find for --recursive"));
     }

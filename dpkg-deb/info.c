@@ -153,7 +153,7 @@ static void info_list(const char *debar, const char *directory) {
           while (il<INTERPRETER_MAX && !isspace(c) && c!=EOF) {
             *p++= c; il++; c= getc(cc);
           }
-          *p++ = '\0';
+          *p = '\0';
           if (c=='\n') lines++;
         }
       }
@@ -203,7 +203,7 @@ static void info_field(const char *debar, const char *directory,
       for (pf=fieldname, fnl=0;
            fnl <= MAXFIELDNAME && c!=EOF && !isspace(c) && c!=':';
            c= getc(cc)) { *pf++= c; fnl++; }
-      *pf++ = '\0';
+      *pf = '\0';
       doing= fnl >= MAXFIELDNAME || c=='\n' || c==EOF;
       for (fp=fields; !doing && *fp; fp++)
         if (!strcasecmp(*fp,fieldname)) doing=1;
