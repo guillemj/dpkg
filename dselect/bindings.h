@@ -21,8 +21,6 @@
 #ifndef BINDINGS_H
 #define BINDINGS_H
 
-enum quitaction;
-
 struct keybindings {
   struct interpretation;
 
