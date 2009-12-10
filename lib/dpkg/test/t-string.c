@@ -28,22 +28,22 @@ test_str_escape_fmt(void)
 {
 	char buf[1024], *q;
 
-	memset(buf, sizeof(buf), 'a');
+	memset(buf, 'a', sizeof(buf));
 	q = str_escape_fmt(buf, "");
 	strcpy(q, " end");
 	test_str(buf, ==, " end");
 
-	memset(buf, sizeof(buf), 'a');
+	memset(buf, 'a', sizeof(buf));
 	q = str_escape_fmt(buf, "%");
 	strcpy(q, " end");
 	test_str(buf, ==, "%% end");
 
-	memset(buf, sizeof(buf), 'a');
+	memset(buf, 'a', sizeof(buf));
 	q = str_escape_fmt(buf, "%%%");
 	strcpy(q, " end");
 	test_str(buf, ==, "%%%%%% end");
 
-	memset(buf, sizeof(buf), 'a');
+	memset(buf, 'a', sizeof(buf));
 	q = str_escape_fmt(buf, "%b%b%c%c%%");
 	strcpy(q, " end");
 	test_str(buf, ==, "%%b%%b%%c%%c%%%% end");
