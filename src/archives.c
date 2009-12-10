@@ -203,7 +203,8 @@ tarfile_skip_one_forward(struct TarInfo *ti,
                  path_quote_filename(fnamebuf, ti->Name, 256));
     r = ti->Size % TARBLKSZ;
     if (r > 0)
-      r = safe_read(tc->backendpipe, databuf, TARBLKSZ - r);
+      if (safe_read(tc->backendpipe, databuf, TARBLKSZ - r) == -1)
+        ohshite(_("error reading from dpkg-deb pipe"));
   }
 }
 
@@ -641,7 +642,9 @@ int tarobject(struct TarInfo *ti) {
                path_quote_filename(fnamebuf, ti->Name, 256));
     }
     r= ti->Size % TARBLKSZ;
-    if (r > 0) r= safe_read(tc->backendpipe,databuf,TARBLKSZ - r);
+    if (r > 0)
+      if (safe_read(tc->backendpipe, databuf, TARBLKSZ - r) == -1)
+        ohshite(_("error reading from dpkg-deb pipe"));
     if (nifd->namenode->statoverride) 
       debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
 			  nifd->namenode->statoverride->uid,
