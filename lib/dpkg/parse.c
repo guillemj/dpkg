@@ -218,7 +218,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         value = m_realloc(value, valuelen + 1);
 	memcpy(value,valuestart,valuelen);
         *(value + valuelen) = '\0';
-        if (*ip++)
+        if ((*ip)++)
           parse_error(&ps, &newpig,
                       _("duplicate value for `%s' field"), fip->name);
         fip->rcall(&newpig, newpifp, &ps, value, fip);
