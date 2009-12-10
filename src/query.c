@@ -525,11 +525,13 @@ control_path(const char *const *argv)
   const char *control_file;
 
   pkg_name = *argv++;
-  control_file = *argv++;
-
   if (!pkg_name)
     badusage(_("--%s needs at least one package name argument"),
              cipaction->olong);
+
+  control_file = *argv++;
+  if (control_file && *argv)
+    badusage(_("--%s takes at most two arguments"), cipaction->olong);
 
   /* Validate control file name for sanity. */
   if (control_file) {
