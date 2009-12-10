@@ -212,8 +212,6 @@ trig_fixup_awaiters(enum modstatdb_rw cstatus)
 
 /*---------- generalised handling of trigger kinds ----------*/
 
-static const struct trigkindinfo tki_explicit, tki_file, tki_unknown;
-
 struct trigkindinfo {
 	/* Only for trig_activate_start. */
 	void (*activate_start)(void);
@@ -224,6 +222,7 @@ struct trigkindinfo {
 	void (*interest_change)(const char *name, struct pkginfo *pkg, int signum);
 };
 
+static const struct trigkindinfo tki_explicit, tki_file, tki_unknown;
 static const struct trigkindinfo *dtki;
 
 /* As passed into activate_start. */
