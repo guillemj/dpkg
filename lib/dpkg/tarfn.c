@@ -307,6 +307,10 @@ TarExtractor(void *userData, const TarFunctions *functions)
 				bp += copysize;
 			};
 
+			/* In case of error do not overwrite status with 0. */
+			if (status < 0)
+				break;
+
 			/* This decode function expects status to be 0 after
 			 * the case statement if we successfully decoded. I
 			 * guess what we just did was successful. */
