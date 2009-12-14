@@ -56,6 +56,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
     return;
   pkg->clientdata = nfmalloc(sizeof(struct perpackagestate));
   pkg->clientdata->istobe = itb_normal;
+  pkg->clientdata->color = white;
   pkg->clientdata->fileslistvalid = 0;
   pkg->clientdata->files = NULL;
   pkg->clientdata->trigprocdeferred = NULL;

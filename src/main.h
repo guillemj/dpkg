@@ -31,6 +31,13 @@ struct perpackagestate {
     itb_normal, itb_remove, itb_installnew, itb_deconfigure, itb_preinstall
   } istobe;
 
+  /* Used during cycle detection. */
+  enum {
+    white,
+    gray,
+    black,
+  } color;
+
   /*   filelistvalid   files         meaning
    *       0             0           not read yet, must do so if want them
    *       0            !=0          read, but rewritten and now out of

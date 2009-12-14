@@ -104,9 +104,9 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
   struct deppossi *possi, *providelink;
   struct pkginfo *provider;
 
-  if (pkg->color == black)
+  if (pkg->clientdata->color == black)
     return false;
-  pkg->color = gray;
+  pkg->clientdata->color = gray;
   
   if (f_debug & dbg_depcondetail) {
     struct varbuf str_pkgs = VARBUF_INIT;
@@ -147,7 +147,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
     }
   }
   /* Nope, we didn't find a cycle to break. */
-  pkg->color = black;
+  pkg->clientdata->color = black;
   return false;
 }
 
@@ -159,7 +159,7 @@ findbreakcycle(struct pkginfo *pkg)
 	
   /* Clear the visited flag of all packages before we traverse them. */
   for (iter = iterpkgstart(); (tpkg=iterpkgnext(iter)); ) {
-    tpkg->color = white;
+    tpkg->clientdata->color = white;
   }
   iterpkgend(iter);
 

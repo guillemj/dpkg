@@ -74,7 +74,6 @@ void blankpackage(struct pkginfo *pigp) {
   pigp->installed.valid= 0;
   pigp->available.valid= 0;
   pigp->clientdata= NULL;
-  pigp->color= white;
   pigp->trigaw.head = pigp->trigaw.tail = NULL;
   pigp->othertrigaw_head = NULL;
   pigp->trigpend_head = NULL;
