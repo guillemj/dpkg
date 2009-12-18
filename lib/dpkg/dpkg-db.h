@@ -407,7 +407,8 @@ struct lstitem;
 
 struct lstitem* parseformat(const char* fmt);
 void freeformat(struct lstitem* head);
-void show1package(const struct lstitem* head, struct pkginfo *pkg);
+void show1package(const struct lstitem* head,
+                  struct pkginfo *pkg, struct pkginfoperfile *pif);
 
 DPKG_END_DECLS
 

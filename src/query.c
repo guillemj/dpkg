@@ -399,7 +399,7 @@ void showpackages(const char *const *argv) {
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       if (pkg->status == stat_notinstalled) continue;
-      show1package(fmt,pkg);
+      show1package(fmt, pkg, &pkg->installed);
     }
   } else {
     int argc, ip, *found;
@@ -412,7 +412,7 @@ void showpackages(const char *const *argv) {
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
         if (!fnmatch(argv[ip], pkg->name, 0)) {
-          show1package(fmt, pkg);
+          show1package(fmt, pkg, &pkg->installed);
           found[ip]++;
           break;
         }

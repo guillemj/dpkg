@@ -199,13 +199,14 @@ parseformat(const char *fmt)
 }
 
 void
-show1package(const struct lstitem *head, struct pkginfo *pkg)
+show1package(const struct lstitem *head,
+             struct pkginfo *pkg, struct pkginfoperfile *pif)
 {
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
 	/* Make sure we have package info available, even if it's all empty. */
-	if (!pkg->installed.valid)
-		blankpackageperfile(&pkg->installed);
+	if (!pif->valid)
+		blankpackageperfile(pif);
 
 	while (head) {
 		int ok;
@@ -227,7 +228,7 @@ show1package(const struct lstitem *head, struct pkginfo *pkg)
 
 			for (fip = fieldinfos; fip->name; fip++)
 				if (strcasecmp(head->data, fip->name) == 0) {
-					fip->wcall(&wb, pkg, &pkg->installed, 0, fip);
+					fip->wcall(&wb, pkg, pif, 0, fip);
 
 					varbufaddc(&wb, '\0');
 					varbufprintf(&fb, fmt, wb.buf);
@@ -236,10 +237,10 @@ show1package(const struct lstitem *head, struct pkginfo *pkg)
 					break;
 				}
 
-			if (!fip->name && pkg->installed.valid) {
+			if (!fip->name && pif->valid) {
 				const struct arbitraryfield *afp;
 
-				for (afp = pkg->installed.arbs; afp; afp = afp->next)
+				for (afp = pif->arbs; afp; afp = afp->next)
 					if (strcasecmp(head->data, afp->name) == 0) {
 						varbufprintf(&fb, fmt, afp->value);
 						ok = 1;

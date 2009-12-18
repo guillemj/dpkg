@@ -241,7 +241,7 @@ void do_showinfo(const char* const* argv) {
   info_prepare(&argv,&debar,&directory,1);
 
   parsedb(CONTROLFILE, pdb_ignorefiles, &pkg, NULL, NULL);
-  show1package(fmt,pkg);
+  show1package(fmt, pkg, &pkg->installed);
 }
 
 
