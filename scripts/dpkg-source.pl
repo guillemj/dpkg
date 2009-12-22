@@ -131,7 +131,7 @@ while (@options) {
         $changelogfile = $1;
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat = $1;
-    } elsif (m/^-D([^\=:]+)[=:](.*)$/) {
+    } elsif (m/^-D([^\=:]+)[=:](.*)$/s) {
         $override{$1} = $2;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
@@ -151,7 +151,7 @@ while (@options) {
         $options{'no_check'} = 1;
     } elsif (m/^--require-valid-signature$/) {
         $options{'require_valid_signature'} = 1;
-    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/) {
+    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
         $varlistfile = $1;
