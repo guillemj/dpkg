@@ -170,19 +170,19 @@ while (@ARGV) {
 	$since = $1;
     } elsif (m/^-T(.*)$/) {
 	$varlistfile = $1;
-    } elsif (m/^-m(.*)$/) {
+    } elsif (m/^-m(.*)$/s) {
 	$forcemaint = $1;
-    } elsif (m/^-e(.*)$/) {
+    } elsif (m/^-e(.*)$/s) {
 	$forcechangedby = $1;
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat = $1;
-    } elsif (m/^-D([^\=:]+)[=:](.*)$/) {
+    } elsif (m/^-D([^\=:]+)[=:](.*)$/s) {
 	$override{$1} = $2;
     } elsif (m/^-u(.*)$/) {
 	$uploadfilesdir = $1;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
-    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/) {
+    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
 	$substvars->set($1, $2);
     } elsif (m/^-(h|-help)$/) {
 	usage();
