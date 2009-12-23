@@ -286,6 +286,7 @@ sub register_autopatch {
     my $patch = File::Spec->catfile($dir, "debian", "patches", $auto_patch);
 
     if (-e $patch) {
+        $self->create_quilt_db($dir);
         # Add auto_patch to series file
         if (not $has_patch) {
             add_line($series, $auto_patch);
