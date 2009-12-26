@@ -46,11 +46,7 @@ main(int argc, char **argv)
 	warn("its replacement lives in /usr/bin/.\n");
     }
 
-    if (access(WRAPPED, X_OK) == 0) {
 	execv(WRAPPED, argv);
-	error("can't execute %s: %s\n", WRAPPED, strerror(errno));
-	return 1; /* exec failed */
-    } else {
 	if (errno == ENOENT) {
 	    if (getenv("DPKG_RUNNING_VERSION") != NULL) {
 		const char *pkg;
@@ -69,7 +65,6 @@ main(int argc, char **argv)
 	    error("can't execute %s: %s\n", WRAPPED, strerror(errno));
 	    return 1;
 	}
-    }
 
     return 0;
 }
