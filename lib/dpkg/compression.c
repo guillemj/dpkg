@@ -33,7 +33,7 @@
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
-#include <dpkg/dpkg-db.h>
+#include <dpkg/varbuf.h>
 #include <dpkg/buffer.h>
 
 static void

@@ -19,7 +19,7 @@
  */
 
 #include <dpkg/test.h>
-#include <dpkg/dpkg-db.h>
+#include <dpkg/varbuf.h>
 
 static void
 test_varbuf_init(void)
