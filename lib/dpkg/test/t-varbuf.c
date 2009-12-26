@@ -21,6 +21,8 @@
 #include <dpkg/test.h>
 #include <dpkg/varbuf.h>
 
+#include <stdlib.h>
+
 static void
 test_varbuf_init(void)
 {
@@ -222,6 +224,26 @@ test_varbuf_reset(void)
 }
 
 static void
+test_varbuf_detach(void)
+{
+	struct varbuf vb;
+	char *str;
+
+	varbufinit(&vb, 0);
+
+	varbufaddbuf(&vb, "1234567890", 10);
+
+	str = varbuf_detach(&vb);
+
+	test_mem(str, ==, "1234567890", 10);
+	test_pass(vb.used == 0);
+	test_pass(vb.size == 0);
+	test_pass(vb.buf == NULL);
+
+	free(str);
+}
+
+static void
 test(void)
 {
 	test_varbuf_init();
@@ -233,6 +255,7 @@ test(void)
 	test_varbuf_substc();
 	test_varbuf_printf();
 	test_varbuf_reset();
+	test_varbuf_detach();
 
 	/* FIXME: Complete. */
 }

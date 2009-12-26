@@ -129,6 +129,18 @@ varbuf_grow(struct varbuf *v, size_t need_size)
   v->buf = m_realloc(v->buf, v->size);
 }
 
+char *
+varbuf_detach(struct varbuf *v)
+{
+  char *buf = v->buf;
+
+  v->buf = NULL;
+  v->size = 0;
+  v->used = 0;
+
+  return buf;
+}
+
 void varbuffree(struct varbuf *v) {
   free(v->buf); v->buf=NULL; v->size=0; v->used=0;
 }
