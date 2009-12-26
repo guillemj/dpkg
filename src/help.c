@@ -108,8 +108,7 @@ void checkpath(void) {
     const char *path, *path_end;
     size_t path_len;
 
-    path = path_list;
-    while (path) {
+    for (path = path_list; path; path = path_end ? path_end + 1 : NULL) {
       path_end = strchr(path, ':');
       path_len = path_end ? (size_t)(path_end - path) : strlen(path);
 
@@ -122,9 +121,6 @@ void checkpath(void) {
 
       if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111))
         break;
-      path = path_end;
-      if (path)
-        path++;
     }
     if (!path) {
       warning(_("'%s' not found on PATH."), *prog);
