@@ -694,17 +694,10 @@ int tarobject(struct TarInfo *ti) {
     if (symlink(ti->LinkName,fnamenewvb.buf))
       ohshite(_("error creating symbolic link `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject SymbolicLink creating");
-#ifdef HAVE_LCHOWN
     if (lchown(fnamenewvb.buf,
 	    nifd->namenode->statoverride ? nifd->namenode->statoverride->uid : ti->UserID,
 	    nifd->namenode->statoverride ? nifd->namenode->statoverride->gid : ti->GroupID))
       ohshite(_("error setting ownership of symlink `%.255s'"),ti->Name);
-#else
-    if (chown(fnamenewvb.buf,
-	    nifd->namenode->statoverride ? nifd->namenode->statoverride->uid : ti->UserID,
-	    nifd->namenode->statoverride ? nifd->namenode->statoverride->gid : ti->GroupID))
-      ohshite(_("error setting ownership of symlink `%.255s'"),ti->Name);
-#endif
     break;
   case Directory:
     /* We've already checked for an existing directory. */
@@ -758,13 +751,8 @@ int tarobject(struct TarInfo *ti) {
       symlinkfn.used= r; varbufaddc(&symlinkfn,0);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for `%.255s'"),ti->Name);
-#ifdef HAVE_LCHOWN
       if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
         ohshite(_("unable to chown backup symlink for `%.255s'"),ti->Name);
-#else
-      if (chown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
-        ohshite(_("unable to chown backup symlink for `%.255s'"),ti->Name);
-#endif
     } else {
       debug(dbg_eachfiledetail,"tarobject nondirectory, `link' backup");
       if (link(fnamevb.buf,fnametmpvb.buf))
