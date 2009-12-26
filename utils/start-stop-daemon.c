@@ -1494,6 +1494,7 @@ main(int argc, char **argv)
 	}
 	if (changeuser) {
 		struct passwd *pw;
+		struct stat st;
 
 		if (sscanf(changeuser, "%d", &runas_uid) == 1)
 			pw = getpwuid(runas_uid);
@@ -1507,7 +1508,7 @@ main(int argc, char **argv)
 			changegroup = ""; /* Just empty. */
 			runas_gid = pw->pw_gid;
 		}
-		if (access(pw->pw_dir, F_OK) == 0)
+		if (stat(pw->pw_dir, &st) == 0)
 			setenv("HOME", pw->pw_dir, 1);
 	}
 

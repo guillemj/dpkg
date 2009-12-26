@@ -279,7 +279,9 @@ statoverride_add(const char *const *argv)
 	*filestat = statdb_node_new(user, group, mode);
 
 	if (opt_update) {
-		if (access(filename, F_OK) == 0)
+		struct stat st;
+
+		if (stat(filename, &st) == 0)
 			statdb_node_apply(filename, *filestat);
 		else if (opt_verbose)
 			warning(_("--update given but %s does not exist"),
