@@ -33,7 +33,6 @@
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
-#include <dpkg/dpkg-db.h>
 
 void *m_malloc(size_t amount) {
 #ifdef MDEBUG
