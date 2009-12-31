@@ -87,7 +87,7 @@ subproc_fork_cleanup(int argc, void **argv)
 	exit(2);
 }
 
-int
+pid_t
 subproc_fork(void)
 {
 	pid_t r;
