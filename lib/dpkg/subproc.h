@@ -34,7 +34,7 @@ void subproc_signals_cleanup(int argc, void **argv);
 #define PROCWARN 2
 #define PROCNOERR 4
 
-int m_fork(void);
+int subproc_fork(void);
 int subproc_wait(pid_t pid, const char *desc);
 int subproc_check(int status, const char *desc, int flags);
 int subproc_wait_check(pid_t pid, const char *desc, int flags);

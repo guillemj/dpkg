@@ -77,10 +77,10 @@ print_error_forked(const char *emsg, const char *contextstring)
 	fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
 }
 
-static void cu_m_fork(int argc, void **argv) DPKG_ATTR_NORET;
+static void subproc_fork_cleanup(int argc, void **argv) DPKG_ATTR_NORET;
 
 static void
-cu_m_fork(int argc, void **argv)
+subproc_fork_cleanup(int argc, void **argv)
 {
 	/* Don't do the other cleanups, because they'll be done by/in the
 	 * parent process. */
@@ -88,7 +88,7 @@ cu_m_fork(int argc, void **argv)
 }
 
 int
-m_fork(void)
+subproc_fork(void)
 {
 	pid_t r;
 
@@ -100,7 +100,7 @@ m_fork(void)
 	if (r > 0)
 		return r;
 
-	push_cleanup(cu_m_fork, ~0, NULL, 0, 0);
+	push_cleanup(subproc_fork_cleanup, ~0, NULL, 0, 0);
 	set_error_display(print_error_forked, NULL);
 
 	return r;

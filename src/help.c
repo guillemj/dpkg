@@ -278,7 +278,7 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
 
   push_cleanup(cu_post_script_tasks, ehflag_bombout, NULL, 0, 0);
 
-  c1= m_fork();
+  c1 = subproc_fork();
   if (!c1) {
     const char **narglist;
     for (r=0; arglist[r]; r++) ;
@@ -587,7 +587,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
   if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh ? */
     ohshite(_("unable to securely remove '%.255s'"), pathname);
   }
-  c1= m_fork();
+  c1 = subproc_fork();
   if (!c1) {
     execlp(RM, "rm", "-rf", "--", pathname, NULL);
     ohshite(_("failed to exec rm for cleanup"));

@@ -53,7 +53,8 @@ static void movecontrolfiles(const char *thing) {
   pid_t c1;
   
   sprintf(buf, "mv %s/* . && rmdir %s", thing, thing);
-  if (!(c1= m_fork())) {
+  c1 = subproc_fork();
+  if (!c1) {
     execlp("sh", "sh", "-c", buf, NULL);
     ohshite(_("failed to exec sh -c mv foo/* &c"));
   }
@@ -256,7 +257,8 @@ void extracthalf(const char *debar, const char *directory,
   if (oldformat) {
     if (admininfo) {
       m_pipe(p1);
-      if (!(c1= m_fork())) {
+      c1 = subproc_fork();
+      if (!c1) {
         close(p1[0]);
 	pi = fdopen(p1[1], "w");
 	if (!pi)
@@ -276,7 +278,8 @@ void extracthalf(const char *debar, const char *directory,
     }
   } else {
     m_pipe(p1);
-    if (!(c1= m_fork())) {
+    c1 = subproc_fork();
+    if (!c1) {
       close(p1[0]);
       stream_fd_copy(ar, p1[1], memberlen, _("failed to write to pipe in copy"));
       if (close(p1[1]) == EOF) ohshite(_("failed to close pipe in copy"));
@@ -288,7 +291,8 @@ void extracthalf(const char *debar, const char *directory,
   
   if (taroption) m_pipe(p2);
   
-  if (!(c2= m_fork())) {
+  c2 = subproc_fork();
+  if (!c2) {
     m_dup2(readfromfd,0);
     if (admininfo) close(p1[0]);
     if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
@@ -309,7 +313,8 @@ void extracthalf(const char *debar, const char *directory,
   }
 
   if (taroption) {
-    if (!(c3= m_fork())) {
+    c3 = subproc_fork();
+    if (!c3) {
       char buffer[30+2];
       if (strlen(taroption) > 30)
         internerr("taroption is too long '%s'", taroption);

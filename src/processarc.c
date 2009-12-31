@@ -134,7 +134,7 @@ void process_archive(const char *filename) {
     if (unlink(reasmbuf) && errno != ENOENT)
       ohshite(_("error ensuring `%.250s' doesn't exist"),reasmbuf);
     push_cleanup(cu_pathname, ~0, NULL, 0, 1, (void *)reasmbuf);
-    c1= m_fork();
+    c1 = subproc_fork();
     if (!c1) {
       execlp(SPLITTER, SPLITTER, "-Qao", reasmbuf, filename, NULL);
       ohshite(_("failed to exec dpkg-split to see if it's part of a multiparter"));
@@ -162,7 +162,7 @@ void process_archive(const char *filename) {
   if (!f_nodebsig && (stat(DEBSIGVERIFY, &stab)==0)) {
     printf(_("Authenticating %s ...\n"), filename);
     fflush(stdout);
-    c1 = m_fork();
+    c1 = subproc_fork();
     if (!c1) {
       execl(DEBSIGVERIFY, DEBSIGVERIFY, "-q", filename, NULL);
       ohshite(_("failed to execl debsig-verify"));
@@ -205,7 +205,7 @@ void process_archive(const char *filename) {
   ensure_pathname_nonexisting(cidir); cidirrest[-1]= '/';
   
   push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);
-  c1= m_fork();
+  c1 = subproc_fork();
   if (!c1) {
     cidirrest[-1] = '\0';
     execlp(BACKEND, BACKEND, "--control", filename, cidir, NULL);
@@ -593,7 +593,7 @@ void process_archive(const char *filename) {
 
   m_pipe(p1);
   push_cleanup(cu_closepipe, ehflag_bombout, NULL, 0, 1, (void *)&p1[0]);
-  c1= m_fork();
+  c1 = subproc_fork();
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     execlp(BACKEND, BACKEND, "--fsys-tarfile", filename, NULL);

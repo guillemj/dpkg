@@ -412,7 +412,8 @@ void do_build(const char *const *argv) {
   /* Fork a tar to package the control-section of the package */
   unsetenv("TAR_OPTIONS");
   m_pipe(p1);
-  if (!(c1= m_fork())) {
+  c1 = subproc_fork();
+  if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
     if (chdir(BUILDCONTROLDIR)) ohshite(_("failed to chdir to .../DEBIAN"));
@@ -431,7 +432,8 @@ void do_build(const char *const *argv) {
   strcpy(tfbuf,envbuf);
   strcat(tfbuf,"/dpkg.XXXXXX");
   /* And run gzip to compress our control archive */
-  if (!(c2= m_fork())) {
+  c2 = subproc_fork();
+  if (!c2) {
     m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
     compress_cat(compress_type_gzip, 0, 1, "9", _("control"));
   }
@@ -481,7 +483,8 @@ void do_build(const char *const *argv) {
    */
   m_pipe(p1);
   m_pipe(p2);
-  if (!(c1= m_fork())) {
+  c1 = subproc_fork();
+  if (!c1) {
     m_dup2(p1[0],0); close(p1[0]); close(p1[1]);
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
@@ -491,7 +494,8 @@ void do_build(const char *const *argv) {
   close(p1[0]);
   close(p2[1]);
   /* Of course we should not forget to compress the archive as well.. */
-  if (!(c2= m_fork())) {
+  c2 = subproc_fork();
+  if (!c2) {
     close(p1[1]);
     m_dup2(p2[0],0); close(p2[0]);
     m_dup2(oldformatflag ? fileno(ar) : gzfd,1);
@@ -503,7 +507,8 @@ void do_build(const char *const *argv) {
    */
 
   m_pipe(p3);
-  if (!(c3= m_fork())) {
+  c3 = subproc_fork();
+  if (!c3) {
     m_dup2(p3[1],1); close(p3[0]); close(p3[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
     execlp(FIND, "find", ".", "-path", "./" BUILDCONTROLDIR, "-prune", "-o",

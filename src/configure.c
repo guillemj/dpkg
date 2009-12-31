@@ -490,7 +490,7 @@ showdiff(const char *old, const char *new)
 {
 	int pid;
 
-	pid = m_fork();
+	pid = subproc_fork();
 	if (!pid) {
 		/* Child process. */
 		const char *p;		/* pager */
@@ -534,7 +534,7 @@ suspend(void)
 
 		fputs(_("Type `exit' when you're done.\n"), stderr);
 
-		pid = m_fork();
+		pid = subproc_fork();
 		if (!pid) {
 			/* Child process */
 			s = getenv(SHELLENV);

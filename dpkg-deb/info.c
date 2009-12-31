@@ -77,7 +77,8 @@ static void info_prepare(const char *const **argvp,
     ohshite(_("failed to make temporary directoryname"));
   *directoryp= dbuf;
 
-  if (!(c1= m_fork())) {
+  c1 = subproc_fork();
+  if (!c1) {
     execlp(RM, "rm", "-rf", dbuf, NULL);
     ohshite(_("failed to exec rm -rf"));
   }

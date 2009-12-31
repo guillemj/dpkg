@@ -1065,7 +1065,8 @@ void archivefiles(const char *const *argv) {
       badusage(_("--%s --recursive needs at least one path argument"),cipaction->olong);
     
     m_pipe(pi);
-    if (!(fc= m_fork())) {
+    fc = subproc_fork();
+    if (!fc) {
       const char *const *ap;
       int i;
       m_dup2(pi[1],1); close(pi[0]); close(pi[1]);
