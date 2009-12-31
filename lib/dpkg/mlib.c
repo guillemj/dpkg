@@ -75,28 +75,6 @@ m_strdup(const char *str)
   return new_str;
 }
 
-static void print_error_forked(const char *emsg, const char *contextstring) {
-  fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
-}
-
-static void cu_m_fork(int argc, void **argv) DPKG_ATTR_NORET;
-static void cu_m_fork(int argc, void **argv) {
-  exit(2);
-  /* Don't do the other cleanups, because they'll be done by/in the parent
-   * process.
-   */
-}
-
-int m_fork(void) {
-  pid_t r;
-  r= fork();
-  if (r == -1) { onerr_abort++; ohshite(_("fork failed")); }
-  if (r > 0) return r;
-  push_cleanup(cu_m_fork,~0, NULL,0, 0);
-  set_error_display(print_error_forked,NULL);
-  return r;
-}
-
 void m_dup2(int oldfd, int newfd) {
   const char *const stdstrings[]= { "in", "out", "err" };
   
