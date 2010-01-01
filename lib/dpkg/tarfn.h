@@ -26,6 +26,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#define TARBLKSZ	512
+
 enum tar_format {
 	tar_format_old,
 	tar_format_gnu,

@@ -112,8 +112,6 @@ DPKG_BEGIN_DECLS
 
 #define FIND_EXPRSTARTCHARS "-(),!"
 
-#define TARBLKSZ	512
-
 extern const char thisname[]; /* defined separately in each program */
 
 /*** from startup.c ***/
