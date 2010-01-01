@@ -176,7 +176,7 @@ typedef struct symlinkList {
 } symlinkList;
 
 int
-TarExtractor(void *userData, const TarFunctions *functions)
+TarExtractor(void *userData, const TarFunctions *ops)
 {
 	int status;
 	char buffer[512];
@@ -197,7 +197,7 @@ TarExtractor(void *userData, const TarFunctions *functions)
 	h.LinkName = NULL;
 	h.UserData = userData;
 
-	while ((status = functions->Read(userData, buffer, 512)) == 512) {
+	while ((status = ops->Read(userData, buffer, 512)) == 512) {
 		int nameLength;
 
 		if (!DecodeTarHeader(buffer, &h)) {
@@ -237,7 +237,7 @@ TarExtractor(void *userData, const TarFunctions *functions)
 		case NormalFile1:
 			/* Compatibility with pre-ANSI ustar. */
 			if (h.Name[nameLength - 1] != '/') {
-				status = (*functions->ExtractFile)(&h);
+				status = ops->ExtractFile(&h);
 				break;
 			}
 			/* Else, fall through. */
@@ -245,10 +245,10 @@ TarExtractor(void *userData, const TarFunctions *functions)
 			if (h.Name[nameLength - 1] == '/') {
 				h.Name[nameLength - 1] = '\0';
 			}
-			status = (*functions->MakeDirectory)(&h);
+			status = ops->MakeDirectory(&h);
 			break;
 		case HardLink:
-			status = (*functions->MakeHardLink)(&h);
+			status = ops->MakeHardLink(&h);
 			break;
 		case SymbolicLink:
 			memcpy(&symlink_tail->h, &h, sizeof(TarInfo));
@@ -263,7 +263,7 @@ TarExtractor(void *userData, const TarFunctions *functions)
 		case CharacterDevice:
 		case BlockDevice:
 		case FIFO:
-			status = (*functions->MakeSpecialFile)(&h);
+			status = ops->MakeSpecialFile(&h);
 			break;
 		case GNU_LONGLINK:
 		case GNU_LONGNAME:
@@ -292,7 +292,7 @@ TarExtractor(void *userData, const TarFunctions *functions)
 			     long_read -= 512) {
 				int copysize;
 
-				status = functions->Read(userData, buffer, 512);
+				status = ops->Read(userData, buffer, 512);
 				/* If we didn't get 512 bytes read, punt. */
 				if (512 != status) {
 					 /* Read partial header record? */
@@ -328,7 +328,7 @@ TarExtractor(void *userData, const TarFunctions *functions)
 
 	while (symlink_node->next) {
 		if (status == 0)
-			status = (*functions->MakeSymbolicLink)(&symlink_node->h);
+			status = ops->MakeSymbolicLink(&symlink_node->h);
 		symlink_tail = symlink_node->next;
 		free(symlink_node->h.Name);
 		free(symlink_node->h.LinkName);
