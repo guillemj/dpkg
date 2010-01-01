@@ -1,6 +1,6 @@
 # German translation of the manpages in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2009.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2010.
 # (C) Florian Rehnisch <eixman@gmx.de>, 2007.
 # (C) Sven Joachim <svenjoac@gmx.de>, 2008.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2009-11-27 18:45+0100\n"
-"PO-Revision-Date: 2009-12-07 21:20+0100\n"
+"PO-Revision-Date: 2010-01-01 17:47+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -207,8 +207,8 @@ msgid ""
 "bz2> extension, supported since dpkg 1.10.24) or lzma (with B<.lzma> "
 "extension, supported since dpkg 1.13.25)."
 msgstr ""
-"Das dritte, zwingend benötigte Mitglied heißt B<data.tar>. Es enthält das "
-"Dateisystem als Tar-Archiv, entweder unkomprimiert (seit Dpkg 1.10.24 "
+"Das dritte, letzte zwingend benötigte Mitglied heißt B<data.tar>. Es enthält "
+"das Dateisystem als Tar-Archiv, entweder unkomprimiert (seit Dpkg 1.10.24 "
 "unterstützt) oder mit gzip (Dateiendung B<.gz>), bzip2 (Dateiendung B<.bz2>, "
 "seit Dpkg 1.10.24 unterstützt) oder lzma (Dateiendung B<.lzma>, seit Dpkg "
 "1.13.25 unterstützt) komprimiert."
@@ -829,6 +829,99 @@ msgid ""
 "B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr ""
 "B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
+
+#: deb-split.5:1
+#, no-wrap
+msgid "deb-split"
+msgstr "deb-split"
+
+#: deb-split.5:1
+#, no-wrap
+msgid "2009-12-31"
+msgstr "2009-12-31"
+
+#: deb-split.5:4
+msgid "deb-split - Debian multi-part binary package format"
+msgstr "deb-split - mehrteiliges Debian-Binärpaketformat"
+
+# type: Plain text
+#: deb-split.5:9
+msgid ""
+"The multi-part B<.deb> format is used to split big packages into smaller "
+"pieces to ease transport in small media."
+msgstr ""
+"Das mehrteilige B<.deb>-Format wird zum Aufteilen von großen Paketen in "
+"kleinere Stücke zur Erleichterung des Transports auf kleinen Medien verwandt."
+
+#: deb-split.5:11
+msgid "The file is an B<ar> archive with a magic value of B<!E<lt>archE<gt>>."
+msgstr ""
+"Die Datei ist ein B<ar>-Archiv mit einer magischen Zahl von B<!"
+"E<lt>archE<gt>>."
+
+#: deb-split.5:20
+msgid ""
+"The first member is named B<debian-split> and contains a series of lines, "
+"separated by newlines. Currently seven lines are present.  The first is the "
+"format version number, B<2.1> at the time this manual page was written. The "
+"second is the package name. The third is the package version. The fourth is "
+"the md5sum of the package.  The fifth is the total size of the package. The "
+"sixth is the maximum part size. The seventh is the current part number, "
+"followed by a slash and the total amount of parts (as in \\(oq1/10\\(cq)."
+msgstr ""
+"Das erste Mitglied heißt B<debian-split> und enthält eine Reihe von Zeilen, "
+"die durch Zeilenumbrüche getrennt sind. Derzeit sind sieben Zeile vorhanden. "
+"Die erste ist die Formatversionsnummer, B<2.1> zum Zeitpunkt zu dem diese "
+"Handbuchseite geschrieben wurde. Die Zweite ist der Paketname. Die Dritte die ""Paketversion. Die Vierte ist die Md5sum des Pakets. Die Fünfte ist die "
+"Gesamtgröße des Pakets. Die Sechste ist die maximale Teilgröße. Die Siebte "
+"ist die aktuelle Teilnummer, gefolgt von einem Schrägstrich und der "
+"Gesamtanzahl von Teilen (wie in \\(oq1/10\\(cq)."
+
+# type: Plain text
+#: deb-split.5:23
+msgid ""
+"Programs which read multi-part archives should be prepared for additional "
+"lines to be present, and should ignore these if this is the case."
+msgstr ""
+"Programme, die mehrteilige Archive lesen, sollten darauf vorbereitet sein, "
+"dass zusätzliche Zeilen vorhanden sein können, und sollten diese ignorieren, "
+"falls dies der Fall ist."
+
+#: deb-split.5:28
+msgid ""
+"If the version number has changed, an incompatible change has been made and "
+"the program should stop. If it has not, then the program should be able to "
+"safely continue, unless it encounters an unexpected member in the archive "
+"(except at the end), as described below."
+msgstr ""
+"Falls sich die Versionsnummer geändert hat, wurde eine inkompatible Änderung "
+"durchgeführt und das Programm sollte sich beenden. Falls dies nicht der Fall "
+"ist, dann sollte das Programm sicher fortfahren können, es sei denn, ein "
+"unerwartetes Mitglied ist im Archiv (abgesehen vom Ende) gefunden worden, "
+"wie unten beschrieben."
+
+#: deb-split.5:31
+msgid ""
+"The second, last required member is named B<data.>N, where N denotes the "
+"part number. It contains the raw part data."
+msgstr ""
+"Das zweite, letzte benötigte Mitglied heißt B<data.>N, wobei N die Teilnummer "
+"angibt. Es enthält die rohen Daten des Teils."
+
+#: deb-split.5:36
+msgid ""
+"These members must occur in this exact order. Current implementations should "
+"ignore any additional members after B<data.>N.  Further members may be "
+"defined in the future, and (if possible) will be placed after these two."
+msgstr ""
+"Diese Mitglieder müssen in genau dieser Reihenfolge auftauchen. Aktuelle "
+"Implementationen sollten zusätzliche Mitglieder nach B<data.>N ignorieren. "
+"Weitere Mitglieder könnten in der Zukunft definiert werden und werden (falls "
+"möglich) nach diesen drei platziert."
+
+#: deb-split.5:38
+msgid "B<deb>(5), B<dpkg-split>(1)."
+msgstr "B<deb>(5), B<dpkg-split>(1)."
 
 #. type: TH
 #: deb-version.5:5
@@ -15553,7 +15646,7 @@ msgstr ""
 #~ "The third, last required member is named B<data.tar.gz>.  It contains the "
 #~ "filesystem archive as a gzipped tar archive."
 #~ msgstr ""
-#~ "Das dritte und letzte benötigte Mitglied heißt B<data.tar.gz>. Es enthält "
+#~ "Das dritte, letzte benötigte Mitglied heißt B<data.tar.gz>. Es enthält "
 #~ "das Dateisystemarchiv als gezipptes Tar-Archiv."
 
 #~ msgid "2008-01-30"
