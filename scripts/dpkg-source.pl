@@ -3,6 +3,16 @@
 #
 # dpkg-source
 #
+# Copyright © 1996 Ian Jackson <ian@davenant.greenend.org.uk>
+# Copyright © 1997 Klee Dienes <klee@debian.org>
+# Copyright © 1999-2003 Wichert Akkerman <wakkerma@debian.org>
+# Copyright © 1999 Ben Collins <bcollins@debian.org>
+# Copyright © 2000-2003 Adam Heath <doogie@debian.org>
+# Copyright © 2005 Brendan O'Dea <bod@debian.org>
+# Copyright © 2006-2008 Frank Lichtenheld <djpig@debian.org>
+# Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -386,7 +396,8 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     print _g("
-Copyright (C) 1996 Ian Jackson and Klee Dienes.
+Copyright (C) 1996 Ian Jackson
+Copyright (C) 1997 Klee Dienes
 Copyright (C) 2008 Raphael Hertzog");
 
     print _g("

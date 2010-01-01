@@ -1,3 +1,6 @@
+# Copyright © 2005 Scott James Remnant <scott@netsplit.com>
+# Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+
 # _DPKG_ARCHITECTURE([DEB_VAR], [sh_var])
 # ---------------------------------------
 # Use dpkg-architecture from the source tree to set sh_var using DEB_VAR for

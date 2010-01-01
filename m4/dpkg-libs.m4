@@ -1,3 +1,7 @@
+# Copyright © 2004 Scott James Remnant <scott@netsplit.com>
+# Copyright © 2007 Nicolas François <nicolas.francois@centraliens.net>
+# Copyright © 2006, 2009 Guillem Jover <guillem@debian.org>
+
 # DPKG_WITH_COMPRESS_LIB(NAME, HEADER, FUNC, LINK)
 # -------------------------------------------------
 # Check for availability of a compression library.

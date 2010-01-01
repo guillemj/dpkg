@@ -1,3 +1,4 @@
+# Copyright © 2005 Scott James Remnant <scott@netsplit.com>
 # Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
 
 # DPKG_FUNC_VA_COPY

@@ -1,4 +1,5 @@
-# Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
+# Copyright © 2004 Scott James Remnant <scott@netsplit.com>
+# Copyright © 2006, 2009 Guillem Jover <guillem@debian.org>
 
 # DPKG_COMPILER_WARNINGS
 # ---------------------

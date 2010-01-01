@@ -1,3 +1,7 @@
+# Copyright © 2005 Scott James Remnant <scott@netsplit.com>
+# Copyright © 2007 Frank Lichtenheld <djpig@debian.org>
+# Copyright © 2007, 2009 Guillem Jover <guillem@debian.org>
+
 # DPKG_PROG_PERL
 # --------------
 # Locate perl interpreter in the path

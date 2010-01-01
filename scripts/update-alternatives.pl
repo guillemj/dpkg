@@ -2,6 +2,12 @@
 #
 # update-alternatives
 #
+# Copyright © 1995 Ian Jackson <ian@davenant.greenend.org.uk>
+# Copyright © 2000-2002 Wichert Akkerman <wakkerma@debian.org>
+# Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2008 Pierre Habouzit <madcoder@debian.org>
+# Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or

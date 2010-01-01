@@ -2,6 +2,10 @@
  * libdpkg - Debian packaging suite library routines
  * compression.c - compression support functions
  *
+ * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2004 Scott James Remnant <scott@netsplit.com>
+ * Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
