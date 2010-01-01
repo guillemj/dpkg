@@ -39,6 +39,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/buffer.h>
+#include <dpkg/compress.h>
 
 static void
 fd_fd_filter(int fd_in, int fd_out,

@@ -43,6 +43,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/compress.h>
 #include <dpkg/myopt.h>
 
 #include "dpkg-deb.h"

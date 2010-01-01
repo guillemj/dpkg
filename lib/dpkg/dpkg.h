@@ -106,9 +106,6 @@ DPKG_BEGIN_DECLS
 #define DEBSIGVERIFY	"/usr/bin/debsig-verify"
 
 #define TAR		"tar"
-#define GZIP		"gzip"
-#define BZIP2		"bzip2"
-#define LZMA		"lzma"
 #define RM		"rm"
 #define FIND		"find"
 #define DIFF		"diff"
@@ -210,21 +207,6 @@ int cisspace(int c);
 
 int fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn);
 int fgets_must(char *buf, size_t bufsz, FILE *f, const char *fn);
-
-/*** from compression.c ***/
-
-enum compress_type {
-  compress_type_cat,
-  compress_type_gzip,
-  compress_type_bzip2,
-  compress_type_lzma,
-};
-
-void decompress_cat(enum compress_type type, int fd_in, int fd_out,
-                    const char *desc, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(4);
-void compress_cat(enum compress_type type, int fd_in, int fd_out,
-                  const char *compression, const char *desc, ...)
-                  DPKG_ATTR_NORET DPKG_ATTR_PRINTF(5);
 
 DPKG_END_DECLS
 

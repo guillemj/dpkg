@@ -48,6 +48,7 @@
 #include <dpkg/path.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
+#include <dpkg/compress.h>
 #include <dpkg/myopt.h>
 
 #include "dpkg-deb.h"
