@@ -62,19 +62,19 @@ struct	TarInfo {
 	gid_t		GroupID;	/* Numeric GID */
 };
 
-typedef	int	(*TarReadFunction)(void * userData, char * buffer, int length);
+typedef int (*tar_read_func)(void * userData, char * buffer, int length);
+typedef int (*tar_func)(struct TarInfo * h);
 
-typedef int	(*TarFunction)(struct TarInfo * h);
+struct tar_operations {
+	tar_read_func read;
 
-struct TarFunctions {
-	TarReadFunction	Read;
-	TarFunction	ExtractFile;
-	TarFunction	MakeDirectory;
-	TarFunction	MakeHardLink;
-	TarFunction	MakeSymbolicLink;
-	TarFunction	MakeSpecialFile;
+	tar_func extract_file;
+	tar_func link;
+	tar_func symlink;
+	tar_func mkdir;
+	tar_func mknod;
 };
 
-int TarExtractor(void *userData, const struct TarFunctions *ops);
+int TarExtractor(void *userData, const struct tar_operations *ops);
 
 #endif

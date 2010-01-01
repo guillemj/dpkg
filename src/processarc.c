@@ -73,13 +73,13 @@ summarize_filename(const char *filename)
 }
 
 void process_archive(const char *filename) {
-  static const struct TarFunctions tf = {
-    .Read = tarfileread,
-    .ExtractFile = tarobject,
-    .MakeDirectory = tarobject,
-    .MakeHardLink = tarobject,
-    .MakeSymbolicLink = tarobject,
-    .MakeSpecialFile = tarobject,
+  static const struct tar_operations tf = {
+    .read = tarfileread,
+    .extract_file = tarobject,
+    .link = tarobject,
+    .symlink = tarobject,
+    .mkdir = tarobject,
+    .mknod = tarobject,
   };
 
   /* These need to be static so that we can pass their addresses to
