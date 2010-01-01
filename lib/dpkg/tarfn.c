@@ -191,8 +191,7 @@ TarExtractor(void *userData, const TarFunctions *ops)
 
 	next_long_name = NULL;
 	next_long_link = NULL;
-	symlink_tail = symlink_node = symlink_head = m_malloc(sizeof(symlinkList));
-	symlink_head->next = NULL;
+	symlink_tail = symlink_head = NULL;
 
 	h.Name = NULL;
 	h.LinkName = NULL;
@@ -252,13 +251,17 @@ TarExtractor(void *userData, const TarFunctions *ops)
 			status = ops->MakeHardLink(&h);
 			break;
 		case SymbolicLink:
-			memcpy(&symlink_tail->h, &h, sizeof(TarInfo));
-			symlink_tail->h.Name = m_strdup(h.Name);
-			symlink_tail->h.LinkName = m_strdup(h.LinkName);
-			symlink_tail->next = m_malloc(sizeof(symlinkList));
+			symlink_node = m_malloc(sizeof(*symlink_node));
+			memcpy(&symlink_node->h, &h, sizeof(TarInfo));
+			symlink_node->h.Name = m_strdup(h.Name);
+			symlink_node->h.LinkName = m_strdup(h.LinkName);
+			symlink_node->next = NULL;
 
-			symlink_tail = symlink_tail->next;
-			symlink_tail->next = NULL;
+			if (symlink_head)
+				symlink_tail->next = symlink_node;
+			else
+				symlink_head = symlink_node;
+			symlink_tail = symlink_node;
 			status = 0;
 			break;
 		case CharacterDevice:
@@ -327,16 +330,15 @@ TarExtractor(void *userData, const TarFunctions *ops)
 			break;
 	}
 
-	while (symlink_node->next) {
+	while (symlink_head) {
+		symlink_node = symlink_head->next;
 		if (status == 0)
-			status = ops->MakeSymbolicLink(&symlink_node->h);
-		symlink_tail = symlink_node->next;
-		free(symlink_node->h.Name);
-		free(symlink_node->h.LinkName);
-		free(symlink_node);
-		symlink_node = symlink_tail;
+			status = ops->MakeSymbolicLink(&symlink_head->h);
+		free(symlink_head->h.Name);
+		free(symlink_head->h.LinkName);
+		free(symlink_head);
+		symlink_head = symlink_node;
 	}
-	free(symlink_node);
 	free(h.Name);
 	free(h.LinkName);
 
