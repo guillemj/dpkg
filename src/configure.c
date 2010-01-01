@@ -488,7 +488,7 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 static void
 showdiff(const char *old, const char *new)
 {
-	int pid;
+	pid_t pid;
 
 	pid = subproc_fork();
 	if (!pid) {
@@ -526,7 +526,7 @@ static void
 suspend(void)
 {
 	const char *env;
-	int pid;
+	pid_t pid;
 
 	env = getenv(NOJOBCTRLSTOPENV);
 	if (env && *env) {
