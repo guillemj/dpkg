@@ -493,21 +493,22 @@ showdiff(const char *old, const char *new)
 	pid = subproc_fork();
 	if (!pid) {
 		/* Child process. */
-		const char *p;		/* pager */
-		const char *s;		/* shell */
+		const char *pager;
+		const char *shell;
 		char cmdbuf[1024];	/* command to run */
 
-		p = getenv(PAGERENV);
-		if (!p || !*p)
-			p = DEFAULTPAGER;
+		pager = getenv(PAGERENV);
+		if (!pager || !*pager)
+			pager = DEFAULTPAGER;
 
-		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s", old, new, p);
+		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",
+		        old, new, pager);
 
-		s = getenv(SHELLENV);
-		if (!s || !*s)
-			s = DEFAULTSHELL;
+		shell = getenv(SHELLENV);
+		if (!shell || !*shell)
+			shell = DEFAULTSHELL;
 
-		execlp(s, s, "-c", cmdbuf, NULL);
+		execlp(shell, shell, "-c", cmdbuf, NULL);
 		ohshite(_("failed to run %s (%.250s)"), DIFF, cmdbuf);
 	}
 
@@ -524,11 +525,11 @@ showdiff(const char *old, const char *new)
 static void
 suspend(void)
 {
-	const char *s;
+	const char *env;
 	int pid;
 
-	s = getenv(NOJOBCTRLSTOPENV);
-	if (s && *s) {
+	env = getenv(NOJOBCTRLSTOPENV);
+	if (env && *env) {
 		/* Do not job control to suspend but fork and start a new
 		 * shell instead. */
 
@@ -537,12 +538,14 @@ suspend(void)
 		pid = subproc_fork();
 		if (!pid) {
 			/* Child process */
-			s = getenv(SHELLENV);
-			if (!s || !*s)
-				s = DEFAULTSHELL;
+			const char *shell;
 
-			execlp(s, s, "-i", NULL);
-			ohshite(_("failed to exec shell (%.250s)"), s);
+			shell = getenv(SHELLENV);
+			if (!shell || !*shell)
+				shell = DEFAULTSHELL;
+
+			execlp(shell, shell, "-i", NULL);
+			ohshite(_("failed to exec shell (%.250s)"), shell);
 		}
 
 		/* Parent process. */
