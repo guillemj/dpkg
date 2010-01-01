@@ -21,7 +21,7 @@ libdpkg_a_SOURCES = \
 	dlist.h \
 	buffer.c buffer.h \
 	cleanup.c \
-	compression.c \
+	compress.c \
 	database.c \
 	dbmodify.c \
 	dump.c \

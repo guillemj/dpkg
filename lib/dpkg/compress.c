@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * compression.c - compression support functions
+ * compress.c - compression support functions
  *
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2004 Scott James Remnant <scott@netsplit.com>
