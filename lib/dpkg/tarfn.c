@@ -164,7 +164,8 @@ DecodeTarHeader(char * block, TarInfo * d)
 		sum += *s++;
 	/* Skip the real checksum field. */
 	s += sizeof(h->Checksum);
-	for (i = (512 - TarChecksumOffset - sizeof(h->Checksum)); i > 0; i--)
+	for (i = (TARBLKSZ - TarChecksumOffset - sizeof(h->Checksum));
+	     i > 0; i--)
 		sum += *s++;
 
 	return (sum == checksum);
@@ -179,7 +180,7 @@ int
 TarExtractor(void *userData, const TarFunctions *ops)
 {
 	int status;
-	char buffer[512];
+	char buffer[TARBLKSZ];
 	TarInfo h;
 
 	char *next_long_name, *next_long_link;
@@ -197,7 +198,7 @@ TarExtractor(void *userData, const TarFunctions *ops)
 	h.LinkName = NULL;
 	h.UserData = userData;
 
-	while ((status = ops->Read(userData, buffer, 512)) == 512) {
+	while ((status = ops->Read(userData, buffer, TARBLKSZ)) == TARBLKSZ) {
 		int nameLength;
 
 		if (!DecodeTarHeader(buffer, &h)) {
@@ -289,12 +290,12 @@ TarExtractor(void *userData, const TarFunctions *ops)
 			 *   “real” header with a bogus name or link. */
 			for (long_read = h.Size;
 			     long_read > 0;
-			     long_read -= 512) {
+			     long_read -= TARBLKSZ) {
 				int copysize;
 
-				status = ops->Read(userData, buffer, 512);
-				/* If we didn't get 512 bytes read, punt. */
-				if (512 != status) {
+				status = ops->Read(userData, buffer, TARBLKSZ);
+				/* If we didn't get TARBLKSZ bytes read, punt. */
+				if (status != TARBLKSZ) {
 					 /* Read partial header record? */
 					if (status > 0) {
 						errno = 0;
@@ -302,7 +303,7 @@ TarExtractor(void *userData, const TarFunctions *ops)
 					}
 					break;
 				}
-				copysize = min(long_read, 512);
+				copysize = min(long_read, TARBLKSZ);
 				memcpy (bp, buffer, copysize);
 				bp += copysize;
 			};
