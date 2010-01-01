@@ -47,7 +47,6 @@ enum TarFileType {
 	GNU_LONGLINK = 'K',
 	GNU_LONGNAME = 'L'
 };
-typedef enum TarFileType	TarFileType;
 
 struct	TarInfo {
 	enum tar_format	format;		/* Tar archive format. */
@@ -56,17 +55,16 @@ struct	TarInfo {
 	mode_t		Mode;		/* Unix mode, including device bits. */
 	size_t		Size;		/* Size of file */
 	time_t		ModTime;	/* Last-modified time */
-	TarFileType	Type;		/* Regular, Directory, Special, Link */
+	enum TarFileType Type;		/* Regular, Directory, Special, Link */
 	char *		LinkName;	/* Name for symbolic and hard links */
 	dev_t		Device;		/* Special device for mknod() */
 	uid_t		UserID;		/* Numeric UID */
 	gid_t		GroupID;	/* Numeric GID */
 };
-typedef struct TarInfo	TarInfo;
 
 typedef	int	(*TarReadFunction)(void * userData, char * buffer, int length);
 
-typedef int	(*TarFunction)(TarInfo * h);
+typedef int	(*TarFunction)(struct TarInfo * h);
 
 struct TarFunctions {
 	TarReadFunction	Read;
@@ -76,8 +74,7 @@ struct TarFunctions {
 	TarFunction	MakeSymbolicLink;
 	TarFunction	MakeSpecialFile;
 };
-typedef struct TarFunctions	TarFunctions;
 
-int TarExtractor(void *userData, const TarFunctions *ops);
+int TarExtractor(void *userData, const struct TarFunctions *ops);
 
 #endif

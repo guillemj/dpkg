@@ -53,9 +53,8 @@ struct TarHeader {
 	char MinorDevice[8];
 	char Prefix[155];	/* Only valid on ustar. */
 };
-typedef struct TarHeader TarHeader;
 
-static const size_t TarChecksumOffset = offsetof(TarHeader, Checksum);
+static const size_t TarChecksumOffset = offsetof(struct TarHeader, Checksum);
 
 /* Octal-ASCII-to-long */
 static long
@@ -91,7 +90,7 @@ StoC(const char *s, int size)
 
 /* FIXME: Rewrite using varbuf, once it supports the needed functionality. */
 static char *
-get_prefix_name(TarHeader *h)
+get_prefix_name(struct TarHeader *h)
 {
 	char *prefix, *name, *s;
 
@@ -112,9 +111,9 @@ get_prefix_name(TarHeader *h)
 }
 
 static int
-DecodeTarHeader(char * block, TarInfo * d)
+DecodeTarHeader(char *block, struct TarInfo *d)
 {
-	TarHeader *h = (TarHeader *)block;
+	struct TarHeader *h = (struct TarHeader *)block;
 	unsigned char *s = (unsigned char *)block;
 	struct passwd *passwd = NULL;
 	struct group *group = NULL;
@@ -150,7 +149,7 @@ DecodeTarHeader(char * block, TarInfo * d)
 	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
 	d->UserID = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
 	d->GroupID = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
-	d->Type = (TarFileType)h->LinkFlag;
+	d->Type = (enum TarFileType)h->LinkFlag;
 
 	if (passwd)
 		d->UserID = passwd->pw_uid;
@@ -171,23 +170,23 @@ DecodeTarHeader(char * block, TarInfo * d)
 	return (sum == checksum);
 }
 
-typedef struct symlinkList {
-	TarInfo h;
+struct symlinkList {
+	struct TarInfo h;
 	struct symlinkList *next;
-} symlinkList;
+};
 
 int
-TarExtractor(void *userData, const TarFunctions *ops)
+TarExtractor(void *userData, const struct TarFunctions *ops)
 {
 	int status;
 	char buffer[TARBLKSZ];
-	TarInfo h;
+	struct TarInfo h;
 
 	char *next_long_name, *next_long_link;
 	char *bp;
 	char **longp;
 	int long_read;
-	symlinkList *symlink_head, *symlink_tail, *symlink_node;
+	struct symlinkList *symlink_head, *symlink_tail, *symlink_node;
 
 	next_long_name = NULL;
 	next_long_link = NULL;
@@ -252,7 +251,7 @@ TarExtractor(void *userData, const TarFunctions *ops)
 			break;
 		case SymbolicLink:
 			symlink_node = m_malloc(sizeof(*symlink_node));
-			memcpy(&symlink_node->h, &h, sizeof(TarInfo));
+			memcpy(&symlink_node->h, &h, sizeof(struct TarInfo));
 			symlink_node->h.Name = m_strdup(h.Name);
 			symlink_node->h.LinkName = m_strdup(h.LinkName);
 			symlink_node->next = NULL;
