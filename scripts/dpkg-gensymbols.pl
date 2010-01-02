@@ -63,7 +63,7 @@ sub usage {
 Options:
   -p<package>              generate symbols file for package.
   -P<packagebuilddir>      temporary build dir instead of debian/tmp.
-  -e<library>              explicitely list libraries to scan.
+  -e<library>              explicitly list libraries to scan.
   -v<version>              version of the packages (defaults to
                            version extracted from debian/changelog).
   -c<level>                compare generated symbols file with the
@@ -255,7 +255,7 @@ if ($compare) {
 	my $list = _g("see diff output below");
 	if ($symfile->used_wildcards()) {
 	    # If wildcards are used, we don't get a diff, so list
-	    # explicitely symbols which are lost
+	    # explicitly symbols which are lost
 	    $list = "\n";
 	    my $cur_soname = "";
 	    foreach my $sym (sort { $a->{soname} cmp $b->{soname} or
