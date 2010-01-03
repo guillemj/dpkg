@@ -151,8 +151,8 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
         gzFile gzfile;
         strncpy(combuf, "w9", sizeof(combuf));
         combuf[1]= *compression;
-        gzfile = gzdopen(1, combuf);
-        while((actualread = read(0,buffer,sizeof(buffer))) > 0) {
+        gzfile = gzdopen(fd_out, combuf);
+        while ((actualread = read(fd_in, buffer, sizeof(buffer))) > 0) {
           if (actualread < 0 ) {
             if (errno == EINTR) continue;
             ohshite(_("%s: internal gzip error: read: `%s'"), v.buf, strerror(errno));
@@ -186,8 +186,8 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
         BZFILE *bzfile;
         strncpy(combuf, "w9", sizeof(combuf));
         combuf[1]= *compression;
-        bzfile = BZ2_bzdopen(1, combuf);
-        while((actualread = read(0,buffer,sizeof(buffer))) > 0) {
+        bzfile = BZ2_bzdopen(fd_out, combuf);
+        while ((actualread = read(fd_in, buffer, sizeof(buffer))) > 0) {
           if (actualread < 0 ) {
             if (errno == EINTR) continue;
             ohshite(_("%s: internal bzip2 error: read: `%s'"), v.buf, strerror(errno));
