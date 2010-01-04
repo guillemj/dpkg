@@ -30,7 +30,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <dirent.h>
-#include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>

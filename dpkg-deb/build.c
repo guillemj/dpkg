@@ -33,7 +33,6 @@
 #include <string.h>
 #include <time.h>
 #include <dirent.h>
-#include <signal.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdlib.h>
