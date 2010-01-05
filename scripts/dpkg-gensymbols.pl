@@ -40,6 +40,7 @@ my $compare = 1; # Bail on missing symbols by default
 my $input;
 my $output;
 my $template_mode = 0; # non-template mode by default
+my $verbose_output = 0;
 my $debug = 0;
 my $host_arch = get_host_arch();
 
@@ -78,6 +79,9 @@ Options:
   -O                       write to stdout, not .../DEBIAN/symbols.
   -t                       write in template mode (tags are not
                            processed and included in output).
+  -V                       verbose output. Write deprecated symbols and
+                           pattern matching symbols as comments
+                           (in template mode only).
   -d                       display debug information during work.
   -h, --help               show this help message.
       --version            show the version.
@@ -115,6 +119,8 @@ while (@ARGV) {
 	$output = $1;
     } elsif (m/^-t$/) {
 	$template_mode = 1;
+    } elsif (m/^-V$/) {
+	$verbose_output = 1;
     } elsif (m/^-(h|-help)$/) {
 	usage();
 	exit(0);
@@ -210,7 +216,9 @@ $symfile->clear_except(keys %{$od->{objects}});
 if ($stdout) {
     $output = _g("<standard output>");
     $symfile->save("-", package => $oppackage,
-                   template_mode => $template_mode, with_deprecated => 0);
+                   template_mode => $template_mode,
+                   with_pattern_matches => $verbose_output,
+                   with_deprecated => $verbose_output);
 } else {
     unless (defined($output)) {
 	unless($symfile->is_empty()) {
@@ -221,7 +229,9 @@ if ($stdout) {
     if (defined($output)) {
 	print "Storing symbols in $output.\n" if $debug;
 	$symfile->save($output, package => $oppackage,
-                       template_mode => $template_mode, with_deprecated => 0);
+	               template_mode => $template_mode,
+	               with_pattern_matches => $verbose_output,
+	               with_deprecated => $verbose_output);
     } else {
 	print "No symbol information to store.\n" if $debug;
     }
@@ -242,60 +252,38 @@ if ($compare) {
 	$exitcode = 3 if ($compare >= 3);
     }
     if ($symfile->get_new_symbols($ref_symfile)) {
-	unless ($symfile->used_wildcards()) {
-	    # Wildcards are used to replace many additional symbols, so we
-	    # have no idea if this is really true, so don't say it and
-	    # don't check it
-	    warning(_g("some new symbols appeared in the symbols file: %s"),
-		    _g("see diff output below"));
-	    $exitcode = 2 if ($compare >= 2);
-	}
+	warning(_g("some new symbols appeared in the symbols file: %s"),
+		_g("see diff output below"));
+	$exitcode = 2 if ($compare >= 2);
     }
     if (my @syms = $symfile->get_lost_symbols($ref_symfile)) {
-	my $list = _g("see diff output below");
-	if ($symfile->used_wildcards()) {
-	    # If wildcards are used, we don't get a diff, so list
-	    # explicitly symbols which are lost
-	    $list = "\n";
-	    my $cur_soname = "";
-	    foreach my $sym (sort { $a->{soname} cmp $b->{soname} or
-				    $a->get_symboltempl() cmp $b->get_symboltempl() } @syms) {
-		if ($cur_soname ne $sym->{soname}) {
-		    $list .= $sym->{soname} . "\n";
-		    $cur_soname = $sym->{soname};
-		}
-		$list .= " " . $sym->get_symbolname() . "\n";
-	    }
-	}
-	warning(_g("some symbols disappeared in the symbols file: %s"), $list);
+	warning(_g("some symbols or patterns disappeared in the symbols file: %s"),
+	        _g("see diff output below"));
 	$exitcode = 1 if ($compare >= 1);
     }
-    unless ($symfile->used_wildcards()) {
-	# If wildcards are not used, we can compare symbols files before
-	# and after
-	my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-	my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-	$ref_symfile->dump($before, package => $oppackage, template_mode => 1);
-	$symfile->dump($after, package => $oppackage, template_mode => 1);
-	seek($before, 0, 0); seek($after, 0, 0);
-	my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
-	$md5_before->addfile($before);
-	$md5_after->addfile($after);
-	# Output diffs between symbols files if any
-	if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
-	    if (defined($ref_symfile->{file})) {
-		warning(_g("%s doesn't match completely %s"),
-			$output, $ref_symfile->{file});
-	    } else {
-		warning(_g("no debian/symbols file used as basis for generating %s"),
-			$output);
-	    }
-	    my ($a, $b) = ($before->filename, $after->filename);
-	    my $diff_label = sprintf("%s (%s %s)",
-	    ($ref_symfile->{file}) ? $ref_symfile->{file} : "new_symbol_file",
-	    $oppackage, $host_arch);
-	    system("diff", "-u", "-L", $diff_label, $a, $b) if -x "/usr/bin/diff";
+    # Compare template symbols files before and after
+    my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
+    my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
+    $ref_symfile->dump($before, package => $oppackage, template_mode => 1);
+    $symfile->dump($after, package => $oppackage, template_mode => 1);
+    seek($before, 0, 0); seek($after, 0, 0);
+    my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
+    $md5_before->addfile($before);
+    $md5_after->addfile($after);
+    # Output diffs between symbols files if any
+    if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
+	if (defined($ref_symfile->{file})) {
+	    warning(_g("%s doesn't match completely %s"),
+		    $output, $ref_symfile->{file});
+	} else {
+	    warning(_g("no debian/symbols file used as basis for generating %s"),
+		    $output);
 	}
+	my ($a, $b) = ($before->filename, $after->filename);
+	my $diff_label = sprintf("%s (%s %s)",
+	($ref_symfile->{file}) ? $ref_symfile->{file} : "new_symbol_file",
+	$oppackage, $host_arch);
+	system("diff", "-u", "-L", $diff_label, $a, $b) if -x "/usr/bin/diff";
     }
 }
 exit($exitcode);

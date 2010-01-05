@@ -95,7 +95,6 @@ sub new {
 sub clear {
     my ($self) = @_;
     $self->{objects} = {};
-    $self->{used_wildcards} = 0;
 }
 
 sub clear_except {
@@ -418,7 +417,6 @@ sub create_object {
     $self->{objects}{$soname} = {
 	syms => {},
 	fields => {},
-	wildcards => {},
 	patterns => {
 	    aliases => {},
 	    generic => [],
@@ -462,22 +460,6 @@ sub get_field {
 	return $self->{objects}{$soname}{fields}{$name};
     }
     return undef;
-}
-
-sub contains_wildcards {
-    my ($self) = @_;
-    my $res = 0;
-    foreach my $soname (sort keys %{$self->{objects}}) {
-	if (scalar keys %{$self->{objects}{$soname}{wildcards}}) {
-	    $res = 1;
-	}
-    }
-    return $res;
-}
-
-sub used_wildcards {
-    my ($self) = @_;
-    return $self->{used_wildcards};
 }
 
 sub lookup_symbol {
