@@ -150,8 +150,8 @@ test_cases = \
 	t/900_update_alternatives.t
 
 check_DATA = \
-	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.tags-amd64 \
-	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.tags-i386
+	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 \
+	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386
 
 test_data = \
 	t/200_Dpkg_Shlibs/symbols.fake-1 \
@@ -160,8 +160,8 @@ test_data = \
 	t/200_Dpkg_Shlibs/symbols.include-1 \
 	t/200_Dpkg_Shlibs/symbols.include-2 \
 	t/200_Dpkg_Shlibs/symbols.include-3 \
-	t/200_Dpkg_Shlibs/symbols.tags.in \
-	t/200_Dpkg_Shlibs/symboltags.c \
+	t/200_Dpkg_Shlibs/basictags.symbols \
+	t/200_Dpkg_Shlibs/basictags.c \
 	t/200_Dpkg_Shlibs/ld.so.conf \
 	t/200_Dpkg_Shlibs/ld.so.conf_2 \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/normal.conf \
@@ -193,11 +193,11 @@ check: $(test_data) $(test_cases)
 	          $(addprefix $(srcdir)/,$(test_cases))
 
 objdump_lib_name = lib`basename $@`.so
-$(test_tmpdir)/200_Dpkg_Shlibs/objdump.tags-amd64 $(test_tmpdir)/200_Dpkg_Shlibs/objdump.tags-i386: $(srcdir)/t/200_Dpkg_Shlibs/symboltags.c
+$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 $(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
 	$(mkdir_p) $(test_tmpdir)/200_Dpkg_Shlibs
-	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libsymboltags.so.1 $< \
+	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
 	  $(if $(findstring amd64,$@),-DAMD64,) -o $(objdump_lib_name)
 	objdump -w -f -p -T -R $(objdump_lib_name) | \
-	  sed "s/$(objdump_lib_name)/libsymboltags.so.1/g" > $@
+	  sed "s/$(objdump_lib_name)/libbasictags.so.1/g" > $@
 	rm -f $(objdump_lib_name)
 
