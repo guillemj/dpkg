@@ -22,6 +22,7 @@ use Dpkg::Gettext;
 use Dpkg::Deps;
 use Dpkg::ErrorHandling;
 use Storable qw();
+use Dpkg::Shlibs::Cppfilt;
 
 sub new {
     my $this = shift;
@@ -136,10 +137,35 @@ sub parse {
     return 1;
 }
 
-# A hook for processing of tags which may change symbol name.
-# Called from Dpkg::Shlibs::SymbolFile::load(). Empty for now.
-sub process_tags {
+# A hook for symbol initialization (typically processing of tags). The code
+# here may even change symbol name. Called from
+# Dpkg::Shlibs::SymbolFile::load().
+sub initialize {
     my $self = shift;
+
+    # Look for tags marking symbol patterns. The pattern may match multiple
+    # real symbols.
+    if ($self->has_tag('c++')) {
+	# Raw symbol name is always demangled to the same alias while demangled
+	# symbol name cannot be reliably converted back to raw symbol name.
+	# Therefore, we can use hash for mapping.
+	$self->init_pattern('alias-c++'); # Alias subtype is c++.
+    }
+    # Wildcard is an alias based pattern. It gets recognized here even if it is
+    # not specially tagged.
+    if (my $ver = $self->get_wildcard_version()) {
+	error(_g("you can't use wildcards on unversioned symbols: %s"), $_) if $ver eq "Base";
+	$self->init_pattern(($self->is_pattern()) ? 'generic' : 'alias-wildcard');
+	$self->{pattern}{wildcard} = 1;
+    }
+    # As soon as regex is involved, we need to match each real
+    # symbol against each pattern (aka 'generic' pattern).
+    if ($self->has_tag('regex')) {
+	$self->init_pattern('generic');
+	# Pre-compile regular expression for better performance.
+	my $regex = $self->get_symbolname();
+	$self->{pattern}{regex} = qr/$regex/;
+    }
 }
 
 sub get_symbolname {
@@ -314,6 +340,25 @@ sub create_pattern_match {
 }
 
 ### END of pattern subroutines ###
+
+# Given a raw symbol name the call returns its alias according to the rules of
+# the current pattern ($self). Returns undef if the supplied raw name is not
+# transformable to alias.
+sub convert_to_alias {
+    my $self = shift;
+    my $rawname = shift;
+    my $type = shift || $self->get_alias_type();
+    if ($type) {
+	if ($type eq 'wildcard') {
+	    # In case of wildcard, alias is like "*@SYMBOL_VERSION". Extract
+	    # symbol version from the rawname.
+	    return "*\@$1" if ($rawname =~ /\@([^@]+)$/);
+	} elsif ($rawname =~ /^_Z/ && $type eq "c++") {
+	    return cppfilt_demangle($rawname, "gnu-v3");
+	}
+    }
+    return undef;
+}
 
 sub get_tagspec {
     my ($self) = @_;

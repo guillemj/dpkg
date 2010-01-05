@@ -107,15 +107,30 @@ sub add_symbol {
     my ($self, $soname, $symbol) = @_;
     my $object = (ref $soname) ? $soname : $self->{objects}{$soname};
 
-    if (!$symbol->{deprecated} && (my $ver = $symbol->get_wildcard_version())) {
-	error(_g("you can't use wildcards on unversioned symbols: %s"), $_) if $ver eq "Base";
-	$object->{wildcards}{$ver} = $symbol;
-	return 'wildcards';
+    if ($symbol->is_pattern()) {
+	if (my $alias_type = $symbol->get_alias_type()) {
+	    unless (exists $object->{patterns}{aliases}{$alias_type}) {
+		$object->{patterns}{aliases}{$alias_type} = {};
+	    }
+	    my $aliases = $object->{patterns}{aliases}{$alias_type};
+	    # A converter object for transforming a raw symbol name to alias
+	    # of this type. Must support convert_to_alias() method.
+	    unless (exists $aliases->{converter}) {
+		$aliases->{converter} = $symbol;
+	    }
+	    # Alias hash for matching.
+	    $aliases->{names}{$symbol->get_symbolname()} = $symbol;
+	} else {
+	    # Otherwise assume this is a generic sequential pattern. This
+	    # should be always safe.
+	    push @{$object->{patterns}{generic}}, $symbol;
+	}
+	return 'pattern';
     } else {
 	# invalidate the minimum version cache
         $object->{minver_cache} = [];
 	$object->{syms}{$symbol->get_symbolname()} = $symbol;
-	return 'syms';
+	return 'sym';
     }
 }
 
@@ -153,7 +168,7 @@ sub load {
 	    my $deprecated = ($1) ? $1 : 0;
 	    my $sym = new_symbol($base_symbol, deprecated => $deprecated);
 	    if ($sym->parse($2)) {
-		$sym->process_tags(arch => $self->{arch});
+		$sym->initialize(arch => $self->{arch});
 		$self->add_symbol($$obj_ref, $sym);
 	    } else {
 		warning(_g("Failed to parse line in %s: %s"), $file, $_);
@@ -363,6 +378,10 @@ sub create_object {
 	syms => {},
 	fields => {},
 	wildcards => {},
+	patterns => {
+	    aliases => {},
+	    generic => [],
+	},
 	deps => [ @deps ],
         minver_cache => []
     };
