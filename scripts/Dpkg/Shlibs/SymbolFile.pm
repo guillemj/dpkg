@@ -246,27 +246,27 @@ sub dump {
     $opts{with_deprecated} = 1 unless exists $opts{with_deprecated};
     foreach my $soname (sort keys %{$self->{objects}}) {
 	my @deps = @{$self->{objects}{$soname}{deps}};
-        my $dep = shift @deps;
-        $dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	my $dep = shift @deps;
+	$dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
 	print $fh "$soname $dep\n";
-        foreach $dep (@deps) {
-            $dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	foreach $dep (@deps) {
+	    $dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
 	    print $fh "| $dep\n";
-        }
+	}
 	my $f = $self->{objects}{$soname}{fields};
-        foreach my $field (sort keys %{$f}) {
-            my $value = $f->{$field};
-            $value =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	foreach my $field (sort keys %{$f}) {
+	    my $value = $f->{$field};
+	    $value =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
 	    print $fh "* $field: $value\n";
-        }
+	}
 	my $syms = $self->{objects}{$soname}{syms};
 	foreach my $name (sort { $syms->{$a}->get_symboltempl() cmp
-                                 $syms->{$b}->get_symboltempl() } keys %$syms) {
+	                         $syms->{$b}->get_symboltempl() } keys %$syms) {
 	    my $sym = $self->{objects}{$soname}{syms}{$name};
 	    next if $sym->{deprecated} and not $opts{with_deprecated};
 	    # Do not dump symbols from foreign arch unless dumping a template.
 	    next if not $opts{template_mode} and
-                    not $sym->arch_is_concerned($self->{arch});
+	            not $sym->arch_is_concerned($self->{arch});
 	    # Dump symbol specification. Dump symbol tags only in template mode.
 	    print $fh $sym->get_symbolspec($opts{template_mode}) . "\n";
 	}
