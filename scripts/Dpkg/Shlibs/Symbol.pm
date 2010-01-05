@@ -436,4 +436,13 @@ sub mark_not_found_in_library {
     }
 }
 
+# Quickly checks if the symbol (or pattern) can be considered as new due to its
+# status or current environment settings.
+sub is_eligible_as_new {
+    my ($self, $arch) = @_;
+    return ! $self->{deprecated} &&
+           ! $self->is_optional() &&
+           $self->arch_is_concerned($arch);
+}
+
 1;

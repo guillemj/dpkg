@@ -439,16 +439,15 @@ sub get_new_symbols {
 	my $mysyms = $self->{objects}{$soname}{syms};
 	next if not exists $ref->{objects}{$soname};
 	my $refsyms = $ref->{objects}{$soname}{syms};
-	foreach my $sym (grep { not $mysyms->{$_}{deprecated} and
-	                        not $mysyms->{$_}->is_optional() and
-	                        $mysyms->{$_}->arch_is_concerned($self->{arch})
-                              } keys %{$mysyms})
+	foreach my $sym (grep { $_->is_eligible_as_new($self->{arch}) }
+	                      values %$mysyms)
 	{
-	    if ((not exists $refsyms->{$sym}) or
-		$refsyms->{$sym}{deprecated} or
-		not $refsyms->{$sym}->arch_is_concerned($self->{arch}) )
+	    my $refsym = $refsyms->{$sym->get_symbolname()};
+	    if ((not defined $refsym) or
+		$refsym->{deprecated} or
+		not $refsym->arch_is_concerned($self->{arch}) )
 	    {
-		push @res, $mysyms->{$sym}->sclone(soname => $soname);
+		push @res, $sym->sclone(soname => $soname);
 	    }
 	}
     }
