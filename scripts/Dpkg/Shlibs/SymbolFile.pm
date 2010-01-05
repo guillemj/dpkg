@@ -125,7 +125,7 @@ sub load {
 
     sub new_symbol {
         my $base = shift || 'Dpkg::Shlibs::Symbol';
-        return (ref $base) ? $base->clone(@_) : $base->new(@_);
+        return (ref $base) ? $base->dclone(@_) : $base->new(@_);
     }
 
     if (defined($seen)) {
@@ -342,7 +342,7 @@ sub symbol_match_wildcard {
         my $w_sym = $obj->{wildcards}{$version};
         return undef unless $w_sym->arch_is_concerned($self->{arch});
         $self->{used_wildcards}++;
-        return $w_sym->clone(symbol => $name);
+        return $w_sym->dclone(symbol => $name);
     }
     return undef;
 }
@@ -430,7 +430,7 @@ sub lookup_symbol {
 	    $self->{objects}{$so}{syms}{$name}{deprecated}))
 	{
 	    my $dep_id = $self->{objects}{$so}{syms}{$name}{dep_id};
-	    my $clone = $self->{objects}{$so}{syms}{$name}->clone();
+	    my $clone = $self->{objects}{$so}{syms}{$name}->sclone();
 	    $clone->{depends} = $self->{objects}{$so}{deps}[$dep_id];
 	    $clone->{soname} = $so;
 	    return $clone;
@@ -455,7 +455,7 @@ sub get_new_symbols {
 		$refsyms->{$sym}{deprecated} or
 		not $refsyms->{$sym}->arch_is_concerned($self->{arch}) )
 	    {
-		push @res, $mysyms->{$sym}->clone(soname => $soname);
+		push @res, $mysyms->{$sym}->sclone(soname => $soname);
 	    }
 	}
     }

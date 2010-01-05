@@ -21,7 +21,7 @@ use warnings;
 use Dpkg::Gettext;
 use Dpkg::Deps;
 use Dpkg::ErrorHandling;
-use Storable qw(dclone);
+use Storable qw();
 
 sub new {
     my $this = shift;
@@ -40,15 +40,27 @@ sub new {
     return $self;
 }
 
-sub clone {
+# Shallow clone
+sub sclone {
     my $self = shift;
-    my $clone = dclone($self);
+    my $clone = { %$self };
+    if (@_) {
+	my %args=@_;
+	$clone->{$_} = $args{$_} foreach keys %args;
+    }
+    return bless $clone, ref $self;
+}
+
+# Deep clone
+sub dclone {
+    my $self = shift;
+    my $clone = Storable::dclone($self);
     if (@_) {
 	my %args=@_;
 	$clone->{$_} = $args{$_} foreach keys %args;
     }
     return $clone;
-};
+}
 
 sub parse_tagspec {
     my ($self, $tagspec) = @_;

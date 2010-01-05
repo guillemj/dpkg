@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 63;
+use Test::More tests => 65;
 use Cwd;
 use IO::String;
 
@@ -393,3 +393,13 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => 'symbol51_untagged@Base',
 		  'tags' => { 'optional' => 'from parent', 't' => 'v' },
 		  'tagorder' => [ 'optional', 't' ] ),
 	    'symbols are properly cloned when #including');
+
+# Test Symbol::sclone() and Symbol::dclone()
+$sym = Dpkg::Shlibs::Symbol->new(symbol => 'foobar', testfield => 1, teststruct => { 'foo' => 1 });
+@tmp = ( $sym->sclone(), $sym->dclone() );
+$tmp[0]->{teststruct}{foo} = 2;
+$tmp[0]->{testfield} = 2;
+$tmp[1]->{teststruct}{foo} = 3;
+$tmp[1]->{testfield} = 3;
+is ( $sym->{teststruct}{foo}, 2, 'struct changed via sclone()' );
+is ( $sym->{testfield}, 1, 'original field not changed' );
