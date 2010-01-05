@@ -79,6 +79,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Shlibs/Objdump.pm \
 	Dpkg/Shlibs/Symbol.pm \
 	Dpkg/Shlibs/SymbolFile.pm \
+	Dpkg/Shlibs/Cppfilt.pm \
 	Dpkg/Source/Archive.pm \
 	Dpkg/Source/CompressedFile.pm \
 	Dpkg/Source/Compressor.pm \
@@ -137,6 +138,7 @@ test_tmpdir = t.tmp
 test_cases = \
 	t/000_pod.t \
 	t/100_Dpkg_Version.t \
+	t/190_Dpkg_Shlibs_Cppfilt.t \
 	t/200_Dpkg_Shlibs.t \
 	t/300_Dpkg_BuildOptions.t \
 	t/400_Dpkg_Deps.t \
