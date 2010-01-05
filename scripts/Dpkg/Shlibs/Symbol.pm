@@ -150,6 +150,19 @@ sub get_symboltempl {
     return $_[0]->{symbol_templ} || $_[0]->{symbol};
 }
 
+sub set_symbolname {
+    my ($self, $name, $quoted) = @_;
+    if (defined $name) {
+	$self->{symbol} = $name;
+    }
+    $self->{symbol_templ} = undef;
+    if ($quoted) {
+	$self->{symbol_quoted} = $quoted;
+    } else {
+	delete $self->{symbol_quoted};
+    }
+}
+
 sub get_wildcard_version {
     my $self = shift;
     if ($self->get_symbolname() =~ /^\*@(.*)$/) {
@@ -195,6 +208,27 @@ sub get_tag_value {
     return $self->{tags}{$tag};
 }
 
+# Checks if the symbol is equal to another one (by name and tag set)
+sub equals {
+    my ($self, $other) = @_;
+
+    # Compare names and tag sets
+    return 0 if $self->{symbol} ne $other->{symbol};
+    return 0 if scalar(@{$self->{tagorder}}) != scalar(@{$other->{tagorder}});
+
+    for (my $i = 0; $i < scalar(@{$self->{tagorder}}); $i++) {
+	my $tag = $self->{tagorder}->[$i];
+	return 0 if $tag ne $other->{tagorder}->[$i];
+	if (defined $self->{tags}{$tag} && defined $other->{tags}{$tag}) {
+	    return 0 if $self->{tags}{$tag} ne defined $other->{tags}{$tag};
+	} elsif (defined $self->{tags}{$tag} || defined $other->{tags}{$tag}) {
+	    return 0;
+	}
+    }
+    return 1;
+}
+
+
 sub is_optional {
     my $self = shift;
     return $self->has_tag("optional");
@@ -219,6 +253,67 @@ sub arch_is_concerned {
 
     return 1;
 }
+
+# Get reference to the pattern the symbol matches (if any)
+sub get_pattern {
+    return $_[0]->{matching_pattern};
+}
+
+### NOTE: subroutines below require (or initialize) $self to be a pattern ###
+
+# Initialises this symbol as a pattern of the specified type.
+sub init_pattern {
+    my $self = shift;
+    my $type = shift;
+
+    $self->{pattern}{type} = $type;
+    # To be filled with references to symbols matching this pattern.
+    $self->{pattern}{matches} = [];
+}
+
+# Is this symbol a pattern or not?
+sub is_pattern {
+    return exists $_[0]->{pattern};
+}
+
+# Get pattern type if this symbol is a pattern.
+sub get_pattern_type {
+    return $_[0]->{pattern}{type} || "";
+}
+
+# Get (sub)type of the alias pattern. Returns empty string if current
+# pattern is not alias.
+sub get_alias_type {
+    return ($_[0]->get_pattern_type() =~ /^alias-(.+)/ && $1) || "";
+}
+
+# Get a list of symbols matching this pattern if this symbol is a pattern
+sub get_pattern_matches {
+    return @{$_[0]->{pattern}{matches}};
+}
+
+# Create a new symbol based on the pattern (i.e. $self)
+# and add it to the pattern matches list.
+sub create_pattern_match {
+    my $self = shift;
+    return undef unless $self->is_pattern();
+
+    # Leave out 'pattern' subfield while deep-cloning
+    my $pattern_stuff = $self->{pattern};
+    delete $self->{pattern};
+    my $newsym = $self->dclone(@_);
+    $self->{pattern} = $pattern_stuff;
+
+    # Clean up symbol name related internal fields
+    $newsym->set_symbolname();
+
+    # Set newsym pattern reference, add to pattern matches list
+    $newsym->{matching_pattern} = $self;
+    push @{$self->{pattern}{matches}}, $newsym;
+    return $newsym;
+}
+
+### END of pattern subroutines ###
 
 sub get_tagspec {
     my ($self) = @_;
