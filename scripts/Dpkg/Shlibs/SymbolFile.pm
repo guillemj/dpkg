@@ -301,21 +301,7 @@ sub merge_symbols {
 	if (exists $obj->{syms}{$name}) {
 	    # If the symbol is already listed in the file
 	    $sym = $obj->{syms}{$name};
-	    if ($sym->{deprecated}) {
-		# Symbol reappeared somehow
-		$sym->{deprecated} = 0;
-		$sym->{minver} = $minver if (not $sym->is_optional());
-	    } else {
-		# We assume that the right dependency information is already
-		# there.
-		if (version_compare($minver, $sym->{minver}) < 0) {
-		    $sym->{minver} = $minver;
-		}
-	    }
-	    if (not $sym->arch_is_concerned($self->{arch})) {
-		# Remove arch tag because it is incorrect.
-		$sym->delete_tag('arch');
-	    }
+	    $sym->mark_found_in_library($minver, $self->{arch});
 	} else {
 	    # The symbol is new and not present in the file
 	    my $symobj = $dynsyms{$name};
@@ -329,23 +315,11 @@ sub merge_symbols {
 	}
     }
 
-    # Scan all symbols in the file and mark as deprecated those that are
-    # no more provided (only if the minver is bigger than the version where
-    # the symbol was introduced)
+    # Process all symbols which could not be found in the library.
     foreach my $name (keys %{$self->{objects}{$soname}{syms}}) {
 	if (not exists $dynsyms{$name}) {
 	    my $sym = $self->{objects}{$soname}{syms}{$name};
-
-	    # Ignore symbols from foreign arch
-	    next if not $sym->arch_is_concerned($self->{arch});
-
-	    if ($sym->{deprecated}) {
-		# Bump deprecated if the symbol is optional so that it
-                # keeps reappering in the diff while it's missing
-		$sym->{deprecated} = $minver if $sym->is_optional();
-	    } elsif (version_compare($minver, $sym->{minver}) > 0) {
-		$sym->{deprecated} = $minver;
-	    }
+	    $sym->mark_not_found_in_library($minver, $self->{arch});
 	}
     }
 }

@@ -21,6 +21,7 @@ use warnings;
 use Dpkg::Gettext;
 use Dpkg::Deps;
 use Dpkg::ErrorHandling;
+use Dpkg::Version;
 use Storable qw();
 use Dpkg::Shlibs::Cppfilt;
 
@@ -392,6 +393,47 @@ sub get_symbolspec {
     $spec .= " $self->{minver}";
     $spec .= " $self->{dep_id}" if $self->{dep_id};
     return $spec;
+}
+
+# Sanitize the symbol when it is confirmed to be found in
+# the respective library.
+sub mark_found_in_library {
+    my ($self, $minver, $arch) = @_;
+
+    if ($self->{deprecated}) {
+	# Symbol reappeared somehow
+	$self->{deprecated} = 0;
+	$self->{minver} = $minver if (not $self->is_optional());
+    } else {
+	# We assume that the right dependency information is already
+	# there.
+	if (version_compare($minver, $self->{minver}) < 0) {
+	    $self->{minver} = $minver;
+	}
+    }
+    if (not $self->arch_is_concerned($arch)) {
+	# Remove arch tag because it is incorrect.
+	$self->delete_tag('arch');
+    }
+}
+
+# Sanitize the symbol when it is confirmed to be NOT found in
+# the respective library.
+# Mark as deprecated those that are no more provided (only if the
+# minver is bigger than the version where the symbol was introduced)
+sub mark_not_found_in_library {
+    my ($self, $minver, $arch) = @_;
+
+    # Ignore symbols from foreign arch
+    return if not $self->arch_is_concerned($arch);
+
+    if ($self->{deprecated}) {
+	# Bump deprecated if the symbol is optional so that it
+	# keeps reappering in the diff while it's missing
+	$self->{deprecated} = $minver if $self->is_optional();
+    } elsif (version_compare($minver, $self->{minver}) > 0) {
+	$self->{deprecated} = $minver;
+    }
 }
 
 1;
