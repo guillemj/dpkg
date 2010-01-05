@@ -1,5 +1,5 @@
 # Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2009 Modestas Vainius <modestas@vainius.eu>
+# Copyright © 2009-2010 Modestas Vainius <modax@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
