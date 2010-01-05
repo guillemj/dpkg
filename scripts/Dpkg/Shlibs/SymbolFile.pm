@@ -244,6 +244,7 @@ sub dump {
     my ($self, $fh, %opts) = @_;
     $opts{template_mode} = 0 unless exists $opts{template_mode};
     $opts{with_deprecated} = 1 unless exists $opts{with_deprecated};
+    $opts{with_pattern_matches} = 0 unless exists $opts{with_pattern_matches};
     foreach my $soname (sort keys %{$self->{objects}}) {
 	my @deps = @{$self->{objects}{$soname}{deps}};
 	my $dep = shift @deps;
@@ -259,16 +260,32 @@ sub dump {
 	    $value =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
 	    print $fh "* $field: $value\n";
 	}
+
 	my $syms = $self->{objects}{$soname}{syms};
-	foreach my $name (sort { $syms->{$a}->get_symboltempl() cmp
-	                         $syms->{$b}->get_symboltempl() } keys %$syms) {
-	    my $sym = $self->{objects}{$soname}{syms}{$name};
+	my @symbols;
+	if ($opts{template_mode}) {
+	    # Exclude symbols matching a pattern, but include patterns themselves
+	    @symbols = grep { not $_->get_pattern() } values %$syms;
+	    push @symbols, $self->get_soname_patterns($soname);
+	} else {
+	    @symbols = values %$syms;
+	}
+	foreach my $sym (sort { $a->get_symboltempl() cmp
+	                        $b->get_symboltempl() } @symbols) {
 	    next if $sym->{deprecated} and not $opts{with_deprecated};
 	    # Do not dump symbols from foreign arch unless dumping a template.
 	    next if not $opts{template_mode} and
 	            not $sym->arch_is_concerned($self->{arch});
 	    # Dump symbol specification. Dump symbol tags only in template mode.
-	    print $fh $sym->get_symbolspec($opts{template_mode}) . "\n";
+	    print $fh $sym->get_symbolspec($opts{template_mode}), "\n";
+	    # Dump pattern matches as comments (if requested)
+	    if ($opts{with_pattern_matches} && $sym->is_pattern()) {
+		for my $match (sort { $a->get_symboltempl() cmp
+		                      $b->get_symboltempl() } $sym->get_pattern_matches())
+		{
+		    print $fh "#MATCH:", $match->get_symbolspec(0), "\n";
+		}
+	    }
 	}
     }
 }
