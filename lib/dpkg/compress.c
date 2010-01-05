@@ -84,7 +84,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
               if (errno == EINTR) continue;
               errmsg= strerror(errno);
             }
-          ohshite(_("%s: internal gzip error: `%s'"), v.buf, errmsg);
+            ohshit(_("%s: internal gzip read error: '%s'"), v.buf, errmsg);
           }
           write(fd_out,buffer,actualread);
         }
@@ -107,7 +107,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
               if (errno == EINTR) continue;
               errmsg= strerror(errno);
             }
-          ohshite(_("%s: internal bzip2 error: `%s'"), v.buf, errmsg);
+            ohshit(_("%s: internal bzip2 read error: '%s'"), v.buf, errmsg);
           }
           write(fd_out,buffer,actualread);
         }
@@ -155,20 +155,18 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
         while ((actualread = read(fd_in, buffer, sizeof(buffer))) > 0) {
           if (actualread < 0 ) {
             if (errno == EINTR) continue;
-            ohshite(_("%s: internal gzip error: read: `%s'"), v.buf, strerror(errno));
+            ohshite(_("%s: internal gzip read error"), v.buf);
           }
           actualwrite= gzwrite(gzfile,buffer,actualread);
-          if (actualwrite < 0 ) {
+          if (actualwrite != actualread) {
             int err = 0;
             const char *errmsg = gzerror(gzfile, &err);
             if (err == Z_ERRNO) {
               if (errno == EINTR) continue;
             errmsg= strerror(errno);
             }
-            ohshite(_("%s: internal gzip error: write: `%s'"), v.buf, errmsg);
+            ohshit(_("%s: internal gzip write error: '%s'"), v.buf, errmsg);
           }
-          if (actualwrite != actualread)
-            ohshite(_("%s: internal gzip error: read(%i) != write(%i)"), v.buf, actualread, actualwrite);
         }
         gzclose(gzfile);
         exit(0);
@@ -190,20 +188,18 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
         while ((actualread = read(fd_in, buffer, sizeof(buffer))) > 0) {
           if (actualread < 0 ) {
             if (errno == EINTR) continue;
-            ohshite(_("%s: internal bzip2 error: read: `%s'"), v.buf, strerror(errno));
+            ohshite(_("%s: internal bzip2 read error"), v.buf);
           }
           actualwrite= BZ2_bzwrite(bzfile,buffer,actualread);
-          if (actualwrite < 0 ) {
+          if (actualwrite != actualread) {
             int err = 0;
             const char *errmsg = BZ2_bzerror(bzfile, &err);
             if (err == BZ_IO_ERROR) {
               if (errno == EINTR) continue;
               errmsg= strerror(errno);
             }
-            ohshite(_("%s: internal bzip2 error: write: `%s'"), v.buf, errmsg);
+            ohshit(_("%s: internal bzip2 write error: '%s'"), v.buf, errmsg);
           }
-          if (actualwrite != actualread)
-            ohshite(_("%s: internal bzip2 error: read(%i) != write(%i)"), v.buf, actualread, actualwrite);
         }
         BZ2_bzclose(bzfile);
         exit(0);
