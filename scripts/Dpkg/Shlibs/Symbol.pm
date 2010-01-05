@@ -411,9 +411,12 @@ sub mark_found_in_library {
 	    $self->{minver} = $minver;
 	}
     }
-    if (not $self->arch_is_concerned($arch)) {
-	# Remove arch tag because it is incorrect.
-	$self->delete_tag('arch');
+    # Never remove arch tags from patterns
+    if (not $self->is_pattern()) {
+	if (not $self->arch_is_concerned($arch)) {
+	    # Remove arch tag because it is incorrect.
+	    $self->delete_tag('arch');
+	}
     }
 }
 
@@ -443,6 +446,44 @@ sub is_eligible_as_new {
     return ! $self->{deprecated} &&
            ! $self->is_optional() &&
            $self->arch_is_concerned($arch);
+}
+
+# Determine whether a supplied raw symbol name matches against current ($self)
+# symbol or pattern.
+sub matches_rawname {
+    my $self = shift;
+    my $rawname = shift;
+
+    my $target = $rawname;
+    my $ok = 1;
+    my $do_eq_match = 1;
+
+    if ($self->is_pattern()) {
+	# Process pattern tags in the order they were specified.
+	for my $tag (@{$self->{tagorder}}) {
+	    if ($tag eq "c++") {
+		# Demangle it.
+		$ok = not not ($target = $self->convert_to_alias($target, "c++"));
+	    } elsif ($tag eq "regex") {
+		# Symbol name is a regex. Match it against the target
+		$do_eq_match = 0;
+		$ok = ($target =~ $self->{pattern}{regex});
+	    }
+	    last if not $ok;
+	}
+	if ($ok) {
+	    # Wildcards are checked last
+	    if ($self->{pattern}{wildcard}) {
+		$target = $self->convert_to_alias($target, "wildcard");
+	    }
+	}
+    }
+
+    # Equality match by default
+    if ($ok && $do_eq_match) {
+	$ok = $target eq $self->get_symbolname();
+    }
+    return $ok;
 }
 
 1;

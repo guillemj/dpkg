@@ -25,6 +25,10 @@ use Dpkg::Control::Fields;
 use Dpkg::Shlibs::Symbol;
 use Dpkg::Arch qw(get_host_arch);
 
+# Supported alias types in the order of matching preference
+# See: find_matching_pattern().
+use constant 'ALIAS_TYPES' => qw(c++ wildcard);
+
 my %blacklist = (
     '__bss_end__' => 1,		# arm
     '__bss_end' => 1,		# arm
@@ -269,6 +273,53 @@ sub dump {
     }
 }
 
+# Tries to match a symbol name and/or version against the patterns defined.
+# Returns a pattern which matches (if any).
+sub find_matching_pattern {
+    my ($self, $name, $sonames, $inc_deprecated) = @_;
+    $inc_deprecated = 0 unless defined $inc_deprecated;
+
+    my $pattern_ok = sub {
+	my $p = shift;
+	return defined $p && ($inc_deprecated || !$p->{deprecated}) &&
+	       $p->arch_is_concerned($self->{arch});
+    };
+
+    foreach my $soname (@$sonames) {
+	my $obj = (ref $soname) ? $soname : $self->{objects}{$soname};
+	my ($type, $pattern);
+	next unless defined $obj;
+
+	my $all_aliases = $obj->{patterns}{aliases};
+	for my $type (ALIAS_TYPES) {
+	    if (exists $all_aliases->{$type}) {
+		my $aliases = $all_aliases->{$type};
+		if (my $alias = $aliases->{converter}->convert_to_alias($name)) {
+		    if ($alias && exists $aliases->{names}{$alias}) {
+			$pattern = $aliases->{names}{$alias};
+			last if &$pattern_ok($pattern);
+			$pattern = undef; # otherwise not found yet
+		    }
+		}
+	    }
+	}
+
+	# Now try generic patterns and use the first that matches
+	if (not defined $pattern) {
+	    for my $p (@{$obj->{patterns}{generic}}) {
+		if (&$pattern_ok($p) && $p->matches_rawname($name)) {
+		    $pattern = $p;
+		    last;
+		}
+	    }
+	}
+	if (defined $pattern) {
+	    return $pattern;
+	}
+    }
+    return undef;
+}
+
 # merge_symbols($object, $minver)
 # Needs $Objdump->get_object($soname) as parameter
 # Don't merge blacklisted symbols related to the internal (arch-specific)
@@ -292,6 +343,7 @@ sub merge_symbols {
     }
     # Scan all symbols provided by the objects
     my $obj = $self->{objects}{$soname};
+    my @obj = ( $obj );
     # invalidate the minimum version cache - it is not sufficient to
     # invalidate in add_symbol, since we might change a minimum
     # version for a particular symbol without adding it
@@ -303,14 +355,18 @@ sub merge_symbols {
 	    $sym = $obj->{syms}{$name};
 	    $sym->mark_found_in_library($minver, $self->{arch});
 	} else {
-	    # The symbol is new and not present in the file
+	    # The exact symbol is not present in the file, but it might match a 
+	    # pattern.
 	    my $symobj = $dynsyms{$name};
-            $sym = $self->symbol_match_wildcard($soname, $name, $symobj->{version});
-            if (not defined $sym) {
-                # Symbol without any special info as no wildcard did match
-                $sym = Dpkg::Shlibs::Symbol->new(symbol => $name,
-                                                 minver => $minver);
-            }
+	    my $pattern = $self->find_matching_pattern($name, \@obj, 1);
+	    if (defined $pattern) {
+		$pattern->mark_found_in_library($minver, $self->{arch});
+		$sym = $pattern->create_pattern_match(symbol => $name);
+	    } else {
+		# Symbol without any special info as no pattern matched
+		$sym = Dpkg::Shlibs::Symbol->new(symbol => $name,
+		                                 minver => $minver);
+	    }
 	    $self->add_symbol($obj, $sym);
 	}
     }
@@ -322,18 +378,12 @@ sub merge_symbols {
 	    $sym->mark_not_found_in_library($minver, $self->{arch});
 	}
     }
-}
 
-sub symbol_match_wildcard {
-    my ($self, $soname, $name, $version) = @_;
-    my $obj = $self->{objects}{$soname};
-    if ($version and exists $obj->{wildcards}{$version}) {
-        my $w_sym = $obj->{wildcards}{$version};
-        return undef unless $w_sym->arch_is_concerned($self->{arch});
-        $self->{used_wildcards}++;
-        return $w_sym->dclone(symbol => $name);
+    # Deprecate patterns which didn't match anything
+    for my $pattern (grep { $_->get_pattern_matches() == 0 }
+                          $self->get_soname_patterns($soname)) {
+	$pattern->mark_not_found_in_library($minver, $self->{arch});
     }
-    return undef;
 }
 
 sub is_empty {
@@ -432,6 +482,48 @@ sub lookup_symbol {
     return undef;
 }
 
+# Tries to find a pattern like the $refpat and returns it. If not found, undef
+# is returned.
+sub lookup_pattern {
+    my ($self, $refpat, $sonames, $inc_deprecated) = @_;
+    $inc_deprecated = 0 unless defined($inc_deprecated);
+
+    foreach my $soname (@$sonames) {
+	my $object = (ref $soname) ? $soname : $self->{objects}{$soname};
+	my $pat;
+
+	next unless defined $object;
+	if (my $type = $refpat->get_alias_type()) {
+	    $pat = $object->{patterns}{aliases}{$type}{names}{$refpat->get_symbolname()};
+	} elsif ($refpat->get_pattern_type() eq "generic") {
+	    for my $p (@{$object->{patterns}{generic}}) {
+		if (($inc_deprecated || !$p->{deprecated}) &&
+		    $p->equals($refpat))
+		{
+		    $pat = $p;
+		    last;
+		}
+	    }
+	}
+	if ($pat && ($inc_deprecated || !$pat->{deprecated})) {
+	    return $pat;
+	}
+    }
+    return undef;
+}
+
+# Collects all patterns of the given soname and returns them as an array.
+sub get_soname_patterns {
+    my ($self, $soname) = @_;
+    my $object = (ref $soname) ? $soname : $self->{objects}{$soname};
+    my @aliases;
+
+    foreach my $alias (values %{$object->{patterns}{aliases}}) {
+	push @aliases, values %{$alias->{names}};
+    }
+    return (@aliases, @{$object->{patterns}{generic}});
+}
+
 sub get_new_symbols {
     my ($self, $ref) = @_;
     my @res;
@@ -439,15 +531,45 @@ sub get_new_symbols {
 	my $mysyms = $self->{objects}{$soname}{syms};
 	next if not exists $ref->{objects}{$soname};
 	my $refsyms = $ref->{objects}{$soname}{syms};
+	my @soname = ( $soname );
+
+	# Scan raw symbols first.
 	foreach my $sym (grep { $_->is_eligible_as_new($self->{arch}) }
 	                      values %$mysyms)
 	{
 	    my $refsym = $refsyms->{$sym->get_symbolname()};
-	    if ((not defined $refsym) or
-		$refsym->{deprecated} or
-		not $refsym->arch_is_concerned($self->{arch}) )
+	    my $isnew;
+	    if (defined $refsym) {
+		# If the symbol exists in the reference symbol file, it might
+		# still be new if it is either deprecated or from foreign arch
+		# there.
+		$isnew = ($refsym->{deprecated} or
+		    not $refsym->arch_is_concerned($self->{arch}));
+	    } else {
+		# If the symbol does not exist in the $ref symbol file, it does
+		# not mean that it's new. It might still match a pattern in the
+		# symbol file. However, due to performance reasons, first check
+		# if the pattern that the symbol matches (if any) exists in the
+		# ref symbol file as well.
+		$isnew = not (
+		    ($sym->get_pattern() and $ref->lookup_pattern($sym->get_pattern(), \@soname, 1)) or
+		    $ref->find_matching_pattern($sym->get_symbolname(), \@soname, 1)
+		);
+	    }
+	    push @res, $sym->sclone(soname => $soname) if $isnew;
+	}
+
+	# Now scan patterns
+	foreach my $p (grep { $_->is_eligible_as_new($self->{arch}) }
+	                    $self->get_soname_patterns($soname))
+	{
+	    my $refpat = $ref->lookup_pattern($p, \@soname, 0);
+	    # If reference pattern was not found or it is deprecated or
+	    # it's from foreign arch, considering current one as new.
+	    if (not defined $refpat or
+		not $refpat->arch_is_concerned($self->{arch}))
 	    {
-		push @res, $sym->sclone(soname => $soname);
+		push @res, $p->sclone(soname => $soname);
 	    }
 	}
     }
