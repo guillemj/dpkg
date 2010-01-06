@@ -42,9 +42,8 @@
 #include <dpkg/compress.h>
 
 static void
-fd_fd_filter(int fd_in, int fd_out,
-	     const char *file, const char *cmd, const char *args,
-	     const char *desc)
+fd_fd_filter(int fd_in, int fd_out, const char *desc,
+             const char *file, const char *cmd, const char *args)
 {
   if (fd_in != 0) {
     m_dup2(fd_in, 0);
@@ -98,7 +97,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
       }
       exit(0);
 #else
-      fd_fd_filter(fd_in, fd_out, GZIP, "gzip", "-dc", v.buf);
+      fd_fd_filter(fd_in, fd_out, v.buf, GZIP, "gzip", "-dc");
 #endif
     case compress_type_bzip2:
 #ifdef WITH_BZ2
@@ -128,10 +127,10 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
       }
       exit(0);
 #else
-      fd_fd_filter(fd_in, fd_out, BZIP2, "bzip2", "-dc", v.buf);
+      fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, "bzip2", "-dc");
 #endif
     case compress_type_lzma:
-      fd_fd_filter(fd_in, fd_out, LZMA, "lzma", "-dc", v.buf);
+      fd_fd_filter(fd_in, fd_out, v.buf, LZMA, "lzma", "-dc");
     case compress_type_cat:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), v.buf);
       exit(0);
@@ -190,7 +189,7 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
 #else
       strncpy(combuf, "-9c", sizeof(combuf));
       combuf[1]= *compression;
-      fd_fd_filter(fd_in, fd_out, GZIP, "gzip", combuf, v.buf);
+      fd_fd_filter(fd_in, fd_out, v.buf, GZIP, "gzip", combuf);
 #endif
     case compress_type_bzip2:
 #ifdef WITH_BZ2
@@ -225,12 +224,12 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
 #else
       strncpy(combuf, "-9c", sizeof(combuf));
       combuf[1]= *compression;
-      fd_fd_filter(fd_in, fd_out, BZIP2, "bzip2", combuf, v.buf);
+      fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, "bzip2", combuf);
 #endif
     case compress_type_lzma:
       strncpy(combuf, "-9c", sizeof(combuf));
       combuf[1] = *compression;
-      fd_fd_filter(fd_in, fd_out, LZMA, "lzma", combuf, v.buf);
+      fd_fd_filter(fd_in, fd_out, v.buf, LZMA, "lzma", combuf);
     case compress_type_cat:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);
       exit(0);
