@@ -83,10 +83,9 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
           if (actualread < 0 ) {
             int err = 0;
             const char *errmsg = gzerror(gzfile, &err);
-            if (err == Z_ERRNO) {
-              if (errno == EINTR) continue;
+
+            if (err == Z_ERRNO)
               errmsg= strerror(errno);
-            }
             ohshit(_("%s: internal gzip read error: '%s'"), v.buf, errmsg);
           }
           if (actualread == 0) /* EOF. */
@@ -112,10 +111,9 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
           if (actualread < 0 ) {
             int err = 0;
             const char *errmsg = BZ2_bzerror(bzfile, &err);
-            if (err == BZ_IO_ERROR) {
-              if (errno == EINTR) continue;
+
+            if (err == BZ_IO_ERROR)
               errmsg= strerror(errno);
-            }
             ohshit(_("%s: internal bzip2 read error: '%s'"), v.buf, errmsg);
           }
           if (actualread == 0) /* EOF. */
@@ -168,10 +166,8 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
           int actualread, actualwrite;
 
           actualread = read(fd_in, buffer, sizeof(buffer));
-          if (actualread < 0 ) {
-            if (errno == EINTR) continue;
+          if (actualread < 0)
             ohshite(_("%s: internal gzip read error"), v.buf);
-          }
           if (actualread == 0) /* EOF. */
             break;
 
@@ -179,10 +175,8 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
           if (actualwrite != actualread) {
             int err = 0;
             const char *errmsg = gzerror(gzfile, &err);
-            if (err == Z_ERRNO) {
-              if (errno == EINTR) continue;
-            errmsg= strerror(errno);
-            }
+            if (err == Z_ERRNO)
+              errmsg = strerror(errno);
             ohshit(_("%s: internal gzip write error: '%s'"), v.buf, errmsg);
           }
         }
@@ -207,10 +201,8 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
           int actualread, actualwrite;
 
           actualread = read(fd_in, buffer, sizeof(buffer));
-          if (actualread < 0 ) {
-            if (errno == EINTR) continue;
+          if (actualread < 0)
             ohshite(_("%s: internal bzip2 read error"), v.buf);
-          }
           if (actualread == 0) /* EOF. */
             break;
 
@@ -218,10 +210,8 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
           if (actualwrite != actualread) {
             int err = 0;
             const char *errmsg = BZ2_bzerror(bzfile, &err);
-            if (err == BZ_IO_ERROR) {
-              if (errno == EINTR) continue;
+            if (err == BZ_IO_ERROR)
               errmsg= strerror(errno);
-            }
             ohshit(_("%s: internal bzip2 write error: '%s'"), v.buf, errmsg);
           }
         }
