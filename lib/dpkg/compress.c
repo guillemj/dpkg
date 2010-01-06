@@ -77,7 +77,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
         gzFile gzfile = gzdopen(fd_in, "r");
 
         for (;;) {
-          int actualread;
+          int actualread, actualwrite;
 
           actualread = gzread(gzfile, buffer, sizeof(buffer));
           if (actualread < 0 ) {
@@ -91,7 +91,9 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
           if (actualread == 0) /* EOF. */
             break;
 
-          write(fd_out,buffer,actualread);
+          actualwrite = write(fd_out, buffer, actualread);
+          if (actualwrite != actualread)
+            ohshite(_("%s: internal gzip write error"), desc);
         }
       }
       exit(0);
@@ -105,7 +107,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
         BZFILE *bzfile = BZ2_bzdopen(fd_in, "r");
 
         for (;;) {
-          int actualread;
+          int actualread, actualwrite;
 
           actualread = BZ2_bzread(bzfile, buffer, sizeof(buffer));
           if (actualread < 0 ) {
@@ -119,7 +121,9 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
           if (actualread == 0) /* EOF. */
             break;
 
-          write(fd_out,buffer,actualread);
+          actualwrite = write(fd_out, buffer, actualread);
+          if (actualwrite != actualread)
+            ohshite(_("%s: internal bzip2 write error"), desc);
         }
       }
       exit(0);
