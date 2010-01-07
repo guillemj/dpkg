@@ -270,7 +270,7 @@ static void setexecute(const char *path, struct stat *stab) {
 static int
 do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
           const char *scriptname, const char *scriptpath, struct stat *stab,
-          char *const arglist[], const char *desc, const char *name, int warn)
+          char *const arglist[], const char *name, int warn)
 {
   const char *scriptexec;
   int c1, r;
@@ -292,7 +292,7 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
         setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));
     execv(scriptexec,(char * const *)narglist);
-    ohshite(desc,name);
+    ohshite(_("unable to execute %s"), name);
   }
   subproc_signals_setup(name); /* This does a push_cleanup() */
   r = subproc_wait_check(c1, name, warn);
@@ -325,7 +325,7 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
     ohshite(_("unable to stat %s `%.250s'"), buf, scriptpath);
   }
   do_script(pkg, &pkg->installed, scriptname, scriptpath, &stab,
-            arglist, _("unable to execute %s"), buf, 0);
+            arglist, buf, 0);
 
   return 1;
 }
@@ -386,7 +386,7 @@ maintainer_script_new(struct pkginfo *pkg,
     ohshite(_("unable to stat %s `%.250s'"), buf, cidir);
   }
   do_script(pkg, &pkg->available, scriptname, cidir, &stab,
-            arglist, _("unable to execute %s"), buf, 0);
+            arglist, buf, 0);
   post_script_tasks();
 
   return 1;
@@ -417,7 +417,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
             buf,oldscriptpath,strerror(errno));
   } else {
     if (!do_script(pkg, &pkg->installed, scriptname, oldscriptpath, &stab,
-                   arglist, _("unable to execute %s"), buf, PROCWARN)) {
+                   arglist, buf, PROCWARN)) {
       post_script_tasks();
       return 1;
     }
@@ -439,7 +439,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   }
 
   do_script(pkg, &pkg->available, scriptname, cidir, &stab,
-            arglist, _("unable to execute %s"), buf, 0);
+            arglist, buf, 0);
   fprintf(stderr, _("dpkg: ... it looks like that went OK.\n"));
 
   post_script_tasks();
