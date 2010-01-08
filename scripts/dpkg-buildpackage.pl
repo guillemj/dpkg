@@ -134,7 +134,7 @@ while (@ARGV) {
     } elsif (/^--admindir=(.*)$/) {
 	$admindir = $1;
     } elsif (/^-j(\d*)$/) {
-	$parallel = $1 || '-1';
+	$parallel = $1 || '';
     } elsif (/^-r(.*)$/) {
 	@rootcommand = split /\s+/, $1;
     } elsif (/^-p(.*)$/) {
@@ -256,14 +256,10 @@ if ($signcommand) {
 }
 
 my $build_opts = Dpkg::BuildOptions::parse();
-if ($parallel) {
+if (defined $parallel) {
     $parallel = $build_opts->{parallel} if exists $build_opts->{parallel};
     $ENV{MAKEFLAGS} ||= '';
-    if ($parallel eq '-1') {
-	$ENV{MAKEFLAGS} .= " -j";
-    } else {
-	$ENV{MAKEFLAGS} .= " -j$parallel";
-    }
+    $ENV{MAKEFLAGS} .= " -j$parallel";
     $build_opts->{parallel} = $parallel;
     Dpkg::BuildOptions::set($build_opts);
 }
