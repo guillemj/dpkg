@@ -88,6 +88,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('-x');
     } elsif (m/^--print-format$/) {
 	setopmode('--print-format');
+	report_options(info_fh => \*STDERR); # Avoid clutter on STDOUT
     } else {
 	push @options, $_;
     }
@@ -306,8 +307,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
         $srcpkg->upgrade_object_type(); # Fails if format is unsupported
         my ($res, $msg) = $srcpkg->can_build($dir);
         last if $res;
-        info(_g("source format `%s' discarded: %s"), $format, $msg)
-	    unless $options{'opmode'} eq "--print-format";
+        info(_g("source format `%s' discarded: %s"), $format, $msg);
     }
     if ($options{'opmode'} eq "--print-format") {
 	print $fields->{'Format'} . "\n";

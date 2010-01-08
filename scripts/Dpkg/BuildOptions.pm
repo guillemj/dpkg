@@ -34,13 +34,14 @@ sub parse {
             next;
         }
 
-	my ($k, $v) = ($1, $3 || '');
+	my ($k, $v) = ($1, $3);
 
 	# Sanity checks
-	if ($k =~ /^(noopt|nostrip|nocheck)$/ && length($v)) {
-	    $v = '';
-	} elsif ($k eq 'parallel' && $v !~ /^-?\d+$/) {
-	    next;
+	if ($k =~ /^(noopt|nostrip|nocheck)$/ && defined($v)) {
+	    $v = undef;
+	} elsif ($k eq 'parallel')  {
+	    $v = "" if not defined($v);
+	    next if $v !~ /^\d*$/;
 	}
 
 	$opts{$k} = $v;
@@ -59,7 +60,7 @@ sub set {
         $new->{$k} = $v;
     }
 
-    my $env = join(" ", map { $new->{$_} ? $_ . "=" . $new->{$_} : $_ } sort keys %$new);
+    my $env = join(" ", map { defined($new->{$_}) ? $_ . "=" . $new->{$_} : $_ } sort keys %$new);
 
     $ENV{DEB_BUILD_OPTIONS} = $env;
     return $env;

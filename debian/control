@@ -18,6 +18,7 @@ Package: dpkg
 Architecture: any
 Essential: yes
 Pre-Depends: ${shlibs:Depends}, coreutils (>= 5.93-1), lzma
+Depends: ${misc:Depends}
 Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch (<< 0.11),
  dpkg-dev (<< 1.14.16), apt (<< 0.7.7), aptitude (<< 0.4.7-1)
 Replaces: manpages-de (<= 0.4-3), manpages-pl (<= 20051117-1)
@@ -40,7 +41,8 @@ Section: utils
 Priority: optional
 Architecture: all
 Depends: dpkg (>= 1.15.4), perl5, perl-modules, bzip2, lzma, xz-utils,
- patch (>= 2.2-1), make, binutils, libtimedate-perl, base-files (>= 5.0.0)
+ patch (>= 2.2-1), make, binutils, libtimedate-perl,
+ base-files (>= 5.0.0), ${misc:Depends}
 Recommends: gcc | c-compiler, build-essential, fakeroot, gnupg, gpgv
 Suggests: debian-keyring, debian-maintainers
 Conflicts: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)
@@ -55,7 +57,7 @@ Description: Debian package development tools
 Package: dselect
 Priority: optional
 Architecture: any
-Depends: ${shlibs:Depends}, dpkg (>= 1.13.1)
+Depends: ${shlibs:Depends}, dpkg (>= 1.13.1), ${misc:Depends}
 Suggests: perl
 Conflicts: dpkg-ftp, dpkg-multicd
 Replaces: dpkg (<< 1.10.3), dpkg-ftp, dpkg-multicd
