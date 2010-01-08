@@ -44,6 +44,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/command.h>
 #include <dpkg/myopt.h>
 
 #include "main.h"
@@ -539,16 +540,11 @@ static const struct cmdinfo cmdinfos[]= {
 };
 
 void execbackend(const char *const *argv) {
-  char **nargv;   /* argv for backend command */
-  int i = 0;      /* index for nargv */
-  int offset = 0; /* offset for copying argv strings to nargv */
-  int argc = 1;   /* for nargv */
-  const char *const *arg = argv;
-  int pass_admindir = 0;
+  struct command cmd;
+  char *arg;
 
-  while (*arg != NULL) {
-    arg++; argc++;
-  }
+  command_init(&cmd, cipaction->parg, NULL);
+  command_add_arg(&cmd, cipaction->parg);
 
   /*
    * Special case: dpkg-query takes the --admindir option, and if dpkg itself
@@ -556,39 +552,21 @@ void execbackend(const char *const *argv) {
    */
   if (strcmp(cipaction->parg, DPKGQUERY) == 0 &&
       strcmp(admindir, ADMINDIR) != 0) {
-    argc++;
-    pass_admindir = 1;
+    arg = m_malloc((strlen("--admindir=") + strlen(admindir) + 1));
+    sprintf(arg, "--admindir=%s", admindir);
+    command_add_arg(&cmd, arg);
   }
 
-  nargv = m_malloc(sizeof(char *) * (argc + 3));
-  nargv[i] = m_strdup(cipaction->parg);
-
-  i++, offset++;
-
-  if (pass_admindir) {
-    nargv[i] = m_malloc((strlen("--admindir=") + strlen(admindir) + 1));
-    sprintf(nargv[i], "--admindir=%s", admindir);
-    i++, offset++;
-  }
-
-  nargv[i] = m_malloc(2 + strlen(cipaction->olong) + 1);
-  strcpy(nargv[i], "--");
-  strcat(nargv[i], cipaction->olong);
-  i++, offset++;
+  arg = m_malloc(2 + strlen(cipaction->olong) + 1);
+  sprintf(arg, "--%s", cipaction->olong);
+  command_add_arg(&cmd, arg);
 
   /* Exlicitely separate arguments from options as any user-supplied
    * separator got stripped by the option parser */
-  nargv[i] = "--";
-  i++, argc++, offset++;
+  command_add_arg(&cmd, "--");
+  command_add_argl(&cmd, (const char **)argv);
 
-  /* Copy arguments from argv to nargv. */
-  for (; i <= argc; i++)
-    nargv[i] = m_strdup(argv[i - offset]);
-
-  nargv[i] = NULL;
-
-  execvp(cipaction->parg, nargv);
-  ohshite(_("failed to exec %s"), (char *)cipaction->parg);
+  command_exec(&cmd);
 }
 
 void commandfd(const char *const *argv) {

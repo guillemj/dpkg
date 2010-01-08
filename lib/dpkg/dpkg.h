@@ -93,7 +93,6 @@ DPKG_BEGIN_DECLS
 #define PAGERENV            "PAGER"
 #define DEFAULTPAGER        "pager"
 
-#define PKGSCRIPTMAXARGS     10
 #define MD5HASHLEN           32
 #define MAXTRIGDIRECTIVE     256
 

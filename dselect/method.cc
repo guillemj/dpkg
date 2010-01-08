@@ -43,6 +43,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/subproc.h>
+#include <dpkg/command.h>
 
 #include "dselect.h"
 #include "method.h"
@@ -135,23 +136,23 @@ static enum urqresult lockmethod(void) {
   return urqr_normal;
 }
 
-urqresult falliblesubprocess(const char *exepath, const char *name,
-                             const char *const *args) {
+urqresult
+falliblesubprocess(struct command *cmd)
+{
   pid_t c1;
   int status, i, c;
   
   cursesoff();
 
-  subproc_signals_setup(name);
+  subproc_signals_setup(cmd->name);
 
   c1 = subproc_fork();
   if (!c1) {
     subproc_signals_cleanup(0, 0);
-    execvp(exepath,(char* const*) args);
-    ohshite(_("unable to run %.250s process `%.250s'"),name,exepath);
+    command_exec(cmd);
   }
 
-  status = subproc_wait(c1, name);
+  status = subproc_wait(c1, cmd->name);
 
   pop_cleanup(ehflag_normaltidy);
 
@@ -159,7 +160,7 @@ urqresult falliblesubprocess(const char *exepath, const char *name,
     sleep(1);
     return urqr_normal;
   }
-  fprintf(stderr,"\n%s ",name);
+  fprintf(stderr, "\n%s ", cmd->name);
   if (WIFEXITED(status)) {
     i= WEXITSTATUS(status);
     fprintf(stderr,_("returned error exit status %d.\n"),i);
@@ -191,15 +192,15 @@ static urqresult runscript(const char *exepath, const char *name) {
   getcurrentopt();
 
   if (coption) {
+    struct command cmd;
+
     strcpy(coption->meth->pathinmeth,exepath);
-    const char *fallibleargs[] = {
-      exepath,
-      admindir,
-      coption->meth->name,
-      coption->name,
-      0
-      };
-    ur= falliblesubprocess(coption->meth->path,name,fallibleargs);
+
+    command_init(&cmd, coption->meth->path, name);
+    command_add_args(&cmd, exepath, admindir, coption->meth->name,
+                     coption->name, NULL);
+    ur = falliblesubprocess(&cmd);
+    command_destroy(&cmd);
   } else {
     sthfailed("no access method is selected/configured");
     ur= urqr_fail;
@@ -218,18 +219,20 @@ urqresult urq_install(void) {
 }
 
 static urqresult rundpkgauto(const char *name, const char *dpkgmode) {
-  const char *fallibleargs[] = {
-    DPKG,
-	"--admindir",
-	admindir,
-    "--pending",
-    dpkgmode,
-    0
-  };
+  urqresult ur;
+  struct command cmd;
+
+  command_init(&cmd, DPKG, name);
+  command_add_args(&cmd, DPKG, "--admindir", admindir, "--pending",
+                   dpkgmode, NULL);
+
   cursesoff();
   printf("running dpkg --pending %s ...\n",dpkgmode);
   fflush(stdout);
-  return falliblesubprocess(DPKG,name,fallibleargs);
+  ur = falliblesubprocess(&cmd);
+  command_destroy(&cmd);
+
+  return ur;
 }
 
 urqresult urq_remove(void) {
@@ -254,15 +257,15 @@ urqresult urq_setup(void) {
   delete l;
 
   if (qa == qa_quitchecksave) {
+    struct command cmd;
+
     strcpy(coption->meth->pathinmeth,METHODSETUPSCRIPT);
-    const char *fallibleargs[] = {
-      METHODSETUPSCRIPT,
-      admindir,
-      coption->meth->name,
-      coption->name,
-      0
-    };
-    ur= falliblesubprocess(coption->meth->path,_("query/setup script"),fallibleargs);
+
+    command_init(&cmd, coption->meth->path, _("query/setup script"));
+    command_add_args(&cmd, METHODSETUPSCRIPT, admindir, coption->meth->name,
+                     coption->name, NULL);
+    ur = falliblesubprocess(&cmd);
+    command_destroy(&cmd);
     if (ur == urqr_normal) writecurrentopt();
   } else {
     ur= urqr_fail;

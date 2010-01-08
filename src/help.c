@@ -38,6 +38,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
 #include <dpkg/subproc.h>
+#include <dpkg/command.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -168,7 +169,9 @@ force_conflicts(struct deppossi *possi)
   return fc_conflicts;
 }
 
-static const char* preexecscript(const char *path, char *const *argv) {
+static const char *
+preexecscript(struct command *cmd)
+{
   /* returns the path to the script inside the chroot
    * FIXME: none of the stuff here will work if admindir isn't inside
    * instdir as expected.
@@ -182,48 +185,22 @@ static const char* preexecscript(const char *path, char *const *argv) {
   }
   if (f_debug & dbg_scripts) {
     struct varbuf args = VARBUF_INIT;
+    const char **argv = cmd->argv;
 
     while (*++argv) {
       varbufaddc(&args, ' ');
       varbufaddstr(&args, *argv);
     }
     varbufaddc(&args, '\0');
-    debug(dbg_scripts, "fork/exec %s (%s )", path, args.buf);
+    debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename, args.buf);
     varbuf_destroy(&args);
   }
   instdirl= strlen(instdir);
-  if (!instdirl) return path;
-  assert (strlen(path)>=instdirl);
-  return path+instdirl;
+  if (!instdirl)
+    return cmd->filename;
+  assert(strlen(cmd->filename) >= instdirl);
+  return cmd->filename + instdirl;
 }  
-
-static char *const *vbuildarglist(const char *scriptname, va_list ap) {
-  static char *bufs[PKGSCRIPTMAXARGS+1];
-  char *nextarg;
-  int i;
-
-  i=0;
-  if(bufs[0]) free(bufs[0]);
-  /* Yes, cast away const because exec wants it that way */
-  bufs[i++] = m_strdup(scriptname);
-  for (;;) {
-    assert(i < PKGSCRIPTMAXARGS);
-    nextarg= va_arg(ap,char*);
-    if (!nextarg) break;
-    bufs[i++]= nextarg;
-  }
-  bufs[i] = NULL;
-  return bufs;
-}    
-
-static char *const *buildarglist(const char *scriptname, ...) {
-  char *const *arglist;
-  va_list ap;
-  va_start(ap,scriptname);
-  arglist= vbuildarglist(scriptname,ap);
-  va_end(ap);
-  return arglist;
-}
 
 void
 post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
@@ -269,33 +246,27 @@ static void setexecute(const char *path, struct stat *stab) {
 
 static int
 do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
-          const char *scriptpath, struct stat *stab,
-          char *const arglist[], const char *name, int warn)
+          struct command *cmd, struct stat *stab, int warn)
 {
-  const char *scriptexec;
   int c1, r;
-  setexecute(scriptpath,stab);
+
+  setexecute(cmd->filename, stab);
 
   push_cleanup(cu_post_script_tasks, ehflag_bombout, NULL, 0, 0);
 
   c1 = subproc_fork();
   if (!c1) {
-    const char **narglist;
-    for (r=0; arglist[r]; r++) ;
-    narglist=nfmalloc((r+1)*sizeof(char*));
-    for (r=1; arglist[r-1]; r++)
-      narglist[r]= arglist[r];
-    scriptexec= preexecscript(scriptpath,(char * const *)narglist);
-    narglist[0]= scriptexec;
+    cmd->argv[0] = preexecscript(cmd);
+
     if (setenv(MAINTSCRIPTPKGENVVAR, pkg->name, 1) ||
         setenv(MAINTSCRIPTARCHENVVAR, pif->architecture, 1) ||
         setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));
-    execv(scriptexec,(char * const *)narglist);
-    ohshite(_("unable to execute %s"), name);
+
+    command_exec(cmd);
   }
-  subproc_signals_setup(name); /* This does a push_cleanup() */
-  r = subproc_wait_check(c1, name, warn);
+  subproc_signals_setup(cmd->name); /* This does a push_cleanup() */
+  r = subproc_wait_check(c1, cmd->name, warn);
   pop_cleanup(ehflag_normaltidy);
 
   pop_cleanup(ehflag_normaltidy);
@@ -307,16 +278,20 @@ static int
 vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                              const char *desc, va_list ap)
 {
+  struct command cmd;
   const char *scriptpath;
-  char *const *arglist;
   struct stat stab;
   char buf[100];
 
   scriptpath= pkgadminfile(pkg,scriptname);
-  arglist= vbuildarglist(scriptname,ap);
   sprintf(buf, _("installed %s script"), desc);
 
+  command_init(&cmd, scriptpath, buf);
+  command_add_arg(&cmd, scriptname);
+  command_add_argv(&cmd, ap);
+
   if (stat(scriptpath,&stab)) {
+    command_destroy(&cmd);
     if (errno == ENOENT) {
       debug(dbg_scripts, "vmaintainer_script_installed nonexistent %s",
             scriptname);
@@ -324,7 +299,9 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
     }
     ohshite(_("unable to stat %s `%.250s'"), buf, scriptpath);
   }
-  do_script(pkg, &pkg->installed, scriptpath, &stab, arglist, buf, 0);
+  do_script(pkg, &pkg->installed, &cmd, &stab, 0);
+
+  command_destroy(&cmd);
 
   return 1;
 }
@@ -366,25 +343,31 @@ maintainer_script_new(struct pkginfo *pkg,
                       const char *scriptname, const char *desc,
                       const char *cidir, char *cidirrest, ...)
 {
-  char *const *arglist;
+  struct command cmd;
   struct stat stab;
   va_list ap;
   char buf[100];
   
-  va_start(ap,cidirrest);
-  arglist= vbuildarglist(scriptname,ap);
-  va_end(ap);
+  strcpy(cidirrest, scriptname);
   sprintf(buf, _("new %s script"), desc);
 
-  strcpy(cidirrest,scriptname);
+  va_start(ap,cidirrest);
+  command_init(&cmd, cidir, buf);
+  command_add_arg(&cmd, scriptname);
+  command_add_argv(&cmd, ap);
+  va_end(ap);
+
   if (stat(cidir,&stab)) {
+    command_destroy(&cmd);
     if (errno == ENOENT) {
       debug(dbg_scripts,"maintainer_script_new nonexistent %s `%s'",scriptname,cidir);
       return 0;
     }
     ohshite(_("unable to stat %s `%.250s'"), buf, cidir);
   }
-  do_script(pkg, &pkg->available, cidir, &stab, arglist, buf, 0);
+  do_script(pkg, &pkg->available, &cmd, &stab, 0);
+
+  command_destroy(&cmd);
   post_script_tasks();
 
   return 1;
@@ -394,51 +377,58 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                                   const char *scriptname, const char *desc,
                                   const char *cidir, char *cidirrest,
                                   const char *ifok, const char *iffallback) {
+  struct command cmd;
   const char *oldscriptpath;
-  char *const *arglist;
   struct stat stab;
   char buf[100];
 
   oldscriptpath= pkgadminfile(pkg,scriptname);
-  arglist= buildarglist(scriptname,
-                        ifok,versiondescribe(&pkg->available.version,
-                                             vdew_nonambig),
-                        NULL);
   sprintf(buf, _("old %s script"), desc);
+
+  command_init(&cmd, oldscriptpath, buf);
+  command_add_args(&cmd, scriptname, ifok,
+                   versiondescribe(&pkg->available.version, vdew_nonambig),
+                   NULL);
+
   if (stat(oldscriptpath,&stab)) {
     if (errno == ENOENT) {
       debug(dbg_scripts,"maintainer_script_alternative nonexistent %s `%s'",
             scriptname,oldscriptpath);
+      command_destroy(&cmd);
       return 0;
     }
     warning(_("unable to stat %s '%.250s': %s"),
-            buf,oldscriptpath,strerror(errno));
+            cmd.name, oldscriptpath, strerror(errno));
   } else {
-    if (!do_script(pkg, &pkg->installed, oldscriptpath, &stab,
-                   arglist, buf, PROCWARN)) {
+    if (!do_script(pkg, &pkg->installed, &cmd, &stab, PROCWARN)) {
+      command_destroy(&cmd);
       post_script_tasks();
       return 1;
     }
   }
   fprintf(stderr, _("dpkg - trying script from the new package instead ...\n"));
 
-  arglist= buildarglist(scriptname,
-                        iffallback,versiondescribe(&pkg->installed.version,
-                                                   vdew_nonambig),
-                        NULL);
   strcpy(cidirrest,scriptname);
   sprintf(buf, _("new %s script"), desc);
 
+  command_destroy(&cmd);
+  command_init(&cmd, cidir, buf);
+  command_add_args(&cmd, scriptname, iffallback,
+                   versiondescribe(&pkg->installed.version, vdew_nonambig),
+                   NULL);
+
   if (stat(cidir,&stab)) {
+    command_destroy(&cmd);
     if (errno == ENOENT)
       ohshit(_("there is no script in the new version of the package - giving up"));
     else
       ohshite(_("unable to stat %s `%.250s'"),buf,cidir);
   }
 
-  do_script(pkg, &pkg->available, cidir, &stab, arglist, buf, 0);
+  do_script(pkg, &pkg->available, &cmd, &stab, 0);
   fprintf(stderr, _("dpkg: ... it looks like that went OK.\n"));
 
+  command_destroy(&cmd);
   post_script_tasks();
 
   return 1;

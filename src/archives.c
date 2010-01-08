@@ -45,6 +45,7 @@
 #include <dpkg/path.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
+#include <dpkg/command.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/myopt.h>
 
@@ -1067,35 +1068,29 @@ void archivefiles(const char *const *argv) {
     m_pipe(pi);
     fc = subproc_fork();
     if (!fc) {
+      struct command cmd;
       const char *const *ap;
-      int i;
+
       m_dup2(pi[1],1); close(pi[0]); close(pi[1]);
-      for (i=0, ap=argv; *ap; ap++, i++);
-      arglist = m_malloc(sizeof(char *) * (i + 15));
-      arglist[0] = FIND;
-      arglist[1] = "-L";
-      for (i = 2, ap = argv; *ap; ap++, i++) {
+
+      command_init(&cmd, FIND, _("find for dpkg --recursive"));
+      command_add_args(&cmd, FIND, "-L", NULL);
+
+      for (ap = argv; *ap; ap++) {
         if (strchr(FIND_EXPRSTARTCHARS,(*ap)[0])) {
           char *a;
           a= m_malloc(strlen(*ap)+10);
           strcpy(a,"./");
           strcat(a,*ap);
-          arglist[i] = a;
+          command_add_arg(&cmd, a);
         } else {
-          arglist[i] = (const char *)*ap;
+          command_add_arg(&cmd, (const char *)*ap);
         }
       }
-      /* When editing these, make sure that arglist is malloced big enough,
-       * above.
-       */
-      arglist[i++] = "-name";
-      arglist[i++] = "*.deb";
-      arglist[i++] = "-type";
-      arglist[i++] = "f";
-      arglist[i++] = "-print0";
-      arglist[i] = NULL;
-      execvp(FIND, (char *const *)arglist);
-      ohshite(_("failed to exec find for --recursive"));
+
+      command_add_args(&cmd, "-name", "*.deb", "-type", "f", "-print0", NULL);
+
+      command_exec(&cmd);
     }
     close(pi[1]);
 
