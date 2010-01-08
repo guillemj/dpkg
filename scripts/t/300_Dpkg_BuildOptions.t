@@ -33,15 +33,16 @@ $ENV{DEB_BUILD_OPTIONS} = 'noopt foonostripbar parallel=3 bazNOCHECK';
 my $dbo = Dpkg::BuildOptions::parse();
 
 my %dbo = (
-	   noopt => '',
-	   foonostripbar => '',
+	   noopt => undef,
+	   foonostripbar => undef,
 	   parallel => 3,
 	   );
 my %dbo2 = (
-	    no => '',
-	    opt => '',
-	    'no-strip' => '',
-	    nocheck => '',
+	    no => undef,
+	    opt => undef,
+	    'no-strip' => undef,
+	    nocheck => undef,
+	    parallel => '',
 	   );
 
 
@@ -52,7 +53,7 @@ $dbo = Dpkg::BuildOptions::parse('no opt no-strip parallel = 5 nocheck');
 is_deeply($dbo, \%dbo2, 'parse (param)');
 
 $dbo->{parallel} = 5;
-$dbo->{noopt} = '';
+$dbo->{noopt} = undef;
 
 my $env = Dpkg::BuildOptions::set($dbo, 1);
 
@@ -60,6 +61,6 @@ is($ENV{DEB_BUILD_OPTIONS}, $env, 'set (return value)');
 is_deeply(Dpkg::BuildOptions::parse(), $dbo, 'set (env)');
 
 $ENV{DEB_BUILD_OPTIONS} = 'foobar';
-$dbo = { noopt => '' };
+$dbo = { noopt => undef };
 $env = Dpkg::BuildOptions::set($dbo, 0);
 is($env, "foobar noopt", 'set (append)');
