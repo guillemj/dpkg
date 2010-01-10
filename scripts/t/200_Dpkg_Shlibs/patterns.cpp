@@ -82,17 +82,26 @@ namespace NSB
     EXPORT(ClassD::~ClassD());
     EXPORT(void ClassD::generate_vt(const char*) const);
 
-    class Wildcard {
+    class Symver {
 	public:
-	    Wildcard();
-	    ~Wildcard();
+	    Symver();
+	    ~Symver();
 
-	    void wildcard_method1();
-	    void wildcard_method2();
+	    void symver_method1();
+	    void symver_method2();
     };
 
-    EXPORT(Wildcard::Wildcard());
-    EXPORT(Wildcard::~Wildcard());
-    EXPORT(void Wildcard::wildcard_method1());
-    EXPORT(void Wildcard::wildcard_method2());
+    EXPORT(Symver::Symver());
+    EXPORT(Symver::~Symver());
+    EXPORT(void Symver::symver_method1());
+    EXPORT(void Symver::symver_method2());
+
+    class SymverOptional {
+	public:
+	    SymverOptional();
+	    ~SymverOptional();
+    };
+
+    EXPORT(SymverOptional::SymverOptional());
+    EXPORT(SymverOptional::~SymverOptional());
 };

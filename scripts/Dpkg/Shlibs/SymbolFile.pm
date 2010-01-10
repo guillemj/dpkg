@@ -25,10 +25,6 @@ use Dpkg::Control::Fields;
 use Dpkg::Shlibs::Symbol;
 use Dpkg::Arch qw(get_host_arch);
 
-# Supported alias types in the order of matching preference
-# See: find_matching_pattern().
-use constant 'ALIAS_TYPES' => qw(c++ wildcard);
-
 my %blacklist = (
     '__bss_end__' => 1,		# arm
     '__bss_end' => 1,		# arm
@@ -318,7 +314,7 @@ sub find_matching_pattern {
 	next unless defined $obj;
 
 	my $all_aliases = $obj->{patterns}{aliases};
-	for my $type (ALIAS_TYPES) {
+	for my $type (Dpkg::Shlibs::Symbol::ALIAS_TYPES) {
 	    if (exists $all_aliases->{$type}) {
 		my $aliases = $all_aliases->{$type};
 		if (my $alias = $aliases->{converter}->convert_to_alias($name)) {

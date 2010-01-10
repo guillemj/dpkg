@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 97;
+use Test::More tests => 104;
 use Cwd;
 use IO::String;
 
@@ -440,20 +440,46 @@ is_deeply( \@tmp, [], "no LOST symbols if all patterns matched." );
 @tmp = map { $_->get_symbolname() } $sym_file->get_new_symbols($sym_file_dup);
 is_deeply( \@tmp, [], "no NEW symbols if all patterns matched." );
 
-# Pattern resolution order: aliases (c++, wildcard), generic
-$sym = $sym_file->lookup_symbol('VERSION_1@VERSION_1',['libpatterns.so.1']);
-is ( $sym->{minver}, '1', "specific VERSION_1 symbol" );
+# Pattern resolution order: aliases (c++, symver), generic
+$sym = $sym_file->lookup_symbol('SYMVER_1@SYMVER_1',['libpatterns.so.1']);
+is ( $sym->{minver}, '1', "specific SYMVER_1 symbol" );
 
-$sym = $sym_file->lookup_symbol('_ZN3NSB8Wildcard16wildcard_method1Ev@VERSION_1', ['libpatterns.so.1']);
+$sym = $sym_file->lookup_symbol('_ZN3NSB6Symver14symver_method1Ev@SYMVER_1', ['libpatterns.so.1']);
 is ( $sym->{minver}, '1.method1', "specific symbol prefered over pattern" );
 
-$sym = $sym_file->lookup_symbol('_ZN3NSB8Wildcard16wildcard_method2Ev@VERSION_1', ['libpatterns.so.1']);
+$sym = $sym_file->lookup_symbol('_ZN3NSB6Symver14symver_method2Ev@SYMVER_1', ['libpatterns.so.1']);
 is ( $sym->{minver}, '1.method2', "c++ alias pattern preferred over generic pattern" );
-is ( $sym->get_pattern()->get_symbolname(), 'NSB::Wildcard::wildcard_method2()@VERSION_1' );
+is ( $sym->get_pattern()->get_symbolname(), 'NSB::Symver::symver_method2()@SYMVER_1' );
 
-$sym = $sym_file->lookup_symbol('_ZN3NSB8WildcardD1Ev@VERSION_1', ['libpatterns.so.1']);
-is ( $sym->{minver}, '1.generic', 'generic (wildcard & c++) pattern covers the rest (destructor)' );
-is ( $sym->get_pattern()->get_symbolname(), '*@VERSION_1' );
+$sym = $sym_file->lookup_symbol('_ZN3NSB6SymverD1Ev@SYMVER_1', ['libpatterns.so.1']);
+is ( $sym->{minver}, '1.generic', 'generic (c++ & symver) pattern covers the rest (destructor)' );
+ok ( $sym->get_pattern()->equals($sym_file->create_symbol('(c++|symver)SYMVER_1 1.generic')) );
+
+# Test old style wildcard support
+load_patterns_symbols();
+$pat = $sym_file->lookup_pattern($sym_file->create_symbol('*@SYMVEROPT_2 2'), ['libpatterns.so.1']);
+ok ( $pat->is_optional(), "Old style wildcard is optional");
+is ( $pat->get_alias_type(), "symver", "old style wildcard is a symver pattern" );
+
+# Get rid of all SymverOptional symbols
+foreach my $tmp (keys %{$obj->{dynsyms}}) {
+    delete $obj->{dynsyms}{$tmp} if ($tmp =~ /SymverOptional/);
+}
+$sym_file->merge_symbols($obj, '100.MISSING');
+is_deeply ( [ map { $_->get_symbolname() } $pat->get_pattern_matches() ],
+    [], "old style wildcard matches nothing.");
+is ( $pat->{deprecated}, '100.MISSING', "old style wildcard gets deprecated." );
+@tmp = map { $_->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
+is_deeply( \@tmp, [], "but old style wildcard is not LOST." );
+
+# 'Internal' pattern covers all internal symbols
+load_patterns_obj();
+@tmp = grep { $_->get_symbolname() =~ /Internal/ } values %{$sym_file->{objects}{'libpatterns.so.1'}{syms}};
+$sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal'),
+$pat = $sym_file->lookup_pattern($sym, ['libpatterns.so.1']);
+is_deeply ([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
+    "Pattern covers all internal symbols");
+is ( $tmp[0]->{minver}, '1.internal' );
 
 # Lookup private pattern
 my @private_symnames = sort qw(
