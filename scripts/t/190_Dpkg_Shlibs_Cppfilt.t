@@ -21,7 +21,7 @@ use warnings;
 use_ok("Dpkg::Shlibs::Cppfilt");
 
 sub demangle_cpp {
-    return cppfilt_demangle(shift, 'gnu-v3');
+    return cppfilt_demangle(shift, 'auto');
 }
 
 # Simple C++ demangling tests

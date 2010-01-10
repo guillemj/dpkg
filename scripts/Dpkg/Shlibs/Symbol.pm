@@ -354,7 +354,7 @@ sub convert_to_alias {
 	    # symbol version from the rawname.
 	    return "*\@$1" if ($rawname =~ /\@([^@]+)$/);
 	} elsif ($rawname =~ /^_Z/ && $type eq "c++") {
-	    return cppfilt_demangle($rawname, "gnu-v3");
+	    return cppfilt_demangle($rawname, "auto");
 	}
     }
     return undef;
