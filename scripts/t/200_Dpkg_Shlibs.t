@@ -159,11 +159,10 @@ use File::Temp;
 use File::Basename qw(basename);
 
 sub save_load_test {
-    my $symfile = shift;
-    my $comment = shift;
+    my ($symfile, $comment, @opts) = @_;
 
     my $save_file = new File::Temp;
-    $symfile->save($save_file->filename, @_);
+    $symfile->save($save_file->filename, @opts);
     my $dup = new Dpkg::Shlibs::SymbolFile(file => $save_file->filename);
     # Force sync of non-stored attributes
     $dup->{file} = $symfile->{file};

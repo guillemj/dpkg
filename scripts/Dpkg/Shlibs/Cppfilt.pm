@@ -41,10 +41,10 @@ sub get_cppfilt {
 	$filt = { from => undef, to => undef,
 	            last_symbol => "", last_result => "" };
 	$filt->{pid} = fork_and_exec(exec => [ 'c++filt',
-	                                         '--no-verbose',
-	                                         "--format=$type" ],
-	                              from_pipe => \$filt->{from},
-	                              to_pipe => \$filt->{to});
+	                                       '--no-verbose',
+	                                       "--format=$type" ],
+	                             from_pipe => \$filt->{from},
+	                             to_pipe => \$filt->{to});
 	internerr(_g("unable to execute c++filt")) unless defined $filt->{from};
 	$filt->{from}->autoflush(1);
 
@@ -58,8 +58,7 @@ sub get_cppfilt {
 # intact. If neither whole $symbol nor portion of it could be demangled, undef
 # is returned.
 sub cppfilt_demangle {
-    my $symbol = shift;
-    my $type = shift;
+    my ($symbol, $type) = @_;
 
     # Start or get c++filt 'object' for the requested type.
     my $filt = get_cppfilt($type);

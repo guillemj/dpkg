@@ -108,9 +108,8 @@ sub clear_except {
 
 # Create a symbol from the supplied string specification.
 sub create_symbol {
-    my $self = shift;
-    my $spec = shift;
-    my $symbol = shift || Dpkg::Shlibs::Symbol->new();
+    my ($self, $spec, $symbol) = @_;
+    $symbol = Dpkg::Shlibs::Symbol->new() unless defined $symbol;
 
     if ($symbol->parse($spec)) {
 	$symbol->initialize(arch => $self->{arch});

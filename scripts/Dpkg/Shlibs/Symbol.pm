@@ -290,8 +290,7 @@ sub get_pattern {
 
 # Initialises this symbol as a pattern of the specified type.
 sub init_pattern {
-    my $self = shift;
-    my $type = shift;
+    my ($self, $type) = @_;
 
     $self->{pattern}{type} = $type;
     # To be filled with references to symbols matching this pattern.
@@ -346,9 +345,9 @@ sub create_pattern_match {
 # the current pattern ($self). Returns undef if the supplied raw name is not
 # transformable to alias.
 sub convert_to_alias {
-    my $self = shift;
-    my $rawname = shift;
-    my $type = shift || $self->get_alias_type();
+    my ($self, $rawname, $type) = @_;
+    $type = $self->get_alias_type() unless $type;
+
     if ($type) {
 	if ($type eq 'wildcard') {
 	    # In case of wildcard, alias is like "*@SYMBOL_VERSION". Extract
@@ -451,9 +450,7 @@ sub is_eligible_as_new {
 # Determine whether a supplied raw symbol name matches against current ($self)
 # symbol or pattern.
 sub matches_rawname {
-    my $self = shift;
-    my $rawname = shift;
-
+    my ($self, $rawname) = @_;
     my $target = $rawname;
     my $ok = 1;
     my $do_eq_match = 1;
