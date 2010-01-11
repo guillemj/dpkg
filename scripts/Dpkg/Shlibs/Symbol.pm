@@ -140,7 +140,7 @@ sub parse {
 
 # A hook for symbol initialization (typically processing of tags). The code
 # here may even change symbol name. Called from
-# Dpkg::Shlibs::SymbolFile::load().
+# Dpkg::Shlibs::SymbolFile::create_symbol().
 sub initialize {
     my $self = shift;
 

@@ -106,6 +106,19 @@ sub clear_except {
     }
 }
 
+# Create a symbol from the supplied string specification.
+sub create_symbol {
+    my $self = shift;
+    my $spec = shift;
+    my $symbol = shift || Dpkg::Shlibs::Symbol->new();
+
+    if ($symbol->parse($spec)) {
+	$symbol->initialize(arch => $self->{arch});
+	return $symbol;
+    }
+    return undef;
+}
+
 sub add_symbol {
     my ($self, $soname, $symbol) = @_;
     my $object = (ref $soname) ? $soname : $self->{objects}{$soname};
@@ -170,8 +183,7 @@ sub load {
 	    # Symbol specification
 	    my $deprecated = ($1) ? $1 : 0;
 	    my $sym = new_symbol($base_symbol, deprecated => $deprecated);
-	    if ($sym->parse($2)) {
-		$sym->initialize(arch => $self->{arch});
+	    if ($self->create_symbol($2, $sym)) {
 		$self->add_symbol($$obj_ref, $sym);
 	    } else {
 		warning(_g("Failed to parse line in %s: %s"), $file, $_);
