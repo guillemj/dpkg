@@ -151,7 +151,8 @@ test_cases = \
 
 check_DATA = \
 	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 \
-	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386
+	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386 \
+	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.patterns
 
 test_data = \
 	t/200_Dpkg_Shlibs/symbols.fake-1 \
@@ -162,6 +163,9 @@ test_data = \
 	t/200_Dpkg_Shlibs/symbols.include-3 \
 	t/200_Dpkg_Shlibs/basictags.symbols \
 	t/200_Dpkg_Shlibs/basictags.c \
+	t/200_Dpkg_Shlibs/patterns.symbols \
+	t/200_Dpkg_Shlibs/patterns.cpp \
+	t/200_Dpkg_Shlibs/patterns.map \
 	t/200_Dpkg_Shlibs/ld.so.conf \
 	t/200_Dpkg_Shlibs/ld.so.conf_2 \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/normal.conf \
@@ -201,3 +205,11 @@ $(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 $(test_tmpdir)/200_Dpkg_S
 	  sed "s/$(objdump_lib_name)/libbasictags.so.1/g" > $@
 	rm -f $(objdump_lib_name)
 
+$(test_tmpdir)/200_Dpkg_Shlibs/objdump.patterns: $(srcdir)/t/200_Dpkg_Shlibs/patterns.cpp $(srcdir)/t/200_Dpkg_Shlibs/patterns.map
+	$(mkdir_p) $(test_tmpdir)/200_Dpkg_Shlibs
+	$(CXX) $(CXXFLAGS) -shared -fPIC -Wl,-soname -Wl,libpatterns.so.1 \
+	    -Wl,--version-script=$(srcdir)/t/200_Dpkg_Shlibs/patterns.map $< \
+	    -o $(objdump_lib_name)
+	objdump -w -f -p -T -R $(objdump_lib_name) | \
+	  sed "s/$(objdump_lib_name)/libpatterns.so.1/g" > $@
+	rm -f $(objdump_lib_name)

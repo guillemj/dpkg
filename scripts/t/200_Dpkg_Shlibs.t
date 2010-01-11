@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 65;
+use Test::More tests => 97;
 use Cwd;
 use IO::String;
 
@@ -135,7 +135,7 @@ ok( $sym_file->get_new_symbols($sym_file_old), 'has new symbols' );
 ok( $sym_file_old->get_lost_symbols($sym_file), 'has lost symbols' );
 
 is( $sym_file_old->lookup_symbol('__bss_start@Base', ['libc.so.6']),
-    undef, 'internal symbols are blacklisted');
+    undef, 'internal symbols are blacklisted' );
 
 $sym = $sym_file->lookup_symbol('_errno@GLIBC_2.0', ['libc.so.6'], 1);
 isa_ok($sym, 'Dpkg::Shlibs::Symbol');
@@ -409,3 +409,145 @@ $tmp[1]->{teststruct}{foo} = 3;
 $tmp[1]->{testfield} = 3;
 is ( $sym->{teststruct}{foo}, 2, 'struct changed via sclone()' );
 is ( $sym->{testfield}, 1, 'original field not changed' );
+
+############ Test symbol patterns ###########
+sub load_patterns_obj {
+    $obj = Dpkg::Shlibs::Objdump::Object->new();
+    open $objdump, '<', "$tmpdir/objdump.patterns"
+	or die "$tmpdir/objdump.patterns: $!";
+    $obj->_parse($objdump);
+    close $objdump;
+    return $obj;
+}
+
+sub load_patterns_symbols {
+    $sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/patterns.symbols");
+    return $sym_file;
+}
+
+load_patterns_obj();
+$sym_file_dup = load_patterns_symbols();
+load_patterns_symbols();
+
+save_load_test($sym_file, 'save -> load test of patterns template', template_mode => 1);
+
+isnt( $sym_file->get_soname_patterns('libpatterns.so.1') , 0,
+    "patterns.symbols has patterns" );
+
+$sym_file->merge_symbols($obj, '100.MISSING');
+
+@tmp = map { $_->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
+is_deeply( \@tmp, [], "no LOST symbols if all patterns matched." );
+@tmp = map { $_->get_symbolname() } $sym_file->get_new_symbols($sym_file_dup);
+is_deeply( \@tmp, [], "no NEW symbols if all patterns matched." );
+
+# Pattern resolution order: aliases (c++, wildcard), generic
+$sym = $sym_file->lookup_symbol('VERSION_1@VERSION_1',['libpatterns.so.1']);
+is ( $sym->{minver}, '1', "specific VERSION_1 symbol" );
+
+$sym = $sym_file->lookup_symbol('_ZN3NSB8Wildcard16wildcard_method1Ev@VERSION_1', ['libpatterns.so.1']);
+is ( $sym->{minver}, '1.method1', "specific symbol prefered over pattern" );
+
+$sym = $sym_file->lookup_symbol('_ZN3NSB8Wildcard16wildcard_method2Ev@VERSION_1', ['libpatterns.so.1']);
+is ( $sym->{minver}, '1.method2', "c++ alias pattern preferred over generic pattern" );
+is ( $sym->get_pattern()->get_symbolname(), 'NSB::Wildcard::wildcard_method2()@VERSION_1' );
+
+$sym = $sym_file->lookup_symbol('_ZN3NSB8WildcardD1Ev@VERSION_1', ['libpatterns.so.1']);
+is ( $sym->{minver}, '1.generic', 'generic (wildcard & c++) pattern covers the rest (destructor)' );
+is ( $sym->get_pattern()->get_symbolname(), '*@VERSION_1' );
+
+# Lookup private pattern
+my @private_symnames = sort qw(
+    _ZN3NSA6ClassA7Private11privmethod1Ei@Base
+    _ZN3NSA6ClassA7Private11privmethod2Ei@Base
+    _ZN3NSA6ClassA7PrivateC1Ev@Base
+    _ZN3NSA6ClassA7PrivateC2Ev@Base
+    _ZN3NSA6ClassA7PrivateD0Ev@Base
+    _ZN3NSA6ClassA7PrivateD1Ev@Base
+    _ZN3NSA6ClassA7PrivateD2Ev@Base
+    _ZTIN3NSA6ClassA7PrivateE@Base
+    _ZTSN3NSA6ClassA7PrivateE@Base
+    _ZTVN3NSA6ClassA7PrivateE@Base
+);
+$sym = $sym_file->create_symbol('(c++|regex|optional)NSA::ClassA::Private(::.*)?@Base 1');
+$pat = $sym_file->lookup_pattern($sym, ['libpatterns.so.1']);
+isnt( $pat, undef, 'pattern for private class has been found' );
+is_deeply( [ sort map { $_->get_symbolname() } $pat->get_pattern_matches() ],
+    \@private_symnames, "private pattern matched expected symbols" );
+ok( ($pat->get_pattern_matches())[0]->is_optional(),
+    "private symbol is optional like its pattern" );
+ok( $sym_file->lookup_symbol(($pat->get_pattern_matches())[0]->get_symbolname(), ['libpatterns.so.1']),
+    "lookup_symbol() finds symbols matched by pattern (after merge)"),
+
+# Get rid of a private symbol, it should not be lost
+delete $obj->{dynsyms}{$private_symnames[0]};
+load_patterns_symbols();
+$sym_file->merge_symbols($obj, '100.MISSING');
+
+$pat = $sym_file->lookup_pattern($sym, ['libpatterns.so.1']);
+@tmp = map { $_->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
+is_deeply( \@tmp, [], "no LOST symbols when got rid of patterned optional symbol." );
+ok( ! $pat->{deprecated} , "there are still matches, pattern is not deprecated." );
+
+# Get rid of all private symbols, the pattern should be deprecated.
+foreach my $tmp (@private_symnames) {
+    delete $obj->{dynsyms}{$tmp};
+}
+load_patterns_symbols();
+$sym_file->merge_symbols($obj, '100.MISSING');
+
+$pat = $sym_file->lookup_pattern($sym, ['libpatterns.so.1'], 1);
+@tmp = $sym_file->get_lost_symbols($sym_file_dup);
+is_deeply( \@tmp, [ ],
+    "All private symbols gone, but pattern is not LOST because it is optional." );
+is( $pat->{deprecated}, '100.MISSING',
+    "All private symbols gone - pattern deprecated." );
+
+# Internal symbols. All covered by the pattern?
+@tmp = grep { $_->get_symbolname() =~ /Internal/ } values %{$sym_file->{objects}{'libpatterns.so.1'}{syms}};
+$sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal'),
+$pat = $sym_file->lookup_pattern($sym, ['libpatterns.so.1']);
+is_deeply ([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
+    "Pattern covers all internal symbols");
+is ( $tmp[0]->{minver}, '1.internal' );
+
+# Delete matches of the non-optional pattern
+$sym = $sym_file->create_symbol('(c++)"non-virtual thunk to NSB::ClassD::generate_vt(char const*) const@Base" 1');
+$pat = $sym_file->lookup_pattern($sym, ['libpatterns.so.1']);
+isnt( $pat, undef, 'lookup_pattern() finds alias-based pattern' );
+
+is( scalar($pat->get_pattern_matches()), 2, "two matches for the generate_vt pattern" );
+foreach my $tmp ($pat->get_pattern_matches()) {
+    delete $obj->{dynsyms}{$tmp->get_symbolname()};
+}
+load_patterns_symbols();
+$sym_file->merge_symbols($obj, '100.MISSING');
+
+$pat = $sym_file->lookup_pattern($sym, ['libpatterns.so.1'], 1);
+@tmp = map { $sym_file->lookup_pattern($_, ['libpatterns.so.1'], 1) }
+             $sym_file->get_lost_symbols($sym_file_dup);
+is_deeply( \@tmp, [ $pat ], "No matches - generate_vt() pattern is LOST." );
+is( $pat->{deprecated}, '100.MISSING',
+    "No matches - generate_vt() pattern is deprecated." );
+
+# Pattern undeprecation when matches are discovered
+load_patterns_obj();
+load_patterns_symbols();
+
+$pat = $sym_file_dup->lookup_pattern($sym, ['libpatterns.so.1']);
+$pat->{deprecated} = '0.1-1';
+$pat = $sym_file->lookup_pattern($sym, ['libpatterns.so.1']);
+$pat->{deprecated} = '0.1-1';
+
+$sym_file->merge_symbols($obj, '100.FOUND');
+ok( ! $pat->{deprecated},
+    "Previously deprecated pattern with matches got undeprecated" );
+is( $pat->{minver}, '100.FOUND',
+    "Previously deprecated pattern with matches got minver bumped" );
+@tmp = map { $_->get_symbolspec(1) } $sym_file->get_new_symbols($sym_file_dup);
+is_deeply( \@tmp, [ $pat->get_symbolspec(1) ],
+    "Previously deprecated pattern with matches is NEW. Matches themselves are not NEW." );
+foreach my $sym ($pat->get_pattern_matches()) {
+    ok( ! $sym->{deprecated}, $sym->get_symbolname().": not deprecated" );
+    is( $sym->{minver}, '100.FOUND', $sym->get_symbolname().": version bumped" );
+}
