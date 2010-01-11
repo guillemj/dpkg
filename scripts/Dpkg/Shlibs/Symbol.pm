@@ -157,23 +157,22 @@ sub initialize {
 	$type = 'alias-c++';
     }
 
+    # Support old style wildcard syntax. That's basically a symver
+    # with an optional tag.
+    if ($self->get_symbolname() =~ /^\*@(.*)$/) {
+	$self->add_tag("symver") unless $self->has_tag("symver");
+	$self->add_tag("optional") unless $self->has_tag("optional");
+	$self->{symbol} = $1;
+    }
+
     if ($self->has_tag('symver')) {
 	# Each symbol is matched against its version rather than full
 	# name@version string.
 	$type = (defined $type) ? 'generic' : 'alias-symver';
-    }
-    # Support old style wildcard syntax as well. That's basically a symver
-    # with implicit optional tag.
-    if ($self->get_symbolname() =~ /^\*@(.*)$/) {
-	error(_g("you can't use wildcards on unversioned symbols: %s"), $_) if $1 eq "Base";
-	# symver pattern needs symbol name to be its version. However, keeping
-	# dumping this as old style wildcard in the output.
-	unless (defined $self->{symbol_templ}) {
-	    $self->{symbol_templ} = $self->get_symbolname();
+	if ($self->get_symbolname() eq "Base") {
+	    error(_g("you can't use symver tag to catch unversioned symbols: %s"),
+	          $self->get_symbolspec(1));
 	}
-	$type = (defined $type) ? 'generic' : 'alias-symver';
-	$self->{symbol} = $1;
-	$self->{pattern}{old_wildcard} = 1;
     }
 
     # As soon as regex is involved, we need to match each real
@@ -270,8 +269,7 @@ sub equals {
 
 sub is_optional {
     my $self = shift;
-    return $self->has_tag("optional") ||
-           (exists $self->{pattern} && exists $self->{pattern}{old_wildcard});
+    return $self->has_tag("optional");
 }
 
 sub is_arch_specific {

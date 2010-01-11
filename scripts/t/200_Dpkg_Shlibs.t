@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 104;
+use Test::More tests => 106;
 use Cwd;
 use IO::String;
 
@@ -152,6 +152,7 @@ $sym = $sym_file_old->lookup_symbol('__nss_services_lookup@GLIBC_PRIVATE', ['lib
 is_deeply($sym, Dpkg::Shlibs::Symbol->new( 'symbol' => '__nss_services_lookup@GLIBC_PRIVATE',
 		  'minver' => '2.3.6.wildcard', 'dep_id' => 0,
 		  'deprecated' => 0, 'depends' => '',
+		  'tags' => { 'symver' => undef,  optional => undef }, 'tagorder' => [ 'symver', 'optional' ],
 		  'soname' => 'libc.so.6', 'matching_pattern' => $pat ), 'wildcarded symbol');
 
 # Save -> Load test
@@ -457,9 +458,14 @@ ok ( $sym->get_pattern()->equals($sym_file->create_symbol('(c++|symver)SYMVER_1 
 
 # Test old style wildcard support
 load_patterns_symbols();
-$pat = $sym_file->lookup_pattern($sym_file->create_symbol('*@SYMVEROPT_2 2'), ['libpatterns.so.1']);
-ok ( $pat->is_optional(), "Old style wildcard is optional");
-is ( $pat->get_alias_type(), "symver", "old style wildcard is a symver pattern" );
+$sym = $sym_file->create_symbol('*@SYMVEROPT_2 2');
+ok ( $sym->is_optional(), "Old style wildcard is optional");
+is ( $sym->get_alias_type(), "symver", "old style wildcard is a symver pattern" );
+is ( $sym->get_symbolname(), 'SYMVEROPT_2', "wildcard pattern got renamed" );
+
+$pat = $sym_file->lookup_pattern($sym_file->create_symbol('(symver|optional)SYMVEROPT_2 2'), ['libpatterns.so.1']);
+$sym->{symbol_templ} = $pat->{symbol_templ};
+is_deeply( $pat, $sym, "old style wildcard is the same as (symver|optional)" );
 
 # Get rid of all SymverOptional symbols
 foreach my $tmp (keys %{$obj->{dynsyms}}) {
