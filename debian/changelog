@@ -9,6 +9,8 @@ dpkg (1.15.6) UNRELEASED; urgency=low
       by default
   * Drop debian-maintainers from Suggests since it's obsolete, the
     corresponding keyring is in debian-keyring.
+  * Merge support of symbol patterns in dpkg-gensymbols. Thanks to
+    Modestas Vainius for his work (see further for more details).
 
   [ Guillem Jover ]
   * Handle argument parsing in dpkg-checkbuilddeps and dpkg-scanpackages
@@ -37,6 +39,26 @@ dpkg (1.15.6) UNRELEASED; urgency=low
     are already fatal on that case.
   * Add new deb-split(5) man page.
   * Fix misspellings of “explicitly” all over the place.
+
+  [ Modestas Vainius ]
+  * Implement symbol patterns (Closes: #563752). From now on, it is possible to
+    match multiple symbols with a single entry in the symbol file template.
+    While the concept is not new (wildcards also match multiple symbols),
+    patterns cover much more ground and are a lot more flexible. Together with
+    the framework, 3 basic pattern types are supported:
+    - c++ - matching C++ symbols by their demangled name (as emitted by
+      c++filt);
+    - symver - matching by symbol version. It replaces the wildcards feature
+      which is still supported for backwards compatibility but is reimplemented
+      on top of the new framework;
+    - regex - matching symbol names with perl regular expression.
+    Basic patterns may be combined where it makes sense.
+  * As a positive side effect of the new symbol patterns implementation,
+    patterns are now treated like normal symbols whenever possible, e.g. a
+    pattern is MISSING if it does not match anything. As a result,
+    dpkg-gensymbols is now able to detect NEW/MISSING symbols when patterns are
+    present in the symbol file (Closes: #541464). Please note, however, that
+    there is no way to detect symbol changes in the pattern match sets.
 
   [ Updated dpkg translations ]
   * French (Christian PERRIER).
