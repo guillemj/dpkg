@@ -76,7 +76,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
         char buffer[4096];
         int actualread;
         gzFile gzfile = gzdopen(fd_in, "r");
-        while ((actualread= gzread(gzfile,buffer,sizeof(buffer))) > 0) {
+        while ((actualread = gzread(gzfile, buffer, sizeof(buffer)))) {
           if (actualread < 0 ) {
             int err = 0;
             const char *errmsg = gzerror(gzfile, &err);
@@ -99,7 +99,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
         char buffer[4096];
         int actualread;
         BZFILE *bzfile = BZ2_bzdopen(fd_in, "r");
-        while ((actualread= BZ2_bzread(bzfile,buffer,sizeof(buffer))) > 0) {
+        while ((actualread = BZ2_bzread(bzfile, buffer, sizeof(buffer)))) {
           if (actualread < 0 ) {
             int err = 0;
             const char *errmsg = BZ2_bzerror(bzfile, &err);
@@ -152,7 +152,7 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
         strncpy(combuf, "w9", sizeof(combuf));
         combuf[1]= *compression;
         gzfile = gzdopen(fd_out, combuf);
-        while ((actualread = read(fd_in, buffer, sizeof(buffer))) > 0) {
+        while ((actualread = read(fd_in, buffer, sizeof(buffer)))) {
           if (actualread < 0 ) {
             if (errno == EINTR) continue;
             ohshite(_("%s: internal gzip read error"), v.buf);
@@ -185,7 +185,7 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
         strncpy(combuf, "w9", sizeof(combuf));
         combuf[1]= *compression;
         bzfile = BZ2_bzdopen(fd_out, combuf);
-        while ((actualread = read(fd_in, buffer, sizeof(buffer))) > 0) {
+        while ((actualread = read(fd_in, buffer, sizeof(buffer)))) {
           if (actualread < 0 ) {
             if (errno == EINTR) continue;
             ohshite(_("%s: internal bzip2 read error"), v.buf);
