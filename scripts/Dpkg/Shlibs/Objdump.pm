@@ -216,7 +216,7 @@ sub _parse {
                 }
 	    }
 	} elsif ($section eq "none") {
-	    if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
+	    if (/^\s*.+:\s*file\s+format\s+(\S+)\s*$/) {
 		$self->{format} = $1;
 	    } elsif (/^architecture:\s*\S+,\s*flags\s*\S+:\s*$/) {
 		# Parse 2 lines of "-f"
