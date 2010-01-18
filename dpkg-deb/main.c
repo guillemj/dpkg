@@ -188,7 +188,7 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
     badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
              cip->oshort, cip->olong, cipaction->oshort, cipaction->olong);
   cipaction= cip;
-  assert((int)(cip - cmdinfos) < (int)(sizeof_array(dofunctions)));
+  assert((int)(cip - cmdinfos) < (int)(array_count(dofunctions)));
   action= dofunctions[cip-cmdinfos];
 }
 

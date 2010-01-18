@@ -482,7 +482,7 @@ parse_signal(const char *signal_str, int *signal_nr)
 	if (parse_integer(signal_str, signal_nr) == 0)
 		return 0;
 
-	for (i = 0; i < sizeof_array(siglist); i++) {
+	for (i = 0; i < array_count(siglist); i++) {
 		if (strcmp(signal_str, siglist[i].name) == 0) {
 			*signal_nr = siglist[i].signal;
 			return 0;

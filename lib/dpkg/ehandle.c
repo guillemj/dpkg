@@ -209,7 +209,7 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   
   cep= malloc(sizeof(struct cleanupentry) + sizeof(char*)*(nargs+1));
   if (!cep) {
-    if (nargs > sizeof_array(emergency.args))
+    if (nargs > array_count(emergency.args))
       ohshite(_("out of memory for new cleanup entry with many arguments"));
     e= errno; cep= &emergency.ce;
   }

@@ -45,8 +45,8 @@
 #define DPKG_END_DECLS
 #endif
 
-#ifndef sizeof_array
-#define sizeof_array(a) (sizeof(a) / sizeof((a)[0]))
+#ifndef array_count
+#define array_count(a) (sizeof(a) / sizeof((a)[0]))
 #endif
 
 #ifndef min

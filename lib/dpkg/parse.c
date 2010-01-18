@@ -80,7 +80,7 @@ const struct fieldinfo fieldinfos[]= {
   {  NULL   /* sentinel - tells code that list is ended */                               }
 };
 
-const int nfields = sizeof_array(fieldinfos);
+const int nfields = array_count(fieldinfos);
 
 int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep, FILE *warnto, int *warncount) {
@@ -94,7 +94,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   struct arbitraryfield *arp, **larpp;
   struct trigaw *ta;
   int pdone;
-  int fieldencountered[sizeof_array(fieldinfos)];
+  int fieldencountered[array_count(fieldinfos)];
   const struct fieldinfo *fip;
   const struct nickname *nick;
   char *data, *dataptr, *endptr;

@@ -36,7 +36,7 @@
 #include <dpkg/subproc.h>
 
 static int catch_signals[] = { SIGQUIT, SIGINT };
-static struct sigaction uncatch_signals[sizeof_array(catch_signals)];
+static struct sigaction uncatch_signals[array_count(catch_signals)];
 
 void
 subproc_signals_setup(const char *name)
@@ -49,7 +49,7 @@ subproc_signals_setup(const char *name)
 	catchsig.sa_handler = SIG_IGN;
 	sigemptyset(&catchsig.sa_mask);
 	catchsig.sa_flags = 0;
-	for (i = 0; i < sizeof_array(catch_signals); i++)
+	for (i = 0; i < array_count(catch_signals); i++)
 		if (sigaction(catch_signals[i], &catchsig, &uncatch_signals[i]))
 			ohshite(_("unable to ignore signal %s before running %.250s"),
 			        strsignal(catch_signals[i]), name);
@@ -62,7 +62,7 @@ subproc_signals_cleanup(int argc, void **argv)
 {
 	size_t i;
 
-	for (i = 0; i < sizeof_array(catch_signals); i++) {
+	for (i = 0; i < array_count(catch_signals); i++) {
 		if (sigaction(catch_signals[i], &uncatch_signals[i], NULL)) {
 			fprintf(stderr, _("error un-catching signal %s: %s\n"),
 			        strsignal(catch_signals[i]), strerror(errno));
