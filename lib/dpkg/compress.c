@@ -69,6 +69,220 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 	command_exec(&cmd);
 }
 
+/*
+ * No compressor (pass-through).
+ */
+
+static void
+decompress_none(int fd_in, int fd_out, const char *desc)
+{
+	fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), desc);
+	exit(0);
+}
+
+static void
+compress_none(int fd_in, int fd_out, int compress_level, const char *desc)
+{
+	fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), desc);
+	exit(0);
+}
+
+/*
+ * Gzip compressor.
+ */
+
+#ifdef WITH_ZLIB
+static void
+decompress_gzip(int fd_in, int fd_out, const char *desc)
+{
+	char buffer[4096];
+	gzFile gzfile = gzdopen(fd_in, "r");
+
+	for (;;) {
+		int actualread, actualwrite;
+
+		actualread = gzread(gzfile, buffer, sizeof(buffer));
+		if (actualread < 0) {
+			int err = 0;
+			const char *errmsg = gzerror(gzfile, &err);
+
+			if (err == Z_ERRNO)
+				errmsg = strerror(errno);
+			ohshit(_("%s: internal gzip read error: '%s'"), desc,
+			       errmsg);
+		}
+		if (actualread == 0) /* EOF. */
+			break;
+
+		actualwrite = write(fd_out, buffer, actualread);
+		if (actualwrite != actualread)
+			ohshite(_("%s: internal gzip write error"), desc);
+	}
+	exit(0);
+}
+
+static void
+compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
+{
+	char buffer[4096];
+	char combuf[6];
+	gzFile gzfile;
+
+	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
+	gzfile = gzdopen(fd_out, combuf);
+
+	for (;;) {
+		int actualread, actualwrite;
+
+		actualread = read(fd_in, buffer, sizeof(buffer));
+		if (actualread < 0)
+			ohshite(_("%s: internal gzip read error"), desc);
+		if (actualread == 0) /* EOF. */
+			break;
+
+		actualwrite = gzwrite(gzfile, buffer, actualread);
+		if (actualwrite != actualread) {
+			int err = 0;
+			const char *errmsg = gzerror(gzfile, &err);
+
+			if (err == Z_ERRNO)
+				errmsg = strerror(errno);
+			ohshit(_("%s: internal gzip write error: '%s'"), desc,
+			       errmsg);
+		}
+	}
+
+	gzclose(gzfile);
+
+	exit(0);
+}
+#else
+static void
+decompress_gzip(int fd_in, int fd_out, const char *desc)
+{
+	fd_fd_filter(fd_in, fd_out, desc, GZIP, "-dc", NULL);
+}
+
+static void
+compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
+{
+	char combuf[6];
+
+	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	fd_fd_filter(fd_in, fd_out, desc, GZIP, combuf, NULL);
+}
+#endif
+
+/*
+ * Bzip2 compressor.
+ */
+
+#ifdef WITH_BZ2
+static void
+decompress_bzip2(int fd_in, int fd_out, const char *desc)
+{
+	char buffer[4096];
+	BZFILE *bzfile = BZ2_bzdopen(fd_in, "r");
+
+	for (;;) {
+		int actualread, actualwrite;
+
+		actualread = BZ2_bzread(bzfile, buffer, sizeof(buffer));
+		if (actualread < 0) {
+			int err = 0;
+			const char *errmsg = BZ2_bzerror(bzfile, &err);
+
+			if (err == BZ_IO_ERROR)
+				errmsg = strerror(errno);
+			ohshit(_("%s: internal bzip2 read error: '%s'"), desc,
+			       errmsg);
+		}
+		if (actualread == 0) /* EOF. */
+			break;
+
+		actualwrite = write(fd_out, buffer, actualread);
+		if (actualwrite != actualread)
+			ohshite(_("%s: internal bzip2 write error"), desc);
+	}
+
+	exit(0);
+}
+
+static void
+compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
+{
+	char buffer[4096];
+	char combuf[6];
+	BZFILE *bzfile;
+
+	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
+	bzfile = BZ2_bzdopen(fd_out, combuf);
+
+	for (;;) {
+		int actualread, actualwrite;
+
+		actualread = read(fd_in, buffer, sizeof(buffer));
+		if (actualread < 0)
+			ohshite(_("%s: internal bzip2 read error"), desc);
+		if (actualread == 0) /* EOF. */
+			break;
+
+		actualwrite = BZ2_bzwrite(bzfile, buffer, actualread);
+		if (actualwrite != actualread) {
+			int err = 0;
+			const char *errmsg = BZ2_bzerror(bzfile, &err);
+
+			if (err == BZ_IO_ERROR)
+				errmsg = strerror(errno);
+			ohshit(_("%s: internal bzip2 write error: '%s'"), desc,
+			       errmsg);
+		}
+	}
+
+	BZ2_bzclose(bzfile);
+
+	exit(0);
+}
+#else
+static void
+decompress_bzip2(int fd_in, int fd_out, const char *desc)
+{
+	fd_fd_filter(fd_in, fd_out, desc, BZIP2, "-dc", NULL);
+}
+
+static void
+compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
+{
+	char combuf[6];
+
+	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	fd_fd_filter(fd_in, fd_out, desc, BZIP2, combuf, NULL);
+}
+#endif
+
+/*
+ * Lzma compressor.
+ */
+
+static void
+decompress_lzma(int fd_in, int fd_out, const char *desc)
+{
+	fd_fd_filter(fd_in, fd_out, desc, LZMA, "-dc", NULL);
+}
+
+static void
+compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
+{
+	char combuf[6];
+
+	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	fd_fd_filter(fd_in, fd_out, desc, LZMA, combuf, NULL);
+}
+
+/*
+ * Generic compressor filter.
+ */
+
 void
 decompress_filter(enum compress_type type, int fd_in, int fd_out,
                   const char *desc, ...)
@@ -82,70 +296,13 @@ decompress_filter(enum compress_type type, int fd_in, int fd_out,
 
   switch(type) {
     case compress_type_gzip:
-#ifdef WITH_ZLIB
-      {
-        char buffer[4096];
-        gzFile gzfile = gzdopen(fd_in, "r");
-
-        for (;;) {
-          int actualread, actualwrite;
-
-          actualread = gzread(gzfile, buffer, sizeof(buffer));
-          if (actualread < 0 ) {
-            int err = 0;
-            const char *errmsg = gzerror(gzfile, &err);
-
-            if (err == Z_ERRNO)
-              errmsg= strerror(errno);
-            ohshit(_("%s: internal gzip read error: '%s'"), v.buf, errmsg);
-          }
-          if (actualread == 0) /* EOF. */
-            break;
-
-          actualwrite = write(fd_out, buffer, actualread);
-          if (actualwrite != actualread)
-            ohshite(_("%s: internal gzip write error"), desc);
-        }
-      }
-      exit(0);
-#else
-      fd_fd_filter(fd_in, fd_out, v.buf, GZIP, "-dc", NULL);
-#endif
+      decompress_gzip(fd_in, fd_out, v.buf);
     case compress_type_bzip2:
-#ifdef WITH_BZ2
-      {   
-        char buffer[4096];
-        BZFILE *bzfile = BZ2_bzdopen(fd_in, "r");
-
-        for (;;) {
-          int actualread, actualwrite;
-
-          actualread = BZ2_bzread(bzfile, buffer, sizeof(buffer));
-          if (actualread < 0 ) {
-            int err = 0;
-            const char *errmsg = BZ2_bzerror(bzfile, &err);
-
-            if (err == BZ_IO_ERROR)
-              errmsg= strerror(errno);
-            ohshit(_("%s: internal bzip2 read error: '%s'"), v.buf, errmsg);
-          }
-          if (actualread == 0) /* EOF. */
-            break;
-
-          actualwrite = write(fd_out, buffer, actualread);
-          if (actualwrite != actualread)
-            ohshite(_("%s: internal bzip2 write error"), desc);
-        }
-      }
-      exit(0);
-#else
-      fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, "-dc", NULL);
-#endif
+      decompress_bzip2(fd_in, fd_out, v.buf);
     case compress_type_lzma:
-      fd_fd_filter(fd_in, fd_out, v.buf, LZMA, "-dc", NULL);
+      decompress_lzma(fd_in, fd_out, v.buf);
     case compress_type_none:
-      fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), v.buf);
-      exit(0);
+      decompress_none(fd_in, fd_out, v.buf);
     default:
       exit(1);
   }
@@ -157,7 +314,6 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
 {
   va_list al;
   struct varbuf v = VARBUF_INIT;
-  char combuf[6];
 
   va_start(al,desc);
   varbufvprintf(&v, desc, al);
@@ -170,79 +326,13 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
 
   switch(type) {
     case compress_type_gzip:
-#ifdef WITH_ZLIB
-      {
-        char buffer[4096];
-        gzFile gzfile;
-
-        snprintf(combuf, sizeof(combuf), "w%d", compress_level);
-        gzfile = gzdopen(fd_out, combuf);
-
-        for (;;) {
-          int actualread, actualwrite;
-
-          actualread = read(fd_in, buffer, sizeof(buffer));
-          if (actualread < 0)
-            ohshite(_("%s: internal gzip read error"), v.buf);
-          if (actualread == 0) /* EOF. */
-            break;
-
-          actualwrite= gzwrite(gzfile,buffer,actualread);
-          if (actualwrite != actualread) {
-            int err = 0;
-            const char *errmsg = gzerror(gzfile, &err);
-            if (err == Z_ERRNO)
-              errmsg = strerror(errno);
-            ohshit(_("%s: internal gzip write error: '%s'"), v.buf, errmsg);
-          }
-        }
-        gzclose(gzfile);
-        exit(0);
-      }
-#else
-      snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
-      fd_fd_filter(fd_in, fd_out, v.buf, GZIP, combuf, NULL);
-#endif
+      compress_gzip(fd_in, fd_out, compress_level, v.buf);
     case compress_type_bzip2:
-#ifdef WITH_BZ2
-      {
-        char buffer[4096];
-        BZFILE *bzfile;
-
-        snprintf(combuf, sizeof(combuf), "w%d", compress_level);
-        bzfile = BZ2_bzdopen(fd_out, combuf);
-
-        for (;;) {
-          int actualread, actualwrite;
-
-          actualread = read(fd_in, buffer, sizeof(buffer));
-          if (actualread < 0)
-            ohshite(_("%s: internal bzip2 read error"), v.buf);
-          if (actualread == 0) /* EOF. */
-            break;
-
-          actualwrite= BZ2_bzwrite(bzfile,buffer,actualread);
-          if (actualwrite != actualread) {
-            int err = 0;
-            const char *errmsg = BZ2_bzerror(bzfile, &err);
-            if (err == BZ_IO_ERROR)
-              errmsg= strerror(errno);
-            ohshit(_("%s: internal bzip2 write error: '%s'"), v.buf, errmsg);
-          }
-        }
-        BZ2_bzclose(bzfile);
-        exit(0);
-      }
-#else
-      snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
-      fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, combuf, NULL);
-#endif
+      compress_bzip2(fd_in, fd_out, compress_level, v.buf);
     case compress_type_lzma:
-      snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
-      fd_fd_filter(fd_in, fd_out, v.buf, LZMA, combuf, NULL);
+      compress_lzma(fd_in, fd_out, compress_level, v.buf);
     case compress_type_none:
-      fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);
-      exit(0);
+      compress_none(fd_in, fd_out, compress_level, v.buf);
     default:
       exit(1);
   }
