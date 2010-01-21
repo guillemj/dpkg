@@ -147,6 +147,7 @@ test_cases = \
 	t/700_Dpkg_Control.t \
 	t/750_Dpkg_Substvars.t \
 	t/800_Dpkg_IPC.t \
+	t/850_Dpkg_Compression.t \
 	t/900_update_alternatives.t
 
 check_DATA = \
