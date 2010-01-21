@@ -78,11 +78,11 @@ dup'ed from the handle.
 
 =item from_pipe, to_pipe, error_to_pipe
 
-Scalar reference. A pipe will be opened for each of the two options
-and either the reading (C<to_pipe> and C<error_to_pipe>) or the writing
-end (C<from_pipe>) will be returned in the referenced scalar. Standard
-input/output/error of the child process will be dup'ed to the other ends
-of the pipes.
+Scalar reference or object based on IO::Handle. A pipe will be opened for
+each of the two options and either the reading (C<to_pipe> and
+C<error_to_pipe>) or the writing end (C<from_pipe>) will be returned in
+the referenced scalar. Standard input/output/error of the child process
+will be dup'ed to the other ends of the pipes.
 
 =item from_string, to_string, error_to_string
 
@@ -146,12 +146,18 @@ sub _sanity_check_opts {
     internerr("not more than one of from_* parameters is allowed")
 	if $from > 1;
 
-    foreach (qw(to_string error_to_string from_string
-                to_pipe error_to_pipe from_pipe))
-    {
+    foreach (qw(to_string error_to_string from_string)) {
 	if (exists $opts{$_} and
 	    (!ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
 	    internerr("parameter $_ must be a scalar reference");
+	}
+    }
+
+    foreach (qw(to_pipe error_to_pipe from_pipe)) {
+	if (exists $opts{$_} and
+	    (!ref($opts{$_}) or (ref($opts{$_}) ne 'SCALAR' and
+				 not $opts{$_}->isa("IO::Handle")))) {
+	    internerr("parameter $_ must be a scalar reference or an IO::Handle object");
 	}
     }
 
