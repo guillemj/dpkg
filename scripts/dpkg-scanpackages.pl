@@ -88,9 +88,8 @@ sub load_override
 {
     my $override = shift;
     my $comp_file = Dpkg::Compression::CompressedFile->new(filename => $override);
-    my $override_fh = $comp_file->open_for_read();
 
-    while (<$override_fh>) {
+    while (<$comp_file>) {
 	s/\#.*//;
 	s/\s+$//;
 	next unless $_;
@@ -128,17 +127,15 @@ sub load_override
 	$overridden{$p} = 1;
     }
 
-    close($override_fh);
-    $comp_file->cleanup_after_open();
+    close($comp_file);
 }
 
 sub load_override_extra
 {
     my $extra_override = shift;
     my $comp_file = Dpkg::Compression::CompressedFile->new(filename => $extra_override);
-    my $override_fh = $comp_file->open_for_read();
 
-    while (<$override_fh>) {
+    while (<$comp_file>) {
 	s/\#.*//;
 	s/\s+$//;
 	next unless $_;
@@ -152,8 +149,7 @@ sub load_override_extra
 	}
     }
 
-    close($override_fh);
-    $comp_file->cleanup_after_open();
+    close($comp_file);
 }
 
 usage() and exit 1 if not $result;

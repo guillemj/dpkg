@@ -19,7 +19,6 @@ use strict;
 use warnings;
 
 use Dpkg;
-use Dpkg::Compression::CompressedFile;
 use Dpkg::Compression::Compressor;
 use Dpkg::Compression;
 use Dpkg::Gettext;
@@ -40,9 +39,9 @@ use base 'Dpkg::Compression::CompressedFile';
 
 sub create {
     my ($self, %opts) = @_;
-    $self->{'handle'} = $self->open_for_write();
-    $self->{'errors'} = 0;
-    $self->{'empty'} = 1;
+    $self->ensure_open("w"); # Creates the file
+    *$self->{'errors'} = 0;
+    *$self->{'empty'} = 1;
     if ($opts{'old'} and $opts{'new'}) {
         $opts{'old'} = "/dev/null" unless -e $opts{'old'};
         $opts{'new'} = "/dev/null" unless -e $opts{'new'};
@@ -59,7 +58,7 @@ sub create {
 
 sub set_header {
     my ($self, $header) = @_;
-    $self->{'header'} = $header;
+    *$self->{'header'} = $header;
 }
 
 sub add_diff_file {
@@ -121,12 +120,11 @@ sub add_diff_file {
             chomp;
             error(_g("unknown line from diff -u on %s: `%s'"), $new, $_);
         }
-	if ($self->{'empty'} and defined($self->{'header'})) {
-	    print { $self->{'handle'} } $self->{'header'} or
-		syserr(_g("failed to write"));
-	    $self->{'empty'} = 0;
+	if (*$self->{'empty'} and defined(*$self->{'header'})) {
+	    print $self *$self->{'header'} or syserr(_g("failed to write"));
+	    *$self->{'empty'} = 0;
 	}
-        print({ $self->{'handle'} } $_) || syserr(_g("failed to write"));
+        print $self $_ || syserr(_g("failed to write"));
     }
     close($diffgen) or syserr("close on diff pipe");
     wait_child($diff_pid, nocheck => 1,
@@ -259,16 +257,13 @@ sub add_diff_directory {
 
 sub finish {
     my ($self) = @_;
-    close($self->{'handle'}) ||
-            syserr(_g("cannot close %s"), $self->get_filename());
-    delete $self->{'handle'};
-    $self->cleanup_after_open();
-    return not $self->{'errors'};
+    close($self) || syserr(_g("cannot close %s"), $self->get_filename());
+    return not *$self->{'errors'};
 }
 
 sub register_error {
     my ($self) = @_;
-    $self->{'errors'}++;
+    *$self->{'errors'}++;
 }
 sub _fail_with_msg {
     my ($self, $file, $msg) = @_;
@@ -290,7 +285,6 @@ sub analyze {
     my ($self, $destdir, %opts) = @_;
 
     my $diff = $self->get_filename();
-    my $diff_handle = $self->open_for_read();
     my %filepatched;
     my %dirtocreate;
     my $diff_count = 0;
@@ -313,14 +307,14 @@ sub analyze {
         $header =~ s/\s.*// unless ($header =~ s/\t.*//);
         return $header;
     }
-    $_ = getline($diff_handle);
+    $_ = getline($self);
 
   HUNK:
-    while (defined($_) || not eof($diff_handle)) {
+    while (defined($_) || not eof($self)) {
 	my ($fn, $fn2);
 	# skip comments leading up to patch (if any)
 	until (/^--- /) {
-	    last HUNK if not defined($_ = getline($diff_handle));
+	    last HUNK if not defined($_ = getline($self));
 	}
 	$diff_count++;
 	# read file header (---/+++ pair)
@@ -335,7 +329,7 @@ sub analyze {
 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
 	}
 
-	unless (defined($_ = getline($diff_handle))) {
+	unless (defined($_ = getline($self))) {
 	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"), $diff, $.);
 	}
 	unless (s/^\+\+\+ //) {
@@ -380,14 +374,14 @@ sub analyze {
 
 	# read hunks
 	my $hunk = 0;
-	while (defined($_ = getline($diff_handle))) {
+	while (defined($_ = getline($self))) {
 	    # read hunk header (@@)
 	    next if /^\\ No newline/;
 	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/);
 	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
 	    # read hunk
 	    while ($olines || $nlines) {
-		unless (defined($_ = getline($diff_handle))) {
+		unless (defined($_ = getline($self))) {
                     if (($olines == $nlines) and ($olines < 3)) {
                         warning(_g("unexpected end of diff `%s'"), $diff);
                         last;
@@ -411,14 +405,13 @@ sub analyze {
 	    error(_g("expected ^\@\@ at line %d of diff `%s'"), $., $diff);
 	}
     }
-    close($diff_handle);
+    close($self);
     unless ($diff_count) {
 	warning(_g("diff `%s' doesn't contain any patch"), $diff);
     }
-    $self->cleanup_after_open();
-    $self->{'analysis'}{$destdir}{"dirtocreate"} = \%dirtocreate;
-    $self->{'analysis'}{$destdir}{"filepatched"} = \%filepatched;
-    return $self->{'analysis'}{$destdir};
+    *$self->{'analysis'}{$destdir}{"dirtocreate"} = \%dirtocreate;
+    *$self->{'analysis'}{$destdir}{"filepatched"} = \%filepatched;
+    return *$self->{'analysis'}{$destdir};
 }
 
 sub prepare_apply {
@@ -445,16 +438,16 @@ sub apply {
     my $analysis = $self->analyze($destdir, %opts);
     $self->prepare_apply($analysis, %opts);
     # Apply the patch
-    my $diff_handle = $self->open_for_read();
+    $self->ensure_open("r");
     fork_and_exec(
 	'exec' => [ 'patch', @{$opts{"options"}} ],
 	'chdir' => $destdir,
 	'env' => { LC_ALL => 'C', LANG => 'C' },
 	'delete_env' => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
 	'wait_child' => 1,
-	'from_handle' => $diff_handle
+	'from_handle' => $self->get_filehandle(),
     );
-    $self->cleanup_after_open();
+    $self->close();
     # Reset the timestamp of all the patched files
     # and remove .dpkg-orig files
     my $now = $opts{"timestamp"} || time;
@@ -484,21 +477,21 @@ sub check_apply {
     my $analysis = $self->analyze($destdir, %opts);
     $self->prepare_apply($analysis, %opts);
     # Apply the patch
-    my $diff_handle = $self->open_for_read();
+    $self->ensure_open("r");
     my $error;
     my $patch_pid = fork_and_exec(
 	'exec' => [ 'patch', @{$opts{"options"}} ],
 	'chdir' => $destdir,
 	'env' => { LC_ALL => 'C', LANG => 'C' },
 	'delete_env' => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
-	'from_handle' => $diff_handle,
+	'from_handle' => $self->get_filehandle(),
         'to_file' => '/dev/null',
         'error_to_file' => '/dev/null',
     );
     wait_child($patch_pid, nocheck => 1);
     my $exit = WEXITSTATUS($?);
     subprocerr("patch --dry-run") unless WIFEXITED($?);
-    $self->cleanup_after_open();
+    $self->close();
     return ($exit == 0);
 }
 

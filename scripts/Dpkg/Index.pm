@@ -156,10 +156,8 @@ parsed. Handles compressed files transparently based on their extensions.
 sub load {
     my ($self, $file) = @_;
     my $cf = Dpkg::Compression::CompressedFile->new(filename => $file);
-    my $fh = $cf->open_for_read();
-    my $res = $self->parse($fh, $file);
-    $cf->cleanup_after_open();
-    close($fh) || syserr(_g("cannot close %s"), $file);
+    my $res = $self->parse($cf, $file);
+    close($cf) || syserr(_g("cannot close %s"), $file);
     return $res;
 }
 
@@ -192,10 +190,8 @@ based on their extensions.
 sub save {
     my ($self, $file) = @_;
     my $cf = Dpkg::Compression::CompressedFile->new(filename => $file);
-    my $fh = $cf->open_for_write();
-    $self->output($fh);
-    $cf->cleanup_after_open();
-    close($fh) || syserr(_g("cannot close %s"), $file);
+    $self->output($cf);
+    close($cf) || syserr(_g("cannot close %s"), $file);
 }
 
 =item my $item = $index->new_item()

@@ -111,8 +111,7 @@ sub load_override {
     local $_;
 
     my $comp_file = Dpkg::Compression::CompressedFile->new(filename => $file);
-    my $override_fh = $comp_file->open_for_read();
-    while (<$override_fh>) {
+    while (<$comp_file>) {
     	s/#.*//;
 	next if /^\s*$/;
 	s/\s+$//;
@@ -149,8 +148,7 @@ sub load_override {
 	    $Override{$package}[O_MAINT_TO] = $maintainer;
 	}
     }
-    close($override_fh);
-    $comp_file->cleanup_after_open();
+    close($comp_file);
 }
 
 sub load_src_override {
@@ -177,8 +175,7 @@ sub load_src_override {
 
     debug "source override file $file";
     my $comp_file = Dpkg::Compression::CompressedFile->new(filename => $file);
-    my $override_fh = $comp_file->open_for_read();
-    while (<$override_fh>) {
+    while (<$comp_file>) {
     	s/#.*//;
 	next if /^\s*$/;
 	s/\s+$//;
@@ -200,17 +197,15 @@ sub load_src_override {
 	$Override{$key} = [];
 	$Override{$key}[O_SECTION] = $section;
     }
-    close($override_fh);
-    $comp_file->cleanup_after_open();
+    close($comp_file);
 }
 
 sub load_override_extra
 {
     my $extra_override = shift;
     my $comp_file = Dpkg::Compression::CompressedFile->new(filename => $extra_override);
-    my $override_fh = $comp_file->open_for_read();
 
-    while (<$override_fh>) {
+    while (<$comp_file>) {
 	s/\#.*//;
 	s/\s+$//;
 	next unless $_;
@@ -218,8 +213,7 @@ sub load_override_extra
 	my ($p, $field, $value) = split(/\s+/, $_, 3);
         $Extra_Override{$p}{$field} = $value;
     }
-    close($override_fh);
-    $comp_file->cleanup_after_open();
+    close($comp_file);
 }
 
 # Given PREFIX and DSC-FILE, process the file and returns the fields.

@@ -38,33 +38,35 @@ sub create {
     # Possibly run tar from another directory
     if ($opts{"chdir"}) {
         $fork_opts{"chdir"} = $opts{"chdir"};
-        $self->{"chdir"} = $opts{"chdir"};
+        *$self->{"chdir"} = $opts{"chdir"};
     }
     # Redirect input/output appropriately
-    $fork_opts{"to_handle"} = $self->open_for_write();
-    $fork_opts{"from_pipe"} = \$self->{'tar_input'};
+    $self->ensure_open("w");
+    $fork_opts{"to_handle"} = $self->get_filehandle();
+    $fork_opts{"from_pipe"} = \*$self->{'tar_input'};
     # Call tar creation process
     $fork_opts{"delete_env"} = [ "TAR_OPTIONS" ];
     $fork_opts{'exec'} = [ 'tar', '--null', '-T', '-', '--numeric-owner',
                            '--owner', '0', '--group', '0',
 			   @{$opts{"options"}}, '-cf', '-' ];
-    $self->{"pid"} = fork_and_exec(%fork_opts);
-    $self->{"cwd"} = getcwd();
+    *$self->{"pid"} = fork_and_exec(%fork_opts);
+    *$self->{"cwd"} = getcwd();
 }
 
 sub _add_entry {
     my ($self, $file) = @_;
-    internerr("call create() first") unless $self->{"tar_input"};
-    $file = $2 if ($file =~ /^\Q$self->{'cwd'}\E\/(.+)$/); # Relative names
-    print({ $self->{'tar_input'} } "$file\0") ||
+    my $cwd = *$self->{'cwd'};
+    internerr("call create() first") unless *$self->{"tar_input"};
+    $file = $2 if ($file =~ /^\Q$cwd\E\/(.+)$/); # Relative names
+    print({ *$self->{'tar_input'} } "$file\0") ||
 	    syserr(_g("write on tar input"));
 }
 
 sub add_file {
     my ($self, $file) = @_;
     my $testfile = $file;
-    if ($self->{"chdir"}) {
-        $testfile = File::Spec->catfile($self->{"chdir"}, $file);
+    if (*$self->{"chdir"}) {
+        $testfile = File::Spec->catfile(*$self->{"chdir"}, $file);
     }
     internerr("add_file() doesn't handle directories") if not -l $testfile and -d _;
     $self->_add_entry($file);
@@ -73,8 +75,8 @@ sub add_file {
 sub add_directory {
     my ($self, $file) = @_;
     my $testfile = $file;
-    if ($self->{"chdir"}) {
-        $testfile = File::Spec->catdir($self->{"chdir"}, $file);
+    if (*$self->{"chdir"}) {
+        $testfile = File::Spec->catdir(*$self->{"chdir"}, $file);
     }
     internerr("add_directory() only handles directories") unless not -l $testfile and -d _;
     $self->_add_entry($file);
@@ -82,13 +84,13 @@ sub add_directory {
 
 sub finish {
     my ($self) = @_;
-    close($self->{'tar_input'}) or syserr(_g("close on tar input"));
-    wait_child($self->{'pid'}, cmdline => 'tar -cf -');
-    delete $self->{'pid'};
-    delete $self->{'tar_input'};
-    delete $self->{'cwd'};
-    delete $self->{'chdir'};
-    $self->cleanup_after_open();
+    close(*$self->{'tar_input'}) or syserr(_g("close on tar input"));
+    wait_child(*$self->{'pid'}, cmdline => 'tar -cf -');
+    delete *$self->{'pid'};
+    delete *$self->{'tar_input'};
+    delete *$self->{'cwd'};
+    delete *$self->{'chdir'};
+    $self->close();
 }
 
 sub extract {
@@ -114,14 +116,15 @@ sub extract {
     }
 
     # Prepare stuff that handles the input of tar
-    $fork_opts{"from_handle"} = $self->open_for_read();
+    $self->ensure_open("r");
+    $fork_opts{"from_handle"} = $self->get_filehandle();
 
     # Call tar extraction process
     $fork_opts{"delete_env"} = [ "TAR_OPTIONS" ];
     $fork_opts{'exec'} = [ 'tar', '--no-same-owner', '--no-same-permissions',
                            @{$opts{"options"}}, '-xkf', '-' ];
     fork_and_exec(%fork_opts);
-    $self->cleanup_after_open();
+    $self->close();
 
     # Fix permissions on extracted files because tar insists on applying
     # our umask _to the original permissions_ rather than mostly-ignoring
