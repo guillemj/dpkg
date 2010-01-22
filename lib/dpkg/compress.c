@@ -98,6 +98,9 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 	char buffer[4096];
 	gzFile gzfile = gzdopen(fd_in, "r");
 
+	if (gzfile == NULL)
+		ohshit(_("%s: error binding input to gzip stream"), desc);
+
 	for (;;) {
 		int actualread, actualwrite;
 
@@ -135,6 +138,8 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 
 	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
 	gzfile = gzdopen(fd_out, combuf);
+	if (gzfile == NULL)
+		ohshit(_("%s: error binding output to gzip stream"), desc);
 
 	for (;;) {
 		int actualread, actualwrite;
@@ -197,6 +202,9 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 	char buffer[4096];
 	BZFILE *bzfile = BZ2_bzdopen(fd_in, "r");
 
+	if (bzfile == NULL)
+		ohshit(_("%s: error binding input to bzip2 stream"), desc);
+
 	for (;;) {
 		int actualread, actualwrite;
 
@@ -234,6 +242,8 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 
 	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
 	bzfile = BZ2_bzdopen(fd_out, combuf);
+	if (bzfile == NULL)
+		ohshit(_("%s: error binding output to bzip2 stream"), desc);
 
 	for (;;) {
 		int actualread, actualwrite;
