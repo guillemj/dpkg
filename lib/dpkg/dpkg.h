@@ -172,7 +172,7 @@ struct pipef {
 };
 extern struct pipef *status_pipes;
 
-void statusfd_send(const char *fmt, ...);
+void statusfd_send(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 /*** cleanup.c ***/
 
