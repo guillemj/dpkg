@@ -173,8 +173,8 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
       {
         char buffer[4096];
         gzFile gzfile;
-        strncpy(combuf, "w9", sizeof(combuf));
-        combuf[1]= *compression;
+
+        snprintf(combuf, sizeof(combuf), "w%c", *compression);
         gzfile = gzdopen(fd_out, combuf);
 
         for (;;) {
@@ -199,8 +199,7 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
         exit(0);
       }
 #else
-      strncpy(combuf, "-9c", sizeof(combuf));
-      combuf[1]= *compression;
+      snprintf(combuf, sizeof(combuf), "-c%c", *compression);
       fd_fd_filter(fd_in, fd_out, v.buf, GZIP, combuf, NULL);
 #endif
     case compress_type_bzip2:
@@ -208,8 +207,8 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
       {
         char buffer[4096];
         BZFILE *bzfile;
-        strncpy(combuf, "w9", sizeof(combuf));
-        combuf[1]= *compression;
+
+        snprintf(combuf, sizeof(combuf), "w%c", *compression);
         bzfile = BZ2_bzdopen(fd_out, combuf);
 
         for (;;) {
@@ -234,13 +233,11 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
         exit(0);
       }
 #else
-      strncpy(combuf, "-9c", sizeof(combuf));
-      combuf[1]= *compression;
+      snprintf(combuf, sizeof(combuf), "-c%c", *compression);
       fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, combuf, NULL);
 #endif
     case compress_type_lzma:
-      strncpy(combuf, "-9c", sizeof(combuf));
-      combuf[1] = *compression;
+      snprintf(combuf, sizeof(combuf), "-c%c", *compression);
       fd_fd_filter(fd_in, fd_out, v.buf, LZMA, combuf, NULL);
     case compress_type_cat:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);
