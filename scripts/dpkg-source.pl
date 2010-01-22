@@ -60,7 +60,7 @@ my %options = (
     # Compression related
     compression => $Dpkg::Compression::Compressor::default_compression,
     comp_level => $Dpkg::Compression::Compressor::default_compression_level,
-    comp_ext => $comp_ext{$Dpkg::Compression::Compressor::default_compression},
+    comp_ext => compression_get_property($Dpkg::Compression::Compressor::default_compression, "file_ext"),
     # Ignore files
     tar_ignore => [],
     diff_ignore_regexp => '',
@@ -126,9 +126,9 @@ while (@options) {
     } elsif (m/^-(?:Z|-compression=)(.*)$/) {
 	my $compression = $1;
 	$options{'compression'} = $compression;
-	$options{'comp_ext'} = $comp_ext{$compression};
+	$options{'comp_ext'} = compression_get_property($compression, "file_ext");
 	usageerr(_g("%s is not a supported compression"), $compression)
-	    unless $comp_supported{$compression};
+	    unless compression_is_supported($compression);
 	Dpkg::Compression::Compressor->set_default_compression($compression);
     } elsif (m/^-(?:z|-compression-level=)(.*)$/) {
 	my $comp_level = $1;
@@ -449,7 +449,8 @@ See dpkg-source(1) for more info.") . "\n",
     $progname,
     $Dpkg::Source::Package::diff_ignore_default_regexp,
     join(' ', map { "-I$_" } @Dpkg::Source::Package::tar_ignore_default_pattern),
-    $Dpkg::Compression::Compressor::default_compression, "@comp_supported",
+    $Dpkg::Compression::Compressor::default_compression,
+    join(" ", compression_get_list()),
     $Dpkg::Compression::Compressor::default_compression_level;
 }
 

@@ -89,16 +89,17 @@ sub do_extract {
     my $basenamerev = $self->get_basename(1);
 
     my ($tarfile, $debianfile, %origtar, %seen);
+    my $re_ext = $compression_re_file_ext;
     foreach my $file ($self->get_files()) {
-        (my $uncompressed = $file) =~ s/\.$comp_regex$//;
+        (my $uncompressed = $file) =~ s/\.$re_ext$//;
         error(_g("duplicate files in %s source package: %s.*"), "v2.0",
               $uncompressed) if $seen{$uncompressed};
         $seen{$uncompressed} = 1;
-        if ($file =~ /^\Q$basename\E\.orig\.tar\.$comp_regex$/) {
+        if ($file =~ /^\Q$basename\E\.orig\.tar\.$re_ext$/) {
             $tarfile = $file;
-        } elsif ($file =~ /^\Q$basename\E\.orig-([\w-]+)\.tar\.$comp_regex$/) {
+        } elsif ($file =~ /^\Q$basename\E\.orig-([\w-]+)\.tar\.$re_ext$/) {
             $origtar{$1} = $file;
-        } elsif ($file =~ /^\Q$basenamerev\E\.debian\.tar\.$comp_regex$/) {
+        } elsif ($file =~ /^\Q$basenamerev\E\.debian\.tar\.$re_ext$/) {
             $debianfile = $file;
         } else {
             error(_g("unrecognized file for a %s source package: %s"),
@@ -201,7 +202,7 @@ sub apply_patches {
 sub can_build {
     my ($self, $dir) = @_;
     foreach ($self->find_original_tarballs()) {
-        return 1 if /\.orig\.tar\.$comp_regex$/;
+        return 1 if /\.orig\.tar\.$compression_re_file_ext$/;
     }
     return (0, _g("no orig.tar file found"));
 }
@@ -250,7 +251,7 @@ sub do_build {
     my ($tarfile, %origtar);
     my @origtarballs;
     foreach (sort $self->find_original_tarballs()) {
-        if (/\.orig\.tar\.$comp_regex$/) {
+        if (/\.orig\.tar\.$compression_re_file_ext$/) {
             if (defined($tarfile)) {
                 error(_g("several orig.tar files found (%s and %s) but only " .
                          "one is allowed"), $tarfile, $_);
@@ -258,7 +259,7 @@ sub do_build {
             $tarfile = $_;
             push @origtarballs, $_;
             $self->add_file($_);
-        } elsif (/\.orig-([\w-]+)\.tar\.$comp_regex$/) {
+        } elsif (/\.orig-([\w-]+)\.tar\.$compression_re_file_ext$/) {
             $origtar{$1} = $_;
             push @origtarballs, $_;
             $self->add_file($_);

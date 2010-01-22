@@ -160,10 +160,11 @@ sub load_src_override {
 	$file = $user_file;
     }
     elsif (defined $regular_file) {
-        my $comp = get_compression_from_filename($regular_file);
+        my $comp = compression_guess_from_filename($regular_file);
         if (defined($comp)) {
 	    $file = $regular_file;
-            $file =~ s/\.$comp_ext{$comp}$/.src.$comp_ext{$comp}/;
+	    my $ext = compression_get_property($comp, "file_ext");
+            $file =~ s/\.$ext$/.src.$ext/;
         } else {
 	    $file = "$regular_file.src";
         }

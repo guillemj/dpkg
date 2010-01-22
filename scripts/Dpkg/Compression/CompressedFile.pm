@@ -291,7 +291,7 @@ sub set_filename {
     if (defined($add_comp_ext)) {
 	*$self->{"add_comp_ext"} = $add_comp_ext;
     }
-    if (*$self->{"add_comp_ext"} and $filename =~ /\.$comp_regex$/) {
+    if (*$self->{"add_comp_ext"} and $filename =~ /\.$compression_re_file_ext$/) {
 	warning("filename %s already has an extension of a compressed file " .
 	        "and add_comp_ext is active", $filename);
     }
@@ -317,7 +317,8 @@ sub get_filename {
 	} elsif ($comp eq "none") {
 	    return *$self->{"filename"};
 	} else {
-	    return *$self->{"filename"} . "." . $comp_ext{$comp};
+	    return *$self->{"filename"} . "." .
+	           compression_get_property($comp, "file_ext");
 	}
     } else {
 	return *$self->{"filename"};
@@ -339,7 +340,7 @@ sub use_compression {
     if ($comp eq "none") {
 	return 0;
     } elsif ($comp eq "auto") {
-	$comp = get_compression_from_filename($self->get_filename());
+	$comp = compression_guess_from_filename($self->get_filename());
 	*$self->{"compressor"}->set_compression($comp) if $comp;
     }
     return $comp;

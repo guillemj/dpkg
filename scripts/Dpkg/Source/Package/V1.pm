@@ -292,7 +292,7 @@ sub do_build {
 	my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
 				       DIR => getcwd(), UNLINK => 0);
 	my $tar = Dpkg::Source::Archive->new(filename => $newtar,
-		    compression => get_compression_from_filename($tarname),
+		    compression => compression_guess_from_filename($tarname),
 		    compression_level => $self->{'options'}{'comp_level'});
 	$tar->create(options => \@tar_ignore, 'chdir' => $tardirbase);
 	$tar->add_directory($tardirname);

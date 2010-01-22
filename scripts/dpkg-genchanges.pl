@@ -440,15 +440,16 @@ if (!is_binaryonly) {
 	$include_tarball = 1;
     }
 
+    my $ext = $compression_re_file_ext;
     if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||
 	 $sourcestyle =~ m/d/) &&
-	grep(m/\.(debian\.tar|diff)\.$comp_regex$/,@sourcefiles))
+	grep(m/\.(debian\.tar|diff)\.$ext$/, @sourcefiles))
     {
 	$origsrcmsg= _g("not including original source code in upload");
-	@sourcefiles= grep(!m/\.orig(-.+)?\.tar\.$comp_regex$/,@sourcefiles);
+	@sourcefiles= grep(!m/\.orig(-.+)?\.tar\.$ext$/, @sourcefiles);
     } else {
 	if ($sourcestyle =~ m/d/ &&
-	    !grep(m/\.(debian\.tar|diff)\.$comp_regex$/,@sourcefiles)) {
+	    !grep(m/\.(debian\.tar|diff)\.$ext$/, @sourcefiles)) {
 	    warning(_g("ignoring -sd option for native Debian package"));
 	}
         $origsrcmsg= _g("including full source code in upload");

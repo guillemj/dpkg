@@ -242,7 +242,7 @@ sub get_basename {
 
 sub find_original_tarballs {
     my ($self, $ext) = @_;
-    $ext ||= $comp_regex;
+    $ext ||= $compression_re_file_ext;
     my $basename = $self->get_basename();
     my @tar;
     foreach my $dir (".", $self->{'basedir'}, $self->{'options'}{'origtardir'}) {
@@ -332,7 +332,8 @@ sub extract {
         my $basename = $self->get_basename();
         my ($dirname, $destdir) = fileparse($newdirectory);
         $destdir ||= "./";
-        foreach my $orig (grep { /^\Q$basename\E\.orig(-\w+)?\.tar\.$comp_regex$/ }
+	my $ext = $compression_re_file_ext;
+        foreach my $orig (grep { /^\Q$basename\E\.orig(-\w+)?\.tar\.$ext$/ }
                           $self->get_files())
         {
             my $src = File::Spec->catfile($self->{'basedir'}, $orig);

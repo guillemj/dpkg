@@ -44,7 +44,7 @@ sub do_extract {
 
     my $tarfile;
     foreach my $file ($self->get_files()) {
-	if ($file =~ /^\Q$basenamerev\E\.tar\.$comp_regex$/) {
+	if ($file =~ /^\Q$basenamerev\E\.tar\.$compression_re_file_ext$/) {
             error(_g("multiple tarfiles in v1.0 source package")) if $tarfile;
             $tarfile = $file;
 	} else {
@@ -85,7 +85,7 @@ sub do_build {
 
     my ($dirname, $dirbase) = fileparse($dir);
     my $tar = Dpkg::Source::Archive->new(filename => $newtar,
-                compression => get_compression_from_filename($tarname),
+                compression => compression_guess_from_filename($tarname),
                 compression_level => $self->{'options'}{'comp_level'});
     $tar->create(options => \@tar_ignore, 'chdir' => $dirbase);
     $tar->add_directory($dirname);

@@ -32,7 +32,7 @@ our $default_compression_level = 9;
 sub set_default_compression {
     my ($self, $method) = @_;
     error(_g("%s is not a supported compression"), $method)
-	    unless $comp_supported{$method};
+	    unless compression_is_supported($method);
     $default_compression = $method;
 }
 
@@ -58,7 +58,7 @@ sub new {
 sub set_compression {
     my ($self, $method) = @_;
     error(_g("%s is not a supported compression method"), $method)
-	    unless $comp_supported{$method};
+	    unless compression_is_supported($method);
     $self->{"compression"} = $method;
 }
 
@@ -71,7 +71,7 @@ sub set_compression_level {
 
 sub get_compress_cmdline {
     my ($self) = @_;
-    my @prog = ($comp_prog{$self->{"compression"}});
+    my @prog = (compression_get_property($self->{"compression"}, "comp_prog"));
     my $level = "-" . $self->{"compression_level"};
     $level = "--" . $self->{"compression_level"}
 	    if $self->{"compression_level"} =~ m/best|fast/;
@@ -81,7 +81,7 @@ sub get_compress_cmdline {
 
 sub get_uncompress_cmdline {
     my ($self) = @_;
-    return ($comp_decomp_prog{$self->{"compression"}});
+    return (compression_get_property($self->{"compression"}, "decomp_prog"));
 }
 
 sub _sanity_check {
