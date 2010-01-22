@@ -17,11 +17,17 @@ package Dpkg::Compression;
 
 use strict;
 use warnings;
+use Dpkg::ErrorHandling;
+use Dpkg::Gettext;
 
 use base qw(Exporter);
 our @EXPORT = qw($compression_re_file_ext compression_get_list
 		 compression_is_supported compression_get_property
-		 compression_guess_from_filename);
+		 compression_guess_from_filename
+		 compression_get_default compression_set_default
+		 compression_get_default_level
+		 compression_set_default_level
+		 compression_is_valid_level);
 
 =head1 NAME
 
@@ -60,6 +66,9 @@ my $COMP = {
 	"decomp_prog" => "unxz",
     },
 };
+
+our $default_compression = "gzip";
+our $default_compression_level = 9;
 
 =item $compression_re_file_ext
 
@@ -131,6 +140,66 @@ sub compression_guess_from_filename {
         }
     }
     return undef;
+}
+
+=item my $comp = compression_get_default()
+
+Return the default compression method. It's "gzip" unless
+C<compression_set_default> has been used to change it.
+
+=item compression_set_default($comp)
+
+Change the default compression methode. Errors out if the
+given compression method is not supported.
+
+=cut
+
+sub compression_get_default {
+    return $default_compression;
+}
+
+sub compression_set_default {
+    my ($method) = @_;
+    error(_g("%s is not a supported compression"), $method)
+            unless compression_is_supported($method);
+    $default_compression = $method;
+}
+
+=item my $level = compression_get_default_level()
+
+Return the default compression level used when compressing data. It's "9"
+unless C<compression_set_default_level> has been used to change it.
+
+=item compression_set_default_level($level)
+
+Change the default compression level. Errors out if the
+level is not valid (see C<compression_is_valid_level>).
+either a number between 1 and 9 or "fast"
+or "best".
+
+=cut
+
+sub compression_get_default_level {
+    return $default_compression_level;
+}
+
+sub compression_set_default_level {
+    my ($level) = @_;
+    error(_g("%s is not a compression level"), $level)
+            unless compression_is_valid_level($level);
+    $default_compression_level = $level;
+}
+
+=item compression_is_valid_level($level)
+
+Returns a boolean indicating whether $level is a valid compression level
+(it must be either a number between 1 and 9 or "fast" or "best")
+
+=cut
+
+sub compression_is_valid_level {
+    my ($level) = @_;
+    return $level =~ /^([1-9]|fast|best)$/;
 }
 
 =back

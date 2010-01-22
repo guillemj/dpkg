@@ -25,33 +25,15 @@ use Dpkg::ErrorHandling;
 
 use POSIX;
 
-our $default_compression = "gzip";
-our $default_compression_level = 9;
-
-# Class methods
-sub set_default_compression {
-    my ($self, $method) = @_;
-    error(_g("%s is not a supported compression"), $method)
-	    unless compression_is_supported($method);
-    $default_compression = $method;
-}
-
-sub set_default_compression_level {
-    my ($self, $level) = @_;
-    error(_g("%s is not a compression level"), $level)
-	    unless $level =~ /^([1-9]|fast|best)$/;
-    $default_compression_level = $level;
-}
-
 # Object methods
 sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
     my $self = {};
     bless $self, $class;
-    $self->set_compression($args{"compression"} || $default_compression);
+    $self->set_compression($args{"compression"} || compression_get_default());
     $self->set_compression_level($args{"compression_level"} ||
-	    $default_compression_level);
+	    compression_get_default_level());
     return $self;
 }
 
@@ -65,7 +47,7 @@ sub set_compression {
 sub set_compression_level {
     my ($self, $level) = @_;
     error(_g("%s is not a compression level"), $level)
-	    unless $level =~ /^([1-9]|fast|best)$/;
+	    unless compression_is_valid_level($level);
     $self->{"compression_level"} = $level;
 }
 

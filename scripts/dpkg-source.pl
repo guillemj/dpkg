@@ -42,7 +42,6 @@ use Dpkg::Substvars;
 use Dpkg::Version;
 use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
-use Dpkg::Compression::Compressor;
 use Dpkg::Source::Package;
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -58,9 +57,9 @@ my $changelogformat;
 my @build_formats = ("1.0", "3.0 (quilt)", "3.0 (native)");
 my %options = (
     # Compression related
-    compression => $Dpkg::Compression::Compressor::default_compression,
-    comp_level => $Dpkg::Compression::Compressor::default_compression_level,
-    comp_ext => compression_get_property($Dpkg::Compression::Compressor::default_compression, "file_ext"),
+    compression => compression_get_default(),
+    comp_level => compression_get_default_level(),
+    comp_ext => compression_get_property(compression_get_default(), "file_ext"),
     # Ignore files
     tar_ignore => [],
     diff_ignore_regexp => '',
@@ -129,13 +128,13 @@ while (@options) {
 	$options{'comp_ext'} = compression_get_property($compression, "file_ext");
 	usageerr(_g("%s is not a supported compression"), $compression)
 	    unless compression_is_supported($compression);
-	Dpkg::Compression::Compressor->set_default_compression($compression);
+	compression_set_default($compression);
     } elsif (m/^-(?:z|-compression-level=)(.*)$/) {
 	my $comp_level = $1;
 	$options{'comp_level'} = $comp_level;
 	usageerr(_g("%s is not a compression level"), $comp_level)
-	    unless $comp_level =~ /^([1-9]|fast|best)$/;
-	Dpkg::Compression::Compressor->set_default_compression_level($comp_level);
+	    unless compression_is_valid_level($comp_level);
+	compression_set_default_level($comp_level);
     } elsif (m/^-c(.*)$/) {
         $controlfile = $1;
     } elsif (m/^-l(.*)$/) {
@@ -449,8 +448,8 @@ See dpkg-source(1) for more info.") . "\n",
     $progname,
     $Dpkg::Source::Package::diff_ignore_default_regexp,
     join(' ', map { "-I$_" } @Dpkg::Source::Package::tar_ignore_default_pattern),
-    $Dpkg::Compression::Compressor::default_compression,
+    compression_get_default(),
     join(" ", compression_get_list()),
-    $Dpkg::Compression::Compressor::default_compression_level;
+    compression_get_default_level();
 }
 
