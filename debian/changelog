@@ -7,6 +7,12 @@ dpkg (1.15.6) UNRELEASED; urgency=low
       representation ("$dep") to provide the result of $dep->output()
     - prefix public functions in Dpkg::Deps with deps_ and export them
       by default
+    - rename Dpkg::Source::Compressor in Dpkg::Compression::Process
+    - rename Dpkg::Source::CompressedFile in Dpkg::Compression::FileHandle
+      and completely redesign its API
+    - update Dpkg::Compression's API to use compression_* functions
+      instead of granting direct access to variables, integrate
+      there management of default compression
   * Drop debian-maintainers from Suggests since it's obsolete, the
     corresponding keyring is in debian-keyring.
   * Merge support of symbol patterns in dpkg-gensymbols. Thanks to
