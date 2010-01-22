@@ -4,7 +4,7 @@
  *
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2004 Scott James Remnant <scott@netsplit.com>
- * Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,12 +39,18 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/buffer.h>
+#include <dpkg/command.h>
 #include <dpkg/compress.h>
 
+static void fd_fd_filter(int fd_in, int fd_out, const char *desc,
+                         const char *file, ...) DPKG_ATTR_SENTINEL;
+
 static void
-fd_fd_filter(int fd_in, int fd_out, const char *desc,
-             const char *file, const char *cmd, const char *args)
+fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 {
+	va_list al;
+	struct command cmd;
+
   if (fd_in != 0) {
     m_dup2(fd_in, 0);
     close(fd_in);
@@ -53,8 +59,14 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc,
     m_dup2(fd_out, 1);
     close(fd_out);
   }
-  execlp(file, cmd, args, NULL);
-  ohshite(_("%s: failed to exec '%s %s'"), desc, cmd, args);
+
+	command_init(&cmd, file, desc);
+	command_add_arg(&cmd, file);
+	va_start(al, file);
+	command_add_argv(&cmd, al);
+	va_end(al);
+
+	command_exec(&cmd);
 }
 
 void
@@ -97,7 +109,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
       }
       exit(0);
 #else
-      fd_fd_filter(fd_in, fd_out, v.buf, GZIP, "gzip", "-dc");
+      fd_fd_filter(fd_in, fd_out, v.buf, GZIP, "-dc", NULL);
 #endif
     case compress_type_bzip2:
 #ifdef WITH_BZ2
@@ -127,10 +139,10 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
       }
       exit(0);
 #else
-      fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, "bzip2", "-dc");
+      fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, "-dc", NULL);
 #endif
     case compress_type_lzma:
-      fd_fd_filter(fd_in, fd_out, v.buf, LZMA, "lzma", "-dc");
+      fd_fd_filter(fd_in, fd_out, v.buf, LZMA, "-dc", NULL);
     case compress_type_cat:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), v.buf);
       exit(0);
@@ -189,7 +201,7 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
 #else
       strncpy(combuf, "-9c", sizeof(combuf));
       combuf[1]= *compression;
-      fd_fd_filter(fd_in, fd_out, v.buf, GZIP, "gzip", combuf);
+      fd_fd_filter(fd_in, fd_out, v.buf, GZIP, combuf, NULL);
 #endif
     case compress_type_bzip2:
 #ifdef WITH_BZ2
@@ -224,12 +236,12 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
 #else
       strncpy(combuf, "-9c", sizeof(combuf));
       combuf[1]= *compression;
-      fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, "bzip2", combuf);
+      fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, combuf, NULL);
 #endif
     case compress_type_lzma:
       strncpy(combuf, "-9c", sizeof(combuf));
       combuf[1] = *compression;
-      fd_fd_filter(fd_in, fd_out, v.buf, LZMA, "lzma", combuf);
+      fd_fd_filter(fd_in, fd_out, v.buf, LZMA, combuf, NULL);
     case compress_type_cat:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);
       exit(0);
