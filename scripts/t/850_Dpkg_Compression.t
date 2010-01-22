@@ -18,7 +18,7 @@ use Test::More tests => 9;
 use strict;
 use warnings;
 
-use_ok('Dpkg::Compression::CompressedFile');
+use_ok('Dpkg::Compression::FileHandle');
 
 my $tmpdir = "t.tmp/850_Dpkg_Compression";
 mkdir $tmpdir;
@@ -28,7 +28,7 @@ my $fh;
 sub test_write {
     my ($filename, $check_result) = @_;
 
-    $fh = Dpkg::Compression::CompressedFile->new();
+    $fh = Dpkg::Compression::FileHandle->new();
     open $fh, ">", $filename or die "open failed";
     print $fh $lines[0];
     syswrite($fh, $lines[1]);
@@ -39,7 +39,7 @@ sub test_write {
 
     unlink $filename or die "cannot unlink $filename";
 
-    $fh = Dpkg::Compression::CompressedFile->new();
+    $fh = Dpkg::Compression::FileHandle->new();
     $fh->open($filename, "w");
     $fh->print($lines[0]);
     $fh->write($lines[1], length($lines[1]));
@@ -68,7 +68,7 @@ sub check_compressed {
 sub test_read {
     my ($filename) = @_;
 
-    $fh = Dpkg::Compression::CompressedFile->new();
+    $fh = Dpkg::Compression::FileHandle->new();
     open($fh, "<", $filename) or die "open failed";
     my @read = <$fh>;
     close $fh or die "close failed";
@@ -76,7 +76,7 @@ sub test_read {
     is_deeply(\@lines, \@read, "$filename correctly read (std functions)");
 
     @read = ();
-    $fh = Dpkg::Compression::CompressedFile->new();
+    $fh = Dpkg::Compression::FileHandle->new();
     $fh->open($filename, "r") or die "open failed";
     @read = $fh->getlines();
     $fh->close() or die "close failed";

@@ -1,4 +1,4 @@
-# Copyright © 2008 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package Dpkg::Compression::Compressor;
+package Dpkg::Compression::Process;
 
 use strict;
 use warnings;
@@ -69,7 +69,7 @@ sub get_uncompress_cmdline {
 sub _sanity_check {
     my ($self, %opts) = @_;
     # Check for proper cleaning before new start
-    error(_g("Dpkg::Compression::Compressor can only start one subprocess at a time"))
+    error(_g("Dpkg::Compression::Process can only start one subprocess at a time"))
 	    if $self->{"pid"};
     # Check options
     my $to = my $from = 0;

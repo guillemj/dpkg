@@ -29,7 +29,7 @@ use File::Basename qw(basename);
 use File::Spec;
 use Cwd;
 
-use base 'Dpkg::Compression::CompressedFile';
+use base 'Dpkg::Compression::FileHandle';
 
 sub create {
     my ($self, %opts) = @_;

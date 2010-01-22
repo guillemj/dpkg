@@ -61,8 +61,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Changelog/Parse.pm \
 	Dpkg/Checksums.pm \
 	Dpkg/Compression.pm \
-	Dpkg/Compression/CompressedFile.pm \
-	Dpkg/Compression/Compressor.pm \
+	Dpkg/Compression/FileHandle.pm \
+	Dpkg/Compression/Process.pm \
 	Dpkg/Conf.pm \
 	Dpkg/Control.pm \
 	Dpkg/Control/Changelog.pm \

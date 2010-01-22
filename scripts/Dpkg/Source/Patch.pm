@@ -19,8 +19,6 @@ use strict;
 use warnings;
 
 use Dpkg;
-use Dpkg::Compression::Compressor;
-use Dpkg::Compression;
 use Dpkg::Gettext;
 use Dpkg::IPC;
 use Dpkg::ErrorHandling;
@@ -35,7 +33,7 @@ use Fcntl ':mode';
 #XXX: Needed for sub-second timestamps, require recent perl
 #use Time::HiRes qw(stat);
 
-use base 'Dpkg::Compression::CompressedFile';
+use base 'Dpkg::Compression::FileHandle';
 
 sub create {
     my ($self, %opts) = @_;

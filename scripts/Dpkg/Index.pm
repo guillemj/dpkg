@@ -21,7 +21,7 @@ use warnings;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
-use Dpkg::Compression::CompressedFile;
+use Dpkg::Compression::FileHandle;
 
 use overload
     '@{}' => sub { return $_[0]->{'order'} },
@@ -155,7 +155,7 @@ parsed. Handles compressed files transparently based on their extensions.
 
 sub load {
     my ($self, $file) = @_;
-    my $cf = Dpkg::Compression::CompressedFile->new(filename => $file);
+    my $cf = Dpkg::Compression::FileHandle->new(filename => $file);
     my $res = $self->parse($cf, $file);
     close($cf) || syserr(_g("cannot close %s"), $file);
     return $res;
@@ -189,7 +189,7 @@ based on their extensions.
 
 sub save {
     my ($self, $file) = @_;
-    my $cf = Dpkg::Compression::CompressedFile->new(filename => $file);
+    my $cf = Dpkg::Compression::FileHandle->new(filename => $file);
     $self->output($cf);
     close($cf) || syserr(_g("cannot close %s"), $file);
 }

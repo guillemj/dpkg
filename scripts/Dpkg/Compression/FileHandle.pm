@@ -13,13 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package Dpkg::Compression::CompressedFile;
+package Dpkg::Compression::FileHandle;
 
 use strict;
 use warnings;
 
 use Dpkg::Compression;
-use Dpkg::Compression::Compressor;
+use Dpkg::Compression::Process;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use POSIX qw(WIFSIGNALED WTERMSIG SIGPIPE);
@@ -32,43 +32,43 @@ use base qw(FileHandle Tie::Handle);
 
 =head1 NAME
 
-Dpkg::Compression::CompressedFile - object dealing transparently with file compression
+Dpkg::Compression::FileHandle - object dealing transparently with file compression
 
 =head1 SYNOPSIS
 
-    use Dpkg::Compression::CompressedFile;
+    use Dpkg::Compression::FileHandle;
 
-    $fh = Dpkg::Compression::CompressedFile->new(filename=>"sample.gz");
+    $fh = Dpkg::Compression::FileHandle->new(filename=>"sample.gz");
     print $fh "Something\n";
     close $fh;
 
-    $fh = Dpkg::Compression::CompressedFile->new();
+    $fh = Dpkg::Compression::FileHandle->new();
     open($fh, ">", "sample.bz2");
     print $fh "Something\n";
     close $fh;
 
-    $fh = Dpkg::Compression::CompressedFile->new();
+    $fh = Dpkg::Compression::FileHandle->new();
     $fh->open("sample.xz", "w");
     $fh->print("Something\n");
     $fh->close();
 
-    $fh = Dpkg::Compression::CompressedFile->new(filename=>"sample.gz");
+    $fh = Dpkg::Compression::FileHandle->new(filename=>"sample.gz");
     my @lines = <$fh>;
     close $fh;
 
-    $fh = Dpkg::Compression::CompressedFile->new();
+    $fh = Dpkg::Compression::FileHandle->new();
     open($fh, "<", "sample.bz2");
     my @lines = <$fh>;
     close $fh;
 
-    $fh = Dpkg::Compression::CompressedFile->new();
+    $fh = Dpkg::Compression::FileHandle->new();
     $fh->open("sample.xz", "r");
     my @lines = $fh->getlines();
     $fh->close();
 
 =head1 DESCRIPTION
 
-Dpkg::Compression::CompressedFile is an object that can be used
+Dpkg::Compression::FileHandle is an object that can be used
 like any filehandle and that deals transparently with compressed
 files. By default, the compression scheme is guessed from the filename
 but you can override this behaviour with the method C<set_compression>.
@@ -83,7 +83,7 @@ able to open another file.
 =head1 STANDARD FUNCTIONS
 
 The standard functions acting on filehandles should accept a
-Dpkg::Compression::CompressedFile object transparently including
+Dpkg::Compression::FileHandle object transparently including
 C<open> (only when using the variant with 3 parameters), C<close>,
 C<binmode>, C<eof>, C<fileno>, C<getc>, C<print>, C<printf>, C<read>,
 C<sysread>, C<say>, C<write>, C<syswrite>, C<seek>, C<sysseek>, C<tell>.
@@ -95,14 +95,14 @@ and you can't seek on a pipe.
 =head1 FileHandle METHODS
 
 The object inherits from FileHandle so all methods that work on this
-object should work for Dpkg::Compression::CompressedFile too. There
+object should work for Dpkg::Compression::FileHandle too. There
 may be exceptions though.
 
 =head1 PUBLIC METHODS
 
 =over 4
 
-=item my $fh = Dpkg::Compression::CompressedFile->new(%opts)
+=item my $fh = Dpkg::Compression::FileHandle->new(%opts)
 
 Creates a new filehandle supporting on-the-fly compression/decompression.
 Supported options are "filename", "compression", "compression_level" (see
@@ -124,7 +124,7 @@ sub new {
     bless $self, $class;
     # Initializations
     *$self->{"compression"} = "auto";
-    *$self->{"compressor"} = Dpkg::Compression::Compressor->new();
+    *$self->{"compressor"} = Dpkg::Compression::Process->new();
     *$self->{"add_comp_ext"} = $args{"add_compression_extension"} ||
 	    $args{"add_comp_ext"} || 0;
     *$self->{"allow_sigpipe"} = 0;
@@ -201,10 +201,10 @@ sub OPEN {
 	} elsif ($mode eq "<") {
 	    $self->open_for_read();
 	} else {
-	    internerr("Unsupported open mode on Dpkg::Compression::CompressedFile: $mode");
+	    internerr("Unsupported open mode on Dpkg::Compression::FileHandle: $mode");
 	}
     } else {
-	internerr("Dpkg::Compression::CompressedFile only supports open() with 3 parameters");
+	internerr("Dpkg::Compression::FileHandle only supports open() with 3 parameters");
     }
     return 1; # Always works (otherwise errors out)
 }
@@ -249,7 +249,7 @@ sub BINMODE {
 =item $fh->set_compression($comp)
 
 Defines the compression method used. $comp should one of the methods supported by
-Dpkg::Compression or "none" or "auto". "none" indicates that the file is
+B<Dpkg::Compression> or "none" or "auto". "none" indicates that the file is
 uncompressed and "auto" indicates that the method must be guessed based
 on the filename extension used.
 
@@ -265,8 +265,8 @@ sub set_compression {
 
 =item $fh->set_compression_level($level)
 
-Indicate the desired compression level. It should a value supported by
-the B<set_compression_level> method of B<Dpkg::Compression::Compressor>.
+Indicate the desired compression level. It should be a value accepted
+by the function C<compression_is_valid_level> of B<Dpkg::Compression>.
 
 =cut
 
@@ -410,7 +410,7 @@ sub cleanup {
 =head1 DERIVED OBJECTS
 
 If you want to create an object that inherits from
-Dpkg::Compression::CompressedFile you must be aware that
+Dpkg::Compression::FileHandle you must be aware that
 the object is a reference to a GLOB that is returned by Symbol::gensym()
 and as such it's not a HASH.
 
