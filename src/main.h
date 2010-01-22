@@ -237,10 +237,11 @@ struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
 
 /* all ...'s are const char*'s ... */
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
-                                const char *desc, ...);
+                                const char *desc, ...) DPKG_ATTR_SENTINEL;
 int maintainer_script_new(struct pkginfo *pkg,
                           const char *scriptname, const char *desc,
-                          const char *cidir, char *cidirrest, ...);
+                          const char *cidir, char *cidirrest, ...)
+                          DPKG_ATTR_SENTINEL;
 int maintainer_script_alternative(struct pkginfo *pkg,
                                   const char *scriptname, const char *desc,
                                   const char *cidir, char *cidirrest,
@@ -249,7 +250,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
 /* Callers wanting to run the postinst use these two as they want to postpone
  * trigger incorporation until after updating the package status. The effect
  * is that a package can trigger itself. */
-int maintainer_script_postinst(struct pkginfo *pkg, ...);
+int maintainer_script_postinst(struct pkginfo *pkg, ...) DPKG_ATTR_SENTINEL;
 void post_postinst_tasks_core(struct pkginfo *pkg);
 
 void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
