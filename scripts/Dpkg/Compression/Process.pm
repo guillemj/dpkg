@@ -19,13 +19,30 @@ use strict;
 use warnings;
 
 use Dpkg::Compression;
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::IPC;
-use Dpkg::ErrorHandling;
 
-use POSIX;
+=head1 NAME
 
-# Object methods
+Dpkg::Compression::Process - run compression/decompression processes
+
+=head1 DESCRIPTION
+
+This module provides an object oriented interface to run and manage
+compression/decompression processes.
+
+=head1 METHODS
+
+=over 4
+
+=item my $proc = Dpkg::Compression::Process->new(%opts)
+
+Create a new instance of the object. Supported options are "compression"
+and "compression_level" (see corresponding set_* functions).
+
+=cut
+
 sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
@@ -37,12 +54,28 @@ sub new {
     return $self;
 }
 
+=item $proc->set_compression($comp)
+
+Select the compression method to use. It errors out if the method is not
+supported according to C<compression_is_supported> (of
+B<Dpkg::Compression>).
+
+=cut
+
 sub set_compression {
     my ($self, $method) = @_;
     error(_g("%s is not a supported compression method"), $method)
 	    unless compression_is_supported($method);
     $self->{"compression"} = $method;
 }
+
+=item $proc->set_compression_level($level)
+
+Select the compression level to use. It errors out if the level is not
+valid according to C<compression_is_valid_level> (of
+B<Dpkg::Compression>).
+
+=cut
 
 sub set_compression_level {
     my ($self, $level) = @_;
@@ -51,12 +84,25 @@ sub set_compression_level {
     $self->{"compression_level"} = $level;
 }
 
+=item my @exec = $proc->get_compress_cmdline()
+
+=item my @exec = $proc->get_uncompress_cmdline()
+
+Returns a list ready to be passed to C<exec>, its first element is the
+program name (either for compression or decompression) and the following
+elements are parameters for the program.
+
+When executed the program acts as a filter between its standard input
+and its standard output.
+
+=cut
+
 sub get_compress_cmdline {
     my ($self) = @_;
     my @prog = (compression_get_property($self->{"compression"}, "comp_prog"));
     my $level = "-" . $self->{"compression_level"};
     $level = "--" . $self->{"compression_level"}
-	    if $self->{"compression_level"} =~ m/best|fast/;
+	    if $self->{"compression_level"} !~ m/^[1-9]$/;
     push @prog, $level;
     return @prog;
 }
@@ -82,6 +128,18 @@ sub _sanity_check {
     return %opts;
 }
 
+=item $proc->compress(%opts)
+
+Starts a compressor program. You must indicate where it will read its
+uncompressed data from and where it will write its compressed data to.
+This is accomplished by passing one parameter C<to_*> and one parameter
+C<from_*> as accepted by B<Dpkg::IPC::fork_and_exec>.
+
+You must call C<wait_end_process> after having called this method to
+properly close the sub-process (and verify that it exited without error).
+
+=cut
+
 sub compress {
     my $self = shift;
     my %opts = $self->_sanity_check(@_);
@@ -91,6 +149,18 @@ sub compress {
     $self->{"pid"} = fork_and_exec(%opts);
     delete $self->{"pid"} if $opts{"to_string"}; # wait_child already done
 }
+
+=item $proc->uncompress(%opts)
+
+Starts a decompressor program. You must indicate where it will read its
+compressed data from and where it will write its uncompressed data to.
+This is accomplished by passing one parameter C<to_*> and one parameter
+C<from_*> as accepted by B<Dpkg::IPC::fork_and_exec>.
+
+You must call C<wait_end_process> after having called this method to
+properly close the sub-process (and verify that it exited without error).
+
+=cut
 
 sub uncompress {
     my $self = shift;
@@ -102,6 +172,16 @@ sub uncompress {
     delete $self->{"pid"} if $opts{"to_string"}; # wait_child already done
 }
 
+=item $proc->wait_end_process(%opts)
+
+Call B<Dpkg::IPC::wait_child> to wait until the sub-process has exited
+and verify its return code. Any given option will be forwarded to
+the C<wait_child> function. Most notably you can use the "nocheck" option
+to verify the return code yourself instead of letting C<wait_child> do
+it for you.
+
+=cut
+
 sub wait_end_process {
     my ($self, %opts) = @_;
     $opts{"cmdline"} ||= $self->{"cmdline"};
@@ -109,5 +189,13 @@ sub wait_end_process {
     delete $self->{"pid"};
     delete $self->{"cmdline"};
 }
+
+=back
+
+=head1 AUTHOR
+
+Raphaël Hertzog <hertzog@debian.org>.
+
+=cut
 
 1;
