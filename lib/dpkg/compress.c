@@ -118,6 +118,10 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 		if (actualwrite != actualread)
 			ohshite(_("%s: internal gzip write error"), desc);
 	}
+
+	if (close(fd_out))
+		ohshite(_("%s: internal gzip write error"), desc);
+
 	exit(0);
 }
 
@@ -126,6 +130,7 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char buffer[4096];
 	char combuf[6];
+	int err;
 	gzFile gzfile;
 
 	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
@@ -142,7 +147,6 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 
 		actualwrite = gzwrite(gzfile, buffer, actualread);
 		if (actualwrite != actualread) {
-			int err = 0;
 			const char *errmsg = gzerror(gzfile, &err);
 
 			if (err == Z_ERRNO)
@@ -152,7 +156,16 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 		}
 	}
 
-	gzclose(gzfile);
+	err = gzclose(gzfile);
+	if (err) {
+		const char *errmsg;
+
+		if (err == Z_ERRNO)
+			errmsg = strerror(errno);
+		else
+			errmsg = zError(err);
+		ohshit(_("%s: internal gzip write error: %s"), desc, errmsg);
+	}
 
 	exit(0);
 }
@@ -205,6 +218,9 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 			ohshite(_("%s: internal bzip2 write error"), desc);
 	}
 
+	if (close(fd_out))
+		ohshite(_("%s: internal bzip2 write error"), desc);
+
 	exit(0);
 }
 
@@ -213,6 +229,7 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char buffer[4096];
 	char combuf[6];
+	int err;
 	BZFILE *bzfile;
 
 	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
@@ -229,7 +246,6 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 
 		actualwrite = BZ2_bzwrite(bzfile, buffer, actualread);
 		if (actualwrite != actualread) {
-			int err = 0;
 			const char *errmsg = BZ2_bzerror(bzfile, &err);
 
 			if (err == BZ_IO_ERROR)
@@ -239,7 +255,21 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 		}
 	}
 
-	BZ2_bzclose(bzfile);
+	BZ2_bzWriteClose(&err, bzfile, 0, NULL, NULL);
+	if (err != BZ_OK) {
+		const char *errmsg = _("unexpected bzip2 error");
+
+		if (err == BZ_IO_ERROR)
+			errmsg = strerror(errno);
+		ohshit(_("%s: internal bzip2 write error: '%s'"), desc,
+		       errmsg);
+	}
+
+	/* Because BZ2_bzWriteClose has done a fflush on the file handle,
+	 * doing a close on the file descriptor associated with it should
+	 * be safe™. */
+	if (close(fd_out))
+		ohshite(_("%s: internal bzip2 write error"), desc);
 
 	exit(0);
 }
