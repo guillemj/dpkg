@@ -51,14 +51,14 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 	va_list al;
 	struct command cmd;
 
-  if (fd_in != 0) {
-    m_dup2(fd_in, 0);
-    close(fd_in);
-  }
-  if (fd_out != 1) {
-    m_dup2(fd_out, 1);
-    close(fd_out);
-  }
+	if (fd_in != 0) {
+		m_dup2(fd_in, 0);
+		close(fd_in);
+	}
+	if (fd_out != 1) {
+		m_dup2(fd_out, 1);
+		close(fd_out);
+	}
 
 	command_init(&cmd, file, desc);
 	command_add_arg(&cmd, file);
@@ -287,53 +287,53 @@ void
 decompress_filter(enum compress_type type, int fd_in, int fd_out,
                   const char *desc, ...)
 {
-  va_list al;
-  struct varbuf v = VARBUF_INIT;
+	va_list al;
+	struct varbuf v = VARBUF_INIT;
 
-  va_start(al,desc);
-  varbufvprintf(&v, desc, al);
-  va_end(al);
+	va_start(al, desc);
+	varbufvprintf(&v, desc, al);
+	va_end(al);
 
-  switch(type) {
-    case compress_type_gzip:
-      decompress_gzip(fd_in, fd_out, v.buf);
-    case compress_type_bzip2:
-      decompress_bzip2(fd_in, fd_out, v.buf);
-    case compress_type_lzma:
-      decompress_lzma(fd_in, fd_out, v.buf);
-    case compress_type_none:
-      decompress_none(fd_in, fd_out, v.buf);
-    default:
-      exit(1);
-  }
+	switch (type) {
+	case compress_type_gzip:
+		decompress_gzip(fd_in, fd_out, v.buf);
+	case compress_type_bzip2:
+		decompress_bzip2(fd_in, fd_out, v.buf);
+	case compress_type_lzma:
+		decompress_lzma(fd_in, fd_out, v.buf);
+	case compress_type_none:
+		decompress_none(fd_in, fd_out, v.buf);
+	default:
+		exit(1);
+	}
 }
 
 void
 compress_filter(enum compress_type type, int fd_in, int fd_out,
                 int compress_level, const char *desc, ...)
 {
-  va_list al;
-  struct varbuf v = VARBUF_INIT;
+	va_list al;
+	struct varbuf v = VARBUF_INIT;
 
-  va_start(al,desc);
-  varbufvprintf(&v, desc, al);
-  va_end(al);
+	va_start(al, desc);
+	varbufvprintf(&v, desc, al);
+	va_end(al);
 
-  if (compress_level < 0)
-    compress_level = 9;
-  else if (compress_level == 0)
-    type = compress_type_none;
+	if (compress_level < 0)
+		compress_level = 9;
+	else if (compress_level == 0)
+		type = compress_type_none;
 
-  switch(type) {
-    case compress_type_gzip:
-      compress_gzip(fd_in, fd_out, compress_level, v.buf);
-    case compress_type_bzip2:
-      compress_bzip2(fd_in, fd_out, compress_level, v.buf);
-    case compress_type_lzma:
-      compress_lzma(fd_in, fd_out, compress_level, v.buf);
-    case compress_type_none:
-      compress_none(fd_in, fd_out, compress_level, v.buf);
-    default:
-      exit(1);
-  }
+	switch (type) {
+	case compress_type_gzip:
+		compress_gzip(fd_in, fd_out, compress_level, v.buf);
+	case compress_type_bzip2:
+		compress_bzip2(fd_in, fd_out, compress_level, v.buf);
+	case compress_type_lzma:
+		compress_lzma(fd_in, fd_out, compress_level, v.buf);
+	case compress_type_none:
+		compress_none(fd_in, fd_out, compress_level, v.buf);
+	default:
+		exit(1);
+	}
 }
