@@ -285,24 +285,24 @@ compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
 
 void
 decompress_filter(enum compress_type type, int fd_in, int fd_out,
-                  const char *desc, ...)
+                  const char *desc_fmt, ...)
 {
 	va_list al;
-	struct varbuf v = VARBUF_INIT;
+	struct varbuf desc = VARBUF_INIT;
 
-	va_start(al, desc);
-	varbufvprintf(&v, desc, al);
+	va_start(al, desc_fmt);
+	varbufvprintf(&desc, desc_fmt, al);
 	va_end(al);
 
 	switch (type) {
 	case compress_type_gzip:
-		decompress_gzip(fd_in, fd_out, v.buf);
+		decompress_gzip(fd_in, fd_out, desc.buf);
 	case compress_type_bzip2:
-		decompress_bzip2(fd_in, fd_out, v.buf);
+		decompress_bzip2(fd_in, fd_out, desc.buf);
 	case compress_type_lzma:
-		decompress_lzma(fd_in, fd_out, v.buf);
+		decompress_lzma(fd_in, fd_out, desc.buf);
 	case compress_type_none:
-		decompress_none(fd_in, fd_out, v.buf);
+		decompress_none(fd_in, fd_out, desc.buf);
 	default:
 		exit(1);
 	}
@@ -310,13 +310,13 @@ decompress_filter(enum compress_type type, int fd_in, int fd_out,
 
 void
 compress_filter(enum compress_type type, int fd_in, int fd_out,
-                int compress_level, const char *desc, ...)
+                int compress_level, const char *desc_fmt, ...)
 {
 	va_list al;
-	struct varbuf v = VARBUF_INIT;
+	struct varbuf desc = VARBUF_INIT;
 
-	va_start(al, desc);
-	varbufvprintf(&v, desc, al);
+	va_start(al, desc_fmt);
+	varbufvprintf(&desc, desc_fmt, al);
 	va_end(al);
 
 	if (compress_level < 0)
@@ -326,13 +326,13 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
 
 	switch (type) {
 	case compress_type_gzip:
-		compress_gzip(fd_in, fd_out, compress_level, v.buf);
+		compress_gzip(fd_in, fd_out, compress_level, desc.buf);
 	case compress_type_bzip2:
-		compress_bzip2(fd_in, fd_out, compress_level, v.buf);
+		compress_bzip2(fd_in, fd_out, compress_level, desc.buf);
 	case compress_type_lzma:
-		compress_lzma(fd_in, fd_out, compress_level, v.buf);
+		compress_lzma(fd_in, fd_out, compress_level, desc.buf);
 	case compress_type_none:
-		compress_none(fd_in, fd_out, compress_level, v.buf);
+		compress_none(fd_in, fd_out, compress_level, desc.buf);
 	default:
 		exit(1);
 	}
