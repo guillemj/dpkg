@@ -133,11 +133,26 @@ sub create_quilt_db {
     if (not -d $db_dir) {
         mkdir $db_dir or syserr(_g("cannot mkdir %s"), $db_dir);
     }
-    my $version_file = File::Spec->catfile($db_dir, ".version");
-    if (not -e $version_file) {
-        open(VERSION, ">", $version_file);
+    my $file = File::Spec->catfile($db_dir, ".version");
+    if (not -e $file) {
+        open(VERSION, ">", $file) or syserr(_g("cannot write %s"), $file);
         print VERSION "2\n";
         close(VERSION);
+    }
+    # The files below are used by quilt to know where patches are stored
+    # and what file contains the patch list (supported by quilt >= 0.48-5
+    # in Debian).
+    $file = File::Spec->catfile($db_dir, ".quilt_patches");
+    if (not -e $file) {
+        open(QPATCH, ">", $file) or syserr(_g("cannot write %s"), $file);
+        print QPATCH "debian/patches\n";
+        close(QPATCH);
+    }
+    $file = File::Spec->catfile($db_dir, ".quilt_series");
+    if (not -e $file) {
+        open(QSERIES, ">", $file) or syserr(_g("cannot write %s"), $file);
+        print QSERIES "series\n";
+        close(QSERIES);
     }
 }
 
@@ -174,6 +189,10 @@ sub apply_patches {
 
     my $patches = $opts{"patches"};
 
+    # Always create the quilt db so that if the maintainer calls quilt to
+    # create a patch, it's stored in the right directory
+    $self->create_quilt_db($dir);
+
     # Update debian/patches/series symlink if needed to allow quilt usage
     my $series = $self->get_series_file($dir);
     return unless $series; # No series, no patches
@@ -193,7 +212,6 @@ sub apply_patches {
     return unless scalar(@$patches);
 
     # Apply patches
-    $self->create_quilt_db($dir);
     my $pc_applied = File::Spec->catfile($dir, ".pc", "applied-patches");
     my @applied = $self->read_patch_list($pc_applied);
     my @patches = $self->read_patch_list($self->get_series_file($dir));
