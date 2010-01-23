@@ -80,7 +80,7 @@ sub new {
     my $class = ref($this) || $this;
     my $self = \%opts;
     bless $self, $class;
-    $self->{arch} = get_host_arch() unless exists $self->{arch};
+    $self->{arch} = get_host_arch() unless defined $self->{arch};
     $self->clear();
     if (exists $self->{file}) {
 	$self->load($self->{file}) if -e $self->{file};
