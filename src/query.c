@@ -183,7 +183,7 @@ void listpackages(const char *const *argv) {
   m_output(stdout, _("<standard output>"));
   m_output(stderr, _("<standard error>"));
 
-  pkg_array_free(&array);
+  pkg_array_destroy(&array);
   modstatdb_shutdown();
 }
 
@@ -432,7 +432,7 @@ void showpackages(const char *const *argv) {
   m_output(stdout, _("<standard output>"));
   m_output(stderr, _("<standard error>"));
 
-  pkg_array_free(&array);
+  pkg_array_destroy(&array);
   freeformat(fmt);
   modstatdb_shutdown();
 }

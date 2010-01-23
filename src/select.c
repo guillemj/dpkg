@@ -77,7 +77,7 @@ void getselections(const char *const *argv) {
   m_output(stdout, _("<standard output>"));
   m_output(stderr, _("<standard error>"));
 
-  pkg_array_free(&array);
+  pkg_array_destroy(&array);
 }
 
 void setselections(const char *const *argv) {

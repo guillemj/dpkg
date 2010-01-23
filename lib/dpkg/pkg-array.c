@@ -66,12 +66,14 @@ pkg_array_sort(struct pkg_array *a, pkg_sorter_func *pkg_sort)
 }
 
 /**
- * Free a package array.
+ * Destroy a package array.
  *
- * @param a The array to free.
+ * Frees the allocated memory and resets the members.
+ *
+ * @param a The array to destroy.
  */
 void
-pkg_array_free(struct pkg_array *a)
+pkg_array_destroy(struct pkg_array *a)
 {
 	a->n_pkgs = 0;
 	free(a->pkgs);
