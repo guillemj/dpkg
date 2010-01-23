@@ -82,6 +82,8 @@ Options:
   -V                       verbose output. Write deprecated symbols and
                            pattern matching symbols as comments
                            (in template mode only).
+  -a<arch>                 assume <arch> as host architecture when processing
+                           symbol files.
   -d                       display debug information during work.
   -h, --help               show this help message.
       --version            show the version.
@@ -121,6 +123,8 @@ while (@ARGV) {
 	$template_mode = 1;
     } elsif (m/^-V$/) {
 	$verbose_output = 1;
+    } elsif (m/^-a(.+)$/) {
+	$host_arch = $1;
     } elsif (m/^-(h|-help)$/) {
 	usage();
 	exit(0);
