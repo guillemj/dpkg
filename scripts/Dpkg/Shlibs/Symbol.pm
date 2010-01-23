@@ -70,7 +70,7 @@ sub dclone {
 sub parse_tagspec {
     my ($self, $tagspec) = @_;
 
-    if ($tagspec =~ /^\((.*?)\)(.*)$/ && $1) {
+    if ($tagspec =~ /^\s*\((.*?)\)(.*)$/ && $1) {
 	# (tag1=t1 value|tag2|...|tagN=tNp)
 	# Symbols ()|= cannot appear in the tag names and values
 	my $tagspec = $1;
