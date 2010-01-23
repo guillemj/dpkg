@@ -52,7 +52,7 @@ extern enum compress_type compress_type;
 #define OLDDEBDIR		"DEBIAN"
 #define OLDOLDDEBDIR		".DEBIAN"
 
-#define DEBMAGIC     "!<arch>\ndebian-binary   "
+#define DEBMAGIC		"debian-binary   "
 #define ADMINMEMBER		"control.tar.gz  "
 #define ADMINMEMBER_COMPAT	"control.tar.gz/ "
 #define DATAMEMBER_GZ		"data.tar.gz     "

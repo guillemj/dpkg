@@ -83,19 +83,20 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
 
   size_t thisilen;
   unsigned int templong;
-  char magicbuf[sizeof(PARTMAGIC)-1], *rip, *partnums, *slash;
+  char magicbuf[SARMAG], *rip, *partnums, *slash;
   struct ar_hdr arh;
   int c;
   struct stat stab;
   
-  if (fread(magicbuf,1,sizeof(PARTMAGIC)-1,partfile) != sizeof(PARTMAGIC)-1) {
+  if (fread(magicbuf, 1, sizeof(magicbuf), partfile) != sizeof(magicbuf)) {
     if (ferror(partfile)) rerr(fn); else return NULL;
   }
-  if (memcmp(magicbuf,PARTMAGIC,sizeof(magicbuf))) return NULL;
-  if (fseek(partfile,-sizeof(arh.ar_name),SEEK_CUR))
-    ohshite(_("unable to seek back"));
+  if (memcmp(magicbuf, "!<arch>\n", sizeof(magicbuf)))
+    return NULL;
   
   if (fread(&arh,1,sizeof(arh),partfile) != sizeof(arh)) rerreof(partfile,fn);
+  if (memcmp(arh.ar_name, PARTMAGIC, sizeof(arh.ar_name)))
+    return NULL;
   if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
     ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),fn);
   thisilen = parseheaderlength(arh.ar_size, sizeof(arh.ar_size), fn,
