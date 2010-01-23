@@ -531,7 +531,9 @@ sub get_soname_patterns {
 }
 
 sub get_new_symbols {
-    my ($self, $ref) = @_;
+    my ($self, $ref, %opts) = @_;
+    my $with_optional = (exists $opts{with_optional}) ?
+	$opts{with_optional} : 0;
     my @res;
     foreach my $soname (keys %{$self->{objects}}) {
 	my $mysyms = $self->{objects}{$soname}{syms};
@@ -540,17 +542,16 @@ sub get_new_symbols {
 	my @soname = ( $soname );
 
 	# Scan raw symbols first.
-	foreach my $sym (grep { $_->is_eligible_as_new($self->{arch}) }
+	foreach my $sym (grep { ($with_optional || ! $_->is_optional())
+	                        && $_->is_legitimate($self->{arch}) }
 	                      values %$mysyms)
 	{
 	    my $refsym = $refsyms->{$sym->get_symbolname()};
 	    my $isnew;
 	    if (defined $refsym) {
-		# If the symbol exists in the reference symbol file, it might
-		# still be new if it is either deprecated or from foreign arch
-		# there.
-		$isnew = ($refsym->{deprecated} or
-		    not $refsym->arch_is_concerned($self->{arch}));
+		# If the symbol exists in the $ref symbol file, it might
+		# still be new if $refsym is not legitimate.
+		$isnew = not $refsym->is_legitimate($self->{arch});
 	    } else {
 		# If the symbol does not exist in the $ref symbol file, it does
 		# not mean that it's new. It might still match a pattern in the
@@ -566,14 +567,15 @@ sub get_new_symbols {
 	}
 
 	# Now scan patterns
-	foreach my $p (grep { $_->is_eligible_as_new($self->{arch}) }
+	foreach my $p (grep { ($with_optional || ! $_->is_optional())
+	                      && $_->is_legitimate($self->{arch}) }
 	                    $self->get_soname_patterns($soname))
 	{
 	    my $refpat = $ref->lookup_pattern($p, \@soname, 0);
-	    # If reference pattern was not found or it is deprecated or
-	    # it's from foreign arch, considering current one as new.
+	    # If reference pattern was not found or it is not legitimate,
+	    # considering current one as new.
 	    if (not defined $refpat or
-		not $refpat->arch_is_concerned($self->{arch}))
+	        not $refpat->is_legitimate($self->{arch}))
 	    {
 		push @res, $p->sclone(soname => $soname);
 	    }
@@ -583,8 +585,8 @@ sub get_new_symbols {
 }
 
 sub get_lost_symbols {
-    my ($self, $ref) = @_;
-    return $ref->get_new_symbols($self);
+    my ($self, $ref, %opts) = @_;
+    return $ref->get_new_symbols($self, %opts);
 }
 
 
