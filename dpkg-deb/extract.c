@@ -41,6 +41,7 @@
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/compress.h>
+#include <dpkg/ar.h>
 #include <dpkg/myopt.h>
 
 #include "dpkg-deb.h"
@@ -137,13 +138,15 @@ void extracthalf(const char *debar, const char *directory,
     for (;;) {
       if (fread(&arh,1,sizeof(arh),ar) != sizeof(arh))
         readfail(ar,debar,_("between members"));
+
+      dpkg_ar_normalize_name(&arh);
+
       if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
         ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),debar);
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
                                    debar, _("member length"));
       if (!header_done) {
-        if (memcmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) &&
-	    memcmp(arh.ar_name,"debian-binary/   ",sizeof(arh.ar_name)))
+        if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
         if (fread(infobuf,1, memberlen + (memberlen&1), ar) != memberlen + (memberlen&1))
@@ -167,24 +170,22 @@ void extracthalf(const char *debar, const char *directory,
            */
 	stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member data from %s"), debar);
       } else {
-        adminmember=
-          (!memcmp(arh.ar_name,ADMINMEMBER,sizeof(arh.ar_name)) ||
-	  !memcmp(arh.ar_name,ADMINMEMBER_COMPAT,sizeof(arh.ar_name))) ? 1 : -1;
+	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
+	  adminmember = 1;
+	else
+	  adminmember = -1;
+
 	if (adminmember == -1) {
-	  if (!memcmp(arh.ar_name,DATAMEMBER_GZ,sizeof(arh.ar_name)) ||
-	      !memcmp(arh.ar_name,DATAMEMBER_COMPAT_GZ,sizeof(arh.ar_name))) {
+	  if (strncmp(arh.ar_name, DATAMEMBER_GZ, sizeof(arh.ar_name)) == 0) {
 	    adminmember= 0;
 	    compress_type = compress_type_gzip;
-	  } else if (!memcmp(arh.ar_name,DATAMEMBER_BZ2,sizeof(arh.ar_name)) ||
-		     !memcmp(arh.ar_name,DATAMEMBER_COMPAT_BZ2,sizeof(arh.ar_name))) {
+	  } else if (strncmp(arh.ar_name, DATAMEMBER_BZ2, sizeof(arh.ar_name)) == 0) {
 	    adminmember= 0;
 	    compress_type = compress_type_bzip2;
-	  } else if (!memcmp(arh.ar_name, DATAMEMBER_LZMA, sizeof(arh.ar_name)) ||
-		     !memcmp(arh.ar_name, DATAMEMBER_COMPAT_LZMA, sizeof(arh.ar_name))) {
+	  } else if (strncmp(arh.ar_name, DATAMEMBER_LZMA, sizeof(arh.ar_name)) == 0) {
 	    adminmember = 0;
 	    compress_type = compress_type_lzma;
-	  } else if (!memcmp(arh.ar_name,DATAMEMBER_CAT,sizeof(arh.ar_name)) ||
-		     !memcmp(arh.ar_name,DATAMEMBER_COMPAT_CAT,sizeof(arh.ar_name))) {
+	  } else if (strncmp(arh.ar_name, DATAMEMBER_CAT, sizeof(arh.ar_name)) == 0) {
 	    adminmember= 0;
 	    compress_type = compress_type_cat;
 	  } else {

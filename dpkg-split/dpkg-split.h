@@ -70,7 +70,7 @@ void addtopartlist(struct partinfo**, struct partinfo*, struct partinfo *refi);
 
 #define PARTSDIR          "parts/"
 
-#define PARTMAGIC         "debian-split    "
+#define PARTMAGIC         "debian-split"
 #define HEADERALLOWANCE    1024
 
 #define SPLITPARTDEFMAX    (450 * 1024)

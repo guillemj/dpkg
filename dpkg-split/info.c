@@ -35,6 +35,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/ar.h>
 #include <dpkg/myopt.h>
 
 #include "dpkg-split.h"
@@ -95,7 +96,10 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
     return NULL;
   
   if (fread(&arh,1,sizeof(arh),partfile) != sizeof(arh)) rerreof(partfile,fn);
-  if (memcmp(arh.ar_name, PARTMAGIC, sizeof(arh.ar_name)))
+
+  dpkg_ar_normalize_name(&arh);
+
+  if (strncmp(arh.ar_name, PARTMAGIC, sizeof(arh.ar_name)) != 0)
     return NULL;
   if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
     ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),fn);
@@ -150,6 +154,9 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   ir->thispartn= templong;
 
   if (fread(&arh,1,sizeof(arh),partfile) != sizeof(arh)) rerreof(partfile,fn);
+
+  dpkg_ar_normalize_name(&arh);
+
   if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
     ohshit(_("file `%.250s' is corrupt - bad magic at end of second header"),fn);
   if (strncmp(arh.ar_name,"data",4))

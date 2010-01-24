@@ -52,17 +52,12 @@ extern enum compress_type compress_type;
 #define OLDDEBDIR		"DEBIAN"
 #define OLDOLDDEBDIR		".DEBIAN"
 
-#define DEBMAGIC		"debian-binary   "
-#define ADMINMEMBER		"control.tar.gz  "
-#define ADMINMEMBER_COMPAT	"control.tar.gz/ "
-#define DATAMEMBER_GZ		"data.tar.gz     "
-#define DATAMEMBER_COMPAT_GZ	"data.tar.gz/    "
-#define DATAMEMBER_BZ2   	"data.tar.bz2    "
-#define DATAMEMBER_COMPAT_BZ2  	"data.tar.bz2/   "
-#define DATAMEMBER_LZMA		"data.tar.lzma   "
-#define DATAMEMBER_COMPAT_LZMA	"data.tar.lzma/  "
-#define DATAMEMBER_CAT   	"data.tar        "
-#define DATAMEMBER_COMPAT_CAT  	"data.tar/       "
+#define DEBMAGIC		"debian-binary"
+#define ADMINMEMBER		"control.tar.gz"
+#define DATAMEMBER_GZ		"data.tar.gz"
+#define DATAMEMBER_BZ2		"data.tar.bz2"
+#define DATAMEMBER_LZMA		"data.tar.lzma"
+#define DATAMEMBER_CAT		"data.tar"
 
 #define MAXFILENAME 2048
 #define MAXFIELDNAME 200
