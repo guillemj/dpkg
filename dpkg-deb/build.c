@@ -448,13 +448,15 @@ void do_build(const char *const *argv) {
     thetime = time(NULL);
     if (fprintf(ar,
                 "!<arch>\n"
-                DEBMAGIC "%-12lu0     0     100644  %-10ld`\n"
+                "%-16s%-12lu0     0     100644  %-10ld`\n"
                 ARCHIVEVERSION "\n"
                 "%s"
-                ADMINMEMBER "%-12lu0     0     100644  %-10ld`\n",
+                "%-16s%-12lu0     0     100644  %-10ld`\n",
+                DEBMAGIC,
                 thetime,
                 (long)sizeof(ARCHIVEVERSION),
                 (sizeof(ARCHIVEVERSION)&1) ? "\n" : "",
+                ADMINMEMBER,
                 (unsigned long)thetime,
                 (long)controlstab.st_size) == EOF)
       werr(debar);
@@ -557,7 +559,7 @@ void do_build(const char *const *argv) {
       ohshite(_("failed to fstat tmpfile (data)"));
     if (fprintf(ar,
                 "%s"
-                "%s" "%-12lu0     0     100644  %-10ld`\n",
+                "%-16s%-12lu0     0     100644  %-10ld`\n",
                 (controlstab.st_size & 1) ? "\n" : "",
                 datamember,
                 (unsigned long)thetime,
