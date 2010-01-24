@@ -185,7 +185,7 @@ void extracthalf(const char *debar, const char *directory,
 	  } else if (strncmp(arh.ar_name, DATAMEMBER_LZMA, sizeof(arh.ar_name)) == 0) {
 	    adminmember = 0;
 	    compress_type = compress_type_lzma;
-	  } else if (strncmp(arh.ar_name, DATAMEMBER_CAT, sizeof(arh.ar_name)) == 0) {
+	  } else if (strncmp(arh.ar_name, DATAMEMBER, sizeof(arh.ar_name)) == 0) {
 	    adminmember= 0;
 	    compress_type = compress_type_cat;
 	  } else {

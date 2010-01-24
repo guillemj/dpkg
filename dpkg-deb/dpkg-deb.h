@@ -57,7 +57,7 @@ extern enum compress_type compress_type;
 #define DATAMEMBER_GZ		"data.tar.gz"
 #define DATAMEMBER_BZ2		"data.tar.bz2"
 #define DATAMEMBER_LZMA		"data.tar.lzma"
-#define DATAMEMBER_CAT		"data.tar"
+#define DATAMEMBER		"data.tar"
 
 #define MAXFILENAME 2048
 #define MAXFIELDNAME 200
