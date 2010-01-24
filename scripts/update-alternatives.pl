@@ -411,6 +411,14 @@ if (defined($new_choice) and ($current_choice ne $new_choice)) {
     warning(_g("forcing reinstallation of alternative %s " .
                "because link group %s is broken."),
             $current_choice, $alternative->name());
+    if ($current_choice and not $alternative->has_choice($current_choice)) {
+	$new_choice = $alternative->best();
+	warning(_g("current alternative %s is unknown, switching to %s " .
+	           "for link group %s."), $current_choice, $new_choice,
+		$alternative->name());
+	$current_choice = $new_choice;
+	$alternative->set_status('auto');
+    }
     $alternative->prepare_install($current_choice) if $current_choice;
 }
 
