@@ -294,7 +294,7 @@ void extracthalf(const char *debar, const char *directory,
     m_dup2(readfromfd,0);
     if (admininfo) close(p1[0]);
     if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
-    decompress_cat(compress_type, 0, 1, _("data"));
+    decompress_filter(compress_type, 0, 1, _("data"));
   }
   if (readfromfd != fileno(ar)) close(readfromfd);
   if (taroption) close(p2[1]);

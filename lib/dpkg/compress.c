@@ -70,8 +70,8 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 }
 
 void
-decompress_cat(enum compress_type type, int fd_in, int fd_out,
-               const char *desc, ...)
+decompress_filter(enum compress_type type, int fd_in, int fd_out,
+                  const char *desc, ...)
 {
   va_list al;
   struct varbuf v = VARBUF_INIT;
@@ -152,8 +152,8 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
 }
 
 void
-compress_cat(enum compress_type type, int fd_in, int fd_out,
-             const char *compression, const char *desc, ...)
+compress_filter(enum compress_type type, int fd_in, int fd_out,
+                const char *compression, const char *desc, ...)
 {
   va_list al;
   struct varbuf v = VARBUF_INIT;
