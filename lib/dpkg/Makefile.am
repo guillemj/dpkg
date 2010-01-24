@@ -19,6 +19,7 @@ libdpkg_a_SOURCES = \
 	dpkg.h \
 	dpkg-db.h \
 	dlist.h \
+	ar.c ar.h \
 	buffer.c buffer.h \
 	cleanup.c \
 	compress.c compress.h \
