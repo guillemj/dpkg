@@ -142,7 +142,7 @@ void extracthalf(const char *debar, const char *directory,
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
                                    debar, _("member length"));
       if (!header_done) {
-        if (memcmp(arh.ar_name,"debian-binary   ",sizeof(arh.ar_name)) &&
+        if (memcmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) &&
 	    memcmp(arh.ar_name,"debian-binary/   ",sizeof(arh.ar_name)))
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
