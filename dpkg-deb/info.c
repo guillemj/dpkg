@@ -117,7 +117,7 @@ static void info_spew(const char *debar, const char *directory,
 	      component, directory);
     }
   }
-  varbuffree(&controlfile);
+  varbuf_destroy(&controlfile);
 
   if (re==1)
     ohshit(_("One requested control component is missing"));

@@ -204,8 +204,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	conff->hash = nfstrsave(newdisthash);
 	modstatdb_note(pkg);
 
-	varbuffree(&cdr);
-	varbuffree(&cdr2);
+	varbuf_destroy(&cdr);
+	varbuf_destroy(&cdr2);
 }
 
 /**
@@ -261,7 +261,7 @@ deferred_configure(struct pkginfo *pkg)
 
 	ok = dependencies_ok(pkg, NULL, &aemsgs);
 	if (ok == 1) {
-		varbuffree(&aemsgs);
+		varbuf_destroy(&aemsgs);
 		pkg->clientdata->istobe = itb_installnew;
 		add_to_queue(pkg);
 		return;
@@ -282,7 +282,7 @@ deferred_configure(struct pkginfo *pkg)
 		fprintf(stderr,
 		        _("dpkg: dependency problems prevent configuration of %s:\n%s"),
 		        pkg->name, aemsgs.buf);
-		varbuffree(&aemsgs);
+		varbuf_destroy(&aemsgs);
 		ohshit(_("dependency problems - leaving unconfigured"));
 	} else if (aemsgs.used) {
 		varbufaddc(&aemsgs, 0);
@@ -290,7 +290,7 @@ deferred_configure(struct pkginfo *pkg)
 		        _("dpkg: %s: dependency problems, but configuring anyway as you requested:\n%s"),
 		        pkg->name, aemsgs.buf);
 	}
-	varbuffree(&aemsgs);
+	varbuf_destroy(&aemsgs);
 	sincenothing = 0;
 
 	if (pkg->eflag & eflag_reinstreq)

@@ -141,6 +141,8 @@ varbuf_detach(struct varbuf *v)
   return buf;
 }
 
-void varbuffree(struct varbuf *v) {
+void
+varbuf_destroy(struct varbuf *v)
+{
   free(v->buf); v->buf=NULL; v->size=0; v->used=0;
 }

@@ -747,7 +747,7 @@ void process_archive(const char *filename) {
 	}
       }
 
-      varbuffree(&cfilename);
+      varbuf_destroy(&cfilename);
 
       if ((namenode->flags & fnnf_old_conff)) {
 	if (sameas) {

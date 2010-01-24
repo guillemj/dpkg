@@ -241,9 +241,9 @@ statdb_write(void)
 	if (rename(dbname_new.buf, dbname.buf))
 		ohshite(_("error installing new statoverride"));
 
-	varbuffree(&dbname);
-	varbuffree(&dbname_new);
-	varbuffree(&dbname_old);
+	varbuf_destroy(&dbname);
+	varbuf_destroy(&dbname_new);
+	varbuf_destroy(&dbname_old);
 }
 
 static int

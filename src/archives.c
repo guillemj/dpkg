@@ -872,7 +872,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
 
   fixbydeconf = NULL;
   if (depisok(dep, &why, &fixbydeconf, 0)) {
-    varbuffree(&why);
+    varbuf_destroy(&why);
     return;
   }
 
@@ -900,7 +900,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
             pfilename, pkg->name, why.buf);
     ok= 0;
   }
-  varbuffree(&why);
+  varbuf_destroy(&why);
   if (ok > 0) return;
 
   if (force_breaks(dep->list)) {
@@ -927,8 +927,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
 
   fixbyrm = NULL;
   if (depisok(dep, &conflictwhy, &fixbyrm, 0)) {
-    varbuffree(&conflictwhy);
-    varbuffree(&removalwhy);
+    varbuf_destroy(&conflictwhy);
+    varbuf_destroy(&removalwhy);
     return;
   }
   if (fixbyrm) {
@@ -1008,7 +1008,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
 
         /* This conflict is OK - we'll remove the conflictor. */
 	conflictor[cflict_index++]= fixbyrm;
-        varbuffree(&conflictwhy); varbuffree(&removalwhy);
+        varbuf_destroy(&conflictwhy); varbuf_destroy(&removalwhy);
         fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
                 fixbyrm->name, pkg->name);
         return;
@@ -1022,7 +1022,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   if (!force_conflicts(dep->list))
     ohshit(_("conflicting packages - not installing %.250s"),pkg->name);
   warning(_("ignoring conflict, may proceed anyway!"));
-  varbuffree(&conflictwhy);
+  varbuf_destroy(&conflictwhy);
   
   return;
 }

@@ -33,7 +33,7 @@ test_varbuf_init(void)
 	test_pass(vb.size == 0);
 	test_pass(vb.buf == NULL);
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 	test_pass(vb.used == 0);
 	test_pass(vb.size == 0);
 	test_pass(vb.buf == NULL);
@@ -49,7 +49,7 @@ test_varbuf_prealloc(void)
 	test_pass(vb.size >= 10);
 	test_pass(vb.buf != NULL);
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 	test_pass(vb.used == 0);
 	test_pass(vb.size == 0);
 	test_pass(vb.buf == NULL);
@@ -85,7 +85,7 @@ test_varbuf_grow(void)
 	test_pass(vb.used == 10);
 	test_pass(vb.size >= 110);
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 }
 
 static void
@@ -105,7 +105,7 @@ test_varbuf_addbuf(void)
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "1234567890abcde", 15);
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 }
 
 static void
@@ -135,7 +135,7 @@ test_varbuf_addc(void)
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "abcd", 4);
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 }
 
 static void
@@ -155,7 +155,7 @@ test_varbuf_dupc(void)
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "zzzzzzzzzzyyyyy", 15);
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 }
 
 static void
@@ -172,7 +172,7 @@ test_varbuf_substc(void)
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "1234z5678z9012z", 15);
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 }
 
 static void
@@ -199,7 +199,7 @@ test_varbuf_printf(void)
 	test_pass(vb.size >= vb.used);
 	test_str(vb.buf, ==, "format string number 10 extra string");
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 }
 
 static void
@@ -220,7 +220,7 @@ test_varbuf_reset(void)
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "abcdefghijklmno", 15);
 
-	varbuffree(&vb);
+	varbuf_destroy(&vb);
 }
 
 static void

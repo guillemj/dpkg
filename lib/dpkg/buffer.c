@@ -185,7 +185,7 @@ buffer_copy_##name(type1 n1, int typeIn, \
 	ret = buffer_copy(&read_data, &write_data, limit, v.buf); \
 	buffer_done(&read_data, &write_data); \
 \
-	varbuffree(&v); \
+	varbuf_destroy(&v); \
 \
 	return ret; \
 }

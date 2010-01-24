@@ -265,8 +265,8 @@ show1package(const struct lstitem *head,
 		fputs(vb.buf, stdout);
 	}
 
-	varbuffree(&wb);
-	varbuffree(&fb);
-	varbuffree(&vb);
+	varbuf_destroy(&wb);
+	varbuf_destroy(&fb);
+	varbuf_destroy(&vb);
 }
 

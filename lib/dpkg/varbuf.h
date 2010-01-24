@@ -31,14 +31,14 @@ DPKG_BEGIN_DECLS
 
 /*
  * varbufinit must be called exactly once before the use of each varbuf
- * (including before any call to varbuffree), or the variable must be
+ * (including before any call to varbuf_destroy), or the variable must be
  * initialized with VARBUF_INIT.
  *
  * However, varbufs allocated ‘static’ are properly initialised anyway and
  * do not need varbufinit; multiple consecutive calls to varbufinit before
  * any use are allowed.
  *
- * varbuffree must be called after a varbuf is finished with, if anything
+ * varbuf_destroy must be called after a varbuf is finished with, if anything
  * other than varbufinit has been done. After this you are allowed but
  * not required to call varbufinit again if you want to start using the
  * varbuf again.
@@ -54,7 +54,7 @@ struct varbuf {
 	~varbuf();
 	void init(size_t _size = 0);
 	void reset();
-	void free();
+	void destroy();
 	void operator()(int c);
 	void operator()(const char *s);
 	void terminate(void/*to shut 2.6.3 up*/);
@@ -68,7 +68,7 @@ void varbufinit(struct varbuf *v, size_t size);
 void varbuf_grow(struct varbuf *v, size_t need_size);
 char *varbuf_detach(struct varbuf *v);
 void varbufreset(struct varbuf *v);
-void varbuffree(struct varbuf *v);
+void varbuf_destroy(struct varbuf *v);
 
 void varbufaddc(struct varbuf *v, int c);
 void varbufdupc(struct varbuf *v, int c, size_t n);
@@ -91,7 +91,7 @@ varbuf::varbuf(size_t _size)
 inline
 varbuf::~varbuf()
 {
-	varbuffree(this);
+	varbuf_destroy(this);
 }
 
 inline void
@@ -107,9 +107,9 @@ varbuf::reset()
 }
 
 inline void
-varbuf::free()
+varbuf::destroy()
 {
-	varbuffree(this);
+	varbuf_destroy(this);
 }
 
 inline void

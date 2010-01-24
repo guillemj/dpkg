@@ -111,7 +111,7 @@ void deferred_remove(struct pkginfo *pkg) {
   }
 
   if (rok == 1) {
-    varbuffree(&raemsgs);
+    varbuf_destroy(&raemsgs);
     pkg->clientdata->istobe= itb_remove;
     add_to_queue(pkg);
     return;
@@ -128,7 +128,7 @@ void deferred_remove(struct pkginfo *pkg) {
             _("dpkg: %s: dependency problems, but removing anyway as you requested:\n%s"),
             pkg->name, raemsgs.buf);
   }
-  varbuffree(&raemsgs);
+  varbuf_destroy(&raemsgs);
   sincenothing= 0;
 
   if (pkg->eflag & eflag_reinstreq)

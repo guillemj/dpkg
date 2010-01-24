@@ -226,7 +226,7 @@ void modstatdb_shutdown(void) {
     /* tidy up a bit, but don't worry too much about failure */
     fclose(importanttmp);
     unlink(importanttmpfile);
-    varbuffree(&uvb);
+    varbuf_destroy(&uvb);
     /* fall through */
   case msdbrw_needsuperuserlockonly:
     unlockdatabase();

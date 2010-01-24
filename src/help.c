@@ -128,7 +128,7 @@ void checkpath(void) {
     }
   }
 
-  varbuffree(&filename);
+  varbuf_destroy(&filename);
 
   if (warned)
     forcibleerr(fc_badpath,_("%d expected program(s) not found on PATH.\nNB: root's "
@@ -189,7 +189,7 @@ static const char* preexecscript(const char *path, char *const *argv) {
     }
     varbufaddc(&args, '\0');
     debug(dbg_scripts, "fork/exec %s (%s )", path, args.buf);
-    varbuffree(&args);
+    varbuf_destroy(&args);
   }
   instdirl= strlen(instdir);
   if (!instdirl) return path;

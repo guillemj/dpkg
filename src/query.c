@@ -280,7 +280,7 @@ void searchfiles(const char *const *argv) {
   }
   modstatdb_shutdown();
 
-  varbuffree(&path);
+  varbuf_destroy(&path);
 }
 
 void enqperpackage(const char *const *argv) {
@@ -514,7 +514,7 @@ control_path_pkg(struct pkginfo *pkg)
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
-  varbuffree(&db_path);
+  varbuf_destroy(&db_path);
 }
 
 static void

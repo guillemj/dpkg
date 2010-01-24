@@ -459,7 +459,7 @@ void perpackagestate::free(int recursive) {
         pkg->clientdata= 0;
       }
     }
-    relations.free();
+    relations.destroy();
   }
 }
 

@@ -348,7 +348,7 @@ void writerecord(FILE *file, const char *filename,
   if (fputs(vb.buf,file) < 0)
     ohshite(_("failed to write details of `%.50s' to `%.250s'"), pigp->name,
 	    filename);
-   varbuffree(&vb);
+   varbuf_destroy(&vb);
 }
 
 void writedb(const char *filename, int available, int mustsync) {
@@ -392,7 +392,7 @@ void writedb(const char *filename, int available, int mustsync) {
     varbufreset(&vb);      
   }
   iterpkgend(it);
-  varbuffree(&vb);
+  varbuf_destroy(&vb);
   if (mustsync) {
     if (fflush(file))
       ohshite(_("failed to flush %s database to '%.250s'"), which, filename);

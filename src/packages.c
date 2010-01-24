@@ -478,7 +478,7 @@ static void breaks_check_one(struct varbuf *aemsgs, int *ok,
                versiondescribe(&breaker->installed.version, vdew_nonambig),
                depmsg.buf,
                gettext(statusstrings[breaker->status]));
-  varbuffree(&depmsg);
+  varbuf_destroy(&depmsg);
 
   if (virtbroken) {
     varbufprintf(aemsgs, _("  %s (%s) provides %s.\n"),
@@ -616,7 +616,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   if (!anycannotfixbytrig && canfixbytrig)
     progress_bytrigproc = canfixbytrig;
   
-  varbuffree(&oemsgs);
+  varbuf_destroy(&oemsgs);
   debug(dbg_depcon,"ok %d msgs >>%.*s<<", ok, (int)aemsgs->used, aemsgs->buf);
   return ok;
 }
