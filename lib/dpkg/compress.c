@@ -143,7 +143,7 @@ decompress_cat(enum compress_type type, int fd_in, int fd_out,
 #endif
     case compress_type_lzma:
       fd_fd_filter(fd_in, fd_out, v.buf, LZMA, "-dc", NULL);
-    case compress_type_cat:
+    case compress_type_none:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), v.buf);
       exit(0);
     default:
@@ -165,7 +165,7 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
 
   if(compression == NULL) compression= "9";
   else if (*compression == '0')
-    type = compress_type_cat;
+    type = compress_type_none;
 
   switch(type) {
     case compress_type_gzip:
@@ -239,7 +239,7 @@ compress_cat(enum compress_type type, int fd_in, int fd_out,
     case compress_type_lzma:
       snprintf(combuf, sizeof(combuf), "-c%c", *compression);
       fd_fd_filter(fd_in, fd_out, v.buf, LZMA, combuf, NULL);
-    case compress_type_cat:
+    case compress_type_none:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);
       exit(0);
     default:

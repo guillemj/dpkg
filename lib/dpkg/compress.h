@@ -31,7 +31,7 @@ DPKG_BEGIN_DECLS
 #define LZMA		"lzma"
 
 enum compress_type {
-  compress_type_cat,
+  compress_type_none,
   compress_type_gzip,
   compress_type_bzip2,
   compress_type_lzma,

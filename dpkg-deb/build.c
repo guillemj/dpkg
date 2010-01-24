@@ -549,7 +549,7 @@ void do_build(const char *const *argv) {
     case compress_type_lzma:
       datamember = DATAMEMBER_LZMA;
       break;
-    case compress_type_cat:
+    case compress_type_none:
       datamember = DATAMEMBER;
       break;
     default:

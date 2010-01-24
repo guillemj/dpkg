@@ -187,7 +187,7 @@ void extracthalf(const char *debar, const char *directory,
 	    compress_type = compress_type_lzma;
 	  } else if (strncmp(arh.ar_name, DATAMEMBER, sizeof(arh.ar_name)) == 0) {
 	    adminmember= 0;
-	    compress_type = compress_type_cat;
+	    compress_type = compress_type_none;
 	  } else {
             ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);

@@ -200,7 +200,7 @@ static void setcompresstype(const struct cmdinfo *cip, const char *value) {
   else if (!strcmp(value, "lzma"))
     compress_type = compress_type_lzma;
   else if (!strcmp(value, "none"))
-    compress_type = compress_type_cat;
+    compress_type = compress_type_none;
   else
     ohshit(_("unknown compression type `%s'!"), value);
 }
