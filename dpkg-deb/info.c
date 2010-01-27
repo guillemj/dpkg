@@ -30,6 +30,7 @@
 #include <limits.h>
 #include <ctype.h>
 #include <string.h>
+#include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -94,7 +95,7 @@ static void info_spew(const char *debar, const char *directory,
                       const char *const *argv) {
   const char *component;
   struct varbuf controlfile = VARBUF_INIT;
-  FILE *co;
+  int fd;
   int re= 0;
 
   while ((component = *argv++) != NULL) {
@@ -104,9 +105,9 @@ static void info_spew(const char *debar, const char *directory,
     varbufaddstr(&controlfile, component);
     varbufaddc(&controlfile, '\0');
 
-    co = fopen(controlfile.buf, "r");
-    if (co) {
-      stream_fd_copy(co, 1, -1, _("info_spew"));
+    fd = open(controlfile.buf, O_RDONLY);
+    if (fd >= 0) {
+      fd_fd_copy(fd, 1, -1, _("info_spew"));
     } else if (errno == ENOENT) {
       fprintf(stderr,
               _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
