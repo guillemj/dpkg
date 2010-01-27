@@ -90,6 +90,7 @@ compress_none(int fd_in, int fd_out, int compress_level, const char *desc)
 struct compressor compressor_none = {
 	.name = "none",
 	.extension = "",
+	.default_level = 0,
 	.compress = compress_none,
 	.decompress = decompress_none,
 };
@@ -201,6 +202,7 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 struct compressor compressor_gzip = {
 	.name = "gzip",
 	.extension = ".gz",
+	.default_level = 9,
 	.compress = compress_gzip,
 	.decompress = decompress_gzip,
 };
@@ -317,6 +319,7 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 struct compressor compressor_bzip2 = {
 	.name = "bzip2",
 	.extension = ".bz2",
+	.default_level = 9,
 	.compress = compress_bzip2,
 	.decompress = decompress_bzip2,
 };
@@ -343,6 +346,7 @@ compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
 struct compressor compressor_lzma = {
 	.name = "lzma",
 	.extension = ".lzma",
+	.default_level = 9,
 	.compress = compress_lzma,
 	.decompress = decompress_lzma,
 };
@@ -416,7 +420,7 @@ compress_filter(struct compressor *compressor, int fd_in, int fd_out,
 	va_end(al);
 
 	if (compress_level < 0)
-		compress_level = 9;
+		compress_level = compressor->default_level;
 	else if (compress_level == 0)
 		compressor = &compressor_none;
 

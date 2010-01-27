@@ -33,6 +33,7 @@ DPKG_BEGIN_DECLS
 struct compressor {
 	const char *name;
 	const char *extension;
+	int default_level;
 	void (*compress)(int fd_in, int fd_out, int level, const char *desc);
 	void (*decompress)(int fd_in, int fd_out, const char *desc);
 };
