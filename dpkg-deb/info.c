@@ -108,6 +108,7 @@ static void info_spew(const char *debar, const char *directory,
     fd = open(controlfile.buf, O_RDONLY);
     if (fd >= 0) {
       fd_fd_copy(fd, 1, -1, _("info_spew"));
+      close(fd);
     } else if (errno == ENOENT) {
       fprintf(stderr,
               _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
