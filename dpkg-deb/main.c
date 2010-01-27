@@ -134,13 +134,29 @@ const char printforhelp[]=
      "Type dpkg --help for help about installing and deinstalling packages.");
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
-const char* compression=NULL;
 enum compress_type compress_type = compress_type_gzip;
+int compress_level = -1;
 const struct cmdinfo *cipaction = NULL;
 dofunction *action = NULL;
 
 static void setaction(const struct cmdinfo *cip, const char *value);
 static void setcompresstype(const struct cmdinfo *cip, const char *value);
+
+static void
+set_compress_level(const struct cmdinfo *cip, const char *value)
+{
+  long level;
+  char *end;
+
+  level = strtol(value, &end, 0);
+  if (value == end || *end || level > INT_MAX)
+    badusage(_("invalid integer for -%c: '%.250s'"), cip->oshort, value);
+
+  if (level < 0 || level > 9)
+    badusage(_("invalid compression level for -%c: %ld'"), cip->oshort, level);
+
+  compress_level = level;
+}
 
 static dofunction *const dofunctions[]= {
   do_build,
@@ -171,7 +187,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "old",           0,   0, &oldformatflag, NULL,         NULL,          1 },
   { "debug",         'D', 0, &debugflag,     NULL,         NULL,          1 },
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
-  { "compression",   'z', 1, NULL,           &compression, NULL,          1 },
+  { "compression",   'z', 1, NULL,           NULL,         set_compress_level },
   { "compress_type", 'Z', 1, NULL,           NULL,         setcompresstype  },
   { "showformat",    0,   1, NULL,           &showformat,  NULL             },
   { "help",          'h', 0, NULL,           NULL,         usage            },

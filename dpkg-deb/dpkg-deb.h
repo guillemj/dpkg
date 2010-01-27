@@ -33,9 +33,9 @@ extern dofunction *action;
 void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo);
 
-extern const char *compression;
 extern const char* showformat;
 extern enum compress_type compress_type;
+extern int compress_level;
 
 #define ARCHIVEVERSION		"2.0"
 

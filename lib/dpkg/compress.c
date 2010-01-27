@@ -153,7 +153,7 @@ decompress_filter(enum compress_type type, int fd_in, int fd_out,
 
 void
 compress_filter(enum compress_type type, int fd_in, int fd_out,
-                const char *compression, const char *desc, ...)
+                int compress_level, const char *desc, ...)
 {
   va_list al;
   struct varbuf v = VARBUF_INIT;
@@ -163,8 +163,9 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
   varbufvprintf(&v, desc, al);
   va_end(al);
 
-  if(compression == NULL) compression= "9";
-  else if (*compression == '0')
+  if (compress_level < 0)
+    compress_level = 9;
+  else if (compress_level == 0)
     type = compress_type_none;
 
   switch(type) {
@@ -174,7 +175,7 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
         char buffer[4096];
         gzFile gzfile;
 
-        snprintf(combuf, sizeof(combuf), "w%c", *compression);
+        snprintf(combuf, sizeof(combuf), "w%d", compress_level);
         gzfile = gzdopen(fd_out, combuf);
 
         for (;;) {
@@ -199,7 +200,7 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
         exit(0);
       }
 #else
-      snprintf(combuf, sizeof(combuf), "-c%c", *compression);
+      snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
       fd_fd_filter(fd_in, fd_out, v.buf, GZIP, combuf, NULL);
 #endif
     case compress_type_bzip2:
@@ -208,7 +209,7 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
         char buffer[4096];
         BZFILE *bzfile;
 
-        snprintf(combuf, sizeof(combuf), "w%c", *compression);
+        snprintf(combuf, sizeof(combuf), "w%d", compress_level);
         bzfile = BZ2_bzdopen(fd_out, combuf);
 
         for (;;) {
@@ -233,11 +234,11 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
         exit(0);
       }
 #else
-      snprintf(combuf, sizeof(combuf), "-c%c", *compression);
+      snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
       fd_fd_filter(fd_in, fd_out, v.buf, BZIP2, combuf, NULL);
 #endif
     case compress_type_lzma:
-      snprintf(combuf, sizeof(combuf), "-c%c", *compression);
+      snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
       fd_fd_filter(fd_in, fd_out, v.buf, LZMA, combuf, NULL);
     case compress_type_none:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);

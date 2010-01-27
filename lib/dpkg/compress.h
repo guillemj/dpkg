@@ -41,7 +41,7 @@ void decompress_filter(enum compress_type type, int fd_in, int fd_out,
                        const char *desc, ...) DPKG_ATTR_NORET
                        DPKG_ATTR_PRINTF(4);
 void compress_filter(enum compress_type type, int fd_in, int fd_out,
-                     const char *compression, const char *desc, ...)
+                     int compress_level, const char *desc, ...)
                      DPKG_ATTR_NORET DPKG_ATTR_PRINTF(5);
 
 DPKG_END_DECLS
