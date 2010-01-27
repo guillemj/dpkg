@@ -119,7 +119,7 @@ sub add_diff_file {
             error(_g("unknown line from diff -u on %s: `%s'"), $new, $_);
         }
 	if (*$self->{'empty'} and defined(*$self->{'header'})) {
-	    print $self *$self->{'header'} or syserr(_g("failed to write"));
+	    $self->print(*$self->{'header'}) or syserr(_g("failed to write"));
 	    *$self->{'empty'} = 0;
 	}
         print $self $_ || syserr(_g("failed to write"));
