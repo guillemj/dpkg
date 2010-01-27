@@ -87,6 +87,13 @@ compress_none(int fd_in, int fd_out, int compress_level, const char *desc)
 	exit(0);
 }
 
+struct compressor compressor_none = {
+	.name = "none",
+	.extension = "",
+	.compress = compress_none,
+	.decompress = decompress_none,
+};
+
 /*
  * Gzip compressor.
  */
@@ -190,6 +197,13 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 	fd_fd_filter(fd_in, fd_out, desc, GZIP, combuf, NULL);
 }
 #endif
+
+struct compressor compressor_gzip = {
+	.name = "gzip",
+	.extension = ".gz",
+	.compress = compress_gzip,
+	.decompress = decompress_gzip,
+};
 
 /*
  * Bzip2 compressor.
@@ -300,6 +314,13 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 }
 #endif
 
+struct compressor compressor_bzip2 = {
+	.name = "bzip2",
+	.extension = ".bz2",
+	.compress = compress_bzip2,
+	.decompress = decompress_bzip2,
+};
+
 /*
  * Lzma compressor.
  */
@@ -319,41 +340,76 @@ compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
 	fd_fd_filter(fd_in, fd_out, desc, LZMA, combuf, NULL);
 }
 
+struct compressor compressor_lzma = {
+	.name = "lzma",
+	.extension = ".lzma",
+	.compress = compress_lzma,
+	.decompress = decompress_lzma,
+};
+
 /*
  * Generic compressor filter.
  */
 
+static struct compressor *compressor[] = {
+	&compressor_none,
+	&compressor_gzip,
+	&compressor_bzip2,
+	&compressor_lzma,
+};
+
+struct compressor *
+compressor_find_by_name(const char *name)
+{
+	size_t i;
+
+	for (i = 0; i < array_count(compressor); i++)
+		if (strcmp(compressor[i]->name, name) == 0)
+			return compressor[i];
+
+	return NULL;
+}
+
+struct compressor *
+compressor_find_by_extension(const char *extension)
+{
+	size_t i;
+
+	for (i = 0; i < array_count(compressor); i++)
+		if (strcmp(compressor[i]->extension, extension) == 0)
+			return compressor[i];
+
+	return NULL;
+}
+
 void
-decompress_filter(enum compress_type type, int fd_in, int fd_out,
+decompress_filter(struct compressor *compressor, int fd_in, int fd_out,
                   const char *desc_fmt, ...)
 {
 	va_list al;
 	struct varbuf desc = VARBUF_INIT;
 
+	if (compressor == NULL)
+		internerr("no compressor specified");
+
 	va_start(al, desc_fmt);
 	varbufvprintf(&desc, desc_fmt, al);
 	va_end(al);
 
-	switch (type) {
-	case compress_type_gzip:
-		decompress_gzip(fd_in, fd_out, desc.buf);
-	case compress_type_bzip2:
-		decompress_bzip2(fd_in, fd_out, desc.buf);
-	case compress_type_lzma:
-		decompress_lzma(fd_in, fd_out, desc.buf);
-	case compress_type_none:
-		decompress_none(fd_in, fd_out, desc.buf);
-	default:
-		exit(1);
-	}
+	compressor->decompress(fd_in, fd_out, desc.buf);
+
+	exit(0);
 }
 
 void
-compress_filter(enum compress_type type, int fd_in, int fd_out,
+compress_filter(struct compressor *compressor, int fd_in, int fd_out,
                 int compress_level, const char *desc_fmt, ...)
 {
 	va_list al;
 	struct varbuf desc = VARBUF_INIT;
+
+	if (compressor == NULL)
+		internerr("no compressor specified");
 
 	va_start(al, desc_fmt);
 	varbufvprintf(&desc, desc_fmt, al);
@@ -362,18 +418,9 @@ compress_filter(enum compress_type type, int fd_in, int fd_out,
 	if (compress_level < 0)
 		compress_level = 9;
 	else if (compress_level == 0)
-		type = compress_type_none;
+		compressor = &compressor_none;
 
-	switch (type) {
-	case compress_type_gzip:
-		compress_gzip(fd_in, fd_out, compress_level, desc.buf);
-	case compress_type_bzip2:
-		compress_bzip2(fd_in, fd_out, compress_level, desc.buf);
-	case compress_type_lzma:
-		compress_lzma(fd_in, fd_out, compress_level, desc.buf);
-	case compress_type_none:
-		compress_none(fd_in, fd_out, compress_level, desc.buf);
-	default:
-		exit(1);
-	}
+	compressor->compress(fd_in, fd_out, compress_level, desc.buf);
+
+	exit(0);
 }

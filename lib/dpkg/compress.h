@@ -30,17 +30,25 @@ DPKG_BEGIN_DECLS
 #define BZIP2		"bzip2"
 #define LZMA		"lzma"
 
-enum compress_type {
-  compress_type_none,
-  compress_type_gzip,
-  compress_type_bzip2,
-  compress_type_lzma,
+struct compressor {
+	const char *name;
+	const char *extension;
+	void (*compress)(int fd_in, int fd_out, int level, const char *desc);
+	void (*decompress)(int fd_in, int fd_out, const char *desc);
 };
 
-void decompress_filter(enum compress_type type, int fd_in, int fd_out,
+struct compressor compressor_none;
+struct compressor compressor_gzip;
+struct compressor compressor_bzip2;
+struct compressor compressor_lzma;
+
+struct compressor *compressor_find_by_name(const char *name);
+struct compressor *compressor_find_by_extension(const char *name);
+
+void decompress_filter(struct compressor *comp, int fd_in, int fd_out,
                        const char *desc, ...) DPKG_ATTR_NORET
                        DPKG_ATTR_PRINTF(4);
-void compress_filter(enum compress_type type, int fd_in, int fd_out,
+void compress_filter(struct compressor *comp, int fd_in, int fd_out,
                      int compress_level, const char *desc, ...)
                      DPKG_ATTR_NORET DPKG_ATTR_PRINTF(5);
 

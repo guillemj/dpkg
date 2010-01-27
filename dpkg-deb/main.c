@@ -134,7 +134,7 @@ const char printforhelp[]=
      "Type dpkg --help for help about installing and deinstalling packages.");
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
-enum compress_type compress_type = compress_type_gzip;
+struct compressor *compressor = &compressor_gzip;
 int compress_level = -1;
 const struct cmdinfo *cipaction = NULL;
 dofunction *action = NULL;
@@ -209,15 +209,8 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setcompresstype(const struct cmdinfo *cip, const char *value) {
-  if (!strcmp(value, "gzip"))
-    compress_type = compress_type_gzip;
-  else if (!strcmp(value, "bzip2"))
-    compress_type = compress_type_bzip2;
-  else if (!strcmp(value, "lzma"))
-    compress_type = compress_type_lzma;
-  else if (!strcmp(value, "none"))
-    compress_type = compress_type_none;
-  else
+  compressor = compressor_find_by_name(value);
+  if (compressor == NULL)
     ohshit(_("unknown compression type `%s'!"), value);
 }
 

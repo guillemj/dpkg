@@ -34,7 +34,7 @@ void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo);
 
 extern const char* showformat;
-extern enum compress_type compress_type;
+extern struct compressor *compressor;
 extern int compress_level;
 
 #define ARCHIVEVERSION		"2.0"
@@ -54,9 +54,6 @@ extern int compress_level;
 
 #define DEBMAGIC		"debian-binary"
 #define ADMINMEMBER		"control.tar.gz"
-#define DATAMEMBER_GZ		"data.tar.gz"
-#define DATAMEMBER_BZ2		"data.tar.bz2"
-#define DATAMEMBER_LZMA		"data.tar.lzma"
 #define DATAMEMBER		"data.tar"
 
 #define MAXFILENAME 2048

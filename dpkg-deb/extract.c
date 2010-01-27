@@ -124,7 +124,7 @@ void extracthalf(const char *debar, const char *directory,
   char *cur;
   struct ar_hdr arh;
   int readfromfd, oldformat= 0, header_done, adminmember;
-  enum compress_type compress_type = compress_type_gzip;
+  struct compressor *compressor = &compressor_gzip;
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
   if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
@@ -172,26 +172,19 @@ void extracthalf(const char *debar, const char *directory,
       } else {
 	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
 	  adminmember = 1;
-	else
+	else {
 	  adminmember = -1;
 
-	if (adminmember == -1) {
-	  if (strncmp(arh.ar_name, DATAMEMBER_GZ, sizeof(arh.ar_name)) == 0) {
+	  if (strncmp(arh.ar_name, DATAMEMBER, strlen(DATAMEMBER)) == 0) {
+	    const char *extension = arh.ar_name + strlen(DATAMEMBER);
+
 	    adminmember= 0;
-	    compress_type = compress_type_gzip;
-	  } else if (strncmp(arh.ar_name, DATAMEMBER_BZ2, sizeof(arh.ar_name)) == 0) {
-	    adminmember= 0;
-	    compress_type = compress_type_bzip2;
-	  } else if (strncmp(arh.ar_name, DATAMEMBER_LZMA, sizeof(arh.ar_name)) == 0) {
-	    adminmember = 0;
-	    compress_type = compress_type_lzma;
-	  } else if (strncmp(arh.ar_name, DATAMEMBER, sizeof(arh.ar_name)) == 0) {
-	    adminmember= 0;
-	    compress_type = compress_type_none;
-	  } else {
+	    compressor = compressor_find_by_extension(extension);
+	  }
+
+          if (adminmember == -1 || compressor == NULL)
             ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);
-	  }
         }
         if (adminmember == 1) {
           if (ctrllennum != 0)
@@ -294,7 +287,7 @@ void extracthalf(const char *debar, const char *directory,
     m_dup2(readfromfd,0);
     if (admininfo) close(p1[0]);
     if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
-    decompress_filter(compress_type, 0, 1, _("data"));
+    decompress_filter(compressor, 0, 1, _("data"));
   }
   if (readfromfd != fileno(ar)) close(readfromfd);
   if (taroption) close(p2[1]);

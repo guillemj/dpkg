@@ -432,7 +432,7 @@ void do_build(const char *const *argv) {
   c2 = subproc_fork();
   if (!c2) {
     m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
-    compress_filter(compress_type_gzip, 0, 1, 9, _("control"));
+    compress_filter(&compressor_gzip, 0, 1, 9, _("control"));
   }
   close(p1[0]);
   subproc_wait_check(c2, "gzip -9c", 0);
@@ -498,7 +498,7 @@ void do_build(const char *const *argv) {
     close(p1[1]);
     m_dup2(p2[0],0); close(p2[0]);
     m_dup2(oldformatflag ? fileno(ar) : gzfd,1);
-    compress_filter(compress_type, 0, 1, compress_level, _("data"));
+    compress_filter(compressor, 0, 1, compress_level, _("data"));
   }
   close(p2[0]);
   /* All the pipes are set, now lets run find, and start feeding
@@ -538,23 +538,10 @@ void do_build(const char *const *argv) {
   subproc_wait_check(c1, "tar -cf", 0);
   /* Okay, we have data.tar.gz as well now, add it to the ar wrapper */
   if (!oldformatflag) {
-    const char *datamember;
-    switch (compress_type) {
-    case compress_type_gzip:
-      datamember = DATAMEMBER_GZ;
-      break;
-    case compress_type_bzip2:
-      datamember = DATAMEMBER_BZ2;
-      break;
-    case compress_type_lzma:
-      datamember = DATAMEMBER_LZMA;
-      break;
-    case compress_type_none:
-      datamember = DATAMEMBER;
-      break;
-    default:
-      internerr("unknown compress_type '%i'", compress_type);
-    }
+    char datamember[16 + 1];
+
+    sprintf(datamember, "%s%s", DATAMEMBER, compressor->extension);
+
     if (fstat(gzfd, &datastab))
       ohshite(_("failed to fstat tmpfile (data)"));
     if (fprintf(ar,
