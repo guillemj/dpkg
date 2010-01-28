@@ -37,9 +37,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
-#ifdef WITH_ZLIB
-#include <zlib.h>
-#endif
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
