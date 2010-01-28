@@ -1089,7 +1089,7 @@ void archivefiles(const char *const *argv) {
        * above.
        */
       arglist[i++] = "-name";
-      arglist[i++] = ARCHIVE_FILENAME_PATTERN;
+      arglist[i++] = "*.deb";
       arglist[i++] = "-type";
       arglist[i++] = "f";
       arglist[i++] = "-print0";

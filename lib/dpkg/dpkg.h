@@ -97,8 +97,6 @@ DPKG_BEGIN_DECLS
 #define MD5HASHLEN           32
 #define MAXTRIGDIRECTIVE     256
 
-#define ARCHIVE_FILENAME_PATTERN "*.deb"
-
 #define BACKEND		"dpkg-deb"
 #define DPKGQUERY	"dpkg-query"
 #define SPLITTER	"dpkg-split"
