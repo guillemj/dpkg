@@ -253,23 +253,32 @@ sub get_tag_value {
     return $self->{tags}{$tag};
 }
 
-# Checks if the symbol is equal to another one (by name and tag set)
+# Checks if the symbol is equal to another one (by name and optionally,
+# tag sets, versioning info (minver and depid))
 sub equals {
-    my ($self, $other) = @_;
+    my ($self, $other, %opts) = @_;
 
-    # Compare names and tag sets
     return 0 if $self->{symbol} ne $other->{symbol};
-    return 0 if scalar(@{$self->{tagorder}}) != scalar(@{$other->{tagorder}});
 
-    for (my $i = 0; $i < scalar(@{$self->{tagorder}}); $i++) {
-	my $tag = $self->{tagorder}->[$i];
-	return 0 if $tag ne $other->{tagorder}->[$i];
-	if (defined $self->{tags}{$tag} && defined $other->{tags}{$tag}) {
-	    return 0 if $self->{tags}{$tag} ne defined $other->{tags}{$tag};
-	} elsif (defined $self->{tags}{$tag} || defined $other->{tags}{$tag}) {
-	    return 0;
+    if (!exists $opts{versioning} || $opts{versioning}) {
+	return 0 if $self->{minver} ne $other->{minver};
+	return 0 if $self->{dep_id} ne $other->{dep_id};
+    }
+
+    if  (!exists $opts{tags} || $opts{tags}) {
+	return 0 if scalar(@{$self->{tagorder}}) != scalar(@{$other->{tagorder}});
+
+	for (my $i = 0; $i < scalar(@{$self->{tagorder}}); $i++) {
+	    my $tag = $self->{tagorder}->[$i];
+	    return 0 if $tag ne $other->{tagorder}->[$i];
+	    if (defined $self->{tags}{$tag} && defined $other->{tags}{$tag}) {
+		return 0 if $self->{tags}{$tag} ne defined $other->{tags}{$tag};
+	    } elsif (defined $self->{tags}{$tag} || defined $other->{tags}{$tag}) {
+		return 0;
+	    }
 	}
     }
+
     return 1;
 }
 

@@ -504,7 +504,7 @@ sub lookup_pattern {
 	} elsif ($refpat->get_pattern_type() eq "generic") {
 	    for my $p (@{$object->{patterns}{generic}}) {
 		if (($inc_deprecated || !$p->{deprecated}) &&
-		    $p->equals($refpat))
+		    $p->equals($refpat, versioning => 0))
 		{
 		    $pat = $p;
 		    last;
