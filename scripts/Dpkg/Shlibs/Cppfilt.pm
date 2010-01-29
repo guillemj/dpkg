@@ -23,7 +23,8 @@ use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use IO::Handle;
 
-our @EXPORT = qw(cppfilt_demangle);
+our @EXPORT = qw(cppfilt_demangle_cpp);
+our @EXPORT_OK = qw(cppfilt_demangle);
 
 # A hash of 'objects' referring to preforked c++filt processes for the distinct
 # demangling types.
@@ -78,6 +79,11 @@ sub cppfilt_demangle {
 	$filt->{last_result} = $demangled;
     }
     return $filt->{last_result};
+}
+
+sub cppfilt_demangle_cpp {
+    my $symbol = shift;
+    return cppfilt_demangle($symbol, 'auto');
 }
 
 sub terminate_cppfilts {

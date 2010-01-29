@@ -381,7 +381,7 @@ sub convert_to_alias {
 	    # rawname.
 	    return "$1" if ($rawname =~ /\@([^@]+)$/);
 	} elsif ($rawname =~ /^_Z/ && $type eq "c++") {
-	    return cppfilt_demangle($rawname, "auto");
+	    return cppfilt_demangle_cpp($rawname);
 	}
     }
     return undef;

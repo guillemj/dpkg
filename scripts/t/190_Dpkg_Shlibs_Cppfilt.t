@@ -20,21 +20,17 @@ use warnings;
 
 use_ok("Dpkg::Shlibs::Cppfilt");
 
-sub demangle_cpp {
-    return cppfilt_demangle(shift, 'auto');
-}
-
 # Simple C++ demangling tests
-is ( demangle_cpp('_ZNSt10istrstreamC1EPKcl'),
+is ( cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl'),
                   'std::istrstream::istrstream(char const*, long)',
     'demangle symbol' );
-is ( demangle_cpp('_ZNSt10istrstreamC1EPKcl@Base'),
+is ( cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl@Base'),
                   'std::istrstream::istrstream(char const*, long)@Base',
     'demangle symbol with extra postfix' );
-is ( demangle_cpp('foobar _ZNSt10istrstreamC1EPKcl@Base'),
+is ( cppfilt_demangle_cpp('foobar _ZNSt10istrstreamC1EPKcl@Base'),
                   'foobar std::istrstream::istrstream(char const*, long)@Base',
     'demangle symbol with garbage around it' );
-is ( demangle_cpp('FoobarInvalidSymbol'), undef,
+is ( cppfilt_demangle_cpp('FoobarInvalidSymbol'), undef,
     'non-demanglable string' );
 
 # Mass C++ demangling. Checking if c++filt does not hang and cppfilt_demangle()
@@ -83,7 +79,7 @@ END
 
 for (my $try = 1; $try <= 7; $try++) {
     for (my $i = 0; $i <= $#mangledtext; $i++) {
-	my $demangled = demangle_cpp($mangledtext[$i]) || $mangledtext[$i];
+	my $demangled = cppfilt_demangle_cpp($mangledtext[$i]) || $mangledtext[$i];
 	is( $demangled, $demangledtext[$i], "mass c++ demangling (${try}x".(${i}+1).")");
     }
 }
