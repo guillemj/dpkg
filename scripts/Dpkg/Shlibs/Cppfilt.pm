@@ -40,9 +40,7 @@ sub get_cppfilt {
     } else {
 	$filt = { from => undef, to => undef,
 	            last_symbol => "", last_result => "" };
-	$filt->{pid} = spawn(exec => [ 'c++filt',
-	                               '--no-verbose',
-	                               "--format=$type" ],
+	$filt->{pid} = spawn(exec => [ 'c++filt', "--format=$type" ],
 	                     from_pipe => \$filt->{from},
 	                     to_pipe => \$filt->{to});
 	internerr(_g("unable to execute c++filt")) unless defined $filt->{from};
