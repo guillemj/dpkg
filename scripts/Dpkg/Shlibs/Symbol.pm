@@ -197,11 +197,18 @@ sub get_symboltempl {
 }
 
 sub set_symbolname {
-    my ($self, $name, $quoted) = @_;
-    if (defined $name) {
-	$self->{symbol} = $name;
+    my ($self, $name, $templ, $quoted) = @_;
+    unless (defined $name) {
+	$name = $self->{symbol};
     }
-    $self->{symbol_templ} = undef;
+    if (!defined $templ && $name =~ /\s/) {
+	$templ = $name;
+    }
+    if (!defined $quoted && defined $templ && $templ =~ /\s/) {
+	$quoted = '"';
+    }
+    $self->{symbol} = $name;
+    $self->{symbol_templ} = $templ;
     if ($quoted) {
 	$self->{symbol_quoted} = $quoted;
     } else {
