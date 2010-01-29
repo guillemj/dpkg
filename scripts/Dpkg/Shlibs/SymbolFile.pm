@@ -123,14 +123,9 @@ sub add_symbol {
 	    unless (exists $object->{patterns}{aliases}{$alias_type}) {
 		$object->{patterns}{aliases}{$alias_type} = {};
 	    }
-	    my $aliases = $object->{patterns}{aliases}{$alias_type};
-	    # A converter object for transforming a raw symbol name to alias
-	    # of this type. Must support convert_to_alias() method.
-	    unless (exists $aliases->{converter}) {
-		$aliases->{converter} = $symbol;
-	    }
 	    # Alias hash for matching.
-	    $aliases->{names}{$symbol->get_symbolname()} = $symbol;
+	    my $aliases = $object->{patterns}{aliases}{$alias_type};
+	    $aliases->{$symbol->get_symbolname()} = $symbol;
 	} else {
 	    # Otherwise assume this is a generic sequential pattern. This
 	    # should be always safe.
@@ -315,11 +310,12 @@ sub find_matching_pattern {
 
 	my $all_aliases = $obj->{patterns}{aliases};
 	for my $type (Dpkg::Shlibs::Symbol::ALIAS_TYPES) {
-	    if (exists $all_aliases->{$type}) {
+	    if (exists $all_aliases->{$type} && keys(%{$all_aliases->{$type}})) {
 		my $aliases = $all_aliases->{$type};
-		if (my $alias = $aliases->{converter}->convert_to_alias($name)) {
-		    if ($alias && exists $aliases->{names}{$alias}) {
-			$pattern = $aliases->{names}{$alias};
+		my $converter = $aliases->{(keys %$aliases)[0]};
+		if (my $alias = $converter->convert_to_alias($name)) {
+		    if ($alias && exists $aliases->{$alias}) {
+			$pattern = $aliases->{$alias};
 			last if &$pattern_ok($pattern);
 			$pattern = undef; # otherwise not found yet
 		    }
@@ -500,7 +496,9 @@ sub lookup_pattern {
 
 	next unless defined $object;
 	if (my $type = $refpat->get_alias_type()) {
-	    $pat = $object->{patterns}{aliases}{$type}{names}{$refpat->get_symbolname()};
+	    if (exists $object->{patterns}{aliases}{$type}) {
+		$pat = $object->{patterns}{aliases}{$type}{$refpat->get_symbolname()};
+	    }
 	} elsif ($refpat->get_pattern_type() eq "generic") {
 	    for my $p (@{$object->{patterns}{generic}}) {
 		if (($inc_deprecated || !$p->{deprecated}) &&
@@ -525,7 +523,7 @@ sub get_soname_patterns {
     my @aliases;
 
     foreach my $alias (values %{$object->{patterns}{aliases}}) {
-	push @aliases, values %{$alias->{names}};
+	push @aliases, values %$alias;
     }
     return (@aliases, @{$object->{patterns}{generic}});
 }
