@@ -50,23 +50,23 @@ interact with the set of supported compression methods.
 my $COMP = {
     "gzip" => {
 	"file_ext" => "gz",
-	"comp_prog" => "gzip",
-	"decomp_prog" => "gunzip",
+	"comp_prog" => [ "gzip" ],
+	"decomp_prog" => [ "gunzip" ],
     },
     "bzip2" => {
 	"file_ext" => "bz2",
-	"comp_prog" => "bzip2",
-	"decomp_prog" => "bunzip2",
+	"comp_prog" => [ "bzip2" ],
+	"decomp_prog" => [ "bunzip2" ],
     },
     "lzma" => {
 	"file_ext" => "lzma",
-	"comp_prog" => "lzma",
-	"decomp_prog" => "unlzma",
+	"comp_prog" => [ "lzma" ],
+	"decomp_prog" => [ "unlzma" ],
     },
     "xz" => {
 	"file_ext" => "xz",
-	"comp_prog" => "xz",
-	"decomp_prog" => "unxz",
+	"comp_prog" => [ "xz" ],
+	"decomp_prog" => [ "unxz" ],
     },
 };
 

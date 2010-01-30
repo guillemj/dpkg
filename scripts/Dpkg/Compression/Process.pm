@@ -101,7 +101,7 @@ and its standard output.
 
 sub get_compress_cmdline {
     my ($self) = @_;
-    my @prog = (compression_get_property($self->{"compression"}, "comp_prog"));
+    my @prog = (@{compression_get_property($self->{"compression"}, "comp_prog")});
     my $level = "-" . $self->{"compression_level"};
     $level = "--" . $self->{"compression_level"}
 	    if $self->{"compression_level"} !~ m/^[1-9]$/;
@@ -111,7 +111,7 @@ sub get_compress_cmdline {
 
 sub get_uncompress_cmdline {
     my ($self) = @_;
-    return (compression_get_property($self->{"compression"}, "decomp_prog"));
+    return (@{compression_get_property($self->{"compression"}, "decomp_prog")});
 }
 
 sub _sanity_check {
