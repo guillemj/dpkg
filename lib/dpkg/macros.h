@@ -21,6 +21,10 @@
 #ifndef LIBDPKG_MACROS_H
 #define LIBDPKG_MACROS_H
 
+#ifndef LIBDPKG_VOLATILE_API
+#error "The libdpkg API is to be considered volatile, please read 'README.api'."
+#endif
+
 /* Language definitions. */
 
 #if HAVE_C_ATTRIBUTE
