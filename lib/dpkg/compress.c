@@ -322,6 +322,33 @@ struct compressor compressor_bzip2 = {
 };
 
 /*
+ * Xz compressor.
+ */
+
+static void
+decompress_xz(int fd_in, int fd_out, const char *desc)
+{
+	fd_fd_filter(fd_in, fd_out, desc, XZ, "-dc", NULL);
+}
+
+static void
+compress_xz(int fd_in, int fd_out, int compress_level, const char *desc)
+{
+	char combuf[6];
+
+	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, NULL);
+}
+
+struct compressor compressor_xz = {
+	.name = "xz",
+	.extension = ".xz",
+	.default_level = 6,
+	.compress = compress_xz,
+	.decompress = decompress_xz,
+};
+
+/*
  * Lzma compressor.
  */
 
@@ -355,6 +382,7 @@ struct compressor compressor_lzma = {
 static struct compressor *compressor_array[] = {
 	&compressor_none,
 	&compressor_gzip,
+	&compressor_xz,
 	&compressor_bzip2,
 	&compressor_lzma,
 };

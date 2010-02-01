@@ -103,7 +103,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "                                     packages).\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
-"                                     Allowed values: gzip, bzip2, lzma, none.\n"
+"                                     Allowed types: gzip, xz, bzip2, lzma, none.\n"
 "\n"));
 
   printf(_(

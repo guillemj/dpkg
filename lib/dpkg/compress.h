@@ -27,6 +27,7 @@
 DPKG_BEGIN_DECLS
 
 #define GZIP		"gzip"
+#define XZ		"xz"
 #define BZIP2		"bzip2"
 #define LZMA		"lzma"
 
@@ -42,6 +43,7 @@ struct compressor {
 
 struct compressor compressor_none;
 struct compressor compressor_gzip;
+struct compressor compressor_xz;
 struct compressor compressor_bzip2;
 struct compressor compressor_lzma;
 
