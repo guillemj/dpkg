@@ -115,7 +115,7 @@ sub create_symbol {
 }
 
 sub add_symbol {
-    my ($self, $soname, $symbol) = @_;
+    my ($self, $symbol, $soname) = @_;
     my $object = (ref $soname) ? $soname : $self->{objects}{$soname};
 
     if ($symbol->is_pattern()) {
@@ -174,7 +174,7 @@ sub load {
 	    my $deprecated = ($1) ? $1 : 0;
 	    my $sym = new_symbol($base_symbol, deprecated => $deprecated);
 	    if ($self->create_symbol($2, $sym)) {
-		$self->add_symbol($$obj_ref, $sym);
+		$self->add_symbol($sym, $$obj_ref);
 	    } else {
 		warning(_g("Failed to parse line in %s: %s"), $file, $_);
 	    }
@@ -214,7 +214,6 @@ sub load {
     close($sym_file);
     delete $seen->{$file};
 }
-
 
 # Beware: we reuse the data structure of the provided symfile so make
 # sure to not modify them after having called this function
@@ -386,7 +385,7 @@ sub merge_symbols {
 		$sym = Dpkg::Shlibs::Symbol->new(symbol => $name,
 		                                 minver => $minver);
 	    }
-	    $self->add_symbol($obj, $sym);
+	    $self->add_symbol($sym, $obj);
 	}
     }
 
