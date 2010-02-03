@@ -260,7 +260,7 @@ if ($compare) {
 		_g("see diff output below"));
 	$exitcode = 2 if ($compare >= 2);
     }
-    if (my @syms = $symfile->get_lost_symbols($ref_symfile)) {
+    if ($symfile->get_lost_symbols($ref_symfile)) {
 	warning(_g("some symbols or patterns disappeared in the symbols file: %s"),
 	        _g("see diff output below"));
 	$exitcode = 1 if ($compare >= 1);

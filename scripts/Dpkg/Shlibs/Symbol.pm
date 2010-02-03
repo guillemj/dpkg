@@ -45,19 +45,8 @@ sub new {
     return $self;
 }
 
-# Shallow clone
-sub sclone {
-    my $self = shift;
-    my $clone = { %$self };
-    if (@_) {
-	my %args=@_;
-	$clone->{$_} = $args{$_} foreach keys %args;
-    }
-    return bless $clone, ref $self;
-}
-
 # Deep clone
-sub dclone {
+sub clone {
     my $self = shift;
     my $clone = Storable::dclone($self);
     if (@_) {
@@ -93,7 +82,7 @@ sub parse_tagspec {
 }
 
 sub parse {
-    my ($self, $symbolspec) = @_;
+    my ($self, $symbolspec, %opts) = @_;
     my $symbol;
     my $symbol_templ;
     my $symbol_quoted;
@@ -135,6 +124,9 @@ sub parse {
     if ($rest =~ /^\s(\S+)(?:\s(\d+))?/) {
 	$self->{minver} = $1;
 	$self->{dep_id} = defined($2) ? $2 : 0;
+    } elsif (defined $opts{default_minver}) {
+	$self->{minver} = $opts{default_minver};
+	$self->{dep_id} = 0;
     } else {
 	return 0;
     }
@@ -354,7 +346,7 @@ sub create_pattern_match {
     # Leave out 'pattern' subfield while deep-cloning
     my $pattern_stuff = $self->{pattern};
     delete $self->{pattern};
-    my $newsym = $self->dclone(@_);
+    my $newsym = $self->clone(@_);
     $self->{pattern} = $pattern_stuff;
 
     # Clean up symbol name related internal fields

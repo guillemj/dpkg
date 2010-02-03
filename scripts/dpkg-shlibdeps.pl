@@ -320,19 +320,20 @@ foreach my $file (keys %exec) {
 	    $name .= "\@Base";
 	}
         print " Looking up symbol $name\n" if $debug > 1;
-	my $symdep = $symfile->lookup_symbol($name, \@sonames);
-	if (defined($symdep)) {
-            print " Found in symbols file of $symdep->{soname} (minver: " .
-                  "$symdep->{minver}, dep: $symdep->{depends})\n" if $debug > 1;
-	    $soname_used{$symdep->{soname}}++;
-	    $global_soname_used{$symdep->{soname}}++;
-            if (exists $alt_soname{$symdep->{soname}}) {
+	my %symdep = $symfile->lookup_symbol($name, \@sonames);
+	if (keys %symdep) {
+	    my $depends = $symfile->get_dependency($symdep{soname},
+		$symdep{symbol}{dep_id});
+            print " Found in symbols file of $symdep{soname} (minver: " .
+                  "$symdep{symbol}{minver}, dep: $depends)\n" if $debug > 1;
+	    $soname_used{$symdep{soname}}++;
+	    $global_soname_used{$symdep{soname}}++;
+            if (exists $alt_soname{$symdep{soname}}) {
                 # Also count usage on alternate soname
-                $soname_used{$alt_soname{$symdep->{soname}}}++;
-                $global_soname_used{$alt_soname{$symdep->{soname}}}++;
+                $soname_used{$alt_soname{$symdep{soname}}}++;
+                $global_soname_used{$alt_soname{$symdep{soname}}}++;
             }
-	    update_dependency_version($symdep->{depends},
-				      $symdep->{minver});
+	    update_dependency_version($depends, $symdep{symbol}{minver});
 	} else {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
