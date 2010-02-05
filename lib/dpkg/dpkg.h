@@ -153,7 +153,7 @@ void do_internerr(const char *file, int line, const char *fmt, ...)
 #endif
 
 void ohshit(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
-void ohshitv(const char *fmt, va_list al) DPKG_ATTR_NORET;
+void ohshitv(const char *fmt, va_list al) DPKG_ATTR_NORET DPKG_ATTR_VPRINTF(1);
 void ohshite(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 void werr(const char *what) DPKG_ATTR_NORET;
 void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);

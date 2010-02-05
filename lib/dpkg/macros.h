@@ -28,6 +28,7 @@
 #define DPKG_ATTR_CONST		__attribute__((const))
 #define DPKG_ATTR_NORET		__attribute__((noreturn))
 #define DPKG_ATTR_PRINTF(n)	__attribute__((format(printf, n, n + 1)))
+#define DPKG_ATTR_VPRINTF(n)	__attribute__((format(printf, n, 0)))
 #define DPKG_ATTR_SENTINEL	__attribute__((sentinel))
 #else
 #define DPKG_ATTR_UNUSED

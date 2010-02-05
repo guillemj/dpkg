@@ -77,7 +77,8 @@ void varbufsubstc(struct varbuf *v, int c_src, int c_dst);
 void varbufaddbuf(struct varbuf *v, const void *s, size_t size);
 
 int varbufprintf(struct varbuf *v, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
-int varbufvprintf(struct varbuf *v, const char *fmt, va_list va);
+int varbufvprintf(struct varbuf *v, const char *fmt, va_list va)
+	DPKG_ATTR_VPRINTF(2);
 
 DPKG_END_DECLS
 
