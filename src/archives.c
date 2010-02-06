@@ -552,7 +552,7 @@ int tarobject(struct TarInfo *ti) {
                           "in package %.250s %.250s with nondirectory"),
                         nifd->namenode->name, otherpkg->name,
                         versiondescribe(&otherpkg->installed.version,
-                                        vdew_always));
+                                        vdew_nonambig));
           } else {
             /* WTA: At this point we are replacing something without a Replaces.
 	     * if the new object is a directory and the previous object does not
@@ -564,7 +564,7 @@ int tarobject(struct TarInfo *ti) {
                             "which is also in package %.250s %.250s"),
                           nifd->namenode->name, otherpkg->name,
                           versiondescribe(&otherpkg->installed.version,
-                                          vdew_always));
+                                          vdew_nonambig));
           }
         }
       }
