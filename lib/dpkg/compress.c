@@ -352,7 +352,7 @@ struct compressor compressor_lzma = {
  * Generic compressor filter.
  */
 
-static struct compressor *compressor[] = {
+static struct compressor *compressor_array[] = {
 	&compressor_none,
 	&compressor_gzip,
 	&compressor_bzip2,
@@ -364,9 +364,9 @@ compressor_find_by_name(const char *name)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(compressor); i++)
-		if (strcmp(compressor[i]->name, name) == 0)
-			return compressor[i];
+	for (i = 0; i < array_count(compressor_array); i++)
+		if (strcmp(compressor_array[i]->name, name) == 0)
+			return compressor_array[i];
 
 	return NULL;
 }
@@ -376,9 +376,9 @@ compressor_find_by_extension(const char *extension)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(compressor); i++)
-		if (strcmp(compressor[i]->extension, extension) == 0)
-			return compressor[i];
+	for (i = 0; i < array_count(compressor_array); i++)
+		if (strcmp(compressor_array[i]->extension, extension) == 0)
+			return compressor_array[i];
 
 	return NULL;
 }
