@@ -101,7 +101,6 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
     }
 
     for (cip=cmdinfos; cip->olong || cip->oshort; cip++) {
-      int l;
       if (!cip->olong) continue;
       if (!strcmp(cip->olong,linebuf)) break;
       l=strlen(cip->olong);
