@@ -527,12 +527,13 @@ int packagelist::checksearch(char* rx) {
 }
 
 int packagelist::matchsearch(int index) {
-  const char* thisname;
+  const char *name;
 
-  thisname=itemname(index);
-  if (!thisname) return 0;	/* Skip things without a name (seperators) */
+  name = itemname(index);
+  if (!name)
+    return 0;	/* Skip things without a name (seperators) */
 
-  if (regexec(&searchfsm, thisname, 0, NULL, 0)==0)
+  if (regexec(&searchfsm, name, 0, NULL, 0) == 0)
     return 1;
 
   if (searchdescr) {

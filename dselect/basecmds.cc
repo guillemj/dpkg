@@ -99,15 +99,16 @@ int baselist::checksearch(char* str) {
 
 int baselist::matchsearch(int index) {
   int lendiff, searchlen, i;
-  const char* thisname;
+  const char *name;
 
-  thisname=itemname(index);
-  if (!thisname) return 0;	/* Skip things without a name (seperators) */
+  name = itemname(index);
+  if (!name)
+    return 0;	/* Skip things without a name (seperators). */
 
   searchlen=strlen(searchstring);
-  lendiff= strlen(thisname) - searchlen;
+  lendiff = strlen(name) - searchlen;
   for (i=0; i<=lendiff; i++)
-    if (!strncasecmp(thisname + i, searchstring, searchlen))
+    if (!strncasecmp(name + i, searchstring, searchlen))
       return 1;
 
   return 0;
