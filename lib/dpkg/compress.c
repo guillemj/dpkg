@@ -42,10 +42,7 @@
 #include <dpkg/command.h>
 #include <dpkg/compress.h>
 
-static void fd_fd_filter(int fd_in, int fd_out, const char *desc,
-                         const char *file, ...) DPKG_ATTR_SENTINEL;
-
-static void
+static void DPKG_ATTR_SENTINEL
 fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 {
 	va_list al;

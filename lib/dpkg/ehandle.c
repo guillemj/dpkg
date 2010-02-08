@@ -78,9 +78,7 @@ void set_error_display(error_printer *printerror,
   econtext->contextstring= contextstring;
 }
 
-static void run_error_handler(void) DPKG_ATTR_NORET;
-
-static void
+static void DPKG_ATTR_NORET
 run_error_handler(void)
 {
   if (onerr_abort) {

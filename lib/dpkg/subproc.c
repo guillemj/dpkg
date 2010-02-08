@@ -77,9 +77,7 @@ print_error_forked(const char *emsg, const char *contextstring)
 	fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
 }
 
-static void subproc_fork_cleanup(int argc, void **argv) DPKG_ATTR_NORET;
-
-static void
+static void DPKG_ATTR_NORET
 subproc_fork_cleanup(int argc, void **argv)
 {
 	/* Don't do the other cleanups, because they'll be done by/in the

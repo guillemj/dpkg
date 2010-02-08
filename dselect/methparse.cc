@@ -47,14 +47,15 @@ int noptions=0;
 struct dselect_option *options=0, *coption=0;
 struct method *methods=0;
 
-static void badmethod(const char *pathname, const char *why) DPKG_ATTR_NORET;
-static void badmethod(const char *pathname, const char *why)
+static void DPKG_ATTR_NORET
+badmethod(const char *pathname, const char *why)
 {
   ohshit(_("syntax error in method options file `%.250s' -- %s"), pathname, why);
 }
 
-static void eofmethod(const char *pathname, FILE *f, const char *why) DPKG_ATTR_NORET;
-static void eofmethod(const char *pathname, FILE *f, const char *why) {
+static void DPKG_ATTR_NORET
+eofmethod(const char *pathname, FILE *f, const char *why)
+{
   if (ferror(f)) ohshite(_("error reading options file `%.250s'"),pathname);
   badmethod(pathname,why);
 }

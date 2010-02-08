@@ -218,11 +218,6 @@ static bool pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
 
-static void fatal(const char *format, ...)
-	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
-static void badusage(const char *msg)
-	DPKG_ATTR_NORET;
-
 static void
 warning(const char *format, ...)
 {
@@ -234,7 +229,7 @@ warning(const char *format, ...)
 	va_end(arglist);
 }
 
-static void
+static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
 fatal(const char *format, ...)
 {
 	va_list arglist;
@@ -421,7 +416,7 @@ do_version(void)
 	printf("Written by Marek Michalkiewicz, public domain.\n");
 }
 
-static void
+static void DPKG_ATTR_NORET
 badusage(const char *msg)
 {
 	if (msg)
