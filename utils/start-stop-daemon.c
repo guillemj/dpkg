@@ -211,7 +211,7 @@ static bool pid_is_user(pid_t pid, uid_t uid);
 static bool pid_is_cmd(pid_t pid, const char *name);
 static void check(pid_t pid);
 static void do_pidfile(const char *name);
-static void do_stop(int signal_nr, int quietmode,
+static void do_stop(int sig_num, int quiet,
                     int *n_killed, int *n_notkilled, int retry_nr);
 #if defined(OSLinux) || defined(OShpux)
 static bool pid_is_exec(pid_t pid, const struct stat *esb);
@@ -470,16 +470,16 @@ parse_integer(const char *string, int *value_r)
 }
 
 static int
-parse_signal(const char *signal_str, int *signal_nr)
+parse_signal(const char *sig_str, int *sig_num)
 {
 	unsigned int i;
 
-	if (parse_integer(signal_str, signal_nr) == 0)
+	if (parse_integer(sig_str, sig_num) == 0)
 		return 0;
 
 	for (i = 0; i < array_count(siglist); i++) {
-		if (strcmp(signal_str, siglist[i].name) == 0) {
-			*signal_nr = siglist[i].signal;
+		if (strcmp(sig_str, siglist[i].name) == 0) {
+			*sig_num = siglist[i].signal;
 			return 0;
 		}
 	}
@@ -1250,8 +1250,7 @@ do_findprocs(void)
 }
 
 static void
-do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled,
-        int retry_nr)
+do_stop(int sig_num, int quiet, int *n_killed, int *n_notkilled, int retry_nr)
 {
 	struct pid_list *p;
 
@@ -1269,13 +1268,13 @@ do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled,
 		if (testmode) {
 			if (quietmode <= 0)
 				printf("Would send signal %d to %d.\n",
-				       signal_nr, p->pid);
+				       sig_num, p->pid);
 			(*n_killed)++;
-		} else if (kill(p->pid, signal_nr) == 0) {
+		} else if (kill(p->pid, sig_num) == 0) {
 			push(&killed, p->pid);
 			(*n_killed)++;
 		} else {
-			if (signal_nr)
+			if (sig_num)
 				warning("failed to kill %d: %s\n",
 				        p->pid, strerror(errno));
 			(*n_notkilled)++;
