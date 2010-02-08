@@ -125,7 +125,7 @@ void extracthalf(const char *debar, const char *directory,
   char *cur;
   struct ar_hdr arh;
   int readfromfd, oldformat= 0, header_done, adminmember;
-  struct compressor *compressor = &compressor_gzip;
+  struct compressor *decompressor = &compressor_gzip;
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
   if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
@@ -180,10 +180,10 @@ void extracthalf(const char *debar, const char *directory,
 	    const char *extension = arh.ar_name + strlen(DATAMEMBER);
 
 	    adminmember= 0;
-	    compressor = compressor_find_by_extension(extension);
+	    decompressor = compressor_find_by_extension(extension);
 	  }
 
-          if (adminmember == -1 || compressor == NULL)
+          if (adminmember == -1 || decompressor == NULL)
             ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);
         }
@@ -288,7 +288,7 @@ void extracthalf(const char *debar, const char *directory,
     m_dup2(readfromfd,0);
     if (admininfo) close(p1[0]);
     if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
-    decompress_filter(compressor, 0, 1, _("data"));
+    decompress_filter(decompressor, 0, 1, _("data"));
   }
   if (readfromfd != fileno(ar)) close(readfromfd);
   if (taroption) close(p2[1]);
