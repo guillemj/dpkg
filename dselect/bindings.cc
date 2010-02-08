@@ -51,18 +51,18 @@ int keybindings::bind(int key, const char *action) {
   while (desc->action && strcmp(desc->action, action))
    desc++;
 
-  binding *bind = bindings;
-  while (bind && bind->key != key)
-    bind = bind->next;
+  binding *b = bindings;
+  while (b && b->key != key)
+    b = b->next;
   
-  if (!bind) {
-    bind= new binding;
-    bind->key= key;
-    bind->next= bindings;
-    bindings= bind;
+  if (!b) {
+    b = new binding;
+    b->key = key;
+    b->next = bindings;
+    bindings = b;
   }
-  bind->interp= interp;
-  bind->desc= desc ? desc->desc : 0;
+  b->interp = interp;
+  b->desc = desc ? desc->desc : 0;
   return 1;
 }
 
