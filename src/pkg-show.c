@@ -28,6 +28,8 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
+#include "main.h"
+
 void
 limiteddescription(struct pkginfo *pkg,
                    int maxl, const char **pdesc_r, int *l_r)
