@@ -9,13 +9,19 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS],
 [AC_ARG_ENABLE(compiler-warnings,
 	AS_HELP_STRING([--enable-compiler-warnings],
 	               [Enable additional compiler warnings]),
-[WFLAGS="-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers"
+[WFLAGS="-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers \
+	 -Wmissing-declarations -Wmissing-format-attribute \
+	 -Wvla -Winit-self -Wwrite-strings -Wcast-align"
+WCFLAGS="-Wdeclaration-after-statement -Wnested-externs -Wbad-function-cast \
+	 -Wstrict-prototypes -Wmissing-prototypes -Wold-style-definition"
+# Temporarily here until #542031 gets fixed in ncurses
+WCXXFLAGS="-Wno-unused-value"
 if test "x$enable_compiler_warnings" = "xyes"; then
 	if test "x$GCC" = "xyes"; then
-		CFLAGS="$WFLAGS $CFLAGS"
+		CFLAGS="$WFLAGS $WCFLAGS $CFLAGS"
         fi
 	if test "x$GXX" = "xyes"; then
-		CXXFLAGS="$WFLAGS $CXXFLAGS"
+		CXXFLAGS="$WFLAGS $WCXXFLAGS $CXXFLAGS"
 	fi
 fi])dnl
 ])
