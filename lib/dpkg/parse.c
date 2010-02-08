@@ -102,7 +102,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   char *value= NULL;
   int fieldlen= 0, valuelen= 0;
   int *ip, c;
-  struct stat stat;
+  struct stat st;
   struct parsedb_state ps;
 
   ps.filename = filename;
@@ -117,20 +117,21 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &fd);
 
-  if (fstat(fd, &stat) == -1)
+  if (fstat(fd, &st) == -1)
     ohshite(_("can't stat package info file `%.255s'"),filename);
 
-  if (stat.st_size > 0) {
+  if (st.st_size > 0) {
 #ifdef HAVE_MMAP
-    if ((dataptr= (char *)mmap(NULL, stat.st_size, PROT_READ, MAP_SHARED, fd, 0)) == MAP_FAILED)
+    dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
+    if (dataptr == MAP_FAILED)
       ohshite(_("can't mmap package info file `%.255s'"),filename);
 #else
-    dataptr = m_malloc(stat.st_size);
+    dataptr = m_malloc(st.st_size);
 
-    fd_buf_copy(fd, dataptr, stat.st_size, _("copy info file `%.255s'"),filename);
+    fd_buf_copy(fd, dataptr, st.st_size, _("copy info file `%.255s'"), filename);
 #endif
     data= dataptr;
-    endptr= dataptr + stat.st_size;
+    endptr = dataptr + st.st_size;
   } else {
     data= dataptr= endptr= NULL;
   }
