@@ -282,9 +282,9 @@ sub check_signature {
         push @exec, $dsc;
 
         my ($stdout, $stderr);
-        fork_and_exec('exec' => \@exec, wait_child => 1, nocheck => 1,
-                      to_string => \$stdout, error_to_string => \$stderr,
-                      timeout => 10);
+        spawn('exec' => \@exec, wait_child => 1, nocheck => 1,
+              to_string => \$stdout, error_to_string => \$stderr,
+              timeout => 10);
         if (WIFEXITED($?)) {
             my $gpg_status = WEXITSTATUS($?);
             print STDERR "$stdout$stderr" if $gpg_status;

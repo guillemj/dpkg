@@ -96,7 +96,7 @@ sub add_diff_file {
     }
     # Generate diff
     my $diffgen;
-    my $diff_pid = fork_and_exec(
+    my $diff_pid = spawn(
         'exec' => [ 'diff', '-u', @options, '--', $old, $new ],
         'env' => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
         'to_pipe' => \$diffgen
@@ -437,7 +437,7 @@ sub apply {
     $self->prepare_apply($analysis, %opts);
     # Apply the patch
     $self->ensure_open("r");
-    fork_and_exec(
+    spawn(
 	'exec' => [ 'patch', @{$opts{"options"}} ],
 	'chdir' => $destdir,
 	'env' => { LC_ALL => 'C', LANG => 'C' },
@@ -477,7 +477,7 @@ sub check_apply {
     # Apply the patch
     $self->ensure_open("r");
     my $error;
-    my $patch_pid = fork_and_exec(
+    my $patch_pid = spawn(
 	'exec' => [ 'patch', @{$opts{"options"}} ],
 	'chdir' => $destdir,
 	'env' => { LC_ALL => 'C', LANG => 'C' },

@@ -23,7 +23,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT = qw(fork_and_exec wait_child);
+our @EXPORT = qw(spawn wait_child);
 
 =head1 NAME
 
@@ -40,7 +40,7 @@ from you.
 
 =over 4
 
-=item fork_and_exec
+=item spawn
 
 Creates a child process and executes another program in it.
 The arguments are interpreted as a hash of options, specifying
@@ -97,7 +97,7 @@ C<wait_child> option.
 =item wait_child
 
 Scalar. If containing a true value, wait_child() will be called before
-returning. The return value will of fork_and_exec() will be a true value,
+returning. The return value will of spawn() will be a true value,
 but not the pid.
 
 =item nocheck
@@ -130,7 +130,7 @@ listed in the array before calling exec.
 sub _sanity_check_opts {
     my (%opts) = @_;
 
-    internerr("exec parameter is mandatory in fork_and_exec()")
+    internerr("exec parameter is mandatory in spawn()")
 	unless $opts{"exec"};
 
     my $to = my $error_to = my $from = 0;
@@ -177,7 +177,7 @@ sub _sanity_check_opts {
     return %opts;
 }
 
-sub fork_and_exec {
+sub spawn {
     my (%opts) = _sanity_check_opts(@_);
     $opts{"close_in_child"} ||= [];
     my @prog;
@@ -186,7 +186,7 @@ sub fork_and_exec {
     } elsif (not ref($opts{"exec"})) {
 	push @prog, $opts{"exec"};
     } else {
-	internerr("invalid exec parameter in fork_and_exec()");
+	internerr("invalid exec parameter in spawn()");
     }
     my ($from_string_pipe, $to_string_pipe, $error_to_string_pipe);
     if ($opts{"to_string"}) {

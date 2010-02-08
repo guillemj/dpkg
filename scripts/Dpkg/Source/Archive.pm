@@ -34,22 +34,22 @@ use base 'Dpkg::Compression::FileHandle';
 sub create {
     my ($self, %opts) = @_;
     $opts{"options"} ||= [];
-    my %fork_opts;
+    my %spawn_opts;
     # Possibly run tar from another directory
     if ($opts{"chdir"}) {
-        $fork_opts{"chdir"} = $opts{"chdir"};
+        $spawn_opts{"chdir"} = $opts{"chdir"};
         *$self->{"chdir"} = $opts{"chdir"};
     }
     # Redirect input/output appropriately
     $self->ensure_open("w");
-    $fork_opts{"to_handle"} = $self->get_filehandle();
-    $fork_opts{"from_pipe"} = \*$self->{'tar_input'};
+    $spawn_opts{"to_handle"} = $self->get_filehandle();
+    $spawn_opts{"from_pipe"} = \*$self->{'tar_input'};
     # Call tar creation process
-    $fork_opts{"delete_env"} = [ "TAR_OPTIONS" ];
-    $fork_opts{'exec'} = [ 'tar', '--null', '-T', '-', '--numeric-owner',
-                           '--owner', '0', '--group', '0',
-			   @{$opts{"options"}}, '-cf', '-' ];
-    *$self->{"pid"} = fork_and_exec(%fork_opts);
+    $spawn_opts{"delete_env"} = [ "TAR_OPTIONS" ];
+    $spawn_opts{'exec'} = [ 'tar', '--null', '-T', '-', '--numeric-owner',
+                            '--owner', '0', '--group', '0',
+                            @{$opts{"options"}}, '-cf', '-' ];
+    *$self->{"pid"} = spawn(%spawn_opts);
     *$self->{"cwd"} = getcwd();
 }
 
@@ -98,12 +98,12 @@ sub extract {
     $opts{"options"} ||= [];
     $opts{"in_place"} ||= 0;
     $opts{"no_fixperms"} ||= 0;
-    my %fork_opts = (wait_child => 1);
+    my %spawn_opts = (wait_child => 1);
 
     # Prepare destination
     my $tmp;
     if ($opts{"in_place"}) {
-        $fork_opts{"chdir"} = $dest;
+        $spawn_opts{"chdir"} = $dest;
         $tmp = $dest; # So that fixperms call works
     } else {
         my $template = basename($self->get_filename()) .  ".tmp-extract.XXXXX";
@@ -112,18 +112,18 @@ sub extract {
             mkdir($dest) || syserr(_g("cannot create directory %s"), $dest);
         }
         $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
-        $fork_opts{"chdir"} = $tmp;
+        $spawn_opts{"chdir"} = $tmp;
     }
 
     # Prepare stuff that handles the input of tar
     $self->ensure_open("r");
-    $fork_opts{"from_handle"} = $self->get_filehandle();
+    $spawn_opts{"from_handle"} = $self->get_filehandle();
 
     # Call tar extraction process
-    $fork_opts{"delete_env"} = [ "TAR_OPTIONS" ];
-    $fork_opts{'exec'} = [ 'tar', '--no-same-owner', '--no-same-permissions',
-                           @{$opts{"options"}}, '-xkf', '-' ];
-    fork_and_exec(%fork_opts);
+    $spawn_opts{"delete_env"} = [ "TAR_OPTIONS" ];
+    $spawn_opts{'exec'} = [ 'tar', '--no-same-owner', '--no-same-permissions',
+                            @{$opts{"options"}}, '-xkf', '-' ];
+    spawn(%spawn_opts);
     $self->close();
 
     # Fix permissions on extracted files because tar insists on applying

@@ -67,7 +67,7 @@ sub is_binary($) {
 
     # Use diff to check if it's a binary file
     my $diffgen;
-    my $diff_pid = fork_and_exec(
+    my $diff_pid = spawn(
         'exec' => [ 'diff', '-u', '--', '/dev/null', $file ],
         'env' => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
         'to_pipe' => \$diffgen

@@ -40,11 +40,11 @@ sub get_cppfilt {
     } else {
 	$filt = { from => undef, to => undef,
 	            last_symbol => "", last_result => "" };
-	$filt->{pid} = fork_and_exec(exec => [ 'c++filt',
-	                                       '--no-verbose',
-	                                       "--format=$type" ],
-	                             from_pipe => \$filt->{from},
-	                             to_pipe => \$filt->{to});
+	$filt->{pid} = spawn(exec => [ 'c++filt',
+	                               '--no-verbose',
+	                               "--format=$type" ],
+	                     from_pipe => \$filt->{from},
+	                     to_pipe => \$filt->{to});
 	internerr(_g("unable to execute c++filt")) unless defined $filt->{from};
 	$filt->{from}->autoflush(1);
 

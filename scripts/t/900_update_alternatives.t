@@ -76,8 +76,8 @@ sub cleanup {
 
 sub call_ua {
     my ($params, %opts) = @_;
-    fork_and_exec("exec" => [ @ua, @$params ], nocheck => 1,
-		  wait_child => 1, env => { LC_ALL => "C" }, %opts);
+    spawn("exec" => [ @ua, @$params ], nocheck => 1,
+	  wait_child => 1, env => { LC_ALL => "C" }, %opts);
     if ($opts{"expect_failure"}) {
 	ok($? != 0, "update-alternatives @$params did not fail.");
     } else {

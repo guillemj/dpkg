@@ -133,7 +133,7 @@ sub _sanity_check {
 Starts a compressor program. You must indicate where it will read its
 uncompressed data from and where it will write its compressed data to.
 This is accomplished by passing one parameter C<to_*> and one parameter
-C<from_*> as accepted by B<Dpkg::IPC::fork_and_exec>.
+C<from_*> as accepted by B<Dpkg::IPC::spawn>.
 
 You must call C<wait_end_process> after having called this method to
 properly close the sub-process (and verify that it exited without error).
@@ -146,7 +146,7 @@ sub compress {
     my @prog = $self->get_compress_cmdline();
     $opts{"exec"} = \@prog;
     $self->{"cmdline"} = "@prog";
-    $self->{"pid"} = fork_and_exec(%opts);
+    $self->{"pid"} = spawn(%opts);
     delete $self->{"pid"} if $opts{"to_string"}; # wait_child already done
 }
 
@@ -155,7 +155,7 @@ sub compress {
 Starts a decompressor program. You must indicate where it will read its
 compressed data from and where it will write its uncompressed data to.
 This is accomplished by passing one parameter C<to_*> and one parameter
-C<from_*> as accepted by B<Dpkg::IPC::fork_and_exec>.
+C<from_*> as accepted by B<Dpkg::IPC::spawn>.
 
 You must call C<wait_end_process> after having called this method to
 properly close the sub-process (and verify that it exited without error).
@@ -168,7 +168,7 @@ sub uncompress {
     my @prog = $self->get_uncompress_cmdline();
     $opts{"exec"} = \@prog;
     $self->{"cmdline"} = "@prog";
-    $self->{"pid"} = fork_and_exec(%opts);
+    $self->{"pid"} = spawn(%opts);
     delete $self->{"pid"} if $opts{"to_string"}; # wait_child already done
 }
 
