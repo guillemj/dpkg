@@ -45,7 +45,7 @@ const char thisname[] = "dpkg-trigger";
 const char printforhelp[] = N_(
 "Type dpkg-trigger --help for help about this utility.");
 
-static void
+static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
 	printf(_("Debian %s package trigger utility.\n"), thisname);
@@ -60,7 +60,7 @@ printversion(const struct cmdinfo *ci, const char *value)
 	exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *ci, const char *value)
 {
 	printf(_(

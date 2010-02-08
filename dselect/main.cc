@@ -164,7 +164,7 @@ static const char licensestring[]= N_(
       "later for copying conditions. There is NO warranty.\n"
       "See %s --license for copyright and license details.\n");
 
-static void
+static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
@@ -176,7 +176,7 @@ printversion(const struct cmdinfo *ci, const char *value)
   exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *ci, const char *value)
 {
   int i;

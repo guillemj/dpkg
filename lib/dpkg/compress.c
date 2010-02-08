@@ -42,7 +42,7 @@
 #include <dpkg/command.h>
 #include <dpkg/compress.h>
 
-static void DPKG_ATTR_SENTINEL
+static void DPKG_ATTR_NORET DPKG_ATTR_SENTINEL
 fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 {
 	va_list al;
@@ -70,14 +70,14 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
  * No compressor (pass-through).
  */
 
-static void
+static void DPKG_ATTR_NORET
 decompress_none(int fd_in, int fd_out, const char *desc)
 {
 	fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), desc);
 	exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 compress_none(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), desc);
@@ -97,7 +97,7 @@ struct compressor compressor_none = {
  */
 
 #ifdef WITH_ZLIB
-static void
+static void DPKG_ATTR_NORET
 decompress_gzip(int fd_in, int fd_out, const char *desc)
 {
 	char buffer[4096];
@@ -133,7 +133,7 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 	exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char buffer[4096];
@@ -180,13 +180,13 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 	exit(0);
 }
 #else
-static void
+static void DPKG_ATTR_NORET
 decompress_gzip(int fd_in, int fd_out, const char *desc)
 {
 	fd_fd_filter(fd_in, fd_out, desc, GZIP, "-dc", NULL);
 }
 
-static void
+static void DPKG_ATTR_NORET
 compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char combuf[6];
@@ -209,7 +209,7 @@ struct compressor compressor_gzip = {
  */
 
 #ifdef WITH_BZ2
-static void
+static void DPKG_ATTR_NORET
 decompress_bzip2(int fd_in, int fd_out, const char *desc)
 {
 	char buffer[4096];
@@ -245,7 +245,7 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 	exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char buffer[4096];
@@ -297,13 +297,13 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 	exit(0);
 }
 #else
-static void
+static void DPKG_ATTR_NORET
 decompress_bzip2(int fd_in, int fd_out, const char *desc)
 {
 	fd_fd_filter(fd_in, fd_out, desc, BZIP2, "-dc", NULL);
 }
 
-static void
+static void DPKG_ATTR_NORET
 compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char combuf[6];
@@ -325,13 +325,13 @@ struct compressor compressor_bzip2 = {
  * Lzma compressor.
  */
 
-static void
+static void DPKG_ATTR_NORET
 decompress_lzma(int fd_in, int fd_out, const char *desc)
 {
 	fd_fd_filter(fd_in, fd_out, desc, LZMA, "-dc", NULL);
 }
 
-static void
+static void DPKG_ATTR_NORET
 compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char combuf[6];

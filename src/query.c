@@ -556,7 +556,7 @@ control_path(const char *const *argv)
   modstatdb_shutdown();
 }
 
-static void
+static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(_("Debian `%s' package management program query tool\n"), DPKGQUERY);
@@ -570,7 +570,7 @@ printversion(const struct cmdinfo *ci, const char *value)
   exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *ci, const char *value)
 {
   printf(_(

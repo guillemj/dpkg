@@ -40,7 +40,7 @@
 
 #include "dpkg-split.h"
 
-static void
+static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
 {
   printf(_("Debian `%s' package split/join tool; version %s.\n"),
@@ -56,7 +56,7 @@ printversion(const struct cmdinfo *cip, const char *value)
   exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *cip, const char *value)
 {
   printf(_(

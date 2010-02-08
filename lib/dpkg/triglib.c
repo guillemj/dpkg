@@ -282,7 +282,7 @@ trk_unknown_activate_done(void)
 {
 }
 
-static void
+static void DPKG_ATTR_NORET
 trk_unknown_interest_change(const char *trig, struct pkginfo *pkg, int signum)
 {
 	ohshit(_("invalid or unknown syntax in trigger name `%.250s'"

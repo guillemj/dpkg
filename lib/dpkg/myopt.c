@@ -48,7 +48,7 @@ badusage(const char *fmt, ...)
   ohshit("%s\n\n%s", buf, gettext(printforhelp));
 }
 
-static void DPKG_ATTR_PRINTF(3)
+static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3)
 config_error(const char *file_name, int line_num, const char *fmt, ...)
 {
   char buf[1024];

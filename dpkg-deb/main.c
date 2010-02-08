@@ -49,7 +49,7 @@
 
 const char* showformat	= "${Package}\t${Version}\n";
 
-static void
+static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
 {
   printf(_("Debian `%s' package archive backend version %s.\n"),
@@ -64,7 +64,7 @@ printversion(const struct cmdinfo *cip, const char *value)
   exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *cip, const char *value)
 {
   printf(_(

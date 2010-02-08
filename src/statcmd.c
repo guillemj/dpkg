@@ -51,7 +51,7 @@ const char printforhelp[] = N_(
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL).");
 
-static void
+static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
 {
 	printf(_("Debian %s version %s.\n"), thisname, DPKG_VERSION_ARCH);
@@ -69,7 +69,7 @@ printversion(const struct cmdinfo *cip, const char *value)
 	exit(0);
 }
 
-static void
+static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *cip, const char *value)
 {
 	printf(_(

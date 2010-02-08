@@ -50,7 +50,7 @@
 #include "main.h"
 #include "filesdb.h"
 
-static void
+static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(_("Debian `%s' package management program version %s.\n"),
@@ -68,7 +68,7 @@ printversion(const struct cmdinfo *ci, const char *value)
    options that need fixing:
   dpkg --yet-to-unpack                 \n\
   */
-static void
+static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *ci, const char *value)
 {
   printf(_(
