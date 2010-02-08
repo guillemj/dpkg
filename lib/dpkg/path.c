@@ -97,7 +97,7 @@ path_quote_filename(char *dst, const char *src, size_t size)
 			} else {
 				if (size > 4) {
 					sprintf(dst, "\\%03o",
-					        *(unsigned char *)src);
+					        *(const unsigned char *)src);
 					size -= 4;
 					dst += 4;
 					src++;
