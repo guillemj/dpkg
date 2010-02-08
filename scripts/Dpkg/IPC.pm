@@ -222,7 +222,7 @@ sub spawn {
     }
     # Fork and exec
     my $pid = fork();
-    syserr(_g("fork for %s"), "@prog") unless defined $pid;
+    syserr(_g("cannot fork for %s"), "@prog") unless defined $pid;
     if (not $pid) {
 	# Define environment variables
 	if ($opts{"env"}) {

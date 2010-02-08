@@ -286,7 +286,7 @@ if ($oppackage ne $sourcepackage || $verdiff) {
 }
 
 if (!defined($substvars->get('Installed-Size'))) {
-    defined(my $c = open(DU, "-|")) || syserr(_g("fork for du"));
+    defined(my $c = open(DU, "-|")) || syserr(_g("cannot fork for %s"), "du");
     if (!$c) {
         chdir("$packagebuilddir") ||
             syserr(_g("chdir for du to \`%s'"), $packagebuilddir);

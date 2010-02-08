@@ -131,7 +131,7 @@ sub changelog_parse {
 
     # Fork and call the parser
     my $pid = open(P, "-|");
-    syserr(_g("fork for %s"), $parser) unless defined $pid;
+    syserr(_g("cannot fork for %s"), $parser) unless defined $pid;
     if (not $pid) {
 	if ($changelogfile ne "-") {
 	    open(STDIN, "<", $changelogfile) or
