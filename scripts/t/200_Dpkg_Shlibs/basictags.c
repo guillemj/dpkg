@@ -14,7 +14,7 @@ void symbol21_amd64() {}
 #endif
 
 #ifndef AMD64
-void* symbol22_i386() {}
+void symbol22_i386() {}
 #endif
 
 void symbol31_randomtag() {}
