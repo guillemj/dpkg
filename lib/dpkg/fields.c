@@ -485,7 +485,7 @@ scan_word(const char **valp)
 
   *valp = p;
 
-  return word.buf;
+  return varbuf_detach(&word);
 }
 
 void
