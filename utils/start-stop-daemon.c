@@ -218,7 +218,7 @@ static bool pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
 
-static void
+static void DPKG_ATTR_PRINTF(1)
 warning(const char *format, ...)
 {
 	va_list arglist;

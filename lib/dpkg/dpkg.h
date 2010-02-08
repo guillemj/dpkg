@@ -144,7 +144,8 @@ void push_checkpoint(int mask, int value);
 void pop_cleanup(int flagset);
 enum { ehflag_normaltidy=01, ehflag_bombout=02, ehflag_recursiveerror=04 };
 
-void do_internerr(const char *file, int line, const char *fmt, ...) DPKG_ATTR_NORET;
+void do_internerr(const char *file, int line, const char *fmt, ...)
+	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3);
 #if HAVE_C99
 #define internerr(...) do_internerr(__FILE__, __LINE__, __VA_ARGS__)
 #else
