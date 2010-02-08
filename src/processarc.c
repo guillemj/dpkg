@@ -95,7 +95,7 @@ void process_archive(const char *filename) {
   static struct varbuf infofnvb, fnvb, depprobwhy;
   static struct tarcontext tc;
   
-  int c1, r, admindirlen, i, infodirlen, infodirbaseused, status;
+  int c1, r, admindirlen, i, infodirlen, infodirbaseused;
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg, *divpkg;
   char *cidir, *cidirrest, *p;
@@ -125,6 +125,8 @@ void process_archive(const char *filename) {
   if (stat(filename,&stab)) ohshite(_("cannot access archive"));
 
   if (!f_noact) {
+    int status;
+
     /* We can't `tentatively-reassemble' packages. */
     if (!reasmbuf) {
       reasmbuf= m_malloc(admindirlen+sizeof(REASSEMBLETMP)+5);
