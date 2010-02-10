@@ -134,7 +134,7 @@ protected:
   int alreadydone(doneent**, void*);
   int resolvedepcon(dependency*);
   int checkdependers(pkginfo*, int changemade); // returns new changemade
-  int deselect_one_of(pkginfo *er, pkginfo *ed, dependency *display);
+  int deselect_one_of(pkginfo *er, pkginfo *ed, dependency *dep);
   
   // Define these virtuals
   int checksearch(char* str);

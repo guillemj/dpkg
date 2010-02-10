@@ -156,21 +156,23 @@ static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *tryt
   best=trythis->clientdata; return 0;
 }
 
-int packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *display) {
+int
+packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
+{
   perpackagestate *er= per->clientdata;
   perpackagestate *ed= ped->clientdata;
 
   if (!er || !would_like_to_install(er->selected,per) ||
       !ed || !would_like_to_install(ed->selected,ped)) return 0;
   
-  add(display,dp_must);
+  add(dep, dp_must);
 
   er= per->clientdata;  // these can be changed by add
   ed= ped->clientdata;
   
   if (depdebug && debug)
     fprintf(debug,"packagelist[%p]::deselect_one_of(): er %s{%d} ed %s{%d} [%p]\n",
-            this, er->pkg->name, er->spriority, ed->pkg->name, ed->spriority, display);
+            this, er->pkg->name, er->spriority, ed->pkg->name, ed->spriority, dep);
   
   perpackagestate *best;
 
