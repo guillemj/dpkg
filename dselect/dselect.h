@@ -179,7 +179,4 @@ typedef urqresult urqfunction(void);
 urqfunction urq_list, urq_quit, urq_menu;
 urqfunction urq_setup, urq_update, urq_install, urq_config, urq_remove;
 
-urqresult falliblesubprocess(const char *exepath, const char *name,
-                             const char *const *args);
-
 #endif /* DSELECT_H */

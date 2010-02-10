@@ -136,7 +136,7 @@ static enum urqresult lockmethod(void) {
   return urqr_normal;
 }
 
-urqresult
+static urqresult
 falliblesubprocess(struct command *cmd)
 {
   pid_t c1;
