@@ -72,7 +72,7 @@ void baselist::kd_top() {
 void baselist::kd_bottom() {
   topofscreen= nitems - list_height;
   if (topofscreen < 0) topofscreen= 0;
-  setcursor(lesserint(topofscreen + list_height - 1, nitems-1));
+  setcursor(min(topofscreen + list_height - 1, nitems - 1));
 }
 
 void baselist::kd_redraw() {

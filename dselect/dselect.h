@@ -134,9 +134,6 @@ public:
   virtual ~baselist();
 };
 
-static inline int lesserint(int a, int b) { return a<b ? a : b; }
-static inline int greaterint(int a, int b) { return a>b ? a : b; }
-
 void displayhelp(const struct helpmenuentry *menu, int key);
 
 void mywerase(WINDOW *win);

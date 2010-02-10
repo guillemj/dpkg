@@ -215,7 +215,7 @@ void packagelist::kd_versiondisplay() {
   ldrawnstart= ldrawnend= -1;
   redrawtitle();
   redrawcolheads();
-  redrawitemsrange(topofscreen,lesserint(topofscreen+list_height,nitems));
+  redrawitemsrange(topofscreen, min(topofscreen + list_height, nitems));
   refreshlist();
 }
 
@@ -226,7 +226,7 @@ void packagelist::kd_verbose() {
   ldrawnstart= ldrawnend= -1;
   redrawtitle();
   redrawcolheads();
-  redrawitemsrange(topofscreen,lesserint(topofscreen+list_height,nitems));
+  redrawitemsrange(topofscreen, min(topofscreen + list_height, nitems));
   refreshlist();
 }
 

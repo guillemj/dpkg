@@ -26,12 +26,10 @@
 #include "dselect.h"
 
 void baselist::refreshlist() {
-  redrawitemsrange(topofscreen,lesserint(nitems,topofscreen+list_height));
+  redrawitemsrange(topofscreen, min(nitems, topofscreen + list_height));
   int y, x, maxy, maxx;
-  y= lesserint(list_row + list_height - 1,
-               list_row + nitems - topofscreen - 1);
-  x= lesserint(total_width - leftofscreen - 1,
-               xmax - 1);
+  y = min(list_row + list_height - 1, list_row + nitems - topofscreen - 1);
+  x = min(total_width - leftofscreen - 1, xmax - 1);
   pnoutrefresh(listpad, 0, leftofscreen, list_row, 0, y, x);
   getmaxyx(listpad,maxy,maxx);
   y++;
@@ -50,5 +48,5 @@ void baselist::redrawitemsrange(int start, int end) {
 
 void baselist::refreshcolheads() {
   pnoutrefresh(colheadspad, 0,leftofscreen, colheads_row,0,
-               colheads_row, lesserint(total_width - leftofscreen - 1, xmax - 1));
+               colheads_row, min(total_width - leftofscreen - 1, xmax - 1));
 }

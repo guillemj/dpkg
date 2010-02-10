@@ -61,13 +61,13 @@ int packagelist::checkdependers(pkginfo *pkg, int changemade) {
   if (pkg->available.valid) {
     for (possi= pkg->available.depended; possi; possi= possi->nextrev) {
       if (!useavailable(possi->up->up)) continue;
-      changemade= greaterint(changemade,resolvedepcon(possi->up));
+      changemade = max(changemade, resolvedepcon(possi->up));
     }
   }
   if (pkg->installed.valid) {
     for (possi= pkg->installed.depended; possi; possi= possi->nextrev) {
       if (useavailable(possi->up->up)) continue;
-      changemade= greaterint(changemade,resolvedepcon(possi->up));
+      changemade = max(changemade, resolvedepcon(possi->up));
     }
   }
   return changemade;
@@ -94,7 +94,7 @@ int packagelist::resolvesuggest() {
       for (depends= findinfo(table[index]->pkg)->depends;
            depends;
            depends= depends->next) {
-        changemade= greaterint(changemade,resolvedepcon(depends));
+        changemade = max(changemade, resolvedepcon(depends));
       }
       changemade= checkdependers(table[index]->pkg,changemade);
       for (depends= findinfo(table[index]->pkg)->depends;
@@ -108,7 +108,7 @@ int packagelist::resolvesuggest() {
                 this, index, table[index]->pkg->name, changemade);
     }
     if (!changemade) break;
-    maxchangemade= greaterint(maxchangemade, changemade);
+    maxchangemade = max(maxchangemade, changemade);
   }
   if (debug)
     fprintf(debug,"packagelist[%p]::resolvesuggest() done; maxchangemade=%d\n",

@@ -86,7 +86,7 @@ void methodlist::redrawthisstate() {
           _("Access method `%s'."),
           table[cursorline]->name);
   pnoutrefresh(thisstatepad, 0,0, thisstate_row,0,
-               thisstate_row, lesserint(total_width - 1, xmax - 1));
+               thisstate_row, min(total_width - 1, xmax - 1));
 }
 
 void methodlist::redraw1itemsel(int index, int selected) {

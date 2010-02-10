@@ -108,10 +108,10 @@ void packagelist::redrawthisstate() {
   const char *section= table[cursorline]->pkg->section;
   const char *priority= pkgprioritystring(table[cursorline]->pkg);
   char *buf= new char[500+
-                      greaterint((table[cursorline]->pkg->name
-                                  ? strlen(table[cursorline]->pkg->name) : 0),
-                                 (section ? strlen(section) : 0) +
-                                 (priority ? strlen(priority) : 0))];
+                      max((table[cursorline]->pkg->name ?
+                           strlen(table[cursorline]->pkg->name) : 0),
+                          (section ? strlen(section) : 0) +
+                          (priority ? strlen(priority) : 0))];
     
   if (table[cursorline]->pkg->name) {
     sprintf(buf,
@@ -130,7 +130,7 @@ void packagelist::redrawthisstate() {
   }
   mvwaddnstr(thisstatepad,0,0, buf, total_width);
   pnoutrefresh(thisstatepad, 0,leftofscreen, thisstate_row,0,
-               thisstate_row, lesserint(total_width - 1, xmax - 1));
+               thisstate_row, min(total_width - 1, xmax - 1));
 
   delete[] buf;
 }

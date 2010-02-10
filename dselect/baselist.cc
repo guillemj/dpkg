@@ -281,7 +281,7 @@ void baselist::dosearch() {
   int offset, index;
   if (debug) fprintf(debug,"baselist[%p]::dosearch(); searchstring=`%s'\n",
                      this,searchstring);
-  for (offset=1, index=greaterint(topofscreen,cursorline+1);
+  for (offset = 1, index = max(topofscreen, cursorline + 1);
        offset<nitems;
        offset++, index++) {
     if (index >= nitems) index -= nitems;
@@ -298,8 +298,8 @@ void baselist::dosearch() {
 
 void baselist::refreshinfo() {
   pnoutrefresh(infopad, infotopofscreen,leftofscreen, info_row,0,
-               lesserint(info_row + info_height - 1, info_row + MAX_DISPLAY_INFO - 1),
-               lesserint(total_width - leftofscreen - 1, xmax - 1));
+               min(info_row + info_height - 1, info_row + MAX_DISPLAY_INFO - 1),
+               min(total_width - leftofscreen - 1, xmax - 1));
   
   if (whatinfo_height) {
     mywerase(whatinfowin);
