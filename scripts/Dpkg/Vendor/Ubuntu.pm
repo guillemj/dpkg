@@ -105,14 +105,14 @@ numbers in an array reference.
 
 sub find_launchpad_closes {
     my ($changes) = @_;
-    my @closes = ();
+    my %closes;
 
     while ($changes &&
           ($changes =~ /lp:\s+\#\d+(?:,\s*\#\d+)*/ig)) {
-       push(@closes, $& =~ /\#?\s?(\d+)/g);
+        $closes{$_} = 1 foreach($& =~ /\#?\s?(\d+)/g);
     }
 
-    @closes = sort { $a <=> $b } @closes;
+    my @closes = sort { $a <=> $b } keys %closes;
 
     return \@closes;
 }
