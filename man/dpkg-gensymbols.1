@@ -404,16 +404,21 @@ Moreover, some symbols might be omitted when writing a standard
 symbols are always written to the symbol file template.
 .TP
 .BI \-c [0-4]
-Define the checks to do when comparing the generated symbols file
-with the file used as starting point. By default the level is 1.
-Increasing levels do more checks and include all checks of lower levels.
-Level 0 disables all checks. Level 1 fails if some symbols have
-disappeared. Level 2 fails if some new symbols have been introduced.
-Level 3 fails if some libraries have disappeared. Level 4 fails if some
-libraries have been introduced.
+Define the checks to do when comparing the generated symbols file with the
+template file used as starting point. By default the level is 1. Increasing
+levels do more checks and include all checks of lower levels. Level 0 never
+fails. Level 1 fails if some symbols have disappeared. Level 2 fails if some
+new symbols have been introduced. Level 3 fails if some libraries have
+disappeared. Level 4 fails if some libraries have been introduced.
 
 This value can be overridden by the environment variable
 DPKG_GENSYMBOLS_CHECK_LEVEL.
+.TP
+.BI \-q
+Keep quiet and never generate a diff between generated symbols file and the
+template file used as starting point or show any warnings about new/lost
+libraries or new/lost symbols. This option only disables informational output
+but not the checks themselves (see \fI\-c\fR option).
 .TP
 .BI \-a arch
 Assume \fIarch\fR as host architecture when processing symbol files. Use this

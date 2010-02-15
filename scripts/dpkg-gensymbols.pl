@@ -37,6 +37,7 @@ my $sourceversion;
 my $stdout;
 my $oppackage;
 my $compare = 1; # Bail on missing symbols by default
+my $quiet = 0;
 my $input;
 my $output;
 my $template_mode = 0; # non-template mode by default
@@ -68,11 +69,14 @@ Options:
   -v<version>              version of the packages (defaults to
                            version extracted from debian/changelog).
   -c<level>                compare generated symbols file with the
-                           reference file in the debian directory.
-			   Fails if difference are too important
-			   (level goes from 0 for no check, to 4
-			   for all checks). By default checks at
-			   level 1.
+                           reference template in the debian directory
+                           and fail if difference is too important
+                           (level goes from 0 for no check, to 4
+                           for all checks). By default checks at
+                           level 1.
+  -q                       keep quiet and never emit any warnings or
+                           generate a diff between generated symbols
+                           file and the reference template.
   -I<file>                 force usage of <file> as reference symbols
                            file instead of the default file.
   -O<file>                 write to <file>, not .../DEBIAN/symbols.
@@ -97,6 +101,8 @@ while (@ARGV) {
 	$oppackage = $1;
     } elsif (m/^-c(\d)?$/) {
 	$compare = defined($1) ? $1 : 1;
+    } elsif (m/^-q$/) {
+	$quiet = 1;
     } elsif (m/^-d$/) {
 	$debug = 1;
     } elsif (m/^-v(.+)$/) {
@@ -165,7 +171,7 @@ foreach my $file ($input, $output, "debian/$oppackage.symbols.$host_arch",
     if (defined $file and -e $file) {
 	print "Using references symbols from $file\n" if $debug;
 	$symfile->load($file);
-	$ref_symfile->load($file) if $compare;
+	$ref_symfile->load($file) if $compare || ! $quiet;
 	last;
     }
 }
@@ -243,28 +249,33 @@ if ($stdout) {
 
 # Check if generated files differs from reference file
 my $exitcode = 0;
-if ($compare) {
-    use File::Temp;
-    use Digest::MD5;
+if ($compare || ! $quiet) {
     # Compare
     if (my @libs = $symfile->get_new_libs($ref_symfile)) {
-	warning(_g("new libraries appeared in the symbols file: %s"), "@libs");
+	warning(_g("new libraries appeared in the symbols file: %s"), "@libs")
+	    unless $quiet;
 	$exitcode = 4 if ($compare >= 4);
     }
     if (my @libs = $symfile->get_lost_libs($ref_symfile)) {
-	warning(_g("some libraries disappeared in the symbols file: %s"), "@libs");
+	warning(_g("some libraries disappeared in the symbols file: %s"), "@libs")
+	    unless $quiet;
 	$exitcode = 3 if ($compare >= 3);
     }
     if ($symfile->get_new_symbols($ref_symfile)) {
 	warning(_g("some new symbols appeared in the symbols file: %s"),
-		_g("see diff output below"));
+		_g("see diff output below")) unless $quiet;
 	$exitcode = 2 if ($compare >= 2);
     }
     if ($symfile->get_lost_symbols($ref_symfile)) {
 	warning(_g("some symbols or patterns disappeared in the symbols file: %s"),
-	        _g("see diff output below"));
+	        _g("see diff output below")) unless $quiet;
 	$exitcode = 1 if ($compare >= 1);
     }
+}
+
+unless ($quiet) {
+    use File::Temp;
+    use Digest::MD5;
     # Compare template symbols files before and after
     my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
     my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
