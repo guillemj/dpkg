@@ -22,10 +22,6 @@ bin_SCRIPTS = \
 	dpkg-source \
 	dpkg-vendor
 
-if WITH_UPDATE_ALTERNATIVES
-bin_SCRIPTS += update-alternatives
-endif
-
 changelogdir = $(pkglibdir)/parsechangelog
 changelog_SCRIPTS = \
 	changelog/debian
@@ -50,7 +46,6 @@ EXTRA_DIST = \
 	dpkg-source.pl \
 	dpkg-divert.pl \
 	dpkg-vendor.pl \
-	update-alternatives.pl \
 	changelog/debian.pl \
 	$(test_cases) \
 	$(test_data)
@@ -151,11 +146,6 @@ if BUILD_POD_DOC
 		rm -f $(DESTDIR)$(man3dir)/$$name.3; \
 	done
 endif
-if WITH_UPDATE_ALTERNATIVES
-	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives
-	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives
-	$(INSTALL_DATA) $(srcdir)/README.alternatives $(DESTDIR)$(sysconfdir)/alternatives/README
-endif
 
 # Ideally we'd use 'sed -i', but unfortunately that's not portable.
 install-data-hook:
@@ -171,7 +161,6 @@ if BUILD_POD_DOC
 	    rm -f $(DESTDIR)$(man3dir)/`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$/.3/'`; \
 	done
 endif
-	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
 
 TEST_VERBOSE= 0
 
@@ -191,7 +180,6 @@ test_cases = \
 	t/750_Dpkg_Substvars.t \
 	t/800_Dpkg_IPC.t \
 	t/850_Dpkg_Compression.t \
-	t/900_update_alternatives.t \
 	t/910_merge_changelogs.t
 
 check_DATA = \

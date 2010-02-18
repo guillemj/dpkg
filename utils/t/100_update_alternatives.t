@@ -25,9 +25,13 @@ my $tmpdir = 't.tmp/900_update_alternatives';
 my $admindir = File::Spec->rel2abs("$tmpdir/admindir"),
 my $altdir = File::Spec->rel2abs("$tmpdir/alternatives");
 my $bindir = File::Spec->rel2abs("$tmpdir/bin");
-# XXX: switch to version without .pl
-my @ua = ("$srcdir/update-alternatives.pl", "--log", "/dev/null",
+my @ua = ("$ENV{builddir}/update-alternatives", "--log", "/dev/null",
           "--quiet", "--admindir", "$admindir", "--altdir", "$altdir");
+
+if (! -x "$ENV{builddir}/update-alternatives") {
+    plan skip_all => "update-alternatives not available";
+    exit(0);
+}
 
 my $main_link = "$bindir/generic-test";
 my $main_name = "generic-test";
@@ -67,7 +71,7 @@ my @choices = (
 );
 my $nb_slaves = 2;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 24 # number of check_choices
-		+ 63;			      # rest
+		+ 64;			      # rest
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
@@ -78,10 +82,14 @@ sub call_ua {
     my ($params, %opts) = @_;
     spawn("exec" => [ @ua, @$params ], nocheck => 1,
 	  wait_child => 1, env => { LC_ALL => "C" }, %opts);
+    my $test_id = "";
+    $test_id = "$opts{test_id}: " if defined $opts{test_id};
     if ($opts{"expect_failure"}) {
-	ok($? != 0, "update-alternatives @$params did not fail.");
+	ok($? != 0, "${test_id}update-alternatives @$params should fail.") or
+	    diag("Did not fail as expected: @ua @$params");
     } else {
-	ok($? == 0, "update-alternatives @$params failed.");
+	ok($? == 0, "${test_id}update-alternatives @$params should work.") or
+	    diag("Did not succeed as expected: @ua @$params");
     }
 }
 
@@ -181,7 +189,7 @@ sub check_choice {
     my $output;
     if (defined $id) {
 	# Check status
-	call_ua([ "--query", "$main_name" ], to_string => \$output);
+	call_ua([ "--query", "$main_name" ], to_string => \$output, test_id => $msg);
 	$output =~ /^Status: (.*)$/im;
 	is($1, $mode, "$msg: status is not $mode.");
 	# Check links
@@ -191,7 +199,7 @@ sub check_choice {
 	check_slaves($id, $msg);
     } else {
 	call_ua([ "--query", "$main_name" ], error_to_string => \$output,
-	        expect_failure => 1);
+	        expect_failure => 1, test_id => $msg);
 	ok($output =~ /no alternatives/, "$msg: bad error message for --query.");
 	# Check that all links have disappeared
 	check_no_link("$altdir/$main_name", $msg);
@@ -211,24 +219,25 @@ install_choice(2); # 2 is lower prio, stays at 1
 check_choice(1, "auto", "initial install 2");
 install_choice(0); # 0 is higher priority
 check_choice(0, "auto", "initial install 3");
+
 # manual change with --set-selections
 my $input = "doesntexist auto /bin/date\ngeneric-test manual /bin/false\n";
 my $output = "";
 call_ua(["--set-selections"], from_string => \$input,
-        to_string => \$output);
+        to_string => \$output, test_id => "manual update with --set-selections");
 check_choice(1, "manual", "manual update with --set-selections");
 $input = "generic-test auto /bin/true\n";
 call_ua(["--set-selections"], from_string => \$input,
-        to_string => \$output);
+        to_string => \$output, test_id => "auto update with --set-selections");
 check_choice(0, "auto", "auto update with --set-selections");
 # manual change with set
-set_choice(2);
+set_choice(2, test_id => "manual update with --set");
 check_choice(2, "manual", "manual update with --set"); # test #388313
-remove_choice(2);
+remove_choice(2, test_id => "remove manual, back to auto");
 check_choice(0, "auto", "remove manual, back to auto");
-remove_choice(0);
+remove_choice(0, test_id => "remove best");
 check_choice(1, "auto", "remove best");
-remove_choice(1);
+remove_choice(1, test_id => "no alternative left");
 check_choice(undef, "", "no alternative left");
 # single choice in manual mode, to be removed
 install_choice(1);
@@ -302,6 +311,10 @@ call_ua(["--install", "$bindir/testmaster", "slave1", "/bin/date", "10"],
 # try to install a master alternative as slave
 call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
 	 "--slave", "$bindir/testslave", "generic-test", "/bin/true" ],
+	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# try to reuse master link in slave
+call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
+	 "--slave", "$bindir/testmaster", "testslave", "/bin/true" ],
 	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
 # try to reuse links in master alternative
 call_ua(["--install", "$bindir/slave1", "testmaster", "/bin/date", "10"],
