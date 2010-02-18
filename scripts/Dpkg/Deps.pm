@@ -464,7 +464,7 @@ architecture is prefixed with an exclamation mark.
 
 =over 4
 
-=item $simple_dep->parse("dpkg-dev (>= 1.14.8) [!hurd-i386]")
+=item $simple_dep->parse_string("dpkg-dev (>= 1.14.8) [!hurd-i386]")
 
 Parse the dependency and modify internal properties to match the parsed
 dependency.
@@ -486,7 +486,7 @@ use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use overload '""' => sub { $_[0]->output() };
+use base qw(Dpkg::Interface::Storable);
 
 sub new {
     my ($this, $arg) = @_;
@@ -498,11 +498,18 @@ sub new {
 	'arches' => undef,
     };
     bless $self, $class;
-    $self->parse($arg) if defined($arg);
+    $self->parse_string($arg) if defined($arg);
     return $self;
 }
 
 sub parse {
+    my ($self, $fh, $desc) = @_;
+    my $line = <$fh>;
+    chomp($line);
+    return $self->parse_string($line);
+}
+
+sub parse_string {
     my ($self, $dep) = @_;
     return if not $dep =~
             /^\s*                           # skip leading whitespace
@@ -760,7 +767,7 @@ use warnings;
 
 use Dpkg::ErrorHandling;
 
-use overload '""' => sub { $_[0]->output() };
+use base qw(Dpkg::Interface::Storable);
 
 sub new {
     my $this = shift;
