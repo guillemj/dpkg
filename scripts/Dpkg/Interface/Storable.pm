@@ -1,0 +1,124 @@
+# Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+package Dpkg::Interface::Storable;
+
+use strict;
+use warnings;
+
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
+use Dpkg::Compression::FileHandle;
+
+use overload
+    '""' => \&_stringify,
+    'fallback' => 1;
+
+=head1 NAME
+
+Dpkg::Interface::Storable - common methods related to object serialization
+
+=head1 DESCRIPTION
+
+Dpkg::Interface::Storable is only meant to be used as parent
+class for other objects. It provides common methods that are
+all implemented on top of two basic methods parse() and output().
+
+=head1 BASE METHODS
+
+Those methods must be provided by the object that wish to inherit
+from Dpkg::Interface::Storable so that the methods provided can work.
+
+=over 4
+
+=item $obj->parse($fh, $desc)
+
+This methods initialize the object with the data stored in the
+filehandle. $desc is optional and is a textual description of
+the filehandle used in error messages.
+
+=item $string = $obj->output($fh)
+
+This method returns a string representation of the object in $string
+and it writes the same string to $fh (if it's defined).
+
+=back
+
+=head1 PROVIDED METHODS
+
+=over 4
+
+=item $obj->load($filename)
+
+Initialize the object with the data stored in the file. The file can be
+compressed, it will be uncompressed on the fly by using a
+Dpkg::Compression::FileHandle object.
+
+=cut
+
+sub load {
+    my ($self, $file, @options) = @_;
+    unless ($self->can("parse")) {
+	internerr("%s cannot be loaded, it lacks the parse method", ref($self));
+    }
+    my $cf = Dpkg::Compression::FileHandle->new();
+    open($cf, "<", $file) || syserr(_g("cannot read %s"), $file);
+    my $res = $self->parse($cf, $file, @options);
+    close($cf) || syserr(_g("cannot close %s"), $file);
+    return $res;
+}
+
+=item $obj->save($filename)
+
+Store the object in the file. If the filename ends with a known
+compression extension, it will be compressed on the fly by using a
+Dpkg::Compression::FileHandle object.
+
+=cut
+
+sub save {
+    my ($self, $file, @options) = @_;
+    unless ($self->can("output")) {
+	internerr("%s cannot be saved, it lacks the output method", ref($self));
+    }
+    my $cf = Dpkg::Compression::FileHandle->new();
+    open($cf, ">", $file) || syserr(_g("cannot write %s"), $file);
+    $self->output($cf, @options);
+    close($cf) || syserr(_g("cannot close %s"), $file);
+}
+
+=item "$obj"
+
+Return a string representation of the object.
+
+=cut
+
+sub _stringify {
+    my ($self) = @_;
+    unless ($self->can("output")) {
+	internerr("%s cannot be stringified, it lacks the output method", ref($self));
+    }
+    return $self->output();
+}
+
+=back
+
+=head1 AUTHOR
+
+Raphaël Hertzog <hertzog@debian.org>.
+
+=cut
+
+1;
