@@ -144,7 +144,7 @@ sub changelog_parse {
     my (@res, $fields);
     while (1) {
         $fields = Dpkg::Control::Changelog->new();
-        last unless $fields->parse_fh(\*P, _g("output of changelog parser"));
+        last unless $fields->parse(\*P, _g("output of changelog parser"));
 	push @res, $fields;
     }
     close(P) or subprocerr(_g("changelog parser %s"), $parser);

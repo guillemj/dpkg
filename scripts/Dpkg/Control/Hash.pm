@@ -26,10 +26,11 @@ use Dpkg::ErrorHandling;
 # Dpkg::Control::Fields itself (Dpkg::Vendor)
 # That's why field_capitalize is duplicated
 
+use base qw(Dpkg::Interface::Storable);
+
 use overload
     '%{}' => sub { ${$_[0]}->{'fields'} },
-    'eq' => sub { "$_[0]" eq "$_[1]" },
-    '""' => \&output;
+    'eq' => sub { "$_[0]" eq "$_[1]" };
 
 =head1 NAME
 
@@ -136,22 +137,12 @@ sub get_option {
     return $$self->{$k};
 }
 
-=item $c->parse($file)
+=item $c->load($file)
 
 Parse the content of $file. Exits in case of errors. Returns true if some
 fields have been parsed.
 
-=cut
-
-sub parse {
-    my ($self, $file) = @_;
-    open(CDATA, "<", $file) || syserr(_g("cannot read %s"), $file);
-    my $res = $self->parse_fh(\*CDATA, $file);
-    close(CDATA);
-    return $res;
-}
-
-=item $c->parse_fh($fh, $description)
+=item $c->parse($fh, $description)
 
 Parse a control file from the given filehandle. Exits in case of errors.
 $description is used to describe the filehandle, ideally it's a filename
@@ -160,7 +151,7 @@ messages. Returns true if some fields have been parsed.
 
 =cut
 
-sub parse_fh {
+sub parse {
     my ($self, $fh, $desc) = @_;
 
     my $paraborder = 1;
@@ -256,7 +247,13 @@ sub get_custom_field {
     return undef;
 }
 
+=item $c->save($filename)
+
+Write the string representation of the control information to a
+file.
+
 =item my $str = $c->output()
+
 =item "$c"
 
 Get a string representation of the control information. The fields

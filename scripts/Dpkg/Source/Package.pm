@@ -137,10 +137,8 @@ sub initialize {
     }
     close(DSC);
     # Read the fields
-    open(CDATA, "<", $filename) || syserr(_g("cannot open %s"), $filename);
     my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $fields->parse_fh(\*CDATA, sprintf(_g("source control file %s"), $filename));
-    close(CDATA);
+    $fields->load($filename);
     $self->{'fields'} = $fields;
 
     foreach my $f (qw(Source Format Version Files)) {

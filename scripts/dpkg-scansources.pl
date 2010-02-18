@@ -224,7 +224,7 @@ sub process_dsc {
 
     # Parse ‘.dsc’ file.
     my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $fields->parse($file);
+    $fields->load($file);
     $fields->set_options(type => CTRL_INDEX_SRC);
 
     # Get checksums

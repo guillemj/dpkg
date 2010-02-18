@@ -27,7 +27,7 @@ my $datadir = $srcdir . '/t/700_Dpkg_Control';
 my $c = Dpkg::Control::Info->new("$datadir/control-1");
 
 my $io = IO::String->new();
-$c->dump($io);
+$c->output($io);
 my $value = ${$io->string_ref()};
 my $expected = 'Source: mysource
 My-Field-One: myvalue1

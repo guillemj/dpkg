@@ -60,10 +60,8 @@ sub get_vendor_info(;$) {
     my $vendor = shift || "default";
     my $file = get_vendor_file($vendor);
     return undef unless $file;
-    open(my $fh, "<", $file) || syserr(_g("cannot read %s"), $file);
     my $fields = Dpkg::Control::Hash->new();
-    $fields->parse_fh($fh, $file) || error(_g("%s is empty"), $file);
-    close($fh);
+    $fields->load($file) || error(_g("%s is empty"), $file);
     return $fields;
 }
 

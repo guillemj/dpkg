@@ -22,6 +22,8 @@ use Dpkg::Control;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
+use base qw(Dpkg::Interface::Storable);
+
 =head1 NAME
 
 Dpkg::Control::Info - parse files like debian/control
@@ -37,8 +39,8 @@ syntax than debian/control.
 
 =item $c = Dpkg::Control::Info->new($file)
 
-Create a new Dpkg::Control::Info object for $file. If $file is omitted, it parses
-debian/control. If file is "-", it parses the standard input.
+Create a new Dpkg::Control::Info object for $file. If $file is omitted, it
+loads debian/control. If file is "-", it parses the standard input.
 
 =cut
 
@@ -52,12 +54,12 @@ sub new {
     bless $self, $class;
     if ($arg) {
         if ($arg eq "-") {
-            $self->parse_fh(\*STDIN, _g("<standard input>"));
+            $self->parse(\*STDIN, _g("<standard input>"));
         } else {
-            $self->parse($arg);
+            $self->load($arg);
         }
     } else {
-	$self->parse("debian/control");
+	$self->load("debian/control");
     }
     return $self;
 }
@@ -74,20 +76,11 @@ sub reset {
     $self->{packages} = [];
 }
 
-=item $c->parse($file)
+=item $c->load($file)
 
-Parse the content of $file. Exits in case of errors.
+Load the content of $file. Exits in case of errors.
 
-=cut
-
-sub parse {
-    my ($self, $file) = @_;
-    open(CDATA, "<", $file) || syserr(_g("cannot read %s"), $file);
-    $self->parse_fh(\*CDATA, $file);
-    close(CDATA);
-}
-
-=item $c->parse_fh($fh, $description)
+=item $c->parse($fh, $description)
 
 Parse a control file from the given filehandle. Exits in case of errors.
 $description is used to describe the filehandle, ideally it's a filename
@@ -96,18 +89,18 @@ messages.
 
 =cut
 
-sub parse_fh {
+sub parse {
     my ($self, $fh, $desc) = @_;
     $self->reset();
     my $cdata = Dpkg::Control->new(type => CTRL_INFO_SRC);
-    return if not $cdata->parse_fh($fh, $desc);
+    return if not $cdata->parse($fh, $desc);
     $self->{source} = $cdata;
     unless (exists $cdata->{Source}) {
 	syntaxerr($desc, _g("first block lacks a source field"));
     }
     while (1) {
 	$cdata = Dpkg::Control->new(type => CTRL_INFO_PKG);
-        last if not $cdata->parse_fh($fh, $desc);
+        last if not $cdata->parse($fh, $desc);
 	push @{$self->{packages}}, $cdata;
 	unless (exists $cdata->{Package}) {
 	    syntaxerr($desc, _g("block lacks a package field"));
@@ -166,19 +159,21 @@ sub get_packages {
     return @{$self->{packages}};
 }
 
-=item $c->dump($filehandle)
+=item $c->output($filehandle)
 
 Dump the content into a filehandle.
 
 =cut
 
-sub dump {
+sub output {
     my ($self, $fh) = @_;
-    $self->{source}->output($fh);
+    my $str;
+    $str .= $self->{source}->output($fh);
     foreach my $pkg (@{$self->{packages}}) {
 	print $fh "\n";
-	$pkg->output($fh);
+	$str .= "\n" . $pkg->output($fh);
     }
+    return $str;
 }
 
 =back

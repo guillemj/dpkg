@@ -189,7 +189,7 @@ FILE:
 	my $pid = spawn('exec' => [ "dpkg-deb", "-I", $fn, "control" ],
 			'to_pipe' => \$output);
 	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
-	$fields->parse_fh($output, $fn)
+	$fields->parse($output, $fn)
 	    or error(_g("couldn't parse control information from %s."), $fn);
 	wait_child($pid, no_check => 1);
 	if ($?) {

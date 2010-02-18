@@ -393,12 +393,10 @@ if (!is_binaryonly) {
 
     (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-    open(CDATA, "<", $dsc) || syserr(_g("cannot open .dsc file %s"), $dsc);
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
     my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $dsc_fields->parse_fh(\*CDATA, sprintf(_g("source control file %s"), $dsc)) ||
-        error(_g("%s is empty", $dsc));
+    $dsc_fields->load($dsc) || error(_g("%s is empty", $dsc));
 
     readallchecksums($dsc_fields, \%checksum, \%size);
 

@@ -163,7 +163,7 @@ sub parse {
     my ($self, $fh, $desc) = @_;
     my $item = $self->new_item();
     my $i = 0;
-    while ($item->parse_fh($fh, $desc)) {
+    while ($item->parse($fh, $desc)) {
 	$self->add($item);
 	$item = $self->new_item();
 	$i++;
