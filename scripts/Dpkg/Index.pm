@@ -23,9 +23,10 @@ use Dpkg::ErrorHandling;
 use Dpkg::Control;
 use Dpkg::Compression::FileHandle;
 
+use base qw(Dpkg::Interface::Storable);
+
 use overload
     '@{}' => sub { return $_[0]->{'order'} },
-    '""' => sub { return $_[0]->output() },
     fallback => 1;
 
 =head1 NAME
@@ -151,16 +152,6 @@ sub add {
 Reads the file and creates all items parsed. Returns the number of items
 parsed. Handles compressed files transparently based on their extensions.
 
-=cut
-
-sub load {
-    my ($self, $file) = @_;
-    my $cf = Dpkg::Compression::FileHandle->new(filename => $file);
-    my $res = $self->parse($cf, $file);
-    close($cf) || syserr(_g("cannot close %s"), $file);
-    return $res;
-}
-
 =item $index->parse($fh, $desc)
 
 Reads the filehandle and creates all items parsed. Returns the number of
@@ -184,15 +175,6 @@ sub parse {
 
 Writes the content of the index in a file. Auto-compresses files
 based on their extensions.
-
-=cut
-
-sub save {
-    my ($self, $file) = @_;
-    my $cf = Dpkg::Compression::FileHandle->new(filename => $file);
-    $self->output($cf);
-    close($cf) || syserr(_g("cannot close %s"), $file);
-}
 
 =item my $item = $index->new_item()
 

@@ -44,8 +44,9 @@ use Dpkg::Index;
 use Dpkg::Version;
 use Dpkg::Vendor qw(run_vendor_hook);
 
+use base qw(Dpkg::Interface::Storable);
+
 use overload
-    '""'  => sub { return $_[0]->output() },
     '@{}' => sub { return $_[0]->{data} };
 
 =over 4
@@ -73,14 +74,6 @@ sub new {
 Parse $filename as a changelog.
 
 =cut
-
-sub load {
-    my ($self, $file) = @_;
-    open(my $fh, "<", $file) or syserr(_g("cannot read %s"), $file);
-    my $ret = $self->parse($fh, $file);
-    close($fh);
-    return $ret;
-}
 
 =item $c->set_options(%opts)
 
@@ -431,6 +424,10 @@ sub abort_early {
 
     return;
 }
+
+=item $c->save($filename)
+
+Save the changelog in the given file.
 
 =item $c->output()
 
