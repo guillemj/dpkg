@@ -176,6 +176,7 @@ load_config_dir(const char *prog, const struct cmdinfo* cmdinfos)
 
     myfileopt(filename, cmdinfos);
 
+    free(dlist[i]);
     free(filename);
   }
 

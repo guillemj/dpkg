@@ -169,7 +169,10 @@ static void info_list(const char *debar, const char *directory) {
     } else {
       printf(_("     not a plain file          %.255s\n"), cdep->d_name);
     }
+    free(cdep);
   }
+  free(cdlist);
+
   if (!(cc= fopen("control","r"))) {
     if (errno != ENOENT) ohshite(_("failed to read `control' (in `%.255s')"),directory);
     fputs(_("(no `control' file in control archive!)\n"), stdout);
