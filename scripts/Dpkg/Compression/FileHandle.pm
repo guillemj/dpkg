@@ -212,34 +212,43 @@ sub OPEN {
 sub CLOSE {
     my ($self) = shift;
     my $ret = 1;
-    $ret = *$self->{'file'}->close(@_) if *$self->{'file'}->opened();
+    if (defined *$self->{'file'}) {
+	$ret = *$self->{'file'}->close(@_) if *$self->{'file'}->opened();
+    } else {
+	$ret = 0;
+    }
     $self->cleanup();
     return $ret;
 }
 
 sub FILENO {
     my ($self) = shift;
-    return *$self->{"file"}->fileno(@_);
+    return *$self->{"file"}->fileno(@_) if defined *$self->{"file"};
+    return undef;
 }
 
 sub EOF {
     my ($self) = shift;
-    return *$self->{"file"}->eof(@_);
+    return *$self->{"file"}->eof(@_) if defined *$self->{"file"};
+    return 1;
 }
 
 sub SEEK {
     my ($self) = shift;
-    return *$self->{"file"}->seek(@_);
+    return *$self->{"file"}->seek(@_) if defined *$self->{"file"};
+    return 0;
 }
 
 sub TELL {
     my ($self) = shift;
-    return *$self->{"file"}->tell(@_);
+    return *$self->{"file"}->tell(@_) if defined *$self->{"file"};
+    return -1;
 }
 
 sub BINMODE {
     my ($self) = shift;
-    return *$self->{"file"}->binmode(@_);
+    return *$self->{"file"}->binmode(@_) if defined *$self->{"file"};
+    return undef;
 }
 
 ##
