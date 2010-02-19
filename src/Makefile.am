@@ -14,6 +14,7 @@ AM_CPPFLAGS = \
 
 bin_PROGRAMS = \
 	dpkg \
+	dpkg-divert \
 	dpkg-query \
 	dpkg-statoverride \
 	dpkg-trigger
@@ -44,6 +45,17 @@ dpkg_LDADD = \
 	../lib/compat/libcompat.a \
 	$(LIBINTL) \
 	$(SELINUX_LIBS)
+
+dpkg_divert_SOURCES = \
+	glob.c glob.h \
+	filesdb.c filesdb.h \
+	divertdb.c \
+	divertcmd.c
+
+dpkg_divert_LDADD = \
+	../lib/dpkg/libdpkg.a \
+	../lib/compat/libcompat.a \
+	$(LIBINTL)
 
 dpkg_query_SOURCES = \
 	filesdb.c filesdb.h \

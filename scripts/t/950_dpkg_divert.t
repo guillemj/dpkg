@@ -26,7 +26,7 @@ my $tmpdir = 't.tmp/950_dpkg_divert';
 my $admindir = File::Spec->rel2abs("$tmpdir/admindir");
 my $testdir = File::Spec->rel2abs("$tmpdir/testdir");
 
-my @dd = ("$builddir/dpkg-divert");
+my @dd = ("$builddir/../src/dpkg-divert");
 
 plan tests => 235;
 

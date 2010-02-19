@@ -8,7 +8,6 @@ bin_SCRIPTS = \
 	dpkg-buildpackage \
 	dpkg-checkbuilddeps \
 	dpkg-distaddfile \
-	dpkg-divert \
 	dpkg-genchanges \
 	dpkg-gencontrol \
 	dpkg-gensymbols \
@@ -43,7 +42,6 @@ EXTRA_DIST = \
 	dpkg-scansources.pl \
 	dpkg-shlibdeps.pl \
 	dpkg-source.pl \
-	dpkg-divert.pl \
 	dpkg-vendor.pl \
 	changelog/debian.pl \
 	$(test_cases) \
