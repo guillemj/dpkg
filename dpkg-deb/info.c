@@ -174,7 +174,8 @@ static void info_list(const char *debar, const char *directory) {
   free(cdlist);
 
   if (!(cc= fopen("control","r"))) {
-    if (errno != ENOENT) ohshite(_("failed to read `control' (in `%.255s')"),directory);
+    if (errno != ENOENT)
+      ohshite(_("failed to read `%.255s' (in `%.255s')"), "control", directory);
     fputs(_("(no `control' file in control archive!)\n"), stdout);
   } else {
     lines= 1;
