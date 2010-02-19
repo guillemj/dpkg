@@ -186,6 +186,10 @@ static void info_list(const char *debar, const char *directory) {
     }
     if (!lines)
       putc('\n', stdout);
+
+    if (ferror(cc))
+      ohshite(_("failed to read `%.255s' (in `%.255s')"), "control", directory);
+    fclose(cc);
   }
 
   m_output(stdout, _("<standard output>"));
