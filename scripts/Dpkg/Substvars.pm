@@ -1,4 +1,4 @@
-# Copyright © 2007,2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use POSIX qw(:errno_h);
+
+use base qw(Dpkg::Interface::Storable);
 
 my $maxsubsts = 50;
 
@@ -71,7 +73,7 @@ sub new {
     bless $self, $class;
     $self->no_warn($_) foreach keys %{$self->{'vars'}};
     if ($arg) {
-        $self->parse($arg);
+        $self->load($arg) if -e $arg;
     }
     return $self;
 }
@@ -122,28 +124,27 @@ sub no_warn {
     $self->{'used'}{$key}++;
 }
 
-=item $s->parse($file)
+=item $s->load($file)
 
 Add new substitutions read from $file.
+
+=item $s->parse($fh, $desc)
+
+Add new substitutions read from the filehandle. $desc is used to identify
+the filehandle in error messages.
 
 =cut
 
 sub parse {
-    my ($self, $varlistfile) = @_;
-    $varlistfile = "./$varlistfile" if $varlistfile =~ m/\s/;
-    if (open(SV, "<", $varlistfile)) {
-	binmode(SV);
-	while (<SV>) {
-	    next if m/^\s*\#/ || !m/\S/;
-	    s/\s*\n$//;
-	    m/^(\w[-:0-9A-Za-z]*)\=(.*)$/ ||
-		error(_g("bad line in substvars file %s at line %d"),
-		      $varlistfile, $.);
-	    $self->{'vars'}{$1} = $2;
-	}
-	close(SV);
-    } elsif ($! != ENOENT) {
-	error(_g("unable to open substvars file %s: %s"), $varlistfile, $!);
+    my ($self, $fh, $varlistfile) = @_;
+    binmode($fh);
+    while (<$fh>) {
+	next if m/^\s*\#/ || !m/\S/;
+	s/\s*\n$//;
+	m/^(\w[-:0-9A-Za-z]*)\=(.*)$/ ||
+	    error(_g("bad line in substvars file %s at line %d"),
+		  $varlistfile, $.);
+	$self->{'vars'}{$1} = $2;
     }
 }
 
@@ -236,6 +237,36 @@ sub warn_about_unused {
         next if $self->{'vars'}{$vn} eq "";
         warning(_g("unused substitution variable \${%s}"), $vn);
     }
+}
+
+=item $s->save($file)
+
+Store all substitutions variables except the automatic ones in the
+indicated file.
+
+=item "$s"
+
+Return a string representation of all substitutions variables except the
+automatic ones.
+
+=item $str = $s->output($fh)
+
+Print all substitutions variables except the automatic ones in the
+filehandle and return the content written.
+
+=cut
+
+sub output {
+    my ($self, $fh) = @_;
+    my $str = "";
+    # Store all non-automatic substitutions only
+    foreach my $vn (sort keys %{$self->{'vars'}}) {
+	next if /^(?:(?:dpkg|source|binary):(?:Source-)?Version|Space|Tab|Newline|Arch|Source-Version|F:.+)$/;
+	my $line = "$vn=" . $self->{vars}{$vn} . "\n";
+	print $fh $line if defined $fh;
+	$str .= $line;
+    }
+    return $str;
 }
 
 =back

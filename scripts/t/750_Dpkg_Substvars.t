@@ -28,7 +28,7 @@ my $datadir = $srcdir . '/t/750_Dpkg_Substvars';
 
 my $s = Dpkg::Substvars->new();
 
-$s->parse("$datadir/substvars1");
+$s->load("$datadir/substvars1");
 
 # simple value tests
 is($s->get('var1'), 'Some value', 'var1');

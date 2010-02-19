@@ -138,7 +138,7 @@ $options{"changelogformat"} = $changelogformat if $changelogformat;
 my $changelog = changelog_parse(%options);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->set_arch_substvars();
-$substvars->parse($varlistfile) if -e $varlistfile;
+$substvars->load($varlistfile) if -e $varlistfile;
 $substvars->set("binary:Version", $forceversion) if defined $forceversion;
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);

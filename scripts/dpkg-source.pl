@@ -325,7 +325,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
     # Write the .dsc
     my $dscname = $srcpkg->get_basename(1) . ".dsc";
     info(_g("building %s in %s"), $sourcepackage, $dscname);
-    $substvars->parse($varlistfile) if $varlistfile && -e $varlistfile;
+    $substvars->load($varlistfile) if $varlistfile && -e $varlistfile;
     $srcpkg->write_dsc(filename => $dscname,
 		       remove => \%remove,
 		       override => \%override,

@@ -210,7 +210,7 @@ my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->set_arch_substvars();
-$substvars->parse($varlistfile) if -e $varlistfile;
+$substvars->load($varlistfile) if -e $varlistfile;
 
 if (defined($prev_changelog) and
     version_compare_relation($changelog->{"Version"}, REL_LT,
