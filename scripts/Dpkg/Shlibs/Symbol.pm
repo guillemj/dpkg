@@ -249,15 +249,17 @@ sub get_tag_value {
 # tag sets, versioning info (minver and depid))
 sub equals {
     my ($self, $other, %opts) = @_;
+    $opts{versioning} = 1 unless exists $opts{versioning};
+    $opts{tags} = 1 unless exists $opts{tags};
 
     return 0 if $self->{symbol} ne $other->{symbol};
 
-    if (!exists $opts{versioning} || $opts{versioning}) {
+    if ($opts{versioning}) {
 	return 0 if $self->{minver} ne $other->{minver};
 	return 0 if $self->{dep_id} ne $other->{dep_id};
     }
 
-    if  (!exists $opts{tags} || $opts{tags}) {
+    if ($opts{tags}) {
 	return 0 if scalar(@{$self->{tagorder}}) != scalar(@{$other->{tagorder}});
 
 	for (my $i = 0; $i < scalar(@{$self->{tagorder}}); $i++) {
