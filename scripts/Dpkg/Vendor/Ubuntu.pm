@@ -1,5 +1,6 @@
 # Copyright © 2008 Ian Jackson <ian@davenant.greenend.org.uk>
-# Copyright © 2008 Colin Watson <cjwatson@ubuntu.com>
+# Copyright © 2008 Canonical, Ltd.
+#   written by Colin Watson <cjwatson@ubuntu.com>
 # Copyright © 2008 James Westby <jw+debian@jameswestby.net>
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
 #
