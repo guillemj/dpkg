@@ -531,7 +531,7 @@ void process_archive(const char *filename) {
    *    overwrite' using link() and rename(), but leave a backup copy.
    *    Later, when we delete the backup, we remove it from any other
    *    packages' lists.
-   * -  It is a directory.  In this case it depends on whether we're
+   *  - It is a directory. In this case it depends on whether we're
    *    trying to install a symlink or something else.
    *   = If we're not trying to install a symlink we move the directory
    *     aside and extract the node.  Later, when we recursively remove
