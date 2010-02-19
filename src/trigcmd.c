@@ -48,7 +48,8 @@ const char printforhelp[] = N_(
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
-	printf(_("Debian %s package trigger utility.\n"), thisname);
+	printf(_("Debian %s package trigger utility version %s.\n"),
+	       thisname, DPKG_VERSION_ARCH);
 
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
