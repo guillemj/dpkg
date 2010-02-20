@@ -222,7 +222,7 @@ is($sym_file->get_smallest_version('libfake.so.1'), "1.0",
 
 # Check dump output
 my $io = IO::String->new();
-$sym_file->dump($io, package => "libfake1");
+$sym_file->output($io, package => "libfake1");
 is(${$io->string_ref()},
 'libfake.so.1 libfake1 #MINVER#
 | libvirtualfake
@@ -260,7 +260,7 @@ save_load_test($sym_file, 'template save -> load', template_mode => 1);
 
 # Dumping in non-template mode (amd64) (test for arch tags)
 $io = IO::String->new();
-$sym_file->dump($io);
+$sym_file->output($io);
 is(${$io->string_ref()},
 'libbasictags.so.1 libbasictags1 #MINVER#
 | libbasictags1 (>= 1.1)
@@ -274,7 +274,7 @@ is(${$io->string_ref()},
 $io = IO::String->new();
 $sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/basictags.symbols", arch => 'i386');
 $sym_file_dup = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/basictags.symbols", arch => 'i386');
-$sym_file->dump($io);
+$sym_file->output($io);
 is(${$io->string_ref()},
 'libbasictags.so.1 libbasictags1 #MINVER#
 | libbasictags1 (>= 1.1)

@@ -225,10 +225,10 @@ $symfile->clear_except(keys %{$od->{objects}});
 # Write out symbols files
 if ($stdout) {
     $output = _g("<standard output>");
-    $symfile->save("-", package => $oppackage,
-                   template_mode => $template_mode,
-                   with_pattern_matches => $verbose_output,
-                   with_deprecated => $verbose_output);
+    $symfile->output(\*STDOUT, package => $oppackage,
+                     template_mode => $template_mode,
+                     with_pattern_matches => $verbose_output,
+                     with_deprecated => $verbose_output);
 } else {
     unless (defined($output)) {
 	unless($symfile->is_empty()) {
@@ -279,8 +279,8 @@ unless ($quiet) {
     # Compare template symbols files before and after
     my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
     my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-    $ref_symfile->dump($before, package => $oppackage, template_mode => 1);
-    $symfile->dump($after, package => $oppackage, template_mode => 1);
+    $ref_symfile->output($before, package => $oppackage, template_mode => 1);
+    $symfile->output($after, package => $oppackage, template_mode => 1);
     seek($before, 0, 0); seek($after, 0, 0);
     my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
     $md5_before->addfile($before);

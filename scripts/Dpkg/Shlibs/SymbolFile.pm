@@ -25,6 +25,8 @@ use Dpkg::Control::Fields;
 use Dpkg::Shlibs::Symbol;
 use Dpkg::Arch qw(get_host_arch);
 
+use base qw(Dpkg::Interface::Storable);
+
 my %blacklist = (
     '__bss_end__' => 1,		# arm
     '__bss_end' => 1,		# arm
@@ -185,8 +187,8 @@ sub add_symbol {
 }
 
 # Parameter seen is only used for recursive calls
-sub load {
-    my ($self, $file, $seen, $obj_ref, $base_symbol) = @_;
+sub parse {
+    my ($self, $fh, $file, $seen, $obj_ref, $base_symbol) = @_;
 
     sub new_symbol {
         my $base = shift || 'Dpkg::Shlibs::Symbol';
@@ -205,9 +207,7 @@ sub load {
         $$obj_ref = undef;
     }
 
-    open(my $sym_file, "<", $file)
-	|| syserr(_g("cannot open %s"), $file);
-    while (defined($_ = <$sym_file>)) {
+    while (defined($_ = <$fh>)) {
 	chomp($_);
 
 	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
@@ -255,7 +255,6 @@ sub load {
 	    warning(_g("Failed to parse a line in %s: %s"), $file, $_);
 	}
     }
-    close($sym_file);
     delete $seen->{$file};
 }
 
@@ -270,39 +269,30 @@ sub merge_object_from_symfile {
     }
 }
 
-sub save {
-    my ($self, $file, %opts) = @_;
-    $file = $self->{file} unless defined($file);
-    my $fh;
-    if ($file eq "-") {
-	$fh = \*STDOUT;
-    } else {
-	open($fh, ">", $file)
-	    || syserr(_g("cannot write %s"), $file);
-    }
-    $self->dump($fh, %opts);
-    close($fh) if ($file ne "-");
-}
-
-sub dump {
+sub output {
     my ($self, $fh, %opts) = @_;
     $opts{template_mode} = 0 unless exists $opts{template_mode};
     $opts{with_deprecated} = 1 unless exists $opts{with_deprecated};
     $opts{with_pattern_matches} = 0 unless exists $opts{with_pattern_matches};
+    my $res = "";
     foreach my $soname (sort $self->get_sonames()) {
 	my @deps = $self->get_dependencies($soname);
 	my $dep = shift @deps;
 	$dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
-	print $fh "$soname $dep\n";
+	print $fh "$soname $dep\n" if defined $fh;
+	$res .= "$soname $dep\n" if defined wantarray;
+
 	foreach $dep (@deps) {
 	    $dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
-	    print $fh "| $dep\n";
+	    print $fh "| $dep\n" if defined $fh;
+	    $res .= "| $dep\n" if defined wantarray;
 	}
 	my $f = $self->{objects}{$soname}{fields};
 	foreach my $field (sort keys %{$f}) {
 	    my $value = $f->{$field};
 	    $value =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
-	    print $fh "* $field: $value\n";
+	    print $fh "* $field: $value\n" if defined $fh;
+	    $res .= "* $field: $value\n" if defined wantarray;
 	}
 
 	my @symbols;
@@ -320,17 +310,20 @@ sub dump {
 	    next if not $opts{template_mode} and
 	            not $sym->arch_is_concerned($self->get_arch());
 	    # Dump symbol specification. Dump symbol tags only in template mode.
-	    print $fh $sym->get_symbolspec($opts{template_mode}), "\n";
+	    print $fh $sym->get_symbolspec($opts{template_mode}), "\n" if defined $fh;
+	    $res .= $sym->get_symbolspec($opts{template_mode}) . "\n" if defined wantarray;
 	    # Dump pattern matches as comments (if requested)
 	    if ($opts{with_pattern_matches} && $sym->is_pattern()) {
 		for my $match (sort { $a->get_symboltempl() cmp
 		                      $b->get_symboltempl() } $sym->get_pattern_matches())
 		{
-		    print $fh "#MATCH:", $match->get_symbolspec(0), "\n";
+		    print $fh "#MATCH:", $match->get_symbolspec(0), "\n" if defined $fh;
+		    $res .= "#MATCH:" . $match->get_symbolspec(0) . "\n" if defined wantarray;
 		}
 	    }
 	}
     }
+    return $res;
 }
 
 # Tries to match a symbol name and/or version against the patterns defined.
