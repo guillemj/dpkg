@@ -17,8 +17,11 @@ bin_SCRIPTS = \
 	dpkg-scansources \
 	dpkg-shlibdeps \
 	dpkg-source \
-	dpkg-vendor \
-	update-alternatives
+	dpkg-vendor
+
+if WITH_UPDATE_ALTERNATIVES
+bin_SCRIPTS += update-alternatives
+endif
 
 changelogdir = $(pkglibdir)/parsechangelog
 changelog_SCRIPTS = \
@@ -116,10 +119,12 @@ do_perl_subst = $(AM_V_GEN) \
 	$(do_perl_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
 
+if WITH_UPDATE_ALTERNATIVES
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives
 	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives
 	$(INSTALL_DATA) $(srcdir)/README.alternatives $(DESTDIR)$(sysconfdir)/alternatives/README
+endif
 
 # Ideally we'd use 'sed -i', but unfortunately that's not portable.
 install-data-hook:

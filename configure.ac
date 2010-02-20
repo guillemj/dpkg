@@ -40,6 +40,15 @@ else
    AC_DEFINE(WITH_START_STOP_DAEMON, 0)
 fi
 
+# Allow compilation without update-alternatives
+AC_ARG_WITH(update-alternatives,
+	AS_HELP_STRING([--without-update-alternatives],
+		       [do not build or use update-alternatives]),
+	[build_update_alternatives=$with_update_alternatives],
+	[build_update_alternatives=yes])
+AM_CONDITIONAL(WITH_UPDATE_ALTERNATIVES,
+	[test "x$build_update_alternatives" = "xyes"])
+
 # Allow alternate admin directory
 admindir="${localstatedir}/${PACKAGE_NAME}"
 AC_ARG_WITH(admindir,
