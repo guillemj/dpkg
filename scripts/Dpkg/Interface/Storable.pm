@@ -64,7 +64,8 @@ and it writes the same string to $fh (if it's defined).
 
 Initialize the object with the data stored in the file. The file can be
 compressed, it will be uncompressed on the fly by using a
-Dpkg::Compression::FileHandle object.
+Dpkg::Compression::FileHandle object. If $filename is "-", then the
+standard input is read (no compression is allowed in that case).
 
 =cut
 
@@ -73,10 +74,18 @@ sub load {
     unless ($self->can("parse")) {
 	internerr("%s cannot be loaded, it lacks the parse method", ref($self));
     }
-    my $cf = Dpkg::Compression::FileHandle->new();
-    open($cf, "<", $file) || syserr(_g("cannot read %s"), $file);
-    my $res = $self->parse($cf, $file, @options);
-    close($cf) || syserr(_g("cannot close %s"), $file);
+    my ($desc, $fh) = ($file, undef);
+    if ($file eq "-") {
+	$fh = \*STDIN;
+	$desc = _g("<standard input>");
+    } else {
+	$fh = Dpkg::Compression::FileHandle->new();
+	open($fh, "<", $file) || syserr(_g("cannot read %s"), $file);
+    }
+    my $res = $self->parse($fh, $desc, @options);
+    if ($file ne "-") {
+	close($fh) || syserr(_g("cannot close %s"), $file);
+    }
     return $res;
 }
 
@@ -84,7 +93,8 @@ sub load {
 
 Store the object in the file. If the filename ends with a known
 compression extension, it will be compressed on the fly by using a
-Dpkg::Compression::FileHandle object.
+Dpkg::Compression::FileHandle object. If $filename is "-", then the
+standard output is used (data are written uncompressed in that case).
 
 =cut
 
@@ -93,10 +103,17 @@ sub save {
     unless ($self->can("output")) {
 	internerr("%s cannot be saved, it lacks the output method", ref($self));
     }
-    my $cf = Dpkg::Compression::FileHandle->new();
-    open($cf, ">", $file) || syserr(_g("cannot write %s"), $file);
-    $self->output($cf, @options);
-    close($cf) || syserr(_g("cannot close %s"), $file);
+    my $fh;
+    if ($file eq "-") {
+	$fh = \*STDOUT;
+    } else {
+	$fh = Dpkg::Compression::FileHandle->new();
+	open($fh, ">", $file) || syserr(_g("cannot write %s"), $file);
+    }
+    $self->output($fh, @options);
+    if ($file ne "-") {
+	close($fh) || syserr(_g("cannot close %s"), $file);
+    }
 }
 
 =item "$obj"

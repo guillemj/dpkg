@@ -56,11 +56,7 @@ sub new {
     };
     bless $self, $class;
     if ($arg) {
-        if ($arg eq "-") {
-            $self->parse(\*STDIN, _g("<standard input>"));
-        } else {
-            $self->load($arg);
-        }
+	$self->load($arg);
     } else {
 	$self->load("debian/control");
     }
@@ -81,7 +77,8 @@ sub reset {
 
 =item $c->load($file)
 
-Load the content of $file. Exits in case of errors.
+Load the content of $file. Exits in case of errors. If file is "-", it
+loads from the standard input.
 
 =item $c->parse($fh, $description)
 
