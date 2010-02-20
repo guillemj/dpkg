@@ -118,6 +118,7 @@ do_perl_subst = $(AM_V_GEN) \
 
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives
+	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives
 	$(INSTALL_DATA) $(srcdir)/README.alternatives $(DESTDIR)$(sysconfdir)/alternatives/README
 
 # Ideally we'd use 'sed -i', but unfortunately that's not portable.

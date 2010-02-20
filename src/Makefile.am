@@ -74,6 +74,5 @@ dpkg_trigger_LDADD = \
 
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
-	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives
 	$(mkdir_p) $(DESTDIR)$(admindir)/info
 	$(mkdir_p) $(DESTDIR)$(admindir)/updates
