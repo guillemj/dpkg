@@ -57,7 +57,6 @@ static int conffoptcells[2][2] = {
 
 static void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
 static void showdiff(const char *old, const char *new);
-static void suspend(void);
 static enum conffopt promptconfaction(struct pkginfo *pkg, const char *cfgfile,
                                       const char *realold, const char *realnew,
                                       int useredited, int distedited,
@@ -516,44 +515,33 @@ showdiff(const char *old, const char *new)
 }
 
 /**
- * Suspend dpkg temporarily.
+ * Spawn a new shell.
  *
- * Either create a subprocess and execute a shell or background the current
- * process to allow the user to manually solve the conffile conflict.
+ * Create a subprocess and execute a shell to allow the user to manually
+ * solve the conffile conflict.
  */
 static void
-suspend(void)
+spawn_shell(void)
 {
-	const char *env;
 	pid_t pid;
 
-	env = getenv(NOJOBCTRLSTOPENV);
-	if (env && *env) {
-		/* Do not job control to suspend but fork and start a new
-		 * shell instead. */
+	fputs(_("Type `exit' when you're done.\n"), stderr);
 
-		fputs(_("Type `exit' when you're done.\n"), stderr);
+	pid = subproc_fork();
+	if (!pid) {
+		/* Child process */
+		const char *shell;
 
-		pid = subproc_fork();
-		if (!pid) {
-			/* Child process */
-			const char *shell;
+		shell = getenv(SHELLENV);
+		if (!shell || !*shell)
+			shell = DEFAULTSHELL;
 
-			shell = getenv(SHELLENV);
-			if (!shell || !*shell)
-				shell = DEFAULTSHELL;
-
-			execlp(shell, shell, "-i", NULL);
-			ohshite(_("failed to exec shell (%.250s)"), shell);
-		}
-
-		/* Parent process. */
-		subproc_wait(pid, "shell");
-	} else {
-		fputs(_("Don't forget to foreground (`fg') this "
-		        "process when you're done !\n"), stderr);
-		kill(-getpgid(0), SIGTSTP);
+		execlp(shell, shell, "-i", NULL);
+		ohshite(_("failed to exec shell (%.250s)"), shell);
 	}
+
+	/* Parent process. */
+	subproc_wait(pid, "shell");
 }
 
 /**
@@ -653,7 +641,7 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 		          "    Y or I  : install the package maintainer's version\n"
 		          "    N or O  : keep your currently-installed version\n"
 		          "      D     : show the differences between the versions\n"
-		          "      Z     : background this process to examine the situation\n"));
+		          "      Z     : start a shell to examine the situation\n"));
 
 		if (what & cfof_keep)
 			fprintf(stderr, _(" The default action is to keep your current version.\n"));
@@ -698,7 +686,7 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 			showdiff(realold, realnew);
 
 		if (cc == 'z')
-			suspend();
+			spawn_shell();
 	} while (!strchr("yino", cc));
 
 	log_message("conffile %s %s", cfgfile,
