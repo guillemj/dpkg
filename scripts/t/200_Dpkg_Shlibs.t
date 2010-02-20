@@ -52,7 +52,7 @@ my $obj = Dpkg::Shlibs::Objdump::Object->new;
 
 open my $objdump, '<', "$datadir/objdump.dbd-pg"
   or die "$datadir/objdump.dbd-pg: $!";
-$obj->_parse($objdump);
+$obj->parse_objdump_output($objdump);
 close $objdump;
 ok(!$obj->is_public_library(), 'Pg.so is not a public library');
 ok(!$obj->is_executable(), 'Pg.so is not an executable');
@@ -60,7 +60,7 @@ ok(!$obj->is_executable(), 'Pg.so is not an executable');
 open $objdump, '<', "$datadir/objdump.ls"
   or die "$datadir/objdump.ls: $!";
 $obj->reset();
-$obj->_parse($objdump);
+$obj->parse_objdump_output($objdump);
 close $objdump;
 ok(!$obj->is_public_library(), 'ls is not a public library');
 ok($obj->is_executable(), 'ls is an executable');
@@ -76,7 +76,7 @@ ok($sym, 'version less symbol separated by a single space are correctly parsed')
 open $objdump, '<', "$datadir/objdump.libc6-2.6"
   or die "$datadir/objdump.libc6-2.6: $!";
 $obj->reset();
-$obj->_parse($objdump);
+$obj->parse_objdump_output($objdump);
 close $objdump;
 
 ok($obj->is_public_library(), 'libc6 is a public library');
@@ -115,7 +115,7 @@ my $obj_old = Dpkg::Shlibs::Objdump::Object->new;
 
 open $objdump, '<', "$datadir/objdump.libc6-2.3"
   or die "$datadir/objdump.libc6-2.3: $!";
-$obj_old->_parse($objdump);
+$obj_old->parse_objdump_output($objdump);
 close $objdump;
 
 
@@ -239,7 +239,7 @@ $obj = Dpkg::Shlibs::Objdump::Object->new;
 
 open $objdump, '<', "$datadir/objdump.glib-ia64"
   or die "$datadir/objdump.glib-ia64: $!";
-$obj->_parse($objdump);
+$obj->parse_objdump_output($objdump);
 close $objdump;
 
 $sym = $obj->get_symbol('IA__g_free');
@@ -292,7 +292,7 @@ ok (defined $sym_file->{objects}{'libbasictags.so.1'}{syms}{'symbol21_amd64@Base
 my $tags_obj_i386 = Dpkg::Shlibs::Objdump::Object->new();
 open $objdump, '<', "$tmpdir/objdump.basictags-i386"
     or die "$tmpdir/objdump.basictags-i386: $!";
-$tags_obj_i386->_parse($objdump);
+$tags_obj_i386->parse_objdump_output($objdump);
 close $objdump;
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 is_deeply($sym_file, $sym_file_dup, "is objdump.basictags-i386 and basictags.symbols in sync");
@@ -300,7 +300,7 @@ is_deeply($sym_file, $sym_file_dup, "is objdump.basictags-i386 and basictags.sym
 my $tags_obj_amd64 = Dpkg::Shlibs::Objdump::Object->new();
 open $objdump, '<', "$tmpdir/objdump.basictags-amd64"
     or die "$tmpdir/objdump.basictags-amd64: $!";
-$tags_obj_amd64->_parse($objdump);
+$tags_obj_amd64->parse_objdump_output($objdump);
 close $objdump;
 
 # Merge/get_{new,lost} tests for optional tag:
@@ -399,7 +399,7 @@ sub load_patterns_obj {
     $obj = Dpkg::Shlibs::Objdump::Object->new();
     open $objdump, '<', "$tmpdir/objdump.patterns"
 	or die "$tmpdir/objdump.patterns: $!";
-    $obj->_parse($objdump);
+    $obj->parse_objdump_output($objdump);
     close $objdump;
     return $obj;
 }

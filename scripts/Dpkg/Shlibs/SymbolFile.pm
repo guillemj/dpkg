@@ -151,8 +151,8 @@ sub create_symbol {
     my $symbol = (exists $opts{base}) ? $opts{base} :
 	Dpkg::Shlibs::Symbol->new();
 
-    my $ret = ($opts{dummy}) ? $symbol->parse($spec, default_minver => 0) :
-	$symbol->parse($spec);
+    my $ret = $opts{dummy} ? $symbol->parse_symbolspec($spec, default_minver => 0) :
+	$symbol->parse_symbolspec($spec);
     if ($ret) {
 	$symbol->initialize(arch => $self->get_arch());
 	return $symbol;

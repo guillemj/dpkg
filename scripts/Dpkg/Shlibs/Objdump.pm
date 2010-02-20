@@ -38,7 +38,7 @@ sub add_object {
     return $id;
 }
 
-sub parse {
+sub analyze {
     my ($self, $file) = @_;
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
 
@@ -117,7 +117,7 @@ sub new {
 
     $self->reset;
     if ($file) {
-	$self->_read($file);
+	$self->analyze($file);
     }
 
     return $self;
@@ -142,7 +142,7 @@ sub reset {
 }
 
 
-sub _read {
+sub analyze {
     my ($self, $file) = @_;
 
     $file ||= $self->{file};
@@ -154,12 +154,12 @@ sub _read {
     local $ENV{LC_ALL} = 'C';
     open(my $objdump, "-|", "objdump", "-w", "-f", "-p", "-T", "-R", $file)
 	|| syserr(_g("cannot fork for %s"), "objdump");
-    my $ret = $self->_parse($objdump);
+    my $ret = $self->parse_objdump_output($objdump);
     close($objdump);
     return $ret;
 }
 
-sub _parse {
+sub parse_objdump_output {
     my ($self, $fh) = @_;
 
     my $section = "none";

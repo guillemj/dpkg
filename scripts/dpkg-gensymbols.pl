@@ -204,7 +204,7 @@ if (not scalar @files) {
 my $od = Dpkg::Shlibs::Objdump->new();
 foreach my $file (@files) {
     print "Scanning $file for symbol information\n" if $debug;
-    my $objid = $od->parse($file);
+    my $objid = $od->analyze($file);
     unless (defined($objid) && $objid) {
 	warning(_g("Objdump couldn't parse %s\n"), $file);
 	next;

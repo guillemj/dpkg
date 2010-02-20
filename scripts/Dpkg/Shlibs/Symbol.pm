@@ -81,7 +81,7 @@ sub parse_tagspec {
     return undef;
 }
 
-sub parse {
+sub parse_symbolspec {
     my ($self, $symbolspec, %opts) = @_;
     my $symbol;
     my $symbol_templ;
