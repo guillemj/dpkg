@@ -30,3 +30,6 @@ dpkg_install_info_LDADD = \
 
 transform = s/dpkg-install-info/install-info/; $(program_transform_name)
 
+uninstall-local:
+	rm -f $(DESTDIR)$(sbindir)/install-info
+

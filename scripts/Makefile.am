@@ -131,7 +131,6 @@ install-data-hook:
 
 uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
-	rm -f $(DESTDIR)$(sbindir)/install-info
 
 TEST_VERBOSE= 0
 
