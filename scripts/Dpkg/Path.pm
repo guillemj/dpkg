@@ -192,7 +192,7 @@ sub resolve_symlink($) {
 
 =head1 AUTHOR
 
-Raphael Hertzog <hertzog@debian.org>.
+Raphaël Hertzog <hertzog@debian.org>.
 
 =cut
 

@@ -175,7 +175,7 @@ dpkg (1.15.5.6) unstable; urgency=low
     STDERR when the requested format is discarded. Closes: #560391
   * Add ${misc:Depends} in all Depends fields.
 
- -- Raphael Hertzog <hertzog@debian.org>  Fri, 08 Jan 2010 17:57:43 +0100
+ -- Raphaël Hertzog <hertzog@debian.org>  Fri, 08 Jan 2010 17:57:43 +0100
 
 dpkg (1.15.5.5) unstable; urgency=low
 
@@ -201,11 +201,11 @@ dpkg (1.15.5.4) unstable; urgency=low
     Debian patch in format "3.0 (quilt)".
   * Fix Debian changelog parser so that the trailer line is again checked.
 
- -- Raphael Hertzog <hertzog@debian.org>  Mon, 07 Dec 2009 09:24:31 +0100
+ -- Raphaël Hertzog <hertzog@debian.org>  Mon, 07 Dec 2009 09:24:31 +0100
 
 dpkg (1.15.5.3) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Avoid usage of IO::String in dpkg-scanpackages, rely on Dpkg::IPC
     instead to directly get a pipe file descriptor. Closes: #557013
   * Put "3.0 (quilt)" in the default list of formats tried by dpkg-source
@@ -243,7 +243,7 @@ dpkg (1.15.5.2) unstable; urgency=low
     contain the empty version string. Closes: #556786
   * Keep compatibility with perl 5.8 by avoiding the _ prototype.
 
- -- Raphael Hertzog <hertzog@debian.org>  Wed, 18 Nov 2009 11:54:50 +0100
+ -- Raphaël Hertzog <hertzog@debian.org>  Wed, 18 Nov 2009 11:54:50 +0100
 
 dpkg (1.15.5.1) unstable; urgency=low
 
@@ -439,7 +439,7 @@ dpkg (1.15.4) unstable; urgency=low
   * Add Multi-Arch to the list of known binary package fields for dpkg-dev.
     Thanks to Steve Langasek <vorlon@debian.org>.
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Replace install-info by a wrapper around GNU's install-info. The wrapper
     will be dropped in squeeze+1. dpkg now Breaks: old versions of
     info-browsers that do not depend on the new install-info package
@@ -540,7 +540,7 @@ dpkg (1.15.3) unstable; urgency=low
   * Explicitly pass field argument to Dpkg::ErrorHandling::unknown().
   * Move unknown() from Dpkg::ErrorHandling to Dpkg::Fields.
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Unset TAR_OPTIONS when creating/extracting tar archives for source
     packages. Closes: #530860
   * Add cleanup of all invalid (master) alternatives in preinst script.
@@ -632,7 +632,7 @@ dpkg (1.15.2) unstable; urgency=low
 
 dpkg (1.15.1) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Fix dpkg-genchanges to not include the additional upstream tarballs
     when they are not desired (specific to source packages using format 3.0
     quilt).
@@ -879,7 +879,7 @@ dpkg (1.15.0) experimental; urgency=low
     - Rename function and variable names to make them more clear.
     - Cleanup and split of header files.
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Enhance dpkg-shlibdeps's error message when a library can't be found to
     include the ELF format of the desired library. Closes: #474671
   * dpkg-gensymbols now refuses empty values for the the -v -P and -e
@@ -1019,7 +1019,7 @@ dpkg (1.14.25) unstable; urgency=low
      .dpkg-new and .dpkg-tmp directories for an existing directory do not
       exist. Closes: #80416
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * dpkg-deb now always produces GNU tarballs inside .deb and ignores
     TAR_OPTIONS. Closes: #513863
 
@@ -1041,7 +1041,7 @@ dpkg (1.14.25) unstable; urgency=low
 
 dpkg (1.14.24) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Fix parsing of objdump output (by dpkg-shlibdeps) in a special case where
     the symbol name is separated only with a single space. Closes: #506139
   * Fix dpkg-shlibdeps behaviour when Build-Depends-Package is used in the
@@ -1070,7 +1070,7 @@ dpkg (1.14.24) unstable; urgency=low
 
 dpkg (1.14.23) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Blacklist "__gnu_local_gp" symbol for dpkg-gensymbols. Closes: #500188
     Thanks to Thiemo Seufer <ths@debian.org>.
   * Important bugfix in dpkg-gensymbols for people using includes in symbol
@@ -1116,7 +1116,7 @@ dpkg (1.14.23) unstable; urgency=low
 
 dpkg (1.14.22) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * The last "small fix" actually broke conversion of source packages to
     "3.0 (quilt)" format when they have local changes and no pre-existing
     quilt series file. Now always provide a valid name in QUILT_SERIES.
@@ -1143,11 +1143,11 @@ dpkg (1.14.22) unstable; urgency=low
   [ Updated scripts translations ]
   * Swedish (Peter Krefting).
 
- -- Raphael Hertzog <hertzog@debian.org>  Fri, 05 Sep 2008 16:54:45 +0200
+ -- Raphaël Hertzog <hertzog@debian.org>  Fri, 05 Sep 2008 16:54:45 +0200
 
 dpkg (1.14.21) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Small fix in "3.0 (quilt)" source format when using non-standard name
     of the quilt series.
   * Handle debian.tar.gz files like diff.gz in dpkg-buildpackage and
@@ -1216,7 +1216,7 @@ dpkg (1.14.20) unstable; urgency=low
     to remove bogus diversions. Closes: #476973, #469033
   * Properly close triggers 'File' file, so it does not get leaked to childs.
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Add missing 'use File::Path' in Dpkg::Source::Package::V3::quilt.
   * Use debian/patches/debian-changes-<version> (without the trailing ".diff")
     as default name for the automatic patch created by the format "3.0
@@ -1265,7 +1265,7 @@ dpkg (1.14.20) unstable; urgency=low
   * Brazilian Portuguese (Felipe Augusto van de Wiel).
   * Polish (Wiktor Wandachowicz).
 
- -- Raphael Hertzog <hertzog@debian.org>  Wed, 18 Jun 2008 09:33:54 +0200
+ -- Raphaël Hertzog <hertzog@debian.org>  Wed, 18 Jun 2008 09:33:54 +0200
 
 dpkg (1.14.19) unstable; urgency=low
 
@@ -1277,7 +1277,7 @@ dpkg (1.14.19) unstable; urgency=low
   * Consider also custom Package-Type fields when printing warnings in
     dpkg-gencontrol. Closes: #452273
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Add missing import of subprocerr in Dpkg::Source::Package. Thanks to Sven
     Joachim for the patch.
   * Handle symlinks better when deciding if dpkg-source has to copy the
@@ -1358,7 +1358,7 @@ dpkg (1.14.18) unstable; urgency=low
   * Add deb-triggers.5 and dpkg-trigger.1 man pages, and document new
     statuses and options in dpkg.1.
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * When dpkg-source builds a source package of Format: 2.0 or 3.0 (quilt) it
     applies the patches before the build if
     debian/patches/.dpkg-source-applied doesn't exist. This file is created
@@ -1413,7 +1413,7 @@ dpkg (1.14.17) experimental; urgency=low
   * Cosmetic fixes to start-stop-daemon output and man page. Document that
     --chuid will change the group even if it has not been specified. Add
     EXIT STATUS and EXAMPLE sections to man page. Thanks to Justin Pryzby.
-  * Add Raphael Hertzog to Uploaders, and remove Brendan O'Dea and
+  * Add Raphaël Hertzog to Uploaders, and remove Brendan O'Dea and
     Christian Perrier with their permission.
   * Use functions from libcompat when those are not provided by the system.
     - Add strnlen to libcompat.
@@ -1443,7 +1443,7 @@ dpkg (1.14.17) experimental; urgency=low
   * Implement triggers support. Thanks to Ian Jackson.
     Closes: #17243, #68981, #215374, #217622, #248693, #308285
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Add a warning displayed by dpkg-genchanges if the current version is
     smaller than the previous one. Closes: #4655
   * Add -d and -c options in dpkg-checkbuilddeps to override
@@ -1582,7 +1582,7 @@ dpkg (1.14.16.6) unstable; urgency=medium
   * Bump urgency to medium to compensate lost days in testing migration due to
     the two last uploads.
 
- -- Raphael Hertzog <hertzog@debian.org>  Sat, 26 Jan 2008 19:20:40 +0100
+ -- Raphaël Hertzog <hertzog@debian.org>  Sat, 26 Jan 2008 19:20:40 +0100
 
 dpkg (1.14.16.5) unstable; urgency=low
 
@@ -1591,7 +1591,7 @@ dpkg (1.14.16.5) unstable; urgency=low
   * Add many armel-specific symbols to dpkg-gensymbols' blacklist.
     Closes: #462318
 
- -- Raphael Hertzog <hertzog@debian.org>  Thu, 24 Jan 2008 14:20:10 +0100
+ -- Raphaël Hertzog <hertzog@debian.org>  Thu, 24 Jan 2008 14:20:10 +0100
 
 dpkg (1.14.16.4) unstable; urgency=low
 
@@ -1601,7 +1601,7 @@ dpkg (1.14.16.4) unstable; urgency=low
 
 dpkg (1.14.16.3) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Remove the ":utf8" layer that utf8-encodes already valid utf8.
     Closes: #462098
   * Disable variable substitution in dpkg-genchanges. Closes: #462079, #462089
@@ -1677,7 +1677,7 @@ dpkg (1.14.16) unstable; urgency=low
      - Various options to better control how many entries
        should be displayed. Closes: #226932
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Replaced all the remaining code in controllib.pl by new modules. All
     scripts have been adjusted to use the new modules and controllib.pl has
     been removed.
@@ -1726,7 +1726,7 @@ dpkg (1.14.16) unstable; urgency=low
 
 dpkg (1.14.15) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Make sure {dpkg-dev,dselect}.preinst are included in the source tarball.
     Closes: #452730
   * Blacklist armel-specific symbols in dpkg-gensymbols. Reported by Riku
@@ -1801,7 +1801,7 @@ dpkg (1.14.14) unstable; urgency=low
   * Make dpkg-dev depend on dpkg (>= 1.14.13) as the latest Dpkg.pm is needed
     for dpkg-source.
 
- -- Raphael Hertzog <hertzog@debian.org>  Thu, 27 Dec 2007 11:20:38 +0100
+ -- Raphaël Hertzog <hertzog@debian.org>  Thu, 27 Dec 2007 11:20:38 +0100
 
 dpkg (1.14.13) unstable; urgency=low
 
@@ -1822,7 +1822,7 @@ dpkg (1.14.13) unstable; urgency=low
     Closes: #109794, #200454
   * Bump Standards-Version to 3.7.3 (no changes)
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * When dpkg-shlibdeps finds a lib in a directory which is just a symlink to
     another directory that is also considered, remember the other directory
     name as the canonical one. Closes: #453885
@@ -1873,7 +1873,7 @@ dpkg (1.14.13) unstable; urgency=low
 
 dpkg (1.14.12) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Add -I<file> option to dpkg-gensymbols to force the usage of a specific
     symbols file.
   * Dpkg::Shlibs::find_library() now returns canonicalized paths.
@@ -1898,7 +1898,7 @@ dpkg (1.14.12) unstable; urgency=low
 
 dpkg (1.14.11) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * dpkg-shlibdeps now ignores the lack of dependency information in some
     specific cases (instead of failing):
     - when the library is in the same package than the binary analyzed
@@ -1916,7 +1916,7 @@ dpkg (1.14.11) unstable; urgency=low
 
 dpkg (1.14.10) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * dpkg-shlibdeps now correctly identify private libraries (avoid many
     warnings with perl/python modules). Closes: #452338
   * Move capit() to a Dpkg::Fields module and use it in dpkg-shlibdeps.
@@ -1946,7 +1946,7 @@ dpkg (1.14.10) unstable; urgency=low
 
 dpkg (1.14.9) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Fix bad behaviour of Dpkg::Path::get_pkg_root_dir() and adjust
     dpkg-shlibdeps accordingly. Closes: #452012
   * Fix Dpkg::Deps to accept empty fields. Closes: #452013
@@ -1958,7 +1958,7 @@ dpkg (1.14.9) unstable; urgency=low
 
 dpkg (1.14.8) unstable; urgency=low
 
-  [ Raphael Hertzog ]
+  [ Raphaël Hertzog ]
   * Heavy rework of dpkg-shlibdeps:
     - Support "symbols" files to generate finer-grained dependencies.
       Those files can be created by the new dpkg-gensymbols command.
@@ -5241,7 +5241,7 @@ dpkg (1.4.1.8) unstable; urgency=low
 
   * Non-maintainer release.
   * Merge dpkg-doc-ja
-  * Add patch from Raphael Hertzog <rhertzog@hrnet.fr> for dpkg-scansources
+  * Add patch from Raphaël Hertzog <rhertzog@hrnet.fr> for dpkg-scansources
     to skip comments in signatures. This allows packages to also use GnuPG.
 
  -- Wichert Akkerman <wakkerma@debian.org>  Mon, 13 Sep 1999 04:16:33 +0200

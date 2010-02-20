@@ -685,7 +685,7 @@ with only one of the options specified.
 =head1 AUTHOR
 
 Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>
-Raphael Hertzog, E<lt>hertzog@debian.orgE<gt>
+Raphaël Hertzog, E<lt>hertzog@debian.orgE<gt>
 
 =cut
 1;

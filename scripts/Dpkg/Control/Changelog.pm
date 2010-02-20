@@ -53,7 +53,7 @@ sub new {
 
 =head1 AUTHOR
 
-Raphael Hertzog <hertzog@debian.org>.
+Raphaël Hertzog <hertzog@debian.org>.
 
 =cut
 

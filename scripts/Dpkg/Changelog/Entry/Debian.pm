@@ -65,7 +65,7 @@ our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}
 
 Return a list of change items. Each item contains at least one line.
 A change line starting with an asterisk denotes the start of a new item.
-Any change line like "[ Raphael Hertzog ]" is treated like an item of its
+Any change line like "[ Raphaël Hertzog ]" is treated like an item of its
 own even if it starts a set of items attributed to this person (the
 following line necessarily starts a new item).
 

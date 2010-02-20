@@ -187,7 +187,7 @@ Changes:
    [ Frank Lichtenheld ]
    * Upload to unstable (Closes: #1111111, #2222222)
  .
-   [ Raphael Hertzog ]
+   [ Raphaël Hertzog ]
    * New upstream release.
      - implements a
      - implements b
@@ -219,7 +219,7 @@ Changes:
    [ Frank Lichtenheld ]
    * Upload to unstable (Closes: #1111111, #2222222)
  .
-   [ Raphael Hertzog ]
+   [ Raphaël Hertzog ]
    * New upstream release.
      - implements a
      - implements b
