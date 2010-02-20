@@ -18,6 +18,8 @@ package Dpkg::Vendor::Debian;
 use strict;
 use warnings;
 
+our $VERSION = "0.01";
+
 use base qw(Dpkg::Vendor::Default);
 use Dpkg::Control::Types;
 use Dpkg::Vendor::Ubuntu;

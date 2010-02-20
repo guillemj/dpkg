@@ -18,6 +18,9 @@ package Dpkg::Shlibs::SymbolFile;
 
 use strict;
 use warnings;
+
+our $VERSION = "0.01";
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Version;

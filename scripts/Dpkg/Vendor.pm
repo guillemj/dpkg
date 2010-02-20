@@ -18,6 +18,8 @@ package Dpkg::Vendor;
 use strict;
 use warnings;
 
+our $VERSION = "0.01";
+
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Control::Hash;

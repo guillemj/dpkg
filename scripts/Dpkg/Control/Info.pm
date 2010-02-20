@@ -18,6 +18,8 @@ package Dpkg::Control::Info;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Dpkg::Control;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;

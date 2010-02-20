@@ -41,6 +41,8 @@ package Dpkg::Changelog::Debian;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Dpkg::Gettext;
 use Dpkg::Changelog qw(:util);
 use base qw(Dpkg::Changelog);

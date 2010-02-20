@@ -18,6 +18,8 @@ package Dpkg::Source::Package::V3::quilt;
 use strict;
 use warnings;
 
+our $VERSION = "0.01";
+
 # Based on wig&pen implementation
 use base 'Dpkg::Source::Package::V2';
 

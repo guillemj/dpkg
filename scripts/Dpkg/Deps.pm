@@ -46,6 +46,8 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::ErrorHandling;

@@ -18,6 +18,8 @@ package Dpkg::Vendor::Default;
 use strict;
 use warnings;
 
+our $VERSION = "0.01";
+
 # If you use this file as template to create a new vendor object, please
 # uncomment the following lines
 #use base qw(Dpkg::Vendor::Default);

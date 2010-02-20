@@ -18,6 +18,8 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Dpkg qw($version);
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::ErrorHandling;

@@ -18,6 +18,8 @@ package Dpkg::Path;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use base qw(Exporter);
 use File::Spec;
 use Cwd qw(realpath);

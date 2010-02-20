@@ -21,6 +21,8 @@ package Dpkg::Vendor::Ubuntu;
 use strict;
 use warnings;
 
+our $VERSION = "0.01";
+
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Control::Types;

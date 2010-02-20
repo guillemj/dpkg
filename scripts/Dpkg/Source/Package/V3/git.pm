@@ -22,6 +22,8 @@ package Dpkg::Source::Package::V3::git;
 use strict;
 use warnings;
 
+our $VERSION = "0.01";
+
 use base 'Dpkg::Source::Package';
 
 use Cwd;

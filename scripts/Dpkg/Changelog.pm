@@ -34,6 +34,8 @@ package Dpkg::Changelog;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);

@@ -18,6 +18,8 @@ package Dpkg::Control::Changelog;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Dpkg::Control;
 use base 'Dpkg::Control';
 

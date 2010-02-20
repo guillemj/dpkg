@@ -24,6 +24,8 @@ package Dpkg::Source::Package::V3::bzr;
 use strict;
 use warnings;
 
+our $VERSION = "0.01";
+
 use base 'Dpkg::Source::Package';
 
 use Cwd;

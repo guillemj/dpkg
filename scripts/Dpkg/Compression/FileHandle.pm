@@ -18,6 +18,8 @@ package Dpkg::Compression::FileHandle;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Dpkg::Compression;
 use Dpkg::Compression::Process;
 use Dpkg::Gettext;

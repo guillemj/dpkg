@@ -16,6 +16,8 @@ package Dpkg;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 # This module is the only one provided by dpkg and not dpkg-dev
 #
 # Don't add things here if you don't need them in dpkg itself.

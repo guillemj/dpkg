@@ -18,6 +18,8 @@ package Dpkg::Changelog::Entry::Debian;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Exporter;
 use Dpkg::Changelog::Entry;
 use base qw(Exporter Dpkg::Changelog::Entry);

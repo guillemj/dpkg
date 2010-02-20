@@ -18,6 +18,8 @@ package Dpkg::Control::Hash;
 use strict;
 use warnings;
 
+our $VERSION = "1.00";
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
