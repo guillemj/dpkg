@@ -10,12 +10,12 @@ AM_CPPFLAGS = \
 sbin_PROGRAMS =
 
 if WITH_START_STOP_DAEMON
-  sbin_PROGRAMS += start-stop-daemon
+sbin_PROGRAMS += start-stop-daemon
 
-  start_stop_daemon_SOURCES = \
+start_stop_daemon_SOURCES = \
 	start-stop-daemon.c
 
-  start_stop_daemon_LDADD = \
+start_stop_daemon_LDADD = \
 	../lib/compat/libcompat.a \
 	$(SSD_LIBS)
 endif
