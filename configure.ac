@@ -49,6 +49,15 @@ AC_ARG_WITH(update-alternatives,
 AM_CONDITIONAL(WITH_UPDATE_ALTERNATIVES,
 	[test "x$build_update_alternatives" = "xyes"])
 
+# Allow compilation without install-info
+AC_ARG_WITH(install-info,
+	AS_HELP_STRING([--without-install-info],
+		       [do not build or use install-info]),
+	[build_install_info=$with_install_info],
+	[build_install_info=yes])
+AM_CONDITIONAL(WITH_INSTALL_INFO,
+	[test "x$build_install_info" = "xyes"])
+
 # Allow alternate admin directory
 admindir="${localstatedir}/${PACKAGE_NAME}"
 AC_ARG_WITH(admindir,
