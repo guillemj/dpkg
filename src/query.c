@@ -43,6 +43,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-array.h>
+#include <dpkg/pkg-format.h>
 #include <dpkg/path.h>
 #include <dpkg/myopt.h>
 

@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * showpkg.c - customizable package listing
+ * pkg-format.c - customizable package formatting
  *
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  *
@@ -29,6 +29,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/parsedump.h>
+#include <dpkg/pkg-format.h>
 
 typedef enum {
 	invalid,

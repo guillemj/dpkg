@@ -45,9 +45,9 @@ libdpkg_a_SOURCES = \
 	path.c path.h \
 	pkg.c pkg.h \
 	pkg-array.c pkg-array.h \
+	pkg-format.c pkg-format.h \
 	pkg-list.c pkg-list.h \
 	progress.c progress.h \
-	showpkg.c \
 	string.c string.h \
 	subproc.c subproc.h \
 	tarfn.c tarfn.h \
