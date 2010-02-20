@@ -244,7 +244,7 @@ static void info_field(const char *debar, const char *directory,
 void do_showinfo(const char* const* argv) {
   const char *debar, *directory;
   struct pkginfo *pkg;
-  struct lstitem* fmt = parseformat(showformat);
+  struct pkg_format_node *fmt = pkg_format_parse(showformat);
 
   if (!fmt)
     ohshit(_("Error in format"));
@@ -252,7 +252,7 @@ void do_showinfo(const char* const* argv) {
   info_prepare(&argv,&debar,&directory,1);
 
   parsedb(CONTROLFILE, pdb_ignorefiles, &pkg, NULL, NULL);
-  show1package(fmt, pkg, &pkg->installed);
+  pkg_format_show(fmt, pkg, &pkg->installed);
 }
 
 

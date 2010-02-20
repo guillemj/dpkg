@@ -383,8 +383,8 @@ void enqperpackage(const char *const *argv) {
 void showpackages(const char *const *argv) {
   struct pkg_array array;
   struct pkginfo *pkg;
+  struct pkg_format_node *fmt = pkg_format_parse(showformat);
   int i;
-  struct lstitem* fmt = parseformat(showformat);
 
   if (!fmt) {
     failures++;
@@ -400,7 +400,7 @@ void showpackages(const char *const *argv) {
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       if (pkg->status == stat_notinstalled) continue;
-      show1package(fmt, pkg, &pkg->installed);
+      pkg_format_show(fmt, pkg, &pkg->installed);
     }
   } else {
     int argc, ip, *found;
@@ -413,7 +413,7 @@ void showpackages(const char *const *argv) {
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
         if (!fnmatch(argv[ip], pkg->name, 0)) {
-          show1package(fmt, pkg, &pkg->installed);
+          pkg_format_show(fmt, pkg, &pkg->installed);
           found[ip]++;
           break;
         }
@@ -434,7 +434,7 @@ void showpackages(const char *const *argv) {
   m_output(stderr, _("<standard error>"));
 
   pkg_array_destroy(&array);
-  freeformat(fmt);
+  pkg_format_free(fmt);
   modstatdb_shutdown();
 }
 

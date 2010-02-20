@@ -26,12 +26,12 @@
 
 DPKG_BEGIN_DECLS
 
-struct lstitem;
+struct pkg_format_node;
 
-struct lstitem *parseformat(const char *fmt);
-void freeformat(struct lstitem *head);
-void show1package(const struct lstitem *head,
-                  struct pkginfo *pkg, struct pkginfoperfile *pif);
+struct pkg_format_node *pkg_format_parse(const char *fmt);
+void pkg_format_free(struct pkg_format_node *head);
+void pkg_format_show(const struct pkg_format_node *head,
+                     struct pkginfo *pkg, struct pkginfoperfile *pif);
 
 DPKG_END_DECLS
 

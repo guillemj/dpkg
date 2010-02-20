@@ -31,27 +31,27 @@
 #include <dpkg/parsedump.h>
 #include <dpkg/pkg-format.h>
 
-typedef enum {
+enum pkg_format_type {
 	invalid,
 	string,
 	field,
-} itemtype_t;
+};
 
-struct lstitem {
-	itemtype_t type;
+struct pkg_format_node {
+	struct pkg_format_node *next;
+	enum pkg_format_type type;
 	size_t width;
 	int pad;
 	char *data;
-	struct lstitem *next;
 };
 
 
-static struct lstitem *
-alloclstitem(void)
+static struct pkg_format_node *
+pkg_format_node_new(void)
 {
-	struct lstitem *buf;
+	struct pkg_format_node *buf;
 
-	buf = m_malloc(sizeof(struct lstitem));
+	buf = m_malloc(sizeof(*buf));
 	buf->type = invalid;
 	buf->next = NULL;
 	buf->data = NULL;
@@ -62,7 +62,7 @@ alloclstitem(void)
 }
 
 static int
-parsefield(struct lstitem *cur, const char *fmt, const char *fmtend)
+parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 {
 	int len;
 	const char *ws;
@@ -100,7 +100,7 @@ parsefield(struct lstitem *cur, const char *fmt, const char *fmtend)
 }
 
 static int
-parsestring(struct lstitem *cur, const char *fmt, const char *fmtend)
+parsestring(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 {
 	int len;
 	char *write;
@@ -138,9 +138,9 @@ parsestring(struct lstitem *cur, const char *fmt, const char *fmtend)
 }
 
 void
-freeformat(struct lstitem *head)
+pkg_format_free(struct pkg_format_node *head)
 {
-	struct lstitem *next;
+	struct pkg_format_node *next;
 
 	while (head) {
 		next = head->next;
@@ -150,32 +150,32 @@ freeformat(struct lstitem *head)
 	}
 }
 
-struct lstitem *
-parseformat(const char *fmt)
+struct pkg_format_node *
+pkg_format_parse(const char *fmt)
 {
-	struct lstitem *head;
-	struct lstitem *cur;
+	struct pkg_format_node *head;
+	struct pkg_format_node *cur;
 	const char *fmtend;
 
 	head = cur = NULL;
 
 	while (*fmt) {
 		if (cur)
-			cur = cur->next = alloclstitem();
+			cur = cur->next = pkg_format_node_new();
 		else
-			head = cur = alloclstitem();
+			head = cur = pkg_format_node_new();
 
 		if (fmt[0] == '$' && fmt[1] == '{') {
 			fmtend = strchr(fmt, '}');
 			if (!fmtend) {
 				fprintf(stderr,
 				      _("Closing brace missing in format\n"));
-				freeformat(head);
+				pkg_format_free(head);
 				return NULL;
 			}
 
 			if (!parsefield(cur, fmt + 2, fmtend - 1)) {
-				freeformat(head);
+				pkg_format_free(head);
 				return NULL;
 			}
 			fmt = fmtend + 1;
@@ -190,7 +190,7 @@ parseformat(const char *fmt)
 				fmtend = fmt + strlen(fmt);
 
 			if (!parsestring(cur, fmt, fmtend - 1)) {
-				freeformat(head);
+				pkg_format_free(head);
 				return NULL;
 			}
 			fmt = fmtend;
@@ -201,8 +201,8 @@ parseformat(const char *fmt)
 }
 
 void
-show1package(const struct lstitem *head,
-             struct pkginfo *pkg, struct pkginfoperfile *pif)
+pkg_format_show(const struct pkg_format_node *head,
+                struct pkginfo *pkg, struct pkginfoperfile *pif)
 {
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
