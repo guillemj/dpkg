@@ -519,9 +519,12 @@ showdiff(const char *old, const char *new)
  *
  * Create a subprocess and execute a shell to allow the user to manually
  * solve the conffile conflict.
+ *
+ * @param confold The path to the old conffile.
+ * @param confnew The path to the new conffile.
  */
 static void
-spawn_shell(void)
+spawn_shell(const char *confold, const char *confnew)
 {
 	pid_t pid;
 
@@ -535,6 +538,11 @@ spawn_shell(void)
 		shell = getenv(SHELLENV);
 		if (!shell || !*shell)
 			shell = DEFAULTSHELL;
+
+		/* Set useful variables for the user. */
+		setenv("DPKG_SHELL_REASON", "conffile-prompt", 1);
+		setenv("DPKG_CONFFILE_OLD", confold, 1);
+		setenv("DPKG_CONFFILE_NEW", confnew, 1);
 
 		execlp(shell, shell, "-i", NULL);
 		ohshite(_("failed to exec shell (%.250s)"), shell);
@@ -686,7 +694,7 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 			showdiff(realold, realnew);
 
 		if (cc == 'z')
-			spawn_shell();
+			spawn_shell(realold, realnew);
 	} while (!strchr("yino", cc));
 
 	log_message("conffile %s %s", cfgfile,
