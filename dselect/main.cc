@@ -259,11 +259,11 @@ extern "C" {
    *            --color selstate::reverse  // doesn't work FIXME
    */
   static void setcolor(const struct cmdinfo*, const char *string) {
-    char *s= (char *) malloc((strlen(string) + 1) * sizeof(char));
+    char *s;
     char *colours, *attributes, *attrib, *colourname;
     int screenpart, aval;
 
-    strcpy(s, string); // strtok modifies strings, keep string const
+    s = m_strdup(string); // strtok modifies strings, keep string const
     screenpart= findintable(screenparttable, strtok(s, ":"), _("screen part"));
     colours= strtok(NULL, ":");
     attributes= strtok(NULL, ":");
