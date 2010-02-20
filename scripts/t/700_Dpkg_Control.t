@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 9;
+use Test::More tests => 11;
 
 use strict;
 use warnings;
@@ -55,6 +55,7 @@ Description: short one
 is($value, $expected, "Dump of $datadir/control-1");
 
 my $src = $c->get_source();
+is($src, $c->[0], "array representation of Dpkg::Control::Info 1/2");
 is($src->{'my-field-one'}, 'myvalue1', "Access field through badly capitalized field name");
 is($src->{'long-field'}, 
 'line1
@@ -66,6 +67,7 @@ line 4', "Get multi-line field");
 is($src->{'Empty-field'}, "", "Get empty field");
 
 my $pkg = $c->get_pkg_by_idx(1);
+is($pkg, $c->[1], "array representation of Dpkg::Control::Info 2/2");
 is($pkg->{package}, 'mypackage1', 'Name of first package');
 
 $pkg = $c->get_pkg_by_name("mypackage3");

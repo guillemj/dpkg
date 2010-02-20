@@ -1,4 +1,4 @@
-# Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,6 +23,9 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use base qw(Dpkg::Interface::Storable);
+
+use overload
+    '@{}' => sub { return [ $_[0]->{source}, @{$_[0]->{packages}} ] };
 
 =head1 NAME
 
@@ -108,6 +111,7 @@ sub parse {
     }
 }
 
+=item $c->[0]
 =item $c->get_source()
 
 Returns a Dpkg::Control object containing the fields concerning the
@@ -175,6 +179,16 @@ sub output {
     }
     return $str;
 }
+
+=item "$c"
+
+Return a string representation of the content.
+
+=item @{$c}
+
+Return a list of Dpkg::Control objects, the first one is corresponding to
+source information and the following ones are the binary packages
+information.
 
 =back
 
