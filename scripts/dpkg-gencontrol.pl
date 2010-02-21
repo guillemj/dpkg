@@ -156,6 +156,7 @@ if (defined($oppackage)) {
               "@packages");
     $pkg = $control->get_pkg_by_idx(1);
 }
+$substvars->set_msg_prefix(sprintf(_g("package %s: "), $pkg->{Package}));
 
 # Scan source package
 my $src_fields = $control->get_source();
@@ -221,7 +222,7 @@ $fields->{'Version'} = $forceversion if defined($forceversion);
 my $facts = Dpkg::Deps::KnownFacts->new();
 $facts->add_installed_package($fields->{'Package'}, $fields->{'Version'});
 if (exists $pkg->{"Provides"}) {
-    my $provides = deps_parse($substvars->substvars($pkg->{"Provides"}),
+    my $provides = deps_parse($substvars->substvars($pkg->{"Provides"}, no_warn => 1),
                               reduce_arch => 1, union => 1);
     if (defined $provides) {
 	foreach my $subdep ($provides->get_deps()) {
@@ -240,7 +241,8 @@ foreach my $field (field_list_pkg_dep()) {
     my $reduce_arch = debarch_eq('all', $pkg->{Architecture} || "all") ? 0 : 1;
     if (exists $pkg->{$field}) {
 	my $dep;
-	my $field_value = $substvars->substvars($pkg->{$field});
+	my $field_value = $substvars->substvars($pkg->{$field},
+	    msg_prefix => sprintf(_g("%s field of package %s: "), $field, $pkg->{Package}));
 	if (field_get_dep_type($field) eq 'normal') {
 	    $dep = deps_parse($field_value, use_arch => 1,
 			      reduce_arch => $reduce_arch);

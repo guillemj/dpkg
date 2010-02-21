@@ -339,7 +339,7 @@ the corresponding value stored in the Dpkg::Substvars object.
 =cut
 
 sub apply_substvars {
-    my ($self, $substvars) = @_;
+    my ($self, $substvars, %opts) = @_;
 
     # Add substvars to refer to other fields
     foreach my $f (keys %$self) {
@@ -348,7 +348,7 @@ sub apply_substvars {
     }
 
     foreach my $f (keys %$self) {
-        my $v = $substvars->substvars($self->{$f});
+        my $v = $substvars->substvars($self->{$f}, %opts);
 	if ($v ne $self->{$f}) {
 	    # If we replaced stuff, ensure we're not breaking
 	    # a dependency field by introducing empty lines, or multiple

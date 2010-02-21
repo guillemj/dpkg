@@ -70,6 +70,7 @@ sub new {
             "dpkg:Upstream-Version" => $version,
             },
         used => {},
+	msg_prefix => "",
     };
     $self->{'vars'}{'dpkg:Upstream-Version'} =~ s/-[^-]+$//;
     bless $self, $class;
@@ -196,11 +197,13 @@ Substitutes variables in $string and return the result in $newstring.
 =cut
 
 sub substvars {
-    my ($self, $v) = @_;
+    my ($self, $v, %opts) = @_;
     my $lhs;
     my $vn;
     my $rhs = '';
     my $count = 0;
+    $opts{msg_prefix} = $self->{msg_prefix} unless exists $opts{msg_prefix};
+    $opts{no_warn} = 0 unless exists $opts{no_warn};
 
     while ($v =~ m/^(.*?)\$\{([-:0-9a-z]+)\}(.*)$/si) {
         # If we have consumed more from the leftover data, then
@@ -208,14 +211,16 @@ sub substvars {
         $count = 0 if (length($3) < length($rhs));
 
         $count < $maxsubsts ||
-            error(_g("too many substitutions - recursive ? - in \`%s'"), $v);
+            error($opts{msg_prefix} .
+	          _g("too many substitutions - recursive ? - in \`%s'"), $v);
         $lhs = $1; $vn = $2; $rhs = $3;
         if (defined($self->{'vars'}{$vn})) {
             $v = $lhs . $self->{'vars'}{$vn} . $rhs;
 	    $self->no_warn($vn);
             $count++;
         } else {
-            warning(_g("unknown substitution variable \${%s}"), $vn);
+            warning($opts{msg_prefix} . _g("unknown substitution variable \${%s}"),
+	            $vn) unless $opts{no_warn};
             $v = $lhs . $rhs;
         }
     }
@@ -229,7 +234,8 @@ Issues warning about any variables that were set, but not used
 =cut
 
 sub warn_about_unused {
-    my ($self) = @_;
+    my ($self, %opts) = @_;
+    $opts{msg_prefix} = $self->{msg_prefix} unless exists $opts{msg_prefix};
 
     foreach my $vn (keys %{$self->{'vars'}}) {
         next if $self->{'used'}{$vn};
@@ -237,8 +243,20 @@ sub warn_about_unused {
         # that they are not required in the current situation
         # (example: debhelper's misc:Depends in many cases)
         next if $self->{'vars'}{$vn} eq "";
-        warning(_g("unused substitution variable \${%s}"), $vn);
+        warning($opts{msg_prefix} . _g("unused substitution variable \${%s}"), $vn);
     }
+}
+
+=item $s->set_msg_prefix($prefix)
+
+Define a prefix displayed before all warnings/error messages output
+by the module.
+
+=cut
+
+sub set_msg_prefix {
+    my ($self, $prefix) = @_;
+    $self->{msg_prefix} = $prefix;
 }
 
 =item $s->save($file)
