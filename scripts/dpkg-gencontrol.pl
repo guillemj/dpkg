@@ -235,11 +235,14 @@ if (exists $pkg->{"Provides"}) {
 
 my (@seen_deps);
 foreach my $field (field_list_pkg_dep()) {
+    # Arch: all can't be simplified as the host architecture is not known
+    my $reduce_arch = debarch_eq('all', $pkg->{Architecture} || "all") ? 0 : 1;
     if (exists $pkg->{$field}) {
 	my $dep;
 	my $field_value = $substvars->substvars($pkg->{$field});
 	if (field_get_dep_type($field) eq 'normal') {
-	    $dep = deps_parse($field_value, use_arch => 1, reduce_arch => 1);
+	    $dep = deps_parse($field_value, use_arch => 1,
+			      reduce_arch => $reduce_arch);
 	    error(_g("error occurred while parsing %s field: %s"), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
@@ -247,12 +250,15 @@ foreach my $field (field_list_pkg_dep()) {
 	    push @seen_deps, $dep;
 	} else {
 	    $dep = deps_parse($field_value, use_arch => 1,
-                              reduce_arch => 1, union => 1);
+                              reduce_arch => $reduce_arch, union => 1);
 	    error(_g("error occurred while parsing %s field: %s"), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);
             $dep->sort();
 	}
+	error(_g("the %s field contains an arch-specific dependency but the " .
+	         "package is architecture all"), $field)
+	    if $dep->has_arch_restriction();
 	$fields->{$field} = $dep->output();
 	delete $fields->{$field} unless $fields->{$field}; # Delete empty field
     }

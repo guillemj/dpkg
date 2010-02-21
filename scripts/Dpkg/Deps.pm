@@ -430,6 +430,12 @@ Simplify the dependency as much as possible given the list of facts (see
 object Dpkg::Deps::KnownFacts) and a list of other dependencies that we
 know to be true.
 
+=item $dep->has_arch_restriction()
+
+For a simple dependency, returns the package name if the dependency
+applies only to a subset of architectures.  For multiple dependencies, it
+returns the list of package names that have such a restriction.
+
 =back
 
 =head2 Dpkg::Deps::Simple
@@ -666,6 +672,15 @@ sub reduce_arch {
     }
 }
 
+sub has_arch_restriction {
+    my ($self) = @_;
+    if (defined $self->{arches}) {
+	return $self->{package};
+    } else {
+	return ();
+    }
+}
+
 sub get_evaluation {
     my ($self, $facts) = @_;
     return undef if not defined $self->{package};
@@ -814,6 +829,16 @@ sub reduce_arch {
     }
     $self->{list} = [ @new ];
 }
+
+sub has_arch_restriction {
+    my ($self) = @_;
+    my @res;
+    foreach my $dep (@{$self->{list}}) {
+	push @res, $dep->has_arch_restriction();
+    }
+    return @res;
+}
+
 
 sub is_empty {
     my $self = shift;
