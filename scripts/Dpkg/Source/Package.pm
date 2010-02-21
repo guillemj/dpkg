@@ -241,16 +241,21 @@ sub get_basename {
 }
 
 sub find_original_tarballs {
-    my ($self, $ext) = @_;
-    $ext ||= $compression_re_file_ext;
+    my ($self, %opts) = @_;
+    $opts{extension} = $compression_re_file_ext unless exists $opts{extension};
+    $opts{include_main} = 1 unless exists $opts{include_main};
+    $opts{include_supplementary} = 1 unless exists $opts{include_supplementary};
     my $basename = $self->get_basename();
     my @tar;
     foreach my $dir (".", $self->{'basedir'}, $self->{'options'}{'origtardir'}) {
         next unless defined($dir) and -d $dir;
         opendir(DIR, $dir) || syserr(_g("cannot opendir %s"), $dir);
-        push @tar, map { "$dir/$_" }
-                  grep { /^\Q$basename\E\.orig(-[\w-]+)?\.tar\.$ext$/ }
-                  readdir(DIR);
+        push @tar, map { "$dir/$_" } grep {
+		($opts{include_main} and
+		 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
+		($opts{include_supplementary} and
+		 /^\Q$basename\E\.orig-[\w-]+\.tar\.$opts{extension}$/)
+	    } readdir(DIR);
         closedir(DIR);
     }
     return @tar;

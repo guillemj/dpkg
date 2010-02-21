@@ -303,6 +303,9 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
     foreach my $format (@try_formats) {
         $fields->{'Format'} = $format;
         $srcpkg->upgrade_object_type(); # Fails if format is unsupported
+	# Parse command line options
+	$srcpkg->init_options();
+	$srcpkg->parse_cmdline_options(@cmdline_options);
         my ($res, $msg) = $srcpkg->can_build($dir);
         last if $res;
         info(_g("source format `%s' discarded: %s"), $format, $msg);
@@ -312,10 +315,6 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 	exit(0);
     }
     info(_g("using source format `%s'"), $fields->{'Format'});
-
-    # Parse command line options
-    $srcpkg->init_options();
-    $srcpkg->parse_cmdline_options(@cmdline_options);
 
     run_vendor_hook("before-source-build", $srcpkg);
     # Build the files (.tar.gz, .diff.gz, etc)

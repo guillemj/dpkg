@@ -55,6 +55,8 @@ sub init_options {
         unless exists $self->{'options'}{'skip_patches'};
     $self->{'options'}{'skip_debianization'} = 0
         unless exists $self->{'options'}{'skip_debianization'};
+    $self->{'options'}{'create_empty_orig'} = 0
+        unless exists $self->{'options'}{'create_empty_orig'};
 }
 
 sub parse_cmdline_option {
@@ -76,6 +78,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ /^--skip-debianization$/) {
         $self->{'options'}{'skip_debianization'} = 1;
+        return 1;
+    } elsif ($opt =~ /^--create-empty-orig$/) {
+        $self->{'options'}{'create_empty_orig'} = 1;
         return 1;
     }
     return 0;
@@ -203,9 +208,9 @@ sub apply_patches {
 
 sub can_build {
     my ($self, $dir) = @_;
-    foreach ($self->find_original_tarballs()) {
-        return 1 if /\.orig\.tar\.$compression_re_file_ext$/;
-    }
+    return 1 if $self->find_original_tarballs(include_supplementary => 0);
+    return 1 if $self->{'options'}{'create_empty_orig'} and
+                $self->find_original_tarballs(include_main => 0);
     return (0, _g("no orig.tar file found"));
 }
 
@@ -219,6 +224,16 @@ sub prepare_build {
     };
     push @{$self->{'options'}{'tar_ignore'}}, "debian/patches/.dpkg-source-applied";
     $self->check_patches_applied($dir) if $self->{'options'}{'preparation'};
+    if ($self->{'options'}{'create_empty_orig'} and
+        not $self->find_original_tarballs(include_supplementary => 0))
+    {
+        # No main orig.tar, create a dummy one
+        my $filename = $self->get_basename() . ".orig.tar." .
+                       $self->{'options'}{'comp_ext'};
+        my $tar = Dpkg::Source::Archive->new(filename => $filename);
+        $tar->create();
+        $tar->finish();
+    }
 }
 
 sub check_patches_applied {
