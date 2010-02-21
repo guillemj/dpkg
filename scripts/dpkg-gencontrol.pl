@@ -117,6 +117,7 @@ while (@ARGV) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvars->set($1, $');
+	$substvars->no_warn($1);
     } elsif (m/^-T/) {
         $varlistfile= $';
     } elsif (m/^-n/) {
