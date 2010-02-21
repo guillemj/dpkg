@@ -39,7 +39,6 @@ my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
 my $changelogformat;
 my $fileslistfile = 'debian/files';
-my $varlistfile = 'debian/substvars';
 my $packagebuilddir = 'debian/tmp';
 
 my $sourceversion;
@@ -50,6 +49,7 @@ my %remove;
 my %override;
 my $oppackage;
 my $substvars = Dpkg::Substvars->new();
+my $substvars_loaded = 0;
 
 
 sub version {
@@ -118,8 +118,9 @@ while (@ARGV) {
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvars->set($1, $');
 	$substvars->no_warn($1);
-    } elsif (m/^-T/) {
-        $varlistfile= $';
+    } elsif (m/^-T(.*)$/) {
+	$substvars->load($1) if -e $1;
+	$substvars_loaded = 1;
     } elsif (m/^-n/) {
         $forcefilename= $';
     } elsif (m/^-(h|-help)$/) {
@@ -139,7 +140,7 @@ $options{"changelogformat"} = $changelogformat if $changelogformat;
 my $changelog = changelog_parse(%options);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->set_arch_substvars();
-$substvars->load($varlistfile) if -e $varlistfile;
+$substvars->load("debian/substvars") if -e "debian/substvars" and not $substvars_loaded;
 $substvars->set("binary:Version", $forceversion) if defined $forceversion;
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);

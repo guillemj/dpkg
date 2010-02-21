@@ -40,7 +40,6 @@ my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
 my $changelogformat;
 my $fileslistfile = 'debian/files';
-my $varlistfile = 'debian/substvars';
 my $uploadfilesdir = '..';
 my $sourcestyle = 'i';
 my $quiet = 0;
@@ -75,6 +74,7 @@ my $forcemaint;
 my $forcechangedby;
 my $since;
 
+my $substvars_loaded = 0;
 my $substvars = Dpkg::Substvars->new();
 $substvars->set("Format", $changes_format);
 
@@ -169,7 +169,8 @@ while (@ARGV) {
     } elsif (m/^-v(.*)$/) {
 	$since = $1;
     } elsif (m/^-T(.*)$/) {
-	$varlistfile = $1;
+	$substvars->load($1) if -e $1;
+	$substvars_loaded = 1;
     } elsif (m/^-m(.*)$/s) {
 	$forcemaint = $1;
     } elsif (m/^-e(.*)$/s) {
@@ -210,7 +211,7 @@ my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->set_arch_substvars();
-$substvars->load($varlistfile) if -e $varlistfile;
+$substvars->load("debian/substvars") if -e "debian/substvars" and not $substvars_loaded;
 
 if (defined($prev_changelog) and
     version_compare_relation($changelog->{"Version"}, REL_LT,

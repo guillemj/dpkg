@@ -49,7 +49,6 @@ use File::Spec;
 
 textdomain("dpkg-dev");
 
-my $varlistfile;
 my $controlfile;
 my $changelogfile;
 my $changelogformat;
@@ -164,7 +163,7 @@ while (@options) {
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
-        $varlistfile = $1;
+	$substvars->load($1) if -e $1;
     } elsif (m/^-(h|-help)$/) {
         usage();
         exit(0);
@@ -325,7 +324,6 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
     # Write the .dsc
     my $dscname = $srcpkg->get_basename(1) . ".dsc";
     info(_g("building %s in %s"), $sourcepackage, $dscname);
-    $substvars->load($varlistfile) if $varlistfile && -e $varlistfile;
     $srcpkg->write_dsc(filename => $dscname,
 		       remove => \%remove,
 		       override => \%override,
