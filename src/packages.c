@@ -37,52 +37,21 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-list.h>
+#include <dpkg/pkg-queue.h>
 #include <dpkg/myopt.h>
 
 #include "filesdb.h"
 #include "main.h"
 
 static struct pkginfo *progress_bytrigproc;
-static PKGQUEUE_DEF_INIT(queue);
+static struct pkg_queue queue = PKG_QUEUE_INIT;
 
 int sincenothing = 0, dependtry = 0;
-
-struct pkg_list *
-add_to_some_queue(struct pkginfo *pkg, struct pkgqueue *q)
-{
-  struct pkg_list *newent;
-
-  newent = pkg_list_new(pkg, NULL);
-
-  *q->tail = newent;
-  q->tail = &newent->next;
-  q->length++;
-
-  return newent;
-}
-
-struct pkg_list *
-remove_from_some_queue(struct pkgqueue *q)
-{
-  struct pkg_list *removeent = q->head;
-
-  if (!removeent)
-    return NULL;
-
-  assert(q->length > 0);
-
-  q->head = q->head->next;
-  if (q->tail == &removeent->next)
-    q->tail= &q->head;
-  q->length--;
-
-  return removeent;
-}
 
 void
 add_to_queue(struct pkginfo *pkg)
 {
-  add_to_some_queue(pkg, &queue);
+  pkg_queue_push(&queue, pkg);
 }
 
 void packages(const char *const *argv) {
@@ -165,7 +134,7 @@ void packages(const char *const *argv) {
 }
 
 void process_queue(void) {
-  struct pkg_list *removeent, *rundown;
+  struct pkg_list *rundown;
   struct pkginfo *volatile pkg;
   volatile enum action action_todo;
   jmp_buf ejbuf;
@@ -207,10 +176,8 @@ void process_queue(void) {
     }
   }
   
-  while ((removeent = remove_from_some_queue(&queue))) {
-    pkg= removeent->pkg;
-    free(removeent);
-    
+  while (!pkg_queue_is_empty(&queue)) {
+    pkg = pkg_queue_pop(&queue);
     if (!pkg) continue; /* duplicate, which we removed earlier */
 
     action_todo = cipaction->arg;

@@ -31,6 +31,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg-queue.h>
 
 #include "main.h"
 #include "filesdb.h"
@@ -84,7 +85,7 @@
 
 /*========== deferred trigger queue ==========*/
 
-static PKGQUEUE_DEF_INIT(deferred);
+static struct pkg_queue deferred = PKG_QUEUE_INIT;
 
 static void
 trigproc_enqueue_deferred(struct pkginfo *pend)
@@ -94,22 +95,21 @@ trigproc_enqueue_deferred(struct pkginfo *pend)
 	ensure_package_clientdata(pend);
 	if (pend->clientdata->trigprocdeferred)
 		return;
-	pend->clientdata->trigprocdeferred = add_to_some_queue(pend, &deferred);
+	pend->clientdata->trigprocdeferred = pkg_queue_push(&deferred, pend);
 	debug(dbg_triggers, "trigproc_enqueue_deferred pend=%s", pend->name);
 }
 
 void
 trigproc_run_deferred(void)
 {
-	struct pkg_list *node;
-	struct pkginfo *pkg;
-
 	debug(dbg_triggers, "trigproc_run_deferred");
-	while ((node = remove_from_some_queue(&deferred))) {
-		pkg = node->pkg;
-		free(node);
+	while (!pkg_queue_is_empty(&deferred)) {
+		struct pkginfo *pkg;
+
+		pkg  = pkg_queue_pop(&deferred);
 		if (!pkg)
 			continue;
+
 		pkg->clientdata->trigprocdeferred = NULL;
 		trigproc(pkg);
 	}

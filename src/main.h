@@ -196,16 +196,6 @@ void deferred_configure(struct pkginfo *pkg);
 
 extern int sincenothing, dependtry;
 
-struct pkgqueue {
-  struct pkg_list *head, **tail;
-  int length;
-};
-
-#define PKGQUEUE_DEF_INIT(name) struct pkgqueue name = { NULL, &name.head, 0 }
-
-struct pkg_list *add_to_some_queue(struct pkginfo *pkg, struct pkgqueue *q);
-struct pkg_list *remove_from_some_queue(struct pkgqueue *q);
-
 /* from cleanup.c (most of these are declared in archives.h) */
 
 void cu_prermremove(int argc, void **argv);
