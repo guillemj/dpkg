@@ -107,7 +107,7 @@ sub add_diff_file {
     my $difflinefound = 0;
     my $binary = 0;
     while (<$diffgen>) {
-        if (m/^binary/i) {
+        if (m/^(?:binary|[^-+\@ ].*\bdiffer\b)/i) {
             $binary = 1;
             &$handle_binary($self, $old, $new);
             last;

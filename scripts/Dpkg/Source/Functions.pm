@@ -67,6 +67,9 @@ sub fixperms {
 sub is_binary($) {
     my ($file) = @_;
 
+    # TODO: might want to reimplement what diff does, aka checking if the
+    # file contains \0 in the first 4Kb of data
+
     # Use diff to check if it's a binary file
     my $diffgen;
     my $diff_pid = spawn(
@@ -76,7 +79,7 @@ sub is_binary($) {
     );
     my $result = 0;
     while (<$diffgen>) {
-        if (m/^binary/i) {
+        if (m/^(?:binary|[^-+\@ ].*\bdiffer\b)/i) {
             $result = 1;
             last;
         } elsif (m/^[-+\@ ]/) {
