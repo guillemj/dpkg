@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2010-01-03 16:30+0100\n"
-"PO-Revision-Date: 2010-02-19 18:11+0100\n"
+"PO-Revision-Date: 2010-02-21 09:56+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -795,7 +795,12 @@ msgstr "Paket %s nicht in Steuer-Info"
 msgid "must specify package since control info has many (%s)"
 msgstr "Paket muss angegeben werden, da Steuer-Info viel (%s) hat"
 
-#: scripts/dpkg-gencontrol.pl:182
+#: scripts/dpkg-gencontrol.pl:159
+#, perl-format
+msgid "package %s: "
+msgstr "Paket %s"
+
+#: scripts/dpkg-gencontrol.pl:184
 #, perl-format
 msgid "`%s' is not a legal architecture string."
 msgid_plural "`%s' are not legal architecture strings."
@@ -811,15 +816,37 @@ msgstr ""
 "aktuelle Host-Architektur »%s« erscheint nicht in der Architekturliste (%s) "
 "des Pakets"
 
+#: scripts/dpkg-gencontrol.pl:245
+#, perl-format
+msgid "%s field of package %s: "
+msgstr "Feld %s von Paket %s: "
+
 #: scripts/dpkg-gencontrol.pl:243 scripts/dpkg-gencontrol.pl:251
 #, perl-format
 msgid "error occurred while parsing %s field: %s"
 msgstr "Fehler beim Parsen von %s Feld: %s"
 
+#: scripts/dpkg-gencontrol.pl:262
+#, perl-format
+msgid ""
+"the %s field contains an arch-specific dependency but the package is "
+"architecture all"
+msgstr ""
+"das Feld %s enthält eine architekturspezifische Abhängigkeit aber das Paket "
+"ist »architecture all«"
+
 #: scripts/dpkg-gencontrol.pl:276
 #, perl-format
 msgid "%s package with udeb specific field %s"
 msgstr "%s Paket mit udeb-spezifischem Feld %s"
+
+#: scripts/dpkg-gencontrol.pl:298 scripts/dpkg-scansources.pl:321
+#: scripts/dpkg-shlibdeps.pl:819 scripts/Dpkg/Changelog/Parse.pm:136
+#: scripts/Dpkg/IPC.pm:227 scripts/Dpkg/Shlibs/Objdump.pm:84
+#: scripts/Dpkg/Shlibs/Objdump.pm:158
+#, perl-format
+msgid "cannot fork for %s"
+msgstr "kann für %s nicht forken"
 
 #: scripts/dpkg-gencontrol.pl:289
 msgid "fork for du"
@@ -915,7 +942,7 @@ msgstr ""
 "                           standardmäßigen Datei als Referenz-Symbol-Datei.\n"
 "  -O<Datei>                schreibe in <Datei> nicht .../DEBIAN/symbols.\n"
 "  -O                       schreibe nach Stdout nicht .../DEBIAN/symbols.\n"
-"  -t                       schreibe im Vorlagenmodus (Makrierungen werden\n"
+"  -t                       schreibe im Vorlagenmodus (Markierungen werden\n"
 "                           nicht verarbeitet und in die Ausgabe "
 "aufgenommen).\n"
 "  -V                       geschwätzige Ausgabe. Schreibe veraltete Symbole\n"
@@ -1405,12 +1432,6 @@ msgstr "keine Binärpakete in %s angegeben"
 #: scripts/dpkg-scansources.pl:315
 msgid "1 to 3 args expected\n"
 msgstr "1 bis 3 Argumente erwartet\n"
-
-#: scripts/dpkg-scansources.pl:326 scripts/dpkg-shlibdeps.pl:818
-#: scripts/Dpkg/Shlibs/Objdump.pm:82 scripts/Dpkg/Shlibs/Objdump.pm:156
-#, perl-format
-msgid "cannot fork for %s"
-msgstr "kann für %s nicht forken"
 
 #: scripts/dpkg-shlibdeps.pl:93
 #, perl-format
@@ -1977,6 +1998,11 @@ msgid ""
 msgstr ""
 "Unbekannter gcc-Systemtyp %s, falle auf Standard (native Übersetzung) zurück"
 
+#: scripts/Dpkg/BuildOptions.pm:35
+#, perl-format
+msgid "invalid flag in DEB_BUILD_OPTIONS: %s"
+msgstr "ungültiger Schalter in DEB_BUILD_OPTIONS: %s"
+
 #: scripts/Dpkg/Changelog.pm:174 scripts/Dpkg/Changelog.pm:176
 #: scripts/Dpkg/ErrorHandling.pm:54
 msgid "warning"
@@ -2394,6 +2420,10 @@ msgid_plural "%s didn't complete in %d seconds"
 msgstr[0] "%s beendete sich nicht innerhalb von %d Sekunden"
 msgstr[1] "%s beendeten sich nicht innerhalb von %d Sekunden"
 
+#: scripts/Dpkg/Shlibs/Cppfilt.pm:50
+msgid "unable to execute c++filt"
+msgstr "konnte c++filt nicht ausführen"
+
 #: scripts/Dpkg/Shlibs/Objdump.pm:90
 #, perl-format
 msgid "objdump on `%s'"
@@ -2408,6 +2438,18 @@ msgstr "Konnte dynamischen Relozierungs-Eintrag nicht auswerten: %s"
 #, perl-format
 msgid "Couldn't parse dynamic symbol definition: %s"
 msgstr "Konnte die Definition der dynamischen Symbole nicht auswerten: %s"
+
+#: scripts/Dpkg/Shlibs/Symbol.pm:111
+#, perl-format
+msgid "symbol name unspecified: %s"
+msgstr "Symbolname nicht spezifiziert: %s"
+
+#: scripts/Dpkg/Shlibs/Symbol.pm:168
+#, perl-format
+msgid "you can't use symver tag to catch unversioned symbols: %s"
+msgstr ""
+"Sie können die Markierung symver nicht zum Abfangen unversionierter Symbole "
+"verwenden: %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:111
 #, perl-format
