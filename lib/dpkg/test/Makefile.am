@@ -17,7 +17,8 @@ check_PROGRAMS = \
 	t-varbuf \
 	t-ar \
 	t-version \
-	t-pkginfo
+	t-pkginfo \
+	t-pkg-list
 
 CHECK_LDADD = ../libdpkg.a
 
@@ -26,6 +27,7 @@ t_command_LDADD = $(CHECK_LDADD)
 t_macros_LDADD = $(CHECK_LDADD)
 t_path_LDADD = $(CHECK_LDADD)
 t_pkginfo_LDADD = $(CHECK_LDADD)
+t_pkg_list_LDADD = $(CHECK_LDADD)
 t_string_LDADD = $(CHECK_LDADD)
 t_buffer_LDADD = $(CHECK_LDADD)
 t_test_LDADD = $(CHECK_LDADD)
