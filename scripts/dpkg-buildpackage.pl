@@ -88,6 +88,10 @@ Options:
   -ap            add pause before starting signature process.
   -i[<regex>]    ignore diffs of files matching regex.    } only passed
   -I[<pattern>]  filter out files when building tarballs. } to dpkg-source
+  --source-option=<opt>
+		 pass option <opt> to dpkg-source
+  --changes-option=<opt>
+		 pass option <opt> to dpkg-genchanges
   --admindir=<directory>
                  change the administrative directory.
   -h, --help     show this help message.
@@ -107,18 +111,16 @@ if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
 }
 
 my ($admindir, $signkey, $forcesigninterface, $usepause, $noclean,
-    $sourcestyle, $cleansource,
-    $binaryonly, $sourceonly, $since, $maint,
+    $cleansource, $binaryonly, $sourceonly, $since, $maint,
     $changedby, $desc, $parallel);
-my (@checkbuilddep_args, @passopts, @tarignore);
 my $checkbuilddep = 1;
 my $signsource = 1;
 my $signchanges = 1;
-my $diffignore = '';
 my $binarytarget = 'binary';
 my $targetarch = my $targetgnusystem = '';
 my $call_target = '';
 my $call_target_as_root = 0;
+my (@checkbuilddep_opts, @changes_opts, @source_opts);
 
 while (@ARGV) {
     $_ = shift @ARGV;
@@ -133,6 +135,10 @@ while (@ARGV) {
         $admindir = shift @ARGV;
     } elsif (/^--admindir=(.*)$/) {
 	$admindir = $1;
+    } elsif (/^--source-option=(.*)$/) {
+	push @source_opts, $1;
+    } elsif (/^--changes-option=(.*)$/) {
+	push @changes_opts, $1;
     } elsif (/^-j(\d*)$/) {
 	$parallel = $1 || '';
     } elsif (/^-r(.*)$/) {
@@ -155,15 +161,9 @@ while (@ARGV) {
 	$targetarch = $1;
 	$checkbuilddep = 0;
     } elsif (/^-s[iad]$/) {
-	$sourcestyle = $_;
-    } elsif (/^-s[nsAkurKUR]$/) {
-	push @passopts, $_; # passed to dpkg-source
-    } elsif (/^-[zZ]/) {
-	push @passopts, $_; # passed to dpkg-source
-    } elsif (/^-i.*$/) {
-	$diffignore = $_;
-    } elsif (/^-I.*$/) {
-	push @tarignore, $_;
+	push @changes_opts, $_;
+    } elsif (/^-(?:s[insAkurKUR]|[zZ].*|i.*|I.*)$/) {
+	push @source_opts, $_; # passed to dpkg-source
     } elsif (/^-tc$/) {
 	$cleansource = 1;
     } elsif (/^-t(.*)$/) {
@@ -178,19 +178,23 @@ while (@ARGV) {
 	$noclean = 1;
     } elsif (/^-b$/) {
 	$binaryonly = '-b';
-	@checkbuilddep_args = ();
+	push @changes_opts, '-b';
+	@checkbuilddep_opts = ();
 	$binarytarget = 'binary';
     } elsif (/^-B$/) {
 	$binaryonly = '-B';
-	@checkbuilddep_args = ('-B');
+	push @changes_opts, '-B';
+	@checkbuilddep_opts = ('-B');
 	$binarytarget = 'binary-arch';
     } elsif (/^-A$/) {
 	$binaryonly = '-A';
-	@checkbuilddep_args = ();
+	push @changes_opts, '-A';
+	@checkbuilddep_opts = ();
 	$binarytarget = 'binary-indep';
     } elsif (/^-S$/) {
 	$sourceonly = '-S';
-	@checkbuilddep_args = ('-B');
+	push @changes_opts, '-S';
+	@checkbuilddep_opts = ('-B');
     } elsif (/^-v(.*)$/) {
 	$since = $1;
     } elsif (/^-m(.*)$/) {
@@ -349,10 +353,10 @@ if (not -x "debian/rules") {
 
 if ($checkbuilddep) {
     if ($admindir) {
-	push @checkbuilddep_args, "--admindir=$admindir";
+	push @checkbuilddep_opts, "--admindir=$admindir";
     }
 
-    system('dpkg-checkbuilddeps', @checkbuilddep_args);
+    system('dpkg-checkbuilddeps', @checkbuilddep_opts);
     if (not WIFEXITED($?)) {
         subprocerr('dpkg-checkbuilddeps');
     } elsif (WEXITSTATUS($?)) {
@@ -387,10 +391,7 @@ unless ($binaryonly) {
                "without cleaning up first, it might contain undesired " .
                "files.")) if $noclean;
     chdir('..') or syserr('chdir ..');
-    my @opts = @passopts;
-    if ($diffignore) { push @opts, $diffignore }
-    push @opts, @tarignore;
-    withecho('dpkg-source', @opts, '-b', $dir);
+    withecho('dpkg-source', @source_opts, '-b', $dir);
     chdir($dir) or syserr("chdir $dir");
 }
 unless ($sourceonly) {
@@ -411,20 +412,14 @@ unless ($binaryonly) {
     }
 }
 
-my @change_opts;
-
-if ($binaryonly) { push @change_opts, $binaryonly }
-if ($sourceonly) { push @change_opts, $sourceonly }
-if ($sourcestyle) { push @change_opts, $sourcestyle }
-
-if (defined($maint)) { push @change_opts, "-m$maint" }
-if (defined($changedby)) { push @change_opts, "-e$changedby" }
-if (defined($since)) { push @change_opts, "-v$since" }
-if (defined($desc)) { push @change_opts, "-C$desc" }
+if (defined($maint)) { push @changes_opts, "-m$maint" }
+if (defined($changedby)) { push @changes_opts, "-e$changedby" }
+if (defined($since)) { push @changes_opts, "-v$since" }
+if (defined($desc)) { push @changes_opts, "-C$desc" }
 
 my $chg = "../$pva.changes";
-print STDERR " dpkg-genchanges @change_opts >$chg\n";
-open CHANGES, '-|', 'dpkg-genchanges', @change_opts
+print STDERR " dpkg-genchanges @changes_opts >$chg\n";
+open CHANGES, '-|', 'dpkg-genchanges', @changes_opts
     or subprocerr('dpkg-genchanges');
 
 open OUT, '>', $chg or syserr(_g('write changes file'));
