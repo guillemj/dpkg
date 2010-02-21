@@ -131,7 +131,7 @@ static void info_list(const char *debar, const char *directory) {
   char interpreter[INTERPRETER_MAX+1], *p;
   int il, lines;
   struct dirent **cdlist, *cdep;
-  int cdn;
+  int cdn, n;
   FILE *cc;
   struct stat stab;
   int c;
@@ -139,8 +139,8 @@ static void info_list(const char *debar, const char *directory) {
   cdn= scandir(".", &cdlist, &ilist_select, alphasort);
   if (cdn == -1) ohshite(_("cannot scan directory `%.255s'"),directory);
 
-  while (cdn-- >0) {
-    cdep= *cdlist++;
+  for (n = 0; n < cdn; n++) {
+    cdep = cdlist[n];
     if (stat(cdep->d_name,&stab))
       ohshite(_("cannot stat `%.255s' (in `%.255s')"),cdep->d_name,directory);
     if (S_ISREG(stab.st_mode)) {
