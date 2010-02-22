@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <compat.h>
 
 #include <dpkg/macros.h>
 

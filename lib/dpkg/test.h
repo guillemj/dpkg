@@ -21,9 +21,6 @@
 #ifndef LIBDPKG_TEST_H
 #define LIBDPKG_TEST_H
 
-#include <config.h>
-#include <compat.h>
-
 #include <assert.h>
 #include <string.h>
 

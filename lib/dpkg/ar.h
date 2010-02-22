@@ -21,9 +21,6 @@
 #ifndef LIBDPKG_AR_H
 #define LIBDPKG_AR_H
 
-#include <config.h>
-#include <compat.h>
-
 #include <ar.h>
 
 #include <dpkg/macros.h>

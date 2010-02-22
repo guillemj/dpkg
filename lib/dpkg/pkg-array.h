@@ -21,9 +21,6 @@
 #ifndef LIBDPKG_PKG_ARRAY_H
 #define LIBDPKG_PKG_ARRAY_H
 
-#include <config.h>
-#include <compat.h>
-
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
 

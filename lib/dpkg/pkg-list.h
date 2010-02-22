@@ -21,9 +21,6 @@
 #ifndef LIBDPKG_PKG_LIST_H
 #define LIBDPKG_PKG_LIST_H
 
-#include <config.h>
-#include <compat.h>
-
 #include <dpkg/dpkg-db.h>
 
 DPKG_BEGIN_DECLS

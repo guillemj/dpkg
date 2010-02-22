@@ -18,6 +18,7 @@
  */
 
 #include <config.h>
+#include <compat.h>
 
 #include <errno.h>
 #include <string.h>
