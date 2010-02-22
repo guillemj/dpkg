@@ -60,9 +60,9 @@ static void cu_info_prepare(int argc, void **argv) {
   c1 = subproc_fork();
   if (!c1) {
     execlp(RM, "rm", "-rf", directory, NULL);
-    ohshite(_("failed to exec rm for cleanup"));
+    ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
-  subproc_wait_check(c1, "rm cleanup", 0);
+  subproc_wait_check(c1, _("rm command for cleanup"), 0);
 } 
 
 static void info_prepare(const char *const **argvp,

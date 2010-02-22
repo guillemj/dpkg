@@ -515,11 +515,12 @@ showdiff(const char *old, const char *new)
 			shell = DEFAULTSHELL;
 
 		execlp(shell, shell, "-c", cmdbuf, NULL);
-		ohshite(_("failed to run %s (%.250s)"), DIFF, cmdbuf);
+		ohshite(_("unable to execute %s (%s)"),
+		        _("conffile difference visualizer"), cmdbuf);
 	}
 
 	/* Parent process. */
-	subproc_wait(pid, "shell");
+	subproc_wait(pid, _("conffile difference visualizer"));
 }
 
 /**
@@ -553,11 +554,12 @@ spawn_shell(const char *confold, const char *confnew)
 		setenv("DPKG_CONFFILE_NEW", confnew, 1);
 
 		execlp(shell, shell, "-i", NULL);
-		ohshite(_("failed to exec shell (%.250s)"), shell);
+		ohshite(_("unable to execute %s (%s)"),
+		        _("conffile shell"), shell);
 	}
 
 	/* Parent process. */
-	subproc_wait(pid, "shell");
+	subproc_wait(pid, _("conffile shell"));
 }
 
 /**

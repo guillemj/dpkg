@@ -47,7 +47,8 @@ sub get_cppfilt {
 	$filt->{pid} = spawn(exec => [ 'c++filt', "--format=$type" ],
 	                     from_pipe => \$filt->{from},
 	                     to_pipe => \$filt->{to});
-	internerr(_g("unable to execute c++filt")) unless defined $filt->{from};
+	internerr(_g("unable to execute %s"), "c++filt")
+	    unless defined $filt->{from};
 	$filt->{from}->autoflush(1);
 
 	$cppfilts{$type} = $filt;

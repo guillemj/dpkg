@@ -55,9 +55,10 @@ static void movecontrolfiles(const char *thing) {
   c1 = subproc_fork();
   if (!c1) {
     execlp("sh", "sh", "-c", buf, NULL);
-    ohshite(_("failed to exec sh -c mv foo/* &c"));
+    ohshite(_("unable to execute %s (%s)"),
+            _("shell command to move files"), buf);
   }
-  subproc_wait_check(c1, "sh -c mv foo/* &c", 0);
+  subproc_wait_check(c1, _("shell command to move files"), 0);
 }
 
 static void DPKG_ATTR_NORET
@@ -308,7 +309,7 @@ void extracthalf(const char *debar, const char *directory,
       unsetenv("TAR_OPTIONS");
 
       execlp(TAR, "tar", buffer, "-", NULL);
-      ohshite(_("failed to exec tar"));
+      ohshite(_("unable to execute %s (%s)"), "tar", TAR);
     }
     close(p2[0]);
     subproc_wait_check(c3, "tar", 0);

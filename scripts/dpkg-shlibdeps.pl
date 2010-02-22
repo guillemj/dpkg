@@ -825,7 +825,7 @@ sub find_packages {
 	open STDERR, ">", "/dev/null";
 	$ENV{LC_ALL} = "C";
 	exec("dpkg", "--search", "--", @files)
-	    || syserr(_g("cannot exec dpkg"));
+	    || syserr(_g("unable to execute %s"), "dpkg");
     }
     while(defined($_ = <DPKG>)) {
 	chomp($_);

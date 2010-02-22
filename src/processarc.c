@@ -146,7 +146,8 @@ void process_archive(const char *filename) {
     c1 = subproc_fork();
     if (!c1) {
       execlp(SPLITTER, SPLITTER, "-Qao", reasmbuf, filename, NULL);
-      ohshite(_("failed to exec dpkg-split to see if it's part of a multiparter"));
+      ohshite(_("unable to execute %s (%s)"),
+              _("split package reassembly"), SPLITTER);
     }
     status = subproc_wait(c1, SPLITTER);
     switch (WIFEXITED(status) ? WEXITSTATUS(status) : -1) {
@@ -174,7 +175,8 @@ void process_archive(const char *filename) {
     c1 = subproc_fork();
     if (!c1) {
       execl(DEBSIGVERIFY, DEBSIGVERIFY, "-q", filename, NULL);
-      ohshite(_("failed to execl debsig-verify"));
+      ohshite(_("unable to execute %s (%s)"),
+              _("package signature verification"), DEBSIGVERIFY);
     } else {
       int status;
 
@@ -224,7 +226,8 @@ void process_archive(const char *filename) {
   if (!c1) {
     cidirrest[-1] = '\0';
     execlp(BACKEND, BACKEND, "--control", filename, cidir, NULL);
-    ohshite(_("failed to exec dpkg-deb to extract control information"));
+    ohshite(_("unable to execute %s (%s)"),
+            _("package control information extraction"), BACKEND);
   }
   subproc_wait_check(c1, BACKEND " --control", 0);
 
@@ -619,7 +622,8 @@ void process_archive(const char *filename) {
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     execlp(BACKEND, BACKEND, "--fsys-tarfile", filename, NULL);
-    ohshite(_("unable to exec dpkg-deb to get filesystem archive"));
+    ohshite(_("unable to execute %s (%s)"),
+            _("package filesystem archive extraction"), BACKEND);
   }
   close(p1[1]);
   p1[1] = -1;

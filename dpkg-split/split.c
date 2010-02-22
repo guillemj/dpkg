@@ -65,18 +65,19 @@ deb_field(const char *filename, const char *field)
 		close(p[1]);
 
 		execlp(BACKEND, BACKEND, "--field", filename, field, NULL);
-		ohshite(_("failed to exec dpkg-deb to extract field value"));
+		ohshite(_("unable to execute %s (%s)"),
+		        _("package field value extraction"), BACKEND);
 	}
 	close(p[1]);
 
 	/* Parant reads from pipe. */
 	varbufreset(&buf);
-	fd_vbuf_copy(p[0], &buf, -1, _("dpkg-deb field extraction"));
+	fd_vbuf_copy(p[0], &buf, -1, _("package field value extraction"));
 	varbufaddc(&buf, '\0');
 
 	close(p[0]);
 
-	subproc_wait_check(pid, _("dpkg-deb field extraction"), PROCPIPE);
+	subproc_wait_check(pid, _("package field value extraction"), PROCPIPE);
 
 	/* Trim down trailing junk. */
 	for (end = buf.buf + strlen(buf.buf) - 1; end - buf.buf >= 1; end--)

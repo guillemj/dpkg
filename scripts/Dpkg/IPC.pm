@@ -268,7 +268,7 @@ sub spawn {
 	# Close some inherited filehandles
 	close($_) foreach (@{$opts{"close_in_child"}});
 	# Execute the program
-	exec({ $prog[0] } @prog) or syserr(_g("exec %s"), "@prog");
+	exec({ $prog[0] } @prog) or syserr(_g("unable to execute %s"), "@prog");
     }
     # Close handle that we can't use any more
     close($opts{"from_handle"}) if exists $opts{"from_handle"};

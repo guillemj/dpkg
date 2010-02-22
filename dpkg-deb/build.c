@@ -398,7 +398,7 @@ void do_build(const char *const *argv) {
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
     if (chdir(BUILDCONTROLDIR)) ohshite(_("failed to chdir to .../DEBIAN"));
     execlp(TAR, "tar", "-cf", "-", "--format=gnu", ".", NULL);
-    ohshite(_("failed to exec tar -cf"));
+    ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
   }
   close(p1[1]);
   /* Create a temporary file to store the control data in. Immediately unlink
@@ -464,7 +464,7 @@ void do_build(const char *const *argv) {
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
     execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "-T", "-", "--no-recursion", NULL);
-    ohshite(_("failed to exec tar -cf"));
+    ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
   }
   close(p1[0]);
   close(p2[1]);
@@ -488,7 +488,7 @@ void do_build(const char *const *argv) {
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
     execlp(FIND, "find", ".", "-path", "./" BUILDCONTROLDIR, "-prune", "-o",
            "-print0", NULL);
-    ohshite(_("failed to exec find"));
+    ohshite(_("unable to execute %s (%s)"), "find", FIND);
   }
   close(p3[1]);
   /* We need to reorder the files so we can make sure that symlinks

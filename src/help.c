@@ -584,7 +584,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
   c1 = subproc_fork();
   if (!c1) {
     execlp(RM, "rm", "-rf", "--", pathname, NULL);
-    ohshite(_("failed to exec rm for cleanup"));
+    ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
   subproc_wait_check(c1, "rm cleanup", 0);
