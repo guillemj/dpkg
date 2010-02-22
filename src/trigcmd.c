@@ -53,8 +53,7 @@ printversion(const struct cmdinfo *ci, const char *value)
 
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"
-"See %s --license for copyright and license details.\n"), thisname);
+"later for copying conditions. There is NO warranty.\n"));
 
 	m_output(stdout, _("<standard output>"));
 
@@ -77,7 +76,6 @@ usage(const struct cmdinfo *ci, const char *value)
 	printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
-"  --license|--licence              Show the copyright licensing terms.\n"
 "\n"));
 
 	printf(_(
@@ -174,10 +172,6 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
 	{ "help",            'h', 0, NULL,     NULL,       usage   },
 	{ "version",         0,   0, NULL,     NULL,       printversion  },
-	/* UK spelling */
-	{ "licence",         0,   0, NULL,     NULL,       showcopyright },
-	/* US spelling */
-	{ "license",         0,   0, NULL,     NULL,       showcopyright },
 	{  NULL  }
 };
 

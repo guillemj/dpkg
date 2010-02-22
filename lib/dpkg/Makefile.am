@@ -7,7 +7,6 @@ pkgconfdir = $(sysconfdir)/@PACKAGE@
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
-	-DCOPYINGFILE=\"$(datadir)/common-licenses/GPL-2\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
@@ -37,7 +36,6 @@ libdpkg_a_SOURCES = \
 	md5.c md5.h \
 	mlib.c \
 	myopt.c myopt.h \
-	myopt-util.c \
 	nfmalloc.c \
 	parse.c \
 	parsehelp.c \

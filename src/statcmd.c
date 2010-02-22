@@ -47,9 +47,7 @@
 #include "filesdb.h"
 
 const char thisname[] = "dpkg-statoverrides";
-const char printforhelp[] = N_(
-"Use --help for help about querying packages;\n"
-"Use --license for copyright license and lack of warranty (GNU GPL).");
+const char printforhelp[] = N_("Use --help for help about querying packages.");
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
@@ -402,10 +400,6 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "update",     0,   0,  &opt_update,  NULL,      NULL, 1       },
 	{ "help",       'h', 0,  NULL,         NULL,      usage         },
 	{ "version",    0,   0,  NULL,         NULL,      printversion  },
-	/* UK spelling */
-	{ "licence",    0,   0,  NULL,         NULL,      showcopyright },
-	/* US spelling */
-	{ "license",    0,   0,  NULL,         NULL,      showcopyright },
 	{  NULL,        0                                               }
 };
 

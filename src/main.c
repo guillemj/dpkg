@@ -57,8 +57,7 @@ printversion(const struct cmdinfo *ci, const char *value)
          DPKG, DPKG_VERSION_ARCH);
   printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"
-"See %s --license for copyright and license details.\n"), DPKG);
+"later for copying conditions. There is NO warranty.\n"));
 
   m_output(stdout, _("<standard output>"));
 
@@ -106,7 +105,6 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
-"  --license|--licence              Show the copyright licensing terms.\n"
 "\n"));
 
   printf(_(
@@ -166,7 +164,6 @@ const char printforhelp[]= N_(
 "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
 "Type dpkg --force-help for a list of forcing options;\n"
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
-"Type dpkg --license for copyright license and lack of warranty (GNU GPL) [*].\n"
 "\n"
 "Options marked [*] produce a lot of output - pipe it through `less' or `more' !");
 
@@ -522,10 +519,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "debug",             'D', 1, NULL,          NULL,      setdebug,      0 },
   { "help",              'h', 0, NULL,          NULL,      usage,         0 },
   { "version",           0,   0, NULL,          NULL,      printversion,  0 },
-  /* UK spelling. */
-  { "licence",           0,   0, NULL,          NULL,      showcopyright, 0 },
-  /* US spelling. */
-  { "license",           0,   0, NULL,          NULL,      showcopyright, 0 },
   ACTIONBACKEND( "build",		'b', BACKEND),
   ACTIONBACKEND( "contents",		'c', BACKEND),
   ACTIONBACKEND( "control",		'e', BACKEND),

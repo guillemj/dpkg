@@ -161,8 +161,7 @@ static const char copyrightstring[]= N_(
 
 static const char licensestring[]= N_(
       "This is free software; see the GNU General Public License version 2 or\n"
-      "later for copying conditions. There is NO warranty.\n"
-      "See %s --license for copyright and license details.\n");
+      "later for copying conditions. There is NO warranty.\n");
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
@@ -197,7 +196,6 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "  --help                     Show this help message.\n"
 "  --version                  Show the version.\n"
-"  --license | --licence      Show the license.\n"
 "\n"));
 
   printf(_(
@@ -308,8 +306,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "expert",      'E',  0,  0,  0,          setexpert       },
   { "help",        'h',  0,  0,  0,          usage           },
   { "version",      0,   0,  0,  0,          printversion    },
-  { "licence",      0,   0,  0,  0,          showcopyright   }, /* UK spelling */
-  { "license",      0,   0,  0,  0,          showcopyright   }, /* US spelling */
   { "color",        0,   1,  0,  0,          setcolor        }, /* US spelling */
   { "colour",       0,   1,  0,  0,          setcolor        }, /* UK spelling */
   { 0,              0,   0,  0,  0,          0               }

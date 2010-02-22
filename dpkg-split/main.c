@@ -48,8 +48,7 @@ printversion(const struct cmdinfo *cip, const char *value)
   printf(_("Copyright (C) 1994-1996 Ian Jackson.\n"));
   printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"
-"See %s --license for copyright and license details.\n"), SPLITTER);
+"later for copying conditions. There is NO warranty.\n"));
 
   m_output(stdout, _("<standard output>"));
 
@@ -76,7 +75,6 @@ usage(const struct cmdinfo *cip, const char *value)
   printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
-"  --license|--licence              Show the copyright licensing terms.\n"
 "\n"));
 
   printf(_(
@@ -153,8 +151,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "discard",      'd',  0,  NULL, NULL,             setaction           },
   { "help",         'h',  0,  NULL, NULL,             usage               },
   { "version",       0,   0,  NULL, NULL,             printversion        },
-  { "licence",       0,   0,  NULL, NULL,             showcopyright       }, /* UK spelling */
-  { "license",       0,   0,  NULL, NULL,             showcopyright       }, /* US spelling */
   { "depotdir",      0,   1,  NULL, &depotdir,     NULL                   },
   { "partsize",     'S',  1,  NULL, NULL,             setpartsize         },
   { "output",       'o',  1,  NULL, &outputfile,   NULL                   },

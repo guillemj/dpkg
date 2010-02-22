@@ -564,8 +564,7 @@ printversion(const struct cmdinfo *ci, const char *value)
          DPKGQUERY, DPKG_VERSION_ARCH);
   printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"
-"See %s --license for copyright and license details.\n"), DPKGQUERY);
+"later for copying conditions. There is NO warranty.\n"));
 
   m_output(stdout, _("<standard output>"));
 
@@ -594,7 +593,6 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
-"  --license|--licence              Show the copyright licensing terms.\n"
 "\n"));
 
   printf(_(
@@ -618,9 +616,7 @@ usage(const struct cmdinfo *ci, const char *value)
 }
 
 const char thisname[]= "dpkg-query";
-const char printforhelp[]= N_("\
-Use --help for help about querying packages;\n\
-Use --license for copyright license and lack of warranty (GNU GPL).");
+const char printforhelp[]= N_("Use --help for help about querying packages.");
 
 const struct cmdinfo *cipaction = NULL;
 
@@ -655,10 +651,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
   { "help",       'h', 0, NULL, NULL,        usage         },
   { "version",    0,   0, NULL, NULL,        printversion  },
-  /* UK spelling. */
-  { "licence",    0,   0, NULL, NULL,        showcopyright },
-  /* US spelling */
-  { "license",    0,   0, NULL, NULL,        showcopyright },
   {  NULL,        0,   0, NULL, NULL,        NULL          }
 };
 
