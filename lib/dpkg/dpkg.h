@@ -28,9 +28,7 @@
 #include <sys/types.h>
 
 #include <setjmp.h>
-#ifdef HAVE_STDDEF_H
 #include <stddef.h>
-#endif
 #include <stdarg.h>
 #include <stdio.h>
 

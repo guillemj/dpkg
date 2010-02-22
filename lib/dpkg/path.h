@@ -21,9 +21,7 @@
 #ifndef LIBDPKG_PATH_H
 #define LIBDPKG_PATH_H
 
-#ifdef HAVE_STDDEF_H
 #include <stddef.h>
-#endif
 
 #include <dpkg/macros.h>
 
