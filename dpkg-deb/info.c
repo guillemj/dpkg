@@ -49,20 +49,19 @@
 
 static void cu_info_prepare(int argc, void **argv) {
   pid_t c1;
-  int status;
   char *directory;
   struct stat stab;
 
   directory= (char*)(argv[0]);
   if (chdir("/")) { perror(_("failed to chdir to `/' for cleanup")); return; }
   if (lstat(directory,&stab) && errno==ENOENT) return;
-  if ((c1= fork()) == -1) { perror(_("failed to fork for cleanup")); return; }
+
+  c1 = subproc_fork();
   if (!c1) {
     execlp(RM, "rm", "-rf", directory, NULL);
     perror(_("failed to exec rm for cleanup")); _exit(1);
   }
-  if (waitpid(c1,&status,0) != c1) { perror(_("failed to wait for rm cleanup")); return; }
-  if (status) { fprintf(stderr,_("rm cleanup failed, code %d\n"),status); }
+  subproc_wait_check(c1, "rm cleanup", 0);
 } 
 
 static void info_prepare(const char *const **argvp,
