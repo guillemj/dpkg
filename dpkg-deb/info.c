@@ -53,13 +53,14 @@ static void cu_info_prepare(int argc, void **argv) {
   struct stat stab;
 
   directory= (char*)(argv[0]);
-  if (chdir("/")) { perror(_("failed to chdir to `/' for cleanup")); return; }
+  if (chdir("/"))
+    ohshite(_("failed to chdir to `/' for cleanup"));
   if (lstat(directory,&stab) && errno==ENOENT) return;
 
   c1 = subproc_fork();
   if (!c1) {
     execlp(RM, "rm", "-rf", directory, NULL);
-    perror(_("failed to exec rm for cleanup")); _exit(1);
+    ohshite(_("failed to exec rm for cleanup"));
   }
   subproc_wait_check(c1, "rm cleanup", 0);
 } 
