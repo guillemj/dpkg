@@ -22,9 +22,6 @@
 #ifndef LIBDPKG_DPKG_H
 #define LIBDPKG_DPKG_H
 
-#ifdef HAVE_SYS_CDEFS_H
-#include <sys/cdefs.h>
-#endif
 #include <sys/types.h>
 
 #include <setjmp.h>
