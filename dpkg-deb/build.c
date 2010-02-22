@@ -414,7 +414,7 @@ void do_build(const char *const *argv) {
   /* Create a temporary file to store the control data in. Immediately unlink
    * our temporary file so others can't mess with it.
    */
-  tfbuf = path_make_temp_template("dpkg");
+  tfbuf = path_make_temp_template("dpkg-deb");
   if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (control)"));
   /* make sure it's gone, the fd will remain until we close it */
   if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (control), %s"),
@@ -463,7 +463,7 @@ void do_build(const char *const *argv) {
    * can't mess with it. */
   if (!oldformatflag) {
     close(gzfd);
-    tfbuf = path_make_temp_template("dpkg");
+    tfbuf = path_make_temp_template("dpkg-deb");
     if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (data)"));
     /* make sure it's gone, the fd will remain until we close it */
     if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (data), %s"),

@@ -74,7 +74,7 @@ static void info_prepare(const char *const **argvp,
   *debarp= *(*argvp)++;
   if (!*debarp) badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
 
-  dbuf = mkdtemp(path_make_temp_template("dpkg"));
+  dbuf = mkdtemp(path_make_temp_template("dpkg-deb"));
   if (!dbuf)
     ohshite(_("failed to create temporary directory"));
   *directoryp= dbuf;
