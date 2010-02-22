@@ -124,7 +124,7 @@ void checkpath(void) {
         break;
     }
     if (!path) {
-      warning(_("'%s' not found on PATH."), *prog);
+      warning(_("'%s' not found in PATH or not executable."), *prog);
       warned++;
     }
   }
@@ -132,8 +132,9 @@ void checkpath(void) {
   varbuf_destroy(&filename);
 
   if (warned)
-    forcibleerr(fc_badpath,_("%d expected program(s) not found on PATH.\nNB: root's "
-                "PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."),
+    forcibleerr(fc_badpath, _("%d expected program(s) not found in PATH "
+                "or not executable.\nNB: root's PATH should usually contain "
+                "/usr/local/sbin, /usr/sbin and /sbin."),
                 warned);
 }
 
