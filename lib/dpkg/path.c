@@ -3,7 +3,7 @@
  * path.c - path handling functions
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,12 @@
 #include <config.h>
 #include <compat.h>
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
+#include <dpkg/varbuf.h>
 #include <dpkg/path.h>
 
 size_t
@@ -52,6 +55,32 @@ path_skip_slash_dotslash(const char *path)
 		path++;
 
 	return path;
+}
+
+/**
+ * Create a template for a temporary pathname.
+ *
+ * @param suffix The suffix to use for the template string.
+ *
+ * @return An allocated string with the created template.
+ */
+char *
+path_make_temp_template(const char *suffix)
+{
+	const char *tmpdir;
+	struct varbuf template = VARBUF_INIT;
+
+	tmpdir = getenv("TMPDIR");
+#ifdef P_tmpdir
+	if (!tmpdir)
+		tmpdir = P_tmpdir;
+#endif
+	if (!tmpdir)
+		tmpdir = "/tmp";
+
+	varbufprintf(&template, "%s/%s.XXXXXX", tmpdir, suffix);
+
+	return varbuf_detach(&template);
 }
 
 /*

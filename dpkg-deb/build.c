@@ -218,7 +218,6 @@ void do_build(const char *const *argv) {
   char *m;
   const char *debar, *directory, *const *mscriptp, *versionstring, *arch;
   char *controlfile, *tfbuf;
-  const char *envbuf;
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
   FILE *ar, *cf;
@@ -235,12 +234,6 @@ void do_build(const char *const *argv) {
   directory = *argv++;
   if (!directory)
     badusage(_("--%s needs a <directory> argument"), cipaction->olong);
-  /* template for our tempfiles */
-  if ((envbuf= getenv("TMPDIR")) == NULL)
-    envbuf= P_tmpdir;
-  tfbuf = m_malloc(strlen(envbuf) + 13);
-  strcpy(tfbuf,envbuf);
-  strcat(tfbuf,"/dpkg.XXXXXX");
   subdir= 0;
   debar = *argv++;
   if (debar != NULL) {
@@ -421,13 +414,13 @@ void do_build(const char *const *argv) {
   /* Create a temporary file to store the control data in. Immediately unlink
    * our temporary file so others can't mess with it.
    */
+  tfbuf = path_make_temp_template("dpkg");
   if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (control)"));
   /* make sure it's gone, the fd will remain until we close it */
   if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (control), %s"),
       tfbuf);
-  /* reset this, so we can use it elsewhere */
-  strcpy(tfbuf,envbuf);
-  strcat(tfbuf,"/dpkg.XXXXXX");
+  free(tfbuf);
+
   /* And run gzip to compress our control archive */
   c2 = subproc_fork();
   if (!c2) {
@@ -470,13 +463,12 @@ void do_build(const char *const *argv) {
    * can't mess with it. */
   if (!oldformatflag) {
     close(gzfd);
+    tfbuf = path_make_temp_template("dpkg");
     if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (data)"));
     /* make sure it's gone, the fd will remain until we close it */
     if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (data), %s"),
         tfbuf);
-    /* reset these, in case we want to use the later */
-    strcpy(tfbuf,envbuf);
-    strcat(tfbuf,"/dpkg.XXXXXX");
+    free(tfbuf);
   }
   /* Fork off a tar. We will feed it a list of filenames on stdin later.
    */
