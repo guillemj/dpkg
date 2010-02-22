@@ -40,6 +40,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/path.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/tarfn.h>
@@ -88,7 +89,6 @@ void process_archive(const char *filename) {
    * variables had better still exist ...
    */
   static int p1[2];
-  static char cidirtmpnambuf[L_tmpnam+100];
   static char *cidirbuf = NULL, *reasmbuf = NULL;
   static struct fileinlist *newconffiles, *newfileslist;
   static enum pkgstatus oldversionstatus;
@@ -186,10 +186,14 @@ void process_archive(const char *filename) {
     
 
   if (f_noact) {
-    cidir= cidirtmpnambuf;
-    /* We use tmpnam here, not to get a unique filename, but to get a unique directory. */
-    if (!tmpnam(cidir)) ohshite(_("unable to get unique filename for control info"));
+    if (!cidirbuf)
+      free(cidirbuf);
+    cidir = cidirbuf = mkdtemp(path_make_temp_template("dpkg"));
+    if (!cidir)
+      ohshite(_("unable to create temporary directory"));
     strcat(cidir,"/");
+
+    cidirrest = cidir + strlen(cidir);
   } else {
     /* We want it to be on the same filesystem so that we can
      * use rename(2) to install the postinst &c.
@@ -199,12 +203,14 @@ void process_archive(const char *filename) {
     cidir= cidirbuf;
     strcpy(cidir,admindir);
     strcat(cidir, "/" CONTROLDIRTMP);
-  }
-  cidirrest= cidir + strlen(cidir);
 
-  assert(*cidir && cidirrest[-1] == '/');
-  cidirrest[-1] = '\0';
-  ensure_pathname_nonexisting(cidir); cidirrest[-1]= '/';
+    cidirrest = cidir + strlen(cidir);
+
+    assert(*cidir && cidirrest[-1] == '/');
+    cidirrest[-1] = '\0';
+    ensure_pathname_nonexisting(cidir);
+    cidirrest[-1] = '/';
+  }
   
   push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);
   c1 = subproc_fork();

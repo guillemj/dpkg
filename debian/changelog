@@ -108,6 +108,9 @@ dpkg (1.15.6) UNRELEASED; urgency=low
   * Update debian/copyright.
   * Use Debian instead of ‘Debian GNU/Linux’ when referring to the
     distribution.
+  * On dpkg --no-act with --install, --unpack or --record-avail, and
+    dpkg-deb --info or --field use mkdtemp() to create a temporary directory
+    instead of insecure tempnam() or tmpnam() functions.
 
   [ Modestas Vainius ]
   * Implement symbol patterns (Closes: #563752). From now on, it is possible to

@@ -41,6 +41,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-format.h>
 #include <dpkg/buffer.h>
+#include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/myopt.h>
 
@@ -69,21 +70,15 @@ static void info_prepare(const char *const **argvp,
                          const char **directoryp,
                          int admininfo) {
   char *dbuf;
-  pid_t c1;
   
   *debarp= *(*argvp)++;
   if (!*debarp) badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
-  /* This creates a temporary directory, so ignore the warning. */
-  if ((dbuf= tempnam(NULL,"dpkg")) == NULL)
-    ohshite(_("failed to make temporary directoryname"));
+
+  dbuf = mkdtemp(path_make_temp_template("dpkg"));
+  if (!dbuf)
+    ohshite(_("failed to create temporary directory"));
   *directoryp= dbuf;
 
-  c1 = subproc_fork();
-  if (!c1) {
-    execlp(RM, "rm", "-rf", dbuf, NULL);
-    ohshite(_("failed to exec rm -rf"));
-  }
-  subproc_wait_check(c1, "rm -rf", 0);
   push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
   extracthalf(*debarp, dbuf, "mx", admininfo);
 }
