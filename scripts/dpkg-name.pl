@@ -130,7 +130,7 @@ sub getname($$$)
     }
     (my $name = $tname) =~ s/ //g;
     if ($tname ne $name) { # control fields have spaces
-        warning("bad package control information for '%s'", $filename);
+        warning(_g("bad package control information for '%s'"), $filename);
     }
     return $name;
 }
@@ -146,7 +146,8 @@ sub getdir($$$)
             my $section = $fields->{Section};
             if (!$section) {
                 $section = "no-section";
-                warning("assuming section '%s' for '%s'", $section, $filename);
+                warning(_g("assuming section '%s' for '%s'"), $section,
+                        $filename);
             }
             if ($section ne "non-free" and $section ne "contrib" and
                 $section ne "no-section") {
@@ -170,7 +171,8 @@ sub move($)
         my $fields = getfields($filename);
 
         unless (exists $fields->{Package}) {
-            warning("no Package field found in '%s', skipping it", $filename);
+            warning(_g("no Package field found in '%s', skipping it"),
+                    $filename);
             return;
         }
 
@@ -182,12 +184,13 @@ sub move($)
         if (! -d $dir) {
             if ($options{createdir}) {
                 if (mkpath($dir)) {
-                    info("created directory '%s'", $dir);
+                    info(_g("created directory '%s'"), $dir);
                 } else {
-                    error("failed creating directory '%s'", $dir);
+                    error(_g("cannot create directory '%s'", $dir);
                 }
             } else {
-                error("no such dir '%s', try --create-dir (-c) option", $dir);
+                error(_g("no such directory '%s', try --create-dir (-c) option"),
+                      $dir);
             }
         }
 
@@ -201,13 +204,13 @@ sub move($)
         }
 
         if (filesame($newname, $filename)) {
-            warning("skipping '%s'", $filename);
+            warning(_g("skipping '%s'"), $filename);
         } elsif (-f $newname and !$options{overwrite}) {
-            warning("cannot move '%s' to existing file", $filename);
+            warning(_g("cannot move '%s' to existing file"), $filename);
         } elsif (system(@command, $filename, $newname) == 0) {
-            info("moved '%s' to '%s'", basename($filename), $newname);
+            info(_g("moved '%s' to '%s'"), basename($filename), $newname);
         } else {
-            error("mkdir can be used to create directory");
+            error(_g("mkdir can be used to create directory"));
         }
     }
 }
