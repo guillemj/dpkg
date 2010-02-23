@@ -1,4 +1,4 @@
-# Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2009-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,9 +23,10 @@ our $VERSION = "1.00";
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
+use base qw(Dpkg::Interface::Storable);
+
 use overload
-    '@{}' => sub { $_[0]->{'options'} },
-    '""'  => sub { join(" ", @{$_[0]->{'options'}}) },
+    '@{}' => sub { return [ $_[0]->get_options() ] },
     fallback => 1;
 
 =head1 NAME
@@ -41,9 +42,12 @@ file. It can exports an array that can then be parsed exactly like @ARGV.
 
 =over 4
 
-=item my $conf = Dpkg::Conf->new()
+=item my $conf = Dpkg::Conf->new(%opts)
 
-Create a new Dpkg::Conf object.
+Create a new Dpkg::Conf object. Some options can be set through %opts:
+if allow_short evaluates to true (it defaults to false), then short
+options are allowed in the configuration file, they should be prepended
+with a single dash.
 
 =cut
 
@@ -55,6 +59,9 @@ sub new {
 	options => [],
 	allow_short => 0,
     };
+    foreach my $opt (keys %opts) {
+	$self->{$opt} = $opts{$opt};
+    }
     bless $self, $class;
 
     return $self;
@@ -62,7 +69,16 @@ sub new {
 
 =item @$conf
 
-Returns the list of options to be parsed.
+=item @options = $conf->get_options()
+
+Returns the list of options that can be parsed like @ARGV.
+
+=cut
+
+sub get_options {
+    my ($self) = @_;
+    return @{$self->{'options'}};
+}
 
 =item $conf->load($file)
 
@@ -73,14 +89,6 @@ Read options from a file. Return the number of options parsed.
 Parse options from a file handle. Return the number of options parsed.
 
 =cut
-
-sub load {
-    my ($self, $file) = @_;
-    open(my $fh, "<", $file) or syserr(_g("cannot read %s"), $file);
-    my $ret = $self->parse($fh, $file);
-    close($fh);
-    return $ret;
-}
 
 sub parse {
     my ($self, $fh, $desc) = @_;
@@ -106,11 +114,40 @@ sub parse {
 	    }
 	    $count++;
 	} else {
-	    warning(_g("invalid syntax for option in %s, line %d"),
-		    $desc, $.);
+	    warning(_g("invalid syntax for option in %s, line %d"), $desc, $.);
 	}
     }
     return $count;
+}
+
+=item $string = $conf->output($fh)
+
+Write the options in the given filehandle (if defined) and return a string
+representation of the content (that would be) written.
+
+=item "$conf"
+
+Return a string representation of the content.
+
+=item $conf->save($file)
+
+Save the options in a file.
+
+=cut
+
+sub output {
+    my ($self, $fh) = @_;
+    my $ret = "";
+    foreach my $opt ($self->get_options()) {
+	$opt =~ s/^--//;
+	if ($opt =~ s/^([^=]+)=/$1 = "/) {
+	    $opt .= '"';
+	}
+	$opt .= "\n";
+	print $fh $opt if defined $fh;
+	$ret .= $opt;
+    }
+    return $ret;
 }
 
 =back

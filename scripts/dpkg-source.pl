@@ -111,7 +111,7 @@ if (defined($options{'opmode'}) &&
     # instead
     @$conf = grep { ! /^--format=/ } @$conf;
     if (@$conf) {
-	info(_g("using options from %s: %s"), $optfile, "$conf")
+	info(_g("using options from %s: %s"), $optfile, join(" ", @$conf))
 	    unless $options{'opmode'} eq "--print-format";
 	unshift @options, @$conf;
     }
