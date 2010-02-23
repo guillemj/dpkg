@@ -144,11 +144,13 @@ while (@options) {
         $override{$1} = $2;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
-    } elsif (m/^-i(.*)$/) {
+    } elsif (m/^-(?:i|-diff-ignore(?:$|=))(.*)$/) {
         $options{'diff_ignore_regexp'} = $1 ? $1 : $Dpkg::Source::Package::diff_ignore_default_regexp;
-    } elsif (m/^-I(.+)$/) {
+    } elsif (m/^--extend-diff-ignore=(.+)$/) {
+	$Dpkg::Source::Package::diff_ignore_default_regexp .= "|$1";
+    } elsif (m/^-(?:I|-tar-ignore=)(.+)$/) {
         push @{$options{'tar_ignore'}}, $1;
-    } elsif (m/^-I$/) {
+    } elsif (m/^-(?:I|-tar-ignore)$/) {
         unless ($tar_ignore_default_pattern_done) {
             push @{$options{'tar_ignore'}}, @Dpkg::Source::Package::tar_ignore_default_pattern;
             # Prevent adding multiple times
