@@ -56,6 +56,7 @@ dpkg_query_LDADD = \
 	$(LIBINTL)
 
 dpkg_statoverride_SOURCES = \
+	glob.c glob.h \
 	filesdb.c filesdb.h \
 	statdb.c \
 	statcmd.c

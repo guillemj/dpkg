@@ -45,6 +45,7 @@
 #include <dpkg/myopt.h>
 
 #include "main.h"
+#include "glob.h"
 #include "filesdb.h"
 
 const char thisname[] = "dpkg-statoverrides";
@@ -327,34 +328,6 @@ statoverride_remove(const char *const *argv)
 	free(filename);
 
 	return 0;
-}
-
-struct glob_node {
-	struct glob_node *next;
-	char *pattern;
-};
-
-static void
-glob_list_prepend(struct glob_node **list, char *pattern)
-{
-	struct glob_node *node;
-
-	node = m_malloc(sizeof(*node));
-	node->pattern = pattern;
-	node->next = *list;
-	*list = node;
-}
-
-static void
-glob_list_free(struct glob_node *head)
-{
-	while (head) {
-		struct glob_node *node = head;
-
-		head = head->next;
-		free(node->pattern);
-		free(node);
-	}
 }
 
 static int
