@@ -1,3 +1,6 @@
+# Copyright © 2007 Frank Lichtenheld <djpig@debian.org>
+# Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -16,56 +19,172 @@ package Dpkg::BuildOptions;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = "1.00";
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
-sub parse {
-    my ($env) = @_;
+=head1 NAME
 
-    $env ||= $ENV{DEB_BUILD_OPTIONS};
+Dpkg::BuildOptions - parse and update build options
 
-    unless ($env) { return {}; }
+=head1 DESCRIPTION
 
-    my %opts;
+The Dpkg::BuildOptions object can be used to manipulate options stored
+in the DEB_BUILD_OPTIONS environment variable.
 
-    foreach (split(/\s+/, $env)) {
-	unless (/^([a-z][a-z0-9_-]*)(=(\S*))?$/) {
-            warning(_g("invalid flag in DEB_BUILD_OPTIONS: %s"), $_);
+=head1 FUNCTIONS
+
+=over 4
+
+=item my $bo = Dpkg::BuildOptions->new()
+
+Create a new Dpkg::BuildOptions object. It will be initialized based
+on the value of the DEB_BUILD_OPTIONS environment variable.
+
+=cut
+
+sub new {
+    my ($this, %opts) = @_;
+    my $class = ref($this) || $this;
+
+    my $self = {
+        options => {},
+	source => {},
+    };
+    bless $self, $class;
+    $self->merge($ENV{DEB_BUILD_OPTIONS}, "DEB_BUILD_OPTIONS");
+    return $self;
+}
+
+=item $bo->reset()
+
+Reset the object to not have any option (it's empty).
+
+=cut
+
+sub reset {
+    my ($self) = @_;
+    $self->{'options'} = {};
+    $self->{'source'} = {};
+}
+
+=item $bo->merge($content, $source)
+
+Merge the options set in $content and record that they come from the
+source $source. $source is mainly used in warning messages currently
+to indicate where invalid options have been detected.
+
+$content is a space separated list of options with optional assigned
+values like "nocheck parallel=2".
+
+=cut
+
+sub merge {
+    my ($self, $content, $source) = @_;
+    my $count = 0;
+    foreach (split(/\s+/, $content)) {
+	unless (/^([a-z][a-z0-9_-]*)(?:=(\S*))?$/) {
+            warning(_g("invalid flag in %s: %s"), $source, $_);
             next;
         }
-
-	my ($k, $v) = ($1, $3);
-
-	# Sanity checks
-	if ($k =~ /^(noopt|nostrip|nocheck)$/ && defined($v)) {
-	    $v = undef;
-	} elsif ($k eq 'parallel')  {
-	    $v = "" if not defined($v);
-	    next if $v !~ /^\d*$/;
-	}
-
-	$opts{$k} = $v;
+	$count += $self->set($1, $2, $source);
     }
-
-    return \%opts;
+    return $count;
 }
+
+=item $bo->set($option, $value, [$source])
+
+Store the given option in the objet with the given value. It's legitimate
+for a value to be undefined if the option is a simple boolean (its
+presence means true, its absence means false). The $source is optional
+and indicates where the option comes from.
+
+The known options have their values checked for sanity. Options without
+values have their value removed and options with invalid values are
+discarded.
+
+=cut
 
 sub set {
-    my ($opts, $overwrite) = @_;
-    $overwrite = 1 if not defined($overwrite);
+    my ($self, $key, $value, $source) = @_;
 
-    my $new = {};
-    $new = parse() unless $overwrite;
-    while (my ($k, $v) = each %$opts) {
-        $new->{$k} = $v;
+    # Sanity checks
+    if ($key =~ /^(noopt|nostrip|nocheck)$/ && defined($value)) {
+	$value = undef;
+    } elsif ($key eq 'parallel')  {
+	$value = "" if not defined($value);
+	return 0 if $value !~ /^\d*$/;
     }
 
-    my $env = join(" ", map { defined($new->{$_}) ? $_ . "=" . $new->{$_} : $_ } sort keys %$new);
+    $self->{'options'}{$key} = $value;
+    $self->{'source'}{$key} = $source;
 
-    $ENV{DEB_BUILD_OPTIONS} = $env;
-    return $env;
+    return 1;
 }
+
+=item $bo->get($option)
+
+Return the value associated to the option. It might be undef even if the
+option exists. You might want to check with $bo->has($option) to verify if
+the option is stored in the object.
+
+=cut
+
+sub get {
+    my ($self, $key) = @_;
+    return $self->{'options'}{$key};
+}
+
+=item $bo->has($option)
+
+Returns a boolean indicating whether the option is stored in the object.
+
+=cut
+
+sub has {
+    my ($self, $key) = @_;
+    return exists $self->{'options'}{$key};
+}
+
+=item $string = $bo->output($fh)
+
+Return a string representation of the build options suitable to be
+assigned to an environment variable. Can optionnaly output that string to
+the given filehandle.
+
+=cut
+
+sub output {
+    my ($self, $fh) = @_;
+    my $o = $self->{'options'};
+    my $res = join(" ", map { defined($o->{$_}) ? $_ . "=" . $o->{$_} : $_ } sort keys %$o);
+    print $fh $res if defined $fh;
+    return $res;
+}
+
+=item $bo->export([$var])
+
+Export the build options to the given environment variable. If omitted,
+DEB_BUILD_OPTIONS is assumed. The value set to the variable is also
+returned.
+
+=cut
+
+sub export {
+    my ($self, $var) = @_;
+    $var = "DEB_BUILD_OPTIONS" unless defined $var;
+    my $content = $self->output();
+    $ENV{$var} = $content;
+    return $content;
+}
+
+=back
+
+=head1 AUTHOR
+
+Raphaël Hertzog <hertzog@debian.org>
+
+=cut
 
 1;

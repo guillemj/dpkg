@@ -259,16 +259,16 @@ if ($signcommand) {
     }
 }
 
-my $build_opts = Dpkg::BuildOptions::parse();
+my $build_opts = Dpkg::BuildOptions->new();
 if (defined $parallel) {
-    $parallel = $build_opts->{parallel} if exists $build_opts->{parallel};
+    $parallel = $build_opts->get("parallel") if $build_opts->has("parallel");
     $ENV{MAKEFLAGS} ||= '';
     $ENV{MAKEFLAGS} .= " -j$parallel";
-    $build_opts->{parallel} = $parallel;
-    Dpkg::BuildOptions::set($build_opts);
+    $build_opts->set("parallel", $parallel);
+    $build_opts->export();
 }
 
-my $default_flags = exists $build_opts->{noopt} ? "-g -O0" : "-g -O2";
+my $default_flags = $build_opts->has("noopt") ? "-g -O0" : "-g -O2";
 my %flags = ( CPPFLAGS => '',
 	      CFLAGS   => $default_flags,
 	      CXXFLAGS => $default_flags,

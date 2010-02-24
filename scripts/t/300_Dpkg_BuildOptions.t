@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 6;
+use Test::More tests => 22;
 use Dpkg::ErrorHandling;
 
 use strict;
@@ -30,37 +30,39 @@ use_ok('Dpkg::BuildOptions');
 
 $ENV{DEB_BUILD_OPTIONS} = 'noopt foonostripbar parallel=3 bazNOCHECK';
 
-my $dbo = Dpkg::BuildOptions::parse();
+my $dbo = Dpkg::BuildOptions->new();
+ok($dbo->has("noopt"), "has noopt");
+is($dbo->get("noopt"), undef, "noopt value");
+ok($dbo->has("foonostripbar"), "has foonostripbar");
+is($dbo->get("foonostripbar"), undef, "foonostripbar value");
+ok($dbo->has("parallel"), "has parallel");
+is($dbo->get("parallel"), 3, "parallel value");
+ok(!$dbo->has("bazNOCHECK"), "not has bazNOCHECK");
 
-my %dbo = (
-	   noopt => undef,
-	   foonostripbar => undef,
-	   parallel => 3,
-	   );
-my %dbo2 = (
-	    no => undef,
-	    opt => undef,
-	    'no-strip' => undef,
-	    nocheck => undef,
-	    parallel => '',
-	   );
+$dbo->reset();
+$dbo->merge('no opt no-strip parallel = 5 nocheck', 'test');
+ok($dbo->has('no'), "has no");
+is($dbo->get('no'), undef, "no value");
+ok($dbo->has('opt'), "has opt");
+is($dbo->get('opt'), undef, "opt value");
+ok($dbo->has('no-strip'), "has no-strip");
+is($dbo->get('no-strip'), undef, "no-strip value");
+ok($dbo->has('parallel'), "has parallel");
+is($dbo->get('parallel'), '', "parallel value");
+ok($dbo->has('nocheck'), "has nocheck");
+is($dbo->get('nocheck'), undef, "nocheck value");
 
+$dbo->reset();
+$dbo->set('parallel', 5);
+$dbo->set('noopt', undef);
 
-is_deeply($dbo, \%dbo, 'parse');
-
-$dbo = Dpkg::BuildOptions::parse('no opt no-strip parallel = 5 nocheck');
-
-is_deeply($dbo, \%dbo2, 'parse (param)');
-
-$dbo->{parallel} = 5;
-$dbo->{noopt} = undef;
-
-my $env = Dpkg::BuildOptions::set($dbo, 1);
-
-is($ENV{DEB_BUILD_OPTIONS}, $env, 'set (return value)');
-is_deeply(Dpkg::BuildOptions::parse(), $dbo, 'set (env)');
+my $env = $dbo->export();
+is($env, "noopt parallel=5", "value of export");
+is($ENV{DEB_BUILD_OPTIONS}, $env, 'env match return value of export');
+$env = $dbo->export("OTHER_VARIABLE");
+is($ENV{OTHER_VARIABLE}, $env, 'export to other variable');
 
 $ENV{DEB_BUILD_OPTIONS} = 'foobar';
-$dbo = { noopt => undef };
-$env = Dpkg::BuildOptions::set($dbo, 0);
-is($env, "foobar noopt", 'set (append)');
+$dbo = Dpkg::BuildOptions->new();
+$dbo->set("noopt", 1);
+is($dbo->output(), "foobar noopt", "output");
