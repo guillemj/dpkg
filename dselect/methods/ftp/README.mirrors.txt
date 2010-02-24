@@ -1,4 +1,4 @@
-Debian GNU/Linux - worldwide mirror sites
+Debian - worldwide mirror sites
 
 This file is broken up into two separate mirror listings:
 primary and Secondary mirror sites.  The definitions are as follows:
