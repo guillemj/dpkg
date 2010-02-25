@@ -343,7 +343,7 @@ compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
 struct compressor compressor_lzma = {
 	.name = "lzma",
 	.extension = ".lzma",
-	.default_level = 9,
+	.default_level = 6,
 	.compress = compress_lzma,
 	.decompress = decompress_lzma,
 };
