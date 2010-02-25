@@ -120,6 +120,10 @@ dpkg (1.15.6) UNRELEASED; urgency=low
     Thanks to Jonathan Nieder for the initial patch.
   * Use xz command to handle lzma compressed files in dpkg and dpkg-dev.
     This removes the lzma package from both dpkg and dpkg-dev dependencies.
+  * Do not set PKG_CONFIG_LIBDIR in dpkg-buildpackage when cross-building.
+    The proper solution to this is to let the build system choose the
+    appropriate pkg-config binary for the build or host system in the same
+    way pkg.m4 is handling it now. Closes: #551118
 
   [ Modestas Vainius ]
   * Implement symbol patterns (Closes: #563752). From now on, it is possible to

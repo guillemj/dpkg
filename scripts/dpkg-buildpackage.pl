@@ -29,7 +29,6 @@ use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version;
 use Dpkg::Changelog::Parse;
-use Dpkg::Arch qw(get_build_arch debarch_to_gnutriplet);
 
 textdomain("dpkg-dev");
 
@@ -321,16 +320,6 @@ while ($_ = <$arch_env>) {
     }
 }
 close $arch_env or subprocerr('dpkg-architecture');
-
-# In case of cross-compilation, give sensible default search path
-# for some widely used tools
-$targetgnusystem = debarch_to_gnutriplet($targetarch) if $targetarch;
-if ($targetgnusystem and
-    ($targetgnusystem ne debarch_to_gnutriplet(get_build_arch())))
-{
-   $ENV{PKG_CONFIG_LIBDIR} ||= "/usr/$targetgnusystem/lib/pkgconfig/:" .
-                               "/usr/share/pkgconfig/";
-}
 
 my $arch;
 unless ($sourceonly) {
