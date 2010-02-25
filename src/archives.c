@@ -290,7 +290,8 @@ int unlinkorrmdir(const char *filename) {
     errno= e; return -1;
   }
   
-  r= unlink(filename); e= errno;
+  r = secure_unlink(filename);
+  e = errno;
   debug(dbg_eachfiledetail,"unlinkorrmdir `%s' unlink %s",
         filename, r ? strerror(e) : "OK");
   errno= e; return r;
