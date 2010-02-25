@@ -12,47 +12,72 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib
 
 
-noinst_LIBRARIES = libdpkg.a
+EXTRA_DIST = \
+	libdpkg.pc.in
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libdpkg.pc
+
+lib_LIBRARIES = libdpkg.a
 
 libdpkg_a_SOURCES = \
-	dpkg.h \
-	dpkg-db.h \
 	dlist.h \
-	ar.c ar.h \
-	buffer.c buffer.h \
+	ar.c \
+	buffer.c \
 	cleanup.c \
-	command.c command.h \
-	compress.c compress.h \
+	command.c \
+	compress.c \
 	database.c \
 	dbmodify.c \
 	dump.c \
 	ehandle.c \
-	file.c file.h \
+	file.c \
 	fields.c \
 	i18n.h \
 	lock.c \
 	log.c \
-	macros.h \
 	md5.c md5.h \
 	mlib.c \
-	myopt.c myopt.h \
+	myopt.c \
 	nfmalloc.c \
 	parse.c \
 	parsehelp.c \
-	parsedump.h \
-	path.c path.h \
-	pkg.c pkg.h \
-	pkg-array.c pkg-array.h \
-	pkg-format.c pkg-format.h \
-	pkg-list.c pkg-list.h \
-	pkg-queue.c pkg-queue.h \
-	progress.c progress.h \
-	string.c string.h \
-	subproc.c subproc.h \
-	tarfn.c tarfn.h \
+	path.c \
+	pkg.c \
+	pkg-array.c \
+	pkg-format.c \
+	pkg-list.c \
+	pkg-queue.c \
+	progress.c \
+	string.c \
+	subproc.c \
+	tarfn.c \
 	test.h \
 	triglib.c \
 	trigdeferred.l \
 	utils.c \
-	varbuf.c varbuf.h \
+	varbuf.c \
 	vercmp.c
+
+pkginclude_HEADERS = \
+	ar.h \
+	buffer.h \
+	command.h \
+	compress.h \
+	dpkg.h \
+	dpkg-db.h \
+	file.h \
+	macros.h \
+	myopt.h \
+	parsedump.h \
+	path.h \
+	pkg.h \
+	pkg-array.h \
+	pkg-format.h \
+	pkg-list.h \
+	pkg-queue.h \
+	progress.h \
+	string.h \
+	subproc.h \
+	tarfn.h \
+	varbuf.h

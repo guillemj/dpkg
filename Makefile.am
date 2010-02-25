@@ -53,6 +53,9 @@ EXTRA_DIST = \
 	debian/dselect.install \
 	debian/dselect.preinst \
 	debian/dselect.lintian-overrides \
+	debian/libdpkg-dev.docs \
+	debian/libdpkg-dev.install \
+	debian/libdpkg-dev.lintian-overrides \
 	debian/source.lintian-overrides \
 	debian/source/format \
 	debian/source/options \

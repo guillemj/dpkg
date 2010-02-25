@@ -139,6 +139,7 @@ AC_CONFIG_FILES([ Makefile
 		  lib/Makefile
 		  lib/compat/Makefile
 		  lib/dpkg/Makefile
+		  lib/dpkg/libdpkg.pc
 		  lib/dpkg/test/Makefile
 		  doc/Doxyfile
 		  man/Makefile
