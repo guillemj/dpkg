@@ -56,7 +56,7 @@ EXTRA_DIST = \
 	debian/libdpkg-dev.docs \
 	debian/libdpkg-dev.install \
 	debian/libdpkg-dev.lintian-overrides \
-	debian/source.lintian-overrides \
+	debian/source/lintian-overrides \
 	debian/source/format \
 	debian/source/options \
 	debian/usertags \
