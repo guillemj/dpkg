@@ -187,11 +187,6 @@ struct pkginfo { /* pig */
   struct trigpend *trigpend_head;
 };
 
-/*** from lock.c ***/
-
-void lockdatabase(const char *admindir);
-void unlockdatabase(void);
-
 /*** from dbmodify.c ***/
 
 enum modstatdb_rw {
@@ -205,6 +200,8 @@ enum modstatdb_rw {
   msdbrw_noavail= 0100,
 };
 
+void modstatdb_lock(const char *admindir);
+void modstatdb_unlock(void);
 enum modstatdb_rw modstatdb_init(const char *admindir, enum modstatdb_rw reqrwflags);
 void modstatdb_note(struct pkginfo *pkg);
 void modstatdb_note_ifwrite(struct pkginfo *pkg);

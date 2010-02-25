@@ -58,7 +58,7 @@ void updateavailable(const char *const *argv) {
       else
         ohshit(_("bulk available update requires write access to dpkg status area"));
     }
-    lockdatabase(admindir);
+    modstatdb_lock(admindir);
   }
   
   switch (cipaction->arg) {
@@ -88,7 +88,7 @@ void updateavailable(const char *const *argv) {
 
   if (!f_noact) {
     writedb(vb.buf,1,0);
-    unlockdatabase();
+    modstatdb_unlock();
   }
 
   if (cipaction->arg != act_avclear)

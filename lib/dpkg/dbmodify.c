@@ -140,7 +140,7 @@ static const struct fni {
 };
 
 void
-lockdatabase(const char *admindir)
+modstatdb_lock(const char *admindir)
 {
   static int dblockfd = -1;
   int n;
@@ -168,7 +168,7 @@ lockdatabase(const char *admindir)
 }
 
 void
-unlockdatabase(void)
+modstatdb_unlock(void)
 {
   unlock_file();
 }
@@ -201,7 +201,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
         ohshit(_("operation requires read/write access to dpkg status area"));
       cstatus= msdbrw_readonly;
     } else {
-      lockdatabase(adir);
+      modstatdb_lock(adir);
       cstatus= (readwritereq == msdbrw_needsuperuserlockonly ?
                 msdbrw_needsuperuserlockonly :
                 msdbrw_write);
@@ -264,7 +264,7 @@ void modstatdb_shutdown(void) {
     varbuf_destroy(&uvb);
     /* fall through */
   case msdbrw_needsuperuserlockonly:
-    unlockdatabase();
+    modstatdb_unlock();
   default:
     break;
   }
