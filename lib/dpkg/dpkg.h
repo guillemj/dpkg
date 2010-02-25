@@ -173,12 +173,6 @@ void cu_closepipe(int argc, void **argv);
 void cu_closedir(int argc, void **argv);
 void cu_closefd(int argc, void **argv);
 
-/*** lock.c ***/
-
-void file_lock(int *lockfd, const char *filename,
-               const char *emsg, const char *emsg_eagain);
-void file_unlock(void);
-
 /*** from mlib.c ***/
 
 void setcloexec(int fd, const char* fn);

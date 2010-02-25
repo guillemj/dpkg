@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * file.c - file handling functions
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994, 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2008 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -25,7 +25,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <assert.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <unistd.h>
 
 #include <dpkg/dpkg.h>
@@ -49,5 +51,50 @@ file_copy_perms(const char *src, const char *dst)
 
 	if (chmod(dst, (stab.st_mode & 07777)) == -1)
 		ohshite(_("unable to set mode of target file '%.250s'"), dst);
+}
+
+static void
+file_unlock_cleanup(int argc, void **argv)
+{
+	int lockfd = *(int*)argv[0];
+	struct flock fl;
+
+	assert(lockfd >= 0);
+	fl.l_type = F_UNLCK;
+	fl.l_whence = SEEK_SET;
+	fl.l_start = 0;
+	fl.l_len = 0;
+	if (fcntl(lockfd, F_SETLK, &fl) == -1)
+		ohshite(_("unable to unlock dpkg status database"));
+}
+
+void
+file_unlock(void)
+{
+	pop_cleanup(ehflag_normaltidy); /* Calls file_unlock_cleanup. */
+}
+
+/* lockfd must be allocated statically as its addresses is passed to
+ * a cleanup handler. */
+void
+file_lock(int *lockfd, const char *filename,
+          const char *emsg, const char *emsg_eagain)
+{
+	struct flock fl;
+
+	setcloexec(*lockfd, filename);
+
+	fl.l_type = F_WRLCK;
+	fl.l_whence = SEEK_SET;
+	fl.l_start = 0;
+	fl.l_len = 0;
+
+	if (fcntl(*lockfd, emsg_eagain ? F_SETLK : F_SETLKW, &fl) == -1) {
+		if (emsg_eagain && (errno == EACCES || errno == EAGAIN))
+			ohshit(emsg_eagain);
+		ohshite(emsg);
+	}
+
+	push_cleanup(file_unlock_cleanup, ~0, NULL, 0, 1, lockfd);
 }
 

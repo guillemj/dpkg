@@ -30,6 +30,10 @@ DPKG_BEGIN_DECLS
  */
 void file_copy_perms(const char *src, const char *dst);
 
+void file_lock(int *lockfd, const char *filename,
+               const char *emsg, const char *emsg_eagain);
+void file_unlock(void);
+
 DPKG_END_DECLS
 
 #endif /* LIBDPKG_FILE_H */

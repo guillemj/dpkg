@@ -41,6 +41,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/file.h>
 
 char *statusfile=NULL, *availablefile=NULL;
 char *triggersdir, *triggersfilefile, *triggersnewfilefile;

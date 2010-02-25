@@ -34,7 +34,6 @@ libdpkg_a_SOURCES = \
 	file.c \
 	fields.c \
 	i18n.h \
-	lock.c \
 	log.c \
 	md5.c md5.h \
 	mlib.c \
