@@ -35,7 +35,7 @@
 #include <dpkg/dpkg-db.h>
 
 static void
-cu_unlock_file(int argc, void **argv)
+file_unlock_cleanup(int argc, void **argv)
 {
   int lockfd = *(int*)argv[0];
   struct flock fl;
@@ -50,15 +50,15 @@ cu_unlock_file(int argc, void **argv)
 }
 
 void
-unlock_file(void)
+file_unlock(void)
 {
-  pop_cleanup(ehflag_normaltidy); /* Calls cu_unlock_file. */
+  pop_cleanup(ehflag_normaltidy); /* Calls file_unlock_cleanup. */
 }
 
 /* lockfd must be allocated statically as its addresses is passed to
  * a cleanup handler. */
 void
-lock_file(int *lockfd, const char *filename,
+file_lock(int *lockfd, const char *filename,
           const char *emsg, const char *emsg_eagain)
 {
   struct flock fl;
@@ -76,6 +76,6 @@ lock_file(int *lockfd, const char *filename,
     ohshite(emsg);
   }
 
-  push_cleanup(cu_unlock_file, ~0, NULL, 0, 1, lockfd);
+  push_cleanup(file_unlock_cleanup, ~0, NULL, 0, 1, lockfd);
 }
 

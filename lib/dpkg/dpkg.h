@@ -175,9 +175,9 @@ void cu_closefd(int argc, void **argv);
 
 /*** lock.c ***/
 
-void lock_file(int *lockfd, const char *filename,
+void file_lock(int *lockfd, const char *filename,
                const char *emsg, const char *emsg_eagain);
-void unlock_file(void);
+void file_unlock(void);
 
 /*** from mlib.c ***/
 

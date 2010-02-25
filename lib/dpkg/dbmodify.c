@@ -160,7 +160,7 @@ modstatdb_lock(const char *admindir)
     }
   }
 
-  lock_file(&dblockfd, dblockfile,
+  file_lock(&dblockfd, dblockfile,
             _("unable to lock dpkg status database"),
             _("status database area is locked by another process"));
 
@@ -170,7 +170,7 @@ modstatdb_lock(const char *admindir)
 void
 modstatdb_unlock(void)
 {
-  unlock_file();
+  file_unlock();
 }
 
 enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritereq) {
