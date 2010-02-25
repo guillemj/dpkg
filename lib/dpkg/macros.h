@@ -35,6 +35,7 @@
 #define DPKG_ATTR_CONST
 #define DPKG_ATTR_NORET
 #define DPKG_ATTR_PRINTF(n)
+#define DPKG_ATTR_VPRINTF(n)
 #define DPKG_ATTR_SENTINEL
 #endif
 
