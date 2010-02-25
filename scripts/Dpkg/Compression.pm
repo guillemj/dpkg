@@ -60,8 +60,8 @@ my $COMP = {
     },
     "lzma" => {
 	"file_ext" => "lzma",
-	"comp_prog" => [ "lzma" ],
-	"decomp_prog" => [ "unlzma" ],
+	"comp_prog" => [ 'xz', '--format=lzma' ],
+	"decomp_prog" => [ 'unxz', '--format=lzma' ],
     },
     "xz" => {
 	"file_ext" => "xz",

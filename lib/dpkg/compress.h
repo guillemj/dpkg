@@ -29,7 +29,6 @@ DPKG_BEGIN_DECLS
 #define GZIP		"gzip"
 #define XZ		"xz"
 #define BZIP2		"bzip2"
-#define LZMA		"lzma"
 
 struct compressor {
 	const char *name;

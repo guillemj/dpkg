@@ -355,7 +355,7 @@ struct compressor compressor_xz = {
 static void DPKG_ATTR_NORET
 decompress_lzma(int fd_in, int fd_out, const char *desc)
 {
-	fd_fd_filter(fd_in, fd_out, desc, LZMA, "-dc", NULL);
+	fd_fd_filter(fd_in, fd_out, desc, XZ, "-dc", "--format=lzma", NULL);
 }
 
 static void DPKG_ATTR_NORET
@@ -364,7 +364,7 @@ compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
 	char combuf[6];
 
 	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
-	fd_fd_filter(fd_in, fd_out, desc, LZMA, combuf, NULL);
+	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, "--format=lzma", NULL);
 }
 
 struct compressor compressor_lzma = {
