@@ -79,33 +79,3 @@ lock_file(int *lockfd, const char *filename,
   push_cleanup(cu_unlock_file, ~0, NULL, 0, 1, lockfd);
 }
 
-void
-unlockdatabase(void)
-{
-  unlock_file();
-}
-
-void lockdatabase(const char *admindir) {
-  static int dblockfd = -1;
-  int n;
-  char *dblockfile= NULL;
-  
-    n= strlen(admindir);
-    dblockfile= m_malloc(n+sizeof(LOCKFILE)+2);
-    strcpy(dblockfile,admindir);
-    strcpy(dblockfile+n, "/" LOCKFILE);
-  if (dblockfd == -1) {
-    dblockfd= open(dblockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
-    if (dblockfd == -1) {
-      if (errno == EPERM)
-        ohshit(_("you do not have permission to lock the dpkg status database"));
-      ohshite(_("unable to open/create status database lockfile"));
-    }
-  }
-
-  lock_file(&dblockfd, dblockfile,
-            _("unable to lock dpkg status database"),
-            _("status database area is locked by another process"));
-
-  free(dblockfile);
-}

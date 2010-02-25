@@ -32,6 +32,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <time.h>
+#include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -137,6 +138,40 @@ static const struct fni {
   {   TRIGGERSDIR "/File.new",    &triggersnewfilefile},
   {   NULL, NULL                                      }
 };
+
+void
+lockdatabase(const char *admindir)
+{
+  static int dblockfd = -1;
+  int n;
+  char *dblockfile = NULL;
+
+  n = strlen(admindir);
+  dblockfile = m_malloc(n + sizeof(LOCKFILE) + 2);
+  strcpy(dblockfile, admindir);
+  strcpy(dblockfile + n, "/" LOCKFILE);
+
+  if (dblockfd == -1) {
+    dblockfd = open(dblockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
+    if (dblockfd == -1) {
+      if (errno == EPERM)
+        ohshit(_("you do not have permission to lock the dpkg status database"));
+      ohshite(_("unable to open/create status database lockfile"));
+    }
+  }
+
+  lock_file(&dblockfd, dblockfile,
+            _("unable to lock dpkg status database"),
+            _("status database area is locked by another process"));
+
+  free(dblockfile);
+}
+
+void
+unlockdatabase(void)
+{
+  unlock_file();
+}
 
 enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritereq) {
   const struct fni *fnip;
