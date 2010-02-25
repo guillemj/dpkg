@@ -332,9 +332,9 @@ void predeppackage(const char *const *argv) {
   modstatdb_init(admindir,msdbrw_readonly);
   clear_istobes(); /* We use clientdata->istobe to detect loops */
 
-  for (it = iterpkgstart(), dep = NULL;
-       !dep && (pkg=iterpkgnext(it));
-       ) {
+  dep = NULL;
+  it = iterpkgstart();
+  while (!dep && (pkg = iterpkgnext(it))) {
     if (pkg->want != want_install) continue; /* Ignore packages user doesn't want */
     if (!pkg->files) continue; /* Ignore packages not available */
     pkg->clientdata->istobe= itb_preinstall;

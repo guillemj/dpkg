@@ -387,9 +387,9 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
   struct pkgiterator *iter;
   struct pkginfo *pkg;
   
-  for (iter=iterpkgstart(), nitems=0;
-       (pkg=iterpkgnext(iter));
-       ) {
+  nitems = 0;
+  iter = iterpkgstart();
+  while ((pkg = iterpkgnext(iter))) {
     struct perpackagestate *state= &datatable[nitems];
     state->pkg= pkg;
     if (pkg->status == pkginfo::stat_notinstalled &&
