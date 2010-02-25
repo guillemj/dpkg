@@ -325,13 +325,13 @@ struct compressor compressor_bzip2 = {
  * Xz compressor.
  */
 
-static void
+static void DPKG_ATTR_NORET
 decompress_xz(int fd_in, int fd_out, const char *desc)
 {
 	fd_fd_filter(fd_in, fd_out, desc, XZ, "-dc", NULL);
 }
 
-static void
+static void DPKG_ATTR_NORET
 compress_xz(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char combuf[6];
