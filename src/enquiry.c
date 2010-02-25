@@ -347,6 +347,8 @@ void predeppackage(const char *const *argv) {
     pkg->clientdata->istobe= itb_normal;
     /* If dep is NULL we go and get the next package. */
   }
+  iterpkgend(it);
+
   if (!dep) exit(1); /* Not found */
   assert(pkg);
   startpkg= pkg;

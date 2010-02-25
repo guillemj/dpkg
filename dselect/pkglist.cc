@@ -417,6 +417,8 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     table[nitems]= state;
     nitems++;
   }
+  iterpkgend(iter);
+
   if (!nitems)
     ohshit(_("There are no packages."));
   recursive= 0;
