@@ -447,8 +447,10 @@ if (!defined($fields->{'Date'})) {
 }
 
 $fields->{'Binary'} = join(' ', map { $_->{'Package'} } $control->get_packages());
-# Avoid overly long line (>~1000 chars) by splitting over multiple lines
-$fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
+# Avoid overly long line by splitting over multiple lines
+if (length($fields->{'Binary'}) > 980) {
+    $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
+}
 
 unshift(@archvalues,'source') unless is_binaryonly;
 @archvalues = ('all') if $include == ARCH_INDEP;

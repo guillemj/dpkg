@@ -287,8 +287,10 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
     }
     
     $fields->{'Binary'} = join(', ', @binarypackages);
-    # Avoid overly long line (>~1000 chars) by splitting over multiple lines
-    $fields->{'Binary'} =~ s/(.{0,980}), ?/$1,\n/g;
+    # Avoid overly long line by splitting over multiple lines
+    if (length($fields->{'Binary'}) > 980) {
+	$fields->{'Binary'} =~ s/(.{0,980}), ?/$1,\n/g;
+    }
 
     # Generate list of formats to try
     my @try_formats = (@cmdline_formats);
