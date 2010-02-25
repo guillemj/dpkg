@@ -49,9 +49,6 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos);
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos);
 void loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos);
 
-/* Utility functions. */
-void showcopyright(const struct cmdinfo *cip, const char *value) DPKG_ATTR_NORET;
-
 DPKG_END_DECLS
 
 #endif /* MYOPT_H */
