@@ -375,7 +375,7 @@ package Dpkg::Control::Hash::Tie;
 # type Dpkg::Control.
 
 use Dpkg::ErrorHandling;
-use Dpkg::Checksums qw(%check_supported);
+use Dpkg::Checksums;
 
 use Tie::Hash;
 use base qw(Tie::ExtraHash);
@@ -384,7 +384,7 @@ sub field_capitalize($) {
     my $field = lc(shift);
     # Some special cases due to history
     return "MD5sum" if $field eq "md5sum";
-    return uc($field) if exists $check_supported{$field};
+    return uc($field) if checksums_is_supported($field);
     # Generic case
     return join '-', map { ucfirst } split /-/, $field;
 }

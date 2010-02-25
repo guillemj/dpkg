@@ -24,7 +24,7 @@ use base qw(Exporter);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
-use Dpkg::Checksums qw(@check_supported %check_supported);
+use Dpkg::Checksums;
 use Dpkg::Vendor qw(run_vendor_hook);
 
 our @EXPORT = qw(field_capitalize field_is_official field_is_allowed_in
@@ -266,9 +266,9 @@ our %FIELDS = (
     },
 );
 
-my @checksum_fields = map { field_capitalize("Checksums-$_") } @check_supported;
+my @checksum_fields = map { field_capitalize("Checksums-$_") } checksums_get_list();
 my @sum_fields = map { $_ eq "md5" ? "MD5sum" : field_capitalize($_) }
-                 @check_supported;
+                 checksums_get_list();
 &field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES) foreach @checksum_fields;
 &field_register($_, CTRL_INDEX_PKG) foreach @sum_fields;
 
@@ -353,7 +353,7 @@ sub field_capitalize($) {
     my $field = lc(shift);
     # Some special cases due to history
     return "MD5sum" if $field eq "md5sum";
-    return uc($field) if exists $check_supported{$field};
+    return uc($field) if checksums_is_supported($field);
     # Generic case
     return join '-', map { ucfirst } split /-/, $field;
 }

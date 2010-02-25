@@ -222,15 +222,21 @@ sub load_override_extra
 sub process_dsc {
     my ($prefix, $file) = @_;
 
+    my $basename = $file;
+    my $dir = ($basename =~ s{^(.*)/}{}) ? $1 : '';
+    $dir = "$prefix$dir";
+    $dir =~ s-/+$--;
+    $dir = '.' if $dir eq '';
+
     # Parse ‘.dsc’ file.
     my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
     $fields->load($file);
     $fields->set_options(type => CTRL_INDEX_SRC);
 
     # Get checksums
-    my $size;
-    my $sums = {};
-    getchecksums($file, $sums, \$size);
+    my $checksums = Dpkg::Checksums->new();
+    $checksums->add_from_file($file, key => $basename);
+    $checksums->add_from_control($fields, use_files_for_md5 => 1);
 
     my $source = $fields->{Source};
     my @binary = split /\s*,\s*/, $fields->{Binary};
@@ -282,23 +288,9 @@ sub process_dsc {
     }
 
     # A directory field will be inserted just before the files field.
-    my $dir;
-    $dir = ($file =~ s-(.*)/--) ? $1 : '';
-    $dir = "$prefix$dir";
-    $dir =~ s-/+$--;
-    $dir = '.' if $dir eq '';
     $fields->{Directory} = $dir;
 
-    # The files field will get an entry for the .dsc file itself.
-    foreach my $alg (@check_supported) {
-        if ($alg eq "md5") {
-            $fields->{Files} =~ s/^\n/\n$sums->{$alg} $size $file\n/;
-        } else {
-            my $name = "Checksums-" . ucfirst($alg);
-            $fields->{$name} =~ s/^\n/\n$sums->{$alg} $size $file\n/
-                if defined $fields->{$name};
-        }
-    }
+    $checksums->export_to_control($fields, use_files_for_md5 => 1);
 
     return $fields;
 }

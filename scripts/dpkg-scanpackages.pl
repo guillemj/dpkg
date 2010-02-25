@@ -225,17 +225,16 @@ FILE:
 	
 	$fields->{'Filename'} = "$pathprefix$fn";
 	
-        my $sums = {};
-        my $size;
-        getchecksums($fn, $sums, \$size);
-        foreach my $alg (@check_supported) {
+        my $sums = Dpkg::Checksums->new();
+	$sums->add_from_file($fn);
+        foreach my $alg (checksums_get_list()) {
             if ($alg eq "md5") {
-	        $fields->{'MD5sum'} = $sums->{'md5'};
+	        $fields->{'MD5sum'} = $sums->get_checksum($fn, $alg);
             } else {
-                $fields->{$alg} = $sums->{$alg};
+                $fields->{$alg} = $sums->get_checksum($fn, $alg);
             }
         }
-	$fields->{'Size'} = $size;
+	$fields->{'Size'} = $sums->get_size($fn);
         $fields->{'X-Medium'} = $options{medium} if defined $options{medium};
 	
 	push @{$packages{$p}}, $fields;

@@ -94,6 +94,7 @@ sub new {
     my $self = {
         'fields' => Dpkg::Control->new(type => CTRL_PKG_SRC),
         'options' => {},
+	'checksums' => Dpkg::Checksums->new(),
     };
     bless $self, $class;
     if (exists $args{'options'}) {
@@ -149,7 +150,7 @@ sub initialize {
         }
     }
 
-    $self->parse_files();
+    $self->{'checksums'}->add_from_control($fields, use_files_for_md5 => 1);
 
     $self->upgrade_object_type(0);
 }
@@ -186,43 +187,15 @@ sub get_filename {
 
 sub get_files {
     my ($self) = @_;
-    return keys %{$self->{'files'}};
-}
-
-sub parse_files {
-    my ($self) = @_;
-    my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
-    my $files = $self->{'fields'}{'Files'};
-    foreach my $file (split(/\n/, $files)) {
-        next if $file eq '';
-        $file =~ m/^($check_regex{md5})                    # checksum
-                    [ \t]+(\d+)                            # size
-                    [ \t]+($rx_fname)                      # filename
-                  $/x
-          || error(_g("Files field contains bad line `%s'"), $file);
-        if (exists $self->{'files'}{$3}) {
-            error(_g("file `%s' listed twice in Files field"), $3);
-        } else {
-            $self->{'files'}{$3} = $2;
-        }
-    }
+    return $self->{'checksums'}->get_files();
 }
 
 sub check_checksums {
     my ($self) = @_;
-    my ($fields, %checksum, %size) = $self->{'fields'};
-    my $has_md5 = 1;
-    if (not exists $fields->{'Checksums-Md5'}) {
-        $fields->{'Checksums-Md5'} = $fields->{'Files'};
-        $has_md5 = 0;
-    }
-    # extract the checksums from the fields in two hashes
-    readallchecksums($self->{'fields'}, \%checksum, \%size);
-    delete $fields->{'Checksums-Md5'} unless $has_md5;
-    # getchecksums verify the checksums if they are pre-filled
-    foreach my $file ($self->get_files()) {
-        getchecksums($self->{'basedir'} . $file, $checksum{$file},
-                     \$size{$file});
+    my $checksums = $self->{'checksums'};
+    # add_from_file verify the checksums if they are already existing
+    foreach my $file ($checksums->get_files()) {
+	$checksums->add_from_file($self->{'basedir'} . $file, key => $file);
     }
 }
 
@@ -415,16 +388,12 @@ sub can_build {
 sub add_file {
     my ($self, $filename) = @_;
     my ($fn, $dir) = fileparse($filename);
-    if (exists $self->{'files'}{$fn}) {
+    if ($self->{'checksums'}->has_file($fn)) {
         internerr("tried to add file '%s' twice", $fn);
     }
-    my (%sums, $size);
-    getchecksums($filename, \%sums, \$size);
-    $self->{'files'}{$fn} = $size;
-    foreach my $alg (sort keys %sums) {
-        $self->{'fields'}{"Checksums-$alg"} .= "\n$sums{$alg} $size $fn";
-    }
-    $self->{'fields'}{'Files'}.= "\n$sums{md5} $size $fn";
+    $self->{'checksums'}->add_from_file($filename, key => $fn);
+    $self->{'checksums'}->export_to_control($self->{'fields'},
+					    use_files_for_md5 => 1);
 }
 
 sub write_dsc {
@@ -457,8 +426,6 @@ sub write_dsc {
         $filename = $self->get_basename(1) . ".dsc";
     }
     open(DSC, ">", $filename) || syserr(_g("cannot write %s"), $filename);
-
-    delete $fields->{'Checksums-Md5'}; # identical with Files field
     $fields->apply_substvars($opts{'substvars'});
     $fields->output(\*DSC);
     close(DSC);

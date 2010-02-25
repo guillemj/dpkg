@@ -59,11 +59,9 @@ my %sourcedefault; # - default values as taken from source (used for Section,
                    #   Priority and Maintainer)
 
 my @descriptions;
-my @sourcefiles;
 my @fileslistfiles;
 
-my %checksum;      # - file to checksum map
-my %size;          # - file to size map
+my $checksums = Dpkg::Checksums->new();
 my %remove;        # - fields to remove
 my %override;
 my %archadded;
@@ -394,35 +392,13 @@ if (!is_binaryonly) {
 
     (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-    push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
     my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
     $dsc_fields->load($dsc) || error(_g("%s is empty", $dsc));
+    $checksums->add_from_file($dsc, key => "$sourcepackage\_$sversion.dsc");
+    $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
 
-    readallchecksums($dsc_fields, \%checksum, \%size);
-
-    my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
-    my $files = $dsc_fields->{'Files'};
-    for my $line (split(/\n/, $files)) {
-	next if $line eq '';
-	$line =~ m/^($check_regex{md5})[ \t]+(\d+)[ \t]+($rx_fname)$/
-	    || error(_g("Files field contains bad line \`%s'"), $line);
-	my ($md5sum,$size,$file) = ($1,$2,$3);
-	if (exists($checksum{$file}{md5})
-	    and $checksum{$file}{md5} ne $md5sum) {
-	    error(_g("Conflicting checksums \`%s\' and \`%s' for file \`%s'"),
-		  $checksum{$file}{md5}, $md5sum, $file);
-	}
-	if (exists($size{$file})
-	    and $size{$file} != $size) {
-	    error(_g("Conflicting sizes \`%u\' and \`%u' for file \`%s'"),
-		  $size{$file}, $size, $file);
-	}
-	$checksum{$file}{md5} = $md5sum;
-	$size{$file} = $size;
-        push(@sourcefiles,$file);
-    }
-    for my $f (@sourcefiles) {
+    for my $f ($checksums->get_files()) {
 	$f2sec{$f} = $sec;
 	$f2pri{$f} = $pri;
     }
@@ -442,13 +418,15 @@ if (!is_binaryonly) {
     my $ext = $compression_re_file_ext;
     if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||
 	 $sourcestyle =~ m/d/) &&
-	grep(m/\.(debian\.tar|diff)\.$ext$/, @sourcefiles))
+	grep(m/\.(debian\.tar|diff)\.$ext$/, $checksums->get_files()))
     {
 	$origsrcmsg= _g("not including original source code in upload");
-	@sourcefiles= grep(!m/\.orig(-.+)?\.tar\.$ext$/, @sourcefiles);
+	foreach my $f (grep m/\.orig(-.+)?\.tar\.$ext$/, $checksums->get_files()) {
+	    $checksums->remove_file($f);
+	}
     } else {
 	if ($sourcestyle =~ m/d/ &&
-	    !grep(m/\.(debian\.tar|diff)\.$ext$/, @sourcefiles)) {
+	    !grep(m/\.(debian\.tar|diff)\.$ext$/, $checksums->get_files())) {
 	    warning(_g("ignoring -sd option for native Debian package"));
 	}
         $origsrcmsg= _g("including full source code in upload");
@@ -484,19 +462,17 @@ $fields->{'Files'} = '';
 
 my %filedone;
 
-for my $f (@sourcefiles, @fileslistfiles) {
+for my $f ($checksums->get_files(), @fileslistfiles) {
     next if ($include == ARCH_DEP and debarch_eq('all', $p2arch{$f2p{$f}}));
     next if ($include == ARCH_INDEP and not debarch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
-    $checksum{$f} ||= {};
-    getchecksums($uf, $checksum{$f}, \$size{$f});
-    foreach my $alg (sort keys %{$checksum{$f}}) {
-	$fields->{"Checksums-$alg"} .= "\n$checksum{$f}{$alg} $size{$f} $f";
-    }
-    $fields->{'Files'} .= "\n$checksum{$f}{md5} $size{$f} $f2sec{$f} $f2pri{$f} $f";
+    $checksums->add_from_file($uf, key => $f);
+    $fields->{'Files'} .= "\n" . $checksums->get_checksum($f, "md5") .
+			  " " . $checksums->get_size($f) .
+			  " $f2sec{$f} $f2pri{$f} $f";
 }
-
+$checksums->export_to_control($fields);
 # redundant with the Files field
 delete $fields->{"Checksums-Md5"};
 
