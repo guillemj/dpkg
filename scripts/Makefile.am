@@ -106,6 +106,9 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Version.pm \
 	Dpkg.pm
 
+# Keep it even if empty to have man3dir correctly set
+man3_MANS =
+
 do_perl_subst = $(AM_V_GEN) \
 		sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \
 		    -e "s:\$$dpkglibdir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$dpkglibdir=\"$(pkglibdir)\":" \
@@ -119,8 +122,22 @@ do_perl_subst = $(AM_V_GEN) \
 	$(do_perl_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
 
-if WITH_UPDATE_ALTERNATIVES
 install-data-local:
+if BUILD_POD_DOC
+# Install manual pages for perl modules manually as make can't deal
+# properly with filenames containing colons
+# Remove empty manual pages (perl modules not documented)
+	$(mkdir_p) $(DESTDIR)$(man3dir)
+	for module in $(nobase_dist_perllib_DATA); do \
+	    name=`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$//'`; \
+	    pod2man --utf8 --center=libdpkg-perl --release=$(VERSION) \
+		--name="$$name"	--section=3 $(srcdir)/$$module \
+		>$(DESTDIR)$(man3dir)/$$name.3; \
+	    test -s $(DESTDIR)$(man3dir)/$$name.3 || \
+		rm -f $(DESTDIR)$(man3dir)/$$name.3; \
+	done
+endif
+if WITH_UPDATE_ALTERNATIVES
 	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives
 	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives
 	$(INSTALL_DATA) $(srcdir)/README.alternatives $(DESTDIR)$(sysconfdir)/alternatives/README
@@ -135,6 +152,11 @@ install-data-hook:
 	rm $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
 
 uninstall-local:
+if BUILD_POD_DOC
+	for module in $(nobase_dist_perllib_DATA); do \
+	    rm -f $(DESTDIR)$(man3dir)/`echo $$module | sed -e 's|/|::|' -e 's/\.pm$$/.3/'`; \
+	done
+endif
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
 
 TEST_VERBOSE= 0
@@ -192,6 +214,7 @@ test_data = \
 	t/750_Dpkg_Substvars/substvars1
 
 clean-local:
+	rm -fr man
 	rm -fr $(test_tmpdir)
 
 check: $(test_data) $(test_cases)
