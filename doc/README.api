@@ -13,17 +13,25 @@ Description:
  then define the C preprocessor macro LIBDPKG_VOLATILE_API in your build
  to acknowledge that fact.
 
-What: Dpkg (perl modules)
-Status: testing
+What: libdpkg-perl (perl modules)
+Status: stable
 Description:
- The API provided by these modules is not yet stable, it's only supposed to
- be used internally by dpkg for now.
+ Among the perl modules provided by libdpkg-perl, you can safely rely on
+ those that have $VERSION set to 1.00 (or higher). Note however that the
+ API is defined by what's documented in the corresponding manual pages and
+ nothing more. You can't assume anything else based on what you read in
+ the source code. If you feel the need for further refinements in the
+ documented API, don't hesitate to file a wishlist bug against
+ libdpkg-perl.
+ .
+ In case of API-breaking changes, the major number in $VERSION will be
+ increased. For API extensions, the minor number will be increased.
 
 What: custom changelog parsers in /usr/lib/dpkg/parsechangelog
 Status: stable
 Version: 2.0
 Description:
- Since dpkg 1.14.16, the set of command-line options that custome
+ Since dpkg 1.14.16, the set of command-line options that custom
  changelog parsers must support has been expanded (see
  dpkg-parsechangelog(1)). For compatibility, changelog parsers supporting
  only the old options are supported in lenny. In lenny+1, that support
