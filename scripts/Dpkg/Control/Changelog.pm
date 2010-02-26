@@ -23,6 +23,8 @@ our $VERSION = "1.00";
 use Dpkg::Control;
 use base 'Dpkg::Control';
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Control::Changelog - represent info fields output by dpkg-parsechangelog

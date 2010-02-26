@@ -31,6 +31,8 @@ use Dpkg::Gettext;
 use Dpkg::Control::Changelog;
 use Dpkg::Version;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Changelog::Entry::Debian - represents a Debian changelog entry

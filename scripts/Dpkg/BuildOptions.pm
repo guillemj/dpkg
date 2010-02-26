@@ -24,6 +24,8 @@ our $VERSION = "1.00";
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::BuildOptions - parse and update build options

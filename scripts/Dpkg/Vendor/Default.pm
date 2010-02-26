@@ -24,6 +24,8 @@ our $VERSION = "0.01";
 # uncomment the following lines
 #use base qw(Dpkg::Vendor::Default);
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Vendor::Default - default vendor object

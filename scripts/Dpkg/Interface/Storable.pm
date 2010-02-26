@@ -28,6 +28,8 @@ use overload
     '""' => \&_stringify,
     'fallback' => 1;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Interface::Storable - common methods related to object serialization

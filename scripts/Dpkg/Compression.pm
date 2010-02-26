@@ -32,6 +32,8 @@ our @EXPORT = qw($compression_re_file_ext compression_get_list
 		 compression_set_default_level
 		 compression_is_valid_level);
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Compression - simple database of available compression methods

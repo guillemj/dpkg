@@ -29,6 +29,8 @@ use base qw(Dpkg::Interface::Storable);
 use overload
     '@{}' => sub { return [ $_[0]->{source}, @{$_[0]->{packages}} ] };
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Control::Info - parse files like debian/control

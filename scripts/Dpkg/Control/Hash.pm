@@ -34,6 +34,8 @@ use overload
     '%{}' => sub { ${$_[0]}->{'fields'} },
     'eq' => sub { "$_[0]" eq "$_[1]" };
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Control::Hash - parse and manipulate a block of RFC822-like fields
@@ -46,7 +48,7 @@ capitalized the same when output (see field_capitalize function in
 Dpkg::Control::Fields).
 The order in which fields have been set is remembered and is used
 to be able to dump back the same content. The output order can also be
-overriden if needed.
+overridden if needed.
 
 You can store arbitrary values in the hash, they will always be properly
 escaped in the output to conform to the syntax of control files. This is
@@ -260,7 +262,7 @@ file.
 
 Get a string representation of the control information. The fields
 are sorted in the order in which they have been read or set except
-if the order has been overriden with set_output_order().
+if the order has been overridden with set_output_order().
 
 =item $c->output($fh)
 

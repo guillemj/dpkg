@@ -31,6 +31,8 @@ use overload
     '@{}' => sub { return $_[0]->{'order'} },
     fallback => 1;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Index - generic index of control information

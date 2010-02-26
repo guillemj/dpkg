@@ -27,6 +27,8 @@ our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root
 		    guess_pkg_root_dir check_files_are_the_same
 		    resolve_symlink canonpath);
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Path - some common path handling functions

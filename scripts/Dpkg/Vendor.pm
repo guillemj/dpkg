@@ -28,6 +28,8 @@ use base qw(Exporter);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
                     get_vendor_object run_vendor_hook);
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Vendor - get access to some vendor specific information

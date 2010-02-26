@@ -25,6 +25,8 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::IPC;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Compression::Process - run compression/decompression processes

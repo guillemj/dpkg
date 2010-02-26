@@ -29,6 +29,8 @@ use overload
     '@{}' => sub { return [ $_[0]->get_options() ] },
     fallback => 1;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Conf - parse dpkg configuration files

@@ -31,6 +31,8 @@ our @EXPORT = qw(CTRL_UNKNOWN CTRL_INFO_SRC CTRL_INFO_PKG CTRL_INDEX_SRC
                  CTRL_INDEX_PKG CTRL_PKG_SRC CTRL_PKG_DEB CTRL_FILE_CHANGES
                  CTRL_FILE_VENDOR CTRL_FILE_STATUS CTRL_CHANGELOG);
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Control - parse and manipulate official control-like information
@@ -102,7 +104,7 @@ Corresponds to the output of dpkg-parsechangelog.
 =head1 FUNCTIONS
 
 All the methods of Dpkg::Control::Hash are available. Those listed below
-are either new or overriden with a different behaviour.
+are either new or overridden with a different behaviour.
 
 =over 4
 

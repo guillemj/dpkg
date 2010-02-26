@@ -18,6 +18,8 @@ our @EXPORT = qw(CTRL_UNKNOWN CTRL_INFO_SRC CTRL_INFO_PKG CTRL_INDEX_SRC
                  CTRL_INDEX_PKG CTRL_PKG_SRC CTRL_PKG_DEB CTRL_FILE_CHANGES
                  CTRL_FILE_VENDOR CTRL_FILE_STATUS CTRL_CHANGELOG);
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Control::Types - export CTRL_* constants

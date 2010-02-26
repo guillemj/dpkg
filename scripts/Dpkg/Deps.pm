@@ -23,6 +23,8 @@
 
 package Dpkg::Deps;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Deps - parse and manipulate dependencies of Debian packages

@@ -30,6 +30,8 @@ use base qw(Exporter);
 our @EXPORT = qw(checksums_get_list checksums_is_supported
 		 checksums_get_property);
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Checksums - generate and manipulate file checksums

@@ -31,6 +31,8 @@ use base qw(Dpkg::Interface::Storable);
 
 my $maxsubsts = 50;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Substvars - handle variable substitution in strings

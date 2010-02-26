@@ -29,6 +29,8 @@ use overload
     'eq' => sub { defined($_[1]) and "$_[0]" eq "$_[1]" },
     fallback => 1;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Changelog::Entry - represents a changelog entry

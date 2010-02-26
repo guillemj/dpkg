@@ -24,6 +24,8 @@ use base qw(Dpkg::Vendor::Default);
 use Dpkg::Control::Types;
 use Dpkg::Vendor::Ubuntu;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Vendor::Debian - Debian vendor object

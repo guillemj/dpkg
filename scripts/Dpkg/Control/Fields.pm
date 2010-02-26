@@ -328,6 +328,8 @@ foreach my $op (run_vendor_hook("register-custom-fields")) {
     }
 }
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Control::Fields - manage (list of official) control fields

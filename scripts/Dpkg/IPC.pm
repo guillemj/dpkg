@@ -27,6 +27,8 @@ use Dpkg::Gettext;
 use base qw(Exporter);
 our @EXPORT = qw(spawn wait_child);
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::IPC - helper functions for IPC
@@ -71,7 +73,7 @@ Mandatory Option.
 =item from_file, to_file, error_to_file
 
 Filename as scalar. Standard input/output/error of the
-child process will be redirected to the file specifed.
+child process will be redirected to the file specified.
 
 =item from_handle, to_handle, error_to_handle
 

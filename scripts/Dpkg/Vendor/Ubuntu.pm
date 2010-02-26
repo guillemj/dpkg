@@ -30,6 +30,8 @@ use Dpkg::Control::Types;
 
 use base 'Dpkg::Vendor::Debian';
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Vendor::Ubuntu - Ubuntu vendor object

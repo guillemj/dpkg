@@ -32,6 +32,8 @@ use base qw(FileHandle Tie::Handle);
 # have the object behave like a filehandle
 # http://blog.woobling.org/2009/10/are-filehandles-objects.html
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Compression::FileHandle - object dealing transparently with file compression
@@ -75,7 +77,7 @@ like any filehandle and that deals transparently with compressed
 files. By default, the compression scheme is guessed from the filename
 but you can override this behaviour with the method C<set_compression>.
 
-If you don't open the file explicitely, it will be auto-opened on the
+If you don't open the file explicitly, it will be auto-opened on the
 first read or write operation based on the filename set at creation time
 (or later with the C<set_filename> method).
 

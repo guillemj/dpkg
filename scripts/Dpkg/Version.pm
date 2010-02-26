@@ -47,6 +47,8 @@ use overload
     'bool' => sub { return $_[0]->is_valid(); },
     'fallback' => 1;
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Version - handling and comparing dpkg-style version numbers

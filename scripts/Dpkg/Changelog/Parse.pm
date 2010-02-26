@@ -14,6 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+=encoding utf8
+
 =head1 NAME
 
 Dpkg::Changelog::Parse - generic changelog parser for dpkg-parsechangelog
@@ -56,12 +58,12 @@ following list of directories: $opt{libdir},
 program is named according to the format that it's able to parse. By
 default it's either "debian" or the format name lookep up in the 40 last
 lines of the changelog itself (extracted with this perl regular expression
-"\schangelog-format:\s+([0-9a-z]+)\W"). But it can be overriden
+"\schangelog-format:\s+([0-9a-z]+)\W"). But it can be overridden
 with $opt{changelogformat}. The program expects the content of the
 changelog file on its standard input.
 
 The changelog file that is parsed is debian/changelog by default but it
-can be overriden with $opt{file}.
+can be overridden with $opt{file}.
 
 All the other keys in %opt are forwarded as parameter to the external
 parser. If the key starts with "-", it's passed as is. If not, it's passed
