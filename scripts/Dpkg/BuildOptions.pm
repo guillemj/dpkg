@@ -82,6 +82,7 @@ values like "nocheck parallel=2".
 
 sub merge {
     my ($self, $content, $source) = @_;
+    return 0 unless defined $content;
     my $count = 0;
     foreach (split(/\s+/, $content)) {
 	unless (/^([a-z][a-z0-9_-]*)(?:=(\S*))?$/) {
