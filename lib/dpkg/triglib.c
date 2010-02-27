@@ -53,6 +53,8 @@ illegal_triggername(const char *p)
 
 /*========== recording triggers ==========*/
 
+static struct trig_hooks trigh;
+
 /*---------- noting trigger activation in memory ----------*/
 
 /* Called via trig_*activate* et al from:
@@ -799,7 +801,7 @@ th_simple_nn_find(const char *name, int nonew)
 
 TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS
 
-struct trig_hooks trigh = {
+static struct trig_hooks trigh = {
 	.enqueue_deferred = NULL,
 	.transitional_activate = NULL,
 	.namenode_find = th_simple_nn_find,
@@ -807,3 +809,8 @@ struct trig_hooks trigh = {
 	.namenode_name = th_nn_name,
 };
 
+void
+trig_override_hooks(const struct trig_hooks *hooks)
+{
+	trigh = *hooks;
+}

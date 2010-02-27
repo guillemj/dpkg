@@ -397,6 +397,6 @@ static const struct trig_hooks trig_our_hooks = {
 void
 trigproc_install_hooks(void)
 {
-	trigh = trig_our_hooks;
+	trig_override_hooks(&trig_our_hooks);
 }
 

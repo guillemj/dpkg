@@ -276,13 +276,13 @@ struct trig_hooks {
   const char *(*namenode_name)(struct filenamenode *fnn);
 };
 
-extern struct trig_hooks trigh;
-
 #define TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS				 \
   static struct trigfileint **th_nn_interested(struct filenamenode *fnn) \
     { return &fnn->trig_interested; }					 \
   static const char *th_nn_name(struct filenamenode *fnn)		 \
     { return fnn->name; }
+
+void trig_override_hooks(const struct trig_hooks *hooks);
 
 /*** from triglib.c ***/
 
