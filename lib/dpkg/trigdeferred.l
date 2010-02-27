@@ -88,8 +88,7 @@ static const struct trigdefmeths *trigdef;
 
 static int lock_fd = -1;
 static FILE *old_deferred;
-
-FILE *trig_new_deferred;
+static FILE *trig_new_deferred;
 
 static void
 constructfn(struct varbuf *vb, const char *admindir, const char *tail)
@@ -176,6 +175,16 @@ void
 trigdef_set_methods(const struct trigdefmeths *methods)
 {
 	trigdef = methods;
+}
+
+void
+trigdef_update_printf(const char *format, ...)
+{
+	va_list ap;
+
+	va_start(ap, format);
+	vfprintf(trig_new_deferred, format, ap);
+	va_end(ap);
 }
 
 void

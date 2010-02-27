@@ -107,14 +107,14 @@ noawait(const struct cmdinfo *ci, const char *value)
 static void
 yespackage(const char *awname)
 {
-	fprintf(trig_new_deferred, " %s", awname);
+	trigdef_update_printf(" %s", awname);
 }
 
 static void
 tdm_add_trig_begin(const char *trig)
 {
 	ctrig = !strcmp(trig, activate);
-	fputs(trig, trig_new_deferred);
+	trigdef_update_printf("%s", trig);
 	if (!ctrig || done_trig)
 		return;
 	yespackage(bypackage);
@@ -132,7 +132,7 @@ tdm_add_package(const char *awname)
 static void
 tdm_add_trig_end(void)
 {
-	fputc('\n', trig_new_deferred);
+	trigdef_update_printf("\n");
 }
 
 static const struct trigdefmeths tdm_add = {
@@ -227,8 +227,7 @@ main(int argc, const char *const *argv)
 	if (uf >= 0) {
 		trigdef_yylex();
 		if (!done_trig)
-			fprintf(trig_new_deferred, "%s %s\n",
-			        activate, bypackage);
+			trigdef_update_printf("%s %s\n", activate, bypackage);
 		trigdef_process_done();
 	}
 
