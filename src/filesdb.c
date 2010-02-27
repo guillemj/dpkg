@@ -324,6 +324,28 @@ pkg_files_optimize_load(struct pkg_array *array)
 
   pkg_array_sort(array, pkg_sorter_by_listfile_phys_offs);
 }
+#elif defined(HAVE_POSIX_FADVISE)
+static void
+pkg_files_optimize_load(struct pkg_array *array)
+{
+  int i;
+
+  /* Ask the kernel to start preloading the list files, so as to get a
+   * boost when later we actually load them. */
+  for (i = 0; i < array->n_pkgs; i++) {
+    struct pkginfo *pkg = array->pkgs[i];
+    const char *listfile;
+    int fd;
+
+    listfile = pkgadminfile(pkg, LISTFILE);
+
+    fd = open(listfile, O_RDONLY | O_NONBLOCK);
+    if (fd != -1) {
+      posix_fadvise(fd, 0, 0, POSIX_FADV_WILLNEED);
+      close(fd);
+    }
+  }
+}
 #else
 static void
 pkg_files_optimize_load(struct pkg_array *array)

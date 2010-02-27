@@ -151,6 +151,9 @@ dpkg (1.15.6) UNRELEASED; urgency=low
   * Use FIEMAP when available (on Linux based systems) to sort the .list
     files loading order. With a cold cache it improves up to a 70%.
     Thanks to Morten Hustveit <morten@debian.org>.
+  * When FIEMAP is not available use posix_fadvise() to start preloading the
+    .list files before loading them. With a cold cache it improves up to 40%.
+    Thanks to Stefan Fritsch <sf@sfritsch.de>. Closes: #557560
 
   [ Modestas Vainius ]
   * Implement symbol patterns (Closes: #563752). From now on, it is possible to

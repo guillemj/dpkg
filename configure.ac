@@ -124,7 +124,8 @@ DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
                          strnlen strerror strsignal \
                          scandir alphasort unsetenv])
-AC_CHECK_FUNCS([strtoul isascii bcopy memcpy lchown setsid getdtablesize])
+AC_CHECK_FUNCS([strtoul isascii bcopy memcpy lchown setsid getdtablesize \
+                posix_fadvise])
 
 AC_DEFINE(LIBDPKG_VOLATILE_API, 1, [Acknowledge the volatility of the API.])
 DPKG_COMPILER_WARNINGS
