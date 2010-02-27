@@ -398,6 +398,12 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 	if (ferror(nf))
 		ohshite(_("unable to write new trigger interest file `%.250s'"),
 		        newfn.buf);
+	if (fflush(nf))
+		ohshite(_("unable to flush new trigger interest file '%.250s'"),
+		        newfn.buf);
+	if (fsync(fileno(nf)))
+		ohshite(_("unable to sync new trigger interest file '%.250s'"),
+		        newfn.buf);
 	pop_cleanup(ehflag_normaltidy);
 	if (fclose(nf))
 		ohshite(_("unable to close new trigger interest file `%.250s'"),
@@ -499,6 +505,12 @@ trig_file_interests_save(void)
 
 	if (ferror(nf))
 		ohshite(_("unable to write new file triggers file `%.250s'"),
+		        triggersnewfilefile);
+	if (fflush(nf))
+		ohshite(_("unable to flush new file triggers file '%.250s'"),
+		        triggersnewfilefile);
+	if (fsync(fileno(nf)))
+		ohshite(_("unable to sync new file triggers file '%.250s'"),
 		        triggersnewfilefile);
 	pop_cleanup(ehflag_normaltidy);
 	if (fclose(nf))

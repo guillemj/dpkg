@@ -154,6 +154,10 @@ dpkg (1.15.6) UNRELEASED; urgency=low
   * When FIEMAP is not available use posix_fadvise() to start preloading the
     .list files before loading them. With a cold cache it improves up to 40%.
     Thanks to Stefan Fritsch <sf@sfritsch.de>. Closes: #557560
+  * Call fsync(2) after writting files on disk, to get the atomicity
+    guarantees when doing rename(2). Based on a patch by
+    Jean-Baptiste Lallement <jeanbaptiste.lallement@gmail.com>.
+    Closes: #430958
 
   [ Modestas Vainius ]
   * Implement symbol patterns (Closes: #563752). From now on, it is possible to

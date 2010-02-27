@@ -24,6 +24,7 @@
 #include <assert.h>
 #include <limits.h>
 #include <string.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -68,6 +69,10 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
     nr= fwrite(buffer,1,pi->thispartlen,output);
     if (nr != pi->thispartlen) werr(outputfile);
   }
+  if (fflush(output))
+    ohshite(_("unable to flush file '%s'"), outputfile);
+  if (fsync(fileno(output)))
+    ohshite(_("unable to sync file '%s'"), outputfile);
   if (fclose(output)) werr(outputfile);
   printf(_("done\n"));
 }

@@ -660,6 +660,8 @@ int tarobject(struct TarInfo *ti) {
     am=(nifd->namenode->statoverride ? nifd->namenode->statoverride->mode : ti->Mode) & ~S_IFMT;
     if (fchmod(fd,am))
       ohshite(_("error setting permissions of `%.255s'"),ti->Name);
+    if (fsync(fd))
+      ohshite(_("unable to sync file '%.255s'"), ti->Name);
     pop_cleanup(ehflag_normaltidy); /* fd= open(fnamenewvb.buf) */
     if (close(fd))
       ohshite(_("error closing/writing `%.255s'"),ti->Name);

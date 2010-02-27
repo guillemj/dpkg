@@ -552,6 +552,10 @@ void do_build(const char *const *argv) {
       if (putc('\n',ar) == EOF)
         werr(debar);
   }
+  if (fflush(ar))
+    ohshite(_("unable to flush file '%s'"), debar);
+  if (fsync(fileno(ar)))
+    ohshite(_("unable to sync file '%s'"), debar);
   if (fclose(ar)) werr(debar);
                              
   exit(0);

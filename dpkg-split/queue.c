@@ -166,6 +166,10 @@ void do_auto(const char *const *argv) {
     if (!part) ohshite(_("unable to open new depot file `%.250s'"),p);
     nr= fwrite(buffer,1,refi->filesize,part);
     if (nr != refi->filesize) werr(p);
+    if (fflush(part))
+      ohshite(_("unable to flush file '%s'"), p);
+    if (fsync(fileno(part)))
+      ohshite(_("unable to sync file '%s'"), p);
     if (fclose(part)) werr(p);
     if (rename(p,q)) ohshite(_("unable to rename new depot file `%.250s' to `%.250s'"),p,q);
 

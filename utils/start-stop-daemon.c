@@ -1576,6 +1576,10 @@ main(int argc, char **argv)
 			fatal("Unable to open pidfile '%s' for writing: %s",
 			      pidfile, strerror(errno));
 		fprintf(pidf, "%d\n", pidt);
+		if (fflush(pidf))
+			fatal("unable to flush pidfile '%s'", pidfile);
+		if (fsync(fileno(pidf)))
+			fatal("unable to sync pidfile '%s'", pidfile);
 		fclose(pidf);
 	}
 	if (changeroot != NULL) {

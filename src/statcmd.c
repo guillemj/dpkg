@@ -229,6 +229,10 @@ statdb_write(void)
 		statdb_node_print(dbfile, file);
 	iterfileend(i);
 
+	if (fflush(dbfile))
+		ohshite(_("unable to flush file '%s'"), dbname_new.buf);
+	if (fsync(fileno(dbfile)))
+		ohshite(_("unable to sync file '%s'"), dbname_new.buf);
 	fclose(dbfile);
 
 	chmod(dbname_new.buf, 0644);
