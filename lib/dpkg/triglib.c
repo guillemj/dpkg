@@ -721,7 +721,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 	int ur;
 	enum trigdef_updateflags tduf;
 
-	trigdef = &tdm_incorp;
+	trigdef_set_methods(&tdm_incorp);
 	trig_file_interests_ensure();
 
 	tduf = tduf_nolockok;

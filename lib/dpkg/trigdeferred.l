@@ -48,6 +48,8 @@
 
 static struct varbuf fn, newfn;
 
+static const struct trigdefmeths *trigdef;
+
 %}
 
 %%
@@ -88,7 +90,6 @@ static int lock_fd = -1;
 static FILE *old_deferred;
 
 FILE *trig_new_deferred;
-const struct trigdefmeths *trigdef;
 
 static void
 constructfn(struct varbuf *vb, const char *admindir, const char *tail)
@@ -169,6 +170,12 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 	BEGIN(0);
 
 	return 2;
+}
+
+void
+trigdef_set_methods(const struct trigdefmeths *methods)
+{
+	trigdef = methods;
 }
 
 void

@@ -231,7 +231,7 @@ struct trigdefmeths {
   void (*trig_end)(void);
 };
 
-extern const struct trigdefmeths *trigdef;
+void trigdef_set_methods(const struct trigdefmeths *methods);
 extern FILE *trig_new_deferred;
 
 /* Return values:

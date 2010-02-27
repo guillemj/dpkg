@@ -218,7 +218,8 @@ main(int argc, const char *const *argv)
 		badusage(_("invalid trigger name `%.250s': %.250s"),
 		         activate, badname);
 
-	trigdef = &tdm_add;
+	trigdef_set_methods(&tdm_add);
+
 	tduf = tduf_nolockok;
 	if (!f_noact)
 		tduf |= tduf_write | tduf_writeifempty;
