@@ -51,8 +51,6 @@
 
 #ifdef WITH_SELINUX
 #include <selinux/selinux.h>
-static int selinux_enabled=-1;
-static security_context_t scontext    = NULL;
 #endif
 
 #include "filesdb.h"
@@ -254,6 +252,41 @@ static void newtarobject_allmodes(const char *path, struct TarInfo *ti, struct f
   if (chmod(path,(statoverride ? statoverride->mode : ti->Mode) & ~S_IFMT))
     ohshite(_("error setting permissions of `%.255s'"),ti->Name);
   newtarobject_utime(path,ti);
+}
+
+static void
+set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
+{
+#ifdef WITH_SELINUX
+  static int selinux_enabled = -1;
+  security_context_t scontext = NULL;
+  int ret;
+
+  /* Set selinux_enabled if it is not already set (singleton). */
+  if (selinux_enabled < 0)
+    selinux_enabled = (is_selinux_enabled() > 0);
+
+  /* If SE Linux is not enabled just do nothing. */
+  if (!selinux_enabled)
+    return;
+
+  /* XXX: Well, we could use set_matchpathcon_printf() to redirect the
+   * errors from the following bit, but that seems too much effort. */
+
+  /* Do nothing if we can't figure out what the context is, or if it has
+   * no context; in which case the default context shall be applied. */
+  ret = matchpathcon(matchpath, mode & ~S_IFMT, &scontext);
+  if (ret == -1 || (ret == 0 && scontext == NULL))
+    return;
+
+  if (strcmp(scontext, "<<none>>") != 0) {
+    if (lsetfilecon(path, scontext) < 0)
+      /* XXX: This might need to be fatal instead!? */
+      perror("Error setting security context for next file object:");
+  }
+
+  freecon(scontext);
+#endif /* WITH_SELINUX */
 }
 
 void setupfnamevbs(const char *filename) {
@@ -594,38 +627,6 @@ int tarobject(struct TarInfo *ti) {
    * its original filename.
    */
 
-#ifdef WITH_SELINUX
-  /* Set selinux_enabled if it is not already set (singleton) */
-  if (selinux_enabled < 0)
-    selinux_enabled = (is_selinux_enabled() > 0);
-
-  /* Since selinux is enabled, try and set the context */
-  if (selinux_enabled > 0) {
-    /*
-     * well, we could use
-     *   void set_matchpathcon_printf(void (*f)(const char *fmt, ...));
-     * to redirect the errors from the following bit, but that
-     * seems too much effort.
-     */
-
-    /*
-     * Do nothing if we can't figure out what the context is,
-     * or if it has no context; in which case the default
-     * context shall be applied.
-     */
-    if( ! ((matchpathcon(fnamevb.buf,
-                         (nifd->namenode->statoverride ?
-                          nifd->namenode->statoverride->mode : ti->Mode)
-                         & ~S_IFMT, &scontext) != 0) ||
-           (strcmp(scontext, "<<none>>") == 0)))
-     {
-       if(setfscreatecon(scontext) < 0)
-	 perror("Error setting security context for file object:");
-     }
-  }
-#endif /* WITH_SELINUX */
-
-
   /* Extract whatever it is as .dpkg-new ... */
   switch (ti->Type) {
   case NormalFile0: case NormalFile1:
@@ -711,6 +712,11 @@ int tarobject(struct TarInfo *ti) {
   default:
     internerr("unknown tar type '%d', but already checked", ti->Type);
   }
+
+  set_selinux_path_context(fnamevb.buf, fnamenewvb.buf,
+                           nifd->namenode->statoverride ?
+                           nifd->namenode->statoverride->mode : ti->Mode);
+
   /* CLEANUP: Now we have extracted the new object in .dpkg-new (or,
    * if the file already exists as a directory and we were trying to extract
    * a directory or symlink, we returned earlier, so we don't need
@@ -755,6 +761,7 @@ int tarobject(struct TarInfo *ti) {
         ohshite(_("unable to make backup symlink for `%.255s'"),ti->Name);
       if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
         ohshite(_("unable to chown backup symlink for `%.255s'"),ti->Name);
+      set_selinux_path_context(fnamevb.buf, fnametmpvb.buf, stab.st_mode);
     } else {
       debug(dbg_eachfiledetail,"tarobject nondirectory, `link' backup");
       if (link(fnamevb.buf,fnametmpvb.buf))
@@ -767,21 +774,6 @@ int tarobject(struct TarInfo *ti) {
    * in dpkg-new.
    */
 
-#ifdef WITH_SELINUX
-  /*
-   * if selinux is enabled, try and set the default security context
-   * for the renamed file
-   */
-  if (selinux_enabled > 0)
-    if(scontext) {
-       if(setfscreatecon(scontext) < 0)
-         perror("Error setting security context for next file object:");
-       freecon(scontext);
-       scontext = NULL;
-     }
-        
-#endif /* WITH_SELINUX */
-
   if (rename(fnamenewvb.buf,fnamevb.buf))
     ohshite(_("unable to install new version of `%.255s'"),ti->Name);
 
@@ -792,17 +784,6 @@ int tarobject(struct TarInfo *ti) {
    */
 
   nifd->namenode->flags |= fnnf_placed_on_disk;
-
-#ifdef WITH_SELINUX
-  /*
-   * if selinux is enabled, restore the default security context
-   */
-  if (selinux_enabled > 0)
-    if(setfscreatecon(NULL) < 0)
-      perror("Error restoring default security context:");
-#endif /* WITH_SELINUX */
-
-
   nifd->namenode->flags |= fnnf_elide_other_lists;
 
   debug(dbg_eachfiledetail,"tarobject done and installed");

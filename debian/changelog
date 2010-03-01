@@ -145,6 +145,9 @@ dpkg (1.15.6) UNRELEASED; urgency=low
     - README.api only in development packages, dpkg-dev and libdpkg-dev.
     - triggers.txt only in dpkg-dev.
   * Move source.lintian-overrides to debian/source/lintian-overrides.
+  * Switch SE Linux support to explicitly set path context. This fixes the
+    mislabeling of files under <admindir> on conffile extraction or on unpack
+    errors, due to improper default context restoration. Closes: #498438
 
   [ Modestas Vainius ]
   * Implement symbol patterns (Closes: #563752). From now on, it is possible to
