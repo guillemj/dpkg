@@ -67,6 +67,12 @@ dpkg (1.15.6) UNRELEASED; urgency=low
     spaces. Closes: #572030
   * dpkg-source does no longer fallback to other source formats if the
     requested one is not usable. Closes: #557459
+  * Modify dpkg-source to error out when it would apply patches containing
+    insecure paths (with "/../") and also error out when it would apply a
+    patch through a symlink. Those checks are required as patch will happily
+    modify files outside of the target directory and unpacking a source package
+    should not be able to have any side-effect outside of the target
+    directory. Fixes CVE-2010-0396.
 
   [ Guillem Jover ]
   * Handle argument parsing in dpkg-checkbuilddeps and dpkg-scanpackages
