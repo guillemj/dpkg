@@ -73,6 +73,9 @@ dpkg (1.15.6) UNRELEASED; urgency=low
     modify files outside of the target directory and unpacking a source package
     should not be able to have any side-effect outside of the target
     directory. Fixes CVE-2010-0396.
+  * Also error out when the quilt series contains a path with "/../" as this
+    can cause patch to create files outside of the source package due
+    to the -B .pc/$path option that it gets.
 
   [ Guillem Jover ]
   * Handle argument parsing in dpkg-checkbuilddeps and dpkg-scanpackages
