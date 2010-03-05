@@ -1,6 +1,11 @@
 dpkg (1.14.29) UNRELEASED; urgency=low
 
-  *
+  * Modify dpkg-source to error out when it would apply patches containing
+    insecure paths (with "/../") and also error out when it would apply a
+    patch through a symlink. Those checks are required as patch will happily
+    modify files outside of the target directory and unpacking a source package
+    should not be able to have any side-effect outside of the target
+    directory. Fixes CVE-2010-0396.
 
  -- Raphael Hertzog <hertzog@debian.org>  Fri, 05 Mar 2010 20:41:39 +0100
 

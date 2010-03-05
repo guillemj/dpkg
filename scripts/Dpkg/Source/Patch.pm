@@ -316,8 +316,9 @@ sub analyze {
 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 	}
         $_ = strip_ts($_);
-        if ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
+        if ($_ eq '/dev/null' or s{^[^/]+/}{$destdir/}) {
             $fn = $_;
+	    error(_g("%s contains an insecure path: %s"), $diff, $_) if m{/\.\./};
         }
 	if (/\.dpkg-orig$/) {
 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
@@ -330,8 +331,9 @@ sub analyze {
 	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 	}
         $_ = strip_ts($_);
-        if ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
+        if ($_ eq '/dev/null' or s{^[^/]+/}{$destdir/}) {
             $fn2 = $_;
+	    error(_g("%s contains an insecure path: %s"), $diff, $_) if m{/\.\./};
         } else {
             unless (defined $fn) {
                 error(_g("none of the filenames in ---/+++ are relative in diff `%s' (line %d)"),
@@ -357,6 +359,17 @@ sub analyze {
 	if ($dirname =~ s{/[^/]+$}{} && not -d $dirname) {
 	    $dirtocreate{$dirname} = 1;
 	}
+
+	# Sanity check, refuse to patch through a symlink
+	$dirname = $fn;
+	while (1) {
+	    if (-l $dirname) {
+		error(_g("diff %s modifies file %s through a symlink: %s"),
+		      $diff, $fn, $dirname);
+	    }
+	    last unless $dirname =~ s{/[^/]+$}{};
+	}
+
 	if (-e $fn and not -f _) {
 	    error(_g("diff `%s' patches something which is not a plain file"), $diff);
 	}
