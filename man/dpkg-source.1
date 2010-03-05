@@ -56,10 +56,10 @@ Depending on the source package format used to build the package,
 additional parameters might be accepted.
 
 \fBdpkg\-source\fP will build the source package with the first format
-that works from this ordered list:
-the format(s) indicated with the \fI\-\-format\fP command-line option(s),
+found in this ordered list:
+the format indicated with the \fI\-\-format\fP command-line option,
 the format indicated in \fBdebian/source/format\fP,
-"1.0", "3.0 (quilt)", "3.0 (native)". See section
+"1.0". See section
 \fBSOURCE PACKAGE FORMATS\fP for an extensive description of the various
 source package formats.
 
@@ -67,8 +67,7 @@ source package formats.
 .RI "\fB\-\-print\-format\fP " directory
 Print the source format that would be used to build the source package if
 \fBdpkg\-source \-b \fIdirectory\fR was called (in the same conditions and
-with the same parameters). In particular it's important that the upstream
-tarball (if any) can be found in the current directory.
+with the same parameters).
 
 .TP
 .BR \-h ", " \-\-help
@@ -99,8 +98,7 @@ from a special line near the bottom of the changelog or failing that
 defaults to the debian standard format.
 .TP
 .BI \-\-format= value
-Try first the given format for building the source package. If used
-multiple times, they are tried in order. It does
+Use the given format for building the source package. It does
 override any format given in \fBdebian/source/format\fP.
 .TP
 .BI \-V name = value

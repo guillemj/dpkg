@@ -11,7 +11,7 @@
 # Copyright © 2005 Brendan O'Dea <bod@debian.org>
 # Copyright © 2006-2008 Frank Lichtenheld <djpig@debian.org>
 # Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
-# Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ my $controlfile;
 my $changelogfile;
 my $changelogformat;
 
-my @build_formats = ("1.0", "3.0 (quilt)", "3.0 (native)");
+my $build_format;
 my %options = (
     # Compression related
     compression => compression_get_default(),
@@ -77,7 +77,6 @@ my $tar_ignore_default_pattern_done;
 
 my @options;
 my @cmdline_options;
-my @cmdline_formats;
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_ = shift(@ARGV);
     if (m/^-b$/) {
@@ -120,7 +119,7 @@ if (defined($options{'opmode'}) &&
 while (@options) {
     $_ = shift(@options);
     if (m/^--format=(.*)$/) {
-        push @cmdline_formats, $1;
+	$build_format = $1 unless defined $build_format;
     } elsif (m/^-(?:Z|-compression=)(.*)$/) {
 	my $compression = $1;
 	$options{'compression'} = $compression;
@@ -292,32 +291,32 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 	$fields->{'Binary'} =~ s/(.{0,980}), ?/$1,\n/g;
     }
 
-    # Generate list of formats to try
-    my @try_formats = (@cmdline_formats);
-    if (-e "$dir/debian/source/format") {
-        open(FORMAT, "<", "$dir/debian/source/format") ||
-            syserr(_g("cannot read %s"), "$dir/debian/source/format");
-        my $format = <FORMAT>;
-        chomp($format);
-        close(FORMAT);
-        push @try_formats, $format;
+    # Select the format to use
+    if (not defined $build_format) {
+	if (-e "$dir/debian/source/format") {
+	    open(FORMAT, "<", "$dir/debian/source/format") ||
+		syserr(_g("cannot read %s"), "$dir/debian/source/format");
+	    $build_format = <FORMAT>;
+	    chomp($build_format);
+	    close(FORMAT);
+	} else {
+	    $build_format = "1.0";
+	}
     }
-    push @try_formats, @build_formats;
-    # Try all suggested formats until one is acceptable
-    foreach my $format (@try_formats) {
-        $fields->{'Format'} = $format;
-        $srcpkg->upgrade_object_type(); # Fails if format is unsupported
-	# Parse command line options
-	$srcpkg->init_options();
-	$srcpkg->parse_cmdline_options(@cmdline_options);
-        my ($res, $msg) = $srcpkg->can_build($dir);
-        last if $res;
-        info(_g("source format `%s' discarded: %s"), $format, $msg);
-    }
+    $fields->{'Format'} = $build_format;
+    $srcpkg->upgrade_object_type(); # Fails if format is unsupported
+    # Parse command line options
+    $srcpkg->init_options();
+    $srcpkg->parse_cmdline_options(@cmdline_options);
+
     if ($options{'opmode'} eq "--print-format") {
 	print $fields->{'Format'} . "\n";
 	exit(0);
     }
+
+    # Verify pre-requesites are met
+    my ($res, $msg) = $srcpkg->can_build($dir);
+    error(_g("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
     info(_g("using source format `%s'"), $fields->{'Format'});
 
     run_vendor_hook("before-source-build", $srcpkg);
