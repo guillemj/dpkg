@@ -111,6 +111,7 @@ sub read_patch_list {
             }
         }
         next if $opts{"skip_auto"} and $_ eq $auto_patch;
+        error(_g("%s contains an insecure path: %s"), $file, $_) if m{(^|/)\.\./};
         push @patches, $_;
     }
     close(SERIES);
