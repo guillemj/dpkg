@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-21 11:26+0000\n"
-"PO-Revision-Date: 2010-01-31 20:01+0100\n"
+"PO-Revision-Date: 2010-03-07 13:54+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -841,6 +841,8 @@ msgid ""
 "The multi-part B<.deb> format is used to split big packages into smaller "
 "pieces to ease transport in small media."
 msgstr ""
+"Det flerdelade B<.deb>-formatet används för att dela stora paket i "
+"mindre delar för att förenkla transport över små medier."
 
 #. type: Plain text
 #: deb-split.5:12
@@ -887,6 +889,8 @@ msgid ""
 "Programs which read multi-part archives should be prepared for additional "
 "lines to be present, and should ignore these if this is the case."
 msgstr ""
+"Filer som läser flerdelade arkiv bör vara beredda på att ytterligare "
+"rader är närvarande, och bör ignorera dessa om så är fallet."
 
 #. type: Plain text
 #: deb-split.5:29
@@ -7463,6 +7467,11 @@ msgid ""
 "build tree so that it ends up included in the control information of the "
 "package."
 msgstr ""
+"B<dpkg-gensymbols> söker genom en temporärt byggträd (som standard "
+"debian/tmp) efter bibliotek och skapar en I<symbols>-fil som beskriver "
+"dem. Denna fil kommer sedan, såvida den inte är tom, att installeras i "
+"DEBIAN-underkatalogen i byggträdet så att den hamnar i "
+"styrinformationen i paketet."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:20
@@ -7471,6 +7480,9 @@ msgid ""
 "the maintainer. It looks for the following files (and use the first that is "
 "found):"
 msgstr ""
+"När dessa filer skapas, används ett par symbolfiler från paketansvariga "
+"som indata. Programmet söker efter följande filer (och använder den "
+"första det finner):"
 
 #. type: IP
 #: dpkg-gensymbols.1:20 dpkg-gensymbols.1:22 dpkg-gensymbols.1:24
@@ -7478,35 +7490,31 @@ msgstr ""
 #: dpkg-gensymbols.1:346 dpkg-gensymbols.1:350 dpkg-gensymbols.1:353
 #, no-wrap
 msgid "\\(bu"
-msgstr ""
+msgstr "\\(bu"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:22
-#, fuzzy
 #| msgid "/etc/dpkg/symbols/I<package>.symbols.I<arch>"
 msgid "debian/I<package>.symbols.I<arch>"
-msgstr "/etc/dpkg/symbols/I<package>.symbols.I<arkitektur>"
+msgstr "debian/I<paket>.symbols.I<arkitektur>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:24
-#, fuzzy
 #| msgid "B<debian/substvars>"
 msgid "debian/symbols.I<arch>"
-msgstr "B<debian/substvars>"
+msgstr "debian/symbols.I<arkitektur>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:26
-#, fuzzy
 #| msgid "I<admindir>/info/I<package>.symbols"
 msgid "debian/I<package>.symbols"
-msgstr "I<adminkat>/info/I<paket>.symbols"
+msgstr "debian/I<paket>.symbols"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:28
-#, fuzzy
 #| msgid "deb-symbols"
 msgid "debian/symbols"
-msgstr "deb-symbols"
+msgstr "debian/symbols"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:36
@@ -7519,6 +7527,13 @@ msgid ""
 "maintainer to keep those files up-to-date and accurate, but B<dpkg-"
 "gensymbols> helps him."
 msgstr ""
+"Dessa filer är i huvudsak intressanta för att kunna tillhandahålla "
+"den minimala version associerad med varje symbol i biblioteken. Detta "
+"motsvarar normalt den första version av paketet som tillhandahöll "
+"symbolen, men det kan manuellt inkrementeras av de ansvariga om symbolens "
+"ABI utökas med bibehållen bakåtkompatibilitet. Det är den ansvarigas "
+"ansvar att hålla dessa filer àjourförda och korrekta, men "
+"B<dpkg-gensymbols> kan hjälpa till."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:42
@@ -7528,12 +7543,17 @@ msgid ""
 "if the difference are too significant, it will even fail (you can customize "
 "how much difference you can tolerate, see the B<-c> option)."
 msgstr ""
+"När den genererade symbolfilen skiljer sig mot den version som "
+"tillhandahållits av de paketansvariga kommer B<dpkg-gensymbols> att "
+"skriva ut en differens mellan de två versionerna. Om ändringarna är "
+"för stora kommer programmet dessutom att misslyckas (du kan justera "
+"hur stora ändringar du kan tolerera, se flaggan B<-c>)."
 
 #. type: SH
 #: dpkg-gensymbols.1:42
 #, no-wrap
 msgid "MAINTAINING SYMBOLS FILES"
-msgstr ""
+msgstr "UNDERHÅLLA SYMBOLFILER"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:55
@@ -7550,6 +7570,18 @@ msgid ""
 "dropped because the symbol really got added by the Debian specific change, "
 "then one should suffix the version with \"~\"."
 msgstr ""
+"Symbolfilerna är bara riktigt nyttiga om de motsvarar hur paketet har "
+"utvecklats över flera versioner. De paketansvariga måste därför uppdatera "
+"dem varje gång en ny symbol läggs till så att dess associerade minimala "
+"version motsvarar verkligheten. För att göra detta på ett riktigt sätt "
+"finns det differensfiler i byggloggarna. I de flesta fall kan differensfilen "
+"appliceras direkt på filen debian/I<paket>. Med det i åtanke så behövs det "
+"oftast ytterligare justeringar: det rekommenderas att skippa Debianrevisionen "
+"från det minimala versionsnummer så att den bakåtanpassningar med ett lägre "
+"versionsnummer, men från samma uppströmsversion, fortfarande uppfyller de "
+"genererade beroendena. Om Debianrevisionen inte kan tas bort på grund av att "
+"en symbol faktiskt lades till av en Debianspecifik ändring så bör ett \"~\" "
+"läggs till i slutet av versionen."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:59
@@ -7558,12 +7590,15 @@ msgid ""
 "check that it's sane. Public symbols are not supposed to disappear, so the "
 "patch should ideally only add new lines."
 msgstr ""
+"Innan man applicerar en patch på symbolfilen bör de ansvariga "
+"dubbelchecka att den är korrekt. Publicerade symboler bör inte försvinna, "
+"så patchen bör ideellt sett bara lägga till nya rader."
 
 #. type: SS
 #: dpkg-gensymbols.1:59
 #, no-wrap
 msgid "Using #PACKAGE# substitution"
-msgstr ""
+msgstr "Använda #PACKAGE#-substituering"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:67
@@ -7574,12 +7609,17 @@ msgid ""
 "installation of the symbols files. Contrary to the I<#MINVER#> marker, "
 "I<#PACKAGE#> will never appear in a symbols file inside a binary package."
 msgstr ""
+"I några sällsynta fall skiljer sig namnet på biblioteket mellan arkitekturer. "
+"För att undvika att hårdkoda namnet på paketet i symbolfilen kan du använda "
+"markören I<#PACKAGE#>. Den ersätts av det faktiska paketnamnet när symbolfilen "
+"installeras. Till skillnad från I<#MINVER#>-markören kommer I<#PACKAGE#> "
+"aldrig att dyka upp i en symbolfil i ett binärpaket."
 
 #. type: SS
 #: dpkg-gensymbols.1:67
 #, no-wrap
 msgid "Using symbol tags"
-msgstr ""
+msgstr "Använda symboltaggar"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:74
@@ -7590,6 +7630,12 @@ msgid ""
 "gensymbols> and trigger special handling of the symbols. See subsection "
 "B<Standard symbol tags> for reference of these tags."
 msgstr ""
+"Symboltaggning är nyttigt för att markera symboler som är speciella på "
+"något sätt. Alla symboler kan ha ett godtyckligt antal taggar associerade "
+"med sig. Medan alla taggar tolkas och lagras är det bara ett par av dem "
+"som förstås av B<dpkg-gensymbols> och som utlöser specialhantering av "
+"symbolerna. Se undersymbolen B<Standardsymboltaggar> för mer information "
+"om dessa taggar."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:86
@@ -7606,6 +7652,16 @@ msgid ""
 "the symbol, quotes are treated as part of the symbol name which continues up "
 "until the first space."
 msgstr ""
+"Taggarna anges precis före symbolnamnet (inga blanksteg tillåts mellan). "
+"Den börjar alltid med en vänsterparentes B<(>, slutar med en högerparentes "
+"B<)>, och måste innehålla minst en tagg. Ytterligare taggar avdelas med "
+"tecknet B<|>. En tagg kan ha ett värde, vilket separeras från taggnamnet "
+"med tecknet B<=>. Taggnamn och värden kan vara godtyckliga strängar, "
+"förutom att de inte kan innehålla de speciella tecknen B<)> B<|> B<=>. "
+"Symbolnamn som följer en taggangivelse kan, om så önskas, citeras med "
+"antingen B<'> eller B<\"> för att tillåta blanksteg. Om inga taggar "
+"anges för symbolen tolkas dock citattecken som en del av symbolnamnet, "
+"vilket fortsätter till det första blanksteget."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:90
@@ -7615,6 +7671,9 @@ msgid ""
 " (optional)tagged_unquoted_symbol@Base 1.0 1\n"
 " untagged_symbol@Base 1.0\n"
 msgstr ""
+" (tag1=jag är markerad|taggnamn med blanksteg)\"taggad citerad symbol\"@Bas 1.0\n"
+" (optional)taggad_ociterad_symbol@Bas 1.0 1\n"
+" ociterad_symbol@Bas 1.0\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:96
@@ -7625,6 +7684,11 @@ msgid ""
 "with the tag named I<optional>. The last symbol is an example of the normal "
 "untagged symbol."
 msgstr ""
+"Den första symbolen i exemplet är heter I<taggad citerad symbol> och har "
+"två taggar: I<tag1> med värdet I<jag är markerad> och I<taggnamn med "
+"blanksteg> som inte har något värde. Den andra symbolen heter I<taggad_"
+"ociterad_symbol> och är bara taggad med taggen som heter I<optional>. "
+"Den sista symbolen är ett exempel på en normal, otaggad symbol."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:108
@@ -7640,12 +7704,21 @@ msgid ""
 "ones)  are kept in the output and are written in their orignal form as they "
 "were loaded."
 msgstr ""
+"Eftersom symboltaggar er en utökning av formatet i I<deb-symbols(5)> kan "
+"de bara användas i symbolfiler i källkodspaket (dessa filer är att anse "
+"som mallar som används för att bygga symbolfilerna som finns i binärpaketen). "
+"När B<dpkg-gensymbols> anropas utan flaggan I<-t> kommer det att mata ut "
+"symbolfiler kompatibla med I<deb-symbols(5)>-formatet: det hanterar symboler "
+"helt beroende på vad som beskrivs av standardtaggarna och tar bort alla "
+"taggar från utdata. I mall-läge (I<-t>) kommer däremot alla symboler och "
+"deras taggar (både standard och okända) att behållas i utdata och skrivas "
+"i sin originalform så som de lästes in."
 
 #. type: SS
 #: dpkg-gensymbols.1:108
 #, no-wrap
 msgid "Standard symbol tags"
-msgstr ""
+msgstr "Standardsymboltaggar"
 
 #. type: TP
 #: dpkg-gensymbols.1:109
