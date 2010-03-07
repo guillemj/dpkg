@@ -26,6 +26,40 @@ with \*(lqlibc6\*(rq:
   \fBdpkg\-query \-l \(aqlibc6*\(aq\fP
 .fi
 
+The first three columns of the output show the desired action, the package
+status, and errors, in that order.
+
+Desired action:
+.nf
+  u = Unknown
+  i = Install
+  h = Hold
+  r = Remove
+  p = Purge
+.fi
+
+Package status:
+.nf
+  n = Not-installed
+  c = Config-files
+  H = Half-installed
+  U = Unpacked
+  F = Half-configured
+  W = Triggers-awaiting
+  t = Triggers-pending
+  i = Installed
+.fi
+
+Error flags:
+.nf
+  <empty> = (none)
+  R = Reinst-required
+.fi
+
+An uppercase status or error letter indicates the package is likely to
+cause severe problems. Please refer to \fBdpkg\fP(1) for information
+about the above states and flags.
+
 The output format of this option is not configurable, but varies
 automatically to fit the terminal width. It is intended for human
 readers, and is not easily machine-readable. See \fB\-W\fP (\fB\-\-show\fP)
