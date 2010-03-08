@@ -317,11 +317,11 @@ This function is mainly used to implement the sort() method.
 
 our %relation_ordering = (
 	'undef' => 0,
-	REL_GE => 1,
-	REL_GT => 2,
-	REL_EQ => 3,
-	REL_LT => 4,
-	REL_LE => 5,
+	REL_GE() => 1,
+	REL_GT() => 2,
+	REL_EQ() => 3,
+	REL_LT() => 4,
+	REL_LE() => 5,
 );
 
 sub deps_compare {
