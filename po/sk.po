@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2009-11-27 18:45+0100\n"
+"POT-Creation-Date: 2010-03-08 12:13+0100\n"
 "PO-Revision-Date: 2009-12-03 10:34+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -52,67 +52,96 @@ msgstr "zlyhanie vo funkcii buffer_copy (%s)"
 msgid "short read in buffer_copy (%s)"
 msgstr "krátke čítanie vo funkcii buffer_copy (%s)"
 
-#: lib/dpkg/compression.c:53
-#, c-format
-msgid "%s: failed to exec '%s %s'"
-msgstr "%s: nepodarilo sa vykonať „%s %s“"
+#: lib/dpkg/command.c:182
+#, fuzzy, c-format
+msgid "unable to execute %s (%s)"
+msgstr "nie je možné spustiť %s"
 
-#: lib/dpkg/compression.c:82
-#, c-format
-msgid "%s: internal gzip error: `%s'"
-msgstr "%s: vnútorná chyba gzip-u: „%s“"
-
-#: lib/dpkg/compression.c:105
-#, c-format
-msgid "%s: internal bzip2 error: `%s'"
-msgstr "%s: vnútorná chyba bzip2: „%s“"
-
-#: lib/dpkg/compression.c:117
+#: lib/dpkg/compress.c:76
 #, c-format
 msgid "%s: decompression"
 msgstr "%s: dekompresia"
 
-#: lib/dpkg/compression.c:153
-#, c-format
-msgid "%s: internal gzip error: read: `%s'"
-msgstr "%s: vnútorná chyba gzip-u: čítanie: „%s“"
-
-#: lib/dpkg/compression.c:163
-#, c-format
-msgid "%s: internal gzip error: write: `%s'"
-msgstr "%s: vnútorná chyba gzip-u: zápis: „%s“"
-
-#: lib/dpkg/compression.c:166
-#, c-format
-msgid "%s: internal gzip error: read(%i) != write(%i)"
-msgstr "%s: vnútorná chyba gzip-u: čítanie(%i) != zápis (%i)"
-
-#: lib/dpkg/compression.c:188
-#, c-format
-msgid "%s: internal bzip2 error: read: `%s'"
-msgstr "%s: vnútorná chyba bzip2: čítanie: „%s“"
-
-#: lib/dpkg/compression.c:198
-#, c-format
-msgid "%s: internal bzip2 error: write: `%s'"
-msgstr "%s: vnútorná chyba bzip2: zápis: „%s“"
-
-#: lib/dpkg/compression.c:201
-#, c-format
-msgid "%s: internal bzip2 error: read(%i) != write(%i)"
-msgstr "%s: vnútorná chyba bzip2: čítanie(%i) != zápis (%i)"
-
-#: lib/dpkg/compression.c:216
+#: lib/dpkg/compress.c:83
 #, c-format
 msgid "%s: compression"
 msgstr "%s: kompresia"
 
-#: lib/dpkg/database.c:202
+#: lib/dpkg/compress.c:107
+#, c-format
+msgid "%s: error binding input to gzip stream"
+msgstr ""
+
+#: lib/dpkg/compress.c:119
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: '%s'"
+msgstr "%s: vnútorná chyba gzip-u: „%s“"
+
+#: lib/dpkg/compress.c:127 lib/dpkg/compress.c:131
+#, fuzzy, c-format
+msgid "%s: internal gzip write error"
+msgstr "%s: vnútorná chyba gzip-u: „%s“"
+
+#: lib/dpkg/compress.c:147
+#, c-format
+msgid "%s: error binding output to gzip stream"
+msgstr ""
+
+#: lib/dpkg/compress.c:154
+#, fuzzy, c-format
+msgid "%s: internal gzip read error"
+msgstr "%s: vnútorná chyba gzip-u: „%s“"
+
+#: lib/dpkg/compress.c:164
+#, fuzzy, c-format
+msgid "%s: internal gzip write error: '%s'"
+msgstr "%s: vnútorná chyba gzip-u: „%s“"
+
+#: lib/dpkg/compress.c:177
+#, fuzzy, c-format
+msgid "%s: internal gzip write error: %s"
+msgstr "%s: vnútorná chyba gzip-u: „%s“"
+
+#: lib/dpkg/compress.c:219
+#, c-format
+msgid "%s: error binding input to bzip2 stream"
+msgstr ""
+
+#: lib/dpkg/compress.c:231
+#, fuzzy, c-format
+msgid "%s: internal bzip2 read error: '%s'"
+msgstr "%s: vnútorná chyba bzip2: „%s“"
+
+#: lib/dpkg/compress.c:239 lib/dpkg/compress.c:243 lib/dpkg/compress.c:295
+#, fuzzy, c-format
+msgid "%s: internal bzip2 write error"
+msgstr "%s: vnútorná chyba bzip2: „%s“"
+
+#: lib/dpkg/compress.c:259
+#, c-format
+msgid "%s: error binding output to bzip2 stream"
+msgstr ""
+
+#: lib/dpkg/compress.c:266
+#, fuzzy, c-format
+msgid "%s: internal bzip2 read error"
+msgstr "%s: vnútorná chyba bzip2: „%s“"
+
+#: lib/dpkg/compress.c:276 lib/dpkg/compress.c:287
+#, fuzzy, c-format
+msgid "%s: internal bzip2 write error: '%s'"
+msgstr "%s: vnútorná chyba bzip2: „%s“"
+
+#: lib/dpkg/compress.c:283
+msgid "unexpected bzip2 error"
+msgstr ""
+
+#: lib/dpkg/database.c:201
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "veľkosť %7d sa objavuje %5d-krát\n"
 
-#: lib/dpkg/dbmodify.c:63
+#: lib/dpkg/dbmodify.c:64
 #, c-format
 msgid ""
 "updates directory contains file `%.250s' whose name is too long (length=%d, "
@@ -121,7 +150,7 @@ msgstr ""
 "adresár s aktualizáciami obsahuje súbor „%.250s“, ktorého názov je príliš "
 "dlhý (dĺžka=%d, max=%d)"
 
-#: lib/dpkg/dbmodify.c:67
+#: lib/dpkg/dbmodify.c:68
 #, c-format
 msgid ""
 "updates directory contains files with different length names (both %d and %d)"
@@ -129,79 +158,95 @@ msgstr ""
 "adresár s aktualizáciami obsahuje súbory s názvami rozličnej dĺžky (oba %d a "
 "%d)"
 
-#: lib/dpkg/dbmodify.c:81
+#: lib/dpkg/dbmodify.c:82
 #, c-format
 msgid "cannot scan updates directory `%.255s'"
 msgstr "nie je možné zistiť obsah adresára s aktualizáciami „%.250s“"
 
-#: lib/dpkg/dbmodify.c:97
+#: lib/dpkg/dbmodify.c:98
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
 msgstr "zlyhalo odstránenie pridruženého aktualizačného súboru %.255s"
 
-#: lib/dpkg/dbmodify.c:115 dpkg-deb/build.c:409
+#: lib/dpkg/dbmodify.c:116 dpkg-deb/build.c:399
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "nedá sa vytvoriť „%.255s“"
 
-#: lib/dpkg/dbmodify.c:119
+#: lib/dpkg/dbmodify.c:120
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr "nie je možné naplniť %.250s"
 
-#: lib/dpkg/dbmodify.c:121
+#: lib/dpkg/dbmodify.c:122
 #, c-format
 msgid "unable to flush %.250s after padding"
 msgstr "nie je možné vyprázdniť %.250s"
 
-#: lib/dpkg/dbmodify.c:123
+#: lib/dpkg/dbmodify.c:124
 #, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "po naplnení nie je možné presunúť sa na začiatok %.250s"
 
+#: lib/dpkg/dbmodify.c:159
+msgid "you do not have permission to lock the dpkg status database"
+msgstr "nemáte oprávnenie na uzamknutie stavovej databázy dpkg"
+
 #: lib/dpkg/dbmodify.c:160
+msgid "unable to open/create status database lockfile"
+msgstr "nie je možné otvoriť/vytvoriť zamykací súbor stavovej databázy"
+
+#: lib/dpkg/dbmodify.c:165
+msgid "unable to lock dpkg status database"
+msgstr "nie je možné uzamknúť stavovú databázu dpkg"
+
+#: lib/dpkg/dbmodify.c:166
+msgid "status database area is locked by another process"
+msgstr "priestor stavovej databázy je uzamknutý - beží iný proces dpkg/dselect"
+
+#: lib/dpkg/dbmodify.c:195
 msgid "requested operation requires superuser privilege"
 msgstr "požadovaná operácia vyžaduje oprávnenie superpoužívateľa"
 
-#: lib/dpkg/dbmodify.c:165
+#: lib/dpkg/dbmodify.c:200
 msgid "unable to access dpkg status area"
 msgstr "nie je možné pristúpiť ku stavovej oblasti dpkg"
 
-#: lib/dpkg/dbmodify.c:167
+#: lib/dpkg/dbmodify.c:202
 msgid "operation requires read/write access to dpkg status area"
 msgstr "operácia vyžaduje práva na čítanie/zápis do stavovej oblasti dpkg"
 
-#: lib/dpkg/dbmodify.c:216
+#: lib/dpkg/dbmodify.c:251
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "chyba pri odstraňovaní môjho vlastného aktualizačného súboru %.255s"
 
-#: lib/dpkg/dbmodify.c:254
+#: lib/dpkg/dbmodify.c:289
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "nie je možné zapísať aktualizovaný stav „%.250s“"
 
-#: lib/dpkg/dbmodify.c:256
+#: lib/dpkg/dbmodify.c:291
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "nie je možné vyprázdniť aktualizovaný stav „%.250s“"
 
-#: lib/dpkg/dbmodify.c:258
+#: lib/dpkg/dbmodify.c:293
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "nie je možné skrátiť aktualizovaný stav „%.250s“"
 
-#: lib/dpkg/dbmodify.c:260
+#: lib/dpkg/dbmodify.c:295
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "nie je možné vykonať funkciu fsync na aktualizovaný stav „%.250s“"
 
-#: lib/dpkg/dbmodify.c:262
+#: lib/dpkg/dbmodify.c:297
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "nie je možné uzavrieť aktualizovaný stav „%.250s“"
 
-#: lib/dpkg/dbmodify.c:265
+#: lib/dpkg/dbmodify.c:300
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "nie je možné inštalovať aktualizovaný stav „%.250s“"
@@ -211,47 +256,48 @@ msgstr "nie je možné inštalovať aktualizovaný stav „%.250s“"
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr "chyba pri zápise podrobností „%.50s“ do „%.250s“"
 
-#: lib/dpkg/dump.c:375
-#, c-format
-msgid "failed to open `%s' for writing %s information"
+#: lib/dpkg/dump.c:376
+#, fuzzy, c-format
+msgid "failed to open '%s' for writing %s database"
 msgstr "chyba pri otváraní „%s“ na zápis %s informácií"
 
-#: lib/dpkg/dump.c:378
-msgid "unable to set buffering on status file"
+#: lib/dpkg/dump.c:379
+#, fuzzy, c-format
+msgid "unable to set buffering on %s database file"
 msgstr "nie je možné nastaviť buffering stavového súboru"
 
-#: lib/dpkg/dump.c:389
-#, c-format
-msgid "failed to write %s record about `%.50s' to `%.250s'"
+#: lib/dpkg/dump.c:390
+#, fuzzy, c-format
+msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr "chyba pri zápise %s záznamov od „%.50s“ do „%.250s“"
 
-#: lib/dpkg/dump.c:397
-#, c-format
-msgid "failed to flush %s information to `%.250s'"
+#: lib/dpkg/dump.c:398
+#, fuzzy, c-format
+msgid "failed to flush %s database to '%.250s'"
 msgstr "chyba pri vyprázdnení %s informácií do „%.250s“"
 
-#: lib/dpkg/dump.c:399
-#, c-format
-msgid "failed to fsync %s information to `%.250s'"
+#: lib/dpkg/dump.c:400
+#, fuzzy, c-format
+msgid "failed to fsync %s database to '%.250s'"
 msgstr "chyba pri vykonaní funkcie fsync %s informácií do „%.250s“"
 
-#: lib/dpkg/dump.c:401
-#, c-format
-msgid "failed to close `%.250s' after writing %s information"
+#: lib/dpkg/dump.c:403
+#, fuzzy, c-format
+msgid "failed to close '%.250s' after writing %s database"
 msgstr "chyba pri uzatváraní „%.250s“ po zápise %s informácií"
 
-#: lib/dpkg/dump.c:405
-#, c-format
-msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
+#: lib/dpkg/dump.c:407
+#, fuzzy, c-format
+msgid "failed to link '%.250s' to '%.250s' for backup of %s database"
 msgstr ""
 "chyba pri vytváraní odkazu „%.250s“ na „%.250s“ na zálohovanie %s informácie"
 
-#: lib/dpkg/dump.c:408
-#, c-format
-msgid "failed to install `%.250s' as `%.250s' containing %s info"
+#: lib/dpkg/dump.c:410
+#, fuzzy, c-format
+msgid "failed to install '%.250s' as '%.250s' containing %s database"
 msgstr "chyba pri inštalácii „%.250s“ ako „%.250s“ obsahujúca %s informáciu"
 
-#: lib/dpkg/ehandle.c:94
+#: lib/dpkg/ehandle.c:91
 #, c-format
 msgid ""
 "%s: unrecoverable fatal error, aborting:\n"
@@ -260,11 +306,11 @@ msgstr ""
 "%s: kritická chyba, zotavenie nie je možné, prerušuje sa:\n"
 " %s\n"
 
-#: lib/dpkg/ehandle.c:110
+#: lib/dpkg/ehandle.c:107
 msgid "out of memory pushing error handler: "
 msgstr "nedostatok pamäte pri použití chybného ovládača: "
 
-#: lib/dpkg/ehandle.c:126
+#: lib/dpkg/ehandle.c:123
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -273,30 +319,30 @@ msgstr ""
 "%s: chyba počas čistenia:\n"
 " %s\n"
 
-#: lib/dpkg/ehandle.c:141
+#: lib/dpkg/ehandle.c:138
 #, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: príliš veľa vnorených chýb počas opravy chyby !!\n"
 
-#: lib/dpkg/ehandle.c:214
+#: lib/dpkg/ehandle.c:211
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "nedostatok pamäte pre novú čistiacu položku s množstvom argumentov"
 
-#: lib/dpkg/ehandle.c:226
+#: lib/dpkg/ehandle.c:223
 msgid "out of memory for new cleanup entry"
 msgstr "nedostatok pamäte pre novu čistiacu položku"
 
-#: lib/dpkg/ehandle.c:291
+#: lib/dpkg/ehandle.c:288
 #, c-format
 msgid "%s: warning: %s\n"
 msgstr "%s: upozornenie: %s\n"
 
-#: lib/dpkg/ehandle.c:295
+#: lib/dpkg/ehandle.c:292
 #, c-format
 msgid "error writing `%s'"
 msgstr "chyba pri zápise „%.250s“"
 
-#: lib/dpkg/ehandle.c:308
+#: lib/dpkg/ehandle.c:305
 #, c-format
 msgid "%s:%s:%d: internal error: %s\n"
 msgstr "%s:%s:%d: vnútorná chyba: %s\n"
@@ -505,25 +551,27 @@ msgid "duplicate awaited trigger package `%.255s'"
 msgstr ""
 "duplicitný názov balíka v očakávanom spúšťači (triggers-awaited) „%.255s“"
 
-#: lib/dpkg/lock.c:49
+#: lib/dpkg/file.c:45
+#, fuzzy, c-format
+msgid "unable to stat source file '%.250s'"
+msgstr "nie je možné otvoriť zdrojový súbor „%.250s“"
+
+#: lib/dpkg/file.c:49
+#, fuzzy, c-format
+msgid "unable to change ownership of target file '%.250s'"
+msgstr ""
+"nie je možné zmeniť vlastníctvo nového distribučného konfiguračného súboru "
+"„%.250s“"
+
+#: lib/dpkg/file.c:53
+#, fuzzy, c-format
+msgid "unable to set mode of target file '%.250s'"
+msgstr ""
+"nie je možné nastaviť mód nového distribučného konfiguračného súboru „%.250s“"
+
+#: lib/dpkg/file.c:68
 msgid "unable to unlock dpkg status database"
 msgstr "nie je možné odomknúť stavovú databázu dpkg"
-
-#: lib/dpkg/lock.c:101
-msgid "you do not have permission to lock the dpkg status database"
-msgstr "nemáte oprávnenie na uzamknutie stavovej databázy dpkg"
-
-#: lib/dpkg/lock.c:102
-msgid "unable to open/create status database lockfile"
-msgstr "nie je možné otvoriť/vytvoriť zamykací súbor stavovej databázy"
-
-#: lib/dpkg/lock.c:107
-msgid "unable to lock dpkg status database"
-msgstr "nie je možné uzamknúť stavovú databázu dpkg"
-
-#: lib/dpkg/lock.c:108
-msgid "status database area is locked by another process"
-msgstr "priestor stavovej databázy je uzamknutý - beží iný proces dpkg/dselect"
 
 #: lib/dpkg/log.c:52
 #, c-format
@@ -535,54 +583,45 @@ msgstr "nebolo možné otvoriť ladiaci súbor „%s“: %s\n"
 msgid "unable to write to status fd %d"
 msgstr "nie je možné zapísať do popisovača stavu fd %d"
 
-#: lib/dpkg/mlib.c:46
+#: lib/dpkg/mlib.c:44
 #, c-format
 msgid "malloc failed (%ld bytes)"
 msgstr "funkcia malloc zlyhala (%ld bytov)"
 
-#: lib/dpkg/mlib.c:59
+#: lib/dpkg/mlib.c:57
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "funkcia realloc zlyhala (%ld bytov)"
 
-#: lib/dpkg/mlib.c:73
+#: lib/dpkg/mlib.c:71
 msgid "failed to allocate memory"
 msgstr "nepodarilo sa alokovať pamäť"
 
-#: lib/dpkg/mlib.c:80
-#, c-format
-msgid "%s (subprocess): %s\n"
-msgstr "%s (podproces): %s\n"
-
-#: lib/dpkg/mlib.c:94
-msgid "fork failed"
-msgstr "funkcia fork zlyhala"
-
-#: lib/dpkg/mlib.c:107
+#: lib/dpkg/mlib.c:83
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "zlyhalo vykonanie funkcie dup pre std%s"
 
-#: lib/dpkg/mlib.c:108
+#: lib/dpkg/mlib.c:84
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "zlyhalo vykonanie funkcie dup pre fd %d"
 
-#: lib/dpkg/mlib.c:114
+#: lib/dpkg/mlib.c:90
 msgid "failed to create pipe"
 msgstr "chyba pri vytváraní rúry"
 
-#: lib/dpkg/mlib.c:122
+#: lib/dpkg/mlib.c:98
 #, c-format
 msgid "error writing to '%s'"
 msgstr "chyba pri zápise „%s“"
 
-#: lib/dpkg/mlib.c:129
+#: lib/dpkg/mlib.c:105
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "nie je možné čítať príznaky popisovača súboru „%.250s“"
 
-#: lib/dpkg/mlib.c:131
+#: lib/dpkg/mlib.c:107
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "nie je možné nastaviť príznak close-on-exec na „%.250s“"
@@ -602,32 +641,32 @@ msgstr "zlyhalo otvorenie konfiguračného súboru „%.255s“ na čítanie: %s
 msgid "unbalanced quotes in '%s'"
 msgstr "nespárované úvodzovky „%s“"
 
-#: lib/dpkg/myopt.c:116
+#: lib/dpkg/myopt.c:115
 #, c-format
 msgid "unknown option '%s'"
 msgstr "neznáma voľba „%s“"
 
-#: lib/dpkg/myopt.c:120
+#: lib/dpkg/myopt.c:119
 #, c-format
 msgid "'%s' needs a value"
 msgstr "„%s“ vyžaduje uvedenie hodnoty"
 
-#: lib/dpkg/myopt.c:126
+#: lib/dpkg/myopt.c:125
 #, c-format
 msgid "'%s' does not take a value"
 msgstr "„%s“ neberie hodnotu"
 
-#: lib/dpkg/myopt.c:131
+#: lib/dpkg/myopt.c:130
 #, c-format
 msgid "read error in configuration file `%.255s'"
 msgstr "chyba pri čítaní v konfiguračnom súbore „%.255s“"
 
-#: lib/dpkg/myopt.c:132
+#: lib/dpkg/myopt.c:131
 #, c-format
 msgid "error closing configuration file `%.255s'"
 msgstr "chyba pri uzatváraní konfiguračného súboru „%.255s“"
 
-#: lib/dpkg/myopt.c:169
+#: lib/dpkg/myopt.c:168
 #, c-format
 msgid "error opening configuration directory '%s'"
 msgstr "chyba pri otváraní konfiguračného súboru „%s“"
@@ -662,10 +701,6 @@ msgstr "voľba -%c má priradenú hodnotu"
 msgid "-%c option does not take a value"
 msgstr "voľba -%c nemá priradenú hodnotu"
 
-#: lib/dpkg/myopt-util.c:40
-msgid "cannot open GPL file"
-msgstr "nedá sa otvoriť súbor s GPL"
-
 #: lib/dpkg/parse.c:116
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
@@ -676,109 +711,109 @@ msgstr "zlyhalo otváranie info súboru balíka „%.255s“ na čítanie"
 msgid "can't stat package info file `%.255s'"
 msgstr "nie je možné zistiť stav súboru s informáciami o balíku „%.255s“"
 
-#: lib/dpkg/parse.c:126
+#: lib/dpkg/parse.c:127
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr "nie je možné vykonať funkciu mmap na info súbor balíka „%.255s“"
 
-#: lib/dpkg/parse.c:130
+#: lib/dpkg/parse.c:131
 #, c-format
 msgid "copy info file `%.255s'"
 msgstr "kopírovanie info súboru „%.255s“"
 
-#: lib/dpkg/parse.c:161
+#: lib/dpkg/parse.c:162
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "koniec súboru za poľom „%.*s“"
 
-#: lib/dpkg/parse.c:164
+#: lib/dpkg/parse.c:165
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "nový riadok v poli „%.*s“"
 
-#: lib/dpkg/parse.c:167
+#: lib/dpkg/parse.c:168
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "MSDOS EOF (^Z) v názve poľa „%.*s“"
 
-#: lib/dpkg/parse.c:171
+#: lib/dpkg/parse.c:172
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "za poľom „%.*s“ musí nasledovať dvojbodka"
 
-#: lib/dpkg/parse.c:180
+#: lib/dpkg/parse.c:181
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr "EOF pred hodnotou poľa „%.*s“ (chýbajúci záverečný nový riadok)"
 
-#: lib/dpkg/parse.c:184
+#: lib/dpkg/parse.c:185
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "znak MSDOS EOF v hodnote poľa „%.*s“ (chýbajúci nový riadok?)"
 
-#: lib/dpkg/parse.c:198
+#: lib/dpkg/parse.c:199
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr ""
 "EOF počas načítania hodnoty poľa „%.*s“ (chýbajúci záverečný nový riadok)"
 
-#: lib/dpkg/parse.c:223
+#: lib/dpkg/parse.c:224
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "duplicitná hodnota poľa „%s“"
 
-#: lib/dpkg/parse.c:228
+#: lib/dpkg/parse.c:229
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "používateľom definované meno poľa „%.*s“ je príliš krátke"
 
-#: lib/dpkg/parse.c:234
+#: lib/dpkg/parse.c:235
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "duplicitná hodnota používateľom definovaného poľa „%.*s“"
 
-#: lib/dpkg/parse.c:248
+#: lib/dpkg/parse.c:249
 msgid "several package info entries found, only one allowed"
 msgstr "bolo zistených niekoľko info položiek balíka, prípustná je iba jedna"
 
-#: lib/dpkg/parse.c:273
+#: lib/dpkg/parse.c:274
 msgid "Configured-Version for package with inappropriate Status"
 msgstr "Configured-Version pre balík s nezodpovedajúcim Stavom"
 
-#: lib/dpkg/parse.c:283
+#: lib/dpkg/parse.c:284
 #, c-format
 msgid "package has status %s but triggers are awaited"
 msgstr "balík je v stave %s, ale očakávajú sa spúšťače (triggers-awaited)"
 
-#: lib/dpkg/parse.c:287
+#: lib/dpkg/parse.c:288
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
 "balík je v stave očakávajú sa spúšťače (triggers-awaited), ale neočakávajú "
 "sa žiadne spúšťače"
 
-#: lib/dpkg/parse.c:294
+#: lib/dpkg/parse.c:295
 #, c-format
 msgid "package has status %s but triggers are pending"
 msgstr "balík je v stave %s, ale očakávajú sa spúšťače (triggers-pending)"
 
-#: lib/dpkg/parse.c:298
+#: lib/dpkg/parse.c:299
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
 "balík je v stave očakávajú-sa-spúšťače (triggers-pending), ale neočakávajú "
 "sa žiadne spúšťače"
 
-#: lib/dpkg/parse.c:309
+#: lib/dpkg/parse.c:310
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
 "Balíček, ktorý je v stave nenainštalovaný má konfiguračné súbory, zahadzujú "
 "sa"
 
-#: lib/dpkg/parse.c:396
+#: lib/dpkg/parse.c:397
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "zlyhalo uzavretie po načítaní: „%.255s“"
 
-#: lib/dpkg/parse.c:397
+#: lib/dpkg/parse.c:398
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "žiadne informácie o balíku v „%.255s“"
@@ -813,160 +848,169 @@ msgstr "upozornenie"
 msgid "failed to write parsing warning"
 msgstr "zlyhal zápis upozornenia o rozbore"
 
-#: lib/dpkg/parsehelp.c:137
+#: lib/dpkg/parsehelp.c:140
 msgid "may not be empty string"
 msgstr "nesmie byť prázdny reťazec"
 
-#: lib/dpkg/parsehelp.c:138
+#: lib/dpkg/parsehelp.c:141
 msgid "must start with an alphanumeric"
 msgstr "musí začať alfanumerickým znakom"
 
-#: lib/dpkg/parsehelp.c:147
+#: lib/dpkg/parsehelp.c:150
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr ""
 "znak „%c“ nie je prípustný (prípustné sú len písmená, čísla a znaky „%s“)"
 
-#: lib/dpkg/parsehelp.c:202
+#: lib/dpkg/parsehelp.c:205
 msgid "<none>"
 msgstr "<žiadna>"
 
-#: lib/dpkg/parsehelp.c:217
+#: lib/dpkg/parsehelp.c:220
 msgid "version string is empty"
 msgstr "prázdny reťazec verzie"
 
-#: lib/dpkg/parsehelp.c:231
+#: lib/dpkg/parsehelp.c:234
 msgid "version string has embedded spaces"
 msgstr "reťazec verzie obsahuje vložené medzery"
 
-#: lib/dpkg/parsehelp.c:236
+#: lib/dpkg/parsehelp.c:239
 msgid "epoch in version is not number"
 msgstr "epocha vo verzii nie je číslo"
 
-#: lib/dpkg/parsehelp.c:237
+#: lib/dpkg/parsehelp.c:240
 msgid "nothing after colon in version number"
 msgstr "za dvojbodkou v čísle verzie nič nenasleduje"
 
-#: lib/dpkg/parsehelp.c:258 lib/dpkg/parsehelp.c:271
+#: lib/dpkg/parsehelp.c:261 lib/dpkg/parsehelp.c:274
 #, c-format
 msgid "missing %s"
 msgstr "chýba %s"
 
-#: lib/dpkg/parsehelp.c:260 lib/dpkg/parsehelp.c:274
+#: lib/dpkg/parsehelp.c:263 lib/dpkg/parsehelp.c:277
 #, c-format
 msgid "empty value for %s"
 msgstr "prázdna hodnota %s"
 
-#: lib/dpkg/showpkg.c:78
+#: lib/dpkg/pkg-format.c:80
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr "nesprávny znak „%c“ v šírke poľa\n"
 
-#: lib/dpkg/showpkg.c:170
+#: lib/dpkg/pkg-format.c:172
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Uzatváracia zátvorka chýba vo formáte\n"
 
-#: lib/dpkg/subproc.c:52
+#: lib/dpkg/subproc.c:54
 #, c-format
 msgid "unable to ignore signal %s before running %.250s"
 msgstr "nie je možné ignorovať signál %s pred spustením %.250s"
 
-#: lib/dpkg/subproc.c:65
+#: lib/dpkg/subproc.c:67
 #, c-format
 msgid "error un-catching signal %s: %s\n"
 msgstr "chyba pri odblokovaní signálu %s: %s\n"
 
-#: lib/dpkg/subproc.c:84
+#: lib/dpkg/subproc.c:77
+#, c-format
+msgid "%s (subprocess): %s\n"
+msgstr "%s (podproces): %s\n"
+
+#: lib/dpkg/subproc.c:96
+msgid "fork failed"
+msgstr "funkcia fork zlyhala"
+
+#: lib/dpkg/subproc.c:119
 #, c-format
 msgid "%s returned error exit status %d"
 msgstr "%s vrátil chybový kód %d"
 
-#: lib/dpkg/subproc.c:87
+#: lib/dpkg/subproc.c:122
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "podproces %s vrátil chybový kód %d"
 
-#: lib/dpkg/subproc.c:96
+#: lib/dpkg/subproc.c:131
 #, c-format
 msgid "%s killed by signal (%s)%s"
 msgstr "%s ukončený signálom (%s)%s"
 
-#: lib/dpkg/subproc.c:98 lib/dpkg/subproc.c:102
+#: lib/dpkg/subproc.c:133 lib/dpkg/subproc.c:137
 msgid ", core dumped"
 msgstr ", bol uložený výpis pamäte"
 
-#: lib/dpkg/subproc.c:100
+#: lib/dpkg/subproc.c:135
 #, c-format
 msgid "subprocess %s killed by signal (%s)%s"
 msgstr "podproces %s ukončený signálom (%s)%s"
 
-#: lib/dpkg/subproc.c:104
+#: lib/dpkg/subproc.c:139
 #, c-format
 msgid "subprocess %s failed with wait status code %d"
 msgstr "podproces %s zlyhal s čakacím stavovým kódom %d"
 
-#: lib/dpkg/subproc.c:121
+#: lib/dpkg/subproc.c:156
 #, c-format
 msgid "wait for %s failed"
 msgstr "čakanie na %s zlyhalo"
 
-#: lib/dpkg/trigdeferred.l:64
+#: lib/dpkg/trigdeferred.l:68
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr "neplatný názov balíka „%.250s“ v súbore odložených spúšťačov „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:73
+#: lib/dpkg/trigdeferred.l:77
 #, c-format
 msgid "truncated triggers deferred file `%.250s'"
 msgstr "skrátený odložený súbor spúšťača „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:77
+#: lib/dpkg/trigdeferred.l:81
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
 "syntaktická chyba v súbore odložených spúšťačov „%.255s“ na znaku „%s“%s"
 
-#: lib/dpkg/trigdeferred.l:114
+#: lib/dpkg/trigdeferred.l:116
 #, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
 msgstr "nie je možné otvoriť/vytvoriť súbor zámku spúšťača „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:121
+#: lib/dpkg/trigdeferred.l:123
 msgid "unable to lock triggers area"
 msgstr "nie je možné zamknúť oblasť spúšťačov"
 
-#: lib/dpkg/trigdeferred.l:132
+#: lib/dpkg/trigdeferred.l:134
 #, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
 msgstr "nie je možné zistiť stav odloženého súboru spúšťača „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:146
+#: lib/dpkg/trigdeferred.l:148
 #, c-format
 msgid "unable to open triggers deferred file `%.250s'"
 msgstr "nie je možné otvoriť odložený súbor spúšťača „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:160
+#: lib/dpkg/trigdeferred.l:162
 #, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
 msgstr "nie je možné otvoriť/vytvoriť nový odložený súbor spúšťača „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:180
+#: lib/dpkg/trigdeferred.l:198
 #, c-format
 msgid "error reading triggers deferred file `%.250s'"
 msgstr "chyba pri čítaní odloženého súboru spúšťača „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:188
+#: lib/dpkg/trigdeferred.l:206
 #, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
 msgstr "nie je možné zapísať nový odložený súbor spúšťača „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:193
+#: lib/dpkg/trigdeferred.l:211
 #, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
 msgstr "nie je možné zatvoriť nový odložený súbor spúšťača „%.250s“"
 
-#: lib/dpkg/trigdeferred.l:197
+#: lib/dpkg/trigdeferred.l:215
 #, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
 msgstr "nie je možné nainštalovať nový odložený súbor spúšťača „%.250s“"
@@ -979,7 +1023,7 @@ msgstr "prázdne názvy spúšťačov nie sú dovolené"
 msgid "trigger name contains invalid character"
 msgstr "názov spúšťača obsahuje neplatný znak"
 
-#: lib/dpkg/triglib.c:289
+#: lib/dpkg/triglib.c:290
 #, c-format
 msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
@@ -988,17 +1032,17 @@ msgstr ""
 "neplatná alebo neznáma syntax v názve spúšťača „%.250s“ (v záujmoch spúšťača "
 "balíka „%.250s“)"
 
-#: lib/dpkg/triglib.c:329
+#: lib/dpkg/triglib.c:330
 #, c-format
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr "nepodarilo sa otvoriť súbor záujmu spúšťača „%.250s“"
 
-#: lib/dpkg/triglib.c:358
+#: lib/dpkg/triglib.c:359
 #, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "nepodarilo sa vrátiť na začiatok súboru záujmu spúšťača „%.250s“"
 
-#: lib/dpkg/triglib.c:363
+#: lib/dpkg/triglib.c:364
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
@@ -1007,64 +1051,84 @@ msgstr ""
 "syntaktická chyba v súbore záujmu spúšťača „%.250s“; neplatný názov balíka "
 "„%.250s“: %.250s"
 
-#: lib/dpkg/triglib.c:385
+#: lib/dpkg/triglib.c:386
 #, c-format
 msgid "unable to create new trigger interest file `%.250s'"
 msgstr "nepodarilo sa vytvoriť nový súbor záujmu spúšťača „%.250s“"
 
-#: lib/dpkg/triglib.c:398
+#: lib/dpkg/triglib.c:399
 #, c-format
 msgid "unable to write new trigger interest file `%.250s'"
 msgstr "nepodarilo sa zapísať nový súbor záujmu spúšťača „%.250s“"
 
 #: lib/dpkg/triglib.c:402
+#, fuzzy, c-format
+msgid "unable to flush new trigger interest file '%.250s'"
+msgstr "nepodarilo sa zatvoriť nový súbor záujmu spúšťača „%.250s“"
+
+#: lib/dpkg/triglib.c:405
+#, fuzzy, c-format
+msgid "unable to sync new trigger interest file '%.250s'"
+msgstr "nepodarilo sa zatvoriť nový súbor záujmu spúšťača „%.250s“"
+
+#: lib/dpkg/triglib.c:409
 #, c-format
 msgid "unable to close new trigger interest file `%.250s'"
 msgstr "nepodarilo sa zatvoriť nový súbor záujmu spúšťača „%.250s“"
 
-#: lib/dpkg/triglib.c:406
+#: lib/dpkg/triglib.c:413
 #, c-format
 msgid "unable to install new trigger interest file `%.250s'"
 msgstr "nepodarilo sa nainštalovať nový súbor záujmu spúšťača „%.250s“"
 
-#: lib/dpkg/triglib.c:468
+#: lib/dpkg/triglib.c:475
 #, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr ""
 "duplicitný súbor záujmu spúšťača pri názve súboru „%.250s“ a balíka „%.250s“"
 
-#: lib/dpkg/triglib.c:491
+#: lib/dpkg/triglib.c:498
 #, c-format
 msgid "unable to create new file triggers file `%.250s'"
 msgstr "nepodarilo sa vytvoriť nový súbor spúšťača súboru „%.250s“"
 
-#: lib/dpkg/triglib.c:500
+#: lib/dpkg/triglib.c:507
 #, c-format
 msgid "unable to write new file triggers file `%.250s'"
 msgstr "nepodarilo sa zapísať nový súbor spúšťača súboru „%.250s“"
 
-#: lib/dpkg/triglib.c:504
+#: lib/dpkg/triglib.c:510
+#, fuzzy, c-format
+msgid "unable to flush new file triggers file '%.250s'"
+msgstr "nepodarilo sa zatvoriť nový súbor spúšťača súboru „%.250s“"
+
+#: lib/dpkg/triglib.c:513
+#, fuzzy, c-format
+msgid "unable to sync new file triggers file '%.250s'"
+msgstr "nepodarilo sa zatvoriť nový súbor spúšťača súboru „%.250s“"
+
+#: lib/dpkg/triglib.c:517
 #, c-format
 msgid "unable to close new file triggers file `%.250s'"
 msgstr "nepodarilo sa zatvoriť nový súbor spúšťača súboru „%.250s“"
 
-#: lib/dpkg/triglib.c:508
+#: lib/dpkg/triglib.c:521
 #, c-format
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr "nepodarilo sa nainštalovať nový súbor spúšťača súboru „%.250s“"
 
-#: lib/dpkg/triglib.c:529
+#: lib/dpkg/triglib.c:542
 #, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "nepodarilo sa prečítať nový súbor spúšťača súboru „%.250s“"
 
-#: lib/dpkg/triglib.c:537
+#: lib/dpkg/triglib.c:550
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "syntaktická chyba v súbore spúšťača súboru „%.250s“"
 
-#: lib/dpkg/triglib.c:541
+#: lib/dpkg/triglib.c:554
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
@@ -1073,7 +1137,7 @@ msgstr ""
 "záznam spúšťača zmieňuje neplatný názov balíka „%.250s“ (súbor záujmu "
 "spúšťača „%.250s“): %.250s"
 
-#: lib/dpkg/triglib.c:640
+#: lib/dpkg/triglib.c:653
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
@@ -1082,26 +1146,26 @@ msgstr ""
 "súbor ci spúšťača „%.250s“ obsahuje neplatnú syntax spúšťača v názve "
 "spúšťača „%.250s“: %.250s"
 
-#: lib/dpkg/triglib.c:660
+#: lib/dpkg/triglib.c:673
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "nepodarilo sa otvoriť súbor ci spúšťača „%.250s“"
 
-#: lib/dpkg/triglib.c:675
+#: lib/dpkg/triglib.c:688
 msgid "triggers ci file contains unknown directive syntax"
 msgstr "súbor ci spúšťača „%.250s“ obsahuje neplatnú syntax direktívy"
 
-#: lib/dpkg/triglib.c:684
+#: lib/dpkg/triglib.c:697
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr "súbor ci spúšťača obsahuje neznámu direktívu „%.250s“"
 
-#: lib/dpkg/triglib.c:739
+#: lib/dpkg/triglib.c:752
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "nepodarilo sa vytvoriť adresár stavu spúšťačov „%.250s“"
 
-#: lib/dpkg/triglib.c:742
+#: lib/dpkg/triglib.c:755
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "nepodarilo sa nastaviť vlastníctvo adresára stavu spúšťačov „%.250s“"
@@ -1130,11 +1194,11 @@ msgstr "neočakávaný koniec súboru pri čítaní „%.250s“"
 msgid "error formatting string into varbuf variable"
 msgstr "chyba pri formátovaní reťazca do premennej varbuf"
 
-#: src/archives.c:178
+#: src/archives.c:177 src/archives.c:206 src/archives.c:650
 msgid "error reading from dpkg-deb pipe"
 msgstr "chyba pri čítaní z rúry dpkg-deb"
 
-#: src/archives.c:202
+#: src/archives.c:201
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
 msgstr "preskočené rozbaľovanie súboru „%.255s“ (nahradený alebo vynechaný?)"
@@ -1144,24 +1208,24 @@ msgstr "preskočené rozbaľovanie súboru „%.255s“ (nahradený alebo vynech
 msgid "error setting timestamps of `%.255s'"
 msgstr "chyba pri nastavovaní časovej značky u „%.255s“"
 
-#: src/archives.c:251 src/archives.c:653
+#: src/archives.c:251 src/archives.c:659 src/statcmd.c:171
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "chyba pri nastavovaní vlastníckych práv u „%.255s“"
 
-#: src/archives.c:253 src/archives.c:656
+#: src/archives.c:253 src/archives.c:662 src/statcmd.c:173
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "chyba pri nastavovaní prístupových práv u „%.255s“"
 
-#: src/archives.c:320
+#: src/archives.c:356
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr ""
 "nie je možné vykonať stat() (dereferencovanie) existujúceho symbolického "
 "odkazu „%.250s“"
 
-#: src/archives.c:342
+#: src/archives.c:378
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1170,7 +1234,7 @@ msgstr ""
 "nepodarilo sa vykonať stat() (dereferencovanie) na navrhovanom novom cieli "
 "symbolického odkazu „%.250s“ symbolického odkazu „%.250s“"
 
-#: src/archives.c:397
+#: src/archives.c:433
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1179,17 +1243,17 @@ msgstr ""
 "pokus o prepísanie „%.250s“, ktorý je odklonenou verziou „%.250s“ (balík: "
 "„%.100s“)"
 
-#: src/archives.c:403
+#: src/archives.c:439
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr "pokus o prepísanie „%.250s“, ktorý je odklonenou verziou „%.250s“"
 
-#: src/archives.c:429
+#: src/archives.c:465
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "nie je možné zistiť stav „%.255s“ (ktorý bude práve nainštalovaný)"
 
-#: src/archives.c:437
+#: src/archives.c:473
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1198,28 +1262,28 @@ msgstr ""
 "nie je možné upratať odpad obklopujúci „%.255s“ pred nainštalovaním inej "
 "verzie"
 
-#: src/archives.c:443
+#: src/archives.c:479
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "nie je možné zistiť stav obnoveného „%.255s“ pred nainštalovaním inej verzie"
 
-#: src/archives.c:478
+#: src/archives.c:514
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "archív obsahoval objekt „%.255s“ neznámeho typu 0x%x"
 
-#: src/archives.c:539
+#: src/archives.c:575
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Nahradzujú sa súbory v starom balíku %s ...\n"
 
-#: src/archives.c:542
+#: src/archives.c:578
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Nahradzujú sa súbory v nainštalovanom balíku %s ...\n"
 
-#: src/archives.c:549
+#: src/archives.c:585
 #, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1227,90 +1291,95 @@ msgid ""
 msgstr ""
 "pokus o prepísanie adresára „%.250s“ v balíku %.250s %.250s neadresárom"
 
-#: src/archives.c:561
+#: src/archives.c:597
 #, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "pokus o prepísanie „%.250s“, ktorý je tiež v balíku %.250s %.250s"
 
-#: src/archives.c:634
+#: src/archives.c:638
 #, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "nie je možné vytvoriť „%.255s“ (počas spracovania „%.255s“)"
 
-#: src/archives.c:640
+#: src/archives.c:644
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "backend dpkg-deb počas „%.255s“"
 
-#: src/archives.c:659
+#: src/archives.c:664
+#, fuzzy, c-format
+msgid "unable to sync file '%.255s'"
+msgstr "nie je možné odbufferovať „%.255s“"
+
+#: src/archives.c:667
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "chyba pri uzatváraní/zápise „%.255s“"
 
-#: src/archives.c:664
+#: src/archives.c:672
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "chyba pri vytváraní rúry „%.255s“"
 
-#: src/archives.c:670 src/archives.c:676
+#: src/archives.c:678 src/archives.c:684
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "chyba pri vytváraní zariadenia „%.255s“"
 
-#: src/archives.c:685
+#: src/archives.c:693
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "chyba pri vytváraní pevného odkazu „%.255s“"
 
-#: src/archives.c:692
+#: src/archives.c:700
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "chyba pri vytváraní symbolického odkazu „%.255s“"
 
-#: src/archives.c:698 src/archives.c:703
+#: src/archives.c:705
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "chyba pri nastavovaní vlastníckych práv symbolického odkazu „%.255s“"
 
-#: src/archives.c:709
+#: src/archives.c:710
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "chyba pri vytváraní adresára „%.255s“"
 
-#: src/archives.c:744
+#: src/archives.c:750
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "nie je možné odsunúť „%.255s“ aby sa dala nainštalovať nová verzia"
 
-#: src/archives.c:753
+#: src/archives.c:759
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "nie je možné prečítať odkaz „%.255s“"
 
-#: src/archives.c:757
+#: src/archives.c:763
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "nie je možné vytvoriť záložný symbolický odkaz na „%.255s“"
 
-#: src/archives.c:760 src/archives.c:763
+#: src/archives.c:765
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 "nie je možné zmeniť vlastnícke práva na záložnom symbolickom odkaze na "
 "„%.255s“"
 
-#: src/archives.c:768
+#: src/archives.c:770
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "nie je možné vytvoriť záložný odkaz „%.255s“ pred nainštalovaním novej verzie"
 
-#: src/archives.c:793
+#: src/archives.c:780
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "nie je možné nainštalovať novú verziu „%.255s“"
 
-#: src/archives.c:839
+#: src/archives.c:815
 #, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1319,7 +1388,7 @@ msgstr ""
 "ignoruje sa problém so závislosťami balíka %s:\n"
 "%s"
 
-#: src/archives.c:844
+#: src/archives.c:820
 #, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1328,7 +1397,7 @@ msgstr ""
 "uvažuje sa o odkonfigurovaní nevyhnutného\n"
 " balíka %s, ktoré umožní %s."
 
-#: src/archives.c:847
+#: src/archives.c:823
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1337,7 +1406,7 @@ msgstr ""
 "dpkg: nie, %s je nevyhnutný, nebude odkonfigurovaný,\n"
 " aby sa umožnil %s.\n"
 
-#: src/archives.c:861
+#: src/archives.c:837
 #, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1346,28 +1415,28 @@ msgstr ""
 "dpkg: nie, nie je možné pokračovať v %s (--auto-deconfigure pomôže):\n"
 "%s"
 
-#: src/archives.c:871
+#: src/archives.c:847
 #, c-format
 msgid "removal of %.250s"
 msgstr "odstránení %.250s"
 
-#: src/archives.c:896
+#: src/archives.c:872
 #, c-format
 msgid "installation of %.250s"
 msgstr "inštalácii %.250s"
 
-#: src/archives.c:897
+#: src/archives.c:873
 #, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
 msgstr "dpkg: uvažuje sa o odstránení %s, ktorý by %s pokazil ...\n"
 
-#: src/archives.c:904
+#: src/archives.c:880
 #, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg: áno, odkonfiguruje sa %s (pokazený balíkom %s).\n"
 
-#: src/archives.c:908 src/archives.c:1029
+#: src/archives.c:884 src/archives.c:1005
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1376,11 +1445,11 @@ msgstr ""
 "dpkg: ohľadom %s obsahujúci %s:\n"
 "%s"
 
-#: src/archives.c:916
+#: src/archives.c:892
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "ignoruje sa pokazenie, je možné pokračovať!"
 
-#: src/archives.c:921
+#: src/archives.c:897
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1389,28 +1458,28 @@ msgstr ""
 "nainštalovanie %.250s by pokazilo %.250s a\n"
 " odkonfigurovanie nie je povolené (--auto-deconfigure by mohlo pomôcť)"
 
-#: src/archives.c:925
+#: src/archives.c:901
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "nainštalovanie %.250s by pokazilo existujúci softvér"
 
-#: src/archives.c:955
+#: src/archives.c:931
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: uvažuje sa o odstránení %s v prospech %s ...\n"
 
-#: src/archives.c:961
+#: src/archives.c:937
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr ""
 "%s nie je správne nainštalovaný - ignorujú sa všetky závislosti na ňom.\n"
 
-#: src/archives.c:990
+#: src/archives.c:966
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr "dpkg: možné problémy s odstránením %s, pretože poskytuje %s ...\n"
 
-#: src/archives.c:1005
+#: src/archives.c:981
 #, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -1419,106 +1488,107 @@ msgstr ""
 "dpkg: balík %s vyžaduje reinštaláciu, ale bude odstránený ako ste "
 "požadovali.\n"
 
-#: src/archives.c:1008
+#: src/archives.c:984
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr ""
 "dpkg: balík %s vyžaduje reinštaláciu, nepokračuje sa v odinštalovaní.\n"
 
-#: src/archives.c:1015
+#: src/archives.c:991
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
 msgstr "balík %s má príliš veľa dvojíc V konflikte s/Nahrádza"
 
-#: src/archives.c:1021
+#: src/archives.c:997
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: áno, odstránim %s v prospech %s.\n"
 
-#: src/archives.c:1032
+#: src/archives.c:1008
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "konflikt balíkov - nebude sa inštalovať %.250s"
 
-#: src/archives.c:1033
+#: src/archives.c:1009
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "ignoruje sa konflikt, je možné pokračovať!"
 
-#: src/archives.c:1074
+#: src/archives.c:1050
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive vyžaduje aspoň jednu cestu ako argument"
 
-#: src/archives.c:1106
-msgid "failed to exec find for --recursive"
+#: src/archives.c:1060
+#, fuzzy
+msgid "find for dpkg --recursive"
 msgstr "zlyhalo spustenie príkazu find pre --recursive"
 
-#: src/archives.c:1111
+#: src/archives.c:1082
 msgid "failed to fdopen find's pipe"
 msgstr "zlyhalo vykonanie funkcie fdopen na rúre príkazu find"
 
-#: src/archives.c:1117
+#: src/archives.c:1088
 msgid "error reading find's pipe"
 msgstr "chyba pri čítaní z rúry príkazu find"
 
-#: src/archives.c:1118
+#: src/archives.c:1089
 msgid "error closing find's pipe"
 msgstr "chyba pri uzatváraní rúry príkazu find"
 
-#: src/archives.c:1121
+#: src/archives.c:1092
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "príkaz find pre --recursive vrátil nespracovanú chybu %i"
 
-#: src/archives.c:1124
+#: src/archives.c:1095
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "prehľadané, nebol ale nájdený žiadny balík (súbory vyhovujúce *.deb)"
 
-#: src/archives.c:1140
+#: src/archives.c:1111
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s vyžaduje ako argument aspoň jeden súbor s balíkom"
 
-#: src/archives.c:1172 src/enquiry.c:139 src/enquiry.c:244 src/enquiry.c:385
-#: src/enquiry.c:387 src/enquiry.c:396 src/main.c:63 src/main.c:156
-#: src/main.c:253 src/main.c:420 src/packages.c:266 src/query.c:183
-#: src/query.c:278 src/query.c:315 src/query.c:324 src/query.c:371
-#: src/query.c:432 src/query.c:566 src/query.c:611 src/select.c:77
-#: src/statcmd.c:68 src/statcmd.c:98 src/trigcmd.c:58 src/trigcmd.c:91
-#: dpkg-deb/build.c:404 dpkg-deb/extract.c:214 dpkg-deb/extract.c:234
-#: dpkg-deb/info.c:186 dpkg-deb/info.c:231 dpkg-deb/main.c:62
-#: dpkg-deb/main.c:126 dpkg-split/info.c:241 dpkg-split/main.c:54
-#: dpkg-split/main.c:93 dpkg-split/queue.c:126 dpkg-split/queue.c:246
+#: src/archives.c:1143 src/enquiry.c:151 src/enquiry.c:256 src/enquiry.c:399
+#: src/enquiry.c:401 src/enquiry.c:410 src/main.c:62 src/main.c:154
+#: src/main.c:250 src/main.c:417 src/packages.c:233 src/query.c:184
+#: src/query.c:279 src/query.c:316 src/query.c:325 src/query.c:372
+#: src/query.c:433 src/query.c:569 src/query.c:613 src/select.c:77
+#: src/statcmd.c:65 src/statcmd.c:95 src/trigcmd.c:58 src/trigcmd.c:90
+#: dpkg-deb/build.c:394 dpkg-deb/extract.c:207 dpkg-deb/extract.c:227
+#: dpkg-deb/info.c:192 dpkg-deb/info.c:236 dpkg-deb/main.c:61
+#: dpkg-deb/main.c:124 dpkg-split/info.c:249 dpkg-split/main.c:53
+#: dpkg-split/main.c:91 dpkg-split/queue.c:126 dpkg-split/queue.c:250
 msgid "<standard output>"
 msgstr "<štand. výstup>"
 
-#: src/archives.c:1173 src/packages.c:267 src/query.c:184 src/query.c:276
-#: src/query.c:377 src/query.c:433 src/select.c:78 dpkg-split/main.c:200
-#: dpkg-split/queue.c:193
+#: src/archives.c:1144 src/packages.c:234 src/query.c:185 src/query.c:277
+#: src/query.c:378 src/query.c:434 src/select.c:78 dpkg-split/main.c:196
+#: dpkg-split/queue.c:197
 msgid "<standard error>"
 msgstr "<štand. chybový>"
 
-#: src/archives.c:1214
+#: src/archives.c:1185
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Vyberá sa predtým zrušený balík %s.\n"
 
-#: src/archives.c:1219
+#: src/archives.c:1190
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Preskakuje sa zrušený balík %s.\n"
 
-#: src/archives.c:1236
+#: src/archives.c:1207
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Verzia %.250s %.250s je uz nainštalovaná, preskakuje sa.\n"
 
-#: src/archives.c:1247
+#: src/archives.c:1218
 #, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr "inštaluje sa staršia verzia %.250s; z %.250s na %.250s."
 
-#: src/archives.c:1252
+#: src/archives.c:1223
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1550,18 +1620,18 @@ msgstr "nie je možné odstrániť novonainštalovanú verziu „%.250s“"
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "nie je možné odstrániť novorozbalenú verziu „%.250s“"
 
-#: src/configure.c:102
+#: src/configure.c:100
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr ""
 "nie je možné zistiť stav nového distribučného konfiguračného súboru „%.250s“"
 
-#: src/configure.c:111
+#: src/configure.c:109
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr "nie je možné zistiť stav aktuálneho konfiguračného súboru „%.250s“"
 
-#: src/configure.c:123
+#: src/configure.c:121
 #, c-format
 msgid ""
 "\n"
@@ -1572,57 +1642,57 @@ msgstr ""
 "Konfiguračný súbor „%s“ v systéme neexistuje.\n"
 "Inštaluje sa nový konfiguračný súbor podľa vašej požiadavky.\n"
 
-#: src/configure.c:160
+#: src/configure.c:158
 #, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "%s: nepodarilo sa odstrániť starú zálohu „%.250s“: %s"
 
-#: src/configure.c:168
+#: src/configure.c:166
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: nepodarilo sa premenovať „%.250s“ na „%.250s“: %s"
 
-#: src/configure.c:174
+#: src/configure.c:172
 #, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: nepodarilo sa vykonať „%.250s“: %s"
 
-#: src/configure.c:180
+#: src/configure.c:178
 #, c-format
 msgid "%s: failed to remove old distrib version '%.250s': %s"
 msgstr "%s: nepodarilo sa odstrániť starú distribučnú verziu „%.250s“: %s"
 
-#: src/configure.c:184
+#: src/configure.c:182
 #, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr "%s: nepodarilo sa odstrániť odstrániť „%.250s“ (pred prepísaním): %s"
 
-#: src/configure.c:188
+#: src/configure.c:186
 #, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr "%s: nepodarilo sa odstrániť vytvoriť odkaz „%.250s“ na „%.250s“: %s"
 
-#: src/configure.c:192
+#: src/configure.c:190
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "Inštaluje sa nová verzia konfiguračného súboru %s ...\n"
 
-#: src/configure.c:198
+#: src/configure.c:196
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "nie je možné inštalovať „%.250s“ ako „%.250s“"
 
-#: src/configure.c:249
+#: src/configure.c:247
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "balík nazvaný „%s“ nie je nainštalovaný, nie je možné ho konfigurovať"
 
-#: src/configure.c:252
+#: src/configure.c:250
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "balík %.250s je už nainštalovaný a nakonfigurovaný"
 
-#: src/configure.c:255
+#: src/configure.c:253
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1631,7 +1701,7 @@ msgstr ""
 "balík %.250s nie je pripravený na konfiguráciu\n"
 " nie je možné konfigurovať (súčasný stav „%.250s“)"
 
-#: src/configure.c:284
+#: src/configure.c:282
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1640,11 +1710,11 @@ msgstr ""
 "dpkg: problémy so závislosťami zabránili konfigurácii balíka %s:\n"
 "%s"
 
-#: src/configure.c:287
+#: src/configure.c:285
 msgid "dependency problems - leaving unconfigured"
 msgstr "problémy so závislosťami - po necháva sa nenakonfigurované"
 
-#: src/configure.c:291
+#: src/configure.c:289
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -1654,7 +1724,7 @@ msgstr ""
 "požiadavky:\n"
 "%s"
 
-#: src/configure.c:299
+#: src/configure.c:297
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1662,12 +1732,12 @@ msgstr ""
 "Balík je vo veľmi nekonzistentnom stave - mali by ste ho znova\n"
 " nainštalovať pred pokusom o jeho konfiguráciu."
 
-#: src/configure.c:302
+#: src/configure.c:300
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Nastavuje sa balík %s (%s) ...\n"
 
-#: src/configure.c:385
+#: src/configure.c:383
 #, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -1676,7 +1746,7 @@ msgstr ""
 "%s: nie je možné zistiť stav konfiguračného súboru „%s“\n"
 " (= „%s“): %s"
 
-#: src/configure.c:398
+#: src/configure.c:396
 #, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -1685,7 +1755,7 @@ msgstr ""
 "%s: konfiguračný súbor „%s“ je cyklickým odkazom\n"
 " (= „%s“)"
 
-#: src/configure.c:407
+#: src/configure.c:405
 #, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -1694,7 +1764,7 @@ msgstr ""
 "%s: nie je možné vykonať funkciu readlink na konfiguračnom súbore „%s“\n"
 " (= „%s“): %s"
 
-#: src/configure.c:429
+#: src/configure.c:427
 #, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -1703,40 +1773,36 @@ msgstr ""
 "%s: názov konfiguračného súboru „%.250s“ nie je platným názvom\n"
 " („%s“ je symbolický odkaz na „%s“)"
 
-#: src/configure.c:444
+#: src/configure.c:442
 #, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "%s: konfiguračný súbor „%.250s“ nie je súbor ani symbolický odkaz (= „%s“)"
 
-#: src/configure.c:470
+#: src/configure.c:468
 msgid "md5hash"
 msgstr "md5hash"
 
-#: src/configure.c:476
+#: src/configure.c:474
 #, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
 msgstr "%s: nie je možné otvoriť konfiguračný súbor %s pre haš: %s"
 
-#: src/configure.c:511
+#: src/configure.c:510
 #, c-format
 msgid "failed to run %s (%.250s)"
 msgstr "zlyhalo spustenie %s (%.250s)"
 
-#: src/configure.c:535
+#: src/configure.c:531
 msgid "Type `exit' when you're done.\n"
 msgstr "Po skončení napíšte „exit“.\n"
 
-#: src/configure.c:545
+#: src/configure.c:548
 #, c-format
 msgid "failed to exec shell (%.250s)"
 msgstr "zlyhalo spustenie shellu (%.250s)"
 
-#: src/configure.c:551
-msgid "Don't forget to foreground (`fg') this process when you're done !\n"
-msgstr "Nezabudnite prepnúť tento proces do popredia („fg“), keď skončíte !\n"
-
-#: src/configure.c:600
+#: src/configure.c:598
 #, c-format
 msgid ""
 "\n"
@@ -1745,12 +1811,12 @@ msgstr ""
 "\n"
 "Konfiguračný súbor „%s“"
 
-#: src/configure.c:602
+#: src/configure.c:600
 #, c-format
 msgid " (actually `%s')"
 msgstr " (v skutočnosti „%s“)"
 
-#: src/configure.c:606
+#: src/configure.c:604
 #, c-format
 msgid ""
 "\n"
@@ -1761,7 +1827,7 @@ msgstr ""
 " ==> Súbor v systéme bol vytvorený vami alebo skriptom.\n"
 " ==> Súbor je tiež prítomný v balíku, ktorý poskytuje správca balíka.\n"
 
-#: src/configure.c:611
+#: src/configure.c:609
 #, c-format
 msgid ""
 "\n"
@@ -1770,7 +1836,7 @@ msgstr ""
 "\n"
 "     Nezmenené od doby inštalácie.\n"
 
-#: src/configure.c:613
+#: src/configure.c:611
 #, c-format
 msgid ""
 "\n"
@@ -1779,7 +1845,7 @@ msgstr ""
 "\n"
 " ==> Zmenené (vami alebo skriptom) od doby inštalácie.\n"
 
-#: src/configure.c:614
+#: src/configure.c:612
 #, c-format
 msgid ""
 "\n"
@@ -1788,44 +1854,44 @@ msgstr ""
 "\n"
 " ==> Zmazané (vami alebo skriptom) od doby inštalácie.\n"
 
-#: src/configure.c:617
+#: src/configure.c:615
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Distribútor balíka dodal upravenú verziu.\n"
 
-#: src/configure.c:618
+#: src/configure.c:616
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     Verzia v balíku je rovnaká ako posledná nainštalovaná.\n"
 
-#: src/configure.c:626
+#: src/configure.c:624
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Použije sa nový súbor podľa vašej požiadavky.\n"
 
-#: src/configure.c:630
+#: src/configure.c:628
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Použije sa starý súbor podľa vašej požiadavky.\n"
 
-#: src/configure.c:639
+#: src/configure.c:637
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Ponechá sa starý konfiguračný súbor ako predvolený.\n"
 
-#: src/configure.c:643
+#: src/configure.c:641
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Použije sa nový konfiguračný súbor ako predvolený.\n"
 
-#: src/configure.c:650
-#, c-format
+#: src/configure.c:648
+#, fuzzy, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
 "    Y or I  : install the package maintainer's version\n"
 "    N or O  : keep your currently-installed version\n"
 "      D     : show the differences between the versions\n"
-"      Z     : background this process to examine the situation\n"
+"      Z     : start a shell to examine the situation\n"
 msgstr ""
 "   Čo s tým chcete urobiť ?  Možné voľby sú:\n"
 "    Y or I  : nainštalovať verziu správcu balíka\n"
@@ -1833,40 +1899,40 @@ msgstr ""
 "      D     : zobraziť rozdiely medzi verziami\n"
 "      Z     : prepnúť tento proces do pozadia a preskúmať situáciu\n"
 
-#: src/configure.c:657
+#: src/configure.c:655
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " Predvolenou operáciou je ponechanie vašej aktuálnej verzie.\n"
 
-#: src/configure.c:659
+#: src/configure.c:657
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " Predvolenou operáciou je inštalácia novej verzie.\n"
 
-#: src/configure.c:666
+#: src/configure.c:664
 msgid "[default=N]"
 msgstr "[predvolené=N]"
 
-#: src/configure.c:667
+#: src/configure.c:665
 msgid "[default=Y]"
 msgstr "[predvolené=Y]"
 
-#: src/configure.c:668
+#: src/configure.c:666
 msgid "[no default]"
 msgstr "[bez predvoľby]"
 
-#: src/configure.c:671
+#: src/configure.c:669
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 "chyba pri zápise na štandardnom chybovom výstupe, objavene pred otázkou na "
 "konfiguračné súbory"
 
-#: src/configure.c:680
+#: src/configure.c:678
 msgid "read error on stdin at conffile prompt"
 msgstr ""
 "chyba pri čítaní na štandardnom vstupe pri otázke na konfiguračné súbory"
 
-#: src/configure.c:681
+#: src/configure.c:679
 msgid "EOF on stdin at conffile prompt"
 msgstr "EOF na štandardnom vstupe pri otázke na konfiguračné súbory"
 
@@ -1875,117 +1941,117 @@ msgstr "EOF na štandardnom vstupe pri otázke na konfiguračné súbory"
 msgid "unable to check for existence of `%.250s'"
 msgstr "nie je možné overiť existenciu „%.250s“"
 
-#: src/depcon.c:175
+#: src/depcon.c:176
 #, c-format
 msgid "%s depends on %s"
 msgstr "%s závisí na %s"
 
-#: src/depcon.c:178
+#: src/depcon.c:179
 #, c-format
 msgid "%s pre-depends on %s"
 msgstr "%s pred-závisí na %s"
 
-#: src/depcon.c:181
+#: src/depcon.c:182
 #, c-format
 msgid "%s recommends %s"
 msgstr "%s odporúča %s"
 
-#: src/depcon.c:184
+#: src/depcon.c:185
 #, c-format
 msgid "%s suggests %s"
 msgstr "%s navrhuje %s"
 
-#: src/depcon.c:187
+#: src/depcon.c:188
 #, c-format
 msgid "%s breaks %s"
 msgstr "%s kazí %s"
 
-#: src/depcon.c:190
+#: src/depcon.c:191
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s je v konflikte s %s"
 
-#: src/depcon.c:193
+#: src/depcon.c:194
 #, c-format
 msgid "%s enhances %s"
 msgstr "%s rozširuje %s"
 
-#: src/depcon.c:288
+#: src/depcon.c:289
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s sa odstráni.\n"
 
-#: src/depcon.c:291
+#: src/depcon.c:292
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  zruší sa nastavenie %.250s.\n"
 
-#: src/depcon.c:296
+#: src/depcon.c:297
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr "  %.250s sa nainštaluje, ale vo verzii %.250s.\n"
 
-#: src/depcon.c:306
+#: src/depcon.c:307
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  %.250s je nainštalovaný, ale vo verzii %.250s.\n"
 
-#: src/depcon.c:322
+#: src/depcon.c:323
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s je rozbalený, ale sa ešte nenastavil.\n"
 
-#: src/depcon.c:326
+#: src/depcon.c:327
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  %.250s je rozbalený, ale vo verzii %.250s.\n"
 
-#: src/depcon.c:332
+#: src/depcon.c:333
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s naposledy nastavená verzia je %.250s.\n"
 
-#: src/depcon.c:342
+#: src/depcon.c:343
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s je %s.\n"
 
-#: src/depcon.c:379
+#: src/depcon.c:380
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s poskytuje %.250s, ale sa odstráni.\n"
 
-#: src/depcon.c:383
+#: src/depcon.c:384
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr "  %.250s poskytuje %.250s, ale jeho nastavenie sa zruší.\n"
 
-#: src/depcon.c:389
+#: src/depcon.c:390
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s poskytuje %.250s, ale je %s.\n"
 
-#: src/depcon.c:404
+#: src/depcon.c:405
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s nie je nainštalovaný.\n"
 
-#: src/depcon.c:435
+#: src/depcon.c:436
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (verzia %.250s) sa nainštaluje.\n"
 
-#: src/depcon.c:458
+#: src/depcon.c:459
 #, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
 msgstr "  %.250s (verzia %.250s) je prítomná a %s.\n"
 
-#: src/depcon.c:485
+#: src/depcon.c:486
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s poskytuje %.250s a bude sa inštalovať.\n"
 
-#: src/depcon.c:525
+#: src/depcon.c:526
 #, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s poskytuje %.250s a je prítomný a %s.\n"
@@ -2007,7 +2073,7 @@ msgstr "zlyhalo vykonanie funkcie fstat v súbore s odchýlkami"
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "odchýlky „%.250s“ alebo „%.250s“ sú v konflikte"
 
-#: src/enquiry.c:69
+#: src/enquiry.c:71
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -2017,7 +2083,7 @@ msgstr ""
 " tieto balíky (a všetky na nich závislé) pracovali správne, musia byť\n"
 " preinštalované:\n"
 
-#: src/enquiry.c:74
+#: src/enquiry.c:78
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -2027,7 +2093,7 @@ msgstr ""
 "Aby pracovali, musia byť nakonfigurované pomocou príkazu dpkg --configure\n"
 "alebo výberom položky konfigurácia v menu dselectu:\n"
 
-#: src/enquiry.c:79
+#: src/enquiry.c:85
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -2040,7 +2106,7 @@ msgstr ""
 "menu\n"
 " dselect-u:\n"
 
-#: src/enquiry.c:84
+#: src/enquiry.c:92
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -2051,7 +2117,7 @@ msgstr ""
 "jej opakovaním; balíky môžu byť odstránené použitím dselect-u alebo pomocou "
 "dpkg --remove:\n"
 
-#: src/enquiry.c:89
+#: src/enquiry.c:99
 msgid ""
 "The following packages are awaiting processing of triggers that they\n"
 "have activated in other packages.  This processing can be requested using\n"
@@ -2061,7 +2127,7 @@ msgstr ""
 "aktivovali v iných balíkoch. Toto spracovanie je možno vyžiadať  pomocou\n"
 "dselect alebo dpkg --configure --pending (alebo dpkg --triggers-only):\n"
 
-#: src/enquiry.c:94
+#: src/enquiry.c:106
 msgid ""
 "The following packages have been triggered, but the trigger processing\n"
 "has not yet been done.  Trigger processing can be requested using\n"
@@ -2071,28 +2137,28 @@ msgstr ""
 "dokončené. Spracovanie spúšťačov je možno vyžiadať  pomocou\n"
 "dselect alebo dpkg --configure --pending (alebo dpkg --triggers-only):\n"
 
-#: src/enquiry.c:120 src/enquiry.c:179 src/enquiry.c:255 src/enquiry.c:318
-#: src/enquiry.c:392 src/select.c:92 src/select.c:149 src/trigcmd.c:202
-#: src/update.c:44 src/update.c:100 dpkg-split/queue.c:205
+#: src/enquiry.c:132 src/enquiry.c:191 src/enquiry.c:267 src/enquiry.c:330
+#: src/enquiry.c:406 src/select.c:92 src/select.c:149 src/trigcmd.c:197
+#: src/update.c:44 src/update.c:100 dpkg-split/queue.c:209
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s nevyžaduje argumenty"
 
-#: src/enquiry.c:161
+#: src/enquiry.c:173
 msgid "<unknown>"
 msgstr "<neznámy>"
 
-#: src/enquiry.c:218
+#: src/enquiry.c:230
 #, c-format
 msgid " %d in %s: "
 msgstr "%d v %s: "
 
-#: src/enquiry.c:233
+#: src/enquiry.c:245
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d balíkov, z nasledovných sekcií:"
 
-#: src/enquiry.c:268
+#: src/enquiry.c:280
 #, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2101,30 +2167,30 @@ msgstr ""
 "Verzia dpkg s fungujúcou podporou %s ešte nie je nakonfigurovaná.\n"
 " Použite prosím „dpkg --configure dpkg“ a skúste to znova.\n"
 
-#: src/enquiry.c:273
+#: src/enquiry.c:285
 #, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 "dpkg nie je uvedené ako nainštalované, nie je možné skontrolovať podporu %"
 "s!\n"
 
-#: src/enquiry.c:281
+#: src/enquiry.c:293
 msgid "Pre-Depends field"
 msgstr "pole Pre-Depends"
 
-#: src/enquiry.c:286
+#: src/enquiry.c:298
 msgid "epoch"
 msgstr "epoch"
 
-#: src/enquiry.c:291
+#: src/enquiry.c:303
 msgid "long filenames"
 msgstr "dlhé názvy súborov"
 
-#: src/enquiry.c:296
+#: src/enquiry.c:308
 msgid "multiple Conflicts and Replaces"
 msgstr "viaceré Conflicts a Replaces"
 
-#: src/enquiry.c:371
+#: src/enquiry.c:385
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -2133,32 +2199,32 @@ msgstr ""
 "dpkg: nie je možné určiť ako uspokojiť pred-závislosti:\n"
 " %s\n"
 
-#: src/enquiry.c:372
+#: src/enquiry.c:386
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "nie je možné vyriešiť pred-závislosti pre %.250s (vyžadované pre %.250s)"
 
-#: src/enquiry.c:402
+#: src/enquiry.c:416
 #, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "zastaralá voľba „--%s“, prosím použite namiesto nej „--%s“."
 
-#: src/enquiry.c:443
+#: src/enquiry.c:457
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions vyžaduje tri argumenty: <verzia> <vzťah> <verzia>"
 
-#: src/enquiry.c:448
+#: src/enquiry.c:462
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions zlá relácia"
 
-#: src/enquiry.c:453 src/enquiry.c:460
+#: src/enquiry.c:467 src/enquiry.c:474
 #, c-format
 msgid "version '%s' has bad syntax: %s"
 msgstr "verzia „%s“ má chybnú syntax: %s"
 
-#: src/errors.c:61
+#: src/errors.c:60
 #, c-format
 msgid ""
 "%s: error processing %s (--%s):\n"
@@ -2167,34 +2233,34 @@ msgstr ""
 "%s: chyba pri spracovávaní %s (--%s):\n"
 " %s\n"
 
-#: src/errors.c:68
+#: src/errors.c:67
 msgid ""
 "dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr ""
 "dpkg: zlyhalo alokovanie pamäte pre novú položku v zozname balíkov,\n"
 " ktorých inštalácia sa nepodarila."
 
-#: src/errors.c:78
+#: src/errors.c:77
 #, c-format
 msgid "dpkg: too many errors, stopping\n"
 msgstr "dpkg: príliš veľa chýb, ukončuje sa\n"
 
-#: src/errors.c:84
+#: src/errors.c:83
 msgid "Errors were encountered while processing:\n"
 msgstr "Vyskytli sa chyby počas spracovania:\n"
 
-#: src/errors.c:91
+#: src/errors.c:90
 msgid "Processing was halted because there were too many errors.\n"
 msgstr "Spracovanie bolo zastavené, pretože sa vyskytlo príliš veľa chýb.\n"
 
-#: src/errors.c:102
+#: src/errors.c:101
 #, c-format
 msgid "Package %s was on hold, processing it anyway as you requested\n"
 msgstr ""
 "Balík %s bol v stave podržaný, napriek tomu sa vykonaná operácia, ktorú ste "
 "požadovali\n"
 
-#: src/errors.c:106
+#: src/errors.c:105
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
@@ -2202,16 +2268,16 @@ msgstr ""
 "Balík %s je v stave podržaný, ponecháva sa. Použite --force-hold na "
 "prekonanie.\n"
 
-#: src/errors.c:115
+#: src/errors.c:114
 msgid "overriding problem because --force enabled:"
 msgstr "prekonáva sa problém, pretože je nastavené --force: "
 
-#: src/filesdb.c:205
+#: src/filesdb.c:213
 #, c-format
 msgid "unable to open files list file for package `%.250s'"
 msgstr "nie je možné otvoriť zoznam súborov balíka „%.250s“"
 
-#: src/filesdb.c:209
+#: src/filesdb.c:217
 #, c-format
 msgid ""
 "files list file for package `%.250s' missing, assuming package has no files "
@@ -2220,115 +2286,115 @@ msgstr ""
 "zoznam súborov balíka „%.250s“ chýba, predpokladá sa, že balík nemá "
 "nainštalované žiadne súbory."
 
-#: src/filesdb.c:220
+#: src/filesdb.c:228
 #, c-format
 msgid "unable to stat files list file for package '%.250s'"
 msgstr "nie je možné zistiť stav súboru so zoznam súborov balíka „%.250s“"
 
-#: src/filesdb.c:227
+#: src/filesdb.c:235
 #, c-format
 msgid "files list for package `%.250s'"
 msgstr "zoznam súborov balíka „%.250s“"
 
-#: src/filesdb.c:233
+#: src/filesdb.c:241
 #, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr "v zozname súborov balíka „%.250s“ chýba na konci znak nového riadka"
 
-#: src/filesdb.c:241
+#: src/filesdb.c:249
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr "zoznam súborov balíka „%.250s“ obsahuje prázdny názov súboru"
 
-#: src/filesdb.c:249
+#: src/filesdb.c:257
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "chyba pri zatváraní zoznamu súborov balíka „%.250s“"
 
-#: src/filesdb.c:266
+#: src/filesdb.c:367
 msgid "(Reading database ... "
 msgstr "(Číta sa databáza ... "
 
-#: src/filesdb.c:281
+#: src/filesdb.c:388
 #, c-format
 msgid "%d files and directories currently installed.)\n"
 msgstr "momentálne je nainštalovaných %d súborov a adresárov.\n"
 
-#: src/filesdb.c:312
+#: src/filesdb.c:419
 #, c-format
 msgid "unable to create updated files list file for package %s"
 msgstr "nie je možné vytvoriť aktualizovaný zoznam súborov balíka %s"
 
-#: src/filesdb.c:322
+#: src/filesdb.c:429
 #, c-format
 msgid "failed to write to updated files list file for package %s"
 msgstr "zlyhal zápis aktualizovaného zoznamu súborov balíka %s"
 
-#: src/filesdb.c:324
+#: src/filesdb.c:431
 #, c-format
 msgid "failed to flush updated files list file for package %s"
 msgstr "zlyhalo vyprázdnenie aktualizovaného zoznamu súborov balíka %s"
 
-#: src/filesdb.c:326
+#: src/filesdb.c:433
 #, c-format
 msgid "failed to sync updated files list file for package %s"
 msgstr "zlyhala synchronizácia aktualizovaného zoznamu súborov balíka %s"
 
-#: src/filesdb.c:329
+#: src/filesdb.c:436
 #, c-format
 msgid "failed to close updated files list file for package %s"
 msgstr "zlyhalo uzavretie aktualizovaného zoznamu súborov balíka %s"
 
-#: src/filesdb.c:331
+#: src/filesdb.c:438
 #, c-format
 msgid "failed to install updated files list file for package %s"
 msgstr "zlyhala inštalácia aktualizovaného zoznamu súborov balíka %s"
 
-#: src/help.c:46
+#: src/help.c:47
 msgid "not installed"
 msgstr "nenainštalovaný"
 
-#: src/help.c:47
+#: src/help.c:48
 msgid "not installed but configs remain"
 msgstr "nenainštalované, ale konfiguračné súbory zachované"
 
-#: src/help.c:48
+#: src/help.c:49
 msgid "broken due to failed removal or installation"
 msgstr "pokazený z dôvodu chyby pri odstraňovaní alebo inštalácii"
 
-#: src/help.c:49
+#: src/help.c:50
 msgid "unpacked but not configured"
 msgstr "rozbalený ale nenakonfigurovaný"
 
-#: src/help.c:50
+#: src/help.c:51
 msgid "broken due to postinst failure"
 msgstr "pokazený z dôvodu chyby v postinst"
 
-#: src/help.c:51
+#: src/help.c:52
 msgid "awaiting trigger processing by another package"
 msgstr "čaká sa na spracovanie spúšťačov iným balíkom (triggers-awaited)"
 
-#: src/help.c:52
+#: src/help.c:53
 msgid "triggered"
 msgstr "spustené"
 
-#: src/help.c:53
+#: src/help.c:54
 msgid "installed"
 msgstr "inštalovaný"
 
-#: src/help.c:104
+#: src/help.c:105
 msgid "error: PATH is not set."
 msgstr "chyba: premenná PATH nie je nastavená."
 
-#: src/help.c:130
-#, c-format
-msgid "'%s' not found on PATH."
+#: src/help.c:127
+#, fuzzy, c-format
+msgid "'%s' not found in PATH or not executable."
 msgstr "„%s“ nebol nájdený v premennej PATH."
 
-#: src/help.c:138
-#, c-format
+#: src/help.c:135
+#, fuzzy, c-format
 msgid ""
-"%d expected program(s) not found on PATH.\n"
+"%d expected program(s) not found in PATH or not executable.\n"
 "NB: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."
 msgstr ""
 "%d očakávaných programov nenájdených v premennej PATH.\n"
@@ -2340,71 +2406,66 @@ msgstr ""
 msgid "failed to chroot to `%.250s'"
 msgstr "zlyhalo vykonanie funkcie chroot na „%.255s“"
 
-#: src/help.c:185 dpkg-deb/build.c:417 dpkg-deb/build.c:487
-#: dpkg-deb/build.c:508
+#: src/help.c:185 dpkg-deb/build.c:408 dpkg-deb/build.c:481
+#: dpkg-deb/build.c:504
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "nie je možné zmeniť adresár na „%.255s“"
 
-#: src/help.c:271
+#: src/help.c:245
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "nie je možné nastaviť práva na spustenie na „%.250s“"
 
-#: src/help.c:297
+#: src/help.c:265
 msgid "unable to setenv for maintainer script"
 msgstr "nie je možné nastaviť premennú prostredia pre skript údržby"
 
-#: src/help.c:321
+#: src/help.c:288
 #, c-format
 msgid "installed %s script"
 msgstr "nainštalovaný skript %s"
 
-#: src/help.c:329 src/help.c:390 src/help.c:442
+#: src/help.c:301 src/help.c:367 src/help.c:426
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "nie je možné zistiť stav %s „%.250s“"
 
-#: src/help.c:332 src/help.c:393 src/help.c:424 src/help.c:446
-#, c-format
-msgid "unable to execute %s"
-msgstr "nie je možné spustiť %s"
-
-#: src/help.c:382 src/help.c:436
+#: src/help.c:353 src/help.c:413
 #, c-format
 msgid "new %s script"
 msgstr "nový skript %s"
 
-#: src/help.c:413
+#: src/help.c:387
 #, c-format
 msgid "old %s script"
 msgstr "starý %s skript"
 
-#: src/help.c:420
+#: src/help.c:401
 #, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "nie je možné zistiť stav %s „%.250s“: %s"
 
-#: src/help.c:429
+#: src/help.c:410
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - skúša sa radšej skript z nového balíka ...\n"
 
-#: src/help.c:440
+#: src/help.c:424
 msgid "there is no script in the new version of the package - giving up"
 msgstr "v novej verzii balíka nie je žiaden skript - ukončuje sa"
 
-#: src/help.c:447
+#: src/help.c:430
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... vyzerá to tak, že sa to podarilo.\n"
 
-#: src/help.c:592
+#: src/help.c:576
 #, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "nedá sa bezpečne odstrániť „%.255s“"
 
-#: src/help.c:597 dpkg-deb/info.c:60
+#: src/help.c:581 dpkg-deb/info.c:63
 msgid "failed to exec rm for cleanup"
 msgstr "rm sa nedá spustiť na čistenie"
 
@@ -2413,21 +2474,19 @@ msgstr "rm sa nedá spustiť na čistenie"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian „%s“ program na údržbu balíkov, verzia %s.\n"
 
-#: src/main.c:59 src/query.c:562 src/trigcmd.c:54 dpkg-deb/main.c:58
+#: src/main.c:59 src/query.c:566 src/trigcmd.c:55 dpkg-deb/main.c:58
 #: dpkg-split/main.c:50
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
-"See %s --license for copyright and license details.\n"
 msgstr ""
 "Toto je slobodný softvér; podrobnosti o pravidlách kopírovania\n"
-"nájdete v GNU General Public Licence verzie 2 alebo neskoršej.\n"
-"Neposkytuje sa ŽIADNA záruka. Použitím %s --licence získate viac "
-"informácií.\n"
+"nájdete v GNU General Public Licence verzia 2 alebo neskoršej.\n"
+"Neposkytuje sa ŽIADNA záruka.\n"
 
-#: src/main.c:75 src/query.c:575 src/statcmd.c:77 dpkg-deb/main.c:71
-#: dpkg-split/main.c:63
+#: src/main.c:74 src/query.c:578 src/statcmd.c:74 dpkg-deb/main.c:70
+#: dpkg-split/main.c:62
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2436,7 +2495,7 @@ msgstr ""
 "Použitie: %s [<voľba> ...] <príkaz>\n"
 "\n"
 
-#: src/main.c:79
+#: src/main.c:78
 #, c-format
 msgid ""
 "Commands:\n"
@@ -2498,13 +2557,12 @@ msgstr ""
 "  -Dh|--debug=help                 zobrazí pomocníka na ladenie.\n"
 "\n"
 
-#: src/main.c:107 src/query.c:591 src/trigcmd.c:77 dpkg-deb/main.c:88
-#: dpkg-split/main.c:77
-#, c-format
+#: src/main.c:106 src/query.c:594 src/trigcmd.c:77 dpkg-deb/main.c:87
+#: dpkg-split/main.c:76
+#, fuzzy, c-format
 msgid ""
 "  -h|--help                        Show this help message.\n"
 "  --version                        Show the version.\n"
-"  --license|--licence              Show the copyright licensing terms.\n"
 "\n"
 msgstr ""
 "  -h|--help                        Zobrazí tohto pomocníka.\n"
@@ -2512,7 +2570,7 @@ msgstr ""
 "  --license|--licence              Zobrazí licenčné podmienky.\n"
 "\n"
 
-#: src/main.c:113
+#: src/main.c:111
 #, c-format
 msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -2524,7 +2582,7 @@ msgstr ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  (napíšte %s --help).\n"
 "\n"
 
-#: src/main.c:118
+#: src/main.c:116
 #, c-format
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
@@ -2535,7 +2593,7 @@ msgstr ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 
-#: src/main.c:123
+#: src/main.c:121
 #, c-format
 msgid ""
 "Options:\n"
@@ -2597,7 +2655,7 @@ msgstr ""
 "  --abort-after <n>          preruší sa po nájdení <n> chýb.\n"
 "\n"
 
-#: src/main.c:147
+#: src/main.c:145
 #, c-format
 msgid ""
 "Comparison operators for --compare-versions are:\n"
@@ -2617,22 +2675,21 @@ msgstr ""
 "control).\n"
 "\n"
 
-#: src/main.c:154
+#: src/main.c:152
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
 "Skúste používateľsky prívetivú správu balíkov pomocou „dselect“ alebo "
 "„aptitude“.\n"
 
-#: src/main.c:164
+#: src/main.c:162
+#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
 "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
 "Type dpkg --force-help for a list of forcing options;\n"
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
-"Type dpkg --license for copyright license and lack of warranty (GNU GPL) "
-"[*].\n"
 "\n"
 "Options marked [*] produce a lot of output - pipe it through `less' or "
 "`more' !"
@@ -2648,18 +2705,18 @@ msgstr ""
 "\n"
 "Voľby označené [*] produkujú rozsiahly výstup - použite „less“ alebo „more“!"
 
-#: src/main.c:220 src/query.c:627 src/statcmd.c:114 dpkg-deb/main.c:188
-#: dpkg-split/main.c:168
+#: src/main.c:217 src/query.c:627 src/statcmd.c:111 dpkg-deb/main.c:198
+#: dpkg-split/main.c:164
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "odporujúce si operácie -%c (--%s) a -%c (--%s)"
 
-#: src/main.c:226
+#: src/main.c:223
 #, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "zastaralá voľba „--%s“\n"
 
-#: src/main.c:234
+#: src/main.c:231
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2703,31 +2760,31 @@ msgstr ""
 "Ladiace voľby možno kombinovať použitím bitwise-or.\n"
 "Poznámka: významy a hodnoty sa môžu často meniť.\n"
 
-#: src/main.c:258
+#: src/main.c:255
 msgid "--debug requires an octal argument"
 msgstr "--debug vyžaduje osmičkový argument"
 
-#: src/main.c:281
+#: src/main.c:278
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "prázdny názov balíka v dvojbodkou oddelenom zozname --ignore-depends „%.250s“"
 
-#: src/main.c:287
+#: src/main.c:284
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "--ignore-depends vyžaduje platný názov balíka. „%.250s“ nie je; %s"
 
-#: src/main.c:304 src/main.c:316 src/main.c:614 dpkg-split/main.c:125
+#: src/main.c:301 src/main.c:313 src/main.c:584 dpkg-split/main.c:123
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "neplatné číslo pre --%s: „%.250s“"
 
-#: src/main.c:318
+#: src/main.c:315
 msgid "<package status and progress file descriptor>"
 msgstr "<stav balíka a popisovač súboru priebehu>"
 
-#: src/main.c:389
+#: src/main.c:386
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2812,55 +2869,50 @@ msgstr ""
 "inštaláciu.\n"
 "Vynútenie volieb označených [*] je štandardne povolené.\n"
 
-#: src/main.c:435
+#: src/main.c:432
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "neznáma vynucovacia/odmietacia voľba „%.*s“"
 
-#: src/main.c:441
+#: src/main.c:438
 #, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "zastaralá vynucovacia/zakazovacia voľba „%s“\n"
 
-#: src/main.c:592
-#, c-format
-msgid "failed to exec %s"
-msgstr "nie je možné spustiť %s"
-
-#: src/main.c:608
+#: src/main.c:578
 msgid "--command-fd takes one argument, not zero"
 msgstr "--command-fd vyžaduje jeden parameter, nie nula"
 
-#: src/main.c:610
+#: src/main.c:580
 msgid "--command-fd only takes one argument"
 msgstr "--command-fd vyžaduje len jeden parameter"
 
-#: src/main.c:616
+#: src/main.c:586
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "nie je možné otvoriť „%i“ pre tok"
 
-#: src/main.c:641
+#: src/main.c:610
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "nečakaný koniec súboru pred koncom riadka %d"
 
-#: src/main.c:685 src/main.c:707 src/query.c:672 src/statcmd.c:426
-#: dpkg-deb/main.c:219 dpkg-split/main.c:187
+#: src/main.c:654 src/main.c:676 src/query.c:668 src/statcmd.c:425
+#: dpkg-deb/main.c:222 dpkg-split/main.c:183
 msgid "need an action option"
 msgstr "vyžaduje sa zadanie voľby určujúcej operáciu"
 
-#: src/packages.c:106
+#: src/packages.c:75
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending neprijíma žiadne argumenty"
 
-#: src/packages.c:144 src/query.c:293 src/query.c:531
+#: src/packages.c:113 src/query.c:294 src/query.c:530
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s vyžaduje ako parameter aspoň jeden názov balíka"
 
-#: src/packages.c:151
+#: src/packages.c:120
 msgid ""
 "you must specify packages by their own names, not by quoting the names of "
 "the files they come in"
@@ -2868,12 +2920,12 @@ msgstr ""
 "musíte označiť balíky ich vlastnými názvami, nie citovaním názvov súborov z "
 "ktorých pochádzajú"
 
-#: src/packages.c:193
+#: src/packages.c:162
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr "Balík %s uvedený viac ako jedenkrát, spracuje sa len raz.\n"
 
-#: src/packages.c:197
+#: src/packages.c:166
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -2882,7 +2934,7 @@ msgstr ""
 "Viac ako jedna kópia balíka %s bola rozbalená\n"
 " v tomto behu! Konfiguruje sa len jedenkrát.\n"
 
-#: src/packages.c:244
+#: src/packages.c:211
 #, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
@@ -2892,80 +2944,80 @@ msgstr ""
 " (súčasný stav „%.250s“, nečaká sa na žiadne spúšťače\n"
 " (triggers-pending))"
 
-#: src/packages.c:340
+#: src/packages.c:307
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  Balík %s, ktorý poskytuje %s, sa odstráni.\n"
 
-#: src/packages.c:343
+#: src/packages.c:310
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  Balík %s sa odstráni.\n"
 
-#: src/packages.c:360
+#: src/packages.c:327
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  Verzia %s na systéme je %s.\n"
 
-#: src/packages.c:381
+#: src/packages.c:348
 #, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr "  Balík %s, ktorý poskytuje %s, očakáva spracovanie spúšťačov..\n"
 
-#: src/packages.c:385
+#: src/packages.c:352
 #, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  Balík %s očakáva spracovanie spúšťačov.\n"
 
-#: src/packages.c:416
+#: src/packages.c:383
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: taktiež sa konfiguruje „%s“ (vyžaduje ho „%s“)\n"
 
-#: src/packages.c:422
+#: src/packages.c:389
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  Balík %s, ktorý poskytuje %s, ešte nie je nakonfigurovaný.\n"
 
-#: src/packages.c:425
+#: src/packages.c:392
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  Balík %s ešte nie je nakonfigurovaný.\n"
 
-#: src/packages.c:436
+#: src/packages.c:403
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  Balík „%s“, ktorý poskytuje %s, nie je nainštalovaný.\n"
 
-#: src/packages.c:439
+#: src/packages.c:406
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  Balík %s nie je nainštalovaný.\n"
 
-#: src/packages.c:476
+#: src/packages.c:443
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr " %s (%s) kazí %s a je %s.\n"
 
-#: src/packages.c:484
+#: src/packages.c:451
 #, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "  %s (%s) poskytuje %s.\n"
 
-#: src/packages.c:489
+#: src/packages.c:456
 #, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  Verzia %s, ktorá sa má konfigurovať, je %s.\n"
 
-#: src/packages.c:588
+#: src/packages.c:555
 msgid " depends on "
 msgstr " závisí na "
 
-#: src/packages.c:594
+#: src/packages.c:561
 msgid "; however:\n"
 msgstr "; aj keď:\n"
 
-#: src/pkg-show.c:39 src/query.c:92
+#: src/pkg-show.c:41 src/query.c:93
 msgid "(no description available)"
 msgstr "(popis nie je k dispozícii)"
 
@@ -2973,36 +3025,36 @@ msgstr "(popis nie je k dispozícii)"
 msgid "cannot access archive"
 msgstr "nie je možné vstúpiť do archívu"
 
-#: src/processarc.c:135
+#: src/processarc.c:137
 #, c-format
 msgid "error ensuring `%.250s' doesn't exist"
 msgstr "chyba potvrdzujúca, že „%.250s“ neexistuje"
 
-#: src/processarc.c:140
+#: src/processarc.c:142
 msgid "failed to exec dpkg-split to see if it's part of a multiparter"
 msgstr ""
 "nepodarilo sa spustiť dpkg-split na kontrolu či je časťou archívu "
 "skladajúceho sa z viacerých častí"
 
-#: src/processarc.c:148
+#: src/processarc.c:150
 msgid "reassembled package file"
 msgstr "znovuzostavený súbor balíka"
 
-#: src/processarc.c:163
+#: src/processarc.c:165
 #, c-format
 msgid "Authenticating %s ...\n"
 msgstr "Overuje sa %s ...\n"
 
-#: src/processarc.c:168
+#: src/processarc.c:170
 msgid "failed to execl debsig-verify"
 msgstr "zlyhalo spustenie funkcie execl na debsig-verify"
 
-#: src/processarc.c:175
+#: src/processarc.c:177
 #, c-format
 msgid "Verification on package %s failed!"
 msgstr "Verifikácia balíka %s zlyhala!"
 
-#: src/processarc.c:177
+#: src/processarc.c:179
 #, c-format
 msgid ""
 "Verification on package %s failed,\n"
@@ -3011,30 +3063,31 @@ msgstr ""
 "Verifikácia balíka %s zlyhala,\n"
 "napriek tomu sa inštaluje podľa vašej požiadavky.\n"
 
-#: src/processarc.c:180
+#: src/processarc.c:182
 #, c-format
 msgid "passed\n"
 msgstr "prešiel\n"
 
-#: src/processarc.c:189
-msgid "unable to get unique filename for control info"
-msgstr "nie je možné získať jedinečný názov súboru pre riadiace informácie"
+#: src/processarc.c:193
+#, fuzzy
+msgid "unable to create temporary directory"
+msgstr "zlyhalo vytvorenie dočasného názvu adresára"
 
-#: src/processarc.c:212
+#: src/processarc.c:220
 msgid "failed to exec dpkg-deb to extract control information"
 msgstr "zlyhalo spustenie dpkg-deb na extrakciu riadiacich informácií"
 
-#: src/processarc.c:230
+#: src/processarc.c:238
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "Zaznamenané informácie o %s z %s.\n"
 
-#: src/processarc.c:239
+#: src/processarc.c:247
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "architektúra balíka (%s) nezodpovedá systému (%s)"
 
-#: src/processarc.c:294
+#: src/processarc.c:302
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
@@ -3043,99 +3096,99 @@ msgstr ""
 "dpkg: problém s pred-závislosťami v súvislosti s %s, obsahujúcim %s:\n"
 "%s"
 
-#: src/processarc.c:297
+#: src/processarc.c:305
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "problém s pred-závislosťami - neinštaluje sa %.250s"
 
-#: src/processarc.c:298
+#: src/processarc.c:306
 msgid "ignoring pre-dependency problem!"
 msgstr "ignoruje sa problém s pred-závislosťami!"
 
-#: src/processarc.c:313
+#: src/processarc.c:321
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "Pripravuje sa nahradenie %s %s (pomocou %s) ...\n"
 
-#: src/processarc.c:319
+#: src/processarc.c:327
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Rozbaľuje sa %s (z %s) ...\n"
 
-#: src/processarc.c:348
+#: src/processarc.c:356
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 "názov konfiguračného súboru (začínajúci „%.250s“) je príliš dlhý (>%d znakov)"
 
-#: src/processarc.c:401
+#: src/processarc.c:409
 #, c-format
 msgid "read error in %.250s"
 msgstr "chyba pri čítaní v %.250s"
 
-#: src/processarc.c:403
+#: src/processarc.c:411
 #, c-format
 msgid "error closing %.250s"
 msgstr "chyba pri zatváraní %.250s"
 
-#: src/processarc.c:405
+#: src/processarc.c:413
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "chyba pri pokuse otvoriť %.250s"
 
-#: src/processarc.c:441
+#: src/processarc.c:449
 #, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "Dekonfiguruje sa %s, aby sa umožnilo odstránenie %s ...\n"
 
-#: src/processarc.c:444
+#: src/processarc.c:452
 #, c-format
 msgid "De-configuring %s ...\n"
 msgstr "Dekonfiguruje sa %s ...\n"
 
-#: src/processarc.c:519
+#: src/processarc.c:527
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Rozbaľuje sa náhrada %.250s ...\n"
 
-#: src/processarc.c:600
+#: src/processarc.c:608
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr "nie je možné spustiť dpkg-deb pre získanie obsahu archívu súborov"
 
-#: src/processarc.c:614
+#: src/processarc.c:622
 msgid "error reading dpkg-deb tar output"
 msgstr "chyba pri čítaní dpkg-deb tar výstupu"
 
-#: src/processarc.c:616
+#: src/processarc.c:624
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "poškodený systémový tar súbor - poškodený archív balíkov"
 
-#: src/processarc.c:619
+#: src/processarc.c:627
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: zrušiť možné koncové nuly"
 
-#: src/processarc.c:679
+#: src/processarc.c:687
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "nedá sa zistiť stav starého súboru „%.250s“, takže sa nebude mazať: %s"
 
-#: src/processarc.c:685
+#: src/processarc.c:693
 #, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "nedá sa zmazať starý adresár „%.250s“: %s"
 
-#: src/processarc.c:688
+#: src/processarc.c:696
 #, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
 "starý konfiguračný súbor „%.250s“ je prázdny adresár (a teraz bol zmazaný)"
 
-#: src/processarc.c:730
+#: src/processarc.c:738
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "nedá sa zistiť stav ďalšieho nového súboru „%.250s“"
 
-#: src/processarc.c:741
+#: src/processarc.c:749
 #, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -3144,77 +3197,78 @@ msgstr ""
 "starý súbor „%.250s“ je rovnaký ako niekoľko nových súborov! („%.250s“ aj "
 "„%.250s“)"
 
-#: src/processarc.c:780
+#: src/processarc.c:788
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "nedá sa bezpečne odstrániť starý súbor „%.250s“: %s"
 
-#: src/processarc.c:815 src/processarc.c:1063 src/query.c:478 src/remove.c:271
+#: src/processarc.c:823 src/processarc.c:1071 src/query.c:479 src/remove.c:271
 msgid "cannot read info directory"
 msgstr "nedá sa prečítať informácia o adresári"
 
-#: src/processarc.c:828
+#: src/processarc.c:836
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "stará verzia balíka má príliš dlhý názov info súboru, ktorý začína „%.250s“"
 
-#: src/processarc.c:840
+#: src/processarc.c:848
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "nie je možné odstrániť zastaralý info súbor „%.250s“"
 
-#: src/processarc.c:843
+#: src/processarc.c:851
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "nie je možné nainštalovať (navrhovaný) nový info súbor „%.250s“"
 
-#: src/processarc.c:850
+#: src/processarc.c:858
 msgid "unable to open temp control directory"
 msgstr "nie je možné otvoriť dočasný riadiaci adresár"
 
-#: src/processarc.c:859
+#: src/processarc.c:867
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "balík obsahuje príliš dlhý názov riadiaceho info súboru (začínajúci „%.50s“)"
 
-#: src/processarc.c:864
+#: src/processarc.c:872
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "riadiaci info balík obsahoval adresár „%.250s“"
 
-#: src/processarc.c:866
+#: src/processarc.c:874
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "funkcia rmdir u informácií o riadení balíka „%.250s“ nepovedala, že to nie "
 "je adresár"
 
-#: src/processarc.c:872
+#: src/processarc.c:880
 #, c-format
 msgid "package %s contained list as info file"
 msgstr "balík %s obsahoval zoznam ako info súbor"
 
-#: src/processarc.c:878
+#: src/processarc.c:886
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "nie je možné nainštalovať nový info súbor „%.250s“ ako „%.250s“"
 
-#: src/processarc.c:1041
+#: src/processarc.c:1049
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Vyskytlo sa zmiznutie balíka %s, ktorý bol úplne nahradený.)\n"
 
-#: src/processarc.c:1079
+#: src/processarc.c:1087
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "nie je možné zrušiť zmiznutie riadiaceho info súboru „%.250s“"
 
-#: src/query.c:114
+#: src/query.c:115
+#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
+"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
 "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
@@ -3224,89 +3278,89 @@ msgstr ""
 "|/ Chyba?=(žiadna)/Podržať/Reinšt-vyžadovaná (Stav,Chyba: veľké "
 "písmeno=zle)\n"
 
-#: src/query.c:118
+#: src/query.c:119
 msgid "Name"
 msgstr "Názov"
 
-#: src/query.c:118
+#: src/query.c:119
 msgid "Version"
 msgstr "Verzia"
 
-#: src/query.c:118
+#: src/query.c:119
 msgid "Description"
 msgstr "Popis"
 
-#: src/query.c:177 src/query.c:426 src/select.c:73
+#: src/query.c:178 src/query.c:427 src/select.c:73
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Nenašli sa žiadne balíky vyhovujúce %s.\n"
 
-#: src/query.c:201
+#: src/query.c:202
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "odsunuté balíkom %s z: %s\n"
 
-#: src/query.c:203
+#: src/query.c:204
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "odsunuté balíkom %s do: %s\n"
 
-#: src/query.c:206
+#: src/query.c:207
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "lokálne odsunutie z: %s\n"
 
-#: src/query.c:207
+#: src/query.c:208
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "lokálne odsunutie do: %s\n"
 
-#: src/query.c:233
+#: src/query.c:234
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search potrebuje najmenej jeden argument vzorky názvu súboru"
 
-#: src/query.c:274
+#: src/query.c:275
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s nebol nájdený.\n"
 
-#: src/query.c:312
+#: src/query.c:313
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr ""
 "Balík „%s“ nie je nainštalovaný a nie sú o ňom dostupné žiadne informácie.\n"
 
-#: src/query.c:321
+#: src/query.c:322
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Balík „%s“ nie je dostupný.\n"
 
-#: src/query.c:331 src/query.c:547
+#: src/query.c:332 src/query.c:550
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Balík „%s“ nie je nainštalovaný.\n"
 
-#: src/query.c:340
+#: src/query.c:341
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Balík „%s“ neobsahuje žiadne súbory (!)\n"
 
-#: src/query.c:347
+#: src/query.c:348
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "lokálne odsunutý do: %s\n"
 
-#: src/query.c:350
+#: src/query.c:351
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "balík odsúva ostatné do: %s\n"
 
-#: src/query.c:353
+#: src/query.c:354
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "odsunuté balíkom %s do: %s\n"
 
-#: src/query.c:375
+#: src/query.c:376
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3314,18 +3368,22 @@ msgstr ""
 "Použite dpkg --info (= dpkg-deb --info) na preskúmanie súborov archívov,\n"
 "a dpkg --contents (= dpkg-deb --contents) na vypísanie ich obsahu.\n"
 
-#: src/query.c:540
+#: src/query.c:535
+#, fuzzy, c-format
+msgid "--%s takes at most two arguments"
+msgstr "--build vyžaduje najviac dva argumenty"
+
+#: src/query.c:543
 #, c-format
 msgid "control file contains %c"
 msgstr "riadiaci súbor obsahuje %c"
 
-#: src/query.c:560
-#, c-format
-msgid "Debian `%s' package management program query tool\n"
-msgstr ""
-"Debian „%s“ nástroj na zadávanie požiadaviek programu na správu balíkov\n"
+#: src/query.c:563
+#, fuzzy, c-format
+msgid "Debian %s package management program query tool version %s.\n"
+msgstr "Debian „%s“ program na údržbu balíkov, verzia %s.\n"
 
-#: src/query.c:579
+#: src/query.c:582
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3351,7 +3409,7 @@ msgstr ""
 "balíka.\n"
 "\n"
 
-#: src/query.c:597
+#: src/query.c:599
 #, c-format
 msgid ""
 "Options:\n"
@@ -3364,7 +3422,7 @@ msgstr ""
 "  -f|--showformat=<format>           Použije alternatívny formát pre --show\n"
 "\n"
 
-#: src/query.c:603 dpkg-deb/main.c:112
+#: src/query.c:605 dpkg-deb/main.c:110
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3385,13 +3443,9 @@ msgstr ""
 "  ${var[;width]}. Polia budú zarovnané doprava, ak bude šírka záporná,\n"
 "  inak bude použité zarovnanie doľava.\n"
 
-#: src/query.c:617 src/statcmd.c:52
-msgid ""
-"Use --help for help about querying packages;\n"
-"Use --license for copyright license and lack of warranty (GNU GPL)."
+#: src/query.c:619 src/statcmd.c:50
+msgid "Use --help for help about querying packages."
 msgstr ""
-"Voľba --help vyvolá pomocníka o zisťovaní informácií o balíkoch.\n"
-"Voľba --licence vypíše licenčné podmienky a neexistenciu záruky (GNU GPL)."
 
 #: src/remove.c:81
 #, c-format
@@ -3557,12 +3611,12 @@ msgstr "neznámy cieľový stav na riadku %d: %.250s"
 msgid "read error on standard input"
 msgstr "chyba pri čítaní zo štandardného vstupu"
 
-#: src/statcmd.c:58 scripts/dpkg-divert.pl:32
+#: src/statcmd.c:55 scripts/dpkg-divert.pl:32
 #, c-format, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s verzia %s.\n"
 
-#: src/statcmd.c:61
+#: src/statcmd.c:58
 #, c-format
 msgid ""
 "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
@@ -3571,7 +3625,7 @@ msgstr ""
 "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
 "Copyright (C) 2006-2009 Guillem Jover.\n"
 
-#: src/statcmd.c:65
+#: src/statcmd.c:62
 #, c-format
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
@@ -3581,7 +3635,7 @@ msgstr ""
 "nájdete v GNU General Public Licence verzia 2 alebo neskoršej.\n"
 "Neposkytuje sa ŽIADNA záruka.\n"
 
-#: src/statcmd.c:81
+#: src/statcmd.c:78
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3598,7 +3652,7 @@ msgstr ""
 "  --list [<glob-vzor>]     vypísať aktuálne prekonania v databáze.\n"
 "\n"
 
-#: src/statcmd.c:89
+#: src/statcmd.c:86
 #, c-format
 msgid ""
 "Options:\n"
@@ -3619,50 +3673,47 @@ msgstr ""
 "  --version                zobrazí verziu\n"
 "\n"
 
-#: src/statcmd.c:127
+#: src/statcmd.c:124
 msgid "stripping trailing /"
 msgstr "odstraňujú sa koncové /"
 
-#: src/statcmd.c:174
-#, c-format
-msgid "--update given but %s does not exist"
-msgstr "bolo zadané --update, ale %s neexistuje"
-
-#: src/statcmd.c:177
-#, c-format
-msgid "failed to chown %s: %s"
-msgstr "zlyhala zmena vlastníka %s: %s"
-
-#: src/statcmd.c:180
-#, c-format
-msgid "failed to chmod %s: %s"
-msgstr "zlyhala zmena atribútov %s: %s"
-
-#: src/statcmd.c:234
+#: src/statcmd.c:225
 msgid "cannot open new statoverride file"
 msgstr "nedá sa otvoriť nový súbor statoverride"
 
-#: src/statcmd.c:245
+#: src/statcmd.c:233 dpkg-deb/build.c:556 dpkg-split/join.c:73
+#: dpkg-split/queue.c:170
+#, fuzzy, c-format
+msgid "unable to flush file '%s'"
+msgstr "nie je možné vyprázdniť zásobník vo funkcii vsprintf"
+
+#: src/statcmd.c:235 dpkg-deb/build.c:558 dpkg-split/join.c:75
+#: dpkg-split/queue.c:172
+#, fuzzy, c-format
+msgid "unable to sync file '%s'"
+msgstr "nie je možné otvoriť zdrojový súbor „%.250s“"
+
+#: src/statcmd.c:240
 msgid "error removing statoverride-old"
 msgstr "chyba pri odstraňovaní súboru statoverride-old"
 
-#: src/statcmd.c:247
+#: src/statcmd.c:242
 msgid "error creating new statoverride-old"
 msgstr "chyba pri vytváraní nového súboru statoverride-old"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:244
 msgid "error installing new statoverride"
 msgstr "chyba pri inštalovaní nového súboru statoverride"
 
-#: src/statcmd.c:267
+#: src/statcmd.c:262
 msgid "--add needs four arguments"
 msgstr "--add vyžaduje štyri parametre"
 
-#: src/statcmd.c:270 scripts/dpkg-divert.pl:163
+#: src/statcmd.c:265 scripts/dpkg-divert.pl:163
 msgid "file may not contain newlines"
 msgstr "názov súboru nemôže obsahovať znaky nového riadka"
 
-#: src/statcmd.c:277
+#: src/statcmd.c:272
 #, c-format
 msgid ""
 "An override for '%s' already exists, but --force specified so will be "
@@ -3670,22 +3721,27 @@ msgid ""
 msgstr ""
 "Prekonanie „%s“ už existuje, ale kvôli uvedenému --force bude ignorovaný."
 
-#: src/statcmd.c:281
+#: src/statcmd.c:276
 #, c-format
 msgid "An override for '%s' already exists, aborting."
 msgstr "Prekonanie „%s“ už existuje, prerušuje sa."
 
-#: src/statcmd.c:304 scripts/dpkg-divert.pl:160 scripts/dpkg-divert.pl:188
-#: scripts/dpkg-divert.pl:231 scripts/dpkg-divert.pl:241
+#: src/statcmd.c:288
+#, c-format
+msgid "--update given but %s does not exist"
+msgstr "bolo zadané --update, ale %s neexistuje"
+
+#: src/statcmd.c:306 scripts/dpkg-divert.pl:160 scripts/dpkg-divert.pl:189
+#: scripts/dpkg-divert.pl:232 scripts/dpkg-divert.pl:242
 #, c-format, perl-format
 msgid "--%s needs a single argument"
 msgstr "--%s vyžaduje jediný parameter"
 
-#: src/statcmd.c:309
+#: src/statcmd.c:312
 msgid "No override present."
 msgstr "Neexistuje žiadne prekonanie."
 
-#: src/statcmd.c:317
+#: src/statcmd.c:320
 msgid "--update is useless for --remove"
 msgstr "--update je nepoužiteľný pri --remove"
 
@@ -3754,8 +3810,8 @@ msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Pomocníka k tomuto nástroju zobrazíte napísaním dpkg-trigger --help"
 
 #: src/trigcmd.c:51
-#, c-format
-msgid "Debian %s package trigger utility.\n"
+#, fuzzy, c-format
+msgid "Debian %s package trigger utility version %s.\n"
 msgstr "Debian „%s“ nástroj na spúšťanie balíkov\n"
 
 #: src/trigcmd.c:67
@@ -3782,7 +3838,7 @@ msgstr ""
 "spúšťače.\n"
 "\n"
 
-#: src/trigcmd.c:83
+#: src/trigcmd.c:82
 #, c-format
 msgid ""
 "Options:\n"
@@ -3804,21 +3860,21 @@ msgstr ""
 "  --no-act                         Iba test - v skutočnosti nič nemeniť.\n"
 "\n"
 
-#: src/trigcmd.c:153
+#: src/trigcmd.c:152
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
 msgstr "%s: púšťa dátový adresár, ktorý zatiaľ nebol vytvorený\n"
 
-#: src/trigcmd.c:157
+#: src/trigcmd.c:156
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
 msgstr "%s: záznamy spúšťača zatiaľ neexistujú\n"
 
-#: src/trigcmd.c:208
+#: src/trigcmd.c:203
 msgid "takes one argument, the trigger name"
 msgstr "potrebuje jeden parameter, názov spúšťača"
 
-#: src/trigcmd.c:213
+#: src/trigcmd.c:208
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
@@ -3826,12 +3882,12 @@ msgstr ""
 "dpkg-trigger je potrebné volať z údržbového skriptu (alebo voľbou --by-"
 "package)"
 
-#: src/trigcmd.c:218
+#: src/trigcmd.c:213
 #, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
 msgstr "dpkg-trigger: neplatné meno očakávaného balíka „%.250s“: %.250s"
 
-#: src/trigcmd.c:223
+#: src/trigcmd.c:218
 #, c-format
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "neplatný názov spúšťača „%.250s“: %.250s"
@@ -3900,95 +3956,95 @@ msgid ""
 "obsolete '--%s' option, unavailable packages are automatically cleaned up."
 msgstr "zastaralá voľba „--%s“, nedostupné balíky budú automaticky vyčistené."
 
-#: dpkg-deb/build.c:99
+#: dpkg-deb/build.c:96
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - chyba: %s („%s“) neobsahuje žiadne čísla\n"
 
-#: dpkg-deb/build.c:170
+#: dpkg-deb/build.c:167
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr "názov súboru „%.50s...“ je príliš dlhý"
 
-#: dpkg-deb/build.c:240 scripts/dpkg-divert.pl:138
-#: scripts/update-alternatives.pl:122 scripts/update-alternatives.pl:126
+#: dpkg-deb/build.c:236 scripts/dpkg-divert.pl:138
+#: scripts/update-alternatives.pl:128 scripts/update-alternatives.pl:132
 #, c-format, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s vyžaduje parameter <adresár>"
 
-#: dpkg-deb/build.c:250
+#: dpkg-deb/build.c:240
 msgid "--build takes at most two arguments"
 msgstr "--build vyžaduje najviac dva argumenty"
 
-#: dpkg-deb/build.c:254
+#: dpkg-deb/build.c:244
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "nie je možné overiť existenciu archívu „%.250s“"
 
-#: dpkg-deb/build.c:271
+#: dpkg-deb/build.c:261
 msgid "target is directory - cannot skip control file check"
 msgstr "cieľ je adresárom - nie je možné preskočiť kontrolu riadiaceho súboru"
 
-#: dpkg-deb/build.c:272
+#: dpkg-deb/build.c:262
 msgid "not checking contents of control area."
 msgstr "nekontroluje sa obsah riadiacej oblasti."
 
-#: dpkg-deb/build.c:273
+#: dpkg-deb/build.c:263
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: zostavuje sa neznámy balík v „%s“.\n"
 
-#: dpkg-deb/build.c:290
+#: dpkg-deb/build.c:280
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "názov balíka obsahuje znaky, ktoré nie sú malými písmenami alebo „-+.“"
 
-#: dpkg-deb/build.c:292
+#: dpkg-deb/build.c:282
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "„%s“ obsahuje používateľom definovanú hodnotu Priority „%s“"
 
-#: dpkg-deb/build.c:300
+#: dpkg-deb/build.c:290
 #, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "„%s“ obsahuje používateľom definované pole „%s“"
 
-#: dpkg-deb/build.c:305
+#: dpkg-deb/build.c:295
 msgid "(upstream) version"
 msgstr "(upstream) verzia"
 
-#: dpkg-deb/build.c:307
+#: dpkg-deb/build.c:297
 msgid "Debian revision"
 msgstr "revízia Debianu"
 
-#: dpkg-deb/build.c:308
+#: dpkg-deb/build.c:298
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d chyby v riadiacom súbore"
 
-#: dpkg-deb/build.c:319
+#: dpkg-deb/build.c:309
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: zostavuje sa balík „%s“ v „%s“.\n"
 
-#: dpkg-deb/build.c:325
+#: dpkg-deb/build.c:315
 msgid "unable to stat control directory"
 msgstr "nie je možné zistiť stav riadiaceho adresára"
 
-#: dpkg-deb/build.c:327
+#: dpkg-deb/build.c:317
 msgid "control directory is not a directory"
 msgstr "riadiaci adresár nie je adresár"
 
-#: dpkg-deb/build.c:329
+#: dpkg-deb/build.c:319
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr "riadiaci adresár má zlé práva %03lo (musia byť >=0755 a <=0775)"
 
-#: dpkg-deb/build.c:340
+#: dpkg-deb/build.c:330
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "skript správcu „%.50s“ nie je obyčajný súbor ani symbolický odkaz"
 
-#: dpkg-deb/build.c:342
+#: dpkg-deb/build.c:332
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3996,132 +4052,132 @@ msgid ""
 msgstr ""
 "skript správcu „%.50s“ má nesprávne práva %03lo (musí byť >=0555 a <=0775)"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:336
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "u skriptu správcu „%.50s“ nie je možné zistiť stav"
 
-#: dpkg-deb/build.c:359
+#: dpkg-deb/build.c:349
 msgid "empty string from fgets reading conffiles"
 msgstr "prázdny reťazec z funkcie fgets počas čítania súboru"
 
-#: dpkg-deb/build.c:361
+#: dpkg-deb/build.c:351
 #, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
 "názov konfiguračného súboru „%.50s...“ je príliš dlhý alebo chýba znak "
 "nového riadka na konci"
 
-#: dpkg-deb/build.c:374
+#: dpkg-deb/build.c:364
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "názov konfiguračného súboru „%s“ obsahuje na konci netlačiteľné znaky"
 
-#: dpkg-deb/build.c:376
+#: dpkg-deb/build.c:366
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "konfiguračný súbor „%.250s“ nebol v balíku nájdený"
 
-#: dpkg-deb/build.c:378
+#: dpkg-deb/build.c:368
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "u konfiguračného súboru „%.250s“ nie je možné zistiť stav"
 
-#: dpkg-deb/build.c:380
+#: dpkg-deb/build.c:370
 #, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "konfiguračný súbor „%s“ nie je čistý súbor"
 
-#: dpkg-deb/build.c:385
+#: dpkg-deb/build.c:375
 #, c-format
 msgid "conffile name '%s' is duplicated"
 msgstr "názov confsúboru „%s“ je duplicitný"
 
-#: dpkg-deb/build.c:396
+#: dpkg-deb/build.c:386
 msgid "error reading conffiles file"
 msgstr "chyba pri čítaní konfiguračných súborov"
 
-#: dpkg-deb/build.c:399
+#: dpkg-deb/build.c:389
 msgid "error opening conffiles file"
 msgstr "chyba pri otváraní konfiguračných súborov"
 
-#: dpkg-deb/build.c:402
+#: dpkg-deb/build.c:392
 #, c-format
 msgid "ignoring %d warnings about the control file(s)\n"
 msgstr "ignoruje sa %d upozornení o riadiacom súbore(och)\n"
 
-#: dpkg-deb/build.c:411
+#: dpkg-deb/build.c:401
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "nie je možné odbufferovať „%.255s“"
 
-#: dpkg-deb/build.c:418
+#: dpkg-deb/build.c:409
 msgid "failed to chdir to .../DEBIAN"
 msgstr "nie je možné zmeniť adresár na .../DEBIAN"
 
-#: dpkg-deb/build.c:420 dpkg-deb/build.c:489
+#: dpkg-deb/build.c:411 dpkg-deb/build.c:483
 msgid "failed to exec tar -cf"
 msgstr "nie je možné spustiť príkaz tar -cf"
 
-#: dpkg-deb/build.c:426
+#: dpkg-deb/build.c:418
 msgid "failed to make tmpfile (control)"
 msgstr "zlyhalo vytvorenie dočasného súboru (riadenie)"
 
-#: dpkg-deb/build.c:428
+#: dpkg-deb/build.c:420
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "zlyhalo odpojenie dočasného súboru (riadenie), %s"
 
-#: dpkg-deb/build.c:436 dpkg-deb/build.c:465
+#: dpkg-deb/build.c:428 dpkg-deb/build.c:459
 msgid "control"
 msgstr "riadenie"
 
-#: dpkg-deb/build.c:441
+#: dpkg-deb/build.c:433
 msgid "failed to fstat tmpfile (control)"
 msgstr "nie je možné vykonať fstat na dočasný súbor (riadenie)"
 
-#: dpkg-deb/build.c:464
+#: dpkg-deb/build.c:458
 msgid "failed to rewind tmpfile (control)"
 msgstr "nie je možné prejsť na začiatok dočasného súboru (riadenie)"
 
-#: dpkg-deb/build.c:472
+#: dpkg-deb/build.c:467
 msgid "failed to make tmpfile (data)"
 msgstr "nie je možné vytvoriť dočasný súbor (dáta)"
 
-#: dpkg-deb/build.c:474
+#: dpkg-deb/build.c:469
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "zlyhalo odpojenie dočasného súboru (dáta), %s"
 
-#: dpkg-deb/build.c:498 dpkg-deb/extract.c:295
+#: dpkg-deb/build.c:493 dpkg-deb/extract.c:291
 msgid "data"
 msgstr "dáta"
 
-#: dpkg-deb/build.c:511
+#: dpkg-deb/build.c:507
 msgid "failed to exec find"
 msgstr "zlyhalo spustenie príkazu find"
 
-#: dpkg-deb/build.c:522 dpkg-deb/build.c:529
+#: dpkg-deb/build.c:518 dpkg-deb/build.c:525
 msgid "failed to write filename to tar pipe (data)"
 msgstr "nie je možné zapísať názov súboru do rúry programu tar (dáta)"
 
-#: dpkg-deb/build.c:533
+#: dpkg-deb/build.c:529
 msgid "<compress> from tar -cf"
 msgstr "<compress> z tar -cf"
 
-#: dpkg-deb/build.c:555
+#: dpkg-deb/build.c:538
 msgid "failed to fstat tmpfile (data)"
 msgstr "nie je možné vykonať fstat dočasného súboru (dáta)"
 
-#: dpkg-deb/build.c:565
+#: dpkg-deb/build.c:548
 msgid "failed to rewind tmpfile (data)"
 msgstr "nie je možné prejsť na začiatok dočasného súboru (dáta)"
 
-#: dpkg-deb/build.c:566
+#: dpkg-deb/build.c:549
 msgid "cat (data)"
 msgstr "cat (dáta)"
 
-#: dpkg-deb/extract.c:58
+#: dpkg-deb/extract.c:57
 msgid "failed to exec sh -c mv foo/* &c"
 msgstr "nie je možné spustiť sh -c mv foo/* &c"
 
@@ -4135,7 +4191,7 @@ msgstr "chyba pri čítaní %s zo súboru %.255s"
 msgid "unexpected end of file in %s in %.255s"
 msgstr "neočakávaný koniec súboru v %s v %.255s"
 
-#: dpkg-deb/extract.c:81 dpkg-split/info.c:57
+#: dpkg-deb/extract.c:81 dpkg-split/info.c:58
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
 msgstr "súbor „%.250s“ je poškodený - %.250s dĺžka obsahuje nuly"
@@ -4145,7 +4201,7 @@ msgstr "súbor „%.250s“ je poškodený - %.250s dĺžka obsahuje nuly"
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "súbor „%.250s“ je poškodený - záporná dĺžka časti %zi"
 
-#: dpkg-deb/extract.c:90 dpkg-split/info.c:48
+#: dpkg-deb/extract.c:90 dpkg-split/info.c:49
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "súbor „%.250s“ je poškodený - nesprávne číslice (kód %d) v %s"
@@ -4175,54 +4231,54 @@ msgstr "číslo verzie"
 msgid "between members"
 msgstr "medzi členmi"
 
-#: dpkg-deb/extract.c:143 dpkg-split/info.c:100
+#: dpkg-deb/extract.c:146 dpkg-split/info.c:105
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 "súbor „%.250s“ je poškodený - chybné magické znaky na konci prvého záhlavia"
 
-#: dpkg-deb/extract.c:145
+#: dpkg-deb/extract.c:148
 msgid "member length"
 msgstr "dĺžka člena"
 
-#: dpkg-deb/extract.c:149
+#: dpkg-deb/extract.c:151
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "súbor „%.250s“ nie je binárnym archívom Debianu (skúste dpkg-split?)"
 
-#: dpkg-deb/extract.c:152
+#: dpkg-deb/extract.c:154
 msgid "header info member"
 msgstr "člen informácií v hlavičke"
 
-#: dpkg-deb/extract.c:155
+#: dpkg-deb/extract.c:157
 msgid "archive has no newlines in header"
 msgstr "archív neobsahuje nové riadky v hlavičke"
 
-#: dpkg-deb/extract.c:158
+#: dpkg-deb/extract.c:160
 msgid "archive has no dot in version number"
 msgstr "archív nemá bodku v čísle verzie"
 
-#: dpkg-deb/extract.c:161
+#: dpkg-deb/extract.c:163
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "neznáma archívna verzia %.250s , nainštalujte novšiu dpkg-deb"
 
-#: dpkg-deb/extract.c:170 dpkg-deb/extract.c:203
+#: dpkg-deb/extract.c:172 dpkg-deb/extract.c:196
 #, c-format
 msgid "skipped member data from %s"
 msgstr "preskočené dáta časti z %s"
 
-#: dpkg-deb/extract.c:193
+#: dpkg-deb/extract.c:187
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr "súbor „%.250s“ obsahuje neznáme časti dát %.*s, ukončuje sa"
 
-#: dpkg-deb/extract.c:199
+#: dpkg-deb/extract.c:192
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "súbor „%.250s“ obsahuje dva riadiace členy, ukončuje sa"
 
-#: dpkg-deb/extract.c:211
+#: dpkg-deb/extract.c:204
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -4231,16 +4287,16 @@ msgstr ""
 " nový debian balík, verzia %s.\n"
 " veľkosť %ld bajtov: riadiaci archív= %zi bajtov.\n"
 
-#: dpkg-deb/extract.c:225
+#: dpkg-deb/extract.c:218
 msgid "control information length"
 msgstr "dĺžka riadiacej informácie"
 
-#: dpkg-deb/extract.c:227
+#: dpkg-deb/extract.c:220
 #, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "archív má zdeformovanú riadiacu dĺžku „%s“"
 
-#: dpkg-deb/extract.c:230
+#: dpkg-deb/extract.c:223
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -4249,11 +4305,11 @@ msgstr ""
 " starý debian balík, verzia %s.\n"
 " veľkosť %ld bajtov: riadiaci archív= %zi, hlavný archív= %ld.\n"
 
-#: dpkg-deb/extract.c:240
+#: dpkg-deb/extract.c:233
 msgid "control area"
 msgstr "riadiaca oblasť"
 
-#: dpkg-deb/extract.c:246
+#: dpkg-deb/extract.c:239
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -4262,65 +4318,65 @@ msgstr ""
 "dpkg-deb: súbor vyzerá ako archív, ktorý bol poškodený\n"
 "dpkg-deb:    pri jeho sťahovaní v ASCII móde\n"
 
-#: dpkg-deb/extract.c:250
+#: dpkg-deb/extract.c:243
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "„%.255s“ nemá formát archívu Debianu"
 
-#: dpkg-deb/extract.c:263
+#: dpkg-deb/extract.c:257
 msgid "failed to open pipe descriptor `1' in paste"
 msgstr "nedá sa otvoriť deskriptor rúry „1“ v paste"
 
-#: dpkg-deb/extract.c:265
+#: dpkg-deb/extract.c:259
 msgid "failed to write to gzip -dc"
 msgstr "nedá sa zapísať do gzip -dc"
 
-#: dpkg-deb/extract.c:266
+#: dpkg-deb/extract.c:260
 msgid "failed to close gzip -dc"
 msgstr "nedá sa zatvoriť gzip -dc"
 
-#: dpkg-deb/extract.c:273
+#: dpkg-deb/extract.c:267
 msgid "failed to syscall lseek to files archive portion"
 msgstr "nedá sa vykonať syscall lseek na časť archívu súborov"
 
-#: dpkg-deb/extract.c:281
+#: dpkg-deb/extract.c:276
 msgid "failed to write to pipe in copy"
 msgstr "zlyhal zápis do rúry pri kopírovaní"
 
-#: dpkg-deb/extract.c:282
+#: dpkg-deb/extract.c:277
 msgid "failed to close pipe in copy"
 msgstr "zlyhalo uzatvorenie rúry pri kopírovaní"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:299
 msgid "failed to create directory"
 msgstr "zlyhalo vytvorenie adresára"
 
-#: dpkg-deb/extract.c:304
+#: dpkg-deb/extract.c:300
 msgid "failed to chdir to directory after creating it"
 msgstr "zlyhalo vykonanie chdir do adresára po jeho vytvorení"
 
-#: dpkg-deb/extract.c:306
+#: dpkg-deb/extract.c:302
 msgid "failed to chdir to directory"
 msgstr "zlyhalo vykonanie chdir do adresára"
 
-#: dpkg-deb/extract.c:324
+#: dpkg-deb/extract.c:321
 msgid "failed to exec tar"
 msgstr "zlyhalo spustenie programu tar"
 
-#: dpkg-deb/extract.c:330
+#: dpkg-deb/extract.c:327
 msgid "<decompress>"
 msgstr "<dekompresia>"
 
-#: dpkg-deb/extract.c:332
+#: dpkg-deb/extract.c:329
 msgid "paste"
 msgstr "vložiť"
 
-#: dpkg-deb/extract.c:348 dpkg-deb/extract.c:363 dpkg-deb/info.c:74
+#: dpkg-deb/extract.c:345 dpkg-deb/extract.c:360 dpkg-deb/info.c:75
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s potrebuje názov .deb súboru"
 
-#: dpkg-deb/extract.c:351
+#: dpkg-deb/extract.c:348
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4329,121 +4385,100 @@ msgstr ""
 "--%s potrebuje cieľový adresár.\n"
 "Možno by ste mali použiť dpkg --install ?"
 
-#: dpkg-deb/extract.c:354
+#: dpkg-deb/extract.c:351
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s potrebuje najviac dva parametre (.deb a adresár)"
 
-#: dpkg-deb/extract.c:365
+#: dpkg-deb/extract.c:362
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s potrebuje len jeden parameter (názov .deb súboru)"
 
-#: dpkg-deb/info.c:55
+#: dpkg-deb/info.c:57
 msgid "failed to chdir to `/' for cleanup"
 msgstr "zlyhalo chdir do „/“ pre vyčistenie"
 
-#: dpkg-deb/info.c:57
-msgid "failed to fork for cleanup"
-msgstr "zlyhalo vykonanie funkcie fork pre vyčistenie"
-
-#: dpkg-deb/info.c:62
-msgid "failed to wait for rm cleanup"
-msgstr "zlyhalo čakanie na vyčistenie cez rm"
-
-#: dpkg-deb/info.c:63
-#, c-format
-msgid "rm cleanup failed, code %d\n"
-msgstr "vyčistenie cez rm zlyhalo, kód %d\n"
-
-#: dpkg-deb/info.c:77
-msgid "failed to make temporary directoryname"
+#: dpkg-deb/info.c:79
+#, fuzzy
+msgid "failed to create temporary directory"
 msgstr "zlyhalo vytvorenie dočasného názvu adresára"
 
-#: dpkg-deb/info.c:82
-msgid "failed to exec rm -rf"
-msgstr "zlyhalo spustenie rm -rf"
-
-#: dpkg-deb/info.c:109
+#: dpkg-deb/info.c:106
 msgid "info_spew"
 msgstr "info_spew"
 
-#: dpkg-deb/info.c:112
+#: dpkg-deb/info.c:110
 #, c-format
 msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
 msgstr "dpkg-deb: „%.255s“ neobsahuje riadiacu zložku „%.255s“\n"
 
-#: dpkg-deb/info.c:116
+#: dpkg-deb/info.c:114
 #, c-format
 msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
 msgstr "otvorenie zložky „%.255s“ (v %.255s) zlyhalo neočakávaným spôsobom"
 
-#: dpkg-deb/info.c:123
+#: dpkg-deb/info.c:121
 msgid "One requested control component is missing"
 msgstr "Chýba jeden požadovaný komponent riadenia"
 
-#: dpkg-deb/info.c:125
+#: dpkg-deb/info.c:123
 #, c-format
 msgid "%d requested control components are missing"
 msgstr "%d požadované komponenty riadenia chýbajú"
 
-#: dpkg-deb/info.c:138
+#: dpkg-deb/info.c:136
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "nie je možné skenovať adresár „%.255s“"
 
-#: dpkg-deb/info.c:143
+#: dpkg-deb/info.c:141
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
 msgstr "nie je možné zistiť stav „%.255s“ (v „%.255s“)"
 
-#: dpkg-deb/info.c:146
+#: dpkg-deb/info.c:144
 #, c-format
 msgid "cannot open `%.255s' (in `%.255s')"
 msgstr "nie je možné otvoriť „%.255s“ (v „%.255s“)"
 
-#: dpkg-deb/info.c:161
+#: dpkg-deb/info.c:159 dpkg-deb/info.c:174 dpkg-deb/info.c:188
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
 msgstr "nie je možné prečítať „%.255s“ (v „%.255s“)"
 
-#: dpkg-deb/info.c:164
+#: dpkg-deb/info.c:162
 #, c-format
 msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7ld bajtov, %5d riadky   %c  %-20.127s %.127s\n"
 
-#: dpkg-deb/info.c:168
+#: dpkg-deb/info.c:166
 #, c-format
 msgid "     not a plain file          %.255s\n"
 msgstr "     nie je obyčajný súbor          %.255s\n"
 
-#: dpkg-deb/info.c:172
-#, c-format
-msgid "failed to read `control' (in `%.255s')"
-msgstr "zlyhalo načítanie „control“ (v „%.255s“)"
-
-#: dpkg-deb/info.c:173
+#: dpkg-deb/info.c:175
 msgid "(no `control' file in control archive!)\n"
 msgstr "(súbor „control“ chýba v riadiacom archíve!)\n"
 
-#: dpkg-deb/info.c:197
+#: dpkg-deb/info.c:203
 msgid "could not open the `control' component"
 msgstr "nebolo možné otvoriť komponent „control“"
 
-#: dpkg-deb/info.c:227
+#: dpkg-deb/info.c:232
 msgid "failed during read of `control' component"
 msgstr "zlyhanie počas čítania „control“ komponentu"
 
-#: dpkg-deb/info.c:229
+#: dpkg-deb/info.c:234
 #, c-format
 msgid "error closing the '%s' component"
 msgstr "chyba pri uzatváraní zložky „%s“"
 
-#: dpkg-deb/info.c:240
+#: dpkg-deb/info.c:245
 msgid "Error in format"
 msgstr "Chyba vo formáte"
 
-#: dpkg-deb/info.c:276
+#: dpkg-deb/info.c:281
 msgid "--contents takes exactly one argument"
 msgstr "--contents vyžaduje práve jeden paramater"
 
@@ -4452,7 +4487,7 @@ msgstr "--contents vyžaduje práve jeden paramater"
 msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Debian „%s“ backend pre archív balíkov, verzia %s.\n"
 
-#: dpkg-deb/main.c:75
+#: dpkg-deb/main.c:74
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4479,7 +4514,7 @@ msgstr ""
 "  --fsys-tarfile <deb>              vypíše tar so súbormi\n"
 "\n"
 
-#: dpkg-deb/main.c:94
+#: dpkg-deb/main.c:92
 #, c-format
 msgid ""
 "<deb> is the filename of a Debian format archive.\n"
@@ -4492,8 +4527,8 @@ msgstr ""
 "<cpoložka> je názov položky v hlavnom súbore „control“.\n"
 "\n"
 
-#: dpkg-deb/main.c:100
-#, c-format
+#: dpkg-deb/main.c:98
+#, fuzzy, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -4504,7 +4539,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed values: gzip, bzip2, lzma, "
+"                                     Allowed types: gzip, xz, bzip2, lzma, "
 "none.\n"
 "\n"
 msgstr ""
@@ -4520,7 +4555,7 @@ msgstr ""
 "none)\n"
 "\n"
 
-#: dpkg-deb/main.c:121
+#: dpkg-deb/main.c:119
 #, c-format
 msgid ""
 "\n"
@@ -4534,7 +4569,7 @@ msgstr ""
 "balíkov. Balíky rozbalené použitím „dpkg-deb --extract“ sa nenainštalujú\n"
 "správne!\n"
 
-#: dpkg-deb/main.c:133
+#: dpkg-deb/main.c:131
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -4542,147 +4577,153 @@ msgstr ""
 "Napíšte dpkg-deb --help pre pomocníka o manipulácii s *.deb súbormi;\n"
 "Napíšte dpkg --help pre pomocníka o inštalácii a deinštalácii balíkov."
 
-#: dpkg-deb/main.c:205
+#: dpkg-deb/main.c:151
+#, fuzzy, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "neplatné číslo pre --%s: „%.250s“"
+
+#: dpkg-deb/main.c:154
+#, fuzzy, c-format
+msgid "invalid compression level for -%c: %ld'"
+msgstr "neplatné číslo pre --%s: „%.250s“"
+
+#: dpkg-deb/main.c:208
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "neznámy typ kompresie „%s“!"
 
-#: dpkg-split/info.c:69
+#: dpkg-split/info.c:70
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s missing"
 msgstr "súbor „%.250s“ je poškodený - %.250s chýba"
 
-#: dpkg-split/info.c:72
+#: dpkg-split/info.c:73
 #, c-format
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
 msgstr "súbor „%.250s“ je poškodený - chýbajúci nový riadok za %.250s"
 
-#: dpkg-split/info.c:96
-msgid "unable to seek back"
-msgstr "nie je možné vyhľadávať dozadu"
-
-#: dpkg-split/info.c:102
+#: dpkg-split/info.c:107
 msgid "info length"
 msgstr "dĺžka info"
 
-#: dpkg-split/info.c:111
+#: dpkg-split/info.c:116
 #, c-format
 msgid "file `%.250s' is corrupt - bad padding character (code %d)"
 msgstr "súbor „%.250s“ je poškodený - zlé doplnenie znaku (kód %d)"
 
-#: dpkg-split/info.c:115
+#: dpkg-split/info.c:120
 #, c-format
 msgid "file `%.250s' is corrupt - nulls in info section"
 msgstr "súbor „%.250s“ je poškodený - nuly v info sekcii"
 
-#: dpkg-split/info.c:120
+#: dpkg-split/info.c:125
 msgid "format version number"
 msgstr "formátovať číslo verzie"
 
-#: dpkg-split/info.c:122
+#: dpkg-split/info.c:127
 #, c-format
 msgid "file `%.250s' is format version `%.250s' - you need a newer dpkg-split"
 msgstr ""
 "súbor „%.250s“ je verzia formátu „%.250s“ - potrebujete novší dpkg-split"
 
-#: dpkg-split/info.c:125
+#: dpkg-split/info.c:130
 msgid "package name"
 msgstr "názov balíka"
 
-#: dpkg-split/info.c:126
+#: dpkg-split/info.c:131
 msgid "package version number"
 msgstr "číslo verzie balíka"
 
-#: dpkg-split/info.c:127
+#: dpkg-split/info.c:132
 msgid "package file MD5 checksum"
 msgstr "kontrolný súčet MD5 súboru balíka"
 
-#: dpkg-split/info.c:130
+#: dpkg-split/info.c:135
 #, c-format
 msgid "file `%.250s' is corrupt - bad MD5 checksum `%.250s'"
 msgstr "súbor „%.250s“ je poškodený - zlý MD5 kontrolný súčet „%.250s“"
 
-#: dpkg-split/info.c:132 dpkg-split/info.c:133
+#: dpkg-split/info.c:137 dpkg-split/info.c:138
 msgid "total length"
 msgstr "celková dĺžka"
 
-#: dpkg-split/info.c:134 dpkg-split/info.c:135
+#: dpkg-split/info.c:139 dpkg-split/info.c:140
 msgid "part offset"
 msgstr "ofset časti"
 
-#: dpkg-split/info.c:137
+#: dpkg-split/info.c:142
 msgid "part numbers"
 msgstr "čísla častí"
 
-#: dpkg-split/info.c:139
+#: dpkg-split/info.c:144
 #, c-format
 msgid "file `%.250s' is corrupt - no slash between part numbers"
 msgstr "súbor „%.250s“ je poškodený - chýba lomka medzi číslami častí"
 
-#: dpkg-split/info.c:142
+#: dpkg-split/info.c:147
 msgid "number of parts"
 msgstr "počet častí"
 
-#: dpkg-split/info.c:144
+#: dpkg-split/info.c:149
 #, c-format
 msgid "file '%.250s' is corrupt - bad number of parts"
 msgstr "súbor „%.250s“ je poškodený - zlý počet častí"
 
-#: dpkg-split/info.c:146
+#: dpkg-split/info.c:151
 msgid "parts number"
 msgstr "počet častí"
 
-#: dpkg-split/info.c:148
+#: dpkg-split/info.c:153
 #, c-format
 msgid "file `%.250s' is corrupt - bad part number"
 msgstr "súbor „%.250s“ je poškodený - zlé číslo časti"
 
-#: dpkg-split/info.c:153
+#: dpkg-split/info.c:161
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of second header"
 msgstr ""
 "súbor „%.250s“ je poškodený - chybný magický znak na konci druhej hlavičky"
 
-#: dpkg-split/info.c:155
+#: dpkg-split/info.c:163
 #, c-format
 msgid "file `%.250s' is corrupt - second member is not data member"
 msgstr "súbor „%.250s“ je poškodený - druhý člen nie je súčasťou dát"
 
-#: dpkg-split/info.c:158
+#: dpkg-split/info.c:166
 msgid "data length"
 msgstr "dĺžka údajov"
 
-#: dpkg-split/info.c:162
+#: dpkg-split/info.c:170
 #, c-format
 msgid "file `%.250s' is corrupt - wrong number of parts for quoted sizes"
 msgstr "súbor „%.250s“ je poškodený - chybný počet častí pre uvedené veľkosti"
 
-#: dpkg-split/info.c:166
+#: dpkg-split/info.c:174
 #, c-format
 msgid "file `%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "súbor „%.250s“ je poškodený - veľkosť je zlá pre uvedené číslo súčasti"
 
-#: dpkg-split/info.c:172
+#: dpkg-split/info.c:180
 #, c-format
 msgid "unable to fstat part file `%.250s'"
 msgstr "nie je možné vykonať fstat() časti súboru „%.250s“"
 
-#: dpkg-split/info.c:178
+#: dpkg-split/info.c:186
 #, c-format
 msgid "file `%.250s' is corrupt - too short"
 msgstr "súbor „%.250s“ je poškodený - príliš krátky"
 
-#: dpkg-split/info.c:190 dpkg-split/info.c:233
+#: dpkg-split/info.c:198 dpkg-split/info.c:241
 #, c-format
 msgid "cannot open archive part file `%.250s'"
 msgstr "nie je možné otvoriť časť archívneho súboru „%.250s“"
 
-#: dpkg-split/info.c:192
+#: dpkg-split/info.c:200
 #, c-format
 msgid "file `%.250s' is not an archive part"
 msgstr "súbor „%.250s“ nie je súčasťou archívu"
 
-#: dpkg-split/info.c:197
+#: dpkg-split/info.c:205
 #, c-format
 msgid ""
 "%s:\n"
@@ -4711,47 +4752,47 @@ msgstr ""
 "    Čiast.veľ.súboru (použ. časť):  %lu bajtov\n"
 "\n"
 
-#: dpkg-split/info.c:228 dpkg-split/join.c:107
+#: dpkg-split/info.c:236 dpkg-split/join.c:112
 #, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "--%s vyžaduje jeden alebo viac parametrov častí súboru"
 
-#: dpkg-split/info.c:239
+#: dpkg-split/info.c:247
 #, c-format
 msgid "file `%s' is not an archive part\n"
 msgstr "súbor „%s“ nie je súčasťou archívu\n"
 
-#: dpkg-split/join.c:44
+#: dpkg-split/join.c:45
 #, c-format
 msgid "Putting package %s together from %d parts: "
 msgstr "Balík %s sa skladá z %d častí: "
 
-#: dpkg-split/join.c:52
+#: dpkg-split/join.c:53
 #, c-format
 msgid "unable to open output file `%.250s'"
 msgstr "nie je možné otvoriť výstupný súbor „%.250s“"
 
-#: dpkg-split/join.c:56
+#: dpkg-split/join.c:57
 #, c-format
 msgid "unable to (re)open input part file `%.250s'"
 msgstr "nie je možné (znovu)otvoriť vstupnú časť súboru „%.250s“"
 
-#: dpkg-split/join.c:72
+#: dpkg-split/join.c:77
 #, c-format
 msgid "done\n"
 msgstr "dokončené\n"
 
-#: dpkg-split/join.c:88
+#: dpkg-split/join.c:93
 #, c-format
 msgid "files `%.250s' and `%.250s' are not parts of the same file"
 msgstr "súbory „%.250s“ a „%.250s“ nie sú súčasťou toho istého súboru"
 
-#: dpkg-split/join.c:93
+#: dpkg-split/join.c:98
 #, c-format
 msgid "there are several versions of part %d - at least `%.250s' and `%.250s'"
 msgstr "nájdených niekoľko verzií časti %d - najmenej „%.250s“ a „%.250s“"
 
-#: dpkg-split/join.c:130
+#: dpkg-split/join.c:135
 #, c-format
 msgid "part %d is missing"
 msgstr "časť %d chýba"
@@ -4766,7 +4807,7 @@ msgstr "Debian „%s“ nástroj na rozdeľovanie/spájanie balíkov; verzia %s.
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
 msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
 
-#: dpkg-split/main.c:67
+#: dpkg-split/main.c:66
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4787,7 +4828,7 @@ msgstr ""
 "  -d|--discard [<súbor> ...]     ignoruje nehodiace sa časti\n"
 "\n"
 
-#: dpkg-split/main.c:83
+#: dpkg-split/main.c:81
 #, c-format
 msgid ""
 "Options:\n"
@@ -4810,25 +4851,25 @@ msgstr ""
 "\n"
 "Výstupný stav: 0 = OK;  1 = -a nie je časťou;  2 = problém!\n"
 
-#: dpkg-split/main.c:99
+#: dpkg-split/main.c:97
 msgid "Type dpkg-split --help for help."
 msgstr "Napíšte dpkg-split --help pre pomocníka."
 
-#: dpkg-split/main.c:109 dpkg-split/main.c:113
+#: dpkg-split/main.c:107 dpkg-split/main.c:111
 #, c-format
 msgid "error reading %.250s"
 msgstr "chyba pri čítaní %.250s"
 
-#: dpkg-split/main.c:114
+#: dpkg-split/main.c:112
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "neočakávaný koniec súboru v %.250s"
 
-#: dpkg-split/main.c:127
+#: dpkg-split/main.c:125
 msgid "part size is far too large or is not positive"
 msgstr "veľkosť časti je buď príliš veľká alebo negatívna"
 
-#: dpkg-split/main.c:131
+#: dpkg-split/main.c:129
 #, c-format
 msgid "part size must be at least %d KiB (to allow for header)"
 msgstr "veľkosť časti musí byť aspoň %d KiB (kvôli hlavičke)"
@@ -4872,69 +4913,69 @@ msgstr "časť súboru „%.250s“ obsahuje na konci odpad"
 msgid "unable to open new depot file `%.250s'"
 msgstr "nie je možné otvoriť nový depot súbor „%.250s“"
 
-#: dpkg-split/queue.c:170
+#: dpkg-split/queue.c:174
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "nie je možné premenovať nový uskladňovací súbor „%.250s“ na „%.250s“"
 
-#: dpkg-split/queue.c:172
+#: dpkg-split/queue.c:176
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "Časť %d balíka %s je naplnená (stále potrebuje "
 
-#: dpkg-split/queue.c:176
+#: dpkg-split/queue.c:180
 msgid " and "
 msgstr " a "
 
-#: dpkg-split/queue.c:189
+#: dpkg-split/queue.c:193
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "nie je možné vymazať použitý uskladňovací súbor „%.250s“"
 
-#: dpkg-split/queue.c:208
+#: dpkg-split/queue.c:212
 msgid "Junk files left around in the depot directory:\n"
 msgstr "Prebytočné súbory zanechané v uskladňovacom adresári:\n"
 
-#: dpkg-split/queue.c:213 dpkg-split/queue.c:237
+#: dpkg-split/queue.c:217 dpkg-split/queue.c:241
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "nie je možné zistiť stav „%.250s“"
 
-#: dpkg-split/queue.c:216
+#: dpkg-split/queue.c:220
 #, c-format
 msgid " %s (%lu bytes)\n"
 msgstr " %s (%lu bajtov)\n"
 
-#: dpkg-split/queue.c:218
+#: dpkg-split/queue.c:222
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (nie je obyčajný súbor)\n"
 
-#: dpkg-split/queue.c:223
+#: dpkg-split/queue.c:227
 msgid "Packages not yet reassembled:\n"
 msgstr "Zatiaľ nezostavené balíky:\n"
 
-#: dpkg-split/queue.c:228
+#: dpkg-split/queue.c:232
 #, c-format
 msgid " Package %s: part(s) "
 msgstr " Balík %s: časti"
 
-#: dpkg-split/queue.c:239
+#: dpkg-split/queue.c:243
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "časť súboru „%.250s“ nie je obyčajný súbor"
 
-#: dpkg-split/queue.c:244
+#: dpkg-split/queue.c:248
 #, c-format
 msgid "(total %lu bytes)\n"
 msgstr "(celkom %lu bajtov)\n"
 
-#: dpkg-split/queue.c:268
+#: dpkg-split/queue.c:272
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "nie je možné zahodiť „%.250s“"
 
-#: dpkg-split/queue.c:269
+#: dpkg-split/queue.c:273
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "Vymazaný %s.\n"
@@ -5067,7 +5108,7 @@ msgstr "--%s vyžaduje názov balíka ako argument"
 msgid "package may not contain newlines"
 msgstr "názov balíka nemôže obsahovať znaky nového riadka"
 
-#: scripts/dpkg-divert.pl:141 scripts/update-alternatives.pl:136
+#: scripts/dpkg-divert.pl:141 scripts/update-alternatives.pl:142
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "neznáma voľba „%s“"
@@ -5094,22 +5135,27 @@ msgstr "názov súboru „%s“ nie je absolútny"
 msgid "Cannot divert directories"
 msgstr "Adresáre sa nedajú odkloniť"
 
-#: scripts/dpkg-divert.pl:173
+#: scripts/dpkg-divert.pl:167
+#, fuzzy, perl-format
+msgid "cannot divert file '%s' to itself"
+msgstr "Adresáre sa nedajú odkloniť"
+
+#: scripts/dpkg-divert.pl:174
 #, perl-format
 msgid "Leaving `%s'"
 msgstr "Opúšťa sa „%s“"
 
-#: scripts/dpkg-divert.pl:176
+#: scripts/dpkg-divert.pl:177
 #, perl-format
 msgid "`%s' clashes with `%s'"
 msgstr "„%s“ je v kolízii s „%s“"
 
-#: scripts/dpkg-divert.pl:182
+#: scripts/dpkg-divert.pl:183
 #, perl-format
 msgid "Adding `%s'"
 msgstr "Pridáva sa „%s“"
 
-#: scripts/dpkg-divert.pl:192
+#: scripts/dpkg-divert.pl:193
 #, perl-format
 msgid ""
 "mismatch on divert-to\n"
@@ -5120,7 +5166,7 @@ msgstr ""
 "  pri odstraňovaní „%s“\n"
 "  nájdené „%s“"
 
-#: scripts/dpkg-divert.pl:194
+#: scripts/dpkg-divert.pl:195
 #, perl-format
 msgid ""
 "mismatch on package\n"
@@ -5131,37 +5177,37 @@ msgstr ""
 "  pri odstraňovaní „%s“\n"
 "  nájdené „%s“"
 
-#: scripts/dpkg-divert.pl:196
+#: scripts/dpkg-divert.pl:197
 #, perl-format
 msgid "Removing `%s'"
 msgstr "Odstraňuje sa „%s“"
 
-#: scripts/dpkg-divert.pl:210
+#: scripts/dpkg-divert.pl:211
 #, perl-format
 msgid "No diversion `%s', none removed"
 msgstr "Odklonenie „%s“ neexistuje, takže sa neodstránilo"
 
-#: scripts/dpkg-divert.pl:256
+#: scripts/dpkg-divert.pl:257
 #, perl-format
 msgid "internal error - bad mode `%s'"
 msgstr "vnútorná chyba - nesprávny spôsob „%s“"
 
-#: scripts/dpkg-divert.pl:270
+#: scripts/dpkg-divert.pl:271
 #, perl-format
 msgid "cannot stat old name `%s': %s"
 msgstr "nedá sa zistiť stav starého názvu „%s“: „%s“"
 
-#: scripts/dpkg-divert.pl:272
+#: scripts/dpkg-divert.pl:273
 #, perl-format
 msgid "cannot stat new name `%s': %s"
 msgstr "nedá sa zistiť stav nového názvu „%s“: „%s“"
 
-#: scripts/dpkg-divert.pl:289 scripts/dpkg-divert.pl:296
+#: scripts/dpkg-divert.pl:290 scripts/dpkg-divert.pl:297
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "chyba pri kontrole „%s“: %s"
 
-#: scripts/dpkg-divert.pl:300
+#: scripts/dpkg-divert.pl:301
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -5170,112 +5216,112 @@ msgstr ""
 "premenovanie znamená prepísanie „%s“\n"
 "  súborom „%s“, čo nie je povolené"
 
-#: scripts/dpkg-divert.pl:315
+#: scripts/dpkg-divert.pl:316
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "premenovanie: odstránenie duplicitného starého odkazu „%s“: %s"
 
-#: scripts/dpkg-divert.pl:318
+#: scripts/dpkg-divert.pl:319
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "premenovanie: premenovanie „%s“ na „%s“: %s"
 
-#: scripts/dpkg-divert.pl:325
+#: scripts/dpkg-divert.pl:326
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "vytváranie súboru diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:329
+#: scripts/dpkg-divert.pl:330
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "zápis súboru diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:331
+#: scripts/dpkg-divert.pl:332
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "zatvorenie súboru diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:333
+#: scripts/dpkg-divert.pl:334
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "zmazanie starého súboru diversions-old: %s"
 
-#: scripts/dpkg-divert.pl:335
+#: scripts/dpkg-divert.pl:336
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "vytváranie nového súboru diversions-old: %s"
 
-#: scripts/dpkg-divert.pl:337
+#: scripts/dpkg-divert.pl:338
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "inštalácia nového súboru diversions: %s"
 
-#: scripts/dpkg-divert.pl:366
+#: scripts/dpkg-divert.pl:367
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "vnútorná chyba: %s poškodenie: %s"
 
-#: scripts/update-alternatives.pl:58
+#: scripts/update-alternatives.pl:64
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "neznámy parameter „%s“"
 
-#: scripts/update-alternatives.pl:73
+#: scripts/update-alternatives.pl:79
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install vyžaduje <linku> <názov> <cestu> <prioritu>"
 
-#: scripts/update-alternatives.pl:78 scripts/update-alternatives.pl:103
+#: scripts/update-alternatives.pl:84 scripts/update-alternatives.pl:109
 msgid "<link> and <path> can't be the same"
 msgstr "<odkaz> a <cesta> sa nemôžu zhodovať"
 
-#: scripts/update-alternatives.pl:79
+#: scripts/update-alternatives.pl:85
 msgid "priority must be an integer"
 msgstr "priorita musí byť celé číslo"
 
-#: scripts/update-alternatives.pl:87
+#: scripts/update-alternatives.pl:93
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s vyžaduje <názov> <cestu>"
 
-#: scripts/update-alternatives.pl:92
+#: scripts/update-alternatives.pl:98
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s vyžaduje <názov>"
 
-#: scripts/update-alternatives.pl:97
+#: scripts/update-alternatives.pl:103
 msgid "--slave only allowed with --install"
 msgstr "--slave je povolené iba s --install"
 
-#: scripts/update-alternatives.pl:99
+#: scripts/update-alternatives.pl:105
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave vyžaduje <odkaz> <názov> <cestu>"
 
-#: scripts/update-alternatives.pl:104
+#: scripts/update-alternatives.pl:110
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "názov %s je primárny aj závislý"
 
-#: scripts/update-alternatives.pl:107
+#: scripts/update-alternatives.pl:113
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "závislý názov %s je duplicitný"
 
-#: scripts/update-alternatives.pl:111
+#: scripts/update-alternatives.pl:117
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "závislý odkaz %s je duplicitný"
 
-#: scripts/update-alternatives.pl:112
+#: scripts/update-alternatives.pl:118
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "odkaz %s je primárny aj závislý"
 
-#: scripts/update-alternatives.pl:118
+#: scripts/update-alternatives.pl:124
 #, perl-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s vyžaduje parameter <súbor>"
 
-#: scripts/update-alternatives.pl:140
+#: scripts/update-alternatives.pl:146
 msgid ""
 "need --display, --query, --list, --get-selections, --config,--set, --set-"
 "selections, --install, --remove, --all, --remove-all or --auto"
@@ -5283,76 +5329,76 @@ msgstr ""
 "musíte zadať --display, --query, --list, --get-selections, --config,--set, --"
 "set-selections, --install, --remove, --all, --remove-all alebo --auto"
 
-#: scripts/update-alternatives.pl:164
+#: scripts/update-alternatives.pl:170
 #, perl-format
 msgid "alternative %s can't be master: %s"
 msgstr "alternatíva %s nemôže byť primárna: %s"
 
-#: scripts/update-alternatives.pl:165 scripts/update-alternatives.pl:186
+#: scripts/update-alternatives.pl:171 scripts/update-alternatives.pl:192
 #, perl-format
 msgid "it is a slave of %s"
 msgstr "je závislosťou %s"
 
-#: scripts/update-alternatives.pl:168 scripts/update-alternatives.pl:190
+#: scripts/update-alternatives.pl:174 scripts/update-alternatives.pl:196
 #, perl-format
 msgid "alternative link %s is already managed by %s."
 msgstr "odkaz alternatívy %s už spravuje %s."
 
-#: scripts/update-alternatives.pl:171 scripts/update-alternatives.pl:193
+#: scripts/update-alternatives.pl:177 scripts/update-alternatives.pl:199
 #, perl-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr "odkaz alternatívy nie je absolútny, čo by mal byť: %s"
 
-#: scripts/update-alternatives.pl:173 scripts/update-alternatives.pl:195
+#: scripts/update-alternatives.pl:179 scripts/update-alternatives.pl:201
 #, perl-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr "cesta alternatívy nie je absolútna, čo by mala byť: %s"
 
-#: scripts/update-alternatives.pl:175
+#: scripts/update-alternatives.pl:181
 #, perl-format
 msgid "alternative path %s doesn't exist."
 msgstr "alternatívna cesta %s neexistuje"
 
-#: scripts/update-alternatives.pl:177 scripts/update-alternatives.pl:197
+#: scripts/update-alternatives.pl:183 scripts/update-alternatives.pl:203
 #, perl-format
 msgid "alternative name (%s) must not contain '/' and spaces."
 msgstr "názov alternatívy (%s) nesmie obsahovať „/“ a medzery."
 
-#: scripts/update-alternatives.pl:183
+#: scripts/update-alternatives.pl:189
 #, perl-format
 msgid "alternative %s can't be slave of %s: %s"
 msgstr "alternatíva %s nemôže byť závislosťou %s: %s"
 
-#: scripts/update-alternatives.pl:185
+#: scripts/update-alternatives.pl:191
 msgid "it is a master alternative."
 msgstr "je primárna alternatíva."
 
-#: scripts/update-alternatives.pl:222 scripts/update-alternatives.pl:227
+#: scripts/update-alternatives.pl:228 scripts/update-alternatives.pl:233
 #, perl-format
 msgid "Call %s."
 msgstr "Volanie %s."
 
-#: scripts/update-alternatives.pl:231
+#: scripts/update-alternatives.pl:237
 #, perl-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr "Alternatíva %s nezmenená, pretože možnosť %s nie je dostupná."
 
-#: scripts/update-alternatives.pl:236
+#: scripts/update-alternatives.pl:242
 #, perl-format
 msgid "Skip unknown alternative %s."
 msgstr "Preskočiť neznámu alternatívu %s."
 
-#: scripts/update-alternatives.pl:250 scripts/update-alternatives.pl:253
+#: scripts/update-alternatives.pl:256 scripts/update-alternatives.pl:259
 #, perl-format
 msgid "no alternatives for %s."
 msgstr "žiadne alternatívy pre %s."
 
-#: scripts/update-alternatives.pl:276
+#: scripts/update-alternatives.pl:282
 #, perl-format
 msgid "%s is dangling, it will be updated with best choice."
 msgstr "%s visí, bude sa aktualizovaný najlepšou voľbou."
 
-#: scripts/update-alternatives.pl:280
+#: scripts/update-alternatives.pl:286
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script). Switching to manual updates "
@@ -5361,168 +5407,168 @@ msgstr ""
 "%s sa zmenil (manuálne alebo skriptom). Prepína sa len na manuálne "
 "aktualizácie."
 
-#: scripts/update-alternatives.pl:288
+#: scripts/update-alternatives.pl:294
 #, perl-format
 msgid "setting up automatic selection of %s."
 msgstr "nastavuje sa automatický výber %s."
 
-#: scripts/update-alternatives.pl:297
+#: scripts/update-alternatives.pl:303
 #, perl-format
 msgid "alternative %s for %s not registered, not setting."
 msgstr "alternatíva %s pre %s nie je registrovaná, takže sa nenastavuje."
 
-#: scripts/update-alternatives.pl:306
+#: scripts/update-alternatives.pl:312
 #, perl-format
 msgid "There is no program which provides %s."
 msgstr "Neexistuje program poskytujúci %s."
 
-#: scripts/update-alternatives.pl:307 scripts/update-alternatives.pl:315
+#: scripts/update-alternatives.pl:313 scripts/update-alternatives.pl:321
 msgid "Nothing to configure."
 msgstr "Niet čo konfigurovať."
 
-#: scripts/update-alternatives.pl:313
+#: scripts/update-alternatives.pl:319
 #, perl-format
 msgid "There is only one alternative in link group %s: %s"
 msgstr "V skupine odkazov existuje iba jedna alternatíva %s: %s"
 
-#: scripts/update-alternatives.pl:323
+#: scripts/update-alternatives.pl:329
 #, perl-format
 msgid "alternative %s for %s not registered, not removing."
 msgstr "alternatíva %s pre %s nie je registrovaná, takže sa neodstraňuje."
 
-#: scripts/update-alternatives.pl:330
+#: scripts/update-alternatives.pl:336
 #, perl-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 "odstraňuje sa manuálne zvolená alternatíva - prepína sa %s na automatický "
 "režim"
 
-#: scripts/update-alternatives.pl:346
+#: scripts/update-alternatives.pl:352
 #, perl-format
 msgid "renaming %s link from %s to %s."
 msgstr "odkaz %s sa premenuje z %s na %s."
 
-#: scripts/update-alternatives.pl:364
+#: scripts/update-alternatives.pl:370
 #, perl-format
 msgid "renaming %s slave link from %s to %s."
 msgstr "závislý odkaz %s sa premenuje z %s na %s."
 
-#: scripts/update-alternatives.pl:381
+#: scripts/update-alternatives.pl:387
 #, perl-format
 msgid "automatic updates of %s are disabled, leaving it alone."
 msgstr "automatické aktualizácie %s sú zakázané, zmeny sa nevykonajú."
 
-#: scripts/update-alternatives.pl:383
+#: scripts/update-alternatives.pl:389
 #, perl-format
 msgid "to return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "použitím „update-alternatives --auto %s“ sa vrátite späť na automatické "
 "aktualizácie."
 
-#: scripts/update-alternatives.pl:399
+#: scripts/update-alternatives.pl:405
 #, perl-format
 msgid "using %s to provide %s (%s) in %s."
 msgstr "použije sa %s, ktorý poskytuje %s (%s) v %s."
 
-#: scripts/update-alternatives.pl:577
+#: scripts/update-alternatives.pl:591
 #, perl-format
 msgid "unable to make %s a symlink to %s: %s"
 msgstr "nedá sa urobiť %s ako symbolická linka na %s: %s"
 
-#: scripts/update-alternatives.pl:583
+#: scripts/update-alternatives.pl:597
 #, perl-format
 msgid "unable to install %s as %s: %s"
 msgstr "nedá sa nainštalovať %s ako %s: %s"
 
-#: scripts/update-alternatives.pl:588
+#: scripts/update-alternatives.pl:602
 #, perl-format
 msgid "unable to remove %s: %s"
 msgstr "nedá sa odstrániť %s: %s"
 
-#: scripts/update-alternatives.pl:751
+#: scripts/update-alternatives.pl:765
 #, perl-format
 msgid "while reading %s: %s"
 msgstr "počas čítania %s: %s"
 
-#: scripts/update-alternatives.pl:752
+#: scripts/update-alternatives.pl:766
 #, perl-format
 msgid "unexpected end of file in %s while trying to read %s"
 msgstr "neočakávaný koniec súboru v %s počas pokusu o čítanie %s"
 
-#: scripts/update-alternatives.pl:760
+#: scripts/update-alternatives.pl:774
 #, perl-format
 msgid "%s corrupt: %s"
 msgstr "%s poškodený: %s"
 
-#: scripts/update-alternatives.pl:765
+#: scripts/update-alternatives.pl:779
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "nové riadky sú zakázané v súboroch update-alternatives (%s)"
 
-#: scripts/update-alternatives.pl:767
+#: scripts/update-alternatives.pl:781
 #, perl-format
 msgid "while writing %s: %s"
 msgstr "počas zápisu %s: %s"
 
-#: scripts/update-alternatives.pl:775
+#: scripts/update-alternatives.pl:789
 #, perl-format
 msgid "unable to read %s: %s"
 msgstr "nedá sa načítať %s: %s"
 
-#: scripts/update-alternatives.pl:777
+#: scripts/update-alternatives.pl:791
 msgid "status"
 msgstr "stav"
 
-#: scripts/update-alternatives.pl:778
+#: scripts/update-alternatives.pl:792
 msgid "invalid status"
 msgstr "neplatný stav"
 
-#: scripts/update-alternatives.pl:781
+#: scripts/update-alternatives.pl:795
 msgid "slave name"
 msgstr "názov závislého"
 
-#: scripts/update-alternatives.pl:782
+#: scripts/update-alternatives.pl:796
 msgid "slave link"
 msgstr "závislý odkaz"
 
-#: scripts/update-alternatives.pl:783
+#: scripts/update-alternatives.pl:797
 #, perl-format
 msgid "duplicate slave %s"
 msgstr "duplicitná závislosť %s"
 
-#: scripts/update-alternatives.pl:785
+#: scripts/update-alternatives.pl:799
 #, perl-format
 msgid "slave link same as main link %s"
 msgstr "závislý odkaz je totožný s hlavným odkazom %s"
 
-#: scripts/update-alternatives.pl:787
+#: scripts/update-alternatives.pl:801
 #, perl-format
 msgid "duplicate slave link %s"
 msgstr "duplicitný závislý odkaz %s"
 
-#: scripts/update-alternatives.pl:794
+#: scripts/update-alternatives.pl:808
 msgid "master file"
 msgstr "súbor primárneho"
 
-#: scripts/update-alternatives.pl:795
+#: scripts/update-alternatives.pl:809
 #, perl-format
 msgid "duplicate path %s"
 msgstr "duplicitná cesta %s"
 
-#: scripts/update-alternatives.pl:798 scripts/update-alternatives.pl:812
+#: scripts/update-alternatives.pl:812 scripts/update-alternatives.pl:826
 msgid "priority"
 msgstr "priorita"
 
-#: scripts/update-alternatives.pl:799
+#: scripts/update-alternatives.pl:813
 #, perl-format
 msgid "priority of %s: %s"
 msgstr "priorita %s: %s"
 
-#: scripts/update-alternatives.pl:803 scripts/update-alternatives.pl:814
+#: scripts/update-alternatives.pl:817 scripts/update-alternatives.pl:828
 msgid "slave file"
 msgstr "súbor závislého"
 
-#: scripts/update-alternatives.pl:808
+#: scripts/update-alternatives.pl:822
 #, perl-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist. Removing from list of "
@@ -5531,95 +5577,96 @@ msgstr ""
 "alternatíva %s (súčasť skupiny odkazov %s) neexistuje. Odstraňuje sa zo "
 "zoznamu alternatív."
 
-#: scripts/update-alternatives.pl:847
+#: scripts/update-alternatives.pl:861
 #, perl-format
 msgid "discarding obsolete slave link %s (%s)."
 msgstr "zahadzuje sa zastaralý závislý odkaz %s (%s)."
 
-#: scripts/update-alternatives.pl:853
+#: scripts/update-alternatives.pl:867
 #, perl-format
 msgid "unable to write %s: %s"
 msgstr "nedá sa zapísať %s: %s"
 
-#: scripts/update-alternatives.pl:875
+#: scripts/update-alternatives.pl:889
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "nedá sa zatvoriť %s: %s"
 
-#: scripts/update-alternatives.pl:910 scripts/update-alternatives.pl:956
+#: scripts/update-alternatives.pl:924 scripts/update-alternatives.pl:970
 msgid "auto mode"
 msgstr "automatický režim"
 
-#: scripts/update-alternatives.pl:910 scripts/update-alternatives.pl:965
+#: scripts/update-alternatives.pl:924 scripts/update-alternatives.pl:979
 msgid "manual mode"
 msgstr "manuálny režim"
 
-#: scripts/update-alternatives.pl:913
-#, perl-format
-msgid " link currently points to %s"
+#: scripts/update-alternatives.pl:927
+#, fuzzy, perl-format
+msgid "  link currently points to %s"
 msgstr " linka práve ukazuje na %s"
 
-#: scripts/update-alternatives.pl:915
-msgid " link currently absent"
+#: scripts/update-alternatives.pl:929
+#, fuzzy
+msgid "  link currently absent"
 msgstr " odkaz momentálne chýba"
 
-#: scripts/update-alternatives.pl:919
+#: scripts/update-alternatives.pl:933
 #, perl-format
 msgid "%s - priority %s"
 msgstr "%s - priorita %s"
 
-#: scripts/update-alternatives.pl:922
-#, perl-format
-msgid " slave %s: %s"
+#: scripts/update-alternatives.pl:936
+#, fuzzy, perl-format
+msgid "  slave %s: %s"
 msgstr " závislosť %s: %s"
 
-#: scripts/update-alternatives.pl:929
-#, perl-format
-msgid "Current `best' version is %s."
+#: scripts/update-alternatives.pl:943
+#, fuzzy, perl-format
+msgid "Current 'best' version is '%s'."
 msgstr "Momentálne je „najlepšia“ verzia %s."
 
-#: scripts/update-alternatives.pl:931
+#: scripts/update-alternatives.pl:945
 msgid "No versions available."
 msgstr "Nie sú dostupné žiadne verzie."
 
-#: scripts/update-alternatives.pl:945
+#: scripts/update-alternatives.pl:959
 #, perl-format
 msgid "There are %s choices for the alternative %s (providing %s)."
 msgstr "Existuje %s možností alternatívy %s (poskytujúcej %s)."
 
-#: scripts/update-alternatives.pl:951
+#: scripts/update-alternatives.pl:965
 msgid "Selection"
 msgstr "Výber"
 
-#: scripts/update-alternatives.pl:952
+#: scripts/update-alternatives.pl:966
 msgid "Path"
 msgstr "Cesta"
 
-#: scripts/update-alternatives.pl:952
+#: scripts/update-alternatives.pl:966
 msgid "Priority"
 msgstr "Priorita"
 
-#: scripts/update-alternatives.pl:952
+#: scripts/update-alternatives.pl:966
 msgid "Status"
 msgstr "Stav"
 
-#: scripts/update-alternatives.pl:969
+#: scripts/update-alternatives.pl:983
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 "Stlačením klávesu Enter ponecháte predvolenú možnosť[*], inak zadajte číslo "
 "výberu: "
 
-#: scripts/update-alternatives.pl:1003
+#: scripts/update-alternatives.pl:1017
 #, perl-format
 msgid "readlink(%s) failed: %s"
 msgstr "readlink(%s) zlyhal: %s"
 
-#: scripts/update-alternatives.pl:1033 scripts/update-alternatives.pl:1054
+#: scripts/update-alternatives.pl:1047 scripts/update-alternatives.pl:1068
 #, perl-format
 msgid "not replacing %s with a link."
 msgstr "nenahrádza sa %s odkazom."
 
-#: scripts/update-alternatives.pl:1057
+#: scripts/update-alternatives.pl:1071
 #, perl-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
@@ -5628,21 +5675,90 @@ msgstr ""
 "preskočené vytvorenie %s, pretože príslušný súbor %s (zo skupiny odkazov %s) "
 "neexistuje."
 
+#~ msgid "%s: failed to exec '%s %s'"
+#~ msgstr "%s: nepodarilo sa vykonať „%s %s“"
+
+#~ msgid "%s: internal gzip error: read: `%s'"
+#~ msgstr "%s: vnútorná chyba gzip-u: čítanie: „%s“"
+
+#~ msgid "%s: internal gzip error: write: `%s'"
+#~ msgstr "%s: vnútorná chyba gzip-u: zápis: „%s“"
+
+#~ msgid "%s: internal gzip error: read(%i) != write(%i)"
+#~ msgstr "%s: vnútorná chyba gzip-u: čítanie(%i) != zápis (%i)"
+
+#~ msgid "%s: internal bzip2 error: read: `%s'"
+#~ msgstr "%s: vnútorná chyba bzip2: čítanie: „%s“"
+
+#~ msgid "%s: internal bzip2 error: write: `%s'"
+#~ msgstr "%s: vnútorná chyba bzip2: zápis: „%s“"
+
+#~ msgid "%s: internal bzip2 error: read(%i) != write(%i)"
+#~ msgstr "%s: vnútorná chyba bzip2: čítanie(%i) != zápis (%i)"
+
+#~ msgid "cannot open GPL file"
+#~ msgstr "nedá sa otvoriť súbor s GPL"
+
+#~ msgid "Don't forget to foreground (`fg') this process when you're done !\n"
+#~ msgstr ""
+#~ "Nezabudnite prepnúť tento proces do popredia („fg“), keď skončíte !\n"
+
+#~ msgid ""
+#~ "This is free software; see the GNU General Public License version 2 or\n"
+#~ "later for copying conditions. There is NO warranty.\n"
+#~ "See %s --license for copyright and license details.\n"
+#~ msgstr ""
+#~ "Toto je slobodný softvér; podrobnosti o pravidlách kopírovania\n"
+#~ "nájdete v GNU General Public Licence verzie 2 alebo neskoršej.\n"
+#~ "Neposkytuje sa ŽIADNA záruka. Použitím %s --licence získate viac "
+#~ "informácií.\n"
+
+#~ msgid "failed to exec %s"
+#~ msgstr "nie je možné spustiť %s"
+
+#~ msgid "unable to get unique filename for control info"
+#~ msgstr "nie je možné získať jedinečný názov súboru pre riadiace informácie"
+
+#~ msgid "Debian `%s' package management program query tool\n"
+#~ msgstr ""
+#~ "Debian „%s“ nástroj na zadávanie požiadaviek programu na správu balíkov\n"
+
+#~ msgid ""
+#~ "Use --help for help about querying packages;\n"
+#~ "Use --license for copyright license and lack of warranty (GNU GPL)."
+#~ msgstr ""
+#~ "Voľba --help vyvolá pomocníka o zisťovaní informácií o balíkoch.\n"
+#~ "Voľba --licence vypíše licenčné podmienky a neexistenciu záruky (GNU GPL)."
+
+#~ msgid "failed to chown %s: %s"
+#~ msgstr "zlyhala zmena vlastníka %s: %s"
+
+#~ msgid "failed to chmod %s: %s"
+#~ msgstr "zlyhala zmena atribútov %s: %s"
+
+#~ msgid "failed to fork for cleanup"
+#~ msgstr "zlyhalo vykonanie funkcie fork pre vyčistenie"
+
+#~ msgid "failed to wait for rm cleanup"
+#~ msgstr "zlyhalo čakanie na vyčistenie cez rm"
+
+#~ msgid "rm cleanup failed, code %d\n"
+#~ msgstr "vyčistenie cez rm zlyhalo, kód %d\n"
+
+#~ msgid "failed to exec rm -rf"
+#~ msgstr "zlyhalo spustenie rm -rf"
+
+#~ msgid "failed to read `control' (in `%.255s')"
+#~ msgstr "zlyhalo načítanie „control“ (v „%.255s“)"
+
+#~ msgid "unable to seek back"
+#~ msgstr "nie je možné vyhľadávať dozadu"
+
 #~ msgid "unknown data type `%i' in buffer_write\n"
 #~ msgstr "neznámy dátový typ „%i“ vo funkcii buffer_write\n"
 
 #~ msgid "unknown data type `%i' in buffer_read\n"
 #~ msgstr "neznámy dátový typ „%i“ vo funkcii buffer_read\n"
-
-#~ msgid "unable to change ownership of new dist conffile `%.250s'"
-#~ msgstr ""
-#~ "nie je možné zmeniť vlastníctvo nového distribučného konfiguračného "
-#~ "súboru „%.250s“"
-
-#~ msgid "unable to set mode of new dist conffile `%.250s'"
-#~ msgstr ""
-#~ "nie je možné nastaviť mód nového distribučného konfiguračného súboru "
-#~ "„%.250s“"
 
 #~ msgid "wait for shell failed"
 #~ msgstr "čakanie na shell zlyhalo"
@@ -5922,9 +6038,6 @@ msgstr ""
 
 #~ msgid "write error in vsnprintf"
 #~ msgstr "chyba pri zápise vo funkcii vsprintf"
-
-#~ msgid "unable to flush in vsnprintf"
-#~ msgstr "nie je možné vyprázdniť zásobník vo funkcii vsprintf"
 
 #~ msgid "unable to stat in vsnprintf"
 #~ msgstr "nie je možné vykonať zistenie stavu vo funkcii vsprintf"
