@@ -6,12 +6,12 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-08 12:16+0100\n"
-"PO-Revision-Date: 2010-03-07 22:18+0100\n"
+"PO-Revision-Date: 2010-03-09 22:41+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #. type: TH
 #: deb.5:1
@@ -197,7 +197,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb.5:62
-#, fuzzy
 #| msgid ""
 #| "The third, last required member is named B<data.tar>.  It contains the "
 #| "filesystem as a tar archive, either not compressed (supported since dpkg "
@@ -214,7 +213,8 @@ msgid ""
 msgstr ""
 "Den tredje och sista nödvändiga posten heter B<data.tar>. Den innehåller "
 "filsystemet som ett tar-arkiv, antingen okomprimerat (stöds sedan dpkg "
-"1.10.24), eller komprimerat med gzip (med filslutet B<.gz>), bzip2 (med "
+"1.10.24), eller komprimerat med gzip (med filslutet B<.gz>), xz (med "
+"filslutet B<.xz>, stöds sedan dpkg 1.15.6), bzip2 (med "
 "filslutet B<.bz2>, stöds sedan dpkg 1.10.24) eller lzma (med filslutet B<."
 "lzma>, stöds sedan dpkg 1.13.25)."
 
@@ -823,24 +823,23 @@ msgstr ""
 
 #. type: TH
 #: deb-split.5:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "deb-shlibs"
 msgid "deb-split"
-msgstr "deb-shlibs"
+msgstr "deb-split"
 
 #. type: TH
 #: deb-split.5:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2006-02-28"
 msgid "2010-01-28"
-msgstr "2006-02-28"
+msgstr "2010-01-28"
 
 #. type: Plain text
 #: deb-split.5:4
-#, fuzzy
 #| msgid "deb - Debian binary package format"
 msgid "deb-split - Debian multi-part binary package format"
-msgstr "deb - Debians binära paketformat"
+msgstr "deb-split - Debians flerdelade binära paketformat"
 
 # type: Plain text
 #. type: Plain text
@@ -854,7 +853,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-split.5:12
-#, fuzzy
 #| msgid ""
 #| "The file is an B<ar> archive with a magic value of B<!E<lt>archE<gt>>.  "
 #| "The file names might contain a trailing slash."
@@ -863,11 +861,10 @@ msgid ""
 "file names might contain a trailing slash (since dpkg 1.15.6)."
 msgstr ""
 "Filen är ett B<ar>-arkiv med det magiska numret B<!E<lt>archE<gt>>. "
-"Filnamnen kan innehålla ett avslutande snedstreck."
+"Filnamnen kan innehålla ett avslutande snedstreck (sedan dpkg 1.15.6)."
 
 #. type: Plain text
 #: deb-split.5:21
-#, fuzzy
 #| msgid ""
 #| "The first member is named B<debian-binary> and contains a series of "
 #| "lines, separated by newlines. Currently only one line is present, the "
@@ -884,11 +881,14 @@ msgid ""
 "sixth is the maximum part size. The seventh is the current part number, "
 "followed by a slash and the total amount of parts (as in \\(oq1/10\\(cq)."
 msgstr ""
-"Den första posten i arkivet heter B<debian-binary> och innehåller ett antal "
-"rader, avdelade med nyradstecken. För närvarande finns endast en rad, "
-"formatets versionsnummer, B<2.0>. Program som läser arkiv i det nya formatet "
-"bör vara förberedda på att underversionsnumret kan komma att ökas, och att "
-"nya rader kan förekomma, och skall i så fall ignorera dessa."
+"Den första posten i arkivet heter B<debian-split> och innehåller ett antal "
+"rader, avdelade med nyradstecken. För närvarande finns det sju rader. "
+"Den första raden är formatets versionsnummer, B<2.1> då manualsidan skrevs. "
+"Den andra raden är paketnamnet. Den tredje är paketversionen. Den fjärde "
+"är md5summan för paketet. Den femte är paketets totala storlek. Den sjätte "
+"är maximal storlek på delarna. Den sjunde är numret på den aktuella "
+"delen, följd av ett snedstreck och det totala antalet delar (som i "
+"\\(oq1/10\\(cq)."
 
 # type: Plain text
 #. type: Plain text
@@ -902,7 +902,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-split.5:29
-#, fuzzy
 #| msgid ""
 #| "If the major number has changed, an incompatible change has been made and "
 #| "the program should stop. If it has not, then the program should be able "
@@ -914,14 +913,13 @@ msgid ""
 "safely continue, unless it encounters an unexpected member in the archive "
 "(except at the end), as described below."
 msgstr ""
-"Om huvudversionsnumret har ändrats har en inkompatibel ändring införts, och "
+"Om versionsnumret har ändrats har en inkompatibel ändring införts, och "
 "programmet skall avbrytas. Om så inte har gjorts, skall programmet kunna "
 "fortsätta utan problem, såvida det inte stöter på en oväntad post i arkivet "
 "(förutom i slutet), enligt vad beskrivs nedan."
 
 #. type: Plain text
 #: deb-split.5:32
-#, fuzzy
 #| msgid ""
 #| "The third, last required member is named B<data.tar.gz>.  It contains the "
 #| "filesystem archive as a gzipped tar archive."
@@ -929,12 +927,11 @@ msgid ""
 "The second, last required member is named B<data.>N, where N denotes the "
 "part number. It contains the raw part data."
 msgstr ""
-"Den tredje och sista nödvändiga posten heter B<data.tar.gz>. Den innehåller "
-"filsystemsarkivet, lagrat som ett gzip-packat tar-arkiv."
+"Den andra och sista nödvändiga posten heter B<data.>, där N anger "
+"delnumret. Den innehåller rådata för delen."
 
 #. type: Plain text
 #: deb-split.5:37
-#, fuzzy
 #| msgid ""
 #| "These members must occur in this exact order. Current implementations "
 #| "should ignore any additional members after B<data.tar>.  Further members "
@@ -948,18 +945,15 @@ msgid ""
 "defined in the future, and (if possible) will be placed after these two."
 msgstr ""
 "Dessa poster måste ligga i exakt denna ordning. Nuvarande implementationer "
-"bör ignorera eventuella ytterligare poster efter B<data.tar>. Ytterligare "
+"bör ignorera eventuella ytterligare poster efter B<data.>N. Ytterligare "
 "poster kan komma att definieras i framtiden, och kommer (om möjligt) "
-"placeras efter dessa tre. Eventuella ytterligare poster som kan komma att "
-"behöva finnas före B<data.tar> och som kan ignoreras av äldre program utan "
-"problem kommer att ha namn som börjar med understreck, \"B<_>\"."
+"placeras efter dessa två."
 
 #. type: Plain text
 #: deb-split.5:39
-#, fuzzy
 #| msgid "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 msgid "B<deb>(5), B<dpkg-split>(1)."
-msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
+msgstr "B<deb>(5), B<dpkg-split>(1)."
 
 #. type: TH
 #: deb-version.5:5
@@ -2284,10 +2278,10 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:1 dpkg-buildpackage.1:1 dpkg-deb.1:1 dpkg-query.1:1 dselect.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2007-03-07"
 msgid "2010-03-07"
-msgstr "2007-03-07"
+msgstr "2010-03-07"
 
 #. type: TH
 #: dpkg.1:1 dpkg.cfg.5:1 dpkg-deb.1:1 dpkg-query.1:1 dpkg-trigger.1:1
@@ -3966,10 +3960,10 @@ msgstr "MILJÖVARIABLER"
 
 #. type: TP
 #: dpkg.1:612 dselect.1:431
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<SHELL>"
 msgid "B<HOME>"
-msgstr "B<SHELL>"
+msgstr "B<HOME>"
 
 #. type: Plain text
 #: dpkg.1:616
@@ -3977,12 +3971,14 @@ msgid ""
 "If set, B<dpkg> will use it as the directory from which to read the user "
 "specific configuration file."
 msgstr ""
+"Om satt så kommer B<dpkg> att använda det som den katalog från vilken "
+"det skall läsa den användarspecifika konfigurationsfilen."
 
 #. type: TP
 #: dpkg.1:616 dpkg-deb.1:220
 #, no-wrap
 msgid "B<TMPDIR>"
-msgstr ""
+msgstr "B<TMPDIR>"
 
 #. type: Plain text
 #: dpkg.1:620
@@ -3990,20 +3986,21 @@ msgid ""
 "If set, B<dpkg> will use it as the directory in which to create temporary "
 "files and directories."
 msgstr ""
+"Om satt så kommer B<dpkg> att använda det som den katalog där det "
+"skapar temporära filer och kataloger."
 
 #. type: TP
 #: dpkg.1:620
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<CPPFLAGS>"
 msgid "B<PAGER>"
-msgstr "B<CPPFLAGS>"
+msgstr "B<PAGER>"
 
 #. type: Plain text
 #: dpkg.1:623
-#, fuzzy
 #| msgid "The program B<dpkg> will execute when starting a new shell."
 msgid "The program B<dpkg> will execute when displaying the conffiles."
-msgstr "Programmet B<dpkg> kommer att exekveras när ett nytt skal startas."
+msgstr "Programmet B<dpkg> kommer att exekveras för att visa konfigurationsfiler."
 
 #. type: TP
 #: dpkg.1:623
@@ -4033,10 +4030,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:630
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DPKG_RUNNING_VERSION>"
 msgid "B<DPKG_SHELL_REASON>"
-msgstr "B<DPKG_RUNNING_VERSION>"
+msgstr "B<DPKG_SHELL_REASON>"
 
 #. type: Plain text
 #: dpkg.1:634
@@ -4044,12 +4041,15 @@ msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Current valid value: B<conffile-prompt>."
 msgstr ""
+"Definieras av B<dpkg> i skalet som startas för att undersöka situationen "
+"efter konfigurationsfilsfrågan. Tillåtna värden är för närvarande: "
+"B<conffile-prompt>."
 
 #. type: TP
 #: dpkg.1:634
 #, no-wrap
 msgid "B<DPKG_CONFFILE_OLD>"
-msgstr ""
+msgstr "B<DPKG_CONFFILE_OLD>"
 
 #. type: Plain text
 #: dpkg.1:638
@@ -4057,12 +4057,15 @@ msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the old conffile."
 msgstr ""
+"Definieras av B<dpkg> i skalet som startas för att undersöka situationen "
+"efter konfigurationsfilsfrågan. Innehåller sökvägen till den gamla "
+"konfigurationsfilen."
 
 #. type: TP
 #: dpkg.1:638
 #, no-wrap
 msgid "B<DPKG_CONFFILE_NEW>"
-msgstr ""
+msgstr "B<DPKG_CONFFILE_NEW>"
 
 #. type: Plain text
 #: dpkg.1:642
@@ -4070,6 +4073,9 @@ msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the new conffile."
 msgstr ""
+"Definieras av B<dpkg> i skalet som startas för att undersöka situationen "
+"efter konfigurationsfilsfrågan. Innehåller sökvägen till den nya "
+"konfigurationsfilen."
 
 #. type: TP
 #: dpkg.1:642
@@ -5256,7 +5262,6 @@ msgstr "B<1.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:16
-#, fuzzy
 #| msgid ""
 #| "It prepares the build environment by setting various environment "
 #| "variables (see B<ENVIRONMENT VARIABLES>)."
@@ -5265,7 +5270,7 @@ msgid ""
 "(see B<ENVIRONMENT>)."
 msgstr ""
 "Byggmiljön förbereds genom att diverse miljövariabler sätts (se "
-"B<MILJÖVARIABLER>)."
+"B<MILJÖ>)."
 
 #. type: IP
 #: dpkg-buildpackage.1:16
@@ -5805,27 +5810,27 @@ msgstr "Sänds vidare utan ändringar till B<dpkg-source>. Se dess manualsida."
 
 #. type: TP
 #: dpkg-buildpackage.1:210
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--description=>I<xxx>"
 msgid "B<--source-option=>I<opt>"
-msgstr "B<--description=>I<xxx>"
+msgstr "B<--source-option=>I<val>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:213
 msgid "Pass option I<opt> to B<dpkg-source>."
-msgstr ""
+msgstr "Sänd flaggan I<val> till B<dpkg-source>."
 
 #. type: TP
 #: dpkg-buildpackage.1:213
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--description=>I<xxx>"
 msgid "B<--changes-option=>I<opt>"
-msgstr "B<--description=>I<xxx>"
+msgstr "B<--changes-option=>I<val>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:216
 msgid "Pass option I<opt> to B<dpkg-genchanges>."
-msgstr ""
+msgstr "Sänder flaggan I<val> till B<dpkg-genchanges>."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:220
@@ -6070,10 +6075,10 @@ msgstr "dpkg-checkbuilddeps"
 
 #. type: TH
 #: dpkg-checkbuilddeps.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2009-11-12"
 msgid "2009-11-21"
-msgstr "2009-11-12"
+msgstr "2009-11-21"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:4
@@ -6577,7 +6582,6 @@ msgstr "B<-Z>I<komprimeringstyp>"
 
 #. type: Plain text
 #: dpkg-deb.1:196
-#, fuzzy
 #| msgid ""
 #| "Specify which compression type to use when building a package. Allowed "
 #| "values are I<gzip>, I<bzip2>, I<lzma>, and I<none> (default is I<gzip>)."
@@ -6587,7 +6591,7 @@ msgid ""
 "I<gzip>)."
 msgstr ""
 "Ange vilken komprimeringstyp som skall användas när ett paket byggs. "
-"Tillåtna värden är I<gzip>, I<bzip2>, I<lzma> och I<none> (förval är "
+"Tillåtna värden är I<gzip>, I<xz>, I<bzip2>, I<lzma> och I<none> (förval är "
 "I<gzip>)."
 
 #. type: TP
@@ -6651,6 +6655,8 @@ msgid ""
 "If set, B<dpkg-deb> will use it as the directory in which to create "
 "temporary files and directories."
 msgstr ""
+"Om satt så kommer B<dpkg-deb> att använda det som katalogen där "
+"temporära filer och kataloger skapas."
 
 #. type: Plain text
 #: dpkg-deb.1:230
@@ -7160,7 +7166,6 @@ msgstr "B<-T>I<substvars-fil>"
 
 #. type: Plain text
 #: dpkg-genchanges.1:86
-#, fuzzy
 #| msgid ""
 #| "Read substitution variables in I<substvarsfile>; the default is B<debian/"
 #| "substvars>.  No variable substitution is done on any of the fields that "
@@ -7176,7 +7181,8 @@ msgstr ""
 "Läs substitutionsvariabler från I<substvars-fil>; standard är B<debian/"
 "substvars>. Ingen variabelsubstitution utförs på något av fälten i utdata, "
 "men om den speciella variabeln I<Format> anges kommer den överstyra fältet "
-"med samma namn."
+"med samma namn. Flaggan kan användas flera gånger för att läsa "
+"substitutionsvariabler från flera filer."
 
 #. type: TP
 #: dpkg-genchanges.1:87 dpkg-gencontrol.1:53 dpkg-source.1:113
@@ -7389,7 +7395,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-gencontrol.1:53
-#, fuzzy
 #| msgid ""
 #| "Read substitution variables in I<substvarsfile>; the default is B<debian/"
 #| "substvars>.  No variable substitution is done on any of the fields that "
@@ -7403,7 +7408,8 @@ msgstr ""
 "Läs substitutionsvariabler från I<substvars-fil>; standard är B<debian/"
 "substvars>. Ingen variabelsubstitution utförs på något av fälten i utdata, "
 "men om den speciella variabeln I<Format> anges kommer den överstyra fältet "
-"med samma namn."
+"med samma namn. Flaggan kan användas flera gånger för att läsa "
+"substitutionsvariabler från flera filer."
 
 #. type: TP
 #: dpkg-gencontrol.1:78 dpkg-gensymbols.1:368
@@ -7526,33 +7532,33 @@ msgstr "Upphovsrättsskyddat © 2007-2008 Raphaël Hertzog"
 
 #. type: TH
 #: dpkg-gensymbols.1:2
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "deb-symbols"
 msgid "dpkg-gensymbols"
-msgstr "deb-symbols"
+msgstr "dpkg-gensymbols"
 
 #. type: TH
 #: dpkg-gensymbols.1:2
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2009-01-07"
 msgid "2009-08-07"
-msgstr "2009-01-07"
+msgstr "2009-08-07"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:5
-#, fuzzy
 #| msgid "Per-system default shared library dependency information."
 msgid ""
 "dpkg-gensymbols - generate symbols files (shared library dependency "
 "information)"
-msgstr "Systemspecifik standardberoendeinformation för delade bibliotek."
+msgstr ""
+"dpkg-gensymbols - generera symbolfiler (information om delade "
+"bibliotek)"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:9
-#, fuzzy
 #| msgid "B<dpkg-gencontrol> [I<options>]"
 msgid "B<dpkg-gensymbols> [I<options>]"
-msgstr "B<dpkg-gencontrol> [I<flaggor>]"
+msgstr "B<dpkg-gensymbols> [I<flaggor>]"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:16
@@ -7813,10 +7819,10 @@ msgstr "Standardsymboltaggar"
 
 #. type: TP
 #: dpkg-gensymbols.1:109
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<not-installed>"
 msgid "B<optional>"
-msgstr "B<ej installerat>"
+msgstr "B<optional>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:119
@@ -7830,6 +7836,16 @@ msgid ""
 "MISSING, suddenly reappears in the next revision, it will be upgraded back "
 "to the \"existing\" status with its minimum version unchanged."
 msgstr ""
+"En symbol markerad som valfri (optional) kan försvinna från bibliotektet "
+"när som helst och kommer aldrig göra så att B<dpkg-gensymbols> "
+"misslyckas. Försvunna symboler kommer dock fortfarande visas som "
+"saknade (MISSING) i differensen för varje ny paketversion. Detta beteende "
+"fungerar som en påminnelse för de paketansvariga om att symbolen måste "
+"tas bort från symbolfilen eller läggas tillbaka till biblioteket. När en "
+"valfri symbol som tidigare markerats som saknad (MISSING) plötsligt "
+"dyker upp igen i en senare version kommer den att uppgraderas tillbaka "
+"till befintligstatus (\"existing\") med den minsta tillgängliga versionen "
+"oförändrad."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:124
@@ -7840,13 +7856,18 @@ msgid ""
 "arbitrary value: it could be used to indicate why the symbol is considered "
 "optional."
 msgstr ""
+"Taggen är användbar för symboler som är privata och vars försvinnande "
+"inte gör att ABI:et går sönder. De flesta C++-mallinstansieringar faller "
+"till exempel in under denna kategori. Som andra taggar kan den här även "
+"ha ett godtyckligt värde: det kan användas för att indikera varför "
+"symbolen är att anse som valfri."
 
 #. type: TP
 #: dpkg-gensymbols.1:124
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-a>I<architecture>"
 msgid "B<arch=>I<architecture list>"
-msgstr "B<-a>I<arkitektur>"
+msgstr "B<arch=>I<arkitekturlista>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:137
@@ -7863,6 +7884,18 @@ msgid ""
 "arch tag is dropped and the symbol will appear in the diff due to this "
 "change), but it is not considered as new."
 msgstr ""
+"Denna tag gör det möjligt att begränsa vilken uppsättning arkitekturer "
+"symbolen är tänkt att finnas för. När symbollistan uppdateras med symboler "
+"som upptäcks i biblioteket behandlas alla arkitekturspecifika symboler som "
+"inte gäller den aktuella värdarkitekturen som om de inte fanns. Om en "
+"arkitekturspecifik symbol som motsvarar den aktuella värdarkitekturen "
+"inte existerar i biblioteket gäller de vanliga reglerna för saknade "
+"symboler, och kan få B<dpkg-gensymbols> att misslyckas. Å andra sidan, om "
+"en arkitekturspecifik symbol hittas där den inte var menad att finnas "
+"(då den aktuella värdarkitekturen inte är listad i taggen), görs den "
+"arkitekturneutral (dvs. \"arch\"-taggen tas bort och symbolen kommer "
+"finnas med i differensen på grund av denna ändring), men den anses inte "
+"som ny."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:143
@@ -7873,6 +7906,10 @@ msgid ""
 "from foreign arches) are always written to the symbol file when operating in "
 "template mode."
 msgstr ""
+"I det vanliga icke-mall-läget skrivs endast de arkitekturspecifika "
+"symboler som motsvarar den aktuella värdarkitekturen till symbolfilen. "
+"Å andra sidan skrivs alla arkitekturspecifika symboler (inklusive de "
+"från andra arkitekturer) till symbolfilen i mall-läget."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:149
@@ -7883,6 +7920,11 @@ msgid ""
 "considered only on alpha, amd64, kfreebsd-amd64 and ia64 architectures while "
 "the second one anywhere except on armel."
 msgstr ""
+"Formatet på I<arkitekturlista> är detsamma som det som används i "
+"I<Build-Depends>-fältet i I<debian/control> (bortsett från de omslutande "
+"hakparenteserna []). Den första symbolen från listan nedan, till exempel, "
+"kommer endast att tas med på arkitekturerna alpha, amd64, kfreebsd-amd64 "
+"och ia64, medan den andra tas med överallt förutom på armel."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:152
@@ -7891,13 +7933,15 @@ msgid ""
 " (arch=alpha amd64 kfreebsd-amd64 ia64)a_64bit_specific_symbol@Base 1.0\n"
 " (arch=!armel)symbol_armel_does_not_have@Base 1.0\n"
 msgstr ""
+" (arch=alpha amd64 kfreebsd-amd64 ia64)en_64bit-specifik_symbol@Base 1.0\n"
+" (arch=!armel)symbol_armel_inte_har@Base 1.0\n"
 
 #. type: TP
 #: dpkg-gensymbols.1:152
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--no-act>"
 msgid "B<ignore-blacklist>"
-msgstr "B<--no-act>"
+msgstr "B<ignore-blacklist>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:160
@@ -7909,26 +7953,34 @@ msgid ""
 "B<ignore-blacklist>. It can be necessary for some low level toolchain "
 "libraries like libgcc."
 msgstr ""
+"dpkg-gensymbols har en intern svartlista över symboler som inte skall "
+"förekomma i symbolfiler eftersom de oftast bara är sidoeffekter från "
+"implementationsdetaljer i verktygskedjan. Om du, av någon orsak, "
+"verkligen vill att en av dessa symboler skall tas med i symbolfilen "
+"måste du tagga symbolen med B<ignore-blacklist>. Det kan vara nödvändigt "
+"för lågnivå-verktygskedjebibliotek som libgcc."
 
 #. type: TP
 #: dpkg-gensymbols.1:160 dpkg-gensymbols.1:197
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-nc>"
 msgid "B<c++>"
-msgstr "B<-nc>"
+msgstr "B<c++>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:164
 msgid ""
 "Denotes I<c++> symbol pattern. See B<Using symbol patterns> subsection below."
 msgstr ""
+"Betecknar I<c++>-symbolmönster. Se stycket B<Använda symbolmönster> "
+"nedan."
 
 #. type: TP
 #: dpkg-gensymbols.1:164 dpkg-gensymbols.1:228
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-sr>"
 msgid "B<symver>"
-msgstr "B<-sr>"
+msgstr "B<symver>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:168
@@ -7936,13 +7988,15 @@ msgid ""
 "Denotes I<symver> (symbol version) symbol pattern. See B<Using symbol "
 "patterns> subsection below."
 msgstr ""
+"Anger I<symver> (symbolversion)-symbolmönstret. Se stycket B<Använda "
+"symbolmönster> nedan."
 
 #. type: TP
 #: dpkg-gensymbols.1:168 dpkg-gensymbols.1:253
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<purge>"
 msgid "B<regex>"
-msgstr "B<rensa>"
+msgstr "B<regex>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:172
@@ -7950,12 +8004,14 @@ msgid ""
 "Denotes I<regex> symbol pattern. See B<Using symbol patterns> subsection "
 "below."
 msgstr ""
+"Anger I<regex>-symbolmönstret. Se stycket I<Använda symbolmönster> "
+"nedan."
 
 #. type: SS
 #: dpkg-gensymbols.1:172
 #, no-wrap
 msgid "Using symbol patterns"
-msgstr ""
+msgstr "Använda symbolmönster"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:180
@@ -7968,6 +8024,13 @@ msgid ""
 "of the symbol. If none of the patterns matches, the symbol will be "
 "considered as new."
 msgstr ""
+"Till skillnad från vanliga symbolspecifikationer kan ett mönster täcka "
+"flera faktiska symboler från biblioteket. B<dpkg-gensymbols> kommer "
+"försöka matcha varje mönster mot varje faktisk symbol som I<inte> har "
+"en motsvarande specifik symbol definierad i symbolfilen. Så fort det "
+"första mönster som motsvarar symbolen hittas kommer alla dess taggar "
+"och egenskaper att användas som en basspecifikation för symbolen. Om "
+"inget mönster motsvarar symbolen kommer den att tolkas som ny."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:188
@@ -7981,6 +8044,15 @@ msgid ""
 "I<arch> tag. Please refer to B<Standard symbol tags> subsection above for "
 "more information."
 msgstr ""
+"Ett mönster anses som tappat om det inte motsvarar några symboler i "
+"biblioteket. Som standard kommer detta få B<dpkg-genchanges> att "
+"misslyckas om I<-c1> eller högre anges. Om ett sådant misslyckande "
+"inte är önskvärt kan mönstret dock märkas med taggen I<optional>. Om "
+"mönstret då inte motsvarar någonting kommer det bara dyka upp i "
+"differensen som saknas (MISSING). Mönstret kan dessutom, precis som "
+"andra symboler, begränsas till specifika arkitekturer med hjälp av "
+"I<arch>-taggen. Se stycket B<Standardsymboltaggar> ovan för mer "
+"information."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:195
@@ -7992,11 +8064,17 @@ msgid ""
 "I<name@version> of the real symbol. In order to distinguish among different "
 "pattern types, a pattern will typically be tagged with a special tag."
 msgstr ""
+"Mönster är en utökning av I<deb-symbols(5)>-formatet och är därför endast "
+"tillåtna i symbolfilmallar. Syntax för angivelse av mönster skiljer sig "
+"inte från den för en specifik symbol. Symbolnamnsdelen av specifikationen "
+"fungerar dock som ett uttryck som skall jämföras mot I<namn@version> "
+"för den faktiska symbolen. För att skilja mellan olika sorters mönster, "
+"taggas mönster normalt med en speciell tagg."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:197
 msgid "At the moment, B<dpkg-gensymbols> supports three basic pattern types:"
-msgstr ""
+msgstr "För närvarande stöder B<dpkg-gensymbols> tre grundläggande mönstertyper:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:209
@@ -8012,6 +8090,17 @@ msgid ""
 "32bit architectures will probably be _ZThn16_N3NSB6ClassDD1Ev@Base on 64bit "
 "ones, it can be matched with a single I<c++> pattern:"
 msgstr ""
+"Detta mönster anges med taggen I<c++>. Den matchar enbart C++-symboler "
+"med deras avmanglade symbolnamn (som det skrivs ut av B<c++filt>(1)-"
+"verktyget). Det här mönstret är väldigt nyttigt för att matcha symboler "
+"vars manglade namn kan skilja sig mellan olika arkitekturer, medan "
+"deras avmanglade namn är desamma. En grupp dylika symboler är "
+"I<icke-virtuella \"thunks\"> som har arkitekturspecifika offsetvärden "
+"inbyggda i sina manglade namn. En vanlig instans av detta fall är en "
+"virtuell destruktör som under diamantarv behöver en icke-virtuell "
+"\"thunk\"-symbol. Även om till exempel ZThn8_N3NSB6ClassDD1Ev@Base på "
+"32-bitarsarkitekturer troligtvis är _ZThn16_N3NSB6ClassDD1Ev@Base på"
+"64-bitarsarkitekturer, så kan de matchas med ett enda I<c++>-mönster:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:215
@@ -8022,18 +8111,23 @@ msgid ""
 " (c++)\"non-virtual thunk to NSB::ClassD::~ClassD()@Base\" 1.0\n"
 " [...]\n"
 msgstr ""
+"libdummy.so.1 libdummy1 #MINVER#\n"
+" [...]\n"
+" (c++)\"non-virtual thunk to NSB::ClassD::~ClassD()@Base\" 1.0\n"
+" [...]\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:217
 msgid ""
 "The demangled name above can be obtained by executing the following command:"
 msgstr ""
+"Det avmanglade namnet ovan kan hämtas genom att utföra följande kommando:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:219
 #, no-wrap
 msgid " $ echo '_ZThn8_N3NSB6ClassDD1Ev@Base' | c++filt\n"
-msgstr ""
+msgstr " $ echo '_ZThn8_N3NSB6ClassDD1Ev@Base' | c++filt\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:227
@@ -8046,6 +8140,13 @@ msgid ""
 "for them). However, as these collisions happen on the ABI level, they should "
 "not degrade quality of the symbol file."
 msgstr ""
+"Observera att även om det manglade namnet per definition är unikt i "
+"biblioteket gäller inte detta för avmanglade namn. Flera distinkta "
+"verkliga symboler kan ha samma avmanglade namn. Det gäller till exempel "
+"för icke-virtuella \"thunk\"-symboler i konfigurationer med komplexa arv "
+"eller för de flesta konstruktörer och destruktörer (eftersom g++ normalt "
+"genererar två symboler för dem). Eftersom dessa kollisioner sker på "
+"ABI-nivån bör de dock inte sänka kvaliteten på symbolfilen."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:234
@@ -8055,6 +8156,11 @@ msgid ""
 "where the symbol got added. If that's the case, you can use a I<symver> "
 "pattern to match any symbol associated to the specific version. For example:"
 msgstr ""
+"Detta mönster anges med taggen I<symver>. Välunderhållna bibliotek har "
+"versionshanterade symboler där varje version motsvarar uppströmsversionen "
+"där symbolen lades till. Om det är fallet kan du använda ett "
+"I<symver>-möster för att matcha alla symboler som matchar den specifika "
+"versionen. Till exempel:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:241
@@ -8066,6 +8172,11 @@ msgid ""
 " (symver)GLIBC_2.7 2.7\n"
 " access@GLIBC_2.0 2.2\n"
 msgstr ""
+"libc.so.6 libc6 #MINVER#\n"
+" (symver)GLIBC_2.0 2.0\n"
+" [...]\n"
+" (symver)GLIBC_2.7 2.7\n"
+" access@GLIBC_2.0 2.2\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:247
@@ -8076,6 +8187,12 @@ msgid ""
 "version 2.2 despite being in the scope of the \"(symver)GLIBC_2.0\" pattern "
 "because specific symbols take precedence over patterns."
 msgstr ""
+"Alla symboler associerade med versionerna GLIBC_2.0 och GLIBC_2.7 kommer "
+"leda till den minimal version 2.0 respektive 2.7, med undantag av "
+"symbolen access@GLIBC_2.0. Den sistnämnda kommer leda till ett minsta "
+"beroende på libc6 version 2.2 trots att den motsvarar mönstret "
+"\"(symver)GLIBC_2.0\"-mönstret, eftersom specifika symboler gäller före "
+"mönster."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:252
@@ -8086,6 +8203,11 @@ msgid ""
 "\" should be written as \"(symver|optional)GLIBC_2.0 2.0\" if the same "
 "behaviour is needed."
 msgstr ""
+"Observera att även om den gamla sortens jokerteckenmönster (anges med "
+"\"*@version\" i symbolnamnfältet) fortfarande stöds så rekommenderas de "
+"inte längre i och med den nya sortens syntax \"(symver|optional)version\". "
+"Till exempel bör \"*@GLIBC_2.0 2.0\" skrivas som \"(symver|optional)"
+"GLIBC_2.0 2.0\" om samma beteende behövs."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:260
@@ -8096,6 +8218,11 @@ msgid ""
 "I<^> character or it may match any part of the real symbol I<name@version> "
 "string. For example:"
 msgstr ""
+"Mönster med reguljära uttryck anges med taggen I<regex>. De matchar med "
+"det reguljära uttrycket på perl-form som anges i symbolnamnsfältet. Ett "
+"reguljärt uttryck matchar som det står, glöm därför inte att inleda det "
+"med tecknet I<^>, annars kommer det matcha godtycklig del av den "
+"verkliga symbolens I<namn@version>-sträng. Till exempel:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:265
@@ -8105,6 +8232,9 @@ msgid ""
 " (regex)\"^mystack_.*@Base$\" 1.0\n"
 " (regex|optional)\"private\" 1.0\n"
 msgstr ""
+"libdummy.so.1 libdummy1 #MINVER#\n"
+" (regex)\"^mystack_.*@Base$\" 1.0\n"
+" (regex|optional)\"private\" 1.0\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:270
@@ -8115,6 +8245,11 @@ msgid ""
 "having the string \"private\" in their names and matches will inherit "
 "I<optional> tag from the pattern."
 msgstr ""
+"Symboler som \"mystack_new@Base\", \"mystack_push@Base\", \"mystack_pop@Base"
+"\" osv. kommer att träffas av det första mönstret medan t.ex "
+"\"ng_mystack_new@Base\" inte gör det. Det andra mönstret motsvarar "
+"alla symbolen som innehåller strängen \"private\" i sina namn och "
+"träffar kommer att ärva I<optional>-taggen från mönstret."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:275
@@ -8123,6 +8258,9 @@ msgid ""
 "case, they are processed in the order in which the tags are specified. For "
 "example, both"
 msgstr ""
+"Grundläggande mönster som anges ovan kan kombineras där det är vettigt. "
+"I så fall behandlas de i den ordning taggarna anges. Till exempel kommer "
+"både"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:278
@@ -8131,6 +8269,8 @@ msgid ""
 " (c++|regex)\"^NSA::ClassA::Private::privmethod\\ed\\e(int\\e)@Base\" 1.0\n"
 " (regex|c++)N3NSA6ClassA7Private11privmethod\\edEi@Base 1.0\n"
 msgstr ""
+" (c++|regex)\"^NSA::ClassA::Private::privmethod\\ed\\e(int\\e)@Base\" 1.0\n"
+" (regex|c++)N3NSA6ClassA7Private11privmethod\\edEi@Base 1.0\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:288
@@ -8146,6 +8286,17 @@ msgid ""
 "\"__N3NSA6ClassA7Private11privmethod\\edEi@Base\" will not match either of "
 "the patterns because it is not a valid C++ symbol."
 msgstr ""
+"att träffa symbolerna \"_ZN3NSA6ClassA7Private11privmethod1Ei@Base\" och "
+"\"_ZN3NSA6ClassA7Private11privmethod2Ei@Base\". När det första mönstret "
+"jämförs avmanglas först symbolen som en C++-symbol, varefter det "
+"avmanglade namnet jämförs med det reguljära uttrycket. När det andra "
+"mönstret jämförs, å andra sidan, jämförs det reguljära uttrycket mot "
+"det råa symbolnamnet, varefter symbolen testas för att se om det är "
+"av C++-typ genom att försöka avmangla det. Om ett grundläggande mönster "
+"misslyckas kommer hela uttrycket att misslyckas. Därför kommer, "
+"till exempel \"__N3NSA6ClassA7Private11privmethod\\edEi@Base\" inte "
+"att träffas av något av mönstrena eftersom det inte är en giltig "
+"C++-symbol."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:294
@@ -8156,6 +8307,12 @@ msgid ""
 "while generic patterns are O(N) (N - generic pattern count) for each "
 "symbol.  Therefore, it is recommended not to overuse generic patterns."
 msgstr ""
+"I allmänhet delas alla mönster in i två grupper. alias (grundläggande "
+"I<c++> och I<symver>) och generella mönster (I<regex>, samtliga "
+"kombinationer av multipla grundläggande mönster). Det går snabbt att "
+"träffa grundläggande aliasbaserade mönster (O(1)) medan generella "
+"mönster är O(N) (N - antal generella mönster) för varje symbol. Det "
+"rekommenderas därför inte att använda för många generella mönster."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:301
@@ -8167,12 +8324,19 @@ msgid ""
 "file entries is not recommended because B<dpkg-gensymbols> generates diffs "
 "based on the alphanumerical order of their names."
 msgstr ""
+"När flera mönster träffar samma verkliga symbol föredras alias (först "
+"I<c++>, sedan I<symver>) framför generella mönster. Generella mönster "
+"träffas i den ordning de upptäcktes i symbolfilmallen fram till den "
+"första lyckade träffen. Observera dock att manuell omsortering av "
+"poster i mallfilen inte rekommenderas då B<dpkg-gensymbols> genererar "
+"differensfiler baserad på den alfanumeriska sorteringsordningen av "
+"dess namn."
 
 #. type: SS
 #: dpkg-gensymbols.1:301
 #, no-wrap
 msgid "Using includes"
-msgstr ""
+msgstr "Använda inkluderingar"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:306
@@ -8181,6 +8345,9 @@ msgid ""
 "inefficient to use a single symbol file. In those cases, an include "
 "directive may prove to be useful in a couple of ways:"
 msgstr ""
+"När uppsättningen av exporterade symboler skiljer sig mellan "
+"arkitekturer kan det vara ineffektivt att använda en enda symbolfil. "
+"I dessa fall kan ett inkluderingsdirektiv vara nyttigt på flera sätt:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:310
@@ -8189,21 +8356,24 @@ msgid ""
 "file in your I<package>.symbols.I<arch> file by using an include directive "
 "like this:"
 msgstr ""
+"Du kan faktorisera de gemensamma delarna i en extern fil och "
+"inkludera den filen i din I<paket>.symbols.I<arkitektur>-fil genom "
+"att använda ett inkluderingsdirektiv som detta:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:312
 msgid "#include \"I<packages>.symbols.common\""
-msgstr ""
+msgstr "#include \"I<paket>.symbols.common\""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:314
 msgid "The include directive may also be tagged like any symbol:"
-msgstr ""
+msgstr "Inkluderingsdirektivet kan även taggas som alla andra symboler:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:316
 msgid "(tag|..|tagN)#include \"file_to_include\""
-msgstr ""
+msgstr "(tag|..|tagN)#include \"fil_att_inkludera\""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:321
@@ -8213,6 +8383,10 @@ msgid ""
 "create a common I<package>.symbols file which includes architecture specific "
 "symbol files:"
 msgstr ""
+"Alla symboler som inkluderas från I<fil_att_inkludera> kommer att anses "
+"som standard vara taggade med I<tag> .. I<tagN>. Du kan använda denna "
+"funktion för att skapa en gemensam I<paket>.symbols-fil som inkluderar "
+"arkitekturspecifika filer:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:326
@@ -8223,6 +8397,10 @@ msgid ""
 " (arch=!amd64 !ia64 !alpha)#include \"package.symbols.32bit\"\n"
 "  common_symbol2@Base 1.0\n"
 msgstr ""
+"  gemensam_symbol1@Base 1.0\n"
+" (arch=amd64 ia64 alpha)#include \"paket.symbols.64bit\"\n"
+" (arch=!amd64 !ia64 !alpha)#include \"paket.symbols.32bit\"\n"
+"  gemensam_symbol2@Base 1.0\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:335
@@ -8236,6 +8414,14 @@ msgid ""
 "values of the inherited tags in its tag specification. However, there is no "
 "way for the symbol to remove any of the inherited tags."
 msgstr ""
+"Symbolfilerna läses radvis, och inkluderingsdirektiv utförs så fort "
+"de upptäcks. Det betyder att innehållet i den inkluderade filen kan "
+"överstyra allt innehåll som förekom före inkluderingsdirektivet och "
+"att innehåll efter direktivet kan överstyra allt från den inkluderade "
+"filen. Alla symboler (även andra #include-direktiv) i den inkluderade "
+"filen kan ange ytterligare taggar eller överstyra värden för de "
+"ärvda taggarna i sin taggspecifikation. Det finns dock inte något "
+"sätt för en symbol att ta bort någon av sina ärvda taggar."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:340
@@ -8245,6 +8431,10 @@ msgid ""
 "However, in general it's best to avoid duplicating header lines. One way to "
 "do it is the following:"
 msgstr ""
+"En inkluderad fil kan repetera huvudraden som innehåller SONAMNet för "
+"biblioteket. I så fall överstyr den en eventuell huvudrad som lästs "
+"in tidigare. Det är vanligtvis dock bäst att undvika att duplicera "
+"huvudrader. Ett sätt att göra det är som följer:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:343
@@ -8253,17 +8443,19 @@ msgid ""
 "#include \"libsomething1.symbols.common\"\n"
 " arch_specific_symbol@Base 1.0\n"
 msgstr ""
+"#include \"libnågonting1.symbols.common\"\n"
+" arkitekturspecifik_symbol@Base 1.0\n"
 
 #. type: SS
 #: dpkg-gensymbols.1:343
 #, no-wrap
 msgid "Good library management"
-msgstr ""
+msgstr "God hantering av bibliotek"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:346
 msgid "A well-maintained library has the following features:"
-msgstr ""
+msgstr "Ett välunderhållet bibliotek har följande funktioner:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:350
@@ -8271,6 +8463,9 @@ msgid ""
 "its API is stable (public symbols are never dropped, only new public symbols "
 "are added) and changes in incompatible ways only when the SONAME changes;"
 msgstr ""
+"dess API är stabilt (publika symboler tas aldrig bort, endast nya publika "
+"symboler läggs till) och inkompatibla ändringar görs endast när SONAMNet "
+"ändras;"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:353
@@ -8278,6 +8473,8 @@ msgid ""
 "ideally, it uses symbol versioning to achieve ABI stability despite internal "
 "changes and API extension;"
 msgstr ""
+"ideellt använder det en versionhanterade symboler för att upprätthålla "
+"ABI-stabilitet trots interna ändringar och API-utökningar;"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:356
@@ -8285,6 +8482,8 @@ msgid ""
 "it doesn't export private symbols (such symbols can be tagged optional as "
 "workaround)."
 msgstr ""
+"det exporterar inte privata symboler (sådana symboler kan taggas med "
+"\"optional\" för att gå runt detta)."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:364
@@ -8297,20 +8496,26 @@ msgid ""
 "should be notified as an upstream fix is always better than a Debian "
 "specific work-around."
 msgstr ""
+"När man underhåller symbolfilen är det lätt att upptäcka symboler som "
+"dyker upp och försvinner. Det är svårare att upptäcka inkompatibla "
+"API- och ABI-ändringar. Den paketansvarige bör därför noggrant läsa "
+"igenom uppströmsändringsloggen för fall då reglerna för god hantering "
+"av bibliotek bryts. Om ett möjligt fel upptäcks bör uppströmsförfattaren "
+"meddelas, då det alltid är bättre att problemet rättas uppströms än "
+"specifikt i Debian."
 
 #. type: TP
 #: dpkg-gensymbols.1:365
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-P>I<packagebuilddir>"
 msgid "B<-P>I<package-build-dir>"
 msgstr "B<-P>I<paketbyggkatalog>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:368
-#, fuzzy
 #| msgid "Scan for *.I<type> packages, instead of *.deb."
 msgid "Scan I<package-build-dir> instead of debian/tmp."
-msgstr "Sök efter *.I<typ>-paket, i stället för *.deb."
+msgstr "Sök I<paketbyggkatalog> istället för debian/tmp."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:372
@@ -8318,6 +8523,8 @@ msgid ""
 "Define the package name. Required if more than one binary package is listed "
 "in debian/control (or if there's no debian/control file)."
 msgstr ""
+"Definiera paketnamnet. Krävs om mer än ett binärpaket listas i "
+"debian/control (eller om det inte finns någon debian/control-fil)."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:376
@@ -8325,13 +8532,15 @@ msgid ""
 "Define the package version. Defaults to the version extracted from debian/"
 "changelog. Required if called outside of a source package tree."
 msgstr ""
+"Definiera paketversion. Standardvärdet är versionen som hämtas från "
+"debian/changelog. Krävs om programmet anropas utanför ett källkodspaketträd."
 
 #. type: TP
 #: dpkg-gensymbols.1:376
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-R>I<rules-file>"
 msgid "B<-e>I<library-file>"
-msgstr "B<-R>I<regelfil>"
+msgstr "B<-e>I<biblioteksfil>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:382
@@ -8341,13 +8550,17 @@ msgid ""
 "multiple libraries with a single argument (otherwise you need multiple B<-"
 "e>)."
 msgstr ""
+"Analyserar endast bibliotek som listats explicit istället för att hitta "
+"alla publika bibliotek. Du kan använda ett reguljärt uttryck i "
+"I<biblioteksfil> för att träffa multipla bibliotek med ett enda "
+"argument (annars behöver du flera B<-e>)."
 
 #. type: TP
 #: dpkg-gensymbols.1:382
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-n>I<filename>"
 msgid "B<-I>I<filename>"
-msgstr "B<-n>I<filnamn>"
+msgstr "B<-I>I<filnamn>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:386
@@ -8355,10 +8568,11 @@ msgid ""
 "Use I<filename> as reference file to generate the symbols file that is "
 "integrated in the package itself."
 msgstr ""
+"Använd I<filnamn> som referensfil för att generera symbolfilen som "
+"integreras i själva paketet."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:390
-#, fuzzy
 #| msgid ""
 #| "Print the control file to standard output, rather than to B<debian/tmp/"
 #| "DEBIAN/control> (or I<packagebuilddir>B</DEBIAN/control> if B<-P> was "
@@ -8367,15 +8581,15 @@ msgid ""
 "Print the generated symbols file to standard output, rather than being "
 "stored in the package build tree."
 msgstr ""
-"Skriv control-filen på standard ut, i stället för till B<debian/tmp/DEBIAN/"
-"control> (eller I<paketbyggkatalog>B</DEBIAN/control> om B<-P> användes)."
+"Skriv den genererade symbolfilen på standard ut, i stället för att "
+"lagra den i paketets byggträd."
 
 #. type: TP
 #: dpkg-gensymbols.1:390
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-n>I<filename>"
 msgid "B<-O>I<filename>"
-msgstr "B<-n>I<filnamn>"
+msgstr "B<-O>I<filnamn>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:396
@@ -8385,13 +8599,18 @@ msgid ""
 "can use this feature to update a symbols file so that it matches a newer "
 "upstream version of your library."
 msgstr ""
+"Lagra den genererade symbolfilen som I<filnamn>. Om I<filnamn> redan "
+"existerar kommer dess innehåll att användas som bas för den genererade "
+"symbolfilen. Du kan använda den här funktionen för att uppdatera en "
+"symbolfil så att den motsvarar en nyare uppströmsversion av ditt "
+"bibliotek."
 
 #. type: TP
 #: dpkg-gensymbols.1:396
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-tc>"
 msgid "B<-t>"
-msgstr "B<-tc>"
+msgstr "B<-t>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:405
@@ -8404,13 +8623,20 @@ msgid ""
 "(5)> file (according to the tag processing rules) while all symbols are "
 "always written to the symbol file template."
 msgstr ""
+"Skriv symbolfilen i mall-läge istället för i formatet kompatibelt med "
+"I<deb-symbols(5)>. Huvudskillnaden är att symbolnamn och taggar skrivs "
+"i sin originalform i mall-läget, till skillnad från de efterbehandlade "
+"symbolnamnen med borttagna taggar som skrivs i det kompatibla läget. "
+"Dessutom kan vissa symboler uteslutas när en vanlig I<deb-symbols(5)>-"
+"fil skrivs (i enlighet med tagghanteringsreglerna) medan alla symboler "
+"alltid skrivs till symbolfilsmallen."
 
 #. type: TP
 #: dpkg-gensymbols.1:405
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-I>I<[pattern]>"
 msgid "B<-c>I<[0-4]>"
-msgstr "B<-I>I<[mönster]>"
+msgstr "B<-c>I<[0-4]>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:413
@@ -8422,6 +8648,13 @@ msgid ""
 "new symbols have been introduced. Level 3 fails if some libraries have "
 "disappeared. Level 4 fails if some libraries have been introduced."
 msgstr ""
+"Definiera vilka kontroller som skall utföras när den genererade "
+"symbolfilen jämförs med den mallfil som används som startpunkt. "
+"Som standard är nivån 1. Genom att öka nivån utförs flera kontroller, "
+"inklusive alla kontroller på lägre nivå. Nivå 2 misslyckas om nya "
+"symboler har introducerats. Nivå 3 misslyckas om några bibliotek "
+"har försvunnit. Nivå 4 misslyckas om några bibliotek har "
+"introducerats."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:416
@@ -8429,6 +8662,8 @@ msgid ""
 "This value can be overridden by the environment variable "
 "DPKG_GENSYMBOLS_CHECK_LEVEL."
 msgstr ""
+"Värdet kan överstyras med miljövariabeln "
+"DPKG_GENSYMBOLS_CHECK_LEVEL."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:422
@@ -8438,10 +8673,15 @@ msgid ""
 "libraries or new/lost symbols. This option only disables informational "
 "output but not the checks themselves (see I<-c> option)."
 msgstr ""
+"Håll tyst och generera aldrig en differens mellan den genererade "
+"symbolfilen och mallfilen som användes som startpunkt eller visa "
+"varningar om nya/förlorade bibliotek eller nya/förlorade symboler. "
+"Den här flaggan tar endast bort informationsutdata, inte själva "
+"kontrolleran (se flaggan I<-c>)."
 
 #. type: TP
 #: dpkg-gensymbols.1:422
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-a>I<architecture>"
 msgid "B<-a>I<arch>"
 msgstr "B<-a>I<arkitektur>"
@@ -8453,10 +8693,12 @@ msgid ""
 "option to generate a symbol file or diff for any architecture provided its "
 "binaries are already available."
 msgstr ""
+"Anta I<arkitektur> som värdarkitektur vid hantering av symbolfiler. "
+"Använd den här flaggan för att generera en symbolfil eller differens "
+"för valfri arkitektur så länge dess binärer är tillgängliga."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:432
-#, fuzzy
 #| msgid ""
 #| "Enable verbose mode. Numerous messages are displayed to explain what "
 #| "B<dpkg-shlibdeps> does."
@@ -8464,15 +8706,15 @@ msgid ""
 "Enable debug mode. Numerous messages are displayed to explain what B<dpkg-"
 "gensymbols> does."
 msgstr ""
-"Aktiverar pratsamt läge. Flera meddelanden visas för att förklara vad B<dpkg-"
-"shlibs> håller på med."
+"Aktiverar felsökningsläge. Flera meddelanden visas för att förklara vad B<dpkg-"
+"gensymbols> gör."
 
 #. type: TP
 #: dpkg-gensymbols.1:432
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-G>"
 msgid "B<-V>"
-msgstr "B<-G>"
+msgstr "B<-V>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:438
@@ -8481,35 +8723,37 @@ msgid ""
 "as comments. Furthermore in template mode, pattern symbols are followed by "
 "comments listing real symbols that have matched the pattern."
 msgstr ""
+"Aktivera pratsamt läge. Den genererade symbolfilen innehåller "
+"ej längre rekommenderade symboler som kommentarer. I mall-läge följs "
+"dessutom mönstersymboler av kommentarer som visar vilka verkliga "
+"symboler som har träffats av mönstret."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:447
 msgid "B<http://people.redhat.com/drepper/symbol-versioning>"
-msgstr ""
+msgstr "B<http://people.redhat.com/drepper/symbol-versioning>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:449
 msgid "B<http://people.redhat.com/drepper/goodpractice.pdf>"
-msgstr ""
+msgstr "B<http://people.redhat.com/drepper/goodpractice.pdf>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:451
 msgid "B<http://people.redhat.com/drepper/dsohowto.pdf>"
-msgstr ""
+msgstr "B<http://people.redhat.com/drepper/dsohowto.pdf>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:454
-#, fuzzy
 #| msgid "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 msgid "B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
-msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
+msgstr "B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:457
-#, fuzzy
 #| msgid "Copyright \\(co 2007-2008 Rapha\\[:e]l Hertzog"
 msgid "Copyright \\(co 2007-2009 Rapha\\[:e]l Hertzog"
-msgstr "Upphovsrättsskyddat © 2007-2008 Raphaël Hertzog"
+msgstr "Upphovsrättsskyddat © 2007-2009 Raphaël Hertzog"
 
 #. type: TH
 #: dpkg-name.1:6
@@ -9084,11 +9328,13 @@ msgid ""
 "The first three columns of the output show the desired action, the package "
 "status, and errors, in that order."
 msgstr ""
+"De första tre kolumnerna i utdata visar önskad åtgärd, paketstatus och "
+"fel, i den ordningen."
 
 #. type: Plain text
 #: dpkg-query.1:33
 msgid "Desired action:"
-msgstr ""
+msgstr "Önskad åtgärd"
 
 #. type: Plain text
 #: dpkg-query.1:39
@@ -9100,13 +9346,17 @@ msgid ""
 "  r = Remove\n"
 "  p = Purge\n"
 msgstr ""
+"  u = Okänd\n"
+"  i = Installera\n"
+"  h = Håll\n"
+"  r = Ta bort\n"
+"  p = Rensa\n"
 
 #. type: Plain text
 #: dpkg-query.1:42
-#, fuzzy
 #| msgid "Packages status list"
 msgid "Package status:"
-msgstr "Paketstatuslista"
+msgstr "Paketstatus:"
 
 #. type: Plain text
 #: dpkg-query.1:51
@@ -9121,13 +9371,20 @@ msgid ""
 "  t = Triggers-pending\n"
 "  i = Installed\n"
 msgstr ""
+"  n = Ej installerat\n"
+"  c = Konfigurationsfiler\n"
+"  H = Halvinstallerat\n"
+"  U = Uppackat\n"
+"  F = Halvkonfigurerat\n"
+"  W = Utlösare väntad\n"
+"  t = Utlösare förestående\n"
+"  i = Installerad\n"
 
 #. type: Plain text
 #: dpkg-query.1:54
-#, fuzzy
 #| msgid "Compiler flags"
 msgid "Error flags:"
-msgstr "Kompileringsflaggor"
+msgstr "Felflaggor:"
 
 #. type: Plain text
 #: dpkg-query.1:57
@@ -9136,6 +9393,8 @@ msgid ""
 "  E<lt>emptyE<gt> = (none)\n"
 "  R = Reinst-required\n"
 msgstr ""
+"  E<lt>tom<gt> = (ingen)\n"
+"  R = Ominstallation krävs\n"
 
 #. type: Plain text
 #: dpkg-query.1:62
@@ -9144,6 +9403,9 @@ msgid ""
 "severe problems. Please refer to B<dpkg>(1) for information about the above "
 "states and flags."
 msgstr ""
+"En versal status- eller felbokstav anger att paketet troligen kommer "
+"orsaka allvarliga problem. Se B<dpkg>(1) för information om status "
+"och flaggor ovan."
 
 #. type: Plain text
 #: dpkg-query.1:67
@@ -9426,20 +9688,18 @@ msgstr "0"
 
 #. type: Plain text
 #: dpkg-query.1:192
-#, fuzzy
 #| msgid "The requested action was successfully performed."
 msgid "The requested query was successfully performed."
-msgstr "Den önskade funktionen utfördes utan fel."
+msgstr "Den önskade frågan utfördes utan fel."
 
 #. type: IP
 #: dpkg-query.1:192
 #, no-wrap
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #. type: Plain text
 #: dpkg-query.1:195
-#, fuzzy
 #| msgid ""
 #| "Problems were encountered whilst parsing the command line or performing "
 #| "the action."
@@ -9447,8 +9707,9 @@ msgid ""
 "Problems were encountered while parsing the command line or performing the "
 "query, including no file or package being found (except for --control-path)."
 msgstr ""
-"Problem uppstod vid tolkning av kommandoraden eller när funktionen skulle "
-"utföras."
+"Problem uppstod vid tolkning av kommandoraden eller när frågan skulle "
+"utföras, till exempel att ingen fil eller paket hittades (förutom för "
+"--control-path)."
 
 #. type: Plain text
 #: dpkg-query.1:201
@@ -10701,7 +10962,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:65
-#, fuzzy
 #| msgid ""
 #| "B<dpkg-source> will build the source package with the first format that "
 #| "works from this ordered list: the format(s) indicated with the I<--"
@@ -10717,10 +10977,10 @@ msgid ""
 "various source package formats."
 msgstr ""
 "B<dpkg-source> kommer bygga källkodspaketet med det första format som "
-"fungerar från en lista i denna ordning: formatet som anges med "
-"kommandoradsflaggan/-orna I<--format>,  som anges i I<debian/source/format>, "
-"\"1.0\", \"3.0 (quilt)\", \"3.0 (native)\". Se avsnittet B<FORMAT PÅ "
-"KÄLLKODSPAKET> för en omfattande beskrivning av de olika "
+"fungerar från denna lista i denna ordning: formatet som anges med "
+"kommandoradsflaggan I<--format>, formatet som anges i I<debian/source/format>, "
+"\"1.0\". Se avsnittet B<FORMAT PÅ "
+"KÄLLKODSPAKET> för en utförlig beskrivning av de olika "
 "källkodspaketformaten."
 
 #. type: TP
@@ -10731,7 +10991,6 @@ msgstr "B<--print-format> I<katalog>"
 
 #. type: Plain text
 #: dpkg-source.1:71
-#, fuzzy
 #| msgid ""
 #| "Print the source format that would be used to build the source package if "
 #| "B<dpkg-source -b >I<directory> was called (in the same conditions and "
@@ -10742,7 +11001,8 @@ msgid ""
 "the same parameters)."
 msgstr ""
 "Visa formatet som skulle användas för att bygga källkodspaketet om B<dpkg-"
-"source -b> I<katalog> skulle köras (i samma katalog och med samma flaggor)."
+"source -b> I<katalog> skulle köras (under samma förhållanden och med samma "
+"parametrar)."
 
 #. type: SH
 #: dpkg-source.1:79
@@ -10780,7 +11040,6 @@ msgstr "B<--format=>I<värde>"
 
 #. type: Plain text
 #: dpkg-source.1:103
-#, fuzzy
 #| msgid ""
 #| "Try first the given format for building the source package. If used "
 #| "multiple times, they are tried in order. It does override any format "
@@ -10789,13 +11048,11 @@ msgid ""
 "Use the given format for building the source package. It does override any "
 "format given in B<debian/source/format>."
 msgstr ""
-"Försök det första givna formatet för att bygga källkodspaketet. Om det "
-"används flera gånger kommer de att försöka användas i den ordning de angavs. "
+"Använd det givna formatet för att bygga källkodspaketet. "
 "Det överstyr inte ett eventuellt format som anges i B<debian/source/format>."
 
 #. type: Plain text
 #: dpkg-source.1:113
-#, fuzzy
 #| msgid ""
 #| "Read substitution variables in I<substvarsfile>; the default is to not "
 #| "read any file."
@@ -10805,7 +11062,8 @@ msgid ""
 "variables from multiple files."
 msgstr ""
 "Läs substitueringsvariabler från I<substvarfil>; standardvärde är att inte "
-"läsa någon fil."
+"läsa någon fil.Flaggan kan användas flera gånger för att läsa "
+"substitueringsvariabler från flera filer."
 
 #. type: TP
 #: dpkg-source.1:119
@@ -10849,7 +11107,7 @@ msgstr ""
 #: dpkg-source.1:133
 #, no-wrap
 msgid "B<-i>[I<regexp>], B<--diff-ignore>[=I<regexp>]"
-msgstr ""
+msgstr "B<-i>[I<reg.uttr>], B<--diff-ignore>[=I<reg.uttr>]"
 
 #. type: Plain text
 #: dpkg-source.1:145
@@ -10902,7 +11160,7 @@ msgstr ""
 #: dpkg-source.1:155
 #, no-wrap
 msgid "B<--extend-diff-ignore>=I<regexp>"
-msgstr ""
+msgstr "B<--extend-diff-ignore>=I<reg.uttr>"
 
 #. type: Plain text
 #: dpkg-source.1:162
@@ -10913,12 +11171,16 @@ msgid ""
 "options> to exclude some auto-generated files from the automatic patch "
 "generation."
 msgstr ""
+"Det reguljära uttrycket i perlformat som angavs utökar standarduttrycket "
+"för B<-i> genom att lägga till \"B<|>I<reg.uttry>\" efter standarduttrycket. "
+"Flaggan är nyttig för B<debian/source/options> för att exkludera en del "
+"automatiskt genererade filer från skapandet av automatiska patchar."
 
 #. type: TP
 #: dpkg-source.1:162
 #, no-wrap
 msgid "B<-I>[I<file-pattern>], B<--tar-ignore>[=I<file-pattern>]"
-msgstr ""
+msgstr "B<-I>[I<filmönster>], B<--tar-ignore>[=I<filmönster>]"
 
 #. type: Plain text
 #: dpkg-source.1:171
@@ -11470,7 +11732,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:406
-#, fuzzy
 #| msgid ""
 #| "The file B<debian/patches/.dpkg-source-applied> is created if some "
 #| "patches have been applied during the extraction."
@@ -11478,12 +11739,11 @@ msgid ""
 "The file B<.pc/applied-patches> is created if some patches have been applied "
 "during the extraction."
 msgstr ""
-"Filen B<debian/patches/.dpkg-source-applied> skapas om patchar tillämpades "
+"Filen B<.pc/applied-patchers> skapas om patchar tillämpades "
 "vid uppackningen."
 
 #. type: Plain text
 #: dpkg-source.1:418
-#, fuzzy
 #| msgid ""
 #| "All original tarballs found in the current directory are extracted in a "
 #| "temporary directory by following the same logic than the unpack, the "
@@ -11508,17 +11768,15 @@ msgstr ""
 "Alla original-tarbollar som finns i den aktuella katalogen packas upp i en "
 "temporär katalog med samma logik som i uppackningen, debian-katalogen "
 "kopieras över i den temporära katalogen och alla patchar, förutom "
-"B<zz_debian-diff-auto> tillämpas. Temporärkatalogen jämförs därefter mot "
-"källkodskatalogen och diffen (om den inte är tom) lagras i B<debian/patches/"
-"zz_debian-diff-auto>. Eventuella ändringar på binärfiler kan inte "
-"representeras i diffen och kommer därmed att leda till ett felmeddelande, "
-"såvida inte paketansvariga medvetet väljer att inkludera den modifierade "
-"binärfilen i debian-tarbollen (genom att lista den i B<debian/source/include-"
-"binaries>)."
+"den automatiska patchen (B<debian-changes>I<version> eller B<debian-"
+"changes>, beroende på B<--single-debian-patch>) tillämpas. "
+"Temporärkatalogen jämförs därefter mot "
+"källkodskatalogen och diffen (om den inte är tom) lagras i den"
+"automatiska patchen. Om den automatiska patchen skapas/tas bort, "
+"läggs den till/tas bort från series-filen och från quilt-metadata."
 
 #. type: Plain text
 #: dpkg-source.1:426
-#, fuzzy
 #| msgid ""
 #| "All original tarballs found in the current directory are extracted in a "
 #| "temporary directory by following the same logic as for the unpack, the "
@@ -11540,13 +11798,8 @@ msgid ""
 "debian sub-directory unless they have been whitelisted through B<debian/"
 "source/include-binaries>."
 msgstr ""
-"Alla original-tarbollar som finns i den aktuella katalogen packas upp i en "
-"temporär katalog med samma logik som i uppackningen, debian-katalogen "
-"kopieras över i den temporära katalogen och alla patchar, förutom B<debian-"
-"changes->I<version> tillämpas. Temporärkatalogen jämförs därefter mot "
-"källkodskatalogen och diffen (om den inte är tom) lagras i B<debian/patches/"
-"debian-changes->I<version>. Eventuella ändringar på binärfiler kan inte "
-"representeras i diffen och kommer därmed att leda till ett felmeddelande, "
+"Eventuella ändringar på binärfiler kan inte "
+"representeras i en diff och kommer därmed att leda till ett felmeddelande, "
 "såvida inte paketansvariga medvetet väljer att inkludera den modifierade "
 "binärfilen i debian-tarbollen (genom att lista den i B<debian/source/include-"
 "binaries>). Byggningen kommer även att misslyckas om binärfiler upptäcks i "
@@ -11578,7 +11831,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:448
-#, fuzzy
 #| msgid ""
 #| "Note: B<dpkg-source> expects the source tree to have all patches listed "
 #| "in the series file applied when you generate the source package.  This is "
@@ -11611,12 +11863,10 @@ msgstr ""
 "med till exempel Format: 1.0. För att motverka detta problem kommer B<dpkg-"
 "source> självt att tillämpa patchar om det tror att de ännu inte har "
 "tillämpats. För att upptäcka om så är fallet används följande heuristik: om "
-"katalogen B<.pc> finns kommer B<quilt unapplied> att anropas för att se om "
-"några av patcharna inte har tillämpats. Därefter kommer den att testa den "
-"första patchen i serien (eller den första ej tillämpade patchen som anges av "
-"B<quilt unapplied>, om en sådan finns), och bekräfta att den kan tillämpas "
-"utan fel. Om bekräftelsen lyckas tolkas det som att patchar inte har "
-"tillämpats, varpå de tillämpas. Flaggan B<--no-preparation> kan användas för "
+"en lista över förmodligen ej applicerade patchar (de listas i "
+"B<series>-filen men inte i B<.pc/applied-patches>), och om den första "
+"patchen i listan kan tillämpas utan fel kommer samtliga att tillämpas. "
+"Flaggan B<--no-preparation> kan användas för "
 "att slå av detta beteende."
 
 #. type: Plain text
@@ -11626,10 +11876,10 @@ msgstr "B<Byggflaggor>"
 
 #. type: TP
 #: dpkg-source.1:450
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--to> I<version>, B<-t>I<version>"
 msgid "B<--allow-version-of-quilt-db=>I<version>"
-msgstr "B<--to> I<version>, B<-t>I<version>"
+msgstr "B<--allow-version-of-quilt-db=>I<version>"
 
 # type: Plain text
 #. type: Plain text
@@ -11641,6 +11891,11 @@ msgid ""
 "compatible with the version 2 that B<dpkg-source> currently supports. The "
 "version of the quilt metadata is stored in B<.pc/.version>."
 msgstr ""
+"Tillåt B<dpkg-source> att bygga källkodspaketet om versionen av "
+"quilt-metadata är den som angavs, även om B<dpkg-source> inte "
+"känner till den. Det betyder att den givna versionen av quilt-metadata "
+"är kompatibel med version 2 som B<dpkg-source> för närvarande stöder. "
+"Versionen av quilt-metadata lagras i B<.pc/.version>."
 
 #. type: TP
 #: dpkg-source.1:458
@@ -11702,10 +11957,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:474
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--skip-debianization>"
 msgid "B<--single-debian-patch>"
-msgstr "B<--skip-debianization>"
+msgstr "B<--single-debian-patch>"
 
 # type: Plain text
 #. type: Plain text
@@ -11719,12 +11974,20 @@ msgid ""
 "is recommended to create a debian/source/patch-header file explaining how "
 "the Debian changes can be best reviewed, for example in the VCS that is used."
 msgstr ""
+"Använd B<debian/patches/debian-changes> istället för B<debian/patches/"
+"debian-changes->I<version> som namn på den automatiska patch som "
+"genereras vid bygget. Denna flagga är speciellt nyttig när paketet "
+"hanteras i ett versionshanteringssystem och en patch inte kan "
+"skapas på ett pålitligt sätt. När den här flaggan används rekommenderar "
+"vi att du skapar en debian/source/patch-header-fil som förklarar hur "
+"Debianändringarna bäst kan ses, till exempel i det versionshanteringssystem "
+"som används."
 
 #. type: TP
 #: dpkg-source.1:484
 #, no-wrap
 msgid "B<--create-empty-orig>"
-msgstr ""
+msgstr "B<--create-empty-orig>"
 
 #. type: Plain text
 #: dpkg-source.1:490
@@ -11734,6 +11997,10 @@ msgid ""
 "used when the source package is just a bundle of multiple upstream software "
 "and where there's no \"main\" software."
 msgstr ""
+"Skapa huvud-originaltarbollen som tom automatiskt om den saknas och "
+"om det finns supplement-originaltarbollar. Flaggan är tänkt att "
+"användas när källkodspaketet bara är en samling av flera "
+"uppströmsprogram och där det inte finns något \"huvud\"-program."
 
 #. type: Plain text
 #: dpkg-source.1:493
@@ -11919,7 +12186,7 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:559
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "  # let dpkg-source create a debian.tar.bz2 with maximal compression\n"
 #| "  compression = \"bzip2\"\n"
@@ -11934,6 +12201,8 @@ msgstr ""
 "  # låt dpkg-source skapa en debian.tar.bz2 med maximal komprimering\n"
 "  compression = \"bzip2\"\n"
 "  compression-level = 9\n"
+"  # använd debian/patches/debian-changes som en automatisk patch\n"
+"  single-debian-patch\n"
 
 #. type: Plain text
 #: dpkg-source.1:562
@@ -11946,10 +12215,10 @@ msgstr ""
 
 #. type: SS
 #: dpkg-source.1:562
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "debian/source/format"
 msgid "debian/source/patch-header"
-msgstr "debian/source/format"
+msgstr "debian/source/patch-header"
 
 # type: Plain text
 #. type: Plain text
@@ -11958,6 +12227,8 @@ msgid ""
 "Free form text that is put on top of the automatic patch generated in "
 "formats \"2.0\" or \"3.0 (quilt)\"."
 msgstr ""
+"Friformstext som läggs in på toppen av den automatiskt genererade "
+"patchen i formaten \"2.0\" eller \"3.0 (quilt)\"."
 
 #. type: SS
 #: dpkg-source.1:565
@@ -12889,7 +13160,6 @@ msgstr "dselect - Debians pakethanteringsskal"
 
 #. type: Plain text
 #: dselect.1:16
-#, fuzzy
 #| msgid ""
 #| "B<dselect> [B<--admindir> I<E<lt>directoryE<gt>>] [B<--help>] [B<--"
 #| "version>] [B<--licence>|B<--license>] [B<--expert>] [B<--debug>|B<-"
@@ -12902,7 +13172,7 @@ msgid ""
 "+attr+..>]]]"
 msgstr ""
 "B<dselect> [B<--admindir> I<E<lt>katalogE<gt>>] [B<--help>] [B<--version>] "
-"[B<--licence>|B<--license>] [B<--expert>] [B<--debug>|B<-D>I<E<lt>filE<gt>>] "
+"[B<--expert>] [B<--debug>|B<-D>I<E<lt>filE<gt>>] "
 "[I<E<lt>handlingE<gt>>] [B<--colour>|B<--color> I<skärmdel>:[I<förgrund>],"
 "[I<bakgrund>][I<:attr>[I<+attr+..>]]]"
 
@@ -13969,6 +14239,8 @@ msgid ""
 "If set, B<dselect> will use it as the directory from which to read the user "
 "specific configuration file."
 msgstr ""
+"Om satt kommer B<dselect> att använda det som katalogen från vilket "
+"den användarspecifika konfigurationsfilen skall läsas."
 
 #. type: Plain text
 #: dselect.1:441
@@ -14013,7 +14285,6 @@ msgstr "B<dpkg>(1), B<apt-get>(8), B<sources.list>(5), B<deb>(5)."
 
 #. type: Plain text
 #: dselect.1:462
-#, fuzzy
 #| msgid ""
 #| "B<dselect> was written by Ian Jackson (ijackson@gnu.ai.mit.edu). Full "
 #| "list of contributors may be found in `dselect --license'."
@@ -14021,8 +14292,8 @@ msgid ""
 "B<dselect> was written by Ian Jackson (ijackson@gnu.ai.mit.edu). Full list "
 "of contributors may be found in 'dselect --version'."
 msgstr ""
-"B<dselect> skrevs av (ijackson@gnu.ai.mit.edu).  En komplett lista över "
-"bidragslämnare får du med \"dselect --license\"."
+"B<dselect> skrevs av Ian Jackson (ijackson@gnu.ai.mit.edu). En komplett "
+"lista över bidragslämnare får du med \"dselect --version\"."
 
 #. type: Plain text
 #: dselect.1:465
