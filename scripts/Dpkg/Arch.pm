@@ -16,7 +16,7 @@ package Dpkg::Arch;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "0.01";
 
 use base qw(Exporter);
 our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch

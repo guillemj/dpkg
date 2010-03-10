@@ -16,7 +16,7 @@ package Dpkg::ErrorHandling;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "0.01";
 
 use Dpkg;
 use Dpkg::Gettext;
