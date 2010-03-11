@@ -211,6 +211,7 @@ void modstatdb_shutdown(void);
 /* Initialised by modstatdb_init. */
 extern char *statusfile, *availablefile;
 
+const char *pkgadmindir(void);
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 
 /*** from trigdeferred.l ***/

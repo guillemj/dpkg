@@ -264,8 +264,7 @@ static void removal_bulk_remove_files(
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "remove", NULL);
     varbufreset(&fnvb);
-    varbufaddstr(&fnvb,admindir);
-    varbufaddstr(&fnvb,"/" INFODIR);
+    varbufaddstr(&fnvb, pkgadmindir());
     infodirbaseused= fnvb.used;
     varbufaddc(&fnvb,0);
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
@@ -546,8 +545,7 @@ void removal_bulk(struct pkginfo *pkg) {
     removal_bulk_remove_leftover_dirs(pkg);
 
     varbufreset(&fnvb);
-    varbufaddstr(&fnvb,admindir);
-    varbufaddstr(&fnvb,"/" INFODIR);
+    varbufaddstr(&fnvb, pkgadmindir());
     varbufaddstr(&fnvb,pkg->name);
     pkgnameused= fnvb.used;
     

@@ -815,8 +815,7 @@ void process_archive(const char *filename) {
    */
   debug(dbg_general, "process_archive updating info directory");
   varbufreset(&infofnvb);
-  varbufaddstr(&infofnvb,admindir);
-  varbufaddstr(&infofnvb, "/" INFODIR);
+  varbufaddstr(&infofnvb, pkgadmindir());
   infodirlen= infofnvb.used;
   varbufaddc(&infofnvb,0);
   dsd= opendir(infofnvb.buf);
@@ -1064,8 +1063,7 @@ void process_archive(const char *filename) {
 
     /* OK, now we delete all the stuff in the `info' directory .. */
     varbufreset(&fnvb);
-    varbufaddstr(&fnvb,admindir);
-    varbufaddstr(&fnvb,"/" INFODIR);
+    varbufaddstr(&fnvb, pkgadmindir());
     infodirbaseused= fnvb.used;
     varbufaddc(&fnvb,0);
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));

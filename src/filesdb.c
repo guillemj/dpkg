@@ -403,8 +403,7 @@ void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list, int lea
   FILE *file;
 
   varbufreset(&vb);
-  varbufaddstr(&vb,admindir);
-  varbufaddstr(&vb,"/" INFODIR);
+  varbufaddstr(&vb, pkgadmindir());
   varbufaddstr(&vb,pkg->name);
   varbufaddstr(&vb,"." LISTFILE);
   varbufaddc(&vb,0);

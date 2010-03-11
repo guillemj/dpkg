@@ -52,6 +52,7 @@ static int nextupdate;
 static int updateslength;
 static char *updatefnbuf, *updatefnrest;
 static const char *admindir;
+static char *infodir;
 static struct varbuf uvb;
 
 static int ulist_select(const struct dirent *de) {
@@ -133,6 +134,7 @@ static const struct fni {
   {   STATUSFILE,                 &statusfile         },
   {   AVAILFILE,                  &availablefile      },
   {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
+  {   INFODIR,                    &infodir            },
   {   NULL, NULL                                      }
 };
 
@@ -360,11 +362,16 @@ modstatdb_note_ifwrite(struct pkginfo *pkg)
     modstatdb_note(pkg);
 }
 
+const char *
+pkgadmindir(void)
+{
+  return infodir;
+}
+
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   static struct varbuf vb;
   varbufreset(&vb);
-  varbufaddstr(&vb,admindir);
-  varbufaddstr(&vb,"/" INFODIR);
+  varbufaddstr(&vb, infodir);
   varbufaddstr(&vb,pkg->name);
   varbufaddc(&vb,'.');
   varbufaddstr(&vb,whichfile);
