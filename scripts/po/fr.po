@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2010-03-08 12:17+0100\n"
+"POT-Creation-Date: 2010-03-12 00:12+0100\n"
 "PO-Revision-Date: 2010-01-03 16:41+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -1745,9 +1745,9 @@ msgstr ""
 #: scripts/Dpkg/Interface/Storable.pm:87 scripts/Dpkg/Shlibs/Objdump.pm:99
 #: scripts/Dpkg/Source/Package/V2.pm:317 scripts/Dpkg/Source/Package/V2.pm:455
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:111
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:248
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:302
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:349
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:249
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:303
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:350
 #, perl-format
 msgid "cannot read %s"
 msgstr "impossible de lire %s"
@@ -2042,12 +2042,12 @@ msgstr "champ invalide dans %s : %s"
 #: scripts/Dpkg/IPC.pm:263 scripts/Dpkg/Source/Package.pm:340
 #: scripts/Dpkg/Source/Package.pm:428 scripts/Dpkg/Source/Package/V2.pm:196
 #: scripts/Dpkg/Source/Package/V2.pm:427 scripts/Dpkg/Source/Package/V2.pm:472
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:140
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:149
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:155
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:220
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:295
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:305
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:141
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:150
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:156
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:221
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:296
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:306
 #, perl-format
 msgid "cannot write %s"
 msgstr "impossible d'écrire %s"
@@ -2538,7 +2538,7 @@ msgstr "écriture sur l'entrée de tar"
 msgid "close on tar input"
 msgstr "écriture sur la sortie de tar"
 
-#: scripts/Dpkg/Source/Archive.pm:114 scripts/Dpkg/Source/Patch.pm:422
+#: scripts/Dpkg/Source/Archive.pm:114 scripts/Dpkg/Source/Patch.pm:435
 #: scripts/Dpkg/Source/Package/V3/git.pm:182
 #, perl-format
 msgid "cannot create directory %s"
@@ -2670,121 +2670,132 @@ msgstr "  l'ancienne version est %s"
 msgid "expected ^--- in line %d of diff `%s'"
 msgstr "dans la ligne %d du diff %s, « ^--- » attendu"
 
-#: scripts/Dpkg/Source/Patch.pm:329
+#: scripts/Dpkg/Source/Patch.pm:327 scripts/Dpkg/Source/Patch.pm:342
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:126
+#, perl-format
+msgid "%s contains an insecure path: %s"
+msgstr ""
+
+#: scripts/Dpkg/Source/Patch.pm:330
 #, perl-format
 msgid "diff `%s' patches file with name ending .dpkg-orig"
 msgstr "diff %s modifie un fichier dont le nom de termine par .dpkg-orig"
 
-#: scripts/Dpkg/Source/Patch.pm:333
+#: scripts/Dpkg/Source/Patch.pm:334
 #, perl-format
 msgid "diff `%s' finishes in middle of ---/+++ (line %d)"
 msgstr "diff %s se termine au milieu de ---/+++ (ligne %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:336
+#: scripts/Dpkg/Source/Patch.pm:337
 #, perl-format
 msgid "line after --- isn't as expected in diff `%s' (line %d)"
 msgstr "ligne après --- n'est pas comme attendu dans diff %s (ligne %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:343
+#: scripts/Dpkg/Source/Patch.pm:345
 #, perl-format
 msgid "none of the filenames in ---/+++ are relative in diff `%s' (line %d)"
 msgstr ""
 "aucun des fichiers indiqués par « ---/+++ » n'est relatif dans le diff « %"
 "s » (ligne %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:349
+#: scripts/Dpkg/Source/Patch.pm:351
 #, perl-format
 msgid "original and modified files are /dev/null in diff `%s' (line %d)"
 msgstr ""
 "les fichiers original et modifié sont /dev/null dans le diff %s (ligne %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:356
+#: scripts/Dpkg/Source/Patch.pm:358
 #, perl-format
 msgid "file removal without proper filename in diff `%s' (line %d)"
 msgstr "ligne après --- n'est pas comme attendu dans diff %s (ligne %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:358
+#: scripts/Dpkg/Source/Patch.pm:360
 #, perl-format
 msgid "diff %s removes a non-existing file %s (line %d)"
 msgstr ""
 "le fichier de différences %s supprime un fichier (%s) qui n'existe pas "
 "(ligne %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:367
+#: scripts/Dpkg/Source/Patch.pm:373
+#, perl-format
+msgid "diff %s modifies file %s through a symlink: %s"
+msgstr ""
+
+#: scripts/Dpkg/Source/Patch.pm:380
 #, perl-format
 msgid "diff `%s' patches something which is not a plain file"
 msgstr "diff %s modifie un objet qui n'est pas un fichier normal"
 
-#: scripts/Dpkg/Source/Patch.pm:371
+#: scripts/Dpkg/Source/Patch.pm:384
 #, perl-format
 msgid "diff `%s' patches file %s twice"
 msgstr "le diff %s modifie deux fois le fichier %s"
 
-#: scripts/Dpkg/Source/Patch.pm:386 scripts/Dpkg/Source/Patch.pm:389
+#: scripts/Dpkg/Source/Patch.pm:399 scripts/Dpkg/Source/Patch.pm:402
 #, perl-format
 msgid "unexpected end of diff `%s'"
 msgstr "fin inattendue de diff %s"
 
-#: scripts/Dpkg/Source/Patch.pm:398
+#: scripts/Dpkg/Source/Patch.pm:411
 #, perl-format
 msgid "expected [ +-] at start of line %d of diff `%s'"
 msgstr "[ +-] attendu au début de la ligne %d du diff %s"
 
-#: scripts/Dpkg/Source/Patch.pm:405
+#: scripts/Dpkg/Source/Patch.pm:418
 #, perl-format
 msgid "expected ^@@ at line %d of diff `%s'"
 msgstr "^@@ attendu ligne %d du diff %s"
 
-#: scripts/Dpkg/Source/Patch.pm:410
+#: scripts/Dpkg/Source/Patch.pm:423
 #, perl-format
 msgid "diff `%s' doesn't contain any patch"
 msgstr "le diff %s ne contient pas de changement"
 
-#: scripts/Dpkg/Source/Patch.pm:457
+#: scripts/Dpkg/Source/Patch.pm:470
 #, perl-format
 msgid "cannot change timestamp for %s"
 msgstr "impossible de modifier la date de %s"
 
-#: scripts/Dpkg/Source/Patch.pm:461
+#: scripts/Dpkg/Source/Patch.pm:474
 #, perl-format
 msgid "remove patch backup file %s"
 msgstr "suppression du fichier de sauvegarde %s"
 
-#: scripts/Dpkg/Source/Patch.pm:502
+#: scripts/Dpkg/Source/Patch.pm:515
 msgid "nonexistent"
 msgstr "inexistant"
 
-#: scripts/Dpkg/Source/Patch.pm:503 scripts/Dpkg/Source/Package.pm:350
+#: scripts/Dpkg/Source/Patch.pm:516 scripts/Dpkg/Source/Package.pm:350
 #, perl-format
 msgid "cannot stat %s"
 msgstr "stat de %s impossible"
 
-#: scripts/Dpkg/Source/Patch.pm:505
+#: scripts/Dpkg/Source/Patch.pm:518
 msgid "plain file"
 msgstr "simple fichier"
 
-#: scripts/Dpkg/Source/Patch.pm:506
+#: scripts/Dpkg/Source/Patch.pm:519
 msgid "directory"
 msgstr "répertoire"
 
-#: scripts/Dpkg/Source/Patch.pm:507
+#: scripts/Dpkg/Source/Patch.pm:520
 #, perl-format
 msgid "symlink to %s"
 msgstr "lien symbolique vers %s"
 
-#: scripts/Dpkg/Source/Patch.pm:508
+#: scripts/Dpkg/Source/Patch.pm:521
 msgid "block device"
 msgstr "périphérique bloc"
 
-#: scripts/Dpkg/Source/Patch.pm:509
+#: scripts/Dpkg/Source/Patch.pm:522
 msgid "character device"
 msgstr "périphérique caractère"
 
-#: scripts/Dpkg/Source/Patch.pm:510
+#: scripts/Dpkg/Source/Patch.pm:523
 msgid "named pipe"
 msgstr "tube nommé"
 
-#: scripts/Dpkg/Source/Patch.pm:511
+#: scripts/Dpkg/Source/Patch.pm:524
 msgid "named socket"
 msgstr "« socket » nommé"
 
@@ -2905,7 +2916,7 @@ msgid "failed to rename saved %s to %s"
 msgstr "impossible de modifier le fichier sauvegardé %s en %s"
 
 #: scripts/Dpkg/Source/Package/V1.pm:142 scripts/Dpkg/Source/Package/V2.pm:199
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:168
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:169
 #, perl-format
 msgid "applying %s"
 msgstr "mise en place de %s"
@@ -3087,7 +3098,7 @@ msgid "no orig.tar file found"
 msgstr "pas de fichier orig.tar trouvé"
 
 #: scripts/Dpkg/Source/Package/V2.pm:243
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:282
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:283
 msgid ""
 "patches have not been applied, applying them now (use --no-preparation to "
 "override)"
@@ -3328,18 +3339,18 @@ msgstr ""
 "le fichier « series » (%s) contient des options non gérées (« %s », ligne %s), "
 "dpkg-source pourrait échouer dans l'application des correctifs."
 
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:136
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:137
 #, fuzzy, perl-format
 msgid "cannot mkdir %s"
 msgstr "impossible d'ouvrir le répertoire %s"
 
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:207
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:208
 #, perl-format
 msgid "can't create symlink %s"
 msgstr "impossible de lire le lien symbolique %s"
 
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:256
-#: scripts/Dpkg/Source/Package/V3/quilt.pm:259
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:257
+#: scripts/Dpkg/Source/Package/V3/quilt.pm:260
 #, perl-format
 msgid "unsupported version of the quilt metadata: %s"
 msgstr ""
