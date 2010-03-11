@@ -116,7 +116,7 @@ subproc_check(int status, const char *desc, int flags)
 		if (flags & PROCNOERR)
 			return n;
 		if (flags & PROCWARN)
-			warning(_("%s returned error exit status %d"),
+			warning(_("subprocess %s returned error exit status %d"),
 			        desc, n);
 		else
 			ohshit(_("subprocess %s returned error exit status %d"),
@@ -128,7 +128,7 @@ subproc_check(int status, const char *desc, int flags)
 		if ((flags & PROCPIPE) && n == SIGPIPE)
 			return 0;
 		if (flags & PROCWARN)
-			warning(_("%s killed by signal (%s)%s"),
+			warning(_("subprocess %s killed by signal (%s)%s"),
 			        desc, strsignal(n),
 			        WCOREDUMP(status) ? _(", core dumped") : "");
 		else
@@ -153,7 +153,7 @@ subproc_wait(pid_t pid, const char *desc)
 
 	if (r != pid) {
 		onerr_abort++;
-		ohshite(_("wait for %s failed"), desc);
+		ohshite(_("wait for subprocess %s failed"), desc);
 	}
 
 	return status;
