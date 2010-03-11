@@ -56,6 +56,9 @@ EXTRA_DIST = \
 	debian/libdpkg-dev.docs \
 	debian/libdpkg-dev.install \
 	debian/libdpkg-dev.lintian-overrides \
+	debian/libdpkg-perl.docs \
+	debian/libdpkg-perl.install \
+	debian/libdpkg-perl.lintian-overrides \
 	debian/source/lintian-overrides \
 	debian/source/format \
 	debian/source/options \
