@@ -51,7 +51,6 @@ static FILE *importanttmp;
 static int nextupdate;
 static int updateslength;
 static char *updatefnbuf, *updatefnrest;
-static const char *admindir;
 static char *infodir;
 static struct varbuf uvb;
 
@@ -172,15 +171,15 @@ modstatdb_unlock(void)
   file_unlock();
 }
 
-enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritereq) {
+enum modstatdb_rw
+modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
+{
   const struct fni *fnip;
   
-  admindir= adir;
-
   for (fnip=fnis; fnip->suffix; fnip++) {
     free(*fnip->store);
-    *fnip->store= m_malloc(strlen(adir)+strlen(fnip->suffix)+2);
-    sprintf(*fnip->store, "%s/%s", adir, fnip->suffix);
+    *fnip->store = m_malloc(strlen(admindir) + strlen(fnip->suffix) + 2);
+    sprintf(*fnip->store, "%s/%s", admindir, fnip->suffix);
   }
 
   cflags= readwritereq & msdbrw_flagsmask;
@@ -193,14 +192,14 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
       ohshit(_("requested operation requires superuser privilege"));
     /* fall through */
   case msdbrw_write: case msdbrw_writeifposs:
-    if (access(adir,W_OK)) {
+    if (access(admindir, W_OK)) {
       if (errno != EACCES)
         ohshite(_("unable to access dpkg status area"));
       else if (readwritereq == msdbrw_write)
         ohshit(_("operation requires read/write access to dpkg status area"));
       cstatus= msdbrw_readonly;
     } else {
-      modstatdb_lock(adir);
+      modstatdb_lock(admindir);
       cstatus= (readwritereq == msdbrw_needsuperuserlockonly ?
                 msdbrw_needsuperuserlockonly :
                 msdbrw_write);
@@ -212,8 +211,8 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
     internerr("unknown modstatdb_rw '%d'", readwritereq);
   }
 
-  updatefnbuf= m_malloc(strlen(adir)+sizeof(UPDATESDIR)+IMPORTANTMAXLEN+5);
-  strcpy(updatefnbuf,adir);
+  updatefnbuf = m_malloc(strlen(admindir) + sizeof(UPDATESDIR) + IMPORTANTMAXLEN + 5);
+  strcpy(updatefnbuf, admindir);
   strcat(updatefnbuf,"/" UPDATESDIR);
   updatefnrest= updatefnbuf+strlen(updatefnbuf);
 
