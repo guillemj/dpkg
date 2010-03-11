@@ -49,6 +49,7 @@ static enum modstatdb_rw cstatus=-1, cflags=0;
 static char *importanttmpfile=NULL;
 static FILE *importanttmp;
 static int nextupdate;
+static char *updatesdir;
 static int updateslength;
 static char *updatefnbuf, *updatefnrest;
 static char *infodir;
@@ -132,6 +133,7 @@ static const struct fni {
 } fnis[] = {
   {   STATUSFILE,                 &statusfile         },
   {   AVAILFILE,                  &availablefile      },
+  {   UPDATESDIR,                 &updatesdir         },
   {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
   {   INFODIR,                    &infodir            },
   {   NULL, NULL                                      }
@@ -211,9 +213,8 @@ modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
     internerr("unknown modstatdb_rw '%d'", readwritereq);
   }
 
-  updatefnbuf = m_malloc(strlen(admindir) + sizeof(UPDATESDIR) + IMPORTANTMAXLEN + 5);
-  strcpy(updatefnbuf, admindir);
-  strcat(updatefnbuf,"/" UPDATESDIR);
+  updatefnbuf = m_malloc(strlen(updatesdir) + IMPORTANTMAXLEN + 5);
+  strcpy(updatefnbuf, updatesdir);
   updatefnrest= updatefnbuf+strlen(updatefnbuf);
 
   if (cstatus != msdbrw_needsuperuserlockonly) {
