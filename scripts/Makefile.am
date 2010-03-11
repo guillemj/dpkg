@@ -154,7 +154,7 @@ install-data-hook:
 uninstall-local:
 if BUILD_POD_DOC
 	for module in $(nobase_dist_perllib_DATA); do \
-	    rm -f $(DESTDIR)$(man3dir)/`echo $$module | sed -e 's|/|::|' -e 's/\.pm$$/.3/'`; \
+	    rm -f $(DESTDIR)$(man3dir)/`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$/.3/'`; \
 	done
 endif
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
