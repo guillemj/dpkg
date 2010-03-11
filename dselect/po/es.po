@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Debian dpkg 1.10.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2010-03-08 12:15+0100\n"
-"PO-Revision-Date: 2006-10-05 20:49+0200\n"
+"PO-Revision-Date: 2010-03-07 09:18+0100\n"
 "Last-Translator: Javier Fernández-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -116,9 +116,8 @@ msgid "failed to create query window"
 msgstr "fallo al crear ventana de pregunta"
 
 #: dselect/baselist.cc:260
-#, fuzzy
 msgid "Keybindings"
-msgstr "asociaciones de teclas"
+msgstr "Asociaciones de teclas"
 
 #: dselect/baselist.cc:308
 #, c-format
@@ -265,9 +264,8 @@ msgid "Revert to directly requested state for all packages"
 msgstr "Poner el estado directamente solicitado para todos los paquetes"
 
 #: dselect/bindings.cc:166
-#, fuzzy
 msgid "Revert to currently installed state for all packages"
-msgstr "Poner el estado directamente solicitado para todos los paquetes"
+msgstr "Poner el estado actualmente instalado para todos los paquetes"
 
 #: dselect/bindings.cc:169
 msgid "Select currently-highlighted access method"
@@ -282,7 +280,6 @@ msgid "Keystrokes"
 msgstr "Pulsaciones"
 
 #: dselect/helpmsgs.cc:29
-#, fuzzy
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -315,7 +312,7 @@ msgid ""
 msgstr ""
 "Teclas de movimiento: Re Pág/Av Pág, Inicio/Fin,\n"
 "                      Hacia adelante/hacia atrás:\n"
-" Flecha abajo, j        Flecha arriba, k      mueve lo destacado\n"
+" j, Flecha abajo      k, Flecha arriba,      mueve lo destacado\n"
 " N, Página abajo, Espacio \n"
 "               P, página arriba, retroceder   desplaza la lista 1 página\n"
 " ^n                     ^p                    desplaza la lista 1 línea\n"
@@ -330,11 +327,10 @@ msgstr ""
 " ^b                     ^f                    desplaza la visualización 1\n"
 "                                                carácter\n"
 "Marcar los paquetes para procesar posteriormente:\n"
-" +, Insert   instalar o actualizar\n"
-" -, Supr     desinstalar\n"
-" =, H        mantener en el estado actual\n"
-" :, G        no mantener: actualizar o dejar sin instalar\n"
-" _           Purgar (desinstalar y eliminar la configuración)\n"
+" +, Insert   instalar o actualizar   =, H   mantener en el estado actual\n"
+" -, Supr     desinstalar             :, G   no mantener: actualizar o dejar "
+"sin instalar\n"
+" _           desinstalar y eliminar la configuración\n"
 "                                          Varias:\n"
 "Dejar, salir, sobreescribir (¡observe las mayúsculas!)\n"
 "                                          ?, F1 solicita ayuda (también "
@@ -342,10 +338,10 @@ msgstr ""
 " Intro    Confirma, deja (se verifican dependencias)\n"
 "                                          i, I  se muestra/no se muestra "
 "información\n"
-"   Q      Confirma, deja (no se verifican dependencias)\n"
+"  Q      Confirma, deja (no se verifican dependencias)\n"
 "                                          o, O  circula por la opciones de "
 "ordenación\n"
-" X, Esc  sale, (eXit), abandonando cualquier cambio realizado\n"
+"  X, Esc  sale, (eXit), abandonando cualquier cambio realizado\n"
 "                                          v, V  cambia las opciones de la "
 "muestra de estado\n"
 "  R      Establece el estado antes de esta lista\n"
@@ -534,7 +530,6 @@ msgid "Display, part 1: package listing and status chars"
 msgstr "Muestra, parte 1: listado de paquete y caracteres de estado"
 
 #: dselect/helpmsgs.cc:125
-#, fuzzy
 msgid ""
 "The top half of the screen shows a list of packages.  For each package you "
 "see\n"
@@ -567,33 +562,34 @@ msgid ""
 "description.\n"
 msgstr ""
 "La mitad superior de la pantalla muestra una lista de paquetes. Para cada\n"
-"paquete verá cuatro columnas con su estado actual en el sistema y marca. De\n"
-"modo conciso, (utilice `v' para cambiar la muestra de mensajes) estos son\n"
+"paquete verá cuatro columnas con su estado actual en el sistema y marca. En\n"
+"el modo conciso (utilice `v' para cambiar la muestra de mensajes) estos son\n"
 "caracteres individuales, de la izquierda a la derecha:\n"
 "\n"
 " Indicador de error: Espacio - ningún error (pero el paquete puede estar en\n"
 "estado roto - véase más adelante)\n"
 "         `R'  - error serio durante la instalación, necesita reinstalarse;\n"
-" Estado instalado:  Espacio - no instalado;\n"
-"                      `*'   - instalado;\n"
-"                      `-'   - no instalado, pero permanecen ficheros de\n"
+" Estado instalado:  Espacio    - no instalado;\n"
+"                      `*'      - instalado;\n"
+"                      `-'      - no instalado, pero permanecen ficheros de\n"
 "                                configuración;\n"
-"    los paquetes en { `U'   - desempaquetado pero aún sin configurar;\n"
-"      estos estados { `C'   - semi-configurado (ocurrió un error);\n"
-"        están rotos { `I'   - semi-instalado (ocurrió un error).\n"
+"    los paquetes en { `U'      - desempaquetado pero aún sin configurar;\n"
+"      estos estados { `C'      - semi-configurado (ocurrió un error);\n"
+"      no están bien { `I'      - semi-instalado (ocurrió un error);\n"
+"      instalados    { `W', `t' - pendiente de la ejecución de disparadores.\n"
 " Marca antigua: lo solicitado para este paquete antes de presentar esta "
 "lista;\n"
 " Marca: lo que se solicita para este paquete;\n"
 "   `*': marcado para instalación o actualización;\n"
 "   `-': marcado para desinstalación, pero los ficheros de configuración\n"
 "          permanecerán\n"
-"   `=': en retención: el paquete no se procesará en absoluto;\n"
-"   `_': marcado para desaparición completa - incluso se eliminará la\n"
+"   `=': retenido: el paquete no se procesará en absoluto;\n"
+"   `_': marcado para purga completa - incluso se eliminará la\n"
 "          configuración\n"
 "   `n': el paquete es nuevo y aún debe marcarse para instalar/desinstalar/"
 "etc.\n"
 "\n"
-"También se muestra la prioridad, sección, nombre, números de versión "
+"También se muestra la Prioridad, Sección, nombre, números de versión "
 "disponible\n"
 "e instalada de cada paquete (Mayús-V para mostrar/esconder) y descripción\n"
 "resumida.\n"
@@ -708,7 +704,6 @@ msgid "Keystrokes for method selection"
 msgstr "Teclas para la selección de método"
 
 #: dselect/helpmsgs.cc:196
-#, fuzzy
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -734,7 +729,7 @@ msgid ""
 msgstr ""
 "Teclas de movimiento: Re Pág/Av Pág, Inicio/Fin, Arriba/Abajo, Adelante/"
 "Atrás\n"
-"  n, Flecha-abajo       p, Flecha-arriba       mover el realce iluminado\n"
+"  j, Flecha-abajo       k, Flecha-arriba       mover el realce iluminado\n"
 "  N, Re Pág, Espacio    P, Av Pág, Retroceso   desplazar la lista en 1 "
 "página\n"
 "  ^n                    ^p                     desplazar la lista en 1 "
@@ -750,7 +745,7 @@ msgstr ""
 "  ^b                    ^f                     desplazar la muestra 1 "
 "carácter\n"
 "(Éstas son las mismas teclas de movimiento que en la muestra de lista\n"
-"de paquete.)\n"
+"de paquetes.)\n"
 "\n"
 "Abandonar:\n"
 " Return, Intro   seleccionar este método e ir a su diálogo de configuración\n"
@@ -870,6 +865,10 @@ msgstr ""
 
 #: dselect/main.cc:163
 #, fuzzy
+#| msgid ""
+#| "This is free software; see the GNU General Public License version 2 or\n"
+#| "later for copying conditions. There is NO warranty.\n"
+#| "See %s --license for copyright and license details.\n"
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
@@ -914,6 +913,11 @@ msgstr ""
 
 #: dselect/main.cc:197
 #, fuzzy, c-format
+#| msgid ""
+#| "  --help                     Show this help message.\n"
+#| "  --version                  Show the version.\n"
+#| "  --license | --licence      Show the license.\n"
+#| "\n"
 msgid ""
 "  --help                     Show this help message.\n"
 "  --version                  Show the version.\n"
@@ -1064,9 +1068,8 @@ msgid "getch failed"
 msgstr "getch falló"
 
 #: dselect/methlist.cc:190
-#, fuzzy
 msgid "Explanation"
-msgstr "explicación de "
+msgstr "Explicación"
 
 #: dselect/methlist.cc:199
 msgid "No explanation available."
@@ -1126,6 +1129,7 @@ msgstr "Pulse <intro> para continuar.\n"
 
 #: dselect/method.cc:180
 #, fuzzy
+#| msgid "write error on standard error"
 msgid "<standard error>"
 msgstr "error de escritura en la salida de error estándar"
 
@@ -1328,11 +1332,11 @@ msgstr ""
 
 #: dselect/pkgdisplay.cc:55
 msgid "awaiting trigger processing"
-msgstr ""
+msgstr "esperando al procesado de los disparadores"
 
 #: dselect/pkgdisplay.cc:56
 msgid "triggered"
-msgstr ""
+msgstr "disparadores ejecutados"
 
 #: dselect/pkgdisplay.cc:57
 msgid "installed"
@@ -1384,7 +1388,7 @@ msgstr "predepende de"
 
 #: dselect/pkgdisplay.cc:73
 msgid "breaks"
-msgstr ""
+msgstr "rompe"
 
 #: dselect/pkgdisplay.cc:74
 msgid "conflicts with"
@@ -1591,24 +1595,20 @@ msgstr ""
 "marcar paquetes en distintos tipos de grupos."
 
 #: dselect/pkginfo.cc:93
-#, fuzzy
 msgid "Interrelationships"
-msgstr "interrelaciones"
+msgstr "Interrelaciones"
 
 #: dselect/pkginfo.cc:112
-#, fuzzy
 msgid "No description available."
-msgstr "no hay ninguna descripción disponible."
+msgstr "No hay una descripción disponible."
 
 #: dselect/pkginfo.cc:130
-#, fuzzy
 msgid "Installed control file information"
-msgstr "información de control instalada para "
+msgstr "Iinformación de control instalada"
 
 #: dselect/pkginfo.cc:146
-#, fuzzy
 msgid "Available control file information"
-msgstr "versión disponible de la información del fichero de control"
+msgstr "Información disponible de control"
 
 #: dselect/pkglist.cc:423
 msgid "There are no packages."
@@ -1709,33 +1709,6 @@ msgstr "Ver.inst."
 msgid "Avail.ver"
 msgstr "Ver.disp."
 
-#~ msgid "unable to run %.250s process `%.250s'"
-#~ msgstr "no se puede ejecutar el proceso %.250s `%.250s'"
-
-#~ msgid "failed config"
-#~ msgstr "configuración fallida"
-
-#~ msgid "unable to wait for %.250s"
-#~ msgstr "no se puede efectuar `wait' en %.250s"
-
-#~ msgid "got wrong child's status - asked for %ld, got %ld"
-#~ msgstr ""
-#~ "se obtuvo un código de estado equivocado - se esperaba %ld, se obtuvo %ld"
-
-#~ msgid "Recommended"
-#~ msgstr "recomendados"
-
-# Traducir contrib por contribuidos sería como traducir Open Source.
-# Genera más confusión todavía. sv
-#~ msgid "Contrib"
-#~ msgstr "contrib"
-
-#~ msgid "Rec"
-#~ msgstr "Rec"
-
-#~ msgid "Ctb"
-#~ msgstr "Ctb"
-
 # FIXME: This is for debugging purposes. Should not be translated. sv
 #~ msgid ""
 #~ "baselist::startdisplay() done ...\n"
@@ -1769,8 +1742,35 @@ msgstr "Ver.disp."
 #~ msgid "unable to ignore signal %d before running %.250s"
 #~ msgstr "no se puede descartar la señal %d antes de ejecutar %.250s"
 
+#~ msgid "unable to run %.250s process `%.250s'"
+#~ msgstr "no se puede ejecutar el proceso %.250s `%.250s'"
+
+#~ msgid "unable to wait for %.250s"
+#~ msgstr "no se puede efectuar `wait' en %.250s"
+
+#~ msgid "got wrong child's status - asked for %ld, got %ld"
+#~ msgstr ""
+#~ "se obtuvo un código de estado equivocado - se esperaba %ld, se obtuvo %ld"
+
 #~ msgid "(no clientdata)"
 #~ msgstr "(no hay datos del cliente)"
+
+#~ msgid "failed config"
+#~ msgstr "configuración fallida"
+
+#~ msgid "Recommended"
+#~ msgstr "recomendados"
+
+# Traducir contrib por contribuidos sería como traducir Open Source.
+# Genera más confusión todavía. sv
+#~ msgid "Contrib"
+#~ msgstr "contrib"
+
+#~ msgid "Rec"
+#~ msgstr "Rec"
+
+#~ msgid "Ctb"
+#~ msgstr "Ctb"
 
 # FIXME: Need a translator comment to know null's sex. sv
 # It seems it refers to a missing priority or a missing section.
