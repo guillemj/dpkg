@@ -44,7 +44,6 @@
 #include <dpkg/file.h>
 
 char *statusfile=NULL, *availablefile=NULL;
-char *triggersdir, *triggersfilefile, *triggersnewfilefile;
 
 static enum modstatdb_rw cstatus=-1, cflags=0;
 static char *importanttmpfile=NULL;
@@ -134,9 +133,6 @@ static const struct fni {
   {   STATUSFILE,                 &statusfile         },
   {   AVAILFILE,                  &availablefile      },
   {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
-  {   TRIGGERSDIR,                &triggersdir        },
-  {   TRIGGERSDIR "/File",        &triggersfilefile   },
-  {   TRIGGERSDIR "/File.new",    &triggersnewfilefile},
   {   NULL, NULL                                      }
 };
 

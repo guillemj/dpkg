@@ -87,6 +87,7 @@ static const struct trigdefmeths *trigdef;
 
 /*---------- Deferred file handling ----------*/
 
+static const char *triggersdir;
 static int lock_fd = -1;
 static FILE *old_deferred;
 static FILE *trig_new_deferred;
@@ -106,6 +107,8 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 {
 	struct stat stab;
 	int r;
+
+	triggersdir = trig_get_triggersdir(admindir);
 
 	if (uf & tduf_write) {
 		constructfn(&fn, admindir, TRIGGERSLOCKFILE);

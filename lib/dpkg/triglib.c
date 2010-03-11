@@ -27,6 +27,7 @@
 
 #include <assert.h>
 #include <errno.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include <dpkg/i18n.h>
@@ -52,6 +53,28 @@ illegal_triggername(const char *p)
 }
 
 /*========== recording triggers ==========*/
+
+static char *triggersdir, *triggersfilefile, *triggersnewfilefile;
+
+char *
+trig_get_triggersdir(const char *admindir)
+{
+	struct varbuf path = VARBUF_INIT;
+
+	varbufprintf(&path, "%s/%s", admindir, TRIGGERSDIR);
+
+	return varbuf_detach(&path);
+}
+
+static char *
+trig_get_filename(const char *dir, const char *filename)
+{
+	struct varbuf path = VARBUF_INIT;
+
+	varbufprintf(&path, "%s/%s", dir, filename);
+
+	return varbuf_detach(&path);
+}
 
 static struct trig_hooks trigh;
 
@@ -734,6 +757,15 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 {
 	int ur;
 	enum trigdef_updateflags tduf;
+
+	free(triggersdir);
+	triggersdir = trig_get_triggersdir(admindir);
+
+	free(triggersfilefile);
+	triggersfilefile = trig_get_filename(triggersdir, "File");
+
+	free(triggersnewfilefile);
+	triggersnewfilefile = trig_get_filename(triggersdir, "File.new");
 
 	trigdef_set_methods(&tdm_incorp);
 	trig_file_interests_ensure();

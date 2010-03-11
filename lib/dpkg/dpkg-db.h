@@ -210,7 +210,6 @@ void modstatdb_shutdown(void);
 
 /* Initialised by modstatdb_init. */
 extern char *statusfile, *availablefile;
-extern char *triggersdir, *triggersfilefile, *triggersnewfilefile;
 
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 
@@ -285,6 +284,8 @@ struct trig_hooks {
 void trig_override_hooks(const struct trig_hooks *hooks);
 
 /*** from triglib.c ***/
+
+char *trig_get_triggersdir(const char *admindir);
 
 void trig_file_activate_byname(const char *trig, struct pkginfo *aw);
 void trig_file_activate(struct filenamenode *trig, struct pkginfo *aw);
