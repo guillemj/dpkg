@@ -790,7 +790,7 @@ sub load {
         config_helper($fh, $file);
 	my $status = gl(_g("status"));
 	badfmt(_g("invalid status")) unless $status =~ /^(?:auto|manual)$/;
-	my $link = gl("link");
+	my $link = gl(_g("master link"));
         my (%slaves, @slaves);
 	while ((my $slave_name = gl(_g("slave name"))) ne '') {
 	    my $slave_link = gl(_g("slave link"));
@@ -1027,7 +1027,7 @@ sub prepare_install {
     my ($self, $choice) = @_;
     my ($link, $name) = ($self->link(), $self->name());
     my $fileset = $self->fileset($choice);
-    main::error("can't install unknown choice %s", $choice)
+    main::error(_g("can't install unknown choice %s"), $choice)
         if not defined($choice);
     # Create link in /etc/alternatives
     main::checked_rm("$altdir/$name.dpkg-tmp");
