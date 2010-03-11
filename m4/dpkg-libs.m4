@@ -88,17 +88,32 @@ if test "x$with_selinux" != "xno"; then
 fi
 ])# DPKG_LIB_SELINUX
 
+# _DPKG_CHECK_LIB_CURSES_NARROW
+# -----------------------------
+# Check for narrow curses library.
+AC_DEFUN([_DPKG_CHECK_LIB_CURSES_NARROW], [
+AC_CHECK_LIB([ncurses], [initscr],
+  [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lncurses"],
+  [AC_CHECK_LIB([curses], [initscr],
+     [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lcurses"],
+     [AC_MSG_WARN([no curses library found])])])])
+])# DPKG_CHECK_LIB_CURSES_NARROW
+
 # DPKG_LIB_CURSES
 # ---------------
 # Check for curses library.
-AC_DEFUN([DPKG_LIB_CURSES],
-[AC_ARG_VAR([CURSES_LIBS], [linker flags for curses library])dnl
-AC_CHECK_HEADERS([ncursesw/ncurses.h ncurses/ncurses.h ncurses.h curses.h \
-                  ncursesw/term.h ncurses/term.h term.h])
-AC_CHECK_LIB([ncursesw], [initscr], [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lncursesw"],
-	[AC_CHECK_LIB([ncurses], [initscr], [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lncurses"],
-		[AC_CHECK_LIB([curses], [initscr], [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lcurses"],
-			[AC_MSG_WARN([no curses library found])])])])
+AC_DEFUN([DPKG_LIB_CURSES], [
+AC_REQUIRE([DPKG_UNICODE])
+AC_ARG_VAR([CURSES_LIBS], [linker flags for curses library])dnl
+AC_CHECK_HEADERS([ncurses/ncurses.h ncurses.h curses.h ncurses/term.h term.h])
+if test "x$USE_UNICODE" = "xyes"; then
+  AC_CHECK_HEADERS([ncursesw/ncurses.h ncursesw/term.h])
+  AC_CHECK_LIB([ncursesw], [initscr],
+    [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lncursesw"],
+    [_DPKG_CHECK_LIB_CURSES_NARROW()])
+else
+  _DPKG_CHECK_LIB_CURSES_NARROW()
+fi
 ])# DPKG_LIB_CURSES
 
 # DPKG_LIB_SSD
