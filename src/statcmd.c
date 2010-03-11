@@ -59,7 +59,7 @@ printversion(const struct cmdinfo *cip, const char *value)
 "Copyright (C) 2006-2009 Guillem Jover.\n"));
 
 	printf(_(
-"This is free software; see the GNU General Public Licence version 2 or\n"
+"This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"));
 
 	m_output(stdout, _("<standard output>"));

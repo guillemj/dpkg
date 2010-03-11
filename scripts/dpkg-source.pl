@@ -400,7 +400,7 @@ Copyright (C) 1997 Klee Dienes
 Copyright (C) 2008 Raphael Hertzog");
 
     print _g("
-This is free software; see the GNU General Public Licence version 2 or
+This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
 }

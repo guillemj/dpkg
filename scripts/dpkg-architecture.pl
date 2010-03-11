@@ -39,7 +39,7 @@ Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd\@debian.org>.
 Copyright (C) 2004-2005 Scott James Remnant <scott\@netsplit.com>.");
 
     printf _g("
-This is free software; see the GNU General Public Licence version 2 or
+This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
 }

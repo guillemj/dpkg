@@ -443,8 +443,8 @@ Copyright (C) 1995 Ian Jackson.
 Copyright (C) 2000-2002 Wichert Akkerman.
 Copyright (C) 2009 Raphael Hertzog.");
 
-    printf _g("
-This is free software; see the GNU General Public Licence version 2 or
+    printf "\n" . _g(
+"This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
 }

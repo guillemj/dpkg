@@ -35,8 +35,8 @@ sub version {
 Copyright (C) 1995 Ian Jackson.
 Copyright (C) 2000,2001 Wichert Akkerman.");
 
-    printf _g("
-This is free software; see the GNU General Public Licence version 2 or
+    printf "\n" . _g(
+"This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
 }
