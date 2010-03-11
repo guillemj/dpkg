@@ -41,6 +41,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/dir.h>
 #include <dpkg/myopt.h>
 
 #include "main.h"
@@ -242,6 +243,8 @@ statdb_write(void)
 		ohshite(_("error creating new statoverride-old"));
 	if (rename(dbname_new.buf, dbname.buf))
 		ohshite(_("error installing new statoverride"));
+
+	dir_sync_path(admindir);
 
 	varbuf_destroy(&dbname);
 	varbuf_destroy(&dbname_new);

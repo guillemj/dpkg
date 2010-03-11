@@ -43,6 +43,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/dir.h>
 #include <dpkg/buffer.h>
 #include <dpkg/pkg-array.h>
 #include <dpkg/progress.h>
@@ -435,6 +436,8 @@ void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list, int lea
     ohshite(_("failed to close updated files list file for package %s"),pkg->name);
   if (rename(newvb.buf,vb.buf))
     ohshite(_("failed to install updated files list file for package %s"),pkg->name);
+
+  dir_sync_path(pkgadmindir());
 
   note_must_reread_files_inpackage(pkg);
 }

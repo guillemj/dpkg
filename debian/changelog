@@ -167,6 +167,10 @@ dpkg (1.15.6) UNRELEASED; urgency=low
     guarantees when doing rename(2). Based on a patch by
     Jean-Baptiste Lallement <jeanbaptiste.lallement@gmail.com>.
     Closes: #430958
+  * Call fsync(2) on database directories after creating, renaming or
+    unlinking files, to guarantee the new file entry is correctly listed
+    in the directory. Base on a patch by
+    Jean-Baptiste Lallement <jeanbaptiste.lallement@gmail.com>.
   * Document in the man page the effects of setting TMPDIR for dpkg and
     dpkg-deb, HOME for dselect and dpkg and PAGER for dpkg. Closes: #572836
   * Document the exit codes for dpkg-query. Closes: #571798

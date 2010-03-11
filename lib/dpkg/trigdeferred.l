@@ -44,6 +44,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/file.h>
+#include <dpkg/dir.h>
 
 #define YY_NO_INPUT
 
@@ -216,6 +217,8 @@ trigdef_process_done(void)
 		if (rename(newfn.buf, fn.buf))
 			ohshite(_("unable to install new triggers deferred "
 			          "file `%.250s'"), fn.buf);
+
+		dir_sync_path(triggersdir);
 	}
 
 	/* Unlock. */

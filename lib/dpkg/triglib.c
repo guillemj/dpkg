@@ -35,6 +35,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-list.h>
 #include <dpkg/dlist.h>
+#include <dpkg/dir.h>
 
 const char *
 illegal_triggername(const char *p)
@@ -435,6 +436,8 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 	if (rename(newfn.buf, trk_explicit_fn.buf))
 		ohshite(_("unable to install new trigger interest file `%.250s'"),
 		        trk_explicit_fn.buf);
+
+	dir_sync_path(triggersdir);
 }
 
 static const struct trigkindinfo tki_explicit = {
@@ -543,6 +546,8 @@ trig_file_interests_save(void)
 	if (rename(triggersnewfilefile, triggersfilefile))
 		ohshite(_("unable to install new file triggers file as `%.250s'"),
 		        triggersfilefile);
+
+	dir_sync_path(triggersdir);
 
 	filetriggers_edited = 0;
 }

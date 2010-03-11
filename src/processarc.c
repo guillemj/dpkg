@@ -43,6 +43,7 @@
 #include <dpkg/path.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
+#include <dpkg/dir.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/myopt.h>
 
@@ -220,6 +221,14 @@ void process_archive(const char *filename) {
     ohshite(_("failed to exec dpkg-deb to extract control information"));
   }
   subproc_wait_check(c1, BACKEND " --control", 0);
+
+  /* We want to guarantee the extracted files are on the disk, so that the
+   * subsequent renames to the info database do not end up with old or zero
+   * length files in case of a system crash. As neither dpkg-deb nor tar do
+   * explicit fsync()s, we have to do them here.
+   * XXX: This could be avoided by switching to an internal tar extractor. */
+  dir_sync_contents(cidir);
+
   strcpy(cidirrest,CONTROLFILE);
 
   parsedb(cidir, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles,
@@ -887,6 +896,10 @@ void process_archive(const char *filename) {
     debug(dbg_scripts,"process_archive tmp.ci script/file `%s' installed as `%s'",
           cidir, newinfofilename);
   }
+
+  /* Sync the info database directory. */
+  dir_sync(dsd, cidir);
+
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
   /* Update the status database.
@@ -1085,6 +1098,10 @@ void process_archive(const char *filename) {
         ohshite(_("unable to delete disappearing control info file `%.250s'"),fnvb.buf);
       debug(dbg_scripts, "process_archive info unlinked %s",fnvb.buf);
     }
+
+    /* Sync the info database directory. */
+    dir_sync(dsd, fnvb.buf);
+
     pop_cleanup(ehflag_normaltidy); /* closedir */
     
     otherpkg->status= stat_notinstalled;

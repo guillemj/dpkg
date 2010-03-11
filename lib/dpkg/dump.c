@@ -37,6 +37,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/dir.h>
 #include <dpkg/parsedump.h>
 
 void w_name(struct varbuf *vb,
@@ -409,6 +410,10 @@ void writedb(const char *filename, int available, int mustsync) {
   if (rename(newfn,filename))
     ohshite(_("failed to install '%.250s' as '%.250s' containing %s database"),
             newfn, filename, which);
+
+  if (mustsync)
+    dir_sync_path_parent(filename);
+
   free(newfn);
   free(oldfn);
 }

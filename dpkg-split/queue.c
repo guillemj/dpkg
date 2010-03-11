@@ -44,6 +44,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/dir.h>
 #include <dpkg/myopt.h>
 
 #include "dpkg-split.h"
@@ -180,6 +181,7 @@ void do_auto(const char *const *argv) {
         printf("%s%d", !ap++ ? "" : i == (unsigned int)j ? _(" and ") : ", ", i + 1);
     printf(").\n");
 
+    dir_sync_path(depotdir);
   } else {
 
     /* We have all the parts. */

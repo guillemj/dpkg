@@ -42,6 +42,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/file.h>
+#include <dpkg/dir.h>
 
 char *statusfile=NULL, *availablefile=NULL;
 
@@ -98,6 +99,8 @@ static void cleanupdates(void) {
           ohshite(_("failed to remove incorporated update file %.255s"),updatefnbuf);
         free(cdlist[i]);
       }
+
+      dir_sync_path(updatesdir);
     }
     
   }
@@ -248,6 +251,9 @@ void modstatdb_checkpoint(void) {
     if (unlink(updatefnbuf))
       ohshite(_("failed to remove my own update file %.255s"),updatefnbuf);
   }
+
+  dir_sync_path(updatesdir);
+
   nextupdate= 0;
 }
 
@@ -296,6 +302,8 @@ modstatdb_note_core(struct pkginfo *pkg)
   sprintf(updatefnrest, IMPORTANTFMT, nextupdate);
   if (rename(importanttmpfile, updatefnbuf))
     ohshite(_("unable to install updated status of `%.250s'"), pkg->name);
+
+  dir_sync_path(updatesdir);
 
   /* Have we made a real mess? */
   assert(strlen(updatefnrest) <= IMPORTANTMAXLEN);
