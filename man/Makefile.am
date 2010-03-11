@@ -36,7 +36,10 @@ update-po:
 	$(PO4A) $(PO4A_BUILD_OPTS) --force po/po4a.cfg
 
 # Extract the list of languages from the po4a config file.
-LINGUAS = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
+LINGUAS_DIST = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
+
+# If the user has not defined it let's use the default.
+LINGUAS ?= $(LINGUAS_DIST)
 
 install-data-local: install-data-local-@USE_PO4A@
 
@@ -74,7 +77,7 @@ uninstall-local-yes:
 
 dist-hook: man.stamp
 	cp $(srcdir)/man.stamp $(distdir)/
-	for lang in $(LINGUAS); do \
+	for lang in $(LINGUAS_DIST); do \
 		cp $(srcdir)/po/$$lang.po $(distdir)/po; \
 		cp $(srcdir)/po/$$lang.add $(distdir)/po; \
 		$(mkdir_p) $(distdir)/$$lang; \
