@@ -93,11 +93,10 @@ static FILE *old_deferred;
 static FILE *trig_new_deferred;
 
 static void
-constructfn(struct varbuf *vb, const char *admindir, const char *tail)
+constructfn(struct varbuf *vb, const char *dir, const char *tail)
 {
 	varbufreset(vb);
-	varbufaddstr(vb, admindir);
-	varbufaddstr(vb, "/" TRIGGERSDIR);
+	varbufaddstr(vb, dir);
 	varbufaddstr(vb, tail);
 	varbufaddc(vb, 0);
 }
@@ -111,7 +110,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 	triggersdir = trig_get_triggersdir(admindir);
 
 	if (uf & tduf_write) {
-		constructfn(&fn, admindir, TRIGGERSLOCKFILE);
+		constructfn(&fn, triggersdir, TRIGGERSLOCKFILE);
 		if (lock_fd == -1) {
 			lock_fd = open(fn.buf, O_RDWR | O_CREAT | O_TRUNC, 0600);
 			if (lock_fd == -1) {
@@ -130,7 +129,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 		push_cleanup(NULL, 0, NULL, 0, 0);
 	}
 
-	constructfn(&fn, admindir, TRIGGERSDEFERREDFILE);
+	constructfn(&fn, triggersdir, TRIGGERSDEFERREDFILE);
 	r = stat(fn.buf, &stab);
 	if (r) {
 		if (errno != ENOENT)
@@ -157,7 +156,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 	}
 
 	if (uf & tduf_write) {
-		constructfn(&newfn, admindir, TRIGGERSDEFERREDFILE ".new");
+		constructfn(&newfn, triggersdir, TRIGGERSDEFERREDFILE ".new");
 		if (trig_new_deferred)
 			fclose(trig_new_deferred);
 		trig_new_deferred = fopen(newfn.buf, "w");
