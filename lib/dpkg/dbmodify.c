@@ -384,6 +384,6 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   varbufaddc(&vb,'.');
   varbufaddstr(&vb,whichfile);
   varbufaddc(&vb,0);
-  return varbuf_detach(&vb);
+  return vb.buf;
 }
 
