@@ -39,6 +39,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/myopt.h>
+#include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
 
 const char thisname[] = "dpkg-trigger";

@@ -36,6 +36,7 @@
 #include <dpkg/pkg-list.h>
 #include <dpkg/dlist.h>
 #include <dpkg/dir.h>
+#include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
 
 const char *

@@ -81,5 +81,6 @@ pkginclude_HEADERS = \
 	string.h \
 	subproc.h \
 	tarfn.h \
+	trigdeferred.h \
 	triglib.h \
 	varbuf.h

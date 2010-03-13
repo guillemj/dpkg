@@ -214,37 +214,6 @@ extern char *statusfile, *availablefile;
 const char *pkgadmindir(void);
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 
-/*** from trigdeferred.l ***/
-
-enum trigdef_updateflags {
-  tduf_nolockok =           001,
-  tduf_write =              002,
-  tduf_nolock =             003,
-  /* Should not be set unless _write is. */
-  tduf_writeifempty =       010,
-  tduf_writeifenoent =      020,
-};
-
-struct trigdefmeths {
-  void (*trig_begin)(const char *trig);
-  void (*package)(const char *awname);
-  void (*trig_end)(void);
-};
-
-void trigdef_set_methods(const struct trigdefmeths *methods);
-
-/* Return values:
- *  -1  Lock ENOENT with O_CREAT (directory does not exist)
- *  -2  Unincorp empty, tduf_writeifempty unset
- *  -3  Unincorp ENOENT, tduf_writeifenoent unset
- *   1  Unincorp ENOENT, tduf_writeifenoent set   } caller must call
- *   2  ok                                        }  trigdef_update_done!
- */
-int trigdef_update_start(enum trigdef_updateflags uf, const char *admindir);
-void trigdef_update_printf(const char *format, ...) DPKG_ATTR_PRINTF(1);
-int trigdef_yylex(void);
-void trigdef_process_done(void);
-
 /*** from database.c ***/
 
 struct pkginfo *findpackage(const char *name);
