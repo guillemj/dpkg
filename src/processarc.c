@@ -46,6 +46,7 @@
 #include <dpkg/dir.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/myopt.h>
+#include <dpkg/triglib.h>
 
 #include "filesdb.h"
 #include "main.h"

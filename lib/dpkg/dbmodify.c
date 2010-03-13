@@ -43,6 +43,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/file.h>
 #include <dpkg/dir.h>
+#include <dpkg/triglib.h>
 
 char *statusfile=NULL, *availablefile=NULL;
 

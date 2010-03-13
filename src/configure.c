@@ -45,6 +45,7 @@
 #include <dpkg/buffer.h>
 #include <dpkg/file.h>
 #include <dpkg/subproc.h>
+#include <dpkg/triglib.h>
 
 #include "filesdb.h"
 #include "main.h"

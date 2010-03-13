@@ -48,6 +48,7 @@
 #include <dpkg/command.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/myopt.h>
+#include <dpkg/triglib.h>
 
 #ifdef WITH_SELINUX
 #include <selinux/selinux.h>

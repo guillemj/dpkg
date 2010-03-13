@@ -39,6 +39,7 @@
 #include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/triglib.h>
 
 #include "filesdb.h"
 #include "main.h"

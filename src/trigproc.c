@@ -32,6 +32,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-queue.h>
+#include <dpkg/triglib.h>
 
 #include "main.h"
 #include "filesdb.h"

@@ -31,6 +31,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
 #include <dpkg/parsedump.h>
+#include <dpkg/triglib.h>
 
 static int
 convert_string(struct parsedb_state *ps, const char *what, int otherwise,
