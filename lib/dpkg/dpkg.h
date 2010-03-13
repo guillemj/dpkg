@@ -140,11 +140,7 @@ enum { ehflag_normaltidy=01, ehflag_bombout=02, ehflag_recursiveerror=04 };
 
 void do_internerr(const char *file, int line, const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3);
-#if HAVE_C99
 #define internerr(...) do_internerr(__FILE__, __LINE__, __VA_ARGS__)
-#else
-#define internerr(args...) do_internerr(__FILE__, __LINE__, args)
-#endif
 
 void ohshit(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 void ohshitv(const char *fmt, va_list al) DPKG_ATTR_NORET DPKG_ATTR_VPRINTF(1);

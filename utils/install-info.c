@@ -29,13 +29,8 @@
 #define SELF "/usr/sbin/install-info"
 #define WRAPPED "/usr/bin/install-info"
 
-#if HAVE_C99
 #define warn(...) fprintf(stderr, "install-info: warning: " __VA_ARGS__)
 #define error(...) fprintf(stderr, "install-info: error: " __VA_ARGS__)
-#else
-#define warn(msg...) fprintf(stderr, "install-info: warning: " msg)
-#define error(msg...) fprintf(stderr, "install-info: error: " msg)
-#endif
 
 int
 main(int argc, char **argv)

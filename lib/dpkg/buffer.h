@@ -51,7 +51,6 @@ struct buffer_data {
 # define buffer_md5(buf, hash, limit) \
 	buffer_hash(buf, hash, BUFFER_WRITE_MD5, limit)
 
-#if HAVE_C99
 # define fd_md5(fd, hash, limit, ...) \
 	buffer_copy_IntPtr(fd, BUFFER_READ_FD, hash, BUFFER_WRITE_MD5, \
 	                   limit, __VA_ARGS__)
@@ -86,42 +85,6 @@ struct buffer_data {
 # define stream_fd_copy(file, fd, limit, ...) \
 	buffer_copy_PtrInt(file, BUFFER_READ_STREAM, fd, BUFFER_WRITE_FD, \
 	                   limit, __VA_ARGS__)
-#else /* HAVE_C99 */
-# define fd_md5(fd, hash, limit, desc...) \
-	buffer_copy_IntPtr(fd, BUFFER_READ_FD, hash, BUFFER_WRITE_MD5, \
-	                   limit, desc)
-# define stream_md5(file, hash, limit, desc...) \
-	buffer_copy_PtrPtr(file, BUFFER_READ_STREAM, hash, BUFFER_WRITE_MD5, \
-	                   limit, desc)
-# define fd_fd_copy(fd1, fd2, limit, desc...) \
-	buffer_copy_IntInt(fd1, BUFFER_READ_FD, fd2, BUFFER_WRITE_FD, \
-	                   limit, desc)
-# define fd_buf_copy(fd, buf, limit, desc...) \
-	buffer_copy_IntPtr(fd, BUFFER_READ_FD, buf, BUFFER_WRITE_BUF, \
-	                   limit, desc)
-# define fd_vbuf_copy(fd, buf, limit, desc...) \
-	buffer_copy_IntPtr(fd, BUFFER_READ_FD, buf, BUFFER_WRITE_VBUF, \
-	                   limit, desc)
-# define fd_null_copy(fd, limit, desc...) \
-	if (lseek(fd, limit, SEEK_CUR) == -1) { \
-		if (errno != ESPIPE) \
-			ohshite(desc); \
-		buffer_copy_IntPtr(fd, BUFFER_READ_FD, \
-		                   NULL, BUFFER_WRITE_NULL, \
-		                   limit, desc); \
-	}
-# define stream_null_copy(file, limit, desc...) \
-	if (fseek(file, limit, SEEK_CUR) == -1) { \
-		if (errno != EBADF) \
-			ohshite(desc); \
-		buffer_copy_PtrPtr(file, BUFFER_READ_STREAM, \
-		                   NULL, BUFFER_WRITE_NULL, \
-		                   limit, desc); \
-	}
-# define stream_fd_copy(file, fd, limit, desc...)\
-	buffer_copy_PtrInt(file, BUFFER_READ_STREAM, fd, BUFFER_WRITE_FD, \
-	                   limit, desc)
-#endif /* HAVE_C99 */
 
 off_t buffer_copy_PtrInt(void *p, int typeIn, int i, int typeOut,
                          off_t limit, const char *desc,
