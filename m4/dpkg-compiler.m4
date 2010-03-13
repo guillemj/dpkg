@@ -38,23 +38,6 @@ AC_DEFUN([DPKG_COMPILER_OPTIMISATIONS],
 fi])dnl
 ])
 
-# DPKG_C_ATTRIBUTE
-# ----------------
-# Check whether the C compiler supports __attribute__, defines HAVE_C_ATTRIBUTE
-AC_DEFUN([DPKG_C_ATTRIBUTE],
-[AC_CACHE_CHECK([whether compiler supports __attribute__], [dpkg_cv_attribute],
-	[AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[[]],
-		[[extern int testfunction(int x) __attribute__((unused))]]
-	)],
-	[dpkg_cv_attribute=yes],
-	[dpkg_cv_attribute=no])])
-AS_IF([test "x$dpkg_cv_attribute" = "xyes"],
-	[AC_DEFINE([HAVE_C_ATTRIBUTE], 1,
-		[Define to 1 if compiler supports '__attribute__', 0 otherwise.])],
-	[AC_DEFINE([HAVE_C_ATTRIBUTE], 0)])dnl
-])# DPKG_C_ATTRIBUTE
-
 # DPKG_TRY_C99([ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
 # ------------------------------------------------------
 # Try compiling some C99 code to see whether it works

@@ -114,7 +114,6 @@ DPKG_TYPE_PTRDIFF_T
 AC_CHECK_SIZEOF([unsigned int])
 AC_CHECK_SIZEOF([unsigned long])
 DPKG_DECL_SYS_SIGLIST
-DPKG_C_ATTRIBUTE
 
 # Checks for library functions.
 DPKG_FUNC_VA_COPY
