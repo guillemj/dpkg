@@ -208,9 +208,6 @@ void modstatdb_note_ifwrite(struct pkginfo *pkg);
 void modstatdb_checkpoint(void);
 void modstatdb_shutdown(void);
 
-/* Initialised by modstatdb_init. */
-extern char *statusfile, *availablefile;
-
 const char *pkgadmindir(void);
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 

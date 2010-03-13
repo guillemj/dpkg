@@ -45,9 +45,8 @@
 #include <dpkg/dir.h>
 #include <dpkg/triglib.h>
 
-char *statusfile=NULL, *availablefile=NULL;
-
 static enum modstatdb_rw cstatus=-1, cflags=0;
+static char *statusfile, *availablefile;
 static char *importanttmpfile=NULL;
 static FILE *importanttmp;
 static int nextupdate;
