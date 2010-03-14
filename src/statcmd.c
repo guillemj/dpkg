@@ -397,9 +397,9 @@ statoverride_list(const char *const *argv)
  { longopt, shortopt, 0, 0, 0, setaction, code, 0, (voidfnp)function }
 
 static const struct cmdinfo cmdinfos[] = {
-	ACTION("add",    'L', act_listfiles,  statoverride_add),
-	ACTION("remove", 's', act_status,     statoverride_remove),
-	ACTION("list",   'p', act_printavail, statoverride_list),
+	ACTION("add",    0, act_install,   statoverride_add),
+	ACTION("remove", 0, act_remove,    statoverride_remove),
+	ACTION("list",   0, act_listfiles, statoverride_list),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
