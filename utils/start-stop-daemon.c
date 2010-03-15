@@ -274,7 +274,7 @@ static void
 xgettimeofday(struct timeval *tv)
 {
 	if (gettimeofday(tv, NULL) != 0)
-		fatal("gettimeofday failed: %s", strerror(errno));
+		fatal("gettimeofday failed");
 }
 
 static void
@@ -306,7 +306,7 @@ daemonize(void)
 
 	pid = fork();
 	if (pid < 0)
-		fatal("Unable to do first fork.\n");
+		fatal("unable to do first fork");
 	else if (pid) /* Parent. */
 		_exit(0);
 
@@ -319,7 +319,7 @@ daemonize(void)
 
 	pid = fork();
 	if (pid < 0)
-		fatal("Unable to do second fork.\n");
+		fatal("unable to do second fork");
 	else if (pid) /* Parent. */
 		_exit(0);
 
@@ -591,7 +591,7 @@ set_proc_schedule(struct res_schedule *sched)
 	param.sched_priority = sched->priority;
 
 	if (sched_setscheduler(getpid(), sched->policy, &param) == -1)
-		fatal("Unable to set process scheduler");
+		fatal("unable to set process scheduler");
 #endif
 }
 
@@ -611,7 +611,7 @@ set_io_schedule(struct res_schedule *sched)
 
 	io_sched_mask = IOPRIO_PRIO_VALUE(sched->policy, sched->priority);
 	if (ioprio_set(IOPRIO_WHO_PROCESS, getpid(), io_sched_mask) == -1)
-		warning("Unable to alter IO priority to mask %i (%s)\n",
+		warning("unable to alter IO priority to mask %i (%s)\n",
 		        io_sched_mask, strerror(errno));
 #endif
 }
@@ -1133,7 +1133,7 @@ pid_is_running(pid_t pid)
 	else if (errno == ESRCH)
 		return false;
 	else
-		fatal("Error checking pid %u status: %s", pid, strerror(errno));
+		fatal("error checking pid %u status", pid);
 }
 #endif
 
@@ -1177,7 +1177,7 @@ do_pidfile(const char *name)
 			check(pid);
 		fclose(f);
 	} else if (errno != ENOENT)
-		fatal("open pidfile %s: %s", name, strerror(errno));
+		fatal("unable to open pidfile %s", name);
 }
 
 #if defined(OSLinux) || defined (OSsunos)
@@ -1191,7 +1191,7 @@ do_procinit(void)
 
 	procdir = opendir("/proc");
 	if (!procdir)
-		fatal("opendir /proc: %s", strerror(errno));
+		fatal("unable to opendir /proc");
 
 	foundany = 0;
 	while ((entry = readdir(procdir)) != NULL) {
@@ -1325,7 +1325,7 @@ run_stop_schedule(void)
 	else if (userspec)
 		sprintf(what_stop, "process(es) owned by '%.200s'", userspec);
 	else
-		fatal("internal error, please report");
+		fatal("internal error, no match option, please report");
 
 	anykilled = 0;
 	retry_nr = 0;
@@ -1412,8 +1412,7 @@ run_stop_schedule(void)
 
 				r = select(0, NULL, NULL, NULL, &interval);
 				if (r < 0 && errno != EINTR)
-					fatal("select() failed for pause: %s",
-					      strerror(errno));
+					fatal("select() failed for pause");
 			}
 		default:
 			assert(!"schedule[].type value must be valid");
@@ -1468,7 +1467,7 @@ main(int argc, char **argv)
 			fullexecname = execname;
 
 		if (stat(fullexecname, &exec_stat))
-			fatal("stat %s: %s", fullexecname, strerror(errno));
+			fatal("unable to stat %s", fullexecname);
 
 		if (fullexecname != execname)
 			free(fullexecname);
@@ -1479,7 +1478,7 @@ main(int argc, char **argv)
 
 		pw = getpwnam(userspec);
 		if (!pw)
-			fatal("user '%s' not found\n", userspec);
+			fatal("user '%s' not found", userspec);
 
 		user_id = pw->pw_uid;
 	}
@@ -1487,7 +1486,7 @@ main(int argc, char **argv)
 	if (changegroup && sscanf(changegroup, "%d", &runas_gid) != 1) {
 		struct group *gr = getgrnam(changegroup);
 		if (!gr)
-			fatal("group '%s' not found\n", changegroup);
+			fatal("group '%s' not found", changegroup);
 		runas_gid = gr->gr_gid;
 	}
 	if (changeuser) {
@@ -1499,7 +1498,7 @@ main(int argc, char **argv)
 		else
 			pw = getpwnam(changeuser);
 		if (!pw)
-			fatal("user '%s' not found\n", changeuser);
+			fatal("user '%s' not found", changeuser);
 		runas_uid = pw->pw_uid;
 		if (changegroup == NULL) {
 			/* Pass the default group of this user. */
@@ -1562,8 +1561,7 @@ main(int argc, char **argv)
 	if (nicelevel) {
 		errno = 0;
 		if ((nice(nicelevel) == -1) && (errno != 0))
-			fatal("Unable to alter nice level by %i: %s",
-			      nicelevel, strerror(errno));
+			fatal("unable to alter nice level by %i", nicelevel);
 	}
 	if (proc_sched)
 		set_proc_schedule(proc_sched);
@@ -1576,8 +1574,8 @@ main(int argc, char **argv)
 		FILE *pidf = fopen(pidfile, "w");
 		pid_t pidt = getpid();
 		if (pidf == NULL)
-			fatal("Unable to open pidfile '%s' for writing: %s",
-			      pidfile, strerror(errno));
+			fatal("unable to open pidfile '%s' for writing",
+			      pidfile);
 		fprintf(pidf, "%d\n", pidt);
 		if (fflush(pidf))
 			fatal("unable to flush pidfile '%s'", pidfile);
@@ -1587,19 +1585,19 @@ main(int argc, char **argv)
 	}
 	if (changeroot != NULL) {
 		if (chdir(changeroot) < 0)
-			fatal("Unable to chdir() to %s", changeroot);
+			fatal("unable to chdir() to %s", changeroot);
 		if (chroot(changeroot) < 0)
-			fatal("Unable to chroot() to %s", changeroot);
+			fatal("unable to chroot() to %s", changeroot);
 	}
 	if (chdir(changedir) < 0)
-		fatal("Unable to chdir() to %s", changedir);
+		fatal("unable to chdir() to %s", changedir);
 
 	rgid = getgid();
 	ruid = getuid();
 	if (changegroup != NULL) {
 		if (rgid != (gid_t)runas_gid)
 			if (setgid(runas_gid))
-				fatal("Unable to set gid to %d", runas_gid);
+				fatal("unable to set gid to %d", runas_gid);
 	}
 	if (changeuser != NULL) {
 		/* We assume that if our real user and group are the same as
@@ -1607,12 +1605,12 @@ main(int argc, char **argv)
 		 * will be already in place. */
 		if (rgid != (gid_t)runas_gid || ruid != (uid_t)runas_uid)
 			if (initgroups(changeuser, runas_gid))
-				fatal("Unable to set initgroups() with gid %d",
+				fatal("unable to set initgroups() with gid %d",
 				      runas_gid);
 
 		if (ruid != (uid_t)runas_uid)
 			if (setuid(runas_uid))
-				fatal("Unable to set uid to %s", changeuser);
+				fatal("unable to set uid to %s", changeuser);
 	}
 
 	if (background) {
@@ -1634,6 +1632,6 @@ main(int argc, char **argv)
 			close(i);
 	}
 	execv(startas, argv);
-	fatal("Unable to start %s: %s", startas, strerror(errno));
+	fatal("unable to start %s", startas);
 }
 
