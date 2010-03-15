@@ -686,6 +686,9 @@ parse_schedule(const char *schedule_str)
 			}
 			count++;
 		}
+		if (repeatat == count)
+			badusage("invalid schedule: 'forever' appears last, "
+			         "nothing to repeat");
 		if (repeatat >= 0) {
 			schedule[count].type = sched_goto;
 			schedule[count].value = repeatat;
