@@ -95,8 +95,7 @@ buffer_done(struct buffer_data *read_data, struct buffer_data *write_data)
 }
 
 off_t
-buffer_write(struct buffer_data *data, const void *buf, off_t length,
-             const char *desc)
+buffer_write(struct buffer_data *data, const void *buf, off_t length)
 {
 	off_t ret = length;
 
@@ -132,8 +131,7 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length,
 }
 
 off_t
-buffer_read(struct buffer_data *data, void *buf, off_t length,
-            const char *desc)
+buffer_read(struct buffer_data *data, void *buf, off_t length)
 {
 	off_t ret;
 
@@ -197,7 +195,7 @@ buffer_hash(const void *input, void *output, int type, off_t limit)
 	off_t ret;
 
 	buffer_init(NULL, &data);
-	ret = buffer_write(&data, input, limit, NULL);
+	ret = buffer_write(&data, input, limit);
 	buffer_done(NULL, &data);
 
 	return ret;
@@ -220,7 +218,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 	buf = m_malloc(bufsize);
 
 	while (bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
-		bytesread = buffer_read(read_data, buf, bufsize, desc);
+		bytesread = buffer_read(read_data, buf, bufsize);
 		if (bytesread < 0) {
 			if (errno == EINTR || errno == EAGAIN)
 				continue;
@@ -237,7 +235,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 		}
 		writebuf = buf;
 		while (bytesread) {
-			byteswritten = buffer_write(write_data, writebuf, bytesread, desc);
+			byteswritten = buffer_write(write_data, writebuf, bytesread);
 			if (byteswritten == -1) {
 				if (errno == EINTR || errno == EAGAIN)
 					continue;
