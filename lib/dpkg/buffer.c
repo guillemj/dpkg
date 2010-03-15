@@ -110,18 +110,15 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length,
 		break;
 	case BUFFER_WRITE_FD:
 		ret = write(data->arg.i, buf, length);
-		if (ret < 0 && errno != EINTR)
-			ohshite(_("failed in buffer_write(fd) (%i, ret=%li): %s"),
-			        data->arg.i, (long)ret, desc);
 		break;
 	case BUFFER_WRITE_NULL:
 		break;
 	case BUFFER_WRITE_STREAM:
 		ret = fwrite(buf, 1, length, (FILE *)data->arg.ptr);
 		if (feof((FILE *)data->arg.ptr))
-			ohshite(_("eof in buffer_write(stream): %s"), desc);
-		if(ferror((FILE *)data->arg.ptr))
-			ohshite(_("error in buffer_write(stream): %s"), desc);
+			return -1;
+		if (ferror((FILE *)data->arg.ptr))
+			return -1;
 		break;
 	case BUFFER_WRITE_MD5:
 		MD5Update(&(((struct buffer_write_md5ctx *)data->arg.ptr)->ctx), buf, length);
@@ -143,15 +140,13 @@ buffer_read(struct buffer_data *data, void *buf, off_t length,
 	switch (data->type) {
 	case BUFFER_READ_FD:
 		ret = read(data->arg.i, buf, length);
-		if(ret < 0 && errno != EINTR)
-			ohshite(_("failed in buffer_read(fd): %s"), desc);
 		break;
 	case BUFFER_READ_STREAM:
 		ret = fread(buf, 1, length, (FILE *)data->arg.ptr);
 		if (feof((FILE *)data->arg.ptr))
 			return ret;
 		if (ferror((FILE *)data->arg.ptr))
-			ohshite(_("error in buffer_read(stream): %s"), desc);
+			return -1;
 		break;
 	default:
 		internerr("unknown data type '%i' in buffer_read\n",
@@ -257,10 +252,12 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 		}
 	}
 
-	if (bytesread < 0 || byteswritten < 0)
-		ohshite(_("failed in buffer_copy (%s)"), desc);
+	if (bytesread < 0)
+		ohshite(_("failed to read on buffer copy for %s"), desc);
+	if (byteswritten < 0)
+		ohshite(_("failed in write on buffer copy for %s"), desc);
 	if (limit > 0)
-		ohshit(_("short read in buffer_copy (%s)"), desc);
+		ohshit(_("short read on buffer copy for %s"), desc);
 
 	free(buf);
 
