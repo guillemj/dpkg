@@ -1,10 +1,16 @@
 dpkg (1.15.6.1) UNRELEASED; urgency=low
 
+  [ Guillem Jover ]
   * Fix two memory leaks introduced in 1.15.6.
   * Always use C99 variadic macros, as the build requires them anyway, we
     avoid exposing the configure variable HAVE_C99 on installed headers.
   * Use __attribute__ keyword depending on compiler support, we avoid
     exposing the configure variable HAVE_C_ATTRIBUTE on installed headers.
+
+  [ Raphaël Hertzog ]
+  * Accept source packages without "Format" field for compatibility with very
+    old source packages. Thanks to Colin Watson for the report and the patch.
+    Closes: #574097
 
   [ Updated dpkg translations ]
   * Swedish (Peter Krefting).

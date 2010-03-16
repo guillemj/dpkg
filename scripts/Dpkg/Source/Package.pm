@@ -144,7 +144,7 @@ sub initialize {
     $fields->load($filename);
     $self->{'fields'} = $fields;
 
-    foreach my $f (qw(Source Format Version Files)) {
+    foreach my $f (qw(Source Version Files)) {
         unless (defined($fields->{$f})) {
             error(_g("missing critical source control field %s"), $f);
         }
@@ -158,6 +158,8 @@ sub initialize {
 sub upgrade_object_type {
     my ($self, $update_format) = @_;
     $update_format = 1 unless defined $update_format;
+    $self->{'fields'}{'Format'} = '1.0'
+        unless exists $self->{'fields'}{'Format'};
     my $format = $self->{'fields'}{'Format'};
 
     if ($format =~ /^([\d\.]+)(?:\s+\((.*)\))?$/) {
