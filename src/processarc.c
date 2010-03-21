@@ -639,6 +639,8 @@ void process_archive(const char *filename) {
   p1[0] = -1;
   subproc_wait_check(c1, BACKEND " --fsys-tarfile", PROCPIPE);
 
+  tar_deferred_extract(pkg);
+
   if (oldversionstatus == stat_halfinstalled || oldversionstatus == stat_unpacked) {
     /* Packages that were in `installed' and `postinstfailed' have been reduced
      * to `unpacked' by now, by the running of the prerm script.

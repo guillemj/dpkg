@@ -12,6 +12,10 @@ dpkg (1.15.6.1) UNRELEASED; urgency=low
     the code to use STL's min() and max() instead of preprocessor macros, to
     avoid multiple evaluation of arguments. Regression introduced in 1.15.6.
     Based on a patch by Robert Luberda <robert@debian.org>. Closes: #574816
+  * Defer the fsync and rename for normal files in tar extraction so that
+    it's done in one pass afterwards, to avoid massive I/O degradation due to
+    the serialization from each write + fsync. This restores extraction times
+    to numbers closer to the ones before the fsync patch introduced in 1.15.6.
 
   [ Raphaël Hertzog ]
   * Accept source packages without "Format" field for compatibility with very
