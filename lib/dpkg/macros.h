@@ -59,12 +59,15 @@
 #define array_count(a) (sizeof(a) / sizeof((a)[0]))
 #endif
 
+/* For C++ use native implementations from STL or similar. */
+#ifndef __cplusplus
 #ifndef min
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
 #ifndef max
 #define max(a, b) ((a) > (b) ? (a) : (b))
+#endif
 #endif
 
 #endif /* LIBDPKG_MACROS_H */

@@ -8,6 +8,10 @@ dpkg (1.15.6.1) UNRELEASED; urgency=low
     exposing the configure variable HAVE_C_ATTRIBUTE on installed headers.
   * Do not allow a --retry schedule in start-stop-daemon where forever is
     the last item, as it needs something to repeat over. Closes: #570938
+  * Show dselect dependency/conflicts resolution screen again, by switching
+    the code to use STL's min() and max() instead of preprocessor macros, to
+    avoid multiple evaluation of arguments. Regression introduced in 1.15.6.
+    Based on a patch by Robert Luberda <robert@debian.org>. Closes: #574816
 
   [ Raphaël Hertzog ]
   * Accept source packages without "Format" field for compatibility with very

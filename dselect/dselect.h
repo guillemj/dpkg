@@ -24,6 +24,11 @@
 
 #include <signal.h>
 
+#include <algorithm>
+
+using std::min;
+using std::max;
+
 #include "dselect-curses.h"
 
 #define DSELECT		"dselect"
