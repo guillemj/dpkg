@@ -158,12 +158,8 @@ void updateavailable(const char *const *argv);
 
 /* from enquiry.c */
 
-void listpackages(const char *const *argv);
 void audit(const char *const *argv);
 void unpackchk(const char *const *argv);
-void showpackages(const char *const *argv);
-void searchfiles(const char *const *argv);
-void enqperpackage(const char *const *argv);
 void assertepoch(const char *const *argv);
 void assertpredep(const char *const *argv);
 void assertlongfilenames(const char *const *argv);

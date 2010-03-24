@@ -135,7 +135,9 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
          l, pdesc);
 }
 
-void listpackages(const char *const *argv) {
+static void
+listpackages(const char *const *argv)
+{
   struct pkg_array array;
   struct pkginfo *pkg;
   int i, head;
@@ -222,7 +224,9 @@ static int searchoutput(struct filenamenode *namenode) {
   return found + (namenode->divert ? 1 : 0);
 }
 
-void searchfiles(const char *const *argv) {
+static void
+searchfiles(const char *const *argv)
+{
   struct filenamenode *namenode;
   struct fileiterator *it;
   const char *thisarg;
@@ -284,7 +288,9 @@ void searchfiles(const char *const *argv) {
   varbuf_destroy(&path);
 }
 
-void enqperpackage(const char *const *argv) {
+static void
+enqperpackage(const char *const *argv)
+{
   const char *thisarg;
   struct fileinlist *file;
   struct pkginfo *pkg;
@@ -380,7 +386,9 @@ void enqperpackage(const char *const *argv) {
   modstatdb_shutdown();
 }
 
-void showpackages(const char *const *argv) {
+static void
+showpackages(const char *const *argv)
+{
   struct pkg_array array;
   struct pkginfo *pkg;
   struct pkg_format_node *fmt = pkg_format_parse(showformat);
