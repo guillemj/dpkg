@@ -300,6 +300,8 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 	    chomp($build_format);
 	    close(FORMAT);
 	} else {
+	    warning(_g("no source format specified in %s, " .
+	               "see dpkg-source(1)"), "debian/source/format");
 	    $build_format = "1.0";
 	}
     }

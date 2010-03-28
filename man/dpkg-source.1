@@ -59,9 +59,10 @@ additional parameters might be accepted.
 found in this ordered list:
 the format indicated with the \fI\-\-format\fP command-line option,
 the format indicated in \fBdebian/source/format\fP,
-"1.0". See section
-\fBSOURCE PACKAGE FORMATS\fP for an extensive description of the various
-source package formats.
+"1.0". The fallback to "1.0" is deprecated and will be removed at some
+point in the future, you should always document the desired source format
+in \fBdebian/source/format\fP. See section \fBSOURCE PACKAGE FORMATS\fP
+for an extensive description of the various source package formats.
 
 .TP
 .RI "\fB\-\-print\-format\fP " directory
@@ -205,10 +206,10 @@ of the official Debian keyrings
 and \fI/usr/share/keyrings/debian-maintainers.gpg\fP).
 
 .SH SOURCE PACKAGE FORMATS
-If you don't know what source format you should use, you should probably
-pick either "3.0 (quilt)" or "3.0 (native)". They will become the default
-formats in the near future. See http://wiki.debian.org/Projects/DebSrc3.0
-for information on the deployment of those formats within Debian.
+If you don't know what source format to use, you should probably pick
+either "3.0 (quilt)" or "3.0 (native)". See
+http://wiki.debian.org/Projects/DebSrc3.0 for information on the
+deployment of those formats within Debian.
 
 .SS Format: 1.0
 A source package in this format consists either of a \fB.orig.tar.gz\fP
@@ -529,6 +530,20 @@ don't have any non-ignored uncommitted changes.
 Then the VCS specific part of the source directory is copied over to a
 temporary directory. Before this temporary directory is packed in a tarball,
 various cleanup are done to save space.
+.SH WARNINGS AND ERRORS
+.SS no source format specified in debian/source/format
+The file \fBdebian/source/format\fP should always exist and indicate the
+desired source format. For backwards compatibility, format "1.0" is
+assumed when the file doesn't exist but you should not rely on this:
+at some point in the future dpkg-source will be modified to fail when that
+file doesn't exist.
+
+The rationale is that format "1.0" is no longer the recommended format,
+you should usually pick one of the newer formats ("3.0 (quilt)", "3.0
+(native)") but \fBdpkg-source\fP will not do this automatically for you.
+If you want to continue using the old format, you should be explicit about
+it and put "1.0" in \fBdebian/source/format\fP.
+
 .SH FILE FORMATS
 .SS debian/source/format
 This file contains on a single line the format that should be used to
