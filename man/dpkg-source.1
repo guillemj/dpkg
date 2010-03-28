@@ -543,7 +543,27 @@ you should usually pick one of the newer formats ("3.0 (quilt)", "3.0
 (native)") but \fBdpkg-source\fP will not do this automatically for you.
 If you want to continue using the old format, you should be explicit about
 it and put "1.0" in \fBdebian/source/format\fP.
-
+.SS the diff modifies the following upstream files
+When using source format "1.0" it is usually a bad idea to modify
+upstream files directly as the changes end up hidden and mostly
+undocumented in the .diff.gz file. Instead you should store your changes
+as patches in the debian directory and apply them at build-time. To avoid
+this complexity you can also use the format "3.0 (quilt)" that offers this
+natively.
+.SS cannot represent change to \fIfile\fP
+Changes to upstream sources are usually stored with patch files, but not
+all changes can be represented with patches: they can only alter the
+content of plain text files. If you try replacing a file with something of
+a different type (for example replacing a plain file with a symlink or a
+directory), you will get this error message.
+.SS newly created empty file \fIfile\fB will not be represented in diff
+Empty files can't be created with patch files. Thus this change is not
+recorded in the source package and you are warned about it.
+.SS executable mode \fIperms\fB of \fIfile\fB will not be represented in diff
+.SS special mode \fIperms\fB of \fIfile\fB will not be represented in diff
+Patch files do not record permissions of files and thus modified
+permissions are not stored in the source package. This warning reminds you
+of that fact.
 .SH FILE FORMATS
 .SS debian/source/format
 This file contains on a single line the format that should be used to
@@ -599,7 +619,7 @@ Copyright \(co 1995-1996 Ian Jackson
 .br
 Copyright \(co 2000 Wichert Akkerman
 .br
-Copyright \(co 2008-2009 Rapha\[:e]l Hertzog
+Copyright \(co 2008-2010 Rapha\[:e]l Hertzog
 .sp
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO WARRANTY.
