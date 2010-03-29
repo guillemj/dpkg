@@ -339,10 +339,12 @@ sub extract {
     {
         my $srcdir = File::Spec->catdir($newdirectory, "debian", "source");
         my $format_file = File::Spec->catfile($srcdir, "format");
-        mkdir($srcdir) unless -e $srcdir;
-        open(FORMAT, ">", $format_file) || syserr(_g("cannot write %s"), $format_file);
-        print FORMAT $self->{'fields'}{'Format'} . "\n";
-        close(FORMAT);
+	unless (-e $format_file) {
+	    mkdir($srcdir) unless -e $srcdir;
+	    open(FORMAT, ">", $format_file) || syserr(_g("cannot write %s"), $format_file);
+	    print FORMAT $self->{'fields'}{'Format'} . "\n";
+	    close(FORMAT);
+	}
     }
 
     # Make sure debian/rules is executable
