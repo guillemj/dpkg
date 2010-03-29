@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-03-07 21:33+0000\n"
-"PO-Revision-Date: 2010-03-28 17:34+0200\n"
+"PO-Revision-Date: 2010-03-29 19:49+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -11183,6 +11183,25 @@ msgstr ""
 "»1.0«. Die verschiedenen Quellpaketformate werden im Abschnitt B<QUELLPAKET-"
 "FORMATE> ausführlich beschrieben."
 
+#. type: Plain text
+#: dpkg-source.1:66
+msgid ""
+"B<dpkg-source> will build the source package with the first format found in "
+"this ordered list: the format indicated with the I<--format> command-line "
+"option, the format indicated in B<debian/source/format>, \"1.0\". The "
+"fallback to \"1.0\" is deprecated and will be removed at some point in the "
+"future, you should always document the desired source format in B<debian/"
+"source/format>. See section B<SOURCE PACKAGE FORMATS> for an extensive "
+"description of the various source package formats."
+msgstr ""
+"B<dpkg-source> wird das Quellpaket mit dem ersten gefundenen Format aus der "
+"folgenden geordneten Liste bauen: dem mit der Kommandozeilenoption(en) I<--"
+"format> angegeben Format, dem in B<debian/source/format> angegebenen Format, "
+"»1.0«. Die Rückfalloption »1.0« ist veraltet und wird irgendwann in der "
+"Zukunft entfernt werden, Sie sollten das gewünschte Quellformat immmer in "
+"B<debian/source/format> dokumentieren. Die verschiedenen Quellpaketformate "
+"werden im Abschnitt B<QUELLPAKET-FORMATE> ausführlich beschrieben."
+
 #. type: TP
 #: dpkg-source.1:66
 #, no-wrap
@@ -11506,6 +11525,19 @@ msgstr ""
 "werden in der nahen Zukunft die Standardformate werden. Lesen Sie http://"
 "wiki.debian.org/Projects/DebSrc3.0 für Informationen über den Einsatz dieser "
 "Formate innerhalb von Debian."
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-source.1:213
+msgid ""
+"If you don't know what source format to use, you should probably pick either "
+"\"3.0 (quilt)\" or \"3.0 (native)\". See http://wiki.debian.org/Projects/"
+"DebSrc3.0 for information on the deployment of those formats within Debian."
+msgstr ""
+"Falls Sie nicht wissen, welches Quellformat Sie verwenden sollen, verwenden "
+"Sie wahrscheinlich am besten entweder »3.0 (quilt)« oder »3.0 (native)«. "
+"Lesen Sie http://wiki.debian.org/Projects/DebSrc3.0 für Informationen über "
+"den Einsatz dieser Formate innerhalb von Debian."
 
 #. type: SS
 #: dpkg-source.1:213
@@ -12286,6 +12318,148 @@ msgstr ""
 "gepackt wird, werden verschiedene Bereinigungen durchgeführt, um Platz zu "
 "sparen."
 
+# type: SH
+#. type: SH
+#: dpkg-source.1:533
+#, no-wrap
+msgid "WARNINGS AND ERRORS"
+msgstr "WARNUNGEN UND FEHLER"
+
+# type: SS
+#. type: SS
+#: dpkg-source.1:534
+#, no-wrap
+msgid "no source format specified in debian/source/format"
+msgstr "kein Quellformat in debian/source/format angegeben"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-source.1:540
+msgid ""
+"The file B<debian/source/format> should always exist and indicate the "
+"desired source format. For backwards compatibility, format \"1.0\" is "
+"assumed when the file doesn't exist but you should not rely on this: at some "
+"point in the future dpkg-source will be modified to fail when that file "
+"doesn't exist."
+msgstr ""
+"Die Datei B<debian/source/format> sollte immer existieren und das gewünschte "
+"Quellformat angeben. Für Rückwärtskompatibilität wird das Format »1.0« "
+"angenommen, wenn die Datei nicht existiert, aber Sie sollten sich nicht "
+"darauf verlassen: Irgendwann in der Zukunft wird dpkg-source verändert und "
+"dann fehlschlagen, wenn diese Datei nicht existiert."
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-source.1:546
+msgid ""
+"The rationale is that format \"1.0\" is no longer the recommended format, "
+"you should usually pick one of the newer formats (\"3.0 (quilt)\", \"3.0 "
+"(native)\") but B<dpkg-source> will not do this automatically for you.  If "
+"you want to continue using the old format, you should be explicit about it "
+"and put \"1.0\" in B<debian/source/format>."
+msgstr ""
+"Die Begründung liegt darin, dass »1.0« nicht mehr das empfohlene Format ist, "
+"Sie sollten normalerweise eines der neueren Formate (»3.0 (quilt)«, »3.0 "
+"(native)«) auswählen, aber B<dpkg-source> wird dies nicht für Sie automatisch "
+"vornehmen. Falls Sie weiterhin das alte Format verwenden möchten, sollten Sie "
+"dies explizit angeben und »1.0« in B<debian/source/format> eintragen."
+
+# type: SS
+#. type: SS
+#: dpkg-source.1:546
+#, no-wrap
+msgid "the diff modifies the following upstream files"
+msgstr "der Diff verändert die folgenden Dateien der Originalautoren"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-source.1:553
+msgid ""
+"When using source format \"1.0\" it is usually a bad idea to modify upstream "
+"files directly as the changes end up hidden and mostly undocumented in the ."
+"diff.gz file. Instead you should store your changes as patches in the debian "
+"directory and apply them at build-time. To avoid this complexity you can "
+"also use the format \"3.0 (quilt)\" that offers this natively."
+msgstr ""
+"Beim Einsatz des Quellformats »1.0« ist es normalerweise keine gute Idee, die "
+"Dateien der Originalautoren direkt zu verändern, da die Änderungen "
+"größtenteils versteckt und undokumentiert in der diff.gz-Datei verschwinden. "
+"Stattdessen sollten Sie Ihre Änderungen als Patches im debian-Verzeichnis "
+"speichern und während des Baus anwenden. Um diese Komplexität zu vermeiden, "
+"können Sie auch das Format »3.0 (quilt)« verwenden, das dies von sich aus "
+"anbietet."
+
+# type: SS
+#. type: SS
+#: dpkg-source.1:553
+#, no-wrap
+msgid "cannot represent change to I<file>"
+msgstr "kann Änderungen an I<Datei> nicht darstellen"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-source.1:559
+msgid ""
+"Changes to upstream sources are usually stored with patch files, but not all "
+"changes can be represented with patches: they can only alter the content of "
+"plain text files. If you try replacing a file with something of a different "
+"type (for example replacing a plain file with a symlink or a directory), you "
+"will get this error message."
+msgstr ""
+"Änderungen an den Quellen der Originalautoren werden normalerweise als Patch-"
+"Dateien gespeichert, aber nicht alle Änderungen können als Patches "
+"dargestellt werden: Sie können nur Änderungen am Inhalt einfacher Textdateien "
+"vornehmen. Falls Sie versuchen, eine Datei mit etwas eines anderen Typs zu "
+"ersetzen (beispielsweise eine einfache Datei mit einem Symlink oder einem "
+"Verzeichnis), werden Sie diese Fehlermeldung erhalten."
+
+# type: SS
+#. type: SS
+#: dpkg-source.1:559
+#, no-wrap
+msgid "newly created empty file I<file> will not be represented in diff"
+msgstr ""
+"neu angelegte leere Datei I<Datei> wird im Diff nicht dargestellt werden"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-source.1:562
+msgid ""
+"Empty files can't be created with patch files. Thus this change is not "
+"recorded in the source package and you are warned about it."
+msgstr ""
+"Leere Dateien können nicht mit Patchdateien erstellt werden. Daher wird diese "
+"Änderung nicht im Quellpaket aufgezeichnet und Sie erhalten dazu diese "
+"Warnung."
+
+# type: SS
+#. type: SS
+#: dpkg-source.1:562
+#, no-wrap
+msgid "executable mode I<perms> of I<file> will not be represented in diff"
+msgstr ""
+"ausführbarer Modus I<Rechte> von I<Datei> wird nicht im Diff dargestellt "
+"werden"
+
+# type: SS
+#. type: SS
+#: dpkg-source.1:563
+#, no-wrap
+msgid "special mode I<perms> of I<file> will not be represented in diff"
+msgstr ""
+"besonderer Modus I<Rechte> von I<Datei> wird nicht im Diff dargestellt werden"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-source.1:567
+msgid ""
+"Patch files do not record permissions of files and thus modified permissions "
+"are not stored in the source package. This warning reminds you of that fact."
+msgstr ""
+"Patch-Dateien speichern nicht die Rechte von Dateien und daher werden "
+"geänderte Rechte nicht im Quellpaket gespeichert. Diese Warnung erinnert Sie "
+"an diese Tatsache."
+
 #. type: SH
 #: dpkg-source.1:532
 #, no-wrap
@@ -12444,6 +12618,11 @@ msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 #: dpkg-source.1:588
 msgid "Copyright \\(co 2008-2009 Rapha\\[:e]l Hertzog"
 msgstr "Copyright \\(co 2007-2009 Rapha\\[:e]l Hertzog"
+
+#. type: Plain text
+#: dpkg-source.1:623
+msgid "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2007-2010 Rapha\\[:e]l Hertzog"
 
 #. type: TH
 #: dpkg-split.1:2
