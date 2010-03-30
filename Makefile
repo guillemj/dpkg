@@ -7,6 +7,7 @@
 TESTS := \
 	t-normal \
 	t-disappear \
+	t-disappear-empty \
 	t-conflict \
 	t-conflict-provide-replace-real \
 	t-conflict-provide-replace-virtual \
