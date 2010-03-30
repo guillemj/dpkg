@@ -1,13 +1,15 @@
 #
 # Dpkg functional testsuite (kind of)
 #
-# Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
 #
 
 TESTS := \
 	t-normal \
 	t-disappear \
 	t-conflict \
+	t-conflict-provide-replace-real \
+	t-conflict-provide-replace-virtual \
 	t-file-replaces \
 	t-file-replaces-disappear \
 	t-conffile-obsolete \
