@@ -43,6 +43,7 @@ sub init_options {
     my ($self) = @_;
     # Don't call $self->SUPER::init_options() on purpose, V1.0 has no
     # ignore by default
+    $self->{'options'}{'diff_ignore_regexp'} = '(?:^|/)debian/source/local-options$';
     $self->{'options'}{'sourcestyle'} ||= 'X';
     $self->{'options'}{'skip_debianization'} ||= 0;
 }

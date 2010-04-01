@@ -44,6 +44,8 @@ our $diff_ignore_default_regexp = '
 (?:^|/)\..*\.sw.$|
 # Ignore baz-style junk files or directories
 (?:^|/),,.*(?:$|/.*$)|
+# local-options must not be exported in the resulting source package
+(?:^|/)debian/source/local-options$|
 # File-names that should be ignored (never directories)
 (?:^|/)(?:DEADJOE|\.arch-inventory|\.(?:bzr|cvs|hg|git)ignore)$|
 # File or directory names that should be ignored
@@ -86,6 +88,7 @@ RCS
 _MTN
 _darcs
 {arch}
+debian/source/local-options
 );
 
 # Object methods

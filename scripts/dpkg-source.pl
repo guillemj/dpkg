@@ -102,17 +102,20 @@ if (defined($options{'opmode'}) &&
     if (not -d $dir) {
 	error(_g("directory argument %s is not a directory"), $dir);
     }
-    my $conf = Dpkg::Conf->new();
-    my $optfile = File::Spec->catfile($dir, "debian", "source", "options");
-    $conf->load($optfile) if -f $optfile;
-    # --format options are not allowed, they would take precedence
-    # over real command line options, debian/source/format should be used
-    # instead
-    @$conf = grep { ! /^--format=/ } @$conf;
-    if (@$conf) {
-	info(_g("using options from %s: %s"), $optfile, join(" ", @$conf))
-	    unless $options{'opmode'} eq "--print-format";
-	unshift @options, @$conf;
+    foreach my $filename ("local-options", "options") {
+	my $conf = Dpkg::Conf->new();
+	my $optfile = File::Spec->catfile($dir, "debian", "source", $filename);
+	next unless -f $optfile;
+	$conf->load($optfile);
+	# --format options are not allowed, they would take precedence
+	# over real command line options, debian/source/format should be used
+	# instead
+	@$conf = grep { ! /^--format=/ } @$conf;
+	if (@$conf) {
+	    info(_g("using options from %s: %s"), $optfile, join(" ", @$conf))
+		unless $options{'opmode'} eq "--print-format";
+	    unshift @options, @$conf;
+	}
     }
 }
 
