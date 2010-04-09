@@ -104,7 +104,7 @@ sub do_extract {
         $seen{$uncompressed} = 1;
         if ($file =~ /^\Q$basename\E\.orig\.tar\.$re_ext$/) {
             $tarfile = $file;
-        } elsif ($file =~ /^\Q$basename\E\.orig-([\w-]+)\.tar\.$re_ext$/) {
+        } elsif ($file =~ /^\Q$basename\E\.orig-([[:alnum:]-]+)\.tar\.$re_ext$/) {
             $origtar{$1} = $file;
         } elsif ($file =~ /^\Q$basenamerev\E\.debian\.tar\.$re_ext$/) {
             $debianfile = $file;
@@ -276,7 +276,7 @@ sub do_build {
             $tarfile = $_;
             push @origtarballs, $_;
             $self->add_file($_);
-        } elsif (/\.orig-([\w-]+)\.tar\.$compression_re_file_ext$/) {
+        } elsif (/\.orig-([[:alnum:]-]+)\.tar\.$compression_re_file_ext$/) {
             $origtar{$1} = $_;
             push @origtarballs, $_;
             $self->add_file($_);
