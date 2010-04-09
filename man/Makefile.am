@@ -97,6 +97,7 @@ dist_man_MANS = \
 	deb-extra-override.5 \
 	deb.5 \
 	dpkg-architecture.1 \
+	dpkg-buildflags.1 \
 	dpkg-buildpackage.1 \
 	dpkg-checkbuilddeps.1 \
 	dpkg-deb.1 \

@@ -20,6 +20,11 @@ dpkg (1.15.6.2) UNRELEASED; urgency=low
   * Tigthen the regex used by dpkg-source to match the component name of
     supplementary tarballs so that undercore (_) are not allowed as it was
     supposed to be.
+  * Introduce a new script called dpkg-buildflags: its purpose is to retrieve
+    compilation flags and it should be used within debian/rules to pass
+    the right compilation flags to the build process. dpkg-builpackage still
+    exports them to not break packages currently relying on them but packages
+    should now start using dpkg-buildflags instead. Closes: #560070
 
   [ Updated dpkg translations ]
   * German (Sven Joachim).

@@ -4,6 +4,7 @@ SUBDIRS = po
 
 bin_SCRIPTS = \
 	dpkg-architecture \
+	dpkg-buildflags \
 	dpkg-buildpackage \
 	dpkg-checkbuilddeps \
 	dpkg-distaddfile \
@@ -30,6 +31,7 @@ changelog_SCRIPTS = \
 EXTRA_DIST = \
 	README.alternatives \
 	dpkg-architecture.pl \
+	dpkg-buildflags.pl \
 	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
 	dpkg-distaddfile.pl \

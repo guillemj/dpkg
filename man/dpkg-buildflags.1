@@ -1,0 +1,116 @@
+.TH dpkg\-buildflags 1 "2010-04-11" "Debian Project" "dpkg suite"
+.SH NAME
+dpkg\-buildflags \- returns build flags to use during package build
+.
+.SH SYNOPSIS
+.B dpkg\-buildflags
+.RI [ option "...] " command
+.
+.SH DESCRIPTION
+\fBdpkg\-buildflags\fP is a tool to retrieve compilation flags to use during
+build of Debian packages.
+.
+The default flags are defined by the vendor but they can be
+extended/overriden in several ways:
+.IP 1.
+system-wide with \fB/etc/dpkg/buildflags.conf\fP;
+.IP 2.
+for the current user with \fB~/.config/dpkg-buildflags.conf\fP;
+.IP 3.
+temporarily with environment variables (see section \fBENVIRONMENT\fP).
+.P
+The configuration files can contain two types of directives:
+.TP
+.BI SET " flag value"
+Override the flag named \fIflag\fP to have the value \fIvalue\fP.
+.TP
+.BI APPEND " flag value"
+Extend the flag named \fIflag\fP with the options given in \fIvalue\fP.
+A space is prepended to the appended value if the flag's current value is non-empty.
+.P
+The configuration files can contain comments on lines starting with a hash
+(#). Empty lines are also ignored.
+.SH COMMANDS
+.TP
+.BI \-\-list
+Print the list of flags supported by the current vendor
+(one per line). See the \fBSUPPORTED FLAGS\fP section for more
+information about them.
+.TP
+.BI \-\-get " flag"
+Print the value of the flag on standard output. Exits with 0
+if the flag is known otherwise exits with 1.
+.TP
+.BI \-\-origin " flag"
+Print the origin of the value that is returned by \fB\-\-get\fP. Exits
+with 0 if the flag is known otherwise exits with 1. The origin can be one
+of the following values:
+.RS
+.TP
+.B vendor
+the original flag set by the vendor is returned;
+.TP
+.B system
+the flag is set/modified by a system-wide configuration;
+.TP
+.B user
+the flag is set/modified by a user-specific configuration;
+.TP
+.B env
+the flag is set/modified by an environment-specific configuration.
+.RE
+.TP
+.B \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH SUPPORTED FLAGS
+.TP
+.B CFLAGS
+Options for the C compiler. The default value set by the vendor
+includes \fI-g\fP and the default optimization level (\fI-O2\fP usually,
+or \fI-O0\fP if the \fBDEB_BUILD_OPTIONS\fP environment variable defines
+\fInoopt\fP).
+.TP
+.B CPPFLAGS
+Options for the C preprocessor. Default value: empty.
+.TP
+.B CXXFLAGS
+Options for the C++ compiler. Same as \fBCFLAGS\fP.
+.TP
+.B FFLAGS
+Options for the Fortran compiler. Same as \fBCFLAGS\fP.
+.TP
+.B LDFLAGS
+Options passed to the compiler when linking executables or shared
+objects (if the linker is called directly, then
+.B -Wl
+and
+.B ,
+have to be stripped from these options). Default value: empty.
+.
+.SH FILES
+.TP
+.B /etc/dpkg/buildflags.conf
+System wide configuration file.
+.TP
+.B ~/.config/dpkg-buildflags.conf
+User configuration file.
+.SH ENVIRONMENT
+.TP
+.BI DEB_ flag _SET
+This variable can be used to force the value returned for the given
+\fIflag\fP.
+.TP
+.BI DEB_ flag _APPEND
+This variable can be used to append supplementary options to the value
+returned for the given \fIflag\fP.
+.
+.SH AUTHOR
+Copyright \(co 2010 Rapha\[:e]l Hertzog
+.sp
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO WARRANTY.
+
