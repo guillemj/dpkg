@@ -14,6 +14,9 @@ dpkg (1.15.6.2) UNRELEASED; urgency=low
     do not include that file in the generated source package.
   * Improve explanation of --all option in dpkg-parsechangelog(1). Thanks to
     Jari Aalto. Closes: #575706
+  * Fix dpkg to not lose package metadata on filesystems where readdir()
+    returns new files added after the opendir() call, btrfs in particular
+    triggered the problematic behaviour. Closes: #575891
 
   [ Updated dpkg translations ]
   * German (Sven Joachim).

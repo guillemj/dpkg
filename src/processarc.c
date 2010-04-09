@@ -52,6 +52,12 @@
 #include "main.h"
 #include "archives.h"
 
+struct rename_list {
+  struct rename_list *next;
+  char *src;
+  char *dst;
+};
+
 static const char *
 summarize_filename(const char *filename)
 {
@@ -118,6 +124,7 @@ void process_archive(const char *filename) {
   struct dirent *de;
   struct stat stab, oldfs;
   struct pkg_deconf_list *deconpil, *deconpiltemp;
+  struct rename_list *rename_head = NULL, *rename_node = NULL;
   
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
   admindirlen= strlen(admindir);
@@ -850,19 +857,37 @@ void process_archive(const char *filename) {
     varbufaddstr(&infofnvb,de->d_name);
     varbufaddc(&infofnvb,0);
     strcpy(cidirrest,p);
-    if (!rename(cidir,infofnvb.buf)) {
-      debug(dbg_scripts, "process_archive info installed %s as %s",
-            cidir, infofnvb.buf);
-    } else if (errno == ENOENT) {
-      /* Right, no new version. */
-      if (unlink(infofnvb.buf))
-        ohshite(_("unable to remove obsolete info file `%.250s'"),infofnvb.buf);
-      debug(dbg_scripts, "process_archive info unlinked %s",infofnvb.buf);
-    } else {
-      ohshite(_("unable to install (supposed) new info file `%.250s'"),cidir);
-    }
+    /* We keep files to rename in a list as doing the rename immediately
+     * might influence the current readdir(), the just renamed file might
+     * be returned a second time as it's actually a new file from the
+     * point of view of the filesystem. */
+    rename_node = m_malloc(sizeof(*rename_node));
+    rename_node->next = rename_head;
+    rename_node->src = m_strdup(cidir);
+    rename_node->dst = m_strdup(infofnvb.buf);
+    rename_head = rename_node;
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
+
+  while ((rename_node = rename_head)) {
+    if (!rename(rename_node->src, rename_node->dst)) {
+      debug(dbg_scripts, "process_archive info installed %s as %s",
+            rename_node->src, rename_node->dst);
+    } else if (errno == ENOENT) {
+      /* Right, no new version. */
+      if (unlink(rename_node->dst))
+        ohshite(_("unable to remove obsolete info file `%.250s'"),
+                rename_node->dst);
+      debug(dbg_scripts, "process_archive info unlinked %s", rename_node->dst);
+    } else {
+      ohshite(_("unable to install (supposed) new info file `%.250s'"),
+              rename_node->src);
+    }
+    rename_head = rename_node->next;
+    free(rename_node->src);
+    free(rename_node->dst);
+    free(rename_node);
+  }
   
   *cidirrest = '\0'; /* the directory itself */
   dsd= opendir(cidir);
