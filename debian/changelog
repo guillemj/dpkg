@@ -1,3 +1,11 @@
+dpkg (1.14.30) stable; urgency=low
+
+  * Fix dpkg to not lose package metadata on filesystems where readdir()
+    returns new files added after the opendir() call, btrfs in particular
+    triggered the problematic behaviour. Closes: #575891
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Wed, 20 Oct 2010 23:10:29 +0200
+
 dpkg (1.14.29) stable-security; urgency=high
 
   * Modify dpkg-source to error out when it would apply patches containing
