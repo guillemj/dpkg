@@ -98,6 +98,12 @@ The hook is called in Dpkg::Changelog to post-process a
 Dpkg::Changelog::Entry after it has been created and filled with the
 appropriate values.
 
+=item update-buildflags ($flags, $origin)
+
+The hook is called in Dpkg::BuildFlags to allow the vendor to override
+the default values set for the various build flags. $flags and $origin
+are hash reference.
+
 =back
 
 =cut
