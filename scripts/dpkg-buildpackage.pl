@@ -25,6 +25,7 @@ use POSIX;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::BuildFlags;
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version;
@@ -267,26 +268,12 @@ if (defined $parallel) {
     $build_opts->export();
 }
 
-my $default_flags = $build_opts->has("noopt") ? "-g -O0" : "-g -O2";
-my %flags = ( CPPFLAGS => '',
-	      CFLAGS   => $default_flags,
-	      CXXFLAGS => $default_flags,
-	      FFLAGS   => $default_flags,
-	      LDFLAGS  => '',
-    );
-
-foreach my $flag (keys %flags) {
-    if ($ENV{$flag}) {
-	printf(_g("%s: use %s from environment: %s\n"), $progname,
-		  $flag, $ENV{$flag});
-    } else {
-	$ENV{$flag} = $flags{$flag};
-	printf(_g("%s: set %s to default value: %s\n"), $progname,
-		  $flag, $ENV{$flag});
-    }
-    if ($ENV{"${flag}_APPEND"}) {
-	$ENV{$flag} .= " ".$ENV{"${flag}_APPEND"};
-    }
+my $build_flags = Dpkg::BuildFlags->new();
+$build_flags->load_config();
+foreach my $flag ("CPPFLAGS", "CFLAGS", "CXXFLAGS", "FFLAGS", "LDFLAGS") {
+    $ENV{$flag} = $build_flags->get($flag);
+    printf(_g("%s: export %s from dpkg-buildflags (origin: %s): %s\n"),
+	   $progname, $flag, $build_flags->get_origin($flag), $ENV{$flag});
 }
 
 my $cwd = cwd();

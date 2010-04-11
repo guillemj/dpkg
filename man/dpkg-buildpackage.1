@@ -229,80 +229,18 @@ Show the usage message and exit.
 Show the version and exit.
 .
 .SH ENVIRONMENT
+Even if \fBdpkg\-buildpackage\fP export some variables, \fBdebian/rules\fP
+should not rely on their presence and should instead use the
+respective interface to retrieve the needed values.
 .SS Variables set by dpkg-architecture
 \fBdpkg\-architecture\fP is called with the \fB\-a\fP and \fB\-t\fP
 parameters forwarded. Any variable that is output by its \fB\-s\fP
 option is integrated in the build environment.
 .SS Compiler flags
-Some environment variables defining compiler and linker options are
-set to default values unless already present in the environment. Note that
-this mechanism was only introduced in version 1.14.17 of dpkg-dev and
-not all \fIrules\fP files and build tools will honour these variables,
-yet.
-.TP
-.B CFLAGS
-Optimization options which are passed to the Debian build system and
-can/should be overridden by the package build if needed (default value:
-.BR "\-g \-O2" ,
-or
-.BR \-g\ \-O0
-if
-.BR noopt
-is specified in DEB_BUILD_OPTIONS). Overriding options can be
-used to explicitly set a
-higher optimization level, or work around compiler bugs, which only
-can be seen with some optimization levels (the last opt level "wins").
-.TP
-.B CFLAGS_APPEND
-Optimization options appended to the compiler flags, which must not be
-overwritten by the package (mostly used to for test builds). Default
-value: empty.
-.TP
-.B CXXFLAGS
-Same as
-.B CFLAGS
-for C++ sources.
-.TP
-.B CXXFLAGS_APPEND
-Same as
-.B CFLAGS_APPEND
-for C++ sources.
-.TP
-.B FFLAGS
-Same as
-.B CFLAGS
-for Fortran sources.
-.TP
-.B FFLAGS_APPEND
-Same as
-.B CFLAGS_APPEND
-for Fortran sources.
-.TP
-.B CPPFLAGS
-Preprocessor flags which are passed to the Debian build system and
-can/should be overridden by the package build if needed (default:
-empty). This macro is seldom used (most build systems just use
-.B CFLAGS
-instead of
-.BR CPPFLAGS ).
-.TP
-.B CPPFLAGS_APPEND
-Preprocessor flags appended to the preprocessor flags, which must not
-be overwritten by the package (mostly used to for test
-builds). Default value: empty.
-.TP
-.B LDFLAGS
-Options passed to the compiler when linking executables or shared
-objects (if the linker is called directly, then
-.B -Wl
-and
-.B ,
-have to be stripped from these options). Default value: empty.
-.TP
-.B LDFLAGS_APPEND
-Optimization options appended to the compiler flags when linking code,
-which must not be overwritten by the package (mostly used to for test
-builds). Default value: empty.
+The \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBFFLAGS\fP, \fBCPPFLAGS\fP
+and \fBLDFLAGS\fP environment variables are set to the values
+that \fBdpkg\-buildflags\fP returned. See its manual page for more
+information.
 .
 .SH BUGS
 It should be possible to specify spaces and shell metacharacters in
@@ -323,7 +261,7 @@ Copyright \(co 2000 Wichert Akkerman
 .br
 Copyright \(co 2007 Frank Lichtenheld
 .br
-Copyright \(co 2008 Rapha\[:e]l Hertzog
+Copyright \(co 2008-2010 Rapha\[:e]l Hertzog
 .sp
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO WARRANTY.
