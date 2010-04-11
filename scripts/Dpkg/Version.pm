@@ -160,12 +160,12 @@ sub comparison {
     return version_compare_part($a->revision(), $b->revision());
 }
 
-=item "$v"
-=item $v->as_string()
+=item "$v", $v->as_string()
 
 Returns the string representation of the version number.
 
 =cut
+
 sub as_string {
     my ($self) = @_;
     my $str = "";
