@@ -315,6 +315,7 @@ sub sort {
 }
 
 =item my $str = $index->output()
+
 =item "$index"
 
 Get a string representation of the index. The Dpkg::Control objects are

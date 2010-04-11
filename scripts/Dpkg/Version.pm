@@ -343,6 +343,7 @@ sub version_split_digits($) {
 }
 
 =item my ($ok, $msg) = version_check($version)
+
 =item my $ok = version_check($version)
 
 Checks the validity of $version as a version number. Returns 1 in $ok

@@ -1067,6 +1067,7 @@ This object represents a list of relationships.
 The output method uses ", " to join the list of relationships.
 
 =item $union->implies($other_dep)
+
 =item $union->get_evaluation($other_dep)
 
 Those methods are not meaningful for this object and always return undef.

@@ -69,6 +69,7 @@ sub new {
 }
 
 =item my $str = $entry->output()
+
 =item "$entry"
 
 Get a string representation of the changelog entry.

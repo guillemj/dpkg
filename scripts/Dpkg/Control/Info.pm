@@ -113,6 +113,7 @@ sub parse {
 }
 
 =item $c->[0]
+
 =item $c->get_source()
 
 Returns a Dpkg::Control object containing the fields concerning the
