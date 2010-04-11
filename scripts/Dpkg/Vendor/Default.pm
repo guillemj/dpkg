@@ -115,6 +115,8 @@ sub run_hook {
         my $fields = shift @params;
     } elsif ($hook eq "extend-patch-header") {
 	my ($textref, $ch_info) = @params;
+    } elsif ($hook eq "update-buildflags") {
+	my ($flags, $origin) = @params;
     }
 
     # Default return value for unknown/unimplemented hooks

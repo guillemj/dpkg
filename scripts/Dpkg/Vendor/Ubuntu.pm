@@ -90,6 +90,12 @@ sub run_hook {
             $fields->{"Launchpad-Bugs-Fixed"} = join(" ", @$bugs);
         }
 
+    } elsif ($hook eq "update-buildflags") {
+	my $flags = shift @params;
+	my $origin = shift @params;
+	# Per https://wiki.ubuntu.com/DistCompilerFlags
+	$flags->{'LDFLAGS'} = '-Wl,-Bsymbolic-functions';
+
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
