@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-03-07 21:33+0000\n"
-"PO-Revision-Date: 2010-04-04 16:46+0200\n"
+"PO-Revision-Date: 2010-04-12 19:52+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -5329,6 +5329,374 @@ msgid "B<dpkg>(1)."
 msgstr "B<dpkg>(1)."
 
 #. type: TH
+#: dpkg-buildflags.1:1
+#, no-wrap
+msgid "dpkg-buildflags"
+msgstr "dpkg-buildflags"
+
+#. type: TH
+#: dpkg-buildflags.1:1
+#, no-wrap
+msgid "2010-04-11"
+msgstr "2010-04-11"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:4
+msgid "dpkg-buildflags - returns build flags to use during package build"
+msgstr "dpkg-buildflags - liefert Bauschalter zum Einsatz beim Paketbau"
+
+#. type: Plain text
+#: dpkg-buildflags.1:8
+msgid "B<dpkg-buildflags> [I<option>...] I<command>"
+msgstr "B<dpkg-buildflags> [I<Option>...] I<Befehl>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:12
+msgid ""
+"B<dpkg-buildflags> is a tool to retrieve compilation flags to use during "
+"build of Debian packages."
+msgstr ""
+"B<dpkg-buildflags> ist ein Werkzeug, das zum Abfragen der zu verwendenden "
+"Kompilierungsschalter für den Bau von Debian-Paketen eingesetzt wird."
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:15
+msgid ""
+"The default flags are defined by the vendor but they can be extended/"
+"overriden in several ways:"
+msgstr ""
+"Die Standardschalter werden vom Lieferanten definiert, sie können auf mehrere "
+"Arten erweitert/überschrieben werden:"
+
+# type: IP
+#. type: IP
+#: dpkg-buildflags.1:15
+#, no-wrap
+msgid "1."
+msgstr "1."
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:17
+msgid "system-wide with B</etc/dpkg/buildflags.conf>;"
+msgstr "systemweit mit B</etc/dpkg/buildflags.conf>"
+
+#. type: IP
+#: dpkg-buildflags.1:17
+#, no-wrap
+msgid "2."
+msgstr "2."
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:19
+msgid "for the current user with B<~/.config/dpkg-buildflags.conf>;"
+msgstr "für den aktuellen Benutzer mit B<~/.config/dpkg-buildflags.conf>"
+
+# type: IP
+#. type: IP
+#: dpkg-buildflags.1:19
+#, no-wrap
+msgid "3."
+msgstr "3."
+
+#. type: Plain text
+#: dpkg-buildflags.1:21
+msgid "temporarily with environment variables (see section B<ENVIRONMENT>)."
+msgstr ""
+"temporär mittels Umgebungsvariablen (siehe Abschnitt B<UMGEBUNG>)."
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:23
+msgid "The configuration files can contain two types of directives:"
+msgstr "Die Konfigurationsdateien können zwei Arten von Direktiven enthalten:"
+
+# type: TP
+#. type: TP
+#: dpkg-buildflags.1:23
+#, no-wrap
+msgid "B<SET>I< flag value>"
+msgstr "B<SET>I< Schalter Wert>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:26
+msgid "Override the flag named I<flag> to have the value I<value>."
+msgstr ""
+"Überschreibt den Schalter namens I<Schalter>, um den Wert I<Wert> zu erhalten."
+
+# type: TP
+#. type: TP
+#: dpkg-buildflags.1:26
+#, no-wrap
+msgid "B<APPEND>I< flag value>"
+msgstr "B<APPEND>I< Schalter Wert>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:30
+msgid ""
+"Extend the flag named I<flag> with the options given in I<value>.  A space "
+"is prepended to the appended value if the flag's current value is non-empty."
+msgstr ""
+"Erweitert den Schalter namens I<Schalter> mit den in I<Wert> angegebenen "
+"Optionen. Ein Leerzeichen wird vor den angehängten Wert vorangestellt, falls "
+"der derzeitige Wert nicht leer ist."
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:33
+msgid ""
+"The configuration files can contain comments on lines starting with a hash "
+"(#). Empty lines are also ignored."
+msgstr ""
+"Die Konfigurationsdateien können Kommentare auf Zeilen enthalten, die mit "
+"einer Raute (#) beginnen. Leere Zeilen werden auch ignoriert."
+
+#. type: TP
+#: dpkg-buildflags.1:34
+#, no-wrap
+msgid "B<--list>"
+msgstr "B<--list>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:39
+msgid ""
+"Print the list of flags supported by the current vendor (one per line). See "
+"the B<SUPPORTED FLAGS> section for more information about them."
+msgstr ""
+"Gibt die Liste der vom aktuellen Lieferanten unterstützen Schalter (eine pro "
+"Zeile) aus. Lesen Sie den Abschnitt <UNTERSTÜTZTE SCHALTER> für weitere "
+"Informationen über sie."
+
+#. type: TP
+#: dpkg-buildflags.1:39
+#, no-wrap
+msgid "B<--get>I< flag>"
+msgstr "B<--get>I< Schalter>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:43
+msgid ""
+"Print the value of the flag on standard output. Exits with 0 if the flag is "
+"known otherwise exits with 1."
+msgstr ""
+"Gibt den Wert des Schalters auf der Standardausgabe aus. Beendet sich mit 0, "
+"falls der Schalter bekannt ist, andernfalls mit 1."
+
+#. type: TP
+#: dpkg-buildflags.1:43
+#, no-wrap
+msgid "B<--origin>I< flag>"
+msgstr "B<--origin>I< Schalter>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:48
+msgid ""
+"Print the origin of the value that is returned by B<--get>. Exits with 0 if "
+"the flag is known otherwise exits with 1. The origin can be one of the "
+"following values:"
+msgstr ""
+"Gibt den Ursprung des von B<--get> gelieferten Werts aus. Beendet sich mit 0, "
+"falls der Schalter bekannt ist, andernfalls mit 1. Der Ursprung kann einer "
+"der folgenden Werte sein:"
+
+#. type: TP
+#: dpkg-buildflags.1:49
+#, no-wrap
+msgid "B<vendor>"
+msgstr "B<vendor>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:52
+msgid "the original flag set by the vendor is returned;"
+msgstr "der ursprünglich vom Lieferanten gesetzte Schalter wird zurückgeliefert"
+
+#. type: TP
+#: dpkg-buildflags.1:52
+#, no-wrap
+msgid "B<system>"
+msgstr "B<system>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:55
+msgid "the flag is set/modified by a system-wide configuration;"
+msgstr ""
+"der Schalter wurde durch eine systemweite Konfiguration gesetzt/verändert"
+
+#. type: TP
+#: dpkg-buildflags.1:55
+#, no-wrap
+msgid "B<user>"
+msgstr "B<user>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:58
+msgid "the flag is set/modified by a user-specific configuration;"
+msgstr ""
+"der Schalter wurde durch eine benutzerspezifische Konfiguration "
+"gesetzt/verändert"
+
+#. type: TP
+#: dpkg-buildflags.1:58
+#, no-wrap
+msgid "B<env>"
+msgstr "B<env>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:61
+msgid "the flag is set/modified by an environment-specific configuration."
+msgstr ""
+"der Schalter wurde durch eine umgebungsspezifische Konfiguration "
+"gesetzt/verändert"
+
+# type: SH
+#. type: SH
+#: dpkg-buildflags.1:69
+#, no-wrap
+msgid "SUPPORTED FLAGS"
+msgstr "UNTERSTÜTZTE SCHALTER"
+
+#. type: TP
+#: dpkg-buildflags.1:70
+#, no-wrap
+msgid "B<CFLAGS>"
+msgstr "B<CFLAGS>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:76
+msgid ""
+"Options for the C compiler. The default value set by the vendor includes I<-"
+"g> and the default optimization level (I<-O2> usually, or I<-O0> if the "
+"B<DEB_BUILD_OPTIONS> environment variable defines I<noopt>)."
+msgstr ""
+"Optionen für den C-Compiler. Der vom Lieferanten gesetzte Standardwert "
+"enthält I<-g> und die Standard Optimierungsstufe (normalerweise I<-O2> oder "
+"I<-O0>, falls die Umgebungsvariable B<DEB_BUILD_OPTIONS> I<noopt> definiert."
+
+#. type: TP
+#: dpkg-buildflags.1:76
+#, no-wrap
+msgid "B<CPPFLAGS>"
+msgstr "B<CPPFLAGS>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:79
+msgid "Options for the C preprocessor. Default value: empty."
+msgstr "Optionen für den C-Präprozessor. Standardwert: leer"
+
+#. type: TP
+#: dpkg-buildflags.1:79
+#, no-wrap
+msgid "B<CXXFLAGS>"
+msgstr "B<CXXFLAGS>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:82
+msgid "Options for the C++ compiler. Same as B<CFLAGS>."
+msgstr "Optionen für den C++-Compiler. Identisch zu B<CFLAGS>."
+
+#. type: TP
+#: dpkg-buildflags.1:82
+#, no-wrap
+msgid "B<FFLAGS>"
+msgstr "B<FFLAGS>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:85
+msgid "Options for the Fortran compiler. Same as B<CFLAGS>."
+msgstr "Optionen für den Fortran-Compiler. Identisch zu B<CFLAGS>."
+
+#. type: TP
+#: dpkg-buildflags.1:85
+#, no-wrap
+msgid "B<LDFLAGS>"
+msgstr "B<LDFLAGS>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:93
+msgid ""
+"Options passed to the compiler when linking executables or shared objects "
+"(if the linker is called directly, then B<-Wl> and B<,> have to be stripped "
+"from these options). Default value: empty."
+msgstr ""
+"Optionen die beim Linken von Programmen oder Laufzeitbibliotheken an den "
+"Compiler weitergegeben werden (falls der Linker direkt aufgerufen wird, "
+"müssen B<-Wl> und B<,> aus diesen Optionen entfernt werden). Standardmäßig "
+"leer."
+
+#. type: TP
+#: dpkg-buildflags.1:95
+#, no-wrap
+msgid "B</etc/dpkg/buildflags.conf>"
+msgstr "B</etc/dpkg/buildflags.conf>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:98
+msgid "System wide configuration file."
+msgstr "Systemweite Konfigurationsdatei"
+
+# type: TP
+#. type: TP
+#: dpkg-buildflags.1:98
+#, no-wrap
+msgid "B<~/.config/dpkg-buildflags.conf>"
+msgstr "B<~/.config/dpkg-buildflags.conf>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:101
+msgid "User configuration file."
+msgstr "Benutzer-Konfigurationsdatei"
+
+# type: TP
+#. type: TP
+#: dpkg-buildflags.1:102
+#, no-wrap
+msgid "B<DEB_>I<flag>B<_SET>"
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:106
+msgid ""
+"This variable can be used to force the value returned for the given I<flag>."
+msgstr ""
+
+# type: TP
+#. type: TP
+#: dpkg-buildflags.1:106
+#, no-wrap
+msgid "B<DEB_>I<flag>B<_APPEND>"
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildflags.1:110
+msgid ""
+"This variable can be used to append supplementary options to the value "
+"returned for the given I<flag>."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1:113
+msgid "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
+
+#. type: TH
 #: dpkg-buildpackage.1:1
 #, no-wrap
 msgid "dpkg-buildpackage"
@@ -5966,6 +6334,15 @@ msgstr ""
 msgid "B<-h>, B<--help>"
 msgstr "B<-h>, B<--help>"
 
+# type: Plain text
+#. type: Plain text
+#: dpkg-buildpackage.1:235
+msgid ""
+"Even if B<dpkg-buildpackage> export some variables, B<debian/rules> should "
+"not rely on their presence and should instead use the respective interface "
+"to retrieve the needed values."
+msgstr ""
+
 #. type: SS
 #: dpkg-buildpackage.1:232
 #, no-wrap
@@ -6003,12 +6380,6 @@ msgstr ""
 "dev Version 1.14.17 eingeführt wurde und noch nicht alle I<rules>-Dateien "
 "und Bauwerkzeuge diese Variablen berücksichtigen."
 
-#. type: TP
-#: dpkg-buildpackage.1:242
-#, no-wrap
-msgid "B<CFLAGS>"
-msgstr "B<CFLAGS>"
-
 #. type: Plain text
 #: dpkg-buildpackage.1:255
 msgid ""
@@ -6044,12 +6415,6 @@ msgstr ""
 "nicht vom Paket überschrieben werden dürfen (hauptsächlich zum Testen). "
 "Standardmäßig leer."
 
-#. type: TP
-#: dpkg-buildpackage.1:260
-#, no-wrap
-msgid "B<CXXFLAGS>"
-msgstr "B<CXXFLAGS>"
-
 #. type: Plain text
 #: dpkg-buildpackage.1:265
 msgid "Same as B<CFLAGS> for C++ sources."
@@ -6069,9 +6434,6 @@ msgstr "Identisch zu B<CFLAGS_APPEND> für C++-Quellen."
 #. type: TP
 #: dpkg-buildpackage.1:270
 #, no-wrap
-msgid "B<FFLAGS>"
-msgstr "B<FFLAGS>"
-
 #. type: Plain text
 #: dpkg-buildpackage.1:275
 msgid "Same as B<CFLAGS> for Fortran sources."
@@ -6087,12 +6449,6 @@ msgstr "B<FFLAGS_APPEND>"
 #: dpkg-buildpackage.1:280
 msgid "Same as B<CFLAGS_APPEND> for Fortran sources."
 msgstr "Identisch zu B<CFLAGS_APPEND> für Fortran-Quellen."
-
-#. type: TP
-#: dpkg-buildpackage.1:280
-#, no-wrap
-msgid "B<CPPFLAGS>"
-msgstr "B<CPPFLAGS>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:288
@@ -6123,24 +6479,6 @@ msgstr ""
 "Präprozessor-Schalter, die an die Präprozessor-Schalter angehängt werden, "
 "die nicht vom Paket überschrieben werden dürfen (hauptsächlich zum Testen). "
 "Standardmäßig leer."
-
-#. type: TP
-#: dpkg-buildpackage.1:293
-#, no-wrap
-msgid "B<LDFLAGS>"
-msgstr "B<LDFLAGS>"
-
-#. type: Plain text
-#: dpkg-buildpackage.1:301
-msgid ""
-"Options passed to the compiler when linking executables or shared objects "
-"(if the linker is called directly, then B<-Wl> and B<,> have to be stripped "
-"from these options). Default value: empty."
-msgstr ""
-"Optionen die beim Linken von Programmen oder Laufzeitbibliotheken an den "
-"Compiler weitergegeben werden (falls der Linker direkt aufgerufen wird, "
-"müssen B<-Wl> und B<,> aus diesen Optionen entfernt werden). Standardmäßig "
-"leer."
 
 #. type: TP
 #: dpkg-buildpackage.1:301
@@ -6176,6 +6514,11 @@ msgid ""
 msgstr ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), "
 "B<fakeroot>(1), B<gpg>(1)."
+
+#. type: Plain text
+#: dpkg-buildpackage.1:265 dpkg-source.1:628
+msgid "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2007-2010 Rapha\\[:e]l Hertzog"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:327
@@ -12647,11 +12990,6 @@ msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 #: dpkg-source.1:588
 msgid "Copyright \\(co 2008-2009 Rapha\\[:e]l Hertzog"
 msgstr "Copyright \\(co 2007-2009 Rapha\\[:e]l Hertzog"
-
-#. type: Plain text
-#: dpkg-source.1:623
-msgid "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
-msgstr "Copyright \\(co 2007-2010 Rapha\\[:e]l Hertzog"
 
 #. type: TH
 #: dpkg-split.1:2
