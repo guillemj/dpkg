@@ -1,0 +1,117 @@
+.TH maintscript\-helper 1 "2010-04-16" "Debian Project" "dpkg suite"
+.SH NAME
+maintscript\-helper \- works around known dpkg limitations in maintainer scripts
+.
+.SH SYNOPSIS
+.B $DPKG_LIBDIR/maintscript\-helper
+.IR command " [" parameters "...] \-\- " maint-script-parameters
+.
+.SH COMMANDS AND PARAMETERS
+.P
+\fBrm_conffile\fP \fIconffile\fP \fIlastversion\fP [\fIpackage\fP]
+.P
+\fBmv_conffile\fP \fIoldconffile\fP \fInewconffile\fP \fIlastversion\fP [\fIpackage\fP]
+.
+.SH DESCRIPTION
+.P
+This program is designed to be run within maintainer scripts to achieve
+some tasks that dpkg can't (yet) handle natively either because of design
+decisions or due to current limitations.
+.P
+Many of those tasks require coordinated actions from several maintainer
+scripts (\fBpreinst\fP, \fBpostinst\fP, \fBprerm\fP, \fBpostrm\fP). To
+avoid mistakes the same call simply needs to be put in all scripts and the
+program will automatically adapt its behaviour based on the environment
+variable DPKG_MAINTSCRIPT_NAME and on the maintainer scripts arguments
+that you have to forward after a double dash.
+.
+.SH CONFFILE RELATED TASKS
+.P
+When upgrading a package, dpkg will not automatically remove a conffile (a
+configuration file for which dpkg should preserve user changes) if it is
+not present in the newer version. There are two principal reasons for
+this; the first is that the conffile could've been dropped by accident and
+the next version could restore it, users wouldn't want their changes
+thrown away. The second is to allow packages to transition files from a
+dpkg\-maintained conffile to a file maintained by the package's maintainer
+scripts, usually with a tool like debconf or ucf.
+.P
+This means that if a package is intended to rename or remove a conffile,
+it must explicitly do so and \fBmaintscript\-helper\fP can be used to implement
+graceful deletion and moving of conffiles within maintainer scripts.
+.
+.SS REMOVING A CONFFILE
+.P
+If a conffile is completely removed, it should be removed from disk,
+unless the user has modified it. If there are local modifications, they
+should be preserved. If the package upgrades aborts, the newly obsolete
+conffile should not disappear.
+.P
+All of this is implemented by putting the following shell snippet in the
+\fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer scripts:
+.P
+    if [ \-x $DPKG_LIBDIR/maintscript\-helper ]; then
+        $DPKG_LIBDIR/maintscript\-helper rm_conffile \\
+            \fIconffile\fP \fIlastversion\fP \fIpackage\fP \-\- "$@"
+    fi
+.P
+\fIconffile\fP is the filename of the conffile to remove.
+\fIlastversion\fP is the last version of the package that contained the
+conffile. \fIpackage\fP is the package name, it's optional as it will
+default to $DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the
+name of the package acted upon). All the parameters of the maintainer
+scripts have to be forwarded to the program after "\-\-".
+.P
+Current implementation: in the \fBpreinst\fP, it checks if the conffile
+was modified and renames it either to \fIconffile\fP\fB.dpkg\-remove\fP (if not
+modified) or to \fIconffile\fP\fB.dpkg\-bak\fP (if modified). The latter file is
+kept for reference as it contains user modifications but the former will
+be removed in the \fBpostinst\fP. If the package upgrade aborts, the
+\fBpostrm\fP reinstalls the original conffile. During purge, the
+\fBpostrm\fP will also delete the \fB.dpkg\-bak\fP file kept up to now.
+.
+.SS RENAMING A CONFFILE
+.P
+If a conffile is moved from one location to another, you need to make sure
+you move across any changes the user has made. This may seem a simple
+change to the \fBpreinst\fP script at first, however that will result in
+the user being prompted by dpkg to approve the conffile edits even though
+they are not responsible of them.
+.P
+Graceful renaming can be implemented by putting the following shell
+snippet in the \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer
+scripts:
+.P
+    if [ \-x $DPKG_LIBDIR/maintscript\-helper ]; then
+        $DPKG_LIBDIR/maintscript\-helper mv_conffile \\
+            \fIoldconffile\fP \fInewconffile\fP \fIlastversion\fP \fIpackage\fP \-\- "$@"
+    fi
+.P
+\fIoldconffile\fP and \fInewconffile\fP are the old and new name of the
+conffile to rename. \fIlastversion\fP is the last version of the package
+that contained the conffile with the old name. \fIpackage\fP is the
+package name, it's optional as it will default to
+$DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the name of the
+package acted upon). All the parameters of the maintainer scripts have to
+be forwarded to the program after "\-\-".
+.P
+Current implementation: the \fBpreinst\fP checks if the conffile has been
+modified, if yes it's left on place otherwise it's renamed to
+\fIoldconffile\fP\fB.dpkg\-remove\fP. On configuration, the \fBpostinst\fP
+removes \fIoldconffile\fP\fB.dpkg\-remove\fP and renames \fIoldconffile\fP
+to \fInewconffile\fP if \fIoldconffile\fP is still available. On
+abort\-ugrade/abort\-install, the \fBpostrm\fP renames
+\fIoldconffile\fP\fB.dpkg\-remove\fP back to \fIoldconffile\fP if required.
+.
+.SH AUTHORS
+Copyright \(co 2010 Rapha\[:e]l Hertzog
+.br
+Copyright \(co 2008 Joey Hess
+.br
+Copyright \(co 2007 Guillem Jover
+.br
+Copyright \(co 2005 Scott James Remnant
+.sp
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO WARRANTY.
+

@@ -118,7 +118,8 @@ dist_man_MANS = \
 	dpkg-trigger.1 \
 	dpkg-vendor.1 \
 	dpkg.1 \
-	dpkg.cfg.5
+	dpkg.cfg.5 \
+	maintscript-helper.1
 
 if WITH_DSELECT
 dist_man_MANS += \
