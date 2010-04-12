@@ -1,0 +1,9 @@
+#!/bin/sh
+if [ -x $DPKG_LIBDIR/maintscript-helper ]; then
+    $DPKG_LIBDIR/maintscript-helper mv_conffile /test-conffile-old /test-conffile-new 0 -- "$@"
+fi
+
+if [ -e /fail-preinst ]; then
+    exit 1
+fi
+
