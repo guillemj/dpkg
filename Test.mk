@@ -7,6 +7,9 @@
 BEROOT := sudo
 DPKG := dpkg
 DPKG_INSTALL := $(BEROOT) $(DPKG) -i
+DPKG_UNPACK := $(BEROOT) $(DPKG) --unpack
+DPKG_CONFIGURE := $(BEROOT) $(DPKG) --configure
+DPKG_REMOVE := $(BEROOT) $(DPKG) -r
 DPKG_PURGE := $(BEROOT) $(DPKG) -P
 DPKG_BUILD_DEB := dpkg-deb -b
 DPKG_BUILD_DSC := dpkg-source -b

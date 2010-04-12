@@ -1,0 +1,9 @@
+#!/bin/sh
+if [ -x $DPKG_LIB/maintscript-helper ]; then
+    $DPKG_LIB/maintscript-helper rm_conffile /test-conffile 0 -- "$@"
+fi
+
+if [ -e /fail-preinst ]; then
+    exit 1
+fi
+
