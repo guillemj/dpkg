@@ -8,6 +8,7 @@ TESTS := \
 	t-normal \
 	t-disappear \
 	t-disappear-empty \
+	t-disappear-depended \
 	t-conflict \
 	t-conflict-provide-replace-real \
 	t-conflict-provide-replace-virtual \
