@@ -258,13 +258,13 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
 
   c1 = subproc_fork();
   if (!c1) {
-    cmd->argv[0] = preexecscript(cmd);
-
     if (setenv(MAINTSCRIPTPKGENVVAR, pkg->name, 1) ||
         setenv(MAINTSCRIPTARCHENVVAR, pif->architecture, 1) ||
+        setenv(MAINTSCRIPTNAMEENVVAR, cmd->argv[0], 1) ||
         setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));
 
+    cmd->argv[0] = preexecscript(cmd);
     command_exec(cmd);
   }
   subproc_signals_setup(cmd->name); /* This does a push_cleanup() */
