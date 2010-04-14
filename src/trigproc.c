@@ -103,6 +103,8 @@ trigproc_enqueue_deferred(struct pkginfo *pend)
 void
 trigproc_run_deferred(void)
 {
+	jmp_buf ejbuf;
+
 	debug(dbg_triggers, "trigproc_run_deferred");
 	while (!pkg_queue_is_empty(&deferred)) {
 		struct pkginfo *pkg;
@@ -111,8 +113,17 @@ trigproc_run_deferred(void)
 		if (!pkg)
 			continue;
 
+		if (setjmp(ejbuf)) {
+			error_unwind(ehflag_bombout);
+			continue;
+		}
+		push_error_handler(&ejbuf, print_error_perpackage, pkg->name);
+
 		pkg->clientdata->trigprocdeferred = NULL;
 		trigproc(pkg);
+
+		set_error_display(NULL, NULL);
+		error_unwind(ehflag_normaltidy);
 	}
 }
 
