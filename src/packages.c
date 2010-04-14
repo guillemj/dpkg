@@ -54,12 +54,72 @@ add_to_queue(struct pkginfo *pkg)
   pkg_queue_push(&queue, pkg);
 }
 
-void packages(const char *const *argv) {
+static void
+enqueue_pending(void)
+{
   struct pkgiterator *it;
   struct pkginfo *pkg;
+
+  it = iterpkgstart();
+  while ((pkg = iterpkgnext(it)) != NULL) {
+    switch (cipaction->arg) {
+    case act_configure:
+      if (!(pkg->status == stat_unpacked ||
+            pkg->status == stat_halfconfigured ||
+            pkg->trigpend_head))
+        continue;
+      if (pkg->want != want_install)
+        continue;
+      break;
+    case act_triggers:
+      if (!pkg->trigpend_head)
+        continue;
+      if (pkg->want != want_install)
+        continue;
+      break;
+    case act_remove:
+    case act_purge:
+      if (pkg->want != want_purge) {
+        if (pkg->want != want_deinstall)
+          continue;
+        if (pkg->status == stat_configfiles)
+          continue;
+      }
+      if (pkg->status == stat_notinstalled)
+        continue;
+      break;
+    default:
+      internerr("unknown action '%d'", cipaction->arg);
+    }
+    add_to_queue(pkg);
+  }
+  iterpkgend(it);
+}
+
+static void
+enqueue_specified(const char *const *argv)
+{
   const char *thisarg;
   size_t l;
-  
+
+  while ((thisarg = *argv++) != NULL) {
+    struct pkginfo *pkg;
+
+    pkg = findpackage(thisarg);
+    if (pkg->status == stat_notinstalled) {
+      l = strlen(pkg->name);
+
+      if (l >= sizeof(DEBEXT) && !strcmp(pkg->name+l-sizeof(DEBEXT)+1,DEBEXT))
+        badusage(_("you must specify packages by their own names,"
+                   " not by quoting the names of the files they come in"));
+    }
+    add_to_queue(pkg);
+  }
+}
+
+void
+packages(const char *const *argv)
+{
   trigproc_install_hooks();
 
   modstatdb_init(admindir,
@@ -70,59 +130,15 @@ void packages(const char *const *argv) {
   log_message("startup packages %s", cipaction->olong);
 
   if (f_pending) {
-
     if (*argv)
       badusage(_("--%s --pending does not take any non-option arguments"),cipaction->olong);
 
-    it= iterpkgstart();
-    while ((pkg = iterpkgnext(it)) != NULL) {
-      switch (cipaction->arg) {
-      case act_configure:
-        if (!(pkg->status == stat_unpacked ||
-              pkg->status == stat_halfconfigured ||
-              pkg->trigpend_head))
-          continue;
-        if (pkg->want != want_install)
-          continue;
-        break;
-      case act_triggers:
-        if (!pkg->trigpend_head)
-          continue;
-        if (pkg->want != want_install)
-          continue;
-        break;
-      case act_remove:
-      case act_purge:
-        if (pkg->want != want_purge) {
-          if (pkg->want != want_deinstall) continue;
-          if (pkg->status == stat_configfiles) continue;
-        }
-        if (pkg->status == stat_notinstalled)
-          continue;
-        break;
-      default:
-        internerr("unknown action '%d'", cipaction->arg);
-      }
-      add_to_queue(pkg);
-    }
-    iterpkgend(it);
-
+    enqueue_pending();
   } else {
-        
     if (!*argv)
       badusage(_("--%s needs at least one package name argument"), cipaction->olong);
-    
-    while ((thisarg = *argv++) != NULL) {
-      pkg= findpackage(thisarg);
-      if (pkg->status == stat_notinstalled) {
-        l= strlen(pkg->name);
-        if (l >= sizeof(DEBEXT) && !strcmp(pkg->name+l-sizeof(DEBEXT)+1,DEBEXT))
-          badusage(_("you must specify packages by their own names,"
-                   " not by quoting the names of the files they come in"));
-      }
-      add_to_queue(pkg);
-    }
 
+    enqueue_specified(argv);
   }
 
   ensure_diversions();
