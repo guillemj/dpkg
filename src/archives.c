@@ -779,7 +779,7 @@ int tarobject(struct TarInfo *ti) {
    * in dpkg-new.
    */
 
-  if (ti->Type == NormalFile0 || ti->Type == NormalFile0) {
+  if (ti->Type == NormalFile0 || ti->Type == NormalFile1) {
     nifd->namenode->flags |= fnnf_deferred_rename;
 
     debug(dbg_eachfiledetail, "tarobject done and installation deferred");
