@@ -66,7 +66,7 @@ int unlinkorrmdir(const char *filename);
 
 int tarobject(struct TarInfo *ti);
 int tarfileread(void *ud, char *buf, int len);
-void tar_deferred_extract(struct pkginfo *pkg);
+void tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg);
 
 bool filesavespackage(struct fileinlist *, struct pkginfo *,
                       struct pkginfo *pkgbeinginstalled);

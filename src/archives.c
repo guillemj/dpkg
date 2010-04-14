@@ -802,13 +802,13 @@ int tarobject(struct TarInfo *ti) {
 }
 
 void
-tar_deferred_extract(struct pkginfo *pkg)
+tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
 {
   struct fileinlist *cfile;
   struct filenamenode *usenode;
   const char *usename;
 
-  for (cfile = pkg->clientdata->files; cfile; cfile = cfile->next) {
+  for (cfile = files; cfile; cfile = cfile->next) {
     debug(dbg_eachfile, "deferred extract of '%.255s'", cfile->namenode->name);
 
     if (!(cfile->namenode->flags & fnnf_deferred_rename))

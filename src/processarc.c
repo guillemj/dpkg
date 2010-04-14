@@ -646,7 +646,7 @@ void process_archive(const char *filename) {
   p1[0] = -1;
   subproc_wait_check(c1, BACKEND " --fsys-tarfile", PROCPIPE);
 
-  tar_deferred_extract(pkg);
+  tar_deferred_extract(newfileslist, pkg);
 
   if (oldversionstatus == stat_halfinstalled || oldversionstatus == stat_unpacked) {
     /* Packages that were in `installed' and `postinstfailed' have been reduced
