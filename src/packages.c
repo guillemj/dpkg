@@ -100,16 +100,16 @@ static void
 enqueue_specified(const char *const *argv)
 {
   const char *thisarg;
-  size_t l;
 
   while ((thisarg = *argv++) != NULL) {
     struct pkginfo *pkg;
 
     pkg = findpackage(thisarg);
     if (pkg->status == stat_notinstalled) {
-      l = strlen(pkg->name);
+      size_t l = strlen(pkg->name);
+      const char *extension = pkg->name + l - sizeof(DEBEXT) + 1;
 
-      if (l >= sizeof(DEBEXT) && !strcmp(pkg->name+l-sizeof(DEBEXT)+1,DEBEXT))
+      if (l >= sizeof(DEBEXT) && strcmp(extension, DEBEXT) == 0)
         badusage(_("you must specify packages by their own names,"
                    " not by quoting the names of the files they come in"));
     }
