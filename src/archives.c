@@ -393,6 +393,7 @@ int tarobject(struct TarInfo *ti) {
   static int fd;
   const char *usename;
   struct filenamenode *usenode;
+  struct filenamenode *linknode;
 
   struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
@@ -691,7 +692,11 @@ int tarobject(struct TarInfo *ti) {
   case HardLink:
     varbufreset(&hardlinkfn);
     varbufaddstr(&hardlinkfn,instdir); varbufaddc(&hardlinkfn,'/');
-    varbufaddstr(&hardlinkfn,ti->LinkName); varbufaddc(&hardlinkfn,0);
+    varbufaddstr(&hardlinkfn, ti->LinkName);
+    linknode = findnamenode(ti->LinkName, 0);
+    if (linknode->flags & fnnf_deferred_rename)
+      varbufaddstr(&hardlinkfn, DPKGNEWEXT);
+    varbufaddc(&hardlinkfn, '\0');
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject HardLink");
