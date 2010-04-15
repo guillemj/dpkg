@@ -6,6 +6,10 @@
 
 TESTS := \
 	t-normal \
+	t-unpack-symlink \
+	t-unpack-hardlink \
+	t-unpack-fifo \
+	t-unpack-device \
 	t-disappear \
 	t-disappear-empty \
 	t-disappear-depended \

@@ -1,0 +1,39 @@
+PKG := pkg-hardlink
+
+TESTS_DEB := $(PKG)
+
+include ../Test.mk
+
+$(PKG)/test-file-link0:
+	echo "test hard linked file" >$@
+	link $@ $(PKG)/test-file-link1
+
+$(PKG)/test-fifo-link0:
+	mkfifo $@
+	link $@ $(PKG)/test-fifo-link1
+
+$(PKG)/test-null-link0:
+	$(BEROOT) mknod $@ c 1 3
+	link $@ $(PKG)/test-null-link1
+
+$(PKG)/test-ram0-link0:
+	$(BEROOT) mknod $@ b 1 0
+	link $@ $(PKG)/test-ram0-link1
+
+build-hook: $(PKG)/test-file-link0 $(PKG)/test-fifo-link0 \
+            $(PKG)/test-null-link0 $(PKG)/test-ram0-link0
+
+clean-hook:
+	rm -f $(PKG)/test-file-link0 $(PKG)/test-file-link1
+	rm -f $(PKG)/test-fifo-link0 $(PKG)/test-fifo-link1
+	rm -f $(PKG)/test-null-link0 $(PKG)/test-null-link1
+	rm -f $(PKG)/test-ram0-link0 $(PKG)/test-ram0-link1
+
+test-case:
+	# test unpacking hardlinks
+	$(DPKG_INSTALL) pkg-hardlink.deb
+	test "`$(PKG_STATUS) pkg-hardlink`" = "install ok installed"
+
+test-clean:
+	$(DPKG_PURGE) pkg-hardlink
+
