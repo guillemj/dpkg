@@ -27,14 +27,14 @@ DSC = $(addsuffix .dsc,$(TESTS_DSC))
 	$(DPKG_BUILD_DSC) $<
 
 
-build: $(DEB) $(DSC)
+build: build-hook $(DEB) $(DSC)
 
 test: build test-case test-clean
 
-clean:
+clean: clean-hook
 	$(RM) *.deb
 	$(RM) *.dsc
 	$(RM) *.tar.gz
 
-.PHONY: build test test-case test-clean clean
+.PHONY: build-hook build test test-case test-clean clean-hook clean
 
