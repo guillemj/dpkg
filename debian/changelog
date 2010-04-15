@@ -27,6 +27,10 @@ dpkg (1.15.6.2) UNRELEASED; urgency=low
     should now start using dpkg-buildflags instead. Closes: #560070
   * For Ubuntu set default value of LDFLAGS to -Wl,-Bsymbolic-functions.
   * Cleanup some old Conflicts/Replaces, thanks to Helge Kreutzmann.
+  * Modify dselect to treat all unknown package as known and marked for purge.
+    This is a temporary work-around so that dselect doesn't try to reinstall
+    packages of priority > standard that were removed or not installed. Thanks
+    to Robert Luderda for the patch. Closes: #559519, #556889
 
   [ Colin Watson ]
   * Modern tar files typically use NormalFile1 rather than NormalFile0 for

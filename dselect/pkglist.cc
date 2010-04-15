@@ -398,15 +398,16 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
       pkg->clientdata= 0; continue;
     }
     if (!pkg->available.valid) blankpackageperfile(&pkg->available);
-    state->direct= state->original= pkg->want;
-    if (readwrite && pkg->want == pkginfo::want_unknown) {
+    // treat all unknown packages as already seen
+    state->direct= state->original= (pkg->want == pkginfo::want_unknown ? pkginfo::want_purge : pkg->want);
+    if (readwrite && state->original == pkginfo::want_unknown) {
       state->suggested=
         pkg->status == pkginfo::stat_installed ||
           pkg->priority <= pkginfo::pri_standard /* FIXME: configurable */
             ? pkginfo::want_install : pkginfo::want_purge;
       state->spriority= sp_inherit;
     } else {
-      state->suggested= pkg->want;
+      state->suggested= state->original;
       state->spriority= sp_fixed;
     }
     state->dpriority= dp_must;
@@ -455,7 +456,8 @@ void perpackagestate::free(int recursive) {
         pkg->clientdata= uprec;
       } else {
         assert(!recursive);
-        if (pkg->want != selected) {
+        if (pkg->want != selected &&
+            !(pkg->want == pkginfo::want_unknown && selected == pkginfo::want_purge)) {
           pkg->want= selected;
         }
         pkg->clientdata= 0;
