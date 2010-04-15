@@ -280,6 +280,7 @@ my $pkg_type = $pkg->{'Package-Type'} ||
                $pkg->get_custom_field('Package-Type') || 'deb';
 
 if ($pkg_type eq 'udeb') {
+    delete $fields->{'Package-Type'};
     delete $fields->{'Homepage'};
 } else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
