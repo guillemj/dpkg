@@ -6,6 +6,7 @@ pkgconfdir = $(sysconfdir)/@PACKAGE@
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" \
+	-DPKGLIBDIR=\"$(pkglibdir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
