@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-03-07 21:33+0000\n"
-"PO-Revision-Date: 2010-04-13 21:25+0200\n"
+"PO-Revision-Date: 2010-04-16 21:47+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "2009-02-27"
 #: dpkg-parsechangelog.1:1 dpkg-query.1:1 dpkg-scanpackages.1:15
 #: dpkg-scansources.1:1 dpkg-shlibdeps.1:1 dpkg-source.1:2 dpkg-split.1:2
 #: dpkg-trigger.1:1 dpkg-vendor.1:1 dselect.1:1 dselect.cfg.5:1
-#: start-stop-daemon.8:1 update-alternatives.8:8
+#: maintscript-helper.1:1 start-stop-daemon.8:1 update-alternatives.8:8
 #, no-wrap
 msgid "Debian Project"
 msgstr "Debian-Projekt"
@@ -59,7 +59,7 @@ msgstr "Debian"
 #: dpkg-parsechangelog.1:2 dpkg-query.1:2 dpkg-scanpackages.1:16
 #: dpkg-scansources.1:2 dpkg-shlibdeps.1:2 dpkg-source.1:3 dpkg-split.1:3
 #: dpkg-statoverride.8:2 dpkg-trigger.1:2 dpkg-vendor.1:2 dselect.1:2
-#: dselect.cfg.5:2 start-stop-daemon.8:2 update-alternatives.8:9
+#: dselect.cfg.5:2  maintscript-helper.1:2 start-stop-daemon.8:2 update-alternatives.8:9
 #, no-wrap
 msgid "NAME"
 msgstr "NAME"
@@ -252,7 +252,7 @@ msgstr ""
 #. type: SH
 #: deb.5:79 deb-control.5:228 deb-split.5:37 deb-version.5:116 deb-old.5:51
 #: deb-override.5:66 deb-extra-override.5:37 deb-shlibs.5:61
-#: deb-substvars.5:134 deb-symbols.5:61 deb-triggers.5:49 dpkg.1:709
+#: deb-substvars.5:134 deb-symbols.5:61 deb-triggers.5:49 dpkg.1:717
 #: dpkg-architecture.1:294 dpkg.cfg.5:23 dpkg-buildpackage.1:250
 #: dpkg-deb.1:246 dpkg-divert.8:122 dpkg-gensymbols.1:445 dpkg-name.1:95
 #: dpkg-query.1:208 dpkg-scanpackages.1:111 dpkg-scansources.1:72
@@ -1218,10 +1218,10 @@ msgid "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 msgstr "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 
 #. type: SH
-#: deb-version.5:120 dpkg.1:724 dpkg-buildpackage.1:257 dpkg-distaddfile.1:47
+#: deb-version.5:120 dpkg.1:732 dpkg-buildpackage.1:257 dpkg-distaddfile.1:47
 #: dpkg-genchanges.1:148 dpkg-gencontrol.1:142 dpkg-gensymbols.1:455
 #: dpkg-parsechangelog.1:123 dpkg-shlibdeps.1:331 dpkg-source.1:582
-#: dselect.1:458 start-stop-daemon.8:294 update-alternatives.8:487
+#: dselect.1:458 maintscript-helper.1:106 start-stop-daemon.8:294 update-alternatives.8:487
 #, no-wrap
 msgid "AUTHORS"
 msgstr "AUTOREN"
@@ -1599,7 +1599,7 @@ msgstr ""
 "Details."
 
 #. type: SH
-#: deb-shlibs.5:41 deb-symbols.5:43 dpkg.1:655 dpkg-architecture.1:257
+#: deb-shlibs.5:41 deb-symbols.5:43 dpkg.1:663 dpkg-architecture.1:257
 #: dpkg-divert.8:91 dpkg-name.1:64 update-alternatives.8:452
 #, no-wrap
 msgid "EXAMPLES"
@@ -1958,7 +1958,7 @@ msgid "List of substitution variables and values."
 msgstr "Liste von Substitutionsvariablen und -werten."
 
 #. type: SH
-#: deb-substvars.5:130 dpkg.1:721 dpkg-buildpackage.1:245 dpkg-deb.1:225
+#: deb-substvars.5:130 dpkg.1:729 dpkg-buildpackage.1:245 dpkg-deb.1:225
 #: dpkg-name.1:85 dpkg-source.1:574 dpkg-split.1:197 dselect.1:436
 #: update-alternatives.8:479
 #, no-wrap
@@ -4175,15 +4175,32 @@ msgstr ""
 "Wird von B<dpkg> für die Betreuer-Skript-Umgebung auf die Version der "
 "aktuell laufenden Instanz von B<dpkg> gesetzt."
 
+# type: TP
 #. type: TP
 #: dpkg.1:646
+#, no-wrap
+msgid "B<DPKG_LIBDIR>"
+msgstr "B<DPKG_LIBDIR>"
+
+# type: Plain text
+#. type: Plain text
+#: dpkg.1:650
+msgid ""
+"Defined by B<dpkg> on the maintainer script environment to the private "
+"library directory of the currently running B<dpkg> instance."
+msgstr ""
+"Wird von B<dpkg> für die Betreuer-Skript-Umgebung auf das private "
+"Bibliotheksverzeichnis der aktuell laufenden Instanz von B<dpkg> gesetzt."
+
+#. type: TP
+#: dpkg.1:650
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_PACKAGE>"
 msgstr "B<DPKG_MAINTSCRIPT_PACKAGE>"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:650
+#: dpkg.1:654
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the package name "
 "being handled."
@@ -4192,14 +4209,14 @@ msgstr ""
 "befindlichen Paketnamen gesetzt."
 
 #. type: TP
-#: dpkg.1:650
+#: dpkg.1:654
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_ARCH>"
 msgstr "B<DPKG_MAINTSCRIPT_ARCH>"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:654
+#: dpkg.1:658
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the architecture "
 "the package got built for."
@@ -4207,53 +4224,69 @@ msgstr ""
 "Wird von B<dpkg> für die Betreuer-Skript-Umgebung auf die Architektur "
 "gesetzt, für die das Paket gebaut wurde."
 
+#. type: TP
+#: dpkg.1:658
+#, no-wrap
+msgid "B<DPKG_MAINTSCRIPT_NAME>"
+msgstr "B<DPKG_MAINTSCRIPT_NAME>"
+
+# type: Plain text
 #. type: Plain text
-#: dpkg.1:657
+#: dpkg.1:662
+msgid ""
+"Defined by B<dpkg> on the maintainer script environment to the name of the "
+"script running (preinst, postinst, prerm, postrm)."
+msgstr ""
+"Wird von B<dpkg> für die Betreuer-Skript-Umgebung auf den Namen des laufenden "
+"Skripts (preinst, postinst, prerm, postrm) gesetzt."
+
+#. type: Plain text
+#: dpkg.1:665
 msgid "To list packages related to the editor B<vi>(1):"
 msgstr "Um Pakete mit Bezug zum B<vi>(1)-Editor aufzulisten:"
 
 #. type: Plain text
-#: dpkg.1:659
+#: dpkg.1:667
 #, no-wrap
 msgid "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 msgstr "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 
 #. type: Plain text
-#: dpkg.1:662
+#: dpkg.1:670
 msgid "To see the entries in I</var/lib/dpkg/available> of two packages:"
 msgstr ""
 "Um die Einträge von zwei Paketen in I</var/lib/dpkg/available> zu sehen:"
 
 #. type: Plain text
-#: dpkg.1:664
+#: dpkg.1:672
 #, no-wrap
 msgid "     B<dpkg --print-avail elvis vim | less>\n"
 msgstr "     B<dpkg --print-avail elvis vim | less>\n"
 
 #. type: Plain text
-#: dpkg.1:667
+#: dpkg.1:675
 msgid "To search the listing of packages yourself:"
 msgstr "Wenn Sie die Liste der Pakete selbst durchsuchen wollen:"
 
 #. type: Plain text
-#: dpkg.1:669
+#: dpkg.1:677
 #, no-wrap
 msgid "     B<less /var/lib/dpkg/available>\n"
 msgstr "     B<less /var/lib/dpkg/available>\n"
 
 #. type: Plain text
-#: dpkg.1:672
+#: dpkg.1:680
 msgid "To remove an installed elvis package:"
 msgstr "Um ein installiertes Elvis-Paket zu entfernen:"
 
 #. type: Plain text
-#: dpkg.1:674
+#: dpkg.1:682
 #, no-wrap
 msgid "     B<dpkg -r elvis>\n"
 msgstr "     B<dpkg -r elvis>\n"
 
 #. type: Plain text
-#: dpkg.1:679
+#: dpkg.1:687
 msgid ""
 "To install a package, you first need to find it in an archive or CDROM. The "
 "\"available\" file shows that the vim package is in section \"editors\":"
@@ -4263,7 +4296,7 @@ msgstr ""
 "Bereich »editors« ist:"
 
 #. type: Plain text
-#: dpkg.1:682
+#: dpkg.1:690
 #, no-wrap
 msgid ""
 "     B<cd /cdrom/pool/main/v/vim>\n"
@@ -4273,18 +4306,18 @@ msgstr ""
 "     B<dpkg -i vim_4.5-3.deb>\n"
 
 #. type: Plain text
-#: dpkg.1:685
+#: dpkg.1:693
 msgid "To make a local copy of the package selection states:"
 msgstr "Um eine lokale Kopie der Paketauswahl-Zustände zu erstellen:"
 
 #. type: Plain text
-#: dpkg.1:687
+#: dpkg.1:695
 #, no-wrap
 msgid "     B<dpkg --get-selections E<gt>myselections>\n"
 msgstr "     B<dpkg --get-selections E<gt>meine_auswahl>\n"
 
 #. type: Plain text
-#: dpkg.1:691
+#: dpkg.1:699
 msgid ""
 "You might transfer this file to another computer, and install it there with:"
 msgstr ""
@@ -4292,7 +4325,7 @@ msgstr ""
 "folgenden Befehlen installieren:"
 
 #. type: Plain text
-#: dpkg.1:694
+#: dpkg.1:702
 #, no-wrap
 msgid ""
 "     B<dpkg --clear-selections>\n"
@@ -4302,7 +4335,7 @@ msgstr ""
 "     B<dpkg --set-selections E<lt>meine_auswahl>\n"
 
 #. type: Plain text
-#: dpkg.1:700
+#: dpkg.1:708
 msgid ""
 "Note that this will not actually install or remove anything, but just set "
 "the selection state on the requested packages. You will need some other "
@@ -4316,7 +4349,7 @@ msgstr ""
 "dselect-upgrade> aus."
 
 #. type: Plain text
-#: dpkg.1:703
+#: dpkg.1:711
 msgid ""
 "Ordinarily, you will find that B<dselect>(1) provides a more convenient way "
 "to modify the package selection states."
@@ -4325,13 +4358,13 @@ msgstr ""
 "ist, den Paketauswahlzustand zu ändern."
 
 #. type: SH
-#: dpkg.1:705
+#: dpkg.1:713
 #, no-wrap
 msgid "ADDITIONAL FUNCTIONALITY"
 msgstr "ZUSÄTZLICHE FUNKTIONALITÄT"
 
 #. type: Plain text
-#: dpkg.1:708
+#: dpkg.1:716
 msgid ""
 "Additional functionality can be gained by installing any of the following "
 "packages: B<apt>, B<aptitude> and B<debsums>."
@@ -4340,7 +4373,7 @@ msgstr ""
 "Pakete erhalten werden: B<apt>, B<aptitude> und B<debsums>."
 
 #. type: Plain text
-#: dpkg.1:720
+#: dpkg.1:728
 msgid ""
 "B<aptitude>(1), B<apt>(1), B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), "
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
@@ -4349,13 +4382,13 @@ msgstr ""
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5) und B<dpkg-reconfigure>(8)."
 
 #. type: Plain text
-#: dpkg.1:723
+#: dpkg.1:731
 msgid "B<--no-act> usually gives less information than might be helpful."
 msgstr ""
 "B<--no-act> gibt gewöhnlich weniger Informationen als hilfreich sein könnten."
 
 #. type: Plain text
-#: dpkg.1:726 dpkg.cfg.5:22
+#: dpkg.1:734 dpkg.cfg.5:22
 msgid ""
 "See I</usr/share/doc/dpkg/THANKS> for the list of people who have "
 "contributed to B<dpkg>."
@@ -5696,7 +5729,7 @@ msgstr ""
 "I<Schalter> zurückgegeben wird, verwandt werden."
 
 #. type: Plain text
-#: dpkg-buildflags.1:113
+#: dpkg-buildflags.1:113 maintscript-helper.1:108
 msgid "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
 msgstr "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
 
@@ -15167,6 +15200,267 @@ msgstr ""
 #: dselect.cfg.5:24
 msgid "B<dselect>(1)."
 msgstr "B<dselect>(1)."
+
+# type: TH
+#. type: TH
+#: maintscript-helper.1:1
+#, no-wrap
+msgid "maintscript-helper"
+msgstr "maintscript-helper"
+
+#. type: TH
+#: maintscript-helper.1:1
+#, no-wrap
+msgid "2010-04-16"
+msgstr "2010-04-16"
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:4
+msgid ""
+"maintscript-helper - works around known dpkg limitations in maintainer "
+"scripts"
+msgstr ""
+"maintscript-helper - Bekannte Einschränkungen in Dpkg in Betreuerskripten umgehen"
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:8
+msgid ""
+"B<$DPKG_LIBDIR/maintscript-helper> I<command> [I<parameters>...] -- I<maint-"
+"script-parameters>"
+msgstr ""
+"B<$DPKG_LIBDIR/maintscript-helper> I<Befehl> [I<Parameter>...] -- I<Betr-"
+"Skript-Parameter>"
+
+# type: SH
+#. type: SH
+#: maintscript-helper.1:9
+#, no-wrap
+msgid "COMMANDS AND PARAMETERS"
+msgstr "BEFEHLE UND PARAMETER"
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:12
+msgid "B<rm_conffile> I<conffile> I<lastversion> [I<package>]"
+msgstr "B<rm_conffile> I<Conffile> I<letzteVersion> [I<Paket>]"
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:14
+msgid ""
+"B<mv_conffile> I<oldconffile> I<newconffile> I<lastversion> [I<package>]"
+msgstr ""
+"B<mv_conffile> I<AlteConffile> I<NeueConffile> I<letzteVersion> [I<Paket>]"
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:20
+msgid ""
+"This program is designed to be run within maintainer scripts to achieve some "
+"tasks that dpkg can't (yet) handle natively either because of design "
+"decisions or due to current limitations."
+msgstr ""
+"Dieses Programm wurde so entworfen, dass es in Betreuerskripten ausgeführt "
+"werden kann, um einige Aufgaben zu erledigen, die Dpkg (noch) nicht selbst "
+"erledigen kann, entweder aufgrund von Design-Entscheidungen oder aufgrund "
+"aktueller Einschränkungen."
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:27
+msgid ""
+"Many of those tasks require coordinated actions from several maintainer "
+"scripts (B<preinst>, B<postinst>, B<prerm>, B<postrm>). To avoid mistakes "
+"the same call simply needs to be put in all scripts and the program will "
+"automatically adapt its behaviour based on the environment variable "
+"DPKG_MAINTSCRIPT_NAME and on the maintainer scripts arguments that you have "
+"to forward after a double dash."
+msgstr ""
+"Viele dieser Aufgaben benötigen koordinierte Aktionen aus mehreren "
+"Betreuerskripten (B<preinst>, B<postinst>, B<prerm>, B<postrm>). Um Fehler zu "
+"vermeiden, wird der gleiche Aufruf einfach in alle Skripte eingefügt und das "
+"Programm wird sein Verhalten automatisch abhängig von der Variable "
+"DPKG_MAINTSCRIPT_NAME und den Argumenten im Betreuerskript, die Sie nach "
+"einem doppelten Schrägstrich übergeben müssen, anpassen."
+
+# type: SH
+#. type: SH
+#: maintscript-helper.1:28
+#, no-wrap
+msgid "CONFFILE RELATED TASKS"
+msgstr "CONFFILE-BEZOGENE AUFGABEN"
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:38
+msgid ""
+"When upgrading a package, dpkg will not automatically remove a conffile (a "
+"configuration file for which dpkg should preserve user changes) if it is not "
+"present in the newer version. There are two principal reasons for this; the "
+"first is that the conffile could've been dropped by accident and the next "
+"version could restore it, users wouldn't want their changes thrown away. The "
+"second is to allow packages to transition files from a dpkg-maintained "
+"conffile to a file maintained by the package's maintainer scripts, usually "
+"with a tool like debconf or ucf."
+msgstr ""
+"Beim Upgrade eines Pakets wird Dpkg ein Conffile (eine Konfigurationsdatei, "
+"bei der Dpkg die Änderungen des Benutzers erhalten soll) nicht automatischen "
+"entfernen, falls sie nicht in der neueren Version enthalten ist. Es gibt zwei "
+"Hauptgründe dafür; der erste ist, dass die Conffile versehentlich entfallen "
+"sein und die nächste Version sie wieder herstellen könnte und die Benutzer "
+"die Änderung nicht weggeworfen sehen wollen. Der zweite besteht darin, dass "
+"Paketen erlaubt werden soll, von einer Dpkg-betreuten Conffile auf eine "
+"Datei, die von den Betreuerskripten des Pakets, normalerweise mit einem "
+"Werkzeug wie Debconf oder Ucf, verwaltet wird, umzustellen."
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:42
+msgid ""
+"This means that if a package is intended to rename or remove a conffile, it "
+"must explicitly do so and B<maintscript-helper> can be used to implement "
+"graceful deletion and moving of conffiles within maintainer scripts."
+msgstr ""
+
+# type: SS
+#. type: SS
+#: maintscript-helper.1:43
+#, no-wrap
+msgid "REMOVING A CONFFILE"
+msgstr "EINE CONFFILE ENTFERNEN"
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:49
+msgid ""
+"If a conffile is completely removed, it should be removed from disk, unless "
+"the user has modified it. If there are local modifications, they should be "
+"preserved. If the package upgrades aborts, the newly obsolete conffile "
+"should not disappear."
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:52
+msgid ""
+"All of this is implemented by putting the following shell snippet in the "
+"B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:57
+#, no-wrap
+msgid ""
+"    if [ -x $DPKG_LIBDIR/maintscript-helper ]; then\n"
+"        $DPKG_LIBDIR/maintscript-helper rm_conffile \\e\n"
+"            I<conffile> I<lastversion> I<package> -- \"$@\"\n"
+"    fi\n"
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:64
+msgid ""
+"I<conffile> is the filename of the conffile to remove.  I<lastversion> is "
+"the last version of the package that contained the conffile. I<package> is "
+"the package name, it's optional as it will default to "
+"$DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the name of the "
+"package acted upon). All the parameters of the maintainer scripts have to be "
+"forwarded to the program after \"--\"."
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:72
+msgid ""
+"Current implementation: in the B<preinst>, it checks if the conffile was "
+"modified and renames it either to I<conffile>B<.dpkg-remove> (if not "
+"modified) or to I<conffile>B<.dpkg-bak> (if modified). The latter file is "
+"kept for reference as it contains user modifications but the former will be "
+"removed in the B<postinst>. If the package upgrade aborts, the B<postrm> "
+"reinstalls the original conffile. During purge, the B<postrm> will also "
+"delete the B<.dpkg-bak> file kept up to now."
+msgstr ""
+
+# type: SS
+#. type: SS
+#: maintscript-helper.1:73
+#, no-wrap
+msgid "RENAMING A CONFFILE"
+msgstr "EINE CONFFILE UMBENENNEN"
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:80
+msgid ""
+"If a conffile is moved from one location to another, you need to make sure "
+"you move across any changes the user has made. This may seem a simple change "
+"to the B<preinst> script at first, however that will result in the user "
+"being prompted by dpkg to approve the conffile edits even though they are "
+"not responsible of them."
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:84
+msgid ""
+"Graceful renaming can be implemented by putting the following shell snippet "
+"in the B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:89
+#, no-wrap
+msgid ""
+"    if [ -x $DPKG_LIBDIR/maintscript-helper ]; then\n"
+"        $DPKG_LIBDIR/maintscript-helper mv_conffile \\e\n"
+"            I<oldconffile> I<newconffile> I<lastversion> I<package> -- \"$@\"\n"
+"    fi\n"
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:97
+msgid ""
+"I<oldconffile> and I<newconffile> are the old and new name of the conffile "
+"to rename. I<lastversion> is the last version of the package that contained "
+"the conffile with the old name. I<package> is the package name, it's "
+"optional as it will default to $DPKG_MAINTSCRIPT_PACKAGE (this variable is "
+"set by dpkg to the name of the package acted upon). All the parameters of "
+"the maintainer scripts have to be forwarded to the program after \"--\"."
+msgstr ""
+
+# type: Plain text
+#. type: Plain text
+#: maintscript-helper.1:105
+msgid ""
+"Current implementation: the B<preinst> checks if the conffile has been "
+"modified, if yes it's left on place otherwise it's renamed to "
+"I<oldconffile>B<.dpkg-remove>. On configuration, the B<postinst> removes "
+"I<oldconffile>B<.dpkg-remove> and renames I<oldconffile> to I<newconffile> "
+"if I<oldconffile> is still available. On abort-ugrade/abort-install, the "
+"B<postrm> renames I<oldconffile>B<.dpkg-remove> back to I<oldconffile> if "
+"required."
+msgstr ""
+
+#. type: Plain text
+#: maintscript-helper.1:110
+msgid "Copyright \\(co 2008 Joey Hess"
+msgstr "Copyright \\(co 2008 Joey Hess"
+
+#. type: Plain text
+#: maintscript-helper.1:112
+msgid "Copyright \\(co 2007 Guillem Jover"
+msgstr "Copyright \\(co 2007 Guillem Jover"
+
+#. type: Plain text
+#: maintscript-helper.1:114
+msgid "Copyright \\(co 2005 Scott James Remnant"
+msgstr "Copyright \\(co 2005 Scott James Remnant"
 
 #. type: TH
 #: start-stop-daemon.8:1
