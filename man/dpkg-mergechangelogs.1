@@ -1,0 +1,71 @@
+.TH dpkg\-mergechangelogs 1 "2010-04-18" "Debian Project" "dpkg suite"
+.SH NAME
+dpkg\-mergechangelogs \- 3-way merge of debian/changelog files
+.
+.SH SYNOPSIS
+.B dpkg\-mergechangelogs
+.RI [ option "...] " old " " new\-a " " new\-b " [" out ]
+.
+.SH DESCRIPTION
+.P
+This program will use the 3 provided versions of the Debian changelog to
+generate a merged changelog file. The resulting changelog is stored
+in the file \fIout\fP or output to the standard output if that parameter is
+not given.
+.P
+Each entry is identified by its version number and they are assumed to
+be not conflicting, they are simply merged in the right order (by
+decreasing version number). When \fB\-\-merge\-prereleases\fP is used, the
+part of the version number after the last tilde is dropped so that
+1.0-1~exp1 and 1.0-1~exp5 are considered to be the same entry. When the
+same version is available in both \fInew\-a\fP and \fInew\-b\fP, a standard
+line-based 3-way merge is attempted (provided that the module
+Algorithm::Merge is available \[em] it's part of the package
+libalgorithm-merge-perl \[em] otherwise you get a global conflict on the
+content of the entry).
+.
+.SH OPTIONS
+.TP
+.BR \-\-merge-prereleases ", " \-m
+Drop the part after the last tilde in the version number when doing
+version comparison to identify if two entries are supposed to be
+the same or not.
+.sp
+This is useful when you keep using the same changelog entry but you
+increase its version number regularly. For instance, you might have
+2.3-1~exp1, 2.3-1~exp2, ... until the official release 2.3-1 and they
+are all the same changelog entry that has evolved over time.
+.TP
+.B \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH LIMITATIONS
+.P
+Anything that is not parsed by Dpkg::Changelog is lost during the merge.
+This might include stuff like vim modelines, comments which were not
+supposed to be there, etc.
+.
+.SH INTEGRATION WITH GIT
+.P
+If you want to use this program to merge Debian changelog files in a git
+repository, you have first to register a new merge driver in
+\fB.git/config\fP or \fB~/.gitconfig\fP:
+.P
+ [merge "dpkg\-mergechangelogs"]
+     name = debian/changelog merge driver
+     driver = dpkg\-mergechangelogs \-m %O %A %B %A
+.P
+Then you have to setup the merge attribute for the debian/changelog file
+either in \fB.gitattributes\fP in the repository itself, or in
+\fB.git/info/attributes\fP:
+.P
+ debian/changelog merge=dpkg\-mergechangelogs
+.SH AUTHOR
+Copyright \(co 2009-2010 Rapha\[:e]l Hertzog
+.sp
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO WARRANTY.
+

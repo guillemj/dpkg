@@ -106,6 +106,7 @@ dist_man_MANS = \
 	dpkg-genchanges.1 \
 	dpkg-gencontrol.1 \
 	dpkg-gensymbols.1 \
+	dpkg-mergechangelogs.1 \
 	dpkg-name.1 \
 	dpkg-parsechangelog.1 \
 	dpkg-query.1 \

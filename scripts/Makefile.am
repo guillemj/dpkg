@@ -12,6 +12,7 @@ bin_SCRIPTS = \
 	dpkg-genchanges \
 	dpkg-gencontrol \
 	dpkg-gensymbols \
+	dpkg-mergechangelogs \
 	dpkg-name \
 	dpkg-parsechangelog \
 	dpkg-scanpackages \
@@ -40,6 +41,7 @@ EXTRA_DIST = \
 	dpkg-genchanges.pl \
 	dpkg-gencontrol.pl \
 	dpkg-gensymbols.pl \
+	dpkg-mergechangelogs.pl \
 	dpkg-name.pl \
 	dpkg-parsechangelog.pl \
 	dpkg-scanpackages.pl \
