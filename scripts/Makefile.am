@@ -24,6 +24,8 @@ if WITH_UPDATE_ALTERNATIVES
 bin_SCRIPTS += update-alternatives
 endif
 
+pkglib_SCRIPTS = maintscript-helper
+
 changelogdir = $(pkglibdir)/parsechangelog
 changelog_SCRIPTS = \
 	changelog/debian

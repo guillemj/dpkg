@@ -3,5 +3,3 @@
 SUBDIRS = \
 	compat \
 	dpkg
-
-pkglib_SCRIPTS = maintscript-helper
