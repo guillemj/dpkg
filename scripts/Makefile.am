@@ -183,7 +183,8 @@ test_cases = \
 	t/750_Dpkg_Substvars.t \
 	t/800_Dpkg_IPC.t \
 	t/850_Dpkg_Compression.t \
-	t/900_update_alternatives.t
+	t/900_update_alternatives.t \
+	t/910_merge_changelogs.t
 
 check_DATA = \
 	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 \
@@ -218,7 +219,14 @@ test_data = \
 	t/600_Dpkg_Changelog/regressions \
 	t/600_Dpkg_Changelog/shadow \
 	t/700_Dpkg_Control/control-1 \
-	t/750_Dpkg_Substvars/substvars1
+	t/750_Dpkg_Substvars/substvars1 \
+	t/910_merge_changelogs/ch-old \
+	t/910_merge_changelogs/ch-a \
+	t/910_merge_changelogs/ch-b \
+	t/910_merge_changelogs/ch-merged \
+	t/910_merge_changelogs/ch-merged-basic \
+	t/910_merge_changelogs/ch-merged-pr \
+	t/910_merge_changelogs/ch-merged-pr-basic
 
 clean-local:
 	rm -fr man
