@@ -218,18 +218,18 @@ static time_t currenttime;
 
 static int
 does_replace(struct pkginfo *newpigp, struct pkginfoperfile *newpifp,
-             struct pkginfo *oldpigp)
+             struct pkginfo *oldpigp, struct pkginfoperfile *oldpifp)
 {
   struct dependency *dep;
   
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",newpigp->name,
-        oldpigp->name,versiondescribe(&oldpigp->installed.version,
-                                      vdew_always));
+        oldpigp->name, versiondescribe(&oldpifp->version, vdew_always));
   for (dep= newpifp->depends; dep; dep= dep->next) {
     if (dep->type != dep_replaces || dep->list->ed != oldpigp) continue;
     debug(dbg_depcondetail,"does_replace ... found old, version %s",
           versiondescribe(&dep->list->version,vdew_always));
-    if (!versionsatisfied(&oldpigp->installed,dep->list)) continue;
+    if (!versionsatisfied(oldpifp, dep->list))
+      continue;
     debug(dbg_depcon,"does_replace ... yes");
     return true;
   }
@@ -573,10 +573,12 @@ int tarobject(struct TarInfo *ti) {
 	  }
 	}
 
-        if (does_replace(tc->pkg,&tc->pkg->available,otherpkg)) {
+        if (does_replace(tc->pkg, &tc->pkg->available,
+                         otherpkg, &otherpkg->installed)) {
           printf(_("Replacing files in old package %s ...\n"),otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 1;
-	} else if (does_replace(otherpkg,&otherpkg->installed,tc->pkg)) {
+        } else if (does_replace(otherpkg, &otherpkg->installed,
+                                tc->pkg, &tc->pkg->available)) {
 	  printf(_("Replaced by files in installed package %s ...\n"),
 		 otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 2;
@@ -992,7 +994,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
     }
     if (((pkg->available.essential && fixbyrm->installed.essential) ||
          (((fixbyrm->want != want_install && fixbyrm->want != want_hold) ||
-           does_replace(pkg,&pkg->available,fixbyrm)) &&
+           does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
           (!fixbyrm->installed.essential || fc_removeessential)))) {
       assert(fixbyrm->clientdata->istobe == itb_normal || fixbyrm->clientdata->istobe == itb_deconfigure);
       fixbyrm->clientdata->istobe= itb_remove;
