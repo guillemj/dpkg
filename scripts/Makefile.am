@@ -25,7 +25,7 @@ if WITH_UPDATE_ALTERNATIVES
 bin_SCRIPTS += update-alternatives
 endif
 
-pkglib_SCRIPTS = maintscript-helper
+dist_pkglib_SCRIPTS = maintscript-helper
 
 changelogdir = $(pkglibdir)/parsechangelog
 changelog_SCRIPTS = \
