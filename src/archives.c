@@ -582,6 +582,7 @@ int tarobject(struct TarInfo *ti) {
 	  printf(_("Replaced by files in installed package %s ...\n"),
 		 otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 2;
+          nifd->namenode->flags &= ~fnnf_new_inarchive;
 	  keepexisting = 1;
         } else {
           if (!statr && S_ISDIR(stab.st_mode)) {

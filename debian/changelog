@@ -61,6 +61,10 @@ dpkg (1.15.6.2) UNRELEASED; urgency=low
   * Do not output the Package-Type field on udeb.
   * Fix versioned Replaces to not produce file overwrite errors on downgrades.
     Closes: #568566
+  * Fix installation of replaced and replacing packages in reverse order
+    (first the replacing then the replaced) for which the replaced package
+    is supposed to get disappeared, to disappear the correct package and not
+    lose track of the ownership of the replaced files.
 
   [ Updated dpkg translations ]
   * German (Sven Joachim).
