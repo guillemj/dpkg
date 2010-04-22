@@ -50,7 +50,7 @@ BEGIN {
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf "\n" . _g("Copyright (C) 2009-2010 Raphaël Hertzog.");
+    printf "\n" . _g("Copyright (C) 2009-2010 Raphael Hertzog.");
 
     printf "\n" . _g(
 "This is free software; see the GNU General Public License version 2 or
