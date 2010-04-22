@@ -5,6 +5,16 @@ dpkg (1.15.8) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Wed, 21 Apr 2010 04:40:12 +0200
 
+dpkg (1.15.7.1) unstable; urgency=low
+
+  * Fix dpkg-source -b (without -i) for source packages 1.0. Closes: #578693
+    It was erroneously ignoring all changes because the ignore regex was
+    wrong (due to the change to ignore debian/source/local-options).
+  * Add missing call to textdomain() in dpkg-mergechangelogs to make
+    translations work.
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Thu, 22 Apr 2010 08:05:20 +0200
+
 dpkg (1.15.7) unstable; urgency=low
 
   [ Raphaël Hertzog ]
