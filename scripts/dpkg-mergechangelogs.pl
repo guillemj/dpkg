@@ -27,6 +27,8 @@ use Dpkg::Version;
 use Getopt::Long;
 use Scalar::Util qw(blessed);
 
+textdomain("dpkg-dev");
+
 sub merge_entries($$$);
 sub merge_block($$$;&);
 sub merge_entry_item($$$$);
