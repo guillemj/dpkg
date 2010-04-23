@@ -106,7 +106,8 @@ Update flags from the user configuration.
 
 sub load_user_config {
     my ($self) = @_;
-    $self->update_from_conffile($ENV{"HOME"} . "/.config/dpkg-buildflags.conf", "user");
+    my $confdir = $ENV{'XDG_CONFIG_HOME'} || $ENV{"HOME"} . "/.config";
+    $self->update_from_conffile("$confdir/dpkg/buildflags.conf", "user");
 }
 
 =item $bf->load_environment_config()
