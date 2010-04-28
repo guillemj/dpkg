@@ -71,6 +71,23 @@ Print the source format that would be used to build the source package if
 with the same parameters).
 
 .TP
+.RI "\fB\-\-before\-build\fP " directory
+This command should be called before any build of the package
+(\fBdpkg\-buildpackage\fP calls it very early even before \fBdebian/rules
+clean\fP). This command should be idempotent and can be called multiple
+times. Not all source formats implement something in this hook, and those
+that do usually prepare the source tree for the build for example by
+ensuring that the Debian patches are applied.
+
+.TP
+.RI "\fB\-\-after\-build\fP " directory
+This command should be called after any build of the package
+(\fBdpkg\-buildpackage\fP calls it last). This command should be idempotent
+and can be called multiple times. Not all source formats implement
+something in this hook, and those that do usually use it to undo what
+\fB\-\-before\-build\fP has done.
+
+.TP
 .BR \-h ", " \-\-help
 Show the usage message and exit.
 .TP
@@ -445,7 +462,8 @@ patches (they are listed in the \fBseries\fP file but not in
 \fB.pc/applied-patches\fP), and if the first patch in that set can be
 applied without errors, it will apply them all.
 The option \fB\-\-no\-preparation\fP can be used to disable this
-behaviour.
+behaviour. This operation is usually done as part of the
+\fB\-\-prepare\-build\fP command.
 .PP
 .B Build options
 .TP

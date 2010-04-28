@@ -374,6 +374,10 @@ sub do_extract {
 
 # Function used specifically during creation of a source package
 
+sub before_build {
+    my ($self, $dir) = @_;
+}
+
 sub build {
     my $self = shift;
     eval { $self->do_build(@_) };
@@ -381,6 +385,10 @@ sub build {
         &$_() foreach reverse @Dpkg::Exit::handlers;
         die $@;
     }
+}
+
+sub after_build {
+    my ($self, $dir) = @_;
 }
 
 sub do_build {

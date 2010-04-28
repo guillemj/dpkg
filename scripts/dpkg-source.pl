@@ -83,6 +83,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('-b');
     } elsif (m/^-x$/) {
         setopmode('-x');
+    } elsif (m/^--(before|after)-build$/) {
+        setopmode($_);
     } elsif (m/^--print-format$/) {
 	setopmode('--print-format');
 	report_options(info_fh => \*STDERR); # Avoid clutter on STDOUT
@@ -93,7 +95,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 
 my $dir;
 if (defined($options{'opmode'}) &&
-    $options{'opmode'} =~ /^(-b|--print-format)$/) {
+    $options{'opmode'} =~ /^(-b|--print-format|--before-build|--after-build)$/) {
     if (not scalar(@ARGV)) {
 	usageerr(_g("%s needs a directory"), $options{'opmode'});
     }
@@ -188,10 +190,10 @@ while (@options) {
 }
 
 unless (defined($options{'opmode'})) {
-    usageerr(_g("need -x or -b"));
+    usageerr(_g("need a command (-x, -b, --before-build, --after-build, --print-format)"));
 }
 
-if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
+if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
 
     $options{'ARGV'} = \@ARGV;
 
@@ -304,7 +306,8 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
 	    close(FORMAT);
 	} else {
 	    warning(_g("no source format specified in %s, " .
-	               "see dpkg-source(1)"), "debian/source/format");
+	               "see dpkg-source(1)"), "debian/source/format")
+		if $options{'opmode'} eq "-b";
 	    $build_format = "1.0";
 	}
     }
@@ -322,8 +325,17 @@ if ($options{'opmode'} =~ /^(-b|--print-format)$/) {
     # Verify pre-requesites are met
     my ($res, $msg) = $srcpkg->can_build($dir);
     error(_g("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
-    info(_g("using source format `%s'"), $fields->{'Format'});
 
+    if ($options{'opmode'} eq "--before-build") {
+	$srcpkg->before_build($dir);
+	exit(0);
+    } elsif ($options{'opmode'} eq "--after-build") {
+	$srcpkg->after_build($dir);
+	exit(0);
+    }
+
+    # Only -b left
+    info(_g("using source format `%s'"), $fields->{'Format'});
     run_vendor_hook("before-source-build", $srcpkg);
     # Build the files (.tar.gz, .diff.gz, etc)
     $srcpkg->build($dir);

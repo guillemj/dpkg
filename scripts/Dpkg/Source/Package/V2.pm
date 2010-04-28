@@ -214,6 +214,11 @@ sub can_build {
     return (0, _g("no orig.tar file found"));
 }
 
+sub before_build {
+    my ($self, $dir) = @_;
+    $self->check_patches_applied($dir) if $self->{'options'}{'preparation'};
+}
+
 sub prepare_build {
     my ($self, $dir) = @_;
     $self->{'diff_options'} = {
