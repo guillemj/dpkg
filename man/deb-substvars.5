@@ -36,6 +36,26 @@ fields are used and needed during the build when the substitution did not
 yet occur. That's why you can't use variables in the \fBPackage\fP,
 \fBSource\fP and \fBArchitecture\fP fields.
 
+Variable substitution happens on the content of the fields after they have
+been parsed, thus if you want a variable to expand over multiple lines you
+do not have to include a space after the newline. This is done implicitly
+when the field is output. For example, if the variable
+\fB${Description}\fP is set to "foo is bar.${Newline}foo is
+great." and if you have the following field:
+
+ Description: foo application
+  ${Description}
+  .
+  More text.
+
+It will result in:
+
+ Description: foo application
+  foo is bar.
+  foo is great.
+  .
+  More text.
+
 Variables can be set using the
 .B \-V
 common option. They can be also specified in the file
