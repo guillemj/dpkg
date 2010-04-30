@@ -44,7 +44,7 @@ use overload
     '<=>' => \&comparison,
     'cmp' => \&comparison,
     '""'  => \&as_string,
-    'bool' => sub { return $_[0]->is_valid(); },
+    'bool' => sub { return $_[0]->as_string() if $_[0]->is_valid(); },
     'fallback' => 1;
 
 =encoding utf8
@@ -106,6 +106,12 @@ sub new {
 
     return bless $self, $class;
 }
+
+=item boolean evaluation
+
+When the Dpkg::Version object is used in a boolean evaluation (for example
+in "if ($v)" or "$v || 'default'") it returns its string representation
+if the version stored is valid ($v->is_valid()) and undef otherwise.
 
 =item $v->is_valid()
 
@@ -194,8 +200,10 @@ If $a or $b are not valid version numbers, it dies with an error.
 
 sub version_compare($$) {
     my ($a, $b) = @_;
-    my $va = Dpkg::Version->new($a, check => 1) || error(_g("%s is not a valid version"), "$a");
-    my $vb = Dpkg::Version->new($b, check => 1) || error(_g("%s is not a valid version"), "$b");
+    my $va = Dpkg::Version->new($a, check => 1);
+    defined($va) || error(_g("%s is not a valid version"), "$a");
+    my $vb = Dpkg::Version->new($b, check => 1);
+    defined($vb) || error(_g("%s is not a valid version"), "$b");
     return $va <=> $vb;
 }
 

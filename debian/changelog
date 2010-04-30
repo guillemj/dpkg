@@ -5,6 +5,11 @@ dpkg (1.15.7.2) UNRELEASED; urgency=low
     $XDG_CONFIG_HOME/dpkg/buildflags.conf by default.
   * Update deb-substvars(5) to codify how variables containing multiple
     lines must be managed.
+  * Fix boolean evaluation of Dpkg::Version so that version 0 evaluates to
+    false and dpkg-shlibdeps can strip the minimal version specification.
+    Closes: #579724
+    Document this behaviour in the API and add non-regression test to ensure
+    it's kept.
 
   [ Guillem Jover ]
   * Add powerpcspe support to ostable and triplettable.
