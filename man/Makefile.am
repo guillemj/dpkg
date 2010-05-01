@@ -48,8 +48,8 @@ install-data-local-yes:
 	for lang in $(LINGUAS); do \
 		files=""; \
 		for trans in $(dist_man_MANS); do \
-			if [ -f $(srcdir)/$$lang/$$trans ]; then \
-				files="$$files $(srcdir)/$$lang/$$trans"; \
+			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
+				files="$$files $(CURDIR)/$$lang/$$trans"; \
 			fi; \
 		done; \
 		$(MAKE) install-man \
@@ -65,8 +65,8 @@ uninstall-local-yes:
 	for lang in $(LINGUAS); do \
 		files=""; \
 		for trans in $(dist_man_MANS); do \
-			if [ -f $(srcdir)/$$lang/$$trans ]; then \
-				files="$$files $(srcdir)/$$lang/$$trans"; \
+			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
+				files="$$files $(CURDIR)/$$lang/$$trans"; \
 			fi; \
 		done; \
 		$(MAKE) uninstall-man \
