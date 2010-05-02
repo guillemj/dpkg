@@ -12,18 +12,19 @@ is a program that automates the process of building a Debian package. It
 consists of the following steps:
 .IP \fB1.\fP 3
 It prepares the build environment by setting various environment
-variables (see \fBENVIRONMENT\fP).
+variables (see \fBENVIRONMENT\fP) and calls \fBdpkg\-source
+\-\-before\-build\fP (unless \fB\-T\fP or \fB\-\-target\fP has been used).
 .IP \fB2.\fP 3
 It checks that the build-dependencies and build-conflicts
 are satisfied (unless \fB\-d\fP is specified).
 .IP \fB3.\fP 3
-If a specific target has been selected with the \fB-T\fP or \fB--target\fP
+If a specific target has been selected with the \fB\-T\fP or \fB\-\-target\fP
 option, it calls that target and stops here. Otherwise it calls
 \fBfakeroot debian/rules clean\fP to clean the build-tree (unless
 \fB\-nc\fP is specified).
 .IP \fB4.\fP 3
-It calls \fBdpkg-source\fP to generate the source package (unless
-a binary-only build has been requested with \fB\-b\fP, \fB\-B\fP or
+It calls \fBdpkg-source \-b\fP to generate the source package (unless
+a binary\-only build has been requested with \fB\-b\fP, \fB\-B\fP or
 \fB\-A\fP).
 .IP \fB5.\fP 3
 It calls \fBdebian/rules\fP \fBbuild\fP followed by
@@ -44,7 +45,7 @@ It calls \fBgpg\fP to sign the \fB.changes\fP file (unless \fB\-uc\fP
 is specified).
 .IP \fB9.\fP 3
 If \fB\-tc\fP is specified, it will call \fBfakeroot debian/rules clean\fP
-again.
+again. Finally it calls \fBdpkg\-source \-\-after\-build\fP.
 .
 .SH OPTIONS
 .TP

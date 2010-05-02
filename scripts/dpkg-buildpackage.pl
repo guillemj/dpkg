@@ -327,6 +327,12 @@ if (not -x "debian/rules") {
     chmod(0755, "debian/rules"); # No checks of failures, non fatal
 }
 
+unless ($call_target) {
+    chdir('..') or syserr('chdir ..');
+    withecho('dpkg-source', @source_opts, '--before-build', $dir);
+    chdir($dir) or syserr("chdir $dir");
+}
+
 if ($checkbuilddep) {
     if ($admindir) {
 	push @checkbuilddep_opts, "--admindir=$admindir";
@@ -449,6 +455,9 @@ if ($signchanges && signfile("$pva.changes")) {
 if ($cleansource) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
+chdir('..') or syserr('chdir ..');
+withecho('dpkg-source', @source_opts, '--after-build', $dir);
+chdir($dir) or syserr("chdir $dir");
 
 print "$progname: $srcmsg\n";
 if ($signerrors) {
