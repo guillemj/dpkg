@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2010-04-21 04:19+0200\n"
-"PO-Revision-Date: 2010-04-23 18:43+0200\n"
+"PO-Revision-Date: 2010-05-03 21:24+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: scripts/dpkg-mergechangelogs.pl:53 scripts/dpkg-name.pl:46
 #: scripts/dpkg-parsechangelog.pl:31 scripts/dpkg-scanpackages.pl:60
 #: scripts/dpkg-scansources.pl:78 scripts/dpkg-shlibdeps.pl:518
-#: scripts/dpkg-source.pl:400 scripts/changelog/debian.pl:34
+#: scripts/dpkg-source.pl:412 scripts/changelog/debian.pl:34
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s Version %s.\n"
@@ -41,7 +41,7 @@ msgstr ""
 #: scripts/dpkg-buildpackage.pl:44 scripts/dpkg-distaddfile.pl:38
 #: scripts/dpkg-genchanges.pl:101 scripts/dpkg-gencontrol.pl:62
 #: scripts/dpkg-gensymbols.pl:55 scripts/dpkg-parsechangelog.pl:37
-#: scripts/dpkg-shlibdeps.pl:527 scripts/dpkg-source.pl:407
+#: scripts/dpkg-shlibdeps.pl:527 scripts/dpkg-source.pl:419
 #: scripts/changelog/debian.pl:39
 msgid ""
 "\n"
@@ -303,7 +303,7 @@ msgstr ""
 "  -h, --help     zeigt diese Hilfemeldung.\n"
 "      --version  zeige die Version.\n"
 
-#: scripts/dpkg-buildpackage.pl:208 scripts/dpkg-source.pl:179
+#: scripts/dpkg-buildpackage.pl:208 scripts/dpkg-source.pl:181
 msgid "-E and -W are deprecated, they are without effect"
 msgstr "-E und -W sind veraltet, sie haben keine Wirkung"
 
@@ -371,7 +371,7 @@ msgstr "Host-Architektur"
 msgid "debian/rules is not executable: fixing that."
 msgstr "debian/rules ist nicht ausführbar: wird korrigiert"
 
-#: scripts/dpkg-buildpackage.pl:339
+#: scripts/dpkg-buildpackage.pl:345
 msgid "Build dependencies/conflicts unsatisfied; aborting."
 msgstr "Bauabhängigkeiten/-konflikte nicht erfüllt; Abbruch"
 
@@ -1720,32 +1720,32 @@ msgstr "schreibe Informationen zu Umleitungen auf Stderr"
 msgid "unknown output from dpkg --search: '%s'"
 msgstr "unbekannte Ausgabe von »dpkg --search«: »%s«"
 
-#: scripts/dpkg-source.pl:98
+#: scripts/dpkg-source.pl:100
 #, perl-format
 msgid "%s needs a directory"
 msgstr "%s benötigt ein Verzeichnis"
 
-#: scripts/dpkg-source.pl:101
+#: scripts/dpkg-source.pl:103
 #, perl-format
 msgid "cannot stat directory %s"
 msgstr "kann Stat von Verzeichnis %s nicht durchführen"
 
-#: scripts/dpkg-source.pl:103
+#: scripts/dpkg-source.pl:105
 #, perl-format
 msgid "directory argument %s is not a directory"
 msgstr "Verzeichnis-Argument %s ist kein Verzeichnis"
 
-#: scripts/dpkg-source.pl:115
+#: scripts/dpkg-source.pl:117
 #, perl-format
 msgid "using options from %s: %s"
 msgstr "verwende Optionen von %s: %s"
 
-#: scripts/dpkg-source.pl:130 scripts/Dpkg/Compression.pm:168
+#: scripts/dpkg-source.pl:132 scripts/Dpkg/Compression.pm:168
 #, perl-format
 msgid "%s is not a supported compression"
 msgstr "%s ist keine unterstützte Kompression"
 
-#: scripts/dpkg-source.pl:136 scripts/Dpkg/Compression.pm:193
+#: scripts/dpkg-source.pl:138 scripts/Dpkg/Compression.pm:193
 #: scripts/Dpkg/Compression/Process.pm:86
 #, perl-format
 msgid "%s is not a compression level"
@@ -1754,18 +1754,23 @@ msgstr "%s ist keine Komprimierungsstufe"
 #: scripts/dpkg-source.pl:191
 msgid "need -x or -b"
 msgstr "benötige -x oder -b"
+#: scripts/dpkg-source.pl:193
+msgid "need a command (-x, -b, --before-build, --after-build, --print-format)"
+msgstr ""
+"benötige einen Befehl (-x, -b, --before-build, --after-build, --print-format)"
+
 
 #: scripts/dpkg-source.pl:250
 #, perl-format
 msgid "`%s' is not a legal architecture string"
 msgstr "»%s« ist keine gültige Architektur-Zeichenkette"
 
-#: scripts/dpkg-source.pl:253
+#: scripts/dpkg-source.pl:255
 #, perl-format
 msgid "architecture %s only allowed on its own (list for package %s is `%s')"
 msgstr "Architektur %s ist nur alleine erlaubt (Liste für Paket %s lautet »%s«)"
 
-#: scripts/dpkg-source.pl:301 scripts/Dpkg/BuildFlags.pm:189
+#: scripts/dpkg-source.pl:303 scripts/Dpkg/BuildFlags.pm:189
 #: scripts/Dpkg/Compression/FileHandle.pm:401
 #: scripts/Dpkg/Interface/Storable.pm:87 scripts/Dpkg/Shlibs/Objdump.pm:99
 #: scripts/Dpkg/Source/Package/V2.pm:317 scripts/Dpkg/Source/Package/V2.pm:455
@@ -1777,22 +1782,22 @@ msgstr "Architektur %s ist nur alleine erlaubt (Liste für Paket %s lautet »%s�
 msgid "cannot read %s"
 msgstr "kann %s nicht lesen"
 
-#: scripts/dpkg-source.pl:306
+#: scripts/dpkg-source.pl:308
 #, perl-format
 msgid "no source format specified in %s, see dpkg-source(1)"
 msgstr "kein Quellformat in %s angegeben, lesen Sie dpkg-source(1)"
 
-#: scripts/dpkg-source.pl:324
+#: scripts/dpkg-source.pl:327
 #, perl-format
 msgid "can't build with source format '%s': %s"
 msgstr "kann nicht mit Quellformat »%s« bauen: %s"
 
-#: scripts/dpkg-source.pl:325
+#: scripts/dpkg-source.pl:338
 #, perl-format
 msgid "using source format `%s'"
 msgstr "verwende Quellformat »%s«"
 
-#: scripts/dpkg-source.pl:333 scripts/Dpkg/Source/Package/V1.pm:296
+#: scripts/dpkg-source.pl:345 scripts/Dpkg/Source/Package/V1.pm:296
 #: scripts/Dpkg/Source/Package/V1.pm:341 scripts/Dpkg/Source/Package/V2.pm:438
 #: scripts/Dpkg/Source/Package/V3/bzr.pm:152
 #: scripts/Dpkg/Source/Package/V3/native.pm:83
@@ -1801,43 +1806,43 @@ msgstr "verwende Quellformat »%s«"
 msgid "building %s in %s"
 msgstr "baue %s in %s"
 
-#: scripts/dpkg-source.pl:344
+#: scripts/dpkg-source.pl:356
 msgid "-x needs at least one argument, the .dsc"
 msgstr "-x benötigt mindestens ein Argument, die .dsc"
 
-#: scripts/dpkg-source.pl:347
+#: scripts/dpkg-source.pl:359
 msgid "-x takes no more than two arguments"
 msgstr "-x akzeptiert nicht mehr als zwei Argumente"
 
-#: scripts/dpkg-source.pl:351
+#: scripts/dpkg-source.pl:363
 msgid "-x needs the .dsc file as first argument, not a directory"
 msgstr "-x benötigt die .dsc-Datei als erstes Argument, kein Verzeichnis"
 
-#: scripts/dpkg-source.pl:367
+#: scripts/dpkg-source.pl:379
 #, perl-format
 msgid "unpack target exists: %s"
 msgstr "Entpackziel existiert: %s"
 
-#: scripts/dpkg-source.pl:377
+#: scripts/dpkg-source.pl:389
 #, perl-format
 msgid "%s doesn't contain a valid OpenPGP signature"
 msgstr "%s enthält keine gültige OpenPGP-Signatur"
 
-#: scripts/dpkg-source.pl:379
+#: scripts/dpkg-source.pl:391
 #, perl-format
 msgid "extracting unsigned source package (%s)"
 msgstr "extrahiere unsigniertes Quellpaket (%s)"
 
-#: scripts/dpkg-source.pl:386
+#: scripts/dpkg-source.pl:398
 #, perl-format
 msgid "extracting %s in %s"
 msgstr "extrahiere %s nach %s"
 
-#: scripts/dpkg-source.pl:394
+#: scripts/dpkg-source.pl:406
 msgid "only one of -x, -b or --print-format allowed, and only once"
 msgstr "nur entweder -x, -b oder --print-format erlaubt, und nur einmal"
 
-#: scripts/dpkg-source.pl:402
+#: scripts/dpkg-source.pl:414
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson\n"
@@ -1849,7 +1854,7 @@ msgstr ""
 "Copyright (C) 1997 Klee Dienes\n"
 "Copyright (C) 2008 Raphael Hertzog"
 
-#: scripts/dpkg-source.pl:415
+#: scripts/dpkg-source.pl:427
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -1870,7 +1875,7 @@ msgstr ""
 "  --print-format <Verz>    gebe das Quellformat aus, dass zum Bau des\n"
 "                           Quellpakets verwandt würde."
 
-#: scripts/dpkg-source.pl:424
+#: scripts/dpkg-source.pl:436
 #, perl-format
 msgid ""
 "Build options:\n"
@@ -1912,7 +1917,7 @@ msgstr ""
 "  -z<Stufe>                wähle zu verwendende Kompressionsstufe (Vorgabe:\n"
 "                             »%d«, unterstützt werden: »1«-»9«, »best«, »fast«)"
 
-#: scripts/dpkg-source.pl:442
+#: scripts/dpkg-source.pl:454
 msgid ""
 "Extract options:\n"
 "  --no-copy                don't copy .orig tarballs\n"
@@ -1928,7 +1933,7 @@ msgstr ""
 "  --require-valid-signature breche ab, falls das Paket keine gültige "
 "Signatur hat."
 
-#: scripts/dpkg-source.pl:447
+#: scripts/dpkg-source.pl:459
 msgid ""
 "General options:\n"
 "  -h, --help               show this help message.\n"
@@ -1938,7 +1943,7 @@ msgstr ""
 "  -h, --help               zeige diese Hilfemeldung.\n"
 "      --version            zeige die Version."
 
-#: scripts/dpkg-source.pl:451
+#: scripts/dpkg-source.pl:463
 msgid ""
 "More options are available but they depend on the source package format.\n"
 "See dpkg-source(1) for more info."
