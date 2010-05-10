@@ -162,3 +162,54 @@ see what operation is being done:
 	if (strcmp(a, b) < 0)
 		foo();
 
+
+Dpkg Perl coding style 2010-05-10
+======================
+
+General
+~~~~~~~
+
+In general you should follow the conventions listed in perlstyle(1).
+All the code should run with the “use strict” and “use warnings” pragmas.
+
+Code documentation
+~~~~~~~~~~~~~~~~~~
+
+Public modules should be documented with POD (see perlpod(1)). Private
+code doesn't have to use POD, simple comment lines (starting with "#") are
+enough. Public scripts are documented in their corresponding manual pages.
+
+Indentation, alignment and spacing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Lines should be 80 chars max. The indentation level is 4 characters, and
+indentation is done with hard tabs (which should be considered to take 8
+spaces width) and spaces.
+
+if ($foo) {
+    if ($bar) {
+	print "Hello\n";
+	unless ($baz) {
+	    print "Who are you?\n";
+	}
+    }
+}
+
+Perl version
+~~~~~~~~~~~~
+We don't want to impose a too-recent Perl version, so only use features
+supported by the Perl version that is currently in Debian oldstable when
+possible. Currently that means Perl 5.8.8.
+
+Object methods
+~~~~~~~~~~~~~~
+Use a single line to retrieve all the arguments and use $self as name
+for the current object:
+
+sub do_something {
+    my ($self, $arg1, $arg2, %opts) = @_;
+    ...
+}
+
+Supplementary optional arguments should be named and thus stored in a
+hash.
