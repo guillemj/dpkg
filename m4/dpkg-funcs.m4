@@ -68,6 +68,22 @@ AS_IF([test "x$dpkg_cv_c99_snprintf" = "xyes"],
 AM_CONDITIONAL(HAVE_C99_SNPRINTF, [test "x$dpkg_cv_c99_snprintf" = "xyes"])
 ])# DPKG_FUNC_C99_SNPRINTF
 
+# DPKG_FUNC_ASYNC_SYNC
+# --------------------
+# Define HAVE_ASYNC_SYNC if sync() is asynchronous
+AC_DEFUN([DPKG_FUNC_ASYNC_SYNC],
+[
+  AC_CANONICAL_HOST
+  AC_MSG_CHECKING([whether sync is asynchronous])
+  AS_CASE([$host_os],
+          [linux-*], [dpkg_cv_async_sync=no],
+          [dpkg_cv_async_sync=yes])
+  AS_IF([test "x$dpkg_cv_async_sync" = "xyes"],
+        [AC_DEFINE([HAVE_ASYNC_SYNC], 1,
+                   [Define to 1 if the 'sync' function is asynchronous])])
+  AC_MSG_RESULT([$dpkg_cv_async_sync])
+])# DPKG_FUNC_ASYNC_SYNC
+
 # DPKG_CHECK_COMPAT_FUNCS(LIST)
 # -----------------------
 # Check each function and define an automake conditional

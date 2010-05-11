@@ -35,6 +35,8 @@ dpkg (1.15.7.2) UNRELEASED; urgency=low
     Kyle Moffett <Kyle.D.Moffett@boeing.com>. Closes: #568123, #575158
   * Fix dpkg --root by properly stripping again the root directory from the
     path of the maintainer script to execute. Closes: #580984
+  * On Linux use sync() instead of an fsync() per file on deferred extraction,
+    to workaround performance degradation on ext4. Closes: #578635
 
   [ Gerfried Fuchs ]
   * Fix syntax error in dpkg-name. Closes: #581315
