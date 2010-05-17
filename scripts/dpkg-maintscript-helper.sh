@@ -21,7 +21,7 @@
 # The conffile related functions are inspired by
 # http://wiki.debian.org/DpkgConffileHandling
 
-# This script is documented in maintscript-helper(1)
+# This script is documented in dpkg-maintscript-helper(1)
 
 ##
 ## Functions to remove an obsolete conffile during upgrade

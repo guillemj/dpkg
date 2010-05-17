@@ -12,6 +12,7 @@ bin_SCRIPTS = \
 	dpkg-genchanges \
 	dpkg-gencontrol \
 	dpkg-gensymbols \
+	dpkg-maintscript-helper \
 	dpkg-mergechangelogs \
 	dpkg-name \
 	dpkg-parsechangelog \
@@ -24,8 +25,6 @@ bin_SCRIPTS = \
 if WITH_UPDATE_ALTERNATIVES
 bin_SCRIPTS += update-alternatives
 endif
-
-dist_pkglib_SCRIPTS = maintscript-helper
 
 changelogdir = $(pkglibdir)/parsechangelog
 changelog_SCRIPTS = \
@@ -41,6 +40,7 @@ EXTRA_DIST = \
 	dpkg-genchanges.pl \
 	dpkg-gencontrol.pl \
 	dpkg-gensymbols.pl \
+	dpkg-maintscript-helper.sh \
 	dpkg-mergechangelogs.pl \
 	dpkg-name.pl \
 	dpkg-parsechangelog.pl \
@@ -123,10 +123,17 @@ do_perl_subst = $(AM_V_GEN) \
 		    -e "s:\$$admindir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$admindir=\"$(admindir)\":" \
 		    -e "s:\$$version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$version=\"$(PACKAGE_VERSION)\":"
 
+do_shell_subst = $(AM_V_GEN) \
+		 sed -e "s:\$$version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$version=\"$(PACKAGE_VERSION)\":"
 
 %: %.pl Makefile
 	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
 	$(do_perl_subst) <$< >$@
+	$(AM_V_at) chmod +x $@
+
+%: %.sh Makefile
+	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
+	$(do_shell_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
 
 install-data-local:
