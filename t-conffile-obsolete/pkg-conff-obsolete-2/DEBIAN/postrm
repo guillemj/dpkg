@@ -1,4 +1,4 @@
 #!/bin/sh
-if [ -x $DPKG_LIB/maintscript-helper ]; then
-    $DPKG_LIB/maintscript-helper rm_conffile /test-conffile 0 -- "$@"
+if dpkg-maintscript-helper supports rm_conffile; then
+    dpkg-maintscript-helper rm_conffile /test-conffile 0 -- "$@"
 fi
