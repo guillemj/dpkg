@@ -151,13 +151,13 @@ struct trigcycleperpkg {
 	struct trigpend *then_trigs;
 };
 
-static int tortoise_advance;
+static bool tortoise_advance;
 static struct trigcyclenode *tortoise, *hare;
 
 void
 trigproc_reset_cycle(void)
 {
-	tortoise_advance = 0;
+	tortoise_advance = false;
 	tortoise = hare = NULL;
 }
 
@@ -391,7 +391,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 /*========== hook setup ==========*/
 
 static struct filenamenode *
-th_proper_nn_find(const char *name, int nonew)
+th_proper_nn_find(const char *name, bool nonew)
 {
 	return findnamenode(name, nonew ? fnn_nonew : 0);
 }

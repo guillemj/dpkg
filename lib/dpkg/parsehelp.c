@@ -84,8 +84,8 @@ parse_warn(struct parsedb_state *ps,
 	[v] = { .name = n, .value = v, .length = sizeof(n) - 1 }
 
 const struct namevalue booleaninfos[] = {
-  NAMEVALUE_DEF("no",  0),
-  NAMEVALUE_DEF("yes", 1),
+  NAMEVALUE_DEF("no",  false),
+  NAMEVALUE_DEF("yes", true),
   { .name = NULL }
 };
 
@@ -162,7 +162,9 @@ const struct nickname nicknames[]= {
   { .nick = NULL }
 };
 
-int informativeversion(const struct versionrevision *version) {
+bool
+informativeversion(const struct versionrevision *version)
+{
   return (version->epoch ||
           (version->version && *version->version) ||
           (version->revision && *version->revision));

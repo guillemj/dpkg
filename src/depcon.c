@@ -85,7 +85,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
   /* Now we have either a package with no postinst, or the other
    * occurrence of the current package in the list.
    */
-  sol->possi->cyclebreak= 1;
+  sol->possi->cyclebreak = true;
   debug(dbg_depcon,"cycle broken at %s -> %s\n",
         sol->possi->up->up->name, sol->possi->ed->name);
   return true;
@@ -206,14 +206,14 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   
 bool
 depisok(struct dependency *dep, struct varbuf *whynot,
-        struct pkginfo **canfixbyremove, int allowunconfigd)
+        struct pkginfo **canfixbyremove, bool allowunconfigd)
 {
   /* *whynot must already have been initialised; it need not be
    * empty though - it will be reset before use.
    * If depisok returns false for ‘not OK’ it will contain a description,
    * newline-terminated BUT NOT NULL-TERMINATED, of the reason.
    * If depisok returns true it will contain garbage.
-   * allowunconfigd should be non-zero during the `Pre-Depends' checking
+   * allowunconfigd should be true during the ‘Pre-Depends’ checking
    * before a package is unpacked, when it is sufficient for the package
    * to be unpacked provided that both the unpacked and previously-configured
    * versions are acceptable.

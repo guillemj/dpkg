@@ -193,18 +193,29 @@ static void info_list(const char *debar, const char *directory) {
 }
 
 static void info_field(const char *debar, const char *directory,
-                       const char *const *fields, int showfieldname) {
+                       const char *const *fields, bool showfieldname)
+{
   FILE *cc;
   char fieldname[MAXFIELDNAME+1];
   char *pf;
   const char *const *fp;
-  int doing, c, lno, fnl;
+  int c, lno, fnl;
+  bool doing;
 
   if (!(cc= fopen("control","r"))) ohshite(_("could not open the `control' component"));
-  doing= 1; lno= 1;
+  doing = true;
+  lno = 1;
   for (;;) {
-    c= getc(cc);  if (c==EOF) { doing=0; break; }
-    if (c == '\n') { lno++; doing=1; continue; }
+    c = getc(cc);
+    if (c == EOF) {
+      doing = false;
+      break;
+    }
+    if (c == '\n') {
+      lno++;
+      doing = true;
+      continue;
+    }
     if (!isspace(c)) {
       for (pf=fieldname, fnl=0;
            fnl <= MAXFIELDNAME && c!=EOF && !isspace(c) && c!=':';
@@ -212,7 +223,8 @@ static void info_field(const char *debar, const char *directory,
       *pf = '\0';
       doing= fnl >= MAXFIELDNAME || c=='\n' || c==EOF;
       for (fp=fields; !doing && *fp; fp++)
-        if (!strcasecmp(*fp,fieldname)) doing=1;
+        if (!strcasecmp(*fp, fieldname))
+          doing = true;
       if (showfieldname) {
         if (doing)
           fputs(fieldname,stdout);

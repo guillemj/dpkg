@@ -53,7 +53,7 @@
 
 /*** Generic data structures and routines ***/
 
-static int allpackagesdone= 0;
+static bool allpackagesdone = false;
 static int nfiles= 0;
 
 void
@@ -64,16 +64,16 @@ ensure_package_clientdata(struct pkginfo *pkg)
   pkg->clientdata = nfmalloc(sizeof(struct perpackagestate));
   pkg->clientdata->istobe = itb_normal;
   pkg->clientdata->color = white;
-  pkg->clientdata->fileslistvalid = 0;
+  pkg->clientdata->fileslistvalid = false;
   pkg->clientdata->files = NULL;
   pkg->clientdata->listfile_phys_offs = 0;
   pkg->clientdata->trigprocdeferred = NULL;
 }
 
 void note_must_reread_files_inpackage(struct pkginfo *pkg) {
-  allpackagesdone= 0;
+  allpackagesdone = false;
   ensure_package_clientdata(pkg);
-  pkg->clientdata->fileslistvalid= 0;
+  pkg->clientdata->fileslistvalid = false;
 }
 
 static int saidread=0;
@@ -200,7 +200,8 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   /* Packages which aren't installed don't have a files list. */
   if (pkg->status == stat_notinstalled) {
-    pkg->clientdata->fileslistvalid= 1; return;
+    pkg->clientdata->fileslistvalid = true;
+    return;
   }
 
   filelistfile= pkgadminfile(pkg,LISTFILE);
@@ -219,7 +220,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
                 "package has no files currently installed."), pkg->name);
     }
     pkg->clientdata->files = NULL;
-    pkg->clientdata->fileslistvalid= 1;
+    pkg->clientdata->fileslistvalid = true;
     return;
   }
 
@@ -259,7 +260,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   onerr_abort--;
 
-  pkg->clientdata->fileslistvalid= 1;
+  pkg->clientdata->fileslistvalid = true;
 }
 
 #if defined(HAVE_LINUX_FIEMAP_H)
@@ -382,7 +383,7 @@ void ensure_allinstfiles_available(void) {
 
   pkg_array_destroy(&array);
 
-  allpackagesdone= 1;
+  allpackagesdone = true;
 
   if (saidread==1) {
     progress_done(&progress);
@@ -396,7 +397,10 @@ void ensure_allinstfiles_available_quiet(void) {
   ensure_allinstfiles_available();
 }
 
-void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list, int leaveout) {
+void
+write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
+                      bool leaveout)
+{
   /* If leaveout is nonzero, will not write any file whose filenamenode
    * has the fnnf_elide_other_lists flag set.
    */

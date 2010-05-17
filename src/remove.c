@@ -181,7 +181,7 @@ static void push_leftover(struct fileinlist **leftoverp,
 
 static void removal_bulk_remove_files(
     struct pkginfo *pkg, 
-    int *out_foundpostrm) 
+    bool *out_foundpostrm)
 {
   int before;
   int infodirbaseused;
@@ -271,7 +271,7 @@ static void removal_bulk_remove_files(
     varbufaddc(&fnvb,0);
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
     push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
-  *out_foundpostrm= 0;
+    *out_foundpostrm = false;
 
     debug(dbg_general, "removal_bulk cleaning info directory");
 
@@ -286,7 +286,10 @@ static void removal_bulk_remove_files(
       debug(dbg_stupidlyverbose, "removal_bulk info this pkg");
       /* We need the postrm and list files for --purge. */
       if (!strcmp(p+1,LISTFILE)) continue;
-    if (!strcmp(p+1,POSTRMFILE)) { *out_foundpostrm=1; continue; }
+      if (!strcmp(p + 1, POSTRMFILE)) {
+        *out_foundpostrm = true;
+        continue;
+      }
       debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
       fnvb.used= infodirbaseused;
       varbufaddstr(&fnvb,de->d_name);
@@ -302,7 +305,7 @@ static void removal_bulk_remove_files(
     pop_cleanup(ehflag_normaltidy); /* closedir */
     
     pkg->status= stat_configfiles;
-    pkg->installed.essential= 0;
+    pkg->installed.essential = false;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 }
@@ -508,7 +511,7 @@ void removal_bulk(struct pkginfo *pkg) {
    */
 
   int pkgnameused;
-  int foundpostrm= 0;
+  bool foundpostrm = false;
   const char *postrmfilename;
 
   debug(dbg_general,"removal_bulk package %s",pkg->name);
@@ -521,8 +524,10 @@ void removal_bulk(struct pkginfo *pkg) {
     struct stat stab;
 
     postrmfilename= pkgadminfile(pkg,POSTRMFILE);
-    if (!lstat(postrmfilename,&stab)) foundpostrm= 1;
-    else if (errno == ENOENT) foundpostrm= 0;
+    if (!lstat(postrmfilename, &stab))
+      foundpostrm = true;
+    else if (errno == ENOENT)
+      foundpostrm = false;
     else ohshite(_("unable to check existence of `%.250s'"),postrmfilename);
 
   }

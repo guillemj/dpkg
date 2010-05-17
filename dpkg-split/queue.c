@@ -49,22 +49,32 @@
 
 #include "dpkg-split.h"
 
-static int decompose_filename(const char *filename, struct partqueue *pq) {
+static bool
+decompose_filename(const char *filename, struct partqueue *pq)
+{
   const char *p;
   char *q;
 
   if (strspn(filename, "0123456789abcdef") != MD5HASHLEN ||
       filename[MD5HASHLEN] != '.')
-    return 0;
+    return false;
   q = nfmalloc(MD5HASHLEN + 1);
   memcpy(q, filename, MD5HASHLEN);
   q[MD5HASHLEN] = '\0';
   pq->info.md5sum= q;
   p = filename + MD5HASHLEN + 1;
-  pq->info.maxpartlen= strtol(p,&q,16); if (q==p || *q++ != '.') return 0;
-  p=q; pq->info.thispartn= (int)strtol(p,&q,16); if (q==p || *q++ != '.') return 0;
-  p=q; pq->info.maxpartn= (int)strtol(p,&q,16); if (q==p || *q) return 0;
-  return 1;
+  pq->info.maxpartlen = strtol(p, &q, 16);
+  if (q == p || *q++ != '.')
+    return false;
+  p = q;
+  pq->info.thispartn = (int)strtol(p, &q, 16);
+  if (q == p || *q++ != '.')
+    return false;
+  p = q;
+  pq->info.maxpartn = (int)strtol(p, &q, 16);
+  if (q == p || *q)
+    return false;
+  return true;
 }
 
 void scandepot(void) {
@@ -96,7 +106,9 @@ void scandepot(void) {
   closedir(depot);
 }
 
-static int partmatches(struct partinfo *pi, struct partinfo *refi) {
+static bool
+partmatches(struct partinfo *pi, struct partinfo *refi)
+{
   return (pi->md5sum &&
           !strcmp(pi->md5sum,refi->md5sum) &&
           pi->maxpartn == refi->maxpartn &&

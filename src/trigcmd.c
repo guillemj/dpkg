@@ -98,7 +98,7 @@ static const char *admindir = ADMINDIR;
 static int f_noact, f_check;
 
 static const char *bypackage, *activate;
-static int done_trig, ctrig;
+static bool done_trig, ctrig;
 
 static void
 noawait(const struct cmdinfo *ci, const char *value)
@@ -120,7 +120,7 @@ tdm_add_trig_begin(const char *trig)
 	if (!ctrig || done_trig)
 		return;
 	yespackage(bypackage);
-	done_trig = 1;
+	done_trig = true;
 }
 
 static void

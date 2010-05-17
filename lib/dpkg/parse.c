@@ -406,7 +406,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
 void copy_dependency_links(struct pkginfo *pkg,
                            struct dependency **updateme,
                            struct dependency *newdepends,
-                           int available) {
+                           bool available)
+{
   /* This routine is used to update the `reverse' dependency pointers
    * when new `forwards' information has been constructed.  It first
    * removes all the links based on the old information.  The old

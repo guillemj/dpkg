@@ -54,7 +54,7 @@ struct trig_hooks {
 	void (*enqueue_deferred)(struct pkginfo *pend);
 	void (*transitional_activate)(enum modstatdb_rw cstatus);
 
-	struct filenamenode *(*namenode_find)(const char *filename, int nonew);
+	struct filenamenode *(*namenode_find)(const char *filename, bool nonew);
 	struct trigfileint **(*namenode_interested)(struct filenamenode *fnn);
 
 	/* Returns a pointer from nfmalloc. */
@@ -74,9 +74,9 @@ char *trig_get_triggersdir(const char *admindir);
 void trig_file_activate_byname(const char *trig, struct pkginfo *aw);
 void trig_file_activate(struct filenamenode *trig, struct pkginfo *aw);
 
-int trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/);
-int trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/);
-int trig_note_aw(struct pkginfo *pend, struct pkginfo *aw);
+bool trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/);
+bool trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/);
+bool trig_note_aw(struct pkginfo *pend, struct pkginfo *aw);
 void trig_clear_awaiters(struct pkginfo *notpend);
 
 void trig_enqueue_awaited_pend(struct pkginfo *pend);

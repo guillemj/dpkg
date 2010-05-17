@@ -82,14 +82,14 @@ static int safe_read(int fd, void *buf, int len)
 }
 
 static struct obstack tar_obs;
-static int tarobs_init= 0;
+static bool tarobs_init = false;
 
 /* ensure the obstack is properly initialized */
 static void ensureobstackinit(void) {
 
   if (!tarobs_init) {
     obstack_init(&tar_obs);
-    tarobs_init= 1;
+    tarobs_init = true;
   }
 }
 
@@ -97,7 +97,7 @@ static void ensureobstackinit(void) {
 static void destroyobstack(void) {
   if (tarobs_init) {
     obstack_free(&tar_obs, NULL);
-    tarobs_init= 0;
+    tarobs_init = false;
   }
 }
 
@@ -934,7 +934,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
   int ok;
 
   fixbydeconf = NULL;
-  if (depisok(dep, &why, &fixbydeconf, 0)) {
+  if (depisok(dep, &why, &fixbydeconf, false)) {
     varbuf_destroy(&why);
     return;
   }
@@ -989,7 +989,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   struct dependency *providecheck;
 
   fixbyrm = NULL;
-  if (depisok(dep, &conflictwhy, &fixbyrm, 0)) {
+  if (depisok(dep, &conflictwhy, &fixbyrm, false)) {
     varbuf_destroy(&conflictwhy);
     varbuf_destroy(&removalwhy);
     return;
@@ -1021,7 +1021,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
              pdep= pdep->nextrev) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
             continue;
-          if (depisok(pdep->up, &removalwhy, NULL, 0))
+          if (depisok(pdep->up, &removalwhy, NULL, false))
             continue;
           varbufaddc(&removalwhy,0);
           if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
@@ -1038,7 +1038,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                  pdep= pdep->nextrev) {
               if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
                 continue;
-              if (depisok(pdep->up, &removalwhy, NULL, 0))
+              if (depisok(pdep->up, &removalwhy, NULL, false))
                 continue;
               varbufaddc(&removalwhy,0);
               fprintf(stderr, _("dpkg"
@@ -1243,7 +1243,10 @@ void archivefiles(const char *const *argv) {
   modstatdb_shutdown();
 }
 
-int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int saywhy) {
+int
+wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver,
+              bool saywhy)
+{
   /* Decide whether we want to install a new version of the package.
    * ver is the version we might want to install.  If saywhy is 1 then
    * if we skip the package we say what we are doing (and, if we are

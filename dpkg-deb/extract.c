@@ -33,6 +33,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <ar.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -124,7 +125,8 @@ void extracthalf(const char *debar, const char *directory,
   char nlc;
   char *cur;
   struct ar_hdr arh;
-  int readfromfd, oldformat= 0, header_done, adminmember;
+  int readfromfd, adminmember;
+  bool oldformat, header_done;
   struct compressor *decompressor = &compressor_gzip;
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
@@ -132,10 +134,10 @@ void extracthalf(const char *debar, const char *directory,
   if (!fgets(versionbuf,sizeof(versionbuf),ar)) readfail(ar,debar,_("version number"));
 
   if (!strcmp(versionbuf,"!<arch>\n")) {
-    oldformat= 0;
+    oldformat = false;
 
     ctrllennum= 0;
-    header_done= 0;
+    header_done = false;
     for (;;) {
       if (fread(&arh,1,sizeof(arh),ar) != sizeof(arh))
         readfail(ar,debar,_("between members"));
@@ -164,7 +166,7 @@ void extracthalf(const char *debar, const char *directory,
         *cur= '.';
         strncpy(versionbuf,infobuf,sizeof(versionbuf));
         versionbuf[sizeof(versionbuf) - 1] = '\0';
-        header_done= 1;
+        header_done = true;
       } else if (arh.ar_name[0] == '_') {
           /* Members with `_' are noncritical, and if we don't understand them
            * we skip them.
@@ -210,7 +212,7 @@ void extracthalf(const char *debar, const char *directory,
              sscanf(versionbuf,"%f%c%d",&versionnum,&nlc,&dummy) == 2 &&
              nlc == '\n') {
     
-    oldformat= 1;
+    oldformat = true;
     l = strlen(versionbuf);
     if (l && versionbuf[l - 1] == '\n')
       versionbuf[l - 1] = '\0';

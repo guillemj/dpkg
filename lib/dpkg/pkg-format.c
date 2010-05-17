@@ -61,7 +61,7 @@ pkg_format_node_new(void)
 	return buf;
 }
 
-static int
+static bool
 parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 {
 	int len;
@@ -79,7 +79,7 @@ parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 			fprintf(stderr,
 			        _("invalid character `%c' in field width\n"),
 			       *endptr);
-			return 0;
+			return false;
 		}
 
 		if (w < 0) {
@@ -96,10 +96,10 @@ parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 	memcpy(cur->data, fmt, len);
 	cur->data[len] = '\0';
 
-	return 1;
+	return true;
 }
 
-static int
+static bool
 parsestring(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 {
 	int len;
@@ -134,7 +134,7 @@ parsestring(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 	}
 	*write = '\0';
 
-	return 1;
+	return true;
 }
 
 void

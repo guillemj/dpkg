@@ -30,13 +30,16 @@
 #include "dselect.h"
 #include "pkglist.h"
 
-int packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith) {
+bool
+packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith) {
   switch (statsortorder) {
   case sso_avail:
-    if (comparewith->clientdata->ssavail != pkg->clientdata->ssavail) return 0;
+    if (comparewith->clientdata->ssavail != pkg->clientdata->ssavail)
+      return false;
     break;
   case sso_state:
-    if (comparewith->clientdata->ssstate != pkg->clientdata->ssstate) return 0;
+    if (comparewith->clientdata->ssstate != pkg->clientdata->ssstate)
+      return false;
     break;
   case sso_unsorted:
     break;
@@ -47,13 +50,13 @@ int packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewit
       (comparewith->priority != pkg->priority ||
        (comparewith->priority == pkginfo::pri_other &&
         strcasecmp(comparewith->otherpriority, pkg->otherpriority))))
-    return 0;
+    return false;
   if (comparewith->section &&
       strcasecmp(comparewith->section,
                  pkg->section ?
                  pkg->section : ""))
-    return 0;
-  return 1;
+    return false;
+  return true;
 }
 
 void packagelist::affectedrange(int *startp, int *endp) {

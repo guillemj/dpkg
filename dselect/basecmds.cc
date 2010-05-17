@@ -93,25 +93,29 @@ void baselist::kd_searchagain() {
   dosearch();
 }
 
-int baselist::checksearch(char* str) {
-  return 1;
+bool
+baselist::checksearch(char *str)
+{
+  return true;
 }
 
-int baselist::matchsearch(int index) {
+bool
+baselist::matchsearch(int index)
+{
   int lendiff, searchlen, i;
   const char *name;
 
   name = itemname(index);
   if (!name)
-    return 0;	/* Skip things without a name (seperators). */
+    return false;	/* Skip things without a name (seperators). */
 
   searchlen=strlen(searchstring);
   lendiff = strlen(name) - searchlen;
   for (i=0; i<=lendiff; i++)
     if (!strncasecmp(name + i, searchstring, searchlen))
-      return 1;
+      return true;
 
-  return 0;
+  return false;
 }
 
 void baselist::kd_search() {

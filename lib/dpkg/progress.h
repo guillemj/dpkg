@@ -21,6 +21,8 @@
 #ifndef LIBDPKG_PROGRESS_H
 #define LIBDPKG_PROGRESS_H
 
+#include <stdbool.h>
+
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
@@ -32,7 +34,7 @@ struct progress {
 	int cur;
 	int last_percent;
 
-	int on_tty;
+	bool on_tty;
 };
 
 void progress_init(struct progress *progress, const char *text, int max);

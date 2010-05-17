@@ -314,7 +314,7 @@ void process_archive(const char *filename) {
       /* Ignore these here. */
       break;
     case dep_predepends:
-      if (!depisok(dsearch, &depprobwhy, NULL, 1)) {
+      if (!depisok(dsearch, &depprobwhy, NULL, true)) {
         varbufaddc(&depprobwhy,0);
         fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
                 pfilename, pkg->name, depprobwhy.buf);
@@ -965,7 +965,7 @@ void process_archive(const char *filename) {
         newpossi->version= possi->version;
       else
         blankversion(&newpossi->version);
-      newpossi->cyclebreak= 0;
+      newpossi->cyclebreak = false;
       *newpossilastp= newpossi;
       newpossilastp= &newpossi->next;
     }
@@ -1055,7 +1055,7 @@ void process_archive(const char *filename) {
          pdep= pdep->nextrev) {
       if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
           pdep->up->type != dep_recommends) continue;
-      if (depisok(pdep->up, &depprobwhy, NULL, 0))
+      if (depisok(pdep->up, &depprobwhy, NULL, false))
         continue;
       varbufaddc(&depprobwhy,0);
       debug(dbg_veryverbose,"process_archive cannot disappear: %s",depprobwhy.buf);
@@ -1073,7 +1073,7 @@ void process_archive(const char *filename) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
               pdep->up->type != dep_recommends)
             continue;
-          if (depisok(pdep->up, &depprobwhy, NULL, 0))
+          if (depisok(pdep->up, &depprobwhy, NULL, false))
             continue;
           varbufaddc(&depprobwhy,0);
           debug(dbg_veryverbose,"process_archive cannot disappear (provides %s): %s",
@@ -1139,7 +1139,7 @@ void process_archive(const char *filename) {
     blankversion(&otherpkg->configversion);
     blankpackageperfile(&otherpkg->installed);
 
-    otherpkg->clientdata->fileslistvalid= 0;
+    otherpkg->clientdata->fileslistvalid = false;
 
     modstatdb_note(otherpkg);
 

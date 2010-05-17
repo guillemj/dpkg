@@ -490,10 +490,13 @@ packagelist::~packagelist() {
   if (debug) fprintf(debug,"packagelist[%p]::~packagelist() done\n",this);
 }
 
-int packagelist::checksearch(char* rx) {
+bool
+packagelist::checksearch(char *rx)
+{
   int r,opt = REG_NOSUB;
 
-  if (!rx || !*rx) return 0;
+  if (!rx || !*rx)
+    return false;
 
   searchdescr=0;
   if (searchstring[0]) {
@@ -510,7 +513,7 @@ int packagelist::checksearch(char* rx) {
     rx[r++]='\0';
     if (strcspn(rx+r, "di")!=0) {
       displayerror(_("invalid search option given"));
-      return 0;
+      return false;
     }
 
    while (rx[r]) {
@@ -524,31 +527,34 @@ int packagelist::checksearch(char* rx) {
 
   if ((r=regcomp(&searchfsm, rx, opt))!=0) {
     displayerror(_("error in regular expression"));
-    return 0;
+    return false;
   }
   
-  return 1;
+  return true;
 }
 
-int packagelist::matchsearch(int index) {
+bool
+packagelist::matchsearch(int index)
+{
   const char *name;
 
   name = itemname(index);
   if (!name)
-    return 0;	/* Skip things without a name (seperators) */
+    return false;	/* Skip things without a name (seperators) */
 
   if (regexec(&searchfsm, name, 0, NULL, 0) == 0)
-    return 1;
+    return true;
 
   if (searchdescr) {
     const char* descr = table[index]->pkg->available.description;
-    if (!descr || !*descr) return 0;
+    if (!descr || !*descr)
+      return false;
 
     if (regexec(&searchfsm, descr, 0, NULL, 0)==0)
-      return 1;
+      return true;
   }
 
-  return 0;
+  return false;
 }
 
 pkginfo **packagelist::display() {

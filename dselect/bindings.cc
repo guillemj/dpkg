@@ -39,13 +39,17 @@ keybindings::keybindings(const interpretation *ints, const orgbinding *orgbindin
   describestart();
 }
 
-int keybindings::bind(int key, const char *action) {
-  if (key == -1) return 0;
+bool
+keybindings::bind(int key, const char *action)
+{
+  if (key == -1)
+    return false;
   
   const interpretation *interp = interps;
   while (interp->action && strcmp(interp->action, action))
     interp++;
-  if (!interp->action) return 0;
+  if (!interp->action)
+    return false;
   
   const description *desc = descriptions;
   while (desc->action && strcmp(desc->action, action))
@@ -63,7 +67,8 @@ int keybindings::bind(int key, const char *action) {
   }
   b->interp = interp;
   b->desc = desc ? desc->desc : 0;
-  return 1;
+
+  return true;
 }
 
 const char *keybindings::find(const char *action) {

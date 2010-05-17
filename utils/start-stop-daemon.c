@@ -1305,7 +1305,8 @@ set_what_stop(const char *str)
 static int
 run_stop_schedule(void)
 {
-	int r, position, n_killed, n_notkilled, value, ratio, anykilled, retry_nr;
+	int r, position, n_killed, n_notkilled, value, ratio, retry_nr;
+	bool anykilled;
 	struct timeval stopat, before, after, interval, maxinterval;
 
 	if (testmode) {
@@ -1327,7 +1328,7 @@ run_stop_schedule(void)
 	else
 		fatal("internal error, no match option, please report");
 
-	anykilled = 0;
+	anykilled = false;
 	retry_nr = 0;
 
 	if (schedule == NULL) {
@@ -1335,7 +1336,7 @@ run_stop_schedule(void)
 		if (n_notkilled > 0 && quietmode <= 0)
 			printf("%d pids were not killed\n", n_notkilled);
 		if (n_killed)
-			anykilled = 1;
+			anykilled = true;
 		goto x_finished;
 	}
 
@@ -1352,7 +1353,7 @@ run_stop_schedule(void)
 			if (!n_killed)
 				goto x_finished;
 			else
-				anykilled = 1;
+				anykilled = true;
 			goto next_item;
 		case sched_timeout:
  /* We want to keep polling for the processes, to see if they've exited,

@@ -103,8 +103,8 @@ protected:
   virtual const char *itemname(int index) =0;
   virtual const struct helpmenuentry *helpmenulist() =0;
 
-  virtual int checksearch(char* str);
-  virtual int matchsearch(int index);
+  virtual bool checksearch(char *str);
+  virtual bool matchsearch(int index);
   void wordwrapinfo(int offset, const char *string);
   
 public:

@@ -131,14 +131,14 @@ protected:
   
   // Dependency and sublist processing
   struct doneent { doneent *next; void *dep; } *depsdone, *unavdone;
-  int alreadydone(doneent**, void*);
+  bool alreadydone(doneent **, void *);
   int resolvedepcon(dependency*);
   int checkdependers(pkginfo*, int changemade); // returns new changemade
   int deselect_one_of(pkginfo *er, pkginfo *ed, dependency *dep);
   
   // Define these virtuals
-  int checksearch(char* str);
-  int matchsearch(int index);
+  bool checksearch(char *str);
+  bool matchsearch(int index);
   void redraw1itemsel(int index, int selected);
   void redrawcolheads();
   void redrawthisstate();
@@ -156,7 +156,7 @@ protected:
   pkginfo::pkgwant reallywant(pkginfo::pkgwant, struct perpackagestate*);
   int describemany(char buf[], const char *prioritystring, const char *section,
                    const struct perpackagestate *pps);
-  int deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade);
+  bool deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade);
 
   void sortmakeheads();
   void resortredisplay();
@@ -170,7 +170,7 @@ protected:
   void addheading(enum ssavailval, enum ssstateval,
                   pkginfo::pkgpriority, const char*, const char *section);
   void sortinplace();
-  int affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith);
+  bool affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith);
   void affectedrange(int *startp, int *endp);
   void setwant(pkginfo::pkgwant nw);
   void sethold(int hold);
@@ -203,9 +203,9 @@ protected:
   void add(pkginfo*);
   void add(pkginfo*, pkginfo::pkgwant);
   void add(pkginfo*, const char *extrainfo, showpriority displayimportance);
-  int add(dependency*, showpriority displayimportance);
+  bool add(dependency *, showpriority displayimportance);
   void addunavailable(deppossi*);
-  int useavailable(pkginfo*);
+  bool useavailable(pkginfo *);
   pkginfoperfile *findinfo(pkginfo*);
 
   int resolvesuggest();

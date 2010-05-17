@@ -46,7 +46,7 @@ struct perpackagestate {
    *       1            !=0          read, all is OK
    *       1             0           read OK, but, there were no files
    */
-  int fileslistvalid;
+  bool fileslistvalid;
   struct fileinlist *files;
   int replacingfilesandsaid;
 
@@ -131,7 +131,7 @@ extern int fc_nonroot, fc_overwritedir, fc_conff_new, fc_conff_miss;
 extern int fc_conff_old, fc_conff_def;
 extern int fc_badverify;
 
-extern int abort_processing;
+extern bool abort_processing;
 extern int errabort;
 extern const char *admindir;
 extern const char *instdir;
@@ -147,7 +147,8 @@ struct invoke_hook {
 
 void archivefiles(const char *const *argv);
 void process_archive(const char *filename);
-int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int saywhy);
+int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver,
+                  bool saywhy);
 struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
 				   struct filenamenode *namenode);
 
@@ -282,7 +283,7 @@ void trig_activate_packageprocessing(struct pkginfo *pkg);
 /* from depcon.c */
 
 bool depisok(struct dependency *dep, struct varbuf *whynot,
-             struct pkginfo **fixbyrm, int allowunconfigd);
+             struct pkginfo **fixbyrm, bool allowunconfigd);
 struct cyclesofarlink;
 bool findbreakcycle(struct pkginfo *pkg);
 void describedepcon(struct varbuf *addto, struct dependency *dep);

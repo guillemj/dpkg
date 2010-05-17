@@ -71,8 +71,8 @@ void blankpackage(struct pkginfo *pigp) {
   pigp->section= NULL;
   blankversion(&pigp->configversion);
   pigp->files= NULL;
-  pigp->installed.valid= 0;
-  pigp->available.valid= 0;
+  pigp->installed.valid = false;
+  pigp->available.valid = false;
   pigp->clientdata= NULL;
   pigp->trigaw.head = pigp->trigaw.tail = NULL;
   pigp->othertrigaw_head = NULL;
@@ -82,7 +82,7 @@ void blankpackage(struct pkginfo *pigp) {
 }
 
 void blankpackageperfile(struct pkginfoperfile *pifp) {
-  pifp->essential= 0;
+  pifp->essential = false;
   pifp->depends= NULL;
   pifp->depended= NULL;
   pifp->description= pifp->maintainer= pifp->source= pifp->installedsize= pifp->bugs= pifp->origin= NULL;
@@ -90,7 +90,7 @@ void blankpackageperfile(struct pkginfoperfile *pifp) {
   blankversion(&pifp->version);
   pifp->conffiles= NULL;
   pifp->arbs= NULL;
-  pifp->valid= 1;
+  pifp->valid = true;
 }
 
 static int nes(const char *s) { return s && *s; }

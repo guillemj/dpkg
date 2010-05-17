@@ -41,7 +41,7 @@
 
 #include "main.h"
 
-int abort_processing = 0;
+bool abort_processing = false;
 
 static int nerrs = 0;
 

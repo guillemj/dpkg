@@ -33,7 +33,7 @@
 #define obstack_chunk_free free
 
 static struct obstack db_obs;
-static int dbobs_init = 0;
+static bool dbobs_init = false;
 
 /* We use lots of mem, so use a large chunk */
 #define CHUNK_SIZE 8192
@@ -42,7 +42,7 @@ static int dbobs_init = 0;
 
 static void nfobstack_init(void) {
   obstack_init(&db_obs);
-  dbobs_init = 1;
+  dbobs_init = true;
   obstack_chunk_size(&db_obs) = CHUNK_SIZE;
 }
   
@@ -68,6 +68,6 @@ nfstrnsave(const char *string, size_t size)
 void nffreeall(void) {
   if (dbobs_init) {
     obstack_free(&db_obs, NULL);
-    dbobs_init = 0;
+    dbobs_init = false;
   }
 }

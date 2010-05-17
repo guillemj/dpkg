@@ -126,7 +126,7 @@ void audit(const char *const *argv) {
   struct pkgiterator *it;
   struct pkginfo *pkg;
   const struct badstatinfo *bsi;
-  int head;
+  bool head;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
@@ -134,13 +134,13 @@ void audit(const char *const *argv) {
   modstatdb_init(admindir,msdbrw_readonly);
 
   for (bsi= badstatinfos; bsi->yesno; bsi++) {
-    head= 0;
+    head = false;
     it= iterpkgstart(); 
     while ((pkg= iterpkgnext(it))) {
       if (!bsi->yesno(pkg,bsi)) continue;
       if (!head) {
         fputs(gettext(bsi->explanation),stdout);
-        head= 1;
+        head = true;
       }
       describebriefly(pkg);
     }
@@ -340,7 +340,7 @@ void predeppackage(const char *const *argv) {
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
-      if (depisok(dep, &vb, NULL, 1))
+      if (depisok(dep, &vb, NULL, true))
         continue;
       break; /* This will leave dep non-NULL, and so exit the loop. */
     }
@@ -389,7 +389,7 @@ void predeppackage(const char *const *argv) {
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
-      if (depisok(dep, &vb, NULL, 1))
+      if (depisok(dep, &vb, NULL, true))
         continue;
       break; /* This will leave dep non-NULL, and so exit the loop. */
     }

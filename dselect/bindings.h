@@ -53,13 +53,14 @@ struct keybindings {
   const description *iterate;
   const interpretation *interps;
   
-  int bind(int key, const char *action);
+  bool bind(int key, const char *action);
   
  public:
   int name2key(const char *name);
   const char *key2name(int key);
   
-  int bind(const char *name, const char *action) { return bind(name2key(name),action); }
+  bool bind(const char *name, const char *action)
+  { return bind(name2key(name), action); }
   const interpretation *operator()(int key);
   const char *find(const char *action);
 

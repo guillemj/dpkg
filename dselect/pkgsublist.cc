@@ -76,19 +76,22 @@ void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp)
   pkg->clientdata->relations.terminate();
 }   
 
-int packagelist::alreadydone(doneent **done, void *check) {
+bool
+packagelist::alreadydone(doneent **done, void *check)
+{
   doneent *search = *done;
   
   while (search && search->dep != check)
     search = search->next;
-  if (search) return 1;
+  if (search)
+    return true;
   if (debug) fprintf(debug,"packagelist[%p]::alreadydone(%p,%p) new\n",
                      this,done,check);
   search= new doneent;
   search->next= *done;
   search->dep= check;
   *done= search;
-  return 0;
+  return false;
 }
 
 void packagelist::addunavailable(deppossi *possi) {
@@ -105,10 +108,13 @@ void packagelist::addunavailable(deppossi *possi) {
   vb(_(" does not appear to be available\n"));
 }
 
-int packagelist::add(dependency *depends, showpriority displayimportance) {
+bool
+packagelist::add(dependency *depends, showpriority displayimportance)
+{
   if (debug) fprintf(debug,"packagelist[%p]::add(dependency[%p])\n",this,depends);
 
-  if (alreadydone(&depsdone,depends)) return 0;
+  if (alreadydone(&depsdone, depends))
+    return false;
   
   const char *comma= "";
   varbuf info;
@@ -152,7 +158,7 @@ int packagelist::add(dependency *depends, showpriority displayimportance) {
       }
     }
   }
-  return 1;
+  return true;
 }
 
 void repeatedlydisplay(packagelist *sub,

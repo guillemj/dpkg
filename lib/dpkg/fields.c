@@ -130,14 +130,14 @@ void f_charfield(struct pkginfo *pigp, struct pkginfoperfile *pifp,
 void f_boolean(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                struct parsedb_state *ps,
                const char *value, const struct fieldinfo *fip) {
-  int boolean;
+  bool boolean;
 
   if (!*value)
     return;
 
   boolean = convert_string(ps, _("yes/no in boolean field"),
                            -1, pigp, value, booleaninfos, NULL);
-  PKGPFIELD(pifp, fip->integer, int) = boolean;
+  PKGPFIELD(pifp, fip->integer, bool) = boolean;
 }
 
 void f_section(struct pkginfo *pigp, struct pkginfoperfile *pifp,
@@ -348,7 +348,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                         * `forward' links in deppossi (`ed') only, and the backward
                         * links from the depended on packages to dop are left undone.
                         */
-      dop->cyclebreak= 0;
+      dop->cyclebreak = false;
 /* skip whitespace after packagename */
       while (isspace(*p)) p++;
       if (*p == '(') {			/* if we have a versioned relation */

@@ -123,40 +123,40 @@ trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *tri
 }
 
 /* NB that this is also called from fields.c where *pend is a temporary! */
-int
+bool
 trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/)
 {
 	struct trigpend *tp;
 
 	for (tp = pend->trigpend_head; tp; tp = tp->next)
 		if (!strcmp(tp->name, trig))
-			return 0;
+			return false;
 
 	tp = nfmalloc(sizeof(*tp));
 	tp->name = trig;
 	tp->next = pend->trigpend_head;
 	pend->trigpend_head = tp;
 
-	return 1;
+	return true;
 }
 
-/* Returns: 1 for done, 0 for already noted. */
-int
+/* Returns: true for done, false for already noted. */
+bool
 trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/)
 {
 	if (!trig_note_pend_core(pend, trig))
-		return 0;
+		return false;
 
 	pend->status = pend->trigaw.head ? stat_triggersawaited :
 	               stat_triggerspending;
 
-	return 1;
+	return true;
 }
 
-/* Returns: 1 for done, 0 for already noted. */
+/* Returns: true for done, false for already noted. */
 /* NB that this is called also from fields.c where *aw is a temporary
  * but pend is from findpackage()! */
-int
+bool
 trig_note_aw(struct pkginfo *pend, struct pkginfo *aw)
 {
 	struct trigaw *ta;
@@ -164,7 +164,7 @@ trig_note_aw(struct pkginfo *pend, struct pkginfo *aw)
 	/* We search through aw's list because that's probably shorter. */
 	for (ta = aw->trigaw.head; ta; ta = ta->sameaw.next)
 		if (ta->pend == pend)
-			return 0;
+			return false;
 
 	ta = nfmalloc(sizeof(*ta));
 	ta->aw = aw;
@@ -173,7 +173,7 @@ trig_note_aw(struct pkginfo *pend, struct pkginfo *aw)
 	pend->othertrigaw_head = ta;
 	LIST_LINK_TAIL_PART(aw->trigaw, ta, sameaw.);
 
-	return 1;
+	return true;
 }
 
 void
@@ -830,7 +830,7 @@ struct filenamenode {
 static struct filenamenode *trigger_files;
 
 static struct filenamenode *
-th_simple_nn_find(const char *name, int nonew)
+th_simple_nn_find(const char *name, bool nonew)
 {
 	struct filenamenode *search;
 

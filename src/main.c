@@ -570,7 +570,8 @@ void commandfd(const char *const *argv) {
   char *ptr, *endptr;
   FILE *in;
   unsigned long infd;
-  int c, lno, i, skipchar;
+  int c, lno, i;
+  bool skipchar;
   void (*actionfunction)(const char *const *argv);
 
   pipein = *argv++;
@@ -614,14 +615,14 @@ void commandfd(const char *const *argv) {
     argc= 1;
     ptr= linevb.buf;
     endptr= ptr + linevb.used;
-    skipchar= 0;
+    skipchar = false;
     while(ptr < endptr) {
       if (skipchar) {
-	skipchar= 0;
+	skipchar = false;
       } else if (*ptr == '\\') {
 	memmove(ptr, (ptr+1), (linevb.used-(linevb.buf - ptr)-1));
 	endptr--;
-	skipchar= 1;
+	skipchar = true;
 	continue;
       } else if (isspace(*ptr)) {
 	if (mode == 1) {

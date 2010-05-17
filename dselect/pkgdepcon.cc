@@ -33,7 +33,9 @@
 
 static const int depdebug= 1;
 
-int packagelist::useavailable(pkginfo *pkg) {
+bool
+packagelist::useavailable(pkginfo *pkg)
+{
   if (pkg->clientdata &&
       pkg->clientdata->selected == pkginfo::want_install &&
       informative(pkg,&pkg->available) &&
@@ -41,9 +43,9 @@ int packagelist::useavailable(pkginfo *pkg) {
          pkg->status == pkginfo::stat_triggersawaited ||
          pkg->status == pkginfo::stat_triggerspending) ||
        versioncompare(&pkg->available.version,&pkg->installed.version) > 0))
-    return 1;
+    return true;
   else
-    return 0;
+    return false;
 }
 
 pkginfoperfile *packagelist::findinfo(pkginfo *pkg) {
@@ -357,7 +359,9 @@ int packagelist::resolvedepcon(dependency *depends) {
   return 1;
 }
 
-int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade) {
+bool
+packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
+{
   // `satisfied' here for Conflicts and Breaks means that the
   //  restriction is violated ie that the target package is wanted
   int would;
@@ -381,16 +385,18 @@ int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade
       assert(want == pkginfo::want_install);
       return versionsatisfied(&possi->ed->available,possi);
     } else {
-      if (versionsatisfied(&possi->ed->installed,possi)) return 1;
+      if (versionsatisfied(&possi->ed->installed, possi))
+        return true;
       if (want == pkginfo::want_hold && fixbyupgrade && !*fixbyupgrade &&
           versionsatisfied(&possi->ed->available,possi) &&
           versioncompare(&possi->ed->available.version,
                          &possi->ed->installed.version) > 1)
         *fixbyupgrade= possi->ed->clientdata;
-      return 0;
+      return false;
     }
   }
-  if (possi->verrel != dvr_none) return 0;
+  if (possi->verrel != dvr_none)
+    return false;
   deppossi *provider;
   if (possi->ed->installed.valid) {
     for (provider= possi->ed->installed.depended;
@@ -401,7 +407,7 @@ int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade
           !useavailable(provider->up->up) &&
           would_like_to_install(provider->up->up->clientdata->selected,
                                 provider->up->up))
-        return 1;
+        return true;
     }
   }
   if (possi->ed->available.valid) {
@@ -414,7 +420,7 @@ int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade
                                  provider->up->up))
         continue;
       if (useavailable(provider->up->up))
-        return 1;
+        return true;
       if (fixbyupgrade && !*fixbyupgrade &&
           (!(provider->up->up->status == pkginfo::stat_installed ||
              provider->up->up->status == pkginfo::stat_triggerspending ||
@@ -424,5 +430,5 @@ int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade
         *fixbyupgrade= provider->up->up->clientdata;
     }
   }
-  return 0;
+  return false;
 }

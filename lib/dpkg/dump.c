@@ -352,7 +352,9 @@ void writerecord(FILE *file, const char *filename,
    varbuf_destroy(&vb);
 }
 
-void writedb(const char *filename, int available, int mustsync) {
+void
+writedb(const char *filename, bool available, bool mustsync)
+{
   static char writebuf[8192];
   
   struct pkgiterator *it;

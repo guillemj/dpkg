@@ -77,7 +77,7 @@ struct deppossi {
   struct deppossi *next, *nextrev, *backrev;
   struct versionrevision version;
   enum depverrel verrel;
-  int cyclebreak;
+  bool cyclebreak;
 };
 
 struct arbitraryfield {
@@ -90,7 +90,7 @@ struct conffile {
   struct conffile *next;
   const char *name;
   const char *hash;
-  int obsolete;
+  bool obsolete;
 };
 
 struct filedetails {
@@ -102,10 +102,10 @@ struct filedetails {
 };
 
 struct pkginfoperfile { /* pif */
-  int valid;
+  bool valid;
   struct dependency *depends;
   struct deppossi *depended;
-  int essential; /* The `essential' flag, 1=yes, 0=no (absent) */
+  bool essential; /* The ‘essential’ flag, true = yes, false = no (absent). */
   const char *description;
   const char *maintainer;
   const char *source;
@@ -243,7 +243,7 @@ int parsedb(const char *filename, enum parsedbflags, struct pkginfo **donep,
 void copy_dependency_links(struct pkginfo *pkg,
                            struct dependency **updateme,
                            struct dependency *newdepends,
-                           int available);
+                           bool available);
 
 /*** from parsehelp.c ***/
 
@@ -258,7 +258,7 @@ extern const struct namevalue statusinfos[];
 extern const struct namevalue eflaginfos[];
 extern const struct namevalue wantinfos[];
 
-int informativeversion(const struct versionrevision *version);
+bool informativeversion(const struct versionrevision *version);
 
 enum versiondisplayepochwhen { vdew_never, vdew_nonambig, vdew_always };
 void varbufversion(struct varbuf*, const struct versionrevision*,
@@ -272,7 +272,7 @@ const char *versiondescribe(const struct versionrevision*,
 void writerecord(FILE*, const char*,
                  const struct pkginfo*, const struct pkginfoperfile*);
 
-void writedb(const char *filename, int available, int mustsync);
+void writedb(const char *filename, bool available, bool mustsync);
 
 void varbufrecord(struct varbuf*, const struct pkginfo*, const struct pkginfoperfile*);
 void varbufdependency(struct varbuf *vb, struct dependency *dep);

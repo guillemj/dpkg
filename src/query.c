@@ -74,7 +74,7 @@ static int getwidth(void) {
 }
 
 static void
-list1package(struct pkginfo *pkg, int *head, struct pkg_array *array)
+list1package(struct pkginfo *pkg, bool *head, struct pkg_array *array)
 {
   int i,l,w;
   static int nw,vw,dw;
@@ -122,7 +122,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
     for (l=0;l<vw;l++) printf("="); printf("-");	/* version */
     for (l=0;l<dw;l++) printf("="); 			/* description */
     printf("\n");
-    *head= 1;
+    *head = true;
   }
   if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
   limiteddescription(pkg,dw,&pdesc,&l);
@@ -140,14 +140,15 @@ listpackages(const char *const *argv)
 {
   struct pkg_array array;
   struct pkginfo *pkg;
-  int i, head;
+  int i;
+  bool head;
 
   modstatdb_init(admindir,msdbrw_readonly);
 
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_name);
 
-  head = 0;
+  head = false;
 
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
