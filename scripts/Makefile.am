@@ -124,7 +124,7 @@ do_perl_subst = $(AM_V_GEN) \
 		    -e "s:\$$version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$version=\"$(PACKAGE_VERSION)\":"
 
 do_shell_subst = $(AM_V_GEN) \
-		 sed -e "s:\$$version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$version=\"$(PACKAGE_VERSION)\":"
+		 sed -e "s:^version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
 
 %: %.pl Makefile
 	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
