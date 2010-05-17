@@ -100,6 +100,25 @@ to \fInewconffile\fP if \fIoldconffile\fP is still available. On
 abort\-upgrade/abort\-install, the \fBpostrm\fP renames
 \fIoldconffile\fP\fB.dpkg\-remove\fP back to \fIoldconffile\fP if required.
 .
+.SH INTEGRATION IN PACKAGES
+.P
+Given that \fBdpkg\-maintscript\-helper\fP is used in the \fBpreinst\fP,
+using it unconditionnaly requires a pre-dependency to ensure that the
+required version of dpkg has been configured before. The required version
+depends on the command used, for \fBrm_conffile\fP and \fBmv_conffile\fP
+it is 1.15.7.2:
+.P
+    Pre-Depends: dpkg (>= 1.15.7.2)
+.P
+But in many cases the operation done by the program is not critical for
+the package, and instead of using a pre-dependency we can call the
+program only if we know that the required command is supported by
+the currently installed dpkg:
+.P
+    if dpkg-maintscript-helper supports <command>; then
+        dpkg-maintscript-helper <command> ...
+    fi
+.
 .SH AUTHORS
 Copyright \(co 2010 Rapha\[:e]l Hertzog
 .br

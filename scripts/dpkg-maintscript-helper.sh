@@ -208,8 +208,12 @@ debug() {
 }
 
 error() {
-	echo "ERROR: $PROGNAME: $1" >&2
+	echo "$PROGNAME: error: $1" >&2
 	exit 1
+}
+
+warning() {
+	echo "$PROGNAME: warning: $1" >&2
 }
 
 usage() {
@@ -217,6 +221,10 @@ usage() {
 Syntax: $0 <command> [<parameters>] -- <maintainer script parameters>
 
 Commands and parameters:
+
+  supports <command>
+	Returns 0 (success) if the given command is supported, 1
+	otherwise.
 
   rm_conffile <conffile> <last-version> [<package>]
 	Remove obsolete conffile.
@@ -240,6 +248,25 @@ command="$1"
 shift
 
 case "$command" in
+supports)
+	case "$1" in
+	rm_conffile|mv_conffile)
+		code=0
+		;;
+	*)
+		code=1
+		;;
+	esac
+	if [ -z "$DPKG_MAINTSCRIPT_NAME" ]; then
+		warning "environment variable DPKG_MAINTSCRIPT_NAME missing"
+		code=1
+	fi
+	if [ -z "$DPKG_MAINTSCRIPT_PACKAGE" ]; then
+		warning "environment variable DPKG_MAINTSCRIPT_PACKAGE missing"
+		code=1
+	fi
+	exit $code
+	;;
 rm_conffile)
 	rm_conffile "$@"
 	;;
@@ -263,6 +290,11 @@ mv_conffile)
 	END
 	;;
 *)
+	cat >&2 <<-END
+	$PROGNAME: error: command $command is unknown
+	Hint: upgrading dpkg to a newer version might help.
+
+	END
 	usage
 	exit 1
 esac
