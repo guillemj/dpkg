@@ -235,6 +235,7 @@ END
 set -e
 
 PROGNAME=$(basename $0)
+version="unknown"
 command="$1"
 shift
 
@@ -247,6 +248,19 @@ mv_conffile)
 	;;
 --help|help|-?|-h)
 	usage
+	;;
+--version)
+	cat <<-END
+	Debian $PROGNAME version $version.
+
+	Copyright (C) 2010 Raphaël Hertzog <hertzog@debian.org>
+	Copyright (C) 2008 Joey Hess <joeyh@debian.org>
+	Copyright (C) 2007 Guillem Jover <guillem@debian.org>
+	Copyright (C) 2005 Scott James Remnant
+
+	This is free software; see the GNU General Public License version 2 or
+	later for copying conditions. There is NO warranty.
+	END
 	;;
 *)
 	usage
