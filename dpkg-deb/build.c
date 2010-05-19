@@ -168,7 +168,8 @@ getfi(const char *root, int fd)
   }
 
   fi = file_info_new(fn + rl + 1);
-  lstat(fn, &(fi->st));
+  if (lstat(fn, &(fi->st)) != 0)
+    ohshite(_("unable to stat file name '%.250s'"), fn);
 
   return fi;
 }
