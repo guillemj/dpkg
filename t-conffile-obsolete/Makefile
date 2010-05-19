@@ -35,4 +35,5 @@ test-case:
 	test ! -f /test-conffile.dpkg-bak
 
 test-clean:
+	$(DPKG_PURGE) pkg-conff-obsolete
 
