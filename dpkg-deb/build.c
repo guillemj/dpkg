@@ -110,6 +110,13 @@ file_info_new(const char *filename)
   return fi;
 }
 
+static void
+file_info_free(struct file_info *fi)
+{
+  free(fi->fn);
+  free(fi);
+}
+
 static struct file_info *
 file_info_find_name(struct file_info *list, const char *filename)
 {
@@ -203,9 +210,8 @@ free_filist(struct file_info *fi)
   while (fi) {
     struct file_info *fl;
 
-    free(fi->fn);
     fl=fi; fi=fi->next;
-    free(fl);
+    file_info_free(fl);
   }
 }
 
