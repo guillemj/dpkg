@@ -26,6 +26,7 @@ TESTS := \
 	t-conffile-divert-conffile \
 	t-conffile-conflict \
 	t-conffile-replaces \
+	t-conffile-rename \
 	t-conffile-replaces-upgrade \
 	t-conffile-replaces-existing \
 	t-conffile-replaces-existing-and-upgrade \
