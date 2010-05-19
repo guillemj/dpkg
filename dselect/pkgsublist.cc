@@ -184,8 +184,8 @@ void repeatedlydisplay(packagelist *sub,
     }
     if (unredisplay) unredisplay->startdisplay();
   }
-  delete sub;
   if (debug) fprintf(debug,"repeatedlydisplay(packagelist[%p]) done\n",sub);
+  delete sub;
 }
 
 int packagelist::deletelessimp_anyleft(showpriority than) {
