@@ -8,7 +8,11 @@ TESTS := $(wildcard t-*)
 
 # By default do nothing
 all::
-
+	@echo "Run 'make test' to run all the tests"
+	@echo "Run 'make <test-id>-test' to run a specifict test"
+	@echo "Run 'make clean' to remove all intermediary files"
+	@echo ""
+	@echo "The available tests are: $(TESTS)"
 
 build_targets = $(addsuffix -build,$(TESTS))
 
