@@ -523,6 +523,7 @@ void do_build(const char *const *argv) {
     else {
       if (write(p1[1], fi->fn, strlen(fi->fn)+1) ==- 1)
 	ohshite(_("failed to write filename to tar pipe (data)"));
+      file_info_free(fi);
     }
   close(p3[0]);
   subproc_wait_check(c3, "find", 0);
