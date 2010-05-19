@@ -83,7 +83,10 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
 
   dir= opendir(pathbuf);
   if (!dir) {
-    if (errno == ENOENT) return;
+    if (errno == ENOENT) {
+      delete[] pathbuf;
+      return;
+    }
     ohshite(_("unable to read `%.250s' directory for reading methods"),pathbuf);
   }
 
