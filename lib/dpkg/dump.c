@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
@@ -138,13 +139,13 @@ void w_filecharf(struct varbuf *vb,
 void w_booleandefno(struct varbuf *vb,
                     const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                     enum fwriteflags flags, const struct fieldinfo *fip) {
-  int value= pifp->valid ? PKGPFIELD(pifp,fip->integer,int) : -1;
+  bool value = pifp->valid ? PKGPFIELD(pifp, fip->integer, bool) : false;
   if (!(flags&fw_printheader)) {
-    varbufaddstr(vb, (value==1) ? "yes" : "no");
+    varbufaddstr(vb, value ? "yes" : "no");
     return;
   }
   if (!value) return;
-  assert(value==1);
+  assert(value == true);
   varbufaddstr(vb,fip->name); varbufaddstr(vb, ": yes\n"); 
 }
 
