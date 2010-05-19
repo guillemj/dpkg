@@ -114,7 +114,7 @@ void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo) {
   char versionbuf[40];
   float versionnum;
-  char ctrllenbuf[40], *infobuf;
+  char ctrllenbuf[40];
   size_t ctrllennum, memberlen= 0;
   int dummy, l= 0;
   pid_t c1=0,c2,c3;
@@ -149,6 +149,8 @@ void extracthalf(const char *debar, const char *directory,
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
                                    debar, _("member length"));
       if (!header_done) {
+        char *infobuf;
+
         if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
