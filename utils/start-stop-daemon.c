@@ -1556,8 +1556,12 @@ main(int argc, char **argv)
 
 #ifdef HAVE_TIOCNOTTY
 		tty_fd = open("/dev/tty", O_RDWR);
+		if (tty_fd < 0)
+			fatal("unable to open '%s'", "/dev/tty");
 #endif
 		devnull_fd = open("/dev/null", O_RDWR);
+		if (devnull_fd < 0)
+			fatal("unable to open '%s'", "/dev/null");
 	}
 	if (nicelevel) {
 		errno = 0;
@@ -1619,7 +1623,8 @@ main(int argc, char **argv)
 		int i;
 #ifdef HAVE_TIOCNOTTY
 		 /* Change tty. */
-		ioctl(tty_fd, TIOCNOTTY, 0);
+		if (ioctl(tty_fd, TIOCNOTTY, 0) != 0)
+			fatal("unable to change tty");
 		close(tty_fd);
 #endif
 		if (umask_value < 0)
