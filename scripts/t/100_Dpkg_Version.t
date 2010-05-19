@@ -28,7 +28,7 @@ my @ops = ("<", "<<", "lt",
 	   ">=", "ge",
 	   ">", ">>", "gt");
 
-plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 8;
+plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 11;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
@@ -82,10 +82,17 @@ ok($empty->as_string() eq "", "Dpkg::Version->new('')->as_string() eq ''");
 ok(!$empty->is_valid(), "empty version is invalid");
 my $ver = Dpkg::Version->new("10a:5.2");
 ok(!$ver->is_valid(), "bad epoch is invalid");
+ok(!$ver, "bool eval of invalid leads to false");
 ok($ver eq '10a:5.2', "invalid still same string 1/2");
 $ver = Dpkg::Version->new('5.2@3-2');
 ok($ver eq '5.2@3-2', "invalid still same string 2/2");
 ok(!$ver->is_valid(), "illegal character is invalid");
+
+# Other tests
+$ver = Dpkg::Version->new('1.2.3-4');
+is($ver || 'default', '1.2.3-4', "bool eval returns string representation");
+$ver = Dpkg::Version->new('0');
+is($ver || 'default', 'default', "bool eval of version 0 is still false...");
 
 # Comparisons
 foreach my $case (@tests) {

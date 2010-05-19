@@ -62,6 +62,7 @@ while (@ARGV) {
             if defined($action);
         $action = $1;
         $param = shift(@ARGV);
+	usageerr(_g("%s needs a parameter"), $_) unless defined $param;
     } elsif (m/^--list$/) {
         usageerr(_g("two commands specified: --%s and --%s"), "list", $action)
             if defined($action);

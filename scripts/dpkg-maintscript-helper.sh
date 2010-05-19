@@ -21,7 +21,7 @@
 # The conffile related functions are inspired by
 # http://wiki.debian.org/DpkgConffileHandling
 
-# This script is documented in maintscript-helper(1)
+# This script is documented in dpkg-maintscript-helper(1)
 
 ##
 ## Functions to remove an obsolete conffile during upgrade
@@ -208,8 +208,12 @@ debug() {
 }
 
 error() {
-	echo "ERROR: $PROGNAME: $1" >&2
+	echo "$PROGNAME: error: $1" >&2
 	exit 1
+}
+
+warning() {
+	echo "$PROGNAME: warning: $1" >&2
 }
 
 usage() {
@@ -217,6 +221,10 @@ usage() {
 Syntax: $0 <command> [<parameters>] -- <maintainer script parameters>
 
 Commands and parameters:
+
+  supports <command>
+	Returns 0 (success) if the given command is supported, 1
+	otherwise.
 
   rm_conffile <conffile> <last-version> [<package>]
 	Remove obsolete conffile.
@@ -235,10 +243,30 @@ END
 set -e
 
 PROGNAME=$(basename $0)
+version="unknown"
 command="$1"
 shift
 
 case "$command" in
+supports)
+	case "$1" in
+	rm_conffile|mv_conffile)
+		code=0
+		;;
+	*)
+		code=1
+		;;
+	esac
+	if [ -z "$DPKG_MAINTSCRIPT_NAME" ]; then
+		warning "environment variable DPKG_MAINTSCRIPT_NAME missing"
+		code=1
+	fi
+	if [ -z "$DPKG_MAINTSCRIPT_PACKAGE" ]; then
+		warning "environment variable DPKG_MAINTSCRIPT_PACKAGE missing"
+		code=1
+	fi
+	exit $code
+	;;
 rm_conffile)
 	rm_conffile "$@"
 	;;
@@ -248,7 +276,25 @@ mv_conffile)
 --help|help|-?|-h)
 	usage
 	;;
+--version)
+	cat <<-END
+	Debian $PROGNAME version $version.
+
+	Copyright (C) 2010 Raphaël Hertzog <hertzog@debian.org>
+	Copyright (C) 2008 Joey Hess <joeyh@debian.org>
+	Copyright (C) 2007 Guillem Jover <guillem@debian.org>
+	Copyright (C) 2005 Scott James Remnant
+
+	This is free software; see the GNU General Public License version 2 or
+	later for copying conditions. There is NO warranty.
+	END
+	;;
 *)
+	cat >&2 <<-END
+	$PROGNAME: error: command $command is unknown
+	Hint: upgrading dpkg to a newer version might help.
+
+	END
 	usage
 	exit 1
 esac

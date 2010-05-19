@@ -24,6 +24,51 @@ dpkg (1.15.8) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Wed, 21 Apr 2010 04:40:12 +0200
 
+dpkg (1.15.7.2) unstable; urgency=low
+
+  [ Raphaël Hertzog ]
+  * Update dpkg-buildflags to respect $XDG_CONFIG_HOME and to use
+    $XDG_CONFIG_HOME/dpkg/buildflags.conf by default.
+  * Update deb-substvars(5) to codify how variables containing multiple
+    lines must be managed.
+  * Fix boolean evaluation of Dpkg::Version so that version 0 evaluates to
+    false and dpkg-shlibdeps can strip the minimal version specification.
+    Closes: #579724
+    Document this behaviour in the API and add non-regression test to ensure
+    it's kept.
+  * Let dpkg-buildflags error out when a required parameter is missing.
+    Closes: #579722
+  * Add Bug-Ubuntu field in DEP-3 template provided in the automatic header
+    of patches in 3.0 (quilt) source packages. Thanks to Benjamin Drung
+    <bdrung@ubuntu.com> for the patch. Closes: #578002
+  * Update deb-override(5) by removing references to usage of sections
+    to place the packages on the mirrors and by indicating that the Debian
+    policy offers a list of allowed values for section and priority.
+    Closes: #575410
+  * Update reference to triggers.txt.gz in dpkg-trigger(1) and deb-triggers(5)
+    to match the new location. Closes: #580774
+  * Drop mention of PKG_CONFIG_LIBDIR in dpkg-buildpackage(1), the feature has
+    been removed in 1.15.6.
+  * Rename /usr/lib/dpkg/maintscript-helper into
+    /usr/bin/dpkg-maintscript-helper, it is a public interface even if working
+    around known limitations.
+  * Add "supports" command to dpkg-maintscript-helper to ensure the wanted
+    command is supported before calling it.
+
+  [ Guillem Jover ]
+  * Add powerpcspe support to ostable and triplettable.
+    Thanks to Sebastian Andrzej Siewior <sebastian@breakpoint.cc> and
+    Kyle Moffett <Kyle.D.Moffett@boeing.com>. Closes: #568123, #575158
+  * Fix dpkg --root by properly stripping again the root directory from the
+    path of the maintainer script to execute. Closes: #580984
+  * On Linux use sync() instead of an fsync() per file on deferred extraction,
+    to workaround performance degradation on ext4. Closes: #578635
+
+  [ Gerfried Fuchs ]
+  * Fix syntax error in dpkg-name. Closes: #581315
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 19 May 2010 07:57:14 +0200
+
 dpkg (1.15.7.1) unstable; urgency=low
 
   * Fix dpkg-source -b (without -i) for source packages 1.0. Closes: #578693

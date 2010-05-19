@@ -48,8 +48,8 @@ install-data-local-yes:
 	for lang in $(LINGUAS); do \
 		files=""; \
 		for trans in $(dist_man_MANS); do \
-			if [ -f $(srcdir)/$$lang/$$trans ]; then \
-				files="$$files $(srcdir)/$$lang/$$trans"; \
+			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
+				files="$$files $(CURDIR)/$$lang/$$trans"; \
 			fi; \
 		done; \
 		$(MAKE) install-man \
@@ -65,8 +65,8 @@ uninstall-local-yes:
 	for lang in $(LINGUAS); do \
 		files=""; \
 		for trans in $(dist_man_MANS); do \
-			if [ -f $(srcdir)/$$lang/$$trans ]; then \
-				files="$$files $(srcdir)/$$lang/$$trans"; \
+			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
+				files="$$files $(CURDIR)/$$lang/$$trans"; \
 			fi; \
 		done; \
 		$(MAKE) uninstall-man \
@@ -106,6 +106,7 @@ dist_man_MANS = \
 	dpkg-genchanges.1 \
 	dpkg-gencontrol.1 \
 	dpkg-gensymbols.1 \
+	dpkg-maintscript-helper.1 \
 	dpkg-mergechangelogs.1 \
 	dpkg-name.1 \
 	dpkg-parsechangelog.1 \
@@ -119,8 +120,7 @@ dist_man_MANS = \
 	dpkg-trigger.1 \
 	dpkg-vendor.1 \
 	dpkg.1 \
-	dpkg.cfg.5 \
-	maintscript-helper.1
+	dpkg.cfg.5
 
 if WITH_DSELECT
 dist_man_MANS += \

@@ -378,6 +378,7 @@ are templates for supplementary fields that you might want to add:
 Origin: <vendor|upstream|other>, <url of original patch>
 Bug: <url in upstream bugtracker>
 Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
 Forwarded: <no|not-needed|url proving that it has been forwarded>
 Reviewed-By: <name and email of someone who approved the patch>
 Last-Update: <YYYY-MM-DD>\n\n";

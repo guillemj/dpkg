@@ -1,9 +1,9 @@
-.TH maintscript\-helper 1 "2010-04-16" "Debian Project" "dpkg suite"
+.TH dpkg\-maintscript\-helper 1 "2010-04-16" "Debian Project" "dpkg suite"
 .SH NAME
-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
+dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
 .
 .SH SYNOPSIS
-.B $DPKG_LIBDIR/maintscript\-helper
+.B dpkg\-maintscript\-helper
 .IR command " [" parameters "...] \-\- " maint-script-parameters
 .
 .SH COMMANDS AND PARAMETERS
@@ -37,8 +37,9 @@ dpkg\-maintained conffile to a file maintained by the package's maintainer
 scripts, usually with a tool like debconf or ucf.
 .P
 This means that if a package is intended to rename or remove a conffile,
-it must explicitly do so and \fBmaintscript\-helper\fP can be used to implement
-graceful deletion and moving of conffiles within maintainer scripts.
+it must explicitly do so and \fBdpkg\-maintscript\-helper\fP can be used
+to implement graceful deletion and moving of conffiles within maintainer
+scripts.
 .
 .SS REMOVING A CONFFILE
 .P
@@ -50,10 +51,8 @@ conffile should not disappear.
 All of this is implemented by putting the following shell snippet in the
 \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer scripts:
 .P
-    if [ \-x $DPKG_LIBDIR/maintscript\-helper ]; then
-        $DPKG_LIBDIR/maintscript\-helper rm_conffile \\
-            \fIconffile\fP \fIlastversion\fP \fIpackage\fP \-\- "$@"
-    fi
+    dpkg\-maintscript\-helper rm_conffile \\
+        \fIconffile\fP \fIlastversion\fP \fIpackage\fP \-\- "$@"
 .P
 \fIconffile\fP is the filename of the conffile to remove.
 \fIlastversion\fP is the last version of the package that contained the
@@ -82,10 +81,8 @@ Graceful renaming can be implemented by putting the following shell
 snippet in the \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer
 scripts:
 .P
-    if [ \-x $DPKG_LIBDIR/maintscript\-helper ]; then
-        $DPKG_LIBDIR/maintscript\-helper mv_conffile \\
-            \fIoldconffile\fP \fInewconffile\fP \fIlastversion\fP \fIpackage\fP \-\- "$@"
-    fi
+    dpkg\-maintscript\-helper mv_conffile \\
+        \fIoldconffile\fP \fInewconffile\fP \fIlastversion\fP \fIpackage\fP \-\- "$@"
 .P
 \fIoldconffile\fP and \fInewconffile\fP are the old and new name of the
 conffile to rename. \fIlastversion\fP is the last version of the package
@@ -102,6 +99,25 @@ removes \fIoldconffile\fP\fB.dpkg\-remove\fP and renames \fIoldconffile\fP
 to \fInewconffile\fP if \fIoldconffile\fP is still available. On
 abort\-upgrade/abort\-install, the \fBpostrm\fP renames
 \fIoldconffile\fP\fB.dpkg\-remove\fP back to \fIoldconffile\fP if required.
+.
+.SH INTEGRATION IN PACKAGES
+.P
+Given that \fBdpkg\-maintscript\-helper\fP is used in the \fBpreinst\fP,
+using it unconditionnaly requires a pre-dependency to ensure that the
+required version of dpkg has been configured before. The required version
+depends on the command used, for \fBrm_conffile\fP and \fBmv_conffile\fP
+it is 1.15.7.2:
+.P
+    Pre-Depends: dpkg (>= 1.15.7.2)
+.P
+But in many cases the operation done by the program is not critical for
+the package, and instead of using a pre-dependency we can call the
+program only if we know that the required command is supported by
+the currently installed dpkg:
+.P
+    if dpkg-maintscript-helper supports <command>; then
+        dpkg-maintscript-helper <command> ...
+    fi
 .
 .SH AUTHORS
 Copyright \(co 2010 Rapha\[:e]l Hertzog

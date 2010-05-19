@@ -186,7 +186,7 @@ sub move($)
                 if (mkpath($dir)) {
                     info(_g("created directory '%s'"), $dir);
                 } else {
-                    error(_g("cannot create directory '%s'", $dir);
+                    error(_g("cannot create directory '%s'"), $dir);
                 }
             } else {
                 error(_g("no such directory '%s', try --create-dir (-c) option"),

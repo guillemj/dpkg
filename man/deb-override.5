@@ -21,9 +21,8 @@ override
 .
 .SH DESCRIPTION
 While most information about a package can be found in the control file,
-some must be filled in by the distribution czars rather than by the
-maintainer, because they relate to the arrangement of files for release
-rather than the actual dependencies and description of the package.
+some is managed centrally by the distribution czars rather than by the
+maintainer in order to offer some global consistency.
 This information is found in the override file.
 .PP
 The override file has a simple whitespace-delimited format. Comments are
@@ -44,11 +43,8 @@ not found in the tree of binary packages are ignored.
 .I priority
 and
 .I section
-place the package within the release tree; these ought not to be found
-in the control file. If the package is found in a subdirectory of
-.IR binarydir ,
-that will be checked against
-.IR section .
+correspond to the respective control fields available in the .deb. The
+allowed values are listed in the Debian policy.
 .PP
 .IR maintainerinfo ,
 if present, can be either the name of a maintainer for an unconditional
@@ -66,4 +62,5 @@ directory on any Debian mirror.
 .SH SEE ALSO
 .BR dpkg\-scanpackages (1),
 .BR dpkg\-scansources (1),
-.BR apt\-ftparchive (1).
+.BR apt\-ftparchive (1),
+.BR /usr/share/doc/debian-policy/policy.html/index.html .
