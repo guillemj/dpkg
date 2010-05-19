@@ -168,6 +168,8 @@ void extracthalf(const char *debar, const char *directory,
         *cur= '.';
         strncpy(versionbuf,infobuf,sizeof(versionbuf));
         versionbuf[sizeof(versionbuf) - 1] = '\0';
+        free(infobuf);
+
         header_done = true;
       } else if (arh.ar_name[0] == '_') {
           /* Members with `_' are noncritical, and if we don't understand them
@@ -272,6 +274,7 @@ void extracthalf(const char *debar, const char *directory,
       c1= -1;
       readfromfd= fileno(ar);
     }
+    free(ctrlarea);
   } else {
     m_pipe(p1);
     c1 = subproc_fork();
@@ -295,6 +298,7 @@ void extracthalf(const char *debar, const char *directory,
     decompress_filter(decompressor, 0, 1, _("data"));
   }
   if (readfromfd != fileno(ar)) close(readfromfd);
+  fclose(ar);
   if (taroption) close(p2[1]);
 
   if (taroption && directory) {

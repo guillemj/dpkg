@@ -74,6 +74,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
   if (fsync(fileno(output)))
     ohshite(_("unable to sync file '%s'"), outputfile);
   if (fclose(output)) werr(outputfile);
+  free(buffer);
   printf(_("done\n"));
 }
 
