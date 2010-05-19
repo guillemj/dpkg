@@ -3,7 +3,9 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2010 Canonical Ltd.
+ *   written by Martin Pitt <martin.pitt@canonical.com>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +51,7 @@
 
 #include "main.h"
 #include "filesdb.h"
+#include "filters.h"
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
@@ -122,6 +125,8 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
 "  --root=<directory>         Install on a different root directory.\n"
 "  --instdir=<directory>      Change installation dir without changing admin dir.\n"
+"  --path-exclude=<pattern>   Do not install paths which match a shell pattern.\n"
+"  --path-include=<pattern>   Re-include a pattern after a previous exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/upgrade.\n"
 "  -E|--skip-same-version     Skip packages whose same version is installed.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than installed.\n"
@@ -253,6 +258,12 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
   
   f_debug= strtoul(value,&endp,8);
   if (value == endp || *endp) badusage(_("--debug requires an octal argument"));
+}
+
+static void
+setfilter(const struct cmdinfo *cip, const char *value)
+{
+  filter_add(value, cip->arg);
 }
 
 static void setroot(const struct cmdinfo *cip, const char *value) {
@@ -491,6 +502,8 @@ static const struct cmdinfo cmdinfos[]= {
   
   { "pre-invoke",        0,   1, NULL,          NULL,      set_invoke_hook, 0, &pre_invoke_hooks_tail },
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
+  { "path-exclude",      0,   1, NULL,          NULL,      setfilter,     0 },
+  { "path-include",      0,   1, NULL,          NULL,      setfilter,     1 },
   { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0, &status_pipes },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },
   { "pending",           'a', 0, &f_pending,    NULL,      NULL,    1 },

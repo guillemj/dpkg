@@ -1,4 +1,4 @@
-.TH dpkg 1 "2010-03-07" "Debian Project" "dpkg suite"
+.TH dpkg 1 "2010-06-02" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -519,6 +519,41 @@ is preserved, with the ones from the configuration files taking precedence.
 The environment variable \fBDPKG_HOOK_ACTION\fP is set for the hooks to the
 current dpkg action. Note: front-ends might call dpkg several times per
 invocation, which might run the hooks more times than expected.
+.RE
+.P
+.BI \-\-path\-exclude= glob-pattern
+.br
+.BI \-\-path\-include= glob-pattern
+.RS
+Set \fIglob-pattern\fP as a path filter, either by excluding or re-including
+previously excluded paths matching the specified patterns during install.
+
+\fIWarning: take into account that depending on the excluded paths you
+might completely break your system, use with caution.\fP
+
+The glob patterns use the same wildcards used in the shell, were '*' matches
+any sequence of characters, including the empty string and also '/'. For
+example, \fI'/usr/*/READ*'\fP matches \fI'/usr/share/doc/package/README'\fP.
+As usual, '?' matches any single character (again, including '/'). And '['
+starts a character class, which can contain a list of characters, ranges
+and complementations. See \fBglob\fP(7) for detailed information about
+globbing. Note: the current implementation might re-include more directories
+and symlinks than needed, to be on the safe side and avoid possible unpack
+failures, future work might fix this.
+
+This can be used to remove all paths except some particular ones; a typical
+case is:
+
+.nf
+.B \-\-path\-exclude=/usr/share/doc/*
+.B \-\-path\-include=/usr/share/doc/*/copyright
+.fi
+
+to remove all documentation files except the copyright files.
+
+These two options can be specified multiple times, and interleaved with
+each other. Both are processed in the given order, with the last rule that
+matches a file name making the decision.
 .RE
 .TP
 \fB\-\-status\-fd \fR\fIn\fR

@@ -57,6 +57,7 @@
 #include "filesdb.h"
 #include "main.h"
 #include "archives.h"
+#include "filters.h"
 
 #define MAXCONFLICTORS 20
 
@@ -620,6 +621,13 @@ int tarobject(struct TarInfo *ti) {
   if (keepexisting) {
     remove_file_from_list(ti, oldnifd, nifd);
     tarfile_skip_one_forward(ti);
+    return 0;
+  }
+
+  if (filter_should_skip(ti)) {
+    nifd->namenode->flags &= ~fnnf_new_inarchive;
+    tarfile_skip_one_forward(ti);
+
     return 0;
   }
 
