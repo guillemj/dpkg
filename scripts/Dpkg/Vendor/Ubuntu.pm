@@ -27,6 +27,7 @@ our $VERSION = "0.01";
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Control::Types;
+use Dpkg::BuildOptions;
 
 use base 'Dpkg::Vendor::Debian';
 
@@ -94,6 +95,44 @@ sub run_hook {
 	my $flags = shift @params;
 	# Per https://wiki.ubuntu.com/DistCompilerFlags
 	$flags->set('LDFLAGS', '-Wl,-Bsymbolic-functions', 'vendor');
+
+	# Allow control of hardening-wrapper via dpkg-buildpackage DEB_BUILD_OPTIONS
+	my $build_opts = Dpkg::BuildOptions->new();
+	my $hardening;
+	if ($build_opts->has("hardening")) {
+	    $hardening = $build_opts->get("hardening");
+	    $hardening = 1 unless defined $hardening;
+	}
+	if ($build_opts->has("nohardening")) {
+	    $hardening = 0;
+	}
+	if (defined $hardening) {
+	    my $flag = 'DEB_BUILD_HARDENING';
+	    if ($hardening ne "0") {
+		if (! -x '/usr/bin/hardened-cc') {
+		    syserr(_g("'hardening' flag found but 'hardening-wrapper' not installed"));
+		}
+		if ($hardening ne "1") {
+		    my @options = split(/,\s*/, $hardening);
+		    $hardening = 1;
+
+		    my @hardopts = ('format', 'fortify', 'stackprotector',
+				    'pie', 'relro');
+		    foreach my $item (@hardopts) {
+			my $upitem = uc($item);
+			foreach my $option (@options) {
+			    if ($option =~ /^(no)?$item$/) {
+				$flags->set($flag.'_'.$upitem, not defined $1 or $1 eq "", 'env');
+			    }
+			}
+		    }
+		}
+	    }
+	    if (defined $ENV{$flag}) {
+		info(_g("overriding %s in environment: %s"), $flag, $hardening);
+	    }
+	    $flags->set($flag, $hardening, 'env');
+	}
 
     } else {
         return $self->SUPER::run_hook($hook, @params);
