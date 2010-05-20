@@ -92,9 +92,8 @@ sub run_hook {
 
     } elsif ($hook eq "update-buildflags") {
 	my $flags = shift @params;
-	my $origin = shift @params;
 	# Per https://wiki.ubuntu.com/DistCompilerFlags
-	$flags->{'LDFLAGS'} = '-Wl,-Bsymbolic-functions';
+	$flags->set('LDFLAGS', '-Wl,-Bsymbolic-functions', 'vendor');
 
     } else {
         return $self->SUPER::run_hook($hook, @params);

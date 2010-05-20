@@ -84,7 +84,7 @@ sub load_vendor_defaults {
 	FFLAGS   => 'vendor',
 	LDFLAGS  => 'vendor',
     };
-    run_vendor_hook("update-buildflags", $self->{flags}, $self->{origin});
+    run_vendor_hook("update-buildflags", $self);
 }
 
 =item $bf->load_system_config()

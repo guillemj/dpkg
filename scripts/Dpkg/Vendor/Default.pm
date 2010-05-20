@@ -98,11 +98,11 @@ The hook is called in Dpkg::Changelog to post-process a
 Dpkg::Changelog::Entry after it has been created and filled with the
 appropriate values.
 
-=item update-buildflags ($flags, $origin)
+=item update-buildflags ($flags)
 
 The hook is called in Dpkg::BuildFlags to allow the vendor to override
-the default values set for the various build flags. $flags and $origin
-are hash reference.
+the default values set for the various build flags. $flags is a
+Dpkg::BuildFlags object.
 
 =back
 
@@ -122,7 +122,7 @@ sub run_hook {
     } elsif ($hook eq "extend-patch-header") {
 	my ($textref, $ch_info) = @params;
     } elsif ($hook eq "update-buildflags") {
-	my ($flags, $origin) = @params;
+	my $flags = shift @params;
     }
 
     # Default return value for unknown/unimplemented hooks
