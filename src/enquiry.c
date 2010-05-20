@@ -123,10 +123,7 @@ static void describebriefly(struct pkginfo *pkg) {
 }
 
 void audit(const char *const *argv) {
-  struct pkgiterator *it;
-  struct pkginfo *pkg;
   const struct badstatinfo *bsi;
-  bool head;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
@@ -134,7 +131,10 @@ void audit(const char *const *argv) {
   modstatdb_init(admindir,msdbrw_readonly);
 
   for (bsi= badstatinfos; bsi->yesno; bsi++) {
-    head = false;
+    struct pkgiterator *it;
+    struct pkginfo *pkg;
+    bool head = false;
+
     it= iterpkgstart(); 
     while ((pkg= iterpkgnext(it))) {
       if (!bsi->yesno(pkg,bsi)) continue;
