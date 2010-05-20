@@ -29,11 +29,11 @@ test_ar_normalize_name(void)
 {
 	struct ar_hdr arh;
 
-	strcpy(arh.ar_name, "member-name/     ");
+	strncpy(arh.ar_name, "member-name/    ", sizeof(arh.ar_name));
 	dpkg_ar_normalize_name(&arh);
 	test_str(arh.ar_name, ==, "member-name");
 
-	strcpy(arh.ar_name, "member-name      ");
+	strncpy(arh.ar_name, "member-name     ", sizeof(arh.ar_name));
 	dpkg_ar_normalize_name(&arh);
 	test_str(arh.ar_name, ==, "member-name");
 }
