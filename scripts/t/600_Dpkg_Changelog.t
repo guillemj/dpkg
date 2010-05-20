@@ -25,7 +25,7 @@ BEGIN {
 	+ $no_err_examples * 2
 	+ 26 # countme
 	+ 13 # fields
-	+ 21;
+	+ 22;
 
     require Test::More;
     import Test::More tests => $no_tests;
@@ -33,10 +33,13 @@ BEGIN {
 BEGIN {
     use_ok('Dpkg::Changelog');
     use_ok('Dpkg::Changelog::Debian');
+    use_ok('Dpkg::Vendor', qw(get_current_vendor));
 };
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/600_Dpkg_Changelog';
+
+my $vendor = get_current_vendor();
 
 #########################
 
@@ -181,11 +184,13 @@ Changes:
  fields (2.0-0etch1) stable; urgency=low
  .
    * Upload to stable (Closes: #1111111, #2222222)
+   * Fix more stuff. (LP: #54321, #2424242)
  .
  fields (2.0-1) unstable  frozen; urgency=medium
  .
    [ Frank Lichtenheld ]
    * Upload to unstable (Closes: #1111111, #2222222)
+   * Fix stuff. (LP: #12345, #424242)
  .
    [ Raphaël Hertzog ]
    * New upstream release.
@@ -203,6 +208,9 @@ Changes:
 Xb-Userfield2: foobar
 Xc-Userfield: foobar
 ';
+	if ($vendor eq 'Ubuntu') {
+	    $expected =~ s/^(Closes:.*)/$1\nLaunchpad-Bugs-Fixed: 12345 54321 424242 2424242/m;
+	}
 	cmp_ok($str,'eq',$expected,"fields handling");
 
 	$str = $changes->dpkg({ offset => 1, count => 2 });
@@ -218,6 +226,7 @@ Changes:
  .
    [ Frank Lichtenheld ]
    * Upload to unstable (Closes: #1111111, #2222222)
+   * Fix stuff. (LP: #12345, #424242)
  .
    [ Raphaël Hertzog ]
    * New upstream release.
@@ -230,6 +239,9 @@ Changes:
    * Beta
 Xc-Userfield: foobar
 ';
+	if ($vendor eq 'Ubuntu') {
+	    $expected =~ s/^(Closes:.*)/$1\nLaunchpad-Bugs-Fixed: 12345 424242/m;
+	}
 	cmp_ok($str,'eq',$expected,"fields handling 2");
 
 	$str = $changes->rfc822({ offset => 2, count => 2 });
@@ -276,11 +288,11 @@ Xb-Userfield2: foobar
 	    "get_timestamp");
 	my @items = $data[1]->get_change_items();
 	is($items[0], "  [ Frank Lichtenheld ]\n", "change items 1");
-	is($items[3], "  * New upstream release.
+	is($items[4], "  * New upstream release.
     - implements a
     - implements b
 ", "change items 2");
-	is($items[4], "  * Update S-V.\n", "change items 3");
+	is($items[5], "  * Update S-V.\n", "change items 3");
     }
 
     SKIP: {

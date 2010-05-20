@@ -28,6 +28,9 @@ use base qw(Exporter);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
                     get_vendor_object run_vendor_hook);
 
+my $origins = "/etc/dpkg/origins";
+$origins = $ENV{DPKG_ORIGINS_DIR} if $ENV{DPKG_ORIGINS_DIR};
+
 =encoding utf8
 
 =head1 NAME
@@ -84,7 +87,7 @@ sub get_vendor_file(;$) {
         push @tries, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
     }
     foreach my $name (@tries) {
-        $file = "/etc/dpkg/origins/$name" if -e "/etc/dpkg/origins/$name";
+        $file = "$origins/$name" if -e "$origins/$name";
     }
     return $file;
 }

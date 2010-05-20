@@ -186,6 +186,7 @@ test_cases = \
 	t/400_Dpkg_Deps.t \
 	t/500_Dpkg_Path.t \
 	t/600_Dpkg_Changelog.t \
+	t/600_Dpkg_Changelog_Ubuntu.t \
 	t/700_Dpkg_Control.t \
 	t/750_Dpkg_Substvars.t \
 	t/800_Dpkg_IPC.t \
@@ -243,6 +244,7 @@ check: $(test_data) $(test_cases)
 	$(mkdir_p) $(test_tmpdir)
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(PATH)" \
 	  srcdir=$(srcdir) DPKG_DATADIR=$(srcdir)/.. \
+	  DPKG_ORIGINS_DIR=$(srcdir)/t/origins \
 	  PERL5LIB=$(srcdir) PERL_DL_NONLAZY=1 \
 	  $(PERL) -I$(srcdir) -MExtUtils::Command::MM \
 	          -e "test_harness($(TEST_VERBOSE), '.')" \
