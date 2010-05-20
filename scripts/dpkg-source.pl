@@ -320,19 +320,17 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
     if ($options{'opmode'} eq "--print-format") {
 	print $fields->{'Format'} . "\n";
 	exit(0);
-    }
-
-    # Verify pre-requesites are met
-    my ($res, $msg) = $srcpkg->can_build($dir);
-    error(_g("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
-
-    if ($options{'opmode'} eq "--before-build") {
+    } elsif ($options{'opmode'} eq "--before-build") {
 	$srcpkg->before_build($dir);
 	exit(0);
     } elsif ($options{'opmode'} eq "--after-build") {
 	$srcpkg->after_build($dir);
 	exit(0);
     }
+
+    # Verify pre-requisites are met
+    my ($res, $msg) = $srcpkg->can_build($dir);
+    error(_g("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
 
     # Only -b left
     info(_g("using source format `%s'"), $fields->{'Format'});
