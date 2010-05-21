@@ -1,4 +1,4 @@
-# Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,15 +13,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+package Dpkg::Shlibs::Objdump;
+
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
-
-package Dpkg::Shlibs::Objdump;
-
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Path qw(find_command);
+use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch);
+
+our $VERSION = "0.01";
+
+# Decide which objdump to call
+our $OBJDUMP = "objdump";
+if (get_build_arch() ne get_host_arch()) {
+    my $od = debarch_to_gnutriplet(get_host_arch()) . "-objdump";
+    $OBJDUMP = $od if find_command($od);
+}
+
 
 sub new {
     my $this = shift;
@@ -80,8 +90,8 @@ sub has_object {
 	    return $format{$file};
 	} else {
 	    local $ENV{LC_ALL} = "C";
-	    open(P, "-|", "objdump", "-a", "--", $file)
-		|| syserr(_g("cannot fork for %s"), "objdump");
+	    open(P, "-|", $OBJDUMP, "-a", "--", $file)
+		|| syserr(_g("cannot fork for %s"), $OBJDUMP);
 	    while (<P>) {
 		chomp;
 		if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
@@ -89,7 +99,7 @@ sub has_object {
 		    return $format{$file};
 		}
 	    }
-	    close(P) or subprocerr(_g("objdump on \`%s'"), $file);
+	    close(P) or subprocerr($OBJDUMP);
 	}
     }
 }
@@ -154,8 +164,8 @@ sub analyze {
     $self->{file} = $file;
 
     local $ENV{LC_ALL} = 'C';
-    open(my $objdump, "-|", "objdump", "-w", "-f", "-p", "-T", "-R", $file)
-	|| syserr(_g("cannot fork for %s"), "objdump");
+    open(my $objdump, "-|", $OBJDUMP, "-w", "-f", "-p", "-T", "-R", $file)
+	|| syserr(_g("cannot fork for %s"), $OBJDUMP);
     my $ret = $self->parse_objdump_output($objdump);
     close($objdump);
     return $ret;
