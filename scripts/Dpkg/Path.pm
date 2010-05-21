@@ -18,14 +18,14 @@ package Dpkg::Path;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "1.01";
 
 use base qw(Exporter);
 use File::Spec;
 use Cwd qw(realpath);
 our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root
 		    guess_pkg_root_dir check_files_are_the_same
-		    resolve_symlink canonpath);
+		    resolve_symlink canonpath find_command);
 
 =encoding utf8
 
@@ -188,6 +188,21 @@ sub resolve_symlink($) {
 	my $new = File::Spec->catpath($link_v, $link_d . "/" . $cont_d, $cont_f);
 	return canonpath($new);
     }
+}
+
+
+=item my $cmdpath = find_command($command)
+
+Return the path of the command if available on the $PATH, undef otherwise.
+
+=cut
+
+sub find_command($) {
+    my $cmd = shift;
+    foreach my $dir (split(/:/, $ENV{'PATH'})) {
+	return "$dir/$cmd" if -x "$dir/$cmd";
+    }
+    return undef;
 }
 
 =back
