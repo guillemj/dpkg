@@ -30,6 +30,7 @@ use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version;
 use Dpkg::Changelog::Parse;
+use Dpkg::Path qw(find_command);
 
 textdomain("dpkg-dev");
 
@@ -104,9 +105,9 @@ my @rootcommand = ();
 my $signcommand = '';
 if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
        || ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") )
-     && testcommand('gpg')) {
+     && find_command('gpg')) {
 	 $signcommand = 'gpg';
-} elsif (testcommand('pgp')) {
+} elsif (find_command('pgp')) {
 	$signcommand = 'pgp'
 }
 
@@ -226,7 +227,7 @@ if ($< == 0) {
 } else {
     push @rootcommand, "fakeroot" unless @rootcommand;
 
-    if (!testcommand($rootcommand[0])) {
+    if (!find_command($rootcommand[0])) {
 	if ($rootcommand[0] eq 'fakeroot') {
 	    error(_g("fakeroot not found, either install the fakeroot\n" .
 	             "package, specify a command with the -r option, " .
@@ -463,14 +464,6 @@ print "$progname: $srcmsg\n";
 if ($signerrors) {
     warning($signerrors);
     exit 1;
-}
-
-sub testcommand {
-    my ($cmd) = @_;
-
-    my $fullcmd = `which $cmd`;
-    chomp $fullcmd;
-    return $fullcmd && -x $fullcmd;
 }
 
 sub mustsetvar {
