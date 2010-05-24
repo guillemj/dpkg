@@ -34,7 +34,8 @@ rm_conffile() {
 		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
 	fi
 	# Skip remaining parameters up to --
-	while [ "$1" != "--" -a "$1" != "" ]; do shift; done
+	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
+	[ $# -gt 0 ] || badusage
 	shift
 
 	[ -n "$PACKAGE" ] || error "couldn't identify the package"
@@ -127,7 +128,8 @@ mv_conffile() {
 		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
 	fi
 	# Skip remaining parameters up to --
-	while [ "$1" != "--" -a "$1" != "" ]; do shift; done
+	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
+	[ $# -gt 0 ] || badusage
 	shift
 
 	[ -n "$PACKAGE" ] || error "couldn't identify the package"
@@ -239,12 +241,18 @@ Commands and parameters:
 END
 }
 
+badusage() {
+	usage
+	exit 1
+}
+
 # Main code
 set -e
 
 PROGNAME=$(basename $0)
 version="unknown"
 command="$1"
+[ $# -gt 0 ] || badusage
 shift
 
 case "$command" in
