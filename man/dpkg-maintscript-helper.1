@@ -8,9 +8,9 @@ dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer s
 .
 .SH COMMANDS AND PARAMETERS
 .P
-\fBrm_conffile\fP \fIconffile\fP \fIlastversion\fP [\fIpackage\fP]
+\fBrm_conffile\fP \fIconffile\fP [\fIlastversion\fP [\fIpackage\fP]]
 .P
-\fBmv_conffile\fP \fIoldconffile\fP \fInewconffile\fP \fIlastversion\fP [\fIpackage\fP]
+\fBmv_conffile\fP \fIoldconffile\fP \fInewconffile\fP [\fIlastversion\fP [\fIpackage\fP]]
 .
 .SH DESCRIPTION
 .P
@@ -58,18 +58,20 @@ All of this is implemented by putting the following shell snippet in the
 \fIlastversion\fP is the last version of the package that contained the
 conffile (or the last version of the package that did not take care to
 remove the obsolete conffile if this was not immediately implemented).
-\fIpackage\fP is the package name, it's optional as it will
+If \fIlastversion\fP is empty or omitted, then the operation is tried
+on every upgrade. \fIpackage\fP is the package name, it's optional as it will
 default to $DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the
 name of the package acted upon). All the parameters of the maintainer
 scripts have to be forwarded to the program after "\-\-".
 .P
 Current implementation: in the \fBpreinst\fP, it checks if the conffile
 was modified and renames it either to \fIconffile\fP\fB.dpkg\-remove\fP (if not
-modified) or to \fIconffile\fP\fB.dpkg\-bak\fP (if modified). The latter file is
-kept for reference as it contains user modifications but the former will
-be removed in the \fBpostinst\fP. If the package upgrade aborts, the
-\fBpostrm\fP reinstalls the original conffile. During purge, the
-\fBpostrm\fP will also delete the \fB.dpkg\-bak\fP file kept up to now.
+modified) or to \fIconffile\fP\fB.dpkg\-backup\fP (if modified). In the
+\fBpostinst\fP, the latter file is renamed to \fIconffile\fP\fB.dpkg\-bak\fP
+and kept for reference as it contains user modifications but the former will
+be removed. If the package upgrade aborts, the \fBpostrm\fP reinstalls the
+original conffile. During purge, the \fBpostrm\fP will also delete the
+\fB.dpkg\-bak\fP file kept up to now.
 .
 .SS RENAMING A CONFFILE
 .P
@@ -88,8 +90,10 @@ scripts:
 .P
 \fIoldconffile\fP and \fInewconffile\fP are the old and new name of the
 conffile to rename. \fIlastversion\fP is the last version of the package
-that contained the conffile with the old name. \fIpackage\fP is the
-package name, it's optional as it will default to
+that contained the conffile with the old name. If \fIlastversion\fP is
+empty or omitted, then the operation is tried on every upgrade (note: it's
+safer to give the version and have the operation tried only once). \fIpackage\fP
+is the package name, it's optional as it will default to
 $DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the name of the
 package acted upon). All the parameters of the maintainer scripts have to
 be forwarded to the program after "\-\-".

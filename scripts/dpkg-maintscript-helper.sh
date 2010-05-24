@@ -30,6 +30,10 @@ rm_conffile() {
 	local CONFFILE="$1"
 	local LASTVERSION="$2"
 	local PACKAGE="$3"
+	if [ "$LASTVERSION" = "--" ]; then
+		LASTVERSION=""
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
+	fi
 	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
 		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
 	fi
@@ -49,22 +53,24 @@ rm_conffile() {
 	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
-		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
+		if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			prepare_rm_conffile "$CONFFILE" "$PACKAGE"
 		fi
 		;;
 	postinst)
-		if [ "$1" = "configure" ] &&
+		if [ "$1" = "configure" ] && [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			finish_rm_conffile $CONFFILE
 		fi
 		;;
 	postrm)
 		if [ "$1" = "purge" ]; then
-			rm -f "$CONFFILE.dpkg-bak" "$CONFFILE.dpkg-remove"
+			rm -f "$CONFFILE.dpkg-bak" "$CONFFILE.dpkg-remove" \
+			      "$CONFFILE.dpkg-backup"
 		fi
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
+		   [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			abort_rm_conffile "$CONFFILE"
 		fi
@@ -87,7 +93,7 @@ prepare_rm_conffile() {
 	if [ "$md5sum" != "$old_md5sum" ]; then
 		echo "Obsolete conffile $CONFFILE has been modified by you."
 		echo "Saving as $CONFFILE.dpkg-bak ..."
-		mv -f "$CONFFILE" "$CONFFILE.dpkg-bak"
+		mv -f "$CONFFILE" "$CONFFILE.dpkg-backup"
 	else
 		echo "Moving obsolete conffile $CONFFILE out of the way..."
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
@@ -97,6 +103,9 @@ prepare_rm_conffile() {
 finish_rm_conffile() {
 	local CONFFILE="$1"
 
+	if [ -e "$CONFFILE.dpkg-backup" ]; then
+		mv -f "$CONFFILE.dpkg-backup" "$CONFFILE.dpkg-bak"
+	fi
 	if [ -e "$CONFFILE.dpkg-remove" ]; then
 		echo "Removing obsolete conffile $CONFFILE ..."
 		rm -f "$CONFFILE.dpkg-remove"
@@ -110,9 +119,9 @@ abort_rm_conffile() {
 		echo "Reinstalling $CONFFILE that was moved away"
 		mv "$CONFFILE.dpkg-remove" "$CONFFILE"
 	fi
-	if [ -e "$CONFFILE.dpkg-bak" ]; then
+	if [ -e "$CONFFILE.dpkg-backup" ]; then
 		echo "Reinstalling $CONFFILE that was backupped"
-		mv "$CONFFILE.dpkg-bak" "$CONFFILE"
+		mv "$CONFFILE.dpkg-backup" "$CONFFILE"
 	fi
 }
 
@@ -124,6 +133,10 @@ mv_conffile() {
 	local NEWCONFFILE="$2"
 	local LASTVERSION="$3"
 	local PACKAGE="$4"
+	if [ "$LASTVERSION" = "--" ]; then
+		LASTVERSION=""
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
+	fi
 	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
 		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
 	fi
@@ -143,19 +156,20 @@ mv_conffile() {
 	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
-		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
+		if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			prepare_mv_conffile "$OLDCONFFILE" "$PACKAGE"
 		fi
 		;;
 	postinst)
-		if [ "$1" = "configure" ] &&
+		if [ "$1" = "configure" ] && [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			finish_mv_conffile "$OLDCONFFILE" "$NEWCONFFILE"
 		fi
 		;;
 	postrm)
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
+		   [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			abort_mv_conffile "$OLDCONFFILE"
 		fi
@@ -220,7 +234,7 @@ warning() {
 
 usage() {
 	cat <<END
-Syntax: $0 <command> [<parameters>] -- <maintainer script parameters>
+Syntax: $0 <command> <parameters> -- <maintainer script parameters>
 
 Commands and parameters:
 
@@ -228,11 +242,11 @@ Commands and parameters:
 	Returns 0 (success) if the given command is supported, 1
 	otherwise.
 
-  rm_conffile <conffile> <last-version> [<package>]
+  rm_conffile <conffile> [<last-version> [<package>]]
 	Remove obsolete conffile.
 	Must be called in preinst, postinst and postrm.
 
-  mv_conffile <old-conf> <new-conf> <last-version> [<package>]
+  mv_conffile <old-conf> <new-conf> [<last-version> [<package>]]
 	Rename a conffile.
 	Must be called in preinst, postinst and postrm.
 
