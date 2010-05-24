@@ -387,7 +387,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   }
   if (data != NULL) {
 #ifdef HAVE_MMAP
-    munmap(data, stat.st_size);
+    munmap(data, st.st_size);
 #else
     free(data);
 #endif
