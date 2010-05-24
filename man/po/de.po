@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2010-05-21 08:22+0000\n"
+"POT-Creation-Date: 2010-05-24 21:00+0300\n"
 "PO-Revision-Date: 2010-05-21 10:54+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
@@ -1227,7 +1227,7 @@ msgstr "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 #. type: SH
 #: deb-version.5:120 dpkg.1:736 dpkg-buildpackage.1:252 dpkg-distaddfile.1:47
 #: dpkg-genchanges.1:148 dpkg-gencontrol.1:142 dpkg-gensymbols.1:455
-#: dpkg-maintscript-helper.1:122 dpkg-parsechangelog.1:123
+#: dpkg-maintscript-helper.1:128 dpkg-parsechangelog.1:123
 #: dpkg-shlibdeps.1:331 dpkg-source.1:640 dselect.1:458
 #: start-stop-daemon.8:294 update-alternatives.8:487
 #, no-wrap
@@ -1249,7 +1249,7 @@ msgstr "Copyright \\(co 2007 Frank Lichtenheld"
 #: deb-version.5:126 deb-substvars.5:167 dpkg-buildflags.1:117
 #: dpkg-buildpackage.1:262 dpkg-checkbuilddeps.1:44 dpkg-distaddfile.1:53
 #: dpkg-deb.1:256 dpkg-divert.8:129 dpkg-genchanges.1:154
-#: dpkg-gencontrol.1:150 dpkg-gensymbols.1:459 dpkg-maintscript-helper.1:133
+#: dpkg-gencontrol.1:150 dpkg-gensymbols.1:459 dpkg-maintscript-helper.1:139
 #: dpkg-mergechangelogs.1:71 dpkg-name.1:107 dpkg-parsechangelog.1:131
 #: dpkg-query.1:207 dpkg-shlibdeps.1:341 dpkg-source.1:648 dpkg-split.1:233
 #: dpkg-statoverride.8:86 dpkg-vendor.1:53 update-alternatives.8:494
@@ -1737,11 +1737,11 @@ msgid ""
 "field:"
 msgstr ""
 "Variablenersetzung erfolgt am Inhalt der Felder, nachdem sie geparst "
-"(ausgewertet) wurden. Falls Sie eine Variable über mehrere Zeilen expandieren "
-"möchten, müssen Sie nach dem Zeilenumbruch daher kein Leerzeichen einfügen. "
-"Dies passiert bei der Ausgabe des Feldes implizit. Ist beispielsweise die "
-"Variable B<${Description}> auf »foo ist bar.${Newline}foo ist super.« gesetzt "
-"und Sie haben das folgende Feld:"
+"(ausgewertet) wurden. Falls Sie eine Variable über mehrere Zeilen "
+"expandieren möchten, müssen Sie nach dem Zeilenumbruch daher kein "
+"Leerzeichen einfügen. Dies passiert bei der Ausgabe des Feldes implizit. Ist "
+"beispielsweise die Variable B<${Description}> auf »foo ist bar.${Newline}foo "
+"ist super.« gesetzt und Sie haben das folgende Feld:"
 
 #. type: Plain text
 #: deb-substvars.5:50
@@ -2789,9 +2789,9 @@ msgid ""
 "a> or B<--pending> is given instead of I<package>, all unpacked but "
 "unconfigured packages are configured."
 msgstr ""
-"Konfiguriert ein entpacktes aber noch nicht konfiguriertes Paket. Falls B<-a> "
-"oder B<--pending> anstelle von I<Paket> angegeben ist, werden alle entpackten "
-"aber nicht konfigurierten Pakete konfiguriert."
+"Konfiguriert ein entpacktes aber noch nicht konfiguriertes Paket. Falls B<-"
+"a> oder B<--pending> anstelle von I<Paket> angegeben ist, werden alle "
+"entpackten aber nicht konfigurierten Pakete konfiguriert."
 
 #. type: Plain text
 #: dpkg.1:144
@@ -3119,10 +3119,17 @@ msgstr "B<--command-fd >I<E<lt>nE<gt>>"
 
 #. type: Plain text
 #: dpkg.1:260
+#, fuzzy
+#| msgid ""
+#| "Accept a series of commands on input file descriptor I<E<lt>nE<gt>>. "
+#| "Note: additional options set on the command line, and thru this file "
+#| "descriptor, are not reset for subsequent commands executed during the "
+#| "same run."
 msgid ""
 "Accept a series of commands on input file descriptor I<E<lt>nE<gt>>. Note: "
-"additional options set on the command line, and thru this file descriptor, "
-"are not reset for subsequent commands executed during the same run."
+"additional options set on the command line, and through this file "
+"descriptor, are not reset for subsequent commands executed during the same "
+"run."
 msgstr ""
 "Akzeptiert eine Reihe von Befehlen an Eingabe-Dateideskriptor "
 "I<E<lt>nE<gt>>. Hinweis: Zusätzliche auf der Kommandozeile und durch diesen "
@@ -5824,7 +5831,7 @@ msgstr ""
 "I<Schalter> zurückgegeben wird, verwandt werden."
 
 #. type: Plain text
-#: dpkg-buildflags.1:114 dpkg-maintscript-helper.1:124
+#: dpkg-buildflags.1:114 dpkg-maintscript-helper.1:130
 msgid "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
 msgstr "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
 
@@ -8279,6 +8286,18 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:108
+#, fuzzy
+#| msgid ""
+#| "Since symbol tags are an extension of the I<deb-symbols(5)> format, they "
+#| "can only be part of the symbols files used in source packages (those "
+#| "files should then be seen as templates used to build the symbols files "
+#| "that are embedded in binary packages). When B<dpkg-gensymbols> is called "
+#| "without the I<-t> option, it will output symbols files compatible to the "
+#| "I<deb-symbols(5)> format: it fully processes symbols according to the "
+#| "requirements of their standard tags and strips all tags from the output. "
+#| "On the contrary, in template mode (I<-t>) all symbols and their tags "
+#| "(both standard and unknown ones)  are kept in the output and are written "
+#| "in their orignal form as they were loaded."
 msgid ""
 "Since symbol tags are an extension of the I<deb-symbols(5)> format, they can "
 "only be part of the symbols files used in source packages (those files "
@@ -8288,7 +8307,7 @@ msgid ""
 "> format: it fully processes symbols according to the requirements of their "
 "standard tags and strips all tags from the output. On the contrary, in "
 "template mode (I<-t>) all symbols and their tags (both standard and unknown "
-"ones)  are kept in the output and are written in their orignal form as they "
+"ones)  are kept in the output and are written in their original form as they "
 "were loaded."
 msgstr ""
 "Da Symbolkennzeichnungen eine Erweiterung des Formats I<deb-symbols(5)> "
@@ -9283,14 +9302,19 @@ msgstr "BEFEHLE UND PARAMETER"
 # type: Plain text
 #. type: Plain text
 #: dpkg-maintscript-helper.1:12
-msgid "B<rm_conffile> I<conffile> I<lastversion> [I<package>]"
+#, fuzzy
+#| msgid "B<rm_conffile> I<conffile> I<lastversion> [I<package>]"
+msgid "B<rm_conffile> I<conffile> [I<lastversion> [I<package>]]"
 msgstr "B<rm_conffile> I<Conffile> I<letzteVersion> [I<Paket>]"
 
 # type: Plain text
 #. type: Plain text
 #: dpkg-maintscript-helper.1:14
+#, fuzzy
+#| msgid ""
+#| "B<mv_conffile> I<oldconffile> I<newconffile> I<lastversion> [I<package>]"
 msgid ""
-"B<mv_conffile> I<oldconffile> I<newconffile> I<lastversion> [I<package>]"
+"B<mv_conffile> I<oldconffile> I<newconffile> [I<lastversion> [I<package>]]"
 msgstr ""
 "B<mv_conffile> I<AlteConffile> I<NeueConffile> I<letzteVersion> [I<Paket>]"
 
@@ -9414,11 +9438,22 @@ msgstr ""
 
 # type: Plain text
 #. type: Plain text
-#: dpkg-maintscript-helper.1:63
+#: dpkg-maintscript-helper.1:66
+#, fuzzy
+#| msgid ""
+#| "I<conffile> is the filename of the conffile to remove.  I<lastversion> is "
+#| "the last version of the package that contained the conffile. I<package> "
+#| "is the package name, it's optional as it will default to "
+#| "$DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the name of "
+#| "the package acted upon). All the parameters of the maintainer scripts "
+#| "have to be forwarded to the program after \"--\"."
 msgid ""
 "I<conffile> is the filename of the conffile to remove.  I<lastversion> is "
-"the last version of the package that contained the conffile. I<package> is "
-"the package name, it's optional as it will default to "
+"the last version of the package that contained the conffile (or the last "
+"version of the package that did not take care to remove the obsolete "
+"conffile if this was not immediately implemented).  If I<lastversion> is "
+"empty or omitted, then the operation is tried on every upgrade. I<package> "
+"is the package name, it's optional as it will default to "
 "$DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the name of the "
 "package acted upon). All the parameters of the maintainer scripts have to be "
 "forwarded to the program after \"--\"."
@@ -9433,15 +9468,25 @@ msgstr ""
 
 # type: Plain text
 #. type: Plain text
-#: dpkg-maintscript-helper.1:71
+#: dpkg-maintscript-helper.1:75
+#, fuzzy
+#| msgid ""
+#| "Current implementation: in the B<preinst>, it checks if the conffile was "
+#| "modified and renames it either to I<conffile>B<.dpkg-remove> (if not "
+#| "modified) or to I<conffile>B<.dpkg-bak> (if modified). The latter file is "
+#| "kept for reference as it contains user modifications but the former will "
+#| "be removed in the B<postinst>. If the package upgrade aborts, the "
+#| "B<postrm> reinstalls the original conffile. During purge, the B<postrm> "
+#| "will also delete the B<.dpkg-bak> file kept up to now."
 msgid ""
 "Current implementation: in the B<preinst>, it checks if the conffile was "
 "modified and renames it either to I<conffile>B<.dpkg-remove> (if not "
-"modified) or to I<conffile>B<.dpkg-bak> (if modified). The latter file is "
-"kept for reference as it contains user modifications but the former will be "
-"removed in the B<postinst>. If the package upgrade aborts, the B<postrm> "
-"reinstalls the original conffile. During purge, the B<postrm> will also "
-"delete the B<.dpkg-bak> file kept up to now."
+"modified) or to I<conffile>B<.dpkg-backup> (if modified). In the "
+"B<postinst>, the latter file is renamed to I<conffile>B<.dpkg-bak> and kept "
+"for reference as it contains user modifications but the former will be "
+"removed. If the package upgrade aborts, the B<postrm> reinstalls the "
+"original conffile. During purge, the B<postrm> will also delete the B<.dpkg-"
+"bak> file kept up to now."
 msgstr ""
 "Aktuelle Implementierung: im B<preinst> wird geprüft, ob die Conffile "
 "geändert wurde. Dann wird sie entweder in I<Conffile>B<.dpkg-remove> (falls "
@@ -9454,14 +9499,14 @@ msgstr ""
 
 # type: SS
 #. type: SS
-#: dpkg-maintscript-helper.1:72
+#: dpkg-maintscript-helper.1:76
 #, no-wrap
 msgid "RENAMING A CONFFILE"
 msgstr "EINE CONFFILE UMBENENNEN"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg-maintscript-helper.1:79
+#: dpkg-maintscript-helper.1:83
 msgid ""
 "If a conffile is moved from one location to another, you need to make sure "
 "you move across any changes the user has made. This may seem a simple change "
@@ -9478,7 +9523,7 @@ msgstr ""
 
 # type: Plain text
 #. type: Plain text
-#: dpkg-maintscript-helper.1:83
+#: dpkg-maintscript-helper.1:87
 msgid ""
 "Graceful renaming can be implemented by putting the following shell snippet "
 "in the B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
@@ -9488,7 +9533,7 @@ msgstr ""
 
 # type: Plain text
 #. type: Plain text
-#: dpkg-maintscript-helper.1:86
+#: dpkg-maintscript-helper.1:90
 #, no-wrap
 msgid ""
 "    dpkg-maintscript-helper mv_conffile \\e\n"
@@ -9499,14 +9544,26 @@ msgstr ""
 
 # type: Plain text
 #. type: Plain text
-#: dpkg-maintscript-helper.1:94
+#: dpkg-maintscript-helper.1:100
+#, fuzzy
+#| msgid ""
+#| "I<oldconffile> and I<newconffile> are the old and new name of the "
+#| "conffile to rename. I<lastversion> is the last version of the package "
+#| "that contained the conffile with the old name. I<package> is the package "
+#| "name, it's optional as it will default to $DPKG_MAINTSCRIPT_PACKAGE (this "
+#| "variable is set by dpkg to the name of the package acted upon). All the "
+#| "parameters of the maintainer scripts have to be forwarded to the program "
+#| "after \"--\"."
 msgid ""
 "I<oldconffile> and I<newconffile> are the old and new name of the conffile "
 "to rename. I<lastversion> is the last version of the package that contained "
-"the conffile with the old name. I<package> is the package name, it's "
-"optional as it will default to $DPKG_MAINTSCRIPT_PACKAGE (this variable is "
-"set by dpkg to the name of the package acted upon). All the parameters of "
-"the maintainer scripts have to be forwarded to the program after \"--\"."
+"the conffile with the old name. If I<lastversion> is empty or omitted, then "
+"the operation is tried on every upgrade (note: it's safer to give the "
+"version and have the operation tried only once). I<package> is the package "
+"name, it's optional as it will default to $DPKG_MAINTSCRIPT_PACKAGE (this "
+"variable is set by dpkg to the name of the package acted upon). All the "
+"parameters of the maintainer scripts have to be forwarded to the program "
+"after \"--\"."
 msgstr ""
 "I<alteConffile> und I<neueConffile> sind der alte und der neue Name der "
 "umzubenennenden Conffile. I<letzeVersion> ist die letzte Version des Pakets, "
@@ -9518,7 +9575,7 @@ msgstr ""
 
 # type: Plain text
 #. type: Plain text
-#: dpkg-maintscript-helper.1:102
+#: dpkg-maintscript-helper.1:108
 msgid ""
 "Current implementation: the B<preinst> checks if the conffile has been "
 "modified, if yes it's left on place otherwise it's renamed to "
@@ -9537,13 +9594,13 @@ msgstr ""
 "I<alteConffile>B<.dpkg-remove> in I<alteConffile> zurück, falls notwendig."
 
 #. type: SH
-#: dpkg-maintscript-helper.1:103
+#: dpkg-maintscript-helper.1:109
 #, no-wrap
 msgid "INTEGRATION IN PACKAGES"
 msgstr "INTEGRATION IN PAKETE"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:110
+#: dpkg-maintscript-helper.1:116
 msgid ""
 "Given that B<dpkg-maintscript-helper> is used in the B<preinst>, using it "
 "unconditionnaly requires a pre-dependency to ensure that the required "
@@ -9557,13 +9614,13 @@ msgstr ""
 "B<mv_conffile> lautet sie 1.15.7.2:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:112
+#: dpkg-maintscript-helper.1:118
 #, no-wrap
 msgid "    Pre-Depends: dpkg (E<gt>= 1.15.7.2)\n"
 msgstr "    Pre-Depends: dpkg (E<gt>= 1.15.7.2)\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:117
+#: dpkg-maintscript-helper.1:123
 msgid ""
 "But in many cases the operation done by the program is not critical for the "
 "package, and instead of using a pre-dependency we can call the program only "
@@ -9576,7 +9633,7 @@ msgstr ""
 "installierten Dpkg unterstützt wird:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:121
+#: dpkg-maintscript-helper.1:127
 #, no-wrap
 msgid ""
 "    if dpkg-maintscript-helper supports E<lt>commandE<gt>; then\n"
@@ -9588,17 +9645,17 @@ msgstr ""
 "    fi\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:126
+#: dpkg-maintscript-helper.1:132
 msgid "Copyright \\(co 2008 Joey Hess"
 msgstr "Copyright \\(co 2008 Joey Hess"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:128
+#: dpkg-maintscript-helper.1:134
 msgid "Copyright \\(co 2007 Guillem Jover"
 msgstr "Copyright \\(co 2007 Guillem Jover"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:130
+#: dpkg-maintscript-helper.1:136
 msgid "Copyright \\(co 2005 Scott James Remnant"
 msgstr "Copyright \\(co 2005 Scott James Remnant"
 
@@ -10810,10 +10867,17 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-scanpackages.1:52
+#, fuzzy
+#| msgid ""
+#| "B<Note:> If you want to access the generated Packages file with B<apt> "
+#| "you will probably need to compress the file with B<bzip2>(1)  (generating "
+#| "a Packages.bz2 file) or B<gzip>(1)  (generatinc a Packages.gz file). apt "
+#| "ignores uncompressed Packages files except on local access (i.e.  "
+#| "B<file://> sources)."
 msgid ""
 "B<Note:> If you want to access the generated Packages file with B<apt> you "
 "will probably need to compress the file with B<bzip2>(1)  (generating a "
-"Packages.bz2 file) or B<gzip>(1)  (generatinc a Packages.gz file). apt "
+"Packages.bz2 file) or B<gzip>(1)  (generating a Packages.gz file). apt "
 "ignores uncompressed Packages files except on local access (i.e.  B<file://> "
 "sources)."
 msgstr ""
@@ -10913,9 +10977,13 @@ msgstr "B<-a>, B<--arch> I<arch>"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:89
+#, fuzzy
+#| msgid ""
+#| "Use a pattern consisting of I<*_all.deb> and I<*_arch.deb> instead of "
+#| "scanning for all debs,"
 msgid ""
 "Use a pattern consisting of I<*_all.deb> and I<*_arch.deb> instead of "
-"scanning for all debs,"
+"scanning for all debs."
 msgstr ""
 "Verwende ein Muster, das aus I<*_all.deb> und I<*_arch.deb> besteht, statt "
 "nach allen Debs zu suchen,"
