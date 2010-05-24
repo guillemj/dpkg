@@ -157,7 +157,7 @@ mv_conffile() {
 	postrm)
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
-			abort_rm_conffile "$OLDCONFFILE"
+			abort_mv_conffile "$OLDCONFFILE"
 		fi
 		;;
 	*)
