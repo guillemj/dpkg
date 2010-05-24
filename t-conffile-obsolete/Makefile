@@ -12,9 +12,11 @@ test-case:
 	$(DPKG_INSTALL) pkg-conff-obsolete-0.deb
 	$(DPKG_UNPACK) pkg-conff-obsolete-2.deb
 	test -f /test-conffile.dpkg-remove
+	test ! -f /test-conffile.dpkg-backup
 	$(DPKG_CONFIGURE) pkg-conff-obsolete
 	test ! -f /test-conffile
 	test ! -f /test-conffile.dpkg-bak
+	test ! -f /test-conffile.dpkg-backup
 	test ! -f /test-conffile.dpkg-remove
 	$(DPKG_PURGE) pkg-conff-obsolete
 	# Modified conffile is moved away in .dpkg-bak for the user
@@ -33,6 +35,7 @@ test-case:
 	test -f /test-conffile
 	test ! -f /test-conffile.dpkg-remove
 	test ! -f /test-conffile.dpkg-bak
+	test ! -f /test-conffile.dpkg-backup
 
 test-clean:
 	$(DPKG_PURGE) pkg-conff-obsolete
