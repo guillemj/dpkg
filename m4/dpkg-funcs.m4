@@ -68,6 +68,22 @@ AS_IF([test "x$dpkg_cv_c99_snprintf" = "xyes"],
 AM_CONDITIONAL(HAVE_C99_SNPRINTF, [test "x$dpkg_cv_c99_snprintf" = "xyes"])
 ])# DPKG_FUNC_C99_SNPRINTF
 
+# DPKG_MMAP
+# ---------
+# Define USE_MMAP if mmap() is available and it was requested
+AC_DEFUN([DPKG_MMAP],
+[
+  AC_ARG_ENABLE([mmap],
+    AS_HELP_STRING([--enable-mmap],
+                   [enable usage of unrealiable mmap if available]),
+    [
+      AC_CHECK_FUNCS([mmap])
+      AC_DEFINE(USE_MMAP, 1, [Use unreliable mmap support])
+    ],
+    []
+  )
+])
+
 # DPKG_FUNC_ASYNC_SYNC
 # --------------------
 # Define HAVE_ASYNC_SYNC if sync() is asynchronous

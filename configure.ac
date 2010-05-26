@@ -127,6 +127,8 @@ DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
 AC_CHECK_FUNCS([strtoul isascii bcopy memcpy lchown setsid getdtablesize \
                 posix_fadvise])
 
+DPKG_MMAP
+
 AC_DEFINE(LIBDPKG_VOLATILE_API, 1, [Acknowledge the volatility of the API.])
 DPKG_COMPILER_WARNINGS
 DPKG_COMPILER_OPTIMISATIONS

@@ -23,7 +23,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifdef HAVE_MMAP
+#ifdef USE_MMAP
 #include <sys/mman.h>
 #endif
 
@@ -121,7 +121,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     ohshite(_("can't stat package info file `%.255s'"),filename);
 
   if (st.st_size > 0) {
-#ifdef HAVE_MMAP
+#ifdef USE_MMAP
     dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
     if (dataptr == MAP_FAILED)
       ohshite(_("can't mmap package info file `%.255s'"),filename);
@@ -386,7 +386,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       ps.lno++;
   }
   if (data != NULL) {
-#ifdef HAVE_MMAP
+#ifdef USE_MMAP
     munmap(data, st.st_size);
 #else
     free(data);
