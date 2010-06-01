@@ -99,7 +99,6 @@ fi
 AC_HEADER_STDC
 AC_CHECK_HEADERS([stddef.h error.h locale.h libintl.h kvm.h \
                   sys/cdefs.h sys/syscall.h linux/fiemap.h])
-DPKG_CHECK_DEFINE(TIOCNOTTY, [sys/ioctl.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_BIGENDIAN
@@ -121,6 +120,7 @@ DPKG_FUNC_C99_SNPRINTF
 DPKG_FUNC_ASYNC_SYNC
 DPKG_CHECK_DECL([offsetof], [stddef.h])
 DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
+DPKG_CHECK_DECL([TIOCNOTTY], [sys/ioctl.h])
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
                          strnlen strerror strsignal \
                          scandir alphasort unsetenv])
