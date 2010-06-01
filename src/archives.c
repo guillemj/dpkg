@@ -180,17 +180,11 @@ int tarfileread(void *ud, char *buf, int len) {
 }
 
 static void
-tarfile_skip_one_forward(struct TarInfo *ti,
-                         struct fileinlist **oldnifd,
-                         struct fileinlist *nifd)
+tarfile_skip_one_forward(struct TarInfo *ti)
 {
   struct tarcontext *tc = (struct tarcontext *)ti->UserData;
   size_t r;
   char databuf[TARBLKSZ];
-
-  obstack_free(&tar_obs, nifd);
-  tc->newfilesp = oldnifd;
-  *oldnifd = NULL;
 
   /* We need to advance the tar file to the next object, so read the
    * file data and set it to oblivion.
@@ -341,6 +335,18 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
   *tc->newfilesp = nifd;
   tc->newfilesp = &nifd->next;
   return nifd;
+}
+
+static void
+remove_file_from_list(struct TarInfo *ti,
+                      struct fileinlist **oldnifd,
+                      struct fileinlist *nifd)
+{
+  struct tarcontext *tc = (struct tarcontext *)ti->UserData;
+
+  obstack_free(&tar_obs, nifd);
+  tc->newfilesp = oldnifd;
+  *oldnifd = NULL;
 }
 
 static bool
@@ -612,7 +618,8 @@ int tarobject(struct TarInfo *ti) {
        
   if (existingdirectory) return 0;
   if (keepexisting) {
-    tarfile_skip_one_forward(ti, oldnifd, nifd);
+    remove_file_from_list(ti, oldnifd, nifd);
+    tarfile_skip_one_forward(ti);
     return 0;
   }
 
