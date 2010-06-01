@@ -554,13 +554,49 @@ in the current directory. At least one file must be given.
 The generated .dsc file will contain this value in its \fIFormat\fP field
 and not "3.0 (custom)".
 .
-.SS Format: 3.0 (git) and 3.0 (bzr)
-Those formats are experimental. They generate a single tarball
-containing the corresponding VCS repository.
+.SS Format: 3.0 (git)
+This format is experimental. It uses a bundle of a git repository to hold
+the source of a package.
 .PP
 .B Extracting
 .PP
-The tarball is unpacked and then the VCS is used to checkout the current
+The bundle is cloned to a new git repository.
+.PP
+Note that by default the new repository will have the same branch checked
+out that was checked out in the original source. (Typically "master", but
+it could be anything.) Any other branches will be available, under as
+`remotes/origin/`
+.PP
+.B Building
+.PP
+Before going any further, some checks are done to ensure that we
+don't have any non-ignored uncommitted changes.
+.PP
+\fBgit-bundle\fP(1) is used to generate a bundle of the git repository.
+By default, all branches and tags in the repository are included in the
+bundle.
+.PP
+.B Build options
+.TP
+.BI \-\-git\-ref= ref
+Allows specifying a git ref to include in the git bundle. Use disables
+the default behavior of including all branches and tags. May be specified
+multiple times. The \fIref\fP can be the name of a branch or tag to
+include. It may also be any parameter that can be passed to
+\fBgit-rev-list\fP(1). For example, to include only
+the master branch, use \-\-git\-ref=master. To include all tags and
+branches, except for the private branch, use \-\-git\-ref=\-\-all
+\-\-git\-ref=^private
+.BI \-\-git\-depth= number
+Creates a shallow clone with a history truncated to the specified number of
+revisions.
+.SS Format: 3.0 (bzr)
+This format is experimental. It generates a single tarball
+containing the bzr repository.
+.PP
+.B Extracting
+.PP
+The tarball is unpacked and then bzr is used to checkout the current
 branch.
 .PP
 .B Building
