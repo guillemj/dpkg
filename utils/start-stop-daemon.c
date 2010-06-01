@@ -296,6 +296,27 @@ get_open_fd_max(void)
 #endif
 }
 
+#ifndef HAVE_SETSID
+static void
+detach_controlling_tty(void)
+{
+#ifdef HAVE_TIOCNOTTY
+	int tty_fd;
+
+	tty_fd = open("/dev/tty", O_RDWR);
+
+	/* The current process does not have a controlling tty. */
+	if (tty_fd < 0)
+		return;
+
+	if (ioctl(tty_fd, TIOCNOTTY, 0) != 0)
+		fatal("unable to detach controlling tty");
+
+	close(tty_fd);
+#endif
+}
+#endif
+
 static void
 daemonize(void)
 {
@@ -315,6 +336,7 @@ daemonize(void)
 	setsid();
 #else
 	setpgid(0, 0);
+	detach_controlling_tty();
 #endif
 
 	pid = fork();
@@ -1445,9 +1467,6 @@ main(int argc, char **argv)
 	int devnull_fd = -1;
 	gid_t rgid;
 	uid_t ruid;
-#ifdef HAVE_TIOCNOTTY
-	int tty_fd = -1;
-#endif
 	progname = argv[0];
 
 	parse_options(argc, argv);
@@ -1554,11 +1573,6 @@ main(int argc, char **argv)
 		/* Ok, we need to detach this process. */
 		daemonize();
 
-#ifdef HAVE_TIOCNOTTY
-		tty_fd = open("/dev/tty", O_RDWR);
-		if (tty_fd < 0)
-			fatal("unable to open '%s'", "/dev/tty");
-#endif
 		devnull_fd = open("/dev/null", O_RDWR);
 		if (devnull_fd < 0)
 			fatal("unable to open '%s'", "/dev/null");
@@ -1621,12 +1635,7 @@ main(int argc, char **argv)
 	if (background) {
 		/* Continue background setup. */
 		int i;
-#ifdef HAVE_TIOCNOTTY
-		 /* Change tty. */
-		if (ioctl(tty_fd, TIOCNOTTY, 0) != 0)
-			fatal("unable to change tty");
-		close(tty_fd);
-#endif
+
 		if (umask_value < 0)
 			umask(022); /* Set a default for dumb programs. */
 		dup2(devnull_fd, 0); /* stdin */
