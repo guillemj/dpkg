@@ -269,7 +269,7 @@ sub equals {
 	    my $tag = $self->{tagorder}->[$i];
 	    return 0 if $tag ne $other->{tagorder}->[$i];
 	    if (defined $self->{tags}{$tag} && defined $other->{tags}{$tag}) {
-		return 0 if $self->{tags}{$tag} ne defined $other->{tags}{$tag};
+		return 0 if $self->{tags}{$tag} ne $other->{tags}{$tag};
 	    } elsif (defined $self->{tags}{$tag} || defined $other->{tags}{$tag}) {
 		return 0;
 	    }
