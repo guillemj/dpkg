@@ -40,6 +40,10 @@ if !HAVE_C99_SNPRINTF
 libcompat_a_SOURCES += snprintf.c vsnprintf.c
 endif
 
+if !HAVE_ASPRINTF
+libcompat_a_SOURCES += asprintf.c vasprintf.c
+endif
+
 if !HAVE_ALPHASORT
 libcompat_a_SOURCES += alphasort.c
 endif

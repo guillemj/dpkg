@@ -49,6 +49,13 @@ extern "C" {
 
 #include <strnlen.h>
 
+#ifndef HAVE_ASPRINTF
+#include <stdarg.h>
+
+int asprintf(char *str, char const *fmt, ...);
+int vasprintf(char *str, const char *fmt, va_list args);
+#endif
+
 #ifndef HAVE_STRERROR
 const char *strerror(int);
 #endif
