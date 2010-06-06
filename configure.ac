@@ -69,6 +69,17 @@ AC_ARG_WITH(admindir,
 esac])
 AC_SUBST(admindir)
 
+# Allow alternate log directory
+logdir="${localstatedir}/log"
+AC_ARG_WITH(logdir,
+	AS_HELP_STRING([--with-logdir=DIR],
+		       [system logging directory [[LOCALSTATEDIR/log]]]),
+[case "$with_logdir" in
+      "") AC_MSG_ERROR([invalid logdir specified]) ;;
+      *) logdir="$with_logdir" ;;
+esac])
+AC_SUBST(logdir)
+
 
 # Checks for programs.
 AC_PROG_CC
