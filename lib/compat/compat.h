@@ -49,6 +49,14 @@ extern "C" {
 
 #include <strnlen.h>
 
+#ifndef HAVE_C99_SNPRINTF
+#include <stddef.h>
+#include <stdarg.h>
+
+int snprintf(char *str, size_t n, char const *fmt, ...);
+int vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
+#endif
+
 #ifndef HAVE_ASPRINTF
 #include <stdarg.h>
 
