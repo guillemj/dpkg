@@ -59,10 +59,10 @@ AM_CONDITIONAL(WITH_INSTALL_INFO,
 	[test "x$build_install_info" = "xyes"])
 
 # Allow alternate admin directory
-admindir="${localstatedir}/${PACKAGE_NAME}"
+admindir="${localstatedir}/lib/${PACKAGE_NAME}"
 AC_ARG_WITH(admindir,
 	AS_HELP_STRING([--with-admindir=DIR],
-		       [dpkg database directory [[LOCALSTATEDIR/dpkg]]]),
+		       [dpkg database directory [[LOCALSTATEDIR/lib/dpkg]]]),
 [case "$with_admindir" in
       "") AC_MSG_ERROR([invalid admindir specified]) ;;
       *) admindir="$with_admindir" ;;
