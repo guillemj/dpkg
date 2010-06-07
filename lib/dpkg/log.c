@@ -41,7 +41,7 @@ log_message(const char *fmt, ...)
 	static FILE *logfd = NULL;
 	char time_str[20];
 	time_t now;
-	va_list al;
+	va_list args;
 
 	if (!log_file)
 		return;
@@ -58,11 +58,11 @@ log_message(const char *fmt, ...)
 		setcloexec(fileno(logfd), log_file);
 	}
 
-	va_start(al, fmt);
+	va_start(args, fmt);
 	varbufreset(&log);
-	varbufvprintf(&log, fmt, al);
+	varbufvprintf(&log, fmt, args);
 	varbufaddc(&log, 0);
-	va_end(al);
+	va_end(args);
 
 	time(&now);
 	strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S",
@@ -79,19 +79,19 @@ statusfd_send(const char *fmt, ...)
 	struct pipef *pipef;
 	const char *p;
 	int r, l;
-	va_list al;
+	va_list args;
 
 	if (!status_pipes)
 		return;
 
-	va_start(al, fmt);
+	va_start(args, fmt);
 	varbufreset(&vb);
-	varbufvprintf(&vb, fmt, al);
+	varbufvprintf(&vb, fmt, args);
 	/* Sanitize string to not include new lines, as front-ends should be
 	 * doing their own word-wrapping. */
 	varbufsubstc(&vb, '\n', ' ');
 	varbufaddc(&vb, '\n');
-	va_end(al);
+	va_end(args);
 
 	for (pipef = status_pipes; pipef; pipef = pipef->next) {
 		for (p = vb.buf, l = vb.used; l;  p += r, l -= r) {

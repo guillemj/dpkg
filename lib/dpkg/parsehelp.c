@@ -48,36 +48,36 @@ void
 parse_error(struct parsedb_state *ps,
             const struct pkginfo *pigp, const char *fmt, ...)
 {
-  va_list al;
+  va_list args;
   char buf1[768], buf2[1000], *q;
 
   parse_error_msg(ps, pigp, _("parse error"), buf1);
   q = str_escape_fmt(buf2, buf1);
   strcat(q,fmt);
 
-  va_start(al,fmt);
-  ohshitv(buf2, al);
+  va_start(args, fmt);
+  ohshitv(buf2, args);
 }
 
 void
 parse_warn(struct parsedb_state *ps,
            const struct pkginfo *pigp, const char *fmt, ...)
 {
-  va_list al;
+  va_list args;
   char buf1[768], buf2[1000], *q;
 
   parse_error_msg(ps, pigp, _("warning"), buf1);
   q = str_escape_fmt(buf2, buf1);
   strcat(q, fmt);
 
-  va_start(al, fmt);
+  va_start(args, fmt);
   ps->warncount++;
   if (ps->warnto) {
     strcat(q,"\n");
-    if (vfprintf(ps->warnto, buf2, al) == EOF)
+    if (vfprintf(ps->warnto, buf2, args) == EOF)
       ohshite(_("failed to write parsing warning"));
   }
-  va_end(al);
+  va_end(args);
 }
 
 #define NAMEVALUE_DEF(n, v) \

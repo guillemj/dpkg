@@ -26,7 +26,7 @@
 
 #ifndef HAVE_VSNPRINTF
 int
-vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
+vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
 {
 	static FILE *file = NULL;
 
@@ -47,7 +47,7 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list al)
 			return -1;
 	}
 
-	total = vfprintf(file, fmt, al);
+	total = vfprintf(file, fmt, args);
 	if (total < 0)
 		return -1;
 	if (maxsize == 0)

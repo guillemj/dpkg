@@ -28,12 +28,12 @@
 int
 snprintf(char *str, size_t n, char const *fmt, ...)
 {
-	va_list ap;
+	va_list args;
 	int i;
 
-	va_start(ap, fmt);
-	i = vsnprintf(str, n, fmt, ap);
-	va_end(ap);
+	va_start(args, fmt);
+	i = vsnprintf(str, n, fmt, args);
+	va_end(args);
 
 	return i;
 }

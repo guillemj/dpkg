@@ -160,7 +160,7 @@ buffer_copy_##name(type1 n1, int typeIn, \
                    type2 n2, int typeOut, \
                    off_t limit, const char *desc, ...) \
 { \
-	va_list al; \
+	va_list args; \
 	struct buffer_data read_data, write_data; \
 	struct varbuf v = VARBUF_INIT; \
 	off_t ret; \
@@ -170,9 +170,9 @@ buffer_copy_##name(type1 n1, int typeIn, \
 	write_data.arg.name2 = n2; \
 	write_data.type = typeOut; \
 \
-	va_start(al, desc); \
-	varbufvprintf(&v, desc, al); \
-	va_end(al); \
+	va_start(args, desc); \
+	varbufvprintf(&v, desc, args); \
+	va_end(args); \
 \
 	buffer_init(&read_data, &write_data); \
 	ret = buffer_copy(&read_data, &write_data, limit, v.buf); \

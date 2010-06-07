@@ -279,7 +279,7 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
 
 static int
 vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
-                             const char *desc, va_list ap)
+                             const char *desc, va_list args)
 {
   struct command cmd;
   const char *scriptpath;
@@ -291,7 +291,7 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
 
   command_init(&cmd, scriptpath, buf);
   command_add_arg(&cmd, scriptname);
-  command_add_argv(&cmd, ap);
+  command_add_argv(&cmd, args);
 
   if (stat(scriptpath,&stab)) {
     command_destroy(&cmd);
@@ -315,11 +315,11 @@ maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                             const char *desc, ...)
 {
   int r;
-  va_list ap;
+  va_list args;
 
-  va_start(ap, desc);
-  r = vmaintainer_script_installed(pkg, scriptname, desc, ap);
-  va_end(ap);
+  va_start(args, desc);
+  r = vmaintainer_script_installed(pkg, scriptname, desc, args);
+  va_end(args);
   if (r)
     post_script_tasks();
 
@@ -330,11 +330,11 @@ int
 maintainer_script_postinst(struct pkginfo *pkg, ...)
 {
   int r;
-  va_list ap;
+  va_list args;
 
-  va_start(ap, pkg);
-  r = vmaintainer_script_installed(pkg, POSTINSTFILE, "post-installation", ap);
-  va_end(ap);
+  va_start(args, pkg);
+  r = vmaintainer_script_installed(pkg, POSTINSTFILE, "post-installation", args);
+  va_end(args);
   if (r)
     ensure_diversions();
 
@@ -348,17 +348,17 @@ maintainer_script_new(struct pkginfo *pkg,
 {
   struct command cmd;
   struct stat stab;
-  va_list ap;
+  va_list args;
   char buf[100];
   
   strcpy(cidirrest, scriptname);
   sprintf(buf, _("new %s script"), desc);
 
-  va_start(ap,cidirrest);
+  va_start(args, cidirrest);
   command_init(&cmd, cidir, buf);
   command_add_arg(&cmd, scriptname);
-  command_add_argv(&cmd, ap);
-  va_end(ap);
+  command_add_argv(&cmd, args);
+  va_end(args);
 
   if (stat(cidir,&stab)) {
     command_destroy(&cmd);
@@ -451,12 +451,13 @@ void clear_istobes(void) {
 }
 
 void debug(int which, const char *fmt, ...) {
-  va_list ap;
+  va_list args;
+
   if (!(f_debug & which)) return;
   fprintf(stderr,"D0%05o: ",which);
-  va_start(ap,fmt);
-  vfprintf(stderr,fmt,ap);
-  va_end(ap);
+  va_start(args, fmt);
+  vfprintf(stderr, fmt, args);
+  va_end(args);
   putc('\n',stderr);
 }
 

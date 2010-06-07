@@ -35,11 +35,11 @@ AC_DEFUN([DPKG_FUNC_C99_SNPRINTF],
 int test_vsnprintf(const char *fmt, ...)
 {
 	int n;
-	va_list ap;
+	va_list args;
 
-	va_start(ap, fmt);
-	n = vsnprintf(NULL, 0, fmt, ap);
-	va_end(ap);
+	va_start(args, fmt);
+	n = vsnprintf(NULL, 0, fmt, args);
+	va_end(args);
 
 	return n;
 }

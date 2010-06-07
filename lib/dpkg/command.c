@@ -129,20 +129,20 @@ command_add_argl(struct command *cmd, const char **argv)
  * @param al The NULL terminated va_list of argument array to append to argv.
  */
 void
-command_add_argv(struct command *cmd, va_list al)
+command_add_argv(struct command *cmd, va_list args)
 {
-	va_list at;
+	va_list args_copy;
 	int i, add_argc = 0;
 
-	va_copy(at, al);
-	while (va_arg(at, const char *) != NULL)
+	va_copy(args_copy, args);
+	while (va_arg(args_copy, const char *) != NULL)
 		add_argc++;
-	va_end(at);
+	va_end(args_copy);
 
 	command_grow_argv(cmd, add_argc);
 
 	for (i = 0; i < add_argc; i++)
-		cmd->argv[cmd->argc++] = va_arg(al, const char *);
+		cmd->argv[cmd->argc++] = va_arg(args, const char *);
 
 	cmd->argv[cmd->argc] = NULL;
 }
@@ -156,11 +156,11 @@ command_add_argv(struct command *cmd, va_list al)
 void
 command_add_args(struct command *cmd, ...)
 {
-	va_list al;
+	va_list args;
 
-	va_start(al, cmd);
-	command_add_argv(cmd, al);
-	va_end(al);
+	va_start(args, cmd);
+	command_add_argv(cmd, args);
+	va_end(args);
 }
 
 /**

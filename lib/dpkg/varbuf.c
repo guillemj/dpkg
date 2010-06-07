@@ -57,31 +57,33 @@ varbufsubstc(struct varbuf *v, int c_src, int c_dst)
 
 int varbufprintf(struct varbuf *v, const char *fmt, ...) {
   int r;
-  va_list al;
+  va_list args;
 
-  va_start(al, fmt);
-  r = varbufvprintf(v, fmt, al);
-  va_end(al);
+  va_start(args, fmt);
+  r = varbufvprintf(v, fmt, args);
+  va_end(args);
 
   return r;
 }
 
-int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
-  va_list al;
+int
+varbufvprintf(struct varbuf *v, const char *fmt, va_list args)
+{
+  va_list args_copy;
   int needed, r;
 
-  va_copy(al, va);
-  needed = vsnprintf(NULL, 0, fmt, al);
-  va_end(al);
+  va_copy(args_copy, args);
+  needed = vsnprintf(NULL, 0, fmt, args_copy);
+  va_end(args_copy);
 
   if (needed < 0)
     ohshite(_("error formatting string into varbuf variable"));
 
   varbuf_grow(v, needed + 1);
 
-  va_copy(al, va);
-  r = vsnprintf(v->buf + v->used, needed + 1, fmt, al);
-  va_end(al);
+  va_copy(args_copy, args);
+  r = vsnprintf(v->buf + v->used, needed + 1, fmt, args_copy);
+  va_end(args_copy);
 
   if (r < 0)
     ohshite(_("error formatting string into varbuf variable"));

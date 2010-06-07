@@ -43,7 +43,7 @@ void command_destroy(struct command *cmd);
 
 void command_add_arg(struct command *cmd, const char *arg);
 void command_add_argl(struct command *cmd, const char **argv);
-void command_add_argv(struct command *cmd, va_list al);
+void command_add_argv(struct command *cmd, va_list args);
 void command_add_args(struct command *cmd, ...) DPKG_ATTR_SENTINEL;
 
 void command_exec(struct command *cmd) DPKG_ATTR_NORET;

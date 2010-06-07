@@ -199,9 +199,9 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
                   void (*call2)(int argc, void **argv), int mask2,
                   unsigned int nargs, ...) {
   struct cleanupentry *cep;
-  void **args;
+  void **argv;
   int e;
-  va_list al;
+  va_list args;
 
   onerr_abort++;
   
@@ -214,10 +214,12 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   cep->calls[0].call= call1; cep->calls[0].mask= mask1;
   cep->calls[1].call= call2; cep->calls[1].mask= mask2;
   cep->cpmask=~0; cep->cpvalue=0; cep->argc= nargs;
-  va_start(al,nargs);
-  args= cep->argv; while (nargs-- >0) *args++= va_arg(al,void*);
-  *args++= NULL;
-  va_end(al);
+  va_start(args, nargs);
+  argv = cep->argv;
+  while (nargs-- > 0)
+    *argv++ = va_arg(args, void *);
+  *argv++ = NULL;
+  va_end(args);
   cep->next= econtext->cleanups;
   econtext->cleanups= cep;
   if (cep == &emergency.ce) { e= errno; ohshite(_("out of memory for new cleanup entry")); }
@@ -239,10 +241,11 @@ void pop_cleanup(int flagset) {
 }
 
 void ohshit(const char *fmt, ...) {
-  va_list al;
-  va_start(al,fmt);
-  vsnprintf(errmsgbuf,sizeof(errmsgbuf),fmt,al);
-  va_end(al);
+  va_list args;
+
+  va_start(args, fmt);
+  vsnprintf(errmsgbuf, sizeof(errmsgbuf), fmt, args);
+  va_end(args);
   errmsg= errmsgbuf;
 
   run_error_handler();
@@ -252,8 +255,10 @@ void print_error_fatal(const char *emsg, const char *contextstring) {
   fprintf(stderr, "%s: %s\n",thisname,emsg);
 }
 
-void ohshitv(const char *fmt, va_list al) {
-  vsnprintf(errmsgbuf,sizeof(errmsgbuf),fmt,al);
+void
+ohshitv(const char *fmt, va_list args)
+{
+  vsnprintf(errmsgbuf, sizeof(errmsgbuf), fmt, args);
   errmsg= errmsgbuf;
 
   run_error_handler();
@@ -261,13 +266,13 @@ void ohshitv(const char *fmt, va_list al) {
 
 void ohshite(const char *fmt, ...) {
   int e;
-  va_list al;
+  va_list args;
   char buf[1024];
 
   e=errno;
-  va_start(al,fmt);
-  vsnprintf(buf,sizeof(buf),fmt,al);
-  va_end(al);
+  va_start(args, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, args);
+  va_end(args);
 
   snprintf(errmsgbuf,sizeof(errmsgbuf),"%s: %s",buf,strerror(e));
   errmsg= errmsgbuf; 
@@ -278,12 +283,12 @@ void ohshite(const char *fmt, ...) {
 void
 warning(const char *fmt, ...)
 {
-  va_list al;
+  va_list args;
   char buf[1024];
 
-  va_start(al,fmt);
-  vsnprintf(buf,sizeof(buf),fmt,al);
-  va_end(al);
+  va_start(args, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, args);
+  va_end(args);
 
   fprintf(stderr, _("%s: warning: %s\n"), thisname, buf);
 }
@@ -295,12 +300,12 @@ void werr(const char *fn) {
 void
 do_internerr(const char *file, int line, const char *fmt, ...)
 {
-  va_list al;
+  va_list args;
   char buf[1024];
 
-  va_start(al, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, al);
-  va_end(al);
+  va_start(args, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, args);
+  va_end(args);
 
   fprintf(stderr, _("%s:%s:%d: internal error: %s\n"),
           thisname, file, line, buf);

@@ -108,15 +108,16 @@ skip_due_to_hold(struct pkginfo *pkg)
 }
 
 void forcibleerr(int forceflag, const char *fmt, ...) {
-  va_list al;
-  va_start(al,fmt);
+  va_list args;
+
+  va_start(args, fmt);
   if (forceflag) {
     warning(_("overriding problem because --force enabled:"));
     fputc(' ', stderr);
-    vfprintf(stderr,fmt,al);
+    vfprintf(stderr, fmt, args);
     fputc('\n',stderr);
   } else {
-    ohshitv(fmt,al);
+    ohshitv(fmt, args);
   }
-  va_end(al);
+  va_end(args);
 }

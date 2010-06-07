@@ -45,7 +45,7 @@
 static void DPKG_ATTR_NORET DPKG_ATTR_SENTINEL
 fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 {
-	va_list al;
+	va_list args;
 	struct command cmd;
 
 	if (fd_in != 0) {
@@ -59,9 +59,9 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 
 	command_init(&cmd, file, desc);
 	command_add_arg(&cmd, file);
-	va_start(al, file);
-	command_add_argv(&cmd, al);
-	va_end(al);
+	va_start(args, file);
+	command_add_argv(&cmd, args);
+	va_end(args);
 
 	command_exec(&cmd);
 }
@@ -415,15 +415,15 @@ void
 decompress_filter(struct compressor *compressor, int fd_in, int fd_out,
                   const char *desc_fmt, ...)
 {
-	va_list al;
+	va_list args;
 	struct varbuf desc = VARBUF_INIT;
 
 	if (compressor == NULL)
 		internerr("no compressor specified");
 
-	va_start(al, desc_fmt);
-	varbufvprintf(&desc, desc_fmt, al);
-	va_end(al);
+	va_start(args, desc_fmt);
+	varbufvprintf(&desc, desc_fmt, args);
+	va_end(args);
 
 	compressor->decompress(fd_in, fd_out, desc.buf);
 
@@ -434,15 +434,15 @@ void
 compress_filter(struct compressor *compressor, int fd_in, int fd_out,
                 int compress_level, const char *desc_fmt, ...)
 {
-	va_list al;
+	va_list args;
 	struct varbuf desc = VARBUF_INIT;
 
 	if (compressor == NULL)
 		internerr("no compressor specified");
 
-	va_start(al, desc_fmt);
-	varbufvprintf(&desc, desc_fmt, al);
-	va_end(al);
+	va_start(args, desc_fmt);
+	varbufvprintf(&desc, desc_fmt, args);
+	va_end(args);
 
 	if (compress_level < 0)
 		compress_level = compressor->default_level;
