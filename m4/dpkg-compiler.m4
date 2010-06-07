@@ -3,13 +3,15 @@
 
 # DPKG_COMPILER_WARNINGS
 # ---------------------
-# Add configure option to enable additional compiler warnings and treat
-# them as errors.
+# Add configure option to disable additional compiler warnings.
 AC_DEFUN([DPKG_COMPILER_WARNINGS],
 [AC_ARG_ENABLE(compiler-warnings,
-	AS_HELP_STRING([--enable-compiler-warnings],
-	               [Enable additional compiler warnings]),
-[WFLAGS="-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers \
+	AS_HELP_STRING([--disable-compiler-warnings],
+	               [Disable additional compiler warnings]),
+	[enable_compiler_warnings=$enableval],
+	[enable_compiler_warnings=yes])
+
+WFLAGS="-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers \
 	 -Wmissing-declarations -Wmissing-format-attribute \
 	 -Wvla -Winit-self -Wwrite-strings -Wcast-align"
 WCFLAGS="-Wdeclaration-after-statement -Wnested-externs -Wbad-function-cast \
@@ -23,7 +25,7 @@ if test "x$enable_compiler_warnings" = "xyes"; then
 	if test "x$GXX" = "xyes"; then
 		CXXFLAGS="$WFLAGS $WCXXFLAGS $CXXFLAGS"
 	fi
-fi])dnl
+fi
 ])
 
 # DPKG_COMPILER_OPTIMISATIONS
