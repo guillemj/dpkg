@@ -81,10 +81,7 @@ varbufvprintf(struct varbuf *v, const char *fmt, va_list args)
 
   varbuf_grow(v, needed + 1);
 
-  va_copy(args_copy, args);
-  r = vsnprintf(v->buf + v->used, needed + 1, fmt, args_copy);
-  va_end(args_copy);
-
+  r = vsnprintf(v->buf + v->used, needed + 1, fmt, args);
   if (r < 0)
     ohshite(_("error formatting string into varbuf variable"));
 
