@@ -227,6 +227,29 @@ sub apply_patches {
     close(APPLIED);
 }
 
+sub unapply_patches {
+    my ($self, $dir, %opts) = @_;
+
+    $opts{'verbose'} = 1 unless defined $opts{'verbose'};
+
+    my $pc_applied = File::Spec->catfile($dir, ".pc", "applied-patches");
+    my @applied = $self->read_patch_list($pc_applied);
+    $opts{"timestamp"} = time();
+    foreach my $patch (reverse @applied) {
+        my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
+        my $obj = Dpkg::Source::Patch->new(filename => $path);
+
+        info(_g("unapplying %s"), $patch) if $opts{"verbose"};
+        $obj->apply($dir, timestamp => $opts{"timestamp"},
+                    force_timestamp => 1, remove_backup => 0,
+                    options => [ '-R', '-s', '-t', '-N', '-p1',
+                                 '-u', '-V', 'never', '-g0', '-E',
+                                 '--no-backup-if-mismatch' ]);
+        erasedir(File::Spec->catdir($dir, ".pc", $patch));
+    }
+    unlink($pc_applied);
+}
+
 sub prepare_build {
     my ($self, $dir) = @_;
     $self->SUPER::prepare_build($dir);

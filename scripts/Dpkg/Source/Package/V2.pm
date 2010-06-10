@@ -53,6 +53,8 @@ sub init_options {
         unless exists $self->{'options'}{'preparation'};
     $self->{'options'}{'skip_patches'} = 0
         unless exists $self->{'options'}{'skip_patches'};
+    $self->{'options'}{'unapply_patches'} = 0
+        unless exists $self->{'options'}{'unapply_patches'};
     $self->{'options'}{'skip_debianization'} = 0
         unless exists $self->{'options'}{'skip_debianization'};
     $self->{'options'}{'create_empty_orig'} = 0
@@ -75,6 +77,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ /^--skip-patches$/) {
         $self->{'options'}{'skip_patches'} = 1;
+        return 1;
+    } elsif ($opt =~ /^--unapply-patches$/) {
+        $self->{'options'}{'unapply_patches'} = 1;
         return 1;
     } elsif ($opt =~ /^--skip-debianization$/) {
         $self->{'options'}{'skip_debianization'} = 1;
@@ -206,6 +211,23 @@ sub apply_patches {
     close(APPLIED);
 }
 
+sub unapply_patches {
+    my ($self, $dir, %opts) = @_;
+    my @patches = reverse($self->get_patches($dir, %opts));
+    return unless scalar(@patches);
+    my $timestamp = time();
+    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+    foreach my $patch (@patches) {
+        my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
+        info(_g("unapplying %s"), $patch) unless $opts{"quiet"};
+        my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
+        $patch_obj->apply($dir, force_timestamp => 1,
+                          timestamp => $timestamp,
+                          add_options => [ '-E', '-R' ]);
+    }
+    unlink($applied);
+}
+
 sub can_build {
     my ($self, $dir) = @_;
     return 1 if $self->find_original_tarballs(include_supplementary => 0);
@@ -217,6 +239,11 @@ sub can_build {
 sub before_build {
     my ($self, $dir) = @_;
     $self->check_patches_applied($dir) if $self->{'options'}{'preparation'};
+}
+
+sub after_build {
+    my ($self, $dir) = @_;
+    $self->unapply_patches($dir) if $self->{'options'}{'unapply_patches'};
 }
 
 sub prepare_build {

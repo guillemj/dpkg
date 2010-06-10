@@ -104,15 +104,21 @@ if (defined($options{'opmode'}) &&
     if (not -d $dir) {
 	error(_g("directory argument %s is not a directory"), $dir);
     }
+    # --format options are not allowed, they would take precedence
+    # over real command line options, debian/source/format should be used
+    # instead
+    # --unapply-patches is only allowed in local-options as it's a matter
+    # of personal taste and the default should be to keep patches applied
+    my $forbidden_opts_re = {
+	"options" => qr/^--(?:format=|unapply-patches$)/,
+	"local-options" => qr/^--format=/,
+    };
     foreach my $filename ("local-options", "options") {
 	my $conf = Dpkg::Conf->new();
 	my $optfile = File::Spec->catfile($dir, "debian", "source", $filename);
 	next unless -f $optfile;
 	$conf->load($optfile);
-	# --format options are not allowed, they would take precedence
-	# over real command line options, debian/source/format should be used
-	# instead
-	@$conf = grep { ! /^--format=/ } @$conf;
+	$conf->filter(remove => sub { $_[0] =~ $forbidden_opts_re->{$filename} });
 	if (@$conf) {
 	    info(_g("using options from %s: %s"), $optfile, join(" ", @$conf))
 		unless $options{'opmode'} eq "--print-format";

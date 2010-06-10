@@ -506,6 +506,15 @@ Automatically create the main original tarball as empty if it's missing
 and if there are supplementary original tarballs. This option is meant to
 be used when the source package is just a bundle of multiple upstream
 software and where there's no "main" software.
+.TP
+.B \-\-unapply\-patches
+Unapply the patches in the \fB\-\-after\-build\fP hook. This is mainly
+useful when you build your package directly in a VCS that contains
+unpatched upstream source and where you want to keep the tree unpatched
+even after a package build. This option is usually put in
+\fBdebian/source/local\-options\fP (it's not allowed in
+\fBdebian/source/options\fP so that all generated source packages have the
+same behaviour by default).
 
 .PP
 .B Extract options
