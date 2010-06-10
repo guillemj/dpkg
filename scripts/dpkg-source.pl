@@ -110,7 +110,7 @@ if (defined($options{'opmode'}) &&
     # --unapply-patches is only allowed in local-options as it's a matter
     # of personal taste and the default should be to keep patches applied
     my $forbidden_opts_re = {
-	"options" => qr/^--(?:format=|unapply-patches$)/,
+	"options" => qr/^--(?:format=|unapply-patches$|abort-on-upstream-changes$)/,
 	"local-options" => qr/^--format=/,
     };
     foreach my $filename ("local-options", "options") {

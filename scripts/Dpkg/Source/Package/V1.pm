@@ -50,6 +50,7 @@ sub init_options {
     }
     $self->{'options'}{'sourcestyle'} ||= 'X';
     $self->{'options'}{'skip_debianization'} ||= 0;
+    $self->{'options'}{'abort_on_upstream_changes'} ||= 0;
 }
 
 sub parse_cmdline_option {
@@ -63,6 +64,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ m/^--skip-debianization$/) {
         $o->{'skip_debianization'} = 1;
+        return 1;
+    } elsif ($opt =~ m/^--abort-on-upstream-changes$/) {
+        $o->{'abort_on_upstream_changes'} = 1;
         return 1;
     }
     return 0;
@@ -362,6 +366,8 @@ sub do_build {
 	            "\n " . join("\n ", @files));
 	    info(_g("use the '3.0 (quilt)' format to have separate and " .
 	            "documented changes to upstream files, see dpkg-source(1)"));
+	    error(_g("aborting due to --abort-on-upstream-changes"))
+		if $self->{'options'}{'abort_on_upstream_changes'};
 	}
 
 	rename($newdiffgz, $diffname) ||

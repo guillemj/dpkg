@@ -340,6 +340,13 @@ was specified.
 .B \-sA
 is the default.
 .TP
+.B \-\-abort\-on\-upstream\-changes
+The process fails if the generated diff contains changes to files
+outside of the debian sub-directory. This option is not allowed in
+\fBdebian/source/options\fP but can be used in
+\fBdebian/source/local\-options\fP.
+
+.TP
 .B Extract options (with \-x):
 .PP
 In all cases any existing original source tree will be removed.
@@ -515,6 +522,13 @@ even after a package build. This option is usually put in
 \fBdebian/source/local\-options\fP (it's not allowed in
 \fBdebian/source/options\fP so that all generated source packages have the
 same behaviour by default).
+.TP
+.B \-\-abort\-on\-upstream\-changes
+The process fails if an automatic patch has been generated. This option
+can be used to ensure that all changes were properly recorded in separate
+quilt patches prior to the source package build. This option is not
+allowed in \fBdebian/source/options\fP but can be used in
+\fBdebian/source/local\-options\fP.
 
 .PP
 .B Extract options

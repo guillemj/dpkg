@@ -59,6 +59,8 @@ sub init_options {
         unless exists $self->{'options'}{'skip_debianization'};
     $self->{'options'}{'create_empty_orig'} = 0
         unless exists $self->{'options'}{'create_empty_orig'};
+    $self->{'options'}{'abort_on_upstream_changes'} = 0
+        unless exists $self->{'options'}{'abort_on_upstream_changes'};
 }
 
 sub parse_cmdline_option {
@@ -86,6 +88,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ /^--create-empty-orig$/) {
         $self->{'options'}{'create_empty_orig'} = 1;
+        return 1;
+    } elsif ($opt =~ /^--abort-on-upstream-changes$/) {
+        $self->{'options'}{'abort_on_upstream_changes'} = 1;
         return 1;
     }
     return 0;
@@ -446,6 +451,9 @@ sub do_build {
                 syserr(_g("unable to change permission of `%s'"), $autopatch);
     }
     $self->register_autopatch($dir);
+    if (-e $autopatch and $self->{'options'}{'abort_on_upstream_changes'}) {
+        error(_g("aborting due to --abort-on-upstream-changes"));
+    }
     rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
     pop @Dpkg::Exit::handlers;
 
