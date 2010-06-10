@@ -18,7 +18,7 @@ package Dpkg::Conf;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "1.01";
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -120,6 +120,27 @@ sub parse {
 	}
     }
     return $count;
+}
+
+=item $conf->filter(remove => $rmfunc)
+
+=item $conf->filter(keep => $keepfunc)
+
+Filter the list of options, either removing or keeping all those that
+return true when &$rmfunc($option) or &keepfunc($option) is called.
+
+=cut
+
+sub filter {
+    my ($self, %opts) = @_;
+    if (defined($opts{'remove'})) {
+	@{$self->{'options'}} = grep { not &{$opts{'remove'}}($_) }
+				     @{$self->{'options'}};
+    }
+    if (defined($opts{'keep'})) {
+	@{$self->{'options'}} = grep { &{$opts{'keep'}}($_) }
+				     @{$self->{'options'}};
+    }
 }
 
 =item $string = $conf->output($fh)
