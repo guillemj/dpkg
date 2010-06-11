@@ -169,7 +169,7 @@ sub apply_quilt_patch {
     info(_g("applying %s"), $patch) if $opts{"verbose"};
     $obj->apply($dir, timestamp => $opts{"timestamp"},
                 force_timestamp => 1, create_dirs => 1, remove_backup => 0,
-                options => [ '-s', '-t', '-F', '0', '-N', '-p1', '-u',
+                options => [ '-t', '-F', '0', '-N', '-p1', '-u',
                              '-V', 'never', '-g0', '-E', '-b',
                              '-B', ".pc/$patch/" ]);
 }
@@ -242,7 +242,7 @@ sub unapply_patches {
         info(_g("unapplying %s"), $patch) if $opts{"verbose"};
         $obj->apply($dir, timestamp => $opts{"timestamp"},
                     force_timestamp => 1, remove_backup => 0,
-                    options => [ '-R', '-s', '-t', '-N', '-p1',
+                    options => [ '-R', '-t', '-N', '-p1',
                                  '-u', '-V', 'never', '-g0', '-E',
                                  '--no-backup-if-mismatch' ]);
         erasedir(File::Spec->catdir($dir, ".pc", $patch));

@@ -443,7 +443,7 @@ sub apply {
     $opts{"force_timestamp"} = 1 unless exists $opts{"force_timestamp"};
     $opts{"remove_backup"} = 1 unless exists $opts{"remove_backup"};
     $opts{"create_dirs"} = 1 unless exists $opts{"create_dirs"};
-    $opts{"options"} ||= [ '-s', '-t', '-F', '0', '-N', '-p1', '-u',
+    $opts{"options"} ||= [ '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
     $opts{"add_options"} ||= [];
     push @{$opts{"options"}}, @{$opts{"add_options"}};
@@ -452,14 +452,24 @@ sub apply {
     $self->prepare_apply($analysis, %opts);
     # Apply the patch
     $self->ensure_open("r");
+    my ($stdout, $stderr) = ('', '');
     spawn(
 	'exec' => [ 'patch', @{$opts{"options"}} ],
 	'chdir' => $destdir,
 	'env' => { LC_ALL => 'C', LANG => 'C' },
 	'delete_env' => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
 	'wait_child' => 1,
+	'nocheck' => 1,
 	'from_handle' => $self->get_filehandle(),
+	'to_string' => \$stdout,
+	'error_to_string' => \$stderr,
     );
+    if ($?) {
+	print STDOUT $stdout;
+	print STDERR $stderr;
+	subprocerr("LC_ALL=C patch " . join(" ", @{$opts{"options"}}) .
+	           " < " . $self->get_filename());
+    }
     $self->close();
     # Reset the timestamp of all the patched files
     # and remove .dpkg-orig files
