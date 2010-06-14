@@ -27,7 +27,6 @@ changelog_SCRIPTS = \
 	changelog/debian
 
 EXTRA_DIST = \
-	README.alternatives \
 	dpkg-architecture.pl \
 	dpkg-buildflags.pl \
 	dpkg-buildpackage.pl \
@@ -222,7 +221,10 @@ test_data = \
 	t/910_merge_changelogs/ch-merged \
 	t/910_merge_changelogs/ch-merged-basic \
 	t/910_merge_changelogs/ch-merged-pr \
-	t/910_merge_changelogs/ch-merged-pr-basic
+	t/910_merge_changelogs/ch-merged-pr-basic \
+	t/origins/debian \
+	t/origins/default \
+	t/origins/ubuntu
 
 clean-local:
 	rm -fr man
