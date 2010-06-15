@@ -626,6 +626,7 @@ int tarobject(struct TarInfo *ti) {
 
   if (filter_should_skip(ti)) {
     nifd->namenode->flags &= ~fnnf_new_inarchive;
+    nifd->namenode->flags |= fnnf_filtered;
     tarfile_skip_one_forward(ti);
 
     return 0;

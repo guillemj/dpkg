@@ -740,6 +740,10 @@ void process_archive(const char *filename) {
 	    "upgrade/downgrade", fnamevb.buf);
 
       for (cfile= newfileslist; cfile; cfile= cfile->next) {
+	/* If the file has been filtered then treat it as if it didn't exist
+	 * on the file system. */
+	if (cfile->namenode->flags & fnnf_filtered)
+	  continue;
 	if (!cfile->namenode->filestat) {
 	  struct stat tmp_stat;
 

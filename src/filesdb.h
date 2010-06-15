@@ -71,6 +71,7 @@ struct filenamenode {
     fnnf_placed_on_disk=      000040, /* new file has been placed on the disk */
     fnnf_deferred_fsync =     000200,
     fnnf_deferred_rename =    000400,
+    fnnf_filtered =           001000, /* path being filtered */
   } flags; /* Set to zero when a new node is created. */
   const char *oldhash; /* valid iff this namenode is in the newconffiles list */
   struct stat *filestat;
