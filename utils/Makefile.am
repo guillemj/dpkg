@@ -10,9 +10,6 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 
-test_cases = \
-	t/100_update_alternatives.t
-
 EXTRA_DIST = \
 	README.alternatives \
 	$(test_cases)
