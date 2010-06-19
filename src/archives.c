@@ -616,8 +616,7 @@ int tarobject(struct TarInfo *ti) {
       }
     }
   }
-       
-  if (existingdirectory) return 0;
+
   if (keepexisting) {
     remove_file_from_list(ti, oldnifd, nifd);
     tarfile_skip_one_forward(ti);
@@ -631,6 +630,9 @@ int tarobject(struct TarInfo *ti) {
 
     return 0;
   }
+
+  if (existingdirectory)
+    return 0;
 
   /* Now, at this stage we want to make sure neither of .dpkg-new and .dpkg-tmp
    * are hanging around.
