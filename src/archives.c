@@ -404,7 +404,8 @@ int tarobject(struct TarInfo *ti) {
 
   struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
-  int statr, i, existingdirectory, keepexisting;
+  bool existingdirectory, keepexisting;
+  int statr, i;
   ssize_t r;
   struct stat stab, stabtmp;
   char databuf[TARBLKSZ];
@@ -496,23 +497,23 @@ int tarobject(struct TarInfo *ti) {
    * do anything.  This has to be done now so that we don't die due to
    * a file overwriting conflict.
    */
-  existingdirectory= 0;
+  existingdirectory = false;
   switch (ti->Type) {
   case SymbolicLink:
     /* If it's already an existing directory, do nothing. */
     if (!statr && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail,"tarobject SymbolicLink exists as directory");
-      existingdirectory= 1;
+      existingdirectory = true;
     } else if (!statr && S_ISLNK(stab.st_mode)) {
       if (linktosameexistingdir(ti, fnamevb.buf, &symlinkfn))
-        existingdirectory= 1;
+        existingdirectory = true;
     }
     break;
   case Directory:
     /* If it's already an existing directory, do nothing. */
     if (!stat(fnamevb.buf,&stabtmp) && S_ISDIR(stabtmp.st_mode)) {
       debug(dbg_eachfiledetail,"tarobject Directory exists");
-      existingdirectory= 1;
+      existingdirectory = true;
     }
     break;
   case NormalFile0: case NormalFile1:
@@ -523,7 +524,7 @@ int tarobject(struct TarInfo *ti) {
     ohshit(_("archive contained object `%.255s' of unknown type 0x%x"),ti->Name,ti->Type);
   }
 
-  keepexisting= 0;
+  keepexisting = false;
   if (!existingdirectory) {
     for (packageslump= nifd->namenode->packages;
          packageslump;
@@ -545,7 +546,7 @@ int tarobject(struct TarInfo *ti) {
         /* Nope ?  Hmm, file conflict, perhaps.  Check Replaces. */
 	switch (otherpkg->clientdata->replacingfilesandsaid) {
 	case 2:
-	  keepexisting= 1;
+	  keepexisting = true;
 	case 1:
 	  continue;
 	}
@@ -590,7 +591,7 @@ int tarobject(struct TarInfo *ti) {
 		 otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 2;
           nifd->namenode->flags &= ~fnnf_new_inarchive;
-	  keepexisting = 1;
+	  keepexisting = true;
         } else {
           if (!statr && S_ISDIR(stab.st_mode)) {
             forcibleerr(fc_overwritedir,
