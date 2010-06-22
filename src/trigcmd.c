@@ -143,7 +143,7 @@ static const struct trigdefmeths tdm_add = {
 	.trig_end = tdm_add_trig_end,
 };
 
-static void
+static void DPKG_ATTR_NORET
 do_check(void)
 {
 	int uf;
