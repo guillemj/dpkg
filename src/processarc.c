@@ -113,7 +113,6 @@ void process_archive(const char *filename) {
   struct fileinlist *cfile;
   struct reversefilelistiter rlistit;
   struct conffile *searchconff, **iconffileslastp, *newiconff;
-  struct filepackages *packageslump;
   struct dependency *dsearch, *newdeplist, **newdeplistlastp;
   struct dependency *newdep, *dep, *providecheck;
   struct deppossi *psearch, **newpossilastp, *possi, *newpossi, *pdep;
@@ -366,6 +365,8 @@ void process_archive(const char *filename) {
   if (conff) {
     push_cleanup(cu_closefile, ehflag_bombout, NULL, 0, 1, (void *)conff);
     while (fgets(conffilenamebuf,MAXCONFFILENAME-2,conff)) {
+      struct filepackages_iterator *iter;
+
       p= conffilenamebuf + strlen(conffilenamebuf);
       assert(p != conffilenamebuf);
       if (p[-1] != '\n')
@@ -390,29 +391,30 @@ void process_archive(const char *filename) {
        * the file we pick one at random.
        */
       searchconff = NULL;
-      for (packageslump= newconff->namenode->packages;
-           packageslump;
-           packageslump= packageslump->more) {
-        for (i=0; i < PERFILEPACKAGESLUMP && packageslump->pkgs[i]; i++) {
-          otherpkg= packageslump->pkgs[i];
-          debug(dbg_conffdetail,"process_archive conffile `%s' in package %s - conff ?",
-                newconff->namenode->name,otherpkg->name);
-          for (searchconff= otherpkg->installed.conffiles;
-               searchconff && strcmp(newconff->namenode->name,searchconff->name);
-               searchconff= searchconff->next)
-            debug(dbg_conffdetail,
-                  "process_archive conffile `%s' in package %s - conff ? not `%s'",
-                  newconff->namenode->name,otherpkg->name,searchconff->name);
-          if (searchconff) {
-            debug(dbg_conff,"process_archive conffile `%s' package=%s %s hash=%s",
-                  newconff->namenode->name,otherpkg->name,
-                  otherpkg == pkg ? "same" : "different!",
-                  searchconff->hash);
-            if (otherpkg == pkg) goto xit_conff_hashcopy_srch;
-          }
+
+      iter = filepackages_iter_new(newconff->namenode);
+      while ((otherpkg = filepackages_iter_next(iter))) {
+        debug(dbg_conffdetail,
+              "process_archive conffile `%s' in package %s - conff ?",
+              newconff->namenode->name, otherpkg->name);
+        for (searchconff = otherpkg->installed.conffiles;
+             searchconff && strcmp(newconff->namenode->name, searchconff->name);
+             searchconff = searchconff->next)
+          debug(dbg_conffdetail,
+                "process_archive conffile `%s' in package %s - conff ? not `%s'",
+                newconff->namenode->name, otherpkg->name, searchconff->name);
+        if (searchconff) {
+          debug(dbg_conff,
+                "process_archive conffile `%s' package=%s %s hash=%s",
+                newconff->namenode->name, otherpkg->name,
+                otherpkg == pkg ? "same" : "different!",
+                searchconff->hash);
+          if (otherpkg == pkg)
+            break;
         }
       }
-    xit_conff_hashcopy_srch:
+      filepackages_iter_free(iter);
+
       if (searchconff) {
         newconff->namenode->oldhash= searchconff->hash;
 	/* we don't copy `obsolete'; it's not obsolete in the new package */
@@ -1158,6 +1160,8 @@ void process_archive(const char *filename) {
    * have claimed `ownership' of all its files.
    */
   for (cfile= newfileslist; cfile; cfile= cfile->next) {
+    struct filepackages_iterator *iter;
+
     if (!(cfile->namenode->flags & fnnf_elide_other_lists)) continue;
     if (cfile->namenode->divert && cfile->namenode->divert->useinstead) {
       divpkg= cfile->namenode->divert->pkg;
@@ -1176,30 +1180,26 @@ void process_archive(const char *filename) {
       debug(dbg_eachfile, "process_archive looking for overwriting `%s'",
             cfile->namenode->name);
     }
-    for (packageslump= cfile->namenode->packages;
-         packageslump;
-         packageslump= packageslump->more) {
-      for (i=0; i < PERFILEPACKAGESLUMP && packageslump->pkgs[i]; i++) {
-        otherpkg= packageslump->pkgs[i];
-        debug(dbg_eachfiledetail, "process_archive ... found in %s\n",otherpkg->name);
-        /* If !fileslistvalid then it's one of the disappeared packages above
-         * and we don't bother with it here, clearly.
-         */
-        if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid) continue;
-        if (otherpkg == divpkg) {
-          debug(dbg_eachfiledetail, "process_archive ... diverted, skipping\n");
-          continue;
-        }
-
-        /* Found one.  We delete remove the list entry for this file,
-         * (and any others in the same package) and then mark the package
-         * as requiring a reread.
-         */
-        write_filelist_except(otherpkg, otherpkg->clientdata->files, 1);
-        ensure_package_clientdata(otherpkg);
-        debug(dbg_veryverbose, "process_archive overwrote from %s",otherpkg->name);
+    iter = filepackages_iter_new(cfile->namenode);
+    while ((otherpkg = filepackages_iter_next(iter))) {
+      debug(dbg_eachfiledetail, "process_archive ... found in %s\n", otherpkg->name);
+      /* If !fileslistvalid then it's one of the disappeared packages above
+       * and we don't bother with it here, clearly. */
+      if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid)
+        continue;
+      if (otherpkg == divpkg) {
+        debug(dbg_eachfiledetail, "process_archive ... diverted, skipping\n");
+        continue;
       }
+
+      /* Found one. We delete remove the list entry for this file,
+       * (and any others in the same package) and then mark the package
+       * as requiring a reread. */
+      write_filelist_except(otherpkg, otherpkg->clientdata->files, 1);
+      ensure_package_clientdata(otherpkg);
+      debug(dbg_veryverbose, "process_archive overwrote from %s", otherpkg->name);
     }
+    filepackages_iter_free(iter);
   }
 
   /* Right, the package we've unpacked is now in a reasonable state.

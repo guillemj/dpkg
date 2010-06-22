@@ -492,21 +492,22 @@ hasdirectoryconffiles(struct filenamenode *file, struct pkginfo *pkg)
 bool
 isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg)
 {
-  struct filepackages *packageslump;
-  int i;
+  struct filepackages_iterator *iter;
+  struct pkginfo *other_pkg;
     
   debug(dbg_veryverbose, "isdirectoryinuse `%s' (except %s)", file->name,
         pkg ? pkg->name : "<none>");
-  for (packageslump= file->packages; packageslump; packageslump= packageslump->more) {
-    debug(dbg_veryverbose, "isdirectoryinuse packageslump %s ...",
-          packageslump->pkgs[0] ? packageslump->pkgs[0]->name : "<none>");
-    for (i=0; i < PERFILEPACKAGESLUMP && packageslump->pkgs[i]; i++) {
-      debug(dbg_veryverbose, "isdirectoryinuse considering [%d] %s ...", i,
-            packageslump->pkgs[i]->name);
-      if (packageslump->pkgs[i] == pkg) continue;
-      return true;
-    }
+
+  iter = filepackages_iter_new(file);
+  while ((other_pkg = filepackages_iter_next(iter))) {
+    debug(dbg_veryverbose, "isdirectoryinuse considering %s ...",
+          other_pkg->name);
+    if (other_pkg == pkg)
+      continue;
+    return true;
   }
+  filepackages_iter_free(iter);
+
   debug(dbg_veryverbose, "isdirectoryinuse no");
   return false;
 }

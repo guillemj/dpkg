@@ -192,8 +192,9 @@ listpackages(const char *const *argv)
 }
 
 static int searchoutput(struct filenamenode *namenode) {
-  int found, i;
-  struct filepackages *packageslump;
+  struct filepackages_iterator *iter;
+  struct pkginfo *pkg_owner;
+  int found;
 
   if (namenode->divert) {
     const char *name_from = namenode->divert->camefrom ?
@@ -212,15 +213,16 @@ static int searchoutput(struct filenamenode *namenode) {
     }
   }
   found= 0;
-  for (packageslump= namenode->packages;
-       packageslump;
-       packageslump= packageslump->more) {
-    for (i=0; i < PERFILEPACKAGESLUMP && packageslump->pkgs[i]; i++) {
-      if (found) fputs(", ",stdout);
-      fputs(packageslump->pkgs[i]->name,stdout);
-      found++;
-    }
+
+  iter = filepackages_iter_new(namenode);
+  while ((pkg_owner = filepackages_iter_next(iter))) {
+    if (found)
+      fputs(", ", stdout);
+    fputs(pkg_owner->name, stdout);
+    found++;
   }
+  filepackages_iter_free(iter);
+
   if (found) printf(": %s\n",namenode->name);
   return found + (namenode->divert ? 1 : 0);
 }

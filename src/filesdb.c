@@ -51,6 +51,62 @@
 #include "filesdb.h"
 #include "main.h"
 
+
+/* filepackages support for tracking packages owning a file. */
+
+#define PERFILEPACKAGESLUMP 10
+
+struct filepackages {
+  struct filepackages *more;
+
+  /* pkgs is a NULL-pointer-terminated list; anything after the first NULL
+   * is garbage. */
+  struct pkginfo *pkgs[PERFILEPACKAGESLUMP];
+};
+
+struct filepackages_iterator {
+  struct filepackages *pkg_lump;
+  int pkg_idx;
+};
+
+struct filepackages_iterator *
+filepackages_iter_new(struct filenamenode *fnn)
+{
+  struct filepackages_iterator *iter;
+
+  iter = m_malloc(sizeof(*iter));
+  iter->pkg_lump  = fnn->packages;
+  iter->pkg_idx = 0;
+
+  return iter;
+}
+
+struct pkginfo *
+filepackages_iter_next(struct filepackages_iterator *iter)
+{
+  struct pkginfo *pkg;
+
+  while (iter->pkg_lump) {
+    pkg = iter->pkg_lump->pkgs[iter->pkg_idx];
+
+    if (iter->pkg_idx < PERFILEPACKAGESLUMP && pkg) {
+      iter->pkg_idx++;
+      return pkg;
+    } else {
+      iter->pkg_lump = iter->pkg_lump->more;
+      iter->pkg_idx = 0;
+    }
+  }
+
+  return NULL;
+}
+
+void
+filepackages_iter_free(struct filepackages_iterator *iter)
+{
+  free(iter);
+}
+
 /*** Generic data structures and routines ***/
 
 static bool allpackagesdone = false;

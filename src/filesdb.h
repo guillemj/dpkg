@@ -120,15 +120,10 @@ struct diversion {
   /* The `contested' halves are in this list for easy cleanup. */
 };
 
-#define PERFILEPACKAGESLUMP 10
-
-struct filepackages {
-  struct filepackages *more;
-  struct pkginfo *pkgs[PERFILEPACKAGESLUMP];
-  /* pkgs is a null-pointer-terminated list; anything after the first null
-   * is garbage
-   */
-};
+struct filepackages_iterator;
+struct filepackages_iterator *filepackages_iter_new(struct filenamenode *fnn);
+struct pkginfo *filepackages_iter_next(struct filepackages_iterator *i);
+void filepackages_iter_free(struct filepackages_iterator *i);
 
 void filesdbinit(void);
 

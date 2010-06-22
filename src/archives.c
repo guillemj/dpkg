@@ -107,9 +107,8 @@ filesavespackage(struct fileinlist *file,
                  struct pkginfo *pkgtobesaved,
                  struct pkginfo *pkgbeinginstalled)
 {
+  struct filepackages_iterator *iter;
   struct pkginfo *divpkg, *thirdpkg;
-  struct filepackages *packageslump;
-  int i;
   
   debug(dbg_eachfiledetail,"filesavespackage file `%s' package %s",
         file->namenode->name,pkgtobesaved->name);
@@ -139,31 +138,31 @@ filesavespackage(struct fileinlist *file,
   /* Look for a 3rd package which can take over the file (in case
    * it's a directory which is shared by many packages.
    */
-  for (packageslump= file->namenode->packages;
-       packageslump;
-       packageslump= packageslump->more) {
-    for (i=0; i < PERFILEPACKAGESLUMP && packageslump->pkgs[i]; i++) {
-      thirdpkg= packageslump->pkgs[i];
-      debug(dbg_eachfiledetail, "filesavespackage ... also in %s",
-            thirdpkg->name);
-      /* Is this not the package being installed or the one being
-       * checked for disappearance ?
-       */
-      if (thirdpkg == pkgbeinginstalled || thirdpkg == pkgtobesaved) continue;
-      /* If !fileslistvalid then we've already disappeared this one, so
-       * we shouldn't try to make it take over this shared directory.
-       */
-      debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");
+  iter = filepackages_iter_new(file->namenode);
+  while ((thirdpkg = filepackages_iter_next(iter))) {
+    debug(dbg_eachfiledetail, "filesavespackage ... also in %s",
+          thirdpkg->name);
 
-      if (!thirdpkg->clientdata->fileslistvalid) {
-        debug(dbg_eachfiledetail, "process_archive ... already disappeared!");
-        continue;
-      }
-      /* We've found a package that can take this file. */
-      debug(dbg_eachfiledetail, "filesavespackage ...  taken -- no save");
-      return false;
+    /* Is this not the package being installed or the one being
+     * checked for disappearance? */
+    if (thirdpkg == pkgbeinginstalled || thirdpkg == pkgtobesaved)
+      continue;
+
+    /* If !fileslistvalid then we've already disappeared this one, so
+     * we shouldn't try to make it take over this shared directory. */
+    debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");
+
+    if (!thirdpkg->clientdata->fileslistvalid) {
+      debug(dbg_eachfiledetail, "process_archive ... already disappeared!");
+      continue;
     }
+
+    /* We've found a package that can take this file. */
+    debug(dbg_eachfiledetail, "filesavespackage ...  taken -- no save");
+    return false;
   }
+  filepackages_iter_free(iter);
+
   debug(dbg_eachfiledetail, "filesavespackage ... not taken -- save !");
   return true;
 }
@@ -405,13 +404,12 @@ int tarobject(struct TarInfo *ti) {
   struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
   bool existingdirectory, keepexisting;
-  int statr, i;
+  int statr;
   ssize_t r;
   struct stat stab, stabtmp;
   char databuf[TARBLKSZ];
   struct fileinlist *nifd, **oldnifd;
   struct pkginfo *divpkg, *otherpkg;
-  struct filepackages *packageslump;
   mode_t am;
 
   ensureobstackinit();
@@ -526,96 +524,100 @@ int tarobject(struct TarInfo *ti) {
 
   keepexisting = false;
   if (!existingdirectory) {
-    for (packageslump= nifd->namenode->packages;
-         packageslump;
-         packageslump= packageslump->more) {
-      for (i=0; i < PERFILEPACKAGESLUMP && packageslump->pkgs[i]; i++) {
-        otherpkg= packageslump->pkgs[i];
-        if (otherpkg == tc->pkg) continue;
-        debug(dbg_eachfile, "tarobject ... found in %s",otherpkg->name);
-        if (nifd->namenode->divert && nifd->namenode->divert->useinstead) {
-          /* Right, so we may be diverting this file.  This makes the conflict
-           * OK iff one of us is the diverting package (we don't need to
-           * check for both being the diverting package, obviously).
-           */
-          divpkg= nifd->namenode->divert->pkg;
-          debug(dbg_eachfile, "tarobject ... diverted, divpkg=%s",
-                divpkg ? divpkg->name : "<none>");
-          if (otherpkg == divpkg || tc->pkg == divpkg) continue;
+    struct filepackages_iterator *iter;
+
+    iter = filepackages_iter_new(nifd->namenode);
+    while ((otherpkg = filepackages_iter_next(iter))) {
+      if (otherpkg == tc->pkg)
+        continue;
+      debug(dbg_eachfile, "tarobject ... found in %s", otherpkg->name);
+
+      if (nifd->namenode->divert && nifd->namenode->divert->useinstead) {
+        /* Right, so we may be diverting this file. This makes the conflict
+         * OK iff one of us is the diverting package (we don't need to
+         * check for both being the diverting package, obviously). */
+        divpkg = nifd->namenode->divert->pkg;
+        debug(dbg_eachfile, "tarobject ... diverted, divpkg=%s",
+              divpkg ? divpkg->name : "<none>");
+        if (otherpkg == divpkg || tc->pkg == divpkg)
+          continue;
+      }
+
+      /* Nope ?  Hmm, file conflict, perhaps.  Check Replaces. */
+      switch (otherpkg->clientdata->replacingfilesandsaid) {
+      case 2:
+        keepexisting = true;
+      case 1:
+        continue;
+      }
+
+      /* Is the package with the conflicting file in the “config files only”
+       * state? If so it must be a config file and we can silenty take it
+       * over. */
+      if (otherpkg->status == stat_configfiles)
+        continue;
+
+      /* Perhaps we're removing a conflicting package? */
+      if (otherpkg->clientdata->istobe == itb_remove)
+        continue;
+
+      /* Is the file an obsolete conffile in the other package
+       * and a conffile in the new package? */
+      if ((nifd->namenode->flags & fnnf_new_conff) &&
+          !statr && S_ISREG(stab.st_mode)) {
+        for (conff = otherpkg->installed.conffiles;
+             conff;
+             conff = conff->next) {
+          if (!conff->obsolete)
+            continue;
+          if (stat(conff->name, &stabtmp))
+            if (errno == ENOENT || errno == ENOTDIR || errno == ELOOP)
+              continue;
+            if (stabtmp.st_dev == stab.st_dev &&
+                stabtmp.st_ino == stab.st_ino)
+              break;
         }
-        /* Nope ?  Hmm, file conflict, perhaps.  Check Replaces. */
-	switch (otherpkg->clientdata->replacingfilesandsaid) {
-	case 2:
-	  keepexisting = true;
-	case 1:
-	  continue;
-	}
-        /* Is the package with the conflicting file in the `config files
-         * only' state ?  If so it must be a config file and we can
-         * silenty take it over.
-         */
-        if (otherpkg->status == stat_configfiles) continue;
-        /* Perhaps we're removing a conflicting package ? */
-        if (otherpkg->clientdata->istobe == itb_remove) continue;
+        if (conff) {
+          debug(dbg_eachfiledetail, "tarobject other's obsolete conffile");
+          /* processarc.c will have copied its hash already. */
+          continue;
+        }
+      }
 
-	/* Is the file an obsolete conffile in the other package
-	 * and a conffile in the new package ? */
-	if ((nifd->namenode->flags & fnnf_new_conff) &&
-	    !statr && S_ISREG(stab.st_mode)) {
-	  for (conff= otherpkg->installed.conffiles;
-	       conff;
-	       conff= conff->next) {
-	    if (!conff->obsolete)
-	      continue;
-	    if (stat(conff->name, &stabtmp))
-	      if (errno == ENOENT || errno == ENOTDIR || errno == ELOOP)
-		continue;
-	    if (stabtmp.st_dev == stab.st_dev &&
-		stabtmp.st_ino == stab.st_ino)
-	      break;
-	  }
-	  if (conff) {
-	    debug(dbg_eachfiledetail,"tarobject other's obsolete conffile");
-	    /* processarc.c will have copied its hash already. */
-	    continue;
-	  }
-	}
-
-        if (does_replace(tc->pkg, &tc->pkg->available,
-                         otherpkg, &otherpkg->installed)) {
-          printf(_("Replacing files in old package %s ...\n"),otherpkg->name);
-          otherpkg->clientdata->replacingfilesandsaid= 1;
-        } else if (does_replace(otherpkg, &otherpkg->installed,
-                                tc->pkg, &tc->pkg->available)) {
-	  printf(_("Replaced by files in installed package %s ...\n"),
-		 otherpkg->name);
-          otherpkg->clientdata->replacingfilesandsaid= 2;
-          nifd->namenode->flags &= ~fnnf_new_inarchive;
-	  keepexisting = true;
+      if (does_replace(tc->pkg, &tc->pkg->available,
+                       otherpkg, &otherpkg->installed)) {
+        printf(_("Replacing files in old package %s ...\n"),otherpkg->name);
+        otherpkg->clientdata->replacingfilesandsaid = 1;
+      } else if (does_replace(otherpkg, &otherpkg->installed,
+                              tc->pkg, &tc->pkg->available)) {
+        printf(_("Replaced by files in installed package %s ...\n"),
+               otherpkg->name);
+        otherpkg->clientdata->replacingfilesandsaid = 2;
+        nifd->namenode->flags &= ~fnnf_new_inarchive;
+        keepexisting = true;
+      } else {
+        if (!statr && S_ISDIR(stab.st_mode)) {
+          forcibleerr(fc_overwritedir,
+                      _("trying to overwrite directory '%.250s' "
+                        "in package %.250s %.250s with nondirectory"),
+                      nifd->namenode->name, otherpkg->name,
+                      versiondescribe(&otherpkg->installed.version,
+                                      vdew_nonambig));
         } else {
-          if (!statr && S_ISDIR(stab.st_mode)) {
-            forcibleerr(fc_overwritedir,
-                        _("trying to overwrite directory '%.250s' "
-                          "in package %.250s %.250s with nondirectory"),
+          /* WTA: At this point we are replacing something without a Replaces.
+           * if the new object is a directory and the previous object does not
+           * exist assume it's also a directory and don't complain. */
+          if (!(statr && ti->Type == Directory))
+            forcibleerr(fc_overwrite,
+                        _("trying to overwrite '%.250s', "
+                          "which is also in package %.250s %.250s"),
                         nifd->namenode->name, otherpkg->name,
                         versiondescribe(&otherpkg->installed.version,
                                         vdew_nonambig));
-          } else {
-            /* WTA: At this point we are replacing something without a Replaces.
-	     * if the new object is a directory and the previous object does not
-	     * exist assume it's also a directory and don't complain
-	     */
-            if (! (statr && ti->Type==Directory))
-              forcibleerr(fc_overwrite,
-                          _("trying to overwrite '%.250s', "
-                            "which is also in package %.250s %.250s"),
-                          nifd->namenode->name, otherpkg->name,
-                          versiondescribe(&otherpkg->installed.version,
-                                          vdew_nonambig));
-          }
         }
       }
     }
+    filepackages_iter_free(iter);
   }
 
   if (keepexisting) {
