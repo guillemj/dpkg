@@ -1,0 +1,228 @@
+LIBDPKG_0 {
+global:
+	# Ar support
+	dpkg_ar_normalize_name;
+
+local:
+	*;
+};
+
+LIBDPKG_PRIVATE {
+	# Error handling
+	set_error_display;
+	print_error_fatal;
+	push_error_handler;
+	push_checkpoint;
+	push_cleanup;
+	pop_cleanup;
+	error_unwind;
+	onerr_abort;		# XXX variable, do not export
+	ohshitv;
+	ohshite;
+	ohshit;
+	werr;			# XXX: remove
+	do_internerr;
+	warning;
+
+	# Generic cleanup
+	cu_closepipe;
+	cu_closefile;
+	cu_closedir;
+	cu_closefd;
+
+	# ‘Must do’ functions
+	m_malloc;
+	m_realloc;
+	m_strdup;
+	m_dup2;
+	m_pipe;
+	m_output;
+	fgets_must;
+	fgets_checked;
+
+	# Charset and string functions
+	cisdigit;
+
+	str_escape_fmt;
+	str_strip_quotes;
+
+	# Variable buffer support
+	varbufinit;
+	varbufreset;
+	varbuf_grow;
+	varbufaddc;
+	varbufdupc;
+	varbufsubstc;
+	varbufaddbuf;
+	varbufprintf;
+	varbufvprintf;
+	varbuf_detach;
+	varbuf_destroy;
+
+	# Path, directory and file functions
+	path_rtrim_slash_slashdot;
+	path_skip_slash_dotslash;
+	path_make_temp_template;
+	path_quote_filename;
+
+	dir_sync;
+	dir_sync_path;
+	dir_sync_contents;
+
+	file_copy_perms;
+
+	# Buffer I/O functions
+	buffer_init;
+	buffer_read;
+	buffer_write;
+	buffer_hash;
+	buffer_copy;
+	buffer_copy_*;
+	buffer_done;
+
+	# Subprocess and command handling
+	subproc_signals_setup;
+	subproc_signals_cleanup;
+	subproc_fork;
+	subproc_wait;
+	subproc_check;
+	subproc_wait_check;
+
+	command_init;
+	command_add_arg;
+	command_add_argl;
+	command_add_argv;
+	command_add_args;
+	command_exec;
+	command_destroy;
+
+	setcloexec;
+
+	# Compression support
+	compressor_gzip;	# XXX variable, do not export
+	compressor_xz;		# XXX variable, do not export
+	compressor_bzip2;	# XXX variable, do not export
+	compressor_lzma;	# XXX variable, do not export
+	compressor_find_by_name;
+	compressor_find_by_extension;
+	compress_filter;
+	decompress_filter;
+
+	# Configuration and command line handling
+	loadcfgfile;
+	myopt;
+	badusage;
+	# printforhelp;		# XXX variable, do not require external
+	# thisname;		# XXX variable, do not require external
+
+	# General logging
+	log_file;		# XXX variable, do not export
+	log_message;
+
+	# Action logging
+	status_pipes;		# XXX variable, do not export
+	statusfd_send;
+
+	# Progress report support
+	progress_init;
+	progress_step;
+	progress_done;
+
+	# Tar support
+	TarExtractor;
+
+	# Non-freeing malloc (pool/arena)
+	nfmalloc;
+	nfstrnsave;
+	nfstrsave;
+	nffreeall;
+
+	# Version struct handling
+	blankversion;
+	informativeversion;
+	epochsdiffer;
+	versioncompare;
+	versiondescribe;
+	versionsatisfied;
+	versionsatisfied3;
+	parseversion;
+
+	# Package struct handling
+	blankpackage;
+	blankpackageperfile;
+	illegal_packagename;
+	informative;
+	copy_dependency_links;
+	pkg_sorter_by_name;
+
+	# Package list handling
+	pkg_list_new;
+	pkg_list_free;
+	pkg_list_prepend;
+
+	# Package array handling
+	pkg_array_init_from_db;
+	pkg_array_sort;
+	pkg_array_destroy;
+
+	# Package queue handling
+	pkg_queue_init;
+	pkg_queue_destroy;
+	pkg_queue_is_empty;
+	pkg_queue_push;
+	pkg_queue_pop;
+
+	# Package field format handling
+	pkg_format_parse;
+	pkg_format_show;
+	pkg_format_free;
+
+	# Package in-core database functions
+	findpackage;
+	countpackages;
+	resetpackages;
+	iterpkgstart;
+	iterpkgnext;
+	iterpkgend;
+
+	# Package on-disk database functions
+	statusinfos;		# XXX variable, do not export
+	wantinfos;		# XXX variable, do not export
+	varbufdependency;
+	varbufrecord;
+	writerecord;
+	pkgadmindir;
+	pkgadminfile;
+	parsedb;
+	writedb;
+
+	# Log based package on-disk database support
+	modstatdb_init;
+	modstatdb_lock;
+	modstatdb_unlock;
+	modstatdb_note;
+	modstatdb_note_ifwrite;
+	modstatdb_checkpoint;
+	modstatdb_shutdown;
+
+	# Triggers support
+	illegal_triggername;
+	trigdef_set_methods;
+	trigdef_update_start;
+	trigdef_update_printf;
+	trigdef_parse;
+	trigdef_process_done;
+	trig_override_hooks;
+	trig_file_activate_byname;
+	trig_file_activate;
+	trig_note_pend;
+	trig_note_aw;
+	trig_clear_awaiters;
+	trig_file_interests_ensure;
+	trig_file_interests_save;
+	trig_cicb_interest_delete;
+	trig_cicb_interest_add;
+	trig_parse_ci;
+	trig_cicb_statuschange_activate;
+	trig_incorporate;
+} LIBDPKG_0;
