@@ -204,23 +204,3 @@ void hashreport(FILE *file) {
 
   free(freq);
 }
-
-/*
- * Test dataset package names were:
- *
- * agetty bash bc bdflush biff bin86 binutil binutils bison bsdutils
- * byacc chfn cron dc dictionaries diff dlltools dpkg e2fsprogs ed
- * elisp19 elm emacs emacs-nox emacs-x emacs19 file fileutils find
- * flex fsprogs gas gawk gcc gcc1 gcc2 gdb ghostview ghstview glibcdoc
- * gnuplot grep groff gs gs_both gs_svga gs_x gsfonts gxditviw gzip
- * hello hostname idanish ifrench igerman indent inewsinn info inn
- * ispell kbd kern1148 language ldso less libc libgr libgrdev librl
- * lilo linuxsrc login lout lpr m4 mailx make man manpages more mount
- * mtools ncurses netbase netpbm netstd patch perl4 perl5 procps
- * psutils rcs rdev sed sendmail seyon shar shellutils smail svgalib
- * syslogd sysvinit tar tcpdump tcsh tex texidoc texinfo textutils
- * time timezone trn unzip uuencode wenglish wu-ftpd x8514 xaxe xbase
- * xbdm2 xcomp xcoral xdevel xfig xfnt100 xfnt75 xfntbig xfntscl
- * xgames xherc xmach32 xmach8 xmono xnet xs3 xsvga xtexstuff xv
- * xvga16 xxgdb zip
- */
