@@ -53,7 +53,7 @@ void trigdef_set_methods(const struct trigdefmeths *methods);
  */
 int trigdef_update_start(enum trigdef_updateflags uf, const char *admindir);
 void trigdef_update_printf(const char *format, ...) DPKG_ATTR_PRINTF(1);
-int trigdef_yylex(void);
+int trigdef_parse(void);
 void trigdef_process_done(void);
 
 DPKG_END_DECLS

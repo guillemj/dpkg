@@ -49,6 +49,7 @@
 #include <dpkg/triglib.h>
 
 #define YY_NO_INPUT
+#define YY_DECL int trigdef_parse(void)
 
 static struct varbuf fn, newfn;
 

@@ -809,7 +809,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 		break;
 	case 2:
 		/* Read and incorporate triggers. */
-		trigdef_yylex();
+		trigdef_parse();
 		break;
 	default:
 		internerr("unknown trigdef_update_start return value '%d'", ur);

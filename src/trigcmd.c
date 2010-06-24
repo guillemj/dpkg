@@ -227,7 +227,7 @@ main(int argc, const char *const *argv)
 		tduf |= tduf_write | tduf_writeifempty;
 	uf = trigdef_update_start(tduf, admindir);
 	if (uf >= 0) {
-		trigdef_yylex();
+		trigdef_parse();
 		if (!done_trig)
 			trigdef_update_printf("%s %s\n", activate, bypackage);
 		trigdef_process_done();
