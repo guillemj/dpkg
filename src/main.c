@@ -381,7 +381,8 @@ run_invoke_hooks(const char *action, struct invoke_hook *hook_head)
      * used “!$=&|\\`'"^~;<>{}[]()?*#”. */
     status = system(hook->command);
     if (status != 0)
-      ohshit("error executing hook '%s', exit code %d", hook->command, status);
+      ohshit(_("error executing hook '%s', exit code %d"), hook->command,
+             status);
   }
 
   unsetenv("DPKG_HOOK_ACTION");
