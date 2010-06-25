@@ -98,7 +98,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	if (lstat(cdr2.buf, &stab)) {
 		if (errno == ENOENT)
 			return;
-		ohshite(_("unable to stat new dist conffile `%.250s'"), cdr2.buf);
+		ohshite(_("unable to stat new distributed conffile '%.250s'"),
+		        cdr2.buf);
 	}
 	md5hash(pkg, newdisthash, cdr2.buf);
 
@@ -176,7 +177,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	case cfo_install | cfof_backup:
 		strcpy(cdr2rest, DPKGDISTEXT);
 		if (unlink(cdr2.buf) && errno != ENOENT)
-			warning(_("%s: failed to remove old distrib version '%.250s': %s"),
+			warning(_("%s: failed to remove old distributed version '%.250s': %s"),
 			        pkg->name, cdr2.buf, strerror(errno));
 		strcpy(cdr2rest, DPKGOLDEXT);
 		if (unlink(cdr2.buf) && errno != ENOENT)
