@@ -176,8 +176,6 @@ void packagelist::ensurestatsortinfo() {
         fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n",
                 this,index,table[index]->pkg->name);
       pkg= table[index]->pkg;
-      if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
-      if (!pkg->available.valid) blankpackageperfile(&pkg->available);
       switch (pkg->status) {
       case pkginfo::stat_unpacked:
       case pkginfo::stat_halfconfigured:
@@ -397,7 +395,6 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
         pkg->want != pkginfo::want_install) {
       pkg->clientdata= 0; continue;
     }
-    if (!pkg->available.valid) blankpackageperfile(&pkg->available);
     // treat all unknown packages as already seen
     state->direct= state->original= (pkg->want == pkginfo::want_unknown ? pkginfo::want_purge : pkg->want);
     if (readwrite && state->original == pkginfo::want_unknown) {

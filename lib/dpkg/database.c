@@ -71,8 +71,6 @@ void blankpackage(struct pkginfo *pigp) {
   pigp->section= NULL;
   blankversion(&pigp->configversion);
   pigp->files= NULL;
-  pigp->installed.valid = false;
-  pigp->available.valid = false;
   pigp->clientdata= NULL;
   pigp->trigaw.head = pigp->trigaw.tail = NULL;
   pigp->othertrigaw_head = NULL;
@@ -90,7 +88,6 @@ void blankpackageperfile(struct pkginfoperfile *pifp) {
   blankversion(&pifp->version);
   pifp->conffiles= NULL;
   pifp->arbs= NULL;
-  pifp->valid = true;
 }
 
 static int nes(const char *s) { return s && *s; }
@@ -109,8 +106,6 @@ informative(struct pkginfo *pkg, struct pkginfoperfile *info)
        informativeversion(&pkg->configversion)))
     /* We ignore Section and Priority, as these tend to hang around. */
     return true;
-  if (!info->valid)
-    return false;
   if (info->depends ||
       nes(info->description) ||
       nes(info->maintainer) ||

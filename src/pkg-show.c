@@ -36,7 +36,7 @@ limiteddescription(struct pkginfo *pkg,
 {
 	const char *pdesc, *p;
 
-	pdesc = pkg->installed.valid ? pkg->installed.description : NULL;
+	pdesc = pkg->installed.description;
 	if (!pdesc)
 		pdesc = _("(no description available)");
 	p = strchr(pdesc, '\n');

@@ -101,7 +101,7 @@ void w_section(struct varbuf *vb,
 void w_charfield(struct varbuf *vb,
                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                  enum fwriteflags flags, const struct fieldinfo *fip) {
-  const char *value= pifp->valid ? PKGPFIELD(pifp,fip->integer,const char*) : NULL;
+  const char *value = PKGPFIELD(pifp, fip->integer, const char *);
   if (!value || !*value) return;
   if (flags&fw_printheader) {
     varbufaddstr(vb,fip->name);
@@ -139,7 +139,7 @@ void w_filecharf(struct varbuf *vb,
 void w_booleandefno(struct varbuf *vb,
                     const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                     enum fwriteflags flags, const struct fieldinfo *fip) {
-  bool value = pifp->valid ? PKGPFIELD(pifp, fip->integer, bool) : false;
+  bool value = PKGPFIELD(pifp, fip->integer, bool);
   if (!(flags&fw_printheader)) {
     varbufaddstr(vb, value ? "yes" : "no");
     return;
@@ -244,7 +244,6 @@ void w_dependency(struct varbuf *vb,
   const char *depdel;
   struct dependency *dyp;
 
-  if (!pifp->valid) return;
   if (flags&fw_printheader)
     sprintf(fnbuf,"%s: ",fip->name);
   else
@@ -266,7 +265,8 @@ void w_conffiles(struct varbuf *vb,
                  enum fwriteflags flags, const struct fieldinfo *fip) {
   struct conffile *i;
 
-  if (!pifp->valid || !pifp->conffiles || pifp == &pigp->available) return;
+  if (!pifp->conffiles || pifp == &pigp->available)
+    return;
   if (flags&fw_printheader)
     varbufaddstr(vb,"Conffiles:\n");
   for (i=pifp->conffiles; i; i= i->next) {
@@ -286,7 +286,7 @@ w_trigpend(struct varbuf *vb,
 {
   struct trigpend *tp;
 
-  if (!pifp->valid || pifp == &pigp->available || !pigp->trigpend_head)
+  if (pifp == &pigp->available || !pigp->trigpend_head)
     return;
 
   assert(pigp->status >= stat_triggersawaited &&
@@ -309,7 +309,7 @@ w_trigaw(struct varbuf *vb,
 {
   struct trigaw *ta;
 
-  if (!pifp->valid || pifp == &pigp->available || !pigp->trigaw.head)
+  if (pifp == &pigp->available || !pigp->trigaw.head)
     return;
 
   assert(pigp->status > stat_configfiles &&
@@ -333,11 +333,11 @@ void varbufrecord(struct varbuf *vb,
   for (fip= fieldinfos; fip->name; fip++) {
     fip->wcall(vb,pigp,pifp,fw_printheader,fip);
   }
-  if (pifp->valid) {
-    for (afp= pifp->arbs; afp; afp= afp->next) {
-      varbufaddstr(vb,afp->name); varbufaddstr(vb,": ");
-      varbufaddstr(vb,afp->value); varbufaddc(vb,'\n');
-    }
+  for (afp = pifp->arbs; afp; afp = afp->next) {
+    varbufaddstr(vb, afp->name);
+    varbufaddstr(vb, ": ");
+    varbufaddstr(vb, afp->value);
+    varbufaddc(vb, '\n');
   }
 }
 
@@ -387,7 +387,6 @@ writedb(const char *filename, bool available, bool mustsync)
     pifp= available ? &pigp->available : &pigp->installed;
     /* Don't dump records which have no useful content. */
     if (!informative(pigp,pifp)) continue;
-    if (!pifp->valid) blankpackageperfile(pifp);
     varbufrecord(&vb,pigp,pifp);
     varbufaddc(&vb,'\n'); varbufaddc(&vb,0);
     if (fputs(vb.buf,file) < 0)

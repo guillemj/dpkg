@@ -89,7 +89,7 @@ list1package(struct pkginfo *pkg, bool *head, struct pkg_array *array)
 	const char *pdesc;
 	int plen, vlen, dlen;
 
-	pdesc = pkg->installed.valid ? pkg->installed.description : NULL;
+	pdesc = pkg->installed.description;
 	if (!pdesc) pdesc= _("(no description available)");
 
 	plen = strlen(array->pkgs[i]->name);
@@ -124,7 +124,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
     printf("\n");
     *head = true;
   }
-  if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
+
   limiteddescription(pkg,dw,&pdesc,&l);
   printf(format,
          "uihrp"[pkg->want],

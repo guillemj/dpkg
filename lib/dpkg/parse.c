@@ -144,7 +144,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   for (;;) { /* loop per package */
     memset(fieldencountered, 0, sizeof(fieldencountered));
     blankpackage(&newpig);
-    blankpackageperfile(newpifp);
+
 /* Skip adjacent new lines */
     while(!EOF_mmap(dataptr, endptr)) {
       c= getc_mmap(dataptr); if (c!='\n' && c!=MSDOS_EOF_CHAR ) break;
@@ -332,8 +332,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
 	versioncompare(&newpifp->version, &pifp->version) < 0)
       continue;
 
-    if (!pifp->valid) blankpackageperfile(pifp);
-
     /* Copy the priority and section across, but don't overwrite existing
      * values if the pdb_weakclassification flag is set.
      */
@@ -461,7 +459,6 @@ void copy_dependency_links(struct pkginfo *pkg,
     dyp->up= pkg;
     for (dop= dyp->list; dop; dop= dop->next) {
       addtopifp= available ? &dop->ed->available : &dop->ed->installed;
-      if (!addtopifp->valid) blankpackageperfile(addtopifp);
       dop->nextrev= addtopifp->depended;
       dop->backrev= NULL;
       if (addtopifp->depended)

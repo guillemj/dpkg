@@ -206,10 +206,6 @@ pkg_format_show(const struct pkg_format_node *head,
 {
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
-	/* Make sure we have package info available, even if it's all empty. */
-	if (!pif->valid)
-		blankpackageperfile(pif);
-
 	while (head) {
 		int ok;
 		char fmt[16];
@@ -239,7 +235,7 @@ pkg_format_show(const struct pkg_format_node *head,
 					break;
 				}
 
-			if (!fip->name && pif->valid) {
+			if (!fip->name) {
 				const struct arbitraryfield *afp;
 
 				for (afp = pif->arbs; afp; afp = afp->next)

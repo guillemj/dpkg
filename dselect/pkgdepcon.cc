@@ -53,24 +53,22 @@ pkginfoperfile *packagelist::findinfo(pkginfo *pkg) {
   r= useavailable(pkg) ? &pkg->available : &pkg->installed;
   if (debug)
     fprintf(debug,"packagelist[%p]::findinfo(%s) useavailable=%d\n",this,pkg->name,useavailable(pkg));
-  if (!r->valid) blankpackageperfile(r);
+
   return r;
 }
   
 int packagelist::checkdependers(pkginfo *pkg, int changemade) {
   struct deppossi *possi;
   
-  if (pkg->available.valid) {
-    for (possi= pkg->available.depended; possi; possi= possi->nextrev) {
-      if (!useavailable(possi->up->up)) continue;
-      changemade = max(changemade, resolvedepcon(possi->up));
-    }
+  for (possi = pkg->available.depended; possi; possi = possi->nextrev) {
+    if (!useavailable(possi->up->up))
+      continue;
+    changemade = max(changemade, resolvedepcon(possi->up));
   }
-  if (pkg->installed.valid) {
-    for (possi= pkg->installed.depended; possi; possi= possi->nextrev) {
-      if (useavailable(possi->up->up)) continue;
-      changemade = max(changemade, resolvedepcon(possi->up));
-    }
+  for (possi = pkg->installed.depended; possi; possi = possi->nextrev) {
+    if (useavailable(possi->up->up))
+      continue;
+    changemade = max(changemade, resolvedepcon(possi->up));
   }
   return changemade;
 }
@@ -274,7 +272,7 @@ int packagelist::resolvedepcon(dependency *depends) {
         foundany= 0;
         if (possi->ed->clientdata) foundany= 1;
         if (dep_update_best_to_change_stop(best, possi->ed)) goto mustdeselect;
-        for (provider= possi->ed->available.valid ? possi->ed->available.depended : 0;
+        for (provider = possi->ed->available.depended;
              provider;
              provider= provider->nextrev) {
           if (provider->up->type != dep_provides) continue;
@@ -340,8 +338,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (depends->up != depends->list->ed) {
       r= deselect_one_of(depends->up, depends->list->ed, depends);  if (r) return r;
     }
-    for (provider= depends->list->ed->available.valid ?
-                   depends->list->ed->available.depended : 0;
+    for (provider = depends->list->ed->available.depended;
          provider;
          provider= provider->nextrev) {
       if (provider->up->type != dep_provides) continue;
@@ -398,37 +395,34 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
   if (possi->verrel != dvr_none)
     return false;
   deppossi *provider;
-  if (possi->ed->installed.valid) {
-    for (provider= possi->ed->installed.depended;
-         provider;
-         provider= provider->nextrev) {
-      if (provider->up->type == dep_provides &&
-          provider->up->up->clientdata &&
-          !useavailable(provider->up->up) &&
-          would_like_to_install(provider->up->up->clientdata->selected,
-                                provider->up->up))
-        return true;
-    }
+
+  for (provider = possi->ed->installed.depended;
+       provider;
+       provider = provider->nextrev) {
+    if (provider->up->type == dep_provides &&
+        provider->up->up->clientdata &&
+        !useavailable(provider->up->up) &&
+        would_like_to_install(provider->up->up->clientdata->selected,
+                              provider->up->up))
+      return true;
   }
-  if (possi->ed->available.valid) {
-    for (provider= possi->ed->available.depended;
-         provider;
-         provider= provider->nextrev) {
-      if (provider->up->type != dep_provides ||
-          !provider->up->up->clientdata ||
-          !would_like_to_install(provider->up->up->clientdata->selected,
-                                 provider->up->up))
-        continue;
-      if (useavailable(provider->up->up))
-        return true;
-      if (fixbyupgrade && !*fixbyupgrade &&
-          (!(provider->up->up->status == pkginfo::stat_installed ||
-             provider->up->up->status == pkginfo::stat_triggerspending ||
-             provider->up->up->status == pkginfo::stat_triggersawaited) ||
-           versioncompare(&provider->up->up->available.version,
-                          &provider->up->up->installed.version) > 1))
-        *fixbyupgrade= provider->up->up->clientdata;
-    }
+  for (provider = possi->ed->available.depended;
+       provider;
+       provider = provider->nextrev) {
+    if (provider->up->type != dep_provides ||
+        !provider->up->up->clientdata ||
+        !would_like_to_install(provider->up->up->clientdata->selected,
+                               provider->up->up))
+      continue;
+    if (useavailable(provider->up->up))
+      return true;
+    if (fixbyupgrade && !*fixbyupgrade &&
+        (!(provider->up->up->status == pkginfo::stat_installed ||
+           provider->up->up->status == pkginfo::stat_triggerspending ||
+           provider->up->up->status == pkginfo::stat_triggersawaited) ||
+         versioncompare(&provider->up->up->available.version,
+                        &provider->up->up->installed.version) > 1))
+      *fixbyupgrade = provider->up->up->clientdata;
   }
   return false;
 }

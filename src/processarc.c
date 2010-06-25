@@ -261,9 +261,6 @@ void process_archive(const char *filename) {
     forcibleerr(fc_architecture,
                 _("package architecture (%s) does not match system (%s)"),
                 pkg->available.architecture,architecture);
-    
-  if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
-  assert(pkg->available.valid);
 
   for (deconpil= deconfigure;
        deconpil;
@@ -295,13 +292,12 @@ void process_archive(const char *filename) {
       break;
     case dep_provides:
       /* Look for things that conflict with what we provide. */
-      if (dsearch->list->ed->installed.valid) {
-        for (psearch= dsearch->list->ed->installed.depended;
-             psearch;
-             psearch= psearch->nextrev) {
-          if (psearch->up->type != dep_conflicts) continue;
-          check_conflict(psearch->up, pkg, pfilename);
-        }
+      for (psearch = dsearch->list->ed->installed.depended;
+           psearch;
+           psearch = psearch->nextrev) {
+        if (psearch->up->type != dep_conflicts)
+          continue;
+        check_conflict(psearch->up, pkg, pfilename);
       }
       break;
     case dep_suggests:

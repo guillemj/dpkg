@@ -94,7 +94,6 @@ void deferred_remove(struct pkginfo *pkg) {
     return;
   }
 
-  assert(pkg->installed.valid);
   if (pkg->installed.essential && pkg->status != stat_configfiles)
     forcibleerr(fc_removeessential, _("This is an essential package -"
                 " it should not be removed."));

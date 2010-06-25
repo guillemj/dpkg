@@ -149,7 +149,7 @@ packagelist::add(dependency *depends, showpriority displayimportance)
       // providers aren't relevant if a version was specified, or
       // if we're looking at a provider relationship already
       deppossi *provider;
-      for (provider= possi->ed->available.valid ? possi->ed->available.depended : 0;
+      for (provider = possi->ed->available.depended;
            provider;
            provider=provider->nextrev) {
         if (provider->up->type != dep_provides) continue;

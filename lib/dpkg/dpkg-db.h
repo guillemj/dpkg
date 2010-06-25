@@ -102,7 +102,6 @@ struct filedetails {
 };
 
 struct pkginfoperfile { /* pif */
-  bool valid;
   struct dependency *depends;
   struct deppossi *depended;
   bool essential; /* The ‘essential’ flag, true = yes, false = no (absent). */

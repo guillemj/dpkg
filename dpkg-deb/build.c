@@ -280,7 +280,6 @@ void do_build(const char *const *argv) {
     warns= 0; errs= 0;
     parsedb(controlfile, pdb_recordavailable|pdb_rejectstatus,
             &checkedinfo, stderr, &warns);
-    assert(checkedinfo->available.valid);
     if (strspn(checkedinfo->name,
                "abcdefghijklmnopqrstuvwxyz0123456789+-.")
         != strlen(checkedinfo->name))

@@ -338,7 +338,6 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   case stat_triggersawaited:
   case stat_triggerspending:
   case stat_installed:
-    assert(possdependee->installed.valid);
     if (checkversion && !versionsatisfied(&possdependee->installed,checkversion)) {
       varbufprintf(oemsgs, _("  Version of %s on system is %s.\n"),
 		   possdependee->name,
@@ -521,7 +520,6 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   ok= 2; /* 2=ok, 1=defer, 0=halt */
   debug(dbg_depcon,"checking dependencies of %s (- %s)",
         pkg->name, removing ? removing->name : "<none>");
-  assert(pkg->installed.valid);
 
   anycannotfixbytrig = 0;
   canfixbytrig = NULL;
@@ -542,17 +540,18 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
                                &matched,possi,&interestingwarnings,&oemsgs);
       if (thisf > found) found= thisf;
       if (found != 3 && possi->verrel == dvr_none) {
-        if (possi->ed->installed.valid) {
-          for (provider= possi->ed->installed.depended;
-               found != 3 && provider;
-               provider= provider->nextrev) {
-            if (provider->up->type != dep_provides) continue;
-            debug(dbg_depcondetail,"     checking provider %s",provider->up->up->name);
-            thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
-                                     &possfixbytrig,
-                                     &matched, NULL, &interestingwarnings, &oemsgs);
-            if (thisf > found) found= thisf;
-          }
+        for (provider = possi->ed->installed.depended;
+             found != 3 && provider;
+             provider = provider->nextrev) {
+          if (provider->up->type != dep_provides)
+            continue;
+          debug(dbg_depcondetail, "     checking provider %s",
+                provider->up->up->name);
+          thisf = deppossi_ok_found(provider->up->up, pkg, removing, possi->ed,
+                                    &possfixbytrig, &matched, NULL,
+                                    &interestingwarnings, &oemsgs);
+          if (thisf > found)
+            found = thisf;
         }
       }
       debug(dbg_depcondetail,"    found %d",found);

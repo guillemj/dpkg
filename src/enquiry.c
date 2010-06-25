@@ -364,7 +364,6 @@ void predeppackage(const char *const *argv) {
          !pkg && possi;
          possi=possi->next) {
       trypkg= possi->ed;
-      if (!trypkg->available.valid) continue;
       if (trypkg->files && versionsatisfied(&trypkg->available,possi)) {
         if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
       }
@@ -374,7 +373,8 @@ void predeppackage(const char *const *argv) {
            provider=provider->next) {
         if (provider->up->type != dep_provides) continue;
         trypkg= provider->up->up;
-        if (!trypkg->available.valid || !trypkg->files) continue;
+        if (!trypkg->files)
+          continue;
         if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
       }
     }
