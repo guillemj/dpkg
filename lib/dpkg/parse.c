@@ -80,8 +80,6 @@ const struct fieldinfo fieldinfos[]= {
   {  NULL   /* sentinel - tells code that list is ended */                               }
 };
 
-const int nfields = array_count(fieldinfos);
-
 int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep, FILE *warnto, int *warncount) {
   /* warnto, warncount and donep may be null.
