@@ -86,7 +86,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
    * occurrence of the current package in the list.
    */
   sol->possi->cyclebreak = true;
-  debug(dbg_depcon,"cycle broken at %s -> %s\n",
+  debug(dbg_depcon, "cycle broken at %s -> %s",
         sol->possi->up->up->name, sol->possi->ed->name);
   return true;
 }

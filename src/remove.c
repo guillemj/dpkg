@@ -60,7 +60,7 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
           depender->status == stat_triggersawaited))
       continue;
     if (ignore_depends(depender)) {
-      debug(dbg_depcon,"ignoring depending package `%s'\n",depender->name);
+      debug(dbg_depcon, "ignoring depending package '%s'", depender->name);
       continue;
     }
     if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
@@ -416,7 +416,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                  (searchfile->namenode->divert->camefrom ||
                   (searchfile->namenode->divert->useinstead &&
                    searchfile->namenode->divert->pkg != pkg))) {
-        debug(dbg_conff,"removal_bulk conffile `%s' ignored due to diversion\n",
+        debug(dbg_conff, "removal_bulk conffile '%s' ignored due to diversion",
               conff->name);
         *lconffp= conff->next;
       } else {

@@ -1182,13 +1182,13 @@ void process_archive(const char *filename) {
     }
     iter = filepackages_iter_new(cfile->namenode);
     while ((otherpkg = filepackages_iter_next(iter))) {
-      debug(dbg_eachfiledetail, "process_archive ... found in %s\n", otherpkg->name);
+      debug(dbg_eachfiledetail, "process_archive ... found in %s", otherpkg->name);
       /* If !fileslistvalid then it's one of the disappeared packages above
        * and we don't bother with it here, clearly. */
       if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid)
         continue;
       if (otherpkg == divpkg) {
-        debug(dbg_eachfiledetail, "process_archive ... diverted, skipping\n");
+        debug(dbg_eachfiledetail, "process_archive ... diverted, skipping");
         continue;
       }
 
