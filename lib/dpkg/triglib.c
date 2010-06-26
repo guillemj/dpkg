@@ -217,7 +217,7 @@ trig_enqueue_awaited_pend(struct pkginfo *pend)
  * Fix up packages in state triggers-awaited w/o the corresponding package
  * with pending triggers. This can happen when dpkg was interrupted
  * while in modstatdb_note, and the package in triggers-pending had its
- * state modified but dpkg could not clearing the awaiters.
+ * state modified but dpkg could not finish clearing the awaiters.
  *
  * XXX: possibly get rid of some of the checks done somewhere else for
  *      this condition at run-time.
