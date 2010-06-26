@@ -245,7 +245,18 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   if (hyphen)
     *hyphen++ = '\0';
   rversion->revision= hyphen ? hyphen : "";
-  
+
+  /* Check for invalid chars in version and revision. */
+  /* XXX: Would be faster to use something like cisversion and cisrevision. */
+  for (ptr = rversion->version; *ptr; ptr++) {
+    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
+      return _("invalid character in version number");
+  }
+  for (ptr = rversion->revision; *ptr; ptr++) {
+    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~", *ptr) == NULL)
+      return _("invalid character in revision number");
+  }
+
   return NULL;
 }
 

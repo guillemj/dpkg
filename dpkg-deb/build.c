@@ -85,19 +85,6 @@ known_arbitrary_field(const struct arbitraryfield *field)
   return false;
 }
 
-/* Do a quick check if vstring is a valid versionnumber. Valid in this case
- * means it contains at least one digit. If an error is found increment
- * *errs.
- */
-static void checkversion(const char *vstring, const char *valuename, int *errs) {
-  const char *p;
-  if (!vstring || !*vstring) return;
-  for (p=vstring; *p; p++) if (cisdigit(*p)) return;
-  fprintf(stderr, _("dpkg-deb - error: %s (`%s') doesn't contain any digits\n"),
-          valuename, vstring);
-  (*errs)++;
-}
-
 static struct file_info *
 file_info_new(const char *filename)
 {
@@ -228,7 +215,7 @@ void do_build(const char *const *argv) {
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
   FILE *ar, *cf;
-  int p1[2],p2[2],p3[2], warns, errs, n, c, subdir, gzfd;
+  int p1[2], p2[2], p3[2], warns, n, c, subdir, gzfd;
   pid_t c1,c2,c3;
   struct stat controlstab, datastab, mscriptstab, debarstab;
   char conffilename[MAXCONFFILENAME+1];
@@ -277,7 +264,7 @@ void do_build(const char *const *argv) {
     /* Lets start by reading in the control-file so we can check its contents */
     strcpy(controlfile, directory);
     strcat(controlfile, "/" BUILDCONTROLDIR "/" CONTROLFILE);
-    warns= 0; errs= 0;
+    warns = 0;
     parsedb(controlfile, pdb_recordavailable|pdb_rejectstatus,
             &checkedinfo, stderr, &warns);
     if (strspn(checkedinfo->name,
@@ -297,11 +284,6 @@ void do_build(const char *const *argv) {
               controlfile, field->name);
       warns++;
     }
-    checkversion(checkedinfo->available.version.version,
-                 _("(upstream) version"), &errs);
-    checkversion(checkedinfo->available.version.revision,
-                 _("Debian revision"), &errs);
-    if (errs) ohshit(_("%d errors in control file"),errs);
 
     if (subdir) {
       versionstring= versiondescribe(&checkedinfo->available.version,vdew_never);
