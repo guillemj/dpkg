@@ -109,11 +109,6 @@ const struct namevalue statusinfos[] = {
   NAMEVALUE_DEF("triggers-awaited", stat_triggersawaited),
   NAMEVALUE_DEF("triggers-pending", stat_triggerspending),
   NAMEVALUE_DEF("installed",        stat_installed),
-  /* These are additional entries for reading only, in any order ... */
-  /* XXX: backwards compat., remove. */
-  { .name = "postinst-failed", .value = stat_halfconfigured, .length = 15 },
-  /* XXX: backwards compat., remove. */
-  { .name = "removal-failed",  .value = stat_halfinstalled, .length = 14 },
   { .name = NULL }
 };
 
