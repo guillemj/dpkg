@@ -50,7 +50,6 @@
 #include "filesdb.h"
 #include "main.h"
 
-static int failures = 0;
 static const char* showformat		= "${Package}\t${Version}\n";
 
 static int getwidth(void) {
@@ -135,12 +134,13 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
          l, pdesc);
 }
 
-static void
+static int
 listpackages(const char *const *argv)
 {
   struct pkg_array array;
   struct pkginfo *pkg;
   int i;
+  int failures = 0;
   bool head;
 
   modstatdb_init(admindir,msdbrw_readonly);
@@ -189,6 +189,8 @@ listpackages(const char *const *argv)
 
   pkg_array_destroy(&array);
   modstatdb_shutdown();
+
+  return failures;
 }
 
 static int searchoutput(struct filenamenode *namenode) {
@@ -227,13 +229,14 @@ static int searchoutput(struct filenamenode *namenode) {
   return found + (namenode->divert ? 1 : 0);
 }
 
-static void
+static int
 searchfiles(const char *const *argv)
 {
   struct filenamenode *namenode;
   struct fileiterator *it;
   const char *thisarg;
   int found;
+  int failures = 0;
   struct varbuf path = VARBUF_INIT;
   static struct varbuf vb;
   
@@ -289,15 +292,18 @@ searchfiles(const char *const *argv)
   modstatdb_shutdown();
 
   varbuf_destroy(&path);
+
+  return failures;
 }
 
-static void
+static int
 enqperpackage(const char *const *argv)
 {
   const char *thisarg;
   struct fileinlist *file;
   struct pkginfo *pkg;
   struct filenamenode *namenode;
+  int failures = 0;
   
   if (!*argv)
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
@@ -387,19 +393,22 @@ enqperpackage(const char *const *argv)
     m_output(stderr, _("<standard error>"));
   }
   modstatdb_shutdown();
+
+  return failures;
 }
 
-static void
+static int
 showpackages(const char *const *argv)
 {
   struct pkg_array array;
   struct pkginfo *pkg;
   struct pkg_format_node *fmt = pkg_format_parse(showformat);
   int i;
+  int failures = 0;
 
   if (!fmt) {
     failures++;
-    return;
+    return failures;
   }
 
   modstatdb_init(admindir,msdbrw_readonly);
@@ -447,6 +456,8 @@ showpackages(const char *const *argv)
   pkg_array_destroy(&array);
   pkg_format_free(fmt);
   modstatdb_shutdown();
+
+  return failures;
 }
 
 static void
@@ -528,7 +539,7 @@ control_path_pkg(struct pkginfo *pkg)
   varbuf_destroy(&db_path);
 }
 
-static void
+static int
 control_path(const char *const *argv)
 {
   struct pkginfo *pkg;
@@ -565,6 +576,8 @@ control_path(const char *const *argv)
     control_path_pkg(pkg);
 
   modstatdb_shutdown();
+
+  return 0;
 }
 
 static void DPKG_ATTR_NORET
@@ -666,7 +679,8 @@ static const struct cmdinfo cmdinfos[]= {
 
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
-  void (*actionfunction)(const char *const *argv);
+  int (*actionfunction)(const char *const *argv);
+  int ret;
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
@@ -680,11 +694,11 @@ int main(int argc, const char *const *argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   filesdbinit();
 
-  actionfunction= (void (*)(const char* const*))cipaction->farg;
+  actionfunction = (int (*)(const char *const *))cipaction->farg;
 
-  actionfunction(argv);
+  ret = actionfunction(argv);
 
   standard_shutdown();
 
-  return !!failures;
+  return !!ret;
 }
