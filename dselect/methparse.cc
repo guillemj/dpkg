@@ -130,8 +130,9 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     strcpy(meth->path+baselen+1+methodlen,"/");
     meth->pathinmeth= meth->path+baselen+1+methodlen+1;
     meth->next= methods;
-    meth->back= 0;
-    if (methods) methods->back= meth;
+    meth->prev = 0;
+    if (methods)
+      methods->prev = meth;
     methods= meth;
     if (debug) fprintf(debug," readmethods(`%s',...) new method"
                        " name=`%s' path=`%s' pathinmeth=`%s'\n",

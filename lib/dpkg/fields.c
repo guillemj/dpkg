@@ -341,13 +341,16 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       dop->up= dyp;
       dop->ed = findpackage(depname.buf);
       dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
-      dop->nextrev= NULL; /* Don't link this (which is after all only `newpig' from */
-      dop->backrev= NULL; /* the main parsing loop in parsedb) into the depended on
-                        * packages' lists yet.  This will be done later when we
-                        * install this (in parse.c).  For the moment we do the
-                        * `forward' links in deppossi (`ed') only, and the backward
-                        * links from the depended on packages to dop are left undone.
-                        */
+
+      /* Don't link this (which is after all only ‘newpig’ from
+       * the main parsing loop in parsedb) into the depended on
+       * packages' lists yet. This will be done later when we
+       * install this (in parse.c). For the moment we do the
+       * ‘forward’ links in deppossi (‘ed’) only, and the ‘backward’
+       * links from the depended on packages to dop are left undone. */
+      dop->rev_next = NULL;
+      dop->rev_prev = NULL;
+
       dop->cyclebreak = false;
 /* skip whitespace after packagename */
       while (isspace(*p)) p++;

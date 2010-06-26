@@ -169,7 +169,7 @@ trig_note_aw(struct pkginfo *pend, struct pkginfo *aw)
 	ta = nfmalloc(sizeof(*ta));
 	ta->aw = aw;
 	ta->pend = pend;
-	ta->nextsamepend = pend->othertrigaw_head;
+	ta->samepend_next = pend->othertrigaw_head;
 	pend->othertrigaw_head = ta;
 	LIST_LINK_TAIL_PART(aw->trigaw, ta, sameaw.);
 
@@ -186,7 +186,7 @@ trig_clear_awaiters(struct pkginfo *notpend)
 
 	ta = notpend->othertrigaw_head;
 	notpend->othertrigaw_head = NULL;
-	for (; ta; ta = ta->nextsamepend) {
+	for (; ta; ta = ta->samepend_next) {
 		aw = ta->aw;
 		if (!aw)
 			continue;

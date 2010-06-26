@@ -21,24 +21,24 @@
 #define ADNS_DLIST_H_INCLUDED
 
 #define LIST_INIT(list) ((list).head = (list).tail = NULL)
-#define LINK_INIT(link) ((link).next = (link).back = NULL)
+#define LINK_INIT(link) ((link).next = (link).prev = NULL)
 
 #define LIST_UNLINK_PART(list, node, part)				\
   do {									\
-    if ((node)->part back) \
-      (node)->part back->part next = (node)->part next; \
+    if ((node)->part prev) \
+      (node)->part prev->part next = (node)->part next; \
     else \
       (list).head = (node)->part next; \
     if ((node)->part next) \
-      (node)->part next->part back = (node)->part back; \
+      (node)->part next->part prev = (node)->part prev; \
     else \
-      (list).tail = (node)->part back; \
+      (list).tail = (node)->part prev; \
   } while (0)
 
 #define LIST_LINK_TAIL_PART(list, node, part)		\
   do {							\
     (node)->part next = NULL;				\
-    (node)->part back = (list).tail;			\
+    (node)->part prev = (list).tail;			\
     if ((list).tail) \
       (list).tail->part next = (node);	\
     else (list).head = (node);				\
@@ -49,11 +49,11 @@
 #define LIST_CHECKNODE_PART(list, node, part)				\
   do {									\
     if ((node)->next) \
-      assert((node)->part next->part back == (node));	\
+      assert((node)->part next->part prev == (node));	\
     else \
       assert((node) == (list).tail);					\
-    if ((node)->back) \
-      assert((node)->part back->part next == (node));	\
+    if ((node)->prev) \
+      assert((node)->part prev->part next == (node));	\
     else \
       assert((node) == (list).head);					\
   } while (0)

@@ -439,15 +439,15 @@ void copy_dependency_links(struct pkginfo *pkg,
    */
   for (dyp= *updateme; dyp; dyp= dyp->next) {
     for (dop= dyp->list; dop; dop= dop->next) {
-      if (dop->backrev)
-        dop->backrev->nextrev= dop->nextrev;
+      if (dop->rev_prev)
+        dop->rev_prev->rev_next = dop->rev_next;
       else
         if (available)
-          dop->ed->available.depended= dop->nextrev;
+          dop->ed->available.depended = dop->rev_next;
         else
-          dop->ed->installed.depended= dop->nextrev;
-      if (dop->nextrev)
-        dop->nextrev->backrev= dop->backrev;
+          dop->ed->installed.depended = dop->rev_next;
+      if (dop->rev_next)
+        dop->rev_next->rev_prev = dop->rev_prev;
     }
   }
   /* Now fill in new `ed' links from other packages to dependencies listed
@@ -457,10 +457,10 @@ void copy_dependency_links(struct pkginfo *pkg,
     dyp->up= pkg;
     for (dop= dyp->list; dop; dop= dop->next) {
       addtopifp= available ? &dop->ed->available : &dop->ed->installed;
-      dop->nextrev= addtopifp->depended;
-      dop->backrev= NULL;
+      dop->rev_next = addtopifp->depended;
+      dop->rev_prev = NULL;
       if (addtopifp->depended)
-        addtopifp->depended->backrev= dop;
+        addtopifp->depended->rev_prev = dop;
       addtopifp->depended= dop;
     }
   }

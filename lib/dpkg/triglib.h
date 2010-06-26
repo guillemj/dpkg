@@ -43,7 +43,7 @@ struct trigfileint {
 	struct filenamenode *fnn;
 	struct trigfileint *samefile_next;
 	struct {
-		struct trigfileint *next, *back;
+		struct trigfileint *next, *prev;
 	} inoverall;
 };
 

@@ -51,7 +51,7 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
   struct pkginfo *depender;
   int before, ok;
   
-  for (possi= pkgdepcheck->installed.depended; possi; possi= possi->nextrev) {
+  for (possi = pkgdepcheck->installed.depended; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
     depender= possi->up->up;
     debug(dbg_depcon,"checking depending package `%s'",depender->name);

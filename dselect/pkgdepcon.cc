@@ -60,12 +60,12 @@ pkginfoperfile *packagelist::findinfo(pkginfo *pkg) {
 int packagelist::checkdependers(pkginfo *pkg, int changemade) {
   struct deppossi *possi;
   
-  for (possi = pkg->available.depended; possi; possi = possi->nextrev) {
+  for (possi = pkg->available.depended; possi; possi = possi->rev_next) {
     if (!useavailable(possi->up->up))
       continue;
     changemade = max(changemade, resolvedepcon(possi->up));
   }
-  for (possi = pkg->installed.depended; possi; possi = possi->nextrev) {
+  for (possi = pkg->installed.depended; possi; possi = possi->rev_next) {
     if (useavailable(possi->up->up))
       continue;
     changemade = max(changemade, resolvedepcon(possi->up));
@@ -274,7 +274,7 @@ int packagelist::resolvedepcon(dependency *depends) {
         if (dep_update_best_to_change_stop(best, possi->ed)) goto mustdeselect;
         for (provider = possi->ed->available.depended;
              provider;
-             provider= provider->nextrev) {
+             provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
           if (provider->up->up->clientdata) foundany= 1;
           if (dep_update_best_to_change_stop(best, provider->up->up)) goto mustdeselect;
@@ -340,7 +340,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     }
     for (provider = depends->list->ed->available.depended;
          provider;
-         provider= provider->nextrev) {
+         provider = provider->rev_next) {
       if (provider->up->type != dep_provides) continue;
       if (provider->up->up == depends->up) continue; // conflicts & provides same thing
       r= deselect_one_of(depends->up, provider->up->up, depends);  if (r) return r;
@@ -398,7 +398,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
 
   for (provider = possi->ed->installed.depended;
        provider;
-       provider = provider->nextrev) {
+       provider = provider->rev_next) {
     if (provider->up->type == dep_provides &&
         provider->up->up->clientdata &&
         !useavailable(provider->up->up) &&
@@ -408,7 +408,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
   }
   for (provider = possi->ed->available.depended;
        provider;
-       provider = provider->nextrev) {
+       provider = provider->rev_next) {
     if (provider->up->type != dep_provides ||
         !provider->up->up->clientdata ||
         !would_like_to_install(provider->up->up->clientdata->selected,

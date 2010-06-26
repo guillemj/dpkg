@@ -1039,7 +1039,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       } else {
         for (pdep= fixbyrm->installed.depended;
              pdep;
-             pdep= pdep->nextrev) {
+             pdep = pdep->rev_next) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
             continue;
           if (depisok(pdep->up, &removalwhy, NULL, false))
@@ -1056,7 +1056,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
             if (providecheck->type != dep_provides) continue;
             for (pdep= providecheck->list->ed->installed.depended;
                  pdep;
-                 pdep= pdep->nextrev) {
+                 pdep = pdep->rev_next) {
               if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
                 continue;
               if (depisok(pdep->up, &removalwhy, NULL, false))

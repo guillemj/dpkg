@@ -294,7 +294,7 @@ void process_archive(const char *filename) {
       /* Look for things that conflict with what we provide. */
       for (psearch = dsearch->list->ed->installed.depended;
            psearch;
-           psearch = psearch->nextrev) {
+           psearch = psearch->rev_next) {
         if (psearch->up->type != dep_conflicts)
           continue;
         check_conflict(psearch->up, pkg, pfilename);
@@ -319,7 +319,7 @@ void process_archive(const char *filename) {
     }
   }
   /* Look for things that conflict with us. */
-  for (psearch= pkg->installed.depended; psearch; psearch= psearch->nextrev) {
+  for (psearch = pkg->installed.depended; psearch; psearch = psearch->rev_next) {
     if (psearch->up->type != dep_conflicts) continue;
     check_conflict(psearch->up, pkg, pfilename);
   }
@@ -960,7 +960,7 @@ void process_archive(const char *filename) {
       newpossi->up= newdep;
       newpossi->ed= possi->ed;
       newpossi->next = NULL;
-      newpossi->nextrev = newpossi->backrev = NULL;
+      newpossi->rev_next = newpossi->rev_prev = NULL;
       newpossi->verrel= possi->verrel;
       if (possi->verrel != dvr_none)
         newpossi->version= possi->version;
@@ -1053,7 +1053,7 @@ void process_archive(const char *filename) {
     debug(dbg_veryverbose, "process_archive disappear checking dependencies");
     for (pdep= otherpkg->installed.depended;
          pdep;
-         pdep= pdep->nextrev) {
+         pdep = pdep->rev_next) {
       if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
           pdep->up->type != dep_recommends) continue;
       if (depisok(pdep->up, &depprobwhy, NULL, false))
@@ -1070,7 +1070,7 @@ void process_archive(const char *filename) {
         if (providecheck->type != dep_provides) continue;
         for (pdep= providecheck->list->ed->installed.depended;
              pdep;
-             pdep= pdep->nextrev) {
+             pdep = pdep->rev_next) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
               pdep->up->type != dep_recommends)
             continue;

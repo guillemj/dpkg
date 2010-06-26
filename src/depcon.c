@@ -35,7 +35,7 @@
 #include "main.h"
 
 struct cyclesofarlink {
-  struct cyclesofarlink *back;
+  struct cyclesofarlink *prev;
   struct pkginfo *pkg;
   struct deppossi *possi;
 };
@@ -58,7 +58,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
    * depended-on package is already one of the packages whose
    * dependencies we're searching.
    */
-  for (sol=sofar; sol && sol->pkg != dependedon; sol=sol->back);
+  for (sol = sofar; sol && sol->pkg != dependedon; sol = sol->prev);
 
   /* If not, we do a recursive search on it to see what we find. */
   if (!sol)
@@ -75,7 +75,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
    * able to do something straight away when findbreakcycle returns.
    */
   sofar= thislink;
-  for (sol= sofar; !(sol != sofar && sol->pkg == dependedon); sol=sol->back) {
+  for (sol = sofar; !(sol != sofar && sol->pkg == dependedon); sol = sol->prev) {
     postinstfilename= pkgadminfile(sol->pkg,POSTINSTFILE);
     if (lstat(postinstfilename,&stab)) {
       if (errno == ENOENT) break;
@@ -111,7 +111,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
   if (f_debug & dbg_depcondetail) {
     struct varbuf str_pkgs = VARBUF_INIT;
 
-    for (sol = sofar; sol; sol = sol->back) {
+    for (sol = sofar; sol; sol = sol->prev) {
       varbufaddstr(&str_pkgs, " <- ");
       varbufaddstr(&str_pkgs, sol->pkg->name);
     }
@@ -121,7 +121,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
     varbuf_destroy(&str_pkgs);
   }
   thislink.pkg= pkg;
-  thislink.back= sofar;
+  thislink.prev = sofar;
   thislink.possi = NULL;
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_depends && dep->type != dep_predepends) continue;
@@ -134,7 +134,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
       /* Right, now we try all the providers ... */
       for (providelink= possi->ed->installed.depended;
            providelink;
-           providelink= providelink->nextrev) {
+           providelink = providelink->rev_next) {
         if (providelink->up->type != dep_provides) continue;
         provider= providelink->up->up;
         if (provider->clientdata->istobe == itb_normal) continue;
@@ -356,7 +356,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         /* See if the package we're about to install Provides it. */
         for (provider= possi->ed->available.depended;
              provider;
-             provider= provider->nextrev) {
+             provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
           if (provider->up->up->clientdata->istobe == itb_installnew)
             return true;
@@ -365,7 +365,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         /* Now look at the packages already on the system. */
         for (provider= possi->ed->installed.depended;
              provider;
-             provider= provider->nextrev) {
+             provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
           
           switch (provider->up->up->clientdata->istobe) {
@@ -479,7 +479,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       /* See if the package we're about to install Provides it. */
       for (provider= possi->ed->available.depended;
            provider;
-           provider= provider->nextrev) {
+           provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
         if (provider->up->up->clientdata->istobe != itb_installnew) continue;
         if (provider->up->up == dep->up) continue; /* conflicts and provides the same */
@@ -495,7 +495,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       /* Now look at the packages already on the system. */
       for (provider= possi->ed->installed.depended;
            provider;
-           provider= provider->nextrev) {
+           provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
           
         if (provider->up->up == dep->up) continue; /* conflicts and provides the same */

@@ -74,7 +74,7 @@ struct dependency {
 struct deppossi {
   struct dependency *up;
   struct pkginfo *ed;
-  struct deppossi *next, *nextrev, *backrev;
+  struct deppossi *next, *rev_next, *rev_prev;
   struct versionrevision version;
   enum depverrel verrel;
   bool cyclebreak;
@@ -130,9 +130,9 @@ struct trigpend {
 struct trigaw {
   /* Node indicates that aw's Triggers-Awaited mentions pend. */
   struct pkginfo *aw, *pend;
-  struct trigaw *nextsamepend;
+  struct trigaw *samepend_next;
   struct {
-    struct trigaw *next, *back;
+    struct trigaw *next, *prev;
   } sameaw;
 };
 

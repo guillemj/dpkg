@@ -151,7 +151,7 @@ packagelist::add(dependency *depends, showpriority displayimportance)
       deppossi *provider;
       for (provider = possi->ed->available.depended;
            provider;
-           provider=provider->nextrev) {
+           provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
         add(provider->up->up,info.string(),displayimportance);
         add(provider->up,displayimportance);

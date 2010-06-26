@@ -37,7 +37,7 @@
 #define OPTIONINDEXMAXLEN	5
 
 struct method {
-  struct method *next, *back;
+  struct method *next, *prev;
   char *name, *path, *pathinmeth;
 };
 

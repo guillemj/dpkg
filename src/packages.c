@@ -483,7 +483,7 @@ static void breaks_check_target(struct varbuf *aemsgs, int *ok,
                                 struct pkginfo *virtbroken) {
   struct deppossi *possi;
 
-  for (possi= target->installed.depended; possi; possi= possi->nextrev) {
+  for (possi = target->installed.depended; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_breaks) continue;
     if (virtbroken && possi->verrel != dvr_none) continue;
     breaks_check_one(aemsgs, ok, possi, broken, possi->up->up, virtbroken);
@@ -542,7 +542,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       if (found != 3 && possi->verrel == dvr_none) {
         for (provider = possi->ed->installed.depended;
              found != 3 && provider;
-             provider = provider->nextrev) {
+             provider = provider->rev_next) {
           if (provider->up->type != dep_provides)
             continue;
           debug(dbg_depcondetail, "     checking provider %s",
