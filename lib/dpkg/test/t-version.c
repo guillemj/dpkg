@@ -140,7 +140,8 @@ test_version_parse(void)
 	test_fail(parseversion(&a, "0:!#@$%&/|\\<>()[]{};,=*^'-0") == NULL);
 
 	/* Test invalid characters in revision. */
-	test_fail(parseversion(&a, "0:0-!#@$%&/|\\<>()[]{};,=*^'") == NULL);
+	test_fail(parseversion(&a, "0:0-0:0") == NULL);
+	test_fail(parseversion(&a, "0:0-!#@$%&/|\\<>()[]{}:;,=*^'") == NULL);
 
 	/* FIXME: Complete. */
 }
