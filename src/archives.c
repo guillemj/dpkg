@@ -848,8 +848,6 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
     if (!(cfile->namenode->flags & fnnf_deferred_rename))
       continue;
 
-    debug(dbg_eachfiledetail, "deferred extract needs rename");
-
     usenode = namenodetouse(cfile->namenode, pkg);
     usename = usenode->name + 1; /* Skip the leading '/'. */
 
@@ -872,6 +870,8 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
       cfile->namenode->flags &= ~fnnf_deferred_fsync;
     }
 #endif
+
+    debug(dbg_eachfiledetail, "deferred extract needs rename");
 
     if (rename(fnamenewvb.buf, fnamevb.buf))
       ohshite(_("unable to install new version of `%.255s'"),
