@@ -75,6 +75,14 @@ doc: doc/Doxyfile
 clean-local:
 	rm -rf doc/html/
 
+.PHONY: update-po
+
+update-po:
+	$(MAKE) -C po update-po
+	$(MAKE) -C scripts/po update-po
+	$(MAKE) -C dselect/po update-po
+	$(MAKE) -C man update-po
+
 .PHONY: ChangeLog
 DISTCLEANFILES = ChangeLog
 
