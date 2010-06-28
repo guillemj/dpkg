@@ -25,6 +25,7 @@ BEGIN {
 	+ $no_err_examples * 2
 	+ 26 # countme
 	+ 13 # fields
+	+ 1  # regressions
 	+ 22;
 
     require Test::More;
@@ -293,6 +294,10 @@ Xb-Userfield2: foobar
     - implements b
 ", "change items 2");
 	is($items[5], "  * Update S-V.\n", "change items 3");
+    }
+    if ($file eq "$datadir/regressions") {
+	my $f = $changes->dpkg();
+	is("$f->{Version}", "0", "version 0 correctly parsed");
     }
 
     SKIP: {
