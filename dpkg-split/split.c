@@ -239,31 +239,33 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 	return 0;
 }
 
-void do_split(const char *const *argv) {
-  const char *sourcefile, *prefix;
-  char *palloc;
-  int l;
-  size_t partsize;
+void
+do_split(const char *const *argv)
+{
+	const char *sourcefile, *prefix;
+	char *palloc;
+	int l;
+	size_t partsize;
 
-  sourcefile= *argv++;
-  if (!sourcefile)
-    badusage(_("--split needs a source filename argument"));
-  prefix= *argv++;
-  if (prefix && *argv)
-    badusage(_("--split takes at most a source filename and destination prefix"));
-  if (!prefix) {
-    l= strlen(sourcefile);
-    palloc= nfmalloc(l+1);
-    strcpy(palloc,sourcefile);
-    if (!strcmp(palloc+l-(sizeof(DEBEXT)-1),DEBEXT)) {
-      l -= (sizeof(DEBEXT)-1);
-      palloc[l] = '\0';
-    }
-    prefix= palloc;
-  }
-  partsize = maxpartsize - HEADERALLOWANCE;
+	sourcefile = *argv++;
+	if (!sourcefile)
+		badusage(_("--split needs a source filename argument"));
+	prefix = *argv++;
+	if (prefix && *argv)
+		badusage(_("--split takes at most a source filename and destination prefix"));
+	if (!prefix) {
+		l = strlen(sourcefile);
+		palloc = nfmalloc(l + 1);
+		strcpy(palloc, sourcefile);
+		if (!strcmp(palloc + l - (sizeof(DEBEXT) - 1), DEBEXT)) {
+			l -= (sizeof(DEBEXT) - 1);
+			palloc[l] = '\0';
+		}
+		prefix = palloc;
+	}
+	partsize = maxpartsize - HEADERALLOWANCE;
 
-  mksplit(sourcefile, prefix, partsize, maxpartsize, msdos);
+	mksplit(sourcefile, prefix, partsize, maxpartsize, msdos);
 
-  exit(0);
+	exit(0);
 }
