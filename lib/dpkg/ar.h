@@ -27,6 +27,8 @@
 
 DPKG_BEGIN_DECLS
 
+#define DPKG_AR_MAGIC "!<arch>\n"
+
 void dpkg_ar_normalize_name(struct ar_hdr *arh);
 
 DPKG_END_DECLS

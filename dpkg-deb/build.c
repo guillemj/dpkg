@@ -45,6 +45,7 @@
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/compress.h>
+#include <dpkg/ar.h>
 #include <dpkg/myopt.h>
 
 #include "dpkg-deb.h"
@@ -428,7 +429,7 @@ void do_build(const char *const *argv) {
   } else {
     thetime = time(NULL);
     if (fprintf(ar,
-                "!<arch>\n"
+                DPKG_AR_MAGIC
                 "%-16s%-12lu0     0     100644  %-10ld`\n"
                 ARCHIVEVERSION "\n"
                 "%s"

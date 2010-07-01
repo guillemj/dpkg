@@ -133,7 +133,7 @@ void extracthalf(const char *debar, const char *directory,
   if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
   if (!fgets(versionbuf,sizeof(versionbuf),ar)) readfail(ar,debar,_("version number"));
 
-  if (!strcmp(versionbuf,"!<arch>\n")) {
+  if (!strcmp(versionbuf, DPKG_AR_MAGIC)) {
     oldformat = false;
 
     ctrllennum= 0;

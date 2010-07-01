@@ -84,7 +84,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
 
   size_t thisilen;
   unsigned int templong;
-  char magicbuf[SARMAG], *rip, *partnums, *slash;
+  char magicbuf[strlen(DPKG_AR_MAGIC)], *rip, *partnums, *slash;
   struct ar_hdr arh;
   int c;
   struct stat stab;
@@ -92,7 +92,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   if (fread(magicbuf, 1, sizeof(magicbuf), partfile) != sizeof(magicbuf)) {
     if (ferror(partfile)) rerr(fn); else return NULL;
   }
-  if (memcmp(magicbuf, "!<arch>\n", sizeof(magicbuf)))
+  if (memcmp(magicbuf, DPKG_AR_MAGIC, sizeof(magicbuf)))
     return NULL;
   
   if (fread(&arh,1,sizeof(arh),partfile) != sizeof(arh)) rerreof(partfile,fn);
@@ -173,9 +173,9 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
        ? ir->orglength - ir->thispartoffset : ir->maxpartlen))
     ohshit(_("file `%.250s' is corrupt - size is wrong for quoted part number"),fn);
 
-  ir->filesize= (SARMAG +
-                 sizeof(arh) + thisilen + (thisilen&1) +
-                 sizeof(arh) + ir->thispartlen + (ir->thispartlen&1));
+  ir->filesize = (strlen(DPKG_AR_MAGIC) +
+                  sizeof(arh) + thisilen + (thisilen & 1) +
+                  sizeof(arh) + ir->thispartlen + (ir->thispartlen & 1));
 
   if (fstat(fileno(partfile),&stab)) ohshite(_("unable to fstat part file `%.250s'"),fn);
   if (S_ISREG(stab.st_mode)) {
@@ -186,7 +186,8 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
       ohshit(_("file `%.250s' is corrupt - too short"),fn);
   }
 
-  ir->headerlen= SARMAG + sizeof(arh) + thisilen + (thisilen&1) + sizeof(arh);
+  ir->headerlen = strlen(DPKG_AR_MAGIC) +
+                  sizeof(arh) + thisilen + (thisilen & 1) + sizeof(arh);
     
   return ir;
 }  
