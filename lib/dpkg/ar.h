@@ -31,6 +31,14 @@ DPKG_BEGIN_DECLS
 
 void dpkg_ar_normalize_name(struct ar_hdr *arh);
 
+void dpkg_ar_put_magic(const char *ar_name, int ar_fd);
+void dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
+                               const char *name, size_t size);
+void dpkg_ar_member_put_file(const char *ar_name, int ar_fd, const char *name,
+                             int fd);
+void dpkg_ar_member_put_mem(const char *ar_name, int ar_fd, const char *name,
+                            const void *data, size_t size);
+
 DPKG_END_DECLS
 
 #endif /* LIBDPKG_AR_H */

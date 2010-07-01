@@ -21,6 +21,15 @@
 #include <config.h>
 #include <compat.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <time.h>
+#include <unistd.h>
+
+#include <dpkg/i18n.h>
+#include <dpkg/dpkg.h>
+#include <dpkg/buffer.h>
 #include <dpkg/ar.h>
 
 void
@@ -36,4 +45,58 @@ dpkg_ar_normalize_name(struct ar_hdr *arh)
 	/* Remove optional slash terminator (on GNU-style archives). */
 	if (name[i] == '/')
 		name[i] = '\0';
+}
+
+void
+dpkg_ar_put_magic(const char *ar_name, int ar_fd)
+{
+	if (write(ar_fd, DPKG_AR_MAGIC, strlen(DPKG_AR_MAGIC)) < 0)
+		ohshite(_("unable to write file '%s'"), ar_name);
+}
+
+void
+dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
+                          const char *name, size_t size)
+{
+	char header[sizeof(struct ar_hdr)];
+
+	sprintf(header, "%-16s%-12lu0     0     100644  %-10lu`\n",
+	        name, time(NULL), (unsigned long)size);
+
+	if (write(ar_fd, header, sizeof(header)) < 0)
+		ohshite(_("unable to write file '%s'"), ar_name);
+}
+
+void
+dpkg_ar_member_put_mem(const char *ar_name, int ar_fd,
+                       const char *name, const void *data, size_t size)
+{
+	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
+
+	/* Copy data contents. */
+	if (write(ar_fd, data, size) < 0)
+		ohshite(_("unable to write file '%s'"), ar_name);
+
+	if (size & 1)
+		if (write(ar_fd, "\n", 1) < 0)
+			ohshite(_("unable to write file '%s'"), ar_name);
+}
+
+void
+dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
+                        const char *name, int fd)
+{
+	struct stat st;
+
+	if (fstat(fd, &st))
+		ohshite(_("failed to fstat ar member file (%s)"), name);
+
+	dpkg_ar_member_put_header(ar_name, ar_fd, name, st.st_size);
+
+	/* Copy data contents. */
+	fd_fd_copy(fd, ar_fd, -1, name);
+
+	if (st.st_size & 1)
+		if (write(ar_fd, "\n", 1) < 0)
+			ohshite(_("unable to write file '%s'"), ar_name);
 }
