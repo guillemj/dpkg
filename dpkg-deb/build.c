@@ -31,7 +31,6 @@
 #include <limits.h>
 #include <ctype.h>
 #include <string.h>
-#include <time.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -218,9 +217,8 @@ void do_build(const char *const *argv) {
   FILE *ar, *cf;
   int p1[2], p2[2], p3[2], warns, n, c, subdir, gzfd;
   pid_t c1,c2,c3;
-  struct stat controlstab, datastab, mscriptstab, debarstab;
+  struct stat controlstab, mscriptstab, debarstab;
   char conffilename[MAXCONFFILENAME+1];
-  time_t thetime= 0;
   struct file_info *fi;
   struct file_info *symlist = NULL;
   struct file_info *symlist_end = NULL;
@@ -419,33 +417,27 @@ void do_build(const char *const *argv) {
   close(p1[0]);
   subproc_wait_check(c2, "gzip -9c", 0);
   subproc_wait_check(c1, "tar -cf", 0);
-  if (fstat(gzfd,&controlstab)) ohshite(_("failed to fstat tmpfile (control)"));
+
+  if (lseek(gzfd, 0, SEEK_SET))
+    ohshite(_("failed to rewind tmpfile (control)"));
+
   /* We have our first file for the ar-archive. Write a header for it to the
    * package and insert it.
    */
   if (oldformatflag) {
+    if (fstat(gzfd, &controlstab))
+      ohshite(_("failed to fstat tmpfile (control)"));
     if (fprintf(ar, "%-8s\n%ld\n", OLDARCHIVEVERSION, (long)controlstab.st_size) == EOF)
       werr(debar);
+    fd_fd_copy(gzfd, fileno(ar), -1, _("control"));
   } else {
-    thetime = time(NULL);
-    if (fprintf(ar,
-                DPKG_AR_MAGIC
-                "%-16s%-12lu0     0     100644  %-10ld`\n"
-                ARCHIVEVERSION "\n"
-                "%s"
-                "%-16s%-12lu0     0     100644  %-10ld`\n",
-                DEBMAGIC,
-                thetime,
-                (long)sizeof(ARCHIVEVERSION),
-                (sizeof(ARCHIVEVERSION)&1) ? "\n" : "",
-                ADMINMEMBER,
-                (unsigned long)thetime,
-                (long)controlstab.st_size) == EOF)
-      werr(debar);
+    const char deb_magic[] = ARCHIVEVERSION "\n";
+
+    dpkg_ar_put_magic(debar, fileno(ar));
+    dpkg_ar_member_put_mem(debar, fileno(ar), DEBMAGIC,
+                           deb_magic, strlen(deb_magic));
+    dpkg_ar_member_put_file(debar, fileno(ar), ADMINMEMBER, gzfd);
   }                
-                
-  if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (control)"));
-  fd_fd_copy(gzfd, fileno(ar), -1, _("control"));
 
   /* Control is done, now we need to archive the data. Start by creating
    * a new temporary file. Immediately unlink the temporary file so others
@@ -524,23 +516,9 @@ void do_build(const char *const *argv) {
 
     sprintf(datamember, "%s%s", DATAMEMBER, compressor->extension);
 
-    if (fstat(gzfd, &datastab))
-      ohshite(_("failed to fstat tmpfile (data)"));
-    if (fprintf(ar,
-                "%s"
-                "%-16s%-12lu0     0     100644  %-10ld`\n",
-                (controlstab.st_size & 1) ? "\n" : "",
-                datamember,
-                (unsigned long)thetime,
-                (long)datastab.st_size) == EOF)
-      werr(debar);
-
     if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (data)"));
-    fd_fd_copy(gzfd, fileno(ar), -1, _("cat (data)"));
 
-    if (datastab.st_size & 1)
-      if (putc('\n',ar) == EOF)
-        werr(debar);
+    dpkg_ar_member_put_file(debar, fileno(ar), datamember, gzfd);
   }
   if (fflush(ar))
     ohshite(_("unable to flush file '%s'"), debar);
