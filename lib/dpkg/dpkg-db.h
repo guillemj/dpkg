@@ -199,6 +199,7 @@ enum modstatdb_rw {
   msdbrw_noavail= 0100,
 };
 
+bool modstatdb_is_locked(const char *admindir);
 void modstatdb_lock(const char *admindir);
 void modstatdb_unlock(void);
 enum modstatdb_rw modstatdb_init(const char *admindir, enum modstatdb_rw reqrwflags);

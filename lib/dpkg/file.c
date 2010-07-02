@@ -83,6 +83,28 @@ file_unlock(void)
 	pop_cleanup(ehflag_normaltidy); /* Calls file_unlock_cleanup. */
 }
 
+/**
+ * Check if a file has a lock acquired.
+ *
+ * @param lockfd The file descriptor for the lock.
+ * @param filename The file name associated to the file descriptor.
+ */
+bool
+file_is_locked(int lockfd, const char *filename)
+{
+	struct flock fl;
+
+	file_lock_setup(&fl, F_WRLCK);
+
+	if (fcntl(lockfd, F_GETLK, &fl) == -1)
+		ohshit(_("unable to check file '%s' lock status"), filename);
+
+	if (fl.l_type == F_WRLCK && fl.l_pid != getpid())
+		return true;
+	else
+		return false;
+}
+
 /* lockfd must be allocated statically as its addresses is passed to
  * a cleanup handler. */
 void

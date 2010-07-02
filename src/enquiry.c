@@ -124,6 +124,7 @@ static void describebriefly(struct pkginfo *pkg) {
 
 void audit(const char *const *argv) {
   const struct badstatinfo *bsi;
+  bool head_running = false;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
@@ -138,6 +139,13 @@ void audit(const char *const *argv) {
     it= iterpkgstart(); 
     while ((pkg= iterpkgnext(it))) {
       if (!bsi->yesno(pkg,bsi)) continue;
+      if (!head_running) {
+        if (modstatdb_is_locked(admindir))
+          puts(_(
+"Another process has locked the database for writing, and might currently be\n"
+"modifying it, some of the following problems might just be due to that.\n"));
+        head_running = true;
+      }
       if (!head) {
         fputs(gettext(bsi->explanation),stdout);
         head = true;

@@ -21,6 +21,8 @@
 #ifndef LIBDPKG_FILE_H
 #define LIBDPKG_FILE_H
 
+#include <stdbool.h>
+
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
@@ -30,6 +32,7 @@ DPKG_BEGIN_DECLS
  */
 void file_copy_perms(const char *src, const char *dst);
 
+bool file_is_locked(int lockfd, const char *filename);
 void file_lock(int *lockfd, const char *filename,
                const char *emsg, const char *emsg_eagain);
 void file_unlock(void);

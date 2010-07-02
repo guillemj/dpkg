@@ -142,10 +142,40 @@ static const struct fni {
   {   NULL, NULL                                      }
 };
 
+static int dblockfd = -1;
+
+bool
+modstatdb_is_locked(const char *admindir)
+{
+  struct varbuf lockfile = VARBUF_INIT;
+  int lockfd;
+  bool locked;
+
+  varbufprintf(&lockfile, "%s/%s", admindir, LOCKFILE);
+
+  if (dblockfd == -1) {
+    lockfd = open(lockfile.buf, O_RDONLY);
+    if (lockfd == -1)
+      ohshite(_("unable to open lock file %s for testing"), lockfile.buf);
+  } else {
+    lockfd = dblockfd;
+  }
+
+  locked = file_is_locked(lockfd, lockfile.buf);
+
+  /* We only close the file if there was no lock open, otherwise we would
+   * release the existing lock on close. */
+  if (dblockfd == -1)
+    close(lockfd);
+
+  varbuf_destroy(&lockfile);
+
+  return locked;
+}
+
 void
 modstatdb_lock(const char *admindir)
 {
-  static int dblockfd = -1;
   int n;
   char *dblockfile = NULL;
 
