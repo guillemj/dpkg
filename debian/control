@@ -32,10 +32,10 @@ Architecture: any
 Essential: yes
 Pre-Depends: ${shlibs:Depends}, coreutils (>= 5.93-1), xz-utils
 Depends: ${misc:Depends}
-Conflicts: dpkg-dev (<< 1.14.16), apt (<< 0.7.7), aptitude (<< 0.4.7-1)
+Breaks: dpkg-dev (<< 1.14.16), apt (<< 0.7.7), aptitude (<< 0.4.7-1),
 # install-info transition
 # see http://wiki.debian.org/Transitions/DpkgToGnuInstallInfo
-Breaks: jed (<< 1:0.99.18+dfsg.1-13), xjed (<< 1:0.99.18+dfsg.1-13),
+ jed (<< 1:0.99.18+dfsg.1-13), xjed (<< 1:0.99.18+dfsg.1-13),
  konqueror (<= 4:4.2.96-1), xemacs21-support (<< 21.4.22-2),
  emacs22 (<= 22.3+1-1), emacs22-gtk (<= 22.3+1-1), emacs22-nox (<= 22.3+1-1),
  emacs21 (<< 21.4a+1-5.7), emacs21-nox (<< 21.4a+1-5.7),
@@ -55,7 +55,7 @@ Depends: libdpkg-perl (= ${source:Version}), bzip2, xz-utils,
  patch, make, binutils, base-files (>= 5.0.0), ${misc:Depends}
 Recommends: gcc | c-compiler, build-essential, fakeroot, gnupg, gpgv, libalgorithm-merge-perl
 Suggests: debian-keyring
-Conflicts: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)
+Breaks: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)
 Description: Debian package development tools
  This package provides the development tools (including dpkg-source)
  required to unpack, build and upload Debian source packages.
@@ -70,7 +70,7 @@ Architecture: all
 Depends: dpkg (>= 1.15.4), perl, libtimedate-perl, ${misc:Depends}
 Recommends: bzip2, xz-utils
 Suggests: debian-keyring, gnupg, gpgv, binutils, patch
-Conflicts: dpkg-dev (<< 1.15.6)
+Breaks: dpkg-dev (<< 1.15.6)
 Replaces: dpkg-dev (<< 1.15.6)
 Description: Dpkg perl modules
  This package provides the perl modules used by the scripts
