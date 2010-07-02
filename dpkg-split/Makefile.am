@@ -24,20 +24,5 @@ dpkg_split_LDADD = \
 	../lib/compat/libcompat.a \
 	$(LIBINTL)
 
-
-pkglib_SCRIPTS = mksplit
-EXTRA_DIST = mksplit.pl
-CLEANFILES = $(pkglib_SCRIPTS)
-
-
-do_perl_subst = $(AM_V_GEN) sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):"
-
-
-%: %.pl Makefile
-	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
-	$(do_perl_subst) <$< >$@
-	$(AM_V_at) chmod +x $@
-
-
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(admindir)/parts
