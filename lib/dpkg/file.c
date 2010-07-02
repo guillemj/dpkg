@@ -54,16 +54,25 @@ file_copy_perms(const char *src, const char *dst)
 }
 
 static void
+file_lock_setup(struct flock *fl, short type)
+{
+	fl->l_type = type;
+	fl->l_whence = SEEK_SET;
+	fl->l_start = 0;
+	fl->l_len = 0;
+	fl->l_pid = 0;
+}
+
+static void
 file_unlock_cleanup(int argc, void **argv)
 {
 	int lockfd = *(int*)argv[0];
 	struct flock fl;
 
 	assert(lockfd >= 0);
-	fl.l_type = F_UNLCK;
-	fl.l_whence = SEEK_SET;
-	fl.l_start = 0;
-	fl.l_len = 0;
+
+	file_lock_setup(&fl, F_UNLCK);
+
 	if (fcntl(lockfd, F_SETLK, &fl) == -1)
 		ohshite(_("unable to unlock dpkg status database"));
 }
@@ -84,10 +93,7 @@ file_lock(int *lockfd, const char *filename,
 
 	setcloexec(*lockfd, filename);
 
-	fl.l_type = F_WRLCK;
-	fl.l_whence = SEEK_SET;
-	fl.l_start = 0;
-	fl.l_len = 0;
+	file_lock_setup(&fl, F_WRLCK);
 
 	if (fcntl(*lockfd, emsg_eagain ? F_SETLK : F_SETLKW, &fl) == -1) {
 		if (emsg_eagain && (errno == EACCES || errno == EAGAIN))
