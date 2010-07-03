@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18\n"
 "POT-Creation-Date: 2010-06-27 10:40+0300\n"
-"PO-Revision-Date: 2010-06-05 11:57+0200\n"
+"PO-Revision-Date: 2010-07-03 16:55+0200\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Debian l10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "Language: es\n"
@@ -2383,10 +2383,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:1
-#, fuzzy, no-wrap
-#| msgid "2010-01-28"
+#, no-wrap
 msgid "2010-06-02"
-msgstr "28 de enero del 2010"
+msgstr "2 de Julio del 2010"
 
 #. type: TH
 #: dpkg.1:1 dpkg.cfg.5:1 dpkg-buildflags.1:1 dpkg-deb.1:1
@@ -3844,17 +3843,13 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1:525
-#, fuzzy
-#| msgid "B<--list>I< glob-pattern>"
 msgid "B<--path-exclude=>I<glob-pattern>"
-msgstr "B<--list>I< comodín>"
+msgstr "B<--path-exclude=>I<comodín>"
 
 #. type: Plain text
 #: dpkg.1:527
-#, fuzzy
-#| msgid "B<--list>I< glob-pattern>"
 msgid "B<--path-include=>I<glob-pattern>"
-msgstr "B<--list>I< comodín>"
+msgstr "B<--path-include=>I<comodín>"
 
 #. type: Plain text
 #: dpkg.1:530
@@ -3862,6 +3857,9 @@ msgid ""
 "Set I<glob-pattern> as a path filter, either by excluding or re-including "
 "previously excluded paths matching the specified patterns during install."
 msgstr ""
+"Define I<comodín> («glob pattern») como un filtro de ruta, bien excluyendo o "
+"incluyendo otra vez rutas anteriormente excluidas que encajan con los "
+"patrones definidos durante la instalación."
 
 #. type: Plain text
 #: dpkg.1:533
@@ -3869,6 +3867,8 @@ msgid ""
 "I<Warning: take into account that depending on the excluded paths you might "
 "completely break your system, use with caution.>"
 msgstr ""
+"I<Aviso: tenga en cuenta que dependendiendo de las rutas que excluya, puede "
+"dejar su sistema inutilizable, úselo con precuación.>"
 
 #. type: Plain text
 #: dpkg.1:543
@@ -3883,6 +3883,17 @@ msgid ""
 "symlinks than needed, to be on the safe side and avoid possible unpack "
 "failures, future work might fix this."
 msgstr ""
+"Los patrones de comodín («glob») usan los mismos comodines que el intérprete "
+"de órdenes, donde «*» encaja con cualquier cadena de caracteres, incluyendo "
+"una cadena vacía y «/». Por ejemplo, I<'/usr/*/READ*'> encaja con I<'/usr/"
+"share/doc/package/README'>. Como es habitual, «?» encaja cualquier carácter "
+"único (una vez más, incluyendo «/»). Y «[» inicia una clase («class») de "
+"carácter, que puede contener una lista de caracteres, rangos y "
+"complementaciones. Consulte B<glob>(7) para más información acerca del uso "
+"de comodines. Nota: puede que la implementación actual incluya otra vez más "
+"directorios y enlaces simbólicos que los necesarios. Puede que un desarrollo "
+"en el futuro arregle esto para estar más seguros y evitar un posible error "
+"de desempaquetado."
 
 #. type: Plain text
 #: dpkg.1:546
@@ -3890,6 +3901,8 @@ msgid ""
 "This can be used to remove all paths except some particular ones; a typical "
 "case is:"
 msgstr ""
+"Puede usar esto para eliminar todas las rutas a excepción de algunas en "
+"particular; un típico uso es:"
 
 #. type: Plain text
 #: dpkg.1:550
@@ -3898,11 +3911,15 @@ msgid ""
 "B<--path-exclude=/usr/share/doc/*>\n"
 "B<--path-include=/usr/share/doc/*/copyright>\n"
 msgstr ""
+"B<--path-exclude=/usr/share/doc/*>\n"
+"B<--path-include=/usr/share/doc/*/copyright>\n"
 
 #. type: Plain text
 #: dpkg.1:553
 msgid "to remove all documentation files except the copyright files."
 msgstr ""
+"para eliminar todos los ficheros de documentación a excepción de los "
+"ficheros de derechos de autor."
 
 #. type: Plain text
 #: dpkg.1:557
@@ -3911,6 +3928,9 @@ msgid ""
 "other. Both are processed in the given order, with the last rule that "
 "matches a file name making the decision."
 msgstr ""
+"Estas dos opciones se pueden definir varias veces, y se pueden interpolar. "
+"Ambos se procesan en el orden dado, y la última regla que encaja con un "
+"nombre de fichero realiza la decisión."
 
 #. type: TP
 #: dpkg.1:558
@@ -12671,7 +12691,7 @@ msgstr ""
 #: dpkg-source.1:342 dpkg-source.1:525
 #, no-wrap
 msgid "B<--abort-on-upstream-changes>"
-msgstr ""
+msgstr "B<--abort-on-upstream-changes>"
 
 #. type: Plain text
 #: dpkg-source.1:348
@@ -12680,6 +12700,10 @@ msgid ""
 "the debian sub-directory. This option is not allowed in B<debian/source/"
 "options> but can be used in B<debian/source/local-options>."
 msgstr ""
+"El procesa dará fallo si el «diff» generado contiene cambios realizados a "
+"ficheros fuera del subdirectorio «debian». Esta opción no se puede usar en "
+"B<debian/source/options> pero se puede usar en B<debian/source/local-"
+"options>."
 
 #. type: TP
 #: dpkg-source.1:349
@@ -13117,10 +13141,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:516
-#, fuzzy, no-wrap
-#| msgid "B<--skip-patches>"
+#, no-wrap
 msgid "B<--unapply-patches>"
-msgstr "B<--skip-patches>"
+msgstr "B<--unapply-patches>"
 
 #. type: Plain text
 #: dpkg-source.1:525
@@ -13132,6 +13155,14 @@ msgid ""
 "not allowed in B<debian/source/options> so that all generated source "
 "packages have the same behaviour by default)."
 msgstr ""
+"No aplica o elimina los cambios de los parches en el «hook» B<--after-build>. "
+"Esto es útil principalmente cuando construye su paquete directamente en un "
+"sistema de control de versiones que contiene la fuente original sin "
+"parchear, y cuando quiere mantener el árbol sin parchear incluso después de "
+"la construcción del paquete. Habitualmente, esta opción se introduce en "
+"B<debian/source/local-options> (no se permite en B<debian/source/options> "
+"para que todos los paquetes de fuente generados tengan el mismo "
+"comportamiento por omisión)."
 
 #. type: Plain text
 #: dpkg-source.1:532
@@ -13141,6 +13172,11 @@ msgid ""
 "patches prior to the source package build. This option is not allowed in "
 "B<debian/source/options> but can be used in B<debian/source/local-options>."
 msgstr ""
+"El proceso falla si se genera un parche automático. Esta opción se puede "
+"usar para asegurar que todos los cambios se registren apropiadamente en "
+"parches de quilt separados antes de la construcción del paquete fuente. Esta "
+"opción no se permite en B<debian/source/options> pero se puede usar en "
+"B<debian/source/local-options>."
 
 #. type: Plain text
 #: dpkg-source.1:535
@@ -16905,16 +16941,12 @@ msgstr "B<--log=>I<fichero>"
 
 #. type: Plain text
 #: update-alternatives.8:337
-#, fuzzy
-#| msgid ""
-#| "Specifies the log file, when this is to be different from the default (/"
-#| "var/log/dpkg.log)."
 msgid ""
 "Specifies the log file, when this is to be different from the default (/var/"
 "log/alternatives.log)."
 msgstr ""
-"Define el directorio de alternativas cuando es diferente del directorio por "
-"omisión («/var/log/dpkg.log»)."
+"Define el fichero de registro de alternativas cuando es diferente del valor "
+"por omisión («/var/log/alternativas.log»)."
 
 #. type: Plain text
 #: update-alternatives.8:341
