@@ -141,7 +141,12 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	} else {
 		useredited = strcmp(conff->hash, currenthash) != 0;
 		distedited = strcmp(conff->hash, newdisthash) != 0;
-		what = conffoptcells[useredited][distedited];
+
+		if (fc_conff_ask && useredited)
+			what = cfo_prompt_keep;
+		else
+			what = conffoptcells[useredited][distedited];
+
 		if (!strcmp(currenthash, NONEXISTENTFLAG))
 			what |= cfof_userrmd;
 	}

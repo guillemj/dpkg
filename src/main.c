@@ -183,6 +183,7 @@ int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_breaks=0, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
 int fc_nonroot=0, fc_overwritedir=0, fc_conff_new=0, fc_conff_miss=0;
 int fc_conff_old=0, fc_conff_def=0;
+int fc_conff_ask = 0;
 int fc_badverify = 0;
 
 int errabort = 50;
@@ -204,6 +205,7 @@ static const struct forceinfo {
   { "confold",             &fc_conff_old                },
   { "confdef",             &fc_conff_def                },
   { "confmiss",            &fc_conff_miss               },
+  { "confask",             &fc_conff_ask                },
   { "depends",             &fc_depends                  },
   { "depends-version",     &fc_dependsversion           },
   { "breaks",              &fc_breaks                   },
@@ -417,6 +419,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 "                         you will be prompted unless one of the confold or\n"
 "                         confnew options is also given\n"
 "  confmiss [!]           Always install missing config files\n"
+"  confask [!]            Offer to replace config files with no new versions\n"
 "  breaks [!]             Install even if it would break another package\n"
 "  conflicts [!]          Allow installation of conflicting packages\n"
 "  architecture [!]       Process even packages with wrong architecture\n"

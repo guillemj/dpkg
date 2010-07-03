@@ -129,6 +129,7 @@ extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
 extern int fc_breaks, fc_badpath, fc_overwritediverted, fc_architecture;
 extern int fc_nonroot, fc_overwritedir, fc_conff_new, fc_conff_miss;
 extern int fc_conff_old, fc_conff_def;
+extern int fc_conff_ask;
 extern int fc_badverify;
 
 extern bool abort_processing;
