@@ -118,9 +118,8 @@ void extracthalf(const char *debar, const char *directory,
   size_t ctrllennum, memberlen= 0;
   int dummy, l= 0;
   pid_t c1=0,c2,c3;
-  void *ctrlarea = NULL;
   int p1[2], p2[2];
-  FILE *ar, *pi;
+  FILE *ar;
   struct stat stab;
   char nlc;
   char *cur;
@@ -225,6 +224,13 @@ void extracthalf(const char *debar, const char *directory,
     if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
       ohshit(_("archive has malformatted control length `%s'"), ctrllenbuf);
 
+    if (admininfo) {
+      memberlen = ctrllennum;
+    } else {
+      memberlen = stab.st_size - ctrllennum - strlen(ctrllenbuf) - l;
+      stream_null_copy(ar, ctrllennum, _("skipped control area from %s"), debar);
+    }
+
     if (admininfo >= 2) {
       printf(_(" old debian package, version %s.\n"
                " size %ld bytes: control archive= %zi, main archive= %ld.\n"),
@@ -232,12 +238,6 @@ void extracthalf(const char *debar, const char *directory,
              (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l));
       m_output(stdout, _("<standard output>"));
     }
-
-    ctrlarea = m_malloc(ctrllennum);
-
-    errno=0; if (fread(ctrlarea,1,ctrllennum,ar) != ctrllennum)
-      readfail(ar, debar, _("control area"));
-
   } else {
     
     if (!strncmp(versionbuf,"!<arch>",7)) {
@@ -252,42 +252,18 @@ void extracthalf(const char *debar, const char *directory,
 
   safe_fflush(ar);
 
-  if (oldformat) {
-    if (admininfo) {
-      m_pipe(p1);
-      c1 = subproc_fork();
-      if (!c1) {
-        close(p1[0]);
-	pi = fdopen(p1[1], "w");
-	if (!pi)
-	  ohshite(_("failed to open pipe descriptor `1' in paste"));
-        errno=0; if (fwrite(ctrlarea,1,ctrllennum,pi) != ctrllennum)
-          ohshit(_("failed to write to gzip -dc"));
-        if (fclose(pi)) ohshit(_("failed to close gzip -dc"));
-        exit(0);
-      }
-      close(p1[1]);
-      readfromfd= p1[0];
-    } else {
-      if (lseek(fileno(ar),l+strlen(ctrllenbuf)+ctrllennum,SEEK_SET) == -1)
-        ohshite(_("failed to syscall lseek to files archive portion"));
-      c1= -1;
-      readfromfd= fileno(ar);
-    }
-    free(ctrlarea);
-  } else {
-    m_pipe(p1);
-    c1 = subproc_fork();
-    if (!c1) {
-      close(p1[0]);
-      stream_fd_copy(ar, p1[1], memberlen, _("failed to write to pipe in copy"));
-      if (close(p1[1]) == EOF) ohshite(_("failed to close pipe in copy"));
-      exit(0);
-    }
-    close(p1[1]);
-    readfromfd= p1[0];
+  m_pipe(p1);
+  c1 = subproc_fork();
+  if (!c1) {
+    close(p1[0]);
+    stream_fd_copy(ar, p1[1], memberlen, _("failed to write to pipe in copy"));
+    if (close(p1[1]) == EOF)
+      ohshite(_("failed to close pipe in copy"));
+    exit(0);
   }
-  
+  close(p1[1]);
+  readfromfd = p1[0];
+
   if (taroption) m_pipe(p2);
   
   c2 = subproc_fork();
