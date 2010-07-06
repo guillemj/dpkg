@@ -124,7 +124,7 @@ void extracthalf(const char *debar, const char *directory,
   char nlc;
   char *cur;
   struct ar_hdr arh;
-  int readfromfd, adminmember;
+  int adminmember;
   bool oldformat, header_done;
   struct compressor *decompressor = &compressor_gzip;
   
@@ -262,18 +262,17 @@ void extracthalf(const char *debar, const char *directory,
     exit(0);
   }
   close(p1[1]);
-  readfromfd = p1[0];
 
   if (taroption) m_pipe(p2);
   
   c2 = subproc_fork();
   if (!c2) {
-    m_dup2(readfromfd,0);
+    m_dup2(p1[0], 0);
     if (admininfo) close(p1[0]);
     if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
     decompress_filter(decompressor, 0, 1, _("data"));
   }
-  if (readfromfd != fileno(ar)) close(readfromfd);
+  close(p1[0]);
   fclose(ar);
   if (taroption) close(p2[1]);
 
