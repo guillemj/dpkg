@@ -114,16 +114,13 @@ void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo) {
   char versionbuf[40];
   float versionnum;
-  char ctrllenbuf[40];
   size_t ctrllennum, memberlen= 0;
-  int dummy, l= 0;
+  int dummy;
   pid_t c1=0,c2,c3;
   int p1[2], p2[2];
   FILE *ar;
   struct stat stab;
   char nlc;
-  char *cur;
-  struct ar_hdr arh;
   int adminmember;
   bool oldformat, header_done;
   struct compressor *decompressor = &compressor_gzip;
@@ -138,6 +135,8 @@ void extracthalf(const char *debar, const char *directory,
     ctrllennum= 0;
     header_done = false;
     for (;;) {
+      struct ar_hdr arh;
+
       if (fread(&arh,1,sizeof(arh),ar) != sizeof(arh))
         readfail(ar,debar,_("between members"));
 
@@ -149,6 +148,7 @@ void extracthalf(const char *debar, const char *directory,
                                    debar, _("member length"));
       if (!header_done) {
         char *infobuf;
+        char *cur;
 
         if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
@@ -214,7 +214,9 @@ void extracthalf(const char *debar, const char *directory,
   } else if (!strncmp(versionbuf,"0.93",4) &&
              sscanf(versionbuf,"%f%c%d",&versionnum,&nlc,&dummy) == 2 &&
              nlc == '\n') {
-    
+    char ctrllenbuf[40];
+    int l = 0;
+
     oldformat = true;
     l = strlen(versionbuf);
     if (l && versionbuf[l - 1] == '\n')
