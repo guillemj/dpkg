@@ -162,6 +162,12 @@ check_rename(struct file *src, struct file *dst)
 	int tmpfd;
 
 	file_stat(src);
+
+	/* If the source file is not present and we are not going to do
+	 * the rename anyway there's no point in checking any further. */
+	if (src->stat_state == file_stat_nofile)
+		return false;
+
 	file_stat(dst);
 
 	/*
@@ -179,13 +185,6 @@ check_rename(struct file *src, struct file *dst)
 	if (tmpfd >= 0) {
 		close(tmpfd);
 		unlink(tmpname.buf);
-	} else if (errno == ENOENT) {
-		varbuf_destroy(&tmpname);
-
-		/* If the source file is not present and we are not going
-		 * to do the rename anyway there's no point in checking the
-		 * target. */
-		return false;
 	} else
 		ohshite(_("error checking '%s'"), src->name);
 

@@ -74,6 +74,10 @@ dpkg (1.15.8) UNRELEASED; urgency=low
   * Add new dpkg --force-confask option that forces a conffile prompt when
     the conffile from the new package does not differ from the previous one.
     Thanks to Henning Makholm <henning@makholm.net>. Closes: #102609
+  * On dpkg-divert --rename, check if the source file exists, and disable
+    renaming if it does not. Closes: #550252
+    As a side effect, this avoids useless errors when the destination
+    directory is not existent or writable. Closes: #581544
 
   [ Updated programs translations ]
   * Catalan (Guillem Jover).
