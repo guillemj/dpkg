@@ -155,12 +155,26 @@ file_stat(struct file *f)
 		f->stat_state = file_stat_nofile;
 }
 
-static bool
-check_rename(struct file *src, struct file *dst)
+static void
+check_writable_dir(struct file *f)
 {
 	struct varbuf tmpname = VARBUF_INIT;
 	int tmpfd;
 
+	varbufprintf(&tmpname, "%s%s", f->name, ".dpkg-divert.tmp");
+
+	tmpfd = creat(tmpname.buf, 0600);
+	if (tmpfd < 0)
+		ohshite(_("error checking '%s'"), f->name);
+	close(tmpfd);
+	unlink(tmpname.buf);
+
+	varbuf_destroy(&tmpname);
+}
+
+static bool
+check_rename(struct file *src, struct file *dst)
+{
 	file_stat(src);
 
 	/* If the source file is not present and we are not going to do
@@ -179,26 +193,8 @@ check_rename(struct file *src, struct file *dst)
 	 * succeeds, we assume a writable filesystem.
 	 */
 
-	varbufprintf(&tmpname, "%s%s", src->name, ".dpkg-divert.tmp");
-
-	tmpfd = creat(tmpname.buf, 0600);
-	if (tmpfd >= 0) {
-		close(tmpfd);
-		unlink(tmpname.buf);
-	} else
-		ohshite(_("error checking '%s'"), src->name);
-
-	varbufreset(&tmpname);
-	varbufprintf(&tmpname, "%s%s", dst->name, ".dpkg-divert.tmp");
-
-	tmpfd = creat(tmpname.buf, 0600);
-	if (tmpfd >= 0) {
-		close(tmpfd);
-		unlink(tmpname.buf);
-	} else
-		ohshite(_("error checking '%s'"), dst->name);
-
-	varbuf_destroy(&tmpname);
+	check_writable_dir(src);
+	check_writable_dir(dst);
 
 	if (src->stat_state == file_stat_valid &&
 	    dst->stat_state == file_stat_valid &&
