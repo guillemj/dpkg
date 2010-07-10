@@ -66,18 +66,12 @@ if WITH_INSTALL_INFO
 endif
 
 TEST_VERBOSE = 0
+TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)
+
 test_tmpdir = t.tmp
 test_cases = \
 	t/100_update_alternatives.t
 
-clean-local:
-	rm -fr $(test_tmpdir)
+include $(top_srcdir)/Makecheck.am
 
-check-local: $(test_cases)
-	$(mkdir_p) $(test_tmpdir)
-	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(top_builddir)/utils:$(PATH)" \
-	  srcdir=$(srcdir) builddir=$(builddir) DPKG_DATADIR=$(top_srcdir) \
-	  PERL5LIB=$(top_srcdir)/scripts \
-	  $(PERL) -MExtUtils::Command::MM \
-		  -e "test_harness($(TEST_VERBOSE), '.')" \
-		  $(addprefix $(srcdir)/,$(test_cases))
+clean-local: check-clean

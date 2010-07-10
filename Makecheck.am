@@ -1,0 +1,21 @@
+# vim:set syn=automake:
+
+# Variables to be defined:
+#
+#  TEST_VERBOSE - set to 0 or 1 to control test suite verbosity
+#  TEST_ENV_VARS - environment variables to be set for the test suite
+#  test_tmpdir - test suite temporary directory
+#  test_cases - list of test case files
+#  test_data - list of test data files
+
+check-clean:
+	rm -fr $(test_tmpdir)
+
+check-local: $(test_data) $(test_cases)
+	$(mkdir_p) $(test_tmpdir)
+	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(top_builddir)/utils:$(PATH)" \
+	  srcdir=$(srcdir) builddir=$(builddir) \
+	  PERL5LIB=$(top_srcdir)/scripts PERL_DL_NONLAZY=1 \
+	  $(PERL) -I$(top_srcdir)/scripts \
+	    -MExtUtils::Command::MM -e "test_harness($(TEST_VERBOSE), '.')" \
+	    $(addprefix $(srcdir)/,$(test_cases))

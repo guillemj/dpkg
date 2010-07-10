@@ -160,6 +160,9 @@ if BUILD_POD_DOC
 endif
 
 TEST_VERBOSE= 0
+TEST_ENV_VARS = \
+	DPKG_DATADIR=$(srcdir)/.. \
+	DPKG_ORIGINS_DIR=$(srcdir)/t/origins
 
 test_tmpdir = t.tmp
 
@@ -225,20 +228,6 @@ test_data = \
 	t/origins/default \
 	t/origins/ubuntu
 
-clean-local:
-	rm -fr man
-	rm -fr $(test_tmpdir)
-
-check-local: $(test_data) $(test_cases)
-	$(mkdir_p) $(test_tmpdir)
-	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(PATH)" \
-	  srcdir=$(srcdir) DPKG_DATADIR=$(srcdir)/.. \
-	  DPKG_ORIGINS_DIR=$(srcdir)/t/origins \
-	  PERL5LIB=$(srcdir) PERL_DL_NONLAZY=1 \
-	  $(PERL) -I$(srcdir) -MExtUtils::Command::MM \
-	          -e "test_harness($(TEST_VERBOSE), '.')" \
-	          $(addprefix $(srcdir)/,$(test_cases))
-
 objdump_lib_name = lib`basename $@`.so
 $(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 $(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
 	$(mkdir_p) $(test_tmpdir)/200_Dpkg_Shlibs
@@ -256,3 +245,8 @@ $(test_tmpdir)/200_Dpkg_Shlibs/objdump.patterns: $(srcdir)/t/200_Dpkg_Shlibs/pat
 	objdump -w -f -p -T -R $(objdump_lib_name) | \
 	  sed "s/$(objdump_lib_name)/libpatterns.so.1/g" > $@
 	rm -f $(objdump_lib_name)
+
+include $(top_srcdir)/Makecheck.am
+
+clean-local: check-clean
+	rm -fr man
