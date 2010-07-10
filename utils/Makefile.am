@@ -73,7 +73,7 @@ test_cases = \
 clean-local:
 	rm -fr $(test_tmpdir)
 
-check: $(test_cases)
+check-local: $(test_cases)
 	$(mkdir_p) $(test_tmpdir)
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(top_builddir)/utils:$(PATH)" \
 	  srcdir=$(srcdir) builddir=$(builddir) DPKG_DATADIR=$(top_srcdir) \

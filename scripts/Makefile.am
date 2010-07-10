@@ -229,7 +229,7 @@ clean-local:
 	rm -fr man
 	rm -fr $(test_tmpdir)
 
-check: $(test_data) $(test_cases)
+check-local: $(test_data) $(test_cases)
 	$(mkdir_p) $(test_tmpdir)
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(PATH)" \
 	  srcdir=$(srcdir) DPKG_DATADIR=$(srcdir)/.. \
