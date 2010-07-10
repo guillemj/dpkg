@@ -28,6 +28,11 @@ my $testdir = File::Spec->rel2abs("$tmpdir/testdir");
 
 my @dd = ("$builddir/../src/dpkg-divert");
 
+if (! -x "@dd") {
+    plan skip_all => "dpkg-divert not available";
+    exit(0);
+}
+
 plan tests => 235;
 
 sub cleanup {
