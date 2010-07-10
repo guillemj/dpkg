@@ -180,8 +180,7 @@ test_cases = \
 	t/750_Dpkg_Substvars.t \
 	t/800_Dpkg_IPC.t \
 	t/850_Dpkg_Compression.t \
-	t/910_merge_changelogs.t \
-	t/950_dpkg_divert.t
+	t/910_merge_changelogs.t
 
 check_DATA = \
 	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 \

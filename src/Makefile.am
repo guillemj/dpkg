@@ -91,3 +91,14 @@ install-data-local:
 	$(mkdir_p) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
 	$(mkdir_p) $(DESTDIR)$(admindir)/info
 	$(mkdir_p) $(DESTDIR)$(admindir)/updates
+
+TEST_VERBOSE = 0
+
+test_tmpdir = t.tmp
+
+test_cases = \
+	t/100_dpkg_divert.t
+
+include $(top_srcdir)/Makecheck.am
+
+clean-local: check-clean
