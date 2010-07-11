@@ -1409,7 +1409,7 @@ alternative_select_choice(struct alternative *a)
 {
 	char *current, *ret, selection[_POSIX_PATH_MAX];
 	struct fileset *best, *fs;
-	int len, index;
+	int len, idx;
 
 	current = alternative_get_current(a);
 	best = alternative_get_best(a);
@@ -1435,16 +1435,16 @@ alternative_select_choice(struct alternative *a)
 			mark = " ";
 		pr("%s %-12d %-*s % -10d %s", mark, 0, len, best->master_file,
 		   best->priority, _("auto mode"));
-		index = 1;
+		idx = 1;
 		for (fs = a->choices; fs; fs = fs->next) {
 			if (a->status == ALT_ST_MANUAL && current &&
 			    strcmp(current, fs->master_file) == 0)
 				mark = "*";
 			else
 				mark = " ";
-			pr("%s %-12d %-*s % -10d %s", mark, index, len,
+			pr("%s %-12d %-*s % -10d %s", mark, idx, len,
 			   fs->master_file, fs->priority, _("manual mode"));
-			index++;
+			idx++;
 		}
 		printf("\n");
 		printf(_("Press enter to keep the current choice[*], "
@@ -1457,16 +1457,16 @@ alternative_select_choice(struct alternative *a)
 		selection[strlen(selection) - 1] = '\0';
 		if (strlen(selection) == 0)
 			return current;
-		index = strtol(selection, &ret, 10);
+		idx = strtol(selection, &ret, 10);
 		if (*ret == '\0') {
 			/* Look up by index */
-			if (index == 0) {
+			if (idx == 0) {
 				alternative_set_status(a, ALT_ST_AUTO);
 				free(current);
 				return xstrdup(best->master_file);
 			}
-			index--;
-			for (fs = a->choices; index && fs; index--)
+			idx--;
+			for (fs = a->choices; idx && fs; idx--)
 				fs = fs->next;
 			if (fs) {
 				alternative_set_status(a, ALT_ST_MANUAL);
