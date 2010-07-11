@@ -64,7 +64,7 @@ bool
 filter_should_skip(struct TarInfo *ti)
 {
 	struct filter_node *f;
-	bool remove = false;
+	bool skip = false;
 
 	if (!filter_head)
 		return false;
@@ -76,11 +76,11 @@ filter_should_skip(struct TarInfo *ti)
 
 		if (fnmatch(f->pattern, &ti->Name[1], 0) == 0) {
 			if (f->include) {
-				remove = false;
+				skip = false;
 				debug(dbg_eachfile, "filter including %s",
 				      ti->Name);
 			} else {
-				remove = true;
+				skip = true;
 				debug(dbg_eachfile, "filter removing %s",
 				      ti->Name);
 			}
@@ -93,7 +93,7 @@ filter_should_skip(struct TarInfo *ti)
 	 * directories than necessary, but better err on the side of caution
 	 * than failing with “no such file or directory” (which would leave
 	 * the package in a very bad state). */
-	if (remove && (ti->Type == Directory || ti->Type == SymbolicLink)) {
+	if (skip && (ti->Type == Directory || ti->Type == SymbolicLink)) {
 		debug(dbg_eachfile,
 		      "filter seeing if '%s' needs to be reincluded",
 		      &ti->Name[1]);
@@ -124,5 +124,5 @@ filter_should_skip(struct TarInfo *ti)
 		}
 	}
 
-	return remove;
+	return skip;
 }
