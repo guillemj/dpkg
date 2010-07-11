@@ -256,28 +256,28 @@ xstrdup(const char *str)
 }
 
 static char *
-xreadlink(const char *link, bool error_out)
+xreadlink(const char *linkname, bool error_out)
 {
 	struct stat st;
 	char *buf;
 	ssize_t size;
 
 	/* Allocate required memory to store the value of the symlink */
-	if (lstat(link, &st)) {
+	if (lstat(linkname, &st)) {
 		if (!error_out)
 			return NULL;
-		error(_("cannot stat %s: %s"), link, strerror(errno));
+		error(_("cannot stat %s: %s"), linkname, strerror(errno));
 	}
 	buf = xmalloc(st.st_size + 1);
 
 	/* Read it and terminate the string properly */
-	size = readlink(link, buf, st.st_size);
+	size = readlink(linkname, buf, st.st_size);
 	if (size == -1) {
 		if (!error_out) {
 			free(buf);
 			return NULL;
 		}
-		error(_("readlink(%s) failed: %s"), link, strerror(errno));
+		error(_("readlink(%s) failed: %s"), linkname, strerror(errno));
 	}
 	buf[size] = '\0';
 
@@ -920,13 +920,13 @@ alternative_set_status(struct alternative *a, enum alternative_status status)
 
 /* link must be allocated with malloc */
 static void
-alternative_set_link(struct alternative *a, char *link)
+alternative_set_link(struct alternative *a, char *linkname)
 {
-	if (a->master_link == NULL || strcmp(link, a->master_link) != 0)
+	if (a->master_link == NULL || strcmp(linkname, a->master_link) != 0)
 		a->modified = true;
 
 	free(a->master_link);
-	a->master_link = link;
+	a->master_link = linkname;
 }
 
 static bool
@@ -1038,7 +1038,7 @@ altdb_print_line(struct altdb_context *ctx, const char *line)
 static bool
 alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 {
-	char *name, *link;
+	char *name, *linkname;
 	struct slave_link *sl;
 
 	name = altdb_get_line(ctx, _("slave name"));
@@ -1052,23 +1052,23 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 		ctx->bad_format(ctx, _("duplicate slave %s"), sl->name);
 	}
 
-	link = altdb_get_line(ctx, _("slave link"));
-	if (strcmp(link, a->master_link) == 0) {
-		free(link);
+	linkname = altdb_get_line(ctx, _("slave link"));
+	if (strcmp(linkname, a->master_link) == 0) {
+		free(linkname);
 		free(name);
 		ctx->bad_format(ctx, _("slave link same as main link %s"),
 		                a->master_link);
 	}
 	for(sl = a->slaves; sl; sl = sl->next) {
-		if (strcmp(link, sl->link) == 0) {
-			free(link);
+		if (strcmp(linkname, sl->link) == 0) {
+			free(linkname);
 			free(name);
 			ctx->bad_format(ctx, _("duplicate slave link %s"),
 			                sl->link);
 		}
 	}
 
-	alternative_add_slave(a, name, link);
+	alternative_add_slave(a, name, linkname);
 
 	return true;
 }
@@ -1537,7 +1537,7 @@ alternative_commit(struct alternative *a)
 
 static void
 alternative_prepare_install_single(struct alternative *a, const char *name,
-				   const char *link, const char *file)
+				   const char *linkname, const char *file)
 {
 	char *fntmp, *fn;
 	struct stat st;
@@ -1552,22 +1552,23 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	free(fntmp);
 
 	errno = 0;
-	if (lstat(link, &st) == -1) {
+	if (lstat(linkname, &st) == -1) {
 		if (errno != ENOENT)
-			error(_("cannot stat %s: %s"), link, strerror(errno));
+			error(_("cannot stat %s: %s"), linkname,
+			      strerror(errno));
 		create_link = true;
 	} else {
 		create_link = S_ISLNK(st.st_mode);
 	}
 	if (create_link || opt_force) {
 		/* Create alternative link. */
-		xasprintf(&fntmp, "%s" DPKG_TMP_EXT, link);
+		xasprintf(&fntmp, "%s" DPKG_TMP_EXT, linkname);
 		checked_rm(fntmp);
 		checked_symlink(fn, fntmp);
-		alternative_add_commit_op(a, opcode_mv, fntmp, link);
+		alternative_add_commit_op(a, opcode_mv, fntmp, linkname);
 		free(fntmp);
 	} else {
-		warning(_("not replacing %s with a link."), link);
+		warning(_("not replacing %s with a link."), linkname);
 	}
 	free(fn);
 }
@@ -2063,10 +2064,10 @@ main(int argc, char **argv)
 				badusage(_("slave name %s duplicated"), sname);
 
 			for (sl = inst_alt->slaves; sl; sl = sl->next) {
-				const char *link = sl->link;
-				if (link == NULL)
-					link = "";
-				if (strcmp(link, slink) == 0)
+				const char *linkname = sl->link;
+				if (linkname == NULL)
+					linkname = "";
+				if (strcmp(linkname, slink) == 0)
 					badusage(_("slave link %s duplicated"),
 					          slink);
 			}
