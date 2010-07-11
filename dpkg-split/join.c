@@ -135,13 +135,13 @@ void do_join(const char *const *argv) {
   for (i=0; i<refi->maxpartn; i++) {
     if (!partlist[i]) ohshit(_("part %d is missing"),i+1);
   }
-  if (!outputfile) {
+  if (!opt_outputfile) {
     p= nfmalloc(strlen(refi->package)+1+strlen(refi->version)+sizeof(DEBEXT));
     strcpy(p,refi->package);
     strcat(p,"-");
     strcat(p,refi->version);
     strcat(p,DEBEXT);
-    outputfile= p;
+    opt_outputfile = p;
   }
-  reassemble(partlist,outputfile);
+  reassemble(partlist, opt_outputfile);
 }

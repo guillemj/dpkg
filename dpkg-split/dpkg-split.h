@@ -51,10 +51,13 @@ struct partqueue {
 
 extern dofunction *action;
 extern const struct cmdinfo *cipaction;
-extern long maxpartsize;
-extern const char *depotdir, *outputfile;
 extern struct partqueue *queue;
-extern int npquiet, msdos;
+
+extern long opt_maxpartsize;
+extern const char *opt_depotdir;
+extern const char *opt_outputfile;
+extern int opt_npquiet;
+extern int opt_msdos;
 
 void rerr(const char *fn) DPKG_ATTR_NORET;
 void rerreof(FILE *f, const char *fn) DPKG_ATTR_NORET;

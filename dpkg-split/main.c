@@ -98,10 +98,13 @@ const char printforhelp[]= N_("Type dpkg-split --help for help.");
 
 dofunction *action=NULL;
 const struct cmdinfo *cipaction=NULL;
-long maxpartsize= SPLITPARTDEFMAX;
-const char *depotdir= ADMINDIR "/" PARTSDIR, *outputfile= NULL;
 struct partqueue *queue= NULL;
-int npquiet= 0, msdos= 0;
+
+long opt_maxpartsize = SPLITPARTDEFMAX;
+const char *opt_depotdir = ADMINDIR "/" PARTSDIR;
+const char *opt_outputfile = NULL;
+int opt_npquiet = 0;
+int opt_msdos = 0;
 
 void rerr(const char *fn) {
   ohshite(_("error reading %.250s"), fn);
@@ -124,8 +127,8 @@ static void setpartsize(const struct cmdinfo *cip, const char *value) {
   if (newpartsize <= 0 || newpartsize > (INT_MAX >> 10))
     badusage(_("part size is far too large or is not positive"));
 
-  maxpartsize= newpartsize << 10;
-  if (maxpartsize <= HEADERALLOWANCE)
+  opt_maxpartsize = newpartsize << 10;
+  if (opt_maxpartsize <= HEADERALLOWANCE)
     badusage(_("part size must be at least %d KiB (to allow for header)"),
              (HEADERALLOWANCE >> 10) + 1);
 }
@@ -151,11 +154,11 @@ static const struct cmdinfo cmdinfos[]= {
   { "discard",      'd',  0,  NULL, NULL,             setaction           },
   { "help",         'h',  0,  NULL, NULL,             usage               },
   { "version",       0,   0,  NULL, NULL,             printversion        },
-  { "depotdir",      0,   1,  NULL, &depotdir,     NULL                   },
+  { "depotdir",      0,   1,  NULL, &opt_depotdir,    NULL                },
   { "partsize",     'S',  1,  NULL, NULL,             setpartsize         },
-  { "output",       'o',  1,  NULL, &outputfile,   NULL                   },
-  { "npquiet",      'Q',  0,  &npquiet, NULL,      NULL,              1   },
-  { "msdos",         0,   0,  &msdos, NULL,        NULL,              1   },
+  { "output",       'o',  1,  NULL, &opt_outputfile,  NULL                },
+  { "npquiet",      'Q',  0,  &opt_npquiet, NULL,     NULL,           1   },
+  { "msdos",         0,   0,  &opt_msdos, NULL,       NULL,           1   },
   {  NULL,              0                                              }
 };
 
@@ -182,12 +185,12 @@ int main(int argc, const char *const *argv) {
 
   if (!cipaction) badusage(_("need an action option"));
 
-  l= strlen(depotdir);
-  if (l && depotdir[l-1] != '/') {
+  l = strlen(opt_depotdir);
+  if (l && opt_depotdir[l - 1] != '/') {
     p= nfmalloc(l+2);
-    strcpy(p,depotdir);
+    strcpy(p, opt_depotdir);
     strcpy(p+l,"/");
-    depotdir= p;
+    opt_depotdir = p;
   }
 
   setvbuf(stdout,NULL,_IONBF,0);

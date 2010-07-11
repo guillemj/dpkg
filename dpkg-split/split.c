@@ -263,9 +263,9 @@ do_split(const char *const *argv)
 		}
 		prefix = palloc;
 	}
-	partsize = maxpartsize - HEADERALLOWANCE;
+	partsize = opt_maxpartsize - HEADERALLOWANCE;
 
-	mksplit(sourcefile, prefix, partsize, maxpartsize, msdos);
+	mksplit(sourcefile, prefix, partsize, opt_maxpartsize, opt_msdos);
 
 	exit(0);
 }

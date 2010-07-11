@@ -84,16 +84,17 @@ void scandepot(void) {
   char *p;
 
   assert(!queue);
-  depot= opendir(depotdir);
-  if (!depot) ohshite(_("unable to read depot directory `%.250s'"),depotdir);
+  depot = opendir(opt_depotdir);
+  if (!depot)
+    ohshite(_("unable to read depot directory `%.250s'"), opt_depotdir);
   while ((de= readdir(depot))) {
     if (de->d_name[0] == '.') continue;
     pq= nfmalloc(sizeof(struct partqueue));
     pq->info.fmtversion= pq->info.package= pq->info.version= NULL;
     pq->info.orglength= pq->info.thispartoffset= pq->info.thispartlen= 0;
     pq->info.headerlen= 0;
-    p= nfmalloc(strlen(depotdir)+strlen(de->d_name)+1);
-    strcpy(p,depotdir);
+    p = nfmalloc(strlen(opt_depotdir) + strlen(de->d_name) + 1);
+    strcpy(p, opt_depotdir);
     strcat(p,de->d_name);
     pq->info.filename= p;
     if (!decompose_filename(de->d_name,pq)) {
@@ -126,7 +127,8 @@ void do_auto(const char *const *argv) {
   void *buffer;
   char *p, *q;
 
-  if (!outputfile) badusage(_("--auto requires the use of the --output option"));
+  if (!opt_outputfile)
+    badusage(_("--auto requires the use of the --output option"));
   if (!(partfile= *argv++) || *argv)
     badusage(_("--auto requires exactly one part file argument"));
 
@@ -134,7 +136,7 @@ void do_auto(const char *const *argv) {
   part= fopen(partfile,"r");
   if (!part) ohshite(_("unable to read part file `%.250s'"),partfile);
   if (!read_info(part,partfile,refi)) {
-    if (!npquiet)
+    if (!opt_npquiet)
       printf(_("File `%.250s' is not part of a multipart archive.\n"),partfile);
     m_output(stdout, _("<standard output>"));
     exit(1);
@@ -170,10 +172,10 @@ void do_auto(const char *const *argv) {
     if (getc(part) != EOF) ohshit(_("part file `%.250s' has trailing garbage"),partfile);
     if (ferror(part)) rerr(partfile);
     fclose(part);
-    p= nfmalloc(strlen(depotdir)+50);
-    q= nfmalloc(strlen(depotdir)+200);
-    sprintf(p,"%st.%lx",depotdir,(long)getpid());
-    sprintf(q,"%s%s.%lx.%x.%x",depotdir,refi->md5sum,
+    p = nfmalloc(strlen(opt_depotdir) + 50);
+    q = nfmalloc(strlen(opt_depotdir) + 200);
+    sprintf(p, "%st.%lx", opt_depotdir, (long)getpid());
+    sprintf(q, "%s%s.%lx.%x.%x", opt_depotdir, refi->md5sum,
             refi->maxpartlen,refi->thispartn,refi->maxpartn);
     part= fopen(p,"w");
     if (!part) ohshite(_("unable to open new depot file `%.250s'"),p);
@@ -193,11 +195,11 @@ void do_auto(const char *const *argv) {
         printf("%s%d", !ap++ ? "" : i == (unsigned int)j ? _(" and ") : ", ", i + 1);
     printf(").\n");
 
-    dir_sync_path(depotdir);
+    dir_sync_path(opt_depotdir);
   } else {
 
     /* We have all the parts. */
-    reassemble(partlist,outputfile);
+    reassemble(partlist, opt_outputfile);
 
     /* OK, delete all the parts (except the new one, which we never copied). */
     partlist[refi->thispartn-1]= otherthispart;
