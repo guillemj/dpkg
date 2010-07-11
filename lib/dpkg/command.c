@@ -126,7 +126,7 @@ command_add_argl(struct command *cmd, const char **argv)
  * Append a va_list of argument to the command's argv.
  *
  * @param cmd The command structure to act on.
- * @param al The NULL terminated va_list of argument array to append to argv.
+ * @param args The NULL terminated va_list of argument array to append to argv.
  */
 void
 command_add_argv(struct command *cmd, va_list args)
