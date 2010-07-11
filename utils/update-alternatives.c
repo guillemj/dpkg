@@ -529,7 +529,7 @@ fileset_free(struct fileset *fs)
 
 /* name and file must be allocated with malloc */
 static void
-fileset_add_slave(struct fileset *fs, const char *name, const char *file)
+fileset_add_slave(struct fileset *fs, char *name, char *file)
 {
 	struct slave_file *sl, *cur, *prev = NULL;
 
@@ -546,8 +546,8 @@ fileset_add_slave(struct fileset *fs, const char *name, const char *file)
 	/* Otherwise add new at the end */
 	sl = xmalloc(sizeof(*sl));
 	sl->next = NULL;
-	sl->name = (char *)name;
-	sl->file = (char *)file;
+	sl->name = name;
+	sl->file = file;
 	if (prev)
 		prev->next = sl;
 	else
