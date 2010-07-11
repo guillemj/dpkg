@@ -91,6 +91,7 @@ AC_CHECK_PROG([HAVE_DOT], [dot], [YES], [NO])
 DPKG_PROG_PO4A
 DPKG_PROG_PERL
 DPKG_PROG_POD2MAN
+DPKG_CODE_COVERAGE
 
 # Checks for operating system services and capabilities.
 AC_SYS_LARGEFILE

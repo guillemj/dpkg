@@ -4,6 +4,7 @@
 #
 #  TEST_VERBOSE - set to 0 or 1 to control test suite verbosity
 #  TEST_ENV_VARS - environment variables to be set for the test suite
+#  TEST_COVERAGE - set to the perl module in charge of getting test coverage
 #  test_tmpdir - test suite temporary directory
 #  test_cases - list of test case files
 #  test_data - list of test data files
@@ -16,6 +17,7 @@ check-local: $(test_data) $(test_cases)
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(top_builddir)/utils:$(PATH)" \
 	  srcdir=$(srcdir) builddir=$(builddir) \
 	  PERL5LIB=$(top_srcdir)/scripts PERL_DL_NONLAZY=1 \
+	  PERL5OPT=$(TEST_COVERAGE) \
 	  $(PERL) -I$(top_srcdir)/scripts \
 	    -MExtUtils::Command::MM -e "test_harness($(TEST_VERBOSE), '.')" \
 	    $(addprefix $(srcdir)/,$(test_cases))

@@ -72,8 +72,49 @@ EXTRA_DIST = \
 doc: doc/Doxyfile
 	$(DOXYGEN) doc/Doxyfile
 
-clean-local:
+doc-clean:
 	rm -rf doc/html/
+
+# Code coverage support
+
+.PHONY: coverage coverage-clean
+
+if COVERAGE_ENABLED
+LCOV_OPTS = -q --checksum
+LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
+	-d $(top_builddir)/lib/dpkg \
+	-d $(top_builddir)/src \
+	-d $(top_builddir)/utils
+
+coverage: all
+	$(RM) -f *.lcov
+	find -name '*.gcda' -o -name '*.gcov' | xargs $(RM) -f
+	
+	$(LCOV) $(LCOV_CAPTURE_OPTS) -c -o dpkg_base.lcov -i
+	$(MAKE) -C lib/dpkg check
+	$(MAKE) -C src check
+	$(MAKE) -C utils check
+	$(LCOV) $(LCOV_CAPTURE_OPTS) -c -o dpkg_test.lcov
+	$(LCOV) $(LCOV_OPTS) -a dpkg_base.lcov -a dpkg_test.lcov \
+	  -o dpkg_merge.lcov
+	$(LCOV) $(LCOV_OPTS) -r dpkg_merge.lcov '/usr/include/*' -o dpkg.lcov
+	$(LCOV_GENHTML) -q --legend --title "dpkg C code coverage" \
+	  --html-prolog $(top_srcdir)/doc/lcov-prolog \
+	  --html-epilog $(top_srcdir)/doc/lcov-epilog \
+	  -o doc/coverage dpkg.lcov
+	
+	$(MAKE) -C scripts $@
+
+coverage-clean:
+	rm -rf doc/coverage/
+	find -name '*.gcno' -o -name '*.gcda' -o \
+	     -name '*.gcov' -o -name '*.lcov' | xargs rm -f
+else
+coverage:
+	@echo "Need to reconfigure with --enable-coverage"
+
+coverage-clean:
+endif
 
 .PHONY: update-po
 
@@ -102,3 +143,4 @@ dist-hook:
 		done ; \
 	fi
 
+clean-local: doc-clean coverage-clean

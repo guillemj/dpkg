@@ -159,10 +159,17 @@ if BUILD_POD_DOC
 	done
 endif
 
+coverage: check
+	$(PERL_COVER) -silent -outputdir $(top_builddir)/doc/coverage/scripts
+
+coverage-clean:
+	rm -rf cover_db
+
 TEST_VERBOSE= 0
 TEST_ENV_VARS = \
 	DPKG_DATADIR=$(srcdir)/.. \
 	DPKG_ORIGINS_DIR=$(srcdir)/t/origins
+TEST_COVERAGE = $(PERL_COVERAGE)
 
 test_tmpdir = t.tmp
 
@@ -247,5 +254,5 @@ $(test_tmpdir)/200_Dpkg_Shlibs/objdump.patterns: $(srcdir)/t/200_Dpkg_Shlibs/pat
 
 include $(top_srcdir)/Makecheck.am
 
-clean-local: check-clean
+clean-local: check-clean coverage-clean
 	rm -fr man
