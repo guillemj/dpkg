@@ -2120,19 +2120,19 @@ main(int argc, char **argv)
 	count = get_all_alternatives(&table);
 	for (i = 0; i < count; i++) {
 		struct slave_link *sl;
-		struct alternative *a = alternative_new(table[i]->d_name);
+		struct alternative *a_new = alternative_new(table[i]->d_name);
 
-		if (!alternative_load(a, true)) {
-			alternative_free(a);
+		if (!alternative_load(a_new, true)) {
+			alternative_free(a_new);
 			free(table[i]);
 			continue;
 		}
-		alternative_map_add(alt_map_obj, a->master_name, a);
-		alternative_map_add(alt_map_links, a->master_link, a);
-		alternative_map_add(alt_map_parent, a->master_name, a);
-		for (sl = a->slaves; sl; sl = sl->next) {
-			alternative_map_add(alt_map_links, sl->link, a);
-			alternative_map_add(alt_map_parent, sl->name, a);
+		alternative_map_add(alt_map_obj, a_new->master_name, a_new);
+		alternative_map_add(alt_map_links, a_new->master_link, a_new);
+		alternative_map_add(alt_map_parent, a_new->master_name, a_new);
+		for (sl = a_new->slaves; sl; sl = sl->next) {
+			alternative_map_add(alt_map_links, sl->link, a_new);
+			alternative_map_add(alt_map_parent, sl->name, a_new);
 		}
 
 		free(table[i]);
