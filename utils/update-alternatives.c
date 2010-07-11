@@ -1710,17 +1710,17 @@ alternative_is_broken(struct alternative *a)
 			}
 			free(sl_current);
 		} else {
-			char *altlnk;
+			char *sl_altlnk;
 
 			/* Slave link must not exist. */
 			if (lstat(sl->link, &st) == 0)
 				return true;
-			xasprintf(&altlnk, "%s/%s", altdir, sl->name);
-			if (lstat(altlnk, &st) == 0) {
-				free(altlnk);
+			xasprintf(&sl_altlnk, "%s/%s", altdir, sl->name);
+			if (lstat(sl_altlnk, &st) == 0) {
+				free(sl_altlnk);
 				return true;
 			}
-			free(altlnk);
+			free(sl_altlnk);
 		}
 	}
 
