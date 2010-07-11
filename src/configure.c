@@ -368,7 +368,7 @@ deferred_configure(struct pkginfo *pkg)
 int
 conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 {
-	static struct varbuf symlink = VARBUF_INIT;
+	static struct varbuf target = VARBUF_INIT;
 	struct stat stab;
 	int r;
 	int loopprotect;
@@ -405,9 +405,9 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				return -1;
 			}
 
-			varbufreset(&symlink);
-			varbuf_grow(&symlink, stab.st_size + 1);
-			r = readlink(result->buf, symlink.buf, symlink.size);
+			varbufreset(&target);
+			varbuf_grow(&target, stab.st_size + 1);
+			r = readlink(result->buf, target.buf, target.size);
 			if (r < 0) {
 				warning(_("%s: unable to readlink conffile '%s'\n"
 				          " (= '%s'): %s"),
@@ -415,14 +415,14 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				return -1;
 			}
 			assert(r == stab.st_size); /* XXX: debug */
-			symlink.used = r;
-			varbufaddc(&symlink, '\0');
+			target.used = r;
+			varbufaddc(&target, '\0');
 
 			debug(dbg_conffdetail,
 			      "conffderef readlink gave %d, '%s'",
-			      r, symlink.buf);
+			      r, target.buf);
 
-			if (symlink.buf[0] == '/') {
+			if (target.buf[0] == '/') {
 				varbufreset(result);
 				varbufaddstr(result, instdir);
 				debug(dbg_conffdetail,
@@ -433,7 +433,8 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				if (r < 0) {
 					warning(_("%s: conffile '%.250s' resolves to degenerate filename\n"
 					          " ('%s' is a symlink to '%s')"),
-					        pkg->name, in, result->buf, symlink.buf);
+					        pkg->name, in, result->buf,
+					        target.buf);
 					return -1;
 				}
 				if (result->buf[r] == '/')
@@ -443,7 +444,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				      "conffderef readlink relative to '%.*s'",
 				      (int)result->used, result->buf);
 			}
-			varbufaddbuf(result, symlink.buf, symlink.used);
+			varbufaddbuf(result, target.buf, target.used);
 			varbufaddc(result, 0);
 		} else {
 			warning(_("%s: conffile '%.250s' is not a plain file or symlink (= '%s')"),
