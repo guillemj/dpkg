@@ -306,7 +306,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
                              struct pkginfo *removing,
                              struct pkginfo *providing,
                              struct pkginfo **fixbytrig,
-                             int *matched,
+                             bool *matched,
                              struct deppossi *checkversion,
                              int *interestingwarnings,
                              struct varbuf *oemsgs) {
@@ -327,7 +327,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
 		   possdependee->name);
     }
 
-    *matched= 1;
+    *matched = true;
     if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
     debug(dbg_depcondetail,"      removing possdependee, returning %d",thisf);
     return thisf;
@@ -510,7 +510,8 @@ int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs) {
 
 int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
                     struct varbuf *aemsgs) {
-  int ok, matched, found, thisf, interestingwarnings, anycannotfixbytrig;
+  int ok, found, thisf, interestingwarnings;
+  bool matched, anycannotfixbytrig;
   struct varbuf oemsgs = VARBUF_INIT;
   struct dependency *dep;
   struct deppossi *possi, *provider;
@@ -521,12 +522,13 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   debug(dbg_depcon,"checking dependencies of %s (- %s)",
         pkg->name, removing ? removing->name : "<none>");
 
-  anycannotfixbytrig = 0;
+  anycannotfixbytrig = false;
   canfixbytrig = NULL;
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_depends && dep->type != dep_predepends) continue;
     debug(dbg_depcondetail,"  checking group ...");
-    matched= 0; varbufreset(&oemsgs);
+    matched = false;
+    varbufreset(&oemsgs);
     found= 0; /* 0=none, 1=defer, 2=withwarning, 3=ok */
     possfixbytrig = NULL;
     for (possi= dep->list; found != 3 && possi; possi= possi->next) {
@@ -562,7 +564,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     if (removing && !matched) continue;
     switch (found) {
     case 0:
-      anycannotfixbytrig = 1;
+      anycannotfixbytrig = true;
       ok= 0;
     case 2:
       varbufaddstr(aemsgs, " ");
@@ -584,7 +586,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       if (possfixbytrig)
         canfixbytrig = possfixbytrig;
       else
-        anycannotfixbytrig = 1;
+        anycannotfixbytrig = true;
       if (ok>1) ok= 1;
       break;
     case 3:

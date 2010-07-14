@@ -608,7 +608,8 @@ void commandfd(const char *const *argv) {
   }
 
   for (;;) {
-    int argc= 1, mode= 0;
+    bool mode = false;
+    int argc= 1;
     lno= 0;
     push_error_handler(&ejbuf, print_error_fatal, NULL);
 
@@ -642,15 +643,15 @@ void commandfd(const char *const *argv) {
 	skipchar = true;
 	continue;
       } else if (isspace(*ptr)) {
-	if (mode == 1) {
+	if (mode == true) {
 	  *ptr = '\0';
-	  mode= 0;
+	  mode = false;
 	}
       } else {
-	if (mode == 0) {
+	if (mode == false) {
 	  newargs[argc]= ptr;
 	  argc++;
-	  mode= 1;
+	  mode = true;
 	}
       }
       ptr++;

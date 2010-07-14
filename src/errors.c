@@ -65,7 +65,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   nr= malloc(sizeof(struct error_report));
   if (!nr) {
     perror(_("dpkg: failed to allocate memory for new entry in list of failed packages."));
-    abort_processing = 1;
+    abort_processing = true;
     nr= &emergency;
   }
   nr->what= arg;
@@ -75,7 +75,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
     
   if (nerrs++ < errabort) return;
   fprintf(stderr, _("dpkg: too many errors, stopping\n"));
-  abort_processing = 1;
+  abort_processing = true;
 }
 
 int reportbroken_retexitstatus(void) {

@@ -207,10 +207,10 @@ pkg_format_show(const struct pkg_format_node *head,
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
 	while (head) {
-		int ok;
+		bool ok;
 		char fmt[16];
 
-		ok = 0;
+		ok = false;
 
 		if (head->width > 0)
 			snprintf(fmt, 16, "%%%s%zds",
@@ -220,7 +220,7 @@ pkg_format_show(const struct pkg_format_node *head,
 
 		if (head->type == string) {
 			varbufprintf(&fb, fmt, head->data);
-			ok = 1;
+			ok = true;
 		} else if (head->type == field) {
 			const struct fieldinfo *fip;
 
@@ -231,7 +231,7 @@ pkg_format_show(const struct pkg_format_node *head,
 					varbufaddc(&wb, '\0');
 					varbufprintf(&fb, fmt, wb.buf);
 					varbufreset(&wb);
-					ok = 1;
+					ok = true;
 					break;
 				}
 
@@ -241,7 +241,7 @@ pkg_format_show(const struct pkg_format_node *head,
 				for (afp = pif->arbs; afp; afp = afp->next)
 					if (strcasecmp(head->data, afp->name) == 0) {
 						varbufprintf(&fb, fmt, afp->value);
-						ok = 1;
+						ok = true;
 						break;
 					}
 			}

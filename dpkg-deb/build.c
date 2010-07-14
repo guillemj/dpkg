@@ -211,11 +211,12 @@ void do_build(const char *const *argv) {
   
   char *m;
   const char *debar, *directory, *const *mscriptp, *versionstring, *arch;
+  bool subdir;
   char *controlfile, *tfbuf;
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
   FILE *ar, *cf;
-  int p1[2], p2[2], p3[2], warns, n, c, subdir, gzfd;
+  int p1[2], p2[2], p3[2], warns, n, c, gzfd;
   pid_t c1,c2,c3;
   struct stat controlstab, mscriptstab, debarstab;
   char conffilename[MAXCONFFILENAME+1];
@@ -227,7 +228,7 @@ void do_build(const char *const *argv) {
   directory = *argv++;
   if (!directory)
     badusage(_("--%s needs a <directory> argument"), cipaction->olong);
-  subdir= 0;
+  subdir = false;
   debar = *argv++;
   if (debar != NULL) {
     if (*argv) badusage(_("--build takes at most two arguments"));
@@ -236,7 +237,7 @@ void do_build(const char *const *argv) {
         if (errno != ENOENT)
           ohshite(_("unable to check for existence of archive `%.250s'"),debar);
       } else if (S_ISDIR(debarstab.st_mode)) {
-        subdir= 1;
+        subdir = true;
       }
     }
   } else {
