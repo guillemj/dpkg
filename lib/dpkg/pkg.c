@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * pkg-array.c - primitives for pkg handling
+ * pkg.c - primitives for pkg handling
  *
  * Copyright © 1995, 1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2009 Guillem Jover <guillem@debian.org>

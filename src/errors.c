@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * main.c - main program
+ * errors.c - per package error handling
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *

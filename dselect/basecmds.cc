@@ -1,6 +1,6 @@
 /*
  * dselect - Debian package maintenance user interface
- * bcommands.cc - base list keyboard commands display
+ * basecmds.cc - base list keyboard commands display
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>

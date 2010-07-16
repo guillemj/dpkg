@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * progress.c - generic progress reporting
+ * progress.h - generic progress reporting
  *
  * Copyright © 2009 Guillem Jover <guillem@debian.org>
  *
