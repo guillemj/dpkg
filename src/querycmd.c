@@ -1,6 +1,6 @@
 /*
  * dpkg-query - program for query the dpkg database
- * query.c - status enquiry and listing options
+ * querycmd.c - status enquiry and listing options
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>

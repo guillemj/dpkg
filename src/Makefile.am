@@ -59,7 +59,7 @@ dpkg_divert_LDADD = \
 dpkg_query_SOURCES = \
 	filesdb.c filesdb.h \
 	divertdb.c \
-	query.c
+	querycmd.c
 
 dpkg_query_LDADD = \
 	../lib/dpkg/libdpkg.a \
