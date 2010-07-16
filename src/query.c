@@ -91,7 +91,7 @@ list1package(struct pkginfo *pkg, bool *head, struct pkg_array *array)
 	plen = strlen(array->pkgs[i]->name);
 	vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
 	                              vdew_nonambig));
-	pkg_summary(pkg, &dlen);
+	pkg_summary(array->pkgs[i], &dlen);
 
 	if (plen > nw) nw = plen;
 	if (vlen > vw) vw = vlen;
