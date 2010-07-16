@@ -86,16 +86,13 @@ list1package(struct pkginfo *pkg, bool *head, struct pkg_array *array)
     if (w == -1) {
       nw=14, vw=14, dw=44;
       for (i = 0; i < array->n_pkgs; i++) {
-	const char *pdesc;
 	int plen, vlen, dlen;
-
-	pdesc = pkg->installed.description;
-	if (!pdesc) pdesc= _("(no description available)");
 
 	plen = strlen(array->pkgs[i]->name);
 	vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
 	                              vdew_nonambig));
-	dlen= strcspn(pdesc, "\n");
+	pkg_summary(pkg, &dlen);
+
 	if (plen > nw) nw = plen;
 	if (vlen > vw) vw = vlen;
 	if (dlen > dw) dw = dlen;
