@@ -1,8 +1,8 @@
 /*
  * dpkg - main program for package management
- * pkg-show.c - primitives for pkg information display
+ * pkg-show.h - primitives for pkg information display
  *
- * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,33 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
-#include <compat.h>
-
-#include <string.h>
+#ifndef DPKG_PKG_SHOW_H
+#define DPKG_PKG_SHOW_H
 
 #include <dpkg/macros.h>
-#include <dpkg/i18n.h>
-#include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
-#include "main.h"
+DPKG_BEGIN_DECLS
 
-void
-pkg_summary(struct pkginfo *pkg, const char **pdesc_r, int *len_ret)
-{
-	const char *pdesc;
-	size_t len;
+void pkg_summary(struct pkginfo *pkg, const char **pdesc_ret, int *len_ret);
 
-	pdesc = pkg->installed.description;
-	if (!pdesc)
-		pdesc = _("(no description available)");
+DPKG_END_DECLS
 
-	len = strcspn(pdesc, "\n");
-	if (len == 0)
-		len = strlen(pdesc);
-
-	*len_ret = len;
-	*pdesc_r = pdesc;
-}
-
+#endif /* DPKG_PKG_SHOW_H */

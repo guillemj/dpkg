@@ -171,8 +171,6 @@ void printarch(const char *const *argv);
 void printinstarch(const char *const *argv);
 void cmpversions(const char *const *argv) DPKG_ATTR_NORET;
 
-void pkg_summary(struct pkginfo *pkg, const char **pdesc_ret, int *len_ret);
-
 /* from select.c */
 
 void getselections(const char *const *argv);

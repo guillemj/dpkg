@@ -33,7 +33,6 @@ dpkg_SOURCES = \
 	help.c \
 	main.c main.h \
 	packages.c \
-	pkg-show.c \
 	processarc.c \
 	remove.c \
 	select.c \
@@ -60,7 +59,6 @@ dpkg_divert_LDADD = \
 dpkg_query_SOURCES = \
 	filesdb.c filesdb.h \
 	divertdb.c \
-	pkg-show.c \
 	query.c
 
 dpkg_query_LDADD = \
