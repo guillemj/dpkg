@@ -29,8 +29,8 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-show.h>
 
-void
-pkg_summary(struct pkginfo *pkg, const char **pdesc_r, int *len_ret)
+const char *
+pkg_summary(struct pkginfo *pkg, int *len_ret)
 {
 	const char *pdesc;
 	size_t len;
@@ -44,6 +44,7 @@ pkg_summary(struct pkginfo *pkg, const char **pdesc_r, int *len_ret)
 		len = strlen(pdesc);
 
 	*len_ret = len;
-	*pdesc_r = pdesc;
+
+	return pdesc;
 }
 

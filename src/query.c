@@ -125,7 +125,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
     *head = true;
   }
 
-  pkg_summary(pkg, &pdesc, &l);
+  pdesc = pkg_summary(pkg, &l);
   l = min(l, dw);
 
   printf(format,
