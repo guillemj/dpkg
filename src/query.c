@@ -124,7 +124,9 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
     *head = true;
   }
 
-  limiteddescription(pkg,dw,&pdesc,&l);
+  pkg_summary(pkg, &pdesc, &l);
+  l = min(l, dw);
+
   printf(format,
          "uihrp"[pkg->want],
          "ncHUFWti"[pkg->status],

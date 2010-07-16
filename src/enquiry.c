@@ -118,7 +118,10 @@ static void describebriefly(struct pkginfo *pkg) {
   maxl= 57;
   l= strlen(pkg->name);
   if (l>20) maxl -= (l-20);
-  limiteddescription(pkg,maxl,&pdesc,&l);
+
+  pkg_summary(pkg, &pdesc, &l);
+  l = min(l, maxl);
+
   printf(" %-20s %.*s\n",pkg->name,l,pdesc);
 }
 

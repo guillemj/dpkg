@@ -31,19 +31,20 @@
 #include "main.h"
 
 void
-limiteddescription(struct pkginfo *pkg,
-                   int maxl, const char **pdesc_r, int *l_r)
+pkg_summary(struct pkginfo *pkg, const char **pdesc_r, int *len_ret)
 {
-	const char *pdesc, *p;
+	const char *pdesc;
+	size_t len;
 
 	pdesc = pkg->installed.description;
 	if (!pdesc)
 		pdesc = _("(no description available)");
-	p = strchr(pdesc, '\n');
-	if (!p)
-		p = pdesc + strlen(pdesc);
 
-	*l_r = min(p - pdesc, maxl);
+	len = strcspn(pdesc, "\n");
+	if (len == 0)
+		len = strlen(pdesc);
+
+	*len_ret = len;
 	*pdesc_r = pdesc;
 }
 
