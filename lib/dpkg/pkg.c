@@ -34,9 +34,9 @@
  * @param b A pointer of a pointer to a struct pkginfo.
  *
  * @return An integer with the result of the comparison.
- * @retval -1 a is smaller than b.
+ * @retval -1 a is earlier than b.
  * @retval 0 a is equal to b.
- * @retval 1 a is greater than b.
+ * @retval 1 a is later than b.
  */
 int
 pkg_sorter_by_name(const void *a, const void *b)

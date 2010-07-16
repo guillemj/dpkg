@@ -450,7 +450,7 @@ sub mark_found_in_library {
 # Sanitize the symbol when it is confirmed to be NOT found in
 # the respective library.
 # Mark as deprecated those that are no more provided (only if the
-# minver is bigger than the version where the symbol was introduced)
+# minver is later than the version where the symbol was introduced)
 sub mark_not_found_in_library {
     my ($self, $minver, $arch) = @_;
 

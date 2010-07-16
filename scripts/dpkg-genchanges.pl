@@ -215,7 +215,7 @@ if (defined($prev_changelog) and
     version_compare_relation($changelog->{"Version"}, REL_LT,
                              $prev_changelog->{"Version"}))
 {
-    warning(_g("the current version (%s) is smaller than the previous one (%s)"),
+    warning(_g("the current version (%s) is earlier than the previous one (%s)"),
 	$changelog->{"Version"}, $prev_changelog->{"Version"})
         # ~bpo and ~vola are backports and have lower version number by definition
         unless $changelog->{"Version"} =~ /~(?:bpo|vola)/;

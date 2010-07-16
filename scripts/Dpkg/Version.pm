@@ -191,8 +191,8 @@ All the functions are exported by default.
 
 =item version_compare($a, $b)
 
-Returns -1 is $a is smaller than $b, 0 if they are equal and 1 if $a
-is bigger than $b.
+Returns -1 if $a is earlier than $b, 0 if they are equal and 1 if $a
+is later than $b.
 
 If $a or $b are not valid version numbers, it dies with an error.
 
@@ -271,8 +271,8 @@ sub version_normalize_relation($) {
 =item version_compare_string($a, $b)
 
 String comparison function used for comparing non-numerical parts of version
-numbers. Returns -1 is $a is smaller than $b, 0 if they are equal and 1 if $a
-is bigger than $b.
+numbers. Returns -1 if $a is earlier than $b, 0 if they are equal and 1 if $a
+is later than $b.
 
 The "~" character always sort lower than anything else. Digits sort lower
 than non-digits. Among remaining characters alphabetic characters (A-Za-z)
@@ -313,8 +313,8 @@ version or debian revision).
 
 Each parameter is split by version_split_digits() and resulting items
 are compared together.in digits and non-digits items that are compared
-together. As soon as a difference happens, it returns -1 if $a is smaller
-than $b, 0 if they are equal and 1 if $a is bigger than $b.
+together. As soon as a difference happens, it returns -1 if $a is earlier
+than $b, 0 if they are equal and 1 if $a is later than $b.
 
 =cut
 
