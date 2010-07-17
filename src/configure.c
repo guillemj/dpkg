@@ -415,7 +415,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				return -1;
 			}
 			assert(r == stab.st_size); /* XXX: debug */
-			target.used = r;
+			varbuf_trunc(&target, r);
 			varbufaddc(&target, '\0');
 
 			debug(dbg_conffdetail,
@@ -439,7 +439,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				}
 				if (result->buf[r] == '/')
 					r++;
-				result->used = r;
+				varbuf_trunc(result, r);
 				debug(dbg_conffdetail,
 				      "conffderef readlink relative to '%.*s'",
 				      (int)result->used, result->buf);

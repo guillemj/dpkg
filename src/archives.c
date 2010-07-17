@@ -285,16 +285,16 @@ set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
 }
 
 void setupfnamevbs(const char *filename) {
-  fnamevb.used= fnameidlu;
+  varbuf_trunc(&fnamevb, fnameidlu);
   varbufaddstr(&fnamevb,filename);
   varbufaddc(&fnamevb,0);
 
-  fnametmpvb.used= fnameidlu;
+  varbuf_trunc(&fnametmpvb, fnameidlu);
   varbufaddstr(&fnametmpvb,filename);
   varbufaddstr(&fnametmpvb,DPKGTEMPEXT);
   varbufaddc(&fnametmpvb,0);
 
-  fnamenewvb.used= fnameidlu;
+  varbuf_trunc(&fnamenewvb, fnameidlu);
   varbufaddstr(&fnamenewvb,filename);
   varbufaddstr(&fnamenewvb,DPKGNEWEXT);
   varbufaddc(&fnamenewvb,0);
@@ -790,7 +790,8 @@ int tarobject(struct TarInfo *ti) {
       if (r < 0)
         ohshite(_("unable to read link `%.255s'"), ti->Name);
       assert(r == stab.st_size);
-      symlinkfn.used= r; varbufaddc(&symlinkfn,0);
+      varbuf_trunc(&symlinkfn, r);
+      varbufaddc(&symlinkfn, '\0');
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for `%.255s'"),ti->Name);
       if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))

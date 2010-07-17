@@ -688,7 +688,7 @@ void process_archive(const char *filename) {
     usenode = namenodetouse(namenode, pkg);
     trig_file_activate(usenode, pkg);
 
-    fnamevb.used= fnameidlu;
+    varbuf_trunc(&fnamevb, fnameidlu);
     varbufaddstr(&fnamevb, usenode->name);
     varbufaddc(&fnamevb,0);
 
@@ -854,7 +854,7 @@ void process_archive(const char *filename) {
     if (strlen(p) > MAXCONTROLFILENAME)
       ohshit(_("old version of package has overly-long info file name starting `%.250s'"),
              de->d_name);
-    infofnvb.used= infodirlen;
+    varbuf_trunc(&infofnvb, infodirlen);
     varbufaddstr(&infofnvb,de->d_name);
     varbufaddc(&infofnvb,0);
     strcpy(cidirrest,p);
@@ -1120,7 +1120,7 @@ void process_archive(const char *filename) {
       if (strlen(otherpkg->name) != (size_t)(p-de->d_name) ||
           strncmp(de->d_name,otherpkg->name,p-de->d_name)) continue;
       debug(dbg_stupidlyverbose, "process_archive info this pkg");
-      fnvb.used= infodirbaseused;
+      varbuf_trunc(&fnvb, infodirbaseused);
       varbufaddstr(&fnvb,de->d_name);
       varbufaddc(&fnvb,0);
       if (unlink(fnvb.buf))
@@ -1218,7 +1218,7 @@ void process_archive(const char *filename) {
    */
   for (cfile= newfileslist; cfile; cfile= cfile->next) {
     if (cfile->namenode->flags & fnnf_new_conff) continue;
-    fnametmpvb.used= fnameidlu;
+    varbuf_trunc(&fnametmpvb, fnameidlu);
     varbufaddstr(&fnametmpvb,namenodetouse(cfile->namenode,pkg)->name);
     varbufaddstr(&fnametmpvb,DPKGTEMPEXT);
     varbufaddc(&fnametmpvb,0);

@@ -66,7 +66,9 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
     before= raemsgs->used;
     ok= dependencies_ok(depender,pkgtoremove,raemsgs);
     if (ok == 0 && depender->clientdata->istobe == itb_remove) ok= 1;
-    if (ok == 1) raemsgs->used= before; /* Don't burble about reasons for deferral */
+    if (ok == 1)
+      /* Don't burble about reasons for deferral. */
+      varbuf_trunc(raemsgs, before);
     if (ok < *rokp) *rokp= ok;
   }
 }
@@ -221,13 +223,13 @@ static void removal_bulk_remove_files(
       
       ensure_pathname_nonexisting(fnvb.buf);
       
-      fnvb.used= before;
+      varbuf_trunc(&fnvb, before);
       varbufaddstr(&fnvb,DPKGNEWEXT);
       varbufaddc(&fnvb,0);
       debug(dbg_eachfiledetail, "removal_bulk cleaning new `%s'", fnvb.buf);
       ensure_pathname_nonexisting(fnvb.buf);
       
-      fnvb.used= before;
+      varbuf_trunc(&fnvb, before);
       varbufaddc(&fnvb,0);
       if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
         debug(dbg_eachfiledetail, "removal_bulk is a directory");
@@ -289,7 +291,7 @@ static void removal_bulk_remove_files(
         continue;
       }
       debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
-      fnvb.used= infodirbaseused;
+      varbuf_trunc(&fnvb, infodirbaseused);
       varbufaddstr(&fnvb,de->d_name);
       varbufaddc(&fnvb,0);
       if (unlink(fnvb.buf))
@@ -483,7 +485,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry not it");
         continue;
       yes_remove:
-        removevb.used= removevbbase;
+        varbuf_trunc(&removevb, removevbbase);
         varbufaddstr(&removevb,de->d_name); varbufaddc(&removevb,0);
         debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing `%s'",
               removevb.buf);
@@ -563,7 +565,7 @@ void removal_bulk(struct pkginfo *pkg) {
     debug(dbg_general, "removal_bulk purge done, removing list `%s'",fnvb.buf);
     if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("cannot remove old files list"));
     
-    fnvb.used= pkgnameused;
+    varbuf_trunc(&fnvb, pkgnameused);
     varbufaddstr(&fnvb,"." POSTRMFILE);
     varbufaddc(&fnvb,0);
     debug(dbg_general, "removal_bulk purge done, removing postrm `%s'",fnvb.buf);

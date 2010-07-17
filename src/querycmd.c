@@ -258,7 +258,8 @@ searchfiles(const char *const *argv)
       varbufaddstr(&path, thisarg);
       varbufaddc(&path, '\0');
 
-      path.used = path_rtrim_slash_slashdot(path.buf);
+      varbuf_trunc(&path, path_rtrim_slash_slashdot(path.buf));
+
       thisarg = path.buf;
     }
 
@@ -528,7 +529,7 @@ control_path_pkg(struct pkginfo *pkg)
     if (strlen(p) > MAXCONTROLFILENAME)
       continue;
 
-    db_path.used = db_path_len;
+    varbuf_trunc(&db_path, db_path_len);
     varbufaddstr(&db_path, db_de->d_name);
     varbufaddc(&db_path, '\0');
 
