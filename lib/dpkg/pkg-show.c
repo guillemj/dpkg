@@ -30,7 +30,7 @@
 #include <dpkg/pkg-show.h>
 
 const char *
-pkg_summary(struct pkginfo *pkg, int *len_ret)
+pkg_summary(const struct pkginfo *pkg, int *len_ret)
 {
 	const char *pdesc;
 	size_t len;

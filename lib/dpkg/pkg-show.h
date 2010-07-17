@@ -26,7 +26,7 @@
 
 DPKG_BEGIN_DECLS
 
-const char *pkg_summary(struct pkginfo *pkg, int *len_ret);
+const char *pkg_summary(const struct pkginfo *pkg, int *len_ret);
 
 DPKG_END_DECLS
 
