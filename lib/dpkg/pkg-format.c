@@ -30,6 +30,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/parsedump.h>
+#include <dpkg/pkg-show.h>
 #include <dpkg/pkg-format.h>
 
 enum pkg_format_type {
@@ -201,7 +202,35 @@ pkg_format_parse(const char *fmt)
 	return head;
 }
 
+static void
+virt_status_abbrev(struct varbuf *vb,
+                   const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                   enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	if (pkgbin != &pkg->installed)
+		return;
+
+	varbuf_add_char(vb, pkg_abbrev_want(pkg));
+	varbuf_add_char(vb, pkg_abbrev_status(pkg));
+	varbuf_add_char(vb, pkg_abbrev_eflag(pkg));
+}
+
+static void
+virt_summary(struct varbuf *vb,
+             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+             enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	const char *desc;
+	int len;
+
+	desc = pkg_summary(pkg, &len);
+
+	varbuf_add_buf(vb, desc, len);
+}
+
 const struct fieldinfo virtinfos[] = {
+	{ "show:Summary",       NULL, virt_summary },
+	{ "show:Status-Abbrev", NULL, virt_status_abbrev },
 	{ NULL },
 };
 
