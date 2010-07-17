@@ -92,6 +92,26 @@ test_varbuf_grow(void)
 }
 
 static void
+test_varbuf_trunc(void)
+{
+	struct varbuf vb;
+
+	varbufinit(&vb, 50);
+
+	/* Test that we truncate (grow). */
+	varbuf_trunc(&vb, 20);
+	test_pass(vb.used == 20);
+	test_pass(vb.size >= 50);
+
+	/* Test that we truncate (shrink). */
+	varbuf_trunc(&vb, 10);
+	test_pass(vb.used == 10);
+	test_pass(vb.size >= 50);
+
+	varbuf_destroy(&vb);
+}
+
+static void
 test_varbuf_addbuf(void)
 {
 	struct varbuf vb;
@@ -252,6 +272,7 @@ test(void)
 	test_varbuf_init();
 	test_varbuf_prealloc();
 	test_varbuf_grow();
+	test_varbuf_trunc();
 	test_varbuf_addbuf();
 	test_varbuf_addc();
 	test_varbuf_dupc();

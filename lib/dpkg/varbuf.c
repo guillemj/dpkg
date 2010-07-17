@@ -128,6 +128,16 @@ varbuf_grow(struct varbuf *v, size_t need_size)
   v->buf = m_realloc(v->buf, v->size);
 }
 
+void
+varbuf_trunc(struct varbuf *v, size_t used_size)
+{
+  /* Make sure the caller does not claim more than available. */
+  if (v->size < used_size)
+    internerr("varbuf: claimed used(%zu) > size(%zu)", v->used, v->size);
+
+  v->used = used_size;
+}
+
 char *
 varbuf_detach(struct varbuf *v)
 {
