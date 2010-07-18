@@ -261,7 +261,6 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
     if (setenv(MAINTSCRIPTPKGENVVAR, pkg->name, 1) ||
         setenv(MAINTSCRIPTARCHENVVAR, pif->architecture, 1) ||
         setenv(MAINTSCRIPTNAMEENVVAR, cmd->argv[0], 1) ||
-        setenv(MAINTSCRIPTLIBDIRENVVAR, PKGLIBDIR, 1) ||
         setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));
 
