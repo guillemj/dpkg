@@ -427,7 +427,8 @@ diversion_add(const char *const *argv)
 	file_init(&file_from, filename);
 	file_stat(&file_from);
 
-	if (S_ISDIR(file_from.stat.st_mode))
+	if (file_from.stat_state == file_stat_valid &&
+	    S_ISDIR(file_from.stat.st_mode))
 		badusage(_("Cannot divert directories"));
 
 	fnn_from = findnamenode(filename, 0);
