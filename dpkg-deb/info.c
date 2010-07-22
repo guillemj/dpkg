@@ -258,8 +258,9 @@ void do_showinfo(const char* const* argv) {
 
   info_prepare(&argv,&debar,&directory,1);
 
-  parsedb(CONTROLFILE, pdb_ignorefiles, &pkg, NULL, NULL);
-  pkg_format_show(fmt, pkg, &pkg->installed);
+  parsedb(CONTROLFILE, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles,
+          &pkg, NULL, NULL);
+  pkg_format_show(fmt, pkg, &pkg->available);
 }
 
 
