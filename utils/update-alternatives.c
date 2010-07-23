@@ -1236,6 +1236,8 @@ alternative_save(struct alternative *a, const char *file)
 			sl_rm = sl;
 			sl = sl_prev ? sl_prev : a->slaves;
 			slave_link_free(sl_rm);
+			if (!sl)
+				break; /* no other slave left */
 		}
 	}
 
