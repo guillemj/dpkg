@@ -52,7 +52,7 @@ interact with the set of supported compression methods.
 my $COMP = {
     "gzip" => {
 	"file_ext" => "gz",
-	"comp_prog" => [ "gzip" ],
+	"comp_prog" => [ "gzip", "--no-name", "--rsyncable" ],
 	"decomp_prog" => [ "gunzip" ],
     },
     "bzip2" => {
