@@ -44,12 +44,14 @@ sub usage {
 "Usage: %s [<action>]
 
 Actions:
-  --get <flag>     output the requested flag to stdout.
-  --origin <flag>  output the origin of the flag to stdout:
-                   value is one of vendor, system, user, env.
-  --list           output a list of the flags supported by the current vendor.
-  --help           show this help message.
-  --version        show the version.
+  --get <flag>       output the requested flag to stdout.
+  --origin <flag>    output the origin of the flag to stdout:
+                     value is one of vendor, system, user, env.
+  --list             output a list of the flags supported by the current vendor.
+  --export=(sh|make) output commands to be executed in shell or make that export
+                     all the compilation flags as environment variables.
+  --help             show this help message.
+  --version          show the version.
 "), $progname;
 }
 
@@ -63,6 +65,11 @@ while (@ARGV) {
         $action = $1;
         $param = shift(@ARGV);
 	usageerr(_g("%s needs a parameter"), $_) unless defined $param;
+    } elsif (m/^--export(?:=(sh|make))?$/) {
+        usageerr(_g("two commands specified: --%s and --%s"), "export", $action)
+            if defined($action);
+        my $type = $1 || "sh";
+        $action = "export-$type";
     } elsif (m/^--list$/) {
         usageerr(_g("two commands specified: --%s and --%s"), "list", $action)
             if defined($action);
@@ -101,6 +108,20 @@ if ($action eq "get") {
 	print $build_flags->get_origin($param) . "\n";
 	exit(0);
     }
+} elsif ($action =~ m/^export-(.*)$/) {
+    my $export_type = $1;
+    foreach my $flag ($build_flags->list()) {
+	next unless $flag =~ /^[A-Z]/; # Skip flags starting with lowercase
+	my $value = $build_flags->get($flag);
+	if ($export_type eq "sh") {
+	    $value =~ s/"/\"/g;
+	    print "export $flag=\"$value\"\n";
+	} elsif ($export_type eq "make") {
+	    $value =~ s/\$/\$\$/g;
+	    print "export $flag := $value\n";
+	}
+    }
+    exit(0);
 }
 
 exit(1);
