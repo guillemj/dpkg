@@ -118,6 +118,7 @@ path_quote_filename(char *dst, const char *src, size_t n)
 		case '\\':
 			*dst++ = '\\';
 			*dst++ = '\\';
+			src++;
 			size -= 2;
 			break;
 		default:
