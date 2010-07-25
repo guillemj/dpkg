@@ -105,9 +105,10 @@ path_make_temp_template(const char *suffix)
  * but here we escape all 8 bit chars, in order make it simple.
  */
 char *
-path_quote_filename(char *dst, const char *src, size_t size)
+path_quote_filename(char *dst, const char *src, size_t n)
 {
 	char *r = dst;
+	ssize_t size = (ssize_t)n;
 
 	while (size > 0) {
 		switch (*src) {
