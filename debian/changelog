@@ -46,6 +46,9 @@ dpkg (1.15.8) UNRELEASED; urgency=low
   * Add --export command to dpkg-buildflags to be used in shell with eval.
   * Modify source format "3.0 (git)" to use git bundles. Thanks to Joey Hess
     for the patch.
+    The usage of git bundle avoids distributing cruft. Closes: #477954
+    It's no longer needed to tell which branch contains the debian packaging,
+    it uses automatically the one that was used at build-time. Closes: #534637
   * Pass --no-name option to gzip to avoid encoding the timestamp in the file
     so that the result is more predictable. Closes: #587724
     Also pass --rsyncable to make source packages more rsync friendly.
