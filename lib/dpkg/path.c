@@ -110,12 +110,20 @@ path_quote_filename(char *dst, const char *src, size_t n)
 	char *r = dst;
 	ssize_t size = (ssize_t)n;
 
+	if (size == 0)
+		return r;
+
 	while (size > 0) {
 		switch (*src) {
 		case '\0':
 			*dst = '\0';
 			return r;
 		case '\\':
+			if (size <= 2) {
+				/* Buffer full. */
+				*dst = '\0';
+				return r;
+			}
 			*dst++ = '\\';
 			*dst++ = '\\';
 			src++;
@@ -134,13 +142,14 @@ path_quote_filename(char *dst, const char *src, size_t n)
 					src++;
 				} else {
 					/* Buffer full. */
-					*dst = '\0'; /* XXX */
+					*dst = '\0';
 					return r;
 				}
 			}
 		}
 	}
-	*dst = '\0'; /* XXX */
+	/* Buffer full. */
+	*(dst - 1) = '\0';
 
 	return r;
 }
