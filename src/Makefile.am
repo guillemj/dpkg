@@ -11,6 +11,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib
 
 
+EXTRA_DIST = \
+	$(test_cases)
+
 bin_PROGRAMS = \
 	dpkg \
 	dpkg-divert \
