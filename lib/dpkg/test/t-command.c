@@ -22,6 +22,7 @@
 #include <compat.h>
 
 #include <dpkg/test.h>
+#include <dpkg/subproc.h>
 #include <dpkg/command.h>
 
 static void
@@ -133,11 +134,31 @@ test_command_add_args(void)
 }
 
 static void
+test_command_exec(void)
+{
+	struct command cmd;
+	pid_t pid;
+
+	command_init(&cmd, "/bin/true", "exec test");
+
+	command_add_arg(&cmd, "arg 0");
+	command_add_arg(&cmd, "arg 1");
+
+	pid = subproc_fork();
+
+	if (pid == 0)
+		command_exec(&cmd);
+
+	subproc_wait_check(pid, "command exec test", 0);
+}
+
+static void
 test(void)
 {
 	test_command_init();
 	test_command_add_arg();
 	test_command_add_argl();
 	test_command_add_args();
+	test_command_exec();
 }
 
