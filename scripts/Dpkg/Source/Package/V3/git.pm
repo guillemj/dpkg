@@ -225,7 +225,7 @@ sub do_extract {
         # Move shallow info file into place, so git does not
         # try to follow parents of shallow refs.
         info(_g("setting up shallow clone"));
-        system("cp", "-f",  $shallow, "$newdirectory/.git/shallow");
+        system("cp", "-f",  $dscdir.$shallow, "$newdirectory/.git/shallow");
         $? && subprocerr("cp");
     }
 
