@@ -21,10 +21,12 @@
 #include <config.h>
 #include <compat.h>
 
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
 #include <dpkg/test.h>
 #include <dpkg/path.h>
-
-#include <stdlib.h>
 
 /* Use the test_trim_eq_ref macro to avoid leaking the string and to get
  * meaningful line numbers from assert. */
@@ -72,9 +74,95 @@ test_path_skip(void)
 }
 
 static void
+test_path_temp(void)
+{
+	char *template;
+
+	template = path_make_temp_template("test");
+
+	test_pass(strstr(template, "test") != NULL);
+	test_pass(strstr(template, "XXXXXX") != NULL);
+
+	free(template);
+}
+
+static bool
+string_is_ascii(const char *str)
+{
+	while (*str) {
+		if (!isascii(*str))
+			return false;
+
+		str++;
+	}
+
+	return true;
+}
+
+static void
+test_path_quote(void)
+{
+	const char src_7_bit[] = "string with 7-bit chars only";
+	const char src_7_bit_trim[] = "string with 7-bit chars";
+	const char src_8_bit[] = "text w/ 8-bit chars: \\ \370 \300 \342 end";
+	const char src_8_bit_end[] = "text \370";
+	const char src_bs_end[] = "text \\";
+	char *dst;
+	size_t len;
+
+	/* Test no quoting. */
+	len = strlen(src_7_bit) + 1;
+	dst = malloc(len);
+	test_fail(dst == NULL);
+
+	path_quote_filename(dst, src_7_bit, len);
+	test_str(dst, ==, src_7_bit);
+	free(dst);
+
+	/* Test no quoting with limit. */
+	len = strlen(src_7_bit_trim) + 1;
+	dst = malloc(len);
+	test_fail(dst == NULL);
+
+	path_quote_filename(dst, src_7_bit, len);
+	test_str(dst, ==, src_7_bit_trim);
+	free(dst);
+
+	/* Test normal quoting. */
+	len = strlen(src_8_bit) * 2 + 1;
+	dst = malloc(len);
+	test_fail(dst == NULL);
+
+	path_quote_filename(dst, src_8_bit, len);
+	test_pass(strstr(dst, "end") != NULL);
+	test_pass(string_is_ascii(dst));
+	free(dst);
+
+	/* Test normal quoting with limit. */
+	len = strlen(src_8_bit_end) + 1 + 2;
+	dst = malloc(len);
+	test_fail(dst == NULL);
+
+	path_quote_filename(dst, src_8_bit_end, len);
+	test_str(dst, ==, "text ");
+	free(dst);
+
+	/* Test backslash quoting with limit. */
+	len = strlen(src_bs_end) + 1;
+	dst = malloc(len);
+	test_fail(dst == NULL);
+
+	path_quote_filename(dst, src_bs_end, len);
+	test_str(dst, ==, "text ");
+	free(dst);
+}
+
+static void
 test(void)
 {
 	test_path_rtrim();
 	test_path_skip();
+	test_path_temp();
+	test_path_quote();
 }
 
