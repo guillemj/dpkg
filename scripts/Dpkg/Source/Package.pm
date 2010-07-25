@@ -62,7 +62,7 @@ our @tar_ignore_default_pattern = qw(
 *.o
 *.so
 .*.sw?
-*~
+*/*~
 ,,*
 .[#~]*
 .arch-ids
