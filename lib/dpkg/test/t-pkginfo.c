@@ -30,7 +30,13 @@ test_pkginfo_informative(void)
 	struct pkginfo pkg;
 
 	blankpackage(&pkg);
+	test_fail(informative(&pkg, &pkg.installed));
+
 	pkg.want = want_purge;
+	test_pass(informative(&pkg, &pkg.installed));
+
+	blankpackage(&pkg);
+	pkg.installed.description = "test description";
 	test_pass(informative(&pkg, &pkg.installed));
 
 	/* FIXME: Complete. */
