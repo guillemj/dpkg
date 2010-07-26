@@ -341,6 +341,7 @@ sub do_build {
     }
 
     # Copy over the debian directory
+    erasedir("$tmp/debian");
     system("cp", "-a", "--", "$dir/debian", "$tmp/");
     subprocerr(_g("copy of the debian directory")) if $?;
 

@@ -54,6 +54,9 @@ dpkg (1.15.8) UNRELEASED; urgency=low
     Also pass --rsyncable to make source packages more rsync friendly.
   * Replace dpkg-source's tar ignore pattern "*~" with "*/*~" to avoid
     matching on the top level directory. Closes: #588265
+  * In source formats "2.0" and "3.0 (quilt)", make sure to remove the
+    upstream-provided debian directory before copying the debian-provided
+    version of that directory in place. Closes: #590297
 
   [ Guillem Jover ]
   * Require gettext 0.18:
