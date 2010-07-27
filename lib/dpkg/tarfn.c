@@ -128,6 +128,8 @@ DecodeTarHeader(char *block, struct TarInfo *d)
 	else
 		d->format = tar_format_old;
 
+	d->Type = (enum tar_filetype)h->LinkFlag;
+
 	if (*h->UserName)
 		passwd = getpwnam(h->UserName);
 	if (*h->GroupName)
@@ -149,7 +151,6 @@ DecodeTarHeader(char *block, struct TarInfo *d)
 	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
 	d->UserID = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
 	d->GroupID = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
-	d->Type = (enum tar_filetype)h->LinkFlag;
 
 	if (passwd)
 		d->UserID = passwd->pw_uid;
