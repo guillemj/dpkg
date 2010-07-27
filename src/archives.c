@@ -188,7 +188,7 @@ tarfile_skip_one_forward(struct tarcontext *tc, struct TarInfo *ti)
   /* We need to advance the tar file to the next object, so read the
    * file data and set it to oblivion.
    */
-  if ((ti->Type == tar_filetype_file0) || (ti->Type == tar_filetype_file)) {
+  if (ti->Type == tar_filetype_file) {
     char fnamebuf[256];
 
     fd_null_copy(tc->backendpipe, ti->Size,
@@ -425,7 +425,6 @@ tarobject(void *ctx, struct TarInfo *ti)
         "tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c)"
         " ti->LinkName=`%s' namenode=`%s' flags=%o instead=`%s'",
         ti->Name, (long)ti->Mode, (unsigned)ti->UserID, (unsigned)ti->GroupID, ti->Type,
-        ti->Type == '\0' ? '_' :
         ti->Type >= '0' && ti->Type <= '6' ? "-hlcbdp"[ti->Type - '0'] : '?',
         ti->LinkName,
         nifd->namenode->name, nifd->namenode->flags,
@@ -513,7 +512,6 @@ tarobject(void *ctx, struct TarInfo *ti)
       existingdirectory = true;
     }
     break;
-  case tar_filetype_file0:
   case tar_filetype_file:
   case tar_filetype_chardev:
   case tar_filetype_blockdev:
@@ -657,7 +655,6 @@ tarobject(void *ctx, struct TarInfo *ti)
 
   /* Extract whatever it is as .dpkg-new ... */
   switch (ti->Type) {
-  case tar_filetype_file0:
   case tar_filetype_file:
     /* We create the file with mode 0 to make sure nobody can do anything with
      * it until we apply the proper mode, which might be a statoverride.
@@ -812,7 +809,7 @@ tarobject(void *ctx, struct TarInfo *ti)
    * in dpkg-new.
    */
 
-  if (ti->Type == tar_filetype_file0 || ti->Type == tar_filetype_file) {
+  if (ti->Type == tar_filetype_file) {
     nifd->namenode->flags |= fnnf_deferred_rename;
 
     debug(dbg_eachfiledetail, "tarobject done and installation deferred");

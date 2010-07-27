@@ -129,6 +129,8 @@ DecodeTarHeader(char *block, struct TarInfo *d)
 		d->format = tar_format_old;
 
 	d->Type = (enum tar_filetype)h->LinkFlag;
+	if (d->Type == tar_filetype_file0)
+		d->Type = tar_filetype_file;
 
 	if (*h->UserName)
 		passwd = getpwnam(h->UserName);
@@ -233,7 +235,6 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 		nameLength = strlen(h.Name);
 
 		switch (h.Type) {
-		case tar_filetype_file0:
 		case tar_filetype_file:
 			/* Compatibility with pre-ANSI ustar. */
 			if (h.Name[nameLength - 1] != '/') {
