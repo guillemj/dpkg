@@ -35,17 +35,17 @@ enum tar_format {
 	tar_format_pax,
 };
 
-enum TarFileType {
-	NormalFile0 = '\0',	/* For compatibility with decades-old bug */
-	NormalFile1 = '0',
-	HardLink = '1',
-	SymbolicLink = '2',
-	CharacterDevice = '3',
-	BlockDevice = '4',
-	Directory = '5',
-	FIFO = '6',
-	GNU_LONGLINK = 'K',
-	GNU_LONGNAME = 'L'
+enum tar_filetype {
+	tar_filetype_file0 = '\0',	/* For compatibility with decades-old bug */
+	tar_filetype_file = '0',
+	tar_filetype_hardlink = '1',
+	tar_filetype_symlink = '2',
+	tar_filetype_chardev = '3',
+	tar_filetype_blockdev = '4',
+	tar_filetype_dir = '5',
+	tar_filetype_fifo = '6',
+	tar_filetype_gnu_longlink = 'K',
+	tar_filetype_gnu_longname = 'L',
 };
 
 struct	TarInfo {
@@ -54,7 +54,7 @@ struct	TarInfo {
 	mode_t		Mode;		/* Unix mode, including device bits. */
 	size_t		Size;		/* Size of file */
 	time_t		ModTime;	/* Last-modified time */
-	enum TarFileType Type;		/* Regular, Directory, Special, Link */
+	enum tar_filetype Type;		/* Regular, Directory, Special, Link */
 	char *		LinkName;	/* Name for symbolic and hard links */
 	dev_t		Device;		/* Special device for mknod() */
 	uid_t		UserID;		/* Numeric UID */

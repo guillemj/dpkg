@@ -93,7 +93,8 @@ filter_should_skip(struct TarInfo *ti)
 	 * directories than necessary, but better err on the side of caution
 	 * than failing with “no such file or directory” (which would leave
 	 * the package in a very bad state). */
-	if (skip && (ti->Type == Directory || ti->Type == SymbolicLink)) {
+	if (skip && (ti->Type == tar_filetype_dir ||
+	             ti->Type == tar_filetype_symlink)) {
 		debug(dbg_eachfile,
 		      "filter seeing if '%s' needs to be reincluded",
 		      &ti->Name[1]);

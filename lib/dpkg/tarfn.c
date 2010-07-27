@@ -149,7 +149,7 @@ DecodeTarHeader(char *block, struct TarInfo *d)
 	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
 	d->UserID = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
 	d->GroupID = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
-	d->Type = (enum TarFileType)h->LinkFlag;
+	d->Type = (enum tar_filetype)h->LinkFlag;
 
 	if (passwd)
 		d->UserID = passwd->pw_uid;
@@ -210,7 +210,8 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 			}
 			break;
 		}
-		if (h.Type != GNU_LONGLINK && h.Type != GNU_LONGNAME) {
+		if (h.Type != tar_filetype_gnu_longlink &&
+		    h.Type != tar_filetype_gnu_longname) {
 			if (next_long_name)
 				h.Name = next_long_name;
 
@@ -231,24 +232,24 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 		nameLength = strlen(h.Name);
 
 		switch (h.Type) {
-		case NormalFile0:
-		case NormalFile1:
+		case tar_filetype_file0:
+		case tar_filetype_file:
 			/* Compatibility with pre-ANSI ustar. */
 			if (h.Name[nameLength - 1] != '/') {
 				status = ops->extract_file(ctx, &h);
 				break;
 			}
 			/* Else, fall through. */
-		case Directory:
+		case tar_filetype_dir:
 			if (h.Name[nameLength - 1] == '/') {
 				h.Name[nameLength - 1] = '\0';
 			}
 			status = ops->mkdir(ctx, &h);
 			break;
-		case HardLink:
+		case tar_filetype_hardlink:
 			status = ops->link(ctx, &h);
 			break;
-		case SymbolicLink:
+		case tar_filetype_symlink:
 			symlink_node = m_malloc(sizeof(*symlink_node));
 			memcpy(&symlink_node->h, &h, sizeof(struct TarInfo));
 			symlink_node->h.Name = m_strdup(h.Name);
@@ -262,16 +263,16 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 			symlink_tail = symlink_node;
 			status = 0;
 			break;
-		case CharacterDevice:
-		case BlockDevice:
-		case FIFO:
+		case tar_filetype_chardev:
+		case tar_filetype_blockdev:
+		case tar_filetype_fifo:
 			status = ops->mknod(ctx, &h);
 			break;
-		case GNU_LONGLINK:
-		case GNU_LONGNAME:
+		case tar_filetype_gnu_longlink:
+		case tar_filetype_gnu_longname:
 			/* Set longp to the location of the long filename or
 			 * link we're trying to deal with. */
-			longp = ((h.Type == GNU_LONGNAME) ?
+			longp = ((h.Type == tar_filetype_gnu_longname) ?
 			         &next_long_name :
 			         &next_long_link);
 

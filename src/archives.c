@@ -188,7 +188,7 @@ tarfile_skip_one_forward(struct tarcontext *tc, struct TarInfo *ti)
   /* We need to advance the tar file to the next object, so read the
    * file data and set it to oblivion.
    */
-  if ((ti->Type == NormalFile0) || (ti->Type == NormalFile1)) {
+  if ((ti->Type == tar_filetype_file0) || (ti->Type == tar_filetype_file)) {
     char fnamebuf[256];
 
     fd_null_copy(tc->backendpipe, ti->Size,
@@ -496,26 +496,29 @@ tarobject(void *ctx, struct TarInfo *ti)
    */
   existingdirectory = false;
   switch (ti->Type) {
-  case SymbolicLink:
+  case tar_filetype_symlink:
     /* If it's already an existing directory, do nothing. */
     if (!statr && S_ISDIR(stab.st_mode)) {
-      debug(dbg_eachfiledetail,"tarobject SymbolicLink exists as directory");
+      debug(dbg_eachfiledetail, "tarobject symlink exists as directory");
       existingdirectory = true;
     } else if (!statr && S_ISLNK(stab.st_mode)) {
       if (linktosameexistingdir(ti, fnamevb.buf, &symlinkfn))
         existingdirectory = true;
     }
     break;
-  case Directory:
+  case tar_filetype_dir:
     /* If it's already an existing directory, do nothing. */
     if (!stat(fnamevb.buf,&stabtmp) && S_ISDIR(stabtmp.st_mode)) {
-      debug(dbg_eachfiledetail,"tarobject Directory exists");
+      debug(dbg_eachfiledetail, "tarobject directory exists");
       existingdirectory = true;
     }
     break;
-  case NormalFile0: case NormalFile1:
-  case CharacterDevice: case BlockDevice: case FIFO:
-  case HardLink:
+  case tar_filetype_file0:
+  case tar_filetype_file:
+  case tar_filetype_chardev:
+  case tar_filetype_blockdev:
+  case tar_filetype_fifo:
+  case tar_filetype_hardlink:
     break;
   default:
     ohshit(_("archive contained object `%.255s' of unknown type 0x%x"),ti->Name,ti->Type);
@@ -606,7 +609,7 @@ tarobject(void *ctx, struct TarInfo *ti)
           /* WTA: At this point we are replacing something without a Replaces.
            * if the new object is a directory and the previous object does not
            * exist assume it's also a directory and don't complain. */
-          if (!(statr && ti->Type == Directory))
+          if (!(statr && ti->Type == tar_filetype_dir))
             forcibleerr(fc_overwrite,
                         _("trying to overwrite '%.250s', "
                           "which is also in package %.250s %.250s"),
@@ -654,7 +657,8 @@ tarobject(void *ctx, struct TarInfo *ti)
 
   /* Extract whatever it is as .dpkg-new ... */
   switch (ti->Type) {
-  case NormalFile0: case NormalFile1:
+  case tar_filetype_file0:
+  case tar_filetype_file:
     /* We create the file with mode 0 to make sure nobody can do anything with
      * it until we apply the proper mode, which might be a statoverride.
      */
@@ -662,7 +666,7 @@ tarobject(void *ctx, struct TarInfo *ti)
     if (fd < 0)
       ohshite(_("unable to create `%.255s' (while processing `%.255s')"), fnamenewvb.buf, ti->Name);
     push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
-    debug(dbg_eachfiledetail,"tarobject NormalFile[01] open size=%lu",
+    debug(dbg_eachfiledetail, "tarobject file open size=%lu",
           (unsigned long)ti->Size);
     { char fnamebuf[256];
     fd_fd_copy(tc->backendpipe, fd, ti->Size,
@@ -694,25 +698,25 @@ tarobject(void *ctx, struct TarInfo *ti)
       ohshite(_("error closing/writing `%.255s'"),ti->Name);
     newtarobject_utime(fnamenewvb.buf,ti);
     break;
-  case FIFO:
+  case tar_filetype_fifo:
     if (mkfifo(fnamenewvb.buf,0))
       ohshite(_("error creating pipe `%.255s'"),ti->Name);
-    debug(dbg_eachfiledetail,"tarobject FIFO");
+    debug(dbg_eachfiledetail, "tarobject fifo");
     newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
     break;
-  case CharacterDevice:
+  case tar_filetype_chardev:
     if (mknod(fnamenewvb.buf,S_IFCHR, ti->Device))
       ohshite(_("error creating device `%.255s'"),ti->Name);
-    debug(dbg_eachfiledetail,"tarobject CharacterDevice");
+    debug(dbg_eachfiledetail, "tarobject chardev");
     newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
     break; 
-  case BlockDevice:
+  case tar_filetype_blockdev:
     if (mknod(fnamenewvb.buf,S_IFBLK, ti->Device))
       ohshite(_("error creating device `%.255s'"),ti->Name);
-    debug(dbg_eachfiledetail,"tarobject BlockDevice");
+    debug(dbg_eachfiledetail, "tarobject blockdev");
     newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
     break; 
-  case HardLink:
+  case tar_filetype_hardlink:
     varbufreset(&hardlinkfn);
     varbufaddstr(&hardlinkfn,instdir); varbufaddc(&hardlinkfn,'/');
     varbufaddstr(&hardlinkfn, ti->LinkName);
@@ -722,24 +726,24 @@ tarobject(void *ctx, struct TarInfo *ti)
     varbufaddc(&hardlinkfn, '\0');
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"),ti->Name);
-    debug(dbg_eachfiledetail,"tarobject HardLink");
+    debug(dbg_eachfiledetail, "tarobject hardlink");
     newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
     break;
-  case SymbolicLink:
+  case tar_filetype_symlink:
     /* We've already cheched for an existing directory. */
     if (symlink(ti->LinkName,fnamenewvb.buf))
       ohshite(_("error creating symbolic link `%.255s'"),ti->Name);
-    debug(dbg_eachfiledetail,"tarobject SymbolicLink creating");
+    debug(dbg_eachfiledetail, "tarobject symlink creating");
     if (lchown(fnamenewvb.buf,
 	    nifd->namenode->statoverride ? nifd->namenode->statoverride->uid : ti->UserID,
 	    nifd->namenode->statoverride ? nifd->namenode->statoverride->gid : ti->GroupID))
       ohshite(_("error setting ownership of symlink `%.255s'"),ti->Name);
     break;
-  case Directory:
+  case tar_filetype_dir:
     /* We've already checked for an existing directory. */
     if (mkdir(fnamenewvb.buf,0))
       ohshite(_("error creating directory `%.255s'"),ti->Name);
-    debug(dbg_eachfiledetail,"tarobject Directory creating");
+    debug(dbg_eachfiledetail, "tarobject directory creating");
     newtarobject_allmodes(fnamenewvb.buf,ti,nifd->namenode->statoverride);
     break;
   default:
@@ -773,7 +777,7 @@ tarobject(void *ctx, struct TarInfo *ti)
   if (statr) { /* Don't try to back it up if it didn't exist. */
     debug(dbg_eachfiledetail,"tarobject new - no backup");
   } else {
-    if (ti->Type == Directory || S_ISDIR(stab.st_mode)) {
+    if (ti->Type == tar_filetype_dir || S_ISDIR(stab.st_mode)) {
       /* One of the two is a directory - can't do atomic install. */
       debug(dbg_eachfiledetail,"tarobject directory, nonatomic");
       nifd->namenode->flags |= fnnf_no_atomic_overwrite;
@@ -808,7 +812,7 @@ tarobject(void *ctx, struct TarInfo *ti)
    * in dpkg-new.
    */
 
-  if (ti->Type == NormalFile0 || ti->Type == NormalFile1) {
+  if (ti->Type == tar_filetype_file0 || ti->Type == tar_filetype_file) {
     nifd->namenode->flags |= fnnf_deferred_rename;
 
     debug(dbg_eachfiledetail, "tarobject done and installation deferred");
