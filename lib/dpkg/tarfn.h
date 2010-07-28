@@ -49,16 +49,16 @@ enum tar_filetype {
 };
 
 struct	TarInfo {
-	enum tar_format	format;		/* Tar archive format. */
-	char *		Name;		/* File name */
-	mode_t		Mode;		/* Unix mode, including device bits. */
-	size_t		Size;		/* Size of file */
-	time_t		ModTime;	/* Last-modified time */
-	enum tar_filetype Type;		/* Regular, Directory, Special, Link */
-	char *		LinkName;	/* Name for symbolic and hard links */
-	dev_t		Device;		/* Special device for mknod() */
-	uid_t		UserID;		/* Numeric UID */
-	gid_t		GroupID;	/* Numeric GID */
+	enum tar_format format;	/* Tar archive format. */
+	enum tar_filetype type;	/* Regular, Directory, Special, Link */
+	char *name;		/* File name */
+	char *linkname;		/* Name for symbolic and hard links */
+	size_t size;		/* Size of file */
+	time_t mtime;		/* Last-modified time */
+	mode_t mode;		/* Unix mode, including device bits. */
+	uid_t uid;		/* Numeric UID */
+	gid_t gid;		/* Numeric GID */
+	dev_t dev;		/* Special device for mknod() */
 };
 
 typedef int (*tar_read_func)(void *ctx, char *buffer, int length);

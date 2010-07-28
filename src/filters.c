@@ -72,17 +72,17 @@ filter_should_skip(struct TarInfo *ti)
 	/* Last match wins. */
 	for (f = filter_head; f != NULL; f = f->next) {
 		debug(dbg_eachfile, "filter comparing '%s' and '%s'",
-		      &ti->Name[1], f->pattern);
+		      &ti->name[1], f->pattern);
 
-		if (fnmatch(f->pattern, &ti->Name[1], 0) == 0) {
+		if (fnmatch(f->pattern, &ti->name[1], 0) == 0) {
 			if (f->include) {
 				skip = false;
 				debug(dbg_eachfile, "filter including %s",
-				      ti->Name);
+				      ti->name);
 			} else {
 				skip = true;
 				debug(dbg_eachfile, "filter removing %s",
-				      ti->Name);
+				      ti->name);
 			}
 		}
 	}
@@ -93,11 +93,11 @@ filter_should_skip(struct TarInfo *ti)
 	 * directories than necessary, but better err on the side of caution
 	 * than failing with “no such file or directory” (which would leave
 	 * the package in a very bad state). */
-	if (skip && (ti->Type == tar_filetype_dir ||
-	             ti->Type == tar_filetype_symlink)) {
+	if (skip && (ti->type == tar_filetype_dir ||
+	             ti->type == tar_filetype_symlink)) {
 		debug(dbg_eachfile,
 		      "filter seeing if '%s' needs to be reincluded",
-		      &ti->Name[1]);
+		      &ti->name[1]);
 
 		for (f = filter_head; f != NULL; f = f->next) {
 			const char *wildcard;
@@ -117,9 +117,9 @@ filter_should_skip(struct TarInfo *ti)
 			debug(dbg_eachfiledetail,
 			      "filter subpattern '%*.s'", path_len, f->pattern);
 
-			if (strncmp(&ti->Name[1], f->pattern, path_len) == 0) {
+			if (strncmp(&ti->name[1], f->pattern, path_len) == 0) {
 				debug(dbg_eachfile, "filter reincluding %s",
-				      ti->Name);
+				      ti->name);
 				return false;
 			}
 		}

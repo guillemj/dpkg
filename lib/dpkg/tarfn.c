@@ -128,9 +128,9 @@ DecodeTarHeader(char *block, struct TarInfo *d)
 	else
 		d->format = tar_format_old;
 
-	d->Type = (enum tar_filetype)h->LinkFlag;
-	if (d->Type == tar_filetype_file0)
-		d->Type = tar_filetype_file;
+	d->type = (enum tar_filetype)h->LinkFlag;
+	if (d->type == tar_filetype_file0)
+		d->type = tar_filetype_file;
 
 	if (*h->UserName)
 		passwd = getpwnam(h->UserName);
@@ -139,26 +139,26 @@ DecodeTarHeader(char *block, struct TarInfo *d)
 
 	/* Concatenate prefix and name to support ustar style long names. */
 	if (d->format == tar_format_ustar && h->Prefix[0] != '\0')
-		d->Name = get_prefix_name(h);
+		d->name = get_prefix_name(h);
 	else
-		d->Name = StoC(h->Name, sizeof(h->Name));
-	d->LinkName = StoC(h->LinkName, sizeof(h->LinkName));
-	d->Mode = (mode_t)OtoL(h->Mode, sizeof(h->Mode));
-	d->Size = (size_t)OtoL(h->Size, sizeof(h->Size));
-	d->ModTime = (time_t)OtoL(h->ModificationTime,
-	                          sizeof(h->ModificationTime));
-	d->Device = ((OtoL(h->MajorDevice,
-	                   sizeof(h->MajorDevice)) & 0xff) << 8) |
-	            (OtoL(h->MinorDevice, sizeof(h->MinorDevice)) & 0xff);
+		d->name = StoC(h->Name, sizeof(h->Name));
+	d->linkname = StoC(h->LinkName, sizeof(h->LinkName));
+	d->mode = (mode_t)OtoL(h->Mode, sizeof(h->Mode));
+	d->size = (size_t)OtoL(h->Size, sizeof(h->Size));
+	d->mtime = (time_t)OtoL(h->ModificationTime,
+	                        sizeof(h->ModificationTime));
+	d->dev = ((OtoL(h->MajorDevice,
+	                sizeof(h->MajorDevice)) & 0xff) << 8) |
+	         (OtoL(h->MinorDevice, sizeof(h->MinorDevice)) & 0xff);
 	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
-	d->UserID = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
-	d->GroupID = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
+	d->uid = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
+	d->gid = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
 
 	if (passwd)
-		d->UserID = passwd->pw_uid;
+		d->uid = passwd->pw_uid;
 
 	if (group)
-		d->GroupID = group->gr_gid;
+		d->gid = group->gr_gid;
 
 	/* Treat checksum field as all blank. */
 	sum = ' ' * sizeof(h->Checksum);
@@ -195,14 +195,14 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 	next_long_link = NULL;
 	symlink_tail = symlink_head = NULL;
 
-	h.Name = NULL;
-	h.LinkName = NULL;
+	h.name = NULL;
+	h.linkname = NULL;
 
 	while ((status = ops->read(ctx, buffer, TARBLKSZ)) == TARBLKSZ) {
 		int nameLength;
 
 		if (!DecodeTarHeader(buffer, &h)) {
-			if (h.Name[0] == '\0') {
+			if (h.name[0] == '\0') {
 				/* End of tape. */
 				status = 0;
 			} else {
@@ -213,38 +213,38 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 			}
 			break;
 		}
-		if (h.Type != tar_filetype_gnu_longlink &&
-		    h.Type != tar_filetype_gnu_longname) {
+		if (h.type != tar_filetype_gnu_longlink &&
+		    h.type != tar_filetype_gnu_longname) {
 			if (next_long_name)
-				h.Name = next_long_name;
+				h.name = next_long_name;
 
 			if (next_long_link)
-				h.LinkName = next_long_link;
+				h.linkname = next_long_link;
 
 			next_long_link = NULL;
 			next_long_name = NULL;
 		}
 
-		if (h.Name[0] == '\0') {
+		if (h.name[0] == '\0') {
 			/* Indicates broken tarfile: “Bad header data”. */
 			errno = 0;
 			status = -1;
 			break;
 		}
 
-		nameLength = strlen(h.Name);
+		nameLength = strlen(h.name);
 
-		switch (h.Type) {
+		switch (h.type) {
 		case tar_filetype_file:
 			/* Compatibility with pre-ANSI ustar. */
-			if (h.Name[nameLength - 1] != '/') {
+			if (h.name[nameLength - 1] != '/') {
 				status = ops->extract_file(ctx, &h);
 				break;
 			}
 			/* Else, fall through. */
 		case tar_filetype_dir:
-			if (h.Name[nameLength - 1] == '/') {
-				h.Name[nameLength - 1] = '\0';
+			if (h.name[nameLength - 1] == '/') {
+				h.name[nameLength - 1] = '\0';
 			}
 			status = ops->mkdir(ctx, &h);
 			break;
@@ -254,8 +254,8 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 		case tar_filetype_symlink:
 			symlink_node = m_malloc(sizeof(*symlink_node));
 			memcpy(&symlink_node->h, &h, sizeof(struct TarInfo));
-			symlink_node->h.Name = m_strdup(h.Name);
-			symlink_node->h.LinkName = m_strdup(h.LinkName);
+			symlink_node->h.name = m_strdup(h.name);
+			symlink_node->h.linkname = m_strdup(h.linkname);
 			symlink_node->next = NULL;
 
 			if (symlink_head)
@@ -274,14 +274,14 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 		case tar_filetype_gnu_longname:
 			/* Set longp to the location of the long filename or
 			 * link we're trying to deal with. */
-			longp = ((h.Type == tar_filetype_gnu_longname) ?
+			longp = ((h.type == tar_filetype_gnu_longname) ?
 			         &next_long_name :
 			         &next_long_link);
 
 			if (*longp)
 				free(*longp);
 
-			*longp = m_malloc(h.Size);
+			*longp = m_malloc(h.size);
 			bp = *longp;
 
 			/* The way the GNU long{link,name} stuff works is like
@@ -292,7 +292,7 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 			 * The next N headers contain the filename.
 			 * After the headers with the filename comes the
 			 *   “real” header with a bogus name or link. */
-			for (long_read = h.Size;
+			for (long_read = h.size;
 			     long_read > 0;
 			     long_read -= TARBLKSZ) {
 				int copysize;
@@ -335,13 +335,13 @@ TarExtractor(void *ctx, const struct tar_operations *ops)
 		symlink_node = symlink_head->next;
 		if (status == 0)
 			status = ops->symlink(ctx, &symlink_head->h);
-		free(symlink_head->h.Name);
-		free(symlink_head->h.LinkName);
+		free(symlink_head->h.name);
+		free(symlink_head->h.linkname);
 		free(symlink_head);
 		symlink_head = symlink_node;
 	}
-	free(h.Name);
-	free(h.LinkName);
+	free(h.name);
+	free(h.linkname);
 
 	if (status > 0) {
 		/* Indicates broken tarfile: “Read partial header record”. */
