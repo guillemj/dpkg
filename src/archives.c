@@ -180,9 +180,8 @@ int tarfileread(void *ud, char *buf, int len) {
 }
 
 static void
-tarfile_skip_one_forward(struct TarInfo *ti)
+tarfile_skip_one_forward(struct tarcontext *tc, struct TarInfo *ti)
 {
-  struct tarcontext *tc = (struct tarcontext *)ti->UserData;
   size_t r;
   char databuf[TARBLKSZ];
 
@@ -338,12 +337,10 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
 }
 
 static void
-remove_file_from_list(struct TarInfo *ti,
+remove_file_from_list(struct tarcontext *tc, struct TarInfo *ti,
                       struct fileinlist **oldnifd,
                       struct fileinlist *nifd)
 {
-  struct tarcontext *tc = (struct tarcontext *)ti->UserData;
-
   obstack_free(&tar_obs, nifd);
   tc->newfilesp = oldnifd;
   *oldnifd = NULL;
@@ -394,7 +391,9 @@ linktosameexistingdir(const struct TarInfo *ti, const char *fname,
   return true;
 }
 
-int tarobject(struct TarInfo *ti) {
+int
+tarobject(void *ctx, struct TarInfo *ti)
+{
   static struct varbuf conffderefn, hardlinkfn, symlinkfn;
   static int fd;
   const char *usename;
@@ -402,7 +401,7 @@ int tarobject(struct TarInfo *ti) {
   struct filenamenode *linknode;
 
   struct conffile *conff;
-  struct tarcontext *tc= (struct tarcontext*)ti->UserData;
+  struct tarcontext *tc = ctx;
   bool existingdirectory, keepexisting;
   int statr;
   ssize_t r;
@@ -621,15 +620,15 @@ int tarobject(struct TarInfo *ti) {
   }
 
   if (keepexisting) {
-    remove_file_from_list(ti, oldnifd, nifd);
-    tarfile_skip_one_forward(ti);
+    remove_file_from_list(tc, ti, oldnifd, nifd);
+    tarfile_skip_one_forward(tc, ti);
     return 0;
   }
 
   if (filter_should_skip(ti)) {
     nifd->namenode->flags &= ~fnnf_new_inarchive;
     nifd->namenode->flags |= fnnf_filtered;
-    tarfile_skip_one_forward(ti);
+    tarfile_skip_one_forward(tc, ti);
 
     return 0;
   }

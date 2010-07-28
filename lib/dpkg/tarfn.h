@@ -50,7 +50,6 @@ enum TarFileType {
 
 struct	TarInfo {
 	enum tar_format	format;		/* Tar archive format. */
-	void *		UserData;	/* User passed this in as argument */
 	char *		Name;		/* File name */
 	mode_t		Mode;		/* Unix mode, including device bits. */
 	size_t		Size;		/* Size of file */
@@ -62,8 +61,8 @@ struct	TarInfo {
 	gid_t		GroupID;	/* Numeric GID */
 };
 
-typedef int (*tar_read_func)(void * userData, char * buffer, int length);
-typedef int (*tar_func)(struct TarInfo * h);
+typedef int (*tar_read_func)(void *ctx, char *buffer, int length);
+typedef int (*tar_func)(void *ctx, struct TarInfo *h);
 
 struct tar_operations {
 	tar_read_func read;
@@ -75,6 +74,6 @@ struct tar_operations {
 	tar_func mknod;
 };
 
-int TarExtractor(void *userData, const struct tar_operations *ops);
+int TarExtractor(void *ctx, const struct tar_operations *ops);
 
 #endif

@@ -176,7 +176,7 @@ struct symlinkList {
 };
 
 int
-TarExtractor(void *userData, const struct tar_operations *ops)
+TarExtractor(void *ctx, const struct tar_operations *ops)
 {
 	int status;
 	char buffer[TARBLKSZ];
@@ -194,9 +194,8 @@ TarExtractor(void *userData, const struct tar_operations *ops)
 
 	h.Name = NULL;
 	h.LinkName = NULL;
-	h.UserData = userData;
 
-	while ((status = ops->read(userData, buffer, TARBLKSZ)) == TARBLKSZ) {
+	while ((status = ops->read(ctx, buffer, TARBLKSZ)) == TARBLKSZ) {
 		int nameLength;
 
 		if (!DecodeTarHeader(buffer, &h)) {
@@ -236,7 +235,7 @@ TarExtractor(void *userData, const struct tar_operations *ops)
 		case NormalFile1:
 			/* Compatibility with pre-ANSI ustar. */
 			if (h.Name[nameLength - 1] != '/') {
-				status = ops->extract_file(&h);
+				status = ops->extract_file(ctx, &h);
 				break;
 			}
 			/* Else, fall through. */
@@ -244,10 +243,10 @@ TarExtractor(void *userData, const struct tar_operations *ops)
 			if (h.Name[nameLength - 1] == '/') {
 				h.Name[nameLength - 1] = '\0';
 			}
-			status = ops->mkdir(&h);
+			status = ops->mkdir(ctx, &h);
 			break;
 		case HardLink:
-			status = ops->link(&h);
+			status = ops->link(ctx, &h);
 			break;
 		case SymbolicLink:
 			symlink_node = m_malloc(sizeof(*symlink_node));
@@ -266,7 +265,7 @@ TarExtractor(void *userData, const struct tar_operations *ops)
 		case CharacterDevice:
 		case BlockDevice:
 		case FIFO:
-			status = ops->mknod(&h);
+			status = ops->mknod(ctx, &h);
 			break;
 		case GNU_LONGLINK:
 		case GNU_LONGNAME:
@@ -295,7 +294,7 @@ TarExtractor(void *userData, const struct tar_operations *ops)
 			     long_read -= TARBLKSZ) {
 				int copysize;
 
-				status = ops->read(userData, buffer, TARBLKSZ);
+				status = ops->read(ctx, buffer, TARBLKSZ);
 				/* If we didn't get TARBLKSZ bytes read, punt. */
 				if (status != TARBLKSZ) {
 					 /* Read partial header record? */
@@ -332,7 +331,7 @@ TarExtractor(void *userData, const struct tar_operations *ops)
 	while (symlink_head) {
 		symlink_node = symlink_head->next;
 		if (status == 0)
-			status = ops->symlink(&symlink_head->h);
+			status = ops->symlink(ctx, &symlink_head->h);
 		free(symlink_head->h.Name);
 		free(symlink_head->h.LinkName);
 		free(symlink_head);
