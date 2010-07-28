@@ -61,7 +61,7 @@ filter_add(const char *pattern, bool include)
 }
 
 bool
-filter_should_skip(struct TarInfo *ti)
+filter_should_skip(struct tar_entry *ti)
 {
 	struct filter_node *f;
 	bool skip = false;

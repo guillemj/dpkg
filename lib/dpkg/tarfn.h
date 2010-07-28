@@ -48,7 +48,7 @@ enum tar_filetype {
 	tar_filetype_gnu_longname = 'L',
 };
 
-struct	TarInfo {
+struct tar_entry {
 	enum tar_format format;	/* Tar archive format. */
 	enum tar_filetype type;	/* Regular, Directory, Special, Link */
 	char *name;		/* File name */
@@ -62,7 +62,7 @@ struct	TarInfo {
 };
 
 typedef int (*tar_read_func)(void *ctx, char *buffer, int length);
-typedef int (*tar_func)(void *ctx, struct TarInfo *h);
+typedef int (*tar_func)(void *ctx, struct tar_entry *h);
 
 struct tar_operations {
 	tar_read_func read;

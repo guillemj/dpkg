@@ -180,7 +180,7 @@ int tarfileread(void *ud, char *buf, int len) {
 }
 
 static void
-tarfile_skip_one_forward(struct tarcontext *tc, struct TarInfo *ti)
+tarfile_skip_one_forward(struct tarcontext *tc, struct tar_entry *ti)
 {
   size_t r;
   char databuf[TARBLKSZ];
@@ -230,7 +230,9 @@ does_replace(struct pkginfo *newpigp, struct pkginfoperfile *newpifp,
   return false;
 }
 
-static void newtarobject_utime(const char *path, struct TarInfo *ti) {
+static void
+newtarobject_utime(const char *path, struct tar_entry *ti)
+{
   struct utimbuf utb;
   utb.actime= currenttime;
   utb.modtime = ti->mtime;
@@ -238,7 +240,10 @@ static void newtarobject_utime(const char *path, struct TarInfo *ti) {
     ohshite(_("error setting timestamps of `%.255s'"), ti->name);
 }
 
-static void newtarobject_allmodes(const char *path, struct TarInfo *ti, struct filestatoverride* statoverride) {
+static void
+newtarobject_allmodes(const char *path, struct tar_entry *ti,
+                      struct filestatoverride *statoverride)
+{
   if (chown(path,
             statoverride ? statoverride->uid : ti->uid,
             statoverride ? statoverride->gid : ti->gid))
@@ -337,7 +342,7 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
 }
 
 static void
-remove_file_from_list(struct tarcontext *tc, struct TarInfo *ti,
+remove_file_from_list(struct tarcontext *tc, struct tar_entry *ti,
                       struct fileinlist **oldnifd,
                       struct fileinlist *nifd)
 {
@@ -347,7 +352,7 @@ remove_file_from_list(struct tarcontext *tc, struct TarInfo *ti,
 }
 
 static bool
-linktosameexistingdir(const struct TarInfo *ti, const char *fname,
+linktosameexistingdir(const struct tar_entry *ti, const char *fname,
                       struct varbuf *symlinkfn)
 {
   struct stat oldstab, newstab;
@@ -392,7 +397,7 @@ linktosameexistingdir(const struct TarInfo *ti, const char *fname,
 }
 
 int
-tarobject(void *ctx, struct TarInfo *ti)
+tarobject(void *ctx, struct tar_entry *ti)
 {
   static struct varbuf conffderefn, hardlinkfn, symlinkfn;
   static int fd;

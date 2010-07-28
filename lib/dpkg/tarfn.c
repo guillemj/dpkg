@@ -111,7 +111,7 @@ get_prefix_name(struct TarHeader *h)
 }
 
 static int
-DecodeTarHeader(char *block, struct TarInfo *d)
+DecodeTarHeader(char *block, struct tar_entry *d)
 {
 	struct TarHeader *h = (struct TarHeader *)block;
 	unsigned char *s = (unsigned char *)block;
@@ -174,8 +174,8 @@ DecodeTarHeader(char *block, struct TarInfo *d)
 }
 
 struct symlinkList {
-	struct TarInfo h;
 	struct symlinkList *next;
+	struct tar_entry h;
 };
 
 int
@@ -183,7 +183,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 {
 	int status;
 	char buffer[TARBLKSZ];
-	struct TarInfo h;
+	struct tar_entry h;
 
 	char *next_long_name, *next_long_link;
 	char *bp;
@@ -253,7 +253,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			break;
 		case tar_filetype_symlink:
 			symlink_node = m_malloc(sizeof(*symlink_node));
-			memcpy(&symlink_node->h, &h, sizeof(struct TarInfo));
+			memcpy(&symlink_node->h, &h, sizeof(struct tar_entry));
 			symlink_node->h.name = m_strdup(h.name);
 			symlink_node->h.linkname = m_strdup(h.linkname);
 			symlink_node->next = NULL;
