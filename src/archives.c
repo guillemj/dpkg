@@ -261,6 +261,10 @@ set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
   security_context_t scontext = NULL;
   int ret;
 
+  /* If there's no file type, just give up. */
+  if ((mode & S_IFMT) == 0)
+    return;
+
   /* Set selinux_enabled if it is not already set (singleton). */
   if (selinux_enabled < 0)
     selinux_enabled = (is_selinux_enabled() > 0);
@@ -274,7 +278,7 @@ set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
 
   /* Do nothing if we can't figure out what the context is, or if it has
    * no context; in which case the default context shall be applied. */
-  ret = matchpathcon(matchpath, mode & ~S_IFMT, &scontext);
+  ret = matchpathcon(matchpath, mode & S_IFMT, &scontext);
   if (ret == -1 || (ret == 0 && scontext == NULL))
     return;
 
@@ -761,9 +765,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     internerr("unknown tar type '%d', but already checked", ti->type);
   }
 
-  set_selinux_path_context(fnamevb.buf, fnamenewvb.buf,
-                           nifd->namenode->statoverride ?
-                           nifd->namenode->statoverride->mode : ti->mode);
+  set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, ti->mode);
 
   /* CLEANUP: Now we have extracted the new object in .dpkg-new (or,
    * if the file already exists as a directory and we were trying to extract

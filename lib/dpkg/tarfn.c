@@ -22,6 +22,8 @@
 #include <config.h>
 #include <compat.h>
 
+#include <sys/stat.h>
+
 #include <errno.h>
 #include <string.h>
 #include <pwd.h>
@@ -111,6 +113,45 @@ get_prefix_name(struct TarHeader *h)
 	return s;
 }
 
+static mode_t
+get_unix_mode(struct TarHeader *h)
+{
+	mode_t mode;
+	enum tar_filetype type;
+
+	type = (enum tar_filetype)h->LinkFlag;
+
+	switch (type) {
+	case tar_filetype_file0:
+	case tar_filetype_file:
+		mode = S_IFREG;
+		break;
+	case tar_filetype_symlink:
+		mode = S_IFLNK;
+		break;
+	case tar_filetype_dir:
+		mode = S_IFDIR;
+		break;
+	case tar_filetype_chardev:
+		mode = S_IFCHR;
+		break;
+	case tar_filetype_blockdev:
+		mode = S_IFBLK;
+		break;
+	case tar_filetype_fifo:
+		mode = S_IFIFO;
+		break;
+	case tar_filetype_hardlink:
+	default:
+		mode = 0;
+		break;
+	}
+
+	mode |= OtoL(h->Mode, sizeof(h->Mode));
+
+	return mode;
+}
+
 static int
 DecodeTarHeader(char *block, struct tar_entry *d)
 {
@@ -139,7 +180,7 @@ DecodeTarHeader(char *block, struct tar_entry *d)
 	else
 		d->name = StoC(h->Name, sizeof(h->Name));
 	d->linkname = StoC(h->LinkName, sizeof(h->LinkName));
-	d->mode = (mode_t)OtoL(h->Mode, sizeof(h->Mode));
+	d->mode = get_unix_mode(h);
 	d->size = (size_t)OtoL(h->Size, sizeof(h->Size));
 	d->mtime = (time_t)OtoL(h->ModificationTime,
 	                        sizeof(h->ModificationTime));
