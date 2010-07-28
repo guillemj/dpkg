@@ -630,7 +630,7 @@ void process_archive(const char *filename) {
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
 
-  r= TarExtractor((void*)&tc, &tf);
+  r = tar_extractor(&tc, &tf);
   if (r) {
     if (errno) {
       ohshite(_("error reading dpkg-deb tar output"));

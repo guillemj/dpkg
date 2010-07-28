@@ -179,7 +179,7 @@ struct symlinkList {
 };
 
 int
-TarExtractor(void *ctx, const struct tar_operations *ops)
+tar_extractor(void *ctx, const struct tar_operations *ops)
 {
 	int status;
 	char buffer[TARBLKSZ];

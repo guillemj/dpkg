@@ -415,7 +415,7 @@ tarobject(void *ctx, struct TarInfo *ti)
 
   /* Append to list of files.
    * The trailing / put on the end of names in tarfiles has already
-   * been stripped by TarExtractor (lib/tarfn.c).
+   * been stripped by tar_extractor (lib/tarfn.c).
    */
   oldnifd= tc->newfilesp;
   nifd= addfiletolist(tc, findnamenode(ti->name, 0));
