@@ -3,6 +3,7 @@
  * tarfn.c - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
+ * Copyright © 2007-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -132,11 +133,6 @@ DecodeTarHeader(char *block, struct tar_entry *d)
 	if (d->type == tar_filetype_file0)
 		d->type = tar_filetype_file;
 
-	if (*h->UserName)
-		passwd = getpwnam(h->UserName);
-	if (*h->GroupName)
-		group = getgrnam(h->GroupName);
-
 	/* Concatenate prefix and name to support ustar style long names. */
 	if (d->format == tar_format_ustar && h->Prefix[0] != '\0')
 		d->name = get_prefix_name(h);
@@ -150,15 +146,22 @@ DecodeTarHeader(char *block, struct tar_entry *d)
 	d->dev = ((OtoL(h->MajorDevice,
 	                sizeof(h->MajorDevice)) & 0xff) << 8) |
 	         (OtoL(h->MinorDevice, sizeof(h->MinorDevice)) & 0xff);
-	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
-	d->uid = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
-	d->gid = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
 
+	if (*h->UserName)
+		passwd = getpwnam(h->UserName);
 	if (passwd)
 		d->uid = passwd->pw_uid;
+	else
+		d->uid = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
 
+	if (*h->GroupName)
+		group = getgrnam(h->GroupName);
 	if (group)
 		d->gid = group->gr_gid;
+	else
+		d->gid = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
+
+	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
 
 	/* Treat checksum field as all blank. */
 	sum = ' ' * sizeof(h->Checksum);
