@@ -772,10 +772,8 @@ alternative_sort_choices(struct alternative *a)
 	/* Rewrite the linked list from the sorted table */
 	a->choices = fs = table[0];
 	table[count - 1]->next = NULL;
-	for (i = 1; i < count - 1; i++) {
+	for (i = 1; i < count; fs = fs->next, i++)
 		fs->next = table[i];
-		fs = fs->next;
-	}
 	free(table);
 }
 
@@ -800,7 +798,7 @@ alternative_sort_slaves(struct alternative *a)
 	/* Rewrite the linked list from the sorted table */
 	a->slaves = sl = table[0];
 	table[count - 1]->next = NULL;
-	for (i = 1; i < count - 1; sl = sl->next, i++)
+	for (i = 1; i < count; sl = sl->next, i++)
 		sl->next = table[i];
 	free(table);
 }
