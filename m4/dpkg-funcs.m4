@@ -84,21 +84,33 @@ AC_DEFUN([DPKG_MMAP],
   )
 ])
 
-# DPKG_FUNC_ASYNC_SYNC
+# DPKG_FUNC_SYNC_SYNC
 # --------------------
-# Define HAVE_ASYNC_SYNC if sync() is asynchronous
-AC_DEFUN([DPKG_FUNC_ASYNC_SYNC],
+# Define USE_SYNC_SYNC if sync() is synchronous and it has been enabled
+# on configure
+AC_DEFUN([DPKG_FUNC_SYNC_SYNC],
 [
   AC_CANONICAL_HOST
-  AC_MSG_CHECKING([whether sync is asynchronous])
+
+  AC_MSG_CHECKING([whether sync is synchronous])
   AS_CASE([$host_os],
-          [linux-*], [dpkg_cv_async_sync=no],
-          [dpkg_cv_async_sync=yes])
-  AS_IF([test "x$dpkg_cv_async_sync" = "xyes"],
-        [AC_DEFINE([HAVE_ASYNC_SYNC], 1,
-                   [Define to 1 if the 'sync' function is asynchronous])])
-  AC_MSG_RESULT([$dpkg_cv_async_sync])
-])# DPKG_FUNC_ASYNC_SYNC
+          [linux-*], [dpkg_cv_sync_sync=yes],
+          [dpkg_cv_sync_sync=no])
+  AC_MSG_RESULT([$dpkg_cv_sync_sync])
+
+  AC_ARG_ENABLE([sync-sync],
+    AS_HELP_STRING([--enable-sync-sync],
+                   [enable usage of synchronous sync(2) if available]),
+    [],
+    [enable_sync_sync=no])
+  AC_MSG_CHECKING([whether to use synchronous sync])
+  AS_IF([test "x$dpkg_cv_sync_sync" = "xyes" &&
+         test "x$enable_sync_sync" = "xyes"],
+        [AC_DEFINE([USE_SYNC_SYNC], 1,
+                   [Define to 1 if sync(2) is synchronous])],
+        [enable_sync_sync=no])
+  AC_MSG_RESULT([$enable_sync_sync])
+])# DPKG_FUNC_SYNC_SYNC
 
 # DPKG_CHECK_COMPAT_FUNCS(LIST)
 # -----------------------

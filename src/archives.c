@@ -855,7 +855,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
   struct filenamenode *usenode;
   const char *usename;
 
-#if !defined(HAVE_ASYNC_SYNC)
+#if defined(USE_SYNC_SYNC)
   debug(dbg_general, "deferred extract mass sync");
   sync();
 #endif
@@ -871,7 +871,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
 
     setupfnamevbs(usename);
 
-#if defined(HAVE_ASYNC_SYNC)
+#if !defined(USE_SYNC_SYNC)
     if (cfile->namenode->flags & fnnf_deferred_fsync) {
       int fd;
 
