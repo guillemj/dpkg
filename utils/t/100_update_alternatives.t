@@ -46,9 +46,19 @@ my @choices = (
 		path => "/bin/cat",
 	    },
 	    {
+		"link" => "$bindir/slave3",
+		name => "slave3",
+		path => "/bin/cat",
+	    },
+	    {
 		"link" => "$bindir/slave1",
 		name => "slave1",
 		path => "/usr/bin/yes",
+	    },
+	    {
+		"link" => "$bindir/slave4",
+		name => "slave4",
+		path => "/bin/cat",
 	    },
 	],
     },
@@ -69,9 +79,9 @@ my @choices = (
         slaves => [],
     },
 );
-my $nb_slaves = 2;
+my $nb_slaves = 4;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 24 # number of check_choices
-		+ 64;			      # rest
+		+ 65;			      # rest
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
@@ -219,6 +229,46 @@ install_choice(2); # 2 is lower prio, stays at 1
 check_choice(1, "auto", "initial install 2");
 install_choice(0); # 0 is higher priority
 check_choice(0, "auto", "initial install 3");
+
+# verify that the administrative file is sorted properly
+{
+    local $/ = undef;
+    open(FILE, "<", "$admindir/generic-test") or die $!;
+    my $content = <FILE>;
+    close(FILE);
+    is($content,
+"auto
+$bindir/generic-test
+slave1
+$bindir/slave1
+slave2
+$bindir/slave2
+slave3
+$bindir/slave3
+slave4
+$bindir/slave4
+
+/bin/false
+10
+/bin/date
+
+
+
+/bin/sleep
+5
+
+
+
+
+/bin/true
+20
+/usr/bin/yes
+/bin/cat
+/bin/cat
+/bin/cat
+
+", "administrative file is as expected");
+}
 
 # manual change with --set-selections
 my $input = "doesntexist auto /bin/date\ngeneric-test manual /bin/false\n";
