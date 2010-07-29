@@ -112,7 +112,7 @@ if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
 }
 
 my ($admindir, $signkey, $forcesigninterface, $usepause, $noclean,
-    $cleansource, $binaryonly, $sourceonly, $since, $maint,
+    $cleansource, $since, $maint,
     $changedby, $desc, $parallel);
 my $checkbuilddep = 1;
 my $signsource = 1;
@@ -122,6 +122,25 @@ my $targetarch = my $targetgnusystem = '';
 my $call_target = '';
 my $call_target_as_root = 0;
 my (@checkbuilddep_opts, @changes_opts, @source_opts);
+
+use constant BUILD_DEFAULT    => 1;
+use constant BUILD_SOURCE     => 2;
+use constant BUILD_ARCH_DEP   => 4;
+use constant BUILD_ARCH_INDEP => 8;
+use constant BUILD_BINARY     => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
+use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
+my $include = BUILD_ALL | BUILD_DEFAULT;
+
+sub build_normal() { return ($include & BUILD_ALL) == BUILD_ALL; }
+sub build_sourceonly() { return $include == BUILD_SOURCE; }
+sub build_binaryonly() { return !($include & BUILD_SOURCE); }
+sub build_opt() {
+    return (($include == BUILD_BINARY) ? '-b' :
+            (($include == BUILD_ARCH_DEP) ? '-B' :
+             (($include == BUILD_ARCH_INDEP) ? '-A' :
+              (($include == BUILD_SOURCE) ? '-S' :
+               internerr("build_opt called with include=$include")))));
+}
 
 while (@ARGV) {
     $_ = shift @ARGV;
@@ -178,22 +197,26 @@ while (@ARGV) {
     } elsif (/^-nc$/) {
 	$noclean = 1;
     } elsif (/^-b$/) {
-	$binaryonly = '-b';
+	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
+	$include = BUILD_BINARY;
 	push @changes_opts, '-b';
 	@checkbuilddep_opts = ();
 	$binarytarget = 'binary';
     } elsif (/^-B$/) {
-	$binaryonly = '-B';
+	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
+	$include = BUILD_ARCH_DEP;
 	push @changes_opts, '-B';
 	@checkbuilddep_opts = ('-B');
 	$binarytarget = 'binary-arch';
     } elsif (/^-A$/) {
-	$binaryonly = '-A';
+	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
+	$include = BUILD_ARCH_INDEP;
 	push @changes_opts, '-A';
 	@checkbuilddep_opts = ();
 	$binarytarget = 'binary-indep';
     } elsif (/^-S$/) {
-	$sourceonly = '-S';
+	build_binaryonly && usageerr(_g("cannot combine %s and %s"), build_opt, "-S");
+	$include = BUILD_SOURCE;
 	push @changes_opts, '-S';
 	@checkbuilddep_opts = ('-B');
     } elsif (/^-v(.*)$/) {
@@ -214,12 +237,9 @@ while (@ARGV) {
     }
 }
 
-if ($binaryonly and $sourceonly) {
-    usageerr(_g("cannot combine %s and %s"), $binaryonly, $sourceonly);
-}
 if ($noclean) {
     # -nc without -b/-B/-A/-S implies -b
-    $binaryonly = '-b' unless ($binaryonly or $sourceonly);
+    $include = BUILD_BINARY if ($include & BUILD_DEFAULT);
 }
 
 if ($< == 0) {
@@ -310,7 +330,7 @@ while ($_ = <$arch_env>) {
 close $arch_env or subprocerr('dpkg-architecture');
 
 my $arch;
-unless ($sourceonly) {
+unless (build_sourceonly) {
     $arch = mustsetvar($ENV{'DEB_HOST_ARCH'}, _g('host architecture'));
 } else {
     $arch = 'source';
@@ -346,7 +366,7 @@ if ($checkbuilddep) {
 	warning(_g("Build dependencies/conflicts unsatisfied; aborting."));
 	warning(_g("(Use -d flag to override.)"));
 
-	if ($sourceonly) {
+	if (build_sourceonly) {
 	    warning(_g("This is currently a non-fatal warning with -S, but"));
 	    warning(_g("will probably become fatal in the future."));
 	} else {
@@ -369,7 +389,7 @@ if ($call_target) {
 unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
-unless ($binaryonly) {
+unless (build_binaryonly) {
     warning(_g("it is a bad idea to generate a source package " .
                "without cleaning up first, it might contain undesired " .
                "files.")) if $noclean;
@@ -377,18 +397,18 @@ unless ($binaryonly) {
     withecho('dpkg-source', @source_opts, '-b', $dir);
     chdir($dir) or syserr("chdir $dir");
 }
-unless ($sourceonly) {
+unless (build_sourceonly) {
     withecho(@debian_rules, 'build');
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 if ($usepause &&
-    ($signchanges || ( !$binaryonly && $signsource )) ) {
+    ($signchanges || (!build_binaryonly && $signsource))) {
     print _g("Press the return key to start signing process\n");
     getc();
 }
 
 my $signerrors;
-unless ($binaryonly) {
+unless (build_binaryonly) {
     if ($signsource && signfile("$pv.dsc")) {
 	$signerrors = _g("Failed to sign .dsc and .changes file");
 	$signchanges = 0;
