@@ -74,6 +74,7 @@ scandir(const char *dir, struct dirent ***namelist,
 			newlist = realloc(list, avail * sizeof(struct dirent *));
 			if (!newlist)
 				return cleanup(d, list, used);
+			list = newlist;
 		}
 
 		m = malloc(sizeof(struct dirent) + strlen(e->d_name));
