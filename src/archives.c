@@ -704,7 +704,8 @@ tarobject(void *ctx, struct tar_entry *ti)
       ohshite(_("error setting permissions of `%.255s'"), ti->name);
 
     /* Postpone the fsync, to try to avoid massive I/O degradation. */
-    nifd->namenode->flags |= fnnf_deferred_fsync;
+    if (!fc_unsafe_io)
+      nifd->namenode->flags |= fnnf_deferred_fsync;
 
     pop_cleanup(ehflag_normaltidy); /* fd= open(fnamenewvb.buf) */
     if (close(fd))
@@ -857,7 +858,8 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
 
 #if defined(USE_SYNC_SYNC)
   debug(dbg_general, "deferred extract mass sync");
-  sync();
+  if (!fc_unsafe_io)
+    sync();
 #endif
 
   for (cfile = files; cfile; cfile = cfile->next) {
