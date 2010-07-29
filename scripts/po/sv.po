@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2010-07-27 08:46+0100\n"
+"POT-Creation-Date: 2010-07-29 10:31+0200\n"
 "PO-Revision-Date: 2010-07-27 08:51+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -173,7 +173,8 @@ msgstr ""
 "  --list             skriv ut lista med flaggor som stöds av aktuell "
 "leverantör.\n"
 "  --export=(sh|make) skriv ut kommandon att exekvera i skal eller make som\n"
-"                     exporterar alla kompileringsflaggor som miljövariabler.\n"
+"                     exporterar alla kompileringsflaggor som "
+"miljövariabler.\n"
 "  --help            visa detta hjälpmeddelande.\n"
 "  --version         visa versionsnummer.\n"
 
@@ -205,7 +206,61 @@ msgstr ""
 "Copyright © 2007 Frank Lichtenheld."
 
 #: scripts/dpkg-buildpackage.pl:52
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "\n"
+#| "Usage: %s [<options> ...]\n"
+#| "\n"
+#| "Options:\n"
+#| "  -r<gain-root-command>\n"
+#| "                 command to gain root privileges (default is fakeroot).\n"
+#| "  -R<rules>      rules file to execute (default is debian/rules).\n"
+#| "  -p<sign-command>\n"
+#| "  -d             do not check build dependencies and conflicts.\n"
+#| "  -D             check build dependencies and conflicts.\n"
+#| "  -T<target>     call debian/rules <target> with the proper environment\n"
+#| "  --as-root      ensure -T calls the target with root rights\n"
+#| "  -j[<number>]   specify jobs to run simultaneously } passed to debian/"
+#| "rules\n"
+#| "  -k<keyid>      the key to use for signing.\n"
+#| "  -sgpg          the sign-command is called like GPG.\n"
+#| "  -spgp          the sign-command is called like PGP.\n"
+#| "  -us            unsigned source.\n"
+#| "  -uc            unsigned changes.\n"
+#| "  -a<arch>       Debian architecture we build for (implies -d).\n"
+#| "  -b             binary-only, do not build source.   } also passed to\n"
+#| "  -B             binary-only, no arch-indep files.   } dpkg-genchanges\n"
+#| "  -A             binary-only, only arch-indep files. }\n"
+#| "  -S             source only, no binary files.     }\n"
+#| "  -t<system>     set GNU system type.           } passed to dpkg-"
+#| "architecture\n"
+#| "  -v<version>    changes since version <version>.      }\n"
+#| "  -m<maint>      maintainer for package is <maint>.    }\n"
+#| "  -e<maint>      maintainer for release is <maint>.    } only passed\n"
+#| "  -C<descfile>   changes are described in <descfile>.  } to dpkg-"
+#| "genchanges\n"
+#| "  -si (default)  src includes orig if new upstream.    }\n"
+#| "  -sa            uploaded src always includes orig.    }\n"
+#| "  -sd            uploaded src is diff and .dsc only.   }\n"
+#| "  -sn            force Debian native source format.      }\n"
+#| "  -s[sAkurKUR]   see dpkg-source for explanation.        } only passed\n"
+#| "  -z<level>      compression level of source             } to dpkg-"
+#| "source\n"
+#| "  -Z<compressor> compression to use for source           }\n"
+#| "  -nc            do not clean source tree (implies -b).\n"
+#| "  -tc            clean source tree when finished.\n"
+#| "  -ap            add pause before starting signature process.\n"
+#| "  -i[<regex>]    ignore diffs of files matching regex.    } only passed\n"
+#| "  -I[<pattern>]  filter out files when building tarballs. } to dpkg-"
+#| "source\n"
+#| "  --source-option=<opt>\n"
+#| "\t\t pass option <opt> to dpkg-source\n"
+#| "  --changes-option=<opt>\n"
+#| "\t\t pass option <opt> to dpkg-genchanges\n"
+#| "  --admindir=<directory>\n"
+#| "                 change the administrative directory.\n"
+#| "  -h, --help     show this help message.\n"
+#| "      --version  show the version.\n"
 msgid ""
 "\n"
 "Usage: %s [<options> ...]\n"
@@ -231,6 +286,7 @@ msgid ""
 "  -B             binary-only, no arch-indep files.   } dpkg-genchanges\n"
 "  -A             binary-only, only arch-indep files. }\n"
 "  -S             source only, no binary files.     }\n"
+"  -F             normal full build (binaries and sources).\n"
 "  -t<system>     set GNU system type.           } passed to dpkg-"
 "architecture\n"
 "  -v<version>    changes since version <version>.      }\n"
@@ -312,27 +368,29 @@ msgstr ""
 "  -h, --help     visa detta hjälpmeddelande.\n"
 "      --version  visa versionsnummer.\n"
 
-#: scripts/dpkg-buildpackage.pl:209 scripts/dpkg-source.pl:187
-msgid "-E and -W are deprecated, they are without effect"
-msgstr "-E och -W rekommenderas ej, de har ingen effekt"
-
-#: scripts/dpkg-buildpackage.pl:213
-#, perl-format
-msgid "unknown option or argument %s"
-msgstr "okänd flagga eller argument %s"
-
-#: scripts/dpkg-buildpackage.pl:218 scripts/dpkg-genchanges.pl:142
+#: scripts/dpkg-buildpackage.pl:201 scripts/dpkg-buildpackage.pl:207
+#: scripts/dpkg-buildpackage.pl:213 scripts/dpkg-buildpackage.pl:219
+#: scripts/dpkg-buildpackage.pl:224 scripts/dpkg-genchanges.pl:142
 #: scripts/dpkg-genchanges.pl:145 scripts/dpkg-genchanges.pl:149
 #: scripts/dpkg-genchanges.pl:153
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr "kan inte kombinera %s och %s"
 
-#: scripts/dpkg-buildpackage.pl:226
+#: scripts/dpkg-buildpackage.pl:237 scripts/dpkg-source.pl:187
+msgid "-E and -W are deprecated, they are without effect"
+msgstr "-E och -W rekommenderas ej, de har ingen effekt"
+
+#: scripts/dpkg-buildpackage.pl:241
+#, perl-format
+msgid "unknown option or argument %s"
+msgstr "okänd flagga eller argument %s"
+
+#: scripts/dpkg-buildpackage.pl:251
 msgid "using a gain-root-command while being root"
 msgstr "använder ett gain-root-command fast jag redan är root"
 
-#: scripts/dpkg-buildpackage.pl:232
+#: scripts/dpkg-buildpackage.pl:257
 msgid ""
 "fakeroot not found, either install the fakeroot\n"
 "package, specify a command with the -r option, or run this as root"
@@ -340,61 +398,61 @@ msgstr ""
 "fakeroot hittades inte, du kan installera paketet fakeroot,\n"
 "ange ett kommando med flaggan -r, eller köra som root"
 
-#: scripts/dpkg-buildpackage.pl:236
+#: scripts/dpkg-buildpackage.pl:261
 #, perl-format
 msgid "gain-root-commmand '%s' not found"
 msgstr "få-root-kommandot \"%s\" hittades inte"
 
-#: scripts/dpkg-buildpackage.pl:255
+#: scripts/dpkg-buildpackage.pl:280
 msgid "unknown sign command, assuming pgp style interface"
 msgstr "okänt signeringskommando, antar pgp-gränssnittstyp"
 
-#: scripts/dpkg-buildpackage.pl:258
+#: scripts/dpkg-buildpackage.pl:283
 msgid "PGP support is deprecated (see README.feature-removal-schedule)"
 msgstr "PGP-stödet undanbes (se README.feature-removal-schedule)"
 
-#: scripts/dpkg-buildpackage.pl:276
+#: scripts/dpkg-buildpackage.pl:301
 #, perl-format
 msgid "%s: export %s from dpkg-buildflags (origin: %s): %s\n"
 msgstr "%s: exportera %s från dpkg-buildflags (källa: %s): %s\n"
 
-#: scripts/dpkg-buildpackage.pl:285
+#: scripts/dpkg-buildpackage.pl:310
 msgid "source package"
 msgstr "källkodspaket"
 
-#: scripts/dpkg-buildpackage.pl:286
+#: scripts/dpkg-buildpackage.pl:311
 msgid "source version"
 msgstr "källkodsversion"
 
-#: scripts/dpkg-buildpackage.pl:296
+#: scripts/dpkg-buildpackage.pl:321
 msgid "source changed by"
 msgstr "källkod ändrad av"
 
-#: scripts/dpkg-buildpackage.pl:314
+#: scripts/dpkg-buildpackage.pl:339
 msgid "host architecture"
 msgstr "värdarkitektur"
 
-#: scripts/dpkg-buildpackage.pl:327
+#: scripts/dpkg-buildpackage.pl:352
 msgid "debian/rules is not executable: fixing that."
 msgstr "debian/rules är inte exekverbar: rättar."
 
-#: scripts/dpkg-buildpackage.pl:346
+#: scripts/dpkg-buildpackage.pl:371
 msgid "Build dependencies/conflicts unsatisfied; aborting."
 msgstr "Byggberoenden/-konflikter ej uppfyllda; avbryter."
 
-#: scripts/dpkg-buildpackage.pl:347
+#: scripts/dpkg-buildpackage.pl:372
 msgid "(Use -d flag to override.)"
 msgstr "(Använd flaggan -d för att överstyra.)"
 
-#: scripts/dpkg-buildpackage.pl:350
+#: scripts/dpkg-buildpackage.pl:375
 msgid "This is currently a non-fatal warning with -S, but"
 msgstr "Detta är för närvarande en icke-ödesdiger varning med -S, men"
 
-#: scripts/dpkg-buildpackage.pl:351
+#: scripts/dpkg-buildpackage.pl:376
 msgid "will probably become fatal in the future."
 msgstr "den kommer troligen att bli ödesdiger i framtiden."
 
-#: scripts/dpkg-buildpackage.pl:373
+#: scripts/dpkg-buildpackage.pl:398
 msgid ""
 "it is a bad idea to generate a source package without cleaning up first, it "
 "might contain undesired files."
@@ -402,57 +460,57 @@ msgstr ""
 "det är inte någon bra idé att generera ett källkodspaket utan att först "
 "städa upp det, det kan innehålla oönskade filer."
 
-#: scripts/dpkg-buildpackage.pl:386
+#: scripts/dpkg-buildpackage.pl:411
 msgid "Press the return key to start signing process\n"
 msgstr "Tryck på Enter för att inleda signeringsproceduren\n"
 
-#: scripts/dpkg-buildpackage.pl:393
+#: scripts/dpkg-buildpackage.pl:418
 msgid "Failed to sign .dsc and .changes file"
 msgstr "Misslyckades att signera .dsc- och .changes-filerna"
 
-#: scripts/dpkg-buildpackage.pl:408 scripts/dpkg-buildpackage.pl:412
-#: scripts/dpkg-buildpackage.pl:425
+#: scripts/dpkg-buildpackage.pl:433 scripts/dpkg-buildpackage.pl:437
+#: scripts/dpkg-buildpackage.pl:450
 msgid "write changes file"
 msgstr "skriv ändringsfil"
 
-#: scripts/dpkg-buildpackage.pl:424
+#: scripts/dpkg-buildpackage.pl:449
 msgid "dpkg-genchanges"
 msgstr "dpkg-genchanges"
 
-#: scripts/dpkg-buildpackage.pl:433
+#: scripts/dpkg-buildpackage.pl:458
 msgid "source only upload: Debian-native package"
 msgstr "insändning med endast källkod: Debianeget paket"
 
-#: scripts/dpkg-buildpackage.pl:435
+#: scripts/dpkg-buildpackage.pl:460
 msgid "source only, diff-only upload (original source NOT included)"
 msgstr ""
 "insändning enbart med källkod, enbart med diff (originalkällkod tas EJ med)"
 
-#: scripts/dpkg-buildpackage.pl:437
+#: scripts/dpkg-buildpackage.pl:462
 msgid "source only upload (original source is included)"
 msgstr "insändning enbart med källkod (originalkällkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:440 scripts/dpkg-buildpackage.pl:448
+#: scripts/dpkg-buildpackage.pl:465 scripts/dpkg-buildpackage.pl:473
 msgid "full upload (original source is included)"
 msgstr "komplett insändning (originalkällkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:442
+#: scripts/dpkg-buildpackage.pl:467
 msgid "binary only upload (no source included)"
 msgstr "endast binär insändning (ingen källkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:444
+#: scripts/dpkg-buildpackage.pl:469
 msgid "full upload; Debian-native package (full source is included)"
 msgstr "komplett insändnig; Debianeget paket (komplett källkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:446
+#: scripts/dpkg-buildpackage.pl:471
 msgid "binary and diff upload (original source NOT included)"
 msgstr "binär- och diffinsändning (originalkällkod tas EJ med)"
 
-#: scripts/dpkg-buildpackage.pl:453
+#: scripts/dpkg-buildpackage.pl:478
 msgid "Failed to sign .changes file"
 msgstr "Misslyckades att signera .changes-fil"
 
-#: scripts/dpkg-buildpackage.pl:472
+#: scripts/dpkg-buildpackage.pl:497
 #, perl-format
 msgid "unable to determine %s"
 msgstr "kan inte bestämma %s"
@@ -834,8 +892,8 @@ msgid ""
 "current host architecture '%s' does not appear in package's architecture "
 "list (%s)"
 msgstr ""
-"den aktuella värdarkitekturen \"%s\" finns inte i paketets arkitekturlista (%"
-"s)"
+"den aktuella värdarkitekturen \"%s\" finns inte i paketets arkitekturlista "
+"(%s)"
 
 #: scripts/dpkg-gencontrol.pl:246
 #, perl-format
@@ -1488,8 +1546,8 @@ msgid ""
 "To help dpkg-shlibdeps find private libraries, you might need to set "
 "LD_LIBRARY_PATH."
 msgstr ""
-"hittade inte biblioteket %s som behövs för %s (ELF-format: \"%s\"; RPATH: \"%"
-"s\").\n"
+"hittade inte biblioteket %s som behövs för %s (ELF-format: \"%s\"; RPATH: "
+"\"%s\").\n"
 "Observera: andra binärpaket som inte har shlibs- eller symbols-filer söks "
 "inte genom efter bibliotek.\n"
 "För att hjälpa dpkg-shlibdeps att hitta privata bibliotek måste du kanske "
@@ -2928,8 +2986,8 @@ msgstr "orig-parametern %s är inte en vanlig fil eller katalog"
 #: scripts/Dpkg/Source/Package/V1.pm:236
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -s%"
-"s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style -s"
+"%s wants something"
 msgstr ""
 "originalargument är tomt (betyder ingen orig, ingen diff) men "
 "källkodshanteringstypen -s%s ber om något"
@@ -3815,8 +3873,8 @@ msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
 #~ "filnamnet \"%s\" trunkerades av cpio; kan inte kontrollera komplett sökväg"
 
 #~ msgid ""
-#~ "tarfile `%s' contains unexpected object listed by tar as `%s'; expected `%"
-#~ "s'"
+#~ "tarfile `%s' contains unexpected object listed by tar as `%s'; expected `"
+#~ "%s'"
 #~ msgstr ""
 #~ "tarfilen \"%s\" innehåller oväntat objekt som tar visar som \"%s\"; "
 #~ "förväntade \"%s\""

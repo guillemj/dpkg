@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2010-06-27 10:40+0200\n"
+"POT-Creation-Date: 2010-07-29 10:31+0200\n"
 "PO-Revision-Date: 2009-02-03 00:42+0200\n"
 "Last-Translator: Eddy Petrișor <eddy.petrisor@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -31,6 +31,17 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
+
+#: lib/dpkg/ar.c:54 lib/dpkg/ar.c:67 lib/dpkg/ar.c:78 lib/dpkg/ar.c:82
+#: lib/dpkg/ar.c:101
+#, fuzzy, c-format
+msgid "unable to write file '%s'"
+msgstr "imposibil a deschide fișierul sursă „%.250s”"
+
+#: lib/dpkg/ar.c:92
+#, fuzzy, c-format
+msgid "failed to fstat ar member file (%s)"
+msgstr "eșec la crearea fișierului temporar (date)"
 
 #: lib/dpkg/buffer.c:254
 #, fuzzy, c-format
@@ -163,7 +174,7 @@ msgstr "nu poate fi examinat directorul cu actualizări „%.255s”"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "eșec la ștergerea fișierului cu actualizări încorporate %.255s"
 
-#: lib/dpkg/dbmodify.c:119 dpkg-deb/build.c:387
+#: lib/dpkg/dbmodify.c:119 dpkg-deb/build.c:386
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "imposibil a crea „%.255s”"
@@ -183,65 +194,74 @@ msgstr "imposibil a goli %.250s după completare cu spații"
 msgid "unable to seek to start of %.250s after padding"
 msgstr "imposibil a căuta începutul lui %.250s după completare cu spații"
 
-#: lib/dpkg/dbmodify.c:161
+# numele funcților și argumentelor acestora rămân cele originale
+# pentru a nu induce în eroare utilizatorul
+# `' devine „” - oricum ` și ' nu sunt pereche
+#: lib/dpkg/dbmodify.c:159
+#, fuzzy, c-format
+#| msgid "unable to open tmpfile for vsnprintf"
+msgid "unable to open lock file %s for testing"
+msgstr "imposibil a deschide tmpfile pentru vsnprintf"
+
+#: lib/dpkg/dbmodify.c:191
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "nu aveți drepturi de blocare a stării bazei de date dpkg"
 
-#: lib/dpkg/dbmodify.c:162
+#: lib/dpkg/dbmodify.c:192
 msgid "unable to open/create status database lockfile"
 msgstr "imposibil a deschide/crea fișierul de blocare a stării bazei de date"
 
-#: lib/dpkg/dbmodify.c:167
+#: lib/dpkg/dbmodify.c:197
 msgid "unable to lock dpkg status database"
 msgstr "imposibil a bloca starea bazei de date dpkg"
 
-#: lib/dpkg/dbmodify.c:168
+#: lib/dpkg/dbmodify.c:198
 msgid "status database area is locked by another process"
 msgstr "baza de date este blocată de alt proces"
 
-#: lib/dpkg/dbmodify.c:197
+#: lib/dpkg/dbmodify.c:227
 msgid "requested operation requires superuser privilege"
 msgstr "operația solicitată implică drepturi de superutilizator"
 
-#: lib/dpkg/dbmodify.c:202
+#: lib/dpkg/dbmodify.c:232
 msgid "unable to access dpkg status area"
 msgstr "imposibil a accesa zona de stare a dpkg"
 
-#: lib/dpkg/dbmodify.c:204
+#: lib/dpkg/dbmodify.c:234
 msgid "operation requires read/write access to dpkg status area"
 msgstr "operația necesită acces de tip scriere/citire în zona de stare a dpkg"
 
-#: lib/dpkg/dbmodify.c:252
+#: lib/dpkg/dbmodify.c:282
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "eșec la ștergerea propriului fișier cu actualizări %.255s"
 
-#: lib/dpkg/dbmodify.c:293
+#: lib/dpkg/dbmodify.c:323
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "imposibil a scrie starea actualizată a lui „%.250s”"
 
-#: lib/dpkg/dbmodify.c:295
+#: lib/dpkg/dbmodify.c:325
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "imposibil salva starea actualizată a lui „%.250s”"
 
-#: lib/dpkg/dbmodify.c:297
+#: lib/dpkg/dbmodify.c:327
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "imposibil a trunchia pentru starea actualizată a lui „%.250s”"
 
-#: lib/dpkg/dbmodify.c:299
+#: lib/dpkg/dbmodify.c:329
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "imposibil a sincroniza cu fsync starea actualizată a lui „%.250s”"
 
-#: lib/dpkg/dbmodify.c:301
+#: lib/dpkg/dbmodify.c:331
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "imposibil a închide starea actualizată a lui „%.250s”"
 
-#: lib/dpkg/dbmodify.c:304
+#: lib/dpkg/dbmodify.c:334
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "imposibil a instala starea actualizată a lui „%.250s”"
@@ -572,9 +592,14 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr ""
 "imposibil a stabili modul noului fișier conffile al distribuției „%.250s”"
 
-#: lib/dpkg/file.c:68
+#: lib/dpkg/file.c:77
 msgid "unable to unlock dpkg status database"
 msgstr "imposibil a debloca starea bazei de date dpkg"
+
+#: lib/dpkg/file.c:100
+#, fuzzy, c-format
+msgid "unable to check file '%s' lock status"
+msgstr "imposibil a deschide fișierul sursă „%.250s”"
 
 #: lib/dpkg/log.c:52
 #, c-format
@@ -920,6 +945,10 @@ msgstr "caracter nevalid „%c” în lățimea câmpului\n"
 msgid "Closing brace missing in format\n"
 msgstr "Lipsește paranteza de închidere în format\n"
 
+#: lib/dpkg/pkg-show.c:40
+msgid "(no description available)"
+msgstr "(nici o descriere disponibilă)"
+
 #: lib/dpkg/subproc.c:54
 #, fuzzy, c-format
 msgid "unable to ignore signal %s before running %.250s"
@@ -1226,36 +1255,36 @@ msgstr "sfârșit de fișier neașteptat la citirea lui „%.250s”"
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
-#: src/archives.c:178 src/archives.c:201 src/archives.c:676
+#: src/archives.c:178 src/archives.c:200 src/archives.c:689
 msgid "error reading from dpkg-deb pipe"
 msgstr "eroare la citirea din fluxul de date al lui dpkg-deb"
 
-#: src/archives.c:196
+#: src/archives.c:195
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
 msgstr ""
 
-#: src/archives.c:239
+#: src/archives.c:240
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "eroare la setarea momentului actualizării lui „%.255s”"
 
-#: src/archives.c:246 src/archives.c:685 src/statcmd.c:173
+#: src/archives.c:250 src/archives.c:700 src/statcmd.c:173
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "eroare la setarea apartenenței pentru „%.255s”"
 
-#: src/archives.c:248 src/archives.c:688 src/statcmd.c:175
+#: src/archives.c:252 src/archives.c:704 src/statcmd.c:175
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "eroare la setarea permisiunilor pentru „%.255s”"
 
-#: src/archives.c:363
+#: src/archives.c:369
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr "eșec la stat (dereferire) pentru legătura simbolică existentă „%.250s”"
 
-#: src/archives.c:385
+#: src/archives.c:391
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1264,7 +1293,7 @@ msgstr ""
 "eșec la stat (dereferire) pentru ținta legăturii simbolice nou propuse "
 "„%.250s” pentru legătura simbolică „%.250s”"
 
-#: src/archives.c:441
+#: src/archives.c:449
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1273,19 +1302,19 @@ msgstr ""
 "se încearcă suprascrierea lui „%.250s”, care este o versiune redirectată a "
 "lui „%.250s” (pachetul: %.100s)"
 
-#: src/archives.c:447
+#: src/archives.c:455
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 "se încearcă suprascrierea lui „%.250s”, care este versiunea redirectată a "
 "lui „%.250s”"
 
-#: src/archives.c:473
+#: src/archives.c:481
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "imposibil a citi starea lui „%.255s” (care urma să fie instalat)"
 
-#: src/archives.c:481
+#: src/archives.c:490
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1294,29 +1323,29 @@ msgstr ""
 "imposibil a curăța mizeria din jurul lui „%.255s” înainte de a instala altă "
 "versiune"
 
-#: src/archives.c:487
+#: src/archives.c:496
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "imposibil a citi starea copiei restaurate a lui „%.255s” înaintea instalării "
 "altei versiuni"
 
-#: src/archives.c:522
+#: src/archives.c:533
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "arhiva conține obiectul „%.255s” de tip necunoscut 0x%x"
 
-#: src/archives.c:589
+#: src/archives.c:601
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Se înlocuiesc fișierele în pachetul vechi %s ...\n"
 
-#: src/archives.c:593
+#: src/archives.c:605
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Înlocuite de fișierele din pachetul instalat %s ...\n"
 
-#: src/archives.c:601
+#: src/archives.c:613
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1325,32 +1354,32 @@ msgstr ""
 "încercare de suprascriere a directorului „%.250s” în pachetul %.250s cu ceva "
 "care nu este director"
 
-#: src/archives.c:612
+#: src/archives.c:624
 #, fuzzy, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "încercare de suprascriere a „%.250s”, care este și în pachetul %.250s"
 
-#: src/archives.c:664
+#: src/archives.c:676
 #, fuzzy, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "eșec la citirea lui „%.255s” (în „%.255s”)"
 
-#: src/archives.c:670
+#: src/archives.c:683
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "dpkg-deb este împins în fundal în timpul „%.255s”"
 
-#: src/archives.c:695 src/archives.c:868
+#: src/archives.c:711 src/archives.c:886
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "eroare în timpul închiderii/scrierii „%.255s”"
 
-#: src/archives.c:700
+#: src/archives.c:716
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "eroare la crearea conexiunii „%.255s”"
 
-#: src/archives.c:706 src/archives.c:712
+#: src/archives.c:722 src/archives.c:728
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "eroare la crearea dispozitivului „%.255s”"
@@ -1358,72 +1387,72 @@ msgstr "eroare la crearea dispozitivului „%.255s”"
 # hard link este un alt nume pentru un target și spre
 # deosebire de symbolic link, target obligatoriu trebuie
 # să existe
-#: src/archives.c:725
+#: src/archives.c:741
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "eroare la crearea legăturii fizice „%.255s”"
 
-#: src/archives.c:732
+#: src/archives.c:748
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "eroare la crearea legăturii simbolice „%.255s”"
 
-#: src/archives.c:737
+#: src/archives.c:755
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "eroare la setarea apartenenței legăturii simbolice „%.255s”"
 
-#: src/archives.c:742
+#: src/archives.c:760
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "eroare la crearea directorului „%.255s”"
 
-#: src/archives.c:782
+#: src/archives.c:798
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "imposibil a îndepărta „%.255s” pentru instalarea noii versiuni"
 
-#: src/archives.c:791
+#: src/archives.c:808
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "imposibil a citi legătura „%.255s”"
 
-#: src/archives.c:795
+#: src/archives.c:813
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr ""
 "imposibil a crea o copie de siguranță a legăturii simbolice pentru „%.255s”"
 
-#: src/archives.c:797
+#: src/archives.c:815
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 "nu se poate schimba apartenența copiei de siguranță a legăturii simbolice "
 "pentru „%.255s”"
 
-#: src/archives.c:802
+#: src/archives.c:820
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "imposibil a face o copie de siguranță a legăturii lui „%.255s” înainte de "
 "instalarea noii versiuni"
 
-#: src/archives.c:817 src/archives.c:877
+#: src/archives.c:835 src/archives.c:895
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "imposibil a instala noua versiune a lui „%.255s”"
 
-#: src/archives.c:864
+#: src/archives.c:882
 #, fuzzy, c-format
 msgid "unable to open '%.255s'"
 msgstr "imposibil a crea „%.255s”"
 
-#: src/archives.c:866
+#: src/archives.c:884
 #, fuzzy, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "incapacitate de a renunța la memoria tampon „%.255s”"
 
-#: src/archives.c:914
+#: src/archives.c:932
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1432,7 +1461,7 @@ msgstr ""
 "dpkg: avertisment - se ignoră problema de dependență cu %s:\n"
 "%s"
 
-#: src/archives.c:919
+#: src/archives.c:937
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1441,7 +1470,7 @@ msgstr ""
 "dpkg: avertisment - se ia în considerare deconfigurarea \n"
 "pachetului esențial %s, pentru a permite %s.\n"
 
-#: src/archives.c:922
+#: src/archives.c:940
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1450,7 +1479,7 @@ msgstr ""
 "dpkg: nu, %s este esențial, nu va fi deconfigurat\n"
 "pentru a permite %s.\n"
 
-#: src/archives.c:936
+#: src/archives.c:954
 #, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1459,17 +1488,17 @@ msgstr ""
 "dpkg: nu, nu se poate purcede la %s (--auto-deconfigure vă va ajuta):\n"
 "%s"
 
-#: src/archives.c:946
+#: src/archives.c:964
 #, c-format
 msgid "removal of %.250s"
 msgstr "ștergerea lui %.250s"
 
-#: src/archives.c:971
+#: src/archives.c:989
 #, c-format
 msgid "installation of %.250s"
 msgstr "instalarea lui „%.255s”"
 
-#: src/archives.c:972
+#: src/archives.c:990
 #, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
@@ -1477,12 +1506,12 @@ msgstr ""
 "dpkg: se ia în considerare deconfigurarea lui %s care va fi corupt de "
 "%s ...\n"
 
-#: src/archives.c:979
+#: src/archives.c:997
 #, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg: da, se va deconfigura %s (corupt de %s).\n"
 
-#: src/archives.c:983 src/archives.c:1104
+#: src/archives.c:1001 src/archives.c:1122
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1491,13 +1520,13 @@ msgstr ""
 "dpkg: cu privire la %s conținând %s:\n"
 "%s"
 
-#: src/archives.c:991
+#: src/archives.c:1009
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr ""
 "dpkg: avertisment - se ignoră coruperea, este permisă oricum continuarea!\n"
 
-#: src/archives.c:996
+#: src/archives.c:1014
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1506,27 +1535,27 @@ msgstr ""
 "instalarea lui %.250s ar duce la coruperea lui %.250s, iar\n"
 " deconfigurarea nu este permisă (--auto-deconfigure ar putea fi de ajutor)"
 
-#: src/archives.c:1000
+#: src/archives.c:1018
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "instalarea lui %.250s ar duce la coruperea programelor existente"
 
-#: src/archives.c:1030
+#: src/archives.c:1048
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: se ia în considerare ștergerea lui %s în favoarea lui %s ...\n"
 
-#: src/archives.c:1036
+#: src/archives.c:1054
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr "%s nu este corect instalat - ignor orice dependență la el.\n"
 
-#: src/archives.c:1065
+#: src/archives.c:1083
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr "dpkg: puteți avea probleme eliminând %s, deoarece furnizează %s ...\n"
 
-#: src/archives.c:1080
+#: src/archives.c:1098
 #, fuzzy, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -1535,111 +1564,112 @@ msgstr ""
 "dpkg: pachetul %s necesită reinstalare, dar va fi oricum șters, așa cum "
 "doriți.\n"
 
-#: src/archives.c:1083
+#: src/archives.c:1101
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: pachetul %s necesită reinstalare, nu va fi înlăturat.\n"
 
-#: src/archives.c:1090
+#: src/archives.c:1108
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
 msgstr "pachetul %s are prea multe perechi „În conflict cu/Înlocuiește”"
 
-#: src/archives.c:1096
+#: src/archives.c:1114
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: da, va fi șters %s în favoarea lui %s.\n"
 
-#: src/archives.c:1107
+#: src/archives.c:1125
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "conflict între pachete - nu se instalează %.250s"
 
-#: src/archives.c:1108
+#: src/archives.c:1126
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr ""
 "dpkg: avertisment - conflict ignorat, este permisă oricum continuarea!\n"
 
-#: src/archives.c:1149
+#: src/archives.c:1167
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive necesită cel puțin o cale ca argument"
 
-#: src/archives.c:1159
+#: src/archives.c:1177
 #, fuzzy
 msgid "find for dpkg --recursive"
 msgstr "eșec la execuția lui find pentru --recursive"
 
-#: src/archives.c:1181
+#: src/archives.c:1199
 msgid "failed to fdopen find's pipe"
 msgstr "eșec la fdopen pentru conexiunea cu find"
 
-#: src/archives.c:1187
+#: src/archives.c:1205
 msgid "error reading find's pipe"
 msgstr "eroare la citirea conexiunii cu find"
 
-#: src/archives.c:1188
+#: src/archives.c:1206
 msgid "error closing find's pipe"
 msgstr "eroare la închiderea conexiunii cu find"
 
-#: src/archives.c:1191
+#: src/archives.c:1209
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "find pentru --recursive a returnat codul de eroare netratată %i"
 
-#: src/archives.c:1194
+#: src/archives.c:1212
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 "a fost căutat, dar nu a fost găsit nici un pachet (fișiere de tip *.deb)"
 
-#: src/archives.c:1210
+#: src/archives.c:1228
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s necesită cel puțin un fișier-arhivă de pachet ca argument"
 
-#: src/archives.c:1242 src/enquiry.c:151 src/enquiry.c:256 src/enquiry.c:399
-#: src/enquiry.c:401 src/enquiry.c:410 src/main.c:65 src/main.c:159
-#: src/main.c:255 src/main.c:429 src/packages.c:249 src/query.c:187
-#: src/query.c:289 src/query.c:331 src/query.c:340 src/query.c:387
-#: src/query.c:453 src/query.c:592 src/query.c:636 src/select.c:77
-#: src/statcmd.c:67 src/statcmd.c:97 src/trigcmd.c:60 src/trigcmd.c:92
-#: dpkg-deb/build.c:382 dpkg-deb/extract.c:213 dpkg-deb/extract.c:233
-#: dpkg-deb/info.c:192 dpkg-deb/info.c:248 dpkg-deb/main.c:61
-#: dpkg-deb/main.c:124 dpkg-split/info.c:249 dpkg-split/main.c:53
-#: dpkg-split/main.c:91 dpkg-split/queue.c:139 dpkg-split/queue.c:264
+#: src/archives.c:1260 src/divertcmd.c:78 src/divertcmd.c:118
+#: src/enquiry.c:163 src/enquiry.c:268 src/enquiry.c:411 src/enquiry.c:413
+#: src/enquiry.c:422 src/main.c:65 src/main.c:159 src/main.c:257
+#: src/main.c:432 src/packages.c:249 src/querycmd.c:187 src/querycmd.c:290
+#: src/querycmd.c:332 src/querycmd.c:341 src/querycmd.c:388 src/querycmd.c:454
+#: src/querycmd.c:593 src/querycmd.c:637 src/select.c:77 src/statcmd.c:67
+#: src/statcmd.c:97 src/trigcmd.c:60 src/trigcmd.c:92 dpkg-deb/build.c:381
+#: dpkg-deb/extract.c:212 dpkg-deb/extract.c:241 dpkg-deb/info.c:192
+#: dpkg-deb/info.c:248 dpkg-deb/main.c:61 dpkg-deb/main.c:124
+#: dpkg-split/info.c:250 dpkg-split/main.c:53 dpkg-split/main.c:91
+#: dpkg-split/queue.c:141 dpkg-split/queue.c:266
 msgid "<standard output>"
 msgstr ""
 
-#: src/archives.c:1243 src/packages.c:250 src/query.c:188 src/query.c:287
-#: src/query.c:393 src/query.c:454 src/select.c:78 dpkg-split/main.c:196
-#: dpkg-split/queue.c:211
+#: src/archives.c:1261 src/packages.c:250 src/querycmd.c:188
+#: src/querycmd.c:288 src/querycmd.c:394 src/querycmd.c:455 src/select.c:78
+#: dpkg-split/main.c:199 dpkg-split/queue.c:213
 msgid "<standard error>"
 msgstr ""
 
-#: src/archives.c:1287
+#: src/archives.c:1305
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Se selectează pachetul %s, deselectat anterior.\n"
 
-#: src/archives.c:1292
+#: src/archives.c:1310
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Se omite pachetul deselectat %s.\n"
 
-#: src/archives.c:1309
+#: src/archives.c:1327
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Versiunea %.250s a lui %.250s este deja instalată, se omite.\n"
 
-#: src/archives.c:1320
+#: src/archives.c:1338
 #, fuzzy, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr ""
 "%s - atenție: se instalează versiunea mai veche a lui %.250s pornind de la "
 "%.250s către %.250s.\n"
 
-#: src/archives.c:1325
+#: src/archives.c:1343
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1693,64 +1723,64 @@ msgstr ""
 "Fișierul de configurare „%s”, nu există în sistem.\n"
 "Se instalează un nou fișier de configurare așa cum ați cerut.\n"
 
-#: src/configure.c:160
+#: src/configure.c:165
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr ""
 "dpkg: %s: avertisment - eșec la ștergerea vechii copii de siguranță "
 "„%.250s”: %s\n"
 
-#: src/configure.c:168
+#: src/configure.c:173
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: avertisment - eșec la redenumirea lui „%.250s” în „%.250s”: %s\n"
 
-#: src/configure.c:174
+#: src/configure.c:179
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: eșec la execuția lui '%s %s'"
 
-#: src/configure.c:180
+#: src/configure.c:185
 #, fuzzy, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
 msgstr ""
 "dpkg: %s: avertisment - eșec la ștergerea vechii distribuții, versiunea "
 "„%.250s”: %s\n"
 
-#: src/configure.c:184
+#: src/configure.c:189
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 "dpkg: %s: avertisment - eșec la ștergerea „%.250s” (înainte de "
 "suprascriere): %s\n"
 
-#: src/configure.c:188
+#: src/configure.c:193
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr "dpkg: %s: avertisment - eșec la legarea lui „%.250s” la „%.250s”: %s\n"
 
-#: src/configure.c:192
+#: src/configure.c:197
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "Se instalează noua versiune a fișierului de configurare %s ...\n"
 
-#: src/configure.c:198
+#: src/configure.c:203
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "imposibil a instala „%.250s” ca „%.250s”"
 
-#: src/configure.c:249
+#: src/configure.c:254
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "nici un pachet denumit „%s” nu este instalat, nu se poate configura"
 
-#: src/configure.c:252
+#: src/configure.c:257
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "pachetul %.250s este deja instalat și configurat"
 
-#: src/configure.c:255
+#: src/configure.c:260
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1759,7 +1789,7 @@ msgstr ""
 "pachetul %.250s nu este pregătit pentru configurare\n"
 " nu poate fi configurat (starea curentă „%.250s”)"
 
-#: src/configure.c:284
+#: src/configure.c:289
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1768,11 +1798,11 @@ msgstr ""
 "dpkg: probleme de dependențe preîntâmpină configurarea lui %s:\n"
 "%s"
 
-#: src/configure.c:287
+#: src/configure.c:292
 msgid "dependency problems - leaving unconfigured"
 msgstr "probleme de dependențe - lăsat neconfigurat"
 
-#: src/configure.c:291
+#: src/configure.c:296
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -1781,7 +1811,7 @@ msgstr ""
 "dpkg: %s: probleme de dependențe, însă se configurează, așa cum ați cerut:\n"
 "%s"
 
-#: src/configure.c:299
+#: src/configure.c:304
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1789,12 +1819,12 @@ msgstr ""
 "Pachetul este într-o stare de inconsistență foarte \n"
 "rea - ar trebui să-l reinstalați înainte de a încerca configurarea."
 
-#: src/configure.c:302
+#: src/configure.c:307
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Se pregătește %s (%s) ...\n"
 
-#: src/configure.c:385
+#: src/configure.c:390
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -1804,7 +1834,7 @@ msgstr ""
 "„%s”\n"
 " (= „%s”): %s\n"
 
-#: src/configure.c:398
+#: src/configure.c:403
 #, fuzzy, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -1813,7 +1843,7 @@ msgstr ""
 "dpkg: %s: avertisment - fișierul de configurare „%s” este legătură ciclică\n"
 " (= „%s”)\n"
 
-#: src/configure.c:407
+#: src/configure.c:412
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -1823,7 +1853,7 @@ msgstr ""
 "„%s”\n"
 " (= „%s”): %s\n"
 
-#: src/configure.c:429
+#: src/configure.c:434
 #, fuzzy, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -1833,39 +1863,39 @@ msgstr ""
 "fișier degenerat\n"
 " („%s” este legătură simbolică spre „%s”)\n"
 
-#: src/configure.c:444
+#: src/configure.c:450
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "dpkg: %s: avertisment - fișierul conffile „%.250s” nu este fișier propriu-"
 "zis sau legătură simbolică (= „%s”)\n"
 
-#: src/configure.c:470
+#: src/configure.c:476
 msgid "md5hash"
 msgstr "md5hash"
 
-#: src/configure.c:476
+#: src/configure.c:482
 #, fuzzy, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
 msgstr ""
 "dpkg: %s: avertisment - nu s-a putut deschide fișierul conffile %s pentru "
 "suma binară de căutare: %s\n"
 
-#: src/configure.c:512
+#: src/configure.c:518
 #, c-format
 msgid "failed to run %s (%.250s)"
 msgstr "eșec la rularea lui %s (%.250s)"
 
-#: src/configure.c:533
+#: src/configure.c:539
 msgid "Type `exit' when you're done.\n"
 msgstr "Tastați „exit” când ați terminat.\n"
 
-#: src/configure.c:550
+#: src/configure.c:556
 #, c-format
 msgid "failed to exec shell (%.250s)"
 msgstr "eșec la execuția consolei (%.250s)"
 
-#: src/configure.c:600
+#: src/configure.c:606
 #, c-format
 msgid ""
 "\n"
@@ -1874,12 +1904,12 @@ msgstr ""
 "\n"
 "Fișier de configurare „%s”"
 
-#: src/configure.c:602
+#: src/configure.c:608
 #, c-format
 msgid " (actually `%s')"
 msgstr " (de fapt „%s”)"
 
-#: src/configure.c:606
+#: src/configure.c:612
 #, c-format
 msgid ""
 "\n"
@@ -1891,7 +1921,7 @@ msgstr ""
 " ==> Fișierul este, de asemenea, oferit de pachetul disponibil de la "
 "responsabilul pachetului.\n"
 
-#: src/configure.c:611
+#: src/configure.c:617
 #, c-format
 msgid ""
 "\n"
@@ -1900,7 +1930,7 @@ msgstr ""
 "\n"
 "     Nemodificat de la instalare.\n"
 
-#: src/configure.c:613
+#: src/configure.c:619
 #, c-format
 msgid ""
 "\n"
@@ -1909,7 +1939,7 @@ msgstr ""
 "\n"
 " ==> Modificat (de dumneavoastră sau de un script) de la instalare.\n"
 
-#: src/configure.c:614
+#: src/configure.c:620
 #, c-format
 msgid ""
 "\n"
@@ -1918,37 +1948,37 @@ msgstr ""
 "\n"
 " ==> Șters (de dumneavoastră sau de un script) de la instalare.\n"
 
-#: src/configure.c:617
+#: src/configure.c:623
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Distribuitorul pachetului a furnizat o versiune actualizată.\n"
 
-#: src/configure.c:618
+#: src/configure.c:624
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     Versiunea din pachet este aceiași ca la ultima instalare.\n"
 
-#: src/configure.c:626
+#: src/configure.c:632
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Se folosește noul fișier, așa cum ați cerut.\n"
 
-#: src/configure.c:630
+#: src/configure.c:636
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Se folosește actualul fișier vechi, așa cum ați cerut.\n"
 
-#: src/configure.c:639
+#: src/configure.c:645
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Se păstrează vechea configurare ca implicită.\n"
 
-#: src/configure.c:643
+#: src/configure.c:649
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Se folosește noua configurare ca implicită.\n"
 
-#: src/configure.c:650
+#: src/configure.c:656
 #, fuzzy, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -1963,39 +1993,39 @@ msgstr ""
 "      D     : afișați diferențele dintre versiuni\n"
 "      Z     : mutați acest proces în fundal pentru a examina situația\n"
 
-#: src/configure.c:657
+#: src/configure.c:663
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " Acțiunea implicită este păstrarea versiunii dvs. curente.\n"
 
-#: src/configure.c:659
+#: src/configure.c:665
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " Acțiunea implicită este instalarea noii versiuni.\n"
 
-#: src/configure.c:666
+#: src/configure.c:672
 msgid "[default=N]"
 msgstr "[implicit=N]"
 
-#: src/configure.c:667
+#: src/configure.c:673
 msgid "[default=Y]"
 msgstr "[implicit=Y]"
 
-#: src/configure.c:668
+#: src/configure.c:674
 msgid "[no default]"
 msgstr "[nimic implicit]"
 
-#: src/configure.c:671
+#: src/configure.c:677
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 "eroare la scrierea în stderr, descoperită înainte de promptul fișierului "
 "conffile"
 
-#: src/configure.c:680
+#: src/configure.c:686
 msgid "read error on stdin at conffile prompt"
 msgstr "eroare de citire de la stdin la promptul fișierului conffile"
 
-#: src/configure.c:681
+#: src/configure.c:687
 msgid "EOF on stdin at conffile prompt"
 msgstr "EOF de la stdin la promptul fișierului conffile"
 
@@ -2119,6 +2149,322 @@ msgstr "  %.250s furnizează %.250s și este pe cale să fie instalat.\n"
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s furnizează %.250s și este prezent și %s.\n"
 
+#: src/divertcmd.c:50 src/querycmd.c:643 src/statcmd.c:52
+msgid "Use --help for help about querying packages."
+msgstr ""
+
+#: src/divertcmd.c:67 src/statcmd.c:57 utils/update-alternatives.c:79
+#, c-format
+msgid "Debian %s version %s.\n"
+msgstr "Debian %s versiunea %s.\n"
+
+#: src/divertcmd.c:70
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Copyright (C) 1995 Ian Jackson.\n"
+#| "Copyright (C) 2000,2001 Wichert Akkerman."
+msgid ""
+"Copyright (C) 1995 Ian Jackson.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
+"Copyright (C) 2010 Guillem Jover.\n"
+msgstr ""
+"\n"
+"Drepturi de autor (C) 1995 Ian Jackson.\n"
+"Drepturi de autor (C) 2000,2001 Wichert Akkerman."
+
+#: src/divertcmd.c:75 src/main.c:62 src/querycmd.c:590 src/statcmd.c:64
+#: src/trigcmd.c:57 dpkg-deb/main.c:58 dpkg-split/main.c:50
+#: utils/update-alternatives.c:88
+#, fuzzy, c-format
+msgid ""
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
+msgstr ""
+"\n"
+"Acesta este soft liber; vezi GNU General Public Licence versiunea 2 sau\n"
+"ulterioară pentru condițiile de copiere. NU există NICI o garanție.\n"
+
+#: src/divertcmd.c:87 src/main.c:77 src/querycmd.c:602 src/statcmd.c:76
+#: dpkg-deb/main.c:70 dpkg-split/main.c:62
+#, c-format
+msgid ""
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+msgstr ""
+"Utilizare: %s [<opțiune> ...] <comanda>\n"
+"\n"
+
+#: src/divertcmd.c:91
+#, c-format
+msgid ""
+"Commands:\n"
+"  [--add] <file>           add a diversion.\n"
+"  --remove <file>          remove the diversion.\n"
+"  --list [<glob-pattern>]  show file diversions.\n"
+"  --listpackage <file>     show what package diverts the file.\n"
+"  --truename <file>        return the diverted file.\n"
+"\n"
+msgstr ""
+
+#: src/divertcmd.c:100
+#, fuzzy, c-format
+msgid ""
+"Options:\n"
+"  --package <package>      name of the package whose copy of <file> will "
+"not\n"
+"                             be diverted.\n"
+"  --local                  all packages' versions are diverted.\n"
+"  --divert <divert-to>     the name used by other packages' versions.\n"
+"  --rename                 actually move the file aside (or back).\n"
+"  --admindir <directory>   set the directory with the diversions file.\n"
+"  --test                   don't do anything, just demonstrate.\n"
+"  --quiet                  quiet operation, minimal output.\n"
+"  --help                   show this help message.\n"
+"  --version                show the version.\n"
+"\n"
+msgstr ""
+"Utilizare: %s [<opțiune> ...] <comanda>\n"
+"\n"
+"Comenzi:\n"
+"  [--add] <fișier>         adaugă o redirectare.\n"
+"  --remove <fișier>        șterge redirectarea.\n"
+"  --list [<șablon>]        afișează redirectările.\n"
+"  --truename <fișier>      returnează fișierul redirectat.\n"
+"\n"
+"Opțiuni:\n"
+"  --package <pachet>       numele pachetului a cărui copie a fișierului "
+"<fișier>\n"
+"                              nu va fi redirectată.\n"
+"  --local                  toate versiunile pachetului sunt redirectate.\n"
+"  --divert <loc-de-redir>  numele folosit de versiunile celorlalte pachete.\n"
+"  --rename                 chiar mută fișierul de-o parte (sau înapoi).\n"
+"  --admindir <director>    configurează directorul cu fișierul de "
+"redirectări.\n"
+"  --test                   nu face nimic, doar demonstrează.\n"
+"  --quiet                  operare silențioasă, minim de mesaje la ieșire.\n"
+"  --help                   afișează acest ajutor\n"
+"  --version                afișează versiunea\n"
+"\n"
+"La adăugare, implicit este --local and --divert <original>.distrib.\n"
+"La ștergere, --package sau --local și --divert trebui să se potrivească dacă "
+"e specificat.\n"
+"Scripturile preinst/postrm ale pachetelor ar trebui să specifice --package "
+"și --divert.\n"
+
+#: src/divertcmd.c:114
+#, c-format
+msgid ""
+"When adding, default is --local and --divert <original>.distrib.\n"
+"When removing, --package or --local and --divert must match if specified.\n"
+"Package preinst/postrm scripts should always specify --package and --"
+"divert.\n"
+msgstr ""
+
+#: src/divertcmd.c:150
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat file '%s'"
+msgstr "nu se poate citi starea vechiului nume „%s”: „%s”"
+
+#: src/divertcmd.c:168
+#, fuzzy, c-format
+#| msgid "error checking `%s': %s"
+msgid "error checking '%s'"
+msgstr "eroare la verificarea lui „%s”: %s"
+
+#: src/divertcmd.c:203
+#, c-format
+msgid ""
+"rename involves overwriting `%s' with\n"
+"  different file `%s', not allowed"
+msgstr ""
+"redenumirea implică supreascrierea lui „%s” cu\n"
+"  un alt fișier „%s”, lucru nepermis"
+
+#: src/divertcmd.c:225
+msgid "file copy"
+msgstr ""
+
+#: src/divertcmd.c:270
+#, fuzzy, c-format
+#| msgid "rename: remove duplicate old link `%s': %s"
+msgid "rename: remove duplicate old link '%s'"
+msgstr "redenumire: ștergerea vechii legături duplicate „%s”: %s"
+
+#: src/divertcmd.c:274
+#, fuzzy, c-format
+#| msgid "cannot stat new name `%s': %s"
+msgid "cannot rename '%s' to '%s'"
+msgstr "nu se poate citi starea noului nume „%s”: „%s”"
+
+#: src/divertcmd.c:296
+#, fuzzy, c-format
+#| msgid "local diversion to: %s\n"
+msgid "local diversion of %s"
+msgstr "redirectare locală către: %s\n"
+
+#: src/divertcmd.c:298
+#, fuzzy, c-format
+#| msgid "local diversion to: %s\n"
+msgid "local diversion of %s to %s"
+msgstr "redirectare locală către: %s\n"
+
+#: src/divertcmd.c:302
+#, fuzzy, c-format
+#| msgid "diversion by %s"
+msgid "diversion of %s by %s"
+msgstr "redirectare după %s"
+
+#: src/divertcmd.c:305
+#, fuzzy, c-format
+#| msgid "diversion by %s to: %s\n"
+msgid "diversion of %s to %s by %s"
+msgstr "redirectare a lui %s către: %s\n"
+
+#: src/divertcmd.c:321
+#, fuzzy, c-format
+#| msgid "diversion by %s"
+msgid "any diversion of %s"
+msgstr "redirectare după %s"
+
+#: src/divertcmd.c:323
+#, fuzzy, c-format
+#| msgid "diversion by %s to: %s\n"
+msgid "any diversion of %s to %s"
+msgstr "redirectare a lui %s către: %s\n"
+
+#: src/divertcmd.c:371
+#, fuzzy, c-format
+#| msgid "cannot open GPL file"
+msgid "cannot create new %s file"
+msgstr "nu se poate deschide fișierul GPL"
+
+#: src/divertcmd.c:389 src/statcmd.c:235 dpkg-deb/build.c:524
+#: dpkg-split/join.c:73 dpkg-split/queue.c:185
+#, fuzzy, c-format
+msgid "unable to flush file '%s'"
+msgstr "imposibil a goli în vsnprintf"
+
+#: src/divertcmd.c:391 src/statcmd.c:237 dpkg-deb/build.c:526
+#: dpkg-split/join.c:75 dpkg-split/queue.c:187
+#, fuzzy, c-format
+msgid "unable to sync file '%s'"
+msgstr "imposibil a deschide fișierul sursă „%.250s”"
+
+#: src/divertcmd.c:393
+#, fuzzy, c-format
+msgid "unable to close file '%s'"
+msgstr "imposibil a goli în vsnprintf"
+
+#: src/divertcmd.c:396
+#, fuzzy
+#| msgid "remove old diversions-old: %s"
+msgid "error removing old diversions-old"
+msgstr "ștergerea vechii redirectări anterioare: %s"
+
+#: src/divertcmd.c:398
+#, fuzzy
+msgid "error creating new diversions-old"
+msgstr ""
+"eroare la crearea noului fișier anterior de înlocuire a permisiunilor "
+"implicite: %s"
+
+#: src/divertcmd.c:400
+#, fuzzy
+msgid "error installing new diversions"
+msgstr ""
+"eroare la instalarea noului fișier de înlocuire a permisiunilor implicite: %s"
+
+#: src/divertcmd.c:420 src/divertcmd.c:517 src/divertcmd.c:624
+#: src/divertcmd.c:644 src/statcmd.c:310
+#, c-format
+msgid "--%s needs a single argument"
+msgstr "--%s necesită un singur argument"
+
+#: src/divertcmd.c:423 src/divertcmd.c:444
+#, c-format
+msgid "filename \"%s\" is not absolute"
+msgstr "numele de fișier „%.250s” nu este absolut"
+
+#: src/divertcmd.c:425 src/statcmd.c:269
+msgid "file may not contain newlines"
+msgstr "numele de fișier nu poate conține caractere „linie nouă”"
+
+#: src/divertcmd.c:432
+msgid "Cannot divert directories"
+msgstr "Nu se pot redirecta directoare"
+
+#: src/divertcmd.c:447
+#, fuzzy, c-format
+msgid "cannot divert file '%s' to itself"
+msgstr "Nu se pot redirecta directoare"
+
+#: src/divertcmd.c:467
+#, fuzzy, c-format
+#| msgid "Leaving `%s'"
+msgid "Leaving '%s'\n"
+msgstr "Se părăsește „%s”"
+
+#: src/divertcmd.c:472
+#, c-format
+msgid "`%s' clashes with `%s'"
+msgstr "„%s” este în conflict cu „%s”"
+
+#: src/divertcmd.c:495
+#, fuzzy, c-format
+#| msgid "Adding `%s'"
+msgid "Adding '%s'\n"
+msgstr "Se adaugă „%s”"
+
+#: src/divertcmd.c:524
+#, fuzzy, c-format
+#| msgid "No diversion `%s', none removed"
+msgid "No diversion '%s', none removed.\n"
+msgstr "Nu există nici o redirectare „%s”, nu s-a șters nimic"
+
+#: src/divertcmd.c:539
+#, c-format
+msgid ""
+"mismatch on divert-to\n"
+"  when removing `%s'\n"
+"  found `%s'"
+msgstr ""
+"nepotrivire la locul de redirectare\n"
+"  la ștergerea lui „%s”\n"
+"  a fost găsit „%s”"
+
+#: src/divertcmd.c:546
+#, c-format
+msgid ""
+"mismatch on package\n"
+"  when removing `%s'\n"
+"  found `%s'"
+msgstr ""
+"nepotrivire la pachet\n"
+"  la ștergerea lui „%s”\n"
+"  a fost găsit „%s”"
+
+#: src/divertcmd.c:553
+#, fuzzy, c-format
+#| msgid "Removing `%s'"
+msgid "Removing '%s'\n"
+msgstr "Se șterge „%s”"
+
+#: src/divertcmd.c:672 src/main.c:224 src/querycmd.c:651 src/statcmd.c:113
+#: dpkg-deb/main.c:198 dpkg-split/main.c:167
+#, c-format
+msgid "conflicting actions -%c (--%s) and -%c (--%s)"
+msgstr "acțiuni în conflict -%c (--%s) și -%c (--%s)"
+
+#: src/divertcmd.c:687
+msgid "package may not contain newlines"
+msgstr "pachetul nu poate conține caractere „linie nouă”"
+
+#: src/divertcmd.c:696
+msgid "divert-to may not contain newlines"
+msgstr "locul de reidrectare nu poate conține caractere „linie nouă”"
+
 #: src/divertdb.c:66
 msgid "failed to open diversions file"
 msgstr "eșec la deschiderea fișierului de redirectări"
@@ -2136,7 +2482,7 @@ msgstr "eșec la citirea stării fișierului de redirectări"
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "redirectări conflictuale care implică „%.250s” sau „%.250s”"
 
-#: src/enquiry.c:71
+#: src/enquiry.c:72
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -2146,7 +2492,7 @@ msgstr ""
 "grave apărute la instalare. Ele trebuie reinstalate (și toate\n"
 "pachetele care depinde de ele) pentru a funcționa corespunzător:\n"
 
-#: src/enquiry.c:78
+#: src/enquiry.c:79
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -2157,7 +2503,7 @@ msgstr ""
 "configurare din\n"
 "meniul programului dselect, pentru a fi funcționale:\n"
 
-#: src/enquiry.c:85
+#: src/enquiry.c:86
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -2168,7 +2514,7 @@ msgstr ""
 "folosind dpkg --configure <pachet> sau opțiunea configurare din meniul lui "
 "dselect:\n"
 
-#: src/enquiry.c:92
+#: src/enquiry.c:93
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -2178,7 +2524,7 @@ msgstr ""
 "pe durata instalării. Instalarea probabil poate fi terminată repetând-o;\n"
 "pachetul poate fi șters folosind dselect sau dpkg --remove:\n"
 
-#: src/enquiry.c:99
+#: src/enquiry.c:100
 msgid ""
 "The following packages are awaiting processing of triggers that they\n"
 "have activated in other packages.  This processing can be requested using\n"
@@ -2188,7 +2534,7 @@ msgstr ""
 "activat în alte pachete. Această procesare poate fi cerută folosind\n"
 "dselect sau dpkg --configure --pending (sau dpkg --triggers-only):\n"
 
-#: src/enquiry.c:106
+#: src/enquiry.c:107
 msgid ""
 "The following packages have been triggered, but the trigger processing\n"
 "has not yet been done.  Trigger processing can be requested using\n"
@@ -2198,28 +2544,34 @@ msgstr ""
 "s-a efectuat încă. Procesarea declanșatorilor poate fi cerută folosind\n"
 "dselect sau dpkg --configure --pending (sau dpkg --triggers-only):\n"
 
-#: src/enquiry.c:129 src/enquiry.c:191 src/enquiry.c:267 src/enquiry.c:330
-#: src/enquiry.c:406 src/select.c:92 src/select.c:149 src/trigcmd.c:199
-#: src/update.c:44 src/update.c:100 dpkg-split/queue.c:223
+#: src/enquiry.c:134 src/enquiry.c:203 src/enquiry.c:279 src/enquiry.c:342
+#: src/enquiry.c:418 src/select.c:92 src/select.c:149 src/trigcmd.c:199
+#: src/update.c:44 src/update.c:100 dpkg-split/queue.c:225
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s nu ia argumente"
 
-#: src/enquiry.c:173
+#: src/enquiry.c:149
+msgid ""
+"Another process has locked the database for writing, and might currently be\n"
+"modifying it, some of the following problems might just be due to that.\n"
+msgstr ""
+
+#: src/enquiry.c:185
 msgid "<unknown>"
 msgstr "<necunoscut>"
 
-#: src/enquiry.c:230
+#: src/enquiry.c:242
 #, c-format
 msgid " %d in %s: "
 msgstr " %d în %s: "
 
-#: src/enquiry.c:245
+#: src/enquiry.c:257
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d pachete, din următoarele secțiuni:"
 
-#: src/enquiry.c:280
+#: src/enquiry.c:292
 #, fuzzy, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2228,30 +2580,30 @@ msgstr ""
 "Versiunea de dpkg cu suport funcțional de epoci încă nu este configurată.\n"
 " Vă rugăm să folosiți „dpkg --configure dpkg” și apoi să încercați din nou.\n"
 
-#: src/enquiry.c:285
+#: src/enquiry.c:297
 #, fuzzy, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 "dpkg nu este înregistrat ca fiind instalat; nu se poate verifica existența "
 "suportului pentru epoci!\n"
 
-#: src/enquiry.c:293
+#: src/enquiry.c:305
 msgid "Pre-Depends field"
 msgstr ""
 
-#: src/enquiry.c:298
+#: src/enquiry.c:310
 msgid "epoch"
 msgstr ""
 
-#: src/enquiry.c:303
+#: src/enquiry.c:315
 msgid "long filenames"
 msgstr ""
 
-#: src/enquiry.c:308
+#: src/enquiry.c:320
 msgid "multiple Conflicts and Replaces"
 msgstr ""
 
-#: src/enquiry.c:385
+#: src/enquiry.c:397
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -2260,28 +2612,28 @@ msgstr ""
 "dpkg: nu se poate vedea cum se poate satisface ante-dependența:\n"
 " %s\n"
 
-#: src/enquiry.c:386
+#: src/enquiry.c:398
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "nu se poate satisface ante-dependența pentru %.250s (necesară datorită lui "
 "%.250s)"
 
-#: src/enquiry.c:416
+#: src/enquiry.c:428
 #, fuzzy, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "Avertisment: opțiune învechită „--%s”\n"
 
-#: src/enquiry.c:457
+#: src/enquiry.c:469
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions ia trei argumente: <versiune> <relație> <versiune>"
 
-#: src/enquiry.c:462
+#: src/enquiry.c:474
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions relație nevalidă"
 
-#: src/enquiry.c:467 src/enquiry.c:474
+#: src/enquiry.c:479 src/enquiry.c:486
 #, fuzzy, c-format
 msgid "version '%s' has bad syntax: %s"
 msgstr "sintaxă greșită pentru versiune: %s\n"
@@ -2482,8 +2834,8 @@ msgstr ""
 msgid "failed to chroot to `%.250s'"
 msgstr "eșec la schimbarea rădăcinii pentru „%.250s”"
 
-#: src/help.c:186 dpkg-deb/build.c:396 dpkg-deb/build.c:469
-#: dpkg-deb/build.c:492
+#: src/help.c:186 dpkg-deb/build.c:395 dpkg-deb/build.c:462
+#: dpkg-deb/build.c:485
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "eșec la schimbarea directorului în „%.255s”"
@@ -2493,56 +2845,56 @@ msgstr "eșec la schimbarea directorului în „%.255s”"
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "imposibil a stabili drepturile de execuție la „%.250s”"
 
-#: src/help.c:266
+#: src/help.c:265
 #, fuzzy
 msgid "unable to setenv for maintainer script"
 msgstr "setenv imposibil pentru scriptul de întreținere"
 
-#: src/help.c:290
+#: src/help.c:289
 #, fuzzy, c-format
 msgid "installed %s script"
 msgstr "script %s vechi"
 
-#: src/help.c:303 src/help.c:369 src/help.c:428
+#: src/help.c:302 src/help.c:368 src/help.c:427
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "imposibil a citi starea lui %s „%.250s”"
 
-#: src/help.c:355 src/help.c:415
+#: src/help.c:354 src/help.c:414
 #, c-format
 msgid "new %s script"
 msgstr "script %s nou"
 
-#: src/help.c:389
+#: src/help.c:388
 #, c-format
 msgid "old %s script"
 msgstr "script %s vechi"
 
-#: src/help.c:403
+#: src/help.c:402
 #, fuzzy, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "imposibil a citi starea lui %s „%.250s”"
 
-#: src/help.c:412
+#: src/help.c:411
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - încerc scriptul din noul pachet în loc ...\n"
 
-#: src/help.c:426
+#: src/help.c:425
 msgid "there is no script in the new version of the package - giving up"
 msgstr "nu există nici un script în noua versiune a pachetului - renunț"
 
-#: src/help.c:432
+#: src/help.c:431
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... pare să fi fost bine.\n"
 
-#: src/help.c:580
+#: src/help.c:579
 #, fuzzy, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "imposibil a crea „%.255s”"
 
-#: src/help.c:585 dpkg-deb/info.c:63
+#: src/help.c:584 dpkg-deb/info.c:63
 msgid "failed to exec rm for cleanup"
 msgstr "eșec la execuția rm pentru curățare"
 
@@ -2550,28 +2902,6 @@ msgstr "eșec la execuția rm pentru curățare"
 #, c-format
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian „%s” versiunea programului de management al pachetelor %s.\n"
-
-#: src/main.c:62 src/query.c:589 src/statcmd.c:64 src/trigcmd.c:57
-#: dpkg-deb/main.c:58 dpkg-split/main.c:50 utils/update-alternatives.c:88
-#: scripts/dpkg-divert.pl:39
-#, fuzzy, c-format
-msgid ""
-"This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"
-msgstr ""
-"\n"
-"Acesta este soft liber; vezi GNU General Public Licence versiunea 2 sau\n"
-"ulterioară pentru condițiile de copiere. NU există NICI o garanție.\n"
-
-#: src/main.c:77 src/query.c:601 src/statcmd.c:76 dpkg-deb/main.c:70
-#: dpkg-split/main.c:62
-#, c-format
-msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
-msgstr ""
-"Utilizare: %s [<opțiune> ...] <comanda>\n"
-"\n"
 
 #: src/main.c:81
 #, c-format
@@ -2640,7 +2970,7 @@ msgstr ""
 "  -Dh|--debug=help                  Ajutor pentru depanare\n"
 "\n"
 
-#: src/main.c:109 src/query.c:617 src/trigcmd.c:79 dpkg-deb/main.c:87
+#: src/main.c:109 src/querycmd.c:618 src/trigcmd.c:79 dpkg-deb/main.c:87
 #: dpkg-split/main.c:76
 #, fuzzy, c-format
 msgid ""
@@ -2828,18 +3158,12 @@ msgstr ""
 "Opțiunile marcate cu [*] produc foarte mult text la ieșire - redirectați-le "
 "prin „less” sau „more” !"
 
-#: src/main.c:222 src/query.c:650 src/statcmd.c:113 dpkg-deb/main.c:198
-#: dpkg-split/main.c:164
-#, c-format
-msgid "conflicting actions -%c (--%s) and -%c (--%s)"
-msgstr "acțiuni în conflict -%c (--%s) și -%c (--%s)"
-
-#: src/main.c:228
+#: src/main.c:230
 #, fuzzy, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "Avertisment: opțiune învechită „--%s”\n"
 
-#: src/main.c:236
+#: src/main.c:238
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2885,39 +3209,80 @@ msgstr ""
 "Opțiunile de depanare pot fi combinate folosind „sau” pe biți.\n"
 "A se nota că înțelesul și valorile se pot schimba.\n"
 
-#: src/main.c:260
+#: src/main.c:262
 msgid "--debug requires an octal argument"
 msgstr "--debug necesită un argument octal"
 
-#: src/main.c:289
+#: src/main.c:291
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "lipsește numele de pachet în lista separată prin virgule „%.250s” de la --"
 "ignore-depends"
 
-#: src/main.c:295
+#: src/main.c:297
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends necesită un nume valid de pachet. „%.250s” nu este; %s"
 
-#: src/main.c:312 src/main.c:324 src/main.c:599 dpkg-split/main.c:123
+#: src/main.c:314 src/main.c:326 src/main.c:602 dpkg-split/main.c:126
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "întreg nevalid pentru --%s: „%.250s”"
 
-#: src/main.c:326
+#: src/main.c:328
 msgid "<package status and progress file descriptor>"
 msgstr "<starea pachetului și descriptorul fișierului de progres>"
 
-#: src/main.c:384
+#: src/main.c:386
 #, c-format
 msgid "error executing hook '%s', exit code %d"
 msgstr ""
 
-#: src/main.c:398
-#, c-format
+#: src/main.c:400
+#, fuzzy, c-format
+#| msgid ""
+#| "%s forcing options - control behaviour when problems found:\n"
+#| "  warn but continue:  --force-<thing>,<thing>,...\n"
+#| "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-"
+#| "<thing>,...\n"
+#| " Forcing things:\n"
+#| "  all [!]                Set all force options\n"
+#| "  downgrade [*]          Replace a package with a lower version\n"
+#| "  configure-any          Configure any package which may help this one\n"
+#| "  hold                   Process incidental packages even when on hold\n"
+#| "  bad-path               PATH is missing important programs, problems "
+#| "likely\n"
+#| "  not-root               Try to (de)install things even when not root\n"
+#| "  overwrite              Overwrite a file from one package with another\n"
+#| "  overwrite-diverted     Overwrite a diverted file with an undiverted "
+#| "version\n"
+#| "  bad-verify             Install a package even if it fails authenticity "
+#| "check\n"
+#| "  depends-version [!]    Turn dependency version problems into warnings\n"
+#| "  depends [!]            Turn all dependency problems into warnings\n"
+#| "  confnew [!]            Always use the new config files, don't prompt\n"
+#| "  confold [!]            Always use the old config files, don't prompt\n"
+#| "  confdef [!]            Use the default option for new config files if "
+#| "one\n"
+#| "                         is available, don't prompt. If no default can be "
+#| "found,\n"
+#| "                         you will be prompted unless one of the confold "
+#| "or\n"
+#| "                         confnew options is also given\n"
+#| "  confmiss [!]           Always install missing config files\n"
+#| "  breaks [!]             Install even if it would break another package\n"
+#| "  conflicts [!]          Allow installation of conflicting packages\n"
+#| "  architecture [!]       Process even packages with wrong architecture\n"
+#| "  overwrite-dir [!]      Overwrite one package's directory with another's "
+#| "file\n"
+#| "  remove-reinstreq [!]   Remove packages which require installation\n"
+#| "  remove-essential [!]   Remove an essential package\n"
+#| "\n"
+#| "WARNING - use of options marked [!] can seriously damage your "
+#| "installation.\n"
+#| "Forcing options marked [*] are enabled by default.\n"
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2945,6 +3310,7 @@ msgid ""
 "                         you will be prompted unless one of the confold or\n"
 "                         confnew options is also given\n"
 "  confmiss [!]           Always install missing config files\n"
+"  confask [!]            Offer to replace config files with no new versions\n"
 "  breaks [!]             Install even if it would break another package\n"
 "  conflicts [!]          Allow installation of conflicting packages\n"
 "  architecture [!]       Process even packages with wrong architecture\n"
@@ -3001,36 +3367,36 @@ msgstr ""
 "AVERTISMENT - opțiunile marcate cu [!] pot deteriora grav instalarea.\n"
 "Forțarea opțiunilor marcate cu [*] sunt implicit activate.\n"
 
-#: src/main.c:444
+#: src/main.c:447
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "opțiune de forțare/refuzare necunoscută „%.*s”"
 
-#: src/main.c:450
+#: src/main.c:453
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "Avertisment: opțiune învechită de forțare/refuzare „%s”\n"
 
-#: src/main.c:593
+#: src/main.c:596
 msgid "--command-fd takes one argument, not zero"
 msgstr "--command-fd ia 1 argument, nu zero"
 
-#: src/main.c:595
+#: src/main.c:598
 msgid "--command-fd only takes one argument"
 msgstr "--command-fd ia doar un argument"
 
-#: src/main.c:601
+#: src/main.c:604
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "nu s-a putut deschide „%i” pentru fluxul de date"
 
-#: src/main.c:625
+#: src/main.c:629
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "sfârșit neașteptat de fișier înainte de terminarea liniei %d"
 
-#: src/main.c:669 src/main.c:691 src/query.c:692 src/statcmd.c:401
-#: dpkg-deb/main.c:222 dpkg-split/main.c:183
+#: src/main.c:673 src/main.c:695 src/querycmd.c:693 src/statcmd.c:401
+#: dpkg-deb/main.c:222 dpkg-split/main.c:186
 msgid "need an action option"
 msgstr "e necesară o opțiune de acțiune"
 
@@ -3047,7 +3413,7 @@ msgstr ""
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending nu ia argumente care nu sunt opțiuni"
 
-#: src/packages.c:139 src/query.c:309 src/query.c:551
+#: src/packages.c:139 src/querycmd.c:310 src/querycmd.c:552
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s necesită cel puțin un nume de pachet ca argument"
@@ -3142,17 +3508,13 @@ msgstr "  %s (%s) furnizează %s\n"
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  Versiunea lui %s care va fi configurată este %s.\n"
 
-#: src/packages.c:570
+#: src/packages.c:572
 msgid " depends on "
 msgstr " depinde de "
 
-#: src/packages.c:576
+#: src/packages.c:578
 msgid "; however:\n"
 msgstr "; oricum:\n"
-
-#: src/pkg-show.c:41 src/query.c:92
-msgid "(no description available)"
-msgstr "(nici o descriere disponibilă)"
 
 #: src/processarc.c:74
 #, c-format
@@ -3349,7 +3711,8 @@ msgid "unable to securely remove old file '%.250s': %s"
 msgstr ""
 "dpkg: avertisment - imposibilitate de a %s vechiul fișier „%%.250s”: %%s\n"
 
-#: src/processarc.c:842 src/processarc.c:1111 src/query.c:500 src/remove.c:271
+#: src/processarc.c:842 src/processarc.c:1111 src/querycmd.c:501
+#: src/remove.c:272
 msgid "cannot read info directory"
 msgstr "nu se poate citi directorul cu informații"
 
@@ -3413,7 +3776,7 @@ msgstr "(Se notează dispariția lui %s, care a fost complet înlocuit.)\n"
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "imposibil a șterge fișierul cu informații de control dispărut „%.250s”"
 
-#: src/query.c:114
+#: src/querycmd.c:112
 #, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
@@ -3427,89 +3790,89 @@ msgstr ""
 "|/ Ero?=(nimic)/păstrat(H)/Reinst-nec/X=ambele-probl (St,Ero: "
 "majuscule=rău)\n"
 
-#: src/query.c:118
+#: src/querycmd.c:116
 msgid "Name"
 msgstr "Nume"
 
-#: src/query.c:118
+#: src/querycmd.c:116
 msgid "Version"
 msgstr "Versiune"
 
-#: src/query.c:118
+#: src/querycmd.c:116
 msgid "Description"
 msgstr "Descriere"
 
-#: src/query.c:181 src/query.c:447 src/select.c:73
+#: src/querycmd.c:181 src/querycmd.c:448 src/select.c:73
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Nu au fost găsite pachete care să se potrivească cu %s.\n"
 
-#: src/query.c:208
+#: src/querycmd.c:208
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "redirectare a lui %s de la: %s\n"
 
-#: src/query.c:210
+#: src/querycmd.c:210
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "redirectare a lui %s către: %s\n"
 
-#: src/query.c:213
+#: src/querycmd.c:213
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "redirectare locală de la: %s\n"
 
-#: src/query.c:214
+#: src/querycmd.c:214
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "redirectare locală către: %s\n"
 
-#: src/query.c:244
+#: src/querycmd.c:244
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search necesită cel puțin  șablonul numelui de fișier ca argument"
 
-#: src/query.c:285
+#: src/querycmd.c:286
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s negăsit.\n"
 
-#: src/query.c:328
+#: src/querycmd.c:329
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr ""
 "Pachetul „%s” nu este instalat și nu este disponibilă nici o informație.\n"
 
-#: src/query.c:337
+#: src/querycmd.c:338
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Pachetul „%s” nu este disponibil.\n"
 
-#: src/query.c:347 src/query.c:571
+#: src/querycmd.c:348 src/querycmd.c:572
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Pachetul „%s” nu este instalat.\n"
 
-#: src/query.c:356
+#: src/querycmd.c:357
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Pachetul „%s” nu conține nici un fișier (!)\n"
 
-#: src/query.c:363
+#: src/querycmd.c:364
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "redirectat local către: %s\n"
 
-#: src/query.c:366
+#: src/querycmd.c:367
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "pachetul redirectează pe altele către: %s\n"
 
-#: src/query.c:369
+#: src/querycmd.c:370
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "redirectat de %s către: %s\n"
 
-#: src/query.c:391
+#: src/querycmd.c:392
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3517,22 +3880,22 @@ msgstr ""
 "Folosiți dpkg --info (= dpkg-deb --info) ca să examinați fișierele arhivei,\n"
 "și dpkg --contents (= dpkg-deb --contents) ca să-i afișați conținutul.\n"
 
-#: src/query.c:556
+#: src/querycmd.c:557
 #, fuzzy, c-format
 msgid "--%s takes at most two arguments"
 msgstr "--build ia cel mult două argumente"
 
-#: src/query.c:564
+#: src/querycmd.c:565
 #, c-format
 msgid "control file contains %c"
 msgstr ""
 
-#: src/query.c:586
+#: src/querycmd.c:587
 #, fuzzy, c-format
 msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debian „%s” versiunea programului de management al pachetelor %s.\n"
 
-#: src/query.c:605
+#: src/querycmd.c:606
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -3559,7 +3922,7 @@ msgstr ""
 "fișierul(ele).\n"
 "\n"
 
-#: src/query.c:622
+#: src/querycmd.c:623
 #, c-format
 msgid ""
 "Options:\n"
@@ -3573,7 +3936,7 @@ msgstr ""
 "show\n"
 "\n"
 
-#: src/query.c:628 dpkg-deb/main.c:110
+#: src/querycmd.c:629 dpkg-deb/main.c:110
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3596,18 +3959,14 @@ msgstr ""
 "lățimea nu\n"
 "  este negativă; în acest caz se va folosi aliniere la stânga. \n"
 
-#: src/query.c:642 src/statcmd.c:52
-msgid "Use --help for help about querying packages."
-msgstr ""
-
-#: src/remove.c:83
+#: src/remove.c:84
 #, fuzzy, c-format
 msgid "ignoring request to remove %.250s which isn't installed."
 msgstr ""
 "dpkg - avertisment: ignor cererea de îndepărtare a lui %.250s care nu este "
 "instalat.\n"
 
-#: src/remove.c:90
+#: src/remove.c:91
 #, fuzzy, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
@@ -3618,11 +3977,11 @@ msgstr ""
 " configurare a celor care sunt pe sistem. Folosiți --purge pentru a le "
 "elimina și pe ele.\n"
 
-#: src/remove.c:98
+#: src/remove.c:99
 msgid "This is an essential package - it should not be removed."
 msgstr "Acest pachet este esențial - nu ar trebui șters."
 
-#: src/remove.c:123
+#: src/remove.c:124
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent removal of %s:\n"
@@ -3631,11 +3990,11 @@ msgstr ""
 "dpkg: problemele de dependență preîntâmpină ștergerea lui %s:\n"
 "%s"
 
-#: src/remove.c:125
+#: src/remove.c:126
 msgid "dependency problems - not removing"
 msgstr "probleme de dependență - nu se elimină"
 
-#: src/remove.c:129
+#: src/remove.c:130
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
@@ -3644,7 +4003,7 @@ msgstr ""
 "dpkg: %s: probleme de dependență, dar se elimină oricum așa cum ați cerut:\n"
 "%s"
 
-#: src/remove.c:137
+#: src/remove.c:138
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
@@ -3652,17 +4011,17 @@ msgstr ""
 "Pachetul este într-o stare inconsistentă avansată - ar trebui să-l\n"
 " reinstalați înainte de a încerca să-l îndepărtați."
 
-#: src/remove.c:144
+#: src/remove.c:145
 #, c-format
 msgid "Would remove or purge %s ...\n"
 msgstr "S-ar îndepărta sau curăța %s ...\n"
 
-#: src/remove.c:152
+#: src/remove.c:153
 #, c-format
 msgid "Removing %s ...\n"
 msgstr "Se șterge %s ...\n"
 
-#: src/remove.c:253 src/remove.c:363
+#: src/remove.c:254 src/remove.c:364
 #, fuzzy, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
@@ -3671,62 +4030,62 @@ msgstr ""
 "dpkg - avertisment: în timpul îndepărtării %.250s, nu s-a putut îndepărta "
 "directorul „%.250s”: %s - poate directorul este punct de montare ?\n"
 
-#: src/remove.c:259 src/remove.c:369
+#: src/remove.c:260 src/remove.c:370
 #, c-format
 msgid "cannot remove `%.250s'"
 msgstr "nu se poate îndepărta „%.250s”"
 
-#: src/remove.c:262
+#: src/remove.c:263
 #, fuzzy, c-format
 msgid "unable to securely remove '%.250s'"
 msgstr "imposibil a crea %.250s"
 
-#: src/remove.c:297
+#: src/remove.c:298
 #, c-format
 msgid "unable to delete control info file `%.250s'"
 msgstr "imposibil a șterge fișierul cu informații de control „%.250s”"
 
-#: src/remove.c:358
+#: src/remove.c:359
 #, fuzzy, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed."
 msgstr ""
 "dpkg - avertisment: la ștergerea lui %.250s, directorul „%.250s” nu este gol "
 "deci nu este șters.\n"
 
-#: src/remove.c:392
+#: src/remove.c:393
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr "Curăț fișierele de configurare pentru %s ...\n"
 
-#: src/remove.c:442
+#: src/remove.c:443
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr ""
 "nu se poate îndepărta vechiul fișier de configurare „%.250s” (= „%.250s”)"
 
-#: src/remove.c:457
+#: src/remove.c:458
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr ""
 "nu se poate citi directorul fișierului de configurare „%.250s” (din „%.250s”)"
 
-#: src/remove.c:492
+#: src/remove.c:493
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr ""
 "nu se poate îndepărta copia de siguranță a vechiului fișier de configurare "
 "„%.250s” (a lui „%.250s”)"
 
-#: src/remove.c:530
+#: src/remove.c:531
 #, c-format
 msgid "unable to check existence of `%.250s'"
 msgstr "imposibil a verifica existența lui „%.250s”"
 
-#: src/remove.c:565
+#: src/remove.c:566
 msgid "cannot remove old files list"
 msgstr "nu se poate șterge lista fișierelor vechi"
 
-#: src/remove.c:571
+#: src/remove.c:572
 msgid "can't remove old postrm script"
 msgstr "nu se poate înlătura vechiul script postrm"
 
@@ -3768,11 +4127,6 @@ msgstr "stare cerută necunoscută la lina %d: %.250s"
 #: src/select.c:137
 msgid "read error on standard input"
 msgstr "eroare de citire de la intrarea standard"
-
-#: src/statcmd.c:57 utils/update-alternatives.c:79 scripts/dpkg-divert.pl:32
-#, c-format, perl-format
-msgid "Debian %s version %s.\n"
-msgstr "Debian %s versiunea %s.\n"
 
 #: src/statcmd.c:60
 #, fuzzy, c-format
@@ -3835,18 +4189,6 @@ msgid "cannot open new statoverride file"
 msgstr ""
 "nu se poate deschide noul fișier de înlocuire a permisiunilor implicite: %s"
 
-#: src/statcmd.c:235 dpkg-deb/build.c:545 dpkg-split/join.c:73
-#: dpkg-split/queue.c:183
-#, fuzzy, c-format
-msgid "unable to flush file '%s'"
-msgstr "imposibil a goli în vsnprintf"
-
-#: src/statcmd.c:237 dpkg-deb/build.c:547 dpkg-split/join.c:75
-#: dpkg-split/queue.c:185
-#, fuzzy, c-format
-msgid "unable to sync file '%s'"
-msgstr "imposibil a deschide fișierul sursă „%.250s”"
-
 #: src/statcmd.c:242
 #, fuzzy
 msgid "error removing statoverride-old"
@@ -3871,10 +4213,6 @@ msgstr ""
 msgid "--add needs four arguments"
 msgstr "--add necesită patru argumente"
 
-#: src/statcmd.c:269 scripts/dpkg-divert.pl:163
-msgid "file may not contain newlines"
-msgstr "numele de fișier nu poate conține caractere „linie nouă”"
-
 #: src/statcmd.c:276
 #, fuzzy, c-format
 msgid ""
@@ -3891,12 +4229,6 @@ msgstr "Există deja o redirectare pentru „%s”, "
 #, fuzzy, c-format
 msgid "--update given but %s does not exist"
 msgstr "avertisment: s-a furnizat --update dar %s nu există"
-
-#: src/statcmd.c:310 scripts/dpkg-divert.pl:160 scripts/dpkg-divert.pl:189
-#: scripts/dpkg-divert.pl:232 scripts/dpkg-divert.pl:242
-#, c-format, perl-format
-msgid "--%s needs a single argument"
-msgstr "--%s necesită un singur argument"
 
 #: src/statcmd.c:316
 msgid "No override present."
@@ -4132,93 +4464,93 @@ msgid ""
 "obsolete '--%s' option, unavailable packages are automatically cleaned up."
 msgstr ""
 
-#: dpkg-deb/build.c:161
+#: dpkg-deb/build.c:160
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr "numele de fișier „%.50s...” este prea lung"
 
-#: dpkg-deb/build.c:166
+#: dpkg-deb/build.c:165
 #, fuzzy, c-format
 msgid "unable to stat file name '%.250s'"
 msgstr "imposibil a deschide fișierul sursă „%.250s”"
 
-#: dpkg-deb/build.c:230 utils/update-alternatives.c:2087
-#: utils/update-alternatives.c:2094 scripts/dpkg-divert.pl:138
-#, c-format, perl-format
+#: dpkg-deb/build.c:229 utils/update-alternatives.c:2090
+#: utils/update-alternatives.c:2097
+#, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s necesită un <director> ca argument"
 
-#: dpkg-deb/build.c:234
+#: dpkg-deb/build.c:233
 msgid "--build takes at most two arguments"
 msgstr "--build ia cel mult două argumente"
 
-#: dpkg-deb/build.c:238
+#: dpkg-deb/build.c:237
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "imposibil a verifica existența arhivei „%.250s”"
 
-#: dpkg-deb/build.c:255
+#: dpkg-deb/build.c:254
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "ținta este director - nu se poate sări peste verificarea fișierului de "
 "control"
 
-#: dpkg-deb/build.c:256
+#: dpkg-deb/build.c:255
 msgid "not checking contents of control area."
 msgstr ""
 
-#: dpkg-deb/build.c:257
+#: dpkg-deb/build.c:256
 #, fuzzy, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: se contruiește pachetul „%s” în „%s”.\n"
 
-#: dpkg-deb/build.c:273
+#: dpkg-deb/build.c:272
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "numele pachetului conține caractere care nu sunt litere mici, cifre sau „-+.”"
 
-#: dpkg-deb/build.c:275
+#: dpkg-deb/build.c:274
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr ""
 "avertisment, „%s” conține o valoare definită de utilizator pentru Priority "
 "„%s”\n"
 
-#: dpkg-deb/build.c:283
+#: dpkg-deb/build.c:282
 #, fuzzy, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "avertisment, „%s” conține câmpul definit de utilizator „%s”\n"
 
-#: dpkg-deb/build.c:297
+#: dpkg-deb/build.c:296
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: se contruiește pachetul „%s” în „%s”.\n"
 
-#: dpkg-deb/build.c:303
+#: dpkg-deb/build.c:302
 #, fuzzy
 msgid "unable to stat control directory"
 msgstr "imposibil a deschide directorul temporar de control"
 
-#: dpkg-deb/build.c:305
+#: dpkg-deb/build.c:304
 #, fuzzy
 msgid "control directory is not a directory"
 msgstr "nu se poate citi directorul cu informații"
 
-#: dpkg-deb/build.c:307
+#: dpkg-deb/build.c:306
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "directorul de control are drepturi de acces incorecte %03lo (trebuie să fie "
 ">=0755 și <=0775)"
 
-#: dpkg-deb/build.c:318
+#: dpkg-deb/build.c:317
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 "scriptul „%.50s” al responsabilului de pachet nu este fișier propriu-zis sau "
 "legătură simbolică"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:319
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -4228,132 +4560,123 @@ msgstr ""
 "%03lo (trebuie să fie >=0555 și <=0775)"
 
 # codul a fost analizat pentru această traducere
-#: dpkg-deb/build.c:324
+#: dpkg-deb/build.c:323
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "citirea stării scriptului de întreținere „%.50s” nu este posibilă"
 
-#: dpkg-deb/build.c:337
+#: dpkg-deb/build.c:336
 msgid "empty string from fgets reading conffiles"
 msgstr "șir gol de la fgets la citirea fișierelor conffile"
 
-#: dpkg-deb/build.c:339
+#: dpkg-deb/build.c:338
 #, fuzzy, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
 "avertisment, numele fișierului conffile „%.50s...” este prea lung sau îi "
 "lipsește o linie nouă la sfârșit\n"
 
-#: dpkg-deb/build.c:352
+#: dpkg-deb/build.c:351
 #, fuzzy, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr ""
 "atenție, fișierul conffile „%s” conține caractere de tip spațiu la final\n"
 
-#: dpkg-deb/build.c:354
+#: dpkg-deb/build.c:353
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "fișierul conffile „%.250s” nu apare în pachet"
 
-#: dpkg-deb/build.c:356
+#: dpkg-deb/build.c:355
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "la fișierul conffile „%.250s” nu este posibilă citirea stării"
 
-#: dpkg-deb/build.c:358
+#: dpkg-deb/build.c:357
 #, fuzzy, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "atenție, fișierul conffile „%s” nu este fișier propriu-zis\n"
 
-#: dpkg-deb/build.c:363
+#: dpkg-deb/build.c:362
 #, fuzzy, c-format
 msgid "conffile name '%s' is duplicated"
 msgstr "numele de sclav %s este duplicat"
 
-#: dpkg-deb/build.c:374
+#: dpkg-deb/build.c:373
 msgid "error reading conffiles file"
 msgstr "eroare la citirea fișierului conffiles"
 
-#: dpkg-deb/build.c:377
+#: dpkg-deb/build.c:376
 msgid "error opening conffiles file"
 msgstr "eroare la deschiderea fișierului conffiles"
 
-#: dpkg-deb/build.c:380
+#: dpkg-deb/build.c:379
 #, fuzzy, c-format
 msgid "ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: ignor %d avertismente legate de fișierul(ele) de control\n"
 
-#: dpkg-deb/build.c:389
+#: dpkg-deb/build.c:388
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "incapacitate de a renunța la memoria tampon „%.255s”"
 
-#: dpkg-deb/build.c:397
+#: dpkg-deb/build.c:396
 msgid "failed to chdir to .../DEBIAN"
 msgstr "eșec la schimbarea directorului în .../DEBIAN"
 
-#: dpkg-deb/build.c:399 dpkg-deb/build.c:471
+#: dpkg-deb/build.c:398 dpkg-deb/build.c:464
 msgid "failed to exec tar -cf"
 msgstr "eșec la execuția comenzii tar -cf"
 
-#: dpkg-deb/build.c:406
+#: dpkg-deb/build.c:405
 msgid "failed to make tmpfile (control)"
 msgstr "eșec la crearea unui fișier temporar (de control)"
 
-#: dpkg-deb/build.c:408
+#: dpkg-deb/build.c:407
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "eșec la desfacerea legăturii la fișierul temporar (de control), %s"
 
-#: dpkg-deb/build.c:416 dpkg-deb/build.c:447
+#: dpkg-deb/build.c:415 dpkg-deb/build.c:432
 msgid "control"
 msgstr "control"
 
-#: dpkg-deb/build.c:421
-msgid "failed to fstat tmpfile (control)"
-msgstr "eșec la citirea stării fișierului temporar (de control)"
-
-#: dpkg-deb/build.c:446
+#: dpkg-deb/build.c:422
 msgid "failed to rewind tmpfile (control)"
 msgstr "eșec la reîmpachtarea fișierului temporar (de control)"
 
-#: dpkg-deb/build.c:455
+#: dpkg-deb/build.c:429
+msgid "failed to fstat tmpfile (control)"
+msgstr "eșec la citirea stării fișierului temporar (de control)"
+
+#: dpkg-deb/build.c:448
 msgid "failed to make tmpfile (data)"
 msgstr "eșec la crearea fișierului temporar (date)"
 
-#: dpkg-deb/build.c:457
+#: dpkg-deb/build.c:450
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "eșec la desfacerea legăturii fișierului temporar (date), %s"
 
-#: dpkg-deb/build.c:481 dpkg-deb/extract.c:298
+#: dpkg-deb/build.c:474 dpkg-deb/extract.c:275
 msgid "data"
 msgstr "date"
 
-#: dpkg-deb/build.c:495
+#: dpkg-deb/build.c:488
 msgid "failed to exec find"
 msgstr "eșec la execuția comenzii find"
 
-#: dpkg-deb/build.c:506 dpkg-deb/build.c:514
+#: dpkg-deb/build.c:499 dpkg-deb/build.c:507
 msgid "failed to write filename to tar pipe (data)"
 msgstr "eșec la scrierea numelui de fișiere în conexiunea tar (date)"
 
-#: dpkg-deb/build.c:518
+#: dpkg-deb/build.c:511
 msgid "<compress> from tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c:527
-#, fuzzy
-msgid "failed to fstat tmpfile (data)"
-msgstr "eșec la crearea fișierului temporar (date)"
-
-#: dpkg-deb/build.c:537
+#: dpkg-deb/build.c:519
 msgid "failed to rewind tmpfile (data)"
 msgstr "eșec la reîmpachetarea fișierului temporar (date)"
-
-#: dpkg-deb/build.c:538
-msgid "cat (data)"
-msgstr "cat (date)"
 
 #: dpkg-deb/extract.c:58
 msgid "failed to exec sh -c mv foo/* &c"
@@ -4392,75 +4715,75 @@ msgstr "eșec la obținerea poziției curente în fișier"
 msgid "failed setting the current file position"
 msgstr "eșec la memorarea poziției curente în fișier"
 
-#: dpkg-deb/extract.c:132
+#: dpkg-deb/extract.c:128
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "eșec la citirea arhivei „%.255s”"
 
-#: dpkg-deb/extract.c:133
+#: dpkg-deb/extract.c:129
 msgid "failed to fstat archive"
 msgstr "eșec la fstat asupra arhivei"
 
-#: dpkg-deb/extract.c:134
+#: dpkg-deb/extract.c:130
 msgid "version number"
 msgstr "număr versiune"
 
-#: dpkg-deb/extract.c:143
+#: dpkg-deb/extract.c:141
 msgid "between members"
 msgstr "între componente"
 
-#: dpkg-deb/extract.c:148 dpkg-split/info.c:105
+#: dpkg-deb/extract.c:146 dpkg-split/info.c:105
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 "fișierul „%.250s” este corupt - identificator magic greșit la sfârșitul "
 "primului antet"
 
-#: dpkg-deb/extract.c:150
+#: dpkg-deb/extract.c:148
 msgid "member length"
 msgstr ""
 
-#: dpkg-deb/extract.c:155
+#: dpkg-deb/extract.c:154
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr ""
 "fișierul „%.250s” nu este o arhivă binară debian (încercați dpkg-split?)"
 
-#: dpkg-deb/extract.c:158
+#: dpkg-deb/extract.c:157
 msgid "header info member"
 msgstr "componentă antet de informații"
 
-#: dpkg-deb/extract.c:161
+#: dpkg-deb/extract.c:160
 msgid "archive has no newlines in header"
 msgstr "arhiva nu conține linie nouă în antet"
 
-#: dpkg-deb/extract.c:164
+#: dpkg-deb/extract.c:163
 msgid "archive has no dot in version number"
 msgstr "arhiva nu conține punct în numărul versiunii"
 
-#: dpkg-deb/extract.c:167
+#: dpkg-deb/extract.c:166
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "versiunea de arhivă %.250s neînțeleasă, instalați un dpkg-deb mai nou"
 
-#: dpkg-deb/extract.c:178 dpkg-deb/extract.c:202
+#: dpkg-deb/extract.c:177 dpkg-deb/extract.c:201
 #, c-format
 msgid "skipped member data from %s"
 msgstr "s-a omis componenta de date de la %s"
 
-#: dpkg-deb/extract.c:193
+#: dpkg-deb/extract.c:192
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr ""
 "fișierul „%.250s” conține o componentă de date neînțeleasă %.*s, se renunță"
 
-#: dpkg-deb/extract.c:198
+#: dpkg-deb/extract.c:197
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "fișierul „%.250s” conține două componente de control, se renunță"
 
 # aici e ceva ciudat, %z: vezi "info libc printf", %zi bytes, e ce?
-#: dpkg-deb/extract.c:210
+#: dpkg-deb/extract.c:209
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -4469,16 +4792,22 @@ msgstr ""
 " pachet debian nou, versiunea %s.\n"
 " dimensiune %ld octeți: arhivă de control= %zi octeți.\n"
 
-#: dpkg-deb/extract.c:224
+#: dpkg-deb/extract.c:225
 msgid "control information length"
 msgstr "lungimea informației de control"
 
-#: dpkg-deb/extract.c:226
+#: dpkg-deb/extract.c:227
 #, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "arhiva are lungimea informatiei de control malformată „%s”"
 
-#: dpkg-deb/extract.c:229
+#: dpkg-deb/extract.c:233
+#, fuzzy, c-format
+#| msgid "skipped member data from %s"
+msgid "skipped control area from %s"
+msgstr "s-a omis componenta de date de la %s"
+
+#: dpkg-deb/extract.c:237
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -4487,11 +4816,7 @@ msgstr ""
 " pachet debian vechi, versiune %s.\n"
 " dimensiune %ld octeți: arhivă de control= %zi, arhiva principală= %ld.\n"
 
-#: dpkg-deb/extract.c:239
-msgid "control area"
-msgstr "zonă de contrl"
-
-#: dpkg-deb/extract.c:245
+#: dpkg-deb/extract.c:247
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -4500,69 +4825,51 @@ msgstr ""
 "dpkg-deb: fișierul pare că ar putea fi o arhivă care a fost\n"
 "dpkg-deb:    coruptă prin descărcarea în mod ASCII\n"
 
-#: dpkg-deb/extract.c:249
+#: dpkg-deb/extract.c:251
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "„%.255s” nu este o arhivă în format debian"
 
-# in paste nu prea se traduce ca „la lipire”,
-# dar trebuie context pentru verificare
-#: dpkg-deb/extract.c:263
-msgid "failed to open pipe descriptor `1' in paste"
-msgstr "eșec la descidearea descriptorului de conexiune „1” la lipire"
-
-#: dpkg-deb/extract.c:265
-msgid "failed to write to gzip -dc"
-msgstr "eșec la scrierea în gzip -dc"
-
-#: dpkg-deb/extract.c:266
-msgid "failed to close gzip -dc"
-msgstr "eșec la închiderea gzip -dc"
-
-#: dpkg-deb/extract.c:273
-msgid "failed to syscall lseek to files archive portion"
-msgstr "eșec la apelul de sistem lseek pentru porțiunea de fișiere de arhivă"
-
-#: dpkg-deb/extract.c:283
+#: dpkg-deb/extract.c:261
 msgid "failed to write to pipe in copy"
 msgstr "eșec la scrierea în conexiune în copie"
 
-#: dpkg-deb/extract.c:284
+#: dpkg-deb/extract.c:263
 msgid "failed to close pipe in copy"
 msgstr "eșec la închiderea conexiunii în copie"
 
-#: dpkg-deb/extract.c:307
+#: dpkg-deb/extract.c:284
 msgid "failed to create directory"
 msgstr "eșec la crearea directorului"
 
-#: dpkg-deb/extract.c:308
+#: dpkg-deb/extract.c:285
 msgid "failed to chdir to directory after creating it"
 msgstr "eșec la schimbarea directorului după crearea lui"
 
-#: dpkg-deb/extract.c:310
+#: dpkg-deb/extract.c:287
 msgid "failed to chdir to directory"
 msgstr "eșec la schimbarea directorului"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:306
 msgid "failed to exec tar"
 msgstr "eșec la execuția comenzii tar"
 
-#: dpkg-deb/extract.c:335
+#: dpkg-deb/extract.c:312
 #, fuzzy
 msgid "<decompress>"
 msgstr "%s: decomprimare"
 
-#: dpkg-deb/extract.c:337
+#: dpkg-deb/extract.c:314
 #, fuzzy
 msgid "paste"
 msgstr "verificat\n"
 
-#: dpkg-deb/extract.c:353 dpkg-deb/extract.c:368 dpkg-deb/info.c:75
+#: dpkg-deb/extract.c:330 dpkg-deb/extract.c:345 dpkg-deb/info.c:75
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s necesită un nume de fișier .deb ca argument"
 
-#: dpkg-deb/extract.c:356
+#: dpkg-deb/extract.c:333
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4571,12 +4878,12 @@ msgstr ""
 "--%s necesită un director țintă.\n"
 "Poate ar trebui să folosiți dpkg --install ?"
 
-#: dpkg-deb/extract.c:359
+#: dpkg-deb/extract.c:336
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s ia cel mult două argumente (.deb și directorul)"
 
-#: dpkg-deb/extract.c:370
+#: dpkg-deb/extract.c:347
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s ia doar un argument (numele fișierului .deb)"
@@ -4665,7 +4972,7 @@ msgstr "eroare la închiderea conexiunii cu find"
 msgid "Error in format"
 msgstr "Eroare în format"
 
-#: dpkg-deb/info.c:293
+#: dpkg-deb/info.c:294
 msgid "--contents takes exactly one argument"
 msgstr "--contents ia exact un argument"
 
@@ -4919,17 +5226,17 @@ msgstr "fstat imposibil pentru fișierul volum „%.250s”"
 msgid "file `%.250s' is corrupt - too short"
 msgstr "fișierul „%.250s” este corupt - prea scurt"
 
-#: dpkg-split/info.c:198 dpkg-split/info.c:241
+#: dpkg-split/info.c:199 dpkg-split/info.c:242
 #, c-format
 msgid "cannot open archive part file `%.250s'"
 msgstr "nu se poate deschide arhiva volumului din fișierul „%.250s”"
 
-#: dpkg-split/info.c:200
+#: dpkg-split/info.c:201
 #, c-format
 msgid "file `%.250s' is not an archive part"
 msgstr "fișierul „%.250s” nu este volum de arhivă"
 
-#: dpkg-split/info.c:205
+#: dpkg-split/info.c:206
 #, c-format
 msgid ""
 "%s:\n"
@@ -4958,12 +5265,12 @@ msgstr ""
 "    Dimensiunea fișierului volum (porțiunea folosită): %lu octeți\n"
 "\n"
 
-#: dpkg-split/info.c:236 dpkg-split/join.c:113
+#: dpkg-split/info.c:237 dpkg-split/join.c:113
 #, fuzzy, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "--info necesită unul sau mai multe fișiere volum ca argumente"
 
-#: dpkg-split/info.c:247
+#: dpkg-split/info.c:248
 #, c-format
 msgid "file `%s' is not an archive part\n"
 msgstr "fișierul „%s” nu este volum de arhivă\n"
@@ -5061,160 +5368,171 @@ msgstr ""
 msgid "Type dpkg-split --help for help."
 msgstr "Tastați dpkg-split --help pentru ajutor."
 
-#: dpkg-split/main.c:107 dpkg-split/main.c:111
+#: dpkg-split/main.c:110 dpkg-split/main.c:114
 #, c-format
 msgid "error reading %.250s"
 msgstr "eroare la citire %.250s"
 
-#: dpkg-split/main.c:112
+#: dpkg-split/main.c:115
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "sfârșit de fișier neașteptat în %.250s"
 
-#: dpkg-split/main.c:125
+#: dpkg-split/main.c:128
 msgid "part size is far too large or is not positive"
 msgstr "dimensiunea volumului este foarte mare sau nu este pozitivă"
 
-#: dpkg-split/main.c:129
+#: dpkg-split/main.c:132
 #, fuzzy, c-format
 msgid "part size must be at least %d KiB (to allow for header)"
 msgstr ""
 "dimensiunea volumului trebuie să fie de cel puțin %dk (pentru a încăpea "
 "antetul)"
 
-#: dpkg-split/queue.c:88
+#: dpkg-split/queue.c:89
 #, c-format
 msgid "unable to read depot directory `%.250s'"
 msgstr "imposibil a citi directorul depozit „%.250s”"
 
-#: dpkg-split/queue.c:129
+#: dpkg-split/queue.c:131
 msgid "--auto requires the use of the --output option"
 msgstr "--auto necesită folosirea opțiunii --output"
 
-#: dpkg-split/queue.c:131
+#: dpkg-split/queue.c:133
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto necesită exact un fișier volum ca argument"
 
-#: dpkg-split/queue.c:135
+#: dpkg-split/queue.c:137
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "imposibil a citi fișierul volum „%.250s”"
 
-#: dpkg-split/queue.c:138
+#: dpkg-split/queue.c:140
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "Fișierul „%.250s” nu este arhivă volum sau multivolum.\n"
 
-#: dpkg-split/queue.c:166
+#: dpkg-split/queue.c:168
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "redeschidere imposibilă pentru fișierul volum „%.250s”"
 
-#: dpkg-split/queue.c:170
+#: dpkg-split/queue.c:172
 #, c-format
 msgid "part file `%.250s' has trailing garbage"
 msgstr "fișierul volum „%.250s” se termină cu gunoaie"
 
-#: dpkg-split/queue.c:179
+#: dpkg-split/queue.c:181
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "imposibil a deschide noul fișier depozit „%.250s”"
 
-#: dpkg-split/queue.c:187
+#: dpkg-split/queue.c:189
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr ""
 "incapacitate de redenumire a noului fișier depozit „%.250s” în „%.250s”"
 
-#: dpkg-split/queue.c:189
+#: dpkg-split/queue.c:191
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "Volumul %d al pachetului %s completat (încă dorit "
 
-#: dpkg-split/queue.c:193
+#: dpkg-split/queue.c:195
 msgid " and "
 msgstr " și "
 
-#: dpkg-split/queue.c:207
+#: dpkg-split/queue.c:209
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "imposibil a șterge fișierul depozit folosit „%.250s”"
 
-#: dpkg-split/queue.c:226
+#: dpkg-split/queue.c:228
 msgid "Junk files left around in the depot directory:\n"
 msgstr "Fișiere inutile lăsate în jur în directorul depozit:\n"
 
-#: dpkg-split/queue.c:231 dpkg-split/queue.c:255
+#: dpkg-split/queue.c:233 dpkg-split/queue.c:257
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "imposibil a citi starea lui „%.250s”"
 
-#: dpkg-split/queue.c:234
+#: dpkg-split/queue.c:236
 #, c-format
 msgid " %s (%lu bytes)\n"
 msgstr " %s (%lu octeți)\n"
 
-#: dpkg-split/queue.c:236
+#: dpkg-split/queue.c:238
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (nu este un fișier propriu-zis)\n"
 
-#: dpkg-split/queue.c:241
+#: dpkg-split/queue.c:243
 msgid "Packages not yet reassembled:\n"
 msgstr "Pachete nereasamblate încă:\n"
 
-#: dpkg-split/queue.c:246
+#: dpkg-split/queue.c:248
 #, c-format
 msgid " Package %s: part(s) "
 msgstr ""
 
-#: dpkg-split/queue.c:257
+#: dpkg-split/queue.c:259
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "fișierul volum „%.250s” nu este un fișier propriu-zis"
 
-#: dpkg-split/queue.c:262
+#: dpkg-split/queue.c:264
 #, c-format
 msgid "(total %lu bytes)\n"
 msgstr "(total %lu octeți)\n"
 
-#: dpkg-split/queue.c:286
+#: dpkg-split/queue.c:288
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "imposibilitate de renunțare la „%.250s”"
 
-#: dpkg-split/queue.c:287
+#: dpkg-split/queue.c:289
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "Șters %s.\n"
 
-#: dpkg-split/split.c:49
-msgid "--split needs a source filename argument"
-msgstr "--split necesită un nume de fișier sursă ca argument"
+#: dpkg-split/split.c:68
+#, fuzzy
+#| msgid "failed to exec dpkg-deb to extract control information"
+msgid "failed to exec dpkg-deb to extract field value"
+msgstr "eșec la execuția lui dpkg-deb pentru a extrage informația de control"
 
-#: dpkg-split/split.c:52
-msgid "--split takes at most a source filename and destination prefix"
+#: dpkg-split/split.c:74 dpkg-split/split.c:79
+msgid "dpkg-deb field extraction"
 msgstr ""
-"--split ia ca argumente cel mult un nume de fișier sursă și un prefix pentru "
-"destinație"
 
-#: dpkg-split/split.c:67
+#: dpkg-split/split.c:129
 #, c-format
 msgid "unable to open source file `%.250s'"
 msgstr "imposibil a deschide fișierul sursă „%.250s”"
 
-#: dpkg-split/split.c:68
+#: dpkg-split/split.c:131
 msgid "unable to fstat source file"
 msgstr "fstat imposibil pentru fișierul sursă"
 
-#: dpkg-split/split.c:69
+#: dpkg-split/split.c:133
 #, c-format
 msgid "source file `%.250s' not a plain file"
 msgstr "fișierul sursă „%.250s” nu este un fișier propriu-zis"
 
-#: dpkg-split/split.c:75
-msgid "unable to exec mksplit"
-msgstr "imposibil a executa comanda mksplit"
+#: dpkg-split/split.c:201
+#, fuzzy, c-format
+msgid "unable to open file '%s'"
+msgstr "imposibil a deschide fișierul sursă „%.250s”"
+
+#: dpkg-split/split.c:252
+msgid "--split needs a source filename argument"
+msgstr "--split necesită un nume de fișier sursă ca argument"
+
+#: dpkg-split/split.c:255
+msgid "--split takes at most a source filename and destination prefix"
+msgstr ""
+"--split ia ca argumente cel mult un nume de fișier sursă și un prefix pentru "
+"destinație"
 
 #: utils/update-alternatives.c:83
 #, fuzzy, c-format
@@ -5357,8 +5675,8 @@ msgid "error"
 msgstr "eroare de analiză"
 
 #: utils/update-alternatives.c:269 utils/update-alternatives.c:593
-#: utils/update-alternatives.c:1103 utils/update-alternatives.c:1308
-#: utils/update-alternatives.c:1557
+#: utils/update-alternatives.c:1103 utils/update-alternatives.c:1310
+#: utils/update-alternatives.c:1559
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
 msgid "cannot stat %s: %s"
@@ -5414,7 +5732,7 @@ msgid "unexpected end of file while trying to read %s"
 msgstr "sfârșit de fișier neașteptat în %s din %.255s"
 
 # AJUTOR: asta pare corect la trecut, uitându-mă în surse.
-#: utils/update-alternatives.c:991 utils/update-alternatives.c:1844
+#: utils/update-alternatives.c:991 utils/update-alternatives.c:1847
 #, fuzzy, c-format
 msgid "while reading %s: %s"
 msgstr "s-a citit %s: %s"
@@ -5521,7 +5839,7 @@ msgstr "mod de actualizare nevalid"
 msgid "master link"
 msgstr "legătura sclav %s este duplicată"
 
-#: utils/update-alternatives.c:1197 utils/update-alternatives.c:1281
+#: utils/update-alternatives.c:1197 utils/update-alternatives.c:1283
 #, c-format
 msgid "unable to close %s: %s"
 msgstr "imposibil a închide %s: %s"
@@ -5531,201 +5849,201 @@ msgstr "imposibil a închide %s: %s"
 msgid "discarding obsolete slave link %s (%s)."
 msgstr "Se renunță la legătura-sclav învechită %s (%s)."
 
-#: utils/update-alternatives.c:1250
+#: utils/update-alternatives.c:1252
 #, fuzzy, c-format
 #| msgid "write %s: %s"
 msgid "cannot write %s: %s"
 msgstr "scrierea lui %s: %s"
 
-#: utils/update-alternatives.c:1373 utils/update-alternatives.c:1437
-#: utils/update-alternatives.c:2397
+#: utils/update-alternatives.c:1375 utils/update-alternatives.c:1439
+#: utils/update-alternatives.c:2400
 msgid "auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1373 utils/update-alternatives.c:1446
-#: utils/update-alternatives.c:2398
+#: utils/update-alternatives.c:1375 utils/update-alternatives.c:1448
+#: utils/update-alternatives.c:2401
 msgid "manual mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1376
+#: utils/update-alternatives.c:1378
 #, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr " legătura indică acum spre %s"
 
-#: utils/update-alternatives.c:1379
+#: utils/update-alternatives.c:1381
 #, fuzzy
 msgid "  link currently absent"
 msgstr " legătura este absentă acum"
 
-#: utils/update-alternatives.c:1383
+#: utils/update-alternatives.c:1385
 #, fuzzy, c-format
 #| msgid "%s - priority %s"
 msgid "%s - priority %d"
 msgstr "%s - prioritatea %s"
 
-#: utils/update-alternatives.c:1386
+#: utils/update-alternatives.c:1388
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr " sclav %s: %s"
 
-#: utils/update-alternatives.c:1393
+#: utils/update-alternatives.c:1395
 #, fuzzy, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "Cea mai „bună” versiune în prezent este %s."
 
-#: utils/update-alternatives.c:1395
+#: utils/update-alternatives.c:1397
 msgid "No versions available."
 msgstr "Nici o versiune disponibilă."
 
-#: utils/update-alternatives.c:1421
+#: utils/update-alternatives.c:1423
 #, c-format
 msgid "There are %d choices for the alternative %s (providing %s)."
 msgstr ""
 
-#: utils/update-alternatives.c:1428
+#: utils/update-alternatives.c:1430
 #, fuzzy
 msgid "Selection"
 msgstr "Descriere"
 
-#: utils/update-alternatives.c:1429
+#: utils/update-alternatives.c:1431
 msgid "Path"
 msgstr ""
 
-#: utils/update-alternatives.c:1429
+#: utils/update-alternatives.c:1431
 #, fuzzy
 msgid "Priority"
 msgstr "prioritatea %s %s"
 
-#: utils/update-alternatives.c:1429
+#: utils/update-alternatives.c:1431
 msgid "Status"
 msgstr ""
 
-#: utils/update-alternatives.c:1450
+#: utils/update-alternatives.c:1452
 #, fuzzy, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 "Apăsați enter pentru a păstra valoarea implicită[*], sau introduceți numărul "
 "selecției: "
 
-#: utils/update-alternatives.c:1570
+#: utils/update-alternatives.c:1573
 #, c-format
 msgid "not replacing %s with a link."
 msgstr ""
 
-#: utils/update-alternatives.c:1583
+#: utils/update-alternatives.c:1586
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1601
+#: utils/update-alternatives.c:1604
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
 
-#: utils/update-alternatives.c:1811 utils/update-alternatives.c:1817
+#: utils/update-alternatives.c:1814 utils/update-alternatives.c:1820
 #, c-format
 msgid "Call %s."
 msgstr ""
 
-#: utils/update-alternatives.c:1821
+#: utils/update-alternatives.c:1824
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr ""
 
-#: utils/update-alternatives.c:1825
+#: utils/update-alternatives.c:1828
 #, fuzzy, c-format
 msgid "Skip unknown alternative %s."
 msgstr "Alternativa „%s” nu poate fi găsită."
 
-#: utils/update-alternatives.c:1850
+#: utils/update-alternatives.c:1853
 #, fuzzy, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "sfârșit de fișier neașteptat în %s din %.255s"
 
-#: utils/update-alternatives.c:1863 utils/update-alternatives.c:1876
-#: utils/update-alternatives.c:1886
+#: utils/update-alternatives.c:1866 utils/update-alternatives.c:1879
+#: utils/update-alternatives.c:1889
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1905
+#: utils/update-alternatives.c:1908
 #, fuzzy, c-format
 msgid "renaming %s link from %s to %s."
 msgstr "Se redenumește legătura %s din %s în %s."
 
-#: utils/update-alternatives.c:1936
+#: utils/update-alternatives.c:1939
 #, fuzzy, c-format
 msgid "renaming %s slave link from %s to %s."
 msgstr "Se redenumește legătura sclav %s din %s în %s."
 
-#: utils/update-alternatives.c:1982
+#: utils/update-alternatives.c:1985
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "argument necunoscut „%s”"
 
-#: utils/update-alternatives.c:2001
+#: utils/update-alternatives.c:2004
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install necesită <legătură> <nume> <cale> <prioritate>"
 
-#: utils/update-alternatives.c:2004 utils/update-alternatives.c:2055
+#: utils/update-alternatives.c:2007 utils/update-alternatives.c:2058
 msgid "<link> and <path> can't be the same"
 msgstr ""
 
-#: utils/update-alternatives.c:2007
+#: utils/update-alternatives.c:2010
 msgid "priority must be an integer"
 msgstr "prioritatea trebuie să fie un întreg"
 
-#: utils/update-alternatives.c:2020
+#: utils/update-alternatives.c:2023
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s necesită <nume> <cale>"
 
-#: utils/update-alternatives.c:2034
+#: utils/update-alternatives.c:2037
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s necesită <nume>"
 
-#: utils/update-alternatives.c:2046
+#: utils/update-alternatives.c:2049
 msgid "--slave only allowed with --install"
 msgstr "--slave este permis doar cu --install"
 
-#: utils/update-alternatives.c:2048
+#: utils/update-alternatives.c:2051
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave necesită <legătură> <nume> <cale>"
 
-#: utils/update-alternatives.c:2057
+#: utils/update-alternatives.c:2060
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr "numele %s este atât primar cât și sclav"
 
-#: utils/update-alternatives.c:2060
+#: utils/update-alternatives.c:2063
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr "legătura %s este atât primară cât și sclavă"
 
-#: utils/update-alternatives.c:2063
+#: utils/update-alternatives.c:2066
 #, c-format
 msgid "slave name %s duplicated"
 msgstr "numele de sclav %s este duplicat"
 
-#: utils/update-alternatives.c:2070
+#: utils/update-alternatives.c:2073
 #, c-format
 msgid "slave link %s duplicated"
 msgstr "legătura de sclav %s este duplicată"
 
-#: utils/update-alternatives.c:2080
+#: utils/update-alternatives.c:2083
 #, fuzzy, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s necesită un singur argument"
 
-#: utils/update-alternatives.c:2106 scripts/dpkg-divert.pl:141
-#, c-format, perl-format
+#: utils/update-alternatives.c:2109
+#, c-format
 msgid "unknown option `%s'"
 msgstr "„%s” opțiune necunoscută"
 
-#: utils/update-alternatives.c:2111
+#: utils/update-alternatives.c:2114
 #, fuzzy
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -5734,67 +6052,67 @@ msgstr ""
 "est enevoie de --display, --config, --set, --install, --remove, --all, --"
 "remove-all sau--auto"
 
-#: utils/update-alternatives.c:2154 utils/update-alternatives.c:2198
+#: utils/update-alternatives.c:2157 utils/update-alternatives.c:2201
 #, fuzzy, c-format
 msgid "it is a slave of %s"
 msgstr " sclav %s: %s"
 
-#: utils/update-alternatives.c:2156
+#: utils/update-alternatives.c:2159
 #, c-format
 msgid "alternative %s can't be master: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2166 utils/update-alternatives.c:2208
+#: utils/update-alternatives.c:2169 utils/update-alternatives.c:2211
 #, c-format
 msgid "alternative link %s is already managed by %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2171 utils/update-alternatives.c:2214
+#: utils/update-alternatives.c:2174 utils/update-alternatives.c:2217
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2175 utils/update-alternatives.c:2218
+#: utils/update-alternatives.c:2178 utils/update-alternatives.c:2221
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2179
+#: utils/update-alternatives.c:2182
 #, fuzzy, c-format
 msgid "alternative path %s doesn't exist."
 msgstr "avertisment: s-a furnizat --update dar %s nu există"
 
-#: utils/update-alternatives.c:2183 utils/update-alternatives.c:2222
+#: utils/update-alternatives.c:2186 utils/update-alternatives.c:2225
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces."
 msgstr ""
 
-#: utils/update-alternatives.c:2196
+#: utils/update-alternatives.c:2199
 msgid "it is a master alternative."
 msgstr ""
 
-#: utils/update-alternatives.c:2200
+#: utils/update-alternatives.c:2203
 #, fuzzy, c-format
 msgid "alternative %s can't be slave of %s: %s"
 msgstr "%s: nu se poate crea %s: %s"
 
-#: utils/update-alternatives.c:2246
+#: utils/update-alternatives.c:2249
 #, fuzzy
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "eroare de citire de la intrarea standard"
 
-#: utils/update-alternatives.c:2255 utils/update-alternatives.c:2258
+#: utils/update-alternatives.c:2258 utils/update-alternatives.c:2261
 #, fuzzy, c-format
 msgid "no alternatives for %s."
 msgstr "Nu există alternative pentru %s."
 
-#: utils/update-alternatives.c:2284
+#: utils/update-alternatives.c:2287
 #, c-format
 msgid "%s is dangling, it will be updated with best choice."
 msgstr ""
 
-#: utils/update-alternatives.c:2288
+#: utils/update-alternatives.c:2291
 #, fuzzy, c-format
 msgid ""
 "%s has been changed (manually or by a script). Switching to manual updates "
@@ -5803,309 +6121,148 @@ msgstr ""
 "%s a fost schimbat (manual sau de un script).\n"
 "Se comută pe actualizare strict manuală."
 
-#: utils/update-alternatives.c:2297
+#: utils/update-alternatives.c:2300
 #, fuzzy, c-format
 msgid "setting up automatic selection of %s."
 msgstr "Se pregătesc selecțiile automate ale lui %s."
 
-#: utils/update-alternatives.c:2306
+#: utils/update-alternatives.c:2309
 #, fuzzy, c-format
 msgid "alternative %s for %s not registered, not setting."
 msgstr "Alternativa %s pentru %s nu este înregistrată, nu se șterge."
 
-#: utils/update-alternatives.c:2314
+#: utils/update-alternatives.c:2317
 #, fuzzy, c-format
 msgid "There is no program which provides %s."
 msgstr ""
 "Nu există nici un program care să furnizeze %s\n"
 "Nu e nimic de configurat.\n"
 
-#: utils/update-alternatives.c:2316 utils/update-alternatives.c:2326
+#: utils/update-alternatives.c:2319 utils/update-alternatives.c:2329
 msgid "Nothing to configure."
 msgstr ""
 
-#: utils/update-alternatives.c:2324
+#: utils/update-alternatives.c:2327
 #, c-format
 msgid "There is only one alternative in link group %s: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2335
+#: utils/update-alternatives.c:2338
 #, fuzzy, c-format
 msgid "alternative %s for %s not registered, not removing."
 msgstr "Alternativa %s pentru %s nu este înregistrată, nu se șterge."
 
-#: utils/update-alternatives.c:2343
+#: utils/update-alternatives.c:2346
 #, fuzzy, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr "Se șterge alternativa selectată manual - se comută în modul automat"
 
-#: utils/update-alternatives.c:2374
+#: utils/update-alternatives.c:2377
 #, fuzzy, c-format
 msgid "automatic updates of %s are disabled, leaving it alone."
 msgstr ""
 "Actualizările automate ale lui %s sunt dezactivate, va fi lăsat în pace."
 
-#: utils/update-alternatives.c:2376
+#: utils/update-alternatives.c:2379
 #, fuzzy, c-format
 msgid "to return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "Pentru a vă reîntoarce laactulizarea automată folosiți „update-alternatives "
 "--auto %s”."
 
-#: utils/update-alternatives.c:2395
+#: utils/update-alternatives.c:2398
 #, fuzzy, c-format
 msgid "using %s to provide %s (%s) in %s."
 msgstr "Se folosește „%s” pentru a furniza „%s”."
 
-#: utils/update-alternatives.c:2403
+#: utils/update-alternatives.c:2406
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken."
 msgstr ""
 
-#: utils/update-alternatives.c:2410
+#: utils/update-alternatives.c:2413
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s."
 msgstr ""
 
-#: scripts/dpkg-divert.pl:34
-msgid ""
-"\n"
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000,2001 Wichert Akkerman."
-msgstr ""
-"\n"
-"Drepturi de autor (C) 1995 Ian Jackson.\n"
-"Drepturi de autor (C) 2000,2001 Wichert Akkerman."
+#~ msgid "cat (data)"
+#~ msgstr "cat (date)"
 
-#: scripts/dpkg-divert.pl:46
-#, fuzzy, perl-format
-msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
-"Commands:\n"
-"  [--add] <file>           add a diversion.\n"
-"  --remove <file>          remove the diversion.\n"
-"  --list [<glob-pattern>]  show file diversions.\n"
-"  --listpackage <file>     show what package diverts the file.\n"
-"  --truename <file>        return the diverted file.\n"
-"\n"
-"Options:\n"
-"  --package <package>      name of the package whose copy of <file> will "
-"not\n"
-"                             be diverted.\n"
-"  --local                  all packages' versions are diverted.\n"
-"  --divert <divert-to>     the name used by other packages' versions.\n"
-"  --rename                 actually move the file aside (or back).\n"
-"  --admindir <directory>   set the directory with the diversions file.\n"
-"  --test                   don't do anything, just demonstrate.\n"
-"  --quiet                  quiet operation, minimal output.\n"
-"  --help                   show this help message.\n"
-"  --version                show the version.\n"
-"\n"
-"When adding, default is --local and --divert <original>.distrib.\n"
-"When removing, --package or --local and --divert must match if specified.\n"
-"Package preinst/postrm scripts should always specify --package and --"
-"divert.\n"
-msgstr ""
-"Utilizare: %s [<opțiune> ...] <comanda>\n"
-"\n"
-"Comenzi:\n"
-"  [--add] <fișier>         adaugă o redirectare.\n"
-"  --remove <fișier>        șterge redirectarea.\n"
-"  --list [<șablon>]        afișează redirectările.\n"
-"  --truename <fișier>      returnează fișierul redirectat.\n"
-"\n"
-"Opțiuni:\n"
-"  --package <pachet>       numele pachetului a cărui copie a fișierului "
-"<fișier>\n"
-"                              nu va fi redirectată.\n"
-"  --local                  toate versiunile pachetului sunt redirectate.\n"
-"  --divert <loc-de-redir>  numele folosit de versiunile celorlalte pachete.\n"
-"  --rename                 chiar mută fișierul de-o parte (sau înapoi).\n"
-"  --admindir <director>    configurează directorul cu fișierul de "
-"redirectări.\n"
-"  --test                   nu face nimic, doar demonstrează.\n"
-"  --quiet                  operare silențioasă, minim de mesaje la ieșire.\n"
-"  --help                   afișează acest ajutor\n"
-"  --version                afișează versiunea\n"
-"\n"
-"La adăugare, implicit este --local and --divert <original>.distrib.\n"
-"La ștergere, --package sau --local și --divert trebui să se potrivească dacă "
-"e specificat.\n"
-"Scripturile preinst/postrm ale pachetelor ar trebui să specifice --package "
-"și --divert.\n"
+#~ msgid "control area"
+#~ msgstr "zonă de contrl"
 
-#: scripts/dpkg-divert.pl:92
-#, perl-format
-msgid "two commands specified: %s and --%s"
-msgstr "au fost precizate două comenzi: %s și --%s"
+# in paste nu prea se traduce ca „la lipire”,
+# dar trebuie context pentru verificare
+#~ msgid "failed to open pipe descriptor `1' in paste"
+#~ msgstr "eșec la descidearea descriptorului de conexiune „1” la lipire"
 
-#: scripts/dpkg-divert.pl:130
-#, perl-format
-msgid "--%s needs a divert-to argument"
-msgstr "--%s necesită un loc de rediretare ca argument"
+#~ msgid "failed to write to gzip -dc"
+#~ msgstr "eșec la scrierea în gzip -dc"
 
-#: scripts/dpkg-divert.pl:132
-msgid "divert-to may not contain newlines"
-msgstr "locul de reidrectare nu poate conține caractere „linie nouă”"
+#~ msgid "failed to close gzip -dc"
+#~ msgstr "eșec la închiderea gzip -dc"
 
-#: scripts/dpkg-divert.pl:134
-#, perl-format
-msgid "--%s needs a <package> argument"
-msgstr "--%s necesită un <pachet> ca argument"
+#~ msgid "failed to syscall lseek to files archive portion"
+#~ msgstr ""
+#~ "eșec la apelul de sistem lseek pentru porțiunea de fișiere de arhivă"
 
-#: scripts/dpkg-divert.pl:136
-msgid "package may not contain newlines"
-msgstr "pachetul nu poate conține caractere „linie nouă”"
+#~ msgid "unable to exec mksplit"
+#~ msgstr "imposibil a executa comanda mksplit"
 
-#: scripts/dpkg-divert.pl:147
-#, perl-format
-msgid "cannot open diversions: %s"
-msgstr "nu se poate deschide fișierului de redirectări: %s"
+#~ msgid ""
+#~ "\n"
+#~ "Copyright (C) 1995 Ian Jackson.\n"
+#~ "Copyright (C) 2000,2001 Wichert Akkerman."
+#~ msgstr ""
+#~ "\n"
+#~ "Drepturi de autor (C) 1995 Ian Jackson.\n"
+#~ "Drepturi de autor (C) 2000,2001 Wichert Akkerman."
 
-#: scripts/dpkg-divert.pl:151
-msgid "missing altname"
-msgstr "lipsește numele alternativ"
+#~ msgid "two commands specified: %s and --%s"
+#~ msgstr "au fost precizate două comenzi: %s și --%s"
 
-#: scripts/dpkg-divert.pl:154
-msgid "missing package"
-msgstr "lipsește pachetul"
+#~ msgid "--%s needs a divert-to argument"
+#~ msgstr "--%s necesită un loc de rediretare ca argument"
 
-#: scripts/dpkg-divert.pl:162 scripts/dpkg-divert.pl:166
-#, perl-format
-msgid "filename \"%s\" is not absolute"
-msgstr "numele de fișier „%.250s” nu este absolut"
+#~ msgid "--%s needs a <package> argument"
+#~ msgstr "--%s necesită un <pachet> ca argument"
 
-#: scripts/dpkg-divert.pl:164
-msgid "Cannot divert directories"
-msgstr "Nu se pot redirecta directoare"
+#~ msgid "cannot open diversions: %s"
+#~ msgstr "nu se poate deschide fișierului de redirectări: %s"
 
-#: scripts/dpkg-divert.pl:167
-#, fuzzy, perl-format
-msgid "cannot divert file '%s' to itself"
-msgstr "Nu se pot redirecta directoare"
+#~ msgid "missing altname"
+#~ msgstr "lipsește numele alternativ"
 
-#: scripts/dpkg-divert.pl:174
-#, perl-format
-msgid "Leaving `%s'"
-msgstr "Se părăsește „%s”"
+#~ msgid "missing package"
+#~ msgstr "lipsește pachetul"
 
-#: scripts/dpkg-divert.pl:177
-#, perl-format
-msgid "`%s' clashes with `%s'"
-msgstr "„%s” este în conflict cu „%s”"
+#~ msgid "internal error - bad mode `%s'"
+#~ msgstr "eroare internă - mod incorect „%s”"
 
-#: scripts/dpkg-divert.pl:183
-#, perl-format
-msgid "Adding `%s'"
-msgstr "Se adaugă „%s”"
+#~ msgid "cannot stat old name `%s': %s"
+#~ msgstr "nu se poate citi starea vechiului nume „%s”: „%s”"
 
-#: scripts/dpkg-divert.pl:193
-#, perl-format
-msgid ""
-"mismatch on divert-to\n"
-"  when removing `%s'\n"
-"  found `%s'"
-msgstr ""
-"nepotrivire la locul de redirectare\n"
-"  la ștergerea lui „%s”\n"
-"  a fost găsit „%s”"
+#~ msgid "rename: rename `%s' to `%s': %s"
+#~ msgstr "redenumire: redenumirea lui „%s” în „%s”: %s"
 
-#: scripts/dpkg-divert.pl:195
-#, perl-format
-msgid ""
-"mismatch on package\n"
-"  when removing `%s'\n"
-"  found `%s'"
-msgstr ""
-"nepotrivire la pachet\n"
-"  la ștergerea lui „%s”\n"
-"  a fost găsit „%s”"
+#~ msgid "create diversions-new: %s"
+#~ msgstr "crearea noii redirectări: %s"
 
-#: scripts/dpkg-divert.pl:197
-#, perl-format
-msgid "Removing `%s'"
-msgstr "Se șterge „%s”"
+#~ msgid "write diversions-new: %s"
+#~ msgstr "scrierea noii redirectări: %s"
 
-#: scripts/dpkg-divert.pl:211
-#, perl-format
-msgid "No diversion `%s', none removed"
-msgstr "Nu există nici o redirectare „%s”, nu s-a șters nimic"
+#~ msgid "close diversions-new: %s"
+#~ msgstr "închiderea noii redirectări: %s"
 
-#: scripts/dpkg-divert.pl:257
-#, perl-format
-msgid "internal error - bad mode `%s'"
-msgstr "eroare internă - mod incorect „%s”"
+#~ msgid "create new diversions-old: %s"
+#~ msgstr "crearea noii redirectări anterioare: %s"
 
-#: scripts/dpkg-divert.pl:271
-#, perl-format
-msgid "cannot stat old name `%s': %s"
-msgstr "nu se poate citi starea vechiului nume „%s”: „%s”"
+#~ msgid "install new diversions: %s"
+#~ msgstr "instalarea noilor redirectări: %s"
 
-#: scripts/dpkg-divert.pl:273
-#, perl-format
-msgid "cannot stat new name `%s': %s"
-msgstr "nu se poate citi starea noului nume „%s”: „%s”"
-
-#: scripts/dpkg-divert.pl:290 scripts/dpkg-divert.pl:297
-#, perl-format
-msgid "error checking `%s': %s"
-msgstr "eroare la verificarea lui „%s”: %s"
-
-#: scripts/dpkg-divert.pl:301
-#, perl-format
-msgid ""
-"rename involves overwriting `%s' with\n"
-"  different file `%s', not allowed"
-msgstr ""
-"redenumirea implică supreascrierea lui „%s” cu\n"
-"  un alt fișier „%s”, lucru nepermis"
-
-#: scripts/dpkg-divert.pl:316
-#, perl-format
-msgid "rename: remove duplicate old link `%s': %s"
-msgstr "redenumire: ștergerea vechii legături duplicate „%s”: %s"
-
-#: scripts/dpkg-divert.pl:319
-#, perl-format
-msgid "rename: rename `%s' to `%s': %s"
-msgstr "redenumire: redenumirea lui „%s” în „%s”: %s"
-
-#: scripts/dpkg-divert.pl:326
-#, perl-format
-msgid "create diversions-new: %s"
-msgstr "crearea noii redirectări: %s"
-
-#: scripts/dpkg-divert.pl:330
-#, perl-format
-msgid "write diversions-new: %s"
-msgstr "scrierea noii redirectări: %s"
-
-#: scripts/dpkg-divert.pl:332
-#, perl-format
-msgid "close diversions-new: %s"
-msgstr "închiderea noii redirectări: %s"
-
-#: scripts/dpkg-divert.pl:334
-#, perl-format
-msgid "remove old diversions-old: %s"
-msgstr "ștergerea vechii redirectări anterioare: %s"
-
-#: scripts/dpkg-divert.pl:336
-#, perl-format
-msgid "create new diversions-old: %s"
-msgstr "crearea noii redirectări anterioare: %s"
-
-#: scripts/dpkg-divert.pl:338
-#, perl-format
-msgid "install new diversions: %s"
-msgstr "instalarea noilor redirectări: %s"
-
-#: scripts/dpkg-divert.pl:367
-#, perl-format
-msgid "internal error: %s corrupt: %s"
-msgstr "eroare internă: %s corupt: %s"
+#~ msgid "internal error: %s corrupt: %s"
+#~ msgstr "eroare internă: %s corupt: %s"
 
 #~ msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 #~ msgstr "eroare - dpkg-deb: %s („%s”) nu conține nici un număr\n"
@@ -6187,9 +6344,6 @@ msgstr "eroare internă: %s corupt: %s"
 
 #~ msgid "%s: internal bzip2 error: read(%i) != write(%i)"
 #~ msgstr "%s: eroare internă bzip2: citire(%i) != scriere(%i)"
-
-#~ msgid "cannot open GPL file"
-#~ msgstr "nu se poate deschide fișierul GPL"
 
 #~ msgid "Don't forget to foreground (`fg') this process when you're done !\n"
 #~ msgstr ""
@@ -6531,12 +6685,6 @@ msgstr "eroare internă: %s corupt: %s"
 #~ msgid "invalid number for --command-fd"
 #~ msgstr "număr nevalid pentru --command-fd"
 
-# numele funcților și argumentelor acestora rămân cele originale
-# pentru a nu induce în eroare utilizatorul
-# `' devine „” - oricum ` și ' nu sunt pereche
-#~ msgid "unable to open tmpfile for vsnprintf"
-#~ msgstr "imposibil a deschide tmpfile pentru vsnprintf"
-
 #~ msgid "unable to rewind at start of vsnprintf"
 #~ msgstr "imposibil a reveni la începutul lui vsnprintf"
 
@@ -6827,9 +6975,6 @@ msgstr "eroare internă: %s corupt: %s"
 
 #~ msgid "dpkg: warning - ignoring Breaks !\n"
 #~ msgstr "dpkg: avertisment - se ignoră coruperea !\n"
-
-#~ msgid "diversion by %s"
-#~ msgstr "redirectare după %s"
 
 #~ msgid "to"
 #~ msgstr "la"
