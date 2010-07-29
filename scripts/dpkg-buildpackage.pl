@@ -72,6 +72,7 @@ Options:
   -B             binary-only, no arch-indep files.   } dpkg-genchanges
   -A             binary-only, only arch-indep files. }
   -S             source only, no binary files.     }
+  -F             normal full build (binaries and sources).
   -t<system>     set GNU system type.           } passed to dpkg-architecture
   -v<version>    changes since version <version>.      }
   -m<maint>      maintainer for package is <maint>.    }
@@ -219,6 +220,10 @@ while (@ARGV) {
 	$include = BUILD_SOURCE;
 	push @changes_opts, '-S';
 	@checkbuilddep_opts = ('-B');
+    } elsif (/^-F$/) {
+	!build_normal && usageerr(_g("cannot combine %s and %s"), $_, build_opt);
+	$include = BUILD_ALL;
+	@checkbuilddep_opts = ();
     } elsif (/^-v(.*)$/) {
 	$since = $1;
     } elsif (/^-m(.*)$/) {
@@ -238,7 +243,7 @@ while (@ARGV) {
 }
 
 if ($noclean) {
-    # -nc without -b/-B/-A/-S implies -b
+    # -nc without -b/-B/-A/-S/-F implies -b
     $include = BUILD_BINARY if ($include & BUILD_DEFAULT);
 }
 
