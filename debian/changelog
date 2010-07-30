@@ -1,3 +1,13 @@
+dpkg (1.15.8.2) UNRELEASED; urgency=low
+
+  * Bump libdpkg-perl Depends on dpkg to 1.15.8, as it will break dpkg
+    versions before that when installing and removing libdpkg-perl,
+    because older update-alternatives and dpkg-divert require Dpkg.pm and
+    Dpkg/Gettext.pm which will disappear due to the Replaces. Closes: #590867
+    Thanks to Sven Joachim <svenjoac@gmx.de> for the analysis.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 30 Jul 2010 04:35:25 +0200
+
 dpkg (1.15.8.1) unstable; urgency=low
 
   * Fix off-by-one error in update-alternatives that lead to an infinite loop
