@@ -193,14 +193,20 @@ sub resolve_symlink($) {
 
 =item my $cmdpath = find_command($command)
 
-Return the path of the command if available on the $PATH, undef otherwise.
+Return the path of the command if available on an absolute or relative
+path or on the $PATH, undef otherwise.
 
 =cut
 
 sub find_command($) {
     my $cmd = shift;
-    foreach my $dir (split(/:/, $ENV{'PATH'})) {
-	return "$dir/$cmd" if -x "$dir/$cmd";
+
+    if ($cmd =~ m{/}) {
+	return "$cmd" if -x "$cmd";
+    } else {
+	foreach my $dir (split(/:/, $ENV{'PATH'})) {
+	    return "$dir/$cmd" if -x "$dir/$cmd";
+	}
     }
     return undef;
 }
