@@ -58,12 +58,15 @@ void
 dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
                           const char *name, size_t size)
 {
-	char header[sizeof(struct ar_hdr)];
+	char header[sizeof(struct ar_hdr) + 1];
+	int n;
 
-	sprintf(header, "%-16s%-12lu0     0     100644  %-10lu`\n",
-	        name, time(NULL), (unsigned long)size);
+	n = sprintf(header, "%-16s%-12lu0     0     100644  %-10lu`\n",
+	            name, time(NULL), (unsigned long)size);
+	if (n != sizeof(struct ar_hdr))
+		ohshit(_("generated corrupt ar header for '%s'"), ar_name);
 
-	if (write(ar_fd, header, sizeof(header)) < 0)
+	if (write(ar_fd, header, n) < 0)
 		ohshite(_("unable to write file '%s'"), ar_name);
 }
 
