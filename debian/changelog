@@ -1,8 +1,15 @@
 dpkg (1.15.8.3) UNRELEASED; urgency=low
 
+  [ Raphaël Hertzog ]
   * Fix dpkg-divert test suite to cope with + and other special characters for
     regexps in the build directory name. Thanks to Jonathan Nieder for the
     patch and to Phil Kern for the report. Closes: #591182
+
+  [ Guillem Jover ]
+  * Fix buffer overflow in dpkg_ar_member_put_header causing it to write the
+    header to fd 0 (instead of ar_fd) depending on the stack layout, affecting
+    armel. Thanks to Phil Kern for the analysis and Reinhard Tartler for the
+    initial patch. Closes: #591312
 
  -- Raphaël Hertzog <hertzog@debian.org>  Sun, 01 Aug 2010 08:54:39 +0200
 
