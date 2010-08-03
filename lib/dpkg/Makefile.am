@@ -35,6 +35,7 @@ libdpkg_a_SOURCES = \
 	ehandle.c \
 	file.c \
 	fields.c \
+	glob.c \
 	i18n.h \
 	log.c \
 	md5.c md5.h \
@@ -70,6 +71,7 @@ pkginclude_HEADERS = \
 	dpkg.h \
 	dpkg-db.h \
 	file.h \
+	glob.h \
 	macros.h \
 	myopt.h \
 	parsedump.h \

@@ -48,7 +48,6 @@ dpkg_LDADD = \
 	$(SELINUX_LIBS)
 
 dpkg_divert_SOURCES = \
-	glob.c glob.h \
 	filesdb.c filesdb.h \
 	divertdb.c \
 	divertcmd.c
@@ -69,7 +68,6 @@ dpkg_query_LDADD = \
 	$(LIBINTL)
 
 dpkg_statoverride_SOURCES = \
-	glob.c glob.h \
 	filesdb.c filesdb.h \
 	statdb.c \
 	statcmd.c

@@ -42,10 +42,10 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
+#include <dpkg/glob.h>
 #include <dpkg/myopt.h>
 
 #include "main.h"
-#include "glob.h"
 #include "filesdb.h"
 
 const char thisname[] = "dpkg-statoverrides";

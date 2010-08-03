@@ -39,10 +39,10 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/file.h>
+#include <dpkg/glob.h>
 #include <dpkg/buffer.h>
 #include <dpkg/myopt.h>
 
-#include "glob.h"
 #include "filesdb.h"
 
 

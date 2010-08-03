@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * glob.c - file globing functions
+ * glob.h - file globing functions
  *
  * Copyright © 2009, 2010 Guillem Jover <guillem@debian.org>
  *
@@ -18,34 +18,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
-#include <compat.h>
+#ifndef LIBDPKG_GLOB_H
+#define LIBDPKG_GLOB_H
 
-#include <stdlib.h>
+#include <dpkg/macros.h>
 
-#include <dpkg/dpkg.h>
+DPKG_BEGIN_DECLS
 
-#include "glob.h"
+struct glob_node {
+	struct glob_node *next;
+	char *pattern;
+};
 
-void
-glob_list_prepend(struct glob_node **list, char *pattern)
-{
-	struct glob_node *node;
+void glob_list_prepend(struct glob_node **list, char *pattern);
+void glob_list_free(struct glob_node *head);
 
-	node = m_malloc(sizeof(*node));
-	node->pattern = pattern;
-	node->next = *list;
-	*list = node;
-}
+DPKG_END_DECLS
 
-void
-glob_list_free(struct glob_node *head)
-{
-	while (head) {
-		struct glob_node *node = head;
-
-		head = head->next;
-		free(node->pattern);
-		free(node);
-	}
-}
+#endif /* LIBDPKG_GLOB_H */
