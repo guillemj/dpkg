@@ -80,8 +80,8 @@ my @choices = (
     },
 );
 my $nb_slaves = 4;
-plan tests => (4 * ($nb_slaves + 1) + 2) * 24 # number of check_choices
-		+ 65;			      # rest
+plan tests => (4 * ($nb_slaves + 1) + 2) * 25 # number of check_choices
+		+ 69;			      # rest
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
@@ -120,6 +120,12 @@ sub remove_choice {
     my ($id, %opts) = @_;
     my $alt = $choices[$id];
     my @params = ("--remove", $main_name, $alt->{path});
+    call_ua(\@params, %opts);
+}
+
+sub remove_all_choices {
+    my (%opts) = @_;
+    my @params = ("--remove-all", $main_name);
     call_ua(\@params, %opts);
 }
 
@@ -295,6 +301,12 @@ set_choice(1);
 check_choice(1, "manual", "single manual choice");
 remove_choice(1);
 check_choice(undef, "", "removal single manual");
+# test --remove-all
+install_choice(0);
+install_choice(1);
+install_choice(2);
+remove_all_choices(test_id => "remove all");
+check_choice(undef, "", "no alternative left");
 # check auto-recovery of user mistakes (#100135)
 install_choice(1);
 ok(unlink("$bindir/generic-test"), "failed removal");
