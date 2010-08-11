@@ -106,7 +106,10 @@ int parsedb(const char *filename, enum parsedbflags flags,
   ps.filename = filename;
   ps.flags = flags;
   ps.lno = 0;
-  ps.warnto = warnto;
+  if (warnto == NULL)
+    ps.warnto = stderr;
+  else
+    ps.warnto = warnto;
   ps.warncount = 0;
 
   newpifp= (flags & pdb_recordavailable) ? &newpig.available : &newpig.installed;
