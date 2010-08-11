@@ -234,7 +234,10 @@ enum parsedbflags {
   pdb_rejectstatus      =002, /* Throw up an error if `Status' encountered             */
   pdb_weakclassification=004, /* Ignore priority/section info if we already have any   */
   pdb_ignorefiles       =010, /* Ignore files info if we already have them             */
-  pdb_ignoreolder       =020  /* Ignore packages with older versions already read      */
+  /* Ignore packages with older versions already read. */
+  pdb_ignoreolder       =020,
+  /* Perform laxer parsing, used to transition to stricter parsing. */
+  pdb_lax_parser        =040,
 };
 
 const char *illegal_packagename(const char *p, const char **ep);

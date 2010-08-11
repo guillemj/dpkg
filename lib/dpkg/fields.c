@@ -178,12 +178,8 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
 void f_version(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                struct parsedb_state *ps,
                const char *value, const struct fieldinfo *fip) {
-  const char *emsg;
-  
-  emsg= parseversion(&pifp->version,value);
-  if (emsg)
-    parse_error(ps, pigp,
-                _("error in Version string `%.250s': %.250s"), value, emsg);
+  parse_db_version(ps, pigp, &pifp->version, value,
+                   _("error in Version string '%.250s'"), value);
 }  
 
 void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
@@ -205,19 +201,15 @@ void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
 void f_configversion(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                      struct parsedb_state *ps,
                      const char *value, const struct fieldinfo *fip) {
-  const char *emsg;
-  
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps, pigp,
                 _("value for `config-version' field not allowed in this context"));
   if (ps->flags & pdb_recordavailable)
     return;
 
-  emsg= parseversion(&pigp->configversion,value);
-  if (emsg)
-    parse_error(ps, pigp,
-                _("error in Config-Version string `%.250s': %.250s"),
-                value, emsg);
+  parse_db_version(ps, pigp, &pigp->configversion, value,
+                   _("error in Config-Version string '%.250s'"), value);
+
 }
 
 static void conffvalue_lastword(const char *value, const char *from,
@@ -426,12 +418,9 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
         varbufreset(&version);
         varbufaddbuf(&version, versionstart, versionlength);
         varbufaddc(&version, '\0');
-        emsg = parseversion(&dop->version, version.buf);
-        if (emsg)
-          parse_error(ps, pigp,
-                      _("`%s' field, reference to `%.255s': "
-                        "error in version: %.255s"),
-                      fip->name, depname.buf, emsg);
+        parse_db_version(ps, pigp, &dop->version, version.buf,
+                         _("'%s' field, reference to '%.255s': "
+                           "error in version"), fip->name, depname.buf);
         p++; while (isspace(*p)) p++;
       } else {
         dop->verrel= dvr_none;

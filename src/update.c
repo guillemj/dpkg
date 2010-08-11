@@ -79,7 +79,8 @@ void updateavailable(const char *const *argv) {
   varbufaddc(&vb,0);
 
   if (cipaction->arg == act_avmerge)
-    parsedb(vb.buf, pdb_recordavailable | pdb_rejectstatus, NULL, NULL, NULL);
+    parsedb(vb.buf, pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
+            NULL, NULL, NULL);
 
   if (cipaction->arg != act_avclear)
     count += parsedb(sourcefile,
