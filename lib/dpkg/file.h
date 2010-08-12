@@ -39,6 +39,11 @@ struct file_stat {
 	uid_t uid;
 	gid_t gid;
 	mode_t mode;
+
+	/* Used by dpkg-statoverride when parsing the database to preserve the
+	 * user and group names in case the system does not know about them. */
+	const char *uname;
+	const char *gname;
 };
 
 void file_copy_perms(const char *src, const char *dst);

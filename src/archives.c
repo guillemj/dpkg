@@ -1643,7 +1643,7 @@ archivefiles(const char *const *argv)
   fnameidlu= fnamevb.used;
 
   ensure_diversions();
-  ensure_statoverrides();
+  ensure_statoverrides(STATDB_PARSE_NORMAL);
 
   while ((thisarg = *argp++) != NULL) {
     if (setjmp(ejbuf)) {

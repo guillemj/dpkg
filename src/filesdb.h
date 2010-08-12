@@ -155,10 +155,15 @@ void ensure_package_clientdata(struct pkginfo *pkg);
 
 void ensure_diversions(void);
 
+enum statdb_parse_flags {
+	STATDB_PARSE_NORMAL = 0,
+	STATDB_PARSE_LAX = 1,
+};
+
 uid_t statdb_parse_uid(const char *str);
 gid_t statdb_parse_gid(const char *str);
 mode_t statdb_parse_mode(const char *str);
-void ensure_statoverrides(void);
+void ensure_statoverrides(enum statdb_parse_flags flags);
 
 #define LISTFILE           "list"
 #define HASHFILE           "md5sums"

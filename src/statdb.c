@@ -60,10 +60,11 @@ statdb_parse_uid(const char *str)
 		uid = (uid_t)value;
 	} else {
 		struct passwd *pw = getpwnam(str);
+
 		if (pw == NULL)
-			ohshit(_("syntax error: unknown user '%s' in statoverride file"),
-			       str);
-		uid = pw->pw_uid;
+			uid = (uid_t)-1;
+		else
+			uid = pw->pw_uid;
 	}
 
 	return uid;
@@ -85,10 +86,11 @@ statdb_parse_gid(const char *str)
 		gid = (gid_t)value;
 	} else {
 		struct group *gr = getgrnam(str);
+
 		if (gr == NULL)
-			ohshit(_("syntax error: unknown group '%s' in statoverride file"),
-			       str);
-		gid = gr->gr_gid;
+			gid = (gid_t)-1;
+		else
+			gid = gr->gr_gid;
 	}
 
 	return gid;
@@ -108,7 +110,7 @@ statdb_parse_mode(const char *str)
 }
 
 void
-ensure_statoverrides(void)
+ensure_statoverrides(enum statdb_parse_flags flags)
 {
 	static struct stat sb_prev;
 	struct stat sb_next;
@@ -201,6 +203,14 @@ ensure_statoverrides(void)
 		*ptr = '\0';
 
 		fso->uid = statdb_parse_uid(thisline);
+		if (fso->uid == (uid_t)-1)
+			fso->uname = thisline;
+		else
+			fso->uname = NULL;
+
+		if (fso->uid == (uid_t)-1 && !(flags & STATDB_PARSE_LAX))
+			ohshit(_("unknown user '%s' in statoverride file"),
+			       thisline);
 
 		/* Move to the next bit */
 		thisline = ptr + 1;
@@ -214,6 +224,14 @@ ensure_statoverrides(void)
 		*ptr = '\0';
 
 		fso->gid = statdb_parse_gid(thisline);
+		if (fso->gid == (gid_t)-1)
+			fso->gname = thisline;
+		else
+			fso->gname = NULL;
+
+		if (fso->gid == (gid_t)-1 && !(flags & STATDB_PARSE_LAX))
+			ohshit(_("unknown group '%s' in statoverride file"),
+			       thisline);
 
 		/* Move to the next bit */
 		thisline = ptr + 1;

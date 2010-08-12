@@ -122,7 +122,15 @@ statdb_node_new(const char *user, const char *group, const char *mode)
 	filestat = nfmalloc(sizeof(*filestat));
 
 	filestat->uid = statdb_parse_uid(user);
+	if (filestat->uid == (uid_t)-1)
+		filestat->uname = user;
+	else
+		filestat->uname = NULL;
 	filestat->gid = statdb_parse_gid(group);
+	if (filestat->gid == (gid_t)-1)
+		filestat->gname = group;
+	else
+		filestat->gname = NULL;
 	filestat->mode = statdb_parse_mode(mode);
 
 	return filestat;
@@ -174,12 +182,16 @@ statdb_node_print(FILE *out, struct filenamenode *file)
 	pw = getpwuid(filestat->uid);
 	if (pw)
 		fprintf(out, "%s ", pw->pw_name);
+	else if (filestat->uname)
+		fprintf(out, "%s ", filestat->uname);
 	else
 		fprintf(out, "#%d ", filestat->uid);
 
 	gr = getgrgid(filestat->gid);
 	if (gr)
 		fprintf(out, "%s ", gr->gr_name);
+	else if (filestat->gname)
+		fprintf(out, "%s ", filestat->gname);
 	else
 		fprintf(out, "#%d ", filestat->gid);
 
@@ -356,7 +368,7 @@ main(int argc, const char *const *argv)
 		badusage(_("need an action option"));
 
 	filesdbinit();
-	ensure_statoverrides();
+	ensure_statoverrides(STATDB_PARSE_LAX);
 
 	ret = cipaction->action(argv);
 
