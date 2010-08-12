@@ -1361,9 +1361,9 @@ wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver,
     }
   }
 
-  if (!(pkg->status == stat_installed ||
-        pkg->status == stat_triggersawaited ||
-        pkg->status == stat_triggerspending))
+  if (pkg->eflag & eflag_reinstreq)
+    return 1;
+  if (pkg->status < stat_unpacked)
     return 1;
   if (!ver) return -1;
 
