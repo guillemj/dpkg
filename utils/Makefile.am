@@ -25,6 +25,7 @@ update_alternatives_SOURCES = \
 
 update_alternatives_LDADD = \
 	../lib/compat/libcompat.a \
+	$(LIBINTL) \
 	$(UA_LIBS)
 
 sbin_PROGRAMS =

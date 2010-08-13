@@ -7,6 +7,10 @@ dpkg (1.15.8.4) UNRELEASED; urgency=low
   * On database parsing only warn on bogus versions previously accepted,
     the other instances will keep producing errors, to avoid newly
     introduced bogosity. Closes: #590885, #590896, #591692, #591885
+  * Fix compilation on Solaris and Darwin:
+    - Link update-alternatives against libintl if libc does not have i18n
+      support.
+    Thanks to Fabian Groffen <grobian@gentoo.org>.
 
   [ Raphaël Hertzog ]
   * Fix make -C man install so that it actually finds the manual pages
