@@ -69,6 +69,8 @@ uninstall-local-yes:
 		for trans in $(dist_man_MANS); do \
 			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
 				files="$$files $(CURDIR)/$$lang/$$trans"; \
+			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
+				files="$$files $(srcdir)/$$lang/$$trans"; \
 			fi; \
 		done; \
 		$(MAKE) uninstall-man \
