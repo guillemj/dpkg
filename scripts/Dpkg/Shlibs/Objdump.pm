@@ -22,6 +22,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
 use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch);
+use Dpkg::IPC;
 
 our $VERSION = "0.01";
 
@@ -89,17 +90,29 @@ sub has_object {
 	if (exists $format{$file}) {
 	    return $format{$file};
 	} else {
-	    local $ENV{LC_ALL} = "C";
-	    open(P, "-|", $OBJDUMP, "-a", "--", $file)
-		|| syserr(_g("cannot fork for %s"), $OBJDUMP);
-	    while (<P>) {
+	    my ($output, %opts, $pid, $res);
+	    if ($OBJDUMP ne "objdump") {
+		$opts{"error_to_file"} = "/dev/null";
+	    }
+	    $pid = spawn(exec => [ $OBJDUMP, "-a", "--", $file ],
+			 env => { "LC_ALL" => "C" },
+			 to_pipe => \$output, %opts);
+	    while (<$output>) {
 		chomp;
 		if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
 		    $format{$file} = $1;
-		    return $format{$file};
+		    $res = $format{$file};
+		    last;
 		}
 	    }
-	    close(P) or subprocerr($OBJDUMP);
+	    close($output);
+	    wait_child($pid, nocheck => 1);
+	    if ($?) {
+		subprocerr("objdump") if $OBJDUMP eq "objdump";
+		local $OBJDUMP = "objdump";
+		$res = get_format($file);
+	    }
+	    return $res;
 	}
     }
 }

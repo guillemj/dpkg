@@ -41,6 +41,7 @@
 #include <assert.h>
 #include <locale.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
@@ -668,10 +669,24 @@ alternative_new(const char *name)
 }
 
 static void
+alternative_choices_free(struct alternative *a)
+{
+	struct fileset *fs;
+
+	if (a->choices)
+		a->modified = true;
+
+	while (a->choices) {
+		fs = a->choices;
+		a->choices = fs->next;
+		fileset_free(fs);
+	}
+}
+
+static void
 alternative_reset(struct alternative *alt)
 {
 	struct slave_link *slave;
-	struct fileset *fs;
 	struct commit_operation *commit_op;
 
 	free(alt->master_link);
@@ -681,11 +696,7 @@ alternative_reset(struct alternative *alt)
 		alt->slaves = slave->next;
 		slave_link_free(slave);
 	}
-	while (alt->choices) {
-		fs = alt->choices;
-		alt->choices = fs->next;
-		fileset_free(fs);
-	}
+	alternative_choices_free(alt);
 	while (alt->commit_ops) {
 		commit_op = alt->commit_ops;
 		alt->commit_ops = commit_op->next;
@@ -2351,10 +2362,7 @@ main(int argc, char **argv)
 				new_choice = best->master_file;
 		}
 	} else if (strcmp(action, "remove-all") == 0) {
-		struct fileset *fs;
-
-		for (fs = a->choices; fs; fs = fs->next)
-			alternative_remove_choice(a, fs->master_file);
+		alternative_choices_free(a);
 	} else if (strcmp(action, "install") == 0) {
 		if (a->master_link) {
 			/* Alternative already exists, check if anything got

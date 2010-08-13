@@ -11,6 +11,34 @@ dpkg (1.15.9) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Thu, 29 Jul 2010 11:00:22 +0200
 
+dpkg (1.15.8.4) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Fix use after free segfault on update-alternatives --remove-all.
+    Closes: #591653, #591654
+  * Always print a massage on warning when parsing control files.
+  * On database parsing only warn on bogus versions previously accepted,
+    the other instances will keep producing errors, to avoid newly
+    introduced bogosity. Closes: #590885, #590896, #591692, #591885
+  * Fix compilation on Solaris and Darwin:
+    - Link update-alternatives against libintl if libc does not have i18n
+      support.
+    - Include <limits.h> for _POSIX_MAX_PATH in update-alternatives.
+    Thanks to Fabian Groffen <grobian@gentoo.org>.
+
+  [ Raphaël Hertzog ]
+  * Fix make -C man install so that it actually finds the manual pages
+    to install. Closes: #591588
+  * When analyzing the ELF format of a binary in dpkg-shlibdeps, fallback on
+    usual objdump when the cross objdump failed. Closes: #591522
+
+  [ Sven Joachim ]
+  * Ensure removal of leftover backup .dpkg-tmp files after unpacking
+    failures, when the backup is still a hard link to the original file.
+    Closes: #591993
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 13 Aug 2010 06:02:10 +0200
+
 dpkg (1.15.8.3) unstable; urgency=low
 
   [ Raphaël Hertzog ]

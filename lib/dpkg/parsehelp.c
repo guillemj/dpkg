@@ -209,7 +209,9 @@ const char *versiondescribe
   return vb->buf;
 }
 
-const char *parseversion(struct versionrevision *rversion, const char *string) {
+static const char *
+parseversion_lax(struct versionrevision *rversion, const char *string)
+{
   char *hyphen, *colon, *eepochcolon;
   const char *end, *ptr;
   unsigned long epoch;
@@ -246,7 +248,24 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
     *hyphen++ = '\0';
   rversion->revision= hyphen ? hyphen : "";
 
-  /* Check for invalid chars in version and revision. */
+  return NULL;
+}
+
+/**
+ * Check for invalid syntax in version structure.
+ *
+ * The rest of the syntax has been already checked in parseversion_lax(). So
+ * we only do the stricter checks here.
+ *
+ * @param rversion The version to verify.
+ *
+ * @return An error string, or NULL if eveyrthing was ok.
+ */
+static const char *
+version_strict_check(struct versionrevision *rversion)
+{
+  const char *ptr;
+
   /* XXX: Would be faster to use something like cisversion and cisrevision. */
   for (ptr = rversion->version; *ptr; ptr++) {
     if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
@@ -258,6 +277,61 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   }
 
   return NULL;
+}
+
+const char *
+parseversion(struct versionrevision *rversion, const char *string)
+{
+  const char *emsg;
+
+  emsg = parseversion_lax(rversion, string);
+  if (emsg)
+    return emsg;
+
+  return version_strict_check(rversion);
+}
+
+/**
+ * Parse a version string coming from a database file.
+ *
+ * It parses a version string, and prints a warning or an error depending
+ * on the parse options.
+ *
+ * @param ps The parsedb state.
+ * @param pkg The package being parsed.
+ * @param version The version to parse into.
+ * @param value The version string to parse from.
+ * @param fmt The error format string.
+ */
+void
+parse_db_version(struct parsedb_state *ps, const struct pkginfo *pkg,
+                 struct versionrevision *version, const char *value,
+                 const char *fmt, ...)
+{
+  const char *msg;
+  bool warn_msg = false;
+
+  msg = parseversion_lax(version, value);
+  if (msg == NULL) {
+    msg = version_strict_check(version);
+    if (ps->flags & pdb_lax_parser)
+      warn_msg = true;
+  }
+
+  if (msg) {
+    va_list args;
+    char buf[1000];
+
+    va_start(args, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, args);
+
+    if (warn_msg)
+      parse_warn(ps, pkg, "%s: %.250s", buf, msg);
+    else
+      parse_error(ps, pkg, "%s: %.250s", buf, msg);
+
+    va_end(args);
+  }
 }
 
 void

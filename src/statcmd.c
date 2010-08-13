@@ -1,5 +1,5 @@
 /*
- * dpkg-statoverrides - override ownership and mode of files
+ * dpkg-statoverride - override ownership and mode of files
  *
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
@@ -48,7 +48,7 @@
 #include "main.h"
 #include "filesdb.h"
 
-const char thisname[] = "dpkg-statoverrides";
+const char thisname[] = "dpkg-statoverride";
 const char printforhelp[] = N_("Use --help for help about querying packages.");
 
 static void DPKG_ATTR_NORET

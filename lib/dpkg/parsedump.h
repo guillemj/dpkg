@@ -65,6 +65,10 @@ struct fieldinfo {
   size_t integer;
 };
 
+void parse_db_version(struct parsedb_state *ps, const struct pkginfo *pkg,
+                      struct versionrevision *version, const char *value,
+                      const char *fmt, ...) DPKG_ATTR_PRINTF(5);
+
 void parse_error(struct parsedb_state *ps, const struct pkginfo *pigp,
                  const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3);
 void parse_warn(struct parsedb_state *ps, const struct pkginfo *pigp,

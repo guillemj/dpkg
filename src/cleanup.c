@@ -90,6 +90,10 @@ void cu_installnew(int argc, void **argv) {
     /* Either we can do an atomic restore, or we've made room: */
     if (rename(fnametmpvb.buf,fnamevb.buf))
       ohshite(_("unable to restore backup version of `%.250s'"),namenode->name);
+    /* If <foo>.dpkg-tmp was still a hard link to <foo>, then the atomic
+     * rename did nothing, so we make sure to remove the backup. */
+    else if (unlink(fnametmpvb.buf) && errno != ENOENT)
+      ohshite(_("unable to remove backup copy of '%.250s'"), namenode->name);
   } else if (namenode->flags & fnnf_placed_on_disk) {
     debug(dbg_eachfiledetail,"cu_installnew removing new file");
     if (unlinkorrmdir(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
