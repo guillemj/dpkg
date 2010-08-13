@@ -41,6 +41,7 @@
 #include <assert.h>
 #include <locale.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
