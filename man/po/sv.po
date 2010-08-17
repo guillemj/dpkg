@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-29 09:34+0300\n"
-"PO-Revision-Date: 2010-07-25 18:50+0100\n"
+"PO-Revision-Date: 2010-08-17 19:53+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -274,10 +274,10 @@ msgstr "deb-control"
 
 #. type: TH
 #: deb-control.5:3 dpkg-buildflags.1:1 dpkg-buildpackage.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2010-01-28"
 msgid "2010-07-29"
-msgstr "2010-01-28"
+msgstr "2010-07-29"
 
 #. type: Plain text
 #: deb-control.5:6
@@ -750,7 +750,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-control.5:205
-#, fuzzy
 #| msgid ""
 #| "The syntax of B<Conflicts>, B<Replaces> and B<Provides> is a list of "
 #| "package names, separated by commas (and optional whitespace).  In the "
@@ -764,11 +763,12 @@ msgid ""
 "optional version can also be given with the same syntax as above for the "
 "B<Breaks>, B<Conflicts> and B<Replaces> fields."
 msgstr ""
-"Syntaxen för B<Conflicts>, B<Replaces> och B<Provides> är en lista över "
-"paketnamn avdelade med komman (och eventuella blanktecken). I B<Conflicts>-"
-"fältet läses kommatecknet som \"ELLER\". En eventuellt versionsnumret kan "
-"även anges, med samma syntax som ovan för B<Conflicts> och B<Replaces>-"
-"fälten."
+"Syntaxen för B<Breaks>, B<Conflicts>, B<Replaces> och B<Provides> "
+"är en lista över paketnamn avdelade med komman (och eventuella "
+"blanktecken). I fälten B<Breaks> och B<Conflicts> läses kommatecknet "
+"som \"ELLER\". En eventuellt versionsnumret kan även anges, med samma "
+"syntax som ovan för fälten B<Breaks>, B<Conflicts> och B<Replaces>."
+""
 
 #. type: SH
 #: deb-control.5:206 start-stop-daemon.8:273
@@ -3481,7 +3481,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1:436
-#, fuzzy
 #| msgid ""
 #| "B<confdef>: If a conffile has been modified always choose the default "
 #| "action. If there is no default action it will stop to ask the user unless "
@@ -3494,10 +3493,11 @@ msgid ""
 "confold>, or B<--force-confdef> is also given, it will be used to decide the "
 "final action."
 msgstr ""
-"B<confdef>: Utför alltid förvalt alternativt för ändrade "
-"konfigurationsfiler. Om inget förval har angivits kommer programmet stanna "
-"och fråga användaren såvida inte B<--force-confnew> eller B<--force-confold> "
-"också angetts, i så fall används den för att bestämma vad som skall utföras."
+"B<confask>: Erbjud alltid att ersätta en modifierad konfigurationsfil med "
+"versionen i paketet, även om versionen i paketet inte ändrades. Om någon "
+"av B<--force-confmiss>, B<--force-confnew>, B<--force-confold> eller "
+"B<--force-confdef> också angetts, så används den för att bestämma vad "
+"som skall utföras."
 
 #. type: Plain text
 #: dpkg.1:439
@@ -5546,10 +5546,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:40
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--showformat=>I<format>"
 msgid "B<--export=>I<format>"
-msgstr "B<--showformat=>I<format>"
+msgstr "B<--export=>I<format>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:48
@@ -5560,6 +5560,11 @@ msgid ""
 "compilation flags starting with an upper case character are included, others "
 "are assumed to not be suitable for the environment."
 msgstr ""
+"Skriv skal- (om I<format> är B<sh>) eller make-kommandon (om I<format> är "
+"B<make>) som kan användas för att exportera alla kompileringsflaggor i "
+"miljön till standard ut. Om I<format> inte anges antas B<sh>. Endast "
+"kompileringsflaggor som börjar med en stor bokstav tas med, andra antas "
+"att inte vara lämpliga för miljön."
 
 #. type: TP
 #: dpkg-buildflags.1:48
@@ -5997,7 +6002,7 @@ msgstr ""
 #: dpkg-buildpackage.1:67
 #, no-wrap
 msgid "B<-F>"
-msgstr ""
+msgstr "B<-F>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:71
@@ -6005,6 +6010,8 @@ msgid ""
 "Specifies a normal full build, binary and source packages will be built.  "
 "This is the same as the default case when no build option is specified."
 msgstr ""
+"Anger att ett normalt komplett bygge, binär- och källkodspaket, skall "
+"byggas. Detta är detsamma som standardläget om inga byggflaggor anges."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:73
@@ -12939,10 +12946,10 @@ msgstr ""
 
 #. type: SS
 #: dpkg-source.1:557
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Format: 3.0 (quilt)"
 msgid "Format: 3.0 (git)"
-msgstr "Format: 3.0 (quilt)"
+msgstr "Format: 3.0 (git)"
 
 #. type: Plain text
 #: dpkg-source.1:560
@@ -12950,11 +12957,13 @@ msgid ""
 "This format is experimental. It uses a bundle of a git repository to hold "
 "the source of a package."
 msgstr ""
+"Det här formatet är experimentellt. Det använder en \"bundle\" från ett "
+"git-arkiv för paketets källkod."
 
 #. type: Plain text
 #: dpkg-source.1:564
 msgid "The bundle is cloned to a new git repository."
-msgstr ""
+msgstr "\"Bundle\":n klonas till ett nytt git-arkiv."
 
 #. type: Plain text
 #: dpkg-source.1:569
@@ -12964,6 +12973,10 @@ msgid ""
 "it could be anything.) Any other branches will be available, under as "
 "`remotes/origin/`"
 msgstr ""
+"Observera att det nya arkivet som standard kommer att ha samma gren "
+"utcheckad som den som var utcheckad i det ursprungliga källkodsträdet. "
+"(Typiskt \"master\", men kan vara vad som helst.) Eventuella andra "
+"grenar kommer också att vara tillgängliga, under \"remotes/origin/\"."
 
 #. type: Plain text
 #: dpkg-source.1:574 dpkg-source.1:607
@@ -12980,13 +12993,15 @@ msgid ""
 "B<git-bundle>(1) is used to generate a bundle of the git repository.  By "
 "default, all branches and tags in the repository are included in the bundle."
 msgstr ""
+"B<git-bundle>(1) används för att generera en \"bundle\" från git-arkivet. "
+"Som standard tas alla grenar och taggar i arkivet med i \"bundle\":n."
 
 #. type: TP
 #: dpkg-source.1:580
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--target=>I<target>"
 msgid "B<--git-ref=>I<ref>"
-msgstr "B<--target=>I<mål>"
+msgstr "B<--git-ref=>I<ref>"
 
 #. type: Plain text
 #: dpkg-source.1:590
@@ -12999,13 +13014,21 @@ msgid ""
 "all tags and branches, except for the private branch, use --git-ref=--all --"
 "git-ref=^private"
 msgstr ""
+"Gör det möjligt att ange en git-referens som skall tas med i \"bundle\":n. "
+"Om den anges överstyr den standardbeteendet som är att ta med alla grenar "
+"och taggar. Kan anges flera gånger. I<ref> kan vara namnet på en gren "
+"eller tagg som skall tas med. Den kan även vara vilken som helst annan "
+"parameter som kan sändas med till B<git-rev-list>(1). För att, till "
+"exempel, endast ta med grenen \"master\", angänd --git-ref=master. För "
+"att ta med alla taggar och grenar, förutom grenen private, använd "
+"--git-ref=--all --git-ref=^private"
 
 #. type: TP
 #: dpkg-source.1:590
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--abort-after=>I<number>"
 msgid "B<--git-depth=>I<number>"
-msgstr "B<--abort-after=>I<antal>"
+msgstr "B<--git-depth=>I<antal>"
 
 #. type: Plain text
 #: dpkg-source.1:594
@@ -13013,17 +13036,18 @@ msgid ""
 "Creates a shallow clone with a history truncated to the specified number of "
 "revisions."
 msgstr ""
+"Skapar en grund klon med en historik som är avhuggen vid det angivna "
+"antalet revisioner."
 
 #. type: SS
 #: dpkg-source.1:594
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Format: 3.0 (quilt)"
 msgid "Format: 3.0 (bzr)"
-msgstr "Format: 3.0 (quilt)"
+msgstr "Format: 3.0 (bzr)"
 
 #. type: Plain text
 #: dpkg-source.1:597
-#, fuzzy
 #| msgid ""
 #| "Those formats are experimental. They generate a single tarball containing "
 #| "the corresponding VCS repository."
@@ -13031,19 +13055,18 @@ msgid ""
 "This format is experimental. It generates a single tarball containing the "
 "bzr repository."
 msgstr ""
-"Dessa format är experimentella. De genererar en ensam tarboll som innehåller "
-"motsvarande VCS-arkiv."
+"Detta format är experimentellt. Det genererar en ensam tarboll som innehåller "
+"bzr-arkivet."
 
 #. type: Plain text
 #: dpkg-source.1:602
-#, fuzzy
 #| msgid ""
 #| "The tarball is unpacked and then the VCS is used to checkout the current "
 #| "branch."
 msgid ""
 "The tarball is unpacked and then bzr is used to checkout the current branch."
 msgstr ""
-"Tarbollen packas upp och VCS-verktyget används sedan för att hämta ut den "
+"Tarbollen packas upp och bzr används sedan för att hämta ut den "
 "aktuella grenen."
 
 #. type: Plain text
