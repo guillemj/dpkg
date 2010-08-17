@@ -555,12 +555,18 @@ The generated .dsc file will contain this value in its \fIFormat\fP field
 and not "3.0 (custom)".
 .
 .SS Format: 3.0 (git)
-This format is experimental. It uses a bundle of a git repository to hold
-the source of a package.
+This format is experimental.
+.PP
+A source package in this format consists of a
+single bundle of a git repository \fB.git\fP to hold the source of a package.
+There may also be a \fB.gitshallow\fP file listing revisions for a shallow
+git clone.
 .PP
 .B Extracting
 .PP
-The bundle is cloned to a new git repository.
+The bundle is cloned as a git repository to the target directory.
+If there is a gitshallow file, it is installed as `.git/shallow` inside
+the cloned git repository.
 .PP
 Note that by default the new repository will have the same branch checked
 out that was checked out in the original source. (Typically "master", but
