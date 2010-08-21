@@ -6,13 +6,12 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-21 20:15+0300\n"
-"PO-Revision-Date: 2010-08-17 19:53+0100\n"
+"PO-Revision-Date: 2010-08-21 22:19+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
-"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #. type: TH
 #: deb.5:1
@@ -2589,7 +2588,6 @@ msgstr "B<rensa>"
 
 #. type: Plain text
 #: dpkg.1:91
-#, fuzzy
 #| msgid ""
 #| "The package is selected to be purged (i.e. we want to remove everything, "
 #| "even configuration files)."
@@ -2597,8 +2595,8 @@ msgid ""
 "The package is selected to be purged (i.e. we want to remove everything from "
 "system directories, even configuration files)."
 msgstr ""
-"Paketet är markerat för rensning (dvs. vi vill ta bort allting, även "
-"konfigurationsfiler)."
+"Paketet är markerat för rensning (dvs. vi vill ta bort allting från "
+"systemkataloger, även konfigurationsfiler)."
 
 #. type: SS
 #: dpkg.1:91
@@ -2788,7 +2786,6 @@ msgstr "B<-r>, B<--remove>, B<-P>, B<--purge >I<paket>...|B<-a>|B<--pending>"
 
 #. type: Plain text
 #: dpkg.1:178
-#, fuzzy
 #| msgid ""
 #| "Remove an installed package. B<-r> or B<--remove> remove everything "
 #| "except conffiles. This may avoid having to reconfigure the package if it "
@@ -2828,7 +2825,9 @@ msgstr ""
 "till vissa konfigurationsfiler på grund av att de skapas och hanteras "
 "separat via konfigurationsskript. I så fall kommer inte B<dpkg> självt ta "
 "bort dem, utan paketets I<postrm>-skript (som anropas av B<dpkg>) måste ta "
-"hand om att de tas bort när paketet tas bort med B<--purge>."
+"hand om att de tas bort när paketet tas bort med B<--purge>. Detta gäller "
+"naturligtvis endast för filer i systemkatalogerna, inte konfigurationsfiler "
+"som skrivs i enstaka användares hemkataloger."
 
 #. type: Plain text
 #: dpkg.1:180
@@ -12959,7 +12958,7 @@ msgstr "Format: 3.0 (git)"
 #. type: Plain text
 #: dpkg-source.1:559
 msgid "This format is experimental."
-msgstr ""
+msgstr "Formatet är experimentellt."
 
 #. type: Plain text
 #: dpkg-source.1:564
@@ -12968,6 +12967,10 @@ msgid ""
 "repository B<.git> to hold the source of a package.  There may also be a B<."
 "gitshallow> file listing revisions for a shallow git clone."
 msgstr ""
+"Ett källkodspaket i detta format består av en ensam \"bundle\" från ett "
+"git-arkiv B<.git>, vilket innehåller paketets källkod. Filen "
+"B<.gitshallow>, som innehåller revisioner för grunda git-kloner, kan "
+"även förekomma."
 
 #. type: Plain text
 #: dpkg-source.1:570
@@ -12976,6 +12979,8 @@ msgid ""
 "is a gitshallow file, it is installed as `.git/shallow` inside the cloned "
 "git repository."
 msgstr ""
+"\"Bundle\":n klonas som ett git-arkiv till målkatalogen. Om filen gitshallow "
+"finns installeras den som \".git/shallow\" i det klonade git-arkivet."
 
 #. type: Plain text
 #: dpkg-source.1:575
