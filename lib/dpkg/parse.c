@@ -249,14 +249,19 @@ int parsedb(const char *filename, enum parsedbflags flags,
       parse_error(&ps, &newpig,
                   _("several package info entries found, only one allowed"));
     parse_must_have_field(&ps, &newpig, newpig.name, "package name");
-    if ((flags & pdb_recordavailable) || newpig.status != stat_notinstalled) {
+    /* XXX: We need to check for status != stat_halfinstalled as while
+     * unpacking a deselected package, it will not have yet all data in
+     * place. But we cannot check for > stat_halfinstalled as stat_configfiles
+     * always should have those fields. */
+    if ((flags & pdb_recordavailable) ||
+        (newpig.status != stat_notinstalled &&
+         newpig.status != stat_halfinstalled)) {
       parse_ensure_have_field(&ps, &newpig,
                               &newpifp->description, "description");
       parse_ensure_have_field(&ps, &newpig,
                               &newpifp->maintainer, "maintainer");
-      if (newpig.status != stat_halfinstalled)
-        parse_must_have_field(&ps, &newpig,
-                              newpifp->version.version, "version");
+      parse_must_have_field(&ps, &newpig,
+                            newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
       parse_ensure_have_field(&ps, &newpig,
