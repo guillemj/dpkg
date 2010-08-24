@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2010-08-21 20:15+0200\n"
-"PO-Revision-Date: 2010-04-26 18:42+0200\n"
+"PO-Revision-Date: 2010-08-24 18:23+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
-"Language-Team: fr <debian-l10n-french@lists.debian.org>\n"
+"Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,7 +160,7 @@ msgstr ""
 "Copyright (C) 2010 Raphael Hertzog <hertzog@debian.org>."
 
 #: scripts/dpkg-buildflags.pl:44
-#, fuzzy, perl-format
+#, perl-format
 #| msgid ""
 #| "Usage: %s [<action>]\n"
 #| "\n"
@@ -190,13 +190,17 @@ msgstr ""
 "Syntaxe : %s [<action>]\n"
 "\n"
 "Actions:\n"
-"  --get <drapeau>  affiche le drapeau choisi, sur stdout.\n"
-"  --origin <drapeau>                    affiche l'origine du drapeau, sur "
-"stdout :\n"
-"                   les valeurs possibles sont vendor, system, user, env.\n"
-"  --list           affiche une liste des drapeaux gérés par le distributeur\n"
-"                   actuel  --help           affiche ce message d'aide.\n"
-"  --version        affiche la version.\n"
+"  --get <drapeau>    affiche le drapeau choisi, sur stdout.\n"
+"  --origin <drapeau> affiche l'origine du drapeau, sur stdout :\n"
+"                     les valeurs possibles sont vendor, system, user, env.\n"
+"  --list             affiche une liste des drapeaux gérés par le "
+"distributeur\n"
+"                     actuel.\n"
+"  --export=(sh|make) affiche les commandes à exécuter avec le shell ou avec\n"
+"                     make pour exporter toutes les options de compilation\n"
+"                     sous forme de variables d'environnement.\n"
+"  --help             affiche ce  message d'aide.\n"
+"  --version          affiche la version.\n"
 
 #: scripts/dpkg-buildflags.pl:63 scripts/dpkg-buildflags.pl:69
 #: scripts/dpkg-buildflags.pl:74
@@ -205,10 +209,10 @@ msgid "two commands specified: --%s and --%s"
 msgstr "deux commandes indiquées : --%s et --%s"
 
 #: scripts/dpkg-buildflags.pl:67
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "%s needs a directory"
 msgid "%s needs a parameter"
-msgstr "répertoire nécessaire pour %s"
+msgstr "paramètre nécessaire pour %s"
 
 #: scripts/dpkg-buildflags.pl:88
 msgid "need an action option"
@@ -227,7 +231,7 @@ msgstr ""
 "Copyright (C) 2007 Frank Lichtenheld."
 
 #: scripts/dpkg-buildpackage.pl:52
-#, fuzzy, perl-format
+#, perl-format
 #| msgid ""
 #| "\n"
 #| "Usage: %s [<options> ...]\n"
@@ -367,6 +371,7 @@ msgstr ""
 "                 fichiers « arch-indep »                  }\n"
 "  -S             source uniquement, pas de fichier        }\n"
 "                 binaire.                                 }\n"
+"  -F             construction complète normale (binaires et sources).\n"
 "  -t<système>    définir le type système GNU.           } passé à dpkg-"
 "architecture\n"
 "  -v<version>    changements depuis la version <version>.             }\n"
@@ -392,6 +397,10 @@ msgstr ""
 "regex. } uniquement passé\n"
 "  -I[<format>]   filtrer les fichiers lors de la construction des "
 "tarballs. } à dpkg-source\n"
+"  --source-option=<opt>\n"
+"\t\t passer l'option <opt> à dpkg-source\n"
+"  --changes-option=<opt>\n"
+"\t\t passer l'option <opt> à dpkg-genchanges\n"
 "  --admindir=<répertoire>\n"
 "                 changer le répertoire d'administration.\n"
 "  -h, --help     afficher ce message d'aide.\n"
@@ -762,7 +771,7 @@ msgstr ""
 "paquet spécifique d'une architecture."
 
 #: scripts/dpkg-genchanges.pl:219
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "the current version (%s) is smaller than the previous one (%s)"
 msgid "the current version (%s) is earlier than the previous one (%s)"
 msgstr "La version actuelle (%s) est inférieure à la version précédente (%s)"
@@ -1175,10 +1184,9 @@ msgid "no debian/symbols file used as basis for generating %s"
 msgstr "pas de fichier debian/symbols utilisé comme base pour générer %s"
 
 #: scripts/dpkg-mergechangelogs.pl:55
-#, fuzzy
 #| msgid "Copyright (C) 2009-2010 RaphaÃ«l Hertzog."
 msgid "Copyright (C) 2009-2010 Raphael Hertzog."
-msgstr "Copyright (C) 2009-2010 Raphaël Hertzog."
+msgstr "Copyright (C) 2009-2010 Raphael Hertzog."
 
 #: scripts/dpkg-mergechangelogs.pl:58
 msgid ""
@@ -1913,6 +1921,8 @@ msgstr "%s n'est pas un niveau de compression"
 #: scripts/dpkg-source.pl:199
 msgid "need a command (-x, -b, --before-build, --after-build, --print-format)"
 msgstr ""
+"a besoin d'une commande (-x, -b, --before-build, --after-build, "
+"--print-format)"
 
 #: scripts/dpkg-source.pl:258
 #, perl-format
@@ -2293,22 +2303,18 @@ msgid "'%s' option specifies non-existing version"
 msgstr "l'option « %s » indique une version inexistante"
 
 #: scripts/Dpkg/Changelog.pm:255 scripts/Dpkg/Changelog.pm:303
-#, fuzzy
 #| msgid "use newest entry that is smaller than the one specified"
 msgid "use newest entry that is earlier than the one specified"
-msgstr ""
-"utiliser la version la plus récente qui est inférieure à la version indiquée"
+msgstr "utiliser l'entrée la plus récente qui est inférieure à celle indiquée"
 
 #: scripts/Dpkg/Changelog.pm:264
 msgid "none found, starting from the oldest entry"
 msgstr "aucune trouvée, démarrage depuis la dernière entrée"
 
 #: scripts/Dpkg/Changelog.pm:271 scripts/Dpkg/Changelog.pm:287
-#, fuzzy
 #| msgid "use oldest entry that is bigger than the one specified"
 msgid "use oldest entry that is later than the one specified"
-msgstr ""
-"utiliser la version la plus ancienne qui est supérieure à celle indiquée"
+msgstr "utiliser l'entrée la plus ancienne qui est supérieure à celle indiquée"
 
 #: scripts/Dpkg/Changelog.pm:281 scripts/Dpkg/Changelog.pm:297
 #: scripts/Dpkg/Changelog.pm:312
@@ -3255,7 +3261,7 @@ msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm:369 scripts/Dpkg/Source/Package/V2.pm:456
 msgid "aborting due to --abort-on-upstream-changes"
-msgstr ""
+msgstr "abandon suite à --abort-on-upstream-changes"
 
 #: scripts/Dpkg/Source/Package/V1.pm:387
 #, perl-format
@@ -3279,10 +3285,10 @@ msgstr ""
 
 #: scripts/Dpkg/Source/Package/V2.pm:227
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:242
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "applying %s"
 msgid "unapplying %s"
-msgstr "mise en place de %s"
+msgstr "retrait de %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:241 scripts/Dpkg/Source/Package/V2.pm:323
 msgid "no orig.tar file found"
@@ -3482,43 +3488,42 @@ msgstr "état de sortie non nul de git ls-files"
 #, perl-format
 msgid "creating shallow clone with depth %s"
 msgstr ""
+"Création d'un clone superficiel (« shallow clone ») avec la profondeur %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:165
 #, perl-format
 msgid "bundling: %s"
-msgstr ""
+msgstr "jonction (bundling) : %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:201
-#, fuzzy
 #| msgid "format v3.0 uses only one source file"
 msgid "format v3.0 (git) uses only one .git file"
-msgstr "le format v3.0 n'utilise qu'un fichier source"
+msgstr "le format v3.0 (git) n'utilise qu'un fichier .git"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:207
-#, fuzzy
 #| msgid "format v3.0 uses only one source file"
 msgid "format v3.0 (git) uses only one .gitshallow file"
-msgstr "le format v3.0 n'utilise qu'un fichier source"
+msgstr "le format v3.0 (git) n'utilise qu'un fichier .gitshallow"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:210
 #, perl-format
 msgid "format v3.0 (git) unknown file: %s"
-msgstr ""
+msgstr "fichier inconnu pour le format v3.0 (git) : %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:214
 #, perl-format
 msgid "format v3.0 (git) expected %s"
-msgstr ""
+msgstr "le format v3.0 (git) attend %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:220
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "applying %s"
 msgid "cloning %s"
-msgstr "mise en place de %s"
+msgstr "clonage de %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:227
 msgid "setting up shallow clone"
-msgstr ""
+msgstr "configuration du clone superficiel"
 
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:72
 #, perl-format
@@ -3611,13 +3616,13 @@ msgstr ""
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm:113
 msgid "'hardening' flag found but 'hardening-wrapper' not installed"
-msgstr ""
+msgstr "drapeau « hardening » mais « hardening-wrapper » n'est pas installé"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm:132
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "%s: use %s from environment: %s\n"
 msgid "overriding %s in environment: %s"
-msgstr "%s : utiliser %s depuis l'environnement : %s\n"
+msgstr "remplacement de %s dans l'environnement : %s"
 
 #: scripts/Dpkg/Version.pm:204 scripts/Dpkg/Version.pm:206
 #, perl-format
