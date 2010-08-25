@@ -376,7 +376,10 @@ void do_build(const char *const *argv) {
       ohshite(_("error opening conffiles file"));
     }
     if (warns)
-      warning(_("ignoring %d warnings about the control file(s)\n"), warns);
+      warning(P_("ignoring %d warning about the control file(s)\n",
+                 "ignoring %d warnings about the control file(s)\n", warns),
+              warns);
+
   }
   m_output(stdout, _("<standard output>"));
   

@@ -117,10 +117,9 @@ static void info_spew(const char *debar, const char *directory,
   }
   varbuf_destroy(&controlfile);
 
-  if (re==1)
-    ohshit(_("One requested control component is missing"));
-  else if (re>1)
-    ohshit(_("%d requested control components are missing"), re);
+  if (re > 0)
+    ohshit(P_("%d requested control component is missing",
+              "%d requested control components are missing", re), re);
 }
 
 static void info_list(const char *debar, const char *directory) {

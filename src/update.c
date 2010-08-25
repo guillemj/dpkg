@@ -93,7 +93,8 @@ void updateavailable(const char *const *argv) {
   }
 
   if (cipaction->arg != act_avclear)
-    printf(_("Information about %d package(s) was updated.\n"),count);
+    printf(P_("Information about %d package was updated.\n",
+              "Information about %d packages was updated.\n", count), count);
 }
 
 void forgetold(const char *const *argv) {
