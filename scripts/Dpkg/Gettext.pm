@@ -44,17 +44,23 @@ BEGIN {
 					return $_[1];
 				}
 			}
+			sub P_ {
+				return ngettext(@_);
+			}
 		};
 	} else {
 		eval q{
 			sub _g {
 				return gettext(shift);
 			}
+			sub P_ {
+				return ngettext(@_);
+			}
 		};
 	}
 }
 
 use base qw(Exporter);
-our @EXPORT=qw(_g textdomain ngettext);
+our @EXPORT=qw(_g P_ textdomain ngettext);
 
 1;
