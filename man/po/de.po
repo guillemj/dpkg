@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-21 20:15+0300\n"
-"PO-Revision-Date: 2010-07-29 19:28+0200\n"
+"PO-Revision-Date: 2010-08-29 14:49+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -2650,16 +2650,13 @@ msgstr "B<vollständig löschen>"
 
 #. type: Plain text
 #: dpkg.1:91
-#, fuzzy
-#| msgid ""
-#| "The package is selected to be purged (i.e. we want to remove everything, "
-#| "even configuration files)."
 msgid ""
 "The package is selected to be purged (i.e. we want to remove everything from "
 "system directories, even configuration files)."
 msgstr ""
 "Das Paket ist zum vollständigen Löschen (»purge«) ausgewählt (d.h. wir "
-"wollen alle Dateien inklusive der Konfigurationsdateien entfernen)."
+"wollen alle Dateien aus den Systemverzeichnissen inklusive der "
+"Konfigurationsdateien entfernen)."
 
 #. type: SS
 #: dpkg.1:91
@@ -2857,20 +2854,6 @@ msgstr "B<-r>, B<--remove>, B<-P>, B<--purge >I<Paket> ...|B<-a>|B<--pending>"
 
 #. type: Plain text
 #: dpkg.1:178
-#, fuzzy
-#| msgid ""
-#| "Remove an installed package. B<-r> or B<--remove> remove everything "
-#| "except conffiles. This may avoid having to reconfigure the package if it "
-#| "is reinstalled later. (Conffiles are configuration files that are listed "
-#| "in the I<DEBIAN/conffiles> control file). B<-P> or B<--purge> removes "
-#| "everything, including conffiles. If B<-a> or B<--pending> is given "
-#| "instead of a package name, then all packages unpacked, but marked to be "
-#| "removed or purged in file I</var/lib/dpkg/status>, are removed or purged, "
-#| "respectively. Note: some configuration files might be unknown to B<dpkg> "
-#| "because they are created and handled separately through the configuration "
-#| "scripts. In that case, B<dpkg> won't remove them by itself, but the "
-#| "package's I<postrm> script (which is called by B<dpkg>), has to take care "
-#| "of their removal during purge."
 msgid ""
 "Remove an installed package. B<-r> or B<--remove> remove everything except "
 "conffiles. This may avoid having to reconfigure the package if it is "
@@ -2898,7 +2881,9 @@ msgstr ""
 "sie separat durch die Konfigurationsskripte angelegt und verwaltet werden. "
 "In diesem Fall wird B<dpkg> sie nicht selbst entfernen sondern das Skript "
 "I<postrm> (das von B<dpkg> aufgerufen wird) des Pakets muss sich während des "
-"vollständigen Löschens um das Entfernen kümmern."
+"vollständigen Löschens um das Entfernen kümmern. Natürlich betrifft dies nur "
+"Dateien in den Systemverzeichnissen, nicht Konfigurationsdateien, die in die "
+"Home-Verzeichnisse der individuellen Benutzer geschrieben werden."
 
 #. type: Plain text
 #: dpkg.1:180
@@ -13396,7 +13381,7 @@ msgstr "Format: 3.0 (git)"
 #. type: Plain text
 #: dpkg-source.1:559
 msgid "This format is experimental."
-msgstr ""
+msgstr "Dieses Format ist experimentell."
 
 #. type: Plain text
 #: dpkg-source.1:564
@@ -13405,6 +13390,10 @@ msgid ""
 "repository B<.git> to hold the source of a package.  There may also be a B<."
 "gitshallow> file listing revisions for a shallow git clone."
 msgstr ""
+"Ein Quellpaket in diesem Format besteht aus einem einzelnen Bündel eines "
+"Git-Depots B<.git>, um die Quellen des Pakets zu verwahren. Es kann auch eine "
+"Datei B<.gitshallow> geben, die die Revisionen für einen flachen Git-Clone "
+"aufführt."
 
 #. type: Plain text
 #: dpkg-source.1:570
@@ -13413,6 +13402,9 @@ msgid ""
 "is a gitshallow file, it is installed as `.git/shallow` inside the cloned "
 "git repository."
 msgstr ""
+"Das Bündel wird als Git-Depot in das Zielverzeichnis geklont. Falls es eine "
+"Datei gitshallow gibt, wird diese als ».git/shallow« innerhalb des geklonten "
+"Git-Depots installiert."
 
 #. type: Plain text
 #: dpkg-source.1:575
