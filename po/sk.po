@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2010-08-21 20:15+0200\n"
+"POT-Creation-Date: 2010-08-31 20:58+0200\n"
 "PO-Revision-Date: 2009-12-03 10:34+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -166,7 +166,7 @@ msgstr "nie je možné zistiť obsah adresára s aktualizáciami „%.250s“"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "zlyhalo odstránenie pridruženého aktualizačného súboru %.255s"
 
-#: lib/dpkg/dbmodify.c:121 dpkg-deb/build.c:386
+#: lib/dpkg/dbmodify.c:121 dpkg-deb/build.c:389
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "nedá sa vytvoriť „%.255s“"
@@ -1575,14 +1575,14 @@ msgid "--%s needs at least one package archive file argument"
 msgstr "--%s vyžaduje ako argument aspoň jeden súbor s balíkom"
 
 #: src/archives.c:1260 src/divertcmd.c:78 src/divertcmd.c:118
-#: src/enquiry.c:163 src/enquiry.c:268 src/enquiry.c:411 src/enquiry.c:413
-#: src/enquiry.c:422 src/main.c:65 src/main.c:159 src/main.c:257
+#: src/enquiry.c:163 src/enquiry.c:270 src/enquiry.c:413 src/enquiry.c:415
+#: src/enquiry.c:424 src/main.c:65 src/main.c:159 src/main.c:257
 #: src/main.c:432 src/packages.c:249 src/querycmd.c:187 src/querycmd.c:290
 #: src/querycmd.c:332 src/querycmd.c:341 src/querycmd.c:388 src/querycmd.c:454
 #: src/querycmd.c:593 src/querycmd.c:637 src/select.c:77 src/statcmd.c:67
-#: src/statcmd.c:97 src/trigcmd.c:60 src/trigcmd.c:92 dpkg-deb/build.c:381
-#: dpkg-deb/extract.c:212 dpkg-deb/extract.c:241 dpkg-deb/info.c:192
-#: dpkg-deb/info.c:248 dpkg-deb/main.c:61 dpkg-deb/main.c:124
+#: src/statcmd.c:97 src/trigcmd.c:60 src/trigcmd.c:92 dpkg-deb/build.c:384
+#: dpkg-deb/extract.c:212 dpkg-deb/extract.c:241 dpkg-deb/info.c:191
+#: dpkg-deb/info.c:247 dpkg-deb/main.c:61 dpkg-deb/main.c:124
 #: dpkg-split/info.c:250 dpkg-split/main.c:53 dpkg-split/main.c:91
 #: dpkg-split/queue.c:141 dpkg-split/queue.c:266
 msgid "<standard output>"
@@ -2308,14 +2308,14 @@ msgstr "odsunuté balíkom %s do: %s\n"
 msgid "cannot create new %s file"
 msgstr "nedá sa otvoriť súbor s GPL"
 
-#: src/divertcmd.c:389 src/statcmd.c:235 dpkg-deb/build.c:524
-#: dpkg-split/join.c:73 dpkg-split/queue.c:185
+#: src/divertcmd.c:389 src/statcmd.c:235 dpkg-deb/build.c:527
+#: dpkg-split/join.c:75 dpkg-split/queue.c:185
 #, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "nie je možné vyprázdniť zásobník vo funkcii vsprintf"
 
-#: src/divertcmd.c:391 src/statcmd.c:237 dpkg-deb/build.c:526
-#: dpkg-split/join.c:75 dpkg-split/queue.c:187
+#: src/divertcmd.c:391 src/statcmd.c:237 dpkg-deb/build.c:529
+#: dpkg-split/join.c:77 dpkg-split/queue.c:187
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "nie je možné otvoriť zdrojový súbor „%.250s“"
@@ -2513,9 +2513,9 @@ msgstr ""
 "dokončené. Spracovanie spúšťačov je možno vyžiadať  pomocou\n"
 "dselect alebo dpkg --configure --pending (alebo dpkg --triggers-only):\n"
 
-#: src/enquiry.c:134 src/enquiry.c:203 src/enquiry.c:279 src/enquiry.c:342
-#: src/enquiry.c:418 src/select.c:92 src/select.c:149 src/trigcmd.c:199
-#: src/update.c:44 src/update.c:101 dpkg-split/queue.c:225
+#: src/enquiry.c:134 src/enquiry.c:203 src/enquiry.c:281 src/enquiry.c:344
+#: src/enquiry.c:420 src/select.c:92 src/select.c:149 src/trigcmd.c:199
+#: src/update.c:44 src/update.c:102 dpkg-split/queue.c:225
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s nevyžaduje argumenty"
@@ -2536,11 +2536,15 @@ msgid " %d in %s: "
 msgstr "%d v %s: "
 
 #: src/enquiry.c:257
-#, c-format
-msgid " %d packages, from the following sections:"
-msgstr " %d balíkov, z nasledovných sekcií:"
+#, fuzzy, c-format
+#| msgid " %d packages, from the following sections:"
+msgid " %d package, from the following section:"
+msgid_plural " %d packages, from the following sections:"
+msgstr[0] " %d balíkov, z nasledovných sekcií:"
+msgstr[1] " %d balíkov, z nasledovných sekcií:"
+msgstr[2] " %d balíkov, z nasledovných sekcií:"
 
-#: src/enquiry.c:292
+#: src/enquiry.c:294
 #, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2549,30 +2553,30 @@ msgstr ""
 "Verzia dpkg s fungujúcou podporou %s ešte nie je nakonfigurovaná.\n"
 " Použite prosím „dpkg --configure dpkg“ a skúste to znova.\n"
 
-#: src/enquiry.c:297
+#: src/enquiry.c:299
 #, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 "dpkg nie je uvedené ako nainštalované, nie je možné skontrolovať podporu "
 "%s!\n"
 
-#: src/enquiry.c:305
+#: src/enquiry.c:307
 msgid "Pre-Depends field"
 msgstr "pole Pre-Depends"
 
-#: src/enquiry.c:310
+#: src/enquiry.c:312
 msgid "epoch"
 msgstr "epoch"
 
-#: src/enquiry.c:315
+#: src/enquiry.c:317
 msgid "long filenames"
 msgstr "dlhé názvy súborov"
 
-#: src/enquiry.c:320
+#: src/enquiry.c:322
 msgid "multiple Conflicts and Replaces"
 msgstr "viaceré Conflicts a Replaces"
 
-#: src/enquiry.c:397
+#: src/enquiry.c:399
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -2581,27 +2585,27 @@ msgstr ""
 "dpkg: nie je možné určiť ako uspokojiť pred-závislosti:\n"
 " %s\n"
 
-#: src/enquiry.c:398
+#: src/enquiry.c:400
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "nie je možné vyriešiť pred-závislosti pre %.250s (vyžadované pre %.250s)"
 
-#: src/enquiry.c:428
+#: src/enquiry.c:430
 #, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "zastaralá voľba „--%s“, prosím použite namiesto nej „--%s“."
 
-#: src/enquiry.c:469
+#: src/enquiry.c:471
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions vyžaduje tri argumenty: <verzia> <vzťah> <verzia>"
 
-#: src/enquiry.c:474
+#: src/enquiry.c:476
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions zlá relácia"
 
-#: src/enquiry.c:479 src/enquiry.c:486
+#: src/enquiry.c:481 src/enquiry.c:488
 #, c-format
 msgid "version '%s' has bad syntax: %s"
 msgstr "verzia „%s“ má chybnú syntax: %s"
@@ -2698,36 +2702,40 @@ msgid "(Reading database ... "
 msgstr "(Číta sa databáza ... "
 
 #: src/filesdb.c:446
-#, c-format
-msgid "%d files and directories currently installed.)\n"
-msgstr "momentálne je nainštalovaných %d súborov a adresárov.\n"
+#, fuzzy, c-format
+#| msgid "%d files and directories currently installed.)\n"
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "momentálne je nainštalovaných %d súborov a adresárov.\n"
+msgstr[1] "momentálne je nainštalovaných %d súborov a adresárov.\n"
+msgstr[2] "momentálne je nainštalovaných %d súborov a adresárov.\n"
 
-#: src/filesdb.c:479
+#: src/filesdb.c:481
 #, c-format
 msgid "unable to create updated files list file for package %s"
 msgstr "nie je možné vytvoriť aktualizovaný zoznam súborov balíka %s"
 
-#: src/filesdb.c:489
+#: src/filesdb.c:491
 #, c-format
 msgid "failed to write to updated files list file for package %s"
 msgstr "zlyhal zápis aktualizovaného zoznamu súborov balíka %s"
 
-#: src/filesdb.c:491
+#: src/filesdb.c:493
 #, c-format
 msgid "failed to flush updated files list file for package %s"
 msgstr "zlyhalo vyprázdnenie aktualizovaného zoznamu súborov balíka %s"
 
-#: src/filesdb.c:493
+#: src/filesdb.c:495
 #, c-format
 msgid "failed to sync updated files list file for package %s"
 msgstr "zlyhala synchronizácia aktualizovaného zoznamu súborov balíka %s"
 
-#: src/filesdb.c:496
+#: src/filesdb.c:498
 #, c-format
 msgid "failed to close updated files list file for package %s"
 msgstr "zlyhalo uzavretie aktualizovaného zoznamu súborov balíka %s"
 
-#: src/filesdb.c:498
+#: src/filesdb.c:500
 #, c-format
 msgid "failed to install updated files list file for package %s"
 msgstr "zlyhala inštalácia aktualizovaného zoznamu súborov balíka %s"
@@ -2773,81 +2781,92 @@ msgstr "chyba: premenná PATH nie je nastavená."
 msgid "'%s' not found in PATH or not executable."
 msgstr "„%s“ nebol nájdený v premennej PATH."
 
-#: src/help.c:136
+#: src/help.c:137
 #, fuzzy, c-format
 msgid ""
-"%d expected program(s) not found in PATH or not executable.\n"
+"%d expected program not found in PATH or not executable.\n"
 "NB: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."
-msgstr ""
+msgid_plural ""
+"%d expected programs not found in PATH or not executable.\n"
+"NB: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."
+msgstr[0] ""
+"%d očakávaných programov nenájdených v premennej PATH.\n"
+"NB: premenná PATH pre užívateľa root by mala obsahovať /usr/local/sbin, /usr/"
+"sbin a /sbin."
+msgstr[1] ""
+"%d očakávaných programov nenájdených v premennej PATH.\n"
+"NB: premenná PATH pre užívateľa root by mala obsahovať /usr/local/sbin, /usr/"
+"sbin a /sbin."
+msgstr[2] ""
 "%d očakávaných programov nenájdených v premennej PATH.\n"
 "NB: premenná PATH pre užívateľa root by mala obsahovať /usr/local/sbin, /usr/"
 "sbin a /sbin."
 
-#: src/help.c:184
+#: src/help.c:187
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr "zlyhalo vykonanie funkcie chroot na „%.255s“"
 
-#: src/help.c:186 dpkg-deb/build.c:395 dpkg-deb/build.c:462
-#: dpkg-deb/build.c:485
+#: src/help.c:189 dpkg-deb/build.c:398 dpkg-deb/build.c:465
+#: dpkg-deb/build.c:488
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "nie je možné zmeniť adresár na „%.255s“"
 
-#: src/help.c:246
+#: src/help.c:249
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "nie je možné nastaviť práva na spustenie na „%.250s“"
 
-#: src/help.c:265
+#: src/help.c:268
 msgid "unable to setenv for maintainer script"
 msgstr "nie je možné nastaviť premennú prostredia pre skript údržby"
 
-#: src/help.c:289
+#: src/help.c:292
 #, c-format
 msgid "installed %s script"
 msgstr "nainštalovaný skript %s"
 
-#: src/help.c:302 src/help.c:368 src/help.c:427
+#: src/help.c:305 src/help.c:371 src/help.c:430
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "nie je možné zistiť stav %s „%.250s“"
 
-#: src/help.c:354 src/help.c:414
+#: src/help.c:357 src/help.c:417
 #, c-format
 msgid "new %s script"
 msgstr "nový skript %s"
 
-#: src/help.c:388
+#: src/help.c:391
 #, c-format
 msgid "old %s script"
 msgstr "starý %s skript"
 
-#: src/help.c:402
+#: src/help.c:405
 #, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "nie je možné zistiť stav %s „%.250s“: %s"
 
-#: src/help.c:411
+#: src/help.c:414
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - skúša sa radšej skript z nového balíka ...\n"
 
-#: src/help.c:425
+#: src/help.c:428
 msgid "there is no script in the new version of the package - giving up"
 msgstr "v novej verzii balíka nie je žiaden skript - ukončuje sa"
 
-#: src/help.c:431
+#: src/help.c:434
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... vyzerá to tak, že sa to podarilo.\n"
 
-#: src/help.c:579
+#: src/help.c:582
 #, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "nedá sa bezpečne odstrániť „%.255s“"
 
-#: src/help.c:584 dpkg-deb/info.c:63
+#: src/help.c:587 dpkg-deb/info.c:63
 msgid "failed to exec rm for cleanup"
 msgstr "rm sa nedá spustiť na čistenie"
 
@@ -4346,11 +4365,15 @@ msgid "Updating available packages info, using %s.\n"
 msgstr "Aktualizujú sa informácie o dostupných balíkoch, pomocou %s.\n"
 
 #: src/update.c:96
-#, c-format
-msgid "Information about %d package(s) was updated.\n"
-msgstr "Informácie o %d balíku(och) boli aktualizované.\n"
+#, fuzzy, c-format
+#| msgid "Information about %d package(s) was updated.\n"
+msgid "Information about %d package was updated.\n"
+msgid_plural "Information about %d packages was updated.\n"
+msgstr[0] "Informácie o %d balíku(och) boli aktualizované.\n"
+msgstr[1] "Informácie o %d balíku(och) boli aktualizované.\n"
+msgstr[2] "Informácie o %d balíku(och) boli aktualizované.\n"
 
-#: src/update.c:103
+#: src/update.c:104
 #, c-format
 msgid ""
 "obsolete '--%s' option, unavailable packages are automatically cleaned up."
@@ -4366,8 +4389,8 @@ msgstr "názov súboru „%.50s...“ je príliš dlhý"
 msgid "unable to stat file name '%.250s'"
 msgstr "nie je možné otvoriť zdrojový súbor „%.250s“"
 
-#: dpkg-deb/build.c:229 utils/update-alternatives.c:2099
-#: utils/update-alternatives.c:2106
+#: dpkg-deb/build.c:229 utils/update-alternatives.c:2102
+#: utils/update-alternatives.c:2109
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s vyžaduje parameter <adresár>"
@@ -4489,70 +4512,74 @@ msgid "error opening conffiles file"
 msgstr "chyba pri otváraní konfiguračných súborov"
 
 #: dpkg-deb/build.c:379
-#, c-format
-msgid "ignoring %d warnings about the control file(s)\n"
-msgstr "ignoruje sa %d upozornení o riadiacom súbore(och)\n"
+#, fuzzy, c-format
+#| msgid "ignoring %d warnings about the control file(s)\n"
+msgid "ignoring %d warning about the control file(s)\n"
+msgid_plural "ignoring %d warnings about the control file(s)\n"
+msgstr[0] "ignoruje sa %d upozornení o riadiacom súbore(och)\n"
+msgstr[1] "ignoruje sa %d upozornení o riadiacom súbore(och)\n"
+msgstr[2] "ignoruje sa %d upozornení o riadiacom súbore(och)\n"
 
-#: dpkg-deb/build.c:388
+#: dpkg-deb/build.c:391
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "nie je možné odbufferovať „%.255s“"
 
-#: dpkg-deb/build.c:396
+#: dpkg-deb/build.c:399
 msgid "failed to chdir to .../DEBIAN"
 msgstr "nie je možné zmeniť adresár na .../DEBIAN"
 
-#: dpkg-deb/build.c:398 dpkg-deb/build.c:464
+#: dpkg-deb/build.c:401 dpkg-deb/build.c:467
 msgid "failed to exec tar -cf"
 msgstr "nie je možné spustiť príkaz tar -cf"
 
-#: dpkg-deb/build.c:405
+#: dpkg-deb/build.c:408
 msgid "failed to make tmpfile (control)"
 msgstr "zlyhalo vytvorenie dočasného súboru (riadenie)"
 
-#: dpkg-deb/build.c:407
+#: dpkg-deb/build.c:410
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "zlyhalo odpojenie dočasného súboru (riadenie), %s"
 
-#: dpkg-deb/build.c:415 dpkg-deb/build.c:432
+#: dpkg-deb/build.c:418 dpkg-deb/build.c:435
 msgid "control"
 msgstr "riadenie"
 
-#: dpkg-deb/build.c:422
+#: dpkg-deb/build.c:425
 msgid "failed to rewind tmpfile (control)"
 msgstr "nie je možné prejsť na začiatok dočasného súboru (riadenie)"
 
-#: dpkg-deb/build.c:429
+#: dpkg-deb/build.c:432
 msgid "failed to fstat tmpfile (control)"
 msgstr "nie je možné vykonať fstat na dočasný súbor (riadenie)"
 
-#: dpkg-deb/build.c:448
+#: dpkg-deb/build.c:451
 msgid "failed to make tmpfile (data)"
 msgstr "nie je možné vytvoriť dočasný súbor (dáta)"
 
-#: dpkg-deb/build.c:450
+#: dpkg-deb/build.c:453
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "zlyhalo odpojenie dočasného súboru (dáta), %s"
 
-#: dpkg-deb/build.c:474 dpkg-deb/extract.c:275
+#: dpkg-deb/build.c:477 dpkg-deb/extract.c:275
 msgid "data"
 msgstr "dáta"
 
-#: dpkg-deb/build.c:488
+#: dpkg-deb/build.c:491
 msgid "failed to exec find"
 msgstr "zlyhalo spustenie príkazu find"
 
-#: dpkg-deb/build.c:499 dpkg-deb/build.c:507
+#: dpkg-deb/build.c:502 dpkg-deb/build.c:510
 msgid "failed to write filename to tar pipe (data)"
 msgstr "nie je možné zapísať názov súboru do rúry programu tar (dáta)"
 
-#: dpkg-deb/build.c:511
+#: dpkg-deb/build.c:514
 msgid "<compress> from tar -cf"
 msgstr "<compress> z tar -cf"
 
-#: dpkg-deb/build.c:519
+#: dpkg-deb/build.c:522
 msgid "failed to rewind tmpfile (data)"
 msgstr "nie je možné prejsť na začiatok dočasného súboru (dáta)"
 
@@ -4784,66 +4811,66 @@ msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
 msgstr "otvorenie zložky „%.255s“ (v %.255s) zlyhalo neočakávaným spôsobom"
 
 #: dpkg-deb/info.c:121
-msgid "One requested control component is missing"
-msgstr "Chýba jeden požadovaný komponent riadenia"
+#, fuzzy, c-format
+#| msgid "One requested control component is missing"
+msgid "%d requested control component is missing"
+msgid_plural "%d requested control components are missing"
+msgstr[0] "Chýba jeden požadovaný komponent riadenia"
+msgstr[1] "Chýba jeden požadovaný komponent riadenia"
+msgstr[2] "Chýba jeden požadovaný komponent riadenia"
 
-#: dpkg-deb/info.c:123
-#, c-format
-msgid "%d requested control components are missing"
-msgstr "%d požadované komponenty riadenia chýbajú"
-
-#: dpkg-deb/info.c:136
+#: dpkg-deb/info.c:135
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "nie je možné skenovať adresár „%.255s“"
 
-#: dpkg-deb/info.c:141
+#: dpkg-deb/info.c:140
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
 msgstr "nie je možné zistiť stav „%.255s“ (v „%.255s“)"
 
-#: dpkg-deb/info.c:144
+#: dpkg-deb/info.c:143
 #, c-format
 msgid "cannot open `%.255s' (in `%.255s')"
 msgstr "nie je možné otvoriť „%.255s“ (v „%.255s“)"
 
-#: dpkg-deb/info.c:159 dpkg-deb/info.c:174 dpkg-deb/info.c:188
+#: dpkg-deb/info.c:158 dpkg-deb/info.c:173 dpkg-deb/info.c:187
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
 msgstr "nie je možné prečítať „%.255s“ (v „%.255s“)"
 
-#: dpkg-deb/info.c:162
+#: dpkg-deb/info.c:161
 #, c-format
 msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7ld bajtov, %5d riadky   %c  %-20.127s %.127s\n"
 
-#: dpkg-deb/info.c:166
+#: dpkg-deb/info.c:165
 #, c-format
 msgid "     not a plain file          %.255s\n"
 msgstr "     nie je obyčajný súbor          %.255s\n"
 
-#: dpkg-deb/info.c:175
+#: dpkg-deb/info.c:174
 msgid "(no `control' file in control archive!)\n"
 msgstr "(súbor „control“ chýba v riadiacom archíve!)\n"
 
-#: dpkg-deb/info.c:205
+#: dpkg-deb/info.c:204
 msgid "could not open the `control' component"
 msgstr "nebolo možné otvoriť komponent „control“"
 
-#: dpkg-deb/info.c:244
+#: dpkg-deb/info.c:243
 msgid "failed during read of `control' component"
 msgstr "zlyhanie počas čítania „control“ komponentu"
 
-#: dpkg-deb/info.c:246
+#: dpkg-deb/info.c:245
 #, c-format
 msgid "error closing the '%s' component"
 msgstr "chyba pri uzatváraní zložky „%s“"
 
-#: dpkg-deb/info.c:257
+#: dpkg-deb/info.c:256
 msgid "Error in format"
 msgstr "Chyba vo formáte"
 
-#: dpkg-deb/info.c:294
+#: dpkg-deb/info.c:293
 msgid "--contents takes exactly one argument"
 msgstr "--contents vyžaduje práve jeden paramater"
 
@@ -5117,7 +5144,7 @@ msgstr ""
 "    Čiast.veľ.súboru (použ. časť):  %lu bajtov\n"
 "\n"
 
-#: dpkg-split/info.c:237 dpkg-split/join.c:113
+#: dpkg-split/info.c:237 dpkg-split/join.c:115
 #, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "--%s vyžaduje jeden alebo viac parametrov častí súboru"
@@ -5128,36 +5155,40 @@ msgid "file `%s' is not an archive part\n"
 msgstr "súbor „%s“ nie je súčasťou archívu\n"
 
 #: dpkg-split/join.c:45
-#, c-format
-msgid "Putting package %s together from %d parts: "
-msgstr "Balík %s sa skladá z %d častí: "
+#, fuzzy, c-format
+#| msgid "Putting package %s together from %d parts: "
+msgid "Putting package %s together from %d part: "
+msgid_plural "Putting package %s together from %d parts: "
+msgstr[0] "Balík %s sa skladá z %d častí: "
+msgstr[1] "Balík %s sa skladá z %d častí: "
+msgstr[2] "Balík %s sa skladá z %d častí: "
 
-#: dpkg-split/join.c:53
+#: dpkg-split/join.c:55
 #, c-format
 msgid "unable to open output file `%.250s'"
 msgstr "nie je možné otvoriť výstupný súbor „%.250s“"
 
-#: dpkg-split/join.c:57
+#: dpkg-split/join.c:59
 #, c-format
 msgid "unable to (re)open input part file `%.250s'"
 msgstr "nie je možné (znovu)otvoriť vstupnú časť súboru „%.250s“"
 
-#: dpkg-split/join.c:78
+#: dpkg-split/join.c:80
 #, c-format
 msgid "done\n"
 msgstr "dokončené\n"
 
-#: dpkg-split/join.c:94
+#: dpkg-split/join.c:96
 #, c-format
 msgid "files `%.250s' and `%.250s' are not parts of the same file"
 msgstr "súbory „%.250s“ a „%.250s“ nie sú súčasťou toho istého súboru"
 
-#: dpkg-split/join.c:99
+#: dpkg-split/join.c:101
 #, c-format
 msgid "there are several versions of part %d - at least `%.250s' and `%.250s'"
 msgstr "nájdených niekoľko verzií časti %d - najmenej „%.250s“ a „%.250s“"
 
-#: dpkg-split/join.c:136
+#: dpkg-split/join.c:138
 #, c-format
 msgid "part %d is missing"
 msgstr "časť %d chýba"
@@ -5520,7 +5551,7 @@ msgstr "chyba pri rozbore"
 
 #: utils/update-alternatives.c:270 utils/update-alternatives.c:594
 #: utils/update-alternatives.c:1112 utils/update-alternatives.c:1319
-#: utils/update-alternatives.c:1568
+#: utils/update-alternatives.c:1571
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
 msgid "cannot stat %s: %s"
@@ -5576,7 +5607,7 @@ msgstr "nedá sa odstrániť %s: %s"
 msgid "unexpected end of file while trying to read %s"
 msgstr "neočakávaný koniec súboru v %s počas pokusu o čítanie %s"
 
-#: utils/update-alternatives.c:1000 utils/update-alternatives.c:1856
+#: utils/update-alternatives.c:1000 utils/update-alternatives.c:1859
 #, c-format
 msgid "while reading %s: %s"
 msgstr "počas čítania %s: %s"
@@ -5696,13 +5727,13 @@ msgstr "zahadzuje sa zastaralý závislý odkaz %s (%s)."
 msgid "cannot write %s: %s"
 msgstr "nedá sa zapísať %s: %s"
 
-#: utils/update-alternatives.c:1384 utils/update-alternatives.c:1448
-#: utils/update-alternatives.c:2406
+#: utils/update-alternatives.c:1384 utils/update-alternatives.c:1451
+#: utils/update-alternatives.c:2409
 msgid "auto mode"
 msgstr "automatický režim"
 
-#: utils/update-alternatives.c:1384 utils/update-alternatives.c:1457
-#: utils/update-alternatives.c:2407
+#: utils/update-alternatives.c:1384 utils/update-alternatives.c:1460
+#: utils/update-alternatives.c:2410
 msgid "manual mode"
 msgstr "manuálny režim"
 
@@ -5736,46 +5767,49 @@ msgstr "Momentálne je „najlepšia“ verzia %s."
 msgid "No versions available."
 msgstr "Nie sú dostupné žiadne verzie."
 
-#: utils/update-alternatives.c:1432
+#: utils/update-alternatives.c:1435
 #, fuzzy, c-format
 #| msgid "There are %s choices for the alternative %s (providing %s)."
-msgid "There are %d choices for the alternative %s (providing %s)."
-msgstr "Existuje %s možností alternatívy %s (poskytujúcej %s)."
+msgid "There is %d choice for the alternative %s (providing %s)."
+msgid_plural "There are %d choices for the alternative %s (providing %s)."
+msgstr[0] "Existuje %s možností alternatívy %s (poskytujúcej %s)."
+msgstr[1] "Existuje %s možností alternatívy %s (poskytujúcej %s)."
+msgstr[2] "Existuje %s možností alternatívy %s (poskytujúcej %s)."
 
-#: utils/update-alternatives.c:1439
+#: utils/update-alternatives.c:1442
 msgid "Selection"
 msgstr "Výber"
 
-#: utils/update-alternatives.c:1440
+#: utils/update-alternatives.c:1443
 msgid "Path"
 msgstr "Cesta"
 
-#: utils/update-alternatives.c:1440
+#: utils/update-alternatives.c:1443
 msgid "Priority"
 msgstr "Priorita"
 
-#: utils/update-alternatives.c:1440
+#: utils/update-alternatives.c:1443
 msgid "Status"
 msgstr "Stav"
 
-#: utils/update-alternatives.c:1461
+#: utils/update-alternatives.c:1464
 #, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 "Stlačením klávesu Enter ponecháte predvolenú možnosť[*], inak zadajte číslo "
 "výberu: "
 
-#: utils/update-alternatives.c:1582
+#: utils/update-alternatives.c:1585
 #, c-format
 msgid "not replacing %s with a link."
 msgstr "nenahrádza sa %s odkazom."
 
-#: utils/update-alternatives.c:1595
+#: utils/update-alternatives.c:1598
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1613
+#: utils/update-alternatives.c:1616
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
@@ -5784,109 +5818,109 @@ msgstr ""
 "preskočené vytvorenie %s, pretože príslušný súbor %s (zo skupiny odkazov %s) "
 "neexistuje."
 
-#: utils/update-alternatives.c:1823 utils/update-alternatives.c:1829
+#: utils/update-alternatives.c:1826 utils/update-alternatives.c:1832
 #, c-format
 msgid "Call %s."
 msgstr "Volanie %s."
 
-#: utils/update-alternatives.c:1833
+#: utils/update-alternatives.c:1836
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr "Alternatíva %s nezmenená, pretože možnosť %s nie je dostupná."
 
-#: utils/update-alternatives.c:1837
+#: utils/update-alternatives.c:1840
 #, c-format
 msgid "Skip unknown alternative %s."
 msgstr "Preskočiť neznámu alternatívu %s."
 
-#: utils/update-alternatives.c:1862
+#: utils/update-alternatives.c:1865
 #, fuzzy, c-format
 #| msgid "unexpected end of file in %s while trying to read %s"
 msgid "line too long or not terminated while trying to read %s"
 msgstr "neočakávaný koniec súboru v %s počas pokusu o čítanie %s"
 
-#: utils/update-alternatives.c:1875 utils/update-alternatives.c:1888
-#: utils/update-alternatives.c:1898
+#: utils/update-alternatives.c:1878 utils/update-alternatives.c:1891
+#: utils/update-alternatives.c:1901
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1917
+#: utils/update-alternatives.c:1920
 #, c-format
 msgid "renaming %s link from %s to %s."
 msgstr "odkaz %s sa premenuje z %s na %s."
 
-#: utils/update-alternatives.c:1948
+#: utils/update-alternatives.c:1951
 #, c-format
 msgid "renaming %s slave link from %s to %s."
 msgstr "závislý odkaz %s sa premenuje z %s na %s."
 
-#: utils/update-alternatives.c:1994
+#: utils/update-alternatives.c:1997
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "neznámy parameter „%s“"
 
-#: utils/update-alternatives.c:2013
+#: utils/update-alternatives.c:2016
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install vyžaduje <linku> <názov> <cestu> <prioritu>"
 
-#: utils/update-alternatives.c:2016 utils/update-alternatives.c:2067
+#: utils/update-alternatives.c:2019 utils/update-alternatives.c:2070
 msgid "<link> and <path> can't be the same"
 msgstr "<odkaz> a <cesta> sa nemôžu zhodovať"
 
-#: utils/update-alternatives.c:2019
+#: utils/update-alternatives.c:2022
 msgid "priority must be an integer"
 msgstr "priorita musí byť celé číslo"
 
-#: utils/update-alternatives.c:2032
+#: utils/update-alternatives.c:2035
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s vyžaduje <názov> <cestu>"
 
-#: utils/update-alternatives.c:2046
+#: utils/update-alternatives.c:2049
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s vyžaduje <názov>"
 
-#: utils/update-alternatives.c:2058
+#: utils/update-alternatives.c:2061
 msgid "--slave only allowed with --install"
 msgstr "--slave je povolené iba s --install"
 
-#: utils/update-alternatives.c:2060
+#: utils/update-alternatives.c:2063
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave vyžaduje <odkaz> <názov> <cestu>"
 
-#: utils/update-alternatives.c:2069
+#: utils/update-alternatives.c:2072
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr "názov %s je primárny aj závislý"
 
-#: utils/update-alternatives.c:2072
+#: utils/update-alternatives.c:2075
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr "odkaz %s je primárny aj závislý"
 
-#: utils/update-alternatives.c:2075
+#: utils/update-alternatives.c:2078
 #, c-format
 msgid "slave name %s duplicated"
 msgstr "závislý názov %s je duplicitný"
 
-#: utils/update-alternatives.c:2082
+#: utils/update-alternatives.c:2085
 #, c-format
 msgid "slave link %s duplicated"
 msgstr "závislý odkaz %s je duplicitný"
 
-#: utils/update-alternatives.c:2092
+#: utils/update-alternatives.c:2095
 #, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s vyžaduje parameter <súbor>"
 
-#: utils/update-alternatives.c:2118
+#: utils/update-alternatives.c:2121
 #, c-format
 msgid "unknown option `%s'"
 msgstr "neznáma voľba „%s“"
 
-#: utils/update-alternatives.c:2123
+#: utils/update-alternatives.c:2126
 #, fuzzy
 #| msgid ""
 #| "need --display, --query, --list, --get-selections, --config,--set, --set-"
@@ -5898,67 +5932,67 @@ msgstr ""
 "musíte zadať --display, --query, --list, --get-selections, --config,--set, --"
 "set-selections, --install, --remove, --all, --remove-all alebo --auto"
 
-#: utils/update-alternatives.c:2166 utils/update-alternatives.c:2210
+#: utils/update-alternatives.c:2169 utils/update-alternatives.c:2213
 #, c-format
 msgid "it is a slave of %s"
 msgstr "je závislosťou %s"
 
-#: utils/update-alternatives.c:2168
+#: utils/update-alternatives.c:2171
 #, c-format
 msgid "alternative %s can't be master: %s"
 msgstr "alternatíva %s nemôže byť primárna: %s"
 
-#: utils/update-alternatives.c:2178 utils/update-alternatives.c:2220
+#: utils/update-alternatives.c:2181 utils/update-alternatives.c:2223
 #, c-format
 msgid "alternative link %s is already managed by %s."
 msgstr "odkaz alternatívy %s už spravuje %s."
 
-#: utils/update-alternatives.c:2183 utils/update-alternatives.c:2226
+#: utils/update-alternatives.c:2186 utils/update-alternatives.c:2229
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr "odkaz alternatívy nie je absolútny, čo by mal byť: %s"
 
-#: utils/update-alternatives.c:2187 utils/update-alternatives.c:2230
+#: utils/update-alternatives.c:2190 utils/update-alternatives.c:2233
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr "cesta alternatívy nie je absolútna, čo by mala byť: %s"
 
-#: utils/update-alternatives.c:2191
+#: utils/update-alternatives.c:2194
 #, c-format
 msgid "alternative path %s doesn't exist."
 msgstr "alternatívna cesta %s neexistuje"
 
-#: utils/update-alternatives.c:2195 utils/update-alternatives.c:2234
+#: utils/update-alternatives.c:2198 utils/update-alternatives.c:2237
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces."
 msgstr "názov alternatívy (%s) nesmie obsahovať „/“ a medzery."
 
-#: utils/update-alternatives.c:2208
+#: utils/update-alternatives.c:2211
 msgid "it is a master alternative."
 msgstr "je primárna alternatíva."
 
-#: utils/update-alternatives.c:2212
+#: utils/update-alternatives.c:2215
 #, c-format
 msgid "alternative %s can't be slave of %s: %s"
 msgstr "alternatíva %s nemôže byť závislosťou %s: %s"
 
-#: utils/update-alternatives.c:2258
+#: utils/update-alternatives.c:2261
 #, fuzzy
 #| msgid "<standard output>"
 msgid "<standard input>"
 msgstr "<štand. výstup>"
 
-#: utils/update-alternatives.c:2267 utils/update-alternatives.c:2270
+#: utils/update-alternatives.c:2270 utils/update-alternatives.c:2273
 #, c-format
 msgid "no alternatives for %s."
 msgstr "žiadne alternatívy pre %s."
 
-#: utils/update-alternatives.c:2296
+#: utils/update-alternatives.c:2299
 #, c-format
 msgid "%s is dangling, it will be updated with best choice."
 msgstr "%s visí, bude sa aktualizovaný najlepšou voľbou."
 
-#: utils/update-alternatives.c:2300
+#: utils/update-alternatives.c:2303
 #, c-format
 msgid ""
 "%s has been changed (manually or by a script). Switching to manual updates "
@@ -5967,70 +6001,73 @@ msgstr ""
 "%s sa zmenil (manuálne alebo skriptom). Prepína sa len na manuálne "
 "aktualizácie."
 
-#: utils/update-alternatives.c:2309
+#: utils/update-alternatives.c:2312
 #, c-format
 msgid "setting up automatic selection of %s."
 msgstr "nastavuje sa automatický výber %s."
 
-#: utils/update-alternatives.c:2318
+#: utils/update-alternatives.c:2321
 #, c-format
 msgid "alternative %s for %s not registered, not setting."
 msgstr "alternatíva %s pre %s nie je registrovaná, takže sa nenastavuje."
 
-#: utils/update-alternatives.c:2326
+#: utils/update-alternatives.c:2329
 #, c-format
 msgid "There is no program which provides %s."
 msgstr "Neexistuje program poskytujúci %s."
 
-#: utils/update-alternatives.c:2328 utils/update-alternatives.c:2338
+#: utils/update-alternatives.c:2331 utils/update-alternatives.c:2341
 msgid "Nothing to configure."
 msgstr "Niet čo konfigurovať."
 
-#: utils/update-alternatives.c:2336
+#: utils/update-alternatives.c:2339
 #, c-format
 msgid "There is only one alternative in link group %s: %s"
 msgstr "V skupine odkazov existuje iba jedna alternatíva %s: %s"
 
-#: utils/update-alternatives.c:2347
+#: utils/update-alternatives.c:2350
 #, c-format
 msgid "alternative %s for %s not registered, not removing."
 msgstr "alternatíva %s pre %s nie je registrovaná, takže sa neodstraňuje."
 
-#: utils/update-alternatives.c:2355
+#: utils/update-alternatives.c:2358
 #, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 "odstraňuje sa manuálne zvolená alternatíva - prepína sa %s na automatický "
 "režim"
 
-#: utils/update-alternatives.c:2383
+#: utils/update-alternatives.c:2386
 #, c-format
 msgid "automatic updates of %s are disabled, leaving it alone."
 msgstr "automatické aktualizácie %s sú zakázané, zmeny sa nevykonajú."
 
-#: utils/update-alternatives.c:2385
+#: utils/update-alternatives.c:2388
 #, c-format
 msgid "to return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "použitím „update-alternatives --auto %s“ sa vrátite späť na automatické "
 "aktualizácie."
 
-#: utils/update-alternatives.c:2404
+#: utils/update-alternatives.c:2407
 #, c-format
 msgid "using %s to provide %s (%s) in %s."
 msgstr "použije sa %s, ktorý poskytuje %s (%s) v %s."
 
-#: utils/update-alternatives.c:2412
+#: utils/update-alternatives.c:2415
 #, fuzzy, c-format
 #| msgid "There is only one alternative in link group %s: %s"
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken."
 msgstr "V skupine odkazov existuje iba jedna alternatíva %s: %s"
 
-#: utils/update-alternatives.c:2419
+#: utils/update-alternatives.c:2422
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s."
 msgstr ""
+
+#~ msgid "%d requested control components are missing"
+#~ msgstr "%d požadované komponenty riadenia chýbajú"
 
 #~ msgid "cat (data)"
 #~ msgstr "cat (dáta)"
