@@ -97,7 +97,7 @@ dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
 	dpkg_ar_member_put_header(ar_name, ar_fd, name, st.st_size);
 
 	/* Copy data contents. */
-	fd_fd_copy(fd, ar_fd, -1, name);
+	fd_fd_copy(fd, ar_fd, -1, _("ar member file (%s)"), name);
 
 	if (st.st_size & 1)
 		if (write(ar_fd, "\n", 1) < 0)
