@@ -1412,7 +1412,7 @@ alternative_display_list(struct alternative *a)
 	struct fileset *fs;
 
 	for (fs = a->choices; fs; fs = fs->next)
-		pr(fs->master_file);
+		pr("%s", fs->master_file);
 }
 
 static const char *
