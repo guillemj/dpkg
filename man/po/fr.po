@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-06 07:48+0200\n"
+"PO-Revision-Date: 2010-09-06 19:15+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -4381,14 +4381,13 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:702
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DPKG_MAINTSCRIPT_ARCH>"
 msgid "B<DPKG_MAINTSCRIPT_NAME>"
-msgstr "B<DPKG_MAINTSCRIPT_ARCH>"
+msgstr "B<DPKG_MAINTSCRIPT_NAME>"
 
 #. type: Plain text
 #: dpkg.1:706
-#, fuzzy
 #| msgid ""
 #| "Defined by B<dpkg> on the maintainer script environment to the version of "
 #| "the currently running B<dpkg> instance."
@@ -4397,7 +4396,7 @@ msgid ""
 "script running (preinst, postinst, prerm, postrm)."
 msgstr ""
 "Définie par B<dpkg> dans l'environnement du script du responsable, cette "
-"variable contient la version de l'instance de B<dpkg> en cours d'exécution."
+"variable contient le nom du script en cours d'exécution (preinst, postinst, prerm, postrm)."
 
 #. type: Plain text
 #: dpkg.1:709
@@ -4960,10 +4959,9 @@ msgstr "\\s-1DEB_BUILD_GNU_CPU\\s0"
 
 #. type: Plain text
 #: dpkg-architecture.1:114
-#, fuzzy
 #| msgid "The \\s-1CPU\\s0 part of \\s-1DEB_BUILD_GNU_TYPE\\s0"
 msgid "The \\s-1CPU\\s0 part of \\s-1DEB_BUILD_GNU_TYPE\\s0."
-msgstr "Partie « processeur » de \\s-1DEB_BUILD_GNU_TYPE\\s0."
+msgstr "Partie \\s-1CPU\\s0 de \\s-1DEB_BUILD_GNU_TYPE\\s0."
 
 #. type: IP
 #: dpkg-architecture.1:114
@@ -5022,10 +5020,10 @@ msgstr "Nom du processeur Debian de la machine hôte."
 
 #. type: IP
 #: dpkg-architecture.1:124
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "\\s-1DEB_HOST_ARCH_OS\\s0"
 msgid "\\s-1DEB_HOST_ARCH_BITS\\s0"
-msgstr "\\s-1DEB_HOST_ARCH_OS\\s0"
+msgstr "\\s-1DEB_HOST_ARCH_BITS\\s0"
 
 #. type: Plain text
 #: dpkg-architecture.1:126
@@ -5034,10 +5032,10 @@ msgstr "Taille de pointeur de la machine hôte (en bits)."
 
 #. type: IP
 #: dpkg-architecture.1:126
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "\\s-1DEB_HOST_ARCH\\s0"
 msgid "\\s-1DEB_HOST_ARCH_ENDIAN\\s0"
-msgstr "\\s-1DEB_HOST_ARCH\\s0"
+msgstr "\\s-1DEB_HOST_ARCH_ENDIAN\\s0"
 
 #. type: Plain text
 #: dpkg-architecture.1:128
@@ -5533,26 +5531,26 @@ msgstr "B<dpkg>(1)."
 
 #. type: TH
 #: dpkg-buildflags.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "dpkg-buildpackage"
 msgid "dpkg-buildflags"
-msgstr "dpkg-buildpackage"
+msgstr "dpkg-buildflags"
 
 #. type: Plain text
 #: dpkg-buildflags.1:4
 msgid "dpkg-buildflags - returns build flags to use during package build"
 msgstr ""
+"dpkg-buildflags - retourne les options de compilation à utiliser pour la "
+"                  construction du paquet"
 
 #. type: Plain text
 #: dpkg-buildflags.1:8
-#, fuzzy
 #| msgid "B<dpkg-trigger> [I<option>...] I<command>"
 msgid "B<dpkg-buildflags> [I<option>...] I<command>"
-msgstr "B<dpkg-trigger> [I<option>...] I<commande>"
+msgstr "B<dpkg-buildflags> [I<option>...] I<commande>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:12
-#, fuzzy
 #| msgid ""
 #| "B<dpkg-buildpackage> is a control script which can be used to help "
 #| "automate the building of a package."
@@ -5560,33 +5558,33 @@ msgid ""
 "B<dpkg-buildflags> is a tool to retrieve compilation flags to use during "
 "build of Debian packages."
 msgstr ""
-"B<dpkg-buildpackage> est un script de contrôle qui peut faciliter la "
-"construction automatique d'un paquet."
+"B<dpkg-buildflags> est un script qui permet de récupérer les options de compilation à utiliser pour la"
+"construction d'un paquet."
 
 #. type: Plain text
 #: dpkg-buildflags.1:15
 msgid ""
 "The default flags are defined by the vendor but they can be extended/"
 "overriden in several ways:"
-msgstr ""
+msgstr "Les drapeaux par défaut sont définis par le fournisseur de la distribution mais peuvent être étendus ou remplacés de plusieurs façons :"
 
 #. type: IP
 #: dpkg-buildflags.1:15
 #, no-wrap
 msgid "1."
-msgstr ""
+msgstr "1."
 
 #. type: Plain text
 #: dpkg-buildflags.1:17
 msgid "system-wide with B</etc/dpkg/buildflags.conf>;"
-msgstr ""
+msgstr "pour tout le système avec B</etc/dpkg/buildflags.conf>;"
 
 #. type: IP
 #: dpkg-buildflags.1:17
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2"
 msgid "2."
-msgstr "2"
+msgstr "2."
 
 #. type: Plain text
 #: dpkg-buildflags.1:20
@@ -5594,80 +5592,79 @@ msgid ""
 "for the current user with B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> where B<"
 "$XDG_CONFIG_HOME> defaults to B<$HOME/.config>;"
 msgstr ""
+"pouyr l'utilisateur courant avec B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> où la valeur par défaut de B<"
+"$XDG_CONFIG_HOME> est B<$HOME/.config>;"
 
 #. type: IP
 #: dpkg-buildflags.1:20
 #, no-wrap
 msgid "3."
-msgstr ""
+msgstr "3."
 
 #. type: Plain text
 #: dpkg-buildflags.1:22
-#, fuzzy
 #| msgid ""
 #| "It prepares the build environment by setting various environment "
 #| "variables (see B<ENVIRONMENT VARIABLES>)."
 msgid "temporarily with environment variables (see section B<ENVIRONMENT>)."
-msgstr ""
-"Préparation de l'environnement de compilation par positionnement de diverses "
-"variables d'environnement (voir B<VARIABLES D'ENVIRONNEMENT>)."
+msgstr "temporairement avec des variables d'environnemenet (voir B<VARIABLES D'ENVIRONNEMENT>)."
 
 #. type: Plain text
 #: dpkg-buildflags.1:24
 msgid "The configuration files can contain two types of directives:"
-msgstr ""
+msgstr "Les fichiers de configuration peuvent contenir deux types de directives :"
 
 #. type: TP
 #: dpkg-buildflags.1:24
 #, no-wrap
 msgid "B<SET>I< flag value>"
-msgstr ""
+msgstr "B<SET>I< drapeau valeur>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:27
 msgid "Override the flag named I<flag> to have the value I<value>."
-msgstr ""
+msgstr "Remplace le drapeau I<drapeau> par la valeur I<valeur>."
 
 #. type: TP
 #: dpkg-buildflags.1:27
 #, no-wrap
 msgid "B<APPEND>I< flag value>"
-msgstr ""
+msgstr "B<APPEND>I< drapeau valeur>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:31
 msgid ""
 "Extend the flag named I<flag> with the options given in I<value>.  A space "
 "is prepended to the appended value if the flag's current value is non-empty."
-msgstr ""
+msgstr "Étend le drapeau I<drapeau> avec les options indiquées dans I<valeur>. Un espace est ajouté au début de ce qui est ajouté si la valeur actuelle du drapeau n'est pas vide."
 
 #. type: Plain text
 #: dpkg-buildflags.1:34
 msgid ""
 "The configuration files can contain comments on lines starting with a hash "
 "(#). Empty lines are also ignored."
-msgstr ""
+msgstr "Les fichiers de configuration peuvent contenir des commentaires sur les lignes commençant par un dièse (#). Les lignes vides sont également ignorées."
 
 #. type: TP
 #: dpkg-buildflags.1:35
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<list>"
 msgid "B<--list>"
-msgstr "B<list>"
+msgstr "B<--list>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:40
 msgid ""
 "Print the list of flags supported by the current vendor (one per line). See "
 "the B<SUPPORTED FLAGS> section for more information about them."
-msgstr ""
+msgstr "Affiche la liste des drapeaux gérés par l'éditeur actuel (un par ligne). Voir la section B<DRAPEAUX GÉRÉS> pour plus d'informations sur chacun d'eux."
 
 #. type: TP
 #: dpkg-buildflags.1:40
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--showformat=>I<format>"
 msgid "B<--export=>I<format>"
-msgstr "B<--showformat=>I<format>"
+msgstr "B<--export=>I<format>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:48
@@ -5678,27 +5675,29 @@ msgid ""
 "compilation flags starting with an upper case character are included, others "
 "are assumed to not be suitable for the environment."
 msgstr ""
+"Affiche sur la sortie standard, les commandes shell (si I<format> est B<sh>) ou make (si I<format> est B<make>) qui permettent d'exporter tous les drapeaux de compilation dans l'environnement. La valeur par défaut de "
+"I<format> est B<sh>. Seuls les drapeaux de compilation commençant par une majuscule sont inclus, les autres étant supposés inadaptés à l'environnement."
 
 #. type: TP
 #: dpkg-buildflags.1:48
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--log>I< file>"
 msgid "B<--get>I< flag>"
-msgstr "B<--log>I< fichier>"
+msgstr "B<--get>I< drapeau>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:52
 msgid ""
 "Print the value of the flag on standard output. Exits with 0 if the flag is "
 "known otherwise exits with 1."
-msgstr ""
+msgstr "Affiche la valeur de ce drapeau sur la sortie standard. Retourne un code de sortie 0 si le drapeau est connu et 1 s'il est inconnu."
 
 #. type: TP
 #: dpkg-buildflags.1:52
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--log>I< file>"
 msgid "B<--origin>I< flag>"
-msgstr "B<--log>I< fichier>"
+msgstr "B<--origin>I< drapeau>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:57
@@ -5706,61 +5705,61 @@ msgid ""
 "Print the origin of the value that is returned by B<--get>. Exits with 0 if "
 "the flag is known otherwise exits with 1. The origin can be one of the "
 "following values:"
-msgstr ""
+msgstr "Affiche l'origine de la valeur renvoyée par B<--get>. Retourne un code de sortie 0 si le drapeau est connu et 1 s'il est inconnu. L'origine est une des valeurs suivantes :"
 
 #. type: TP
 #: dpkg-buildflags.1:58
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--is>I< vendor>"
 msgid "B<vendor>"
-msgstr "B<--is>I< éditeur>"
+msgstr "B<vendor>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:61
 msgid "the original flag set by the vendor is returned;"
-msgstr ""
+msgstr "le drapeau défini à l'origine par l'éditeur est renvoyé ;"
 
 #. type: TP
 #: dpkg-buildflags.1:61
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-sr>"
 msgid "B<system>"
-msgstr "B<-sr>"
+msgstr "B<system>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:64
 msgid "the flag is set/modified by a system-wide configuration;"
-msgstr ""
+msgstr "le drapeau est placé ou modifié par un réglage système ;"
 
 #. type: TP
 #: dpkg-buildflags.1:64
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<query>"
 msgid "B<user>"
-msgstr "B<query>"
+msgstr "B<user>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:67
 msgid "the flag is set/modified by a user-specific configuration;"
-msgstr ""
+msgstr "le drapeau est placé ou modifié par une configuration spécifique à l'utilisateur ;"
 
 #. type: TP
 #: dpkg-buildflags.1:67
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-v>"
 msgid "B<env>"
-msgstr "B<-v>"
+msgstr "B<env>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:70
 msgid "the flag is set/modified by an environment-specific configuration."
-msgstr ""
+msgstr "le drapeau est placé ou modifié par une configuration spécifique dans l'environnement."
 
 #. type: SH
 #: dpkg-buildflags.1:78
 #, no-wrap
 msgid "SUPPORTED FLAGS"
-msgstr ""
+msgstr "DRAPEAUX GÉRÉS"
 
 #. type: TP
 #: dpkg-buildflags.1:79
@@ -5775,6 +5774,8 @@ msgid ""
 "g> and the default optimization level (I<-O2> usually, or I<-O0> if the "
 "B<DEB_BUILD_OPTIONS> environment variable defines I<noopt>)."
 msgstr ""
+"Options du compilateur C. La valeur par défaut définie par l'éditeur comporte I<-"
+"g> le niveau d'optimisation par défaut (I<-O2> en général, ou I<-O0> si la variables d'environnement B<DEB_BUILD_OPTIONS> contient I<noopt>)."
 
 #. type: TP
 #: dpkg-buildflags.1:85
@@ -5785,7 +5786,7 @@ msgstr "B<CPPFLAGS>"
 #. type: Plain text
 #: dpkg-buildflags.1:88
 msgid "Options for the C preprocessor. Default value: empty."
-msgstr ""
+msgstr "Options du préprocesseur C. Valeur par défaut : aucune."
 
 #. type: TP
 #: dpkg-buildflags.1:88
@@ -5796,7 +5797,7 @@ msgstr "B<CXXFLAGS>"
 #. type: Plain text
 #: dpkg-buildflags.1:91
 msgid "Options for the C++ compiler. Same as B<CFLAGS>."
-msgstr ""
+msgstr "Options du compilateur C++. Analogue à B<CFLAGS>."
 
 #. type: TP
 #: dpkg-buildflags.1:91
@@ -5807,7 +5808,7 @@ msgstr "B<FFLAGS>"
 #. type: Plain text
 #: dpkg-buildflags.1:94
 msgid "Options for the Fortran compiler. Same as B<CFLAGS>."
-msgstr ""
+msgstr "Options du compilateur Fortran. Analogue à B<CFLAGS>."
 
 #. type: TP
 #: dpkg-buildflags.1:94
@@ -5828,61 +5829,58 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:104
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "I</etc/dpkg/dpkg.cfg>"
 msgid "B</etc/dpkg/buildflags.conf>"
-msgstr "I</etc/dpkg/dpkg.cfg>"
+msgstr "B</etc/dpkg/buildflags.conf>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:107
-#, fuzzy
 #| msgid "dselect.cfg - dselect configuration file"
 msgid "System wide configuration file."
-msgstr "dselect.cfg - Fichier de configuration de dselect"
+msgstr "Fichier de configuration pour l'ensemble du système."
 
 #. type: TP
 #: dpkg-buildflags.1:107
 #, no-wrap
 msgid "B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> or B<$HOME/.config/dpkg/buildflags.conf>"
-msgstr ""
+msgstr "B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> ou B<$HOME/.config/dpkg/buildflags.conf>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:110
-#, fuzzy
 #| msgid "dselect.cfg - dselect configuration file"
 msgid "User configuration file."
-msgstr "dselect.cfg - Fichier de configuration de dselect"
+msgstr "Fichier de configuration propre à l'utilisateur"
 
 #. type: TP
 #: dpkg-buildflags.1:111
 #, no-wrap
 msgid "B<DEB_>I<flag>B<_SET>"
-msgstr ""
+msgstr "B<DEB_>I<drapeau>B<_SET>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:115
 msgid "This variable can be used to force the value returned for the given I<flag>."
-msgstr ""
+msgstr "Cette variable permet de forcer la valeur renvoyée pour le I<drapeau> indiqué."
 
 #. type: TP
 #: dpkg-buildflags.1:115
 #, no-wrap
 msgid "B<DEB_>I<flag>B<_APPEND>"
-msgstr ""
+msgstr "B<DEB_>I<drapeau>B<_APPEND>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:119
 msgid ""
 "This variable can be used to append supplementary options to the value "
 "returned for the given I<flag>."
-msgstr ""
+msgstr "Cette variable permet d'ajouter des options à la valeur renvoyée pour le I<drapeau> indiqué."
 
 #. type: Plain text
 #: dpkg-buildflags.1:122 dpkg-maintscript-helper.1:130
-#, fuzzy
 #| msgid "Copyright \\(co 2008 Rapha\\[:e]l Hertzog"
 msgid "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
-msgstr "Copyright \\(co 2008 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
 
 #. type: TH
 #: dpkg-buildpackage.1:1
@@ -5919,7 +5917,6 @@ msgstr "B<1.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:17
-#, fuzzy
 #| msgid ""
 #| "It prepares the build environment by setting various environment "
 #| "variables (see B<ENVIRONMENT VARIABLES>)."
@@ -5929,7 +5926,8 @@ msgid ""
 "or B<--target> has been used)."
 msgstr ""
 "Préparation de l'environnement de compilation par positionnement de diverses "
-"variables d'environnement (voir B<VARIABLES D'ENVIRONNEMENT>)."
+"variables d'environnement (voir B<VARIABLES D'ENVIRONNEMENT>) et appel de B<dpkg-source --before-build> (sauf si B<-T> "
+"ou B<--target> ont été utilisés)."
 
 #. type: IP
 #: dpkg-buildpackage.1:17
@@ -5972,7 +5970,6 @@ msgstr "B<4.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:29
-#, fuzzy
 #| msgid ""
 #| "It calls B<dpkg-source> to generate the source package (unless a binary-"
 #| "only build has been requested with B<-b>, B<-B> or B<-A>)."
@@ -5980,7 +5977,7 @@ msgid ""
 "It calls B<dpkg-source -b> to generate the source package (unless a binary-"
 "only build has been requested with B<-b>, B<-B> or B<-A>)."
 msgstr ""
-"Appel de B<dpkg-source> pour créer le paquet source (sauf si une contruction "
+"Appel de B<dpkg-source -b> pour créer le paquet source (sauf si une contruction "
 "binaire seule a été demandée avec B<-b>, B<-B> ou B<-A>)."
 
 #. type: IP
@@ -6054,13 +6051,12 @@ msgstr "B<9.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:49
-#, fuzzy
 #| msgid ""
 #| "If B<-tc> is specified, it will call B<fakeroot debian/rules clean> again."
 msgid ""
 "If B<-tc> is specified, it will call B<fakeroot debian/rules clean> again. "
 "Finally it calls B<dpkg-source --after-build>."
-msgstr "Si B<-tc> est utilisé, appel de B<fakeroot debian/rules clean> à nouveau."
+msgstr "Si B<-tc> est utilisé, appel de B<fakeroot debian/rules clean> à nouveau. Enfin, appel de B<dpkg-source --after-build>."
 
 #. type: TP
 #: dpkg-buildpackage.1:51
@@ -6128,14 +6124,14 @@ msgstr ""
 #: dpkg-buildpackage.1:67
 #, no-wrap
 msgid "B<-F>"
-msgstr ""
+msgstr "B<-F>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:71
 msgid ""
 "Specifies a normal full build, binary and source packages will be built.  "
 "This is the same as the default case when no build option is specified."
-msgstr ""
+msgstr "Construction complète où les paquets sources et binaires sont construits. Identique au cas par défaut où aucune option de construction n'est indiquée."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:73
@@ -6487,27 +6483,27 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1:209
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--description=>I<xxx>"
 msgid "B<--source-option=>I<opt>"
-msgstr "B<--description=>I<xxx>"
+msgstr "B<--source-option=>I<opt>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:212
 msgid "Pass option I<opt> to B<dpkg-source>."
-msgstr ""
+msgstr "Passe l'option I<opt> à B<dpkg-source>."
 
 #. type: TP
 #: dpkg-buildpackage.1:212
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--description=>I<xxx>"
 msgid "B<--changes-option=>I<opt>"
-msgstr "B<--description=>I<xxx>"
+msgstr "B<--changes-option=>I<opt>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:215
 msgid "Pass option I<opt> to B<dpkg-genchanges>."
-msgstr ""
+msgstr "Passe l'option I<opt> à B<dpkg-genchanges>."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:219
@@ -6541,6 +6537,7 @@ msgid ""
 "not rely on their presence and should instead use the respective interface "
 "to retrieve the needed values."
 msgstr ""
+"Même si B<dpkg-buildpackage> exporte certaines variables, B<debian/rules> ne doit pas dépendre de leur présence, mais doit préférablement utiliser l'interface correspondante pour retrouver les valeurs nécessaires."
 
 #. type: SS
 #: dpkg-buildpackage.1:234
@@ -6572,6 +6569,8 @@ msgid ""
 "environment variables are set to the values that B<dpkg-buildflags> "
 "returned. See its manual page for more information."
 msgstr ""
+"Les variables d'environnement B<CFLAGS>, B<CXXFLAGS>, B<FFLAGS>, B<CPPFLAGS> et B<LDFLAGS> "
+"prennent les valeurs renvoyées par B<dpkg-buildflags>. Veuillez consulter la page de manuel de ce programme pour plus d'informations."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:248
@@ -6594,10 +6593,9 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.1:264 dpkg-source.1:712
-#, fuzzy
 #| msgid "Copyright \\(co 2008-2009 Rapha\\[:e]l Hertzog"
 msgid "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
-msgstr "Copyright \\(co 2008-2009 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
 
 #. type: TH
 #: dpkg-checkbuilddeps.1:1
@@ -6607,10 +6605,10 @@ msgstr "dpkg-checkbuilddeps"
 
 #. type: TH
 #: dpkg-checkbuilddeps.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2009-11-12"
 msgid "2009-11-21"
-msgstr "12-11-2009"
+msgstr "21-11-2009"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:4
@@ -6759,10 +6757,10 @@ msgstr "dpkg-deb"
 
 #. type: TH
 #: dpkg-deb.1:1 dpkg-query.1:1 dselect.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2007-03-07"
 msgid "2010-03-07"
-msgstr "07-03-2007"
+msgstr "07-03-2010"
 
 #. type: Plain text
 #: dpkg-deb.1:4
@@ -7130,7 +7128,6 @@ msgstr "B<-Z>I<type_compression>"
 
 #. type: Plain text
 #: dpkg-deb.1:196
-#, fuzzy
 #| msgid ""
 #| "Specify which compression type to use when building a package. Allowed "
 #| "values are I<gzip>, I<bzip2>, I<lzma>, and I<none> (default is I<gzip>)."
@@ -7141,7 +7138,7 @@ msgid ""
 msgstr ""
 "Indique le type de compression à utiliser lors de la construction d'un "
 "paquet. Les valeurs autorisées sont I<gzip> (la valeur par défaut), "
-"I<bzip2>, I<lzma> et I<none> (aucune compression)."
+"I<xz>, I<bzip2>, I<lzma> et I<none> (aucune compression)."
 
 #. type: TP
 #: dpkg-deb.1:196
@@ -7202,7 +7199,7 @@ msgstr "Permet les messages de débogage. Ce n'est pas très intéressant."
 msgid ""
 "If set, B<dpkg-deb> will use it as the directory in which to create "
 "temporary files and directories."
-msgstr ""
+msgstr "Si cette option est utilisée, B<dpkg> l'utilisera comme répertoire pour créer les fichiers et répertoire temporaires."
 
 #. type: Plain text
 #: dpkg-deb.1:230
@@ -7718,7 +7715,6 @@ msgstr "B<-T>I<fichier/substvars>"
 
 #. type: Plain text
 #: dpkg-genchanges.1:86
-#, fuzzy
 #| msgid ""
 #| "Read substitution variables in I<substvarsfile>; the default is B<debian/"
 #| "substvars>.  No variable substitution is done on any of the fields that "
@@ -7734,7 +7730,7 @@ msgstr ""
 "Lecture des variables de substitution depuis I<substvarsfile> ; la valeur "
 "par défaut est B<debian/substvars>. Aucune substitution de variable n'est "
 "faite sur les champs de sorties, cependant la variable spéciale I<Format> "
-"remplacera le champs qui porte le même nom."
+"remplacera le champs qui porte le même nom. Cette option peut être utilisée plusieurs fois pour lire les variables de substitution depuis plusieurs fichiers."
 
 #. type: TP
 #: dpkg-genchanges.1:87 dpkg-gencontrol.1:53 dpkg-source.1:131
@@ -7952,7 +7948,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-gencontrol.1:53
-#, fuzzy
 #| msgid ""
 #| "Read substitution variables in I<substvarsfile>; the default is B<debian/"
 #| "substvars>.  No variable substitution is done on any of the fields that "
@@ -7964,9 +7959,7 @@ msgid ""
 "variables from multiple files."
 msgstr ""
 "Lecture des variables de substitution depuis I<substvarsfile> ; la valeur "
-"par défaut est B<debian/substvars>. Aucune substitution de variable n'est "
-"faite sur les champs de sorties, cependant la variable spéciale I<Format> "
-"remplacera le champs qui porte le même nom."
+"par défaut est B<debian/substvars>. Cette option peut être utilisée plusieurs fois pour lire les variables de substitution depuis plusieurs fichiers."
 
 #. type: TP
 #: dpkg-gencontrol.1:78 dpkg-gensymbols.1:368
@@ -8095,35 +8088,31 @@ msgstr "Copyright \\(co 2007-2008 Rapha\\[:e]l Hertzog"
 
 #. type: TH
 #: dpkg-gensymbols.1:2
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "deb-symbols"
 msgid "dpkg-gensymbols"
-msgstr "deb-symbols"
+msgstr "dpkg-gensymbols"
 
 #. type: TH
 #: dpkg-gensymbols.1:2
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2009-01-07"
 msgid "2009-08-07"
-msgstr "07-01-2009"
+msgstr "07-08-2009"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:5
-#, fuzzy
 #| msgid "Per-system default shared library dependency information."
 msgid ""
 "dpkg-gensymbols - generate symbols files (shared library dependency "
 "information)"
-msgstr ""
-"Fichier système par défaut concernant les informations de dépendance envers "
-"des bibliothèques partagées."
+msgstr "dpkg-gensymbols - création des fichiers de symboles (information destinée aux dépendances de bibliothèques partagées)"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:9
-#, fuzzy
 #| msgid "B<dpkg-gencontrol> [I<options>]"
 msgid "B<dpkg-gensymbols> [I<options>]"
-msgstr "B<dpkg-gencontrol> [I<options>]"
+msgstr "B<dpkg-gensymbols> [I<options>]"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:16
@@ -8134,6 +8123,8 @@ msgid ""
 "build tree so that it ends up included in the control information of the "
 "package."
 msgstr ""
+"B<dpkg-gensymbols> analyse un répertoire temporaire de construction (par défaut debian/tmp), y recherche les bibliothèques et crée un fichier I<symbols> file qui les décrit. Si ce fichier n'est pas vide, il est "
+"installé dans le sous-répertoire DEBIAN du répertoire de construction afin de pouvoir être inclus dans les informations de contrôle du paquet."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:20
@@ -8141,7 +8132,7 @@ msgid ""
 "When generating those files, it uses as input some symbols files provided by "
 "the maintainer. It looks for the following files (and use the first that is "
 "found):"
-msgstr ""
+msgstr "Les de la création de ces fichiers, il utilise en entrée certains fichiers de symboles fournis par le responsable. Il recherche les fichiers suivants (en utilisant le premier trouvé) :"
 
 #. type: IP
 #: dpkg-gensymbols.1:20 dpkg-gensymbols.1:22 dpkg-gensymbols.1:24
@@ -8149,35 +8140,31 @@ msgstr ""
 #: dpkg-gensymbols.1:346 dpkg-gensymbols.1:350 dpkg-gensymbols.1:353
 #, no-wrap
 msgid "\\(bu"
-msgstr ""
+msgstr "\\(bu"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:22
-#, fuzzy
 #| msgid "/etc/dpkg/symbols/I<package>.symbols.I<arch>"
 msgid "debian/I<package>.symbols.I<arch>"
-msgstr "/etc/dpkg/symbols/I<paquet>.symbols.I<architecture>"
+msgstr "debian/I<paquet>.symbols.I<arch>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:24
-#, fuzzy
 #| msgid "B<debian/substvars>"
 msgid "debian/symbols.I<arch>"
-msgstr "B<debian/substvars>"
+msgstr "debian/symbols.I<arch>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:26
-#, fuzzy
 #| msgid "I<admindir>/info/I<package>.symbols"
 msgid "debian/I<package>.symbols"
-msgstr "I<admindir>/info/I<paquet>.symbols"
+msgstr "debian/I<paquet>.symbols"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:28
-#, fuzzy
 #| msgid "deb-symbols"
 msgid "debian/symbols"
-msgstr "deb-symbols"
+msgstr "debian/symbols"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:36
