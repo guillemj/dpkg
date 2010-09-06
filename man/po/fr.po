@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-05 19:45+0200\n"
+"PO-Revision-Date: 2010-09-06 07:48+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -3883,14 +3883,14 @@ msgstr "B<--path-include=>I<motif-global>"
 msgid ""
 "Set I<glob-pattern> as a path filter, either by excluding or re-including "
 "previously excluded paths matching the specified patterns during install."
-msgstr ""
+msgstr "Utilise I<motif-global> comme filtre de chemins, soit en excluant, soit en ré-incluant des chemins précédemment exclus, correspondant au motif indiqué, pendant l'installation."
 
 #. type: Plain text
 #: dpkg.1:542
 msgid ""
 "I<Warning: take into account that depending on the excluded paths you might "
 "completely break your system, use with caution.>"
-msgstr ""
+msgstr "I<Attention : dépendre des chemins exclus peut entièrement casser le système. Ce réglage soit donc être utilisé avec précautions.>"
 
 #. type: Plain text
 #: dpkg.1:552
@@ -3905,13 +3905,17 @@ msgid ""
 "symlinks than needed, to be on the safe side and avoid possible unpack "
 "failures, future work might fix this."
 msgstr ""
+"Les motifs globaux utilisent les mêmes caractères joker que le shell ; « * » correspond à une séquence quelconque de caractères, y compris une chaîne vide ou le caractère « / ». Ainsi, I<'/usr/*/READ*'> comportera I<"
+"'/usr/share/doc/package/README'>. Comme toujours, le caractère « ? » correspond à un caractère quelconque (y compris « / »). Le caractère « { » marque le début d'une classe de caractères, qui contient une liste de "
+"caractères, séries de caractères ou compléments de séries. Veuillez consulter ><glob>(7) pour plus d'informations à propos des correspondances globales. Note : l'implémentation actuelle pourrait ré-inclure plus de "
+"répertoires et liens symboliques que nécessaire, par souci de sécurité et pour éviter des éches possibles de décompression. Des modifications à venir pourraient changer cela."
 
 #. type: Plain text
 #: dpkg.1:555
 msgid ""
 "This can be used to remove all paths except some particular ones; a typical "
 "case is:"
-msgstr ""
+msgstr "Cela peut servir à exclure tous les chemins sauf certains spécifiques. Un cas classique d'utilisation est :"
 
 #. type: Plain text
 #: dpkg.1:559
@@ -3920,11 +3924,13 @@ msgid ""
 "B<--path-exclude=/usr/share/doc/*>\n"
 "B<--path-include=/usr/share/doc/*/copyright>\n"
 msgstr ""
+"B<--path-exclude=/usr/share/doc/*>\n"
+"B<--path-include=/usr/share/doc/*/copyright>\n"
 
 #. type: Plain text
 #: dpkg.1:562
 msgid "to remove all documentation files except the copyright files."
-msgstr ""
+msgstr "qui permet de supprimer tous les fichiers de documentation sauf les fichiers de « copyright »."
 
 #. type: Plain text
 #: dpkg.1:566
@@ -3933,6 +3939,8 @@ msgid ""
 "other. Both are processed in the given order, with the last rule that "
 "matches a file name making the decision."
 msgstr ""
+"Ces deux options peuvent être utilisées plusieurs fois et éventuellement être alternées entre elles. Les deux sont traitées dans l'ordre indiqué : la dernière règle correspondant à un fichier donné est alors celle "
+"qui sera utilisée."
 
 #. type: TP
 #: dpkg.1:567
@@ -4216,46 +4224,43 @@ msgstr "ENVIRONNEMENT"
 
 #. type: TP
 #: dpkg.1:660 dselect.1:431
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<SHELL>"
 msgid "B<HOME>"
-msgstr "B<SHELL>"
+msgstr "B<HOME>"
 
 #. type: Plain text
 #: dpkg.1:664
 msgid ""
 "If set, B<dpkg> will use it as the directory from which to read the user "
 "specific configuration file."
-msgstr ""
+msgstr "Si cette option est utilisée, B<dpkg> utilisera le répertoire indiqué pour lire le fichier de configuration propre à l'utilisateur."
 
 #. type: TP
 #: dpkg.1:664 dpkg-deb.1:220
 #, no-wrap
 msgid "B<TMPDIR>"
-msgstr ""
+msgstr "B<TMPDIR>"
 
 #. type: Plain text
 #: dpkg.1:668
 msgid ""
 "If set, B<dpkg> will use it as the directory in which to create temporary "
 "files and directories."
-msgstr ""
+msgstr "Si cette option est utilisée, B<dpkg> utilisera le répertoire indiqué pour créer les fichiers et répertoire temporaires."
 
 #. type: TP
 #: dpkg.1:668
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<CPPFLAGS>"
 msgid "B<PAGER>"
-msgstr "B<CPPFLAGS>"
+msgstr "B<PAGER>"
 
 #. type: Plain text
 #: dpkg.1:671
-#, fuzzy
 #| msgid "The program B<dpkg> will execute when starting a new shell."
 msgid "The program B<dpkg> will execute when displaying the conffiles."
-msgstr ""
-"Le programme exécuté par B<dpkg> quand il lance un nouvel interpréteur de "
-"commandes."
+msgstr "Cette option indique le programme exécuté par B<dpkg> quand il affiche les fichiers de configuration."
 
 #. type: TP
 #: dpkg.1:671
@@ -4287,10 +4292,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:678
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DPKG_RUNNING_VERSION>"
 msgid "B<DPKG_SHELL_REASON>"
-msgstr "B<DPKG_RUNNING_VERSION>"
+msgstr "B<DPKG_SHELL_REASON>"
 
 #. type: Plain text
 #: dpkg.1:682
@@ -4298,12 +4303,14 @@ msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Current valid value: B<conffile-prompt>."
 msgstr ""
+"Cette variable définit l'invite du shell lancé par B<dpkg> lorsqu'il lui est demandé d'«  examiner la situation » lors du traitement des fichiers de configuration. La valeur actuellement valable est : B<"
+"conffile-prompt>/"
 
 #. type: TP
 #: dpkg.1:682
 #, no-wrap
 msgid "B<DPKG_CONFFILE_OLD>"
-msgstr ""
+msgstr "B<DPKG_CONFFILE_OLD>"
 
 #. type: Plain text
 #: dpkg.1:686
@@ -4311,12 +4318,14 @@ msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the old conffile."
 msgstr ""
+"Cette variable est définie pour le shell lancé par B<dpkg> lorsqu'il lui est demandé d'«  examiner la situation » lors du traitement des fichiers de configuration. Elle contient le nom de l'ancien fichier de "
+"configuration."
 
 #. type: TP
 #: dpkg.1:686
 #, no-wrap
 msgid "B<DPKG_CONFFILE_NEW>"
-msgstr ""
+msgstr "B<DPKG_CONFFILE_NEW>"
 
 #. type: Plain text
 #: dpkg.1:690
@@ -4324,6 +4333,8 @@ msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the new conffile."
 msgstr ""
+"Cette variable est définie pour le shell lancé par B<dpkg> lorsqu'il lui est demandé d'«  examiner la situation » lors du traitement des fichiers de configuration. Elle contient le nom du nouveau fichier de "
+"configuration."
 
 #. type: TP
 #: dpkg.1:690
@@ -4336,9 +4347,7 @@ msgstr "B<DPKG_RUNNING_VERSION>"
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the version of "
 "the currently running B<dpkg> instance."
-msgstr ""
-"Définie par B<dpkg> dans l'environnement du script du responsable, cette "
-"variable contient la version de l'instance de B<dpkg> en cours d'exécution."
+msgstr "Cette variables est définie par B<dpkg> dans l'environnement du script du responsable. Elle contient la version de l'instance de B<dpkg> en cours d'exécution."
 
 #. type: TP
 #: dpkg.1:694
