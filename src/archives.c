@@ -311,24 +311,27 @@ void setupfnamevbs(const char *filename) {
         fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
 }
 
-int unlinkorrmdir(const char *filename) {
+int
+secure_remove(const char *filename)
+{
   /* Returns 0 on success or -1 on failure, just like unlink & rmdir */
   int r, e;
   
   if (!rmdir(filename)) {
-    debug(dbg_eachfiledetail,"unlinkorrmdir `%s' rmdir OK",filename);
+    debug(dbg_eachfiledetail, "secure_remove '%s' rmdir OK", filename);
     return 0;
   }
   
   if (errno != ENOTDIR) {
     e= errno;
-    debug(dbg_eachfiledetail,"unlinkorrmdir `%s' rmdir %s",filename,strerror(e));
+    debug(dbg_eachfiledetail, "secure_remove '%s' rmdir %s", filename,
+          strerror(e));
     errno= e; return -1;
   }
   
   r = secure_unlink(filename);
   e = errno;
-  debug(dbg_eachfiledetail,"unlinkorrmdir `%s' unlink %s",
+  debug(dbg_eachfiledetail, "secure_remove '%s' unlink %s",
         filename, r ? strerror(e) : "OK");
   errno= e; return r;
 }

@@ -81,7 +81,7 @@ void cu_installnew(int argc, void **argv) {
        * link to the new version we may have created.
        */
       debug(dbg_eachfiledetail,"cu_installnew restoring nonatomic");
-      if (unlinkorrmdir(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
+      if (secure_remove(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
         ohshite(_("unable to remove newly-installed version of `%.250s' to allow"
                 " reinstallation of backup copy"),namenode->name);
     } else {
@@ -96,14 +96,14 @@ void cu_installnew(int argc, void **argv) {
       ohshite(_("unable to remove backup copy of '%.250s'"), namenode->name);
   } else if (namenode->flags & fnnf_placed_on_disk) {
     debug(dbg_eachfiledetail,"cu_installnew removing new file");
-    if (unlinkorrmdir(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
+    if (secure_remove(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
       ohshite(_("unable to remove newly-installed version of `%.250s'"),
 	      namenode->name);
   } else {
     debug(dbg_eachfiledetail,"cu_installnew not restoring");
   }
   /* Whatever, we delete <foo>.dpkg-new now, if it still exists. */
-  if (unlinkorrmdir(fnamenewvb.buf) && errno != ENOENT && errno != ENOTDIR)
+  if (secure_remove(fnamenewvb.buf) && errno != ENOENT && errno != ENOTDIR)
     ohshite(_("unable to remove newly-extracted version of `%.250s'"),namenode->name);
 
   cleanup_pkg_failed--; cleanup_conflictor_failed--;
