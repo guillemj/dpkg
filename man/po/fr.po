@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-06 19:15+0200\n"
+"PO-Revision-Date: 2010-09-09 08:31+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -8177,6 +8177,9 @@ msgid ""
 "maintainer to keep those files up-to-date and accurate, but B<dpkg-"
 "gensymbols> helps him."
 msgstr ""
+"L'intérêt principal de ces fichiers est de fournir la version minimale associée à chaque symbole fourni par les bibliothèques. En général, cela correspond à la première version du paquet qui a fourni ce symbole, mais "
+"cette valeur peut être augmentée manuellement par le responsable si l'interface binaire applicative (ABI) du symbole est étendue sans casser la compatibilité avec les versions précédentes. La tenue à jour de ces "
+"fichiers est à la charge du responsable du paquet, avec l'aide de B<dpkg-gensymbols> . "
 
 #. type: Plain text
 #: dpkg-gensymbols.1:42
@@ -8186,12 +8189,14 @@ msgid ""
 "if the difference is too significant, it will even fail (you can customize "
 "how much difference you can tolerate, see the B<-c> option)."
 msgstr ""
+"Quand les fichiers de symboles créés sont différents de ceux fournis par le responsable, B<dpkg-gensymbols> affichera les différences entre les deux fichiers. Si ces différences sont trop importantes, le programme "
+"peut même se terminer en échec (le nombre de différences tolérées peut être réglé avec l'option B<-c>)."
 
 #. type: SH
 #: dpkg-gensymbols.1:42
 #, no-wrap
 msgid "MAINTAINING SYMBOLS FILES"
-msgstr ""
+msgstr "TENUE À JOUR DES FICHIERS SYMBOLES"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:55
@@ -8208,6 +8213,11 @@ msgid ""
 "dropped because the symbol really got added by the Debian specific change, "
 "then one should suffix the version with \"~\"."
 msgstr ""
+"Les fichiers de symboles deviennent réellement utiles lorsqu'ils permettent de suivre l'évolution du paquet sur plusieurs versions. En conséquence, le responsable doit les mettre à jour chaque fois qu'un nouveau "
+"symbole est ajouté afin que la version miniùmal associée corresponde à la réalité. Pour effectuer cette opération correctement, il est nécessaire d'utiliser le fichier de différence indiqué dans le journal de "
+"construction. Dans la plupart des cas, ce fichier de différences peut être appliqué tel quel au fichier debian/I<paquet>.symbols. Cela étant, quelques adaptations sont généralement nécessaires : il est par exemple "
+"recommandé de retirer le numéro de révision Debian de la version minimale afin que les paquets rétro-portés, de numéro de version inférieur mais avec la même version amont continuent à répondre aux prérequis. Si le "
+"numéro de révision Debian ne peut vraiment pas être retiré car le nouveau symbole est la conséquence d'une modification propre à Debian, il est suggéré d'ajouter un suffixe « ~ » au numéro de version."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:59
@@ -8216,12 +8226,13 @@ msgid ""
 "check that it's sane. Public symbols are not supposed to disappear, so the "
 "patch should ideally only add new lines."
 msgstr ""
+"Avant d'appliquer le correctif au fichier de symboles, le responsable doit contrôler qu'il est correct. Les symboles publics sont supposés ne jamais disparaître et le correctif ne devrait donc qu'ajouter des lignes."
 
 #. type: SS
 #: dpkg-gensymbols.1:59
 #, no-wrap
 msgid "Using #PACKAGE# substitution"
-msgstr ""
+msgstr "Utilisation du remplacement de #PACKAGE#"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:67
@@ -8232,12 +8243,14 @@ msgid ""
 "installation of the symbols files. Contrary to the I<#MINVER#> marker, "
 "I<#PACKAGE#> will never appear in a symbols file inside a binary package."
 msgstr ""
+"Dans de rares cas, le nom de la bibliothèque dépend de l'architecture. Afin d'éviter de coder le nom du paquet en dur dans le fichier de symboles, il est possible d'utiliser le marqueur I<#PACKAGE>. Il sera remplacé "
+"par le vrai nom du paquet lors de l'installation des fichiers de symboles. À la différence du marqueur I<#MINVER>, I<#PACKAGE> n'apparaîtra jamais dans le fichier de symboles d'un pquet binaire."
 
 #. type: SS
 #: dpkg-gensymbols.1:67
 #, no-wrap
 msgid "Using symbol tags"
-msgstr ""
+msgstr "Utilisation des étiquettes de symboles"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:74
@@ -8248,6 +8261,9 @@ msgid ""
 "gensymbols> and trigger special handling of the symbols. See subsection "
 "B<Standard symbol tags> for reference of these tags."
 msgstr ""
+"L'étiquetage des symboles (« symbol tagging ») est utile marquer des symboles qui sont particuliers d'une manière ou d'une autre. Tout symbole peut avoir un nombre quelconque d'étiquettes associées.  Bien que toutes "
+"les étiquettes soient analysées et conservées, seules certaines d'entre elles sont comprises par B<dpkg-gensymbols> et déclenchent un traitement spécifique des symboles. Veuillez consulter la sous-section B<"
+"Étiquettes standard de symboles> pour une référence complète à propos de ces étiquettes."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:86
@@ -8264,6 +8280,11 @@ msgid ""
 "the symbol, quotes are treated as part of the symbol name which continues up "
 "until the first space."
 msgstr ""
+"L'indication de l'étiquette vient juste avant le nom du symbole (sans espace). Elle commence toujours par une parenthèse ouvrante B<(>, se termine avec une parenthèse fermante B<)> et doit contenir au moins une "
+"étiquette. Les étiquettes multiples doivent être séparées par le caractère B<|>. Chaque étiquette peut comporter optionnellement une valeur, séparée du nom de l'étiquette par le caractère B<=>. Les noms et valeurs "
+"des étiquettes sont des chaînes quelconques qui ne doivent pas comporter les caractères B<)> B<|> et B<=>. Les noms de symboles qui suivent une étiquette peuvent optionnellement être mis entre guillemets avec les "
+"caractères B<'> ou B<\"> afin d'y autoriser la présence d'espaces. Cependant, si aucune étiquette n'est utilisée, les guillemets sont alors traités comme une partie du nom du symbole, qui s'arrête alors au premier "
+"espace."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:90
@@ -8273,6 +8294,9 @@ msgid ""
 " (optional)tagged_unquoted_symbol@Base 1.0 1\n"
 " untagged_symbol@Base 1.0\n"
 msgstr ""
+" (étiq1=je suis marqué|étiquette avec espace)\"symbole comportant des espaces\"@Base 1.0\n"
+" (optional)symbole_non_protégé@Base 1.0 1\n"
+" symbole_non_étiqueté@Base 1.0\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:96
@@ -8283,6 +8307,8 @@ msgid ""
 "with the tag named I<optional>. The last symbol is an example of the normal "
 "untagged symbol."
 msgstr ""
+"Le premier symbole de cet exemple est appelé I<symbole comportant des espaces> et utilise deux étiquettes : I<étiq1> avec la valeur I<je suis marqué> et I<étiquette avec espace> sans valeur. Le deuxième symbole, "
+"appelé I<symbole_non_protégé> ne comporte que l'étiquette I<optionnel>. Le dernier symbole est un exemple de symbole normal sans étiquette."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:108
@@ -8298,19 +8324,23 @@ msgid ""
 "ones)  are kept in the output and are written in their original form as they "
 "were loaded."
 msgstr ""
+"Comme les étiquettes de symboles sont une extension du format de I<deb-symbols(5)>, elles ne peuvent apparaître que dans les fichiers de symboles des paquets source (ces fichiers peuvent ensuite être vus comme des "
+"modèles permettant de construire les fichiers de symboles inclus dans les paquets binaires). Lorsque B<dpkg-gensymbols> est lancé sans l'option I<-t>, il affiche les fichiers de symboles compatibles avec le format I<"
+"deb-symbols(5)> : il traite entièrement les symboles d'après les exigences des étiquettes standard et supprime les étiquettes dans sa sortie. AU contraire, dans le mode modèle (« template », option I<-t>), tous les "
+"symboles et leurs étiquettes (standard et inconnues) sont conservées dans la sortie et écrits dans leur forme originelle au fur et à mesure de leur chargement."
 
 #. type: SS
 #: dpkg-gensymbols.1:108
 #, no-wrap
 msgid "Standard symbol tags"
-msgstr ""
+msgstr "Étiquettes standard de symboles"
 
 #. type: TP
 #: dpkg-gensymbols.1:109
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<not-installed>"
 msgid "B<optional>"
-msgstr "B<not-installed>"
+msgstr "B<optional>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:119
@@ -8324,6 +8354,10 @@ msgid ""
 "MISSING, suddenly reappears in the next revision, it will be upgraded back "
 "to the \"existing\" status with its minimum version unchanged."
 msgstr ""
+"Un symbole marqué comme optionnel peut disparaître de la bibliothèque à tout moment et ne provoquera pas l'échec de B<dpkg-gensymbols>. Cependant, les symboles optionnels disparus apparaîtront en permanence comme "
+"manquants dans le fichier de différences à chaque nouvelle version du paquet. Ce comportement sert de rappel au responsable qu'un tel symbole doit être supprimé du fichier de symboles ou bien réajouté à la "
+"bibliothèque. Avec ce symbole optionnel, ce qui était précédemment déclaré comme manquant (« MISSING ») réapparaître soudainement dans la version suivante et mis à jour avec l'état existant (« existing ») et avec sa "
+"version minimale non modifié."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:124
@@ -8334,13 +8368,15 @@ msgid ""
 "arbitrary value: it could be used to indicate why the symbol is considered "
 "optional."
 msgstr ""
+"Cette étiquette est utile pour les symboles qui sont privés car leur disparition ne provoque pas de changement d'interface applicative (ABI). Par exemple, les plupart des modèles d'instantiacion C++ sont dans cette "
+"catégorie. Comme toute autre étiquette, celle-ci peut comproter une valeur arbitraire qui peut servir à indiquer pour quelle raison le symbole est optionnel."
 
 #. type: TP
 #: dpkg-gensymbols.1:124
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-a>I<architecture>"
 msgid "B<arch=>I<architecture list>"
-msgstr "B<-a>I<architecture>"
+msgstr "B<arch=>I<liste d'architectures>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:137
@@ -8357,6 +8393,11 @@ msgid ""
 "arch tag is dropped and the symbol will appear in the diff due to this "
 "change), but it is not considered as new."
 msgstr ""
+"Cette étiquette permet de restreindre la liste des architectures avec lesquelles le symbole est censé exister. Lorsque la liste des ymboles est mise à jour avec ceux découverts dans la bibliothèque, tous les symboles "
+"spécifiques d'architectures qui ne concernent pas l'architecture en cours sont ignorés. Si un symbole propre à l'architecture en cours n'existe pas dans la bibliothèque, les processus normaux pour des symboles "
+"manquants s'appliquent jusqu'à éventuellement provoquer l'échec de B<dpkg-gensymbols>. D'un autre côté, si le symbole propre à une architecture est trouvé alors qu'il n'est pas censé exister (parce que l'architecture "
+"courante n'est pas mentionnée dans l'étiquette), il est rendu indépendant de l'architecture (l'étiquette d'architecture est abandonnée et le symbole apparaît dans le fichier de différences) mais non considéré comme "
+"nouveau. (NdT : une aspirine peut être nécessaire après la lecture de ce paragraphe)"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:143
