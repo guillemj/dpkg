@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-09 08:31+0200\n"
+"PO-Revision-Date: 2010-09-10 18:28+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -8408,6 +8408,8 @@ msgid ""
 "from foreign arches) are always written to the symbol file when operating in "
 "template mode."
 msgstr ""
+"Dans le mode de fonctionnement par défaut (pas en mode « modèle »), seuls les symboles spécifiques de certaines architectures qui correspondent à l'architecture courante sont écrits dans le fichier de symboles. Au "
+"contraire, tous les symboles spécifiques d'architectures (y compris ceux des architectures différentes) seront écrits dans le fichier de symboles, dans le mode « modèle »."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:149
@@ -8418,6 +8420,8 @@ msgid ""
 "considered only on alpha, amd64, kfreebsd-amd64 and ia64 architectures while "
 "the second one anywhere except on armel."
 msgstr ""
+"Le format de I<architecture list> est le même que le format utilisé dans les champs I<Build-Depends> des fichiers I<debian/control> (à l'exception des crochets d'inclusion []). Par exemple, le premier symbole de la "
+"liste qui suit sera pris en compte sur les architectures alpha, amd64, kfreebsd-amd64 et ia64, mais le second uniquement sur armel."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:152
@@ -8426,13 +8430,15 @@ msgid ""
 " (arch=alpha amd64 kfreebsd-amd64 ia64)a_64bit_specific_symbol@Base 1.0\n"
 " (arch=!armel)symbol_armel_does_not_have@Base 1.0\n"
 msgstr ""
+" (arch=alpha amd64 kfreebsd-amd64 ia64)un_symbole_spécifique_64bit@Base 1.0\n"
+" (arch=!armel)un_symbole_inexistant_sur_armel@Base 1.0\n"
 
 #. type: TP
 #: dpkg-gensymbols.1:152
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--no-act>"
 msgid "B<ignore-blacklist>"
-msgstr "B<--no-act>"
+msgstr "B<ignore-blacklist>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:160
@@ -8444,32 +8450,35 @@ msgid ""
 "B<ignore-blacklist>. It can be necessary for some low level toolchain "
 "libraries like libgcc."
 msgstr ""
+"dpkg-gensymbols comporte une liste interne de symboles ignorés qui ne devraient pas apparaître dans les fichiers de symboles car ils sont en général uniquement des effets de bord de détails de mise en oeuvre de la "
+"chaîne d'outils de construction. Si, pour une réison précise, vous voulez vraiment inclure un de ces symboles dans le fichier, vous pouvez imposer qu'il soit ignoré, avec B<ignore-blacklist>. Cela peut être utile "
+"pour certaines bibliothèques de bas niveau telles que libgcc."
 
 #. type: TP
 #: dpkg-gensymbols.1:160 dpkg-gensymbols.1:197
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-nc>"
 msgid "B<c++>"
-msgstr "B<-nc>"
+msgstr "B<c++>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:164
 msgid "Denotes I<c++> symbol pattern. See B<Using symbol patterns> subsection below."
-msgstr ""
+msgstr "Indique un motif de symbole I<c++>. Voir la sous-section B<Utilisation de canevas de symboles> plus loin."
 
 #. type: TP
 #: dpkg-gensymbols.1:164 dpkg-gensymbols.1:228
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-sr>"
 msgid "B<symver>"
-msgstr "B<-sr>"
+msgstr "B<symver>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:168
 msgid ""
 "Denotes I<symver> (symbol version) symbol pattern. See B<Using symbol "
 "patterns> subsection below."
-msgstr ""
+msgstr "Indique un motif de symbole I<symver> (version de symbole)."
 
 #. type: TP
 #: dpkg-gensymbols.1:168 dpkg-gensymbols.1:253
