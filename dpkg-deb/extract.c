@@ -122,24 +122,6 @@ parseheaderlength(const char *inh, size_t len,
   return (size_t)r;
 }
 
-static void
-safe_fflush(FILE *f)
-{
-#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  /* XXX: Glibc 2.1 and some versions of Linux want to make fflush()
-   * move the current fpos. Remove this code some time. */
-  fpos_t fpos;
-
-  if (fgetpos(f, &fpos))
-    ohshit(_("failed getting the current file position"));
-  fflush(f);
-  if (fsetpos(f, &fpos))
-    ohshit(_("failed setting the current file position"));
-#else
-  fflush(f);
-#endif
-}
-
 void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo) {
   char versionbuf[40];
