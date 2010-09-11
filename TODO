@@ -23,9 +23,12 @@ TODO
    (1.x => 2.x) while minor version bump will be used for backwards
    compatible extension (e.g. new fields).
 
- * Make dpkg bootstrappable.
+ * Build:
+   - Make dpkg bootstrappable.
+   - Check availability of warning flags at configure time.
+   - Handle missing lstat at configure time by erroring out.
 
- * Code cleanup:
+ * Code cleanup / bug fixes:
    - Get rid of static variables inside functions.
    - Coalesce admindir / infodir / foodir generation.
    - Get rid of setjmp (at least in the general case, keep for dpkg itself?)
@@ -45,8 +48,21 @@ TODO
    - Replace raw write and read calls with safe variants (signals etc).
    - Make deb build version a version instead of doing checks over a string.
    - Use enums for currently hardcoded literals (tdus, dependtry, etc).
+   - Namespace pkg_db funcs.
+   - Do not use nfmalloc (and friends) for non in-core db memory.
+   - Call nffreeall on exit (need to detangle nfmalloc from non-db first).
+   - Add a size parameter to the buffer api to avoid some useless
+     pipe+fork+copy.
+   - Handle instdir '/' separator consistently.
+   - Check if caching selinux context for second call is possible.
+   - Refactor parse_warn/parse_error.
+   - Make parse_warn use warning().
+   - Add missing newlines in --version output.
+   - Fix leak on tar_extract (name, linkname).
+   - Handle symlinks in statcmd.c statdb_node_apply().
+   - Fix dpkg termination on SIGPIPE from status-fd.
 
- * Cleanup libcompat:
+ * libcompat cleanup:
    - Add fnmatch, IRIX5 doesn't have it.
 
  * Man pages:
@@ -62,6 +78,7 @@ TODO
    - Fix «.  ».
 
  * L10n:
+   - Check dpkg-divert strings for new and fixable ones.
    - Standardize translated error messages in the perl code to avoid useless
      work for translators.
    - Check http://d-i.alioth.debian.org/spellcheck/level5/index.html
