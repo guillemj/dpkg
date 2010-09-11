@@ -54,9 +54,6 @@ struct buffer_data {
 # define fd_md5(fd, hash, limit, ...) \
 	buffer_copy_IntPtr(fd, BUFFER_READ_FD, hash, BUFFER_WRITE_MD5, \
 	                   limit, __VA_ARGS__)
-# define stream_md5(file, hash, limit, ...) \
-	buffer_copy_PtrPtr(file, BUFFER_READ_STREAM, hash, BUFFER_WRITE_MD5, \
-	                   limit, __VA_ARGS__)
 # define fd_fd_copy(fd1, fd2, limit, ...) \
 	buffer_copy_IntInt(fd1, BUFFER_READ_FD, fd2, BUFFER_WRITE_FD, \
 	                   limit, __VA_ARGS__)
