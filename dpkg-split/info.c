@@ -104,7 +104,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
     ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),fn);
   thisilen = parseheaderlength(arh.ar_size, sizeof(arh.ar_size), fn,
-                               _("info length"));
+                               _("archive information member size"));
   if (thisilen >= readinfobuflen) {
     readinfobuflen= thisilen+1;
     readinfobuf= m_realloc(readinfobuf,readinfobuflen);
@@ -134,23 +134,24 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
       strspn(ir->md5sum, "0123456789abcdef") != MD5HASHLEN)
     ohshit(_("file `%.250s' is corrupt - bad MD5 checksum `%.250s'"),fn,ir->md5sum);
 
-  ir->orglength = unsignedlong(nextline(&rip, fn, _("total length")), fn,
-                               _("total length"));
-  ir->maxpartlen = unsignedlong(nextline(&rip, fn, _("part offset")), fn,
-                                _("part offset"));
+  ir->orglength = unsignedlong(nextline(&rip, fn, _("archive total size")),
+                               fn, _("archive total size"));
+  ir->maxpartlen = unsignedlong(nextline(&rip, fn, _("archive part offset")),
+                                fn, _("archive part offset"));
   
-  partnums = nextline(&rip, fn, _("part numbers"));
+  partnums = nextline(&rip, fn, _("archive part numbers"));
   slash= strchr(partnums,'/');
-  if (!slash) ohshit(_("file `%.250s' is corrupt - no slash between part numbers"),fn);
+  if (!slash)
+    ohshit(_("file '%.250s' is corrupt - no slash between archive part numbers"), fn);
   *slash++ = '\0';
 
-  templong = unsignedlong(slash, fn, _("number of parts"));
+  templong = unsignedlong(slash, fn, _("number of archive parts"));
   if (templong <= 0 || templong > INT_MAX)
-    ohshit(_("file '%.250s' is corrupt - bad number of parts"), fn);
+    ohshit(_("file '%.250s' is corrupt - bad number of archive parts"), fn);
   ir->maxpartn= templong;
-  templong = unsignedlong(partnums, fn, _("parts number"));
+  templong = unsignedlong(partnums, fn, _("archive parts number"));
   if (templong <= 0 || templong > ir->maxpartn)
-    ohshit(_("file `%.250s' is corrupt - bad part number"),fn);
+    ohshit(_("file '%.250s' is corrupt - bad archive part number"),fn);
   ir->thispartn= templong;
 
   if (fread(&arh,1,sizeof(arh),partfile) != sizeof(arh)) rerreof(partfile,fn);
@@ -163,7 +164,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
     ohshit(_("file `%.250s' is corrupt - second member is not data member"),fn);
 
   ir->thispartlen = parseheaderlength(arh.ar_size, sizeof(arh.ar_size), fn,
-                                      _("data length"));
+                                      _("archive data member size"));
   ir->thispartoffset= (ir->thispartn-1)*ir->maxpartlen;
 
   if (ir->maxpartn != (ir->orglength+ir->maxpartlen-1)/ir->maxpartlen)

@@ -127,7 +127,8 @@ void extracthalf(const char *debar, const char *directory,
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
   if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
-  if (!fgets(versionbuf,sizeof(versionbuf),ar)) readfail(ar,debar,_("version number"));
+  if (!fgets(versionbuf, sizeof(versionbuf), ar))
+    readfail(ar, debar, _("archive magic version number"));
 
   if (!strcmp(versionbuf, DPKG_AR_MAGIC)) {
     oldformat = false;
@@ -138,14 +139,14 @@ void extracthalf(const char *debar, const char *directory,
       struct ar_hdr arh;
 
       if (fread(&arh,1,sizeof(arh),ar) != sizeof(arh))
-        readfail(ar,debar,_("between members"));
+        readfail(ar, debar, _("archive member header"));
 
       dpkg_ar_normalize_name(&arh);
 
       if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
         ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),debar);
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
-                                   debar, _("member length"));
+                                   debar, _("archive member size"));
       if (!header_done) {
         char *infobuf;
         char *cur;
@@ -154,7 +155,7 @@ void extracthalf(const char *debar, const char *directory,
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
         if (fread(infobuf,1, memberlen + (memberlen&1), ar) != memberlen + (memberlen&1))
-          readfail(ar,debar,_("header info member"));
+          readfail(ar, debar, _("archive information header member"));
         infobuf[memberlen] = '\0';
         cur= strchr(infobuf,'\n');
         if (!cur) ohshit(_("archive has no newlines in header"));
@@ -174,7 +175,8 @@ void extracthalf(const char *debar, const char *directory,
           /* Members with `_' are noncritical, and if we don't understand them
            * we skip them.
            */
-	stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member data from %s"), debar);
+        stream_null_copy(ar, memberlen + (memberlen & 1),
+                         _("skipped archive member data from %s"), debar);
       } else {
 	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
 	  adminmember = 1;
@@ -189,16 +191,18 @@ void extracthalf(const char *debar, const char *directory,
 	  }
 
           if (adminmember == -1 || decompressor == NULL)
-            ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
+            ohshit(_("archive '%.250s' contains not understood data member %.*s, giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);
         }
         if (adminmember == 1) {
           if (ctrllennum != 0)
-            ohshit(_("file `%.250s' contains two control members, giving up"), debar);
+            ohshit(_("archive '%.250s' contains two control members, giving up"),
+                   debar);
           ctrllennum= memberlen;
         }
         if (!adminmember != !admininfo) {
-	  stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member data from %s"), debar);
+          stream_null_copy(ar, memberlen + (memberlen & 1),
+                           _("skipped archive member data from %s"), debar);
         } else {
           break; /* Yes ! - found it. */
         }
@@ -222,15 +226,16 @@ void extracthalf(const char *debar, const char *directory,
     if (l && versionbuf[l - 1] == '\n')
       versionbuf[l - 1] = '\0';
     if (!fgets(ctrllenbuf,sizeof(ctrllenbuf),ar))
-      readfail(ar, debar, _("control information length"));
+      readfail(ar, debar, _("archive control member size"));
     if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
-      ohshit(_("archive has malformatted control length `%s'"), ctrllenbuf);
+      ohshit(_("archive has malformatted control member size '%s'"), ctrllenbuf);
 
     if (admininfo) {
       memberlen = ctrllennum;
     } else {
       memberlen = stab.st_size - ctrllennum - strlen(ctrllenbuf) - l;
-      stream_null_copy(ar, ctrllennum, _("skipped control area from %s"), debar);
+      stream_null_copy(ar, ctrllennum,
+                       _("skipped archive control member data from %s"), debar);
     }
 
     if (admininfo >= 2) {
