@@ -32,9 +32,14 @@ DPKG_BEGIN_DECLS
  */
 void file_copy_perms(const char *src, const char *dst);
 
+enum file_lock_flags {
+	FILE_LOCK_NOWAIT,
+	FILE_LOCK_WAIT,
+};
+
 bool file_is_locked(int lockfd, const char *filename);
-void file_lock(int *lockfd, const char *filename,
-               const char *emsg, const char *emsg_eagain);
+void file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
+               const char *desc);
 void file_unlock(void);
 
 DPKG_END_DECLS

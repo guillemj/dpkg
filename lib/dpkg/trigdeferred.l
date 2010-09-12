@@ -126,8 +126,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 			}
 		}
 
-		file_lock(&lock_fd, fn.buf, _("unable to lock triggers area"),
-		          NULL);
+		file_lock(&lock_fd, FILE_LOCK_WAIT, fn.buf, _("triggers area"));
 	} else {
 		/* Dummy for pop_cleanups. */
 		push_cleanup(NULL, 0, NULL, 0, 0);

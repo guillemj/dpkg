@@ -195,9 +195,7 @@ modstatdb_lock(const char *admindir)
     }
   }
 
-  file_lock(&dblockfd, dblockfile,
-            _("unable to lock dpkg status database"),
-            _("status database area is locked by another process"));
+  file_lock(&dblockfd, FILE_LOCK_NOWAIT, dblockfile, _("dpkg status database"));
 
   free(dblockfile);
 }
