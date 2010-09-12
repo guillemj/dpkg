@@ -1,33 +1,40 @@
 # dpkg/scripts po translation to Spanish
 # Copyright (C) 2010 Software in the Public Interest
 # This file is distributed under the same license as the dpkg package.
+#
 # Changes:
-# - Initial translation
-# Omar Campagne Polaino <ocampagne@gmail.com>, 2010
-# - Updates
-# TRANSLATOR
+#   - Initial translation
+#       Omar Campagne Polaino <ocampagne@gmail.com>, 2010
+#
+#   - Updates
+#       TRANSLATOR
+#
 # Traductores, si no conocen el formato PO, merece la pena leer la
 # documentación de gettext, especialmente las secciones dedicadas a este
 # formato, por ejemplo ejecutando:
-# info -n '(gettext)PO Files'
-# info -n '(gettext)Header Entry'
+#       info -n '(gettext)PO Files'
+#       info -n '(gettext)Header Entry'
+#
 # Equipo de traducción al español, por favor lean antes de traducir
 # los siguientes documentos:
-# - El proyecto de traducción de Debian al español
-# http://www.debian.org/intl/spanish/
-# especialmente las notas y normas de traducción en
-# http://www.debian.org/intl/spanish/notas
-# - La guía de traducción de po's de debconf:
-# /usr/share/doc/po-debconf/README-trans
-# o http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#   - El proyecto de traducción de Debian al español
+#     http://www.debian.org/intl/spanish/
+#     especialmente las notas y normas de traducción en
+#     http://www.debian.org/intl/spanish/notas
+#
+#   - La guía de traducción de po's de debconf:
+#     /usr/share/doc/po-debconf/README-trans
+#     o http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.15.7.2-51-g174ea\n"
+"Project-Id-Version: dpkg 1.18.8.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2010-08-31 20:58+0200\n"
-"PO-Revision-Date: 2010-07-01 16:22+0200\n"
+"PO-Revision-Date: 2010-09-02 12:29+0200\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
-"Language-Team: Spanish pootle.locamotion.org team\n"
+"Language-Team: Debian l10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -176,18 +183,7 @@ msgstr ""
 "Copyright (C) 2010 Raphael Hertzog <hertzog@debian.org>."
 
 #: scripts/dpkg-buildflags.pl:44
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<action>]\n"
-#| "\n"
-#| "Actions:\n"
-#| "  --get <flag>     output the requested flag to stdout.\n"
-#| "  --origin <flag>  output the origin of the flag to stdout:\n"
-#| "                   value is one of vendor, system, user, env.\n"
-#| "  --list           output a list of the flags supported by the current "
-#| "vendor.\n"
-#| "  --help           show this help message.\n"
-#| "  --version        show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<action>]\n"
 "\n"
@@ -211,6 +207,8 @@ msgstr ""
 "                   el valor puede ser «vendor», «system», «user», «env».\n"
 "  --list           Muestra una lista de opciones aceptadas por el\n"
 "                   proveedor actual.\n"
+"  --export=(sh|make) muestra por la salida órdenes a ejecutar en la consola "
+"o lleva a cabo ese «export»\n"
 "  --help           Muestra este mensaje de ayuda.\n"
 "  --version        Muestra la versión.\n"
 
@@ -242,61 +240,7 @@ msgstr ""
 "Copyright (C) 2007 Frank Lichtenheld"
 
 #: scripts/dpkg-buildpackage.pl:52
-#, fuzzy, perl-format
-#| msgid ""
-#| "\n"
-#| "Usage: %s [<options> ...]\n"
-#| "\n"
-#| "Options:\n"
-#| "  -r<gain-root-command>\n"
-#| "                 command to gain root privileges (default is fakeroot).\n"
-#| "  -R<rules>      rules file to execute (default is debian/rules).\n"
-#| "  -p<sign-command>\n"
-#| "  -d             do not check build dependencies and conflicts.\n"
-#| "  -D             check build dependencies and conflicts.\n"
-#| "  -T<target>     call debian/rules <target> with the proper environment\n"
-#| "  --as-root      ensure -T calls the target with root rights\n"
-#| "  -j[<number>]   specify jobs to run simultaneously } passed to debian/"
-#| "rules\n"
-#| "  -k<keyid>      the key to use for signing.\n"
-#| "  -sgpg          the sign-command is called like GPG.\n"
-#| "  -spgp          the sign-command is called like PGP.\n"
-#| "  -us            unsigned source.\n"
-#| "  -uc            unsigned changes.\n"
-#| "  -a<arch>       Debian architecture we build for (implies -d).\n"
-#| "  -b             binary-only, do not build source.   } also passed to\n"
-#| "  -B             binary-only, no arch-indep files.   } dpkg-genchanges\n"
-#| "  -A             binary-only, only arch-indep files. }\n"
-#| "  -S             source only, no binary files.     }\n"
-#| "  -t<system>     set GNU system type.           } passed to dpkg-"
-#| "architecture\n"
-#| "  -v<version>    changes since version <version>.      }\n"
-#| "  -m<maint>      maintainer for package is <maint>.    }\n"
-#| "  -e<maint>      maintainer for release is <maint>.    } only passed\n"
-#| "  -C<descfile>   changes are described in <descfile>.  } to dpkg-"
-#| "genchanges\n"
-#| "  -si (default)  src includes orig if new upstream.    }\n"
-#| "  -sa            uploaded src always includes orig.    }\n"
-#| "  -sd            uploaded src is diff and .dsc only.   }\n"
-#| "  -sn            force Debian native source format.      }\n"
-#| "  -s[sAkurKUR]   see dpkg-source for explanation.        } only passed\n"
-#| "  -z<level>      compression level of source             } to dpkg-"
-#| "source\n"
-#| "  -Z<compressor> compression to use for source           }\n"
-#| "  -nc            do not clean source tree (implies -b).\n"
-#| "  -tc            clean source tree when finished.\n"
-#| "  -ap            add pause before starting signature process.\n"
-#| "  -i[<regex>]    ignore diffs of files matching regex.    } only passed\n"
-#| "  -I[<pattern>]  filter out files when building tarballs. } to dpkg-"
-#| "source\n"
-#| "  --source-option=<opt>\n"
-#| "\t\t pass option <opt> to dpkg-source\n"
-#| "  --changes-option=<opt>\n"
-#| "\t\t pass option <opt> to dpkg-genchanges\n"
-#| "  --admindir=<directory>\n"
-#| "                 change the administrative directory.\n"
-#| "  -h, --help     show this help message.\n"
-#| "      --version  show the version.\n"
+#, perl-format
 msgid ""
 "\n"
 "Usage: %s [<options> ...]\n"
@@ -380,6 +324,7 @@ msgstr ""
 "  -A             Sólo binario, sólo ficheros independientes}\n"
 "                 de arquitectura.\n"
 "  -S             Sólo fuentes, sin binarios.     }\n"
+"  -F             Construcción normal completa (binarios y fuentes).\n"
 "  -t<sistema>    Define el tipo de sistema GNU.  }introducido "
 "a                  dpkg-architecture\n"
 "  -v<versión>    Cambios desde la versión <versión>.           }\n"
@@ -775,10 +720,9 @@ msgstr ""
 "paquetes específicos a la arquitectura"
 
 #: scripts/dpkg-genchanges.pl:219
-#, fuzzy, perl-format
-#| msgid "the current version (%s) is smaller than the previous one (%s)"
+#, perl-format
 msgid "the current version (%s) is earlier than the previous one (%s)"
-msgstr "la versión actual (%s) es menor que la anterior (%s)"
+msgstr "la versión actual (%s) es más antigua que la anterior (%s)"
 
 #: scripts/dpkg-genchanges.pl:226
 msgid "cannot read files list file"
@@ -1713,9 +1657,7 @@ msgstr ""
 "extensión."
 
 #: scripts/dpkg-shlibdeps.pl:379
-#, fuzzy, perl-format
-#| msgid ""
-#| "%d other similar warnings have been skipped (use -v to see them all)."
+#, perl-format
 msgid "%d similar warning has been skipped (use -v to see it)."
 msgid_plural ""
 "%d other similar warnings have been skipped (use -v to see them all)."
@@ -2302,20 +2244,16 @@ msgid "'%s' option specifies non-existing version"
 msgstr "la opción «%s» define un versión que no existe"
 
 #: scripts/Dpkg/Changelog.pm:255 scripts/Dpkg/Changelog.pm:303
-#, fuzzy
-#| msgid "use newest entry that is smaller than the one specified"
 msgid "use newest entry that is earlier than the one specified"
-msgstr "usar la entrada más reciente y más pequeña que la que se ha definido"
+msgstr "use la entrada más reciente que sea antigua que la que se ha definido"
 
 #: scripts/Dpkg/Changelog.pm:264
 msgid "none found, starting from the oldest entry"
 msgstr "no se ha encontrado nada, iniciando desde la entrada más antigua"
 
 #: scripts/Dpkg/Changelog.pm:271 scripts/Dpkg/Changelog.pm:287
-#, fuzzy
-#| msgid "use oldest entry that is bigger than the one specified"
 msgid "use oldest entry that is later than the one specified"
-msgstr "usar la entrada más antigua y mayor que la que se ha definido"
+msgstr "usar la entrada más antigua que es posterior a la que se ha definido"
 
 #: scripts/Dpkg/Changelog.pm:281 scripts/Dpkg/Changelog.pm:297
 #: scripts/Dpkg/Changelog.pm:312
@@ -3357,10 +3295,7 @@ msgid "unwanted binary file: %s"
 msgstr "fichero binario no deseado: %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:417
-#, fuzzy, perl-format
-#| msgid ""
-#| "detected %d unwanted binary file(s) (add them in debian/source/include-"
-#| "binaries to allow their inclusion)."
+#, perl-format
 msgid ""
 "detected %d unwanted binary file (add it in debian/source/include-binaries "
 "to allow its inclusion)."
@@ -3368,11 +3303,11 @@ msgid_plural ""
 "detected %d unwanted binary files (add them in debian/source/include-"
 "binaries to allow their inclusion)."
 msgstr[0] ""
-"se ha(n) detectado %d fichero(s) binario(s) (añada estos en «debian/source/"
-"include-binaries» para permitir su inclusión)"
+"se ha detectado %d fichero binario (añada este en «debian/source/include-"
+"binaries» para permitir su inclusión)"
 msgstr[1] ""
-"se ha(n) detectado %d fichero(s) binario(s) (añada estos en «debian/source/"
-"include-binaries» para permitir su inclusión)"
+"se han detectado %d ficheros binarios (añada estos en «debian/source/include-"
+"binaries» para permitir su inclusión)"
 
 #: scripts/Dpkg/Source/Package/V2.pm:436
 msgid "unrepresentable changes to source"
@@ -3515,44 +3450,39 @@ msgstr "«git ls-files» cerró con un valor distinto de cero"
 #: scripts/Dpkg/Source/Package/V3/git.pm:149
 #, perl-format
 msgid "creating shallow clone with depth %s"
-msgstr ""
+msgstr "creando un clon superficial («shallow») con profundidad %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:165
 #, perl-format
 msgid "bundling: %s"
-msgstr ""
+msgstr "archivando: %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:201
-#, fuzzy
-#| msgid "format v3.0 uses only one source file"
 msgid "format v3.0 (git) uses only one .git file"
-msgstr "el formato v3.0 sólo usa un fichero de fuente"
+msgstr "el formato v3.0 (git) sólo usa un fichero «.git»"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:207
-#, fuzzy
-#| msgid "format v3.0 uses only one source file"
 msgid "format v3.0 (git) uses only one .gitshallow file"
-msgstr "el formato v3.0 sólo usa un fichero de fuente"
+msgstr "el formato v3.0 (git) sólo usa un fichero «.gitshallow»"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:210
 #, perl-format
 msgid "format v3.0 (git) unknown file: %s"
-msgstr ""
+msgstr "fichero desconocido con formato v3.0 (git): %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:214
 #, perl-format
 msgid "format v3.0 (git) expected %s"
-msgstr ""
+msgstr "se esperaba el formato v3.0 (git) %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:220
-#, fuzzy, perl-format
-#| msgid "applying %s"
+#, perl-format
 msgid "cloning %s"
-msgstr "aplicando «%s»"
+msgstr "clonando «%s»"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:227
 msgid "setting up shallow clone"
-msgstr ""
+msgstr "configurando un clon superficial («shallow»)"
 
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:72
 #, perl-format
