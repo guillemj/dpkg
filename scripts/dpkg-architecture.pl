@@ -134,9 +134,6 @@ my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
 $v{DEB_BUILD_ARCH} = get_raw_build_arch();
 $v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
 
-$v{DEB_HOST_ARCH} = get_raw_host_arch();
-$v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
-
 # Set user values:
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
@@ -164,8 +161,16 @@ if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
         if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
 
-$v{DEB_HOST_ARCH} = $req_host_arch if $req_host_arch ne '';
-$v{DEB_HOST_GNU_TYPE} = $req_host_gnu_type if $req_host_gnu_type ne '';
+if ($req_host_arch eq '') {
+    $v{DEB_HOST_ARCH} = get_raw_host_arch();
+} else {
+    $v{DEB_HOST_ARCH} = $req_host_arch;
+}
+if ($req_host_gnu_type eq '') {
+    $v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
+} else {
+    $v{DEB_HOST_GNU_TYPE} = $req_host_gnu_type;
+}
 
 my $gcc = get_gcc_host_gnu_type();
 
