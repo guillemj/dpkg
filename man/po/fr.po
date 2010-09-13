@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-10 18:28+0200\n"
+"PO-Revision-Date: 2010-09-13 07:53+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -8482,23 +8482,23 @@ msgstr "Indique un motif de symbole I<symver> (version de symbole)."
 
 #. type: TP
 #: dpkg-gensymbols.1:168 dpkg-gensymbols.1:253
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<purge>"
 msgid "B<regex>"
-msgstr "B<purge>"
+msgstr "B<regex>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:172
 msgid ""
 "Denotes I<regex> symbol pattern. See B<Using symbol patterns> subsection "
 "below."
-msgstr ""
+msgstr "Indique un motif de symbole basé sur des I<expressions régulières>. Voir la sous-section B<Utilisation des motifs de symboles> plus loin."
 
 #. type: SS
 #: dpkg-gensymbols.1:172
 #, no-wrap
 msgid "Using symbol patterns"
-msgstr ""
+msgstr "Utilisation des motifs de symboles"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:180
@@ -8511,6 +8511,9 @@ msgid ""
 "of the symbol. If none of the patterns matches, the symbol will be "
 "considered as new."
 msgstr ""
+"Au contraire d'une indication normale de symbole, un motif permet de couvrir des symboles multiples de la bibliothèque. B<dpkg-gensymbols> essaie de faire correspondre chaque motif à chaque symbole qui n'est pas "
+"explicitement défini dans le fichier de symboles. Dès qu'un motif est trouvé qui corresponde au symbole, l'ensemble de ses étiquettes et propriétés sont utilisés comme spécification de base du symbole. Si aucun des "
+"motifs ne correspond, le symbole sera considéré comme nouveau."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:188
@@ -8524,6 +8527,10 @@ msgid ""
 "I<arch> tag. Please refer to B<Standard symbol tags> subsection above for "
 "more information."
 msgstr ""
+"A motif est considéré comme perdu si aucun symbole ne lui correspond dans la bibliothèque. Par défaut, cela provoquera un échec de B<dpkg-gensymbols> s'il est utilisé avec l'option I<-c1> (ou une valeur plus élevée). "
+"Cependant, si l'échec n'est pas souhaité, le motif peut être marqué comme optionnel avec l'étiquette I<optional>. Dans ce cas, si lemotif ne correspond à rien, il sera simplement mentionné dans le fichier de "
+"différences comme I<MISSING> (manquant). De plus, comme pour tout autre symbole, le motif peut être limité à des architectures données avec l'étiquette I<arch>. Veuillez consulter la sous-section B<Étiquettes "
+"standard de symboles> pour plus d'informations."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:195
@@ -8535,11 +8542,13 @@ msgid ""
 "I<name@version> of the real symbol. In order to distinguish among different "
 "pattern types, a pattern will typically be tagged with a special tag."
 msgstr ""
+"Les motifs sont une extension du format de I<deb-symbols(5)> en ce sens qu'ils ne sont valables que dans les modèles de fichiers de symboles. Cependant, la partie comportant le nom de symbole est utilisée comme une "
+"expression à faire correspondre à I<name@version> du symbole réel. Afin de faire la distinction entre les différents types de motifs, un motif sera usuellement marqué avec une étiquette spéciale."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:197
 msgid "At the moment, B<dpkg-gensymbols> supports three basic pattern types:"
-msgstr ""
+msgstr "Actuellement, B<dpkg-gensymbols> gères trois type de base de motifs :"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:209
@@ -8555,6 +8564,11 @@ msgid ""
 "32bit architectures will probably be _ZThn16_N3NSB6ClassDD1Ev@Base on 64bit "
 "ones, it can be matched with a single I<c++> pattern:"
 msgstr ""
+"Ce motif est repéré par l'étiquette I<c++>. Il ne sera comparé qu'aux symboles C++ avec leur nom de symbole complet (demangled) tel qu'affiché avec l'utilitaire B<c++filt>. Ce motif est très pratique pour faire "
+"correspondre les symboles dont les noms raccourcis (mangled) peut différer selon les architectures bien que leurs noms complet restent les mêmes. Un tel groupe de symboles sont les I<non-virtual thunks> pou rlesquels "
+"les décalages (offsets) spécifiques d'architectures sont inclus dans leur nom court. Une manifestation  usuelle de ce cas est le destructeur virtuel qui, en « diamon inheritance » (NdT: intraduisible?) a besoin d'un "
+"symbole « thunk » (Ndt: ditto) non virtuel. Par exemple, même si _ZThn8_N3NSB6ClassDD1Ev@Base sur une architecture 32bit est identique à _ZThn16_N3NSB6ClassDD1Ev@Base sur une architecture 64bit, les deux peuvent être "
+"indiqués avec le même motif I<c++> :"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:215
@@ -8565,17 +8579,21 @@ msgid ""
 " (c++)\"non-virtual thunk to NSB::ClassD::~ClassD()@Base\" 1.0\n"
 " [...]\n"
 msgstr ""
+"libdummy.so.1 libdummy1 #MINVER#\n"
+" [...]\n"
+" (c++)\"non-virtual thunk to NSB::ClassD::~ClassD()@Base\" 1.0\n"
+" [...]\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:217
 msgid "The demangled name above can be obtained by executing the following command:"
-msgstr ""
+msgstr "Le nom complet ci-dessus peut être obtenu avec la commande suivante :"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:219
 #, no-wrap
 msgid " $ echo '_ZThn8_N3NSB6ClassDD1Ev@Base' | c++filt\n"
-msgstr ""
+msgstr " $ echo '_ZThn8_N3NSB6ClassDD1Ev@Base' | c++filt\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:227
@@ -8588,6 +8606,9 @@ msgid ""
 "for them). However, as these collisions happen on the ABI level, they should "
 "not degrade quality of the symbol file."
 msgstr ""
+"Veuillez noter que, bien que le nom complet soit unique dans la bibliothèque par définition, cela n'est pas forcément vrai pour le nom raccourci. Deux symboles réels différents peuvent avoir le même nom raccourci. "
+"C'est par exemple le cas avec les symboles « thunk » non virtuels dans des configurations d'héritage complexes ou avec la plupart des constructeurs et destructeurs (puisque g++ crée usuellement deux symboles réels "
+"pour eux). Cependant, comme ces collisions se produisent au niveau de l'interface applicative binaire (ABI), elle ne devraient pas dégrader la qualité du fichier de symboles."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:234
@@ -8597,6 +8618,8 @@ msgid ""
 "where the symbol got added. If that's the case, you can use a I<symver> "
 "pattern to match any symbol associated to the specific version. For example:"
 msgstr ""
+"Ce motif est indiqué par l'étiquette I<symver>. Les bibliothèques bien gérées utilisent des symboles versionnés où chaque version correspond à la version amont à laquelle le symbole a été ajouté. Si c'est le cas, il "
+"est possible d'utiliser un motif I<symver> pour faire correspondre chaque symbole associée à la version spécifique. Par exemple :"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:241
@@ -8608,6 +8631,11 @@ msgid ""
 " (symver)GLIBC_2.7 2.7\n"
 " access@GLIBC_2.0 2.2\n"
 msgstr ""
+"libc.so.6 libc6 #MINVER#\n"
+" (symver)GLIBC_2.0 2.0\n"
+" [...]\n"
+" (symver)GLIBC_2.7 2.7\n"
+" access@GLIBC_2.0 2.2\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:247
@@ -8618,6 +8646,8 @@ msgid ""
 "version 2.2 despite being in the scope of the \"(symver)GLIBC_2.0\" pattern "
 "because specific symbols take precedence over patterns."
 msgstr ""
+"Tous les symboles associés avec les versions GLIBC_2.0 et GLIBC_2.7 conduiront respectivement à des versions minimales de 2.0 et 2.7, à l'exception du symbole access@GLIBC_2.0. Ce dernier amène à une dépendance "
+"minimale sur la version 2.2 de libc6 bien qu'il soit dans le scope de « (symvar)GLIBC_2.0 ». Cela est dû au fait que les symboles spécifiques prennent le pas sur les motifs."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:252
@@ -8628,6 +8658,8 @@ msgid ""
 "2.0\" should be written as \"(symver|optional)GLIBC_2.0 2.0\" if the same "
 "behaviour is needed."
 msgstr ""
+"Veuillez noter que les anciens motifs avec caractères génériques (indiqués sous la forme « *@version ») dans le champ de nom de symbole sont toujours gérés. La nouvelle syntaxe « (symver|optional)version » doit "
+"toutefois leur être préférée. Par exemple, « *@GLIBC_2.0 2.0 » devrait être écrit sous la forme « (symver|optional)GLIBC_2.0 2.0 » si un comportement analogue est recherché."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:260
@@ -8638,6 +8670,8 @@ msgid ""
 "I<^> character or it may match any part of the real symbol I<name@version> "
 "string. For example:"
 msgstr ""
+"Les =motifs d'expressions régulières sont indiqués par l'étiquette I<regex>. La correspondance se fait avec une expression régulière Perl sur le champ de nom de symbole. la correspondance est faite telle quelle et il "
+"ne faut donc pas oublier le caractère I<^>, sinon la correspondance est faite sur n'importe quelle partie du symbole réel I<name@version>. Par exemple :"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:265
@@ -8647,6 +8681,9 @@ msgid ""
 " (regex)\"^mystack_.*@Base$\" 1.0\n"
 " (regex|optional)\"private\" 1.0\n"
 msgstr ""
+"libdummy.so.1 libdummy1 #MINVER#\n"
+" (regex)\"^mystack_.*@Base$\" 1.0\n"
+" (regex|optional)\"private\" 1.0\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:270
@@ -8657,6 +8694,8 @@ msgid ""
 "having the string \"private\" in their names and matches will inherit "
 "I<optional> tag from the pattern."
 msgstr ""
+"Les symboles tels que « mystack_new@Base », « mystack_push@Base », « mystack_pop@Base », etc. seront en correspondance avec le premier motif alors que, par exemple, « ng_mystack_new@Base » ne le sera pas. Le deuxième "
+"motif correspondra pour tous les symboles qui comportent la chaîne « private » dans leur nom et les correspondances hériteront de l'étiquette I<optional> depuis le motif."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:275
@@ -8664,7 +8703,7 @@ msgid ""
 "Basic patterns listed above can be combined where it makes sense. In that "
 "case, they are processed in the order in which the tags are specified. For "
 "example, both"
-msgstr ""
+msgstr "Les motifs de base indiqués précédemment peuvent être combinés au besoin. Dans ce cas, ils sont traités dans l'ordre où les étiquettes sont indiquées. Par exemple, les deux motifs"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:278
@@ -8673,6 +8712,8 @@ msgid ""
 " (c++|regex)\"^NSA::ClassA::Private::privmethod\\ed\\e(int\\e)@Base\" 1.0\n"
 " (regex|c++)N3NSA6ClassA7Private11privmethod\\edEi@Base 1.0\n"
 msgstr ""
+" (c++|regex)\"^NSA::ClassA::Private::privmethod\\ed\\e(int\\e)@Base\" 1.0\n"
+" (regex|c++)N3NSA6ClassA7Private11privmethod\\edEi@Base 1.0\n"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:288
@@ -8688,6 +8729,10 @@ msgid ""
 "\"__N3NSA6ClassA7Private11privmethod\\edEi@Base\" will not match either of "
 "the patterns because it is not a valid C++ symbol."
 msgstr ""
+"Seront en correspondance avec les symboles « _ZN3NSA6ClassA7Private11privmethod1Ei@Base\" » et « _ZN3NSA6ClassA7Private11privmethod2Ei@Base ». Lors de la correspondance avec le premier motif, le symbole complet est "
+"d'abord décodé en tant que symbole C++, puis compéré à l'expression régulière. D'un autre côté, lors de la correspondance avec le deuxième motif, l'expression régulière est comparée au nom de symbole brut, puis le "
+"symbole est testé en tant que symbole C++ en tentant de le décoder. L'échec de n'importe quel motif de base provoquera l'échec de l'ensemble du motif. Ainsi, par exemple, "
+"« __N3NSA6ClassA7Private11privmethod\\edEi@Base » ne correspondra à aucun des motifs car ce n'est pas un symbole C++ valable (Ndt : j'ai l'impression de traduire du Klingon !)."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:294
@@ -8698,6 +8743,8 @@ msgid ""
 "while generic patterns are O(N) (N - generic pattern count) for each "
 "symbol.  Therefore, it is recommended not to overuse generic patterns."
 msgstr ""
+"En général, les motifs sont divisés en deux groupes : les alias (I<c++> et I<symver> de base) et les motifs génériques (I<regex> et toutes les combinaisons de motifs de base multiples). La correspondance de motifs "
+"basés sur des alias est rapide (0(1)) alors que les motifs génériques sont 0(N) (N étant le nombre de motifs génériques) pour chaque symbole. En conséquence, il est déconseillé d'abuser des motifs génériques."
 
 #. type: Plain text
 #: dpkg-gensymbols.1:301
