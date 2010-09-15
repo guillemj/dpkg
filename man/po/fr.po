@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-14 19:31+0200\n"
+"PO-Revision-Date: 2010-09-15 20:00+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -9322,7 +9322,7 @@ msgstr ""
 #: dpkg-maintscript-helper.1:28
 #, no-wrap
 msgid "CONFFILE RELATED TASKS"
-msgstr ""
+msgstr "TÂCHES LIÉES AUX FICHIERS DE CONFIGURATION"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:38
@@ -9336,6 +9336,10 @@ msgid ""
 "conffile to a file maintained by the package's maintainer scripts, usually "
 "with a tool like debconf or ucf."
 msgstr ""
+"Lors de la mise à jour d'un paquet, dpkg ne supprime pas automatiquement les fichiers de configuration (comportant des modifications locales à préserver) s'il n'est pas présent dans la nouvelle version. Il existe "
+"deux raisons principales à cela. En premier lieu, le fichier de configuration peut avoir été supprimé par accident, être réintégré dans la version suivante et il peut être nécessaire de retrouver les modifications "
+"locales. Ensuite, l'objectif est également de permettre d'effectuer la transition depuis des fichiers de configuration gérés par dpkg vers un fichier géré via les scripts du responsable, en général à l'aide d'un "
+"outil comme debconf ou ucf."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:43
@@ -9345,12 +9349,14 @@ msgid ""
 "implement graceful deletion and moving of conffiles within maintainer "
 "scripts."
 msgstr ""
+"Cela signifie que si un paquet a besoin de renommer ou supprimer un fichier de configuration, il doit le faire explicitement. L'objectif de B<dpkg-maintscript-helper> est donc de fournir des méthodes de suppression "
+"ou renommage de fichiers de configuration via les scripts du responsable."
 
 #. type: SS
 #: dpkg-maintscript-helper.1:44
 #, no-wrap
 msgid "REMOVING A CONFFILE"
-msgstr ""
+msgstr "SUPPRESSION D'UN FICHIER DE CONFIGURATION"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:50
@@ -9360,13 +9366,15 @@ msgid ""
 "preserved. If the package upgrades aborts, the newly obsolete conffile "
 "should not disappear."
 msgstr ""
+"Si un fichier de configuration est complètement supprimé, il doit être effacé du disque sauf si l'administrateur local l'a modifié. Les éventuelles modifications locales doivent être conservées. Si la mise à jour du "
+"paquet est interrompue, le fichier de configuration rendu obsolète ne doit pas avoir disparu."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:53
 msgid ""
 "All of this is implemented by putting the following shell snippet in the "
 "B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
-msgstr ""
+msgstr "L'ensemble de ces pré-requis est mis en oeuvre en utilisant les commandes shell suivantes dans les scripts B<preinst>, B<postinst> et B<postrm> :"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:56
@@ -9375,6 +9383,8 @@ msgid ""
 "    dpkg-maintscript-helper rm_conffile \\e\n"
 "        I<conffile> I<lastversion> I<package> -- \"$@\"\n"
 msgstr ""
+"    dpkg-maintscript-helper rm_conffile \\e\n"
+"        I<fichier-de-configuration> I<dernière-version> I<paquet> -- \"$@\"\n"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:66
@@ -9389,6 +9399,10 @@ msgid ""
 "package acted upon). All the parameters of the maintainer scripts have to be "
 "forwarded to the program after \"--\"."
 msgstr ""
+"I<fichier-de-configuration> est le nom du fichier de configuration à supprimer. I<dernière-version> est la dernière version du paquet qui le fournissait (ou la dernière version du paquet qui ne prenait pas soin de "
+"supprimer le fichier de configuration obsolète si la suppression correcte n'a pas été immédiatement mise en oeuvre). Si I<dernière-version> est vide ou est omis, cette suppression sera tenté pour toute mise à jour. "
+"I<paquet> est le nom du paquet. Ce paramètre est optionnel, la valeur par défaut étant $DPKG_MAINTSCRIPT_PACKAGE (cette variable est positionnée par dpkg sur le nom du paquet sur lequel il travaille). Tous les "
+"paramètres des scripts du responsable doivent être redirigés au programme après « -- »."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:75
