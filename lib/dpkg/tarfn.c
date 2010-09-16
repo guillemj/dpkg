@@ -180,10 +180,10 @@ DecodeTarHeader(char *block, struct tar_entry *d)
 	else
 		d->name = StoC(h->Name, sizeof(h->Name));
 	d->linkname = StoC(h->LinkName, sizeof(h->LinkName));
-	d->mode = get_unix_mode(h);
+	d->stat.mode = get_unix_mode(h);
 	d->size = (size_t)OtoL(h->Size, sizeof(h->Size));
-	d->mtime = (time_t)OtoL(h->ModificationTime,
-	                        sizeof(h->ModificationTime));
+	d->stat.mtime = (time_t)OtoL(h->ModificationTime,
+	                             sizeof(h->ModificationTime));
 	d->dev = ((OtoL(h->MajorDevice,
 	                sizeof(h->MajorDevice)) & 0xff) << 8) |
 	         (OtoL(h->MinorDevice, sizeof(h->MinorDevice)) & 0xff);
@@ -191,16 +191,16 @@ DecodeTarHeader(char *block, struct tar_entry *d)
 	if (*h->UserName)
 		passwd = getpwnam(h->UserName);
 	if (passwd)
-		d->uid = passwd->pw_uid;
+		d->stat.uid = passwd->pw_uid;
 	else
-		d->uid = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
+		d->stat.uid = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
 
 	if (*h->GroupName)
 		group = getgrnam(h->GroupName);
 	if (group)
-		d->gid = group->gr_gid;
+		d->stat.gid = group->gr_gid;
 	else
-		d->gid = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
+		d->stat.gid = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
 
 	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
 

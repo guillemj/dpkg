@@ -4,6 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -112,7 +113,7 @@ ensure_statoverrides(void)
 	struct stat stab1, stab2;
 	FILE *file;
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
-	struct filestatoverride *fso;
+	struct file_stat *fso;
 	struct filenamenode *fnn;
 
 	varbufreset(&vb);
@@ -164,7 +165,7 @@ ensure_statoverrides(void)
 
 	thisline = loaded_list;
 	while (thisline < loaded_list_end) {
-		fso = nfmalloc(sizeof(struct filestatoverride));
+		fso = nfmalloc(sizeof(struct file_stat));
 
 		if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
 			ohshit(_("statoverride file is missing final newline"));

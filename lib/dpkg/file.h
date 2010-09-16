@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * file.h - file handling routines
  *
- * Copyright © 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,11 +21,20 @@
 #ifndef LIBDPKG_FILE_H
 #define LIBDPKG_FILE_H
 
+#include <sys/types.h>
+
 #include <stdbool.h>
 
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
+
+struct file_stat {
+	uid_t uid;
+	gid_t gid;
+	mode_t mode;
+	time_t mtime;
+};
 
 /*
  * Copy file ownership and permissions from one file to another.

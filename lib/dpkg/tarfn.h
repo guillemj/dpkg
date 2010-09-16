@@ -3,6 +3,7 @@
  * tarfn.h - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
+ * Copyright © 2009-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,8 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+
+#include <dpkg/file.h>
 
 #define TARBLKSZ	512
 
@@ -54,11 +57,9 @@ struct tar_entry {
 	char *name;		/* File name */
 	char *linkname;		/* Name for symbolic and hard links */
 	size_t size;		/* Size of file */
-	time_t mtime;		/* Last-modified time */
-	mode_t mode;		/* Unix mode, including device bits. */
-	uid_t uid;		/* Numeric UID */
-	gid_t gid;		/* Numeric GID */
 	dev_t dev;		/* Special device for mknod() */
+
+	struct file_stat stat;
 };
 
 typedef int (*tar_read_func)(void *ctx, char *buffer, int length);

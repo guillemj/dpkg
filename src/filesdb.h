@@ -3,6 +3,7 @@
  * filesdb.h - management of database of files installed on system
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +21,8 @@
 
 #ifndef FILESDB_H
 #define FILESDB_H
+
+#include <dpkg/file.h>
 
 /*
  * Data structure here is as follows:
@@ -57,7 +60,14 @@ struct filenamenode {
   const char *name;
   struct filepackages *packages;
   struct diversion *divert;
-  struct filestatoverride *statoverride;
+
+  /* We allow the administrator to override the owner, group and mode of
+   * a file. If such an override is present we use that instead of the
+   * stat information stored in the archive.
+   *
+   * This functionality used to be in the suidmanager package. */
+  struct file_stat *statoverride;
+
   /* Fields from here on are used by archives.c &c, and cleared by
    * filesdbinit.
    */
@@ -81,18 +91,6 @@ struct filenamenode {
 struct fileinlist {
   struct fileinlist *next;
   struct filenamenode *namenode;
-};
-
-struct filestatoverride {
-  /* We allow the administrator to override the owner, group and mode of
-   * a file. If such an override is present we use that instead of the
-   * stat information stored in the archive.
-   *
-   * This functionality used to be in the suidmanager package.
-   */
-  uid_t uid;
-  gid_t gid;
-  mode_t mode;
 };
 
 struct diversion {

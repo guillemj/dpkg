@@ -4,6 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2007-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,6 +47,7 @@
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/file.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/myopt.h>
 #include <dpkg/triglib.h>
@@ -231,26 +233,23 @@ does_replace(struct pkginfo *newpigp, struct pkginfoperfile *newpifp,
 }
 
 static void
-newtarobject_utime(const char *path, struct tar_entry *ti)
+newtarobject_utime(const char *path, struct file_stat *st)
 {
   struct utimbuf utb;
   utb.actime= currenttime;
-  utb.modtime = ti->mtime;
+  utb.modtime = st->mtime;
   if (utime(path,&utb))
-    ohshite(_("error setting timestamps of `%.255s'"), ti->name);
+    ohshite(_("error setting timestamps of `%.255s'"), path);
 }
 
 static void
-newtarobject_allmodes(const char *path, struct tar_entry *ti,
-                      struct filestatoverride *statoverride)
+newtarobject_allmodes(const char *path, struct file_stat *st)
 {
-  if (chown(path,
-            statoverride ? statoverride->uid : ti->uid,
-            statoverride ? statoverride->gid : ti->gid))
-    ohshite(_("error setting ownership of `%.255s'"), ti->name);
-  if (chmod(path,(statoverride ? statoverride->mode : ti->mode) & ~S_IFMT))
-    ohshite(_("error setting permissions of `%.255s'"), ti->name);
-  newtarobject_utime(path,ti);
+  if (chown(path, st->uid, st->gid))
+    ohshite(_("error setting ownership of `%.255s'"), path);
+  if (chmod(path, st->mode & ~S_IFMT))
+    ohshite(_("error setting permissions of `%.255s'"), path);
+  newtarobject_utime(path, st);
 }
 
 static void
@@ -419,9 +418,9 @@ tarobject(void *ctx, struct tar_entry *ti)
   ssize_t r;
   struct stat stab, stabtmp;
   char databuf[TARBLKSZ];
+  struct file_stat *st;
   struct fileinlist *nifd, **oldnifd;
   struct pkginfo *divpkg, *otherpkg;
-  mode_t am;
 
   ensureobstackinit();
 
@@ -436,7 +435,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   debug(dbg_eachfile,
         "tarobject ti->name='%s' mode=%lo owner=%u.%u type=%d(%c)"
         " ti->linkname='%s' namenode='%s' flags=%o instead='%s'",
-        ti->name, (long)ti->mode, (unsigned)ti->uid, (unsigned)ti->gid,
+        ti->name, (long)ti->stat.mode,
+        (unsigned)ti->stat.uid, (unsigned)ti->stat.gid,
         ti->type,
         ti->type >= '0' && ti->type <= '6' ? "-hlcbdp"[ti->type - '0'] : '?',
         ti->linkname,
@@ -460,6 +460,11 @@ tarobject(void *ctx, struct tar_entry *ti)
                   nifd->namenode->name, nifd->namenode->divert->camefrom->name);
     }
   }
+
+  if (nifd->namenode->statoverride)
+    st = nifd->namenode->statoverride;
+  else
+    st = &ti->stat;
 
   usenode = namenodetouse(nifd->namenode, tc->pkg);
   usename = usenode->name + 1; /* Skip the leading '/'. */
@@ -695,15 +700,9 @@ tarobject(void *ctx, struct tar_entry *ti)
 			  nifd->namenode->statoverride->uid,
 			  nifd->namenode->statoverride->gid,
 			  nifd->namenode->statoverride->mode);
-    if (fchown(fd,
-               nifd->namenode->statoverride ?
-               nifd->namenode->statoverride->uid : ti->uid,
-               nifd->namenode->statoverride ?
-               nifd->namenode->statoverride->gid : ti->gid))
+    if (fchown(fd, st->uid, st->gid))
       ohshite(_("error setting ownership of `%.255s'"), ti->name);
-    am = (nifd->namenode->statoverride ?
-          nifd->namenode->statoverride->mode : ti->mode) & ~S_IFMT;
-    if (fchmod(fd,am))
+    if (fchmod(fd, st->mode & ~S_IFMT))
       ohshite(_("error setting permissions of `%.255s'"), ti->name);
 
     /* Postpone the fsync, to try to avoid massive I/O degradation. */
@@ -712,25 +711,25 @@ tarobject(void *ctx, struct tar_entry *ti)
     pop_cleanup(ehflag_normaltidy); /* fd= open(fnamenewvb.buf) */
     if (close(fd))
       ohshite(_("error closing/writing `%.255s'"), ti->name);
-    newtarobject_utime(fnamenewvb.buf,ti);
+    newtarobject_utime(fnamenewvb.buf, st);
     break;
   case tar_filetype_fifo:
     if (mkfifo(fnamenewvb.buf,0))
       ohshite(_("error creating pipe `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject fifo");
-    newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
+    newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   case tar_filetype_chardev:
     if (mknod(fnamenewvb.buf, S_IFCHR, ti->dev))
       ohshite(_("error creating device `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject chardev");
-    newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
+    newtarobject_allmodes(fnamenewvb.buf, st);
     break; 
   case tar_filetype_blockdev:
     if (mknod(fnamenewvb.buf, S_IFBLK, ti->dev))
       ohshite(_("error creating device `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject blockdev");
-    newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
+    newtarobject_allmodes(fnamenewvb.buf, st);
     break; 
   case tar_filetype_hardlink:
     varbufreset(&hardlinkfn);
@@ -743,18 +742,14 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject hardlink");
-    newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
+    newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   case tar_filetype_symlink:
     /* We've already cheched for an existing directory. */
     if (symlink(ti->linkname, fnamenewvb.buf))
       ohshite(_("error creating symbolic link `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject symlink creating");
-    if (lchown(fnamenewvb.buf,
-               nifd->namenode->statoverride ?
-               nifd->namenode->statoverride->uid : ti->uid,
-               nifd->namenode->statoverride ?
-               nifd->namenode->statoverride->gid : ti->gid))
+    if (lchown(fnamenewvb.buf, st->uid, st->gid))
       ohshite(_("error setting ownership of symlink `%.255s'"), ti->name);
     break;
   case tar_filetype_dir:
@@ -762,13 +757,13 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (mkdir(fnamenewvb.buf,0))
       ohshite(_("error creating directory `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject directory creating");
-    newtarobject_allmodes(fnamenewvb.buf,ti,nifd->namenode->statoverride);
+    newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   default:
     internerr("unknown tar type '%d', but already checked", ti->type);
   }
 
-  set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, ti->mode);
+  set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, st->mode);
 
   /* CLEANUP: Now we have extracted the new object in .dpkg-new (or,
    * if the file already exists as a directory and we were trying to extract

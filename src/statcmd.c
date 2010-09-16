@@ -2,7 +2,7 @@
  * dpkg-statoverride - override ownership and mode of files
  *
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -128,10 +128,10 @@ path_cleanup(const char *path)
 	return new_path;
 }
 
-static struct filestatoverride *
+static struct file_stat *
 statdb_node_new(const char *user, const char *group, const char *mode)
 {
-	struct filestatoverride *filestat;
+	struct file_stat *filestat;
 
 	filestat = nfmalloc(sizeof(*filestat));
 
@@ -142,7 +142,7 @@ statdb_node_new(const char *user, const char *group, const char *mode)
 	return filestat;
 }
 
-static struct filestatoverride **
+static struct file_stat **
 statdb_node_find(const char *filename)
 {
 	struct filenamenode *file;
@@ -167,7 +167,7 @@ statdb_node_remove(const char *filename)
 }
 
 static void
-statdb_node_apply(const char *filename, struct filestatoverride *filestat)
+statdb_node_apply(const char *filename, struct file_stat *filestat)
 {
 	if (chown(filename, filestat->uid, filestat->gid) < 0)
 		ohshite(_("error setting ownership of `%.255s'"), filename);
@@ -178,7 +178,7 @@ statdb_node_apply(const char *filename, struct filestatoverride *filestat)
 static void
 statdb_node_print(FILE *out, struct filenamenode *file)
 {
-	struct filestatoverride *filestat = file->statoverride;
+	struct file_stat *filestat = file->statoverride;
 	struct passwd *pw;
 	struct group *gr;
 
@@ -260,7 +260,7 @@ statoverride_add(const char *const *argv)
 	const char *mode = argv[2];
 	const char *path = argv[3];
 	char *filename;
-	struct filestatoverride **filestat;
+	struct file_stat **filestat;
 
 	if (!user || !group || !mode || !path || argv[4])
 		badusage(_("--add needs four arguments"));
