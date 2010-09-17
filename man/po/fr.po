@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-15 20:00+0200\n"
+"PO-Revision-Date: 2010-09-17 19:38+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -9416,12 +9416,16 @@ msgid ""
 "original conffile. During purge, the B<postrm> will also delete the B<.dpkg-"
 "bak> file kept up to now."
 msgstr ""
+"Détails de la mise en oeuvre actuelle : dans le script B<preinst>, il est vérifié si le fichier de configuration a été modifié. Celui-ci est alors renommé, soit en I<fichier-de-configuration>B<.dpkg-remove> s'il n'a "
+"pas été modifié, soit en I<fichier-de-configuration>B<.dpkg-backup> s'il l'a été. Dans le script B<postinst>, ce dernier fichier est ensuite renommé en I<fichier-de-configuration>B<.dpkg-bak> et conservé pour "
+"référence puisqu'il contient des modifications locales, mais le premier est supprimé. Si la mise à jour du paquet est interrompue, le script B<postrm> remet en place le fichier de configuration d'origine. À la purge "
+"du paquet, le script B<postrm> supprimera également le fichier B<.dpkg-bak> qui avait été conservé jusque là."
 
 #. type: SS
 #: dpkg-maintscript-helper.1:76
 #, no-wrap
 msgid "RENAMING A CONFFILE"
-msgstr ""
+msgstr "RENOMMAGE D'UN FICHIER DE CONFIGURATION"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:83
@@ -9432,13 +9436,15 @@ msgid ""
 "being prompted by dpkg to approve the conffile edits even though they are "
 "not responsible of them."
 msgstr ""
+"Si un fichier de configuration est déplacé à un autre endroit, il est nécessaire de garantir la préservation des modifications locales. À première vue, cela peut sembler être une simple modification dans le script B<"
+"preinst>, mais cela risque de résultat dans une demande, par dpkg, d'approbation de modifications locales qui n'existent pas réellement."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:87
 msgid ""
 "Graceful renaming can be implemented by putting the following shell snippet "
 "in the B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
-msgstr ""
+msgstr "Un renommage élégant peut être mis en oeuvre avec les extraits shell qui suivent, dans les scripts B<preinst>, B<postinst> et B<postrm>."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:90
@@ -9447,6 +9453,8 @@ msgid ""
 "    dpkg-maintscript-helper mv_conffile \\e\n"
 "        I<oldconffile> I<newconffile> I<lastversion> I<package> -- \"$@\"\n"
 msgstr ""
+"    dpkg-maintscript-helper mv_conffile \\e\n"
+"        I<ancien-fichier> I<nouveau-fichier> I<dernière-version> I<paquet> -- \"$@\"\n"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:100
@@ -9461,6 +9469,10 @@ msgid ""
 "parameters of the maintainer scripts have to be forwarded to the program "
 "after \"--\"."
 msgstr ""
+"I<ancien-fichier> et I<nouveau-fichier> sont les deux noms successifs du fichier de configuration. I<dernière-version> est la dernière version du paquet qui contenait le fichier de configuration avec l'ancien nnom. "
+"Si I<dernière-version> est vide ou manquant, l'opération sera tentée à chaque mise à jour (il est plus sûr d'indiquer la bonne version afin qe l'opération ne soit tentée qu'une fois). I<paquet> est le nom du paquet. "
+"Ce paramètre est optionnel, la valeur par défaut étant $DPKG_MAINTSCRIPT_PACKAGE (cette variable est positionnée par dpkg sur le nom du paquet sur lequel il travaille). Tous les "
+"paramètres des scripts du responsable doivent être redirigés au programme après « -- »."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:108
@@ -9473,13 +9485,16 @@ msgid ""
 "B<postrm> renames I<oldconffile>B<.dpkg-remove> back to I<oldconffile> if "
 "required."
 msgstr ""
+"Détails de la mise en oeuvre actuelle : dans le script B<preinst>, il est vérifié si le fichier de configuration a été modifié. Celui-ci est alors soit laissé en place s'il a été modifié, soit renommé en I<"
+"ancien-fichier>B<.dpkg-remove> s'il ne l'a pas été. Lors de la configurations, le script B<postinst> supprime I<ancien-fichier>B<.dpkg-remove> et renomme I<ancien-fichier> and I<nouveau-fichier> si I<ancien-fichier> "
+"existe toujours Si la mise à jour ou l'installation sont interrompues, le script B<postrm> renomme I<ancien-fichier>B<.dpkg-remove> en <ancien-fichier> si c'est indispensable."
 
 #. type: SH
 #: dpkg-maintscript-helper.1:109
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "INFORMATION ABOUT PACKAGES"
 msgid "INTEGRATION IN PACKAGES"
-msgstr "RENSEIGNEMENTS SUR LES PAQUETS"
+msgstr "INTÉGRATION DANS LES PAQUETS"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:116
@@ -9489,12 +9504,14 @@ msgid ""
 "version of dpkg has been configured before. The required version depends on "
 "the command used, for B<rm_conffile> and B<mv_conffile> it is 1.15.7.2:"
 msgstr ""
+"Comme B<dpkg-maintscript-helper> est utilisé dans le script B<preinst>, l'utiliser sans conditions impose une pré-dépendance afin de garantir que la version minimale nécessaire de dpkg et bien été préalablement "
+"configurée. La version nécessaire dépend de la commande utilisée. La version minimale dépend de la commande à utiliser : ainsi pour B<rm_conffile> et B<mw_conffile>, cette version est 1.15.7.2 :"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:118
 #, no-wrap
 msgid "    Pre-Depends: dpkg (E<gt>= 1.15.7.2)\n"
-msgstr ""
+msgstr "    Pre-Depends: dpkg (E<gt>= 1.15.7.2)\n"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:123
@@ -9504,6 +9521,8 @@ msgid ""
 "if we know that the required command is supported by the currently installed "
 "dpkg:"
 msgstr ""
+"Cependant, dans de nombreux cas, l'opération réalisée par le programme n'est pas critique pour le paquet et au lieu d'utiliser une pré-dépendance, il est possible de ne lancer le programme que si on a la certitude "
+"que la commande nécessaire est gérée par la version actuellement installée de dpkg :"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:127
@@ -9513,41 +9532,41 @@ msgid ""
 "        dpkg-maintscript-helper E<lt>commandE<gt> ...\n"
 "    fi\n"
 msgstr ""
+"    if dpkg-maintscript-helper supports E<lt>commandE<gt>; then\n"
+"        dpkg-maintscript-helper E<lt>commandE<gt> ...\n"
+"    fi\n"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:132
-#, fuzzy
 #| msgid "Copyright \\(co 2001 Joey Hess"
 msgid "Copyright \\(co 2008 Joey Hess"
-msgstr "Copyright \\(co 2001 Joey Hess"
+msgstr "Copyright \\(co 2008 Joey Hess"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:134
-#, fuzzy
 #| msgid "Copyright \\(co 2001 Joey Hess"
 msgid "Copyright \\(co 2007 Guillem Jover"
-msgstr "Copyright \\(co 2001 Joey Hess"
+msgstr "Copyright \\(co 2007 Guillem Jover"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:136
-#, fuzzy
 #| msgid "Copyright \\(co 2000 Wichert Akkerman"
 msgid "Copyright \\(co 2005 Scott James Remnant"
-msgstr "Copyright \\(co 2000 Wichert Akkerman"
+msgstr "Copyright \\(co 2005 Scott James Remnant"
 
 #. type: TH
 #: dpkg-mergechangelogs.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "dpkg-parsechangelog"
 msgid "dpkg-mergechangelogs"
-msgstr "dpkg-parsechangelog"
+msgstr "dpkg-mergechangelogs"
 
 #. type: TH
 #: dpkg-mergechangelogs.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2006-02-28"
 msgid "2010-04-18"
-msgstr "28-02-2006"
+msgstr "18-04-2010"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:4
