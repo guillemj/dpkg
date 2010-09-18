@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-17 19:38+0200\n"
+"PO-Revision-Date: 2010-09-18 11:09+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -833,10 +833,10 @@ msgstr ""
 " deux fois plus rapide que le « egrep » standard d'Unix), modifié par une\n"
 " recherche de type Boyer-Moore-Gosper qui cherche une chaîne donnée en\n"
 " empêchant que les textes impossibles soient analysés par le mécanisme de\n"
-" mise en correspondance d'expressions régulières et sans avoir\n"
+" mise en correspondance d'expressions rationnelles et sans avoir\n"
 " nécessairement besoin de voir chaque caractère. C'est beaucoup plus\n"
 " rapide  que les « grep » ou « egrep » d'Unix.\n"
-" (Des expressions régulières contenant des références circulaires\n"
+" (Des expressions rationnelles contenant des références circulaires\n"
 " ralentissent cependant le programme.)\n"
 
 #. type: Plain text
@@ -8550,7 +8550,7 @@ msgid ""
 "Denotes I<regex> symbol pattern. See B<Using symbol patterns> subsection "
 "below."
 msgstr ""
-"Indique un motif de symbole basé sur des I<expressions régulières>. Voir la "
+"Indique un motif de symbole basé sur des I<expressions rationnelles>. Voir la "
 "sous-section B<Utilisation des motifs de symboles> plus loin."
 
 #. type: SS
@@ -8768,8 +8768,8 @@ msgid ""
 "I<^> character or it may match any part of the real symbol I<name@version> "
 "string. For example:"
 msgstr ""
-"Les =motifs d'expressions régulières sont indiqués par l'étiquette I<regex>. "
-"La correspondance se fait avec une expression régulière Perl sur le champ de "
+"Les motifs d'expressions rationnelles sont indiqués par l'étiquette I<regex>. "
+"La correspondance se fait avec une expression rationnelle Perl sur le champ de "
 "nom de symbole. la correspondance est faite telle quelle et il ne faut donc "
 "pas oublier le caractère I<^>, sinon la correspondance est faite sur "
 "n'importe quelle partie du symbole réel I<name@version>. Par exemple :"
@@ -8841,8 +8841,8 @@ msgstr ""
 "« _ZN3NSA6ClassA7Private11privmethod1Ei@Base\" » et "
 "« _ZN3NSA6ClassA7Private11privmethod2Ei@Base ». Lors de la correspondance "
 "avec le premier motif, le symbole complet est d'abord décodé en tant que "
-"symbole C++, puis compéré à l'expression régulière. D'un autre côté, lors de "
-"la correspondance avec le deuxième motif, l'expression régulière est "
+"symbole C++, puis compéré à l'expression rationnelle. D'un autre côté, lors de "
+"la correspondance avec le deuxième motif, l'expression rationnelle est "
 "comparée au nom de symbole brut, puis le symbole est testé en tant que "
 "symbole C++ en tentant de le décoder. L'échec de n'importe quel motif de "
 "base provoquera l'échec de l'ensemble du motif. Ainsi, par exemple, "
@@ -9072,7 +9072,7 @@ msgid ""
 "multiple libraries with a single argument (otherwise you need multiple B<-"
 "e>)."
 msgstr ""
-"N'analyse que les bibliothèques explicitement mentionnées au lieu de rechercher toutes les bibliothèques publiques. Une expression régulière peut être utilisée dans I<fichier-bibliothèque> pour correspondre à "
+"N'analyse que les bibliothèques explicitement mentionnées au lieu de rechercher toutes les bibliothèques publiques. Une expression rationnelle peut être utilisée dans I<fichier-bibliothèque> pour correspondre à "
 "plusieurs bibliothèques avec un seul paramètre (dans le cas contraire, plusieurs paramètres B<-e> sont nécessaires)."
 
 #. type: TP
@@ -9570,17 +9570,15 @@ msgstr "18-04-2010"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:4
-#, fuzzy
 #| msgid "dpkg-parsechangelog - parse Debian changelog files"
 msgid "dpkg-mergechangelogs - 3-way merge of debian/changelog files"
-msgstr "dpkg-parsechangelog - Analyser un fichier changelog Debian."
+msgstr "dpkg-mergechangelogs - fusion triple de fichiers debian/changelog"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:8
-#, fuzzy
 #| msgid "B<dpkg-trigger> [I<option>...] I<command>"
 msgid "B<dpkg-mergechangelogs> [I<option>...] I<old> I<new-a> I<new-b> [I<out>]"
-msgstr "B<dpkg-trigger> [I<option>...] I<commande>"
+msgstr "B<dpkg-mergechangelogs> [I<option>...] I<ancien> I<nouveau-a> I<nouveau-b> [I<sortie>]"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:15
@@ -9589,6 +9587,8 @@ msgid ""
 "generate a merged changelog file. The resulting changelog is stored in the "
 "file I<out> or output to the standard output if that parameter is not given."
 msgstr ""
+"Ce programme utilise les 3 versions fournies de journal des modifications (« changelog ») Debian pour créer un fichier de journalisation fusionné. Le résultat est placé dans le fichier I<sortie> ou affiché sur la "
+"sortie standard si ce paramètre est omis."
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:26
@@ -9603,19 +9603,23 @@ msgid ""
 "it's part of the package libalgorithm-merge-perl \\[em] otherwise you get a "
 "global conflict on the content of the entry)."
 msgstr ""
+"Chaque entrée est identifiée par son numéro de version. Les entrées ne sont pas censées entrer en conflit, mais sont simplement fusionnées dans le bon ordre (par numéro de version décroissant). Si l'option B<"
+"--merge-prereleases> est utilisée, la partie de numéro de version qui suit le dernier caractère tilde est omise ; les versions 1.0-1~exp1 et 1.0-1exp5 sont ainsi considérées comme la même entrée.  Quand la même "
+"version est mentionnée dans I<nouveau-a> et I<nouveau-b>, une fusion triple ligne à ligne  standard est tentée (sous réserve que le module Algorithm::Merge soit disponible \\[em] il est fourni par le paquet "
+"libalgorithm-merge-perl \\[em]. Dans le cas contraire, un conflit global est créé dans le contexte de cette entrée."
 
 #. type: TP
 #: dpkg-mergechangelogs.1:28
 #, no-wrap
 msgid "B<--merge-prereleases>, B<-m>"
-msgstr ""
+msgstr "B<--merge-prereleases>, B<-m>"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:33
 msgid ""
 "Drop the part after the last tilde in the version number when doing version "
 "comparison to identify if two entries are supposed to be the same or not."
-msgstr ""
+msgstr "Omet la version qui suit le dernier caractère tilde dans les numéros de versions, lors de la comparaison qui permet d'identifier si ceux entrées sont les mêmes ou pas."
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:38
@@ -9625,13 +9629,15 @@ msgid ""
 "2.3-1~exp2, ... until the official release 2.3-1 and they are all the same "
 "changelog entry that has evolved over time."
 msgstr ""
+"Cette option utile lorsqu'on conserve la même entrée de journal mais que la version est incrémentée régulièrement. Par exemple, cela permet d'utiliser les numéros 2.3-1~exp1, 2.3-1~exp2, etc. jusqu'à une publication "
+"officielle numérotée 2.3-1, toutes ces versions étant considérées comme l'évolution dans le temps de la même version."
 
 #. type: SH
 #: dpkg-mergechangelogs.1:45
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "ACTIONS"
 msgid "LIMITATIONS"
-msgstr "ACTIONS"
+msgstr "LIMITATIONS"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:50
@@ -9639,13 +9645,13 @@ msgid ""
 "Anything that is not parsed by Dpkg::Changelog is lost during the merge.  "
 "This might include stuff like vim modelines, comments which were not "
 "supposed to be there, etc."
-msgstr ""
+msgstr "Tout ce qui ne peut pas être analysé par Dpkg::Changelog est perdu lors de la fusion. Cela peut comprendre des lignes de mode vim, des commentaires qui ne sont pas censés se trouver là, etc."
 
 #. type: SH
 #: dpkg-mergechangelogs.1:51
 #, no-wrap
 msgid "INTEGRATION WITH GIT"
-msgstr ""
+msgstr "INTÉGRATION AVEC GIT"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:56
@@ -9654,6 +9660,7 @@ msgid ""
 "repository, you have first to register a new merge driver in B<.git/config> "
 "or B<~/.gitconfig>:"
 msgstr ""
+"Si vous souhaitez utiliser ce programme pour fusionner des journaux de modifications Debian dans un dépôt git, vous devez tout d'abord enregistrer un nouveau pilote de fusion dan B<.git/config> ou B<~/.gitconfig> :"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:60
@@ -9663,6 +9670,9 @@ msgid ""
 "     name = debian/changelog merge driver\n"
 "     driver = dpkg-mergechangelogs -m %O %A %B %A\n"
 msgstr ""
+" [merge \"dpkg-mergechangelogs\"]\n"
+"     name = debian/changelog merge driver\n"
+"     driver = dpkg-mergechangelogs -m %O %A %B %A\n"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:64
@@ -9670,20 +9680,19 @@ msgid ""
 "Then you have to setup the merge attribute for the debian/changelog file "
 "either in B<.gitattributes> in the repository itself, or in B<.git/info/"
 "attributes>:"
-msgstr ""
+msgstr "Vous devez ensuite configurer l'attribut de fusion pour le fichier debian/changelog, soit dans B<.gitattributes> du dépôt lui-même, soit dans B<.git/info/attributes> :"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:66
 #, no-wrap
 msgid " debian/changelog merge=dpkg-mergechangelogs\n"
-msgstr ""
+msgstr " debian/changelog merge=dpkg-mergechangelogs\n"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.1:68
-#, fuzzy
 #| msgid "Copyright \\(co 2007-2008 Rapha\\[:e]l Hertzog"
 msgid "Copyright \\(co 2009-2010 Rapha\\[:e]l Hertzog"
-msgstr "Copyright \\(co 2007-2008 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2009-2010 Rapha\\[:e]l Hertzog"
 
 #. type: TH
 #: dpkg-name.1:6
@@ -10164,7 +10173,7 @@ msgstr "B<--all>"
 #. type: Plain text
 #: dpkg-parsechangelog.1:108
 msgid "include all changes. Note: other options have no effect when this is in use."
-msgstr ""
+msgstr "inclut toutes les modifications. Note : d'autres options deviennent sans effet lorsque celle-ci est utilisée."
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:114
@@ -10265,12 +10274,12 @@ msgstr "B<dpkg-query -l \\(aqlibc6*\\(aq>\n"
 msgid ""
 "The first three columns of the output show the desired action, the package "
 "status, and errors, in that order."
-msgstr ""
+msgstr "Les trois premières colonnes affichées montrent dans l'ordre : l'action souhaitée, l'état du paquet et les erreurs."
 
 #. type: Plain text
 #: dpkg-query.1:33
 msgid "Desired action:"
-msgstr ""
+msgstr "Action souhaitée :"
 
 #. type: Plain text
 #: dpkg-query.1:39
@@ -10282,13 +10291,17 @@ msgid ""
 "  r = Remove\n"
 "  p = Purge\n"
 msgstr ""
+"  u = Inconnu (Unknown)\n"
+"  i = Installer (Install)\n"
+"  h = Garder (Hold)\n"
+"  r = Supprimer (Remove)\n"
+"  p = Purger (Purge)\n"
 
 #. type: Plain text
 #: dpkg-query.1:42
-#, fuzzy
 #| msgid "Packages status list"
 msgid "Package status:"
-msgstr "Liste des états des paquets"
+msgstr "État du paquet :"
 
 #. type: Plain text
 #: dpkg-query.1:51
@@ -10303,13 +10316,20 @@ msgid ""
 "  t = Triggers-pending\n"
 "  i = Installed\n"
 msgstr ""
+"  n = Non installé (Not-installed\n)"
+"  c = Fichiers de configuration (Config-files)\n"
+"  H = Semi-installé (Half-installed)\n"
+"  U = Décompressé (Unpacked)\n"
+"  F = Semi-configuré (Half-configured)\n"
+"  W = Attente de déclenchements (Triggers-awaiting)\n"
+"  t = Déclenchements en attente (Triggers-pending)\n"
+"  i = Installé (Installed)\n"
 
 #. type: Plain text
 #: dpkg-query.1:54
-#, fuzzy
 #| msgid "Compiler flags"
 msgid "Error flags:"
-msgstr "Drapeaux de compilation"
+msgstr "Drapeaux d'erreur :"
 
 #. type: Plain text
 #: dpkg-query.1:57
@@ -10318,6 +10338,8 @@ msgid ""
 "  E<lt>emptyE<gt> = (none)\n"
 "  R = Reinst-required\n"
 msgstr ""
+"  E<lt>emptyE<gt> = (none)\n"
+"  R = Reinst-required\n"
 
 #. type: Plain text
 #: dpkg-query.1:62
@@ -10325,7 +10347,7 @@ msgid ""
 "An uppercase status or error letter indicates the package is likely to cause "
 "severe problems. Please refer to B<dpkg>(1) for information about the above "
 "states and flags."
-msgstr ""
+msgstr "Un état en majuscules ou une lettre d'erreur indiquent que le paquet peut provoquer des problèmes graves. Veuillez consulter B<dpkg>(1) à propos des états et drapeaux ci-dessus."
 
 #. type: Plain text
 #: dpkg-query.1:67
@@ -10586,7 +10608,7 @@ msgid ""
 "conversion nor error checking is done on them.  To get the name of the dpkg "
 "maintainer and the installed version, you could run:"
 msgstr ""
-"Le format par défaut est le suivant : \\(lqB<${Paquet}\\et${Version}\\en>"
+"Le format par défaut est le suivant : \\(lqB<${Package}\\et${Version}\\en>"
 "\\(rq. Tous les autres champs du fichier status, par exemple des champs "
 "définis par l'utilisateur, peuvent être demandés. Ils seront affichés mais "
 "sans aucune mise en forme et aucune vérification n'est faite. Pour obtenir "
@@ -10613,20 +10635,18 @@ msgstr "0"
 
 #. type: Plain text
 #: dpkg-query.1:192
-#, fuzzy
 #| msgid "The requested action was successfully performed."
 msgid "The requested query was successfully performed."
-msgstr "L'action demandée s'est correctement déroulée."
+msgstr "La requête demandée s'est correctement déroulée."
 
 #. type: IP
 #: dpkg-query.1:192
 #, no-wrap
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #. type: Plain text
 #: dpkg-query.1:195
-#, fuzzy
 #| msgid ""
 #| "Problems were encountered whilst parsing the command line or performing "
 #| "the action."
@@ -10635,7 +10655,7 @@ msgid ""
 "query, including no file or package being found (except for --control-path)."
 msgstr ""
 "Des problèmes sont survenus lors de l'analyse de la ligne de commande ou "
-"bien pendant l'exécution de l'action."
+"bien pendant l'exécution de la requête. Cela peut être une absence de fichier ou de paquet (sauf pour --control-path)."
 
 #. type: Plain text
 #: dpkg-query.1:201
@@ -10643,7 +10663,7 @@ msgid ""
 "This setting influences the output of the B<--list> option by changing the "
 "width of its output."
 msgstr ""
-"Fixer le nombre de colonnes influence la sortie de l'option B<--list> en "
+"Ce réglage influence la sortie de l'option B<--list> en "
 "modifiant la largeur d'affichage."
 
 #. type: Plain text
@@ -10697,7 +10717,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-scanpackages.1:52
-#, fuzzy
 #| msgid ""
 #| "B<Note:> If you want to access the generated Packages file with B<apt> "
 #| "you will probably need to compress the file with B<bzip2>(1)  (generating "
@@ -10711,7 +10730,7 @@ msgid ""
 "ignores uncompressed Packages files except on local access (i.e.  B<file://> "
 "sources)."
 msgstr ""
-"B<Note :> Pour pouvoir accéder avec B<apt> au fichier paquets généré, il "
+"B<Note :> Pour pouvoir accéder avec B<apt> au fichier Packages créé, il "
 "faudra sans doute le compresser avec B<bzip2>(1) (qui crée un fichier "
 "Packages.bz2) ou B<gzip>(1) (qui crée un fichier Packages.gz). apt ignore "
 "les fichiers Packages non compressés, sauf pour des sources locales (cad "
@@ -10806,7 +10825,6 @@ msgstr "B<-a>, B<--arch> I<arch>"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:89
-#, fuzzy
 #| msgid ""
 #| "Use a pattern consisting of I<*_all.deb> and I<*_arch.deb> instead of "
 #| "scanning for all debs,"
@@ -10815,7 +10833,7 @@ msgid ""
 "scanning for all debs."
 msgstr ""
 "Utiliser un motif équivalent à I<*_all.deb> et à I<*_arch.deb>, plutôt que "
-"de rechercher tous les I<*.deb>."
+"de rechercher tous les fichiers debs."
 
 #. type: TP
 #: dpkg-scanpackages.1:89
@@ -11938,7 +11956,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:66
-#, fuzzy
 #| msgid ""
 #| "B<dpkg-source> will build the source package with the first format that "
 #| "works from this ordered list: the format(s) indicated with the I<--"
@@ -11958,7 +11975,7 @@ msgstr ""
 "B<dpkg-source> va construire le paquet source dans le premier format qui "
 "fonctionnera dans la liste suivante : le(s) format(s) indiqué(s) avec le "
 "paramètre de la ligne de commande I<--format>, le format indiqué dans "
-"B<debian/source/format>, « 1.0 », « 3.0.(quilt) », « 3.0.(native) ». Voir la "
+"B<debian/source/format>, « 1.0 ». L'utilisation de « 1.0 » comme dernier recours est dépréciée et sera retirée dans le futur. Le format source devrait toujours être indiqué dans B<debian/source/format>. Voir la "
 "section B<FORMATS DE PAQUETS SOURCE> pour une description plus détaillée des "
 "différents formats de paquet source."
 
@@ -11970,7 +11987,6 @@ msgstr "B<--print-format> I<répertoire>"
 
 #. type: Plain text
 #: dpkg-source.1:72
-#, fuzzy
 #| msgid ""
 #| "Print the source format that would be used to build the source package if "
 #| "B<dpkg-source -b >I<directory> was called (in the same conditions and "
@@ -11986,10 +12002,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:73
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--depotdir>I< directory>"
 msgid "B<--before-build> I<directory>"
-msgstr "B<--depotdir>I< répertoire>"
+msgstr "B<--before-build> I<répertoire>"
 
 #. type: Plain text
 #: dpkg-source.1:81
@@ -12001,13 +12017,16 @@ msgid ""
 "prepare the source tree for the build for example by ensuring that the "
 "Debian patches are applied."
 msgstr ""
+"Cette commande doit être utilisée avant toute construction du paquet (B<dpkg-"
+"buildpackage> l'utilise très tôt, avant même B<debian/rules clean>). Elle doit être « idempotent » et peut être lancée plusieurs fois. Tous les formats source ne mettent pas en oeuvre ce branchement et ceux qui le "
+"font préparent l'arborescence source pour la construction, par exemple en garantissant que les correctifs Debian sont appliqués."
 
 #. type: TP
 #: dpkg-source.1:82
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--altdir>I< directory>"
 msgid "B<--after-build> I<directory>"
-msgstr "B<--altdir>I< répertoire>"
+msgstr "B<--after-build> I<répertoire>"
 
 #. type: Plain text
 #: dpkg-source.1:89
@@ -12018,12 +12037,15 @@ msgid ""
 "hook, and those that do usually use it to undo what B<--before-build> has "
 "done."
 msgstr ""
+"Cette commande doit être utilisée après toute construction du paquet (B<dpkg-"
+"buildpackage> l'utilise en dernier). Elle doit être « idempotent » et peut être lancée plusieurs fois. Tous les formats source ne mettent pas en oeuvre ce branchement et ceux qui le font s'en servent pour défaire ce "
+"qui a été fait par B<--before-build>.."
 
 #. type: SH
 #: dpkg-source.1:97
 #, no-wrap
 msgid "GENERIC BUILD OPTIONS"
-msgstr "OPTIONS DE CONSTRUCTION GENERIQUES"
+msgstr "OPTIONS DE CONSTRUCTION GÉNÉRIQUES"
 
 #. type: Plain text
 #: dpkg-source.1:105
@@ -12057,7 +12079,6 @@ msgstr "B<--format=>I<valeur>"
 
 #. type: Plain text
 #: dpkg-source.1:121
-#, fuzzy
 #| msgid ""
 #| "Try first the given format for building the source package. If used "
 #| "multiple times, they are tried in order. It does override any format "
@@ -12066,14 +12087,11 @@ msgid ""
 "Use the given format for building the source package. It does override any "
 "format given in B<debian/source/format>."
 msgstr ""
-"Essaie d'abord le format indiqué pour la construction du paquet source. Si "
-"ce paramètre est donné plusieurs fois, les formats sont essayés "
-"successivment dans l'ordre indiqué. Ce choix ne remplace le format indiqué "
+"Utilise le format indiqué pour la construction du paquet source. Ce choix remplace le format indiqué "
 "dans B<debian/source/format>."
 
 #. type: Plain text
 #: dpkg-source.1:131
-#, fuzzy
 #| msgid ""
 #| "Read substitution variables in I<substvarsfile>; the default is to not "
 #| "read any file."
@@ -12083,7 +12101,7 @@ msgid ""
 "variables from multiple files."
 msgstr ""
 "Lit les variables de substitution dans I<fichier-substvars> ; par défaut "
-"aucun fichier n'est lu."
+"aucun fichier n'est lu. Cette option peut être utilisée plusieurs fois pour lire des variables de substitution depuis plusieurs fichiers."
 
 #. type: TP
 #: dpkg-source.1:137
@@ -12128,7 +12146,7 @@ msgstr ""
 #: dpkg-source.1:151
 #, no-wrap
 msgid "B<-i>[I<regexp>], B<--diff-ignore>[=I<regexp>]"
-msgstr ""
+msgstr "B<-i>[I<expr. rat.>], B<--diff-ignore>[=I<expr. rat.>]"
 
 #. type: Plain text
 #: dpkg-source.1:163
@@ -12149,7 +12167,7 @@ msgstr ""
 "source en construction est un fichier source de version 3 utilisant un "
 "système de suivi de versions, cette option est utile pour ignorer les "
 "modifications non envoyées. L'option B<-i> active cette fonction avec une "
-"expression régulière qui couvre les fichiers de contrôle des plus usuels "
+"expression rationnelle qui couvre les fichiers de contrôle des plus usuels "
 "systèmes de gestion de version, les fichiers de sauvegardes, les fichiers "
 "d'échange et les répertoires utilisés par Libtool. Il ne peut y avoir qu'une "
 "seule expression rationnelle active ; seule la dernière mentionnée sera "
@@ -12183,7 +12201,7 @@ msgstr ""
 #: dpkg-source.1:173
 #, no-wrap
 msgid "B<--extend-diff-ignore>=I<regexp>"
-msgstr ""
+msgstr "B<--extend-diff-ignore>=I<expr.rat.>"
 
 #. type: Plain text
 #: dpkg-source.1:180
@@ -12194,12 +12212,14 @@ msgid ""
 "options> to exclude some auto-generated files from the automatic patch "
 "generation."
 msgstr ""
+"L'expression rationnelle Perl indiquée complétera celle associée à B<-i> en concaténant \"B<|>I<expr.rat.> à l'expression rationnelle par défaut. Cette option est pratique das B<debian/source/"
+"options> pour exclure certains fichiers auto-créés de la création automatique de correctifs."
 
 #. type: TP
 #: dpkg-source.1:180
 #, no-wrap
 msgid "B<-I>[I<file-pattern>], B<--tar-ignore>[=I<file-pattern>]"
-msgstr ""
+msgstr "B<-I>[I<motif-fichier>], B<--tar-ignore>[=I<motif-fichier>]"
 
 #. type: Plain text
 #: dpkg-source.1:189
@@ -12256,7 +12276,7 @@ msgid ""
 "The default regexp and patterns for both options can be seen in the output "
 "of the B<--help> command."
 msgstr ""
-"L'expression régulière et le motif par défaut pour les deux options peuvent "
+"L'expression rationnelle et le motif par défaut pour les deux options peuvent "
 "être trouvés dans la sortie de la commande B<--help>."
 
 #. type: SH
@@ -12316,7 +12336,6 @@ msgstr "FORMATS DE PAQUET SOURCE"
 
 #. type: Plain text
 #: dpkg-source.1:230
-#, fuzzy
 #| msgid ""
 #| "If you don't know what source format you should use, you should probably "
 #| "pick either \"3.0 (quilt)\" or \"3.0 (native)\". They will become the "
@@ -12329,8 +12348,7 @@ msgid ""
 "DebSrc3.0 for information on the deployment of those formats within Debian."
 msgstr ""
 "Si vous ne savez pas quel format source utiliser, il est conseillé de "
-"choisir soit « 3.0 (quilt)\" soit \"3.0 (native)\". Ces formats deviendront "
-"les formats par défaut dans un futur proche. Voir http://wiki.debian.org/"
+"choisir soit « 3.0 (quilt)\" soit \"3.0 (native)\". Voir http://wiki.debian.org/"
 "Projects/DebSrc3.0 pour plus d'informations sur la mise en oeuvre de ces "
 "formats dans Debian."
 
@@ -12572,7 +12590,7 @@ msgstr ""
 #: dpkg-source.1:342 dpkg-source.1:525
 #, no-wrap
 msgid "B<--abort-on-upstream-changes>"
-msgstr ""
+msgstr "B<--abort-on-upstream-changes>"
 
 #. type: Plain text
 #: dpkg-source.1:348
@@ -12581,6 +12599,8 @@ msgid ""
 "the debian sub-directory. This option is not allowed in B<debian/source/"
 "options> but can be used in B<debian/source/local-options>."
 msgstr ""
+"Ce processus échoue si le fichier de différences contient des modifications apportées à des fichiers en dehors du sous-répertoire debian. Cette option n'est pas autorisée dans B<debian/source/"
+"options> mais peut être utilisée dans B<debian/source/local-options>."
 
 #. type: TP
 #: dpkg-source.1:349
@@ -12787,7 +12807,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:431
-#, fuzzy
 #| msgid ""
 #| "The file B<debian/patches/.dpkg-source-applied> is created if some "
 #| "patches have been applied during the extraction."
@@ -12795,12 +12814,11 @@ msgid ""
 "The file B<.pc/applied-patches> is created if some patches have been applied "
 "during the extraction."
 msgstr ""
-"Le fichier B<debian/patches/.dpkg-source-applied> est créé si certains "
+"Le fichier B<.pc/applied-patches> est créé si certains "
 "correctifs ont été appliqués au cours de l'extraction."
 
 #. type: Plain text
 #: dpkg-source.1:443
-#, fuzzy
 #| msgid ""
 #| "All original tarballs found in the current directory are extracted in a "
 #| "temporary directory by following the same logic as for the unpack, the "
@@ -12829,18 +12847,11 @@ msgstr ""
 "pour le dépaquetage, le répertoire debian est copié dans le répertoire "
 "temporaire, et toutes les mises à jour sauf B<debian-changes->I<version> "
 "sont appliquées. Le répertoire temporaire est comparé à celui du paquet "
-"source et le diff (s'il est non vide) est stocké dans B<debian/patches/"
-"debian-changes->I<version>. Tout changement dans un fichier binaire ne peut "
-"être indiqué dans le diff et va déboucher sur un échec à moins que le "
-"mainteneur décide délibérément d'inclure cette modification binaire dans "
-"l'archive tar Debian (en le listant dans B<debian/source/include-binaries>). "
-"La construction pourra également échouer si des fichiers binaires sont "
-"trouvés dans le sous-répertoire debian sans être indiqué dans la liste "
-"blanche de B<debian/source/include-binaries>."
+"source et le fichier de différences (s'il est non vide) est stocké dans le correctif automatique. Si le correctif automatique est créé ou supprimé, il est ajouté ou supprimé dans le fichier series et les méta-données "
+"de quilt."
 
 #. type: Plain text
 #: dpkg-source.1:451
-#, fuzzy
 #| msgid ""
 #| "All original tarballs found in the current directory are extracted in a "
 #| "temporary directory by following the same logic as for the unpack, the "
@@ -12862,13 +12873,7 @@ msgid ""
 "debian sub-directory unless they have been whitelisted through B<debian/"
 "source/include-binaries>."
 msgstr ""
-"Les originaux de toutes les archives tar trouvées dans le répertoire courant "
-"sont extraits dans un répertoire temporaire en suivant la même logique que "
-"pour le dépaquetage, le répertoire debian est copié dans le répertoire "
-"temporaire, et toutes les mises à jour sauf B<debian-changes->I<version> "
-"sont appliquées. Le répertoire temporaire est comparé à celui du paquet "
-"source et le diff (s'il est non vide) est stocké dans B<debian/patches/"
-"debian-changes->I<version>. Tout changement dans un fichier binaire ne peut "
+"Tout changement dans un fichier binaire ne peut "
 "être indiqué dans le diff et va déboucher sur un échec à moins que le "
 "mainteneur décide délibérément d'inclure cette modification binaire dans "
 "l'archive tar Debian (en le listant dans B<debian/source/include-binaries>). "
@@ -12901,7 +12906,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:474
-#, fuzzy
 #| msgid ""
 #| "Note: B<dpkg-source> expects the source tree to have all patches listed "
 #| "in the series file applied when you generate the source package.  This is "
@@ -12935,14 +12939,9 @@ msgstr ""
 "source utilisant le format : 1.0 par exemple. Pour réduire le problème, "
 "B<dpkg-source> appliquera les corrections lui-même s'il détecte qu'elles ne "
 "l'ont pas été. Pour effectuer cette détection, il suit le raisonnement "
-"suivant : si un sous-répertoire B<pc> est détecté, il lancera la commande "
-"B<quilt unapplied> pour contrôler si toutes les corrections ont été "
-"appliquées. Ensuite, il tente d'appliquer la première correction de la série "
-"(ou la premiére correction retournée par la commande B<quilt unapplied>) et "
-"contrôle si elle peut être appliquée sans erreurs. Si ce contrôle réussit, "
-"il conclut que les corrections n'ont pas été appliquées et les applique "
-"toutes. L'option B<--no-preparation> peut être utilisée pour désactiver ce "
-"comportement."
+"suivant : il recherche la liste des correctifs supposément non appliqués (ils sont mentionnés dans le fichier B<series> mais pas dans B<.pc/applied-patches>) et si le premier de cette liste peut être appliqué dans "
+"erreur, il les applique tous. L'option B<--no-preparation> peut être utilisée pour désactiver ce "
+"comportement. Cette opération est en général effectuée dans le cadre de l'utilisation de la commande B<--prepare-build>."
 
 #. type: Plain text
 #: dpkg-source.1:476 dpkg-source.1:547 dpkg-source.1:586
@@ -12951,10 +12950,10 @@ msgstr "B<Options de construction>"
 
 #. type: TP
 #: dpkg-source.1:476
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--to> I<version>, B<-t>I<version>"
 msgid "B<--allow-version-of-quilt-db=>I<version>"
-msgstr "B<--to> I<version>, B<-t>I<version>"
+msgstr "B<--allow-version-of-quilt-db=>I<version>"
 
 # type: Plain text
 #. type: Plain text
@@ -12966,6 +12965,8 @@ msgid ""
 "compatible with the version 2 that B<dpkg-source> currently supports. The "
 "version of the quilt metadata is stored in B<.pc/.version>."
 msgstr ""
+"Autotide B<dpkg-source> à construire le fichier si la version des méta-données de quilt est celle indiquée, même si B<dpkg-source> n'en n'a pas connaissance. En fait, cela indique que la version indiquée des "
+"méta-données de quilt est compatible avec la version 2 que B<dpkg-source> gère. La version des méta-données de quilt est conservée dans B<.pc/.version>."
 
 #. type: TP
 #: dpkg-source.1:484
