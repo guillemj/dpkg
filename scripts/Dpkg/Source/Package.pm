@@ -88,7 +88,6 @@ RCS
 _MTN
 _darcs
 {arch}
-debian/source/local-options
 );
 
 # Object methods
@@ -122,6 +121,7 @@ sub init_options {
     } else {
         $self->{'options'}{'tar_ignore'} = [ @tar_ignore_default_pattern ];
     }
+    push @{$self->{'options'}{'tar_ignore'}}, "debian/source/local-options";
     # Skip debianization while specific to some formats has an impact
     # on code common to all formats
     $self->{'options'}{'skip_debianization'} ||= 0;
