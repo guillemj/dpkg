@@ -86,8 +86,8 @@ The package is selected for deinstallation (i.e. we want to remove all
 files, except configuration files).
 .TP
 .B purge
-The package is selected to be purged (i.e. we want to remove everything,
-even configuration files).
+The package is selected to be purged (i.e. we want to remove everything
+from system directories, even configuration files).
 .SS PACKAGE FLAGS
 .TP
 .B reinst\-required
@@ -172,7 +172,9 @@ respectively. Note: some configuration files might be unknown to
 \fBdpkg\fP because they are created and handled separately through the
 configuration scripts. In that case, \fBdpkg\fP won't remove them by
 itself, but the package's \fIpostrm\fP script (which is called by
-\fBdpkg\fP), has to take care of their removal during purge.
+\fBdpkg\fP), has to take care of their removal during purge. Of course,
+this only applies to files in system directories, not configuration files
+written to individual users' home directories.
 
 Removing of a package consists of the following steps:
 .br

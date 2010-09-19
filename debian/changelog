@@ -16,6 +16,68 @@ dpkg (1.16.0) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Thu, 29 Jul 2010 11:00:22 +0200
 
+dpkg (1.15.8.5) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Do not print a warning when parsing status or status log files on
+    half-installed packages w/o a Description or Maintainer field, as
+    this happens normally when the package was never installed before.
+    Closes: #594167
+  * Improve git format documentation in dpkg-source(1).
+    Thanks to Joey Hess, based on a patch by Tanguy Ortolo.
+  * Clarify effect of “dpkg --purge” on homedir files in dpkg(1).
+    Thanks to The Fungi <fungi@yuggoth.org>. Closes: #593628
+  * Add gettext plurals infrastructure support.
+  * Add gettext messages for plural forms. Closes: #594218
+  * Fix possible but improbable segfault in update-alternatives in case
+    the master file name contains a format string specifier. Reported by
+    Sandro Cazzaniga.
+  * Fix realloc usage on compat scandir() implementation.
+
+  [ Raphaël Hertzog ]
+  * Fix dpkg-genchanges to not split the short description in the middle of a
+    UTF8 character. Closes: #593442
+  * Drop -k parameter from the tar call used by dpkg-source to extract
+    tarballs. Upstream binary files modified by the packager were not properly
+    installed due to this. Thanks to James Westby for the report.
+    Closes: #594440
+  * Make dpkg Breaks: dpkg-dev (<< 1.15.8) so that older versions of dpkg-dev
+    that did not depend on libdpkg-perl must be upgraded together with dpkg.
+    Closes: #596417
+
+  [ Helge Kreutzmann ]
+  * Fix encoding of German addendum. Closes: #595643
+
+  [ Updated programs translations ]
+  * Esperanto (Felipe Castro). Closes: #596173
+  * French (Christian Perrier).
+  * German (Sven Joachim).
+  * Indonesian (Arief S Fitrianto). Closes: #596657
+  * Italian (Milo Casagrande). Closes: #592953, #595615
+  * Japanese (Kenshi Muto). Closes: #595468
+  * Korean (Changwoo Ryu). Closes: #595556
+  * Norwegian Bokmål (Hans Nordhaug). Closes: #595208
+  * Simplified Chinese (Aron Xu). Closes: #594513
+  * Slovak (Ivan Masár). Closes: #595968
+  * Swedish (Peter Krefting).
+  * Thai (Theppitak Karoonboonyanan). Closes: #594011
+
+  [ Updated man page translations ]
+  * French (Christian Perrier).
+  * German (Helge Kreutzmann).
+  * Swedish (Peter Krefting).
+
+  [ Updated scripts translations ]
+  * French (Christian Perrier). Includes a fix to a specific
+    message translation that was imprecise. Closes: #596333
+  * German (Helge Kreutzmann). Improved by Holger Wansing.
+  * Norwegian Bokmål (Hans Fredrik Nordhaug). Closes: #595299
+  * Spanish (Omar Campagne).  Closes: #596518
+  * Swedish (Peter Krefting).
+  * Russian (Yuri Kozlov). Closes: #595175
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 14 Sep 2010 01:26:21 +0200
+
 dpkg (1.15.8.4) unstable; urgency=low
 
   [ Guillem Jover ]

@@ -1412,7 +1412,7 @@ alternative_display_list(struct alternative *a)
 	struct fileset *fs;
 
 	for (fs = a->choices; fs; fs = fs->next)
-		pr(fs->master_file);
+		pr("%s", fs->master_file);
 }
 
 static const char *
@@ -1428,10 +1428,13 @@ alternative_select_choice(struct alternative *a)
 
 	for (;;) {
 		const char *mark;
+		int n_choices;
 
-		pr(_("There are %d choices for the alternative %s (providing "
-		     "%s)."), alternative_choices_count(a), a->master_name,
-		     a->master_link);
+		n_choices = alternative_choices_count(a);
+
+		pr(P_("There is %d choice for the alternative %s (providing %s).",
+		      "There are %d choices for the alternative %s (providing %s).",
+		      n_choices), n_choices, a->master_name, a->master_link);
 		printf("\n");
 		len = 15;
 		for (fs = a->choices; fs; fs = fs->next)

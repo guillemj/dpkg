@@ -124,7 +124,7 @@ sub extract {
     # Call tar extraction process
     $spawn_opts{"delete_env"} = [ "TAR_OPTIONS" ];
     $spawn_opts{'exec'} = [ 'tar', '--no-same-owner', '--no-same-permissions',
-                            @{$opts{"options"}}, '-xkf', '-' ];
+                            @{$opts{"options"}}, '-xf', '-' ];
     spawn(%spawn_opts);
     $self->close();
 

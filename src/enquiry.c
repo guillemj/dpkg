@@ -254,7 +254,9 @@ void unpackchk(const char *const *argv) {
       putchar('\n');
     }
   } else {
-    printf(_(" %d packages, from the following sections:"),totalcount);
+    printf(P_(" %d package, from the following section:",
+              " %d packages, from the following sections:", totalcount),
+           totalcount);
     width= 0;
     for (se= sectionentries; se; se= se->next) {
       sprintf(buf,"%d",se->count);

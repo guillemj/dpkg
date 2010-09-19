@@ -376,8 +376,10 @@ foreach my $file (keys %exec) {
 	    }
 	}
     }
-    warning(_g("%d other similar warnings have been skipped (use -v to see " .
-	    "them all)."), $nb_skipped_warnings) if $nb_skipped_warnings;
+    warning(P_("%d similar warning has been skipped (use -v to see it).",
+               "%d other similar warnings have been skipped (use -v to see " .
+               "them all).", $nb_skipped_warnings), $nb_skipped_warnings)
+        if $nb_skipped_warnings;
     foreach my $soname (@sonames) {
 	# Adjust minimal version of dependencies with information
 	# extracted from build-dependencies

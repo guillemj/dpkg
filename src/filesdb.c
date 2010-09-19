@@ -443,7 +443,9 @@ void ensure_allinstfiles_available(void) {
 
   if (saidread==1) {
     progress_done(&progress);
-    printf(_("%d files and directories currently installed.)\n"),nfiles);
+    printf(P_("%d file or directory currently installed.)\n",
+              "%d files and directories currently installed.)\n", nfiles),
+           nfiles);
     saidread=2;
   }
 }

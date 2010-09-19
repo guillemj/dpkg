@@ -18,6 +18,7 @@
 use strict;
 use warnings;
 
+use Encode;
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
@@ -286,7 +287,7 @@ foreach my $pkg ($control->get_packages()) {
     push @f, @{$p2f{$p}} if defined $p2f{$p};
 
     # Add description of all binary packages
-    my $desc = sprintf("%-10s - %-.65s", $p, $d);
+    my $desc = encode_utf8(sprintf("%-10s - %-.65s", $p, decode_utf8($d)));
     $desc .= " (udeb)" if $pkg_type eq "udeb";
     push @descriptions, $desc;
 

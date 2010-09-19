@@ -414,9 +414,12 @@ sub do_build {
     };
     find({ wanted => $check_binary, preprocess => $filter_ignore,
            no_chdir => 1 }, File::Spec->catdir($dir, "debian"));
-    error(_g("detected %d unwanted binary file(s) " .
-        "(add them in debian/source/include-binaries to allow their " .
-        "inclusion)."), $unwanted_binaries) if $unwanted_binaries;
+    error(P_("detected %d unwanted binary file (add it in " .
+             "debian/source/include-binaries to allow its inclusion).",
+             "detected %d unwanted binary files (add them in " .
+             "debian/source/include-binaries to allow their inclusion).",
+             $unwanted_binaries), $unwanted_binaries)
+         if $unwanted_binaries;
 
     # Create a patch
     my $autopatch = File::Spec->catfile($dir, "debian", "patches",

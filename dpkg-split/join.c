@@ -42,7 +42,9 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
   unsigned int i;
   size_t nr,buffersize;
 
-  printf(_("Putting package %s together from %d parts: "),
+  printf(P_("Putting package %s together from %d part: ",
+            "Putting package %s together from %d parts: ",
+            partlist[0]->maxpartn),
          partlist[0]->package,partlist[0]->maxpartn);
   
   buffersize= partlist[0]->maxpartlen;

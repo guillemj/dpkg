@@ -133,10 +133,13 @@ void checkpath(void) {
   varbuf_destroy(&filename);
 
   if (warned)
-    forcibleerr(fc_badpath, _("%d expected program(s) not found in PATH "
-                "or not executable.\nNB: root's PATH should usually contain "
-                "/usr/local/sbin, /usr/sbin and /sbin."),
-                warned);
+    forcibleerr(fc_badpath,
+                P_("%d expected program not found in PATH or not executable.\n"
+                   "NB: root's PATH should usually contain "
+                   "/usr/local/sbin, /usr/sbin and /sbin.",
+                   "%d expected programs not found in PATH or not executable.\n"
+                   "NB: root's PATH should usually contain "
+                   "/usr/local/sbin, /usr/sbin and /sbin.", warned), warned);
 }
 
 bool
