@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-08-31 20:58+0300\n"
-"PO-Revision-Date: 2010-09-18 11:09+0200\n"
+"PO-Revision-Date: 2010-09-19 13:00+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -13029,10 +13029,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:500
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--skip-debianization>"
 msgid "B<--single-debian-patch>"
-msgstr "B<--skip-debianization>"
+msgstr "B<--single-debian-patch>"
 
 # type: Plain text
 #. type: Plain text
@@ -13046,12 +13046,16 @@ msgid ""
 "is recommended to create a debian/source/patch-header file explaining how "
 "the Debian changes can be best reviewed, for example in the VCS that is used."
 msgstr ""
+"Utilise B<debian/patches/debian-changes> au lieu de B<debian/patches/debian-"
+"changes->I<version> comme nom du correctif automatiquement créé au cours de la construction. Cette option est particulièrement pratique lorsque le paquet est géré avec un outil de gestion de versions et qu'un jeu de "
+"correctifs ne peut être créé de façon fiable. Dans ce cas, les différences avec la version amont doivent être conservées dans un correctif unique. Lorsque cette option est utilisée, il est recommandé d'utiliser un "
+"fichier debian/source/patch-header qui explique la mailleure méthode pour relire les corrections spécifiques à Debian, par exemple dans le gestionnaire de versions utilisé."
 
 #. type: TP
 #: dpkg-source.1:510
 #, no-wrap
 msgid "B<--create-empty-orig>"
-msgstr ""
+msgstr "B<--create-empty-orig>"
 
 #. type: Plain text
 #: dpkg-source.1:516
@@ -13061,13 +13065,15 @@ msgid ""
 "used when the source package is just a bundle of multiple upstream software "
 "and where there's no \"main\" software."
 msgstr ""
+"Crée automatiquement une archive tar d'origine vide si elle est manquante et qu'il existe des archives tar d'origine additionnelles. Cette option peut être utilisée lorsque le paquet source est une collection de "
+"différentes sources amont et qu'il n'existe pas de logiciel « principal »."
 
 #. type: TP
 #: dpkg-source.1:516
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--skip-patches>"
 msgid "B<--unapply-patches>"
-msgstr "B<--skip-patches>"
+msgstr "B<--unapply-patches>"
 
 #. type: Plain text
 #: dpkg-source.1:525
@@ -13079,6 +13085,9 @@ msgid ""
 "not allowed in B<debian/source/options> so that all generated source "
 "packages have the same behaviour by default)."
 msgstr ""
+"Retire les correctifs dans le point d'entrée B<--after-build>. Cette option est principalement utile lorsque le paquet est construit directement depuis un gestionnaire de versions qui contient les sources amont non "
+"modifiées et que l'on souhaite conserver l'arborescence non modifiée après la construction du paquet. Cette option est en général utilisée dans B<debian/source/local-options> (elle n'est pas permis dans  B<"
+"debian/source/options> afin que tous les paquets source créés aient le même comportement par défaut."
 
 #. type: Plain text
 #: dpkg-source.1:532
@@ -13088,6 +13097,8 @@ msgid ""
 "patches prior to the source package build. This option is not allowed in "
 "B<debian/source/options> but can be used in B<debian/source/local-options>."
 msgstr ""
+"Ce processus échouera si un correctif automatique a été créé. Elle peut servir à vérifier que toutes les modifications ont été enregistrées correctement dans des correctifs quilt distincts avant la construction du "
+"paquet source. Elle n'est pas autorisée dans B<debian/source/options> mais peut prendre place dans B<debian/source/local-options>."
 
 #. type: Plain text
 #: dpkg-source.1:535
@@ -13158,15 +13169,15 @@ msgstr ""
 
 #. type: SS
 #: dpkg-source.1:557
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Format: 3.0 (quilt)"
 msgid "Format: 3.0 (git)"
-msgstr "Format: 3.0 (quilt)"
+msgstr "Format: 3.0 (git)"
 
 #. type: Plain text
 #: dpkg-source.1:559
 msgid "This format is experimental."
-msgstr ""
+msgstr "Ce format est expérimental."
 
 #. type: Plain text
 #: dpkg-source.1:564
@@ -13175,6 +13186,8 @@ msgid ""
 "repository B<.git> to hold the source of a package.  There may also be a B<."
 "gitshallow> file listing revisions for a shallow git clone."
 msgstr ""
+"Un paquet source qui utilise ce format est constitué d'un ensemble d'un seul dépôt git B<.git> qui contient les sources du paquet.  Il peut également exister un fichier B<.gitshallow> qui donne les révisions d'un "
+"clone git « shallow »."
 
 #. type: Plain text
 #: dpkg-source.1:570
@@ -13182,7 +13195,7 @@ msgid ""
 "The bundle is cloned as a git repository to the target directory.  If there "
 "is a gitshallow file, it is installed as `.git/shallow` inside the cloned "
 "git repository."
-msgstr ""
+msgstr "Cet ensemble est cloné sous forme d'un dépôt git dans le répertoire cible. S'il existe un fichier .gitshallow, il est installé en tant que « .git/shallow » dans le dépôt git cloné."
 
 #. type: Plain text
 #: dpkg-source.1:575
@@ -13192,6 +13205,8 @@ msgid ""
 "it could be anything.) Any other branches will be available, under as "
 "`remotes/origin/`"
 msgstr ""
+"Veuillez noter que, par défaut, le nouveau dépôt aura la même branche récupérée que celle qui était récupérée dans les sources d'origine (souvent « master » mais cela peut être tout à fait autre chose). Toutes les "
+"autres branches seront disponibles sous « remotes/origin »."
 
 #. type: Plain text
 #: dpkg-source.1:580 dpkg-source.1:613
@@ -13200,21 +13215,21 @@ msgid ""
 "any non-ignored uncommitted changes."
 msgstr ""
 "Avant d'aller plus loin, quelques vérifications sont effectuées afin de "
-"s'assurer que nous n'avons pas de changements non-soumis à ne pas ignorer."
+"s'assurer qu'il n'existe aucun changement non-soumis et à ne pas ignorer."
 
 #. type: Plain text
 #: dpkg-source.1:584
 msgid ""
 "B<git-bundle>(1) is used to generate a bundle of the git repository.  By "
 "default, all branches and tags in the repository are included in the bundle."
-msgstr ""
+msgstr "B<git-bundle>(1) permet de créer un ensemble à partir du dépôt git. Par défaut, toutes les branches et étiquettes du dépôt sont inclus dans cet ensemble."
 
 #. type: TP
 #: dpkg-source.1:586
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--target=>I<target>"
 msgid "B<--git-ref=>I<ref>"
-msgstr "B<--target=>I<cible>"
+msgstr "B<--git-ref=>I<réf>"
 
 #. type: Plain text
 #: dpkg-source.1:596
@@ -13227,31 +13242,33 @@ msgid ""
 "all tags and branches, except for the private branch, use --git-ref=--all --"
 "git-ref=^private"
 msgstr ""
+"Permet d'indiquer une référence git à inclure dans l'ensemble git. L'utilisation de cette option désactive le comportement par défaut qui est d'inclure toutes les branches et étiquettes. Cette option peut-être  "
+"utilisée plusieurs fois. Le paramètre I<réf> peut être le nom d'une branche ou une étiquette à inclure. Il peut également être tout paramètre que l'on peut passer à B<git-rev-list>(1). Par exemple, pour n'inclure que "
+"la  « master », on peut utiliser --git-ref=master. Pour inclure toutes les étiquettes et toutes les branches, sauf la branche privée, on peut utiliser -git-ref=--all -- git-ref=^private."
 
 #. type: TP
 #: dpkg-source.1:596
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--abort-after=>I<number>"
 msgid "B<--git-depth=>I<number>"
-msgstr "B<--abort-after=>I<nombre>"
+msgstr "B<--git-depth=>I<nombre>"
 
 #. type: Plain text
 #: dpkg-source.1:600
 msgid ""
 "Creates a shallow clone with a history truncated to the specified number of "
 "revisions."
-msgstr ""
+msgstr "Crée un clone « shallow » dont l'historique est tronqué au nombre indiqué de révisions."
 
 #. type: SS
 #: dpkg-source.1:600
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Format: 3.0 (quilt)"
 msgid "Format: 3.0 (bzr)"
-msgstr "Format: 3.0 (quilt)"
+msgstr "Format: 3.0 (bzr)"
 
 #. type: Plain text
 #: dpkg-source.1:603
-#, fuzzy
 #| msgid ""
 #| "Those formats are experimental. They generate a single tarball containing "
 #| "the corresponding VCS repository."
@@ -13259,19 +13276,18 @@ msgid ""
 "This format is experimental. It generates a single tarball containing the "
 "bzr repository."
 msgstr ""
-"Ces formats sont à titre expérimental. Ils génèrent une archive tar "
-"contenant le référentiel VCS correspondant."
+"Ce format est expérimental. Il crée une archive tar "
+"contenant le dépôt bzr correspondant."
 
 #. type: Plain text
 #: dpkg-source.1:608
-#, fuzzy
 #| msgid ""
 #| "The tarball is unpacked and then the VCS is used to checkout the current "
 #| "branch."
 msgid "The tarball is unpacked and then bzr is used to checkout the current branch."
 msgstr ""
-"L'archive tar est décompressée puis le VCS est utilisé afin de vérifier la "
-"branche de la version courante."
+"L'archive tar est décompressée puis bzr est utilisé afin de récupérer la "
+"branche courante."
 
 #. type: Plain text
 #: dpkg-source.1:617
@@ -13280,7 +13296,7 @@ msgid ""
 "temporary directory. Before this temporary directory is packed in a tarball, "
 "various cleanup are done to save space."
 msgstr ""
-"Ensuite, la partie spécifique du répertoire source du VCS est copiée dans un "
+"Ensuite, la partie spécifique du répertoire source du gestionnaire de versions est copiée dans un "
 "répertoire temporaire. Avant que ce répertoire temporaire ne soit empaqueté "
 "dans une archive tar, divers nettoyages sont effectuées pour économiser de "
 "l'espace."
@@ -13289,13 +13305,13 @@ msgstr ""
 #: dpkg-source.1:617
 #, no-wrap
 msgid "WARNINGS AND ERRORS"
-msgstr ""
+msgstr "AVERTISSEMENTS ET ERREURS"
 
 #. type: SS
 #: dpkg-source.1:618
 #, no-wrap
 msgid "no source format specified in debian/source/format"
-msgstr ""
+msgstr "aucun format source indiqué dans debian/source/format"
 
 #. type: Plain text
 #: dpkg-source.1:624
@@ -13306,6 +13322,8 @@ msgid ""
 "point in the future dpkg-source will be modified to fail when that file "
 "doesn't exist."
 msgstr ""
+"Le fichier B<debian/source/format> devrait toujours exister et indiquer le format source souhaité. Pour préserver la compatibilité avec d'anciennes versions, le format « 1.0 » est implicite quand le fichier n'existe "
+"pas. Il est déconseillé de dépendre de ce comportement qui pourrait être modifié dans de futures versions de dpkg-source, qui échoueront alors en l'absence d'une mention explicite de format."
 
 #. type: Plain text
 #: dpkg-source.1:630
@@ -13316,12 +13334,14 @@ msgid ""
 "you want to continue using the old format, you should be explicit about it "
 "and put \"1.0\" in B<debian/source/format>."
 msgstr ""
+"Cela est dû au fait que le format « 1.0 » n'est plus le format recommandé, qu'il est conseillé de choisir un des formats les plus récents (« 3.0 (quilt) » ou « 3.0 (native) ») mais que dpkg-source ne le fera pas "
+"automatiquement. Si vous souhaitez continuer à utiliser l'ancien format, il est nécessaire d'être explicite et indiquer « 1.0 » dans B<debian/source/format>."
 
 #. type: SS
 #: dpkg-source.1:630
 #, no-wrap
 msgid "the diff modifies the following upstream files"
-msgstr ""
+msgstr "le fichier de différences modifie les fichiers amont suivants"
 
 #. type: Plain text
 #: dpkg-source.1:637
@@ -13332,12 +13352,15 @@ msgid ""
 "directory and apply them at build-time. To avoid this complexity you can "
 "also use the format \"3.0 (quilt)\" that offers this natively."
 msgstr ""
+"Lors de l'utilisation du format source « 1.0 », il est déconseillé de modifier directement les fichiers amont car les modifications restent alors cachées et souvent non documentées dans le fichier diff.gz. AU "
+"contraire, il est conseillé de conserver les modifications sous forme de correctifs dans le répertoire debian et de les appliquer au moment de la construction. Pour éviter ces opérations plus complexes, vous pouvez "
+"également choisir le format « 3.0 (quilt) » qui permet ces opérations de manière native."
 
 #. type: SS
 #: dpkg-source.1:637
 #, no-wrap
 msgid "cannot represent change to I<file>"
-msgstr ""
+msgstr "impossible d'identifier les changements de I<fichier>"
 
 #. type: Plain text
 #: dpkg-source.1:643
@@ -13348,38 +13371,40 @@ msgid ""
 "type (for example replacing a plain file with a symlink or a directory), you "
 "will get this error message."
 msgstr ""
+"Les modifications des sources amont sont en général conservées dans des fichiers de correctifs mais certaines modifications ne peuvent être représentées sous forme de tels fichiers qui ne peuvent modifier que des "
+"fichiers texte. Si vous essayez de remplacer un fichier avec un objet d'un type différent (par exemple remplacer un fichier par un lien ou un répertoire), ce message d'erreur s'affichera."
 
 #. type: SS
 #: dpkg-source.1:643
 #, no-wrap
 msgid "newly created empty file I<file> will not be represented in diff"
-msgstr ""
+msgstr "le fichier I<fichier>, nouvellement créé, ne sera pas représenté dans le fichier de différences"
 
 #. type: Plain text
 #: dpkg-source.1:646
 msgid ""
 "Empty files can't be created with patch files. Thus this change is not "
 "recorded in the source package and you are warned about it."
-msgstr ""
+msgstr "Les fichiers vides ne peuvent pas être créés avec des correctifs. En conséquence, la modification n'est pas enregistrée dans le paquet source, ce qui provoque cet avertissement."
 
 #. type: SS
 #: dpkg-source.1:646
 #, no-wrap
 msgid "executable mode I<perms> of I<file> will not be represented in diff"
-msgstr ""
+msgstr "le mode exécutable I<permissions> de I<fichier> ne sera pas représenté dans le fichier de différences"
 
 #. type: SS
 #: dpkg-source.1:647
 #, no-wrap
 msgid "special mode I<perms> of I<file> will not be represented in diff"
-msgstr ""
+msgstr "le mode spécial I<permissions> de I<fichier> ne sera pas représenté dans le fichier de différences"
 
 #. type: Plain text
 #: dpkg-source.1:651
 msgid ""
 "Patch files do not record permissions of files and thus modified permissions "
 "are not stored in the source package. This warning reminds you of that fact."
-msgstr ""
+msgstr "Les fichiers correctifs n'enregistrent pas les permissions de fichiers et, en conséquence, les permissions modifiées ne sont pas enregistrées dans le paquet source, ce qui provoque cet avertissement."
 
 #. type: SH
 #: dpkg-source.1:651
@@ -13460,7 +13485,7 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:678
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "  # let dpkg-source create a debian.tar.bz2 with maximal compression\n"
 #| "  compression = \"bzip2\"\n"
@@ -13475,6 +13500,8 @@ msgstr ""
 "  # autoriser dpkg-source à créer un fichier debian.tar.bz2 avec la compression maximale\n"
 "  compression = \"bzip2\"\n"
 "  compression-level = 9\n"
+"  # utiliser debian/patches/debian-changes comme correctif automatique\n"
+"  single-debian-patch\n"
 
 #. type: Plain text
 #: dpkg-source.1:681
@@ -13487,10 +13514,10 @@ msgstr ""
 
 #. type: SS
 #: dpkg-source.1:681
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "debian/source/options"
 msgid "debian/source/local-options"
-msgstr "debian/source/options"
+msgstr "debian/source/local-options"
 
 #. type: Plain text
 #: dpkg-source.1:686
@@ -13500,13 +13527,15 @@ msgid ""
 "to the maintainer or to the VCS repository where the source package is "
 "maintained."
 msgstr ""
+"Identique à B<debian/source/options> mais n'est pas enregistré dans le paquet source créé. Ce fichier peut être utile pour conserver une préférence propre au responsable ou au dépôt de gestionnaire de versions où le "
+"paquet source est géré."
 
 #. type: SS
 #: dpkg-source.1:686
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "debian/source/format"
 msgid "debian/source/patch-header"
-msgstr "debian/source/format"
+msgstr "debian/source/patch-header"
 
 # type: Plain text
 #. type: Plain text
@@ -13514,7 +13543,7 @@ msgstr "debian/source/format"
 msgid ""
 "Free form text that is put on top of the automatic patch generated in "
 "formats \"2.0\" or \"3.0 (quilt)\"."
-msgstr ""
+msgstr "Texte en format libre qui sera ajouté au correctif automatique créé dans le format « 3.0 (quilt) »."
 
 #. type: SS
 #: dpkg-source.1:689
@@ -14331,11 +14360,10 @@ msgstr "Teste uniquement, n'apporte aucun changement."
 
 #. type: Plain text
 #: dpkg-trigger.1:62
-#, fuzzy
 #| msgid ""
 #| "B<dpkg>(1), B<deb-triggers>(5), B</usr/share/doc/dpkg/triggers.txt.gz>."
 msgid "B<dpkg>(1), B<deb-triggers>(5), B</usr/share/doc/dpkg-dev/triggers.txt.gz>."
-msgstr "B<dpkg>(1), B<deb-triggers>(5), B</usr/share/doc/dpkg/triggers.txt.gz>."
+msgstr "B<dpkg>(1), B<deb-triggers>(5), B</usr/share/doc/dpkg-dev/triggers.txt.gz>."
 
 #. type: TH
 #: dpkg-vendor.1:1
@@ -14466,7 +14494,6 @@ msgstr "dselect - Interface de gestion de paquets Debian."
 
 #. type: Plain text
 #: dselect.1:16
-#, fuzzy
 #| msgid ""
 #| "B<dselect> [B<--admindir> I<E<lt>directoryE<gt>>] [B<--help>] [B<--"
 #| "version>] [B<--licence>|B<--license>] [B<--expert>] [B<--debug>|B<-"
@@ -14478,10 +14505,10 @@ msgid ""
 "colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>[I<"
 "+attr+..>]]]"
 msgstr ""
-"B<dselect> [B<--admindir> I<E<lt>répertoireE<gt>>] [B<--help>] [B<--"
-"version>] [B<--licence>|B<--license>] [B<--expert>] [B<--debug>|B<-"
-"D>I<E<lt>fichierE<gt>>] [I<E<lt>actionE<gt>>] [B<--colour>|B<--color> "
-"I<partie_écran:>[I<premier_plan>],[I<arrière_plan>][I<:attr>[I<+attr+..>]]]"
+"B<dselect> [B<--admindir> I<E<lt>répertoireE<gt>>] [B<--help>] [B<--version>] "
+"[B<--expert>] [B<--debug>|B<-D>I<E<lt>fichierE<gt>>] [I<E<lt>actionE<gt>>] [B<--"
+"colour>|B<--color> I<partie-écran:>[I<avant-plan>],[I<arrière-plan>][I<:attr>[I<"
+"+attr+..>]]]"
 
 #. type: Plain text
 #: dselect.1:25
@@ -15553,7 +15580,7 @@ msgstr ""
 msgid ""
 "If set, B<dselect> will use it as the directory from which to read the user "
 "specific configuration file."
-msgstr ""
+msgstr "Si positionné, sera utilisé par B<dselect> comme le répertoire d'où sera lu le fichier de configuration propre à l'utilisateur."
 
 #. type: Plain text
 #: dselect.1:441
@@ -15563,7 +15590,7 @@ msgid ""
 msgstr ""
 "L'interface B<dselect> de sélection de paquets est déroutante pour les "
 "nouveaux utilisateurs. On rapporte même qu'elle fait pleurer certains "
-"développeurs chevronnés du noyau."
+"développeurs chevronnés du noyau (NdT : du moins les derniers historiques dinosaures qui s'en servent encore)."
 
 #. type: Plain text
 #: dselect.1:443
@@ -15599,7 +15626,6 @@ msgstr "B<dpkg>(1), B<apt-get>(8), B<sources.list>(5), B<deb>(5)."
 
 #. type: Plain text
 #: dselect.1:462
-#, fuzzy
 #| msgid ""
 #| "B<dselect> was written by Ian Jackson (ijackson@gnu.ai.mit.edu). Full "
 #| "list of contributors may be found in `dselect --license'."
@@ -15608,7 +15634,7 @@ msgid ""
 "of contributors may be found in 'dselect --version'."
 msgstr ""
 "B<dselect> a été écrit par Ian Jackson (ijackson@gnu.ai.mit.edu). La liste "
-"complète des contributeurs est affichée par « dselect --license »."
+"complète des contributeurs est affichée par « dselect --version »."
 
 #. type: Plain text
 #: dselect.1:465
@@ -16913,7 +16939,6 @@ msgstr "B<--log>I< fichier>"
 
 #. type: Plain text
 #: update-alternatives.8:337
-#, fuzzy
 #| msgid ""
 #| "Specifies the log file, when this is to be different from the default (/"
 #| "var/log/dpkg.log)."
@@ -16922,7 +16947,7 @@ msgid ""
 "log/alternatives.log)."
 msgstr ""
 "Indique le fichier journal, pour utiliser un fichier différent du fichier "
-"par défaut (/var/log/dpkg.log)."
+"par défaut (/var/log/alternatives.log)."
 
 #. type: Plain text
 #: update-alternatives.8:341
