@@ -48,6 +48,7 @@ sub init_options {
     } else {
 	$self->{'options'}{'diff_ignore_regexp'} = '(?:^|/)debian/source/local-options$';
     }
+    push @{$self->{'options'}{'tar_ignore'}}, "debian/source/local-options";
     $self->{'options'}{'sourcestyle'} ||= 'X';
     $self->{'options'}{'skip_debianization'} ||= 0;
     $self->{'options'}{'abort_on_upstream_changes'} ||= 0;
