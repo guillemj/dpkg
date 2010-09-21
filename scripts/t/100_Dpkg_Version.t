@@ -32,7 +32,7 @@ plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 11;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
-     return system('dpkg', '--compare-versions', $a, $cmp, $b) == 0;
+     return system('dpkg', '--compare-versions', '--', $a, $cmp, $b) == 0;
 }
 
 sub obj_vercmp {
@@ -110,11 +110,11 @@ foreach my $case (@tests) {
 	if ($truth->{$res}{$op}) {
 	    ok(version_compare_relation($a, $norm_op, $b), "$a $op $b => true");
 	    ok(obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => true");
-	    ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => true");
+	    ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => true");
 	} else {
 	    ok(!version_compare_relation($a, $norm_op, $b), "$a $op $b => false");
 	    ok(!obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
-	    ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions $a $op $b => false");
+	    ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => false");
 	}
     }
 }
@@ -163,3 +163,4 @@ foo2.1 foo2.10 -1
 1:3.8.1-1 3.8.GA-1 1
 1.0.1+gpl-1 1.0.1-2 1
 1a 1000a -1
+-0.6.5 0.9.1 -1
