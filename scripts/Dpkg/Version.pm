@@ -95,7 +95,7 @@ sub new {
 	$self->{'epoch'} = 0;
 	$self->{'no_epoch'} = 1;
     }
-    if ($ver =~ /(.+)-(.*)$/) {
+    if ($ver =~ /(.*)-(.*)$/) {
 	$self->{'version'} = $1;
 	$self->{'revision'} = $2;
     } else {
