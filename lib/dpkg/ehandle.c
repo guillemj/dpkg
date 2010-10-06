@@ -200,7 +200,7 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
                   unsigned int nargs, ...) {
   struct cleanupentry *cep;
   void **argv;
-  int e;
+  int e = 0;
   va_list args;
 
   onerr_abort++;
@@ -222,7 +222,10 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   va_end(args);
   cep->next= econtext->cleanups;
   econtext->cleanups= cep;
-  if (cep == &emergency.ce) { e= errno; ohshite(_("out of memory for new cleanup entry")); }
+  if (cep == &emergency.ce) {
+    errno = e;
+    ohshite(_("out of memory for new cleanup entry"));
+  }
 
   onerr_abort--;
 }
