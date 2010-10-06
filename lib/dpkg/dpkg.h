@@ -24,9 +24,7 @@
 
 #include <sys/types.h>
 
-#include <setjmp.h>
 #include <stddef.h>
-#include <stdarg.h>
 #include <stdio.h>
 
 #include <dpkg/macros.h>
@@ -104,7 +102,7 @@ DPKG_BEGIN_DECLS
 
 #define FIND_EXPRSTARTCHARS "-(),!"
 
-extern const char thisname[]; /* defined separately in each program */
+#include <dpkg/ehandle.h>
 
 /*** from startup.c ***/
 
@@ -120,35 +118,6 @@ extern const char thisname[]; /* defined separately in each program */
   set_error_display(NULL, NULL); \
   error_unwind(ehflag_normaltidy);\
 } while (0)
-
-/*** from ehandle.c ***/
-
-extern volatile int onerr_abort;
-
-typedef void error_printer(const char *emsg, const char *contextstring);
-
-void push_error_handler(jmp_buf *jbufp, error_printer *printerror,
-                        const char *contextstring);
-void set_error_display(error_printer *printerror, const char *contextstring);
-void print_error_fatal(const char *emsg, const char *contextstring);
-void error_unwind(int flagset);
-void push_cleanup(void (*f1)(int argc, void **argv), int flagmask1,
-                  void (*f2)(int argc, void **argv), int flagmask2,
-                  unsigned int nargs, ...);
-void push_checkpoint(int mask, int value);
-void pop_cleanup(int flagset);
-enum { ehflag_normaltidy=01, ehflag_bombout=02, ehflag_recursiveerror=04 };
-
-void do_internerr(const char *file, int line, const char *fmt, ...)
-	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3);
-#define internerr(...) do_internerr(__FILE__, __LINE__, __VA_ARGS__)
-
-void ohshit(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
-void ohshitv(const char *fmt, va_list args)
-	DPKG_ATTR_NORET DPKG_ATTR_VPRINTF(1);
-void ohshite(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
-void werr(const char *what) DPKG_ATTR_NORET;
-void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 /*** log.c ***/
 
