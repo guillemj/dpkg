@@ -187,7 +187,12 @@ void push_checkpoint(int mask, int value) {
   struct cleanupentry *cep;
   int i;
   
-  cep= m_malloc(sizeof(struct cleanupentry) + sizeof(char*));
+  cep = malloc(sizeof(struct cleanupentry) + sizeof(char *));
+  if (cep == NULL) {
+    onerr_abort++;
+    ohshite(_("out of memory for new cleanup entry"));
+  }
+
   for (i=0; i<NCALLS; i++) { cep->calls[i].call=NULL; cep->calls[i].mask=0; }
   cep->cpmask= mask; cep->cpvalue= value;
   cep->argc= 0; cep->argv[0]= NULL;
