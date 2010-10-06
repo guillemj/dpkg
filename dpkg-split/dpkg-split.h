@@ -49,7 +49,6 @@ struct partqueue {
    */
 };
 
-extern dofunction *action;
 extern const struct cmdinfo *cipaction;
 extern struct partqueue *queue;
 
