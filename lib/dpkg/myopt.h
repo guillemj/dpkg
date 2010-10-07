@@ -57,8 +57,8 @@ extern const struct cmdinfo *cipaction;
 void setaction(const struct cmdinfo *cip, const char *value);
 void setobsolete(const struct cmdinfo *cip, const char *value);
 
-#define ACTION(longopt, shortopt, code, function) \
- { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
+#define ACTION(longopt, shortopt, code, func) \
+ { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)func }
 #define OBSOLETE(longopt, shortopt) \
  { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 
