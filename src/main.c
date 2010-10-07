@@ -172,7 +172,6 @@ const char printforhelp[]= N_(
 "\n"
 "Options marked [*] produce a lot of output - pipe it through `less' or `more' !");
 
-const struct cmdinfo *cipaction = NULL;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;
 int f_triggers = 0;
@@ -218,17 +217,6 @@ static const struct forceinfo {
   { "bad-verify",          &fc_badverify                },
   {  NULL                                               }
 };
-
-static void setaction(const struct cmdinfo *cip, const char *value) {
-  if (cipaction)
-    badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
-             cip->oshort, cip->olong, cipaction->oshort, cipaction->olong);
-  cipaction= cip;
-}
-
-static void setobsolete(const struct cmdinfo *cip, const char *value) {
-  warning(_("obsolete option '--%s'\n"), cip->olong);
-}
 
 static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
@@ -464,10 +452,6 @@ static const struct cmdinfo cmdinfos[]= {
    * The action entries are made with the ACTION macro, as they all
    * have a very similar structure.
    */
-#define ACTION(longopt,shortopt,code,function) \
- { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
-#define OBSOLETE(longopt,shortopt) \
- { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 #define ACTIONBACKEND(longopt, shortopt, backend) \
  { longopt, shortopt, 0, NULL, NULL, setaction, 0, (void *)backend, (voidfnp)execbackend }
 

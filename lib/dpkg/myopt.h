@@ -49,6 +49,19 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos);
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos);
 void loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos);
 
+/**
+ * Current cmdinfo action.
+ */
+extern const struct cmdinfo *cipaction;
+
+void setaction(const struct cmdinfo *cip, const char *value);
+void setobsolete(const struct cmdinfo *cip, const char *value);
+
+#define ACTION(longopt, shortopt, code, function) \
+ { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
+#define OBSOLETE(longopt, shortopt) \
+ { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
+
 DPKG_END_DECLS
 
 #endif /* MYOPT_H */

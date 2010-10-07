@@ -96,7 +96,6 @@ usage(const struct cmdinfo *cip, const char *value)
 const char thisname[]= SPLITTER;
 const char printforhelp[]= N_("Type dpkg-split --help for help.");
 
-const struct cmdinfo *cipaction=NULL;
 struct partqueue *queue= NULL;
 
 long opt_maxpartsize = SPLITPARTDEFMAX;
@@ -114,8 +113,6 @@ void rerreof(FILE *f, const char *fn) {
   ohshit(_("unexpected end of file in %.250s"),fn);
 }
 
-static void setaction(const struct cmdinfo *cip, const char *value);
-
 static void setpartsize(const struct cmdinfo *cip, const char *value) {
   long newpartsize;
   char *endp;
@@ -131,9 +128,6 @@ static void setpartsize(const struct cmdinfo *cip, const char *value) {
     badusage(_("part size must be at least %d KiB (to allow for header)"),
              (HEADERALLOWANCE >> 10) + 1);
 }
-
-#define ACTION(longopt, shortopt, code, function) \
-{ longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
 
 static const struct cmdinfo cmdinfos[]= {
   ACTION("split",   's',  0,  do_split),
@@ -152,13 +146,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "msdos",         0,   0,  &opt_msdos, NULL,       NULL,           1   },
   {  NULL,              0                                              }
 };
-
-static void setaction(const struct cmdinfo *cip, const char *value) {
-  if (cipaction)
-    badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
-             cip->oshort, cip->olong, cipaction->oshort, cipaction->olong);
-  cipaction= cip;
-}
 
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;

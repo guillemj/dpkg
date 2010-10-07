@@ -99,22 +99,11 @@ usage(const struct cmdinfo *cip, const char *value)
 	exit(0);
 }
 
-const struct cmdinfo *cipaction = NULL;
 const char *admindir = ADMINDIR;
 
 static int opt_verbose = 1;
 static int opt_force = 0;
 static int opt_update = 0;
-
-static void
-setaction(const struct cmdinfo *cip, const char *value)
-{
-	if (cipaction)
-		badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
-		         cip->oshort, cip->olong,
-		         cipaction->oshort, cipaction->olong);
-	cipaction = cip;
-}
 
 static char *
 path_cleanup(const char *path)
@@ -365,9 +354,6 @@ statoverride_list(const char *const *argv)
 
 	return ret;
 }
-
-#define ACTION(longopt, shortopt, code, function) \
- { longopt, shortopt, 0, 0, 0, setaction, code, 0, (voidfnp)function }
 
 static const struct cmdinfo cmdinfos[] = {
 	ACTION("add",    0, act_install,   statoverride_add),

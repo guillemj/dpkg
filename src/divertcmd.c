@@ -49,7 +49,6 @@
 const char thisname[] = "dpkg-divert";
 const char printforhelp[] = N_("Use --help for help about querying packages.");
 
-const struct cmdinfo *cipaction = NULL;
 const char *admindir = ADMINDIR;
 
 static bool opt_pkgname_match_any = true;
@@ -659,22 +658,6 @@ diversion_listpackage(const char *const *argv)
 	return 0;
 }
 
-static inline int
-option_short(int c)
-{
-	return c ? c : '\b';
-}
-
-static void
-setaction(const struct cmdinfo *cip, const char *value)
-{
-	if (cipaction)
-		badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
-		         option_short(cip->oshort), cip->olong,
-		         option_short(cipaction->oshort), cipaction->olong);
-	cipaction = cip;
-}
-
 static void
 setpackage(const struct cmdinfo *cip, const char *value)
 {
@@ -695,9 +678,6 @@ setdivertto(const struct cmdinfo *cip, const char *value)
 	if (strchr(opt_divertto, '\n') != NULL)
 		badusage(_("divert-to may not contain newlines"));
 }
-
-#define ACTION(longopt, shortopt, code, function) \
- { longopt, shortopt, 0, 0, 0, setaction, code, 0, (voidfnp)function }
 
 static const struct cmdinfo cmdinfo_add =
 	ACTION("add",         0, 0, diversion_add);

@@ -642,27 +642,13 @@ usage(const struct cmdinfo *ci, const char *value)
 const char thisname[]= "dpkg-query";
 const char printforhelp[]= N_("Use --help for help about querying packages.");
 
-const struct cmdinfo *cipaction = NULL;
-
 const char *admindir= ADMINDIR;
-
-static void setaction(const struct cmdinfo *cip, const char *value) {
-  if (cipaction)
-    badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
-             cip->oshort, cip->olong, cipaction->oshort, cipaction->olong);
-  cipaction= cip;
-}
 
 static const struct cmdinfo cmdinfos[]= {
   /* This table has both the action entries in it and the normal options.
    * The action entries are made with the ACTION macro, as they all
    * have a very similar structure.
    */
-#define ACTION(longopt,shortopt,code,function) \
- { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
-#define OBSOLETE(longopt,shortopt) \
- { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
-
   ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
   ACTION( "status",                         's', act_status,        enqperpackage   ),
   ACTION( "print-avail",                    'p', act_printavail,    enqperpackage   ),

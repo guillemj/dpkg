@@ -49,7 +49,6 @@ struct partqueue {
    */
 };
 
-extern const struct cmdinfo *cipaction;
 extern struct partqueue *queue;
 
 extern long opt_maxpartsize;

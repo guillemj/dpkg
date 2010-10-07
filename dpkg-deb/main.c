@@ -134,9 +134,7 @@ const char printforhelp[]=
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
 struct compressor *compressor = &compressor_gzip;
 int compress_level = -1;
-const struct cmdinfo *cipaction = NULL;
 
-static void setaction(const struct cmdinfo *cip, const char *value);
 static void setcompresstype(const struct cmdinfo *cip, const char *value);
 
 static void
@@ -154,9 +152,6 @@ set_compress_level(const struct cmdinfo *cip, const char *value)
 
   compress_level = level;
 }
-
-#define ACTION(longopt, shortopt, code, function) \
- { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
 
 static const struct cmdinfo cmdinfos[]= {
   ACTION("build",         'b', 0, do_build),
@@ -180,13 +175,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "version",       0,   0, NULL,           NULL,         printversion     },
   {  NULL,           0,   0, NULL,           NULL,         NULL             }
 };
-
-static void setaction(const struct cmdinfo *cip, const char *value) {
-  if (cipaction)
-    badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
-             cip->oshort, cip->olong, cipaction->oshort, cipaction->olong);
-  cipaction= cip;
-}
 
 static void setcompresstype(const struct cmdinfo *cip, const char *value) {
   compressor = compressor_find_by_name(value);

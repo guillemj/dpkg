@@ -263,3 +263,28 @@ void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos) {
     }
   }
 }
+
+void
+setobsolete(const struct cmdinfo *cip, const char *value)
+{
+  warning(_("obsolete option '--%s'\n"), cip->olong);
+}
+
+const struct cmdinfo *cipaction = NULL;
+
+/* XXX: This function is a hack. */
+static inline int
+option_short(int c)
+{
+  return c ? c : '\b';
+}
+
+void
+setaction(const struct cmdinfo *cip, const char *value)
+{
+  if (cipaction)
+    badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
+             option_short(cip->oshort), cip->olong,
+             option_short(cipaction->oshort), cipaction->olong);
+  cipaction = cip;
+}
