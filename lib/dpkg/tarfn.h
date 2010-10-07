@@ -62,17 +62,17 @@ struct tar_entry {
 	struct file_stat stat;
 };
 
-typedef int (*tar_read_func)(void *ctx, char *buffer, int length);
-typedef int (*tar_func)(void *ctx, struct tar_entry *h);
+typedef int tar_read_func(void *ctx, char *buffer, int length);
+typedef int tar_func(void *ctx, struct tar_entry *h);
 
 struct tar_operations {
-	tar_read_func read;
+	tar_read_func *read;
 
-	tar_func extract_file;
-	tar_func link;
-	tar_func symlink;
-	tar_func mkdir;
-	tar_func mknod;
+	tar_func *extract_file;
+	tar_func *link;
+	tar_func *symlink;
+	tar_func *mkdir;
+	tar_func *mknod;
 };
 
 int tar_extractor(void *ctx, const struct tar_operations *ops);

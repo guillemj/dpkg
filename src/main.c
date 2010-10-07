@@ -453,7 +453,7 @@ static const struct cmdinfo cmdinfos[]= {
    * have a very similar structure.
    */
 #define ACTIONBACKEND(longopt, shortopt, backend) \
- { longopt, shortopt, 0, NULL, NULL, setaction, 0, (void *)backend, (void_func)execbackend }
+ { longopt, shortopt, 0, NULL, NULL, setaction, 0, (void *)backend, (void_func *)execbackend }
 
   ACTION( "install",                        'i', act_install,              archivefiles    ),
   ACTION( "unpack",                          0,  act_unpack,               archivefiles    ),
