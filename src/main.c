@@ -588,7 +588,7 @@ void commandfd(const char *const *argv) {
     ohshite(_("couldn't open `%i' for stream"), (int) infd);
 
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
-    error_unwind(ehflag_bombout); exit(2);
+    catch_fatal_error();
   }
 
   for (;;) {

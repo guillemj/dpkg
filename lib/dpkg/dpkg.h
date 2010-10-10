@@ -108,7 +108,7 @@ DPKG_BEGIN_DECLS
 
 #define standard_startup(ejbuf) do {\
   if (setjmp(*ejbuf)) { /* expect warning about possible clobbering of argv */\
-    error_unwind(ehflag_bombout); exit(2);\
+    catch_fatal_error(); \
   }\
   push_error_handler(ejbuf, print_error_fatal, NULL); \
   umask(022); /* Make sure all our status databases are readable. */\

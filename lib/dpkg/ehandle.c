@@ -259,6 +259,19 @@ void ohshit(const char *fmt, ...) {
   run_error_handler();
 }
 
+/**
+ * Default fatal error handler.
+ *
+ * This handler performs all error unwinding for the current context, and
+ * terminates the program with an error exit code.
+ */
+void
+catch_fatal_error(void)
+{
+  error_unwind(ehflag_bombout);
+  exit(2);
+}
+
 void print_error_fatal(const char *emsg, const char *contextstring) {
   fprintf(stderr, "%s: %s\n",thisname,emsg);
 }

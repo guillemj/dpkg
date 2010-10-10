@@ -507,7 +507,7 @@ int main(int, const char *const *argv) {
 
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     cursesoff();
-    error_unwind(ehflag_bombout); exit(2);
+    catch_fatal_error();
   }
   push_error_handler(&ejbuf,print_error_fatal,0);
 

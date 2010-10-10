@@ -47,8 +47,7 @@ main(int argc, char **argv)
 
 	/* Initialize environment. */
 	if (setjmp(ejbuf)) {
-		error_unwind(ehflag_bombout);
-		return 2;
+		catch_fatal_error();
 	}
 	push_error_handler(&ejbuf, print_error_fatal, NULL);
 
