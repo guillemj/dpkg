@@ -716,7 +716,7 @@ main(int argc, const char * const *argv)
 	myopt(&argv, cmdinfos);
 
 	if (!cipaction)
-		cipaction = &cmdinfo_add;
+		setaction(&cmdinfo_add, NULL);
 
 	actionfunction = (int (*)(const char *const *))cipaction->farg;
 

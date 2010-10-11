@@ -652,7 +652,7 @@ void commandfd(const char *const *argv) {
       if (newargs[i])
         newargs[i] = m_strdup(newargs[i]);
 
-    cipaction= NULL;
+    setaction(NULL, NULL);
     myopt((const char *const**)&newargs,cmdinfos);
     if (!cipaction) badusage(_("need an action option"));
 
