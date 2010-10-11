@@ -62,7 +62,7 @@ struct cleanupentry {
 
 struct errorcontext {
   struct errorcontext *next;
-  jmp_buf *jbufp;
+  jmp_buf *jump;
   struct cleanupentry *cleanups;
   void (*printerror)(const char *emsg, const char *contextstring);
   const char *contextstring;
@@ -92,13 +92,14 @@ run_error_handler(void)
             thisname, errmsg);
     exit(2);
   } else {
-    longjmp(*econtext->jbufp, 1);
+    longjmp(*econtext->jump, 1);
   }
 }
 
-void push_error_handler(jmp_buf *jbufp,
-                        error_printer *printerror,
-                        const char *contextstring) {
+void
+push_error_handler(jmp_buf *jump, error_printer *printerror,
+                   const char *contextstring)
+{
   struct errorcontext *necp;
   necp= malloc(sizeof(struct errorcontext));
   if (!necp) {
@@ -111,7 +112,7 @@ void push_error_handler(jmp_buf *jbufp,
     fprintf(stderr, "%s: %s\n", thisname, errmsgbuf); exit(2);
   }
   necp->next= econtext;
-  necp->jbufp= jbufp;
+  necp->jump = jump;
   necp->cleanups= NULL;
   necp->printerror= printerror;
   necp->contextstring= contextstring;
@@ -130,7 +131,7 @@ static void run_cleanups(struct errorcontext *econ, int flagsetin) {
   struct cleanupentry *volatile cep;
   struct cleanupentry *ncep;
   struct errorcontext recurserr, *oldecontext;
-  jmp_buf recurejbuf;
+  jmp_buf recurse_jump;
   volatile int i, flagset;
 
   if (econ->printerror) econ->printerror(errmsg,econ->contextstring);
@@ -147,10 +148,10 @@ static void run_cleanups(struct errorcontext *econ, int flagsetin) {
   while (cep) {
     for (i=0; i<NCALLS; i++) {
       if (cep->calls[i].call && cep->calls[i].mask & flagset) {
-        if (setjmp(recurejbuf)) {
+        if (setjmp(recurse_jump)) {
           run_cleanups(&recurserr, ehflag_bombout | ehflag_recursiveerror);
         } else {
-          recurserr.jbufp= &recurejbuf;
+          recurserr.jump = &recurse_jump;
           recurserr.cleanups= NULL;
           recurserr.next= NULL;
           recurserr.printerror = print_cleanup_error;
