@@ -99,9 +99,8 @@ run_error_handler(void)
   }
 }
 
-void
-push_error_handler(jmp_buf *jump, error_printer *printerror,
-                   const char *contextstring)
+static struct error_context *
+error_context_new(void)
 {
   struct error_context *necp;
 
@@ -116,12 +115,23 @@ push_error_handler(jmp_buf *jump, error_printer *printerror,
     fprintf(stderr, "%s: %s\n", thisname, errmsgbuf); exit(2);
   }
   necp->next= econtext;
-  necp->jump = jump;
   necp->cleanups= NULL;
-  necp->printerror= printerror;
-  necp->contextstring= contextstring;
   econtext= necp;
-  onerr_abort= 0;
+
+  return necp;
+}
+
+void
+push_error_handler(jmp_buf *jump, error_printer *printerror,
+                   const char *contextstring)
+{
+  struct error_context *ec;
+
+  ec = error_context_new();
+  ec->printerror = printerror;
+  ec->contextstring = contextstring;
+  ec->jump = jump;
+  onerr_abort = 0;
 }
 
 static void
