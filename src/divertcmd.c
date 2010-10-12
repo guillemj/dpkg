@@ -705,6 +705,7 @@ int
 main(int argc, const char * const *argv)
 {
 	jmp_buf ejbuf;
+	const char *env_pkgname;
 	int (*actionfunction)(const char *const *argv);
 	int ret;
 
@@ -714,6 +715,10 @@ main(int argc, const char * const *argv)
 
 	standard_startup(&ejbuf);
 	myopt(&argv, cmdinfos);
+
+	env_pkgname = getenv(MAINTSCRIPTPKGENVVAR);
+	if (!opt_pkgname && env_pkgname)
+		setpackage(NULL, env_pkgname);
 
 	if (!cipaction)
 		setaction(&cmdinfo_add, NULL);
