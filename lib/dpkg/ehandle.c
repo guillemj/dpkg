@@ -49,8 +49,8 @@ volatile int onerr_abort = 0;
 
 #define NCALLS 2
 
-struct cleanupentry {
-  struct cleanupentry *next;
+struct cleanup_entry {
+  struct cleanup_entry *next;
   struct {
     int mask;
     void (*call)(int argc, void **argv);
@@ -63,13 +63,16 @@ struct cleanupentry {
 struct errorcontext {
   struct errorcontext *next;
   jmp_buf *jump;
-  struct cleanupentry *cleanups;
+  struct cleanup_entry *cleanups;
   void (*printerror)(const char *emsg, const char *contextstring);
   const char *contextstring;
 };
 
 static struct errorcontext *volatile econtext= NULL;
-static struct { struct cleanupentry ce; void *args[20]; } emergency;
+static struct {
+  struct cleanup_entry ce;
+  void *args[20];
+} emergency;
 
 void set_error_display(error_printer *printerror,
                        const char *contextstring) {
@@ -128,8 +131,8 @@ print_cleanup_error(const char *emsg, const char *contextstring)
 
 static void run_cleanups(struct errorcontext *econ, int flagsetin) {
   static volatile int preventrecurse= 0;
-  struct cleanupentry *volatile cep;
-  struct cleanupentry *ncep;
+  struct cleanup_entry *volatile cep;
+  struct cleanup_entry *ncep;
   struct errorcontext recurserr, *oldecontext;
   jmp_buf recurse_jump;
   volatile int i, flagset;
@@ -187,10 +190,10 @@ void push_checkpoint(int mask, int value) {
    * where original_flagset is the argument to error_unwind
    * (as modified by any checkpoint which was pushed later).
    */
-  struct cleanupentry *cep;
+  struct cleanup_entry *cep;
   int i;
   
-  cep = malloc(sizeof(struct cleanupentry) + sizeof(char *));
+  cep = malloc(sizeof(struct cleanup_entry) + sizeof(char *));
   if (cep == NULL) {
     onerr_abort++;
     ohshite(_("out of memory for new cleanup entry"));
@@ -206,14 +209,14 @@ void push_checkpoint(int mask, int value) {
 void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
                   void (*call2)(int argc, void **argv), int mask2,
                   unsigned int nargs, ...) {
-  struct cleanupentry *cep;
+  struct cleanup_entry *cep;
   void **argv;
   int e = 0;
   va_list args;
 
   onerr_abort++;
   
-  cep= malloc(sizeof(struct cleanupentry) + sizeof(char*)*(nargs+1));
+  cep = malloc(sizeof(struct cleanup_entry) + sizeof(char *) * (nargs + 1));
   if (!cep) {
     if (nargs > array_count(emergency.args))
       ohshite(_("out of memory for new cleanup entry with many arguments"));
@@ -239,7 +242,7 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
 }
 
 void pop_cleanup(int flagset) {
-  struct cleanupentry *cep;
+  struct cleanup_entry *cep;
   int i;
 
   cep= econtext->cleanups;
