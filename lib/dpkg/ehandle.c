@@ -74,11 +74,14 @@ static struct {
   void *args[20];
 } emergency;
 
+static void set_error_printer(struct error_context *ec,
+                              error_printer *printerror,
+                              const char *contextstring);
+
 void set_error_display(error_printer *printerror,
                        const char *contextstring) {
   assert(econtext);
-  econtext->printerror= printerror;
-  econtext->contextstring= contextstring;
+  set_error_printer(econtext, printerror, contextstring);
 }
 
 static void DPKG_ATTR_NORET
@@ -121,6 +124,14 @@ error_context_new(void)
   return necp;
 }
 
+static void
+set_error_printer(struct error_context *ec, error_printer *printerror,
+                  const char *contextstring)
+{
+  ec->printerror = printerror;
+  ec->contextstring = contextstring;
+}
+
 void
 push_error_handler(jmp_buf *jump, error_printer *printerror,
                    const char *contextstring)
@@ -128,8 +139,7 @@ push_error_handler(jmp_buf *jump, error_printer *printerror,
   struct error_context *ec;
 
   ec = error_context_new();
-  ec->printerror = printerror;
-  ec->contextstring = contextstring;
+  set_error_printer(ec, printerror, contextstring);
   ec->jump = jump;
   onerr_abort = 0;
 }
@@ -170,8 +180,7 @@ run_cleanups(struct error_context *econ, int flagsetin)
           recurserr.jump = &recurse_jump;
           recurserr.cleanups= NULL;
           recurserr.next= NULL;
-          recurserr.printerror = print_cleanup_error;
-          recurserr.contextstring= NULL;
+          set_error_printer(&recurserr, print_cleanup_error, NULL);
           econtext= &recurserr;
           cep->calls[i].call(cep->argc,cep->argv);
         }
