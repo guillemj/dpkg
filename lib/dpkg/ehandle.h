@@ -53,7 +53,6 @@ void push_error_context_jump(jmp_buf *jbufp, error_printer *printerror,
 void push_error_context_func(error_handler *func, error_printer *printerror,
                              const char *contextstring);
 void error_unwind(int flagset);
-void set_error_display(error_printer *printerror, const char *contextstring);
 
 void push_cleanup(void (*f1)(int argc, void **argv), int flagmask1,
                   void (*f2)(int argc, void **argv), int flagmask2,

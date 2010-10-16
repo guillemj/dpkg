@@ -84,16 +84,6 @@ static struct {
   void *args[20];
 } emergency;
 
-static void set_error_printer(struct error_context *ec,
-                              error_printer *printerror,
-                              const char *contextstring);
-
-void set_error_display(error_printer *printerror,
-                       const char *contextstring) {
-  assert(econtext);
-  set_error_printer(econtext, printerror, contextstring);
-}
-
 static void DPKG_ATTR_NORET
 run_error_handler(void)
 {
