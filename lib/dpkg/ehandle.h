@@ -40,13 +40,18 @@ enum {
 	ehflag_recursiveerror = 04
 };
 
+typedef void error_handler(void);
 typedef void error_printer(const char *emsg, const char *contextstring);
 
 void print_fatal_error(const char *emsg, const char *contextstring);
 void catch_fatal_error(void);
 
-void push_error_handler(jmp_buf *jbufp, error_printer *printerror,
-                        const char *contextstring);
+#define push_error_handler push_error_context_jump
+
+void push_error_context_jump(jmp_buf *jbufp, error_printer *printerror,
+                             const char *contextstring);
+void push_error_context_func(error_handler *func, error_printer *printerror,
+                             const char *contextstring);
 void error_unwind(int flagset);
 void set_error_display(error_printer *printerror, const char *contextstring);
 

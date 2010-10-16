@@ -62,7 +62,17 @@ struct cleanup_entry {
 
 struct error_context {
   struct error_context *next;
-  jmp_buf *jump;
+
+  enum {
+    handler_type_func,
+    handler_type_jump,
+  } handler_type;
+
+  union {
+    error_handler *func;
+    jmp_buf *jump;
+  } handler;
+
   struct cleanup_entry *cleanups;
   void (*printerror)(const char *emsg, const char *contextstring);
   const char *contextstring;
@@ -103,8 +113,13 @@ run_error_handler(void)
     fprintf(stderr, _("%s: outside error context, aborting:\n %s\n"),
             thisname, errmsg);
     exit(2);
+  } else if (econtext->handler_type == handler_type_func) {
+    econtext->handler.func();
+    internerr("error handler returned unexpectedly!");
+  } else if (econtext->handler_type == handler_type_jump) {
+    longjmp(*econtext->handler.jump, 1);
   } else {
-    longjmp(*econtext->jump, 1);
+    internerr("unknown error handler type %d!", econtext->handler_type);
   }
 }
 
@@ -131,15 +146,41 @@ set_error_printer(struct error_context *ec, error_printer *printerror,
   ec->contextstring = contextstring;
 }
 
+static void
+set_func_handler(struct error_context *ec, error_handler *func)
+{
+  ec->handler_type = handler_type_func;
+  ec->handler.func = func;
+}
+
+static void
+set_jump_handler(struct error_context *ec, jmp_buf *jump)
+{
+  ec->handler_type = handler_type_jump;
+  ec->handler.jump = jump;
+}
+
 void
-push_error_handler(jmp_buf *jump, error_printer *printerror,
-                   const char *contextstring)
+push_error_context_func(error_handler *func, error_printer *printerror,
+                        const char *contextstring)
 {
   struct error_context *ec;
 
   ec = error_context_new();
   set_error_printer(ec, printerror, contextstring);
-  ec->jump = jump;
+  set_func_handler(ec, func);
+  onerr_abort = 0;
+}
+
+void
+push_error_context_jump(jmp_buf *jump, error_printer *printerror,
+                        const char *contextstring)
+{
+  struct error_context *ec;
+
+  ec = error_context_new();
+  set_error_printer(ec, printerror, contextstring);
+  set_jump_handler(ec, jump);
   onerr_abort = 0;
 }
 
@@ -177,10 +218,10 @@ run_cleanups(struct error_context *econ, int flagsetin)
         if (setjmp(recurse_jump)) {
           run_cleanups(&recurserr, ehflag_bombout | ehflag_recursiveerror);
         } else {
-          recurserr.jump = &recurse_jump;
           recurserr.cleanups= NULL;
           recurserr.next= NULL;
           set_error_printer(&recurserr, print_cleanup_error, NULL);
+          set_jump_handler(&recurserr, &recurse_jump);
           econtext= &recurserr;
           cep->calls[i].call(cep->argc,cep->argv);
         }
