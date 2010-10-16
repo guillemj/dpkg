@@ -114,15 +114,8 @@ error_context_new(void)
   struct error_context *necp;
 
   necp = malloc(sizeof(struct error_context));
-  if (!necp) {
-    int e= errno;
-    snprintf(errmsgbuf, sizeof(errmsgbuf), "%s%s", 
-	    _("out of memory pushing error handler: "), strerror(e));
-    errmsg= errmsgbuf;
-    if (econtext)
-      run_error_handler();
-    fprintf(stderr, "%s: %s\n", thisname, errmsgbuf); exit(2);
-  }
+  if (!necp)
+    ohshite(_("out of memory pushing error handler"));
   necp->next= econtext;
   necp->cleanups= NULL;
   econtext= necp;
