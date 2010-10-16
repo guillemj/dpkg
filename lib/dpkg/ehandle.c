@@ -163,7 +163,8 @@ run_cleanups(struct error_context *econ, int flagsetin)
      
   if (++preventrecurse > 3) {
     onerr_abort++;
-    fprintf(stderr, _("dpkg: too many nested errors during error recovery !!\n"));
+    fprintf(stderr, _("%s: too many nested errors during error recovery!!\n"),
+            thisname);
     flagset= 0;
   } else {
     flagset= flagsetin;

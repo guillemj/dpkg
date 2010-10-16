@@ -289,7 +289,7 @@ searchfiles(const char *const *argv)
       iterfileend(it);
     }
     if (!found) {
-      fprintf(stderr,_("dpkg: %s not found.\n"),thisarg);
+      fprintf(stderr, _("%s: %s not found.\n"), thisname, thisarg);
       failures++;
       m_output(stderr, _("<standard error>"));
     } else {

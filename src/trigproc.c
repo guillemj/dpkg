@@ -245,7 +245,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	/* Oh dear. hare is a superset of tortoise. We are making no progress. */
 	fprintf(stderr, _("%s: cycle found while processing triggers:\n chain of"
 	        " packages whose triggers are or may be responsible:\n"),
-	        DPKG);
+	        thisname);
 	sep = "  ";
 	for (tcn = tortoise; tcn; tcn = tcn->next) {
 		fprintf(stderr, "%s%s", sep, tcn->then_processed->name);
