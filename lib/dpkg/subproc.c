@@ -77,14 +77,6 @@ print_subproc_error(const char *emsg, const char *contextstring)
 	fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
 }
 
-static void DPKG_ATTR_NORET
-subproc_fork_cleanup(int argc, void **argv)
-{
-	/* Don't do the other cleanups, because they'll be done by/in the
-	 * parent process. */
-	exit(2);
-}
-
 pid_t
 subproc_fork(void)
 {
@@ -98,8 +90,9 @@ subproc_fork(void)
 	if (r > 0)
 		return r;
 
-	push_cleanup(subproc_fork_cleanup, ~0, NULL, 0, 0);
-	set_error_display(print_subproc_error, NULL);
+	/* Push a new error context, so that we don't do the other cleanups,
+	 * because they'll be done by/in the parent process. */
+	push_error_context_func(catch_fatal_error, print_subproc_error, NULL);
 
 	return r;
 }
