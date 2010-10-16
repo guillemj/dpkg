@@ -242,6 +242,10 @@ void error_unwind(int flagset) {
 
   tecp= econtext;
   econtext= tecp->next;
+
+  /* If we are cleaning up normally, do not print anything. */
+  if (flagset & ehflag_normaltidy)
+    set_error_printer(tecp, NULL, NULL);
   run_cleanups(tecp,flagset);
   free(tecp);
 }

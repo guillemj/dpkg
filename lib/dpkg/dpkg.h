@@ -115,7 +115,6 @@ DPKG_BEGIN_DECLS
 } while (0)
 
 #define standard_shutdown() do { \
-  set_error_display(NULL, NULL); \
   error_unwind(ehflag_normaltidy);\
 } while (0)
 

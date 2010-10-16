@@ -122,7 +122,6 @@ trigproc_run_deferred(void)
 		pkg->clientdata->trigprocdeferred = NULL;
 		trigproc(pkg);
 
-		set_error_display(NULL, NULL);
 		error_unwind(ehflag_normaltidy);
 	}
 }

@@ -1258,7 +1258,7 @@ void archivefiles(const char *const *argv) {
     m_output(stdout, _("<standard output>"));
     m_output(stderr, _("<standard error>"));
     onerr_abort--;
-    set_error_display(NULL, NULL);
+
     error_unwind(ehflag_normaltidy);
   }
 

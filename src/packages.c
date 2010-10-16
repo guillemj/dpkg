@@ -248,7 +248,7 @@ void process_queue(void) {
     }
     m_output(stdout, _("<standard output>"));
     m_output(stderr, _("<standard error>"));
-    set_error_display(NULL, NULL);
+
     error_unwind(ehflag_normaltidy);
   }
   assert(!queue.length);

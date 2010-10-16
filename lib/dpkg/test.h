@@ -54,7 +54,6 @@ main(int argc, char **argv)
 	test();
 
 	/* Shutdown. */
-	set_error_display(NULL, NULL);
 	error_unwind(ehflag_normaltidy);
 
 	return 0;
