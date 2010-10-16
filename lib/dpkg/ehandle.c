@@ -60,15 +60,15 @@ struct cleanup_entry {
   void *argv[1];
 };         
 
-struct errorcontext {
-  struct errorcontext *next;
+struct error_context {
+  struct error_context *next;
   jmp_buf *jump;
   struct cleanup_entry *cleanups;
   void (*printerror)(const char *emsg, const char *contextstring);
   const char *contextstring;
 };
 
-static struct errorcontext *volatile econtext= NULL;
+static struct error_context *volatile econtext = NULL;
 static struct {
   struct cleanup_entry ce;
   void *args[20];
@@ -103,8 +103,9 @@ void
 push_error_handler(jmp_buf *jump, error_printer *printerror,
                    const char *contextstring)
 {
-  struct errorcontext *necp;
-  necp= malloc(sizeof(struct errorcontext));
+  struct error_context *necp;
+
+  necp = malloc(sizeof(struct error_context));
   if (!necp) {
     int e= errno;
     snprintf(errmsgbuf, sizeof(errmsgbuf), "%s%s", 
@@ -129,11 +130,13 @@ print_cleanup_error(const char *emsg, const char *contextstring)
   fprintf(stderr, _("%s: error while cleaning up:\n %s\n"),thisname,emsg);
 }
 
-static void run_cleanups(struct errorcontext *econ, int flagsetin) {
+static void
+run_cleanups(struct error_context *econ, int flagsetin)
+{
   static volatile int preventrecurse= 0;
   struct cleanup_entry *volatile cep;
   struct cleanup_entry *ncep;
-  struct errorcontext recurserr, *oldecontext;
+  struct error_context recurserr, *oldecontext;
   jmp_buf recurse_jump;
   volatile int i, flagset;
 
@@ -175,7 +178,7 @@ static void run_cleanups(struct errorcontext *econ, int flagsetin) {
 }
 
 void error_unwind(int flagset) {
-  struct errorcontext *tecp;
+  struct error_context *tecp;
 
   tecp= econtext;
   econtext= tecp->next;
