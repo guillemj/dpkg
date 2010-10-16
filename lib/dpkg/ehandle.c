@@ -97,6 +97,12 @@ run_error_handler(void)
     fprintf(stderr, _("%s: unrecoverable fatal error, aborting:\n %s\n"),
             thisname, errmsg);
     exit(2);
+  }
+
+  if (econtext == NULL) {
+    fprintf(stderr, _("%s: outside error context, aborting:\n %s\n"),
+            thisname, errmsg);
+    exit(2);
   } else {
     longjmp(*econtext->jump, 1);
   }
