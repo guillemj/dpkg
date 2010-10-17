@@ -183,7 +183,6 @@ static void setcompresstype(const struct cmdinfo *cip, const char *value) {
 }
 
 int main(int argc, const char *const *argv) {
-  jmp_buf ejbuf;
   dofunction *action;
 
   setlocale(LC_NUMERIC, "POSIX");
@@ -191,7 +190,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  standard_startup(&ejbuf);
+  standard_startup();
   myopt(&argv, cmdinfos);
 
   if (!cipaction) badusage(_("need an action option"));

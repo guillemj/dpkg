@@ -106,11 +106,8 @@ DPKG_BEGIN_DECLS
 
 /*** from startup.c ***/
 
-#define standard_startup(ejbuf) do {\
-  if (setjmp(*ejbuf)) { /* expect warning about possible clobbering of argv */\
-    catch_fatal_error(); \
-  }\
-  push_error_handler(ejbuf, print_fatal_error, NULL); \
+#define standard_startup() do { \
+  push_error_context(); \
   umask(022); /* Make sure all our status databases are readable. */\
 } while (0)
 

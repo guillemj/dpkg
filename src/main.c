@@ -564,7 +564,6 @@ void execbackend(const char *const *argv) {
 }
 
 void commandfd(const char *const *argv) {
-  jmp_buf ejbuf;
   struct varbuf linevb = VARBUF_INIT;
   const char * pipein;
   const char **newargs = NULL;
@@ -587,15 +586,12 @@ void commandfd(const char *const *argv) {
   if ((in= fdopen(infd, "r")) == NULL)
     ohshite(_("couldn't open `%i' for stream"), (int) infd);
 
-  if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
-    catch_fatal_error();
-  }
-
   for (;;) {
     bool mode = false;
     int argc= 1;
     lno= 0;
-    push_error_handler(&ejbuf, print_fatal_error, NULL);
+
+    push_error_context();
 
     do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && isspace(c));
     if (c == EOF) break;
@@ -665,14 +661,13 @@ void commandfd(const char *const *argv) {
 
 
 int main(int argc, const char *const *argv) {
-  jmp_buf ejbuf;
   void (*actionfunction)(const char *const *argv);
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  standard_startup(&ejbuf);
+  standard_startup();
   loadcfgfile(DPKG, cmdinfos);
   myopt(&argv, cmdinfos);
 

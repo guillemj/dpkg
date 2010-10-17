@@ -704,7 +704,6 @@ static const struct cmdinfo cmdinfos[] = {
 int
 main(int argc, const char * const *argv)
 {
-	jmp_buf ejbuf;
 	const char *env_pkgname;
 	int (*actionfunction)(const char *const *argv);
 	int ret;
@@ -713,7 +712,7 @@ main(int argc, const char * const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	standard_startup(&ejbuf);
+	standard_startup();
 	myopt(&argv, cmdinfos);
 
 	env_pkgname = getenv(MAINTSCRIPTPKGENVVAR);

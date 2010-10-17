@@ -672,7 +672,6 @@ static const struct cmdinfo cmdinfos[]= {
 };
 
 int main(int argc, const char *const *argv) {
-  jmp_buf ejbuf;
   int (*actionfunction)(const char *const *argv);
   int ret;
 
@@ -680,7 +679,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  standard_startup(&ejbuf);
+  standard_startup();
   myopt(&argv, cmdinfos);
 
   if (!cipaction) badusage(_("need an action option"));

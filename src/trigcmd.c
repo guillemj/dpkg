@@ -180,7 +180,6 @@ static const struct cmdinfo cmdinfos[] = {
 int
 main(int argc, const char *const *argv)
 {
-	jmp_buf ejbuf;
 	int uf;
 	const char *badname;
 	enum trigdef_updateflags tduf;
@@ -189,7 +188,7 @@ main(int argc, const char *const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	standard_startup(&ejbuf);
+	standard_startup();
 	myopt(&argv, cmdinfos);
 
 	setvbuf(stdout, NULL, _IONBF, 0);

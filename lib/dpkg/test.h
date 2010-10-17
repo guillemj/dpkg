@@ -43,13 +43,7 @@ const char thisname[] = "test";
 int
 main(int argc, char **argv)
 {
-	jmp_buf ejbuf;
-
-	/* Initialize environment. */
-	if (setjmp(ejbuf)) {
-		catch_fatal_error();
-	}
-	push_error_handler(&ejbuf, print_fatal_error, NULL);
+	push_error_context();
 
 	test();
 
