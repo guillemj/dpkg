@@ -174,6 +174,12 @@ push_error_context_jump(jmp_buf *jump, error_printer *printerror,
   onerr_abort = 0;
 }
 
+void
+push_error_context(void)
+{
+  push_error_context_func(catch_fatal_error, print_fatal_error, NULL);
+}
+
 static void
 print_cleanup_error(const char *emsg, const char *contextstring)
 {
