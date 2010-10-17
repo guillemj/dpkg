@@ -498,18 +498,21 @@ urqresult urq_quit(void) {
   return urqr_quitmenu;
 }
 
-int main(int, const char *const *argv) {
-  jmp_buf ejbuf;
+static void
+dselect_catch_fatal_error()
+{
+  cursesoff();
+  catch_fatal_error();
+}
 
+int
+main(int, const char *const *argv)
+{
   setlocale(LC_ALL, "");
   bindtextdomain(DSELECT, LOCALEDIR);
   textdomain(DSELECT);
 
-  if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
-    cursesoff();
-    catch_fatal_error();
-  }
-  push_error_handler(&ejbuf, print_fatal_error, 0);
+  push_error_context_func(dselect_catch_fatal_error, print_fatal_error, 0);
 
   loadcfgfile(DSELECT, cmdinfos);
   myopt(&argv,cmdinfos);
