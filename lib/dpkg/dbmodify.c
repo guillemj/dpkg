@@ -442,11 +442,15 @@ void modstatdb_note(struct pkginfo *pkg) {
     pkg->trigaw.head = pkg->trigaw.tail = NULL;
   }
 
-  log_message("status %s %s %s", pkg_status_name(pkg),
-              pkg_name(pkg, pnaw_always),
-	      versiondescribe(&pkg->installed.version, vdew_nonambig));
-  statusfd_send("status: %s: %s", pkg_name(pkg, pnaw_nonambig),
-                pkg_status_name(pkg));
+  if (pkg->status_dirty) {
+    log_message("status %s %s %s", pkg_status_name(pkg),
+                pkg_name(pkg, pnaw_always),
+                versiondescribe(&pkg->installed.version, vdew_nonambig));
+    statusfd_send("status: %s: %s", pkg_name(pkg, pnaw_nonambig),
+                  pkg_status_name(pkg));
+
+    pkg->status_dirty = false;
+  }
 
   if (cstatus >= msdbrw_write)
     modstatdb_note_core(pkg);

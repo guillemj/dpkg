@@ -47,6 +47,7 @@ pkg_set_status(struct pkginfo *pkg, enum pkgstatus status)
 		          pkg->set->name, pkg->set->installed_instances);
 
 	pkg->status = status;
+	pkg->status_dirty = true;
 }
 
 /**
@@ -115,6 +116,7 @@ void
 pkg_blank(struct pkginfo *pkg)
 {
 	pkg->status = PKG_STAT_NOTINSTALLED;
+	pkg->status_dirty = false;
 	pkg->eflag = PKG_EFLAG_OK;
 	pkg->want = PKG_WANT_UNKNOWN;
 	pkg->priority = PKG_PRIO_UNKNOWN;

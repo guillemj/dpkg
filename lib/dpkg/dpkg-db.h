@@ -216,6 +216,9 @@ struct pkginfo {
   /* ->pend == this, non-NULL for us when Triggers-Pending. */
   struct trigaw *othertrigaw_head;
   struct trigpend *trigpend_head;
+
+  /* The status has changed, it needs to be logged. */
+  bool status_dirty;
 };
 
 /**

@@ -71,6 +71,8 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
   * Only check required build dependencies for known targets specified with
     dpkg-buildpackage --rules-target option.
     Reported by Johannes Schauer <josch@debian.org>.
+  * Track package status dirtiness in dpkg to only log and report in status-fd
+    when it has changed, removing duplication in output. Closes: #365921
   * Architecture support:
     - Add support for riscv64 CPU. Closes: #822914
       Thanks to Manuel A. Fernandez Montecelo <mafm@debian.org>
