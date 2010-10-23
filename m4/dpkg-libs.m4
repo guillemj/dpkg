@@ -96,7 +96,7 @@ AC_CHECK_LIB([ncurses], [initscr],
   [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lncurses"],
   [AC_CHECK_LIB([curses], [initscr],
      [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lcurses"],
-     [AC_MSG_WARN([no curses library found])])])])
+     [AC_MSG_ERROR([no curses library found])])])])
 ])# DPKG_CHECK_LIB_CURSES_NARROW
 
 # DPKG_LIB_CURSES
