@@ -233,7 +233,12 @@ run_cleanups(struct error_context *econ, int flagsetin)
   preventrecurse--;
 }
 
-void error_unwind(int flagset) {
+/**
+ * Unwind the current error context by running its registered cleanups.
+ */
+void
+pop_error_context(int flagset)
+{
   struct error_context *tecp;
 
   tecp= econtext;
@@ -247,10 +252,10 @@ void error_unwind(int flagset) {
 }
 
 void push_checkpoint(int mask, int value) {
-  /* This will arrange that when error_unwind() is called,
+  /* This will arrange that when pop_error_context() is called,
    * all previous cleanups will be executed with
    *  flagset= (original_flagset & mask) | value
-   * where original_flagset is the argument to error_unwind
+   * where original_flagset is the argument to pop_error_context()
    * (as modified by any checkpoint which was pushed later).
    */
   struct cleanup_entry *cep;
@@ -337,7 +342,7 @@ void ohshit(const char *fmt, ...) {
 void
 catch_fatal_error(void)
 {
-  error_unwind(ehflag_bombout);
+  pop_error_context(ehflag_bombout);
   exit(2);
 }
 

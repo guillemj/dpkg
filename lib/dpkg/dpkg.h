@@ -112,7 +112,7 @@ DPKG_BEGIN_DECLS
 } while (0)
 
 #define standard_shutdown() do { \
-  error_unwind(ehflag_normaltidy);\
+  pop_error_context(ehflag_normaltidy); \
 } while (0)
 
 /*** log.c ***/

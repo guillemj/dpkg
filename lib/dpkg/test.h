@@ -47,8 +47,7 @@ main(int argc, char **argv)
 
 	test();
 
-	/* Shutdown. */
-	error_unwind(ehflag_normaltidy);
+	pop_error_context(ehflag_normaltidy);
 
 	return 0;
 }

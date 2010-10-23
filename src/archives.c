@@ -1247,7 +1247,7 @@ void archivefiles(const char *const *argv) {
   
   while ((thisarg = *argp++) != NULL) {
     if (setjmp(ejbuf)) {
-      error_unwind(ehflag_bombout);
+      pop_error_context(ehflag_bombout);
       if (abort_processing)
         break;
       continue;
@@ -1259,7 +1259,7 @@ void archivefiles(const char *const *argv) {
     m_output(stderr, _("<standard error>"));
     onerr_abort--;
 
-    error_unwind(ehflag_normaltidy);
+    pop_error_context(ehflag_normaltidy);
   }
 
   switch (cipaction->arg) {

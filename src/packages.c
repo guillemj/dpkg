@@ -215,7 +215,8 @@ void process_queue(void) {
     if (setjmp(ejbuf)) {
       /* give up on it from the point of view of other packages, ie reset istobe */
       pkg->clientdata->istobe= itb_normal;
-      error_unwind(ehflag_bombout);
+
+      pop_error_context(ehflag_bombout);
       if (abort_processing)
         return;
       continue;
@@ -249,7 +250,7 @@ void process_queue(void) {
     m_output(stdout, _("<standard output>"));
     m_output(stderr, _("<standard error>"));
 
-    error_unwind(ehflag_normaltidy);
+    pop_error_context(ehflag_normaltidy);
   }
   assert(!queue.length);
 }    

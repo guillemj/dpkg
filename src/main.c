@@ -655,7 +655,7 @@ void commandfd(const char *const *argv) {
     actionfunction= (void (*)(const char* const*))cipaction->farg;
     actionfunction(newargs);
 
-    error_unwind(ehflag_normaltidy);
+    pop_error_context(ehflag_normaltidy);
   }
 }
 

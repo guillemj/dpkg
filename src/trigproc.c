@@ -114,7 +114,7 @@ trigproc_run_deferred(void)
 			continue;
 
 		if (setjmp(ejbuf)) {
-			error_unwind(ehflag_bombout);
+			pop_error_context(ehflag_bombout);
 			continue;
 		}
 		push_error_handler(&ejbuf, print_error_perpackage, pkg->name);
@@ -122,7 +122,7 @@ trigproc_run_deferred(void)
 		pkg->clientdata->trigprocdeferred = NULL;
 		trigproc(pkg);
 
-		error_unwind(ehflag_normaltidy);
+		pop_error_context(ehflag_normaltidy);
 	}
 }
 
