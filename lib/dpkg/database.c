@@ -120,7 +120,9 @@ informative(struct pkginfo *pkg, struct pkginfoperfile *info)
   return false;
 }
 
-struct pkginfo *findpackage(const char *inname) {
+struct pkginfo *
+pkg_db_find(const char *inname)
+{
   struct pkginfo **pointerp, *newpkg;
   char *name = m_strdup(inname), *p;
 
@@ -143,7 +145,9 @@ struct pkginfo *findpackage(const char *inname) {
   return newpkg;
 }
 
-int countpackages(void) {
+int
+pkg_db_count(void)
+{
   return npackages;
 }
 
@@ -152,7 +156,9 @@ struct pkgiterator {
   int nbinn;
 };
 
-struct pkgiterator *iterpkgstart(void) {
+struct pkgiterator *
+pkg_db_iter_new(void)
+{
   struct pkgiterator *i;
   i= m_malloc(sizeof(struct pkgiterator));
   i->pigp= NULL;
@@ -160,7 +166,9 @@ struct pkgiterator *iterpkgstart(void) {
   return i;
 }
 
-struct pkginfo *iterpkgnext(struct pkgiterator *i) {
+struct pkginfo *
+pkg_db_iter_next(struct pkgiterator *i)
+{
   struct pkginfo *r;
   while (!i->pigp) {
     if (i->nbinn >= BINS) return NULL;
@@ -169,11 +177,15 @@ struct pkginfo *iterpkgnext(struct pkgiterator *i) {
   r= i->pigp; i->pigp= r->next; return r;
 }
 
-void iterpkgend(struct pkgiterator *i) {
+void
+pkg_db_iter_free(struct pkgiterator *i)
+{
   free(i);
 }
 
-void resetpackages(void) {
+void
+pkg_db_reset(void)
+{
   int i;
   nffreeall();
   npackages= 0;

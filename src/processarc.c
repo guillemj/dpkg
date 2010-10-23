@@ -1029,8 +1029,8 @@ void process_archive(const char *filename) {
    * Conffiles are ignored (the new package had better do something
    * with them !).
    */
-  it= iterpkgstart();
-  while ((otherpkg = iterpkgnext(it)) != NULL) {
+  it = pkg_db_iter_new();
+  while ((otherpkg = pkg_db_iter_next(it)) != NULL) {
     ensure_package_clientdata(otherpkg);
     if (otherpkg == pkg ||
         otherpkg->status == stat_notinstalled ||
@@ -1149,7 +1149,7 @@ void process_archive(const char *filename) {
     modstatdb_note(otherpkg);
 
   } /* while (otherpkg= ... */
-  iterpkgend(it);
+  pkg_db_iter_free(it);
   
   /* Delete files from any other packages' lists.
    * We have to do this before we claim this package is in any

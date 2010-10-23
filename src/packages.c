@@ -60,8 +60,8 @@ enqueue_pending(void)
   struct pkgiterator *it;
   struct pkginfo *pkg;
 
-  it = iterpkgstart();
-  while ((pkg = iterpkgnext(it)) != NULL) {
+  it = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next(it)) != NULL) {
     switch (cipaction->arg) {
     case act_configure:
       if (!(pkg->status == stat_unpacked ||
@@ -93,7 +93,7 @@ enqueue_pending(void)
     }
     add_to_queue(pkg);
   }
-  iterpkgend(it);
+  pkg_db_iter_free(it);
 }
 
 static void
@@ -104,7 +104,7 @@ enqueue_specified(const char *const *argv)
   while ((thisarg = *argv++) != NULL) {
     struct pkginfo *pkg;
 
-    pkg = findpackage(thisarg);
+    pkg = pkg_db_find(thisarg);
     if (pkg->status == stat_notinstalled) {
       size_t l = strlen(pkg->name);
       const char *extension = pkg->name + l - sizeof(DEBEXT) + 1;

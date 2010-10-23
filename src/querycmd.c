@@ -322,7 +322,7 @@ enqperpackage(const char *const *argv)
     modstatdb_init(admindir,msdbrw_readonly);
 
   while ((thisarg = *argv++) != NULL) {
-    pkg= findpackage(thisarg);
+    pkg = pkg_db_find(thisarg);
 
     switch (cipaction->arg) {
       
@@ -574,7 +574,7 @@ control_path(const char *const *argv)
 
   modstatdb_init(admindir, msdbrw_readonly | msdbrw_noavail);
 
-  pkg = findpackage(pkg_name);
+  pkg = pkg_db_find(pkg_name);
   if (pkg->status == stat_notinstalled)
     badusage(_("Package `%s' is not installed.\n"), pkg->name);
 

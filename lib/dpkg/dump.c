@@ -382,8 +382,8 @@ writedb(const char *filename, bool available, bool mustsync)
   if (setvbuf(file,writebuf,_IOFBF,sizeof(writebuf)))
     ohshite(_("unable to set buffering on %s database file"), which);
 
-  it= iterpkgstart();
-  while ((pigp= iterpkgnext(it)) != NULL) {
+  it = pkg_db_iter_new();
+  while ((pigp = pkg_db_iter_next(it)) != NULL) {
     pifp= available ? &pigp->available : &pigp->installed;
     /* Don't dump records which have no useful content. */
     if (!informative(pigp,pifp)) continue;
@@ -394,7 +394,7 @@ writedb(const char *filename, bool available, bool mustsync)
               which, pigp->name, filename);
     varbufreset(&vb);      
   }
-  iterpkgend(it);
+  pkg_db_iter_free(it);
   varbuf_destroy(&vb);
   if (mustsync) {
     if (fflush(file))

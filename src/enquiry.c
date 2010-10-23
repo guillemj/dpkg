@@ -140,8 +140,8 @@ void audit(const char *const *argv) {
     struct pkginfo *pkg;
     bool head = false;
 
-    it= iterpkgstart(); 
-    while ((pkg= iterpkgnext(it))) {
+    it = pkg_db_iter_new();
+    while ((pkg = pkg_db_iter_next(it))) {
       if (!bsi->yesno(pkg,bsi)) continue;
       if (!head_running) {
         if (modstatdb_is_locked(admindir))
@@ -156,7 +156,7 @@ void audit(const char *const *argv) {
       }
       describebriefly(pkg);
     }
-    iterpkgend(it);
+    pkg_db_iter_free(it);
     if (head) putchar('\n');
   }
 
@@ -207,8 +207,8 @@ void unpackchk(const char *const *argv) {
   totalcount= 0;
   sectionentries = NULL;
   sects= 0;
-  it= iterpkgstart(); 
-  while ((pkg= iterpkgnext(it))) {
+  it = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next(it))) {
     if (!yettobeunpacked(pkg, &thissect)) continue;
     for (se= sectionentries; se && strcasecmp(thissect,se->name); se= se->next);
     if (!se) {
@@ -224,33 +224,33 @@ void unpackchk(const char *const *argv) {
     }
     se->count++; totalcount++;
   }
-  iterpkgend(it);
+  pkg_db_iter_free(it);
 
   if (totalcount == 0) exit(0);
   
   if (totalcount <= 12) {
-    it= iterpkgstart(); 
-    while ((pkg= iterpkgnext(it))) {
+    it = pkg_db_iter_new();
+    while ((pkg = pkg_db_iter_next(it))) {
       if (!yettobeunpacked(pkg, NULL))
         continue;
       describebriefly(pkg);
     }
-    iterpkgend(it);
+    pkg_db_iter_free(it);
   } else if (sects <= 12) {
     for (se= sectionentries; se; se= se->next) {
       sprintf(buf,"%d",se->count);
       printf(_(" %d in %s: "),se->count,se->name);
       width= 70-strlen(se->name)-strlen(buf);
       while (width > 59) { putchar(' '); width--; }
-      it= iterpkgstart(); 
-      while ((pkg= iterpkgnext(it))) {
+      it = pkg_db_iter_new();
+      while ((pkg = pkg_db_iter_next(it))) {
         if (!yettobeunpacked(pkg,&thissect)) continue;
         if (strcasecmp(thissect,se->name)) continue;
         width -= strlen(pkg->name); width--;
         if (width < 4) { printf(" ..."); break; }
         printf(" %s",pkg->name);
       }
-      iterpkgend(it);
+      pkg_db_iter_free(it);
       putchar('\n');
     }
   } else {
@@ -282,7 +282,7 @@ assert_version_support(const char *const *argv,
 
   modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
 
-  pkg= findpackage("dpkg");
+  pkg = pkg_db_find("dpkg");
   switch (pkg->status) {
   case stat_installed:
   case stat_triggerspending:
@@ -347,8 +347,8 @@ void predeppackage(const char *const *argv) {
   clear_istobes(); /* We use clientdata->istobe to detect loops */
 
   dep = NULL;
-  it = iterpkgstart();
-  while (!dep && (pkg = iterpkgnext(it))) {
+  it = pkg_db_iter_new();
+  while (!dep && (pkg = pkg_db_iter_next(it))) {
     if (pkg->want != want_install) continue; /* Ignore packages user doesn't want */
     if (!pkg->files) continue; /* Ignore packages not available */
     pkg->clientdata->istobe= itb_preinstall;
@@ -361,7 +361,7 @@ void predeppackage(const char *const *argv) {
     pkg->clientdata->istobe= itb_normal;
     /* If dep is NULL we go and get the next package. */
   }
-  iterpkgend(it);
+  pkg_db_iter_free(it);
 
   if (!dep) exit(1); /* Not found */
   assert(pkg);

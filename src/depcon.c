@@ -158,11 +158,11 @@ findbreakcycle(struct pkginfo *pkg)
   struct pkginfo *tpkg;
 	
   /* Clear the visited flag of all packages before we traverse them. */
-  iter = iterpkgstart();
-  while ((tpkg = iterpkgnext(iter))) {
+  iter = pkg_db_iter_new();
+  while ((tpkg = pkg_db_iter_next(iter))) {
     tpkg->clientdata->color = white;
   }
-  iterpkgend(iter);
+  pkg_db_iter_free(iter);
 
   return findbreakcyclerecursive(pkg, NULL);
 }

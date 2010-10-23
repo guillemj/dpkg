@@ -331,7 +331,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       newpig.want = want_unknown;
     }
 
-    pigp= findpackage(newpig.name);
+    pigp = pkg_db_find(newpig.name);
     pifp= (flags & pdb_recordavailable) ? &pigp->available : &pigp->installed;
 
     if ((flags & pdb_ignoreolder) &&
@@ -375,7 +375,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       for (ta = pigp->trigaw.head; ta; ta = ta->sameaw.next) {
         assert(ta->aw == &newpig);
         ta->aw = pigp;
-        /* ->othertrigaw_head is updated by trig_note_aw in *(findpackage())
+        /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_db_find())
          * rather than in newpig */
       }
 

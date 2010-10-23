@@ -42,13 +42,13 @@ pkg_array_init_from_db(struct pkg_array *a)
 	struct pkginfo *pkg;
 	int i;
 
-	a->n_pkgs = countpackages();
+	a->n_pkgs = pkg_db_count();
 	a->pkgs = m_malloc(sizeof(a->pkgs[0]) * a->n_pkgs);
 
-	it = iterpkgstart();
-	for (i = 0; (pkg = iterpkgnext(it)); i++)
+	it = pkg_db_iter_new();
+	for (i = 0; (pkg = pkg_db_iter_next(it)); i++)
 		a->pkgs[i] = pkg;
-	iterpkgend(it);
+	pkg_db_iter_free(it);
 
 	assert(i == a->n_pkgs);
 }

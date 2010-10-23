@@ -443,13 +443,13 @@ void clear_istobes(void) {
   struct pkgiterator *it;
   struct pkginfo *pkg;
 
-  it= iterpkgstart();
-  while ((pkg = iterpkgnext(it)) != NULL) {
+  it = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next(it)) != NULL) {
     ensure_package_clientdata(pkg);
     pkg->clientdata->istobe= itb_normal;
     pkg->clientdata->replacingfilesandsaid= 0;
   }
-  iterpkgend(it);
+  pkg_db_iter_free(it);
 }
 
 void debug(int which, const char *fmt, ...) {

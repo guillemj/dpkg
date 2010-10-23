@@ -213,17 +213,18 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 
 /*** from database.c ***/
 
-struct pkginfo *findpackage(const char *name);
 void blankpackage(struct pkginfo *pp);
 void blankpackageperfile(struct pkginfoperfile *pifp);
 void blankversion(struct versionrevision*);
 bool informative(struct pkginfo *pkg, struct pkginfoperfile *info);
-int countpackages(void);
-void resetpackages(void);
 
-struct pkgiterator *iterpkgstart(void);
-struct pkginfo *iterpkgnext(struct pkgiterator*);
-void iterpkgend(struct pkgiterator*);
+struct pkginfo *pkg_db_find(const char *name);
+int pkg_db_count(void);
+void pkg_db_reset(void);
+
+struct pkgiterator *pkg_db_iter_new(void);
+struct pkginfo *pkg_db_iter_next(struct pkgiterator *iter);
+void pkg_db_iter_free(struct pkgiterator *iter);
 
 void hashreport(FILE*);
 

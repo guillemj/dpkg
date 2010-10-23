@@ -356,7 +356,7 @@ void packagelist::initialsetup() {
   if (debug)
     fprintf(debug,"packagelist[%p]::initialsetup()\n",this);
 
-  int allpackages= countpackages();
+  int allpackages = pkg_db_count();
   datatable= new struct perpackagestate[allpackages];
 
   nallocated= allpackages+150; // will realloc if necessary, so 150 not critical
@@ -386,8 +386,9 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
   struct pkginfo *pkg;
   
   nitems = 0;
-  iter = iterpkgstart();
-  while ((pkg = iterpkgnext(iter))) {
+
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next(iter))) {
     struct perpackagestate *state= &datatable[nitems];
     state->pkg= pkg;
     if (pkg->status == pkginfo::stat_notinstalled &&
@@ -415,7 +416,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     table[nitems]= state;
     nitems++;
   }
-  iterpkgend(iter);
+  pkg_db_iter_free(iter);
 
   if (!nitems)
     ohshit(_("There are no packages."));

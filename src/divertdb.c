@@ -108,7 +108,7 @@ ensure_diversions(void)
 
 		fgets_must(linebuf, sizeof(linebuf), file, vb.buf);
 		oicontest->pkg = oialtname->pkg = strcmp(linebuf, ":") ?
-		                                  findpackage(linebuf) : NULL;
+		                                  pkg_db_find(linebuf) : NULL;
 
 		if (oialtname->camefrom->divert ||
 		    oicontest->useinstead->divert)

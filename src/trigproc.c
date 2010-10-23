@@ -178,8 +178,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	tcn->pkgs = NULL;
 	tcn->then_processed = processing_now;
 
-	it = iterpkgstart();
-	while ((pkg = iterpkgnext(it))) {
+	it = pkg_db_iter_new();
+	while ((pkg = pkg_db_iter_next(it))) {
 		if (!pkg->trigpend_head)
 			continue;
 		tcpp = nfmalloc(sizeof(*tcpp));
@@ -188,7 +188,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 		tcpp->next = tcn->pkgs;
 		tcn->pkgs = tcpp;
 	}
-	iterpkgend(it);
+	pkg_db_iter_free(it);
 	if (!hare) {
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s first",
 		      processing_now->name);
@@ -368,9 +368,8 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 	struct pkgiterator *it;
 	struct pkginfo *pkg;
 
-	it = iterpkgstart();
-
-	while ((pkg = iterpkgnext(it))) {
+	it = pkg_db_iter_new();
+	while ((pkg = pkg_db_iter_next(it))) {
 		if (pkg->status <= stat_halfinstalled)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
@@ -381,7 +380,8 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		              transitional_interest_callback :
 		              transitional_interest_callback_ro, NULL, pkg);
 	}
-	iterpkgend(it);
+	pkg_db_iter_free(it);
+
 	if (cstatus >= msdbrw_write) {
 		modstatdb_checkpoint();
 		trig_file_interests_save();

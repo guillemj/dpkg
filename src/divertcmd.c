@@ -453,7 +453,7 @@ diversion_add(const char *const *argv)
 	if (opt_pkgname == NULL)
 		pkg = NULL;
 	else
-		pkg = findpackage(opt_pkgname);
+		pkg = pkg_db_find(opt_pkgname);
 
 	/* Check we are not stomping over an existing diversion. */
 	if (fnn_from->divert || fnn_to->divert) {
@@ -528,7 +528,7 @@ diversion_remove(const char *const *argv)
 	if (opt_pkgname == NULL)
 		pkg = NULL;
 	else
-		pkg = findpackage(opt_pkgname);
+		pkg = pkg_db_find(opt_pkgname);
 
 	contest = namenode->divert;
 	altname = contest->useinstead->divert;

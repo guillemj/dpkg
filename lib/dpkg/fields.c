@@ -73,10 +73,8 @@ f_name(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   const char *e;
   if ((e= illegal_packagename(value,NULL)) != NULL)
     parse_error(ps, pigp, _("invalid package name (%.250s)"), e);
-  pigp->name= findpackage(value)->name;
-  /* We use the new name, as findpackage() may have
-     done a tolower for us.
-   */
+  /* We use the new name, as pkg_db_find() may have done a tolower for us. */
+  pigp->name = pkg_db_find(value)->name;
 }
 
 void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
@@ -331,7 +329,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                     fip->name, depname.buf, emsg);
       dop= nfmalloc(sizeof(struct deppossi));
       dop->up= dyp;
-      dop->ed = findpackage(depname.buf);
+      dop->ed = pkg_db_find(depname.buf);
       dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
 
       /* Don't link this (which is after all only ‘newpig’ from
@@ -524,7 +522,7 @@ f_trigaw(struct pkginfo *aw, struct pkginfoperfile *pifp,
       parse_error(ps, aw,
                   _("illegal package name in awaited trigger `%.255s': %s"),
                   word, emsg);
-    pend = findpackage(word);
+    pend = pkg_db_find(word);
 
     if (!trig_note_aw(pend, aw))
       parse_error(ps, aw,

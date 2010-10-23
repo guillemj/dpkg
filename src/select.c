@@ -129,7 +129,7 @@ void setselections(const char *const *argv) {
     if (e) ohshit(_("illegal package name at line %d: %.250s"),lno,e);
     for (nvp=wantinfos; nvp->name && strcmp(nvp->name,selvb.buf); nvp++);
     if (!nvp->name) ohshit(_("unknown wanted status at line %d: %.250s"),lno,selvb.buf);
-    pkg= findpackage(namevb.buf);
+    pkg = pkg_db_find(namevb.buf);
     pkg->want= nvp->value;
     if (c == EOF) break;
     lno++;
@@ -150,12 +150,12 @@ void clearselections(const char *const *argv)
 
   modstatdb_init(admindir, msdbrw_write);
 
-  it = iterpkgstart();
-  while ((pkg = iterpkgnext(it))) {
+  it = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next(it))) {
     if (!pkg->installed.essential)
       pkg->want = want_deinstall;
   }
-  iterpkgend(it);
+  pkg_db_iter_free(it);
 
   modstatdb_shutdown();
 }

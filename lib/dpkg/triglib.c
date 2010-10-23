@@ -155,7 +155,7 @@ trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/)
 
 /* Returns: true for done, false for already noted. */
 /* NB that this is called also from fields.c where *aw is a temporary
- * but pend is from findpackage()! */
+ * but pend is from pkg_db_find()! */
 bool
 trig_note_aw(struct pkginfo *pend, struct pkginfo *aw)
 {
@@ -390,7 +390,7 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 			ohshit(_("trigger interest file `%.250s' syntax error; "
 			         "illegal package name `%.250s': %.250s"),
 			       trk_explicit_fn.buf, buf, emsg);
-		pend = findpackage(buf);
+		pend = pkg_db_find(buf);
 		trig_record_activation(pend, aw, trk_explicit_trig);
 	}
 }
@@ -584,7 +584,7 @@ trig_file_interests_ensure(void)
 			ohshit(_("file triggers record mentions illegal "
 			         "package name `%.250s' (for interest in file "
 				 "`%.250s'): %.250s"), space, linebuf, emsg);
-		pkg = findpackage(space);
+		pkg = pkg_db_find(space);
 		trk_file_interest_change(linebuf, pkg, +2);
 	}
 	pop_cleanup(ehflag_normaltidy);
@@ -742,7 +742,7 @@ tdm_incorp_trig_begin(const char *trig)
 static void
 tdm_incorp_package(const char *awname)
 {
-	struct pkginfo *aw = strcmp(awname, "-") ? findpackage(awname) : NULL;
+	struct pkginfo *aw = strcmp(awname, "-") ? pkg_db_find(awname) : NULL;
 
 	dtki->activate_awaiter(aw);
 }
