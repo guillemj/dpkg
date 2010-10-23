@@ -117,7 +117,8 @@ trigproc_run_deferred(void)
 			pop_error_context(ehflag_bombout);
 			continue;
 		}
-		push_error_handler(&ejbuf, print_error_perpackage, pkg->name);
+		push_error_context_jump(&ejbuf, print_error_perpackage,
+		                        pkg->name);
 
 		pkg->clientdata->trigprocdeferred = NULL;
 		trigproc(pkg);

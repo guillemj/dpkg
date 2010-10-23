@@ -221,7 +221,8 @@ void process_queue(void) {
         return;
       continue;
     }
-    push_error_handler(&ejbuf,print_error_perpackage,pkg->name);
+    push_error_context_jump(&ejbuf, print_error_perpackage, pkg->name);
+
     switch (action_todo) {
     case act_triggers:
       if (!pkg->trigpend_head)

@@ -1252,7 +1252,8 @@ void archivefiles(const char *const *argv) {
         break;
       continue;
     }
-    push_error_handler(&ejbuf,print_error_perpackage,thisarg);
+    push_error_context_jump(&ejbuf, print_error_perpackage, thisarg);
+
     process_archive(thisarg);
     onerr_abort++;
     m_output(stdout, _("<standard output>"));
