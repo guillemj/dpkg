@@ -265,7 +265,7 @@ void do_build(const char *const *argv) {
     strcat(controlfile, "/" BUILDCONTROLDIR "/" CONTROLFILE);
     warns = 0;
     parsedb(controlfile, pdb_recordavailable|pdb_rejectstatus,
-            &checkedinfo, stderr, &warns);
+            &checkedinfo, &warns);
     if (strspn(checkedinfo->name,
                "abcdefghijklmnopqrstuvwxyz0123456789+-.")
         != strlen(checkedinfo->name))

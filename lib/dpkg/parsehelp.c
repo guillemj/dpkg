@@ -72,11 +72,9 @@ parse_warn(struct parsedb_state *ps,
 
   va_start(args, fmt);
   ps->warncount++;
-  if (ps->warnto) {
-    strcat(q,"\n");
-    if (vfprintf(ps->warnto, buf2, args) == EOF)
-      ohshite(_("failed to write parsing warning"));
-  }
+  strcat(q, "\n");
+  if (vfprintf(stderr, buf2, args) == EOF)
+    ohshite(_("failed to write parsing warning"));
   va_end(args);
 }
 

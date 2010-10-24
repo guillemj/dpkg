@@ -80,12 +80,12 @@ void updateavailable(const char *const *argv) {
 
   if (cipaction->arg == act_avmerge)
     parsedb(vb.buf, pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
-            NULL, NULL, NULL);
+            NULL, NULL);
 
   if (cipaction->arg != act_avclear)
     count += parsedb(sourcefile,
 		     pdb_recordavailable | pdb_rejectstatus | pdb_ignoreolder,
-                     NULL, NULL, NULL);
+                     NULL, NULL);
 
   if (!f_noact) {
     writedb(vb.buf,1,0);

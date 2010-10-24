@@ -81,8 +81,9 @@ const struct fieldinfo fieldinfos[]= {
 };
 
 int parsedb(const char *filename, enum parsedbflags flags,
-            struct pkginfo **donep, FILE *warnto, int *warncount) {
-  /* warnto, warncount and donep may be null.
+            struct pkginfo **donep, int *warncount)
+{
+  /* warncount and donep may be null.
    * If donep is not null only one package's information is expected.
    */
   
@@ -106,10 +107,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
   ps.filename = filename;
   ps.flags = flags;
   ps.lno = 0;
-  if (warnto == NULL)
-    ps.warnto = stderr;
-  else
-    ps.warnto = warnto;
   ps.warncount = 0;
 
   newpifp= (flags & pdb_recordavailable) ? &newpig.available : &newpig.installed;

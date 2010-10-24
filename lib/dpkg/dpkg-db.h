@@ -243,7 +243,7 @@ enum parsedbflags {
 
 const char *pkg_name_is_illegal(const char *p, const char **ep);
 int parsedb(const char *filename, enum parsedbflags, struct pkginfo **donep,
-            FILE *warnto, int *warncount);
+            int *warncount);
 void copy_dependency_links(struct pkginfo *pkg,
                            struct dependency **updateme,
                            struct dependency *newdepends,
