@@ -332,7 +332,7 @@ enqperpackage(const char *const *argv)
           !(pkg->section && *pkg->section) &&
           !pkg->files &&
           pkg->want == want_unknown &&
-          !informative(pkg,&pkg->installed)) {
+          !pkg_is_informative(pkg, &pkg->installed)) {
         fprintf(stderr,_("Package `%s' is not installed and no info is available.\n"),pkg->name);
         failures++;
       } else {
@@ -341,7 +341,7 @@ enqperpackage(const char *const *argv)
       break;
 
     case act_printavail:
-      if (!informative(pkg,&pkg->available)) {
+      if (!pkg_is_informative(pkg, &pkg->available)) {
         fprintf(stderr,_("Package `%s' is not available.\n"),pkg->name);
         failures++;
       } else {

@@ -38,7 +38,7 @@ packagelist::useavailable(pkginfo *pkg)
 {
   if (pkg->clientdata &&
       pkg->clientdata->selected == pkginfo::want_install &&
-      informative(pkg,&pkg->available) &&
+      pkg_is_informative(pkg, &pkg->available) &&
       (!(pkg->status == pkginfo::stat_installed ||
          pkg->status == pkginfo::stat_triggersawaited ||
          pkg->status == pkginfo::stat_triggerspending) ||
@@ -133,10 +133,12 @@ static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *tryt
   if (!best) goto yes;
 
   // If only one of the packages is available, use that one
-  if (!informative(trythis,&trythis->available) &&
-      informative(best->pkg,&best->pkg->available)) return 0;
-  if (informative(trythis,&trythis->available) &&
-      !informative(best->pkg,&best->pkg->available)) goto yes;
+  if (!pkg_is_informative(trythis, &trythis->available) &&
+      pkg_is_informative(best->pkg, &best->pkg->available))
+    return 0;
+  if (pkg_is_informative(trythis, &trythis->available) &&
+      !pkg_is_informative(best->pkg, &best->pkg->available))
+    goto yes;
   
   // Select the package with the lowest priority (ie, the one of whom
   // we were least sure we wanted it deselected).

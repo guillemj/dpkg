@@ -93,7 +93,7 @@ void blankpackageperfile(struct pkginfoperfile *pifp) {
 static int nes(const char *s) { return s && *s; }
 
 bool
-informative(struct pkginfo *pkg, struct pkginfoperfile *info)
+pkg_is_informative(struct pkginfo *pkg, struct pkginfoperfile *info)
 {
   /* Used by dselect and dpkg query options as an aid to decide
    * whether to display things, and by dump to decide whether to write them

@@ -216,7 +216,7 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 void blankpackage(struct pkginfo *pp);
 void blankpackageperfile(struct pkginfoperfile *pifp);
 void blankversion(struct versionrevision*);
-bool informative(struct pkginfo *pkg, struct pkginfoperfile *info);
+bool pkg_is_informative(struct pkginfo *pkg, struct pkginfoperfile *info);
 
 struct pkginfo *pkg_db_find(const char *name);
 int pkg_db_count(void);

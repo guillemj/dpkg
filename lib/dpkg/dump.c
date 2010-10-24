@@ -386,7 +386,8 @@ writedb(const char *filename, bool available, bool mustsync)
   while ((pigp = pkg_db_iter_next(it)) != NULL) {
     pifp= available ? &pigp->available : &pigp->installed;
     /* Don't dump records which have no useful content. */
-    if (!informative(pigp,pifp)) continue;
+    if (!pkg_is_informative(pigp, pifp))
+      continue;
     varbufrecord(&vb,pigp,pifp);
     varbufaddc(&vb,'\n'); varbufaddc(&vb,0);
     if (fputs(vb.buf,file) < 0)
