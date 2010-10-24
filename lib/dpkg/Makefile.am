@@ -41,6 +41,7 @@ libdpkg_a_SOURCES = \
 	md5.c md5.h \
 	mlib.c \
 	myopt.c \
+	namevalue.c \
 	nfmalloc.c \
 	parse.c \
 	parsehelp.c \

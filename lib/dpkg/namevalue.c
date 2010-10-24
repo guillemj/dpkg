@@ -1,9 +1,8 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * namevalue.h - name value structure handling
+ * namevalue.c - name value structure handling
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2009-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,25 +18,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LIBDPKG_NAMEVALUE_H
-#define LIBDPKG_NAMEVALUE_H
+#include <config.h>
+#include <compat.h>
 
-#include <dpkg/macros.h>
+#include <stddef.h>
 
-DPKG_BEGIN_DECLS
+#include <dpkg/namevalue.h>
 
-struct namevalue {
-	const char *name;
-	int value;
-	int length;
-};
+const struct namevalue *
+namevalue_find_by_name(const struct namevalue *head, const char *str)
+{
+	const struct namevalue *nv;
 
-#define NAMEVALUE_DEF(n, v) \
-	[v] = { .name = n, .value = v, .length = sizeof(n) - 1 }
+	for (nv = head; nv->name; nv++)
+		if (strncasecmp(str, nv->name, nv->length) == 0)
+			return nv;
 
-const struct namevalue *namevalue_find_by_name(const struct namevalue *head,
-                                               const char *str);
-
-DPKG_END_DECLS
-
-#endif /* LIBDPKG_NAMEVALUE_H */
+	return NULL;
+}
