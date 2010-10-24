@@ -213,8 +213,8 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 
 /*** from database.c ***/
 
-void blankpackage(struct pkginfo *pp);
-void blankpackageperfile(struct pkginfoperfile *pifp);
+void pkg_blank(struct pkginfo *pp);
+void pkg_perfile_blank(struct pkginfoperfile *pifp);
 void blankversion(struct versionrevision*);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkginfoperfile *info);
 

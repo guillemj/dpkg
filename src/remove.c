@@ -577,7 +577,7 @@ void removal_bulk(struct pkginfo *pkg) {
     /* This will mess up reverse links, but if we follow them
      * we won't go back because pkg->status is stat_notinstalled.
      */
-    blankpackageperfile(&pkg->installed);
+    pkg_perfile_blank(&pkg->installed);
   }
       
   pkg->eflag = eflag_ok;

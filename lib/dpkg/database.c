@@ -61,7 +61,9 @@ void blankversion(struct versionrevision *version) {
   version->version= version->revision= NULL;
 }
 
-void blankpackage(struct pkginfo *pigp) {
+void
+pkg_blank(struct pkginfo *pigp)
+{
   pigp->name= NULL;
   pigp->status= stat_notinstalled;
   pigp->eflag = eflag_ok;
@@ -75,11 +77,13 @@ void blankpackage(struct pkginfo *pigp) {
   pigp->trigaw.head = pigp->trigaw.tail = NULL;
   pigp->othertrigaw_head = NULL;
   pigp->trigpend_head = NULL;
-  blankpackageperfile(&pigp->installed);
-  blankpackageperfile(&pigp->available);
+  pkg_perfile_blank(&pigp->installed);
+  pkg_perfile_blank(&pigp->available);
 }
 
-void blankpackageperfile(struct pkginfoperfile *pifp) {
+void
+pkg_perfile_blank(struct pkginfoperfile *pifp)
+{
   pifp->essential = false;
   pifp->depends= NULL;
   pifp->depended= NULL;
@@ -135,7 +139,7 @@ pkg_db_find(const char *inname)
   if (*pointerp) { free(name); return *pointerp; }
 
   newpkg= nfmalloc(sizeof(struct pkginfo));
-  blankpackage(newpkg);
+  pkg_blank(newpkg);
   newpkg->name= nfstrsave(name);
   newpkg->next= NULL;
   *pointerp= newpkg;

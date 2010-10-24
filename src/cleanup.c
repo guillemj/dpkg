@@ -181,7 +181,7 @@ void cu_preinstverynew(int argc, void **argv) {
                         "abort-install", NULL);
   pkg->status= stat_notinstalled;
   pkg->eflag &= ~eflag_reinstreq;
-  blankpackageperfile(&pkg->installed);
+  pkg_perfile_blank(&pkg->installed);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
 }

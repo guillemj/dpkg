@@ -144,7 +144,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   for (;;) { /* loop per package */
     memset(fieldencountered, 0, sizeof(fieldencountered));
-    blankpackage(&newpig);
+    pkg_blank(&newpig);
 
 /* Skip adjacent new lines */
     while(!EOF_mmap(dataptr, endptr)) {

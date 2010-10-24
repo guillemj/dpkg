@@ -29,13 +29,13 @@ test_pkginfo_informative(void)
 {
 	struct pkginfo pkg;
 
-	blankpackage(&pkg);
+	pkg_blank(&pkg);
 	test_fail(pkg_is_informative(&pkg, &pkg.installed));
 
 	pkg.want = want_purge;
 	test_pass(pkg_is_informative(&pkg, &pkg.installed));
 
-	blankpackage(&pkg);
+	pkg_blank(&pkg);
 	pkg.installed.description = "test description";
 	test_pass(pkg_is_informative(&pkg, &pkg.installed));
 
