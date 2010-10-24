@@ -80,9 +80,6 @@ parse_warn(struct parsedb_state *ps,
   va_end(args);
 }
 
-#define NAMEVALUE_DEF(n, v) \
-	[v] = { .name = n, .value = v, .length = sizeof(n) - 1 }
-
 const struct namevalue booleaninfos[] = {
   NAMEVALUE_DEF("no",  false),
   NAMEVALUE_DEF("yes", true),

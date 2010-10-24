@@ -251,10 +251,7 @@ void copy_dependency_links(struct pkginfo *pkg,
 
 /*** from parsehelp.c ***/
 
-struct namevalue {
-  const char *name;
-  int value, length;
-};
+#include <dpkg/namevalue.h>
 
 extern const struct namevalue booleaninfos[];
 extern const struct namevalue priorityinfos[];

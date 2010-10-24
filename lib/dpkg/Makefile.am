@@ -74,6 +74,7 @@ pkginclude_HEADERS = \
 	glob.h \
 	macros.h \
 	myopt.h \
+	namevalue.h \
 	parsedump.h \
 	path.h \
 	pkg.h \
