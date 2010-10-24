@@ -34,10 +34,9 @@
 #include <dpkg/triglib.h>
 
 static int
-convert_string(struct parsedb_state *ps, const char *what, int otherwise,
-               const struct pkginfo *pigp,
-               const char *startp, const struct namevalue *ivip,
-               const char **endpp)
+convert_string(struct parsedb_state *ps, const struct pkginfo *pigp,
+               const char *what, const struct namevalue *ivip,
+               const char *startp, const char **endpp, int otherwise)
 {
   const char *ep;
   const struct namevalue *nvip;
@@ -131,8 +130,8 @@ void f_boolean(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   if (!*value)
     return;
 
-  boolean = convert_string(ps, _("yes/no in boolean field"),
-                           -1, pigp, value, booleaninfos, NULL);
+  boolean = convert_string(ps, pigp, _("yes/no in boolean field"),
+                           booleaninfos, value, NULL, -1);
   PKGPFIELD(pifp, fip->integer, bool) = boolean;
 }
 
@@ -147,8 +146,8 @@ void f_priority(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                 struct parsedb_state *ps,
                 const char *value, const struct fieldinfo *fip) {
   if (!*value) return;
-  pigp->priority = convert_string(ps, _("word in `priority' field"),
-                                  pri_other, pigp, value, priorityinfos, NULL);
+  pigp->priority = convert_string(ps, pigp, _("word in `priority' field"),
+                                  priorityinfos, value, NULL, pri_other);
   if (pigp->priority == pri_other) pigp->otherpriority= nfstrsave(value);
 }
 
@@ -163,12 +162,15 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   if (ps->flags & pdb_recordavailable)
     return;
   
-  pigp->want = convert_string(ps, _("first (want) word in `status' field"),
-                              -1, pigp, value, wantinfos, &ep);
-  pigp->eflag = convert_string(ps, _("second (error) word in `status' field"),
-                               -1, pigp, ep, eflaginfos, &ep);
-  pigp->status = convert_string(ps, _("third (status) word in `status' field"),
-                                -1, pigp, ep, statusinfos, NULL);
+  pigp->want = convert_string(ps, pigp,
+                              _("first (want) word in `status' field"),
+                              wantinfos, value, &ep, -1);
+  pigp->eflag = convert_string(ps, pigp,
+                               _("second (error) word in `status' field"),
+                               eflaginfos, ep, &ep, -1);
+  pigp->status = convert_string(ps, pigp,
+                                _("third (status) word in `status' field"),
+                                statusinfos, ep, NULL, -1);
 }
 
 void f_version(struct pkginfo *pigp, struct pkginfoperfile *pifp,
