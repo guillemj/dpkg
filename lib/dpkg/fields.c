@@ -40,17 +40,13 @@ convert_string(struct parsedb_state *ps, const char *what, int otherwise,
                const char **endpp)
 {
   const char *ep;
-  const struct namevalue *nvip = ivip;
+  const struct namevalue *nvip;
 
   if (!*startp)
     parse_error(ps, pigp, _("%s is missing"), what);
-  while (nvip->name) {
-    if (strncasecmp(nvip->name, startp, nvip->length))
-      nvip++;
-    else
-      break;
-  }
-  if (!nvip->name) {
+
+  nvip = namevalue_find_by_name(ivip, startp);
+  if (nvip == NULL) {
     if (otherwise != -1) return otherwise;
     parse_error(ps, pigp, _("`%.*s' is not allowed for %s"),
                 (int)strnlen(startp, 50), startp, what);
