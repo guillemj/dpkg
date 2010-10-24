@@ -127,7 +127,9 @@ const struct namevalue wantinfos[] = {
   { .name = NULL }
 };
 
-const char *illegal_packagename(const char *p, const char **ep) {
+const char *
+pkg_name_is_illegal(const char *p, const char **ep)
+{
   static const char alsoallowed[]= "-+._"; /* _ is deprecated */
   static char buf[150];
   int c;

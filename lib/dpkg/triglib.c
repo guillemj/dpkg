@@ -272,7 +272,7 @@ trig_classify_byname(const char *name)
 		return &tki_file;
 	}
 
-	if (!illegal_packagename(name, NULL) && !strchr(name, '_'))
+	if (!pkg_name_is_illegal(name, NULL) && !strchr(name, '_'))
 		return &tki_explicit;
 
 invalid:
@@ -386,7 +386,8 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 		        trk_explicit_fn.buf);
 
 	while (trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
-		if ((emsg = illegal_packagename(buf, NULL)))
+		emsg = pkg_name_is_illegal(buf, NULL);
+		if (emsg)
 			ohshit(_("trigger interest file `%.250s' syntax error; "
 			         "illegal package name `%.250s': %.250s"),
 			       trk_explicit_fn.buf, buf, emsg);
@@ -580,7 +581,9 @@ trig_file_interests_ensure(void)
 			ohshit(_("syntax error in file triggers file `%.250s'"),
 			       triggersfilefile);
 		*space++ = '\0';
-		if ((emsg = illegal_packagename(space, NULL)))
+
+		emsg = pkg_name_is_illegal(space, NULL);
+		if (emsg)
 			ohshit(_("file triggers record mentions illegal "
 			         "package name `%.250s' (for interest in file "
 				 "`%.250s'): %.250s"), space, linebuf, emsg);
