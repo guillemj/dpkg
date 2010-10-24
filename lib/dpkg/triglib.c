@@ -40,7 +40,7 @@
 #include <dpkg/triglib.h>
 
 const char *
-illegal_triggername(const char *p)
+trig_name_is_illegal(const char *p)
 {
 	int c;
 
@@ -678,7 +678,7 @@ parse_ci_call(const char *file, const char *cmd, trig_parse_cicb *cb,
 {
 	const char *emsg;
 
-	emsg = illegal_triggername(trig);
+	emsg = trig_name_is_illegal(trig);
 	if (emsg)
 		ohshit(_("triggers ci file `%.250s' contains illegal trigger "
 		         "syntax in trigger name `%.250s': %.250s"),

@@ -36,7 +36,7 @@ DPKG_BEGIN_DECLS
  * we're actually doing real package management work.
  */
 
-const char *illegal_triggername(const char *p);
+const char *trig_name_is_illegal(const char *p);
 
 struct trigfileint {
 	struct pkginfo *pkg;

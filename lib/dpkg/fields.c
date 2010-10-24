@@ -492,7 +492,7 @@ f_trigpend(struct pkginfo *pend, struct pkginfoperfile *pifp,
                   "this context"));
 
   while ((word = scan_word(&value))) {
-    emsg = illegal_triggername(word);
+    emsg = trig_name_is_illegal(word);
     if (emsg)
       parse_error(ps, pend,
                   _("illegal pending trigger name `%.255s': %s"), word, emsg);

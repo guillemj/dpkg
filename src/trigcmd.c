@@ -215,7 +215,8 @@ main(int argc, const char *const *argv)
 		       bypackage, badname);
 
 	activate = argv[0];
-	if ((badname = illegal_triggername(activate)))
+	badname = trig_name_is_illegal(activate);
+	if (badname)
 		badusage(_("invalid trigger name `%.250s': %.250s"),
 		         activate, badname);
 
