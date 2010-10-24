@@ -206,12 +206,12 @@ main(int argc, const char *const *argv)
 	if (!bypackage) {
 		bypackage = getenv(MAINTSCRIPTPKGENVVAR);
 		if (!bypackage)
-			ohshit(_("dpkg-trigger must be called from a maintainer script"
-			       " (or with a --by-package option)"));
+			ohshit(_("must be called from a maintainer script"
+			         " (or with a --by-package option)"));
 	}
 	if (strcmp(bypackage, "-") &&
 	    (badname = illegal_packagename(bypackage, NULL)))
-		ohshit(_("dpkg-trigger: illegal awaited package name `%.250s': %.250s"),
+		ohshit(_("illegal awaited package name '%.250s': %.250s"),
 		       bypackage, badname);
 
 	activate = argv[0];
