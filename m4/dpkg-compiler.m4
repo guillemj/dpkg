@@ -36,7 +36,7 @@ AC_DEFUN([DPKG_COMPILER_OPTIMISATIONS],
 	AS_HELP_STRING([--disable-compiler-optimisations],
 		       [Disable compiler optimisations]),
 [if test "x$enable_compiler_optimisations" = "xno"; then
-	[CFLAGS=$(echo "$CFLAGS" | sed -e "s/ -O[1-9]*\b/ -O0/g")]
+	[CFLAGS=$(echo "$CFLAGS" | sed -e "s/ -O[[1-9]]*\b/ -O0/g")]
 fi])dnl
 ])
 

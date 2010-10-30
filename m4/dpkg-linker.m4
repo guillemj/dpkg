@@ -8,7 +8,7 @@ AC_DEFUN([DPKG_LINKER_OPTIMISATIONS],
 	AS_HELP_STRING([--disable-linker-optimisations],
 		       [Disable linker optimisations]),
 [if test "x$enable_linker_optimisations" = "xno"; then
-	[LDFLAGS=$(echo "$LDFLAGS" | sed -e "s/ -Wl,-O[0-9]*\b//g")]
+	[LDFLAGS=$(echo "$LDFLAGS" | sed -e "s/ -Wl,-O[[0-9]]*\b//g")]
 else
 	[LDFLAGS="$LDFLAGS -Wl,-O1"]
 fi], [LDFLAGS="$LDFLAGS -Wl,-O1"])dnl
