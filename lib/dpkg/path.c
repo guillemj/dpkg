@@ -3,7 +3,7 @@
  * path.c - path handling functions
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -113,39 +113,34 @@ path_quote_filename(char *dst, const char *src, size_t n)
 	if (size == 0)
 		return r;
 
-	while (size > 0) {
-		if (*src == '\0') {
-			*dst = '\0';
-			return r;
-		} else if (*src == '\\') {
-			if (size <= 2) {
-				/* Buffer full. */
-				*dst = '\0';
-				return r;
-			}
+	while (*src) {
+		if (*src == '\\') {
+			size -= 2;
+			if (size <= 0)
+				break;
+
 			*dst++ = '\\';
 			*dst++ = '\\';
 			src++;
-			size -= 2;
 		} else if (((*src) & 0x80) == '\0') {
+			size--;
+			if (size <= 0)
+				break;
+
 			*dst++ = *src++;
-			--size;
 		} else {
-			if (size > 4) {
-				sprintf(dst, "\\%03o",
-				        *(const unsigned char *)src);
-				size -= 4;
-				dst += 4;
-				src++;
-			} else {
-				/* Buffer full. */
-				*dst = '\0';
-				return r;
-			}
+			size -= 4;
+			if (size <= 0)
+				break;
+
+			sprintf(dst, "\\%03o",
+			        *(const unsigned char *)src);
+			dst += 4;
+			src++;
 		}
 	}
-	/* Buffer full. */
-	*(dst - 1) = '\0';
+
+	*dst = '\0';
 
 	return r;
 }
