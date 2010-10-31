@@ -378,16 +378,22 @@ void ohshite(const char *fmt, ...) {
 }
 
 void
+warningv(const char *fmt, va_list args)
+{
+  char buf[1024];
+
+  vsnprintf(buf, sizeof(buf), fmt, args);
+  fprintf(stderr, _("%s: warning: %s\n"), thisname, buf);
+}
+
+void
 warning(const char *fmt, ...)
 {
   va_list args;
-  char buf[1024];
 
   va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
+  warningv(fmt, args);
   va_end(args);
-
-  fprintf(stderr, _("%s: warning: %s\n"), thisname, buf);
 }
 
 void werr(const char *fn) {
