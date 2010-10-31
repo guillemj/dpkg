@@ -76,12 +76,13 @@ AC_DEFUN([DPKG_MMAP],
   AC_ARG_ENABLE([mmap],
     AS_HELP_STRING([--enable-mmap],
                    [enable usage of unrealiable mmap if available]),
-    [
-      AC_CHECK_FUNCS([mmap])
-      AC_DEFINE(USE_MMAP, 1, [Use unreliable mmap support])
-    ],
-    []
-  )
+    [],
+    [enable_mmap=no])
+
+  AS_IF([test "x$enable_mmap" = "xyes"], [
+    AC_CHECK_FUNCS([mmap])
+    AC_DEFINE(USE_MMAP, 1, [Use unreliable mmap support])
+  ])
 ])
 
 # DPKG_FUNC_ASYNC_SYNC

@@ -8,7 +8,7 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS],
 [AC_ARG_ENABLE(compiler-warnings,
 	AS_HELP_STRING([--disable-compiler-warnings],
 	               [Disable additional compiler warnings]),
-	[enable_compiler_warnings=$enableval],
+	[],
 	[enable_compiler_warnings=yes])
 
 WFLAGS="-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers \
@@ -35,9 +35,12 @@ AC_DEFUN([DPKG_COMPILER_OPTIMISATIONS],
 [AC_ARG_ENABLE(compiler-optimisations,
 	AS_HELP_STRING([--disable-compiler-optimisations],
 		       [Disable compiler optimisations]),
-[if test "x$enable_compiler_optimisations" = "xno"; then
-	[CFLAGS=$(echo "$CFLAGS" | sed -e "s/ -O[[1-9]]*\b/ -O0/g")]
-fi])dnl
+	[],
+	[enable_compiler_optimisations=yes])
+
+  AS_IF([test "x$enable_compiler_optimisations" = "xno"], [
+    CFLAGS=$(echo "$CFLAGS" | sed -e "s/ -O[[1-9]]*\b/ -O0/g")
+  ])
 ])
 
 # DPKG_TRY_C99([ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
