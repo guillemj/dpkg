@@ -308,7 +308,9 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
 	    open(FORMAT, "<", "$dir/debian/source/format") ||
 		syserr(_g("cannot read %s"), "$dir/debian/source/format");
 	    $build_format = <FORMAT>;
-	    chomp($build_format);
+	    chomp($build_format) if defined $build_format;
+	    error(_g("%s is empty"), "$dir/debian/source/format")
+		unless defined $build_format and length $build_format;
 	    close(FORMAT);
 	} else {
 	    warning(_g("no source format specified in %s, " .
