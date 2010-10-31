@@ -27,14 +27,22 @@
 #include <dpkg/string.h>
 
 char *
-str_escape_fmt(char *dst, const char *src)
+str_escape_fmt(char *dst, const char *src, size_t n)
 {
 	char *d = dst;
 	const char *s = src;
 
+	if (n == 0)
+		return d;
+
 	while (*s) {
-		if (*s == '%')
+		if (*s == '%') {
+			if (n-- <= 2)
+				break;
 			*d++ = '%';
+		}
+		if (n-- <= 1)
+			break;
 		*d++ = *s++;
 	}
 

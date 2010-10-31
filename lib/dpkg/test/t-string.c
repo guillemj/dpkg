@@ -32,24 +32,35 @@ test_str_escape_fmt(void)
 	char buf[1024], *q;
 
 	memset(buf, 'a', sizeof(buf));
-	q = str_escape_fmt(buf, "");
+	q = str_escape_fmt(buf, "", sizeof(buf));
 	strcpy(q, " end");
 	test_str(buf, ==, " end");
 
 	memset(buf, 'a', sizeof(buf));
-	q = str_escape_fmt(buf, "%");
+	q = str_escape_fmt(buf, "%", sizeof(buf));
 	strcpy(q, " end");
 	test_str(buf, ==, "%% end");
 
 	memset(buf, 'a', sizeof(buf));
-	q = str_escape_fmt(buf, "%%%");
+	q = str_escape_fmt(buf, "%%%", sizeof(buf));
 	strcpy(q, " end");
 	test_str(buf, ==, "%%%%%% end");
 
 	memset(buf, 'a', sizeof(buf));
-	q = str_escape_fmt(buf, "%b%b%c%c%%");
+	q = str_escape_fmt(buf, "%b%b%c%c%%", sizeof(buf));
 	strcpy(q, " end");
 	test_str(buf, ==, "%%b%%b%%c%%c%%%% end");
+
+	/* Test delimited buffer. */
+	memset(buf, 'a', sizeof(buf));
+	q = str_escape_fmt(buf, "%%%", 5);
+	strcpy(q, " end");
+	test_str(buf, ==, "%%%% end");
+
+	memset(buf, 'a', sizeof(buf));
+	q = str_escape_fmt(buf, "%%%", 4);
+	strcpy(q, " end");
+	test_str(buf, ==, "%% end");
 }
 
 static void

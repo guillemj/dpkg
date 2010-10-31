@@ -52,7 +52,7 @@ parse_error(struct parsedb_state *ps,
   char buf1[768], buf2[1000], *q;
 
   parse_error_msg(ps, pigp, _("parse error"), buf1);
-  q = str_escape_fmt(buf2, buf1);
+  q = str_escape_fmt(buf2, buf1, sizeof(buf2));
   strcat(q,fmt);
 
   va_start(args, fmt);
@@ -67,7 +67,7 @@ parse_warn(struct parsedb_state *ps,
   char buf1[768], buf2[1000], *q;
 
   parse_error_msg(ps, pigp, _("warning"), buf1);
-  q = str_escape_fmt(buf2, buf1);
+  q = str_escape_fmt(buf2, buf1, sizeof(buf2));
   strcat(q, fmt);
 
   va_start(args, fmt);
