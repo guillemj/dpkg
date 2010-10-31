@@ -30,15 +30,28 @@
 #if defined(__GNUC__) && (__GNUC__ >= 3)
 #define DPKG_ATTR_UNUSED	__attribute__((unused))
 #define DPKG_ATTR_CONST		__attribute__((const))
+#define DPKG_ATTR_PURE		__attribute__((pure))
+#define DPKG_ATTR_MALLOC	__attribute__((malloc))
 #define DPKG_ATTR_NORET		__attribute__((noreturn))
 #define DPKG_ATTR_PRINTF(n)	__attribute__((format(printf, n, n + 1)))
 #define DPKG_ATTR_VPRINTF(n)	__attribute__((format(printf, n, 0)))
 #else
 #define DPKG_ATTR_UNUSED
 #define DPKG_ATTR_CONST
+#define DPKG_ATTR_PURE
+#define DPKG_ATTR_MALLOC
 #define DPKG_ATTR_NORET
 #define DPKG_ATTR_PRINTF(n)
 #define DPKG_ATTR_VPRINTF(n)
+#endif
+
+#if defined(__GNUC__) && \
+    ((__GNUC__ == 3 && __GNUC_MINOR__ > 2) || __GNUC__ >= 4)
+#define DPKG_ATTR_NONNULL(...)	__attribute__((nonnull(__VA_ARGS__)))
+#define DPKG_ATTR_REQRET	__attribute__((warn_unused_result))
+#else
+#define DPKG_ATTR_NONNULL(...)
+#define DPKG_ATTR_REQRET
 #endif
 
 #if defined(__GNUC__) && (__GNUC__ >= 4)
