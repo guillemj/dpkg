@@ -1324,12 +1324,77 @@ set_what_stop(const char *str)
 	what_stop[sizeof(what_stop) - 1] = '\0';
 }
 
+/*
+ * We want to keep polling for the processes, to see if they've exited, or
+ * until the timeout expires.
+ *
+ * This is a somewhat complicated algorithm to try to ensure that we notice
+ * reasonably quickly when all the processes have exited, but don't spend
+ * too much CPU time polling. In particular, on a fast machine with
+ * quick-exiting daemons we don't want to delay system shutdown too much,
+ * whereas on a slow one, or where processes are taking some time to exit,
+ * we want to increase the polling interval.
+ *
+ * The algorithm is as follows: we measure the elapsed time it takes to do
+ * one poll(), and wait a multiple of this time for the next poll. However,
+ * if that would put us past the end of the timeout period we wait only as
+ * long as the timeout period, but in any case we always wait at least
+ * MIN_POLL_INTERVAL (20ms). The multiple (‘ratio’) starts out as 2, and
+ * increases by 1 for each poll to a maximum of 10; so we use up to between
+ * 30% and 10% of the machine's resources (assuming a few reasonable things
+ * about system performance).
+ */
+static bool
+do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
+{
+	struct timeval stopat, before, after, interval, maxinterval;
+	int r, ratio;
+
+	xgettimeofday(&stopat);
+	stopat.tv_sec += timeout;
+	ratio = 1;
+	for (;;) {
+		xgettimeofday(&before);
+		if (timercmp(&before, &stopat, >))
+			return false;
+
+		do_stop(0, 1, n_killed, n_notkilled, 0);
+		if (!*n_killed)
+			return true;
+
+		xgettimeofday(&after);
+
+		if (!timercmp(&after, &stopat, <))
+			return false;
+
+		if (ratio < 10)
+			ratio++;
+
+		timersub(&stopat, &after, &maxinterval);
+		timersub(&after, &before, &interval);
+		tmul(&interval, ratio);
+
+		if (interval.tv_sec < 0 || interval.tv_usec < 0)
+			interval.tv_sec = interval.tv_usec = 0;
+
+		if (timercmp(&interval, &maxinterval, >))
+			interval = maxinterval;
+
+		if (interval.tv_sec == 0 &&
+		    interval.tv_usec <= MIN_POLL_INTERVAL)
+			interval.tv_usec = MIN_POLL_INTERVAL;
+
+		r = select(0, NULL, NULL, NULL, &interval);
+		if (r < 0 && errno != EINTR)
+			fatal("select() failed for pause");
+	}
+}
+
 static int
 run_stop_schedule(void)
 {
-	int r, position, n_killed, n_notkilled, value, ratio, retry_nr;
+	int position, n_killed, n_notkilled, value, retry_nr;
 	bool anykilled;
-	struct timeval stopat, before, after, interval, maxinterval;
 
 	if (testmode) {
 		if (schedule != NULL) {
@@ -1378,65 +1443,10 @@ run_stop_schedule(void)
 				anykilled = true;
 			goto next_item;
 		case sched_timeout:
- /* We want to keep polling for the processes, to see if they've exited,
-  * or until the timeout expires.
-  *
-  * This is a somewhat complicated algorithm to try to ensure that we
-  * notice reasonably quickly when all the processes have exited, but
-  * don't spend too much CPU time polling.  In particular, on a fast
-  * machine with quick-exiting daemons we don't want to delay system
-  * shutdown too much, whereas on a slow one, or where processes are
-  * taking some time to exit, we want to increase the polling
-  * interval.
-  *
-  * The algorithm is as follows: we measure the elapsed time it takes
-  * to do one poll(), and wait a multiple of this time for the next
-  * poll.  However, if that would put us past the end of the timeout
-  * period we wait only as long as the timeout period, but in any case
-  * we always wait at least MIN_POLL_INTERVAL (20ms).  The multiple
-  * (‘ratio’) starts out as 2, and increases by 1 for each poll to a
-  * maximum of 10; so we use up to between 30% and 10% of the
-  * machine's resources (assuming a few reasonable things about system
-  * performance).
-  */
-			xgettimeofday(&stopat);
-			stopat.tv_sec += value;
-			ratio = 1;
-			for (;;) {
-				xgettimeofday(&before);
-				if (timercmp(&before, &stopat, >))
-					goto next_item;
-
-				do_stop(0, 1, &n_killed, &n_notkilled, 0);
-				if (!n_killed)
-					goto x_finished;
-
-				xgettimeofday(&after);
-
-				if (!timercmp(&after, &stopat, <))
-					goto next_item;
-
-				if (ratio < 10)
-					ratio++;
-
-				timersub(&stopat, &after, &maxinterval);
-				timersub(&after, &before, &interval);
-				tmul(&interval, ratio);
-
-				if (interval.tv_sec < 0 || interval.tv_usec < 0)
-					interval.tv_sec = interval.tv_usec = 0;
-
-				if (timercmp(&interval, &maxinterval, >))
-					interval = maxinterval;
-
-				if (interval.tv_sec == 0 &&
-				    interval.tv_usec <= MIN_POLL_INTERVAL)
-					interval.tv_usec = MIN_POLL_INTERVAL;
-
-				r = select(0, NULL, NULL, NULL, &interval);
-				if (r < 0 && errno != EINTR)
-					fatal("select() failed for pause");
-			}
+			if (do_stop_timeout(value, &n_killed, &n_notkilled))
+				goto x_finished;
+			else
+				goto next_item;
 		default:
 			assert(!"schedule[].type value must be valid");
 		}
