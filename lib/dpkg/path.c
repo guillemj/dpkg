@@ -114,11 +114,10 @@ path_quote_filename(char *dst, const char *src, size_t n)
 		return r;
 
 	while (size > 0) {
-		switch (*src) {
-		case '\0':
+		if (*src == '\0') {
 			*dst = '\0';
 			return r;
-		case '\\':
+		} else if (*src == '\\') {
 			if (size <= 2) {
 				/* Buffer full. */
 				*dst = '\0';
@@ -128,23 +127,20 @@ path_quote_filename(char *dst, const char *src, size_t n)
 			*dst++ = '\\';
 			src++;
 			size -= 2;
-			break;
-		default:
-			if (((*src) & 0x80) == '\0') {
-				*dst++ = *src++;
-				--size;
+		} else if (((*src) & 0x80) == '\0') {
+			*dst++ = *src++;
+			--size;
+		} else {
+			if (size > 4) {
+				sprintf(dst, "\\%03o",
+				        *(const unsigned char *)src);
+				size -= 4;
+				dst += 4;
+				src++;
 			} else {
-				if (size > 4) {
-					sprintf(dst, "\\%03o",
-					        *(const unsigned char *)src);
-					size -= 4;
-					dst += 4;
-					src++;
-				} else {
-					/* Buffer full. */
-					*dst = '\0';
-					return r;
-				}
+				/* Buffer full. */
+				*dst = '\0';
+				return r;
 			}
 		}
 	}
