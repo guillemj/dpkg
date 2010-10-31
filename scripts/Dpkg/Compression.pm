@@ -154,7 +154,7 @@ C<compression_set_default> has been used to change it.
 
 =item compression_set_default($comp)
 
-Change the default compression methode. Errors out if the
+Change the default compression method. Errors out if the
 given compression method is not supported.
 
 =cut
