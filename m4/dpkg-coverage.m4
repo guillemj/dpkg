@@ -10,7 +10,7 @@ AC_ARG_ENABLE(coverage,
 	               [whether to enable code coverage]),
 	[],
 	[enable_coverage=no])
-AM_CONDITIONAL(COVERAGE_ENABLED, test x$enable_coverage = xyes)
+AM_CONDITIONAL(COVERAGE_ENABLED, [test x$enable_coverage = xyes])
 
 if test "x$enable_coverage" = "xyes"; then
    if test "x$GCC" = "xno"; then
