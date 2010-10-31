@@ -187,8 +187,6 @@ void packagelist::redraw1itemsel(int index, int selected) {
       wmove(listpad, screenline, priority_column - 1);
       waddch(listpad, ' ');
       if (pkg->priority == pkginfo::pri_other) {
-        int i;
-        const char *p;
         for (i=priority_width, p=pkg->otherpriority;
              i > 0 && *p;
              i--, p++)
