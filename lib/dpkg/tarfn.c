@@ -183,9 +183,8 @@ tar_header_checksum(struct tar_header *h)
 }
 
 static int
-tar_header_decode(char *block, struct tar_entry *d)
+tar_header_decode(struct tar_header *h, struct tar_entry *d)
 {
-	struct tar_header *h = (struct tar_header *)block;
 	struct passwd *passwd = NULL;
 	struct group *group = NULL;
 
@@ -257,7 +256,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 	while ((status = ops->read(ctx, buffer, TARBLKSZ)) == TARBLKSZ) {
 		int name_len;
 
-		if (!tar_header_decode(buffer, &h)) {
+		if (!tar_header_decode((struct tar_header *)buffer, &h)) {
 			if (h.name[0] == '\0') {
 				/* End of tape. */
 				status = 0;
