@@ -158,16 +158,37 @@ get_unix_mode(struct tar_header *h)
 	return mode;
 }
 
+static bool
+tar_header_checksum(struct tar_header *h)
+{
+	unsigned char *s = (unsigned char *)h;
+	unsigned int i;
+	long checksum;
+	long sum;
+
+	checksum = OtoL(h->checksum, sizeof(h->checksum));
+
+	/* Treat checksum field as all blank. */
+	sum = ' ' * sizeof(h->checksum);
+
+	for (i = checksum_offset; i > 0; i--)
+		sum += *s++;
+
+	/* Skip the real checksum field. */
+	s += sizeof(h->checksum);
+
+	for (i = TARBLKSZ - checksum_offset - sizeof(h->checksum); i > 0; i--)
+		sum += *s++;
+
+	return (sum == checksum);
+}
+
 static int
 tar_header_decode(char *block, struct tar_entry *d)
 {
 	struct tar_header *h = (struct tar_header *)block;
-	unsigned char *s = (unsigned char *)block;
 	struct passwd *passwd = NULL;
 	struct group *group = NULL;
-	unsigned int i;
-	long sum;
-	long checksum;
 
 	if (memcmp(h->magic, TAR_MAGIC_GNU, 6) == 0)
 		d->format = tar_format_gnu;
@@ -206,18 +227,7 @@ tar_header_decode(char *block, struct tar_entry *d)
 	else
 		d->stat.gid = (gid_t)OtoL(h->gid, sizeof(h->gid));
 
-	checksum = OtoL(h->checksum, sizeof(h->checksum));
-
-	/* Treat checksum field as all blank. */
-	sum = ' ' * sizeof(h->checksum);
-	for (i = checksum_offset; i > 0; i--)
-		sum += *s++;
-	/* Skip the real checksum field. */
-	s += sizeof(h->checksum);
-	for (i = TARBLKSZ - checksum_offset - sizeof(h->checksum); i > 0; i--)
-		sum += *s++;
-
-	return (sum == checksum);
+	return tar_header_checksum(h);
 }
 
 struct symlinkList {
