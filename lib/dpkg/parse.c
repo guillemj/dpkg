@@ -43,6 +43,9 @@
 #include <dpkg/parsedump.h>
 #include <dpkg/buffer.h>
 
+/**
+ * Fields information.
+ */
 const struct fieldinfo fieldinfos[]= {
   /* Note: Capitalization of field name strings is important. */
   { "Package",          f_name,            w_name                                     },

@@ -26,6 +26,15 @@
 
 #include <dpkg/string.h>
 
+/**
+ * Escape format characters from a string.
+ *
+ * @param dst The destination string.
+ * @param src The source string.
+ * @param n The size of the destination buffer.
+ *
+ * @return The end of the destination string.
+ */
 char *
 str_escape_fmt(char *dst, const char *src, size_t n)
 {

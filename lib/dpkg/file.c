@@ -84,6 +84,9 @@ file_unlock_cleanup(int argc, void **argv)
 		ohshite(_("unable to unlock %s"), lock_desc);
 }
 
+/**
+ * Unlock a previously locked file.
+ */
 void
 file_unlock(void)
 {

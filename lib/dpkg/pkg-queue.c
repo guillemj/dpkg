@@ -26,6 +26,11 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-queue.h>
 
+/**
+ * Initialize a package queue.
+ *
+ * @param queue The queue to initialize.
+ */
 void
 pkg_queue_init(struct pkg_queue *queue)
 {
@@ -34,6 +39,13 @@ pkg_queue_init(struct pkg_queue *queue)
 	queue->length = 0;
 }
 
+/**
+ * Destroy a package queue.
+ *
+ * It frees the contained package list and resets the queue members.
+ *
+ * @param queue The queue to destroy.
+ */
 void
 pkg_queue_destroy(struct pkg_queue *queue)
 {
@@ -41,12 +53,27 @@ pkg_queue_destroy(struct pkg_queue *queue)
 	pkg_queue_init(queue);
 }
 
+/**
+ * Check if a package queue is empty.
+ *
+ * @param queue The queue to check.
+ *
+ * @return A boolean value.
+ */
 int
 pkg_queue_is_empty(struct pkg_queue *queue)
 {
 	return (queue->head == NULL);
 }
 
+/**
+ * Push a new node containing pkginfo to the tail of the queue.
+ *
+ * @param queue The queue to insert to.
+ * @param pkg The package to use fo the new node.
+ *
+ * @return The newly inserted pkg_list node.
+ */
 struct pkg_list *
 pkg_queue_push(struct pkg_queue *queue, struct pkginfo *pkg)
 {
@@ -66,6 +93,16 @@ pkg_queue_push(struct pkg_queue *queue, struct pkginfo *pkg)
 	return node;
 }
 
+/**
+ * Pop a node containing pkginfo from the head of the queue.
+ *
+ * This removes and frees the node from the queue, effectively reducing its
+ * size.
+ *
+ * @param queue The queue to remove from.
+ *
+ * @return The pkginfo from the removed node, or NULL if the queue was empty.
+ */
 struct pkginfo *
 pkg_queue_pop(struct pkg_queue *queue)
 {

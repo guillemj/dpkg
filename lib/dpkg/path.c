@@ -30,6 +30,15 @@
 #include <dpkg/varbuf.h>
 #include <dpkg/path.h>
 
+/**
+ * Trim ‘/’ and ‘/.’ from the end of a pathname.
+ *
+ * The given string will get NUL-terminatd.
+ *
+ * @param path The pathname to trim.
+ *
+ * @return The size of the trimmed pathname.
+ */
 size_t
 path_rtrim_slash_slashdot(char *path)
 {
@@ -48,6 +57,13 @@ path_rtrim_slash_slashdot(char *path)
 	return end - path + 1;
 }
 
+/**
+ * Skip ‘/’ and ‘./’ from the beginning of a pathname.
+ *
+ * @param path The pathname to skip.
+ *
+ * @return The new beginning of the pathname.
+ */
 const char *
 path_skip_slash_dotslash(const char *path)
 {

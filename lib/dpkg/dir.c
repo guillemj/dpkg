@@ -35,6 +35,12 @@
 #include <dpkg/varbuf.h>
 #include <dpkg/dir.h>
 
+/**
+ * Sync a directory to disk from a DIR structure.
+ *
+ * @param dir The directory to sync.
+ * @param path The name of the directory to sync (for error messages).
+ */
 void
 dir_sync(DIR *dir, const char *path)
 {
@@ -49,6 +55,11 @@ dir_sync(DIR *dir, const char *path)
 		ohshite(_("unable to sync directory '%s'"), path);
 }
 
+/**
+ * Sync a directory to disk from a pathname.
+ *
+ * @param path The name of the directory to sync.
+ */
 void
 dir_sync_path(const char *path)
 {
@@ -63,6 +74,11 @@ dir_sync_path(const char *path)
 	closedir(dir);
 }
 
+/**
+ * Sync to disk the parent directory of a pathname.
+ *
+ * @param path The child pathname of the directory to sync.
+ */
 void
 dir_sync_path_parent(const char *path)
 {
@@ -100,6 +116,11 @@ dir_file_sync(const char *dir, const char *filename)
 	varbuf_destroy(&path);
 }
 
+/**
+ * Sync to disk the contents and the directory specified.
+ *
+ * @param path The pathname to sync.
+ */
 void
 dir_sync_contents(const char *path)
 {

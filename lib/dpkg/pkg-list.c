@@ -27,6 +27,14 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-list.h>
 
+/**
+ * Create a new package list node.
+ *
+ * @param pkg The pkginfo to assign to the node.
+ * @param next The next package list node.
+ *
+ * @return The new package list node.
+ */
 struct pkg_list *
 pkg_list_new(struct pkginfo *pkg, struct pkg_list *next)
 {
@@ -39,6 +47,11 @@ pkg_list_new(struct pkginfo *pkg, struct pkg_list *next)
 	return node;
 }
 
+/**
+ * Free all nodes of a package list.
+ *
+ * @param head The head of the list to free.
+ */
 void
 pkg_list_free(struct pkg_list *head)
 {
@@ -52,6 +65,12 @@ pkg_list_free(struct pkg_list *head)
 	}
 }
 
+/**
+ * Prepend a package list node to a package list.
+ *
+ * @param head The head of the list to prepend to.
+ * @param pkg The pkginfo to prepend to the list.
+ */
 void
 pkg_list_prepend(struct pkg_list **head, struct pkginfo *pkg)
 {

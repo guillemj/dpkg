@@ -31,6 +31,9 @@ struct pkg_queue {
 	int length;
 };
 
+/**
+ * Initializer for a package queue.
+ */
 #define PKG_QUEUE_INIT \
 	(struct pkg_queue){ .head = NULL, .tail = NULL, .length = 0 }
 
