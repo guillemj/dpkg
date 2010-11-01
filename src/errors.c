@@ -56,7 +56,7 @@ static struct error_report emergency;
 
 void print_error_perpackage(const char *emsg, const char *arg) {
   struct error_report *nr;
-  
+
   fprintf(stderr, _("%s: error processing %s (--%s):\n %s\n"),
           thisname, arg, cipaction->olong, emsg);
 
@@ -74,7 +74,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   nr->next = NULL;
   *lastreport= nr;
   lastreport= &nr->next;
-    
+
   if (nerrs++ < errabort) return;
   fprintf(stderr, _("%s: too many errors, stopping\n"), thisname);
   abort_processing = true;

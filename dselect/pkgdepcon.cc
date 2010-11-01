@@ -56,10 +56,10 @@ pkginfoperfile *packagelist::findinfo(pkginfo *pkg) {
 
   return r;
 }
-  
+
 int packagelist::checkdependers(pkginfo *pkg, int changemade) {
   struct deppossi *possi;
-  
+
   for (possi = pkg->available.depended; possi; possi = possi->rev_next) {
     if (!useavailable(possi->up->up))
       continue;
@@ -119,7 +119,7 @@ int packagelist::resolvesuggest() {
 static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *trythis) {
   // There's no point trying to select a pure virtual package.
   if (!trythis->clientdata) return 0;
-  
+
   if (depdebug && debug)
     fprintf(debug,"update_best_to_change(best=%s{%d}, test=%s{%d});\n",
             best ? best->pkg->name : "", best ? (int)best->spriority : -1,
@@ -139,7 +139,7 @@ static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *tryt
   if (pkg_is_informative(trythis, &trythis->available) &&
       !pkg_is_informative(best->pkg, &best->pkg->available))
     goto yes;
-  
+
   // Select the package with the lowest priority (ie, the one of whom
   // we were least sure we wanted it deselected).
   if (trythis->clientdata->spriority > best->spriority) return 0;
@@ -151,7 +151,7 @@ static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *tryt
 
   // If we're still unsure we'll change the first one in the list.
   return 0;
-  
+
  yes:
   if (depdebug && debug) fprintf(debug,"update_best_to_change(); yes\n");
 
@@ -166,16 +166,16 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
 
   if (!er || !would_like_to_install(er->selected,per) ||
       !ed || !would_like_to_install(ed->selected,ped)) return 0;
-  
+
   add(dep, dp_must);
 
   er= per->clientdata;  // these can be changed by add
   ed= ped->clientdata;
-  
+
   if (depdebug && debug)
     fprintf(debug,"packagelist[%p]::deselect_one_of(): er %s{%d} ed %s{%d} [%p]\n",
             this, er->pkg->name, er->spriority, ed->pkg->name, ed->spriority, dep);
-  
+
   perpackagestate *best;
 
   // Try not keep packages needing reinstallation.
@@ -221,7 +221,7 @@ int packagelist::resolvedepcon(dependency *depends) {
             ? wantstrings[depends->up->clientdata->suggested]
             : "(no clientdata)");
   }
-  
+
   if (!depends->up->clientdata) return 0;
 
   switch (depends->type) {
@@ -239,7 +239,7 @@ int packagelist::resolvedepcon(dependency *depends) {
       return 0;
 
     fixbyupgrade= 0;
-    
+
     possi = depends->list;
     while (possi && !deppossatisfied(possi, &fixbyupgrade))
       possi = possi->next;
@@ -255,7 +255,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     case dep_suggests:
     	r= add(depends, dp_may);
 	return r;
-    case dep_recommends: 
+    case dep_recommends:
     	r= add(depends, dp_should);
 	break;
     default:
@@ -300,7 +300,7 @@ int packagelist::resolvedepcon(dependency *depends) {
       best->spriority= sp_selecting;
     }
     return r ? 2 : 0;
-    
+
   mustdeselect:
     best= depends->up->clientdata;
     if (depdebug && debug)
@@ -316,14 +316,14 @@ int packagelist::resolvedepcon(dependency *depends) {
       best->spriority= sp_deselecting;
     }
     return r ? 2 : 0;
-    
+
   case dep_conflicts:
   case dep_breaks:
 
     if (depdebug && debug)
       fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): conflict\n",
               this,depends);
-    
+
     if (would_like_to_install(depends->up->clientdata->selected,depends->up) == 0)
       return 0;
 
@@ -350,7 +350,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (depdebug && debug)
       fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): no desel\n", this,depends);
     return 0;
-    
+
   default:
     internerr("unknown deptype");
   }
@@ -365,14 +365,14 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
   //  restriction is violated ie that the target package is wanted
   int would;
   pkginfo::pkgwant want= pkginfo::want_purge;
-  
+
   if (possi->ed->clientdata) {
     want= possi->ed->clientdata->selected;
     would= would_like_to_install(want,possi->ed);
   } else {
     would= 0;
   }
-  
+
   if ((possi->up->type == dep_conflicts || possi->up->type == dep_breaks)
       ? possi->up->up != possi->ed && would != 0
       : would > 0) {

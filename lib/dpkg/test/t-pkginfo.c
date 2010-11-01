@@ -49,4 +49,3 @@ test(void)
 
 	/* FIXME: Complete. */
 }
-

@@ -247,7 +247,7 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
     m_output(stdout, _("<standard output>"));
     exit(0);
   }
-  
+
   f_debug= strtoul(value,&endp,8);
   if (value == endp || *endp) badusage(_("--debug requires an octal argument"));
 }
@@ -489,7 +489,7 @@ static const struct cmdinfo cmdinfos[]= {
 /*
   ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),
 */
-  
+
   { "pre-invoke",        0,   1, NULL,          NULL,      set_invoke_hook, 0, &pre_invoke_hooks_tail },
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
   { "path-exclude",      0,   1, NULL,          NULL,      setfilter,     0 },
@@ -661,7 +661,6 @@ void commandfd(const char *const *argv) {
     pop_error_context(ehflag_normaltidy);
   }
 }
-
 
 int main(int argc, const char *const *argv) {
   void (*actionfunction)(const char *const *argv);

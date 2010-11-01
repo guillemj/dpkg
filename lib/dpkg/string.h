@@ -31,4 +31,3 @@ char *str_strip_quotes(char *str);
 DPKG_END_DECLS
 
 #endif /* LIBDPKG_STRING_H */
-

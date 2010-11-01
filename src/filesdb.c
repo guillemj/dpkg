@@ -260,7 +260,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   filelistfile= pkgadminfile(pkg,LISTFILE);
 
   onerr_abort++;
-  
+
   fd= open(filelistfile,O_RDONLY);
 
   if (fd==-1) {
@@ -278,7 +278,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   }
 
   push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
-  
+
    if(fstat(fd, &stat_buf))
      ohshite(_("unable to stat files list file for package '%.250s'"),
              pkg->name);
@@ -286,13 +286,13 @@ ensure_packagefiles_available(struct pkginfo *pkg)
    if (stat_buf.st_size) {
      loaded_list = nfmalloc(stat_buf.st_size);
      loaded_list_end = loaded_list + stat_buf.st_size;
-  
+
     fd_buf_copy(fd, loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
-  
+
     lendp= &pkg->clientdata->files;
     thisline = loaded_list;
     while (thisline < loaded_list_end) {
-      if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline))) 
+      if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
         ohshit(_("files list file for package '%.250s' is missing final newline"),
                pkg->name);
       /* Where to start next time around. */
@@ -473,7 +473,7 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   varbufaddstr(&newvb,vb.buf);
   varbufaddstr(&newvb,NEWDBEXT);
   varbufaddc(&newvb,0);
-  
+
   file= fopen(newvb.buf,"w+");
   if (!file)
     ohshite(_("unable to create updated files list file for package %s"),pkg->name);
@@ -512,7 +512,7 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
 void reversefilelist_init(struct reversefilelistiter *iterptr,
                           struct fileinlist *files) {
   struct fileinlist *newent;
-  
+
   iterptr->todo = NULL;
   while (files) {
     newent= m_malloc(sizeof(struct fileinlist));

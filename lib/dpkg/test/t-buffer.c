@@ -46,4 +46,3 @@ test(void)
 {
 	test_buffer_hash();
 }
-

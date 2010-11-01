@@ -156,4 +156,3 @@ path_quote_filename(char *dst, const char *src, size_t n)
 
 	return r;
 }
-

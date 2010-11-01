@@ -246,4 +246,3 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 
 	return totalread;
 }
-

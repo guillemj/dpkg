@@ -237,4 +237,3 @@ trigdef_process_done(void)
 	/* Unlock. */
 	pop_cleanup(ehflag_normaltidy);
 }
-

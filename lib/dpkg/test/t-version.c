@@ -152,4 +152,3 @@ test(void)
 	test_version_compare();
 	test_version_parse();
 }
-

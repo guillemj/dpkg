@@ -103,4 +103,3 @@ statusfd_send(const char *fmt, ...)
 		}
 	}
 }
-

@@ -91,7 +91,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
   }
 
   if (debug) fprintf(debug,"readmethods(`%s',...) directory open\n", pathbase);
-  
+
   while ((dent= readdir(dir)) != 0) {
     c= dent->d_name[0];
     if (debug) fprintf(debug,"readmethods(`%s',...) considering `%s' ...\n",
@@ -106,7 +106,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       ohshit(_("method `%.250s' has name that is too long (%d > %d characters)"),
              dent->d_name, methodlen, IMETHODMAXLEN);
     /* Check if there is a localized version of this method */
-    
+
     strcpy(pathmeth, dent->d_name);
     strcpy(pathmeth+methodlen, "/");
     pathinmeth= pathmeth+methodlen+1;
@@ -137,7 +137,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     if (debug) fprintf(debug," readmethods(`%s',...) new method"
                        " name=`%s' path=`%s' pathinmeth=`%s'\n",
                        pathbase, meth->name, meth->path, meth->pathinmeth);
-    
+
     while ((c= fgetc(names)) != EOF) {
       if (isspace(c)) continue;
       opt= new dselect_option;
@@ -181,7 +181,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       } while (c != '\n');
       opt->summary= new char[strlen(vb.string())+1];
       strcpy(opt->summary,vb.string());
-      
+
       strcpy(pathinmeth,OPTIONSDESCPFX);
       strcpy(pathinmeth+sizeof(OPTIONSDESCPFX)-1,opt->name);
       descfile= fopen(pathbuf,"r");
@@ -202,7 +202,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
         fclose(descfile);
       }
       strcpy(pathinmeth,METHODOPTIONSFILE);
-      
+
       if (debug) fprintf(debug," readmethods(`%s',...) new option"
                          " index=`%s' name=`%s' summary=`%.20s'"
                          " strlen(description=%s)=%ld"
@@ -237,7 +237,7 @@ void getcurrentopt() {
   int l;
   int admindirlen;
   char *p;
-  
+
   if (!methoptfile) {
     admindirlen= strlen(admindir);
     methoptfile= new char[admindirlen + sizeof(CMETHOPTFILE) + 2];

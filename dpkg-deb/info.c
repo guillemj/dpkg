@@ -63,14 +63,14 @@ static void cu_info_prepare(int argc, void **argv) {
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
   subproc_wait_check(c1, _("rm command for cleanup"), 0);
-} 
+}
 
 static void info_prepare(const char *const **argvp,
                          const char **debarp,
                          const char **directoryp,
                          int admininfo) {
   char *dbuf;
-  
+
   *debarp= *(*argvp)++;
   if (!*debarp) badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
 
@@ -289,7 +289,7 @@ void do_field(const char *const *argv) {
 
 void do_contents(const char *const *argv) {
   const char *debar;
-  
+
   if (!(debar= *argv++) || *argv) badusage(_("--contents takes exactly one argument"));
   extracthalf(debar, NULL, "tv", 0);
 }

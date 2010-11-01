@@ -181,4 +181,3 @@ command_exec(struct command *cmd)
 		execvp(cmd->filename, (char * const *)cmd->argv);
 	ohshite(_("unable to execute %s (%s)"), cmd->name, cmd->filename);
 }
-

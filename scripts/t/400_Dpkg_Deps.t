@@ -81,4 +81,3 @@ $SIG{'__WARN__'} = sub {};
 my $dep_bad_multiline = deps_parse("a, foo\nbar, c");
 ok(!defined($dep_bad_multiline), "invalid dependency split over multiple line");
 delete $SIG{'__WARN__'};
-

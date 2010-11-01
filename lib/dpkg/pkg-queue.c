@@ -124,4 +124,3 @@ pkg_queue_pop(struct pkg_queue *queue)
 
 	return pkg;
 }
-

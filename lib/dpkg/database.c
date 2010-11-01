@@ -134,7 +134,7 @@ pkg_db_find(const char *inname)
 
   p= name;
   while(*p) { *p= tolower(*p); p++; }
-  
+
   pointerp= bins + (hash(name) % (BINS));
   while (*pointerp && strcasecmp((*pointerp)->name,name))
     pointerp= &(*pointerp)->next;

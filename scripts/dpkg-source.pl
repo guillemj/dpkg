@@ -475,4 +475,3 @@ See dpkg-source(1) for more info.") . "\n",
     join(" ", compression_get_list()),
     compression_get_default_level();
 }
-

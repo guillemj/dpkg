@@ -41,4 +41,3 @@ strerror(int e)
 	return buf;
 }
 #endif
-

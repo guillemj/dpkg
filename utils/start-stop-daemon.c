@@ -1662,4 +1662,3 @@ main(int argc, char **argv)
 	execv(startas, argv);
 	fatal("unable to start %s", startas);
 }
-

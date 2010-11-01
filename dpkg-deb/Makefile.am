@@ -23,4 +23,3 @@ dpkg_deb_LDADD = \
 	$(LIBINTL) \
 	$(ZLIB_LIBS) \
 	$(BZ2_LIBS)
-

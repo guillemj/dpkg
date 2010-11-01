@@ -78,10 +78,10 @@ void baselist::kd_bottom() {
 void baselist::kd_redraw() {
 //#define RFSH(x) werase(x); redrawwin(x)
 //  RFSH(listpad);
-//  RFSH(infopad); 
-//  RFSH(colheadspad); 
-//  RFSH(thisstatepad); 
-//  RFSH(titlewin); 
+//  RFSH(infopad);
+//  RFSH(colheadspad);
+//  RFSH(thisstatepad);
+//  RFSH(titlewin);
 //  RFSH(whatinfowin); /* FIXME: why does ncurses need this? */
   clearok(curscr,TRUE);
   redrawall();
@@ -160,7 +160,7 @@ void baselist::displayerror(const char* str) {
 
 void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
   int maxx, maxy, i, y, x, nextkey;
-  
+
   getmaxyx(stdscr,maxy,maxx);
   wbkgdset(stdscr, ' ' | helpscreen_attr);
   clearok(stdscr,TRUE);
@@ -219,7 +219,7 @@ _("Press ? for help menu, . for next topic, <space> to exit help."));
   redrawthisstate();
   refreshinfo();
   wnoutrefresh(whatinfowin);
-}     
+}
 
 void baselist::kd_help() {
   displayhelp(helpmenulist(),0);
@@ -251,7 +251,7 @@ void baselist::kd_down() {
   if (cursorline+1 < nitems) ncursor++;
   setcursor(ncursor);
 }
-  
+
 void baselist::kd_up() {
   int ncursor= cursorline;
   // scroll by one line if there are any lines not shown yet

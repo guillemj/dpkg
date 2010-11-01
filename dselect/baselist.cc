@@ -63,17 +63,17 @@ void baselist::sigwinchhandler(int) {
 static void cu_sigwinch(int, void **argv) {
   struct sigaction *osigactp= (struct sigaction*)argv[0];
   sigset_t *oblockedp= (sigset_t*)argv[1];
-  
+
   if (sigaction(SIGWINCH,osigactp,0)) ohshite(_("failed to restore old SIGWINCH sigact"));
   delete osigactp;
   if (sigprocmask(SIG_SETMASK,oblockedp,0)) ohshite(_("failed to restore old signal mask"));
   delete oblockedp;
-} 
+}
 
 void baselist::setupsigwinch() {
   sigemptyset(&sigwinchset);
   sigaddset(&sigwinchset,SIGWINCH);
-    
+
   osigactp= new(struct sigaction);
   oblockedp= new(sigset_t);
   if (sigprocmask(0,0,oblockedp)) ohshite(_("failed to get old signal mask"));
@@ -162,22 +162,22 @@ void baselist::startdisplay() {
 
   setheights();
   setwidths();
-  
+
   titlewin= newwin(1,xmax, 0,0);
   if (!titlewin) ohshite(_("failed to create title window"));
   wattrset(titlewin,title_attr);
-  
+
   whatinfowin= newwin(1,xmax, whatinfo_row,0);
   if (!whatinfowin) ohshite(_("failed to create whatinfo window"));
   wattrset(whatinfowin,whatinfo_attr);
-  
+
   listpad = newpad(ymax, total_width);
   if (!listpad) ohshite(_("failed to create baselist pad"));
-  
+
   colheadspad= newpad(1, total_width);
   if (!colheadspad) ohshite(_("failed to create heading pad"));
   wattrset(colheadspad,colheads_attr);
-  
+
   thisstatepad= newpad(1, total_width);
   if (!thisstatepad) ohshite(_("failed to create thisstate pad"));
   wattrset(thisstatepad,thisstate_attr);
@@ -218,8 +218,8 @@ void baselist::startdisplay() {
 void baselist::enddisplay() {
   delwin(titlewin);
   delwin(whatinfowin);
-  delwin(listpad);  
-  delwin(colheadspad);  
+  delwin(listpad);
+  delwin(colheadspad);
   delwin(thisstatepad);
   delwin(infopad);
   wmove(stdscr,ymax,0); wclrtoeol(stdscr);
@@ -254,11 +254,11 @@ baselist::baselist(keybindings *kb) {
   showinfo= 1;
 
   searchstring[0]= 0;
-}  
+}
 
 void baselist::itd_keys() {
   whatinfovb(_("Keybindings"));
-  
+
   const int givek= xmax/3;
   bindings->describestart();
   const char **ta;
@@ -300,7 +300,7 @@ void baselist::refreshinfo() {
   pnoutrefresh(infopad, infotopofscreen,leftofscreen, info_row,0,
                min(info_row + info_height - 1, info_row + MAX_DISPLAY_INFO - 1),
                min(total_width - leftofscreen - 1, xmax - 1));
-  
+
   if (whatinfo_height) {
     mywerase(whatinfowin);
     mvwaddstr(whatinfowin,0,0, whatinfovb.string());

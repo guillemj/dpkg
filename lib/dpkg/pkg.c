@@ -46,4 +46,3 @@ pkg_sorter_by_name(const void *a, const void *b)
 
 	return strcmp(pa->name, pb->name);
 }
-

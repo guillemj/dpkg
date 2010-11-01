@@ -99,7 +99,7 @@ void methodlist::redraw1itemsel(int index, int selected) {
   wattrset(listpad, selected ? listsel_attr : list_attr);
   mvwprintw(listpad,index,name_column-1, " %-*.*s ",
             name_width, name_width, table[index]->name);
-  
+
   i= description_width;
   p= table[index]->summary ? table[index]->summary : "";
   while (i>0 && *p && *p != '\n') {
@@ -125,7 +125,7 @@ void methodlist::redrawcolheads() {
 
 methodlist::methodlist() : baselist(&methodlistbindings) {
   int newcursor= -1;
-  
+
   if (debug)
     fprintf(debug,"methodlist[%p]::methodlist()\n",this);
 
@@ -158,7 +158,7 @@ quitaction methodlist::display() {
 
   setupsigwinch();
   startdisplay();
-  
+
   if (debug) fprintf(debug,"methodlist[%p]::display() entering loop\n",this);
   for (;;) {
     if (whatinfo_height) wcursyncup(whatinfowin);
@@ -180,7 +180,7 @@ quitaction methodlist::display() {
   }
   pop_cleanup(ehflag_normaltidy); // unset the SIGWINCH handler
   enddisplay();
-  
+
   if (debug) fprintf(debug,"methodlist[%p]::display() done\n",this);
 
   return interp->qa;
@@ -205,7 +205,7 @@ void methodlist::redrawinfo() {
   if (!info_height) return;
   whatinfovb.reset();
   werase(infopad); wmove(infopad,0,0);
-  
+
   if (debug) fprintf(debug,"methodlist[%p]::redrawinfo()\n", this);
 
   itd_description();

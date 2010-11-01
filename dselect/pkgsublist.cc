@@ -49,7 +49,7 @@ void packagelist::add(pkginfo *pkg) {
   pkg->clientdata= state;
   table[nitems]= state;
   nitems++;
-}   
+}
 
 void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
   if (debug) fprintf(debug,"packagelist[%p]::add(pkginfo %s, %s)\n",
@@ -63,8 +63,7 @@ void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
                      this, pkg->name, wantstrings[nw]);
   pkg->clientdata->suggested= pkg->clientdata->selected= nw;
   pkg->clientdata->spriority= np;
-    
-}   
+}
 
 void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp) {
   if (debug)
@@ -74,13 +73,13 @@ void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp)
   if (pkg->clientdata->dpriority < showimp) pkg->clientdata->dpriority= showimp;
   pkg->clientdata->relations(extrainfo);
   pkg->clientdata->relations.terminate();
-}   
+}
 
 bool
 packagelist::alreadydone(doneent **done, void *check)
 {
   doneent *search = *done;
-  
+
   while (search && search->dep != check)
     search = search->next;
   if (search)
@@ -115,7 +114,7 @@ packagelist::add(dependency *depends, showpriority displayimportance)
 
   if (alreadydone(&depsdone, depends))
     return false;
-  
+
   const char *comma= "";
   varbuf info;
   info(depends->up->name);
@@ -166,7 +165,7 @@ void repeatedlydisplay(packagelist *sub,
                        packagelist *unredisplay) {
   pkginfo **newl;
   keybindings *kb;
-  
+
   if (debug) fprintf(debug,"repeatedlydisplay(packagelist[%p])\n",sub);
   if (sub->resolvesuggest() != 0 && sub->deletelessimp_anyleft(initial)) {
     if (debug) fprintf(debug,"repeatedlydisplay(packagelist[%p]) once\n",sub);

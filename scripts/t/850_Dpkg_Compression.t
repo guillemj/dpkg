@@ -95,5 +95,3 @@ test_read("$tmpdir/myfile");
 
 # Test read on compressed file
 test_read("$tmpdir/myfile.gz");
-
-

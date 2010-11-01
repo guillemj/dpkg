@@ -378,7 +378,7 @@ dme(int i, int so)
           so ? '*' : ' ', i,
           gettext(me->option),
           gettext(me->menuent));
-  
+
   int y,x;
   getmaxyx(stdscr,y,x);
 
@@ -446,7 +446,7 @@ urqresult urq_menu(void) {
       if(errno != 0)
         ohshite(_("failed to getch in main menu"));
       else {
-        clearok(stdscr,TRUE); clear(); refreshmenu(); dme(cursor,1); 
+        clearok(stdscr,TRUE); clear(); refreshmenu(); dme(cursor,1);
       }
     }
 
@@ -534,4 +534,3 @@ main(int, const char *const *argv)
   standard_shutdown();
   return(0);
 }
-

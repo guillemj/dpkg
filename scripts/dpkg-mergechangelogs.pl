@@ -288,4 +288,3 @@ sub get_conflict_block($$) {
     @b = @{$b} if ref($b) eq "ARRAY";
     return ("<<<<<<", @a, "======", @b, ">>>>>>");
 }
-

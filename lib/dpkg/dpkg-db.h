@@ -36,7 +36,7 @@ struct versionrevision {
   unsigned long epoch;
   const char *version;
   const char *revision;
-};  
+};
 
 enum deptype {
   dep_suggests,
@@ -202,6 +202,7 @@ enum modstatdb_rw {
   msdbrw_readonly/*s*/, msdbrw_needsuperuserlockonly/*s*/,
   msdbrw_writeifposs,
   msdbrw_write/*s*/, msdbrw_needsuperuser,
+
   /* Now some optional flags: */
   msdbrw_flagsmask= ~077,
   /* Flags start at 0100. */

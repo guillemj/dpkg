@@ -138,7 +138,7 @@ getfi(const char *root, int fd)
     fn = m_realloc(fn, fnlen);
   }
   i=sprintf(fn,"%s/",root);
-  
+
   while (1) {
     int	res;
     if (i>=fnlen) {
@@ -186,7 +186,7 @@ add_to_filist(struct file_info **start, struct file_info **end,
 {
   if (*start==NULL)
     *start=*end=fi;
-  else 
+  else
     *end=(*end)->next=fi;
 }
 
@@ -211,7 +211,7 @@ void do_build(const char *const *argv) {
   static const char *const maintainerscripts[]= {
     PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, NULL
   };
-  
+
   char *m;
   const char *debar, *directory, *const *mscriptp, *versionstring, *arch;
   bool subdir;
@@ -250,7 +250,7 @@ void do_build(const char *const *argv) {
     strcat(m, DEBEXT);
     debar= m;
   }
-    
+
   /* Perform some sanity checks on the to-be-build package. */
   if (nocheckflag) {
     if (subdir)
@@ -386,7 +386,7 @@ void do_build(const char *const *argv) {
 
   }
   m_output(stdout, _("<standard output>"));
-  
+
   /* Now that we have verified everything its time to actually
    * build something. Let's start by making the ar-wrapper. */
   if (!(ar=fopen(debar,"wb"))) ohshite(_("unable to create `%.255s'"),debar);
@@ -445,7 +445,7 @@ void do_build(const char *const *argv) {
     dpkg_ar_member_put_mem(debar, fileno(ar), DEBMAGIC,
                            deb_magic, strlen(deb_magic));
     dpkg_ar_member_put_file(debar, fileno(ar), ADMINMEMBER, gzfd);
-  }                
+  }
 
   /* Control is done, now we need to archive the data. Start by creating
    * a new temporary file. Immediately unlink the temporary file so others
@@ -535,7 +535,6 @@ void do_build(const char *const *argv) {
   if (fsync(fileno(ar)))
     ohshite(_("unable to sync file '%s'"), debar);
   if (fclose(ar)) werr(debar);
-                             
+
   exit(0);
 }
-

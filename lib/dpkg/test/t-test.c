@@ -44,4 +44,3 @@ test(void)
 	test_mem("ababcd", ==, "ababff", 4);
 	test_mem("ababcd", !=, "ababff", 6);
 }
-

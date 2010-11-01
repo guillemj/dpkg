@@ -111,4 +111,3 @@ test(void)
 	test_str_escape_fmt();
 	test_str_strip_quotes();
 }
-

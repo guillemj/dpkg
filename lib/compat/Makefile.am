@@ -55,4 +55,3 @@ endif
 if !HAVE_UNSETENV
 libcompat_a_SOURCES += unsetenv.c
 endif
-

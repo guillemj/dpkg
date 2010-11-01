@@ -199,7 +199,7 @@ void unpackchk(const char *const *argv) {
   const char *thissect;
   char buf[20];
   int width;
-  
+
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
@@ -228,7 +228,7 @@ void unpackchk(const char *const *argv) {
   pkg_db_iter_free(it);
 
   if (totalcount == 0) exit(0);
-  
+
   if (totalcount <= 12) {
     it = pkg_db_iter_new();
     while ((pkg = pkg_db_iter_next(it))) {
@@ -338,7 +338,7 @@ void assertmulticonrep(const char *const *argv) {
  */
 void predeppackage(const char *const *argv) {
   static struct varbuf vb;
-  
+
   struct pkgiterator *it;
   struct pkginfo *pkg = NULL, *startpkg, *trypkg;
   struct dependency *dep;
@@ -481,7 +481,7 @@ void cmpversions(const char *const *argv) {
   const char *emsg;
   struct versionrevision a, b;
   int r;
-  
+
   if (!argv[0] || !argv[1] || !argv[2] || argv[3])
     badusage(_("--compare-versions takes three arguments:"
              " <version> <relation> <version>"));

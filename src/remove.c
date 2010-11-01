@@ -52,7 +52,7 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
   struct deppossi *possi;
   struct pkginfo *depender;
   int before, ok;
-  
+
   for (possi = pkgdepcheck->installed.depended; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
     depender= possi->up->up;
@@ -82,7 +82,7 @@ void deferred_remove(struct pkginfo *pkg) {
   struct dependency *dep;
 
   debug(dbg_general,"deferred_remove package %s",pkg->name);
-  
+
   if (pkg->status == stat_notinstalled) {
     warning(_("ignoring request to remove %.250s which isn't installed."),
             pkg->name);
@@ -152,7 +152,7 @@ void deferred_remove(struct pkginfo *pkg) {
   }
 
   oldconffsetflags(pkg->installed.conffiles);
-    
+
   printf(_("Removing %s ...\n"),pkg->name);
   log_action("remove", pkg);
   trig_activate_packageprocessing(pkg);
@@ -184,7 +184,7 @@ static void push_leftover(struct fileinlist **leftoverp,
 }
 
 static void removal_bulk_remove_files(
-    struct pkginfo *pkg, 
+    struct pkginfo *pkg,
     bool *out_foundpostrm)
 {
   int before;
@@ -196,7 +196,7 @@ static void removal_bulk_remove_files(
   DIR *dsd;
   struct dirent *de;
   struct stat stab;
-  
+
     pkg->status= stat_halfinstalled;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
@@ -220,19 +220,19 @@ static void removal_bulk_remove_files(
       varbufaddstr(&fnvb,instdir);
       varbufaddstr(&fnvb, usenode->name);
       before= fnvb.used;
-      
+
       varbufaddstr(&fnvb,DPKGTEMPEXT);
       varbufaddc(&fnvb,0);
       debug(dbg_eachfiledetail, "removal_bulk cleaning temp `%s'", fnvb.buf);
-      
+
       ensure_pathname_nonexisting(fnvb.buf);
-      
+
       varbuf_trunc(&fnvb, before);
       varbufaddstr(&fnvb,DPKGNEWEXT);
       varbufaddc(&fnvb,0);
       debug(dbg_eachfiledetail, "removal_bulk cleaning new `%s'", fnvb.buf);
       ensure_pathname_nonexisting(fnvb.buf);
-      
+
       varbuf_trunc(&fnvb, before);
       varbufaddc(&fnvb,0);
       if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
@@ -306,7 +306,7 @@ static void removal_bulk_remove_files(
     dir_sync(dsd, fnvb.buf);
 
     pop_cleanup(ehflag_normaltidy); /* closedir */
-    
+
     pkg->status= stat_configfiles;
     pkg->installed.essential = false;
     modstatdb_note(pkg);
@@ -403,7 +403,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
      * about which version it was ... */
     blankversion(&pkg->configversion);
     modstatdb_note(pkg);
-    
+
     /* Remove from our list any conffiles that aren't ours any more or
      * are involved in diversions, except if we are the package doing the
      * diverting. */
@@ -428,7 +428,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       }
     }
     modstatdb_note(pkg);
-    
+
     for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
     static struct varbuf fnvb, removevb;
       if (conff->obsolete) {
@@ -496,12 +496,11 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                   removevb.buf, conff->name);
       }
       pop_cleanup(ehflag_normaltidy); /* closedir */
-    
     }
-    
+
     pkg->installed.conffiles = NULL;
     modstatdb_note(pkg);
-        
+
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "purge", NULL);
 }
@@ -535,7 +534,7 @@ void removal_bulk(struct pkginfo *pkg) {
   }
 
   debug(dbg_general, "removal_bulk purging? foundpostrm=%d",foundpostrm);
-  
+
   if (!foundpostrm && !pkg->installed.conffiles) {
     /* If there are no config files and no postrm script then we
      * go straight into ‘purge’.  */
@@ -560,12 +559,12 @@ void removal_bulk(struct pkginfo *pkg) {
     varbufaddstr(&fnvb, pkgadmindir());
     varbufaddstr(&fnvb,pkg->name);
     pkgnameused= fnvb.used;
-    
+
     varbufaddstr(&fnvb,"." LISTFILE);
     varbufaddc(&fnvb,0);
     debug(dbg_general, "removal_bulk purge done, removing list `%s'",fnvb.buf);
     if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("cannot remove old files list"));
-    
+
     varbuf_trunc(&fnvb, pkgnameused);
     varbufaddstr(&fnvb,"." POSTRMFILE);
     varbufaddc(&fnvb,0);
@@ -579,10 +578,9 @@ void removal_bulk(struct pkginfo *pkg) {
      * we won't go back because pkg->status is stat_notinstalled. */
     pkg_perfile_blank(&pkg->installed);
   }
-      
+
   pkg->eflag = eflag_ok;
   modstatdb_note(pkg);
 
   debug(dbg_general, "removal done");
 }
-

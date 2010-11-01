@@ -58,4 +58,3 @@ chdir($tmpdir);
 ok(!defined(get_pkg_root_dir("debian/a/b/c")), "get_pkg_root_dir undef");
 ok(!defined(relative_to_pkg_root("debian/a/b/c")), "relative_to_pkg_root");
 is(guess_pkg_root_dir("debian/a/b/c"), "debian/a", "guess_pkg_root_dir fallback");
-

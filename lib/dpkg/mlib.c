@@ -38,12 +38,12 @@ void *m_malloc(size_t amount) {
   unsigned short *r2, x;
 #endif
   void *r;
-  
+
   onerr_abort++;
   r= malloc(amount);
   if (!r) ohshite(_("malloc failed (%ld bytes)"),(long)amount);
   onerr_abort--;
-  
+
 #ifdef MDEBUG
   r2= r; x= (unsigned short)amount ^ 0xf000;
   while (amount >= 2) { *r2++= x; amount -= 2; }
@@ -76,7 +76,7 @@ m_strdup(const char *str)
 
 void m_dup2(int oldfd, int newfd) {
   const char *const stdstrings[]= { "in", "out", "err" };
-  
+
   if (dup2(oldfd,newfd) == newfd) return;
 
   onerr_abort++;
@@ -106,4 +106,3 @@ void setcloexec(int fd, const char* fn) {
   if (fcntl(fd, F_SETFD, (f|FD_CLOEXEC))==-1)
     ohshite(_("unable to set close-on-exec flag for %.250s"),fn);
 }
-

@@ -37,4 +37,3 @@ test(void)
 	test_pass(max(0, 10) == 10);
 	test_pass(max(-10, 0) == 0);
 }
-

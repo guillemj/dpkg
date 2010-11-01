@@ -174,7 +174,7 @@ int main(int argc, const char *const *argv) {
   action(argv);
 
   m_output(stderr, _("<standard error>"));
-  
+
   standard_shutdown();
   exit(0);
 }

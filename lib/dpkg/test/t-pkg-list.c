@@ -87,4 +87,3 @@ test(void)
 	test_pkg_list_new();
 	test_pkg_list_prepend();
 }
-

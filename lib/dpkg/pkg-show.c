@@ -47,4 +47,3 @@ pkg_summary(const struct pkginfo *pkg, int *len_ret)
 
 	return pdesc;
 }
-

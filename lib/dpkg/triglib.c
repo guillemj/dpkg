@@ -857,6 +857,7 @@ th_simple_nn_find(const char *name, bool nonew)
 	for (search = trigger_files; search; search = search->next)
 		if (!strcmp(search->name, name))
 			return search;
+
 	/* Not found. */
 	if (nonew)
 		return NULL;

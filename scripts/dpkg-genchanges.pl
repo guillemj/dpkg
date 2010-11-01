@@ -505,4 +505,3 @@ for my $f (keys %remove) {
 }
 
 $fields->output(\*STDOUT); # Note: no substitution of variables
-

@@ -149,4 +149,3 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 
 	push_cleanup(file_unlock_cleanup, ~0, NULL, 0, 2, lockfd, desc);
 }
-

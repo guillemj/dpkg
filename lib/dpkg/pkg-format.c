@@ -267,4 +267,3 @@ pkg_format_show(const struct pkg_format_node *head,
 	varbuf_destroy(&fb);
 	varbuf_destroy(&vb);
 }
-

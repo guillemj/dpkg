@@ -59,4 +59,3 @@ cu_closefd(int argc, void **argv)
 
 	close(ip);
 }
-

@@ -92,4 +92,3 @@ int unsetenv(const char *x);
 #endif
 
 #endif /* COMPAT_H */
-

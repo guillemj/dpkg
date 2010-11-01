@@ -238,7 +238,7 @@ void do_queue(const char *const *argv) {
     }
   }
   if (!*head) putchar('\n');
-  
+
   head= N_("Packages not yet reassembled:\n");
   for (pq= queue; pq; pq= pq->nextinqueue) {
     if (!pq->info.md5sum) continue;

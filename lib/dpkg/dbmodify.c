@@ -83,7 +83,6 @@ static void cleanupdates(void) {
   if (cdn == -1) ohshite(_("cannot scan updates directory `%.255s'"),updatefnbuf);
 
   if (cdn) {
-    
     for (i=0; i<cdn; i++) {
       strcpy(updatefnrest, cdlist[i]->d_name);
       parsedb(updatefnbuf, pdb_lax_parser | pdb_weakclassification,
@@ -93,7 +92,7 @@ static void cleanupdates(void) {
 
     if (cstatus >= msdbrw_write) {
       writedb(statusfile,0,1);
-    
+
       for (i=0; i<cdn; i++) {
         strcpy(updatefnrest, cdlist[i]->d_name);
         if (unlink(updatefnbuf))
@@ -103,7 +102,6 @@ static void cleanupdates(void) {
 
       dir_sync_path(updatesdir);
     }
-    
   }
   free(cdlist);
 
@@ -112,9 +110,9 @@ static void cleanupdates(void) {
 
 static void createimptmp(void) {
   int i;
-  
+
   onerr_abort++;
-  
+
   importanttmp= fopen(importanttmpfile,"w");
   if (!importanttmp)
     ohshite(_("unable to create `%.255s'"), importanttmpfile);
@@ -209,7 +207,7 @@ enum modstatdb_rw
 modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
 {
   const struct fni *fnip;
-  
+
   for (fnip=fnis; fnip->suffix; fnip++) {
     free(*fnip->store);
     *fnip->store = m_malloc(strlen(admindir) + strlen(fnip->suffix) + 2);
@@ -273,7 +271,7 @@ void modstatdb_checkpoint(void) {
 
   assert(cstatus >= msdbrw_write);
   writedb(statusfile,0,1);
-  
+
   for (i=0; i<nextupdate; i++) {
     sprintf(updatefnrest, IMPORTANTFMT, i);
     /* Have we made a real mess? */
@@ -415,4 +413,3 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   varbufaddc(&vb,0);
   return vb.buf;
 }
-

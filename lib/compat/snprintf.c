@@ -38,4 +38,3 @@ snprintf(char *str, size_t n, char const *fmt, ...)
 	return i;
 }
 #endif
-

@@ -93,13 +93,13 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   struct ar_hdr arh;
   int c;
   struct stat stab;
-  
+
   if (fread(magicbuf, 1, sizeof(magicbuf), partfile) != sizeof(magicbuf)) {
     if (ferror(partfile)) rerr(fn); else return NULL;
   }
   if (memcmp(magicbuf, DPKG_AR_MAGIC, sizeof(magicbuf)))
     return NULL;
-  
+
   if (fread(&arh,1,sizeof(arh),partfile) != sizeof(arh)) rerreof(partfile,fn);
 
   dpkg_ar_normalize_name(&arh);
@@ -143,7 +143,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
                                fn, _("archive total size"));
   ir->maxpartlen = unsignedlong(nextline(&rip, fn, _("archive part offset")),
                                 fn, _("archive part offset"));
-  
+
   partnums = nextline(&rip, fn, _("archive part numbers"));
   slash= strchr(partnums,'/');
   if (!slash)
@@ -193,13 +193,13 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
 
   ir->headerlen = strlen(DPKG_AR_MAGIC) +
                   sizeof(arh) + thisilen + (thisilen & 1) + sizeof(arh);
-    
+
   return ir;
-}  
+}
 
 void mustgetpartinfo(const char *filename, struct partinfo *ri) {
   FILE *part;
-  
+
   part= fopen(filename,"r");
   if (!part) ohshite(_("cannot open archive part file `%.250s'"),filename);
   if (!read_info(part,filename,ri))
@@ -241,7 +241,7 @@ void do_info(const char *const *argv) {
   if (!*argv)
     badusage(_("--%s requires one or more part file arguments"),
              cipaction->olong);
-  
+
   while ((thisarg= *argv++)) {
     part= fopen(thisarg,"r");
     if (!part) ohshite(_("cannot open archive part file `%.250s'"),thisarg);

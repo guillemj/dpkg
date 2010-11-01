@@ -129,7 +129,7 @@ pkg_name_is_illegal(const char *p, const char **ep)
   static const char alsoallowed[] = "-+._";
   static char buf[150];
   int c;
-  
+
   if (!*p) return _("may not be empty string");
   if (!isalnum(*p)) return _("must start with an alphanumeric");
   while ((c = *p++) != '\0')
@@ -166,7 +166,7 @@ informativeversion(const struct versionrevision *version)
 void varbufversion
 (struct varbuf *vb,
  const struct versionrevision *version,
- enum versiondisplayepochwhen vdew) 
+ enum versiondisplayepochwhen vdew)
 {
   switch (vdew) {
   case vdew_never:
@@ -197,7 +197,7 @@ const char *versiondescribe
   static int bufnum=0;
 
   struct varbuf *vb;
-  
+
   if (!informativeversion(version)) return _("<none>");
 
   vb= &bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;
@@ -358,4 +358,3 @@ parse_ensure_have_field(struct parsedb_state *ps,
     parse_warn(ps, pigp, _("empty value for %s"), what);
   }
 }
-

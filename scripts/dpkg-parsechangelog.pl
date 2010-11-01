@@ -122,4 +122,3 @@ foreach my $f (@fields) {
     print "\n" if $count++;
     print $f->output();
 }
-

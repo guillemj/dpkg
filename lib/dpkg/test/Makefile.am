@@ -37,4 +37,3 @@ t_varbuf_LDADD = $(CHECK_LDADD)
 t_version_LDADD = $(CHECK_LDADD)
 
 TESTS = $(check_PROGRAMS)
-

@@ -42,4 +42,3 @@ int subproc_wait_check(pid_t pid, const char *desc, int flags);
 DPKG_END_DECLS
 
 #endif /* LIBDPKG_SUBPROC_H */
-

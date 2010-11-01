@@ -59,10 +59,10 @@ protected:
 
   // Misc.
   char searchstring[50];
-  
+
   // Information displays
   void itd_description();
-  
+
   // Define these virtuals
   void redraw1itemsel(int index, int selected);
   void redrawcolheads();
@@ -78,7 +78,7 @@ protected:
   // Keybinding functions */
   void kd_quit();
   void kd_abort();
-  
+
   methodlist();
   quitaction display();
   ~methodlist();

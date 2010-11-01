@@ -80,7 +80,7 @@ list1package(struct pkginfo *pkg, bool *head, struct pkg_array *array)
   static int nw,vw,dw;
   const char *pdesc;
   static char format[80]   = "";
-    
+
   if (format[0] == '\0') {
     w=getwidth();
     if (w == -1) {
@@ -264,7 +264,7 @@ searchfiles(const char *const *argv)
   int failures = 0;
   struct varbuf path = VARBUF_INIT;
   static struct varbuf vb;
-  
+
   if (!*argv)
     badusage(_("--search needs at least one file name pattern argument"));
 
@@ -330,20 +330,19 @@ enqperpackage(const char *const *argv)
   struct pkginfo *pkg;
   struct filenamenode *namenode;
   int failures = 0;
-  
+
   if (!*argv)
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
   if (cipaction->arg==act_listfiles)
     modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
-  else 
+  else
     modstatdb_init(admindir,msdbrw_readonly);
 
   while ((thisarg = *argv++) != NULL) {
     pkg = pkg_db_find(thisarg);
 
     switch (cipaction->arg) {
-      
     case act_status:
       if (pkg->status == stat_notinstalled &&
           pkg->priority == pri_unknown &&
@@ -357,7 +356,6 @@ enqperpackage(const char *const *argv)
         writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
       }
       break;
-
     case act_printavail:
       if (!pkg_is_informative(pkg, &pkg->available)) {
         fprintf(stderr,_("Package `%s' is not available.\n"),pkg->name);
@@ -366,14 +364,12 @@ enqperpackage(const char *const *argv)
         writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
       }
       break;
-      
     case act_listfiles:
       switch (pkg->status) {
-      case stat_notinstalled: 
+      case stat_notinstalled:
         fprintf(stderr,_("Package `%s' is not installed.\n"),pkg->name);
         failures++;
         break;
-        
       default:
         ensure_packagefiles_available(pkg);
         ensure_diversions();
@@ -402,7 +398,6 @@ enqperpackage(const char *const *argv)
         break;
       }
       break;
-
     default:
       internerr("unknown action '%d'", cipaction->arg);
     }

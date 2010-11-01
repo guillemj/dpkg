@@ -439,4 +439,3 @@ ok(-f $main_link, "removal keeps real file installed as master link");
 ok(-f "$bindir/slave1", "removal keeps real files installed as slave links");
 install_choice(0, params => ["--force"]);
 check_choice(0, "auto", "install --force replaces files with links");
-

@@ -161,4 +161,3 @@ test(void)
 	test_command_add_args();
 	test_command_exec();
 }
-

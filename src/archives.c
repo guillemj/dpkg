@@ -125,7 +125,7 @@ filesavespackage(struct fileinlist *file,
 {
   struct filepackages_iterator *iter;
   struct pkginfo *divpkg, *thirdpkg;
-  
+
   debug(dbg_eachfiledetail,"filesavespackage file `%s' package %s",
         file->namenode->name,pkgtobesaved->name);
 
@@ -178,7 +178,7 @@ filesavespackage(struct fileinlist *file,
 
 void cu_pathname(int argc, void **argv) {
   ensure_pathname_nonexisting((char*)(argv[0]));
-} 
+}
 
 int tarfileread(void *ud, char *buf, int len) {
   struct tarcontext *tc= (struct tarcontext*)ud;
@@ -222,7 +222,7 @@ does_replace(struct pkginfo *newpigp, struct pkginfoperfile *newpifp,
              struct pkginfo *oldpigp, struct pkginfoperfile *oldpifp)
 {
   struct dependency *dep;
-  
+
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",newpigp->name,
         oldpigp->name, versiondescribe(&oldpifp->version, vdew_always));
   for (dep= newpifp->depends; dep; dep= dep->next) {
@@ -329,19 +329,19 @@ int
 secure_remove(const char *filename)
 {
   int r, e;
-  
+
   if (!rmdir(filename)) {
     debug(dbg_eachfiledetail, "secure_remove '%s' rmdir OK", filename);
     return 0;
   }
-  
+
   if (errno != ENOTDIR) {
     e= errno;
     debug(dbg_eachfiledetail, "secure_remove '%s' rmdir %s", filename,
           strerror(e));
     errno= e; return -1;
   }
-  
+
   r = secure_unlink(filename);
   e = errno;
   debug(dbg_eachfiledetail, "secure_remove '%s' unlink %s",
@@ -352,7 +352,7 @@ secure_remove(const char *filename)
 struct fileinlist *addfiletolist(struct tarcontext *tc,
 				 struct filenamenode *namenode) {
   struct fileinlist *nifd;
-  
+
   nifd= obstack_alloc(&tar_obs, sizeof(struct fileinlist));
   nifd->namenode= namenode;
   nifd->next = NULL;
@@ -491,7 +491,7 @@ tarobject(void *ctx, struct tar_entry *ti)
       usename= conffderefn.buf;
     debug(dbg_conff,"tarobject fnnf_new_conff deref=`%s'",usename);
   }
-  
+
   setupfnamevbs(usename);
 
   statr= lstat(fnamevb.buf,&stab);
@@ -703,7 +703,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (r > 0)
       if (safe_read(tc->backendpipe, databuf, TARBLKSZ - r) == -1)
         ohshite(_("error reading from dpkg-deb pipe"));
-    if (nifd->namenode->statoverride) 
+    if (nifd->namenode->statoverride)
       debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
 			  nifd->namenode->statoverride->uid,
 			  nifd->namenode->statoverride->gid,
@@ -732,13 +732,13 @@ tarobject(void *ctx, struct tar_entry *ti)
       ohshite(_("error creating device `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject chardev");
     newtarobject_allmodes(fnamenewvb.buf, st);
-    break; 
+    break;
   case tar_filetype_blockdev:
     if (mknod(fnamenewvb.buf, S_IFBLK, ti->dev))
       ohshite(_("error creating device `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject blockdev");
     newtarobject_allmodes(fnamenewvb.buf, st);
-    break; 
+    break;
   case tar_filetype_hardlink:
     varbufreset(&hardlinkfn);
     varbufaddstr(&hardlinkfn,instdir); varbufaddc(&hardlinkfn,'/');
@@ -942,7 +942,7 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
                     struct pkginfo *removal, const char *why)
 {
   struct pkg_deconf_list *newdeconf;
-  
+
   if (force_p && force_p(pdep)) {
     warning(_("ignoring dependency problem with %s:\n%s"), action, why);
     return 2;
@@ -1141,7 +1141,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
     ohshit(_("conflicting packages - not installing %.250s"),pkg->name);
   warning(_("ignoring conflict, may proceed anyway!"));
   varbuf_destroy(&conflictwhy);
-  
+
   return;
 }
 
@@ -1150,11 +1150,11 @@ void cu_cidir(int argc, void **argv) {
   char *cidirrest= (char*)argv[1];
   cidirrest[-1] = '\0';
   ensure_pathname_nonexisting(cidir);
-}  
+}
 
 void cu_fileslist(int argc, void **argv) {
   destroyobstack();
-}  
+}
 
 void archivefiles(const char *const *argv) {
   const char *volatile thisarg;
@@ -1176,12 +1176,11 @@ void archivefiles(const char *const *argv) {
 
   checkpath();
   log_message("startup archives %s", cipaction->olong);
-  
+
   if (f_recursive) {
-    
     if (!*argv)
       badusage(_("--%s --recursive needs at least one path argument"),cipaction->olong);
-    
+
     m_pipe(pi);
     fc = subproc_fork();
     if (!fc) {
@@ -1229,7 +1228,7 @@ void archivefiles(const char *const *argv) {
 
     varbufaddc(&findoutput,0);
     varbufaddc(&findoutput,0);
-    
+
     arglist= m_malloc(sizeof(char*)*(nfiles+1));
     p= findoutput.buf; i=0;
     while (*p) {
@@ -1238,13 +1237,10 @@ void archivefiles(const char *const *argv) {
     }
     arglist[i] = NULL;
     argp= arglist;
-
   } else {
-
     if (!*argv) badusage(_("--%s needs at least one package archive file argument"),
                          cipaction->olong);
     argp= argv;
-    
   }
 
   currenttime = time(NULL);
@@ -1262,7 +1258,7 @@ void archivefiles(const char *const *argv) {
 
   ensure_diversions();
   ensure_statoverrides();
-  
+
   while ((thisarg = *argp++) != NULL) {
     if (setjmp(ejbuf)) {
       pop_error_context(ehflag_bombout);

@@ -61,7 +61,7 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
   { 'k',            "up"             }, // vi style
 //{ 'p',            "up"             }, // no style
   { KEY_UP,         "up"             },
-  
+
   { C('f'),         "scrollon"       }, // vi style
   { 'N',            "scrollon"       },
   { KEY_NPAGE,      "scrollon"       },
@@ -74,25 +74,25 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
   { C('h'),         "scrollback"     },
   { C('n'),         "scrollon1"      },
   { C('p'),         "scrollback1"    },
-  
+
   { 't',            "top"            },
   { KEY_HOME,       "top"            },
   { 'e',            "bottom"         },
   { KEY_LL,         "bottom"         },
   { KEY_END,        "bottom"         },
-  
+
   { 'u',            "iscrollback"    },
   { 'd',            "iscrollon"      },
   { C('u'),         "iscrollback1"   },
   { C('d'),         "iscrollon1"     },
-  
+
   { 'B',            "panback"        },
   { KEY_LEFT,       "panback"        },
   { 'F',            "panon"          },
   { KEY_RIGHT,      "panon"          },
   { C('b'),         "panback1"       },
   { C('f'),         "panon1"         },
-                                      
+
   { '?',            "help"             },
   { KEY_HELP,       "help"             },
   { KEY_F(1),       "help"             },
@@ -106,6 +106,6 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
   { 'x',            "abort"            },
   { 'X',            "abort"            },
   { 'Q',            "abort"            },
-  
+
   {  -1,             0                 }
 };

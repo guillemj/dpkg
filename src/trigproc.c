@@ -419,4 +419,3 @@ trigproc_install_hooks(void)
 {
 	trig_override_hooks(&trig_our_hooks);
 }
-

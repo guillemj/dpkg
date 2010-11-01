@@ -380,4 +380,3 @@ if (!$stdout) {
 }
 
 $substvars->warn_about_unused();
-

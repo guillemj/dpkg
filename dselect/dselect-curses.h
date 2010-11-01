@@ -36,4 +36,3 @@
 #endif
 
 #endif /* DSELECT_CURSES_H */
-

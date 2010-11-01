@@ -57,19 +57,19 @@ const char *const statusstrings[]= {
 
 struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg) {
   struct filenamenode *r;
-  
+
   if (!namenode->divert) {
     r = namenode;
     return r;
   }
-  
+
   debug(dbg_eachfile,"namenodetouse namenode=`%s' pkg=%s",
         namenode->name,pkg->name);
-  
+
   r=
     (namenode->divert->useinstead && namenode->divert->pkg != pkg)
       ? namenode->divert->useinstead : namenode;
-  
+
   debug(dbg_eachfile,
         "namenodetouse ... useinstead=%s camefrom=%s pkg=%s return %s",
         namenode->divert->useinstead ? namenode->divert->useinstead->name : "<none>",
@@ -93,7 +93,7 @@ void checkpath(void) {
     "ldconfig",
 #if WITH_START_STOP_DAEMON
     "start-stop-daemon",
-#endif    
+#endif
     "update-rc.d",
     NULL
   };
@@ -209,7 +209,7 @@ preexecscript(struct command *cmd)
     return cmd->filename;
   assert(strlen(cmd->filename) >= instdirl);
   return cmd->filename + instdirl;
-}  
+}
 
 void
 post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
@@ -359,7 +359,7 @@ maintainer_script_new(struct pkginfo *pkg,
   struct stat stab;
   va_list args;
   char buf[100];
-  
+
   strcpy(cidirrest, scriptname);
   sprintf(buf, _("new %s script"), desc);
 
@@ -503,7 +503,7 @@ isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg)
 {
   struct filepackages_iterator *iter;
   struct pkginfo *other_pkg;
-    
+
   debug(dbg_veryverbose, "isdirectoryinuse `%s' (except %s)", file->name,
         pkg ? pkg->name : "<none>");
 
@@ -523,7 +523,7 @@ isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg)
 
 void oldconffsetflags(const struct conffile *searchconff) {
   struct filenamenode *namenode;
-  
+
   while (searchconff) {
     namenode= findnamenode(searchconff->name, 0); /* XXX */
     namenode->flags |= fnnf_old_conff;

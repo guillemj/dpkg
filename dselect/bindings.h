@@ -28,12 +28,12 @@ struct keybindings {
     int key;
     const char *action;
   };
-  
+
   struct keyname {
     int key;
     const char *kname;
   };
-  
+
   struct description {
     const char *action, *desc;
   };
@@ -44,7 +44,7 @@ struct keybindings {
     const struct interpretation *interp;
     const char *desc;
   };
-  
+
  private:
   static const keyname keynames[];
   static const description descriptions[];
@@ -52,13 +52,13 @@ struct keybindings {
   binding *bindings;
   const description *iterate;
   const interpretation *interps;
-  
+
   bool bind(int key, const char *action);
-  
+
  public:
   int name2key(const char *name);
   const char *key2name(int key);
-  
+
   bool bind(const char *name, const char *action)
   { return bind(name2key(name), action); }
   const interpretation *operator()(int key);

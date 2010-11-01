@@ -33,10 +33,10 @@
 
 /* These MUST be in the same order as the corresponding enums in dpkg-db.h */
 const char
-  *const wantstrings[]=   { N_("new package"), 
+  *const wantstrings[]=   { N_("new package"),
 			    N_("install"),
 			    N_("hold"),
-			    N_("remove"), 
+			    N_("remove"),
 			    N_("purge"),
 			    0 },
 
@@ -44,8 +44,8 @@ const char
    * the empty string to store information about the translation. DO NOT
    * CHANGE THAT IN A TRANSLATION! The code really relies on that being
    * a single space. */
-  *const eflagstrings[]=   { N_(" "), 
-			     N_("REINSTALL"), 
+  *const eflagstrings[]=   { N_(" "),
+			     N_("REINSTALL"),
 			     0 },
 
   *const statusstrings[]= { N_("not installed"),
@@ -159,7 +159,7 @@ void packagelist::setwidths() {
   }
 
   int versiondescriptioncolumn= package_column + package_width + gap_width;
-  
+
   switch (versiondisplayopt) {
   case vdo_none:
     versioninstalled_column= versioninstalled_width= 0;
@@ -182,7 +182,7 @@ void packagelist::setwidths() {
   default:
     internerr("unknown versiondisplayopt in setwidths");
   }
-    
+
   total_width= TOTAL_LIST_WIDTH;
   if (total_width < COLS)
     total_width= COLS;
@@ -191,7 +191,7 @@ void packagelist::setwidths() {
 
 void packagelist::redrawtitle() {
   int x,y;
-  
+
   if (title_height) {
     mywerase(titlewin);
     mvwaddnstr(titlewin,0,0,

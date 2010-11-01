@@ -50,7 +50,7 @@ void updateavailable(const char *const *argv) {
   default:
     internerr("unknown action '%d'", cipaction->arg);
   }
-  
+
   if (!f_noact) {
     if (access(admindir,W_OK)) {
       if (errno != EACCES)
@@ -60,7 +60,7 @@ void updateavailable(const char *const *argv) {
     }
     modstatdb_lock(admindir);
   }
-  
+
   switch (cipaction->arg) {
   case act_avreplace:
     printf(_("Replacing available packages info, using %s.\n"),sourcefile);

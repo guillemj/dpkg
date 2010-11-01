@@ -115,4 +115,3 @@ test(void)
 	test_pkg_queue_init();
 	test_pkg_queue_push_pop();
 }
-

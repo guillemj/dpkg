@@ -276,4 +276,3 @@ if (@spuriousover) {
 }
 
 info(_g("Wrote %s entries to output Packages file."), $records_written);
-

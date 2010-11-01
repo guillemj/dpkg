@@ -250,9 +250,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
       }
       if (EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
     } /* Loop per field. */
+
     if (pdone && donep)
       parse_error(&ps, &newpig,
                   _("several package info entries found, only one allowed"));
+
     parse_must_have_field(&ps, &newpig, newpig.name, "package name");
     /* XXX: We need to check for status != stat_halfinstalled as while
      * unpacking a deselected package, it will not have yet all data in
@@ -379,7 +381,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
         /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_db_find())
          * rather than in newpig. */
       }
-
     } else if (!(flags & pdb_ignorefiles)) {
       pigp->files= newpig.files;
     }
@@ -439,7 +440,7 @@ void copy_dependency_links(struct pkginfo *pkg,
   struct dependency *dyp;
   struct deppossi *dop;
   struct pkginfoperfile *addtopifp;
-  
+
   /* Delete ‘backward’ (‘depended’) links from other packages to
    * dependencies listed in old version of this one. We do this by
    * going through all the dependencies in the old version of this
@@ -458,6 +459,7 @@ void copy_dependency_links(struct pkginfo *pkg,
         dop->rev_next->rev_prev = dop->rev_prev;
     }
   }
+
   /* Now fill in new ‘ed’ links from other packages to dependencies
    * listed in new version of this one, and set our uplinks correctly. */
   for (dyp= newdepends; dyp; dyp= dyp->next) {
@@ -471,6 +473,7 @@ void copy_dependency_links(struct pkginfo *pkg,
       addtopifp->depended= dop;
     }
   }
+
   /* Finally, we fill in the new value. */
   *updateme= newdepends;
 }

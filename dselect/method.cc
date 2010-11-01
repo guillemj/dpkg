@@ -52,7 +52,7 @@ static const char *const methoddirectories[]= {
   LIBDIR "/" METHODSDIR,
   LOCALLIBDIR "/" METHODSDIR,
   0
-};    
+};
 
 static char *methodlockfile= 0;
 static int methlockfd= -1;
@@ -141,7 +141,7 @@ falliblesubprocess(struct command *cmd)
 {
   pid_t c1;
   int status, i, c;
-  
+
   cursesoff();
 
   subproc_signals_setup(cmd->name);
@@ -270,7 +270,7 @@ urqresult urq_setup(void) {
   } else {
     ur= urqr_fail;
   }
-  
+
   pop_cleanup(ehflag_normaltidy);
   return ur;
 }

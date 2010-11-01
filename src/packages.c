@@ -155,7 +155,7 @@ void process_queue(void) {
   volatile enum action action_todo;
   jmp_buf ejbuf;
   enum istobes istobe= itb_normal;
-  
+
   if (abort_processing)
     return;
 
@@ -191,7 +191,7 @@ void process_queue(void) {
       rundown->pkg->clientdata->istobe= istobe;
     }
   }
-  
+
   while (!pkg_queue_is_empty(&queue)) {
     pkg = pkg_queue_pop(&queue);
     if (!pkg)
@@ -256,7 +256,7 @@ void process_queue(void) {
     pop_error_context(ehflag_normaltidy);
   }
   assert(!queue.length);
-}    
+}
 
 /*** Dependency processing - common to --configure and --remove. ***/
 
@@ -316,7 +316,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
                              int *interestingwarnings,
                              struct varbuf *oemsgs) {
   int thisf;
-  
+
   if (ignore_depends(possdependee)) {
     debug(dbg_depcondetail,"      ignoring depended package so ok and found");
     return 3;
@@ -609,7 +609,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     ok= 1;
   if (!anycannotfixbytrig && canfixbytrig)
     progress_bytrigproc = canfixbytrig;
-  
+
   varbuf_destroy(&oemsgs);
   debug(dbg_depcon,"ok %d msgs >>%.*s<<", ok, (int)aemsgs->used, aemsgs->buf);
   return ok;

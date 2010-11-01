@@ -128,14 +128,14 @@ protected:
   void itd_description();
   void itd_statuscontrol();
   void itd_availablecontrol();
-  
+
   // Dependency and sublist processing
   struct doneent { doneent *next; void *dep; } *depsdone, *unavdone;
   bool alreadydone(doneent **, void *);
   int resolvedepcon(dependency*);
   int checkdependers(pkginfo*, int changemade); // returns new changemade
   int deselect_one_of(pkginfo *er, pkginfo *ed, dependency *dep);
-  
+
   // Define these virtuals
   bool checksearch(char *str);
   bool matchsearch(int index);
@@ -149,7 +149,7 @@ protected:
   const struct helpmenuentry *helpmenulist();
 
   // Miscellaneous internal routines
-  
+
   void redraw1package(int index, int selected);
   int compareentries(const struct perpackagestate *a, const struct perpackagestate *b);
   friend int qsort_compareentries(const void *a, const void *b);
@@ -174,14 +174,14 @@ protected:
   void affectedrange(int *startp, int *endp);
   void setwant(pkginfo::pkgwant nw);
   void sethold(int hold);
-  
+
  public:
 
   // Keybinding functions */
   void kd_quit_noop();
   void kd_revert_abort();
   void kd_revertsuggest();
-  void kd_revertdirect();  
+  void kd_revertdirect();
   void kd_revertinstalled();
   void kd_morespecific();
   void kd_lessspecific();
@@ -196,7 +196,7 @@ protected:
   void kd_toggleinfo();
   void kd_verbose();
   void kd_versiondisplay();
-  
+
   packagelist(keybindings *kb); // nonrecursive
   packagelist(keybindings *kb, pkginfo **pkgltab); // recursive
   void add(pkginfo **arry) { while (*arry) add(*arry++); }

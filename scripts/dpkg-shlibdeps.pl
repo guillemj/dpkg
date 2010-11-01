@@ -842,4 +842,3 @@ sub find_packages {
     close(DPKG);
     return $pkgmatch;
 }
-

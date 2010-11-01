@@ -76,4 +76,3 @@ fgets_must(char *buf, size_t bufsz, FILE *f, const char *fn)
 
 	return l;
 }
-

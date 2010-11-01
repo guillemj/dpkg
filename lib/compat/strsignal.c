@@ -70,4 +70,3 @@ strsignal(int s)
 	return buf;
 }
 #endif
-

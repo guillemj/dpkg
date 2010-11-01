@@ -117,7 +117,7 @@ void packagelist::addheading(enum ssavailval ssavail,
     delete[] table;
     table= newtable;
   }
-  
+
   if (debug) fprintf(debug,"packagelist[%p]::addheading(%d,%d,%d,%s,%s)\n",
                      this,ssavail,ssstate,priority,
                      otherpriority ? otherpriority : "<null>",
@@ -136,7 +136,7 @@ void packagelist::addheading(enum ssavailval ssavail,
   newstate->ssavail= ssavail;
   newstate->ssstate= ssstate;
   newhead->clientdata= newstate;
- 
+
   table[nitems++]= newstate;
 }
 
@@ -159,10 +159,10 @@ void packagelist::ensurestatsortinfo() {
   const struct versionrevision *vera;
   struct pkginfo *pkg;
   int index;
-  
+
   if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() "
                      "sortorder=%d nitems=%d\n",this,statsortorder,nitems);
-  
+
   switch (statsortorder) {
   case sso_unsorted:
     if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() unsorted\n",this);
@@ -215,7 +215,6 @@ void packagelist::ensurestatsortinfo() {
       if (debug)
         fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d ssavail=%d\n",
                 this,index,table[index]->ssavail);
-  
     }
     calcssadone= 1;
     break;
@@ -250,7 +249,6 @@ void packagelist::ensurestatsortinfo() {
       if (debug)
         fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d ssstate=%d\n",
                 this,index,table[index]->ssstate);
-  
     }
     calcsssdone= 1;
     break;
@@ -267,7 +265,7 @@ void packagelist::sortmakeheads() {
 
   if (debug) fprintf(debug,"packagelist[%p]::sortmakeheads() "
                      "sortorder=%d statsortorder=%d\n",this,sortorder,statsortorder);
-  
+
   int nrealitems= nitems;
   addheading(ssa_none,sss_none,pkginfo::pri_unset,0,0);
 
@@ -276,7 +274,7 @@ void packagelist::sortmakeheads() {
 
   // Important: do not save pointers into table in this function, because
   // addheading may need to reallocate table to make it larger !
-  
+
   struct pkginfo *lastpkg;
   struct pkginfo *thispkg;
   lastpkg= 0;
@@ -301,7 +299,7 @@ void packagelist::sortmakeheads() {
     default:
       internerr("unknown statsortorder in sortmakeheads");
     }
-    
+
     int prioritydiff= (!lastpkg ||
                        thispkg->priority != lastpkg->priority ||
                        (thispkg->priority == pkginfo::pri_other &&
@@ -328,27 +326,27 @@ void packagelist::sortmakeheads() {
     if (ssdiff)
       addheading(ssavail,ssstate,
                  pkginfo::pri_unset,0, 0);
-    
+
     if (sortorder == so_section && sectiondiff)
       addheading(ssavail,ssstate,
                  pkginfo::pri_unset,0, thispkg->section ? thispkg->section : "");
-    
+
     if (sortorder == so_priority && prioritydiff)
       addheading(ssavail,ssstate,
                  thispkg->priority,thispkg->otherpriority, 0);
-    
+
     if (sortorder != so_alpha && (prioritydiff || sectiondiff))
       addheading(ssavail,ssstate,
                  thispkg->priority,thispkg->otherpriority,
                  thispkg->section ? thispkg->section : "");
-    
+
     lastpkg= thispkg;
   }
 
   if (listpad) {
     werase(listpad);
   }
-  
+
   sortinplace();
 }
 
@@ -384,7 +382,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
   initialsetup();
   struct pkgiterator *iter;
   struct pkginfo *pkg;
-  
+
   nitems = 0;
 
   iter = pkg_db_iter_new();
@@ -431,14 +429,14 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
 packagelist::packagelist(keybindings *kb, pkginfo **pkgltab) : baselist(kb) {
   // takes over responsibility for pkgltab (recursive)
   initialsetup();
-  
+
   recursive= 1;
   nitems= 0;
   if (pkgltab) {
     add(pkgltab);
     delete[] pkgltab;
   }
-    
+
   sortorder= so_unsorted;
   statsortorder= sso_unsorted;
   versiondisplayopt= vdo_none;
@@ -472,19 +470,19 @@ packagelist::~packagelist() {
     regfree(&searchfsm);
 
   discardheadings();
-  
+
   int index;
   for (index=0; index<nitems; index++) table[index]->free(recursive);
   delete[] table;
   delete[] datatable;
   if (debug) fprintf(debug,"packagelist[%p]::~packagelist() tables freed\n",this);
-  
+
   doneent *search, *next;
   for (search=depsdone; search; search=next) {
     next= search->next;
     delete search;
   }
-  
+
   if (debug) fprintf(debug,"packagelist[%p]::~packagelist() done\n",this);
 }
 
@@ -527,7 +525,7 @@ packagelist::checksearch(char *rx)
     displayerror(_("error in regular expression"));
     return false;
   }
-  
+
   return true;
 }
 
@@ -596,12 +594,12 @@ pkginfo **packagelist::display() {
   }
   pop_cleanup(ehflag_normaltidy); // unset the SIGWINCH handler
   enddisplay();
-  
+
   if (interp->qa == qa_quitnochecksave || !readwrite) {
     if (debug) fprintf(debug,"packagelist[%p]::display() done - quitNOcheck\n",this);
     return 0;
   }
-  
+
   if (recursive) {
     retl= new pkginfo*[nitems+1];
     for (index=0; index<nitems; index++) retl[index]= table[index]->pkg;

@@ -161,4 +161,3 @@ subproc_wait_check(pid_t pid, const char *desc, int flags)
 
 	return subproc_check(status, desc, flags);
 }
-

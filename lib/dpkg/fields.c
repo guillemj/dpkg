@@ -161,7 +161,7 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                 _("value for `status' field not allowed in this context"));
   if (ps->flags & pdb_recordavailable)
     return;
-  
+
   pigp->want = convert_string(ps, pigp,
                               _("first (want) word in `status' field"),
                               wantinfos, value, &ep, -1);
@@ -178,7 +178,7 @@ void f_version(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                const char *value, const struct fieldinfo *fip) {
   parse_db_version(ps, pigp, &pifp->version, value,
                    _("error in Version string '%.250s'"), value);
-}  
+}
 
 void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                 struct parsedb_state *ps,
@@ -194,7 +194,7 @@ void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     pifp->version.version= newversion;
   }
   pifp->version.revision= nfstrsave(value);
-}  
+}
 
 void f_configversion(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                      struct parsedb_state *ps,
@@ -221,7 +221,7 @@ static void conffvalue_lastword(const char *value, const char *from,
                                 struct pkginfo *pigp)
 {
   const char *lastspc;
-  
+
   if (from <= value+1) goto malformed;
   for (lastspc= from-1; *lastspc != ' '; lastspc--);
   if (lastspc <= value+1 || lastspc >= endent-1) goto malformed;
@@ -245,7 +245,7 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   const char *endent, *endfn, *hashstart;
   int c, namelen, hashlen, obsolete;
   char *newptr;
-  
+
   lastp= &pifp->conffiles;
   while (*value) {
     c= *value++;
@@ -542,4 +542,3 @@ f_trigaw(struct pkginfo *aw, struct pkginfoperfile *pifp,
     trig_enqueue_awaited_pend(pend);
   }
 }
-

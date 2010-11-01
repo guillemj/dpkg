@@ -91,4 +91,3 @@ print(Y "$file $section $priority\n")
 close(Y) || syserr(_g("close new files list file"));
 rename("$fileslistfile.new", $fileslistfile) ||
     syserr(_g("install new files list file"));
-

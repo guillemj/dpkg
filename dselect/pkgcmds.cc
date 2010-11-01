@@ -145,7 +145,7 @@ int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
   /* Returns: 1 for yes, 0 for no, -1 for if they want to preserve an error condition. */
   if (debug) fprintf(debug,"would_like_to_install(%d, %s) status %d\n",
                      wantvalue,pkg->name,pkg->status);
-  
+
   if (wantvalue == pkginfo::want_install) return 1;
   if (wantvalue != pkginfo::want_hold) return 0;
   if (pkg->status == pkginfo::stat_installed) return 1;
@@ -153,7 +153,7 @@ int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
       pkg->status == pkginfo::stat_configfiles) return 0;
   return -1;
 }
-  
+
 const char *packagelist::itemname(int index) {
   return table[index]->pkg->name;
 }

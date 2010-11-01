@@ -57,7 +57,7 @@ protected:
   int helpscreen_attr;
 
   int total_width;
-  
+
   // (n)curses stuff
   WINDOW *listpad, *infopad, *colheadspad, *thisstatepad;
   WINDOW *titlewin, *whatinfowin, *querywin;
@@ -106,7 +106,7 @@ protected:
   virtual bool checksearch(char *str);
   virtual bool matchsearch(int index);
   void wordwrapinfo(int offset, const char *string);
-  
+
 public:
 
   keybindings *bindings;

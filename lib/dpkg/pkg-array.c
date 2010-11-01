@@ -79,4 +79,3 @@ pkg_array_destroy(struct pkg_array *a)
 	free(a->pkgs);
 	a->pkgs = NULL;
 }
-

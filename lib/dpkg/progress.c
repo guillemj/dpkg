@@ -69,4 +69,3 @@ progress_done(struct progress *progress)
 	if (progress->on_tty)
 		printf("\r%s", progress->text);
 }
-

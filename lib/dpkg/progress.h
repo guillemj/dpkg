@@ -44,4 +44,3 @@ void progress_done(struct progress *progress);
 DPKG_END_DECLS
 
 #endif
-

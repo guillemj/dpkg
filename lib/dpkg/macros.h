@@ -84,4 +84,3 @@
 #endif
 
 #endif /* LIBDPKG_MACROS_H */
-

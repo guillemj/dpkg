@@ -124,4 +124,3 @@ ensure_diversions(void)
 
 	onerr_abort--;
 }
-

@@ -70,12 +70,12 @@ void cu_installnew(int argc, void **argv) {
   struct stat stab;
 
   cleanup_pkg_failed++; cleanup_conflictor_failed++;
-  
+
   namenode= nifd->namenode;
   debug(dbg_eachfile,"cu_installnew `%s' flags=%o",namenode->name,namenode->flags);
-        
+
   setupfnamevbs(namenode->name);
-  
+
   if (!(namenode->flags & fnnf_new_conff) && !lstat(fnametmpvb.buf,&stab)) {
     /* OK, <foo>.dpkg-tmp exists. Remove <foo> and
      * restore <foo>.dpkg-tmp ... */
@@ -130,7 +130,7 @@ void cu_prermupgrade(int argc, void **argv) {
  */
 void ok_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];
-  
+
   if (cipaction->arg == act_install)
     add_to_queue(deconf);
 }

@@ -116,7 +116,7 @@ void w_filecharf(struct varbuf *vb,
                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                  enum fwriteflags flags, const struct fieldinfo *fip) {
   struct filedetails *fdp;
-  
+
   if (pifp != &pigp->available) return;
   fdp= pigp->files;
   if (!fdp || !FILEFFIELD(fdp,fip->integer,const char*)) return;
@@ -146,7 +146,7 @@ void w_booleandefno(struct varbuf *vb,
   }
   if (!value) return;
   assert(value == true);
-  varbufaddstr(vb,fip->name); varbufaddstr(vb, ": yes\n"); 
+  varbufaddstr(vb,fip->name); varbufaddstr(vb, ": yes\n");
 }
 
 void w_priority(struct varbuf *vb,
@@ -357,7 +357,7 @@ void
 writedb(const char *filename, bool available, bool mustsync)
 {
   static char writebuf[8192];
-  
+
   struct pkgiterator *it;
   struct pkginfo *pigp;
   struct pkginfoperfile *pifp;
@@ -378,7 +378,7 @@ writedb(const char *filename, bool available, bool mustsync)
   umask(old_umask);
   if (!file)
     ohshite(_("failed to open '%s' for writing %s database"), filename, which);
-  
+
   if (setvbuf(file,writebuf,_IOFBF,sizeof(writebuf)))
     ohshite(_("unable to set buffering on %s database file"), which);
 
@@ -393,7 +393,7 @@ writedb(const char *filename, bool available, bool mustsync)
     if (fputs(vb.buf,file) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
               which, pigp->name, filename);
-    varbufreset(&vb);      
+    varbufreset(&vb);
   }
   pkg_db_iter_free(it);
   varbuf_destroy(&vb);

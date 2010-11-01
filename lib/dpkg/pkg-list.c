@@ -76,4 +76,3 @@ pkg_list_prepend(struct pkg_list **head, struct pkginfo *pkg)
 {
 	*head = pkg_list_new(pkg, *head);
 }
-

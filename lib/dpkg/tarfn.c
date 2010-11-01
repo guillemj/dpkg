@@ -402,4 +402,3 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 		return status;
 	}
 }
-

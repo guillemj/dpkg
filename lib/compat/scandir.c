@@ -98,4 +98,3 @@ scandir(const char *dir, struct dirent ***namelist,
 	return used;
 }
 #endif
-

@@ -51,4 +51,3 @@ void command_exec(struct command *cmd) DPKG_ATTR_NORET;
 DPKG_END_DECLS
 
 #endif /* LIBDPKG_COMMAND_H */
-

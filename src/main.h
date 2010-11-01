@@ -261,7 +261,7 @@ enum debugflags {
   dbg_triggersdetail =  020000,
   dbg_triggersstupid =  040000,
 };
-  
+
 void debug(int which, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 void log_action(const char *action, struct pkginfo *pkg);
 

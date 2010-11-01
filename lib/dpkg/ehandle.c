@@ -58,7 +58,7 @@ struct cleanup_entry {
   int cpmask, cpvalue;
   int argc;
   void *argv[1];
-};         
+};
 
 struct error_context {
   struct error_context *next;
@@ -196,7 +196,7 @@ run_cleanups(struct error_context *econ, int flagsetin)
   volatile int i, flagset;
 
   if (econ->printerror) econ->printerror(errmsg,econ->contextstring);
-     
+
   if (++preventrecurse > 3) {
     onerr_abort++;
     fprintf(stderr, _("%s: too many nested errors during error recovery!!\n"),
@@ -262,7 +262,7 @@ pop_error_context(int flagset)
 void push_checkpoint(int mask, int value) {
   struct cleanup_entry *cep;
   int i;
-  
+
   cep = malloc(sizeof(struct cleanup_entry) + sizeof(char *));
   if (cep == NULL) {
     onerr_abort++;
@@ -285,7 +285,7 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   va_list args;
 
   onerr_abort++;
-  
+
   cep = malloc(sizeof(struct cleanup_entry) + sizeof(char *) * (nargs + 1));
   if (!cep) {
     if (nargs > array_count(emergency.args))
@@ -374,7 +374,7 @@ void ohshite(const char *fmt, ...) {
   va_end(args);
 
   snprintf(errmsgbuf,sizeof(errmsgbuf),"%s: %s",buf,strerror(e));
-  errmsg= errmsgbuf; 
+  errmsg= errmsgbuf;
 
   run_error_handler();
 }
@@ -417,5 +417,3 @@ do_internerr(const char *file, int line, const char *fmt, ...)
 
   abort();
 }
-
-

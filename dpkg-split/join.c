@@ -46,7 +46,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
             "Putting package %s together from %d parts: ",
             partlist[0]->maxpartn),
          partlist[0]->package,partlist[0]->maxpartn);
-  
+
   buffersize= partlist[0]->maxpartlen;
   for (i=0; i<partlist[0]->maxpartn; i++)
     if (partlist[0]->headerlen > buffersize) buffersize= partlist[0]->headerlen;
@@ -84,7 +84,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
 void addtopartlist(struct partinfo **partlist,
                    struct partinfo *pi, struct partinfo *refi) {
   int i;
-  
+
   if (strcmp(pi->package,refi->package) ||
       strcmp(pi->version,refi->version) ||
       strcmp(pi->md5sum,refi->md5sum) ||
@@ -109,7 +109,7 @@ void do_join(const char *const *argv) {
   struct partqueue *pq;
   struct partinfo *refi, *pi, **partlist;
   unsigned int i;
-  
+
   assert(!queue);
   if (!*argv)
     badusage(_("--%s requires one or more part file arguments"),
@@ -118,8 +118,7 @@ void do_join(const char *const *argv) {
     pq= nfmalloc(sizeof(struct partqueue));
 
     mustgetpartinfo(thisarg,&pq->info);
-    
-    
+
     pq->nextinqueue= queue;
     queue= pq;
   }

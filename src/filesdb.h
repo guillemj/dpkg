@@ -100,7 +100,7 @@ struct filenamenode {
   struct stat *filestat;
   struct trigfileint *trig_interested;
 };
- 
+
 struct fileinlist {
   struct fileinlist *next;
   struct filenamenode *namenode;

@@ -55,4 +55,3 @@ if ($has_alg_merge) {
     test_merge("$datadir/ch-merged-basic", @input);
     test_merge("$datadir/ch-merged-pr-basic", "-m", @input);
 }
-

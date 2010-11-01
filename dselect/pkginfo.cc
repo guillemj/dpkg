@@ -168,11 +168,11 @@ void packagelist::redrawinfo() {
   if (!info_height) return;
   whatinfovb.reset();
   werase(infopad); wmove(infopad,0,0);
-  
+
   if (debug)
     fprintf(debug,"packagelist[%p]::redrawinfo(); #=%d\n", this,
             (int)(currentinfo - baseinfo));
-  
+
   (this->*currentinfo->display)();
   whatinfovb.terminate();
   int y,x;

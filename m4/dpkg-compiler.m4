@@ -99,4 +99,3 @@ AS_IF([test "x$dpkg_cv_c99" = "xyes"],
 		AC_DEFINE([HAVE_C99], 1)],
 	       [AC_MSG_ERROR([unsupported required C99 extensions])])])[]dnl
 ])# DPKG_C_C99
-

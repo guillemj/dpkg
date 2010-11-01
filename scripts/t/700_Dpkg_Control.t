@@ -82,4 +82,3 @@ is(${$io->string_ref()},
 'Package: mypackage2
 Depends: hello
 ', "Dump of second binary package of $datadir/control-1");
-

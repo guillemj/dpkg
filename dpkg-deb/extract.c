@@ -51,7 +51,7 @@
 static void movecontrolfiles(const char *thing) {
   char buf[200];
   pid_t c1;
-  
+
   sprintf(buf, "mv %s/* . && rmdir %s", thing, thing);
   c1 = subproc_fork();
   if (!c1) {
@@ -137,7 +137,7 @@ void extracthalf(const char *debar, const char *directory,
   int adminmember;
   bool oldformat, header_done;
   struct compressor *decompressor = &compressor_gzip;
-  
+
   arfd = open(debar, O_RDONLY);
   if (arfd < 0)
     ohshite(_("failed to read archive `%.255s'"), debar);
@@ -268,7 +268,6 @@ void extracthalf(const char *debar, const char *directory,
       m_output(stdout, _("<standard output>"));
     }
   } else {
-    
     if (!strncmp(versionbuf,"!<arch>",7)) {
       fprintf(stderr,
               _("dpkg-deb: file looks like it might be an archive which has been\n"
@@ -276,7 +275,6 @@ void extracthalf(const char *debar, const char *directory,
     }
 
     ohshit(_("`%.255s' is not a debian format archive"),debar);
-
   }
 
   m_pipe(p1);
@@ -291,7 +289,7 @@ void extracthalf(const char *debar, const char *directory,
   close(p1[1]);
 
   if (taroption) m_pipe(p2);
-  
+
   c2 = subproc_fork();
   if (!c2) {
     m_dup2(p1[0], 0);
@@ -333,7 +331,7 @@ void extracthalf(const char *debar, const char *directory,
     close(p2[0]);
     subproc_wait_check(c3, "tar", 0);
   }
-  
+
   subproc_wait_check(c2, _("<decompress>"), PROCPIPE);
   if (c1 != -1)
     subproc_wait_check(c1, _("paste"), 0);
@@ -350,7 +348,7 @@ static void controlextractvextract(int admin,
                                    const char *taroptions,
                                    const char *const *argv) {
   const char *debar, *directory;
-  
+
   if (!(debar= *argv++))
     badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
   if (!(directory= *argv++)) {
@@ -365,17 +363,14 @@ static void controlextractvextract(int admin,
 
 void do_fsystarfile(const char *const *argv) {
   const char *debar;
-  
+
   if (!(debar= *argv++))
     badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
   if (*argv)
     badusage(_("--%s takes only one argument (.deb filename)"),cipaction->olong);
   extracthalf(debar, NULL, NULL, 0);
 }
-   
+
 void do_control(const char *const *argv) { controlextractvextract(1, "x", argv); }
 void do_extract(const char *const *argv) { controlextractvextract(0, "xp", argv); }
 void do_vextract(const char *const *argv) { controlextractvextract(0, "xpv", argv); }
-
-
-

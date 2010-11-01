@@ -53,6 +53,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
 
   if(!possi)
     return false;
+
   /* We're investigating the dependency ‘possi’ to see if it
    * is part of a loop. To this end we look to see whether the
    * depended-on package is already one of the packages whose
@@ -62,7 +63,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
   /* If not, we do a recursive search on it to see what we find. */
   if (!sol)
     return findbreakcyclerecursive(dependedon, thislink);
-  
+
   debug(dbg_depcon,"found cycle");
   /* Right, we now break one of the links. We prefer to break
    * a dependency of a package without a postinst script, as
@@ -80,11 +81,14 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
       ohshite(_("unable to check for existence of `%.250s'"),postinstfilename);
     }
   }
+
   /* Now we have either a package with no postinst, or the other
    * occurrence of the current package in the list. */
   sol->possi->cyclebreak = true;
+
   debug(dbg_depcon, "cycle broken at %s -> %s",
         sol->possi->up->up->name, sol->possi->ed->name);
+
   return true;
 }
 
@@ -105,7 +109,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
   if (pkg->clientdata->color == black)
     return false;
   pkg->clientdata->color = gray;
-  
+
   if (f_debug & dbg_depcondetail) {
     struct varbuf str_pkgs = VARBUF_INIT;
 
@@ -153,7 +157,7 @@ findbreakcycle(struct pkginfo *pkg)
 {
   struct pkgiterator *iter;
   struct pkginfo *tpkg;
-	
+
   /* Clear the visited flag of all packages before we traverse them. */
   iter = pkg_db_iter_new();
   while ((tpkg = pkg_db_iter_next(iter))) {
@@ -200,7 +204,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   varbufprintf(addto, fmt, dep->up->name, depstr.buf);
   varbuf_destroy(&depstr);
 }
-  
+
 /*
  * *whynot must already have been initialized; it need not be
  * empty though - it will be reset before use.
@@ -237,7 +241,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 	 dep->type == dep_breaks || dep->type == dep_conflicts ||
 	 dep->type == dep_recommends || dep->type == dep_suggests ||
 	 dep->type == dep_enhances);
-  
+
   if (canfixbyremove)
     *canfixbyremove = NULL;
 
@@ -271,11 +275,10 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   varbufaddc(whynot, ' ');
   describedepcon(whynot, dep);
   varbufaddc(whynot,'\n');
-  
+
   /* TODO: Check dep_enhances as well. */
   if (dep->type == dep_depends || dep->type == dep_predepends ||
       dep->type == dep_recommends || dep->type == dep_suggests ) {
-    
     /* Go through the alternatives. As soon as we find one that
      * we like, we return ‘true’ straight away. Otherwise, when we get to
      * the end we'll have accumulated all the reasons in whynot and
@@ -349,7 +352,6 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 
       /* If there was no version specified we try looking for Providers. */
       if (possi->verrel == dvr_none) {
-        
         /* See if the package we're about to install Provides it. */
         for (provider= possi->ed->available.depended;
              provider;
@@ -364,14 +366,14 @@ depisok(struct dependency *dep, struct varbuf *whynot,
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
-          
+
           switch (provider->up->up->clientdata->istobe) {
           case itb_installnew:
             /* Don't pay any attention to the Provides field of the
              * currently-installed version of the package we're trying
              * to install. We dealt with that by using the available
              * information above. */
-            continue; 
+            continue;
           case itb_remove:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be removed.\n"),
                     provider->up->up->name, possi->ed->name);
@@ -393,7 +395,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           }
           varbufaddstr(whynot, linebuf);
         }
-        
+
         if (!*linebuf) {
           /* If the package wasn't installed at all, and we haven't said
            * yet why this isn't satisfied, we should say so now. */
@@ -404,9 +406,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
     }
 
     return false;
-
   } else {
-    
     /* It's conflicts or breaks. There's only one main alternative,
      * but we also have to consider Providers. We return ‘false’ as soon
      * as we find something that matches the conflict, and only describe
@@ -421,7 +421,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
        * other packages which provide the same virtual name. We
        * therefore don't look at the real package and go on to the
        * virtual ones. */
-      
+
       switch (possi->ed->clientdata->istobe) {
       case itb_remove:
         break;
@@ -471,7 +471,6 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 
     /* If there was no version specified we try looking for Providers. */
     if (possi->verrel == dvr_none) {
-        
       /* See if the package we're about to install Provides it. */
       for (provider= possi->ed->available.depended;
            provider;
@@ -494,17 +493,17 @@ depisok(struct dependency *dep, struct varbuf *whynot,
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
-          
+
         if (provider->up->up == dep->up)
           continue; /* Conflicts and provides the same. */
-        
+
         switch (provider->up->up->clientdata->istobe) {
         case itb_installnew:
           /* Don't pay any attention to the Provides field of the
            * currently-installed version of the package we're trying
            * to install. We dealt with that package by using the
            * available information above. */
-          continue; 
+          continue;
         case itb_remove:
           continue;
         case itb_deconfigure:

@@ -42,7 +42,7 @@ static void getsel1package(struct pkginfo *pkg) {
   if (pkg->want == want_unknown) return;
   l= strlen(pkg->name); l >>= 3; l= 6-l; if (l<1) l=1;
   printf("%s%.*s%s\n",pkg->name,l,"\t\t\t\t\t\t",wantinfos[pkg->want].name);
-}         
+}
 
 void getselections(const char *const *argv) {
   struct pkg_array array;

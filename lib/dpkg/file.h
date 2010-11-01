@@ -51,4 +51,3 @@ void file_unlock(void);
 DPKG_END_DECLS
 
 #endif /* LIBDPKG_FILE_H */
-

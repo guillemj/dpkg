@@ -165,4 +165,3 @@ test(void)
 	test_path_temp();
 	test_path_quote();
 }
-

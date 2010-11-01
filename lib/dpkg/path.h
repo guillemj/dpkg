@@ -36,4 +36,3 @@ char *path_make_temp_template(const char *suffix);
 DPKG_END_DECLS
 
 #endif /* LIBDPKG_PATH_H */
-

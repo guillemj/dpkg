@@ -83,4 +83,3 @@ str_strip_quotes(char *str)
 
 	return str;
 }
-

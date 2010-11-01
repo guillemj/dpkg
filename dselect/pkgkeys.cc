@@ -77,7 +77,7 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'k',            "up"               }, // vi style
   { 'p',            "up"               },
   { KEY_UP,         "up"               },
-                                       
+
   { 'N',            "scrollon"         },
   { KEY_NPAGE,      "scrollon"         },
   { ' ',            "scrollon"         },
@@ -88,25 +88,25 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { C('h'),         "scrollback"       },
   { C('n'),         "scrollon1"        },
   { C('p'),         "scrollback1"      },
-                                       
+
   { 't',            "top"              },
   { KEY_HOME,       "top"              },
   { 'e',            "bottom"           },
   { KEY_LL,         "bottom"           },
   { KEY_END,        "bottom"           },
-                                       
+
   { 'u',            "iscrollback"      },
   { 'd',            "iscrollon"        },
   { C('u'),         "iscrollback1"     },
   { C('d'),         "iscrollon1"       },
-                                       
+
   { 'B',            "panback"          },
   { KEY_LEFT,       "panback"          },
   { 'F',            "panon"            },
   { KEY_RIGHT,      "panon"            },
   { C('b'),         "panback1"         },
   { C('f'),         "panon1"           },
-                                       
+
   { '+',            "install"          },
   { KEY_IC,         "install"          },
   { '-',            "remove"           },
@@ -115,7 +115,7 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'H',            "hold"             },
   { '=',            "hold"             },
   { 'G',            "unhold"           },
-                                       
+
   { '?',            "help"             },
   { KEY_HELP,       "help"             },
   { KEY_F(1),       "help"             },
@@ -129,7 +129,7 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { '/',            "search"           },
   { 'n',            "searchagain"      },
   { '\\',           "searchagain"      },
-                                       
+
   { KEY_ENTER,      "quitcheck"        },
   { '\r',           "quitcheck"        },
   { 'Q',            "quitnocheck"      },
@@ -139,6 +139,6 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'U',            "revertsuggest"    },
   { 'D',            "revertdirect"     },
   { 'C',            "revertinstalled"  },
-                                       
+
   {  -1,             0                 }
 };
