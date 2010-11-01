@@ -40,26 +40,26 @@
 #define TAR_MAGIC_GNU   "ustar "  " \0"
 
 struct TarHeader {
-	char Name[100];
-	char Mode[8];
-	char UserID[8];
-	char GroupID[8];
-	char Size[12];
-	char ModificationTime[12];
-	char Checksum[8];
-	char LinkFlag;
-	char LinkName[100];
-	char MagicNumber[8];
-	char UserName[32];
-	char GroupName[32];
-	char MajorDevice[8];
-	char MinorDevice[8];
+	char name[100];
+	char mode[8];
+	char uid[8];
+	char gid[8];
+	char size[12];
+	char mtime[12];
+	char checksum[8];
+	char linkflag;
+	char linkname[100];
+	char magic[8];
+	char user[32];
+	char group[32];
+	char devmajor[8];
+	char devminor[8];
 
 	/* Only valid on ustar. */
-	char Prefix[155];
+	char prefix[155];
 };
 
-static const size_t TarChecksumOffset = offsetof(struct TarHeader, Checksum);
+static const size_t TarChecksumOffset = offsetof(struct TarHeader, checksum);
 
 /**
  * Convert an ASCII octal string to a long.
@@ -106,8 +106,8 @@ get_prefix_name(struct TarHeader *h)
 	/* The size is not going to be bigger than that. */
 	s = m_malloc(257);
 
-	prefix = StoC(h->Prefix, sizeof(h->Prefix));
-	name = StoC(h->Name, sizeof(h->Name));
+	prefix = StoC(h->prefix, sizeof(h->prefix));
+	name = StoC(h->name, sizeof(h->name));
 
 	strcpy(s, prefix);
 	strcat(s, "/");
@@ -125,7 +125,7 @@ get_unix_mode(struct TarHeader *h)
 	mode_t mode;
 	enum tar_filetype type;
 
-	type = (enum tar_filetype)h->LinkFlag;
+	type = (enum tar_filetype)h->linkflag;
 
 	switch (type) {
 	case tar_filetype_file0:
@@ -153,7 +153,7 @@ get_unix_mode(struct TarHeader *h)
 		break;
 	}
 
-	mode |= OtoL(h->Mode, sizeof(h->Mode));
+	mode |= OtoL(h->mode, sizeof(h->mode));
 
 	return mode;
 }
@@ -169,54 +169,52 @@ DecodeTarHeader(char *block, struct tar_entry *d)
 	long sum;
 	long checksum;
 
-	if (memcmp(h->MagicNumber, TAR_MAGIC_GNU, 6) == 0)
+	if (memcmp(h->magic, TAR_MAGIC_GNU, 6) == 0)
 		d->format = tar_format_gnu;
-	else if (memcmp(h->MagicNumber, TAR_MAGIC_USTAR, 6) == 0)
+	else if (memcmp(h->magic, TAR_MAGIC_USTAR, 6) == 0)
 		d->format = tar_format_ustar;
 	else
 		d->format = tar_format_old;
 
-	d->type = (enum tar_filetype)h->LinkFlag;
+	d->type = (enum tar_filetype)h->linkflag;
 	if (d->type == tar_filetype_file0)
 		d->type = tar_filetype_file;
 
 	/* Concatenate prefix and name to support ustar style long names. */
-	if (d->format == tar_format_ustar && h->Prefix[0] != '\0')
+	if (d->format == tar_format_ustar && h->prefix[0] != '\0')
 		d->name = get_prefix_name(h);
 	else
-		d->name = StoC(h->Name, sizeof(h->Name));
-	d->linkname = StoC(h->LinkName, sizeof(h->LinkName));
+		d->name = StoC(h->name, sizeof(h->name));
+	d->linkname = StoC(h->linkname, sizeof(h->linkname));
 	d->stat.mode = get_unix_mode(h);
-	d->size = (size_t)OtoL(h->Size, sizeof(h->Size));
-	d->stat.mtime = (time_t)OtoL(h->ModificationTime,
-	                             sizeof(h->ModificationTime));
-	d->dev = ((OtoL(h->MajorDevice,
-	                sizeof(h->MajorDevice)) & 0xff) << 8) |
-	         (OtoL(h->MinorDevice, sizeof(h->MinorDevice)) & 0xff);
+	d->size = (size_t)OtoL(h->size, sizeof(h->size));
+	d->stat.mtime = (time_t)OtoL(h->mtime, sizeof(h->mtime));
+	d->dev = ((OtoL(h->devmajor, sizeof(h->devmajor)) & 0xff) << 8) |
+	         (OtoL(h->devminor, sizeof(h->devminor)) & 0xff);
 
-	if (*h->UserName)
-		passwd = getpwnam(h->UserName);
+	if (*h->user)
+		passwd = getpwnam(h->user);
 	if (passwd)
 		d->stat.uid = passwd->pw_uid;
 	else
-		d->stat.uid = (uid_t)OtoL(h->UserID, sizeof(h->UserID));
+		d->stat.uid = (uid_t)OtoL(h->uid, sizeof(h->uid));
 
-	if (*h->GroupName)
-		group = getgrnam(h->GroupName);
+	if (*h->group)
+		group = getgrnam(h->group);
 	if (group)
 		d->stat.gid = group->gr_gid;
 	else
-		d->stat.gid = (gid_t)OtoL(h->GroupID, sizeof(h->GroupID));
+		d->stat.gid = (gid_t)OtoL(h->gid, sizeof(h->gid));
 
-	checksum = OtoL(h->Checksum, sizeof(h->Checksum));
+	checksum = OtoL(h->checksum, sizeof(h->checksum));
 
 	/* Treat checksum field as all blank. */
-	sum = ' ' * sizeof(h->Checksum);
+	sum = ' ' * sizeof(h->checksum);
 	for (i = TarChecksumOffset; i > 0; i--)
 		sum += *s++;
 	/* Skip the real checksum field. */
-	s += sizeof(h->Checksum);
-	for (i = (TARBLKSZ - TarChecksumOffset - sizeof(h->Checksum));
+	s += sizeof(h->checksum);
+	for (i = (TARBLKSZ - TarChecksumOffset - sizeof(h->checksum));
 	     i > 0; i--)
 		sum += *s++;
 
