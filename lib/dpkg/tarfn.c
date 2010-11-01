@@ -59,7 +59,7 @@ struct tar_header {
 	char prefix[155];
 };
 
-static const size_t TarChecksumOffset = offsetof(struct tar_header, checksum);
+static const size_t checksum_offset = offsetof(struct tar_header, checksum);
 
 /**
  * Convert an ASCII octal string to a long.
@@ -210,12 +210,11 @@ DecodeTarHeader(char *block, struct tar_entry *d)
 
 	/* Treat checksum field as all blank. */
 	sum = ' ' * sizeof(h->checksum);
-	for (i = TarChecksumOffset; i > 0; i--)
+	for (i = checksum_offset; i > 0; i--)
 		sum += *s++;
 	/* Skip the real checksum field. */
 	s += sizeof(h->checksum);
-	for (i = (TARBLKSZ - TarChecksumOffset - sizeof(h->checksum));
-	     i > 0; i--)
+	for (i = TARBLKSZ - checksum_offset - sizeof(h->checksum); i > 0; i--)
 		sum += *s++;
 
 	return (sum == checksum);
