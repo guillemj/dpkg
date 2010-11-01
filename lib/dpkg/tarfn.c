@@ -249,7 +249,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 	h.linkname = NULL;
 
 	while ((status = ops->read(ctx, buffer, TARBLKSZ)) == TARBLKSZ) {
-		int nameLength;
+		int name_len;
 
 		if (!DecodeTarHeader(buffer, &h)) {
 			if (h.name[0] == '\0') {
@@ -282,19 +282,19 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			break;
 		}
 
-		nameLength = strlen(h.name);
+		name_len = strlen(h.name);
 
 		switch (h.type) {
 		case tar_filetype_file:
 			/* Compatibility with pre-ANSI ustar. */
-			if (h.name[nameLength - 1] != '/') {
+			if (h.name[name_len - 1] != '/') {
 				status = ops->extract_file(ctx, &h);
 				break;
 			}
 			/* Else, fall through. */
 		case tar_filetype_dir:
-			if (h.name[nameLength - 1] == '/') {
-				h.name[nameLength - 1] = '\0';
+			if (h.name[name_len - 1] == '/') {
+				h.name[name_len - 1] = '\0';
 			}
 			status = ops->mkdir(ctx, &h);
 			break;
