@@ -40,7 +40,7 @@
  * @return The size of the trimmed pathname.
  */
 size_t
-path_rtrim_slash_slashdot(char *path)
+path_trim_slash_slashdot(char *path)
 {
 	char *end;
 

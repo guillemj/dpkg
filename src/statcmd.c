@@ -110,7 +110,7 @@ path_cleanup(const char *path)
 {
 	char *new_path = m_strdup(path);
 
-	path_rtrim_slash_slashdot(new_path);
+	path_trim_slash_slashdot(new_path);
 	if (opt_verbose && strcmp(path, new_path) != 0)
 		warning(_("stripping trailing /"));
 

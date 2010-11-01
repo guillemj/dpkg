@@ -246,7 +246,7 @@ void do_build(const char *const *argv) {
   } else {
     m= m_malloc(strlen(directory) + sizeof(DEBEXT));
     strcpy(m, directory);
-    path_rtrim_slash_slashdot(m);
+    path_trim_slash_slashdot(m);
     strcat(m, DEBEXT);
     debar= m;
   }

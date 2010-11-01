@@ -282,7 +282,7 @@ searchfiles(const char *const *argv)
       varbufaddstr(&path, thisarg);
       varbufaddc(&path, '\0');
 
-      varbuf_trunc(&path, path_rtrim_slash_slashdot(path.buf));
+      varbuf_trunc(&path, path_trim_slash_slashdot(path.buf));
 
       thisarg = path.buf;
     }

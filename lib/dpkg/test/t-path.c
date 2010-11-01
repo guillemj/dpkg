@@ -33,13 +33,13 @@
 #define test_trim_eq_ref(p, ref) \
 do { \
 	char *t = strdup((p)); \
-	path_rtrim_slash_slashdot(t); \
+	path_trim_slash_slashdot(t); \
 	test_str(t, ==, (ref)); \
 	free(t); \
 } while (0)
 
 static void
-test_path_rtrim(void)
+test_path_trim(void)
 {
 	test_trim_eq_ref("./././.", ".");
 	test_trim_eq_ref("./././", ".");
@@ -160,7 +160,7 @@ test_path_quote(void)
 static void
 test(void)
 {
-	test_path_rtrim();
+	test_path_trim();
 	test_path_skip();
 	test_path_temp();
 	test_path_quote();
