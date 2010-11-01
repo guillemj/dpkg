@@ -159,7 +159,7 @@ get_unix_mode(struct tar_header *h)
 }
 
 static int
-DecodeTarHeader(char *block, struct tar_entry *d)
+tar_header_decode(char *block, struct tar_entry *d)
 {
 	struct tar_header *h = (struct tar_header *)block;
 	unsigned char *s = (unsigned char *)block;
@@ -248,7 +248,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 	while ((status = ops->read(ctx, buffer, TARBLKSZ)) == TARBLKSZ) {
 		int name_len;
 
-		if (!DecodeTarHeader(buffer, &h)) {
+		if (!tar_header_decode(buffer, &h)) {
 			if (h.name[0] == '\0') {
 				/* End of tape. */
 				status = 0;
