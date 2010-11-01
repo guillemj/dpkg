@@ -59,8 +59,6 @@ struct tar_header {
 	char prefix[155];
 };
 
-static const size_t checksum_offset = offsetof(struct tar_header, checksum);
-
 /**
  * Convert an ASCII octal string to a long.
  */
@@ -163,6 +161,7 @@ tar_header_checksum(struct tar_header *h)
 {
 	unsigned char *s = (unsigned char *)h;
 	unsigned int i;
+	const size_t checksum_offset = offsetof(struct tar_header, checksum);
 	long checksum;
 	long sum;
 
