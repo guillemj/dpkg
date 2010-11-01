@@ -228,6 +228,54 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	return tar_header_checksum(h);
 }
 
+/**
+ * Decode a GNU longlink or longname from the tar archive.
+ *
+ * The way the GNU long{link,name} stuff works is like this:
+ *
+ * - The first header is a “dummy” header that contains the size of the
+ *   filename.
+ * - The next N headers contain the filename.
+ * - After the headers with the filename comes the “real” header with a
+ *   bogus name or link.
+ */
+static int
+tar_gnu_long(void *ctx, const struct tar_operations *ops, struct tar_entry *te,
+             char **longp)
+{
+	char buf[TARBLKSZ];
+	char *bp;
+	int status = 0;
+	int long_read;
+
+	free(*longp);
+	*longp = bp = m_malloc(te->size);
+
+	for (long_read = te->size; long_read > 0; long_read -= TARBLKSZ) {
+		int copysize;
+
+		status = ops->read(ctx, buf, TARBLKSZ);
+		if (status == TARBLKSZ)
+			status = 0;
+		else {
+			/* Read partial header record? */
+			if (status > 0) {
+				errno = 0;
+				status = -1;
+			}
+
+			/* If we didn't get TARBLKSZ bytes read, punt. */
+			break;
+		}
+
+		copysize = min(long_read, TARBLKSZ);
+		memcpy(bp, buf, copysize);
+		bp += copysize;
+	};
+
+	return status;
+}
+
 struct symlinkList {
 	struct symlinkList *next;
 	struct tar_entry h;
@@ -241,9 +289,6 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 	struct tar_entry h;
 
 	char *next_long_name, *next_long_link;
-	char *bp;
-	char **longp;
-	int long_read;
 	struct symlinkList *symlink_head, *symlink_tail, *symlink_node;
 
 	next_long_name = NULL;
@@ -326,55 +371,10 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			status = ops->mknod(ctx, &h);
 			break;
 		case tar_filetype_gnu_longlink:
+			status = tar_gnu_long(ctx, ops, &h, &next_long_link);
+			break;
 		case tar_filetype_gnu_longname:
-			/* Set longp to the location of the long filename or
-			 * link we're trying to deal with. */
-			longp = ((h.type == tar_filetype_gnu_longname) ?
-			         &next_long_name :
-			         &next_long_link);
-
-			if (*longp)
-				free(*longp);
-
-			*longp = m_malloc(h.size);
-			bp = *longp;
-
-			/* The way the GNU long{link,name} stuff works is like
-			 * this:
-			 *
-			 * The first header is a “dummy” header that contains
-			 *   the size of the filename.
-			 * The next N headers contain the filename.
-			 * After the headers with the filename comes the
-			 *   “real” header with a bogus name or link. */
-			for (long_read = h.size;
-			     long_read > 0;
-			     long_read -= TARBLKSZ) {
-				int copysize;
-
-				status = ops->read(ctx, buffer, TARBLKSZ);
-				/* If we didn't get TARBLKSZ bytes read, punt. */
-				if (status != TARBLKSZ) {
-					 /* Read partial header record? */
-					if (status > 0) {
-						errno = 0;
-						status = -1;
-					}
-					break;
-				}
-				copysize = min(long_read, TARBLKSZ);
-				memcpy (bp, buffer, copysize);
-				bp += copysize;
-			};
-
-			/* In case of error do not overwrite status with 0. */
-			if (status < 0)
-				break;
-
-			/* This decode function expects status to be 0 after
-			 * the case statement if we successfully decoded. I
-			 * guess what we just did was successful. */
-			status = 0;
+			status = tar_gnu_long(ctx, ops, &h, &next_long_name);
 			break;
 		default:
 			/* Indicates broken tarfile: “Bad header field”. */
