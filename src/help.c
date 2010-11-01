@@ -80,8 +80,10 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
   return r;
 }
 
+/**
+ * Verify that some programs can be found in the PATH.
+ */
 void checkpath(void) {
-/* Verify that some programs can be found in the PATH. */
   static const char *const prog_list[] = {
     DEFAULTSHELL,
     RM,
@@ -174,13 +176,15 @@ force_conflicts(struct deppossi *possi)
   return fc_conflicts;
 }
 
+/**
+ * Returns the path to the script inside the chroot.
+ *
+ * FIXME: None of the stuff here will work if admindir isn't inside
+ * instdir as expected.
+ */
 static const char *
 preexecscript(struct command *cmd)
 {
-  /* returns the path to the script inside the chroot
-   * FIXME: none of the stuff here will work if admindir isn't inside
-   * instdir as expected.
-   */
   size_t instdirl;
 
   if (*instdir) {
@@ -270,7 +274,7 @@ do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
     cmd->filename = cmd->argv[0] = preexecscript(cmd);
     command_exec(cmd);
   }
-  subproc_signals_setup(cmd->name); /* This does a push_cleanup() */
+  subproc_signals_setup(cmd->name); /* This does a push_cleanup(). */
   r = subproc_wait_check(c1, cmd->name, warn);
   pop_cleanup(ehflag_normaltidy);
 
@@ -311,7 +315,10 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
   return 1;
 }
 
-/* All ...'s are const char*'s. */
+/*
+ * All ...'s in maintainer_script_* are const char *'s.
+ */
+
 int
 maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                             const char *desc, ...)
@@ -568,17 +575,17 @@ void ensure_pathname_nonexisting(const char *pathname) {
   assert(*u);
 
   debug(dbg_eachfile,"ensure_pathname_nonexisting `%s'",pathname);
-  if (!rmdir(pathname)) return; /* Deleted it OK, it was a directory. */
+  if (!rmdir(pathname))
+    return; /* Deleted it OK, it was a directory. */
   if (errno == ENOENT || errno == ELOOP) return;
   if (errno == ENOTDIR) {
-    /* Either it's a file, or one of the path components is.  If one
-     * of the path components is this will fail again ...
-     */
+    /* Either it's a file, or one of the path components is. If one
+     * of the path components is this will fail again ... */
     if (secure_unlink(pathname) == 0)
-      return; /* OK, it was */
+      return; /* OK, it was. */
     if (errno == ENOTDIR) return;
   }
-  if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh ? */
+  if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh? */
     ohshite(_("unable to securely remove '%.255s'"), pathname);
   }
   c1 = subproc_fork();

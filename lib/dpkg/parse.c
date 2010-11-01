@@ -44,7 +44,7 @@
 #include <dpkg/buffer.h>
 
 const struct fieldinfo fieldinfos[]= {
-  /* NB: capitalisation of these strings is important. */
+  /* Note: Capitalization of field name strings is important. */
   { "Package",          f_name,            w_name                                     },
   { "Essential",        f_boolean,         w_booleandefno,   PKGIFPOFF(essential)     },
   { "Status",           f_status,          w_status                                   },
@@ -77,16 +77,18 @@ const struct fieldinfo fieldinfos[]= {
   { "Triggers-Pending", f_trigpend,        w_trigpend                                 },
   { "Triggers-Awaited", f_trigaw,          w_trigaw                                   },
   /* Note that aliases are added to the nicknames table in parsehelp.c. */
-  {  NULL   /* sentinel - tells code that list is ended */                               }
+  {  NULL                                                                             }
 };
 
+/**
+ * Parse an RFC-822 style file.
+ *
+ * warnto, warncount and donep may be NULL.
+ * If donep is not NULL only one package's information is expected.
+ */
 int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep, int *warncount)
 {
-  /* warncount and donep may be null.
-   * If donep is not null only one package's information is expected.
-   */
-  
   static int fd;
   struct pkginfo newpig, *pigp;
   struct pkginfoperfile *newpifp, *pifp;
@@ -139,17 +141,20 @@ int parsedb(const char *filename, enum parsedbflags flags,
 #define getc_mmap(dataptr)		*dataptr++;
 #define ungetc_mmap(c, dataptr, data)	dataptr--;
 
-  for (;;) { /* loop per package */
+  /* Loop per package. */
+  for (;;) {
     memset(fieldencountered, 0, sizeof(fieldencountered));
     pkg_blank(&newpig);
 
-/* Skip adjacent new lines */
+    /* Skip adjacent new lines. */
     while(!EOF_mmap(dataptr, endptr)) {
       c= getc_mmap(dataptr); if (c!='\n' && c!=MSDOS_EOF_CHAR ) break;
       ps.lno++;
     }
     if (EOF_mmap(dataptr, endptr)) break;
-    for (;;) { /* loop per field */
+
+    /* Loop per field. */
+    for (;;) {
       fieldstart= dataptr - 1;
       while (!EOF_mmap(dataptr, endptr) && !isspace(c) && c!=':' && c!=MSDOS_EOF_CHAR)
         c= getc_mmap(dataptr);
@@ -169,7 +174,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         parse_error(&ps, &newpig,
                     _("field name `%.*s' must be followed by colon"),
                     fieldlen, fieldstart);
-/* Skip space after ':' but before value and eol */
+      /* Skip space after ‘:’ but before value and EOL. */
       while(!EOF_mmap(dataptr, endptr)) {
         c= getc_mmap(dataptr);
         if (c == '\n' || !isspace(c)) break;
@@ -188,7 +193,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
           ps.lno++;
 	  if (EOF_mmap(dataptr, endptr)) break;
           c= getc_mmap(dataptr);
-/* Found double eol, or start of new field */
+          /* Found double EOL, or start of new field. */
           if (EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
           ungetc_mmap(c,dataptr, data);
           c= '\n';
@@ -200,7 +205,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         c= getc_mmap(dataptr);
       }
       valuelen= dataptr - valuestart - 1;
-/* trim ending space on value */
+      /* Trim ending space on value. */
       while (valuelen && isspace(*(valuestart+valuelen-1)))
  valuelen--;
       for (nick = nicknames;
@@ -241,7 +246,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         *larpp= arp;
       }
       if (EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
-    } /* loop per field */
+    } /* Loop per field. */
     if (pdone && donep)
       parse_error(&ps, &newpig,
                   _("several package info entries found, only one allowed"));
@@ -266,10 +271,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     /* Check the Config-Version information:
      * If there is a Config-Version it is definitely to be used, but
-     * there shouldn't be one if the package is `installed' (in which case
+     * there shouldn't be one if the package is ‘installed’ (in which case
      * the Version and/or Revision will be copied) or if the package is
-     * `not-installed' (in which case there is no Config-Version).
-     */
+     * ‘not-installed’ (in which case there is no Config-Version). */
     if (!(flags & pdb_recordavailable)) {
       if (newpig.configversion.version) {
         if (newpig.status == stat_installed || newpig.status == stat_notinstalled)
@@ -304,8 +308,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     /* FIXME: There was a bug that could make a not-installed package have
      * conffiles, so we check for them here and remove them (rather than
-     * calling it an error, which will do at some point).
-     */
+     * calling it an error, which will do at some point). */
     if (!(flags & pdb_recordavailable) &&
         newpig.status == stat_notinstalled &&
         newpifp->conffiles) {
@@ -336,8 +339,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       continue;
 
     /* Copy the priority and section across, but don't overwrite existing
-     * values if the pdb_weakclassification flag is set.
-     */
+     * values if the pdb_weakclassification flag is set. */
     if (newpig.section && *newpig.section &&
         !((flags & pdb_weakclassification) && pigp->section && *pigp->section))
       pigp->section= newpig.section;
@@ -350,15 +352,14 @@ int parsedb(const char *filename, enum parsedbflags flags,
     /* Sort out the dependency mess. */
     copy_dependency_links(pigp,&pifp->depends,newpifp->depends,
                           (flags & pdb_recordavailable) ? 1 : 0);
-    /* Leave the `depended' pointer alone, we've just gone to such
-     * trouble to get it right :-).  The `depends' pointer in
+    /* Leave the ‘depended’ pointer alone, we've just gone to such
+     * trouble to get it right :-). The ‘depends’ pointer in
      * pifp was indeed also updated by copy_dependency_links,
      * but since the value was that from newpifp anyway there's
-     * no need to copy it back.
-     */
+     * no need to copy it back. */
     newpifp->depended= pifp->depended;
 
-    /* Copy across data */
+    /* Copy across data. */
     memcpy(pifp,newpifp,sizeof(struct pkginfoperfile));
     if (!(flags & pdb_recordavailable)) {
       pigp->want= newpig.want;
@@ -373,7 +374,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         assert(ta->aw == &newpig);
         ta->aw = pigp;
         /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_db_find())
-         * rather than in newpig */
+         * rather than in newpig. */
       }
 
     } else if (!(flags & pdb_ignorefiles)) {
@@ -404,44 +405,43 @@ int parsedb(const char *filename, enum parsedbflags flags,
   return pdone;
 }
 
+/**
+ * Copy dependency links structures.
+ *
+ * This routine is used to update the ‘reverse’ dependency pointers when
+ * new ‘forwards’ information has been constructed. It first removes all
+ * the links based on the old information. The old information starts in
+ * *updateme; after much brou-ha-ha the reverse structures are created
+ * and *updateme is set to the value from newdepends.
+ *
+ * @param pkg The package we're doing this for. This is used to construct
+ *        correct uplinks.
+ * @param updateme The forwards dependency pointer that we are to update.
+ *        This starts out containing the old forwards info, which we use to
+ *        unthread the old reverse links. After we're done it is updated.
+ * @param newdepends The value that we ultimately want to have in updateme.
+ * @param available The pkginfoperfile to modify, available or installed.
+ *
+ * It is likely that the backward pointer for the package in question
+ * (‘depended’) will be updated by this routine, but this will happen by
+ * the routine traversing the dependency data structures. It doesn't need
+ * to be told where to update that; I just mention it as something that
+ * one should be cautious about.
+ */
 void copy_dependency_links(struct pkginfo *pkg,
                            struct dependency **updateme,
                            struct dependency *newdepends,
                            bool available)
 {
-  /* This routine is used to update the `reverse' dependency pointers
-   * when new `forwards' information has been constructed.  It first
-   * removes all the links based on the old information.  The old
-   * information starts in *updateme; after much brou-ha-ha
-   * the reverse structures are created and *updateme is set
-   * to the value from newdepends.
-   *
-   * Parameters are:
-   * pkg - the package we're doing this for.  This is used to
-   *       construct correct uplinks.
-   * updateme - the forwards dependency pointer that we are to
-   *            update.  This starts out containing the old forwards
-   *            info, which we use to unthread the old reverse
-   *            links.  After we're done it is updated.
-   * newdepends - the value that we ultimately want to have in
-   *              updateme.
-   * It is likely that the backward pointer for the package in
-   * question (`depended') will be updated by this routine,
-   * but this will happen by the routine traversing the dependency
-   * data structures.  It doesn't need to be told where to update
-   * that; I just mention it as something that one should be
-   * cautious about.
-   */
   struct dependency *dyp;
   struct deppossi *dop;
   struct pkginfoperfile *addtopifp;
   
-  /* Delete `backward' (`depended') links from other packages to
-   * dependencies listed in old version of this one.  We do this by
+  /* Delete ‘backward’ (‘depended’) links from other packages to
+   * dependencies listed in old version of this one. We do this by
    * going through all the dependencies in the old version of this
    * one and following them down to find which deppossi nodes to
-   * remove.
-   */
+   * remove. */
   for (dyp= *updateme; dyp; dyp= dyp->next) {
     for (dop= dyp->list; dop; dop= dop->next) {
       if (dop->rev_prev)
@@ -455,9 +455,8 @@ void copy_dependency_links(struct pkginfo *pkg,
         dop->rev_next->rev_prev = dop->rev_prev;
     }
   }
-  /* Now fill in new `ed' links from other packages to dependencies listed
-   * in new version of this one, and set our uplinks correctly.
-   */
+  /* Now fill in new ‘ed’ links from other packages to dependencies
+   * listed in new version of this one, and set our uplinks correctly. */
   for (dyp= newdepends; dyp; dyp= dyp->next) {
     dyp->up= pkg;
     for (dop= dyp->list; dop; dop= dop->next) {

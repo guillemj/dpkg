@@ -52,7 +52,7 @@
 #include "main.h"
 
 
-/* filepackages support for tracking packages owning a file. */
+/*** filepackages support for tracking packages owning a file. ***/
 
 #define PERFILEPACKAGESLUMP 10
 
@@ -107,7 +107,7 @@ filepackages_iter_free(struct filepackages_iterator *iter)
   free(iter);
 }
 
-/*** Generic data structures and routines ***/
+/*** Generic data structures and routines. ***/
 
 static bool allpackagesdone = false;
 static int nfiles= 0;
@@ -153,8 +153,7 @@ pkg_files_blank(struct pkginfo *pkg)
        current= current->next) {
     /* For each file that used to be in the package,
      * go through looking for this package's entry in the list
-     * of packages containing this file, and blank it out.
-     */
+     * of packages containing this file, and blank it out. */
     for (packageslump= current->namenode->packages;
          packageslump;
          packageslump= packageslump->more)
@@ -168,20 +167,18 @@ pkg_files_blank(struct pkginfo *pkg)
                findlast++);
           findlast--;
           /* findlast is now the last occupied entry, which may be the same as
-           * search.  We blank out the entry for this package.  We also
+           * search. We blank out the entry for this package. We also
            * have to copy the last entry into the empty slot, because
-           * the list is null-pointer-terminated.
-           */
+           * the list is NULL-pointer-terminated. */
           packageslump->pkgs[search]= packageslump->pkgs[findlast];
           packageslump->pkgs[findlast] = NULL;
-          /* This may result in an empty link in the list.  This is OK. */
+          /* This may result in an empty link in the list. This is OK. */
           goto xit_search_to_delete_from_perfilenodelist;
         }
   xit_search_to_delete_from_perfilenodelist:
     ;
     /* The actual filelist links were allocated using nfmalloc, so
-     * we shouldn't free them.
-     */
+     * we shouldn't free them. */
   }
   pkg->clientdata->files = NULL;
 }
@@ -298,11 +295,11 @@ ensure_packagefiles_available(struct pkginfo *pkg)
       if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline))) 
         ohshit(_("files list file for package '%.250s' is missing final newline"),
                pkg->name);
-      /* where to start next time around */
+      /* Where to start next time around. */
       nextline = ptr + 1;
-      /* strip trailing "/" */
+      /* Strip trailing ‘/’. */
       if (ptr > thisline && ptr[-1] == '/') ptr--;
-      /* add the file to the list */
+      /* Add the file to the list. */
       if (ptr == thisline)
         ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
       *ptr = '\0';
@@ -310,7 +307,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
       thisline = nextline;
     }
   }
-  pop_cleanup(ehflag_normaltidy); /* fd= open() */
+  pop_cleanup(ehflag_normaltidy); /* fd = open() */
   if (close(fd))
     ohshite(_("error closing files list file for package `%.250s'"),pkg->name);
 
@@ -455,13 +452,14 @@ void ensure_allinstfiles_available_quiet(void) {
   ensure_allinstfiles_available();
 }
 
+/*
+ * If leaveout is nonzero, will not write any file whose filenamenode
+ * has the fnnf_elide_other_lists flag set.
+ */
 void
 write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
                       bool leaveout)
 {
-  /* If leaveout is nonzero, will not write any file whose filenamenode
-   * has the fnnf_elide_other_lists flag set.
-   */
   static struct varbuf vb, newvb;
   FILE *file;
 
@@ -493,7 +491,7 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
     ohshite(_("failed to flush updated files list file for package %s"),pkg->name);
   if (fsync(fileno(file)))
     ohshite(_("failed to sync updated files list file for package %s"),pkg->name);
-  pop_cleanup(ehflag_normaltidy); /* file= fopen() */
+  pop_cleanup(ehflag_normaltidy); /* file = fopen() */
   if (fclose(file))
     ohshite(_("failed to close updated files list file for package %s"),pkg->name);
   if (rename(newvb.buf,vb.buf))
@@ -504,14 +502,15 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   note_must_reread_files_inpackage(pkg);
 }
 
+/*
+ * Initializes an iterator that appears to go through the file
+ * list ‘files’ in reverse order, returning the namenode from
+ * each. What actually happens is that we walk the list here,
+ * building up a reverse list, and then peel it apart one
+ * entry at a time.
+ */
 void reversefilelist_init(struct reversefilelistiter *iterptr,
                           struct fileinlist *files) {
-  /* Initialises an iterator that appears to go through the file
-   * list `files' in reverse order, returning the namenode from
-   * each.  What actually happens is that we walk the list here,
-   * building up a reverse list, and then peel it apart one
-   * entry at a time.
-   */
   struct fileinlist *newent;
   
   iterptr->todo = NULL;
@@ -537,12 +536,13 @@ struct filenamenode *reversefilelist_next(struct reversefilelistiter *iterptr) {
   return ret;
 }
 
+/*
+ * Clients must call this function to clean up the reversefilelistiter
+ * if they wish to break out of the iteration before it is all done.
+ * Calling this function is not necessary if reversefilelist_next has
+ * been called until it returned 0.
+ */
 void reversefilelist_abort(struct reversefilelistiter *iterptr) {
-  /* Clients must call this function to clean up the reversefilelistiter
-   * if they wish to break out of the iteration before it is all done.
-   * Calling this function is not necessary if reversefilelist_next has
-   * been called until it returned 0.
-   */
   while (reversefilelist_next(iterptr));
 }
 
@@ -551,11 +551,9 @@ struct fileiterator {
   int nbinn;
 };
 
+/* This must always be a power of two. If you change it consider changing
+ * the per-character hashing factor (currently 1785 = 137 * 13) too. */
 #define BINS (1 << 17)
- /* This must always be a power of two.  If you change it
-  * consider changing the per-character hashing factor (currently
-  * 1785 = 137*13) too.
-  */
 
 static struct filenamenode *bins[BINS];
 
@@ -606,12 +604,13 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   struct filenamenode **pointerp, *newnode;
   const char *orig_name = name;
 
-  /* We skip initial slashes and ./ pairs, and add our own single leading slash. */
+  /* We skip initial slashes and ‘./’ pairs, and add our own single
+   * leading slash. */
   name = path_skip_slash_dotslash(name);
 
   pointerp= bins + (hash(name) & (BINS-1));
   while (*pointerp) {
-/* Why is this assert nescessary?  It is checking already added entries. */
+    /* XXX: Why is the assert needed? It's checking already added entries. */
     assert((*pointerp)->name[0] == '/');
     if (!strcmp((*pointerp)->name+1,name)) break;
     pointerp= &(*pointerp)->next;

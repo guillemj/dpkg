@@ -18,15 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Queue, in /var/lib/dpkg/parts, is a plain directory with one
- * file per part.
- *
- * parts are named
- *  <md5sum>.<maxpartlen>.<thispartn>.<maxpartn>
- * all numbers in hex
- */
-
 #include <config.h>
 #include <compat.h>
 
@@ -48,6 +39,15 @@
 #include <dpkg/myopt.h>
 
 #include "dpkg-split.h"
+
+/*
+ * The queue, by default located in /var/lib/dpkg/parts/, is a plain
+ * directory with one file per part.
+ *
+ * Each part is named “<md5sum>.<maxpartlen>.<thispartn>.<maxpartn>”,
+ * with all numbers in hex.
+ */
+
 
 static bool
 decompose_filename(const char *filename, struct partqueue *pq)
@@ -155,9 +155,8 @@ void do_auto(const char *const *argv) {
   }
   /* If we already have a copy of this version we ignore it and prefer the
    * new one, but we still want to delete the one in the depot, so we
-   * save its partinfo (with the filename) for later.  This also prevents
-   * us from accidentally deleting the source file.
-   */
+   * save its partinfo (with the filename) for later. This also prevents
+   * us from accidentally deleting the source file. */
   otherthispart= partlist[refi->thispartn-1];
   partlist[refi->thispartn-1]= refi;
   for (j=refi->maxpartn-1; j>=0 && partlist[j]; j--);
@@ -258,7 +257,9 @@ void do_queue(const char *const *argv) {
         if (!S_ISREG(stab.st_mode))
           ohshit(_("part file `%.250s' is not a plain file"),qq->info.filename);
         bytes+= stab.st_size;
-        qq->info.md5sum= NULL; /* don't find this package again */
+
+        /* Don't find this package again. */
+        qq->info.md5sum = NULL;
       }
     }
     printf(_("(total %lu bytes)\n"),bytes);

@@ -224,7 +224,7 @@ modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
   case msdbrw_needsuperuserlockonly:
     if (getuid() || geteuid())
       ohshit(_("requested operation requires superuser privilege"));
-    /* fall through */
+    /* Fall through. */
   case msdbrw_write: case msdbrw_writeifposs:
     if (access(admindir, W_OK)) {
       if (errno != EACCES)
@@ -276,7 +276,8 @@ void modstatdb_checkpoint(void) {
   
   for (i=0; i<nextupdate; i++) {
     sprintf(updatefnrest, IMPORTANTFMT, i);
-    assert(strlen(updatefnrest)<=IMPORTANTMAXLEN); /* or we've made a real mess */
+    /* Have we made a real mess? */
+    assert(strlen(updatefnrest) <= IMPORTANTMAXLEN);
     if (unlink(updatefnbuf))
       ohshite(_("failed to remove my own update file %.255s"),updatefnbuf);
   }
@@ -292,11 +293,11 @@ void modstatdb_shutdown(void) {
   case msdbrw_write:
     modstatdb_checkpoint();
     writedb(availablefile,1,0);
-    /* tidy up a bit, but don't worry too much about failure */
+    /* Tidy up a bit, but don't worry too much about failure. */
     fclose(importanttmp);
     unlink(importanttmpfile);
     varbuf_destroy(&uvb);
-    /* fall through */
+    /* Fall through. */
   case msdbrw_needsuperuserlockonly:
     modstatdb_unlock();
   default:
@@ -347,7 +348,8 @@ modstatdb_note_core(struct pkginfo *pkg)
   createimptmp();
 }
 
-/* Note: If anyone wants to set some triggers-pending, they must also
+/*
+ * Note: If anyone wants to set some triggers-pending, they must also
  * set status appropriately, or we will undo it. That is, it is legal
  * to call this when pkg->status and pkg->trigpend_head disagree and
  * in that case pkg->status takes precedence and pkg->trigpend_head
@@ -359,8 +361,7 @@ void modstatdb_note(struct pkginfo *pkg) {
   onerr_abort++;
 
   /* Clear pending triggers here so that only code that sets the status
-   * to interesting (for triggers) values has to care about triggers.
-   */
+   * to interesting (for triggers) values has to care about triggers. */
   if (pkg->status != stat_triggerspending &&
       pkg->status != stat_triggersawaited)
     pkg->trigpend_head = NULL;
@@ -380,12 +381,11 @@ void modstatdb_note(struct pkginfo *pkg) {
 
   if (!pkg->trigpend_head && pkg->othertrigaw_head) {
     /* Automatically remove us from other packages' Triggers-Awaited.
-     * We do this last because we want to maximise our chances of
+     * We do this last because we want to maximize our chances of
      * successfully recording the status of the package we were
      * pointed at by our caller, although there is some risk of
      * leaving us in a slightly odd situation which is cleared up
-     * by the trigger handling logic in deppossi_ok_found.
-     */
+     * by the trigger handling logic in deppossi_ok_found. */
     trig_clear_awaiters(pkg);
   }
 

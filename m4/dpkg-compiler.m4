@@ -52,23 +52,23 @@ AC_DEFUN([DPKG_TRY_C99],
 #include <stdbool.h>
 #include <stdio.h>
 
-/* Variadic macro arguments */
+/* Variadic macro arguments. */
 #define variadic_macro(foo, ...) printf(foo, __VA_ARGS__)
 ]],
 [[
-	/* Compound initialisers */
+	/* Compound initializers. */
 	struct { int a, b; } foo = { .a = 1, .b = 2 };
 
-	/* Trailing comma in enum */
+	/* Trailing comma in enum. */
 	enum { first, second, } quux;
 
-	/* Boolean type */
+	/* Boolean type. */
 	bool bar = false;
 
-	/* Specific size type */
+	/* Specific size type. */
 	uint32_t baz = 0;
 
-	/* Magic __func__ variable */
+	/* Magic __func__ variable. */
 	printf("%s", __func__);
 ]])], [$1], [$2])dnl
 ])# DPKG_TRY_C99

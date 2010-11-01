@@ -46,21 +46,25 @@
 
 int cleanup_pkg_failed=0, cleanup_conflictor_failed=0;
 
+/**
+ * Something went wrong and we're undoing.
+ *
+ * We have the following possible situations for non-conffiles:
+ *   <foo>.dpkg-tmp exists - in this case we want to remove
+ *    <foo> if it exists and replace it with <foo>.dpkg-tmp.
+ *    This undoes the backup operation.
+ *   <foo>.dpkg-tmp does not exist - <foo> may be on the disk,
+ *    as a new file which didn't fail, remove it if it is.
+ *
+ * In both cases, we also make sure we delete <foo>.dpkg-new in
+ * case that's still hanging around.
+ *
+ * For conffiles, we simply delete <foo>.dpkg-new. For these,
+ * <foo>.dpkg-tmp shouldn't exist, as we don't make a backup
+ * at this stage. Just to be on the safe side, though, we don't
+ * look for it.
+ */
 void cu_installnew(int argc, void **argv) {
-  /* Something went wrong and we're undoing.
-   * We have the following possible situations for non-conffiles:
-   *   <foo>.dpkg-tmp exists - in this case we want to remove
-   *    <foo> if it exists and replace it with <foo>.dpkg-tmp.
-   *    This undoes the backup operation.
-   *   <foo>.dpkg-tmp does not exist - <foo> may be on the disk,
-   *    as a new file which didn't fail, remove it if it is.
-   * In both cases, we also make sure we delete <foo>.dpkg-new in
-   * case that's still hanging around.
-   * For conffiles, we simply delete <foo>.dpkg-new.  For these,
-   * <foo>.dpkg-tmp shouldn't exist, as we don't make a backup
-   * at this stage.  Just to be on the safe side, though, we don't
-   * look for it.
-   */
   struct fileinlist *nifd= (struct fileinlist*)argv[0];
   struct filenamenode *namenode;
   struct stat stab;
@@ -73,13 +77,11 @@ void cu_installnew(int argc, void **argv) {
   setupfnamevbs(namenode->name);
   
   if (!(namenode->flags & fnnf_new_conff) && !lstat(fnametmpvb.buf,&stab)) {
-    /* OK, <foo>.dpkg-tmp exists.  Remove <foo> and
-     * restore <foo>.dpkg-tmp ...
-     */
+    /* OK, <foo>.dpkg-tmp exists. Remove <foo> and
+     * restore <foo>.dpkg-tmp ... */
     if (namenode->flags & fnnf_no_atomic_overwrite) {
       /* If we can't do an atomic overwrite we have to delete first any
-       * link to the new version we may have created.
-       */
+       * link to the new version we may have created. */
       debug(dbg_eachfiledetail,"cu_installnew restoring nonatomic");
       if (secure_remove(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
         ohshite(_("unable to remove newly-installed version of `%.250s' to allow"
@@ -122,18 +124,23 @@ void cu_prermupgrade(int argc, void **argv) {
   cleanup_pkg_failed--;
 }
 
+/*
+ * Also has conflictor in argv[1] and infavour in argv[2].
+ * conflictor may be NULL if deconfigure was due to Breaks.
+ */
 void ok_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];
-  /* also has conflictor in argv[1] and infavour in argv[2].
-   * conflictor may be 0 if deconfigure was due to Breaks */
   
   if (cipaction->arg == act_install)
     add_to_queue(deconf);
 }
 
+/*
+ * conflictor may be NULL.
+ */
 void cu_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];
-  struct pkginfo *conflictor= (struct pkginfo*)argv[1]; /* may be 0 */
+  struct pkginfo *conflictor = (struct pkginfo *)argv[1];
   struct pkginfo *infavour= (struct pkginfo*)argv[2];
 
   if (conflictor) {

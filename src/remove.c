@@ -43,8 +43,11 @@
 #include "filesdb.h"
 #include "main.h"
 
+/*
+ * pkgdepcheck may be a virtual pkg.
+ */
 static void checkforremoval(struct pkginfo *pkgtoremove,
-                            struct pkginfo *pkgdepcheck, /* may be virtual pkg */
+                            struct pkginfo *pkgdepcheck,
                             int *rokp, struct varbuf *raemsgs) {
   struct deppossi *possi;
   struct pkginfo *depender;
@@ -164,7 +167,8 @@ void deferred_remove(struct pkginfo *pkg) {
     maintainer_script_installed(pkg, PRERMFILE, "pre-removal",
                                 "remove", NULL);
 
-    pkg->status= stat_unpacked; /* Will turn into halfinstalled soon ... */
+    /* Will turn into ‘half-installed’ soon ... */
+    pkg->status = stat_unpacked;
   }
 
   removal_bulk(pkg);
@@ -234,9 +238,8 @@ static void removal_bulk_remove_files(
       if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
         debug(dbg_eachfiledetail, "removal_bulk is a directory");
         /* Only delete a directory or a link to one if we're the only
-         * package which uses it.  Other files should only be listed
-         * in this package (but we don't check).
-         */
+         * package which uses it. Other files should only be listed
+         * in this package (but we don't check). */
 	if (hasdirectoryconffiles(namenode,pkg)) {
 	  push_leftover(&leftover,namenode);
 	  continue;
@@ -343,9 +346,8 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "removal_bulk is a directory");
       /* Only delete a directory or a link to one if we're the only
-       * package which uses it.  Other files should only be listed
-       * in this package (but we don't check).
-       */
+       * package which uses it. Other files should only be listed
+       * in this package (but we don't check). */
       if (hasdirectoryconffiles(namenode,pkg)) {
 	push_leftover(&leftover,namenode);
 	continue;
@@ -393,18 +395,18 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     printf(_("Purging configuration files for %s ...\n"),pkg->name);
     log_action("purge", pkg);
     trig_activate_packageprocessing(pkg);
-    ensure_packagefiles_available(pkg); /* We may have modified this above. */
+
+    /* We may have modified this above. */
+    ensure_packagefiles_available(pkg);
 
     /* We're about to remove the configuration, so remove the note
-     * about which version it was ...
-     */
+     * about which version it was ... */
     blankversion(&pkg->configversion);
     modstatdb_note(pkg);
     
     /* Remove from our list any conffiles that aren't ours any more or
      * are involved in diversions, except if we are the package doing the
-     * diverting.
-     */
+     * diverting. */
     for (lconffp = &pkg->installed.conffiles; (conff = *lconffp) != NULL; ) {
       for (searchfile= pkg->clientdata->files;
            searchfile && strcmp(searchfile->namenode->name,conff->name);
@@ -504,12 +506,12 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                                 "purge", NULL);
 }
 
+/*
+ * This is used both by deferred_remove() in this file, and at the end of
+ * process_archive() in archives.c if it needs to finish removing a
+ * conflicting package.
+ */
 void removal_bulk(struct pkginfo *pkg) {
-  /* This is used both by deferred_remove in this file, and at
-   * the end of process_archive in archives.c if it needs to finish
-   * removing a conflicting package.
-   */
-
   int pkgnameused;
   bool foundpostrm = false;
   const char *postrmfilename;
@@ -536,8 +538,7 @@ void removal_bulk(struct pkginfo *pkg) {
   
   if (!foundpostrm && !pkg->installed.conffiles) {
     /* If there are no config files and no postrm script then we
-     * go straight into `purge'.
-     */
+     * go straight into ‘purge’.  */
     debug(dbg_general, "removal_bulk no postrm, no conffiles, purging");
     pkg->want= want_purge;
 
@@ -548,11 +549,11 @@ void removal_bulk(struct pkginfo *pkg) {
 
   }
 
+  /* I.e., either of the two branches above. */
   if (pkg->want == want_purge) {
-    /* ie, either of the two branches above. */
     static struct varbuf fnvb;
 
-    /* retry empty directories, and warn on any leftovers that aren't */
+    /* Retry empty directories, and warn on any leftovers that aren't. */
     removal_bulk_remove_leftover_dirs(pkg);
 
     varbufreset(&fnvb);
@@ -575,8 +576,7 @@ void removal_bulk(struct pkginfo *pkg) {
     pkg->want = want_unknown;
 
     /* This will mess up reverse links, but if we follow them
-     * we won't go back because pkg->status is stat_notinstalled.
-     */
+     * we won't go back because pkg->status is stat_notinstalled. */
     pkg_perfile_blank(&pkg->installed);
   }
       

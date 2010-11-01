@@ -101,10 +101,12 @@ struct filedetails {
   const char *md5sum;
 };
 
-struct pkginfoperfile { /* pif */
+/* pif */
+struct pkginfoperfile {
   struct dependency *depends;
   struct deppossi *depended;
-  bool essential; /* The ‘essential’ flag, true = yes, false = no (absent). */
+  /* The ‘essential’ flag, true = yes, false = no (absent). */
+  bool essential;
   const char *description;
   const char *maintainer;
   const char *source;
@@ -117,18 +119,22 @@ struct pkginfoperfile { /* pif */
   struct arbitraryfield *arbs;
 };
 
+/**
+ * Node indicates that parent's Triggers-Pending mentions name.
+ *
+ * Note: These nodes do double duty: after they're removed from a package's
+ * trigpend list, references may be preserved by the trigger cycle checker
+ * (see trigproc.c).
+ */
 struct trigpend {
-  /* Node indicates that parent's Triggers-Pending mentions name. */
-  /* NB that these nodes do double duty: after they're removed from
-   * a package's trigpend list, references may be preserved by the
-   * trigger cycle checker (see trigproc.c).
-   */
   struct trigpend *next;
   const char *name;
 };
 
+/**
+ * Node indicates that aw's Triggers-Awaited mentions pend.
+ */
 struct trigaw {
-  /* Node indicates that aw's Triggers-Awaited mentions pend. */
   struct pkginfo *aw, *pend;
   struct trigaw *samepend_next;
   struct {
@@ -136,20 +142,23 @@ struct trigaw {
   } sameaw;
 };
 
-struct perpackagestate; /* dselect and dpkg have different versions of this */
+/* Note: dselect and dpkg have different versions of this. */
+struct perpackagestate;
 
-struct pkginfo { /* pig */
+/* pig */
+struct pkginfo {
   struct pkginfo *next;
   const char *name;
   enum pkgwant {
     want_unknown, want_install, want_hold, want_deinstall, want_purge,
-    want_sentinel /* Not allowed except as special sentinel value
-                     in some places */
+    /* Not allowed except as special sentinel value in some places. */
+    want_sentinel,
   } want;
+  /* The error flag bitmask. */
   enum pkgeflag {
     eflag_ok		= 0,
     eflag_reinstreq	= 1,
-  } eflag; /* Bitmask. */
+  } eflag;
   enum pkgstatus {
     stat_notinstalled,
     stat_configfiles,
@@ -195,7 +204,7 @@ enum modstatdb_rw {
   msdbrw_write/*s*/, msdbrw_needsuperuser,
   /* Now some optional flags: */
   msdbrw_flagsmask= ~077,
-  /* flags start at 0100 */
+  /* Flags start at 0100. */
   msdbrw_noavail= 0100,
 };
 
@@ -231,14 +240,18 @@ void hashreport(FILE*);
 /*** from parse.c ***/
 
 enum parsedbflags {
-  pdb_recordavailable   =001, /* Store in `available' in-core structures, not `status' */
-  pdb_rejectstatus      =002, /* Throw up an error if `Status' encountered             */
-  pdb_weakclassification=004, /* Ignore priority/section info if we already have any   */
-  pdb_ignorefiles       =010, /* Ignore files info if we already have them             */
+  /* Store in ‘available’ in-core structures, not ‘status’. */
+  pdb_recordavailable = 001,
+  /* Throw up an error if ‘Status’ encountered. */
+  pdb_rejectstatus = 002,
+  /* Ignore priority/section info if we already have any. */
+  pdb_weakclassification = 004,
+  /* Ignore files info if we already have them. */
+  pdb_ignorefiles = 010,
   /* Ignore packages with older versions already read. */
-  pdb_ignoreolder       =020,
+  pdb_ignoreolder = 020,
   /* Perform laxer parsing, used to transition to stricter parsing. */
-  pdb_lax_parser        =040,
+  pdb_lax_parser = 040,
 };
 
 const char *pkg_name_is_illegal(const char *p, const char **ep);
@@ -275,9 +288,10 @@ void writerecord(FILE*, const char*,
 
 void writedb(const char *filename, bool available, bool mustsync);
 
+/* Note: The varbufs must have been initialized and will not be
+ * NUL-terminated. */
 void varbufrecord(struct varbuf*, const struct pkginfo*, const struct pkginfoperfile*);
 void varbufdependency(struct varbuf *vb, struct dependency *dep);
-  /* NB THE VARBUF MUST HAVE BEEN INITIALISED AND WILL NOT BE NULL-TERMINATED */
 
 /*** from vercmp.c ***/
 

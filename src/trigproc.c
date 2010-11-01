@@ -41,50 +41,49 @@
  * Trigger processing algorithms:
  *
  *
- * There is a separate queue (`deferred trigproc list') for triggers
- * `relevant' to what we just did; when we find something triggered `now'
+ * There is a separate queue (‘deferred trigproc list’) for triggers
+ * ‘relevant’ to what we just did; when we find something triggered ‘now’
  * we add it to that queue (unless --no-triggers).
  *
  *
  * We want to prefer configuring packages where possible to doing
  * trigger processing, but we want to prefer trigger processing to
- * cycle-breaking and dependency forcing.  This is achieved as
+ * cycle-breaking and dependency forcing. This is achieved as
  * follows:
  *
  * Each time during configure processing where a package D is blocked by
  * only (ie Depends unsatisfied but would be satisfied by) a t-awaiter W
- * we make a note of (one of) W's t-pending, T.  (Only the last such T.)
+ * we make a note of (one of) W's t-pending, T. (Only the last such T.)
  * (If --no-triggers and nonempty argument list and package isn't in
  * argument list then we don't do this.)
  *
  * Each time in packages.c where we increment dependtry, we instead see
- * if we have encountered such a t-pending T.  If we do, we trigproc T
+ * if we have encountered such a t-pending T. If we do, we trigproc T
  * instead of incrementing dependtry and this counts as having done
  * something so we reset sincenothing.
  *
  *
  * For --triggers-only and --configure, we go through each thing in the
  * argument queue (the add_to_queue queue) and check what its state is
- * and if appropriate we trigproc it.  If we didn't have a queue (or had
+ * and if appropriate we trigproc it. If we didn't have a queue (or had
  * just --pending) we search all triggers-pending packages and add them
  * to the deferred trigproc list.
  *
  *
  * Before quitting from most operations, we trigproc each package in the
- * deferred trigproc list.  This may (if not --no-triggers) of course add
+ * deferred trigproc list. This may (if not --no-triggers) of course add
  * new things to the deferred trigproc list.
  *
  *
- * Note that `we trigproc T' must involve trigger cycle detection and
- * also automatic setting of t-awaiters to t-pending or installed.  In
+ * Note that ‘we trigproc T’ must involve trigger cycle detection and
+ * also automatic setting of t-awaiters to t-pending or installed. In
  * particular, we do cycle detection even for trigger processing in the
  * configure dependtry loop (and it is OK to do it for explicitly
  * specified packages from the command line arguments; duplicates are
  * removed by packages.c:process_queue).
- *
  */
 
-/*========== deferred trigger queue ==========*/
+/*========== Deferred trigger queue. ==========*/
 
 static struct pkg_queue deferred = PKG_QUEUE_INIT;
 
@@ -127,6 +126,9 @@ trigproc_run_deferred(void)
 	}
 }
 
+/*
+ * Called by modstatdb_note.
+ */
 void
 trig_activate_packageprocessing(struct pkginfo *pkg)
 {
@@ -137,7 +139,7 @@ trig_activate_packageprocessing(struct pkginfo *pkg)
 	              trig_cicb_statuschange_activate, pkg);
 }
 
-/*========== actual trigger processing ==========*/
+/*========== Actual trigger processing. ==========*/
 
 struct trigcyclenode {
 	struct trigcyclenode *next;
@@ -161,7 +163,9 @@ trigproc_reset_cycle(void)
 	tortoise = hare = NULL;
 }
 
-/* Returns package we're to give up on. */
+/*
+ * Returns package we're to give up on.
+ */
 static struct pkginfo *
 check_trigger_cycle(struct pkginfo *processing_now)
 {
@@ -207,8 +211,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	/* Now we compare hare to tortoise.
 	 * We want to find a trigger pending in tortoise which is not in hare
 	 * if we find such a thing we have proved that hare isn't a superset
-	 * of tortoise and so that we haven't found a loop (yet).
-	 */
+	 * of tortoise and so that we haven't found a loop (yet). */
 	for (tortoise_pkg = tortoise->pkgs;
 	     tortoise_pkg;
 	     tortoise_pkg = tortoise_pkg->next) {
@@ -242,7 +245,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 			found_in_hare:;
 		}
 	}
-	/* Oh dear. hare is a superset of tortoise. We are making no progress. */
+	/* Oh dear. hare is a superset of tortoise. We are making no
+	 * progress. */
 	fprintf(stderr, _("%s: cycle found while processing triggers:\n chain of"
 	        " packages whose triggers are or may be responsible:\n"),
 	        thisname);
@@ -279,6 +283,10 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	return giveup;
 }
 
+/*
+ * Does cycle checking. Doesn't mind if pkg has no triggers pending - in
+ * that case does nothing but fix up any stale awaiters.
+ */
 void
 trigproc(struct pkginfo *pkg)
 {
@@ -311,9 +319,8 @@ trigproc(struct pkginfo *pkg)
 		}
 		varbufaddc(&namesarg, 0);
 
-		/* Setting the status to halfconfigured
-		 * causes modstatdb_note to clear pending triggers.
-		 */
+		/* Setting the status to half-configured
+		 * causes modstatdb_note to clear pending triggers. */
 		pkg->status = stat_halfconfigured;
 		modstatdb_note(pkg);
 
@@ -335,7 +342,7 @@ trigproc(struct pkginfo *pkg)
 	}
 }
 
-/*========== transitional global activation ==========*/
+/*========== Transitional global activation. ==========*/
 
 static void
 transitional_interest_callback_ro(const char *trig, void *user)
@@ -358,13 +365,14 @@ transitional_interest_callback(const char *trig, void *user)
 	transitional_interest_callback_ro(trig, user);
 }
 
+/*
+ * cstatus might be msdbrw_readonly if we're in --no-act mode, in which
+ * case we don't write out all of the interest files etc. but we do
+ * invent all of the activations for our own benefit.
+ */
 static void
 trig_transitional_activate(enum modstatdb_rw cstatus)
 {
-	/* cstatus might be _read if we're in --no-act mode, in which
-	 * case we don't write out all of the interest files etc.
-	 * but we do invent all of the activations for our own benefit.
-	 */
 	struct pkgiterator *it;
 	struct pkginfo *pkg;
 
@@ -388,7 +396,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 	}
 }
 
-/*========== hook setup ==========*/
+/*========== Hook setup. ==========*/
 
 static struct filenamenode *
 th_proper_nn_find(const char *name, bool nonew)

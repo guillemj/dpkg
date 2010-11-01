@@ -35,7 +35,9 @@ epochsdiffer(const struct versionrevision *a,
   return a->epoch != b->epoch;
 }
 
-/* assume ascii; warning: evaluates x multiple times! */
+/*
+ * Assume ASCII; Warning: evaluates x multiple times!
+ */
 #define order(x) ((x) == '~' ? -1 \
 		: cisdigit((x)) ? 0 \
 		: !(x) ? 0 \

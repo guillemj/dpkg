@@ -66,7 +66,9 @@
 struct pkginfo *conflictor[MAXCONFLICTORS];
 int cflict_index = 0;
 
-/* special routine to handle partial reads from the tarfile */
+/**
+ * Special routine to handle partial reads from the tarfile.
+ */
 static int safe_read(int fd, void *buf, int len)
 {
   int r, have= 0;
@@ -87,7 +89,9 @@ static int safe_read(int fd, void *buf, int len)
 static struct obstack tar_obs;
 static bool tarobs_init = false;
 
-/* ensure the obstack is properly initialized */
+/**
+ * Ensure the obstack is properly initialized.
+ */
 static void ensureobstackinit(void) {
 
   if (!tarobs_init) {
@@ -96,7 +100,9 @@ static void ensureobstackinit(void) {
   }
 }
 
-/* destroy the obstack */
+/**
+ * Destroy the obstack.
+ */
 static void destroyobstack(void) {
   if (tarobs_init) {
     obstack_free(&tar_obs, NULL);
@@ -104,6 +110,14 @@ static void destroyobstack(void) {
   }
 }
 
+/**
+ * Check if a file or directory will save a package from disappearance.
+ *
+ * A package can only be saved by a file or directory which is part
+ * only of itself - it must be neither part of the new package being
+ * installed nor part of any 3rd package (this is important so that
+ * shared directories don't stop packages from disappearing).
+ */
 bool
 filesavespackage(struct fileinlist *file,
                  struct pkginfo *pkgtobesaved,
@@ -114,16 +128,11 @@ filesavespackage(struct fileinlist *file,
   
   debug(dbg_eachfiledetail,"filesavespackage file `%s' package %s",
         file->namenode->name,pkgtobesaved->name);
-  /* A package can only be saved by a file or directory which is part
-   * only of itself - it must be neither part of the new package being
-   * installed nor part of any 3rd package (this is important so that
-   * shared directories don't stop packages from disappearing).
-   */
+
   /* If the file is a contended one and it's overridden by either
    * the package we're considering disappearing or the package
    * we're installing then they're not actually the same file, so
-   * we can't disappear the package - it is saved by this file.
-   */
+   * we can't disappear the package - it is saved by this file. */
   if (file->namenode->divert && file->namenode->divert->useinstead) {
     divpkg= file->namenode->divert->pkg;
     if (divpkg == pkgtobesaved || divpkg == pkgbeinginstalled) {
@@ -131,15 +140,13 @@ filesavespackage(struct fileinlist *file,
       return true;
     }
   }
-  /* Is the file in the package being installed ?  If so then it can't save.
-   */
+  /* Is the file in the package being installed? If so then it can't save. */
   if (file->namenode->flags & fnnf_new_inarchive) {
     debug(dbg_eachfiledetail,"filesavespackage ... in new archive -- no save");
     return false;
   }
   /* Look for a 3rd package which can take over the file (in case
-   * it's a directory which is shared by many packages.
-   */
+   * it's a directory which is shared by many packages. */
   iter = filepackages_iter_new(file->namenode);
   while ((thirdpkg = filepackages_iter_next(iter))) {
     debug(dbg_eachfiledetail, "filesavespackage ... also in %s",
@@ -188,8 +195,7 @@ tarfile_skip_one_forward(struct tarcontext *tc, struct tar_entry *ti)
   char databuf[TARBLKSZ];
 
   /* We need to advance the tar file to the next object, so read the
-   * file data and set it to oblivion.
-   */
+   * file data and set it to oblivion. */
   if (ti->type == tar_filetype_file) {
     char fnamebuf[256];
 
@@ -310,10 +316,18 @@ void setupfnamevbs(const char *filename) {
         fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
 }
 
+/**
+ * Securely remove a pathname.
+ *
+ * This is a secure version of remove(3) using secure_unlink() instead of
+ * unlink(2).
+ *
+ * @retval  0 On success.
+ * @retval -1 On failure, just like unlink(2) & rmdir(2).
+ */
 int
 secure_remove(const char *filename)
 {
-  /* Returns 0 on success or -1 on failure, just like unlink & rmdir */
   int r, e;
   
   if (!rmdir(filename)) {
@@ -375,7 +389,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
   if (!S_ISDIR(oldstab.st_mode))
     return false;
 
-  /* But is it to the same dir ? */
+  /* But is it to the same dir? */
   varbufreset(symlinkfn);
   if (ti->linkname[0] == '/') {
     varbufaddstr(symlinkfn, instdir);
@@ -425,9 +439,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   ensureobstackinit();
 
   /* Append to list of files.
-   * The trailing / put on the end of names in tarfiles has already
-   * been stripped by tar_extractor (lib/tarfn.c).
-   */
+   * The trailing ‘/’ put on the end of names in tarfiles has already
+   * been stripped by tar_extractor(). */
   oldnifd= tc->newfilesp;
   nifd= addfiletolist(tc, findnamenode(ti->name, 0));
   nifd->namenode->flags |= fnnf_new_inarchive;
@@ -473,8 +486,7 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   if (nifd->namenode->flags & fnnf_new_conff) {
     /* If it's a conffile we have to extract it next to the installed
-     * version (ie, we do the usual link-following).
-     */
+     * version (i.e. we do the usual link-following). */
     if (conffderef(tc->pkg, &conffderefn, usename))
       usename= conffderefn.buf;
     debug(dbg_conff,"tarobject fnnf_new_conff deref=`%s'",usename);
@@ -491,8 +503,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     /* OK, so it doesn't exist.
      * However, it's possible that we were in the middle of some other
      * backup/restore operation and were rudely interrupted.
-     * So, we see if we have .dpkg-tmp, and if so we restore it.
-     */
+     * So, we see if we have .dpkg-tmp, and if so we restore it. */
     if (rename(fnametmpvb.buf,fnamevb.buf)) {
       if (errno != ENOENT && errno != ENOTDIR)
         ohshite(_("unable to clean up mess surrounding `%.255s' before "
@@ -509,9 +520,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   }
 
   /* Check to see if it's a directory or link to one and we don't need to
-   * do anything.  This has to be done now so that we don't die due to
-   * a file overwriting conflict.
-   */
+   * do anything. This has to be done now so that we don't die due to
+   * a file overwriting conflict. */
   existingdirectory = false;
   switch (ti->type) {
   case tar_filetype_symlink:
@@ -563,7 +573,7 @@ tarobject(void *ctx, struct tar_entry *ti)
           continue;
       }
 
-      /* Nope ?  Hmm, file conflict, perhaps.  Check Replaces. */
+      /* Nope? Hmm, file conflict, perhaps. Check Replaces. */
       switch (otherpkg->clientdata->replacingfilesandsaid) {
       case 2:
         keepexisting = true;
@@ -599,7 +609,7 @@ tarobject(void *ctx, struct tar_entry *ti)
         }
         if (conff) {
           debug(dbg_eachfiledetail, "tarobject other's obsolete conffile");
-          /* processarc.c will have copied its hash already. */
+          /* process_archive() will have copied its hash already. */
           continue;
         }
       }
@@ -624,9 +634,9 @@ tarobject(void *ctx, struct tar_entry *ti)
                       versiondescribe(&otherpkg->installed.version,
                                       vdew_nonambig));
         } else {
-          /* WTA: At this point we are replacing something without a Replaces.
-           * if the new object is a directory and the previous object does not
-           * exist assume it's also a directory and don't complain. */
+          /* At this point we are replacing something without a Replaces.
+           * If the new object is a directory and the previous object does
+           * not exist assume it's also a directory and don't complain. */
           if (!(statr && ti->type == tar_filetype_dir))
             forcibleerr(fc_overwrite,
                         _("trying to overwrite '%.250s', "
@@ -657,19 +667,18 @@ tarobject(void *ctx, struct tar_entry *ti)
   if (existingdirectory)
     return 0;
 
-  /* Now, at this stage we want to make sure neither of .dpkg-new and .dpkg-tmp
-   * are hanging around.
-   */
+  /* Now, at this stage we want to make sure neither of .dpkg-new and
+   * .dpkg-tmp are hanging around. */
   ensure_pathname_nonexisting(fnamenewvb.buf);
   ensure_pathname_nonexisting(fnametmpvb.buf);
 
   /* Now we start to do things that we need to be able to undo
-   * if something goes wrong.  Watch out for the CLEANUP comments to
-   * keep an eye on what's installed on the disk at each point.
-   */
+   * if something goes wrong. Watch out for the CLEANUP comments to
+   * keep an eye on what's installed on the disk at each point. */
   push_cleanup(cu_installnew, ~ehflag_normaltidy, NULL, 0, 1, (void *)nifd);
 
-  /* CLEANUP: Now we either have the old file on the disk, or not, in
+  /*
+   * CLEANUP: Now we either have the old file on the disk, or not, in
    * its original filename.
    */
 
@@ -677,8 +686,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   switch (ti->type) {
   case tar_filetype_file:
     /* We create the file with mode 0 to make sure nobody can do anything with
-     * it until we apply the proper mode, which might be a statoverride.
-     */
+     * it until we apply the proper mode, which might be a statoverride. */
     fd= open(fnamenewvb.buf, (O_CREAT|O_EXCL|O_WRONLY), 0);
     if (fd < 0)
       ohshite(_("unable to create `%.255s' (while processing `%.255s')"),
@@ -708,7 +716,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     /* Postpone the fsync, to try to avoid massive I/O degradation. */
     nifd->namenode->flags |= fnnf_deferred_fsync;
 
-    pop_cleanup(ehflag_normaltidy); /* fd= open(fnamenewvb.buf) */
+    pop_cleanup(ehflag_normaltidy); /* fd = open(fnamenewvb.buf) */
     if (close(fd))
       ohshite(_("error closing/writing `%.255s'"), ti->name);
     newtarobject_utime(fnamenewvb.buf, st);
@@ -765,17 +773,17 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, st->mode);
 
-  /* CLEANUP: Now we have extracted the new object in .dpkg-new (or,
-   * if the file already exists as a directory and we were trying to extract
-   * a directory or symlink, we returned earlier, so we don't need
-   * to worry about that here).
+  /*
+   * CLEANUP: Now we have extracted the new object in .dpkg-new (or,
+   * if the file already exists as a directory and we were trying to
+   * extract a directory or symlink, we returned earlier, so we don't
+   * need to worry about that here).
    *
    * The old file is still in the original filename,
    */
 
-  /* First, check to see if it's a conffile.  If so we don't install
-   * it now - we leave it in .dpkg-new for --configure to take care of
-   */
+  /* First, check to see if it's a conffile. If so we don't install
+   * it now - we leave it in .dpkg-new for --configure to take care of. */
   if (nifd->namenode->flags & fnnf_new_conff) {
     debug(dbg_conffdetail,"tarobject conffile extracted");
     nifd->namenode->flags |= fnnf_elide_other_lists;
@@ -783,9 +791,9 @@ tarobject(void *ctx, struct tar_entry *ti)
   }
 
   /* Now we move the old file out of the way, the backup file will
-   * be deleted later.
-   */
-  if (statr) { /* Don't try to back it up if it didn't exist. */
+   * be deleted later. */
+  if (statr) {
+    /* Don't try to back it up if it didn't exist. */
     debug(dbg_eachfiledetail,"tarobject new - no backup");
   } else {
     if (ti->type == tar_filetype_dir || S_ISDIR(stab.st_mode)) {
@@ -796,9 +804,9 @@ tarobject(void *ctx, struct tar_entry *ti)
         ohshite(_("unable to move aside `%.255s' to install new version"),
                 ti->name);
     } else if (S_ISLNK(stab.st_mode)) {
-      /* We can't make a symlink with two hardlinks, so we'll have to copy it.
-       * (Pretend that making a copy of a symlink is the same as linking to it.)
-       */
+      /* We can't make a symlink with two hardlinks, so we'll have to
+       * copy it. (Pretend that making a copy of a symlink is the same
+       * as linking to it.) */
       varbufreset(&symlinkfn);
       varbuf_grow(&symlinkfn, stab.st_size + 1);
       r = readlink(fnamevb.buf, symlinkfn.buf, symlinkfn.size);
@@ -820,8 +828,9 @@ tarobject(void *ctx, struct tar_entry *ti)
     }
   }
 
-  /* CLEANUP: now the old file is in dpkg-tmp, and the new file is still
-   * in dpkg-new.
+  /*
+   * CLEANUP: Now the old file is in .dpkg-tmp, and the new file is still
+   * in .dpkg-new.
    */
 
   if (ti->type == tar_filetype_file) {
@@ -832,10 +841,12 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (rename(fnamenewvb.buf, fnamevb.buf))
       ohshite(_("unable to install new version of `%.255s'"), ti->name);
 
-    /* CLEANUP: now the new file is in the destination file, and the
-     * old file is in dpkg-tmp to be cleaned up later.  We now need
+    /*
+     * CLEANUP: Now the new file is in the destination file, and the
+     * old file is in .dpkg-tmp to be cleaned up later. We now need
      * to take a different attitude to cleanup, because we need to
-     * remove the new file. */
+     * remove the new file.
+     */
 
     nifd->namenode->flags |= fnnf_placed_on_disk;
     nifd->namenode->flags |= fnnf_elide_other_lists;
@@ -895,10 +906,12 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
 
     cfile->namenode->flags &= ~fnnf_deferred_rename;
 
-    /* CLEANUP: now the new file is in the destination file, and the
-     * old file is in dpkg-tmp to be cleaned up later.  We now need
+    /*
+     * CLEANUP: Now the new file is in the destination file, and the
+     * old file is in .dpkg-tmp to be cleaned up later. We now need
      * to take a different attitude to cleanup, because we need to
-     * remove the new file. */
+     * remove the new file.
+     */
 
     cfile->namenode->flags |= fnnf_placed_on_disk;
     cfile->namenode->flags |= fnnf_elide_other_lists;
@@ -907,23 +920,27 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
   }
 }
 
+/**
+ * Try if we can deconfigure the package and queue it if so.
+ *
+ * Also checks whether the pdep is forced, first, according to force_p.
+ * force_p may be NULL in which case nothing is considered forced.
+ *
+ * Action is a string describing the action which causes the
+ * deconfiguration:
+ *
+ *   "removal of <package>"       (due to Conflicts+Depends; removal != NULL)
+ *   "installation of <package>"  (due to Breaks;            removal == NULL)
+ *
+ * @retval 0 Not possible (why is printed).
+ * @retval 1 Deconfiguration queued ok (no message printed).
+ * @retval 2 Forced (no deconfiguration needed, why is printed).
+ */
 static int
 try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
                     struct deppossi *pdep, const char *action,
                     struct pkginfo *removal, const char *why)
 {
-  /* Also checks whether the pdep is forced, first, according to force_p.
-   * force_p may be 0 in which case nothing is considered forced.
-   *
-   * Action is a string describing the action which causes the
-   * deconfiguration:
-   *     removal of <package>         (due to Conflicts+Depends   removal!=0)
-   *     installation of <package>    (due to Breaks              removal==0)
-   *
-   * Return values:  2: forced (no deconfiguration needed, why is printed)
-   *                 1: deconfiguration queued ok (no message printed)
-   *                 0: not possible (why is printed)
-   */
   struct pkg_deconf_list *newdeconf;
   
   if (force_p && force_p(pdep)) {
@@ -1113,7 +1130,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                 fixbyrm->name, pkg->name);
         return;
       }
-      fixbyrm->clientdata->istobe= itb_normal; /* put it back */
+      /* Put it back. */
+      fixbyrm->clientdata->istobe = itb_normal;
     }
   }
   varbufaddc(&conflictwhy,0);
@@ -1281,21 +1299,23 @@ void archivefiles(const char *const *argv) {
   modstatdb_shutdown();
 }
 
+/**
+ * Decide whether we want to install a new version of the package.
+ *
+ * ver is the version we might want to install. If saywhy is 1 then
+ * if we skip the package we say what we are doing (and, if we are
+ * selecting a previously deselected package, say so and actually do
+ * the select). want_install returns 0 if the package should be
+ * skipped and 1 if it should be installed.
+ *
+ * ver may be 0, in which case saywhy must be 0 and want_install may
+ * also return -1 to mean it doesn't know because it would depend on
+ * the version number.
+ */
 int
 wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver,
               bool saywhy)
 {
-  /* Decide whether we want to install a new version of the package.
-   * ver is the version we might want to install.  If saywhy is 1 then
-   * if we skip the package we say what we are doing (and, if we are
-   * selecting a previously deselected package, say so and actually do
-   * the select).  want_install returns 0 if the package should be
-   * skipped and 1 if it should be installed.
-   *
-   * ver may be 0, in which case saywhy must be 0 and want_install may
-   * also return -1 to mean it doesn't know because it would depend on
-   * the version number.
-   */
   int r;
 
   if (pkg->want != want_install && pkg->want != want_hold) {

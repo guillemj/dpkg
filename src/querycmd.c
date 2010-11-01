@@ -99,11 +99,17 @@ list1package(struct pkginfo *pkg, bool *head, struct pkg_array *array)
       }
     } else {
       w-=80;
-      if (w<0) w=0;		/* lets not try to deal with terminals that are too small */
-      w>>=2;		/* halve that so we can add that to the both the name and description */
-      nw=(14+w);		/* name width */
-      vw=(14+w);		/* version width */
-      dw=(44+(2*w));	/* description width */
+      /* Let's not try to deal with terminals that are too small. */
+      if (w < 0)
+        w = 0;
+      /* Halve that so we can add it to both the name and description. */
+      w >>= 2;
+      /* Name width. */
+      nw = (14 + w);
+      /* Version width. */
+      vw = (14 + w);
+      /* Description width. */
+      dw = (44 + (2 * w));
     }
     sprintf(format,"%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n", nw, nw, vw, vw);
   }
@@ -120,10 +126,23 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
 | Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
     printf(format,'|','|','/', _("Name"), _("Version"), 40, _("Description"));
-    printf("+++-");					/* status */
-    for (l=0;l<nw;l++) printf("="); printf("-");	/* packagename */
-    for (l=0;l<vw;l++) printf("="); printf("-");	/* version */
-    for (l=0;l<dw;l++) printf("="); 			/* description */
+
+    /* Status */
+    printf("+++-");
+
+   /* Package name. */
+    for (l = 0; l < nw; l++)
+      printf("=");
+    printf("-");
+
+    /* Version. */
+    for (l = 0; l < vw; l++)
+      printf("=");
+    printf("-");
+
+    /* Description. */
+    for (l = 0; l < dw; l++)
+      printf("=");
     printf("\n");
     *head = true;
   }
@@ -256,9 +275,8 @@ searchfiles(const char *const *argv)
   while ((thisarg = *argv++) != NULL) {
     found= 0;
 
-    /* Trim trailing slash and slash dot from the argument if it's
-     * not a pattern, just a path.
-     */
+    /* Trim trailing ‘/’ and ‘/.’ from the argument if it's
+     * not a pattern, just a path. */
     if (!strpbrk(thisarg, "*[?\\")) {
       varbufreset(&path);
       varbufaddstr(&path, thisarg);
@@ -651,11 +669,10 @@ const char printforhelp[]= N_("Use --help for help about querying packages.");
 
 const char *admindir= ADMINDIR;
 
+/* This table has both the action entries in it and the normal options.
+ * The action entries are made with the ACTION macro, as they all
+ * have a very similar structure. */
 static const struct cmdinfo cmdinfos[]= {
-  /* This table has both the action entries in it and the normal options.
-   * The action entries are made with the ACTION macro, as they all
-   * have a very similar structure.
-   */
   ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
   ACTION( "status",                         's', act_status,        enqperpackage   ),
   ACTION( "print-avail",                    'p', act_printavail,    enqperpackage   ),

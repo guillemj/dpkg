@@ -77,8 +77,13 @@ static char *nextline(char **ripp, const char *fn, const char *what) {
   return rip;
 }
 
+/**
+ * Read a deb-split part archive.
+ *
+ * @return Part info (nfmalloc'd) if was an archive part and we read it,
+ *         NULL if it wasn't.
+ */
 struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) {
-  /* returns info (nfmalloc'd) if was an archive part and we read it, 0 if it wasn't */
   static char *readinfobuf= NULL;
   static size_t readinfobuflen= 0;
 
@@ -181,8 +186,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   if (fstat(fileno(partfile),&stab)) ohshite(_("unable to fstat part file `%.250s'"),fn);
   if (S_ISREG(stab.st_mode)) {
     /* Don't do this check if it's coming from a pipe or something.  It's
-     * only an extra sanity check anyway.
-     */
+     * only an extra sanity check anyway. */
     if (stab.st_size < ir->filesize)
       ohshit(_("file `%.250s' is corrupt - too short"),fn);
   }

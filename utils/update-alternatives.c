@@ -864,7 +864,9 @@ alternative_add_choice(struct alternative *a, struct fileset *fs)
 				prev->next = fs;
 			else
 				a->choices = fs;
-			a->modified = true; /* XXX: be smarter in detecting change? */
+
+			/* XXX: Be smarter in detecting change? */
+			a->modified = true;
 			return;
 		}
 		prev = cur;
@@ -1246,7 +1248,7 @@ alternative_save(struct alternative *a, const char *file)
 			sl = sl_prev ? sl_prev : a->slaves;
 			slave_link_free(sl_rm);
 			if (!sl)
-				break; /* no other slave left */
+				break; /* No other slave left. */
 		}
 	}
 

@@ -30,7 +30,14 @@ typedef void void_func(void);
 struct cmdinfo {
   const char *olong;
   char oshort;
-  int takesvalue; /* 0 = normal   1 = standard value   2 = option string cont */
+
+  /*
+   * 0 = Normal				(-o, --option)
+   * 1 = Standard value			(-o=value, --option=value or
+   *					 -o value, --option value)
+   * 2 = Option string continued	(--option-value)
+   */
+  int takesvalue;
   int *iassignto;
   const char **sassignto;
   void (*call)(const struct cmdinfo*, const char *value);

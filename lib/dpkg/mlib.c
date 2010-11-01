@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * mlib.c - `must' library: routines will succeed or longjmp
+ * mlib.c - ‘must’ library: routines will succeed or longjmp
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *

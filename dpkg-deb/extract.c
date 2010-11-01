@@ -192,9 +192,8 @@ void extracthalf(const char *debar, const char *directory,
 
         header_done = true;
       } else if (arh.ar_name[0] == '_') {
-          /* Members with `_' are noncritical, and if we don't understand them
-           * we skip them.
-           */
+        /* Members with ‘_’ are noncritical, and if we don't understand
+         * them we skip them. */
         fd_null_copy(arfd, memberlen + (memberlen & 1),
                      _("skipped archive member data from %s"), debar);
       } else {
@@ -224,7 +223,8 @@ void extracthalf(const char *debar, const char *directory,
           fd_null_copy(arfd, memberlen + (memberlen & 1),
                        _("skipped archive member data from %s"), debar);
         } else {
-          break; /* Yes ! - found it. */
+          /* Yes! - found it. */
+          break;
         }
       }
     }

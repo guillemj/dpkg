@@ -275,11 +275,13 @@ deferred_configure(struct pkginfo *pkg)
 
 	trigproc_reset_cycle();
 
-	/* At this point removal from the queue is confirmed. This
+	/*
+	 * At this point removal from the queue is confirmed. This
 	 * represents irreversible progress wrt trigger cycles. Only
 	 * packages in stat_unpacked are automatically added to the
 	 * configuration queue, and during configuration and trigger
-	 * processing new packages can't enter into unpacked. */
+	 * processing new packages can't enter into unpacked.
+	 */
 
 	ok = breakses_ok(pkg, &aemsgs) ? ok : 0;
 	if (ok == 0) {
@@ -501,7 +503,7 @@ showdiff(const char *old, const char *new)
 		/* Child process. */
 		const char *pager;
 		const char *shell;
-		char cmdbuf[1024];	/* command to run */
+		char cmdbuf[1024];
 
 		pager = getenv(PAGERENV);
 		if (!pager || !*pager)

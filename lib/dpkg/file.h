@@ -36,9 +36,6 @@ struct file_stat {
 	time_t mtime;
 };
 
-/*
- * Copy file ownership and permissions from one file to another.
- */
 void file_copy_perms(const char *src, const char *dst);
 
 enum file_lock_flags {

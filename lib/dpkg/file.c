@@ -34,6 +34,12 @@
 #include <dpkg/i18n.h>
 #include <dpkg/file.h>
 
+/**
+ * Copy file ownership and permissions from one file to another.
+ *
+ * @param src The source filename.
+ * @param dst The destination filename.
+ */
 void
 file_copy_perms(const char *src, const char *dst)
 {
@@ -106,8 +112,15 @@ file_is_locked(int lockfd, const char *filename)
 		return false;
 }
 
-/* lockfd must be allocated statically as its addresses is passed to
- * a cleanup handler. */
+/**
+ * Lock a file.
+ *
+ * @param lockfd The pointer to the lock file descriptor. It must be allocated
+ *        statically as its addresses is passed to a cleanup handler.
+ * @param flags The lock flags specifiying what type of locking to perform.
+ * @param filename The name of the file to lock.
+ * @param desc The description of the file to lock.
+ */
 void
 file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
           const char *desc)

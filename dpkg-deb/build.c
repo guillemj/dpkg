@@ -48,7 +48,8 @@
 
 #include "dpkg-deb.h"
 
-/* Simple structure to store information about a file.
+/**
+ * Simple structure to store information about a file.
  */
 struct file_info {
   struct file_info *next;
@@ -115,9 +116,10 @@ file_info_find_name(struct file_info *list, const char *filename)
   return NULL;
 }
 
-/*
- * Read the next filename from a filedescriptor and create a file_info struct
- * for it. If there is nothing to read return NULL.
+/**
+ * Read a filename from the file descriptor and create a file_info struct.
+ *
+ * @return A file_info struct or NULL if there is nothing to read.
  */
 static struct file_info *
 getfi(const char *root, int fd)
@@ -167,12 +169,13 @@ getfi(const char *root, int fd)
   return fi;
 }
 
-/*
+/**
  * Add a new file_info struct to a single linked list of file_info structs.
- * We perform a slight optimization to work around a `feature' in tar: tar
+ *
+ * We perform a slight optimization to work around a ‘feature’ in tar: tar
  * always recurses into subdirectories if you list a subdirectory. So if an
  * entry is added and the previous entry in the list is its subdirectory we
- * remove the subdirectory. 
+ * remove the subdirectory.
  *
  * After a file_info struct is added to a list it may no longer be freed, we
  * assume full responsibility for its memory.
@@ -187,7 +190,7 @@ add_to_filist(struct file_info **start, struct file_info **end,
     *end=(*end)->next=fi;
 }
 
-/*
+/**
  * Free the memory for all entries in a list of file_info structs.
  */
 static void
@@ -201,7 +204,8 @@ free_filist(struct file_info *fi)
   }
 }
 
-/* Overly complex function that builds a .deb file
+/**
+ * Overly complex function that builds a .deb file.
  */
 void do_build(const char *const *argv) {
   static const char *const maintainerscripts[]= {
@@ -222,8 +226,8 @@ void do_build(const char *const *argv) {
   struct file_info *fi;
   struct file_info *symlist = NULL;
   struct file_info *symlist_end = NULL;
-  
-/* Decode our arguments */
+
+  /* Decode our arguments. */
   directory = *argv++;
   if (!directory)
     badusage(_("--%s needs a <directory> argument"), cipaction->olong);
@@ -247,8 +251,7 @@ void do_build(const char *const *argv) {
     debar= m;
   }
     
-  /* Perform some sanity checks on the to-be-build package.
-   */
+  /* Perform some sanity checks on the to-be-build package. */
   if (nocheckflag) {
     if (subdir)
       ohshit(_("target is directory - cannot skip control file check"));
@@ -260,7 +263,8 @@ void do_build(const char *const *argv) {
                           sizeof(POSTINSTFILE) + sizeof(PREINSTFILE) +
                           sizeof(POSTRMFILE) + sizeof(PRERMFILE) +
                           MAXCONFFILENAME + 5);
-    /* Lets start by reading in the control-file so we can check its contents */
+    /* Let's start by reading in the control-file so we can check its
+     * contents. */
     strcpy(controlfile, directory);
     strcat(controlfile, "/" BUILDCONTROLDIR "/" CONTROLFILE);
     warns = 0;
@@ -295,7 +299,7 @@ void do_build(const char *const *argv) {
     }
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), checkedinfo->name, debar);
 
-    /* Check file permissions */
+    /* Check file permissions. */
     strcpy(controlfile, directory);
     strcat(controlfile, "/" BUILDCONTROLDIR "/");
     if (lstat(controlfile, &mscriptstab))
@@ -324,7 +328,7 @@ void do_build(const char *const *argv) {
       }
     }
 
-    /* Check if conffiles contains sane information */
+    /* Check if conffiles contains sane information. */
     strcpy(controlfile, directory);
     strcat(controlfile, "/" BUILDCONTROLDIR "/" CONFFILESFILE);
     if ((cf= fopen(controlfile,"r"))) {
@@ -384,12 +388,11 @@ void do_build(const char *const *argv) {
   m_output(stdout, _("<standard output>"));
   
   /* Now that we have verified everything its time to actually
-   * build something. Lets start by making the ar-wrapper.
-   */
+   * build something. Let's start by making the ar-wrapper. */
   if (!(ar=fopen(debar,"wb"))) ohshite(_("unable to create `%.255s'"),debar);
   if (setvbuf(ar, NULL, _IONBF, 0))
     ohshite(_("unable to unbuffer `%.255s'"), debar);
-  /* Fork a tar to package the control-section of the package */
+  /* Fork a tar to package the control-section of the package. */
   unsetenv("TAR_OPTIONS");
   m_pipe(p1);
   c1 = subproc_fork();
@@ -402,20 +405,19 @@ void do_build(const char *const *argv) {
     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
   }
   close(p1[1]);
-  /* Create a temporary file to store the control data in. Immediately unlink
-   * our temporary file so others can't mess with it.
-   */
+  /* Create a temporary file to store the control data in. Immediately
+   * unlink our temporary file so others can't mess with it. */
   tfbuf = path_make_temp_template("dpkg-deb");
   gzfd = mkstemp(tfbuf);
   if (gzfd == -1)
     ohshite(_("failed to make temporary file (%s)"), _("control member"));
-  /* make sure it's gone, the fd will remain until we close it */
+  /* Make sure it's gone, the fd will remain until we close it. */
   if (unlink(tfbuf))
     ohshit(_("failed to unlink temporary file (%s), %s"), _("control member"),
            tfbuf);
   free(tfbuf);
 
-  /* And run gzip to compress our control archive */
+  /* And run gzip to compress our control archive. */
   c2 = subproc_fork();
   if (!c2) {
     m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
@@ -428,9 +430,8 @@ void do_build(const char *const *argv) {
   if (lseek(gzfd, 0, SEEK_SET))
     ohshite(_("failed to rewind temporary file (%s)"), _("control member"));
 
-  /* We have our first file for the ar-archive. Write a header for it to the
-   * package and insert it.
-   */
+  /* We have our first file for the ar-archive. Write a header for it
+   * to the package and insert it. */
   if (oldformatflag) {
     if (fstat(gzfd, &controlstab))
       ohshite(_("failed to stat temporary file (%s)"), _("control member"));
@@ -455,14 +456,13 @@ void do_build(const char *const *argv) {
     gzfd = mkstemp(tfbuf);
     if (gzfd == -1)
       ohshite(_("failed to make temporary file (%s)"), _("data member"));
-    /* make sure it's gone, the fd will remain until we close it */
+    /* Make sure it's gone, the fd will remain until we close it. */
     if (unlink(tfbuf))
       ohshit(_("failed to unlink temporary file (%s), %s"), _("data member"),
              tfbuf);
     free(tfbuf);
   }
-  /* Fork off a tar. We will feed it a list of filenames on stdin later.
-   */
+  /* Fork off a tar. We will feed it a list of filenames on stdin later. */
   m_pipe(p1);
   m_pipe(p2);
   c1 = subproc_fork();
@@ -475,7 +475,7 @@ void do_build(const char *const *argv) {
   }
   close(p1[0]);
   close(p2[1]);
-  /* Of course we should not forget to compress the archive as well.. */
+  /* Of course we should not forget to compress the archive as well. */
   c2 = subproc_fork();
   if (!c2) {
     close(p1[1]);
@@ -484,10 +484,9 @@ void do_build(const char *const *argv) {
     compress_filter(compressor, 0, 1, compress_level, _("data member"));
   }
   close(p2[0]);
-  /* All the pipes are set, now lets run find, and start feeding
-   * filenames to tar.
-   */
 
+  /* All the pipes are set, now lets run find, and start feeding
+   * filenames to tar. */
   m_pipe(p3);
   c3 = subproc_fork();
   if (!c3) {
@@ -499,8 +498,7 @@ void do_build(const char *const *argv) {
   }
   close(p3[1]);
   /* We need to reorder the files so we can make sure that symlinks
-   * will not appear before their target.
-   */
+   * will not appear before their target. */
   while ((fi=getfi(directory, p3[0]))!=NULL)
     if (S_ISLNK(fi->st.st_mode))
       add_to_filist(&symlist, &symlist_end, fi);
@@ -516,12 +514,12 @@ void do_build(const char *const *argv) {
   for (fi= symlist;fi;fi= fi->next)
     if (write(p1[1], fi->fn, strlen(fi->fn)+1) == -1)
       ohshite(_("failed to write filename to tar pipe (%s)"), _("data member"));
-  /* All done, clean up wait for tar and gzip to finish their job */
+  /* All done, clean up wait for tar and gzip to finish their job. */
   close(p1[1]);
   free_filist(symlist);
   subproc_wait_check(c2, _("<compress> from tar -cf"), 0);
   subproc_wait_check(c1, "tar -cf", 0);
-  /* Okay, we have data.tar.gz as well now, add it to the ar wrapper */
+  /* Okay, we have data.tar as well now, add it to the ar wrapper. */
   if (!oldformatflag) {
     char datamember[16 + 1];
 

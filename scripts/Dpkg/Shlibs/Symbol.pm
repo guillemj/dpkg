@@ -312,7 +312,7 @@ sub get_pattern {
 
 ### NOTE: subroutines below require (or initialize) $self to be a pattern ###
 
-# Initialises this symbol as a pattern of the specified type.
+# Initializes this symbol as a pattern of the specified type.
 sub init_pattern {
     my ($self, $type) = @_;
 

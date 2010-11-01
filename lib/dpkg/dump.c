@@ -19,7 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* FIXME: don't write uninteresting packages */
+/* FIXME: Don't write uninteresting packages. */
+
 #include <config.h>
 #include <compat.h>
 
@@ -55,7 +56,6 @@ void w_name(struct varbuf *vb,
 void w_version(struct varbuf *vb,
                const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                enum fwriteflags flags, const struct fieldinfo *fip) {
-  /* Epoch and revision information is printed in version field too. */
   if (!informativeversion(&pifp->version)) return;
   if (flags&fw_printheader)
     varbufaddstr(vb,"Version: ");

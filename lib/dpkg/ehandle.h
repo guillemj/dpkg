@@ -30,7 +30,8 @@
 
 DPKG_BEGIN_DECLS
 
-extern const char thisname[]; /* defined separately in each program */
+/* Defined separately in each program. */
+extern const char thisname[];
 
 extern volatile int onerr_abort;
 

@@ -125,7 +125,8 @@ const struct namevalue wantinfos[] = {
 const char *
 pkg_name_is_illegal(const char *p, const char **ep)
 {
-  static const char alsoallowed[]= "-+._"; /* _ is deprecated */
+  /* FIXME: _ is deprecated, remove sometime. */
+  static const char alsoallowed[] = "-+._";
   static char buf[150];
   int c;
   
@@ -145,7 +146,7 @@ pkg_name_is_illegal(const char *p, const char **ep)
 }
 
 const struct nickname nicknames[]= {
-  /* NB: capitalisation of these strings is important. */
+  /* Note: Capitalization of these strings is important. */
   { .nick = "Recommended",      .canon = "Recommends" },
   { .nick = "Optional",         .canon = "Suggests" },
   { .nick = "Class",            .canon = "Priority" },
@@ -174,7 +175,8 @@ void varbufversion
     if (!version->epoch &&
         (!version->version || !strchr(version->version,':')) &&
         (!version->revision || !strchr(version->revision,':'))) break;
-  case vdew_always: /* FALL THROUGH */
+    /* Fall through. */
+  case vdew_always:
     varbufprintf(vb,"%lu:",version->epoch);
     break;
   default:
@@ -215,15 +217,15 @@ parseversion_lax(struct versionrevision *rversion, const char *string)
 
   if (!*string) return _("version string is empty");
 
-  /* trim leading and trailing space */
+  /* Trim leading and trailing space. */
   while (*string && isblank(*string))
     string++;
-  /* string now points to the first non-whitespace char */
+  /* String now points to the first non-whitespace char. */
   end = string;
-  /* find either the end of the string, or a whitespace char */
+  /* Find either the end of the string, or a whitespace char. */
   while (*end && !isblank(*end))
     end++;
-  /* check for extra chars after trailing space */
+  /* Check for extra chars after trailing space. */
   ptr = end;
   while (*ptr && isblank(*ptr))
     ptr++;

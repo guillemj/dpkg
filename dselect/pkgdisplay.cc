@@ -39,10 +39,11 @@ const char
 			    N_("remove"), 
 			    N_("purge"),
 			    0 },
-/* WTA: the space is a trick to work around gettext which uses the empty
- * string to store information about the translation. DO NOT CHANGE
- * THAT IN A TRANSLATION! The code really relies on that being a single space.
- */
+
+  /* TRANSLATORS: The space is a trick to work around gettext which uses
+   * the empty string to store information about the translation. DO NOT
+   * CHANGE THAT IN A TRANSLATION! The code really relies on that being
+   * a single space. */
   *const eflagstrings[]=   { N_(" "), 
 			     N_("REINSTALL"), 
 			     0 },

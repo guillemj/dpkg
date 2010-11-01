@@ -51,7 +51,13 @@ str_escape_fmt(char *dst, const char *src, size_t n)
 	return d;
 }
 
-/* Check and strip possible surrounding quotes in string. */
+/**
+ * Check and strip possible surrounding quotes in string.
+ *
+ * @param str The string to act on.
+ *
+ * @return A pointer to str or NULL if the quotes were unbalanced.
+ */
 char *
 str_strip_quotes(char *str)
 {

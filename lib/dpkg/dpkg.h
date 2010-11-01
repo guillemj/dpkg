@@ -108,7 +108,8 @@ DPKG_BEGIN_DECLS
 
 #define standard_startup() do { \
   push_error_context(); \
-  umask(022); /* Make sure all our status databases are readable. */\
+  /* Make sure all our status databases are readable. */ \
+  umask(022); \
 } while (0)
 
 #define standard_shutdown() do { \

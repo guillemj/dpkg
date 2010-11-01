@@ -194,7 +194,8 @@ void process_queue(void) {
   
   while (!pkg_queue_is_empty(&queue)) {
     pkg = pkg_queue_pop(&queue);
-    if (!pkg) continue; /* duplicate, which we removed earlier */
+    if (!pkg)
+      continue; /* Duplicate, which we removed earlier. */
 
     action_todo = cipaction->arg;
 
@@ -213,7 +214,8 @@ void process_queue(void) {
     assert(pkg->status <= stat_installed);
 
     if (setjmp(ejbuf)) {
-      /* give up on it from the point of view of other packages, ie reset istobe */
+      /* Give up on it from the point of view of other packages, i.e. reset
+       * istobe. */
       pkg->clientdata->istobe= itb_normal;
 
       pop_error_context(ehflag_bombout);
@@ -256,33 +258,33 @@ void process_queue(void) {
   assert(!queue.length);
 }    
 
-/*** dependency processing - common to --configure and --remove ***/
+/*** Dependency processing - common to --configure and --remove. ***/
 
 /*
  * The algorithm for deciding what to configure or remove first is as
  * follows:
  *
- * Loop through all packages doing a `try 1' until we've been round and
- * nothing has been done, then do `try 2' and `try 3' likewise.
+ * Loop through all packages doing a ‘try 1’ until we've been round and
+ * nothing has been done, then do ‘try 2’ and ‘try 3’ likewise.
  *
  * When configuring, in each try we check to see whether all
- * dependencies of this package are done.  If so we do it.  If some of
+ * dependencies of this package are done. If so we do it. If some of
  * the dependencies aren't done yet but will be later we defer the
  * package, otherwise it is an error.
  *
  * When removing, in each try we check to see whether there are any
  * packages that would have dependencies missing if we removed this
- * one.  If not we remove it now.  If some of these packages are
+ * one. If not we remove it now. If some of these packages are
  * themselves scheduled for removal we defer the package until they
  * have been done.
  *
  * The criteria for satisfying a dependency vary with the various
- * tries.  In try 1 we treat the dependencies as absolute.  In try 2 we
+ * tries. In try 1 we treat the dependencies as absolute. In try 2 we
  * check break any cycles in the dependency graph involving the package
  * we are trying to process before trying to process the package
- * normally.  In try 3 (which should only be reached if
+ * normally. In try 3 (which should only be reached if
  * --force-depends-version is set) we ignore version number clauses in
- * Depends lines.  In try 4 (only reached if --force-depends is set) we
+ * Depends lines. In try 4 (only reached if --force-depends is set) we
  * say "ok" regardless.
  *
  * If we are configuring and one of the packages we depend on is
@@ -293,15 +295,16 @@ void process_queue(void) {
  * and breaking.
  */
 
-/* Return values:
+/*
+ * Return values:
  *   0: cannot be satisfied.
  *   1: defer: may be satisfied later, when other packages are better or
  *      at higher dependtry due to --force
  *      will set *fixbytrig to package whose trigger processing would help
- *      if applicable (and leave it alone otherwise)
+ *      if applicable (and leave it alone otherwise).
  *   2: not satisfied but forcing
- *      (*interestingwarnings >= 0 on exit? caller is to print oemsgs)
- *   3: satisfied now
+ *      (*interestingwarnings >= 0 on exit? caller is to print oemsgs).
+ *   3: satisfied now.
  */
 static int deppossi_ok_found(struct pkginfo *possdependee,
                              struct pkginfo *requiredby,
@@ -377,12 +380,11 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
        * the named package doesn't actually have any pending triggers. In
        * that case we queue the non-pending package for trigger processing
        * anyway, and that trigger processing will be a noop except for
-       * sorting out all of the packages which name it in T-Awaited.
+       * sorting out all of the packages which name it in Triggers-Awaited.
        *
        * (This situation can only arise if modstatdb_note success in
        * clearing the triggers-pending status of the pending package
-       * but then fails to go on to update the awaiters.)
-       */
+       * but then fails to go on to update the awaiters.) */
       *fixbytrig = possdependee->trigaw.head->pend;
       debug(dbg_depcondetail,
             "      triggers-awaited, fixbytrig `%s', returning 1",
@@ -510,9 +512,16 @@ int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs) {
   return ok;
 }
 
+/*
+ * Checks [Pre]-Depends only.
+ */
 int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
                     struct varbuf *aemsgs) {
-  int ok, found, thisf, interestingwarnings;
+  /* Valid values: 2 = ok, 1 = defer, 0 = halt. */
+  int ok;
+  /* Valid values: 0 = none, 1 = defer, 2 = withwarning, 3 = ok. */
+  int found, thisf;
+  int interestingwarnings;
   bool matched, anycannotfixbytrig;
   struct varbuf oemsgs = VARBUF_INIT;
   struct dependency *dep;
@@ -520,7 +529,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   struct pkginfo *possfixbytrig, *canfixbytrig;
 
   interestingwarnings= 0;
-  ok= 2; /* 2=ok, 1=defer, 0=halt */
+  ok = 2;
   debug(dbg_depcon,"checking dependencies of %s (- %s)",
         pkg->name, removing ? removing->name : "<none>");
 
@@ -531,7 +540,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     debug(dbg_depcondetail,"  checking group ...");
     matched = false;
     varbufreset(&oemsgs);
-    found= 0; /* 0=none, 1=defer, 2=withwarning, 3=ok */
+    found = 0;
     possfixbytrig = NULL;
     for (possi= dep->list; found != 3 && possi; possi= possi->next) {
       debug(dbg_depcondetail,"    checking possibility  -> %s",possi->ed->name);
@@ -575,8 +584,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       varbufdependency(aemsgs, dep);
       if (interestingwarnings) {
         /* Don't print the line about the package to be removed if
-         * that's the only line.
-         */
+         * that's the only line. */
         varbufaddstr(aemsgs, _("; however:\n"));
         varbufaddc(&oemsgs, 0);
         varbufaddstr(aemsgs, oemsgs.buf);

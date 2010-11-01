@@ -54,12 +54,16 @@ struct TarHeader {
 	char GroupName[32];
 	char MajorDevice[8];
 	char MinorDevice[8];
-	char Prefix[155];	/* Only valid on ustar. */
+
+	/* Only valid on ustar. */
+	char Prefix[155];
 };
 
 static const size_t TarChecksumOffset = offsetof(struct TarHeader, Checksum);
 
-/* Octal-ASCII-to-long */
+/**
+ * Convert an ASCII octal string to a long.
+ */
 static long
 OtoL(const char *s, int size)
 {
@@ -76,7 +80,9 @@ OtoL(const char *s, int size)
 	return n;
 }
 
-/* String block to C null-terminated string */
+/**
+ * Convert a string block to C NUL-terminated string.
+ */
 static char *
 StoC(const char *s, int size)
 {

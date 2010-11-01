@@ -23,7 +23,8 @@
 
 #include <dpkg/pkg-list.h>
 
-struct fileinlist; /* these two are defined in filesdb.h */
+/* These two are defined in filesdb.h. */
+struct fileinlist;
 struct filenamenode;
 
 struct perpackagestate {
@@ -38,13 +39,14 @@ struct perpackagestate {
     black,
   } color;
 
-  /*   filelistvalid   files         meaning
-   *       0             0           not read yet, must do so if want them
-   *       0            !=0          read, but rewritten and now out of
-   *                               date.  If want info must throw away old
-   *                               and reread file.
-   *       1            !=0          read, all is OK
-   *       1             0           read OK, but, there were no files
+  /*
+   * filelistvalid  files  Meaning
+   * -------------  -----  -------
+   * false          NULL   Not read yet, must do so if want them.
+   * false          !NULL  Read, but rewritten and now out of date. If want
+   *                         info must throw away old and reread file.
+   * true           !NULL  Read, all is OK.
+   * true           NULL   Read OK, but, there were no files.
    */
   bool fileslistvalid;
   struct fileinlist *files;
@@ -184,7 +186,7 @@ void packages(const char *const *argv);
 void removal_bulk(struct pkginfo *pkg);
 int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in);
 int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
-                    struct varbuf *aemsgs); /* checks [Pre]-Depends only */
+                    struct varbuf *aemsgs);
 int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
 
 void deferred_remove(struct pkginfo *pkg);
@@ -221,7 +223,6 @@ void checkpath(void);
 
 struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
 
-/* all ...'s are const char*'s ... */
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                                 const char *desc, ...) DPKG_ATTR_SENTINEL;
 int maintainer_script_new(struct pkginfo *pkg,
@@ -270,11 +271,8 @@ void trigproc_install_hooks(void);
 void trigproc_run_deferred(void);
 void trigproc_reset_cycle(void);
 
-/* Does cycle checking. Doesn't mind if pkg has no triggers
- * pending - in that case does nothing but fix up any stale awaiters. */
 void trigproc(struct pkginfo *pkg);
 
-/* Called by modstatdb_note. */
 void trig_activate_packageprocessing(struct pkginfo *pkg);
 
 /* from depcon.c */

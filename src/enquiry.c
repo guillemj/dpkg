@@ -18,7 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* FIXME: per-package audit */
+/* FIXME: per-package audit. */
+
 #include <config.h>
 #include <compat.h>
 
@@ -322,17 +323,20 @@ void assertmulticonrep(const char *const *argv) {
   assert_version_support(argv, &version, _("multiple Conflicts and Replaces"));
 }
 
+/**
+ * Print a single package which:
+ *  (a) is the target of one or more relevant predependencies.
+ *  (b) has itself no unsatisfied pre-dependencies.
+ *
+ * If such a package is present output is the Packages file entry,
+ * which can be massaged as appropriate.
+ *
+ * Exit status:
+ *  0 = a package printed, OK
+ *  1 = no suitable package available
+ *  2 = error
+ */
 void predeppackage(const char *const *argv) {
-  /* Print a single package which:
-   *  (a) is the target of one or more relevant predependencies.
-   *  (b) has itself no unsatisfied pre-dependencies.
-   * If such a package is present output is the Packages file entry,
-   *  which can be massaged as appropriate.
-   * Exit status:
-   *  0 = a package printed, OK
-   *  1 = no suitable package available
-   *  2 = error
-   */
   static struct varbuf vb;
   
   struct pkgiterator *it;
@@ -344,36 +348,42 @@ void predeppackage(const char *const *argv) {
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_init(admindir,msdbrw_readonly);
-  clear_istobes(); /* We use clientdata->istobe to detect loops */
+  /* We use clientdata->istobe to detect loops. */
+  clear_istobes();
 
   dep = NULL;
   it = pkg_db_iter_new();
   while (!dep && (pkg = pkg_db_iter_next(it))) {
-    if (pkg->want != want_install) continue; /* Ignore packages user doesn't want */
-    if (!pkg->files) continue; /* Ignore packages not available */
+    /* Ignore packages user doesn't want. */
+    if (pkg->want != want_install)
+      continue;
+    /* Ignore packages not available. */
+    if (!pkg->files)
+      continue;
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
       if (depisok(dep, &vb, NULL, true))
         continue;
-      break; /* This will leave dep non-NULL, and so exit the loop. */
+      /* This will leave dep non-NULL, and so exit the loop. */
+      break;
     }
     pkg->clientdata->istobe= itb_normal;
     /* If dep is NULL we go and get the next package. */
   }
   pkg_db_iter_free(it);
 
-  if (!dep) exit(1); /* Not found */
+  if (!dep)
+    exit(1); /* Not found. */
   assert(pkg);
   startpkg= pkg;
   pkg->clientdata->istobe= itb_preinstall;
 
   /* OK, we have found an unsatisfied predependency.
    * Now go and find the first thing we need to install, as a first step
-   * towards satisfying it.
-   */
+   * towards satisfying it. */
   do {
-    /* We search for a package which would satisfy dep, and put it in pkg */
+    /* We search for a package which would satisfy dep, and put it in pkg. */
     for (possi = dep->list, pkg = NULL;
          !pkg && possi;
          possi=possi->next) {
@@ -405,11 +415,12 @@ void predeppackage(const char *const *argv) {
       if (dep->type != dep_predepends) continue;
       if (depisok(dep, &vb, NULL, true))
         continue;
-      break; /* This will leave dep non-NULL, and so exit the loop. */
+      /* This will leave dep non-NULL, and so exit the loop. */
+      break;
     }
   } while (dep);
 
-  /* OK, we've found it - pkg has no unsatisfied pre-dependencies ! */
+  /* OK, we've found it - pkg has no unsatisfied pre-dependencies! */
   writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
 
   m_output(stdout, _("<standard output>"));
@@ -435,28 +446,32 @@ printinstarch(const char *const *argv)
 void cmpversions(const char *const *argv) {
   struct relationinfo {
     const char *string;
-    /* These values are exit status codes, so 0=true, 1=false */
+    /* These values are exit status codes, so 0 = true, 1 = false. */
     int if_lesser, if_equal, if_greater;
     int if_none_a, if_none_both, if_none_b;
   };
 
   static const struct relationinfo relationinfos[]= {
-   /*              < = > !a!2!b  */
+    /*             < = > !a!2!b  */
     { "le",        0,0,1, 0,0,1  },
     { "lt",        0,1,1, 0,1,1  },
     { "eq",        1,0,1, 1,0,1  },
     { "ne",        0,1,0, 0,1,0  },
     { "ge",        1,0,0, 1,0,0  },
     { "gt",        1,1,0, 1,1,0  },
-    { "le-nl",     0,0,1, 1,0,0  }, /* Here none        */
-    { "lt-nl",     0,1,1, 1,1,0  }, /* is counted       */
-    { "ge-nl",     1,0,0, 0,0,1  }, /* than any version.*/
-    { "gt-nl",     1,1,0, 0,1,1  }, /*                  */
-    { "<",         0,0,1, 0,0,1  }, /* For compatibility*/
-    { "<=",        0,0,1, 0,0,1  }, /* with dpkg        */
-    { "<<",        0,1,1, 0,1,1  }, /* control file     */
-    { "=",         1,0,1, 1,0,1  }, /* syntax           */
-    { ">",         1,0,0, 1,0,0  }, /*                  */
+
+    /* These treat an empty version as later than any version. */
+    { "le-nl",     0,0,1, 1,0,0  },
+    { "lt-nl",     0,1,1, 1,1,0  },
+    { "ge-nl",     1,0,0, 0,0,1  },
+    { "gt-nl",     1,1,0, 0,1,1  },
+
+    /* For compatibility with dpkg control file syntax. */
+    { "<",         0,0,1, 0,0,1  },
+    { "<=",        0,0,1, 0,0,1  },
+    { "<<",        0,1,1, 0,1,1  },
+    { "=",         1,0,1, 1,0,1  },
+    { ">",         1,0,0, 1,0,0  },
     { ">=",        1,0,0, 1,0,0  },
     { ">>",        1,1,0, 1,1,0  },
     { NULL                       }

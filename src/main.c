@@ -66,10 +66,13 @@ printversion(const struct cmdinfo *ci, const char *value)
 
   exit(0);
 }
+
 /*
-   options that need fixing:
-  dpkg --yet-to-unpack                 \n\
-  */
+ * FIXME: Options that need fixing:
+ * dpkg --yet-to-unpack
+ * dpkg --command-fd
+ */
+
 static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *ci, const char *value)
 {
@@ -176,7 +179,6 @@ int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;
 int f_triggers = 0;
 unsigned long f_debug=0;
-/* Change fc_overwrite to 1 to enable force-overwrite by default */
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
 int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_breaks=0, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
@@ -447,11 +449,11 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 
 void execbackend(const char *const *argv) DPKG_ATTR_NORET;
 void commandfd(const char *const *argv);
+
+/* This table has both the action entries in it and the normal options.
+ * The action entries are made with the ACTION macro, as they all
+ * have a very similar structure. */
 static const struct cmdinfo cmdinfos[]= {
-  /* This table has both the action entries in it and the normal options.
-   * The action entries are made with the ACTION macro, as they all
-   * have a very similar structure.
-   */
 #define ACTIONBACKEND(longopt, shortopt, backend) \
  { longopt, shortopt, 0, NULL, NULL, setaction, 0, (void *)backend, (void_func *)execbackend }
 
@@ -540,10 +542,9 @@ void execbackend(const char *const *argv) {
   command_init(&cmd, cipaction->parg, NULL);
   command_add_arg(&cmd, cipaction->parg);
 
-  /*
-   * Special case: dpkg-query takes the --admindir option, and if dpkg itself
-   * was given a different admin directory, we need to pass it along to it.
-   */
+  /* Special case: dpkg-query takes the --admindir option, and if dpkg
+   * itself was given a different admin directory, we need to pass it
+   * along to it. */
   if (strcmp(cipaction->parg, DPKGQUERY) == 0 &&
       strcmp(admindir, ADMINDIR) != 0) {
     arg = m_malloc((strlen("--admindir=") + strlen(admindir) + 1));
@@ -604,7 +605,10 @@ void commandfd(const char *const *argv) {
       varbufaddc(&linevb,c);
       c= getc(in);
       if (c == '\n') lno++;
-      if (isspace(c)) argc++;  /* This isn't fully accurate, but overestimating can't hurt. */
+
+      /* This isn't fully accurate, but overestimating can't hurt. */
+      if (isspace(c))
+        argc++;
     } while (c != EOF && c != '\n');
     if (c == EOF) ohshit(_("unexpected eof before end of line %d"),lno);
     if (!argc) continue;
@@ -639,11 +643,10 @@ void commandfd(const char *const *argv) {
     *ptr = '\0';
     newargs[argc++] = NULL;
 
-/* We strdup each argument, but never free it, because the error messages
- * contain references back to these strings.  Freeing them, and reusing
- * the memory, would make those error messages confusing, to say the
- * least.
- */
+    /* We strdup() each argument, but never free it, because the
+     * error messages contain references back to these strings.
+     * Freeing them, and reusing the memory, would make those
+     * error messages confusing, to say the least. */
     for(i=1;i<argc;i++)
       if (newargs[i])
         newargs[i] = m_strdup(newargs[i]);

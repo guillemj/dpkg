@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * update.c - options which update the `available' database
+ * update.c - options which update the ‘available’ database
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *

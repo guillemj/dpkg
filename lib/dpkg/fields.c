@@ -210,6 +210,9 @@ void f_configversion(struct pkginfo *pigp, struct pkginfoperfile *pifp,
 
 }
 
+/*
+ * The code in f_conffiles ensures that value[-1] == ' ', which is helpful.
+ */
 static void conffvalue_lastword(const char *value, const char *from,
                                 const char *endent,
                                 const char **word_start_r, int *word_len_r,
@@ -217,7 +220,6 @@ static void conffvalue_lastword(const char *value, const char *from,
                                 struct parsedb_state *ps,
                                 struct pkginfo *pigp)
 {
-  /* the code in f_conffiles ensures that value[-1]==' ', which is helpful */
   const char *lastspc;
   
   if (from <= value+1) goto malformed;
@@ -297,20 +299,26 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   struct dependency *dyp, **ldypp;
   struct deppossi *dop, **ldopp;
 
-  if (!*value) return; /* empty fields are ignored */
+  /* Empty fields are ignored. */
+  if (!*value)
+    return;
   p= value;
   ldypp= &pifp->depends; while (*ldypp) ldypp= &(*ldypp)->next;
-  for (;;) { /* loop creating new struct dependency's */
+
+   /* Loop creating new struct dependency's. */
+  for (;;) {
     dyp= nfmalloc(sizeof(struct dependency));
-    dyp->up= NULL; /* Set this to zero for now, as we don't know what our real
-                 * struct pkginfo address (in the database) is going to be yet.
-                 */
+    /* Set this to NULL for now, as we don't know what our real
+     * struct pkginfo address (in the database) is going to be yet. */
+    dyp->up = NULL;
     dyp->next= NULL; *ldypp= dyp; ldypp= &dyp->next;
     dyp->list= NULL; ldopp= &dyp->list;
     dyp->type= fip->integer;
-    for (;;) { /* loop creating new struct deppossi's */
+
+    /* Loop creating new struct deppossi's. */
+    for (;;) {
       depnamestart= p;
-/* skip over package name characters */
+      /* Skip over package name characters. */
       while (*p && !isspace(*p) && *p != '(' && *p != ',' && *p != '|') {
 	p++;
       }
@@ -342,9 +350,12 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       dop->rev_prev = NULL;
 
       dop->cyclebreak = false;
-/* skip whitespace after packagename */
+
+      /* Skip whitespace after package name. */
       while (isspace(*p)) p++;
-      if (*p == '(') {			/* if we have a versioned relation */
+
+      /* See if we have a versioned relation. */
+      if (*p == '(') {
         p++; while (isspace(*p)) p++;
         c1= *p;
         if (c1 == '<' || c1 == '>') {
@@ -391,7 +402,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                        "suggest adding a space"),
                      fip->name, depname.buf);
         }
-/* skip spaces between the relation and the version */
+        /* Skip spaces between the relation and the version. */
         while (isspace(*p)) p++;
 
 	versionstart= p;

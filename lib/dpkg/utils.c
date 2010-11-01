@@ -25,10 +25,13 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 
-/* Reimplementation of the standard ctype.h is* functions. Since gettext
+/*
+ * Reimplementation of the standard ctype.h is* functions. Since gettext
  * has overloaded the meaning of LC_CTYPE we can't use that to force C
  * locale, so use these cis* functions instead.
  */
+
+
 int cisdigit(int c) {
 	return (c>='0') && (c<='9');
 }

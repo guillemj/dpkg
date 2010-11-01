@@ -83,26 +83,22 @@ path_make_temp_template(const char *suffix)
 	return varbuf_detach(&template);
 }
 
-/*
- * snprintf(3) doesn't work if format contains %.<nnn>s and an argument has
- * invalid char for locale, then it returns -1.
- * ohshite() is ok, but fd_fd_copy(), which is used in tarobject(), is not
- * ok, because:
+/**
+ * Escape characters in a pathname for safe locale printing.
  *
- * - fd_fd_copy() == buffer_copy_TYPE() ‘lib/dpkg/buffer.h’.
- * - buffer_copy_TYPE() uses varbufvprintf(&v, desc, al); ‘lib/dpkg/buffer.c’.
- * - varbufvprintf() fails, because it calls with:
- *     fmt = "backend dpkg-deb during '%.255s'"
- *   arg may contain some invalid char, for example,
- *   «/usr/share/doc/console-tools/examples/unicode/\342\231\252\342\231\254»
- *   in console-tools.
+ * We need to quote paths so that they do not cause problems when printing
+ * them, for example with snprintf(3) which does not work if the format
+ * string contains %s and an argument has invalid characters for the
+ * current locale, it will then return -1.
  *
- * In this case, if the user uses some locale which doesn't support
- * “\342\231...”, vsnprintf() always returns -1 and varbufextend() fails.
+ * To simplify things, we just escape all 8 bit characters, instead of
+ * just invalid characters.
  *
- * So, we need to escape invalid char, probably as in
- * ‘tar-1.13.19/lib/quotearg.c: quotearg_buffer_restyled()’
- * but here we escape all 8 bit chars, in order make it simple.
+ * @param dst The escaped destination string.
+ * @param src The source string to escape.
+ * @param n The size of the destination buffer.
+ *
+ * @return The destination string.
  */
 char *
 path_quote_filename(char *dst, const char *src, size_t n)

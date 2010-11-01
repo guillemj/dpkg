@@ -105,6 +105,17 @@ constructfn(struct varbuf *vb, const char *dir, const char *tail)
 	varbufaddc(vb, 0);
 }
 
+/**
+ * Start processing of the triggers deferred file.
+ *
+ * @retval -1 Lock ENOENT with O_CREAT (directory does not exist).
+ * @retval -2 Unincorp empty, tduf_writeifempty unset.
+ * @retval -3 Unincorp ENOENT, tduf_writeifenoent unset.
+ * @retval  1 Unincorp ENOENT, tduf_writeifenoent set.
+ * @retval  2 Ok.
+ *
+ * For positive return values the caller must call trigdef_update_done!
+ */
 int
 trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 {

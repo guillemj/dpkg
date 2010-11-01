@@ -116,7 +116,7 @@
 #endif
 
 #if defined(OSLinux)
-/* This comes from TASK_COMM_LEN defined in linux's include/linux/sched.h. */
+/* This comes from TASK_COMM_LEN defined in Linux's include/linux/sched.h. */
 #define PROCESS_NAME_SIZE 15
 #endif
 
@@ -193,9 +193,11 @@ struct schedule_item {
 		sched_timeout,
 		sched_signal,
 		sched_goto,
-		sched_forever /* Only seen within parse_schedule and callees */
+		/* Only seen within parse_schedule and callees. */
+		sched_forever,
 	} type;
-	int value; /* Seconds, signal no., or index into array. */
+	/* Seconds, signal no., or index into array. */
+	int value;
 };
 
 static struct res_schedule *proc_sched = NULL;
@@ -808,7 +810,7 @@ parse_options(int argc, char * const *argv)
 			execname = optarg;
 			break;
 		case 'c':  /* --chuid <username>|<uid> */
-			/* we copy the string just in case we need the
+			/* We copy the string just in case we need the
 			 * argument later. */
 			changeuser = xstrdup(optarg);
 			changeuser = strtok(changeuser, ":");
@@ -1070,7 +1072,7 @@ pid_is_cmd(pid_t pid, const char *name)
 		fclose(f);
 		return false;
 	}
-	/* This hopefully handles command names containing ')'. */
+	/* This hopefully handles command names containing ‘)’. */
 	while ((c = getc(f)) != EOF && c == *name)
 		name++;
 	fclose(f);
@@ -1116,8 +1118,8 @@ pid_is_cmd(pid_t pid, const char *name)
 	if (pid_argv_p == NULL)
 		errx(1, "%s", kvm_geterr(kd));
 
-	start_argv_0_p = *pid_argv_p;
 	/* Find and compare string. */
+	start_argv_0_p = *pid_argv_p;
 
 	/* Find end of argv[0] then copy and cut of str there. */
 	end_argv_0_p = strchr(*pid_argv_p, ' ');
@@ -1599,7 +1601,7 @@ main(int argc, char **argv)
 	if (umask_value >= 0)
 		umask(umask_value);
 	if (mpidfile && pidfile != NULL) {
-		/* User wants _us_ to make the pidfile. :) */
+		/* User wants _us_ to make the pidfile. */
 		FILE *pidf = fopen(pidfile, "w");
 		pid_t pidt = getpid();
 		if (pidf == NULL)
@@ -1643,11 +1645,12 @@ main(int argc, char **argv)
 	}
 
 	if (background) {
-		/* Continue background setup. */
 		int i;
 
+		/* Set a default umask for dumb programs. */
 		if (umask_value < 0)
-			umask(022); /* Set a default for dumb programs. */
+			umask(022);
+
 		dup2(devnull_fd, 0); /* stdin */
 		dup2(devnull_fd, 1); /* stdout */
 		dup2(devnull_fd, 2); /* stderr */

@@ -34,7 +34,7 @@ DPKG_BEGIN_DECLS
  * (including before any call to varbuf_destroy), or the variable must be
  * initialized with VARBUF_INIT.
  *
- * However, varbufs allocated ‘static’ are properly initialised anyway and
+ * However, varbufs allocated ‘static’ are properly initialized anyway and
  * do not need varbufinit; multiple consecutive calls to varbufinit before
  * any use are allowed.
  *

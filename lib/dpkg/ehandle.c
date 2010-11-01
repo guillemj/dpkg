@@ -33,18 +33,18 @@
 #include <dpkg/i18n.h>
 #include <dpkg/ehandle.h>
 
-static const char *errmsg; /* points to errmsgbuf or malloc'd */
-static char errmsgbuf[4096];
-/* 6x255 for inserted strings (%.255s &c in fmt; also %s with limited length arg)
+/* Points to errmsgbuf or malloc'd. */
+static const char *errmsg;
+
+/* 6x255 for inserted strings (%.255s &c in fmt; and %s with limited length arg)
  * 1x255 for constant text
  * 1x255 for strerror()
- * same again just in case.
- */
+ * same again just in case. */
+static char errmsgbuf[4096];
 
 /* Incremented when we do some kind of generally necessary operation,
  * so that loops &c know to quit if we take an error exit. Decremented
- * again afterwards.
- */
+ * again afterwards. */
 volatile int onerr_abort = 0;
 
 #define NCALLS 2
@@ -92,8 +92,7 @@ run_error_handler(void)
      * and trying to do so would most probably get us here again. That's
      * why we will not try to do any error unwinding either. We'll just
      * abort. Hopefully the user can fix the situation (out of disk, out
-     * of memory, etc).
-     */
+     * of memory, etc). */
     fprintf(stderr, _("%s: unrecoverable fatal error, aborting:\n %s\n"),
             thisname, errmsg);
     exit(2);
@@ -251,13 +250,16 @@ pop_error_context(int flagset)
   free(tecp);
 }
 
+/**
+ * Push an error cleanup checkpoint.
+ *
+ * This will arrange that when pop_error_context() is called, all previous
+ * cleanups will be executed with
+ *   flagset = (original_flagset & mask) | value
+ * where original_flagset is the argument to pop_error_context() (as
+ * modified by any checkpoint which was pushed later).
+ */
 void push_checkpoint(int mask, int value) {
-  /* This will arrange that when pop_error_context() is called,
-   * all previous cleanups will be executed with
-   *  flagset= (original_flagset & mask) | value
-   * where original_flagset is the argument to pop_error_context()
-   * (as modified by any checkpoint which was pushed later).
-   */
   struct cleanup_entry *cep;
   int i;
   

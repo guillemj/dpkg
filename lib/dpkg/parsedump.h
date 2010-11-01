@@ -46,7 +46,8 @@ freadfunction f_configversion;
 freadfunction f_trigpend, f_trigaw;
 
 enum fwriteflags {
-	fw_printheader	= 001	/* print field header and trailing newline */
+	/* Print field header and trailing newline. */
+	fw_printheader = 001,
 };
 
 typedef void fwritefunction(struct varbuf*,

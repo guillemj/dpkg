@@ -29,12 +29,11 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
+/* This must always be a prime for optimal performance.
+ * With 4093 buckets, we glean a 20% speedup, for 8191 buckets
+ * we get 23%. The nominal increase in memory usage is a mere
+ * sizeof(void *) * 8063 (i.e. less than 32 KiB on 32bit systems). */
 #define BINS 8191
- /* This must always be a prime for optimal performance.
-  * With 4093 buckets, we glean a 20% speedup, for 8191 buckets
-  * we get 23%. The nominal increase in memory usage is a mere
-  * sizeof(void*)*8063 (I.E. less than 32KB on 32bit systems)
-  */
 
 static struct pkginfo *bins[BINS];
 static int npackages;
@@ -42,10 +41,11 @@ static int npackages;
 #define FNV_offset_basis 2166136261ul
 #define FNV_mixing_prime 16777619ul
 
-/* Fowler/Noll/Vo -- simple string hash.
- * For more info, see http://www.isthe.com/chongo/tech/comp/fnv/index.html
- * */
-
+/**
+ * Fowler/Noll/Vo -- simple string hash.
+ *
+ * For more info, see <http://www.isthe.com/chongo/tech/comp/fnv/index.html>.
+ */
 static unsigned int hash(const char *name) {
   register unsigned int h = FNV_offset_basis;
   register unsigned int p = FNV_mixing_prime;
@@ -96,13 +96,15 @@ pkg_perfile_blank(struct pkginfoperfile *pifp)
 
 static int nes(const char *s) { return s && *s; }
 
+/**
+ * Check if a pkg is informative.
+ *
+ * Used by dselect and dpkg query options as an aid to decide whether to
+ * display things, and by dump to decide whether to write them out.
+ */
 bool
 pkg_is_informative(struct pkginfo *pkg, struct pkginfoperfile *info)
 {
-  /* Used by dselect and dpkg query options as an aid to decide
-   * whether to display things, and by dump to decide whether to write them
-   * out.
-   */
   if (info == &pkg->installed &&
       (pkg->want != want_unknown ||
        pkg->eflag != eflag_ok ||

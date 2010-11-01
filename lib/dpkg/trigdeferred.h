@@ -43,14 +43,6 @@ struct trigdefmeths {
 
 void trigdef_set_methods(const struct trigdefmeths *methods);
 
-/*
- * Return values:
- *  -1  Lock ENOENT with O_CREAT (directory does not exist)
- *  -2  Unincorp empty, tduf_writeifempty unset
- *  -3  Unincorp ENOENT, tduf_writeifenoent unset
- *   1  Unincorp ENOENT, tduf_writeifenoent set   } caller must call
- *   2  ok                                        }  trigdef_update_done!
- */
 int trigdef_update_start(enum trigdef_updateflags uf, const char *admindir);
 void trigdef_update_printf(const char *format, ...) DPKG_ATTR_PRINTF(1);
 int trigdef_parse(void);

@@ -55,7 +55,7 @@ trig_name_is_illegal(const char *p)
 	return NULL;
 }
 
-/*========== recording triggers ==========*/
+/*========== Recording triggers. ==========*/
 
 static char *triggersdir, *triggersfilefile, *triggersnewfilefile;
 
@@ -81,11 +81,12 @@ trig_get_filename(const char *dir, const char *filename)
 
 static struct trig_hooks trigh;
 
-/*---------- noting trigger activation in memory ----------*/
+/*---------- Noting trigger activation in memory. ----------*/
 
-/* Called via trig_*activate* et al from:
+/*
+ * Called via trig_*activate* et al from:
  *   - trig_incorporate: reading of Unincorp (explicit trigger activations)
- *   - various places: processing start (`activate' in triggers ci file)
+ *   - various places: processing start (‘activate’ in triggers ci file)
  *   - namenodetouse: file triggers during unpack / remove
  *   - deferred_configure: file triggers during config file processing
  *
@@ -94,19 +95,21 @@ static struct trig_hooks trigh;
  * recorded (how would we know?) and (b) we don't enqueue them for
  * deferred processing in this run.
  *
- * We add the trigger to Triggers-Pending first.  This makes it
+ * We add the trigger to Triggers-Pending first. This makes it
  * harder to get into the state where Triggers-Awaited for aw lists
- * pend but Triggers-Pending for pend is empty.  (See also the
+ * pend but Triggers-Pending for pend is empty. (See also the
  * comment in deppossi_ok_found regarding this situation.)
  */
 
-/* aw might be NULL, and trig is not copied! */
+/*
+ * aw might be NULL.
+ * trig is not copied!
+ */
 static void
 trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *trig)
 {
 	if (pend->status < stat_triggersawaited)
-		/* Not interested then. */
-		return;
+		return; /* Not interested then. */
 
 	if (trig_note_pend(pend, trig))
 		modstatdb_note_ifwrite(pend);
@@ -122,9 +125,13 @@ trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *tri
 		}
 }
 
-/* NB that this is also called from fields.c where *pend is a temporary! */
+/*
+ * Note: This is also called from fields.c where *pend is a temporary!
+ *
+ * trig is not copied!
+ */
 bool
-trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/)
+trig_note_pend_core(struct pkginfo *pend, const char *trig)
 {
 	struct trigpend *tp;
 
@@ -140,9 +147,14 @@ trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/)
 	return true;
 }
 
-/* Returns: true for done, false for already noted. */
+/*
+ * trig is not copied!
+ *
+ * @retval true  For done.
+ * @retval false For already noted.
+ */
 bool
-trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/)
+trig_note_pend(struct pkginfo *pend, const char *trig)
 {
 	if (!trig_note_pend_core(pend, trig))
 		return false;
@@ -153,9 +165,13 @@ trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/)
 	return true;
 }
 
-/* Returns: true for done, false for already noted. */
-/* NB that this is called also from fields.c where *aw is a temporary
- * but pend is from pkg_db_find()! */
+/*
+ * Note: This is called also from fields.c where *aw is a temporary
+ * but pend is from pkg_db_find()!
+ *
+ * @retval true  For done.
+ * @retval false For already noted.
+ */
 bool
 trig_note_aw(struct pkginfo *pend, struct pkginfo *aw)
 {
@@ -219,7 +235,7 @@ trig_enqueue_awaited_pend(struct pkginfo *pend)
  * while in modstatdb_note, and the package in triggers-pending had its
  * state modified but dpkg could not finish clearing the awaiters.
  *
- * XXX: possibly get rid of some of the checks done somewhere else for
+ * XXX: Possibly get rid of some of the checks done somewhere else for
  *      this condition at run-time.
  */
 void
@@ -238,7 +254,7 @@ trig_fixup_awaiters(enum modstatdb_rw cstatus)
 	trig_awaited_pend_head = NULL;
 }
 
-/*---------- generalised handling of trigger kinds ----------*/
+/*---------- Generalized handling of trigger kinds. ----------*/
 
 struct trigkindinfo {
 	/* Only for trig_activate_start. */
@@ -279,7 +295,8 @@ invalid:
 	return &tki_unknown;
 }
 
-/* Calling sequence is:
+/*
+ * Calling sequence is:
  *  trig_activate_start(triggername)
  *  dtki->activate_awaiter(awaiting_package) } zero or more times
  *  dtki->activate_awaiter(0)                }  in any order
@@ -293,7 +310,7 @@ trig_activate_start(const char *name)
 	dtki->activate_start();
 }
 
-/*---------- unknown trigger kinds ----------*/
+/*---------- Unknown trigger kinds. ----------*/
 
 static void
 trk_unknown_activate_start(void)
@@ -325,7 +342,7 @@ static const struct trigkindinfo tki_unknown = {
 	.interest_change = trk_unknown_interest_change,
 };
 
-/*---------- explicit triggers ----------*/
+/*---------- Explicit triggers. ----------*/
 
 static FILE *trk_explicit_f;
 static struct varbuf trk_explicit_fn;
@@ -450,7 +467,7 @@ static const struct trigkindinfo tki_explicit = {
 	.interest_change = trk_explicit_interest_change,
 };
 
-/*---------- file triggers ----------*/
+/*---------- File triggers. ----------*/
 
 static struct {
 	struct trigfileint *head, *tail;
@@ -458,14 +475,15 @@ static struct {
 
 /*
  * Values:
- *  -1: not read,
- *   0: not edited
- *   1: edited
+ *  -1: Not read.
+ *   0: Not edited.
+ *   1: Edited
  */
 static int filetriggers_edited = -1;
 
-/* Called by various people with signum -1 and +1 to mean remove and add
- * and also by trig_file_interests_ensure with signum +2 meaning add
+/*
+ * Called by various people with signum -1 and +1 to mean remove and add
+ * and also by trig_file_interests_ensure() with signum +2 meaning add
  * but die if already present.
  */
 static void
@@ -486,7 +504,7 @@ trk_file_interest_change(const char *trig, struct pkginfo *pkg, int signum)
 		if (tfi->pkg == pkg)
 			goto found;
 
-	/* not found */
+	/* Not found. */
 	if (signum < 0)
 		return;
 
@@ -506,7 +524,7 @@ found:
 	if (signum > 0)
 		return;
 
-	/* remove it: */
+	/* Remove it: */
 	*search = tfi->samefile_next;
 	LIST_UNLINK_PART(filetriggers, tfi, inoverall.);
 edited:
@@ -642,7 +660,7 @@ static const struct trigkindinfo tki_file = {
 	.interest_change = trk_file_interest_change,
 };
 
-/*---------- trigger control info file ----------*/
+/*---------- Trigger control info file. ----------*/
 
 static void
 trig_cicb_interest_change(const char *trig, struct pkginfo *pkg, int signum)
@@ -701,8 +719,7 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 	f = fopen(file, "r");
 	if (!f) {
 		if (errno == ENOENT)
-			/* No file is just like an empty one. */
-			return;
+			return; /* No file is just like an empty one. */
 		ohshite(_("unable to open triggers ci file `%.250s'"), file);
 	}
 	push_cleanup(cu_closefile, ~0, NULL, 0, 1, f);
@@ -731,10 +748,10 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 			       cmd);
 		}
 	}
-	pop_cleanup(ehflag_normaltidy); /* fclose */
+	pop_cleanup(ehflag_normaltidy); /* fclose() */
 }
 
-/*---------- Unincorp file incorporation ----------*/
+/*---------- Unincorp file incorporation. ----------*/
 
 static void
 tdm_incorp_trig_begin(const char *trig)
@@ -822,7 +839,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 	trigdef_process_done();
 }
 
-/*---------- default hooks ----------*/
+/*---------- Default hooks. ----------*/
 
 struct filenamenode {
 	struct filenamenode *next;

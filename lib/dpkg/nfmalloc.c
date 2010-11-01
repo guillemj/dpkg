@@ -35,7 +35,7 @@
 static struct obstack db_obs;
 static bool dbobs_init = false;
 
-/* We use lots of mem, so use a large chunk */
+/* We use lots of mem, so use a large chunk. */
 #define CHUNK_SIZE 8192
 
 #define OBSTACK_INIT if (!dbobs_init) { nfobstack_init(); }
