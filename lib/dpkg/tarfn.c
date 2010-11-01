@@ -39,7 +39,7 @@
 #define TAR_MAGIC_USTAR "ustar\0" "00"
 #define TAR_MAGIC_GNU   "ustar "  " \0"
 
-struct TarHeader {
+struct tar_header {
 	char name[100];
 	char mode[8];
 	char uid[8];
@@ -59,7 +59,7 @@ struct TarHeader {
 	char prefix[155];
 };
 
-static const size_t TarChecksumOffset = offsetof(struct TarHeader, checksum);
+static const size_t TarChecksumOffset = offsetof(struct tar_header, checksum);
 
 /**
  * Convert an ASCII octal string to a long.
@@ -99,7 +99,7 @@ StoC(const char *s, int size)
 
 /* FIXME: Rewrite using varbuf, once it supports the needed functionality. */
 static char *
-get_prefix_name(struct TarHeader *h)
+get_prefix_name(struct tar_header *h)
 {
 	char *prefix, *name, *s;
 
@@ -120,7 +120,7 @@ get_prefix_name(struct TarHeader *h)
 }
 
 static mode_t
-get_unix_mode(struct TarHeader *h)
+get_unix_mode(struct tar_header *h)
 {
 	mode_t mode;
 	enum tar_filetype type;
@@ -161,7 +161,7 @@ get_unix_mode(struct TarHeader *h)
 static int
 DecodeTarHeader(char *block, struct tar_entry *d)
 {
-	struct TarHeader *h = (struct TarHeader *)block;
+	struct tar_header *h = (struct tar_header *)block;
 	unsigned char *s = (unsigned char *)block;
 	struct passwd *passwd = NULL;
 	struct group *group = NULL;
