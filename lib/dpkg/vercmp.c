@@ -43,16 +43,16 @@ epochsdiffer(const struct versionrevision *a,
 static int
 order(int c)
 {
-  if (c == '~')
-    return -1;
-  else if (cisdigit(c))
-    return 0;
-  else if (!c)
+  if (cisdigit(c))
     return 0;
   else if (cisalpha(c))
     return c;
-  else
+  else if (c == '~')
+    return -1;
+  else if (c)
     return c + 256;
+  else
+    return 0;
 }
 
 static int verrevcmp(const char *val, const char *ref) {
