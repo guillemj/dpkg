@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * t-buffer.c - test buffer handling
  *
- * Copyright © 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2010 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include <dpkg/test.h>
 #include <dpkg/buffer.h>
+#include <dpkg/dpkg.h>
 
 #include <stdio.h>
 
