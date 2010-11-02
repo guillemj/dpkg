@@ -35,14 +35,25 @@ epochsdiffer(const struct versionrevision *a,
   return a->epoch != b->epoch;
 }
 
-/*
- * Assume ASCII; Warning: evaluates x multiple times!
+/**
+ * Give a weight to the character to order in the version comparison.
+ *
+ * @param c An ASCII character.
  */
-#define order(x) ((x) == '~' ? -1 \
-		: cisdigit((x)) ? 0 \
-		: !(x) ? 0 \
-		: cisalpha((x)) ? (x) \
-		: (x) + 256)
+static int
+order(int c)
+{
+  if (c == '~')
+    return -1;
+  else if (cisdigit(c))
+    return 0;
+  else if (!c)
+    return 0;
+  else if (cisalpha(c))
+    return c;
+  else
+    return c + 256;
+}
 
 static int verrevcmp(const char *val, const char *ref) {
   if (!val) val= "";
