@@ -9,7 +9,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 AC_USE_SYSTEM_EXTENSIONS
 DPKG_ARCHITECTURE
 
-AM_INIT_AUTOMAKE([1.8 gnu nostdinc])
+AM_INIT_AUTOMAKE([1.8 foreign nostdinc])
 
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])],
                             [AC_SUBST([AM_DEFAULT_VERBOSITY], [1])])
