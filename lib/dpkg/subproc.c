@@ -72,7 +72,7 @@ subproc_signals_cleanup(int argc, void **argv)
 }
 
 static void
-print_error_forked(const char *emsg, const char *contextstring)
+print_subproc_error(const char *emsg, const char *contextstring)
 {
 	fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
 }
@@ -99,7 +99,7 @@ subproc_fork(void)
 		return r;
 
 	push_cleanup(subproc_fork_cleanup, ~0, NULL, 0, 0);
-	set_error_display(print_error_forked, NULL);
+	set_error_display(print_subproc_error, NULL);
 
 	return r;
 }
