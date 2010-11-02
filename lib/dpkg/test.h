@@ -49,7 +49,7 @@ main(int argc, char **argv)
 	if (setjmp(ejbuf)) {
 		catch_fatal_error();
 	}
-	push_error_handler(&ejbuf, print_error_fatal, NULL);
+	push_error_handler(&ejbuf, print_fatal_error, NULL);
 
 	test();
 

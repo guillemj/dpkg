@@ -110,7 +110,7 @@ DPKG_BEGIN_DECLS
   if (setjmp(*ejbuf)) { /* expect warning about possible clobbering of argv */\
     catch_fatal_error(); \
   }\
-  push_error_handler(ejbuf, print_error_fatal, NULL); \
+  push_error_handler(ejbuf, print_fatal_error, NULL); \
   umask(022); /* Make sure all our status databases are readable. */\
 } while (0)
 

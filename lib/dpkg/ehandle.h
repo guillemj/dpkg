@@ -42,7 +42,7 @@ enum {
 
 typedef void error_printer(const char *emsg, const char *contextstring);
 
-void print_error_fatal(const char *emsg, const char *contextstring);
+void print_fatal_error(const char *emsg, const char *contextstring);
 void catch_fatal_error(void);
 
 void push_error_handler(jmp_buf *jbufp, error_printer *printerror,

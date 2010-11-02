@@ -272,7 +272,9 @@ catch_fatal_error(void)
   exit(2);
 }
 
-void print_error_fatal(const char *emsg, const char *contextstring) {
+void
+print_fatal_error(const char *emsg, const char *contextstring)
+{
   fprintf(stderr, "%s: %s\n",thisname,emsg);
 }
 

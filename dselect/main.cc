@@ -509,7 +509,7 @@ int main(int, const char *const *argv) {
     cursesoff();
     catch_fatal_error();
   }
-  push_error_handler(&ejbuf,print_error_fatal,0);
+  push_error_handler(&ejbuf, print_fatal_error, 0);
 
   loadcfgfile(DSELECT, cmdinfos);
   myopt(&argv,cmdinfos);

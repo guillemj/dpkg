@@ -595,7 +595,7 @@ void commandfd(const char *const *argv) {
     bool mode = false;
     int argc= 1;
     lno= 0;
-    push_error_handler(&ejbuf, print_error_fatal, NULL);
+    push_error_handler(&ejbuf, print_fatal_error, NULL);
 
     do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && isspace(c));
     if (c == EOF) break;
