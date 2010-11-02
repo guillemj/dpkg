@@ -396,7 +396,8 @@ void do_build(const char *const *argv) {
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
-    if (chdir(BUILDCONTROLDIR)) ohshite(_("failed to chdir to .../DEBIAN"));
+    if (chdir(BUILDCONTROLDIR))
+      ohshite(_("failed to chdir to `%.255s'"), ".../DEBIAN");
     execlp(TAR, "tar", "-cf", "-", "--format=gnu", ".", NULL);
     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
   }
@@ -405,34 +406,37 @@ void do_build(const char *const *argv) {
    * our temporary file so others can't mess with it.
    */
   tfbuf = path_make_temp_template("dpkg-deb");
-  if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (control)"));
+  gzfd = mkstemp(tfbuf);
+  if (gzfd == -1)
+    ohshite(_("failed to make temporary file (%s)"), _("control member"));
   /* make sure it's gone, the fd will remain until we close it */
-  if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (control), %s"),
-      tfbuf);
+  if (unlink(tfbuf))
+    ohshit(_("failed to unlink temporary file (%s), %s"), _("control member"),
+           tfbuf);
   free(tfbuf);
 
   /* And run gzip to compress our control archive */
   c2 = subproc_fork();
   if (!c2) {
     m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
-    compress_filter(&compressor_gzip, 0, 1, 9, _("control"));
+    compress_filter(&compressor_gzip, 0, 1, 9, _("control member"));
   }
   close(p1[0]);
   subproc_wait_check(c2, "gzip -9c", 0);
   subproc_wait_check(c1, "tar -cf", 0);
 
   if (lseek(gzfd, 0, SEEK_SET))
-    ohshite(_("failed to rewind tmpfile (control)"));
+    ohshite(_("failed to rewind temporary file (%s)"), _("control member"));
 
   /* We have our first file for the ar-archive. Write a header for it to the
    * package and insert it.
    */
   if (oldformatflag) {
     if (fstat(gzfd, &controlstab))
-      ohshite(_("failed to fstat tmpfile (control)"));
+      ohshite(_("failed to stat temporary file (%s)"), _("control member"));
     if (fprintf(ar, "%-8s\n%ld\n", OLDARCHIVEVERSION, (long)controlstab.st_size) == EOF)
       werr(debar);
-    fd_fd_copy(gzfd, fileno(ar), -1, _("control"));
+    fd_fd_copy(gzfd, fileno(ar), -1, _("control member"));
   } else {
     const char deb_magic[] = ARCHIVEVERSION "\n";
 
@@ -448,10 +452,13 @@ void do_build(const char *const *argv) {
   if (!oldformatflag) {
     close(gzfd);
     tfbuf = path_make_temp_template("dpkg-deb");
-    if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (data)"));
+    gzfd = mkstemp(tfbuf);
+    if (gzfd == -1)
+      ohshite(_("failed to make temporary file (%s)"), _("data member"));
     /* make sure it's gone, the fd will remain until we close it */
-    if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (data), %s"),
-        tfbuf);
+    if (unlink(tfbuf))
+      ohshit(_("failed to unlink temporary file (%s), %s"), _("data member"),
+             tfbuf);
     free(tfbuf);
   }
   /* Fork off a tar. We will feed it a list of filenames on stdin later.
@@ -474,7 +481,7 @@ void do_build(const char *const *argv) {
     close(p1[1]);
     m_dup2(p2[0],0); close(p2[0]);
     m_dup2(oldformatflag ? fileno(ar) : gzfd,1);
-    compress_filter(compressor, 0, 1, compress_level, _("data"));
+    compress_filter(compressor, 0, 1, compress_level, _("data member"));
   }
   close(p2[0]);
   /* All the pipes are set, now lets run find, and start feeding
@@ -499,7 +506,8 @@ void do_build(const char *const *argv) {
       add_to_filist(&symlist, &symlist_end, fi);
     else {
       if (write(p1[1], fi->fn, strlen(fi->fn)+1) ==- 1)
-	ohshite(_("failed to write filename to tar pipe (data)"));
+        ohshite(_("failed to write filename to tar pipe (%s)"),
+                _("data member"));
       file_info_free(fi);
     }
   close(p3[0]);
@@ -507,7 +515,7 @@ void do_build(const char *const *argv) {
 
   for (fi= symlist;fi;fi= fi->next)
     if (write(p1[1], fi->fn, strlen(fi->fn)+1) == -1)
-      ohshite(_("failed to write filename to tar pipe (data)"));
+      ohshite(_("failed to write filename to tar pipe (%s)"), _("data member"));
   /* All done, clean up wait for tar and gzip to finish their job */
   close(p1[1]);
   free_filist(symlist);
@@ -519,7 +527,8 @@ void do_build(const char *const *argv) {
 
     sprintf(datamember, "%s%s", DATAMEMBER, compressor->extension);
 
-    if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (data)"));
+    if (lseek(gzfd, 0, SEEK_SET))
+      ohshite(_("failed to rewind temporary file (%s)"), _("data member"));
 
     dpkg_ar_member_put_file(debar, fileno(ar), datamember, gzfd);
   }

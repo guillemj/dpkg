@@ -76,7 +76,7 @@ static void info_prepare(const char *const **argvp,
 
   dbuf = mkdtemp(path_make_temp_template("dpkg-deb"));
   if (!dbuf)
-    ohshite(_("failed to create temporary directory"));
+    ohshite(_("unable to create temporary directory"));
   *directoryp= dbuf;
 
   push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
@@ -103,7 +103,7 @@ static void info_spew(const char *debar, const char *directory,
 
     fd = open(controlfile.buf, O_RDONLY);
     if (fd >= 0) {
-      fd_fd_copy(fd, 1, -1, _("info_spew"));
+      fd_fd_copy(fd, 1, -1, _("control file '%s'"), controlfile.buf);
       close(fd);
     } else if (errno == ENOENT) {
       fprintf(stderr,
