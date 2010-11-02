@@ -25,7 +25,7 @@
 #include <string.h>
 
 #ifndef TEST_MAIN_PROVIDED
-#include <dpkg/dpkg.h>
+#include <dpkg/ehandle.h>
 #endif
 
 /* XXX: Using assert is problematic with NDEBUG. */
