@@ -119,7 +119,9 @@ void push_error_handler(jmp_buf *jbufp,
   onerr_abort= 0;
 }
 
-static void print_error_cleanup(const char *emsg, const char *contextstring) {
+static void
+print_cleanup_error(const char *emsg, const char *contextstring)
+{
   fprintf(stderr, _("%s: error while cleaning up:\n %s\n"),thisname,emsg);
 }
 
@@ -151,7 +153,7 @@ static void run_cleanups(struct errorcontext *econ, int flagsetin) {
           recurserr.jbufp= &recurejbuf;
           recurserr.cleanups= NULL;
           recurserr.next= NULL;
-          recurserr.printerror= print_error_cleanup;
+          recurserr.printerror = print_cleanup_error;
           recurserr.contextstring= NULL;
           econtext= &recurserr;
           cep->calls[i].call(cep->argc,cep->argv);
