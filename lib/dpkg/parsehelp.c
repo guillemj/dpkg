@@ -271,7 +271,7 @@ version_strict_check(struct versionrevision *rversion)
       return _("invalid character in version number");
   }
   for (ptr = rversion->revision; *ptr; ptr++) {
-    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~", *ptr) == NULL)
+    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".+~", *ptr) == NULL)
       return _("invalid character in revision number");
   }
 
