@@ -90,7 +90,7 @@ AC_DEFUN([DPKG_MMAP],
 # Define HAVE_ASYNC_SYNC if sync() is asynchronous
 AC_DEFUN([DPKG_FUNC_ASYNC_SYNC],
 [
-  AC_CANONICAL_HOST
+  AC_REQUIRE([AC_CANONICAL_HOST])
   AC_MSG_CHECKING([whether sync is asynchronous])
   AS_CASE([$host_os],
           [linux-*], [dpkg_cv_async_sync=no],
