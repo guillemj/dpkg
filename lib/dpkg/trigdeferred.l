@@ -116,7 +116,7 @@ constructfn(struct varbuf *vb, const char *dir, const char *tail)
  *
  * For positive return values the caller must call trigdef_update_done!
  */
-int
+enum trigdef_update_status
 trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 {
 	struct stat stab;
@@ -133,7 +133,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 					ohshite(_("unable to open/create "
 					          "triggers lockfile `%.250s'"),
 					        fn.buf);
-				return -1;
+				return tdus_error_no_dir;
 			}
 		}
 
@@ -152,7 +152,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 	} else if (!stab.st_size) {
 		if (!(uf & tduf_writeifempty)) {
 			pop_cleanup(ehflag_normaltidy);
-			return -2;
+			return tdus_error_empty_deferred;
 		}
 	}
 
@@ -165,7 +165,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 			        fn.buf);
 		if (!(uf & tduf_writeifenoent)) {
 			pop_cleanup(ehflag_normaltidy);
-			return -3;
+			return tdus_error_no_deferred;
 		}
 	}
 
@@ -180,12 +180,12 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 	}
 
 	if (!old_deferred)
-		return 1;
+		return tdus_no_deferred;
 
 	trigdef_yyrestart(old_deferred);
 	BEGIN(0);
 
-	return 2;
+	return tdus_ok;
 }
 
 void

@@ -146,20 +146,20 @@ static const struct trigdefmeths tdm_add = {
 static void DPKG_ATTR_NORET
 do_check(void)
 {
-	int uf;
+	enum trigdef_update_status uf;
 
 	uf = trigdef_update_start(tduf_nolockok, admindir);
 	switch (uf) {
-	case -1:
+	case tdus_error_no_dir:
 		fprintf(stderr, _("%s: triggers data directory not yet created\n"),
 		        thisname);
 		exit(1);
-	case -3:
+	case tdus_error_no_deferred:
 		fprintf(stderr, _("%s: trigger records not yet in existence\n"),
 		        thisname);
 		exit(1);
-	case 2:
-	case -2:
+	case tdus_ok:
+	case tdus_error_empty_deferred:
 		exit(0);
 	default:
 		internerr("unknown trigdef_update_start return value '%d'", uf);

@@ -782,7 +782,7 @@ static const struct trigdefmeths tdm_incorp = {
 void
 trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 {
-	int ur;
+	enum trigdef_update_status ur;
 	enum trigdef_updateflags tduf;
 
 	free(triggersdir);
@@ -805,7 +805,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 	}
 
 	ur = trigdef_update_start(tduf, admindir);
-	if (ur == -1 && cstatus >= msdbrw_write) {
+	if (ur == tdus_error_no_dir && cstatus >= msdbrw_write) {
 		if (mkdir(triggersdir, 0755)) {
 			if (errno != EEXIST)
 				ohshite(_("unable to create triggers state"
@@ -817,17 +817,17 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 		ur = trigdef_update_start(tduf, admindir);
 	}
 	switch (ur) {
-	case -2:
+	case tdus_error_empty_deferred:
 		return;
-	case -1:
-	case -3:
+	case tdus_error_no_dir:
+	case tdus_error_no_deferred:
 		if (!trigh.transitional_activate)
 			return;
 	/* Fall through. */
-	case 1:
+	case tdus_no_deferred:
 		trigh.transitional_activate(cstatus);
 		break;
-	case 2:
+	case tdus_ok:
 		/* Read and incorporate triggers. */
 		trigdef_parse();
 		break;
