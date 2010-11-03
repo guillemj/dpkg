@@ -295,6 +295,13 @@ void process_queue(void) {
  * and breaking.
  */
 
+enum found_status {
+  found_none = 0,
+  found_defer = 1,
+  found_forced = 2,
+  found_ok = 3,
+};
+
 /*
  * Return values:
  *   0: cannot be satisfied.
@@ -306,22 +313,20 @@ void process_queue(void) {
  *      (*interestingwarnings >= 0 on exit? caller is to print oemsgs).
  *   3: satisfied now.
  */
-static int deppossi_ok_found(struct pkginfo *possdependee,
-                             struct pkginfo *requiredby,
-                             struct pkginfo *removing,
-                             struct pkginfo *providing,
-                             struct pkginfo **fixbytrig,
-                             bool *matched,
-                             struct deppossi *checkversion,
-                             int *interestingwarnings,
-                             struct varbuf *oemsgs) {
-  int thisf;
+static enum found_status
+deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
+                  struct pkginfo *removing, struct pkginfo *providing,
+                  struct pkginfo **fixbytrig,
+                  bool *matched, struct deppossi *checkversion,
+                  int *interestingwarnings, struct varbuf *oemsgs)
+{
+  enum found_status thisf;
 
   if (ignore_depends(possdependee)) {
     debug(dbg_depcondetail,"      ignoring depended package so ok and found");
-    return 3;
+    return found_ok;
   }
-  thisf= 0;
+  thisf = found_none;
   if (possdependee == removing) {
     if (providing) {
       varbufprintf(oemsgs,
@@ -333,7 +338,8 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
     }
 
     *matched = true;
-    if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
+    if (fc_depends)
+      thisf = (dependtry >= 4) ? found_forced : found_defer;
     debug(dbg_depcondetail,"      removing possdependee, returning %d",thisf);
     return thisf;
   }
@@ -349,7 +355,8 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
 		   versiondescribe(&possdependee->installed.version,
 				   vdew_nonambig));
       assert(checkversion->verrel != dvr_none);
-      if (fc_depends || fc_dependsversion) thisf= (dependtry >= 3) ? 2 : 1;
+      if (fc_depends || fc_dependsversion)
+        thisf = (dependtry >= 3) ? found_forced : found_defer;
       debug(dbg_depcondetail,"      bad version, returning %d",thisf);
       (*interestingwarnings)++;
       return thisf;
@@ -357,7 +364,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
     if (possdependee->status == stat_installed ||
         possdependee->status == stat_triggerspending) {
       debug(dbg_depcondetail,"      is installed, ok and found");
-      return 3;
+      return found_ok;
     }
     if (possdependee->status == stat_triggersawaited) {
       assert(possdependee->trigaw.head);
@@ -387,21 +394,23 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
        * but then fails to go on to update the awaiters.) */
       *fixbytrig = possdependee->trigaw.head->pend;
       debug(dbg_depcondetail,
-            "      triggers-awaited, fixbytrig `%s', returning 1",
+            "      triggers-awaited, fixbytrig '%s', defer",
             (*fixbytrig)->name);
-      return 1;
+      return found_defer;
     }
     if (possdependee->clientdata &&
         possdependee->clientdata->istobe == itb_installnew) {
       debug(dbg_depcondetail,"      unpacked/halfconfigured, defer");
-      return 1;
+      return found_defer;
     } else if (!removing && fc_configureany &&
                !skip_due_to_hold(possdependee) &&
                !(possdependee->status == stat_halfconfigured)) {
       fprintf(stderr,
               _("dpkg: also configuring `%s' (required by `%s')\n"),
               possdependee->name, requiredby->name);
-      add_to_queue(possdependee); sincenothing=0; return 1;
+      add_to_queue(possdependee);
+      sincenothing = 0;
+      return found_defer;
     } else {
       if (providing) {
 	varbufprintf(oemsgs,
@@ -432,7 +441,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
 
 unsuitable:
   if (fc_depends)
-    thisf = (dependtry >= 4) ? 2 : 1;
+    thisf = (dependtry >= 4) ? found_forced : found_defer;
 
   debug(dbg_depcondetail, "        returning %d", thisf);
   (*interestingwarnings)++;
@@ -525,7 +534,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   /* Valid values: 2 = ok, 1 = defer, 0 = halt. */
   enum dep_check ok;
   /* Valid values: 0 = none, 1 = defer, 2 = withwarning, 3 = ok. */
-  int found, thisf;
+  enum found_status found, thisf;
   int interestingwarnings;
   bool matched, anycannotfixbytrig;
   struct varbuf oemsgs = VARBUF_INIT;
@@ -545,21 +554,22 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     debug(dbg_depcondetail,"  checking group ...");
     matched = false;
     varbufreset(&oemsgs);
-    found = 0;
+    found = found_none;
     possfixbytrig = NULL;
-    for (possi= dep->list; found != 3 && possi; possi= possi->next) {
+    for (possi = dep->list; found != found_ok && possi; possi = possi->next) {
       debug(dbg_depcondetail,"    checking possibility  -> %s",possi->ed->name);
       if (possi->cyclebreak) {
         debug(dbg_depcondetail,"      break cycle so ok and found");
-        found= 3; break;
+        found = found_ok;
+        break;
       }
       thisf = deppossi_ok_found(possi->ed, pkg, removing, NULL,
                                 &possfixbytrig,
                                &matched,possi,&interestingwarnings,&oemsgs);
       if (thisf > found) found= thisf;
-      if (found != 3 && possi->verrel == dvr_none) {
+      if (found != found_ok && possi->verrel == dvr_none) {
         for (provider = possi->ed->installed.depended;
-             found != 3 && provider;
+             found != found_ok && provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides)
             continue;
@@ -579,10 +589,10 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
           found, matched, possfixbytrig ? possfixbytrig->name : "-");
     if (removing && !matched) continue;
     switch (found) {
-    case 0:
+    case found_none:
       anycannotfixbytrig = true;
       ok = dep_check_halt;
-    case 2:
+    case found_forced:
       varbufaddstr(aemsgs, " ");
       varbufaddstr(aemsgs, pkg->name);
       varbufaddstr(aemsgs, _(" depends on "));
@@ -597,7 +607,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
         varbufaddstr(aemsgs, ".\n");
       }
       break;
-    case 1:
+    case found_defer:
       if (possfixbytrig)
         canfixbytrig = possfixbytrig;
       else
@@ -605,7 +615,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       if (ok > dep_check_defer)
         ok = dep_check_defer;
       break;
-    case 3:
+    case found_ok:
       break;
     default:
       internerr("unknown value for found '%d'", found);
