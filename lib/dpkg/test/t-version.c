@@ -128,8 +128,8 @@ test_version_parse(void)
 	test_pass(versioncompare(&a, &b) == 0);
 
 	/* Test valid characters in upstream version. */
-	b = version(0, "azAZ09.-+~:", "0");
-	test_pass(parseversion(&a, "0:azAZ09.-+~:-0") == NULL);
+	b = version(0, "09azAZ.-+~:", "0");
+	test_pass(parseversion(&a, "0:09azAZ.-+~:-0") == NULL);
 	test_pass(versioncompare(&a, &b) == 0);
 
 	/* Test valid characters in revision. */

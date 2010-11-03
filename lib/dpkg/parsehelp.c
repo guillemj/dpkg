@@ -266,7 +266,10 @@ version_strict_check(struct versionrevision *rversion)
   const char *ptr;
 
   /* XXX: Would be faster to use something like cisversion and cisrevision. */
-  for (ptr = rversion->version; *ptr; ptr++) {
+  ptr = rversion->version;
+  if (*ptr && !cisdigit(*ptr++))
+    return _("version number does not start with digit");
+  for (; *ptr; ptr++) {
     if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
       return _("invalid character in version number");
   }
