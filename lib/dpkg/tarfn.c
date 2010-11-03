@@ -95,26 +95,17 @@ StoC(const char *s, int size)
 	return str;
 }
 
-/* FIXME: Rewrite using varbuf, once it supports the needed functionality. */
 static char *
 get_prefix_name(struct tar_header *h)
 {
-	char *prefix, *name, *s;
+	char *path;
 
-	/* The size is not going to be bigger than that. */
-	s = m_malloc(257);
+	path = m_malloc(sizeof(h->prefix) + 1 + sizeof(h->name) + 1);
 
-	prefix = StoC(h->prefix, sizeof(h->prefix));
-	name = StoC(h->name, sizeof(h->name));
+	sprintf(path, "%.*s/%.*s", (int)sizeof(h->prefix), h->prefix,
+	        (int)sizeof(h->name), h->name);
 
-	strcpy(s, prefix);
-	strcat(s, "/");
-	strcat(s, name);
-
-	free(prefix);
-	free(name);
-
-	return s;
+	return path;
 }
 
 static mode_t
