@@ -29,7 +29,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
@@ -112,13 +111,6 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 		break;
 	case BUFFER_WRITE_NULL:
 		break;
-	case BUFFER_WRITE_STREAM:
-		ret = fwrite(buf, 1, length, (FILE *)data->arg.ptr);
-		if (feof((FILE *)data->arg.ptr))
-			return -1;
-		if (ferror((FILE *)data->arg.ptr))
-			return -1;
-		break;
 	case BUFFER_WRITE_MD5:
 		MD5Update(&(((struct buffer_write_md5ctx *)data->arg.ptr)->ctx), buf, length);
 		break;
@@ -138,13 +130,6 @@ buffer_read(struct buffer_data *data, void *buf, off_t length)
 	switch (data->type) {
 	case BUFFER_READ_FD:
 		ret = read(data->arg.i, buf, length);
-		break;
-	case BUFFER_READ_STREAM:
-		ret = fread(buf, 1, length, (FILE *)data->arg.ptr);
-		if (feof((FILE *)data->arg.ptr))
-			return ret;
-		if (ferror((FILE *)data->arg.ptr))
-			return -1;
 		break;
 	default:
 		internerr("unknown data type '%i' in buffer_read\n",

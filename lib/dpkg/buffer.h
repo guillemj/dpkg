@@ -34,11 +34,9 @@ DPKG_BEGIN_DECLS
 #define BUFFER_WRITE_VBUF		1
 #define BUFFER_WRITE_FD			2
 #define BUFFER_WRITE_NULL		3
-#define BUFFER_WRITE_STREAM		4
 #define BUFFER_WRITE_MD5		5
 
 #define BUFFER_READ_FD			0
-#define BUFFER_READ_STREAM		1
 
 struct buffer_data {
 	union {
@@ -71,17 +69,6 @@ struct buffer_data {
 		                   NULL, BUFFER_WRITE_NULL, \
 		                   limit, __VA_ARGS__); \
 	}
-# define stream_null_copy(file, limit, ...) \
-	if (fseek(file, limit, SEEK_CUR) == -1) { \
-		if (errno != EBADF) \
-			ohshite(__VA_ARGS__); \
-		buffer_copy_PtrPtr(file, BUFFER_READ_STREAM, \
-		                   NULL, BUFFER_WRITE_NULL, \
-		                   limit, __VA_ARGS__); \
-	}
-# define stream_fd_copy(file, fd, limit, ...) \
-	buffer_copy_PtrInt(file, BUFFER_READ_STREAM, fd, BUFFER_WRITE_FD, \
-	                   limit, __VA_ARGS__)
 
 off_t buffer_copy_PtrInt(void *p, int typeIn, int i, int typeOut,
                          off_t limit, const char *desc,
