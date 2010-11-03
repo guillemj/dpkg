@@ -440,11 +440,11 @@ unsuitable:
   return thisf;
 }
 
-static void breaks_check_one(struct varbuf *aemsgs, int *ok,
-                             struct deppossi *breaks,
-                             struct pkginfo *broken,
-                             struct pkginfo *breaker,
-                             struct pkginfo *virtbroken) {
+static void
+breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
+                 struct deppossi *breaks, struct pkginfo *broken,
+                 struct pkginfo *breaker, struct pkginfo *virtbroken)
+{
   struct varbuf depmsg = VARBUF_INIT;
 
   debug(dbg_depcondetail, "      checking breaker %s virtbroken %s",
@@ -478,13 +478,14 @@ static void breaks_check_one(struct varbuf *aemsgs, int *ok,
     if (fc_dependsversion) return;
   }
   if (force_breaks(breaks)) return;
-  *ok= 0;
+  *ok = dep_check_halt;
 }
 
-static void breaks_check_target(struct varbuf *aemsgs, int *ok,
-                                struct pkginfo *broken,
-                                struct pkginfo *target,
-                                struct pkginfo *virtbroken) {
+static void
+breaks_check_target(struct varbuf *aemsgs, enum dep_check *ok,
+                    struct pkginfo *broken, struct pkginfo *target,
+                    struct pkginfo *virtbroken)
+{
   struct deppossi *possi;
 
   for (possi = target->installed.depended; possi; possi = possi->rev_next) {
@@ -494,10 +495,12 @@ static void breaks_check_target(struct varbuf *aemsgs, int *ok,
   }
 }
 
-int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs) {
+enum dep_check
+breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs)
+{
   struct dependency *dep;
   struct pkginfo *virtbroken;
-  int ok= 2;
+  enum dep_check ok = dep_check_ok;
 
   debug(dbg_depcon, "    checking Breaks");
 
@@ -515,10 +518,12 @@ int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs) {
 /*
  * Checks [Pre]-Depends only.
  */
-int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
-                    struct varbuf *aemsgs) {
+enum dep_check
+dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
+                struct varbuf *aemsgs)
+{
   /* Valid values: 2 = ok, 1 = defer, 0 = halt. */
-  int ok;
+  enum dep_check ok;
   /* Valid values: 0 = none, 1 = defer, 2 = withwarning, 3 = ok. */
   int found, thisf;
   int interestingwarnings;
@@ -529,7 +534,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   struct pkginfo *possfixbytrig, *canfixbytrig;
 
   interestingwarnings= 0;
-  ok = 2;
+  ok = dep_check_ok;
   debug(dbg_depcon,"checking dependencies of %s (- %s)",
         pkg->name, removing ? removing->name : "<none>");
 
@@ -576,7 +581,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     switch (found) {
     case 0:
       anycannotfixbytrig = true;
-      ok= 0;
+      ok = dep_check_halt;
     case 2:
       varbufaddstr(aemsgs, " ");
       varbufaddstr(aemsgs, pkg->name);
@@ -597,7 +602,8 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
         canfixbytrig = possfixbytrig;
       else
         anycannotfixbytrig = true;
-      if (ok>1) ok= 1;
+      if (ok > dep_check_defer)
+        ok = dep_check_defer;
       break;
     case 3:
       break;
@@ -605,8 +611,9 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       internerr("unknown value for found '%d'", found);
     }
   }
-  if (ok == 0 && (pkg->clientdata && pkg->clientdata->istobe == itb_remove))
-    ok= 1;
+  if (ok == dep_check_halt &&
+      (pkg->clientdata && pkg->clientdata->istobe == itb_remove))
+    ok = dep_check_defer;
   if (!anycannotfixbytrig && canfixbytrig)
     progress_bytrigproc = canfixbytrig;
 

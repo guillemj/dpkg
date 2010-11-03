@@ -185,9 +185,16 @@ void process_queue(void);
 void packages(const char *const *argv);
 void removal_bulk(struct pkginfo *pkg);
 int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in);
-int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
-                    struct varbuf *aemsgs);
-int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
+
+enum dep_check {
+  dep_check_halt = 0,
+  dep_check_defer = 1,
+  dep_check_ok = 2,
+};
+
+enum dep_check dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
+                               struct varbuf *aemsgs);
+enum dep_check breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
 
 void deferred_remove(struct pkginfo *pkg);
 void deferred_configure(struct pkginfo *pkg);
