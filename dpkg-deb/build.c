@@ -130,10 +130,7 @@ getfi(const char *root, int fd)
   struct file_info *fi;
   size_t rl = strlen(root);
 
-  if (fn == NULL) {
-    fnlen = rl + MAXFILENAME;
-    fn = m_malloc(fnlen);
-  } else if (fnlen < (rl + MAXFILENAME)) {
+  if (fnlen < (rl + MAXFILENAME)) {
     fnlen = rl + MAXFILENAME;
     fn = m_realloc(fn, fnlen);
   }
