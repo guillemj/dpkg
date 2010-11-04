@@ -46,6 +46,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/subproc.h>
 #include <dpkg/command.h>
 #include <dpkg/myopt.h>
 
@@ -336,6 +337,8 @@ struct invoke_hook *pre_invoke_hooks = NULL;
 struct invoke_hook **pre_invoke_hooks_tail = &pre_invoke_hooks;
 struct invoke_hook *post_invoke_hooks = NULL;
 struct invoke_hook **post_invoke_hooks_tail = &post_invoke_hooks;
+struct invoke_hook *status_loggers = NULL;
+struct invoke_hook **status_loggers_tail = &status_loggers;
 
 static void
 set_invoke_hook(const struct cmdinfo *cip, const char *value)
@@ -371,6 +374,34 @@ run_invoke_hooks(const char *action, struct invoke_hook *hook_head)
   }
 
   unsetenv("DPKG_HOOK_ACTION");
+}
+
+static void
+run_status_loggers(struct invoke_hook *hook_head)
+{
+  struct invoke_hook *hook;
+
+  for (hook = hook_head; hook; hook = hook->next) {
+    pid_t pid;
+    int p[2];
+
+    m_pipe(p);
+
+    pid = subproc_fork();
+    if (pid == 0) {
+      /* Setup stdin and stdout. */
+      m_dup2(p[0], 0);
+      close(1);
+
+      close(p[0]);
+      close(p[1]);
+
+      command_shell(hook->command, _("status logger"));
+    }
+    close(p[0]);
+
+    statusfd_add(p[1]);
+  }
 }
 
 static void setforce(const struct cmdinfo *cip, const char *value) {
@@ -487,6 +518,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
   { "path-exclude",      0,   1, NULL,          NULL,      setfilter,     0 },
   { "path-include",      0,   1, NULL,          NULL,      setfilter,     1 },
+  { "status-logger",     0,   1, NULL,          NULL,      set_invoke_hook, 0, &status_loggers_tail },
   { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0 },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },
   { "pending",           'a', 0, &f_pending,    NULL,      NULL,    1 },
@@ -673,8 +705,10 @@ int main(int argc, const char *const *argv) {
 
   setvbuf(stdout, NULL, _IONBF, 0);
 
-  if (is_invoke_action(cipaction->arg))
+  if (is_invoke_action(cipaction->arg)) {
     run_invoke_hooks(cipaction->olong, pre_invoke_hooks);
+    run_status_loggers(status_loggers);
+  }
 
   filesdbinit();
 
