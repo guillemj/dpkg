@@ -181,3 +181,29 @@ command_exec(struct command *cmd)
 		execvp(cmd->filename, (char * const *)cmd->argv);
 	ohshite(_("unable to execute %s (%s)"), cmd->name, cmd->filename);
 }
+
+/**
+ * Execute a shell with a possible command.
+ *
+ * @param cmd The command string to execute, if it's NULL an interactive
+ *            shell will be executed instead.
+ * @param name The description of the command to execute.
+ */
+void
+command_shell(const char *cmd, const char *name)
+{
+	const char *shell;
+	const char *mode;
+
+	shell = getenv(SHELLENV);
+	if (shell == NULL || shell[0] == '\0')
+		shell = DEFAULTSHELL;
+
+	if (cmd == NULL)
+		mode = "-i";
+	else
+		mode = "-c";
+
+	execlp(shell, shell, mode, cmd, NULL);
+	ohshite(_("unable to execute %s (%s)"), name, cmd);
+}

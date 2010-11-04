@@ -48,6 +48,8 @@ void command_add_args(struct command *cmd, ...) DPKG_ATTR_SENTINEL;
 
 void command_exec(struct command *cmd) DPKG_ATTR_NORET;
 
+void command_shell(const char *cmd, const char *name);
+
 DPKG_END_DECLS
 
 #endif /* LIBDPKG_COMMAND_H */
