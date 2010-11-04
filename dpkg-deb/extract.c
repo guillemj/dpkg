@@ -42,6 +42,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
+#include <dpkg/command.h>
 #include <dpkg/compress.h>
 #include <dpkg/ar.h>
 #include <dpkg/myopt.h>
@@ -55,9 +56,7 @@ static void movecontrolfiles(const char *thing) {
   sprintf(buf, "mv %s/* . && rmdir %s", thing, thing);
   c1 = subproc_fork();
   if (!c1) {
-    execlp("sh", "sh", "-c", buf, NULL);
-    ohshite(_("unable to execute %s (%s)"),
-            _("shell command to move files"), buf);
+    command_shell(buf, _("shell command to move files"));
   }
   subproc_wait_check(c1, _("shell command to move files"), 0);
 }

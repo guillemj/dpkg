@@ -45,6 +45,7 @@
 #include <dpkg/buffer.h>
 #include <dpkg/file.h>
 #include <dpkg/subproc.h>
+#include <dpkg/command.h>
 #include <dpkg/triglib.h>
 
 #include "filesdb.h"
@@ -502,7 +503,6 @@ showdiff(const char *old, const char *new)
 	if (!pid) {
 		/* Child process. */
 		const char *pager;
-		const char *shell;
 		char cmdbuf[1024];
 
 		pager = getenv(PAGERENV);
@@ -512,13 +512,7 @@ showdiff(const char *old, const char *new)
 		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",
 		        old, new, pager);
 
-		shell = getenv(SHELLENV);
-		if (!shell || !*shell)
-			shell = DEFAULTSHELL;
-
-		execlp(shell, shell, "-c", cmdbuf, NULL);
-		ohshite(_("unable to execute %s (%s)"),
-		        _("conffile difference visualizer"), cmdbuf);
+		command_shell(cmdbuf, _("conffile difference visualizer"));
 	}
 
 	/* Parent process. */
@@ -543,21 +537,12 @@ spawn_shell(const char *confold, const char *confnew)
 
 	pid = subproc_fork();
 	if (!pid) {
-		/* Child process */
-		const char *shell;
-
-		shell = getenv(SHELLENV);
-		if (!shell || !*shell)
-			shell = DEFAULTSHELL;
-
 		/* Set useful variables for the user. */
 		setenv("DPKG_SHELL_REASON", "conffile-prompt", 1);
 		setenv("DPKG_CONFFILE_OLD", confold, 1);
 		setenv("DPKG_CONFFILE_NEW", confnew, 1);
 
-		execlp(shell, shell, "-i", NULL);
-		ohshite(_("unable to execute %s (%s)"),
-		        _("conffile shell"), shell);
+		command_shell(NULL, _("conffile shell"));
 	}
 
 	/* Parent process. */
