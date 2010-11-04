@@ -121,13 +121,7 @@ DPKG_BEGIN_DECLS
 extern const char *log_file;
 void log_message(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
-/* FIXME: pipef and status_pipes should not be publicly exposed. */
-struct pipef {
-  int fd;
-  struct pipef *next;
-};
-extern struct pipef *status_pipes;
-
+void statusfd_add(int fd);
 void statusfd_send(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 /*** cleanup.c ***/

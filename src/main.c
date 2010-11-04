@@ -306,8 +306,6 @@ static void setinteger(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setpipe(const struct cmdinfo *cip, const char *value) {
-  struct pipef **pipe_head = cip->parg;
-  struct pipef *pipe_new;
   unsigned long v;
   char *ep;
 
@@ -315,12 +313,7 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
   if (value == ep || *ep || v > INT_MAX)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
 
-  setcloexec(v, _("<package status and progress file descriptor>"));
-
-  pipe_new = nfmalloc(sizeof(struct pipef));
-  pipe_new->fd = v;
-  pipe_new->next = *pipe_head;
-  *pipe_head = pipe_new;
+  statusfd_add(v);
 }
 
 static bool
@@ -494,7 +487,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
   { "path-exclude",      0,   1, NULL,          NULL,      setfilter,     0 },
   { "path-include",      0,   1, NULL,          NULL,      setfilter,     1 },
-  { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0, &status_pipes },
+  { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0 },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },
   { "pending",           'a', 0, &f_pending,    NULL,      NULL,    1 },
   { "recursive",         'R', 0, &f_recursive,  NULL,      NULL,    1 },

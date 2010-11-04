@@ -70,7 +70,25 @@ log_message(const char *fmt, ...)
 	fprintf(logfd, "%s %s\n", time_str, log.buf);
 }
 
-struct pipef *status_pipes = NULL;
+struct pipef {
+	struct pipef *next;
+	int fd;
+};
+
+static struct pipef *status_pipes = NULL;
+
+void
+statusfd_add(int fd)
+{
+	struct pipef *pipe_new;
+
+	setcloexec(fd, _("<package status and progress file descriptor>"));
+
+	pipe_new = nfmalloc(sizeof(struct pipef));
+	pipe_new->fd = fd;
+	pipe_new->next = status_pipes;
+	status_pipes = pipe_new;
+}
 
 void
 statusfd_send(const char *fmt, ...)
