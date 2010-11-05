@@ -684,10 +684,21 @@ alternative_choices_free(struct alternative *a)
 }
 
 static void
+alternative_commit_operations_free(struct alternative *a)
+{
+	struct commit_operation *op;
+
+	while (a->commit_ops) {
+		op = a->commit_ops;
+		a->commit_ops = op->next;
+		commit_operation_free(op);
+	}
+}
+
+static void
 alternative_reset(struct alternative *alt)
 {
 	struct slave_link *slave;
-	struct commit_operation *commit_op;
 
 	free(alt->master_link);
 	alt->master_link = NULL;
@@ -697,11 +708,7 @@ alternative_reset(struct alternative *alt)
 		slave_link_free(slave);
 	}
 	alternative_choices_free(alt);
-	while (alt->commit_ops) {
-		commit_op = alt->commit_ops;
-		alt->commit_ops = commit_op->next;
-		commit_operation_free(commit_op);
-	}
+	alternative_commit_operations_free(alt);
 	alt->modified = false;
 }
 
@@ -1544,11 +1551,7 @@ alternative_commit(struct alternative *a)
 		}
 	}
 
-	while (a->commit_ops) {
-		op = a->commit_ops;
-		a->commit_ops = op->next;
-		commit_operation_free(op);
-	}
+	alternative_commit_operations_free(a);
 }
 
 static void
