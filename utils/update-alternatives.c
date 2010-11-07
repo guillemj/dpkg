@@ -1224,11 +1224,12 @@ alternative_load(struct alternative *a, bool must_not_die)
 }
 
 static void
-alternative_save(struct alternative *a, const char *file)
+alternative_save(struct alternative *a)
 {
 	struct altdb_context ctx;
 	struct slave_link *sl, *sl_prev;
 	struct fileset *fs;
+	char *filenew, *file;
 
 	/* Cleanup unused slaves before writing admin file. */
 	sl_prev = NULL;
@@ -1264,10 +1265,13 @@ alternative_save(struct alternative *a, const char *file)
 	alternative_sort_choices(a);
 
 	/* Write admin file. */
-	ctx.filename = xstrdup(file);
-	ctx.fh = fopen(file, "w");
+	xasprintf(&file, "%s/%s", admdir, a->master_name);
+	xasprintf(&filenew, "%s" DPKG_TMP_EXT, file);
+
+	ctx.filename = filenew;
+	ctx.fh = fopen(ctx.filename, "w");
 	if (ctx.fh == NULL)
-		error(_("cannot write %s: %s"), file, strerror(errno));
+		error(_("cannot write %s: %s"), ctx.filename, strerror(errno));
 
 	altdb_print_line(&ctx, alternative_status_string(a->status));
 	altdb_print_line(&ctx, a->master_link);
@@ -1299,6 +1303,12 @@ alternative_save(struct alternative *a, const char *file)
 	/* Close database file */
 	if (fclose(ctx.fh))
 		error(_("unable to close %s: %s"), ctx.filename, strerror(errno));
+
+	/* Put in place atomically. */
+	checked_mv(filenew, file);
+
+	free(filenew);
+	free(file);
 }
 
 static struct fileset *
@@ -2438,17 +2448,8 @@ main(int argc, char **argv)
 
 	/* Save administrative file if needed. */
 	if (a->modified) {
-		char *fntmp, *fn;
-
-		xasprintf(&fntmp, "%s/%s" DPKG_TMP_EXT, admdir, a->master_name);
-		xasprintf(&fn, "%s/%s", admdir, a->master_name);
-
 		debug("%s is modified and will be saved", a->master_name);
-		alternative_save(a, fntmp);
-		checked_mv(fntmp, fn);
-
-		free(fntmp);
-		free(fn);
+		alternative_save(a);
 	}
 
 	/* Replace all symlinks in one pass. */
