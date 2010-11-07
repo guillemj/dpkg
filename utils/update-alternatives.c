@@ -492,6 +492,20 @@ checked_rm(const char *f)
 		error(_("unable to remove %s: %s"), f, strerror(errno));
 }
 
+static void DPKG_ATTR_PRINTF(1)
+checked_rm_args(const char *fmt, ...)
+{
+	va_list args;
+	char *path;
+
+	va_start(args, fmt);
+	xvasprintf(&path, fmt, args);
+	va_end(args);
+
+	checked_rm(path);
+	free(path);
+}
+
 /*
  * OBJECTS
  */
@@ -1652,39 +1666,26 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 static void
 alternative_remove(struct alternative *a)
 {
-	char *fn;
 	struct stat st;
 	struct slave_link *sl;
 
-	xasprintf(&fn, "%s" DPKG_TMP_EXT, a->master_link);
-	checked_rm(fn);
-	free(fn);
+	checked_rm_args("%s" DPKG_TMP_EXT, a->master_link);
 	if (lstat(a->master_link, &st) == 0 && S_ISLNK(st.st_mode))
 		checked_rm(a->master_link);
-	xasprintf(&fn, "%s/%s" DPKG_TMP_EXT, altdir, a->master_name);
-	checked_rm(fn);
-	free(fn);
-	xasprintf(&fn, "%s/%s", altdir, a->master_name);
-	checked_rm(fn);
-	free(fn);
+
+	checked_rm_args("%s/%s" DPKG_TMP_EXT, altdir, a->master_name);
+	checked_rm_args("%s/%s", altdir, a->master_name);
 
 	for (sl = a->slaves; sl; sl = sl->next) {
-		xasprintf(&fn, "%s" DPKG_TMP_EXT, sl->link);
-		checked_rm(fn);
-		free(fn);
+		checked_rm_args("%s" DPKG_TMP_EXT, sl->link);
 		if (lstat(sl->link, &st) == 0 && S_ISLNK(st.st_mode))
 			checked_rm(sl->link);
-		xasprintf(&fn, "%s/%s" DPKG_TMP_EXT, altdir, sl->name);
-		checked_rm(fn);
-		free(fn);
-		xasprintf(&fn, "%s/%s", altdir, sl->name);
-		checked_rm(fn);
-		free(fn);
+
+		checked_rm_args("%s/%s" DPKG_TMP_EXT, altdir, sl->name);
+		checked_rm_args("%s/%s", altdir, sl->name);
 	}
 	/* Drop admin file */
-	xasprintf(&fn, "%s/%s", admdir, a->master_name);
-	checked_rm(fn);
-	free(fn);
+	checked_rm_args("%s/%s", admdir, a->master_name);
 }
 
 static bool
