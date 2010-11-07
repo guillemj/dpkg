@@ -1392,12 +1392,8 @@ alternative_display_query(struct alternative *a)
 	if (best)
 		pr("Best: %s", best->master_file);
 	current = alternative_get_current(a);
-	if (current) {
-		pr("Value: %s", current);
-		free(current);
-	} else {
-		pr("Value: none");
-	}
+	pr("Value: %s", current ? current : "none");
+	free(current);
 
 	for (fs = a->choices; fs; fs = fs->next) {
 		printf("\n");
