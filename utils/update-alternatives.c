@@ -2184,12 +2184,9 @@ main(int argc, char **argv)
 		                             inst_alt->master_name);
 		if (found && strcmp(found->master_name,
 		                    inst_alt->master_name) != 0) {
-			char *msg;
-
-			xasprintf(&msg, _("it is a slave of %s"),
-			          found->master_name);
-			error(_("alternative %s can't be master: %s"),
-			      inst_alt->master_name, msg);
+			error(_("alternative %s can't be master: "
+			        "it is a slave of %s"),
+			      inst_alt->master_name, found->master_name);
 		}
 
 		found = alternative_map_find(alt_map_links,
@@ -2227,8 +2224,7 @@ main(int argc, char **argv)
 				char *msg;
 
 				if (strcmp(found->master_name, sl->name) == 0)
-					xasprintf(&msg, "%s",
-					          _("it is a master alternative."));
+					msg = _("it is a master alternative.");
 				else
 					xasprintf(&msg, _("it is a slave of %s"),
 					          found->master_name);
@@ -2311,21 +2307,18 @@ main(int argc, char **argv)
 		/* Detect manually modified alternative, switch to manual. */
 		if (!alternative_has_choice(a, current_choice)) {
 			struct stat st;
-			char *altlink;
 
-			xasprintf(&altlink, "%s/%s", altdir, a->master_name);
 			if (stat(current_choice, &st) == -1 &&
 			    errno == ENOENT) {
-				warning(_("%s is dangling, it will be updated "
-				          "with best choice."), altlink);
+				warning(_("%s/%s is dangling, it will be updated "
+				          "with best choice."), altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_AUTO);
 			} else if (a->status != ALT_ST_MANUAL) {
-				warning(_("%s has been changed (manually or by "
+				warning(_("%s/%s has been changed (manually or by "
 				          "a script). Switching to manual "
-				          "updates only."), altlink);
+				          "updates only."), altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_MANUAL);
 			}
-			free(altlink);
 		}
 	} else {
 		/* Lack of alternative link => automatic mode. */
@@ -2400,15 +2393,11 @@ main(int argc, char **argv)
 		if (a->status == ALT_ST_AUTO) {
 			new_choice = alternative_get_best(a)->master_file;
 		} else {
-			char *fn;
-
-			xasprintf(&fn, "%s/%s", altdir, a->master_name);
-			verbose(_("automatic updates of %s are disabled, "
-			          "leaving it alone."), fn);
+			verbose(_("automatic updates of %s/%s are disabled, "
+			          "leaving it alone."), altdir, a->master_name);
 			verbose(_("to return to automatic updates use "
 			          "`update-alternatives --auto %s'."),
 			        a->master_name);
-			free(fn);
 		}
 	}
 
