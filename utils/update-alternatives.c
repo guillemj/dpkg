@@ -137,7 +137,7 @@ error(char const *fmt, ...)
 {
 	va_list args;
 
-	fprintf(stderr, PROGNAME ": %s: ", _("error"));
+	fprintf(stderr, "%s: %s: ", PROGNAME, _("error"));
 	va_start(args, fmt);
 	vfprintf(stderr, fmt, args);
 	va_end(args);
@@ -150,7 +150,7 @@ badusage(char const *fmt, ...)
 {
 	va_list args;
 
-	fprintf(stderr, PROGNAME ": ");
+	fprintf(stderr, "%s: ", PROGNAME);
 	va_start(args, fmt);
 	vfprintf(stderr, fmt, args);
 	va_end(args);
@@ -167,7 +167,7 @@ warning(char const *fmt, ...)
 	if (opt_verbose < 0)
 		return;
 
-	fprintf(stderr, PROGNAME ": %s: ", _("warning"));
+	fprintf(stderr, "%s: %s: ", PROGNAME, _("warning"));
 	va_start(args, fmt);
 	vfprintf(stderr, fmt, args);
 	va_end(args);
@@ -196,7 +196,7 @@ verbose(char const *fmt, ...)
 	if (opt_verbose < 1)
 		return;
 
-	printf(PROGNAME ": ");
+	printf("%s: ", PROGNAME);
 	va_start(args, fmt);
 	vprintf(fmt, args);
 	va_end(args);
@@ -211,7 +211,7 @@ info(char const *fmt, ...)
 	if (opt_verbose < 0)
 		return;
 
-	printf(PROGNAME ": ");
+	printf("%s: ", PROGNAME);
 	va_start(args, fmt);
 	vprintf(fmt, args);
 	va_end(args);
@@ -338,7 +338,7 @@ log_msg(const char *fmt, ...)
 		time(&now);
 		strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S",
 			 localtime(&now));
-		fprintf(fh_log, "%s " PROGNAME ": ", timestamp);
+		fprintf(fh_log, "%s %s: ", PROGNAME, timestamp);
 		va_start(args, fmt);
 		vfprintf(fh_log, fmt, args);
 		va_end(args);
@@ -1842,12 +1842,12 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 		char *cmd;
 
 		if (strcmp(status, "auto") == 0) {
-			xasprintf(&cmd, PROGNAME " --auto %s", name);
+			xasprintf(&cmd, "%s --auto %s", PROGNAME, name);
 			pr(_("Call %s."), cmd);
 			free(cmd);
 			subcall(prog_path, "--auto", name, NULL);
 		} else if (alternative_has_choice(a, choice)) {
-			xasprintf(&cmd, PROGNAME " --set %s %s",
+			xasprintf(&cmd, "%s --set %s %s", PROGNAME,
 			          name, choice);
 			pr(_("Call %s."), cmd);
 			free(cmd);
@@ -1864,8 +1864,6 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 static void
 alternative_set_selections(struct alternative_map *all, FILE* input, const char *desc)
 {
-	const char *prefix = "[" PROGNAME " --set-selections] ";
-
 	for (;;) {
 		char line[1024], *res, *name, *status, *choice;
 		size_t len, i;
@@ -1894,7 +1892,7 @@ alternative_set_selections(struct alternative_map *all, FILE* input, const char 
 		while (i < len && !isblank(line[i]))
 			i++;
 		if (i >= len) {
-			printf("%s", prefix);
+			printf("[%s %s] ", PROGNAME, "--set-selections");
 			pr(_("Skip invalid line: %s"), line);
 			continue;
 		}
@@ -1907,7 +1905,7 @@ alternative_set_selections(struct alternative_map *all, FILE* input, const char 
 		while (i < len && !isblank(line[i]))
 			i++;
 		if (i >= len) {
-			printf("%s", prefix);
+			printf("[%s %s] ", PROGNAME, "--set-selections");
 			pr(_("Skip invalid line: %s"), line);
 			continue;
 		}
@@ -1917,13 +1915,13 @@ alternative_set_selections(struct alternative_map *all, FILE* input, const char 
 
 		/* Delimit choice string in the line */
 		if (i >= len) {
-			printf("%s", prefix);
+			printf("[%s %s] ", PROGNAME, "--set-selections");
 			pr(_("Skip invalid line: %s"), line);
 			continue;
 		}
 		choice = line + i;
 
-		printf("%s", prefix);
+		printf("[%s %s] ", PROGNAME, "--set-selections");
 		alternative_set_selection(all, name, status, choice);
 	}
 }
@@ -2397,8 +2395,7 @@ main(int argc, char **argv)
 			verbose(_("automatic updates of %s/%s are disabled, "
 			          "leaving it alone."), altdir, a->master_name);
 			verbose(_("to return to automatic updates use "
-			          "`update-alternatives --auto %s'."),
-			        a->master_name);
+			          "'%s --auto %s'."), PROGNAME, a->master_name);
 		}
 	}
 
