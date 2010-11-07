@@ -285,6 +285,18 @@ xreadlink(const char *linkname, bool error_out)
 	return buf;
 }
 
+static int DPKG_ATTR_VPRINTF(2)
+xvasprintf(char **strp, const char *fmt, va_list args)
+{
+	int ret;
+
+	ret = vasprintf(strp, fmt, args);
+	if (ret < 0)
+		error(_("failed to allocate memory"));
+
+	return ret;
+}
+
 static int DPKG_ATTR_PRINTF(2)
 xasprintf(char **strp, const char *fmt, ...)
 {
@@ -292,10 +304,8 @@ xasprintf(char **strp, const char *fmt, ...)
 	int ret;
 
 	va_start(args, fmt);
-	ret = vasprintf(strp, fmt, args);
+	ret = xvasprintf(strp, fmt, args);
 	va_end(args);
-	if (ret < 0)
-		error(_("failed to allocate memory"));
 
 	return ret;
 }
@@ -1028,10 +1038,8 @@ altdb_parse_error(struct altdb_context *ctx, const char *format, ...)
 	int ret;
 
 	va_start(args, format);
-	ret = vasprintf(&msg, format, args);
+	ret = xvasprintf(&msg, format, args);
 	va_end(args);
-	if (ret < 0)
-		error(_("failed to allocate memory"));
 
 	error(_("%s corrupt: %s"), ctx->filename, msg);
 }
