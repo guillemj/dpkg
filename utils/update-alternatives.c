@@ -2261,9 +2261,10 @@ main(int argc, char **argv)
 		exit(0);
 	} else if (strcmp(action, "get-selections") == 0) {
 		struct alternative_map *am;
-		char *current;
 
 		for (am = alt_map_obj; am && am->item; am = am->next) {
+			char *current;
+
 			current = alternative_get_current(am->item);
 			printf("%-30s %-8s %s\n", am->key,
 			       alternative_status_string(am->item->status),
