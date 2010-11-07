@@ -1864,7 +1864,7 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 static void
 alternative_set_selections(struct alternative_map *all, FILE* input, const char *desc)
 {
-	const char *prefix = "[" PROGNAME "--set-selections] ";
+	const char *prefix = "[" PROGNAME " --set-selections] ";
 
 	for (;;) {
 		char line[1024], *res, *name, *status, *choice;
