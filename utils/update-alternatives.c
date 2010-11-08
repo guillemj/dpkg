@@ -1089,7 +1089,7 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 	if (alternative_has_slave(a, name)) {
 		sl = alternative_get_slave(a, name);
 		free(name);
-		ctx->bad_format(ctx, _("duplicate slave %s"), sl->name);
+		ctx->bad_format(ctx, _("duplicate slave name %s"), sl->name);
 	}
 
 	linkname = altdb_get_line(ctx, _("slave link"));
@@ -1203,7 +1203,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 		if (errno == ENOENT)
 			return false;
 		else
-			error(_("unable to stat %s: %s"), ctx.filename,
+			error(_("cannot stat %s: %s"), ctx.filename,
 			      strerror(errno));
 	}
 	if (st.st_size == 0) {
@@ -2093,14 +2093,14 @@ main(int argc, char **argv)
 				badusage(_("link %s is both primary and slave"),
 				         slink);
 			if (alternative_has_slave(inst_alt, sname))
-				badusage(_("slave name %s duplicated"), sname);
+				badusage(_("duplicate slave name %s"), sname);
 
 			for (sl = inst_alt->slaves; sl; sl = sl->next) {
 				const char *linkname = sl->link;
 				if (linkname == NULL)
 					linkname = "";
 				if (strcmp(linkname, slink) == 0)
-					badusage(_("slave link %s duplicated"),
+					badusage(_("duplicate slave link %s"),
 					          slink);
 			}
 
