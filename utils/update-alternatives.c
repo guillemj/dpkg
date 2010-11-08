@@ -95,7 +95,9 @@ usage(void)
 {
 	printf(_(
 "Usage: %s [<option> ...] <command>\n"
-"\n"
+"\n"), PROGNAME);
+
+	printf(_(
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
 "    [--slave <link> <name> <path>] ...\n"
@@ -106,11 +108,15 @@ usage(void)
 "  --display <name>         display information about the <name> group.\n"
 "  --query <name>           machine parseable version of --display <name>.\n"
 "  --list <name>            display all targets of the <name> group.\n"
+"  --get-selections         list master alternative names and their status.\n"
+"  --set-selections         read alternative status from standard input.\n"
 "  --config <name>          show alternatives for the <name> group and ask the\n"
 "                           user to select which one to use.\n"
 "  --set <name> <path>      set <path> as alternative for <name>.\n"
 "  --all                    call --config on all alternatives.\n"
-"\n"
+"\n"));
+
+	printf(_(
 "<link> is the symlink pointing to %s/<name>.\n"
 "  (e.g. /usr/bin/pager)\n"
 "<name> is the master name for this link group.\n"
@@ -119,17 +125,21 @@ usage(void)
 "  (e.g. /usr/bin/less)\n"
 "<priority> is an integer; options with higher numbers have higher priority in\n"
 "  automatic mode.\n"
-"\n"
+"\n"), altdir);
+
+	printf(_(
 "Options:\n"
 "  --altdir <directory>     change the alternatives directory.\n"
 "  --admindir <directory>   change the administrative directory.\n"
+"  --log <file>             change the log file.\n"
+"  --force                  allow replacing files with alternative links.\n"
 "  --skip-auto              skip prompt for alternatives correctly configured\n"
 "                           in automatic mode (relevant for --config only)\n"
 "  --verbose                verbose operation, more output.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
-), PROGNAME, altdir);
+));
 }
 
 static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
