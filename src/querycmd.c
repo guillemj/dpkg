@@ -289,7 +289,8 @@ searchfiles(const char *const *argv)
       iterfileend(it);
     }
     if (!found) {
-      fprintf(stderr, _("%s: %s not found.\n"), thisname, thisarg);
+      fprintf(stderr, _("%s: no path found matching pattern %s.\n"), thisname,
+              thisarg);
       failures++;
       m_output(stderr, _("<standard error>"));
     } else {
