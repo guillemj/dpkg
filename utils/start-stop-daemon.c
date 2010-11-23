@@ -1441,32 +1441,30 @@ run_stop_schedule(void)
 		return finish_stop_schedule(anykilled);
 	}
 
-	for (position = 0; position < schedule_length; ) {
+	for (position = 0; position < schedule_length; position++) {
+	reposition:
 		value = schedule[position].value;
 		n_notkilled = 0;
 
 		switch (schedule[position].type) {
 		case sched_goto:
 			position = value;
-			continue;
+			goto reposition;
 		case sched_signal:
 			do_stop(value, quietmode, &n_killed, &n_notkilled, retry_nr++);
 			if (!n_killed)
 				return finish_stop_schedule(anykilled);
 			else
 				anykilled = true;
-			goto next_item;
+			continue;
 		case sched_timeout:
 			if (do_stop_timeout(value, &n_killed, &n_notkilled))
 				return finish_stop_schedule(anykilled);
 			else
-				goto next_item;
+				continue;
 		default:
 			assert(!"schedule[].type value must be valid");
 		}
-
-	next_item:
-		position++;
 	}
 
 	if (quietmode <= 0)
