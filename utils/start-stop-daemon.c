@@ -1393,6 +1393,18 @@ do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 }
 
 static int
+finish_stop_schedule(bool anykilled)
+{
+	if (anykilled)
+		return 0;
+
+	if (quietmode <= 0)
+		printf("No %s found running; none killed.\n", what_stop);
+
+	return exitnodo;
+}
+
+static int
 run_stop_schedule(void)
 {
 	int position, n_killed, n_notkilled, value, retry_nr;
@@ -1426,7 +1438,7 @@ run_stop_schedule(void)
 			printf("%d pids were not killed\n", n_notkilled);
 		if (n_killed)
 			anykilled = true;
-		goto x_finished;
+		return finish_stop_schedule(anykilled);
 	}
 
 	for (position = 0; position < schedule_length; ) {
@@ -1440,13 +1452,13 @@ run_stop_schedule(void)
 		case sched_signal:
 			do_stop(value, quietmode, &n_killed, &n_notkilled, retry_nr++);
 			if (!n_killed)
-				goto x_finished;
+				return finish_stop_schedule(anykilled);
 			else
 				anykilled = true;
 			goto next_item;
 		case sched_timeout:
 			if (do_stop_timeout(value, &n_killed, &n_notkilled))
-				goto x_finished;
+				return finish_stop_schedule(anykilled);
 			else
 				goto next_item;
 		default:
@@ -1462,15 +1474,6 @@ run_stop_schedule(void)
 		       what_stop, n_killed);
 
 	return 2;
-
-x_finished:
-	if (!anykilled) {
-		if (quietmode <= 0)
-			printf("No %s found running; none killed.\n", what_stop);
-		return exitnodo;
-	} else {
-		return 0;
-	}
 }
 
 int
