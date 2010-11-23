@@ -1148,7 +1148,7 @@ pid_is_running(pid_t pid)
 #endif
 
 static void
-check(pid_t pid)
+pid_check(pid_t pid)
 {
 #if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
@@ -1177,14 +1177,14 @@ do_pidfile(const char *name)
 	static pid_t pid = 0;
 
 	if (pid) {
-		check(pid);
+		pid_check(pid);
 		return;
 	}
 
 	f = fopen(name, "r");
 	if (f) {
 		if (fscanf(f, "%d", &pid) == 1)
-			check(pid);
+			pid_check(pid);
 		fclose(f);
 	} else if (errno != ENOENT)
 		fatal("unable to open pidfile %s", name);
@@ -1208,7 +1208,7 @@ do_procinit(void)
 		if (sscanf(entry->d_name, "%d", &pid) != 1)
 			continue;
 		foundany++;
-		check(pid);
+		pid_check(pid);
 	}
 	closedir(procdir);
 	if (!foundany)
@@ -1218,7 +1218,7 @@ do_procinit(void)
 static int
 check_proc_stat(struct proc_stat *ps)
 {
-	check(ps->pid);
+	pid_check(ps->pid);
 	return 0;
 }
 
@@ -1240,7 +1240,7 @@ do_procinit(void)
 
 	while ((count = pstat_getproc(pst, sizeof(pst[0]), 10, idx)) > 0) {
 		for (i = 0; i < count; i++)
-			check(pst[i].pst_pid);
+			pid_check(pst[i].pst_pid);
 		idx = pst[count - 1].pst_idx + 1;
 	}
 }
