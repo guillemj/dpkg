@@ -349,7 +349,7 @@ pid_list_push(struct pid_list **list, pid_t pid)
 }
 
 static void
-clear(struct pid_list **list)
+pid_list_free(struct pid_list **list)
 {
 	struct pid_list *here, *next;
 
@@ -1255,7 +1255,7 @@ do_procinit(void)
 static void
 do_findprocs(void)
 {
-	clear(&found);
+	pid_list_free(&found);
 
 	if (pidfile)
 		do_pidfile(pidfile);
@@ -1276,7 +1276,7 @@ do_stop(int sig_num, int quiet, int *n_killed, int *n_notkilled, int retry_nr)
 	if (!found)
 		return;
 
-	clear(&killed);
+	pid_list_free(&killed);
 
 	for (p = found; p; p = p->next) {
 		if (testmode) {
