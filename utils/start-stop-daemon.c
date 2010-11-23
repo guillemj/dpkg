@@ -338,7 +338,7 @@ daemonize(void)
 }
 
 static void
-push(struct pid_list **list, pid_t pid)
+pid_list_push(struct pid_list **list, pid_t pid)
 {
 	struct pid_list *p;
 
@@ -1167,7 +1167,7 @@ pid_check(pid_t pid)
 		return;
 	if (start && !pid_is_running(pid))
 		return;
-	push(&found, pid);
+	pid_list_push(&found, pid);
 }
 
 static void
@@ -1285,7 +1285,7 @@ do_stop(int sig_num, int quiet, int *n_killed, int *n_notkilled, int retry_nr)
 				       sig_num, p->pid);
 			(*n_killed)++;
 		} else if (kill(p->pid, sig_num) == 0) {
-			push(&killed, p->pid);
+			pid_list_push(&killed, p->pid);
 			(*n_killed)++;
 		} else {
 			if (sig_num)
