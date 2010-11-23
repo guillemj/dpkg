@@ -206,20 +206,6 @@ static struct res_schedule *io_sched = NULL;
 static int schedule_length;
 static struct schedule_item *schedule = NULL;
 
-static void *xmalloc(int size);
-static void push(struct pid_list **list, pid_t pid);
-static void do_help(void);
-static void parse_options(int argc, char * const *argv);
-static bool pid_is_user(pid_t pid, uid_t uid);
-static bool pid_is_cmd(pid_t pid, const char *name);
-static void check(pid_t pid);
-static void do_pidfile(const char *name);
-static void do_stop(int sig_num, int quiet,
-                    int *n_killed, int *n_notkilled, int retry_nr);
-#if defined(OSLinux) || defined(OShpux)
-static bool pid_is_exec(pid_t pid, const struct stat *esb);
-#endif
-
 
 static void DPKG_ATTR_PRINTF(1)
 warning(const char *format, ...)
