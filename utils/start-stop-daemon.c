@@ -362,7 +362,7 @@ pid_list_free(struct pid_list **list)
 }
 
 static void
-do_help(void)
+usage(void)
 {
 	printf(
 "Usage: start-stop-daemon [<option> ...] <command>\n"
@@ -754,7 +754,7 @@ parse_options(int argc, char * const *argv)
 			break;
 		switch (c) {
 		case 'H':  /* --help */
-			do_help();
+			usage();
 			exit(0);
 		case 'K':  /* --stop */
 			stop = 1;
