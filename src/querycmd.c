@@ -73,48 +73,70 @@ static int getwidth(void) {
   }
 }
 
+struct list_format {
+  bool head;
+  int nw, vw, dw;
+  char format[80];
+};
+
 static void
-list1package(struct pkginfo *pkg, bool *head, struct pkg_array *array)
+list_format_init(struct list_format *fmt, struct pkg_array *array)
 {
-  int i,l,w;
-  static int nw,vw,dw;
-  const char *pdesc;
-  static char format[80]   = "";
+  int w;
 
-  if (format[0] == '\0') {
-    w=getwidth();
-    if (w == -1) {
-      nw=14, vw=14, dw=44;
-      for (i = 0; i < array->n_pkgs; i++) {
-	int plen, vlen, dlen;
+  if (fmt->format[0] != '\0')
+    return;
 
-	plen = strlen(array->pkgs[i]->name);
-	vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
-	                              vdew_nonambig));
-	pkg_summary(array->pkgs[i], &dlen);
+  w = getwidth();
+  if (w == -1) {
+    int i;
 
-	if (plen > nw) nw = plen;
-	if (vlen > vw) vw = vlen;
-	if (dlen > dw) dw = dlen;
-      }
-    } else {
-      w-=80;
-      /* Let's not try to deal with terminals that are too small. */
-      if (w < 0)
-        w = 0;
-      /* Halve that so we can add it to both the name and description. */
-      w >>= 2;
-      /* Name width. */
-      nw = (14 + w);
-      /* Version width. */
-      vw = (14 + w);
-      /* Description width. */
-      dw = (44 + (2 * w));
+    fmt->nw = 14;
+    fmt->vw = 14;
+    fmt->dw = 44;
+
+    for (i = 0; i < array->n_pkgs; i++) {
+      int plen, vlen, dlen;
+
+      plen = strlen(array->pkgs[i]->name);
+      vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
+                                    vdew_nonambig));
+      pkg_summary(array->pkgs[i], &dlen);
+
+      if (plen > fmt->nw)
+        fmt->nw = plen;
+      if (vlen > fmt->vw)
+        fmt->vw = vlen;
+      if (dlen > fmt->dw)
+        fmt->dw = dlen;
     }
-    sprintf(format,"%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n", nw, nw, vw, vw);
+  } else {
+    w -= 80;
+    /* Let's not try to deal with terminals that are too small. */
+    if (w < 0)
+      w = 0;
+    /* Halve that so we can add it to both the name and description. */
+    w >>= 2;
+    /* Name width. */
+    fmt->nw = (14 + w);
+    /* Version width. */
+    fmt->vw = (14 + w);
+    /* Description width. */
+    fmt->dw = (44 + (2 * w));
   }
+  sprintf(fmt->format, "%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n",
+          fmt->nw, fmt->nw, fmt->vw, fmt->vw);
+}
 
-  if (!*head) {
+static void
+list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *array)
+{
+  int l;
+  const char *pdesc;
+
+  list_format_init(fmt, array);
+
+  if (!fmt->head) {
     /* TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
      * string should remain under 80 characters. The uppercase letters in
      * the state values denote the abbreviated letter that will appear on
@@ -125,32 +147,33 @@ list1package(struct pkginfo *pkg, bool *head, struct pkg_array *array)
 Desired=Unknown/Install/Remove/Purge/Hold\n\
 | Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
-    printf(format,'|','|','/', _("Name"), _("Version"), 40, _("Description"));
+    printf(fmt->format, '|', '|', '/', _("Name"), _("Version"), 40,
+           _("Description"));
 
     /* Status */
     printf("+++-");
 
    /* Package name. */
-    for (l = 0; l < nw; l++)
+    for (l = 0; l < fmt->nw; l++)
       printf("=");
     printf("-");
 
     /* Version. */
-    for (l = 0; l < vw; l++)
+    for (l = 0; l < fmt->vw; l++)
       printf("=");
     printf("-");
 
     /* Description. */
-    for (l = 0; l < dw; l++)
+    for (l = 0; l < fmt->dw; l++)
       printf("=");
     printf("\n");
-    *head = true;
+    fmt->head = true;
   }
 
   pdesc = pkg_summary(pkg, &l);
-  l = min(l, dw);
+  l = min(l, fmt->dw);
 
-  printf(format,
+  printf(fmt->format,
          "uihrp"[pkg->want],
          "ncHUFWti"[pkg->status],
          " R"[pkg->eflag],
@@ -166,20 +189,21 @@ listpackages(const char *const *argv)
   struct pkginfo *pkg;
   int i;
   int failures = 0;
-  bool head;
+  struct list_format fmt;
 
   modstatdb_init(admindir,msdbrw_readonly);
 
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_name);
 
-  head = false;
+  fmt.head = false;
+  fmt.format[0] = '\0';
 
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       if (pkg->status == stat_notinstalled) continue;
-      list1package(pkg, &head, &array);
+      list1package(pkg, &fmt, &array);
     }
   } else {
     int argc, ip, *found;
@@ -192,7 +216,7 @@ listpackages(const char *const *argv)
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
         if (!fnmatch(argv[ip], pkg->name, 0)) {
-          list1package(pkg, &head, &array);
+          list1package(pkg, &fmt, &array);
           found[ip]++;
           break;
         }
