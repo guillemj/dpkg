@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# dpkg-vendor
+# dpkg-buildflags
 #
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 #
