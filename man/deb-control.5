@@ -98,9 +98,35 @@ The upstream project home page URL.
 List of tags describing the qualities of the package. The description and
 list of supported tags can be found in the \fBdebtags\fP package.
 .TP
+.BR Multi-Arch: " <same|foreign|allowed>"
+This field is used to indicate how this package should behave on a multi-arch
+installations. The value `same' means that the package is co-installable with
+itself, but it must not be used to satisfy the dependency of any package of a
+different architecture from itself. The value `foreign' means that the package is
+not co-installable with itself, but should be allowed to satisfy the dependency
+of a package of a different arch from itself. The value `allowed` allows
+reverse-dependencies to indicate in their Depends field that they need a package
+from a foreign architecture, but has no effect otherwise. This field should not
+be present in packages with the Architecture: all field.
+.TP
 .BR Source: " <source name>"
 The name of the source package that this binary package came from, if
 different than the name of the package itself.
+
+.TP
+.PD 0
+.BR Subarchitecture: " <value>"
+.TP
+.PD 0
+.BR Kernel-Version: " <value>"
+.TP
+.PD
+.BR Installer-Menu-Item: " <value>"
+These fields are used by the debian-installer and are usually not needed. See
+/usr/share/doc/debian-installer/devel/modules.txt from the
+.B debian-installer
+package for more details about them.
+
 .TP
 .BR Depends: " <package list>"
 List of packages that are required for this package to provide a

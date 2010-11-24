@@ -1,0 +1,322 @@
+.\" Author: Oxan van Leeuwen
+.\" Includes text from the deb-control manual page by Raul Miller
+.TH deb\-src\-control 5 "2010-11-22" "Debian Project" "Debian"
+.SH NAME
+deb\-src\-control \- Debian source packages' master control file format
+.
+.SH SYNOPSIS
+control
+.
+.SH DESCRIPTION
+Each Debian source package contains the master "control" file, which contains
+at least 2 paragraphs, separated by a blank line. The first paragraph lists
+all information about the source package in general, while each following
+paragraph describes exactly one binary package. Each paragraph consists of at
+least one field. A field starts with a fieldname, such as
+.B Package
+or
+.B Section
+(case insensitive), followed by a colon, the body of the field and a newline.
+Multi-line fields are also allowed, but each supplementary line, without a
+fieldname, should start with at least one space. The content of the multi-line
+fields is generally joined to a single line by the tools (except in the case of
+the
+.B Description
+field, see below). To insert empty lines into a multi-line
+field, insert a dot after the space. The paragraphs are separated by an empty
+line. Lines starting with a \fB'#'\fP are treated as comments.
+.
+.SH SOURCE FIELDS
+.TP
+.BR Source: " <source package name> (required)"
+The value of this field is the name of the source package, and should
+match the name of the source package in the debian/changelog file. A package
+name must consist only of lower case letters (a-z), digits (0-9), plus (+) and
+minus (-) signs, and periods (.). Package names must be at least two characters
+long and must start with an alphanumeric character.
+
+.TP
+.BR Maintainer: " <fullname email> (required)"
+Should be in the format "Joe Bloggs <jbloggs@foo.com>", and references the
+person who currently maintains the package, as opposed to the author of the
+software or the original packager.
+
+.TP
+.BR Uploaders: " <fullname email>"
+Lists all the names and email addresses of co-maintainers of the package, in
+the same format as the Maintainer field. Multiple co-maintainers should be
+separated by a comma.
+
+.TP
+.BR Standards-Version: " <version string>"
+This documents the most recent version of the standards (which consists of the
+Debian Policy Manual and referenced texts from the
+.B debian-policy
+package) this package complies to.
+
+.TP
+.BR DM-Upload-Allowed: " <yes|no>"
+This field indicates whether the package can be uploaded by Debian Maintainers
+appearing in the Maintainer or Uploaders field. The default value is "no".
+
+.TP
+.BR Homepage: " <url>"
+The upstream project home page URL.
+
+.TP
+.BR Bugs: " <url>"
+The url of the bug tracking system for this package. The current used format
+is \fB<bts_type>://<bts_address>\fP, like \fBdebbugs://bugs.debian.org\fP. This
+field is usually not needed.
+
+.TP
+.BR Vcs-*: " <url>"
+The url of the Version Control System repository used to maintain this package.
+Currently supported are Arch, Bzr (Bazaar), Cvs, Darcs, Git, Hg (Mercurial),
+Mtn (Monotone) and Svn (Subversion). Usually this field points to the latest
+version of the package, such as the main branch or the trunk.
+
+.TP
+.BR Vcs-Browser: " <url>"
+The url of a webinterface to browse the Version Control System repository.
+
+.TP
+.BR Origin: " <name>"
+The name of the distribution this package is originating from. This field is
+usually not needed.
+
+.TP
+.BR Section: " <section>"
+This is a general field that gives the package a category based on the
+software that it installs. Some common sections are "utils", "net",
+"mail", "text", "x11", etc.
+
+.TP
+.BR Priority: " <priority>"
+Sets the importance of this package in relation to the system as a whole.
+Common priorities are "required", "standard", "optional", "extra", etc.
+
+In Debian, the
+.B Section
+and
+.B Priority
+fields have a defined set of accepted values based on the Policy Manual.
+A list of these values can be obtained from the latest version of the
+.B debian-policy
+package.
+
+.TP
+.BR Build-Depends: " <package list>"
+A list of packages that need to be installed and configured to be able to build
+the source package.
+
+.TP
+.BR Build-Depends-Indep: " <package list>"
+Same as Build-Depends, but they are only needed when building the architecture
+independent
+packages. The Build-Depends are also installed in this case.
+
+.TP
+.BR Build-Conflicts: " <package list>"
+A list of packages that should not be installed when the package is build, for
+example because they interfere with the used build system.
+
+.TP
+.BR Build-Conflicts-Indep: " <package list>"
+Same as Build-Conflicts, but only when building the architecture independent
+packages.
+
+The syntax of the
+.B Build-Depends
+and
+.B Build-Depends-Indep
+fields is a list of groups of alternative packages. Each group is a list
+of packages separated by vertical bar (or "pipe") symbols, "|". The
+groups are separated by commas. Commas are to be read as "AND", and pipes
+as "OR", with pipes binding more tightly. Each package name is
+optionally followed by a version number specification in parentheses and an
+architecture specification in square brackets.
+
+The syntax of the
+.B Build-Conflicts
+and
+.B Build-Conflicts-Indep
+fields is a list of comma-separated package names, where the comma is read
+as an "AND". Specifying alternative packages using a "pipe" is not supported.
+Each package name is optionally followed by a version number specification in
+parentheses and an architecture specification in square brackets.
+
+A version number may start with a ">>", in which case any later version
+will match, and may specify or omit the Debian packaging revision (separated
+by a hyphen). Accepted version relationships are ">>" for greater than,
+"<<" for less than, ">=" for greater than or equal to, "<=" for less than
+or equal to, and "=" for equal to.
+
+A architecture specification consists of one or more architecture names,
+separated by whitespace. Exclamation marks may be prepended to each of the
+names, meaning "NOT".
+
+Note that dependencies on packages in the
+.B build-essential
+set can be omitted and that declaring build conflicts against them is
+impossible. A list of these packages is in the build-essential package.
+
+
+.SH BINARY FIELDS
+
+.LP
+Note that the
+.BR Priority ", " Section
+and
+.B Homepage
+fields can also be in a binary paragraph to override the global value from the
+source package.
+
+.TP
+.BR Package: " <binary package name> (required)"
+This field is used to name the binary package name. The same restrictions as
+to a source package name apply.
+
+.TP
+.BR Architecture: " <arch|all|any> (required)"
+The architecture specifies on which type of hardware this package runs. For
+packages that run on all architectures, use the
+.B any
+value. For packages that are architecture independent, such as shell and Perl
+scripts or documentation, use the
+.B all
+value. To restrict the packages to a certain set of architectures, specify the
+architecture names, separated by a space.
+
+.TP
+.BR Package-Type: " <deb|udeb>"
+This field defines the type of the package. "udeb" is for size-constrained
+packages used by the debian installer. "deb" is the default value, it's
+assumed if the field is absent. More types might be added in the future.
+
+.TP
+.PD 0
+.BR Subarchitecture: " <value>"
+.TP
+.PD 0
+.BR Kernel-Version: " <value>"
+.TP
+.PD 0
+.BR Installer-Menu-Item: " <value>"
+These fields are used by the debian-installer and are usually not needed. See
+/usr/share/doc/debian-installer/devel/modules.txt from the
+.B debian-installer
+package for more details about them.
+
+.TP
+.PD 0
+.BR Essential: " <yes|no>"
+.TP
+.PD 0
+.BR Multi-Arch: " <same|foreign|allowed> "
+.TP
+.PD 0
+.BR Tag: " <tag list>"
+.TP
+.PD 0
+.BR Description: " <short description> (required)"
+These fields are described in the
+.BR deb-control (5)
+manual page, as they are copied literally to the control file of the binary
+package.
+
+.TP
+.PD 0
+.BR Depends: " <package list>"
+.TP
+.PD 0
+.BR Pre-Depends: " <package list>"
+.TP
+.PD 0
+.BR Recommends: " <package list>"
+.TP
+.PD 0
+.BR Suggests: " <package list>"
+.TP
+.PD 0
+.BR Breaks: " <package list>"
+.TP
+.PD 0
+.BR Enhances: " <package list>"
+.TP
+.PD 0
+.BR Replaces: " <package list>"
+.TP
+.PD 0
+.BR Conflicts: " <package list>"
+.TP
+.PD 0
+.BR Provides: " <package list>"
+.br
+These fields declare relationships between packages. They are discussed in
+the
+.BR deb-control (5)
+manpage and in the
+.B debian-policy
+package.
+
+.SH USER-DEFINED FIELDS
+It is allowed to add additional user-defined fields to the control file. The
+tools will ignore these fields. If you want the fields to be copied over to
+the output files, such as the binary packages, you need to use a custom naming
+scheme: the fields should start with a X, followed by one or more of the
+letters BCS and a hypen. If the letter B is used, the field will appear in the
+control file in the binary package, see
+.BR deb-control (5),
+for the letter S in the source package control file as constructed by
+.BR dpkg-source (1)
+and for the letter C in the upload control (.changes) file. Note that the
+X[BCS]- prefixes are stripped when the fields are copied over to the
+output files. A field \fBXC-Approved-By\fP will appear as
+\fBApproved-By\fP in the changes file and will not appear in the binary or
+source package control files.
+
+
+.SH EXAMPLE
+.\" .RS
+.nf
+# Comment
+Source: dpkg
+Section: admin
+Priority: required
+Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+# this field is copied to the binary and source packages
+XBS-Upstream-Release-Status: stable
+Homepage: http://wiki.debian.org/Teams/Dpkg
+Vcs-Browser: http://git.debian.org/?p=dpkg/dpkg.git
+Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git
+Standards-Version: 3.7.3
+Build-Depends: pkg-config, debhelper (>= 4.1.81),
+ libselinux1-dev (>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]
+
+Package: dpkg-dev
+Section: utils
+Priority: optional
+Architecture: all
+# this is a custom field in the binary package
+XB-Mentoring-Contact: Raphael Hertzog <hertzog@debian.org>
+Depends: dpkg (>= 1.14.6), perl5, perl-modules, cpio (>= 2.4.2-2), bzip2, lzma,
+ patch (>= 2.2-1), make, binutils, libtimedate-perl
+Recommends: gcc | c-compiler, build-essential
+Suggests: gnupg, debian-keyring
+Conflicts: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)
+Replaces: manpages-pl (<= 20051117-1)
+Description: Debian package development tools
+ This package provides the development tools (including dpkg-source)
+ required to unpack, build and upload Debian source packages.
+ .
+ Most Debian source packages will require additional tools to build;
+ for example, most packages need make and the C compiler gcc.
+.fi
+.\" .RE
+
+
+.SH SEE ALSO
+.BR deb-control (5),
+.BR deb-version (5),
+.BR dpkg-source (1)

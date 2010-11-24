@@ -90,6 +90,7 @@ dist-hook: man.stamp
 
 dist_man_MANS = \
 	deb-control.5 \
+	deb-src-control.5 \
 	deb-version.5 \
 	deb-shlibs.5 \
 	deb-split.5 \
