@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-25 07:13+0100\n"
-"PO-Revision-Date: 2010-08-21 22:19+0100\n"
+"PO-Revision-Date: 2010-11-25 10:41+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -2310,10 +2310,10 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2010-06-02"
 msgid "2010-10-10"
-msgstr "2010-06-02"
+msgstr "2010-10-10"
 
 #. type: TH
 #: dpkg.1:1 dpkg.cfg.5:1 dpkg-buildflags.1:1 dpkg-deb.1:1
@@ -3519,6 +3519,12 @@ msgid ""
 "their unreliable behaviour causing zero-length files on abrupt system "
 "crashes."
 msgstr ""
+"B<unsafe-io>: Utför inte säkra I/O-operationer vid uppackning. Detta "
+"innebär för närvarande att filsystemssynkroniseringar inte utförs innan "
+"namn på filer ändras, något som vi vet kan påverka prestanda betydligt "
+"negativt för vissa filsystem, vilket tyvärr är samma system som behöver "
+"säker I/O på grund av att de har ett otillförlitligt beteende som orsakar "
+"tomma filer vid tvära systemkrascher."
 
 #. type: Plain text
 #: dpkg.1:461
@@ -3529,6 +3535,11 @@ msgid ""
 "zero-length files on abrupt system crashes with any software not doing syncs "
 "before atomic renames."
 msgstr ""
+"I<Observera>: För ext4, den värsta syndaren, kan det vara värt att "
+"istället använda monteringsflaggan B<nodelalloc>, vilken både korrigerar "
+"prestandaförlusten och datasäkerhetsproblemen, det sistnämnda genom att "
+"inte låta filsystemet skapa tomma filer vid tvära krascher för programvara "
+"som inte utför synkronisering före atomära namnbyten."
 
 #. type: Plain text
 #: dpkg.1:464
@@ -3536,6 +3547,8 @@ msgid ""
 "I<Warning: Using this option might improve performance at the cost of losing "
 "data, use with care.>"
 msgstr ""
+"I<Varning: Den här flaggan kan ge bättre prestanda på bekostnad av "
+"dataförluster, använd med tillförsikt.>"
 
 #. type: Plain text
 #: dpkg.1:467
