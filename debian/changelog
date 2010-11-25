@@ -36,6 +36,51 @@ dpkg (1.16.0) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Thu, 29 Jul 2010 11:00:22 +0200
 
+dpkg (1.15.8.6) unstable; urgency=low
+
+  [ Raphaël Hertzog ]
+  * Ensure debian/source/local-options is always excluded from the source
+    package even if the user provides customized -i or -I options.
+    Closes: #597023
+  * Fix Dpkg::Version's handling of version with a debian revision but an
+    empty version (e.g. "-0.1"). Thanks to James Vega <jamessan@debian.org>
+    for the patch. Closes: #597651
+  * With "3.0 (quilt)" source package, create .pc/.quilt_series with the
+    correct series file if the source package provides vendor specific patch
+    sets.
+
+  [ Guillem Jover ]
+  * Disable by default usage of synchronous sync(2), as it causes undesired
+    I/O on unrelated file systems. Closes: #588339, #595927, #600075
+  * Add new --force-unsafe-io to disable safe I/O operations on unpack.
+    Closes: #584254
+
+  [ Updated man page translations ]
+  * French (Christian Perrier). Including a typo fix and a typographical
+    change reported by Vincent Danjean. Closes: #601852
+  * Spanish (Omar Campagne). Closes: #596519
+
+  [ Updated programs translations ]
+  * Basque (Iñaki Larrañaga Murgoitio). Closes: #599923
+  * Catalan (Jordi Mallach).
+  * Danish (Ask Hjorth Larsen). Closes: #600240
+  * German (Sven Joachim). Improved by Holger Wansing.
+  * Italian (Pietro Battiston). Fix translation of "however". Closes: #602518
+  * Portuguese (Miguel Figueiredo). Closes: #596168
+  * Romanian (Andrei Popescu). Closes: #604769
+  * Russian (Yuri Kozlov). Closes: #595455
+  * Vietnamese (Clytie Siddall). Closes: #598473
+
+  [ Updated scripts translations ]
+  * Catalan (Jordi Mallach).
+  * German (Sven Joachim).
+
+  [ Updated dselect translations ]
+  * Catalan (Jordi Mallach).
+  * German (Sven Joachim).
+
+ -- Guillem Jover <guillem@debian.org>  Thu, 25 Nov 2010 07:10:48 +0100
+
 dpkg (1.15.8.5) unstable; urgency=low
 
   [ Guillem Jover ]

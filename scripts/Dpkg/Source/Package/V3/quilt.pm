@@ -154,7 +154,9 @@ sub create_quilt_db {
     $file = File::Spec->catfile($db_dir, ".quilt_series");
     if (not -e $file) {
         open(QSERIES, ">", $file) or syserr(_g("cannot write %s"), $file);
-        print QSERIES "series\n";
+        my $series = $self->get_series_file($dir) || "series";
+        $series = (File::Spec->splitpath($series))[2];
+        print QSERIES "$series\n";
         close(QSERIES);
     }
 }

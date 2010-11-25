@@ -186,6 +186,7 @@ int fc_breaks=0, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
 int fc_nonroot=0, fc_overwritedir=0, fc_conff_new=0, fc_conff_miss=0;
 int fc_conff_old=0, fc_conff_def=0;
 int fc_conff_ask = 0;
+int fc_unsafe_io = 0;
 int fc_badverify = 0;
 
 int errabort = 50;
@@ -216,6 +217,7 @@ static const struct forceinfo {
   { "overwrite",           &fc_overwrite                },
   { "overwrite-diverted",  &fc_overwritediverted        },
   { "overwrite-dir",       &fc_overwritedir             },
+  { "unsafe-io",           &fc_unsafe_io                },
   { "architecture",        &fc_architecture             },
   { "bad-verify",          &fc_badverify                },
   {  NULL                                               }
@@ -438,6 +440,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 "  conflicts [!]          Allow installation of conflicting packages\n"
 "  architecture [!]       Process even packages with wrong architecture\n"
 "  overwrite-dir [!]      Overwrite one package's directory with another's file\n"
+"  unsafe-io [!]          Do not perform safe I/O operations when unpacking\n"
 "  remove-reinstreq [!]   Remove packages which require installation\n"
 "  remove-essential [!]   Remove an essential package\n"
 "\n"

@@ -445,6 +445,23 @@ Overwrite one package's directory with another's file.
 \fBoverwrite\-diverted\fP:
 Overwrite a diverted file with an undiverted version.
 
+\fBunsafe\-io\fP:
+Do not perform safe I/O operations when unpacking. Currently this
+implies not performing file system syncs before file renames, which is
+known to cause substantial performance degradation on some file systems,
+unfortunately the ones that require the safe I/O on the first place due
+to their unreliable behaviour causing zero-length files on abrupt
+system crashes.
+
+\fINote\fP: For ext4, the main offender, consider using instead the
+mount option \fBnodelalloc\fP, which will fix both the performance
+degradation and the data safety issues, the latter by making the file
+system not produce zero-length files on abrupt system crashes with
+any software not doing syncs before atomic renames.
+
+\fIWarning: Using this option might improve performance at the cost of
+losing data, use with care.\fP
+
 \fBarchitecture\fP:
 Process even packages with the wrong architecture.
 
