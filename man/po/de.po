@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2010-08-21 20:15+0300\n"
+"POT-Creation-Date: 2010-11-25 07:13+0100\n"
 "PO-Revision-Date: 2010-08-29 14:49+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
@@ -258,7 +258,7 @@ msgstr ""
 #. type: SH
 #: deb.5:79 deb-control.5:232 deb-split.5:37 deb-version.5:116 deb-old.5:51
 #: deb-override.5:62 deb-extra-override.5:37 deb-shlibs.5:61
-#: deb-substvars.5:154 deb-symbols.5:61 deb-triggers.5:49 dpkg.1:761
+#: deb-substvars.5:154 deb-symbols.5:61 deb-triggers.5:49 dpkg.1:778
 #: dpkg-architecture.1:294 dpkg.cfg.5:23 dpkg-buildpackage.1:249
 #: dpkg-deb.1:246 dpkg-divert.8:122 dpkg-gensymbols.1:445 dpkg-name.1:95
 #: dpkg-query.1:208 dpkg-scanpackages.1:111 dpkg-scansources.1:72
@@ -777,11 +777,11 @@ msgid ""
 "optional version can also be given with the same syntax as above for the "
 "B<Breaks>, B<Conflicts> and B<Replaces> fields."
 msgstr ""
-"Die Syntax von B<Breaks>, B<Conflicts>, B<Replaces> und B<Provides> ist eine Liste von "
-"Paketnamen, getrennt durch Kommata (und optionalen Leerzeichen). Im "
-"B<Breaks>- und B<Conflicts>-Feld sollte das Komma als »ODER« gelesen werden. Eine optionale "
-"Version kann auch mit der gleichen Syntax wie oben für die B<Breaks>-, B<Conflicts>- und "
-"B<Replaces>-Felder angegeben werden."
+"Die Syntax von B<Breaks>, B<Conflicts>, B<Replaces> und B<Provides> ist eine "
+"Liste von Paketnamen, getrennt durch Kommata (und optionalen Leerzeichen). "
+"Im B<Breaks>- und B<Conflicts>-Feld sollte das Komma als »ODER« gelesen "
+"werden. Eine optionale Version kann auch mit der gleichen Syntax wie oben "
+"für die B<Breaks>-, B<Conflicts>- und B<Replaces>-Felder angegeben werden."
 
 #. type: SH
 #: deb-control.5:206 start-stop-daemon.8:273
@@ -1225,7 +1225,7 @@ msgid "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 msgstr "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 
 #. type: SH
-#: deb-version.5:120 dpkg.1:776 dpkg-buildpackage.1:256 dpkg-distaddfile.1:47
+#: deb-version.5:120 dpkg.1:793 dpkg-buildpackage.1:256 dpkg-distaddfile.1:47
 #: dpkg-genchanges.1:148 dpkg-gencontrol.1:142 dpkg-gensymbols.1:455
 #: dpkg-maintscript-helper.1:128 dpkg-parsechangelog.1:123
 #: dpkg-shlibdeps.1:331 dpkg-source.1:706 dselect.1:458
@@ -1608,7 +1608,7 @@ msgstr ""
 "Details."
 
 #. type: SH
-#: deb-shlibs.5:41 deb-symbols.5:43 dpkg.1:707 dpkg-architecture.1:257
+#: deb-shlibs.5:41 deb-symbols.5:43 dpkg.1:724 dpkg-architecture.1:257
 #: dpkg-divert.8:91 dpkg-name.1:64 update-alternatives.8:452
 #, no-wrap
 msgid "EXAMPLES"
@@ -2000,7 +2000,7 @@ msgstr ""
 "wird es eine Warnung erstellen und ein leerer Wert wird angenommen."
 
 #. type: SH
-#: deb-substvars.5:145 dpkg.1:620 dpkg-architecture.1:279 dpkg.cfg.5:12
+#: deb-substvars.5:145 dpkg.1:637 dpkg-architecture.1:279 dpkg.cfg.5:12
 #: dpkg-buildflags.1:103 dpkg-distaddfile.1:39 dpkg-divert.8:112
 #: dpkg-genchanges.1:138 dpkg-gencontrol.1:128 dpkg-parsechangelog.1:115
 #: dpkg-split.1:212 dpkg-statoverride.8:69 dselect.cfg.5:12
@@ -2021,7 +2021,7 @@ msgid "List of substitution variables and values."
 msgstr "Liste von Substitutionsvariablen und -werten."
 
 #. type: SH
-#: deb-substvars.5:150 dpkg.1:773 dpkg-buildpackage.1:244 dpkg-deb.1:225
+#: deb-substvars.5:150 dpkg.1:790 dpkg-buildpackage.1:244 dpkg-deb.1:225
 #: dpkg-name.1:85 dpkg-source.1:698 dpkg-split.1:197 dselect.1:436
 #: update-alternatives.8:479
 #, no-wrap
@@ -2368,8 +2368,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:1
-#, no-wrap
-msgid "2010-06-02"
+#, fuzzy, no-wrap
+#| msgid "2010-06-02"
+msgid "2010-10-10"
 msgstr "2010-06-02"
 
 #. type: TH
@@ -3606,12 +3607,40 @@ msgstr ""
 "einer nicht umgeleiteten."
 
 #. type: Plain text
-#: dpkg.1:450
+#: dpkg.1:455
+msgid ""
+"B<unsafe-io>: Do not perform safe I/O operations when unpacking. Currently "
+"this implies not performing file system syncs before file renames, which is "
+"known to cause substantial performance degradation on some file systems, "
+"unfortunately the ones that require the safe I/O on the first place due to "
+"their unreliable behaviour causing zero-length files on abrupt system "
+"crashes."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1:461
+msgid ""
+"I<Note>: For ext4, the main offender, consider using instead the mount "
+"option B<nodelalloc>, which will fix both the performance degradation and "
+"the data safety issues, the latter by making the file system not produce "
+"zero-length files on abrupt system crashes with any software not doing syncs "
+"before atomic renames."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1:464
+msgid ""
+"I<Warning: Using this option might improve performance at the cost of losing "
+"data, use with care.>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1:467
 msgid "B<architecture>: Process even packages with the wrong architecture."
 msgstr "B<architecture>: Verarbeite sogar Pakete mit der falschen Architektur."
 
 #. type: Plain text
-#: dpkg.1:453
+#: dpkg.1:470
 msgid ""
 "B<bad-path>: B<PATH> is missing important programs, so problems are likely."
 msgstr ""
@@ -3619,26 +3648,26 @@ msgstr ""
 "wahrscheinlich."
 
 #. type: Plain text
-#: dpkg.1:456
+#: dpkg.1:473
 msgid "B<not-root>: Try to (de)install things even when not root."
 msgstr ""
 "B<not-root>: Versuche Sachen zu (de)installieren, selbst falls nicht root."
 
 #. type: Plain text
-#: dpkg.1:459
+#: dpkg.1:476
 msgid "B<bad-verify>: Install a package even if it fails authenticity check."
 msgstr ""
 "B<bad-verify>: Installiere ein Paket selbst wenn die Authentizitätsprüfung "
 "fehlschlägt."
 
 #. type: TP
-#: dpkg.1:460
+#: dpkg.1:477
 #, no-wrap
 msgid "B<--ignore-depends>=I<package>,..."
 msgstr "B<--ignore-depends>=I<Paket>,..."
 
 #. type: Plain text
-#: dpkg.1:464
+#: dpkg.1:481
 msgid ""
 "Ignore dependency-checking for specified packages (actually, checking is "
 "performed, but only warnings about conflicts are given, nothing else)."
@@ -3648,13 +3677,13 @@ msgstr ""
 "angezeigt, sonst nichts)."
 
 #. type: TP
-#: dpkg.1:464
+#: dpkg.1:481
 #, no-wrap
 msgid "B<--new>, B<--old>"
 msgstr "B<--new>, B<--old>"
 
 #. type: Plain text
-#: dpkg.1:468
+#: dpkg.1:485
 msgid ""
 "Select new or old binary package format. This is a B<dpkg-deb>(1)  option."
 msgstr ""
@@ -3662,13 +3691,13 @@ msgstr ""
 "Option."
 
 #. type: TP
-#: dpkg.1:468 dpkg-deb.1:209
+#: dpkg.1:485 dpkg-deb.1:209
 #, no-wrap
 msgid "B<--nocheck>"
 msgstr "B<--nocheck>"
 
 #. type: Plain text
-#: dpkg.1:472
+#: dpkg.1:489
 msgid ""
 "Don't read or check contents of control file while building a package.  This "
 "is a B<dpkg-deb>(1) option."
@@ -3677,13 +3706,13 @@ msgstr ""
 "eine B<dpkg-deb>(1)-Option."
 
 #. type: TP
-#: dpkg.1:472
+#: dpkg.1:489
 #, no-wrap
 msgid "B<--no-act>, B<--dry-run>, B<--simulate>"
 msgstr "B<--no-act>, B<--dry-run>, B<--simulate>"
 
 #. type: Plain text
-#: dpkg.1:477
+#: dpkg.1:494
 msgid ""
 "Do everything which is supposed to be done, but don't write any changes. "
 "This is used to see what would happen with the specified action, without "
@@ -3694,7 +3723,7 @@ msgstr ""
 "passieren würde ohne tatsächlich etwas zu modifizieren."
 
 #. type: Plain text
-#: dpkg.1:482
+#: dpkg.1:499
 msgid ""
 "Be sure to give B<--no-act> before the action-parameter, or you might end up "
 "with undesirable results. (e.g. B<dpkg --purge foo --no-act> will first "
@@ -3708,13 +3737,13 @@ msgstr ""
 "dass tatsächlich gar nichts passieren sollte)"
 
 #. type: TP
-#: dpkg.1:482
+#: dpkg.1:499
 #, no-wrap
 msgid "B<-R>, B<--recursive>"
 msgstr "B<-R>, B<--recursive>"
 
 #. type: Plain text
-#: dpkg.1:488
+#: dpkg.1:505
 msgid ""
 "Recursively handle all regular files matching pattern B<*.deb> found at "
 "specified directories and all of its subdirectories. This can be used with "
@@ -3726,13 +3755,13 @@ msgstr ""
 "verwendet werden."
 
 #. type: TP
-#: dpkg.1:488
+#: dpkg.1:505
 #, no-wrap
 msgid "B<-G>"
 msgstr "B<-G>"
 
 #. type: Plain text
-#: dpkg.1:492
+#: dpkg.1:509
 msgid ""
 "Don't install a package if a newer version of the same package is already "
 "installed. This is an alias of B<--refuse-downgrade>."
@@ -3741,14 +3770,14 @@ msgstr ""
 "Paketes installiert ist. Dies ist ein Alias für B<--refuse-downgrade>."
 
 #. type: TP
-#: dpkg.1:492 dpkg-buildpackage.1:217 dpkg-checkbuilddeps.1:19
+#: dpkg.1:509 dpkg-buildpackage.1:217 dpkg-checkbuilddeps.1:19
 #: dpkg-query.1:112 dpkg-shlibdeps.1:213 dpkg-trigger.1:39
 #, no-wrap
 msgid "B<--admindir=>I<dir>"
 msgstr "B<--admindir=>I<Verz>"
 
 #. type: Plain text
-#: dpkg.1:497
+#: dpkg.1:514
 msgid ""
 "Change default administrative directory, which contains many files that give "
 "information about status of installed or uninstalled packages, etc.  "
@@ -3759,13 +3788,13 @@ msgstr ""
 "von installierten und deinstallierten Pakete usw. liegen."
 
 #. type: TP
-#: dpkg.1:497
+#: dpkg.1:514
 #, no-wrap
 msgid "B<--instdir=>I<dir>"
 msgstr "B<--instdir=>I<Verz>"
 
 #. type: Plain text
-#: dpkg.1:504
+#: dpkg.1:521
 msgid ""
 "Change default installation directory which refers to the directory where "
 "packages are to be installed. B<instdir> is also the directory passed to "
@@ -3779,13 +3808,13 @@ msgstr ""
 "ein Wurzelverzeichnis sehen."
 
 #. type: TP
-#: dpkg.1:504
+#: dpkg.1:521
 #, no-wrap
 msgid "B<--root=>I<dir>"
 msgstr "B<-root=>I<Verz>"
 
 #. type: Plain text
-#: dpkg.1:508
+#: dpkg.1:525
 msgid ""
 "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
 "var/lib/dpkg>."
@@ -3794,13 +3823,13 @@ msgstr ""
 "I<Verz>B</var/lib/dpkg> geändert."
 
 #. type: TP
-#: dpkg.1:508
+#: dpkg.1:525
 #, no-wrap
 msgid "B<-O>, B<--selected-only>"
 msgstr "B<-O>, B<--selected-only>"
 
 #. type: Plain text
-#: dpkg.1:514
+#: dpkg.1:531
 msgid ""
 "Only process the packages that are selected for installation. The actual "
 "marking is done with B<dselect> or by B<dpkg>, when it handles packages. For "
@@ -3813,13 +3842,13 @@ msgstr ""
 "Deinstallation ausgewählt« markiert."
 
 #. type: TP
-#: dpkg.1:514
+#: dpkg.1:531
 #, no-wrap
 msgid "B<-E>, B<--skip-same-version>"
 msgstr "B<-E>, B<--skip-same-version>"
 
 #. type: Plain text
-#: dpkg.1:518
+#: dpkg.1:535
 msgid ""
 "Don't install the package if the same version of the package is already "
 "installed."
@@ -3828,17 +3857,17 @@ msgstr ""
 "installiert ist."
 
 #. type: Plain text
-#: dpkg.1:520
+#: dpkg.1:537
 msgid "B<--pre-invoke=>I<command>"
 msgstr "B<--pre-invoke=>I<Befehl>"
 
 #. type: Plain text
-#: dpkg.1:522
+#: dpkg.1:539
 msgid "B<--post-invoke=>I<command>"
 msgstr "B<--post-invoke=>I<Befehl>"
 
 #. type: Plain text
-#: dpkg.1:531
+#: dpkg.1:548
 msgid ""
 "Set an invoke hook I<command> to be run via ``sh -c'' before or after the "
 "dpkg run for the I<unpack>, I<configure>, I<install>, I<triggers-only>, "
@@ -3859,17 +3888,17 @@ msgstr ""
 "wodurch die Hooks öfter als erwartet ausgeführt werden könnten."
 
 #. type: Plain text
-#: dpkg.1:534
+#: dpkg.1:551
 msgid "B<--path-exclude=>I<glob-pattern>"
 msgstr "B<--path-exclude=>I<Glob-Muster>"
 
 #. type: Plain text
-#: dpkg.1:536
+#: dpkg.1:553
 msgid "B<--path-include=>I<glob-pattern>"
 msgstr "B<--path-include=>I<Glob-Muster>"
 
 #. type: Plain text
-#: dpkg.1:539
+#: dpkg.1:556
 msgid ""
 "Set I<glob-pattern> as a path filter, either by excluding or re-including "
 "previously excluded paths matching the specified patterns during install."
@@ -3879,7 +3908,7 @@ msgstr ""
 "auf bestimmte Muster passen."
 
 #. type: Plain text
-#: dpkg.1:542
+#: dpkg.1:559
 msgid ""
 "I<Warning: take into account that depending on the excluded paths you might "
 "completely break your system, use with caution.>"
@@ -3889,7 +3918,7 @@ msgstr ""
 ">"
 
 #. type: Plain text
-#: dpkg.1:552
+#: dpkg.1:569
 msgid ""
 "The glob patterns use the same wildcards used in the shell, were '*' matches "
 "any sequence of characters, including the empty string and also '/'. For "
@@ -3914,7 +3943,7 @@ msgstr ""
 "Arbeiten behoben werden."
 
 #. type: Plain text
-#: dpkg.1:555
+#: dpkg.1:572
 msgid ""
 "This can be used to remove all paths except some particular ones; a typical "
 "case is:"
@@ -3923,7 +3952,7 @@ msgstr ""
 "typischer Fall lautet:"
 
 #. type: Plain text
-#: dpkg.1:559
+#: dpkg.1:576
 #, no-wrap
 msgid ""
 "B<--path-exclude=/usr/share/doc/*>\n"
@@ -3933,14 +3962,14 @@ msgstr ""
 "B<--path-include=/usr/share/doc/*/copyright>\n"
 
 #. type: Plain text
-#: dpkg.1:562
+#: dpkg.1:579
 msgid "to remove all documentation files except the copyright files."
 msgstr ""
 "Hiermit werden alle Dokumentationsdateien (außer den Copyright-Dateien) "
 "entfernt."
 
 #. type: Plain text
-#: dpkg.1:566
+#: dpkg.1:583
 msgid ""
 "These two options can be specified multiple times, and interleaved with each "
 "other. Both are processed in the given order, with the last rule that "
@@ -3951,13 +3980,13 @@ msgstr ""
 "letzte Regel, die auf eine Datei passt, die Entscheidung fällt."
 
 #. type: TP
-#: dpkg.1:567
+#: dpkg.1:584
 #, no-wrap
 msgid "B<--status-fd >I<n>"
 msgstr "B<--status-fd >I<n>"
 
 #. type: Plain text
-#: dpkg.1:573
+#: dpkg.1:590
 msgid ""
 "Send machine-readable package status and progress information to file "
 "descriptor I<n>. This option can be specified multiple times. The "
@@ -3969,24 +3998,24 @@ msgstr ""
 "folgendem Format:"
 
 #. type: TP
-#: dpkg.1:574
+#: dpkg.1:591
 #, no-wrap
 msgid "B<status: >I<package>B<: >I<status>"
 msgstr "B<status: >I<Paket>B<: >I<Status>"
 
 #. type: Plain text
-#: dpkg.1:577
+#: dpkg.1:594
 msgid "Package status changed; I<status> is as in the status file."
 msgstr "Paketstatus geändert; I<Status> entsprechend der Statusdatei."
 
 #. type: TP
-#: dpkg.1:577
+#: dpkg.1:594
 #, no-wrap
 msgid "B<status: >I<package>B< : error : >I<extended-error-message>"
 msgstr "B<status: >I<Paket>B< : error : >I<ausführliche-Fehlermeldung>"
 
 #. type: Plain text
-#: dpkg.1:583
+#: dpkg.1:600
 msgid ""
 "An error occurred. Unfortunately at the time of writing I<extended-error-"
 "message> can contain newlines, although in locales where the translators "
@@ -3999,24 +4028,24 @@ msgstr ""
 "Leerzeichen gefolgt."
 
 #. type: TP
-#: dpkg.1:583
+#: dpkg.1:600
 #, no-wrap
 msgid "B<status: >I<file>B< : conffile-prompt : '>I<real-old>B<' '>I<real-new>B<' >I<useredited>B< >I<distedited>"
 msgstr "B<status: >I<Datei>B< : conffile-prompt : »>I<echt-alt>B<« »>I<echt-neu>B<« >I<benutzer-edit>B< >I<dist-edit>"
 
 #. type: Plain text
-#: dpkg.1:586
+#: dpkg.1:603
 msgid "User is being asked a conffile question."
 msgstr "Dem Benutzer wird eine Conffile-Frage gestellt."
 
 #. type: TP
-#: dpkg.1:586
+#: dpkg.1:603
 #, no-wrap
 msgid "B<processing: >I<stage>B<: >I<package>"
 msgstr "B<processing: >I<Stufe>B<: >I<Paket>"
 
 #. type: Plain text
-#: dpkg.1:591
+#: dpkg.1:608
 msgid ""
 "Sent just before a processing stage starts. I<stage> is one of B<upgrade>, "
 "B<install> (both sent before unpacking), B<configure>, B<trigproc>, "
@@ -4027,13 +4056,13 @@ msgstr ""
 "B<configure>, B<trigproc>, B<disappear>, B<remove>, B<purge>."
 
 #. type: TP
-#: dpkg.1:592
+#: dpkg.1:609
 #, no-wrap
 msgid "B<--log=>I<filename>"
 msgstr "B<--log=>I<Dateiname>"
 
 #. type: Plain text
-#: dpkg.1:604
+#: dpkg.1:621
 msgid ""
 "Log status change updates and actions to I<filename>, instead of the default "
 "I</var/log/dpkg.log>. If this option is given multiple times, the last "
@@ -4058,24 +4087,24 @@ msgstr ""
 "I<E<lt>EntscheidungE<gt>> entweder install oder keep ist."
 
 #. type: TP
-#: dpkg.1:604
+#: dpkg.1:621
 #, no-wrap
 msgid "B<--no-debsig>"
 msgstr "B<--no-debsig>"
 
 #. type: Plain text
-#: dpkg.1:607
+#: dpkg.1:624
 msgid "Do not try to verify package signatures."
 msgstr "Versuche nicht, Paketsignaturen zu überprüfen."
 
 #. type: TP
-#: dpkg.1:607
+#: dpkg.1:624
 #, no-wrap
 msgid "B<--no-triggers>"
 msgstr "B<--no-triggers>"
 
 #. type: Plain text
-#: dpkg.1:616
+#: dpkg.1:633
 msgid ""
 "Do not run any triggers in this run (activations will still be recorded).  "
 "If used with B<--configure> I<package> or B<--triggers-only> I<package> then "
@@ -4093,42 +4122,42 @@ msgstr ""
 "pending>« kann dies später behoben werden."
 
 #. type: TP
-#: dpkg.1:616
+#: dpkg.1:633
 #, no-wrap
 msgid "B<--triggers>"
 msgstr "B<--triggers>"
 
 #. type: Plain text
-#: dpkg.1:619
+#: dpkg.1:636
 msgid "Cancels a previous B<--no-triggers>."
 msgstr "Annulliert ein vorheriges B<--no-triggers>."
 
 #. type: Plain text
-#: dpkg.1:621 dpkg.cfg.5:16
+#: dpkg.1:638 dpkg.cfg.5:16
 #, no-wrap
 msgid "I</etc/dpkg/dpkg.cfg>"
 msgstr "I</etc/dpkg/dpkg.cfg>"
 
 #. type: Plain text
-#: dpkg.1:624
+#: dpkg.1:641
 msgid "Configuration file with default options."
 msgstr "Konfigurationsdatei mit Standardeinstellungen der Optionen."
 
 #. type: TP
-#: dpkg.1:624
+#: dpkg.1:641
 #, no-wrap
 msgid "I</var/log/dpkg.log>"
 msgstr "I</var/log/dpkg.log>"
 
 #. type: Plain text
-#: dpkg.1:628
+#: dpkg.1:645
 msgid "Default log file (see I</etc/dpkg/dpkg.cfg>(5) and option B<--log>)."
 msgstr ""
 "Standard-Protokolldatei (lesen Sie I</etc/dpkg/dpkg.cfg>(5) und die Option "
 "B<--log>)."
 
 #. type: Plain text
-#: dpkg.1:631
+#: dpkg.1:648
 msgid ""
 "The other files listed below are in their default directories, see option "
 "B<--admindir> to see how to change locations of these files."
@@ -4138,24 +4167,24 @@ msgstr ""
 "dieser Dateien ändern können."
 
 #. type: TP
-#: dpkg.1:631
+#: dpkg.1:648
 #, no-wrap
 msgid "I</var/lib/dpkg/available>"
 msgstr "I</var/lib/dpkg/available>"
 
 #. type: Plain text
-#: dpkg.1:634
+#: dpkg.1:651
 msgid "List of available packages."
 msgstr "Liste der verfügbaren Pakete."
 
 #. type: TP
-#: dpkg.1:634
+#: dpkg.1:651
 #, no-wrap
 msgid "I</var/lib/dpkg/status>"
 msgstr "I</var/lib/dpkg/status>"
 
 #. type: Plain text
-#: dpkg.1:640
+#: dpkg.1:657
 msgid ""
 "Statuses of available packages. This file contains information about whether "
 "a package is marked for removing or not, whether it is installed or not, "
@@ -4168,7 +4197,7 @@ msgstr ""
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:643
+#: dpkg.1:660
 msgid ""
 "The status file is backed up daily in I</var/backups>. It can be useful if "
 "it's lost or corrupted due to filesystems troubles."
@@ -4178,7 +4207,7 @@ msgstr ""
 "verloren gegangen oder beschädigt worden ist."
 
 #. type: Plain text
-#: dpkg.1:646
+#: dpkg.1:663
 msgid ""
 "The following files are components of a binary package. See B<deb>(5)  for "
 "more information about them:"
@@ -4187,57 +4216,57 @@ msgstr ""
 "für weitere Informationen über sie:"
 
 #. type: TP
-#: dpkg.1:646
+#: dpkg.1:663
 #, no-wrap
 msgid "I<control>"
 msgstr "I<control>"
 
 #. type: TP
-#: dpkg.1:648
+#: dpkg.1:665
 #, no-wrap
 msgid "I<conffiles>"
 msgstr "I<conffiles>"
 
 #. type: TP
-#: dpkg.1:650
+#: dpkg.1:667
 #, no-wrap
 msgid "I<preinst>"
 msgstr "I<preinst>"
 
 #. type: TP
-#: dpkg.1:652
+#: dpkg.1:669
 #, no-wrap
 msgid "I<postinst>"
 msgstr "I<postinst>"
 
 #. type: TP
-#: dpkg.1:654
+#: dpkg.1:671
 #, no-wrap
 msgid "I<prerm>"
 msgstr "I<prerm>"
 
 #. type: TP
-#: dpkg.1:656
+#: dpkg.1:673
 #, no-wrap
 msgid "I<postrm>"
 msgstr "I<postrm>"
 
 #. type: SH
-#: dpkg.1:659 dpkg-buildflags.1:110 dpkg-buildpackage.1:230 dpkg-deb.1:219
+#: dpkg.1:676 dpkg-buildflags.1:110 dpkg-buildpackage.1:230 dpkg-deb.1:219
 #: dpkg-query.1:196 dpkg-vendor.1:42 dselect.1:430
 #, no-wrap
 msgid "ENVIRONMENT"
 msgstr "UMGEBUNG"
 
 #. type: TP
-#: dpkg.1:660 dselect.1:431
+#: dpkg.1:677 dselect.1:431
 #, no-wrap
 msgid "B<HOME>"
 msgstr "B<HOME>"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:664
+#: dpkg.1:681
 msgid ""
 "If set, B<dpkg> will use it as the directory from which to read the user "
 "specific configuration file."
@@ -4247,14 +4276,14 @@ msgstr ""
 
 # type: TP
 #. type: TP
-#: dpkg.1:664 dpkg-deb.1:220
+#: dpkg.1:681 dpkg-deb.1:220
 #, no-wrap
 msgid "B<TMPDIR>"
 msgstr "B<TMPDIR>"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:668
+#: dpkg.1:685
 msgid ""
 "If set, B<dpkg> will use it as the directory in which to create temporary "
 "files and directories."
@@ -4263,37 +4292,37 @@ msgstr ""
 "temporäre Dateien und Verzeichnisse erstellt werden."
 
 #. type: TP
-#: dpkg.1:668
+#: dpkg.1:685
 #, no-wrap
 msgid "B<PAGER>"
 msgstr "B<PAGER>"
 
 #. type: Plain text
-#: dpkg.1:671
+#: dpkg.1:688
 msgid "The program B<dpkg> will execute when displaying the conffiles."
 msgstr ""
 "Das Programm, das B<dpkg> ausführen wird, wenn es die Conffiles anzeigt."
 
 #. type: TP
-#: dpkg.1:671
+#: dpkg.1:688
 #, no-wrap
 msgid "B<SHELL>"
 msgstr "B<SHELL>"
 
 #. type: Plain text
-#: dpkg.1:674
+#: dpkg.1:691
 msgid "The program B<dpkg> will execute when starting a new shell."
 msgstr ""
 "Das Programm, das B<dpkg> ausführen wird, wenn es eine neue Shell startet."
 
 #. type: TP
-#: dpkg.1:674 dpkg-query.1:197
+#: dpkg.1:691 dpkg-query.1:197
 #, no-wrap
 msgid "B<COLUMNS>"
 msgstr "B<COLUMNS>"
 
 #. type: Plain text
-#: dpkg.1:678
+#: dpkg.1:695
 msgid ""
 "Sets the number of columns B<dpkg> should use when displaying formatted "
 "text. Currently only used by -l."
@@ -4302,13 +4331,13 @@ msgstr ""
 "formatierten Text anzeigt. Derzeit nur von -l verwendet."
 
 #. type: TP
-#: dpkg.1:678
+#: dpkg.1:695
 #, no-wrap
 msgid "B<DPKG_SHELL_REASON>"
 msgstr "B<DPKG_SHELL_REASON>"
 
 #. type: Plain text
-#: dpkg.1:682
+#: dpkg.1:699
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Current valid value: B<conffile-prompt>."
@@ -4318,13 +4347,13 @@ msgstr ""
 "Wert: B<conffile-prompt>."
 
 #. type: TP
-#: dpkg.1:682
+#: dpkg.1:699
 #, no-wrap
 msgid "B<DPKG_CONFFILE_OLD>"
 msgstr "B<DPKG_CONFFILE_OLD>"
 
 #. type: Plain text
-#: dpkg.1:686
+#: dpkg.1:703
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the old conffile."
@@ -4334,13 +4363,13 @@ msgstr ""
 "zu der alten Conffile."
 
 #. type: TP
-#: dpkg.1:686
+#: dpkg.1:703
 #, no-wrap
 msgid "B<DPKG_CONFFILE_NEW>"
 msgstr "B<DPKG_CONFFILE_NEW>"
 
 #. type: Plain text
-#: dpkg.1:690
+#: dpkg.1:707
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the new conffile."
@@ -4350,14 +4379,14 @@ msgstr ""
 "zu der neuen Conffile."
 
 #. type: TP
-#: dpkg.1:690
+#: dpkg.1:707
 #, no-wrap
 msgid "B<DPKG_RUNNING_VERSION>"
 msgstr "B<DPKG_RUNNING_VERSION>"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:694
+#: dpkg.1:711
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the version of "
 "the currently running B<dpkg> instance."
@@ -4366,14 +4395,14 @@ msgstr ""
 "aktuell laufenden Instanz von B<dpkg> gesetzt."
 
 #. type: TP
-#: dpkg.1:694
+#: dpkg.1:711
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_PACKAGE>"
 msgstr "B<DPKG_MAINTSCRIPT_PACKAGE>"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:698
+#: dpkg.1:715
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the package name "
 "being handled."
@@ -4382,14 +4411,14 @@ msgstr ""
 "befindlichen Paketnamen gesetzt."
 
 #. type: TP
-#: dpkg.1:698
+#: dpkg.1:715
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_ARCH>"
 msgstr "B<DPKG_MAINTSCRIPT_ARCH>"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:702
+#: dpkg.1:719
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the architecture "
 "the package got built for."
@@ -4398,14 +4427,14 @@ msgstr ""
 "gesetzt, für die das Paket gebaut wurde."
 
 #. type: TP
-#: dpkg.1:702
+#: dpkg.1:719
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_NAME>"
 msgstr "B<DPKG_MAINTSCRIPT_NAME>"
 
 # type: Plain text
 #. type: Plain text
-#: dpkg.1:706
+#: dpkg.1:723
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the name of the "
 "script running (preinst, postinst, prerm, postrm)."
@@ -4414,52 +4443,52 @@ msgstr ""
 "laufenden Skripts (preinst, postinst, prerm, postrm) gesetzt."
 
 #. type: Plain text
-#: dpkg.1:709
+#: dpkg.1:726
 msgid "To list packages related to the editor B<vi>(1):"
 msgstr "Um Pakete mit Bezug zum B<vi>(1)-Editor aufzulisten:"
 
 #. type: Plain text
-#: dpkg.1:711
+#: dpkg.1:728
 #, no-wrap
 msgid "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 msgstr "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 
 #. type: Plain text
-#: dpkg.1:714
+#: dpkg.1:731
 msgid "To see the entries in I</var/lib/dpkg/available> of two packages:"
 msgstr ""
 "Um die Einträge von zwei Paketen in I</var/lib/dpkg/available> zu sehen:"
 
 #. type: Plain text
-#: dpkg.1:716
+#: dpkg.1:733
 #, no-wrap
 msgid "     B<dpkg --print-avail elvis vim | less>\n"
 msgstr "     B<dpkg --print-avail elvis vim | less>\n"
 
 #. type: Plain text
-#: dpkg.1:719
+#: dpkg.1:736
 msgid "To search the listing of packages yourself:"
 msgstr "Wenn Sie die Liste der Pakete selbst durchsuchen wollen:"
 
 #. type: Plain text
-#: dpkg.1:721
+#: dpkg.1:738
 #, no-wrap
 msgid "     B<less /var/lib/dpkg/available>\n"
 msgstr "     B<less /var/lib/dpkg/available>\n"
 
 #. type: Plain text
-#: dpkg.1:724
+#: dpkg.1:741
 msgid "To remove an installed elvis package:"
 msgstr "Um ein installiertes Elvis-Paket zu entfernen:"
 
 #. type: Plain text
-#: dpkg.1:726
+#: dpkg.1:743
 #, no-wrap
 msgid "     B<dpkg -r elvis>\n"
 msgstr "     B<dpkg -r elvis>\n"
 
 #. type: Plain text
-#: dpkg.1:731
+#: dpkg.1:748
 msgid ""
 "To install a package, you first need to find it in an archive or CDROM. The "
 "\"available\" file shows that the vim package is in section \"editors\":"
@@ -4469,7 +4498,7 @@ msgstr ""
 "Bereich »editors« ist:"
 
 #. type: Plain text
-#: dpkg.1:734
+#: dpkg.1:751
 #, no-wrap
 msgid ""
 "     B<cd /cdrom/pool/main/v/vim>\n"
@@ -4479,18 +4508,18 @@ msgstr ""
 "     B<dpkg -i vim_4.5-3.deb>\n"
 
 #. type: Plain text
-#: dpkg.1:737
+#: dpkg.1:754
 msgid "To make a local copy of the package selection states:"
 msgstr "Um eine lokale Kopie der Paketauswahl-Zustände zu erstellen:"
 
 #. type: Plain text
-#: dpkg.1:739
+#: dpkg.1:756
 #, no-wrap
 msgid "     B<dpkg --get-selections E<gt>myselections>\n"
 msgstr "     B<dpkg --get-selections E<gt>meine_auswahl>\n"
 
 #. type: Plain text
-#: dpkg.1:743
+#: dpkg.1:760
 msgid ""
 "You might transfer this file to another computer, and install it there with:"
 msgstr ""
@@ -4498,7 +4527,7 @@ msgstr ""
 "folgenden Befehlen installieren:"
 
 #. type: Plain text
-#: dpkg.1:746
+#: dpkg.1:763
 #, no-wrap
 msgid ""
 "     B<dpkg --clear-selections>\n"
@@ -4508,7 +4537,7 @@ msgstr ""
 "     B<dpkg --set-selections E<lt>meine_auswahl>\n"
 
 #. type: Plain text
-#: dpkg.1:752
+#: dpkg.1:769
 msgid ""
 "Note that this will not actually install or remove anything, but just set "
 "the selection state on the requested packages. You will need some other "
@@ -4522,7 +4551,7 @@ msgstr ""
 "dselect-upgrade> aus."
 
 #. type: Plain text
-#: dpkg.1:755
+#: dpkg.1:772
 msgid ""
 "Ordinarily, you will find that B<dselect>(1) provides a more convenient way "
 "to modify the package selection states."
@@ -4531,13 +4560,13 @@ msgstr ""
 "ist, den Paketauswahlzustand zu ändern."
 
 #. type: SH
-#: dpkg.1:757
+#: dpkg.1:774
 #, no-wrap
 msgid "ADDITIONAL FUNCTIONALITY"
 msgstr "ZUSÄTZLICHE FUNKTIONALITÄT"
 
 #. type: Plain text
-#: dpkg.1:760
+#: dpkg.1:777
 msgid ""
 "Additional functionality can be gained by installing any of the following "
 "packages: B<apt>, B<aptitude> and B<debsums>."
@@ -4546,7 +4575,7 @@ msgstr ""
 "Pakete erhalten werden: B<apt>, B<aptitude> und B<debsums>."
 
 #. type: Plain text
-#: dpkg.1:772
+#: dpkg.1:789
 msgid ""
 "B<aptitude>(1), B<apt>(1), B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), "
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
@@ -4555,13 +4584,13 @@ msgstr ""
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5) und B<dpkg-reconfigure>(8)."
 
 #. type: Plain text
-#: dpkg.1:775
+#: dpkg.1:792
 msgid "B<--no-act> usually gives less information than might be helpful."
 msgstr ""
 "B<--no-act> gibt gewöhnlich weniger Informationen als hilfreich sein könnten."
 
 #. type: Plain text
-#: dpkg.1:778 dpkg.cfg.5:22
+#: dpkg.1:795 dpkg.cfg.5:22
 msgid ""
 "See I</usr/share/doc/dpkg/THANKS> for the list of people who have "
 "contributed to B<dpkg>."
@@ -13390,8 +13419,8 @@ msgid ""
 "repository B<.git> to hold the source of a package.  There may also be a B<."
 "gitshallow> file listing revisions for a shallow git clone."
 msgstr ""
-"Ein Quellpaket in diesem Format besteht aus einem einzelnen Bündel eines "
-"Git-Depots B<.git>, um die Quellen des Pakets zu verwahren. Es kann auch eine "
+"Ein Quellpaket in diesem Format besteht aus einem einzelnen Bündel eines Git-"
+"Depots B<.git>, um die Quellen des Pakets zu verwahren. Es kann auch eine "
 "Datei B<.gitshallow> geben, die die Revisionen für einen flachen Git-Clone "
 "aufführt."
 
