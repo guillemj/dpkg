@@ -71,6 +71,7 @@ pkginclude_HEADERS = \
 	dir.h \
 	dpkg.h \
 	dpkg-db.h \
+	ehandle.h \
 	file.h \
 	glob.h \
 	macros.h \
