@@ -129,46 +129,55 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
 }
 
 static void
+list_format_print_header(struct list_format *fmt)
+{
+  int l;
+
+  if (fmt->head)
+    return;
+
+  /* TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
+   * string should remain under 80 characters. The uppercase letters in
+   * the state values denote the abbreviated letter that will appear on
+   * the first three columns, which should ideally match the English one
+   * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+   * translated message can use additional lines if needed. */
+  fputs(_("\
+Desired=Unknown/Install/Remove/Purge/Hold\n\
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
+  printf(fmt->format, '|', '|', '/', _("Name"), _("Version"), 40,
+         _("Description"));
+
+  /* Status */
+  printf("+++-");
+
+ /* Package name. */
+  for (l = 0; l < fmt->nw; l++)
+    printf("=");
+  printf("-");
+
+  /* Version. */
+  for (l = 0; l < fmt->vw; l++)
+    printf("=");
+  printf("-");
+
+  /* Description. */
+  for (l = 0; l < fmt->dw; l++)
+    printf("=");
+  printf("\n");
+
+  fmt->head = true;
+}
+
+static void
 list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *array)
 {
   int l;
   const char *pdesc;
 
   list_format_init(fmt, array);
-
-  if (!fmt->head) {
-    /* TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-     * string should remain under 80 characters. The uppercase letters in
-     * the state values denote the abbreviated letter that will appear on
-     * the first three columns, which should ideally match the English one
-     * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-     * translated message can use additional lines if needed. */
-    fputs(_("\
-Desired=Unknown/Install/Remove/Purge/Hold\n\
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
-    printf(fmt->format, '|', '|', '/', _("Name"), _("Version"), 40,
-           _("Description"));
-
-    /* Status */
-    printf("+++-");
-
-   /* Package name. */
-    for (l = 0; l < fmt->nw; l++)
-      printf("=");
-    printf("-");
-
-    /* Version. */
-    for (l = 0; l < fmt->vw; l++)
-      printf("=");
-    printf("-");
-
-    /* Description. */
-    for (l = 0; l < fmt->dw; l++)
-      printf("=");
-    printf("\n");
-    fmt->head = true;
-  }
+  list_format_print_header(fmt);
 
   pdesc = pkg_summary(pkg, &l);
   l = min(l, fmt->dw);
