@@ -122,7 +122,7 @@ file_info_find_name(struct file_info *list, const char *filename)
  * @return A file_info struct or NULL if there is nothing to read.
  */
 static struct file_info *
-getfi(const char *root, int fd)
+file_info_get(const char *root, int fd)
 {
   static char* fn = NULL;
   static size_t fnlen = 0;
@@ -549,7 +549,7 @@ void do_build(const char *const *argv) {
   close(p3[1]);
   /* We need to reorder the files so we can make sure that symlinks
    * will not appear before their target. */
-  while ((fi = getfi(dir, p3[0])) != NULL)
+  while ((fi = file_info_get(dir, p3[0])) != NULL)
     if (S_ISLNK(fi->st.st_mode))
       file_info_list_append(&symlist, &symlist_end, fi);
     else {
