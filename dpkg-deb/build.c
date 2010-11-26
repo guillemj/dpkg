@@ -178,8 +178,8 @@ getfi(const char *root, int fd)
  * assume full responsibility for its memory.
  */
 static void
-add_to_filist(struct file_info **head, struct file_info **tail,
-              struct file_info *fi)
+file_info_list_append(struct file_info **head, struct file_info **tail,
+                      struct file_info *fi)
 {
   if (*head == NULL)
     *head = *tail = fi;
@@ -314,7 +314,7 @@ check_conffiles(const char *dir)
       struct file_info *conffile;
 
       conffile = file_info_new(conffilename);
-      add_to_filist(&conffiles_head, &conffiles_tail, conffile);
+      file_info_list_append(&conffiles_head, &conffiles_tail, conffile);
     }
   }
 
@@ -551,7 +551,7 @@ void do_build(const char *const *argv) {
    * will not appear before their target. */
   while ((fi = getfi(dir, p3[0])) != NULL)
     if (S_ISLNK(fi->st.st_mode))
-      add_to_filist(&symlist, &symlist_end, fi);
+      file_info_list_append(&symlist, &symlist_end, fi);
     else {
       if (write(p1[1], fi->fn, strlen(fi->fn)+1) ==- 1)
         ohshite(_("failed to write filename to tar pipe (%s)"),
