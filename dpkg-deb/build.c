@@ -178,13 +178,13 @@ getfi(const char *root, int fd)
  * assume full responsibility for its memory.
  */
 static void
-add_to_filist(struct file_info **start, struct file_info **end,
+add_to_filist(struct file_info **head, struct file_info **tail,
               struct file_info *fi)
 {
-  if (*start==NULL)
-    *start=*end=fi;
+  if (*head == NULL)
+    *head = *tail = fi;
   else
-    *end=(*end)->next=fi;
+    *tail = (*tail)->next =fi;
 }
 
 /**
