@@ -205,21 +205,12 @@ free_filist(struct file_info *fi)
  * Overly complex function that builds a .deb file.
  */
 void do_build(const char *const *argv) {
-  static const char *const maintainerscripts[]= {
-    PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, NULL
-  };
-
-  char *m;
-  const char *debar, *directory, *const *mscriptp, *versionstring, *arch;
+  const char *debar, *directory;
   bool subdir;
-  char *controlfile, *tfbuf;
-  struct pkginfo *checkedinfo;
-  struct arbitraryfield *field;
-  FILE *ar, *cf;
-  int p1[2], p2[2], p3[2], warns, n, c, gzfd;
+  char *tfbuf;
+  FILE *ar;
+  int p1[2], p2[2], p3[2], gzfd;
   pid_t c1,c2,c3;
-  struct stat controlstab, mscriptstab, debarstab;
-  char conffilename[MAXCONFFILENAME+1];
   struct file_info *fi;
   struct file_info *symlist = NULL;
   struct file_info *symlist_end = NULL;
@@ -233,6 +224,8 @@ void do_build(const char *const *argv) {
   if (debar != NULL) {
     if (*argv) badusage(_("--build takes at most two arguments"));
     if (debar) {
+      struct stat debarstab;
+
       if (stat(debar,&debarstab)) {
         if (errno != ENOENT)
           ohshite(_("unable to check for existence of archive `%.250s'"),debar);
@@ -241,6 +234,8 @@ void do_build(const char *const *argv) {
       }
     }
   } else {
+    char *m;
+
     m= m_malloc(strlen(directory) + sizeof(DEBEXT));
     strcpy(m, directory);
     path_trim_slash_slashdot(m);
@@ -255,6 +250,17 @@ void do_build(const char *const *argv) {
     warning(_("not checking contents of control area."));
     printf(_("dpkg-deb: building an unknown package in '%s'.\n"), debar);
   } else {
+    static const char *const maintainerscripts[] = {
+      PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, NULL
+    };
+    struct pkginfo *checkedinfo;
+    struct arbitraryfield *field;
+    char *controlfile;
+    const char *const *mscriptp;
+    struct stat mscriptstab;
+    int warns;
+    FILE *cf;
+
     controlfile= m_malloc(strlen(directory) + sizeof(BUILDCONTROLDIR) +
                           sizeof(CONTROLFILE) + sizeof(CONFFILESFILE) +
                           sizeof(POSTINSTFILE) + sizeof(PREINSTFILE) +
@@ -286,6 +292,9 @@ void do_build(const char *const *argv) {
     }
 
     if (subdir) {
+      const char *versionstring, *arch;
+      char *m;
+
       versionstring= versiondescribe(&checkedinfo->available.version,vdew_never);
       arch= checkedinfo->available.architecture; if (!arch) arch= "";
       m= m_malloc(sizeof(DEBEXT)+1+strlen(debar)+1+strlen(checkedinfo->name)+
@@ -329,13 +338,19 @@ void do_build(const char *const *argv) {
     strcpy(controlfile, directory);
     strcat(controlfile, "/" BUILDCONTROLDIR "/" CONFFILESFILE);
     if ((cf= fopen(controlfile,"r"))) {
+      char conffilename[MAXCONFFILENAME + 1];
       struct file_info *conffiles_head = NULL;
       struct file_info *conffiles_tail = NULL;
 
       while (fgets(conffilename,MAXCONFFILENAME+1,cf)) {
+        struct stat controlstab;
+        int n;
+
         n= strlen(conffilename);
         if (!n) ohshite(_("empty string from fgets reading conffiles"));
         if (conffilename[n-1] != '\n') {
+          int c;
+
           warning(_("conffile name '%.50s...' is too long, or missing final newline"),
 		  conffilename);
           warns++;
@@ -430,6 +445,8 @@ void do_build(const char *const *argv) {
   /* We have our first file for the ar-archive. Write a header for it
    * to the package and insert it. */
   if (oldformatflag) {
+    struct stat controlstab;
+
     if (fstat(gzfd, &controlstab))
       ohshite(_("failed to stat temporary file (%s)"), _("control member"));
     if (fprintf(ar, "%-8s\n%ld\n", OLDARCHIVEVERSION, (long)controlstab.st_size) == EOF)
