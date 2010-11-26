@@ -253,7 +253,7 @@ void do_build(const char *const *argv) {
     static const char *const maintainerscripts[] = {
       PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, NULL
     };
-    struct pkginfo *checkedinfo;
+    struct pkginfo *pkg;
     struct arbitraryfield *field;
     struct varbuf controlfile = VARBUF_INIT;
     const char *const *mscriptp;
@@ -266,17 +266,16 @@ void do_build(const char *const *argv) {
     warns = 0;
     varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
     parsedb(controlfile.buf, pdb_recordavailable | pdb_rejectstatus,
-            &checkedinfo, &warns);
-    if (strspn(checkedinfo->name,
-               "abcdefghijklmnopqrstuvwxyz0123456789+-.")
-        != strlen(checkedinfo->name))
+            &pkg, &warns);
+    if (strspn(pkg->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
+        strlen(pkg->name))
       ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
-    if (checkedinfo->priority == pri_other) {
+    if (pkg->priority == pri_other) {
       warning(_("'%s' contains user-defined Priority value '%s'"),
-              controlfile.buf, checkedinfo->otherpriority);
+              controlfile.buf, pkg->otherpriority);
       warns++;
     }
-    for (field= checkedinfo->available.arbs; field; field= field->next) {
+    for (field = pkg->available.arbs; field; field = field->next) {
       if (known_arbitrary_field(field))
         continue;
 
@@ -289,15 +288,17 @@ void do_build(const char *const *argv) {
       const char *versionstring, *arch;
       char *m;
 
-      versionstring= versiondescribe(&checkedinfo->available.version,vdew_never);
-      arch= checkedinfo->available.architecture; if (!arch) arch= "";
-      m= m_malloc(sizeof(DEBEXT)+1+strlen(debar)+1+strlen(checkedinfo->name)+
+      versionstring = versiondescribe(&pkg->available.version, vdew_never);
+      arch = pkg->available.architecture;
+      if (!arch)
+        arch = "";
+      m = m_malloc(sizeof(DEBEXT) + 1 + strlen(debar) + 1 + strlen(pkg->name) +
                   strlen(versionstring)+1+strlen(arch));
-      sprintf(m,"%s/%s_%s%s%s" DEBEXT,debar,checkedinfo->name,versionstring,
+      sprintf(m, "%s/%s_%s%s%s" DEBEXT, debar, pkg->name, versionstring,
               arch[0] ? "_" : "", arch);
       debar= m;
     }
-    printf(_("dpkg-deb: building package `%s' in `%s'.\n"), checkedinfo->name, debar);
+    printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
 
     /* Check file permissions. */
     varbufreset(&controlfile);
