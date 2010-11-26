@@ -57,34 +57,6 @@ struct file_info {
   char*	fn;
 };
 
-static const char *arbitrary_fields[] = {
-  "Package-Type",
-  "Subarchitecture",
-  "Kernel-Version",
-  "Installer-Menu-Item",
-  "Homepage",
-  "Tag",
-  NULL
-};
-
-static const char private_prefix[] = "Private-";
-
-static bool
-known_arbitrary_field(const struct arbitraryfield *field)
-{
-  const char **known;
-
-  /* Always accept fields starting with a private field prefix. */
-  if (strncasecmp(field->name, private_prefix, strlen(private_prefix)) == 0)
-    return true;
-
-  for (known= arbitrary_fields; *known; known++)
-    if (strcasecmp(field->name, *known) == 0)
-      return true;
-
-  return false;
-}
-
 static struct file_info *
 file_info_new(const char *filename)
 {
@@ -327,6 +299,34 @@ check_conffiles(const char *dir)
   fclose(cf);
 
   return warns;
+}
+
+static const char *arbitrary_fields[] = {
+  "Package-Type",
+  "Subarchitecture",
+  "Kernel-Version",
+  "Installer-Menu-Item",
+  "Homepage",
+  "Tag",
+  NULL
+};
+
+static const char private_prefix[] = "Private-";
+
+static bool
+known_arbitrary_field(const struct arbitraryfield *field)
+{
+  const char **known;
+
+  /* Always accept fields starting with a private field prefix. */
+  if (strncasecmp(field->name, private_prefix, strlen(private_prefix)) == 0)
+    return true;
+
+  for (known = arbitrary_fields; *known; known++)
+    if (strcasecmp(field->name, *known) == 0)
+      return true;
+
+  return false;
 }
 
 /**
