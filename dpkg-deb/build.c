@@ -349,16 +349,15 @@ void do_build(const char *const *argv) {
   subdir = false;
   debar = *argv++;
   if (debar != NULL) {
-    if (*argv) badusage(_("--build takes at most two arguments"));
-    if (debar) {
-      struct stat debarstab;
+    struct stat debarstab;
 
-      if (stat(debar,&debarstab)) {
-        if (errno != ENOENT)
-          ohshite(_("unable to check for existence of archive `%.250s'"),debar);
-      } else if (S_ISDIR(debarstab.st_mode)) {
-        subdir = true;
-      }
+    if (*argv) badusage(_("--build takes at most two arguments"));
+
+    if (stat(debar, &debarstab)) {
+      if (errno != ENOENT)
+        ohshite(_("unable to check for existence of archive `%.250s'"), debar);
+    } else if (S_ISDIR(debarstab.st_mode)) {
+      subdir = true;
     }
   } else {
     char *m;
