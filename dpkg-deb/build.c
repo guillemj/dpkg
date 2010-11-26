@@ -201,6 +201,55 @@ free_filist(struct file_info *fi)
   }
 }
 
+static const char *const maintainerscripts[] = {
+  PREINSTFILE,
+  POSTINSTFILE,
+  PRERMFILE,
+  POSTRMFILE,
+  NULL,
+};
+
+/**
+ * Check control directory and file permissions.
+ */
+static void
+check_file_perms(const char *dir)
+{
+  struct varbuf path = VARBUF_INIT;
+  const char *const *mscriptp;
+  struct stat mscriptstab;
+
+  varbufprintf(&path, "%s/%s/", dir, BUILDCONTROLDIR);
+  if (lstat(path.buf, &mscriptstab))
+    ohshite(_("unable to stat control directory"));
+  if (!S_ISDIR(mscriptstab.st_mode))
+    ohshit(_("control directory is not a directory"));
+  if ((mscriptstab.st_mode & 07757) != 0755)
+    ohshit(_("control directory has bad permissions %03lo "
+             "(must be >=0755 and <=0775)"),
+           (unsigned long)(mscriptstab.st_mode & 07777));
+
+  for (mscriptp = maintainerscripts; *mscriptp; mscriptp++) {
+    varbufreset(&path);
+    varbufprintf(&path, "%s/%s/%s", dir, BUILDCONTROLDIR, *mscriptp);
+    if (!lstat(path.buf, &mscriptstab)) {
+      if (S_ISLNK(mscriptstab.st_mode))
+        continue;
+      if (!S_ISREG(mscriptstab.st_mode))
+        ohshit(_("maintainer script `%.50s' is not a plain file or symlink"),
+               *mscriptp);
+      if ((mscriptstab.st_mode & 07557) != 0555)
+        ohshit(_("maintainer script `%.50s' has bad permissions %03lo "
+                 "(must be >=0555 and <=0775)"),
+               *mscriptp, (unsigned long)(mscriptstab.st_mode & 07777));
+    } else if (errno != ENOENT) {
+      ohshite(_("maintainer script `%.50s' is not stattable"), *mscriptp);
+    }
+  }
+
+  varbuf_destroy(&path);
+}
+
 /**
  * Overly complex function that builds a .deb file.
  */
@@ -250,14 +299,9 @@ void do_build(const char *const *argv) {
     warning(_("not checking contents of control area."));
     printf(_("dpkg-deb: building an unknown package in '%s'.\n"), debar);
   } else {
-    static const char *const maintainerscripts[] = {
-      PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, NULL
-    };
     struct pkginfo *pkg;
     struct arbitraryfield *field;
     struct varbuf controlfile = VARBUF_INIT;
-    const char *const *mscriptp;
-    struct stat mscriptstab;
     int warns;
     FILE *cf;
 
@@ -300,33 +344,7 @@ void do_build(const char *const *argv) {
     }
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
 
-    /* Check file permissions. */
-    varbufreset(&controlfile);
-    varbufprintf(&controlfile, "%s/%s/", dir, BUILDCONTROLDIR);
-    if (lstat(controlfile.buf, &mscriptstab))
-      ohshite(_("unable to stat control directory"));
-    if (!S_ISDIR(mscriptstab.st_mode))
-      ohshit(_("control directory is not a directory"));
-    if ((mscriptstab.st_mode & 07757) != 0755)
-      ohshit(_("control directory has bad permissions %03lo (must be >=0755 "
-             "and <=0775)"), (unsigned long)(mscriptstab.st_mode & 07777));
-
-    for (mscriptp= maintainerscripts; *mscriptp; mscriptp++) {
-      varbufreset(&controlfile);
-      varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, *mscriptp);
-
-      if (!lstat(controlfile.buf, &mscriptstab)) {
-        if (S_ISLNK(mscriptstab.st_mode)) continue;
-        if (!S_ISREG(mscriptstab.st_mode))
-          ohshit(_("maintainer script `%.50s' is not a plain file or symlink"),*mscriptp);
-        if ((mscriptstab.st_mode & 07557) != 0555)
-          ohshit(_("maintainer script `%.50s' has bad permissions %03lo "
-                 "(must be >=0555 and <=0775)"),
-                 *mscriptp, (unsigned long)(mscriptstab.st_mode & 07777));
-      } else if (errno != ENOENT) {
-        ohshite(_("maintainer script `%.50s' is not stattable"),*mscriptp);
-      }
-    }
+    check_file_perms(dir);
 
     /* Check if conffiles contains sane information. */
     varbufreset(&controlfile);
