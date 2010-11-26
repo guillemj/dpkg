@@ -191,7 +191,7 @@ file_info_list_append(struct file_info **head, struct file_info **tail,
  * Free the memory for all entries in a list of file_info structs.
  */
 static void
-free_filist(struct file_info *fi)
+file_info_list_free(struct file_info *fi)
 {
   while (fi) {
     struct file_info *fl;
@@ -318,7 +318,7 @@ check_conffiles(const char *dir)
     }
   }
 
-  free_filist(conffiles_head);
+  file_info_list_free(conffiles_head);
   varbuf_destroy(&controlfile);
 
   if (ferror(cf))
@@ -566,7 +566,7 @@ void do_build(const char *const *argv) {
       ohshite(_("failed to write filename to tar pipe (%s)"), _("data member"));
   /* All done, clean up wait for tar and gzip to finish their job. */
   close(p1[1]);
-  free_filist(symlist);
+  file_info_list_free(symlist);
   subproc_wait_check(c2, _("<compress> from tar -cf"), 0);
   subproc_wait_check(c1, "tar -cf", 0);
   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
