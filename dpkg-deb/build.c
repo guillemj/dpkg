@@ -251,6 +251,84 @@ check_file_perms(const char *dir)
 }
 
 /**
+ * Check if conffiles contains sane information.
+ */
+static int
+check_conffiles(const char *dir)
+{
+  FILE *cf;
+  struct varbuf controlfile = VARBUF_INIT;
+  char conffilename[MAXCONFFILENAME + 1];
+  struct file_info *conffiles_head = NULL;
+  struct file_info *conffiles_tail = NULL;
+  int warns = 0;
+
+  varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONFFILESFILE);
+
+  cf = fopen(controlfile.buf, "r");
+  if (cf == NULL) {
+    if (errno == ENOENT)
+      return warns;
+
+    ohshite(_("error opening conffiles file"));
+  }
+
+  while (fgets(conffilename, MAXCONFFILENAME + 1, cf)) {
+    struct stat controlstab;
+    int n;
+
+    n = strlen(conffilename);
+    if (!n)
+      ohshite(_("empty string from fgets reading conffiles"));
+
+    if (conffilename[n - 1] != '\n') {
+      int c;
+
+      warning(_("conffile name '%.50s...' is too long, or missing final newline"),
+              conffilename);
+      warns++;
+      while ((c = getc(cf)) != EOF && c != '\n');
+
+      continue;
+    }
+
+    conffilename[n - 1] = '\0';
+    varbufreset(&controlfile);
+    varbufprintf(&controlfile, "%s/%s", dir, conffilename);
+    if (lstat(controlfile.buf, &controlstab)) {
+      if (errno == ENOENT) {
+        if ((n > 1) && isspace(conffilename[n - 2]))
+          warning(_("conffile filename '%s' contains trailing white spaces"),
+                  conffilename);
+        ohshit(_("conffile `%.250s' does not appear in package"), conffilename);
+      } else
+        ohshite(_("conffile `%.250s' is not stattable"), conffilename);
+    } else if (!S_ISREG(controlstab.st_mode)) {
+      warning(_("conffile '%s' is not a plain file"), conffilename);
+      warns++;
+    }
+
+    if (file_info_find_name(conffiles_head, conffilename))
+      warning(_("conffile name '%s' is duplicated"), conffilename);
+    else {
+      struct file_info *conffile;
+
+      conffile = file_info_new(conffilename);
+      add_to_filist(&conffiles_head, &conffiles_tail, conffile);
+    }
+  }
+
+  free_filist(conffiles_head);
+  varbuf_destroy(&controlfile);
+
+  if (ferror(cf))
+    ohshite(_("error reading conffiles file"));
+  fclose(cf);
+
+  return warns;
+}
+
+/**
  * Overly complex function that builds a .deb file.
  */
 void do_build(const char *const *argv) {
@@ -303,7 +381,6 @@ void do_build(const char *const *argv) {
     struct arbitraryfield *field;
     struct varbuf controlfile = VARBUF_INIT;
     int warns;
-    FILE *cf;
 
     /* Let's start by reading in the control-file so we can check its
      * contents. */
@@ -345,63 +422,8 @@ void do_build(const char *const *argv) {
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
 
     check_file_perms(dir);
+    warns += check_conffiles(dir);
 
-    /* Check if conffiles contains sane information. */
-    varbufreset(&controlfile);
-    varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONFFILESFILE);
-    if ((cf = fopen(controlfile.buf, "r"))) {
-      char conffilename[MAXCONFFILENAME + 1];
-      struct file_info *conffiles_head = NULL;
-      struct file_info *conffiles_tail = NULL;
-
-      while (fgets(conffilename,MAXCONFFILENAME+1,cf)) {
-        struct stat controlstab;
-        int n;
-
-        n= strlen(conffilename);
-        if (!n) ohshite(_("empty string from fgets reading conffiles"));
-        if (conffilename[n-1] != '\n') {
-          int c;
-
-          warning(_("conffile name '%.50s...' is too long, or missing final newline"),
-		  conffilename);
-          warns++;
-          while ((c= getc(cf)) != EOF && c != '\n');
-          continue;
-        }
-        conffilename[n - 1] = '\0';
-        varbufreset(&controlfile);
-        varbufprintf(&controlfile, "%s/%s", dir, conffilename);
-        if (lstat(controlfile.buf, &controlstab)) {
-	  if (errno == ENOENT) {
-	    if((n > 1) && isspace(conffilename[n-2]))
-	      warning(_("conffile filename '%s' contains trailing white spaces"),
-	              conffilename);
-	    ohshit(_("conffile `%.250s' does not appear in package"), conffilename);
-	  } else
-	    ohshite(_("conffile `%.250s' is not stattable"), conffilename);
-        } else if (!S_ISREG(controlstab.st_mode)) {
-          warning(_("conffile '%s' is not a plain file"), conffilename);
-          warns++;
-        }
-
-        if (file_info_find_name(conffiles_head, conffilename))
-          warning(_("conffile name '%s' is duplicated"), conffilename);
-        else {
-          struct file_info *conffile;
-
-          conffile = file_info_new(conffilename);
-          add_to_filist(&conffiles_head, &conffiles_tail, conffile);
-        }
-      }
-
-      free_filist(conffiles_head);
-
-      if (ferror(cf)) ohshite(_("error reading conffiles file"));
-      fclose(cf);
-    } else if (errno != ENOENT) {
-      ohshite(_("error opening conffiles file"));
-    }
     if (warns)
       warning(P_("ignoring %d warning about the control file(s)\n",
                  "ignoring %d warnings about the control file(s)\n", warns),
