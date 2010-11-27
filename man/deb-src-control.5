@@ -48,14 +48,14 @@ the same format as the Maintainer field. Multiple co-maintainers should be
 separated by a comma.
 
 .TP
-.BR Standards-Version: " <version string>"
+.BR Standards\-Version: " <version string>"
 This documents the most recent version of the standards (which consists of the
 Debian Policy Manual and referenced texts from the
-.B debian-policy
+.B debian\-policy
 package) this package complies to.
 
 .TP
-.BR DM-Upload-Allowed: " <yes|no>"
+.BR DM\-Upload\-Allowed: " <yes|no>"
 This field indicates whether the package can be uploaded by Debian Maintainers
 appearing in the Maintainer or Uploaders field. The default value is "no".
 
@@ -70,14 +70,14 @@ is \fB<bts_type>://<bts_address>\fP, like \fBdebbugs://bugs.debian.org\fP. This
 field is usually not needed.
 
 .TP
-.BR Vcs-*: " <url>"
+.BR Vcs\-*: " <url>"
 The url of the Version Control System repository used to maintain this package.
 Currently supported are Arch, Bzr (Bazaar), Cvs, Darcs, Git, Hg (Mercurial),
 Mtn (Monotone) and Svn (Subversion). Usually this field points to the latest
 version of the package, such as the main branch or the trunk.
 
 .TP
-.BR Vcs-Browser: " <url>"
+.BR Vcs\-Browser: " <url>"
 The url of a webinterface to browse the Version Control System repository.
 
 .TP
@@ -102,34 +102,34 @@ and
 .B Priority
 fields have a defined set of accepted values based on the Policy Manual.
 A list of these values can be obtained from the latest version of the
-.B debian-policy
+.B debian\-policy
 package.
 
 .TP
-.BR Build-Depends: " <package list>"
+.BR Build\-Depends: " <package list>"
 A list of packages that need to be installed and configured to be able to build
 the source package.
 
 .TP
-.BR Build-Depends-Indep: " <package list>"
-Same as Build-Depends, but they are only needed when building the architecture
-independent
-packages. The Build-Depends are also installed in this case.
+.BR Build\-Depends\-Indep: " <package list>"
+Same as Build\-Depends, but they are only needed when building the
+architecture independent packages. The Build\-Depends are also installed
+in this case.
 
 .TP
-.BR Build-Conflicts: " <package list>"
+.BR Build\-Conflicts: " <package list>"
 A list of packages that should not be installed when the package is build, for
 example because they interfere with the used build system.
 
 .TP
-.BR Build-Conflicts-Indep: " <package list>"
-Same as Build-Conflicts, but only when building the architecture independent
+.BR Build\-Conflicts\-Indep: " <package list>"
+Same as Build\-Conflicts, but only when building the architecture independent
 packages.
 
 The syntax of the
-.B Build-Depends
+.B Build\-Depends
 and
-.B Build-Depends-Indep
+.B Build\-Depends\-Indep
 fields is a list of groups of alternative packages. Each group is a list
 of packages separated by vertical bar (or "pipe") symbols, "|". The
 groups are separated by commas. Commas are to be read as "AND", and pipes
@@ -138,9 +138,9 @@ optionally followed by a version number specification in parentheses and an
 architecture specification in square brackets.
 
 The syntax of the
-.B Build-Conflicts
+.B Build\-Conflicts
 and
-.B Build-Conflicts-Indep
+.B Build\-Conflicts\-Indep
 fields is a list of comma-separated package names, where the comma is read
 as an "AND". Specifying alternative packages using a "pipe" is not supported.
 Each package name is optionally followed by a version number specification in
@@ -157,9 +157,9 @@ separated by whitespace. Exclamation marks may be prepended to each of the
 names, meaning "NOT".
 
 Note that dependencies on packages in the
-.B build-essential
+.B build\-essential
 set can be omitted and that declaring build conflicts against them is
-impossible. A list of these packages is in the build-essential package.
+impossible. A list of these packages is in the build\-essential package.
 
 
 .SH BINARY FIELDS
@@ -189,7 +189,7 @@ value. To restrict the packages to a certain set of architectures, specify the
 architecture names, separated by a space.
 
 .TP
-.BR Package-Type: " <deb|udeb>"
+.BR Package\-Type: " <deb|udeb>"
 This field defines the type of the package. "udeb" is for size-constrained
 packages used by the debian installer. "deb" is the default value, it's
 assumed if the field is absent. More types might be added in the future.
@@ -199,13 +199,13 @@ assumed if the field is absent. More types might be added in the future.
 .BR Subarchitecture: " <value>"
 .TP
 .PD 0
-.BR Kernel-Version: " <value>"
+.BR Kernel\-Version: " <value>"
 .TP
 .PD 0
-.BR Installer-Menu-Item: " <value>"
-These fields are used by the debian-installer and are usually not needed. See
-/usr/share/doc/debian-installer/devel/modules.txt from the
-.B debian-installer
+.BR Installer\-Menu\-Item: " <value>"
+These fields are used by the debian\-installer and are usually not needed.
+See /usr/share/doc/debian\-installer/devel/modules.txt from the
+.B debian\-installer
 package for more details about them.
 
 .TP
@@ -213,7 +213,7 @@ package for more details about them.
 .BR Essential: " <yes|no>"
 .TP
 .PD 0
-.BR Multi-Arch: " <same|foreign|allowed> "
+.BR Multi\-Arch: " <same|foreign|allowed> "
 .TP
 .PD 0
 .BR Tag: " <tag list>"
@@ -221,7 +221,7 @@ package for more details about them.
 .PD 0
 .BR Description: " <short description> (required)"
 These fields are described in the
-.BR deb-control (5)
+.BR deb\-control (5)
 manual page, as they are copied literally to the control file of the binary
 package.
 
@@ -230,7 +230,7 @@ package.
 .BR Depends: " <package list>"
 .TP
 .PD 0
-.BR Pre-Depends: " <package list>"
+.BR Pre\-Depends: " <package list>"
 .TP
 .PD 0
 .BR Recommends: " <package list>"
@@ -255,9 +255,9 @@ package.
 .br
 These fields declare relationships between packages. They are discussed in
 the
-.BR deb-control (5)
+.BR deb\-control (5)
 manpage and in the
-.B debian-policy
+.B debian\-policy
 package.
 
 .SH USER-DEFINED FIELDS
@@ -267,13 +267,13 @@ the output files, such as the binary packages, you need to use a custom naming
 scheme: the fields should start with a X, followed by one or more of the
 letters BCS and a hypen. If the letter B is used, the field will appear in the
 control file in the binary package, see
-.BR deb-control (5),
+.BR deb\-control (5),
 for the letter S in the source package control file as constructed by
-.BR dpkg-source (1)
+.BR dpkg\-source (1)
 and for the letter C in the upload control (.changes) file. Note that the
-X[BCS]- prefixes are stripped when the fields are copied over to the
-output files. A field \fBXC-Approved-By\fP will appear as
-\fBApproved-By\fP in the changes file and will not appear in the binary or
+X[BCS]\- prefixes are stripped when the fields are copied over to the
+output files. A field \fBXC\-Approved\-By\fP will appear as
+\fBApproved\-By\fP in the changes file and will not appear in the binary or
 source package control files.
 
 
@@ -317,6 +317,6 @@ Description: Debian package development tools
 
 
 .SH SEE ALSO
-.BR deb-control (5),
-.BR deb-version (5),
-.BR dpkg-source (1)
+.BR deb\-control (5),
+.BR deb\-version (5),
+.BR dpkg\-source (1)

@@ -33,7 +33,7 @@ Typically, this is the original package's version number in whatever form
 the program's author uses. It may also include a Debian revision number
 (for non-native packages). The exact format and sorting algorithm
 are described in
-.BR deb-version (5).
+.BR deb\-version (5).
 .TP
 .BR Maintainer: " <fullname email>"
 Should be in the format `Joe Bloggs <jbloggs@foo.com>', and is typically
@@ -66,7 +66,7 @@ and
 .B Priority
 fields have a defined set of accepted values based on the Policy Manual.
 A list of these values can be obtained from the latest version of the
-.B debian-policy
+.B debian\-policy
 package.
 .TP
 .BR Essential: " <yes|no>"
@@ -98,7 +98,7 @@ The upstream project home page URL.
 List of tags describing the qualities of the package. The description and
 list of supported tags can be found in the \fBdebtags\fP package.
 .TP
-.BR Multi-Arch: " <same|foreign|allowed>"
+.BR Multi\-Arch: " <same|foreign|allowed>"
 This field is used to indicate how this package should behave on a multi-arch
 installations. The value `same' means that the package is co-installable with
 itself, but it must not be used to satisfy the dependency of any package of a
@@ -118,13 +118,13 @@ different than the name of the package itself.
 .BR Subarchitecture: " <value>"
 .TP
 .PD 0
-.BR Kernel-Version: " <value>"
+.BR Kernel\-Version: " <value>"
 .TP
 .PD
-.BR Installer-Menu-Item: " <value>"
-These fields are used by the debian-installer and are usually not needed. See
-/usr/share/doc/debian-installer/devel/modules.txt from the
-.B debian-installer
+.BR Installer\-Menu\-Item: " <value>"
+These fields are used by the debian\-installer and are usually not needed.
+See /usr/share/doc/debian\-installer/devel/modules.txt from the
+.B debian\-installer
 package for more details about them.
 
 .TP
@@ -139,7 +139,7 @@ fields are run before those of the packages which depend on them. On the
 opposite, in a removal, the prerm script of a package is run before
 those of the packages listed in its Depends: field.
 .TP
-.BR Pre-Depends: " <package list>"
+.BR Pre\-Depends: " <package list>"
 List of packages that must be installed
 .B and
 configured before this one can be installed. This is usually used in the
@@ -160,7 +160,7 @@ reasonable.
 .LP
 The syntax of
 .BR Depends ,
-.BR Pre-Depends ,
+.BR Pre\-Depends ,
 .B Recommends
 and
 .B Suggests
@@ -204,7 +204,7 @@ same files as the conflicted package.
 This is a list of virtual packages that this one provides. Usually this is
 used in the case of several packages all providing the same service.
 For example, sendmail and exim can serve as a mail server, so they
-provide a common package (`mail-transport-agent') on which other packages
+provide a common package (`mail\-transport\-agent') on which other packages
 can depend. This will allow sendmail or exim to serve as a valid option
 to satisfy the dependency. This prevents the packages that depend on a mail
 server from having to know the package names for all of them, and using
@@ -257,7 +257,7 @@ Description: GNU grep, egrep and fgrep.
 .
 .SH SEE ALSO
 .BR deb (5),
-.BR deb-version (5),
+.BR deb\-version (5),
 .BR debtags (1),
 .BR dpkg (1),
-.BR dpkg-deb (1).
+.BR dpkg\-deb (1).
