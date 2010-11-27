@@ -183,7 +183,8 @@ yettobeunpacked(struct pkginfo *pkg, const char **thissect)
     return false;
   case stat_notinstalled: case stat_halfinstalled: case stat_configfiles:
     if (thissect)
-      *thissect= pkg->section && *pkg->section ? pkg->section : _("<unknown>");
+      *thissect = pkg->section && *pkg->section ? pkg->section :
+                                                  C_("section", "<unknown>");
     return true;
   default:
     internerr("unknown package status '%d'", pkg->status);

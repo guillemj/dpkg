@@ -198,7 +198,8 @@ const char *versiondescribe
 
   struct varbuf *vb;
 
-  if (!informativeversion(version)) return _("<none>");
+  if (!informativeversion(version))
+    return C_("version", "<none>");
 
   vb= &bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;
   varbufreset(vb);
