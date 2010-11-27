@@ -131,7 +131,8 @@ pkg_name_is_illegal(const char *p, const char **ep)
   int c;
 
   if (!*p) return _("may not be empty string");
-  if (!isalnum(*p)) return _("must start with an alphanumeric");
+  if (!isalnum(*p))
+    return _("must start with an alphanumeric character");
   while ((c = *p++) != '\0')
     if (!isalnum(c) && !strchr(alsoallowed,c)) break;
   if (!c) return NULL;

@@ -119,7 +119,7 @@ error_context_new(void)
 
   necp = malloc(sizeof(struct error_context));
   if (!necp)
-    ohshite(_("out of memory pushing error handler"));
+    ohshite(_("out of memory for new error context"));
   necp->next= econtext;
   necp->cleanups= NULL;
   econtext= necp;

@@ -136,12 +136,11 @@ void checkpath(void) {
 
   if (warned)
     forcibleerr(fc_badpath,
-                P_("%d expected program not found in PATH or not executable.\n"
-                   "NB: root's PATH should usually contain "
-                   "/usr/local/sbin, /usr/sbin and /sbin.",
-                   "%d expected programs not found in PATH or not executable.\n"
-                   "NB: root's PATH should usually contain "
-                   "/usr/local/sbin, /usr/sbin and /sbin.", warned), warned);
+                P_("%d expected program not found in PATH or not executable.\n%s",
+                   "%d expected programs not found in PATH or not executable.\n%s",
+                   warned),
+                warned, _("Note: root's PATH should usually contain "
+                          "/usr/local/sbin, /usr/sbin and /sbin."));
 }
 
 bool
