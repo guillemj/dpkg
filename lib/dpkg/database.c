@@ -211,7 +211,10 @@ void hashreport(FILE *file) {
     freq[c]++;
   }
   for (i=npackages; i>0 && freq[i]==0; i--);
-  while (i>=0) { fprintf(file,_("size %7d occurs %5d times\n"),i,freq[i]); i--; }
+  while (i >= 0) {
+    fprintf(file, "size %7d occurs %5d times\n", i, freq[i]);
+    i--;
+  }
 
   m_output(file, "<hash report>");
 
