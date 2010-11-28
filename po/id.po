@@ -7,10 +7,10 @@
 # 	Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>, 2005-2010
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.13\n"
+"Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2010-11-25 07:13+0100\n"
-"PO-Revision-Date: 2010-09-13 12:17+0700\n"
+"PO-Revision-Date: 2010-11-28 20:35+0700\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Debian Indonesia L10N Team <debian-l10n-id@gurame.fisika.ui."
 "ac.id>\n"
@@ -1318,7 +1318,7 @@ msgstr "Ada kesalahan saat membuat pipe '%.255s'"
 #: src/archives.c:723 src/archives.c:729
 #, c-format
 msgid "error creating device `%.255s'"
-msgstr "Ada kesalahan saat membuat piranti `%.255s'"
+msgstr "Ada kesalahan saat membuat piranti '%.255s'"
 
 #: src/archives.c:742
 #, c-format
@@ -1907,8 +1907,8 @@ msgid ""
 msgstr ""
 "   Apa yang ingin Anda lakukan? Pilihan Anda adalah:\n"
 "   Y atau I : pasang paket versi pengelola paket\n"
-"   T atau O : pertahankan versi yang terpasang\n"
-"       B    : tunjukkan perbedaan antara keduanya\n"
+"   N atau O : pertahankan versi yang terpasang\n"
+"       D    : tunjukkan perbedaan antara keduanya\n"
 "       Z    : jadikan proses ini sebagai 'proses latar' untuk melihat "
 "keadaan\n"
 
@@ -3064,50 +3064,7 @@ msgid "error executing hook '%s', exit code %d"
 msgstr "ada galat saat menjalankan '%s', kode keluaran: %d"
 
 #: src/main.c:402
-#, fuzzy, c-format
-#| msgid ""
-#| "%s forcing options - control behaviour when problems found:\n"
-#| "  warn but continue:  --force-<thing>,<thing>,...\n"
-#| "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-"
-#| "<thing>,...\n"
-#| " Forcing things:\n"
-#| "  all [!]                Set all force options\n"
-#| "  downgrade [*]          Replace a package with a lower version\n"
-#| "  configure-any          Configure any package which may help this one\n"
-#| "  hold                   Process incidental packages even when on hold\n"
-#| "  bad-path               PATH is missing important programs, problems "
-#| "likely\n"
-#| "  not-root               Try to (de)install things even when not root\n"
-#| "  overwrite              Overwrite a file from one package with another\n"
-#| "  overwrite-diverted     Overwrite a diverted file with an undiverted "
-#| "version\n"
-#| "  bad-verify             Install a package even if it fails authenticity "
-#| "check\n"
-#| "  depends-version [!]    Turn dependency version problems into warnings\n"
-#| "  depends [!]            Turn all dependency problems into warnings\n"
-#| "  confnew [!]            Always use the new config files, don't prompt\n"
-#| "  confold [!]            Always use the old config files, don't prompt\n"
-#| "  confdef [!]            Use the default option for new config files if "
-#| "one\n"
-#| "                         is available, don't prompt. If no default can be "
-#| "found,\n"
-#| "                         you will be prompted unless one of the confold "
-#| "or\n"
-#| "                         confnew options is also given\n"
-#| "  confmiss [!]           Always install missing config files\n"
-#| "  confask [!]            Offer to replace config files with no new "
-#| "versions\n"
-#| "  breaks [!]             Install even if it would break another package\n"
-#| "  conflicts [!]          Allow installation of conflicting packages\n"
-#| "  architecture [!]       Process even packages with wrong architecture\n"
-#| "  overwrite-dir [!]      Overwrite one package's directory with another's "
-#| "file\n"
-#| "  remove-reinstreq [!]   Remove packages which require installation\n"
-#| "  remove-essential [!]   Remove an essential package\n"
-#| "\n"
-#| "WARNING - use of options marked [!] can seriously damage your "
-#| "installation.\n"
-#| "Forcing options marked [*] are enabled by default.\n"
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -3161,7 +3118,7 @@ msgstr ""
 "tampaknya\n"
 "  not-root             Coba untuk (jangan)memasang sesuatu walau bukan root\n"
 "  overwrite            Timpa berkas dari satu paket dengan dari paket lain\n"
-"  overwrite-deverted   Timpa berkas yang dialihkan dengan yang tidak\n"
+"  overwrite-diverted   Timpa berkas yang dialihkan dengan yang tidak\n"
 "  bad-verify           Pasang paket walau gagal melalui pemeriksaan "
 "otentikasi\n"
 "  depends-version [!]  Jadikan masalah ketergantungan versi sebagai "
@@ -3183,6 +3140,7 @@ msgstr ""
 "  conflicts [!]        Izinkan pemasangan paket-paket yang bentrok\n"
 "  architecture [!]     Tetap diproses walau salah arsitektur\n"
 "  overwrite-dir [!]    Timpa direktori suatu paket dengan berkas lain\n"
+"  unsafe-io [!]        Jangan lakukan operasi I/O sehat saat membuka berkas\n"
 "  remove-reinstreq [!] Buang paket yang perlu dipasang\n"
 "  remove-essential [!] Buang suatu paket penting\n"
 "\n"
@@ -3533,7 +3491,7 @@ msgstr "gagal membaca direktori 'info'"
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "versi lama paket ini memiliki nama berkas 'info' yang terlalu panjang mulai "
-"dari `%.250s'"
+"dari '%.250s'"
 
 #: src/processarc.c:880
 #, c-format
@@ -3663,7 +3621,7 @@ msgstr "Paket '%s' tidak terpasang. \n"
 #: src/querycmd.c:357
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
-msgstr "Paket `%s' tidak berisi suatu berkas pun!\n"
+msgstr "Paket '%s' tidak berisi suatu berkas pun!\n"
 
 #: src/querycmd.c:364
 #, c-format
@@ -3864,7 +3822,7 @@ msgstr "gagal membuang berkas konfigurasi lama '%.250s'(='%.250s')"
 #: src/remove.c:458
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgstr "gagal membaca dir berkas konfigurasi `%.250s' (dari `%.250s')"
+msgstr "gagal membaca dir berkas konfigurasi '%.250s' (dari '%.250s')"
 
 #: src/remove.c:493
 #, c-format
@@ -4345,7 +4303,7 @@ msgstr "nama berkas konfig '%s' berakhiran spasi kosong "
 #: dpkg-deb/build.c:353
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
-msgstr "berkas 'conffile' `%.250s' tidak ada dalam paket"
+msgstr "berkas 'conffile' '%.250s' tidak ada dalam paket"
 
 #: dpkg-deb/build.c:355
 #, c-format
@@ -4505,7 +4463,7 @@ msgstr "panjang anggota"
 #: dpkg-deb/extract.c:154
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
-msgstr "berkas `%.250s' bukan suatu arsip biner debian (coba dpkg-split?)"
+msgstr "berkas '%.250s' bukan suatu arsip biner debian (coba dpkg-split?)"
 
 #: dpkg-deb/extract.c:157
 msgid "header info member"
