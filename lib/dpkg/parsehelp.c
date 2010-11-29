@@ -34,14 +34,14 @@
 
 static void
 parse_error_msg(struct parsedb_state *ps, const struct pkginfo *pigp,
-                const char *type, char *buf)
+                char *buf)
 {
   if (pigp && pigp->name)
-    sprintf(buf, _("%s, in file '%.255s' near line %d package '%.255s':\n "),
-            type, ps->filename, ps->lno, pigp->name);
+    sprintf(buf, _("parsing file '%.255s' near line %d package '%.255s':\n "),
+            ps->filename, ps->lno, pigp->name);
   else
-    sprintf(buf, _("%s, in file '%.255s' near line %d:\n "),
-            type, ps->filename, ps->lno);
+    sprintf(buf, _("parsing file '%.255s' near line %d:\n "),
+            ps->filename, ps->lno);
 }
 
 void
@@ -51,7 +51,7 @@ parse_error(struct parsedb_state *ps,
   va_list args;
   char buf1[768], buf2[1000], *q;
 
-  parse_error_msg(ps, pigp, _("parse error"), buf1);
+  parse_error_msg(ps, pigp, buf1);
   q = str_escape_fmt(buf2, buf1, sizeof(buf2));
   strcat(q,fmt);
 
@@ -66,15 +66,13 @@ parse_warn(struct parsedb_state *ps,
   va_list args;
   char buf1[768], buf2[1000], *q;
 
-  parse_error_msg(ps, pigp, _("warning"), buf1);
+  parse_error_msg(ps, pigp, buf1);
   q = str_escape_fmt(buf2, buf1, sizeof(buf2));
   strcat(q, fmt);
 
   va_start(args, fmt);
   ps->warncount++;
-  strcat(q, "\n");
-  if (vfprintf(stderr, buf2, args) == EOF)
-    ohshite(_("failed to write parsing warning"));
+  warningv(buf2, args);
   va_end(args);
 }
 
