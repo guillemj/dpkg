@@ -32,16 +32,23 @@
 #include <dpkg/string.h>
 #include <dpkg/parsedump.h>
 
-static void
+static const char *
 parse_error_msg(struct parsedb_state *ps, const struct pkginfo *pigp,
-                char *buf)
+                const char *fmt)
 {
+  static char msg[1024];
+  char filename[256];
+
+  str_escape_fmt(filename, ps->filename, sizeof(filename));
+
   if (pigp && pigp->name)
-    sprintf(buf, _("parsing file '%.255s' near line %d package '%.255s':\n "),
-            ps->filename, ps->lno, pigp->name);
+    sprintf(msg, _("parsing file '%.255s' near line %d package '%.255s':\n"
+                   " %.255s"), filename, ps->lno, pigp->name, fmt);
   else
-    sprintf(buf, _("parsing file '%.255s' near line %d:\n "),
-            ps->filename, ps->lno);
+    sprintf(msg, _("parsing file '%.255s' near line %d:\n"
+                   " %.255s"), filename, ps->lno, fmt);
+
+  return msg;
 }
 
 void
@@ -49,14 +56,9 @@ parse_error(struct parsedb_state *ps,
             const struct pkginfo *pigp, const char *fmt, ...)
 {
   va_list args;
-  char buf1[768], buf2[1000], *q;
-
-  parse_error_msg(ps, pigp, buf1);
-  q = str_escape_fmt(buf2, buf1, sizeof(buf2));
-  strcat(q,fmt);
 
   va_start(args, fmt);
-  ohshitv(buf2, args);
+  ohshitv(parse_error_msg(ps, pigp, fmt), args);
 }
 
 void
@@ -64,15 +66,10 @@ parse_warn(struct parsedb_state *ps,
            const struct pkginfo *pigp, const char *fmt, ...)
 {
   va_list args;
-  char buf1[768], buf2[1000], *q;
-
-  parse_error_msg(ps, pigp, buf1);
-  q = str_escape_fmt(buf2, buf1, sizeof(buf2));
-  strcat(q, fmt);
 
   va_start(args, fmt);
   ps->warncount++;
-  warningv(buf2, args);
+  warningv(parse_error_msg(ps, pigp, fmt), args);
   va_end(args);
 }
 
