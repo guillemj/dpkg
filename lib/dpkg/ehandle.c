@@ -351,7 +351,7 @@ catch_fatal_error(void)
 void
 print_fatal_error(const char *emsg, const char *contextstring)
 {
-  fprintf(stderr, "%s: %s\n",thisname,emsg);
+  fprintf(stderr, _("%s: error: %s\n"), thisname, emsg);
 }
 
 void
