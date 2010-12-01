@@ -47,6 +47,31 @@ dpkg_ar_normalize_name(struct ar_hdr *arh)
 		name[i] = '\0';
 }
 
+off_t
+dpkg_ar_member_get_size(const char *ar_name, struct ar_hdr *arh)
+{
+	const char *str = arh->ar_size;
+	int len = sizeof(arh->ar_size);
+	off_t size = 0;
+
+	while (len && *str == ' ')
+		str++, len--;
+
+	while (len--) {
+		if (*str == ' ')
+			break;
+		if (*str < '0' || *str > '9')
+			ohshit(_("invalid character '%c' in archive '%.250s' "
+			         "member '%.16s' size"),
+			       *str, arh->ar_name, ar_name);
+
+		size *= 10;
+		size += *str++ - '0';
+	}
+
+	return size;
+}
+
 void
 dpkg_ar_put_magic(const char *ar_name, int ar_fd)
 {
