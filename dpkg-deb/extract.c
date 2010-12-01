@@ -99,28 +99,6 @@ read_line(int fd, char *buf, size_t min_size, size_t max_size)
   return line_size;
 }
 
-static size_t
-parseheaderlength(const char *inh, size_t len,
-                  const char *fn, const char *what)
-{
-  char lintbuf[15];
-  ssize_t r;
-  char *endp;
-
-  if (memchr(inh,0,len))
-    ohshit(_("file `%.250s' is corrupt - %.250s length contains nulls"),fn,what);
-  assert(sizeof(lintbuf) > len);
-  memcpy(lintbuf,inh,len);
-  lintbuf[len]= ' ';
-  *strchr(lintbuf, ' ') = '\0';
-  r = strtol(lintbuf, &endp, 10);
-  if (r < 0)
-    ohshit(_("file `%.250s' is corrupt - negative member length %zi"), fn, r);
-  if (*endp)
-    ohshit(_("file `%.250s' is corrupt - bad digit (code %d) in %s"),fn,*endp,what);
-  return (size_t)r;
-}
-
 void
 extracthalf(const char *debar, const char *dir, const char *taroption,
             int admininfo)
@@ -165,8 +143,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
 
       if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
         ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),debar);
-      memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
-                                   debar, _("archive member size"));
+      memberlen = dpkg_ar_member_get_size(debar, &arh);
       if (!header_done) {
         char *infobuf;
         char *cur;

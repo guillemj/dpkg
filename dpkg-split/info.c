@@ -23,7 +23,6 @@
 
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <limits.h>
 #include <ctype.h>
 #include <string.h>
@@ -48,19 +47,6 @@ static unsigned long unsignedlong(const char *value, const char *fn, const char 
   if (value == endp || *endp)
     ohshit(_("file `%.250s' is corrupt - bad digit (code %d) in %s"),fn,*endp,what);
   return r;
-}
-
-static unsigned long parseheaderlength(const char *inh, size_t len,
-                                       const char *fn, const char *what) {
-  char lintbuf[15];
-
-  if (memchr(inh,0,len))
-    ohshit(_("file `%.250s' is corrupt - %.250s length contains nulls"),fn,what);
-  assert(sizeof(lintbuf) > len);
-  memcpy(lintbuf,inh,len);
-  lintbuf[len]= ' ';
-  *strchr(lintbuf, ' ') = '\0';
-  return unsignedlong(lintbuf,fn,what);
 }
 
 static char *nextline(char **ripp, const char *fn, const char *what) {
@@ -108,8 +94,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
     return NULL;
   if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
     ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),fn);
-  thisilen = parseheaderlength(arh.ar_size, sizeof(arh.ar_size), fn,
-                               _("archive information member size"));
+  thisilen = dpkg_ar_member_get_size(fn, &arh);
   if (thisilen >= readinfobuflen) {
     readinfobuflen= thisilen+1;
     readinfobuf= m_realloc(readinfobuf,readinfobuflen);
@@ -168,8 +153,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   if (strncmp(arh.ar_name,"data",4))
     ohshit(_("file `%.250s' is corrupt - second member is not data member"),fn);
 
-  ir->thispartlen = parseheaderlength(arh.ar_size, sizeof(arh.ar_size), fn,
-                                      _("archive data member size"));
+  ir->thispartlen = dpkg_ar_member_get_size(fn, &arh);
   ir->thispartoffset= (ir->thispartn-1)*ir->maxpartlen;
 
   if (ir->maxpartn != (ir->orglength+ir->maxpartlen-1)/ir->maxpartlen)
