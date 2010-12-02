@@ -94,7 +94,6 @@ void checkpath(void) {
 #if WITH_START_STOP_DAEMON
     "start-stop-daemon",
 #endif
-    "update-rc.d",
     NULL
   };
 
