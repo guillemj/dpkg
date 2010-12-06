@@ -437,7 +437,8 @@ sub do_build {
     $diff->create();
     $diff->set_header($self->get_patch_header($dir, $autopatch));
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
-            %{$self->{'diff_options'}}, handle_binary_func => $handle_binary);
+            %{$self->{'diff_options'}}, handle_binary_func => $handle_binary,
+            order_from => $autopatch);
     error(_g("unrepresentable changes to source")) if not $diff->finish();
     # The previous auto-patch must be removed, it has not been used and it
     # will be recreated if it's still needed

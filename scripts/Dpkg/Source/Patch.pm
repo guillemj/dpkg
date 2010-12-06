@@ -154,6 +154,7 @@ sub add_diff_directory {
         $diff_ignore = sub { return 0 };
     }
 
+    my @diff_files;
     my %files_in_new;
     my $scan_new = sub {
         my $fn = (length > length($new)) ? substr($_, length($new) + 1) : '.';
@@ -189,27 +190,8 @@ sub add_diff_directory {
             if ($opts{'use_dev_null'}) {
                 $label_old = $old_file if $old_file eq '/dev/null';
             }
-            my $success = $self->add_diff_file($old_file, "$new/$fn",
-                label_old => $label_old,
-                label_new => "$basedir/$fn",
-                %opts);
-
-            if ($success and ($old_file eq "/dev/null")) {
-                if (not $size) {
-                    warning(_g("newly created empty file '%s' will not " .
-                               "be represented in diff"), $fn);
-                } else {
-                    if ($mode & (S_IXUSR | S_IXGRP | S_IXOTH)) {
-                        warning(_g("executable mode %04o of '%s' will " .
-                                   "not be represented in diff"), $mode, $fn)
-                            unless $fn eq 'debian/rules';
-                    }
-                    if ($mode & (S_ISUID | S_ISGID | S_ISVTX)) {
-                        warning(_g("special mode %04o of '%s' will not " .
-                                   "be represented in diff"), $mode, $fn);
-                    }
-                }
-            }
+            push @diff_files, [$fn, $mode, $size, $old_file, "$new/$fn",
+                               $label_old, "$basedir/$fn"];
         } elsif (-p _) {
             unless (-p "$old/$fn") {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
@@ -235,10 +217,8 @@ sub add_diff_directory {
         lstat("$old/$fn") || syserr(_g("cannot stat file %s"), "$old/$fn");
         if (-f _) {
             if ($inc_removal) {
-                $self->add_diff_file("$old/$fn", "/dev/null",
-                    label_old => "$basedir.orig/$fn",
-                    label_new => "/dev/null",
-                    %opts);
+                push @diff_files, [$fn, 0, 0, "$old/$fn", "/dev/null",
+                                   "$basedir.orig/$fn", "/dev/null"];
             } else {
                 warning(_g("ignoring deletion of file %s"), $fn);
             }
@@ -253,6 +233,55 @@ sub add_diff_directory {
 
     find({ wanted => $scan_new, no_chdir => 1 }, $new);
     find({ wanted => $scan_old, no_chdir => 1 }, $old);
+
+    if ($opts{"order_from"} and -e $opts{"order_from"}) {
+        my $order_from = Dpkg::Source::Patch->new(
+            filename => $opts{"order_from"});
+        my $analysis = $order_from->analyze($basedir);
+        my %patchorder;
+        my $i = 0;
+        foreach my $fn (@{$analysis->{"patchorder"}}) {
+            $fn =~ s{^[^/]+/}{};
+            $patchorder{$fn} = $i++;
+        }
+        # 'quilt refresh' sorts files as follows:
+        #   - Any files in the existing patch come first, in the order in
+        #     which they appear in the existing patch.
+        #   - New files follow, sorted lexicographically.
+        # This seems a reasonable policy to follow, and avoids autopatches
+        # being shuffled when they are regenerated.
+        foreach my $diff_file (sort { $a->[0] cmp $b->[0] } @diff_files) {
+            my $fn = $diff_file->[0];
+            $patchorder{$fn} = $i++ unless exists $patchorder{$fn};
+        }
+        @diff_files = sort { $patchorder{$a->[0]} <=> $patchorder{$b->[0]} }
+                      @diff_files;
+    }
+
+    foreach my $diff_file (@diff_files) {
+        my ($fn, $mode, $size,
+            $old_file, $new_file, $label_old, $label_new) = @$diff_file;
+        my $success = $self->add_diff_file($old_file, $new_file,
+                                           label_old => $label_old,
+                                           label_new => $label_new, %opts);
+        if ($success and
+            $old_file eq "/dev/null" and $new_file ne "/dev/null") {
+            if (not $size) {
+                warning(_g("newly created empty file '%s' will not " .
+                           "be represented in diff"), $fn);
+            } else {
+                if ($mode & (S_IXUSR | S_IXGRP | S_IXOTH)) {
+                    warning(_g("executable mode %04o of '%s' will " .
+                               "not be represented in diff"), $mode, $fn)
+                        unless $fn eq 'debian/rules';
+                }
+                if ($mode & (S_ISUID | S_ISGID | S_ISVTX)) {
+                    warning(_g("special mode %04o of '%s' will not " .
+                               "be represented in diff"), $mode, $fn);
+                }
+            }
+        }
+    }
 }
 
 sub finish {
@@ -287,6 +316,7 @@ sub analyze {
     my $diff = $self->get_filename();
     my %filepatched;
     my %dirtocreate;
+    my @patchorder;
     my $diff_count = 0;
 
     sub getline {
@@ -412,6 +442,7 @@ sub analyze {
 	    error(_g("diff `%s' patches file %s twice"), $diff, $fn);
 	}
 	$filepatched{$fn} = 1;
+	push @patchorder, $fn;
 
 	# read hunks
 	my $hunk = 0;
@@ -452,6 +483,7 @@ sub analyze {
     }
     *$self->{'analysis'}{$destdir}{"dirtocreate"} = \%dirtocreate;
     *$self->{'analysis'}{$destdir}{"filepatched"} = \%filepatched;
+    *$self->{'analysis'}{$destdir}{"patchorder"} = \@patchorder;
     return *$self->{'analysis'}{$destdir};
 }
 
