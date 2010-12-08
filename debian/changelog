@@ -4,6 +4,9 @@ dpkg (1.15.8.7) UNRELEASED; urgency=low
   * Defer symlink renames so that there's never a point were a symlink
     is broken, this is particularly important for shared libraries.
     Closes: #605536
+  * On Linux use sync_file_range() to initiate asynchronous writeback
+    of just unpacked files. Suggested by Ted Ts'o <tytso@mit.edu>.
+    Thanks to Jonathan Nieder <jrnieder@gmail.com>. Closes: #605009
 
   [ Updated manpage translations ]
   * French (Christian Perrier).

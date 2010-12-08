@@ -82,6 +82,14 @@ static int safe_read(int fd, void *buf, int len)
   return have;
 }
 
+static inline void
+fd_writeback_init(int fd)
+{
+#if defined(SYNC_FILE_RANGE_WRITE)
+  sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
+#endif
+}
+
 static struct obstack tar_obs;
 static bool tarobs_init = false;
 
@@ -687,6 +695,9 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (r > 0)
       if (safe_read(tc->backendpipe, databuf, TARBLKSZ - r) == -1)
         ohshite(_("error reading from dpkg-deb pipe"));
+
+    fd_writeback_init(fd);
+
     if (nifd->namenode->statoverride) 
       debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
 			  nifd->namenode->statoverride->uid,
