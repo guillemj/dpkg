@@ -150,6 +150,9 @@ my %symfile_cache;
 my %objdump_cache;
 my %symfile_has_soname_cache;
 
+# Used to count errors due to missing libraries
+my $error_count = 0;
+
 my $cur_field;
 foreach my $file (keys %exec) {
     $cur_field = $exec{$file};
@@ -173,7 +176,8 @@ foreach my $file (keys %exec) {
 			 "that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
 			 "find private libraries, you might need to set LD_LIBRARY_PATH.");
 	    if (scalar(split_soname($soname))) {
-		error($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
+		errormsg($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
+		$error_count++;
 	    } else {
 		warning($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
 	    }
@@ -421,6 +425,13 @@ foreach my $soname (keys %global_soname_needed) {
                    "symbols)."), $soname,
                    join(" ", @{$global_soname_needed{$soname}}));
     }
+}
+
+# Quit now if any missing libraries
+if ($error_count >= 1) {
+    error(P_("Cannot continue due to the error above.",
+             "Cannot continue due to the errors listed above.",
+             $error_count));
 }
 
 # Open substvars file
