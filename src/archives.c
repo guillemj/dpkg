@@ -87,6 +87,8 @@ fd_writeback_init(int fd)
 {
 #if defined(SYNC_FILE_RANGE_WRITE)
   sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
+#elif defined(HAVE_POSIX_FADVISE)
+  posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
 #endif
 }
 

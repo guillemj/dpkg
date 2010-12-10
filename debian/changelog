@@ -7,6 +7,9 @@ dpkg (1.15.8.7) UNRELEASED; urgency=low
   * On Linux use sync_file_range() to initiate asynchronous writeback
     of just unpacked files. Suggested by Ted Ts'o <tytso@mit.edu>.
     Thanks to Jonathan Nieder <jrnieder@gmail.com>. Closes: #605009
+  * On non-Linux use posix_fadvise(POSIX_FADV_DONTNEED) to notify the kernel
+    dpkg does not need the unpacked files any longer, and that it can start
+    writeback to be able to evict them from the cache at a later point.
 
   [ Updated manpage translations ]
   * French (Christian Perrier).
