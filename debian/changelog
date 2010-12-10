@@ -10,6 +10,8 @@ dpkg (1.15.8.7) UNRELEASED; urgency=low
   * On non-Linux use posix_fadvise(POSIX_FADV_DONTNEED) to notify the kernel
     dpkg does not need the unpacked files any longer, and that it can start
     writeback to be able to evict them from the cache at a later point.
+  * Fix stanza delimiting on -L, -s and -p output. This was making the output
+    for multiple packages unrealiable to parse. Closes: #606315
 
   [ Updated manpage translations ]
   * French (Christian Perrier).
