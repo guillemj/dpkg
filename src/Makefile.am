@@ -9,6 +9,10 @@ AM_CPPFLAGS = \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
+LDADD = \
+	../lib/dpkg/libdpkg.a \
+	../lib/compat/libcompat.a \
+	$(LIBINTL)
 
 
 EXTRA_DIST = \
@@ -42,9 +46,7 @@ dpkg_SOURCES = \
 	update.c
 
 dpkg_LDADD = \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
-	$(LIBINTL) \
+	$(LDADD) \
 	$(SELINUX_LIBS)
 
 dpkg_divert_SOURCES = \
@@ -52,38 +54,18 @@ dpkg_divert_SOURCES = \
 	divertdb.c \
 	divertcmd.c
 
-dpkg_divert_LDADD = \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
-	$(LIBINTL)
-
 dpkg_query_SOURCES = \
 	filesdb.c filesdb.h \
 	divertdb.c \
 	querycmd.c
-
-dpkg_query_LDADD = \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
-	$(LIBINTL)
 
 dpkg_statoverride_SOURCES = \
 	filesdb.c filesdb.h \
 	statdb.c \
 	statcmd.c
 
-dpkg_statoverride_LDADD = \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
-	$(LIBINTL)
-
 dpkg_trigger_SOURCES = \
 	trigcmd.c
-
-dpkg_trigger_LDADD = \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
-	$(LIBINTL)
 
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
