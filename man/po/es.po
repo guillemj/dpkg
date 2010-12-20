@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.8.5\n"
 "POT-Creation-Date: 2010-11-25 07:13+0100\n"
-"PO-Revision-Date: 2010-09-02 14:41+0200\n"
+"PO-Revision-Date: 2010-12-15 20:18+0100\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Debian l10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "Language: es\n"
@@ -47,7 +47,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.6.0\n"
+"X-Generator: Virtaal 0.6.1\n"
 
 #. type: TH
 #: deb.5:1
@@ -2383,10 +2383,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:1
-#, fuzzy, no-wrap
-#| msgid "2010-06-02"
+#, no-wrap
 msgid "2010-10-10"
-msgstr "2 de Julio del 2010"
+msgstr "10 de Octubre del 2010"
 
 #. type: TH
 #: dpkg.1:1 dpkg.cfg.5:1 dpkg-buildflags.1:1 dpkg-deb.1:1
@@ -3619,6 +3618,13 @@ msgid ""
 "their unreliable behaviour causing zero-length files on abrupt system "
 "crashes."
 msgstr ""
+"B<unsafe-io>: No realiza las operaciones I/O seguras al desempaquetar. "
+"Actualmente, implica que no se realiza la sincronización del sistema de "
+"ficheros antes de renombrar un fichero, lo cual causa una apreciable "
+"degradación del rendimiento en algunos sistemas de fichero. "
+"Desafortunadamente, los que requieren I/O segura para empezar en primer "
+"lugar debido a su comportamiento irregular causan ficheros de tamaño cero en "
+"fallos severos del sistema."
 
 #. type: Plain text
 #: dpkg.1:461
@@ -3629,6 +3635,12 @@ msgid ""
 "zero-length files on abrupt system crashes with any software not doing syncs "
 "before atomic renames."
 msgstr ""
+"I<Note>: Para ext4, el sistema con más problemas de este sentido, considere "
+"usar la opción de montaje B<nodelalloc>, lo que arregla la degradación del "
+"rendimiento y los problemas de seguridad de datos. Lo último lo soluciona "
+"haciendo que el sistema de ficheros no produzca ficheros de tamaño cero "
+"durante fallos severos del sistema con cualquier software que no realiza una "
+"sincronización antes de los renombres atómicos."
 
 #. type: Plain text
 #: dpkg.1:464
@@ -3636,6 +3648,8 @@ msgid ""
 "I<Warning: Using this option might improve performance at the cost of losing "
 "data, use with care.>"
 msgstr ""
+"I<Advertencia: Usar esta opción puede aumentar el rendimiento a costa de la "
+"pérdida de datos. Úselo con cuidado.>"
 
 #. type: Plain text
 #: dpkg.1:467

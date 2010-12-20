@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2010-11-25 07:13+0100\n"
-"PO-Revision-Date: 2010-08-29 14:49+0200\n"
+"PO-Revision-Date: 2010-11-26 21:45+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -2368,10 +2368,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:1
-#, fuzzy, no-wrap
-#| msgid "2010-06-02"
+#, no-wrap
 msgid "2010-10-10"
-msgstr "2010-06-02"
+msgstr "2010-10-10"
 
 #. type: TH
 #: dpkg.1:1 dpkg.cfg.5:1 dpkg-buildflags.1:1 dpkg-deb.1:1
@@ -3616,6 +3615,12 @@ msgid ""
 "their unreliable behaviour causing zero-length files on abrupt system "
 "crashes."
 msgstr ""
+"B<unsafe-io>: Beim Entpacken keine sicheren E/A-Operationen durchführen. "
+"Derzeit impliziert dies, dass vor Dateiumbenennungen kein Systemsync "
+"durchgeführt wird. Dieser Sync führt bei einigen Dateisystemen zu erheblichen "
+"Leistungseinbußen, unglücklicherweise bei solchen, die überhaupt sichere E/A "
+"aufgrund ihres unzuverlässigen Verhaltens benötigen, auf denen bei abrupten "
+"Systemabstürzen Dateien der Länge Null entstehen können."
 
 #. type: Plain text
 #: dpkg.1:461
@@ -3626,6 +3631,12 @@ msgid ""
 "zero-length files on abrupt system crashes with any software not doing syncs "
 "before atomic renames."
 msgstr ""
+"I<Hinweis:> Für den Hauptmisstäter Ext4 sollten Sie stattdessen die "
+"Einhängeoption B<nodelalloc> verwenden, die sowohl die Leistungseinbuße "
+"verhindert als auch Datensicherheitsprobleme vermeidet. Letzteres bedeutet, "
+"dass bei abrupten Systemabstürzen bei jeder Software, die keine Syncs vor "
+"atomaren Umbenennungen durchführt, keine Dateien der Länge Null generiert "
+"werden."
 
 #. type: Plain text
 #: dpkg.1:464
@@ -3633,6 +3644,8 @@ msgid ""
 "I<Warning: Using this option might improve performance at the cost of losing "
 "data, use with care.>"
 msgstr ""
+"I<Warnung: Die Verwendung dieser Option kann die Leistung erhöhen, allerdings "
+"können dabei Daten verloren gehen. Verwenden Sie die Option vorsichtig.>"
 
 #. type: Plain text
 #: dpkg.1:467

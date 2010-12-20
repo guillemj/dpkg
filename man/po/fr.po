@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2010-11-25 07:13+0100\n"
-"PO-Revision-Date: 2010-10-30 23:06+0200\n"
+"POT-Creation-Date: 2010-12-20 02:29+0100\n"
+"PO-Revision-Date: 2010-11-26 07:15+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -2372,10 +2372,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:1
-#, fuzzy, no-wrap
-#| msgid "2010-06-02"
+#, no-wrap
 msgid "2010-10-10"
-msgstr "02-06-2010"
+msgstr "10-10-2010"
 
 #. type: TH
 #: dpkg.1:1 dpkg.cfg.5:1 dpkg-buildflags.1:1 dpkg-deb.1:1
@@ -3615,6 +3614,12 @@ msgid ""
 "their unreliable behaviour causing zero-length files on abrupt system "
 "crashes."
 msgstr ""
+"B<unsafe-io>: Ne pas effectuer d'actions d'entrée/sortie non sûre lors de la "
+"décompression. Cela implique actuellement de ne pas synchroniser le système "
+"de fichiers avant le renommage de fichiers, ce qui est une cause connue de "
+"dégradation des performances sur certains systèmes, en général ceux qui, peu "
+"fiables, ont besoin d'actions sûres pour éviter de terminer avec des "
+"fichiers de taille vide en cas d'interruption inopinée."
 
 #. type: Plain text
 #: dpkg.1:461
@@ -3625,6 +3630,12 @@ msgid ""
 "zero-length files on abrupt system crashes with any software not doing syncs "
 "before atomic renames."
 msgstr ""
+"I<Note>: Pour ext4, le principal concerné, il est suggéré de plutôt utiliser "
+"l'option de montage B<nodelalloc>, qui corrigera à la fois la dégradation "
+"des performances et les problèmes de sécurité des données. Elle permet "
+"notamment d'éviter de terminer avec des fichiers vides lors des arrêts "
+"brutaux pour tout logiciel qui ne synchronise pas le système de fichiers "
+"avant chaque renommage."
 
 #. type: Plain text
 #: dpkg.1:464
@@ -3632,6 +3643,9 @@ msgid ""
 "I<Warning: Using this option might improve performance at the cost of losing "
 "data, use with care.>"
 msgstr ""
+"I<Avertissement : L'utilisation de cette option peut améliorer la "
+"performance mais augmente le risque de perte de données. Elle est donc à "
+"utiliser avec précautions.>"
 
 #. type: Plain text
 #: dpkg.1:467

@@ -402,7 +402,7 @@ enqperpackage(const char *const *argv)
       internerr("unknown action '%d'", cipaction->arg);
     }
 
-    if (*(argv + 1) == NULL)
+    if (*argv != NULL)
       putchar('\n');
 
     m_output(stdout, _("<standard output>"));

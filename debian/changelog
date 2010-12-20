@@ -45,6 +45,53 @@ dpkg (1.16.0) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Thu, 29 Jul 2010 11:00:22 +0200
 
+dpkg (1.15.8.7) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Defer symlink renames so that there's never a point were a symlink
+    is broken, this is particularly important for shared libraries.
+    Closes: #605536
+  * On Linux use sync_file_range() to initiate asynchronous writeback
+    of just unpacked files. Suggested by Ted Ts'o <tytso@mit.edu>.
+    Thanks to Jonathan Nieder <jrnieder@gmail.com>. Closes: #605009
+  * On non-Linux use posix_fadvise(POSIX_FADV_DONTNEED) to notify the kernel
+    dpkg does not need the unpacked files any longer, and that it can start
+    writeback to be able to evict them from the cache at a later point.
+  * Fix stanza delimiting on -L, -s and -p output. This was making the output
+    for multiple packages unrealiable to parse. Closes: #606315
+
+  [ Updated dpkg translations ]
+  * Basque (Iñaki Larrañaga Murgoitio). Closes: #607253
+  * Catalan (Guillem Jover).
+  * Czech (Miroslav Kure). Closes: #605099
+  * Esperanto (Felipe E. F. de Castro). Closes: #607437
+  * French (Christian Perrier).
+  * German (Sven Joachim).
+  * Indonesian (Arief S Fitrianto). Closes: #605248
+  * Italian (Milo Casagrande). Closes: #607306
+  * Japanese (Kenshi Muto). Closes: #607259
+  * Norwegian Bokmål (Hans Fredrik Nordhaug).
+  * Portuguese (Miguel Figueiredo). Closes: #605506
+  * Russian (Yuri Kozlov). Closes: #607292
+  * Simplified Chinese (Aron Xu).
+  * Slovak (Ivan Masár). Closes: #607302
+  * Spanish (Javier Fernandez-Sanguino).
+  * Thai (Theppitak Karoonboonyanan). Closes: #607501
+
+  [ Updated man page translations ]
+  * French (Christian Perrier).
+  * German (Helge Kreutzmann).
+  * Spanish (Omar Campagne).
+
+  [ Updated dselect translations ]
+  * Spanish (Javier Fernandez-Sanguino).
+
+  [ Updated scripts translations ]
+  * German (fix by Sven Joachim).
+  * Spanish (Javier Fernandez-Sanguino).
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 20 Dec 2010 02:26:26 +0100
+
 dpkg (1.15.8.6) unstable; urgency=low
 
   [ Raphaël Hertzog ]

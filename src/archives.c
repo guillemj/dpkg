@@ -86,6 +86,16 @@ static int safe_read(int fd, void *buf, int len)
   return have;
 }
 
+static inline void
+fd_writeback_init(int fd)
+{
+#if defined(SYNC_FILE_RANGE_WRITE)
+  sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
+#elif defined(HAVE_POSIX_FADVISE)
+  posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
+#endif
+}
+
 static struct obstack tar_obs;
 static bool tarobs_init = false;
 
@@ -703,6 +713,9 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (r > 0)
       if (safe_read(tc->backendpipe, databuf, TARBLKSZ - r) == -1)
         ohshite(_("error reading from dpkg-deb pipe"));
+
+    fd_writeback_init(fd);
+
     if (nifd->namenode->statoverride)
       debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
 			  nifd->namenode->statoverride->uid,
@@ -834,7 +847,7 @@ tarobject(void *ctx, struct tar_entry *ti)
    * in .dpkg-new.
    */
 
-  if (ti->type == tar_filetype_file) {
+  if (ti->type == tar_filetype_file || ti->type == tar_filetype_symlink) {
     nifd->namenode->flags |= fnnf_deferred_rename;
 
     debug(dbg_eachfiledetail, "tarobject done and installation deferred");
@@ -858,6 +871,40 @@ tarobject(void *ctx, struct tar_entry *ti)
   return 0;
 }
 
+#if defined(SYNC_FILE_RANGE_WAIT_BEFORE)
+static void
+tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
+{
+  struct fileinlist *cfile;
+
+  for (cfile = files; cfile; cfile = cfile->next) {
+    struct filenamenode *usenode;
+    const char *usename;
+    int fd;
+
+    if (!(cfile->namenode->flags & fnnf_deferred_fsync))
+      continue;
+
+    usenode = namenodetouse(cfile->namenode, pkg);
+    usename = usenode->name + 1; /* Skip the leading '/'. */
+
+    setupfnamevbs(usename);
+
+    fd = open(fnamenewvb.buf, O_WRONLY);
+    if (fd < 0)
+      ohshite(_("unable to open '%.255s'"), fnamenewvb.buf);
+    sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WAIT_BEFORE);
+    if (close(fd))
+      ohshite(_("error closing/writing `%.255s'"), fnamenewvb.buf);
+  }
+}
+#else
+static void
+tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
+{
+}
+#endif
+
 void
 tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
 {
@@ -869,6 +916,8 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
   debug(dbg_general, "deferred extract mass sync");
   if (!fc_unsafe_io)
     sync();
+#else
+  tar_writeback_barrier(files, pkg);
 #endif
 
   for (cfile = files; cfile; cfile = cfile->next) {
