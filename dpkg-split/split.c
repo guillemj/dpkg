@@ -118,7 +118,6 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 	char hash[MD5HASHLEN + 1];
 	char *package, *version;
 	int nparts, curpart;
-	off_t startat;
 	char *prefixdir = NULL, *msdos_prefix = NULL;
 	struct varbuf file_dst = VARBUF_INIT;
 	struct varbuf partmagic = VARBUF_INIT;
@@ -161,9 +160,8 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 	}
 
 	partdata = m_malloc(partsize);
-	curpart = 1;
 
-	for (startat = 0; startat < st.st_size; startat += partsize) {
+	for (curpart = 1; curpart <= nparts; curpart++) {
 		int fd_dst;
 		ssize_t partrealsize;
 
@@ -221,8 +219,6 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 		close(fd_dst);
 
 		printf("%d ", curpart);
-
-		curpart++;
 	}
 
 	varbuf_destroy(&file_dst);
