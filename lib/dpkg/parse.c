@@ -356,7 +356,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     /* Sort out the dependency mess. */
     copy_dependency_links(pigp,&pifp->depends,newpifp->depends,
-                          (flags & pdb_recordavailable) ? 1 : 0);
+                          (flags & pdb_recordavailable) ? true : false);
     /* Leave the ‘depended’ pointer alone, we've just gone to such
      * trouble to get it right :-). The ‘depends’ pointer in
      * pifp was indeed also updated by copy_dependency_links,
