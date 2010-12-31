@@ -110,14 +110,15 @@ clean_msdos_filename(char *filename)
 }
 
 static int
-mksplit(const char *file_src, const char *prefix, size_t partsize,
-        size_t maxpartsize, bool msdos)
+mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
+        bool msdos)
 {
 	int fd_src;
 	struct stat st;
 	char hash[MD5HASHLEN + 1];
 	char *package, *version;
 	int nparts, curpart;
+	off_t partsize;
 	char *prefixdir = NULL, *msdos_prefix = NULL;
 	struct varbuf file_dst = VARBUF_INIT;
 	struct varbuf partmagic = VARBUF_INIT;
@@ -139,6 +140,7 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 	package = deb_field(file_src, "Package");
 	version = deb_field(file_src, "Version");
 
+	partsize = maxpartsize - HEADERALLOWANCE;
 	nparts = (st.st_size + partsize - 1) / partsize;
 
 	setvbuf(stdout, NULL, _IONBF, 0);
@@ -242,7 +244,6 @@ void
 do_split(const char *const *argv)
 {
 	const char *sourcefile, *prefix;
-	size_t partsize;
 
 	sourcefile = *argv++;
 	if (!sourcefile)
@@ -263,9 +264,8 @@ do_split(const char *const *argv)
 		}
 		prefix = palloc;
 	}
-	partsize = opt_maxpartsize - HEADERALLOWANCE;
 
-	mksplit(sourcefile, prefix, partsize, opt_maxpartsize, opt_msdos);
+	mksplit(sourcefile, prefix, opt_maxpartsize, opt_msdos);
 
 	exit(0);
 }
