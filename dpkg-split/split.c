@@ -244,8 +244,6 @@ void
 do_split(const char *const *argv)
 {
 	const char *sourcefile, *prefix;
-	char *palloc;
-	int l;
 	size_t partsize;
 
 	sourcefile = *argv++;
@@ -255,6 +253,9 @@ do_split(const char *const *argv)
 	if (prefix && *argv)
 		badusage(_("--split takes at most a source filename and destination prefix"));
 	if (!prefix) {
+		char *palloc;
+		int l;
+
 		l = strlen(sourcefile);
 		palloc = nfmalloc(l + 1);
 		strcpy(palloc, sourcefile);
