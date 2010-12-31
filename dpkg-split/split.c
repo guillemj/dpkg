@@ -143,7 +143,9 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 
-	printf("Splitting package %s into %d parts: ", package, nparts);
+	printf(P_("Splitting package %s into %d part: ",
+	          "Splitting package %s into %d parts: ", nparts),
+	       package, nparts);
 
 	if (msdos) {
 		char *t;
@@ -188,10 +190,10 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 			ohshite("mksplit: read");
 
 		if ((size_t)partrealsize > maxpartsize) {
-			ohshit("Header is too long, making part too long. "
+			ohshit(_("Header is too long, making part too long. "
 			       "Your package name or version\n"
 			       "numbers must be extraordinarily long, "
-			       "or something. Giving up.\n");
+			       "or something. Giving up.\n"));
 		}
 
 		/* Split the data. */
@@ -231,7 +233,7 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 
 	close(fd_src);
 
-	printf("done\n");
+	printf(_("done\n"));
 
 	return 0;
 }
