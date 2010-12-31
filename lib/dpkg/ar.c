@@ -112,19 +112,22 @@ dpkg_ar_member_put_mem(const char *ar_name, int ar_fd,
 
 void
 dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
-                        const char *name, int fd)
+                        const char *name, int fd, off_t size)
 {
-	struct stat st;
+	if (size <= 0) {
+		struct stat st;
 
-	if (fstat(fd, &st))
-		ohshite(_("failed to fstat ar member file (%s)"), name);
+		if (fstat(fd, &st))
+			ohshite(_("failed to fstat ar member file (%s)"), name);
+		size = st.st_size;
+	}
 
-	dpkg_ar_member_put_header(ar_name, ar_fd, name, st.st_size);
+	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
 
 	/* Copy data contents. */
-	fd_fd_copy(fd, ar_fd, -1, _("ar member file (%s)"), name);
+	fd_fd_copy(fd, ar_fd, size, _("ar member file (%s)"), name);
 
-	if (st.st_size & 1)
+	if (size & 1)
 		if (write(ar_fd, "\n", 1) < 0)
 			ohshite(_("unable to write file '%s'"), ar_name);
 }

@@ -491,7 +491,7 @@ void do_build(const char *const *argv) {
     dpkg_ar_put_magic(debar, fileno(ar));
     dpkg_ar_member_put_mem(debar, fileno(ar), DEBMAGIC,
                            deb_magic, strlen(deb_magic));
-    dpkg_ar_member_put_file(debar, fileno(ar), ADMINMEMBER, gzfd);
+    dpkg_ar_member_put_file(debar, fileno(ar), ADMINMEMBER, gzfd, -1);
   }
 
   /* Control is done, now we need to archive the data. Start by creating
@@ -577,7 +577,7 @@ void do_build(const char *const *argv) {
     if (lseek(gzfd, 0, SEEK_SET))
       ohshite(_("failed to rewind temporary file (%s)"), _("data member"));
 
-    dpkg_ar_member_put_file(debar, fileno(ar), datamember, gzfd);
+    dpkg_ar_member_put_file(debar, fileno(ar), datamember, gzfd, -1);
   }
   if (fflush(ar))
     ohshite(_("unable to flush file '%s'"), debar);
