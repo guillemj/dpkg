@@ -119,11 +119,11 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 	char *package, *version;
 	int nparts, curpart;
 	off_t partsize;
+	off_t last_partsize;
 	char *prefixdir = NULL, *msdos_prefix = NULL;
 	struct varbuf file_dst = VARBUF_INIT;
 	struct varbuf partmagic = VARBUF_INIT;
 	struct varbuf partname = VARBUF_INIT;
-	char *partdata;
 
 	fd_src = open(file_src, O_RDONLY);
 	if (fd_src < 0)
@@ -141,6 +141,9 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 	version = deb_field(file_src, "Version");
 
 	partsize = maxpartsize - HEADERALLOWANCE;
+	last_partsize = st.st_size % partsize;
+	if (last_partsize == 0)
+		last_partsize = partsize;
 	nparts = (st.st_size + partsize - 1) / partsize;
 
 	setvbuf(stdout, NULL, _IONBF, 0);
@@ -163,11 +166,8 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 		prefix = clean_msdos_filename(msdos_prefix);
 	}
 
-	partdata = m_malloc(partsize);
-
 	for (curpart = 1; curpart <= nparts; curpart++) {
 		int fd_dst;
-		ssize_t partrealsize;
 
 		varbufreset(&file_dst);
 		/* Generate output filename. */
@@ -186,12 +186,10 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 			             prefix, curpart, nparts);
 		}
 
-		/* Read data from the original package. */
-		partrealsize = read(fd_src, partdata, partsize);
-		if (partrealsize < 0)
-			ohshite("mksplit: read");
+		if (curpart == nparts)
+			partsize = last_partsize;
 
-		if ((size_t)partrealsize > maxpartsize) {
+		if ((size_t)partsize > maxpartsize) {
 			ohshit(_("Header is too long, making part too long. "
 			       "Your package name or version\n"
 			       "numbers must be extraordinarily long, "
@@ -216,8 +214,8 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 
 		/* Write the data part. */
 		varbufprintf(&partname, "data.%d", curpart);
-		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, partname.buf,
-		                       partdata, (size_t)partrealsize);
+		dpkg_ar_member_put_file(file_dst.buf, fd_dst, partname.buf,
+		                        fd_src, partsize);
 		varbufreset(&partname);
 
 		close(fd_dst);
@@ -228,7 +226,6 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 	varbuf_destroy(&file_dst);
 	varbuf_destroy(&partname);
 	varbuf_destroy(&partmagic);
-	free(partdata);
 
 	free(prefixdir);
 	free(msdos_prefix);
