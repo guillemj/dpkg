@@ -168,6 +168,8 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 
 	buf = m_malloc(bufsize);
 
+	buffer_init(read_data, write_data);
+
 	while (bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize);
 		if (bytesread < 0) {
@@ -208,6 +210,8 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 	if (limit > 0)
 		ohshit(_("short read on buffer copy for %s"), desc);
 
+	buffer_done(read_data, write_data);
+
 	free(buf);
 
 	return totalread;
@@ -233,9 +237,7 @@ buffer_copy_##name(type1 n1, int typeIn, \
 	varbufvprintf(&v, desc, args); \
 	va_end(args); \
 \
-	buffer_init(&read_data, &write_data); \
 	ret = buffer_copy(&read_data, &write_data, limit, v.buf); \
-	buffer_done(&read_data, &write_data); \
 \
 	varbuf_destroy(&v); \
 \
