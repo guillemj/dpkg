@@ -70,12 +70,6 @@ struct buffer_data {
 		                   limit, __VA_ARGS__); \
 	}
 
-off_t buffer_copy_PtrInt(void *p, int typeIn, int i, int typeOut,
-                         off_t limit, const char *desc,
-                         ...) DPKG_ATTR_PRINTF(6);
-off_t buffer_copy_PtrPtr(void *p1, int typeIn, void *p2, int typeOut,
-                         off_t limit, const char *desc,
-                         ...) DPKG_ATTR_PRINTF(6);
 off_t buffer_copy_IntPtr(int i, int typeIn, void *p, int typeOut,
                          off_t limit, const char *desc,
                          ...) DPKG_ATTR_PRINTF(6);

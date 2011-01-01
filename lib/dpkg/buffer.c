@@ -244,5 +244,3 @@ buffer_copy_##name(type1 n1, int typeIn, \
 
 buffer_copy_TYPE(IntInt, int, i, int, i);
 buffer_copy_TYPE(IntPtr, int, i, void *, ptr);
-buffer_copy_TYPE(PtrInt, void *, ptr, int, i);
-buffer_copy_TYPE(PtrPtr, void *, ptr, void *, ptr);
