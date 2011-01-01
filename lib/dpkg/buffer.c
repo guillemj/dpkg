@@ -224,14 +224,10 @@ buffer_copy_##name(type1 n1, int typeIn, \
                    off_t limit, const char *desc, ...) \
 { \
 	va_list args; \
-	struct buffer_data read_data, write_data; \
+	struct buffer_data read_data = { .arg.name1 = n1, .type = typeIn }; \
+	struct buffer_data write_data = { .arg.name2 = n2, .type = typeOut }; \
 	struct varbuf v = VARBUF_INIT; \
 	off_t ret; \
-\
-	read_data.arg.name1 = n1; \
-	read_data.type = typeIn; \
-	write_data.arg.name2 = n2; \
-	write_data.type = typeOut; \
 \
 	va_start(args, desc); \
 	varbufvprintf(&v, desc, args); \
