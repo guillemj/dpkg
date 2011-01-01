@@ -5,7 +5,7 @@
  * Copyright © 1999, 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2000-2003 Adam Heath <doogie@debian.org>
  * Copyright © 2005 Scott James Remnant
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,16 +83,6 @@ off_t buffer_copy_IntInt(int i1, int typeIn, int i2, int typeOut,
                          off_t limit, const char *desc,
                          ...) DPKG_ATTR_PRINTF(6);
 off_t buffer_hash(const void *buf, void *hash, int typeOut, off_t length);
-
-off_t buffer_write(struct buffer_data *data, const void *buf, off_t length);
-off_t buffer_read(struct buffer_data *data, void *buf, off_t length);
-off_t buffer_init(struct buffer_data *read_data,
-                  struct buffer_data *write_data);
-off_t buffer_done(struct buffer_data *read_data,
-                  struct buffer_data *write_data);
-off_t buffer_copy(struct buffer_data *read_data,
-                  struct buffer_data *write_data,
-                  off_t limit, const char *desc);
 
 DPKG_END_DECLS
 

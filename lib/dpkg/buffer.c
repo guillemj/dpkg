@@ -4,7 +4,7 @@
  *
  * Copyright © 1999, 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2000-2003 Adam Heath <doogie@debian.org>
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ buffer_md5_init(struct buffer_data *data)
 	MD5Init(&ctx->ctx);
 }
 
-off_t
+static off_t
 buffer_init(struct buffer_data *read_data, struct buffer_data *write_data)
 {
 	switch (write_data->type) {
@@ -82,7 +82,7 @@ buffer_md5_done(struct buffer_data *data)
 	free(ctx);
 }
 
-off_t
+static off_t
 buffer_done(struct buffer_data *read_data, struct buffer_data *write_data)
 {
 	switch (write_data->type) {
@@ -93,7 +93,7 @@ buffer_done(struct buffer_data *read_data, struct buffer_data *write_data)
 	return 0;
 }
 
-off_t
+static off_t
 buffer_write(struct buffer_data *data, const void *buf, off_t length)
 {
 	off_t ret = length;
@@ -122,7 +122,7 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 	return ret;
 }
 
-off_t
+static off_t
 buffer_read(struct buffer_data *data, void *buf, off_t length)
 {
 	off_t ret;
@@ -152,7 +152,7 @@ buffer_hash(const void *input, void *output, int type, off_t limit)
 	return ret;
 }
 
-off_t
+static off_t
 buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
             off_t limit, const char *desc)
 {
