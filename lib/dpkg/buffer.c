@@ -139,40 +139,6 @@ buffer_read(struct buffer_data *data, void *buf, off_t length)
 	return ret;
 }
 
-#define buffer_copy_TYPE(name, type1, name1, type2, name2) \
-off_t \
-buffer_copy_##name(type1 n1, int typeIn, \
-                   type2 n2, int typeOut, \
-                   off_t limit, const char *desc, ...) \
-{ \
-	va_list args; \
-	struct buffer_data read_data, write_data; \
-	struct varbuf v = VARBUF_INIT; \
-	off_t ret; \
-\
-	read_data.arg.name1 = n1; \
-	read_data.type = typeIn; \
-	write_data.arg.name2 = n2; \
-	write_data.type = typeOut; \
-\
-	va_start(args, desc); \
-	varbufvprintf(&v, desc, args); \
-	va_end(args); \
-\
-	buffer_init(&read_data, &write_data); \
-	ret = buffer_copy(&read_data, &write_data, limit, v.buf); \
-	buffer_done(&read_data, &write_data); \
-\
-	varbuf_destroy(&v); \
-\
-	return ret; \
-}
-
-buffer_copy_TYPE(IntInt, int, i, int, i);
-buffer_copy_TYPE(IntPtr, int, i, void *, ptr);
-buffer_copy_TYPE(PtrInt, void *, ptr, int, i);
-buffer_copy_TYPE(PtrPtr, void *, ptr, void *, ptr);
-
 off_t
 buffer_hash(const void *input, void *output, int type, off_t limit)
 {
@@ -246,3 +212,37 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 
 	return totalread;
 }
+
+#define buffer_copy_TYPE(name, type1, name1, type2, name2) \
+off_t \
+buffer_copy_##name(type1 n1, int typeIn, \
+                   type2 n2, int typeOut, \
+                   off_t limit, const char *desc, ...) \
+{ \
+	va_list args; \
+	struct buffer_data read_data, write_data; \
+	struct varbuf v = VARBUF_INIT; \
+	off_t ret; \
+\
+	read_data.arg.name1 = n1; \
+	read_data.type = typeIn; \
+	write_data.arg.name2 = n2; \
+	write_data.type = typeOut; \
+\
+	va_start(args, desc); \
+	varbufvprintf(&v, desc, args); \
+	va_end(args); \
+\
+	buffer_init(&read_data, &write_data); \
+	ret = buffer_copy(&read_data, &write_data, limit, v.buf); \
+	buffer_done(&read_data, &write_data); \
+\
+	varbuf_destroy(&v); \
+\
+	return ret; \
+}
+
+buffer_copy_TYPE(IntInt, int, i, int, i);
+buffer_copy_TYPE(IntPtr, int, i, void *, ptr);
+buffer_copy_TYPE(PtrInt, void *, ptr, int, i);
+buffer_copy_TYPE(PtrPtr, void *, ptr, void *, ptr);
