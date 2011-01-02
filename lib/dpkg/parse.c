@@ -41,7 +41,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/parsedump.h>
-#include <dpkg/buffer.h>
+#include <dpkg/fdio.h>
 
 /**
  * Fields information.
@@ -131,7 +131,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
 #else
     dataptr = m_malloc(st.st_size);
 
-    fd_buf_copy(fd, dataptr, st.st_size, _("copy info file `%.255s'"), filename);
+    if (fd_read(fd, dataptr, st.st_size) < 0)
+      ohshite(_("reading package info file '%.255s'"), filename);
 #endif
     data= dataptr;
     endptr = dataptr + st.st_size;

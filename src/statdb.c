@@ -37,7 +37,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
-#include <dpkg/buffer.h>
+#include <dpkg/fdio.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -160,8 +160,8 @@ ensure_statoverrides(void)
 	loaded_list = nfmalloc(stab2.st_size);
 	loaded_list_end = loaded_list + stab2.st_size;
 
-	fd_buf_copy(fileno(file), loaded_list, stab2.st_size,
-	            _("statoverride file `%.250s'"), vb.buf);
+	if (fd_read(fileno(file), loaded_list, stab2.st_size) < 0)
+		ohshite(_("reading statoverride file '%.250s'"), vb.buf);
 
 	thisline = loaded_list;
 	while (thisline < loaded_list_end) {

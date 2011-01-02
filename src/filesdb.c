@@ -44,7 +44,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
-#include <dpkg/buffer.h>
+#include <dpkg/fdio.h>
 #include <dpkg/pkg-array.h>
 #include <dpkg/progress.h>
 
@@ -287,7 +287,8 @@ ensure_packagefiles_available(struct pkginfo *pkg)
      loaded_list = nfmalloc(stat_buf.st_size);
      loaded_list_end = loaded_list + stat_buf.st_size;
 
-    fd_buf_copy(fd, loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
+    if (fd_read(fd, loaded_list, stat_buf.st_size) < 0)
+      ohshite(_("reading files list for package '%.250s'"), pkg->name);
 
     lendp= &pkg->clientdata->files;
     thisline = loaded_list;
