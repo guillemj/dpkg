@@ -255,23 +255,17 @@ void do_build(const char *const *argv) {
     };
     struct pkginfo *checkedinfo;
     struct arbitraryfield *field;
-    char *controlfile;
+    struct varbuf controlfile = VARBUF_INIT;
     const char *const *mscriptp;
     struct stat mscriptstab;
     int warns;
     FILE *cf;
 
-    controlfile= m_malloc(strlen(dir) + sizeof(BUILDCONTROLDIR) +
-                          sizeof(CONTROLFILE) + sizeof(CONFFILESFILE) +
-                          sizeof(POSTINSTFILE) + sizeof(PREINSTFILE) +
-                          sizeof(POSTRMFILE) + sizeof(PRERMFILE) +
-                          MAXCONFFILENAME + 5);
     /* Let's start by reading in the control-file so we can check its
      * contents. */
-    strcpy(controlfile, dir);
-    strcat(controlfile, "/" BUILDCONTROLDIR "/" CONTROLFILE);
     warns = 0;
-    parsedb(controlfile, pdb_recordavailable|pdb_rejectstatus,
+    varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
+    parsedb(controlfile.buf, pdb_recordavailable | pdb_rejectstatus,
             &checkedinfo, &warns);
     if (strspn(checkedinfo->name,
                "abcdefghijklmnopqrstuvwxyz0123456789+-.")
@@ -279,7 +273,7 @@ void do_build(const char *const *argv) {
       ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
     if (checkedinfo->priority == pri_other) {
       warning(_("'%s' contains user-defined Priority value '%s'"),
-              controlfile, checkedinfo->otherpriority);
+              controlfile.buf, checkedinfo->otherpriority);
       warns++;
     }
     for (field= checkedinfo->available.arbs; field; field= field->next) {
@@ -287,7 +281,7 @@ void do_build(const char *const *argv) {
         continue;
 
       warning(_("'%s' contains user-defined field '%s'"),
-              controlfile, field->name);
+              controlfile.buf, field->name);
       warns++;
     }
 
@@ -306,9 +300,9 @@ void do_build(const char *const *argv) {
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), checkedinfo->name, debar);
 
     /* Check file permissions. */
-    strcpy(controlfile, dir);
-    strcat(controlfile, "/" BUILDCONTROLDIR "/");
-    if (lstat(controlfile, &mscriptstab))
+    varbufreset(&controlfile);
+    varbufprintf(&controlfile, "%s/%s/", dir, BUILDCONTROLDIR);
+    if (lstat(controlfile.buf, &mscriptstab))
       ohshite(_("unable to stat control directory"));
     if (!S_ISDIR(mscriptstab.st_mode))
       ohshit(_("control directory is not a directory"));
@@ -317,11 +311,10 @@ void do_build(const char *const *argv) {
              "and <=0775)"), (unsigned long)(mscriptstab.st_mode & 07777));
 
     for (mscriptp= maintainerscripts; *mscriptp; mscriptp++) {
-      strcpy(controlfile, dir);
-      strcat(controlfile, "/" BUILDCONTROLDIR "/");
-      strcat(controlfile, *mscriptp);
+      varbufreset(&controlfile);
+      varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, *mscriptp);
 
-      if (!lstat(controlfile,&mscriptstab)) {
+      if (!lstat(controlfile.buf, &mscriptstab)) {
         if (S_ISLNK(mscriptstab.st_mode)) continue;
         if (!S_ISREG(mscriptstab.st_mode))
           ohshit(_("maintainer script `%.50s' is not a plain file or symlink"),*mscriptp);
@@ -335,9 +328,9 @@ void do_build(const char *const *argv) {
     }
 
     /* Check if conffiles contains sane information. */
-    strcpy(controlfile, dir);
-    strcat(controlfile, "/" BUILDCONTROLDIR "/" CONFFILESFILE);
-    if ((cf= fopen(controlfile,"r"))) {
+    varbufreset(&controlfile);
+    varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONFFILESFILE);
+    if ((cf = fopen(controlfile.buf, "r"))) {
       char conffilename[MAXCONFFILENAME + 1];
       struct file_info *conffiles_head = NULL;
       struct file_info *conffiles_tail = NULL;
@@ -358,10 +351,9 @@ void do_build(const char *const *argv) {
           continue;
         }
         conffilename[n - 1] = '\0';
-        strcpy(controlfile, dir);
-        strcat(controlfile, "/");
-        strcat(controlfile, conffilename);
-        if (lstat(controlfile,&controlstab)) {
+        varbufreset(&controlfile);
+        varbufprintf(&controlfile, "%s/%s", dir, conffilename);
+        if (lstat(controlfile.buf, &controlstab)) {
 	  if (errno == ENOENT) {
 	    if((n > 1) && isspace(conffilename[n-2]))
 	      warning(_("conffile filename '%s' contains trailing white spaces"),
@@ -396,6 +388,7 @@ void do_build(const char *const *argv) {
                  "ignoring %d warnings about the control file(s)\n", warns),
               warns);
 
+    varbuf_destroy(&controlfile);
   }
   m_output(stdout, _("<standard output>"));
 
