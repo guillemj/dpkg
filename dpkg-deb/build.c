@@ -40,6 +40,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/varbuf.h>
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
@@ -97,41 +98,33 @@ file_info_find_name(struct file_info *list, const char *filename)
 static struct file_info *
 file_info_get(const char *root, int fd)
 {
-  static char* fn = NULL;
-  static size_t fnlen = 0;
-  size_t i= 0;
+  static struct varbuf fn = VARBUF_INIT;
   struct file_info *fi;
-  size_t rl = strlen(root);
+  size_t root_len;
 
-  if (fnlen < (rl + MAXFILENAME)) {
-    fnlen = rl + MAXFILENAME;
-    fn = m_realloc(fn, fnlen);
-  }
-  i=sprintf(fn,"%s/",root);
+  varbufreset(&fn);
+  root_len = varbufprintf(&fn, "%s/", root);
 
   while (1) {
     int	res;
-    if (i>=fnlen) {
-      fnlen += MAXFILENAME;
-      fn = m_realloc(fn, fnlen);
-    }
-    res = fd_read(fd, (fn + i), sizeof(*fn));
+
+    varbuf_grow(&fn, 1);
+    res = fd_read(fd, (fn.buf + fn.used), 1);
     if (res < 0)
       return NULL;
     if (res == 0) /* EOF -> parent died. */
       return NULL;
-    if (fn[i] == '\0')
+    if (fn.buf[fn.used] == '\0')
       break;
 
-    i++;
-
-    if (i >= MAXFILENAME)
-      ohshit(_("file name '%.50s...' is too long"), fn + rl + 1);
+    varbuf_trunc(&fn, fn.used + 1);
+    if (fn.used >= MAXFILENAME)
+      ohshit(_("file name '%.50s...' is too long"), fn.buf + root_len);
   }
 
-  fi = file_info_new(fn + rl + 1);
-  if (lstat(fn, &(fi->st)) != 0)
-    ohshite(_("unable to stat file name '%.250s'"), fn);
+  fi = file_info_new(fn.buf + root_len);
+  if (lstat(fn.buf, &(fi->st)) != 0)
+    ohshite(_("unable to stat file name '%.250s'"), fn.buf);
 
   return fi;
 }
