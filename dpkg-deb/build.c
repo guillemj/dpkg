@@ -308,9 +308,10 @@ check_conffiles(const char *dir)
       warns++;
     }
 
-    if (file_info_find_name(conffiles_head, conffilename))
+    if (file_info_find_name(conffiles_head, conffilename)) {
       warning(_("conffile name '%s' is duplicated"), conffilename);
-    else {
+      warns++;
+    } else {
       struct file_info *conffile;
 
       conffile = file_info_new(conffilename);
