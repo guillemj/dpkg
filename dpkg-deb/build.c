@@ -550,7 +550,7 @@ void do_build(const char *const *argv) {
     if (S_ISLNK(fi->st.st_mode))
       file_info_list_append(&symlist, &symlist_end, fi);
     else {
-      if (write(p1[1], fi->fn, strlen(fi->fn)+1) ==- 1)
+      if (fd_write(p1[1], fi->fn, strlen(fi->fn) + 1) < 0)
         ohshite(_("failed to write filename to tar pipe (%s)"),
                 _("data member"));
       file_info_free(fi);
@@ -559,7 +559,7 @@ void do_build(const char *const *argv) {
   subproc_wait_check(c3, "find", 0);
 
   for (fi= symlist;fi;fi= fi->next)
-    if (write(p1[1], fi->fn, strlen(fi->fn)+1) == -1)
+    if (fd_write(p1[1], fi->fn, strlen(fi->fn) + 1) < 0)
       ohshite(_("failed to write filename to tar pipe (%s)"), _("data member"));
   /* All done, clean up wait for tar and gzip to finish their job. */
   close(p1[1]);

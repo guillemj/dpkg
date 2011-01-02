@@ -38,6 +38,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/varbuf.h>
+#include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/command.h>
 #include <dpkg/compress.h>
@@ -122,7 +123,7 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 		if (actualread == 0) /* EOF. */
 			break;
 
-		actualwrite = write(fd_out, buffer, actualread);
+		actualwrite = fd_write(fd_out, buffer, actualread);
 		if (actualwrite != actualread)
 			ohshite(_("%s: internal gzip write error"), desc);
 	}
@@ -149,7 +150,7 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 	for (;;) {
 		int actualread, actualwrite;
 
-		actualread = read(fd_in, buffer, sizeof(buffer));
+		actualread = fd_read(fd_in, buffer, sizeof(buffer));
 		if (actualread < 0)
 			ohshite(_("%s: internal gzip read error"), desc);
 		if (actualread == 0) /* EOF. */
@@ -234,7 +235,7 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 		if (actualread == 0) /* EOF. */
 			break;
 
-		actualwrite = write(fd_out, buffer, actualread);
+		actualwrite = fd_write(fd_out, buffer, actualread);
 		if (actualwrite != actualread)
 			ohshite(_("%s: internal bzip2 write error"), desc);
 	}
@@ -261,7 +262,7 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 	for (;;) {
 		int actualread, actualwrite;
 
-		actualread = read(fd_in, buffer, sizeof(buffer));
+		actualread = fd_read(fd_in, buffer, sizeof(buffer));
 		if (actualread < 0)
 			ohshite(_("%s: internal bzip2 read error"), desc);
 		if (actualread == 0) /* EOF. */

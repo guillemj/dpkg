@@ -29,6 +29,7 @@
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
+#include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/ar.h>
 
@@ -75,7 +76,7 @@ dpkg_ar_member_get_size(const char *ar_name, struct ar_hdr *arh)
 void
 dpkg_ar_put_magic(const char *ar_name, int ar_fd)
 {
-	if (write(ar_fd, DPKG_AR_MAGIC, strlen(DPKG_AR_MAGIC)) < 0)
+	if (fd_write(ar_fd, DPKG_AR_MAGIC, strlen(DPKG_AR_MAGIC)) < 0)
 		ohshite(_("unable to write file '%s'"), ar_name);
 }
 
@@ -91,7 +92,7 @@ dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
 	if (n != sizeof(struct ar_hdr))
 		ohshit(_("generated corrupt ar header for '%s'"), ar_name);
 
-	if (write(ar_fd, header, n) < 0)
+	if (fd_write(ar_fd, header, n) < 0)
 		ohshite(_("unable to write file '%s'"), ar_name);
 }
 
@@ -102,11 +103,11 @@ dpkg_ar_member_put_mem(const char *ar_name, int ar_fd,
 	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
 
 	/* Copy data contents. */
-	if (write(ar_fd, data, size) < 0)
+	if (fd_write(ar_fd, data, size) < 0)
 		ohshite(_("unable to write file '%s'"), ar_name);
 
 	if (size & 1)
-		if (write(ar_fd, "\n", 1) < 0)
+		if (fd_write(ar_fd, "\n", 1) < 0)
 			ohshite(_("unable to write file '%s'"), ar_name);
 }
 
@@ -128,6 +129,6 @@ dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
 	fd_fd_copy(fd, ar_fd, size, _("ar member file (%s)"), name);
 
 	if (size & 1)
-		if (write(ar_fd, "\n", 1) < 0)
+		if (fd_write(ar_fd, "\n", 1) < 0)
 			ohshite(_("unable to write file '%s'"), ar_name);
 }

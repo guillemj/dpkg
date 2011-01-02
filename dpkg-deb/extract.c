@@ -40,6 +40,7 @@
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
+#include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
@@ -80,7 +81,7 @@ read_line(int fd, char *buf, size_t min_size, size_t max_size)
     ssize_t r;
     char *nl;
 
-    r = read(fd, buf + line_size, n);
+    r = fd_read(fd, buf + line_size, n);
     if (r <= 0)
       return r;
 
@@ -135,7 +136,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     for (;;) {
       struct ar_hdr arh;
 
-      r = read(arfd, &arh, sizeof(arh));
+      r = fd_read(arfd, &arh, sizeof(arh));
       if (r != sizeof(arh))
         read_fail(r, debar, _("archive member header"));
 
@@ -151,7 +152,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
         if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
-        r = read(arfd, infobuf, memberlen + (memberlen & 1));
+        r = fd_read(arfd, infobuf, memberlen + (memberlen & 1));
         if ((size_t)r != (memberlen + (memberlen & 1)))
           read_fail(r, debar, _("archive information header member"));
         infobuf[memberlen] = '\0';
