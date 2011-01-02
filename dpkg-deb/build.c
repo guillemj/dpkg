@@ -406,18 +406,16 @@ void do_build(const char *const *argv) {
     }
 
     if (subdir) {
+      struct varbuf path = VARBUF_INIT;
       const char *versionstring, *arch;
-      char *m;
 
       versionstring = versiondescribe(&pkg->available.version, vdew_never);
       arch = pkg->available.architecture;
       if (!arch)
         arch = "";
-      m = m_malloc(sizeof(DEBEXT) + 1 + strlen(debar) + 1 + strlen(pkg->name) +
-                  strlen(versionstring)+1+strlen(arch));
-      sprintf(m, "%s/%s_%s%s%s" DEBEXT, debar, pkg->name, versionstring,
-              arch[0] ? "_" : "", arch);
-      debar= m;
+      varbufprintf(&path, "%s/%s_%s%s%s%s", debar, pkg->name, versionstring,
+                   arch[0] ? "_" : "", arch, DEBEXT);
+      debar = varbuf_detach(&path);
     }
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
 
