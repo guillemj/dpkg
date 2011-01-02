@@ -33,14 +33,11 @@
 #include <dpkg/i18n.h>
 #include <dpkg/ehandle.h>
 
-/* Points to errmsgbuf or malloc'd. */
-static const char *errmsg;
-
 /* 6x255 for inserted strings (%.255s &c in fmt; and %s with limited length arg)
  * 1x255 for constant text
  * 1x255 for strerror()
  * same again just in case. */
-static char errmsgbuf[4096];
+static char errmsg[4096];
 
 /* Incremented when we do some kind of generally necessary operation,
  * so that loops &c know to quit if we take an error exit. Decremented
@@ -328,9 +325,8 @@ void ohshit(const char *fmt, ...) {
   va_list args;
 
   va_start(args, fmt);
-  vsnprintf(errmsgbuf, sizeof(errmsgbuf), fmt, args);
+  vsnprintf(errmsg, sizeof(errmsg), fmt, args);
   va_end(args);
-  errmsg= errmsgbuf;
 
   run_error_handler();
 }
@@ -357,8 +353,7 @@ print_fatal_error(const char *emsg, const char *contextstring)
 void
 ohshitv(const char *fmt, va_list args)
 {
-  vsnprintf(errmsgbuf, sizeof(errmsgbuf), fmt, args);
-  errmsg= errmsgbuf;
+  vsnprintf(errmsg, sizeof(errmsg), fmt, args);
 
   run_error_handler();
 }
@@ -373,8 +368,7 @@ void ohshite(const char *fmt, ...) {
   vsnprintf(buf, sizeof(buf), fmt, args);
   va_end(args);
 
-  snprintf(errmsgbuf,sizeof(errmsgbuf),"%s: %s",buf,strerror(e));
-  errmsg= errmsgbuf;
+  snprintf(errmsg, sizeof(errmsg), "%s: %s", buf, strerror(e));
 
   run_error_handler();
 }
