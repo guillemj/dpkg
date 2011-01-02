@@ -31,6 +31,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/fdio.h>
 
 const char *log_file = NULL;
 
@@ -95,8 +96,6 @@ statusfd_send(const char *fmt, ...)
 {
 	static struct varbuf vb;
 	struct pipef *pipef;
-	const char *p;
-	int r, l;
 	va_list args;
 
 	if (!status_pipes)
@@ -112,12 +111,8 @@ statusfd_send(const char *fmt, ...)
 	va_end(args);
 
 	for (pipef = status_pipes; pipef; pipef = pipef->next) {
-		for (p = vb.buf, l = vb.used; l;  p += r, l -= r) {
-			r = write(pipef->fd, p, l);
-			if (r < 0)
-				ohshite(_("unable to write to status fd %d"),
-				        pipef->fd);
-			assert(r && r <= l);
-		}
+		if (fd_write(pipef->fd, vb.buf, vb.used) < 0)
+			ohshite(_("unable to write to status fd %d"),
+			        pipef->fd);
 	}
 }

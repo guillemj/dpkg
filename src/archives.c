@@ -44,6 +44,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
@@ -65,26 +66,6 @@
 
 struct pkginfo *conflictor[MAXCONFLICTORS];
 int cflict_index = 0;
-
-/**
- * Special routine to handle partial reads from the tarfile.
- */
-static int safe_read(int fd, void *buf, int len)
-{
-  int r, have= 0;
-  char *p = (char *)buf;
-  while (have < len) {
-    if ((r= read(fd,p,len-have))==-1) {
-      if (errno==EINTR || errno==EAGAIN) continue;
-      return r;
-    }
-    if (r==0)
-      break;
-    have+= r;
-    p+= r;
-  }
-  return have;
-}
 
 static inline void
 fd_writeback_init(int fd)
@@ -193,7 +174,9 @@ void cu_pathname(int argc, void **argv) {
 int tarfileread(void *ud, char *buf, int len) {
   struct tarcontext *tc= (struct tarcontext*)ud;
   int r;
-  if ((r= safe_read(tc->backendpipe,buf,len)) == -1)
+
+  r = fd_read(tc->backendpipe, buf, len);
+  if (r < 0)
     ohshite(_("error reading from dpkg-deb pipe"));
   return r;
 }
@@ -214,7 +197,7 @@ tarfile_skip_one_forward(struct tarcontext *tc, struct tar_entry *ti)
                  path_quote_filename(fnamebuf, ti->name, 256));
     r = ti->size % TARBLKSZ;
     if (r > 0)
-      if (safe_read(tc->backendpipe, databuf, TARBLKSZ - r) == -1)
+      if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)
         ohshite(_("error reading from dpkg-deb pipe"));
   }
 }
@@ -711,7 +694,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     }
     r = ti->size % TARBLKSZ;
     if (r > 0)
-      if (safe_read(tc->backendpipe, databuf, TARBLKSZ - r) == -1)
+      if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)
         ohshite(_("error reading from dpkg-deb pipe"));
 
     fd_writeback_init(fd);

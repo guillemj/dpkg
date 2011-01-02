@@ -40,6 +40,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/compress.h>
@@ -114,12 +115,9 @@ file_info_get(const char *root, int fd)
       fnlen += MAXFILENAME;
       fn = m_realloc(fn, fnlen);
     }
-    if ((res=read(fd, (fn+i), sizeof(*fn)))<0) {
-      if ((errno==EINTR) || (errno==EAGAIN))
-	continue;
-      else
-	return NULL;
-    }
+    res = fd_read(fd, (fn + i), sizeof(*fn));
+    if (res < 0)
+      return NULL;
     if (res == 0) /* EOF -> parent died. */
       return NULL;
     if (fn[i] == '\0')

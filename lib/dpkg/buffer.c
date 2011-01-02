@@ -34,6 +34,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/md5.h>
+#include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 
 struct buffer_write_md5ctx {
@@ -103,7 +104,7 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 		varbufaddbuf((struct varbuf *)data->arg.ptr, buf, length);
 		break;
 	case BUFFER_WRITE_FD:
-		ret = write(data->arg.i, buf, length);
+		ret = fd_write(data->arg.i, buf, length);
 		break;
 	case BUFFER_WRITE_NULL:
 		break;
@@ -125,7 +126,7 @@ buffer_read(struct buffer_data *data, void *buf, off_t length)
 
 	switch (data->type) {
 	case BUFFER_READ_FD:
-		ret = read(data->arg.i, buf, length);
+		ret = fd_read(data->arg.i, buf, length);
 		break;
 	default:
 		internerr("unknown data type '%i' in buffer_read\n",
@@ -152,7 +153,7 @@ static off_t
 buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
             off_t limit, const char *desc)
 {
-	char *buf, *writebuf;
+	char *buf;
 	int bufsize = 32768;
 	long bytesread = 0, byteswritten = 0;
 	off_t totalread = 0, totalwritten = 0;
@@ -168,35 +169,26 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 
 	while (bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize);
-		if (bytesread < 0) {
-			if (errno == EINTR || errno == EAGAIN)
-				continue;
+		if (bytesread < 0)
 			break;
-		}
 		if (bytesread == 0)
 			break;
 
 		totalread += bytesread;
+
 		if (limit != -1) {
 			limit -= bytesread;
 			if (limit < bufsize)
 				bufsize = limit;
 		}
-		writebuf = buf;
-		while (bytesread) {
-			byteswritten = buffer_write(write_data, writebuf, bytesread);
-			if (byteswritten == -1) {
-				if (errno == EINTR || errno == EAGAIN)
-					continue;
-				break;
-			}
-			if (byteswritten == 0)
-				break;
 
-			bytesread -= byteswritten;
-			totalwritten += byteswritten;
-			writebuf += byteswritten;
-		}
+		byteswritten = buffer_write(write_data, buf, bytesread);
+		if (byteswritten < 0)
+			break;
+		if (byteswritten == 0)
+			break;
+
+		totalwritten += byteswritten;
 	}
 
 	if (bytesread < 0)
