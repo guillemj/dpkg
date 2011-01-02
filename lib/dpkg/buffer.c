@@ -99,10 +99,6 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 	off_t ret = length;
 
 	switch (data->type) {
-	case BUFFER_WRITE_BUF:
-		memcpy(data->arg.ptr, buf, length);
-		data->arg.ptr += length;
-		break;
 	case BUFFER_WRITE_VBUF:
 		varbufaddbuf((struct varbuf *)data->arg.ptr, buf, length);
 		break;

@@ -30,7 +30,6 @@
 
 DPKG_BEGIN_DECLS
 
-#define BUFFER_WRITE_BUF		0
 #define BUFFER_WRITE_VBUF		1
 #define BUFFER_WRITE_FD			2
 #define BUFFER_WRITE_NULL		3
@@ -54,9 +53,6 @@ struct buffer_data {
 	                   limit, __VA_ARGS__)
 # define fd_fd_copy(fd1, fd2, limit, ...) \
 	buffer_copy_IntInt(fd1, BUFFER_READ_FD, fd2, BUFFER_WRITE_FD, \
-	                   limit, __VA_ARGS__)
-# define fd_buf_copy(fd, buf, limit, ...) \
-	buffer_copy_IntPtr(fd, BUFFER_READ_FD, buf, BUFFER_WRITE_BUF, \
 	                   limit, __VA_ARGS__)
 # define fd_vbuf_copy(fd, buf, limit, ...) \
 	buffer_copy_IntPtr(fd, BUFFER_READ_FD, buf, BUFFER_WRITE_VBUF, \
