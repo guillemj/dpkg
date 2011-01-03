@@ -1,3 +1,15 @@
+2011-01-05  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Release 1.14.31.
+	* scripts/Dpkg/Source/Archive.pm (extract): Do not consider a
+	top-level symlink like a directory when extracting a tarball.
+	* scripts/Dpkg/Source/Patch.pm (analyze): Enhance checks to catch
+	maliciously crafted patches which could modify files outside of
+	the unpacked source package.
+	* scripts/Dpkg/Source/Package/V2.pm (do_extract): Exclude .pc
+	when extracting the main upstream tarball. This code is shared
+	with the V3/quilt.pm module.
+
 2010-10-31  Raphael Hertzog  <hertzog@debian.org>
 
 	* configure.ac: Release 1.14.30.
