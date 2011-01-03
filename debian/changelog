@@ -8,7 +8,17 @@ dpkg (1.15.8.8) UNRELEASED; urgency=low
   * Two typos fixed in French (Christian Perrier, thanks to Julien
     Valroff).
 
- -- Christian Perrier <bubulle@debian.org>  Mon, 20 Dec 2010 07:12:32 +0100
+  [ Raphaël Hertzog ]
+  * Fix multiple security issues with dpkg-source (CVE-2010-1679):
+    - Enhance checks to catch maliciously crafted patches which could modify
+      files outside of the unpacked source package.
+    - Do not consider a top-level symlink like a directory when
+      extracting a tarball.
+    - Exclude .pc while extracting the upstream tarball in 3.0 (quilt)
+      as patch blindly writes in that directory during unpack (and would
+      follow any existing symlink).
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Thu, 30 Dec 2010 17:31:56 +0100
 
 dpkg (1.15.8.7) unstable; urgency=low
 
