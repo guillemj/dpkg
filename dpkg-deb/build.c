@@ -392,10 +392,8 @@ void do_build(const char *const *argv) {
 
       versionstring = versiondescribe(&pkg->available.version, vdew_never);
       arch = pkg->available.architecture;
-      if (!arch)
-        arch = "";
       varbufprintf(&path, "%s/%s_%s%s%s%s", debar, pkg->name, versionstring,
-                   arch[0] ? "_" : "", arch, DEBEXT);
+                   arch ? "_" : "", arch ? arch : "", DEBEXT);
       debar = varbuf_detach(&path);
     }
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
