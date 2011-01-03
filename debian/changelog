@@ -1,3 +1,16 @@
+dpkg (1.14.31) stable-security; urgency=low
+
+  * Fix multiple security issues with dpkg-source (CVE-2010-1679):
+    - Enhance checks to catch maliciously crafted patches which could modify
+      files outside of the unpacked source package.
+    - Do not consider a top-level symlink like a directory when
+      extracting a tarball.
+    - Exclude .pc while extracting the upstream tarball in 3.0 (quilt)
+      as patch blindly writes in that directory during unpack (and would
+      follow any existing symlink).
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Wed, 05 Jan 2011 10:58:17 +0100
+
 dpkg (1.14.30) stable; urgency=low
 
   * Fix dpkg to not lose package metadata on filesystems where readdir()

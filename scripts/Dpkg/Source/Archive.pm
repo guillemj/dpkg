@@ -140,7 +140,7 @@ sub extract {
     closedir(D);
     my $done = 0;
     erasedir($dest);
-    if (scalar(@entries) == 1 && -d "$tmp/$entries[0]") {
+    if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
 	rename("$tmp/$entries[0]", $dest) ||
 		syserr(_g("Unable to rename %s to %s"),
 		       "$tmp/$entries[0]", $dest);

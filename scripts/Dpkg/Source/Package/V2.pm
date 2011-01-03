@@ -115,7 +115,12 @@ sub do_extract {
     # Extract main tarball
     info(_g("unpacking %s"), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
-    $tar->extract($newdirectory, no_fixperms => 1);
+    $tar->extract($newdirectory, no_fixperms => 1,
+                  options => [ "--anchored", "--no-wildcards-match-slash",
+                               "--exclude", "*/.pc", "--exclude", ".pc" ]);
+    # The .pc exclusion is only needed for 3.0 (quilt) and to avoid
+    # having an upstream tarball provide a directory with symlinks
+    # that would be blindly followed when applying the patches
 
     # Extract additional orig tarballs
     foreach my $subdir (keys %origtar) {
