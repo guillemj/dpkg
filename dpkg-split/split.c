@@ -27,7 +27,6 @@
 #include <sys/wait.h>
 
 #include <limits.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <libgen.h>
 #include <string.h>

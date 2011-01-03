@@ -23,7 +23,6 @@
 
 #include <sys/types.h>
 
-#include <errno.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
