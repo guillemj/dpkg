@@ -373,11 +373,20 @@ void ohshite(const char *fmt, ...) {
   run_error_handler();
 }
 
+static int warn_count = 0;
+
+int
+warning_get_count(void)
+{
+  return warn_count;
+}
+
 void
 warningv(const char *fmt, va_list args)
 {
   char buf[1024];
 
+  warn_count++;
   vsnprintf(buf, sizeof(buf), fmt, args);
   fprintf(stderr, _("%s: warning: %s\n"), thisname, buf);
 }

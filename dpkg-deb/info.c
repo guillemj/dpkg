@@ -264,7 +264,7 @@ void do_showinfo(const char* const* argv) {
   info_prepare(&argv, &debar, &dir, 1);
 
   parsedb(CONTROLFILE, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles,
-          &pkg, NULL);
+          &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
 }
 

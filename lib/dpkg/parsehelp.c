@@ -68,7 +68,6 @@ parse_warn(struct parsedb_state *ps,
   va_list args;
 
   va_start(args, fmt);
-  ps->warncount++;
   warningv(parse_error_msg(ps, pigp, fmt), args);
   va_end(args);
 }

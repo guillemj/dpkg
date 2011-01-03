@@ -90,7 +90,7 @@ const struct fieldinfo fieldinfos[]= {
  * If donep is not NULL only one package's information is expected.
  */
 int parsedb(const char *filename, enum parsedbflags flags,
-            struct pkginfo **donep, int *warncount)
+            struct pkginfo **donep)
 {
   static int fd;
   struct pkginfo newpig, *pigp;
@@ -112,7 +112,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
   ps.filename = filename;
   ps.flags = flags;
   ps.lno = 0;
-  ps.warncount = 0;
 
   newpifp= (flags & pdb_recordavailable) ? &newpig.available : &newpig.installed;
   fd= open(filename, O_RDONLY);
@@ -403,9 +402,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
   pop_cleanup(ehflag_normaltidy);
   if (close(fd)) ohshite(_("failed to close after read: `%.255s'"),filename);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
-
-  if (warncount)
-    *warncount = ps.warncount;
 
   return pdone;
 }

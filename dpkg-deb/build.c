@@ -216,7 +216,7 @@ check_file_perms(const char *dir)
 /**
  * Check if conffiles contains sane information.
  */
-static int
+static void
 check_conffiles(const char *dir)
 {
   FILE *cf;
@@ -224,14 +224,13 @@ check_conffiles(const char *dir)
   char conffilename[MAXCONFFILENAME + 1];
   struct file_info *conffiles_head = NULL;
   struct file_info *conffiles_tail = NULL;
-  int warns = 0;
 
   varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONFFILESFILE);
 
   cf = fopen(controlfile.buf, "r");
   if (cf == NULL) {
     if (errno == ENOENT)
-      return warns;
+      return;
 
     ohshite(_("error opening conffiles file"));
   }
@@ -249,7 +248,6 @@ check_conffiles(const char *dir)
 
       warning(_("conffile name '%.50s...' is too long, or missing final newline"),
               conffilename);
-      warns++;
       while ((c = getc(cf)) != EOF && c != '\n');
 
       continue;
@@ -268,12 +266,10 @@ check_conffiles(const char *dir)
         ohshite(_("conffile `%.250s' is not stattable"), conffilename);
     } else if (!S_ISREG(controlstab.st_mode)) {
       warning(_("conffile '%s' is not a plain file"), conffilename);
-      warns++;
     }
 
     if (file_info_find_name(conffiles_head, conffilename)) {
       warning(_("conffile name '%s' is duplicated"), conffilename);
-      warns++;
     } else {
       struct file_info *conffile;
 
@@ -288,8 +284,6 @@ check_conffiles(const char *dir)
   if (ferror(cf))
     ohshite(_("error reading conffiles file"));
   fclose(cf);
-
-  return warns;
 }
 
 static const char *arbitrary_fields[] = {
@@ -375,17 +369,14 @@ void do_build(const char *const *argv) {
 
     /* Let's start by reading in the control-file so we can check its
      * contents. */
-    warns = 0;
     varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
-    parsedb(controlfile.buf, pdb_recordavailable | pdb_rejectstatus,
-            &pkg, &warns);
+    parsedb(controlfile.buf, pdb_recordavailable | pdb_rejectstatus, &pkg);
     if (strspn(pkg->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
         strlen(pkg->name))
       ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
     if (pkg->priority == pri_other) {
       warning(_("'%s' contains user-defined Priority value '%s'"),
               controlfile.buf, pkg->otherpriority);
-      warns++;
     }
     for (field = pkg->available.arbs; field; field = field->next) {
       if (known_arbitrary_field(field))
@@ -393,7 +384,6 @@ void do_build(const char *const *argv) {
 
       warning(_("'%s' contains user-defined field '%s'"),
               controlfile.buf, field->name);
-      warns++;
     }
 
     if (subdir) {
@@ -411,8 +401,9 @@ void do_build(const char *const *argv) {
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
 
     check_file_perms(dir);
-    warns += check_conffiles(dir);
+    check_conffiles(dir);
 
+    warns = warning_get_count();
     if (warns)
       warning(P_("ignoring %d warning about the control file(s)\n",
                  "ignoring %d warnings about the control file(s)\n", warns),

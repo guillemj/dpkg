@@ -28,7 +28,6 @@ struct parsedb_state {
 	enum parsedbflags flags;
 	const char *filename;
 	int lno;
-	int warncount;
 };
 
 #define PKGIFPOFF(f) (offsetof(struct pkginfoperfile, f))
