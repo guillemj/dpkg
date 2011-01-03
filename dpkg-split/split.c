@@ -196,7 +196,7 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 		}
 
 		/* Split the data. */
-		fd_dst = open(file_dst.buf, O_CREAT | O_WRONLY, 0644);
+		fd_dst = creat(file_dst.buf, 0644);
 		if (fd_dst < 0)
 			ohshite(_("unable to open file '%s'"), file_dst.buf);
 
