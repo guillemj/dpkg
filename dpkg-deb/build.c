@@ -315,6 +315,51 @@ known_arbitrary_field(const struct arbitraryfield *field)
 }
 
 /**
+ * Perform some sanity checks on the to-be-built package.
+ *
+ * @return The pkginfo struct from the parsed control file.
+ */
+static struct pkginfo *
+check_new_pkg(const char *dir)
+{
+  struct pkginfo *pkg;
+  struct arbitraryfield *field;
+  struct varbuf controlfile = VARBUF_INIT;
+  int warns;
+
+  /* Start by reading in the control file so we can check its contents. */
+  varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
+  parsedb(controlfile.buf, pdb_recordavailable | pdb_rejectstatus, &pkg);
+
+  if (strspn(pkg->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
+      strlen(pkg->name))
+    ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
+  if (pkg->priority == pri_other)
+    warning(_("'%s' contains user-defined Priority value '%s'"),
+            controlfile.buf, pkg->otherpriority);
+  for (field = pkg->available.arbs; field; field = field->next) {
+    if (known_arbitrary_field(field))
+      continue;
+
+    warning(_("'%s' contains user-defined field '%s'"), controlfile.buf,
+            field->name);
+  }
+
+  varbuf_destroy(&controlfile);
+
+  check_file_perms(dir);
+  check_conffiles(dir);
+
+  warns = warning_get_count();
+  if (warns)
+    warning(P_("ignoring %d warning about the control file(s)\n",
+               "ignoring %d warnings about the control file(s)\n", warns),
+            warns);
+
+  return pkg;
+}
+
+/**
  * Overly complex function that builds a .deb file.
  */
 void do_build(const char *const *argv) {
@@ -363,29 +408,8 @@ void do_build(const char *const *argv) {
     printf(_("dpkg-deb: building an unknown package in '%s'.\n"), debar);
   } else {
     struct pkginfo *pkg;
-    struct arbitraryfield *field;
-    struct varbuf controlfile = VARBUF_INIT;
-    int warns;
 
-    /* Let's start by reading in the control-file so we can check its
-     * contents. */
-    varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
-    parsedb(controlfile.buf, pdb_recordavailable | pdb_rejectstatus, &pkg);
-    if (strspn(pkg->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
-        strlen(pkg->name))
-      ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
-    if (pkg->priority == pri_other) {
-      warning(_("'%s' contains user-defined Priority value '%s'"),
-              controlfile.buf, pkg->otherpriority);
-    }
-    for (field = pkg->available.arbs; field; field = field->next) {
-      if (known_arbitrary_field(field))
-        continue;
-
-      warning(_("'%s' contains user-defined field '%s'"),
-              controlfile.buf, field->name);
-    }
-
+    pkg = check_new_pkg(dir);
     if (subdir) {
       struct varbuf path = VARBUF_INIT;
       const char *versionstring, *arch;
@@ -397,17 +421,6 @@ void do_build(const char *const *argv) {
       debar = varbuf_detach(&path);
     }
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
-
-    check_file_perms(dir);
-    check_conffiles(dir);
-
-    warns = warning_get_count();
-    if (warns)
-      warning(P_("ignoring %d warning about the control file(s)\n",
-                 "ignoring %d warnings about the control file(s)\n", warns),
-              warns);
-
-    varbuf_destroy(&controlfile);
   }
   m_output(stdout, _("<standard output>"));
 
