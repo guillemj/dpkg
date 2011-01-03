@@ -360,6 +360,25 @@ check_new_pkg(const char *dir)
 }
 
 /**
+ * Generate the pathname for the to-be-built package.
+ *
+ * @return The pathname for the package being built.
+ */
+static char *
+pkg_get_pathname(const char *dir, struct pkginfo *pkg)
+{
+  struct varbuf path = VARBUF_INIT;
+  const char *versionstring, *arch;
+
+  versionstring = versiondescribe(&pkg->available.version, vdew_never);
+  arch = pkg->available.architecture;
+  varbufprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->name, versionstring,
+               arch ? "_" : "", arch ? arch : "", DEBEXT);
+
+  return varbuf_detach(&path);
+}
+
+/**
  * Overly complex function that builds a .deb file.
  */
 void do_build(const char *const *argv) {
@@ -410,16 +429,8 @@ void do_build(const char *const *argv) {
     struct pkginfo *pkg;
 
     pkg = check_new_pkg(dir);
-    if (subdir) {
-      struct varbuf path = VARBUF_INIT;
-      const char *versionstring, *arch;
-
-      versionstring = versiondescribe(&pkg->available.version, vdew_never);
-      arch = pkg->available.architecture;
-      varbufprintf(&path, "%s/%s_%s%s%s%s", debar, pkg->name, versionstring,
-                   arch ? "_" : "", arch ? arch : "", DEBEXT);
-      debar = varbuf_detach(&path);
-    }
+    if (subdir)
+      debar = pkg_get_pathname(debar, pkg);
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
   }
   m_output(stdout, _("<standard output>"));
