@@ -38,7 +38,6 @@
 void reassemble(struct partinfo **partlist, const char *outputfile) {
   FILE *output, *input;
   void *buffer;
-  struct partinfo *pi;
   unsigned int i;
   size_t nr,buffersize;
 
@@ -54,7 +53,8 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
   output= fopen(outputfile,"w");
   if (!output) ohshite(_("unable to open output file `%.250s'"),outputfile);
   for (i=0; i<partlist[0]->maxpartn; i++) {
-    pi= partlist[i];
+    struct partinfo *pi = partlist[i];
+
     input= fopen(pi->filename,"r");
     if (!input) ohshite(_("unable to (re)open input part file `%.250s'"),pi->filename);
     assert(pi->headerlen <= buffersize);
@@ -104,10 +104,9 @@ void addtopartlist(struct partinfo **partlist,
 }
 
 void do_join(const char *const *argv) {
-  char *p;
   const char *thisarg;
   struct partqueue *pq;
-  struct partinfo *refi, *pi, **partlist;
+  struct partinfo *refi, **partlist;
   unsigned int i;
 
   assert(!queue);
@@ -130,13 +129,16 @@ void do_join(const char *const *argv) {
   for (i = 0; i < refi->maxpartn; i++)
     partlist[i] = NULL;
   for (pq= queue; pq; pq= pq->nextinqueue) {
-    pi= &pq->info;
+    struct partinfo *pi = &pq->info;
+
     addtopartlist(partlist,pi,refi);
   }
   for (i=0; i<refi->maxpartn; i++) {
     if (!partlist[i]) ohshit(_("part %d is missing"),i+1);
   }
   if (!opt_outputfile) {
+    char *p;
+
     p= nfmalloc(strlen(refi->package)+1+strlen(refi->version)+sizeof(DEBEXT));
     strcpy(p,refi->package);
     strcat(p,"-");

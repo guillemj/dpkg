@@ -80,14 +80,15 @@ decompose_filename(const char *filename, struct partqueue *pq)
 void scandepot(void) {
   DIR *depot;
   struct dirent *de;
-  struct partqueue *pq;
-  char *p;
 
   assert(!queue);
   depot = opendir(opt_depotdir);
   if (!depot)
     ohshite(_("unable to read depot directory `%.250s'"), opt_depotdir);
   while ((de= readdir(depot))) {
+    struct partqueue *pq;
+    char *p;
+
     if (de->d_name[0] == '.') continue;
     pq= nfmalloc(sizeof(struct partqueue));
     pq->info.fmtversion= pq->info.package= pq->info.version= NULL;
@@ -118,14 +119,11 @@ partmatches(struct partinfo *pi, struct partinfo *refi)
 
 void do_auto(const char *const *argv) {
   const char *partfile;
-  struct partinfo *pi, *refi, *npi, **partlist, *otherthispart;
+  struct partinfo *refi, **partlist, *otherthispart;
   struct partqueue *pq;
   unsigned int i;
-  int j, ap;
-  long nr;
+  int j;
   FILE *part;
-  void *buffer;
-  char *p, *q;
 
   if (!opt_outputfile)
     badusage(_("--auto requires the use of the --output option"));
@@ -147,7 +145,8 @@ void do_auto(const char *const *argv) {
   for (i = 0; i < refi->maxpartn; i++)
     partlist[i] = NULL;
   for (pq= queue; pq; pq= pq->nextinqueue) {
-    pi= &pq->info;
+    struct partinfo *npi, *pi = &pq->info;
+
     if (!partmatches(pi,refi)) continue;
     npi= nfmalloc(sizeof(struct partinfo));
     mustgetpartinfo(pi->filename,npi);
@@ -162,6 +161,10 @@ void do_auto(const char *const *argv) {
   for (j=refi->maxpartn-1; j>=0 && partlist[j]; j--);
 
   if (j>=0) {
+    void *buffer;
+    long nr;
+    int ap;
+    char *p, *q;
 
     part= fopen(partfile,"r");
     if (!part) ohshite(_("unable to reopen part file `%.250s'"),partfile);
@@ -213,12 +216,10 @@ void do_auto(const char *const *argv) {
 }
 
 void do_queue(const char *const *argv) {
-  struct partqueue *pq, *qq;
-  struct partinfo ti;
+  struct partqueue *pq;
   const char *head;
   struct stat stab;
   unsigned long bytes;
-  unsigned int i;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
@@ -241,12 +242,17 @@ void do_queue(const char *const *argv) {
 
   head= N_("Packages not yet reassembled:\n");
   for (pq= queue; pq; pq= pq->nextinqueue) {
+    struct partinfo ti;
+    unsigned int i;
+
     if (!pq->info.md5sum) continue;
     mustgetpartinfo(pq->info.filename,&ti);
     fputs(gettext(head),stdout); head= "";
     printf(_(" Package %s: part(s) "), ti.package);
     bytes= 0;
     for (i=0; i<ti.maxpartn; i++) {
+      struct partqueue *qq;
+
       for (qq= pq;
            qq && !(partmatches(&qq->info,&ti) && qq->info.thispartn == i+1);
            qq= qq->nextinqueue);
