@@ -28,7 +28,7 @@ dofunction do_info, do_field, do_extract, do_vextract, do_fsystarfile;
 
 extern int debugflag, nocheckflag, oldformatflag;
 
-void extracthalf(const char *debar, const char *directory,
+void extracthalf(const char *debar, const char *dir,
                  const char *taroption, int admininfo);
 
 extern const char* showformat;

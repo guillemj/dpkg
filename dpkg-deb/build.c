@@ -205,7 +205,7 @@ free_filist(struct file_info *fi)
  * Overly complex function that builds a .deb file.
  */
 void do_build(const char *const *argv) {
-  const char *debar, *directory;
+  const char *debar, *dir;
   bool subdir;
   char *tfbuf;
   FILE *ar;
@@ -216,8 +216,8 @@ void do_build(const char *const *argv) {
   struct file_info *symlist_end = NULL;
 
   /* Decode our arguments. */
-  directory = *argv++;
-  if (!directory)
+  dir = *argv++;
+  if (!dir)
     badusage(_("--%s needs a <directory> argument"), cipaction->olong);
   subdir = false;
   debar = *argv++;
@@ -236,8 +236,8 @@ void do_build(const char *const *argv) {
   } else {
     char *m;
 
-    m= m_malloc(strlen(directory) + sizeof(DEBEXT));
-    strcpy(m, directory);
+    m= m_malloc(strlen(dir) + sizeof(DEBEXT));
+    strcpy(m, dir);
     path_trim_slash_slashdot(m);
     strcat(m, DEBEXT);
     debar= m;
@@ -261,14 +261,14 @@ void do_build(const char *const *argv) {
     int warns;
     FILE *cf;
 
-    controlfile= m_malloc(strlen(directory) + sizeof(BUILDCONTROLDIR) +
+    controlfile= m_malloc(strlen(dir) + sizeof(BUILDCONTROLDIR) +
                           sizeof(CONTROLFILE) + sizeof(CONFFILESFILE) +
                           sizeof(POSTINSTFILE) + sizeof(PREINSTFILE) +
                           sizeof(POSTRMFILE) + sizeof(PRERMFILE) +
                           MAXCONFFILENAME + 5);
     /* Let's start by reading in the control-file so we can check its
      * contents. */
-    strcpy(controlfile, directory);
+    strcpy(controlfile, dir);
     strcat(controlfile, "/" BUILDCONTROLDIR "/" CONTROLFILE);
     warns = 0;
     parsedb(controlfile, pdb_recordavailable|pdb_rejectstatus,
@@ -306,7 +306,7 @@ void do_build(const char *const *argv) {
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"), checkedinfo->name, debar);
 
     /* Check file permissions. */
-    strcpy(controlfile, directory);
+    strcpy(controlfile, dir);
     strcat(controlfile, "/" BUILDCONTROLDIR "/");
     if (lstat(controlfile, &mscriptstab))
       ohshite(_("unable to stat control directory"));
@@ -317,7 +317,7 @@ void do_build(const char *const *argv) {
              "and <=0775)"), (unsigned long)(mscriptstab.st_mode & 07777));
 
     for (mscriptp= maintainerscripts; *mscriptp; mscriptp++) {
-      strcpy(controlfile, directory);
+      strcpy(controlfile, dir);
       strcat(controlfile, "/" BUILDCONTROLDIR "/");
       strcat(controlfile, *mscriptp);
 
@@ -335,7 +335,7 @@ void do_build(const char *const *argv) {
     }
 
     /* Check if conffiles contains sane information. */
-    strcpy(controlfile, directory);
+    strcpy(controlfile, dir);
     strcat(controlfile, "/" BUILDCONTROLDIR "/" CONFFILESFILE);
     if ((cf= fopen(controlfile,"r"))) {
       char conffilename[MAXCONFFILENAME + 1];
@@ -358,7 +358,7 @@ void do_build(const char *const *argv) {
           continue;
         }
         conffilename[n - 1] = '\0';
-        strcpy(controlfile, directory);
+        strcpy(controlfile, dir);
         strcat(controlfile, "/");
         strcat(controlfile, conffilename);
         if (lstat(controlfile,&controlstab)) {
@@ -410,7 +410,8 @@ void do_build(const char *const *argv) {
   c1 = subproc_fork();
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
-    if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
+    if (chdir(dir))
+      ohshite(_("failed to chdir to `%.255s'"), dir);
     if (chdir(BUILDCONTROLDIR))
       ohshite(_("failed to chdir to `%.255s'"), ".../DEBIAN");
     execlp(TAR, "tar", "-cf", "-", "--format=gnu", ".", NULL);
@@ -483,7 +484,8 @@ void do_build(const char *const *argv) {
   if (!c1) {
     m_dup2(p1[0],0); close(p1[0]); close(p1[1]);
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
-    if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
+    if (chdir(dir))
+      ohshite(_("failed to chdir to `%.255s'"), dir);
     execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "-T", "-", "--no-recursion", NULL);
     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
   }
@@ -505,7 +507,8 @@ void do_build(const char *const *argv) {
   c3 = subproc_fork();
   if (!c3) {
     m_dup2(p3[1],1); close(p3[0]); close(p3[1]);
-    if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
+    if (chdir(dir))
+      ohshite(_("failed to chdir to `%.255s'"), dir);
     execlp(FIND, "find", ".", "-path", "./" BUILDCONTROLDIR, "-prune", "-o",
            "-print0", NULL);
     ohshite(_("unable to execute %s (%s)"), "find", FIND);
@@ -513,7 +516,7 @@ void do_build(const char *const *argv) {
   close(p3[1]);
   /* We need to reorder the files so we can make sure that symlinks
    * will not appear before their target. */
-  while ((fi=getfi(directory, p3[0]))!=NULL)
+  while ((fi = getfi(dir, p3[0])) != NULL)
     if (S_ISLNK(fi->st.st_mode))
       add_to_filist(&symlist, &symlist_end, fi);
     else {

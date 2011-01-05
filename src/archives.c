@@ -437,7 +437,7 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   struct conffile *conff;
   struct tarcontext *tc = ctx;
-  bool existingdirectory, keepexisting;
+  bool existingdir, keepexisting;
   int statr;
   ssize_t r;
   struct stat stab, stabtmp;
@@ -532,23 +532,23 @@ tarobject(void *ctx, struct tar_entry *ti)
   /* Check to see if it's a directory or link to one and we don't need to
    * do anything. This has to be done now so that we don't die due to
    * a file overwriting conflict. */
-  existingdirectory = false;
+  existingdir = false;
   switch (ti->type) {
   case tar_filetype_symlink:
     /* If it's already an existing directory, do nothing. */
     if (!statr && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "tarobject symlink exists as directory");
-      existingdirectory = true;
+      existingdir = true;
     } else if (!statr && S_ISLNK(stab.st_mode)) {
       if (linktosameexistingdir(ti, fnamevb.buf, &symlinkfn))
-        existingdirectory = true;
+        existingdir = true;
     }
     break;
   case tar_filetype_dir:
     /* If it's already an existing directory, do nothing. */
     if (!stat(fnamevb.buf,&stabtmp) && S_ISDIR(stabtmp.st_mode)) {
       debug(dbg_eachfiledetail, "tarobject directory exists");
-      existingdirectory = true;
+      existingdir = true;
     }
     break;
   case tar_filetype_file:
@@ -563,7 +563,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   }
 
   keepexisting = false;
-  if (!existingdirectory) {
+  if (!existingdir) {
     struct filepackages_iterator *iter;
 
     iter = filepackages_iter_new(nifd->namenode);
@@ -674,7 +674,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     return 0;
   }
 
-  if (existingdirectory)
+  if (existingdir)
     return 0;
 
   /* Now, at this stage we want to make sure neither of .dpkg-new and

@@ -49,17 +49,18 @@
 
 static void cu_info_prepare(int argc, void **argv) {
   pid_t c1;
-  char *directory;
+  char *dir;
   struct stat stab;
 
-  directory= (char*)(argv[0]);
+  dir = argv[0];
   if (chdir("/"))
     ohshite(_("failed to chdir to `/' for cleanup"));
-  if (lstat(directory,&stab) && errno==ENOENT) return;
+  if (lstat(dir, &stab) && errno == ENOENT)
+    return;
 
   c1 = subproc_fork();
   if (!c1) {
-    execlp(RM, "rm", "-rf", directory, NULL);
+    execlp(RM, "rm", "-rf", dir, NULL);
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
   subproc_wait_check(c1, _("rm command for cleanup"), 0);
@@ -67,7 +68,7 @@ static void cu_info_prepare(int argc, void **argv) {
 
 static void info_prepare(const char *const **argvp,
                          const char **debarp,
-                         const char **directoryp,
+                         const char **dirp,
                          int admininfo) {
   char *dbuf;
 
@@ -77,7 +78,7 @@ static void info_prepare(const char *const **argvp,
   dbuf = mkdtemp(path_make_temp_template("dpkg-deb"));
   if (!dbuf)
     ohshite(_("unable to create temporary directory"));
-  *directoryp= dbuf;
+  *dirp = dbuf;
 
   push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
   extracthalf(*debarp, dbuf, "mx", admininfo);
@@ -87,8 +88,9 @@ static int ilist_select(const struct dirent *de) {
   return strcmp(de->d_name,".") && strcmp(de->d_name,"..");
 }
 
-static void info_spew(const char *debar, const char *directory,
-                      const char *const *argv) {
+static void
+info_spew(const char *debar, const char *dir, const char *const *argv)
+{
   const char *component;
   struct varbuf controlfile = VARBUF_INIT;
   int fd;
@@ -96,7 +98,7 @@ static void info_spew(const char *debar, const char *directory,
 
   while ((component = *argv++) != NULL) {
     varbufreset(&controlfile);
-    varbufaddstr(&controlfile, directory);
+    varbufaddstr(&controlfile, dir);
     varbufaddc(&controlfile, '/');
     varbufaddstr(&controlfile, component);
     varbufaddc(&controlfile, '\0');
@@ -112,7 +114,7 @@ static void info_spew(const char *debar, const char *directory,
       re++;
     } else {
       ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),
-	      component, directory);
+              component, dir);
     }
   }
   varbuf_destroy(&controlfile);
@@ -122,7 +124,9 @@ static void info_spew(const char *debar, const char *directory,
               "%d requested control components are missing", re), re);
 }
 
-static void info_list(const char *debar, const char *directory) {
+static void
+info_list(const char *debar, const char *dir)
+{
   char interpreter[INTERPRETER_MAX+1], *p;
   int il, lines;
   struct dirent **cdlist, *cdep;
@@ -132,15 +136,16 @@ static void info_list(const char *debar, const char *directory) {
   int c;
 
   cdn= scandir(".", &cdlist, &ilist_select, alphasort);
-  if (cdn == -1) ohshite(_("cannot scan directory `%.255s'"),directory);
+  if (cdn == -1)
+    ohshite(_("cannot scan directory `%.255s'"), dir);
 
   for (n = 0; n < cdn; n++) {
     cdep = cdlist[n];
     if (stat(cdep->d_name,&stab))
-      ohshite(_("cannot stat `%.255s' (in `%.255s')"),cdep->d_name,directory);
+      ohshite(_("cannot stat `%.255s' (in `%.255s')"), cdep->d_name, dir);
     if (S_ISREG(stab.st_mode)) {
       if (!(cc= fopen(cdep->d_name,"r")))
-        ohshite(_("cannot open `%.255s' (in `%.255s')"),cdep->d_name,directory);
+        ohshite(_("cannot open `%.255s' (in `%.255s')"), cdep->d_name, dir);
       lines = 0;
       interpreter[0] = '\0';
       if (getc(cc) == '#') {
@@ -156,7 +161,7 @@ static void info_list(const char *debar, const char *directory) {
       }
       while ((c= getc(cc))!= EOF) { if (c == '\n') lines++; }
       if (ferror(cc)) ohshite(_("failed to read `%.255s' (in `%.255s')"),
-                              cdep->d_name,directory);
+                              cdep->d_name, dir);
       fclose(cc);
       printf(_(" %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"),
              (long)stab.st_size, lines, S_IXUSR & stab.st_mode ? '*' : ' ',
@@ -170,7 +175,7 @@ static void info_list(const char *debar, const char *directory) {
 
   if (!(cc= fopen("control","r"))) {
     if (errno != ENOENT)
-      ohshite(_("failed to read `%.255s' (in `%.255s')"), "control", directory);
+      ohshite(_("failed to read `%.255s' (in `%.255s')"), "control", dir);
     fputs(_("(no `control' file in control archive!)\n"), stdout);
   } else {
     lines= 1;
@@ -184,15 +189,16 @@ static void info_list(const char *debar, const char *directory) {
       putc('\n', stdout);
 
     if (ferror(cc))
-      ohshite(_("failed to read `%.255s' (in `%.255s')"), "control", directory);
+      ohshite(_("failed to read `%.255s' (in `%.255s')"), "control", dir);
     fclose(cc);
   }
 
   m_output(stdout, _("<standard output>"));
 }
 
-static void info_field(const char *debar, const char *directory,
-                       const char *const *fields, bool showfieldname)
+static void
+info_field(const char *debar, const char *dir, const char *const *fields,
+           bool showfieldname)
 {
   FILE *cc;
   char fieldname[MAXFIELDNAME+1];
@@ -248,14 +254,14 @@ static void info_field(const char *debar, const char *directory,
 }
 
 void do_showinfo(const char* const* argv) {
-  const char *debar, *directory;
+  const char *debar, *dir;
   struct pkginfo *pkg;
   struct pkg_format_node *fmt = pkg_format_parse(showformat);
 
   if (!fmt)
     ohshit(_("Error in format"));
 
-  info_prepare(&argv,&debar,&directory,1);
+  info_prepare(&argv, &debar, &dir, 1);
 
   parsedb(CONTROLFILE, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles,
           &pkg, NULL);
@@ -264,26 +270,26 @@ void do_showinfo(const char* const* argv) {
 
 
 void do_info(const char *const *argv) {
-  const char *debar, *directory;
+  const char *debar, *dir;
 
   if (*argv && argv[1]) {
-    info_prepare(&argv,&debar,&directory,1);
-    info_spew(debar,directory, argv);
+    info_prepare(&argv, &debar, &dir, 1);
+    info_spew(debar, dir, argv);
   } else {
-    info_prepare(&argv,&debar,&directory,2);
-    info_list(debar,directory);
+    info_prepare(&argv, &debar, &dir, 2);
+    info_list(debar, dir);
   }
 }
 
 void do_field(const char *const *argv) {
-  const char *debar, *directory;
+  const char *debar, *dir;
 
-  info_prepare(&argv,&debar,&directory,1);
+  info_prepare(&argv, &debar, &dir, 1);
   if (*argv) {
-    info_field(debar, directory, argv, argv[1] != NULL);
+    info_field(debar, dir, argv, argv[1] != NULL);
   } else {
     static const char *const controlonly[] = { "control", NULL };
-    info_spew(debar,directory, controlonly);
+    info_spew(debar, dir, controlonly);
   }
 }
 

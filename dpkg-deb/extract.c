@@ -121,8 +121,10 @@ parseheaderlength(const char *inh, size_t len,
   return (size_t)r;
 }
 
-void extracthalf(const char *debar, const char *directory,
-                 const char *taroption, int admininfo) {
+void
+extracthalf(const char *debar, const char *dir, const char *taroption,
+            int admininfo)
+{
   char versionbuf[40];
   float versionnum;
   size_t ctrllennum, memberlen= 0;
@@ -300,11 +302,13 @@ void extracthalf(const char *debar, const char *directory,
   close(arfd);
   if (taroption) close(p2[1]);
 
-  if (taroption && directory) {
-    if (chdir(directory)) {
+  if (taroption && dir) {
+    if (chdir(dir)) {
       if (errno == ENOENT) {
-        if (mkdir(directory,0777)) ohshite(_("failed to create directory"));
-        if (chdir(directory)) ohshite(_("failed to chdir to directory after creating it"));
+        if (mkdir(dir, 0777))
+          ohshite(_("failed to create directory"));
+        if (chdir(dir))
+          ohshite(_("failed to chdir to directory after creating it"));
       } else {
         ohshite(_("failed to chdir to directory"));
       }
@@ -346,18 +350,20 @@ void extracthalf(const char *debar, const char *directory,
 static void controlextractvextract(int admin,
                                    const char *taroptions,
                                    const char *const *argv) {
-  const char *debar, *directory;
+  const char *debar, *dir;
 
   if (!(debar= *argv++))
     badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
-  if (!(directory= *argv++)) {
-    if (admin) directory= EXTRACTCONTROLDIR;
+  dir = *argv++;
+  if (!dir) {
+    if (admin)
+      dir = EXTRACTCONTROLDIR;
     else ohshit(_("--%s needs a target directory.\n"
                 "Perhaps you should be using dpkg --install ?"),cipaction->olong);
   } else if (*argv) {
     badusage(_("--%s takes at most two arguments (.deb and directory)"),cipaction->olong);
   }
-  extracthalf(debar, directory, taroptions, admin);
+  extracthalf(debar, dir, taroptions, admin);
 }
 
 void do_fsystarfile(const char *const *argv) {
