@@ -307,11 +307,41 @@ sub analyze {
         $header =~ s/\s.*// unless ($header =~ s/\t.*//);
         return $header;
     }
+    sub intuit_file_patched {
+	my ($old, $new) = @_;
+	return $new unless defined $old;
+	return $old unless defined $new;
+	return $new if -e $new and not -e $old;
+	return $old if -e $old and not -e $new;
+	# We don't consider the case where both files are non-existent and
+	# where patch picks the one with the fewest directories to create
+	# since dpkg-source will pre-create the required directories
+	#
+	# Precalculate metrics used by patch
+	my ($tmp_o, $tmp_n) = ($old, $new);
+	my ($len_o, $len_n) = (length($old), length($new));
+	$tmp_o =~ s{[/\\]+}{/}g;
+	$tmp_n =~ s{[/\\]+}{/}g;
+	my $nb_comp_o = ($tmp_o =~ tr{/}{/});
+	my $nb_comp_n = ($tmp_n =~ tr{/}{/});
+	$tmp_o =~ s{^.*/}{};
+	$tmp_n =~ s{^.*/}{};
+	my ($blen_o, $blen_n) = (length($tmp_o), length($tmp_n));
+	# Decide like patch would
+	if ($nb_comp_o != $nb_comp_n) {
+	    return ($nb_comp_o < $nb_comp_n) ? $old : $new;
+	} elsif ($blen_o != $blen_n) {
+	    return ($blen_o < $blen_n) ? $old : $new;
+	} elsif ($len_o != $len_n) {
+	    return ($len_o < $len_n) ? $old : $new;
+	}
+	return $old;
+    }
     $_ = getline($self);
 
   HUNK:
     while (defined($_) || not eof($self)) {
-	my ($fn, $fn2);
+	my (%path, %fn);
 	# skip comments leading up to patch (if any)
 	until (/^--- /) {
 	    last HUNK if not defined($_ = getline($self));
@@ -321,11 +351,8 @@ sub analyze {
 	unless(s/^--- //) {
 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 	}
-        $_ = strip_ts($_);
-        if ($_ eq '/dev/null' or s{^[^/]+/}{$destdir/}) {
-            $fn = $_;
-	    error(_g("%s contains an insecure path: %s"), $diff, $_) if m{/\.\./};
-        }
+        $path{'old'} = $_ = strip_ts($_);
+	$fn{'old'} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
 	if (/\.dpkg-orig$/) {
 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
 	}
@@ -336,44 +363,45 @@ sub analyze {
 	unless (s/^\+\+\+ //) {
 	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 	}
-        $_ = strip_ts($_);
-        if ($_ eq '/dev/null' or s{^[^/]+/}{$destdir/}) {
-            $fn2 = $_;
-	    error(_g("%s contains an insecure path: %s"), $diff, $_) if m{/\.\./};
-        } else {
-            unless (defined $fn) {
-                error(_g("none of the filenames in ---/+++ are relative in diff `%s' (line %d)"),
-                      $diff, $.);
-            }
-        }
+        $path{'new'} = $_ = strip_ts($_);
+	$fn{'new'} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
 
-        if (defined($fn) and $fn eq '/dev/null') {
+	unless (defined $fn{'old'} or defined $fn{'new'}) {
+	    error(_g("none of the filenames in ---/+++ are valid in diff '%s' (line %d)"),
+		  $diff, $.);
+	}
+
+	# Safety checks on both filenames that patch could use
+	foreach my $key ("old", "new") {
+	    next unless defined $fn{$key};
+	    if ($path{$key} =~ m{/\.\./}) {
+		error(_g("%s contains an insecure path: %s"), $diff, $path{$key});
+	    }
+	    my $path = $fn{$key};
+	    while (1) {
+		if (-l $path) {
+		    error(_g("diff %s modifies file %s through a symlink: %s"),
+			  $diff, $fn{$key}, $path);
+		}
+		last unless $path =~ s{/+[^/]*$}{};
+		last if length($path) <= length($destdir); # $destdir is assumed safe
+	    }
+	}
+
+        if ($path{'old'} eq '/dev/null' and $path{'new'} eq '/dev/null') {
             error(_g("original and modified files are /dev/null in diff `%s' (line %d)"),
-                  $diff, $.) if (defined($fn2) and $fn2 eq '/dev/null');
-            $fn = $fn2;
-        } elsif (defined($fn2) and $fn2 ne '/dev/null') {
-            $fn = $fn2 unless defined $fn;
-            $fn = $fn2 if ((not -e $fn) and -e $fn2);
-        } elsif (defined($fn2) and $fn2 eq '/dev/null') {
+                  $diff, $.);
+        } elsif ($path{'new'} eq '/dev/null') {
             error(_g("file removal without proper filename in diff `%s' (line %d)"),
-                  $diff, $. - 1) unless defined $fn;
+                  $diff, $. - 1) unless defined $fn{'old'};
             warning(_g("diff %s removes a non-existing file %s (line %d)"),
-                    $diff, $fn, $.) unless -e $fn;
+                    $diff, $fn{'old'}, $.) unless -e $fn{'old'};
         }
+	my $fn = intuit_file_patched($fn{'old'}, $fn{'new'});
 
 	my $dirname = $fn;
 	if ($dirname =~ s{/[^/]+$}{} && not -d $dirname) {
 	    $dirtocreate{$dirname} = 1;
-	}
-
-	# Sanity check, refuse to patch through a symlink
-	$dirname = $fn;
-	while (1) {
-	    if (-l $dirname) {
-		error(_g("diff %s modifies file %s through a symlink: %s"),
-		      $diff, $fn, $dirname);
-	    }
-	    last unless $dirname =~ s{/[^/]+$}{};
 	}
 
 	if (-e $fn and not -f _) {
