@@ -105,14 +105,19 @@ AC_CHECK_LIB([ncurses], [initscr],
 AC_DEFUN([DPKG_LIB_CURSES], [
 AC_REQUIRE([DPKG_UNICODE])
 AC_ARG_VAR([CURSES_LIBS], [linker flags for curses library])dnl
-AC_CHECK_HEADERS([ncurses/ncurses.h ncurses.h curses.h ncurses/term.h term.h])
+AC_CHECK_HEADERS([ncurses/ncurses.h ncurses.h curses.h ncurses/term.h term.h],
+                 [have_curses_header=yes])
 if test "x$USE_UNICODE" = "xyes"; then
-  AC_CHECK_HEADERS([ncursesw/ncurses.h ncursesw/term.h])
+  AC_CHECK_HEADERS([ncursesw/ncurses.h ncursesw/term.h],
+                   [have_curses_header=yes])
   AC_CHECK_LIB([ncursesw], [initscr],
     [CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-lncursesw"],
     [_DPKG_CHECK_LIB_CURSES_NARROW()])
 else
   _DPKG_CHECK_LIB_CURSES_NARROW()
+fi
+if test "x$have_curses_header" != "xyes"; then
+  AC_MSG_FAILURE([curses header not found])
 fi
 ])# DPKG_LIB_CURSES
 
