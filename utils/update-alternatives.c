@@ -1059,10 +1059,9 @@ altdb_parse_error(struct altdb_context *ctx, const char *format, ...)
 {
 	char *msg;
 	va_list args;
-	int ret;
 
 	va_start(args, format);
-	ret = xvasprintf(&msg, format, args);
+	xvasprintf(&msg, format, args);
 	va_end(args);
 
 	error(_("%s corrupt: %s"), ctx->filename, msg);
