@@ -38,7 +38,7 @@ varbufaddc(struct varbuf *v, int c)
 }
 
 void
-varbufdupc(struct varbuf *v, int c, size_t n)
+varbuf_dup_char(struct varbuf *v, int c, size_t n)
 {
   varbuf_grow(v, n);
   memset(v->buf + v->used, c, n);

@@ -72,7 +72,7 @@ void varbuf_reset(struct varbuf *v);
 void varbuf_destroy(struct varbuf *v);
 
 void varbufaddc(struct varbuf *v, int c);
-void varbufdupc(struct varbuf *v, int c, size_t n);
+void varbuf_dup_char(struct varbuf *v, int c, size_t n);
 void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
 #define varbufaddstr(v, s) varbufaddbuf(v, s, strlen(s))
 void varbufaddbuf(struct varbuf *v, const void *s, size_t size);

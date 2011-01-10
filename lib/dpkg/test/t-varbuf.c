@@ -162,18 +162,18 @@ test_varbuf_addc(void)
 }
 
 static void
-test_varbuf_dupc(void)
+test_varbuf_dup_char(void)
 {
 	struct varbuf vb;
 
 	varbuf_init(&vb, 5);
 
-	varbufdupc(&vb, 'z', 10);
+	varbuf_dup_char(&vb, 'z', 10);
 	test_pass(vb.used == 10);
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "zzzzzzzzzz", 10);
 
-	varbufdupc(&vb, 'y', 5);
+	varbuf_dup_char(&vb, 'y', 5);
 	test_pass(vb.used == 15);
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "zzzzzzzzzzyyyyy", 15);
@@ -275,7 +275,7 @@ test(void)
 	test_varbuf_trunc();
 	test_varbuf_addbuf();
 	test_varbuf_addc();
-	test_varbuf_dupc();
+	test_varbuf_dup_char();
 	test_varbuf_map_char();
 	test_varbuf_printf();
 	test_varbuf_reset();
