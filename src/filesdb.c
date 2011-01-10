@@ -464,13 +464,13 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   static struct varbuf vb, newvb;
   FILE *file;
 
-  varbufreset(&vb);
+  varbuf_reset(&vb);
   varbufaddstr(&vb, pkgadmindir());
   varbufaddstr(&vb,pkg->name);
   varbufaddstr(&vb,"." LISTFILE);
   varbufaddc(&vb,0);
 
-  varbufreset(&newvb);
+  varbuf_reset(&newvb);
   varbufaddstr(&newvb,vb.buf);
   varbufaddstr(&newvb,NEWDBEXT);
   varbufaddc(&newvb,0);

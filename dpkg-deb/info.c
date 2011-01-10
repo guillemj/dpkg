@@ -97,7 +97,7 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
   int re= 0;
 
   while ((component = *argv++) != NULL) {
-    varbufreset(&controlfile);
+    varbuf_reset(&controlfile);
     varbufaddstr(&controlfile, dir);
     varbufaddc(&controlfile, '/');
     varbufaddstr(&controlfile, component);

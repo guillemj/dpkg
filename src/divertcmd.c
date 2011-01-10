@@ -288,7 +288,7 @@ static const char *
 varbuf_diversion(struct varbuf *str, const char *pkgname,
                  const char *filename, const char *divertto)
 {
-	varbufreset(str);
+	varbuf_reset(str);
 
 	if (pkgname == NULL) {
 		if (divertto == NULL)
@@ -314,7 +314,7 @@ diversion_current(const char *filename)
 	static struct varbuf str = VARBUF_INIT;
 
 	if (opt_pkgname_match_any) {
-		varbufreset(&str);
+		varbuf_reset(&str);
 
 		if (opt_divertto == NULL)
 			varbufprintf(&str, _("any diversion of %s"), filename);

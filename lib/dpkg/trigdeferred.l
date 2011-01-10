@@ -99,7 +99,7 @@ static FILE *trig_new_deferred;
 static void
 constructfn(struct varbuf *vb, const char *dir, const char *tail)
 {
-	varbufreset(vb);
+	varbuf_reset(vb);
 	varbufaddstr(vb, dir);
 	varbufaddstr(vb, tail);
 	varbufaddc(vb, 0);

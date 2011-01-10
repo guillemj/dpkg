@@ -216,7 +216,7 @@ static void removal_bulk_remove_files(
       usenode = namenodetouse(namenode, pkg);
       trig_file_activate(usenode, pkg);
 
-      varbufreset(&fnvb);
+      varbuf_reset(&fnvb);
       varbufaddstr(&fnvb,instdir);
       varbufaddstr(&fnvb, usenode->name);
       before= fnvb.used;
@@ -268,7 +268,7 @@ static void removal_bulk_remove_files(
     write_filelist_except(pkg,leftover,0);
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "remove", NULL);
-    varbufreset(&fnvb);
+    varbuf_reset(&fnvb);
     varbufaddstr(&fnvb, pkgadmindir());
     infodirbaseused= fnvb.used;
     varbufaddc(&fnvb,0);
@@ -338,7 +338,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     usenode = namenodetouse(namenode, pkg);
     trig_file_activate(usenode, pkg);
 
-    varbufreset(&fnvb);
+    varbuf_reset(&fnvb);
     varbufaddstr(&fnvb,instdir);
     varbufaddstr(&fnvb, usenode->name);
     varbufaddc(&fnvb,0);
@@ -435,7 +435,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
 	debug(dbg_conffdetail, "removal_bulk conffile obsolete %s",
 	      conff->name);
       }
-      varbufreset(&fnvb);
+      varbuf_reset(&fnvb);
       r= conffderef(pkg, &fnvb, conff->name);
       debug(dbg_conffdetail, "removal_bulk conffile `%s' (= `%s')",
             conff->name, r == -1 ? "<r==-1>" : fnvb.buf);
@@ -446,7 +446,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                 conff->name, fnvb.buf);
       p= strrchr(fnvb.buf,'/'); if (!p) continue;
       *p = '\0';
-      varbufreset(&removevb);
+      varbuf_reset(&removevb);
       varbufaddstr(&removevb,fnvb.buf);
       varbufaddc(&removevb,'/');
       removevbbase= removevb.used;
@@ -555,7 +555,7 @@ void removal_bulk(struct pkginfo *pkg) {
     /* Retry empty directories, and warn on any leftovers that aren't. */
     removal_bulk_remove_leftover_dirs(pkg);
 
-    varbufreset(&fnvb);
+    varbuf_reset(&fnvb);
     varbufaddstr(&fnvb, pkgadmindir());
     varbufaddstr(&fnvb,pkg->name);
     pkgnameused= fnvb.used;

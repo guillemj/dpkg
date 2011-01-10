@@ -312,7 +312,7 @@ trigproc(struct pkginfo *pkg)
 		printf(_("Processing triggers for %s ...\n"), pkg->name);
 		log_action("trigproc", pkg);
 
-		varbufreset(&namesarg);
+		varbuf_reset(&namesarg);
 		for (tp = pkg->trigpend_head; tp; tp = tp->next) {
 			varbufaddc(&namesarg, ' ');
 			varbufaddstr(&namesarg, tp->name);

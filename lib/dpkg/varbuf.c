@@ -109,7 +109,9 @@ varbuf_init(struct varbuf *v, size_t size)
     v->buf = NULL;
 }
 
-void varbufreset(struct varbuf *v) {
+void
+varbuf_reset(struct varbuf *v)
+{
   v->used= 0;
 }
 

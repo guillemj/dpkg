@@ -102,7 +102,7 @@ file_info_get(const char *root, int fd)
   struct file_info *fi;
   size_t root_len;
 
-  varbufreset(&fn);
+  varbuf_reset(&fn);
   root_len = varbufprintf(&fn, "%s/", root);
 
   while (1) {
@@ -193,7 +193,7 @@ check_file_perms(const char *dir)
            (unsigned long)(mscriptstab.st_mode & 07777));
 
   for (mscriptp = maintainerscripts; *mscriptp; mscriptp++) {
-    varbufreset(&path);
+    varbuf_reset(&path);
     varbufprintf(&path, "%s/%s/%s", dir, BUILDCONTROLDIR, *mscriptp);
     if (!lstat(path.buf, &mscriptstab)) {
       if (S_ISLNK(mscriptstab.st_mode))
@@ -254,7 +254,7 @@ check_conffiles(const char *dir)
     }
 
     conffilename[n - 1] = '\0';
-    varbufreset(&controlfile);
+    varbuf_reset(&controlfile);
     varbufprintf(&controlfile, "%s/%s", dir, conffilename);
     if (lstat(controlfile.buf, &controlstab)) {
       if (errno == ENOENT) {

@@ -95,8 +95,8 @@ void setselections(const char *const *argv) {
 
   lno= 1;
   for (;;) {
-    varbufreset(&namevb);
-    varbufreset(&selvb);
+    varbuf_reset(&namevb);
+    varbuf_reset(&selvb);
     do { c= getchar(); if (c == '\n') lno++; } while (c != EOF && isspace(c));
     if (c == EOF) break;
     if (c == '#') {

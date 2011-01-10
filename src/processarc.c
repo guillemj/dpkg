@@ -746,7 +746,7 @@ void process_archive(const char *filename) {
 	if (!cfile->namenode->filestat) {
 	  struct stat tmp_stat;
 
-	  varbufreset(&cfilename);
+	  varbuf_reset(&cfilename);
 	  varbufaddstr(&cfilename, instdir);
 	  varbufaddc(&cfilename, '/');
 	  varbufaddstr(&cfilename, cfile->namenode->name);
@@ -833,7 +833,7 @@ void process_archive(const char *filename) {
    * them as appropriate; then we go through the new scripts
    * (any that are left) and install them. */
   debug(dbg_general, "process_archive updating info directory");
-  varbufreset(&infofnvb);
+  varbuf_reset(&infofnvb);
   varbufaddstr(&infofnvb, pkgadmindir());
   infodirlen= infofnvb.used;
   varbufaddc(&infofnvb,0);
@@ -1112,7 +1112,7 @@ void process_archive(const char *filename) {
                                 NULL);
 
     /* OK, now we delete all the stuff in the ‘info’ directory .. */
-    varbufreset(&fnvb);
+    varbuf_reset(&fnvb);
     varbufaddstr(&fnvb, pkgadmindir());
     infodirbaseused= fnvb.used;
     varbufaddc(&fnvb,0);

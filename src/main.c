@@ -628,7 +628,7 @@ void commandfd(const char *const *argv) {
       do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && c != '\n');
       continue;
     }
-    varbufreset(&linevb);
+    varbuf_reset(&linevb);
     do {
       varbufaddc(&linevb,c);
       c= getc(in);

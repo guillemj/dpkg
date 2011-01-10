@@ -383,7 +383,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
     return false;
 
   /* But is it to the same dir? */
-  varbufreset(symlinkfn);
+  varbuf_reset(symlinkfn);
   if (ti->linkname[0] == '/') {
     varbufaddstr(symlinkfn, instdir);
   } else {
@@ -737,7 +737,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   case tar_filetype_hardlink:
-    varbufreset(&hardlinkfn);
+    varbuf_reset(&hardlinkfn);
     varbufaddstr(&hardlinkfn,instdir); varbufaddc(&hardlinkfn,'/');
     varbufaddstr(&hardlinkfn, ti->linkname);
     linknode = findnamenode(ti->linkname, 0);
@@ -804,7 +804,7 @@ tarobject(void *ctx, struct tar_entry *ti)
       /* We can't make a symlink with two hardlinks, so we'll have to
        * copy it. (Pretend that making a copy of a symlink is the same
        * as linking to it.) */
-      varbufreset(&symlinkfn);
+      varbuf_reset(&symlinkfn);
       varbuf_grow(&symlinkfn, stab.st_size + 1);
       r = readlink(fnamevb.buf, symlinkfn.buf, symlinkfn.size);
       if (r < 0)
@@ -1238,7 +1238,7 @@ void archivefiles(const char *const *argv) {
 
     nfiles= 0;
     pf= fdopen(pi[0],"r");  if (!pf) ohshite(_("failed to fdopen find's pipe"));
-    varbufreset(&findoutput);
+    varbuf_reset(&findoutput);
     while ((c= fgetc(pf)) != EOF) {
       varbufaddc(&findoutput,c);
       if (!c) nfiles++;
@@ -1273,9 +1273,9 @@ void archivefiles(const char *const *argv) {
 
   /* Initialize fname variables contents. */
 
-  varbufreset(&fnamevb);
-  varbufreset(&fnametmpvb);
-  varbufreset(&fnamenewvb);
+  varbuf_reset(&fnamevb);
+  varbuf_reset(&fnametmpvb);
+  varbuf_reset(&fnamenewvb);
 
   varbufaddstr(&fnamevb,instdir); varbufaddc(&fnamevb,'/');
   varbufaddstr(&fnametmpvb,instdir); varbufaddc(&fnametmpvb,'/');

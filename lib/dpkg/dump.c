@@ -393,7 +393,7 @@ writedb(const char *filename, bool available, bool mustsync)
     if (fputs(vb.buf,file) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
               which, pigp->name, filename);
-    varbufreset(&vb);
+    varbuf_reset(&vb);
   }
   pkg_db_iter_free(it);
   varbuf_destroy(&vb);

@@ -115,7 +115,7 @@ void checkpath(void) {
       path_end = strchr(path, ':');
       path_len = path_end ? (size_t)(path_end - path) : strlen(path);
 
-      varbufreset(&filename);
+      varbuf_reset(&filename);
       varbufaddbuf(&filename, path, path_len);
       if (path_len)
         varbufaddc(&filename, '/');

@@ -271,7 +271,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   }
 
   /* Describe the dependency, in case we have to moan about it. */
-  varbufreset(whynot);
+  varbuf_reset(whynot);
   varbufaddc(whynot, ' ');
   describedepcon(whynot, dep);
   varbufaddc(whynot,'\n');

@@ -314,7 +314,7 @@ modstatdb_note_core(struct pkginfo *pkg)
 {
   assert(cstatus >= msdbrw_write);
 
-  varbufreset(&uvb);
+  varbuf_reset(&uvb);
   varbufrecord(&uvb, pkg, &pkg->installed);
 
   if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
@@ -405,7 +405,7 @@ pkgadmindir(void)
 
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   static struct varbuf vb;
-  varbufreset(&vb);
+  varbuf_reset(&vb);
   varbufaddstr(&vb, infodir);
   varbufaddstr(&vb,pkg->name);
   varbufaddc(&vb,'.');

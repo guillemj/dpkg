@@ -197,7 +197,7 @@ const char *versiondescribe
     return C_("version", "<none>");
 
   vb= &bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;
-  varbufreset(vb);
+  varbuf_reset(vb);
   varbufversion(vb,version,vdew);
   varbufaddc(vb,0);
 

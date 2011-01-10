@@ -230,7 +230,7 @@ pkg_format_show(const struct pkg_format_node *head,
 
 					varbufaddc(&wb, '\0');
 					varbufprintf(&fb, fmt, wb.buf);
-					varbufreset(&wb);
+					varbuf_reset(&wb);
 					ok = true;
 					break;
 				}
@@ -254,7 +254,7 @@ pkg_format_show(const struct pkg_format_node *head,
 			varbufaddbuf(&vb, fb.buf, len);
 		}
 
-		varbufreset(&fb);
+		varbuf_reset(&fb);
 		head = head->next;
 	}
 

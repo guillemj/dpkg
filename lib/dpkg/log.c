@@ -60,7 +60,7 @@ log_message(const char *fmt, ...)
 	}
 
 	va_start(args, fmt);
-	varbufreset(&log);
+	varbuf_reset(&log);
 	varbufvprintf(&log, fmt, args);
 	varbufaddc(&log, 0);
 	va_end(args);
@@ -102,7 +102,7 @@ statusfd_send(const char *fmt, ...)
 		return;
 
 	va_start(args, fmt);
-	varbufreset(&vb);
+	varbuf_reset(&vb);
 	varbufvprintf(&vb, fmt, args);
 	/* Sanitize string to not include new lines, as front-ends should be
 	 * doing their own word-wrapping. */

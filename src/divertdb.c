@@ -53,7 +53,7 @@ ensure_diversions(void)
 	FILE *file;
 	struct diversion *ov, *oicontest, *oialtname;
 
-	varbufreset(&vb);
+	varbuf_reset(&vb);
 	varbufaddstr(&vb, admindir);
 	varbufaddstr(&vb, "/" DIVERSIONSFILE);
 	varbufaddc(&vb, 0);

@@ -311,7 +311,7 @@ searchfiles(const char *const *argv)
     /* Trim trailing ‘/’ and ‘/.’ from the argument if it's
      * not a pattern, just a path. */
     if (!strpbrk(thisarg, "*[?\\")) {
-      varbufreset(&path);
+      varbuf_reset(&path);
       varbufaddstr(&path, thisarg);
       varbufaddc(&path, '\0');
 
@@ -321,7 +321,7 @@ searchfiles(const char *const *argv)
     }
 
     if (!strchr("*[?/",*thisarg)) {
-      varbufreset(&vb);
+      varbuf_reset(&vb);
       varbufaddc(&vb,'*');
       varbufaddstr(&vb,thisarg);
       varbufaddc(&vb,'*');

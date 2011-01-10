@@ -404,7 +404,7 @@ void predeppackage(const char *const *argv) {
       }
     }
     if (!pkg) {
-      varbufreset(&vb);
+      varbuf_reset(&vb);
       describedepcon(&vb,dep);
       varbufaddc(&vb,0);
       fprintf(stderr, _("dpkg: cannot see how to satisfy pre-dependency:\n %s\n"),vb.buf);

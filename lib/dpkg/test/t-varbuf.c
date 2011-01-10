@@ -212,7 +212,7 @@ test_varbuf_printf(void)
 	test_pass(vb.size >= vb.used);
 	test_str(vb.buf, ==, "format string number 10");
 
-	varbufreset(&vb);
+	varbuf_reset(&vb);
 
 	/* Test concatenated format printing. */
 	varbufprintf(&vb, "format %s number %d", "string", 10);
@@ -234,7 +234,7 @@ test_varbuf_reset(void)
 
 	varbufaddbuf(&vb, "1234567890", 10);
 
-	varbufreset(&vb);
+	varbuf_reset(&vb);
 	test_pass(vb.used == 0);
 	test_pass(vb.size >= vb.used);
 

@@ -70,7 +70,7 @@ deb_field(const char *filename, const char *field)
 	close(p[1]);
 
 	/* Parant reads from pipe. */
-	varbufreset(&buf);
+	varbuf_reset(&buf);
 	fd_vbuf_copy(p[0], &buf, -1, _("package field value extraction"));
 	varbufaddc(&buf, '\0');
 
@@ -168,7 +168,7 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 	for (curpart = 1; curpart <= nparts; curpart++) {
 		int fd_dst;
 
-		varbufreset(&file_dst);
+		varbuf_reset(&file_dst);
 		/* Generate output filename. */
 		if (msdos) {
 			struct varbuf refname = VARBUF_INIT;
@@ -209,13 +209,13 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 		             st.st_size, partsize, curpart, nparts);
 		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, PARTMAGIC,
 		                       partmagic.buf, partmagic.used);
-		varbufreset(&partmagic);
+		varbuf_reset(&partmagic);
 
 		/* Write the data part. */
 		varbufprintf(&partname, "data.%d", curpart);
 		dpkg_ar_member_put_file(file_dst.buf, fd_dst, partname.buf,
 		                        fd_src, partsize);
-		varbufreset(&partname);
+		varbuf_reset(&partname);
 
 		close(fd_dst);
 

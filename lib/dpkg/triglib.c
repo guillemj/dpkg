@@ -362,7 +362,7 @@ trk_explicit_start(const char *trig)
 {
 	trk_explicit_activate_done();
 
-	varbufreset(&trk_explicit_fn);
+	varbuf_reset(&trk_explicit_fn);
 	varbufaddstr(&trk_explicit_fn, triggersdir);
 	varbufaddstr(&trk_explicit_fn, trig);
 	varbufaddc(&trk_explicit_fn, 0);
@@ -421,7 +421,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 	FILE *nf;
 
 	trk_explicit_start(trig);
-	varbufreset(&newfn);
+	varbuf_reset(&newfn);
 	varbufprintf(&newfn, "%s/%s.new", triggersdir, trig);
 	varbufaddc(&newfn, 0);
 

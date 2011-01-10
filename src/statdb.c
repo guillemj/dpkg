@@ -116,7 +116,7 @@ ensure_statoverrides(void)
 	struct file_stat *fso;
 	struct filenamenode *fnn;
 
-	varbufreset(&vb);
+	varbuf_reset(&vb);
 	varbufaddstr(&vb, admindir);
 	varbufaddstr(&vb, "/" STATOVERRIDEFILE);
 	varbufaddc(&vb, 0);

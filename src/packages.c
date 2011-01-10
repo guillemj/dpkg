@@ -553,7 +553,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     if (dep->type != dep_depends && dep->type != dep_predepends) continue;
     debug(dbg_depcondetail,"  checking group ...");
     matched = false;
-    varbufreset(&oemsgs);
+    varbuf_reset(&oemsgs);
     found = found_none;
     possfixbytrig = NULL;
     for (possi = dep->list; found != found_ok && possi; possi = possi->next) {
