@@ -100,7 +100,7 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 
 	switch (data->type) {
 	case BUFFER_WRITE_VBUF:
-		varbufaddbuf((struct varbuf *)data->arg.ptr, buf, length);
+		varbuf_add_buf((struct varbuf *)data->arg.ptr, buf, length);
 		break;
 	case BUFFER_WRITE_FD:
 		ret = fd_write(data->arg.i, buf, length);

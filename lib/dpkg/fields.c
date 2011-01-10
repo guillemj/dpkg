@@ -324,7 +324,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       }
       depnamelength= p - depnamestart ;
       varbuf_reset(&depname);
-      varbufaddbuf(&depname, depnamestart, depnamelength);
+      varbuf_add_buf(&depname, depnamestart, depnamelength);
       varbuf_add_char(&depname, '\0');
       if (!depname.buf[0])
         parse_error(ps, pigp,
@@ -425,7 +425,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                       _("`%s' field, reference to `%.255s': "
                         "version unterminated"), fip->name, depname.buf);
         varbuf_reset(&version);
-        varbufaddbuf(&version, versionstart, versionlength);
+        varbuf_add_buf(&version, versionstart, versionlength);
         varbuf_add_char(&version, '\0');
         parse_db_version(ps, pigp, &dop->version, version.buf,
                          _("'%s' field, reference to '%.255s': "
@@ -482,7 +482,7 @@ scan_word(const char **valp)
   }
 
   varbuf_reset(&word);
-  varbufaddbuf(&word, start, end - start);
+  varbuf_add_buf(&word, start, end - start);
   varbuf_add_char(&word, '\0');
 
   *valp = p;

@@ -118,12 +118,12 @@ test_varbuf_addbuf(void)
 
 	varbuf_init(&vb, 5);
 
-	varbufaddbuf(&vb, "1234567890", 10);
+	varbuf_add_buf(&vb, "1234567890", 10);
 	test_pass(vb.used == 10);
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "1234567890", 10);
 
-	varbufaddbuf(&vb, "abcde", 5);
+	varbuf_add_buf(&vb, "abcde", 5);
 	test_pass(vb.used == 15);
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "1234567890abcde", 15);
@@ -188,7 +188,7 @@ test_varbuf_map_char(void)
 
 	varbuf_init(&vb, 5);
 
-	varbufaddbuf(&vb, "1234a5678a9012a", 15);
+	varbuf_add_buf(&vb, "1234a5678a9012a", 15);
 
 	varbuf_map_char(&vb, 'a', 'z');
 	test_pass(vb.used == 15);
@@ -232,13 +232,13 @@ test_varbuf_reset(void)
 
 	varbuf_init(&vb, 10);
 
-	varbufaddbuf(&vb, "1234567890", 10);
+	varbuf_add_buf(&vb, "1234567890", 10);
 
 	varbuf_reset(&vb);
 	test_pass(vb.used == 0);
 	test_pass(vb.size >= vb.used);
 
-	varbufaddbuf(&vb, "abcdefghijklmno", 15);
+	varbuf_add_buf(&vb, "abcdefghijklmno", 15);
 	test_pass(vb.used == 15);
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "abcdefghijklmno", 15);
@@ -254,7 +254,7 @@ test_varbuf_detach(void)
 
 	varbuf_init(&vb, 0);
 
-	varbufaddbuf(&vb, "1234567890", 10);
+	varbuf_add_buf(&vb, "1234567890", 10);
 
 	str = varbuf_detach(&vb);
 

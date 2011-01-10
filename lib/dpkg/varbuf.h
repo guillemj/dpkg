@@ -74,8 +74,8 @@ void varbuf_destroy(struct varbuf *v);
 void varbuf_add_char(struct varbuf *v, int c);
 void varbuf_dup_char(struct varbuf *v, int c, size_t n);
 void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
-#define varbuf_add_str(v, s) varbufaddbuf(v, s, strlen(s))
-void varbufaddbuf(struct varbuf *v, const void *s, size_t size);
+#define varbuf_add_str(v, s) varbuf_add_buf(v, s, strlen(s))
+void varbuf_add_buf(struct varbuf *v, const void *s, size_t size);
 
 int varbufprintf(struct varbuf *v, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 int varbufvprintf(struct varbuf *v, const char *fmt, va_list va)

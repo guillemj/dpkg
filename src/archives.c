@@ -389,7 +389,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
   } else {
     lastslash= strrchr(fname, '/');
     assert(lastslash);
-    varbufaddbuf(symlinkfn, fname, (lastslash - fname) + 1);
+    varbuf_add_buf(symlinkfn, fname, (lastslash - fname) + 1);
   }
   varbuf_add_str(symlinkfn, ti->linkname);
   varbuf_add_char(symlinkfn, '\0');

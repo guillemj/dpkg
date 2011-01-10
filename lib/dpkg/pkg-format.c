@@ -251,7 +251,7 @@ pkg_format_show(const struct pkg_format_node *head,
 			size_t len = strlen(fb.buf);
 			if ((head->width > 0) && (len > head->width))
 				len = head->width;
-			varbufaddbuf(&vb, fb.buf, len);
+			varbuf_add_buf(&vb, fb.buf, len);
 		}
 
 		varbuf_reset(&fb);
