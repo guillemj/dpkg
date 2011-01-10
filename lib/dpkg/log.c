@@ -106,7 +106,7 @@ statusfd_send(const char *fmt, ...)
 	varbufvprintf(&vb, fmt, args);
 	/* Sanitize string to not include new lines, as front-ends should be
 	 * doing their own word-wrapping. */
-	varbufsubstc(&vb, '\n', ' ');
+	varbuf_map_char(&vb, '\n', ' ');
 	varbufaddc(&vb, '\n');
 	va_end(args);
 

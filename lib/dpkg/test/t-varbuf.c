@@ -182,7 +182,7 @@ test_varbuf_dupc(void)
 }
 
 static void
-test_varbuf_substc(void)
+test_varbuf_map_char(void)
 {
 	struct varbuf vb;
 
@@ -190,7 +190,7 @@ test_varbuf_substc(void)
 
 	varbufaddbuf(&vb, "1234a5678a9012a", 15);
 
-	varbufsubstc(&vb, 'a', 'z');
+	varbuf_map_char(&vb, 'a', 'z');
 	test_pass(vb.used == 15);
 	test_pass(vb.size >= vb.used);
 	test_mem(vb.buf, ==, "1234z5678z9012z", 15);
@@ -276,7 +276,7 @@ test(void)
 	test_varbuf_addbuf();
 	test_varbuf_addc();
 	test_varbuf_dupc();
-	test_varbuf_substc();
+	test_varbuf_map_char();
 	test_varbuf_printf();
 	test_varbuf_reset();
 	test_varbuf_detach();

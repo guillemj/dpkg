@@ -46,7 +46,7 @@ varbufdupc(struct varbuf *v, int c, size_t n)
 }
 
 void
-varbufsubstc(struct varbuf *v, int c_src, int c_dst)
+varbuf_map_char(struct varbuf *v, int c_src, int c_dst)
 {
   size_t i;
 
