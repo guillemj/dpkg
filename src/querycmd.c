@@ -544,7 +544,7 @@ control_path_pkg(struct pkginfo *pkg)
   struct varbuf db_path;
   size_t db_path_len;
 
-  varbufinit(&db_path, 0);
+  varbuf_init(&db_path, 0);
   varbufaddstr(&db_path, pkgadmindir());
   db_path_len = db_path.used;
   varbufaddc(&db_path, '\0');

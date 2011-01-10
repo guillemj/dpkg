@@ -99,7 +99,7 @@ varbufaddbuf(struct varbuf *v, const void *s, size_t size)
 }
 
 void
-varbufinit(struct varbuf *v, size_t size)
+varbuf_init(struct varbuf *v, size_t size)
 {
   v->used = 0;
   v->size = size;

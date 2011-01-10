@@ -30,17 +30,17 @@
 DPKG_BEGIN_DECLS
 
 /*
- * varbufinit must be called exactly once before the use of each varbuf
+ * varbuf_init must be called exactly once before the use of each varbuf
  * (including before any call to varbuf_destroy), or the variable must be
  * initialized with VARBUF_INIT.
  *
  * However, varbufs allocated ‘static’ are properly initialized anyway and
- * do not need varbufinit; multiple consecutive calls to varbufinit before
+ * do not need varbuf_init; multiple consecutive calls to varbuf_init before
  * any use are allowed.
  *
  * varbuf_destroy must be called after a varbuf is finished with, if anything
- * other than varbufinit has been done. After this you are allowed but
- * not required to call varbufinit again if you want to start using the
+ * other than varbuf_init has been done. After this you are allowed but
+ * not required to call varbuf_init again if you want to start using the
  * varbuf again.
  *
  * Callers using C++ need not worry about any of this.
@@ -64,7 +64,7 @@ struct varbuf {
 
 #define VARBUF_INIT { 0, 0, NULL }
 
-void varbufinit(struct varbuf *v, size_t size);
+void varbuf_init(struct varbuf *v, size_t size);
 void varbuf_grow(struct varbuf *v, size_t need_size);
 void varbuf_trunc(struct varbuf *v, size_t used_size);
 char *varbuf_detach(struct varbuf *v);
@@ -87,7 +87,7 @@ DPKG_END_DECLS
 inline
 varbuf::varbuf(size_t _size)
 {
-	varbufinit(this, _size);
+	varbuf_init(this, _size);
 }
 
 inline
@@ -99,7 +99,7 @@ varbuf::~varbuf()
 inline void
 varbuf::init(size_t _size)
 {
-	varbufinit(this, _size);
+	varbuf_init(this, _size);
 }
 
 inline void

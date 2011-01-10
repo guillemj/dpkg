@@ -31,7 +31,7 @@ test_varbuf_init(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 0);
+	varbuf_init(&vb, 0);
 	test_pass(vb.used == 0);
 	test_pass(vb.size == 0);
 	test_pass(vb.buf == NULL);
@@ -47,7 +47,7 @@ test_varbuf_prealloc(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 10);
+	varbuf_init(&vb, 10);
 	test_pass(vb.used == 0);
 	test_pass(vb.size >= 10);
 	test_pass(vb.buf != NULL);
@@ -65,7 +65,7 @@ test_varbuf_grow(void)
 	size_t old_size;
 	int i;
 
-	varbufinit(&vb, 10);
+	varbuf_init(&vb, 10);
 
 	/* Test that we grow when needed. */
 	varbuf_grow(&vb, 100);
@@ -96,7 +96,7 @@ test_varbuf_trunc(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 50);
+	varbuf_init(&vb, 50);
 
 	/* Test that we truncate (grow). */
 	varbuf_trunc(&vb, 20);
@@ -116,7 +116,7 @@ test_varbuf_addbuf(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 5);
+	varbuf_init(&vb, 5);
 
 	varbufaddbuf(&vb, "1234567890", 10);
 	test_pass(vb.used == 10);
@@ -136,7 +136,7 @@ test_varbuf_addc(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 1);
+	varbuf_init(&vb, 1);
 
 	varbufaddc(&vb, 'a');
 	test_pass(vb.used == 1);
@@ -166,7 +166,7 @@ test_varbuf_dupc(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 5);
+	varbuf_init(&vb, 5);
 
 	varbufdupc(&vb, 'z', 10);
 	test_pass(vb.used == 10);
@@ -186,7 +186,7 @@ test_varbuf_substc(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 5);
+	varbuf_init(&vb, 5);
 
 	varbufaddbuf(&vb, "1234a5678a9012a", 15);
 
@@ -203,7 +203,7 @@ test_varbuf_printf(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 5);
+	varbuf_init(&vb, 5);
 
 	/* Test normal format printing. */
 	varbufprintf(&vb, "format %s number %d", "string", 10);
@@ -230,7 +230,7 @@ test_varbuf_reset(void)
 {
 	struct varbuf vb;
 
-	varbufinit(&vb, 10);
+	varbuf_init(&vb, 10);
 
 	varbufaddbuf(&vb, "1234567890", 10);
 
@@ -252,7 +252,7 @@ test_varbuf_detach(void)
 	struct varbuf vb;
 	char *str;
 
-	varbufinit(&vb, 0);
+	varbuf_init(&vb, 0);
 
 	varbufaddbuf(&vb, "1234567890", 10);
 

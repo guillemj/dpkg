@@ -257,7 +257,7 @@ modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
 
   if (cstatus >= msdbrw_write) {
     createimptmp();
-    varbufinit(&uvb, 10240);
+    varbuf_init(&uvb, 10240);
   }
 
   trig_fixup_awaiters(cstatus);
