@@ -50,7 +50,7 @@ void w_name(struct varbuf *vb,
     varbufaddstr(vb,"Package: ");
   varbufaddstr(vb, pigp->name);
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void w_version(struct varbuf *vb,
@@ -61,7 +61,7 @@ void w_version(struct varbuf *vb,
     varbufaddstr(vb,"Version: ");
   varbufversion(vb,&pifp->version,vdew_nonambig);
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void w_configversion(struct varbuf *vb,
@@ -78,7 +78,7 @@ void w_configversion(struct varbuf *vb,
     varbufaddstr(vb,"Config-Version: ");
   varbufversion(vb,&pigp->configversion,vdew_nonambig);
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void w_null(struct varbuf *vb,
@@ -95,7 +95,7 @@ void w_section(struct varbuf *vb,
     varbufaddstr(vb,"Section: ");
   varbufaddstr(vb,value);
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void w_charfield(struct varbuf *vb,
@@ -109,7 +109,7 @@ void w_charfield(struct varbuf *vb,
   }
   varbufaddstr(vb,value);
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void w_filecharf(struct varbuf *vb,
@@ -123,17 +123,17 @@ void w_filecharf(struct varbuf *vb,
 
   if (flags&fw_printheader) {
     varbufaddstr(vb,fip->name);
-    varbufaddc(vb,':');
+    varbuf_add_char(vb, ':');
   }
 
   while (fdp) {
-    varbufaddc(vb,' ');
+    varbuf_add_char(vb, ' ');
     varbufaddstr(vb,FILEFFIELD(fdp,fip->integer,const char*));
     fdp= fdp->next;
   }
 
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void w_booleandefno(struct varbuf *vb,
@@ -161,7 +161,7 @@ void w_priority(struct varbuf *vb,
                ? pigp->otherpriority
                : priorityinfos[pigp->priority].name);
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void w_status(struct varbuf *vb,
@@ -203,11 +203,13 @@ void w_status(struct varbuf *vb,
 
   if (flags&fw_printheader)
     varbufaddstr(vb,"Status: ");
-  varbufaddstr(vb,wantinfos[pigp->want].name); varbufaddc(vb,' ');
-  varbufaddstr(vb,eflaginfos[pigp->eflag].name); varbufaddc(vb,' ');
+  varbufaddstr(vb, wantinfos[pigp->want].name);
+  varbuf_add_char(vb, ' ');
+  varbufaddstr(vb, eflaginfos[pigp->eflag].name);
+  varbuf_add_char(vb, ' ');
   varbufaddstr(vb,statusinfos[pigp->status].name);
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void varbufdependency(struct varbuf *vb, struct dependency *dep) {
@@ -222,7 +224,9 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
     if (dop->verrel != dvr_none) {
       varbufaddstr(vb," (");
       switch (dop->verrel) {
-      case dvr_exact: varbufaddc(vb,'='); break;
+      case dvr_exact:
+        varbuf_add_char(vb, '=');
+        break;
       case dvr_laterequal: varbufaddstr(vb,">="); break;
       case dvr_earlierequal: varbufaddstr(vb,"<="); break;
       case dvr_laterstrict: varbufaddstr(vb,">>"); break;
@@ -230,9 +234,9 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
       default:
         internerr("unknown verrel '%d'", dop->verrel);
       }
-      varbufaddc(vb,' ');
+      varbuf_add_char(vb, ' ');
       varbufversion(vb,&dop->version,vdew_nonambig);
-      varbufaddc(vb,')');
+      varbuf_add_char(vb, ')');
     }
   }
 }
@@ -257,7 +261,7 @@ void w_dependency(struct varbuf *vb,
     varbufdependency(vb,dyp);
   }
   if ((flags&fw_printheader) && (depdel!=fnbuf))
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void w_conffiles(struct varbuf *vb,
@@ -270,13 +274,16 @@ void w_conffiles(struct varbuf *vb,
   if (flags&fw_printheader)
     varbufaddstr(vb,"Conffiles:\n");
   for (i=pifp->conffiles; i; i= i->next) {
-    if (i!=pifp->conffiles) varbufaddc(vb,'\n');
-    varbufaddc(vb,' '); varbufaddstr(vb,i->name); varbufaddc(vb,' ');
+    if (i != pifp->conffiles)
+      varbuf_add_char(vb, '\n');
+    varbuf_add_char(vb, ' ');
+    varbufaddstr(vb, i->name);
+    varbuf_add_char(vb, ' ');
     varbufaddstr(vb,i->hash);
     if (i->obsolete) varbufaddstr(vb," obsolete");
   }
   if (flags&fw_printheader)
-    varbufaddc(vb,'\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void
@@ -295,11 +302,11 @@ w_trigpend(struct varbuf *vb,
   if (flags & fw_printheader)
     varbufaddstr(vb, "Triggers-Pending:");
   for (tp = pigp->trigpend_head; tp; tp = tp->next) {
-    varbufaddc(vb, ' ');
+    varbuf_add_char(vb, ' ');
     varbufaddstr(vb, tp->name);
   }
   if (flags & fw_printheader)
-    varbufaddc(vb, '\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void
@@ -318,11 +325,11 @@ w_trigaw(struct varbuf *vb,
   if (flags & fw_printheader)
     varbufaddstr(vb, "Triggers-Awaited:");
   for (ta = pigp->trigaw.head; ta; ta = ta->sameaw.next) {
-    varbufaddc(vb, ' ');
+    varbuf_add_char(vb, ' ');
     varbufaddstr(vb, ta->pend->name);
   }
   if (flags & fw_printheader)
-    varbufaddc(vb, '\n');
+    varbuf_add_char(vb, '\n');
 }
 
 void varbufrecord(struct varbuf *vb,
@@ -337,7 +344,7 @@ void varbufrecord(struct varbuf *vb,
     varbufaddstr(vb, afp->name);
     varbufaddstr(vb, ": ");
     varbufaddstr(vb, afp->value);
-    varbufaddc(vb, '\n');
+    varbuf_add_char(vb, '\n');
   }
 }
 
@@ -346,7 +353,7 @@ void writerecord(FILE *file, const char *filename,
   struct varbuf vb = VARBUF_INIT;
 
   varbufrecord(&vb,pigp,pifp);
-  varbufaddc(&vb,'\0');
+  varbuf_add_char(&vb, '\0');
   if (fputs(vb.buf,file) < 0)
     ohshite(_("failed to write details of `%.50s' to `%.250s'"), pigp->name,
 	    filename);
@@ -389,7 +396,8 @@ writedb(const char *filename, bool available, bool mustsync)
     if (!pkg_is_informative(pigp, pifp))
       continue;
     varbufrecord(&vb,pigp,pifp);
-    varbufaddc(&vb,'\n'); varbufaddc(&vb,0);
+    varbuf_add_char(&vb, '\n');
+    varbuf_add_char(&vb, '\0');
     if (fputs(vb.buf,file) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
               which, pigp->name, filename);

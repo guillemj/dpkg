@@ -314,10 +314,10 @@ trigproc(struct pkginfo *pkg)
 
 		varbuf_reset(&namesarg);
 		for (tp = pkg->trigpend_head; tp; tp = tp->next) {
-			varbufaddc(&namesarg, ' ');
+			varbuf_add_char(&namesarg, ' ');
 			varbufaddstr(&namesarg, tp->name);
 		}
-		varbufaddc(&namesarg, 0);
+		varbuf_add_char(&namesarg, '\0');
 
 		/* Setting the status to half-configured
 		 * causes modstatdb_note to clear pending triggers. */

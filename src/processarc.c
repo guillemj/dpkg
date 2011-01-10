@@ -312,7 +312,7 @@ void process_archive(const char *filename) {
       break;
     case dep_predepends:
       if (!depisok(dsearch, &depprobwhy, NULL, true)) {
-        varbufaddc(&depprobwhy,0);
+        varbuf_add_char(&depprobwhy, '\0');
         fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
                 pfilename, pkg->name, depprobwhy.buf);
         if (!force_depends(dsearch->list))
@@ -691,7 +691,7 @@ void process_archive(const char *filename) {
 
     varbuf_trunc(&fnamevb, fnameidlu);
     varbufaddstr(&fnamevb, usenode->name);
-    varbufaddc(&fnamevb,0);
+    varbuf_add_char(&fnamevb, '\0');
 
     if (!stat(namenode->name,&stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "process_archive: %s is a directory",
@@ -748,9 +748,9 @@ void process_archive(const char *filename) {
 
 	  varbuf_reset(&cfilename);
 	  varbufaddstr(&cfilename, instdir);
-	  varbufaddc(&cfilename, '/');
+	  varbuf_add_char(&cfilename, '/');
 	  varbufaddstr(&cfilename, cfile->namenode->name);
-	  varbufaddc(&cfilename, '\0');
+	  varbuf_add_char(&cfilename, '\0');
 
 	  if (lstat(cfilename.buf, &tmp_stat) == 0) {
 	    cfile->namenode->filestat = nfmalloc(sizeof(struct stat));
@@ -836,7 +836,7 @@ void process_archive(const char *filename) {
   varbuf_reset(&infofnvb);
   varbufaddstr(&infofnvb, pkgadmindir());
   infodirlen= infofnvb.used;
-  varbufaddc(&infofnvb,0);
+  varbuf_add_char(&infofnvb, '\0');
   dsd= opendir(infofnvb.buf);
   if (!dsd) ohshite(_("cannot read info directory"));
   push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
@@ -865,7 +865,7 @@ void process_archive(const char *filename) {
              de->d_name);
     varbuf_trunc(&infofnvb, infodirlen);
     varbufaddstr(&infofnvb,de->d_name);
-    varbufaddc(&infofnvb,0);
+    varbuf_add_char(&infofnvb, '\0');
     strcpy(cidirrest,p);
 
     /* We keep files to rename in a list as doing the rename immediately
@@ -1067,7 +1067,7 @@ void process_archive(const char *filename) {
           pdep->up->type != dep_recommends) continue;
       if (depisok(pdep->up, &depprobwhy, NULL, false))
         continue;
-      varbufaddc(&depprobwhy,0);
+      varbuf_add_char(&depprobwhy, '\0');
       debug(dbg_veryverbose,"process_archive cannot disappear: %s",depprobwhy.buf);
       break;
     }
@@ -1085,7 +1085,7 @@ void process_archive(const char *filename) {
             continue;
           if (depisok(pdep->up, &depprobwhy, NULL, false))
             continue;
-          varbufaddc(&depprobwhy,0);
+          varbuf_add_char(&depprobwhy, '\0');
           debug(dbg_veryverbose,"process_archive cannot disappear (provides %s): %s",
                 providecheck->list->ed->name, depprobwhy.buf);
           goto break_from_both_loops_at_once;
@@ -1115,7 +1115,7 @@ void process_archive(const char *filename) {
     varbuf_reset(&fnvb);
     varbufaddstr(&fnvb, pkgadmindir());
     infodirbaseused= fnvb.used;
-    varbufaddc(&fnvb,0);
+    varbuf_add_char(&fnvb, '\0');
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
     push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
 
@@ -1130,7 +1130,7 @@ void process_archive(const char *filename) {
       debug(dbg_stupidlyverbose, "process_archive info this pkg");
       varbuf_trunc(&fnvb, infodirbaseused);
       varbufaddstr(&fnvb,de->d_name);
-      varbufaddc(&fnvb,0);
+      varbuf_add_char(&fnvb, '\0');
       if (unlink(fnvb.buf))
         ohshite(_("unable to delete disappearing control info file `%.250s'"),fnvb.buf);
       debug(dbg_scripts, "process_archive info unlinked %s",fnvb.buf);
@@ -1226,7 +1226,7 @@ void process_archive(const char *filename) {
     varbuf_trunc(&fnametmpvb, fnameidlu);
     varbufaddstr(&fnametmpvb,namenodetouse(cfile->namenode,pkg)->name);
     varbufaddstr(&fnametmpvb,DPKGTEMPEXT);
-    varbufaddc(&fnametmpvb,0);
+    varbuf_add_char(&fnametmpvb, '\0');
     ensure_pathname_nonexisting(fnametmpvb.buf);
   }
 

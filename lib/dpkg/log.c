@@ -62,7 +62,7 @@ log_message(const char *fmt, ...)
 	va_start(args, fmt);
 	varbuf_reset(&log);
 	varbufvprintf(&log, fmt, args);
-	varbufaddc(&log, 0);
+	varbuf_add_char(&log, '\0');
 	va_end(args);
 
 	time(&now);
@@ -107,7 +107,7 @@ statusfd_send(const char *fmt, ...)
 	/* Sanitize string to not include new lines, as front-ends should be
 	 * doing their own word-wrapping. */
 	varbuf_map_char(&vb, '\n', ' ');
-	varbufaddc(&vb, '\n');
+	varbuf_add_char(&vb, '\n');
 	va_end(args);
 
 	for (pipef = status_pipes; pipef; pipef = pipef->next) {

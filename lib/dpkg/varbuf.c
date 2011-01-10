@@ -31,7 +31,7 @@
 #include <dpkg/dpkg-db.h>
 
 void
-varbufaddc(struct varbuf *v, int c)
+varbuf_add_char(struct varbuf *v, int c)
 {
   varbuf_grow(v, 1);
   v->buf[v->used++]= c;

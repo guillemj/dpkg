@@ -408,8 +408,8 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   varbuf_reset(&vb);
   varbufaddstr(&vb, infodir);
   varbufaddstr(&vb,pkg->name);
-  varbufaddc(&vb,'.');
+  varbuf_add_char(&vb, '.');
   varbufaddstr(&vb,whichfile);
-  varbufaddc(&vb,0);
+  varbuf_add_char(&vb, '\0');
   return vb.buf;
 }

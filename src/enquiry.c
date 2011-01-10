@@ -406,7 +406,7 @@ void predeppackage(const char *const *argv) {
     if (!pkg) {
       varbuf_reset(&vb);
       describedepcon(&vb,dep);
-      varbufaddc(&vb,0);
+      varbuf_add_char(&vb, '\0');
       fprintf(stderr, _("dpkg: cannot see how to satisfy pre-dependency:\n %s\n"),vb.buf);
       ohshit(_("cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"),
              dep->up->name,startpkg->name);

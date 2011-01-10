@@ -104,7 +104,7 @@ void setselections(const char *const *argv) {
       continue;
     }
     while (!isspace(c)) {
-      varbufaddc(&namevb,c);
+      varbuf_add_char(&namevb, c);
       c= getchar();
       if (c == EOF) ohshit(_("unexpected eof in package name at line %d"),lno);
       if (c == '\n') ohshit(_("unexpected end of line in package name at line %d"),lno);
@@ -115,7 +115,7 @@ void setselections(const char *const *argv) {
       if (c == '\n') ohshit(_("unexpected end of line after package name at line %d"),lno);
     }
     while (c != EOF && !isspace(c)) {
-      varbufaddc(&selvb,c);
+      varbuf_add_char(&selvb, c);
       c= getchar();
     }
     while (c != EOF && c != '\n') {
@@ -123,8 +123,8 @@ void setselections(const char *const *argv) {
       if (!isspace(c))
         ohshit(_("unexpected data after package and selection at line %d"),lno);
     }
-    varbufaddc(&namevb,0);
-    varbufaddc(&selvb,0);
+    varbuf_add_char(&namevb, '\0');
+    varbuf_add_char(&selvb, '\0');
     e = pkg_name_is_illegal(namevb.buf, NULL);
     if (e) ohshit(_("illegal package name at line %d: %.250s"),lno,e);
 

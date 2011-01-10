@@ -201,15 +201,15 @@ statdb_write(void)
 
 	varbufaddstr(&dbname, admindir);
 	varbufaddstr(&dbname, "/" STATOVERRIDEFILE);
-	varbufaddc(&dbname, '\0');
+	varbuf_add_char(&dbname, '\0');
 
 	varbufaddstr(&dbname_new, dbname.buf);
 	varbufaddstr(&dbname_new, NEWDBEXT);
-	varbufaddc(&dbname_new, '\0');
+	varbuf_add_char(&dbname_new, '\0');
 
 	varbufaddstr(&dbname_old, dbname.buf);
 	varbufaddstr(&dbname_old, OLDDBEXT);
-	varbufaddc(&dbname_old, '\0');
+	varbuf_add_char(&dbname_old, '\0');
 
 	dbfile = fopen(dbname_new.buf, "w");
 	if (!dbfile)

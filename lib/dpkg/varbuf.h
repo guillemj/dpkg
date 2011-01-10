@@ -71,7 +71,7 @@ char *varbuf_detach(struct varbuf *v);
 void varbuf_reset(struct varbuf *v);
 void varbuf_destroy(struct varbuf *v);
 
-void varbufaddc(struct varbuf *v, int c);
+void varbuf_add_char(struct varbuf *v, int c);
 void varbuf_dup_char(struct varbuf *v, int c, size_t n);
 void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
 #define varbufaddstr(v, s) varbufaddbuf(v, s, strlen(s))
@@ -117,7 +117,7 @@ varbuf::destroy()
 inline void
 varbuf::operator()(int c)
 {
-	varbufaddc(this, c);
+	varbuf_add_char(this, c);
 }
 
 inline void
@@ -129,7 +129,7 @@ varbuf::operator()(const char *s)
 inline void
 varbuf::terminate(void/*to shut 2.6.3 up*/)
 {
-	varbufaddc(this, 0);
+	varbuf_add_char(this, '\0');
 	used--;
 }
 

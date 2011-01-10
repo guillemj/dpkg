@@ -72,7 +72,7 @@ deb_field(const char *filename, const char *field)
 	/* Parant reads from pipe. */
 	varbuf_reset(&buf);
 	fd_vbuf_copy(p[0], &buf, -1, _("package field value extraction"));
-	varbufaddc(&buf, '\0');
+	varbuf_add_char(&buf, '\0');
 
 	close(p[0]);
 

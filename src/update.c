@@ -76,7 +76,7 @@ void updateavailable(const char *const *argv) {
 
   varbufaddstr(&vb,admindir);
   varbufaddstr(&vb,"/" AVAILFILE);
-  varbufaddc(&vb,0);
+  varbuf_add_char(&vb, '\0');
 
   if (cipaction->arg == act_avmerge)
     parsedb(vb.buf, pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,

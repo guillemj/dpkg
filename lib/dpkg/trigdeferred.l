@@ -102,7 +102,7 @@ constructfn(struct varbuf *vb, const char *dir, const char *tail)
 	varbuf_reset(vb);
 	varbufaddstr(vb, dir);
 	varbufaddstr(vb, tail);
-	varbufaddc(vb, 0);
+	varbuf_add_char(vb, '\0');
 }
 
 /**

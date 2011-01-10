@@ -117,7 +117,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
       varbufaddstr(&str_pkgs, " <- ");
       varbufaddstr(&str_pkgs, sol->pkg->name);
     }
-    varbufaddc(&str_pkgs, '\0');
+    varbuf_add_char(&str_pkgs, '\0');
     debug(dbg_depcondetail, "findbreakcyclerecursive %s %s", pkg->name,
           str_pkgs.buf);
     varbuf_destroy(&str_pkgs);
@@ -199,7 +199,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   }
 
   varbufdependency(&depstr, dep);
-  varbufaddc(&depstr, 0);
+  varbuf_add_char(&depstr, '\0');
 
   varbufprintf(addto, fmt, dep->up->name, depstr.buf);
   varbuf_destroy(&depstr);
@@ -272,9 +272,9 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 
   /* Describe the dependency, in case we have to moan about it. */
   varbuf_reset(whynot);
-  varbufaddc(whynot, ' ');
+  varbuf_add_char(whynot, ' ');
   describedepcon(whynot, dep);
-  varbufaddc(whynot,'\n');
+  varbuf_add_char(whynot, '\n');
 
   /* TODO: Check dep_enhances as well. */
   if (dep->type == dep_depends || dep->type == dep_predepends ||

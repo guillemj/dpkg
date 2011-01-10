@@ -468,12 +468,12 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   varbufaddstr(&vb, pkgadmindir());
   varbufaddstr(&vb,pkg->name);
   varbufaddstr(&vb,"." LISTFILE);
-  varbufaddc(&vb,0);
+  varbuf_add_char(&vb, '\0');
 
   varbuf_reset(&newvb);
   varbufaddstr(&newvb,vb.buf);
   varbufaddstr(&newvb,NEWDBEXT);
-  varbufaddc(&newvb,0);
+  varbuf_add_char(&newvb, '\0');
 
   file= fopen(newvb.buf,"w+");
   if (!file)

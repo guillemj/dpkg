@@ -118,9 +118,9 @@ void checkpath(void) {
       varbuf_reset(&filename);
       varbufaddbuf(&filename, path, path_len);
       if (path_len)
-        varbufaddc(&filename, '/');
+        varbuf_add_char(&filename, '/');
       varbufaddstr(&filename, *prog);
-      varbufaddc(&filename, '\0');
+      varbuf_add_char(&filename, '\0');
 
       if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111))
         break;
@@ -195,10 +195,10 @@ preexecscript(struct command *cmd)
     const char **argv = cmd->argv;
 
     while (*++argv) {
-      varbufaddc(&args, ' ');
+      varbuf_add_char(&args, ' ');
       varbufaddstr(&args, *argv);
     }
-    varbufaddc(&args, '\0');
+    varbuf_add_char(&args, '\0');
     debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename, args.buf);
     varbuf_destroy(&args);
   }

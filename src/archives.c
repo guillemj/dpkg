@@ -293,17 +293,17 @@ set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
 void setupfnamevbs(const char *filename) {
   varbuf_trunc(&fnamevb, fnameidlu);
   varbufaddstr(&fnamevb,filename);
-  varbufaddc(&fnamevb,0);
+  varbuf_add_char(&fnamevb, '\0');
 
   varbuf_trunc(&fnametmpvb, fnameidlu);
   varbufaddstr(&fnametmpvb,filename);
   varbufaddstr(&fnametmpvb,DPKGTEMPEXT);
-  varbufaddc(&fnametmpvb,0);
+  varbuf_add_char(&fnametmpvb, '\0');
 
   varbuf_trunc(&fnamenewvb, fnameidlu);
   varbufaddstr(&fnamenewvb,filename);
   varbufaddstr(&fnamenewvb,DPKGNEWEXT);
-  varbufaddc(&fnamenewvb,0);
+  varbuf_add_char(&fnamenewvb, '\0');
 
   debug(dbg_eachfiledetail, "setupvnamevbs main=`%s' tmp=`%s' new=`%s'",
         fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
@@ -392,7 +392,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
     varbufaddbuf(symlinkfn, fname, (lastslash - fname) + 1);
   }
   varbufaddstr(symlinkfn, ti->linkname);
-  varbufaddc(symlinkfn, 0);
+  varbuf_add_char(symlinkfn, '\0');
 
   statr= stat(symlinkfn->buf, &newstab);
   if (statr) {
@@ -738,12 +738,13 @@ tarobject(void *ctx, struct tar_entry *ti)
     break;
   case tar_filetype_hardlink:
     varbuf_reset(&hardlinkfn);
-    varbufaddstr(&hardlinkfn,instdir); varbufaddc(&hardlinkfn,'/');
+    varbufaddstr(&hardlinkfn, instdir);
+    varbuf_add_char(&hardlinkfn, '/');
     varbufaddstr(&hardlinkfn, ti->linkname);
     linknode = findnamenode(ti->linkname, 0);
     if (linknode->flags & fnnf_deferred_rename)
       varbufaddstr(&hardlinkfn, DPKGNEWEXT);
-    varbufaddc(&hardlinkfn, '\0');
+    varbuf_add_char(&hardlinkfn, '\0');
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject hardlink");
@@ -811,7 +812,7 @@ tarobject(void *ctx, struct tar_entry *ti)
         ohshite(_("unable to read link `%.255s'"), ti->name);
       assert(r == stab.st_size);
       varbuf_trunc(&symlinkfn, r);
-      varbufaddc(&symlinkfn, '\0');
+      varbuf_add_char(&symlinkfn, '\0');
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for `%.255s'"), ti->name);
       if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
@@ -1019,7 +1020,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
     return;
   }
 
-  varbufaddc(&why, 0);
+  varbuf_add_char(&why, '\0');
 
   if (fixbydeconf && f_autodeconf) {
     char action[512];
@@ -1103,7 +1104,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
             continue;
           if (depisok(pdep->up, &removalwhy, NULL, false))
             continue;
-          varbufaddc(&removalwhy,0);
+          varbuf_add_char(&removalwhy, '\0');
           if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
             break;
         }
@@ -1120,7 +1121,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                 continue;
               if (depisok(pdep->up, &removalwhy, NULL, false))
                 continue;
-              varbufaddc(&removalwhy,0);
+              varbuf_add_char(&removalwhy, '\0');
               fprintf(stderr, _("dpkg"
                       ": may have trouble removing %s, as it provides %s ...\n"),
                       fixbyrm->name, providecheck->list->ed->name);
@@ -1160,7 +1161,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       fixbyrm->clientdata->istobe = itb_normal;
     }
   }
-  varbufaddc(&conflictwhy,0);
+  varbuf_add_char(&conflictwhy, '\0');
   fprintf(stderr, _("dpkg: regarding %s containing %s:\n%s"),
           pfilename, pkg->name, conflictwhy.buf);
   if (!force_conflicts(dep->list))
@@ -1240,7 +1241,7 @@ void archivefiles(const char *const *argv) {
     pf= fdopen(pi[0],"r");  if (!pf) ohshite(_("failed to fdopen find's pipe"));
     varbuf_reset(&findoutput);
     while ((c= fgetc(pf)) != EOF) {
-      varbufaddc(&findoutput,c);
+      varbuf_add_char(&findoutput, c);
       if (!c) nfiles++;
     }
     if (ferror(pf)) ohshite(_("error reading find's pipe"));
@@ -1252,8 +1253,8 @@ void archivefiles(const char *const *argv) {
     if (!nfiles)
       ohshit(_("searched, but found no packages (files matching *.deb)"));
 
-    varbufaddc(&findoutput,0);
-    varbufaddc(&findoutput,0);
+    varbuf_add_char(&findoutput, '\0');
+    varbuf_add_char(&findoutput, '\0');
 
     arglist= m_malloc(sizeof(char*)*(nfiles+1));
     p= findoutput.buf; i=0;
@@ -1277,9 +1278,12 @@ void archivefiles(const char *const *argv) {
   varbuf_reset(&fnametmpvb);
   varbuf_reset(&fnamenewvb);
 
-  varbufaddstr(&fnamevb,instdir); varbufaddc(&fnamevb,'/');
-  varbufaddstr(&fnametmpvb,instdir); varbufaddc(&fnametmpvb,'/');
-  varbufaddstr(&fnamenewvb,instdir); varbufaddc(&fnamenewvb,'/');
+  varbufaddstr(&fnamevb, instdir);
+  varbuf_add_char(&fnamevb, '/');
+  varbufaddstr(&fnametmpvb, instdir);
+  varbuf_add_char(&fnametmpvb, '/');
+  varbufaddstr(&fnamenewvb, instdir);
+  varbuf_add_char(&fnamenewvb, '/');
   fnameidlu= fnamevb.used;
 
   ensure_diversions();

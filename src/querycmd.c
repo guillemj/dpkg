@@ -313,7 +313,7 @@ searchfiles(const char *const *argv)
     if (!strpbrk(thisarg, "*[?\\")) {
       varbuf_reset(&path);
       varbufaddstr(&path, thisarg);
-      varbufaddc(&path, '\0');
+      varbuf_add_char(&path, '\0');
 
       varbuf_trunc(&path, path_trim_slash_slashdot(path.buf));
 
@@ -322,10 +322,10 @@ searchfiles(const char *const *argv)
 
     if (!strchr("*[?/",*thisarg)) {
       varbuf_reset(&vb);
-      varbufaddc(&vb,'*');
+      varbuf_add_char(&vb, '*');
       varbufaddstr(&vb,thisarg);
-      varbufaddc(&vb,'*');
-      varbufaddc(&vb,0);
+      varbuf_add_char(&vb, '*');
+      varbuf_add_char(&vb, '\0');
       thisarg= vb.buf;
     }
     if (!strpbrk(thisarg, "*[?\\")) {
@@ -547,7 +547,7 @@ control_path_pkg(struct pkginfo *pkg)
   varbuf_init(&db_path, 0);
   varbufaddstr(&db_path, pkgadmindir());
   db_path_len = db_path.used;
-  varbufaddc(&db_path, '\0');
+  varbuf_add_char(&db_path, '\0');
 
   db_dir = opendir(db_path.buf);
   if (!db_dir)
@@ -584,7 +584,7 @@ control_path_pkg(struct pkginfo *pkg)
 
     varbuf_trunc(&db_path, db_path_len);
     varbufaddstr(&db_path, db_de->d_name);
-    varbufaddc(&db_path, '\0');
+    varbuf_add_char(&db_path, '\0');
 
     printf("%s\n", db_path.buf);
   }

@@ -325,7 +325,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       depnamelength= p - depnamestart ;
       varbuf_reset(&depname);
       varbufaddbuf(&depname, depnamestart, depnamelength);
-      varbufaddc(&depname, '\0');
+      varbuf_add_char(&depname, '\0');
       if (!depname.buf[0])
         parse_error(ps, pigp,
                     _("`%s' field, missing package name, or garbage where "
@@ -426,7 +426,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                         "version unterminated"), fip->name, depname.buf);
         varbuf_reset(&version);
         varbufaddbuf(&version, versionstart, versionlength);
-        varbufaddc(&version, '\0');
+        varbuf_add_char(&version, '\0');
         parse_db_version(ps, pigp, &dop->version, version.buf,
                          _("'%s' field, reference to '%.255s': "
                            "error in version"), fip->name, depname.buf);
@@ -483,7 +483,7 @@ scan_word(const char **valp)
 
   varbuf_reset(&word);
   varbufaddbuf(&word, start, end - start);
-  varbufaddc(&word, '\0');
+  varbuf_add_char(&word, '\0');
 
   *valp = p;
 

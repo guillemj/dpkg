@@ -179,7 +179,7 @@ void varbufversion
   }
   if (version->version) varbufaddstr(vb,version->version);
   if (version->revision && *version->revision) {
-    varbufaddc(vb,'-');
+    varbuf_add_char(vb, '-');
     varbufaddstr(vb,version->revision);
   }
 }
@@ -199,7 +199,7 @@ const char *versiondescribe
   vb= &bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;
   varbuf_reset(vb);
   varbufversion(vb,version,vdew);
-  varbufaddc(vb,0);
+  varbuf_add_char(vb, '\0');
 
   return vb->buf;
 }

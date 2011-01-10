@@ -630,7 +630,7 @@ void commandfd(const char *const *argv) {
     }
     varbuf_reset(&linevb);
     do {
-      varbufaddc(&linevb,c);
+      varbuf_add_char(&linevb, c);
       c= getc(in);
       if (c == '\n') lno++;
 
@@ -640,7 +640,7 @@ void commandfd(const char *const *argv) {
     } while (c != EOF && c != '\n');
     if (c == EOF) ohshit(_("unexpected eof before end of line %d"),lno);
     if (!argc) continue;
-    varbufaddc(&linevb,0);
+    varbuf_add_char(&linevb, '\0');
     newargs = m_realloc(newargs, sizeof(const char *) * (argc + 1));
     argc= 1;
     ptr= linevb.buf;

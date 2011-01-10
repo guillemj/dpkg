@@ -228,7 +228,7 @@ pkg_format_show(const struct pkg_format_node *head,
 				if (strcasecmp(head->data, fip->name) == 0) {
 					fip->wcall(&wb, pkg, pif, 0, fip);
 
-					varbufaddc(&wb, '\0');
+					varbuf_add_char(&wb, '\0');
 					varbufprintf(&fb, fmt, wb.buf);
 					varbuf_reset(&wb);
 					ok = true;
@@ -259,7 +259,7 @@ pkg_format_show(const struct pkg_format_node *head,
 	}
 
 	if (vb.buf) {
-		varbufaddc(&vb, '\0');
+		varbuf_add_char(&vb, '\0');
 		fputs(vb.buf, stdout);
 	}
 

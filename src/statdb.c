@@ -119,7 +119,7 @@ ensure_statoverrides(void)
 	varbuf_reset(&vb);
 	varbufaddstr(&vb, admindir);
 	varbufaddstr(&vb, "/" STATOVERRIDEFILE);
-	varbufaddc(&vb, 0);
+	varbuf_add_char(&vb, '\0');
 
 	onerr_abort++;
 
