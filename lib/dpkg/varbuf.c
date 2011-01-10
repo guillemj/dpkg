@@ -62,14 +62,14 @@ varbuf_printf(struct varbuf *v, const char *fmt, ...)
   va_list args;
 
   va_start(args, fmt);
-  r = varbufvprintf(v, fmt, args);
+  r = varbuf_vprintf(v, fmt, args);
   va_end(args);
 
   return r;
 }
 
 int
-varbufvprintf(struct varbuf *v, const char *fmt, va_list args)
+varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
 {
   va_list args_copy;
   int needed, r;

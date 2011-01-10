@@ -217,7 +217,7 @@ buffer_copy_##name(type1 n1, int typeIn, \
 	off_t ret; \
 \
 	va_start(args, desc); \
-	varbufvprintf(&v, desc, args); \
+	varbuf_vprintf(&v, desc, args); \
 	va_end(args); \
 \
 	ret = buffer_copy(&read_data, &write_data, limit, v.buf); \

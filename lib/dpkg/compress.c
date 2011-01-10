@@ -423,7 +423,7 @@ decompress_filter(struct compressor *compressor, int fd_in, int fd_out,
 		internerr("no compressor specified");
 
 	va_start(args, desc_fmt);
-	varbufvprintf(&desc, desc_fmt, args);
+	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
 	compressor->decompress(fd_in, fd_out, desc.buf);
@@ -442,7 +442,7 @@ compress_filter(struct compressor *compressor, int fd_in, int fd_out,
 		internerr("no compressor specified");
 
 	va_start(args, desc_fmt);
-	varbufvprintf(&desc, desc_fmt, args);
+	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
 	if (compress_level < 0)

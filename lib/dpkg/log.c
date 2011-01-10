@@ -61,7 +61,7 @@ log_message(const char *fmt, ...)
 
 	va_start(args, fmt);
 	varbuf_reset(&log);
-	varbufvprintf(&log, fmt, args);
+	varbuf_vprintf(&log, fmt, args);
 	varbuf_add_char(&log, '\0');
 	va_end(args);
 
@@ -103,7 +103,7 @@ statusfd_send(const char *fmt, ...)
 
 	va_start(args, fmt);
 	varbuf_reset(&vb);
-	varbufvprintf(&vb, fmt, args);
+	varbuf_vprintf(&vb, fmt, args);
 	/* Sanitize string to not include new lines, as front-ends should be
 	 * doing their own word-wrapping. */
 	varbuf_map_char(&vb, '\n', ' ');
