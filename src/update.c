@@ -74,8 +74,8 @@ void updateavailable(const char *const *argv) {
     internerr("unknown action '%d'", cipaction->arg);
   }
 
-  varbufaddstr(&vb,admindir);
-  varbufaddstr(&vb,"/" AVAILFILE);
+  varbuf_add_str(&vb, admindir);
+  varbuf_add_str(&vb, "/" AVAILFILE);
   varbuf_add_char(&vb, '\0');
 
   if (cipaction->arg == act_avmerge)

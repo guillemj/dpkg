@@ -465,14 +465,14 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   FILE *file;
 
   varbuf_reset(&vb);
-  varbufaddstr(&vb, pkgadmindir());
-  varbufaddstr(&vb,pkg->name);
-  varbufaddstr(&vb,"." LISTFILE);
+  varbuf_add_str(&vb, pkgadmindir());
+  varbuf_add_str(&vb, pkg->name);
+  varbuf_add_str(&vb, "." LISTFILE);
   varbuf_add_char(&vb, '\0');
 
   varbuf_reset(&newvb);
-  varbufaddstr(&newvb,vb.buf);
-  varbufaddstr(&newvb,NEWDBEXT);
+  varbuf_add_str(&newvb, vb.buf);
+  varbuf_add_str(&newvb, NEWDBEXT);
   varbuf_add_char(&newvb, '\0');
 
   file= fopen(newvb.buf,"w+");

@@ -114,8 +114,8 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
     struct varbuf str_pkgs = VARBUF_INIT;
 
     for (sol = sofar; sol; sol = sol->prev) {
-      varbufaddstr(&str_pkgs, " <- ");
-      varbufaddstr(&str_pkgs, sol->pkg->name);
+      varbuf_add_str(&str_pkgs, " <- ");
+      varbuf_add_str(&str_pkgs, sol->pkg->name);
     }
     varbuf_add_char(&str_pkgs, '\0');
     debug(dbg_depcondetail, "findbreakcyclerecursive %s %s", pkg->name,
@@ -348,7 +348,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       default:
         internerr("unknown istobe depended '%d'", possi->ed->clientdata->istobe);
       }
-      varbufaddstr(whynot, linebuf);
+      varbuf_add_str(whynot, linebuf);
 
       /* If there was no version specified we try looking for Providers. */
       if (possi->verrel == dvr_none) {
@@ -393,14 +393,14 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             internerr("unknown istobe provider '%d'",
                       provider->up->up->clientdata->istobe);
           }
-          varbufaddstr(whynot, linebuf);
+          varbuf_add_str(whynot, linebuf);
         }
 
         if (!*linebuf) {
           /* If the package wasn't installed at all, and we haven't said
            * yet why this isn't satisfied, we should say so now. */
           sprintf(linebuf, _("  %.250s is not installed.\n"), possi->ed->name);
-          varbufaddstr(whynot, linebuf);
+          varbuf_add_str(whynot, linebuf);
         }
       }
     }
@@ -430,7 +430,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         sprintf(linebuf, _("  %.250s (version %.250s) is to be installed.\n"),
                 possi->ed->name,
                 versiondescribe(&possi->ed->available.version,vdew_nonambig));
-        varbufaddstr(whynot, linebuf);
+        varbuf_add_str(whynot, linebuf);
         if (!canfixbyremove)
           return false;
         nconflicts++;
@@ -456,7 +456,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                   possi->ed->name,
                   versiondescribe(&possi->ed->installed.version,vdew_nonambig),
                   gettext(statusstrings[possi->ed->status]));
-          varbufaddstr(whynot, linebuf);
+          varbuf_add_str(whynot, linebuf);
           if (!canfixbyremove)
             return false;
           nconflicts++;
@@ -481,7 +481,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           continue; /* Conflicts and provides the same. */
         sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
                 provider->up->up->name, possi->ed->name);
-        varbufaddstr(whynot, linebuf);
+        varbuf_add_str(whynot, linebuf);
         /* We can't remove the one we're about to install: */
         if (canfixbyremove)
           *canfixbyremove = NULL;
@@ -524,7 +524,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                     _("  %.250s provides %.250s and is present and %s.\n"),
                     provider->up->up->name, possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));
-            varbufaddstr(whynot, linebuf);
+            varbuf_add_str(whynot, linebuf);
             if (!canfixbyremove)
               return false;
             nconflicts++;

@@ -315,7 +315,7 @@ trigproc(struct pkginfo *pkg)
 		varbuf_reset(&namesarg);
 		for (tp = pkg->trigpend_head; tp; tp = tp->next) {
 			varbuf_add_char(&namesarg, ' ');
-			varbufaddstr(&namesarg, tp->name);
+			varbuf_add_str(&namesarg, tp->name);
 		}
 		varbuf_add_char(&namesarg, '\0');
 

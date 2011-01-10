@@ -593,18 +593,18 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       anycannotfixbytrig = true;
       ok = dep_check_halt;
     case found_forced:
-      varbufaddstr(aemsgs, " ");
-      varbufaddstr(aemsgs, pkg->name);
-      varbufaddstr(aemsgs, _(" depends on "));
+      varbuf_add_str(aemsgs, " ");
+      varbuf_add_str(aemsgs, pkg->name);
+      varbuf_add_str(aemsgs, _(" depends on "));
       varbufdependency(aemsgs, dep);
       if (interestingwarnings) {
         /* Don't print the line about the package to be removed if
          * that's the only line. */
-        varbufaddstr(aemsgs, _("; however:\n"));
+        varbuf_add_str(aemsgs, _("; however:\n"));
         varbuf_add_char(&oemsgs, '\0');
-        varbufaddstr(aemsgs, oemsgs.buf);
+        varbuf_add_str(aemsgs, oemsgs.buf);
       } else {
-        varbufaddstr(aemsgs, ".\n");
+        varbuf_add_str(aemsgs, ".\n");
       }
       break;
     case found_defer:

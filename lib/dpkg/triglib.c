@@ -363,8 +363,8 @@ trk_explicit_start(const char *trig)
 	trk_explicit_activate_done();
 
 	varbuf_reset(&trk_explicit_fn);
-	varbufaddstr(&trk_explicit_fn, triggersdir);
-	varbufaddstr(&trk_explicit_fn, trig);
+	varbuf_add_str(&trk_explicit_fn, triggersdir);
+	varbuf_add_str(&trk_explicit_fn, trig);
 	varbuf_add_char(&trk_explicit_fn, '\0');
 
 	trk_explicit_f = fopen(trk_explicit_fn.buf, "r");

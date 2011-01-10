@@ -292,17 +292,17 @@ set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
 
 void setupfnamevbs(const char *filename) {
   varbuf_trunc(&fnamevb, fnameidlu);
-  varbufaddstr(&fnamevb,filename);
+  varbuf_add_str(&fnamevb, filename);
   varbuf_add_char(&fnamevb, '\0');
 
   varbuf_trunc(&fnametmpvb, fnameidlu);
-  varbufaddstr(&fnametmpvb,filename);
-  varbufaddstr(&fnametmpvb,DPKGTEMPEXT);
+  varbuf_add_str(&fnametmpvb, filename);
+  varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
   varbuf_add_char(&fnametmpvb, '\0');
 
   varbuf_trunc(&fnamenewvb, fnameidlu);
-  varbufaddstr(&fnamenewvb,filename);
-  varbufaddstr(&fnamenewvb,DPKGNEWEXT);
+  varbuf_add_str(&fnamenewvb, filename);
+  varbuf_add_str(&fnamenewvb, DPKGNEWEXT);
   varbuf_add_char(&fnamenewvb, '\0');
 
   debug(dbg_eachfiledetail, "setupvnamevbs main=`%s' tmp=`%s' new=`%s'",
@@ -385,13 +385,13 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
   /* But is it to the same dir? */
   varbuf_reset(symlinkfn);
   if (ti->linkname[0] == '/') {
-    varbufaddstr(symlinkfn, instdir);
+    varbuf_add_str(symlinkfn, instdir);
   } else {
     lastslash= strrchr(fname, '/');
     assert(lastslash);
     varbufaddbuf(symlinkfn, fname, (lastslash - fname) + 1);
   }
-  varbufaddstr(symlinkfn, ti->linkname);
+  varbuf_add_str(symlinkfn, ti->linkname);
   varbuf_add_char(symlinkfn, '\0');
 
   statr= stat(symlinkfn->buf, &newstab);
@@ -738,12 +738,12 @@ tarobject(void *ctx, struct tar_entry *ti)
     break;
   case tar_filetype_hardlink:
     varbuf_reset(&hardlinkfn);
-    varbufaddstr(&hardlinkfn, instdir);
+    varbuf_add_str(&hardlinkfn, instdir);
     varbuf_add_char(&hardlinkfn, '/');
-    varbufaddstr(&hardlinkfn, ti->linkname);
+    varbuf_add_str(&hardlinkfn, ti->linkname);
     linknode = findnamenode(ti->linkname, 0);
     if (linknode->flags & fnnf_deferred_rename)
-      varbufaddstr(&hardlinkfn, DPKGNEWEXT);
+      varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
     varbuf_add_char(&hardlinkfn, '\0');
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"), ti->name);
@@ -1278,11 +1278,11 @@ void archivefiles(const char *const *argv) {
   varbuf_reset(&fnametmpvb);
   varbuf_reset(&fnamenewvb);
 
-  varbufaddstr(&fnamevb, instdir);
+  varbuf_add_str(&fnamevb, instdir);
   varbuf_add_char(&fnamevb, '/');
-  varbufaddstr(&fnametmpvb, instdir);
+  varbuf_add_str(&fnametmpvb, instdir);
   varbuf_add_char(&fnametmpvb, '/');
-  varbufaddstr(&fnamenewvb, instdir);
+  varbuf_add_str(&fnamenewvb, instdir);
   varbuf_add_char(&fnamenewvb, '/');
   fnameidlu= fnamevb.used;
 

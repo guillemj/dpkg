@@ -117,8 +117,8 @@ ensure_statoverrides(void)
 	struct filenamenode *fnn;
 
 	varbuf_reset(&vb);
-	varbufaddstr(&vb, admindir);
-	varbufaddstr(&vb, "/" STATOVERRIDEFILE);
+	varbuf_add_str(&vb, admindir);
+	varbuf_add_str(&vb, "/" STATOVERRIDEFILE);
 	varbuf_add_char(&vb, '\0');
 
 	onerr_abort++;

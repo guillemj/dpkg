@@ -54,8 +54,8 @@ ensure_diversions(void)
 	struct diversion *ov, *oicontest, *oialtname;
 
 	varbuf_reset(&vb);
-	varbufaddstr(&vb, admindir);
-	varbufaddstr(&vb, "/" DIVERSIONSFILE);
+	varbuf_add_str(&vb, admindir);
+	varbuf_add_str(&vb, "/" DIVERSIONSFILE);
 	varbuf_add_char(&vb, '\0');
 
 	onerr_abort++;

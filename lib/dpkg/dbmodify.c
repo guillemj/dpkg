@@ -406,10 +406,10 @@ pkgadmindir(void)
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   static struct varbuf vb;
   varbuf_reset(&vb);
-  varbufaddstr(&vb, infodir);
-  varbufaddstr(&vb,pkg->name);
+  varbuf_add_str(&vb, infodir);
+  varbuf_add_str(&vb, pkg->name);
   varbuf_add_char(&vb, '.');
-  varbufaddstr(&vb,whichfile);
+  varbuf_add_str(&vb, whichfile);
   varbuf_add_char(&vb, '\0');
   return vb.buf;
 }

@@ -119,7 +119,7 @@ void checkpath(void) {
       varbufaddbuf(&filename, path, path_len);
       if (path_len)
         varbuf_add_char(&filename, '/');
-      varbufaddstr(&filename, *prog);
+      varbuf_add_str(&filename, *prog);
       varbuf_add_char(&filename, '\0');
 
       if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111))
@@ -196,7 +196,7 @@ preexecscript(struct command *cmd)
 
     while (*++argv) {
       varbuf_add_char(&args, ' ');
-      varbufaddstr(&args, *argv);
+      varbuf_add_str(&args, *argv);
     }
     varbuf_add_char(&args, '\0');
     debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename, args.buf);

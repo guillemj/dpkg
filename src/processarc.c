@@ -690,7 +690,7 @@ void process_archive(const char *filename) {
     trig_file_activate(usenode, pkg);
 
     varbuf_trunc(&fnamevb, fnameidlu);
-    varbufaddstr(&fnamevb, usenode->name);
+    varbuf_add_str(&fnamevb, usenode->name);
     varbuf_add_char(&fnamevb, '\0');
 
     if (!stat(namenode->name,&stab) && S_ISDIR(stab.st_mode)) {
@@ -747,9 +747,9 @@ void process_archive(const char *filename) {
 	  struct stat tmp_stat;
 
 	  varbuf_reset(&cfilename);
-	  varbufaddstr(&cfilename, instdir);
+	  varbuf_add_str(&cfilename, instdir);
 	  varbuf_add_char(&cfilename, '/');
-	  varbufaddstr(&cfilename, cfile->namenode->name);
+	  varbuf_add_str(&cfilename, cfile->namenode->name);
 	  varbuf_add_char(&cfilename, '\0');
 
 	  if (lstat(cfilename.buf, &tmp_stat) == 0) {
@@ -834,7 +834,7 @@ void process_archive(const char *filename) {
    * (any that are left) and install them. */
   debug(dbg_general, "process_archive updating info directory");
   varbuf_reset(&infofnvb);
-  varbufaddstr(&infofnvb, pkgadmindir());
+  varbuf_add_str(&infofnvb, pkgadmindir());
   infodirlen= infofnvb.used;
   varbuf_add_char(&infofnvb, '\0');
   dsd= opendir(infofnvb.buf);
@@ -864,7 +864,7 @@ void process_archive(const char *filename) {
       ohshit(_("old version of package has overly-long info file name starting `%.250s'"),
              de->d_name);
     varbuf_trunc(&infofnvb, infodirlen);
-    varbufaddstr(&infofnvb,de->d_name);
+    varbuf_add_str(&infofnvb, de->d_name);
     varbuf_add_char(&infofnvb, '\0');
     strcpy(cidirrest,p);
 
@@ -1113,7 +1113,7 @@ void process_archive(const char *filename) {
 
     /* OK, now we delete all the stuff in the ‘info’ directory .. */
     varbuf_reset(&fnvb);
-    varbufaddstr(&fnvb, pkgadmindir());
+    varbuf_add_str(&fnvb, pkgadmindir());
     infodirbaseused= fnvb.used;
     varbuf_add_char(&fnvb, '\0');
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
@@ -1129,7 +1129,7 @@ void process_archive(const char *filename) {
           strncmp(de->d_name,otherpkg->name,p-de->d_name)) continue;
       debug(dbg_stupidlyverbose, "process_archive info this pkg");
       varbuf_trunc(&fnvb, infodirbaseused);
-      varbufaddstr(&fnvb,de->d_name);
+      varbuf_add_str(&fnvb, de->d_name);
       varbuf_add_char(&fnvb, '\0');
       if (unlink(fnvb.buf))
         ohshite(_("unable to delete disappearing control info file `%.250s'"),fnvb.buf);
@@ -1224,8 +1224,8 @@ void process_archive(const char *filename) {
   for (cfile= newfileslist; cfile; cfile= cfile->next) {
     if (cfile->namenode->flags & fnnf_new_conff) continue;
     varbuf_trunc(&fnametmpvb, fnameidlu);
-    varbufaddstr(&fnametmpvb,namenodetouse(cfile->namenode,pkg)->name);
-    varbufaddstr(&fnametmpvb,DPKGTEMPEXT);
+    varbuf_add_str(&fnametmpvb, namenodetouse(cfile->namenode, pkg)->name);
+    varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
     varbuf_add_char(&fnametmpvb, '\0');
     ensure_pathname_nonexisting(fnametmpvb.buf);
   }

@@ -217,18 +217,18 @@ static void removal_bulk_remove_files(
       trig_file_activate(usenode, pkg);
 
       varbuf_reset(&fnvb);
-      varbufaddstr(&fnvb,instdir);
-      varbufaddstr(&fnvb, usenode->name);
+      varbuf_add_str(&fnvb, instdir);
+      varbuf_add_str(&fnvb, usenode->name);
       before= fnvb.used;
 
-      varbufaddstr(&fnvb,DPKGTEMPEXT);
+      varbuf_add_str(&fnvb, DPKGTEMPEXT);
       varbuf_add_char(&fnvb, '\0');
       debug(dbg_eachfiledetail, "removal_bulk cleaning temp `%s'", fnvb.buf);
 
       ensure_pathname_nonexisting(fnvb.buf);
 
       varbuf_trunc(&fnvb, before);
-      varbufaddstr(&fnvb,DPKGNEWEXT);
+      varbuf_add_str(&fnvb, DPKGNEWEXT);
       varbuf_add_char(&fnvb, '\0');
       debug(dbg_eachfiledetail, "removal_bulk cleaning new `%s'", fnvb.buf);
       ensure_pathname_nonexisting(fnvb.buf);
@@ -269,7 +269,7 @@ static void removal_bulk_remove_files(
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "remove", NULL);
     varbuf_reset(&fnvb);
-    varbufaddstr(&fnvb, pkgadmindir());
+    varbuf_add_str(&fnvb, pkgadmindir());
     infodirbaseused= fnvb.used;
     varbuf_add_char(&fnvb, '\0');
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
@@ -295,7 +295,7 @@ static void removal_bulk_remove_files(
       }
       debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
       varbuf_trunc(&fnvb, infodirbaseused);
-      varbufaddstr(&fnvb,de->d_name);
+      varbuf_add_str(&fnvb, de->d_name);
       varbuf_add_char(&fnvb, '\0');
       if (unlink(fnvb.buf))
         ohshite(_("unable to delete control info file `%.250s'"),fnvb.buf);
@@ -339,8 +339,8 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     trig_file_activate(usenode, pkg);
 
     varbuf_reset(&fnvb);
-    varbufaddstr(&fnvb,instdir);
-    varbufaddstr(&fnvb, usenode->name);
+    varbuf_add_str(&fnvb, instdir);
+    varbuf_add_str(&fnvb, usenode->name);
     varbuf_add_char(&fnvb, '\0');
 
     if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
@@ -447,7 +447,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       p= strrchr(fnvb.buf,'/'); if (!p) continue;
       *p = '\0';
       varbuf_reset(&removevb);
-      varbufaddstr(&removevb,fnvb.buf);
+      varbuf_add_str(&removevb, fnvb.buf);
       varbuf_add_char(&removevb, '/');
       removevbbase= removevb.used;
       varbuf_add_char(&removevb, '\0');
@@ -488,7 +488,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         continue;
       yes_remove:
         varbuf_trunc(&removevb, removevbbase);
-        varbufaddstr(&removevb, de->d_name);
+        varbuf_add_str(&removevb, de->d_name);
         varbuf_add_char(&removevb, '\0');
         debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing `%s'",
               removevb.buf);
@@ -557,17 +557,17 @@ void removal_bulk(struct pkginfo *pkg) {
     removal_bulk_remove_leftover_dirs(pkg);
 
     varbuf_reset(&fnvb);
-    varbufaddstr(&fnvb, pkgadmindir());
-    varbufaddstr(&fnvb,pkg->name);
+    varbuf_add_str(&fnvb, pkgadmindir());
+    varbuf_add_str(&fnvb, pkg->name);
     pkgnameused= fnvb.used;
 
-    varbufaddstr(&fnvb,"." LISTFILE);
+    varbuf_add_str(&fnvb, "." LISTFILE);
     varbuf_add_char(&fnvb, '\0');
     debug(dbg_general, "removal_bulk purge done, removing list `%s'",fnvb.buf);
     if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("cannot remove old files list"));
 
     varbuf_trunc(&fnvb, pkgnameused);
-    varbufaddstr(&fnvb,"." POSTRMFILE);
+    varbuf_add_str(&fnvb, "." POSTRMFILE);
     varbuf_add_char(&fnvb, '\0');
     debug(dbg_general, "removal_bulk purge done, removing postrm `%s'",fnvb.buf);
     if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("can't remove old postrm script"));

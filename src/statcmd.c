@@ -199,16 +199,16 @@ statdb_write(void)
 	struct varbuf dbname_new = VARBUF_INIT;
 	struct varbuf dbname_old = VARBUF_INIT;
 
-	varbufaddstr(&dbname, admindir);
-	varbufaddstr(&dbname, "/" STATOVERRIDEFILE);
+	varbuf_add_str(&dbname, admindir);
+	varbuf_add_str(&dbname, "/" STATOVERRIDEFILE);
 	varbuf_add_char(&dbname, '\0');
 
-	varbufaddstr(&dbname_new, dbname.buf);
-	varbufaddstr(&dbname_new, NEWDBEXT);
+	varbuf_add_str(&dbname_new, dbname.buf);
+	varbuf_add_str(&dbname_new, NEWDBEXT);
 	varbuf_add_char(&dbname_new, '\0');
 
-	varbufaddstr(&dbname_old, dbname.buf);
-	varbufaddstr(&dbname_old, OLDDBEXT);
+	varbuf_add_str(&dbname_old, dbname.buf);
+	varbuf_add_str(&dbname_old, OLDDBEXT);
 	varbuf_add_char(&dbname_old, '\0');
 
 	dbfile = fopen(dbname_new.buf, "w");

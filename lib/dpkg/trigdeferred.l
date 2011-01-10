@@ -100,8 +100,8 @@ static void
 constructfn(struct varbuf *vb, const char *dir, const char *tail)
 {
 	varbuf_reset(vb);
-	varbufaddstr(vb, dir);
-	varbufaddstr(vb, tail);
+	varbuf_add_str(vb, dir);
+	varbuf_add_str(vb, tail);
 	varbuf_add_char(vb, '\0');
 }
 

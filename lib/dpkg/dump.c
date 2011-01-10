@@ -47,8 +47,8 @@ void w_name(struct varbuf *vb,
             enum fwriteflags flags, const struct fieldinfo *fip) {
   assert(pigp->name);
   if (flags&fw_printheader)
-    varbufaddstr(vb,"Package: ");
-  varbufaddstr(vb, pigp->name);
+    varbuf_add_str(vb, "Package: ");
+  varbuf_add_str(vb, pigp->name);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }
@@ -58,7 +58,7 @@ void w_version(struct varbuf *vb,
                enum fwriteflags flags, const struct fieldinfo *fip) {
   if (!informativeversion(&pifp->version)) return;
   if (flags&fw_printheader)
-    varbufaddstr(vb,"Version: ");
+    varbuf_add_str(vb, "Version: ");
   varbufversion(vb,&pifp->version,vdew_nonambig);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
@@ -75,7 +75,7 @@ void w_configversion(struct varbuf *vb,
       pigp->status == stat_triggersawaited)
     return;
   if (flags&fw_printheader)
-    varbufaddstr(vb,"Config-Version: ");
+    varbuf_add_str(vb, "Config-Version: ");
   varbufversion(vb,&pigp->configversion,vdew_nonambig);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
@@ -92,8 +92,8 @@ void w_section(struct varbuf *vb,
   const char *value= pigp->section;
   if (!value || !*value) return;
   if (flags&fw_printheader)
-    varbufaddstr(vb,"Section: ");
-  varbufaddstr(vb,value);
+    varbuf_add_str(vb, "Section: ");
+  varbuf_add_str(vb, value);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }
@@ -104,10 +104,10 @@ void w_charfield(struct varbuf *vb,
   const char *value = PKGPFIELD(pifp, fip->integer, const char *);
   if (!value || !*value) return;
   if (flags&fw_printheader) {
-    varbufaddstr(vb,fip->name);
-    varbufaddstr(vb, ": ");
+    varbuf_add_str(vb, fip->name);
+    varbuf_add_str(vb, ": ");
   }
-  varbufaddstr(vb,value);
+  varbuf_add_str(vb, value);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }
@@ -122,13 +122,13 @@ void w_filecharf(struct varbuf *vb,
   if (!fdp || !FILEFFIELD(fdp,fip->integer,const char*)) return;
 
   if (flags&fw_printheader) {
-    varbufaddstr(vb,fip->name);
+    varbuf_add_str(vb, fip->name);
     varbuf_add_char(vb, ':');
   }
 
   while (fdp) {
     varbuf_add_char(vb, ' ');
-    varbufaddstr(vb,FILEFFIELD(fdp,fip->integer,const char*));
+    varbuf_add_str(vb, FILEFFIELD(fdp, fip->integer, const char *));
     fdp= fdp->next;
   }
 
@@ -141,12 +141,13 @@ void w_booleandefno(struct varbuf *vb,
                     enum fwriteflags flags, const struct fieldinfo *fip) {
   bool value = PKGPFIELD(pifp, fip->integer, bool);
   if (!(flags&fw_printheader)) {
-    varbufaddstr(vb, value ? "yes" : "no");
+    varbuf_add_str(vb, value ? "yes" : "no");
     return;
   }
   if (!value) return;
   assert(value == true);
-  varbufaddstr(vb,fip->name); varbufaddstr(vb, ": yes\n");
+  varbuf_add_str(vb, fip->name);
+  varbuf_add_str(vb, ": yes\n");
 }
 
 void w_priority(struct varbuf *vb,
@@ -155,11 +156,10 @@ void w_priority(struct varbuf *vb,
   if (pigp->priority == pri_unknown) return;
   assert(pigp->priority <= pri_unknown);
   if (flags&fw_printheader)
-    varbufaddstr(vb,"Priority: ");
-  varbufaddstr(vb,
-               pigp->priority == pri_other
-               ? pigp->otherpriority
-               : priorityinfos[pigp->priority].name);
+    varbuf_add_str(vb, "Priority: ");
+  varbuf_add_str(vb, pigp->priority == pri_other ?
+                     pigp->otherpriority :
+                     priorityinfos[pigp->priority].name);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }
@@ -202,12 +202,12 @@ void w_status(struct varbuf *vb,
 #undef AW
 
   if (flags&fw_printheader)
-    varbufaddstr(vb,"Status: ");
-  varbufaddstr(vb, wantinfos[pigp->want].name);
+    varbuf_add_str(vb, "Status: ");
+  varbuf_add_str(vb, wantinfos[pigp->want].name);
   varbuf_add_char(vb, ' ');
-  varbufaddstr(vb, eflaginfos[pigp->eflag].name);
+  varbuf_add_str(vb, eflaginfos[pigp->eflag].name);
   varbuf_add_char(vb, ' ');
-  varbufaddstr(vb,statusinfos[pigp->status].name);
+  varbuf_add_str(vb, statusinfos[pigp->status].name);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }
@@ -219,18 +219,27 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
   possdel= "";
   for (dop= dep->list; dop; dop= dop->next) {
     assert(dop->up == dep);
-    varbufaddstr(vb,possdel); possdel= " | ";
-    varbufaddstr(vb,dop->ed->name);
+    varbuf_add_str(vb, possdel);
+    possdel = " | ";
+    varbuf_add_str(vb, dop->ed->name);
     if (dop->verrel != dvr_none) {
-      varbufaddstr(vb," (");
+      varbuf_add_str(vb, " (");
       switch (dop->verrel) {
       case dvr_exact:
         varbuf_add_char(vb, '=');
         break;
-      case dvr_laterequal: varbufaddstr(vb,">="); break;
-      case dvr_earlierequal: varbufaddstr(vb,"<="); break;
-      case dvr_laterstrict: varbufaddstr(vb,">>"); break;
-      case dvr_earlierstrict: varbufaddstr(vb,"<<"); break;
+      case dvr_laterequal:
+        varbuf_add_str(vb, ">=");
+        break;
+      case dvr_earlierequal:
+        varbuf_add_str(vb, "<=");
+        break;
+      case dvr_laterstrict:
+        varbuf_add_str(vb, ">>");
+        break;
+      case dvr_earlierstrict:
+        varbuf_add_str(vb, "<<");
+        break;
       default:
         internerr("unknown verrel '%d'", dop->verrel);
       }
@@ -257,7 +266,8 @@ void w_dependency(struct varbuf *vb,
   for (dyp= pifp->depends; dyp; dyp= dyp->next) {
     if (dyp->type != fip->integer) continue;
     assert(dyp->up == pigp);
-    varbufaddstr(vb,depdel); depdel= ", ";
+    varbuf_add_str(vb, depdel);
+    depdel = ", ";
     varbufdependency(vb,dyp);
   }
   if ((flags&fw_printheader) && (depdel!=fnbuf))
@@ -272,15 +282,16 @@ void w_conffiles(struct varbuf *vb,
   if (!pifp->conffiles || pifp == &pigp->available)
     return;
   if (flags&fw_printheader)
-    varbufaddstr(vb,"Conffiles:\n");
+    varbuf_add_str(vb, "Conffiles:\n");
   for (i=pifp->conffiles; i; i= i->next) {
     if (i != pifp->conffiles)
       varbuf_add_char(vb, '\n');
     varbuf_add_char(vb, ' ');
-    varbufaddstr(vb, i->name);
+    varbuf_add_str(vb, i->name);
     varbuf_add_char(vb, ' ');
-    varbufaddstr(vb,i->hash);
-    if (i->obsolete) varbufaddstr(vb," obsolete");
+    varbuf_add_str(vb, i->hash);
+    if (i->obsolete)
+      varbuf_add_str(vb, " obsolete");
   }
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
@@ -300,10 +311,10 @@ w_trigpend(struct varbuf *vb,
          pigp->status <= stat_triggerspending);
 
   if (flags & fw_printheader)
-    varbufaddstr(vb, "Triggers-Pending:");
+    varbuf_add_str(vb, "Triggers-Pending:");
   for (tp = pigp->trigpend_head; tp; tp = tp->next) {
     varbuf_add_char(vb, ' ');
-    varbufaddstr(vb, tp->name);
+    varbuf_add_str(vb, tp->name);
   }
   if (flags & fw_printheader)
     varbuf_add_char(vb, '\n');
@@ -323,10 +334,10 @@ w_trigaw(struct varbuf *vb,
          pigp->status <= stat_triggersawaited);
 
   if (flags & fw_printheader)
-    varbufaddstr(vb, "Triggers-Awaited:");
+    varbuf_add_str(vb, "Triggers-Awaited:");
   for (ta = pigp->trigaw.head; ta; ta = ta->sameaw.next) {
     varbuf_add_char(vb, ' ');
-    varbufaddstr(vb, ta->pend->name);
+    varbuf_add_str(vb, ta->pend->name);
   }
   if (flags & fw_printheader)
     varbuf_add_char(vb, '\n');
@@ -341,9 +352,9 @@ void varbufrecord(struct varbuf *vb,
     fip->wcall(vb,pigp,pifp,fw_printheader,fip);
   }
   for (afp = pifp->arbs; afp; afp = afp->next) {
-    varbufaddstr(vb, afp->name);
-    varbufaddstr(vb, ": ");
-    varbufaddstr(vb, afp->value);
+    varbuf_add_str(vb, afp->name);
+    varbuf_add_str(vb, ": ");
+    varbuf_add_str(vb, afp->value);
     varbuf_add_char(vb, '\n');
   }
 }

@@ -312,7 +312,7 @@ searchfiles(const char *const *argv)
      * not a pattern, just a path. */
     if (!strpbrk(thisarg, "*[?\\")) {
       varbuf_reset(&path);
-      varbufaddstr(&path, thisarg);
+      varbuf_add_str(&path, thisarg);
       varbuf_add_char(&path, '\0');
 
       varbuf_trunc(&path, path_trim_slash_slashdot(path.buf));
@@ -323,7 +323,7 @@ searchfiles(const char *const *argv)
     if (!strchr("*[?/",*thisarg)) {
       varbuf_reset(&vb);
       varbuf_add_char(&vb, '*');
-      varbufaddstr(&vb,thisarg);
+      varbuf_add_str(&vb, thisarg);
       varbuf_add_char(&vb, '*');
       varbuf_add_char(&vb, '\0');
       thisarg= vb.buf;
@@ -545,7 +545,7 @@ control_path_pkg(struct pkginfo *pkg)
   size_t db_path_len;
 
   varbuf_init(&db_path, 0);
-  varbufaddstr(&db_path, pkgadmindir());
+  varbuf_add_str(&db_path, pkgadmindir());
   db_path_len = db_path.used;
   varbuf_add_char(&db_path, '\0');
 
@@ -583,7 +583,7 @@ control_path_pkg(struct pkginfo *pkg)
       continue;
 
     varbuf_trunc(&db_path, db_path_len);
-    varbufaddstr(&db_path, db_de->d_name);
+    varbuf_add_str(&db_path, db_de->d_name);
     varbuf_add_char(&db_path, '\0');
 
     printf("%s\n", db_path.buf);

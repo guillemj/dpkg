@@ -177,10 +177,11 @@ void varbufversion
   default:
     internerr("unknown versiondisplayepochwhen '%d'", vdew);
   }
-  if (version->version) varbufaddstr(vb,version->version);
+  if (version->version)
+    varbuf_add_str(vb, version->version);
   if (version->revision && *version->revision) {
     varbuf_add_char(vb, '-');
-    varbufaddstr(vb,version->revision);
+    varbuf_add_str(vb, version->revision);
   }
 }
 

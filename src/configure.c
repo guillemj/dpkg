@@ -87,7 +87,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	md5hash(pkg, currenthash, cdr.buf);
 
 	varbuf_reset(&cdr2);
-	varbufaddstr(&cdr2, cdr.buf);
+	varbuf_add_str(&cdr2, cdr.buf);
 	varbuf_add_char(&cdr2, '\0');
 	/* XXX: Make sure there's enough room for extensions. */
 	varbuf_grow(&cdr2, 50);
@@ -166,7 +166,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 			warning(_("%s: failed to remove old backup '%.250s': %s"),
 			        pkg->name, cdr2.buf, strerror(errno));
 		cdr.used--;
-		varbufaddstr(&cdr, DPKGDISTEXT);
+		varbuf_add_str(&cdr, DPKGDISTEXT);
 		varbuf_add_char(&cdr, '\0');
 		strcpy(cdr2rest, DPKGNEWEXT);
 		trig_file_activate(usenode, pkg);
@@ -377,10 +377,10 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 	int loopprotect;
 
 	varbuf_reset(result);
-	varbufaddstr(result, instdir);
+	varbuf_add_str(result, instdir);
 	if (*in != '/')
 		varbuf_add_char(result, '/');
-	varbufaddstr(result, in);
+	varbuf_add_str(result, in);
 	varbuf_add_char(result, '\0');
 
 	loopprotect = 0;
@@ -427,7 +427,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 
 			if (target.buf[0] == '/') {
 				varbuf_reset(result);
-				varbufaddstr(result, instdir);
+				varbuf_add_str(result, instdir);
 				debug(dbg_conffdetail,
 				      "conffderef readlink absolute");
 			} else {
