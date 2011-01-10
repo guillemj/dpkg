@@ -103,7 +103,7 @@ file_info_get(const char *root, int fd)
   size_t root_len;
 
   varbuf_reset(&fn);
-  root_len = varbufprintf(&fn, "%s/", root);
+  root_len = varbuf_printf(&fn, "%s/", root);
 
   while (1) {
     int	res;
@@ -182,7 +182,7 @@ check_file_perms(const char *dir)
   const char *const *mscriptp;
   struct stat mscriptstab;
 
-  varbufprintf(&path, "%s/%s/", dir, BUILDCONTROLDIR);
+  varbuf_printf(&path, "%s/%s/", dir, BUILDCONTROLDIR);
   if (lstat(path.buf, &mscriptstab))
     ohshite(_("unable to stat control directory"));
   if (!S_ISDIR(mscriptstab.st_mode))
@@ -194,7 +194,7 @@ check_file_perms(const char *dir)
 
   for (mscriptp = maintainerscripts; *mscriptp; mscriptp++) {
     varbuf_reset(&path);
-    varbufprintf(&path, "%s/%s/%s", dir, BUILDCONTROLDIR, *mscriptp);
+    varbuf_printf(&path, "%s/%s/%s", dir, BUILDCONTROLDIR, *mscriptp);
     if (!lstat(path.buf, &mscriptstab)) {
       if (S_ISLNK(mscriptstab.st_mode))
         continue;
@@ -225,7 +225,7 @@ check_conffiles(const char *dir)
   struct file_info *conffiles_head = NULL;
   struct file_info *conffiles_tail = NULL;
 
-  varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONFFILESFILE);
+  varbuf_printf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONFFILESFILE);
 
   cf = fopen(controlfile.buf, "r");
   if (cf == NULL) {
@@ -255,7 +255,7 @@ check_conffiles(const char *dir)
 
     conffilename[n - 1] = '\0';
     varbuf_reset(&controlfile);
-    varbufprintf(&controlfile, "%s/%s", dir, conffilename);
+    varbuf_printf(&controlfile, "%s/%s", dir, conffilename);
     if (lstat(controlfile.buf, &controlstab)) {
       if (errno == ENOENT) {
         if ((n > 1) && isspace(conffilename[n - 2]))
@@ -328,7 +328,7 @@ check_new_pkg(const char *dir)
   int warns;
 
   /* Start by reading in the control file so we can check its contents. */
-  varbufprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
+  varbuf_printf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
   parsedb(controlfile.buf, pdb_recordavailable | pdb_rejectstatus, &pkg);
 
   if (strspn(pkg->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
@@ -372,8 +372,8 @@ pkg_get_pathname(const char *dir, struct pkginfo *pkg)
 
   versionstring = versiondescribe(&pkg->available.version, vdew_never);
   arch = pkg->available.architecture;
-  varbufprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->name, versionstring,
-               arch ? "_" : "", arch ? arch : "", DEBEXT);
+  varbuf_printf(&path, "%s/%s_%s%s%s%s", dir, pkg->name, versionstring,
+                arch ? "_" : "", arch ? arch : "", DEBEXT);
 
   return varbuf_detach(&path);
 }

@@ -172,7 +172,7 @@ void varbufversion
         (!version->revision || !strchr(version->revision,':'))) break;
     /* Fall through. */
   case vdew_always:
-    varbufprintf(vb,"%lu:",version->epoch);
+    varbuf_printf(vb, "%lu:", version->epoch);
     break;
   default:
     internerr("unknown versiondisplayepochwhen '%d'", vdew);

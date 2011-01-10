@@ -206,7 +206,7 @@ test_varbuf_printf(void)
 	varbuf_init(&vb, 5);
 
 	/* Test normal format printing. */
-	varbufprintf(&vb, "format %s number %d", "string", 10);
+	varbuf_printf(&vb, "format %s number %d", "string", 10);
 	varbuf_add_char(&vb, '\0');
 	test_pass(vb.used == sizeof("format string number 10"));
 	test_pass(vb.size >= vb.used);
@@ -215,8 +215,8 @@ test_varbuf_printf(void)
 	varbuf_reset(&vb);
 
 	/* Test concatenated format printing. */
-	varbufprintf(&vb, "format %s number %d", "string", 10);
-	varbufprintf(&vb, " extra %s", "string");
+	varbuf_printf(&vb, "format %s number %d", "string", 10);
+	varbuf_printf(&vb, " extra %s", "string");
 	varbuf_add_char(&vb, '\0');
 	test_pass(vb.used == sizeof("format string number 10 extra string"));
 	test_pass(vb.size >= vb.used);

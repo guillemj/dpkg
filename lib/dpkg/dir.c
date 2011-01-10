@@ -103,7 +103,7 @@ dir_file_sync(const char *dir, const char *filename)
 	struct varbuf path = VARBUF_INIT;
 	int fd;
 
-	varbufprintf(&path, "%s/%s", dir, filename);
+	varbuf_printf(&path, "%s/%s", dir, filename);
 
 	fd = open(path.buf, O_WRONLY);
 	if (fd < 0)

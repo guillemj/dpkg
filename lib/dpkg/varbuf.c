@@ -55,7 +55,9 @@ varbuf_map_char(struct varbuf *v, int c_src, int c_dst)
       v->buf[i] = c_dst;
 }
 
-int varbufprintf(struct varbuf *v, const char *fmt, ...) {
+int
+varbuf_printf(struct varbuf *v, const char *fmt, ...)
+{
   int r;
   va_list args;
 

@@ -64,7 +64,7 @@ trig_get_triggersdir(const char *admindir)
 {
 	struct varbuf path = VARBUF_INIT;
 
-	varbufprintf(&path, "%s/%s", admindir, TRIGGERSDIR);
+	varbuf_printf(&path, "%s/%s", admindir, TRIGGERSDIR);
 
 	return varbuf_detach(&path);
 }
@@ -74,7 +74,7 @@ trig_get_filename(const char *dir, const char *filename)
 {
 	struct varbuf path = VARBUF_INIT;
 
-	varbufprintf(&path, "%s/%s", dir, filename);
+	varbuf_printf(&path, "%s/%s", dir, filename);
 
 	return varbuf_detach(&path);
 }
@@ -422,7 +422,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 
 	trk_explicit_start(trig);
 	varbuf_reset(&newfn);
-	varbufprintf(&newfn, "%s/%s.new", triggersdir, trig);
+	varbuf_printf(&newfn, "%s/%s.new", triggersdir, trig);
 	varbuf_add_char(&newfn, '\0');
 
 	nf = fopen(newfn.buf, "w");

@@ -219,7 +219,7 @@ pkg_format_show(const struct pkg_format_node *head,
 			strcpy(fmt, "%s");
 
 		if (head->type == string) {
-			varbufprintf(&fb, fmt, head->data);
+			varbuf_printf(&fb, fmt, head->data);
 			ok = true;
 		} else if (head->type == field) {
 			const struct fieldinfo *fip;
@@ -229,7 +229,7 @@ pkg_format_show(const struct pkg_format_node *head,
 					fip->wcall(&wb, pkg, pif, 0, fip);
 
 					varbuf_add_char(&wb, '\0');
-					varbufprintf(&fb, fmt, wb.buf);
+					varbuf_printf(&fb, fmt, wb.buf);
 					varbuf_reset(&wb);
 					ok = true;
 					break;
@@ -240,7 +240,7 @@ pkg_format_show(const struct pkg_format_node *head,
 
 				for (afp = pif->arbs; afp; afp = afp->next)
 					if (strcasecmp(head->data, afp->name) == 0) {
-						varbufprintf(&fb, fmt, afp->value);
+						varbuf_printf(&fb, fmt, afp->value);
 						ok = true;
 						break;
 					}

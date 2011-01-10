@@ -150,7 +150,7 @@ modstatdb_is_locked(const char *admindir)
   int lockfd;
   bool locked;
 
-  varbufprintf(&lockfile, "%s/%s", admindir, LOCKFILE);
+  varbuf_printf(&lockfile, "%s/%s", admindir, LOCKFILE);
 
   if (dblockfd == -1) {
     lockfd = open(lockfile.buf, O_RDONLY);

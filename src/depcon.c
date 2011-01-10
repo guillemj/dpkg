@@ -201,7 +201,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   varbufdependency(&depstr, dep);
   varbuf_add_char(&depstr, '\0');
 
-  varbufprintf(addto, fmt, dep->up->name, depstr.buf);
+  varbuf_printf(addto, fmt, dep->up->name, depstr.buf);
   varbuf_destroy(&depstr);
 }
 

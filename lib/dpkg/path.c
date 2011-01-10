@@ -94,7 +94,7 @@ path_make_temp_template(const char *suffix)
 	if (!tmpdir)
 		tmpdir = "/tmp";
 
-	varbufprintf(&template, "%s/%s.XXXXXX", tmpdir, suffix);
+	varbuf_printf(&template, "%s/%s.XXXXXX", tmpdir, suffix);
 
 	return varbuf_detach(&template);
 }

@@ -160,7 +160,7 @@ check_writable_dir(struct file *f)
 	struct varbuf tmpname = VARBUF_INIT;
 	int tmpfd;
 
-	varbufprintf(&tmpname, "%s%s", f->name, ".dpkg-divert.tmp");
+	varbuf_printf(&tmpname, "%s%s", f->name, ".dpkg-divert.tmp");
 
 	tmpfd = creat(tmpname.buf, 0600);
 	if (tmpfd < 0)
@@ -243,7 +243,7 @@ rename_mv(const char *src, const char *dst)
 	if (rename(src, dst) == 0)
 		return 0;
 
-	varbufprintf(&tmpdst, "%s%s", dst, ".dpkg-divert.tmp");
+	varbuf_printf(&tmpdst, "%s%s", dst, ".dpkg-divert.tmp");
 
 	/* If a simple rename didn't work try an atomic copy, rename, unlink
 	 * instead. */
@@ -292,17 +292,17 @@ varbuf_diversion(struct varbuf *str, const char *pkgname,
 
 	if (pkgname == NULL) {
 		if (divertto == NULL)
-			varbufprintf(str, _("local diversion of %s"), filename);
+			varbuf_printf(str, _("local diversion of %s"), filename);
 		else
-			varbufprintf(str, _("local diversion of %s to %s"),
-			             filename, divertto);
+			varbuf_printf(str, _("local diversion of %s to %s"),
+			              filename, divertto);
 	} else {
 		if (divertto == NULL)
-			varbufprintf(str, _("diversion of %s by %s"),
-			             filename, pkgname);
+			varbuf_printf(str, _("diversion of %s by %s"),
+			              filename, pkgname);
 		else
-			varbufprintf(str, _("diversion of %s to %s by %s"),
-			             filename, divertto, pkgname);
+			varbuf_printf(str, _("diversion of %s to %s by %s"),
+			              filename, divertto, pkgname);
 	}
 
 	return str->buf;
@@ -317,10 +317,10 @@ diversion_current(const char *filename)
 		varbuf_reset(&str);
 
 		if (opt_divertto == NULL)
-			varbufprintf(&str, _("any diversion of %s"), filename);
+			varbuf_printf(&str, _("any diversion of %s"), filename);
 		else
-			varbufprintf(&str, _("any diversion of %s to %s"),
-			             filename, opt_divertto);
+			varbuf_printf(&str, _("any diversion of %s to %s"),
+			              filename, opt_divertto);
 	} else {
 		return varbuf_diversion(&str, opt_pkgname, filename, opt_divertto);
 	}
@@ -361,9 +361,9 @@ divertdb_write(void)
 	struct varbuf dbname_new = VARBUF_INIT;
 	struct varbuf dbname_old = VARBUF_INIT;
 
-	varbufprintf(&dbname, "%s/%s", admindir, DIVERSIONSFILE);
-	varbufprintf(&dbname_new, "%s%s", dbname.buf, NEWDBEXT);
-	varbufprintf(&dbname_old, "%s%s", dbname.buf, OLDDBEXT);
+	varbuf_printf(&dbname, "%s/%s", admindir, DIVERSIONSFILE);
+	varbuf_printf(&dbname_new, "%s%s", dbname.buf, NEWDBEXT);
+	varbuf_printf(&dbname_old, "%s%s", dbname.buf, OLDDBEXT);
 
 	dbfile = fopen(dbname_new.buf, "w");
 	if (!dbfile)
@@ -436,7 +436,7 @@ diversion_add(const char *const *argv)
 	if (opt_divertto == NULL) {
 		struct varbuf str = VARBUF_INIT;
 
-		varbufprintf(&str, "%s.distrib", filename);
+		varbuf_printf(&str, "%s.distrib", filename);
 		opt_divertto = varbuf_detach(&str);
 	}
 	if (opt_divertto[0] != '/')

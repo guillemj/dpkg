@@ -174,15 +174,15 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 			struct varbuf refname = VARBUF_INIT;
 			int prefix_max;
 
-			varbufprintf(&refname, "%dof%d", curpart, nparts);
+			varbuf_printf(&refname, "%dof%d", curpart, nparts);
 			prefix_max = max(8 - strlen(refname.buf), 0);
-			varbufprintf(&file_dst, "%s/%.*s%.8s.deb",
-			             prefixdir, prefix_max, prefix,
-			             refname.buf);
+			varbuf_printf(&file_dst, "%s/%.*s%.8s.deb",
+			              prefixdir, prefix_max, prefix,
+			              refname.buf);
 			varbuf_destroy(&refname);
 		} else {
-			varbufprintf(&file_dst, "%s.%dof%d.deb",
-			             prefix, curpart, nparts);
+			varbuf_printf(&file_dst, "%s.%dof%d.deb",
+			              prefix, curpart, nparts);
 		}
 
 		if (curpart == nparts)
@@ -204,15 +204,15 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 		dpkg_ar_put_magic(file_dst.buf, fd_dst);
 
 		/* Write the debian-split part. */
-		varbufprintf(&partmagic, "%s\n%s\n%s\n%s\n%zu\n%zu\n%d/%d\n",
-		             SPLITVERSION, package, version, hash,
-		             st.st_size, partsize, curpart, nparts);
+		varbuf_printf(&partmagic, "%s\n%s\n%s\n%s\n%zu\n%zu\n%d/%d\n",
+		              SPLITVERSION, package, version, hash,
+		              st.st_size, partsize, curpart, nparts);
 		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, PARTMAGIC,
 		                       partmagic.buf, partmagic.used);
 		varbuf_reset(&partmagic);
 
 		/* Write the data part. */
-		varbufprintf(&partname, "data.%d", curpart);
+		varbuf_printf(&partname, "data.%d", curpart);
 		dpkg_ar_member_put_file(file_dst.buf, fd_dst, partname.buf,
 		                        fd_src, partsize);
 		varbuf_reset(&partname);
