@@ -174,11 +174,10 @@ void do_auto(const char *const *argv) {
     if (getc(part) != EOF) ohshit(_("part file `%.250s' has trailing garbage"),partfile);
     if (ferror(part)) rerr(partfile);
     fclose(part);
-    p = nfmalloc(strlen(opt_depotdir) + 50);
-    q = nfmalloc(strlen(opt_depotdir) + 200);
-    sprintf(p, "%st.%lx", opt_depotdir, (long)getpid());
-    sprintf(q, "%s%s.%lx.%x.%x", opt_depotdir, refi->md5sum,
-            refi->maxpartlen,refi->thispartn,refi->maxpartn);
+
+    m_asprintf(&p, "%st.%lx", opt_depotdir, (long)getpid());
+    m_asprintf(&q, "%s%s.%lx.%x.%x", opt_depotdir, refi->md5sum,
+               refi->maxpartlen, refi->thispartn, refi->maxpartn);
     part= fopen(p,"w");
     if (!part) ohshite(_("unable to open new depot file `%.250s'"),p);
     nr= fwrite(buffer,1,refi->filesize,part);
@@ -189,6 +188,8 @@ void do_auto(const char *const *argv) {
       ohshite(_("unable to sync file '%s'"), p);
     if (fclose(part)) werr(p);
     if (rename(p,q)) ohshite(_("unable to rename new depot file `%.250s' to `%.250s'"),p,q);
+    free(q);
+    free(p);
 
     printf(_("Part %d of package %s filed (still want "),refi->thispartn,refi->package);
     /* There are still some parts missing. */
