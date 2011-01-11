@@ -73,6 +73,24 @@ m_strdup(const char *str)
   return new_str;
 }
 
+int
+m_asprintf(char **strp, const char *fmt, ...)
+{
+  va_list args;
+  int n;
+
+  va_start(args, fmt);
+  n = vasprintf(strp, fmt, args);
+  va_end(args);
+
+  onerr_abort++;
+  if (n < 0)
+    ohshite(_("failed to allocate memory"));
+  onerr_abort--;
+
+  return n;
+}
+
 void m_dup2(int oldfd, int newfd) {
   const char *const stdstrings[]= { "in", "out", "err" };
 

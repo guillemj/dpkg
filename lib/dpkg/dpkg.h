@@ -137,6 +137,7 @@ void setcloexec(int fd, const char* fn);
 void *m_malloc(size_t);
 void *m_realloc(void*, size_t);
 char *m_strdup(const char *str);
+int m_asprintf(char **strp, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 void m_dup2(int oldfd, int newfd);
 void m_pipe(int fds[2]);
 void m_output(FILE *f, const char *name);
