@@ -175,13 +175,9 @@ modstatdb_is_locked(const char *admindir)
 void
 modstatdb_lock(const char *admindir)
 {
-  int n;
   char *dblockfile = NULL;
 
-  n = strlen(admindir);
-  dblockfile = m_malloc(n + sizeof(LOCKFILE) + 2);
-  strcpy(dblockfile, admindir);
-  strcpy(dblockfile + n, "/" LOCKFILE);
+  m_asprintf(&dblockfile, "%s/%s", admindir, LOCKFILE);
 
   if (dblockfd == -1) {
     dblockfd = open(dblockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
@@ -210,8 +206,7 @@ modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
 
   for (fnip=fnis; fnip->suffix; fnip++) {
     free(*fnip->store);
-    *fnip->store = m_malloc(strlen(admindir) + strlen(fnip->suffix) + 2);
-    sprintf(*fnip->store, "%s/%s", admindir, fnip->suffix);
+    m_asprintf(fnip->store, "%s/%s", admindir, fnip->suffix);
   }
 
   cflags= readwritereq & msdbrw_flagsmask;

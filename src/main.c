@@ -264,9 +264,7 @@ setfilter(const struct cmdinfo *cip, const char *value)
 static void setroot(const struct cmdinfo *cip, const char *value) {
   char *p;
   instdir= value;
-  p= m_malloc(strlen(value) + sizeof(ADMINDIR));
-  strcpy(p,value);
-  strcat(p,ADMINDIR);
+  m_asprintf(&p, "%s%s", value, ADMINDIR);
   admindir= p;
 }
 
@@ -575,13 +573,11 @@ void execbackend(const char *const *argv) {
    * along to it. */
   if (strcmp(cipaction->parg, DPKGQUERY) == 0 &&
       strcmp(admindir, ADMINDIR) != 0) {
-    arg = m_malloc((strlen("--admindir=") + strlen(admindir) + 1));
-    sprintf(arg, "--admindir=%s", admindir);
+    m_asprintf(&arg, "--admindir=%s", admindir);
     command_add_arg(&cmd, arg);
   }
 
-  arg = m_malloc(2 + strlen(cipaction->olong) + 1);
-  sprintf(arg, "--%s", cipaction->olong);
+  m_asprintf(&arg, "--%s", cipaction->olong);
   command_add_arg(&cmd, arg);
 
   /* Exlicitely separate arguments from options as any user-supplied

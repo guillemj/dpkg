@@ -100,10 +100,8 @@ get_prefix_name(struct tar_header *h)
 {
 	char *path;
 
-	path = m_malloc(sizeof(h->prefix) + 1 + sizeof(h->name) + 1);
-
-	sprintf(path, "%.*s/%.*s", (int)sizeof(h->prefix), h->prefix,
-	        (int)sizeof(h->name), h->name);
+	m_asprintf(&path, "%.*s/%.*s", (int)sizeof(h->prefix), h->prefix,
+	           (int)sizeof(h->name), h->name);
 
 	return path;
 }

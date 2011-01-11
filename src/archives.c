@@ -1222,9 +1222,8 @@ void archivefiles(const char *const *argv) {
       for (ap = argv; *ap; ap++) {
         if (strchr(FIND_EXPRSTARTCHARS,(*ap)[0])) {
           char *a;
-          a= m_malloc(strlen(*ap)+10);
-          strcpy(a,"./");
-          strcat(a,*ap);
+
+          m_asprintf(&a, "./%s", *ap);
           command_add_arg(&cmd, a);
         } else {
           command_add_arg(&cmd, (const char *)*ap);

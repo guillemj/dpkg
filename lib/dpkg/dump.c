@@ -386,10 +386,8 @@ writedb(const char *filename, bool available, bool mustsync)
   int old_umask;
 
   which = available ? "available" : "status";
-  oldfn= m_malloc(strlen(filename)+sizeof(OLDDBEXT));
-  strcpy(oldfn,filename); strcat(oldfn,OLDDBEXT);
-  newfn= m_malloc(strlen(filename)+sizeof(NEWDBEXT));
-  strcpy(newfn,filename); strcat(newfn,NEWDBEXT);
+  m_asprintf(&oldfn, "%s%s", filename, OLDDBEXT);
+  m_asprintf(&newfn, "%s%s", filename, NEWDBEXT);
 
   old_umask = umask(022);
   file= fopen(newfn,"w");

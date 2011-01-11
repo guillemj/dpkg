@@ -134,11 +134,8 @@ void process_archive(const char *filename) {
     int status;
 
     /* We can't ‘tentatively-reassemble’ packages. */
-    if (!reasmbuf) {
-      reasmbuf= m_malloc(admindirlen+sizeof(REASSEMBLETMP)+5);
-      strcpy(reasmbuf,admindir);
-      strcat(reasmbuf,"/" REASSEMBLETMP);
-    }
+    if (!reasmbuf)
+      m_asprintf(&reasmbuf, "%s/%s", admindir, REASSEMBLETMP);
     if (unlink(reasmbuf) && errno != ENOENT)
       ohshite(_("error ensuring `%.250s' doesn't exist"),reasmbuf);
     push_cleanup(cu_pathname, ~0, NULL, 0, 1, (void *)reasmbuf);
