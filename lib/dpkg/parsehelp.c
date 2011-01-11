@@ -323,13 +323,12 @@ parse_db_version(struct parsedb_state *ps, const struct pkginfo *pkg,
 
     va_start(args, fmt);
     vsnprintf(buf, sizeof(buf), fmt, args);
+    va_end(args);
 
     if (warn_msg)
       parse_warn(ps, pkg, "%s: %.250s", buf, msg);
     else
       parse_error(ps, pkg, "%s: %.250s", buf, msg);
-
-    va_end(args);
   }
 }
 
