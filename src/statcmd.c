@@ -192,26 +192,16 @@ statdb_node_print(FILE *out, struct filenamenode *file)
 static void
 statdb_write(void)
 {
+	char *dbname, *dbname_new, *dbname_old;
 	FILE *dbfile;
 	struct fileiterator *i;
 	struct filenamenode *file;
-	struct varbuf dbname = VARBUF_INIT;
-	struct varbuf dbname_new = VARBUF_INIT;
-	struct varbuf dbname_old = VARBUF_INIT;
 
-	varbuf_add_str(&dbname, admindir);
-	varbuf_add_str(&dbname, "/" STATOVERRIDEFILE);
-	varbuf_add_char(&dbname, '\0');
+	m_asprintf(&dbname, "%s/%s", admindir, STATOVERRIDEFILE);
+	m_asprintf(&dbname_new, "%s%s", dbname, NEWDBEXT);
+	m_asprintf(&dbname_old, "%s%s", dbname, OLDDBEXT);
 
-	varbuf_add_str(&dbname_new, dbname.buf);
-	varbuf_add_str(&dbname_new, NEWDBEXT);
-	varbuf_add_char(&dbname_new, '\0');
-
-	varbuf_add_str(&dbname_old, dbname.buf);
-	varbuf_add_str(&dbname_old, OLDDBEXT);
-	varbuf_add_char(&dbname_old, '\0');
-
-	dbfile = fopen(dbname_new.buf, "w");
+	dbfile = fopen(dbname_new, "w");
 	if (!dbfile)
 		ohshite(_("cannot open new statoverride file"));
 
@@ -221,24 +211,24 @@ statdb_write(void)
 	iterfileend(i);
 
 	if (fflush(dbfile))
-		ohshite(_("unable to flush file '%s'"), dbname_new.buf);
+		ohshite(_("unable to flush file '%s'"), dbname_new);
 	if (fsync(fileno(dbfile)))
-		ohshite(_("unable to sync file '%s'"), dbname_new.buf);
+		ohshite(_("unable to sync file '%s'"), dbname_new);
 	fclose(dbfile);
 
-	chmod(dbname_new.buf, 0644);
-	if (unlink(dbname_old.buf) && errno != ENOENT)
+	chmod(dbname_new, 0644);
+	if (unlink(dbname_old) && errno != ENOENT)
 		ohshite(_("error removing statoverride-old"));
-	if (link(dbname.buf, dbname_old.buf) && errno != ENOENT)
+	if (link(dbname, dbname_old) && errno != ENOENT)
 		ohshite(_("error creating new statoverride-old"));
-	if (rename(dbname_new.buf, dbname.buf))
+	if (rename(dbname_new, dbname))
 		ohshite(_("error installing new statoverride"));
 
 	dir_sync_path(admindir);
 
-	varbuf_destroy(&dbname);
-	varbuf_destroy(&dbname_new);
-	varbuf_destroy(&dbname_old);
+	free(dbname);
+	free(dbname_new);
+	free(dbname_old);
 }
 
 static int
