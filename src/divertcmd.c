@@ -157,18 +157,18 @@ file_stat(struct file *f)
 static void
 check_writable_dir(struct file *f)
 {
-	struct varbuf tmpname = VARBUF_INIT;
+	char *tmpname;
 	int tmpfd;
 
-	varbuf_printf(&tmpname, "%s%s", f->name, ".dpkg-divert.tmp");
+	m_asprintf(&tmpname, "%s%s", f->name, ".dpkg-divert.tmp");
 
-	tmpfd = creat(tmpname.buf, 0600);
+	tmpfd = creat(tmpname, 0600);
 	if (tmpfd < 0)
 		ohshite(_("error checking '%s'"), f->name);
 	close(tmpfd);
-	unlink(tmpname.buf);
+	unlink(tmpname);
 
-	varbuf_destroy(&tmpname);
+	free(tmpname);
 }
 
 static bool
@@ -238,22 +238,22 @@ file_copy(const char *src, const char *dst)
 static int
 rename_mv(const char *src, const char *dst)
 {
-	struct varbuf tmpdst = VARBUF_INIT;
+	char *tmpdst;
 
 	if (rename(src, dst) == 0)
 		return 0;
 
-	varbuf_printf(&tmpdst, "%s%s", dst, ".dpkg-divert.tmp");
+	m_asprintf(&tmpdst, "%s%s", dst, ".dpkg-divert.tmp");
 
 	/* If a simple rename didn't work try an atomic copy, rename, unlink
 	 * instead. */
-	if (file_copy(src, tmpdst.buf) != 0)
+	if (file_copy(src, tmpdst) != 0)
 		return -1;
 
-	if (rename(tmpdst.buf, dst) != 0)
+	if (rename(tmpdst, dst) != 0)
 		return -1;
 
-	varbuf_destroy(&tmpdst);
+	free(tmpdst);
 
 	return -1;
 }
@@ -354,21 +354,19 @@ diversion_describe(struct diversion *d)
 static void
 divertdb_write(void)
 {
+	char *dbname, *dbname_new, *dbname_old;
 	FILE *dbfile;
 	struct fileiterator *iter;
 	struct filenamenode *namenode;
-	struct varbuf dbname = VARBUF_INIT;
-	struct varbuf dbname_new = VARBUF_INIT;
-	struct varbuf dbname_old = VARBUF_INIT;
 
-	varbuf_printf(&dbname, "%s/%s", admindir, DIVERSIONSFILE);
-	varbuf_printf(&dbname_new, "%s%s", dbname.buf, NEWDBEXT);
-	varbuf_printf(&dbname_old, "%s%s", dbname.buf, OLDDBEXT);
+	m_asprintf(&dbname, "%s/%s", admindir, DIVERSIONSFILE);
+	m_asprintf(&dbname_new, "%s%s", dbname, NEWDBEXT);
+	m_asprintf(&dbname_old, "%s%s", dbname, OLDDBEXT);
 
-	dbfile = fopen(dbname_new.buf, "w");
+	dbfile = fopen(dbname_new, "w");
 	if (!dbfile)
 		ohshite(_("cannot create new %s file"), DIVERSIONSFILE);
-	chmod(dbname_new.buf, 0644);
+	chmod(dbname_new, 0644);
 
 	iter = iterfilestart();
 	while ((namenode = iterfilenext(iter))) {
@@ -385,22 +383,22 @@ divertdb_write(void)
 	iterfileend(iter);
 
 	if (fflush(dbfile))
-		ohshite(_("unable to flush file '%s'"), dbname_new.buf);
+		ohshite(_("unable to flush file '%s'"), dbname_new);
 	if (fsync(fileno(dbfile)))
-		ohshite(_("unable to sync file '%s'"), dbname_new.buf);
+		ohshite(_("unable to sync file '%s'"), dbname_new);
 	if (fclose(dbfile))
-		ohshite(_("unable to close file '%s'"), dbname_new.buf);
+		ohshite(_("unable to close file '%s'"), dbname_new);
 
-	if (unlink(dbname_old.buf) && errno != ENOENT)
+	if (unlink(dbname_old) && errno != ENOENT)
 		ohshite(_("error removing old diversions-old"));
-	if (link(dbname.buf, dbname_old.buf) && errno != ENOENT)
+	if (link(dbname, dbname_old) && errno != ENOENT)
 		ohshite(_("error creating new diversions-old"));
-	if (rename(dbname_new.buf, dbname.buf))
+	if (rename(dbname_new, dbname))
 		ohshite(_("error installing new diversions"));
 
-	varbuf_destroy(&dbname);
-	varbuf_destroy(&dbname_new);
-	varbuf_destroy(&dbname_old);
+	free(dbname);
+	free(dbname_new);
+	free(dbname_old);
 }
 
 static int
@@ -434,10 +432,10 @@ diversion_add(const char *const *argv)
 
 	/* Handle divertto. */
 	if (opt_divertto == NULL) {
-		struct varbuf str = VARBUF_INIT;
+		char *str;
 
-		varbuf_printf(&str, "%s.distrib", filename);
-		opt_divertto = varbuf_detach(&str);
+		m_asprintf(&str, "%s.distrib", filename);
+		opt_divertto = str;
 	}
 	if (opt_divertto[0] != '/')
 		badusage(_("filename \"%s\" is not absolute"), opt_divertto);

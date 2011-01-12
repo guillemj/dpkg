@@ -171,15 +171,14 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 		varbuf_reset(&file_dst);
 		/* Generate output filename. */
 		if (msdos) {
-			struct varbuf refname = VARBUF_INIT;
+			char *refname;
 			int prefix_max;
 
-			varbuf_printf(&refname, "%dof%d", curpart, nparts);
-			prefix_max = max(8 - strlen(refname.buf), 0);
+			m_asprintf(&refname, "%dof%d", curpart, nparts);
+			prefix_max = max(8 - strlen(refname), 0);
 			varbuf_printf(&file_dst, "%s/%.*s%.8s.deb",
-			              prefixdir, prefix_max, prefix,
-			              refname.buf);
-			varbuf_destroy(&refname);
+			              prefixdir, prefix_max, prefix, refname);
+			free(refname);
 		} else {
 			varbuf_printf(&file_dst, "%s.%dof%d.deb",
 			              prefix, curpart, nparts);

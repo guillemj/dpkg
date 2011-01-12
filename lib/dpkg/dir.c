@@ -32,7 +32,6 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/i18n.h>
-#include <dpkg/varbuf.h>
 #include <dpkg/dir.h>
 
 /**
@@ -100,20 +99,20 @@ dir_sync_path_parent(const char *path)
 static void
 dir_file_sync(const char *dir, const char *filename)
 {
-	struct varbuf path = VARBUF_INIT;
+	char *path;
 	int fd;
 
-	varbuf_printf(&path, "%s/%s", dir, filename);
+	m_asprintf(&path, "%s/%s", dir, filename);
 
-	fd = open(path.buf, O_WRONLY);
+	fd = open(path, O_WRONLY);
 	if (fd < 0)
-		ohshite(_("unable to open file '%s'"), path.buf);
+		ohshite(_("unable to open file '%s'"), path);
 	if (fsync(fd))
-		ohshite(_("unable to sync file '%s'"), path.buf);
+		ohshite(_("unable to sync file '%s'"), path);
 	if (close(fd))
-		ohshite(_("unable to close file '%s'"), path.buf);
+		ohshite(_("unable to close file '%s'"), path);
 
-	varbuf_destroy(&path);
+	free(path);
 }
 
 /**

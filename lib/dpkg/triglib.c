@@ -62,21 +62,21 @@ static char *triggersdir, *triggersfilefile, *triggersnewfilefile;
 char *
 trig_get_triggersdir(const char *admindir)
 {
-	struct varbuf path = VARBUF_INIT;
+	char *path;
 
-	varbuf_printf(&path, "%s/%s", admindir, TRIGGERSDIR);
+	m_asprintf(&path, "%s/%s", admindir, TRIGGERSDIR);
 
-	return varbuf_detach(&path);
+	return path;
 }
 
 static char *
 trig_get_filename(const char *dir, const char *filename)
 {
-	struct varbuf path = VARBUF_INIT;
+	char *path;
 
-	varbuf_printf(&path, "%s/%s", dir, filename);
+	m_asprintf(&path, "%s/%s", dir, filename);
 
-	return varbuf_detach(&path);
+	return path;
 }
 
 static struct trig_hooks trigh;

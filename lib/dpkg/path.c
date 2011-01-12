@@ -27,7 +27,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <dpkg/varbuf.h>
+#include <dpkg/dpkg.h>
 #include <dpkg/path.h>
 
 /**
@@ -84,7 +84,7 @@ char *
 path_make_temp_template(const char *suffix)
 {
 	const char *tmpdir;
-	struct varbuf template = VARBUF_INIT;
+	char *template;
 
 	tmpdir = getenv("TMPDIR");
 #ifdef P_tmpdir
@@ -94,9 +94,9 @@ path_make_temp_template(const char *suffix)
 	if (!tmpdir)
 		tmpdir = "/tmp";
 
-	varbuf_printf(&template, "%s/%s.XXXXXX", tmpdir, suffix);
+	m_asprintf(&template, "%s/%s.XXXXXX", tmpdir, suffix);
 
-	return varbuf_detach(&template);
+	return template;
 }
 
 /**

@@ -146,28 +146,28 @@ static int dblockfd = -1;
 bool
 modstatdb_is_locked(const char *admindir)
 {
-  struct varbuf lockfile = VARBUF_INIT;
+  char *lockfile;
   int lockfd;
   bool locked;
 
-  varbuf_printf(&lockfile, "%s/%s", admindir, LOCKFILE);
+  m_asprintf(&lockfile, "%s/%s", admindir, LOCKFILE);
 
   if (dblockfd == -1) {
-    lockfd = open(lockfile.buf, O_RDONLY);
+    lockfd = open(lockfile, O_RDONLY);
     if (lockfd == -1)
-      ohshite(_("unable to open lock file %s for testing"), lockfile.buf);
+      ohshite(_("unable to open lock file %s for testing"), lockfile);
   } else {
     lockfd = dblockfd;
   }
 
-  locked = file_is_locked(lockfd, lockfile.buf);
+  locked = file_is_locked(lockfd, lockfile);
 
   /* We only close the file if there was no lock open, otherwise we would
    * release the existing lock on close. */
   if (dblockfd == -1)
     close(lockfd);
 
-  varbuf_destroy(&lockfile);
+  free(lockfile);
 
   return locked;
 }
