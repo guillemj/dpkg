@@ -84,6 +84,92 @@ const struct fieldinfo fieldinfos[]= {
 };
 
 /**
+ * Verify and fixup the package structure being constructed.
+ */
+static void
+pkg_parse_verify(struct parsedb_state *ps,
+                 struct pkginfo *pkg, struct pkgbin *pkgbin)
+{
+  parse_must_have_field(ps, pkg, pkg->name, "package name");
+
+  /* XXX: We need to check for status != stat_halfinstalled as while
+   * unpacking a deselected package, it will not have yet all data in
+   * place. But we cannot check for > stat_halfinstalled as stat_configfiles
+   * always should have those fields. */
+  if ((ps->flags & pdb_recordavailable) ||
+      (pkg->status != stat_notinstalled &&
+       pkg->status != stat_halfinstalled)) {
+    parse_ensure_have_field(ps, pkg, &pkgbin->description, "description");
+    parse_ensure_have_field(ps, pkg, &pkgbin->maintainer, "maintainer");
+    parse_must_have_field(ps, pkg, pkgbin->version.version, "version");
+  }
+  if (ps->flags & pdb_recordavailable)
+    parse_ensure_have_field(ps, pkg, &pkgbin->architecture, "architecture");
+
+  /* Check the Config-Version information:
+   * If there is a Config-Version it is definitely to be used, but
+   * there shouldn't be one if the package is ‘installed’ (in which case
+   * the Version and/or Revision will be copied) or if the package is
+   * ‘not-installed’ (in which case there is no Config-Version). */
+  if (!(ps->flags & pdb_recordavailable)) {
+    if (pkg->configversion.version) {
+      if (pkg->status == stat_installed || pkg->status == stat_notinstalled)
+        parse_error(ps, pkg,
+                    _("Configured-Version for package with inappropriate Status"));
+    } else {
+      if (pkg->status == stat_installed)
+        pkg->configversion = pkgbin->version;
+    }
+  }
+
+  if (pkg->trigaw.head &&
+      (pkg->status <= stat_configfiles ||
+       pkg->status >= stat_triggerspending))
+    parse_error(ps, pkg,
+                _("package has status %s but triggers are awaited"),
+                statusinfos[pkg->status].name);
+  else if (pkg->status == stat_triggersawaited && !pkg->trigaw.head)
+    parse_error(ps, pkg,
+                _("package has status triggers-awaited but no triggers awaited"));
+
+  if (pkg->trigpend_head &&
+      !(pkg->status == stat_triggerspending ||
+        pkg->status == stat_triggersawaited))
+    parse_error(ps, pkg,
+                _("package has status %s but triggers are pending"),
+                statusinfos[pkg->status].name);
+  else if (pkg->status == stat_triggerspending && !pkg->trigpend_head)
+    parse_error(ps, pkg,
+                _("package has status triggers-pending but no triggers "
+                  "pending"));
+
+  /* FIXME: There was a bug that could make a not-installed package have
+   * conffiles, so we check for them here and remove them (rather than
+   * calling it an error, which will do at some point). */
+  if (!(ps->flags & pdb_recordavailable) &&
+      pkg->status == stat_notinstalled &&
+      pkgbin->conffiles) {
+    parse_warn(ps, pkg,
+               _("Package which in state not-installed has conffiles, "
+                 "forgetting them"));
+    pkgbin->conffiles = NULL;
+  }
+
+  /* XXX: Mark not-installed leftover packages for automatic removal on
+   * next database dump. This code can be removed after dpkg 1.16.x, when
+   * there's guarantee that no leftover is found on the status file on
+   * major distributions. */
+  if (!(ps->flags & pdb_recordavailable) &&
+      pkg->status == stat_notinstalled &&
+      pkg->eflag == eflag_ok &&
+      (pkg->want == want_purge ||
+       pkg->want == want_deinstall ||
+       pkg->want == want_hold)) {
+    pkg->want = want_unknown;
+  }
+}
+
+/**
  * Parse an RFC-822 style file.
  *
  * warnto, warncount and donep may be NULL.
@@ -255,86 +341,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       parse_error(&ps, &newpig,
                   _("several package info entries found, only one allowed"));
 
-    parse_must_have_field(&ps, &newpig, newpig.name, "package name");
-    /* XXX: We need to check for status != stat_halfinstalled as while
-     * unpacking a deselected package, it will not have yet all data in
-     * place. But we cannot check for > stat_halfinstalled as stat_configfiles
-     * always should have those fields. */
-    if ((flags & pdb_recordavailable) ||
-        (newpig.status != stat_notinstalled &&
-         newpig.status != stat_halfinstalled)) {
-      parse_ensure_have_field(&ps, &newpig,
-                              &newpifp->description, "description");
-      parse_ensure_have_field(&ps, &newpig,
-                              &newpifp->maintainer, "maintainer");
-      parse_must_have_field(&ps, &newpig,
-                            newpifp->version.version, "version");
-    }
-    if (flags & pdb_recordavailable)
-      parse_ensure_have_field(&ps, &newpig,
-                              &newpifp->architecture, "architecture");
-
-    /* Check the Config-Version information:
-     * If there is a Config-Version it is definitely to be used, but
-     * there shouldn't be one if the package is ‘installed’ (in which case
-     * the Version and/or Revision will be copied) or if the package is
-     * ‘not-installed’ (in which case there is no Config-Version). */
-    if (!(flags & pdb_recordavailable)) {
-      if (newpig.configversion.version) {
-        if (newpig.status == stat_installed || newpig.status == stat_notinstalled)
-          parse_error(&ps, &newpig,
-                      _("Configured-Version for package with inappropriate Status"));
-      } else {
-        if (newpig.status == stat_installed) newpig.configversion= newpifp->version;
-      }
-    }
-
-    if (newpig.trigaw.head &&
-        (newpig.status <= stat_configfiles ||
-         newpig.status >= stat_triggerspending))
-      parse_error(&ps, &newpig,
-                  _("package has status %s but triggers are awaited"),
-                  statusinfos[newpig.status].name);
-    else if (newpig.status == stat_triggersawaited && !newpig.trigaw.head)
-      parse_error(&ps, &newpig,
-                  _("package has status triggers-awaited but no triggers "
-                    "awaited"));
-
-    if (!(newpig.status == stat_triggerspending ||
-          newpig.status == stat_triggersawaited) &&
-        newpig.trigpend_head)
-      parse_error(&ps, &newpig,
-                  _("package has status %s but triggers are pending"),
-                  statusinfos[newpig.status].name);
-    else if (newpig.status == stat_triggerspending && !newpig.trigpend_head)
-      parse_error(&ps, &newpig,
-                  _("package has status triggers-pending but no triggers "
-                    "pending"));
-
-    /* FIXME: There was a bug that could make a not-installed package have
-     * conffiles, so we check for them here and remove them (rather than
-     * calling it an error, which will do at some point). */
-    if (!(flags & pdb_recordavailable) &&
-        newpig.status == stat_notinstalled &&
-        newpifp->conffiles) {
-      parse_warn(&ps, &newpig,
-                 _("Package which in state not-installed has conffiles, "
-                   "forgetting them"));
-      newpifp->conffiles= NULL;
-    }
-
-    /* XXX: Mark not-installed leftover packages for automatic removal on
-     * next database dump. This code can be removed after dpkg 1.16.x, when
-     * there's guarantee that no leftover is found on the status file on
-     * major distributions. */
-    if (!(flags & pdb_recordavailable) &&
-        newpig.status == stat_notinstalled &&
-        newpig.eflag == eflag_ok &&
-        (newpig.want == want_purge ||
-         newpig.want == want_deinstall ||
-         newpig.want == want_hold)) {
-      newpig.want = want_unknown;
-    }
+    pkg_parse_verify(&ps, &newpig, newpifp);
 
     pigp = pkg_db_find(newpig.name);
     pifp= (flags & pdb_recordavailable) ? &pigp->available : &pigp->installed;
