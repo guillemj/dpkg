@@ -229,8 +229,6 @@ extern const char statuschars[];
 extern const char eflagchars[];
 extern const char wantchars[];
 
-const struct pkginfoperfile *i2info(struct pkginfo *pkg);
-
 extern modstatdb_rw readwrite;
 
 #endif /* PKGLIST_H */
