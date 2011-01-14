@@ -170,6 +170,62 @@ pkg_parse_verify(struct parsedb_state *ps,
 }
 
 /**
+ * Copy into the in-core database the package being constructed.
+ */
+static void
+pkg_parse_copy(struct parsedb_state *ps,
+               struct pkginfo *dst_pkg, struct pkgbin *dst_pkgbin,
+               struct pkginfo *src_pkg, struct pkgbin *src_pkgbin)
+{
+  /* Copy the priority and section across, but don't overwrite existing
+   * values if the pdb_weakclassification flag is set. */
+  if (src_pkg->section && *src_pkg->section &&
+      !((ps->flags & pdb_weakclassification) &&
+        dst_pkg->section && *dst_pkg->section))
+    dst_pkg->section = src_pkg->section;
+  if (src_pkg->priority != pri_unknown &&
+      !((ps->flags & pdb_weakclassification) &&
+        dst_pkg->priority != pri_unknown)) {
+    dst_pkg->priority = src_pkg->priority;
+    if (src_pkg->priority == pri_other)
+      dst_pkg->otherpriority = src_pkg->otherpriority;
+  }
+
+  /* Sort out the dependency mess. */
+  copy_dependency_links(dst_pkg, &dst_pkgbin->depends, src_pkgbin->depends,
+                        (ps->flags & pdb_recordavailable) ? true : false);
+  /* Leave the ‘depended’ pointer alone, we've just gone to such
+   * trouble to get it right :-). The ‘depends’ pointer in
+   * pifp was indeed also updated by copy_dependency_links,
+   * but since the value was that from newpifp anyway there's
+   * no need to copy it back. */
+  dst_pkgbin->depended = src_pkgbin->depended;
+
+  /* Copy across data. */
+  memcpy(dst_pkgbin, src_pkgbin, sizeof(struct pkgbin));
+  if (!(ps->flags & pdb_recordavailable)) {
+    struct trigaw *ta;
+
+    dst_pkg->want = src_pkg->want;
+    dst_pkg->eflag = src_pkg->eflag;
+    dst_pkg->status = src_pkg->status;
+    dst_pkg->configversion = src_pkg->configversion;
+    dst_pkg->files = NULL;
+
+    dst_pkg->trigpend_head = src_pkg->trigpend_head;
+    dst_pkg->trigaw = src_pkg->trigaw;
+    for (ta = dst_pkg->trigaw.head; ta; ta = ta->sameaw.next) {
+      assert(ta->aw == src_pkg);
+      ta->aw = dst_pkg;
+      /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_db_find())
+       * rather than in dst_pkg. */
+    }
+  } else if (!(ps->flags & pdb_ignorefiles)) {
+    dst_pkg->files = src_pkg->files;
+  }
+}
+
+/**
  * Parse an RFC-822 style file.
  *
  * warnto, warncount and donep may be NULL.
@@ -352,49 +408,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 	versioncompare(&newpifp->version, &pifp->version) < 0)
       continue;
 
-    /* Copy the priority and section across, but don't overwrite existing
-     * values if the pdb_weakclassification flag is set. */
-    if (newpig.section && *newpig.section &&
-        !((flags & pdb_weakclassification) && pigp->section && *pigp->section))
-      pigp->section= newpig.section;
-    if (newpig.priority != pri_unknown &&
-        !((flags & pdb_weakclassification) && pigp->priority != pri_unknown)) {
-      pigp->priority= newpig.priority;
-      if (newpig.priority == pri_other) pigp->otherpriority= newpig.otherpriority;
-    }
-
-    /* Sort out the dependency mess. */
-    copy_dependency_links(pigp,&pifp->depends,newpifp->depends,
-                          (flags & pdb_recordavailable) ? true : false);
-    /* Leave the ‘depended’ pointer alone, we've just gone to such
-     * trouble to get it right :-). The ‘depends’ pointer in
-     * pifp was indeed also updated by copy_dependency_links,
-     * but since the value was that from newpifp anyway there's
-     * no need to copy it back. */
-    newpifp->depended= pifp->depended;
-
-    /* Copy across data. */
-    memcpy(pifp, newpifp, sizeof(struct pkgbin));
-    if (!(flags & pdb_recordavailable)) {
-      struct trigaw *ta;
-
-      pigp->want= newpig.want;
-      pigp->eflag= newpig.eflag;
-      pigp->status= newpig.status;
-      pigp->configversion= newpig.configversion;
-      pigp->files= NULL;
-
-      pigp->trigpend_head = newpig.trigpend_head;
-      pigp->trigaw = newpig.trigaw;
-      for (ta = pigp->trigaw.head; ta; ta = ta->sameaw.next) {
-        assert(ta->aw == &newpig);
-        ta->aw = pigp;
-        /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_db_find())
-         * rather than in newpig. */
-      }
-    } else if (!(flags & pdb_ignorefiles)) {
-      pigp->files= newpig.files;
-    }
+    pkg_parse_copy(&ps, pigp, pifp, &newpig, newpifp);
 
     if (donep) *donep= pigp;
     pdone++;
