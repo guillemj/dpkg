@@ -25,6 +25,7 @@ lib_LIBRARIES = libdpkg.a
 libdpkg_a_SOURCES = \
 	dlist.h \
 	ar.c \
+	arch.c \
 	buffer.c \
 	cleanup.c \
 	command.c \
@@ -74,6 +75,7 @@ libdpkg_a_SOURCES = \
 
 pkginclude_HEADERS = \
 	ar.h \
+	arch.h \
 	buffer.h \
 	command.h \
 	compress.h \

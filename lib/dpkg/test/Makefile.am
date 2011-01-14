@@ -23,6 +23,7 @@ check_PROGRAMS = \
 	t-command \
 	t-varbuf \
 	t-ar \
+	t-arch \
 	t-version \
 	t-pkginfo \
 	t-pkg-list \

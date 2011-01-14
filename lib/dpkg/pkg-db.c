@@ -28,6 +28,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/arch.h>
 
 /* This must always be a prime for optimal performance.
  * With 4093 buckets, we glean a 20% speedup, for 8191 buckets
@@ -123,6 +124,8 @@ void
 pkg_db_reset(void)
 {
   int i;
+
+  dpkg_arch_reset_list();
   nffreeall();
   npackages= 0;
   for (i=0; i<BINS; i++) bins[i]= NULL;
