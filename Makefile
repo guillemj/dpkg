@@ -64,6 +64,7 @@ TESTS_PASS += t-symlink-dir
 TESTS_PASS += t-substvars
 TESTS_PASS += t-failinst-failrm
 TESTS_PASS += t-dir-extension-check
+TESTS_PASS += t-multiarch
 
 ifneq (,$(filter test-all,$(DPKG_TESTSUITE_OPTIONS)))
 TESTS := $(TESTS_PASS) $(TESTS_FAIL) $(TESTS_MANUAL)
