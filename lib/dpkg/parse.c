@@ -103,17 +103,18 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
   const struct fieldinfo *fip;
   int *ip;
 
-  for (nick = nicknames;
-       nick->nick && (strncasecmp(nick->nick, fs->fieldstart, fs->fieldlen) ||
-                      nick->nick[fs->fieldlen] != '\0'); nick++) ;
+  for (nick = nicknames; nick->nick; nick++)
+    if (strncasecmp(nick->nick, fs->fieldstart, fs->fieldlen) == 0 &&
+        nick->nick[fs->fieldlen] == '\0')
+      break;
   if (nick->nick) {
     fs->fieldstart = nick->canon;
     fs->fieldlen = strlen(fs->fieldstart);
   }
 
-  for (fip = fieldinfos, ip = fs->fieldencountered;
-       fip->name && strncasecmp(fs->fieldstart, fip->name, fs->fieldlen);
-       fip++, ip++) ;
+  for (fip = fieldinfos, ip = fs->fieldencountered; fip->name; fip++, ip++)
+    if (strncasecmp(fip->name, fs->fieldstart, fs->fieldlen) == 0)
+      break;
   if (fip->name) {
     if ((*ip)++)
       parse_error(ps, pkg,
