@@ -181,8 +181,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
   static int fd;
   struct pkginfo newpig, *pigp;
   struct pkgbin *newpifp, *pifp;
-  struct arbitraryfield *arp, **larpp;
-  struct trigaw *ta;
   int pdone;
   int fieldencountered[array_count(fieldinfos)];
   const struct fieldinfo *fip;
@@ -191,7 +189,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   const char *fieldstart, *valuestart;
   char *value= NULL;
   int fieldlen= 0, valuelen= 0;
-  int *ip, c;
+  int *ip;
   struct stat st;
   struct parsedb_state ps;
 
@@ -232,6 +230,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   /* Loop per package. */
   for (;;) {
+    int c;
+
     memset(fieldencountered, 0, sizeof(fieldencountered));
     pkg_blank(&newpig);
 
@@ -316,6 +316,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
                       _("duplicate value for `%s' field"), fip->name);
         fip->rcall(&newpig, newpifp, &ps, value, fip);
       } else {
+        struct arbitraryfield *arp, **larpp;
+
         if (fieldlen<2)
           parse_error(&ps, &newpig,
                       _("user-defined field name `%.*s' too short"),
@@ -374,6 +376,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
     /* Copy across data. */
     memcpy(pifp, newpifp, sizeof(struct pkgbin));
     if (!(flags & pdb_recordavailable)) {
+      struct trigaw *ta;
+
       pigp->want= newpig.want;
       pigp->eflag= newpig.eflag;
       pigp->status= newpig.status;
