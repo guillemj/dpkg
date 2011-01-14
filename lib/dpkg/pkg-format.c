@@ -202,7 +202,7 @@ pkg_format_parse(const char *fmt)
 
 void
 pkg_format_show(const struct pkg_format_node *head,
-                struct pkginfo *pkg, struct pkginfoperfile *pif)
+                struct pkginfo *pkg, struct pkgbin *pif)
 {
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 

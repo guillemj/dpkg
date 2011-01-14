@@ -42,9 +42,11 @@
 #include <dpkg/dir.h>
 #include <dpkg/parsedump.h>
 
-void w_name(struct varbuf *vb,
-            const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-            enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_name(struct varbuf *vb,
+       const struct pkginfo *pigp, const struct pkgbin *pifp,
+       enum fwriteflags flags, const struct fieldinfo *fip)
+{
   assert(pigp->name);
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Package: ");
@@ -53,9 +55,11 @@ void w_name(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void w_version(struct varbuf *vb,
-               const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-               enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_version(struct varbuf *vb,
+          const struct pkginfo *pigp, const struct pkgbin *pifp,
+          enum fwriteflags flags, const struct fieldinfo *fip)
+{
   if (!informativeversion(&pifp->version)) return;
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Version: ");
@@ -64,9 +68,11 @@ void w_version(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void w_configversion(struct varbuf *vb,
-                     const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                     enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_configversion(struct varbuf *vb,
+                const struct pkginfo *pigp, const struct pkgbin *pifp,
+                enum fwriteflags flags, const struct fieldinfo *fip)
+{
   if (pifp != &pigp->installed) return;
   if (!informativeversion(&pigp->configversion)) return;
   if (pigp->status == stat_installed ||
@@ -81,14 +87,18 @@ void w_configversion(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void w_null(struct varbuf *vb,
-            const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-            enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_null(struct varbuf *vb,
+       const struct pkginfo *pigp, const struct pkgbin *pifp,
+       enum fwriteflags flags, const struct fieldinfo *fip)
+{
 }
 
-void w_section(struct varbuf *vb,
-               const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-               enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_section(struct varbuf *vb,
+          const struct pkginfo *pigp, const struct pkgbin *pifp,
+          enum fwriteflags flags, const struct fieldinfo *fip)
+{
   const char *value= pigp->section;
   if (!value || !*value) return;
   if (flags&fw_printheader)
@@ -98,9 +108,11 @@ void w_section(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void w_charfield(struct varbuf *vb,
-                 const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                 enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_charfield(struct varbuf *vb,
+            const struct pkginfo *pigp, const struct pkgbin *pifp,
+            enum fwriteflags flags, const struct fieldinfo *fip)
+{
   const char *value = PKGPFIELD(pifp, fip->integer, const char *);
   if (!value || !*value) return;
   if (flags&fw_printheader) {
@@ -112,9 +124,11 @@ void w_charfield(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void w_filecharf(struct varbuf *vb,
-                 const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                 enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_filecharf(struct varbuf *vb,
+            const struct pkginfo *pigp, const struct pkgbin *pifp,
+            enum fwriteflags flags, const struct fieldinfo *fip)
+{
   struct filedetails *fdp;
 
   if (pifp != &pigp->available) return;
@@ -136,9 +150,11 @@ void w_filecharf(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void w_booleandefno(struct varbuf *vb,
-                    const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                    enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_booleandefno(struct varbuf *vb,
+               const struct pkginfo *pigp, const struct pkgbin *pifp,
+               enum fwriteflags flags, const struct fieldinfo *fip)
+{
   bool value = PKGPFIELD(pifp, fip->integer, bool);
   if (!(flags&fw_printheader)) {
     varbuf_add_str(vb, value ? "yes" : "no");
@@ -150,9 +166,11 @@ void w_booleandefno(struct varbuf *vb,
   varbuf_add_str(vb, ": yes\n");
 }
 
-void w_priority(struct varbuf *vb,
-                const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_priority(struct varbuf *vb,
+           const struct pkginfo *pigp, const struct pkgbin *pifp,
+           enum fwriteflags flags, const struct fieldinfo *fip)
+{
   if (pigp->priority == pri_unknown) return;
   assert(pigp->priority <= pri_unknown);
   if (flags&fw_printheader)
@@ -164,9 +182,11 @@ void w_priority(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void w_status(struct varbuf *vb,
-              const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-              enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_status(struct varbuf *vb,
+         const struct pkginfo *pigp, const struct pkgbin *pifp,
+         enum fwriteflags flags, const struct fieldinfo *fip)
+{
   if (pifp != &pigp->installed) return;
   assert(pigp->want <= want_purge);
   assert(pigp->eflag <= eflag_reinstreq);
@@ -250,9 +270,11 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
   }
 }
 
-void w_dependency(struct varbuf *vb,
-                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                  enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_dependency(struct varbuf *vb,
+             const struct pkginfo *pigp, const struct pkgbin *pifp,
+             enum fwriteflags flags, const struct fieldinfo *fip)
+{
   char fnbuf[50];
   const char *depdel;
   struct dependency *dyp;
@@ -274,9 +296,11 @@ void w_dependency(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void w_conffiles(struct varbuf *vb,
-                 const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                 enum fwriteflags flags, const struct fieldinfo *fip) {
+void
+w_conffiles(struct varbuf *vb,
+            const struct pkginfo *pigp, const struct pkgbin *pifp,
+            enum fwriteflags flags, const struct fieldinfo *fip)
+{
   struct conffile *i;
 
   if (!pifp->conffiles || pifp == &pigp->available)
@@ -299,7 +323,7 @@ void w_conffiles(struct varbuf *vb,
 
 void
 w_trigpend(struct varbuf *vb,
-           const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
+           const struct pkginfo *pigp, const struct pkgbin *pifp,
            enum fwriteflags flags, const struct fieldinfo *fip)
 {
   struct trigpend *tp;
@@ -322,7 +346,7 @@ w_trigpend(struct varbuf *vb,
 
 void
 w_trigaw(struct varbuf *vb,
-         const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
+         const struct pkginfo *pigp, const struct pkgbin *pifp,
          enum fwriteflags flags, const struct fieldinfo *fip)
 {
   struct trigaw *ta;
@@ -343,8 +367,10 @@ w_trigaw(struct varbuf *vb,
     varbuf_add_char(vb, '\n');
 }
 
-void varbufrecord(struct varbuf *vb,
-                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp) {
+void
+varbufrecord(struct varbuf *vb,
+             const struct pkginfo *pigp, const struct pkgbin *pifp)
+{
   const struct fieldinfo *fip;
   const struct arbitraryfield *afp;
 
@@ -359,8 +385,10 @@ void varbufrecord(struct varbuf *vb,
   }
 }
 
-void writerecord(FILE *file, const char *filename,
-                 const struct pkginfo *pigp, const struct pkginfoperfile *pifp) {
+void
+writerecord(FILE *file, const char *filename,
+            const struct pkginfo *pigp, const struct pkgbin *pifp)
+{
   struct varbuf vb = VARBUF_INIT;
 
   varbufrecord(&vb,pigp,pifp);
@@ -378,7 +406,7 @@ writedb(const char *filename, bool available, bool mustsync)
 
   struct pkgiterator *it;
   struct pkginfo *pigp;
-  struct pkginfoperfile *pifp;
+  struct pkgbin *pifp;
   char *oldfn, *newfn;
   const char *which;
   FILE *file;

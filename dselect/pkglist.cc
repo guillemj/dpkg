@@ -151,7 +151,7 @@ void packagelist::sortinplace() {
   sortpackagelist= this;
 
   if (debug) fprintf(debug,"packagelist[%p]::sortinplace()\n",this);
-  qsort(table,nitems,sizeof(struct pkginfoperfile*),qsort_compareentries);
+  qsort(table, nitems, sizeof(struct pkgbin *), qsort_compareentries);
 }
 
 void packagelist::ensurestatsortinfo() {

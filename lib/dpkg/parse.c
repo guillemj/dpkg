@@ -94,7 +94,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 {
   static int fd;
   struct pkginfo newpig, *pigp;
-  struct pkginfoperfile *newpifp, *pifp;
+  struct pkgbin *newpifp, *pifp;
   struct arbitraryfield *arp, **larpp;
   struct trigaw *ta;
   int pdone;
@@ -365,7 +365,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     newpifp->depended= pifp->depended;
 
     /* Copy across data. */
-    memcpy(pifp,newpifp,sizeof(struct pkginfoperfile));
+    memcpy(pifp, newpifp, sizeof(struct pkgbin));
     if (!(flags & pdb_recordavailable)) {
       pigp->want= newpig.want;
       pigp->eflag= newpig.eflag;
@@ -421,7 +421,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
  *        This starts out containing the old forwards info, which we use to
  *        unthread the old reverse links. After we're done it is updated.
  * @param newdepends The value that we ultimately want to have in updateme.
- * @param available The pkginfoperfile to modify, available or installed.
+ * @param available The pkgbin to modify, available or installed.
  *
  * It is likely that the backward pointer for the package in question
  * (‘depended’) will be updated by this routine, but this will happen by
@@ -436,7 +436,7 @@ void copy_dependency_links(struct pkginfo *pkg,
 {
   struct dependency *dyp;
   struct deppossi *dop;
-  struct pkginfoperfile *addtopifp;
+  struct pkgbin *addtopifp;
 
   /* Delete ‘backward’ (‘depended’) links from other packages to
    * dependencies listed in old version of this one. We do this by

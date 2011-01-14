@@ -101,8 +101,14 @@ struct filedetails {
   const char *md5sum;
 };
 
-/* pif */
-struct pkginfoperfile {
+/**
+ * Node describing a binary package file.
+ *
+ * This structure holds information contained on each binary package.
+ *
+ * Note: Usually referred in the code as ‘pif’ for historical reasons.
+ */
+struct pkgbin {
   struct dependency *depends;
   struct deppossi *depended;
   /* The ‘essential’ flag, true = yes, false = no (absent). */
@@ -181,8 +187,8 @@ struct pkginfo {
   const char *section;
   struct versionrevision configversion;
   struct filedetails *files;
-  struct pkginfoperfile installed;
-  struct pkginfoperfile available;
+  struct pkgbin installed;
+  struct pkgbin available;
   struct perpackagestate *clientdata;
 
   struct {
@@ -224,9 +230,9 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 /*** from database.c ***/
 
 void pkg_blank(struct pkginfo *pp);
-void pkg_perfile_blank(struct pkginfoperfile *pifp);
+void pkgbin_blank(struct pkgbin *pifp);
 void blankversion(struct versionrevision*);
-bool pkg_is_informative(struct pkginfo *pkg, struct pkginfoperfile *info);
+bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
 struct pkginfo *pkg_db_find(const char *name);
 int pkg_db_count(void);
@@ -284,18 +290,19 @@ const char *versiondescribe(const struct versionrevision*,
 /*** from dump.c ***/
 
 void writerecord(FILE*, const char*,
-                 const struct pkginfo*, const struct pkginfoperfile*);
+                 const struct pkginfo *, const struct pkgbin *);
 
 void writedb(const char *filename, bool available, bool mustsync);
 
 /* Note: The varbufs must have been initialized and will not be
  * NUL-terminated. */
-void varbufrecord(struct varbuf*, const struct pkginfo*, const struct pkginfoperfile*);
+void varbufrecord(struct varbuf *, const struct pkginfo *,
+                  const struct pkgbin *);
 void varbufdependency(struct varbuf *vb, struct dependency *dep);
 
 /*** from vercmp.c ***/
 
-bool versionsatisfied(struct pkginfoperfile *it, struct deppossi *against);
+bool versionsatisfied(struct pkgbin *it, struct deppossi *against);
 bool versionsatisfied3(const struct versionrevision *it,
                        const struct versionrevision *ref,
                        enum depverrel verrel);

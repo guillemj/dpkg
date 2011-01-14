@@ -61,7 +61,7 @@ convert_string(struct parsedb_state *ps, const struct pkginfo *pigp,
 }
 
 void
-f_name(struct pkginfo *pigp, struct pkginfoperfile *pifp,
+f_name(struct pkginfo *pigp, struct pkgbin *pifp,
        struct parsedb_state *ps,
        const char *value, const struct fieldinfo *fip)
 {
@@ -74,9 +74,11 @@ f_name(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   pigp->name = pkg_db_find(value)->name;
 }
 
-void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-                 struct parsedb_state *ps,
-                 const char *value, const struct fieldinfo *fip) {
+void
+f_filecharf(struct pkginfo *pigp, struct pkgbin *pifp,
+            struct parsedb_state *ps,
+            const char *value, const struct fieldinfo *fip)
+{
   struct filedetails *fdp, **fdpp;
   char *cpos, *space;
   int allowextend;
@@ -116,15 +118,19 @@ void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                   "(compared to others)"), fip->name);
 }
 
-void f_charfield(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-                 struct parsedb_state *ps,
-                 const char *value, const struct fieldinfo *fip) {
+void
+f_charfield(struct pkginfo *pigp, struct pkgbin *pifp,
+            struct parsedb_state *ps,
+            const char *value, const struct fieldinfo *fip)
+{
   if (*value) PKGPFIELD(pifp,fip->integer,char*)= nfstrsave(value);
 }
 
-void f_boolean(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-               struct parsedb_state *ps,
-               const char *value, const struct fieldinfo *fip) {
+void
+f_boolean(struct pkginfo *pigp, struct pkgbin *pifp,
+          struct parsedb_state *ps,
+          const char *value, const struct fieldinfo *fip)
+{
   bool boolean;
 
   if (!*value)
@@ -135,25 +141,31 @@ void f_boolean(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   PKGPFIELD(pifp, fip->integer, bool) = boolean;
 }
 
-void f_section(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-               struct parsedb_state *ps,
-               const char *value, const struct fieldinfo *fip) {
+void
+f_section(struct pkginfo *pigp, struct pkgbin *pifp,
+          struct parsedb_state *ps,
+          const char *value, const struct fieldinfo *fip)
+{
   if (!*value) return;
   pigp->section= nfstrsave(value);
 }
 
-void f_priority(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-                struct parsedb_state *ps,
-                const char *value, const struct fieldinfo *fip) {
+void
+f_priority(struct pkginfo *pigp, struct pkgbin *pifp,
+           struct parsedb_state *ps,
+           const char *value, const struct fieldinfo *fip)
+{
   if (!*value) return;
   pigp->priority = convert_string(ps, pigp, _("word in `priority' field"),
                                   priorityinfos, value, NULL, pri_other);
   if (pigp->priority == pri_other) pigp->otherpriority= nfstrsave(value);
 }
 
-void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-              struct parsedb_state *ps,
-              const char *value, const struct fieldinfo *fip) {
+void
+f_status(struct pkginfo *pigp, struct pkgbin *pifp,
+         struct parsedb_state *ps,
+         const char *value, const struct fieldinfo *fip)
+{
   const char *ep;
 
   if (ps->flags & pdb_rejectstatus)
@@ -173,16 +185,20 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                                 statusinfos, ep, NULL, -1);
 }
 
-void f_version(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-               struct parsedb_state *ps,
-               const char *value, const struct fieldinfo *fip) {
+void
+f_version(struct pkginfo *pigp, struct pkgbin *pifp,
+          struct parsedb_state *ps,
+          const char *value, const struct fieldinfo *fip)
+{
   parse_db_version(ps, pigp, &pifp->version, value,
                    _("error in Version string '%.250s'"), value);
 }
 
-void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-                struct parsedb_state *ps,
-                const char *value, const struct fieldinfo *fip) {
+void
+f_revision(struct pkginfo *pigp, struct pkgbin *pifp,
+           struct parsedb_state *ps,
+           const char *value, const struct fieldinfo *fip)
+{
   char *newversion;
 
   parse_warn(ps, pigp,
@@ -196,9 +212,11 @@ void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   pifp->version.revision= nfstrsave(value);
 }
 
-void f_configversion(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-                     struct parsedb_state *ps,
-                     const char *value, const struct fieldinfo *fip) {
+void
+f_configversion(struct pkginfo *pigp, struct pkgbin *pifp,
+                struct parsedb_state *ps,
+                const char *value, const struct fieldinfo *fip)
+{
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps, pigp,
                 _("value for `config-version' field not allowed in this context"));
@@ -237,9 +255,11 @@ malformed:
               (int)min(endent - value, 250), value);
 }
 
-void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-                 struct parsedb_state *ps,
-                 const char *value, const struct fieldinfo *fip) {
+void
+f_conffiles(struct pkginfo *pigp, struct pkgbin *pifp,
+            struct parsedb_state *ps,
+            const char *value, const struct fieldinfo *fip)
+{
   static const char obsolete_str[]= "obsolete";
   struct conffile **lastp, *newlink;
   const char *endent, *endfn, *hashstart;
@@ -287,9 +307,11 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   }
 }
 
-void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
-                  struct parsedb_state *ps,
-                  const char *value, const struct fieldinfo *fip) {
+void
+f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
+             struct parsedb_state *ps,
+             const char *value, const struct fieldinfo *fip)
+{
   char c1, c2;
   const char *p, *emsg;
   const char *depnamestart, *versionstart;
@@ -491,7 +513,7 @@ scan_word(const char **valp)
 }
 
 void
-f_trigpend(struct pkginfo *pend, struct pkginfoperfile *pifp,
+f_trigpend(struct pkginfo *pend, struct pkgbin *pifp,
            struct parsedb_state *ps,
            const char *value, const struct fieldinfo *fip)
 {
@@ -515,7 +537,7 @@ f_trigpend(struct pkginfo *pend, struct pkginfoperfile *pifp,
 }
 
 void
-f_trigaw(struct pkginfo *aw, struct pkginfoperfile *pifp,
+f_trigaw(struct pkginfo *aw, struct pkgbin *pifp,
          struct parsedb_state *ps,
          const char *value, const struct fieldinfo *fip)
 {

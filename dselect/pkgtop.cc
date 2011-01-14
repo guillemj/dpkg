@@ -139,7 +139,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
   int i, indent, j;
   const char *p;
   const struct pkginfo *pkg= table[index]->pkg;
-  const struct pkginfoperfile *info= &pkg->available;
+  const struct pkgbin *info = &pkg->available;
   int screenline = index - topofscreen;
 
   wattrset(listpad, selected ? listsel_attr : list_attr);

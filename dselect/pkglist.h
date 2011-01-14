@@ -206,7 +206,7 @@ protected:
   bool add(dependency *, showpriority displayimportance);
   void addunavailable(deppossi*);
   bool useavailable(pkginfo *);
-  pkginfoperfile *findinfo(pkginfo*);
+  pkgbin *find_pkgbin(pkginfo *);
 
   int resolvesuggest();
   int deletelessimp_anyleft(showpriority than);

@@ -211,8 +211,8 @@ struct pkg_deconf_list *deconfigure = NULL;
 static time_t currenttime;
 
 static int
-does_replace(struct pkginfo *newpigp, struct pkginfoperfile *newpifp,
-             struct pkginfo *oldpigp, struct pkginfoperfile *oldpifp)
+does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
+             struct pkginfo *oldpigp, struct pkgbin *oldpifp)
 {
   struct dependency *dep;
 

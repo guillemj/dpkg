@@ -48,11 +48,14 @@ packagelist::useavailable(pkginfo *pkg)
     return false;
 }
 
-pkginfoperfile *packagelist::findinfo(pkginfo *pkg) {
-  pkginfoperfile *r;
+pkgbin *
+packagelist::find_pkgbin(pkginfo *pkg)
+{
+  pkgbin *r;
   r= useavailable(pkg) ? &pkg->available : &pkg->installed;
   if (debug)
-    fprintf(debug,"packagelist[%p]::findinfo(%s) useavailable=%d\n",this,pkg->name,useavailable(pkg));
+    fprintf(debug, "packagelist[%p]::find_pkgbin(%s) useavailable=%d\n",
+            this, pkg->name, useavailable(pkg));
 
   return r;
 }
@@ -91,13 +94,13 @@ int packagelist::resolvesuggest() {
         fprintf(debug,"packagelist[%p]::resolvesuggest() loop[%i] %s / %d\n",
                 this, index, table[index]->pkg->name, changemade);
       dependency *depends;
-      for (depends= findinfo(table[index]->pkg)->depends;
+      for (depends = find_pkgbin(table[index]->pkg)->depends;
            depends;
            depends= depends->next) {
         changemade = max(changemade, resolvedepcon(depends));
       }
       changemade= checkdependers(table[index]->pkg,changemade);
-      for (depends= findinfo(table[index]->pkg)->depends;
+      for (depends = find_pkgbin(table[index]->pkg)->depends;
            depends;
            depends= depends->next) {
         if (depends->type != dep_provides) continue;

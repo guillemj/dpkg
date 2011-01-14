@@ -77,12 +77,12 @@ pkg_blank(struct pkginfo *pigp)
   pigp->trigaw.head = pigp->trigaw.tail = NULL;
   pigp->othertrigaw_head = NULL;
   pigp->trigpend_head = NULL;
-  pkg_perfile_blank(&pigp->installed);
-  pkg_perfile_blank(&pigp->available);
+  pkgbin_blank(&pigp->installed);
+  pkgbin_blank(&pigp->available);
 }
 
 void
-pkg_perfile_blank(struct pkginfoperfile *pifp)
+pkgbin_blank(struct pkgbin *pifp)
 {
   pifp->essential = false;
   pifp->depends= NULL;
@@ -103,7 +103,7 @@ static int nes(const char *s) { return s && *s; }
  * display things, and by dump to decide whether to write them out.
  */
 bool
-pkg_is_informative(struct pkginfo *pkg, struct pkginfoperfile *info)
+pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info)
 {
   if (info == &pkg->installed &&
       (pkg->want != want_unknown ||

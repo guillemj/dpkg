@@ -1169,7 +1169,7 @@ void process_archive(const char *filename) {
     otherpkg->eflag = eflag_ok;
 
     blankversion(&otherpkg->configversion);
-    pkg_perfile_blank(&otherpkg->installed);
+    pkgbin_blank(&otherpkg->installed);
 
     otherpkg->clientdata->fileslistvalid = false;
 

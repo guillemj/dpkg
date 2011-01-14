@@ -252,7 +252,7 @@ static void setexecute(const char *path, struct stat *stab) {
 }
 
 static int
-do_script(struct pkginfo *pkg, struct pkginfoperfile *pif,
+do_script(struct pkginfo *pkg, struct pkgbin *pif,
           struct command *cmd, struct stat *stab, int warn)
 {
   int c1, r;

@@ -31,7 +31,7 @@ struct pkg_format_node;
 struct pkg_format_node *pkg_format_parse(const char *fmt);
 void pkg_format_free(struct pkg_format_node *head);
 void pkg_format_show(const struct pkg_format_node *head,
-                     struct pkginfo *pkg, struct pkginfoperfile *pif);
+                     struct pkginfo *pkg, struct pkgbin *pif);
 
 DPKG_END_DECLS
 

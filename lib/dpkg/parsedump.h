@@ -30,13 +30,13 @@ struct parsedb_state {
 	int lno;
 };
 
-#define PKGIFPOFF(f) (offsetof(struct pkginfoperfile, f))
+#define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
 #define PKGPFIELD(pifp,of,type) (*(type*)((char*)(pifp)+(of)))
 
 #define FILEFOFF(f) (offsetof(struct filedetails, f))
 #define FILEFFIELD(filedetail,of,type) (*(type*)((char*)(filedetail)+(of)))
 
-typedef void freadfunction(struct pkginfo *pigp, struct pkginfoperfile *pifp,
+typedef void freadfunction(struct pkginfo *pigp, struct pkgbin *pifp,
                            struct parsedb_state *ps,
                            const char *value, const struct fieldinfo *fip);
 freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
@@ -50,7 +50,7 @@ enum fwriteflags {
 };
 
 typedef void fwritefunction(struct varbuf*,
-			    const struct pkginfo*, const struct pkginfoperfile*,
+                            const struct pkginfo *, const struct pkgbin *,
 			    enum fwriteflags flags, const struct fieldinfo*);
 fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configversion;
 fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
