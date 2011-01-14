@@ -83,6 +83,70 @@ const struct fieldinfo fieldinfos[]= {
   {  NULL                                                                             }
 };
 
+struct field_state {
+  const char *fieldstart;
+  const char *valuestart;
+  char *value;
+  int fieldlen;
+  int valuelen;
+  int fieldencountered[array_count(fieldinfos)];
+};
+
+/**
+ * Parse the field and value into the package being constructed.
+ */
+static void
+pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
+                struct pkginfo *pkg, struct pkgbin *pkgbin)
+{
+  const struct nickname *nick;
+  const struct fieldinfo *fip;
+  int *ip;
+
+  for (nick = nicknames;
+       nick->nick && (strncasecmp(nick->nick, fs->fieldstart, fs->fieldlen) ||
+                      nick->nick[fs->fieldlen] != '\0'); nick++) ;
+  if (nick->nick) {
+    fs->fieldstart = nick->canon;
+    fs->fieldlen = strlen(fs->fieldstart);
+  }
+
+  for (fip = fieldinfos, ip = fs->fieldencountered;
+       fip->name && strncasecmp(fs->fieldstart, fip->name, fs->fieldlen);
+       fip++, ip++) ;
+  if (fip->name) {
+    if ((*ip)++)
+      parse_error(ps, pkg,
+                  _("duplicate value for `%s' field"), fip->name);
+
+    fs->value = m_realloc(fs->value, fs->valuelen + 1);
+    memcpy(fs->value, fs->valuestart, fs->valuelen);
+    *(fs->value + fs->valuelen) = '\0';
+
+    fip->rcall(pkg, pkgbin, ps, fs->value, fip);
+  } else {
+    struct arbitraryfield *arp, **larpp;
+
+    if (fs->fieldlen < 2)
+      parse_error(ps, pkg,
+                  _("user-defined field name `%.*s' too short"),
+                  fs->fieldlen, fs->fieldstart);
+    larpp = &pkgbin->arbs;
+    while ((arp = *larpp) != NULL) {
+      if (!strncasecmp(arp->name, fs->fieldstart, fs->fieldlen))
+        parse_error(ps, pkg,
+                   _("duplicate value for user-defined field `%.*s'"),
+                   fs->fieldlen, fs->fieldstart);
+      larpp = &arp->next;
+    }
+    arp = nfmalloc(sizeof(struct arbitraryfield));
+    arp->name = nfstrnsave(fs->fieldstart, fs->fieldlen);
+    arp->value = nfstrnsave(fs->valuestart, fs->valuelen);
+    arp->next = NULL;
+    *larpp = arp;
+  }
+}
+
 /**
  * Verify and fixup the package structure being constructed.
  */
@@ -238,20 +302,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
   struct pkginfo newpig, *pigp;
   struct pkgbin *newpifp, *pifp;
   int pdone;
-  int fieldencountered[array_count(fieldinfos)];
-  const struct fieldinfo *fip;
-  const struct nickname *nick;
   char *data, *dataptr, *endptr;
-  const char *fieldstart, *valuestart;
-  char *value= NULL;
-  int fieldlen= 0, valuelen= 0;
-  int *ip;
   struct stat st;
   struct parsedb_state ps;
+  struct field_state fs;
 
   ps.filename = filename;
   ps.flags = flags;
   ps.lno = 0;
+
+  memset(&fs, 0, sizeof(fs));
 
   newpifp= (flags & pdb_recordavailable) ? &newpig.available : &newpig.installed;
   fd= open(filename, O_RDONLY);
@@ -288,7 +348,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   for (;;) {
     int c;
 
-    memset(fieldencountered, 0, sizeof(fieldencountered));
+    memset(fs.fieldencountered, 0, sizeof(fs.fieldencountered));
     pkg_blank(&newpig);
 
     /* Skip adjacent new lines. */
@@ -300,25 +360,25 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     /* Loop per field. */
     for (;;) {
-      fieldstart= dataptr - 1;
+      fs.fieldstart = dataptr - 1;
       while (!EOF_mmap(dataptr, endptr) && !isspace(c) && c!=':' && c!=MSDOS_EOF_CHAR)
         c= getc_mmap(dataptr);
-      fieldlen= dataptr - fieldstart - 1;
+      fs.fieldlen = dataptr - fs.fieldstart - 1;
       while (!EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
       if (EOF_mmap(dataptr, endptr))
         parse_error(&ps, &newpig,
-                    _("EOF after field name `%.*s'"), fieldlen, fieldstart);
+                    _("EOF after field name `%.*s'"), fs.fieldlen, fs.fieldstart);
       if (c == '\n')
         parse_error(&ps, &newpig,
-                    _("newline in field name `%.*s'"), fieldlen, fieldstart);
+                    _("newline in field name `%.*s'"), fs.fieldlen, fs.fieldstart);
       if (c == MSDOS_EOF_CHAR)
         parse_error(&ps, &newpig,
                     _("MSDOS EOF (^Z) in field name `%.*s'"),
-                    fieldlen, fieldstart);
+                    fs.fieldlen, fs.fieldstart);
       if (c != ':')
         parse_error(&ps, &newpig,
                     _("field name `%.*s' must be followed by colon"),
-                    fieldlen, fieldstart);
+                    fs.fieldlen, fs.fieldstart);
       /* Skip space after ‘:’ but before value and EOL. */
       while(!EOF_mmap(dataptr, endptr)) {
         c= getc_mmap(dataptr);
@@ -327,12 +387,12 @@ int parsedb(const char *filename, enum parsedbflags flags,
       if (EOF_mmap(dataptr, endptr))
         parse_error(&ps, &newpig,
                     _("EOF before value of field `%.*s' (missing final newline)"),
-                 fieldlen,fieldstart);
+                    fs.fieldlen, fs.fieldstart);
       if (c == MSDOS_EOF_CHAR)
         parse_error(&ps, &newpig,
                     _("MSDOS EOF char in value of field `%.*s' (missing newline?)"),
-                    fieldlen,fieldstart);
-      valuestart= dataptr - 1;
+                    fs.fieldlen, fs.fieldstart);
+      fs.valuestart = dataptr - 1;
       for (;;) {
         if (c == '\n' || c == MSDOS_EOF_CHAR) {
           ps.lno++;
@@ -345,53 +405,17 @@ int parsedb(const char *filename, enum parsedbflags flags,
         } else if (EOF_mmap(dataptr, endptr)) {
           parse_error(&ps, &newpig,
                       _("EOF during value of field `%.*s' (missing final newline)"),
-                      fieldlen,fieldstart);
+                      fs.fieldlen, fs.fieldstart);
         }
         c= getc_mmap(dataptr);
       }
-      valuelen= dataptr - valuestart - 1;
+      fs.valuelen = dataptr - fs.valuestart - 1;
       /* Trim ending space on value. */
-      while (valuelen && isspace(*(valuestart+valuelen-1)))
- valuelen--;
-      for (nick = nicknames;
-           nick->nick && (strncasecmp(nick->nick, fieldstart, fieldlen) ||
-                          nick->nick[fieldlen] != '\0'); nick++) ;
-      if (nick->nick) {
-	fieldstart= nick->canon;
-	fieldlen= strlen(fieldstart);
-      }
-      for (fip= fieldinfos, ip= fieldencountered;
-           fip->name && strncasecmp(fieldstart,fip->name, fieldlen);
-           fip++, ip++);
-      if (fip->name) {
-        value = m_realloc(value, valuelen + 1);
-	memcpy(value,valuestart,valuelen);
-        *(value + valuelen) = '\0';
-        if ((*ip)++)
-          parse_error(&ps, &newpig,
-                      _("duplicate value for `%s' field"), fip->name);
-        fip->rcall(&newpig, newpifp, &ps, value, fip);
-      } else {
-        struct arbitraryfield *arp, **larpp;
+      while (fs.valuelen && isspace(*(fs.valuestart + fs.valuelen - 1)))
+        fs.valuelen--;
 
-        if (fieldlen<2)
-          parse_error(&ps, &newpig,
-                      _("user-defined field name `%.*s' too short"),
-                      fieldlen, fieldstart);
-        larpp= &newpifp->arbs;
-        while ((arp= *larpp) != NULL) {
-          if (!strncasecmp(arp->name,fieldstart,fieldlen))
-            parse_error(&ps, &newpig,
-                       _("duplicate value for user-defined field `%.*s'"),
-                       fieldlen, fieldstart);
-          larpp= &arp->next;
-        }
-        arp= nfmalloc(sizeof(struct arbitraryfield));
-        arp->name= nfstrnsave(fieldstart,fieldlen);
-        arp->value= nfstrnsave(valuestart,valuelen);
-        arp->next= NULL;
-        *larpp= arp;
-      }
+      pkg_parse_field(&ps, &fs, &newpig, newpifp);
+
       if (EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
     } /* Loop per field. */
 
@@ -423,7 +447,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     free(data);
 #endif
   }
-  free(value);
+  free(fs.value);
   pop_cleanup(ehflag_normaltidy);
   if (close(fd)) ohshite(_("failed to close after read: `%.255s'"),filename);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
