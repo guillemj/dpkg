@@ -20,6 +20,13 @@ PKG_STATUS := $(DPKG_QUERY) -f '$${Status}' -W
 DEB = $(addsuffix .deb,$(TESTS_DEB))
 DSC = $(addsuffix .dsc,$(TESTS_DSC))
 
+# Common test patterns to use with $(call foo,args...)
+stdout_is = test "`$(1)`" = "$(2)"
+stdout_has = $(1) | grep -q "$(2)"
+stderr_is = test "`$(1) 2>&1 1>/dev/null`" = "$(2)"
+stderr_has = $(1) 2>&1 1>/dev/null | grep -q "$(2)"
+pkg_is_installed = $(call stdout_is,$(PKG_STATUS) $(1),install ok installed)
+
 %.deb: %
 	$(DPKG_BUILD_DEB) $< $@
 
