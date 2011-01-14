@@ -86,7 +86,7 @@ const struct fieldinfo fieldinfos[]= {
 struct field_state {
   const char *fieldstart;
   const char *valuestart;
-  char *value;
+  struct varbuf value;
   int fieldlen;
   int valuelen;
   int fieldencountered[array_count(fieldinfos)];
@@ -120,11 +120,11 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
       parse_error(ps, pkg,
                   _("duplicate value for `%s' field"), fip->name);
 
-    fs->value = m_realloc(fs->value, fs->valuelen + 1);
-    memcpy(fs->value, fs->valuestart, fs->valuelen);
-    *(fs->value + fs->valuelen) = '\0';
+    varbuf_reset(&fs->value);
+    varbuf_add_buf(&fs->value, fs->valuestart, fs->valuelen);
+    varbuf_add_char(&fs->value, '\0');
 
-    fip->rcall(pkg, pkgbin, ps, fs->value, fip);
+    fip->rcall(pkg, pkgbin, ps, fs->value.buf, fip);
   } else {
     struct arbitraryfield *arp, **larpp;
 
@@ -448,7 +448,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     free(data);
 #endif
   }
-  free(fs.value);
+  varbuf_destroy(&fs.value);
   pop_cleanup(ehflag_normaltidy);
   if (close(fd)) ohshite(_("failed to close after read: `%.255s'"),filename);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
