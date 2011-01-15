@@ -297,7 +297,7 @@ void process_archive(const char *filename) {
   deconfigure = NULL;
   clear_istobes();
 
-  if (!wanttoinstall(pkg,&pkg->available.version,1)) {
+  if (!wanttoinstall(pkg, &pkg->available.version)) {
       pop_cleanup(ehflag_normaltidy);
       return;
   }

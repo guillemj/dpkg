@@ -1327,31 +1327,24 @@ void archivefiles(const char *const *argv) {
 /**
  * Decide whether we want to install a new version of the package.
  *
- * ver is the version we might want to install. If saywhy is 1 then
- * if we skip the package we say what we are doing (and, if we are
- * selecting a previously deselected package, say so and actually do
- * the select). want_install returns 0 if the package should be
- * skipped and 1 if it should be installed.
+ * ver is the version we might want to install. wanttoinstall() returns 0
+ * if the package should be skipped and 1 if it should be installed.
  *
- * ver may be 0, in which case saywhy must be 0 and want_install may
- * also return -1 to mean it doesn't know because it would depend on
- * the version number.
+ * ver may be 0, in which case wanttoinstall() may also return -1 to mean
+ * it doesn't know because it would depend on the version number.
  */
 int
-wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver,
-              bool saywhy)
+wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver)
 {
   int r;
 
   if (pkg->want != want_install && pkg->want != want_hold) {
     if (f_alsoselect) {
-      if (saywhy) {
-   printf(_("Selecting previously deselected package %s.\n"),pkg->name);
-   pkg->want= want_install;
-      }
+      printf(_("Selecting previously deselected package %s.\n"), pkg->name);
+      pkg->want = want_install;
       return 1;
     } else {
-      if (saywhy) printf(_("Skipping deselected package %s.\n"),pkg->name);
+      printf(_("Skipping deselected package %s.\n"), pkg->name);
       return 0;
     }
   }
@@ -1368,26 +1361,25 @@ wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver,
   } else if (r == 0) {
     /* Same version fully installed. */
     if (f_skipsame) {
-      if (saywhy) fprintf(stderr, _("Version %.250s of %.250s already installed, "
-             "skipping.\n"),
-             versiondescribe(&pkg->installed.version, vdew_nonambig),
-             pkg->name);
+      fprintf(stderr, _("Version %.250s of %.250s already installed, "
+                        "skipping.\n"),
+              versiondescribe(&pkg->installed.version, vdew_nonambig),
+              pkg->name);
       return 0;
     } else {
       return 1;
     }
   } else {
     if (fc_downgrade) {
-      if (saywhy)
-        warning(_("downgrading %.250s from %.250s to %.250s."), pkg->name,
-             versiondescribe(&pkg->installed.version, vdew_nonambig),
-             versiondescribe(&pkg->available.version, vdew_nonambig));
+      warning(_("downgrading %.250s from %.250s to %.250s."), pkg->name,
+              versiondescribe(&pkg->installed.version, vdew_nonambig),
+              versiondescribe(&pkg->available.version, vdew_nonambig));
       return 1;
     } else {
-      if (saywhy) fprintf(stderr, _("Will not downgrade %.250s from version %.250s "
-             "to %.250s, skipping.\n"), pkg->name,
-             versiondescribe(&pkg->installed.version, vdew_nonambig),
-             versiondescribe(&pkg->available.version, vdew_nonambig));
+      fprintf(stderr, _("Will not downgrade %.250s from version %.250s "
+                        "to %.250s, skipping.\n"), pkg->name,
+              versiondescribe(&pkg->installed.version, vdew_nonambig),
+              versiondescribe(&pkg->available.version, vdew_nonambig));
       return 0;
     }
   }
