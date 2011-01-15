@@ -1329,10 +1329,10 @@ void archivefiles(const char *const *argv) {
  *
  * @param pkg The package with the version we might want to install
  *
- * @retval 0 If the package should be skipped.
- * @retval 1 If the package should be installed.
+ * @retval true  If the package should be skipped.
+ * @retval false If the package should be installed.
  */
-int
+bool
 wanttoinstall(struct pkginfo *pkg)
 {
   int r;
@@ -1341,21 +1341,21 @@ wanttoinstall(struct pkginfo *pkg)
     if (f_alsoselect) {
       printf(_("Selecting previously deselected package %s.\n"), pkg->name);
       pkg->want = want_install;
-      return 1;
+      return true;
     } else {
       printf(_("Skipping deselected package %s.\n"), pkg->name);
-      return 0;
+      return false;
     }
   }
 
   if (pkg->eflag & eflag_reinstreq)
-    return 1;
+    return true;
   if (pkg->status < stat_unpacked)
-    return 1;
+    return true;
 
   r = versioncompare(&pkg->available.version, &pkg->installed.version);
   if (r > 0) {
-    return 1;
+    return true;
   } else if (r == 0) {
     /* Same version fully installed. */
     if (f_skipsame) {
@@ -1363,22 +1363,22 @@ wanttoinstall(struct pkginfo *pkg)
                         "skipping.\n"),
               versiondescribe(&pkg->installed.version, vdew_nonambig),
               pkg->name);
-      return 0;
+      return false;
     } else {
-      return 1;
+      return true;
     }
   } else {
     if (fc_downgrade) {
       warning(_("downgrading %.250s from %.250s to %.250s."), pkg->name,
               versiondescribe(&pkg->installed.version, vdew_nonambig),
               versiondescribe(&pkg->available.version, vdew_nonambig));
-      return 1;
+      return true;
     } else {
       fprintf(stderr, _("Will not downgrade %.250s from version %.250s "
                         "to %.250s, skipping.\n"), pkg->name,
               versiondescribe(&pkg->installed.version, vdew_nonambig),
               versiondescribe(&pkg->available.version, vdew_nonambig));
-      return 0;
+      return false;
     }
   }
 }

@@ -150,7 +150,7 @@ struct invoke_hook {
 
 void archivefiles(const char *const *argv);
 void process_archive(const char *filename);
-int wanttoinstall(struct pkginfo *pkg);
+bool wanttoinstall(struct pkginfo *pkg);
 struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
 				   struct filenamenode *namenode);
 
