@@ -1327,14 +1327,13 @@ void archivefiles(const char *const *argv) {
 /**
  * Decide whether we want to install a new version of the package.
  *
- * ver is the version we might want to install. wanttoinstall() returns 0
- * if the package should be skipped and 1 if it should be installed.
+ * @param pkg The package with the version we might want to install
  *
- * ver may be 0, in which case wanttoinstall() may also return -1 to mean
- * it doesn't know because it would depend on the version number.
+ * @retval 0 If the package should be skipped.
+ * @retval 1 If the package should be installed.
  */
 int
-wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver)
+wanttoinstall(struct pkginfo *pkg)
 {
   int r;
 
@@ -1353,9 +1352,8 @@ wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver)
     return 1;
   if (pkg->status < stat_unpacked)
     return 1;
-  if (!ver) return -1;
 
-  r= versioncompare(ver,&pkg->installed.version);
+  r = versioncompare(&pkg->available.version, &pkg->installed.version);
   if (r > 0) {
     return 1;
   } else if (r == 0) {
