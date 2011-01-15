@@ -17,7 +17,7 @@ test-conflict-removed-implicit:
 	$(DPKG_INSTALL) pkg-conff-a.deb
 	$(DPKG_REMOVE) pkg-conff-a
 	$(DPKG_INSTALL) pkg-conff-b.deb
-	# Veriy the new conffile has been installed
+	# Verify the new conffile has been installed
 	grep -q pkg-conff-b /test-conffile
 	# Verify it's kept after purge of old package
 	$(DPKG_PURGE) pkg-conff-a
@@ -30,7 +30,7 @@ test-conflict-removed-explicit:
 	$(DPKG_INSTALL) pkg-conff-a.deb
 	$(DPKG_REMOVE) pkg-conff-a
 	$(DPKG_INSTALL) pkg-conff-c.deb
-	# Veriy the new conffile has been installed
+	# Verify the new conffile has been installed
 	grep -q pkg-conff-c /test-conffile
 	# Verify it's kept after purge of old package
 	$(DPKG_PURGE) pkg-conff-a
