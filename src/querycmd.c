@@ -695,7 +695,7 @@ usage(const struct cmdinfo *ci, const char *value)
 const char thisname[]= "dpkg-query";
 const char printforhelp[]= N_("Use --help for help about querying packages.");
 
-const char *admindir= ADMINDIR;
+const char *admindir;
 
 /* This table has both the action entries in it and the normal options.
  * The action entries are made with the ACTION macro, as they all
@@ -723,6 +723,8 @@ int main(int argc, const char *const *argv) {
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
+
+  admindir = pkgadmindir_init(ADMINDIR);
 
   standard_startup();
   myopt(&argv, cmdinfos);

@@ -99,7 +99,7 @@ usage(const struct cmdinfo *cip, const char *value)
 	exit(0);
 }
 
-const char *admindir = ADMINDIR;
+const char *admindir;
 
 static int opt_verbose = 1;
 static int opt_force = 0;
@@ -368,6 +368,8 @@ main(int argc, const char *const *argv)
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
+
+	admindir = pkgadmindir_init(ADMINDIR);
 
 	standard_startup();
 	myopt(&argv, cmdinfos);

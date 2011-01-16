@@ -568,15 +568,6 @@ void execbackend(const char *const *argv) {
   command_init(&cmd, cipaction->parg, NULL);
   command_add_arg(&cmd, cipaction->parg);
 
-  /* Special case: dpkg-query takes the --admindir option, and if dpkg
-   * itself was given a different admin directory, we need to pass it
-   * along to it. */
-  if (strcmp(cipaction->parg, DPKGQUERY) == 0 &&
-      strcmp(admindir, ADMINDIR) != 0) {
-    m_asprintf(&arg, "--admindir=%s", admindir);
-    command_add_arg(&cmd, arg);
-  }
-
   m_asprintf(&arg, "--%s", cipaction->olong);
   command_add_arg(&cmd, arg);
 
@@ -698,6 +689,10 @@ int main(int argc, const char *const *argv) {
   myopt(&argv, cmdinfos);
 
   if (!cipaction) badusage(_("need an action option"));
+
+  /* Always set environment, to avoid possible security risks. */
+  if (setenv("DPKG_ADMINDIR", admindir, 1) < 0)
+    ohshite(_("unable to setenv for subprocesses"));
 
   if (!f_triggers)
     f_triggers = (cipaction->arg == act_triggers && *argv) ? -1 : 1;

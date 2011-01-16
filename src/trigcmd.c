@@ -94,7 +94,7 @@ usage(const struct cmdinfo *ci, const char *value)
 	exit(0);
 }
 
-static const char *admindir = ADMINDIR;
+static const char *admindir;
 static int f_noact, f_check;
 
 static const char *bypackage, *activate;
@@ -187,6 +187,8 @@ main(int argc, const char *const *argv)
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
+
+	admindir = pkgadmindir_init(ADMINDIR);
 
 	standard_startup();
 	myopt(&argv, cmdinfos);

@@ -49,7 +49,7 @@
 const char thisname[] = "dpkg-divert";
 const char printforhelp[] = N_("Use --help for help about querying packages.");
 
-const char *admindir = ADMINDIR;
+const char *admindir;
 
 static bool opt_pkgname_match_any = true;
 static const char *opt_pkgname = NULL;
@@ -709,6 +709,8 @@ main(int argc, const char * const *argv)
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
+
+	admindir = pkgadmindir_init(ADMINDIR);
 
 	standard_startup();
 	myopt(&argv, cmdinfos);

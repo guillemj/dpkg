@@ -51,7 +51,7 @@
 #define PROGNAME "update-alternatives"
 
 static const char *altdir = SYSCONFDIR "/alternatives";
-static const char *admdir = ADMINDIR "/alternatives";
+static const char *admdir;
 
 static const char *prog_path = "update-alternatives";
 
@@ -326,6 +326,23 @@ set_action(const char *new_action)
     if (action)
 	badusage(_("two commands specified: --%s and --%s"), action, new_action);
     action = new_action;
+}
+
+static const char *
+admindir_init(void)
+{
+	const char *basedir, *dpkg_basedir;
+	char *admindir;
+
+	dpkg_basedir = getenv("DPKG_ADMINDIR");
+	if (dpkg_basedir)
+		basedir = dpkg_basedir;
+	else
+		basedir = ADMINDIR;
+
+	xasprintf(&admindir, "%s/%s", basedir, "alternatives");
+
+	return admindir;
 }
 
 static FILE *fh_log = NULL;
@@ -2013,6 +2030,8 @@ main(int argc, char **argv)
 	setlocale(LC_ALL, "");
 	bindtextdomain("dpkg", LOCALEDIR);
 	textdomain("dpkg");
+
+	admdir = admindir_init();
 
 	if (setvbuf(stdout, NULL, _IONBF, 0))
 		error("setvbuf failed: %s", strerror(errno));
