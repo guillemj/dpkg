@@ -9,6 +9,6 @@ test-case:
 test-clean:
 	# FIXME: The purge will fail, need --force-scripts. We'll just remove
 	#        the failing script for now.
-	$(DPKG_QUERY) --control-path pkg-failinst-failrm | xargs $(BEROOT) rm
+	-$(DPKG_QUERY) --control-path pkg-failinst-failrm | xargs $(BEROOT) rm
 	$(DPKG_PURGE) pkg-failinst-failrm
 
