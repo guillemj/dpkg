@@ -3,7 +3,7 @@
 localedir = $(datadir)/locale
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-DADMINDIR=\"$(admindir)\" -DMKSPLITSCRIPT=\"$(pkglibdir)/mksplit\" \
+	-DADMINDIR=\"$(admindir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
