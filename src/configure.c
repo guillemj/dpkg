@@ -505,7 +505,7 @@ showdiff(const char *old, const char *new)
 		const char *pager;
 		char cmdbuf[1024];
 
-		pager = getenv(PAGERENV);
+		pager = getenv("PAGER");
 		if (!pager || !*pager)
 			pager = DEFAULTPAGER;
 

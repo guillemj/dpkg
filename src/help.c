@@ -263,10 +263,10 @@ do_script(struct pkginfo *pkg, struct pkgbin *pif,
 
   c1 = subproc_fork();
   if (!c1) {
-    if (setenv(MAINTSCRIPTPKGENVVAR, pkg->name, 1) ||
-        setenv(MAINTSCRIPTARCHENVVAR, pif->architecture, 1) ||
-        setenv(MAINTSCRIPTNAMEENVVAR, cmd->argv[0], 1) ||
-        setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
+    if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->name, 1) ||
+        setenv("DPKG_MAINTSCRIPT_ARCH", pif->architecture, 1) ||
+        setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
+        setenv("DPKG_RUNNING_VERSION", PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));
 
     cmd->filename = cmd->argv[0] = preexecscript(cmd);

@@ -204,7 +204,7 @@ main(int argc, const char *const *argv)
 		badusage(_("takes one argument, the trigger name"));
 
 	if (!bypackage) {
-		bypackage = getenv(MAINTSCRIPTPKGENVVAR);
+		bypackage = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 		if (!bypackage)
 			ohshit(_("must be called from a maintainer script"
 			         " (or with a --by-package option)"));

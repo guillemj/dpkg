@@ -713,7 +713,7 @@ main(int argc, const char * const *argv)
 	standard_startup();
 	myopt(&argv, cmdinfos);
 
-	env_pkgname = getenv(MAINTSCRIPTPKGENVVAR);
+	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (!opt_pkgname && env_pkgname)
 		setpackage(NULL, env_pkgname);
 

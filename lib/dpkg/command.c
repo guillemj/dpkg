@@ -195,7 +195,7 @@ command_shell(const char *cmd, const char *name)
 	const char *shell;
 	const char *mode;
 
-	shell = getenv(SHELLENV);
+	shell = getenv("SHELL");
 	if (shell == NULL || shell[0] == '\0')
 		shell = DEFAULTSHELL;
 
