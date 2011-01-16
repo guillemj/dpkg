@@ -32,6 +32,15 @@ $(test_targets)::
 .PHONY: test $(test_targets)
 
 
+test_clean_targets = $(addsuffix -test-clean,$(TESTS))
+
+test-clean:: $(test_clean_targets)
+$(test_clean_targets)::
+	$(MAKE) -C $(subst -test-clean,,$@) test-clean
+
+.PHONY: test-clean $(test_clean_targets)
+
+
 clean_targets = $(addsuffix -clean,$(TESTS))
 
 clean:: $(clean_targets)
