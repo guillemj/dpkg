@@ -2,7 +2,7 @@ TESTS_DEB := pkg-somefiles
 
 include ../Test.mk
 
-DEB_FILES_COUNT := $(shell dpkg-deb -c pkg-somefiles.deb | wc -l )
+DEB_FILES_COUNT = $(shell dpkg-deb -c pkg-somefiles.deb | wc -l )
 
 test-case: test-no-filter test-no-doc-sub test-no-doc-all \
            test-no-doc-except-copyright test-no-doc-except-copyright-subdir \
