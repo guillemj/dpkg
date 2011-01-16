@@ -259,6 +259,11 @@ static void removal_bulk_remove_files(
                 pkg->name, namenode->name, strerror(errno));
         push_leftover(&leftover,namenode);
         continue;
+      } else if (errno == EINVAL && strcmp(usenode->name, "/.") == 0) {
+        debug(dbg_eachfiledetail, "removal_bulk '%s' root directory, cannot remove",
+              fnvb.buf);
+        push_leftover(&leftover, namenode);
+        continue;
       }
       if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
       debug(dbg_eachfiledetail, "removal_bulk unlinking `%s'", fnvb.buf);
@@ -367,6 +372,11 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
                 "%s - directory may be a mount point?"),
               pkg->name, namenode->name, strerror(errno));
       push_leftover(&leftover,namenode);
+      continue;
+    } else if (errno == EINVAL && strcmp(usenode->name, "/.") == 0) {
+      debug(dbg_eachfiledetail, "removal_bulk '%s' root directory, cannot remove",
+            fnvb.buf);
+      push_leftover(&leftover, namenode);
       continue;
     }
     if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
