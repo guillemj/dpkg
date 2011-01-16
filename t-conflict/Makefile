@@ -8,6 +8,8 @@ test-case:
 	! $(DPKG_INSTALL) pkg-b.deb
 
 test-clean:
+	# tell dpkg we do not want pkg-b, even if we asked for it and failed
+	echo pkg-b purge | $(DPKG) --set-selections
 	-$(DPKG_PURGE) pkg-b
 	$(DPKG_PURGE) pkg-a
 
