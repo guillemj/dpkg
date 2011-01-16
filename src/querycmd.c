@@ -622,7 +622,7 @@ control_path(const char *const *argv)
 
   pkg = pkg_db_find(pkg_name);
   if (pkg->status == stat_notinstalled)
-    badusage(_("Package `%s' is not installed.\n"), pkg->name);
+    ohshit(_("Package `%s' is not installed.\n"), pkg->name);
 
   if (control_file)
     control_path_file(pkg, control_file);
