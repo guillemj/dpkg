@@ -67,6 +67,8 @@ build-hook: $(PKG_TO_BUILD)
 
 TEST_CASES += test-print-foreign-architecture
 TEST_CASES += test-build-invalid
+TEST_CASES += test-install-native
+TEST_CASES += test-install-foreign
 
 test-case: $(TEST_CASES)
 
@@ -96,6 +98,44 @@ test-build-invalid:
 	# Test build of package with invalid dependency (ma-allowed:fake)
 	! $(DPKG_BUILD_DEB) pkg-ma-dep-on-allowed-fake_1.0_$(NATIVE_ARCH) foo.deb
 	rm -f foo.deb
+
+test-install-native:
+	$(DPKG_INSTALL) pkg-ma-same_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-foreign_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-allowed_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-no_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-same:$(NATIVE_ARCH))
+	$(call pkg_is_installed,pkg-ma-foreign)
+	$(call pkg_is_installed,pkg-ma-allowed)
+	$(call pkg_is_installed,pkg-ma-no)
+	$(DPKG_PURGE) pkg-ma-same:$(NATIVE_ARCH) pkg-ma-foreign pkg-ma-allowed pkg-ma-no
+	$(call pkg_is_not_installed,pkg-ma-same:$(NATIVE_ARCH))
+	$(call pkg_is_not_installed,pkg-ma-foreign)
+	$(call pkg_is_not_installed,pkg-ma-allowed)
+	$(call pkg_is_not_installed,pkg-ma-no)
+
+test-install-foreign:
+	$(DPKG) --remove-architecture $(FOREIGN_ARCH)
+	# Installation of foreign arch packages must fail by default
+	! $(DPKG_INSTALL) pkg-ma-same_1.0_$(FOREIGN_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-foreign_1.0_$(FOREIGN_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-allowed_1.0_$(FOREIGN_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-no_1.0_$(FOREIGN_ARCH).deb
+	# Once architecture has been added it should succeed
+	$(DPKG) --add-architecture $(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-same_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-foreign_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-allowed_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-no_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-same:$(FOREIGN_ARCH))
+	$(call pkg_is_installed,pkg-ma-foreign:$(FOREIGN_ARCH))
+	$(call pkg_is_installed,pkg-ma-allowed:$(FOREIGN_ARCH))
+	$(call pkg_is_installed,pkg-ma-no:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-same:$(FOREIGN_ARCH) pkg-ma-foreign:$(FOREIGN_ARCH) pkg-ma-allowed:$(FOREIGN_ARCH) pkg-ma-no:$(FOREIGN_ARCH)
+	$(call pkg_is_not_installed,pkg-ma-same:$(FOREIGN_ARCH))
+	$(call pkg_is_not_installed,pkg-ma-foreign:$(FOREIGN_ARCH))
+	$(call pkg_is_not_installed,pkg-ma-allowed:$(FOREIGN_ARCH))
+	$(call pkg_is_not_installed,pkg-ma-no:$(FOREIGN_ARCH))
 
 test-clean:
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
