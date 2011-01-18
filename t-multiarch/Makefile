@@ -66,6 +66,7 @@ build-hook: $(PKG_TO_BUILD)
 ## TEST CASES BELOW ##
 
 TEST_CASES += test-print-foreign-architecture
+TEST_CASES += test-build-invalid
 
 test-case: $(TEST_CASES)
 
@@ -87,6 +88,14 @@ test-print-foreign-architecture:
 	$(DPKG) --print-foreign-architectures | cmp ref-arch -
 	$(DPKG) --remove-architecture foobar
 	rm -f ref-arch
+
+test-build-invalid:
+	# Test build of Architecture: all with Multi-Arch: same field
+	! $(DPKG_BUILD_DEB) pkg-template foo.deb
+	rm -f foo.deb
+	# Test build of package with invalid dependency (ma-allowed:fake)
+	! $(DPKG_BUILD_DEB) pkg-ma-dep-on-allowed-fake_1.0_$(NATIVE_ARCH) foo.deb
+	rm -f foo.deb
 
 test-clean:
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
