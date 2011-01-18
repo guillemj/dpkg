@@ -12,16 +12,16 @@ DPKG_OPTIONS := --admindir=../$(DPKG_ADMINDIR)
 endif
 
 DPKG := dpkg $(DPKG_OPTIONS)
-DPKG_INSTALL := $(BEROOT) $(DPKG) -i
-DPKG_UNPACK := $(BEROOT) $(DPKG) --unpack
-DPKG_CONFIGURE := $(BEROOT) $(DPKG) --configure
-DPKG_REMOVE := $(BEROOT) $(DPKG) -r
-DPKG_PURGE := $(BEROOT) $(DPKG) -P
+DPKG_INSTALL = $(BEROOT) $(DPKG) -i
+DPKG_UNPACK = $(BEROOT) $(DPKG) --unpack
+DPKG_CONFIGURE = $(BEROOT) $(DPKG) --configure
+DPKG_REMOVE = $(BEROOT) $(DPKG) -r
+DPKG_PURGE = $(BEROOT) $(DPKG) -P
 DPKG_BUILD_DEB := dpkg-deb -b
 DPKG_BUILD_DSC := dpkg-source -b
 DPKG_QUERY := dpkg-query $(DPKG_OPTIONS)
 
-PKG_STATUS := $(DPKG_QUERY) -f '$${Status}' -W
+PKG_STATUS = $(DPKG_QUERY) -f '$${Status}' -W
 
 DEB = $(addsuffix .deb,$(TESTS_DEB))
 DSC = $(addsuffix .dsc,$(TESTS_DSC))
