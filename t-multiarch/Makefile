@@ -70,6 +70,7 @@ TEST_CASES += test-build-invalid
 TEST_CASES += test-install-native
 TEST_CASES += test-install-foreign
 TEST_CASES += test-coinstall-ma-same
+TEST_CASES += test-crossgrade
 
 test-case: $(TEST_CASES)
 
@@ -157,6 +158,19 @@ test-coinstall-ma-same: ma-setup
 	$(call pkg_is_installed,pkg-ma-same:$(NATIVE_ARCH))
 	$(call pkg_is_installed,pkg-ma-same:$(FOREIGN_ARCH))
 	$(DPKG_PURGE) pkg-ma-same:$(NATIVE_ARCH) pkg-ma-same:$(FOREIGN_ARCH)
+
+TEST_CASES_CROSSGRADE :=
+TEST_CASES_CROSSGRADE += test-crossgrade-foreign-allowed
+
+test-crossgrade: $(TEST_CASES_CROSSGRADE)
+
+test-crossgrade-foreign-allowed: ma-setup
+	# Ensure we can cross-grade Multi-Arch: foreign/allowed
+	$(DPKG_INSTALL) pkg-ma-foreign_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-foreign_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-allowed_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-allowed_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-foreign:$(NATIVE_ARCH) pkg-ma-allowed:$(FOREIGN_ARCH)
 
 test-clean:
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
