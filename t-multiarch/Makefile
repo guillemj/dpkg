@@ -69,6 +69,7 @@ TEST_CASES += test-print-foreign-architecture
 TEST_CASES += test-build-invalid
 TEST_CASES += test-install-native
 TEST_CASES += test-install-foreign
+TEST_CASES += test-coinstall-ma-same
 
 test-case: $(TEST_CASES)
 
@@ -136,6 +137,26 @@ test-install-foreign:
 	$(call pkg_is_not_installed,pkg-ma-foreign:$(FOREIGN_ARCH))
 	$(call pkg_is_not_installed,pkg-ma-allowed:$(FOREIGN_ARCH))
 	$(call pkg_is_not_installed,pkg-ma-no:$(FOREIGN_ARCH))
+
+test-coinstall-ma-same: ma-setup
+	# Coinstall 2 Multi-Arch: same packages
+	$(DPKG_INSTALL) pkg-ma-same_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-same_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-same:$(NATIVE_ARCH))
+	$(call pkg_is_installed,pkg-ma-same:$(FOREIGN_ARCH))
+	# Upgrade one, the other must be unconfigured
+	$(DPKG_UNPACK) pkg-ma-same_2.0_$(NATIVE_ARCH).deb
+	$(call stdout_is,$(PKG_STATUS) pkg-ma-same:$(NATIVE_ARCH),install ok unpacked)
+	$(call stdout_is,$(PKG_STATUS) pkg-ma-same:$(FOREIGN_ARCH),install ok half-configured)
+	# Configure one alone must fail
+	! $(DPKG_CONFIGURE) pkg-ma-same:$(NATIVE_ARCH)
+	! $(DPKG_CONFIGURE) pkg-ma-same:$(FOREIGN_ARCH)
+	# Upgrade the other and it's now possible to configure them
+	$(DPKG_UNPACK) pkg-ma-same_2.0_$(FOREIGN_ARCH).deb
+	$(DPKG_CONFIGURE) --pending
+	$(call pkg_is_installed,pkg-ma-same:$(NATIVE_ARCH))
+	$(call pkg_is_installed,pkg-ma-same:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-same:$(NATIVE_ARCH) pkg-ma-same:$(FOREIGN_ARCH)
 
 test-clean:
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
