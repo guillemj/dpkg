@@ -100,7 +100,13 @@ subproc_fork(void)
 int
 subproc_check(int status, const char *desc, int flags)
 {
+	void (*out)(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 	int n;
+
+	if (flags & PROCWARN)
+		out = warning;
+	else
+		out = ohshit;
 
 	if (WIFEXITED(status)) {
 		n = WEXITSTATUS(status);
@@ -108,26 +114,17 @@ subproc_check(int status, const char *desc, int flags)
 			return 0;
 		if (flags & PROCNOERR)
 			return n;
-		if (flags & PROCWARN)
-			warning(_("subprocess %s returned error exit status %d"),
-			        desc, n);
-		else
-			ohshit(_("subprocess %s returned error exit status %d"),
-			       desc, n);
+
+		out(_("subprocess %s returned error exit status %d"), desc, n);
 	} else if (WIFSIGNALED(status)) {
 		n = WTERMSIG(status);
 		if (!n)
 			return 0;
 		if ((flags & PROCPIPE) && n == SIGPIPE)
 			return 0;
-		if (flags & PROCWARN)
-			warning(_("subprocess %s killed by signal (%s)%s"),
-			        desc, strsignal(n),
-			        WCOREDUMP(status) ? _(", core dumped") : "");
-		else
-			ohshit(_("subprocess %s killed by signal (%s)%s"),
-			       desc, strsignal(n),
-			       WCOREDUMP(status) ? _(", core dumped") : "");
+
+		out(_("subprocess %s killed by signal (%s)%s"), desc,
+		    strsignal(n), WCOREDUMP(status) ? _(", core dumped") : "");
 	} else {
 		ohshit(_("subprocess %s failed with wait status code %d"),
 		       desc, status);
