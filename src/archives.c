@@ -1187,7 +1187,8 @@ void archivefiles(const char *const *argv) {
   const char *volatile thisarg;
   const char *const *volatile argp;
   jmp_buf ejbuf;
-  int pi[2], fc, nfiles, c, i, r;
+  int pi[2], nfiles, c, i, r;
+  pid_t pid;
   FILE *pf;
   static struct varbuf findoutput;
   const char **arglist;
@@ -1209,8 +1210,8 @@ void archivefiles(const char *const *argv) {
       badusage(_("--%s --recursive needs at least one path argument"),cipaction->olong);
 
     m_pipe(pi);
-    fc = subproc_fork();
-    if (!fc) {
+    pid = subproc_fork();
+    if (pid == 0) {
       struct command cmd;
       const char *const *ap;
 
@@ -1245,7 +1246,7 @@ void archivefiles(const char *const *argv) {
     }
     if (ferror(pf)) ohshite(_("error reading find's pipe"));
     if (fclose(pf)) ohshite(_("error closing find's pipe"));
-    r = subproc_wait_check(fc, "find", PROCNOERR);
+    r = subproc_wait_check(pid, "find", PROCNOERR);
     if (r != 0)
       ohshit(_("find for --recursive returned unhandled error %i"),r);
 

@@ -255,14 +255,15 @@ static int
 do_script(struct pkginfo *pkg, struct pkgbin *pif,
           struct command *cmd, struct stat *stab, int warn)
 {
-  int c1, r;
+  pid_t pid;
+  int r;
 
   setexecute(cmd->filename, stab);
 
   push_cleanup(cu_post_script_tasks, ehflag_bombout, NULL, 0, 0);
 
-  c1 = subproc_fork();
-  if (!c1) {
+  pid = subproc_fork();
+  if (pid == 0) {
     if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->name, 1) ||
         setenv("DPKG_MAINTSCRIPT_ARCH", pif->architecture, 1) ||
         setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
@@ -273,7 +274,7 @@ do_script(struct pkginfo *pkg, struct pkgbin *pif,
     command_exec(cmd);
   }
   subproc_signals_setup(cmd->name); /* This does a push_cleanup(). */
-  r = subproc_wait_check(c1, cmd->name, warn);
+  r = subproc_wait_check(pid, cmd->name, warn);
   pop_cleanup(ehflag_normaltidy);
 
   pop_cleanup(ehflag_normaltidy);
@@ -566,7 +567,7 @@ secure_unlink_statted(const char *pathname, const struct stat *stab)
 }
 
 void ensure_pathname_nonexisting(const char *pathname) {
-  int c1;
+  pid_t pid;
   const char *u;
 
   u = path_skip_slash_dotslash(pathname);
@@ -586,13 +587,13 @@ void ensure_pathname_nonexisting(const char *pathname) {
   if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh? */
     ohshite(_("unable to securely remove '%.255s'"), pathname);
   }
-  c1 = subproc_fork();
-  if (!c1) {
+  pid = subproc_fork();
+  if (pid == 0) {
     execlp(RM, "rm", "-rf", "--", pathname, NULL);
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
-  subproc_wait_check(c1, "rm cleanup", 0);
+  subproc_wait_check(pid, "rm cleanup", 0);
 }
 
 void log_action(const char *action, struct pkginfo *pkg) {

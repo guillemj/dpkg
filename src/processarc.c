@@ -178,7 +178,8 @@ void process_archive(const char *filename) {
   static struct varbuf infofnvb, fnvb, depprobwhy;
   static struct tarcontext tc;
 
-  int c1, r, admindirlen, i, infodirlen, infodirbaseused;
+  int r, admindirlen, i, infodirlen, infodirbaseused;
+  pid_t pid;
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg, *divpkg;
   char *cidir, *cidirrest, *p;
@@ -244,14 +245,14 @@ void process_archive(const char *filename) {
   }
 
   push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);
-  c1 = subproc_fork();
-  if (!c1) {
+  pid = subproc_fork();
+  if (pid == 0) {
     cidirrest[-1] = '\0';
     execlp(BACKEND, BACKEND, "--control", filename, cidir, NULL);
     ohshite(_("unable to execute %s (%s)"),
             _("package control information extraction"), BACKEND);
   }
-  subproc_wait_check(c1, BACKEND " --control", 0);
+  subproc_wait_check(pid, BACKEND " --control", 0);
 
   /* We want to guarantee the extracted files are on the disk, so that the
    * subsequent renames to the info database do not end up with old or zero
@@ -641,8 +642,8 @@ void process_archive(const char *filename) {
 
   m_pipe(p1);
   push_cleanup(cu_closepipe, ehflag_bombout, NULL, 0, 1, (void *)&p1[0]);
-  c1 = subproc_fork();
-  if (!c1) {
+  pid = subproc_fork();
+  if (pid == 0) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     execlp(BACKEND, BACKEND, "--fsys-tarfile", filename, NULL);
     ohshite(_("unable to execute %s (%s)"),
@@ -668,7 +669,7 @@ void process_archive(const char *filename) {
   fd_null_copy(p1[0], -1, _("dpkg-deb: zap possible trailing zeros"));
   close(p1[0]);
   p1[0] = -1;
-  subproc_wait_check(c1, BACKEND " --fsys-tarfile", PROCPIPE);
+  subproc_wait_check(pid, BACKEND " --fsys-tarfile", PROCPIPE);
 
   tar_deferred_extract(newfileslist, pkg);
 

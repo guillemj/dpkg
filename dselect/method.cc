@@ -139,20 +139,20 @@ static enum urqresult lockmethod(void) {
 static urqresult
 falliblesubprocess(struct command *cmd)
 {
-  pid_t c1;
+  pid_t pid;
   int status, i, c;
 
   cursesoff();
 
   subproc_signals_setup(cmd->name);
 
-  c1 = subproc_fork();
-  if (!c1) {
+  pid = subproc_fork();
+  if (pid == 0) {
     subproc_signals_cleanup(0, 0);
     command_exec(cmd);
   }
 
-  status = subproc_wait(c1, cmd->name);
+  status = subproc_wait(pid, cmd->name);
 
   pop_cleanup(ehflag_normaltidy);
 

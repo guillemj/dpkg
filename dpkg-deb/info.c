@@ -48,7 +48,7 @@
 #include "dpkg-deb.h"
 
 static void cu_info_prepare(int argc, void **argv) {
-  pid_t c1;
+  pid_t pid;
   char *dir;
   struct stat stab;
 
@@ -58,12 +58,12 @@ static void cu_info_prepare(int argc, void **argv) {
   if (lstat(dir, &stab) && errno == ENOENT)
     return;
 
-  c1 = subproc_fork();
-  if (!c1) {
+  pid = subproc_fork();
+  if (pid == 0) {
     execlp(RM, "rm", "-rf", dir, NULL);
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
-  subproc_wait_check(c1, _("rm command for cleanup"), 0);
+  subproc_wait_check(pid, _("rm command for cleanup"), 0);
 }
 
 static void info_prepare(const char *const **argvp,
