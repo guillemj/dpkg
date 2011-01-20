@@ -156,25 +156,11 @@ falliblesubprocess(struct command *cmd)
 
   pop_cleanup(ehflag_normaltidy);
 
-  if (WIFEXITED(status) && !WEXITSTATUS(status)) {
+  fprintf(stderr, "\n");
+  i = subproc_check(status, cmd->name, PROCWARN);
+  if (i == 0) {
     sleep(1);
     return urqr_normal;
-  }
-  fprintf(stderr, "\n%s ", cmd->name);
-  if (WIFEXITED(status)) {
-    i= WEXITSTATUS(status);
-    fprintf(stderr,_("returned error exit status %d.\n"),i);
-  } else if (WIFSIGNALED(status)) {
-    i= WTERMSIG(status);
-    if (i == SIGINT) {
-      fprintf(stderr,_("was interrupted.\n"));
-    } else {
-      fprintf(stderr,_("was terminated by a signal: %s.\n"),strsignal(i));
-    }
-    if (WCOREDUMP(status))
-      fprintf(stderr,_("(It left a coredump.)\n"));
-  } else {
-    fprintf(stderr,_("failed with an unknown wait return code %d.\n"),status);
   }
   fprintf(stderr,_("Press <enter> to continue.\n"));
   m_output(stderr, _("<standard error>"));
