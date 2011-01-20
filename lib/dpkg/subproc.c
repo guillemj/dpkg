@@ -126,8 +126,8 @@ subproc_check(int status, const char *desc, int flags)
 		out(_("subprocess %s killed by signal (%s)%s"), desc,
 		    strsignal(n), WCOREDUMP(status) ? _(", core dumped") : "");
 	} else {
-		ohshit(_("subprocess %s failed with wait status code %d"),
-		       desc, status);
+		out(_("subprocess %s failed with wait status code %d"), desc,
+		    status);
 	}
 
 	return -1;
