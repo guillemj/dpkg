@@ -172,6 +172,60 @@ test-crossgrade-foreign-allowed: ma-setup
 	$(DPKG_INSTALL) pkg-ma-allowed_1.0_$(NATIVE_ARCH).deb
 	$(DPKG_PURGE) pkg-ma-foreign:$(NATIVE_ARCH) pkg-ma-allowed:$(FOREIGN_ARCH)
 
+TEST_CASES_CROSSGRADE :=
+TEST_CASES_CROSSGRADE += test-crossgrade-any-all-same
+TEST_CASES_CROSSGRADE += test-crossgrade-any-all-foreign
+TEST_CASES_CROSSGRADE += test-crossgrade-any-all-allowed
+TEST_CASES_CROSSGRADE += test-crossgrade-all-any-same
+TEST_CASES_CROSSGRADE += test-crossgrade-all-any-foreign
+TEST_CASES_CROSSGRADE += test-crossgrade-all-any-allowed
+TEST_CASES_CROSSGRADE += test-crossgrade-same-all
+
+test-crossgrade: $(TEST_CASES_CROSSGRADE)
+
+test-crossgrade-any-all-%: ma-setup
+	# M-A: $* / Upgrade from arch: any-native -> all
+	$(DPKG_INSTALL) pkg-ma-$*_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-$*_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-$*:all)
+	$(call pkg_is_not_installed,pkg-ma-$*:$(NATIVE_ARCH))
+	$(call stdout_has,$(DPKG_QUERY) -s pkg-ma-$*,^Architecture: all)
+	$(DPKG_PURGE) pkg-ma-$*
+	$(call pkg_is_not_installed,pkg-ma-$*)
+	# M-A: $* / Upgrade from arch: any-foreign -> all
+	$(DPKG_INSTALL) pkg-ma-$*_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-$*_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-$*:all)
+	$(call pkg_is_not_installed,pkg-ma-$*:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-$*
+
+test-crossgrade-all-any-%: ma-setup
+	# M-A: $* / Upgrade from arch: all -> any-native
+	$(DPKG_INSTALL) pkg-ma-$*_1.0_all.deb
+	$(DPKG_INSTALL) pkg-ma-$*_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-$*:$(NATIVE_ARCH))
+	$(call pkg_is_not_installed,pkg-ma-$*:all)
+	$(call stdout_has,$(DPKG_QUERY) -s pkg-ma-$*,^Architecture: $(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-$*:$(NATIVE_ARCH)
+	$(call pkg_is_not_installed,pkg-ma-$*:all)
+	$(call pkg_is_not_installed,pkg-ma-$*:$(NATIVE_ARCH))
+	# M-A: $* / Upgrade from arch: all -> any-foreign
+	$(DPKG_INSTALL) pkg-ma-$*_1.0_all.deb
+	$(DPKG_INSTALL) pkg-ma-$*_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_not_installed,pkg-ma-$*:all)
+	$(call pkg_is_installed,pkg-ma-$*:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-$*
+
+test-crossgrade-same-all: ma-setup
+	# Several M-A: same installed, can't upgrade to single arch all
+	$(DPKG_INSTALL) pkg-ma-same_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-same_1.0_$(FOREIGN_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-same_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-same:$(NATIVE_ARCH))
+	$(call pkg_is_installed,pkg-ma-same:$(FOREIGN_ARCH))
+	$(call pkg_is_not_installed,pkg-ma-same:all)
+	$(DPKG_PURGE) pkg-ma-same:$(NATIVE_ARCH) pkg-ma-same:$(FOREIGN_ARCH)
+
 test-clean:
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
 	    $(DPKG_PURGE) $$pkg; \
