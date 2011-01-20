@@ -33,6 +33,7 @@ dsc-format			Changes to the source (.dsc) format.
 arch		[ARCH]		Updates to ‘cputable’, ‘ostable’ and porting
 				patches.
 vendor				Vendor support and needed modifications.
+build				Project build system issues.
 i18n		[UTF-8]		Conversion to the UTF-8 encoding.
 i18n		[INTL]		Internationalization problems.
 l10n		[INTL]		New or updated translations and bugs affecting
@@ -58,6 +59,7 @@ usertag			pseudo-tag		description
 
 dpkg			[DPKG]
 dpkg-architecture	[DPKG-ARCHITECTURE]
+dpkg-buildflags
 dpkg-buildpackage	[DPKG-BUILDPACKAGE]
 dpkg-checkbuilddeps	[DPKG-CHECKBUILDDEPS]
 dpkg-deb		[DPKG-DEB]
@@ -66,6 +68,8 @@ dpkg-divert		[DPKG-DIVERT]
 dpkg-genchanges		[DPKG-GENCHANGES]
 dpkg-gencontrol		[DPKG-GENCONTROL]
 dpkg-gensymbols		[DPKG-GENCSYMBOLS]
+dpkg-maintscript-helper
+dpkg-mergechangelogs
 dpkg-name		[DPKG-NAME]
 dpkg-parsechangelog	[DPKG-PARSECHANGELOG]
 dpkg-query		[DPKG-QUERY]
@@ -75,19 +79,11 @@ dpkg-shlibdeps		[DPKG-SHLIBDEPS]
 dpkg-source		[DPKG-SOURCE]
 dpkg-split		[DPKG-SPLIT]
 dpkg-statoverride	[DPKG-STATOVERRIDE]
+dpkg-vendor
 s-s-d			[S-S-D]			start-stop-daemon
 u-a			[U-A]			update-alternatives
 
-libdpkg-perl					Dpkg perl modules.
-
-cleanup-info		[CLEANUP-INFO]
 install-info		[INSTALL-INFO]
-
-dpkg-dev					Those should be reassigned to
-						the dpkg-dev package.
-
-			[DSELECT]		Those should be reassigned to
-						the dselect package.
 
 Current categories
 ==================
@@ -95,43 +91,59 @@ Current categories
 ,--- Definition ---
 user dpkg@packages.debian.org
 
-usercategory dpkg-program
- * Program
+usercategory dpkg-status [hidden]
+ * Status [pending=]
+   + Outstanding with Patch Available [0:pending+tag=patch]
+   + Outstanding and Confirmed [1:pending+tag=confirmed]
+   + Outstanding and More Info Needed [pending+tag=moreinfo]
+   + Outstanding but Will Not Fix [pending+tag=wontfix]
+   + Outstanding and Unclassified [2:pending]
+   + From other Branch [absent]
+   + Pending Upload [pending-fixed]
+   + Fixed in NMU [fixed]
+   + Resolved [done]
+   + Unknown Pending Status []
+
+usercategory dpkg-program [hidden]
+ * Dpkg Program
   + dpkg program [tag=dpkg]
+  + dpkg-deb [tag=dpkg-deb]
+  + dpkg-divert [tag=dpkg-divert]
+  + dpkg-query [tag=dpkg-query]
+  + dpkg-split [tag=dpkg-split]
+  + dpkg-statoverride [tag=dpkg-statoverride]
+  + dpkg-maintscript-helper [tag=dpkg-maintscript-helper]
+  + start-stop-daemon [tag=s-s-d]
+  + update-alternatives [tag=u-a]
+  + libdpkg [package=libdpkg-dev]
   + dpkg-architecture [tag=dpkg-architecture]
+  + dpkg-buildflags [tag=dpkg-buildflags]
   + dpkg-buildpackage [tag=dpkg-buildpackage]
   + dpkg-checkbuilddeps [tag=dpkg-checkbuilddeps]
-  + dpkg-deb [tag=dpkg-deb]
   + dpkg-distaddfile [tag=dpkg-distaddfile]
-  + dpkg-divert [tag=dpkg-divert]
   + dpkg-genchanges [tag=dpkg-genchanges]
   + dpkg-gencontrol [tag=dpkg-gencontrol]
   + dpkg-gensymbols [tag=dpkg-gensymbols]
+  + dpkg-mergechangelogs [tag=dpkg-mergechangelogs]
   + dpkg-name [tag=dpkg-name]
   + dpkg-parsechangelog [tag=dpkg-parsechangelog]
-  + dpkg-query [tag=dpkg-query]
   + dpkg-scanpackages [tag=dpkg-scanpackages]
   + dpkg-scansources [tag=dpkg-scansources]
   + dpkg-shlibdeps [tag=dpkg-shlibdeps]
   + dpkg-source [tag=dpkg-source]
-  + dpkg-split [tag=dpkg-split]
-  + dpkg-statoverride [tag=dpkg-statoverride]
-  + Dpkg perl modules [tag=libdpkg-perl]
-  + start-stop-daemon [tag=s-s-d]
-  + update-alternatives [tag=u-a]
-  + cleanup-info [tag=cleanup-info]
+  + dpkg-vendor [tag=dpkg-vendor]
+  + Dpkg perl modules [package=libdpkg-perl]
   + install-info [tag=install-info]
   + dselect [package=dselect]
-  + Other []
+  + Other [0:]
 
-usercategory dpkg-program-maint
- * status
+usercategory dpkg-program-view
+ * dpkg-status
  * dpkg-program
  * severity
- * classification
 
-usercategory dpkg-class
- * Dpkg-Class [tag=]
+usercategory dpkg-class [hidden]
+ * Dpkg Classification [tag=]
   + Segfault [segfault]
   + Assertion failure [assert]
   + Dependency relationship handling [depends]
@@ -148,21 +160,26 @@ usercategory dpkg-class
   + Source package format [dsc-format]
   + Architecture specific issue [arch]
   + Vendor specific issue [vendor]
+  + Own build system [build]
   + Internationalization [i18n]
   + Localization [l10n]
   + Documentation [doc]
-  + Other []
+  + Other [0:]
 
-usercategory dpkg-class-maint
- * status
+usercategory dpkg-class-view
+ * dpkg-status
  * dpkg-class
  * severity
- * classification
 
-usercategory dpkg-maint
- * status
+# Change default view
+usercategory normal
+ * dpkg-status
+ * severity
  * dpkg-program
  * dpkg-class
+
+usercategory old-normal
+ * status
  * severity
  * classification
 `---
