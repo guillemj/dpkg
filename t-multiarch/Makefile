@@ -61,6 +61,14 @@ $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
 $(foreach ma,same foreign foreign-any allowed allowed-any allowed-fake no,\
   $(eval $(call build_pkg,dep-on-$(ma)_1.0_all,dep-on-$(ma),1.0,all,no,pkg-ma-$(subst -,:,$(ma)) (>= 1.0))))
 
+$(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
+  $(foreach version,1.0 2.0,\
+    $(eval $(call build_pkg,shared-conffiles_$(version)_orig_$(arch),shared-conffiles,$(version),$(arch),same,))\
+    $(eval $(call build_pkg,shared-conffiles_$(version)_alt_$(arch),shared-conffiles,$(version),$(arch),same,))\
+    $(foreach variant,orig alt,\
+      $(foreach type,file,\
+        $(eval $(call build_pkg,shared-files_$(version)_$(variant)-$(type)_$(arch),shared-files,$(version),$(arch),same,))))))
+
 build-hook: $(PKG_TO_BUILD)
 
 ## TEST CASES BELOW ##
@@ -72,6 +80,8 @@ TEST_CASES += test-install-foreign
 TEST_CASES += test-coinstall-ma-same
 TEST_CASES += test-crossgrade
 TEST_CASES += test-deps
+TEST_CASES += test-coinstall-shared-files
+TEST_CASES += test-coinstall-shared-conffiles
 
 test-case: $(TEST_CASES)
 
@@ -409,6 +419,127 @@ test-deps-self-conflict: ma-setup
 	$(DPKG_INSTALL) pkg-ma-self-conflict_1.0_$(FOREIGN_ARCH).deb
 	$(DPKG_PURGE) pkg-ma-self-conflict:$(NATIVE_ARCH)
 	$(DPKG_PURGE) pkg-ma-self-conflict:$(FOREIGN_ARCH)
+
+common_file = /m-a/common-file
+
+# Further customize test packages for test-coinstall-shared-files
+define customize_shared_files
+pkg-ma-shared-files_$(1)_$(2)-file_$(3):: pkg-template
+	echo "Variant: $(2) Version: $(1)" > pkg-ma-shared-files_$(1)_$(2)-file_$(3)$(common_file)
+endef
+
+$(foreach version,1.0 2.0,$(foreach variant,orig alt,\
+  $(eval $(call customize_shared_files,$(version),$(variant),$(NATIVE_ARCH)))\
+  $(eval $(call customize_shared_files,$(version),$(variant),$(FOREIGN_ARCH)))))
+
+test-coinstall-shared-files: ma-setup
+	# Ensure we can't install a shared file conflicting with a
+	# multi-arch sibling package of the same version
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(NATIVE_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
+	grep -q "Variant: orig Version: 1.0" $(common_file)
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
+	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-files:$(NATIVE_ARCH),$(common_file))
+	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-files:$(FOREIGN_ARCH),$(common_file))
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
+	# But that we can install another version while upgrading
+	$(DPKG_UNPACK) pkg-ma-shared-files_2.0_orig-file_$(NATIVE_ARCH).deb
+	grep -q "Variant: orig Version: 2.0" $(common_file)
+	! $(DPKG_UNPACK) pkg-ma-shared-files_2.0_alt-file_$(FOREIGN_ARCH).deb
+	$(DPKG_UNPACK) pkg-ma-shared-files_2.0_orig-file_$(FOREIGN_ARCH).deb
+	$(DPKG_CONFIGURE) --pending
+	$(DPKG_UNPACK) pkg-ma-shared-files_1.0_alt-file_$(NATIVE_ARCH).deb
+	grep -q "Variant: alt" $(common_file)
+	# Even during upgrade you can't come with a conflicting version
+	! $(DPKG_UNPACK) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
+	$(DPKG_UNPACK) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
+	$(DPKG_CONFIGURE) --pending
+	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-shared-files:$(FOREIGN_ARCH)
+	# Ensure we can re-install a conflicting version of a package if
+	# no multi-arch siblings are installed
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-file_$(NATIVE_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH)
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-shared-files:$(FOREIGN_ARCH)
+	# Ensure files are kept during removal
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-shared-files:$(FOREIGN_ARCH)
+	grep -q "Variant: orig Version: 1.0" $(common_file)
+	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-files:$(NATIVE_ARCH),$(common_file))
+	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH)
+
+# Further customize test packages for test-coinstall-shared-conffiles
+define customize_shared_conffiles
+pkg-ma-shared-conffiles_$(1)_$(2)_$(3):: pkg-template
+	echo "Variant: $(2) Version: $(1)" > pkg-ma-shared-conffiles_$(1)_$(2)_$(3)/m-a/conffile
+	echo "/m-a/conffile" > pkg-ma-shared-conffiles_$(1)_$(2)_$(3)/DEBIAN/conffiles
+endef
+
+$(foreach version,1.0 2.0,$(foreach variant,orig alt,\
+  $(eval $(call customize_shared_conffiles,$(version),$(variant),$(NATIVE_ARCH)))\
+  $(eval $(call customize_shared_conffiles,$(version),$(variant),$(FOREIGN_ARCH)))))
+
+test-coinstall-shared-conffiles: ma-setup
+	# Ensure we can't install a shared conffile conflicting with a
+	# multi-arch sibling package of the same version
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(NATIVE_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
+	grep -q "Variant: orig Version: 1.0" /m-a/conffile
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
+	# Ensure this is still true even if the installed conffile is modified
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(NATIVE_ARCH).deb
+	$(BEROOT) sh -c "echo 'MODIFIED' >>/m-a/conffile"
+	! $(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
+	grep -q "Variant: orig Version: 1.0" /m-a/conffile
+	$(DPKG_INSTALL) --force-confold pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
+	# Ensure we can install another version while upgrading even
+	# with a modified conffile
+	$(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_orig_$(NATIVE_ARCH).deb
+	grep -q "Variant: orig Version: 2.0" /m-a/conffile.dpkg-new
+	! $(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_alt_$(FOREIGN_ARCH).deb
+	grep -q "Variant: orig Version: 2.0" /m-a/conffile.dpkg-new
+	$(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_orig_$(FOREIGN_ARCH).deb
+	$(DPKG_CONFIGURE) --force-confnew --pending
+	grep -q "Variant: orig Version: 2.0" /m-a/conffile
+	# Another time with a downgrade and an unmodified conffile
+	$(DPKG_UNPACK) pkg-ma-shared-conffiles_1.0_alt_$(NATIVE_ARCH).deb
+	grep -q "Variant: alt" /m-a/conffile.dpkg-new
+	! $(DPKG_UNPACK) pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
+	$(DPKG_UNPACK) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
+	$(DPKG_CONFIGURE) --force-confnew --pending
+	# Verify shared conffiles are forgotten on remove, and really
+	# removed on purge of last package
+	$(DPKG_REMOVE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
+	! $(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-conffiles:$(NATIVE_ARCH),/m-a/conffile)
+	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
+	test -e /m-a/conffile
+	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
+	! test -e /m-a/conffile
+	# Ensure we can re-install a conflicting version of a package if
+	# no multi-arch siblings are installed
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(NATIVE_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
+	# Same with modified conffile
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(NATIVE_ARCH).deb
+	$(BEROOT) sh -c "echo 'MODIFIED' >>/m-a/conffile"
+	$(DPKG_INSTALL) --force-confnew pkg-ma-shared-conffiles_1.0_alt_$(NATIVE_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
+	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
+	$(BEROOT) sh -c "echo 'MODIFIED' >>/m-a/conffile"
+	$(DPKG_INSTALL) --force-confnew pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
 
 test-clean:
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
