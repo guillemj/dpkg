@@ -69,6 +69,14 @@ $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
       $(foreach type,file,\
         $(eval $(call build_pkg,shared-files_$(version)_$(variant)-$(type)_$(arch),shared-files,$(version),$(arch),same,))))))
 
+$(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
+  $(eval $(call build_pkg,triggers_1.0_$(arch),triggers,1.0,$(arch),same,))\
+  $(eval $(call build_pkg,shared-diversion_1.0_$(arch),shared-diversion,1.0,$(arch),same,)))
+
+$(eval $(call build_pkg,act-trig_1.0_all,act-trig,1.0,all,no,))
+$(eval $(call build_pkg,diversion_1.0_all,diversion,1.0,all,no,))
+$(eval $(call build_pkg,diverted_1.0_all,diverted,1.0,all,no,))
+
 build-hook: $(PKG_TO_BUILD)
 
 ## TEST CASES BELOW ##
@@ -82,6 +90,8 @@ TEST_CASES += test-crossgrade
 TEST_CASES += test-deps
 TEST_CASES += test-coinstall-shared-files
 TEST_CASES += test-coinstall-shared-conffiles
+TEST_CASES += test-coinstall-triggers
+TEST_CASES += test-coinstall-diversions
 
 test-case: $(TEST_CASES)
 
@@ -541,8 +551,110 @@ test-coinstall-shared-conffiles: ma-setup
 	$(DPKG_INSTALL) --force-confnew pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
 	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
 
+# Further customize test packages for test-coinstall-triggers
+pkg-ma-triggers_1.0_$(NATIVE_ARCH) pkg-ma-triggers_1.0_$(FOREIGN_ARCH):: pkg-template
+	echo "#!/bin/sh" >$@/DEBIAN/postinst
+	echo '[ "$$1" = "triggered" ] || exit 0' >>$@/DEBIAN/postinst
+	echo 'case " $$2 " in' >>$@/DEBIAN/postinst
+	echo '*" /m-a/trigger-watch "*) ' >>$@/DEBIAN/postinst
+	echo '   echo "FILE $$DPKG_MAINTSCRIPT_ARCH" >>/m-a/triggers ;;' >>$@/DEBIAN/postinst
+	echo 'esac' >>$@/DEBIAN/postinst
+	echo 'case " $$2 " in' >>$@/DEBIAN/postinst
+	echo '*" test-m-a-same "*)' >>$@/DEBIAN/postinst
+	echo '   echo "MANUAL $$DPKG_MAINTSCRIPT_ARCH" >>/m-a/triggers ;;' >>$@/DEBIAN/postinst
+	echo 'esac' >>$@/DEBIAN/postinst
+	chmod 755 $@/DEBIAN/postinst
+	echo 'interest /m-a/trigger-watch' >$@/DEBIAN/triggers
+	echo 'interest test-m-a-same' >>$@/DEBIAN/triggers
+
+pkg-ma-act-trig_1.0_all:: pkg-template
+	echo "Activates a trigger" >$@/m-a/trigger-watch
+	echo "#!/bin/sh" >$@/DEBIAN/postinst
+	echo "dpkg-trigger test-m-a-same" >>$@/DEBIAN/postinst
+	chmod 755 $@/DEBIAN/postinst
+
+test-coinstall-triggers: ma-setup
+	-cat $(DPKG_ADMINDIR)/triggers/File
+	$(DPKG_INSTALL) pkg-ma-triggers_1.0_$(NATIVE_ARCH).deb
+	cat $(DPKG_ADMINDIR)/triggers/File
+	$(DPKG_INSTALL) pkg-ma-triggers_1.0_$(FOREIGN_ARCH).deb
+	cat $(DPKG_ADMINDIR)/triggers/File
+	# Test file trigger processing
+	$(BEROOT) sh -c ":>/m-a/triggers"
+	$(DPKG_UNPACK) --no-triggers pkg-ma-act-trig_1.0_all.deb
+	$(call stdout_is,$(PKG_STATUS) pkg-ma-triggers:$(NATIVE_ARCH),install ok triggers-pending)
+	$(call stdout_is,$(PKG_STATUS) pkg-ma-triggers:$(FOREIGN_ARCH),install ok triggers-pending)
+	$(DPKG_CONFIGURE) pkg-ma-triggers:$(NATIVE_ARCH) pkg-ma-triggers:$(FOREIGN_ARCH)
+	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))
+	$(call pkg_is_installed,pkg-ma-triggers:$(FOREIGN_ARCH))
+	$(call stdout_is,grep -c FILE /m-a/triggers,2)
+	grep -q "FILE $(NATIVE_ARCH)" /m-a/triggers
+	grep -q "FILE $(FOREIGN_ARCH)" /m-a/triggers
+	# Test manual trigger processing
+	$(DPKG_CONFIGURE) pkg-ma-act-trig
+	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))
+	$(call pkg_is_installed,pkg-ma-triggers:$(FOREIGN_ARCH))
+	$(call stdout_is,grep -c MANUAL /m-a/triggers,2)
+	grep -q "MANUAL $(NATIVE_ARCH)" /m-a/triggers
+	grep -q "MANUAL $(FOREIGN_ARCH)" /m-a/triggers
+	# Clean up
+	$(DPKG_PURGE) pkg-ma-act-trig
+	$(BEROOT) rm -f /m-a/triggers
+	$(DPKG_PURGE) pkg-ma-triggers:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-triggers:$(FOREIGN_ARCH)
+
+# Further customize test packages for test-coinstall-diversions
+pkg-ma-diversion_1.0_all:: pkg-template
+	echo "File provided by pkg-ma-diversion" >$@$(common_file)
+	echo "#!/bin/sh" >$@/DEBIAN/preinst
+	echo '[ "$$1" = "install" ] || exit 0' >>$@/DEBIAN/preinst
+	echo 'dpkg-divert --add --rename $(common_file)' >>$@/DEBIAN/preinst
+	echo "#!/bin/sh" >$@/DEBIAN/postrm
+	echo '[ "$$1" = "remove" ] || exit 0' >>$@/DEBIAN/postrm
+	echo 'dpkg-divert --remove --rename $(common_file)' >>$@/DEBIAN/postrm
+	chmod 755 $@/DEBIAN/preinst $@/DEBIAN/postrm
+
+pkg-ma-diverted_1.0_all:: pkg-template
+	echo "File provided by pkg-ma-diverted" >$@$(common_file)
+
+pkg-ma-shared-diversion_1.0_$(NATIVE_ARCH) pkg-ma-shared-diversion_1.0_$(FOREIGN_ARCH):: pkg-template
+	echo "File provided by pkg-ma-shared-diversion" >$@$(common_file)
+	echo "#!/bin/sh" >$@/DEBIAN/preinst
+	echo '[ "$$1" = "install" ] || exit 0' >>$@/DEBIAN/preinst
+	echo 'dpkg-divert --add --rename $(common_file)' >>$@/DEBIAN/preinst
+	echo "#!/bin/sh" >$@/DEBIAN/postrm
+	echo '[ "$$1" = "remove" ] || exit 0' >>$@/DEBIAN/postrm
+	echo 'dpkg-divert --remove --rename $(common_file)' >>$@/DEBIAN/postrm
+	chmod 755 $@/DEBIAN/preinst $@/DEBIAN/postrm
+
+test-coinstall-diversions: ma-setup
+	# Test shared files with a diversion
+	$(DPKG_DIVERT) --add --local \
+	               --divert $(common_file).real $(common_file)
+	$(MAKE) test-coinstall-shared-files common_file=$(common_file).real
+	$(DPKG_DIVERT) --remove --local \
+	               --divert $(common_file).real $(common_file)
+	$(DPKG_INSTALL) pkg-ma-diversion_1.0_all.deb
+	$(MAKE) test-coinstall-shared-files common_file=$(common_file).distrib
+	$(DPKG_PURGE) pkg-ma-diversion
+	# Test with another package providing a conflicting file
+	# and the multiarch packages registering the diversion
+	$(DPKG_INSTALL) pkg-ma-diverted_1.0_all.deb
+	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(FOREIGN_ARCH).deb
+	grep -q "pkg-ma-diverted" $(common_file).distrib
+	grep -q "pkg-ma-shared-diversion" $(common_file)
+	$(DPKG_PURGE) pkg-ma-shared-diversion:$(NATIVE_ARCH)
+	$(call stdout_has,$(DPKG_DIVERT) --list,$(common_file).distrib)
+	$(DPKG_PURGE) pkg-ma-shared-diversion:$(FOREIGN_ARCH)
+	! $(call stdout_has,$(DPKG_DIVERT) --list,$(common_file).distrib)
+	$(DPKG_PURGE) pkg-ma-diverted
+
 test-clean:
+	$(BEROOT) rm -f /m-a/triggers
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
 	    $(DPKG_PURGE) $$pkg; \
 	done)
+	-$(DPKG_DIVERT) --remove --local \
+	                --divert $(common_file).real $(common_file)
 	rm -f $(DPKG_ADMINDIR)/arch
