@@ -185,7 +185,7 @@ away redundant processing.
 In that case, where an interested package has more than one trigger
 and wants to process them differently, the list of triggers can be can
 be examined in a shell script like this:
-   case " $3 " in
+   case " $2 " in
    *" trigger-name-a "*)  process-trigger-a ;;
    esac
 Generally each trigger name should be tested for separately, as the
@@ -338,12 +338,8 @@ A trigger may be activated explicitly with:
    dpkg-trigger [--by-package <package>] <name-of-trigger>
    dpkg-trigger --no-await <name-of-trigger>
 
-The --verbose and --query options will show which packages were
-interested and what the current activation state is, on stdout in
-human- and machine-readable (untranslated) format.  Without any
-options there will be no output to stdout, and none to stderr unless
+There will be no output to stdout, and none to stderr unless
 dpkg-trigger is unable to make a record of the trigger activation.
-With --query no trigger is activated.
 
 NB that in the case of a file trigger the name of the trigger is
 needed, not the name of a file which would match the trigger.
