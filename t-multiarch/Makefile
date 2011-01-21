@@ -71,6 +71,7 @@ TEST_CASES += test-install-native
 TEST_CASES += test-install-foreign
 TEST_CASES += test-coinstall-ma-same
 TEST_CASES += test-crossgrade
+TEST_CASES += test-deps
 
 test-case: $(TEST_CASES)
 
@@ -225,6 +226,189 @@ test-crossgrade-same-all: ma-setup
 	$(call pkg_is_installed,pkg-ma-same:$(FOREIGN_ARCH))
 	$(call pkg_is_not_installed,pkg-ma-same:all)
 	$(DPKG_PURGE) pkg-ma-same:$(NATIVE_ARCH) pkg-ma-same:$(FOREIGN_ARCH)
+
+TEST_CASES_DEPS :=
+TEST_CASES_DEPS += test-deps-same
+TEST_CASES_DEPS += test-deps-foreign
+TEST_CASES_DEPS += test-deps-allowed
+TEST_CASES_DEPS += test-deps-no
+TEST_CASES_DEPS += test-deps-self-conflict
+
+test-deps: $(TEST_CASES_DEPS)
+
+test-deps-same: ma-setup
+	# Native M-A: same is installed, no cross-arch dep allowed
+	$(DPKG_INSTALL) pkg-ma-same_1.0_$(NATIVE_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-dep-on-same_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-same:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-same_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-same)
+	$(DPKG_PURGE) pkg-ma-dep-on-same
+	$(DPKG_INSTALL) pkg-ma-dep-on-same_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-same:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-same:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-same:$(NATIVE_ARCH)
+	# Foreign M-A: same is installed
+	$(DPKG_INSTALL) pkg-ma-same_1.0_$(FOREIGN_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-dep-on-same_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-same:$(NATIVE_ARCH)
+	! $(DPKG_INSTALL) pkg-ma-dep-on-same_1.0_all.deb
+	$(DPKG_PURGE) pkg-ma-dep-on-same
+	$(DPKG_INSTALL) pkg-ma-dep-on-same_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-same:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-same:$(FOREIGN_ARCH)
+	$(DPKG_PURGE) pkg-ma-same:$(FOREIGN_ARCH)
+	# Arch: all M-A: same can't exist
+
+test-deps-foreign: ma-setup
+	# Native M-A: foreign is installed
+	$(DPKG_INSTALL) pkg-ma-foreign_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign)
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-foreign:$(NATIVE_ARCH)
+	# Foreign M-A: foreign is installed
+	$(DPKG_INSTALL) pkg-ma-foreign_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign)
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-foreign:$(FOREIGN_ARCH)
+	# Arch: all M-A: foreign is installed
+	$(DPKG_INSTALL) pkg-ma-foreign_1.0_all.deb
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign)
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign
+	$(DPKG_INSTALL) pkg-ma-dep-on-foreign_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-foreign:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-foreign:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-foreign
+
+test-deps-allowed: ma-setup
+	## Native M-A: allowed is installed
+	$(DPKG_INSTALL) pkg-ma-allowed_1.0_$(NATIVE_ARCH).deb
+	# Non-annotated dependency on pkg-ma-allowed
+	! $(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed:$(NATIVE_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed)
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed
+	# Annotated dep: pkg-ma-allowed:any
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any:$(NATIVE_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any)
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any
+	$(DPKG_PURGE) pkg-ma-allowed:$(NATIVE_ARCH)
+	## Foreign M-A: allowed is installed
+	$(DPKG_INSTALL) pkg-ma-allowed_1.0_$(FOREIGN_ARCH).deb
+	# Non-annotated dependency on pkg-ma-allowed
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed:$(FOREIGN_ARCH)
+	! $(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed:$(NATIVE_ARCH)
+	! $(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_all.deb
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed
+	# Annotated dep: pkg-ma-allowed:any
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any:$(NATIVE_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any)
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any
+	$(DPKG_PURGE) pkg-ma-allowed:$(FOREIGN_ARCH)
+	## Arch: all M-A: allowed is installed
+	$(DPKG_INSTALL) pkg-ma-allowed_1.0_all.deb
+	# Non-annotated dependency on pkg-ma-allowed
+	! $(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed:$(NATIVE_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed)
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed
+	# Annotated dep: pkg-ma-allowed:any
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any:$(NATIVE_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-allowed-any_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-allowed-any)
+	$(DPKG_PURGE) pkg-ma-dep-on-allowed-any
+	$(DPKG_PURGE) pkg-ma-allowed
+
+test-deps-no: ma-setup
+	# Native M-A: no is installed
+	$(DPKG_INSTALL) pkg-ma-no_1.0_$(NATIVE_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-no:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-no)
+	$(DPKG_PURGE) pkg-ma-dep-on-no
+	$(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-no:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-no:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-no:$(NATIVE_ARCH)
+	# Foreign M-A: no is installed (with --force-architecture)
+	$(DPKG_INSTALL) --force-architecture pkg-ma-no_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_$(FOREIGN_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-no:$(FOREIGN_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-no:$(FOREIGN_ARCH)
+	! $(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_all.deb
+	$(DPKG_PURGE) pkg-ma-dep-on-no
+	! $(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-no:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-no:$(FOREIGN_ARCH)
+	# Arch: all M-A: no is installed
+	$(DPKG_INSTALL) pkg-ma-no_1.0_all.deb
+	! $(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-no:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_all.deb
+	$(call pkg_is_installed,pkg-ma-dep-on-no)
+	$(DPKG_PURGE) pkg-ma-dep-on-no
+	$(DPKG_INSTALL) pkg-ma-dep-on-no_1.0_$(NATIVE_ARCH).deb
+	$(call pkg_is_installed,pkg-ma-dep-on-no:$(NATIVE_ARCH))
+	$(DPKG_PURGE) pkg-ma-dep-on-no:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-no
+
+pkg-ma-self-conflict_1.0_$(NATIVE_ARCH) pkg-ma-self-conflict_1.0_$(FOREIGN_ARCH):: pkg-template
+	grep -q "Conflicts: " $@/DEBIAN/control || \
+	(echo "Conflicts: virtual-foo" >> $@/DEBIAN/control; \
+	echo "Provides: virtual-foo" >> $@/DEBIAN/control)
+
+test-deps-self-conflict: ma-setup
+	$(DPKG_INSTALL) pkg-ma-self-conflict_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-self-conflict_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-self-conflict:$(NATIVE_ARCH)
+	$(DPKG_PURGE) pkg-ma-self-conflict:$(FOREIGN_ARCH)
 
 test-clean:
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
