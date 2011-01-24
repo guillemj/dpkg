@@ -4,6 +4,8 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -475,7 +477,8 @@ void process_archive(const char *filename) {
   }
 
   if (pkg->available.arch->type != arch_all &&
-      pkg->available.arch->type != arch_native)
+      pkg->available.arch->type != arch_native &&
+      pkg->available.arch->type != arch_foreign)
     forcibleerr(fc_architecture,
                 _("package architecture (%s) does not match system (%s)"),
                 pkg->available.arch->name, dpkg_arch_get(arch_native)->name);
