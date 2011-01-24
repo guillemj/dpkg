@@ -247,6 +247,8 @@ listpackages(const char *const *argv)
         failures++;
       }
     }
+
+    free(found);
   }
 
   m_output(stdout, _("<standard output>"));
@@ -513,6 +515,8 @@ showpackages(const char *const *argv)
         failures++;
       }
     }
+
+    free(found);
   }
 
   m_output(stdout, _("<standard output>"));
