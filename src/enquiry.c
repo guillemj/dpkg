@@ -413,12 +413,12 @@ predeppackage(const char *const *argv)
     for (possi = dep->list, pkg = NULL;
          !pkg && possi;
          possi=possi->next) {
-      trypkg= possi->ed;
+      trypkg = &possi->ed->pkg;
       if (trypkg->files && versionsatisfied(&trypkg->available,possi)) {
         if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
       }
       if (possi->verrel != dvr_none) continue;
-      for (provider = possi->ed->set->depended.available;
+      for (provider = possi->ed->depended.available;
            !pkg && provider;
            provider=provider->next) {
         if (provider->up->type != dep_provides) continue;

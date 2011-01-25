@@ -532,7 +532,7 @@ void process_archive(const char *filename) {
       break;
     case dep_provides:
       /* Look for things that conflict with what we provide. */
-      for (psearch = dsearch->list->ed->set->depended.installed;
+      for (psearch = dsearch->list->ed->depended.installed;
            psearch;
            psearch = psearch->rev_next) {
         if (psearch->up->type != dep_conflicts)
@@ -1216,7 +1216,7 @@ void process_archive(const char *filename) {
            providecheck;
            providecheck= providecheck->next) {
         if (providecheck->type != dep_provides) continue;
-        for (pdep = providecheck->list->ed->set->depended.installed;
+        for (pdep = providecheck->list->ed->depended.installed;
              pdep;
              pdep = pdep->rev_next) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&

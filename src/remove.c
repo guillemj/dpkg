@@ -113,7 +113,7 @@ void deferred_remove(struct pkginfo *pkg) {
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_provides) continue;
     debug(dbg_depcon,"checking virtual package `%s'",dep->list->ed->name);
-    checkforremoval(pkg,dep->list->ed,&rok,&raemsgs);
+    checkforremoval(pkg, &dep->list->ed->pkg, &rok, &raemsgs);
   }
 
   if (rok == 1) {

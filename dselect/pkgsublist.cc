@@ -143,12 +143,12 @@ packagelist::add(dependency *depends, showpriority displayimportance)
   info('\n');
   add(depends->up,info.string(),displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
-    add(possi->ed,info.string(),displayimportance);
+    add(&possi->ed->pkg, info.string(), displayimportance);
     if (possi->verrel == dvr_none && depends->type != dep_provides) {
       // providers aren't relevant if a version was specified, or
       // if we're looking at a provider relationship already
       deppossi *provider;
-      for (provider = possi->ed->set->depended.available;
+      for (provider = possi->ed->depended.available;
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;

@@ -218,7 +218,8 @@ does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",newpigp->name,
         oldpigp->name, versiondescribe(&oldpifp->version, vdew_always));
   for (dep= newpifp->depends; dep; dep= dep->next) {
-    if (dep->type != dep_replaces || dep->list->ed != oldpigp) continue;
+    if (dep->type != dep_replaces || dep->list->ed != oldpigp->set)
+      continue;
     debug(dbg_depcondetail,"does_replace ... found old, version %s",
           versiondescribe(&dep->list->version,vdew_always));
     if (!versionsatisfied(oldpifp, dep->list))
@@ -1140,7 +1141,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                providecheck;
                providecheck= providecheck->next) {
             if (providecheck->type != dep_provides) continue;
-            for (pdep = providecheck->list->ed->set->depended.installed;
+            for (pdep = providecheck->list->ed->depended.installed;
                  pdep;
                  pdep = pdep->rev_next) {
               if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)

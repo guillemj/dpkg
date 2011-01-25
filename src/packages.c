@@ -515,7 +515,7 @@ breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs)
 
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_provides) continue;
-    virtbroken= dep->list->ed;
+    virtbroken = &dep->list->ed->pkg;
     debug(dbg_depcondetail, "     checking virtbroken %s", virtbroken->name);
     breaks_check_target(aemsgs, &ok, pkg, virtbroken, virtbroken);
   }
@@ -561,19 +561,20 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
         found = found_ok;
         break;
       }
-      thisf = deppossi_ok_found(possi->ed, pkg, removing, NULL,
+      thisf = deppossi_ok_found(&possi->ed->pkg, pkg, removing, NULL,
                                 &possfixbytrig,
                                &matched,possi,&interestingwarnings,&oemsgs);
       if (thisf > found) found= thisf;
       if (found != found_ok && possi->verrel == dvr_none) {
-        for (provider = possi->ed->set->depended.installed;
+        for (provider = possi->ed->depended.installed;
              found != found_ok && provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides)
             continue;
           debug(dbg_depcondetail, "     checking provider %s",
                 provider->up->up->name);
-          thisf = deppossi_ok_found(provider->up->up, pkg, removing, possi->ed,
+          thisf = deppossi_ok_found(provider->up->up, pkg, removing,
+                                    &possi->ed->pkg,
                                     &possfixbytrig, &matched, NULL,
                                     &interestingwarnings, &oemsgs);
           if (thisf > found)

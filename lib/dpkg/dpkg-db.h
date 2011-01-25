@@ -70,7 +70,7 @@ struct dependency {
 
 struct deppossi {
   struct dependency *up;
-  struct pkginfo *ed;
+  struct pkgset *ed;
   struct deppossi *next, *rev_next, *rev_prev;
   struct versionrevision version;
   enum depverrel verrel;

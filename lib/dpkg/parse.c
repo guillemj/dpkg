@@ -619,9 +619,9 @@ void copy_dependency_links(struct pkginfo *pkg,
         dop->rev_prev->rev_next = dop->rev_next;
       else
         if (available)
-          dop->ed->set->depended.available = dop->rev_next;
+          dop->ed->depended.available = dop->rev_next;
         else
-          dop->ed->set->depended.installed = dop->rev_next;
+          dop->ed->depended.installed = dop->rev_next;
       if (dop->rev_next)
         dop->rev_next->rev_prev = dop->rev_prev;
     }
@@ -632,8 +632,8 @@ void copy_dependency_links(struct pkginfo *pkg,
   for (dyp= newdepends; dyp; dyp= dyp->next) {
     dyp->up= pkg;
     for (dop= dyp->list; dop; dop= dop->next) {
-      revdeps = available ? &dop->ed->set->depended.available :
-                            &dop->ed->set->depended.installed;
+      revdeps = available ? &dop->ed->depended.available :
+                            &dop->ed->depended.installed;
       dop->rev_next = *revdeps;
       dop->rev_prev = NULL;
       if (*revdeps)

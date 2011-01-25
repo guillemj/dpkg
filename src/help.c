@@ -156,7 +156,7 @@ bool
 force_depends(struct deppossi *possi)
 {
   return fc_depends ||
-         ignore_depends(possi->ed) ||
+         ignore_depends(&possi->ed->pkg) ||
          ignore_depends(possi->up->up);
 }
 
@@ -164,7 +164,7 @@ bool
 force_breaks(struct deppossi *possi)
 {
   return fc_breaks ||
-         ignore_depends(possi->ed) ||
+         ignore_depends(&possi->ed->pkg) ||
          ignore_depends(possi->up->up);
 }
 

@@ -128,10 +128,10 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
       /* Don't find the same cycles again. */
       if (possi->cyclebreak) continue;
       thislink.possi= possi;
-      if (foundcyclebroken(&thislink, sofar, possi->ed,possi))
+      if (foundcyclebroken(&thislink, sofar, &possi->ed->pkg, possi))
         return true;
       /* Right, now we try all the providers ... */
-      for (providelink = possi->ed->set->depended.installed;
+      for (providelink = possi->ed->depended.installed;
            providelink;
            providelink = providelink->rev_next) {
         if (providelink->up->type != dep_provides) continue;
@@ -291,7 +291,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
      * can return ‘false’. */
 
     for (possi= dep->list; possi; possi= possi->next) {
-      switch (possi->ed->clientdata->istobe) {
+      switch (possi->ed->pkg.clientdata->istobe) {
       case itb_remove:
         sprintf(linebuf,_("  %.250s is to be removed.\n"),possi->ed->name);
         break;
@@ -299,21 +299,21 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         sprintf(linebuf,_("  %.250s is to be deconfigured.\n"),possi->ed->name);
         break;
       case itb_installnew:
-        if (versionsatisfied(&possi->ed->available, possi))
+        if (versionsatisfied(&possi->ed->pkg.available, possi))
           return true;
         sprintf(linebuf,_("  %.250s is to be installed, but is version %.250s.\n"),
                 possi->ed->name,
-                versiondescribe(&possi->ed->available.version,vdew_nonambig));
+                versiondescribe(&possi->ed->pkg.available.version, vdew_nonambig));
         break;
       case itb_normal: case itb_preinstall:
-        switch (possi->ed->status) {
+        switch (possi->ed->pkg.status) {
         case stat_installed:
         case stat_triggerspending:
-          if (versionsatisfied(&possi->ed->installed, possi))
+          if (versionsatisfied(&possi->ed->pkg.installed, possi))
             return true;
           sprintf(linebuf,_("  %.250s is installed, but is version %.250s.\n"),
                   possi->ed->name,
-                  versiondescribe(&possi->ed->installed.version,vdew_nonambig));
+                  versiondescribe(&possi->ed->pkg.installed.version, vdew_nonambig));
           break;
         case stat_notinstalled:
           /* Don't say anything about this yet - it might be a virtual package.
@@ -322,27 +322,28 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           *linebuf = '\0';
           break;
         case stat_triggersawaited:
-            if (canfixbytrigaw && versionsatisfied(&possi->ed->installed, possi))
-              *canfixbytrigaw = possi->ed;
+            if (canfixbytrigaw &&
+                versionsatisfied(&possi->ed->pkg.installed, possi))
+              *canfixbytrigaw = &possi->ed->pkg;
             /* Fall through to have a chance to return OK due to
              * allowunconfigd and to fill the explanation */
         case stat_unpacked:
         case stat_halfconfigured:
           if (allowunconfigd) {
-            if (!informativeversion(&possi->ed->configversion)) {
+            if (!informativeversion(&possi->ed->pkg.configversion)) {
               sprintf(linebuf, _("  %.250s is unpacked, but has never been configured.\n"),
                       possi->ed->name);
               break;
-            } else if (!versionsatisfied(&possi->ed->installed, possi)) {
+            } else if (!versionsatisfied(&possi->ed->pkg.installed, possi)) {
               sprintf(linebuf, _("  %.250s is unpacked, but is version %.250s.\n"),
                       possi->ed->name,
-                      versiondescribe(&possi->ed->installed.version, vdew_nonambig));
+                      versiondescribe(&possi->ed->pkg.installed.version, vdew_nonambig));
               break;
-            } else if (!versionsatisfied3(&possi->ed->configversion,
+            } else if (!versionsatisfied3(&possi->ed->pkg.configversion,
                                           &possi->version,possi->verrel)) {
               sprintf(linebuf, _("  %.250s latest configured version is %.250s.\n"),
                       possi->ed->name,
-                      versiondescribe(&possi->ed->configversion,vdew_nonambig));
+                      versiondescribe(&possi->ed->pkg.configversion, vdew_nonambig));
               break;
             } else {
               return true;
@@ -351,19 +352,19 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           /* Fall through. */
         default:
           sprintf(linebuf, _("  %.250s is %s.\n"),
-                  possi->ed->name, gettext(statusstrings[possi->ed->status]));
+                  possi->ed->name, gettext(statusstrings[possi->ed->pkg.status]));
           break;
         }
         break;
       default:
-        internerr("unknown istobe depended '%d'", possi->ed->clientdata->istobe);
+        internerr("unknown istobe depended '%d'", possi->ed->pkg.clientdata->istobe);
       }
       varbuf_add_str(whynot, linebuf);
 
       /* If there was no version specified we try looking for Providers. */
       if (possi->verrel == dvr_none) {
         /* See if the package we're about to install Provides it. */
-        for (provider = possi->ed->set->depended.available;
+        for (provider = possi->ed->depended.available;
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
@@ -372,7 +373,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         }
 
         /* Now look at the packages already on the system. */
-        for (provider = possi->ed->set->depended.installed;
+        for (provider = possi->ed->depended.installed;
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
@@ -429,32 +430,33 @@ depisok(struct dependency *dep, struct varbuf *whynot,
     possi= dep->list;
     nconflicts= 0;
 
-    if (possi->ed != possi->up->up) {
+    if (possi->ed != possi->up->up->set) {
       /* If the package conflicts with or breaks itself it must mean
        * other packages which provide the same virtual name. We
        * therefore don't look at the real package and go on to the
        * virtual ones. */
 
-      switch (possi->ed->clientdata->istobe) {
+      switch (possi->ed->pkg.clientdata->istobe) {
       case itb_remove:
         break;
       case itb_installnew:
-        if (!versionsatisfied(&possi->ed->available, possi)) break;
+        if (!versionsatisfied(&possi->ed->pkg.available, possi))
+          break;
         sprintf(linebuf, _("  %.250s (version %.250s) is to be installed.\n"),
                 possi->ed->name,
-                versiondescribe(&possi->ed->available.version,vdew_nonambig));
+                versiondescribe(&possi->ed->pkg.available.version, vdew_nonambig));
         varbuf_add_str(whynot, linebuf);
         if (!canfixbyremove)
           return false;
         nconflicts++;
-        *canfixbyremove= possi->ed;
+        *canfixbyremove = &possi->ed->pkg;
         break;
       case itb_deconfigure:
         if (dep->type == dep_breaks)
           break; /* Already deconfiguring this. */
         /* Fall through. */
       case itb_normal: case itb_preinstall:
-        switch (possi->ed->status) {
+        switch (possi->ed->pkg.status) {
         case stat_notinstalled: case stat_configfiles:
           break;
         case stat_halfinstalled: case stat_unpacked:
@@ -464,28 +466,29 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         case stat_installed:
         case stat_triggerspending:
         case stat_triggersawaited:
-          if (!versionsatisfied(&possi->ed->installed, possi)) break;
+          if (!versionsatisfied(&possi->ed->pkg.installed, possi))
+            break;
           sprintf(linebuf, _("  %.250s (version %.250s) is present and %s.\n"),
                   possi->ed->name,
-                  versiondescribe(&possi->ed->installed.version,vdew_nonambig),
-                  gettext(statusstrings[possi->ed->status]));
+                  versiondescribe(&possi->ed->pkg.installed.version, vdew_nonambig),
+                  gettext(statusstrings[possi->ed->pkg.status]));
           varbuf_add_str(whynot, linebuf);
           if (!canfixbyremove)
             return false;
           nconflicts++;
-          *canfixbyremove= possi->ed;
+          *canfixbyremove = &possi->ed->pkg;
         }
         break;
       default:
         internerr("unknown istobe conflict '%d'",
-                  possi->ed->clientdata->istobe);
+                  possi->ed->pkg.clientdata->istobe);
       }
     }
 
     /* If there was no version specified we try looking for Providers. */
     if (possi->verrel == dvr_none) {
       /* See if the package we're about to install Provides it. */
-      for (provider = possi->ed->set->depended.available;
+      for (provider = possi->ed->depended.available;
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
@@ -502,7 +505,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       }
 
       /* Now look at the packages already on the system. */
-      for (provider = possi->ed->set->depended.installed;
+      for (provider = possi->ed->depended.installed;
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;

@@ -404,7 +404,7 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
                     fip->name, depname.buf, emsg);
       dop= nfmalloc(sizeof(struct deppossi));
       dop->up= dyp;
-      dop->ed = pkg_db_find(depname.buf);
+      dop->ed = pkg_db_find(depname.buf)->set;
       dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
 
       /* Don't link this (which is after all only ‘newpig’ from
