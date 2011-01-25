@@ -36,7 +36,7 @@
  * sizeof(void *) * 8063 (i.e. less than 32 KiB on 32bit systems). */
 #define BINS 8191
 
-static struct pkginfo *bins[BINS];
+static struct pkgset *bins[BINS];
 static int npackages;
 
 #define FNV_offset_basis 2166136261ul
@@ -60,7 +60,7 @@ static unsigned int hash(const char *name) {
 struct pkginfo *
 pkg_db_find(const char *inname)
 {
-  struct pkginfo **pointerp, *newpkg;
+  struct pkgset **pointerp, *newpkg;
   char *name = m_strdup(inname), *p;
 
   p= name;
@@ -69,17 +69,21 @@ pkg_db_find(const char *inname)
   pointerp= bins + (hash(name) % (BINS));
   while (*pointerp && strcasecmp((*pointerp)->name,name))
     pointerp= &(*pointerp)->next;
-  if (*pointerp) { free(name); return *pointerp; }
+  if (*pointerp) {
+    free(name);
+    return &(*pointerp)->pkg;
+  }
 
-  newpkg= nfmalloc(sizeof(struct pkginfo));
-  pkg_blank(newpkg);
+  newpkg = nfmalloc(sizeof(struct pkgset));
+  pkgset_blank(newpkg);
   newpkg->name= nfstrsave(name);
   newpkg->next= NULL;
+  newpkg->pkg.name = newpkg->name;
   *pointerp= newpkg;
   npackages++;
 
   free(name);
-  return newpkg;
+  return &newpkg->pkg;
 }
 
 int
@@ -107,11 +111,23 @@ struct pkginfo *
 pkg_db_iter_next(struct pkgiterator *i)
 {
   struct pkginfo *r;
+
   while (!i->pigp) {
     if (i->nbinn >= BINS) return NULL;
-    i->pigp= bins[i->nbinn++];
+    if (bins[i->nbinn])
+      i->pigp = &bins[i->nbinn]->pkg;
+    i->nbinn++;
   }
-  r= i->pigp; i->pigp= r->next; return r;
+
+  r = i->pigp;
+  if (r->arch_next)
+    i->pigp = r->arch_next;
+  else if (r->set->next)
+    i->pigp = &r->set->next->pkg;
+  else
+    i->pigp = NULL;
+
+  return r;
 }
 
 void
@@ -135,7 +151,7 @@ void
 pkg_db_report(FILE *file)
 {
   int i, c;
-  struct pkginfo *pkg;
+  struct pkgset *pkg;
   int *freq;
 
   freq= m_malloc(sizeof(int)*npackages+1);

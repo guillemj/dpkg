@@ -162,7 +162,9 @@ struct perpackagestate;
  * Note: Usually referred in the code as pig.
  */
 struct pkginfo {
-  struct pkginfo *next;
+  struct pkgset *set;
+  struct pkginfo *arch_next;
+
   const char *name;
   enum pkgwant {
     want_unknown, want_install, want_hold, want_deinstall, want_purge,
@@ -210,6 +212,15 @@ struct pkginfo {
   struct trigpend *trigpend_head;
 };
 
+/**
+ * Node describing a package set sharing the same package name.
+ */
+struct pkgset {
+  struct pkgset *next;
+  const char *name;
+  struct pkginfo pkg;
+};
+
 /*** from dbdir.c ***/
 
 const char *dpkg_db_set_dir(const char *dir);
@@ -245,6 +256,7 @@ void modstatdb_shutdown(void);
 
 /*** from database.c ***/
 
+void pkgset_blank(struct pkgset *set);
 void pkg_blank(struct pkginfo *pp);
 void pkgbin_blank(struct pkgbin *pifp);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);

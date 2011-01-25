@@ -514,7 +514,7 @@ parse_close(struct parsedb_state *ps)
 int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep)
 {
-  struct pkginfo tmp_pkg;
+  struct pkgset tmp_set;
   struct pkginfo *new_pkg, *db_pkg;
   struct pkgbin *new_pkgbin, *db_pkgbin;
   struct pkg_parse_object pkg_obj;
@@ -528,7 +528,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   parse_open(&ps, filename, flags);
 
-  new_pkg = &tmp_pkg;
+  new_pkg = &tmp_set.pkg;
   if (flags & pdb_recordavailable)
     new_pkgbin = &new_pkg->available;
   else
@@ -545,7 +545,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   /* Loop per package. */
   for (;;) {
     memset(fieldencountered, 0, sizeof(fieldencountered));
-    pkg_blank(new_pkg);
+    pkgset_blank(&tmp_set);
 
     if (!parse_stanza(&ps, &fs, pkg_parse_field, &pkg_obj))
       break;

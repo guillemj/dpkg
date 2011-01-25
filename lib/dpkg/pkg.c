@@ -49,6 +49,8 @@ pkgbin_blank(struct pkgbin *pkgbin)
 void
 pkg_blank(struct pkginfo *pkg)
 {
+	pkg->set = NULL;
+	pkg->arch_next = NULL;
 	pkg->name = NULL;
 	pkg->status = stat_notinstalled;
 	pkg->eflag = eflag_ok;
@@ -65,6 +67,14 @@ pkg_blank(struct pkginfo *pkg)
 	pkg->trigpend_head = NULL;
 	pkgbin_blank(&pkg->installed);
 	pkgbin_blank(&pkg->available);
+}
+
+void
+pkgset_blank(struct pkgset *set)
+{
+	set->name = NULL;
+	pkg_blank(&set->pkg);
+	set->pkg.set = set;
 }
 
 static int
