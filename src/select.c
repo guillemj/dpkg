@@ -40,8 +40,13 @@ static void getsel1package(struct pkginfo *pkg) {
   int l;
 
   if (pkg->want == want_unknown) return;
-  l= strlen(pkg->name); l >>= 3; l= 6-l; if (l<1) l=1;
-  printf("%s%.*s%s\n",pkg->name,l,"\t\t\t\t\t\t",wantinfos[pkg->want].name);
+  l = strlen(pkg->set->name);
+  l >>= 3;
+  l = 6 - l;
+  if (l < 1)
+    l = 1;
+  printf("%s%.*s%s\n", pkg->set->name, l, "\t\t\t\t\t\t",
+         wantinfos[pkg->want].name);
 }
 
 int
@@ -68,7 +73,8 @@ getselections(const char *const *argv)
       found= 0;
       for (i = 0; i < array.n_pkgs; i++) {
         pkg = array.pkgs[i];
-        if (fnmatch(thisarg,pkg->name,0)) continue;
+        if (fnmatch(thisarg, pkg->set->name, 0))
+          continue;
         getsel1package(pkg); found++;
       }
       if (!found)

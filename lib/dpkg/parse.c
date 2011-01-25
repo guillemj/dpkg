@@ -170,7 +170,7 @@ static void
 pkg_parse_verify(struct parsedb_state *ps,
                  struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
-  parse_must_have_field(ps, pkg->name, "package name");
+  parse_must_have_field(ps, pkg->set->name, "package name");
 
   /* XXX: We need to check for status != stat_halfinstalled as while
    * unpacking an unselected package, it will not have yet all data in
@@ -550,7 +550,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     pkg_parse_verify(&ps, new_pkg, new_pkgbin);
 
-    db_pkg = pkg_db_find(new_pkg->name);
+    db_pkg = pkg_db_find(new_pkg->set->name);
     if (flags & pdb_recordavailable)
       db_pkgbin = &db_pkg->available;
     else

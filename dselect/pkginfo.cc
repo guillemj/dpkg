@@ -92,7 +92,7 @@ void packagelist::severalinfoblurb()
 void packagelist::itd_relations() {
   whatinfovb(_("Interrelationships"));
 
-  if (table[cursorline]->pkg->name) {
+  if (table[cursorline]->pkg->set->name) {
     debug(dbg_general, "packagelist[%p]::idt_relations(); '%s'",
           this, table[cursorline]->relations.string());
     waddstr(infopad,table[cursorline]->relations.string());
@@ -104,7 +104,7 @@ void packagelist::itd_relations() {
 void packagelist::itd_description() {
   whatinfovb(_("Description"));
 
-  if (table[cursorline]->pkg->name) {
+  if (table[cursorline]->pkg->set->name) {
     const char *m= table[cursorline]->pkg->available.description;
     if (!m || !*m)
       m = table[cursorline]->pkg->installed.description;
@@ -113,7 +113,7 @@ void packagelist::itd_description() {
     const char *p= strchr(m,'\n');
     int l= p ? (int)(p-m) : strlen(m);
     wattrset(infopad,info_headattr);
-    waddstr(infopad, table[cursorline]->pkg->name);
+    waddstr(infopad, table[cursorline]->pkg->set->name);
     waddstr(infopad," - ");
     waddnstr(infopad,m,l);
     wattrset(infopad,info_attr);
@@ -130,7 +130,7 @@ void packagelist::itd_statuscontrol() {
   whatinfovb(_("Installed control file information"));
 
   werase(infopad);
-  if (!table[cursorline]->pkg->name) {
+  if (!table[cursorline]->pkg->set->name) {
     severalinfoblurb();
   } else {
     varbuf vb;
@@ -146,7 +146,7 @@ void packagelist::itd_availablecontrol() {
   whatinfovb(_("Available control file information"));
 
   werase(infopad);
-  if (!table[cursorline]->pkg->name) {
+  if (!table[cursorline]->pkg->set->name) {
     severalinfoblurb();
   } else {
     varbuf vb;

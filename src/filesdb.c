@@ -84,7 +84,7 @@ pkgadminfile(struct pkginfo *pkg, const char *filetype)
   varbuf_reset(&vb);
   varbuf_add_str(&vb, infodir);
   varbuf_add_char(&vb, '/');
-  varbuf_add_str(&vb, pkg->name);
+  varbuf_add_str(&vb, pkg->set->name);
   varbuf_add_char(&vb, '.');
   varbuf_add_str(&vb, filetype);
   varbuf_end_str(&vb);
@@ -305,12 +305,13 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   if (fd==-1) {
     if (errno != ENOENT)
-      ohshite(_("unable to open files list file for package `%.250s'"),pkg->name);
+      ohshite(_("unable to open files list file for package `%.250s'"),
+              pkg->set->name);
     onerr_abort--;
     if (pkg->status != stat_configfiles) {
       if (saidread == 1) putc('\n',stderr);
       warning(_("files list file for package `%.250s' missing, assuming "
-                "package has no files currently installed."), pkg->name);
+                "package has no files currently installed."), pkg->set->name);
     }
     pkg->clientdata->files = NULL;
     pkg->clientdata->fileslistvalid = true;
@@ -321,28 +322,29 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
    if(fstat(fd, &stat_buf))
      ohshite(_("unable to stat files list file for package '%.250s'"),
-             pkg->name);
+             pkg->set->name);
 
    if (stat_buf.st_size) {
      loaded_list = nfmalloc(stat_buf.st_size);
      loaded_list_end = loaded_list + stat_buf.st_size;
 
     if (fd_read(fd, loaded_list, stat_buf.st_size) < 0)
-      ohshite(_("reading files list for package '%.250s'"), pkg->name);
+      ohshite(_("reading files list for package '%.250s'"), pkg->set->name);
 
     lendp= &pkg->clientdata->files;
     thisline = loaded_list;
     while (thisline < loaded_list_end) {
       if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
         ohshit(_("files list file for package '%.250s' is missing final newline"),
-               pkg->name);
+               pkg->set->name);
       /* Where to start next time around. */
       nextline = ptr + 1;
       /* Strip trailing ‘/’. */
       if (ptr > thisline && ptr[-1] == '/') ptr--;
       /* Add the file to the list. */
       if (ptr == thisline)
-        ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
+        ohshit(_("files list file for package `%.250s' contains empty filename"),
+               pkg->set->name);
       *ptr = '\0';
       lendp = pkg_files_add_file(pkg, thisline, fnn_nocopy, lendp);
       thisline = nextline;
@@ -350,7 +352,8 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   }
   pop_cleanup(ehflag_normaltidy); /* fd = open() */
   if (close(fd))
-    ohshite(_("error closing files list file for package `%.250s'"),pkg->name);
+    ohshite(_("error closing files list file for package `%.250s'"),
+            pkg->set->name);
 
   onerr_abort--;
 
@@ -515,7 +518,8 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
 
   file= fopen(newvb.buf,"w+");
   if (!file)
-    ohshite(_("unable to create updated files list file for package %s"),pkg->name);
+    ohshite(_("unable to create updated files list file for package %s"),
+            pkg->set->name);
   push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, (void *)file);
   while (list) {
     if (!(mask && (list->namenode->flags & mask))) {
@@ -525,16 +529,21 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
     list= list->next;
   }
   if (ferror(file))
-    ohshite(_("failed to write to updated files list file for package %s"),pkg->name);
+    ohshite(_("failed to write to updated files list file for package %s"),
+            pkg->set->name);
   if (fflush(file))
-    ohshite(_("failed to flush updated files list file for package %s"),pkg->name);
+    ohshite(_("failed to flush updated files list file for package %s"),
+            pkg->set->name);
   if (fsync(fileno(file)))
-    ohshite(_("failed to sync updated files list file for package %s"),pkg->name);
+    ohshite(_("failed to sync updated files list file for package %s"),
+            pkg->set->name);
   pop_cleanup(ehflag_normaltidy); /* file = fopen() */
   if (fclose(file))
-    ohshite(_("failed to close updated files list file for package %s"),pkg->name);
+    ohshite(_("failed to close updated files list file for package %s"),
+            pkg->set->name);
   if (rename(newvb.buf, listfile))
-    ohshite(_("failed to install updated files list file for package %s"),pkg->name);
+    ohshite(_("failed to install updated files list file for package %s"),
+            pkg->set->name);
 
   dir_sync_path(pkgadmindir());
 

@@ -84,7 +84,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
   sol->possi->cyclebreak = true;
 
   debug(dbg_depcon, "cycle broken at %s -> %s",
-        sol->possi->up->up->name, sol->possi->ed->name);
+        sol->possi->up->up->set->name, sol->possi->ed->name);
 
   return true;
 }
@@ -112,10 +112,10 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
 
     for (sol = sofar; sol; sol = sol->prev) {
       varbuf_add_str(&str_pkgs, " <- ");
-      varbuf_add_str(&str_pkgs, sol->pkg->name);
+      varbuf_add_str(&str_pkgs, sol->pkg->set->name);
     }
     varbuf_end_str(&str_pkgs);
-    debug(dbg_depcondetail, "findbreakcyclerecursive %s %s", pkg->name,
+    debug(dbg_depcondetail, "findbreakcyclerecursive %s %s", pkg->set->name,
           str_pkgs.buf);
     varbuf_destroy(&str_pkgs);
   }
@@ -199,7 +199,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   varbufdependency(&depstr, dep);
   varbuf_end_str(&depstr);
 
-  varbuf_printf(addto, fmt, dep->up->name, depstr.buf);
+  varbuf_printf(addto, fmt, dep->up->set->name, depstr.buf);
   varbuf_destroy(&depstr);
 }
 
@@ -387,11 +387,11 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             continue;
           case itb_remove:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be removed.\n"),
-                    provider->up->up->name, possi->ed->name);
+                    provider->up->up->set->name, possi->ed->name);
             break;
           case itb_deconfigure:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be deconfigured.\n"),
-                    provider->up->up->name, possi->ed->name);
+                    provider->up->up->set->name, possi->ed->name);
             break;
           case itb_normal: case itb_preinstall:
             if (provider->up->up->status == stat_installed ||
@@ -400,7 +400,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             if (provider->up->up->status == stat_triggersawaited)
               *canfixbytrigaw = provider->up->up;
             sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
-                    provider->up->up->name, possi->ed->name,
+                    provider->up->up->set->name, possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));
             break;
           default:
@@ -496,7 +496,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         if (provider->up->up == dep->up)
           continue; /* Conflicts and provides the same. */
         sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
-                provider->up->up->name, possi->ed->name);
+                provider->up->up->set->name, possi->ed->name);
         varbuf_add_str(whynot, linebuf);
         /* We can't remove the one we're about to install: */
         if (canfixbyremove)
@@ -538,7 +538,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           case stat_triggersawaited:
             sprintf(linebuf,
                     _("  %.250s provides %.250s and is present and %s.\n"),
-                    provider->up->up->name, possi->ed->name,
+                    provider->up->up->set->name, possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));
             varbuf_add_str(whynot, linebuf);
             if (!canfixbyremove)

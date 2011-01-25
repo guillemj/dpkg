@@ -344,18 +344,19 @@ modstatdb_note_core(struct pkginfo *pkg)
   varbufrecord(&uvb, pkg, &pkg->installed);
 
   if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
-    ohshite(_("unable to write updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to write updated status of `%.250s'"), pkg->set->name);
   if (fflush(importanttmp))
-    ohshite(_("unable to flush updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to flush updated status of `%.250s'"), pkg->set->name);
   if (ftruncate(fileno(importanttmp), uvb.used))
-    ohshite(_("unable to truncate for updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to truncate for updated status of `%.250s'"),
+            pkg->set->name);
   if (fsync(fileno(importanttmp)))
-    ohshite(_("unable to fsync updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to fsync updated status of `%.250s'"), pkg->set->name);
   if (fclose(importanttmp))
-    ohshite(_("unable to close updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to close updated status of `%.250s'"), pkg->set->name);
   sprintf(updatefnrest, IMPORTANTFMT, nextupdate);
   if (rename(importanttmpfile, updatefnbuf))
-    ohshite(_("unable to install updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to install updated status of `%.250s'"), pkg->set->name);
 
   dir_sync_path(updatesdir);
 
@@ -396,9 +397,9 @@ void modstatdb_note(struct pkginfo *pkg) {
     pkg->trigaw.head = pkg->trigaw.tail = NULL;
   }
 
-  log_message("status %s %s %s", statusinfos[pkg->status].name, pkg->name,
+  log_message("status %s %s %s", statusinfos[pkg->status].name, pkg->set->name,
 	      versiondescribe(&pkg->installed.version, vdew_nonambig));
-  statusfd_send("status: %s: %s", pkg->name, statusinfos[pkg->status].name);
+  statusfd_send("status: %s: %s", pkg->set->name, statusinfos[pkg->status].name);
 
   if (cstatus >= msdbrw_write)
     modstatdb_note_core(pkg);

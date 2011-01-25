@@ -57,13 +57,13 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
   for (possi = pkgdepcheck->set->depended.installed; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
     depender= possi->up->up;
-    debug(dbg_depcon,"checking depending package `%s'",depender->name);
+    debug(dbg_depcon, "checking depending package `%s'", depender->set->name);
     if (!(depender->status == stat_installed ||
           depender->status == stat_triggerspending ||
           depender->status == stat_triggersawaited))
       continue;
     if (ignore_depends(depender)) {
-      debug(dbg_depcon, "ignoring depending package '%s'", depender->name);
+      debug(dbg_depcon, "ignoring depending package '%s'", depender->set->name);
       continue;
     }
     if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
@@ -82,11 +82,11 @@ void deferred_remove(struct pkginfo *pkg) {
   int rok;
   struct dependency *dep;
 
-  debug(dbg_general,"deferred_remove package %s",pkg->name);
+  debug(dbg_general, "deferred_remove package %s", pkg->set->name);
 
   if (pkg->status == stat_notinstalled) {
     warning(_("ignoring request to remove %.250s which isn't installed."),
-            pkg->name);
+            pkg->set->name);
     pkg->clientdata->istobe= itb_normal;
     return;
   } else if (!f_pending &&
@@ -94,7 +94,7 @@ void deferred_remove(struct pkginfo *pkg) {
              cipaction->arg_int != act_purge) {
     warning(_("ignoring request to remove %.250s, only the config\n"
               " files of which are on the system. Use --purge to remove them too."),
-            pkg->name);
+            pkg->set->name);
     pkg->clientdata->istobe= itb_normal;
     return;
   }
@@ -107,7 +107,7 @@ void deferred_remove(struct pkginfo *pkg) {
     pkg->want = (cipaction->arg_int == act_purge) ? want_purge : want_deinstall;
   if (!f_noact) modstatdb_note(pkg);
 
-  debug(dbg_general,"checking dependencies for remove `%s'",pkg->name);
+  debug(dbg_general, "checking dependencies for remove `%s'", pkg->set->name);
   rok= 2;
   checkforremoval(pkg,pkg,&rok,&raemsgs);
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
@@ -126,13 +126,13 @@ void deferred_remove(struct pkginfo *pkg) {
     varbuf_end_str(&raemsgs);
     fprintf(stderr,
             _("dpkg: dependency problems prevent removal of %s:\n%s"),
-            pkg->name, raemsgs.buf);
+            pkg->set->name, raemsgs.buf);
     ohshit(_("dependency problems - not removing"));
   } else if (raemsgs.used) {
     varbuf_end_str(&raemsgs);
     fprintf(stderr,
             _("dpkg: %s: dependency problems, but removing anyway as you requested:\n%s"),
-            pkg->name, raemsgs.buf);
+            pkg->set->name, raemsgs.buf);
   }
   varbuf_destroy(&raemsgs);
   sincenothing= 0;
@@ -146,7 +146,7 @@ void deferred_remove(struct pkginfo *pkg) {
   filesdbinit();
 
   if (f_noact) {
-    printf(_("Would remove or purge %s ...\n"),pkg->name);
+    printf(_("Would remove or purge %s ...\n"), pkg->set->name);
     pkg->status= stat_notinstalled;
     pkg->clientdata->istobe= itb_normal;
     return;
@@ -154,7 +154,7 @@ void deferred_remove(struct pkginfo *pkg) {
 
   oldconffsetflags(pkg->installed.conffiles);
 
-  printf(_("Removing %s ...\n"),pkg->name);
+  printf(_("Removing %s ...\n"), pkg->set->name);
   log_action("remove", pkg);
   trig_activate_packageprocessing(pkg);
   if (pkg->status >= stat_halfconfigured) {
@@ -274,7 +274,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
       } else if (errno == EBUSY || errno == EPERM) {
         warning(_("while removing %.250s, unable to remove directory '%.250s': "
                   "%s - directory may be a mount point?"),
-                pkg->name, namenode->name, strerror(errno));
+                pkg->set->name, namenode->name, strerror(errno));
         push_leftover(&leftover,namenode);
         continue;
       } else if (errno == EINVAL && strcmp(usenode->name, "/.") == 0) {
@@ -359,13 +359,13 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
     if (errno == ENOTEMPTY || errno == EEXIST) {
       warning(_("while removing %.250s, directory '%.250s' not empty so not removed."),
-              pkg->name, namenode->name);
+              pkg->set->name, namenode->name);
       push_leftover(&leftover,namenode);
       continue;
     } else if (errno == EBUSY || errno == EPERM) {
       warning(_("while removing %.250s, unable to remove directory '%.250s': "
                 "%s - directory may be a mount point?"),
-              pkg->name, namenode->name, strerror(errno));
+              pkg->set->name, namenode->name, strerror(errno));
       push_leftover(&leftover,namenode);
       continue;
     } else if (errno == EINVAL && strcmp(usenode->name, "/.") == 0) {
@@ -406,7 +406,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
   char *p;
   const char *const *ext;
 
-    printf(_("Purging configuration files for %s ...\n"),pkg->name);
+    printf(_("Purging configuration files for %s ...\n"), pkg->set->name);
     log_action("purge", pkg);
     trig_activate_packageprocessing(pkg);
 
@@ -531,7 +531,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
 void removal_bulk(struct pkginfo *pkg) {
   bool foundpostrm;
 
-  debug(dbg_general,"removal_bulk package %s",pkg->name);
+  debug(dbg_general, "removal_bulk package %s", pkg->set->name);
 
   if (pkg->status == stat_halfinstalled || pkg->status == stat_unpacked) {
     removal_bulk_remove_files(pkg);

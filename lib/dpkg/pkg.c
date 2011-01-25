@@ -50,7 +50,6 @@ pkg_blank(struct pkginfo *pkg)
 {
 	pkg->set = NULL;
 	pkg->arch_next = NULL;
-	pkg->name = NULL;
 	pkg->status = stat_notinstalled;
 	pkg->eflag = eflag_ok;
 	pkg->want = want_unknown;
@@ -133,5 +132,5 @@ pkg_sorter_by_name(const void *a, const void *b)
 	const struct pkginfo *pa = *(const struct pkginfo **)a;
 	const struct pkginfo *pb = *(const struct pkginfo **)b;
 
-	return strcmp(pa->name, pb->name);
+	return strcmp(pa->set->name, pb->set->name);
 }

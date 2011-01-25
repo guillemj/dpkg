@@ -50,10 +50,10 @@ w_name(struct varbuf *vb,
        const struct pkginfo *pigp, const struct pkgbin *pifp,
        enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  assert(pigp->name);
+  assert(pigp->set->name);
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Package: ");
-  varbuf_add_str(vb, pigp->name);
+  varbuf_add_str(vb, pigp->set->name);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }
@@ -402,7 +402,7 @@ w_trigaw(struct varbuf *vb,
     varbuf_add_str(vb, "Triggers-Awaited:");
   for (ta = pigp->trigaw.head; ta; ta = ta->sameaw.next) {
     varbuf_add_char(vb, ' ');
-    varbuf_add_str(vb, ta->pend->name);
+    varbuf_add_str(vb, ta->pend->set->name);
   }
   if (flags & fw_printheader)
     varbuf_add_char(vb, '\n');
@@ -435,8 +435,8 @@ writerecord(FILE *file, const char *filename,
   varbufrecord(&vb,pigp,pifp);
   varbuf_end_str(&vb);
   if (fputs(vb.buf,file) < 0)
-    ohshite(_("failed to write details of `%.50s' to `%.250s'"), pigp->name,
-	    filename);
+    ohshite(_("failed to write details of `%.50s' to `%.250s'"),
+            pigp->set->name, filename);
    varbuf_destroy(&vb);
 }
 
@@ -478,7 +478,7 @@ writedb(const char *filename, enum writedb_flags flags)
     varbuf_end_str(&vb);
     if (fputs(vb.buf,file) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
-              which, pigp->name, filename);
+              which, pigp->set->name, filename);
     varbuf_reset(&vb);
   }
   pkg_db_iter_free(it);

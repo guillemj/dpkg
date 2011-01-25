@@ -33,13 +33,13 @@
 #include "bindings.h"
 
 void packagelist::add(pkginfo *pkg) {
-  debug(dbg_general, "packagelist[%p]::add(pkginfo %s)", this, pkg->name);
+  debug(dbg_general, "packagelist[%p]::add(pkginfo %s)", this, pkg->set->name);
   if (!recursive ||  // never add things to top level
       !pkg->clientdata ||  // don't add pure virtual packages
       pkg->clientdata->uprec)  // don't add ones already in the recursive list
     return;
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s) adding",
-        this, pkg->name);
+        this, pkg->set->name);
   perpackagestate *state= &datatable[nitems];
   state->pkg= pkg;
   state->direct= state->original= pkg->clientdata->selected;
@@ -54,21 +54,21 @@ void packagelist::add(pkginfo *pkg) {
 
 void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, %s)",
-        this, pkg->name, wantstrings[nw]);
+        this, pkg->set->name, wantstrings[nw]);
   add(pkg);  if (!pkg->clientdata) return;
   pkg->clientdata->direct= nw;
   selpriority np;
   np= would_like_to_install(nw,pkg) ? sp_selecting : sp_deselecting;
   if (pkg->clientdata->spriority > np) return;
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, %s) setting",
-        this, pkg->name, wantstrings[nw]);
+        this, pkg->set->name, wantstrings[nw]);
   pkg->clientdata->suggested= pkg->clientdata->selected= nw;
   pkg->clientdata->spriority= np;
 }
 
 void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp) {
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, ..., showpriority %d)",
-        this, pkg->name, showimp);
+        this, pkg->set->name, showimp);
   add(pkg);  if (!pkg->clientdata) return;
   if (pkg->clientdata->dpriority < showimp) pkg->clientdata->dpriority= showimp;
   pkg->clientdata->relations(extrainfo);
@@ -117,7 +117,7 @@ packagelist::add(dependency *depends, showpriority displayimportance)
 
   const char *comma= "";
   varbuf info;
-  info(depends->up->name);
+  info(depends->up->set->name);
   info(' ');
   info(gettext(relatestrings[depends->type]));
   info(' ');

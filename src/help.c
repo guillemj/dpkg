@@ -64,7 +64,7 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
   }
 
   debug(dbg_eachfile,"namenodetouse namenode=`%s' pkg=%s",
-        namenode->name,pkg->name);
+        namenode->name, pkg->set->name);
 
   r=
     (namenode->divert->useinstead && namenode->divert->pkg != pkg)
@@ -74,7 +74,7 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
         "namenodetouse ... useinstead=%s camefrom=%s pkg=%s return %s",
         namenode->divert->useinstead ? namenode->divert->useinstead->name : "<none>",
         namenode->divert->camefrom ? namenode->divert->camefrom->name : "<none>",
-        namenode->divert->pkg ? namenode->divert->pkg->name : "<none>",
+        namenode->divert->pkg ? namenode->divert->pkg->set->name : "<none>",
         r->name);
 
   return r;
@@ -269,7 +269,7 @@ do_script(struct pkginfo *pkg, struct pkgbin *pif,
 
   pid = subproc_fork();
   if (pid == 0) {
-    if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->name, 1) ||
+    if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->set->name, 1) ||
         setenv("DPKG_MAINTSCRIPT_ARCH", pif->arch->name, 1) ||
         setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
         setenv("DPKG_RUNNING_VERSION", PACKAGE_VERSION, 1))
@@ -474,13 +474,13 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
   size_t namelen;
 
   debug(dbg_veryverbose, "dir_has_conffiles '%s' (from %s)", file->name,
-	pkg->name);
+        pkg->set->name);
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
       if (strncmp(file->name, conff->name, namelen) == 0 &&
           conff->name[namelen] == '/') {
 	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
-	      file->name, conff->name, pkg->name);
+	      file->name, conff->name, pkg->set->name);
 	return true;
       }
   }
@@ -499,12 +499,12 @@ dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
   struct pkginfo *other_pkg;
 
   debug(dbg_veryverbose, "dir_is_used_by_others '%s' (except %s)", file->name,
-        pkg ? pkg->name : "<none>");
+        pkg ? pkg->set->name : "<none>");
 
   iter = filepackages_iter_new(file);
   while ((other_pkg = filepackages_iter_next(iter))) {
     debug(dbg_veryverbose, "dir_is_used_by_others considering %s ...",
-          other_pkg->name);
+          other_pkg->set->name);
     if (other_pkg == pkg)
       continue;
 
@@ -528,7 +528,7 @@ dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
   size_t namelen;
 
   debug(dbg_veryverbose, "dir_is_used_by_pkg '%s' (by %s)",
-        file->name, pkg ? pkg->name : "<none>");
+        file->name, pkg ? pkg->set->name : "<none>");
 
   namelen = strlen(file->name);
 
@@ -625,8 +625,8 @@ void ensure_pathname_nonexisting(const char *pathname) {
 }
 
 void log_action(const char *action, struct pkginfo *pkg) {
-  log_message("%s %s %s %s", action, pkg->name,
+  log_message("%s %s %s %s", action, pkg->set->name,
 	      versiondescribe(&pkg->installed.version, vdew_nonambig),
 	      versiondescribe(&pkg->available.version, vdew_nonambig));
-  statusfd_send("processing: %s: %s", action, pkg->name);
+  statusfd_send("processing: %s: %s", action, pkg->set->name);
 }

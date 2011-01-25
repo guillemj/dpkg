@@ -164,7 +164,6 @@ struct pkginfo {
   struct pkgset *set;
   struct pkginfo *arch_next;
 
-  const char *name;
   enum pkgwant {
     want_unknown, want_install, want_hold, want_deinstall, want_purge,
     /* Not allowed except as special sentinel value in some places. */

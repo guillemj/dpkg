@@ -96,7 +96,7 @@ trigproc_enqueue_deferred(struct pkginfo *pend)
 	if (pend->clientdata->trigprocdeferred)
 		return;
 	pend->clientdata->trigprocdeferred = pkg_queue_push(&deferred, pend);
-	debug(dbg_triggers, "trigproc_enqueue_deferred pend=%s", pend->name);
+	debug(dbg_triggers, "trigproc_enqueue_deferred pend=%s", pend->set->name);
 }
 
 void
@@ -117,7 +117,7 @@ trigproc_run_deferred(void)
 			continue;
 		}
 		push_error_context_jump(&ejbuf, print_error_perpackage,
-		                        pkg->name);
+		                        pkg->set->name);
 
 		pkg->clientdata->trigprocdeferred = NULL;
 		trigproc(pkg);
@@ -133,7 +133,7 @@ void
 trig_activate_packageprocessing(struct pkginfo *pkg)
 {
 	debug(dbg_triggersdetail, "trigproc_activate_packageprocessing pkg=%s",
-	      pkg->name);
+	      pkg->set->name);
 
 	trig_parse_ci(pkgadminfile(pkg, TRIGGERSCIFILE), NULL,
 	              trig_cicb_statuschange_activate, pkg);
@@ -176,7 +176,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	struct pkginfo *pkg, *giveup;
 	const char *sep;
 
-	debug(dbg_triggers, "check_triggers_cycle pnow=%s", processing_now->name);
+	debug(dbg_triggers, "check_triggers_cycle pnow=%s",
+	      processing_now->set->name);
 
 	tcn = nfmalloc(sizeof(*tcn));
 	tcn->pkgs = NULL;
@@ -195,7 +196,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	pkg_db_iter_free(it);
 	if (!hare) {
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s first",
-		      processing_now->name);
+		      processing_now->set->name);
 		tcn->next = NULL;
 		hare = tortoise = tcn;
 		return NULL;
@@ -216,14 +217,15 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	     tortoise_pkg;
 	     tortoise_pkg = tortoise_pkg->next) {
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s tortoise=%s",
-		      processing_now->name, tortoise_pkg->pkg->name);
+		      processing_now->set->name, tortoise_pkg->pkg->set->name);
 		for (tortoise_trig = tortoise_pkg->then_trigs;
 		     tortoise_trig;
 		     tortoise_trig = tortoise_trig->next) {
 			debug(dbg_triggersdetail,
 			      "check_triggers_cycle pnow=%s tortoise=%s"
-			      " tortoisetrig=%s", processing_now->name,
-			      tortoise_pkg->pkg->name, tortoise_trig->name);
+			      " tortoisetrig=%s", processing_now->set->name,
+			      tortoise_pkg->pkg->set->name,
+			      tortoise_trig->name);
 			/* hare is now so we can just look up in the actual
 			 * data. */
 			for (hare_trig = tortoise_pkg->pkg->trigpend_head;
@@ -232,7 +234,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 				debug(dbg_triggersstupid,
 				      "check_triggers_cycle pnow=%s tortoise=%s"
 				      " tortoisetrig=%s haretrig=%s",
-				      processing_now->name, tortoise_pkg->pkg->name,
+				      processing_now->set->name,
+				      tortoise_pkg->pkg->set->name,
 				      tortoise_trig->name, hare_trig->name);
 				if (!strcmp(hare_trig->name, tortoise_trig->name))
 					goto found_in_hare;
@@ -240,7 +243,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 			/* Not found in hare, yay! */
 			debug(dbg_triggersdetail,
 			      "check_triggers_cycle pnow=%s tortoise=%s OK",
-			      processing_now->name, tortoise_pkg->pkg->name);
+			      processing_now->set->name,
+			      tortoise_pkg->pkg->set->name);
 			return NULL;
 			found_in_hare:;
 		}
@@ -252,7 +256,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	        dpkg_get_progname());
 	sep = "  ";
 	for (tcn = tortoise; tcn; tcn = tcn->next) {
-		fprintf(stderr, "%s%s", sep, tcn->then_processed->name);
+		fprintf(stderr, "%s%s", sep, tcn->then_processed->set->name);
 		sep = " -> ";
 	}
 	fprintf(stderr, _("\n" " packages' pending triggers which are"
@@ -260,7 +264,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	for (tortoise_pkg = tortoise->pkgs;
 	     tortoise_pkg;
 	     tortoise_pkg = tortoise_pkg->next) {
-		fprintf(stderr, "  %s", tortoise_pkg->pkg->name);
+		fprintf(stderr, "  %s", tortoise_pkg->pkg->set->name);
 		sep = ": ";
 		for (tortoise_trig = tortoise_pkg->then_trigs;
 		     tortoise_trig;
@@ -273,12 +277,13 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	/* We give up on the _earliest_ package involved. */
 	giveup = tortoise->pkgs->pkg;
 	debug(dbg_triggers, "check_triggers_cycle pnow=%s giveup=%p",
-	      processing_now->name, giveup->name);
+	      processing_now->set->name, giveup->set->name);
 	assert(giveup->status == stat_triggersawaited ||
 	       giveup->status == stat_triggerspending);
 	giveup->status = stat_halfconfigured;
 	modstatdb_note(giveup);
-	print_error_perpackage(_("triggers looping, abandoned"), giveup->name);
+	print_error_perpackage(_("triggers looping, abandoned"),
+	                       giveup->set->name);
 
 	return giveup;
 }
@@ -295,7 +300,7 @@ trigproc(struct pkginfo *pkg)
 	struct trigpend *tp;
 	struct pkginfo *gaveup;
 
-	debug(dbg_triggers, "trigproc %s", pkg->name);
+	debug(dbg_triggers, "trigproc %s", pkg->set->name);
 
 	if (pkg->clientdata->trigprocdeferred)
 		pkg->clientdata->trigprocdeferred->pkg = NULL;
@@ -309,7 +314,7 @@ trigproc(struct pkginfo *pkg)
 		if (gaveup == pkg)
 			return;
 
-		printf(_("Processing triggers for %s ...\n"), pkg->name);
+		printf(_("Processing triggers for %s ...\n"), pkg->set->name);
 		log_action("trigproc", pkg);
 
 		varbuf_reset(&namesarg);
@@ -352,7 +357,7 @@ transitional_interest_callback_ro(const char *trig, void *user,
 
 	debug(dbg_triggersdetail,
 	      "trig_transitional_interest_callback trig=%s pend=%s",
-	      trig, pend->name);
+	      trig, pend->set->name);
 	if (pend->status >= stat_triggersawaited)
 		trig_note_pend(pend, nfstrsave(trig));
 }
@@ -383,7 +388,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		if (pkg->status <= stat_halfinstalled)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
-		      pkg->name, statusinfos[pkg->status].name);
+		      pkg->set->name, statusinfos[pkg->status].name);
 		pkg->trigpend_head = NULL;
 		trig_parse_ci(pkgadminfile(pkg, TRIGGERSCIFILE),
 		              cstatus >= msdbrw_write ?

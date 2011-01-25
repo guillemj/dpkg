@@ -202,7 +202,8 @@ void
 push_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm)
 {
   if (cflict_index >= MAXCONFLICTORS)
-    ohshit(_("package %s has too many Conflicts/Replaces pairs"), pkg->name);
+    ohshit(_("package %s has too many Conflicts/Replaces pairs"),
+           pkg->set->name);
 
   conflictor[cflict_index++] = pkg_fixbyrm;
 }
@@ -323,7 +324,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
       continue;
     }
     if (strcmp(de->d_name, LISTFILE) == 0) {
-      warning(_("package %s contained list as info file"), pkg->name);
+      warning(_("package %s contained list as info file"), pkg->set->name);
       continue;
     }
 
@@ -366,15 +367,15 @@ static void
 pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 {
   printf(_("(Noting disappearance of %s, which has been completely replaced.)\n"),
-         pkg->name);
+         pkg->set->name);
   log_action("disappear", pkg);
-  debug(dbg_general, "pkg_disappear disappearing %s", pkg->name);
+  debug(dbg_general, "pkg_disappear disappearing %s", pkg->set->name);
 
   trig_activate_packageprocessing(pkg);
   maintainer_script_installed(pkg, POSTRMFILE,
                               "post-removal script (for disappearance)",
                               "disappear",
-                              infavour->name,
+                              infavour->set->name,
                               versiondescribe(&infavour->available.version,
                                               vdew_nonambig),
                               NULL);
@@ -491,7 +492,7 @@ void process_archive(const char *filename) {
   pkg->files->size = psize;
 
   if (cipaction->arg_int == act_avail) {
-    printf(_("Recorded info about %s from %s.\n"),pkg->name,pfilename);
+    printf(_("Recorded info about %s from %s.\n"), pkg->set->name, pfilename);
     pop_cleanup(ehflag_normaltidy);
     return;
   }
@@ -555,9 +556,10 @@ void process_archive(const char *filename) {
         } else {
           varbuf_end_str(&depprobwhy);
           fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
-                  pfilename, pkg->name, depprobwhy.buf);
+                  pfilename, pkg->set->name, depprobwhy.buf);
           if (!force_depends(dsearch->list))
-            ohshit(_("pre-dependency problem - not installing %.250s"),pkg->name);
+            ohshit(_("pre-dependency problem - not installing %.250s"),
+                   pkg->set->name);
           warning(_("ignoring pre-dependency problem!"));
         }
       }
@@ -575,12 +577,12 @@ void process_archive(const char *filename) {
 
   if (pkg->status != stat_notinstalled && pkg->status != stat_configfiles) {
     printf(_("Preparing to replace %s %s (using %s) ...\n"),
-           pkg->name,
+           pkg->set->name,
            versiondescribe(&pkg->installed.version,vdew_nonambig),
            pfilename);
     log_action("upgrade", pkg);
   } else {
-    printf(_("Unpacking %s (from %s) ...\n"),pkg->name,pfilename);
+    printf(_("Unpacking %s (from %s) ...\n"), pkg->set->name, pfilename);
     log_action("install", pkg);
   }
 
@@ -636,17 +638,17 @@ void process_archive(const char *filename) {
       while ((otherpkg = filepackages_iter_next(iter))) {
         debug(dbg_conffdetail,
               "process_archive conffile `%s' in package %s - conff ?",
-              newconff->namenode->name, otherpkg->name);
+              newconff->namenode->name, otherpkg->set->name);
         for (searchconff = otherpkg->installed.conffiles;
              searchconff && strcmp(newconff->namenode->name, searchconff->name);
              searchconff = searchconff->next)
           debug(dbg_conffdetail,
                 "process_archive conffile `%s' in package %s - conff ? not `%s'",
-                newconff->namenode->name, otherpkg->name, searchconff->name);
+                newconff->namenode->name, otherpkg->set->name, searchconff->name);
         if (searchconff) {
           debug(dbg_conff,
                 "process_archive conffile `%s' package=%s %s hash=%s",
-                newconff->namenode->name, otherpkg->name,
+                newconff->namenode->name, otherpkg->set->name,
                 otherpkg == pkg ? "same" : "different!",
                 searchconff->hash);
           if (otherpkg == pkg)
@@ -710,9 +712,9 @@ void process_archive(const char *filename) {
 
     if (removing)
       printf(_("De-configuring %s, to allow removal of %s ...\n"),
-             deconpil->pkg->name, removing->name);
+             deconpil->pkg->set->name, removing->set->name);
     else
-      printf(_("De-configuring %s ...\n"), deconpil->pkg->name);
+      printf(_("De-configuring %s ...\n"), deconpil->pkg->set->name);
 
     trig_activate_packageprocessing(deconpil->pkg);
     deconpil->pkg->status= stat_halfconfigured;
@@ -727,16 +729,16 @@ void process_archive(const char *filename) {
 
     if (removing) {
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
-                                  "deconfigure", "in-favour", pkg->name,
+                                  "deconfigure", "in-favour", pkg->set->name,
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
-                                  "removing", removing->name,
+                                  "removing", removing->set->name,
                                   versiondescribe(&removing->installed.version,
                                                   vdew_nonambig),
                                   NULL);
     } else {
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
-                                  "deconfigure", "in-favour", pkg->name,
+                                  "deconfigure", "in-favour", pkg->set->name,
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
                                   NULL);
@@ -754,7 +756,7 @@ void process_archive(const char *filename) {
     push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
                  2,(void*)conflictor[i],(void*)pkg);
     maintainer_script_installed(conflictor[i], PRERMFILE, "pre-removal",
-                                "remove", "in-favour", pkg->name,
+                                "remove", "in-favour", pkg->set->name,
                                 versiondescribe(&pkg->available.version,
                                                 vdew_nonambig),
                                 NULL);
@@ -786,7 +788,7 @@ void process_archive(const char *filename) {
                           "upgrade", versiondescribe(&pkg->installed.version,
                                                      vdew_nonambig),
                           NULL);
-    printf(_("Unpacking replacement %.250s ...\n"),pkg->name);
+    printf(_("Unpacking replacement %.250s ...\n"), pkg->set->name);
   }
 
   /*
@@ -1181,7 +1183,8 @@ void process_archive(const char *filename) {
         otherpkg->status == stat_configfiles ||
 	otherpkg->clientdata->istobe == itb_remove ||
         !otherpkg->clientdata->files) continue;
-    debug(dbg_veryverbose, "process_archive checking disappearance %s",otherpkg->name);
+    debug(dbg_veryverbose, "process_archive checking disappearance %s",
+          otherpkg->set->name);
     assert(otherpkg->clientdata->istobe == itb_normal ||
            otherpkg->clientdata->istobe == itb_deconfigure);
     for (cfile= otherpkg->clientdata->files;
@@ -1263,7 +1266,7 @@ void process_archive(const char *filename) {
       } else {
         debug(dbg_eachfile,
               "process_archive looking for overwriting `%s' (overridden by %s)",
-              cfile->namenode->name, divpkg ? divpkg->name : "<local>");
+              cfile->namenode->name, divpkg ? divpkg->set->name : "<local>");
       }
     } else {
       divpkg = NULL;
@@ -1272,7 +1275,8 @@ void process_archive(const char *filename) {
     }
     iter = filepackages_iter_new(cfile->namenode);
     while ((otherpkg = filepackages_iter_next(iter))) {
-      debug(dbg_eachfiledetail, "process_archive ... found in %s", otherpkg->name);
+      debug(dbg_eachfiledetail, "process_archive ... found in %s",
+            otherpkg->set->name);
       /* If !fileslistvalid then it's one of the disappeared packages above
        * and we don't bother with it here, clearly. */
       if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid)
@@ -1288,7 +1292,7 @@ void process_archive(const char *filename) {
       write_filelist_except(otherpkg, otherpkg->clientdata->files,
                             fnnf_elide_other_lists);
       ensure_package_clientdata(otherpkg);
-      debug(dbg_veryverbose, "process_archive overwrote from %s", otherpkg->name);
+      debug(dbg_veryverbose, "process_archive overwrote from %s", otherpkg->set->name);
     }
     filepackages_iter_free(iter);
   }

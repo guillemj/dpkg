@@ -108,16 +108,16 @@ void packagelist::redrawthisstate() {
   const char *section= table[cursorline]->pkg->section;
   const char *priority= pkgprioritystring(table[cursorline]->pkg);
   char *buf= new char[500+
-                      max((table[cursorline]->pkg->name ?
-                           strlen(table[cursorline]->pkg->name) : 0),
+                      max((table[cursorline]->pkg->set->name ?
+                           strlen(table[cursorline]->pkg->set->name) : 0),
                           (section ? strlen(section) : 0) +
                           (priority ? strlen(priority) : 0))];
 
-  if (table[cursorline]->pkg->name) {
+  if (table[cursorline]->pkg->set->name) {
     sprintf(buf,
             _("%-*s %s%s%s;  %s (was: %s).  %s"),
             package_width,
-            table[cursorline]->pkg->name,
+            table[cursorline]->pkg->set->name,
             gettext(statusstrings[table[cursorline]->pkg->status]),
             ((eflagstrings[table[cursorline]->pkg->eflag][0]==' ') &&
               (eflagstrings[table[cursorline]->pkg->eflag][1]=='\0'))  ? "" : " - ",
@@ -144,7 +144,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
   wattrset(listpad, selected ? listsel_attr : list_attr);
 
-  if (pkg->name) {
+  if (pkg->set->name) {
     if (verbose) {
       mvwprintw(listpad, screenline, 0, "%-*.*s ",
                 status_hold_width, status_hold_width,
@@ -199,7 +199,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
               pkg->section ? pkg->section : "?");
 
     mvwprintw(listpad, screenline, package_column - 1, " %-*.*s ",
-              package_width, package_width, pkg->name);
+              package_width, package_width, pkg->set->name);
 
     if (versioninstalled_width)
       mvwprintw(listpad, screenline, versioninstalled_column, "%-*.*s ",

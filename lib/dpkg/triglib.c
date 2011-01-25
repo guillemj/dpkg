@@ -221,7 +221,7 @@ trk_unknown_interest_change(const char *trig, struct pkginfo *pkg, int signum,
 {
 	ohshit(_("invalid or unknown syntax in trigger name `%.250s'"
 	         " (in trigger interests for package `%.250s')"),
-	       trig, pkg->name);
+	       trig, pkg->set->name);
 }
 
 static const struct trigkindinfo tki_unknown = {
@@ -362,15 +362,15 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum,
 	push_cleanup(cu_closestream, ~ehflag_normaltidy, NULL, 0, 1, nf);
 
 	while (trk_explicit_f && trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
-		int len = strlen(pkg->name);
-		if (strncmp(buf, pkg->name, len) == 0 &&
+		int len = strlen(pkg->set->name);
+		if (strncmp(buf, pkg->set->name, len) == 0 &&
 		    (buf[len] == '\0' || buf[len] == '/'))
 			continue;
 		fprintf(nf, "%s\n", buf);
 		empty = false;
 	}
 	if (signum > 0) {
-		fprintf(nf, "%s%s\n", pkg->name,
+		fprintf(nf, "%s%s\n", pkg->set->name,
 		        (opts == trig_noawait) ? "/noawait" : "");
 		empty = false;
 	}
@@ -454,7 +454,7 @@ found:
 	tfi->options = opts;
 	if (signum > 1)
 		ohshit(_("duplicate file trigger interest for filename `%.250s' "
-		         "and package `%.250s'"), trig, pkg->name);
+		         "and package `%.250s'"), trig, pkg->set->name);
 	if (signum > 0)
 		return;
 
@@ -486,7 +486,7 @@ trig_file_interests_update(void)
 
 	for (tfi = filetriggers.head; tfi; tfi = tfi->inoverall.next)
 		fprintf(nf, "%s %s%s\n", trigh.namenode_name(tfi->fnn),
-		        tfi->pkg->name,
+		        tfi->pkg->set->name,
 		        (tfi->options == trig_noawait) ? "/noawait" : "");
 
 	if (ferror(nf))

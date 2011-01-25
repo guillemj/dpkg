@@ -334,8 +334,8 @@ check_new_pkg(const char *dir)
   m_asprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
   parsedb(controlfile, pdb_recordavailable | pdb_rejectstatus, &pkg);
 
-  if (strspn(pkg->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
-      strlen(pkg->name))
+  if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
+      strlen(pkg->set->name))
     ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
   if (pkg->priority == pri_other)
     warning(_("'%s' contains user-defined Priority value '%s'"),
@@ -375,7 +375,7 @@ pkg_get_pathname(const char *dir, struct pkginfo *pkg)
 
   versionstring = versiondescribe(&pkg->available.version, vdew_never);
   arch_sep = pkg->available.arch->type == arch_none ? "" : "_";
-  m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->name, versionstring,
+  m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->set->name, versionstring,
              arch_sep, pkg->available.arch->name, DEBEXT);
 
   return path;
@@ -436,7 +436,8 @@ do_build(const char *const *argv)
     pkg = check_new_pkg(dir);
     if (subdir)
       debar = pkg_get_pathname(debar, pkg);
-    printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
+    printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->set->name,
+           debar);
   }
   m_output(stdout, _("<standard output>"));
 

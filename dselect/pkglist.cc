@@ -51,9 +51,11 @@ int packagelist::compareentries(const struct perpackagestate *a,
   }
 
   const char *asection= a->pkg->section;
-  if (!asection && a->pkg->name) asection= "";
+  if (!asection && a->pkg->set->name)
+    asection = "";
   const char *bsection= b->pkg->section;
-  if (!bsection && b->pkg->name) bsection= "";
+  if (!bsection && b->pkg->set->name)
+    bsection = "";
   int c_section=
     !asection || !bsection ?
       (!bsection) - (!asection) :
@@ -65,9 +67,9 @@ int packagelist::compareentries(const struct perpackagestate *a,
   if (!c_priority && a->pkg->priority == pkginfo::pri_other)
     c_priority= strcasecmp(a->pkg->otherpriority, b->pkg->otherpriority);
   int c_name=
-    a->pkg->name && b->pkg->name ?
-      strcasecmp(a->pkg->name, b->pkg->name) :
-    (!b->pkg->name) - (!a->pkg->name);
+    a->pkg->set->name && b->pkg->set->name ?
+      strcasecmp(a->pkg->set->name, b->pkg->set->name) :
+    (!b->pkg->set->name) - (!a->pkg->set->name);
 
   switch (sortorder) {
   case so_section:
@@ -87,7 +89,7 @@ int packagelist::compareentries(const struct perpackagestate *a,
 void packagelist::discardheadings() {
   int a,b;
   for (a=0, b=0; a<nitems; a++) {
-    if (table[a]->pkg->name) {
+    if (table[a]->pkg->set->name) {
       table[b++]= table[a];
     }
   }
@@ -97,7 +99,7 @@ void packagelist::discardheadings() {
   head= headings;
   while (head) {
     next= head->uprec;
-    delete head->pkg;
+    delete head->pkg->set;
     delete head;
     head= next;
   }
@@ -123,8 +125,10 @@ void packagelist::addheading(enum ssavailval ssavail,
         otherpriority ? otherpriority : "<null>",
         section ? section : "<null>");
 
-  struct pkginfo *newhead= new pkginfo;
-  newhead->name= 0;
+  struct pkgset *newset = new pkgset;
+  newset->name = NULL;
+  struct pkginfo *newhead = &newset->pkg;
+  newhead->set = newset;
   newhead->priority= priority;
   newhead->otherpriority= otherpriority;
   newhead->section= section;
@@ -174,7 +178,7 @@ void packagelist::ensurestatsortinfo() {
     if (calcssadone) return;
     for (index=0; index < nitems; index++) {
       debug(dbg_general, "packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s",
-            this, index, table[index]->pkg->name);
+            this, index, table[index]->pkg->set->name);
       pkg= table[index]->pkg;
       switch (pkg->status) {
       case pkginfo::stat_unpacked:
@@ -224,7 +228,7 @@ void packagelist::ensurestatsortinfo() {
     if (calcsssdone) return;
     for (index=0; index < nitems; index++) {
       debug(dbg_general, "packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s",
-            this, index, table[index]->pkg->name);
+            this, index, table[index]->pkg->set->name);
       switch (table[index]->pkg->status) {
       case pkginfo::stat_unpacked:
       case pkginfo::stat_halfconfigured:
@@ -281,7 +285,7 @@ void packagelist::sortmakeheads() {
   int a;
   for (a=0; a<nrealitems; a++) {
     thispkg= table[a]->pkg;
-    assert(thispkg->name);
+    assert(thispkg->set->name);
     int ssdiff= 0;
     ssavailval ssavail= ssa_none;
     ssstateval ssstate= sss_none;
@@ -311,7 +315,7 @@ void packagelist::sortmakeheads() {
     debug(dbg_general,
           "packagelist[%p]::sortmakeheads() pkg=%s  state=%d avail=%d %s  "
           "priority=%d otherpriority=%s %s  section=%s %s",
-          this, thispkg->name,
+          this, thispkg->set->name,
           thispkg->clientdata->ssavail, thispkg->clientdata->ssstate,
           ssdiff ? "*diff" : "same",
           thispkg->priority,
@@ -440,7 +444,7 @@ packagelist::packagelist(keybindings *kb, pkginfo **pkgltab) : baselist(kb) {
 }
 
 void perpackagestate::free(int recursive) {
-  if (pkg->name) {
+  if (pkg->set->name) {
     if (readwrite) {
       if (uprec) {
         assert(recursive);
@@ -604,7 +608,7 @@ pkginfo **packagelist::display() {
   } else {
     packagelist *sub= new packagelist(bindings,0);
     for (index=0; index < nitems; index++)
-      if (table[index]->pkg->name)
+      if (table[index]->pkg->set->name)
         sub->add(table[index]->pkg);
     repeatedlydisplay(sub,dp_must);
     debug(dbg_general,

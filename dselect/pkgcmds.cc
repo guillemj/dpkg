@@ -60,13 +60,13 @@ packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith) {
 }
 
 void packagelist::affectedrange(int *startp, int *endp) {
-  if (table[cursorline]->pkg->name) {
+  if (table[cursorline]->pkg->set->name) {
     *startp= cursorline;
     *endp= cursorline+1;
     return;
   }
   int index = cursorline;
-  while (index < nitems && !table[index]->pkg->name)
+  while (index < nitems && !table[index]->pkg->set->name)
     index++;
   if (index >= nitems) {
     *startp= *endp= cursorline;
@@ -113,7 +113,8 @@ void packagelist::setwant(pkginfo::pkgwant nwarg) {
 
     affectedrange(&top,&bot);
     for (index= top; index < bot; index++) {
-      if (!table[index]->pkg->name) continue;
+      if (!table[index]->pkg->set->name)
+        continue;
       nw= reallywant(nwarg,table[index]);
       if (table[index]->selected == nw ||
           (table[index]->selected == pkginfo::want_purge &&
@@ -144,7 +145,7 @@ void packagelist::kd_purge()    { setwant(pkginfo::want_purge);     }
 int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
   /* Returns: 1 for yes, 0 for no, -1 for if they want to preserve an error condition. */
   debug(dbg_general, "would_like_to_install(%d, %s) status %d",
-        wantvalue, pkg->name, pkg->status);
+        wantvalue, pkg->set->name, pkg->status);
 
   if (wantvalue == pkginfo::want_install) return 1;
   if (wantvalue != pkginfo::want_hold) return 0;
@@ -155,7 +156,7 @@ int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
 }
 
 const char *packagelist::itemname(int index) {
-  return table[index]->pkg->name;
+  return table[index]->pkg->set->name;
 }
 
 void packagelist::kd_swapstatorder() {
@@ -181,14 +182,15 @@ void packagelist::kd_swaporder() {
 }
 
 void packagelist::resortredisplay() {
-  const char *oldname= table[cursorline]->pkg->name;
+  const char *oldname = table[cursorline]->pkg->set->name;
   sortmakeheads();
   int newcursor;
   newcursor= 0;
   if (oldname) {
     int index;
     for (index=0; index<nitems; index++) {
-      if (table[index]->pkg->name && !strcasecmp(oldname,table[index]->pkg->name)) {
+      if (table[index]->pkg->set->name &&
+          !strcasecmp(oldname, table[index]->pkg->set->name)) {
         newcursor= index;
         break;
       }
@@ -238,7 +240,7 @@ void packagelist::kd_quit_noop() { }
 void packagelist::kd_revert_abort() {
   int index;
   for (index=0; index<nitems; index++) {
-    if (table[index]->pkg->name)
+    if (table[index]->pkg->set->name)
       table[index]->selected= table[index]->original;
     ldrawnstart= ldrawnend= -1;
   }
@@ -248,7 +250,7 @@ void packagelist::kd_revert_abort() {
 void packagelist::kd_revertdirect() {
   int index;
   for (index=0; index<nitems; index++) {
-    if (table[index]->pkg->name)
+    if (table[index]->pkg->set->name)
       table[index]->selected= table[index]->direct;
     ldrawnstart= ldrawnend= -1;
   }
@@ -258,7 +260,7 @@ void packagelist::kd_revertdirect() {
 void packagelist::kd_revertsuggest() {
   int index;
   for (index=0; index<nitems; index++) {
-    if (table[index]->pkg->name)
+    if (table[index]->pkg->set->name)
       table[index]->selected= table[index]->suggested;
     ldrawnstart= ldrawnend= -1;
   }
@@ -271,7 +273,7 @@ packagelist::kd_revertinstalled()
   int i;
 
   for (i = 0; i < nitems; i++) {
-    if (table[i]->pkg->name)
+    if (table[i]->pkg->set->name)
       table[i]->selected = reallywant(pkginfo::want_sentinel, table[i]);
     ldrawnstart = ldrawnend = -1;
   }

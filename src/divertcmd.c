@@ -270,7 +270,7 @@ diversion_pkg_name(struct diversion *d)
 	if (d->pkg == NULL)
 		return ":";
 	else
-		return d->pkg->name;
+		return d->pkg->set->name;
 }
 
 static const char *
@@ -335,7 +335,7 @@ diversion_describe(struct diversion *d)
 	if (d->pkg == NULL)
 		pkgname = NULL;
 	else
-		pkgname = d->pkg->name;
+		pkgname = d->pkg->set->name;
 
 	return varbuf_diversion(&str, pkgname, name_from, name_to);
 }
@@ -640,7 +640,7 @@ diversion_listpackage(const char *const *argv)
 		 * namespace. */
 		printf("LOCAL\n");
 	else
-		printf("%s\n", namenode->divert->pkg->name);
+		printf("%s\n", namenode->divert->pkg->set->name);
 
 	return 0;
 }

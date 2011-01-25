@@ -78,7 +78,6 @@ pkg_db_find(const char *inname)
   pkgset_blank(newpkg);
   newpkg->name= nfstrsave(name);
   newpkg->next= NULL;
-  newpkg->pkg.name = newpkg->name;
   *pointerp= newpkg;
   npackages++;
 

@@ -166,7 +166,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		strcpy(cdr2rest, DPKGOLDEXT);
 		if (unlink(cdr2.buf) && errno != ENOENT)
 			warning(_("%s: failed to remove old backup '%.250s': %s"),
-			        pkg->name, cdr2.buf, strerror(errno));
+			        pkg->set->name, cdr2.buf, strerror(errno));
 
 		varbuf_add_str(&cdr, DPKGDISTEXT);
 		varbuf_end_str(&cdr);
@@ -174,27 +174,27 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		trig_file_activate(usenode, pkg);
 		if (rename(cdr2.buf, cdr.buf))
 			warning(_("%s: failed to rename '%.250s' to '%.250s': %s"),
-			        pkg->name, cdr2.buf, cdr.buf, strerror(errno));
+			        pkg->set->name, cdr2.buf, cdr.buf, strerror(errno));
 		break;
 	case cfo_keep:
 		strcpy(cdr2rest, DPKGNEWEXT);
 		if (unlink(cdr2.buf))
 			warning(_("%s: failed to remove '%.250s': %s"),
-			        pkg->name, cdr2.buf, strerror(errno));
+			        pkg->set->name, cdr2.buf, strerror(errno));
 		break;
 	case cfo_install | cfof_backup:
 		strcpy(cdr2rest, DPKGDISTEXT);
 		if (unlink(cdr2.buf) && errno != ENOENT)
 			warning(_("%s: failed to remove old distributed version '%.250s': %s"),
-			        pkg->name, cdr2.buf, strerror(errno));
+			        pkg->set->name, cdr2.buf, strerror(errno));
 		strcpy(cdr2rest, DPKGOLDEXT);
 		if (unlink(cdr2.buf) && errno != ENOENT)
 			warning(_("%s: failed to remove '%.250s' (before overwrite): %s"),
-			        pkg->name, cdr2.buf, strerror(errno));
+			        pkg->set->name, cdr2.buf, strerror(errno));
 		if (!(what & cfof_userrmd))
 			if (link(cdr.buf, cdr2.buf))
 				warning(_("%s: failed to link '%.250s' to '%.250s': %s"),
-				        pkg->name, cdr.buf, cdr2.buf, strerror(errno));
+				        pkg->set->name, cdr.buf, cdr2.buf, strerror(errno));
 		/* Fall through. */
 	case cfo_install:
 		printf(_("Installing new version of config file %s ...\n"),
@@ -255,14 +255,14 @@ deferred_configure(struct pkginfo *pkg)
 
 	if (pkg->status == stat_notinstalled)
 		ohshit(_("no package named `%s' is installed, cannot configure"),
-		       pkg->name);
+		       pkg->set->name);
 	if (pkg->status == stat_installed)
 		ohshit(_("package %.250s is already installed and configured"),
-		       pkg->name);
+		       pkg->set->name);
 	if (pkg->status != stat_unpacked && pkg->status != stat_halfconfigured)
 		ohshit(_("package %.250s is not ready for configuration\n"
 		         " cannot configure (current status `%.250s')"),
-		       pkg->name, statusinfos[pkg->status].name);
+		       pkg->set->name, statusinfos[pkg->status].name);
 
 	if (dependtry > 1)
 		if (findbreakcycle(pkg))
@@ -292,14 +292,14 @@ deferred_configure(struct pkginfo *pkg)
 		varbuf_end_str(&aemsgs);
 		fprintf(stderr,
 		        _("dpkg: dependency problems prevent configuration of %s:\n%s"),
-		        pkg->name, aemsgs.buf);
+		        pkg->set->name, aemsgs.buf);
 		varbuf_destroy(&aemsgs);
 		ohshit(_("dependency problems - leaving unconfigured"));
 	} else if (aemsgs.used) {
 		varbuf_end_str(&aemsgs);
 		fprintf(stderr,
 		        _("dpkg: %s: dependency problems, but configuring anyway as you requested:\n%s"),
-		        pkg->name, aemsgs.buf);
+		        pkg->set->name, aemsgs.buf);
 	}
 	varbuf_destroy(&aemsgs);
 	sincenothing = 0;
@@ -309,7 +309,7 @@ deferred_configure(struct pkginfo *pkg)
 		            _("Package is in a very bad inconsistent state - you should\n"
 		              " reinstall it before attempting configuration."));
 
-	printf(_("Setting up %s (%s) ...\n"), pkg->name,
+	printf(_("Setting up %s (%s) ...\n"), pkg->set->name,
 	       versiondescribe(&pkg->installed.version, vdew_nonambig));
 	log_action("configure", pkg);
 
@@ -395,7 +395,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			if (errno != ENOENT)
 				warning(_("%s: unable to stat config file '%s'\n"
 				          " (= '%s'): %s"),
-				        pkg->name, in, result->buf, strerror(errno));
+				        pkg->set->name, in, result->buf, strerror(errno));
 			debug(dbg_conffdetail, "conffderef nonexistent");
 			return 0;
 		} else if (S_ISREG(stab.st_mode)) {
@@ -407,7 +407,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			      loopprotect);
 			if (loopprotect++ >= 25) {
 				warning(_("%s: config file '%s' is a circular link\n"
-				          " (= '%s')"), pkg->name, in, result->buf);
+				          " (= '%s')"), pkg->set->name, in, result->buf);
 				return -1;
 			}
 
@@ -417,7 +417,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			if (r < 0) {
 				warning(_("%s: unable to readlink conffile '%s'\n"
 				          " (= '%s'): %s"),
-				        pkg->name, in, result->buf, strerror(errno));
+				        pkg->set->name, in, result->buf, strerror(errno));
 				return -1;
 			} else if (r != stab.st_size) {
 				warning(_("symbolic link '%.250s' size has "
@@ -443,7 +443,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				if (r < 0) {
 					warning(_("%s: conffile '%.250s' resolves to degenerate filename\n"
 					          " ('%s' is a symlink to '%s')"),
-					        pkg->name, in, result->buf,
+					        pkg->set->name, in, result->buf,
 					        target.buf);
 					return -1;
 				}
@@ -458,7 +458,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			varbuf_end_str(result);
 		} else {
 			warning(_("%s: conffile '%.250s' is not a plain file or symlink (= '%s')"),
-			        pkg->name, in, result->buf);
+			        pkg->set->name, in, result->buf);
 			return -1;
 		}
 	}
@@ -490,7 +490,7 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 		strcpy(hashbuf, NONEXISTENTFLAG);
 	} else {
 		warning(_("%s: unable to open conffile %s for hash: %s"),
-		        pkg->name, fn, strerror(errno));
+		        pkg->set->name, fn, strerror(errno));
 		strcpy(hashbuf, "-");
 	}
 }

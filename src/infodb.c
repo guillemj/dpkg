@@ -86,8 +86,8 @@ pkg_infodb_foreach(struct pkginfo *pkg, pkg_infodb_file_func *func)
 			continue;
 
 		/* Ignore files from other packages. */
-		if (strlen(pkg->name) != (size_t)(dot - db_de->d_name) ||
-		    strncmp(db_de->d_name, pkg->name, dot - db_de->d_name))
+		if (strlen(pkg->set->name) != (size_t)(dot - db_de->d_name) ||
+		    strncmp(db_de->d_name, pkg->set->name, dot - db_de->d_name))
 			continue;
 
 		debug(dbg_stupidlyverbose, "infodb foreach file this pkg");

@@ -89,7 +89,7 @@ f_name(struct pkginfo *pigp, struct pkgbin *pifp,
   if (e != NULL)
     parse_error(ps, _("invalid package name (%.250s)"), e);
   /* We use the new name, as pkg_db_find() may have done a tolower for us. */
-  pigp->name = pkg_db_find(value)->name;
+  pigp->set->name = pkg_db_find(value)->set->name;
 }
 
 void

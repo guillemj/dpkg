@@ -119,13 +119,13 @@ static void describebriefly(struct pkginfo *pkg) {
   const char *pdesc;
 
   maxl= 57;
-  l= strlen(pkg->name);
+  l= strlen(pkg->set->name);
   if (l>20) maxl -= (l-20);
 
   pdesc = pkg_summary(pkg, &l);
   l = min(l, maxl);
 
-  printf(" %-20s %.*s\n",pkg->name,l,pdesc);
+  printf(" %-20s %.*s\n", pkg->set->name, l, pdesc);
 }
 
 int
@@ -256,9 +256,10 @@ unpackchk(const char *const *argv)
       while ((pkg = pkg_db_iter_next(it))) {
         if (!yettobeunpacked(pkg,&thissect)) continue;
         if (strcasecmp(thissect,se->name)) continue;
-        width -= strlen(pkg->name); width--;
+        width -= strlen(pkg->set->name);
+        width--;
         if (width < 4) { printf(" ..."); break; }
-        printf(" %s",pkg->name);
+        printf(" %s", pkg->set->name);
       }
       pkg_db_iter_free(it);
       putchar('\n');
@@ -434,7 +435,7 @@ predeppackage(const char *const *argv)
       varbuf_end_str(&vb);
       fprintf(stderr, _("dpkg: cannot see how to satisfy pre-dependency:\n %s\n"),vb.buf);
       ohshit(_("cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"),
-             dep->up->name,startpkg->name);
+             dep->up->set->name, startpkg->set->name);
     }
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {

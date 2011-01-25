@@ -144,16 +144,16 @@ void cu_prermdeconfigure(int argc, void **argv) {
 
   if (conflictor) {
     maintainer_script_postinst(deconf, "abort-deconfigure",
-                               "in-favour", infavour->name,
+                               "in-favour", infavour->set->name,
                                versiondescribe(&infavour->available.version,
                                                vdew_nonambig),
-                               "removing", conflictor->name,
+                               "removing", conflictor->set->name,
                                versiondescribe(&conflictor->installed.version,
                                                vdew_nonambig),
                                NULL);
   } else {
     maintainer_script_postinst(deconf, "abort-deconfigure",
-                               "in-favour", infavour->name,
+                               "in-favour", infavour->set->name,
                                versiondescribe(&infavour->available.version,
                                                vdew_nonambig),
                                NULL);
@@ -168,7 +168,7 @@ void cu_prerminfavour(int argc, void **argv) {
 
   if (cleanup_conflictor_failed++) return;
   maintainer_script_postinst(conflictor, "abort-remove",
-                             "in-favour", infavour->name,
+                             "in-favour", infavour->set->name,
                              versiondescribe(&infavour->available.version,
                                              vdew_nonambig),
                              NULL);

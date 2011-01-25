@@ -102,7 +102,7 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
     for (i = 0; i < array->n_pkgs; i++) {
       int plen, vlen, dlen;
 
-      plen = strlen(array->pkgs[i]->name);
+      plen = strlen(array->pkgs[i]->set->name);
       vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
                                     vdew_nonambig));
       pkg_summary(array->pkgs[i], &dlen);
@@ -190,7 +190,7 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
          "uihrp"[pkg->want],
          "ncHUFWti"[pkg->status],
          " R"[pkg->eflag],
-         pkg->name,
+         pkg->set->name,
          versiondescribe(&pkg->installed.version, vdew_nonambig),
          l, pdesc);
 }
@@ -231,7 +231,7 @@ listpackages(const char *const *argv)
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
-        if (!fnmatch(argv[ip], pkg->name, 0)) {
+        if (!fnmatch(argv[ip], pkg->set->name, 0)) {
           list1package(pkg, &fmt, &array);
           found[ip]++;
           break;
@@ -271,9 +271,9 @@ static int searchoutput(struct filenamenode *namenode) {
 
     if (namenode->divert->pkg) {
       printf(_("diversion by %s from: %s\n"),
-             namenode->divert->pkg->name, name_from);
+             namenode->divert->pkg->set->name, name_from);
       printf(_("diversion by %s to: %s\n"),
-             namenode->divert->pkg->name, name_to);
+             namenode->divert->pkg->set->name, name_to);
     } else {
       printf(_("local diversion from: %s\n"), name_from);
       printf(_("local diversion to: %s\n"), name_to);
@@ -285,7 +285,7 @@ static int searchoutput(struct filenamenode *namenode) {
   while ((pkg_owner = filepackages_iter_next(iter))) {
     if (found)
       fputs(", ", stdout);
-    fputs(pkg_owner->name, stdout);
+    fputs(pkg_owner->set->name, stdout);
     found++;
   }
   filepackages_iter_free(iter);
@@ -390,7 +390,7 @@ enqperpackage(const char *const *argv)
           !pkg->files &&
           pkg->want == want_unknown &&
           !pkg_is_informative(pkg, &pkg->installed)) {
-        fprintf(stderr,_("Package `%s' is not installed and no info is available.\n"),pkg->name);
+        fprintf(stderr, _("Package `%s' is not installed and no info is available.\n"), pkg->set->name);
         failures++;
       } else {
         writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
@@ -398,7 +398,7 @@ enqperpackage(const char *const *argv)
       break;
     case act_printavail:
       if (!pkg_is_informative(pkg, &pkg->available)) {
-        fprintf(stderr,_("Package `%s' is not available.\n"),pkg->name);
+        fprintf(stderr, _("Package `%s' is not available.\n"), pkg->set->name);
         failures++;
       } else {
         writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
@@ -407,7 +407,7 @@ enqperpackage(const char *const *argv)
     case act_listfiles:
       switch (pkg->status) {
       case stat_notinstalled:
-        fprintf(stderr,_("Package `%s' is not installed.\n"),pkg->name);
+        fprintf(stderr, _("Package `%s' is not installed.\n"), pkg->set->name);
         failures++;
         break;
       default:
@@ -415,7 +415,8 @@ enqperpackage(const char *const *argv)
         ensure_diversions();
         file= pkg->clientdata->files;
         if (!file) {
-          printf(_("Package `%s' does not contain any files (!)\n"),pkg->name);
+          printf(_("Package `%s' does not contain any files (!)\n"),
+                 pkg->set->name);
         } else {
           while (file) {
             namenode= file->namenode;
@@ -429,7 +430,7 @@ enqperpackage(const char *const *argv)
 		       namenode->divert->useinstead->name);
               else
 		printf(_("diverted by %s to: %s\n"),
-		       namenode->divert->pkg->name,
+		       namenode->divert->pkg->set->name,
 		       namenode->divert->useinstead->name);
             }
             file= file->next;
@@ -496,7 +497,7 @@ showpackages(const char *const *argv)
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
-        if (!fnmatch(argv[ip], pkg->name, 0)) {
+        if (!fnmatch(argv[ip], pkg->set->name, 0)) {
           pkg_format_show(fmt, pkg, &pkg->installed);
           found[ip]++;
           break;
@@ -582,7 +583,7 @@ control_path(const char *const *argv)
 
   pkg = pkg_db_find(pkg_name);
   if (pkg->status == stat_notinstalled)
-    ohshit(_("Package `%s' is not installed.\n"), pkg->name);
+    ohshit(_("Package `%s' is not installed.\n"), pkg->set->name);
 
   if (control_file)
     control_path_file(pkg, control_file);
