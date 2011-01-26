@@ -17,7 +17,8 @@ DPKG_UNPACK = $(BEROOT) $(DPKG) --unpack
 DPKG_CONFIGURE = $(BEROOT) $(DPKG) --configure
 DPKG_REMOVE = $(BEROOT) $(DPKG) -r
 DPKG_PURGE = $(BEROOT) $(DPKG) -P
-DPKG_BUILD_DEB := dpkg-deb -b
+DPKG_DEB := dpkg-deb $(DPKG_DEB_OPTIONS)
+DPKG_BUILD_DEB := $(DPKG_DEB) -b
 DPKG_BUILD_DSC := dpkg-source -b
 DPKG_QUERY := dpkg-query $(DPKG_OPTIONS)
 
