@@ -6,10 +6,12 @@
 
 TESTS := \
 	t-normal \
+	t-control-bogus \
 	t-unpack-symlink \
 	t-unpack-hardlink \
 	t-unpack-fifo \
 	t-unpack-device \
+	t-filtering \
 	t-disappear \
 	t-disappear-empty \
 	t-disappear-depended \
@@ -22,15 +24,18 @@ TESTS := \
 	t-conffile-orphan \
 	t-conffile-prompt \
 	t-conffile-forcenew \
+	t-conffile-forceask \
 	t-conffile-divert-normal \
 	t-conffile-divert-conffile \
 	t-conffile-conflict \
 	t-conffile-replaces \
-	t-conffile-rename \
 	t-conffile-replaces-upgrade \
+	t-conffile-replaces-downgrade \
 	t-conffile-replaces-existing \
 	t-conffile-replaces-existing-and-upgrade \
 	t-conffile-replaces-disappear \
+	t-conffile-versioned-replaces-downgrade \
+	t-conffile-rename \
 	t-package-type \
 	t-symlink-dir \
 	t-substvars \
