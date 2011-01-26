@@ -4,7 +4,16 @@
 # Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
 #
 
-TESTS := \
+TESTS_MANUAL := \
+	t-conffile-prompt \
+
+TESTS_FAIL := \
+	t-disappear-depended \
+	t-conffile-divert-conffile \
+	t-conffile-replaces-upgrade \
+	t-conffile-replaces-existing-and-upgrade \
+
+TESTS_PASS := \
 	t-normal \
 	t-control-bogus \
 	t-unpack-symlink \
@@ -14,7 +23,6 @@ TESTS := \
 	t-filtering \
 	t-disappear \
 	t-disappear-empty \
-	t-disappear-depended \
 	t-conflict \
 	t-conflict-provide-replace-real \
 	t-conflict-provide-replace-virtual \
@@ -22,17 +30,13 @@ TESTS := \
 	t-file-replaces-disappear \
 	t-conffile-obsolete \
 	t-conffile-orphan \
-	t-conffile-prompt \
 	t-conffile-forcenew \
 	t-conffile-forceask \
 	t-conffile-divert-normal \
-	t-conffile-divert-conffile \
 	t-conffile-conflict \
 	t-conffile-replaces \
-	t-conffile-replaces-upgrade \
 	t-conffile-replaces-downgrade \
 	t-conffile-replaces-existing \
-	t-conffile-replaces-existing-and-upgrade \
 	t-conffile-replaces-disappear \
 	t-conffile-versioned-replaces-downgrade \
 	t-conffile-rename \
@@ -41,6 +45,12 @@ TESTS := \
 	t-substvars \
 	t-failinst-failrm \
 	t-dir-extension-check
+
+ifneq (,$(filter test-all,$(DPKG_TESTSUITE_OPTIONS)))
+TESTS := $(TESTS_PASS) $(TESTS_FAIL) $(TESTS_MANUAL)
+else
+TESTS := $(TESTS_PASS)
+endif
 
 
 # By default do nothing
