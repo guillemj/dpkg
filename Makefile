@@ -4,7 +4,39 @@
 # Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
 #
 
-TESTS := $(wildcard t-*)
+TESTS := \
+	t-normal \
+	t-unpack-symlink \
+	t-unpack-hardlink \
+	t-unpack-fifo \
+	t-unpack-device \
+	t-disappear \
+	t-disappear-empty \
+	t-disappear-depended \
+	t-conflict \
+	t-conflict-provide-replace-real \
+	t-conflict-provide-replace-virtual \
+	t-file-replaces \
+	t-file-replaces-disappear \
+	t-conffile-obsolete \
+	t-conffile-orphan \
+	t-conffile-prompt \
+	t-conffile-forcenew \
+	t-conffile-divert-normal \
+	t-conffile-divert-conffile \
+	t-conffile-conflict \
+	t-conffile-replaces \
+	t-conffile-rename \
+	t-conffile-replaces-upgrade \
+	t-conffile-replaces-existing \
+	t-conffile-replaces-existing-and-upgrade \
+	t-conffile-replaces-disappear \
+	t-package-type \
+	t-symlink-dir \
+	t-substvars \
+	t-failinst-failrm \
+	t-dir-extension-check
+
 
 # By default do nothing
 all::
