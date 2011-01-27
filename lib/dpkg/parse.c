@@ -292,12 +292,6 @@ pkg_parse_copy(struct parsedb_state *ps,
   /* Sort out the dependency mess. */
   copy_dependency_links(dst_pkg, &dst_pkgbin->depends, src_pkgbin->depends,
                         (ps->flags & pdb_recordavailable) ? true : false);
-  /* Leave the ‘depended’ pointer alone, we've just gone to such
-   * trouble to get it right :-). The ‘depends’ pointer in
-   * dst_pkgbin was indeed also updated by copy_dependency_links,
-   * but since the value was that from src_pkgbin anyway there's
-   * no need to copy it back. */
-  src_pkgbin->depended = dst_pkgbin->depended;
 
   /* Copy across data. */
   memcpy(dst_pkgbin, src_pkgbin, sizeof(struct pkgbin));
@@ -612,8 +606,7 @@ void copy_dependency_links(struct pkginfo *pkg,
                            bool available)
 {
   struct dependency *dyp;
-  struct deppossi *dop;
-  struct pkgbin *addtopifp;
+  struct deppossi *dop, **revdeps;
 
   /* Delete ‘backward’ (‘depended’) links from other packages to
    * dependencies listed in old version of this one. We do this by
@@ -626,9 +619,9 @@ void copy_dependency_links(struct pkginfo *pkg,
         dop->rev_prev->rev_next = dop->rev_next;
       else
         if (available)
-          dop->ed->available.depended = dop->rev_next;
+          dop->ed->set->depended.available = dop->rev_next;
         else
-          dop->ed->installed.depended = dop->rev_next;
+          dop->ed->set->depended.installed = dop->rev_next;
       if (dop->rev_next)
         dop->rev_next->rev_prev = dop->rev_prev;
     }
@@ -639,12 +632,13 @@ void copy_dependency_links(struct pkginfo *pkg,
   for (dyp= newdepends; dyp; dyp= dyp->next) {
     dyp->up= pkg;
     for (dop= dyp->list; dop; dop= dop->next) {
-      addtopifp= available ? &dop->ed->available : &dop->ed->installed;
-      dop->rev_next = addtopifp->depended;
+      revdeps = available ? &dop->ed->set->depended.available :
+                            &dop->ed->set->depended.installed;
+      dop->rev_next = *revdeps;
       dop->rev_prev = NULL;
-      if (addtopifp->depended)
-        addtopifp->depended->rev_prev = dop;
-      addtopifp->depended= dop;
+      if (*revdeps)
+        (*revdeps)->rev_prev = dop;
+      *revdeps = dop;
     }
   }
 

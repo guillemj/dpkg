@@ -33,7 +33,6 @@ pkgbin_blank(struct pkgbin *pkgbin)
 	pkgbin->essential = false;
 	pkgbin->multiarch = multiarch_no;
 	pkgbin->depends = NULL;
-	pkgbin->depended = NULL;
 	pkgbin->description = NULL;
 	pkgbin->maintainer = NULL;
 	pkgbin->source = NULL;
@@ -73,6 +72,8 @@ void
 pkgset_blank(struct pkgset *set)
 {
 	set->name = NULL;
+	set->depended.available = NULL;
+	set->depended.installed = NULL;
 	pkg_blank(&set->pkg);
 	set->pkg.set = set;
 }

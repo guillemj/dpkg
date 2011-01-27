@@ -532,7 +532,7 @@ void process_archive(const char *filename) {
       break;
     case dep_provides:
       /* Look for things that conflict with what we provide. */
-      for (psearch = dsearch->list->ed->installed.depended;
+      for (psearch = dsearch->list->ed->set->depended.installed;
            psearch;
            psearch = psearch->rev_next) {
         if (psearch->up->type != dep_conflicts)
@@ -564,7 +564,7 @@ void process_archive(const char *filename) {
     }
   }
   /* Look for things that conflict with us. */
-  for (psearch = pkg->installed.depended; psearch; psearch = psearch->rev_next) {
+  for (psearch = pkg->set->depended.installed; psearch; psearch = psearch->rev_next) {
     if (psearch->up->type != dep_conflicts) continue;
     check_conflict(psearch->up, pkg, pfilename);
   }
@@ -1135,10 +1135,7 @@ void process_archive(const char *filename) {
    * structure pointer for this package into the right field. */
   copy_dependency_links(pkg,&pkg->installed.depends,newdeplist,0);
 
-  /* The ‘depended’ pointer in the structure doesn't represent anything
-   * that is actually specified by this package - it's there so we
-   * can find out what other packages refer to this one. So,
-   * we don't copy it. We go straight on to copy the text fields. */
+  /* We copy the text fields. */
   pkg->installed.essential= pkg->available.essential;
   pkg->installed.multiarch = pkg->available.multiarch;
   pkg->installed.description= pkg->available.description;
@@ -1202,7 +1199,7 @@ void process_archive(const char *filename) {
     /* So dependency things will give right answers ... */
     otherpkg->clientdata->istobe= itb_remove;
     debug(dbg_veryverbose, "process_archive disappear checking dependencies");
-    for (pdep= otherpkg->installed.depended;
+    for (pdep = otherpkg->set->depended.installed;
          pdep;
          pdep = pdep->rev_next) {
       if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
@@ -1219,7 +1216,7 @@ void process_archive(const char *filename) {
            providecheck;
            providecheck= providecheck->next) {
         if (providecheck->type != dep_provides) continue;
-        for (pdep= providecheck->list->ed->installed.depended;
+        for (pdep = providecheck->list->ed->set->depended.installed;
              pdep;
              pdep = pdep->rev_next) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&

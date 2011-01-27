@@ -107,7 +107,6 @@ struct filedetails {
  */
 struct pkgbin {
   struct dependency *depends;
-  struct deppossi *depended;
   /* The ‘essential’ flag, true = yes, false = no (absent). */
   bool essential;
   enum pkgmultiarch {
@@ -219,6 +218,10 @@ struct pkgset {
   struct pkgset *next;
   const char *name;
   struct pkginfo pkg;
+  struct {
+    struct deppossi *available;
+    struct deppossi *installed;
+  } depended;
 };
 
 /*** from dbdir.c ***/

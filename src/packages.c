@@ -495,7 +495,7 @@ breaks_check_target(struct varbuf *aemsgs, enum dep_check *ok,
 {
   struct deppossi *possi;
 
-  for (possi = target->installed.depended; possi; possi = possi->rev_next) {
+  for (possi = target->set->depended.installed; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_breaks) continue;
     if (virtbroken && possi->verrel != dvr_none) continue;
     breaks_check_one(aemsgs, ok, possi, broken, possi->up->up, virtbroken);
@@ -566,7 +566,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
                                &matched,possi,&interestingwarnings,&oemsgs);
       if (thisf > found) found= thisf;
       if (found != found_ok && possi->verrel == dvr_none) {
-        for (provider = possi->ed->installed.depended;
+        for (provider = possi->ed->set->depended.installed;
              found != found_ok && provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides)

@@ -131,7 +131,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
       if (foundcyclebroken(&thislink, sofar, possi->ed,possi))
         return true;
       /* Right, now we try all the providers ... */
-      for (providelink= possi->ed->installed.depended;
+      for (providelink = possi->ed->set->depended.installed;
            providelink;
            providelink = providelink->rev_next) {
         if (providelink->up->type != dep_provides) continue;
@@ -363,7 +363,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       /* If there was no version specified we try looking for Providers. */
       if (possi->verrel == dvr_none) {
         /* See if the package we're about to install Provides it. */
-        for (provider= possi->ed->available.depended;
+        for (provider = possi->ed->set->depended.available;
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
@@ -372,7 +372,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         }
 
         /* Now look at the packages already on the system. */
-        for (provider= possi->ed->installed.depended;
+        for (provider = possi->ed->set->depended.installed;
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
@@ -485,7 +485,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
     /* If there was no version specified we try looking for Providers. */
     if (possi->verrel == dvr_none) {
       /* See if the package we're about to install Provides it. */
-      for (provider= possi->ed->available.depended;
+      for (provider = possi->ed->set->depended.available;
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
@@ -502,7 +502,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       }
 
       /* Now look at the packages already on the system. */
-      for (provider= possi->ed->installed.depended;
+      for (provider = possi->ed->set->depended.installed;
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;

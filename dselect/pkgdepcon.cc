@@ -60,12 +60,12 @@ packagelist::find_pkgbin(pkginfo *pkg)
 int packagelist::checkdependers(pkginfo *pkg, int changemade) {
   struct deppossi *possi;
 
-  for (possi = pkg->available.depended; possi; possi = possi->rev_next) {
+  for (possi = pkg->set->depended.available; possi; possi = possi->rev_next) {
     if (!useavailable(possi->up->up))
       continue;
     changemade = max(changemade, resolvedepcon(possi->up));
   }
-  for (possi = pkg->installed.depended; possi; possi = possi->rev_next) {
+  for (possi = pkg->set->depended.installed; possi; possi = possi->rev_next) {
     if (useavailable(possi->up->up))
       continue;
     changemade = max(changemade, resolvedepcon(possi->up));
@@ -271,7 +271,7 @@ int packagelist::resolvedepcon(dependency *depends) {
         foundany= 0;
         if (possi->ed->clientdata) foundany= 1;
         if (dep_update_best_to_change_stop(best, possi->ed)) goto mustdeselect;
-        for (provider = possi->ed->available.depended;
+        for (provider = possi->ed->set->depended.available;
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
@@ -336,7 +336,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (depends->up != depends->list->ed) {
       r= deselect_one_of(depends->up, depends->list->ed, depends);  if (r) return r;
     }
-    for (provider = depends->list->ed->available.depended;
+    for (provider = depends->list->ed->set->depended.available;
          provider;
          provider = provider->rev_next) {
       if (provider->up->type != dep_provides) continue;
@@ -394,7 +394,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
     return false;
   deppossi *provider;
 
-  for (provider = possi->ed->installed.depended;
+  for (provider = possi->ed->set->depended.installed;
        provider;
        provider = provider->rev_next) {
     if (provider->up->type == dep_provides &&
@@ -404,7 +404,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
                               provider->up->up))
       return true;
   }
-  for (provider = possi->ed->available.depended;
+  for (provider = possi->ed->set->depended.available;
        provider;
        provider = provider->rev_next) {
     if (provider->up->type != dep_provides ||

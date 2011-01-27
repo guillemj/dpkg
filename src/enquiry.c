@@ -418,7 +418,7 @@ predeppackage(const char *const *argv)
         if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
       }
       if (possi->verrel != dvr_none) continue;
-      for (provider=possi->ed->available.depended;
+      for (provider = possi->ed->set->depended.available;
            !pkg && provider;
            provider=provider->next) {
         if (provider->up->type != dep_provides) continue;
