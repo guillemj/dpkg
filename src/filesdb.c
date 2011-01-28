@@ -461,7 +461,7 @@ void ensure_allinstfiles_available(void) {
 
   if (allpackagesdone) return;
   if (saidread<2) {
-    int max = pkg_db_count();
+    int max = pkg_db_count_pkg();
 
     saidread=1;
     progress_init(&progress, _("(Reading database ... "), max);

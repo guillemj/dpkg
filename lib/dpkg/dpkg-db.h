@@ -269,7 +269,6 @@ bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 struct pkginfo *pkg_db_find(const char *name);
 struct pkgset *pkg_db_find_set(const char *name);
 struct pkginfo *pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch);
-int pkg_db_count(void);
 int pkg_db_count_set(void);
 int pkg_db_count_pkg(void);
 void pkg_db_reset(void);

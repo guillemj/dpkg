@@ -355,7 +355,7 @@ void packagelist::sortmakeheads() {
 void packagelist::initialsetup() {
   debug(dbg_general, "packagelist[%p]::initialsetup()", this);
 
-  int allpackages = pkg_db_count();
+  int allpackages = pkg_db_count_pkg();
   datatable= new struct perpackagestate[allpackages];
 
   nallocated= allpackages+150; // will realloc if necessary, so 150 not critical

@@ -152,12 +152,6 @@ pkg_db_count_pkg(void)
   return npkg;
 }
 
-int
-pkg_db_count(void)
-{
-  return nset;
-}
-
 struct pkgiterator {
   struct pkginfo *pigp;
   int nbinn;
