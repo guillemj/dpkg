@@ -90,8 +90,8 @@ f_name(struct pkginfo *pigp, struct pkgbin *pifp,
   e = pkg_name_is_illegal(value, NULL);
   if (e != NULL)
     parse_error(ps, _("invalid package name (%.250s)"), e);
-  /* We use the new name, as pkg_db_find() may have done a tolower for us. */
-  pigp->set->name = pkg_db_find(value)->set->name;
+  /* We use the new name, as pkg_db_find_set() may have done a tolower for us. */
+  pigp->set->name = pkg_db_find_set(value)->name;
 }
 
 void
@@ -408,7 +408,7 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
                     fip->name, depname.buf, emsg);
       dop= nfmalloc(sizeof(struct deppossi));
       dop->up= dyp;
-      dop->ed = pkg_db_find(depname.buf)->set;
+      dop->ed = pkg_db_find_set(depname.buf);
       dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
 
       /* Don't link this (which is after all only ‘newpig’ from

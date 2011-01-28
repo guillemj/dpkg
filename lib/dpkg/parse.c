@@ -559,7 +559,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     pkg_parse_verify(&ps, new_pkg, new_pkgbin);
 
-    db_pkg = pkg_db_find(new_pkg->set->name);
+    db_pkg = pkg_db_find_pkg(new_pkg->set->name, new_pkgbin->arch);
     if (flags & pdb_recordavailable)
       db_pkgbin = &db_pkg->available;
     else
