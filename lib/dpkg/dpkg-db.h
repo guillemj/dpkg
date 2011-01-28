@@ -274,7 +274,6 @@ int pkg_db_count_pkg(void);
 void pkg_db_reset(void);
 
 struct pkgiterator *pkg_db_iter_new(void);
-struct pkginfo *pkg_db_iter_next(struct pkgiterator *iter);
 struct pkgset *pkg_db_iter_next_set(struct pkgiterator *iter);
 struct pkginfo *pkg_db_iter_next_pkg(struct pkgiterator *iter);
 void pkg_db_iter_free(struct pkgiterator *iter);

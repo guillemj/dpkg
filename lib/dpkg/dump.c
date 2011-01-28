@@ -470,7 +470,7 @@ writedb(const char *filename, enum writedb_flags flags)
     ohshite(_("unable to set buffering on %s database file"), which);
 
   it = pkg_db_iter_new();
-  while ((pigp = pkg_db_iter_next(it)) != NULL) {
+  while ((pigp = pkg_db_iter_next_pkg(it)) != NULL) {
     pifp = (flags & wdb_dump_available) ? &pigp->available : &pigp->installed;
     /* Don't dump records which have no useful content. */
     if (!pkg_is_informative(pigp, pifp))

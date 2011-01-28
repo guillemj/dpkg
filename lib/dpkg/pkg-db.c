@@ -241,12 +241,6 @@ pkg_db_iter_next_pkg(struct pkgiterator *i)
   return r;
 }
 
-struct pkginfo *
-pkg_db_iter_next(struct pkgiterator *iter)
-{
-  return pkg_db_iter_next_pkg(iter);
-}
-
 /**
  * Free the package database iterator.
  *

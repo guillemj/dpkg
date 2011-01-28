@@ -172,7 +172,7 @@ clearselections(const char *const *argv)
   modstatdb_open(msdbrw_write);
 
   it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next(it))) {
+  while ((pkg = pkg_db_iter_next_pkg(it))) {
     if (!pkg->installed.essential)
       pkg->want = want_deinstall;
   }

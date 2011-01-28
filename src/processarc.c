@@ -1152,7 +1152,7 @@ void process_archive(const char *filename) {
    * Conffiles are ignored (the new package had better do something
    * with them!). */
   it = pkg_db_iter_new();
-  while ((otherpkg = pkg_db_iter_next(it)) != NULL) {
+  while ((otherpkg = pkg_db_iter_next_pkg(it)) != NULL) {
     ensure_package_clientdata(otherpkg);
     if (otherpkg == pkg ||
         otherpkg->status == stat_notinstalled ||

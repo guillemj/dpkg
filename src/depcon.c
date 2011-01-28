@@ -157,7 +157,7 @@ findbreakcycle(struct pkginfo *pkg)
 
   /* Clear the visited flag of all packages before we traverse them. */
   iter = pkg_db_iter_new();
-  while ((tpkg = pkg_db_iter_next(iter))) {
+  while ((tpkg = pkg_db_iter_next_pkg(iter))) {
     ensure_package_clientdata(tpkg);
     tpkg->clientdata->color = white;
   }

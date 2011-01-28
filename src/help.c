@@ -455,7 +455,7 @@ void clear_istobes(void) {
   struct pkginfo *pkg;
 
   it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next(it)) != NULL) {
+  while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
     ensure_package_clientdata(pkg);
     pkg->clientdata->istobe= itb_normal;
     pkg->clientdata->replacingfilesandsaid= 0;

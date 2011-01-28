@@ -184,7 +184,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	tcn->then_processed = processing_now;
 
 	it = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next(it))) {
+	while ((pkg = pkg_db_iter_next_pkg(it))) {
 		if (!pkg->trigpend_head)
 			continue;
 		tcpp = nfmalloc(sizeof(*tcpp));
@@ -384,7 +384,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 	struct pkginfo *pkg;
 
 	it = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next(it))) {
+	while ((pkg = pkg_db_iter_next_pkg(it))) {
 		if (pkg->status <= stat_halfinstalled)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",

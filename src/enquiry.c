@@ -145,7 +145,7 @@ audit(const char *const *argv)
     bool head = false;
 
     it = pkg_db_iter_new();
-    while ((pkg = pkg_db_iter_next(it))) {
+    while ((pkg = pkg_db_iter_next_pkg(it))) {
       if (!bsi->yesno(pkg,bsi)) continue;
       if (!head_running) {
         if (modstatdb_is_locked())
@@ -217,7 +217,7 @@ unpackchk(const char *const *argv)
   sectionentries = NULL;
   sects= 0;
   it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next(it))) {
+  while ((pkg = pkg_db_iter_next_pkg(it))) {
     if (!yettobeunpacked(pkg, &thissect)) continue;
     for (se= sectionentries; se && strcasecmp(thissect,se->name); se= se->next);
     if (!se) {
@@ -240,7 +240,7 @@ unpackchk(const char *const *argv)
 
   if (totalcount <= 12) {
     it = pkg_db_iter_new();
-    while ((pkg = pkg_db_iter_next(it))) {
+    while ((pkg = pkg_db_iter_next_pkg(it))) {
       if (!yettobeunpacked(pkg, NULL))
         continue;
       describebriefly(pkg);
@@ -253,7 +253,7 @@ unpackchk(const char *const *argv)
       width= 70-strlen(se->name)-strlen(buf);
       while (width > 59) { putchar(' '); width--; }
       it = pkg_db_iter_new();
-      while ((pkg = pkg_db_iter_next(it))) {
+      while ((pkg = pkg_db_iter_next_pkg(it))) {
         if (!yettobeunpacked(pkg,&thissect)) continue;
         if (strcasecmp(thissect,se->name)) continue;
         width -= strlen(pkg->set->name);
@@ -380,7 +380,7 @@ predeppackage(const char *const *argv)
 
   dep = NULL;
   it = pkg_db_iter_new();
-  while (!dep && (pkg = pkg_db_iter_next(it))) {
+  while (!dep && (pkg = pkg_db_iter_next_pkg(it))) {
     /* Ignore packages user doesn't want. */
     if (pkg->want != want_install)
       continue;

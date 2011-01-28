@@ -63,7 +63,7 @@ enqueue_pending(void)
   struct pkginfo *pkg;
 
   it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next(it)) != NULL) {
+  while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
     switch (cipaction->arg_int) {
     case act_configure:
       if (!(pkg->status == stat_unpacked ||
