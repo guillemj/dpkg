@@ -31,6 +31,7 @@
 #include <dpkg/macros.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/version.h>
+#include <dpkg/arch.h>
 
 DPKG_BEGIN_DECLS
 
@@ -115,10 +116,10 @@ struct pkgbin {
     multiarch_allowed,
     multiarch_foreign,
   } multiarch;
+  const struct dpkg_arch *arch;
   const char *description;
   const char *maintainer;
   const char *source;
-  const char *arch;
   const char *installedsize;
   const char *origin;
   const char *bugs;

@@ -59,7 +59,7 @@ const struct fieldinfo fieldinfos[]= {
   { "Origin",           f_charfield,       w_charfield,      PKGIFPOFF(origin)        },
   { "Maintainer",       f_charfield,       w_charfield,      PKGIFPOFF(maintainer)    },
   { "Bugs",             f_charfield,       w_charfield,      PKGIFPOFF(bugs)          },
-  { "Architecture",     f_charfield,       w_charfield,      PKGIFPOFF(arch)          },
+  { "Architecture",     f_architecture,    w_architecture                             },
   { "Source",           f_charfield,       w_charfield,      PKGIFPOFF(source)        },
   { "Version",          f_version,         w_version,        PKGIFPOFF(version)       },
   { "Revision",         f_revision,        w_null                                     },
@@ -192,10 +192,13 @@ pkg_parse_verify(struct parsedb_state *ps,
     /* We always want usable architecture information (as long as the package
      * is in such a state that it make sense), so that it can be used safely
      * on string comparisons and the like. */
-    parse_ensure_have_field(ps, &pkgbin->arch, "architecture");
-  } else if (pkgbin->arch == NULL) {
-    pkgbin->arch = "";
+    if (pkgbin->arch == NULL)
+      parse_warn(ps, _("missing %s"), "architecture");
+    else if (pkgbin->arch->type == arch_none)
+      parse_warn(ps, _("empty value for %s"), "architecture");
   }
+  if (pkgbin->arch == NULL)
+    pkgbin->arch = dpkg_arch_find(NULL);
 
   /* Check the Config-Version information:
    * If there is a Config-Version it is definitely to be used, but

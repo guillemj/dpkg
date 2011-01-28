@@ -5,6 +5,8 @@
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
  * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -170,6 +172,20 @@ f_multiarch(struct pkginfo *pigp, struct pkgbin *pifp,
   multiarch = parse_nv_last(ps, _("foreign/allowed/same/no in quadstate field"),
                             multiarchinfos, value);
   PKGPFIELD(pifp, fip->integer, int) = multiarch;
+}
+
+void
+f_architecture(struct pkginfo *pigp, struct pkgbin *pifp,
+               struct parsedb_state *ps,
+               const char *value, const struct fieldinfo *fip)
+{
+  if (!*value)
+    return;
+
+  pifp->arch = dpkg_arch_find(value);
+  if (pifp->arch->type == arch_illegal)
+    parse_warn(ps, _("'%s' is not a valid architecture name: %s"),
+               value, dpkg_arch_name_is_illegal(value));
 }
 
 void

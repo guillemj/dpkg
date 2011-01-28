@@ -72,6 +72,7 @@ freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
 freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
 freadfunction f_configversion;
 freadfunction f_multiarch;
+freadfunction f_architecture;
 freadfunction f_trigpend, f_trigaw;
 
 enum fwriteflags {
@@ -85,6 +86,7 @@ typedef void fwritefunction(struct varbuf*,
 fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configversion;
 fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
 fwritefunction w_multiarch;
+fwritefunction w_architecture;
 fwritefunction w_filecharf;
 fwritefunction w_trigpend, w_trigaw;
 
