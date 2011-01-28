@@ -267,11 +267,17 @@ void pkgbin_blank(struct pkgbin *pifp);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
 struct pkginfo *pkg_db_find(const char *name);
+struct pkgset *pkg_db_find_set(const char *name);
+struct pkginfo *pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch);
 int pkg_db_count(void);
+int pkg_db_count_set(void);
+int pkg_db_count_pkg(void);
 void pkg_db_reset(void);
 
 struct pkgiterator *pkg_db_iter_new(void);
 struct pkginfo *pkg_db_iter_next(struct pkgiterator *iter);
+struct pkgset *pkg_db_iter_next_set(struct pkgiterator *iter);
+struct pkginfo *pkg_db_iter_next_pkg(struct pkgiterator *iter);
 void pkg_db_iter_free(struct pkgiterator *iter);
 
 void pkg_db_report(FILE *);
