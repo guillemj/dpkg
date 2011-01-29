@@ -300,8 +300,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep)
 {
   static int fd;
-  struct pkginfo newpig, *pigp;
-  struct pkgbin *newpifp, *pifp;
+  struct pkginfo newpig, *db_pkg;
+  struct pkgbin *newpifp, *db_pkgbin;
   int pdone;
   char *data, *dataptr, *endptr;
   struct stat st;
@@ -426,16 +426,20 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     pkg_parse_verify(&ps, &newpig, newpifp);
 
-    pigp = pkg_db_find(newpig.name);
-    pifp= (flags & pdb_recordavailable) ? &pigp->available : &pigp->installed;
+    db_pkg = pkg_db_find(newpig.name);
+    if (flags & pdb_recordavailable)
+      db_pkgbin = &db_pkg->available;
+    else
+      db_pkgbin = &db_pkg->installed;
 
     if ((flags & pdb_ignoreolder) &&
-	versioncompare(&newpifp->version, &pifp->version) < 0)
+        versioncompare(&newpifp->version, &db_pkgbin->version) < 0)
       continue;
 
-    pkg_parse_copy(&ps, pigp, pifp, &newpig, newpifp);
+    pkg_parse_copy(&ps, db_pkg, db_pkgbin, &newpig, newpifp);
 
-    if (donep) *donep= pigp;
+    if (donep)
+      *donep = db_pkg;
     pdone++;
     if (EOF_mmap(dataptr, endptr)) break;
     if (c == '\n')
