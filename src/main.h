@@ -139,7 +139,7 @@ extern int errabort;
 extern const char *admindir;
 extern const char *instdir;
 extern struct pkg_list *ignoredependss;
-extern const char architecture[];
+extern const char arch[];
 
 struct invoke_hook {
 	struct invoke_hook *next;

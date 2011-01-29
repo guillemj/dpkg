@@ -116,7 +116,7 @@ struct pkgbin {
   const char *description;
   const char *maintainer;
   const char *source;
-  const char *architecture;
+  const char *arch;
   const char *installedsize;
   const char *origin;
   const char *bugs;

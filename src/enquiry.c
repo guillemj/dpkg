@@ -431,7 +431,7 @@ void printarch(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  printf("%s\n", architecture);
+  printf("%s\n", arch);
 
   m_output(stdout, _("<standard output>"));
 }

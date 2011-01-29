@@ -265,7 +265,7 @@ do_script(struct pkginfo *pkg, struct pkgbin *pif,
   pid = subproc_fork();
   if (pid == 0) {
     if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->name, 1) ||
-        setenv("DPKG_MAINTSCRIPT_ARCH", pif->architecture, 1) ||
+        setenv("DPKG_MAINTSCRIPT_ARCH", pif->arch, 1) ||
         setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
         setenv("DPKG_RUNNING_VERSION", PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));

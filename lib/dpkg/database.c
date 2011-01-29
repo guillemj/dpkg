@@ -88,7 +88,7 @@ pkgbin_blank(struct pkgbin *pifp)
   pifp->depends= NULL;
   pifp->depended= NULL;
   pifp->description= pifp->maintainer= pifp->source= pifp->installedsize= pifp->bugs= pifp->origin= NULL;
-  pifp->architecture= NULL;
+  pifp->arch = NULL;
   blankversion(&pifp->version);
   pifp->conffiles= NULL;
   pifp->arbs= NULL;

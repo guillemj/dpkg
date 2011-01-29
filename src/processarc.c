@@ -282,12 +282,12 @@ void process_archive(const char *filename) {
     return;
   }
 
-  if (pkg->available.architecture && *pkg->available.architecture &&
-      strcmp(pkg->available.architecture,"all") &&
-      strcmp(pkg->available.architecture,architecture))
+  if (pkg->available.arch && *pkg->available.arch &&
+      strcmp(pkg->available.arch, "all") &&
+      strcmp(pkg->available.arch, arch))
     forcibleerr(fc_architecture,
                 _("package architecture (%s) does not match system (%s)"),
-                pkg->available.architecture,architecture);
+                pkg->available.arch, arch);
 
   for (deconpil= deconfigure;
        deconpil;
@@ -1026,7 +1026,7 @@ void process_archive(const char *filename) {
   pkg->installed.description= pkg->available.description;
   pkg->installed.maintainer= pkg->available.maintainer;
   pkg->installed.source= pkg->available.source;
-  pkg->installed.architecture= pkg->available.architecture;
+  pkg->installed.arch = pkg->available.arch;
   pkg->installed.installedsize= pkg->available.installedsize;
   pkg->installed.version= pkg->available.version;
   pkg->installed.origin = pkg->available.origin;
