@@ -300,8 +300,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep)
 {
   static int fd;
-  struct pkginfo newpig, *db_pkg;
-  struct pkgbin *newpifp, *db_pkgbin;
+  struct pkginfo new_pkg, *db_pkg;
+  struct pkgbin *new_pkgbin, *db_pkgbin;
   int pdone;
   char *data, *dataptr, *endptr;
   struct stat st;
@@ -314,7 +314,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   memset(&fs, 0, sizeof(fs));
 
-  newpifp= (flags & pdb_recordavailable) ? &newpig.available : &newpig.installed;
+  if (flags & pdb_recordavailable)
+    new_pkgbin = &new_pkg.available;
+  else
+    new_pkgbin = &new_pkg.installed;
+
   fd= open(filename, O_RDONLY);
   if (fd == -1) ohshite(_("failed to open package info file `%.255s' for reading"),filename);
 
@@ -350,7 +354,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     int c;
 
     memset(fs.fieldencountered, 0, sizeof(fs.fieldencountered));
-    pkg_blank(&newpig);
+    pkg_blank(&new_pkg);
 
     /* Skip adjacent new lines. */
     while(!EOF_mmap(dataptr, endptr)) {
@@ -367,17 +371,17 @@ int parsedb(const char *filename, enum parsedbflags flags,
       fs.fieldlen = dataptr - fs.fieldstart - 1;
       while (!EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
       if (EOF_mmap(dataptr, endptr))
-        parse_error(&ps, &newpig,
+        parse_error(&ps, &new_pkg,
                     _("EOF after field name `%.*s'"), fs.fieldlen, fs.fieldstart);
       if (c == '\n')
-        parse_error(&ps, &newpig,
+        parse_error(&ps, &new_pkg,
                     _("newline in field name `%.*s'"), fs.fieldlen, fs.fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parse_error(&ps, &newpig,
+        parse_error(&ps, &new_pkg,
                     _("MSDOS EOF (^Z) in field name `%.*s'"),
                     fs.fieldlen, fs.fieldstart);
       if (c != ':')
-        parse_error(&ps, &newpig,
+        parse_error(&ps, &new_pkg,
                     _("field name `%.*s' must be followed by colon"),
                     fs.fieldlen, fs.fieldstart);
       /* Skip space after ‘:’ but before value and EOL. */
@@ -386,11 +390,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
         if (c == '\n' || !isspace(c)) break;
       }
       if (EOF_mmap(dataptr, endptr))
-        parse_error(&ps, &newpig,
+        parse_error(&ps, &new_pkg,
                     _("EOF before value of field `%.*s' (missing final newline)"),
                     fs.fieldlen, fs.fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parse_error(&ps, &newpig,
+        parse_error(&ps, &new_pkg,
                     _("MSDOS EOF char in value of field `%.*s' (missing newline?)"),
                     fs.fieldlen, fs.fieldstart);
       fs.valuestart = dataptr - 1;
@@ -404,7 +408,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
           ungetc_mmap(c,dataptr, data);
           c= '\n';
         } else if (EOF_mmap(dataptr, endptr)) {
-          parse_error(&ps, &newpig,
+          parse_error(&ps, &new_pkg,
                       _("EOF during value of field `%.*s' (missing final newline)"),
                       fs.fieldlen, fs.fieldstart);
         }
@@ -415,28 +419,28 @@ int parsedb(const char *filename, enum parsedbflags flags,
       while (fs.valuelen && isspace(*(fs.valuestart + fs.valuelen - 1)))
         fs.valuelen--;
 
-      pkg_parse_field(&ps, &fs, &newpig, newpifp);
+      pkg_parse_field(&ps, &fs, &new_pkg, new_pkgbin);
 
       if (EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
     } /* Loop per field. */
 
     if (pdone && donep)
-      parse_error(&ps, &newpig,
+      parse_error(&ps, &new_pkg,
                   _("several package info entries found, only one allowed"));
 
-    pkg_parse_verify(&ps, &newpig, newpifp);
+    pkg_parse_verify(&ps, &new_pkg, new_pkgbin);
 
-    db_pkg = pkg_db_find(newpig.name);
+    db_pkg = pkg_db_find(new_pkg.name);
     if (flags & pdb_recordavailable)
       db_pkgbin = &db_pkg->available;
     else
       db_pkgbin = &db_pkg->installed;
 
     if ((flags & pdb_ignoreolder) &&
-        versioncompare(&newpifp->version, &db_pkgbin->version) < 0)
+        versioncompare(&new_pkgbin->version, &db_pkgbin->version) < 0)
       continue;
 
-    pkg_parse_copy(&ps, db_pkg, db_pkgbin, &newpig, newpifp);
+    pkg_parse_copy(&ps, db_pkg, db_pkgbin, &new_pkg, new_pkgbin);
 
     if (donep)
       *donep = db_pkg;
