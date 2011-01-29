@@ -123,8 +123,12 @@ subproc_check(int status, const char *desc, int flags)
 		if ((flags & PROCPIPE) && n == SIGPIPE)
 			return 0;
 
-		out(_("subprocess %s killed by signal (%s)%s"), desc,
-		    strsignal(n), WCOREDUMP(status) ? _(", core dumped") : "");
+		if (n == SIGINT)
+			out(_("subprocess %s was interrupted"), desc);
+		else
+			out(_("subprocess %s was killed by signal (%s)%s"),
+			    desc, strsignal(n),
+			    WCOREDUMP(status) ? _(", core dumped") : "");
 	} else {
 		out(_("subprocess %s failed with wait status code %d"), desc,
 		    status);
