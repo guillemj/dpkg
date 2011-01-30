@@ -2323,7 +2323,11 @@ main(int argc, char **argv)
 		alternative_set_status(a, ALT_ST_MANUAL);
 	} else if (strcmp(action, "auto") == 0) {
 		alternative_set_status(a, ALT_ST_AUTO);
-		new_choice = alternative_get_best(a)->master_file;
+		if (alternative_choices_count(a) == 0)
+			pr(_("There is no program which provides %s."),
+			   a->master_name);
+		else
+			new_choice = alternative_get_best(a)->master_file;
 	} else if (strcmp(action, "config") == 0) {
 		if (alternative_choices_count(a) == 0) {
 			pr(_("There is no program which provides %s."),
