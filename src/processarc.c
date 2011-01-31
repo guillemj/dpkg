@@ -500,7 +500,7 @@ void process_archive(const char *filename) {
       pkg->available.arch->type != arch_native)
     forcibleerr(fc_architecture,
                 _("package architecture (%s) does not match system (%s)"),
-                pkg->available.arch->name, native_arch);
+                pkg->available.arch->name, dpkg_arch_get_native()->name);
 
   for (deconpil= deconfigure;
        deconpil;

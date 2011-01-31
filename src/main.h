@@ -139,7 +139,6 @@ extern bool abort_processing;
 extern int errabort;
 extern const char *instdir;
 extern struct pkg_list *ignoredependss;
-extern const char native_arch[];
 
 struct invoke_hook {
 	struct invoke_hook *next;
