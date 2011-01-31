@@ -16,6 +16,7 @@ TESTS_FAIL := \
 TESTS_PASS := \
 	t-normal \
 	t-control-bogus \
+	t-control-no-arch \
 	t-unpack-symlink \
 	t-unpack-hardlink \
 	t-unpack-fifo \
