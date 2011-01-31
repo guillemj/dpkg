@@ -151,7 +151,13 @@ struct trigaw {
 /* Note: dselect and dpkg have different versions of this. */
 struct perpackagestate;
 
-/* pig */
+/**
+ * Node describing an architecture package instance.
+ *
+ * This structure holds state information.
+ *
+ * Note: Usually referred in the code as pig.
+ */
 struct pkginfo {
   struct pkginfo *next;
   const char *name;
