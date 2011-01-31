@@ -282,7 +282,8 @@ void process_archive(const char *filename) {
     return;
   }
 
-  if (strcmp(pkg->available.arch, "all") &&
+  if (strcmp(pkg->available.arch, "") &&
+      strcmp(pkg->available.arch, "all") &&
       strcmp(pkg->available.arch, native_arch))
     forcibleerr(fc_architecture,
                 _("package architecture (%s) does not match system (%s)"),
