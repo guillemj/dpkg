@@ -167,11 +167,12 @@ pkg_parse_verify(struct parsedb_state *ps,
     parse_ensure_have_field(ps, pkg, &pkgbin->description, "description");
     parse_ensure_have_field(ps, pkg, &pkgbin->maintainer, "maintainer");
     parse_must_have_field(ps, pkg, pkgbin->version.version, "version");
-  }
 
-  /* We always want usable architecture information, so that it can be used
-   * safely on string comparisons and the like. */
-  parse_ensure_have_field(ps, pkg, &pkgbin->arch, "architecture");
+    /* We always want usable architecture information (as long as the package
+     * is in such a state that it make sense), so that it can be used safely
+     * on string comparisons and the like. */
+    parse_ensure_have_field(ps, pkg, &pkgbin->arch, "architecture");
+  }
 
   /* Check the Config-Version information:
    * If there is a Config-Version it is definitely to be used, but
