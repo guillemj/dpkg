@@ -166,7 +166,7 @@ usage(const struct cmdinfo *ci, const char *value)
 }
 
 const char thisname[]= "dpkg";
-const char arch[] = ARCHITECTURE;
+const char native_arch[] = ARCHITECTURE;
 const char printforhelp[]= N_(
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"

@@ -284,10 +284,10 @@ void process_archive(const char *filename) {
 
   if (pkg->available.arch && *pkg->available.arch &&
       strcmp(pkg->available.arch, "all") &&
-      strcmp(pkg->available.arch, arch))
+      strcmp(pkg->available.arch, native_arch))
     forcibleerr(fc_architecture,
                 _("package architecture (%s) does not match system (%s)"),
-                pkg->available.arch, arch);
+                pkg->available.arch, native_arch);
 
   for (deconpil= deconfigure;
        deconpil;
