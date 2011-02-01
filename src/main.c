@@ -436,7 +436,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 "  confask [!]            Offer to replace config files with no new versions\n"
 "  breaks [!]             Install even if it would break another package\n"
 "  conflicts [!]          Allow installation of conflicting packages\n"
-"  architecture [!]       Process even packages with wrong architecture\n"
+"  architecture [!]       Process even packages with wrong or no architecture\n"
 "  overwrite-dir [!]      Overwrite one package's directory with another's file\n"
 "  unsafe-io [!]          Do not perform safe I/O operations when unpacking\n"
 "  remove-reinstreq [!]   Remove packages which require installation\n"
