@@ -126,7 +126,7 @@ struct fileinlist {
 struct diversion {
   struct filenamenode *useinstead;
   struct filenamenode *camefrom;
-  struct pkginfo *pkg;
+  struct pkgset *pkgset;
 
   /* The ‘contested’ halves are in this list for easy cleanup. */
   struct diversion *next;

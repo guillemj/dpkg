@@ -271,11 +271,11 @@ static int searchoutput(struct filenamenode *namenode) {
     const char *name_to = namenode->divert->useinstead ?
                           namenode->divert->useinstead->name : namenode->name;
 
-    if (namenode->divert->pkg) {
+    if (namenode->divert->pkgset) {
       printf(_("diversion by %s from: %s\n"),
-             namenode->divert->pkg->set->name, name_from);
+             namenode->divert->pkgset->name, name_from);
       printf(_("diversion by %s to: %s\n"),
-             namenode->divert->pkg->set->name, name_to);
+             namenode->divert->pkgset->name, name_to);
     } else {
       printf(_("local diversion from: %s\n"), name_from);
       printf(_("local diversion to: %s\n"), name_to);
@@ -424,15 +424,15 @@ enqperpackage(const char *const *argv)
             namenode= file->namenode;
             puts(namenode->name);
             if (namenode->divert && !namenode->divert->camefrom) {
-              if (!namenode->divert->pkg)
+              if (!namenode->divert->pkgset)
 		printf(_("locally diverted to: %s\n"),
 		       namenode->divert->useinstead->name);
-              else if (pkg == namenode->divert->pkg)
+              else if (pkg->set == namenode->divert->pkgset)
 		printf(_("package diverts others to: %s\n"),
 		       namenode->divert->useinstead->name);
               else
 		printf(_("diverted by %s to: %s\n"),
-		       namenode->divert->pkg->set->name,
+		       namenode->divert->pkgset->name,
 		       namenode->divert->useinstead->name);
             }
             file= file->next;

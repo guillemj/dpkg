@@ -67,14 +67,14 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
         namenode->name, pkg->set->name);
 
   r=
-    (namenode->divert->useinstead && namenode->divert->pkg != pkg)
+    (namenode->divert->useinstead && namenode->divert->pkgset != pkg->set)
       ? namenode->divert->useinstead : namenode;
 
   debug(dbg_eachfile,
         "namenodetouse ... useinstead=%s camefrom=%s pkg=%s return %s",
         namenode->divert->useinstead ? namenode->divert->useinstead->name : "<none>",
         namenode->divert->camefrom ? namenode->divert->camefrom->name : "<none>",
-        namenode->divert->pkg ? namenode->divert->pkg->set->name : "<none>",
+        namenode->divert->pkgset ? namenode->divert->pkgset->name : "<none>",
         r->name);
 
   return r;

@@ -395,7 +395,7 @@ void process_archive(const char *filename) {
   int r, i;
   pid_t pid;
   struct pkgiterator *it;
-  struct pkginfo *pkg, *otherpkg, *divpkg;
+  struct pkginfo *pkg, *otherpkg;
   char *cidirrest, *p;
   char conffilenamebuf[MAXCONFFILENAME];
   char *psize;
@@ -1230,11 +1230,12 @@ void process_archive(const char *filename) {
    * have claimed ‘ownership’ of all its files. */
   for (cfile= newfileslist; cfile; cfile= cfile->next) {
     struct filepackages_iterator *iter;
+    struct pkgset *divpkgset;
 
     if (!(cfile->namenode->flags & fnnf_elide_other_lists)) continue;
     if (cfile->namenode->divert && cfile->namenode->divert->useinstead) {
-      divpkg= cfile->namenode->divert->pkg;
-      if (divpkg == pkg) {
+      divpkgset = cfile->namenode->divert->pkgset;
+      if (divpkgset == pkg->set) {
         debug(dbg_eachfile,
               "process_archive not overwriting any `%s' (overriding, `%s')",
               cfile->namenode->name, cfile->namenode->divert->useinstead->name);
@@ -1242,10 +1243,10 @@ void process_archive(const char *filename) {
       } else {
         debug(dbg_eachfile,
               "process_archive looking for overwriting `%s' (overridden by %s)",
-              cfile->namenode->name, divpkg ? divpkg->set->name : "<local>");
+              cfile->namenode->name, divpkgset ? divpkgset->name : "<local>");
       }
     } else {
-      divpkg = NULL;
+      divpkgset = NULL;
       debug(dbg_eachfile, "process_archive looking for overwriting `%s'",
             cfile->namenode->name);
     }
@@ -1257,7 +1258,7 @@ void process_archive(const char *filename) {
        * and we don't bother with it here, clearly. */
       if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid)
         continue;
-      if (otherpkg == divpkg) {
+      if (otherpkg->set == divpkgset) {
         debug(dbg_eachfiledetail, "process_archive ... diverted, skipping");
         continue;
       }

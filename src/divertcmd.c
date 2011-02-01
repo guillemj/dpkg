@@ -267,10 +267,10 @@ file_rename(struct file *src, struct file *dst)
 static const char *
 diversion_pkg_name(struct diversion *d)
 {
-	if (d->pkg == NULL)
+	if (d->pkgset == NULL)
 		return ":";
 	else
-		return d->pkg->set->name;
+		return d->pkgset->name;
 }
 
 static const char *
@@ -332,10 +332,10 @@ diversion_describe(struct diversion *d)
 		name_to = d->useinstead->name;
 	}
 
-	if (d->pkg == NULL)
+	if (d->pkgset == NULL)
 		pkgname = NULL;
 	else
-		pkgname = d->pkg->set->name;
+		pkgname = d->pkgset->name;
 
 	return varbuf_diversion(&str, pkgname, name_from, name_to);
 }
@@ -397,7 +397,7 @@ diversion_add(const char *const *argv)
 	struct file file_from, file_to;
 	struct diversion *contest, *altname;
 	struct filenamenode *fnn_from, *fnn_to;
-	struct pkginfo *pkg;
+	struct pkgset *pkgset;
 
 	opt_pkgname_match_any = false;
 
@@ -438,9 +438,9 @@ diversion_add(const char *const *argv)
 
 	/* Handle package name. */
 	if (opt_pkgname == NULL)
-		pkg = NULL;
+		pkgset = NULL;
 	else
-		pkg = pkg_db_find(opt_pkgname);
+		pkgset = pkg_db_find_set(opt_pkgname);
 
 	/* Check we are not stomping over an existing diversion. */
 	if (fnn_from->divert || fnn_to->divert) {
@@ -448,7 +448,7 @@ diversion_add(const char *const *argv)
 		    strcmp(fnn_to->divert->camefrom->name, filename) == 0 &&
 		    fnn_from->divert && fnn_from->divert->useinstead &&
 		    strcmp(fnn_from->divert->useinstead->name, opt_divertto) == 0 &&
-		    fnn_from->divert->pkg == pkg) {
+		    fnn_from->divert->pkgset == pkgset) {
 			if (opt_verbose > 0)
 				printf(_("Leaving '%s'\n"),
 				       diversion_describe(fnn_from->divert));
@@ -469,12 +469,12 @@ diversion_add(const char *const *argv)
 	altname->camefrom = fnn_from;
 	altname->camefrom->divert = contest;
 	altname->useinstead = NULL;
-	altname->pkg = pkg;
+	altname->pkgset = pkgset;
 
 	contest->useinstead = fnn_to;
 	contest->useinstead->divert = altname;
 	contest->camefrom = NULL;
-	contest->pkg = pkg;
+	contest->pkgset = pkgset;
 
 	/* Update database and file system if needed. */
 	if (opt_verbose > 0)
@@ -497,7 +497,7 @@ diversion_remove(const char *const *argv)
 	struct filenamenode *namenode;
 	struct diversion *contest, *altname;
 	struct file file_from, file_to;
-	struct pkginfo *pkg;
+	struct pkgset *pkgset;
 
 	if (!filename || argv[1])
 		badusage(_("--%s needs a single argument"), cipaction->olong);
@@ -513,9 +513,9 @@ diversion_remove(const char *const *argv)
 	}
 
 	if (opt_pkgname == NULL)
-		pkg = NULL;
+		pkgset = NULL;
 	else
-		pkg = pkg_db_find(opt_pkgname);
+		pkgset = pkg_db_find_set(opt_pkgname);
 
 	contest = namenode->divert;
 	altname = contest->useinstead->divert;
@@ -528,7 +528,7 @@ diversion_remove(const char *const *argv)
 		       diversion_current(filename),
 		       diversion_describe(contest));
 
-	if (!opt_pkgname_match_any && pkg != contest->pkg)
+	if (!opt_pkgname_match_any && pkgset != contest->pkgset)
 		ohshit(_("mismatch on package\n"
 		         "  when removing `%s'\n"
 		         "  found `%s'"),
@@ -635,12 +635,12 @@ diversion_listpackage(const char *const *argv)
 	if (namenode == NULL)
 		return 0;
 
-	if (namenode->divert->pkg == NULL)
+	if (namenode->divert->pkgset == NULL)
 		/* Indicate package is local using something not in package
 		 * namespace. */
 		printf("LOCAL\n");
 	else
-		printf("%s\n", namenode->divert->pkg->set->name);
+		printf("%s\n", namenode->divert->pkgset->name);
 
 	return 0;
 }

@@ -114,7 +114,8 @@ filesavespackage(struct fileinlist *file,
                  struct pkginfo *pkgbeinginstalled)
 {
   struct filepackages_iterator *iter;
-  struct pkginfo *divpkg, *thirdpkg;
+  struct pkgset *divpkgset;
+  struct pkginfo *thirdpkg;
 
   debug(dbg_eachfiledetail,"filesavespackage file `%s' package %s",
         file->namenode->name, pkgtobesaved->set->name);
@@ -124,8 +125,8 @@ filesavespackage(struct fileinlist *file,
    * we're installing then they're not actually the same file, so
    * we can't disappear the package - it is saved by this file. */
   if (file->namenode->divert && file->namenode->divert->useinstead) {
-    divpkg= file->namenode->divert->pkg;
-    if (divpkg == pkgtobesaved || divpkg == pkgbeinginstalled) {
+    divpkgset = file->namenode->divert->pkgset;
+    if (divpkgset == pkgtobesaved->set || divpkgset == pkgbeinginstalled->set) {
       debug(dbg_eachfiledetail,"filesavespackage ... diverted -- save!");
       return true;
     }
@@ -445,7 +446,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   char databuf[TARBLKSZ];
   struct file_stat *st;
   struct fileinlist *nifd, **oldnifd;
-  struct pkginfo *divpkg, *otherpkg;
+  struct pkgset *divpkgset;
+  struct pkginfo *otherpkg;
 
   ensureobstackinit();
 
@@ -469,14 +471,14 @@ tarobject(void *ctx, struct tar_entry *ti)
         ? nifd->namenode->divert->useinstead->name : "<none>");
 
   if (nifd->namenode->divert && nifd->namenode->divert->camefrom) {
-    divpkg= nifd->namenode->divert->pkg;
+    divpkgset = nifd->namenode->divert->pkgset;
 
-    if (divpkg) {
+    if (divpkgset) {
       forcibleerr(fc_overwritediverted,
                   _("trying to overwrite `%.250s', which is the "
                     "diverted version of `%.250s' (package: %.100s)"),
                   nifd->namenode->name, nifd->namenode->divert->camefrom->name,
-                  divpkg->set->name);
+                  divpkgset->name);
     } else {
       forcibleerr(fc_overwritediverted,
                   _("trying to overwrite `%.250s', which is the "
@@ -577,10 +579,10 @@ tarobject(void *ctx, struct tar_entry *ti)
         /* Right, so we may be diverting this file. This makes the conflict
          * OK iff one of us is the diverting package (we don't need to
          * check for both being the diverting package, obviously). */
-        divpkg = nifd->namenode->divert->pkg;
-        debug(dbg_eachfile, "tarobject ... diverted, divpkg=%s",
-              divpkg ? divpkg->set->name : "<none>");
-        if (otherpkg == divpkg || tc->pkg == divpkg)
+        divpkgset = nifd->namenode->divert->pkgset;
+        debug(dbg_eachfile, "tarobject ... diverted, divpkgset=%s",
+              divpkgset ? divpkgset->name : "<none>");
+        if (otherpkg->set == divpkgset || tc->pkg->set == divpkgset)
           continue;
       }
 

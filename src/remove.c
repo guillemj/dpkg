@@ -431,7 +431,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       } else if (searchfile->namenode->divert &&
                  (searchfile->namenode->divert->camefrom ||
                   (searchfile->namenode->divert->useinstead &&
-                   searchfile->namenode->divert->pkg != pkg))) {
+                   searchfile->namenode->divert->pkgset != pkg->set))) {
         debug(dbg_conff, "removal_bulk conffile '%s' ignored due to diversion",
               conff->name);
         *lconffp= conff->next;
