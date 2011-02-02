@@ -200,6 +200,10 @@ pkg_parse_verify(struct parsedb_state *ps,
   if (pkgbin->arch == NULL)
     pkgbin->arch = dpkg_arch_find(NULL);
 
+  if (pkgbin->arch->type == arch_all && pkgbin->multiarch == multiarch_same)
+    parse_error(ps, _("package has field '%s' but is architecture all"),
+                "Multi-Arch: same");
+
   /* Check the Config-Version information:
    * If there is a Config-Version it is definitely to be used, but
    * there shouldn't be one if the package is ‘installed’ (in which case
