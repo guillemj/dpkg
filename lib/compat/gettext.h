@@ -96,6 +96,8 @@
 /* The separator between msgctxt and msgid in a .mo file.  */
 #define GETTEXT_CONTEXT_GLUE "\004"
 
+#if ENABLE_NLS
+
 /* Pseudo function calls, taking a MSGCTXT and a MSGID instead of just a
    MSGID.  MSGCTXT and MSGID must be string literals.  MSGCTXT should be
    short and rarely need to change.
@@ -267,5 +269,35 @@ dcnpgettext_expr (const char *domain,
     }
   return (n == 1 ? msgid : msgid_plural);
 }
+
+#else /* ENABLE_NLS */
+
+#define pgettext(Msgctxt, Msgid) ((void) (Msgctxt), gettext (Msgid))
+#define dpgettext(Domainname, Msgctxt, Msgid) \
+  ((void) (Domainname), pgettext (Msgctxt, Msgid))
+#define dcpgettext(Domainname, Msgctxt, Msgid, Category) \
+  ((void) (Category), dpgettext (Domainname, Msgctxt, Msgid))
+
+#define npgettext(Msgctxt, Msgid, MsgidPlural, N) \
+  ((void) (Msgctxt), ngettext (Msgid, MsgidPlural, N))
+#define dnpgettext(Domainname, Msgctxt, Msgid, MsgidPlural, N) \
+  ((void) (Domainname), npgettext (Msgctxt, Msgid, MsgidPlural, N)
+#define dcnpgettext(Domainname, Msgctxt, Msgid, MsgidPlural, N, Category) \
+   ((void) (Category), dnpgettext (Domainname, Msgctxt, Msgid, MsgidPlural, N)
+
+#define pgettext_expr(Msgctxt, Msgid) pgettext (Msgctxt, Msgid)
+#define dpgettext_expr(Domainname, Msgctxt, Msgid) \
+  dpgettext (Domainname, Msgctxt, Msgid)
+#define dcpgettext_expr(Domainname, Msgctxt, Msgid, Category) \
+  dcpgettext (Domainname, Msgctxt, Msgid, Category)
+
+#define npgettext_expr(Msgctxt, Msgid, MsgidPlural, N) \
+  npgettext (Msgctxt, Msgid, MsgidPlural, N)
+#define dnpgettext_expr(Domainname, Msgctxt, Msgid, MsgidPlural, N) \
+  dnpgettext (Domainname, Msgctxt, Msgid, MsgidPlural, N)
+#define dcnpgettext_expr(Domainname, Msgctxt, Msgid, MsgidPlural, N, Category) \
+  dcnpgettext (Domainname, Msgctxt, Msgid, MsgidPlural, N, Category)
+
+#endif /* ENABLE_NLS */
 
 #endif /* _LIBGETTEXT_H */
