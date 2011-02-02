@@ -96,6 +96,8 @@
 /* The separator between msgctxt and msgid in a .mo file.  */
 #define GETTEXT_CONTEXT_GLUE "\004"
 
+#if ENABLE_NLS
+
 /* Pseudo function calls, taking a MSGCTXT and a MSGID instead of just a
    MSGID.  MSGCTXT and MSGID must be string literals.  MSGCTXT should be
    short and rarely need to change.
@@ -267,5 +269,11 @@ dcnpgettext_expr (const char *domain,
     }
   return (n == 1 ? msgid : msgid_plural);
 }
+
+#else /* ENABLE_NLS */
+
+#define pgettext(Msgctxt, Msgid) ((void) (Msgctxt), gettext (Msgid))
+
+#endif /* ENABLE_NLS */
 
 #endif /* _LIBGETTEXT_H */
