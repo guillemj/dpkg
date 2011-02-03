@@ -464,11 +464,7 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   static struct varbuf vb, newvb;
   FILE *file;
 
-  varbuf_reset(&vb);
-  varbuf_add_str(&vb, pkgadmindir());
-  varbuf_add_str(&vb, pkg->name);
-  varbuf_add_str(&vb, "." LISTFILE);
-  varbuf_add_char(&vb, '\0');
+  varbuf_pkgadminfile(&vb, pkg, LISTFILE);
 
   varbuf_reset(&newvb);
   varbuf_add_str(&newvb, vb.buf);

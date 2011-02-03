@@ -522,7 +522,6 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
  * conflicting package.
  */
 void removal_bulk(struct pkginfo *pkg) {
-  int pkgnameused;
   bool foundpostrm = false;
   const char *postrmfilename;
 
@@ -566,19 +565,11 @@ void removal_bulk(struct pkginfo *pkg) {
     /* Retry empty directories, and warn on any leftovers that aren't. */
     removal_bulk_remove_leftover_dirs(pkg);
 
-    varbuf_reset(&fnvb);
-    varbuf_add_str(&fnvb, pkgadmindir());
-    varbuf_add_str(&fnvb, pkg->name);
-    pkgnameused= fnvb.used;
-
-    varbuf_add_str(&fnvb, "." LISTFILE);
-    varbuf_add_char(&fnvb, '\0');
+    varbuf_pkgadminfile(&fnvb, pkg, LISTFILE);
     debug(dbg_general, "removal_bulk purge done, removing list `%s'",fnvb.buf);
     if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("cannot remove old files list"));
 
-    varbuf_trunc(&fnvb, pkgnameused);
-    varbuf_add_str(&fnvb, "." POSTRMFILE);
-    varbuf_add_char(&fnvb, '\0');
+    varbuf_pkgadminfile(&fnvb, pkg, POSTRMFILE);
     debug(dbg_general, "removal_bulk purge done, removing postrm `%s'",fnvb.buf);
     if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("can't remove old postrm script"));
 
