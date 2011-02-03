@@ -29,6 +29,7 @@ TESTS_PASS := \
 	t-conflict \
 	t-conflict-provide-replace-real \
 	t-conflict-provide-replace-virtual \
+	t-conflict-provide-replace-interface \
 	t-file-replaces \
 	t-file-replaces-disappear \
 	t-conffile-obsolete \
