@@ -410,13 +410,21 @@ pkgadmindir(void)
   return infodir;
 }
 
+void
+varbuf_pkgadminfile(struct varbuf *vb, struct pkginfo *pkg, const char *file)
+{
+  varbuf_reset(vb);
+  varbuf_add_str(vb, infodir);
+  varbuf_add_str(vb, pkg->name);
+  varbuf_add_char(vb, '.');
+  varbuf_add_str(vb, file);
+  varbuf_add_char(vb, '\0');
+}
+
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   static struct varbuf vb;
-  varbuf_reset(&vb);
-  varbuf_add_str(&vb, infodir);
-  varbuf_add_str(&vb, pkg->name);
-  varbuf_add_char(&vb, '.');
-  varbuf_add_str(&vb, whichfile);
-  varbuf_add_char(&vb, '\0');
+
+  varbuf_pkgadminfile(&vb, pkg, whichfile);
+
   return vb.buf;
 }

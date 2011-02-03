@@ -232,6 +232,8 @@ void modstatdb_shutdown(void);
 
 const char *pkgadmindir_init(const char *default_dir);
 const char *pkgadmindir(void);
+void varbuf_pkgadminfile(struct varbuf *vb, struct pkginfo *pkg,
+                         const char *file);
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 
 /*** from database.c ***/
