@@ -516,6 +516,21 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                                 "purge", NULL);
 }
 
+static bool
+pkg_has_postrm_script(struct pkginfo *pkg)
+{
+  const char *postrmfilename;
+  struct stat stab;
+
+  postrmfilename = pkgadminfile(pkg, POSTRMFILE);
+  if (!lstat(postrmfilename, &stab))
+    return true;
+  else if (errno == ENOENT)
+    return false;
+  else
+    ohshite(_("unable to check existence of `%.250s'"), postrmfilename);
+}
+
 /*
  * This is used both by deferred_remove() in this file, and at the end of
  * process_archive() in archives.c if it needs to finish removing a
@@ -523,7 +538,6 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
  */
 void removal_bulk(struct pkginfo *pkg) {
   bool foundpostrm = false;
-  const char *postrmfilename;
 
   debug(dbg_general,"removal_bulk package %s",pkg->name);
 
@@ -532,15 +546,7 @@ void removal_bulk(struct pkginfo *pkg) {
     removal_bulk_remove_files(pkg, &foundpostrm);
 
   } else {
-    struct stat stab;
-
-    postrmfilename= pkgadminfile(pkg,POSTRMFILE);
-    if (!lstat(postrmfilename, &stab))
-      foundpostrm = true;
-    else if (errno == ENOENT)
-      foundpostrm = false;
-    else ohshite(_("unable to check existence of `%.250s'"),postrmfilename);
-
+    foundpostrm = pkg_has_postrm_script(pkg);
   }
 
   debug(dbg_general, "removal_bulk purging? foundpostrm=%d",foundpostrm);
