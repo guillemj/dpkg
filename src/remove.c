@@ -183,9 +183,8 @@ static void push_leftover(struct fileinlist **leftoverp,
   *leftoverp= newentry;
 }
 
-static void removal_bulk_remove_files(
-    struct pkginfo *pkg,
-    bool *out_foundpostrm)
+static void
+removal_bulk_remove_files(struct pkginfo *pkg)
 {
   int before;
   int infodirbaseused;
@@ -279,7 +278,6 @@ static void removal_bulk_remove_files(
     varbuf_add_char(&fnvb, '\0');
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
     push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
-    *out_foundpostrm = false;
 
     debug(dbg_general, "removal_bulk cleaning info directory");
 
@@ -295,7 +293,6 @@ static void removal_bulk_remove_files(
       /* We need the postrm and list files for --purge. */
       if (!strcmp(p+1,LISTFILE)) continue;
       if (!strcmp(p + 1, POSTRMFILE)) {
-        *out_foundpostrm = true;
         continue;
       }
       debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
@@ -537,17 +534,15 @@ pkg_has_postrm_script(struct pkginfo *pkg)
  * conflicting package.
  */
 void removal_bulk(struct pkginfo *pkg) {
-  bool foundpostrm = false;
+  bool foundpostrm;
 
   debug(dbg_general,"removal_bulk package %s",pkg->name);
 
   if (pkg->status == stat_halfinstalled || pkg->status == stat_unpacked) {
-
-    removal_bulk_remove_files(pkg, &foundpostrm);
-
-  } else {
-    foundpostrm = pkg_has_postrm_script(pkg);
+    removal_bulk_remove_files(pkg);
   }
+
+  foundpostrm = pkg_has_postrm_script(pkg);
 
   debug(dbg_general, "removal_bulk purging? foundpostrm=%d",foundpostrm);
 
