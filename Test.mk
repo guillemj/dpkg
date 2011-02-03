@@ -4,6 +4,8 @@
 # Copyright © 2008 Guillem Jover <guillem@debian.org>
 #
 
+-include ../.pkg-tests.conf
+
 BEROOT := sudo
 
 ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))

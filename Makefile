@@ -4,6 +4,8 @@
 # Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
 #
 
+-include .pkg-tests.conf
+
 TESTS_MANUAL := \
 	t-conffile-prompt \
 
