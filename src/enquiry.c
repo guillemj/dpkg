@@ -3,6 +3,8 @@
  * enquiry.c - status enquiry and listing options
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -437,20 +439,32 @@ predeppackage(const char *const *argv)
     for (possi = dep->list, pkg = NULL;
          !pkg && possi;
          possi=possi->next) {
-      trypkg = &possi->ed->pkg;
-      if (trypkg->files && versionsatisfied(&trypkg->available,possi)) {
-        if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
-      }
-      if (possi->verrel != dvr_none) continue;
-      for (provider = possi->ed->depended.available;
-           !pkg && provider;
-           provider=provider->next) {
-        if (provider->up->type != dep_provides) continue;
-        trypkg= provider->up->up;
-        if (!trypkg->files)
+      struct deppossi_pkg_iterator *possi_iter;
+
+      possi_iter = deppossi_pkg_iter_new(possi, wpb_available);
+      while (!pkg && (trypkg = deppossi_pkg_iter_next(possi_iter))) {
+        if (trypkg->files && trypkg->clientdata->istobe == itb_normal &&
+            versionsatisfied(&trypkg->available, possi)) {
+          pkg = trypkg;
+          break;
+        }
+        if (possi->verrel != dvr_none)
           continue;
-        if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
+        for (provider = possi->ed->depended.available;
+             !pkg && provider;
+             provider = provider->next) {
+          if (provider->up->type != dep_provides)
+            continue;
+          trypkg = provider->up->up;
+          if (!trypkg->files)
+            continue;
+          if (trypkg->clientdata->istobe == itb_normal) {
+            pkg = trypkg;
+            break;
+          }
+        }
       }
+      deppossi_pkg_iter_free(possi_iter);
     }
     if (!pkg) {
       varbuf_reset(&vb);

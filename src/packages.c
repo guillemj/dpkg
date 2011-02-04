@@ -558,16 +558,29 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     found = found_none;
     possfixbytrig = NULL;
     for (possi = dep->list; found != found_ok && possi; possi = possi->next) {
+      struct deppossi_pkg_iterator *possi_iter;
+      struct pkginfo *pkg_pos;
+
       debug(dbg_depcondetail,"    checking possibility  -> %s",possi->ed->name);
       if (possi->cyclebreak) {
         debug(dbg_depcondetail,"      break cycle so ok and found");
         found = found_ok;
         break;
       }
-      thisf = deppossi_ok_found(&possi->ed->pkg, pkg, removing, NULL,
-                                &possfixbytrig,
-                               &matched,possi,&interestingwarnings,&oemsgs);
-      if (thisf > found) found= thisf;
+
+      thisf = found_none;
+      possi_iter = deppossi_pkg_iter_new(possi, wpb_installed);
+      while ((pkg_pos = deppossi_pkg_iter_next(possi_iter))) {
+        thisf = deppossi_ok_found(pkg_pos, pkg, removing, NULL,
+                                  &possfixbytrig, &matched, possi,
+                                  &interestingwarnings, &oemsgs);
+        if (thisf > found)
+          found = thisf;
+        if (found == found_ok)
+          break;
+      }
+      deppossi_pkg_iter_free(possi_iter);
+
       if (found != found_ok && possi->verrel == dvr_none) {
         for (provider = possi->ed->depended.installed;
              found != found_ok && provider;

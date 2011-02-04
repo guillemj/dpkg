@@ -152,11 +152,29 @@ ignore_depends(struct pkginfo *pkg)
   return false;
 }
 
+static bool
+ignore_depends_possi(struct deppossi *possi)
+{
+  struct deppossi_pkg_iterator *possi_iter;
+  struct pkginfo *pkg;
+
+  possi_iter = deppossi_pkg_iter_new(possi, wpb_installed);
+  while ((pkg = deppossi_pkg_iter_next(possi_iter))) {
+    if (ignore_depends(pkg)) {
+      deppossi_pkg_iter_free(possi_iter);
+      return true;
+    }
+  }
+  deppossi_pkg_iter_free(possi_iter);
+
+  return false;
+}
+
 bool
 force_depends(struct deppossi *possi)
 {
   return fc_depends ||
-         ignore_depends(&possi->ed->pkg) ||
+         ignore_depends_possi(possi) ||
          ignore_depends(possi->up->up);
 }
 
@@ -164,7 +182,7 @@ bool
 force_breaks(struct deppossi *possi)
 {
   return fc_breaks ||
-         ignore_depends(&possi->ed->pkg) ||
+         ignore_depends_possi(possi) ||
          ignore_depends(possi->up->up);
 }
 
