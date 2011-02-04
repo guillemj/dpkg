@@ -470,6 +470,10 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
       breaker->status == stat_configfiles) return;
   if (broken == breaker) return;
   if (!versionsatisfied(&broken->installed, breaks)) return;
+  /* The test below can only trigger if dep_breaks start having
+   * arch qualifiers different from “any”. */
+  if (!archsatisfied(&broken->installed, breaks))
+    return;
   if (ignore_depends(breaker)) return;
   if (virtbroken && ignore_depends(&virtbroken->pkg))
     return;

@@ -228,6 +228,10 @@ does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
           versiondescribe(&dep->list->version,vdew_always));
     if (!versionsatisfied(oldpifp, dep->list))
       continue;
+    /* The test below can only trigger if dep_replaces start having
+     * arch qualifiers different from “any”. */
+    if (!archsatisfied(oldpifp, dep->list))
+      continue;
     debug(dbg_depcon,"does_replace ... yes");
     return true;
   }
