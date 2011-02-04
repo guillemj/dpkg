@@ -172,7 +172,7 @@ void process_archive(const char *filename) {
    * we unwind the stack before processing the cleanup list, and these
    * variables had better still exist ... */
   static int p1[2];
-  static char *cidirbuf = NULL;
+  static char *cidir = NULL;
   static struct fileinlist *newconffiles, *newfileslist;
   static enum pkgstatus oldversionstatus;
   static struct varbuf infofnvb, fnvb, depprobwhy;
@@ -182,7 +182,7 @@ void process_archive(const char *filename) {
   pid_t pid;
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg, *divpkg;
-  char *cidir, *cidirrest, *p;
+  char *cidirrest, *p;
   char conffilenamebuf[MAXCONFFILENAME];
   char *psize;
   const char *pfilename, *newinfofilename;
@@ -220,13 +220,13 @@ void process_archive(const char *filename) {
   if (f_noact) {
     char *tmpdir;
 
-    if (!cidirbuf)
-      free(cidirbuf);
     tmpdir = mkdtemp(path_make_temp_template("dpkg"));
     if (!tmpdir)
       ohshite(_("unable to create temporary directory"));
 
-    cidir = cidirbuf = m_malloc(strlen(tmpdir) + MAXCONTROLFILENAME + 10);
+    if (!cidir)
+      free(cidir);
+    cidir = m_malloc(strlen(tmpdir) + MAXCONTROLFILENAME + 10);
     strcpy(cidir, tmpdir);
     strcat(cidir,"/");
 
@@ -236,10 +236,9 @@ void process_archive(const char *filename) {
   } else {
     /* We want it to be on the same filesystem so that we can
      * use rename(2) to install the postinst &c. */
-    if (!cidirbuf)
-      cidirbuf = m_malloc(strlen(admindir) + sizeof(CONTROLDIRTMP) +
-                          MAXCONTROLFILENAME + 10);
-    cidir= cidirbuf;
+    if (!cidir)
+      cidir = m_malloc(strlen(admindir) + sizeof(CONTROLDIRTMP) +
+                       MAXCONTROLFILENAME + 10);
     strcpy(cidir,admindir);
     strcat(cidir, "/" CONTROLDIRTMP);
 
