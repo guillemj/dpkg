@@ -193,14 +193,21 @@ void process_archive(const char *filename) {
     
 
   if (f_noact) {
+    char *tmpdir;
+
     if (!cidirbuf)
       free(cidirbuf);
-    cidir = cidirbuf = mkdtemp(path_make_temp_template("dpkg"));
-    if (!cidir)
+    tmpdir = mkdtemp(path_make_temp_template("dpkg"));
+    if (!tmpdir)
       ohshite(_("unable to create temporary directory"));
+
+    cidir = cidirbuf = m_malloc(strlen(tmpdir) + MAXCONTROLFILENAME + 10);
+    strcpy(cidir, tmpdir);
     strcat(cidir,"/");
 
     cidirrest = cidir + strlen(cidir);
+
+    free(tmpdir);
   } else {
     /* We want it to be on the same filesystem so that we can
      * use rename(2) to install the postinst &c.
