@@ -178,7 +178,7 @@ void process_archive(const char *filename) {
   static struct varbuf infofnvb, fnvb, depprobwhy;
   static struct tarcontext tc;
 
-  int r, admindirlen, i, infodirlen, infodirbaseused;
+  int r, i, infodirlen, infodirbaseused;
   pid_t pid;
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg, *divpkg;
@@ -202,7 +202,6 @@ void process_archive(const char *filename) {
   struct rename_list *rename_head = NULL, *rename_node = NULL;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
-  admindirlen= strlen(admindir);
 
   pfilename = summarize_filename(filename);
 
@@ -238,7 +237,8 @@ void process_archive(const char *filename) {
     /* We want it to be on the same filesystem so that we can
      * use rename(2) to install the postinst &c. */
     if (!cidirbuf)
-      cidirbuf= m_malloc(admindirlen+sizeof(CONTROLDIRTMP)+MAXCONTROLFILENAME+10);
+      cidirbuf = m_malloc(strlen(admindir) + sizeof(CONTROLDIRTMP) +
+                          MAXCONTROLFILENAME + 10);
     cidir= cidirbuf;
     strcpy(cidir,admindir);
     strcat(cidir, "/" CONTROLDIRTMP);
