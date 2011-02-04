@@ -501,6 +501,17 @@ void process_archive(const char *filename) {
    * that we need. */
   pkg->clientdata->istobe= itb_installnew;
 
+  /* Deconfigure other instances from a pkgset if they are not in sync. */
+  for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
+    if (otherpkg == pkg)
+      continue;
+    if (otherpkg->status <= stat_halfconfigured)
+      continue;
+
+    if (versioncompare(&pkg->available.version, &otherpkg->installed.version))
+      enqueue_deconfigure(otherpkg, NULL);
+  }
+
   for (dsearch= pkg->available.depends; dsearch; dsearch= dsearch->next) {
     switch (dsearch->type) {
     case dep_conflicts:
