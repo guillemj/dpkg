@@ -224,9 +224,7 @@ void process_archive(const char *filename) {
     if (!tmpdir)
       ohshite(_("unable to create temporary directory"));
 
-    if (!cidir)
-      free(cidir);
-    cidir = m_malloc(strlen(tmpdir) + MAXCONTROLFILENAME + 10);
+    cidir = m_realloc(cidir, strlen(tmpdir) + MAXCONTROLFILENAME + 10);
     strcpy(cidir, tmpdir);
     strcat(cidir,"/");
 
