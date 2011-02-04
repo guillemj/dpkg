@@ -90,12 +90,12 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     ohshite(_("unable to read `%.250s' directory for reading methods"),pathbuf);
   }
 
-  if (debug) fprintf(debug,"readmethods(`%s',...) directory open\n", pathbase);
+  debug(dbg_general, "readmethods('%s',...) directory open", pathbase);
 
   while ((dent= readdir(dir)) != 0) {
     c= dent->d_name[0];
-    if (debug) fprintf(debug,"readmethods(`%s',...) considering `%s' ...\n",
-                       pathbase,dent->d_name);
+    debug(dbg_general, "readmethods('%s',...) considering '%s' ...",
+          pathbase, dent->d_name);
     if (c != '_' && !isalpha(c)) continue;
     char *p = dent->d_name + 1;
     while ((c = *p) != 0 && isalnum(c) && c != '_')
@@ -116,7 +116,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       if (access(pathbuf,R_OK|X_OK))
         ohshite(_("unable to access method script `%.250s'"),pathbuf);
     }
-    if (debug) fprintf(debug," readmethods(`%s',...) scripts ok\n", pathbase);
+    debug(dbg_general, " readmethods('%s',...) scripts ok", pathbase);
 
     strcpy(pathinmeth,METHODOPTIONSFILE);
     names= fopen(pathbuf,"r");
@@ -134,9 +134,9 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     if (methods)
       methods->prev = meth;
     methods= meth;
-    if (debug) fprintf(debug," readmethods(`%s',...) new method"
-                       " name=`%s' path=`%s' pathinmeth=`%s'\n",
-                       pathbase, meth->name, meth->path, meth->pathinmeth);
+    debug(dbg_general, " readmethods('%s',...) new method"
+                       " name='%s' path='%s' pathinmeth='%s'",
+          pathbase, meth->name, meth->path, meth->pathinmeth);
 
     while ((c= fgetc(names)) != EOF) {
       if (isspace(c)) continue;
@@ -203,15 +203,15 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       }
       strcpy(pathinmeth,METHODOPTIONSFILE);
 
-      if (debug) fprintf(debug," readmethods(`%s',...) new option"
-                         " index=`%s' name=`%s' summary=`%.20s'"
-                         " strlen(description=%s)=%ld"
-                         " method name=`%s' path=`%s' pathinmeth=`%s'\n",
-                         pathbase,
-                         opt->index, opt->name, opt->summary,
-                         opt->description ? "`...'" : "null",
-                         opt->description ? (long) strlen(opt->description) : -1,
-                         opt->meth->name, opt->meth->path, opt->meth->pathinmeth);
+      debug(dbg_general,
+            " readmethods('%s',...) new option index='%s' name='%s'"
+            " summary='%.20s' strlen(description=%s)=%ld method name='%s'"
+            " path='%s' pathinmeth='%s'",
+            pathbase,
+            opt->index, opt->name, opt->summary,
+            opt->description ? "'...'" : "null",
+            opt->description ? (long)strlen(opt->description) : -1,
+            opt->meth->name, opt->meth->path, opt->meth->pathinmeth);
 
       dselect_option **optinsert = optionspp;
       while (*optinsert && strcmp(opt->index, (*optinsert)->index) > 0)
@@ -225,7 +225,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     fclose(names);
   }
   closedir(dir);
-  if (debug) fprintf(debug,"readmethods(`%s',...) done\n", pathbase);
+  debug(dbg_general, "readmethods('%s',...) done", pathbase);
   delete[] pathbuf;
 }
 
@@ -251,30 +251,30 @@ void getcurrentopt() {
     if (errno == ENOENT) return;
     ohshite(_("unable to open current option file `%.250s'"),methoptfile);
   }
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt open\n");
+  debug(dbg_general, "getcurrentopt() cmethopt open");
   if (!fgets(methoptbuf,sizeof(methoptbuf),cmo)) { fclose(cmo); return; }
   if (fgetc(cmo) != EOF) { fclose(cmo); return; }
   if (!feof(cmo)) { fclose(cmo); return; }
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt eof\n");
+  debug(dbg_general, "getcurrentopt() cmethopt eof");
   fclose(cmo);
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt read\n");
+  debug(dbg_general, "getcurrentopt() cmethopt read");
   l= strlen(methoptbuf);  if (!l || methoptbuf[l-1] != '\n') return;
   methoptbuf[--l]= 0;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt len and newline\n");
+  debug(dbg_general, "getcurrentopt() cmethopt len and newline");
   p= strchr(methoptbuf,' ');  if (!p) return;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt space\n");
+  debug(dbg_general, "getcurrentopt() cmethopt space");
   *p++= 0;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt meth name `%s'\n", methoptbuf);
+  debug(dbg_general, "getcurrentopt() cmethopt meth name '%s'", methoptbuf);
   method *meth = methods;
   while (meth && strcmp(methoptbuf, meth->name))
     meth = meth->next;
   if (!meth) return;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt meth found; opt `%s'\n",p);
+  debug(dbg_general, "getcurrentopt() cmethopt meth found; opt '%s'", p);
   dselect_option *opt = options;
   while (opt && (opt->meth != meth || strcmp(p, opt->name)))
     opt = opt->next;
   if (!opt) return;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt opt found\n");
+  debug(dbg_general, "getcurrentopt() cmethopt opt found");
   coption= opt;
 }
 

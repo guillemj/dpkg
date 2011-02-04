@@ -62,7 +62,6 @@ const char printforhelp[]= N_("Type dselect --help for help.");
 
 modstatdb_rw readwrite;
 const char *admindir= ADMINDIR;
-FILE *debug;
 int expertmode= 0;
 
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
@@ -227,9 +226,15 @@ usage(const struct cmdinfo *ci, const char *value)
 extern "C" {
 
   static void setdebug(const struct cmdinfo*, const char *v) {
-    debug= fopen(v,"a");
-    if (!debug) ohshite(_("couldn't open debug file `%.255s'\n"),v);
-    setvbuf(debug,0,_IONBF,0);
+    FILE *fp;
+
+    fp = fopen(v, "a");
+    if (!fp)
+      ohshite(_("couldn't open debug file `%.255s'\n"), v);
+    setvbuf(fp, 0, _IONBF, 0);
+
+    debug_set_output(fp);
+    debug_set_mask(dbg_general | dbg_depcon);
   }
 
   static void setexpert(const struct cmdinfo*, const char *v) {

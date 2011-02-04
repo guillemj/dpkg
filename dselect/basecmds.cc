@@ -85,7 +85,7 @@ void baselist::kd_redraw() {
 //  RFSH(whatinfowin); /* FIXME: why does ncurses need this? */
   clearok(curscr,TRUE);
   redrawall();
-  if (debug) fprintf(debug,"baselist[%p]::kd_redraw() done\n",this);
+  debug(dbg_general, "baselist[%p]::kd_redraw() done", this);
 }
 
 void baselist::kd_searchagain() {

@@ -143,8 +143,8 @@ void packagelist::kd_purge()    { setwant(pkginfo::want_purge);     }
 
 int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
   /* Returns: 1 for yes, 0 for no, -1 for if they want to preserve an error condition. */
-  if (debug) fprintf(debug,"would_like_to_install(%d, %s) status %d\n",
-                     wantvalue,pkg->name,pkg->status);
+  debug(dbg_general, "would_like_to_install(%d, %s) status %d",
+        wantvalue, pkg->name, pkg->status);
 
   if (wantvalue == pkginfo::want_install) return 1;
   if (wantvalue != pkginfo::want_hold) return 0;

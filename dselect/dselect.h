@@ -29,6 +29,8 @@
 using std::min;
 using std::max;
 
+#include <dpkg/debug.h>
+
 #include "dselect-curses.h"
 
 #define DSELECT		"dselect"
@@ -147,7 +149,6 @@ void curseson();
 void cursesoff();
 
 extern const char *admindir;
-extern FILE *debug;
 extern int expertmode;
 
 enum screenparts {

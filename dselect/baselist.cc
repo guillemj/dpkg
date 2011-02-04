@@ -50,7 +50,7 @@ void mywerase(WINDOW *win) {
 baselist *baselist::signallist= 0;
 void baselist::sigwinchhandler(int) {
   struct winsize size;
-  if (debug) fprintf(debug,"baselist::sigwinchhandler(), signallist=%p\n",signallist);
+  debug(dbg_general, "baselist::sigwinchhandler(), signallist=%p", signallist);
   baselist *p= signallist;
   p->enddisplay();
   endwin(); initscr();
@@ -113,7 +113,7 @@ void baselist::setheights() {
 }
 
 void baselist::startdisplay() {
-  if (debug) fprintf(debug,"baselist[%p]::startdisplay()\n",this);
+  debug(dbg_general, "baselist[%p]::startdisplay()", this);
   cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
   clear(); wnoutrefresh(stdscr);
 
@@ -199,20 +199,16 @@ void baselist::startdisplay() {
 
   redrawall();
 
-  if (debug)
-    fprintf(debug,
-            "baselist::startdisplay() done ...\n\n"
-            " xmax=%d, ymax=%d;\n\n"
-            " title_height=%d, colheads_height=%d, list_height=%d;\n"
-            " thisstate_height=%d, info_height=%d, whatinfo_height=%d;\n\n"
-            " colheads_row=%d, thisstate_row=%d, info_row=%d;\n"
-            " whatinfo_row=%d, list_row=%d;\n\n",
-            xmax, ymax,
-            title_height, colheads_height, list_height,
-            thisstate_height, info_height, whatinfo_height,
-            colheads_row, thisstate_row, info_row,
-            whatinfo_row, list_row);
-
+  debug(dbg_general,
+        "baselist::startdisplay() done ...\n\n"
+        " xmax=%d, ymax=%d;\n\n"
+        " title_height=%d, colheads_height=%d, list_height=%d;\n"
+        " thisstate_height=%d, info_height=%d, whatinfo_height=%d;\n\n"
+        " colheads_row=%d, thisstate_row=%d, info_row=%d;\n"
+        " whatinfo_row=%d, list_row=%d;\n\n",
+        xmax, ymax, title_height, colheads_height, list_height,
+        thisstate_height, info_height, whatinfo_height,
+        colheads_row, thisstate_row, info_row, whatinfo_row, list_row);
 }
 
 void baselist::enddisplay() {
@@ -241,8 +237,7 @@ void baselist::redraw1item(int index) {
 }
 
 baselist::baselist(keybindings *kb) {
-  if (debug)
-    fprintf(debug,"baselist[%p]::baselist()\n",this);
+  debug(dbg_general, "baselist[%p]::baselist()", this);
 
   bindings= kb;
   nitems= 0;
@@ -279,8 +274,8 @@ void baselist::itd_keys() {
 
 void baselist::dosearch() {
   int offset, index;
-  if (debug) fprintf(debug,"baselist[%p]::dosearch(); searchstring=`%s'\n",
-                     this,searchstring);
+  debug(dbg_general, "baselist[%p]::dosearch(); searchstring='%s'",
+        this, searchstring);
   for (offset = 1, index = max(topofscreen, cursorline + 1);
        offset<nitems;
        offset++, index++) {
@@ -321,7 +316,7 @@ void baselist::refreshinfo() {
 
 void baselist::wordwrapinfo(int offset, const char *m) {
   int usemax= xmax-5;
-  if (debug) fprintf(debug,"baselist[%p]::wordwrapinfo(%d, `%s')\n",this,offset,m);
+  debug(dbg_general, "baselist[%p]::wordwrapinfo(%d, '%s')", this, offset, m);
   int wrapping=0;
   for (;;) {
     int offleft=offset; while (*m == ' ' && offleft>0) { m++; offleft--; }
@@ -372,7 +367,7 @@ void baselist::wordwrapinfo(int offset, const char *m) {
     }
     m= ++p;
   }
-  if (debug) fprintf(debug,"baselist[%p]::wordwrapinfo() done\n",this);
+  debug(dbg_general, "baselist[%p]::wordwrapinfo() done", this);
 }
 
 baselist::~baselist() { }
