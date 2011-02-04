@@ -179,7 +179,6 @@ const char printforhelp[]= N_(
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;
 int f_triggers = 0;
-unsigned long f_debug=0;
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
 int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_breaks=0, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
@@ -225,6 +224,7 @@ static const struct forceinfo {
 
 static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
+  unsigned long mask;
 
   if (*value == 'h') {
     printf(_(
@@ -251,8 +251,10 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
     exit(0);
   }
 
-  f_debug= strtoul(value,&endp,8);
+  mask = strtoul(value, &endp, 8);
   if (value == endp || *endp) badusage(_("--debug requires an octal argument"));
+
+  debug_set_mask(mask);
 }
 
 static void

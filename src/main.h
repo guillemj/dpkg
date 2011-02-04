@@ -21,6 +21,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <dpkg/debug.h>
 #include <dpkg/pkg-list.h>
 
 /* These two are defined in filesdb.h. */
@@ -124,7 +125,6 @@ extern const char *const statusstrings[];
 extern int f_pending, f_recursive, f_alsoselect, f_skipsame, f_noact;
 extern int f_autodeconf, f_nodebsig;
 extern int f_triggers;
-extern unsigned long f_debug;
 extern int fc_downgrade, fc_configureany, fc_hold, fc_removereinstreq, fc_overwrite;
 extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
 extern int fc_breaks, fc_badpath, fc_overwritediverted, fc_architecture;
@@ -253,23 +253,6 @@ void clear_istobes(void);
 bool isdirectoryinuse(struct filenamenode *namenode, struct pkginfo *pkg);
 bool hasdirectoryconffiles(struct filenamenode *namenode, struct pkginfo *pkg);
 
-enum debugflags {
-  dbg_general=           00001,
-  dbg_scripts=           00002,
-  dbg_eachfile=          00010,
-  dbg_eachfiledetail=    00100,
-  dbg_conff=             00020,
-  dbg_conffdetail=       00200,
-  dbg_depcon=            00040,
-  dbg_depcondetail=      00400,
-  dbg_veryverbose=       01000,
-  dbg_stupidlyverbose=   02000,
-  dbg_triggers =        010000,
-  dbg_triggersdetail =  020000,
-  dbg_triggersstupid =  040000,
-};
-
-void debug(int which, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 void log_action(const char *action, struct pkginfo *pkg);
 
 /* from trigproc.c */

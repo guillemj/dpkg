@@ -30,6 +30,7 @@ libdpkg_a_SOURCES = \
 	compress.c \
 	database.c \
 	dbmodify.c \
+	debug.c \
 	dir.c \
 	dump.c \
 	ehandle.c \
@@ -69,6 +70,7 @@ pkginclude_HEADERS = \
 	buffer.h \
 	command.h \
 	compress.h \
+	debug.h \
 	dir.h \
 	dpkg.h \
 	dpkg-db.h \

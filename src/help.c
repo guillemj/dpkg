@@ -190,7 +190,7 @@ preexecscript(struct command *cmd)
     if (chdir("/"))
       ohshite(_("failed to chdir to `%.255s'"), "/");
   }
-  if (f_debug & dbg_scripts) {
+  if (debug_has_flag(dbg_scripts)) {
     struct varbuf args = VARBUF_INIT;
     const char **argv = cmd->argv;
 
@@ -456,17 +456,6 @@ void clear_istobes(void) {
     pkg->clientdata->replacingfilesandsaid= 0;
   }
   pkg_db_iter_free(it);
-}
-
-void debug(int which, const char *fmt, ...) {
-  va_list args;
-
-  if (!(f_debug & which)) return;
-  fprintf(stderr,"D0%05o: ",which);
-  va_start(args, fmt);
-  vfprintf(stderr, fmt, args);
-  va_end(args);
-  putc('\n',stderr);
 }
 
 /*

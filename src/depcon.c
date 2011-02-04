@@ -110,7 +110,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
     return false;
   pkg->clientdata->color = gray;
 
-  if (f_debug & dbg_depcondetail) {
+  if (debug_has_flag(dbg_depcondetail)) {
     struct varbuf str_pkgs = VARBUF_INIT;
 
     for (sol = sofar; sol; sol = sol->prev) {
