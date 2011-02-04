@@ -5,6 +5,8 @@
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 1999, 2002 Wichert Akkerman <wichert@deephackmode.org>
  * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -258,6 +260,7 @@ deferred_configure(struct pkginfo *pkg)
 {
 	struct varbuf aemsgs = VARBUF_INIT;
 	struct conffile *conff;
+	struct pkginfo *otherpkg;
 	int ok;
 
 	if (pkg->status == stat_notinstalled)
@@ -271,6 +274,31 @@ deferred_configure(struct pkginfo *pkg)
 		         " cannot configure (current status `%.250s')"),
 		       pkg_name(pkg, pnaw_nonambig),
 		       statusinfos[pkg->status].name);
+
+	for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
+		if (otherpkg == pkg)
+			continue;
+		if (otherpkg->status <= stat_configfiles)
+			continue;
+
+		if (otherpkg->status < stat_unpacked)
+			ohshit(_("package %s cannot be configured because "
+			         "%s is not ready (current status '%s')"),
+			       pkg_name(pkg, pnaw_always),
+			       pkg_name(otherpkg, pnaw_always),
+			       statusinfos[otherpkg->status].name);
+
+		if (versioncompare(&pkg->installed.version,
+		                   &otherpkg->installed.version))
+			ohshit(_("package %s %s cannot be configured because "
+			         "%s is at a different version (%s)"),
+			       pkg_name(pkg, pnaw_always),
+			       versiondescribe(&pkg->installed.version,
+			                       vdew_nonambig),
+			       pkg_name(otherpkg, pnaw_always),
+			       versiondescribe(&otherpkg->installed.version,
+			                       vdew_nonambig));
+	}
 
 	if (dependtry > 1)
 		if (findbreakcycle(pkg))
