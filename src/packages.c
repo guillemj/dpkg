@@ -3,6 +3,8 @@
  * packages.c - common to actions that process packages
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -316,7 +318,7 @@ enum found_status {
  */
 static enum found_status
 deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
-                  struct pkginfo *removing, struct pkginfo *providing,
+                  struct pkginfo *removing, struct pkgset *providing,
                   struct pkginfo **fixbytrig,
                   bool *matched, struct deppossi *checkversion,
                   int *interestingwarnings, struct varbuf *oemsgs)
@@ -332,7 +334,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
     if (providing) {
       varbuf_printf(oemsgs,
                     _("  Package %s which provides %s is to be removed.\n"),
-                    possdependee->set->name, providing->set->name);
+                    possdependee->set->name, providing->name);
     } else {
       varbuf_printf(oemsgs, _("  Package %s is to be removed.\n"),
                     possdependee->set->name);
@@ -374,7 +376,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
         if (providing) {
           varbuf_printf(oemsgs,
                         _("  Package %s which provides %s awaits trigger processing.\n"),
-                        possdependee->set->name, providing->set->name);
+                        possdependee->set->name, providing->name);
         } else {
           varbuf_printf(oemsgs,
                         _("  Package %s awaits trigger processing.\n"),
@@ -416,7 +418,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       if (providing) {
         varbuf_printf(oemsgs,
                       _("  Package %s which provides %s is not configured yet.\n"),
-                      possdependee->set->name, providing->set->name);
+                      possdependee->set->name, providing->name);
       } else {
         varbuf_printf(oemsgs, _("  Package %s is not configured yet.\n"),
                       possdependee->set->name);
@@ -430,7 +432,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
     if (providing) {
       varbuf_printf(oemsgs,
                     _("  Package %s which provides %s is not installed.\n"),
-                    possdependee->set->name, providing->set->name);
+                    possdependee->set->name, providing->name);
     } else {
       varbuf_printf(oemsgs, _("  Package %s is not installed.\n"),
                     possdependee->set->name);
@@ -453,19 +455,20 @@ unsuitable:
 static void
 breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
                  struct deppossi *breaks, struct pkginfo *broken,
-                 struct pkginfo *breaker, struct pkginfo *virtbroken)
+                 struct pkginfo *breaker, struct pkgset *virtbroken)
 {
   struct varbuf depmsg = VARBUF_INIT;
 
   debug(dbg_depcondetail, "      checking breaker %s virtbroken %s",
-        breaker->set->name, virtbroken ? virtbroken->set->name : "<none>");
+        breaker->set->name, virtbroken ? virtbroken->name : "<none>");
 
   if (breaker->status == stat_notinstalled ||
       breaker->status == stat_configfiles) return;
   if (broken == breaker) return;
   if (!versionsatisfied(&broken->installed, breaks)) return;
   if (ignore_depends(breaker)) return;
-  if (virtbroken && ignore_depends(virtbroken)) return;
+  if (virtbroken && ignore_depends(&virtbroken->pkg))
+    return;
 
   varbufdependency(&depmsg, breaks->up);
   varbuf_end_str(&depmsg);
@@ -477,7 +480,7 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
   if (virtbroken) {
     varbuf_printf(aemsgs, _("  %s (%s) provides %s.\n"), broken->set->name,
                   versiondescribe(&broken->installed.version, vdew_nonambig),
-                  virtbroken->set->name);
+                  virtbroken->name);
   } else if (breaks->verrel != dvr_none) {
     varbuf_printf(aemsgs, _("  Version of %s to be configured is %s.\n"),
                   broken->set->name,
@@ -490,12 +493,12 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
 
 static void
 breaks_check_target(struct varbuf *aemsgs, enum dep_check *ok,
-                    struct pkginfo *broken, struct pkginfo *target,
-                    struct pkginfo *virtbroken)
+                    struct pkginfo *broken, struct pkgset *target,
+                    struct pkgset *virtbroken)
 {
   struct deppossi *possi;
 
-  for (possi = target->set->depended.installed; possi; possi = possi->rev_next) {
+  for (possi = target->depended.installed; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_breaks) continue;
     if (virtbroken && possi->verrel != dvr_none) continue;
     breaks_check_one(aemsgs, ok, possi, broken, possi->up->up, virtbroken);
@@ -506,17 +509,17 @@ enum dep_check
 breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs)
 {
   struct dependency *dep;
-  struct pkginfo *virtbroken;
+  struct pkgset *virtbroken;
   enum dep_check ok = dep_check_ok;
 
   debug(dbg_depcon, "    checking Breaks");
 
-  breaks_check_target(aemsgs, &ok, pkg, pkg, NULL);
+  breaks_check_target(aemsgs, &ok, pkg, pkg->set, NULL);
 
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_provides) continue;
-    virtbroken = &dep->list->ed->pkg;
-    debug(dbg_depcondetail, "     checking virtbroken %s", virtbroken->set->name);
+    virtbroken = dep->list->ed;
+    debug(dbg_depcondetail, "     checking virtbroken %s", virtbroken->name);
     breaks_check_target(aemsgs, &ok, pkg, virtbroken, virtbroken);
   }
   return ok;
@@ -574,7 +577,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
           debug(dbg_depcondetail, "     checking provider %s",
                 provider->up->up->set->name);
           thisf = deppossi_ok_found(provider->up->up, pkg, removing,
-                                    &possi->ed->pkg,
+                                    possi->ed,
                                     &possfixbytrig, &matched, NULL,
                                     &interestingwarnings, &oemsgs);
           if (thisf > found)

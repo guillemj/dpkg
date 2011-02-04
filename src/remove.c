@@ -48,13 +48,13 @@
  * pkgdepcheck may be a virtual pkg.
  */
 static void checkforremoval(struct pkginfo *pkgtoremove,
-                            struct pkginfo *pkgdepcheck,
+                            struct pkgset *pkgdepcheck,
                             int *rokp, struct varbuf *raemsgs) {
   struct deppossi *possi;
   struct pkginfo *depender;
   int before, ok;
 
-  for (possi = pkgdepcheck->set->depended.installed; possi; possi = possi->rev_next) {
+  for (possi = pkgdepcheck->depended.installed; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
     depender= possi->up->up;
     debug(dbg_depcon, "checking depending package `%s'", depender->set->name);
@@ -109,11 +109,11 @@ void deferred_remove(struct pkginfo *pkg) {
 
   debug(dbg_general, "checking dependencies for remove `%s'", pkg->set->name);
   rok= 2;
-  checkforremoval(pkg,pkg,&rok,&raemsgs);
+  checkforremoval(pkg, pkg->set, &rok, &raemsgs);
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_provides) continue;
     debug(dbg_depcon,"checking virtual package `%s'",dep->list->ed->name);
-    checkforremoval(pkg, &dep->list->ed->pkg, &rok, &raemsgs);
+    checkforremoval(pkg, dep->list->ed, &rok, &raemsgs);
   }
 
   if (rok == 1) {
