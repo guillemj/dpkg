@@ -157,6 +157,20 @@ deb_verify(const char *filename)
   }
 }
 
+#define MAXCONFLICTORS 20
+
+static struct pkginfo *conflictor[MAXCONFLICTORS];
+static int cflict_index = 0;
+
+void
+push_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm)
+{
+  if (cflict_index >= MAXCONFLICTORS)
+    ohshit(_("package %s has too many Conflicts/Replaces pairs"), pkg->name);
+
+  conflictor[cflict_index++] = pkg_fixbyrm;
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,

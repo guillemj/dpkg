@@ -62,11 +62,6 @@
 #include "archives.h"
 #include "filters.h"
 
-#define MAXCONFLICTORS 20
-
-struct pkginfo *conflictor[MAXCONFLICTORS];
-int cflict_index = 0;
-
 static inline void
 fd_writeback_init(int fd)
 {
@@ -1146,12 +1141,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         }
       }
       if (!pdep) {
-	if (cflict_index >= MAXCONFLICTORS)
-	  ohshit(_("package %s has too many Conflicts/Replaces pairs"),
-		 pkg->name);
-
         /* This conflict is OK - we'll remove the conflictor. */
-	conflictor[cflict_index++]= fixbyrm;
+        push_conflictor(pkg, fixbyrm);
         varbuf_destroy(&conflictwhy); varbuf_destroy(&removalwhy);
         fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
                 fixbyrm->name, pkg->name);

@@ -41,8 +41,7 @@ extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;
 extern struct pkg_deconf_list *deconfigure;
 
-extern struct pkginfo *conflictor[];
-extern int cflict_index;
+void push_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm);
 
 void cu_pathname(int argc, void **argv);
 void cu_cidir(int argc, void **argv);
