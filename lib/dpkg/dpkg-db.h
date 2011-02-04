@@ -355,6 +355,7 @@ bool epochsdiffer(const struct versionrevision *a,
 /*** from depcon.c ***/
 
 bool versionsatisfied(struct pkgbin *it, struct deppossi *against);
+bool archsatisfied(struct pkgbin *it, struct deppossi *against);
 
 /*** from nfmalloc.c ***/
 void *nfmalloc(size_t);
