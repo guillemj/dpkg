@@ -197,6 +197,7 @@ static const struct forceinfo {
   const char *name;
   int *opt;
 } forceinfos[]= {
+  { "all",                 NULL                         },
   { "downgrade",           &fc_downgrade                },
   { "configure-any",       &fc_configureany             },
   { "hold",                &fc_hold                     },
@@ -472,15 +473,14 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
     for (fip=forceinfos; fip->name; fip++)
       if (!strncmp(fip->name,value,l) && strlen(fip->name)==l) break;
     if (!fip->name) {
-      if (strncmp("all", value, l) == 0) {
+      badusage(_("unknown force/refuse option `%.*s'"),
+               (int)min(l, 250), value);
+    } else {
+      if (strcmp("all", fip->name) == 0) {
 	for (fip=forceinfos; fip->name; fip++)
 	  if (fip->opt)
 	    *fip->opt= cip->arg;
-      } else
-	badusage(_("unknown force/refuse option `%.*s'"),
-	         (int)min(l, 250), value);
-    } else {
-      if (fip->opt)
+      } else if (fip->opt)
 	*fip->opt= cip->arg;
       else
 	warning(_("obsolete force/refuse option '%s'\n"), fip->name);
