@@ -193,34 +193,79 @@ const char *admindir= ADMINDIR;
 const char *instdir= "";
 struct pkg_list *ignoredependss = NULL;
 
+static const char *
+forcetype_str(char type)
+{
+  switch (type) {
+  case '\0':
+  case ' ':
+    return "   ";
+  case '*':
+    return "[*]";
+  case '!':
+    return "[!]";
+  default:
+    internerr("unknown force type %c", type);
+  }
+}
+
 static const struct forceinfo {
   const char *name;
   int *opt;
+  char type;
+  const char *desc;
 } forceinfos[]= {
-  { "all",                 NULL                         },
-  { "downgrade",           &fc_downgrade                },
-  { "configure-any",       &fc_configureany             },
-  { "hold",                &fc_hold                     },
-  { "remove-reinstreq",    &fc_removereinstreq          },
-  { "remove-essential",    &fc_removeessential          },
-  { "conflicts",           &fc_conflicts                },
-  { "confnew",             &fc_conff_new                },
-  { "confold",             &fc_conff_old                },
-  { "confdef",             &fc_conff_def                },
-  { "confmiss",            &fc_conff_miss               },
-  { "confask",             &fc_conff_ask                },
-  { "depends",             &fc_depends                  },
-  { "depends-version",     &fc_dependsversion           },
-  { "breaks",              &fc_breaks                   },
-  { "bad-path",            &fc_badpath                  },
-  { "not-root",            &fc_nonroot                  },
-  { "overwrite",           &fc_overwrite                },
-  { "overwrite-diverted",  &fc_overwritediverted        },
-  { "overwrite-dir",       &fc_overwritedir             },
-  { "unsafe-io",           &fc_unsafe_io                },
-  { "architecture",        &fc_architecture             },
-  { "bad-verify",          &fc_badverify                },
-  {  NULL                                               }
+  { "all",                 NULL,
+    '!', N_("Set all force options")},
+  { "downgrade",           &fc_downgrade,
+    '*', N_("Replace a package with a lower version") },
+  { "configure-any",       &fc_configureany,
+    ' ', N_("Configure any package which may help this one") },
+  { "hold",                &fc_hold,
+    ' ', N_("Process incidental packages even when on hold") },
+  { "not-root",            &fc_nonroot,
+    ' ', N_("Try to (de)install things even when not root") },
+  { "bad-path",            &fc_badpath,
+    ' ', N_("PATH is missing important programs, problems likely") },
+  { "bad-verify",          &fc_badverify,
+    ' ', N_("Install a package even if it fails authenticity check") },
+  { "overwrite",           &fc_overwrite,
+    ' ', N_("Overwrite a file from one package with another") },
+  { "overwrite-diverted",  &fc_overwritediverted,
+    ' ', N_("Overwrite a diverted file with an undiverted version") },
+  { "overwrite-dir",       &fc_overwritedir,
+    '!', N_("Overwrite one package's directory with another's file") },
+  { "unsafe-io",           &fc_unsafe_io,
+    '!', N_("Do not perform safe I/O operations when unpacking") },
+  { "confnew",             &fc_conff_new,
+    '!', N_("Always use the new config files, don't prompt") },
+  { "confold",             &fc_conff_old,
+    '!', N_("Always use the old config files, don't prompt") },
+  /* XXX: Handle automatically line wrappings. */
+  { "confdef",             &fc_conff_def,
+    '!', N_("Use the default option for new config files if one\n"
+"                         is available, don't prompt. If no default can be found,\n"
+"                         you will be prompted unless one of the confold or\n"
+"                         confnew options is also given") },
+  { "confmiss",            &fc_conff_miss,
+    '!', N_("Always install missing config files") },
+  { "confask",             &fc_conff_ask,
+    '!', N_("Offer to replace config files with no new versions") },
+  { "architecture",        &fc_architecture,
+    '!', N_("Process even packages with wrong or no architecture") },
+  { "breaks",              &fc_breaks,
+    '!', N_("Install even if it would break another package") },
+  { "conflicts",           &fc_conflicts,
+    '!', N_("Allow installation of conflicting packages") },
+  { "depends",             &fc_depends,
+    '!', N_("Turn all dependency problems into warnings") },
+  { "depends-version",     &fc_dependsversion,
+    '!', N_("Turn dependency version problems into warnings") },
+  { "remove-reinstreq",    &fc_removereinstreq,
+    '!', N_("Remove packages which require installation") },
+  { "remove-essential",    &fc_removeessential,
+    '!', N_("Remove an essential package") },
+  { NULL }
 };
 
 #define DBG_DEF(n, d) \
@@ -433,36 +478,15 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"
-"  all [!]                Set all force options\n"
-"  downgrade [*]          Replace a package with a lower version\n"
-"  configure-any          Configure any package which may help this one\n"
-"  hold                   Process incidental packages even when on hold\n"
-"  bad-path               PATH is missing important programs, problems likely\n"
-"  not-root               Try to (de)install things even when not root\n"
-"  overwrite              Overwrite a file from one package with another\n"
-"  overwrite-diverted     Overwrite a diverted file with an undiverted version\n"
-"  bad-verify             Install a package even if it fails authenticity check\n"
-"  depends-version [!]    Turn dependency version problems into warnings\n"
-"  depends [!]            Turn all dependency problems into warnings\n"
-"  confnew [!]            Always use the new config files, don't prompt\n"
-"  confold [!]            Always use the old config files, don't prompt\n"
-"  confdef [!]            Use the default option for new config files if one\n"
-"                         is available, don't prompt. If no default can be found,\n"
-"                         you will be prompted unless one of the confold or\n"
-"                         confnew options is also given\n"
-"  confmiss [!]           Always install missing config files\n"
-"  confask [!]            Offer to replace config files with no new versions\n"
-"  breaks [!]             Install even if it would break another package\n"
-"  conflicts [!]          Allow installation of conflicting packages\n"
-"  architecture [!]       Process even packages with wrong or no architecture\n"
-"  overwrite-dir [!]      Overwrite one package's directory with another's file\n"
-"  unsafe-io [!]          Do not perform safe I/O operations when unpacking\n"
-"  remove-reinstreq [!]   Remove packages which require installation\n"
-"  remove-essential [!]   Remove an essential package\n"
+" Forcing things:\n"), DPKG);
+
+    for (fip = forceinfos; fip->name; fip++)
+      printf("  %s %-18s %s\n", forcetype_str(fip->type), fip->name, fip->desc);
+
+    printf(_(
 "\n"
 "WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"), DPKG);
+"Forcing options marked [*] are enabled by default.\n"));
     m_output(stdout, _("<standard output>"));
     exit(0);
   }
