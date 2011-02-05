@@ -261,7 +261,7 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
       printf(" %6o  %-16s %s\n", dip->flag, dip->name, gettext(dip->desc));
 
     printf(_("\n"
-"Debugging options are be mixed using bitwise-or.\n"
+"Debugging options can be mixed using bitwise-or.\n"
 "Note that the meanings and values are subject to change.\n"));
     m_output(stdout, _("<standard output>"));
     exit(0);
