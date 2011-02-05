@@ -222,31 +222,47 @@ static const struct forceinfo {
   {  NULL                                               }
 };
 
+#define DBG_DEF(n, d) \
+  { .flag = dbg_##n, .name = #n, .desc = d }
+
+static const struct debuginfo {
+  int flag;
+  const char *name;
+  const char *desc;
+} debuginfos[] = {
+  DBG_DEF(general,         N_("Generally helpful progress information")),
+  DBG_DEF(scripts,         N_("Invocation and status of maintainer scripts")),
+  DBG_DEF(eachfile,        N_("Output for each file processed")),
+  DBG_DEF(eachfiledetail,  N_("Lots of output for each file processed")),
+  DBG_DEF(conff,           N_("Output for each configuration file")),
+  DBG_DEF(conffdetail,     N_("Lots of output for each configuration file")),
+  DBG_DEF(depcon,          N_("Dependencies and conflicts")),
+  DBG_DEF(depcondetail,    N_("Lots of dependencies/conflicts output")),
+  DBG_DEF(triggers,        N_("Trigger activation and processing")),
+  DBG_DEF(triggersdetail,  N_("Lots of output regarding triggers")),
+  DBG_DEF(triggersstupid,  N_("Silly amounts of output regarding triggers")),
+  DBG_DEF(veryverbose,     N_("Lots of drivel about eg the dpkg/info directory")),
+  DBG_DEF(stupidlyverbose, N_("Insane amounts of drivel")),
+  { 0, NULL, NULL }
+};
+
 static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
   unsigned long mask;
+  const struct debuginfo *dip;
 
   if (*value == 'h') {
     printf(_(
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
-" number  ref. in source   description\n"
-"      1   general           Generally helpful progress information\n"
-"      2   scripts           Invocation and status of maintainer scripts\n"
-"     10   eachfile          Output for each file processed\n"
-"    100   eachfiledetail    Lots of output for each file processed\n"
-"     20   conff             Output for each configuration file\n"
-"    200   conffdetail       Lots of output for each configuration file\n"
-"     40   depcon            Dependencies and conflicts\n"
-"    400   depcondetail      Lots of dependencies/conflicts output\n"
-"  10000   triggers          Trigger activation and processing\n"
-"  20000   triggersdetail    Lots of output regarding triggers\n"
-"  40000   triggersstupid    Silly amounts of output regarding triggers\n"
-"   1000   veryverbose       Lots of drivel about eg the dpkg/info directory\n"
-"   2000   stupidlyverbose   Insane amounts of drivel\n"
-"\n"
+" number  ref. in source   description\n"), DPKG);
+
+    for (dip = debuginfos; dip->name; dip++)
+      printf(" %6o  %-16s %s\n", dip->flag, dip->name, gettext(dip->desc));
+
+    printf(_("\n"
 "Debugging options are be mixed using bitwise-or.\n"
-"Note that the meanings and values are subject to change.\n"), DPKG);
+"Note that the meanings and values are subject to change.\n"));
     m_output(stdout, _("<standard output>"));
     exit(0);
   }
