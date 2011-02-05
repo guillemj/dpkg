@@ -472,19 +472,20 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
     l = comma ? (size_t)(comma - value) : strlen(value);
     for (fip=forceinfos; fip->name; fip++)
       if (!strncmp(fip->name,value,l) && strlen(fip->name)==l) break;
+
     if (!fip->name) {
       badusage(_("unknown force/refuse option `%.*s'"),
                (int)min(l, 250), value);
+    } else if (strcmp(fip->name, "all") == 0) {
+      for (fip = forceinfos; fip->name; fip++)
+        if (fip->opt)
+          *fip->opt = cip->arg;
+    } else if (fip->opt) {
+      *fip->opt = cip->arg;
     } else {
-      if (strcmp("all", fip->name) == 0) {
-	for (fip=forceinfos; fip->name; fip++)
-	  if (fip->opt)
-	    *fip->opt= cip->arg;
-      } else if (fip->opt)
-	*fip->opt= cip->arg;
-      else
-	warning(_("obsolete force/refuse option '%s'\n"), fip->name);
+      warning(_("obsolete force/refuse option '%s'\n"), fip->name);
     }
+
     if (!comma) break;
     value= ++comma;
   }
