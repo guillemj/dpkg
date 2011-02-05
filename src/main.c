@@ -255,7 +255,7 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
     printf(_(
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
-" number  ref. in source   description\n"), DPKG);
+" Number  Ref. in source   Description\n"), DPKG);
 
     for (dip = debuginfos; dip->name; dip++)
       printf(" %6o  %-16s %s\n", dip->flag, dip->name, gettext(dip->desc));
