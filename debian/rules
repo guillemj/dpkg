@@ -80,6 +80,13 @@ install: check
 
 	cd build-tree && $(MAKE) DESTDIR="$(CURDIR)/debian/tmp" install
 
+ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
+	# Ubuntu's «i386» architecture is built for i686 (the Debian default
+	# is i486).
+	sed -ri 's/^(i386[[:space:]]+)[^[:space:]]+/\1i686/' \
+	        $(CURDIR)/debian/tmp/usr/share/dpkg/cputable
+endif
+
 # Put together the dpkg and dselect packages
 binary-arch: install
 	dh_testdir -a
