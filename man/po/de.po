@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2011-02-01 09:42+0100\n"
-"PO-Revision-Date: 2011-02-02 22:56+0100\n"
+"PO-Revision-Date: 2011-02-08 17:03+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -1029,6 +1029,9 @@ msgid ""
 "the Debian Policy Manual and referenced texts from the B<debian-policy> "
 "package) this package complies to."
 msgstr ""
+"Dies dokumentiert die neuste Version der Standards (die aus dem Debian-"
+"Richtlinienhandbuch und den aus dem Paket B<debian-policy> referenzierten "
+"Texten besteht), an den sich das Paket hält."
 
 #. type: TP
 #: deb-src-control.5:57
@@ -1072,6 +1075,11 @@ msgid ""
 "(Mercurial), Mtn (Monotone) and Svn (Subversion). Usually this field points "
 "to the latest version of the package, such as the main branch or the trunk."
 msgstr ""
+"Die URL des Versionskontrollsystem-Depots, das für die Betreuung des Pakets "
+"verwandt wird. Derzeit werden Arch, Bzr (Bazaar), Cvs, Darcs, Git, Hg "
+"(Mercurial), Mtn (Monotone) und Svn (Subversion) unterstützt. Normalerweise "
+"zeigt dieses Feld auf die neuste Version des Pakets, wie den Hauptzweig oder "
+"den Trunk."
 
 #. type: TP
 #: deb-src-control.5:79
@@ -1084,6 +1092,7 @@ msgstr "B<Vcs-Browser:> E<lt>URLE<gt>"
 msgid ""
 "The url of a webinterface to browse the Version Control System repository."
 msgstr ""
+"Die URL der Webschnittstelle, um das Versionskontrollsystem-Depot anzuschauen."
 
 #. type: Plain text
 #: deb-src-control.5:87
@@ -1357,6 +1366,8 @@ msgid ""
 "These fields declare relationships between packages. They are discussed in "
 "the B<deb-control>(5)  manpage and in the B<debian-policy> package."
 msgstr ""
+"Diese Felder deklarieren die Beziehungen zwischen Paketen. Sie werden in der "
+"Handbuchseite B<deb-control>(5) und im Paket B<debian-policy> beschrieben."
 
 #. type: SH
 #: deb-src-control.5:263
@@ -1399,6 +1410,19 @@ msgid ""
 "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
 " libselinux1-dev (E<gt>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]\n"
 msgstr ""
+"# Kommentar\n"
+"Source: dpkg\n"
+"Section: admin\n"
+"Priority: required\n"
+"Maintainer: Dpkg Developers E<lt>debian-dpkg@lists.debian.orgE<gt>\n"
+"# dieses Feld wird in das Binär- und Quellpaket kopiert\n"
+"XBS-Upstream-Release-Status: stable\n"
+"Homepage: http://wiki.debian.org/Teams/Dpkg\n"
+"Vcs-Browser: http://git.debian.org/?p=dpkg/dpkg.git\n"
+"Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git\n"
+"Standards-Version: 3.7.3\n"
+"Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
+" libselinux1-dev (E<gt>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]\n"
 
 #. type: Plain text
 #: deb-src-control.5:315
@@ -1423,6 +1447,24 @@ msgid ""
 " Most Debian source packages will require additional tools to build;\n"
 " for example, most packages need make and the C compiler gcc.\n"
 msgstr ""
+"Package: dpkg-dev\n"
+"Section: utils\n"
+"Priority: optional\n"
+"Architecture: all\n"
+"# dies ist ein spezielles Feld im Binärpaket\n"
+"XB-Mentoring-Contact: Raphael Hertzog E<lt>hertzog@debian.orgE<gt>\n"
+"Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2), bzip2, lzma,\n"
+" patch (E<gt>= 2.2-1), make, binutils, libtimedate-perl\n"
+"Recommends: gcc | c-compiler, build-essential\n"
+"Suggests: gnupg, debian-keyring\n"
+"Conflicts: dpkg-cross (E<lt>E<lt> 2.0.0), devscripts (E<lt>E<lt> 2.10.26)\n"
+"Replaces: manpages-pl (E<lt>= 20051117-1)\n"
+"Description: Debian package development tools\n"
+" This package provides the development tools (including dpkg-source)\n"
+" required to unpack, build and upload Debian source packages.\n"
+" .\n"
+" Most Debian source packages will require additional tools to build;\n"
+" for example, most packages need make and the C compiler gcc.\n"
 
 #. type: Plain text
 #: deb-src-control.5:322
@@ -4621,6 +4663,8 @@ msgid ""
 "An error occurred. Any possible newlines in I<extended-error-message> will "
 "be converted to spaces before output."
 msgstr ""
+"Ein Fehler ist aufgetreten. Alle möglichen Zeilenumbrüche in "
+"I<ausführliche-Fehlermeldung> werden vor der Ausgabe in Leerzeichen gewandelt."
 
 #. type: TP
 #: dpkg.1:598
@@ -8264,6 +8308,8 @@ msgid ""
 "If set and the B<--admindir> option has not been specified, it will be used "
 "as the dpkg data directory."
 msgstr ""
+"Falls gesetzt und die Option B<--admindir> nicht verwandt wurde, wird dies "
+"als Datenverzeichnis von Dpkg verwandt."
 
 #. type: Plain text
 #: dpkg-divert.8:121
@@ -8271,6 +8317,8 @@ msgid ""
 "If set and the I<--local> and I<--package> options have not been specified, "
 "B<dpkg-divert> will use it as the package name."
 msgstr ""
+"Falls gesetzt und die Optionen I<--local> und I<--package> nicht verwandt "
+"wurden, wird B<dpkg-divert> dies als Paketnamen verwenden."
 
 #. type: TP
 #: dpkg-divert.8:123
@@ -17964,6 +18012,10 @@ msgid ""
 "If set and the B<--admindir> option has not been specified, it will be used "
 "as the base administrative directory."
 msgstr ""
+"Falls gesetzt und die Option B<--admindir> nicht angegeben wurde, wird dies "
+"als Basis-Administrationsverzeichnis verwandt."
+"Falls gesetzt und die Option B<--admindir> nicht angegeben wurde, wird dies "
+"als Basis-Administrationsverzeichnis verwandt."
 
 #. type: TP
 #: update-alternatives.8:362
