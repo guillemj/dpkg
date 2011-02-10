@@ -7,8 +7,10 @@
 BEROOT := sudo
 
 ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))
-DPKG_ADMINDIR=dpkgdb
-DPKG_OPTIONS := --admindir=../$(DPKG_ADMINDIR)
+DPKG_ADMINDIR = ../dpkgdb
+DPKG_OPTIONS := --admindir=$(DPKG_ADMINDIR)
+else
+DPKG_ADMINDIR = /var/lib/dpkg
 endif
 
 DPKG := dpkg $(DPKG_OPTIONS)
