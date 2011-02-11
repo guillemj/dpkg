@@ -322,7 +322,7 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
 static void
 setfilter(const struct cmdinfo *cip, const char *value)
 {
-  filter_add(value, cip->arg);
+  filter_add(value, cip->arg_int);
 }
 
 static void setroot(const struct cmdinfo *cip, const char *value) {
@@ -407,7 +407,7 @@ struct invoke_hook **status_loggers_tail = &status_loggers;
 static void
 set_invoke_hook(const struct cmdinfo *cip, const char *value)
 {
-  struct invoke_hook ***hook_tail = cip->parg;
+  struct invoke_hook ***hook_tail = cip->arg_ptr;
   struct invoke_hook *hook_new;
 
   hook_new = nfmalloc(sizeof(struct invoke_hook));
@@ -503,9 +503,9 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
     } else if (strcmp(fip->name, "all") == 0) {
       for (fip = forceinfos; fip->name; fip++)
         if (fip->opt)
-          *fip->opt = cip->arg;
+          *fip->opt = cip->arg_int;
     } else if (fip->opt) {
-      *fip->opt = cip->arg;
+      *fip->opt = cip->arg_int;
     } else {
       warning(_("obsolete force/refuse option '%s'\n"), fip->name);
     }
@@ -608,8 +608,8 @@ void execbackend(const char *const *argv) {
   struct command cmd;
   char *arg;
 
-  command_init(&cmd, cipaction->parg, NULL);
-  command_add_arg(&cmd, cipaction->parg);
+  command_init(&cmd, cipaction->arg_ptr, NULL);
+  command_add_arg(&cmd, cipaction->arg_ptr);
 
   m_asprintf(&arg, "--%s", cipaction->olong);
   command_add_arg(&cmd, arg);
@@ -713,7 +713,7 @@ void commandfd(const char *const *argv) {
     myopt((const char *const**)&newargs,cmdinfos);
     if (!cipaction) badusage(_("need an action option"));
 
-    actionfunction= (void (*)(const char* const*))cipaction->farg;
+    actionfunction = (void (*)(const char *const *))cipaction->arg_func;
     actionfunction(newargs);
 
     pop_error_context(ehflag_normaltidy);
@@ -738,22 +738,22 @@ int main(int argc, const char *const *argv) {
     ohshite(_("unable to setenv for subprocesses"));
 
   if (!f_triggers)
-    f_triggers = (cipaction->arg == act_triggers && *argv) ? -1 : 1;
+    f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;
 
   setvbuf(stdout, NULL, _IONBF, 0);
 
-  if (is_invoke_action(cipaction->arg)) {
+  if (is_invoke_action(cipaction->arg_int)) {
     run_invoke_hooks(cipaction->olong, pre_invoke_hooks);
     run_status_loggers(status_loggers);
   }
 
   filesdbinit();
 
-  actionfunction= (void (*)(const char* const*))cipaction->farg;
+  actionfunction = (void (*)(const char *const *))cipaction->arg_func;
 
   actionfunction(argv);
 
-  if (is_invoke_action(cipaction->arg))
+  if (is_invoke_action(cipaction->arg_int))
     run_invoke_hooks(cipaction->olong, post_invoke_hooks);
 
   standard_shutdown();

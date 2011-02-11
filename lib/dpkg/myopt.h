@@ -41,9 +41,10 @@ struct cmdinfo {
   int *iassignto;
   const char **sassignto;
   void (*call)(const struct cmdinfo*, const char *value);
-  int arg;
-  void *parg;
-  void_func *farg;
+
+  int arg_int;
+  void *arg_ptr;
+  void_func *arg_func;
 };
 
 extern const char printforhelp[];

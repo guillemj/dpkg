@@ -131,7 +131,7 @@ void cu_prermupgrade(int argc, void **argv) {
 void ok_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];
 
-  if (cipaction->arg == act_install)
+  if (cipaction->arg_int == act_install)
     add_to_queue(deconf);
 }
 

@@ -39,7 +39,7 @@ void updateavailable(const char *const *argv) {
   int count= 0;
   static struct varbuf vb;
 
-  switch (cipaction->arg) {
+  switch (cipaction->arg_int) {
   case act_avclear:
     if (sourcefile) badusage(_("--%s takes no arguments"),cipaction->olong);
     break;
@@ -48,7 +48,7 @@ void updateavailable(const char *const *argv) {
       badusage(_("--%s needs exactly one Packages file argument"),cipaction->olong);
     break;
   default:
-    internerr("unknown action '%d'", cipaction->arg);
+    internerr("unknown action '%d'", cipaction->arg_int);
   }
 
   if (!f_noact) {
@@ -61,7 +61,7 @@ void updateavailable(const char *const *argv) {
     modstatdb_lock(admindir);
   }
 
-  switch (cipaction->arg) {
+  switch (cipaction->arg_int) {
   case act_avreplace:
     printf(_("Replacing available packages info, using %s.\n"),sourcefile);
     break;
@@ -71,18 +71,18 @@ void updateavailable(const char *const *argv) {
   case act_avclear:
     break;
   default:
-    internerr("unknown action '%d'", cipaction->arg);
+    internerr("unknown action '%d'", cipaction->arg_int);
   }
 
   varbuf_add_str(&vb, admindir);
   varbuf_add_str(&vb, "/" AVAILFILE);
   varbuf_add_char(&vb, '\0');
 
-  if (cipaction->arg == act_avmerge)
+  if (cipaction->arg_int == act_avmerge)
     parsedb(vb.buf, pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
             NULL);
 
-  if (cipaction->arg != act_avclear)
+  if (cipaction->arg_int != act_avclear)
     count += parsedb(sourcefile,
 		     pdb_recordavailable | pdb_rejectstatus | pdb_ignoreolder,
                      NULL);
@@ -92,7 +92,7 @@ void updateavailable(const char *const *argv) {
     modstatdb_unlock();
   }
 
-  if (cipaction->arg != act_avclear)
+  if (cipaction->arg_int != act_avclear)
     printf(P_("Information about %d package was updated.\n",
               "Information about %d packages was updated.\n", count), count);
 }

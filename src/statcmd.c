@@ -382,7 +382,7 @@ main(int argc, const char *const *argv)
 	filesdbinit();
 	ensure_statoverrides();
 
-	actionfunction = (int (*)(const char *const *))cipaction->farg;
+	actionfunction = (int (*)(const char *const *))cipaction->arg_func;
 	ret = actionfunction(argv);
 
 	standard_shutdown();

@@ -62,7 +62,7 @@ enqueue_pending(void)
 
   it = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next(it)) != NULL) {
-    switch (cipaction->arg) {
+    switch (cipaction->arg_int) {
     case act_configure:
       if (!(pkg->status == stat_unpacked ||
             pkg->status == stat_halfconfigured ||
@@ -89,7 +89,7 @@ enqueue_pending(void)
         continue;
       break;
     default:
-      internerr("unknown action '%d'", cipaction->arg);
+      internerr("unknown action '%d'", cipaction->arg_int);
     }
     add_to_queue(pkg);
   }
@@ -161,18 +161,18 @@ void process_queue(void) {
 
   clear_istobes();
 
-  switch (cipaction->arg) {
+  switch (cipaction->arg_int) {
   case act_triggers:
   case act_configure: case act_install:  istobe= itb_installnew;  break;
   case act_remove: case act_purge:       istobe= itb_remove;      break;
   default:
-    internerr("unknown action '%d'", cipaction->arg);
+    internerr("unknown action '%d'", cipaction->arg_int);
   }
   for (rundown = queue.head; rundown; rundown = rundown->next) {
     ensure_package_clientdata(rundown->pkg);
     if (rundown->pkg->clientdata->istobe == istobe) {
       /* Erase the queue entry - this is a second copy! */
-      switch (cipaction->arg) {
+      switch (cipaction->arg_int) {
       case act_triggers:
       case act_configure: case act_remove: case act_purge:
         printf(_("Package %s listed more than once, only processing once.\n"),
@@ -184,7 +184,7 @@ void process_queue(void) {
                rundown->pkg->name);
         break;
       default:
-        internerr("unknown action '%d'", cipaction->arg);
+        internerr("unknown action '%d'", cipaction->arg_int);
       }
       rundown->pkg = NULL;
    } else {
@@ -197,7 +197,7 @@ void process_queue(void) {
     if (!pkg)
       continue; /* Duplicate, which we removed earlier. */
 
-    action_todo = cipaction->arg;
+    action_todo = cipaction->arg_int;
 
     if (sincenothing++ > queue.length * 2 + 2) {
       if (progress_bytrigproc && progress_bytrigproc->trigpend_head) {
@@ -248,7 +248,7 @@ void process_queue(void) {
       deferred_remove(pkg);
       break;
     default:
-      internerr("unknown action '%d'", cipaction->arg);
+      internerr("unknown action '%d'", cipaction->arg_int);
     }
     m_output(stdout, _("<standard output>"));
     m_output(stderr, _("<standard error>"));

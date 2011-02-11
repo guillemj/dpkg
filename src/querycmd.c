@@ -367,7 +367,7 @@ enqperpackage(const char *const *argv)
   if (!*argv)
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
-  if (cipaction->arg==act_listfiles)
+  if (cipaction->arg_int == act_listfiles)
     modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
   else
     modstatdb_init(admindir,msdbrw_readonly);
@@ -375,7 +375,7 @@ enqperpackage(const char *const *argv)
   while ((thisarg = *argv++) != NULL) {
     pkg = pkg_db_find(thisarg);
 
-    switch (cipaction->arg) {
+    switch (cipaction->arg_int) {
     case act_status:
       if (pkg->status == stat_notinstalled &&
           pkg->priority == pri_unknown &&
@@ -432,7 +432,7 @@ enqperpackage(const char *const *argv)
       }
       break;
     default:
-      internerr("unknown action '%d'", cipaction->arg);
+      internerr("unknown action '%d'", cipaction->arg_int);
     }
 
     if (*argv != NULL)
@@ -734,7 +734,7 @@ int main(int argc, const char *const *argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   filesdbinit();
 
-  actionfunction = (int (*)(const char *const *))cipaction->farg;
+  actionfunction = (int (*)(const char *const *))cipaction->arg_func;
 
   ret = actionfunction(argv);
 

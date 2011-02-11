@@ -195,7 +195,7 @@ int main(int argc, const char *const *argv) {
   if (!cipaction) badusage(_("need an action option"));
 
   unsetenv("GZIP");
-  action = (dofunction *)cipaction->farg;
+  action = (dofunction *)cipaction->arg_func;
   action(argv);
   standard_shutdown();
   exit(0);

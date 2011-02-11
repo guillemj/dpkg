@@ -1189,7 +1189,7 @@ void archivefiles(const char *const *argv) {
 
   modstatdb_init(admindir,
                  f_noact ?                     msdbrw_readonly
-               : cipaction->arg == act_avail ? msdbrw_write
+               : cipaction->arg_int == act_avail ? msdbrw_write
                : fc_nonroot ?                  msdbrw_write
                :                               msdbrw_needsuperuser);
 
@@ -1298,7 +1298,7 @@ void archivefiles(const char *const *argv) {
     pop_error_context(ehflag_normaltidy);
   }
 
-  switch (cipaction->arg) {
+  switch (cipaction->arg_int) {
   case act_install:
   case act_configure:
   case act_triggers:
@@ -1309,7 +1309,7 @@ void archivefiles(const char *const *argv) {
   case act_avail:
     break;
   default:
-    internerr("unknown action '%d'", cipaction->arg);
+    internerr("unknown action '%d'", cipaction->arg_int);
   }
 
   trigproc_run_deferred();

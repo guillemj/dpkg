@@ -124,7 +124,8 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
       if (opt)
         config_error(fn, line_num, _("'%s' does not take a value"), linebuf);
       if (cip->call) cip->call(cip,NULL);
-      else *cip->iassignto= cip->arg;
+      else
+        *cip->iassignto = cip->arg_int;
     }
   }
   if (ferror(file)) ohshite(_("read error in configuration file `%.255s'"), fn);
@@ -228,7 +229,8 @@ void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos) {
       } else {
         if (value) badusage(_("--%s option does not take a value"),cip->olong);
         if (cip->call) cip->call(cip,NULL);
-        else *cip->iassignto= cip->arg;
+        else
+          *cip->iassignto = cip->arg_int;
       }
     } else {
       while (*p) {
@@ -248,7 +250,8 @@ void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos) {
         } else {
           if (*p == '=') badusage(_("-%c option does not take a value"),cip->oshort);
           if (cip->call) cip->call(cip,NULL);
-          else *cip->iassignto= cip->arg;
+          else
+            *cip->iassignto = cip->arg_int;
         }
       }
     }

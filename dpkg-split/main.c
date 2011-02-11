@@ -170,7 +170,7 @@ int main(int argc, const char *const *argv) {
   }
 
   setvbuf(stdout,NULL,_IONBF,0);
-  action = (dofunction *)cipaction->farg;
+  action = (dofunction *)cipaction->arg_func;
   action(argv);
 
   m_output(stderr, _("<standard error>"));

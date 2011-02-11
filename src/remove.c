@@ -90,7 +90,7 @@ void deferred_remove(struct pkginfo *pkg) {
     return;
   } else if (!f_pending &&
              pkg->status == stat_configfiles &&
-             cipaction->arg != act_purge) {
+             cipaction->arg_int != act_purge) {
     warning(_("ignoring request to remove %.250s, only the config\n"
               " files of which are on the system. Use --purge to remove them too."),
             pkg->name);
@@ -103,7 +103,7 @@ void deferred_remove(struct pkginfo *pkg) {
                 " it should not be removed."));
 
   if (!f_pending)
-    pkg->want= (cipaction->arg == act_purge) ? want_purge : want_deinstall;
+    pkg->want = (cipaction->arg_int == act_purge) ? want_purge : want_deinstall;
   if (!f_noact) modstatdb_note(pkg);
 
   debug(dbg_general,"checking dependencies for remove `%s'",pkg->name);

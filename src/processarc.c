@@ -294,7 +294,7 @@ void process_archive(const char *filename) {
   sprintf(psize, "%lu", (unsigned long)stab.st_size);
   pkg->files->size = psize;
 
-  if (cipaction->arg == act_avail) {
+  if (cipaction->arg_int == act_avail) {
     printf(_("Recorded info about %s from %s.\n"),pkg->name,pfilename);
     pop_cleanup(ehflag_normaltidy);
     return;
@@ -1288,5 +1288,6 @@ void process_archive(const char *filename) {
     removal_bulk(conflictor[i]);
   }
 
-  if (cipaction->arg == act_install) add_to_queue(pkg);
+  if (cipaction->arg_int == act_install)
+    add_to_queue(pkg);
 }

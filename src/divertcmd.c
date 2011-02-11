@@ -722,7 +722,7 @@ main(int argc, const char * const *argv)
 	if (!cipaction)
 		setaction(&cmdinfo_add, NULL);
 
-	actionfunction = (int (*)(const char *const *))cipaction->farg;
+	actionfunction = (int (*)(const char *const *))cipaction->arg_func;
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 
