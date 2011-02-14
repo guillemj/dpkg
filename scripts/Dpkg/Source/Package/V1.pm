@@ -151,8 +151,7 @@ sub do_extract {
         my $patch = "$dscdir$difffile";
 	info(_g("applying %s"), $difffile);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
-	my $analysis = $patch_obj->apply($newdirectory, force_timestamp => 1,
-                                         timestamp => time());
+	my $analysis = $patch_obj->apply($newdirectory, force_timestamp => 1);
 	my @files = grep { ! m{^\Q$newdirectory\E/debian/} }
 		    sort keys %{$analysis->{'filepatched'}};
 	info(_g("upstream files that have been modified: %s"),

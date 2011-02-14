@@ -29,7 +29,7 @@ use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
 use Dpkg::Exit;
-use Dpkg::Source::Functions qw(erasedir is_binary);
+use Dpkg::Source::Functions qw(erasedir is_binary fs_time);
 
 use POSIX;
 use File::Basename;
@@ -206,9 +206,9 @@ sub apply_patches {
     $opts{"skip_auto"} = 0 unless defined($opts{"skip_auto"});
     my @patches = $self->get_patches($dir, %opts);
     return unless scalar(@patches);
-    my $timestamp = time();
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);
+    my $timestamp = fs_time($applied);
     foreach my $patch ($self->get_patches($dir, %opts)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
         info(_g("applying %s"), $patch) unless $opts{"skip_auto"};
@@ -225,8 +225,8 @@ sub unapply_patches {
     my ($self, $dir, %opts) = @_;
     my @patches = reverse($self->get_patches($dir, %opts));
     return unless scalar(@patches);
-    my $timestamp = time();
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+    my $timestamp = fs_time($applied);
     foreach my $patch (@patches) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
         info(_g("unapplying %s"), $patch) unless $opts{"quiet"};

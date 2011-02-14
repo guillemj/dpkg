@@ -24,6 +24,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::IPC;
 use Dpkg::ErrorHandling;
+use Dpkg::Source::Functions qw(fs_time);
 
 use POSIX;
 use File::Find;
@@ -533,8 +534,10 @@ sub apply {
     $self->close();
     # Reset the timestamp of all the patched files
     # and remove .dpkg-orig files
-    my $now = $opts{"timestamp"} || time;
-    foreach my $fn (keys %{$analysis->{'filepatched'}}) {
+    my @files = keys %{$analysis->{'filepatched'}};
+    my $now = $opts{"timestamp"};
+    $now ||= fs_time($files[0]) if $opts{"force_timestamp"};
+    foreach my $fn (@files) {
 	if ($opts{"force_timestamp"}) {
 	    utime($now, $now, $fn) || $! == ENOENT ||
 		syserr(_g("cannot change timestamp for %s"), $fn);

@@ -27,7 +27,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Source::Patch;
-use Dpkg::Source::Functions qw(erasedir);
+use Dpkg::Source::Functions qw(erasedir fs_time);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(get_current_vendor run_vendor_hook);
 use Dpkg::Control;
@@ -164,7 +164,7 @@ sub create_quilt_db {
 sub apply_quilt_patch {
     my ($self, $dir, $patch, %opts) = @_;
     $opts{"verbose"} = 0 unless defined($opts{"verbose"});
-    $opts{"timestamp"} = time() unless defined($opts{"timestamp"});
+    $opts{"timestamp"} = fs_time($dir) unless defined($opts{"timestamp"});
     my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
     my $obj = Dpkg::Source::Patch->new(filename => $path);
 
@@ -221,7 +221,7 @@ sub apply_patches {
     my @applied = $self->read_patch_list($pc_applied);
     my @patches = $self->read_patch_list($self->get_series_file($dir));
     open(APPLIED, '>>', $pc_applied) || syserr(_g("cannot write %s"), $pc_applied);
-    $opts{"timestamp"} = time();
+    $opts{"timestamp"} = fs_time($pc_applied);
     foreach my $patch (@$patches) {
         $self->apply_quilt_patch($dir, $patch, %opts);
         print APPLIED "$patch\n";
@@ -236,7 +236,7 @@ sub unapply_patches {
 
     my $pc_applied = File::Spec->catfile($dir, ".pc", "applied-patches");
     my @applied = $self->read_patch_list($pc_applied);
-    $opts{"timestamp"} = time();
+    $opts{"timestamp"} = fs_time($pc_applied) if @applied;
     foreach my $patch (reverse @applied) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
         my $obj = Dpkg::Source::Patch->new(filename => $path);

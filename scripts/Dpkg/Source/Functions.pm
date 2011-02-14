@@ -19,7 +19,7 @@ use warnings;
 our $VERSION = "0.01";
 
 use base qw(Exporter);
-our @EXPORT_OK = qw(erasedir fixperms is_binary);
+our @EXPORT_OK = qw(erasedir fixperms fs_time is_binary);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -62,6 +62,30 @@ sub fixperms {
     }
     system('chmod', '-R', '--', $modes_set, $dir);
     subprocerr("chmod -R -- $modes_set $dir") if $?;
+}
+
+# Touch the file and read the resulting mtime.
+#
+# If the file doesn't exist, create it, read the mtime and unlink it.
+#
+# Use this instead of time() when the timestamp is going to be
+# used to set file timestamps. This avoids confusion when an
+# NFS server and NFS client disagree about what time it is.
+sub fs_time($) {
+    my ($file) = @_;
+    my $is_temp = 0;
+    if (not -e $file) {
+	open(TEMP, ">", $file) or syserr(_g("cannot write %s"));
+	close(TEMP);
+	$is_temp = 1;
+    } else {
+	utime(undef, undef, $file) or
+	    syserr(_g("cannot change timestamp for %s"), $file);
+    }
+    stat($file) or syserr(_g("cannot read timestamp from %s"), $file);
+    my $mtime = (stat(_))[9];
+    unlink($file) if $is_temp;
+    return $mtime;
 }
 
 sub is_binary($) {
