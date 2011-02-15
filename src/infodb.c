@@ -38,12 +38,13 @@
 #include "infodb.h"
 
 bool
-pkg_infodb_has_file(struct pkginfo *pkg, const char *name)
+pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                    const char *name)
 {
 	const char *filename;
 	struct stat stab;
 
-	filename = pkgadminfile(pkg, name);
+	filename = pkgadminfile(pkg, pkgbin, name);
 	if (lstat(filename, &stab) == 0)
 		return true;
 	else if (errno == ENOENT)
@@ -53,7 +54,8 @@ pkg_infodb_has_file(struct pkginfo *pkg, const char *name)
 }
 
 void
-pkg_infodb_foreach(struct pkginfo *pkg, pkg_infodb_file_func *func)
+pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                   pkg_infodb_file_func *func)
 {
 	DIR *db_dir;
 	struct dirent *db_de;

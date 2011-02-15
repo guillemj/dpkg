@@ -77,7 +77,7 @@ pkgadmindir(void)
 }
 
 const char *
-pkgadminfile(struct pkginfo *pkg, const char *filetype)
+pkgadminfile(struct pkginfo *pkg, struct pkgbin *pkgbin, const char *filetype)
 {
   static struct varbuf vb;
 
@@ -297,7 +297,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     return;
   }
 
-  filelistfile= pkgadminfile(pkg,LISTFILE);
+  filelistfile = pkgadminfile(pkg, &pkg->installed, LISTFILE);
 
   onerr_abort++;
 
@@ -404,7 +404,7 @@ pkg_files_optimize_load(struct pkg_array *array)
 
     pkg->clientdata->listfile_phys_offs = -1;
 
-    listfile = pkgadminfile(pkg, LISTFILE);
+    listfile = pkgadminfile(pkg, &pkg->installed, LISTFILE);
 
     fd = open(listfile, O_RDONLY);
     if (fd < 0)
@@ -437,7 +437,7 @@ pkg_files_optimize_load(struct pkg_array *array)
     const char *listfile;
     int fd;
 
-    listfile = pkgadminfile(pkg, LISTFILE);
+    listfile = pkgadminfile(pkg, &pkg->installed, LISTFILE);
 
     fd = open(listfile, O_RDONLY | O_NONBLOCK);
     if (fd != -1) {
@@ -502,14 +502,14 @@ void ensure_allinstfiles_available_quiet(void) {
  * has any flag bits set in mask.
  */
 void
-write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
-                      enum fnnflags mask)
+write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                      struct fileinlist *list, enum fnnflags mask)
 {
   static struct varbuf newvb;
   const char *listfile;
   FILE *file;
 
-  listfile = pkgadminfile(pkg, LISTFILE);
+  listfile = pkgadminfile(pkg, pkgbin, LISTFILE);
 
   varbuf_reset(&newvb);
   varbuf_add_str(&newvb, listfile);

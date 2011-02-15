@@ -288,16 +288,16 @@ removal_bulk_remove_files(struct pkginfo *pkg)
       if (secure_unlink(fnvb.buf))
         ohshite(_("unable to securely remove '%.250s'"), fnvb.buf);
     }
-    write_filelist_except(pkg,leftover,0);
+    write_filelist_except(pkg, &pkg->installed, leftover, 0);
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "remove", NULL);
 
-    trig_parse_ci(pkgadminfile(pkg, TRIGGERSCIFILE),
+    trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
                   trig_cicb_interest_delete, NULL, pkg);
     trig_file_interests_save();
 
     debug(dbg_general, "removal_bulk cleaning info directory");
-    pkg_infodb_foreach(pkg, removal_bulk_remove_file);
+    pkg_infodb_foreach(pkg, &pkg->installed, removal_bulk_remove_file);
     dir_sync_path(pkgadmindir());
 
     pkg->status= stat_configfiles;
@@ -388,7 +388,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     push_leftover(&leftover,namenode);
     continue;
   }
-  write_filelist_except(pkg,leftover,0);
+  write_filelist_except(pkg, &pkg->installed, leftover, 0);
 
   modstatdb_note(pkg);
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
@@ -514,7 +514,8 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     }
 
     /* Remove the conffiles from the file list file. */
-    write_filelist_except(pkg, pkg->clientdata->files, fnnf_old_conff);
+    write_filelist_except(pkg, &pkg->installed, pkg->clientdata->files,
+                          fnnf_old_conff);
 
     pkg->installed.conffiles = NULL;
     modstatdb_note(pkg);
@@ -537,7 +538,7 @@ void removal_bulk(struct pkginfo *pkg) {
     removal_bulk_remove_files(pkg);
   }
 
-  foundpostrm = pkg_infodb_has_file(pkg, POSTRMFILE);
+  foundpostrm = pkg_infodb_has_file(pkg, &pkg->installed, POSTRMFILE);
 
   debug(dbg_general, "removal_bulk purging? foundpostrm=%d",foundpostrm);
 
@@ -561,13 +562,13 @@ void removal_bulk(struct pkginfo *pkg) {
     /* Retry empty directories, and warn on any leftovers that aren't. */
     removal_bulk_remove_leftover_dirs(pkg);
 
-    filename = pkgadminfile(pkg, LISTFILE);
+    filename = pkgadminfile(pkg, &pkg->installed, LISTFILE);
     debug(dbg_general, "removal_bulk purge done, removing list `%s'",
           filename);
     if (unlink(filename) && errno != ENOENT)
       ohshite(_("cannot remove old files list"));
 
-    filename = pkgadminfile(pkg, POSTRMFILE);
+    filename = pkgadminfile(pkg, &pkg->installed, POSTRMFILE);
     debug(dbg_general, "removal_bulk purge done, removing postrm `%s'",
           filename);
     if (unlink(filename) && errno != ENOENT)

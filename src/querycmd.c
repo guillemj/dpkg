@@ -545,7 +545,7 @@ control_path_file(struct pkginfo *pkg, const char *control_file)
   const char *control_path;
   struct stat st;
 
-  control_path = pkgadminfile(pkg, control_file);
+  control_path = pkgadminfile(pkg, &pkg->installed, control_file);
   if (stat(control_path, &st) < 0)
     return;
   if (!S_ISREG(st.st_mode))
@@ -588,7 +588,7 @@ control_path(const char *const *argv)
   if (control_file)
     control_path_file(pkg, control_file);
   else
-    pkg_infodb_foreach(pkg, pkg_infodb_print_filename);
+    pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_print_filename);
 
   modstatdb_shutdown();
 

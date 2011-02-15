@@ -242,7 +242,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     match_node_free(match_node);
   }
 
-  pkg_infodb_foreach(pkg, pkg_infodb_update_file);
+  pkg_infodb_foreach(pkg, &pkg->available, pkg_infodb_update_file);
 
   while ((match_node = match_head)) {
     strcpy(cidirrest, match_node->filetype);
@@ -303,7 +303,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     }
 
     /* Right, install it */
-    newinfofilename = pkgadminfile(pkg,de->d_name);
+    newinfofilename = pkgadminfile(pkg, &pkg->available, de->d_name);
     if (rename(cidir, newinfofilename))
       ohshite(_("unable to install new info file `%.250s' as `%.250s'"),
               cidir, newinfofilename);
@@ -356,7 +356,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 
   /* OK, now we delete all the stuff in the ‘info’ directory .. */
   debug(dbg_general, "pkg_disappear cleaning info directory");
-  pkg_infodb_foreach(pkg, pkg_infodb_remove_file);
+  pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
   dir_sync_path(pkgadmindir());
 
   pkg->status = stat_notinstalled;
@@ -1041,13 +1041,13 @@ void process_archive(const char *filename) {
 
   /* OK, now we can write the updated files-in-this package list,
    * since we've done away (hopefully) with all the old junk. */
-  write_filelist_except(pkg,newfileslist,0);
+  write_filelist_except(pkg, &pkg->available, newfileslist, 0);
 
   /* Trigger interests may have changed.
    * Firstly we go through the old list of interests deleting them.
    * Then we go through the new list adding them. */
   strcpy(cidirrest, TRIGGERSCIFILE);
-  trig_parse_ci(pkgadminfile(pkg, TRIGGERSCIFILE),
+  trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
                 trig_cicb_interest_delete, NULL, pkg);
   trig_parse_ci(cidir, trig_cicb_interest_add, NULL, pkg);
   trig_file_interests_save();
@@ -1263,8 +1263,8 @@ void process_archive(const char *filename) {
       /* Found one. We delete remove the list entry for this file,
        * (and any others in the same package) and then mark the package
        * as requiring a reread. */
-      write_filelist_except(otherpkg, otherpkg->clientdata->files,
-                            fnnf_elide_other_lists);
+      write_filelist_except(otherpkg, &otherpkg->installed,
+                            otherpkg->clientdata->files, fnnf_elide_other_lists);
       ensure_package_clientdata(otherpkg);
       debug(dbg_veryverbose, "process_archive overwrote from %s", otherpkg->set->name);
     }

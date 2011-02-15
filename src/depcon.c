@@ -75,7 +75,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
    * able to do something straight away when findbreakcycle returns. */
   sofar= thislink;
   for (sol = sofar; !(sol != sofar && sol->pkg == dependedon); sol = sol->prev) {
-    if (!pkg_infodb_has_file(sol->pkg, POSTINSTFILE))
+    if (!pkg_infodb_has_file(sol->pkg, &sol->pkg->installed, POSTINSTFILE))
       break;
   }
 
