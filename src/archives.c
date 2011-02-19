@@ -4,7 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2007-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1245,12 +1245,9 @@ void archivefiles(const char *const *argv) {
     if (!nfiles)
       ohshit(_("searched, but found no packages (files matching *.deb)"));
 
-    varbuf_add_char(&findoutput, '\0');
-    varbuf_add_char(&findoutput, '\0');
-
     arglist= m_malloc(sizeof(char*)*(nfiles+1));
-    p= findoutput.buf; i=0;
-    while (*p) {
+    p = findoutput.buf;
+    for (i = 0; i < nfiles; i++) {
       arglist[i++]= p;
       while (*p++ != '\0') ;
     }
