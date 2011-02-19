@@ -61,7 +61,6 @@ static int conffoptcells[2][2] = {
 	{ cfo_keep,		cfo_prompt_keep },	/* User edited. */
 };
 
-static void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
 static void showdiff(const char *old, const char *new);
 static enum conffopt promptconfaction(struct pkginfo *pkg, const char *cfgfile,
                                       const char *realold, const char *realnew,
@@ -487,7 +486,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
  * @param[out] hashbuf The buffer to store the generated hash.
  * @param[in] fn The filename.
  */
-static void
+void
 md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 {
 	static int fd;
@@ -502,7 +501,7 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 	} else if (errno == ENOENT) {
 		strcpy(hashbuf, NONEXISTENTFLAG);
 	} else {
-		warning(_("%s: unable to open conffile %s for hash: %s"),
+		warning(_("%s: unable to open %s for hash: %s"),
 		        pkg_name(pkg, pnaw_nonambig), fn, strerror(errno));
 		strcpy(hashbuf, EMPTYHASHFLAG);
 	}
