@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * t-verbuf.c - test varbuf implementation
  *
- * Copyright © 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include <dpkg/test.h>
 #include <dpkg/varbuf.h>
 
+#include <string.h>
 #include <stdlib.h>
 
 static void
@@ -207,8 +208,7 @@ test_varbuf_printf(void)
 
 	/* Test normal format printing. */
 	varbuf_printf(&vb, "format %s number %d", "string", 10);
-	varbuf_add_char(&vb, '\0');
-	test_pass(vb.used == sizeof("format string number 10"));
+	test_pass(vb.used == strlen("format string number 10"));
 	test_pass(vb.size >= vb.used);
 	test_str(vb.buf, ==, "format string number 10");
 
@@ -217,8 +217,7 @@ test_varbuf_printf(void)
 	/* Test concatenated format printing. */
 	varbuf_printf(&vb, "format %s number %d", "string", 10);
 	varbuf_printf(&vb, " extra %s", "string");
-	varbuf_add_char(&vb, '\0');
-	test_pass(vb.used == sizeof("format string number 10 extra string"));
+	test_pass(vb.used == strlen("format string number 10 extra string"));
 	test_pass(vb.size >= vb.used);
 	test_str(vb.buf, ==, "format string number 10 extra string");
 

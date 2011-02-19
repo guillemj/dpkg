@@ -423,7 +423,6 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 	trk_explicit_start(trig);
 	varbuf_reset(&newfn);
 	varbuf_printf(&newfn, "%s/%s.new", triggersdir, trig);
-	varbuf_add_char(&newfn, '\0');
 
 	nf = fopen(newfn.buf, "w");
 	if (!nf)

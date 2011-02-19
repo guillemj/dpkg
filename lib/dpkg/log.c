@@ -62,7 +62,6 @@ log_message(const char *fmt, ...)
 	va_start(args, fmt);
 	varbuf_reset(&log);
 	varbuf_vprintf(&log, fmt, args);
-	varbuf_add_char(&log, '\0');
 	va_end(args);
 
 	time(&now);
