@@ -47,8 +47,7 @@ convert_string(struct parsedb_state *ps, const struct pkginfo *pigp,
   nvip = namevalue_find_by_name(ivip, startp);
   if (nvip == NULL) {
     if (otherwise != -1) return otherwise;
-    parse_error(ps, pigp, _("`%.*s' is not allowed for %s"),
-                (int)strnlen(startp, 50), startp, what);
+    parse_error(ps, pigp, _("'%.50s' is not allowed for %s"), startp, what);
   }
 
   ep = startp + nvip->length;
