@@ -3,7 +3,7 @@
  * varbuf.h - variable length expandable buffer handling
  *
  * Copyright © 1994, 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,6 +76,7 @@ void varbuf_dup_char(struct varbuf *v, int c, size_t n);
 void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
 #define varbuf_add_str(v, s) varbuf_add_buf(v, s, strlen(s))
 void varbuf_add_buf(struct varbuf *v, const void *s, size_t size);
+void varbuf_end_str(struct varbuf *v);
 
 int varbuf_printf(struct varbuf *v, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 int varbuf_vprintf(struct varbuf *v, const char *fmt, va_list va)
