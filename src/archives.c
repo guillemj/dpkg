@@ -1178,12 +1178,6 @@ void archivefiles(const char *const *argv) {
   const char *volatile thisarg;
   const char *const *volatile argp;
   jmp_buf ejbuf;
-  int pi[2], nfiles, c, i, r;
-  pid_t pid;
-  FILE *pf;
-  static struct varbuf findoutput;
-  const char **arglist;
-  char *p;
 
   trigproc_install_hooks();
 
@@ -1197,6 +1191,13 @@ void archivefiles(const char *const *argv) {
   log_message("startup archives %s", cipaction->olong);
 
   if (f_recursive) {
+    int pi[2], nfiles, c, i, r;
+    pid_t pid;
+    FILE *pf;
+    static struct varbuf findoutput;
+    const char **arglist;
+    char *p;
+
     if (!*argv)
       badusage(_("--%s --recursive needs at least one path argument"),cipaction->olong);
 
