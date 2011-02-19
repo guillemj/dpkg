@@ -561,18 +561,22 @@ void removal_bulk(struct pkginfo *pkg) {
 
   /* I.e., either of the two branches above. */
   if (pkg->want == want_purge) {
-    static struct varbuf fnvb;
+    const char *filename;
 
     /* Retry empty directories, and warn on any leftovers that aren't. */
     removal_bulk_remove_leftover_dirs(pkg);
 
-    varbuf_pkgadminfile(&fnvb, pkg, LISTFILE);
-    debug(dbg_general, "removal_bulk purge done, removing list `%s'",fnvb.buf);
-    if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("cannot remove old files list"));
+    filename = pkgadminfile(pkg, LISTFILE);
+    debug(dbg_general, "removal_bulk purge done, removing list `%s'",
+          filename);
+    if (unlink(filename) && errno != ENOENT)
+      ohshite(_("cannot remove old files list"));
 
-    varbuf_pkgadminfile(&fnvb, pkg, POSTRMFILE);
-    debug(dbg_general, "removal_bulk purge done, removing postrm `%s'",fnvb.buf);
-    if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("can't remove old postrm script"));
+    filename = pkgadminfile(pkg, POSTRMFILE);
+    debug(dbg_general, "removal_bulk purge done, removing postrm `%s'",
+          filename);
+    if (unlink(filename) && errno != ENOENT)
+      ohshite(_("can't remove old postrm script"));
 
     pkg->status= stat_notinstalled;
     pkg->want = want_unknown;

@@ -461,13 +461,14 @@ void
 write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
                       bool leaveout)
 {
-  static struct varbuf vb, newvb;
+  static struct varbuf newvb;
+  const char *listfile;
   FILE *file;
 
-  varbuf_pkgadminfile(&vb, pkg, LISTFILE);
+  listfile = pkgadminfile(pkg, LISTFILE);
 
   varbuf_reset(&newvb);
-  varbuf_add_str(&newvb, vb.buf);
+  varbuf_add_str(&newvb, listfile);
   varbuf_add_str(&newvb, NEWDBEXT);
   varbuf_add_char(&newvb, '\0');
 
@@ -491,7 +492,7 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   pop_cleanup(ehflag_normaltidy); /* file = fopen() */
   if (fclose(file))
     ohshite(_("failed to close updated files list file for package %s"),pkg->name);
-  if (rename(newvb.buf,vb.buf))
+  if (rename(newvb.buf, listfile))
     ohshite(_("failed to install updated files list file for package %s"),pkg->name);
 
   dir_sync_path(pkgadmindir());
