@@ -84,7 +84,7 @@ const struct namevalue priorityinfos[] = {
   NAMEVALUE_DEF("standard",                      pri_standard),
   NAMEVALUE_DEF("optional",                      pri_optional),
   NAMEVALUE_DEF("extra",                         pri_extra),
-  NAMEVALUE_DEF("this is a bug - please report", pri_other),
+  NAMEVALUE_FALLBACK_DEF("this is a bug - please report", pri_other),
   NAMEVALUE_DEF("unknown",                       pri_unknown),
   { .name = NULL }
 };

@@ -36,7 +36,7 @@
 static int
 convert_string(struct parsedb_state *ps, const struct pkginfo *pigp,
                const char *what, const struct namevalue *ivip,
-               const char *startp, const char **endpp, int otherwise)
+               const char *startp, const char **endpp)
 {
   const char *ep;
   const struct namevalue *nvip;
@@ -45,10 +45,8 @@ convert_string(struct parsedb_state *ps, const struct pkginfo *pigp,
     parse_error(ps, pigp, _("%s is missing"), what);
 
   nvip = namevalue_find_by_name(ivip, startp);
-  if (nvip == NULL) {
-    if (otherwise != -1) return otherwise;
+  if (nvip == NULL)
     parse_error(ps, pigp, _("'%.50s' is not allowed for %s"), startp, what);
-  }
 
   ep = startp + nvip->length;
   while (isspace(*ep))
@@ -136,7 +134,7 @@ f_boolean(struct pkginfo *pigp, struct pkgbin *pifp,
     return;
 
   boolean = convert_string(ps, pigp, _("yes/no in boolean field"),
-                           booleaninfos, value, NULL, -1);
+                           booleaninfos, value, NULL);
   PKGPFIELD(pifp, fip->integer, bool) = boolean;
 }
 
@@ -156,7 +154,7 @@ f_priority(struct pkginfo *pigp, struct pkgbin *pifp,
 {
   if (!*value) return;
   pigp->priority = convert_string(ps, pigp, _("word in `priority' field"),
-                                  priorityinfos, value, NULL, pri_other);
+                                  priorityinfos, value, NULL);
   if (pigp->priority == pri_other) pigp->otherpriority= nfstrsave(value);
 }
 
@@ -175,13 +173,13 @@ f_status(struct pkginfo *pigp, struct pkgbin *pifp,
 
   pigp->want = convert_string(ps, pigp,
                               _("first (want) word in `status' field"),
-                              wantinfos, value, &ep, -1);
+                              wantinfos, value, &ep);
   pigp->eflag = convert_string(ps, pigp,
                                _("second (error) word in `status' field"),
-                               eflaginfos, ep, &ep, -1);
+                               eflaginfos, ep, &ep);
   pigp->status = convert_string(ps, pigp,
                                 _("third (status) word in `status' field"),
-                                statusinfos, ep, NULL, -1);
+                                statusinfos, ep, NULL);
 }
 
 void
