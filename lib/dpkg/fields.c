@@ -34,11 +34,11 @@
 #include <dpkg/triglib.h>
 
 static int
-convert_string(struct parsedb_state *ps, const struct pkginfo *pigp,
-               const char *what, const struct namevalue *ivip,
-               const char *startp, const char **endpp)
+parse_nv_next(struct parsedb_state *ps, const struct pkginfo *pigp,
+              const char *what, const struct namevalue *ivip,
+              const char **strp)
 {
-  const char *ep;
+  const char *startp = *strp, *ep;
   const struct namevalue *nvip;
 
   if (!*startp)
@@ -51,10 +51,23 @@ convert_string(struct parsedb_state *ps, const struct pkginfo *pigp,
   ep = startp + nvip->length;
   while (isspace(*ep))
     ep++;
-  if (*ep && !endpp)
-    parse_error(ps, pigp, _("junk after %s"), what);
-  if (endpp) *endpp= ep;
+  *strp = ep;
+
   return nvip->value;
+}
+
+static int
+parse_nv_last(struct parsedb_state *ps, const struct pkginfo *pkg,
+              const char *what, const struct namevalue *nv_head,
+              const char *str)
+{
+  int value;
+
+  value = parse_nv_next(ps, pkg, what, nv_head, &str);
+  if (str[0] != '\0')
+    parse_error(ps, pkg, _("junk after %s"), what);
+
+  return value;
 }
 
 void
@@ -133,8 +146,8 @@ f_boolean(struct pkginfo *pigp, struct pkgbin *pifp,
   if (!*value)
     return;
 
-  boolean = convert_string(ps, pigp, _("yes/no in boolean field"),
-                           booleaninfos, value, NULL);
+  boolean = parse_nv_last(ps, pigp, _("yes/no in boolean field"),
+                          booleaninfos, value);
   PKGPFIELD(pifp, fip->integer, bool) = boolean;
 }
 
@@ -153,8 +166,8 @@ f_priority(struct pkginfo *pigp, struct pkgbin *pifp,
            const char *value, const struct fieldinfo *fip)
 {
   if (!*value) return;
-  pigp->priority = convert_string(ps, pigp, _("word in `priority' field"),
-                                  priorityinfos, value, NULL);
+  pigp->priority = parse_nv_last(ps, pigp, _("word in `priority' field"),
+                                 priorityinfos, value);
   if (pigp->priority == pri_other) pigp->otherpriority= nfstrsave(value);
 }
 
@@ -163,23 +176,21 @@ f_status(struct pkginfo *pigp, struct pkgbin *pifp,
          struct parsedb_state *ps,
          const char *value, const struct fieldinfo *fip)
 {
-  const char *ep;
-
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps, pigp,
                 _("value for `status' field not allowed in this context"));
   if (ps->flags & pdb_recordavailable)
     return;
 
-  pigp->want = convert_string(ps, pigp,
-                              _("first (want) word in `status' field"),
-                              wantinfos, value, &ep);
-  pigp->eflag = convert_string(ps, pigp,
-                               _("second (error) word in `status' field"),
-                               eflaginfos, ep, &ep);
-  pigp->status = convert_string(ps, pigp,
-                                _("third (status) word in `status' field"),
-                                statusinfos, ep, NULL);
+  pigp->want = parse_nv_next(ps, pigp,
+                             _("first (want) word in `status' field"),
+                             wantinfos, &value);
+  pigp->eflag = parse_nv_next(ps, pigp,
+                              _("second (error) word in `status' field"),
+                              eflaginfos, &value);
+  pigp->status = parse_nv_last(ps, pigp,
+                               _("third (status) word in `status' field"),
+                               statusinfos, value);
 }
 
 void
