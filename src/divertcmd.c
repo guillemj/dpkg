@@ -4,6 +4,8 @@
  * Copyright © 1995 Ian Jackson
  * Copyright © 2000, 2001 Wichert Akkerman
  * Copyright © 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +40,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/arch.h>
 #include <dpkg/file.h>
 #include <dpkg/glob.h>
 #include <dpkg/buffer.h>
@@ -470,6 +473,38 @@ diversion_add(const char *const *argv)
 	return 0;
 }
 
+static bool
+diversion_is_shared(struct pkgset *set, struct filenamenode *namenode)
+{
+	const char *archname;
+	struct pkginfo *pkg;
+	struct dpkg_arch *arch;
+	struct filepackages_iterator *iter;
+	bool shared = false;
+
+	if (set == NULL)
+		return false;
+
+	archname = getenv("DPKG_MAINTSCRIPT_ARCH");
+	arch = dpkg_arch_find(archname);
+	if (arch->type == arch_none || arch->type == arch_empty)
+		return false;
+
+	for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
+		ensure_packagefiles_available(pkg);
+
+	iter = filepackages_iter_new(namenode);
+	while ((pkg = filepackages_iter_next(iter))) {
+		if (pkg->set == set && pkg->installed.arch != arch) {
+			shared = true;
+			break;
+		}
+	}
+	filepackages_iter_free(iter);
+
+	return shared;
+}
+
 static int
 diversion_remove(const char *const *argv)
 {
@@ -514,6 +549,15 @@ diversion_remove(const char *const *argv)
 		         "  found `%s'"),
 		       diversion_current(filename),
 		       diversion_describe(contest));
+
+	/* Ignore removal request if the diverted file is still owned
+	 * by another package in the same set. */
+	if (diversion_is_shared(pkgset, namenode)) {
+		if (opt_verbose > 0)
+			printf(_("Ignoring removal of shared diversion '%s'.\n"),
+			       diversion_describe(contest));
+		exit(0);
+	}
 
 	if (opt_verbose > 0)
 		printf(_("Removing '%s'\n"), diversion_describe(contest));
@@ -693,11 +737,13 @@ main(int argc, const char * const *argv)
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 
+	modstatdb_open(msdbrw_readonly);
 	filesdbinit();
 	ensure_diversions();
 
 	ret = cipaction->action(argv);
 
+	modstatdb_shutdown();
 	standard_shutdown();
 
 	return ret;

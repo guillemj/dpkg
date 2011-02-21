@@ -36,7 +36,8 @@ if (! -x "@dd") {
 plan tests => 235;
 
 sub cleanup {
-    system("rm -rf $tmpdir && mkdir -p $testdir && mkdir -p $admindir");
+    system("rm -rf $tmpdir && mkdir -p $testdir");
+    system("mkdir -p $admindir/updates && touch $admindir/status");
 }
 
 sub install_diversions {
