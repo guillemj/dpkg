@@ -493,7 +493,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
         if (provider->up->up->clientdata->istobe != itb_installnew) continue;
-        if (provider->up->up == dep->up)
+        if (provider->up->up->set == dep->up->set)
           continue; /* Conflicts and provides the same. */
         sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
                 provider->up->up->set->name, possi->ed->name);
@@ -510,7 +510,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
 
-        if (provider->up->up == dep->up)
+        if (provider->up->up->set == dep->up->set)
           continue; /* Conflicts and provides the same. */
 
         switch (provider->up->up->clientdata->istobe) {

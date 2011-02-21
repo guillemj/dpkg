@@ -404,6 +404,8 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
        provider;
        provider = provider->rev_next) {
     if (provider->up->type == dep_provides &&
+        ((possi->up->type != dep_conflicts && possi->up->type != dep_breaks) ||
+         provider->up->up->set != possi->up->up->set) &&
         provider->up->up->clientdata &&
         !useavailable(provider->up->up) &&
         would_like_to_install(provider->up->up->clientdata->selected,
@@ -414,6 +416,8 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
        provider;
        provider = provider->rev_next) {
     if (provider->up->type != dep_provides ||
+        ((possi->up->type == dep_conflicts || possi->up->type == dep_breaks) &&
+         provider->up->up->set == possi->up->up->set) ||
         !provider->up->up->clientdata ||
         !would_like_to_install(provider->up->up->clientdata->selected,
                                provider->up->up))
