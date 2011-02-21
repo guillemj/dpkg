@@ -376,6 +376,30 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   modstatdb_note(pkg);
 }
 
+/**
+ * Check if all instances of a pkgset are getting in sync.
+ *
+ * If that's the case, the extraction is going to ensure consistency
+ * of shared files.
+ */
+static bool
+pkgset_getting_in_sync(struct pkginfo *pkg)
+{
+  struct pkginfo *otherpkg;
+
+  for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
+    if (otherpkg == pkg)
+      continue;
+    if (otherpkg->status <= stat_configfiles)
+      continue;
+    if (versioncompare(&pkg->available.version, &otherpkg->installed.version)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -896,6 +920,7 @@ void process_archive(const char *filename) {
   push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
+  tc.pkgset_getting_in_sync = pkgset_getting_in_sync(pkg);
 
   r = tar_extractor(&tc, &tf);
   if (r) {
