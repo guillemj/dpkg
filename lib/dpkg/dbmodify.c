@@ -281,9 +281,9 @@ modstatdb_open(enum modstatdb_rw readwritereq)
   if (cstatus != msdbrw_needsuperuserlockonly) {
     cleanupdates();
     if (cflags >= msdbrw_available_readonly)
-    parsedb(availablefile,
-            pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
-            NULL);
+      parsedb(availablefile,
+              pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
+              NULL);
   }
 
   if (cstatus >= msdbrw_write) {
