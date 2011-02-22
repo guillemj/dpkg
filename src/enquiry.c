@@ -377,6 +377,14 @@ assertmulticonrep(const char *const *argv)
                                 _("multiple Conflicts and Replaces"));
 }
 
+int
+assertmultiarch(const char *const *argv)
+{
+  struct versionrevision version = { 0, "1.16.2", NULL };
+
+  return assert_version_support(argv, &version, _("multi-arch"));
+}
+
 /**
  * Print a single package which:
  *  (a) is the target of one or more relevant predependencies.

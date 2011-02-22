@@ -88,6 +88,7 @@ enum action {
 	act_assertepoch,
 	act_assertlongfilenames,
 	act_assertmulticonrep,
+	act_assertmultiarch,
 
 	act_audit,
 	act_unpackchk,
@@ -169,6 +170,7 @@ int assertepoch(const char *const *argv);
 int assertpredep(const char *const *argv);
 int assertlongfilenames(const char *const *argv);
 int assertmulticonrep(const char *const *argv);
+int assertmultiarch(const char *const *argv);
 int predeppackage(const char *const *argv);
 int printarch(const char *const *argv);
 int printinstarch(const char *const *argv);
