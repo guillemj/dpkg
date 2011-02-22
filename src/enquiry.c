@@ -151,7 +151,7 @@ static void describebriefly(struct pkginfo *pkg) {
   pdesc = pkg_summary(pkg, &pkg->installed, &l);
   l = min(l, maxl);
 
-  printf(" %-20s %.*s\n", pkg->set->name, l, pdesc);
+  printf(" %-20s %.*s\n", pkg_name(pkg, pnaw_nonambig), l, pdesc);
 }
 
 int
@@ -280,12 +280,15 @@ unpackchk(const char *const *argv)
       while (width > 59) { putchar(' '); width--; }
       it = pkg_db_iter_new();
       while ((pkg = pkg_db_iter_next_pkg(it))) {
+        const char *pkgname;
+
         if (!yettobeunpacked(pkg,&thissect)) continue;
         if (strcasecmp(thissect,se->name)) continue;
-        width -= strlen(pkg->set->name);
+        pkgname = pkg_name(pkg, pnaw_nonambig);
+        width -= strlen(pkgname);
         width--;
         if (width < 4) { printf(" ..."); break; }
-        printf(" %s", pkg->set->name);
+        printf(" %s", pkgname);
       }
       pkg_db_iter_free(it);
       putchar('\n');

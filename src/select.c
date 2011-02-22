@@ -42,16 +42,17 @@
 #include "main.h"
 
 static void getsel1package(struct pkginfo *pkg) {
+  const char *pkgname;
   int l;
 
   if (pkg->want == want_unknown) return;
-  l = strlen(pkg->set->name);
+  pkgname = pkg_name(pkg, pnaw_nonambig);
+  l = strlen(pkgname);
   l >>= 3;
   l = 6 - l;
   if (l < 1)
     l = 1;
-  printf("%s%.*s%s\n", pkg->set->name, l, "\t\t\t\t\t\t",
-         wantinfos[pkg->want].name);
+  printf("%s%.*s%s\n", pkgname, l, "\t\t\t\t\t\t", wantinfos[pkg->want].name);
 }
 
 int
