@@ -165,12 +165,6 @@ pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch)
   return pkg;
 }
 
-struct pkginfo *
-pkg_db_find(const char *name)
-{
-  return pkg_db_find_pkg(name, NULL);
-}
-
 /**
  * Return the number of package sets available in the database.
  *

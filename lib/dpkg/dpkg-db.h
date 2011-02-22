@@ -275,7 +275,6 @@ void pkg_blank(struct pkginfo *pp);
 void pkgbin_blank(struct pkgbin *pifp);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
-struct pkginfo *pkg_db_find(const char *name);
 struct pkgset *pkg_db_find_set(const char *name);
 struct pkginfo *pkg_db_find_singleton(const char *name);
 struct pkginfo *pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch);
