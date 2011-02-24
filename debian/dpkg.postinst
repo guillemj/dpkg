@@ -21,7 +21,7 @@
 
 # Create the database files if they don't already exist
 create_database() {
-    admindir=/var/lib/dpkg
+    admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
 
     for file in diversions statoverride status; do
 	if [ ! -f "$admindir/$file" ]; then

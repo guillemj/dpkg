@@ -28,7 +28,8 @@ upgrade_dpkg_non_conffile()
 
 kill_bad_alternatives () {
     local IFS=""
-    ALTDIR="/var/lib/dpkg/alternatives"
+    admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
+    ALTDIR="$admindir/alternatives"
     for alt in $ALTDIR/*; do
         if [ ! -f $alt ]; then
             # In case it's been removed by the code below, or in case
