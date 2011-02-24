@@ -38,20 +38,20 @@ parse_nv_next(struct parsedb_state *ps, const struct pkginfo *pigp,
               const char *what, const struct namevalue *nv_head,
               const char **strp)
 {
-  const char *startp = *strp, *ep;
+  const char *str_start = *strp, *str_end;
   const struct namevalue *nv;
 
-  if (!*startp)
+  if (str_start[0] == '\0')
     parse_error(ps, pigp, _("%s is missing"), what);
 
-  nv = namevalue_find_by_name(nv_head, startp);
+  nv = namevalue_find_by_name(nv_head, str_start);
   if (nv == NULL)
-    parse_error(ps, pigp, _("'%.50s' is not allowed for %s"), startp, what);
+    parse_error(ps, pigp, _("'%.50s' is not allowed for %s"), str_start, what);
 
-  ep = startp + nv->length;
-  while (isspace(*ep))
-    ep++;
-  *strp = ep;
+  str_end = str_start + nv->length;
+  while (isspace(str_end[0]))
+    str_end++;
+  *strp = str_end;
 
   return nv->value;
 }
