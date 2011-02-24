@@ -392,7 +392,7 @@ writerecord(FILE *file, const char *filename,
   struct varbuf vb = VARBUF_INIT;
 
   varbufrecord(&vb,pigp,pifp);
-  varbuf_add_char(&vb, '\0');
+  varbuf_end_str(&vb);
   if (fputs(vb.buf,file) < 0)
     ohshite(_("failed to write details of `%.50s' to `%.250s'"), pigp->name,
 	    filename);
@@ -434,7 +434,7 @@ writedb(const char *filename, bool available, bool mustsync)
       continue;
     varbufrecord(&vb,pigp,pifp);
     varbuf_add_char(&vb, '\n');
-    varbuf_add_char(&vb, '\0');
+    varbuf_end_str(&vb);
     if (fputs(vb.buf,file) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
               which, pigp->name, filename);

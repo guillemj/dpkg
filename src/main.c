@@ -670,11 +670,11 @@ void commandfd(const char *const *argv) {
     } while (c != EOF && c != '\n');
     if (c == EOF) ohshit(_("unexpected eof before end of line %d"),lno);
     if (!argc) continue;
-    varbuf_add_char(&linevb, '\0');
+    varbuf_end_str(&linevb);
     newargs = m_realloc(newargs, sizeof(const char *) * (argc + 1));
     argc= 1;
     ptr= linevb.buf;
-    endptr= ptr + linevb.used;
+    endptr = ptr + linevb.used + 1;
     skipchar = false;
     while(ptr < endptr) {
       if (skipchar) {

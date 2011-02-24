@@ -117,7 +117,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
       varbuf_add_str(&str_pkgs, " <- ");
       varbuf_add_str(&str_pkgs, sol->pkg->name);
     }
-    varbuf_add_char(&str_pkgs, '\0');
+    varbuf_end_str(&str_pkgs);
     debug(dbg_depcondetail, "findbreakcyclerecursive %s %s", pkg->name,
           str_pkgs.buf);
     varbuf_destroy(&str_pkgs);
@@ -199,7 +199,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   }
 
   varbufdependency(&depstr, dep);
-  varbuf_add_char(&depstr, '\0');
+  varbuf_end_str(&depstr);
 
   varbuf_printf(addto, fmt, dep->up->name, depstr.buf);
   varbuf_destroy(&depstr);

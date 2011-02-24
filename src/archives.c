@@ -288,17 +288,17 @@ set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
 void setupfnamevbs(const char *filename) {
   varbuf_trunc(&fnamevb, fnameidlu);
   varbuf_add_str(&fnamevb, filename);
-  varbuf_add_char(&fnamevb, '\0');
+  varbuf_end_str(&fnamevb);
 
   varbuf_trunc(&fnametmpvb, fnameidlu);
   varbuf_add_str(&fnametmpvb, filename);
   varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
-  varbuf_add_char(&fnametmpvb, '\0');
+  varbuf_end_str(&fnametmpvb);
 
   varbuf_trunc(&fnamenewvb, fnameidlu);
   varbuf_add_str(&fnamenewvb, filename);
   varbuf_add_str(&fnamenewvb, DPKGNEWEXT);
-  varbuf_add_char(&fnamenewvb, '\0');
+  varbuf_end_str(&fnamenewvb);
 
   debug(dbg_eachfiledetail, "setupvnamevbs main=`%s' tmp=`%s' new=`%s'",
         fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
@@ -387,7 +387,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
     varbuf_add_buf(symlinkfn, fname, (lastslash - fname) + 1);
   }
   varbuf_add_str(symlinkfn, ti->linkname);
-  varbuf_add_char(symlinkfn, '\0');
+  varbuf_end_str(symlinkfn);
 
   statr= stat(symlinkfn->buf, &newstab);
   if (statr) {
@@ -739,7 +739,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     linknode = findnamenode(ti->linkname, 0);
     if (linknode->flags & fnnf_deferred_rename)
       varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
-    varbuf_add_char(&hardlinkfn, '\0');
+    varbuf_end_str(&hardlinkfn);
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject hardlink");
@@ -807,7 +807,7 @@ tarobject(void *ctx, struct tar_entry *ti)
         ohshite(_("unable to read link `%.255s'"), ti->name);
       assert(r == stab.st_size);
       varbuf_trunc(&symlinkfn, r);
-      varbuf_add_char(&symlinkfn, '\0');
+      varbuf_end_str(&symlinkfn);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for `%.255s'"), ti->name);
       if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
@@ -1015,7 +1015,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
     return;
   }
 
-  varbuf_add_char(&why, '\0');
+  varbuf_end_str(&why);
 
   if (fixbydeconf && f_autodeconf) {
     char action[512];
@@ -1099,7 +1099,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
             continue;
           if (depisok(pdep->up, &removalwhy, NULL, false))
             continue;
-          varbuf_add_char(&removalwhy, '\0');
+          varbuf_end_str(&removalwhy);
           if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
             break;
         }
@@ -1116,7 +1116,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                 continue;
               if (depisok(pdep->up, &removalwhy, NULL, false))
                 continue;
-              varbuf_add_char(&removalwhy, '\0');
+              varbuf_end_str(&removalwhy);
               fprintf(stderr, _("dpkg"
                       ": may have trouble removing %s, as it provides %s ...\n"),
                       fixbyrm->name, providecheck->list->ed->name);
@@ -1152,7 +1152,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       fixbyrm->clientdata->istobe = itb_normal;
     }
   }
-  varbuf_add_char(&conflictwhy, '\0');
+  varbuf_end_str(&conflictwhy);
   fprintf(stderr, _("dpkg: regarding %s containing %s:\n%s"),
           pfilename, pkg->name, conflictwhy.buf);
   if (!force_conflicts(dep->list))

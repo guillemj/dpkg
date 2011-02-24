@@ -109,7 +109,7 @@ void setselections(const char *const *argv) {
       if (c == EOF) ohshit(_("unexpected eof in package name at line %d"),lno);
       if (c == '\n') ohshit(_("unexpected end of line in package name at line %d"),lno);
     }
-    varbuf_add_char(&namevb, '\0');
+    varbuf_end_str(&namevb);
 
     while (c != EOF && isspace(c)) {
       c= getchar();
@@ -122,7 +122,7 @@ void setselections(const char *const *argv) {
       varbuf_add_char(&selvb, c);
       c= getchar();
     }
-    varbuf_add_char(&selvb, '\0');
+    varbuf_end_str(&selvb);
 
     while (c != EOF && c != '\n') {
       c= getchar();

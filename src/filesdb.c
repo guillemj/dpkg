@@ -470,7 +470,7 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   varbuf_reset(&newvb);
   varbuf_add_str(&newvb, listfile);
   varbuf_add_str(&newvb, NEWDBEXT);
-  varbuf_add_char(&newvb, '\0');
+  varbuf_end_str(&newvb);
 
   file= fopen(newvb.buf,"w+");
   if (!file)

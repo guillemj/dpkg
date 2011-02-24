@@ -122,7 +122,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
 
     varbuf_reset(&fs->value);
     varbuf_add_buf(&fs->value, fs->valuestart, fs->valuelen);
-    varbuf_add_char(&fs->value, '\0');
+    varbuf_end_str(&fs->value);
 
     fip->rcall(pkg, pkgbin, ps, fs->value.buf, fip);
   } else {

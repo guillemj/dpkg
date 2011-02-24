@@ -417,6 +417,6 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   varbuf_add_str(&vb, pkg->name);
   varbuf_add_char(&vb, '.');
   varbuf_add_str(&vb, whichfile);
-  varbuf_add_char(&vb, '\0');
+  varbuf_end_str(&vb);
   return vb.buf;
 }

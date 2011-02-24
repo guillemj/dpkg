@@ -101,7 +101,7 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
     varbuf_add_str(&controlfile, dir);
     varbuf_add_char(&controlfile, '/');
     varbuf_add_str(&controlfile, component);
-    varbuf_add_char(&controlfile, '\0');
+    varbuf_end_str(&controlfile);
 
     fd = open(controlfile.buf, O_RDONLY);
     if (fd >= 0) {

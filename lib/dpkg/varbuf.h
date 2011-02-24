@@ -130,8 +130,7 @@ varbuf::operator()(const char *s)
 inline void
 varbuf::terminate(void/*to shut 2.6.3 up*/)
 {
-	varbuf_add_char(this, '\0');
-	used--;
+	varbuf_end_str(this);
 }
 
 inline const char *

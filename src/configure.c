@@ -88,7 +88,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 
 	varbuf_reset(&cdr2);
 	varbuf_add_str(&cdr2, cdr.buf);
-	varbuf_add_char(&cdr2, '\0');
+	varbuf_end_str(&cdr2);
 	/* XXX: Make sure there's enough room for extensions. */
 	varbuf_grow(&cdr2, 50);
 	cdr2rest = cdr2.buf + strlen(cdr.buf);
@@ -165,9 +165,9 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		if (unlink(cdr2.buf) && errno != ENOENT)
 			warning(_("%s: failed to remove old backup '%.250s': %s"),
 			        pkg->name, cdr2.buf, strerror(errno));
-		cdr.used--;
+
 		varbuf_add_str(&cdr, DPKGDISTEXT);
-		varbuf_add_char(&cdr, '\0');
+		varbuf_end_str(&cdr);
 		strcpy(cdr2rest, DPKGNEWEXT);
 		trig_file_activate(usenode, pkg);
 		if (rename(cdr2.buf, cdr.buf))
@@ -287,14 +287,14 @@ deferred_configure(struct pkginfo *pkg)
 	ok = breakses_ok(pkg, &aemsgs) ? ok : 0;
 	if (ok == 0) {
 		sincenothing = 0;
-		varbuf_add_char(&aemsgs, '\0');
+		varbuf_end_str(&aemsgs);
 		fprintf(stderr,
 		        _("dpkg: dependency problems prevent configuration of %s:\n%s"),
 		        pkg->name, aemsgs.buf);
 		varbuf_destroy(&aemsgs);
 		ohshit(_("dependency problems - leaving unconfigured"));
 	} else if (aemsgs.used) {
-		varbuf_add_char(&aemsgs, '\0');
+		varbuf_end_str(&aemsgs);
 		fprintf(stderr,
 		        _("dpkg: %s: dependency problems, but configuring anyway as you requested:\n%s"),
 		        pkg->name, aemsgs.buf);
@@ -381,7 +381,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 	if (*in != '/')
 		varbuf_add_char(result, '/');
 	varbuf_add_str(result, in);
-	varbuf_add_char(result, '\0');
+	varbuf_end_str(result);
 
 	loopprotect = 0;
 
@@ -419,7 +419,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			}
 			assert(r == stab.st_size); /* XXX: debug */
 			varbuf_trunc(&target, r);
-			varbuf_add_char(&target, '\0');
+			varbuf_end_str(&target);
 
 			debug(dbg_conffdetail,
 			      "conffderef readlink gave %d, '%s'",
@@ -431,7 +431,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				debug(dbg_conffdetail,
 				      "conffderef readlink absolute");
 			} else {
-				for (r = result->used - 2; r > 0 && result->buf[r] != '/'; r--)
+				for (r = result->used - 1; r > 0 && result->buf[r] != '/'; r--)
 					;
 				if (r < 0) {
 					warning(_("%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -448,7 +448,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				      (int)result->used, result->buf);
 			}
 			varbuf_add_buf(result, target.buf, target.used);
-			varbuf_add_char(result, '\0');
+			varbuf_end_str(result);
 		} else {
 			warning(_("%s: conffile '%.250s' is not a plain file or symlink (= '%s')"),
 			        pkg->name, in, result->buf);

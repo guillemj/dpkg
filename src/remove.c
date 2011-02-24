@@ -122,13 +122,13 @@ void deferred_remove(struct pkginfo *pkg) {
     return;
   } else if (rok == 0) {
     sincenothing= 0;
-    varbuf_add_char(&raemsgs, '\0');
+    varbuf_end_str(&raemsgs);
     fprintf(stderr,
             _("dpkg: dependency problems prevent removal of %s:\n%s"),
             pkg->name, raemsgs.buf);
     ohshit(_("dependency problems - not removing"));
   } else if (raemsgs.used) {
-    varbuf_add_char(&raemsgs, '\0');
+    varbuf_end_str(&raemsgs);
     fprintf(stderr,
             _("dpkg: %s: dependency problems, but removing anyway as you requested:\n%s"),
             pkg->name, raemsgs.buf);
@@ -221,19 +221,19 @@ removal_bulk_remove_files(struct pkginfo *pkg)
       before= fnvb.used;
 
       varbuf_add_str(&fnvb, DPKGTEMPEXT);
-      varbuf_add_char(&fnvb, '\0');
+      varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning temp `%s'", fnvb.buf);
 
       ensure_pathname_nonexisting(fnvb.buf);
 
       varbuf_trunc(&fnvb, before);
       varbuf_add_str(&fnvb, DPKGNEWEXT);
-      varbuf_add_char(&fnvb, '\0');
+      varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning new `%s'", fnvb.buf);
       ensure_pathname_nonexisting(fnvb.buf);
 
       varbuf_trunc(&fnvb, before);
-      varbuf_add_char(&fnvb, '\0');
+      varbuf_end_str(&fnvb);
       if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
         debug(dbg_eachfiledetail, "removal_bulk is a directory");
         /* Only delete a directory or a link to one if we're the only
@@ -275,7 +275,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     varbuf_reset(&fnvb);
     varbuf_add_str(&fnvb, pkgadmindir());
     infodirbaseused= fnvb.used;
-    varbuf_add_char(&fnvb, '\0');
+    varbuf_end_str(&fnvb);
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
     push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
 
@@ -298,7 +298,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
       debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
       varbuf_trunc(&fnvb, infodirbaseused);
       varbuf_add_str(&fnvb, de->d_name);
-      varbuf_add_char(&fnvb, '\0');
+      varbuf_end_str(&fnvb);
       if (unlink(fnvb.buf))
         ohshite(_("unable to delete control info file `%.250s'"),fnvb.buf);
       debug(dbg_scripts, "removal_bulk info unlinked %s",fnvb.buf);
@@ -343,7 +343,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     varbuf_reset(&fnvb);
     varbuf_add_str(&fnvb, instdir);
     varbuf_add_str(&fnvb, usenode->name);
-    varbuf_add_char(&fnvb, '\0');
+    varbuf_end_str(&fnvb);
 
     if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "removal_bulk is a directory");
@@ -447,7 +447,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       debug(dbg_conffdetail, "removal_bulk conffile `%s' (= `%s')",
             conff->name, r == -1 ? "<r==-1>" : fnvb.buf);
       if (r == -1) continue;
-      conffnameused= fnvb.used-1;
+      conffnameused = fnvb.used;
       if (unlink(fnvb.buf) && errno != ENOENT && errno != ENOTDIR)
         ohshite(_("cannot remove old config file `%.250s' (= `%.250s')"),
                 conff->name, fnvb.buf);
@@ -457,7 +457,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       varbuf_add_str(&removevb, fnvb.buf);
       varbuf_add_char(&removevb, '/');
       removevbbase= removevb.used;
-      varbuf_add_char(&removevb, '\0');
+      varbuf_end_str(&removevb);
       dsd= opendir(removevb.buf);
       if (!dsd) {
         int e=errno;
@@ -496,7 +496,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       yes_remove:
         varbuf_trunc(&removevb, removevbbase);
         varbuf_add_str(&removevb, de->d_name);
-        varbuf_add_char(&removevb, '\0');
+        varbuf_end_str(&removevb);
         debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing `%s'",
               removevb.buf);
         if (unlink(removevb.buf) && errno != ENOENT && errno != ENOTDIR)

@@ -200,7 +200,7 @@ const char *versiondescribe
   vb= &bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;
   varbuf_reset(vb);
   varbufversion(vb,version,vdew);
-  varbuf_add_char(vb, '\0');
+  varbuf_end_str(vb);
 
   return vb->buf;
 }
