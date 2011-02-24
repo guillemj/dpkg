@@ -81,7 +81,7 @@ void getselections(const char *const *argv) {
 }
 
 void setselections(const char *const *argv) {
-  const struct namevalue *nvp;
+  const struct namevalue *nv;
   struct pkginfo *pkg;
   const char *e;
   int c, lno;
@@ -132,11 +132,11 @@ void setselections(const char *const *argv) {
     e = pkg_name_is_illegal(namevb.buf, NULL);
     if (e) ohshit(_("illegal package name at line %d: %.250s"),lno,e);
 
-    nvp = namevalue_find_by_name(wantinfos, selvb.buf);
-    if (nvp == NULL)
+    nv = namevalue_find_by_name(wantinfos, selvb.buf);
+    if (nv == NULL)
       ohshit(_("unknown wanted status at line %d: %.250s"), lno, selvb.buf);
     pkg = pkg_db_find(namevb.buf);
-    pkg->want= nvp->value;
+    pkg->want = nv->value;
     if (c == EOF) break;
     lno++;
   }

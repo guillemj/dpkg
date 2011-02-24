@@ -35,25 +35,25 @@
 
 static int
 parse_nv_next(struct parsedb_state *ps, const struct pkginfo *pigp,
-              const char *what, const struct namevalue *ivip,
+              const char *what, const struct namevalue *nv_head,
               const char **strp)
 {
   const char *startp = *strp, *ep;
-  const struct namevalue *nvip;
+  const struct namevalue *nv;
 
   if (!*startp)
     parse_error(ps, pigp, _("%s is missing"), what);
 
-  nvip = namevalue_find_by_name(ivip, startp);
-  if (nvip == NULL)
+  nv = namevalue_find_by_name(nv_head, startp);
+  if (nv == NULL)
     parse_error(ps, pigp, _("'%.50s' is not allowed for %s"), startp, what);
 
-  ep = startp + nvip->length;
+  ep = startp + nv->length;
   while (isspace(*ep))
     ep++;
   *strp = ep;
 
-  return nvip->value;
+  return nv->value;
 }
 
 static int
