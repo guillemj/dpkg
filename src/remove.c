@@ -40,6 +40,7 @@
 #include <dpkg/myopt.h>
 #include <dpkg/triglib.h>
 
+#include "infodb.h"
 #include "filesdb.h"
 #include "main.h"
 
@@ -511,21 +512,6 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                                 "purge", NULL);
 }
 
-static bool
-pkg_has_postrm_script(struct pkginfo *pkg)
-{
-  const char *postrmfilename;
-  struct stat stab;
-
-  postrmfilename = pkgadminfile(pkg, POSTRMFILE);
-  if (!lstat(postrmfilename, &stab))
-    return true;
-  else if (errno == ENOENT)
-    return false;
-  else
-    ohshite(_("unable to check existence of `%.250s'"), postrmfilename);
-}
-
 /*
  * This is used both by deferred_remove() in this file, and at the end of
  * process_archive() in archives.c if it needs to finish removing a
@@ -540,7 +526,7 @@ void removal_bulk(struct pkginfo *pkg) {
     removal_bulk_remove_files(pkg);
   }
 
-  foundpostrm = pkg_has_postrm_script(pkg);
+  foundpostrm = pkg_infodb_has_file(pkg, POSTRMFILE);
 
   debug(dbg_general, "removal_bulk purging? foundpostrm=%d",foundpostrm);
 

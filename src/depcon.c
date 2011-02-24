@@ -32,6 +32,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
+#include "infodb.h"
 #include "main.h"
 
 struct cyclesofarlink {
@@ -48,8 +49,6 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
                  struct pkginfo *dependedon, struct deppossi *possi)
 {
   struct cyclesofarlink *sol;
-  const char *postinstfilename;
-  struct stat stab;
 
   if(!possi)
     return false;
@@ -75,11 +74,8 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
    * able to do something straight away when findbreakcycle returns. */
   sofar= thislink;
   for (sol = sofar; !(sol != sofar && sol->pkg == dependedon); sol = sol->prev) {
-    postinstfilename= pkgadminfile(sol->pkg,POSTINSTFILE);
-    if (lstat(postinstfilename,&stab)) {
-      if (errno == ENOENT) break;
-      ohshite(_("unable to check for existence of `%.250s'"),postinstfilename);
-    }
+    if (!pkg_infodb_has_file(sol->pkg, POSTINSTFILE))
+      break;
   }
 
   /* Now we have either a package with no postinst, or the other

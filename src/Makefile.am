@@ -34,6 +34,7 @@ dpkg_SOURCES = \
 	errors.c \
 	filesdb.c filesdb.h \
 	filters.c filters.h \
+	infodb.c infodb.h \
 	divertdb.c \
 	statdb.c \
 	help.c \
