@@ -40,9 +40,9 @@ DSC = $(addsuffix .dsc,$(TESTS_DSC))
 
 # Common test patterns to use with $(call foo,args...)
 stdout_is = test "`$(1)`" = "$(2)"
-stdout_has = $(1) | grep -q "$(2)"
+stdout_has = $(1) | grep -qE "$(2)"
 stderr_is = test "`$(1) 2>&1 1>/dev/null`" = "$(2)"
-stderr_has = $(1) 2>&1 1>/dev/null | grep -q "$(2)"
+stderr_has = $(1) 2>&1 1>/dev/null | grep -qE "$(2)"
 pkg_is_installed = $(call stdout_is,$(PKG_STATUS) $(1),install ok installed)
 pkg_is_not_installed = $(call stdout_has,$(PKG_STATUS) $(1) 2>/dev/null, ok not-installed) || ! $(PKG_STATUS) $(1) >/dev/null 2>&1
 pkg_status_is = $(call stdout_is,$(PKG_STATUS) $(1),$(2))
