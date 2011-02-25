@@ -92,6 +92,7 @@ TEST_CASES += test-coinstall-shared-files
 TEST_CASES += test-coinstall-shared-conffiles
 TEST_CASES += test-coinstall-triggers
 TEST_CASES += test-coinstall-diversions
+TEST_CASES += test-dpkg-output
 
 test-case: $(TEST_CASES)
 
@@ -649,6 +650,35 @@ test-coinstall-diversions: ma-setup
 	$(DPKG_PURGE) pkg-ma-shared-diversion:$(FOREIGN_ARCH)
 	! $(call stdout_has,$(DPKG_DIVERT) --list,$(common_file).distrib)
 	$(DPKG_PURGE) pkg-ma-diverted
+
+test-dpkg-output: ma-setup
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
+	$(call stdout_has,$(DPKG_QUERY) -W,^pkg-ma-shared-files:$(NATIVE_ARCH)	1.0$)
+	$(call stdout_has,$(DPKG_QUERY) -W,^pkg-ma-shared-files:$(FOREIGN_ARCH)	1.0$)
+	! $(call stdout_is,$(DPKG_QUERY) -f'$${binary:Package}' -W pkg-ma-shared-files,pkg-ma-shared-files)
+	$(call stdout_is,$(DPKG_QUERY) -f'$${binary:Package}' -W pkg-ma-shared-files:$(NATIVE_ARCH),pkg-ma-shared-files:$(NATIVE_ARCH))
+	$(call stdout_is,$(DPKG_QUERY) -f'$${binary:Package}' -W pkg-ma-shared-files:$(FOREIGN_ARCH),pkg-ma-shared-files:$(FOREIGN_ARCH))
+	! $(call stdout_is,$(DPKG_QUERY) -f'$${Package}' -W pkg-ma-shared-files,pkg-ma-shared-files)
+	$(call stdout_is,$(DPKG_QUERY) -f'$${Package}' -W pkg-ma-shared-files:$(NATIVE_ARCH),pkg-ma-shared-files)
+	$(call stdout_is,$(DPKG_QUERY) -f'$${Package}' -W pkg-ma-shared-files:$(FOREIGN_ARCH),pkg-ma-shared-files)
+	$(call stdout_has,$(DPKG_QUERY) -W,^pkg-ma-shared-files:$(FOREIGN_ARCH)	1.0$)
+	$(call stdout_has,$(DPKG_QUERY) --search $(common_file),(\, |^)pkg-ma-shared-files:$(NATIVE_ARCH)(\, |: ))
+	$(call stdout_has,$(DPKG_QUERY) --search $(common_file),(\, |^)pkg-ma-shared-files:$(FOREIGN_ARCH)(\, |: ))
+	$(call stdout_has,$(DPKG_QUERY) --list,^ii  pkg-ma-shared-files:$(NATIVE_ARCH))
+	$(call stdout_has,$(DPKG_QUERY) --list,^ii  pkg-ma-shared-files:$(FOREIGN_ARCH) )
+	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(NATIVE_ARCH)	+install$)
+	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(FOREIGN_ARCH)	+install$)
+	echo "pkg-ma-shared-files:$(NATIVE_ARCH)	hold" | $(BEROOT) $(DPKG) --set-selections
+	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(NATIVE_ARCH)	+hold$)
+	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(FOREIGN_ARCH)	+install$)
+	echo "pkg-ma-shared-files:$(FOREIGN_ARCH)	deinstall" | $(BEROOT) $(DPKG) --set-selections
+	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(NATIVE_ARCH)	+hold$)
+	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(FOREIGN_ARCH)	+deinstall$)
+	echo "pkg-ma-shared-files:$(NATIVE_ARCH)	install" | $(BEROOT) $(DPKG) --set-selections
+	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(NATIVE_ARCH)	+install$)
+	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(FOREIGN_ARCH)	+deinstall$)
+	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
 
 test-clean:
 	$(BEROOT) rm -f /m-a/triggers
