@@ -66,7 +66,7 @@ $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
     $(eval $(call build_pkg,shared-conffiles_$(version)_orig_$(arch),shared-conffiles,$(version),$(arch),same,))\
     $(eval $(call build_pkg,shared-conffiles_$(version)_alt_$(arch),shared-conffiles,$(version),$(arch),same,))\
     $(foreach variant,orig alt,\
-      $(foreach type,file,\
+      $(foreach type,file symlink fifo chardev blockdev,\
         $(eval $(call build_pkg,shared-files_$(version)_$(variant)-$(type)_$(arch),shared-files,$(version),$(arch),same,))))))
 
 $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
@@ -437,6 +437,25 @@ common_file = /m-a/common-file
 define customize_shared_files
 pkg-ma-shared-files_$(1)_$(2)-file_$(3):: pkg-template
 	echo "Variant: $(2) Version: $(1)" > pkg-ma-shared-files_$(1)_$(2)-file_$(3)$(common_file)
+
+pkg-ma-shared-files_$(1)_$(2)-symlink_$(3):: pkg-template
+	ln -sf "$(2)-$(1)" pkg-ma-shared-files_$(1)_$(2)-symlink_$(3)$(common_file)
+
+pkg-ma-shared-files_$(1)_$(2)-fifo_$(3):: pkg-template
+	test -e pkg-ma-shared-files_$(1)_$(2)-fifo_$(3)$(common_file) || \
+	$(BEROOT) mkfifo pkg-ma-shared-files_$(1)_$(2)-fifo_$(3)$(common_file)
+
+pkg-ma-shared-files_$(1)_$(2)-chardev_$(3):: pkg-template
+	[ "$(2)" = "orig" ] && major=1 || major=2; \
+	[ "$(1)" = "1.0" ] && minor=3 || minor=4; \
+	test -e pkg-ma-shared-files_$(1)_$(2)-chardev_$(3)$(common_file) || \
+	$(BEROOT) mknod pkg-ma-shared-files_$(1)_$(2)-chardev_$(3)$(common_file) c $$$$major $$$$minor
+
+pkg-ma-shared-files_$(1)_$(2)-blockdev_$(3):: pkg-template
+	[ "$(2)" = "orig" ] && major=1 || major=2; \
+	[ "$(1)" = "1.0" ] && minor=3 || minor=4; \
+	test -e pkg-ma-shared-files_$(1)_$(2)-blockdev_$(3)$(common_file) || \
+	$(BEROOT) mknod pkg-ma-shared-files_$(1)_$(2)-blockdev_$(3)$(common_file) b $$$$major $$$$minor
 endef
 
 $(foreach version,1.0 2.0,$(foreach variant,orig alt,\
@@ -447,6 +466,14 @@ test-coinstall-shared-files: ma-setup
 	# Ensure we can't install a shared file conflicting with a
 	# multi-arch sibling package of the same version
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(NATIVE_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-symlink_$(FOREIGN_ARCH).deb
+	test -f $(common_file)
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-fifo_$(FOREIGN_ARCH).deb
+	test -f $(common_file)
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
+	test -f $(common_file)
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-blockdev_$(FOREIGN_ARCH).deb
+	test -f $(common_file)
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
 	grep -q "Variant: orig Version: 1.0" $(common_file)
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
@@ -482,6 +509,24 @@ test-coinstall-shared-files: ma-setup
 	grep -q "Variant: orig Version: 1.0" $(common_file)
 	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-files:$(NATIVE_ARCH),$(common_file))
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH)
+	# Ensure we detect differences with non-files too
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-symlink_$(NATIVE_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-symlink_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-symlink_$(FOREIGN_ARCH).deb
+	$(call stdout_is,readlink $(common_file),orig-1.0)
+	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(NATIVE_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(FOREIGN_ARCH).deb
+	test -c $(common_file)
+	$(call stdout_is,stat -c "%t %T" $(common_file),1 3)
+	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-blockdev_$(NATIVE_ARCH).deb
+	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-blockdev_$(FOREIGN_ARCH).deb
+	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-blockdev_$(FOREIGN_ARCH).deb
+	test -b $(common_file)
+	$(call stdout_is,stat -c "%t %T" $(common_file),1 3)
+	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
 
 # Further customize test packages for test-coinstall-shared-conffiles
 define customize_shared_conffiles
