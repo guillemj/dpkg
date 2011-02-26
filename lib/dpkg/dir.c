@@ -40,7 +40,7 @@
  * @param dir The directory to sync.
  * @param path The name of the directory to sync (for error messages).
  */
-void
+static void
 dir_sync(DIR *dir, const char *path)
 {
 	int fd;
