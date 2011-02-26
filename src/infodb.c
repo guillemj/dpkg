@@ -26,11 +26,13 @@
 #include <sys/stat.h>
 
 #include <errno.h>
+#include <dirent.h>
 #include <unistd.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/debug.h>
 
 #include "infodb.h"
 
@@ -47,4 +49,58 @@ pkg_infodb_has_file(struct pkginfo *pkg, const char *name)
 		return false;
 	else
 		ohshite(_("unable to check existence of `%.250s'"), filename);
+}
+
+void
+pkg_infodb_foreach(struct pkginfo *pkg, pkg_infodb_file_func *func)
+{
+	DIR *db_dir;
+	struct dirent *db_de;
+	struct varbuf db_path = VARBUF_INIT;
+	size_t db_path_len;
+
+	varbuf_add_str(&db_path, pkgadmindir());
+	db_path_len = db_path.used;
+	varbuf_add_char(&db_path, '\0');
+
+	db_dir = opendir(db_path.buf);
+	if (!db_dir)
+		ohshite(_("cannot read info directory"));
+
+	push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)db_dir);
+	while ((db_de = readdir(db_dir)) != NULL) {
+		const char *filename, *filetype, *dot;
+
+		debug(dbg_veryverbose, "infodb foreach info file '%s'",
+		      db_de->d_name);
+
+		/* Ignore dotfiles, including ‘.’ and ‘..’. */
+		if (db_de->d_name[0] == '.')
+			continue;
+
+		/* Ignore anything odd. */
+		dot = strrchr(db_de->d_name, '.');
+		if (dot == NULL)
+			continue;
+
+		/* Ignore files from other packages. */
+		if (strlen(pkg->name) != (size_t)(dot - db_de->d_name) ||
+		    strncmp(db_de->d_name, pkg->name, dot - db_de->d_name))
+			continue;
+
+		debug(dbg_stupidlyverbose, "infodb foreach file this pkg");
+
+		/* Skip past the full stop. */
+		filetype = dot + 1;
+
+		varbuf_trunc(&db_path, db_path_len);
+		varbuf_add_str(&db_path, db_de->d_name);
+		varbuf_end_str(&db_path);
+		filename = db_path.buf;
+
+		func(filename, filetype);
+	}
+	pop_cleanup(ehflag_normaltidy); /* closedir */
+
+	varbuf_destroy(&db_path);
 }

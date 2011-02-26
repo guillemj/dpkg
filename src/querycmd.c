@@ -49,6 +49,7 @@
 #include <dpkg/myopt.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 
 static const char* showformat		= "${Package}\t${Version}\n";
@@ -543,55 +544,6 @@ control_path_file(struct pkginfo *pkg, const char *control_file)
   pkg_infodb_print_filename(control_path, control_file);
 }
 
-static void
-control_path_pkg(struct pkginfo *pkg)
-{
-  DIR *db_dir;
-  struct dirent *db_de;
-  struct varbuf db_path;
-  size_t db_path_len;
-
-  varbuf_init(&db_path, 0);
-  varbuf_add_str(&db_path, pkgadmindir());
-  db_path_len = db_path.used;
-  varbuf_end_str(&db_path);
-
-  db_dir = opendir(db_path.buf);
-  if (!db_dir)
-    ohshite(_("cannot read info directory"));
-
-  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)db_dir);
-  while ((db_de = readdir(db_dir)) != NULL) {
-    const char *p;
-
-    /* Ignore dotfiles, including ‘.’ and ‘..’. */
-    if (db_de->d_name[0] == '.')
-      continue;
-
-    /* Ignore anything odd. */
-    p = strrchr(db_de->d_name, '.');
-    if (!p)
-      continue;
-
-    /* Ignore files from other packages. */
-    if (strlen(pkg->name) != (size_t)(p - db_de->d_name) ||
-        strncmp(db_de->d_name, pkg->name, p - db_de->d_name))
-      continue;
-
-    /* Skip past the full stop. */
-    p++;
-
-    varbuf_trunc(&db_path, db_path_len);
-    varbuf_add_str(&db_path, db_de->d_name);
-    varbuf_end_str(&db_path);
-
-    pkg_infodb_print_filename(db_path.buf, p);
-  }
-  pop_cleanup(ehflag_normaltidy); /* closedir */
-
-  varbuf_destroy(&db_path);
-}
-
 static int
 control_path(const char *const *argv)
 {
@@ -626,7 +578,7 @@ control_path(const char *const *argv)
   if (control_file)
     control_path_file(pkg, control_file);
   else
-    control_path_pkg(pkg);
+    pkg_infodb_foreach(pkg, pkg_infodb_print_filename);
 
   modstatdb_shutdown();
 

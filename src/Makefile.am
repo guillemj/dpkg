@@ -57,6 +57,7 @@ dpkg_divert_SOURCES = \
 
 dpkg_query_SOURCES = \
 	filesdb.c filesdb.h \
+	infodb.c infodb.h \
 	divertdb.c \
 	querycmd.c
 

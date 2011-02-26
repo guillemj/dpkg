@@ -204,13 +204,10 @@ static void
 removal_bulk_remove_files(struct pkginfo *pkg)
 {
   int before;
-  int infodirbaseused;
   struct reversefilelistiter rlistit;
   struct fileinlist *leftover;
   struct filenamenode *namenode;
   static struct varbuf fnvb;
-  DIR *dsd;
-  struct dirent *de;
   struct stat stab;
 
     pkg->status= stat_halfinstalled;
@@ -289,33 +286,9 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     write_filelist_except(pkg,leftover,0);
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "remove", NULL);
-    varbuf_reset(&fnvb);
-    varbuf_add_str(&fnvb, pkgadmindir());
-    infodirbaseused= fnvb.used;
-    varbuf_end_str(&fnvb);
-    dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
-    push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
 
     debug(dbg_general, "removal_bulk cleaning info directory");
-
-    while ((de = readdir(dsd)) != NULL) {
-    char *p;
-
-      debug(dbg_veryverbose, "removal_bulk info file `%s'", de->d_name);
-      if (de->d_name[0] == '.') continue;
-      p= strrchr(de->d_name,'.'); if (!p) continue;
-      if (strlen(pkg->name) != (size_t)(p-de->d_name) ||
-          strncmp(de->d_name,pkg->name,p-de->d_name)) continue;
-      debug(dbg_stupidlyverbose, "removal_bulk info this pkg");
-
-      varbuf_trunc(&fnvb, infodirbaseused);
-      varbuf_add_str(&fnvb, de->d_name);
-      varbuf_end_str(&fnvb);
-
-      removal_bulk_remove_file(fnvb.buf, p + 1);
-    }
-    pop_cleanup(ehflag_normaltidy); /* closedir */
-
+    pkg_infodb_foreach(pkg, removal_bulk_remove_file);
     dir_sync_path(pkgadmindir());
 
     pkg->status= stat_configfiles;

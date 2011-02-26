@@ -50,6 +50,7 @@
 #include <dpkg/triglib.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 #include "archives.h"
 
@@ -240,10 +241,10 @@ void process_archive(const char *filename) {
   static char *cidir = NULL;
   static struct fileinlist *newconffiles, *newfileslist;
   static enum pkgstatus oldversionstatus;
-  static struct varbuf infofnvb, fnvb, depprobwhy;
+  static struct varbuf depprobwhy;
   static struct tarcontext tc;
 
-  int r, i, infodirlen, infodirbaseused;
+  int r, i;
   pid_t pid;
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg, *divpkg;
@@ -931,38 +932,8 @@ void process_archive(const char *filename) {
     match_head = match_node->next;
     match_node_free(match_node);
   }
-  varbuf_reset(&infofnvb);
-  varbuf_add_str(&infofnvb, pkgadmindir());
-  infodirlen= infofnvb.used;
-  varbuf_end_str(&infofnvb);
-  dsd= opendir(infofnvb.buf);
-  if (!dsd) ohshite(_("cannot read info directory"));
-  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
-  while ((de = readdir(dsd)) != NULL) {
-    debug(dbg_veryverbose, "process_archive info file `%s'", de->d_name);
-    /* Ignore dotfiles, including ‘.’ and ‘..’. */
-    if (de->d_name[0] == '.')
-      continue;
-    /* Ignore anything odd. */
-    p = strrchr(de->d_name, '.');
-    if (!p)
-      continue;
-    if (strlen(pkg->name) != (size_t)(p-de->d_name) ||
-        strncmp(de->d_name,pkg->name,p-de->d_name)) continue;
 
-    debug(dbg_stupidlyverbose, "process_archive info this pkg");
-    /* Right, do we have one? */
-
-    /* Skip past the full stop. */
-    p++;
-
-    varbuf_trunc(&infofnvb, infodirlen);
-    varbuf_add_str(&infofnvb, de->d_name);
-    varbuf_end_str(&infofnvb);
-
-    pkg_infodb_update_file(infofnvb.buf, p);
-  }
-  pop_cleanup(ehflag_normaltidy); /* closedir */
+  pkg_infodb_foreach(pkg, pkg_infodb_update_file);
 
   while ((match_node = match_head)) {
     strcpy(cidirrest, match_node->filetype);
@@ -1195,30 +1166,8 @@ void process_archive(const char *filename) {
                                 NULL);
 
     /* OK, now we delete all the stuff in the ‘info’ directory .. */
-    varbuf_reset(&fnvb);
-    varbuf_add_str(&fnvb, pkgadmindir());
-    infodirbaseused= fnvb.used;
-    varbuf_end_str(&fnvb);
-    dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
-    push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
-
     debug(dbg_general, "process_archive disappear cleaning info directory");
-
-    while ((de = readdir(dsd)) != NULL) {
-      debug(dbg_veryverbose, "process_archive info file `%s'", de->d_name);
-      if (de->d_name[0] == '.') continue;
-      p= strrchr(de->d_name,'.'); if (!p) continue;
-      if (strlen(otherpkg->name) != (size_t)(p-de->d_name) ||
-          strncmp(de->d_name,otherpkg->name,p-de->d_name)) continue;
-      debug(dbg_stupidlyverbose, "process_archive info this pkg");
-      varbuf_trunc(&fnvb, infodirbaseused);
-      varbuf_add_str(&fnvb, de->d_name);
-      varbuf_end_str(&fnvb);
-
-      pkg_infodb_remove_file(fnvb.buf, p + 1);
-    }
-    pop_cleanup(ehflag_normaltidy); /* closedir */
-
+    pkg_infodb_foreach(otherpkg, pkg_infodb_remove_file);
     dir_sync_path(pkgadmindir());
 
     otherpkg->status= stat_notinstalled;
