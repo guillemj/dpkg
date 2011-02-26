@@ -3,6 +3,7 @@
  * processarc.c - the huge function process_archive
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,12 +52,6 @@
 #include "filesdb.h"
 #include "main.h"
 #include "archives.h"
-
-struct rename_list {
-  struct rename_list *next;
-  char *src;
-  char *dst;
-};
 
 static const char *
 summarize_filename(const char *filename)
@@ -171,6 +166,12 @@ push_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm)
   conflictor[cflict_index++] = pkg_fixbyrm;
 }
 
+struct match_node {
+  struct match_node *next;
+  char *filetype;
+  char *filename;
+};
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -213,7 +214,7 @@ void process_archive(const char *filename) {
   struct dirent *de;
   struct stat stab, oldfs;
   struct pkg_deconf_list *deconpil, *deconpiltemp;
-  struct rename_list *rename_head = NULL, *rename_node = NULL;
+  struct match_node *match_head = NULL, *match_node = NULL;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
 
@@ -907,38 +908,40 @@ void process_archive(const char *filename) {
     varbuf_trunc(&infofnvb, infodirlen);
     varbuf_add_str(&infofnvb, de->d_name);
     varbuf_end_str(&infofnvb);
-    strcpy(cidirrest,p);
 
     /* We keep files to rename in a list as doing the rename immediately
      * might influence the current readdir(), the just renamed file might
      * be returned a second time as it's actually a new file from the
      * point of view of the filesystem. */
-    rename_node = m_malloc(sizeof(*rename_node));
-    rename_node->next = rename_head;
-    rename_node->src = m_strdup(cidir);
-    rename_node->dst = m_strdup(infofnvb.buf);
-    rename_head = rename_node;
+    match_node = m_malloc(sizeof(*match_node));
+    match_node->next = match_head;
+    match_node->filetype = m_strdup(p);
+    match_node->filename = m_strdup(infofnvb.buf);
+    match_head = match_node;
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
-  while ((rename_node = rename_head)) {
-    if (!rename(rename_node->src, rename_node->dst)) {
+  while ((match_node = match_head)) {
+    strcpy(cidirrest, match_node->filetype);
+
+    if (!rename(cidir, match_node->filename)) {
       debug(dbg_scripts, "process_archive info installed %s as %s",
-            rename_node->src, rename_node->dst);
+            cidir, match_node->filename);
     } else if (errno == ENOENT) {
       /* Right, no new version. */
-      if (unlink(rename_node->dst))
+      if (unlink(match_node->filename))
         ohshite(_("unable to remove obsolete info file `%.250s'"),
-                rename_node->dst);
-      debug(dbg_scripts, "process_archive info unlinked %s", rename_node->dst);
+                match_node->filename);
+      debug(dbg_scripts, "process_archive info unlinked %s",
+            match_node->filename);
     } else {
       ohshite(_("unable to install (supposed) new info file `%.250s'"),
-              rename_node->src);
+              cidir);
     }
-    rename_head = rename_node->next;
-    free(rename_node->src);
-    free(rename_node->dst);
-    free(rename_node);
+    match_head = match_node->next;
+    free(match_node->filetype);
+    free(match_node->filename);
+    free(match_node);
   }
 
   /* The directory itself. */
