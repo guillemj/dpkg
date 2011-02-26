@@ -172,6 +172,14 @@ struct match_node {
   char *filename;
 };
 
+static void
+match_node_free(struct match_node *node)
+{
+  free(node->filetype);
+  free(node->filename);
+  free(node);
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -939,9 +947,7 @@ void process_archive(const char *filename) {
               cidir);
     }
     match_head = match_node->next;
-    free(match_node->filetype);
-    free(match_node->filename);
-    free(match_node);
+    match_node_free(match_node);
   }
 
   /* The directory itself. */
