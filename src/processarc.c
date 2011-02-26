@@ -978,11 +978,9 @@ void process_archive(const char *filename) {
     debug(dbg_scripts,"process_archive tmp.ci script/file `%s' installed as `%s'",
           cidir, newinfofilename);
   }
-
-  /* Sync the info database directory. */
-  dir_sync(dsd, cidir);
-
   pop_cleanup(ehflag_normaltidy); /* closedir */
+
+  dir_sync_path(pkgadmindir());
 
   /*
    * Update the status database.
@@ -1176,11 +1174,9 @@ void process_archive(const char *filename) {
         ohshite(_("unable to delete disappearing control info file `%.250s'"),fnvb.buf);
       debug(dbg_scripts, "process_archive info unlinked %s",fnvb.buf);
     }
-
-    /* Sync the info database directory. */
-    dir_sync(dsd, fnvb.buf);
-
     pop_cleanup(ehflag_normaltidy); /* closedir */
+
+    dir_sync_path(pkgadmindir());
 
     otherpkg->status= stat_notinstalled;
     otherpkg->want = want_unknown;

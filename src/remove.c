@@ -303,11 +303,9 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         ohshite(_("unable to delete control info file `%.250s'"),fnvb.buf);
       debug(dbg_scripts, "removal_bulk info unlinked %s",fnvb.buf);
     }
-
-    /* Sync the info database directory. */
-    dir_sync(dsd, fnvb.buf);
-
     pop_cleanup(ehflag_normaltidy); /* closedir */
+
+    dir_sync_path(pkgadmindir());
 
     pkg->status= stat_configfiles;
     pkg->installed.essential = false;
