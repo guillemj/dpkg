@@ -172,6 +172,8 @@ struct match_node {
   char *filename;
 };
 
+static struct match_node *match_head = NULL;
+
 static struct match_node *
 match_node_new(const char *name, const char *type, struct match_node *next)
 {
@@ -191,6 +193,33 @@ match_node_free(struct match_node *node)
   free(node->filetype);
   free(node->filename);
   free(node);
+}
+
+static void
+pkg_infodb_update_file(const char *filename, const char *filetype)
+{
+  if (strlen(filetype) > MAXCONTROLFILENAME)
+    ohshit(_("old version of package has overly-long info file name starting `%.250s'"),
+           filename);
+
+  /* We do the list separately. */
+  if (strcmp(filetype, LISTFILE) == 0)
+    return;
+
+  /* We keep files to rename in a list as doing the rename immediately
+   * might influence the current readdir(), the just renamed file might
+   * be returned a second time as it's actually a new file from the
+   * point of view of the filesystem. */
+  match_head = match_node_new(filename, filetype, match_head);
+}
+
+static void
+pkg_infodb_remove_file(const char *filename, const char *filetype)
+{
+  if (unlink(filename))
+    ohshite(_("unable to delete control info file `%.250s'"), filename);
+
+  debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
 }
 
 void process_archive(const char *filename) {
@@ -235,7 +264,7 @@ void process_archive(const char *filename) {
   struct dirent *de;
   struct stat stab, oldfs;
   struct pkg_deconf_list *deconpil, *deconpiltemp;
-  struct match_node *match_head = NULL, *match_node = NULL;
+  struct match_node *match_node;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
 
@@ -896,6 +925,12 @@ void process_archive(const char *filename) {
    * them as appropriate; then we go through the new scripts
    * (any that are left) and install them. */
   debug(dbg_general, "process_archive updating info directory");
+
+  /* Deallocate the match list in case we aborted previously. */
+  while ((match_node = match_head)) {
+    match_head = match_node->next;
+    match_node_free(match_node);
+  }
   varbuf_reset(&infofnvb);
   varbuf_add_str(&infofnvb, pkgadmindir());
   infodirlen= infofnvb.used;
@@ -920,21 +955,12 @@ void process_archive(const char *filename) {
 
     /* Skip past the full stop. */
     p++;
-    /* We do the list separately. */
-    if (!strcmp(p, LISTFILE))
-      continue;
-    if (strlen(p) > MAXCONTROLFILENAME)
-      ohshit(_("old version of package has overly-long info file name starting `%.250s'"),
-             de->d_name);
+
     varbuf_trunc(&infofnvb, infodirlen);
     varbuf_add_str(&infofnvb, de->d_name);
     varbuf_end_str(&infofnvb);
 
-    /* We keep files to rename in a list as doing the rename immediately
-     * might influence the current readdir(), the just renamed file might
-     * be returned a second time as it's actually a new file from the
-     * point of view of the filesystem. */
-    match_head = match_node_new(infofnvb.buf, p, match_head);
+    pkg_infodb_update_file(infofnvb.buf, p);
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
@@ -1188,9 +1214,8 @@ void process_archive(const char *filename) {
       varbuf_trunc(&fnvb, infodirbaseused);
       varbuf_add_str(&fnvb, de->d_name);
       varbuf_end_str(&fnvb);
-      if (unlink(fnvb.buf))
-        ohshite(_("unable to delete disappearing control info file `%.250s'"),fnvb.buf);
-      debug(dbg_scripts, "process_archive info unlinked %s",fnvb.buf);
+
+      pkg_infodb_remove_file(fnvb.buf, p + 1);
     }
     pop_cleanup(ehflag_normaltidy); /* closedir */
 

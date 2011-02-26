@@ -185,6 +185,22 @@ static void push_leftover(struct fileinlist **leftoverp,
 }
 
 static void
+removal_bulk_remove_file(const char *filename, const char *filetype)
+{
+  /* We need the postrm and list files for --purge. */
+  if (strcmp(filetype, LISTFILE) == 0 ||
+      strcmp(filetype, POSTRMFILE) == 0)
+    return;
+
+  debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
+
+  if (unlink(filename))
+    ohshite(_("unable to delete control info file `%.250s'"), filename);
+
+  debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
+}
+
+static void
 removal_bulk_remove_files(struct pkginfo *pkg)
 {
   int before;
@@ -291,18 +307,12 @@ removal_bulk_remove_files(struct pkginfo *pkg)
       if (strlen(pkg->name) != (size_t)(p-de->d_name) ||
           strncmp(de->d_name,pkg->name,p-de->d_name)) continue;
       debug(dbg_stupidlyverbose, "removal_bulk info this pkg");
-      /* We need the postrm and list files for --purge. */
-      if (!strcmp(p+1,LISTFILE)) continue;
-      if (!strcmp(p + 1, POSTRMFILE)) {
-        continue;
-      }
-      debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
+
       varbuf_trunc(&fnvb, infodirbaseused);
       varbuf_add_str(&fnvb, de->d_name);
       varbuf_end_str(&fnvb);
-      if (unlink(fnvb.buf))
-        ohshite(_("unable to delete control info file `%.250s'"),fnvb.buf);
-      debug(dbg_scripts, "removal_bulk info unlinked %s",fnvb.buf);
+
+      removal_bulk_remove_file(fnvb.buf, p + 1);
     }
     pop_cleanup(ehflag_normaltidy); /* closedir */
 

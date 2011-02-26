@@ -4,7 +4,7 @@
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -515,25 +515,32 @@ showpackages(const char *const *argv)
 }
 
 static void
+pkg_infodb_print_filename(const char *filename, const char *filetype)
+{
+  /* Do not expose internal database files. */
+  if (strcmp(filetype, LISTFILE) == 0 ||
+      strcmp(filetype, CONFFILESFILE) == 0)
+    return;
+
+  if (strlen(filetype) > MAXCONTROLFILENAME)
+    return;
+
+  printf("%s\n", filename);
+}
+
+static void
 control_path_file(struct pkginfo *pkg, const char *control_file)
 {
   const char *control_path;
   struct stat st;
 
-  /* Do not expose internal database files. */
-  if (strcmp(control_file, LISTFILE) == 0 ||
-      strcmp(control_file, CONFFILESFILE) == 0)
-    return;
-
   control_path = pkgadminfile(pkg, control_file);
-
   if (stat(control_path, &st) < 0)
     return;
-
   if (!S_ISREG(st.st_mode))
     return;
 
-  printf("%s\n", control_path);
+  pkg_infodb_print_filename(control_path, control_file);
 }
 
 static void
@@ -574,19 +581,11 @@ control_path_pkg(struct pkginfo *pkg)
     /* Skip past the full stop. */
     p++;
 
-    /* Do not expose internal database files. */
-    if (strcmp(p, LISTFILE) == 0 ||
-        strcmp(p, CONFFILESFILE) == 0)
-      continue;
-
-    if (strlen(p) > MAXCONTROLFILENAME)
-      continue;
-
     varbuf_trunc(&db_path, db_path_len);
     varbuf_add_str(&db_path, db_de->d_name);
     varbuf_end_str(&db_path);
 
-    printf("%s\n", db_path.buf);
+    pkg_infodb_print_filename(db_path.buf, p);
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
