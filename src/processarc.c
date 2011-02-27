@@ -215,6 +215,94 @@ pkg_infodb_update_file(const char *filename, const char *filetype)
 }
 
 static void
+pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
+{
+  struct match_node *match_node;
+  DIR *dsd;
+  struct dirent *de;
+
+  /* Deallocate the match list in case we aborted previously. */
+  while ((match_node = match_head)) {
+    match_head = match_node->next;
+    match_node_free(match_node);
+  }
+
+  pkg_infodb_foreach(pkg, pkg_infodb_update_file);
+
+  while ((match_node = match_head)) {
+    strcpy(cidirrest, match_node->filetype);
+
+    if (!rename(cidir, match_node->filename)) {
+      debug(dbg_scripts, "process_archive info installed %s as %s",
+            cidir, match_node->filename);
+    } else if (errno == ENOENT) {
+      /* Right, no new version. */
+      if (unlink(match_node->filename))
+        ohshite(_("unable to remove obsolete info file `%.250s'"),
+                match_node->filename);
+      debug(dbg_scripts, "process_archive info unlinked %s",
+            match_node->filename);
+    } else {
+      ohshite(_("unable to install (supposed) new info file `%.250s'"), cidir);
+    }
+    match_head = match_node->next;
+    match_node_free(match_node);
+  }
+
+  /* The control directory itself. */
+  cidirrest[0] = '\0';
+  dsd = opendir(cidir);
+  if (!dsd)
+    ohshite(_("unable to open temp control directory"));
+  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
+  while ((de = readdir(dsd))) {
+    const char *newinfofilename;
+
+    if (strchr(de->d_name, '.')) {
+      debug(dbg_scripts,"process_archive tmp.ci script/file `%s' contains dot",
+            de->d_name);
+      continue;
+    }
+    if (strlen(de->d_name) > MAXCONTROLFILENAME)
+      ohshit(_("package contains overly-long control info file name (starting `%.50s')"),
+             de->d_name);
+
+    strcpy(cidirrest, de->d_name);
+
+    /* First we check it's not a directory. */
+    if (rmdir(cidir) == 0)
+      ohshit(_("package control info contained directory `%.250s'"), cidir);
+    else if (errno != ENOTDIR)
+      ohshite(_("package control info rmdir of `%.250s' didn't say not a dir"),
+              de->d_name);
+
+    /* Ignore the control file. */
+    if (strcmp(de->d_name, CONTROLFILE) == 0) {
+      debug(dbg_scripts, "process_archive tmp.ci script/file `%s' is control",
+            cidir);
+      continue;
+    }
+    if (strcmp(de->d_name, LISTFILE) == 0) {
+      warning(_("package %s contained list as info file"), pkg->name);
+      continue;
+    }
+
+    /* Right, install it */
+    newinfofilename = pkgadminfile(pkg,de->d_name);
+    if (rename(cidir, newinfofilename))
+      ohshite(_("unable to install new info file `%.250s' as `%.250s'"),
+              cidir, newinfofilename);
+
+    debug(dbg_scripts,
+          "process_archive tmp.ci script/file `%s' installed as `%s'",
+          cidir, newinfofilename);
+  }
+  pop_cleanup(ehflag_normaltidy); /* closedir */
+
+  dir_sync_path(pkgadmindir());
+}
+
+static void
 pkg_infodb_remove_file(const char *filename, const char *filetype)
 {
   if (unlink(filename))
@@ -251,7 +339,7 @@ void process_archive(const char *filename) {
   char *cidirrest, *p;
   char conffilenamebuf[MAXCONFFILENAME];
   char *psize;
-  const char *pfilename, *newinfofilename;
+  const char *pfilename;
   struct fileinlist *newconff, **newconffileslastp;
   struct fileinlist *cfile;
   struct reversefilelistiter rlistit;
@@ -260,12 +348,9 @@ void process_archive(const char *filename) {
   struct dependency *newdep, *dep, *providecheck;
   struct deppossi *psearch, **newpossilastp, *possi, *newpossi, *pdep;
   FILE *conff;
-  DIR *dsd;
   struct filenamenode *namenode;
-  struct dirent *de;
   struct stat stab, oldfs;
   struct pkg_deconf_list *deconpil, *deconpiltemp;
-  struct match_node *match_node;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
 
@@ -926,76 +1011,7 @@ void process_archive(const char *filename) {
    * them as appropriate; then we go through the new scripts
    * (any that are left) and install them. */
   debug(dbg_general, "process_archive updating info directory");
-
-  /* Deallocate the match list in case we aborted previously. */
-  while ((match_node = match_head)) {
-    match_head = match_node->next;
-    match_node_free(match_node);
-  }
-
-  pkg_infodb_foreach(pkg, pkg_infodb_update_file);
-
-  while ((match_node = match_head)) {
-    strcpy(cidirrest, match_node->filetype);
-
-    if (!rename(cidir, match_node->filename)) {
-      debug(dbg_scripts, "process_archive info installed %s as %s",
-            cidir, match_node->filename);
-    } else if (errno == ENOENT) {
-      /* Right, no new version. */
-      if (unlink(match_node->filename))
-        ohshite(_("unable to remove obsolete info file `%.250s'"),
-                match_node->filename);
-      debug(dbg_scripts, "process_archive info unlinked %s",
-            match_node->filename);
-    } else {
-      ohshite(_("unable to install (supposed) new info file `%.250s'"),
-              cidir);
-    }
-    match_head = match_node->next;
-    match_node_free(match_node);
-  }
-
-  /* The directory itself. */
-  *cidirrest = '\0';
-  dsd= opendir(cidir);
-  if (!dsd) ohshite(_("unable to open temp control directory"));
-  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
-  while ((de= readdir(dsd))) {
-    if (strchr(de->d_name,'.')) {
-      debug(dbg_scripts,"process_archive tmp.ci script/file `%s' contains dot",
-            de->d_name);
-      continue;
-    }
-    if (strlen(de->d_name) > MAXCONTROLFILENAME)
-      ohshit(_("package contains overly-long control info file name (starting `%.50s')"),
-             de->d_name);
-    strcpy(cidirrest,de->d_name);
-    /* First we check it's not a directory. */
-    if (!rmdir(cidir))
-      ohshit(_("package control info contained directory `%.250s'"),cidir);
-    else if (errno != ENOTDIR)
-      ohshite(_("package control info rmdir of `%.250s' didn't say not a dir"),de->d_name);
-    /* Ignore the control file. */
-    if (!strcmp(de->d_name,CONTROLFILE)) {
-      debug(dbg_scripts,"process_archive tmp.ci script/file `%s' is control",cidir);
-      continue;
-    }
-    if (!strcmp(de->d_name,LISTFILE)) {
-      warning(_("package %s contained list as info file"), pkg->name);
-      continue;
-    }
-    /* Right, install it */
-    newinfofilename= pkgadminfile(pkg,de->d_name);
-    if (rename(cidir,newinfofilename))
-      ohshite(_("unable to install new info file `%.250s' as `%.250s'"),
-              cidir,newinfofilename);
-    debug(dbg_scripts,"process_archive tmp.ci script/file `%s' installed as `%s'",
-          cidir, newinfofilename);
-  }
-  pop_cleanup(ehflag_normaltidy); /* closedir */
-
-  dir_sync_path(pkgadmindir());
+  pkg_infodb_update(pkg, cidir, cidirrest);
 
   /*
    * Update the status database.
