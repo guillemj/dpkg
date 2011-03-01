@@ -33,6 +33,7 @@ pkgbin_blank(struct pkgbin *pkgbin)
 	pkgbin->essential = false;
 	pkgbin->multiarch = multiarch_no;
 	pkgbin->depends = NULL;
+	pkgbin->pkgname_archqual = NULL;
 	pkgbin->description = NULL;
 	pkgbin->maintainer = NULL;
 	pkgbin->source = NULL;

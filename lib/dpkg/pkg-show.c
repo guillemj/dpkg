@@ -29,6 +29,107 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-show.h>
 
+static bool
+pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
+                       enum pkg_name_arch_when pnaw)
+{
+	switch (pnaw) {
+	case pnaw_never:
+		break;
+	case pnaw_foreign:
+		if (pkgbin->arch->type == arch_native ||
+		    pkgbin->arch->type == arch_all ||
+		    pkgbin->arch->type == arch_none)
+			break;
+		return true;
+	case pnaw_nonambig:
+		if (pkgbin->multiarch != multiarch_same)
+			break;
+	/* Fall through. */
+	case pnaw_always:
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Add a string representation of the package name to a varbuf.
+ *
+ * Works exactly like pkgbin_name() but acts on the varbuf instead of
+ * returning a string. It NUL terminates the varbuf.
+ *
+ * @param vb      The varbuf struct to modify.
+ * @param pkg     The package to consider.
+ * @param pkgbin  The binary package instance to consider.
+ * @param pnaw    When to display the architecture qualifier.
+ */
+void
+varbuf_add_pkgbin_name(struct varbuf *vb,
+                       const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                       enum pkg_name_arch_when pnaw)
+{
+	varbuf_add_str(vb, pkg->set->name);
+	if (pkgbin_name_needs_arch(pkgbin, pnaw))
+		varbuf_add_archqual(vb, pkgbin->arch);
+	varbuf_end_str(vb);
+}
+
+/**
+ * Return a string representation of the package name.
+ *
+ * The returned string must not be freed, and it's permanently allocated so
+ * can be used as long as the non-freeing memory pool has not been freed.
+ *
+ * The pnaw parameter should be one of pnaw_never (never print arch),
+ * pnaw_foreign (print arch for foreign packages only), pnaw_nonambig (print
+ * arch for non ambiguous cases) or pnaw_always (always print arch),
+ *
+ * @param pkg     The package to consider.
+ * @param pkgbin  The binary package instance to consider.
+ * @param pnaw    When to display the architecture qualifier.
+ *
+ * @return The string representation.
+ */
+const char *
+pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
+            enum pkg_name_arch_when pnaw)
+{
+	if (!pkgbin_name_needs_arch(pkgbin, pnaw))
+		return pkg->set->name;
+
+	/* Cache the package name representation, for later reuse. */
+	if (pkgbin->pkgname_archqual == NULL) {
+		struct varbuf vb = VARBUF_INIT;
+
+		varbuf_add_str(&vb, pkg->set->name);
+		varbuf_add_archqual(&vb, pkgbin->arch);
+		varbuf_end_str(&vb);
+
+		pkgbin->pkgname_archqual = nfstrsave(vb.buf);
+
+		varbuf_destroy(&vb);
+	}
+
+	return pkgbin->pkgname_archqual;
+}
+
+/**
+ * Return a string representation of the package name.
+ *
+ * This is equivalent to pkgbin_name() but just for its installed pkgbin.
+ *
+ * @param pkg   The package to consider.
+ * @param pnaw  When to display the architecture qualifier.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
+{
+	return pkgbin_name(pkg, &pkg->installed, pnaw);
+}
+
 const char *
 pkg_summary(const struct pkginfo *pkg, int *len_ret)
 {

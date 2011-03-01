@@ -118,6 +118,9 @@ struct pkgbin {
     multiarch_foreign,
   } multiarch;
   const struct dpkg_arch *arch;
+  /* The following is the "pkgname:archqual" cached string, if this was a
+   * C++ class this member would be mutable. */
+  const char *pkgname_archqual;
   const char *description;
   const char *maintainer;
   const char *source;
@@ -328,6 +331,24 @@ int parseversion(struct versionrevision *rversion, const char *,
                  struct dpkg_error *err);
 const char *versiondescribe(const struct versionrevision*,
                             enum versiondisplayepochwhen);
+
+enum pkg_name_arch_when {
+  /* Never display arch. */
+  pnaw_never,
+  /* Display arch only when it's non-ambiguous. */
+  pnaw_nonambig,
+  /* Display arch only when it's a foreign one. */
+  pnaw_foreign,
+  /* Always display arch. */
+  pnaw_always,
+};
+
+void varbuf_add_pkgbin_name(struct varbuf *vb, const struct pkginfo *pkg,
+                            const struct pkgbin *pkgbin,
+                            enum pkg_name_arch_when pnaw);
+const char *pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                        enum pkg_name_arch_when pnaw);
+const char *pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
 
 /*** from dump.c ***/
 
