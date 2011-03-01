@@ -28,6 +28,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Control::Types;
 use Dpkg::BuildOptions;
+use Dpkg::Arch qw(debarch_eq get_host_arch);
 
 use base 'Dpkg::Vendor::Debian';
 
@@ -93,6 +94,11 @@ sub run_hook {
 
     } elsif ($hook eq "update-buildflags") {
 	my $flags = shift @params;
+	if (debarch_eq(get_host_arch(), 'ppc64')) {
+	    for my $flag (qw(CFLAGS CXXFLAGS FFLAGS)) {
+		$flags->set($flag, '-g -O3', 'vendor');
+	    }
+	}
 	# Per https://wiki.ubuntu.com/DistCompilerFlags
 	$flags->set('LDFLAGS', '-Wl,-Bsymbolic-functions', 'vendor');
 
