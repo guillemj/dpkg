@@ -391,7 +391,9 @@ enqperpackage(const char *const *argv)
           !pkg->files &&
           pkg->want == want_unknown &&
           !pkg_is_informative(pkg, &pkg->installed)) {
-        fprintf(stderr, _("Package `%s' is not installed and no info is available.\n"), pkg->set->name);
+        fprintf(stderr,
+                _("Package `%s' is not installed and no info is available.\n"),
+                pkg_name(pkg, pnaw_nonambig));
         failures++;
       } else {
         writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
@@ -399,7 +401,8 @@ enqperpackage(const char *const *argv)
       break;
     case act_printavail:
       if (!pkg_is_informative(pkg, &pkg->available)) {
-        fprintf(stderr, _("Package `%s' is not available.\n"), pkg->set->name);
+        fprintf(stderr, _("Package `%s' is not available.\n"),
+                pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
         failures++;
       } else {
         writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
@@ -408,7 +411,8 @@ enqperpackage(const char *const *argv)
     case act_listfiles:
       switch (pkg->status) {
       case stat_notinstalled:
-        fprintf(stderr, _("Package `%s' is not installed.\n"), pkg->set->name);
+        fprintf(stderr, _("Package `%s' is not installed.\n"),
+                pkg_name(pkg, pnaw_nonambig));
         failures++;
         break;
       default:
@@ -417,7 +421,7 @@ enqperpackage(const char *const *argv)
         file= pkg->clientdata->files;
         if (!file) {
           printf(_("Package `%s' does not contain any files (!)\n"),
-                 pkg->set->name);
+                 pkg_name(pkg, pnaw_nonambig));
         } else {
           while (file) {
             namenode= file->namenode;
@@ -585,7 +589,8 @@ control_path(const char *const *argv)
 
   pkg = pkg_db_find(pkgname);
   if (pkg->status == stat_notinstalled)
-    ohshit(_("Package `%s' is not installed.\n"), pkg->set->name);
+    ohshit(_("Package `%s' is not installed.\n"),
+           pkg_name(pkg, pnaw_nonambig));
 
   if (control_file)
     control_path_file(pkg, control_file);

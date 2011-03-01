@@ -352,19 +352,24 @@ modstatdb_note_core(struct pkginfo *pkg)
   varbufrecord(&uvb, pkg, &pkg->installed);
 
   if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
-    ohshite(_("unable to write updated status of `%.250s'"), pkg->set->name);
+    ohshite(_("unable to write updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   if (fflush(importanttmp))
-    ohshite(_("unable to flush updated status of `%.250s'"), pkg->set->name);
+    ohshite(_("unable to flush updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   if (ftruncate(fileno(importanttmp), uvb.used))
     ohshite(_("unable to truncate for updated status of `%.250s'"),
-            pkg->set->name);
+            pkg_name(pkg, pnaw_nonambig));
   if (fsync(fileno(importanttmp)))
-    ohshite(_("unable to fsync updated status of `%.250s'"), pkg->set->name);
+    ohshite(_("unable to fsync updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   if (fclose(importanttmp))
-    ohshite(_("unable to close updated status of `%.250s'"), pkg->set->name);
+    ohshite(_("unable to close updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   sprintf(updatefnrest, IMPORTANTFMT, nextupdate);
   if (rename(importanttmpfile, updatefnbuf))
-    ohshite(_("unable to install updated status of `%.250s'"), pkg->set->name);
+    ohshite(_("unable to install updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
 
   dir_sync_path(updatesdir);
 

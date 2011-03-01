@@ -223,7 +223,7 @@ trk_unknown_interest_change(const char *trig, struct pkginfo *pkg,
 {
 	ohshit(_("invalid or unknown syntax in trigger name `%.250s'"
 	         " (in trigger interests for package `%.250s')"),
-	       trig, pkg->set->name);
+	       trig, pkgbin_name(pkg, pkgbin, pnaw_nonambig));
 }
 
 static const struct trigkindinfo tki_unknown = {
@@ -420,7 +420,8 @@ found:
 	tfi->options = opts;
 	if (signum > 1)
 		ohshit(_("duplicate file trigger interest for filename `%.250s' "
-		         "and package `%.250s'"), trig, pkg->set->name);
+		         "and package `%.250s'"), trig,
+		       pkgbin_name(pkg, pkgbin, pnaw_nonambig));
 	if (signum > 0)
 		return;
 

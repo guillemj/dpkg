@@ -44,7 +44,8 @@ parse_error_msg(struct parsedb_state *ps, const char *fmt)
 
   if (ps->pkg && ps->pkg->set->name)
     sprintf(msg, _("parsing file '%.255s' near line %d package '%.255s':\n"
-                   " %.255s"), filename, ps->lno, ps->pkg->set->name, fmt);
+                   " %.255s"), filename, ps->lno,
+                   pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig), fmt);
   else
     sprintf(msg, _("parsing file '%.255s' near line %d:\n"
                    " %.255s"), filename, ps->lno, fmt);

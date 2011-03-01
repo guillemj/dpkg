@@ -472,7 +472,8 @@ predeppackage(const char *const *argv)
       varbuf_end_str(&vb);
       fprintf(stderr, _("dpkg: cannot see how to satisfy pre-dependency:\n %s\n"),vb.buf);
       ohshit(_("cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"),
-             dep->up->set->name, startpkg->set->name);
+             pkgbin_name(dep->up, &dep->up->available, pnaw_nonambig),
+             pkgbin_name(startpkg, &startpkg->available, pnaw_nonambig));
     }
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {

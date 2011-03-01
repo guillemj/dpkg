@@ -118,7 +118,7 @@ filesavespackage(struct fileinlist *file,
   struct pkginfo *thirdpkg;
 
   debug(dbg_eachfiledetail,"filesavespackage file `%s' package %s",
-        file->namenode->name, pkgtobesaved->set->name);
+        file->namenode->name, pkg_name(pkgtobesaved, pnaw_nonambig));
 
   /* If the file is a contended one and it's overridden by either
    * the package we're considering disappearing or the package
@@ -141,7 +141,7 @@ filesavespackage(struct fileinlist *file,
   iter = filepackages_iter_new(file->namenode);
   while ((thirdpkg = filepackages_iter_next(iter))) {
     debug(dbg_eachfiledetail, "filesavespackage ... also in %s",
-          thirdpkg->set->name);
+          pkg_name(thirdpkg, pnaw_nonambig));
 
     /* Is this not the package being installed or the one being
      * checked for disappearance? */
@@ -216,8 +216,10 @@ does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
 {
   struct dependency *dep;
 
-  debug(dbg_depcon,"does_replace new=%s old=%s (%s)", newpigp->set->name,
-        oldpigp->set->name, versiondescribe(&oldpifp->version, vdew_always));
+  debug(dbg_depcon,"does_replace new=%s old=%s (%s)",
+        pkgbin_name(newpigp, newpifp, pnaw_nonambig),
+        pkgbin_name(oldpigp, oldpifp, pnaw_nonambig),
+        versiondescribe(&oldpifp->version, vdew_always));
   for (dep= newpifp->depends; dep; dep= dep->next) {
     if (dep->type != dep_replaces || dep->list->ed != oldpigp->set)
       continue;
@@ -573,7 +575,8 @@ tarobject(void *ctx, struct tar_entry *ti)
     while ((otherpkg = filepackages_iter_next(iter))) {
       if (otherpkg == tc->pkg)
         continue;
-      debug(dbg_eachfile, "tarobject ... found in %s", otherpkg->set->name);
+      debug(dbg_eachfile, "tarobject ... found in %s",
+            pkg_name(otherpkg, pnaw_nonambig));
 
       if (nifd->namenode->divert && nifd->namenode->divert->useinstead) {
         /* Right, so we may be diverting this file. This makes the conflict
@@ -642,12 +645,12 @@ tarobject(void *ctx, struct tar_entry *ti)
       if (does_replace(tc->pkg, &tc->pkg->available,
                        otherpkg, &otherpkg->installed)) {
         printf(_("Replacing files in old package %s ...\n"),
-               otherpkg->set->name);
+               pkg_name(otherpkg, pnaw_nonambig));
         otherpkg->clientdata->replacingfilesandsaid = 1;
       } else if (does_replace(otherpkg, &otherpkg->installed,
                               tc->pkg, &tc->pkg->available)) {
         printf(_("Replaced by files in installed package %s ...\n"),
-               otherpkg->set->name);
+               pkg_name(otherpkg, pnaw_nonambig));
         otherpkg->clientdata->replacingfilesandsaid = 2;
         nifd->namenode->flags &= ~fnnf_new_inarchive;
         keepexisting = true;
@@ -657,14 +660,14 @@ tarobject(void *ctx, struct tar_entry *ti)
           forcibleerr(fc_overwritedir,
                       _("trying to overwrite directory '%.250s' "
                         "in package %.250s %.250s with nondirectory"),
-                      nifd->namenode->name, otherpkg->set->name,
+                      nifd->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
                       versiondescribe(&otherpkg->installed.version,
                                       vdew_nonambig));
         } else {
           forcibleerr(fc_overwrite,
                       _("trying to overwrite '%.250s', "
                         "which is also in package %.250s %.250s"),
-                      nifd->namenode->name, otherpkg->set->name,
+                      nifd->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
                       versiondescribe(&otherpkg->installed.version,
                                       vdew_nonambig));
         }
@@ -1008,11 +1011,12 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
     if (pkg->installed.essential) {
       if (fc_removeessential) {
         warning(_("considering deconfiguration of essential\n"
-                  " package %s, to enable %s."), pkg->set->name, action);
+                  " package %s, to enable %s."),
+                pkg_name(pkg, pnaw_nonambig), action);
       } else {
         fprintf(stderr, _("dpkg: no, %s is essential, will not deconfigure\n"
                           " it in order to enable %s.\n"),
-                pkg->set->name, action);
+                pkg_name(pkg, pnaw_nonambig), action);
         return 0;
       }
     }
@@ -1034,7 +1038,7 @@ static int try_remove_can(struct deppossi *pdep,
                           struct pkginfo *fixbyrm,
                           const char *why) {
   char action[512];
-  sprintf(action, _("removal of %.250s"), fixbyrm->set->name);
+  sprintf(action, _("removal of %.250s"), pkg_name(fixbyrm, pnaw_nonambig));
   return try_deconfigure_can(force_depends, pdep->up->up, pdep,
                              action, fixbyrm, why);
 }
@@ -1059,20 +1063,23 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
     ensure_package_clientdata(fixbydeconf);
     assert(fixbydeconf->clientdata->istobe == itb_normal);
 
-    sprintf(action, _("installation of %.250s"), pkg->set->name);
+    sprintf(action, _("installation of %.250s"),
+            pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
     fprintf(stderr, _("dpkg: considering deconfiguration of %s,"
                       " which would be broken by %s ...\n"),
-            fixbydeconf->set->name, action);
+            pkg_name(fixbydeconf, pnaw_nonambig), action);
 
     ok= try_deconfigure_can(force_breaks, fixbydeconf, dep->list,
                             action, NULL, why.buf);
     if (ok == 1) {
       fprintf(stderr, _("dpkg: yes, will deconfigure %s (broken by %s).\n"),
-              fixbydeconf->set->name, pkg->set->name);
+              pkg_name(fixbydeconf, pnaw_nonambig),
+              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
     }
   } else {
     fprintf(stderr, _("dpkg: regarding %s containing %s:\n%s"),
-            pfilename, pkg->set->name, why.buf);
+            pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+            why.buf);
     ok= 0;
   }
   varbuf_destroy(&why);
@@ -1086,10 +1093,11 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
   if (fixbydeconf && !f_autodeconf) {
     ohshit(_("installing %.250s would break %.250s, and\n"
              " deconfiguration is not permitted (--auto-deconfigure might help)"),
-           pkg->set->name, fixbydeconf->set->name);
+           pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+           pkg_name(fixbydeconf, pnaw_nonambig));
   } else {
     ohshit(_("installing %.250s would break existing software"),
-           pkg->set->name);
+           pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
   }
 }
 
@@ -1119,13 +1127,14 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       assert(fixbyrm->clientdata->istobe == itb_normal || fixbyrm->clientdata->istobe == itb_deconfigure);
       fixbyrm->clientdata->istobe= itb_remove;
       fprintf(stderr, _("dpkg: considering removing %s in favour of %s ...\n"),
-              fixbyrm->set->name, pkg->set->name);
+              pkg_name(fixbyrm, pnaw_nonambig),
+              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
       if (!(fixbyrm->status == stat_installed ||
             fixbyrm->status == stat_triggerspending ||
             fixbyrm->status == stat_triggersawaited)) {
         fprintf(stderr,
                 _("%s is not properly installed - ignoring any dependencies on it.\n"),
-                fixbyrm->set->name);
+                pkg_name(fixbyrm, pnaw_nonambig));
         pdep = NULL;
       } else {
         for (pdep = fixbyrm->set->depended.installed;
@@ -1155,7 +1164,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
               varbuf_end_str(&removalwhy);
               fprintf(stderr, _("dpkg"
                       ": may have trouble removing %s, as it provides %s ...\n"),
-                      fixbyrm->set->name, providecheck->list->ed->name);
+                      pkg_name(fixbyrm, pnaw_nonambig),
+                      providecheck->list->ed->name);
               if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
                 goto break_from_both_loops_at_once;
             }
@@ -1169,10 +1179,11 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       if (!pdep && (fixbyrm->eflag & eflag_reinstreq)) {
         if (fc_removereinstreq) {
           fprintf(stderr, _("dpkg: package %s requires reinstallation, but will"
-                  " remove anyway as you requested.\n"), fixbyrm->set->name);
+                  " remove anyway as you requested.\n"),
+                  pkg_name(fixbyrm, pnaw_nonambig));
         } else {
           fprintf(stderr, _("dpkg: package %s requires reinstallation, "
-                  "will not remove.\n"), fixbyrm->set->name);
+                  "will not remove.\n"), pkg_name(fixbyrm, pnaw_nonambig));
           pdep= &flagdeppossi;
         }
       }
@@ -1181,7 +1192,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         push_conflictor(pkg, fixbyrm);
         varbuf_destroy(&conflictwhy); varbuf_destroy(&removalwhy);
         fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
-                fixbyrm->set->name, pkg->set->name);
+                pkg_name(fixbyrm, pnaw_nonambig),
+                pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
         return;
       }
       /* Put it back. */
@@ -1190,9 +1202,11 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   }
   varbuf_end_str(&conflictwhy);
   fprintf(stderr, _("dpkg: regarding %s containing %s:\n%s"),
-          pfilename, pkg->set->name, conflictwhy.buf);
+          pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+          conflictwhy.buf);
   if (!force_conflicts(dep->list))
-    ohshit(_("conflicting packages - not installing %.250s"), pkg->set->name);
+    ohshit(_("conflicting packages - not installing %.250s"),
+           pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
   warning(_("ignoring conflict, may proceed anyway!"));
   varbuf_destroy(&conflictwhy);
 
@@ -1370,11 +1384,12 @@ wanttoinstall(struct pkginfo *pkg)
   if (pkg->want != want_install && pkg->want != want_hold) {
     if (f_alsoselect) {
       printf(_("Selecting previously unselected package %s.\n"),
-             pkg->set->name);
+             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
       pkg->want = want_install;
       return true;
     } else {
-      printf(_("Skipping unselected package %s.\n"), pkg->set->name);
+      printf(_("Skipping unselected package %s.\n"),
+             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
       return false;
     }
   }
@@ -1393,20 +1408,22 @@ wanttoinstall(struct pkginfo *pkg)
       fprintf(stderr, _("Version %.250s of %.250s already installed, "
                         "skipping.\n"),
               versiondescribe(&pkg->installed.version, vdew_nonambig),
-              pkg->set->name);
+              pkg_name(pkg, pnaw_nonambig));
       return false;
     } else {
       return true;
     }
   } else {
     if (fc_downgrade) {
-      warning(_("downgrading %.250s from %.250s to %.250s."), pkg->set->name,
+      warning(_("downgrading %.250s from %.250s to %.250s."),
+              pkg_name(pkg, pnaw_nonambig),
               versiondescribe(&pkg->installed.version, vdew_nonambig),
               versiondescribe(&pkg->available.version, vdew_nonambig));
       return true;
     } else {
       fprintf(stderr, _("Will not downgrade %.250s from version %.250s "
-                        "to %.250s, skipping.\n"), pkg->set->name,
+                        "to %.250s, skipping.\n"),
+              pkg_name(pkg, pnaw_nonambig),
               versiondescribe(&pkg->installed.version, vdew_nonambig),
               versiondescribe(&pkg->available.version, vdew_nonambig));
       return false;

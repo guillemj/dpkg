@@ -147,7 +147,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
   sol->possi->cyclebreak = true;
 
   debug(dbg_depcon, "cycle broken at %s -> %s",
-        sol->possi->up->up->set->name, sol->possi->ed->name);
+        pkg_name(sol->possi->up->up, pnaw_nonambig), sol->possi->ed->name);
 
   return true;
 }
@@ -175,11 +175,11 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
 
     for (sol = sofar; sol; sol = sol->prev) {
       varbuf_add_str(&str_pkgs, " <- ");
-      varbuf_add_str(&str_pkgs, sol->pkg->set->name);
+      varbuf_add_pkgbin_name(&str_pkgs, sol->pkg, &sol->pkg->installed, pnaw_nonambig);
     }
     varbuf_end_str(&str_pkgs);
-    debug(dbg_depcondetail, "findbreakcyclerecursive %s %s", pkg->set->name,
-          str_pkgs.buf);
+    debug(dbg_depcondetail, "findbreakcyclerecursive %s %s",
+          pkg_name(pkg, pnaw_nonambig), str_pkgs.buf);
     varbuf_destroy(&str_pkgs);
   }
   thislink.pkg= pkg;
@@ -271,7 +271,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   varbufdependency(&depstr, dep);
   varbuf_end_str(&depstr);
 
-  varbuf_printf(addto, fmt, dep->up->set->name, depstr.buf);
+  varbuf_printf(addto, fmt, pkg_name(dep->up, pnaw_nonambig), depstr.buf);
   varbuf_destroy(&depstr);
 }
 
@@ -371,11 +371,11 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         switch (pkg_pos->clientdata->istobe) {
         case itb_remove:
           sprintf(linebuf, _("  %.250s is to be removed.\n"),
-                  pkg_pos->set->name);
+                  pkg_name(pkg_pos, pnaw_nonambig));
           break;
         case itb_deconfigure:
           sprintf(linebuf, _("  %.250s is to be deconfigured.\n"),
-                  pkg_pos->set->name);
+                  pkg_name(pkg_pos, pnaw_nonambig));
           break;
         case itb_installnew:
           if (versionsatisfied(&pkg_pos->available, possi)) {
@@ -384,7 +384,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           }
           sprintf(linebuf, _("  %.250s is to be installed, but is version "
                              "%.250s.\n"),
-                  pkg_pos->set->name,
+                  pkgbin_name(pkg_pos, &pkg_pos->available, pnaw_nonambig),
                   versiondescribe(&pkg_pos->available.version, vdew_nonambig));
           break;
         case itb_normal:
@@ -397,7 +397,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
               return true;
             }
             sprintf(linebuf, _("  %.250s is installed, but is version "
-                               "%.250s.\n"), pkg_pos->set->name,
+                               "%.250s.\n"),
+                    pkg_name(pkg_pos, pnaw_nonambig),
                     versiondescribe(&pkg_pos->installed.version, vdew_nonambig));
             break;
           case stat_notinstalled:
@@ -417,12 +418,12 @@ depisok(struct dependency *dep, struct varbuf *whynot,
               if (!informativeversion(&pkg_pos->configversion)) {
                 sprintf(linebuf, _("  %.250s is unpacked, but has never been "
                                    "configured.\n"),
-                        pkg_pos->set->name);
+                        pkg_name(pkg_pos, pnaw_nonambig));
                 break;
               } else if (!versionsatisfied(&pkg_pos->installed, possi)) {
                 sprintf(linebuf, _("  %.250s is unpacked, but is version "
                                    "%.250s.\n"),
-                        pkg_pos->set->name,
+                        pkg_name(pkg_pos, pnaw_nonambig),
                         versiondescribe(&pkg_pos->installed.version,
                                         vdew_nonambig));
                 break;
@@ -430,7 +431,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                                             &possi->version, possi->verrel)) {
                 sprintf(linebuf, _("  %.250s latest configured version is "
                                    "%.250s.\n"),
-                        pkg_pos->set->name,
+                        pkg_name(pkg_pos, pnaw_nonambig),
                         versiondescribe(&pkg_pos->configversion, vdew_nonambig));
                 break;
               } else {
@@ -441,7 +442,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             /* Fall through. */
           default:
             sprintf(linebuf, _("  %.250s is %s.\n"),
-                    pkg_pos->set->name,
+                    pkg_name(pkg_pos, pnaw_nonambig),
                     gettext(statusstrings[pkg_pos->status]));
             break;
           }
@@ -479,11 +480,13 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             continue;
           case itb_remove:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be removed.\n"),
-                    provider->up->up->set->name, possi->ed->name);
+                    pkg_name(provider->up->up, pnaw_nonambig),
+                    possi->ed->name);
             break;
           case itb_deconfigure:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be deconfigured.\n"),
-                    provider->up->up->set->name, possi->ed->name);
+                    pkg_name(provider->up->up, pnaw_nonambig),
+                    possi->ed->name);
             break;
           case itb_normal: case itb_preinstall:
             if (provider->up->up->status == stat_installed ||
@@ -492,7 +495,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             if (provider->up->up->status == stat_triggersawaited)
               *canfixbytrigaw = provider->up->up;
             sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
-                    provider->up->up->set->name, possi->ed->name,
+                    pkg_name(provider->up->up, pnaw_nonambig),
+                    possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));
             break;
           default:
@@ -539,7 +543,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           if (!versionsatisfied(&pkg_pos->available, possi))
             break;
           sprintf(linebuf, _("  %.250s (version %.250s) is to be installed.\n"),
-                  pkg_pos->set->name,
+                  pkgbin_name(pkg_pos, &pkg_pos->available, pnaw_nonambig),
                   versiondescribe(&pkg_pos->available.version, vdew_nonambig));
           varbuf_add_str(whynot, linebuf);
           if (!canfixbyremove)
@@ -568,7 +572,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             if (!versionsatisfied(&pkg_pos->installed, possi))
               break;
             sprintf(linebuf, _("  %.250s (version %.250s) is present and %s.\n"),
-                    pkg_pos->set->name,
+                    pkg_name(pkg_pos, pnaw_nonambig),
                     versiondescribe(&pkg_pos->installed.version, vdew_nonambig),
                     gettext(statusstrings[pkg_pos->status]));
             varbuf_add_str(whynot, linebuf);
@@ -595,7 +599,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         if (provider->up->up->set == dep->up->set)
           continue; /* Conflicts and provides the same. */
         sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
-                provider->up->up->set->name, possi->ed->name);
+                pkgbin_name(provider->up->up, &provider->up->up->available,
+                            pnaw_nonambig), possi->ed->name);
         varbuf_add_str(whynot, linebuf);
         /* We can't remove the one we're about to install: */
         if (canfixbyremove)
@@ -637,7 +642,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           case stat_triggersawaited:
             sprintf(linebuf,
                     _("  %.250s provides %.250s and is present and %s.\n"),
-                    provider->up->up->set->name, possi->ed->name,
+                    pkg_name(provider->up->up, pnaw_nonambig), possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));
             varbuf_add_str(whynot, linebuf);
             if (!canfixbyremove)

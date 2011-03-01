@@ -436,9 +436,17 @@ writerecord(FILE *file, const char *filename,
 
   varbufrecord(&vb,pigp,pifp);
   varbuf_end_str(&vb);
-  if (fputs(vb.buf,file) < 0)
+  if (fputs(vb.buf,file) < 0) {
+    struct varbuf pkgname = VARBUF_INIT;
+    int errno_saved = errno;
+
+    varbuf_add_pkgbin_name(&pkgname, pigp, pifp, pnaw_nonambig);
+
+    errno = errno_saved;
     ohshite(_("failed to write details of `%.50s' to `%.250s'"),
-            pigp->set->name, filename);
+            pkgname.buf, filename);
+  }
+
    varbuf_destroy(&vb);
 }
 
@@ -472,7 +480,7 @@ writedb(const char *filename, enum writedb_flags flags)
     varbuf_end_str(&vb);
     if (fputs(vb.buf, file->fp) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
-              which, pigp->set->name, filename);
+              which, pkgbin_name(pigp, pifp, pnaw_nonambig), filename);
     varbuf_reset(&vb);
   }
   pkg_db_iter_free(it);

@@ -307,12 +307,13 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   if (fd==-1) {
     if (errno != ENOENT)
       ohshite(_("unable to open files list file for package `%.250s'"),
-              pkg->set->name);
+              pkg_name(pkg, pnaw_foreign));
     onerr_abort--;
     if (pkg->status != stat_configfiles) {
       if (saidread == 1) putc('\n',stderr);
       warning(_("files list file for package `%.250s' missing, assuming "
-                "package has no files currently installed."), pkg->set->name);
+                "package has no files currently installed."),
+              pkg_name(pkg, pnaw_nonambig));
     }
     pkg->clientdata->files = NULL;
     pkg->clientdata->fileslistvalid = true;
@@ -323,25 +324,26 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
    if(fstat(fd, &stat_buf))
      ohshite(_("unable to stat files list file for package '%.250s'"),
-             pkg->set->name);
+             pkg_name(pkg, pnaw_nonambig));
 
   if (!S_ISREG(stat_buf.st_mode))
     ohshit(_("files list for package '%.250s' is not a regular file"),
-           pkg->set->name);
+           pkg_name(pkg, pnaw_nonambig));
 
    if (stat_buf.st_size) {
      loaded_list = nfmalloc(stat_buf.st_size);
      loaded_list_end = loaded_list + stat_buf.st_size;
 
     if (fd_read(fd, loaded_list, stat_buf.st_size) < 0)
-      ohshite(_("reading files list for package '%.250s'"), pkg->set->name);
+      ohshite(_("reading files list for package '%.250s'"),
+              pkg_name(pkg, pnaw_nonambig));
 
     lendp= &pkg->clientdata->files;
     thisline = loaded_list;
     while (thisline < loaded_list_end) {
       if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
         ohshit(_("files list file for package '%.250s' is missing final newline"),
-               pkg->set->name);
+               pkg_name(pkg, pnaw_nonambig));
       /* Where to start next time around. */
       nextline = ptr + 1;
       /* Strip trailing ‘/’. */
@@ -349,7 +351,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
       /* Add the file to the list. */
       if (ptr == thisline)
         ohshit(_("files list file for package `%.250s' contains empty filename"),
-               pkg->set->name);
+               pkg_name(pkg, pnaw_nonambig));
       *ptr = '\0';
       lendp = pkg_files_add_file(pkg, thisline, fnn_nocopy, lendp);
       thisline = nextline;
@@ -358,7 +360,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   pop_cleanup(ehflag_normaltidy); /* fd = open() */
   if (close(fd))
     ohshite(_("error closing files list file for package `%.250s'"),
-            pkg->set->name);
+            pkg_name(pkg, pnaw_nonambig));
 
   onerr_abort--;
 

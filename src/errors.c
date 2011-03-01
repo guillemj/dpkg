@@ -103,11 +103,11 @@ skip_due_to_hold(struct pkginfo *pkg)
     return false;
   if (fc_hold) {
     fprintf(stderr, _("Package %s was on hold, processing it anyway as you requested\n"),
-            pkg->set->name);
+            pkg_name(pkg, pnaw_nonambig));
     return false;
   }
   printf(_("Package %s is on hold, not touching it.  Use --force-hold to override.\n"),
-         pkg->set->name);
+         pkg_name(pkg, pnaw_nonambig));
   return true;
 }
 

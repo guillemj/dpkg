@@ -96,7 +96,8 @@ trigproc_enqueue_deferred(struct pkginfo *pend)
 	if (pend->clientdata->trigprocdeferred)
 		return;
 	pend->clientdata->trigprocdeferred = pkg_queue_push(&deferred, pend);
-	debug(dbg_triggers, "trigproc_enqueue_deferred pend=%s", pend->set->name);
+	debug(dbg_triggers, "trigproc_enqueue_deferred pend=%s",
+	      pkg_name(pend, pnaw_nonambig));
 }
 
 void
@@ -133,7 +134,7 @@ void
 trig_activate_packageprocessing(struct pkginfo *pkg)
 {
 	debug(dbg_triggersdetail, "trigproc_activate_packageprocessing pkg=%s",
-	      pkg->set->name);
+	      pkg_name(pkg, pnaw_nonambig));
 
 	trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE), NULL,
 	              trig_cicb_statuschange_activate, pkg, &pkg->installed);
@@ -177,7 +178,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	const char *sep;
 
 	debug(dbg_triggers, "check_triggers_cycle pnow=%s",
-	      processing_now->set->name);
+	      pkg_name(processing_now, pnaw_nonambig));
 
 	tcn = nfmalloc(sizeof(*tcn));
 	tcn->pkgs = NULL;
@@ -196,7 +197,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	pkg_db_iter_free(it);
 	if (!hare) {
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s first",
-		      processing_now->set->name);
+		      pkg_name(processing_now, pnaw_nonambig));
 		tcn->next = NULL;
 		hare = tortoise = tcn;
 		return NULL;
@@ -216,15 +217,20 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	for (tortoise_pkg = tortoise->pkgs;
 	     tortoise_pkg;
 	     tortoise_pkg = tortoise_pkg->next) {
+		const char *processing_now_name, *tortoise_name;
+
+		processing_now_name = pkg_name(processing_now, pnaw_nonambig);
+		tortoise_name = pkg_name(tortoise_pkg->pkg, pnaw_nonambig);
+
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s tortoise=%s",
-		      processing_now->set->name, tortoise_pkg->pkg->set->name);
+		      processing_now_name, tortoise_name);
 		for (tortoise_trig = tortoise_pkg->then_trigs;
 		     tortoise_trig;
 		     tortoise_trig = tortoise_trig->next) {
 			debug(dbg_triggersdetail,
 			      "check_triggers_cycle pnow=%s tortoise=%s"
-			      " tortoisetrig=%s", processing_now->set->name,
-			      tortoise_pkg->pkg->set->name,
+			      " tortoisetrig=%s",
+			      processing_now_name, tortoise_name,
 			      tortoise_trig->name);
 			/* hare is now so we can just look up in the actual
 			 * data. */
@@ -234,8 +240,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 				debug(dbg_triggersstupid,
 				      "check_triggers_cycle pnow=%s tortoise=%s"
 				      " tortoisetrig=%s haretrig=%s",
-				      processing_now->set->name,
-				      tortoise_pkg->pkg->set->name,
+				      processing_now_name, tortoise_name,
 				      tortoise_trig->name, hare_trig->name);
 				if (!strcmp(hare_trig->name, tortoise_trig->name))
 					goto found_in_hare;
@@ -243,8 +248,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 			/* Not found in hare, yay! */
 			debug(dbg_triggersdetail,
 			      "check_triggers_cycle pnow=%s tortoise=%s OK",
-			      processing_now->set->name,
-			      tortoise_pkg->pkg->set->name);
+			      processing_now_name, tortoise_name);
 			return NULL;
 			found_in_hare:;
 		}
@@ -256,7 +260,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	        dpkg_get_progname());
 	sep = "  ";
 	for (tcn = tortoise; tcn; tcn = tcn->next) {
-		fprintf(stderr, "%s%s", sep, tcn->then_processed->set->name);
+		fprintf(stderr, "%s%s", sep,
+		        pkg_name(tcn->then_processed, pnaw_nonambig));
 		sep = " -> ";
 	}
 	fprintf(stderr, _("\n" " packages' pending triggers which are"
@@ -264,7 +269,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	for (tortoise_pkg = tortoise->pkgs;
 	     tortoise_pkg;
 	     tortoise_pkg = tortoise_pkg->next) {
-		fprintf(stderr, "  %s", tortoise_pkg->pkg->set->name);
+		fprintf(stderr, "  %s",
+		        pkg_name(tortoise_pkg->pkg, pnaw_nonambig));
 		sep = ": ";
 		for (tortoise_trig = tortoise_pkg->then_trigs;
 		     tortoise_trig;
@@ -277,7 +283,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	/* We give up on the _earliest_ package involved. */
 	giveup = tortoise->pkgs->pkg;
 	debug(dbg_triggers, "check_triggers_cycle pnow=%s giveup=%p",
-	      processing_now->set->name, giveup->set->name);
+	      pkg_name(processing_now, pnaw_nonambig),
+	      pkg_name(giveup, pnaw_nonambig));
 	assert(giveup->status == stat_triggersawaited ||
 	       giveup->status == stat_triggerspending);
 	giveup->status = stat_halfconfigured;
@@ -300,7 +307,7 @@ trigproc(struct pkginfo *pkg)
 	struct trigpend *tp;
 	struct pkginfo *gaveup;
 
-	debug(dbg_triggers, "trigproc %s", pkg->set->name);
+	debug(dbg_triggers, "trigproc %s", pkg_name(pkg, pnaw_nonambig));
 
 	if (pkg->clientdata->trigprocdeferred)
 		pkg->clientdata->trigprocdeferred->pkg = NULL;
@@ -314,7 +321,8 @@ trigproc(struct pkginfo *pkg)
 		if (gaveup == pkg)
 			return;
 
-		printf(_("Processing triggers for %s ...\n"), pkg->set->name);
+		printf(_("Processing triggers for %s ...\n"),
+		       pkg_name(pkg, pnaw_nonambig));
 		log_action("trigproc", pkg, &pkg->installed);
 
 		varbuf_reset(&namesarg);
@@ -354,10 +362,11 @@ transitional_interest_callback_ro(const char *trig, struct pkginfo *pkg,
                                   struct pkgbin *pkgbin, enum trig_options opts)
 {
 	struct pkginfo *pend = pkg;
+	struct pkgbin *pendbin = pkgbin;
 
 	debug(dbg_triggersdetail,
 	      "trig_transitional_interest_callback trig=%s pend=%s",
-	      trig, pend->set->name);
+	      trig, pkgbin_name(pend, pendbin, pnaw_nonambig));
 	if (pend->status >= stat_triggersawaited)
 		trig_note_pend(pend, nfstrsave(trig));
 }
@@ -389,7 +398,8 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		if (pkg->status <= stat_halfinstalled)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
-		      pkg->set->name, statusinfos[pkg->status].name);
+		      pkg_name(pkg, pnaw_nonambig),
+		      statusinfos[pkg->status].name);
 		pkg->trigpend_head = NULL;
 		trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
 		              cstatus >= msdbrw_write ?
