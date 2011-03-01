@@ -341,7 +341,8 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   maintainer_script_installed(pkg, POSTRMFILE,
                               "post-removal script (for disappearance)",
                               "disappear",
-                              infavour->set->name,
+                              pkgbin_name(infavour, &infavour->available,
+                                          pnaw_nonambig),
                               versiondescribe(&infavour->available.version,
                                               vdew_nonambig),
                               NULL);
@@ -710,16 +711,19 @@ void process_archive(const char *filename) {
 
     if (removing) {
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
-                                  "deconfigure", "in-favour", pkg->set->name,
+                                  "deconfigure", "in-favour",
+                                  pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
-                                  "removing", removing->set->name,
+                                  "removing",
+                                  pkg_name(removing, pnaw_nonambig),
                                   versiondescribe(&removing->installed.version,
                                                   vdew_nonambig),
                                   NULL);
     } else {
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
-                                  "deconfigure", "in-favour", pkg->set->name,
+                                  "deconfigure", "in-favour",
+                                  pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
                                   NULL);
@@ -737,7 +741,8 @@ void process_archive(const char *filename) {
     push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
                  2,(void*)conflictor[i],(void*)pkg);
     maintainer_script_installed(conflictor[i], PRERMFILE, "pre-removal",
-                                "remove", "in-favour", pkg->set->name,
+                                "remove", "in-favour",
+                                pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
                                 versiondescribe(&pkg->available.version,
                                                 vdew_nonambig),
                                 NULL);
