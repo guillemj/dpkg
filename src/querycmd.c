@@ -562,11 +562,11 @@ static int
 control_path(const char *const *argv)
 {
   struct pkginfo *pkg;
-  const char *pkg_name;
+  const char *pkgname;
   const char *control_file;
 
-  pkg_name = *argv++;
-  if (!pkg_name)
+  pkgname = *argv++;
+  if (!pkgname)
     badusage(_("--%s needs at least one package name argument"),
              cipaction->olong);
 
@@ -585,7 +585,7 @@ control_path(const char *const *argv)
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg = pkg_db_find(pkg_name);
+  pkg = pkg_db_find(pkgname);
   if (pkg->status == stat_notinstalled)
     ohshit(_("Package `%s' is not installed.\n"), pkg->set->name);
 

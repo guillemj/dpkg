@@ -575,17 +575,17 @@ diversion_list(const char *const *argv)
 		struct glob_node *g;
 		struct diversion *contest = namenode->divert;
 		struct diversion *altname;
-		const char *pkg_name;
+		const char *pkgname;
 
 		if (contest->useinstead == NULL)
 			continue;
 
 		altname = contest->useinstead->divert;
 
-		pkg_name = diversion_pkg_name(contest);
+		pkgname = diversion_pkg_name(contest);
 
 		for (g = glob_list; g; g = g->next) {
-			if (fnmatch(g->pattern, pkg_name, 0) == 0 ||
+			if (fnmatch(g->pattern, pkgname, 0) == 0 ||
 			    fnmatch(g->pattern, contest->useinstead->name, 0) == 0 ||
 			    fnmatch(g->pattern, altname->camefrom->name, 0) == 0) {
 				printf("%s\n", diversion_describe(contest));
