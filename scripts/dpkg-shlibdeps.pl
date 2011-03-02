@@ -848,7 +848,7 @@ sub find_packages {
 	    warning(_g("diversions involved - output may be incorrect"));
 	    print(STDERR " $_\n")
 		|| syserr(_g("write diversion info to stderr"));
-	} elsif (m/^([^:]+): (\S+)$/) {
+	} elsif (m/^([-a-z0-9+.:, ]+): (\/.*)$/) {
 	    $cached_pkgmatch{$2} = $pkgmatch->{$2} = [ split(/, /, $1) ];
 	} else {
 	    warning(_g("unknown output from dpkg --search: '%s'"), $_);
