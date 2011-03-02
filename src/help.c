@@ -176,16 +176,18 @@ force_conflicts(struct deppossi *possi)
 
 /**
  * Returns the path to the script inside the chroot.
- *
- * FIXME: None of the stuff here will work if admindir isn't inside
- * instdir as expected.
  */
 static const char *
 preexecscript(struct command *cmd)
 {
-  size_t instdirl;
+  size_t instdirl = strlen(instdir);
 
   if (*instdir) {
+    if (strncmp(admindir, instdir, instdirl) != 0)
+      ohshit(_("admindir must be inside instdir for dpkg to work properly"));
+    if (setenv("DPKG_ADMINDIR", admindir + instdirl, 1) < 0)
+      ohshite(_("unable to setenv for subprocesses"));
+
     if (chroot(instdir)) ohshite(_("failed to chroot to `%.250s'"),instdir);
     if (chdir("/"))
       ohshite(_("failed to chdir to `%.255s'"), "/");
@@ -202,7 +204,6 @@ preexecscript(struct command *cmd)
     debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename, args.buf);
     varbuf_destroy(&args);
   }
-  instdirl= strlen(instdir);
   if (!instdirl)
     return cmd->filename;
   assert(strlen(cmd->filename) >= instdirl);
