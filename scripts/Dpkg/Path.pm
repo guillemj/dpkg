@@ -1,4 +1,5 @@
-# Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2007-2011 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2011 Linaro Limited
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,14 +19,17 @@ package Dpkg::Path;
 use strict;
 use warnings;
 
-our $VERSION = "1.01";
+our $VERSION = "1.02";
 
 use base qw(Exporter);
 use File::Spec;
 use Cwd qw(realpath);
+use Dpkg::IPC;
+
 our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root
 		    guess_pkg_root_dir check_files_are_the_same
-		    resolve_symlink canonpath find_command);
+		    resolve_symlink canonpath find_command
+		    get_control_path);
 
 =encoding utf8
 
@@ -209,6 +213,32 @@ sub find_command($) {
 	}
     }
     return undef;
+}
+
+=item my $control_file = get_control_path($pkg, $filetype)
+
+Return the path of the control file of type $filetype for the given
+package.
+
+=item my @control_files = get_control_path($pkg)
+
+Return the path of all available control files for the given package.
+
+=cut
+
+sub get_control_path($;$) {
+    my ($pkg, $filetype) = @_;
+    my $control_file;
+    my @exec = ("dpkg-query", "--control-path", $pkg);
+    push @exec, $filetype if defined $filetype;
+    spawn(exec => \@exec, wait_child => 1, to_string => \$control_file);
+    chomp($control_file);
+    if (defined $filetype) {
+	return undef if $control_file eq "";
+	return $control_file;
+    }
+    return () if $control_file eq "";
+    return split(/\n/, $control_file);
 }
 
 =back
