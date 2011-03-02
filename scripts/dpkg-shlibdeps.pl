@@ -26,7 +26,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
-		  check_files_are_the_same);
+		  check_files_are_the_same get_control_path);
 use Dpkg::Version;
 use Dpkg::Shlibs qw(find_library @librarypaths);
 use Dpkg::Shlibs::Objdump;
@@ -91,6 +91,7 @@ foreach (@ARGV) {
 	$admindir = $1;
 	-d $admindir ||
 	    error(_g("administrative directory '%s' does not exist"), $admindir);
+	$ENV{'DPKG_ADMINDIR'} = $admindir;
     } elsif (m/^-d(.*)$/) {
 	$dependencyfield = field_capitalize($1);
 	defined($depstrength{$dependencyfield}) ||
@@ -635,7 +636,8 @@ sub add_shlibs_dep {
 	# Fallback to other shlibs files but it shouldn't be necessary
 	push @shlibs, @pkg_shlibs;
     } else {
-	push @shlibs, "$admindir/info/$pkg.shlibs";
+	my $control_file = get_control_path($pkg, "shlibs");
+	push @shlibs, $control_file if defined $control_file;
     }
     push @shlibs, $shlibsdefault;
     print " Looking up shlibs dependency of $soname provided by '$pkg'\n" if $debug;
@@ -723,8 +725,9 @@ sub find_symbols_file {
 	push @files, @pkg_symbols;
     } else {
 	push @files, "/etc/dpkg/symbols/$pkg.symbols.$host_arch",
-	    "/etc/dpkg/symbols/$pkg.symbols",
-	    "$admindir/info/$pkg.symbols";
+	    "/etc/dpkg/symbols/$pkg.symbols";
+	my $control_file = get_control_path($pkg, "symbols");
+	push @files, $control_file if defined $control_file;
     }
 
     foreach my $file (@files) {
