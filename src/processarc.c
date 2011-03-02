@@ -172,6 +172,19 @@ struct match_node {
   char *filename;
 };
 
+static struct match_node *
+match_node_new(const char *name, const char *type, struct match_node *next)
+{
+  struct match_node *node;
+
+  node = m_malloc(sizeof(*node));
+  node->next = next;
+  node->filename = m_strdup(name);
+  node->filetype = m_strdup(type);
+
+  return node;
+}
+
 static void
 match_node_free(struct match_node *node)
 {
@@ -921,11 +934,7 @@ void process_archive(const char *filename) {
      * might influence the current readdir(), the just renamed file might
      * be returned a second time as it's actually a new file from the
      * point of view of the filesystem. */
-    match_node = m_malloc(sizeof(*match_node));
-    match_node->next = match_head;
-    match_node->filetype = m_strdup(p);
-    match_node->filename = m_strdup(infofnvb.buf);
-    match_head = match_node;
+    match_head = match_node_new(infofnvb.buf, p, match_head);
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
