@@ -120,7 +120,7 @@ trigproc_run_deferred(void)
 			continue;
 		}
 		push_error_context_jump(&ejbuf, print_error_perpackage,
-		                        pkg->set->name);
+		                        pkg_name(pkg, pnaw_nonambig));
 
 		pkg->clientdata->trigprocdeferred = NULL;
 		trigproc(pkg);
@@ -292,7 +292,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	pkg_set_status(giveup, stat_halfconfigured);
 	modstatdb_note(giveup);
 	print_error_perpackage(_("triggers looping, abandoned"),
-	                       giveup->set->name);
+	                       pkg_name(giveup, pnaw_nonambig));
 
 	return giveup;
 }

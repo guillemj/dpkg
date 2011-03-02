@@ -232,7 +232,8 @@ void process_queue(void) {
         return;
       continue;
     }
-    push_error_context_jump(&ejbuf, print_error_perpackage, pkg->set->name);
+    push_error_context_jump(&ejbuf, print_error_perpackage,
+                            pkg_name(pkg, pnaw_nonambig));
 
     switch (action_todo) {
     case act_triggers:

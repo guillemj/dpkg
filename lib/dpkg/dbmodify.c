@@ -407,9 +407,11 @@ void modstatdb_note(struct pkginfo *pkg) {
     pkg->trigaw.head = pkg->trigaw.tail = NULL;
   }
 
-  log_message("status %s %s %s", statusinfos[pkg->status].name, pkg->set->name,
+  log_message("status %s %s %s", statusinfos[pkg->status].name,
+              pkg_name(pkg, pnaw_always),
 	      versiondescribe(&pkg->installed.version, vdew_nonambig));
-  statusfd_send("status: %s: %s", pkg->set->name, statusinfos[pkg->status].name);
+  statusfd_send("status: %s: %s", pkg_name(pkg, pnaw_nonambig),
+                statusinfos[pkg->status].name);
 
   if (cstatus >= msdbrw_write)
     modstatdb_note_core(pkg);

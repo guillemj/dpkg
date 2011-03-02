@@ -653,8 +653,9 @@ void ensure_pathname_nonexisting(const char *pathname) {
 void
 log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
-  log_message("%s %s %s %s", action, pkg->set->name,
+  log_message("%s %s %s %s", action, pkgbin_name(pkg, pkgbin, pnaw_always),
 	      versiondescribe(&pkg->installed.version, vdew_nonambig),
 	      versiondescribe(&pkg->available.version, vdew_nonambig));
-  statusfd_send("processing: %s: %s", action, pkg->set->name);
+  statusfd_send("processing: %s: %s", action,
+                pkgbin_name(pkg, pkgbin, pnaw_nonambig));
 }
