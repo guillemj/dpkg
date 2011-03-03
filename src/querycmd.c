@@ -612,7 +612,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  -p|--print-avail <package> ...   Display available version details.\n"
 "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show <pattern> ...          Show information on package(s).\n"
+"  -W|--show [<pattern> ...]        Show information on package(s).\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -c|--control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
