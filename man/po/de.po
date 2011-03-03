@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2011-02-12 08:06+0000\n"
-"PO-Revision-Date: 2011-02-12 18:25+0100\n"
+"POT-Creation-Date: 2011-03-03 16:48+0000\n"
+"PO-Revision-Date: 2011-03-03 17:54+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -1397,14 +1397,14 @@ msgstr ""
 "Es ist erlaubt, zusätzliche benutzerdefinierte Felder zu der Steuerdatei "
 "hinzuzufügen. Die Werkzeuge werden diese Felder ignorieren. Falls Sie "
 "möchten, dass die Felder in die Ausgabedateien, wie z.B. die Binärpakete, "
-"kopiert werden, müssen Sie ein angepasstes Namensschema verwenden: Die Felder "
-"sollten mit einem X, gefolgt von einem oder mehr der Buchstaben BCS und einem "
-"Gedankenstrich beginnen. Falls der Buchstabe B benutzt wird, wird das Feld in "
-"der Steuerdatei des Binärpakets auftauchen, siehe B<deb-control>(5), beim "
-"Buchstaben S in der Quellpaketsteuerdatei wie sie von B<dpkg-source>(1) "
-"erstellt wird und beim Buchstaben C in der hochgeladenen Datei control "
-"(.changes). Beachten Sie, dass die X[BCS]-Vorsilben beim Kopieren in die "
-"Ausgabedateien entfernt werden. Ein Feld B<XC-Approved-By> wird als "
+"kopiert werden, müssen Sie ein angepasstes Namensschema verwenden: Die "
+"Felder sollten mit einem X, gefolgt von einem oder mehr der Buchstaben BCS "
+"und einem Gedankenstrich beginnen. Falls der Buchstabe B benutzt wird, wird "
+"das Feld in der Steuerdatei des Binärpakets auftauchen, siehe B<deb-control>"
+"(5), beim Buchstaben S in der Quellpaketsteuerdatei wie sie von B<dpkg-"
+"source>(1) erstellt wird und beim Buchstaben C in der hochgeladenen Datei "
+"control (.changes). Beachten Sie, dass die X[BCS]-Vorsilben beim Kopieren in "
+"die Ausgabedateien entfernt werden. Ein Feld B<XC-Approved-By> wird als "
 "B<Approved-By> in der Datei changes, aber nicht in den Steuerdateien des "
 "Quell- und Binärpakets auftauchen."
 
@@ -10432,12 +10432,12 @@ msgstr "INTEGRATION IN PAKETE"
 msgid ""
 "Given that B<dpkg-maintscript-helper> is used in the B<preinst>, using it "
 "unconditionally requires a pre-dependency to ensure that the required "
-"version of dpkg has been configured before. The required version depends on "
+"version of dpkg has been unpacked before. The required version depends on "
 "the command used, for B<rm_conffile> and B<mv_conffile> it is 1.15.7.2:"
 msgstr ""
 "Da B<dpkg-maintscript-helper> im B<preinst> verwandt wird, benötigt der "
 "bedingungslose Einsatz eine pre-Abhängigkeit (I<pre-dependency>), um "
-"sicherzustellen, dass die Mindestversion von Dpkg breits konfiguriert wurde. "
+"sicherzustellen, dass die Mindestversion von Dpkg breits entpackt wurde. "
 "Die benötigte Version hängt vom verwandten Befehl ab, für B<rm_conffile> und "
 "B<mv_conffile> lautet sie 1.15.7.2:"
 
@@ -12147,20 +12147,20 @@ msgstr ""
 "Systems (ermittelt durch B<dpkg-architecture -qDEB_HOST_ARCH>)."
 
 #. type: IP
-#: dpkg-shlibdeps.1:65
+#: dpkg-shlibdeps.1:65 dpkg-shlibdeps.1:99
 #, no-wrap
-msgid "I<admindir>/info/I<package>.symbols"
-msgstr "I<adminverz>/info/I<Paket>.symbols"
+msgid "File"
+msgstr "Datei"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:68 dpkg-shlibdeps.1:102
 msgid ""
-"Package-provided shared library dependency information.  Unless overridden, "
-"I<admindir> is /var/lib/dpkg."
+"Package-provided shared library dependency information.  Unless overridden "
+"by --admindir, those files are located in /var/lib/dpkg."
 msgstr ""
 "Vom Paket bereitgestellte Abhängigkeitsinformationen für "
-"Laufzeitbibliotheken. Falls nicht überschrieben, ist I<adminverz> /var/lib/"
-"dpkg."
+"Laufzeitbibliotheken. Falls nicht durch --admindir überschrieben, befinden "
+"sich solche Dateien unter /var/lib/dpkg."
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:75
@@ -12263,12 +12263,6 @@ msgstr ""
 "verwendet, falls die Bibliothek im Bau-Verzeichnis eines Pakets gefunden "
 "wird. Die Shlibs-Datei in diesem Bau-Verzeichnis hat gegenüber Shlibs-"
 "Dateien von anderen Binärpaketen Vorrang."
-
-#. type: IP
-#: dpkg-shlibdeps.1:99
-#, no-wrap
-msgid "I<admindir>/info/I<package>.shlibs"
-msgstr "I<Adminverz>/info/I<Paket>.shlibs"
 
 #. type: IP
 #: dpkg-shlibdeps.1:102
@@ -18384,6 +18378,12 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "I<admindir>/info/I<package>.symbols"
+#~ msgstr "I<adminverz>/info/I<Paket>.symbols"
+
+#~ msgid "I<admindir>/info/I<package>.shlibs"
+#~ msgstr "I<Adminverz>/info/I<Paket>.shlibs"
 
 #~ msgid "2010-11-05"
 #~ msgstr "2010-11-05"
