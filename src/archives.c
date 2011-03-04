@@ -1182,8 +1182,8 @@ void archivefiles(const char *const *argv) {
   trigproc_install_hooks();
 
   modstatdb_init(admindir,
-                 (f_noact ?                         msdbrw_readonly :
-                  cipaction->arg_int == act_avail ? msdbrw_write :
+                 f_noact ?                          msdbrw_readonly :
+                 (cipaction->arg_int == act_avail ? msdbrw_write :
                   fc_nonroot ?                      msdbrw_write :
                                                     msdbrw_needsuperuser) |
                  msdbrw_available);

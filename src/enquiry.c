@@ -134,7 +134,7 @@ void audit(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
+  modstatdb_init(admindir, msdbrw_readonly);
 
   for (bsi= badstatinfos; bsi->yesno; bsi++) {
     struct pkgiterator *it;
