@@ -481,7 +481,8 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 " Forcing things:\n"), DPKG);
 
     for (fip = forceinfos; fip->name; fip++)
-      printf("  %s %-18s %s\n", forcetype_str(fip->type), fip->name, fip->desc);
+      printf("  %s %-18s %s\n", forcetype_str(fip->type), fip->name,
+             gettext(fip->desc));
 
     printf(_(
 "\n"
