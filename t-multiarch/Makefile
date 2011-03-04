@@ -76,6 +76,8 @@ $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
 $(eval $(call build_pkg,act-trig_1.0_all,act-trig,1.0,all,no,))
 $(eval $(call build_pkg,diversion_1.0_all,diversion,1.0,all,no,))
 $(eval $(call build_pkg,diverted_1.0_all,diverted,1.0,all,no,))
+$(eval $(call build_pkg,db-layout_1.0_$(NATIVE_ARCH),db-layout,1.0,$(NATIVE_ARCH),no,))
+$(eval $(call build_pkg,db-layout_2.0_$(NATIVE_ARCH),db-layout,2.0,$(NATIVE_ARCH),same,))
 
 build-hook: $(PKG_TO_BUILD)
 
@@ -93,6 +95,7 @@ TEST_CASES += test-coinstall-shared-conffiles
 TEST_CASES += test-coinstall-triggers
 TEST_CASES += test-coinstall-diversions
 TEST_CASES += test-dpkg-output
+TEST_CASES += test-db-layout
 
 test-case: $(TEST_CASES)
 
@@ -724,6 +727,28 @@ test-dpkg-output: ma-setup
 	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(NATIVE_ARCH)	+install$)
 	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(FOREIGN_ARCH)	+deinstall$)
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
+
+pkg-ma-db-layout_1.0_$(NATIVE_ARCH):: pkg-template
+	touch pkg-ma-db-layout_1.0_$(NATIVE_ARCH)/DEBIAN/foo-1
+
+pkg-ma-db-layout_2.0_$(NATIVE_ARCH):: pkg-template
+	touch pkg-ma-db-layout_2.0_$(NATIVE_ARCH)/DEBIAN/foo-2
+
+test-db-layout: ma-setup
+	$(DPKG_INSTALL) pkg-ma-db-layout_1.0_$(NATIVE_ARCH).deb
+	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
+	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1
+	$(DPKG_INSTALL) pkg-ma-db-layout_2.0_$(NATIVE_ARCH).deb
+	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
+	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1
+	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list
+	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2
+	$(DPKG_INSTALL) pkg-ma-db-layout_1.0_$(NATIVE_ARCH).deb
+	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
+	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1
+	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list
+	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2
+	$(DPKG_PURGE) pkg-ma-db-layout
 
 test-clean:
 	$(BEROOT) rm -f /m-a/triggers
