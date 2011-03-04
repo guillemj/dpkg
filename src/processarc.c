@@ -327,6 +327,16 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
+  /* If the old and new versions use a different infodb layout, get rid
+   * of the files using the old layout. */
+  if (pkg->installed.multiarch != pkg->available.multiarch &&
+      (pkg->installed.multiarch == multiarch_same ||
+       pkg->available.multiarch == multiarch_same)) {
+    debug(dbg_scripts,
+          "process_archive remove old info files after db layout switch");
+    pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
+  }
+
   dir_sync_path(pkgadmindir());
 }
 
