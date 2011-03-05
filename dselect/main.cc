@@ -360,7 +360,8 @@ extern void operator delete(void *p) {
 }
 
 urqresult urq_list(void) {
-  readwrite= modstatdb_init(admindir,msdbrw_writeifposs);
+  readwrite = modstatdb_init(admindir, (modstatdb_rw)(msdbrw_writeifposs |
+                                                      msdbrw_available));
 
   curseson();
 

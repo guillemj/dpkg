@@ -134,7 +134,7 @@ void audit(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir,msdbrw_readonly);
+  modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
 
   for (bsi= badstatinfos; bsi->yesno; bsi++) {
     struct pkgiterator *it;
@@ -204,7 +204,7 @@ void unpackchk(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
+  modstatdb_init(admindir, msdbrw_readonly);
 
   totalcount= 0;
   sectionentries = NULL;
@@ -282,7 +282,7 @@ assert_version_support(const char *const *argv,
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
+  modstatdb_init(admindir, msdbrw_readonly);
 
   pkg = pkg_db_find("dpkg");
   switch (pkg->status) {
@@ -348,7 +348,7 @@ void predeppackage(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir,msdbrw_readonly);
+  modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
   /* We use clientdata->istobe to detect loops. */
   clear_istobes();
 

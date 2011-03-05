@@ -244,7 +244,7 @@ modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
 
   if (cstatus != msdbrw_needsuperuserlockonly) {
     cleanupdates();
-    if(!(cflags & msdbrw_noavail))
+    if (cflags & msdbrw_available)
     parsedb(availablefile,
             pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
             NULL);

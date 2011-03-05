@@ -201,7 +201,7 @@ listpackages(const char *const *argv)
   int failures = 0;
   struct list_format fmt;
 
-  modstatdb_init(admindir,msdbrw_readonly);
+  modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
 
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_name);
@@ -302,7 +302,7 @@ searchfiles(const char *const *argv)
   if (!*argv)
     badusage(_("--search needs at least one file name pattern argument"));
 
-  modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
+  modstatdb_init(admindir, msdbrw_readonly);
   ensure_allinstfiles_available_quiet();
   ensure_diversions();
 
@@ -369,9 +369,9 @@ enqperpackage(const char *const *argv)
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
   if (cipaction->arg_int == act_listfiles)
-    modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
+    modstatdb_init(admindir, msdbrw_readonly);
   else
-    modstatdb_init(admindir,msdbrw_readonly);
+    modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
 
   while ((thisarg = *argv++) != NULL) {
     pkg = pkg_db_find(thisarg);
@@ -466,7 +466,7 @@ showpackages(const char *const *argv)
     return failures;
   }
 
-  modstatdb_init(admindir,msdbrw_readonly);
+  modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
 
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_name);
@@ -569,7 +569,7 @@ control_path(const char *const *argv)
         badusage(_("control file contains %c"), *c);
   }
 
-  modstatdb_init(admindir, msdbrw_readonly | msdbrw_noavail);
+  modstatdb_init(admindir, msdbrw_readonly);
 
   pkg = pkg_db_find(pkg_name);
   if (pkg->status == stat_notinstalled)

@@ -123,9 +123,9 @@ packages(const char *const *argv)
   trigproc_install_hooks();
 
   modstatdb_init(admindir,
-                 f_noact ?    msdbrw_readonly
-               : fc_nonroot ? msdbrw_write
-               :              msdbrw_needsuperuser);
+                 (f_noact ?    msdbrw_readonly :
+                  fc_nonroot ? msdbrw_write :
+                               msdbrw_needsuperuser) | msdbrw_available);
   checkpath();
   log_message("startup packages %s", cipaction->olong);
 
