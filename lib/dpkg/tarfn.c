@@ -65,7 +65,7 @@ struct tar_header {
 static long
 OtoL(const char *s, int size)
 {
-	int n = 0;
+	long n = 0;
 
 	while (*s == ' ') {
 		s++;
