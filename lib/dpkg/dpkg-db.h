@@ -219,6 +219,7 @@ enum modstatdb_rw {
   msdbrw_flagsmask= ~077,
   /* Flags start at 0100. */
   msdbrw_available = 0100,
+  msdbrw_available_readonly = 0200,
 };
 
 bool modstatdb_is_locked(const char *admindir);

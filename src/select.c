@@ -91,7 +91,7 @@ void setselections(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir, msdbrw_write | msdbrw_available);
+  modstatdb_init(admindir, msdbrw_write | msdbrw_available_readonly);
 
   lno= 1;
   for (;;) {

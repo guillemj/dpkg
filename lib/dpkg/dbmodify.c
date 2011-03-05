@@ -285,7 +285,7 @@ void modstatdb_shutdown(void) {
   switch (cstatus) {
   case msdbrw_write:
     modstatdb_checkpoint();
-    if (cflags & msdbrw_available)
+    if (cflags & msdbrw_available && !(cflags & msdbrw_available_readonly))
       writedb(availablefile, 1, 0);
     /* Tidy up a bit, but don't worry too much about failure. */
     fclose(importanttmp);
