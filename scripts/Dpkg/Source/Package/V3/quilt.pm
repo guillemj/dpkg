@@ -251,7 +251,7 @@ sub unapply_patches {
                                  '--no-backup-if-mismatch' ]);
         erasedir(File::Spec->catdir($dir, ".pc", $patch));
     }
-    unlink($pc_applied);
+    erasedir(File::Spec->catdir($dir, ".pc"));
 }
 
 sub prepare_build {
