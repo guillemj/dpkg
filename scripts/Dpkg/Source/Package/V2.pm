@@ -231,7 +231,7 @@ sub unapply_patches {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
         info(_g("unapplying %s"), $patch) unless $opts{"quiet"};
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
-        $patch_obj->apply($dir, force_timestamp => 1,
+        $patch_obj->apply($dir, force_timestamp => 1, verbose => 0,
                           timestamp => $timestamp,
                           add_options => [ '-E', '-R' ]);
     }
@@ -451,7 +451,7 @@ sub do_build {
     } else {
         mkpath(File::Spec->catdir($dir, "debian", "patches"));
         info(_g("local changes stored in %s, the modified files are:"), $autopatch);
-        my $analysis = $diff->analyze($dir);
+        my $analysis = $diff->analyze($dir, verbose => 0);
         foreach my $fn (sort keys %{$analysis->{'filepatched'}}) {
             print " $fn\n";
         }

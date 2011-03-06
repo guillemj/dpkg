@@ -238,7 +238,7 @@ sub add_diff_directory {
     if ($opts{"order_from"} and -e $opts{"order_from"}) {
         my $order_from = Dpkg::Source::Patch->new(
             filename => $opts{"order_from"});
-        my $analysis = $order_from->analyze($basedir);
+        my $analysis = $order_from->analyze($basedir, verbose => 0);
         my %patchorder;
         my $i = 0;
         foreach my $fn (@{$analysis->{"patchorder"}}) {
@@ -314,6 +314,7 @@ sub _fail_not_same_type {
 sub analyze {
     my ($self, $destdir, %opts) = @_;
 
+    $opts{"verbose"} = 1 if not defined $opts{"verbose"};
     my $diff = $self->get_filename();
     my %filepatched;
     my %dirtocreate;
@@ -425,8 +426,10 @@ sub analyze {
         } elsif ($path{'new'} eq '/dev/null') {
             error(_g("file removal without proper filename in diff `%s' (line %d)"),
                   $diff, $. - 1) unless defined $fn{'old'};
-            warning(_g("diff %s removes a non-existing file %s (line %d)"),
-                    $diff, $fn{'old'}, $.) unless -e $fn{'old'};
+            if ($opts{"verbose"}) {
+                warning(_g("diff %s removes a non-existing file %s (line %d)"),
+                        $diff, $fn{'old'}, $.) unless -e $fn{'old'};
+            }
         }
 	my $fn = intuit_file_patched($fn{'old'}, $fn{'new'});
 
@@ -456,7 +459,8 @@ sub analyze {
 	    while ($olines || $nlines) {
 		unless (defined($_ = getline($self))) {
                     if (($olines == $nlines) and ($olines < 3)) {
-                        warning(_g("unexpected end of diff `%s'"), $diff);
+                        warning(_g("unexpected end of diff `%s'"), $diff)
+                            if $opts{"verbose"};
                         last;
                     } else {
                         error(_g("unexpected end of diff `%s'"), $diff);
@@ -480,7 +484,8 @@ sub analyze {
     }
     close($self);
     unless ($diff_count) {
-	warning(_g("diff `%s' doesn't contain any patch"), $diff);
+	warning(_g("diff `%s' doesn't contain any patch"), $diff)
+	    if $opts{"verbose"};
     }
     *$self->{'analysis'}{$destdir}{"dirtocreate"} = \%dirtocreate;
     *$self->{'analysis'}{$destdir}{"filepatched"} = \%filepatched;

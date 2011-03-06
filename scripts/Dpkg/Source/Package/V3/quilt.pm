@@ -170,6 +170,7 @@ sub apply_quilt_patch {
 
     info(_g("applying %s"), $patch) if $opts{"verbose"};
     $obj->apply($dir, timestamp => $opts{"timestamp"},
+                verbose => $opts{"verbose"},
                 force_timestamp => 1, create_dirs => 1, remove_backup => 0,
                 options => [ '-t', '-F', '0', '-N', '-p1', '-u',
                              '-V', 'never', '-g0', '-E', '-b',
@@ -243,6 +244,7 @@ sub unapply_patches {
 
         info(_g("unapplying %s"), $patch) if $opts{"verbose"};
         $obj->apply($dir, timestamp => $opts{"timestamp"},
+                    verbose => 0,
                     force_timestamp => 1, remove_backup => 0,
                     options => [ '-R', '-t', '-N', '-p1',
                                  '-u', '-V', 'never', '-g0', '-E',
@@ -352,7 +354,7 @@ sub register_autopatch {
         # reverse-apply the patch, drop .pc/$patch, re-apply it
         # with the correct options to recreate the backup files
         my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
-        $patch_obj->apply($dir, add_options => ['-R', '-E']);
+        $patch_obj->apply($dir, add_options => ['-R', '-E'], verbose => 0);
         erasedir(File::Spec->catdir($dir, ".pc", $auto_patch));
         $self->apply_quilt_patch($dir, $auto_patch);
     } else {
