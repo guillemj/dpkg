@@ -75,6 +75,10 @@ dpkg (1.16.0) UNRELEASED; urgency=low
     diagnosis.
   * dpkg-source will now remove quilt's .pc directory when --unapply-patches
     is in use. Closes: #591858
+  * dpkg-source is now a bit less strict when parsing patches:
+    - it accepts seeing the same file twice; Closes: #608829
+    - it doesn't match on the English text "No newline at end of file" as it
+      might be translated in some cases. Closes: #612465
 
   [ Jonathan Nieder ]
   * Remove support for use of synchronous sync(2), due to its pernicious

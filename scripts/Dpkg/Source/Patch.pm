@@ -114,7 +114,7 @@ sub add_diff_file {
             last;
         } elsif (m/^[-+\@ ]/) {
             $difflinefound++;
-        } elsif (m/^\\ No newline at end of file$/) {
+        } elsif (m/^\\ /) {
             warning(_g("file %s has no final newline (either " .
                        "original or modified version)"), $new);
         } else {
@@ -443,16 +443,18 @@ sub analyze {
 	}
 
 	if ($filepatched{$fn}) {
-	    error(_g("diff `%s' patches file %s twice"), $diff, $fn);
+	    warning(_g("diff `%s' patches file %s twice"), $diff, $fn)
+		if $opts{"verbose"};
+	} else {
+	    $filepatched{$fn} = 1;
+	    push @patchorder, $fn;
 	}
-	$filepatched{$fn} = 1;
-	push @patchorder, $fn;
 
 	# read hunks
 	my $hunk = 0;
 	while (defined($_ = getline($self))) {
 	    # read hunk header (@@)
-	    next if /^\\ No newline/;
+	    next if /^\\ /;
 	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/);
 	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
 	    # read hunk
@@ -466,7 +468,7 @@ sub analyze {
                         error(_g("unexpected end of diff `%s'"), $diff);
                     }
 		}
-		next if /^\\ No newline/;
+		next if /^\\ /;
 		# Check stats
 		if    (/^ / || /^$/)  { --$olines; --$nlines; }
 		elsif (/^-/)  { --$olines; }
