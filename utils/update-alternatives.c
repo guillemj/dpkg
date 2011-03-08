@@ -471,7 +471,9 @@ config_all(void)
 	for (i = 0; i < count; i++) {
 		subcall(prog_path, "--config", table[i]->d_name, NULL);
 		printf("\n");
+		free(table[i]);
 	}
+	free(table);
 }
 
 static bool
@@ -2197,6 +2199,7 @@ main(int argc, char **argv)
 
 		free(table[i]);
 	}
+	free(table);
 
 	/* Check that caller don't mix links between alternatives and don't mix
 	 * alternatives between slave/master, and that the various parameters
