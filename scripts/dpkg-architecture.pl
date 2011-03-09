@@ -27,7 +27,8 @@ use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
                   debarch_to_cpuattrs
                   get_valid_arches debarch_eq debarch_is debarch_to_debtriplet
-                  debarch_to_gnutriplet gnutriplet_to_debarch);
+                  debarch_to_gnutriplet gnutriplet_to_debarch
+                  debarch_to_multiarch);
 
 textdomain("dpkg-dev");
 
@@ -127,9 +128,11 @@ my %v;
 my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
                  DEB_BUILD_ARCH_BITS DEB_BUILD_ARCH_ENDIAN
                  DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE
+                 DEB_BUILD_MULTIARCH
                  DEB_HOST_ARCH DEB_HOST_ARCH_OS DEB_HOST_ARCH_CPU
                  DEB_HOST_ARCH_BITS DEB_HOST_ARCH_ENDIAN
-                 DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE);
+                 DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE
+                 DEB_HOST_MULTIARCH);
 
 $v{DEB_BUILD_ARCH} = get_raw_build_arch();
 $v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
@@ -189,6 +192,9 @@ my $abi;
 
 ($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH});
 ($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH});
+
+$v{DEB_BUILD_MULTIARCH} = debarch_to_multiarch($v{DEB_BUILD_ARCH});
+$v{DEB_HOST_MULTIARCH} = debarch_to_multiarch($v{DEB_HOST_ARCH});
 
 for my $k (@ordered) {
     $v{$k} = $ENV{$k} if (defined ($ENV{$k}) && !$force);

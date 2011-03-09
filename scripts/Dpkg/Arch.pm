@@ -25,7 +25,8 @@ our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     debarch_to_cpuattrs
                     debarch_to_gnutriplet gnutriplet_to_debarch
                     debtriplet_to_gnutriplet gnutriplet_to_debtriplet
-                    debtriplet_to_debarch debarch_to_debtriplet);
+                    debtriplet_to_debarch debarch_to_debtriplet
+                    gnutriplet_to_multiarch debarch_to_multiarch);
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -235,6 +236,25 @@ sub gnutriplet_to_debtriplet($)
 
     return undef if !defined($cpu) || !defined($os);
     return (split(/-/, $os, 2), $cpu);
+}
+
+sub gnutriplet_to_multiarch($)
+{
+    my ($gnu) = @_;
+    my ($cpu, $cdr) = split('-', $gnu, 2);
+
+    if ($cpu =~ /^i[456]86$/) {
+	return "i386-$cdr";
+    } else {
+	return $gnu;
+    }
+}
+
+sub debarch_to_multiarch($)
+{
+    my ($arch) = @_;
+
+    return gnutriplet_to_multiarch(debarch_to_gnutriplet($arch));
 }
 
 sub debtriplet_to_debarch(@)
