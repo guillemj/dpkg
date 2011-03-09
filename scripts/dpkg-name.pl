@@ -233,7 +233,7 @@ while (@ARGV) {
             $options{destdir} = shift(@ARGV);
         }
     } elsif (m/^-o|--overwrite$/) {
-        $options{overwite} = 1;
+        $options{overwrite} = 1;
     } elsif (m/^-k|--symlink$/) {
         $options{symlink} = 1;
     } elsif (m/^-a|--no-architecture$/) {
