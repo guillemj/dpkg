@@ -1183,10 +1183,10 @@ void archivefiles(const char *const *argv) {
 
   modstatdb_init(admindir,
                  f_noact ?                          msdbrw_readonly :
-                 (cipaction->arg_int == act_avail ? msdbrw_write :
+                 (cipaction->arg_int == act_avail ? msdbrw_readonly :
                   fc_nonroot ?                      msdbrw_write :
                                                     msdbrw_needsuperuser) |
-                 msdbrw_available);
+                 msdbrw_available_write);
 
   checkpath();
   log_message("startup archives %s", cipaction->olong);

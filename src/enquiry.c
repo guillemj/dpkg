@@ -348,7 +348,7 @@ void predeppackage(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
+  modstatdb_init(admindir, msdbrw_readonly | msdbrw_available_readonly);
   /* We use clientdata->istobe to detect loops. */
   clear_istobes();
 

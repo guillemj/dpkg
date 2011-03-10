@@ -209,8 +209,8 @@ modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
     m_asprintf(fnip->store, "%s/%s", admindir, fnip->suffix);
   }
 
-  cflags= readwritereq & msdbrw_flagsmask;
-  readwritereq &= ~msdbrw_flagsmask;
+  cflags = readwritereq & msdbrw_available_mask;
+  readwritereq &= ~msdbrw_available_mask;
 
   switch (readwritereq) {
   case msdbrw_needsuperuser:
@@ -244,7 +244,7 @@ modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
 
   if (cstatus != msdbrw_needsuperuserlockonly) {
     cleanupdates();
-    if (cflags & msdbrw_available)
+    if (cflags >= msdbrw_available_readonly)
     parsedb(availablefile,
             pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
             NULL);
@@ -282,11 +282,13 @@ void modstatdb_checkpoint(void) {
 
 void modstatdb_shutdown(void) {
   const struct fni *fnip;
+
+  if (cflags >= msdbrw_available_write)
+    writedb(availablefile, 1, 0);
+
   switch (cstatus) {
   case msdbrw_write:
     modstatdb_checkpoint();
-    if (cflags & msdbrw_available && !(cflags & msdbrw_available_readonly))
-      writedb(availablefile, 1, 0);
     /* Tidy up a bit, but don't worry too much about failure. */
     fclose(importanttmp);
     unlink(importanttmpfile);

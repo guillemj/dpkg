@@ -216,10 +216,10 @@ enum modstatdb_rw {
   msdbrw_write/*s*/, msdbrw_needsuperuser,
 
   /* Now some optional flags: */
-  msdbrw_flagsmask= ~077,
+  msdbrw_available_mask= ~077,
   /* Flags start at 0100. */
-  msdbrw_available = 0100,
-  msdbrw_available_readonly = 0200,
+  msdbrw_available_readonly = 0100,
+  msdbrw_available_write = 0200,
 };
 
 bool modstatdb_is_locked(const char *admindir);

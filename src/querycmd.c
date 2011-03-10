@@ -204,7 +204,7 @@ listpackages(const char *const *argv)
   if (!*argv)
     modstatdb_init(admindir, msdbrw_readonly);
   else
-    modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
+    modstatdb_init(admindir, msdbrw_readonly | msdbrw_available_readonly);
 
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_name);
@@ -372,7 +372,7 @@ enqperpackage(const char *const *argv)
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
   if (cipaction->arg_int == act_printavail)
-    modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
+    modstatdb_init(admindir, msdbrw_readonly | msdbrw_available_readonly);
   else
     modstatdb_init(admindir, msdbrw_readonly);
 
@@ -472,7 +472,7 @@ showpackages(const char *const *argv)
   if (!*argv)
     modstatdb_init(admindir, msdbrw_readonly);
   else
-    modstatdb_init(admindir, msdbrw_readonly | msdbrw_available);
+    modstatdb_init(admindir, msdbrw_readonly | msdbrw_available_readonly);
 
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_name);
