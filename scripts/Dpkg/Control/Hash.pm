@@ -193,7 +193,7 @@ sub parse {
 	    } else {
 		syntaxerr($desc, _g("PGP signature not allowed here"));
 	    }
-	} elsif (m/^$/) {
+	} elsif (m/^$/ || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined($_) && $_ =~ /^\s*$/;
