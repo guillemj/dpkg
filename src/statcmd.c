@@ -197,7 +197,7 @@ statdb_write(void)
 	struct fileiterator *i;
 	struct filenamenode *file;
 
-	m_asprintf(&dbname, "%s/%s", admindir, STATOVERRIDEFILE);
+	dbname = dpkg_db_get_path(STATOVERRIDEFILE);
 	m_asprintf(&dbname_new, "%s%s", dbname, NEWDBEXT);
 	m_asprintf(&dbname_old, "%s%s", dbname, OLDDBEXT);
 

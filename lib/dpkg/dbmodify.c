@@ -156,7 +156,7 @@ modstatdb_init(const char *admindir)
 
   for (fnip = fnis; fnip->suffix; fnip++) {
     free(*fnip->store);
-    m_asprintf(fnip->store, "%s/%s", admindir, fnip->suffix);
+    *fnip->store = dpkg_db_get_path(fnip->suffix);
   }
 
   updatefnbuf = m_malloc(strlen(updatesdir) + IMPORTANTMAXLEN + 5);

@@ -238,7 +238,7 @@ void getcurrentopt() {
   char *p;
 
   if (methoptfile == NULL)
-    m_asprintf(&methoptfile, "%s/%s", admindir, CMETHOPTFILE);
+    methoptfile = dpkg_db_get_path(CMETHOPTFILE);
 
   coption= 0;
   cmo= fopen(methoptfile,"r");

@@ -85,7 +85,7 @@ deb_reassemble(const char **filename, const char **pfilename)
   pid_t pid;
 
   if (!reasmbuf)
-    m_asprintf(&reasmbuf, "%s/%s", admindir, REASSEMBLETMP);
+    reasmbuf = dpkg_db_get_path(REASSEMBLETMP);
   if (unlink(reasmbuf) && errno != ENOENT)
     ohshite(_("error ensuring `%.250s' doesn't exist"), reasmbuf);
 

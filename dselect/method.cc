@@ -106,7 +106,7 @@ static enum urqresult lockmethod(void) {
   struct flock fl;
 
   if (methodlockfile == NULL)
-    m_asprintf(&methodlockfile, "%s/%s", admindir, METHLOCKFILE);
+    methodlockfile = dpkg_db_get_path(METHLOCKFILE);
 
   if (methlockfd == -1) {
     methlockfd= open(methodlockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);

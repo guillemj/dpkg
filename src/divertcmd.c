@@ -359,7 +359,7 @@ divertdb_write(void)
 	struct fileiterator *iter;
 	struct filenamenode *namenode;
 
-	m_asprintf(&dbname, "%s/%s", admindir, DIVERSIONSFILE);
+	dbname = dpkg_db_get_path(DIVERSIONSFILE);
 	m_asprintf(&dbname_new, "%s%s", dbname, NEWDBEXT);
 	m_asprintf(&dbname_old, "%s%s", dbname, OLDDBEXT);
 
