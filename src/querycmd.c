@@ -65,12 +65,15 @@ static int getwidth(void) {
   else if (!isatty(1))
     return -1;
   else {
+    res = 80;
+
     if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
-      if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
-	ws.ws_col=80;
+      if (ioctl(fd, TIOCGWINSZ, &ws) == 0)
+        res = ws.ws_col;
       close(fd);
     }
-    return ws.ws_col;
+
+    return res;
   }
 }
 
