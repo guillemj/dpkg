@@ -1899,7 +1899,6 @@ alternative_set_selections(struct alternative_map *all, FILE* input, const char 
 		errno = 0;
 		/* Can't use scanf("%s %s %s") because choice can
 		 * contain a space */
-		name = status = choice = NULL;
 		res = fgets(line, sizeof(line), input);
 		if (res == NULL && errno) {
 			error(_("while reading %s: %s"), desc, strerror(errno));
