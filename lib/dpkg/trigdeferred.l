@@ -91,7 +91,7 @@ static const struct trigdefmeths *trigdef;
 
 /*---------- Deferred file handling ----------*/
 
-static const char *triggersdir;
+static char *triggersdir;
 static int lock_fd = -1;
 static FILE *old_deferred;
 static FILE *trig_new_deferred;
@@ -233,6 +233,9 @@ trigdef_process_done(void)
 
 		dir_sync_path(triggersdir);
 	}
+
+	free(triggersdir);
+	triggersdir = NULL;
 
 	/* Unlock. */
 	pop_cleanup(ehflag_normaltidy);
