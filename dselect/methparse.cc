@@ -235,15 +235,10 @@ void getcurrentopt() {
   char methoptbuf[IMETHODMAXLEN+1+IOPTIONMAXLEN+2];
   FILE *cmo;
   int l;
-  int admindirlen;
   char *p;
 
-  if (!methoptfile) {
-    admindirlen= strlen(admindir);
-    methoptfile= new char[admindirlen + sizeof(CMETHOPTFILE) + 2];
-    strcpy(methoptfile,admindir);
-    strcpy(methoptfile+admindirlen, "/" CMETHOPTFILE);
-  }
+  if (methoptfile == NULL)
+    m_asprintf(&methoptfile, "%s/%s", admindir, CMETHOPTFILE);
 
   coption= 0;
   cmo= fopen(methoptfile,"r");
