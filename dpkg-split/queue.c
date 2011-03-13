@@ -36,6 +36,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/dir.h>
+#include <dpkg/buffer.h>
 #include <dpkg/myopt.h>
 
 #include "dpkg-split.h"
@@ -161,32 +162,29 @@ void do_auto(const char *const *argv) {
   for (j=refi->maxpartn-1; j>=0 && partlist[j]; j--);
 
   if (j>=0) {
-    void *buffer;
-    long nr;
+    int fd_src, fd_dst;
     int ap;
     char *p, *q;
-
-    part= fopen(partfile,"r");
-    if (!part) ohshite(_("unable to reopen part file `%.250s'"),partfile);
-    buffer= nfmalloc(refi->filesize);
-    nr= fread(buffer,1,refi->filesize,part);
-    if (nr != refi->filesize) rerreof(part,partfile);
-    if (getc(part) != EOF) ohshit(_("part file `%.250s' has trailing garbage"),partfile);
-    if (ferror(part)) rerr(partfile);
-    fclose(part);
 
     m_asprintf(&p, "%st.%lx", opt_depotdir, (long)getpid());
     m_asprintf(&q, "%s%s.%lx.%x.%x", opt_depotdir, refi->md5sum,
                refi->maxpartlen, refi->thispartn, refi->maxpartn);
-    part= fopen(p,"w");
-    if (!part) ohshite(_("unable to open new depot file `%.250s'"),p);
-    nr= fwrite(buffer,1,refi->filesize,part);
-    if (nr != refi->filesize) werr(p);
-    if (fflush(part))
-      ohshite(_("unable to flush file '%s'"), p);
-    if (fsync(fileno(part)))
+
+    fd_src = open(partfile, O_RDONLY);
+    if (fd_src < 0)
+      ohshite(_("unable to reopen part file `%.250s'"), partfile);
+    fd_dst = creat(p, 0644);
+    if (fd_dst)
+      ohshite(_("unable to open new depot file `%.250s'"), p);
+
+    fd_fd_copy(fd_src, fd_dst, refi->filesize, _("extracing split part"));
+
+    if (fsync(fd_dst))
       ohshite(_("unable to sync file '%s'"), p);
-    if (fclose(part)) werr(p);
+    if (close(fd_dst))
+      ohshite(_("unable to close file '%s'"), p);
+    close(fd_src);
+
     if (rename(p,q)) ohshite(_("unable to rename new depot file `%.250s' to `%.250s'"),p,q);
     free(q);
     free(p);
