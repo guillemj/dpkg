@@ -425,19 +425,3 @@ modstatdb_note_ifwrite(struct pkginfo *pkg)
     modstatdb_note(pkg);
 }
 
-const char *
-pkgadmindir(void)
-{
-  return infodir;
-}
-
-const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
-  static struct varbuf vb;
-  varbuf_reset(&vb);
-  varbuf_add_str(&vb, infodir);
-  varbuf_add_str(&vb, pkg->name);
-  varbuf_add_char(&vb, '.');
-  varbuf_add_str(&vb, whichfile);
-  varbuf_end_str(&vb);
-  return vb.buf;
-}

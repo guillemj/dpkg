@@ -240,9 +240,6 @@ void modstatdb_note_ifwrite(struct pkginfo *pkg);
 void modstatdb_checkpoint(void);
 void modstatdb_shutdown(void);
 
-const char *pkgadmindir(void);
-const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
-
 /*** from database.c ***/
 
 void pkg_blank(struct pkginfo *pp);

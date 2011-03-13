@@ -34,6 +34,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/debug.h>
 
+#include "filesdb.h"
 #include "infodb.h"
 
 bool

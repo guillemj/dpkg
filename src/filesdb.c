@@ -51,6 +51,44 @@
 #include "filesdb.h"
 #include "main.h"
 
+/*** Package control information database directory routines. ***/
+
+/*
+ * XXX: Strictly speaking these functions do not exactly belong here, and
+ * they should be eventually moved back to a unified on-disk database
+ * handling module in libdpkg. For now this is good enough, as it avoids
+ * pulling unneeded code into the resulting binaries, because all its
+ * users require filesdb anyway.
+ */
+
+static char *infodir;
+
+static void
+pkgadmindir_init(void)
+{
+  infodir = dpkg_db_get_path(INFODIR);
+}
+
+const char *
+pkgadmindir(void)
+{
+  return infodir;
+}
+
+const char *
+pkgadminfile(struct pkginfo *pkg, const char *filetype)
+{
+  static struct varbuf vb;
+
+  varbuf_reset(&vb);
+  varbuf_add_str(&vb, infodir);
+  varbuf_add_str(&vb, pkg->name);
+  varbuf_add_char(&vb, '.');
+  varbuf_add_str(&vb, filetype);
+  varbuf_end_str(&vb);
+
+  return vb.buf;
+}
 
 /*** filepackages support for tracking packages owning a file. ***/
 
@@ -583,6 +621,8 @@ void iterfileend(struct fileiterator *i) {
 void filesdbinit(void) {
   struct filenamenode *fnn;
   int i;
+
+  pkgadmindir_init();
 
   for (i=0; i<BINS; i++)
     for (fnn= bins[i]; fnn; fnn= fnn->next) {
