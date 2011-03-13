@@ -26,6 +26,8 @@
 
 #include <sys/types.h>
 
+#include <errno.h>
+
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
