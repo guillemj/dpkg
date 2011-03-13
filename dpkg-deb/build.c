@@ -31,6 +31,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <dirent.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -385,7 +386,7 @@ void do_build(const char *const *argv) {
   const char *debar, *dir;
   bool subdir;
   char *tfbuf;
-  FILE *ar;
+  int arfd;
   int p1[2], p2[2], p3[2], gzfd;
   pid_t c1,c2,c3;
   struct file_info *fi;
@@ -437,9 +438,9 @@ void do_build(const char *const *argv) {
 
   /* Now that we have verified everything its time to actually
    * build something. Let's start by making the ar-wrapper. */
-  if (!(ar=fopen(debar,"wb"))) ohshite(_("unable to create `%.255s'"),debar);
-  if (setvbuf(ar, NULL, _IONBF, 0))
-    ohshite(_("unable to unbuffer `%.255s'"), debar);
+  arfd = creat(debar, 0644);
+  if (arfd < 0)
+    ohshite(_("unable to create `%.255s'"), debar);
   /* Fork a tar to package the control-section of the package. */
   unsetenv("TAR_OPTIONS");
   m_pipe(p1);
@@ -483,19 +484,21 @@ void do_build(const char *const *argv) {
    * to the package and insert it. */
   if (oldformatflag) {
     struct stat controlstab;
+    char versionbuf[40];
 
     if (fstat(gzfd, &controlstab))
       ohshite(_("failed to stat temporary file (%s)"), _("control member"));
-    if (fprintf(ar, "%-8s\n%ld\n", OLDARCHIVEVERSION, (long)controlstab.st_size) == EOF)
+    sprintf(versionbuf, "%-8s\n%ld\n", OLDARCHIVEVERSION,
+            (long)controlstab.st_size);
+    if (fd_write(arfd, versionbuf, strlen(versionbuf)) < 0)
       werr(debar);
-    fd_fd_copy(gzfd, fileno(ar), -1, _("control member"));
+    fd_fd_copy(gzfd, arfd, -1, _("control member"));
   } else {
     const char deb_magic[] = ARCHIVEVERSION "\n";
 
-    dpkg_ar_put_magic(debar, fileno(ar));
-    dpkg_ar_member_put_mem(debar, fileno(ar), DEBMAGIC,
-                           deb_magic, strlen(deb_magic));
-    dpkg_ar_member_put_file(debar, fileno(ar), ADMINMEMBER, gzfd, -1);
+    dpkg_ar_put_magic(debar, arfd);
+    dpkg_ar_member_put_mem(debar, arfd, DEBMAGIC, deb_magic, strlen(deb_magic));
+    dpkg_ar_member_put_file(debar, arfd, ADMINMEMBER, gzfd, -1);
   }
 
   /* Control is done, now we need to archive the data. Start by creating
@@ -532,7 +535,7 @@ void do_build(const char *const *argv) {
   if (!c2) {
     close(p1[1]);
     m_dup2(p2[0],0); close(p2[0]);
-    m_dup2(oldformatflag ? fileno(ar) : gzfd,1);
+    m_dup2(oldformatflag ? arfd : gzfd, 1);
     compress_filter(compressor, 0, 1, compress_level, _("data member"));
   }
   close(p2[0]);
@@ -581,13 +584,12 @@ void do_build(const char *const *argv) {
     if (lseek(gzfd, 0, SEEK_SET))
       ohshite(_("failed to rewind temporary file (%s)"), _("data member"));
 
-    dpkg_ar_member_put_file(debar, fileno(ar), datamember, gzfd, -1);
+    dpkg_ar_member_put_file(debar, arfd, datamember, gzfd, -1);
   }
-  if (fflush(ar))
-    ohshite(_("unable to flush file '%s'"), debar);
-  if (fsync(fileno(ar)))
+  if (fsync(arfd))
     ohshite(_("unable to sync file '%s'"), debar);
-  if (fclose(ar)) werr(debar);
+  if (close(arfd))
+    ohshite(_("unable to close file '%s'"), debar);
 
   exit(0);
 }
