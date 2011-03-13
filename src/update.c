@@ -39,7 +39,7 @@ void updateavailable(const char *const *argv) {
   char *availfile;
   int count= 0;
 
-  modstatdb_init(admindir);
+  modstatdb_init();
 
   switch (cipaction->arg_int) {
   case act_avclear:

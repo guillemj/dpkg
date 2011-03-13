@@ -90,7 +90,7 @@ void trig_cicb_statuschange_activate(const char *trig, void *user);
 void trig_parse_ci(const char *file, trig_parse_cicb *interest,
                    trig_parse_cicb *activate, void *user);
 
-void trig_incorporate(enum modstatdb_rw cstatus, const char *admindir);
+void trig_incorporate(enum modstatdb_rw cstatus);
 
 DPKG_END_DECLS
 

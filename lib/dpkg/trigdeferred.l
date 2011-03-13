@@ -117,7 +117,7 @@ constructfn(struct varbuf *vb, const char *dir, const char *tail)
  * For positive return values the caller must call trigdef_update_done!
  */
 enum trigdef_update_status
-trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
+trigdef_update_start(enum trigdef_updateflags uf)
 {
 	struct stat stab;
 	int r;

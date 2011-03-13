@@ -360,8 +360,8 @@ extern void operator delete(void *p) {
 }
 
 urqresult urq_list(void) {
-  readwrite = modstatdb_open(admindir, (modstatdb_rw)(msdbrw_writeifposs |
-                                                      msdbrw_available_readonly));
+  readwrite = modstatdb_open((modstatdb_rw)(msdbrw_writeifposs |
+                                            msdbrw_available_readonly));
 
   curseson();
 
@@ -423,7 +423,7 @@ refreshmenu(void)
   sprintf(buf, gettext(licensestring), DSELECT);
   addstr(buf);
 
-  modstatdb_init(admindir);
+  modstatdb_init();
   if (!modstatdb_can_lock())
     addstr(_("\n\n"
              "Read-only access: only preview of selections is available!"));

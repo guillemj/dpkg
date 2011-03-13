@@ -122,8 +122,7 @@ packages(const char *const *argv)
 {
   trigproc_install_hooks();
 
-  modstatdb_open(admindir,
-                 f_noact ?    msdbrw_readonly :
+  modstatdb_open(f_noact ?    msdbrw_readonly :
                  fc_nonroot ? msdbrw_write :
                               msdbrw_needsuperuser);
   checkpath();

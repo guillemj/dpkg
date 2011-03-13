@@ -769,7 +769,7 @@ static const struct trigdefmeths tdm_incorp = {
 };
 
 void
-trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
+trig_incorporate(enum modstatdb_rw cstatus)
 {
 	enum trigdef_update_status ur;
 	enum trigdef_updateflags tduf;
@@ -793,7 +793,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 			tduf |= tduf_writeifenoent;
 	}
 
-	ur = trigdef_update_start(tduf, admindir);
+	ur = trigdef_update_start(tduf);
 	if (ur == tdus_error_no_dir && cstatus >= msdbrw_write) {
 		if (mkdir(triggersdir, 0755)) {
 			if (errno != EEXIST)
@@ -803,7 +803,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 			ohshite(_("unable to set ownership of triggers state"
 			          " directory `%.250s'"), triggersdir);
 		}
-		ur = trigdef_update_start(tduf, admindir);
+		ur = trigdef_update_start(tduf);
 	}
 	switch (ur) {
 	case tdus_error_empty_deferred:

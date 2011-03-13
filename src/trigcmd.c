@@ -148,7 +148,7 @@ do_check(void)
 {
 	enum trigdef_update_status uf;
 
-	uf = trigdef_update_start(tduf_nolockok, admindir);
+	uf = trigdef_update_start(tduf_nolockok);
 	switch (uf) {
 	case tdus_error_no_dir:
 		fprintf(stderr, _("%s: triggers data directory not yet created\n"),
@@ -227,7 +227,7 @@ main(int argc, const char *const *argv)
 	tduf = tduf_nolockok;
 	if (!f_noact)
 		tduf |= tduf_write | tduf_writeifempty;
-	uf = trigdef_update_start(tduf, admindir);
+	uf = trigdef_update_start(tduf);
 	if (uf >= 0) {
 		trigdef_parse();
 		if (!done_trig)

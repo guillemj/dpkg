@@ -51,8 +51,7 @@ struct trigdefmeths {
 
 void trigdef_set_methods(const struct trigdefmeths *methods);
 
-enum trigdef_update_status trigdef_update_start(enum trigdef_updateflags uf,
-                                                const char *admindir);
+enum trigdef_update_status trigdef_update_start(enum trigdef_updateflags uf);
 void trigdef_update_printf(const char *format, ...) DPKG_ATTR_PRINTF(1);
 int trigdef_parse(void);
 void trigdef_process_done(void);

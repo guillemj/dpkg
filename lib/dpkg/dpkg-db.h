@@ -228,13 +228,13 @@ enum modstatdb_rw {
   msdbrw_available_write = 0200,
 };
 
-void modstatdb_init(const char *admindir);
+void modstatdb_init(void);
 void modstatdb_done(void);
 bool modstatdb_is_locked(void);
 bool modstatdb_can_lock(void);
 void modstatdb_lock(void);
 void modstatdb_unlock(void);
-enum modstatdb_rw modstatdb_open(const char *admindir, enum modstatdb_rw reqrwflags);
+enum modstatdb_rw modstatdb_open(enum modstatdb_rw reqrwflags);
 void modstatdb_note(struct pkginfo *pkg);
 void modstatdb_note_ifwrite(struct pkginfo *pkg);
 void modstatdb_checkpoint(void);

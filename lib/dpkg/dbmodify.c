@@ -147,7 +147,7 @@ static const struct fni {
 };
 
 void
-modstatdb_init(const char *admindir)
+modstatdb_init(void)
 {
   const struct fni *fnip;
 
@@ -245,9 +245,9 @@ modstatdb_unlock(void)
 }
 
 enum modstatdb_rw
-modstatdb_open(const char *admindir, enum modstatdb_rw readwritereq)
+modstatdb_open(enum modstatdb_rw readwritereq)
 {
-  modstatdb_init(admindir);
+  modstatdb_init();
 
   cflags = readwritereq & msdbrw_available_mask;
   readwritereq &= ~msdbrw_available_mask;
@@ -259,7 +259,7 @@ modstatdb_open(const char *admindir, enum modstatdb_rw readwritereq)
       ohshit(_("requested operation requires superuser privilege"));
     /* Fall through. */
   case msdbrw_write: case msdbrw_writeifposs:
-    if (access(admindir, W_OK)) {
+    if (access(dpkg_db_get_dir(), W_OK)) {
       if (errno != EACCES)
         ohshite(_("unable to access dpkg status area"));
       else if (readwritereq == msdbrw_write)
@@ -292,7 +292,7 @@ modstatdb_open(const char *admindir, enum modstatdb_rw readwritereq)
   }
 
   trig_fixup_awaiters(cstatus);
-  trig_incorporate(cstatus, admindir);
+  trig_incorporate(cstatus);
 
   return cstatus;
 }
