@@ -75,7 +75,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
 
   size_t thisilen;
   unsigned int templong;
-  char magicbuf[strlen(DPKG_AR_MAGIC)], *rip, *partnums, *slash;
+  char magicbuf[sizeof(DPKG_AR_MAGIC) - 1], *rip, *partnums, *slash;
   struct ar_hdr arh;
   int c;
   struct stat stab;
