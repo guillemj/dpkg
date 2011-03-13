@@ -36,8 +36,8 @@
 
 void updateavailable(const char *const *argv) {
   const char *sourcefile= argv[0];
+  char *availfile;
   int count= 0;
-  static struct varbuf vb;
 
   modstatdb_init(admindir);
 
@@ -76,12 +76,10 @@ void updateavailable(const char *const *argv) {
     internerr("unknown action '%d'", cipaction->arg_int);
   }
 
-  varbuf_add_str(&vb, admindir);
-  varbuf_add_str(&vb, "/" AVAILFILE);
-  varbuf_end_str(&vb);
+  availfile = dpkg_db_get_path(AVAILFILE);
 
   if (cipaction->arg_int == act_avmerge)
-    parsedb(vb.buf, pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
+    parsedb(availfile, pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
             NULL);
 
   if (cipaction->arg_int != act_avclear)
@@ -90,9 +88,11 @@ void updateavailable(const char *const *argv) {
                      NULL);
 
   if (!f_noact) {
-    writedb(vb.buf,1,0);
+    writedb(availfile, 1, 0);
     modstatdb_unlock();
   }
+
+  free(availfile);
 
   if (cipaction->arg_int != act_avclear)
     printf(P_("Information about %d package was updated.\n",

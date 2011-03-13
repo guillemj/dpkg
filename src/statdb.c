@@ -43,6 +43,7 @@
 #include "main.h"
 
 static FILE *statoverridefile = NULL;
+static char *statoverridename;
 
 uid_t
 statdb_parse_uid(const char *str)
@@ -108,22 +109,19 @@ statdb_parse_mode(const char *str)
 void
 ensure_statoverrides(void)
 {
-	static struct varbuf vb;
-
 	struct stat stab1, stab2;
 	FILE *file;
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
 	struct file_stat *fso;
 	struct filenamenode *fnn;
 
-	varbuf_reset(&vb);
-	varbuf_add_str(&vb, admindir);
-	varbuf_add_str(&vb, "/" STATOVERRIDEFILE);
-	varbuf_end_str(&vb);
+	if (statoverridename != NULL)
+		free(statoverridename);
+	statoverridename = dpkg_db_get_path(STATOVERRIDEFILE);
 
 	onerr_abort++;
 
-	file = fopen(vb.buf,"r");
+	file = fopen(statoverridename, "r");
 	if (!file) {
 		if (errno != ENOENT)
 			ohshite(_("failed to open statoverride file"));
@@ -148,7 +146,7 @@ ensure_statoverrides(void)
 	if (statoverridefile)
 		fclose(statoverridefile);
 	statoverridefile = file;
-	setcloexec(fileno(statoverridefile), vb.buf);
+	setcloexec(fileno(statoverridefile), statoverridename);
 
 	/* If the statoverride list is empty we don't need to bother
 	 * reading it. */
@@ -161,7 +159,7 @@ ensure_statoverrides(void)
 	loaded_list_end = loaded_list + stab2.st_size;
 
 	if (fd_read(fileno(file), loaded_list, stab2.st_size) < 0)
-		ohshite(_("reading statoverride file '%.250s'"), vb.buf);
+		ohshite(_("reading statoverride file '%.250s'"), statoverridename);
 
 	thisline = loaded_list;
 	while (thisline < loaded_list_end) {
