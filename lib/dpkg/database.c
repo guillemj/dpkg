@@ -128,7 +128,9 @@ pkg_db_reset(void)
   for (i=0; i<BINS; i++) bins[i]= NULL;
 }
 
-void hashreport(FILE *file) {
+void
+pkg_db_report(FILE *file)
+{
   int i, c;
   struct pkginfo *pkg;
   int *freq;

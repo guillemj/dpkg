@@ -250,7 +250,7 @@ struct pkgiterator *pkg_db_iter_new(void);
 struct pkginfo *pkg_db_iter_next(struct pkgiterator *iter);
 void pkg_db_iter_free(struct pkgiterator *iter);
 
-void hashreport(FILE*);
+void pkg_db_report(FILE *);
 
 /*** from parse.c ***/
 
