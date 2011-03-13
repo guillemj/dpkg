@@ -63,7 +63,8 @@ libdpkg_a_SOURCES = \
 	trigdeferred.l \
 	utils.c \
 	varbuf.c \
-	vercmp.c
+	vercmp.c \
+	version.c
 
 pkginclude_HEADERS = \
 	ar.h \

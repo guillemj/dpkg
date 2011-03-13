@@ -56,11 +56,6 @@ static unsigned int hash(const char *name) {
   return h;
 }
 
-void blankversion(struct versionrevision *version) {
-  version->epoch= 0;
-  version->version= version->revision= NULL;
-}
-
 void
 pkg_blank(struct pkginfo *pigp)
 {
