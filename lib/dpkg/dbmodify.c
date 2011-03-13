@@ -49,6 +49,7 @@
 static bool db_initialized;
 
 static enum modstatdb_rw cstatus=-1, cflags=0;
+static char *lockfile;
 static char *statusfile, *availablefile;
 static char *importanttmpfile=NULL;
 static FILE *importanttmp;
@@ -136,6 +137,7 @@ static const struct fni {
   const char *suffix;
   char **store;
 } fnis[] = {
+  {   LOCKFILE,                   &lockfile           },
   {   STATUSFILE,                 &statusfile         },
   {   AVAILFILE,                  &availablefile      },
   {   UPDATESDIR,                 &updatesdir         },
@@ -184,13 +186,10 @@ modstatdb_done(void)
 static int dblockfd = -1;
 
 bool
-modstatdb_is_locked(const char *admindir)
+modstatdb_is_locked(void)
 {
-  char *lockfile;
   int lockfd;
   bool locked;
-
-  m_asprintf(&lockfile, "%s/%s", admindir, LOCKFILE);
 
   if (dblockfd == -1) {
     lockfd = open(lockfile, O_RDONLY);
@@ -207,20 +206,14 @@ modstatdb_is_locked(const char *admindir)
   if (dblockfd == -1)
     close(lockfd);
 
-  free(lockfile);
-
   return locked;
 }
 
 void
-modstatdb_lock(const char *admindir)
+modstatdb_lock(void)
 {
-  char *dblockfile = NULL;
-
-  m_asprintf(&dblockfile, "%s/%s", admindir, LOCKFILE);
-
   if (dblockfd == -1) {
-    dblockfd = open(dblockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
+    dblockfd = open(lockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
     if (dblockfd == -1) {
       if (errno == EPERM)
         ohshit(_("you do not have permission to lock the dpkg status database"));
@@ -228,9 +221,7 @@ modstatdb_lock(const char *admindir)
     }
   }
 
-  file_lock(&dblockfd, FILE_LOCK_NOWAIT, dblockfile, _("dpkg status database"));
-
-  free(dblockfile);
+  file_lock(&dblockfd, FILE_LOCK_NOWAIT, lockfile, _("dpkg status database"));
 }
 
 void
@@ -262,7 +253,7 @@ modstatdb_open(const char *admindir, enum modstatdb_rw readwritereq)
         ohshit(_("operation requires read/write access to dpkg status area"));
       cstatus= msdbrw_readonly;
     } else {
-      modstatdb_lock(admindir);
+      modstatdb_lock();
       cstatus= (readwritereq == msdbrw_needsuperuserlockonly ?
                 msdbrw_needsuperuserlockonly :
                 msdbrw_write);

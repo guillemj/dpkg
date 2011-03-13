@@ -224,8 +224,8 @@ enum modstatdb_rw {
 
 void modstatdb_init(const char *admindir);
 void modstatdb_done(void);
-bool modstatdb_is_locked(const char *admindir);
-void modstatdb_lock(const char *admindir);
+bool modstatdb_is_locked(void);
+void modstatdb_lock(void);
 void modstatdb_unlock(void);
 enum modstatdb_rw modstatdb_open(const char *admindir, enum modstatdb_rw reqrwflags);
 void modstatdb_note(struct pkginfo *pkg);

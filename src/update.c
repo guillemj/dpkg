@@ -39,6 +39,8 @@ void updateavailable(const char *const *argv) {
   int count= 0;
   static struct varbuf vb;
 
+  modstatdb_init(admindir);
+
   switch (cipaction->arg_int) {
   case act_avclear:
     if (sourcefile) badusage(_("--%s takes no arguments"),cipaction->olong);
@@ -58,7 +60,7 @@ void updateavailable(const char *const *argv) {
       else
         ohshit(_("bulk available update requires write access to dpkg status area"));
     }
-    modstatdb_lock(admindir);
+    modstatdb_lock();
   }
 
   switch (cipaction->arg_int) {
@@ -95,6 +97,8 @@ void updateavailable(const char *const *argv) {
   if (cipaction->arg_int != act_avclear)
     printf(P_("Information about %d package was updated.\n",
               "Information about %d packages was updated.\n", count), count);
+
+  modstatdb_done();
 }
 
 void forgetold(const char *const *argv) {

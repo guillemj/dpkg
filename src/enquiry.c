@@ -145,7 +145,7 @@ void audit(const char *const *argv) {
     while ((pkg = pkg_db_iter_next(it))) {
       if (!bsi->yesno(pkg,bsi)) continue;
       if (!head_running) {
-        if (modstatdb_is_locked(admindir))
+        if (modstatdb_is_locked())
           puts(_(
 "Another process has locked the database for writing, and might currently be\n"
 "modifying it, some of the following problems might just be due to that.\n"));
