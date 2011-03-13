@@ -215,7 +215,7 @@ modstatdb_lock(void)
   if (dblockfd == -1) {
     dblockfd = open(lockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
     if (dblockfd == -1) {
-      if (errno == EPERM)
+      if (errno == EACCES || errno == EPERM)
         ohshit(_("you do not have permission to lock the dpkg status database"));
       ohshite(_("unable to open/create status database lockfile"));
     }
