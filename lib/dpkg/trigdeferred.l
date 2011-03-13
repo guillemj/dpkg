@@ -122,7 +122,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 	struct stat stab;
 	int r;
 
-	triggersdir = trig_get_triggersdir(admindir);
+	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
 
 	if (uf & tduf_write) {
 		constructfn(&fn, triggersdir, TRIGGERSLOCKFILE);

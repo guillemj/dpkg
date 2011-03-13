@@ -59,16 +59,6 @@ trig_name_is_illegal(const char *p)
 
 static char *triggersdir, *triggersfilefile, *triggersnewfilefile;
 
-char *
-trig_get_triggersdir(const char *admindir)
-{
-	char *path;
-
-	m_asprintf(&path, "%s/%s", admindir, TRIGGERSDIR);
-
-	return path;
-}
-
 static char *
 trig_get_filename(const char *dir, const char *filename)
 {
@@ -785,7 +775,7 @@ trig_incorporate(enum modstatdb_rw cstatus, const char *admindir)
 	enum trigdef_updateflags tduf;
 
 	free(triggersdir);
-	triggersdir = trig_get_triggersdir(admindir);
+	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
 
 	free(triggersfilefile);
 	triggersfilefile = trig_get_filename(triggersdir, "File");
