@@ -167,7 +167,7 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
-  printf(gettext(copyrightstring));
+  printf("%s", gettext(copyrightstring));
   printf(gettext(licensestring), DSELECT);
 
   m_output(stdout, _("<standard output>"));
