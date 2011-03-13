@@ -222,6 +222,8 @@ enum modstatdb_rw {
   msdbrw_available_write = 0200,
 };
 
+void modstatdb_init(const char *admindir);
+void modstatdb_done(void);
 bool modstatdb_is_locked(const char *admindir);
 void modstatdb_lock(const char *admindir);
 void modstatdb_unlock(void);

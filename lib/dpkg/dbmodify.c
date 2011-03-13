@@ -35,6 +35,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -44,6 +45,8 @@
 #include <dpkg/file.h>
 #include <dpkg/dir.h>
 #include <dpkg/triglib.h>
+
+static bool db_initialized;
 
 static enum modstatdb_rw cstatus=-1, cflags=0;
 static char *statusfile, *availablefile;
@@ -141,6 +144,43 @@ static const struct fni {
   {   NULL, NULL                                      }
 };
 
+void
+modstatdb_init(const char *admindir)
+{
+  const struct fni *fnip;
+
+  if (db_initialized)
+    return;
+
+  for (fnip = fnis; fnip->suffix; fnip++) {
+    free(*fnip->store);
+    m_asprintf(fnip->store, "%s/%s", admindir, fnip->suffix);
+  }
+
+  updatefnbuf = m_malloc(strlen(updatesdir) + IMPORTANTMAXLEN + 5);
+  strcpy(updatefnbuf, updatesdir);
+  updatefnrest = updatefnbuf + strlen(updatefnbuf);
+
+  db_initialized = true;
+}
+
+void
+modstatdb_done(void)
+{
+  const struct fni *fnip;
+
+  if (!db_initialized)
+    return;
+
+  for (fnip = fnis; fnip->suffix; fnip++) {
+    free(*fnip->store);
+    *fnip->store = NULL;
+  }
+  free(updatefnbuf);
+
+  db_initialized = false;
+}
+
 static int dblockfd = -1;
 
 bool
@@ -203,12 +243,7 @@ modstatdb_unlock(void)
 enum modstatdb_rw
 modstatdb_open(const char *admindir, enum modstatdb_rw readwritereq)
 {
-  const struct fni *fnip;
-
-  for (fnip=fnis; fnip->suffix; fnip++) {
-    free(*fnip->store);
-    m_asprintf(fnip->store, "%s/%s", admindir, fnip->suffix);
-  }
+  modstatdb_init(admindir);
 
   cflags = readwritereq & msdbrw_available_mask;
   readwritereq &= ~msdbrw_available_mask;
@@ -238,10 +273,6 @@ modstatdb_open(const char *admindir, enum modstatdb_rw readwritereq)
   default:
     internerr("unknown modstatdb_rw '%d'", readwritereq);
   }
-
-  updatefnbuf = m_malloc(strlen(updatesdir) + IMPORTANTMAXLEN + 5);
-  strcpy(updatefnbuf, updatesdir);
-  updatefnrest= updatefnbuf+strlen(updatefnbuf);
 
   if (cstatus != msdbrw_needsuperuserlockonly) {
     cleanupdates();
@@ -282,8 +313,6 @@ void modstatdb_checkpoint(void) {
 }
 
 void modstatdb_shutdown(void) {
-  const struct fni *fnip;
-
   if (cflags >= msdbrw_available_write)
     writedb(availablefile, 1, 0);
 
@@ -301,11 +330,7 @@ void modstatdb_shutdown(void) {
     break;
   }
 
-  for (fnip=fnis; fnip->suffix; fnip++) {
-    free(*fnip->store);
-    *fnip->store= NULL;
-  }
-  free(updatefnbuf);
+  modstatdb_done();
 }
 
 static void
