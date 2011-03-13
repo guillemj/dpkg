@@ -201,7 +201,7 @@ modstatdb_unlock(void)
 }
 
 enum modstatdb_rw
-modstatdb_init(const char *admindir, enum modstatdb_rw readwritereq)
+modstatdb_open(const char *admindir, enum modstatdb_rw readwritereq)
 {
   const struct fni *fnip;
 

@@ -50,7 +50,7 @@ void getselections(const char *const *argv) {
   const char *thisarg;
   int i, found;
 
-  modstatdb_init(admindir, msdbrw_readonly);
+  modstatdb_open(admindir, msdbrw_readonly);
 
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_name);
@@ -91,7 +91,7 @@ void setselections(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir, msdbrw_write | msdbrw_available_readonly);
+  modstatdb_open(admindir, msdbrw_write | msdbrw_available_readonly);
 
   lno= 1;
   for (;;) {
@@ -154,7 +154,7 @@ void clearselections(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_init(admindir, msdbrw_write);
+  modstatdb_open(admindir, msdbrw_write);
 
   it = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next(it))) {
