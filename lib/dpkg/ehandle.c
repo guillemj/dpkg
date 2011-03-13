@@ -401,10 +401,6 @@ warning(const char *fmt, ...)
   va_end(args);
 }
 
-void werr(const char *fn) {
-  ohshite(_("error writing `%s'"),fn);
-}
-
 void
 do_internerr(const char *file, int line, const char *fmt, ...)
 {

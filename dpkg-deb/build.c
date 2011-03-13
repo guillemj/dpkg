@@ -491,7 +491,7 @@ void do_build(const char *const *argv) {
     sprintf(versionbuf, "%-8s\n%ld\n", OLDARCHIVEVERSION,
             (long)controlstab.st_size);
     if (fd_write(arfd, versionbuf, strlen(versionbuf)) < 0)
-      werr(debar);
+      ohshite(_("error writing `%s'"), debar);
     fd_fd_copy(gzfd, arfd, -1, _("control member"));
   } else {
     const char deb_magic[] = ARCHIVEVERSION "\n";

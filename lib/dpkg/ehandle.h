@@ -69,8 +69,6 @@ void ohshitv(const char *fmt, va_list args)
 void ohshit(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 void ohshite(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 
-void werr(const char *what) DPKG_ATTR_NORET;
-
 void do_internerr(const char *file, int line, const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3);
 #define internerr(...) do_internerr(__FILE__, __LINE__, __VA_ARGS__)
