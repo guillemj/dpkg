@@ -27,6 +27,83 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
 
+void
+pkgbin_blank(struct pkgbin *pkgbin)
+{
+	pkgbin->essential = false;
+	pkgbin->depends = NULL;
+	pkgbin->depended = NULL;
+	pkgbin->description = NULL;
+	pkgbin->maintainer = NULL;
+	pkgbin->source = NULL;
+	pkgbin->installedsize = NULL;
+	pkgbin->bugs = NULL;
+	pkgbin->origin = NULL;
+	pkgbin->arch = NULL;
+	blankversion(&pkgbin->version);
+	pkgbin->conffiles = NULL;
+	pkgbin->arbs = NULL;
+}
+
+void
+pkg_blank(struct pkginfo *pkg)
+{
+	pkg->name = NULL;
+	pkg->status = stat_notinstalled;
+	pkg->eflag = eflag_ok;
+	pkg->want = want_unknown;
+	pkg->priority = pri_unknown;
+	pkg->otherpriority = NULL;
+	pkg->section = NULL;
+	blankversion(&pkg->configversion);
+	pkg->files = NULL;
+	pkg->clientdata = NULL;
+	pkg->trigaw.head = NULL;
+	pkg->trigaw.tail = NULL;
+	pkg->othertrigaw_head = NULL;
+	pkg->trigpend_head = NULL;
+	pkgbin_blank(&pkg->installed);
+	pkgbin_blank(&pkg->available);
+}
+
+static int
+nes(const char *s)
+{
+	return s && *s;
+}
+
+/**
+ * Check if a pkg is informative.
+ *
+ * Used by dselect and dpkg query options as an aid to decide whether to
+ * display things, and by dump to decide whether to write them out.
+ */
+bool
+pkg_is_informative(struct pkginfo *pkg, struct pkgbin *pkgbin)
+{
+	/* We ignore Section and Priority, as these tend to hang around. */
+	if (pkgbin == &pkg->installed &&
+	    (pkg->want != want_unknown ||
+	     pkg->eflag != eflag_ok ||
+	     pkg->status != stat_notinstalled ||
+	     informativeversion(&pkg->configversion)))
+		return true;
+
+	if (pkgbin->depends ||
+	    nes(pkgbin->description) ||
+	    nes(pkgbin->maintainer) ||
+	    nes(pkgbin->origin) ||
+	    nes(pkgbin->bugs) ||
+	    nes(pkgbin->installedsize) ||
+	    nes(pkgbin->source) ||
+	    informativeversion(&pkgbin->version) ||
+	    pkgbin->conffiles ||
+	    pkgbin->arbs)
+		return true;
+
+	return false;
+}
+
 /**
  * Compare a package to be sorted by name.
  *
