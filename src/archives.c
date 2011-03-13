@@ -65,6 +65,9 @@
 static inline void
 fd_writeback_init(int fd)
 {
+  /* Ignore the return code as it should be considered equivalent to an
+   * asynchronous hint for the kernel, we are doing an fsync() later on
+   * anyway. */
 #if defined(SYNC_FILE_RANGE_WRITE)
   sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
 #elif defined(HAVE_POSIX_FADVISE)
@@ -872,6 +875,9 @@ tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
     fd = open(fnamenewvb.buf, O_WRONLY);
     if (fd < 0)
       ohshite(_("unable to open '%.255s'"), fnamenewvb.buf);
+    /* Ignore the return code as it should be considered equivalent to an
+     * asynchronous hint for the kernel, we are doing an fsync() later on
+     * anyway. */
     sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WAIT_BEFORE);
     if (close(fd))
       ohshite(_("error closing/writing `%.255s'"), fnamenewvb.buf);
