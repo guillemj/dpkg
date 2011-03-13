@@ -209,17 +209,28 @@ modstatdb_is_locked(void)
   return locked;
 }
 
+bool
+modstatdb_can_lock(void)
+{
+  if (dblockfd >= 0)
+    return true;
+
+  dblockfd = open(lockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
+  if (dblockfd == -1) {
+    if (errno == EACCES || errno == EPERM)
+      return false;
+    else
+      ohshite(_("unable to open/create status database lockfile"));
+  }
+
+  return true;
+}
+
 void
 modstatdb_lock(void)
 {
-  if (dblockfd == -1) {
-    dblockfd = open(lockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
-    if (dblockfd == -1) {
-      if (errno == EACCES || errno == EPERM)
-        ohshit(_("you do not have permission to lock the dpkg status database"));
-      ohshite(_("unable to open/create status database lockfile"));
-    }
-  }
+  if (!modstatdb_can_lock())
+    ohshit(_("you do not have permission to lock the dpkg status database"));
 
   file_lock(&dblockfd, FILE_LOCK_NOWAIT, lockfile, _("dpkg status database"));
 }
