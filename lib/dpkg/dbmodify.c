@@ -229,6 +229,8 @@ modstatdb_unlock(void)
 {
   /* Unlock. */
   pop_cleanup(ehflag_normaltidy);
+
+  dblockfd = -1;
 }
 
 enum modstatdb_rw
