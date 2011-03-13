@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * dpkg-db.h - Low level package database routines (hash tables, etc.)
+ * pkg-db.c - Low level package database routines (hash tables, etc.)
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *

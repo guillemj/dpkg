@@ -28,7 +28,6 @@ libdpkg_a_SOURCES = \
 	cleanup.c \
 	command.c \
 	compress.c \
-	database.c \
 	dbmodify.c \
 	debug.c \
 	dir.c \
@@ -49,6 +48,7 @@ libdpkg_a_SOURCES = \
 	parsehelp.c \
 	path.c \
 	pkg.c \
+	pkg-db.c \
 	pkg-array.c \
 	pkg-format.c \
 	pkg-list.c \
