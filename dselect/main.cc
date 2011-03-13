@@ -397,8 +397,6 @@ static int
 refreshmenu(void)
 {
   char buf[2048];
-  static int l,lockfd;
-  static char *lockfile;
 
   curseson(); cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
 
@@ -425,14 +423,11 @@ refreshmenu(void)
   sprintf(buf, gettext(licensestring), DSELECT);
   addstr(buf);
 
-  l= strlen(admindir);
-  lockfile= new char[l+sizeof(LOCKFILE)+2];
-  strcpy(lockfile,admindir);
-  strcpy(lockfile+l, "/" LOCKFILE);
-  lockfd= open(lockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
-  if (errno == EACCES || errno == EPERM)
+  modstatdb_init(admindir);
+  if (!modstatdb_can_lock())
     addstr(_("\n\n"
              "Read-only access: only preview of selections is available!"));
+  modstatdb_done();
 
   return i;
 }
