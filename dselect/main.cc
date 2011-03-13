@@ -518,6 +518,8 @@ main(int, const char *const *argv)
   loadcfgfile(DSELECT, cmdinfos);
   myopt(&argv,cmdinfos);
 
+  admindir = dpkg_db_set_dir(admindir);
+
   if (*argv) {
     const char *a;
     while ((a= *argv++) != 0) {

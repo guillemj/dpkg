@@ -734,6 +734,8 @@ int main(int argc, const char *const *argv) {
 
   if (!cipaction) badusage(_("need an action option"));
 
+  admindir = dpkg_db_set_dir(admindir);
+
   /* Always set environment, to avoid possible security risks. */
   if (setenv("DPKG_ADMINDIR", admindir, 1) < 0)
     ohshite(_("unable to setenv for subprocesses"));

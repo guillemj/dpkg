@@ -240,7 +240,6 @@ void modstatdb_note_ifwrite(struct pkginfo *pkg);
 void modstatdb_checkpoint(void);
 void modstatdb_shutdown(void);
 
-const char *pkgadmindir_init(const char *default_dir);
 const char *pkgadmindir(void);
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 

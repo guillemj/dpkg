@@ -710,10 +710,10 @@ main(int argc, const char * const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	admindir = pkgadmindir_init(ADMINDIR);
-
 	standard_startup();
 	myopt(&argv, cmdinfos);
+
+	admindir = dpkg_db_set_dir(admindir);
 
 	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (opt_pkgname_match_any && env_pkgname)

@@ -369,10 +369,10 @@ main(int argc, const char *const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	admindir = pkgadmindir_init(ADMINDIR);
-
 	standard_startup();
 	myopt(&argv, cmdinfos);
+
+	admindir = dpkg_db_set_dir(admindir);
 
 	if (!cipaction)
 		badusage(_("need an action option"));

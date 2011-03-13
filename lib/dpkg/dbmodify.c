@@ -426,18 +426,6 @@ modstatdb_note_ifwrite(struct pkginfo *pkg)
 }
 
 const char *
-pkgadmindir_init(const char *default_dir)
-{
-  const char *env;
-
-  env = getenv("DPKG_ADMINDIR");
-  if (env)
-    return env;
-  else
-    return default_dir;
-}
-
-const char *
 pkgadmindir(void)
 {
   return infodir;
