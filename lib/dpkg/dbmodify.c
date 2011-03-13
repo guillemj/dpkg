@@ -196,7 +196,8 @@ modstatdb_lock(const char *admindir)
 void
 modstatdb_unlock(void)
 {
-  file_unlock();
+  /* Unlock. */
+  pop_cleanup(ehflag_normaltidy);
 }
 
 enum modstatdb_rw

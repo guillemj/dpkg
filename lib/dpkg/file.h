@@ -46,7 +46,7 @@ enum file_lock_flags {
 bool file_is_locked(int lockfd, const char *filename);
 void file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
                const char *desc);
-void file_unlock(void);
+void file_unlock(int fd, const char *desc);
 
 DPKG_END_DECLS
 
