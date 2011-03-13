@@ -49,7 +49,7 @@
 const char thisname[] = "dpkg-divert";
 const char printforhelp[] = N_("Use --help for help about querying packages.");
 
-const char *admindir;
+static const char *admindir;
 
 static bool opt_pkgname_match_any = true;
 static const char *opt_pkgname = NULL;

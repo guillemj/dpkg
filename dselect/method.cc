@@ -179,8 +179,8 @@ static urqresult runscript(const char *exepath, const char *name) {
     strcpy(coption->meth->pathinmeth,exepath);
 
     command_init(&cmd, coption->meth->path, name);
-    command_add_args(&cmd, exepath, admindir, coption->meth->name,
-                     coption->name, NULL);
+    command_add_args(&cmd, exepath, dpkg_db_get_dir(),
+                     coption->meth->name, coption->name, NULL);
     ur = falliblesubprocess(&cmd);
     command_destroy(&cmd);
   } else {
@@ -205,7 +205,7 @@ static urqresult rundpkgauto(const char *name, const char *dpkgmode) {
   struct command cmd;
 
   command_init(&cmd, DPKG, name);
-  command_add_args(&cmd, DPKG, "--admindir", admindir, "--pending",
+  command_add_args(&cmd, DPKG, "--admindir", dpkg_db_get_dir(), "--pending",
                    dpkgmode, NULL);
 
   cursesoff();
@@ -244,8 +244,8 @@ urqresult urq_setup(void) {
     strcpy(coption->meth->pathinmeth,METHODSETUPSCRIPT);
 
     command_init(&cmd, coption->meth->path, _("query/setup script"));
-    command_add_args(&cmd, METHODSETUPSCRIPT, admindir, coption->meth->name,
-                     coption->name, NULL);
+    command_add_args(&cmd, METHODSETUPSCRIPT, dpkg_db_get_dir(),
+                     coption->meth->name, coption->name, NULL);
     ur = falliblesubprocess(&cmd);
     command_destroy(&cmd);
     if (ur == urqr_normal) writecurrentopt();

@@ -136,7 +136,6 @@ extern int fc_unsafe_io;
 
 extern bool abort_processing;
 extern int errabort;
-extern const char *admindir;
 extern const char *instdir;
 extern struct pkg_list *ignoredependss;
 extern const char native_arch[];

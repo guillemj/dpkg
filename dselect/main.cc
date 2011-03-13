@@ -61,8 +61,9 @@ const char thisname[]= DSELECT;
 const char printforhelp[]= N_("Type dselect --help for help.");
 
 modstatdb_rw readwrite;
-const char *admindir= ADMINDIR;
 int expertmode= 0;
+
+static const char *admindir = ADMINDIR;
 
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
 

@@ -189,7 +189,7 @@ int fc_unsafe_io = 0;
 int fc_badverify = 0;
 
 int errabort = 50;
-const char *admindir= ADMINDIR;
+static const char *admindir = ADMINDIR;
 const char *instdir= "";
 struct pkg_list *ignoredependss = NULL;
 

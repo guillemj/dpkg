@@ -652,7 +652,7 @@ usage(const struct cmdinfo *ci, const char *value)
 const char thisname[]= "dpkg-query";
 const char printforhelp[]= N_("Use --help for help about querying packages.");
 
-const char *admindir;
+static const char *admindir;
 
 /* This table has both the action entries in it and the normal options.
  * The action entries are made with the ACTION macro, as they all

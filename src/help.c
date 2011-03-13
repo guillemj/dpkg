@@ -180,6 +180,7 @@ force_conflicts(struct deppossi *possi)
 static const char *
 preexecscript(struct command *cmd)
 {
+  const char *admindir = dpkg_db_get_dir();
   size_t instdirl = strlen(instdir);
 
   if (*instdir) {

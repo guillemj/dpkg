@@ -148,7 +148,6 @@ void mywerase(WINDOW *win);
 void curseson();
 void cursesoff();
 
-extern const char *admindir;
 extern int expertmode;
 
 enum screenparts {

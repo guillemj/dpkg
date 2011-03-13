@@ -99,7 +99,7 @@ usage(const struct cmdinfo *cip, const char *value)
 	exit(0);
 }
 
-const char *admindir;
+static const char *admindir;
 
 static int opt_verbose = 1;
 static int opt_force = 0;
@@ -224,7 +224,7 @@ statdb_write(void)
 	if (rename(dbname_new, dbname))
 		ohshite(_("error installing new statoverride"));
 
-	dir_sync_path(admindir);
+	dir_sync_path(dpkg_db_get_dir());
 
 	free(dbname);
 	free(dbname_new);

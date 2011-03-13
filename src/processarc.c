@@ -383,6 +383,8 @@ void process_archive(const char *filename) {
 
     free(tmpdir);
   } else {
+    const char *admindir = dpkg_db_get_dir();
+
     /* We want it to be on the same filesystem so that we can
      * use rename(2) to install the postinst &c. */
     if (!cidir)

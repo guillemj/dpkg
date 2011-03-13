@@ -54,7 +54,7 @@ void updateavailable(const char *const *argv) {
   }
 
   if (!f_noact) {
-    if (access(admindir,W_OK)) {
+    if (access(dpkg_db_get_dir(), W_OK)) {
       if (errno != EACCES)
         ohshite(_("unable to access dpkg status area for bulk available update"));
       else
