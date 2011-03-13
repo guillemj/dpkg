@@ -7,6 +7,7 @@ pkgconfdir = $(sysconfdir)/@PACKAGE@
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
+	-DADMINDIR=\"$(admindir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
@@ -28,6 +29,7 @@ libdpkg_a_SOURCES = \
 	cleanup.c \
 	command.c \
 	compress.c \
+	dbdir.c \
 	dbmodify.c \
 	debug.c \
 	dir.c \

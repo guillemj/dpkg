@@ -207,6 +207,12 @@ struct pkginfo {
   struct trigpend *trigpend_head;
 };
 
+/*** from dbdir.c ***/
+
+const char *dpkg_db_set_dir(const char *dir);
+const char *dpkg_db_get_dir(void);
+char *dpkg_db_get_path(const char *pathpart);
+
 /*** from dbmodify.c ***/
 
 enum modstatdb_rw {
