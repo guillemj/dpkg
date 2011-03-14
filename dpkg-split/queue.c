@@ -25,6 +25,7 @@
 
 #include <assert.h>
 #include <limits.h>
+#include <inttypes.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -64,7 +65,7 @@ decompose_filename(const char *filename, struct partqueue *pq)
   q[MD5HASHLEN] = '\0';
   pq->info.md5sum= q;
   p = filename + MD5HASHLEN + 1;
-  pq->info.maxpartlen = strtol(p, &q, 16);
+  pq->info.maxpartlen = strtoimax(p, &q, 16);
   if (q == p || *q++ != '.')
     return false;
   p = q;

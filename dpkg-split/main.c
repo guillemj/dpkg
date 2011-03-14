@@ -25,6 +25,7 @@
 
 #include <assert.h>
 #include <limits.h>
+#include <inttypes.h>
 #if HAVE_LOCALE_H
 #include <locale.h>
 #endif
@@ -113,7 +114,7 @@ static void setpartsize(const struct cmdinfo *cip, const char *value) {
   long newpartsize;
   char *endp;
 
-  newpartsize= strtol(value,&endp,10);
+  newpartsize = strtoimax(value, &endp, 10);
   if (value == endp || *endp)
     badusage(_("invalid integer for --%s: `%.250s'"), cip->olong, value);
   if (newpartsize <= 0 || newpartsize > (INT_MAX >> 10))
