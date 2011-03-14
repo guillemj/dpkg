@@ -28,6 +28,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <ar.h>
+#include <inttypes.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -39,11 +41,13 @@
 
 #include "dpkg-split.h"
 
-static unsigned long unsignedlong(const char *value, const char *fn, const char *what) {
-  unsigned long r;
+static intmax_t
+parse_intmax(const char *value, const char *fn, const char *what)
+{
+  intmax_t r;
   char *endp;
 
-  r= strtoul(value,&endp,10);
+  r = strtoimax(value, &endp, 10);
   if (value == endp || *endp)
     ohshit(_("file `%.250s' is corrupt - bad digit (code %d) in %s"),fn,*endp,what);
   return r;
@@ -74,7 +78,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   static size_t readinfobuflen= 0;
 
   size_t thisilen;
-  unsigned int templong;
+  intmax_t templong;
   char magicbuf[sizeof(DPKG_AR_MAGIC) - 1], *rip, *partnums, *slash;
   struct ar_hdr arh;
   int c;
@@ -127,9 +131,9 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
       strspn(ir->md5sum, "0123456789abcdef") != MD5HASHLEN)
     ohshit(_("file `%.250s' is corrupt - bad MD5 checksum `%.250s'"),fn,ir->md5sum);
 
-  ir->orglength = unsignedlong(nextline(&rip, fn, _("archive total size")),
+  ir->orglength = parse_intmax(nextline(&rip, fn, _("archive total size")),
                                fn, _("archive total size"));
-  ir->maxpartlen = unsignedlong(nextline(&rip, fn, _("archive part offset")),
+  ir->maxpartlen = parse_intmax(nextline(&rip, fn, _("archive part offset")),
                                 fn, _("archive part offset"));
 
   partnums = nextline(&rip, fn, _("archive part numbers"));
@@ -138,11 +142,11 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
     ohshit(_("file '%.250s' is corrupt - no slash between archive part numbers"), fn);
   *slash++ = '\0';
 
-  templong = unsignedlong(slash, fn, _("number of archive parts"));
+  templong = parse_intmax(slash, fn, _("number of archive parts"));
   if (templong <= 0 || templong > INT_MAX)
     ohshit(_("file '%.250s' is corrupt - bad number of archive parts"), fn);
   ir->maxpartn= templong;
-  templong = unsignedlong(partnums, fn, _("archive parts number"));
+  templong = parse_intmax(partnums, fn, _("archive parts number"));
   if (templong <= 0 || templong > ir->maxpartn)
     ohshit(_("file '%.250s' is corrupt - bad archive part number"),fn);
   ir->thispartn= templong;

@@ -83,7 +83,7 @@ DPKG_CHECK_DECL([TIOCNOTTY], [sys/ioctl.h])
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
                          strnlen strerror strsignal asprintf \
                          scandir alphasort unsetenv])
-AC_CHECK_FUNCS([strtoul isascii bcopy memcpy setsid getdtablesize \
+AC_CHECK_FUNCS([strtoul strtoimax isascii bcopy memcpy setsid getdtablesize \
                 posix_fadvise])
 
 DPKG_MMAP
