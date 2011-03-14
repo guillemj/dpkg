@@ -57,6 +57,8 @@ AC_DEFUN([DPKG_TRY_C99],
 #define variadic_macro(foo, ...) printf(foo, __VA_ARGS__)
 ]],
 [[
+	int rc;
+
 	/* Compound initializers. */
 	struct { int a, b; } foo = { .a = 1, .b = 2 };
 
@@ -68,6 +70,16 @@ AC_DEFUN([DPKG_TRY_C99],
 
 	/* Specific size type. */
 	uint32_t baz = 0;
+	size_t size = SIZE_MAX;
+	intmax_t imax = INTMAX_MAX;
+
+	/* Format modifiers. */
+	rc = printf("%jd", imax);
+	if (rc == 3)
+		return 1;
+	rc = printf("%zu", size);
+	if (rc == 3)
+		return 1;
 
 	/* Magic __func__ variable. */
 	printf("%s", __func__);
