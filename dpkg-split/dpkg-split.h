@@ -58,7 +58,6 @@ extern const char *opt_outputfile;
 extern int opt_npquiet;
 extern int opt_msdos;
 
-void rerr(const char *fn) DPKG_ATTR_NORET;
 void rerreof(FILE *f, const char *fn) DPKG_ATTR_NORET;
 void print_info(const struct partinfo *pi);
 struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir);

@@ -81,7 +81,10 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   struct stat stab;
 
   if (fread(magicbuf, 1, sizeof(magicbuf), partfile) != sizeof(magicbuf)) {
-    if (ferror(partfile)) rerr(fn); else return NULL;
+    if (ferror(partfile))
+      ohshite(_("error reading %.250s"), fn);
+    else
+      return NULL;
   }
   if (memcmp(magicbuf, DPKG_AR_MAGIC, sizeof(magicbuf)))
     return NULL;

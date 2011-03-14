@@ -104,10 +104,6 @@ const char *opt_outputfile = NULL;
 int opt_npquiet = 0;
 int opt_msdos = 0;
 
-void rerr(const char *fn) {
-  ohshite(_("error reading %.250s"), fn);
-}
-
 void rerreof(FILE *f, const char *fn) {
   if (ferror(f)) ohshite(_("error reading %.250s"),fn);
   ohshit(_("unexpected end of file in %.250s"),fn);
