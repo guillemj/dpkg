@@ -29,6 +29,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <unistd.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -60,12 +61,12 @@ struct tar_header {
 };
 
 /**
- * Convert an ASCII octal string to a long.
+ * Convert an ASCII octal string to an intmax_t.
  */
-static long
-OtoL(const char *s, int size)
+static intmax_t
+OtoM(const char *s, int size)
 {
-	long n = 0;
+	intmax_t n = 0;
 
 	while (*s == ' ') {
 		s++;
@@ -140,7 +141,7 @@ get_unix_mode(struct tar_header *h)
 		break;
 	}
 
-	mode |= OtoL(h->mode, sizeof(h->mode));
+	mode |= OtoM(h->mode, sizeof(h->mode));
 
 	return mode;
 }
@@ -154,7 +155,7 @@ tar_header_checksum(struct tar_header *h)
 	long checksum;
 	long sum;
 
-	checksum = OtoL(h->checksum, sizeof(h->checksum));
+	checksum = OtoM(h->checksum, sizeof(h->checksum));
 
 	/* Treat checksum field as all blank. */
 	sum = ' ' * sizeof(h->checksum);
@@ -195,24 +196,24 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 		d->name = StoC(h->name, sizeof(h->name));
 	d->linkname = StoC(h->linkname, sizeof(h->linkname));
 	d->stat.mode = get_unix_mode(h);
-	d->size = (size_t)OtoL(h->size, sizeof(h->size));
-	d->stat.mtime = (time_t)OtoL(h->mtime, sizeof(h->mtime));
-	d->dev = ((OtoL(h->devmajor, sizeof(h->devmajor)) & 0xff) << 8) |
-	         (OtoL(h->devminor, sizeof(h->devminor)) & 0xff);
+	d->size = (size_t)OtoM(h->size, sizeof(h->size));
+	d->stat.mtime = (time_t)OtoM(h->mtime, sizeof(h->mtime));
+	d->dev = ((OtoM(h->devmajor, sizeof(h->devmajor)) & 0xff) << 8) |
+	         (OtoM(h->devminor, sizeof(h->devminor)) & 0xff);
 
 	if (*h->user)
 		passwd = getpwnam(h->user);
 	if (passwd)
 		d->stat.uid = passwd->pw_uid;
 	else
-		d->stat.uid = (uid_t)OtoL(h->uid, sizeof(h->uid));
+		d->stat.uid = (uid_t)OtoM(h->uid, sizeof(h->uid));
 
 	if (*h->group)
 		group = getgrnam(h->group);
 	if (group)
 		d->stat.gid = group->gr_gid;
 	else
-		d->stat.gid = (gid_t)OtoL(h->gid, sizeof(h->gid));
+		d->stat.gid = (gid_t)OtoM(h->gid, sizeof(h->gid));
 
 	return tar_header_checksum(h);
 }
