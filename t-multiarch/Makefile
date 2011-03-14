@@ -749,6 +749,22 @@ test-db-layout: ma-setup
 	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list
 	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2
 	$(DPKG_PURGE) pkg-ma-db-layout
+ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))
+	# Test the upgrade of the db layout
+	$(DPKG_INSTALL) pkg-ma-db-layout_2.0_$(NATIVE_ARCH).deb
+	rm -f $(DPKG_ADMINDIR)/info/format
+	mv $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
+	mv $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2 $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-2
+	$(call stdout_has,$(DPKG_QUERY) --control-path pkg-ma-db-layout foo-2,/pkg-ma-db-layout\.foo-2$$)
+	$(DPKG_CONFIGURE) -a
+	grep -q "^1$$" $(DPKG_ADMINDIR)/info/format
+	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list
+	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2
+	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
+	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-2
+	$(call stdout_has,$(DPKG_QUERY) --control-path pkg-ma-db-layout foo-2,/pkg-ma-db-layout:$(NATIVE_ARCH)\.foo-2$$)
+	$(DPKG_PURGE) pkg-ma-db-layout
+endif
 
 test-clean:
 	$(BEROOT) rm -f /m-a/triggers
