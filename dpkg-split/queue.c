@@ -169,8 +169,8 @@ void do_auto(const char *const *argv) {
     char *p, *q;
 
     m_asprintf(&p, "%st.%lx", opt_depotdir, (long)getpid());
-    m_asprintf(&q, "%s%s.%jx.%x.%x", (intmax_t)opt_depotdir, refi->md5sum,
-               refi->maxpartlen, refi->thispartn, refi->maxpartn);
+    m_asprintf(&q, "%s%s.%jx.%x.%x", opt_depotdir, refi->md5sum,
+               (intmax_t)refi->maxpartlen, refi->thispartn, refi->maxpartn);
 
     fd_src = open(partfile, O_RDONLY);
     if (fd_src < 0)
