@@ -246,7 +246,7 @@ xmalloc(size_t size)
 
 	r = malloc(size);
 	if (!r)
-		error(_("malloc failed (%ld bytes)"), (long)size);
+		error(_("malloc failed (%zu bytes)"), size);
 
 	return r;
 }

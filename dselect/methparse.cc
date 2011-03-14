@@ -193,7 +193,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
         if (fstat(fileno(descfile),&stab))
           ohshite(_("unable to stat option description file `%.250s'"),pathbuf);
         opt->description= new char[stab.st_size+1];  errno=0;
-        unsigned long filelen= stab.st_size;
+        size_t filelen = stab.st_size;
         if (fread(opt->description,1,stab.st_size+1,descfile) != filelen)
           ohshite(_("failed to read option description file `%.250s'"),pathbuf);
         opt->description[stab.st_size]= 0;
@@ -205,12 +205,12 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
 
       debug(dbg_general,
             " readmethods('%s',...) new option index='%s' name='%s'"
-            " summary='%.20s' strlen(description=%s)=%ld method name='%s'"
+            " summary='%.20s' strlen(description=%s)=%zu method name='%s'"
             " path='%s' pathinmeth='%s'",
             pathbase,
             opt->index, opt->name, opt->summary,
             opt->description ? "'...'" : "null",
-            opt->description ? (long)strlen(opt->description) : -1,
+            opt->description ? strlen(opt->description) : -1,
             opt->meth->name, opt->meth->path, opt->meth->pathinmeth);
 
       dselect_option **optinsert = optionspp;

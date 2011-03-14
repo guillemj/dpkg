@@ -213,7 +213,7 @@ pkg_format_show(const struct pkg_format_node *head,
 		ok = false;
 
 		if (head->width > 0)
-			snprintf(fmt, 16, "%%%s%zds",
+			snprintf(fmt, 16, "%%%s%zus",
 			         ((head->pad) ? "-" : ""), head->width);
 		else
 			strcpy(fmt, "%s");

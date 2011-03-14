@@ -40,7 +40,8 @@ void *m_malloc(size_t amount) {
 
   onerr_abort++;
   r= malloc(amount);
-  if (!r) ohshite(_("malloc failed (%ld bytes)"),(long)amount);
+  if (r == NULL)
+    ohshite(_("malloc failed (%zu bytes)"), amount);
   onerr_abort--;
 
 #ifdef MDEBUG
@@ -53,7 +54,8 @@ void *m_malloc(size_t amount) {
 void *m_realloc(void *r, size_t amount) {
   onerr_abort++;
   r= realloc(r,amount);
-  if (!r) ohshite(_("realloc failed (%ld bytes)"),(long)amount);
+  if (r == NULL)
+    ohshite(_("realloc failed (%zu bytes)"), amount);
   onerr_abort--;
 
   return r;
