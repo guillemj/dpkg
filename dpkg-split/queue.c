@@ -179,7 +179,7 @@ void do_auto(const char *const *argv) {
     if (fd_dst)
       ohshite(_("unable to open new depot file `%.250s'"), p);
 
-    fd_fd_copy(fd_src, fd_dst, refi->filesize, _("extracing split part"));
+    fd_fd_copy(fd_src, fd_dst, refi->filesize, _("extracting split part"));
 
     if (fsync(fd_dst))
       ohshite(_("unable to sync file '%s'"), p);
