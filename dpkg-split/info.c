@@ -204,24 +204,24 @@ void print_info(const struct partinfo *pi) {
          "    Part of package:                %s\n"
          "        ... version:                %s\n"
          "        ... MD5 checksum:           %s\n"
-         "        ... length:                 %lu bytes\n"
-         "        ... split every:            %lu bytes\n"
+         "        ... length:                 %jd bytes\n"
+         "        ... split every:            %jd bytes\n"
          "    Part number:                    %d/%d\n"
-         "    Part length:                    %zi bytes\n"
-         "    Part offset:                    %lu bytes\n"
-         "    Part file size (used portion):  %lu bytes\n\n"),
+         "    Part length:                    %jd bytes\n"
+         "    Part offset:                    %jd bytes\n"
+         "    Part file size (used portion):  %jd bytes\n\n"),
          pi->filename,
          pi->fmtversion,
          pi->package,
          pi->version,
          pi->md5sum,
-         pi->orglength,
-         pi->maxpartlen,
+         (intmax_t)pi->orglength,
+         (intmax_t)pi->maxpartlen,
          pi->thispartn,
          pi->maxpartn,
-         pi->thispartlen,
-         pi->thispartoffset,
-         (unsigned long)pi->filesize);
+         (intmax_t)pi->thispartlen,
+         (intmax_t)pi->thispartoffset,
+         (intmax_t)pi->filesize);
 }
 
 void do_info(const char *const *argv) {

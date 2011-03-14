@@ -30,6 +30,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -168,7 +169,7 @@ void do_auto(const char *const *argv) {
     char *p, *q;
 
     m_asprintf(&p, "%st.%lx", opt_depotdir, (long)getpid());
-    m_asprintf(&q, "%s%s.%lx.%x.%x", opt_depotdir, refi->md5sum,
+    m_asprintf(&q, "%s%s.%jx.%x.%x", (intmax_t)opt_depotdir, refi->md5sum,
                refi->maxpartlen, refi->thispartn, refi->maxpartn);
 
     fd_src = open(partfile, O_RDONLY);
@@ -219,7 +220,7 @@ void do_queue(const char *const *argv) {
   struct partqueue *pq;
   const char *head;
   struct stat stab;
-  unsigned long bytes;
+  off_t bytes;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
@@ -233,7 +234,7 @@ void do_queue(const char *const *argv) {
       ohshit(_("unable to stat `%.250s'"),pq->info.filename);
     if (S_ISREG(stab.st_mode)) {
       bytes= stab.st_size;
-      printf(_(" %s (%lu bytes)\n"),pq->info.filename,bytes);
+      printf(_(" %s (%jd bytes)\n"), pq->info.filename, (intmax_t)bytes);
     } else {
       printf(_(" %s (not a plain file)\n"),pq->info.filename);
     }
@@ -268,7 +269,7 @@ void do_queue(const char *const *argv) {
         qq->info.md5sum = NULL;
       }
     }
-    printf(_("(total %lu bytes)\n"),bytes);
+    printf(_("(total %jd bytes)\n"), (intmax_t)bytes);
   }
   m_output(stdout, _("<standard output>"));
 }

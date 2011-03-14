@@ -35,7 +35,7 @@ void dpkg_ar_normalize_name(struct ar_hdr *arh);
 
 void dpkg_ar_put_magic(const char *ar_name, int ar_fd);
 void dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
-                               const char *name, size_t size);
+                               const char *name, off_t size);
 void dpkg_ar_member_put_file(const char *ar_name, int ar_fd, const char *name,
                              int fd, off_t size);
 void dpkg_ar_member_put_mem(const char *ar_name, int ar_fd, const char *name,

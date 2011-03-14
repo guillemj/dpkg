@@ -33,6 +33,7 @@
 #include <ctype.h>
 #include <time.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -109,7 +110,7 @@ clean_msdos_filename(char *filename)
 }
 
 static int
-mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
+mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
         bool msdos)
 {
 	int fd_src;
@@ -187,7 +188,7 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 		if (curpart == nparts)
 			partsize = last_partsize;
 
-		if ((size_t)partsize > maxpartsize) {
+		if (partsize > maxpartsize) {
 			ohshit(_("Header is too long, making part too long. "
 			       "Your package name or version\n"
 			       "numbers must be extraordinarily long, "
@@ -203,9 +204,10 @@ mksplit(const char *file_src, const char *prefix, size_t maxpartsize,
 		dpkg_ar_put_magic(file_dst.buf, fd_dst);
 
 		/* Write the debian-split part. */
-		varbuf_printf(&partmagic, "%s\n%s\n%s\n%s\n%zu\n%zu\n%d/%d\n",
+		varbuf_printf(&partmagic, "%s\n%s\n%s\n%s\n%jd\n%jd\n%d/%d\n",
 		              SPLITVERSION, package, version, hash,
-		              st.st_size, partsize, curpart, nparts);
+		              (intmax_t)st.st_size, (intmax_t)partsize,
+		              curpart, nparts);
 		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, PARTMAGIC,
 		                       partmagic.buf, partmagic.used);
 		varbuf_reset(&partmagic);

@@ -34,6 +34,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -488,8 +489,8 @@ void do_build(const char *const *argv) {
 
     if (fstat(gzfd, &controlstab))
       ohshite(_("failed to stat temporary file (%s)"), _("control member"));
-    sprintf(versionbuf, "%-8s\n%ld\n", OLDARCHIVEVERSION,
-            (long)controlstab.st_size);
+    sprintf(versionbuf, "%-8s\n%jd\n", OLDARCHIVEVERSION,
+            (intmax_t)controlstab.st_size);
     if (fd_write(arfd, versionbuf, strlen(versionbuf)) < 0)
       ohshite(_("error writing `%s'"), debar);
     fd_fd_copy(gzfd, arfd, -1, _("control member"));

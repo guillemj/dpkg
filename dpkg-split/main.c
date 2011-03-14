@@ -99,7 +99,7 @@ const char printforhelp[]= N_("Type dpkg-split --help for help.");
 
 struct partqueue *queue= NULL;
 
-long opt_maxpartsize = SPLITPARTDEFMAX;
+off_t opt_maxpartsize = SPLITPARTDEFMAX;
 const char *opt_depotdir = ADMINDIR "/" PARTSDIR;
 const char *opt_outputfile = NULL;
 int opt_npquiet = 0;
@@ -111,7 +111,7 @@ void rerreof(FILE *f, const char *fn) {
 }
 
 static void setpartsize(const struct cmdinfo *cip, const char *value) {
-  long newpartsize;
+  off_t newpartsize;
   char *endp;
 
   newpartsize = strtoimax(value, &endp, 10);

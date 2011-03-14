@@ -56,7 +56,7 @@ struct tar_entry {
 	enum tar_filetype type;	/* Regular, Directory, Special, Link */
 	char *name;		/* File name */
 	char *linkname;		/* Name for symbolic and hard links */
-	size_t size;		/* Size of file */
+	off_t size;		/* Size of file */
 	dev_t dev;		/* Special device for mknod() */
 
 	struct file_stat stat;

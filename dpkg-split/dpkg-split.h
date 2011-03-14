@@ -31,13 +31,13 @@ struct partinfo {
   const char *package;
   const char *version;
   const char *md5sum;
-  unsigned long orglength;
+  off_t orglength;
   unsigned int thispartn, maxpartn;
-  unsigned long maxpartlen;
-  unsigned long thispartoffset;
-  size_t thispartlen;
+  off_t maxpartlen;
+  off_t thispartoffset;
+  off_t thispartlen;
   /* Size of header in part file. */
-  size_t headerlen;
+  off_t headerlen;
   off_t filesize;
 };
 
@@ -52,7 +52,7 @@ struct partqueue {
 
 extern struct partqueue *queue;
 
-extern long opt_maxpartsize;
+extern off_t opt_maxpartsize;
 extern const char *opt_depotdir;
 extern const char *opt_outputfile;
 extern int opt_npquiet;

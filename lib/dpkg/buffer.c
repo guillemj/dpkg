@@ -154,7 +154,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 {
 	char *buf;
 	int bufsize = 32768;
-	long bytesread = 0, byteswritten = 0;
+	off_t bytesread = 0, byteswritten = 0;
 	off_t totalread = 0, totalwritten = 0;
 
 	if ((limit != -1) && (limit < bufsize))

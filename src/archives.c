@@ -34,6 +34,7 @@
 #include <utime.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <obstack.h>
@@ -683,8 +684,8 @@ tarobject(void *ctx, struct tar_entry *ti)
       ohshite(_("unable to create `%.255s' (while processing `%.255s')"),
               fnamenewvb.buf, ti->name);
     push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
-    debug(dbg_eachfiledetail, "tarobject file open size=%lu",
-          (unsigned long)ti->size);
+    debug(dbg_eachfiledetail, "tarobject file open size=%jd",
+          (intmax_t)ti->size);
     { char fnamebuf[256];
     fd_fd_copy(tc->backendpipe, fd, ti->size,
                _("backend dpkg-deb during `%.255s'"),

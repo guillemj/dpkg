@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <ar.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -106,7 +107,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
 {
   char versionbuf[40];
   float versionnum;
-  size_t ctrllennum, memberlen= 0;
+  off_t ctrllennum, memberlen = 0;
   ssize_t r;
   int dummy;
   pid_t c1=0,c2,c3;
@@ -153,7 +154,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
         r = fd_read(arfd, infobuf, memberlen + (memberlen & 1));
-        if ((size_t)r != (memberlen + (memberlen & 1)))
+        if (r != (memberlen + (memberlen & 1)))
           read_fail(r, debar, _("archive information header member"));
         infobuf[memberlen] = '\0';
         cur= strchr(infobuf,'\n');
@@ -210,8 +211,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
 
     if (admininfo >= 2) {
       printf(_(" new debian package, version %s.\n"
-               " size %ld bytes: control archive= %zi bytes.\n"),
-             versionbuf, (long)stab.st_size, ctrllennum);
+               " size %jd bytes: control archive= %jd bytes.\n"),
+             versionbuf, (intmax_t)stab.st_size, (intmax_t)ctrllennum);
       m_output(stdout, _("<standard output>"));
     }
   } else if (!strncmp(versionbuf,"0.93",4) &&
@@ -228,7 +229,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
     if (r < 0)
       read_fail(r, debar, _("archive control member size"));
-    if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
+    if (sscanf(ctrllenbuf, "%jd%c%d", &ctrllennum, &nlc, &dummy) != 2 ||
+        nlc != '\n')
       ohshit(_("archive has malformatted control member size '%s'"), ctrllenbuf);
 
     if (admininfo) {
@@ -241,9 +243,9 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
 
     if (admininfo >= 2) {
       printf(_(" old debian package, version %s.\n"
-               " size %ld bytes: control archive= %zi, main archive= %ld.\n"),
-             versionbuf, (long)stab.st_size, ctrllennum,
-             (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l));
+               " size %jd bytes: control archive= %jd, main archive= %jd.\n"),
+             versionbuf, (intmax_t)stab.st_size, (intmax_t)ctrllennum,
+             (intmax_t)(stab.st_size - ctrllennum - strlen(ctrllenbuf) - l));
       m_output(stdout, _("<standard output>"));
     }
   } else {

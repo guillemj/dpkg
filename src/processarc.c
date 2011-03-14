@@ -35,6 +35,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -430,7 +431,7 @@ void process_archive(const char *filename) {
   /* Always nfmalloc. Otherwise, we may overwrite some other field (like
    * md5sum). */
   psize = nfmalloc(30);
-  sprintf(psize, "%lu", (unsigned long)stab.st_size);
+  sprintf(psize, "%jd", (intmax_t)stab.st_size);
   pkg->files->size = psize;
 
   if (cipaction->arg_int == act_avail) {

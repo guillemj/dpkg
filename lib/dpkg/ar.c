@@ -25,6 +25,7 @@
 #include <sys/stat.h>
 
 #include <time.h>
+#include <stdint.h>
 #include <unistd.h>
 
 #include <dpkg/i18n.h>
@@ -82,13 +83,13 @@ dpkg_ar_put_magic(const char *ar_name, int ar_fd)
 
 void
 dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
-                          const char *name, size_t size)
+                          const char *name, off_t size)
 {
 	char header[sizeof(struct ar_hdr) + 1];
 	int n;
 
-	n = sprintf(header, "%-16s%-12lu0     0     100644  %-10lu`\n",
-	            name, time(NULL), (unsigned long)size);
+	n = sprintf(header, "%-16s%-12lu0     0     100644  %-10jd`\n",
+	            name, time(NULL), (intmax_t)size);
 	if (n != sizeof(struct ar_hdr))
 		ohshit(_("generated corrupt ar header for '%s'"), ar_name);
 

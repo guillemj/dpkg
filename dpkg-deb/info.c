@@ -33,6 +33,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -163,8 +164,8 @@ info_list(const char *debar, const char *dir)
       if (ferror(cc)) ohshite(_("failed to read `%.255s' (in `%.255s')"),
                               cdep->d_name, dir);
       fclose(cc);
-      printf(_(" %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"),
-             (long)stab.st_size, lines, S_IXUSR & stab.st_mode ? '*' : ' ',
+      printf(_(" %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"),
+             (intmax_t)stab.st_size, lines, S_IXUSR & stab.st_mode ? '*' : ' ',
              cdep->d_name, interpreter);
     } else {
       printf(_("     not a plain file          %.255s\n"), cdep->d_name);
