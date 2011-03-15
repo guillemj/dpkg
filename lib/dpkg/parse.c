@@ -267,7 +267,7 @@ pkg_parse_copy(struct parsedb_state *ps,
    * pifp was indeed also updated by copy_dependency_links,
    * but since the value was that from newpifp anyway there's
    * no need to copy it back. */
-  dst_pkgbin->depended = src_pkgbin->depended;
+  src_pkgbin->depended = dst_pkgbin->depended;
 
   /* Copy across data. */
   memcpy(dst_pkgbin, src_pkgbin, sizeof(struct pkgbin));
