@@ -117,7 +117,7 @@ enqueue_specified(const char *const *argv)
   }
 }
 
-void
+int
 packages(const char *const *argv)
 {
   trigproc_install_hooks();
@@ -146,6 +146,8 @@ packages(const char *const *argv)
   trigproc_run_deferred();
 
   modstatdb_shutdown();
+
+  return 0;
 }
 
 void process_queue(void) {

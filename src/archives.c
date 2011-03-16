@@ -1183,7 +1183,9 @@ void cu_fileslist(int argc, void **argv) {
   destroyobstack();
 }
 
-void archivefiles(const char *const *argv) {
+int
+archivefiles(const char *const *argv)
+{
   const char *volatile thisarg;
   const char *const *volatile argp;
   jmp_buf ejbuf;
@@ -1321,6 +1323,8 @@ void archivefiles(const char *const *argv) {
 
   trigproc_run_deferred();
   modstatdb_shutdown();
+
+  return 0;
 }
 
 /**

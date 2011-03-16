@@ -145,6 +145,7 @@ static const struct cmdinfo cmdinfos[]= {
 };
 
 int main(int argc, const char *const *argv) {
+  int ret;
   int l;
   char *p;
   dofunction *action;
@@ -168,10 +169,11 @@ int main(int argc, const char *const *argv) {
 
   setvbuf(stdout,NULL,_IONBF,0);
   action = (dofunction *)cipaction->arg_func;
-  action(argv);
+  ret = action(argv);
 
   m_output(stderr, _("<standard error>"));
 
   standard_shutdown();
-  exit(0);
+
+  return ret;
 }

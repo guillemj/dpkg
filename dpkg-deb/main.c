@@ -183,6 +183,7 @@ static const struct cmdinfo cmdinfos[]= {
 
 int main(int argc, const char *const *argv) {
   dofunction *action;
+  int ret;
 
   setlocale(LC_NUMERIC, "POSIX");
   setlocale(LC_ALL, "");
@@ -196,9 +197,11 @@ int main(int argc, const char *const *argv) {
 
   unsetenv("GZIP");
   action = (dofunction *)cipaction->arg_func;
-  action(argv);
+  ret = action(argv);
+
   standard_shutdown();
-  exit(0);
+
+  return ret;
 }
 
 /* vi: sw=2

@@ -254,7 +254,9 @@ info_field(const char *debar, const char *dir, const char *const *fields,
   m_output(stdout, _("<standard output>"));
 }
 
-void do_showinfo(const char* const* argv) {
+int
+do_showinfo(const char *const *argv)
+{
   const char *debar, *dir;
   struct pkginfo *pkg;
   struct pkg_format_node *fmt = pkg_format_parse(showformat);
@@ -267,10 +269,13 @@ void do_showinfo(const char* const* argv) {
   parsedb(CONTROLFILE, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles,
           &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
+
+  return 0;
 }
 
-
-void do_info(const char *const *argv) {
+int
+do_info(const char *const *argv)
+{
   const char *debar, *dir;
 
   if (*argv && argv[1]) {
@@ -280,9 +285,13 @@ void do_info(const char *const *argv) {
     info_prepare(&argv, &debar, &dir, 2);
     info_list(debar, dir);
   }
+
+  return 0;
 }
 
-void do_field(const char *const *argv) {
+int
+do_field(const char *const *argv)
+{
   const char *debar, *dir;
 
   info_prepare(&argv, &debar, &dir, 1);
@@ -292,13 +301,19 @@ void do_field(const char *const *argv) {
     static const char *const controlonly[] = { "control", NULL };
     info_spew(debar, dir, controlonly);
   }
+
+  return 0;
 }
 
-void do_contents(const char *const *argv) {
+int
+do_contents(const char *const *argv)
+{
   const char *debar;
 
   if (!(debar= *argv++) || *argv) badusage(_("--contents takes exactly one argument"));
   extracthalf(debar, NULL, "tv", 0);
+
+  return 0;
 }
 /* vi: sw=2
  */

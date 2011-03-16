@@ -224,7 +224,9 @@ void print_info(const struct partinfo *pi) {
          (intmax_t)pi->filesize);
 }
 
-void do_info(const char *const *argv) {
+int
+do_info(const char *const *argv)
+{
   const char *thisarg;
   struct partinfo *pi, ps;
   FILE *part;
@@ -245,4 +247,6 @@ void do_info(const char *const *argv) {
     }
     m_output(stdout, _("<standard output>"));
   }
+
+  return 0;
 }

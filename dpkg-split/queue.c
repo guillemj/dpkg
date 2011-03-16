@@ -120,7 +120,9 @@ partmatches(struct partinfo *pi, struct partinfo *refi)
           pi->maxpartlen == refi->maxpartlen);
 }
 
-void do_auto(const char *const *argv) {
+int
+do_auto(const char *const *argv)
+{
   const char *partfile;
   struct partinfo *refi, **partlist, *otherthispart;
   struct partqueue *pq;
@@ -140,7 +142,7 @@ void do_auto(const char *const *argv) {
     if (!opt_npquiet)
       printf(_("File `%.250s' is not part of a multipart archive.\n"),partfile);
     m_output(stdout, _("<standard output>"));
-    exit(1);
+    return 1;
   }
   fclose(part);
   scandepot();
@@ -214,9 +216,13 @@ void do_auto(const char *const *argv) {
   }
 
   m_output(stderr, _("<standard error>"));
+
+  return 0;
 }
 
-void do_queue(const char *const *argv) {
+int
+do_queue(const char *const *argv)
+{
   struct partqueue *pq;
   const char *head;
   struct stat stab;
@@ -272,6 +278,8 @@ void do_queue(const char *const *argv) {
     printf(_("(total %jd bytes)\n"), (intmax_t)bytes);
   }
   m_output(stdout, _("<standard output>"));
+
+  return 0;
 }
 
 enum discardwhich { ds_junk, ds_package, ds_all };
@@ -298,7 +306,9 @@ static void discardsome(enum discardwhich which, const char *package) {
   }
 }
 
-void do_discard(const char *const *argv) {
+int
+do_discard(const char *const *argv)
+{
   const char *thisarg;
   struct partqueue *pq;
 
@@ -312,4 +322,6 @@ void do_discard(const char *const *argv) {
   } else {
     discardsome(ds_all,NULL);
   }
+
+  return 0;
 }

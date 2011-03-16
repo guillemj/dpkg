@@ -21,8 +21,8 @@
 #ifndef DPKG_DEB_H
 #define DPKG_DEB_H
 
-typedef void dofunction(const char *const *argv);
-dofunction do_build DPKG_ATTR_NORET;
+typedef int dofunction(const char *const *argv);
+dofunction do_build;
 dofunction do_contents, do_control, do_showinfo;
 dofunction do_info, do_field, do_extract, do_vextract, do_fsystarfile;
 

@@ -92,7 +92,9 @@ void addtopartlist(struct partinfo **partlist,
   partlist[i]= pi;
 }
 
-void do_join(const char *const *argv) {
+int
+do_join(const char *const *argv)
+{
   const char *thisarg;
   struct partqueue *pq;
   struct partinfo *refi, **partlist;
@@ -136,4 +138,6 @@ void do_join(const char *const *argv) {
     opt_outputfile = p;
   }
   reassemble(partlist, opt_outputfile);
+
+  return 0;
 }

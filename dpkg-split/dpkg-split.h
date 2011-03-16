@@ -21,8 +21,8 @@
 #ifndef DPKG_SPLIT_H
 #define DPKG_SPLIT_H
 
-typedef void dofunction(const char *const *argv);
-dofunction do_split DPKG_ATTR_NORET;
+typedef int dofunction(const char *const *argv);
+dofunction do_split;
 dofunction do_join, do_info, do_auto, do_queue, do_discard;
 
 struct partinfo {

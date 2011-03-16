@@ -327,9 +327,10 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   }
 }
 
-static void controlextractvextract(int admin,
-                                   const char *taroptions,
-                                   const char *const *argv) {
+static int
+controlextractvextract(int admin, const char *taroptions,
+                       const char *const *argv)
+{
   const char *debar, *dir;
 
   if (!(debar= *argv++))
@@ -344,9 +345,13 @@ static void controlextractvextract(int admin,
     badusage(_("--%s takes at most two arguments (.deb and directory)"),cipaction->olong);
   }
   extracthalf(debar, dir, taroptions, admin);
+
+  return 0;
 }
 
-void do_fsystarfile(const char *const *argv) {
+int
+do_fsystarfile(const char *const *argv)
+{
   const char *debar;
 
   if (!(debar= *argv++))
@@ -354,8 +359,24 @@ void do_fsystarfile(const char *const *argv) {
   if (*argv)
     badusage(_("--%s takes only one argument (.deb filename)"),cipaction->olong);
   extracthalf(debar, NULL, NULL, 0);
+
+  return 0;
 }
 
-void do_control(const char *const *argv) { controlextractvextract(1, "x", argv); }
-void do_extract(const char *const *argv) { controlextractvextract(0, "xp", argv); }
-void do_vextract(const char *const *argv) { controlextractvextract(0, "xpv", argv); }
+int
+do_control(const char *const *argv)
+{
+  return controlextractvextract(1, "x", argv);
+}
+
+int
+do_extract(const char *const *argv)
+{
+  return controlextractvextract(0, "xp", argv);
+}
+
+int
+do_vextract(const char *const *argv)
+{
+  return controlextractvextract(0, "xpv", argv);
+}

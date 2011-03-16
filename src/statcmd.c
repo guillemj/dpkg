@@ -294,9 +294,9 @@ statoverride_remove(const char *const *argv)
 		if (opt_verbose)
 			warning(_("No override present."));
 		if (opt_force)
-			exit(0);
+			return 0;
 		else
-			exit(2);
+			return 2;
 	}
 
 	if (opt_update && opt_verbose)

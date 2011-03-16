@@ -34,7 +34,9 @@
 
 #include "main.h"
 
-void updateavailable(const char *const *argv) {
+int
+updateavailable(const char *const *argv)
+{
   const char *sourcefile= argv[0];
   char *availfile;
   int count= 0;
@@ -99,12 +101,18 @@ void updateavailable(const char *const *argv) {
               "Information about %d packages was updated.\n", count), count);
 
   modstatdb_done();
+
+  return 0;
 }
 
-void forgetold(const char *const *argv) {
+int
+forgetold(const char *const *argv)
+{
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   warning(_("obsolete '--%s' option, unavailable packages are automatically cleaned up."),
           cipaction->olong);
+
+  return 0;
 }

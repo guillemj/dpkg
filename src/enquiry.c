@@ -127,7 +127,9 @@ static void describebriefly(struct pkginfo *pkg) {
   printf(" %-20s %.*s\n",pkg->name,l,pdesc);
 }
 
-void audit(const char *const *argv) {
+int
+audit(const char *const *argv)
+{
   const struct badstatinfo *bsi;
   bool head_running = false;
 
@@ -162,6 +164,8 @@ void audit(const char *const *argv) {
   }
 
   m_output(stdout, _("<standard output>"));
+
+  return 0;
 }
 
 struct sectionentry {
@@ -192,7 +196,9 @@ yettobeunpacked(struct pkginfo *pkg, const char **thissect)
   return false;
 }
 
-void unpackchk(const char *const *argv) {
+int
+unpackchk(const char *const *argv)
+{
   int totalcount, sects;
   struct sectionentry *sectionentries, *se, **sep;
   struct pkgiterator *it;
@@ -228,7 +234,8 @@ void unpackchk(const char *const *argv) {
   }
   pkg_db_iter_free(it);
 
-  if (totalcount == 0) exit(0);
+  if (totalcount == 0)
+    return 0;
 
   if (totalcount <= 12) {
     it = pkg_db_iter_new();
@@ -270,9 +277,11 @@ void unpackchk(const char *const *argv) {
   }
 
   m_output(stdout, _("<standard output>"));
+
+  return 0;
 }
 
-static void
+static int
 assert_version_support(const char *const *argv,
                        struct versionrevision *version,
                        const char *feature_name)
@@ -288,40 +297,53 @@ assert_version_support(const char *const *argv,
   switch (pkg->status) {
   case stat_installed:
   case stat_triggerspending:
-    break;
+    return 0;
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
   case stat_triggersawaited:
     if (versionsatisfied3(&pkg->configversion, version, dvr_laterequal))
-      break;
+      return 0;
     printf(_("Version of dpkg with working %s support not yet configured.\n"
              " Please use 'dpkg --configure dpkg', and then try again.\n"),
            feature_name);
-    exit(1);
+    return 1;
   default:
     printf(_("dpkg not recorded as installed, cannot check for %s support!\n"),
            feature_name);
-    exit(1);
+    return 1;
   }
 }
 
-void assertpredep(const char *const *argv) {
+int
+assertpredep(const char *const *argv)
+{
   struct versionrevision version = { 0, "1.1.0", NULL };
-  assert_version_support(argv, &version, _("Pre-Depends field"));
+
+  return assert_version_support(argv, &version, _("Pre-Depends field"));
 }
 
-void assertepoch(const char *const *argv) {
+int
+assertepoch(const char *const *argv)
+{
   struct versionrevision version = { 0, "1.4.0.7", NULL };
-  assert_version_support(argv, &version, _("epoch"));
+
+  return assert_version_support(argv, &version, _("epoch"));
 }
 
-void assertlongfilenames(const char *const *argv) {
+int
+assertlongfilenames(const char *const *argv)
+{
   struct versionrevision version = { 0, "1.4.1.17", NULL };
-  assert_version_support(argv, &version, _("long filenames"));
+
+  return assert_version_support(argv, &version, _("long filenames"));
 }
 
-void assertmulticonrep(const char *const *argv) {
+int
+assertmulticonrep(const char *const *argv)
+{
   struct versionrevision version = { 0, "1.4.1.19", NULL };
-  assert_version_support(argv, &version, _("multiple Conflicts and Replaces"));
+
+  return assert_version_support(argv, &version,
+                                _("multiple Conflicts and Replaces"));
 }
 
 /**
@@ -337,7 +359,9 @@ void assertmulticonrep(const char *const *argv) {
  *  1 = no suitable package available
  *  2 = error
  */
-void predeppackage(const char *const *argv) {
+int
+predeppackage(const char *const *argv)
+{
   static struct varbuf vb;
 
   struct pkgiterator *it;
@@ -375,7 +399,7 @@ void predeppackage(const char *const *argv) {
   pkg_db_iter_free(it);
 
   if (!dep)
-    exit(1); /* Not found. */
+    return 1; /* Not found. */
   assert(pkg);
   startpkg= pkg;
   pkg->clientdata->istobe= itb_preinstall;
@@ -425,26 +449,34 @@ void predeppackage(const char *const *argv) {
   writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
 
   m_output(stdout, _("<standard output>"));
+
+  return 0;
 }
 
-void printarch(const char *const *argv) {
+int
+printarch(const char *const *argv)
+{
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   printf("%s\n", native_arch);
 
   m_output(stdout, _("<standard output>"));
+
+  return 0;
 }
 
-void
+int
 printinstarch(const char *const *argv)
 {
   warning(_("obsolete option '--%s', please use '--%s' instead."),
           "print-installation-architecture", "print-architecture");
-  printarch(argv);
+  return printarch(argv);
 }
 
-void cmpversions(const char *const *argv) {
+int
+cmpversions(const char *const *argv)
+{
   struct relationinfo {
     const char *string;
     /* These values are exit status codes, so 0 = true, 1 = false. */
@@ -506,16 +538,19 @@ void cmpversions(const char *const *argv) {
     blankversion(&b);
   }
   if (!informativeversion(&a)) {
-    exit(informativeversion(&b) ? rip->if_none_a : rip->if_none_both);
+    return informativeversion(&b) ? rip->if_none_a : rip->if_none_both;
   } else if (!informativeversion(&b)) {
-    exit(rip->if_none_b);
+    return rip->if_none_b;
   }
   r= versioncompare(&a,&b);
   debug(dbg_general,"cmpversions a=`%s' b=`%s' r=%d",
         versiondescribe(&a,vdew_always),
         versiondescribe(&b,vdew_always),
         r);
-  if (r>0) exit(rip->if_greater);
-  else if (r<0) exit(rip->if_lesser);
-  else exit(rip->if_equal);
+  if (r > 0)
+    return rip->if_greater;
+  else if (r < 0)
+    return rip->if_lesser;
+  else
+    return rip->if_equal;
 }

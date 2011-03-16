@@ -237,7 +237,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	return 0;
 }
 
-void
+int
 do_split(const char *const *argv)
 {
 	const char *sourcefile, *prefix;
@@ -264,5 +264,5 @@ do_split(const char *const *argv)
 
 	mksplit(sourcefile, prefix, opt_maxpartsize, opt_msdos);
 
-	exit(0);
+	return 0;
 }

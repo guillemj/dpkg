@@ -384,7 +384,9 @@ pkg_get_pathname(const char *dir, struct pkginfo *pkg)
 /**
  * Overly complex function that builds a .deb file.
  */
-void do_build(const char *const *argv) {
+int
+do_build(const char *const *argv)
+{
   const char *debar, *dir;
   bool subdir;
   char *tfbuf;
@@ -593,5 +595,5 @@ void do_build(const char *const *argv) {
   if (close(arfd))
     ohshite(_("unable to close file '%s'"), debar);
 
-  exit(0);
+  return 0;
 }

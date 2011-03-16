@@ -44,7 +44,9 @@ static void getsel1package(struct pkginfo *pkg) {
   printf("%s%.*s%s\n",pkg->name,l,"\t\t\t\t\t\t",wantinfos[pkg->want].name);
 }
 
-void getselections(const char *const *argv) {
+int
+getselections(const char *const *argv)
+{
   struct pkg_array array;
   struct pkginfo *pkg;
   const char *thisarg;
@@ -78,9 +80,13 @@ void getselections(const char *const *argv) {
   m_output(stderr, _("<standard error>"));
 
   pkg_array_destroy(&array);
+
+  return 0;
 }
 
-void setselections(const char *const *argv) {
+int
+setselections(const char *const *argv)
+{
   const struct namevalue *nv;
   struct pkginfo *pkg;
   const char *e;
@@ -144,9 +150,12 @@ void setselections(const char *const *argv) {
   modstatdb_shutdown();
   varbuf_destroy(&namevb);
   varbuf_destroy(&selvb);
+
+  return 0;
 }
 
-void clearselections(const char *const *argv)
+int
+clearselections(const char *const *argv)
 {
   struct pkgiterator *it;
   struct pkginfo *pkg;
@@ -164,5 +173,7 @@ void clearselections(const char *const *argv)
   pkg_db_iter_free(it);
 
   modstatdb_shutdown();
+
+  return 0;
 }
 
