@@ -524,7 +524,7 @@ int commandfd(const char *const *argv);
  * have a very similar structure. */
 static const struct cmdinfo cmdinfos[]= {
 #define ACTIONBACKEND(longopt, shortopt, backend) \
- { longopt, shortopt, 0, NULL, NULL, setaction, 0, (void *)backend, (void_func *)execbackend }
+ { longopt, shortopt, 0, NULL, NULL, setaction, 0, (void *)backend, execbackend }
 
   ACTION( "install",                        'i', act_install,              archivefiles    ),
   ACTION( "unpack",                          0,  act_unpack,               archivefiles    ),
@@ -637,7 +637,7 @@ commandfd(const char *const *argv)
   int ret = 0;
   int c, lno, i;
   bool skipchar;
-  int (*actionfunction)(const char *const *argv);
+  action_func *actionfunction;
 
   pipein = *argv++;
   if (pipein == NULL)
@@ -719,7 +719,7 @@ commandfd(const char *const *argv)
     myopt((const char *const**)&newargs,cmdinfos);
     if (!cipaction) badusage(_("need an action option"));
 
-    actionfunction = (int (*)(const char *const *))cipaction->arg_func;
+    actionfunction = cipaction->arg_func;
     ret |= actionfunction(newargs);
 
     pop_error_context(ehflag_normaltidy);
@@ -729,7 +729,7 @@ commandfd(const char *const *argv)
 }
 
 int main(int argc, const char *const *argv) {
-  int (*actionfunction)(const char *const *argv);
+  action_func *actionfunction;
   int ret;
 
   setlocale(LC_ALL, "");
@@ -760,7 +760,7 @@ int main(int argc, const char *const *argv) {
 
   filesdbinit();
 
-  actionfunction = (int (*)(const char *const *))cipaction->arg_func;
+  actionfunction = cipaction->arg_func;
 
   ret = actionfunction(argv);
 

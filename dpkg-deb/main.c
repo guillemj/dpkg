@@ -182,7 +182,7 @@ static const struct cmdinfo cmdinfos[]= {
 };
 
 int main(int argc, const char *const *argv) {
-  dofunction *action;
+  action_func *action;
   int ret;
 
   setlocale(LC_NUMERIC, "POSIX");
@@ -196,7 +196,7 @@ int main(int argc, const char *const *argv) {
   if (!cipaction) badusage(_("need an action option"));
 
   unsetenv("GZIP");
-  action = (dofunction *)cipaction->arg_func;
+  action = cipaction->arg_func;
   ret = action(argv);
 
   standard_shutdown();

@@ -148,7 +148,7 @@ int main(int argc, const char *const *argv) {
   int ret;
   int l;
   char *p;
-  dofunction *action;
+  action_func *action;
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
@@ -168,7 +168,7 @@ int main(int argc, const char *const *argv) {
   }
 
   setvbuf(stdout,NULL,_IONBF,0);
-  action = (dofunction *)cipaction->arg_func;
+  action = cipaction->arg_func;
   ret = action(argv);
 
   m_output(stderr, _("<standard error>"));

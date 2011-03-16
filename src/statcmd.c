@@ -362,7 +362,7 @@ static const struct cmdinfo cmdinfos[] = {
 int
 main(int argc, const char *const *argv)
 {
-	int (*actionfunction)(const char *const *argv);
+	action_func *actionfunction;
 	int ret;
 
 	setlocale(LC_ALL, "");
@@ -382,7 +382,7 @@ main(int argc, const char *const *argv)
 	filesdbinit();
 	ensure_statoverrides();
 
-	actionfunction = (int (*)(const char *const *))cipaction->arg_func;
+	actionfunction = cipaction->arg_func;
 	ret = actionfunction(argv);
 
 	standard_shutdown();

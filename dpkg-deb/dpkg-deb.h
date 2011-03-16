@@ -21,10 +21,15 @@
 #ifndef DPKG_DEB_H
 #define DPKG_DEB_H
 
-typedef int dofunction(const char *const *argv);
-dofunction do_build;
-dofunction do_contents, do_control, do_showinfo;
-dofunction do_info, do_field, do_extract, do_vextract, do_fsystarfile;
+action_func do_build;
+action_func do_contents;
+action_func do_control;
+action_func do_showinfo;
+action_func do_info;
+action_func do_field;
+action_func do_extract;
+action_func do_vextract;
+action_func do_fsystarfile;
 
 extern int debugflag, nocheckflag, oldformatflag;
 

@@ -25,7 +25,7 @@
 
 DPKG_BEGIN_DECLS
 
-typedef void void_func(void);
+typedef int action_func(const char *const *argv);
 
 struct cmdinfo {
   const char *olong;
@@ -44,7 +44,7 @@ struct cmdinfo {
 
   int arg_int;
   void *arg_ptr;
-  void_func *arg_func;
+  action_func *arg_func;
 };
 
 extern const char printforhelp[];
@@ -66,7 +66,7 @@ void setaction(const struct cmdinfo *cip, const char *value);
 void setobsolete(const struct cmdinfo *cip, const char *value);
 
 #define ACTION(longopt, shortopt, code, func) \
- { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (void_func *)func }
+ { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, func }
 #define OBSOLETE(longopt, shortopt) \
  { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 

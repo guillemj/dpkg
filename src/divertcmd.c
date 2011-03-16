@@ -705,7 +705,7 @@ int
 main(int argc, const char * const *argv)
 {
 	const char *env_pkgname;
-	int (*actionfunction)(const char *const *argv);
+	action_func *actionfunction;
 	int ret;
 
 	setlocale(LC_ALL, "");
@@ -724,7 +724,7 @@ main(int argc, const char * const *argv)
 	if (!cipaction)
 		setaction(&cmdinfo_add, NULL);
 
-	actionfunction = (int (*)(const char *const *))cipaction->arg_func;
+	actionfunction = cipaction->arg_func;
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 
