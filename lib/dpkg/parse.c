@@ -264,8 +264,8 @@ pkg_parse_copy(struct parsedb_state *ps,
                         (ps->flags & pdb_recordavailable) ? true : false);
   /* Leave the ‘depended’ pointer alone, we've just gone to such
    * trouble to get it right :-). The ‘depends’ pointer in
-   * pifp was indeed also updated by copy_dependency_links,
-   * but since the value was that from newpifp anyway there's
+   * dst_pkgbin was indeed also updated by copy_dependency_links,
+   * but since the value was that from src_pkgbin anyway there's
    * no need to copy it back. */
   src_pkgbin->depended = dst_pkgbin->depended;
 
