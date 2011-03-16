@@ -637,7 +637,6 @@ commandfd(const char *const *argv)
   int ret = 0;
   int c, lno, i;
   bool skipchar;
-  action_func *actionfunction;
 
   pipein = *argv++;
   if (pipein == NULL)
@@ -719,8 +718,7 @@ commandfd(const char *const *argv)
     myopt((const char *const**)&newargs,cmdinfos);
     if (!cipaction) badusage(_("need an action option"));
 
-    actionfunction = cipaction->arg_func;
-    ret |= actionfunction(newargs);
+    ret |= cipaction->action(newargs);
 
     pop_error_context(ehflag_normaltidy);
   }
@@ -729,7 +727,6 @@ commandfd(const char *const *argv)
 }
 
 int main(int argc, const char *const *argv) {
-  action_func *actionfunction;
   int ret;
 
   setlocale(LC_ALL, "");
@@ -760,9 +757,7 @@ int main(int argc, const char *const *argv) {
 
   filesdbinit();
 
-  actionfunction = cipaction->arg_func;
-
-  ret = actionfunction(argv);
+  ret = cipaction->action(argv);
 
   if (is_invoke_action(cipaction->arg_int))
     run_invoke_hooks(cipaction->olong, post_invoke_hooks);

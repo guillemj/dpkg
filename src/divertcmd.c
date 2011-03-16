@@ -705,7 +705,6 @@ int
 main(int argc, const char * const *argv)
 {
 	const char *env_pkgname;
-	action_func *actionfunction;
 	int ret;
 
 	setlocale(LC_ALL, "");
@@ -724,14 +723,12 @@ main(int argc, const char * const *argv)
 	if (!cipaction)
 		setaction(&cmdinfo_add, NULL);
 
-	actionfunction = cipaction->arg_func;
-
 	setvbuf(stdout, NULL, _IONBF, 0);
 
 	filesdbinit();
 	ensure_diversions();
 
-	ret = actionfunction(argv);
+	ret = cipaction->action(argv);
 
 	standard_shutdown();
 

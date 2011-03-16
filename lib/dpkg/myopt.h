@@ -44,7 +44,8 @@ struct cmdinfo {
 
   int arg_int;
   void *arg_ptr;
-  action_func *arg_func;
+
+  action_func *action;
 };
 
 extern const char printforhelp[];
