@@ -256,7 +256,7 @@ rename_mv(const char *src, const char *dst)
 
 	varbuf_destroy(&tmpdst);
 
-	return -1;
+	return 0;
 }
 
 static void
