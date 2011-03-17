@@ -255,7 +255,7 @@ rename_mv(const char *src, const char *dst)
 
 	free(tmpdst);
 
-	return -1;
+	return 0;
 }
 
 static void
