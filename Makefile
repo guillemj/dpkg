@@ -25,6 +25,7 @@ TESTS_PASS := \
 	t-unpack-fifo \
 	t-unpack-device \
 	t-filtering \
+	t-depends \
 	t-depends-provides \
 	t-disappear \
 	t-disappear-empty \
