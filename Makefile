@@ -26,6 +26,7 @@ TESTS_PASS := \
 	t-unpack-device \
 	t-filtering \
 	t-depends \
+	t-depends-versioned \
 	t-depends-provides \
 	t-disappear \
 	t-disappear-empty \
