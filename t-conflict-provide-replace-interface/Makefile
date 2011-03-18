@@ -8,7 +8,7 @@ test-case:
 	! $(DPKG_INSTALL) pkg-b.deb
 	# Even if requesting auto-deconfigure the request is not explicit
 	# enough, fail
-	! $(DPKG_INSTALL) pkg-b.deb
+	! $(DPKG_INSTALL) -B pkg-b.deb
 	# Set up the desired transaction
 	echo pkg-a deinstall | $(DPKG) --set-selections
 	$(DPKG_INSTALL) pkg-b.deb
