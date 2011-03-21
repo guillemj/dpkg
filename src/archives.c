@@ -247,7 +247,6 @@ newtarobject_allmodes(const char *path, struct file_stat *st)
     ohshite(_("error setting ownership of `%.255s'"), path);
   if (chmod(path, st->mode & ~S_IFMT))
     ohshite(_("error setting permissions of `%.255s'"), path);
-  newtarobject_utime(path, st);
 }
 
 static void
@@ -717,7 +716,6 @@ tarobject(void *ctx, struct tar_entry *ti)
     pop_cleanup(ehflag_normaltidy); /* fd = open(fnamenewvb.buf) */
     if (close(fd))
       ohshite(_("error closing/writing `%.255s'"), ti->name);
-    newtarobject_utime(fnamenewvb.buf, st);
     break;
   case tar_filetype_fifo:
     if (mkfifo(fnamenewvb.buf,0))
@@ -770,6 +768,8 @@ tarobject(void *ctx, struct tar_entry *ti)
     internerr("unknown tar type '%d', but already checked", ti->type);
   }
 
+  if (ti->type != tar_filetype_symlink)
+    newtarobject_utime(fnamenewvb.buf, st);
   set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, st->mode);
 
   /*
