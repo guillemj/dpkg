@@ -466,10 +466,12 @@ tarobject(void *ctx, struct tar_entry *ti)
     }
   }
 
-  if (nifd->namenode->statoverride)
+  if (nifd->namenode->statoverride) {
     st = nifd->namenode->statoverride;
-  else
+    st->mtime = ti->stat.mtime;
+  } else {
     st = &ti->stat;
+  }
 
   usenode = namenodetouse(nifd->namenode, tc->pkg);
   usename = usenode->name + 1; /* Skip the leading '/'. */
