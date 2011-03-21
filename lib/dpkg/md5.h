@@ -1,5 +1,7 @@
+/*	$OpenBSD: md5.h,v 1.15 2004/05/03 17:30:14 millert Exp $	*/
+
 /*
- * This is the header file for the MD5 message-digest algorithm.
+ * This code implements the MD5 message-digest algorithm.
  * The algorithm is due to Ron Rivest.  This code was
  * written by Colin Plumb in 1993, no copyright is claimed.
  * This code is in the public domain; do with it what you wish.
@@ -8,40 +10,27 @@
  * This code has been tested against that, and is equivalent,
  * except that you don't need to include two pages of legalese
  * with every copy.
- *
- * To compute the message digest of a chunk of bytes, declare an
- * MD5Context structure, pass it to MD5Init, call MD5Update as
- * needed on buffers full of bytes, and then call MD5Final, which
- * will fill a supplied 16-byte array with the digest.
- *
- * Changed so as no longer to depend on Colin Plumb's `usual.h'
- * header definitions; now uses stuff from dpkg's config.h
- *  - Ian Jackson <ian@chiark.greenend.org.uk>.
- * Still in the public domain.
  */
 
-#ifndef MD5_H
-#define MD5_H
+#ifndef _MD5_H_
+#define _MD5_H_
 
-#define md5byte unsigned char
+#define	MD5_BLOCK_LENGTH		64
+#define	MD5_DIGEST_LENGTH		16
+#define	MD5_DIGEST_STRING_LENGTH	(MD5_DIGEST_LENGTH * 2 + 1)
 
-#if SIZEOF_UNSIGNED_LONG==4
-# define UWORD32 unsigned long
-#elif SIZEOF_UNSIGNED_INT==4
-# define UWORD32 unsigned int
-#else
-# error I do not know what to use for a UWORD32.
-#endif
+typedef struct MD5Context {
+	u_int32_t state[4];			/* state */
+	u_int64_t count;			/* number of bits, mod 2^64 */
+	u_int8_t buffer[MD5_BLOCK_LENGTH];	/* input buffer */
+} MD5_CTX;
 
-struct MD5Context {
-	UWORD32 buf[4];
-	UWORD32 bytes[2];
-	UWORD32 in[16];
-};
+#include <sys/cdefs.h>
 
-void MD5Init(struct MD5Context *context);
-void MD5Update(struct MD5Context *context, md5byte const *buf, unsigned len);
-void MD5Final(unsigned char digest[16], struct MD5Context *context);
-void MD5Transform(UWORD32 buf[4], UWORD32 const in[16]);
+void	 MD5Init(MD5_CTX *);
+void	 MD5Update(MD5_CTX *, const u_int8_t *, size_t);
+void	 MD5Pad(MD5_CTX *);
+void	 MD5Final(u_int8_t [MD5_DIGEST_LENGTH], MD5_CTX *);
+void	 MD5Transform(u_int32_t [4], const u_int8_t [MD5_BLOCK_LENGTH]);
 
-#endif /* !MD5_H */
+#endif /* _MD5_H_ */
