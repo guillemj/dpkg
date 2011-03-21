@@ -57,6 +57,7 @@ struct tar_entry {
 	char *name;		/* File name */
 	char *linkname;		/* Name for symbolic and hard links */
 	off_t size;		/* Size of file */
+	time_t mtime;		/* Last-modified time. */
 	dev_t dev;		/* Special device for mknod() */
 
 	struct file_stat stat;

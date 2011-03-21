@@ -231,7 +231,7 @@ does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
 }
 
 static void
-tarobject_set_mtime(struct tar_entry *te, const char *path, struct file_stat *st)
+tarobject_set_mtime(struct tar_entry *te, const char *path)
 {
   struct timeval tv[2];
 
@@ -240,7 +240,7 @@ tarobject_set_mtime(struct tar_entry *te, const char *path, struct file_stat *st
 
   tv[0].tv_sec = currenttime;
   tv[0].tv_usec = 0;
-  tv[1].tv_sec = st->mtime;
+  tv[1].tv_sec = te->mtime;
   tv[1].tv_usec = 0;
 
   if (utimes(path, tv))
@@ -478,12 +478,10 @@ tarobject(void *ctx, struct tar_entry *ti)
     }
   }
 
-  if (nifd->namenode->statoverride) {
+  if (nifd->namenode->statoverride)
     st = nifd->namenode->statoverride;
-    st->mtime = ti->stat.mtime;
-  } else {
+  else
     st = &ti->stat;
-  }
 
   usenode = namenodetouse(nifd->namenode, tc->pkg);
   usename = usenode->name + 1; /* Skip the leading '/'. */
@@ -777,7 +775,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   }
 
   tarobject_set_perms(ti, fnamenewvb.buf, st);
-  tarobject_set_mtime(ti, fnamenewvb.buf, st);
+  tarobject_set_mtime(ti, fnamenewvb.buf);
   set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, st->mode);
 
   /*

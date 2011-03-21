@@ -33,7 +33,6 @@ struct file_stat {
 	uid_t uid;
 	gid_t gid;
 	mode_t mode;
-	time_t mtime;
 };
 
 void file_copy_perms(const char *src, const char *dst);

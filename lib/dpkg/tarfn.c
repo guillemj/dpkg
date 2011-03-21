@@ -197,7 +197,7 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	d->linkname = StoC(h->linkname, sizeof(h->linkname));
 	d->stat.mode = get_unix_mode(h);
 	d->size = (off_t)OtoM(h->size, sizeof(h->size));
-	d->stat.mtime = (time_t)OtoM(h->mtime, sizeof(h->mtime));
+	d->mtime = (time_t)OtoM(h->mtime, sizeof(h->mtime));
 	d->dev = ((OtoM(h->devmajor, sizeof(h->devmajor)) & 0xff) << 8) |
 	         (OtoM(h->devminor, sizeof(h->devminor)) & 0xff);
 
