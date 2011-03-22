@@ -78,6 +78,11 @@ our %FIELDS = (
         dependency => 'normal',
         dep_order => 2,
     },
+    'Built-Using' => {
+        allowed => ALL_PKG,
+        dependency => 'union',
+        dep_order => 10,
+    },
     'Changed-By' => {
         allowed => CTRL_FILE_CHANGES,
     },
