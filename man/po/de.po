@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2011-03-15 15:38+0000\n"
-"PO-Revision-Date: 2011-03-15 16:59+0100\n"
+"POT-Creation-Date: 2011-03-23 18:37+0000\n"
+"PO-Revision-Date: 2011-03-23 19:41+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -257,7 +257,7 @@ msgstr ""
 "Hauptversionsnummer erhöht wird."
 
 #. type: SH
-#: deb.5:79 deb-control.5:258 deb-src-control.5:319 deb-split.5:37
+#: deb.5:79 deb-control.5:269 deb-src-control.5:322 deb-split.5:37
 #: deb-version.5:116 deb-old.5:51 deb-override.5:62 deb-extra-override.5:37
 #: deb-shlibs.5:61 deb-substvars.5:154 deb-symbols.5:61 deb-triggers.5:49
 #: dpkg.1:782 dpkg-architecture.1:300 dpkg.cfg.5:23 dpkg-buildpackage.1:249
@@ -845,14 +845,41 @@ msgstr ""
 "werden. Eine optionale Version kann auch mit der gleichen Syntax wie oben "
 "für die B<Breaks>-, B<Conflicts>- und B<Replaces>-Felder angegeben werden."
 
+#. type: TP
+#: deb-control.5:232 deb-src-control.5:255
+#, no-wrap
+msgid "B<Built-Using:> E<lt>package listE<gt>"
+msgstr "B<Built-Using:> E<lt>PaketlisteE<gt>"
+
+#. type: Plain text
+#: deb-control.5:242
+msgid ""
+"This field lists extra source packages that were used during the build of "
+"this binary package.  This is an indication to the archive maintenance "
+"software that these extra source packages must be kept whilst this binary "
+"package is maintained.  This field must be a list of source package names "
+"with strict (=)  version relationships.  Note that the archive maintenance "
+"software is likely to refuse to accept an upload which declares a B<Built-"
+"Using> relationship which cannot be satisfied within the archive."
+msgstr ""
+"Dieses Feld führt zusätzliche Quellpakete auf, die während des Baus des "
+"Binärpakets verwandt wurden. Dies dient als Hinweis für die "
+"Archivverwaltungssoftware, dass zusätzliche Quellpakete vorhanden bleiben "
+"müssen, während dieses Binärpaket betreut wird. Dieses Feld muss eine Liste "
+"von Quellpaketnamen enthalten, bei denen eine strenge Versionsbeziehung (=) "
+"angegeben ist. Beachten Sie, dass die Archivverwaltungssoftware "
+"wahrscheinlich einen Upload ablehnen wird, bei dem eine B<Built-Using>-"
+"Beziehung angegeben wurde, die innerhalb des Archivs nicht erfüllt werden "
+"kann."
+
 #. type: SH
-#: deb-control.5:232 deb-src-control.5:280 start-stop-daemon.8:273
+#: deb-control.5:243 deb-src-control.5:283 start-stop-daemon.8:273
 #, no-wrap
 msgid "EXAMPLE"
 msgstr "BEISPIEL"
 
 #. type: Plain text
-#: deb-control.5:255
+#: deb-control.5:266
 #, no-wrap
 msgid ""
 "# Comment\n"
@@ -899,7 +926,7 @@ msgstr ""
 " langsamer laufen.)\n"
 
 #. type: Plain text
-#: deb-control.5:263
+#: deb-control.5:274
 msgid ""
 "B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr ""
@@ -1364,7 +1391,7 @@ msgid "B<Enhances:> E<lt>package listE<gt>"
 msgstr "B<Enhances:> E<lt>PaketlisteE<gt>"
 
 #. type: Plain text
-#: deb-src-control.5:262
+#: deb-src-control.5:265
 msgid ""
 "These fields declare relationships between packages. They are discussed in "
 "the B<deb-control>(5)  manpage and in the B<debian-policy> package."
@@ -1373,13 +1400,13 @@ msgstr ""
 "Handbuchseite B<deb-control>(5) und im Paket B<debian-policy> beschrieben."
 
 #. type: SH
-#: deb-src-control.5:263
+#: deb-src-control.5:266
 #, no-wrap
 msgid "USER-DEFINED FIELDS"
 msgstr "BENUTZERDEFINIERTE FELDER"
 
 #. type: Plain text
-#: deb-src-control.5:278
+#: deb-src-control.5:281
 msgid ""
 "It is allowed to add additional user-defined fields to the control file. The "
 "tools will ignore these fields. If you want the fields to be copied over to "
@@ -1409,7 +1436,7 @@ msgstr ""
 "Quell- und Binärpakets auftauchen."
 
 #. type: Plain text
-#: deb-src-control.5:296
+#: deb-src-control.5:299
 #, no-wrap
 msgid ""
 "# Comment\n"
@@ -1441,7 +1468,7 @@ msgstr ""
 " libselinux1-dev (E<gt>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]\n"
 
 #. type: Plain text
-#: deb-src-control.5:315
+#: deb-src-control.5:318
 #, no-wrap
 msgid ""
 "Package: dpkg-dev\n"
@@ -1483,7 +1510,7 @@ msgstr ""
 " for example, most packages need make and the C compiler gcc.\n"
 
 #. type: Plain text
-#: deb-src-control.5:322
+#: deb-src-control.5:325
 msgid "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
 msgstr "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
 
