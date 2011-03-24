@@ -230,7 +230,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
 	    set_source_package($v);
 	    $fields->{$_} = $v;
 	} elsif (m/^Uploaders$/i) {
-	    ($fields->{$_} = $v) =~ s/[\r\n]/ /g; # Merge in a single-line
+	    ($fields->{$_} = $v) =~ s/\s*[\r\n]\s*/ /g; # Merge in a single-line
 	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 	    my $dep;
 	    my $type = field_get_dep_type($_);
