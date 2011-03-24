@@ -47,6 +47,9 @@ dpkg (1.16.0) UNRELEASED; urgency=low
     works at all. Thanks to Ivan Gagis <igagis@gmail.com>. LP: #728708
   * Add armhf support to ostable and triplettable. Closes: #594179
   * Set the modification time for unpacked symlinks on supported systems.
+  * Fix undefined value useage in dpkg-genchanges when adding files w/o a
+    matching architecture, because they are not present in debian/control,
+    this is most commonly the case due to dpkg-distaddfile.
 
   [ Raphaël Hertzog ]
   * Fail properly when debian/source/format is empty. Closes: #600854
