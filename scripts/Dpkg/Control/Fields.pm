@@ -161,6 +161,9 @@ our %FIELDS = (
     'Package' => {
         allowed => ALL_PKG,
     },
+    'Package-List' => {
+        allowed => ALL_SRC & ~CTRL_INFO_SRC,
+    },
     'Package-Type' => {
         allowed => ALL_PKG,
     },
@@ -288,7 +291,8 @@ our %FIELD_ORDER = (
         qw(Format Source Binary Architecture Version Origin Maintainer
         Uploaders Homepage Standards-Version Vcs-Browser
         Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn
-        Vcs-Svn), &field_list_src_dep(), @checksum_fields, qw(Files)
+        Vcs-Svn), &field_list_src_dep(), qw(Package-List),
+        @checksum_fields, qw(Files)
     ],
     CTRL_FILE_CHANGES() => [
         qw(Format Date Source Binary Architecture Version Distribution

@@ -220,6 +220,10 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
 
     # Scan control info of source package
     my $src_fields = $control->get_source();
+    my $src_sect = $src_fields->{'Section'} || "unknown";
+    my $src_prio = $src_fields->{'Priority'} || "unknown";
+    $fields->{'Package-List'} = sprintf("\nsrc:%s %s %s", $src_fields->{'Source'},
+                                        $src_sect, $src_prio);
     foreach $_ (keys %{$src_fields}) {
 	my $v = $src_fields->{$_};
 	if (m/^Source$/i) {
@@ -242,8 +246,15 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
     }
 
     # Scan control info of binary packages
+    my @pkglist;
     foreach my $pkg ($control->get_packages()) {
 	my $p = $pkg->{'Package'};
+	my $sect = $pkg->{'Section'} || $src_sect;
+	my $prio = $pkg->{'Priority'} || $src_prio;
+	my $type = $pkg->{'Package-Type'} ||
+	        $pkg->get_custom_field('Package-Type') || 'deb';
+	push @pkglist, sprintf("%s%s %s %s", ($type eq "deb") ? "" : "$type:",
+	                       $p, $sect, $prio);
 	push(@binarypackages,$p);
 	foreach $_ (keys %{$pkg}) {
 	    my $v = $pkg->{$_};
@@ -272,6 +283,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
             }
 	}
     }
+    $fields->{'Package-List'} .= "\n" . join("\n", sort @pkglist);
     if (grep($_ eq 'any', @sourcearch)) {
         # If we encounter one 'any' then the other arches become insignificant.
         @sourcearch = ('any');
