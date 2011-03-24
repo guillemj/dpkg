@@ -279,8 +279,8 @@ my @sum_fields = map { $_ eq "md5" ? "MD5sum" : field_capitalize($_) }
 
 our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
-        qw(Package Package-Type Source Version Kernel-Version Architecture
-        Subarchitecture Installer-Menu-Item Essential Origin Bugs
+        qw(Package Package-Type Source Version Built-Using Kernel-Version
+        Architecture Subarchitecture Installer-Menu-Item Essential Origin Bugs
         Maintainer Installed-Size), &field_list_pkg_dep(),
         qw(Section Priority Multi-Arch Homepage Description Tag Task)
     ],
