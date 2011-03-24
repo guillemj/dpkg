@@ -56,7 +56,7 @@ email ($2), some blanks ($3) and the timestamp ($4).
 =cut
 
 my $name_chars = qr/[-+0-9a-z.]/i;
-our $regex_header = qr/^(\w$name_chars*) \(([^\(\) \t]+)\)((?:\s+$name_chars+)+)\;(.*)$/i;
+our $regex_header = qr/^(\w$name_chars*) \(([^\(\) \t]+)\)((?:\s+$name_chars+)+)\;(.*?)\s*$/i;
 our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)\s*$/o;
 
 =head1 FUNCTIONS
