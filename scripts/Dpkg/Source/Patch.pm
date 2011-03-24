@@ -543,7 +543,7 @@ sub apply {
     # and remove .dpkg-orig files
     my @files = keys %{$analysis->{'filepatched'}};
     my $now = $opts{"timestamp"};
-    $now ||= fs_time($files[0]) if $opts{"force_timestamp"};
+    $now ||= fs_time($files[0]) if $opts{"force_timestamp"} and scalar @files;
     foreach my $fn (@files) {
 	if ($opts{"force_timestamp"}) {
 	    utime($now, $now, $fn) || $! == ENOENT ||
