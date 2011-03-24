@@ -761,5 +761,5 @@ int main(int argc, const char *const *argv) {
 
   standard_shutdown();
 
-  return reportbroken_retexitstatus();
+  return reportbroken_retexitstatus(0);
 }

@@ -80,7 +80,9 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   abort_processing = true;
 }
 
-int reportbroken_retexitstatus(void) {
+int
+reportbroken_retexitstatus(int ret)
+{
   if (reports) {
     fputs(_("Errors were encountered while processing:\n"),stderr);
     while (reports) {
@@ -91,7 +93,7 @@ int reportbroken_retexitstatus(void) {
   if (abort_processing) {
     fputs(_("Processing was halted because there were too many errors.\n"),stderr);
   }
-  return nerrs ? 1 : 0;
+  return nerrs ? 1 : ret;
 }
 
 bool
