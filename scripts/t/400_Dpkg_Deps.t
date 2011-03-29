@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 18;
+use Test::More tests => 20;
 
 use strict;
 use warnings;
@@ -40,6 +40,14 @@ my $dep_or1 = deps_parse("a|b (>=1.0)|c (>= 2.0)");
 my $dep_or2 = deps_parse("x|y|a|b|c (<= 0.5)|c (>=1.5)|d|e");
 is($dep_or1->implies($dep_or2), 1, "Implication between OR 1/2");
 is($dep_or2->implies($dep_or1), undef, "Implication between OR 2/2");
+
+my $dep_ma_any = deps_parse("libcairo2:any");
+my $dep_ma_native = deps_parse("libcairo2");
+#my $dep_ma_native2 = deps_parse("libcairo2:native");
+is($dep_ma_native->implies($dep_ma_any), 1, "foo -> foo:any");
+#is($dep_ma_native2->implies($dep_ma_any), 1, "foo:native -> foo:any");
+is($dep_ma_any->implies($dep_ma_native), undef, "foo:any !-> foo");
+#is($dep_ma_any->implies($dep_ma_native2), undef, "foo:any !-> foo:native");
 
 my $field_arch = "libc6 (>= 2.5) [!alpha !hurd-i386], libc6.1 [alpha], libc0.1 [hurd-i386]";
 my $dep_i386 = deps_parse($field_arch, reduce_arch => 1, host_arch => 'i386');

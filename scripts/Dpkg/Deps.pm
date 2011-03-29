@@ -125,6 +125,29 @@ sub _arch_is_superset {
     return 1;
 }
 
+# Dpkg::Deps::_arch_qualifier_allows_implication($p, $q)
+#
+# Returns true if the arch qualifier $p and $q are compatible with the
+# implication $p -> $q, false otherwise. $p/$q can be
+# undef/"any"/"native" or an architecture string.
+
+sub _arch_qualifier_allows_implication {
+    my ($p, $q) = @_;
+    if (defined $p and $p eq "any") {
+	return 1 if defined $q and $q eq "any";
+	return 0;
+    } elsif (defined $p and $p eq "native") {
+	return 1 if defined $q and ($q eq "any" or $q eq "native");
+	return 0;
+    } elsif (defined $p) {
+	return 1 if defined $q and ($p eq $q or $q eq "any");
+	return 0;
+    } else {
+	return 0 if defined $q and $q ne "any" and $q ne "native";
+	return 1;
+    }
+}
+
 =item deps_eval_implication($rel_p, $v_p, $rel_q, $v_q)
 
 ($rel_p, $v_p) and ($rel_q, $v_q) express two dependencies as (relation,
@@ -597,6 +620,11 @@ sub implies {
 	# Our architecture set must be a superset of the architectures for
 	# o, otherwise we can't conclude anything.
 	return undef unless Dpkg::Deps::_arch_is_superset($self->{arches}, $o->{arches});
+
+	# The arch qualifier must not forbid an implication
+	return undef unless
+	    Dpkg::Deps::_arch_qualifier_allows_implication($self->{archqual},
+	                                                   $o->{archqual});
 
 	# If o has no version clause, then our dependency is stronger
 	return 1 if not defined $o->{relation};
