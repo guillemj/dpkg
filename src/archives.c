@@ -752,7 +752,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   case tar_filetype_symlink:
-    /* We've already cheched for an existing directory. */
+    /* We've already checked for an existing directory. */
     if (symlink(ti->linkname, fnamenewvb.buf))
       ohshite(_("error creating symbolic link `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject symlink creating");
