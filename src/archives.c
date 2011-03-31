@@ -721,19 +721,16 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (mkfifo(fnamenewvb.buf,0))
       ohshite(_("error creating pipe `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject fifo");
-    newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   case tar_filetype_chardev:
     if (mknod(fnamenewvb.buf, S_IFCHR, ti->dev))
       ohshite(_("error creating device `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject chardev");
-    newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   case tar_filetype_blockdev:
     if (mknod(fnamenewvb.buf, S_IFBLK, ti->dev))
       ohshite(_("error creating device `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject blockdev");
-    newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   case tar_filetype_hardlink:
     varbuf_reset(&hardlinkfn);
@@ -747,7 +744,6 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject hardlink");
-    newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   case tar_filetype_symlink:
     /* We've already checked for an existing directory. */
@@ -762,12 +758,13 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (mkdir(fnamenewvb.buf,0))
       ohshite(_("error creating directory `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject directory creating");
-    newtarobject_allmodes(fnamenewvb.buf, st);
     break;
   default:
     internerr("unknown tar type '%d', but already checked", ti->type);
   }
 
+  if (ti->type != tar_filetype_symlink && ti->type != tar_filetype_file)
+    newtarobject_allmodes(fnamenewvb.buf, st);
   if (ti->type != tar_filetype_symlink)
     newtarobject_utime(fnamenewvb.buf, st);
   set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, st->mode);
