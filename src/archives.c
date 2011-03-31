@@ -231,9 +231,13 @@ does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
 }
 
 static void
-tarobject_set_mtime(const char *path, struct file_stat *st)
+tarobject_set_mtime(struct tar_entry *te, const char *path, struct file_stat *st)
 {
   struct utimbuf utb;
+
+  if (te->type == tar_filetype_symlink)
+    return;
+
   utb.actime= currenttime;
   utb.modtime = st->mtime;
   if (utime(path,&utb))
@@ -241,8 +245,14 @@ tarobject_set_mtime(const char *path, struct file_stat *st)
 }
 
 static void
-tarobject_set_perms(const char *path, struct file_stat *st)
+tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st)
 {
+  if (te->type == tar_filetype_file)
+    return; /* Already handled using the file descriptor. */
+
+  if (te->type == tar_filetype_symlink)
+    return;
+
   if (chown(path, st->uid, st->gid))
     ohshite(_("error setting ownership of `%.255s'"), path);
   if (chmod(path, st->mode & ~S_IFMT))
@@ -763,10 +773,8 @@ tarobject(void *ctx, struct tar_entry *ti)
     internerr("unknown tar type '%d', but already checked", ti->type);
   }
 
-  if (ti->type != tar_filetype_symlink && ti->type != tar_filetype_file)
-    tarobject_set_perms(fnamenewvb.buf, st);
-  if (ti->type != tar_filetype_symlink)
-    tarobject_set_mtime(fnamenewvb.buf, st);
+  tarobject_set_perms(ti, fnamenewvb.buf, st);
+  tarobject_set_mtime(ti, fnamenewvb.buf, st);
   set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, st->mode);
 
   /*
