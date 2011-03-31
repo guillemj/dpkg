@@ -24,6 +24,7 @@
 #include <compat.h>
 
 #include <sys/types.h>
+#include <sys/time.h>
 #include <sys/stat.h>
 
 #include <assert.h>
@@ -31,7 +32,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <time.h>
-#include <utime.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdint.h>
@@ -233,14 +233,17 @@ does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
 static void
 tarobject_set_mtime(struct tar_entry *te, const char *path, struct file_stat *st)
 {
-  struct utimbuf utb;
+  struct timeval tv[2];
 
   if (te->type == tar_filetype_symlink)
     return;
 
-  utb.actime= currenttime;
-  utb.modtime = st->mtime;
-  if (utime(path,&utb))
+  tv[0].tv_sec = currenttime;
+  tv[0].tv_usec = 0;
+  tv[1].tv_sec = st->mtime;
+  tv[1].tv_usec = 0;
+
+  if (utimes(path, tv))
     ohshite(_("error setting timestamps of `%.255s'"), path);
 }
 
