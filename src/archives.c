@@ -253,13 +253,15 @@ tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st
   if (te->type == tar_filetype_file)
     return; /* Already handled using the file descriptor. */
 
-  if (te->type == tar_filetype_symlink)
-    return;
-
-  if (chown(path, st->uid, st->gid))
-    ohshite(_("error setting ownership of `%.255s'"), path);
-  if (chmod(path, st->mode & ~S_IFMT))
-    ohshite(_("error setting permissions of `%.255s'"), path);
+  if (te->type == tar_filetype_symlink) {
+    if (lchown(path, st->uid, st->gid))
+      ohshite(_("error setting ownership of symlink `%.255s'"), path);
+  } else {
+    if (chown(path, st->uid, st->gid))
+      ohshite(_("error setting ownership of `%.255s'"), path);
+    if (chmod(path, st->mode & ~S_IFMT))
+      ohshite(_("error setting permissions of `%.255s'"), path);
+  }
 }
 
 static void
@@ -761,8 +763,6 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (symlink(ti->linkname, fnamenewvb.buf))
       ohshite(_("error creating symbolic link `%.255s'"), ti->name);
     debug(dbg_eachfiledetail, "tarobject symlink creating");
-    if (lchown(fnamenewvb.buf, st->uid, st->gid))
-      ohshite(_("error setting ownership of symlink `%.255s'"), ti->name);
     break;
   case tar_filetype_dir:
     /* We've already checked for an existing directory. */
