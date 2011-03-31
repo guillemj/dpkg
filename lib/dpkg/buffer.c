@@ -53,11 +53,11 @@ buffer_md5_init(struct buffer_data *data)
 }
 
 static off_t
-buffer_init(struct buffer_data *read_data, struct buffer_data *write_data)
+buffer_init(struct buffer_data *data)
 {
-	switch (write_data->type) {
+	switch (data->type) {
 	case BUFFER_WRITE_MD5:
-		buffer_md5_init(write_data);
+		buffer_md5_init(data);
 		break;
 	}
 	return 0;
@@ -83,11 +83,11 @@ buffer_md5_done(struct buffer_data *data)
 }
 
 static off_t
-buffer_done(struct buffer_data *read_data, struct buffer_data *write_data)
+buffer_done(struct buffer_data *data)
 {
-	switch (write_data->type) {
+	switch (data->type) {
 	case BUFFER_WRITE_MD5:
-		buffer_md5_done(write_data);
+		buffer_md5_done(data);
 		break;
 	}
 	return 0;
@@ -141,9 +141,9 @@ buffer_hash(const void *input, void *output, int type, off_t limit)
 	struct buffer_data data = { .arg.ptr = output, .type = type };
 	off_t ret;
 
-	buffer_init(NULL, &data);
+	buffer_init(&data);
 	ret = buffer_write(&data, input, limit);
-	buffer_done(NULL, &data);
+	buffer_done(&data);
 
 	return ret;
 }
@@ -164,7 +164,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 
 	buf = m_malloc(bufsize);
 
-	buffer_init(read_data, write_data);
+	buffer_init(write_data);
 
 	while (bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize);
@@ -197,7 +197,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 	if (limit > 0)
 		ohshit(_("short read on buffer copy for %s"), desc);
 
-	buffer_done(read_data, write_data);
+	buffer_done(write_data);
 
 	free(buf);
 
