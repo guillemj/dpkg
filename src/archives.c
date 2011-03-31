@@ -235,16 +235,20 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
 {
   struct timeval tv[2];
 
-  if (te->type == tar_filetype_symlink)
-    return;
-
   tv[0].tv_sec = currenttime;
   tv[0].tv_usec = 0;
   tv[1].tv_sec = te->mtime;
   tv[1].tv_usec = 0;
 
-  if (utimes(path, tv))
-    ohshite(_("error setting timestamps of `%.255s'"), path);
+  if (te->type == tar_filetype_symlink) {
+#ifdef HAVE_LUTIMES
+    if (lutimes(path, tv))
+      ohshite(_("error setting timestamps of `%.255s'"), path);
+#endif
+  } else {
+    if (utimes(path, tv))
+      ohshite(_("error setting timestamps of `%.255s'"), path);
+  }
 }
 
 static void
