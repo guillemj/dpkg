@@ -241,7 +241,7 @@ tarobject_set_mtime(const char *path, struct file_stat *st)
 }
 
 static void
-newtarobject_allmodes(const char *path, struct file_stat *st)
+tarobject_set_perms(const char *path, struct file_stat *st)
 {
   if (chown(path, st->uid, st->gid))
     ohshite(_("error setting ownership of `%.255s'"), path);
@@ -764,7 +764,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   }
 
   if (ti->type != tar_filetype_symlink && ti->type != tar_filetype_file)
-    newtarobject_allmodes(fnamenewvb.buf, st);
+    tarobject_set_perms(fnamenewvb.buf, st);
   if (ti->type != tar_filetype_symlink)
     tarobject_set_mtime(fnamenewvb.buf, st);
   set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, st->mode);
