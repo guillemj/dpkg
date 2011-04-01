@@ -216,10 +216,8 @@ file_copy(const char *src, const char *dst)
 		return -1;
 
 	dstfd = creat(dst, 0600);
-	if (dstfd < 0) {
-		close(srcfd);
+	if (dstfd < 0)
 		return -1;
-	}
 
 	/* FIXME: leaves a dangling destination file on error. */
 
