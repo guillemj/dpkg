@@ -241,17 +241,6 @@ file_copy(const char *src, const char *realdst)
 }
 
 static void
-rename_mv(const char *src, const char *dst)
-{
-	if (rename(src, dst) == 0)
-		return;
-
-	/* If a simple rename didn't work try an atomic copy, rename, unlink
-	 * instead. */
-	file_copy(src, dst);
-}
-
-static void
 file_rename(struct file *src, struct file *dst)
 {
 	if (src->stat_state == file_stat_nofile)
@@ -262,7 +251,11 @@ file_rename(struct file *src, struct file *dst)
 			ohshite(_("rename: remove duplicate old link '%s'"),
 			        src->name);
 	} else {
-		rename_mv(src->name, dst->name);
+		if (rename(src->name, dst->name) == 0)
+			return;
+
+		/* If a rename didn't work try moving the file instead. */
+		file_copy(src->name, dst->name);
 	}
 }
 
