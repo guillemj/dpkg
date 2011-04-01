@@ -225,7 +225,8 @@ $fields->{'Version'} = $forceversion if defined($forceversion);
 # initialized.
 
 my $facts = Dpkg::Deps::KnownFacts->new();
-$facts->add_installed_package($fields->{'Package'}, $fields->{'Version'});
+$facts->add_installed_package($fields->{'Package'}, $fields->{'Version'},
+                              $fields->{'Architecture'}, $fields->{'Multi-Arch'});
 if (exists $pkg->{"Provides"}) {
     my $provides = deps_parse($substvars->substvars($pkg->{"Provides"}, no_warn => 1),
                               reduce_arch => 1, union => 1);

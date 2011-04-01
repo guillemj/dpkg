@@ -256,9 +256,8 @@ Set to 0 to completely ignore that information.
 
 =item host_arch (defaults to the current architecture)
 
-Define the host architecture. Needed only if the reduce_arch option is
-set to 1. By default it uses Dpkg::Arch::get_host_arch() to identify
-the proper architecture.
+Define the host architecture. By default it uses
+Dpkg::Arch::get_host_arch() to identify the proper architecture.
 
 =item reduce_arch (defaults to 0)
 
@@ -292,7 +291,8 @@ sub deps_parse {
     foreach my $dep_and (split(/\s*,\s*/m, $dep_line)) {
         my @or_list = ();
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
-	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or);
+	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or, host_arch =>
+	                                             $options{host_arch});
 	    if (not defined $dep_simple->{package}) {
 		warning(_g("can't parse dependency %s"), $dep_or);
 		return undef;
@@ -532,11 +532,12 @@ use Dpkg::Gettext;
 use base qw(Dpkg::Interface::Storable);
 
 sub new {
-    my ($this, $arg) = @_;
+    my ($this, $arg, %opts) = @_;
     my $class = ref($this) || $this;
     my $self = {};
     bless $self, $class;
     $self->reset();
+    $self->{host_arch} = $opts{host_arch} || Dpkg::Arch::get_host_arch();
     $self->parse_string($arg) if defined($arg);
     return $self;
 }
@@ -734,31 +735,7 @@ sub has_arch_restriction {
 sub get_evaluation {
     my ($self, $facts) = @_;
     return undef if not defined $self->{package};
-    my ($check, $param) = $facts->check_package($self->{package});
-    if ($check) {
-	if (defined $self->{relation}) {
-	    if (ref($param)) {
-		# Provided packages
-		# XXX: Once support for versioned provides is in place,
-		# this part must be adapted
-		return 0;
-	    } else {
-		if (defined($param)) {
-		    if (version_compare_relation($param, $self->{relation},
-						 $self->{version})) {
-			return 1;
-		    } else {
-			return 0;
-		    }
-		} else {
-		    return undef;
-		}
-	    }
-	} else {
-	    return 1;
-	}
-    }
-    return 0;
+    return $facts->_evaluate_simple_dep($self);
 }
 
 sub simplify_deps {
@@ -1187,6 +1164,8 @@ Creates a new object.
 use strict;
 use warnings;
 
+use Dpkg::Version;
+
 sub new {
     my $this = shift;
     my $class = ref($this) || $this;
@@ -1195,17 +1174,28 @@ sub new {
     return $self;
 }
 
-=item $facts->add_installed_package($package, $version)
+=item $facts->add_installed_package($package, $version, $arch, $multiarch)
 
-Records that the given version of the package is installed. If $version is
-undefined we know that the package is installed but we don't know which
-version it is.
+Records that the given version of the package is installed. If
+$version/$arch is undefined we know that the package is installed but we
+don't know which version/architecture it is. $multiarch is the Multi-Arch
+field of the package. If $multiarch is undef, it will be equivalent to
+"Multi-Arch: no".
+
+Note that $multiarch is only used if $arch is provided.
 
 =cut
 
 sub add_installed_package {
-    my ($self, $pkg, $ver) = @_;
-    $self->{pkg}{$pkg} = $ver;
+    my ($self, $pkg, $ver, $arch, $multiarch) = @_;
+    my $p = {
+	"package" => $pkg,
+	"version" => $ver,
+	"architecture" => $arch,
+	"multi-arch" => $multiarch || "no",
+    };
+    $self->{pkg}{"$pkg:$arch"} = $p if defined $arch;
+    push @{$self->{pkg}{$pkg}}, $p;
 }
 
 =item $facts->add_provided_package($virtual, $relation, $version, $by)
@@ -1231,6 +1221,10 @@ contains the version. For a virtual package, $param contains an array
 reference containing the list of packages that provide it (each package is
 listed as [ $provider, $relation, $version ]).
 
+This function is obsolete and should not be used. Dpkg::Deps::KnownFacts
+is only meant to be filled with data and then passed to Dpkg::Deps
+methods where appropriate, but it should not be directly queried.
+
 =back
 
 =cut
@@ -1238,12 +1232,69 @@ listed as [ $provider, $relation, $version ]).
 sub check_package {
     my ($self, $pkg) = @_;
     if (exists $self->{pkg}{$pkg}) {
-	return (1, $self->{pkg}{$pkg});
+	return (1, $self->{pkg}{$pkg}[0]{version});
     }
     if (exists $self->{virtualpkg}{$pkg}) {
 	return (1, $self->{virtualpkg}{$pkg});
     }
     return (0, undef);
+}
+
+## The functions below are private to Dpkg::Deps
+
+sub _find_package {
+    my ($self, $dep, $lackinfos) = @_;
+    my ($pkg, $archqual) = ($dep->{package}, $dep->{archqual});
+    return undef if not exists $self->{pkg}{$pkg};
+    my $host_arch = $dep->{host_arch};
+    foreach my $p (@{$self->{pkg}{$pkg}}) {
+	my $a = $p->{"architecture"};
+	my $ma = $p->{"multi-arch"};
+	if (not defined $a) {
+	    $$lackinfos = 1;
+	    next;
+	}
+	return $p if $ma eq "foreign";
+	if (not defined $archqual) {
+	    return $p if $a eq $host_arch or $a eq "all";
+	} elsif ($archqual eq "any") {
+	    return $p if $ma eq "allowed";
+	    return $p if $a eq $host_arch or $a eq "all";
+	}
+    }
+    return undef;
+}
+
+sub _find_virtual_packages {
+    my ($self, $pkg) = @_;
+    return () if not exists $self->{virtualpkg}{$pkg};
+    return @{$self->{virtualpkg}{$pkg}};
+}
+
+sub _evaluate_simple_dep {
+    my ($self, $dep) = @_;
+    my ($lackinfos, $pkg) = (0, $dep->{package});
+    my $p = $self->_find_package($dep, \$lackinfos);
+    if ($p) {
+	if (defined $dep->{relation}) {
+	    if (defined $p->{version}) {
+		return 1 if version_compare_relation($p->{version},
+		                           $dep->{relation}, $dep->{version});
+	    } else {
+		$lackinfos = 1;
+	    }
+	} else {
+	    return 1;
+	}
+    }
+    foreach my $virtpkg ($self->_find_virtual_packages($pkg)) {
+	# XXX: Adapt when versioned provides are allowed
+	next if defined $virtpkg->[1];
+	next if defined $dep->{relation}; # Provides don't satisfy versioned deps
+	return 1;
+    }
+    return undef if $lackinfos;
+    return 0;
 }
 
 =head1 CHANGES
@@ -1256,6 +1307,12 @@ sub check_package {
 
 =item * Dpkg::Deps::Simple now recognizes the arch qualifier "any" and
 stores it in the "archqual" property when present.
+
+=item * Dpkg::Deps::KnownFacts->add_installed_package() now accepts 2
+supplementary parameters ($arch and $multiarch).
+
+=item * Dpkg::Deps::KnownFacts->check_package() is obsolete, it should
+not have been part of the public API.
 
 =back
 

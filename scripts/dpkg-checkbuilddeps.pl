@@ -123,7 +123,10 @@ sub parse_status {
 	
 		my ($package) = /^Package: (.*)$/m;
 		my ($version) = /^Version: (.*)$/m;
-		$facts->add_installed_package($package, $version);
+		my ($arch) = /^Architecture: (.*)$/m;
+		my ($multiarch) = /^Multi-Arch: (.*)$/m;
+		$facts->add_installed_package($package, $version, $arch,
+		                              $multiarch);
 	
 		if (/^Provides: (.*)$/m) {
 			my $provides = deps_parse($1, reduce_arch => 1, union => 1);

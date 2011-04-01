@@ -18,6 +18,7 @@ use Test::More tests => 20;
 use strict;
 use warnings;
 
+use Dpkg::Arch qw(get_host_arch);
 use_ok('Dpkg::Deps');
 
 my $field_multiline = " , , libgtk2.0-common (= 2.10.13-1)  , libatk1.0-0 (>=
@@ -59,14 +60,21 @@ is($dep_hurd->output(), "libc0.1", "Arch reduce 3/3");
 
 
 my $facts = Dpkg::Deps::KnownFacts->new();
-$facts->add_installed_package("mypackage", "1.3.4-1");
+$facts->add_installed_package("mypackage", "1.3.4-1", get_host_arch(), "no");
+$facts->add_installed_package("mypackage2", "1.3.4-1", "somearch", "no");
+$facts->add_installed_package("pkg-ma-foreign", "1.3.4-1", "somearch", "foreign");
+$facts->add_installed_package("pkg-ma-foreign2", "1.3.4-1", get_host_arch(), "foreign");
+$facts->add_installed_package("pkg-ma-allowed", "1.3.4-1", "somearch", "allowed");
+$facts->add_installed_package("pkg-ma-allowed2", "1.3.4-1", "somearch", "allowed");
+$facts->add_installed_package("pkg-ma-allowed3", "1.3.4-1", get_host_arch(), "allowed");
 $facts->add_provided_package("myvirtual", undef, undef, "mypackage");
 
 my $field_duplicate = "libc6 (>= 2.3), libc6 (>= 2.6-1), mypackage (>=
-1.3), myvirtual | something, python (>= 2.5)";
+1.3), myvirtual | something, python (>= 2.5), mypackage2, pkg-ma-foreign,
+pkg-ma-foreign2, pkg-ma-allowed:any, pkg-ma-allowed2, pkg-ma-allowed3";
 my $dep_dup = deps_parse($field_duplicate);
 $dep_dup->simplify_deps($facts, $dep_opposite);
-is($dep_dup->output(), "libc6 (>= 2.6-1)", "Simplify deps");
+is($dep_dup->output(), "libc6 (>= 2.6-1), mypackage2, pkg-ma-allowed2", "Simplify deps");
 
 my $field_dup_union = "libc6 (>> 2.3), libc6 (>= 2.6-1), fake (<< 2.0),
 fake(>> 3.0), fake (= 2.5), python (<< 2.5), python (= 2.4)";
