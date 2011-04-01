@@ -256,6 +256,10 @@ file_rename(struct file *src, struct file *dst)
 
 		/* If a rename didn't work try moving the file instead. */
 		file_copy(src->name, dst->name);
+
+		if (unlink(src->name))
+			ohshite(_("unable to remove copied source file '%s'"),
+			        src->name);
 	}
 }
 
