@@ -207,14 +207,16 @@ check_rename(struct file *src, struct file *dst)
 }
 
 static void
-file_copy(const char *src, const char *dst)
+file_copy(const char *src, const char *realdst)
 {
+	char *dst;
 	int srcfd, dstfd;
 
 	srcfd = open(src, O_RDONLY);
 	if (srcfd < 0)
 		ohshite(_("unable to open file '%s'"), src);
 
+	m_asprintf(&dst, "%s%s", realdst, ".dpkg-divert.tmp");
 	dstfd = creat(dst, 0600);
 	if (dstfd < 0)
 		ohshite(_("unable to create file '%s'"), dst);
@@ -231,26 +233,22 @@ file_copy(const char *src, const char *dst)
 		ohshite(_("unable to close file '%s'"), dst);
 
 	file_copy_perms(src, dst);
+
+	if (rename(dst, realdst) != 0)
+		ohshite(_("cannot rename '%s' to '%s'"), dst, realdst);
+
+	free(dst);
 }
 
 static void
 rename_mv(const char *src, const char *dst)
 {
-	char *tmpdst;
-
 	if (rename(src, dst) == 0)
 		return;
 
-	m_asprintf(&tmpdst, "%s%s", dst, ".dpkg-divert.tmp");
-
 	/* If a simple rename didn't work try an atomic copy, rename, unlink
 	 * instead. */
-	file_copy(src, tmpdst);
-
-	if (rename(tmpdst, dst) != 0)
-		ohshite(_("cannot rename '%s' to '%s'"), tmpdst, dst);
-
-	free(tmpdst);
+	file_copy(src, dst);
 }
 
 static void
