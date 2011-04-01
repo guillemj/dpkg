@@ -1,7 +1,6 @@
 dpkg (1.16.0) UNRELEASED; urgency=low
 
   [ Guillem Jover ]
-  * Fix realloc usage on compat scandir() implementation.
   * Use DPKG_MAINTSCRIPT_PACKAGE environment variable as package name on
     dpkg-divert when no --package or --local options have been specified.
   * Do not allow versions starting with non-digit when doing strict parsing,
@@ -100,7 +99,7 @@ dpkg (1.16.0) UNRELEASED; urgency=low
     the rename implies crossing file systems. Thanks to Durk Strooisma for
     spotting it.
   * Use the correct mtime when installing a file with statoverrides.
-    LP: #739179
+    Regression introduced in 1.16.0. LP: #739179
   * Remove duplicate word in german translation of dpkg(1). Closes: #616096
   * Strip repeated non-significant spaces before and after newlines
     in Uploaders. Closes: #598922
