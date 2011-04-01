@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2011-03-06 10:45+0100\n"
+"POT-Creation-Date: 2011-04-01 22:07+0300\n"
 "PO-Revision-Date: 2010-11-26 07:15+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -262,10 +262,10 @@ msgstr ""
 "une incrémentation du numéro majeur de version."
 
 #. type: SH
-#: deb.5:79 deb-control.5:258 deb-src-control.5:319 deb-split.5:37
+#: deb.5:79 deb-control.5:269 deb-src-control.5:322 deb-split.5:37
 #: deb-version.5:116 deb-old.5:51 deb-override.5:62 deb-extra-override.5:37
 #: deb-shlibs.5:61 deb-substvars.5:154 deb-symbols.5:61 deb-triggers.5:49
-#: dpkg.1:782 dpkg-architecture.1:294 dpkg.cfg.5:23 dpkg-buildpackage.1:249
+#: dpkg.1:782 dpkg-architecture.1:300 dpkg.cfg.5:23 dpkg-buildpackage.1:249
 #: dpkg-deb.1:246 dpkg-divert.8:132 dpkg-gensymbols.1:445 dpkg-name.1:95
 #: dpkg-query.1:212 dpkg-scanpackages.1:111 dpkg-scansources.1:72
 #: dpkg-shlibdeps.1:326 dpkg-source.1:701 dpkg-split.1:223
@@ -837,14 +837,33 @@ msgstr ""
 "comme un « OU ». On peut donner une version optionnelle de la même façon que "
 "ci-dessus dans les champs B<Breaks>, B<Conflicts> et B<Replaces>."
 
+#. type: TP
+#: deb-control.5:232 deb-src-control.5:255
+#, fuzzy, no-wrap
+#| msgid "B<Depends:> E<lt>package listE<gt>"
+msgid "B<Built-Using:> E<lt>package listE<gt>"
+msgstr "B<Depends:> E<lt>liste de paquetE<gt>"
+
+#. type: Plain text
+#: deb-control.5:242
+msgid ""
+"This field lists extra source packages that were used during the build of "
+"this binary package.  This is an indication to the archive maintenance "
+"software that these extra source packages must be kept whilst this binary "
+"package is maintained.  This field must be a list of source package names "
+"with strict (=)  version relationships.  Note that the archive maintenance "
+"software is likely to refuse to accept an upload which declares a B<Built-"
+"Using> relationship which cannot be satisfied within the archive."
+msgstr ""
+
 #. type: SH
-#: deb-control.5:232 deb-src-control.5:280 start-stop-daemon.8:273
+#: deb-control.5:243 deb-src-control.5:283 start-stop-daemon.8:273
 #, no-wrap
 msgid "EXAMPLE"
 msgstr "EXEMPLE"
 
 #. type: Plain text
-#: deb-control.5:255
+#: deb-control.5:266
 #, no-wrap
 msgid ""
 "# Comment\n"
@@ -893,7 +912,7 @@ msgstr ""
 " ralentissent cependant le programme.)\n"
 
 #. type: Plain text
-#: deb-control.5:263
+#: deb-control.5:274
 msgid ""
 "B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr ""
@@ -1348,21 +1367,21 @@ msgid "B<Enhances:> E<lt>package listE<gt>"
 msgstr "B<Replaces:> E<lt>liste de paquetsE<gt>"
 
 #. type: Plain text
-#: deb-src-control.5:262
+#: deb-src-control.5:265
 msgid ""
 "These fields declare relationships between packages. They are discussed in "
 "the B<deb-control>(5)  manpage and in the B<debian-policy> package."
 msgstr ""
 
 #. type: SH
-#: deb-src-control.5:263
+#: deb-src-control.5:266
 #, fuzzy, no-wrap
 #| msgid "REQUIRED FIELDS"
 msgid "USER-DEFINED FIELDS"
 msgstr "LES CHAMPS EXIGÉS"
 
 #. type: Plain text
-#: deb-src-control.5:278
+#: deb-src-control.5:281
 msgid ""
 "It is allowed to add additional user-defined fields to the control file. The "
 "tools will ignore these fields. If you want the fields to be copied over to "
@@ -1379,7 +1398,7 @@ msgid ""
 msgstr ""
 
 #. type: Plain text
-#: deb-src-control.5:296
+#: deb-src-control.5:299
 #, no-wrap
 msgid ""
 "# Comment\n"
@@ -1398,7 +1417,7 @@ msgid ""
 msgstr ""
 
 #. type: Plain text
-#: deb-src-control.5:315
+#: deb-src-control.5:318
 #, no-wrap
 msgid ""
 "Package: dpkg-dev\n"
@@ -1422,7 +1441,7 @@ msgid ""
 msgstr ""
 
 #. type: Plain text
-#: deb-src-control.5:322
+#: deb-src-control.5:325
 #, fuzzy
 #| msgid "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 msgid "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
@@ -2194,7 +2213,7 @@ msgid "See the Debian Policy Manual for further details."
 msgstr "Lire la charte Debian pour plus d'informations."
 
 #. type: SH
-#: deb-shlibs.5:41 deb-symbols.5:43 dpkg.1:728 dpkg-architecture.1:257
+#: deb-shlibs.5:41 deb-symbols.5:43 dpkg.1:728 dpkg-architecture.1:263
 #: dpkg-divert.8:91 dpkg-name.1:64 update-alternatives.8:458
 #, no-wrap
 msgid "EXAMPLES"
@@ -2585,7 +2604,7 @@ msgstr ""
 "avertissement et une valeur nulle est assumée."
 
 #. type: SH
-#: deb-substvars.5:145 dpkg.1:641 dpkg-architecture.1:279 dpkg.cfg.5:12
+#: deb-substvars.5:145 dpkg.1:641 dpkg-architecture.1:285 dpkg.cfg.5:12
 #: dpkg-buildflags.1:103 dpkg-distaddfile.1:39 dpkg-divert.8:122
 #: dpkg-genchanges.1:138 dpkg-gencontrol.1:128 dpkg-parsechangelog.1:115
 #: dpkg-split.1:212 dpkg-statoverride.8:75 dselect.cfg.5:12
@@ -2633,7 +2652,7 @@ msgstr ""
 "(1), B<dpkg-source>(1)."
 
 #. type: SH
-#: deb-substvars.5:161 dpkg-architecture.1:298 dpkg.cfg.5:19
+#: deb-substvars.5:161 dpkg-architecture.1:304 dpkg.cfg.5:19
 #: dpkg-buildflags.1:120 dpkg-checkbuilddeps.1:40 dpkg-deb.1:252
 #: dpkg-divert.8:135 dpkg-mergechangelogs.1:66 dpkg-name.1:103
 #: dpkg-query.1:206 dpkg-scansources.1:77 dpkg-split.1:229
@@ -5668,100 +5687,132 @@ msgstr "Type de système \\s-1GNU\\s0 de la machine de construction."
 
 #. type: IP
 #: dpkg-architecture.1:118
+#, fuzzy, no-wrap
+#| msgid "\\s-1DEB_BUILD_ARCH\\s0"
+msgid "\\s-1DEB_BUILD_MULTIARCH\\s0"
+msgstr "\\s-1DEB_BUILD_ARCH\\s0"
+
+#. type: Plain text
+#: dpkg-architecture.1:121
+#, fuzzy
+#| msgid "The \\s-1GNU\\s0 system type of the build machine."
+msgid ""
+"The clarified \\s-1GNU\\s0 system type of the build machine, used for "
+"filesystem paths."
+msgstr "Type de système \\s-1GNU\\s0 de la machine de construction."
+
+#. type: IP
+#: dpkg-architecture.1:121
 #, no-wrap
 msgid "\\s-1DEB_HOST_ARCH\\s0"
 msgstr "\\s-1DEB_HOST_ARCH\\s0"
 
 #. type: Plain text
-#: dpkg-architecture.1:120
+#: dpkg-architecture.1:123
 msgid "The Debian architecture of the host machine."
 msgstr "Architecture Debian de la machine hôte."
 
 #. type: IP
-#: dpkg-architecture.1:120
+#: dpkg-architecture.1:123
 #, no-wrap
 msgid "\\s-1DEB_HOST_ARCH_OS\\s0"
 msgstr "\\s-1DEB_HOST_ARCH_OS\\s0"
 
 #. type: Plain text
-#: dpkg-architecture.1:122
+#: dpkg-architecture.1:125
 msgid "The Debian system name of the host machine."
 msgstr "Nom du système Debian de la machine hôte."
 
 #. type: IP
-#: dpkg-architecture.1:122
+#: dpkg-architecture.1:125
 #, no-wrap
 msgid "\\s-1DEB_HOST_ARCH_CPU\\s0"
 msgstr "\\s-1DEB_HOST_ARCH_CPU\\s0"
 
 #. type: Plain text
-#: dpkg-architecture.1:124
+#: dpkg-architecture.1:127
 msgid "The Debian cpu name of the host machine."
 msgstr "Nom du processeur Debian de la machine hôte."
 
 #. type: IP
-#: dpkg-architecture.1:124
+#: dpkg-architecture.1:127
 #, no-wrap
 msgid "\\s-1DEB_HOST_ARCH_BITS\\s0"
 msgstr "\\s-1DEB_HOST_ARCH_BITS\\s0"
 
 #. type: Plain text
-#: dpkg-architecture.1:126
+#: dpkg-architecture.1:129
 msgid "The pointer size of the host machine (in bits)."
 msgstr "Taille de pointeur de la machine hôte (en bits)."
 
 #. type: IP
-#: dpkg-architecture.1:126
+#: dpkg-architecture.1:129
 #, no-wrap
 msgid "\\s-1DEB_HOST_ARCH_ENDIAN\\s0"
 msgstr "\\s-1DEB_HOST_ARCH_ENDIAN\\s0"
 
 #. type: Plain text
-#: dpkg-architecture.1:128
+#: dpkg-architecture.1:131
 msgid "The endianness of the host machine (little / big)."
 msgstr "« Endianess » de la machine hôte (little ou big)."
 
 #. type: IP
-#: dpkg-architecture.1:128
+#: dpkg-architecture.1:131
 #, no-wrap
 msgid "\\s-1DEB_HOST_GNU_CPU\\s0"
 msgstr "\\s-1DEB_HOST_GNU_CPU\\s0"
 
 #. type: Plain text
-#: dpkg-architecture.1:130
+#: dpkg-architecture.1:133
 msgid "The \\s-1CPU\\s0 part of \\s-1DEB_HOST_GNU_TYPE\\s0."
 msgstr "Partie « processeur » de \\s-1DEB_HOST_GNU_TYPE\\s0."
 
 #. type: IP
-#: dpkg-architecture.1:130
+#: dpkg-architecture.1:133
 #, no-wrap
 msgid "\\s-1DEB_HOST_GNU_SYSTEM\\s0"
 msgstr "\\s-1DEB_HOST_GNU_SYSTEM\\s0"
 
 #. type: Plain text
-#: dpkg-architecture.1:132
+#: dpkg-architecture.1:135
 msgid "The System part of \\s-1DEB_HOST_GNU_TYPE\\s0."
 msgstr "Partie « système » de \\s-1DEB_HOST_GNU_TYPE\\s0."
 
 #. type: IP
-#: dpkg-architecture.1:132
+#: dpkg-architecture.1:135
 #, no-wrap
 msgid "\\s-1DEB_HOST_GNU_TYPE\\s0"
 msgstr "\\s-1DEB_HOST_GNU_TYPE\\s0"
 
 #. type: Plain text
-#: dpkg-architecture.1:134
+#: dpkg-architecture.1:137
 msgid "The \\s-1GNU\\s0 system type of the host machine."
 msgstr "Type de système \\s-1GNU\\s0 de la machine hôte."
 
+#. type: IP
+#: dpkg-architecture.1:137
+#, fuzzy, no-wrap
+#| msgid "\\s-1DEB_HOST_ARCH\\s0"
+msgid "\\s-1DEB_HOST_MULTIARCH\\s0"
+msgstr "\\s-1DEB_HOST_ARCH\\s0"
+
+#. type: Plain text
+#: dpkg-architecture.1:140
+#, fuzzy
+#| msgid "The \\s-1GNU\\s0 system type of the host machine."
+msgid ""
+"The clarified \\s-1GNU\\s0 system type of the host machine, used for "
+"filesystem paths."
+msgstr "Type de système \\s-1GNU\\s0 de la machine hôte."
+
 #. type: SH
-#: dpkg-architecture.1:135
+#: dpkg-architecture.1:141
 #, no-wrap
 msgid "DEBIAN/RULES"
 msgstr "DEBIAN/RULES"
 
 #. type: Plain text
-#: dpkg-architecture.1:143
+#: dpkg-architecture.1:149
 msgid ""
 "The environment variables set by B<dpkg-architecture> are passed to I<debian/"
 "rules> as make variables (see make documentation). However, you should not "
@@ -5779,12 +5830,12 @@ msgstr ""
 "des compilations croisées de votre paquet :"
 
 #. type: Plain text
-#: dpkg-architecture.1:146 dpkg-architecture.1:163
+#: dpkg-architecture.1:152 dpkg-architecture.1:169
 msgid "Instead of:"
 msgstr "Au lieu de :"
 
 #. type: Plain text
-#: dpkg-architecture.1:150
+#: dpkg-architecture.1:156
 #, no-wrap
 msgid ""
 "ARCH=\\`dpkg --print-architecture\\`\n"
@@ -5794,12 +5845,12 @@ msgstr ""
 "configure $(\\s-1ARCH\\s0)-linux\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:153
+#: dpkg-architecture.1:159
 msgid "please use the following:"
 msgstr "Veuillez utiliser :"
 
 #. type: Plain text
-#: dpkg-architecture.1:157
+#: dpkg-architecture.1:163
 #, no-wrap
 msgid ""
 "\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)\n"
@@ -5809,13 +5860,13 @@ msgstr ""
 "\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:159
+#: dpkg-architecture.1:165
 #, no-wrap
 msgid "configure --build=$(\\s-1DEB_BUILD_GNU_TYPE\\s0) --host=$(\\s-1DEB_HOST_GNU_TYPE\\s0)\n"
 msgstr "configure --build=$(\\s-1DEB_BUILD_GNU_TYPE\\s0) --host=$(\\s-1DEB_HOST_GNU_TYPE\\s0)\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:169
+#: dpkg-architecture.1:175
 #, no-wrap
 msgid ""
 "ARCH=\\`dpkg --print-architecture\\`\n"
@@ -5829,18 +5880,18 @@ msgstr ""
 "endif\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:172
+#: dpkg-architecture.1:178
 msgid "please use:"
 msgstr "Veuillez utiliser :"
 
 #. type: Plain text
-#: dpkg-architecture.1:175
+#: dpkg-architecture.1:181
 #, no-wrap
 msgid "\\&\\s-1DEB_HOST_ARCH\\s0 := $(shell dpkg-architecture -qDEB_HOST_ARCH)\n"
 msgstr "\\&\\s-1DEB_HOST_ARCH\\s0 := $(shell dpkg-architecture -qDEB_HOST_ARCH)\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:179
+#: dpkg-architecture.1:185
 #, no-wrap
 msgid ""
 "ifeq ($(\\s-1DEB_HOST_ARCH\\s0),alpha)\n"
@@ -5852,7 +5903,7 @@ msgstr ""
 "endif\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:183
+#: dpkg-architecture.1:189
 msgid ""
 "or if you only need to check the CPU or OS type, use the DEB_HOST_ARCH_CPU "
 "or DEB_HOST_ARCH_OS variables."
@@ -5861,7 +5912,7 @@ msgstr ""
 "système, utilisez les variables DEB_HOST_ARCH_CPU ou DEB_HOST_ARCH_OS."
 
 #. type: Plain text
-#: dpkg-architecture.1:188
+#: dpkg-architecture.1:194
 msgid ""
 "In general, calling dpkg in the rules file to get architecture information "
 "is deprecated (unless you want to provide backward compatibility, see "
@@ -5875,13 +5926,13 @@ msgstr ""
 "aucun nom de processeur."
 
 #. type: SH
-#: dpkg-architecture.1:189
+#: dpkg-architecture.1:195
 #, no-wrap
 msgid "BACKWARD COMPATIBILITY"
 msgstr "COMPATIBILITÉ ARRIÈRE"
 
 #. type: Plain text
-#: dpkg-architecture.1:193
+#: dpkg-architecture.1:199
 msgid ""
 "The DEB_*_ARCH_BITS and DEB_*_ARCH_ENDIAN variables were introduced in dpkg-"
 "dev 1.15.4. Using them in I<debian/rules> thus requires a build-dependency "
@@ -5892,7 +5943,7 @@ msgstr ""
 "une dépendance de construction sur dpkg-dev (E<gt>= 1.15.4) est nécessaire."
 
 #. type: Plain text
-#: dpkg-architecture.1:198
+#: dpkg-architecture.1:204
 msgid ""
 "The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were introduced in dpkg-"
 "dev 1.13.2. Before this I<debian/rules> files tended to check the values of "
@@ -5905,7 +5956,7 @@ msgstr ""
 "tendance à varier dans le temps."
 
 #. type: Plain text
-#: dpkg-architecture.1:203
+#: dpkg-architecture.1:209
 msgid ""
 "Where I<debian/rules> files check these variables to decide how or what to "
 "compile, this should be updated to use the new variables and values.  You "
@@ -5918,7 +5969,7 @@ msgstr ""
 "dpkg-dev en utilisant le code suivant :"
 
 #. type: Plain text
-#: dpkg-architecture.1:207
+#: dpkg-architecture.1:213
 #, no-wrap
 msgid ""
 "DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2E<gt>/dev/null)\n"
@@ -5928,7 +5979,7 @@ msgstr ""
 "DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2E<gt>/dev/null)\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:221
+#: dpkg-architecture.1:227
 #, no-wrap
 msgid ""
 "# Take account of old dpkg-architecture output.\n"
@@ -5960,12 +6011,12 @@ msgstr ""
 "endif\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:224
+#: dpkg-architecture.1:230
 msgid "And similarly for DEB_BUILD_ARCH_CPU and DEB_BUILD_ARCH_OS."
 msgstr "Et de la même façon pour DEB_BUILD_ARCH_CPU et DEB_BUILD_ARCH_OS."
 
 #. type: Plain text
-#: dpkg-architecture.1:227
+#: dpkg-architecture.1:233
 msgid ""
 "If you still wish to support versions of dpkg-dev that did not include "
 "B<dpkg-architecture>, the following does the job:"
@@ -5974,7 +6025,7 @@ msgstr ""
 "architecture>, vous pouvez utiliser :"
 
 #. type: Plain text
-#: dpkg-architecture.1:237
+#: dpkg-architecture.1:243
 #, no-wrap
 msgid ""
 "\\&\\s-1DEB_BUILD_ARCH\\s0 := $(shell dpkg --print-architecture)\n"
@@ -5996,7 +6047,7 @@ msgstr ""
 "DEB_BUILD_GNU_TYPE=$(\\s-1DEB_BUILD_GNU_CPU\\s0)-$(\\s-1DEB_BUILD_GNU_SYSTEM\\s0)\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:242
+#: dpkg-architecture.1:248
 #, no-wrap
 msgid ""
 "\\&\\s-1DEB_HOST_ARCH\\s0 := $(\\s-1DEB_BUILD_ARCH\\s0)\n"
@@ -6010,7 +6061,7 @@ msgstr ""
 "\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(\\s-1DEB_BUILD_GNU_TYPE\\s0)\n"
 
 #. type: Plain text
-#: dpkg-architecture.1:246
+#: dpkg-architecture.1:252
 msgid ""
 "Put a subset of these lines at the top of your debian/rules file; these "
 "default values will be overwritten if dpkg-architecture is used."
@@ -6019,7 +6070,7 @@ msgstr ""
 "Ces valeurs par défaut seront écrasées si dpkg-architecture est utilisé."
 
 #. type: Plain text
-#: dpkg-architecture.1:253
+#: dpkg-architecture.1:259
 msgid ""
 "You don't need the full set. Choose a consistent set which contains the "
 "values you use in the rules file. For example, if you only need the host "
@@ -6036,7 +6087,7 @@ msgstr ""
 "compatible avec les anciennes compilations natives)."
 
 #. type: Plain text
-#: dpkg-architecture.1:256
+#: dpkg-architecture.1:262
 msgid ""
 "The B<-e> and B<-i> options were only introduced in relatively recent "
 "versions of B<dpkg-architecture> (since dpkg 1.13.13)."
@@ -6045,7 +6096,7 @@ msgstr ""
 "B<dpkg-architecture> (depuis la version 1.13.13 de dpkg)."
 
 #. type: Plain text
-#: dpkg-architecture.1:260
+#: dpkg-architecture.1:266
 msgid ""
 "B<dpkg-buildpackage> accepts the B<-a> option and passes it to B<dpkg-"
 "architecture>. Other examples:"
@@ -6054,17 +6105,17 @@ msgstr ""
 "architecture>. Voici d'autres exemples :"
 
 #. type: Plain text
-#: dpkg-architecture.1:262
+#: dpkg-architecture.1:268
 msgid "CC=i386-gnu-gcc dpkg-architecture -c debian/rules build"
 msgstr "CC=i386-gnu-gcc dpkg-architecture -c debian/rules build"
 
 #. type: Plain text
-#: dpkg-architecture.1:264
+#: dpkg-architecture.1:270
 msgid "eval \\`dpkg-architecture -u\\`"
 msgstr "eval \\`dpkg-architecture -u\\`"
 
 #. type: Plain text
-#: dpkg-architecture.1:267
+#: dpkg-architecture.1:273
 msgid ""
 "Check if an architecture is equal to the current architecture or a given one:"
 msgstr ""
@@ -6072,17 +6123,17 @@ msgstr ""
 "celle spécifiée :"
 
 #. type: Plain text
-#: dpkg-architecture.1:269
+#: dpkg-architecture.1:275
 msgid "dpkg-architecture -elinux-alpha"
 msgstr "dpkg-architecture -elinux-alpha"
 
 #. type: Plain text
-#: dpkg-architecture.1:271
+#: dpkg-architecture.1:277
 msgid "dpkg-architecture -amips -elinux-mips"
 msgstr "dpkg-architecture -amips -elinux-mips"
 
 #. type: Plain text
-#: dpkg-architecture.1:274
+#: dpkg-architecture.1:280
 msgid ""
 "Check if the current architecture or an architecture provided with -a are "
 "Linux systems:"
@@ -6091,17 +6142,17 @@ msgstr ""
 "un système Linux :"
 
 #. type: Plain text
-#: dpkg-architecture.1:276
+#: dpkg-architecture.1:282
 msgid "dpkg-architecture -ilinux-any"
 msgstr "dpkg-architecture -ilinux-any"
 
 #. type: Plain text
-#: dpkg-architecture.1:278
+#: dpkg-architecture.1:284
 msgid "dpkg-architecture -ai386 -ilinux-any"
 msgstr "dpkg-architecture -ai386 -ilinux-any"
 
 #. type: Plain text
-#: dpkg-architecture.1:283
+#: dpkg-architecture.1:289
 msgid ""
 "All these files have to be present for B<dpkg-architecture> to work. Their "
 "location can be overridden at runtime with the environment variable "
@@ -6112,37 +6163,37 @@ msgstr ""
 "la variable d'environnement DPKG_DATADIR."
 
 #. type: TP
-#: dpkg-architecture.1:283
+#: dpkg-architecture.1:289
 #, no-wrap
 msgid "I</usr/share/dpkg/cputable>"
 msgstr "I</usr/share/dpkg/cputable>"
 
 #. type: Plain text
-#: dpkg-architecture.1:286
+#: dpkg-architecture.1:292
 msgid "Table of known CPU names and mapping to their GNU name."
 msgstr "Table des noms de processeurs connus et liaison avec leur nom GNU."
 
 #. type: TP
-#: dpkg-architecture.1:286
+#: dpkg-architecture.1:292
 #, no-wrap
 msgid "I</usr/share/dpkg/ostable>"
 msgstr "I</usr/share/dpkg/ostable>"
 
 #. type: Plain text
-#: dpkg-architecture.1:289
+#: dpkg-architecture.1:295
 msgid "Table of known operating system names and mapping to their GNU name."
 msgstr ""
 "Table des noms des systèmes d'exploitation connus et liaison avec leurs noms "
 "GNU."
 
 #. type: TP
-#: dpkg-architecture.1:289
+#: dpkg-architecture.1:295
 #, no-wrap
 msgid "I</usr/share/dpkg/triplettable>"
 msgstr "I</usr/share/dpkg/triplettable>"
 
 #. type: Plain text
-#: dpkg-architecture.1:293
+#: dpkg-architecture.1:299
 msgid ""
 "Mapping between Debian architecture triplets and Debian architecture names."
 msgstr ""
@@ -6150,12 +6201,12 @@ msgstr ""
 "architectures Debian."
 
 #. type: Plain text
-#: dpkg-architecture.1:297
+#: dpkg-architecture.1:303
 msgid "B<dpkg-buildpackage>(1), B<dpkg-cross>(1)."
 msgstr "B<dpkg-buildpackage>(1), B<dpkg-cross>(1)."
 
 #. type: Plain text
-#: dpkg-architecture.1:302
+#: dpkg-architecture.1:308
 msgid ""
 "B<dpkg-architecture> and this man page were initially written by Marcus "
 "Brinkmann E<lt>brinkmd@debian.orgE<gt>."

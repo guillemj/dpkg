@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.16.0~\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2011-03-14 13:01+0100\n"
+"POT-Creation-Date: 2011-04-02 00:59+0200\n"
 "PO-Revision-Date: 2011-03-17 16:20+0100\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -64,8 +64,8 @@ msgstr "nicht vollständig gelesen in Pufferkopie für %s"
 
 #: lib/dpkg/command.c:182 lib/dpkg/command.c:208 src/help.c:584
 #: src/processarc.c:98 src/processarc.c:138 src/processarc.c:410
-#: src/processarc.c:806 dpkg-deb/build.c:456 dpkg-deb/build.c:530
-#: dpkg-deb/build.c:554 dpkg-deb/extract.c:312 dpkg-deb/info.c:65
+#: src/processarc.c:806 dpkg-deb/build.c:459 dpkg-deb/build.c:533
+#: dpkg-deb/build.c:557 dpkg-deb/extract.c:312 dpkg-deb/info.c:65
 #: dpkg-split/split.c:68
 #, c-format
 msgid "unable to execute %s (%s)"
@@ -177,7 +177,7 @@ msgstr "Updates-Verzeichnis »%.255s« kann nicht eingelesen werden"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "Löschen der eingebundenen Update-Datei %.255s fehlgeschlagen"
 
-#: lib/dpkg/dbmodify.c:122 dpkg-deb/build.c:444
+#: lib/dpkg/dbmodify.c:122 dpkg-deb/build.c:447
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "»%.255s« kann nicht angelegt werden"
@@ -277,19 +277,20 @@ msgstr "Verzeichnis »%s« kann nicht synchronisiert werden"
 msgid "unable to open directory '%s'"
 msgstr "Verzeichnis »%s« kann nicht geöffnet werden"
 
-#: lib/dpkg/dir.c:109 dpkg-split/split.c:201
+#: lib/dpkg/dir.c:109 src/divertcmd.c:217 dpkg-split/split.c:201
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "Datei »%s« kann nicht geöffnet werden"
 
-#: lib/dpkg/dir.c:111 src/divertcmd.c:388 src/statcmd.c:216
-#: dpkg-deb/build.c:591 dpkg-split/join.c:65 dpkg-split/queue.c:185
+#: lib/dpkg/dir.c:111 src/divertcmd.c:231 src/divertcmd.c:376
+#: src/statcmd.c:216 dpkg-deb/build.c:594 dpkg-split/join.c:65
+#: dpkg-split/queue.c:187
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "Datei »%s« kann nicht synchronisiert werden"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:390 dpkg-deb/build.c:593
-#: dpkg-split/join.c:67 dpkg-split/queue.c:187
+#: lib/dpkg/dir.c:113 src/divertcmd.c:233 src/divertcmd.c:378
+#: dpkg-deb/build.c:596 dpkg-split/join.c:67 dpkg-split/queue.c:189
 #, c-format
 msgid "unable to close file '%s'"
 msgstr "Datei »%s« kann nicht geschlossen werden"
@@ -1282,7 +1283,7 @@ msgstr "Unerwartetes EOF beim Lesen von »%.250s«"
 msgid "error formatting string into varbuf variable"
 msgstr "Fehler beim Formatieren von Zeichenkette in varbuf-Variable"
 
-#: src/archives.c:179 src/archives.c:200 src/archives.c:697
+#: src/archives.c:179 src/archives.c:200 src/archives.c:715
 msgid "error reading from dpkg-deb pipe"
 msgstr "Fehler beim Lesen aus der dpkg-deb-Pipe"
 
@@ -1292,29 +1293,34 @@ msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
 msgstr ""
 "Entpacken der Datei »%.255s« übersprungen (ersetzt oder ausgeschlossen?)"
 
-#: src/archives.c:240
+#: src/archives.c:246 src/archives.c:250
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "Fehler beim Setzen des Zeitstempels von »%.255s«"
 
-#: src/archives.c:247 src/archives.c:707 src/statcmd.c:162
+#: src/archives.c:262
+#, c-format
+msgid "error setting ownership of symlink `%.255s'"
+msgstr "Fehler beim Setzen des Eigentümers des symbolischen Linkss »%.255s«"
+
+#: src/archives.c:265 src/archives.c:725 src/statcmd.c:162
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "Fehler beim Setzen des Eigentümers von »%.255s«"
 
-#: src/archives.c:249 src/archives.c:709 src/statcmd.c:164
+#: src/archives.c:267 src/archives.c:727 src/statcmd.c:164
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "Fehler beim Setzen der Zugriffsrechte von »%.255s«"
 
-#: src/archives.c:377
+#: src/archives.c:395
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr ""
 "Abfrage mit stat (Dereferenzierung) für existierenden Symlink »%.250s« "
 "fehlgeschlagen"
 
-#: src/archives.c:399
+#: src/archives.c:417
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1323,7 +1329,7 @@ msgstr ""
 "Abfrage mit stat (Dereferenzierung) für vorgeschlagenes neues Symlink-Ziel "
 "»%.250s« von Symlink »%.250s« fehlgeschlagen"
 
-#: src/archives.c:457
+#: src/archives.c:475
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1332,21 +1338,21 @@ msgstr ""
 "Versuch, »%.250s« zu überschreiben, welches die umgeleitete Version von "
 "»%.250s« (Paket: %.100s) ist"
 
-#: src/archives.c:463
+#: src/archives.c:481
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 "Versuch, »%.250s« zu überschreiben, welches die umgeleitete Version von "
 "»%.250s« ist"
 
-#: src/archives.c:493
+#: src/archives.c:511
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr ""
 "»%.255s« (was gerade installiert werden sollte) konnte nicht mit stat "
 "abgefragt werden"
 
-#: src/archives.c:501
+#: src/archives.c:519
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1355,29 +1361,29 @@ msgstr ""
 "Unordnung um »%.255s« kann vor der Installation einer anderen Version nicht "
 "bereinigt werden"
 
-#: src/archives.c:507
+#: src/archives.c:525
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "Wiederhergestelltes »%.255s« kann vor der Installation einer anderen Version "
 "nicht mit stat abgefragt werden"
 
-#: src/archives.c:543
+#: src/archives.c:561
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "Archiv enthielt Objekt »%.255s« von unbekanntem Typ 0x%x"
 
-#: src/archives.c:611
+#: src/archives.c:629
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Ersetzen der Dateien im alten Paket %s ...\n"
 
-#: src/archives.c:615
+#: src/archives.c:633
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Ersetzt durch Dateien in installiertem Paket %s ...\n"
 
-#: src/archives.c:623
+#: src/archives.c:641
 #, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1386,106 +1392,101 @@ msgstr ""
 "Versuch, Verzeichnis »%.250s« in Paket %.250s %.250s mit Nichtverzeichnis zu "
 "überschreiben"
 
-#: src/archives.c:634
+#: src/archives.c:652
 #, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr ""
 "Versuch, »%.250s« zu überschreiben, welches auch in Paket %.250s %.250s ist"
 
-#: src/archives.c:684
+#: src/archives.c:702
 #, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr ""
 "»%.255s« konnte nicht angelegt werden (während der Verarbeitung von »%.255s«)"
 
-#: src/archives.c:691
+#: src/archives.c:709
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "Backend dpkg-deb während »%.255s«"
 
-#: src/archives.c:717 src/archives.c:884 src/archives.c:925
+#: src/archives.c:735 src/archives.c:896 src/archives.c:937
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "Fehler beim Schließen/Schreiben von »%.255s«"
 
-#: src/archives.c:722
+#: src/archives.c:739
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "Fehler beim Anlegen der Pipe »%.255s«"
 
-#: src/archives.c:728 src/archives.c:734
+#: src/archives.c:744 src/archives.c:749
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "Fehler beim Anlegen des Geräts »%.255s«"
 
-#: src/archives.c:748
+#: src/archives.c:762
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "Fehler beim Anlegen des harten Links »%.255s«"
 
-#: src/archives.c:755
+#: src/archives.c:768
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "Fehler beim Anlegen des symbolischen Links »%.255s«"
 
-#: src/archives.c:758
-#, c-format
-msgid "error setting ownership of symlink `%.255s'"
-msgstr "Fehler beim Setzen des Eigentümers des symbolischen Linkss »%.255s«"
-
-#: src/archives.c:763
+#: src/archives.c:774
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "Fehler beim Anlegen des Verzeichnisses »%.255s«"
 
-#: src/archives.c:801
+#: src/archives.c:813
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr ""
 "»%.255s« kann nicht aus dem Weg geräumt werden, um neue Version zu "
 "installieren"
 
-#: src/archives.c:811
+#: src/archives.c:823
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "Link »%.255s« kann nicht gelesen werden"
 
-#: src/archives.c:816
+#: src/archives.c:828
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr ""
 "Symbolischer Link zur Sicherung von »%.255s« kann nicht angelegt werden"
 
-#: src/archives.c:818
+#: src/archives.c:830
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 "Eigentümer des symbolischen Links zur Sicherung von »%.255s« kann nicht "
 "gesetzt werden"
 
-#: src/archives.c:823
+#: src/archives.c:835
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "Link zur Sicherung von »%.255s« vor Installation der neuen Version kann "
 "nicht angelegt werden"
 
-#: src/archives.c:839 src/archives.c:933
+#: src/archives.c:851 src/archives.c:945
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "Neue Version von »%.255s« kann nicht installiert werden"
 
-#: src/archives.c:878 src/archives.c:921
+#: src/archives.c:890 src/archives.c:933
 #, c-format
 msgid "unable to open '%.255s'"
 msgstr "»%.255s« kann nicht geöffnet werden"
 
-#: src/archives.c:923
+#: src/archives.c:935
 #, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "Datei »%.255s« kann nicht synchronisiert werden"
 
-#: src/archives.c:976
+#: src/archives.c:988
 #, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1494,7 +1495,7 @@ msgstr ""
 "Abhängigkeitsproblem mit %s wird ignoriert:\n"
 "%s"
 
-#: src/archives.c:981
+#: src/archives.c:993
 #, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1503,7 +1504,7 @@ msgstr ""
 "Dekonfiguration des essenziellen Paketes %s\n"
 "wird in Betracht gezogen, um %s zu ermöglichen."
 
-#: src/archives.c:984
+#: src/archives.c:996
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1512,7 +1513,7 @@ msgstr ""
 "dpkg: Nein, %s ist essenziell, es wird nicht dekonfiguriert werden,\n"
 " um %s zu ermöglichen.\n"
 
-#: src/archives.c:998
+#: src/archives.c:1010
 #, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1522,17 +1523,17 @@ msgstr ""
 "helfen):\n"
 "%s"
 
-#: src/archives.c:1008
+#: src/archives.c:1020
 #, c-format
 msgid "removal of %.250s"
 msgstr "Entfernen von %.250s"
 
-#: src/archives.c:1033
+#: src/archives.c:1045
 #, c-format
 msgid "installation of %.250s"
 msgstr "Installation von »%.250s«"
 
-#: src/archives.c:1034
+#: src/archives.c:1046
 #, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
@@ -1540,12 +1541,12 @@ msgstr ""
 "dpkg: Dekonfiguration von %s wird in Betracht gezogen, welches durch %s "
 "beschädigt würde ...\n"
 
-#: src/archives.c:1041
+#: src/archives.c:1053
 #, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg: Ja, %s wird dekonfiguriert (beschädigt durch %s).\n"
 
-#: src/archives.c:1045 src/archives.c:1163
+#: src/archives.c:1057 src/archives.c:1175
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1554,11 +1555,11 @@ msgstr ""
 "dpkg: Betreffend %s, welches %s enthält:\n"
 "%s"
 
-#: src/archives.c:1053
+#: src/archives.c:1065
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "Beschädigung wird ignoriert, es wird versucht, trotzdem fortzusetzen!"
 
-#: src/archives.c:1058
+#: src/archives.c:1070
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1567,30 +1568,30 @@ msgstr ""
 "Installation von %.250s würde %.250s beschädigen, und\n"
 " Dekonfiguration ist nicht erlaubt (--auto-deconfigure könnte helfen)"
 
-#: src/archives.c:1062
+#: src/archives.c:1074
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "Installation von %.250s würde existierende Software beschädigen"
 
-#: src/archives.c:1092
+#: src/archives.c:1104
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: Entfernen von %s zugunsten von %s wird in Betracht gezogen ...\n"
 
-#: src/archives.c:1098
+#: src/archives.c:1110
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr ""
 "%s ist nicht sauber installiert - alle Abhängigkeiten darauf werden "
 "ignoriert.\n"
 
-#: src/archives.c:1127
+#: src/archives.c:1139
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr ""
 "dpkg: Es könnte Probleme geben, %s zu entfernen, da es %s bereitstellt ...\n"
 
-#: src/archives.c:1142
+#: src/archives.c:1154
 #, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -1599,101 +1600,101 @@ msgstr ""
 "dpkg: Paket %s erfordert Neuinstallation, wird aber wie gefordert trotzdem "
 "entfernt.\n"
 
-#: src/archives.c:1145
+#: src/archives.c:1157
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: Paket %s muss neu installiert werden, es wird nicht entfernt.\n"
 
-#: src/archives.c:1154
+#: src/archives.c:1166
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: Ja, %s wird zugunsten von %s entfernt.\n"
 
-#: src/archives.c:1166
+#: src/archives.c:1178
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "Kollidierende Pakete - %.250s wird nicht installiert"
 
-#: src/archives.c:1167
+#: src/archives.c:1179
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "Kollision wird ignoriert, es wird versucht, trotzdem fortzusetzen!"
 
-#: src/archives.c:1209
+#: src/archives.c:1223
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive benötigt mindestens einen Pfad als Argument"
 
-#: src/archives.c:1219
+#: src/archives.c:1233
 msgid "find for dpkg --recursive"
 msgstr "find für dpkg --recursive"
 
-#: src/archives.c:1240
+#: src/archives.c:1254
 msgid "failed to fdopen find's pipe"
 msgstr "Öffnen der Pipe von find mit fdopen fehlgeschlagen"
 
-#: src/archives.c:1246
+#: src/archives.c:1260
 msgid "error reading find's pipe"
 msgstr "Fehler beim Lesen der Pipe von find"
 
-#: src/archives.c:1247
+#: src/archives.c:1261
 msgid "error closing find's pipe"
 msgstr "Fehler beim Schließen der Pipe von find"
 
-#: src/archives.c:1250
+#: src/archives.c:1264
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "Suche für --recursive gab unbehandelten Fehler %i zurück"
 
-#: src/archives.c:1253
+#: src/archives.c:1267
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "durchsucht, aber keine Pakete (auf *.deb passende Dateien) gefunden"
 
-#: src/archives.c:1264
+#: src/archives.c:1278
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s benötigt mindestens eine Paket-Archivdatei als Argument"
 
-#: src/archives.c:1299 src/divertcmd.c:77 src/divertcmd.c:117
-#: src/enquiry.c:164 src/enquiry.c:272 src/enquiry.c:425 src/enquiry.c:427
-#: src/enquiry.c:436 src/main.c:66 src/main.c:163 src/main.c:312
-#: src/main.c:491 src/packages.c:252 src/querycmd.c:252 src/querycmd.c:355
+#: src/archives.c:1313 src/divertcmd.c:77 src/divertcmd.c:117
+#: src/enquiry.c:166 src/enquiry.c:279 src/enquiry.c:449 src/enquiry.c:451
+#: src/enquiry.c:464 src/main.c:66 src/main.c:163 src/main.c:312
+#: src/main.c:491 src/packages.c:254 src/querycmd.c:252 src/querycmd.c:355
 #: src/querycmd.c:396 src/querycmd.c:404 src/querycmd.c:448 src/querycmd.c:517
-#: src/querycmd.c:606 src/querycmd.c:650 src/select.c:77 src/statcmd.c:67
-#: src/statcmd.c:97 src/trigcmd.c:60 src/trigcmd.c:92 dpkg-deb/build.c:438
+#: src/querycmd.c:606 src/querycmd.c:650 src/select.c:79 src/statcmd.c:67
+#: src/statcmd.c:97 src/trigcmd.c:60 src/trigcmd.c:92 dpkg-deb/build.c:441
 #: dpkg-deb/extract.c:216 dpkg-deb/extract.c:249 dpkg-deb/info.c:197
 #: dpkg-deb/info.c:254 dpkg-deb/main.c:60 dpkg-deb/main.c:123
-#: dpkg-split/info.c:246 dpkg-split/main.c:54 dpkg-split/main.c:92
-#: dpkg-split/queue.c:142 dpkg-split/queue.c:274
+#: dpkg-split/info.c:248 dpkg-split/main.c:54 dpkg-split/main.c:92
+#: dpkg-split/queue.c:144 dpkg-split/queue.c:280
 msgid "<standard output>"
 msgstr "<Standardausgabe>"
 
-#: src/archives.c:1300 src/packages.c:253 src/querycmd.c:253
-#: src/querycmd.c:353 src/querycmd.c:454 src/querycmd.c:518 src/select.c:78
-#: dpkg-split/main.c:173 dpkg-split/queue.c:216
+#: src/archives.c:1314 src/packages.c:255 src/querycmd.c:253
+#: src/querycmd.c:353 src/querycmd.c:454 src/querycmd.c:518 src/select.c:80
+#: dpkg-split/main.c:173 dpkg-split/queue.c:218
 msgid "<standard error>"
 msgstr "<Standardfehlerausgabe>"
 
-#: src/archives.c:1339
+#: src/archives.c:1355
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Vormals abgewähltes Paket %s wird gewählt.\n"
 
-#: src/archives.c:1343
+#: src/archives.c:1359
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Abgewähltes Paket %s wird übergangen.\n"
 
-#: src/archives.c:1359
+#: src/archives.c:1375
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Version %.250s von %.250s ist bereits installiert, wird übergangen.\n"
 
-#: src/archives.c:1369
+#: src/archives.c:1385
 #, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr "%.250s wird von %.250s zu %.250s deaktualisiert."
 
-#: src/archives.c:1374
+#: src/archives.c:1390
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -2287,117 +2288,129 @@ msgstr ""
 "Umbenennen beinhaltet Überschreiben von »%s« mit\n"
 "  anderer Datei »%s«, nicht erlaubt"
 
-#: src/divertcmd.c:224
+#: src/divertcmd.c:222
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "unable to create file '%s'"
+msgstr "Datei »%s« kann nicht geschrieben werden"
+
+#: src/divertcmd.c:226
 msgid "file copy"
 msgstr "Dateikopie"
 
-#: src/divertcmd.c:269
-#, c-format
-msgid "rename: remove duplicate old link '%s'"
-msgstr "rename: Entfernen des doppelten alten Links »%s«"
-
-#: src/divertcmd.c:273
+#: src/divertcmd.c:238
 #, c-format
 msgid "cannot rename '%s' to '%s'"
 msgstr "»%s« kann nicht in »%s« umbenannt werden"
 
-#: src/divertcmd.c:295
+#: src/divertcmd.c:251
+#, c-format
+msgid "rename: remove duplicate old link '%s'"
+msgstr "rename: Entfernen des doppelten alten Links »%s«"
+
+#: src/divertcmd.c:261
+#, fuzzy, c-format
+#| msgid "unable to open source file `%.250s'"
+msgid "unable to remove copied source file '%s'"
+msgstr "Quelldatei »%.250s« kann nicht geöffnet werden"
+
+#: src/divertcmd.c:283
 #, c-format
 msgid "local diversion of %s"
 msgstr "lokale Umleitung von %s"
 
-#: src/divertcmd.c:297
+#: src/divertcmd.c:285
 #, c-format
 msgid "local diversion of %s to %s"
 msgstr "lokale Umleitung von %s zu %s"
 
-#: src/divertcmd.c:301
+#: src/divertcmd.c:289
 #, c-format
 msgid "diversion of %s by %s"
 msgstr "Umleitung von %s durch %s"
 
-#: src/divertcmd.c:304
+#: src/divertcmd.c:292
 #, c-format
 msgid "diversion of %s to %s by %s"
 msgstr "Umleitung von %s zu %s durch %s"
 
-#: src/divertcmd.c:320
+#: src/divertcmd.c:308
 #, c-format
 msgid "any diversion of %s"
 msgstr "jede Umleitung von %s"
 
-#: src/divertcmd.c:322
+#: src/divertcmd.c:310
 #, c-format
 msgid "any diversion of %s to %s"
 msgstr "jede Umleitung von %s zu %s"
 
-#: src/divertcmd.c:368
+#: src/divertcmd.c:356
 #, c-format
 msgid "cannot create new %s file"
 msgstr "Neue %s-Datei kann nicht angelegt werden"
 
-#: src/divertcmd.c:386 src/statcmd.c:214
+#: src/divertcmd.c:374 src/statcmd.c:214
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "Datei »%s« kann nicht zurückgeschrieben werden"
 
-#: src/divertcmd.c:393
+#: src/divertcmd.c:381
 msgid "error removing old diversions-old"
 msgstr "Fehler beim Entfernen von alter diversions-old"
 
-#: src/divertcmd.c:395
+#: src/divertcmd.c:383
 msgid "error creating new diversions-old"
 msgstr "Fehler beim Anlegen der neuen diversions-old"
 
-#: src/divertcmd.c:397
+#: src/divertcmd.c:385
 msgid "error installing new diversions"
 msgstr "Fehler beim Installieren der neuen diversions"
 
-#: src/divertcmd.c:417 src/divertcmd.c:514 src/divertcmd.c:621
-#: src/divertcmd.c:641 src/statcmd.c:289
+#: src/divertcmd.c:405 src/divertcmd.c:502 src/divertcmd.c:609
+#: src/divertcmd.c:629 src/statcmd.c:289
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s benötigt ein einzelnes Argument"
 
-#: src/divertcmd.c:420 src/divertcmd.c:441
+#: src/divertcmd.c:408 src/divertcmd.c:429
 #, c-format
 msgid "filename \"%s\" is not absolute"
 msgstr "Dateiname »%s« ist nicht absolut"
 
-#: src/divertcmd.c:422 src/statcmd.c:248
+#: src/divertcmd.c:410 src/statcmd.c:248
 msgid "file may not contain newlines"
 msgstr "Dateiname darf keine Zeilenvorschübe enthalten"
 
-#: src/divertcmd.c:429
+#: src/divertcmd.c:417
 msgid "Cannot divert directories"
 msgstr "Verzeichnisse können nicht umgeleitet werden"
 
-#: src/divertcmd.c:444
+#: src/divertcmd.c:432
 #, c-format
 msgid "cannot divert file '%s' to itself"
 msgstr "Datei »%s« kann nicht auf sich selbst umgeleitet werden"
 
-#: src/divertcmd.c:464
+#: src/divertcmd.c:452
 #, c-format
 msgid "Leaving '%s'\n"
 msgstr "»%s« wird beibehalten\n"
 
-#: src/divertcmd.c:469
+#: src/divertcmd.c:457
 #, c-format
 msgid "`%s' clashes with `%s'"
 msgstr "»%s« kollidiert mit »%s«"
 
-#: src/divertcmd.c:492
+#: src/divertcmd.c:480
 #, c-format
 msgid "Adding '%s'\n"
 msgstr "»%s« wird hinzugefügt\n"
 
-#: src/divertcmd.c:521
+#: src/divertcmd.c:509
 #, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Keine Umleitung »%s«, keine entfernt.\n"
 
-#: src/divertcmd.c:536
+#: src/divertcmd.c:524
 #, c-format
 msgid ""
 "mismatch on divert-to\n"
@@ -2408,7 +2421,7 @@ msgstr ""
 "  beim Entfernen von »%s«\n"
 "  »%s« gefunden"
 
-#: src/divertcmd.c:543
+#: src/divertcmd.c:531
 #, c-format
 msgid ""
 "mismatch on package\n"
@@ -2419,16 +2432,16 @@ msgstr ""
 "  beim Entfernen von »%s«\n"
 "  »%s« gefunden"
 
-#: src/divertcmd.c:550
+#: src/divertcmd.c:538
 #, c-format
 msgid "Removing '%s'\n"
 msgstr "»%s« wird entfernt\n"
 
-#: src/divertcmd.c:668
+#: src/divertcmd.c:656
 msgid "package may not contain newlines"
 msgstr "Paketname darf keine Zeilenvorschübe enthalten"
 
-#: src/divertcmd.c:677
+#: src/divertcmd.c:665
 msgid "divert-to may not contain newlines"
 msgstr "Name der Umleitung darf keine Zeilenvorschübe enthalten"
 
@@ -2513,14 +2526,14 @@ msgstr ""
 "ist noch nicht erfolgt. Triggerverarbeitung kann mit dselect oder\n"
 "dpkg --configure --pending (oder dpkg --triggers-only) angefordert werden:\n"
 
-#: src/enquiry.c:135 src/enquiry.c:205 src/enquiry.c:283 src/enquiry.c:349
-#: src/enquiry.c:432 src/select.c:92 src/select.c:155 src/trigcmd.c:200
-#: src/update.c:46 src/update.c:106 dpkg-split/queue.c:226
+#: src/enquiry.c:137 src/enquiry.c:211 src/enquiry.c:292 src/enquiry.c:373
+#: src/enquiry.c:460 src/select.c:98 src/select.c:164 src/trigcmd.c:200
+#: src/update.c:48 src/update.c:112 dpkg-split/queue.c:232
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s akzeptiert keine Argumente"
 
-#: src/enquiry.c:150
+#: src/enquiry.c:152
 msgid ""
 "Another process has locked the database for writing, and might currently be\n"
 "modifying it, some of the following problems might just be due to that.\n"
@@ -2529,24 +2542,24 @@ msgstr ""
 "gerade verändern, einige der folgenden Probleme sind möglicherweise dadurch\n"
 "verursacht.\n"
 
-#: src/enquiry.c:187
+#: src/enquiry.c:191
 msgctxt "section"
 msgid "<unknown>"
 msgstr "<unbekannt>"
 
-#: src/enquiry.c:244
+#: src/enquiry.c:251
 #, c-format
 msgid " %d in %s: "
 msgstr " %d in %s: "
 
-#: src/enquiry.c:259
+#: src/enquiry.c:266
 #, c-format
 msgid " %d package, from the following section:"
 msgid_plural " %d packages, from the following sections:"
 msgstr[0] " %d Paket, aus folgendem Abschnitt:"
 msgstr[1] " %d Pakete, aus folgenden Abschnitten:"
 
-#: src/enquiry.c:296
+#: src/enquiry.c:305
 #, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2556,30 +2569,30 @@ msgstr ""
 "konfiguriert.\n"
 " Bitte benutzen Sie »dpkg --configure dpkg« und versuchen es danach erneut.\n"
 
-#: src/enquiry.c:301
+#: src/enquiry.c:310
 #, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 "dpkg ist nicht als installiert vermerkt, Unterstützung für %s kann nicht "
 "überprüft werden!\n"
 
-#: src/enquiry.c:309
+#: src/enquiry.c:321
 msgid "Pre-Depends field"
 msgstr "»Pre-Depends«-Feld"
 
-#: src/enquiry.c:314
+#: src/enquiry.c:329
 msgid "epoch"
 msgstr "Epochen"
 
-#: src/enquiry.c:319
+#: src/enquiry.c:337
 msgid "long filenames"
 msgstr "lange Dateinamen"
 
-#: src/enquiry.c:324
+#: src/enquiry.c:346
 msgid "multiple Conflicts and Replaces"
 msgstr "mehrere Kollisionen und Ersetzungen"
 
-#: src/enquiry.c:410
+#: src/enquiry.c:434
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -2588,29 +2601,29 @@ msgstr ""
 "dpkg: Kein Weg erkennbar, um Vor-Abhängigkeit zu erfüllen:\n"
 " %s\n"
 
-#: src/enquiry.c:411
+#: src/enquiry.c:435
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "Vor-Abhängigkeiten für %.250s können nicht erfüllt werden (angefordert durch "
 "%.250s)"
 
-#: src/enquiry.c:442
+#: src/enquiry.c:472
 #, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "veraltete Option »--%s«, bitte verwenden Sie »--%s« stattdessen."
 
-#: src/enquiry.c:487
+#: src/enquiry.c:519
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "--compare-versions akzeptiert drei Argumente: <Version> <Beziehung> <Version>"
 
-#: src/enquiry.c:492
+#: src/enquiry.c:524
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions fehlerhafte Beziehung"
 
-#: src/enquiry.c:497 src/enquiry.c:504
+#: src/enquiry.c:529 src/enquiry.c:536
 #, c-format
 msgid "version '%s' has bad syntax: %s"
 msgstr "Version »%s« hat falsche Syntax: %s"
@@ -2637,20 +2650,20 @@ msgstr ""
 msgid "%s: too many errors, stopping\n"
 msgstr "%s: Zu viele Fehler, Abbruch\n"
 
-#: src/errors.c:85
+#: src/errors.c:87
 msgid "Errors were encountered while processing:\n"
 msgstr "Fehler traten auf beim Bearbeiten von:\n"
 
-#: src/errors.c:92
+#: src/errors.c:94
 msgid "Processing was halted because there were too many errors.\n"
 msgstr "Bearbeitung wurde angehalten, da zu viele Fehler auftraten.\n"
 
-#: src/errors.c:103
+#: src/errors.c:105
 #, c-format
 msgid "Package %s was on hold, processing it anyway as you requested\n"
 msgstr "Paket %s war auf »halten«, wird wie gefordert dennoch verarbeitet\n"
 
-#: src/errors.c:107
+#: src/errors.c:109
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
@@ -2658,7 +2671,7 @@ msgstr ""
 "Paket %s ist auf »halten«, wird nicht angerührt. Benutzen Sie --force-hold, "
 "um es trotzdem zu verarbeiten.\n"
 
-#: src/errors.c:117
+#: src/errors.c:119
 msgid "overriding problem because --force enabled:"
 msgstr "Problem wird übergangen, weil --force angegeben ist: "
 
@@ -2823,7 +2836,7 @@ msgstr ""
 "Administratives Verzeichnis muss unterhalb des Installationsverzeichnisses "
 "liegen, damit dpkg korrekt funktioniert"
 
-#: src/help.c:190 src/main.c:741
+#: src/help.c:190 src/main.c:746
 msgid "unable to setenv for subprocesses"
 msgstr ""
 "Umgebungsvariablen für Unterprozesse können nicht mit setenv gesetzt werden"
@@ -2833,8 +2846,8 @@ msgstr ""
 msgid "failed to chroot to `%.250s'"
 msgstr "chroot nach »%.250s« fehlgeschlagen"
 
-#: src/help.c:194 dpkg-deb/build.c:452 dpkg-deb/build.c:454
-#: dpkg-deb/build.c:528 dpkg-deb/build.c:551
+#: src/help.c:194 dpkg-deb/build.c:455 dpkg-deb/build.c:457
+#: dpkg-deb/build.c:531 dpkg-deb/build.c:554
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "Wechsel in das Verzeichnis »%.255s« fehlgeschlagen"
@@ -3343,7 +3356,7 @@ msgstr ""
 "--ignore-depends benötigt einen gültigen Paketnamen. »%.250s« ist kein "
 "solcher; %s"
 
-#: src/main.c:369 src/main.c:379 src/main.c:645 dpkg-split/main.c:119
+#: src/main.c:369 src/main.c:379 src/main.c:649 dpkg-split/main.c:119
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "ungültige Ganzzahl für --%s: »%.250s«"
@@ -3393,25 +3406,25 @@ msgstr "unbekannte force/refuse-Option »%.*s«"
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "veraltete force/refuse-Option »%s«\n"
 
-#: src/main.c:639
+#: src/main.c:643
 msgid "--command-fd takes one argument, not zero"
 msgstr "--command-fd akzeptiert ein Argument, nicht null"
 
-#: src/main.c:641
+#: src/main.c:645
 msgid "--command-fd only takes one argument"
 msgstr "--command-fd akzeptiert nur ein Argument"
 
-#: src/main.c:647
+#: src/main.c:651
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "»%i« konnte nicht für Datenstrom geöffnet werden"
 
-#: src/main.c:672
+#: src/main.c:676
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "unerwartetes EOF vor Ende der Zeile %d"
 
-#: src/main.c:715 src/main.c:735 src/querycmd.c:692 src/statcmd.c:378
+#: src/main.c:719 src/main.c:740 src/querycmd.c:691 src/statcmd.c:377
 #: dpkg-deb/main.c:195 dpkg-split/main.c:159
 msgid "need an action option"
 msgstr "eine Aktions-Option wird benötigt"
@@ -3434,12 +3447,12 @@ msgstr "--%s --pending akzeptiert keine Nicht-Options-Argumente"
 msgid "--%s needs at least one package name argument"
 msgstr "--%s benötigt mindestens ein Paketnamen-Argument"
 
-#: src/packages.c:177
+#: src/packages.c:179
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr "Paket %s mehr als einmal angegeben, wird nur einmal verarbeitet.\n"
 
-#: src/packages.c:181
+#: src/packages.c:183
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -3448,7 +3461,7 @@ msgstr ""
 "Mehr als eine Kopie des Paketes %s wurde in diesem Durchlauf\n"
 " entpackt! Es wird nur einmal konfiguriert.\n"
 
-#: src/packages.c:230
+#: src/packages.c:232
 #, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
@@ -3457,76 +3470,76 @@ msgstr ""
 "Paket %.250s ist nicht bereit zur Triggerverarbeitung\n"
 " (momentaner Status »%.250s« ohne anhängige Trigger)"
 
-#: src/packages.c:332
+#: src/packages.c:334
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  Paket %s, das %s bereitstellt, soll entfernt werden.\n"
 
-#: src/packages.c:335
+#: src/packages.c:337
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  Paket %s soll entfernt werden.\n"
 
-#: src/packages.c:352
+#: src/packages.c:354
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  Version von %s auf dem System ist %s.\n"
 
-#: src/packages.c:374
+#: src/packages.c:376
 #, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr "  Paket %s, das %s bereitstellt, wartet auf Triggerverarbeitung.\n"
 
-#: src/packages.c:378
+#: src/packages.c:380
 #, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  Paket %s wartet auf Triggerverarbeitung.\n"
 
-#: src/packages.c:408
+#: src/packages.c:410
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: »%s« wird ebenfalls konfiguriert (benötigt von »%s«)\n"
 
-#: src/packages.c:416
+#: src/packages.c:418
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  Paket %s, das %s bereitstellt, ist noch nicht konfiguriert.\n"
 
-#: src/packages.c:419
+#: src/packages.c:421
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  Paket %s ist noch nicht konfiguriert.\n"
 
-#: src/packages.c:430
+#: src/packages.c:432
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  Paket %s, das %s bereitstellt, ist nicht installiert.\n"
 
-#: src/packages.c:433
+#: src/packages.c:435
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  Paket %s ist nicht installiert.\n"
 
-#: src/packages.c:470
+#: src/packages.c:472
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr " %s (%s) beschädigt %s und ist %s.\n"
 
-#: src/packages.c:476
+#: src/packages.c:478
 #, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "  %s (%s) stellt %s bereit.\n"
 
-#: src/packages.c:480
+#: src/packages.c:482
 #, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  Zu konfigurierende Version von %s auf dem System ist %s.\n"
 
-#: src/packages.c:594
+#: src/packages.c:596
 msgid " depends on "
 msgstr " hängt ab von "
 
-#: src/packages.c:600
+#: src/packages.c:602
 msgid "; however:\n"
 msgstr "; aber:\n"
 
@@ -3814,7 +3827,7 @@ msgstr "Version"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: src/querycmd.c:246 src/querycmd.c:511 src/select.c:73
+#: src/querycmd.c:246 src/querycmd.c:511 src/select.c:75
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Kein Paket gefunden, das auf %s passt.\n"
@@ -4092,42 +4105,42 @@ msgstr "Alte Dateiliste kann nicht gelöscht werden"
 msgid "can't remove old postrm script"
 msgstr "Altes postrm-Skript kann nicht gelöscht werden"
 
-#: src/select.c:109
+#: src/select.c:115
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "unerwartetes EOF im Paketnamen in Zeile %d"
 
-#: src/select.c:110
+#: src/select.c:116
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "unerwartetes Zeilenende im Paketnamen in Zeile %d"
 
-#: src/select.c:116
+#: src/select.c:122
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "unerwartetes EOF nach Paketnamen in Zeile %d"
 
-#: src/select.c:117
+#: src/select.c:123
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "unerwartetes Zeilenende nach Paketnamen in Zeile %d"
 
-#: src/select.c:130
+#: src/select.c:136
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "unerwartete Daten nach Paket und Auswahl in Zeile %d"
 
-#: src/select.c:133
+#: src/select.c:139
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "ungültiger Paketname in Zeile %d: %.250s"
 
-#: src/select.c:137
+#: src/select.c:143
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "unbekannter Gewünscht-Status in Zeile %d: %.250s"
 
-#: src/select.c:143
+#: src/select.c:149
 msgid "read error on standard input"
 msgstr "Lesefehler auf der Standardeingabe"
 
@@ -4403,45 +4416,45 @@ msgstr "Trigger bilden eine Schleife, aufgegeben"
 msgid "Processing triggers for %s ...\n"
 msgstr "Trigger für %s werden verarbeitet ...\n"
 
-#: src/update.c:50
+#: src/update.c:52
 #, c-format
 msgid "--%s needs exactly one Packages file argument"
 msgstr "--%s benötigt genau eine Packages-Datei als Argument"
 
-#: src/update.c:59
+#: src/update.c:61
 msgid "unable to access dpkg status area for bulk available update"
 msgstr ""
 "Für eine große Verfügbarkeits-Aktualisierung kann nicht auf den\n"
 "dpkg-Status-Bereich zugegriffen werden"
 
-#: src/update.c:61
+#: src/update.c:63
 msgid "bulk available update requires write access to dpkg status area"
 msgstr ""
 "Große Verfügbarkeits-Aktualisierung benötigt Schreibzugriff auf den dpkg-"
 "Status-Bereich"
 
-#: src/update.c:68
+#: src/update.c:70
 #, c-format
 msgid "Replacing available packages info, using %s.\n"
 msgstr ""
 "Informationen über verfügbare Pakete werden unter Verwendung von %s "
 "ersetzt.\n"
 
-#: src/update.c:71
+#: src/update.c:73
 #, c-format
 msgid "Updating available packages info, using %s.\n"
 msgstr ""
 "Informationen über verfügbare Pakete werden unter Verwendung von %s "
 "aktualisiert.\n"
 
-#: src/update.c:98
+#: src/update.c:100
 #, c-format
 msgid "Information about %d package was updated.\n"
 msgid_plural "Information about %d packages was updated.\n"
 msgstr[0] "Informationen über %d Paket wurden aktualisiert.\n"
 msgstr[1] "Informationen über %d Pakete wurden aktualisiert.\n"
 
-#: src/update.c:108
+#: src/update.c:114
 #, c-format
 msgid ""
 "obsolete '--%s' option, unavailable packages are automatically cleaned up."
@@ -4536,103 +4549,103 @@ msgstr "Conffile-Name »%s« ist mehrfach vorhanden"
 msgid "error reading conffiles file"
 msgstr "Fehler beim Lesen der conffiles-Datei"
 
-#: dpkg-deb/build.c:338
+#: dpkg-deb/build.c:339
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "Paketname hat Zeichen, die keine Kleinbuchstaben, Ziffern oder »-+.« sind"
 
-#: dpkg-deb/build.c:340
+#: dpkg-deb/build.c:341
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "»%s« enthält benutzerdefinierten Prioritätswert »%s«"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:347
 #, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "»%s« enthält benutzerdefiniertes Feld »%s«"
 
-#: dpkg-deb/build.c:357
+#: dpkg-deb/build.c:358
 #, c-format
 msgid "ignoring %d warning about the control file(s)\n"
 msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] "%d Warnung wegen der control-Datei(en) wird ignoriert\n"
 msgstr[1] "%d Warnungen wegen der control-Datei(en) werden ignoriert\n"
 
-#: dpkg-deb/build.c:400 utils/update-alternatives.c:2149
+#: dpkg-deb/build.c:403 utils/update-alternatives.c:2149
 #: utils/update-alternatives.c:2156
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s benötigt ein Verzeichnis als Argument"
 
-#: dpkg-deb/build.c:406
+#: dpkg-deb/build.c:409
 msgid "--build takes at most two arguments"
 msgstr "--build akzeptiert maximal zwei Argumente"
 
-#: dpkg-deb/build.c:410
+#: dpkg-deb/build.c:413
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "Existenz des Archivs »%.250s« kann nicht überprüft werden"
 
-#: dpkg-deb/build.c:427
+#: dpkg-deb/build.c:430
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "Ziel ist ein Verzeichnis - kann Control-Datei-Überprüfung nicht übergehen"
 
-#: dpkg-deb/build.c:428
+#: dpkg-deb/build.c:431
 msgid "not checking contents of control area."
 msgstr "Inhalte des Control-Bereiches werden nicht überprüft."
 
-#: dpkg-deb/build.c:429
+#: dpkg-deb/build.c:432
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: Ein unbekanntes Paket wird in »%s« gebaut.\n"
 
-#: dpkg-deb/build.c:436
+#: dpkg-deb/build.c:439
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: Paket »%s« wird in »%s« gebaut.\n"
 
-#: dpkg-deb/build.c:464 dpkg-deb/build.c:513
+#: dpkg-deb/build.c:467 dpkg-deb/build.c:516
 #, c-format
 msgid "failed to make temporary file (%s)"
 msgstr "Erstellen von temporärer Datei fehlgeschlagen (%s)"
 
-#: dpkg-deb/build.c:464 dpkg-deb/build.c:467 dpkg-deb/build.c:475
-#: dpkg-deb/build.c:482 dpkg-deb/build.c:491 dpkg-deb/build.c:496
+#: dpkg-deb/build.c:467 dpkg-deb/build.c:470 dpkg-deb/build.c:478
+#: dpkg-deb/build.c:485 dpkg-deb/build.c:494 dpkg-deb/build.c:499
 msgid "control member"
 msgstr "control-Element"
 
-#: dpkg-deb/build.c:467 dpkg-deb/build.c:516
+#: dpkg-deb/build.c:470 dpkg-deb/build.c:519
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "unlink von temporärer Datei fehlgeschlagen (%s), %s"
 
-#: dpkg-deb/build.c:482 dpkg-deb/build.c:586
+#: dpkg-deb/build.c:485 dpkg-deb/build.c:589
 #, c-format
 msgid "failed to rewind temporary file (%s)"
 msgstr "Zurücksetzen von temporärer Datei fehlgeschlagen (%s)"
 
-#: dpkg-deb/build.c:491
+#: dpkg-deb/build.c:494
 #, c-format
 msgid "failed to stat temporary file (%s)"
 msgstr "Abfragen von temporärer Datei (%s) mit fstat fehlgeschlagen"
 
-#: dpkg-deb/build.c:495
+#: dpkg-deb/build.c:498
 #, c-format
 msgid "error writing `%s'"
 msgstr "Fehler beim Schreiben von »%s«"
 
-#: dpkg-deb/build.c:513 dpkg-deb/build.c:516 dpkg-deb/build.c:540
-#: dpkg-deb/build.c:565 dpkg-deb/build.c:573 dpkg-deb/build.c:586
+#: dpkg-deb/build.c:516 dpkg-deb/build.c:519 dpkg-deb/build.c:543
+#: dpkg-deb/build.c:568 dpkg-deb/build.c:576 dpkg-deb/build.c:589
 msgid "data member"
 msgstr "data-Element"
 
-#: dpkg-deb/build.c:564 dpkg-deb/build.c:573
+#: dpkg-deb/build.c:567 dpkg-deb/build.c:576
 #, c-format
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "Schreiben eines Dateinamens in tar-Pipe fehlgeschlagen (%s)"
 
-#: dpkg-deb/build.c:577
+#: dpkg-deb/build.c:580
 msgid "<compress> from tar -cf"
 msgstr "<Kompression> von tar -cf"
 
@@ -4789,12 +4802,12 @@ msgstr "<Dekompression>"
 msgid "paste"
 msgstr "einfügen"
 
-#: dpkg-deb/extract.c:336 dpkg-deb/extract.c:353 dpkg-deb/info.c:77
+#: dpkg-deb/extract.c:337 dpkg-deb/extract.c:358 dpkg-deb/info.c:77
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s benötigt einen .deb-Dateinamen als Argument"
 
-#: dpkg-deb/extract.c:341
+#: dpkg-deb/extract.c:342
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4803,12 +4816,12 @@ msgstr ""
 "--%s benötigt ein Zielverzeichnis.\n"
 "Vielleicht sollten Sie dpkg --install verwenden?"
 
-#: dpkg-deb/extract.c:344
+#: dpkg-deb/extract.c:345
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s akzeptiert maximal zwei Argumente (.deb und Verzeichnis)"
 
-#: dpkg-deb/extract.c:355
+#: dpkg-deb/extract.c:360
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s akzeptiert nur ein Argument (.deb-Dateiname)"
@@ -4888,11 +4901,11 @@ msgstr "Lesen der »control«-Komponente fehlgeschlagen"
 msgid "error closing the '%s' component"
 msgstr "Fehler beim Schließen der Komponente »%s«"
 
-#: dpkg-deb/info.c:263
+#: dpkg-deb/info.c:265
 msgid "Error in format"
 msgstr "Fehler im Format"
 
-#: dpkg-deb/info.c:300
+#: dpkg-deb/info.c:313
 msgid "--contents takes exactly one argument"
 msgstr "--contents akzeptiert genau ein Argument"
 
@@ -5143,7 +5156,7 @@ msgstr "Teildatei »%.250s« kann nicht mit fstat abgefragt werden"
 msgid "file `%.250s' is corrupt - too short"
 msgstr "Datei »%.250s« ist defekt - zu kurz"
 
-#: dpkg-split/info.c:195 dpkg-split/info.c:238
+#: dpkg-split/info.c:195 dpkg-split/info.c:240
 #, c-format
 msgid "cannot open archive part file `%.250s'"
 msgstr "Archiv-Teildatei »%.250s« kann nicht geöffnet werden"
@@ -5183,12 +5196,12 @@ msgstr ""
 "    Teil-Dateigröße (ben. Anteil):  %jd Byte\n"
 "\n"
 
-#: dpkg-split/info.c:233 dpkg-split/join.c:103
+#: dpkg-split/info.c:235 dpkg-split/join.c:105
 #, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "--%s benötigt eine oder mehrere Teildateien als Argumente"
 
-#: dpkg-split/info.c:244
+#: dpkg-split/info.c:246
 #, c-format
 msgid "file `%s' is not an archive part\n"
 msgstr "Datei »%s« ist kein Teil eines Archivs\n"
@@ -5235,7 +5248,7 @@ msgstr ""
 "es sind mehrere Versionen des Teils %d vorhanden - mindestens »%.250s« und "
 "»%.250s«"
 
-#: dpkg-split/join.c:126
+#: dpkg-split/join.c:128
 #, c-format
 msgid "part %d is missing"
 msgstr "Teil %d fehlt"
@@ -5317,101 +5330,101 @@ msgstr "Teilgröße muss mindestens %d KiB sein (für die Kopfzeilen)"
 msgid "unable to read depot directory `%.250s'"
 msgstr "Depot-Verzeichnis »%.250s« kann nicht gelesen werden"
 
-#: dpkg-split/queue.c:132
+#: dpkg-split/queue.c:134
 msgid "--auto requires the use of the --output option"
 msgstr "--auto benötigt die Angabe der --output-Option"
 
-#: dpkg-split/queue.c:134
+#: dpkg-split/queue.c:136
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto benötigt genau einen Teil-Dateinamen"
 
-#: dpkg-split/queue.c:138
+#: dpkg-split/queue.c:140
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "Teildatei »%.250s« kann nicht gelesen werden"
 
-#: dpkg-split/queue.c:141
+#: dpkg-split/queue.c:143
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "Datei »%.250s« ist kein Teil eines mehrteiligen Archivs.\n"
 
-#: dpkg-split/queue.c:177
+#: dpkg-split/queue.c:179
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "Teildatei »%.250s« kann nicht wieder geöffnet werden"
 
-#: dpkg-split/queue.c:180
+#: dpkg-split/queue.c:182
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "Neue Depot-Datei »%.250s« kann nicht geöffnet werden"
 
-#: dpkg-split/queue.c:182
+#: dpkg-split/queue.c:184
 msgid "extracting split part"
 msgstr "Extrahieren des abgespaltenen Teils"
 
-#: dpkg-split/queue.c:190
+#: dpkg-split/queue.c:192
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "Neue Depot-Datei »%.250s« kann nicht in »%.250s« umbenannt werden"
 
-#: dpkg-split/queue.c:194
+#: dpkg-split/queue.c:196
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "Teil %d des Pakets %s abgelegt (benötige noch "
 
-#: dpkg-split/queue.c:198
+#: dpkg-split/queue.c:200
 msgid " and "
 msgstr " und "
 
-#: dpkg-split/queue.c:212
+#: dpkg-split/queue.c:214
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "Aufgebrauchte Depotdatei »%.250s« kann nicht gelöscht werden"
 
-#: dpkg-split/queue.c:229
+#: dpkg-split/queue.c:235
 msgid "Junk files left around in the depot directory:\n"
 msgstr "Sinnlose Dateien im Depot-Verzeichnis übriggeblieben:\n"
 
-#: dpkg-split/queue.c:234 dpkg-split/queue.c:263
+#: dpkg-split/queue.c:240 dpkg-split/queue.c:269
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "»%.250s« kann nicht mit stat abgefragt werden"
 
-#: dpkg-split/queue.c:237
+#: dpkg-split/queue.c:243
 #, c-format
 msgid " %s (%jd bytes)\n"
 msgstr " %s (%jd Byte)\n"
 
-#: dpkg-split/queue.c:239
+#: dpkg-split/queue.c:245
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (keine gewöhnliche Datei)\n"
 
-#: dpkg-split/queue.c:244
+#: dpkg-split/queue.c:250
 msgid "Packages not yet reassembled:\n"
 msgstr "Pakete noch nicht wieder zusammengefügt:\n"
 
-#: dpkg-split/queue.c:252
+#: dpkg-split/queue.c:258
 #, c-format
 msgid " Package %s: part(s) "
 msgstr "Paket %s: Teil(e) "
 
-#: dpkg-split/queue.c:265
+#: dpkg-split/queue.c:271
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "Teildatei »%.250s« ist keine gewöhnliche Datei"
 
-#: dpkg-split/queue.c:272
+#: dpkg-split/queue.c:278
 #, c-format
 msgid "(total %jd bytes)\n"
 msgstr "(insgesamt %jd Byte)\n"
 
-#: dpkg-split/queue.c:296
+#: dpkg-split/queue.c:304
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "»%.250s« kann nicht verworfen werden"
 
-#: dpkg-split/queue.c:297
+#: dpkg-split/queue.c:305
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "%s ist entfernt worden.\n"
@@ -6067,6 +6080,11 @@ msgstr ""
 msgid "current alternative %s is unknown, switching to %s for link group %s."
 msgstr ""
 "Aktuelle Alternative %s ist unbekannt, Linkgruppe %s wird zu %s umgeschaltet."
+
+#, fuzzy
+#~| msgid "unable to open file '%s'"
+#~ msgid "unable to rename file '%s' to '%s'"
+#~ msgstr "Datei »%s« kann nicht geöffnet werden"
 
 #~ msgid "unable to unbuffer `%.255s'"
 #~ msgstr "»%.255s« kann nicht entpuffert werden"
