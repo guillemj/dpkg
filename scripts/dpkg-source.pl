@@ -291,6 +291,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
                                         $src_sect, $src_prio,
                                         join(',', @sourcearch));
     $fields->{'Package-List'} .= "\n" . join("\n", sort @pkglist);
+    delete $fields->{'Package-List'};
 
     # Scan fields of dpkg-parsechangelog
     foreach $_ (keys %{$changelog}) {
