@@ -50,6 +50,9 @@ dpkg (1.16.0) UNRELEASED; urgency=low
   * Fix undefined value useage in dpkg-genchanges when adding files w/o a
     matching architecture, because they are not present in debian/control,
     this is most commonly the case due to dpkg-distaddfile.
+  * Terminate immediately on dpkg-divert rename errors instead of propagating
+    up the error codes, this improves error reporting and avoids triggering
+    leak detectors. Closes: #620380
 
   [ Raphaël Hertzog ]
   * Fail properly when debian/source/format is empty. Closes: #600854
