@@ -48,7 +48,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "1.01";
 
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch);
@@ -438,6 +438,11 @@ For a simple dependency, returns the package name if the dependency
 applies only to a subset of architectures.  For multiple dependencies, it
 returns the list of package names that have such a restriction.
 
+=item $dep->reset()
+
+Clears any dependency information stored in $dep so that $dep->is_empty()
+returns true.
+
 =back
 
 =head2 Dpkg::Deps::Simple
@@ -501,15 +506,19 @@ use base qw(Dpkg::Interface::Storable);
 sub new {
     my ($this, $arg) = @_;
     my $class = ref($this) || $this;
-    my $self = {
-	'package' => undef,
-	'relation' => undef,
-	'version' => undef,
-	'arches' => undef,
-    };
+    my $self = {};
     bless $self, $class;
+    $self->reset();
     $self->parse_string($arg) if defined($arg);
     return $self;
+}
+
+sub reset {
+    my ($self) = @_;
+    $self->{'package'} = undef;
+    $self->{'relation'} = undef;
+    $self->{'version'} = undef;
+    $self->{'arches'} = undef;
 }
 
 sub parse {
@@ -665,10 +674,7 @@ sub arch_is_concerned {
 sub reduce_arch {
     my ($self, $host_arch) = @_;
     if (not $self->arch_is_concerned($host_arch)) {
-	$self->{package} = undef;
-	$self->{relation} = undef;
-	$self->{version} = undef;
-	$self->{arches} = undef;
+	$self->reset();
     } else {
 	$self->{arches} = undef;
     }
@@ -716,12 +722,7 @@ sub get_evaluation {
 sub simplify_deps {
     my ($self, $facts) = @_;
     my $eval = $self->get_evaluation($facts);
-    if (defined($eval) and $eval == 1) {
-	$self->{package} = undef;
-	$self->{relation} = undef;
-	$self->{version} = undef;
-	$self->{arches} = undef;
-    }
+    $self->reset() if defined $eval and $eval == 1;
 }
 
 sub is_empty {
@@ -794,6 +795,11 @@ sub new {
     my $self = { 'list' => [ @_ ] };
     bless $self, $class;
     return $self;
+}
+
+sub reset {
+    my ($self) = @_;
+    $self->{'list'} = [];
 }
 
 sub add {
@@ -1196,5 +1202,17 @@ sub check_package {
     }
     return (0, undef);
 }
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+=over
+
+=item * Add new $dep->reset() method that all dependency objects support.
+
+=back
+
+=cut
 
 1;
