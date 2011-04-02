@@ -220,7 +220,7 @@ sub deps_eval_implication {
 
 =item my $dep = deps_parse($line, %options)
 
-This function parse the dependency line and returns an object, either a
+This function parses the dependency line and returns an object, either a
 Dpkg::Deps::AND or a Dpkg::Deps::Union. Various options can alter the
 behaviour of that function.
 
@@ -362,7 +362,7 @@ In practice, the code is only meant to handle the realistic cases which,
 given Debian's dependencies structure, imply those restrictions: AND can
 contain Simple or OR objects, OR can only contain Simple objects.
 
-Dpkg::Deps::KnowFacts is a special object that is used while evaluating
+Dpkg::Deps::KnownFacts is a special object that is used while evaluating
 dependencies and while trying to simplify them. It represents a set of
 installed packages along with the virtual packages that they might
 provide.
@@ -380,14 +380,14 @@ an empty list of dependencies.
 
 =item $dep->get_deps()
 
-Return a list of sub-dependencies. For Dpkg::Deps::Simple it returns
+Returns a list of sub-dependencies. For Dpkg::Deps::Simple it returns
 itself.
 
 =item $dep->output([$fh])
 
 =item "$dep"
 
-Return a string representing the dependency. If $fh is set, it prints
+Returns a string representing the dependency. If $fh is set, it prints
 the string to the filehandle.
 
 =item $dep->implies($other_dep)
@@ -398,7 +398,7 @@ $other_dep do not need to be of the same type.
 
 =item $dep->sort()
 
-Sort alphabetically the internal list of dependencies. It's a no-op for
+Sorts alphabetically the internal list of dependencies. It's a no-op for
 Dpkg::Deps::Simple objects.
 
 =item $dep->arch_is_concerned($arch)
@@ -409,7 +409,7 @@ sub-dependencies apply to this architecture.
 
 =item $dep->reduce_arch($arch)
 
-Simplify the dependency to contain only information relevant to the given
+Simplifies the dependency to contain only information relevant to the given
 architecture. A Dpkg::Deps::Simple object can be left empty after this
 operation. For Dpkg::Deps::Multiple objects, the non-relevant
 sub-dependencies are simply removed.
@@ -428,9 +428,9 @@ is lacking to conclude.
 
 =item $dep->simplify_deps($facts, @assumed_deps)
 
-Simplify the dependency as much as possible given the list of facts (see
-object Dpkg::Deps::KnownFacts) and a list of other dependencies that we
-know to be true.
+Simplifies the dependency as much as possible given the list of facts (see
+object Dpkg::Deps::KnownFacts) and a list of other dependencies that are
+known to be true.
 
 =item $dep->has_arch_restriction()
 
@@ -481,7 +481,7 @@ architecture is prefixed with an exclamation mark.
 
 =item $simple_dep->parse_string("dpkg-dev (>= 1.14.8) [!hurd-i386]")
 
-Parse the dependency and modify internal properties to match the parsed
+Parses the dependency and modifies internal properties to match the parsed
 dependency.
 
 =item $simple_dep->merge_union($other_dep)
@@ -770,13 +770,14 @@ package Dpkg::Deps::Multiple;
 
 =head2 Dpkg::Deps::Multiple
 
-This the base class for Dpkg::Deps::{AND,OR,Union}. It contains the
+This is the base class for Dpkg::Deps::{AND,OR,Union}. It implements
+the following methods:
 
 =over 4
 
 =item $mul->add($dep)
 
-Add a new dependency object at the end of the list.
+Adds a new dependency object at the end of the list.
 
 =back
 
@@ -1081,7 +1082,7 @@ Those methods are not meaningful for this object and always return undef.
 =item $union->simplify_deps($facts)
 
 The simplication is done to generate an union of all the relationships.
-It uses $simple_dep->merge_union($other_dep) to get the its job done.
+It uses $simple_dep->merge_union($other_dep) to get its job done.
 
 =back
 
@@ -1128,7 +1129,7 @@ WHILELOOP:
 
 package Dpkg::Deps::KnownFacts;
 
-=head2 Dpkg::Deps::KnowFacts
+=head2 Dpkg::Deps::KnownFacts
 
 This object represents a list of installed packages and a list of virtual
 packages provided (by the set of installed packages).
@@ -1137,7 +1138,7 @@ packages provided (by the set of installed packages).
 
 =item my $facts = Dpkg::Deps::KnownFacts->new();
 
-Create a new object.
+Creates a new object.
 
 =cut
 
@@ -1154,7 +1155,7 @@ sub new {
 
 =item $facts->add_installed_package($package, $version)
 
-Record that the given version of the package is installed. If $version is
+Records that the given version of the package is installed. If $version is
 undefined we know that the package is installed but we don't know which
 version it is.
 
@@ -1167,7 +1168,7 @@ sub add_installed_package {
 
 =item $facts->add_provided_package($virtual, $relation, $version, $by)
 
-Record that the "$by" package provides the $virtual package. $relation
+Records that the "$by" package provides the $virtual package. $relation
 and $version correspond to the associated relation given in the Provides
 field. This might be used in the future for versioned provides.
 
