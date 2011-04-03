@@ -51,9 +51,7 @@ build: build-hook $(DEB) $(DSC)
 test: build test-case test-clean
 
 clean: clean-hook
-	$(RM) *.deb
-	$(RM) *.dsc
-	$(RM) *.tar.gz
+	$(RM) $(DEB) $(DSC) *.diff.gz *.tar.gz
 
 .PHONY: build-hook build test test-case test-clean clean-hook clean
 
