@@ -141,10 +141,13 @@ test_version_parse(void)
 	test_fail(parseversion(&a, "a:0-0") == NULL);
 	test_fail(parseversion(&a, "A:0-0") == NULL);
 
+	/* Test upstream version not starting with a digit */
+	test_fail(parseversion(&a, "0:abc3-0") == NULL);
+
 	/* Test invalid characters in upstream version. */
-	verstr = m_strdup("0:0-0");
+	verstr = m_strdup("0:0a-0");
 	for (p = "!#@$%&/|\\<>()[]{};,_=*^'"; *p; p++) {
-		verstr[2] = *p;
+		verstr[3] = *p;
 		test_fail(parseversion(&a, verstr) == NULL);
 	}
 	free(verstr);
