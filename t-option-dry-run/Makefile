@@ -4,10 +4,10 @@ include ../Test.mk
 
 test-case:
 	# Simulate unpacking a package
-	#$(DPKG_UNPACK) --dry-run pkg-normal.deb
-	#$(call pkg_is_not_installed,pkg-normal)
-	#$(DPKG_INSTALL) --dry-run pkg-normal.deb
-	#$(call pkg_is_not_installed,pkg-normal)
+	$(DPKG_UNPACK) --dry-run pkg-normal.deb
+	$(call pkg_is_not_installed,pkg-normal)
+	$(DPKG_INSTALL) --dry-run pkg-normal.deb
+	$(call pkg_is_not_installed,pkg-normal)
 	
 	$(DPKG_UNPACK) pkg-normal.deb
 	
