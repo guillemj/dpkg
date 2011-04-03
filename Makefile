@@ -17,7 +17,7 @@ TESTS_FAIL := \
 
 TESTS_PASS := \
 	t-normal \
-	t-dry-run \
+	t-option-dry-run \
 	t-control-bogus \
 	t-control-no-arch \
 	t-unpack-symlink \
