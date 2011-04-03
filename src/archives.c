@@ -1269,7 +1269,7 @@ archivefiles(const char *const *argv)
     arglist= m_malloc(sizeof(char*)*(nfiles+1));
     p = findoutput.buf;
     for (i = 0; i < nfiles; i++) {
-      arglist[i++]= p;
+      arglist[i] = p;
       while (*p++ != '\0') ;
     }
     arglist[i] = NULL;
