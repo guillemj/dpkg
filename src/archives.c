@@ -269,7 +269,7 @@ tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st
 }
 
 static void
-set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
+tarobject_set_se_context(const char *matchpath, const char *path, mode_t mode)
 {
 #ifdef WITH_SELINUX
   static int selinux_enabled = -1;
@@ -780,7 +780,7 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   tarobject_set_perms(ti, fnamenewvb.buf, st);
   tarobject_set_mtime(ti, fnamenewvb.buf);
-  set_selinux_path_context(fnamevb.buf, fnamenewvb.buf, st->mode);
+  tarobject_set_se_context(fnamevb.buf, fnamenewvb.buf, st->mode);
 
   /*
    * CLEANUP: Now we have extracted the new object in .dpkg-new (or,
@@ -828,7 +828,7 @@ tarobject(void *ctx, struct tar_entry *ti)
         ohshite(_("unable to make backup symlink for `%.255s'"), ti->name);
       if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
         ohshite(_("unable to chown backup symlink for `%.255s'"), ti->name);
-      set_selinux_path_context(fnamevb.buf, fnametmpvb.buf, stab.st_mode);
+      tarobject_set_se_context(fnamevb.buf, fnametmpvb.buf, stab.st_mode);
     } else {
       debug(dbg_eachfiledetail,"tarobject nondirectory, `link' backup");
       if (link(fnamevb.buf,fnametmpvb.buf))
