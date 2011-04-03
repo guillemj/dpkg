@@ -28,7 +28,7 @@ my @ops = ("<", "<<", "lt",
 	   ">=", "ge",
 	   ">", ">>", "gt");
 
-plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 11;
+plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 13;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
@@ -87,6 +87,10 @@ ok($ver eq '10a:5.2', "invalid still same string 1/2");
 $ver = Dpkg::Version->new('5.2@3-2');
 ok($ver eq '5.2@3-2', "invalid still same string 2/2");
 ok(!$ver->is_valid(), "illegal character is invalid");
+$ver = Dpkg::Version->new('foo5.2');
+ok(!$ver->is_valid(), "version does not start with digit 1/2");
+$ver = Dpkg::Version->new('0:foo5.2');
+ok(!$ver->is_valid(), "version does not start with digit 2/2");
 
 # Other tests
 $ver = Dpkg::Version->new('1.2.3-4');

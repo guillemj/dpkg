@@ -88,7 +88,7 @@ sub new {
     }
 
     my $self = {};
-    if ($ver =~ /^(\d*):(.+)$/) {
+    if ($ver =~ /^([^:]*):(.+)$/) {
 	$self->{'epoch'} = $1;
 	$ver = $2;
     } else {
@@ -159,7 +159,7 @@ sub comparison {
         $b = Dpkg::Version->new($b);
     }
     ($a, $b) = ($b, $a) if $inverted;
-    my $r = $a->epoch() <=> $b->epoch();
+    my $r = version_compare_part($a->epoch(), $b->epoch());
     return $r if $r;
     $r = version_compare_part($a->version(), $b->version());
     return $r if $r;
@@ -362,22 +362,29 @@ contains a description of the problem with the $version scalar.
 
 sub version_check($) {
     my $version = shift;
-    $version = "$version" if ref($version);
-
-    if (not defined($version) or not length($version)) {
+    my $str;
+    if (defined $version) {
+        $str = "$version";
+        $version = Dpkg::Version->new($str) unless ref($version);
+    }
+    if (not defined($str) or not length($str)) {
         my $msg = _g("version number cannot be empty");
         return (0, $msg) if wantarray;
         return 0;
     }
-    if ($version =~ m/([^-+:.0-9a-zA-Z~])/o) {
+    if ($version->version() =~ m/^[^\d]/) {
+        my $msg = _g("version number does not start with digit");
+        return (0, $msg) if wantarray;
+        return 0;
+    }
+    if ($str =~ m/([^-+:.0-9a-zA-Z~])/o) {
         my $msg = sprintf(_g("version number contains illegal character `%s'"), $1);
         return (0, $msg) if wantarray;
         return 0;
     }
-    if ($version =~ /:/ and $version !~ /^\d*:/) {
-        $version =~ /^([^:]*):/;
+    if ($version->epoch() !~ /^\d*$/) {
         my $msg = sprintf(_g("epoch part of the version number " .
-                             "is not a number: '%s'"), $1);
+                             "is not a number: '%s'"), $version->epoch());
         return (0, $msg) if wantarray;
         return 0;
     }
