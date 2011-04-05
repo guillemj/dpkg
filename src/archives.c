@@ -242,7 +242,7 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
 
   if (te->type == tar_filetype_symlink) {
 #ifdef HAVE_LUTIMES
-    if (lutimes(path, tv))
+    if (lutimes(path, tv) && errno != ENOSYS)
       ohshite(_("error setting timestamps of `%.255s'"), path);
 #endif
   } else {
@@ -1269,7 +1269,7 @@ archivefiles(const char *const *argv)
     arglist= m_malloc(sizeof(char*)*(nfiles+1));
     p = findoutput.buf;
     for (i = 0; i < nfiles; i++) {
-      arglist[i++]= p;
+      arglist[i] = p;
       while (*p++ != '\0') ;
     }
     arglist[i] = NULL;
