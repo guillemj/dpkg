@@ -218,8 +218,6 @@ struct stat;
 bool ignore_depends(struct pkginfo *pkg);
 bool force_breaks(struct deppossi *possi);
 bool force_depends(struct deppossi *possi);
-bool force_conff_new(struct deppossi *possi);
-bool force_conff_miss(struct deppossi *possi);
 bool force_conflicts(struct deppossi *possi);
 void oldconffsetflags(const struct conffile *searchconff);
 void ensure_pathname_nonexisting(const char *pathname);
