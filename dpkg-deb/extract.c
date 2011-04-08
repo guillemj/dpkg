@@ -66,7 +66,7 @@ static void movecontrolfiles(const char *thing) {
 static void DPKG_ATTR_NORET
 read_fail(int rc, const char *filename, const char *what)
 {
-  if (rc == 0)
+  if (rc >= 0)
     ohshit(_("unexpected end of file in %s in %.255s"),what,filename);
   else
     ohshite(_("error reading %s from file %.255s"), what, filename);
