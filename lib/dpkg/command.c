@@ -175,10 +175,7 @@ command_add_args(struct command *cmd, ...)
 void
 command_exec(struct command *cmd)
 {
-	if (strchr(cmd->filename, '/'))
-		execv(cmd->filename, (char * const *)cmd->argv);
-	else
-		execvp(cmd->filename, (char * const *)cmd->argv);
+	execvp(cmd->filename, (char * const *)cmd->argv);
 	ohshite(_("unable to execute %s (%s)"), cmd->name, cmd->filename);
 }
 

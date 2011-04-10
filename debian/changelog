@@ -12,6 +12,10 @@ dpkg (1.16.1) UNRELEASED; urgency=low
   * Document in dpkg-query(1) man page that on --listfiles each list of
     files per package name is separated by a blank line. Same goes for
     --status and --print-avail.
+  * Use execvp(3) unconditionally in command_exec(). Making the call always
+    fallback to use the system shell in case of error, such as with empty
+    maintainer scripts. Thanks to Jonathan Nieder <jrnieder@gmail.com>.
+    Closes: #622094
 
   [ Updated man page translations ]
   * German (Helge Kreutzmann).
