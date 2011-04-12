@@ -2459,7 +2459,7 @@ main(int argc, char **argv)
 
 		if (current_choice && !alternative_has_choice(a, current_choice)) {
 			struct fileset *best = alternative_get_best(a);
-			new_choice = best->master_file;
+
 			warning(_("current alternative %s is unknown, "
 			          "switching to %s for link group %s."),
 			        current_choice, best->master_file,
