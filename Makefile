@@ -7,6 +7,7 @@
 -include .pkg-tests.conf
 
 TESTS_MANUAL := \
+	t-lfs \
 	t-conffile-prompt \
 
 TESTS_FAIL := \
