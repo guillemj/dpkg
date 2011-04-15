@@ -119,7 +119,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	char *package, *version;
 	int nparts, curpart;
 	off_t partsize;
-	off_t last_partsize;
+	off_t cur_partsize, last_partsize;
 	char *prefixdir = NULL, *msdos_prefix = NULL;
 	struct varbuf file_dst = VARBUF_INIT;
 	struct varbuf partmagic = VARBUF_INIT;
@@ -186,9 +186,11 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		}
 
 		if (curpart == nparts)
-			partsize = last_partsize;
+			cur_partsize = last_partsize;
+		else
+			cur_partsize = partsize;
 
-		if (partsize > maxpartsize) {
+		if (cur_partsize > maxpartsize) {
 			ohshit(_("Header is too long, making part too long. "
 			       "Your package name or version\n"
 			       "numbers must be extraordinarily long, "
@@ -215,7 +217,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		/* Write the data part. */
 		varbuf_printf(&partname, "data.%d", curpart);
 		dpkg_ar_member_put_file(file_dst.buf, fd_dst, partname.buf,
-		                        fd_src, partsize);
+		                        fd_src, cur_partsize);
 		varbuf_reset(&partname);
 
 		close(fd_dst);
