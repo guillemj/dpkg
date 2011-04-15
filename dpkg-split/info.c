@@ -151,6 +151,13 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
     ohshit(_("file '%.250s' is corrupt - bad archive part number"),fn);
   ir->thispartn= templong;
 
+  /* If the package was created with dpkg 1.16.1 or later it will include
+   * the architecture. */
+  if (*rip != '\0')
+    ir->arch = nfstrsave(nextline(&rip, fn, _("package architecture")));
+  else
+    ir->arch = NULL;
+
   if (fread(&arh,1,sizeof(arh),partfile) != sizeof(arh)) rerreof(partfile,fn);
 
   dpkg_ar_normalize_name(&arh);
@@ -203,6 +210,7 @@ void print_info(const struct partinfo *pi) {
          "    Part format version:            %s\n"
          "    Part of package:                %s\n"
          "        ... version:                %s\n"
+         "        ... architecture:           %s\n"
          "        ... MD5 checksum:           %s\n"
          "        ... length:                 %jd bytes\n"
          "        ... split every:            %jd bytes\n"
@@ -214,6 +222,7 @@ void print_info(const struct partinfo *pi) {
          pi->fmtversion,
          pi->package,
          pi->version,
+         pi->arch ? pi->arch : C_("architecture", "<unknown>"),
          pi->md5sum,
          (intmax_t)pi->orglength,
          (intmax_t)pi->maxpartlen,

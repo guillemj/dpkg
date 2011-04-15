@@ -95,6 +95,7 @@ void scandepot(void) {
     if (de->d_name[0] == '.') continue;
     pq= nfmalloc(sizeof(struct partqueue));
     pq->info.fmtversion= pq->info.package= pq->info.version= NULL;
+    pq->info.arch = NULL;
     pq->info.orglength= pq->info.thispartoffset= pq->info.thispartlen= 0;
     pq->info.headerlen= 0;
     p = nfmalloc(strlen(opt_depotdir) + strlen(de->d_name) + 1);

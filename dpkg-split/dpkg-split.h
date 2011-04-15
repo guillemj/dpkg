@@ -33,6 +33,7 @@ struct partinfo {
   const char *fmtversion;
   const char *package;
   const char *version;
+  const char *arch;
   const char *md5sum;
   off_t orglength;
   unsigned int thispartn, maxpartn;

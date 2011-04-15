@@ -132,8 +132,10 @@ do_join(const char *const *argv)
 
     p= nfmalloc(strlen(refi->package)+1+strlen(refi->version)+sizeof(DEBEXT));
     strcpy(p,refi->package);
-    strcat(p,"-");
+    strcat(p, "_");
     strcat(p,refi->version);
+    strcat(p, "_");
+    strcat(p, refi->arch ? refi->arch : "unknown");
     strcat(p,DEBEXT);
     opt_outputfile = p;
   }

@@ -116,7 +116,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	int fd_src;
 	struct stat st;
 	char hash[MD5HASHLEN + 1];
-	char *package, *version;
+	char *package, *version, *arch;
 	int nparts, curpart;
 	off_t partsize;
 	off_t cur_partsize, last_partsize;
@@ -139,6 +139,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	/* FIXME: Use libdpkg-deb. */
 	package = deb_field(file_src, "Package");
 	version = deb_field(file_src, "Version");
+	arch = deb_field(file_src, "Architecture");
 
 	partsize = maxpartsize - HEADERALLOWANCE;
 	last_partsize = st.st_size % partsize;
@@ -206,10 +207,11 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		dpkg_ar_put_magic(file_dst.buf, fd_dst);
 
 		/* Write the debian-split part. */
-		varbuf_printf(&partmagic, "%s\n%s\n%s\n%s\n%jd\n%jd\n%d/%d\n",
+		varbuf_printf(&partmagic,
+		              "%s\n%s\n%s\n%s\n%jd\n%jd\n%d/%d\n%s\n",
 		              SPLITVERSION, package, version, hash,
 		              (intmax_t)st.st_size, (intmax_t)partsize,
-		              curpart, nparts);
+		              curpart, nparts, arch);
 		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, PARTMAGIC,
 		                       partmagic.buf, partmagic.used);
 		varbuf_reset(&partmagic);
