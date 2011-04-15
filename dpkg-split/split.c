@@ -206,7 +206,7 @@ mksplit(const char *file_src, const char *prefix, size_t partsize,
 		/* Write the debian-split part. */
 		varbufprintf(&partmagic, "%s\n%s\n%s\n%s\n%zu\n%zu\n%d/%d\n",
 		             SPLITVERSION, package, version, hash,
-		             st.st_size, partsize, curpart, nparts);
+		             (size_t)st.st_size, partsize, curpart, nparts);
 		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, PARTMAGIC,
 		                       partmagic.buf, partmagic.used);
 		varbufreset(&partmagic);
