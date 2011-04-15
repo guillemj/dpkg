@@ -270,8 +270,10 @@ enum parsedbflags {
   pdb_ignorefiles = 010,
   /* Ignore packages with older versions already read. */
   pdb_ignoreolder = 020,
+  /* Perform laxer version parsing. */
+  pdb_lax_version_parser = 040,
   /* Perform laxer parsing, used to transition to stricter parsing. */
-  pdb_lax_parser = 040,
+  pdb_lax_parser = pdb_lax_version_parser,
 };
 
 const char *pkg_name_is_illegal(const char *p, const char **ep);
