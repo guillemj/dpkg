@@ -42,6 +42,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/buffer.h>
 #include <dpkg/file.h>
 #include <dpkg/subproc.h>
@@ -510,7 +511,7 @@ showdiff(const char *old, const char *new)
 			pager = DEFAULTPAGER;
 
 		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",
-		        old, new, pager);
+		        str_quote_meta(old), str_quote_meta(new), pager);
 
 		command_shell(cmdbuf, _("conffile difference visualizer"));
 	}
