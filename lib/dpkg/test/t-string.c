@@ -24,6 +24,7 @@
 #include <dpkg/test.h>
 #include <dpkg/string.h>
 
+#include <stdlib.h>
 #include <string.h>
 
 static void
@@ -61,6 +62,24 @@ test_str_escape_fmt(void)
 	q = str_escape_fmt(buf, "%%%", 4);
 	strcpy(q, " end");
 	test_str(buf, ==, "%% end");
+}
+
+static void
+test_str_quote_meta(void)
+{
+	char *str;
+
+	str = str_quote_meta("foo bar");
+	test_str(str, ==, "foo\\ bar");
+	free(str);
+
+	str = str_quote_meta("foo?bar");
+	test_str(str, ==, "foo\\?bar");
+	free(str);
+
+	str = str_quote_meta("foo*bar");
+	test_str(str, ==, "foo\\*bar");
+	free(str);
 }
 
 static void
@@ -109,5 +128,6 @@ static void
 test(void)
 {
 	test_str_escape_fmt();
+	test_str_quote_meta();
 	test_str_strip_quotes();
 }

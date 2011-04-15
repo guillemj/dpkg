@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include <dpkg/string.h>
+#include <dpkg/dpkg.h>
 
 /**
  * Escape format characters from a string.
@@ -58,6 +59,35 @@ str_escape_fmt(char *dst, const char *src, size_t n)
 	*d = '\0';
 
 	return d;
+}
+
+/**
+ * Quote shell metacharacters in a string.
+ *
+ * This function allows passing strings to commands without splitting the
+ * arguments, like in system(3)
+ *
+ * @param src The source string to escape.
+ *
+ * @return The new allocated string.
+ */
+char *
+str_quote_meta(const char *src)
+{
+	char *new_dst, *dst;
+
+	new_dst = dst = m_malloc(strlen(src) * 2);
+
+	while (*src) {
+		if (!cisdigit(*src) && !cisalpha(*src))
+			*dst++ = '\\';
+
+		*dst++ = *src++;
+	}
+
+	*dst = '\0';
+
+	return new_dst;
 }
 
 /**
