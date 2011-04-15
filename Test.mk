@@ -22,6 +22,7 @@ DPKG_CONFIGURE = $(BEROOT) $(DPKG) --configure
 DPKG_REMOVE = $(BEROOT) $(DPKG) -r
 DPKG_PURGE = $(BEROOT) $(DPKG) -P
 DPKG_DEB := dpkg-deb $(DPKG_DEB_OPTIONS)
+DPKG_SPLIT := dpkg-split $(DPKG_SPLIT_OPTIONS)
 DPKG_BUILD_DEB := $(DPKG_DEB) -b
 DPKG_BUILD_DSC := dpkg-source -b
 DPKG_QUERY := dpkg-query $(DPKG_OPTIONS)
