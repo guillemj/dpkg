@@ -1,4 +1,4 @@
-.TH deb\-split 5 "2010-01-28" "Debian Project" "Debian"
+.TH deb\-split 5 "2011-04-15" "Debian Project" "Debian"
 .SH NAME
 deb\-split \- Debian multi-part binary package format
 .SH SYNOPSIS
@@ -11,13 +11,23 @@ The file is an \fBar\fP archive with a magic value of \fB!<arch>\fP.
 The file names might contain a trailing slash (since dpkg 1.15.6).
 .PP
 The first member is named \fBdebian\-split\fP and contains a series
-of lines, separated by newlines. Currently seven lines are present.
-The first is the format version number, \fB2.1\fP at the time this
-manual page was written. The second is the package name. The third
-is the package version. The fourth is the md5sum of the package.
-The fifth is the total size of the package. The sixth is the maximum
-part size. The seventh is the current part number, followed by a slash
-and the total amount of parts (as in \(oq1/10\(cq).
+of lines, separated by newlines. Currently seven lines are present:
+.IP \(bu 4
+The format version number, \fB2.1\fP at the time this manual page was
+written.
+.IP \(bu
+The package name.
+.IP \(bu
+The package version.
+.IP \(bu
+The md5sum of the package.
+.IP \(bu
+The total size of the package.
+.IP \(bu
+The maximum part size.
+.IP \(bu
+The current part number, followed by a slash and the total amount of
+parts (as in \(oq1/10\(cq).
 .PP
 Programs which read multi-part archives should be prepared for additional
 lines to be present, and should ignore these if this is the case.
