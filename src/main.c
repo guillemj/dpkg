@@ -187,6 +187,7 @@ int fc_conff_old=0, fc_conff_def=0;
 int fc_conff_ask = 0;
 int fc_unsafe_io = 0;
 int fc_badverify = 0;
+int fc_badversion = 0;
 
 int errabort = 50;
 static const char *admindir = ADMINDIR;
@@ -229,6 +230,8 @@ static const struct forceinfo {
     ' ', N_("PATH is missing important programs, problems likely") },
   { "bad-verify",          &fc_badverify,
     ' ', N_("Install a package even if it fails authenticity check") },
+  { "bad-version",         &fc_badversion,
+    ' ', N_("Process even packages with wrong versions") },
   { "overwrite",           &fc_overwrite,
     ' ', N_("Overwrite a file from one package with another") },
   { "overwrite-diverted",  &fc_overwritediverted,
