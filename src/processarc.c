@@ -312,6 +312,17 @@ pkg_infodb_remove_file(const char *filename, const char *filetype)
   debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
 }
 
+static enum parsedbflags
+parsedb_force_flags(void)
+{
+  enum parsedbflags flags = 0;
+
+  if (fc_badversion)
+    flags |= pdb_lax_version_parser;
+
+  return flags;
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -422,7 +433,7 @@ void process_archive(const char *filename) {
   strcpy(cidirrest,CONTROLFILE);
 
   parsedb(cidir, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles |
-          fc_badversion ? pdb_lax_version_parser : 0, &pkg);
+          parsedb_force_flags(), &pkg);
   if (!pkg->files) {
     pkg->files= nfmalloc(sizeof(struct filedetails));
     pkg->files->next = NULL;
