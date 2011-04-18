@@ -1264,7 +1264,7 @@ do_findprocs(void)
 }
 
 static void
-do_stop(int sig_num, int quiet, int *n_killed, int *n_notkilled)
+do_stop(int sig_num, int *n_killed, int *n_notkilled)
 {
 	struct pid_list *p;
 
@@ -1354,7 +1354,7 @@ do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 		if (timercmp(&before, &stopat, >))
 			return false;
 
-		do_stop(0, 1, n_killed, n_notkilled);
+		do_stop(0, n_killed, n_notkilled);
 		if (!*n_killed)
 			return true;
 
@@ -1427,7 +1427,7 @@ run_stop_schedule(void)
 	retry_nr = 0;
 
 	if (schedule == NULL) {
-		do_stop(signal_nr, quietmode, &n_killed, &n_notkilled);
+		do_stop(signal_nr, &n_killed, &n_notkilled);
 		do_stop_summary(0);
 		if (n_notkilled > 0 && quietmode <= 0)
 			printf("%d pids were not killed\n", n_notkilled);
@@ -1446,7 +1446,7 @@ run_stop_schedule(void)
 			position = value;
 			goto reposition;
 		case sched_signal:
-			do_stop(value, quietmode, &n_killed, &n_notkilled);
+			do_stop(value, &n_killed, &n_notkilled);
 			do_stop_summary(retry_nr++);
 			if (!n_killed)
 				return finish_stop_schedule(anykilled);
