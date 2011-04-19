@@ -87,6 +87,5 @@ struct nickname {
 };
 
 extern const struct fieldinfo fieldinfos[];
-extern const struct nickname nicknames[];
 
 #endif /* LIBDPKG_PARSEDUMP_H */

@@ -79,8 +79,18 @@ const struct fieldinfo fieldinfos[]= {
   { "Description",      f_charfield,       w_charfield,      PKGIFPOFF(description)   },
   { "Triggers-Pending", f_trigpend,        w_trigpend                                 },
   { "Triggers-Awaited", f_trigaw,          w_trigaw                                   },
-  /* Note that aliases are added to the nicknames table in parsehelp.c. */
+  /* Note that aliases are added to the nicknames table. */
   {  NULL                                                                             }
+};
+
+static const struct nickname nicknames[] = {
+  /* Note: Capitalization of these strings is important. */
+  { .nick = "Recommended",      .canon = "Recommends" },
+  { .nick = "Optional",         .canon = "Suggests" },
+  { .nick = "Class",            .canon = "Priority" },
+  { .nick = "Package-Revision", .canon = "Revision" },
+  { .nick = "Package_Revision", .canon = "Revision" },
+  { .nick = NULL }
 };
 
 struct field_state {

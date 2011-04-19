@@ -140,16 +140,6 @@ pkg_name_is_illegal(const char *p, const char **ep)
   return buf;
 }
 
-const struct nickname nicknames[]= {
-  /* Note: Capitalization of these strings is important. */
-  { .nick = "Recommended",      .canon = "Recommends" },
-  { .nick = "Optional",         .canon = "Suggests" },
-  { .nick = "Class",            .canon = "Priority" },
-  { .nick = "Package-Revision", .canon = "Revision" },
-  { .nick = "Package_Revision", .canon = "Revision" },
-  { .nick = NULL }
-};
-
 bool
 informativeversion(const struct versionrevision *version)
 {
