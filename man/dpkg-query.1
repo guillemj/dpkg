@@ -74,12 +74,13 @@ having the name and installed version of the package, separated by a tab.
 .TP
 .BR \-s ", " \-\-status " \fIpackage-name\fP..."
 Report status of specified package. This just displays the entry in
-the installed package status database.
+the installed package status database. When multiple \fIpackage-name\fP
+are listed, the requested status entries are separated by an empty line.
 .TP
 .BR \-L ", " \-\-listfiles " \fIpackage-name\fP..."
-List files installed to your system from \fIpackage-name\fP. Each list
-of files per \fIpackage-name\fP is separated by a blank line.
-However, note that files created by package-specific
+List files installed to your system from \fIpackage-name\fP. When multiple
+\fIpackage-name\fP are listed, the requested lists of files are separated
+by an empty line. However, note that files created by package-specific
 installation-scripts are not listed.
 .TP
 .BR \-c ", " \-\-control\-path " \fIpackage-name\fP [\fIcontrol-file\fP]"
@@ -98,7 +99,11 @@ nor will it list alternatives.
 .TP
 .BR \-p ", " \-\-print\-avail " \fIpackage-name\fP..."
 Display details about \fIpackage-name\fP, as found in
-\fI/var/lib/dpkg/available\fP. Users of APT-based frontends
+\fI/var/lib/dpkg/available\fP. When multiple \fIpackage-name\fP are
+listed, the requested \fIavailable\fP entries are separated by an empty
+line.
+
+Users of APT-based frontends
 should use \fBapt\-cache show\fP \fIpackage-name\fP instead
 as the \fIavailable\fP file is only kept up-to-date when
 using \fBdselect\fP.
