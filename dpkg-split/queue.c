@@ -178,7 +178,7 @@ do_auto(const char *const *argv)
     if (fd_src < 0)
       ohshite(_("unable to reopen part file `%.250s'"), partfile);
     fd_dst = creat(p, 0644);
-    if (fd_dst)
+    if (fd_dst < 0)
       ohshite(_("unable to open new depot file `%.250s'"), p);
 
     fd_fd_copy(fd_src, fd_dst, refi->filesize, _("extracting split part"));
