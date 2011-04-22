@@ -1360,6 +1360,8 @@ alternative_save(struct alternative *a)
 	altdb_print_line(&ctx, "");
 
 	/* Close database file */
+	if (fsync(fileno(ctx.fh)))
+		syserr(_("unable to sync file '%s'"), ctx.filename);
 	if (fclose(ctx.fh))
 		syserr(_("unable to close file '%s'"), ctx.filename);
 
