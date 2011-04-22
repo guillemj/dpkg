@@ -15,6 +15,9 @@ test-case:
 	$(DPKG_PURGE) pkg-depends
 	# The dependency is removed, pass
 	$(DPKG_PURGE) pkg-real
+	# Now try with --force-depends
+	$(DPKG_INSTALL) --force-depends pkg-depends.deb
+	$(DPKG_PURGE) pkg-depends
 
 test-clean:
 	-$(DPKG_PURGE) pkg-depends
