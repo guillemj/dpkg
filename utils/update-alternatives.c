@@ -156,6 +156,19 @@ error(char const *fmt, ...)
 }
 
 static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
+syserr(char const *fmt, ...)
+{
+	va_list args;
+
+	fprintf(stderr, "%s: %s: ", PROGNAME, _("error"));
+	va_start(args, fmt);
+	vfprintf(stderr, fmt, args);
+	va_end(args);
+	fprintf(stderr, ": %s\n", strerror(errno));
+	exit(2);
+}
+
+static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
 badusage(char const *fmt, ...)
 {
 	va_list args;
@@ -277,7 +290,7 @@ xreadlink(const char *linkname, bool error_out)
 	if (lstat(linkname, &st)) {
 		if (!error_out)
 			return NULL;
-		error(_("cannot stat %s: %s"), linkname, strerror(errno));
+		syserr(_("cannot stat file '%s'"), linkname);
 	}
 	buf = xmalloc(st.st_size + 1);
 
@@ -288,7 +301,7 @@ xreadlink(const char *linkname, bool error_out)
 			free(buf);
 			return NULL;
 		}
-		error(_("readlink(%s) failed: %s"), linkname, strerror(errno));
+		syserr(_("unable to read link `%.255s'"), linkname);
 	}
 	buf[size] = '\0';
 
@@ -355,7 +368,7 @@ log_msg(const char *fmt, ...)
 	if (fh_log == NULL) {
 		fh_log = fopen(log_file, "a");
 		if (fh_log == NULL && errno != EACCES)
-			error(_("cannot append to %s: %s"), log_file, strerror(errno));
+			syserr(_("cannot append to '%s'"), log_file);
 	}
 
 	if (fh_log) {
@@ -392,7 +405,7 @@ get_all_alternatives(struct dirent ***table)
 
 	count = scandir(admdir, table, filter_altdir, alphasort);
 	if (count < 0)
-		error(_("scan of %s failed: %s"), admdir, strerror(errno));
+		syserr(_("cannot scan directory `%.255s'"), admdir);
 
 	return count;
 }
@@ -417,7 +430,7 @@ spawn(const char *prog, const char *args[])
 		error(_("fork failed"));
 	if (pid == 0) {
 		execvp(prog, (char *const *)cmd);
-		error(_("failed to execute %s: %s"), prog, strerror(errno));
+		syserr(_("unable to execute %s (%s)"), prog, prog);
 	}
 	while ((r = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
 	if (r != pid)
@@ -500,15 +513,14 @@ static void
 checked_symlink(const char *filename, const char *linkname)
 {
 	if (symlink(filename, linkname))
-		error(_("unable to make %s a symlink to %s: %s"), linkname,
-		      filename, strerror(errno));
+		syserr(_("error creating symbolic link `%.255s'"), linkname);
 }
 
 static void
 checked_mv(const char *src, const char *dst)
 {
 	if (!rename_mv(src, dst))
-		error(_("unable to install %s as %s: %s"), src, dst, strerror(errno));
+		syserr(_("unable to install `%.250s' as `%.250s'"), src, dst);
 }
 
 static void
@@ -518,7 +530,7 @@ checked_rm(const char *f)
 		return;
 
 	if (errno != ENOENT)
-		error(_("unable to remove %s: %s"), f, strerror(errno));
+		syserr(_("unable to remove '%s'"), f);
 }
 
 static void DPKG_ATTR_PRINTF(1)
@@ -644,8 +656,7 @@ fileset_can_install_slave(struct fileset *fs, const char *slave_name)
 
 		errno = 0;
 		if (stat(slave, &st) == -1 && errno != ENOENT)
-			error(_("cannot stat %s: %s"), slave,
-			      strerror(errno));
+			syserr(_("cannot stat file '%s'"), slave);
 		install_slave = (errno == 0) ? true : false;
 	}
 
@@ -1100,7 +1111,7 @@ altdb_print_line(struct altdb_context *ctx, const char *line)
 		      line);
 
 	if (fprintf(ctx->fh, "%s\n", line) < (int) strlen(line) + 1)
-		error(_("while writing %s: %s"), ctx->filename, strerror(errno));
+		syserr(_("unable to write file '%s'"), ctx->filename);
 }
 
 static bool
@@ -1168,8 +1179,7 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx,
 		char *junk;
 
 		if (errno != ENOENT)
-			error(_("cannot stat %s: %s"), master_file,
-			      strerror(errno));
+			syserr(_("cannot stat file '%s'"), master_file);
 
 		/* File not found - remove. */
 		if (!must_not_die)
@@ -1231,8 +1241,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 		if (errno == ENOENT)
 			return false;
 		else
-			error(_("cannot stat %s: %s"), ctx.filename,
-			      strerror(errno));
+			syserr(_("cannot stat file '%s'"), ctx.filename);
 	}
 	if (st.st_size == 0) {
 		return false;
@@ -1241,7 +1250,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 	/* Open the database file */
 	ctx.fh = fopen(ctx.filename, "r");
 	if (ctx.fh == NULL)
-		error(_("unable to read %s: %s"), ctx.filename, strerror(errno));
+		syserr(_("unable to open file '%s'"), ctx.filename);
 
 	/* Start parsing mandatory attributes (link+status) of the alternative */
 	alternative_reset(a);
@@ -1262,7 +1271,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 
 	/* Close database file */
 	if (fclose(ctx.fh))
-		error(_("unable to close %s: %s"), ctx.filename, strerror(errno));
+		syserr(_("unable to close file '%s'"), ctx.filename);
 	free(ctx.filename);
 
 	/* Initialize the modified field which has been erroneously changed
@@ -1321,7 +1330,7 @@ alternative_save(struct alternative *a)
 	ctx.filename = filenew;
 	ctx.fh = fopen(ctx.filename, "w");
 	if (ctx.fh == NULL)
-		error(_("cannot write %s: %s"), ctx.filename, strerror(errno));
+		syserr(_("unable to create file '%s'"), ctx.filename);
 
 	altdb_print_line(&ctx, alternative_status_string(a->status));
 	altdb_print_line(&ctx, a->master_link);
@@ -1352,7 +1361,7 @@ alternative_save(struct alternative *a)
 
 	/* Close database file */
 	if (fclose(ctx.fh))
-		error(_("unable to close %s: %s"), ctx.filename, strerror(errno));
+		syserr(_("unable to close file '%s'"), ctx.filename);
 
 	/* Put in place atomically. */
 	checked_mv(filenew, file);
@@ -1385,7 +1394,7 @@ alternative_has_current_link(struct alternative *a)
 			free(curlink);
 			return false;
 		}
-		error(_("cannot stat %s: %s"), curlink, strerror(errno));
+		syserr(_("cannot stat file '%s'"), curlink);
 	} else {
 		free(curlink);
 		return true;
@@ -1629,8 +1638,7 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	errno = 0;
 	if (lstat(linkname, &st) == -1) {
 		if (errno != ENOENT)
-			error(_("cannot stat %s: %s"), linkname,
-			      strerror(errno));
+			syserr(_("cannot stat file '%s'"), linkname);
 		create_link = true;
 	} else {
 		create_link = S_ISLNK(st.st_mode);
@@ -1901,7 +1909,7 @@ alternative_set_selections(struct alternative_map *all, FILE* input, const char 
 		 * contain a space */
 		res = fgets(line, sizeof(line), input);
 		if (res == NULL && errno) {
-			error(_("while reading %s: %s"), desc, strerror(errno));
+			syserr(_("read error in %.250s"), desc);
 		} else if (res == NULL) {
 			break;
 		}
@@ -2035,7 +2043,7 @@ main(int argc, char **argv)
 	admdir = admindir_init();
 
 	if (setvbuf(stdout, NULL, _IONBF, 0))
-		error("setvbuf failed: %s", strerror(errno));
+		syserr("setvbuf failed");
 
 	prog_path = argv[0];
 
