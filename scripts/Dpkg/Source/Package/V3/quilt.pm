@@ -262,7 +262,7 @@ sub prepare_build {
     # stamp file created by ourselves
     my $func = sub {
         return 1 if $_[0] =~ m{^debian/patches/series$} and -l $_[0];
-        return 1 if $_[0] =~ /^.pc(\/|$)/;
+        return 1 if $_[0] =~ /^\.pc(\/|$)/;
         return 1 if $_[0] =~ /$self->{'options'}{'diff_ignore_regexp'}/;
         return 0;
     };
