@@ -257,6 +257,7 @@ TEST_CASES_DEPS += test-deps-foreign
 TEST_CASES_DEPS += test-deps-allowed
 TEST_CASES_DEPS += test-deps-no
 TEST_CASES_DEPS += test-deps-self-conflict
+TEST_CASES_DEPS += test-deps-force
 
 test-deps: $(TEST_CASES_DEPS)
 
@@ -433,6 +434,16 @@ test-deps-self-conflict: ma-setup
 	$(DPKG_INSTALL) pkg-ma-self-conflict_1.0_$(FOREIGN_ARCH).deb
 	$(DPKG_PURGE) pkg-ma-self-conflict:$(NATIVE_ARCH)
 	$(DPKG_PURGE) pkg-ma-self-conflict:$(FOREIGN_ARCH)
+
+test-deps-force: ma-setup
+	# Try --force-depends when dependency is missing
+	$(DPKG_INSTALL) --force-depends pkg-ma-dep-on-no_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-no:$(FOREIGN_ARCH)
+	# Try --force-depends when dependency is of the wrong arch
+	$(DPKG_INSTALL) pkg-ma-no_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_INSTALL) --force-depends pkg-ma-dep-on-no_1.0_$(FOREIGN_ARCH).deb
+	$(DPKG_PURGE) pkg-ma-dep-on-no:$(FOREIGN_ARCH)
+	$(DPKG_PURGE) pkg-ma-no
 
 common_file = /m-a/common-file
 
