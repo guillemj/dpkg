@@ -25,6 +25,7 @@ TESTS_PASS := \
 	t-control-no-arch \
 	t-unpack-symlink \
 	t-unpack-hardlink \
+	t-unpack-divert-hardlink \
 	t-unpack-fifo \
 	t-unpack-device \
 	t-filtering \
