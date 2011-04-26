@@ -753,8 +753,8 @@ tarobject(void *ctx, struct tar_entry *ti)
     varbuf_reset(&hardlinkfn);
     varbuf_add_str(&hardlinkfn, instdir);
     varbuf_add_char(&hardlinkfn, '/');
-    varbuf_add_str(&hardlinkfn, ti->linkname);
     linknode = findnamenode(ti->linkname, 0);
+    varbuf_add_str(&hardlinkfn, namenodetouse(linknode, tc->pkg)->name);
     if (linknode->flags & fnnf_deferred_rename)
       varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
     varbuf_end_str(&hardlinkfn);
