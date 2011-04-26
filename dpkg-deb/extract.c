@@ -390,3 +390,35 @@ do_vextract(const char *const *argv)
   opt_verbose = 1;
   return do_extract(argv);
 }
+
+int
+do_raw_extract(const char *const *argv)
+{
+  const char *debar, *dir;
+  char *control_dir;
+
+  debar = *argv++;
+  if (debar == NULL)
+    badusage(_("--%s needs a .deb filename argument"), cipaction->olong);
+
+  dir = *argv++;
+  if (dir == NULL)
+    badusage(_("--%s needs a target directory.\n"
+               "Perhaps you should be using dpkg --install ?"),
+             cipaction->olong);
+  else if (*argv)
+    badusage(_("--%s takes at most two arguments (.deb and directory)"),
+             cipaction->olong);
+
+  m_asprintf(&control_dir, "%s/%s", dir, EXTRACTCONTROLDIR);
+
+  if (opt_verbose)
+    extracthalf(debar, dir, "xpv", 0);
+  else
+    extracthalf(debar, dir, "xp", 0);
+  extracthalf(debar, control_dir, "x", 1);
+
+  free(control_dir);
+
+  return 0;
+}
