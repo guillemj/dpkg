@@ -10,12 +10,12 @@ BEROOT := sudo
 
 ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_ADMINDIR = ../dpkgdb
-DPKG_OPTIONS := --admindir=$(DPKG_ADMINDIR)
+DPKG_COMMON_OPTIONS := --admindir=$(DPKG_ADMINDIR)
 else
 DPKG_ADMINDIR = /var/lib/dpkg
 endif
 
-DPKG := dpkg $(DPKG_OPTIONS)
+DPKG := dpkg $(DPKG_COMMON_OPTIONS) $(DPKG_OPTIONS)
 DPKG_INSTALL = $(BEROOT) $(DPKG) -i
 DPKG_UNPACK = $(BEROOT) $(DPKG) --unpack
 DPKG_CONFIGURE = $(BEROOT) $(DPKG) --configure
@@ -25,7 +25,7 @@ DPKG_DEB := dpkg-deb $(DPKG_DEB_OPTIONS)
 DPKG_SPLIT := dpkg-split $(DPKG_SPLIT_OPTIONS)
 DPKG_BUILD_DEB := $(DPKG_DEB) -b
 DPKG_BUILD_DSC := dpkg-source -b
-DPKG_QUERY := dpkg-query $(DPKG_OPTIONS)
+DPKG_QUERY := dpkg-query $(DPKG_COMMON_OPTIONS) $(DPKG_QUERY_OPTIONS)
 
 PKG_STATUS = $(DPKG_QUERY) -f '$${Status}' -W
 
