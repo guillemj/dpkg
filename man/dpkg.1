@@ -1,4 +1,4 @@
-.TH dpkg 1 "2011-02-05" "Debian Project" "dpkg suite"
+.TH dpkg 1 "2011-04-27" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -24,21 +24,12 @@ controlled entirely via command line parameters, which consist of exactly
 one action and zero or more options. The action-parameter tells \fBdpkg\fP
 what to do and options control the behavior of the action in some way.
 
-\fBdpkg\fP can also be used as a front-end to \fBdpkg\-deb\fP(1).
-The following
-are \fBdpkg\-deb\fP actions, and if they are encountered, \fBdpkg\fP
-just runs \fBdpkg\-deb\fP with the parameters given to it:
-.nf
-    \fB\-b\fP, \fB\-\-build\fP,
-    \fB\-c\fP, \fB\-\-contents\fP,
-    \fB\-I\fP, \fB\-\-info\fP,
-    \fB\-f\fP, \fB\-\-field\fP,
-    \fB\-e\fP, \fB\-\-control\fP,
-    \fB\-x\fP, \fB\-\-extract\fP,
-    \fB\-X\fP, \fB\-\-vextract\fP, and
-    \fB\-\-fsys\-tarfile\fP.
-.fi
-Please refer to \fBdpkg\-deb\fP(1) for information about these actions.
+\fBdpkg\fP can also be used as a front-end to \fBdpkg\-deb\fP(1) and
+\fBdpkg\-query\fP(1). The list of supported actions can be found later on
+in the \fBACTIONS\fP section. If any such action is encountered \fBdpkg\fP
+just runs \fBdpkg\-deb\fP or \fBdpkg\-query\fP with the parameters given
+to it, but no specific options are currently passed to them, to use
+any such option the back-ends need to be called directly.
 .
 .SH INFORMATION ABOUT PACKAGES
 \fBdpkg\fP maintains some usable information about available
