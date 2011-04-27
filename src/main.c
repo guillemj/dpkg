@@ -601,8 +601,6 @@ static const struct cmdinfo cmdinfos[]= {
   ACTIONBACKEND( "info",		'I', BACKEND),
   ACTIONBACKEND( "field",		'f', BACKEND),
   ACTIONBACKEND( "extract",		'x', BACKEND),
-  ACTIONBACKEND( "new",			0,  BACKEND),
-  ACTIONBACKEND( "old",			0,  BACKEND),
   ACTIONBACKEND( "vextract",		'X', BACKEND),
   ACTIONBACKEND( "fsys-tarfile",	0,   BACKEND),
   { NULL,                0,   0, NULL,          NULL,      NULL,          0 }
