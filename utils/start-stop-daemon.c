@@ -118,6 +118,16 @@
 #if defined(OSLinux)
 /* This comes from TASK_COMM_LEN defined in Linux's include/linux/sched.h. */
 #define PROCESS_NAME_SIZE 15
+#elif defined(OSsunos)
+#define PROCESS_NAME_SIZE 15
+#elif defined(OSDarwin)
+#define PROCESS_NAME_SIZE 16
+#elif defined(OSNetBSD)
+#define PROCESS_NAME_SIZE 16
+#elif defined(OSOpenBSD)
+#define PROCESS_NAME_SIZE 16
+#elif defined(OSFreeBSD)
+#define PROCESS_NAME_SIZE 19
 #endif
 
 #if defined(SYS_ioprio_set) && defined(linux)
