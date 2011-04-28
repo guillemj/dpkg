@@ -137,11 +137,16 @@ enum {
 	IOPRIO_CLASS_IDLE,
 };
 
+enum action_code {
+	action_none,
+	action_start,
+	action_stop,
+};
+
+static enum action_code action;
 static int testmode = 0;
 static int quietmode = 0;
 static int exitnodo = 1;
-static int start = 0;
-static int stop = 0;
 static int background = 0;
 static int mpidfile = 0;
 static int signal_nr = SIGTERM;
@@ -709,6 +714,18 @@ parse_schedule(const char *schedule_str)
 }
 
 static void
+set_action(enum action_code new_action)
+{
+	if (action == new_action)
+		return;
+
+	if (action != action_none)
+		badusage("only one command can be specified");
+
+	action = new_action;
+}
+
+static void
 parse_options(int argc, char * const *argv)
 {
 	static struct option longopts[] = {
@@ -757,10 +774,10 @@ parse_options(int argc, char * const *argv)
 			usage();
 			exit(0);
 		case 'K':  /* --stop */
-			stop = 1;
+			set_action(action_stop);
 			break;
 		case 'S':  /* --start */
-			start = 1;
+			set_action(action_start);
 			break;
 		case 'V':  /* --version */
 			do_version();
@@ -859,7 +876,7 @@ parse_options(int argc, char * const *argv)
 			badusage("umask value must be a positive number");
 	}
 
-	if (start == stop)
+	if (action == action_none)
 		badusage("need one of --start or --stop");
 
 	if (!execname && !pidfile && !userspec && !cmdname)
@@ -875,15 +892,14 @@ parse_options(int argc, char * const *argv)
 	if (!startas)
 		startas = execname;
 
-	if (start && !startas)
+	if (action == action_start && !startas)
 		badusage("--start needs --exec or --startas");
 
 	if (mpidfile && pidfile == NULL)
 		badusage("--make-pidfile requires --pidfile");
 
-	if (background && !start)
+	if (background && action != action_start)
 		badusage("--background is only relevant with --start");
-
 }
 
 #if defined(OSHurd)
@@ -1165,7 +1181,7 @@ pid_check(pid_t pid)
 		return;
 	if (cmdname && !pid_is_cmd(pid, cmdname))
 		return;
-	if (start && !pid_is_running(pid))
+	if (action == action_start && !pid_is_running(pid))
 		return;
 	pid_list_push(&found, pid);
 }
@@ -1538,7 +1554,7 @@ main(int argc, char **argv)
 			setenv("HOME", pw->pw_dir, 1);
 	}
 
-	if (stop) {
+	if (action == action_stop) {
 		int i = run_stop_schedule();
 		exit(i);
 	}
