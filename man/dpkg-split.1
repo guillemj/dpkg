@@ -1,5 +1,5 @@
 .\" Authors: Ian Jackson
-.TH dpkg\-split 1 "2011-04-15" "Debian Project" "dpkg utilities"
+.TH dpkg\-split 1 "2011-04-28" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-split \- Debian package archive split/join tool
 .
@@ -178,19 +178,22 @@ the form
 are generated.
 .
 .SH EXIT STATUS
-An exit status of 0 indicates that the requested split, merge, or
-other command succeeded.
+.TP
+.B 0
+The requested split, merge, or other command succeeded.
 .B \-\-info
 commands count as successful even if the files are not binary package
 parts.
-
-An exit status of 1 occurs only with
+.TP
+.B 1
+Only occurs with
 .B \-\-auto
 and indicates that the
 .I part
 file was not a binary package part.
-
-An exit status of 2 indicates some kind of trouble, such as a system
+.TP
+.B 2
+Some kind of trouble happened, such as a system
 call failure, a file that looked like a package part file but was
 corrupted, a usage error or some other problem.
 .
