@@ -168,7 +168,7 @@ pkg_parse_verify(struct parsedb_state *ps,
   parse_must_have_field(ps, pkg, pkg->name, "package name");
 
   /* XXX: We need to check for status != stat_halfinstalled as while
-   * unpacking a deselected package, it will not have yet all data in
+   * unpacking an unselected package, it will not have yet all data in
    * place. But we cannot check for > stat_halfinstalled as stat_configfiles
    * always should have those fields. */
   if ((ps->flags & pdb_recordavailable) ||

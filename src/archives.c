@@ -1352,11 +1352,11 @@ wanttoinstall(struct pkginfo *pkg)
 
   if (pkg->want != want_install && pkg->want != want_hold) {
     if (f_alsoselect) {
-      printf(_("Selecting previously deselected package %s.\n"), pkg->name);
+      printf(_("Selecting previously unselected package %s.\n"), pkg->name);
       pkg->want = want_install;
       return true;
     } else {
-      printf(_("Skipping deselected package %s.\n"), pkg->name);
+      printf(_("Skipping unselected package %s.\n"), pkg->name);
       return false;
     }
   }
