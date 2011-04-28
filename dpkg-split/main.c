@@ -86,9 +86,14 @@ usage(const struct cmdinfo *cip, const char *value)
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
 "  --msdos                          Generate 8.3 filenames.\n"
-"\n"
-"Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"),
-         ADMINDIR, PARTSDIR);
+"\n"), ADMINDIR, PARTSDIR);
+
+  printf(_(
+"Exit status:\n"
+"  0 = ok\n"
+"  1 = with --auto, file is not a part\n"
+"  2 = trouble\n"));
+
 
   m_output(stdout, _("<standard output>"));
 

@@ -420,8 +420,11 @@ usage(void)
 "The IO scheduler <class> can be one of:\n"
 "  real-time, best-effort or idle\n"
 "\n"
-"Exit status:  0 = done      1 = nothing done (=> 0 if --oknodo)\n"
-"              3 = trouble   2 = with --retry, processes wouldn't die\n");
+"Exit status:\n"
+"  0 = done\n"
+"  1 = nothing done (=> 0 if --oknodo)\n"
+"  2 = with --retry, processes would not die\n"
+"  3 = trouble\n");
 }
 
 static void
