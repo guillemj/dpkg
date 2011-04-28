@@ -69,6 +69,10 @@ is specified, then
 .B start\-stop\-daemon
 will check that the process(es) have terminated.
 .TP
+.BR \-T ", " \-\-status
+Check for the existence of a specified process, and returns an exit status
+code, according to the LSB Init Script Actions.
+.TP
 .BR \-H ", " \-\-help
 Show usage information and exit.
 .TP
@@ -279,6 +283,21 @@ still running.
 .TP
 .B 3
 Any other error.
+.PP
+When using the \fB\-\-status\fP command, the following status codes are
+returned:
+.TP
+.B 0
+Program is running.
+.TP
+.B 1
+Program is not running and the pid file exists.
+.TP
+.B 3
+Program is not running.
+.TP
+.B 4
+Unable to determine program status.
 .
 .SH EXAMPLE
 Start the \fBfood\fP daemon, unless one is already running (a process named

@@ -141,6 +141,7 @@ enum action_code {
 	action_none,
 	action_start,
 	action_stop,
+	action_status,
 };
 
 static enum action_code action;
@@ -177,6 +178,14 @@ static struct stat exec_stat;
 static struct proc_stat_list *procset = NULL;
 #endif
 
+/* LSB Init Script process status exit codes. */
+enum status_code {
+	status_ok = 0,
+	status_dead_pidfile = 1,
+	status_dead_lockfile = 2,
+	status_dead = 3,
+	status_unknown = 4,
+};
 
 struct pid_list {
 	struct pid_list *next;
@@ -238,7 +247,10 @@ fatal(const char *format, ...)
 	else
 		fprintf(stderr, "\n");
 
-	exit(2);
+	if (action == action_status)
+		exit(status_unknown);
+	else
+		exit(2);
 }
 
 static void *
@@ -375,6 +387,7 @@ usage(void)
 "Commands:\n"
 "  -S|--start -- <argument> ...  start a program and pass <arguments> to it\n"
 "  -K|--stop                     stop a program\n"
+"  -T|--status                   get the program status\n"
 "  -H|--help                     print help information\n"
 "  -V|--version                  print version\n"
 "\n"
@@ -424,7 +437,12 @@ usage(void)
 "  0 = done\n"
 "  1 = nothing done (=> 0 if --oknodo)\n"
 "  2 = with --retry, processes would not die\n"
-"  3 = trouble\n");
+"  3 = trouble\n"
+"Exit status with --status:\n"
+"  0 = program is running\n"
+"  1 = program is not running and the pid file exists\n"
+"  3 = program is not running\n"
+"  4 = unable to determine status\n");
 }
 
 static void
@@ -441,7 +459,11 @@ badusage(const char *msg)
 	if (msg)
 		fprintf(stderr, "%s: %s\n", progname, msg);
 	fprintf(stderr, "Try '%s --help' for more information.\n", progname);
-	exit(3);
+
+	if (action == action_status)
+		exit(status_unknown);
+	else
+		exit(3);
 }
 
 struct sigpair {
@@ -735,6 +757,7 @@ parse_options(int argc, char * const *argv)
 		{ "help",	  0, NULL, 'H'},
 		{ "stop",	  0, NULL, 'K'},
 		{ "start",	  0, NULL, 'S'},
+		{ "status",	  0, NULL, 'T'},
 		{ "version",	  0, NULL, 'V'},
 		{ "startas",	  1, NULL, 'a'},
 		{ "name",	  1, NULL, 'n'},
@@ -768,7 +791,7 @@ parse_options(int argc, char * const *argv)
 
 	for (;;) {
 		c = getopt_long(argc, argv,
-		                "HKSVa:n:op:qr:s:tu:vx:c:N:P:I:k:bmR:g:d:",
+		                "HKSVTa:n:op:qr:s:tu:vx:c:N:P:I:k:bmR:g:d:",
 		                longopts, NULL);
 		if (c == -1)
 			break;
@@ -781,6 +804,9 @@ parse_options(int argc, char * const *argv)
 			break;
 		case 'S':  /* --start */
 			set_action(action_start);
+			break;
+		case 'T':  /* --status */
+			set_action(action_status);
 			break;
 		case 'V':  /* --version */
 			do_version();
@@ -880,7 +906,7 @@ parse_options(int argc, char * const *argv)
 	}
 
 	if (action == action_none)
-		badusage("need one of --start or --stop");
+		badusage("need one of --start or --stop or --status");
 
 	if (!execname && !pidfile && !userspec && !cmdname)
 		badusage("need at least one of --exec, --pidfile, --user or --name");
@@ -1166,57 +1192,68 @@ pid_is_running(pid_t pid)
 }
 #endif
 
-static void
+static enum status_code
 pid_check(pid_t pid)
 {
 #if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
-		return;
+		return status_dead;
 #elif defined(HAVE_KVM_H)
 	if (execname && !pid_is_exec(pid, execname))
-		return;
+		return status_dead;
 #elif defined(OSHurd) || defined(OSFreeBSD) || defined(OSNetBSD)
 	/* Let's try this to see if it works. */
 	if (execname && !pid_is_cmd(pid, execname))
-		return;
+		return status_dead;
 #endif
 	if (userspec && !pid_is_user(pid, user_id))
-		return;
+		return status_dead;
 	if (cmdname && !pid_is_cmd(pid, cmdname))
-		return;
+		return status_dead;
 	if (action == action_start && !pid_is_running(pid))
-		return;
+		return status_dead;
+
 	pid_list_push(&found, pid);
+
+	return status_ok;
 }
 
-static void
+static enum status_code
 do_pidfile(const char *name)
 {
 	FILE *f;
 	static pid_t pid = 0;
 
-	if (pid) {
-		pid_check(pid);
-		return;
-	}
+	if (pid)
+		return pid_check(pid);
 
 	f = fopen(name, "r");
 	if (f) {
+		enum status_code pid_status;
+
 		if (fscanf(f, "%d", &pid) == 1)
-			pid_check(pid);
+			pid_status = pid_check(pid);
 		fclose(f);
-	} else if (errno != ENOENT)
+
+		if (pid_status == status_dead)
+			return status_dead_pidfile;
+		else
+			return pid_status;
+	} else if (errno == ENOENT)
+		return status_dead;
+	else
 		fatal("unable to open pidfile %s", name);
 }
 
 #if defined(OSLinux) || defined (OSsunos)
-static void
+static enum status_code
 do_procinit(void)
 {
 	DIR *procdir;
 	struct dirent *entry;
 	int foundany;
 	pid_t pid;
+	enum status_code prog_status = status_dead;
 
 	procdir = opendir("/proc");
 	if (!procdir)
@@ -1224,14 +1261,21 @@ do_procinit(void)
 
 	foundany = 0;
 	while ((entry = readdir(procdir)) != NULL) {
+		enum status_code pid_status;
+
 		if (sscanf(entry->d_name, "%d", &pid) != 1)
 			continue;
 		foundany++;
-		pid_check(pid);
+
+		pid_status = pid_check(pid);
+		if (pid_status < prog_status)
+			prog_status = pid_status;
 	}
 	closedir(procdir);
 	if (!foundany)
 		fatal("nothing in /proc - not mounted?");
+
+	return prog_status;
 }
 #elif defined(OSHurd)
 static int
@@ -1271,15 +1315,15 @@ do_procinit(void)
 }
 #endif
 
-static void
+static enum status_code
 do_findprocs(void)
 {
 	pid_list_free(&found);
 
 	if (pidfile)
-		do_pidfile(pidfile);
+		return do_pidfile(pidfile);
 	else
-		do_procinit();
+		return do_procinit();
 }
 
 static void
@@ -1492,6 +1536,7 @@ run_stop_schedule(void)
 int
 main(int argc, char **argv)
 {
+	enum status_code prog_status;
 	int devnull_fd = -1;
 	gid_t rgid;
 	uid_t ruid;
@@ -1562,7 +1607,10 @@ main(int argc, char **argv)
 		exit(i);
 	}
 
-	do_findprocs();
+	prog_status = do_findprocs();
+
+	if (action == action_status)
+		exit(prog_status);
 
 	if (found) {
 		if (quietmode <= 0)
