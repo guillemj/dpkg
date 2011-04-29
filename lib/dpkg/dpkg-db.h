@@ -29,14 +29,9 @@
 
 #include <dpkg/macros.h>
 #include <dpkg/varbuf.h>
+#include <dpkg/version.h>
 
 DPKG_BEGIN_DECLS
-
-struct versionrevision {
-  unsigned long epoch;
-  const char *version;
-  const char *revision;
-};
 
 enum deptype {
   dep_suggests,
@@ -244,7 +239,6 @@ void modstatdb_shutdown(void);
 
 void pkg_blank(struct pkginfo *pp);
 void pkgbin_blank(struct pkgbin *pifp);
-void blankversion(struct versionrevision*);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
 struct pkginfo *pkg_db_find(const char *name);

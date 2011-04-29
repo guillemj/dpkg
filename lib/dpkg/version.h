@@ -1,8 +1,8 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * version.c - Version handling functions
+ * version.h - version handling routines
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,15 +18,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
-#include <compat.h>
+#ifndef LIBDPKG_VERSION_H
+#define LIBDPKG_VERSION_H
 
-#include <dpkg/version.h>
+#include <dpkg/macros.h>
 
-void
-blankversion(struct versionrevision *version)
-{
-	version->epoch = 0;
-	version->version = NULL;
-	version->revision = NULL;
-}
+DPKG_BEGIN_DECLS
+
+struct versionrevision {
+	unsigned long epoch;
+	const char *version;
+	const char *revision;
+};
+
+void blankversion(struct versionrevision *version);
+
+DPKG_END_DECLS
+
+#endif /* LIBDPKG_VERSION_H */

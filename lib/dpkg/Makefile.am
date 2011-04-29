@@ -98,4 +98,5 @@ pkginclude_HEADERS = \
 	tarfn.h \
 	trigdeferred.h \
 	triglib.h \
-	varbuf.h
+	varbuf.h \
+	version.h
