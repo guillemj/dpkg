@@ -599,15 +599,11 @@ void process_archive(const char *filename) {
   filesdbinit();
   trig_file_interests_ensure();
 
+  printf(_("Preparing to unpack %s ...\n"), pfilename);
+
   if (pkg->status != stat_notinstalled && pkg->status != stat_configfiles) {
-    printf(_("Preparing to replace %s %s (using %s) ...\n"),
-           pkg_name(pkg, pnaw_nonambig),
-           versiondescribe(&pkg->installed.version,vdew_nonambig),
-           pfilename);
     log_action("upgrade", pkg, &pkg->installed);
   } else {
-    printf(_("Unpacking %s (from %s) ...\n"),
-           pkgbin_name(pkg, &pkg->available, pnaw_nonambig), pfilename);
     log_action("install", pkg, &pkg->available);
   }
 
@@ -823,8 +819,18 @@ void process_archive(const char *filename) {
                           "upgrade", versiondescribe(&pkg->installed.version,
                                                      vdew_nonambig),
                           NULL);
-    printf(_("Unpacking replacement %.250s ...\n"),
-           pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
+  }
+
+  if (oldversionstatus == stat_notinstalled ||
+      oldversionstatus == stat_configfiles) {
+    printf(_("Unpacking %s (%s) ...\n"),
+           pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+           versiondescribe(&pkg->available.version, vdew_nonambig));
+  } else {
+    printf(_("Unpacking %s (%s) over (%s) ...\n"),
+           pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+           versiondescribe(&pkg->available.version, vdew_nonambig),
+           versiondescribe(&pkg->installed.version, vdew_nonambig));
   }
 
   /*
