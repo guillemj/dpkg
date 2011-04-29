@@ -287,8 +287,6 @@ extern const struct namevalue statusinfos[];
 extern const struct namevalue eflaginfos[];
 extern const struct namevalue wantinfos[];
 
-bool informativeversion(const struct versionrevision *version);
-
 enum versiondisplayepochwhen { vdew_never, vdew_nonambig, vdew_always };
 void varbufversion(struct varbuf*, const struct versionrevision*,
                    enum versiondisplayepochwhen);

@@ -21,6 +21,8 @@
 #ifndef LIBDPKG_VERSION_H
 #define LIBDPKG_VERSION_H
 
+#include <stdbool.h>
+
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
@@ -32,6 +34,7 @@ struct versionrevision {
 };
 
 void blankversion(struct versionrevision *version);
+bool informativeversion(const struct versionrevision *version);
 
 DPKG_END_DECLS
 

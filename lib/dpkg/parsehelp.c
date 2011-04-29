@@ -140,14 +140,6 @@ pkg_name_is_illegal(const char *p, const char **ep)
   return buf;
 }
 
-bool
-informativeversion(const struct versionrevision *version)
-{
-  return (version->epoch ||
-          (version->version && *version->version) ||
-          (version->revision && *version->revision));
-}
-
 void varbufversion
 (struct varbuf *vb,
  const struct versionrevision *version,

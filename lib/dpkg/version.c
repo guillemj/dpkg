@@ -30,3 +30,11 @@ blankversion(struct versionrevision *version)
 	version->version = NULL;
 	version->revision = NULL;
 }
+
+bool
+informativeversion(const struct versionrevision *version)
+{
+	return (version->epoch ||
+	        (version->version && *version->version) ||
+	        (version->revision && *version->revision));
+}
