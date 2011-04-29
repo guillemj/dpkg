@@ -23,6 +23,8 @@
 
 #include <stdbool.h>
 
+#include <dpkg/tarfn.h>
+
 struct tarcontext {
   int backendpipe;
   struct pkginfo *pkg;
