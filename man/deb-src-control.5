@@ -1,6 +1,6 @@
 .\" Author: Oxan van Leeuwen
 .\" Includes text from the deb-control manual page by Raul Miller
-.TH deb\-src\-control 5 "2010-11-22" "Debian Project" "Debian"
+.TH deb\-src\-control 5 "2011-04-29" "Debian Project" "Debian"
 .SH NAME
 deb\-src\-control \- Debian source packages' master control file format
 .
@@ -23,8 +23,8 @@ fields is generally joined to a single line by the tools (except in the case of
 the
 .B Description
 field, see below). To insert empty lines into a multi-line
-field, insert a dot after the space. The paragraphs are separated by an empty
-line. Lines starting with a \fB'#'\fP are treated as comments.
+field, insert a dot after the space. Lines starting with a \fB'#'\fP are
+treated as comments.
 .
 .SH SOURCE FIELDS
 .TP
@@ -186,7 +186,10 @@ value. For packages that are architecture independent, such as shell and Perl
 scripts or documentation, use the
 .B all
 value. To restrict the packages to a certain set of architectures, specify the
-architecture names, separated by a space.
+architecture names, separated by a space. It's also possible to put
+architecture wildcards in that list (see
+.BR dpkg\-architecture (1)
+for more information about them).
 
 .TP
 .BR Package\-Type: " <deb|udeb>"
