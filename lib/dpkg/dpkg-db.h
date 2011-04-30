@@ -344,7 +344,6 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep);
 
 /*** from vercmp.c ***/
 
-bool versionsatisfied(struct pkgbin *it, struct deppossi *against);
 bool versionsatisfied3(const struct versionrevision *it,
                        const struct versionrevision *ref,
                        enum depverrel verrel);
@@ -352,6 +351,10 @@ int versioncompare(const struct versionrevision *version,
                    const struct versionrevision *refversion);
 bool epochsdiffer(const struct versionrevision *a,
                   const struct versionrevision *b);
+
+/*** from depcon.c ***/
+
+bool versionsatisfied(struct pkgbin *it, struct deppossi *against);
 
 /*** from nfmalloc.c ***/
 void *nfmalloc(size_t);

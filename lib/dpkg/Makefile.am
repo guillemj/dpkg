@@ -33,6 +33,7 @@ libdpkg_a_SOURCES = \
 	dbdir.c \
 	dbmodify.c \
 	debug.c \
+	depcon.c \
 	dir.c \
 	dump.c \
 	ehandle.c \

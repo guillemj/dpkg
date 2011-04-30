@@ -109,9 +109,3 @@ versionsatisfied3(const struct versionrevision *it,
   }
   return false;
 }
-
-bool
-versionsatisfied(struct pkgbin *it, struct deppossi *against)
-{
-  return versionsatisfied3(&it->version,&against->version,against->verrel);
-}
