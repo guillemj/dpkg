@@ -190,7 +190,7 @@ void packagelist::setwidths() {
 }
 
 void packagelist::redrawtitle() {
-  int x,y;
+  int x, y DPKG_ATTR_UNUSED;
 
   if (title_height) {
     mywerase(titlewin);

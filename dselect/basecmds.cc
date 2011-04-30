@@ -159,7 +159,7 @@ void baselist::displayerror(const char* str) {
 
 
 void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
-  int maxx, maxy, i, y, x, nextkey;
+  int maxx, maxy, i, nextkey;
 
   getmaxyx(stdscr,maxy,maxx);
   wbkgdset(stdscr, ' ' | helpscreen_attr);
@@ -170,6 +170,8 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
     while (hme->key && hme->key != key)
       hme++;
     if (hme->key) {
+      int x, y DPKG_ATTR_UNUSED;
+
       attrset(helpscreen_attr);
       mvaddstr(1,0, gettext(hme->msg->text));
       attrset(title_attr);

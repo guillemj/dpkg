@@ -332,7 +332,8 @@ void baselist::wordwrapinfo(int offset, const char *m) {
       waddnstr(infopad, m, l);
       waddch(infopad,'\n'); wrapping= 0;
     } else {
-      int x,y;
+      int x, y DPKG_ATTR_UNUSED;
+
       if (wrapping) {
         getyx(infopad, y,x);
         if (x+1 >= usemax) {

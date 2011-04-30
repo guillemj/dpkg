@@ -386,7 +386,7 @@ dme(int i, int so)
           gettext(me->option),
           gettext(me->menuent));
 
-  int y,x;
+  int x, y DPKG_ATTR_UNUSED;
   getmaxyx(stdscr,y,x);
 
   attrset(so ? A_REVERSE : A_NORMAL);
@@ -401,7 +401,7 @@ refreshmenu(void)
 
   curseson(); cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
 
-  int y,x;
+  int x, y DPKG_ATTR_UNUSED;
   getmaxyx(stdscr,y,x);
 
   clear();
