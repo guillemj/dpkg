@@ -1243,6 +1243,8 @@ do_pidfile(const char *name)
 
 		if (fscanf(f, "%d", &pid) == 1)
 			pid_status = pid_check(pid);
+		else
+			pid_status = status_unknown;
 		fclose(f);
 
 		if (pid_status == status_dead)
