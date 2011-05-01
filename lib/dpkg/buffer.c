@@ -25,6 +25,7 @@
 
 #include <sys/types.h>
 
+#include <errno.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -242,6 +243,48 @@ buffer_copy_IntPtr(int Iin, int Tin,
 	va_end(args);
 
 	ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+
+	varbuf_destroy(&v);
+
+	return ret;
+}
+
+static off_t
+buffer_skip(struct buffer_data *input, off_t limit, const char *desc)
+{
+	struct buffer_data output;
+
+	switch (input->type) {
+	case BUFFER_READ_FD:
+		if (lseek(input->arg.i, limit, SEEK_CUR) != -1)
+			return limit;
+		if (errno != ESPIPE)
+			ohshite(_("failed to seek %s"), desc);
+		break;
+	default:
+		internerr("unknown data type '%i' in buffer_skip\n",
+		          input->type);
+	}
+
+	output.type = BUFFER_WRITE_NULL;
+	output.arg.ptr = NULL;
+
+	return buffer_copy(input, &output, limit, desc);
+}
+
+off_t
+buffer_skip_Int(int I, int T, off_t limit, const char *desc_fmt, ...)
+{
+	va_list args; \
+	struct buffer_data input = { .type = T, .arg.i = I };
+	struct varbuf v = VARBUF_INIT;
+	off_t ret;
+
+	va_start(args, desc_fmt);
+	varbuf_vprintf(&v, desc_fmt, args);
+	va_end(args);
+
+	ret = buffer_skip(&input, limit, v.buf);
 
 	varbuf_destroy(&v);
 

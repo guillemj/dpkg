@@ -26,8 +26,6 @@
 
 #include <sys/types.h>
 
-#include <errno.h>
-
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
@@ -60,13 +58,7 @@ struct buffer_data {
 	buffer_copy_IntPtr(fd, BUFFER_READ_FD, buf, BUFFER_WRITE_VBUF, \
 	                   limit, __VA_ARGS__)
 # define fd_null_copy(fd, limit, ...) \
-	if (lseek(fd, limit, SEEK_CUR) == -1) { \
-		if (errno != ESPIPE) \
-			ohshite(__VA_ARGS__); \
-		buffer_copy_IntPtr(fd, BUFFER_READ_FD, \
-		                   NULL, BUFFER_WRITE_NULL, \
-		                   limit, __VA_ARGS__); \
-	}
+	buffer_skip_Int(fd, BUFFER_READ_FD, limit, __VA_ARGS__)
 
 off_t buffer_copy_IntPtr(int i, int typeIn, void *p, int typeOut,
                          off_t limit, const char *desc,
@@ -74,6 +66,8 @@ off_t buffer_copy_IntPtr(int i, int typeIn, void *p, int typeOut,
 off_t buffer_copy_IntInt(int i1, int typeIn, int i2, int typeOut,
                          off_t limit, const char *desc,
                          ...) DPKG_ATTR_PRINTF(6);
+off_t buffer_skip_Int(int I, int T, off_t limit, const char *desc_fmt, ...)
+                      DPKG_ATTR_PRINTF(4);
 off_t buffer_hash(const void *buf, void *hash, int typeOut, off_t length);
 
 DPKG_END_DECLS
