@@ -36,7 +36,7 @@
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 
-struct buffer_write_md5ctx {
+struct buffer_md5_ctx {
 	struct MD5Context ctx;
 	char *hash;
 };
@@ -44,9 +44,9 @@ struct buffer_write_md5ctx {
 static void
 buffer_md5_init(struct buffer_data *data)
 {
-	struct buffer_write_md5ctx *ctx;
+	struct buffer_md5_ctx *ctx;
 
-	ctx = m_malloc(sizeof(struct buffer_write_md5ctx));
+	ctx = m_malloc(sizeof(*ctx));
 	ctx->hash = data->arg.ptr;
 	data->arg.ptr = ctx;
 	MD5Init(&ctx->ctx);
@@ -66,12 +66,12 @@ buffer_init(struct buffer_data *data)
 static void
 buffer_md5_done(struct buffer_data *data)
 {
-	struct buffer_write_md5ctx *ctx;
+	struct buffer_md5_ctx *ctx;
 	unsigned char digest[16], *p = digest;
 	char *hash;
 	int i;
 
-	ctx = (struct buffer_write_md5ctx *)data->arg.ptr;
+	ctx = (struct buffer_md5_ctx *)data->arg.ptr;
 	hash = ctx->hash;
 	MD5Final(digest, &ctx->ctx);
 	for (i = 0; i < 16; ++i) {
@@ -108,7 +108,7 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 	case BUFFER_WRITE_NULL:
 		break;
 	case BUFFER_WRITE_MD5:
-		MD5Update(&(((struct buffer_write_md5ctx *)data->arg.ptr)->ctx), buf, length);
+		MD5Update(&(((struct buffer_md5_ctx *)data->arg.ptr)->ctx), buf, length);
 		break;
 	default:
 		internerr("unknown data type '%i' in buffer_write",
