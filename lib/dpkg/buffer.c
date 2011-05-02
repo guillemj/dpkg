@@ -66,6 +66,26 @@ buffer_filter_init(struct buffer_data *data)
 	return 0;
 }
 
+static off_t
+buffer_filter_update(struct buffer_data *filter, const void *buf, off_t length)
+{
+	off_t ret = length;
+
+	switch (filter->type) {
+	case BUFFER_FILTER_NULL:
+		break;
+	case BUFFER_FILTER_MD5:
+		MD5Update(&(((struct buffer_md5_ctx *)filter->arg.ptr)->ctx),
+		          buf, length);
+		break;
+	default:
+		internerr("unknown data type '%i' in buffer_filter_update",
+		          filter->type);
+	}
+
+	return ret;
+}
+
 static void
 buffer_md5_done(struct buffer_data *data)
 {
@@ -111,10 +131,6 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 		ret = fd_write(data->arg.i, buf, length);
 		break;
 	case BUFFER_WRITE_NULL:
-	case BUFFER_FILTER_NULL:
-		break;
-	case BUFFER_FILTER_MD5:
-		MD5Update(&(((struct buffer_md5_ctx *)data->arg.ptr)->ctx), buf, length);
 		break;
 	default:
 		internerr("unknown data type '%i' in buffer_write",
@@ -142,20 +158,22 @@ buffer_read(struct buffer_data *data, void *buf, off_t length)
 }
 
 off_t
-buffer_hash(const void *input, void *output, int type, off_t limit)
+buffer_filter(const void *input, void *output, int type, off_t limit)
 {
 	struct buffer_data data = { .arg.ptr = output, .type = type };
 	off_t ret;
 
 	buffer_filter_init(&data);
-	ret = buffer_write(&data, input, limit);
+	ret = buffer_filter_update(&data, input, limit);
 	buffer_filter_done(&data);
 
 	return ret;
 }
 
 static off_t
-buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
+buffer_copy(struct buffer_data *read_data,
+            struct buffer_data *filter,
+            struct buffer_data *write_data,
             off_t limit, const char *desc)
 {
 	char *buf;
@@ -170,7 +188,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 
 	buf = m_malloc(bufsize);
 
-	buffer_filter_init(write_data);
+	buffer_filter_init(filter);
 
 	while (bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize);
@@ -186,6 +204,8 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 			if (limit < bufsize)
 				bufsize = limit;
 		}
+
+		buffer_filter_update(filter, buf, bytesread);
 
 		byteswritten = buffer_write(write_data, buf, bytesread);
 		if (byteswritten < 0)
@@ -203,7 +223,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 	if (limit > 0)
 		ohshit(_("short read on buffer copy for %s"), desc);
 
-	buffer_filter_done(write_data);
+	buffer_filter_done(filter);
 
 	free(buf);
 
@@ -212,11 +232,13 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 
 off_t
 buffer_copy_IntInt(int Iin, int Tin,
+                   void *Pfilter, int Tfilter,
                    int Iout, int Tout,
                    off_t limit, const char *desc, ...)
 {
 	va_list args;
 	struct buffer_data read_data = { .type = Tin, .arg.i = Iin };
+	struct buffer_data filter = { .type = Tfilter, .arg.ptr = Pfilter };
 	struct buffer_data write_data = { .type = Tout, .arg.i = Iout };
 	struct varbuf v = VARBUF_INIT;
 	off_t ret;
@@ -225,7 +247,7 @@ buffer_copy_IntInt(int Iin, int Tin,
 	varbuf_vprintf(&v, desc, args);
 	va_end(args);
 
-	ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+	ret = buffer_copy(&read_data, &filter, &write_data, limit, v.buf);
 
 	varbuf_destroy(&v);
 
@@ -234,11 +256,13 @@ buffer_copy_IntInt(int Iin, int Tin,
 
 off_t
 buffer_copy_IntPtr(int Iin, int Tin,
+                   void *Pfilter, int Tfilter,
                    void *Pout, int Tout,
                    off_t limit, const char *desc, ...)
 {
 	va_list args;
 	struct buffer_data read_data = { .type = Tin, .arg.i = Iin };
+	struct buffer_data filter = { .type = Tfilter, .arg.ptr = Pfilter };
 	struct buffer_data write_data = { .type = Tout, .arg.ptr = Pout };
 	struct varbuf v = VARBUF_INIT;
 	off_t ret;
@@ -247,7 +271,7 @@ buffer_copy_IntPtr(int Iin, int Tin,
 	varbuf_vprintf(&v, desc, args);
 	va_end(args);
 
-	ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+	ret = buffer_copy(&read_data, &filter, &write_data, limit, v.buf);
 
 	varbuf_destroy(&v);
 
@@ -258,6 +282,7 @@ static off_t
 buffer_skip(struct buffer_data *input, off_t limit, const char *desc)
 {
 	struct buffer_data output;
+	struct buffer_data filter;
 
 	switch (input->type) {
 	case BUFFER_READ_FD:
@@ -273,8 +298,10 @@ buffer_skip(struct buffer_data *input, off_t limit, const char *desc)
 
 	output.type = BUFFER_WRITE_NULL;
 	output.arg.ptr = NULL;
+	filter.type = BUFFER_FILTER_NULL;
+	filter.arg.ptr = NULL;
 
-	return buffer_copy(input, &output, limit, desc);
+	return buffer_copy(input, &filter, &output, limit, desc);
 }
 
 off_t
