@@ -55,7 +55,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
     fd_in = open(pi->filename, O_RDONLY);
     if (fd_in < 0)
       ohshite(_("unable to (re)open input part file `%.250s'"), pi->filename);
-    fd_null_copy(fd_in, pi->headerlen, _("skipping split package header"));
+    fd_skip(fd_in, pi->headerlen, _("skipping split package header"));
     fd_fd_copy(fd_in, fd_out, pi->thispartlen, _("split package part"));
     close(fd_in);
 

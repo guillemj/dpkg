@@ -191,9 +191,9 @@ tarfile_skip_one_forward(struct tarcontext *tc, struct tar_entry *ti)
   if (ti->type == tar_filetype_file) {
     char fnamebuf[256];
 
-    fd_null_copy(tc->backendpipe, ti->size,
-                 _("skipped unpacking file '%.255s' (replaced or excluded?)"),
-                 path_quote_filename(fnamebuf, ti->name, 256));
+    fd_skip(tc->backendpipe, ti->size,
+            _("skipped unpacking file '%.255s' (replaced or excluded?)"),
+            path_quote_filename(fnamebuf, ti->name, 256));
     r = ti->size % TARBLKSZ;
     if (r > 0)
       if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)

@@ -59,7 +59,7 @@ struct buffer_data {
 # define fd_vbuf_copy(fd, buf, limit, ...) \
 	buffer_copy_IntPtr(fd, BUFFER_READ_FD, buf, BUFFER_WRITE_VBUF, \
 	                   limit, __VA_ARGS__)
-# define fd_null_copy(fd, limit, ...) \
+# define fd_skip(fd, limit, ...) \
 	buffer_skip_Int(fd, BUFFER_READ_FD, limit, __VA_ARGS__)
 
 off_t buffer_copy_IntPtr(int i, int typeIn, void *p, int typeOut,

@@ -175,8 +175,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
       } else if (arh.ar_name[0] == '_') {
         /* Members with ‘_’ are noncritical, and if we don't understand
          * them we skip them. */
-        fd_null_copy(arfd, memberlen + (memberlen & 1),
-                     _("skipped archive member data from %s"), debar);
+        fd_skip(arfd, memberlen + (memberlen & 1),
+                _("skipped archive member data from %s"), debar);
       } else {
 	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
 	  adminmember = 1;
@@ -201,8 +201,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
           ctrllennum= memberlen;
         }
         if (!adminmember != !admininfo) {
-          fd_null_copy(arfd, memberlen + (memberlen & 1),
-                       _("skipped archive member data from %s"), debar);
+          fd_skip(arfd, memberlen + (memberlen & 1),
+                  _("skipped archive member data from %s"), debar);
         } else {
           /* Yes! - found it. */
           break;
@@ -238,8 +238,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
       memberlen = ctrllennum;
     } else {
       memberlen = stab.st_size - ctrllennum - strlen(ctrllenbuf) - l;
-      fd_null_copy(arfd, ctrllennum,
-                   _("skipped archive control member data from %s"), debar);
+      fd_skip(arfd, ctrllennum,
+              _("skipped archive control member data from %s"), debar);
     }
 
     if (admininfo >= 2) {
