@@ -204,28 +204,46 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 	return totalread;
 }
 
-#define buffer_copy_TYPE(name, type1, name1, type2, name2) \
-off_t \
-buffer_copy_##name(type1 n1, int typeIn, \
-                   type2 n2, int typeOut, \
-                   off_t limit, const char *desc, ...) \
-{ \
-	va_list args; \
-	struct buffer_data read_data = { .arg.name1 = n1, .type = typeIn }; \
-	struct buffer_data write_data = { .arg.name2 = n2, .type = typeOut }; \
-	struct varbuf v = VARBUF_INIT; \
-	off_t ret; \
-\
-	va_start(args, desc); \
-	varbuf_vprintf(&v, desc, args); \
-	va_end(args); \
-\
-	ret = buffer_copy(&read_data, &write_data, limit, v.buf); \
-\
-	varbuf_destroy(&v); \
-\
-	return ret; \
+off_t
+buffer_copy_IntInt(int Iin, int Tin,
+                   int Iout, int Tout,
+                   off_t limit, const char *desc, ...)
+{
+	va_list args;
+	struct buffer_data read_data = { .type = Tin, .arg.i = Iin };
+	struct buffer_data write_data = { .type = Tout, .arg.i = Iout };
+	struct varbuf v = VARBUF_INIT;
+	off_t ret;
+
+	va_start(args, desc);
+	varbuf_vprintf(&v, desc, args);
+	va_end(args);
+
+	ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+
+	varbuf_destroy(&v);
+
+	return ret;
 }
 
-buffer_copy_TYPE(IntInt, int, i, int, i);
-buffer_copy_TYPE(IntPtr, int, i, void *, ptr);
+off_t
+buffer_copy_IntPtr(int Iin, int Tin,
+                   void *Pout, int Tout,
+                   off_t limit, const char *desc, ...)
+{
+	va_list args;
+	struct buffer_data read_data = { .type = Tin, .arg.i = Iin };
+	struct buffer_data write_data = { .type = Tout, .arg.ptr = Pout };
+	struct varbuf v = VARBUF_INIT;
+	off_t ret;
+
+	va_start(args, desc);
+	varbuf_vprintf(&v, desc, args);
+	va_end(args);
+
+	ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+
+	varbuf_destroy(&v);
+
+	return ret;
+}
