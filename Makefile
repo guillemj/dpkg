@@ -18,6 +18,7 @@ TESTS_FAIL := \
 
 TESTS_PASS := \
 	t-normal \
+	t-field-priority \
 	t-split \
 	t-option-dry-run \
 	t-option-recursive \
