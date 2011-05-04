@@ -48,9 +48,14 @@ parse_nv_next(struct parsedb_state *ps, const struct pkginfo *pigp,
   if (nv == NULL)
     parse_error(ps, pigp, _("'%.50s' is not allowed for %s"), str_start, what);
 
-  str_end = str_start + nv->length;
-  while (isspace(str_end[0]))
-    str_end++;
+  /* We got the fallback value, skip further string validation. */
+  if (nv->length == 0) {
+    str_end = NULL;
+  } else {
+    str_end = str_start + nv->length;
+    while (isspace(str_end[0]))
+      str_end++;
+  }
   *strp = str_end;
 
   return nv->value;
@@ -64,7 +69,7 @@ parse_nv_last(struct parsedb_state *ps, const struct pkginfo *pkg,
   int value;
 
   value = parse_nv_next(ps, pkg, what, nv_head, &str);
-  if (str[0] != '\0')
+  if (str != NULL && str[0] != '\0')
     parse_error(ps, pkg, _("junk after %s"), what);
 
   return value;
