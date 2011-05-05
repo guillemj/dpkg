@@ -474,7 +474,8 @@ hasdirectoryconffiles(struct filenamenode *file, struct pkginfo *pkg)
 	pkg->name);
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-      if (!strncmp(file->name,conff->name,namelen)) {
+      if (strncmp(file->name, conff->name, namelen) == 0 &&
+          conff->name[namelen] == '/') {
 	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
 	      file->name, conff->name, pkg->name);
 	return true;
