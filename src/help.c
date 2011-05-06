@@ -514,6 +514,37 @@ dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
   return false;
 }
 
+/*
+ * Returns true if the file is used by pkg, false otherwise.
+ */
+bool
+dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
+                   struct fileinlist *list)
+{
+  struct fileinlist *node;
+  size_t namelen;
+
+  debug(dbg_veryverbose, "dir_is_used_by_pkg '%s' (by %s)",
+        file->name, pkg ? pkg->name : "<none>");
+
+  namelen = strlen(file->name);
+
+  for (node = list; node; node = node->next) {
+    debug(dbg_veryverbose, "dir_is_used_by_pkg considering %s ...",
+          node->namenode->name);
+
+    if (strncmp(file->name, node->namenode->name, namelen) == 0 &&
+        node->namenode->name[namelen] == '/') {
+      debug(dbg_veryverbose, "dir_is_used_by_pkg yes");
+      return true;
+    }
+  }
+
+  debug(dbg_veryverbose, "dir_is_used_by_pkg no");
+
+  return false;
+}
+
 void oldconffsetflags(const struct conffile *searchconff) {
   struct filenamenode *namenode;
 

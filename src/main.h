@@ -249,6 +249,8 @@ void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
 
 void clear_istobes(void);
 bool dir_is_used_by_others(struct filenamenode *namenode, struct pkginfo *pkg);
+bool dir_is_used_by_pkg(struct filenamenode *namenode, struct pkginfo *pkg,
+                        struct fileinlist *list);
 bool dir_has_conffiles(struct filenamenode *namenode, struct pkginfo *pkg);
 
 void log_action(const char *action, struct pkginfo *pkg);

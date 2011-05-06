@@ -257,6 +257,10 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 	  push_leftover(&leftover,namenode);
 	  continue;
 	}
+        if (dir_is_used_by_pkg(namenode, pkg, leftover)) {
+          push_leftover(&leftover, namenode);
+          continue;
+        }
         if (dir_is_used_by_others(namenode, pkg))
           continue;
       }
@@ -339,6 +343,10 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
       /* Only delete a directory or a link to one if we're the only
        * package which uses it. Other files should only be listed
        * in this package (but we don't check). */
+      if (dir_is_used_by_pkg(namenode, pkg, leftover)) {
+        push_leftover(&leftover, namenode);
+        continue;
+      }
       if (dir_is_used_by_others(namenode, pkg))
         continue;
     }
