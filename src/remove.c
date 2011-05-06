@@ -253,7 +253,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         /* Only delete a directory or a link to one if we're the only
          * package which uses it. Other files should only be listed
          * in this package (but we don't check). */
-	if (hasdirectoryconffiles(namenode,pkg)) {
+        if (dir_has_conffiles(namenode, pkg)) {
 	  push_leftover(&leftover,namenode);
 	  continue;
 	}
@@ -332,7 +332,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
       /* Only delete a directory or a link to one if we're the only
        * package which uses it. Other files should only be listed
        * in this package (but we don't check). */
-      if (hasdirectoryconffiles(namenode,pkg)) {
+      if (dir_has_conffiles(namenode, pkg)) {
 	push_leftover(&leftover,namenode);
 	continue;
       }

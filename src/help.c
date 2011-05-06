@@ -465,12 +465,12 @@ void clear_istobes(void) {
  * false otherwise.
  */
 bool
-hasdirectoryconffiles(struct filenamenode *file, struct pkginfo *pkg)
+dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
 {
   struct conffile *conff;
   size_t namelen;
 
-  debug(dbg_veryverbose, "hasdirectoryconffiles `%s' (from %s)", file->name,
+  debug(dbg_veryverbose, "dir_has_conffiles '%s' (from %s)", file->name,
 	pkg->name);
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
@@ -481,7 +481,7 @@ hasdirectoryconffiles(struct filenamenode *file, struct pkginfo *pkg)
 	return true;
       }
   }
-  debug(dbg_veryverbose, "hasdirectoryconffiles no");
+  debug(dbg_veryverbose, "dir_has_conffiles no");
   return false;
 }
 
