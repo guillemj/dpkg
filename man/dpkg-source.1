@@ -172,11 +172,11 @@ begin of a filename or only full filenames, you will need to provide
 the necessary anchors (e.g. '(^|/)', '($|/)') yourself.
 .TP
 .BR \-\-extend\-diff\-ignore =\fIregexp\fP
-The perl regular expression specified will extend the default regular
-expression associated to \fB\-i\fP by concatenating "\fB|\fP\fIregexp\fP"
-to the default regexp.  This option is convenient to use in
-\fBdebian/source/options\fP to exclude some auto-generated files
-from the automatic patch generation.
+The perl regular expression specified will extend the default value
+of \fB\-\-diff\-ignore\fP and its current value (if set). It does this
+by concatenating "\fB|\fP\fIregexp\fP" to the existing value.
+This option is convenient to use in \fBdebian/source/options\fP to exclude
+some auto-generated files from the automatic patch generation.
 .TP
 .BR \-I "[\fIfile-pattern\fP], " \-\-tar\-ignore [=\fIfile-pattern\fP]
 If this option is specified, the pattern will be passed to

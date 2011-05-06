@@ -158,6 +158,9 @@ while (@options) {
         $options{'diff_ignore_regexp'} = $1 ? $1 : $Dpkg::Source::Package::diff_ignore_default_regexp;
     } elsif (m/^--extend-diff-ignore=(.+)$/) {
 	$Dpkg::Source::Package::diff_ignore_default_regexp .= "|$1";
+	if ($options{'diff_ignore_regexp'}) {
+	    $options{'diff_ignore_regexp'} .= "|$1";
+	}
     } elsif (m/^-(?:I|-tar-ignore=)(.+)$/) {
         push @{$options{'tar_ignore'}}, $1;
     } elsif (m/^-(?:I|-tar-ignore)$/) {
