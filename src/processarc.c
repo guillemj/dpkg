@@ -888,7 +888,8 @@ void process_archive(const char *filename) {
     if (!stat(namenode->name,&stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "process_archive: %s is a directory",
 	    namenode->name);
-      if (isdirectoryinuse(namenode,pkg)) continue;
+      if (dir_is_used_by_others(namenode, pkg))
+        continue;
     }
 
     if (lstat(fnamevb.buf, &oldfs)) {

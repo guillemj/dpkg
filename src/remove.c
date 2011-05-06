@@ -257,7 +257,8 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 	  push_leftover(&leftover,namenode);
 	  continue;
 	}
-	if (isdirectoryinuse(namenode,pkg)) continue;
+        if (dir_is_used_by_others(namenode, pkg))
+          continue;
       }
       debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
       if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
@@ -336,7 +337,8 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
 	push_leftover(&leftover,namenode);
 	continue;
       }
-      if (isdirectoryinuse(namenode,pkg)) continue;
+      if (dir_is_used_by_others(namenode, pkg))
+        continue;
     }
 
     debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);

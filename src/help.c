@@ -490,17 +490,17 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
  * false otherwise.
  */
 bool
-isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg)
+dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
 {
   struct filepackages_iterator *iter;
   struct pkginfo *other_pkg;
 
-  debug(dbg_veryverbose, "isdirectoryinuse `%s' (except %s)", file->name,
+  debug(dbg_veryverbose, "dir_is_used_by_others '%s' (except %s)", file->name,
         pkg ? pkg->name : "<none>");
 
   iter = filepackages_iter_new(file);
   while ((other_pkg = filepackages_iter_next(iter))) {
-    debug(dbg_veryverbose, "isdirectoryinuse considering %s ...",
+    debug(dbg_veryverbose, "dir_is_used_by_others considering %s ...",
           other_pkg->name);
     if (other_pkg == pkg)
       continue;
@@ -508,7 +508,7 @@ isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg)
   }
   filepackages_iter_free(iter);
 
-  debug(dbg_veryverbose, "isdirectoryinuse no");
+  debug(dbg_veryverbose, "dir_is_used_by_others no");
   return false;
 }
 
