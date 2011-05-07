@@ -475,6 +475,7 @@ do_build(const char *const *argv)
   c2 = subproc_fork();
   if (!c2) {
     compress_filter(&compressor_gzip, p1[0], gzfd, 9, _("control member"));
+    exit(0);
   }
   close(p1[0]);
   subproc_wait_check(c2, "gzip -9c", 0);
@@ -543,6 +544,7 @@ do_build(const char *const *argv)
   if (!c2) {
     close(p1[1]);
     compress_filter(compressor, p2[0], gzfd, compress_level, _("data member"));
+    exit(0);
   }
   close(p2[0]);
 

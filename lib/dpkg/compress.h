@@ -34,10 +34,8 @@ struct compressor {
 	const char *name;
 	const char *extension;
 	int default_level;
-	void (*compress)(int fd_in, int fd_out, int level, const char *desc)
-		DPKG_ATTR_NORET;
-	void (*decompress)(int fd_in, int fd_out, const char *desc)
-		DPKG_ATTR_NORET;
+	void (*compress)(int fd_in, int fd_out, int level, const char *desc);
+	void (*decompress)(int fd_in, int fd_out, const char *desc);
 };
 
 struct compressor compressor_none;
@@ -50,11 +48,11 @@ struct compressor *compressor_find_by_name(const char *name);
 struct compressor *compressor_find_by_extension(const char *name);
 
 void decompress_filter(struct compressor *comp, int fd_in, int fd_out,
-                       const char *desc, ...) DPKG_ATTR_NORET
+                       const char *desc, ...)
                        DPKG_ATTR_PRINTF(4);
 void compress_filter(struct compressor *comp, int fd_in, int fd_out,
                      int compress_level, const char *desc, ...)
-                     DPKG_ATTR_NORET DPKG_ATTR_PRINTF(5);
+                     DPKG_ATTR_PRINTF(5);
 
 DPKG_END_DECLS
 

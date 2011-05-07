@@ -282,6 +282,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     if (taroption)
       close(p2[0]);
     decompress_filter(decompressor, p1[0], p2_out, _("data"));
+    exit(0);
   }
   close(p1[0]);
   close(arfd);
