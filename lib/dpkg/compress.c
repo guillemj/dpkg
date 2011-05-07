@@ -105,7 +105,7 @@ struct compressor compressor_none = {
 static void
 decompress_gzip(int fd_in, int fd_out, const char *desc)
 {
-	char buffer[4096];
+	char buffer[DPKG_BUFFER_SIZE];
 	gzFile gzfile = gzdopen(fd_in, "r");
 
 	if (gzfile == NULL)
@@ -139,7 +139,7 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 static void
 compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 {
-	char buffer[4096];
+	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
 	int err;
 	gzFile gzfile;
@@ -213,7 +213,7 @@ struct compressor compressor_gzip = {
 static void
 decompress_bzip2(int fd_in, int fd_out, const char *desc)
 {
-	char buffer[4096];
+	char buffer[DPKG_BUFFER_SIZE];
 	BZFILE *bzfile = BZ2_bzdopen(fd_in, "r");
 
 	if (bzfile == NULL)
@@ -247,7 +247,7 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 static void
 compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 {
-	char buffer[4096];
+	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
 	int err;
 	BZFILE *bzfile;
