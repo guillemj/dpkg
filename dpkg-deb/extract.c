@@ -112,6 +112,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   int dummy;
   pid_t c1=0,c2,c3;
   int p1[2], p2[2];
+  int p2_out;
   int arfd;
   struct stat stab;
   char nlc;
@@ -269,14 +270,18 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   }
   close(p1[1]);
 
-  if (taroption) m_pipe(p2);
+  if (taroption) {
+    m_pipe(p2);
+    p2_out = p2[1];
+  } else {
+    p2_out = 1;
+  }
 
   c2 = subproc_fork();
   if (!c2) {
-    m_dup2(p1[0], 0);
-    if (admininfo) close(p1[0]);
-    if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
-    decompress_filter(decompressor, 0, 1, _("data"));
+    if (taroption)
+      close(p2[0]);
+    decompress_filter(decompressor, p1[0], p2_out, _("data"));
   }
   close(p1[0]);
   close(arfd);

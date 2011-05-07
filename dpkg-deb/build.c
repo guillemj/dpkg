@@ -474,8 +474,7 @@ do_build(const char *const *argv)
   /* And run gzip to compress our control archive. */
   c2 = subproc_fork();
   if (!c2) {
-    m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
-    compress_filter(&compressor_gzip, 0, 1, 9, _("control member"));
+    compress_filter(&compressor_gzip, p1[0], gzfd, 9, _("control member"));
   }
   close(p1[0]);
   subproc_wait_check(c2, "gzip -9c", 0);
@@ -504,12 +503,17 @@ do_build(const char *const *argv)
     dpkg_ar_member_put_mem(debar, arfd, DEBMAGIC, deb_magic, strlen(deb_magic));
     dpkg_ar_member_put_file(debar, arfd, ADMINMEMBER, gzfd, -1);
   }
+  close(gzfd);
 
-  /* Control is done, now we need to archive the data. Start by creating
-   * a new temporary file. Immediately unlink the temporary file so others
-   * can't mess with it. */
-  if (!oldformatflag) {
-    close(gzfd);
+  /* Control is done, now we need to archive the data. */
+  if (oldformatflag) {
+    /* In old format, the data member is just concatenated after the
+     * control member, so we do not need a temporary file and can use
+     * the compression file descriptor. */
+    gzfd = arfd;
+  } else {
+    /* Start by creating a new temporary file. Immediately unlink the
+     * temporary file so others can't mess with it. */
     tfbuf = path_make_temp_template("dpkg-deb");
     gzfd = mkstemp(tfbuf);
     if (gzfd == -1)
@@ -538,9 +542,7 @@ do_build(const char *const *argv)
   c2 = subproc_fork();
   if (!c2) {
     close(p1[1]);
-    m_dup2(p2[0],0); close(p2[0]);
-    m_dup2(oldformatflag ? arfd : gzfd, 1);
-    compress_filter(compressor, 0, 1, compress_level, _("data member"));
+    compress_filter(compressor, p2[0], gzfd, compress_level, _("data member"));
   }
   close(p2[0]);
 
