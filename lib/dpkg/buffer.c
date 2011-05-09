@@ -166,7 +166,7 @@ buffer_copy(struct buffer_data *read_data, struct buffer_data *write_data,
 
 	buffer_init(write_data);
 
-	while (bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
+	while (bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize);
 		if (bytesread < 0)
 			break;
