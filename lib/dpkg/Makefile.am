@@ -35,6 +35,7 @@ libdpkg_a_SOURCES = \
 	dir.c \
 	dump.c \
 	ehandle.c \
+	error.c \
 	fdio.c \
 	file.c \
 	fields.c \
@@ -81,6 +82,7 @@ pkginclude_HEADERS = \
 	dpkg.h \
 	dpkg-db.h \
 	ehandle.h \
+	error.h \
 	fdio.h \
 	file.h \
 	glob.h \
