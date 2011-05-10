@@ -422,6 +422,7 @@ void process_archive(const char *filename) {
   static struct varbuf depprobwhy;
   static struct tarcontext tc;
 
+  struct dpkg_error err;
   enum parsedbflags parsedb_flags;
   int r, i;
   pid_t pid;
@@ -927,7 +928,8 @@ void process_archive(const char *filename) {
       ohshit(_("corrupted filesystem tarfile - corrupted package archive"));
     }
   }
-  fd_skip(p1[0], -1, _("dpkg-deb: zap possible trailing zeros"));
+  if (fd_skip(p1[0], -1, &err) < 0)
+    ohshit(_("cannot zap possible trailing zeros from dpkg-deb: %s"), err.str);
   close(p1[0]);
   p1[0] = -1;
   subproc_wait_check(pid, BACKEND " --fsys-tarfile", PROCPIPE);

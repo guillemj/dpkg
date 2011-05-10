@@ -127,6 +127,8 @@ void
 dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
                         const char *name, int fd, off_t size)
 {
+	struct dpkg_error err;
+
 	if (size <= 0) {
 		struct stat st;
 
@@ -138,7 +140,9 @@ dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
 	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
 
 	/* Copy data contents. */
-	fd_fd_copy(fd, ar_fd, size, _("ar member file (%s)"), name);
+	if (fd_fd_copy(fd, ar_fd, size, &err) < 0)
+		ohshit(_("cannot append ar member file (%s) to '%s': %s"),
+		       name, ar_name, err.str);
 
 	if (size & 1)
 		if (fd_write(ar_fd, "\n", 1) < 0)

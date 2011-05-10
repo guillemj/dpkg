@@ -172,6 +172,7 @@ do_auto(const char *const *argv)
   for (j=refi->maxpartn-1; j>=0 && partlist[j]; j--);
 
   if (j>=0) {
+    struct dpkg_error err;
     int fd_src, fd_dst;
     int ap;
     char *p, *q;
@@ -187,7 +188,9 @@ do_auto(const char *const *argv)
     if (fd_dst < 0)
       ohshite(_("unable to open new depot file `%.250s'"), p);
 
-    fd_fd_copy(fd_src, fd_dst, refi->filesize, _("extracting split part"));
+    if (fd_fd_copy(fd_src, fd_dst, refi->filesize, &err) < 0)
+      ohshit(_("cannot extract split package part '%s': %s"),
+             partfile, err.str);
 
     if (fsync(fd_dst))
       ohshite(_("unable to sync file '%s'"), p);

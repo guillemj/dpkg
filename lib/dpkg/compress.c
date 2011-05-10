@@ -102,13 +102,19 @@ fixup_none_params(struct compress_params *params)
 static void
 decompress_none(int fd_in, int fd_out, const char *desc)
 {
-	fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), desc);
+	struct dpkg_error err;
+
+	if (fd_fd_copy(fd_in, fd_out, -1, &err) < 0)
+		ohshit(_("%s: pass-through copy error: %s"), desc, err.str);
 }
 
 static void
 compress_none(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
-	fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), desc);
+	struct dpkg_error err;
+
+	if (fd_fd_copy(fd_in, fd_out, -1, &err) < 0)
+		ohshit(_("%s: pass-through copy error: %s"), desc, err.str);
 }
 
 static const struct compressor compressor_none = {

@@ -92,6 +92,7 @@ static int ilist_select(const struct dirent *de) {
 static void
 info_spew(const char *debar, const char *dir, const char *const *argv)
 {
+  struct dpkg_error err;
   const char *component;
   struct varbuf controlfile = VARBUF_INIT;
   int fd;
@@ -103,7 +104,9 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
 
     fd = open(controlfile.buf, O_RDONLY);
     if (fd >= 0) {
-      fd_fd_copy(fd, 1, -1, _("control file '%s'"), controlfile.buf);
+      if (fd_fd_copy(fd, 1, -1, &err) < 0)
+        ohshit(_("cannot extract control file '%s' from '%s': %s"),
+               controlfile.buf, debar, err.str);
       close(fd);
     } else if (errno == ENOENT) {
       fprintf(stderr,

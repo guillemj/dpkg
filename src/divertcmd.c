@@ -208,6 +208,7 @@ check_rename(struct file *src, struct file *dst)
 static void
 file_copy(const char *src, const char *realdst)
 {
+	struct dpkg_error err;
 	char *dst;
 	int srcfd, dstfd;
 
@@ -222,7 +223,8 @@ file_copy(const char *src, const char *realdst)
 
 	/* FIXME: leaves a dangling destination file on error. */
 
-	fd_fd_copy(srcfd, dstfd, -1, _("file copy"));
+	if (fd_fd_copy(srcfd, dstfd, -1, &err) < 0)
+		ohshit(_("cannot copy '%s' to '%s': %s"), src, dst, err.str);
 
 	close(srcfd);
 

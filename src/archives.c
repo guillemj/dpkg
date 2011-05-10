@@ -236,12 +236,15 @@ int tarfileread(void *ud, char *buf, int len) {
 static void
 tarobject_skip_padding(struct tarcontext *tc, struct tar_entry *te)
 {
+  struct dpkg_error err;
   size_t r;
 
   r = te->size % TARBLKSZ;
-  if (r > 0)
-    fd_skip(tc->backendpipe, TARBLKSZ - r,
-            _("error reading from dpkg-deb pipe"));
+  if (r == 0)
+    return;
+
+  if (fd_skip(tc->backendpipe, TARBLKSZ - r, &err) < 0)
+    ohshit(_("cannot skip padding for file '%.255s': %s"), te->name, err.str);
 }
 
 static void
@@ -250,11 +253,12 @@ tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
   /* We need to advance the tar file to the next object, so read the
    * file data and set it to oblivion. */
   if (ti->type == tar_filetype_file) {
+    struct dpkg_error err;
     char fnamebuf[256];
 
-    fd_skip(tc->backendpipe, ti->size,
-            _("skipped unpacking file '%.255s' (replaced or excluded?)"),
-            path_quote_filename(fnamebuf, ti->name, 256));
+    if (fd_skip(tc->backendpipe, ti->size, &err) < 0)
+      ohshit(_("cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"),
+             path_quote_filename(fnamebuf, ti->name, 256), err.str);
     tarobject_skip_padding(tc, ti);
   }
 }
@@ -303,8 +307,10 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
   static struct varbuf hardlinkfn;
   static int fd;
 
+  struct dpkg_error err;
   struct filenamenode *linknode;
   char fnamebuf[256];
+  char fnamenewbuf[256];
   char *newhash;
 
   switch (te->type) {
@@ -320,9 +326,10 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
           (intmax_t)te->size);
 
     newhash = nfmalloc(MD5HASHLEN + 1);
-    fd_fd_copy_and_md5(tc->backendpipe, fd, newhash, te->size,
-                       _("backend dpkg-deb during `%.255s'"),
-                       path_quote_filename(fnamebuf, te->name, 256));
+    if (fd_fd_copy_and_md5(tc->backendpipe, fd, newhash, te->size, &err) < 0)
+      ohshit(_("cannot copy extracted data for '%.255s' to '%.255s': %s"),
+             path_quote_filename(fnamebuf, te->name, 256),
+             path_quote_filename(fnamenewbuf, fnamenewvb.buf, 256), err.str);
     namenode->newhash = newhash;
     debug(dbg_eachfiledetail, "tarobject file hash=%s", namenode->newhash);
 
@@ -400,13 +407,14 @@ tarobject_hash(struct tarcontext *tc, struct tar_entry *te,
                struct filenamenode *namenode)
 {
   if (te->type == tar_filetype_file) {
+    struct dpkg_error err;
     char fnamebuf[256];
     char *newhash;
 
     newhash = nfmalloc(MD5HASHLEN + 1);
-    fd_md5(tc->backendpipe, newhash, te->size,
-           _("backend dpkg-deb during `%.255s'"),
-           path_quote_filename(fnamebuf, te->name, 256));
+    if (fd_md5(tc->backendpipe, newhash, te->size, &err) < 0)
+      ohshit(_("cannot compute MD5 hash for tar file '%.255s': %s"),
+             path_quote_filename(fnamebuf, te->name, 256), err.str);
     tarobject_skip_padding(tc, te);
 
     namenode->newhash = newhash;

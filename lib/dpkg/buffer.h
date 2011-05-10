@@ -27,6 +27,7 @@
 #include <sys/types.h>
 
 #include <dpkg/macros.h>
+#include <dpkg/error.h>
 
 DPKG_BEGIN_DECLS
 
@@ -58,42 +59,42 @@ struct buffer_data {
 # define buffer_md5(buf, hash, limit) \
 	buffer_filter(buf, hash, BUFFER_FILTER_MD5, limit)
 
-# define fd_md5(fd, hash, limit, ...) \
+# define fd_md5(fd, hash, limit, err) \
 	buffer_copy_IntPtr(fd, BUFFER_READ_FD, \
 	                   hash, BUFFER_FILTER_MD5, \
 	                   NULL, BUFFER_WRITE_NULL, \
-	                   limit, __VA_ARGS__)
-# define fd_fd_copy(fd1, fd2, limit, ...) \
+	                   limit, err)
+# define fd_fd_copy(fd1, fd2, limit, err) \
 	buffer_copy_IntInt(fd1, BUFFER_READ_FD, \
 	                   NULL, BUFFER_FILTER_NULL, \
 	                   fd2, BUFFER_WRITE_FD, \
-	                   limit, __VA_ARGS__)
-# define fd_fd_copy_and_md5(fd1, fd2, hash, limit, ...) \
+	                   limit, err)
+# define fd_fd_copy_and_md5(fd1, fd2, hash, limit, err) \
 	buffer_copy_IntInt(fd1, BUFFER_READ_FD, \
 	                   hash, BUFFER_FILTER_MD5, \
 	                   fd2, BUFFER_WRITE_FD, \
-	                   limit, __VA_ARGS__)
-# define fd_vbuf_copy(fd, buf, limit, ...) \
+	                   limit, err)
+# define fd_vbuf_copy(fd, buf, limit, err) \
 	buffer_copy_IntPtr(fd, BUFFER_READ_FD, \
 	                   NULL, BUFFER_FILTER_NULL, \
 	                   buf, BUFFER_WRITE_VBUF, \
-	                   limit, __VA_ARGS__)
-# define fd_skip(fd, limit, ...) \
-	buffer_skip_Int(fd, BUFFER_READ_FD, limit, __VA_ARGS__)
+	                   limit, err)
+# define fd_skip(fd, limit, err) \
+	buffer_skip_Int(fd, BUFFER_READ_FD, limit, err)
 
 
 off_t buffer_copy_IntPtr(int i, int typeIn,
                          void *f, int typeFilter,
                          void *p, int typeOut,
-                         off_t limit, const char *desc,
-                         ...) DPKG_ATTR_PRINTF(8);
+                         off_t limit, struct dpkg_error *err)
+	DPKG_ATTR_REQRET;
 off_t buffer_copy_IntInt(int i1, int typeIn,
                          void *f, int typeFilter,
                          int i2, int typeOut,
-                         off_t limit, const char *desc,
-                         ...) DPKG_ATTR_PRINTF(8);
-off_t buffer_skip_Int(int I, int T, off_t limit, const char *desc_fmt, ...)
-	DPKG_ATTR_PRINTF(4);
+                         off_t limit, struct dpkg_error *err)
+	DPKG_ATTR_REQRET;
+off_t buffer_skip_Int(int I, int T, off_t limit, struct dpkg_error *err)
+	DPKG_ATTR_REQRET;
 off_t buffer_filter(const void *buf, void *hash, int typeFilter, off_t length);
 
 /** @} */

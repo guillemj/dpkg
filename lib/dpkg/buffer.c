@@ -118,7 +118,8 @@ buffer_filter_done(struct buffer_data *data)
 }
 
 static off_t
-buffer_write(struct buffer_data *data, const void *buf, off_t length)
+buffer_write(struct buffer_data *data, const void *buf, off_t length,
+             struct dpkg_error *err)
 {
 	off_t ret = length;
 
@@ -128,6 +129,8 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 		break;
 	case BUFFER_WRITE_FD:
 		ret = fd_write(data->arg.i, buf, length);
+		if (ret < 0)
+			dpkg_put_errno(err, _("failed to write"));
 		break;
 	case BUFFER_WRITE_NULL:
 		break;
@@ -139,13 +142,16 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 }
 
 static off_t
-buffer_read(struct buffer_data *data, void *buf, off_t length)
+buffer_read(struct buffer_data *data, void *buf, off_t length,
+            struct dpkg_error *err)
 {
 	off_t ret;
 
 	switch (data->type) {
 	case BUFFER_READ_FD:
 		ret = fd_read(data->arg.i, buf, length);
+		if (ret < 0)
+			dpkg_put_errno(err, _("failed to read"));
 		break;
 	default:
 		internerr("unknown data type %i", data->type);
@@ -171,7 +177,7 @@ static off_t
 buffer_copy(struct buffer_data *read_data,
             struct buffer_data *filter,
             struct buffer_data *write_data,
-            off_t limit, const char *desc)
+            off_t limit, struct dpkg_error *err)
 {
 	char *buf;
 	int bufsize = 32768;
@@ -188,9 +194,9 @@ buffer_copy(struct buffer_data *read_data,
 	buffer_filter_init(filter);
 
 	while (bufsize > 0) {
-		bytesread = buffer_read(read_data, buf, bufsize);
+		bytesread = buffer_read(read_data, buf, bufsize, err);
 		if (bytesread < 0)
-			ohshite(_("failed to read on buffer copy for %s"), desc);
+			return -1;
 		if (bytesread == 0)
 			break;
 
@@ -204,9 +210,9 @@ buffer_copy(struct buffer_data *read_data,
 
 		buffer_filter_update(filter, buf, bytesread);
 
-		byteswritten = buffer_write(write_data, buf, bytesread);
+		byteswritten = buffer_write(write_data, buf, bytesread, err);
 		if (byteswritten < 0)
-			ohshite(_("failed in write on buffer copy for %s"), desc);
+			return -1;
 		if (byteswritten == 0)
 			break;
 
@@ -214,7 +220,7 @@ buffer_copy(struct buffer_data *read_data,
 	}
 
 	if (limit > 0)
-		ohshit(_("short read on buffer copy for %s"), desc);
+		return dpkg_put_error(err, _("unexpected end of file or stream"));
 
 	buffer_filter_done(filter);
 
@@ -227,52 +233,30 @@ off_t
 buffer_copy_IntInt(int Iin, int Tin,
                    void *Pfilter, int Tfilter,
                    int Iout, int Tout,
-                   off_t limit, const char *desc, ...)
+                   off_t limit, struct dpkg_error *err)
 {
-	va_list args;
 	struct buffer_data read_data = { .type = Tin, .arg.i = Iin };
 	struct buffer_data filter = { .type = Tfilter, .arg.ptr = Pfilter };
 	struct buffer_data write_data = { .type = Tout, .arg.i = Iout };
-	struct varbuf v = VARBUF_INIT;
-	off_t ret;
 
-	va_start(args, desc);
-	varbuf_vprintf(&v, desc, args);
-	va_end(args);
-
-	ret = buffer_copy(&read_data, &filter, &write_data, limit, v.buf);
-
-	varbuf_destroy(&v);
-
-	return ret;
+	return buffer_copy(&read_data, &filter, &write_data, limit, err);
 }
 
 off_t
 buffer_copy_IntPtr(int Iin, int Tin,
                    void *Pfilter, int Tfilter,
                    void *Pout, int Tout,
-                   off_t limit, const char *desc, ...)
+                   off_t limit, struct dpkg_error *err)
 {
-	va_list args;
 	struct buffer_data read_data = { .type = Tin, .arg.i = Iin };
 	struct buffer_data filter = { .type = Tfilter, .arg.ptr = Pfilter };
 	struct buffer_data write_data = { .type = Tout, .arg.ptr = Pout };
-	struct varbuf v = VARBUF_INIT;
-	off_t ret;
 
-	va_start(args, desc);
-	varbuf_vprintf(&v, desc, args);
-	va_end(args);
-
-	ret = buffer_copy(&read_data, &filter, &write_data, limit, v.buf);
-
-	varbuf_destroy(&v);
-
-	return ret;
+	return buffer_copy(&read_data, &filter, &write_data, limit, err);
 }
 
 static off_t
-buffer_skip(struct buffer_data *input, off_t limit, const char *desc)
+buffer_skip(struct buffer_data *input, off_t limit, struct dpkg_error *err)
 {
 	struct buffer_data output;
 	struct buffer_data filter;
@@ -282,7 +266,7 @@ buffer_skip(struct buffer_data *input, off_t limit, const char *desc)
 		if (lseek(input->arg.i, limit, SEEK_CUR) != -1)
 			return limit;
 		if (errno != ESPIPE)
-			ohshite(_("failed to seek %s"), desc);
+			return dpkg_put_errno(err, _("failed to seek"));
 		break;
 	default:
 		internerr("unknown data type %i", input->type);
@@ -293,24 +277,13 @@ buffer_skip(struct buffer_data *input, off_t limit, const char *desc)
 	filter.type = BUFFER_FILTER_NULL;
 	filter.arg.ptr = NULL;
 
-	return buffer_copy(input, &filter, &output, limit, desc);
+	return buffer_copy(input, &filter, &output, limit, err);
 }
 
 off_t
-buffer_skip_Int(int I, int T, off_t limit, const char *desc_fmt, ...)
+buffer_skip_Int(int I, int T, off_t limit, struct dpkg_error *err)
 {
-	va_list args; \
 	struct buffer_data input = { .type = T, .arg.i = I };
-	struct varbuf v = VARBUF_INIT;
-	off_t ret;
 
-	va_start(args, desc_fmt);
-	varbuf_vprintf(&v, desc_fmt, args);
-	va_end(args);
-
-	ret = buffer_skip(&input, limit, v.buf);
-
-	varbuf_destroy(&v);
-
-	return ret;
+	return buffer_skip(&input, limit, err);
 }

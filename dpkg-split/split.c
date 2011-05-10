@@ -51,6 +51,7 @@
 static char *
 deb_field(const char *filename, const char *field)
 {
+	struct dpkg_error err;
 	pid_t pid;
 	int p[2];
 	struct varbuf buf = VARBUF_INIT;
@@ -73,7 +74,9 @@ deb_field(const char *filename, const char *field)
 
 	/* Parant reads from pipe. */
 	varbuf_reset(&buf);
-	fd_vbuf_copy(p[0], &buf, -1, _("package field value extraction"));
+	if (fd_vbuf_copy(p[0], &buf, -1, &err) < 0)
+		ohshit(_("cannot extract package field value from '%s': %s"),
+		       filename, err.str);
 	varbuf_end_str(&buf);
 
 	close(p[0]);
@@ -114,6 +117,7 @@ static int
 mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
         bool msdos)
 {
+	struct dpkg_error err;
 	int fd_src;
 	struct stat st;
 	char hash[MD5HASHLEN + 1];
@@ -134,7 +138,9 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	if (!S_ISREG(st.st_mode))
 		ohshit(_("source file `%.250s' not a plain file"), file_src);
 
-	fd_md5(fd_src, hash, -1, "md5hash");
+	if (fd_md5(fd_src, hash, -1, &err) < 0)
+		ohshit(_("cannot compute MD5 hash for file '%s': %s"),
+		       file_src, err.str);
 	lseek(fd_src, 0, SEEK_SET);
 
 	/* FIXME: Use libdpkg-deb. */

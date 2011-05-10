@@ -387,6 +387,7 @@ pkg_get_pathname(const char *dir, struct pkginfo *pkg)
 int
 do_build(const char *const *argv)
 {
+  struct dpkg_error err;
   const char *debar, *dir;
   bool subdir;
   char *tfbuf;
@@ -482,7 +483,7 @@ do_build(const char *const *argv)
     params.strategy = compressor_strategy_none;
     params.level = 9;
 
-    compress_filter(&params, p1[0], gzfd, _("control member"));
+    compress_filter(&params, p1[0], gzfd, _("compressing control member"));
     exit(0);
   }
   close(p1[0]);
@@ -504,7 +505,9 @@ do_build(const char *const *argv)
             (intmax_t)controlstab.st_size);
     if (fd_write(arfd, versionbuf, strlen(versionbuf)) < 0)
       ohshite(_("error writing `%s'"), debar);
-    fd_fd_copy(gzfd, arfd, -1, _("control member"));
+    if (fd_fd_copy(gzfd, arfd, -1, &err) < 0)
+      ohshit(_("cannot copy '%s' into archive '%s': %s"), _("control member"),
+             debar, err.str);
   } else {
     const char deb_magic[] = ARCHIVEVERSION "\n";
 
@@ -551,7 +554,7 @@ do_build(const char *const *argv)
   c2 = subproc_fork();
   if (!c2) {
     close(p1[1]);
-    compress_filter(&compress_params, p2[0], gzfd, _("data member"));
+    compress_filter(&compress_params, p2[0], gzfd, _("compressing data member"));
     exit(0);
   }
   close(p2[0]);

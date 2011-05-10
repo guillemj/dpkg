@@ -107,6 +107,7 @@ void
 extracthalf(const char *debar, const char *dir, const char *taroption,
             int admininfo)
 {
+  struct dpkg_error err;
   const char *errstr;
   char versionbuf[40];
   struct deb_version version;
@@ -174,8 +175,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
       } else if (arh.ar_name[0] == '_') {
         /* Members with ‘_’ are noncritical, and if we don't understand
          * them we skip them. */
-        fd_skip(arfd, memberlen + (memberlen & 1),
-                _("skipped archive member data from %s"), debar);
+        if (fd_skip(arfd, memberlen + (memberlen & 1), &err) < 0)
+          ohshit(_("cannot skip archive member from '%s': %s"), debar, err.str);
       } else {
 	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
 	  adminmember = 1;
@@ -200,8 +201,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
           ctrllennum= memberlen;
         }
         if (!adminmember != !admininfo) {
-          fd_skip(arfd, memberlen + (memberlen & 1),
-                  _("skipped archive member data from %s"), debar);
+          if (fd_skip(arfd, memberlen + (memberlen & 1), &err) < 0)
+            ohshit(_("cannot skip archive member from '%s': %s"), debar, err.str);
         } else {
           /* Yes! - found it. */
           break;
@@ -239,8 +240,9 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
       memberlen = ctrllennum;
     } else {
       memberlen = stab.st_size - ctrllennum - strlen(ctrllenbuf) - l;
-      fd_skip(arfd, ctrllennum,
-              _("skipped archive control member data from %s"), debar);
+      if (fd_skip(arfd, ctrllennum, &err) < 0)
+        ohshit(_("cannot skip archive control member from '%s': %s"), debar,
+               err.str);
     }
 
     if (admininfo >= 2) {
@@ -265,9 +267,11 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   c1 = subproc_fork();
   if (!c1) {
     close(p1[0]);
-    fd_fd_copy(arfd, p1[1], memberlen, _("failed to write to pipe in copy"));
+    if (fd_fd_copy(arfd, p1[1], memberlen, &err) < 0)
+      ohshit(_("cannot copy archive member from '%s' to decompressor pipe: %s"),
+             debar, err.str);
     if (close(p1[1]))
-      ohshite(_("failed to close pipe in copy"));
+      ohshite(_("cannot close decompressor pipe"));
     exit(0);
   }
   close(p1[1]);
@@ -283,7 +287,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   if (!c2) {
     if (taroption)
       close(p2[0]);
-    decompress_filter(decompressor, p1[0], p2_out, _("data"));
+    decompress_filter(decompressor, p1[0], p2_out,
+                      _("decompressing archive member"));
     exit(0);
   }
   close(p1[0]);

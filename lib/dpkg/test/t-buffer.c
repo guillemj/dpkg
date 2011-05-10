@@ -60,13 +60,13 @@ test_fdio_hash(void)
 	fd = mkstemp(test_file);
 	test_pass(fd >= 0);
 
-	fd_md5(fd, hash, -1, "test empty file");
+	test_pass(fd_md5(fd, hash, -1, NULL) >= 0);
 	test_str(hash, ==, ref_hash_empty);
 
 	test_pass(write(fd, str_test, strlen(str_test)) == strlen(str_test));
 	test_pass(lseek(fd, 0, SEEK_SET) == 0);
 
-	fd_md5(fd, hash, -1, "test filled file");
+	test_pass(fd_md5(fd, hash, -1, NULL) >= 0);
 	test_str(hash, ==, ref_hash_test);
 
 	test_pass(unlink(test_file) == 0);

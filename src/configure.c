@@ -535,13 +535,16 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 void
 md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 {
+	struct dpkg_error err;
 	static int fd;
 
 	fd = open(fn, O_RDONLY);
 
 	if (fd >= 0) {
 		push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
-		fd_md5(fd, hashbuf, -1, _("md5hash"));
+		if (fd_md5(fd, hashbuf, -1, &err) < 0)
+			ohshit(_("cannot compute MD5 hash for file '%s': %s"),
+			       fn, err.str);
 		pop_cleanup(ehflag_normaltidy); /* fd = open(cdr.buf) */
 		close(fd);
 	} else if (errno == ENOENT) {
