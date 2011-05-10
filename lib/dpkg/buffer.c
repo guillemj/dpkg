@@ -193,7 +193,7 @@ buffer_copy(struct buffer_data *read_data,
 	while (bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize);
 		if (bytesread < 0)
-			break;
+			ohshite(_("failed to read on buffer copy for %s"), desc);
 		if (bytesread == 0)
 			break;
 
@@ -209,17 +209,13 @@ buffer_copy(struct buffer_data *read_data,
 
 		byteswritten = buffer_write(write_data, buf, bytesread);
 		if (byteswritten < 0)
-			break;
+			ohshite(_("failed in write on buffer copy for %s"), desc);
 		if (byteswritten == 0)
 			break;
 
 		totalwritten += byteswritten;
 	}
 
-	if (bytesread < 0)
-		ohshite(_("failed to read on buffer copy for %s"), desc);
-	if (byteswritten < 0)
-		ohshite(_("failed in write on buffer copy for %s"), desc);
 	if (limit > 0)
 		ohshit(_("short read on buffer copy for %s"), desc);
 
