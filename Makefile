@@ -12,6 +12,7 @@ TESTS_MANUAL := \
 
 TESTS_FAIL := \
 	t-dir-leftover-parents \
+	t-dir-leftover-deadlock \
 	t-disappear-depended \
 	t-conffile-divert-conffile \
 	t-conffile-replaces-upgrade \
