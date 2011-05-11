@@ -11,6 +11,7 @@ TESTS_MANUAL := \
 	t-conffile-prompt \
 
 TESTS_FAIL := \
+	t-dir-leftover-parents \
 	t-disappear-depended \
 	t-conffile-divert-conffile \
 	t-conffile-replaces-upgrade \
