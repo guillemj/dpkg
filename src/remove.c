@@ -362,6 +362,15 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     }
     if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
 
+    if (lstat(fnvb.buf, &stab) == 0 && S_ISLNK(stab.st_mode)) {
+      debug(dbg_eachfiledetail, "removal_bulk is a symlink to a directory");
+
+      if (unlink(fnvb.buf))
+        ohshite(_("cannot remove '%.250s'"), fnvb.buf);
+
+      continue;
+    }
+
     push_leftover(&leftover,namenode);
     continue;
   }
