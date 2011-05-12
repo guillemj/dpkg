@@ -44,6 +44,7 @@ TESTS_PASS := \
 	t-predepends-no-triggers \
 	t-file-replaces \
 	t-file-replaces-disappear \
+	t-conffile-normal \
 	t-conffile-obsolete \
 	t-conffile-orphan \
 	t-conffile-forcenew \
