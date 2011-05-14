@@ -12,6 +12,13 @@ test-case:
 	$(DPKG_UNPACK) --no-triggers pkg-predepends.deb
 	# ...by running the required triggers
 	$(call pkg_status_is,pkg-real,install ok installed)
+	# Retry again, this time the trigger processing is not required
+	# because pkg-real has already been configured once
+	$(DPKG_PURGE) pkg-predepends
+	$(DPKG_INSTALL) --no-triggers pkg-real.deb
+	$(call pkg_status_is,pkg-real,install ok triggers-awaited)
+	$(DPKG_UNPACK) --no-triggers pkg-predepends.deb
+	$(call pkg_status_is,pkg-real,install ok triggers-awaited)
 	# Cleanup
 	$(DPKG_PURGE) pkg-predepends
 	$(DPKG_PURGE) pkg-real
