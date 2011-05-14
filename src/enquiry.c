@@ -388,7 +388,7 @@ predeppackage(const char *const *argv)
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
-      if (depisok(dep, &vb, NULL, true))
+      if (depisok(dep, &vb, NULL, NULL, true))
         continue;
       /* This will leave dep non-NULL, and so exit the loop. */
       break;
@@ -438,7 +438,7 @@ predeppackage(const char *const *argv)
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
-      if (depisok(dep, &vb, NULL, true))
+      if (depisok(dep, &vb, NULL, NULL, true))
         continue;
       /* This will leave dep non-NULL, and so exit the loop. */
       break;

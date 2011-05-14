@@ -1029,7 +1029,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
   int ok;
 
   fixbydeconf = NULL;
-  if (depisok(dep, &why, &fixbydeconf, false)) {
+  if (depisok(dep, &why, &fixbydeconf, NULL, false)) {
     varbuf_destroy(&why);
     return;
   }
@@ -1084,7 +1084,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   struct dependency *providecheck;
 
   fixbyrm = NULL;
-  if (depisok(dep, &conflictwhy, &fixbyrm, false)) {
+  if (depisok(dep, &conflictwhy, &fixbyrm, NULL, false)) {
     varbuf_destroy(&conflictwhy);
     varbuf_destroy(&removalwhy);
     return;
@@ -1116,7 +1116,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
              pdep = pdep->rev_next) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
             continue;
-          if (depisok(pdep->up, &removalwhy, NULL, false))
+          if (depisok(pdep->up, &removalwhy, NULL, NULL, false))
             continue;
           varbuf_end_str(&removalwhy);
           if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
@@ -1133,7 +1133,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                  pdep = pdep->rev_next) {
               if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
                 continue;
-              if (depisok(pdep->up, &removalwhy, NULL, false))
+              if (depisok(pdep->up, &removalwhy, NULL, NULL, false))
                 continue;
               varbuf_end_str(&removalwhy);
               fprintf(stderr, _("dpkg"

@@ -503,7 +503,7 @@ void process_archive(const char *filename) {
       /* Ignore these here. */
       break;
     case dep_predepends:
-      if (!depisok(dsearch, &depprobwhy, NULL, true)) {
+      if (!depisok(dsearch, &depprobwhy, NULL, NULL, true)) {
         varbuf_end_str(&depprobwhy);
         fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
                 pfilename, pkg->name, depprobwhy.buf);
@@ -1150,7 +1150,7 @@ void process_archive(const char *filename) {
          pdep = pdep->rev_next) {
       if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
           pdep->up->type != dep_recommends) continue;
-      if (depisok(pdep->up, &depprobwhy, NULL, false))
+      if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
         continue;
       varbuf_end_str(&depprobwhy);
       debug(dbg_veryverbose,"process_archive cannot disappear: %s",depprobwhy.buf);
@@ -1168,7 +1168,7 @@ void process_archive(const char *filename) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
               pdep->up->type != dep_recommends)
             continue;
-          if (depisok(pdep->up, &depprobwhy, NULL, false))
+          if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
             continue;
           varbuf_end_str(&depprobwhy);
           debug(dbg_veryverbose,"process_archive cannot disappear (provides %s): %s",

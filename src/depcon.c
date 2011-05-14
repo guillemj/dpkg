@@ -218,10 +218,16 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
  * if removed (dep_conflicts) or deconfigured (dep_breaks) will fix
  * the problem. Caller may pass NULL for canfixbyremove and need not
  * initialize *canfixbyremove.
+ *
+ * On false return (‘not OK’), *canfixbytrigaw refers to a package which
+ * can fix the problem if all the packages listed in Triggers-Awaited have
+ * their triggers processed. Caller may pass NULL for canfixbytrigaw and
+ * need not initialize *canfixbytrigaw.
  */
 bool
 depisok(struct dependency *dep, struct varbuf *whynot,
-        struct pkginfo **canfixbyremove, bool allowunconfigd)
+        struct pkginfo **canfixbyremove, struct pkginfo **canfixbytrigaw,
+        bool allowunconfigd)
 {
   struct deppossi *possi;
   struct deppossi *provider;
@@ -240,6 +246,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 
   if (canfixbyremove)
     *canfixbyremove = NULL;
+  if (canfixbytrigaw)
+    *canfixbytrigaw = NULL;
 
   /* The dependency is always OK if we're trying to remove the depend*ing*
    * package. */
@@ -311,9 +319,13 @@ depisok(struct dependency *dep, struct varbuf *whynot,
            * isn't and issue a diagnostic then. */
           *linebuf = '\0';
           break;
+        case stat_triggersawaited:
+            if (canfixbytrigaw && versionsatisfied(&possi->ed->installed, possi))
+              *canfixbytrigaw = possi->ed;
+            /* Fall through to have a chance to return OK due to
+             * allowunconfigd and to fill the explanation */
         case stat_unpacked:
         case stat_halfconfigured:
-        case stat_triggersawaited:
           if (allowunconfigd) {
             if (!informativeversion(&possi->ed->configversion)) {
               sprintf(linebuf, _("  %.250s is unpacked, but has never been configured.\n"),
@@ -382,6 +394,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             if (provider->up->up->status == stat_installed ||
                 provider->up->up->status == stat_triggerspending)
               return true;
+            if (provider->up->up->status == stat_triggersawaited)
+              *canfixbytrigaw = provider->up->up;
             sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
                     provider->up->up->name, possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));

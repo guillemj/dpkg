@@ -266,7 +266,8 @@ void trig_activate_packageprocessing(struct pkginfo *pkg);
 /* from depcon.c */
 
 bool depisok(struct dependency *dep, struct varbuf *whynot,
-             struct pkginfo **fixbyrm, bool allowunconfigd);
+             struct pkginfo **fixbyrm, struct pkginfo **fixbytrigaw,
+             bool allowunconfigd);
 struct cyclesofarlink;
 bool findbreakcycle(struct pkginfo *pkg);
 void describedepcon(struct varbuf *addto, struct dependency *dep);
