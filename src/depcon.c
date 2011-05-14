@@ -379,7 +379,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                     provider->up->up->name, possi->ed->name);
             break;
           case itb_normal: case itb_preinstall:
-            if (provider->up->up->status == stat_installed)
+            if (provider->up->up->status == stat_installed ||
+                provider->up->up->status == stat_triggerspending)
               return true;
             sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
                     provider->up->up->name, possi->ed->name,
