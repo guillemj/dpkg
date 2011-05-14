@@ -363,6 +363,7 @@ void process_archive(const char *filename) {
   struct filenamenode *namenode;
   struct stat stab, oldfs;
   struct pkg_deconf_list *deconpil, *deconpiltemp;
+  struct pkginfo *fixbytrigaw;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
 
@@ -503,13 +504,18 @@ void process_archive(const char *filename) {
       /* Ignore these here. */
       break;
     case dep_predepends:
-      if (!depisok(dsearch, &depprobwhy, NULL, NULL, true)) {
-        varbuf_end_str(&depprobwhy);
-        fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
-                pfilename, pkg->name, depprobwhy.buf);
-        if (!force_depends(dsearch->list))
-          ohshit(_("pre-dependency problem - not installing %.250s"),pkg->name);
-        warning(_("ignoring pre-dependency problem!"));
+      if (!depisok(dsearch, &depprobwhy, NULL, &fixbytrigaw, true)) {
+        if (fixbytrigaw) {
+          while (fixbytrigaw->trigaw.head)
+            trigproc(fixbytrigaw->trigaw.head->pend);
+        } else {
+          varbuf_end_str(&depprobwhy);
+          fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
+                  pfilename, pkg->name, depprobwhy.buf);
+          if (!force_depends(dsearch->list))
+            ohshit(_("pre-dependency problem - not installing %.250s"),pkg->name);
+          warning(_("ignoring pre-dependency problem!"));
+        }
       }
     }
   }
