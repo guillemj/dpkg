@@ -77,8 +77,7 @@ w_configversion(struct varbuf *vb,
   if (!informativeversion(&pigp->configversion)) return;
   if (pigp->status == stat_installed ||
       pigp->status == stat_notinstalled ||
-      pigp->status == stat_triggerspending ||
-      pigp->status == stat_triggersawaited)
+      pigp->status == stat_triggerspending)
     return;
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Config-Version: ");
