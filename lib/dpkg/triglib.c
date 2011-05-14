@@ -253,7 +253,8 @@ struct trigkindinfo {
 	/* Rest are for everyone: */
 	void (*activate_awaiter)(struct pkginfo *pkg /* may be NULL */);
 	void (*activate_done)(void);
-	void (*interest_change)(const char *name, struct pkginfo *pkg, int signum);
+	void (*interest_change)(const char *name, struct pkginfo *pkg, int signum,
+	                        enum trig_options opts);
 };
 
 static const struct trigkindinfo tki_explicit, tki_file, tki_unknown;
@@ -318,7 +319,8 @@ trk_unknown_activate_done(void)
 }
 
 static void DPKG_ATTR_NORET
-trk_unknown_interest_change(const char *trig, struct pkginfo *pkg, int signum)
+trk_unknown_interest_change(const char *trig, struct pkginfo *pkg, int signum,
+                            enum trig_options opts)
 {
 	ohshit(_("invalid or unknown syntax in trigger name `%.250s'"
 	         " (in trigger interests for package `%.250s')"),
@@ -393,13 +395,21 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 		        trk_explicit_fn.buf);
 
 	while (trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
+		char *slash;
+		bool noawait = false;
+		slash = strchr(buf, '/');
+		if (slash && strcmp("/noawait", slash) == 0) {
+			noawait = true;
+			*slash = '\0';
+		}
 		emsg = pkg_name_is_illegal(buf, NULL);
 		if (emsg)
 			ohshit(_("trigger interest file `%.250s' syntax error; "
 			         "illegal package name `%.250s': %.250s"),
 			       trk_explicit_fn.buf, buf, emsg);
 		pend = pkg_db_find(buf);
-		trig_record_activation(pend, aw, trk_explicit_trig);
+		trig_record_activation(pend, noawait ? NULL : aw,
+		                       trk_explicit_trig);
 	}
 }
 
@@ -435,7 +445,8 @@ trk_explicit_interest_remove(const char *newfilename)
 }
 
 static void
-trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
+trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum,
+                             enum trig_options opts)
 {
 	static struct varbuf newfn;
 	char buf[1024];
@@ -453,13 +464,16 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 	push_cleanup(cu_closestream, ~ehflag_normaltidy, NULL, 0, 1, nf);
 
 	while (trk_explicit_f && trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
-		if (!strcmp(buf, pkg->name))
+		int len = strlen(pkg->name);
+		if (strncmp(buf, pkg->name, len) == 0 &&
+		    (buf[len] == '\0' || buf[len] == '/'))
 			continue;
 		fprintf(nf, "%s\n", buf);
 		empty = false;
 	}
 	if (signum > 0) {
-		fprintf(nf, "%s\n", pkg->name);
+		fprintf(nf, "%s%s\n", pkg->name,
+		        (opts == trig_noawait) ? "/noawait" : "");
 		empty = false;
 	}
 
@@ -506,7 +520,8 @@ static int filetriggers_edited = -1;
  * but die if already present.
  */
 static void
-trk_file_interest_change(const char *trig, struct pkginfo *pkg, int signum)
+trk_file_interest_change(const char *trig, struct pkginfo *pkg, int signum,
+                         enum trig_options opts)
 {
 	struct filenamenode *fnn;
 	struct trigfileint **search, *tfi;
@@ -530,6 +545,7 @@ trk_file_interest_change(const char *trig, struct pkginfo *pkg, int signum)
 	tfi = nfmalloc(sizeof(*tfi));
 	tfi->pkg = pkg;
 	tfi->fnn = fnn;
+	tfi->options = opts;
 	tfi->samefile_next = *trigh.namenode_interested(fnn);
 	*trigh.namenode_interested(fnn) = tfi;
 
@@ -537,6 +553,7 @@ trk_file_interest_change(const char *trig, struct pkginfo *pkg, int signum)
 	goto edited;
 
 found:
+	tfi->options = opts;
 	if (signum > 1)
 		ohshit(_("duplicate file trigger interest for filename `%.250s' "
 		         "and package `%.250s'"), trig, pkg->name);
@@ -570,8 +587,9 @@ trig_file_interests_update(void)
 	push_cleanup(cu_closestream, ~ehflag_normaltidy, NULL, 0, 1, nf);
 
 	for (tfi = filetriggers.head; tfi; tfi = tfi->inoverall.next)
-		fprintf(nf, "%s %s\n", trigh.namenode_name(tfi->fnn),
-		        tfi->pkg->name);
+		fprintf(nf, "%s %s%s\n", trigh.namenode_name(tfi->fnn),
+		        tfi->pkg->name,
+		        (tfi->options == trig_noawait) ? "/noawait" : "");
 
 	if (ferror(nf))
 		ohshite(_("unable to write new file triggers file `%.250s'"),
@@ -629,19 +647,26 @@ trig_file_interests_ensure(void)
 
 	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
 	while (fgets_checked(linebuf, sizeof(linebuf), f, triggersfilefile) >= 0) {
+		char *slash;
+		enum trig_options trig_opts = trig_await;
 		space = strchr(linebuf, ' ');
 		if (!space || linebuf[0] != '/')
 			ohshit(_("syntax error in file triggers file `%.250s'"),
 			       triggersfilefile);
 		*space++ = '\0';
 
+		slash = strchr(space, '/');
+		if (slash && strcmp("/noawait", slash) == 0) {
+			trig_opts = trig_noawait;
+			*slash = '\0';
+		}
 		emsg = pkg_name_is_illegal(space, NULL);
 		if (emsg)
 			ohshit(_("file triggers record mentions illegal "
 			         "package name `%.250s' (for interest in file "
 				 "`%.250s'): %.250s"), space, linebuf, emsg);
 		pkg = pkg_db_find(space);
-		trk_file_interest_change(linebuf, pkg, +2);
+		trk_file_interest_change(linebuf, pkg, +2, trig_opts);
 	}
 	pop_cleanup(ehflag_normaltidy);
 ok:
@@ -666,7 +691,8 @@ trig_file_activate(struct filenamenode *trig, struct pkginfo *aw)
 
 	for (tfi = *trigh.namenode_interested(trig); tfi;
 	     tfi = tfi->samefile_next)
-		trig_record_activation(tfi->pkg, aw, trigh.namenode_name(trig));
+		trig_record_activation(tfi->pkg, (tfi->options == trig_noawait) ?
+		                       NULL : aw, trigh.namenode_name(trig));
 }
 
 static void
@@ -698,39 +724,41 @@ static const struct trigkindinfo tki_file = {
 /*---------- Trigger control info file. ----------*/
 
 static void
-trig_cicb_interest_change(const char *trig, struct pkginfo *pkg, int signum)
+trig_cicb_interest_change(const char *trig, struct pkginfo *pkg, int signum,
+                          enum trig_options opts)
 {
 	const struct trigkindinfo *tki = trig_classify_byname(trig);
 
 	assert(filetriggers_edited >= 0);
-	tki->interest_change(trig, pkg, signum);
+	tki->interest_change(trig, pkg, signum, opts);
 }
 
 void
-trig_cicb_interest_delete(const char *trig, void *user)
+trig_cicb_interest_delete(const char *trig, void *user, enum trig_options opts)
 {
-	trig_cicb_interest_change(trig, user, -1);
+	trig_cicb_interest_change(trig, user, -1, opts);
 }
 
 void
-trig_cicb_interest_add(const char *trig, void *user)
+trig_cicb_interest_add(const char *trig, void *user, enum trig_options opts)
 {
-	trig_cicb_interest_change(trig, user, +1);
+	trig_cicb_interest_change(trig, user, +1, opts);
 }
 
 void
-trig_cicb_statuschange_activate(const char *trig, void *user)
+trig_cicb_statuschange_activate(const char *trig, void *user,
+                                enum trig_options opts)
 {
 	struct pkginfo *aw = user;
 
 	trig_activate_start(trig);
-	dtki->activate_awaiter(aw);
+	dtki->activate_awaiter((opts == trig_noawait) ? NULL : aw);
 	dtki->activate_done();
 }
 
 static void
 parse_ci_call(const char *file, const char *cmd, trig_parse_cicb *cb,
-              const char *trig, void *user)
+              const char *trig, void *user, enum trig_options opts)
 {
 	const char *emsg;
 
@@ -740,7 +768,7 @@ parse_ci_call(const char *file, const char *cmd, trig_parse_cicb *cb,
 		         "syntax in trigger name `%.250s': %.250s"),
 		       file, trig, emsg);
 	if (cb)
-		cb(trig, user);
+		cb(trig, user, opts);
 }
 
 void
@@ -775,9 +803,13 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		while (cisspace(*spc))
 			spc++;
 		if (!strcmp(cmd, "interest")) {
-			parse_ci_call(file, cmd, interest, spc, user);
+			parse_ci_call(file, cmd, interest, spc, user, trig_await);
+		} else if (!strcmp(cmd, "interest-noawait")) {
+			parse_ci_call(file, cmd, interest, spc, user, trig_noawait);
 		} else if (!strcmp(cmd, "activate")) {
-			parse_ci_call(file, cmd, activate, spc, user);
+			parse_ci_call(file, cmd, activate, spc, user, trig_await);
+		} else if (!strcmp(cmd, "activate-noawait")) {
+			parse_ci_call(file, cmd, activate, spc, user, trig_noawait);
 		} else {
 			ohshit(_("triggers ci file contains unknown directive `%.250s'"),
 			       cmd);

@@ -38,9 +38,15 @@ DPKG_BEGIN_DECLS
 
 const char *trig_name_is_illegal(const char *p);
 
+enum trig_options {
+	trig_await,
+	trig_noawait
+};
+
 struct trigfileint {
 	struct pkginfo *pkg;
 	struct filenamenode *fnn;
+	enum trig_options options;
 	struct trigfileint *samefile_next;
 	struct {
 		struct trigfileint *next, *prev;
@@ -83,10 +89,11 @@ void trig_fixup_awaiters(enum modstatdb_rw cstatus);
 void trig_file_interests_ensure(void);
 void trig_file_interests_save(void);
 
-typedef void trig_parse_cicb(const char *trig, void *user);
-void trig_cicb_interest_delete(const char *trig, void *user);
-void trig_cicb_interest_add(const char *trig, void *user);
-void trig_cicb_statuschange_activate(const char *trig, void *user);
+typedef void trig_parse_cicb(const char *trig, void *user, enum trig_options to);
+void trig_cicb_interest_delete(const char *trig, void *user, enum trig_options to);
+void trig_cicb_interest_add(const char *trig, void *user, enum trig_options to);
+void trig_cicb_statuschange_activate(const char *trig, void *user,
+                                     enum trig_options to);
 void trig_parse_ci(const char *file, trig_parse_cicb *interest,
                    trig_parse_cicb *activate, void *user);
 

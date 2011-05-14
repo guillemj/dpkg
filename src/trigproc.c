@@ -345,7 +345,8 @@ trigproc(struct pkginfo *pkg)
 /*========== Transitional global activation. ==========*/
 
 static void
-transitional_interest_callback_ro(const char *trig, void *user)
+transitional_interest_callback_ro(const char *trig, void *user,
+                                  enum trig_options opts)
 {
 	struct pkginfo *pend = user;
 
@@ -357,12 +358,13 @@ transitional_interest_callback_ro(const char *trig, void *user)
 }
 
 static void
-transitional_interest_callback(const char *trig, void *user)
+transitional_interest_callback(const char *trig, void *user,
+                               enum trig_options opts)
 {
 	struct pkginfo *pend = user;
 
-	trig_cicb_interest_add(trig, pend);
-	transitional_interest_callback_ro(trig, user);
+	trig_cicb_interest_add(trig, pend, opts);
+	transitional_interest_callback_ro(trig, user, opts);
 }
 
 /*

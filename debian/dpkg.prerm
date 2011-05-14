@@ -1,0 +1,81 @@
+#!/bin/sh -e
+# This script can be called in the following ways:
+#
+# Before the package is removed:
+#      <prerm> remove
+#
+# Before an upgrade:
+#      <old-prerm> upgrade <new-version>
+# if that fails:
+#      <new-prerm> failed-upgrade <old-version>
+#
+#
+# Before package is deconfigured while dependency is replaced due to conflict:
+#      <prerm> deconfigure in-favour <new-package> <version>
+#              removing <old-package> <version>
+#
+# Before the package is replaced due to conflict:
+#      <prerm> remove in-favour <new-package> <version>
+
+ensure_no_triggers_noawait()
+{
+    admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
+    pkgadmindir=$admindir/info
+
+    trig_noawait=$(find "$pkgadmindir" -name "*.triggers" -type f | \
+                   xargs -r grep -El "^(interest|activate)-(no)?await" | \
+		   sed -e 's,^.*/\([^/.:]\+\)[^/]\+$,\1,')
+
+    # Abort if we cannot possibly downgrade
+    if [ -n "$trig_noawait" ]; then
+        cat <<- MSG
+	dpkg: error: You have packages using the "interest-noawait" and/or
+	"activate-noawait" trigger directives but the dpkg version that
+	you're trying to downgrade to doesn't support them. Aborting
+	downgrade.
+
+	List of affected packages:
+
+	$trig_noawait
+	MSG
+        exit 1
+    fi
+
+    bad_triggers_files=$(find "$admindir/triggers" -type f | \
+                         xargs -r grep -l "/noawait$" || true)
+    if [ -n "$bad_triggers_files" ]; then
+        cat <<- MSG
+	dpkg: error: Some internal trigger files unexpectedly reference
+	packages tagged with "/noawait" while their corresponding
+	infodb files doesn't seem to contain any "interest-noawait"
+	directive. Aborting the downgrade as those tags are not supported
+	by the version you're trying to downgrade to.
+
+	List of internal trigger files that are affected:
+
+	$bad_triggers_files
+	MSG
+	exit 1
+    fi
+}
+
+case "$1" in
+    upgrade)
+        # Allow the downgrade only if no package is using the
+	# (interest|activate)-noawait trigger directives
+        if dpkg --compare-versions "$2" lt 1.16.1~; then
+            ensure_no_triggers_noawait
+        fi
+        ;;
+
+    remove|failed-upgrade|deconfigure)
+        ;;
+
+    *)
+        echo "$0 called with unknown argument \`$1'" 1>&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+exit 0

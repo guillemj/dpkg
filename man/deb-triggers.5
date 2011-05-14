@@ -21,12 +21,22 @@ The trigger control directives currently supported are:
 .I trigger-name
 .PP
 .in +5
+.B interest-noawait
+.I trigger-name
+.PP
+.in +5
 Specifies that the package is interested in the named trigger. All
 triggers in which a package is interested must be listed using this
-directive in the triggers control file.
+directive in the triggers control file. The "noawait" variant does
+not put the triggering packages in triggers-awaited state. This should
+be used when the functionality provided by the trigger is not crucial.
 .PP
 .in +5
 .B activate
+.I trigger-name
+.PP
+.in +5
+.B activate-noawait
 .I trigger-name
 .PP
 .in +5
@@ -34,6 +44,9 @@ Arranges that changes to this package's state will activate the
 specified trigger. The trigger will be activated at the start of
 the following operations: unpack, configure, remove (including for
 the benefit of a conflicting package), purge and deconfigure.
+The "noawait" variant does not put the triggering packages in
+triggers-awaited state. This should be used when the functionality
+provided by the trigger is not crucial.
 .PP
 .in +5
 If this package disappears during the unpacking of another package
@@ -45,6 +58,11 @@ versions of the package will be activated.
 .PP
 Unknown directives are an error which will prevent installation of the
 package.
+.PP
+The "\-noawait" variants are only supported by dpkg 1.16.1 or newer, and
+will lead to errors if used with an older dpkg. It is thus recommended
+to add a "Pre-Depends: dpkg (>= 1.16.1)" to any package that wish to use
+those directives.
 .
 .SH SEE ALSO
 .BR dpkg\-trigger (1),
