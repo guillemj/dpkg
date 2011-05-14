@@ -322,7 +322,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             } else if (!versionsatisfied(&possi->ed->installed, possi)) {
               sprintf(linebuf, _("  %.250s is unpacked, but is version %.250s.\n"),
                       possi->ed->name,
-                      versiondescribe(&possi->ed->available.version,vdew_nonambig));
+                      versiondescribe(&possi->ed->installed.version, vdew_nonambig));
               break;
             } else if (!versionsatisfied3(&possi->ed->configversion,
                                           &possi->version,possi->verrel)) {
