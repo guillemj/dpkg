@@ -40,6 +40,7 @@ stderr_is = test "`$(1) 2>&1 1>/dev/null`" = "$(2)"
 stderr_has = $(1) 2>&1 1>/dev/null | grep -q "$(2)"
 pkg_is_installed = $(call stdout_is,$(PKG_STATUS) $(1),install ok installed)
 pkg_is_not_installed = $(call stdout_has,$(PKG_STATUS) $(1) 2>/dev/null, ok not-installed) || ! $(PKG_STATUS) $(1) >/dev/null 2>&1
+pkg_status_is = $(call stdout_is,$(PKG_STATUS) $(1),$(2))
 
 %.deb: %
 	$(DPKG_BUILD_DEB) $< $@

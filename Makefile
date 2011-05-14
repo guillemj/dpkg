@@ -41,6 +41,7 @@ TESTS_PASS := \
 	t-conflict-provide-replace-real \
 	t-conflict-provide-replace-virtual \
 	t-conflict-provide-replace-interface \
+	t-predepends-no-triggers \
 	t-file-replaces \
 	t-file-replaces-disappear \
 	t-conffile-obsolete \
