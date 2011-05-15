@@ -316,7 +316,10 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     debug(dbg_eachfile, "removal_bulk `%s' flags=%o",
           namenode->name, namenode->flags);
     if (namenode->flags & fnnf_old_conff) {
-      push_leftover(&leftover,namenode);
+      /* This can only happen if removal_bulk_remove_configfiles() got
+       * interrupted half way. */
+      debug(dbg_eachfiledetail, "removal_bulk expecting only left over dirs, "
+                                "ignoring conffile '%s'", namenode->name);
       continue;
     }
 
@@ -333,10 +336,6 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
       /* Only delete a directory or a link to one if we're the only
        * package which uses it. Other files should only be listed
        * in this package (but we don't check). */
-      if (dir_has_conffiles(namenode, pkg)) {
-	push_leftover(&leftover,namenode);
-	continue;
-      }
       if (dir_is_used_by_others(namenode, pkg))
         continue;
     }
