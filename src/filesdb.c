@@ -492,12 +492,12 @@ void ensure_allinstfiles_available_quiet(void) {
 }
 
 /*
- * If leaveout is nonzero, will not write any file whose filenamenode
- * has the fnnf_elide_other_lists flag set.
+ * If mask is nonzero, will not write any file whose filenamenode
+ * has any flag bits set in mask.
  */
 void
 write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
-                      bool leaveout)
+                      enum fnnflags mask)
 {
   static struct varbuf newvb;
   const char *listfile;
@@ -515,7 +515,7 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
     ohshite(_("unable to create updated files list file for package %s"),pkg->name);
   push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, (void *)file);
   while (list) {
-    if (!(leaveout && (list->namenode->flags & fnnf_elide_other_lists))) {
+    if (!(mask && (list->namenode->flags & mask))) {
       fputs(list->namenode->name,file);
       putc('\n',file);
     }

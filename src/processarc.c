@@ -1264,7 +1264,8 @@ void process_archive(const char *filename) {
       /* Found one. We delete remove the list entry for this file,
        * (and any others in the same package) and then mark the package
        * as requiring a reread. */
-      write_filelist_except(otherpkg, otherpkg->clientdata->files, 1);
+      write_filelist_except(otherpkg, otherpkg->clientdata->files,
+                            fnnf_elide_other_lists);
       ensure_package_clientdata(otherpkg);
       debug(dbg_veryverbose, "process_archive overwrote from %s", otherpkg->name);
     }

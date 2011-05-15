@@ -164,7 +164,7 @@ void ensure_allinstfiles_available_quiet(void);
 void note_must_reread_files_inpackage(struct pkginfo *pkg);
 struct filenamenode *findnamenode(const char *filename, enum fnnflags flags);
 void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
-                           bool leaveout);
+                           enum fnnflags mask);
 
 struct reversefilelistiter { struct fileinlist *todo; };
 
