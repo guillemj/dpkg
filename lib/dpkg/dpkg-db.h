@@ -299,7 +299,14 @@ const char *versiondescribe(const struct versionrevision*,
 void writerecord(FILE*, const char*,
                  const struct pkginfo *, const struct pkgbin *);
 
-void writedb(const char *filename, bool available, bool mustsync);
+enum writedb_flags {
+  /* Dump ‘available’ in-core structures, not ‘status’. */
+  wdb_dump_available = 001,
+  /* Must sync the written file. */
+  wdb_must_sync = 002,
+};
+
+void writedb(const char *filename, enum writedb_flags flags);
 
 /* Note: The varbufs must have been initialized and will not be
  * NUL-terminated. */

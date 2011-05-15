@@ -95,7 +95,7 @@ static void cleanupdates(void) {
     }
 
     if (cstatus >= msdbrw_write) {
-      writedb(statusfile,0,1);
+      writedb(statusfile, wdb_must_sync);
 
       for (i=0; i<cdn; i++) {
         strcpy(updatefnrest, cdlist[i]->d_name);
@@ -301,7 +301,7 @@ void modstatdb_checkpoint(void) {
   int i;
 
   assert(cstatus >= msdbrw_write);
-  writedb(statusfile,0,1);
+  writedb(statusfile, wdb_must_sync);
 
   for (i=0; i<nextupdate; i++) {
     sprintf(updatefnrest, IMPORTANTFMT, i);
@@ -318,7 +318,7 @@ void modstatdb_checkpoint(void) {
 
 void modstatdb_shutdown(void) {
   if (cflags >= msdbrw_available_write)
-    writedb(availablefile, 1, 0);
+    writedb(availablefile, wdb_dump_available);
 
   switch (cstatus) {
   case msdbrw_write:

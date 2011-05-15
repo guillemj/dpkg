@@ -90,7 +90,7 @@ updateavailable(const char *const *argv)
                      NULL);
 
   if (!f_noact) {
-    writedb(availfile, 1, 0);
+    writedb(availfile, wdb_dump_available);
     modstatdb_unlock();
   }
 
