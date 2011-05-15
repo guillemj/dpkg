@@ -305,6 +305,9 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
   static struct varbuf fnvb;
   struct stat stab;
 
+  /* We may have modified this previously. */
+  ensure_packagefiles_available(pkg);
+
   modstatdb_note(pkg);
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
@@ -497,6 +500,9 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       }
       pop_cleanup(ehflag_normaltidy); /* closedir */
     }
+
+    /* Remove the conffiles from the file list file. */
+    write_filelist_except(pkg, pkg->clientdata->files, fnnf_old_conff);
 
     pkg->installed.conffiles = NULL;
     modstatdb_note(pkg);
