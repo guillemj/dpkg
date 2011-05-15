@@ -37,7 +37,7 @@ cu_closepipe(int argc, void **argv)
 }
 
 void
-cu_closefile(int argc, void **argv)
+cu_closestream(int argc, void **argv)
 {
 	FILE *f = (FILE *)(argv[0]);
 

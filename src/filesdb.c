@@ -513,7 +513,7 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
   file= fopen(newvb.buf,"w+");
   if (!file)
     ohshite(_("unable to create updated files list file for package %s"),pkg->name);
-  push_cleanup(cu_closefile, ehflag_bombout, NULL, 0, 1, (void *)file);
+  push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, (void *)file);
   while (list) {
     if (!(leaveout && (list->namenode->flags & fnnf_elide_other_lists))) {
       fputs(list->namenode->name,file);

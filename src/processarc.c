@@ -560,7 +560,7 @@ void process_archive(const char *filename) {
   strcpy(cidirrest,CONFFILESFILE);
   conff= fopen(cidir,"r");
   if (conff) {
-    push_cleanup(cu_closefile, ehflag_bombout, NULL, 0, 1, (void *)conff);
+    push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, (void *)conff);
     while (fgets(conffilenamebuf,MAXCONFFILENAME-2,conff)) {
       struct filepackages_iterator *iter;
 

@@ -119,7 +119,7 @@ void statusfd_send(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 /*** cleanup.c ***/
 
-void cu_closefile(int argc, void **argv);
+void cu_closestream(int argc, void **argv);
 void cu_closepipe(int argc, void **argv);
 void cu_closedir(int argc, void **argv);
 void cu_closefd(int argc, void **argv);

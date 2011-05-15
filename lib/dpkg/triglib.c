@@ -418,7 +418,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 	if (!nf)
 		ohshite(_("unable to create new trigger interest file `%.250s'"),
 		        newfn.buf);
-	push_cleanup(cu_closefile, ~ehflag_normaltidy, NULL, 0, 1, nf);
+	push_cleanup(cu_closestream, ~ehflag_normaltidy, NULL, 0, 1, nf);
 
 	while (trk_explicit_f && trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
 		if (!strcmp(buf, pkg->name))
@@ -533,7 +533,7 @@ trig_file_interests_save(void)
 	if (!nf)
 		ohshite(_("unable to create new file triggers file `%.250s'"),
 		        triggersnewfilefile);
-	push_cleanup(cu_closefile, ~ehflag_normaltidy, NULL, 0, 1, nf);
+	push_cleanup(cu_closestream, ~ehflag_normaltidy, NULL, 0, 1, nf);
 
 	for (tfi = filetriggers.head; tfi; tfi = tfi->inoverall.next)
 		fprintf(nf, "%s %s\n", trigh.namenode_name(tfi->fnn),
@@ -581,7 +581,7 @@ trig_file_interests_ensure(void)
 		        triggersfilefile);
 	}
 
-	push_cleanup(cu_closefile, ~0, NULL, 0, 1, f);
+	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
 	while (fgets_checked(linebuf, sizeof(linebuf), f, triggersfilefile) >= 0) {
 		space = strchr(linebuf, ' ');
 		if (!space || linebuf[0] != '/')
@@ -711,7 +711,7 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 			return; /* No file is just like an empty one. */
 		ohshite(_("unable to open triggers ci file `%.250s'"), file);
 	}
-	push_cleanup(cu_closefile, ~0, NULL, 0, 1, f);
+	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
 
 	while ((l = fgets_checked(linebuf, sizeof(linebuf), f, file)) >= 0) {
 		for (cmd = linebuf; cisspace(*cmd); cmd++);
