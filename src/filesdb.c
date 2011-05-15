@@ -276,7 +276,7 @@ pkg_files_add_file(struct pkginfo *pkg, const char *filename,
 void
 ensure_packagefiles_available(struct pkginfo *pkg)
 {
-  int fd;
+  static int fd;
   const char *filelistfile;
   struct fileinlist **lendp;
   struct stat stat_buf;
