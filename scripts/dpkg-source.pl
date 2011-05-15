@@ -286,8 +286,13 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
 	}
     }
     if (grep($_ eq 'any', @sourcearch)) {
-        # If we encounter one 'any' then the other arches become insignificant.
-        @sourcearch = ('any');
+        # If we encounter one 'any' then the other arches become insignificant
+        # except for 'all' that must also be kept
+        if (grep($_ eq 'all', @sourcearch)) {
+            @sourcearch = ('any', 'all');
+        } else {
+            @sourcearch = ('any');
+        }
     }
     $fields->{'Architecture'} = join(' ', @sourcearch);
     $fields->{'Package-List'} = sprintf("\n%s source %s %s %s", $sourcepackage,
