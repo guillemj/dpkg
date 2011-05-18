@@ -1,4 +1,4 @@
-TESTS_DEB := pkg-triggers pkg-trig-file \
+TESTS_DEB := pkg-triggers pkg-triggers-noawait pkg-trig-file \
              pkg-trig-explicit pkg-trig-cmd
 
 include ../Test.mk
@@ -6,6 +6,8 @@ include ../Test.mk
 TEST_CASES = test-trigger-file \
 	     test-trigger-explicit \
 	     test-trigger-cmd \
+	     test-trigger-noawait-file \
+	     test-trigger-noawait-explicit \
 	     test-trigger-noawait-cmd
 
 ifeq ($(DPKG_TESTSUITE_OPTIONS),local-db)
@@ -60,6 +62,54 @@ test-trigger-file:
 	$(call pkg_status_is,pkg-trig-file,install ok triggers-awaited)
 	$(BEROOT) $(DPKG) --triggers-only pkg-triggers
 	$(call pkg_is_installed,pkg-trig-file)
+	$(call pkg_is_installed,pkg-triggers)
+	test -f /triggers/ok && $(BEROOT) rm -f /triggers/ok
+	# Cleanup
+	$(DPKG_PURGE) pkg-triggers
+	$(DPKG_PURGE) pkg-trig-file
+
+test-trigger-noawait-file:
+	$(DPKG_UNPACK) pkg-triggers-noawait.deb
+	$(BEROOT) rm -f /a-trigger-ok /triggers/ok
+	# When unpacked, triggers are not active
+	$(DPKG_INSTALL) --no-triggers pkg-trig-file.deb
+	$(call pkg_is_installed,pkg-trig-file)
+	$(call pkg_status_is,pkg-triggers,install ok unpacked)
+	$(call pkg_field_is,pkg-triggers,Triggers-Pending,)
+	! test -f /triggers/ok
+	$(DPKG_CONFIGURE) --no-triggers pkg-triggers
+	$(call pkg_is_installed,pkg-triggers)
+	! test -f /triggers/ok
+	# When installed, triggers can be activated
+	$(DPKG_INSTALL) --no-triggers pkg-trig-file.deb
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(call pkg_field_is,pkg-triggers,Triggers-Pending, /triggers)
+	$(call pkg_is_installed,pkg-trig-file)
+	$(BEROOT) $(DPKG) --triggers-only pkg-triggers
+	$(call pkg_is_installed,pkg-triggers)
+	test -f /triggers/ok && $(BEROOT) rm -f /triggers/ok
+	# Try other ways to run the triggers
+	$(DPKG_INSTALL) --no-triggers pkg-trig-file.deb
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(call pkg_is_installed,pkg-trig-file)
+	$(BEROOT) $(DPKG) --triggers-only --pending
+	$(call pkg_is_installed,pkg-triggers)
+	test -f /triggers/ok && $(BEROOT) rm -f /triggers/ok
+	# Again
+	$(DPKG_INSTALL) --no-triggers pkg-trig-file.deb
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(call pkg_is_installed,pkg-trig-file)
+	$(DPKG_CONFIGURE) --pending
+	$(call pkg_is_installed,pkg-trig-file)
+	$(call pkg_is_installed,pkg-triggers)
+	test -f /triggers/ok && $(BEROOT) rm -f /triggers/ok
+	# Again, but we're unpacking instead of installing
+	$(DPKG_UNPACK) --no-triggers pkg-trig-file.deb
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(call pkg_status_is,pkg-trig-file,install ok unpacked)
+	$(DPKG_CONFIGURE) --no-triggers pkg-trig-file
+	$(call pkg_is_installed,pkg-trig-file)
+	$(BEROOT) $(DPKG) --triggers-only pkg-triggers
 	$(call pkg_is_installed,pkg-triggers)
 	test -f /triggers/ok && $(BEROOT) rm -f /triggers/ok
 	# Cleanup
@@ -125,6 +175,46 @@ test-trigger-explicit:
 	$(call pkg_field_is,pkg-trig-explicit,Triggers-Awaited, pkg-triggers)
 	$(BEROOT) $(DPKG) --triggers-only pkg-triggers
 	$(call pkg_is_installed,pkg-trig-explicit)
+	$(call pkg_is_installed,pkg-triggers)
+	# Cleanup
+	$(DPKG_PURGE) pkg-triggers
+	$(DPKG_PURGE) pkg-trig-explicit
+
+test-trigger-noawait-explicit:
+	$(DPKG_INSTALL) pkg-triggers-noawait.deb
+	$(BEROOT) rm -f /a-trigger-ok /triggers/ok
+	# When installed, triggers can be activated
+	$(DPKG_INSTALL) --no-triggers pkg-trig-explicit.deb
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(call pkg_field_is,pkg-triggers,Triggers-Pending, a-trigger)
+	$(call pkg_is_installed,pkg-trig-explicit)
+	$(BEROOT) $(DPKG) --triggers-only pkg-triggers
+	$(call pkg_is_installed,pkg-triggers)
+	test -f /a-trigger-ok && $(BEROOT) rm -f /a-trigger-ok
+	# Again, but we're unpacking instead of installing
+	$(DPKG_UNPACK) --no-triggers pkg-trig-explicit.deb
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(call pkg_status_is,pkg-trig-explicit,install ok unpacked)
+	$(call pkg_field_is,pkg-trig-explicit,Triggers-Awaited,)
+	$(DPKG_CONFIGURE) --no-triggers pkg-trig-explicit
+	$(call pkg_is_installed,pkg-trig-explicit)
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(DPKG_CONFIGURE) --pending
+	$(call pkg_is_installed,pkg-triggers)
+	test -f /a-trigger-ok && $(BEROOT) rm -f /a-trigger-ok
+	# Verify the trigger is activated on each status change
+	$(DPKG_UNPACK) --no-triggers pkg-trig-explicit.deb
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(call pkg_status_is,pkg-trig-explicit,install ok unpacked)
+	$(call pkg_field_is,pkg-trig-explicit,Triggers-Awaited,)
+	$(BEROOT) $(DPKG) --triggers-only pkg-triggers
+	$(call pkg_is_installed,pkg-triggers)
+	test -f /a-trigger-ok && $(BEROOT) rm -f /a-trigger-ok
+	$(DPKG_CONFIGURE) --no-triggers pkg-trig-explicit
+	$(call pkg_is_installed,pkg-trig-explicit)
+	$(call pkg_field_is,pkg-trig-explicit,Triggers-Awaited,)
+	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
+	$(BEROOT) $(DPKG) --triggers-only pkg-triggers
 	$(call pkg_is_installed,pkg-triggers)
 	# Cleanup
 	$(DPKG_PURGE) pkg-triggers
@@ -249,6 +339,9 @@ test-internal-db:
 	$(DPKG_INSTALL) pkg-triggers.deb
 	$(call stdout_is,cat $(DPKG_ADMINDIR)/triggers/a-trigger,pkg-triggers)
 	grep -q "^/triggers pkg-triggers$$" $(DPKG_ADMINDIR)/triggers/File
+	$(DPKG_INSTALL) pkg-triggers-noawait.deb
+	$(call stdout_is,cat $(DPKG_ADMINDIR)/triggers/a-trigger,pkg-triggers/noawait)
+	grep -q "^/triggers pkg-triggers/noawait$$" $(DPKG_ADMINDIR)/triggers/File
 	# Test that removal cleans up the triggers files
 	$(DPKG_PURGE) pkg-triggers
 	! test -e $(DPKG_ADMINDIR)/triggers/a-trigger
