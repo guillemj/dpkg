@@ -292,6 +292,10 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "remove", NULL);
 
+    trig_parse_ci(pkgadminfile(pkg, TRIGGERSCIFILE),
+                  trig_cicb_interest_delete, NULL, pkg);
+    trig_file_interests_save();
+
     debug(dbg_general, "removal_bulk cleaning info directory");
     pkg_infodb_foreach(pkg, removal_bulk_remove_file);
     dir_sync_path(pkgadmindir());

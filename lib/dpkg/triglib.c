@@ -409,6 +409,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 	static struct varbuf newfn;
 	char buf[1024];
 	FILE *nf;
+	bool empty = true;
 
 	trk_explicit_start(trig);
 	varbuf_reset(&newfn);
@@ -424,9 +425,23 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 		if (!strcmp(buf, pkg->name))
 			continue;
 		fprintf(nf, "%s\n", buf);
+		empty = false;
 	}
-	if (signum > 0)
+	if (signum > 0) {
 		fprintf(nf, "%s\n", pkg->name);
+		empty = false;
+	}
+
+	if (empty) {
+		/* The triggers interest file is no longer needed, drop it */
+		fclose(nf); /* We don't care if it fails */
+		if (unlink(newfn.buf))
+			ohshite(_("cannot remove `%.250s'"), newfn.buf);
+		if (unlink(trk_explicit_fn.buf))
+			ohshite(_("cannot remove `%.250s'"), trk_explicit_fn.buf);
+		dir_sync_path(triggersdir);
+		return;
+	}
 
 	if (ferror(nf))
 		ohshite(_("unable to write new trigger interest file `%.250s'"),
@@ -528,6 +543,14 @@ trig_file_interests_save(void)
 
 	if (filetriggers_edited <= 0)
 		return;
+
+	if (!filetriggers.head) {
+		/* No file trigger left, drop the file */
+		if (unlink(triggersfilefile) && errno != ENOENT)
+			ohshite(_("cannot remove `%.250s'"), triggersfilefile);
+		dir_sync_path(triggersdir);
+		return;
+	}
 
 	nf = fopen(triggersnewfilefile, "w");
 	if (!nf)
