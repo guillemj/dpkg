@@ -50,7 +50,7 @@ our $diff_ignore_default_regexp = '
 (?:^|/)(?:DEADJOE|\.arch-inventory|\.(?:bzr|cvs|hg|git)ignore)$|
 # File or directory names that should be ignored
 (?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|
-\.hg(?:tags)?|_darcs|\.git(?:attributes|modules)?|
+\.hg(?:tags|sigs)?|_darcs|\.git(?:attributes|modules)?|
 \.shelf|_MTN|\.be|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
 # Take out comments and newlines
@@ -81,6 +81,7 @@ our @tar_ignore_default_pattern = qw(
 .gitmodules
 .hg
 .hgignore
+.hgsigs
 .hgtags
 .shelf
 .svn
