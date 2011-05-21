@@ -380,6 +380,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     /* Loop per field. */
     for (;;) {
+      bool blank_line;
+
       fs.fieldstart = dataptr - 1;
       while (!EOF_mmap(dataptr, endptr) && !isspace(c) && c!=':' && c!=MSDOS_EOF_CHAR)
         c= getc_mmap(dataptr);
@@ -412,9 +414,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
         parse_error(&ps, new_pkg,
                     _("MSDOS EOF char in value of field `%.*s' (missing newline?)"),
                     fs.fieldlen, fs.fieldstart);
+
+      blank_line = false;
+
       fs.valuestart = dataptr - 1;
       for (;;) {
         if (c == '\n' || c == MSDOS_EOF_CHAR) {
+          if (blank_line)
+            parse_error(&ps, new_pkg,
+                        _("blank line in value of field '%.*s'"),
+                        fs.fieldlen, fs.fieldstart);
           ps.lno++;
 	  if (EOF_mmap(dataptr, endptr)) break;
           c= getc_mmap(dataptr);
@@ -422,11 +431,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
           if (EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
           ungetc_mmap(c,dataptr, data);
           c= '\n';
-        } else if (EOF_mmap(dataptr, endptr)) {
+          blank_line = true;
+        } else if (blank_line && !isspace(c)) {
+          blank_line = false;
+        }
+
+        if (EOF_mmap(dataptr, endptr))
           parse_error(&ps, new_pkg,
                       _("EOF during value of field `%.*s' (missing final newline)"),
                       fs.fieldlen, fs.fieldstart);
-        }
+
         c= getc_mmap(dataptr);
       }
       fs.valuelen = dataptr - fs.valuestart - 1;
