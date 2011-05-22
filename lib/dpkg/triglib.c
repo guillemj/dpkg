@@ -404,6 +404,37 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 }
 
 static void
+trk_explicit_interest_flush(const char *newfilename, FILE *nf)
+{
+	if (ferror(nf))
+		ohshite(_("unable to write new trigger interest file `%.250s'"),
+		        newfilename);
+	if (fflush(nf))
+		ohshite(_("unable to flush new trigger interest file '%.250s'"),
+		        newfilename);
+	if (fsync(fileno(nf)))
+		ohshite(_("unable to sync new trigger interest file '%.250s'"),
+		        newfilename);
+}
+
+static void
+trk_explicit_interest_commit(const char *newfilename)
+{
+	if (rename(newfilename, trk_explicit_fn.buf))
+		ohshite(_("unable to install new trigger interest file `%.250s'"),
+		        trk_explicit_fn.buf);
+}
+
+static void
+trk_explicit_interest_remove(const char *newfilename)
+{
+	if (unlink(newfilename))
+		ohshite(_("cannot remove `%.250s'"), newfilename);
+	if (unlink(trk_explicit_fn.buf))
+		ohshite(_("cannot remove `%.250s'"), trk_explicit_fn.buf);
+}
+
+static void
 trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 {
 	static struct varbuf newfn;
@@ -432,34 +463,18 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum)
 		empty = false;
 	}
 
-	if (empty) {
-		/* The triggers interest file is no longer needed, drop it */
-		fclose(nf); /* We don't care if it fails */
-		if (unlink(newfn.buf))
-			ohshite(_("cannot remove `%.250s'"), newfn.buf);
-		if (unlink(trk_explicit_fn.buf))
-			ohshite(_("cannot remove `%.250s'"), trk_explicit_fn.buf);
-		dir_sync_path(triggersdir);
-		return;
-	}
+	if (!empty)
+		trk_explicit_interest_flush(newfn.buf, nf);
 
-	if (ferror(nf))
-		ohshite(_("unable to write new trigger interest file `%.250s'"),
-		        newfn.buf);
-	if (fflush(nf))
-		ohshite(_("unable to flush new trigger interest file '%.250s'"),
-		        newfn.buf);
-	if (fsync(fileno(nf)))
-		ohshite(_("unable to sync new trigger interest file '%.250s'"),
-		        newfn.buf);
 	pop_cleanup(ehflag_normaltidy);
 	if (fclose(nf))
 		ohshite(_("unable to close new trigger interest file `%.250s'"),
 		        newfn.buf);
 
-	if (rename(newfn.buf, trk_explicit_fn.buf))
-		ohshite(_("unable to install new trigger interest file `%.250s'"),
-		        trk_explicit_fn.buf);
+	if (empty)
+		trk_explicit_interest_remove(newfn.buf);
+	else
+		trk_explicit_interest_commit(newfn.buf);
 
 	dir_sync_path(triggersdir);
 }
