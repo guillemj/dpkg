@@ -550,22 +550,18 @@ edited:
 	filetriggers_edited = 1;
 }
 
-void
-trig_file_interests_save(void)
+static void
+trig_file_interests_remove(void)
+{
+	if (unlink(triggersfilefile) && errno != ENOENT)
+		ohshite(_("cannot remove `%.250s'"), triggersfilefile);
+}
+
+static void
+trig_file_interests_update(void)
 {
 	struct trigfileint *tfi;
 	FILE *nf;
-
-	if (filetriggers_edited <= 0)
-		return;
-
-	if (!filetriggers.head) {
-		/* No file trigger left, drop the file */
-		if (unlink(triggersfilefile) && errno != ENOENT)
-			ohshite(_("cannot remove `%.250s'"), triggersfilefile);
-		dir_sync_path(triggersdir);
-		return;
-	}
 
 	nf = fopen(triggersnewfilefile, "w");
 	if (!nf)
@@ -594,6 +590,18 @@ trig_file_interests_save(void)
 	if (rename(triggersnewfilefile, triggersfilefile))
 		ohshite(_("unable to install new file triggers file as `%.250s'"),
 		        triggersfilefile);
+}
+
+void
+trig_file_interests_save(void)
+{
+	if (filetriggers_edited <= 0)
+		return;
+
+	if (!filetriggers.head)
+		trig_file_interests_remove();
+	else
+		trig_file_interests_update();
 
 	dir_sync_path(triggersdir);
 
