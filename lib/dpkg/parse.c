@@ -177,11 +177,19 @@ pkg_parse_verify(struct parsedb_state *ps,
     parse_ensure_have_field(ps, pkg, &pkgbin->description, "description");
     parse_ensure_have_field(ps, pkg, &pkgbin->maintainer, "maintainer");
     parse_must_have_field(ps, pkg, pkgbin->version.version, "version");
+  }
 
+  /* XXX: Versions before dpkg 1.10.19 did not preserve the Architecture
+   * field in the status file. So there's still live systems with packages
+   * in stat_configfiles, ignore those too for now. */
+  if ((ps->flags & pdb_recordavailable) ||
+      pkg->status > stat_halfinstalled) {
     /* We always want usable architecture information (as long as the package
      * is in such a state that it make sense), so that it can be used safely
      * on string comparisons and the like. */
     parse_ensure_have_field(ps, pkg, &pkgbin->arch, "architecture");
+  } else if (pkgbin->arch == NULL) {
+    pkgbin->arch = "";
   }
 
   /* Check the Config-Version information:
