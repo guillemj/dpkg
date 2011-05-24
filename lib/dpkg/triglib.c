@@ -430,7 +430,7 @@ trk_explicit_interest_remove(const char *newfilename)
 {
 	if (unlink(newfilename))
 		ohshite(_("cannot remove `%.250s'"), newfilename);
-	if (unlink(trk_explicit_fn.buf))
+	if (unlink(trk_explicit_fn.buf) && errno != ENOENT)
 		ohshite(_("cannot remove `%.250s'"), trk_explicit_fn.buf);
 }
 
