@@ -52,7 +52,7 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 	pid_t pid;
 
 	pid = subproc_fork();
-	if (pid != 0) {
+	if (pid == 0) {
 		if (fd_in != 0) {
 			m_dup2(fd_in, 0);
 			close(fd_in);
