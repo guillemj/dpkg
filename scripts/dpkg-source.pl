@@ -254,9 +254,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
 	my $prio = $pkg->{'Priority'} || $src_prio;
 	my $type = $pkg->{'Package-Type'} ||
 	        $pkg->get_custom_field('Package-Type') || 'deb';
-	my $arch = $pkg->{'Architecture'};
-	$arch =~ s/\s+/,/g;
-	push @pkglist, sprintf("%s %s %s %s %s", $p, $type, $sect, $prio, $arch);
+	push @pkglist, sprintf("%s %s %s %s", $p, $type, $sect, $prio);
 	push(@binarypackages,$p);
 	foreach $_ (keys %{$pkg}) {
 	    my $v = $pkg->{$_};
@@ -295,11 +293,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
         }
     }
     $fields->{'Architecture'} = join(' ', @sourcearch);
-    $fields->{'Package-List'} = sprintf("\n%s source %s %s %s", $sourcepackage,
-                                        $src_sect, $src_prio,
-                                        join(',', @sourcearch));
-    $fields->{'Package-List'} .= "\n" . join("\n", sort @pkglist);
-    delete $fields->{'Package-List'};
+    $fields->{'Package-List'} = "\n" . join("\n", sort @pkglist);
 
     # Scan fields of dpkg-parsechangelog
     foreach $_ (keys %{$changelog}) {
