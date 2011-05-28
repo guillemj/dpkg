@@ -287,7 +287,9 @@ unless ($quiet) {
     $md5_after->addfile($after);
     # Output diffs between symbols files if any
     if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
-	if (defined($ref_symfile->{file})) {
+	if (not defined($output)) {
+	    warning(_g("the generated symbols file is empty"));
+	} elsif (defined($ref_symfile->{file})) {
 	    warning(_g("%s doesn't match completely %s"),
 		    $output, $ref_symfile->{file});
 	} else {
