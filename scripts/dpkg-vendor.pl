@@ -61,11 +61,13 @@ while (@ARGV) {
     $_ = shift(@ARGV);
     if (m/^--vendor$/) {
         $vendor = shift(@ARGV);
+        usageerr(_g("%s needs a parameter"), $_) unless defined $vendor;
     } elsif (m/^--(is|derives-from|query)$/) {
         usageerr(_g("two commands specified: --%s and --%s"), $1, $action)
             if defined($action);
         $action = $1;
         $param = shift(@ARGV);
+        usageerr(_g("%s needs a parameter"), $_) unless defined $param;
     } elsif (m/^-(h|-help)$/) {
         usage();
         exit 0;
