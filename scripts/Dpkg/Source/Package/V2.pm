@@ -499,7 +499,10 @@ sub do_build {
 
 sub get_patch_header {
     my ($self, $dir, $previous) = @_;
-    my $ph = File::Spec->catfile($dir, "debian", "source", "patch-header");
+    my $ph = File::Spec->catfile($dir, "debian", "source", "local-patch-header");
+    unless (-f $ph) {
+        $ph = File::Spec->catfile($dir, "debian", "source", "patch-header");
+    }
     my $text;
     if (-f $ph) {
         open(PH, "<", $ph) || syserr(_g("cannot read %s"), $ph);

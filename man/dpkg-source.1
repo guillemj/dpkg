@@ -504,9 +504,10 @@ Use \fBdebian/patches/debian-changes\fP instead of
 automatic patch generated during build. This option is particularly
 useful when the package is maintained in a VCS and a patch set can't reliably
 be generated. Instead the current diff with upstream should be stored in a
-single patch. When using this option, it is recommended to create
-a debian/source/patch-header file explaining how the Debian changes can be
-best reviewed, for example in the VCS that is used.
+single patch. The option would be put in \fBdebian/source/local-options\fP
+and would be accompanied by a \fBdebian/source/local-patch-header\fP file
+explaining how the Debian changes can be best reviewed, for example in the
+VCS that is used.
 .TP
 .B \-\-create\-empty\-orig
 Automatically create the main original tarball as empty if it's missing
@@ -683,9 +684,11 @@ Exactly like \fBdebian/source/options\fP except that the file is not
 included in the generated source package. It can be useful to store
 a preference tied to the maintainer or to the VCS repository where
 the source package is maintained.
+.SS debian/source/local-patch-header
 .SS debian/source/patch-header
 Free form text that is put on top of the automatic patch generated
-in formats "2.0" or "3.0 (quilt)".
+in formats "2.0" or "3.0 (quilt)". \fBlocal-patch-header\fP is not
+included in the generated source package while \fBpatch-header\fP is.
 .SS debian/patches/series
 This file lists all patches that have to be applied (in the given order)
 on top of the upstream source package. Leading and trailing spaces are
