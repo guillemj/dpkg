@@ -208,6 +208,7 @@ sub apply_patches {
     return unless scalar(@patches);
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);
+    print APPLIED "# During $opts{'usage'}\n";
     my $timestamp = fs_time($applied);
     foreach my $patch ($self->get_patches($dir, %opts)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
@@ -253,7 +254,17 @@ sub before_build {
 
 sub after_build {
     my ($self, $dir) = @_;
-    $self->unapply_patches($dir) if $self->{'options'}{'unapply_patches'};
+    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+    my $reason = "";
+    if (-e $applied) {
+        open(APPLIED, "<", $applied) || syserr(_g("cannot read %s"), $applied);
+        $reason = <APPLIED>;
+        close(APPLIED);
+    }
+    if ($reason =~ /^# During preparation/ or
+        $self->{'options'}{'unapply_patches'}) {
+        $self->unapply_patches($dir);
+    }
 }
 
 sub prepare_build {

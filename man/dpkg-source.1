@@ -458,19 +458,14 @@ files as well as many temporary files (see default value associated to
 \fB.pc\fP directory used by quilt is ignored during generation of the
 automatic patch.
 
-Note: \fBdpkg\-source\fP expects the source tree to have all patches
-listed in the series file applied when you generate the source package.
-This is not the case when the source tree has been obtained by unpacking a
-source package using the Format: 1.0 for instance. To mitigate the
-problem, \fBdpkg\-source\fP will apply the patches by itself if it
-believes that they have not yet been applied. To detect this situation, it
-uses the following heuristic: it finds the list of supposedly unapplied
-patches (they are listed in the \fBseries\fP file but not in
+Note: \fBdpkg\-source\fP \fB\-\-before\-build\fP (and \fB\-b\fP) will
+ensure that all patches listed in the series file are applied so that a
+package build always has all patches applied. It does this by finding
+unapplied patches (they are listed in the \fBseries\fP file but not in
 \fB.pc/applied-patches\fP), and if the first patch in that set can be
-applied without errors, it will apply them all.
-The option \fB\-\-no\-preparation\fP can be used to disable this
-behaviour. This operation is usually done as part of the
-\fB\-\-prepare\-build\fP command.
+applied without errors, it will apply them all. The option
+\fB\-\-no\-preparation\fP can be used to disable this
+behavior.
 .PP
 .B Build options
 .TP
@@ -516,13 +511,11 @@ be used when the source package is just a bundle of multiple upstream
 software and where there's no "main" software.
 .TP
 .B \-\-unapply\-patches
-Unapply the patches in the \fB\-\-after\-build\fP hook. This is mainly
-useful when you build your package directly in a VCS that contains
-unpatched upstream source and where you want to keep the tree unpatched
-even after a package build. This option is usually put in
-\fBdebian/source/local\-options\fP (it's not allowed in
-\fBdebian/source/options\fP so that all generated source packages have the
-same behaviour by default).
+Unapply the patches in the \fB\-\-after\-build\fP hook. You usually don't
+need this option as dpkg\-source will automatically unapply the patches
+if it did apply them during \fB\-\-before\-build\fP. This
+option is only allowed in \fBdebian/source/local\-options\fP so that all
+generated source packages have the same behavior by default.
 .TP
 .B \-\-abort\-on\-upstream\-changes
 The process fails if an automatic patch has been generated. This option

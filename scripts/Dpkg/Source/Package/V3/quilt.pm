@@ -217,6 +217,15 @@ sub apply_patches {
     }
     return unless scalar(@$patches);
 
+    if ($opts{'usage'} eq "preparation") {
+        # We're applying the patches in --before-build, remember to unapply
+        # them afterwards in --after-build
+        my $pc_unapply = File::Spec->catfile($dir, ".pc", ".dpkg-source-unapply");
+        open(UNAPPLY, ">", $pc_unapply) ||
+            syserr(_g("cannot write %s"), $pc_unapply);
+        close(UNAPPLY);
+    }
+
     # Apply patches
     my $pc_applied = File::Spec->catfile($dir, ".pc", "applied-patches");
     my @applied = $self->read_patch_list($pc_applied);
@@ -290,6 +299,15 @@ sub do_build {
         }
     }
     $self->SUPER::do_build($dir);
+}
+
+sub after_build {
+    my ($self, $dir) = @_;
+    my $pc_unapply = File::Spec->catfile($dir, ".pc", ".dpkg-source-unapply");
+    if (-e $pc_unapply or $self->{'options'}{'unapply_patches'}) {
+        unlink($pc_unapply);
+        $self->unapply_patches($dir);
+    }
 }
 
 sub check_patches_applied {
