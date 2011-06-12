@@ -325,8 +325,7 @@ sub check_patches_applied {
                                               $to_apply[0]);
         my $patch_obj = Dpkg::Source::Patch->new(filename => $first_patch);
         if ($patch_obj->check_apply($dir)) {
-            warning(_g("patches have not been applied, applying them now " .
-                       "(use --no-preparation to override)"));
+            info(_g("patches are not applied, applying them now"));
             $self->apply_patches($dir, usage => 'preparation', verbose => 1,
                                  patches => \@to_apply);
         }

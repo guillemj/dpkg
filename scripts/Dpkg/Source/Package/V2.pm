@@ -293,7 +293,7 @@ sub check_patches_applied {
     my ($self, $dir) = @_;
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     unless (-e $applied) {
-        warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
+        info(_g("patches are not applied, applying them now"));
         $self->apply_patches($dir, usage => 'preparation');
     }
 }
