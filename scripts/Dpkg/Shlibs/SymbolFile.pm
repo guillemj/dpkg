@@ -236,8 +236,8 @@ sub parse {
 	    }
 	    $dir =~ s{[^/]+$}{}; # Strip filename
 	    $self->load("$dir$filename", $seen, $obj_ref, $new_base_symbol);
-	} elsif (/^#/) {
-	    # Skip possible comments
+	} elsif (/^#|^$/) {
+	    # Skip possible comments and empty lines
 	} elsif (/^\|\s*(.*)$/) {
 	    # Alternative dependency template
 	    push @{$self->{objects}{$$obj_ref}{deps}}, "$1";
