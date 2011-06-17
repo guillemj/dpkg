@@ -355,6 +355,7 @@ deferred_configure(struct pkginfo *pkg)
 	                           NULL);
 
 	pkg->eflag = eflag_ok;
+	pkg->trigpend_head = NULL;
 	post_postinst_tasks(pkg, stat_installed);
 }
 

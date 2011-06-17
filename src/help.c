@@ -214,8 +214,11 @@ preexecscript(struct command *cmd)
 void
 post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 {
-  pkg->trigpend_head = NULL;
-  pkg->status = pkg->trigaw.head ? stat_triggersawaited : new_status;
+  if (new_status < stat_triggersawaited)
+    pkg->status = new_status;
+  else
+    pkg->status = pkg->trigaw.head ? stat_triggersawaited :
+                  pkg->trigpend_head ? stat_triggerspending : stat_installed;
 
   post_postinst_tasks_core(pkg);
 }
