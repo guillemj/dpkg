@@ -288,19 +288,6 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   close(arfd);
   if (taroption) close(p2[1]);
 
-  if (taroption && dir) {
-    if (chdir(dir)) {
-      if (errno == ENOENT) {
-        if (mkdir(dir, 0777))
-          ohshite(_("failed to create directory"));
-        if (chdir(dir))
-          ohshite(_("failed to chdir to directory after creating it"));
-      } else {
-        ohshite(_("failed to chdir to directory"));
-      }
-    }
-  }
-
   if (taroption) {
     c3 = subproc_fork();
     if (!c3) {
@@ -313,6 +300,18 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
       close(p2[0]);
 
       unsetenv("TAR_OPTIONS");
+
+      if (dir) {
+        if (chdir(dir)) {
+          if (errno != ENOENT)
+            ohshite(_("failed to chdir to directory"));
+
+          if (mkdir(dir, 0777))
+            ohshite(_("failed to create directory"));
+          if (chdir(dir))
+            ohshite(_("failed to chdir to directory after creating it"));
+        }
+      }
 
       execlp(TAR, "tar", buffer, "-", NULL);
       ohshite(_("unable to execute %s (%s)"), "tar", TAR);

@@ -54,13 +54,13 @@ static void cu_info_prepare(int argc, void **argv) {
   struct stat stab;
 
   dir = argv[0];
-  if (chdir("/"))
-    ohshite(_("failed to chdir to `/' for cleanup"));
   if (lstat(dir, &stab) && errno == ENOENT)
     return;
 
   pid = subproc_fork();
   if (pid == 0) {
+    if (chdir("/"))
+      ohshite(_("failed to chdir to `/' for cleanup"));
     execlp(RM, "rm", "-rf", dir, NULL);
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
