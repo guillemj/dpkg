@@ -387,6 +387,13 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		              cstatus >= msdbrw_write ?
 		              transitional_interest_callback :
 		              transitional_interest_callback_ro, NULL, pkg);
+		/* Ensure we're not creating incoherent data that can't
+		 * be written down. This should never happen in theory but
+		 * can happen if you restore an old status file that is
+		 * not in sync with the infodb files. */
+		pkg->status = pkg->trigaw.head ? stat_triggersawaited :
+		              pkg->trigpend_head ? stat_triggerspending :
+		              stat_installed;
 	}
 	pkg_db_iter_free(it);
 
