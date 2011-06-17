@@ -57,7 +57,7 @@ static off_t
 buffer_filter_init(struct buffer_data *data)
 {
 	switch (data->type) {
-	case BUFFER_WRITE_MD5:
+	case BUFFER_FILTER_MD5:
 		buffer_md5_init(data);
 		break;
 	}
@@ -87,7 +87,7 @@ static off_t
 buffer_filter_done(struct buffer_data *data)
 {
 	switch (data->type) {
-	case BUFFER_WRITE_MD5:
+	case BUFFER_FILTER_MD5:
 		buffer_md5_done(data);
 		break;
 	}
@@ -108,7 +108,7 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 		break;
 	case BUFFER_WRITE_NULL:
 		break;
-	case BUFFER_WRITE_MD5:
+	case BUFFER_FILTER_MD5:
 		MD5Update(&(((struct buffer_md5_ctx *)data->arg.ptr)->ctx), buf, length);
 		break;
 	default:

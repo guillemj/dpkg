@@ -35,7 +35,7 @@ DPKG_BEGIN_DECLS
 #define BUFFER_WRITE_VBUF		1
 #define BUFFER_WRITE_FD			2
 #define BUFFER_WRITE_NULL		3
-#define BUFFER_WRITE_MD5		5
+#define BUFFER_FILTER_MD5		5
 
 #define BUFFER_READ_FD			0
 
@@ -48,10 +48,10 @@ struct buffer_data {
 };
 
 # define buffer_md5(buf, hash, limit) \
-	buffer_hash(buf, hash, BUFFER_WRITE_MD5, limit)
+	buffer_hash(buf, hash, BUFFER_FILTER_MD5, limit)
 
 # define fd_md5(fd, hash, limit, ...) \
-	buffer_copy_IntPtr(fd, BUFFER_READ_FD, hash, BUFFER_WRITE_MD5, \
+	buffer_copy_IntPtr(fd, BUFFER_READ_FD, hash, BUFFER_FILTER_MD5, \
 	                   limit, __VA_ARGS__)
 # define fd_fd_copy(fd1, fd2, limit, ...) \
 	buffer_copy_IntInt(fd1, BUFFER_READ_FD, fd2, BUFFER_WRITE_FD, \
