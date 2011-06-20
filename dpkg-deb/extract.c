@@ -377,11 +377,16 @@ do_control(const char *const *argv)
 int
 do_extract(const char *const *argv)
 {
-  return controlextractvextract(0, "xp", argv);
+  if (opt_verbose)
+    return controlextractvextract(0, "xpv", argv);
+  else
+    return controlextractvextract(0, "xp", argv);
 }
 
 int
 do_vextract(const char *const *argv)
 {
-  return controlextractvextract(0, "xpv", argv);
+  /* XXX: Backward compatibility. */
+  opt_verbose = 1;
+  return do_extract(argv);
 }

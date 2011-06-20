@@ -96,6 +96,7 @@ usage(const struct cmdinfo *cip, const char *value)
   printf(_(
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
+"  -v, --verbose                    Enable verbose output.\n"
 "  -D                               Enable debugging output.\n"
 "  --old, --new                     Select archive format.\n"
 "  --nocheck                        Suppress control file check (build bad\n"
@@ -130,6 +131,7 @@ static const char printforhelp[] =
      "Type dpkg --help for help about installing and deinstalling packages.");
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
+int opt_verbose = 0;
 struct compressor *compressor = &compressor_gzip;
 int compress_level = -1;
 
@@ -171,6 +173,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "new",           0,   0, &oldformatflag, NULL,         NULL,          0 },
   { "old",           0,   0, &oldformatflag, NULL,         NULL,          1 },
   { "debug",         'D', 0, &debugflag,     NULL,         NULL,          1 },
+  { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
   { "compression",   'z', 1, NULL,           NULL,         set_compress_level },
   { "compress_type", 'Z', 1, NULL,           NULL,         setcompresstype  },

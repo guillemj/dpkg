@@ -31,6 +31,7 @@ action_func do_extract;
 action_func do_vextract;
 action_func do_fsystarfile;
 
+extern int opt_verbose;
 extern int debugflag, nocheckflag, oldformatflag;
 
 void extracthalf(const char *debar, const char *dir,
