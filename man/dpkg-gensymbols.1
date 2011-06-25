@@ -56,6 +56,11 @@ with "~".
 Before applying any patch to the symbols file, the maintainer should
 double-check that it's sane. Public symbols are not supposed to disappear,
 so the patch should ideally only add new lines.
+.P
+Note that you can put comments in symbols files: any line with '#' as the
+first character is a comment except if it starts with '#include' (see
+section \fBUsing includes\fP). Lines starting with '#MISSING:' are special
+comments documenting symbols that have disappeared.
 .SS Using #PACKAGE# substitution
 .P
 In some rare cases, the name of the library varies between architectures.
