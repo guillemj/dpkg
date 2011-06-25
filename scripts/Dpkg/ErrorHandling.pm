@@ -109,7 +109,9 @@ sub usageerr(@)
 }
 
 sub syntaxerr {
-    my ($file, $msg) = @_;
+    my ($file, $msg) = (shift, shift);
+
+    $msg = sprintf($msg, @_) if (@_);
     error(_g("syntax error in %s at line %d: %s"), $file, $., $msg);
 }
 
