@@ -223,6 +223,8 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
 
     # Scan control info of source package
     my $src_fields = $control->get_source();
+    error(_g("%s doesn't contain any information about the source package"),
+          $controlfile) unless defined $src_fields;
     my $src_sect = $src_fields->{'Section'} || "unknown";
     my $src_prio = $src_fields->{'Priority'} || "unknown";
     foreach $_ (keys %{$src_fields}) {
@@ -282,6 +284,9 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
                 field_transfer_single($pkg, $fields);
             }
 	}
+    }
+    unless (scalar(@pkglist)) {
+	error(_g("%s doesn't list any binary package"), $controlfile);
     }
     if (grep($_ eq 'any', @sourcearch)) {
         # If we encounter one 'any' then the other arches become insignificant

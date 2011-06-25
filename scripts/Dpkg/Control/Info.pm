@@ -107,8 +107,12 @@ sub parse {
         last if not $cdata->parse($fh, $desc);
 	push @{$self->{packages}}, $cdata;
 	unless (exists $cdata->{Package}) {
-	    syntaxerr($desc, _g("block lacks a package field"));
+	    syntaxerr($desc, _g("block lacks the '%s' field"), "Package");
 	}
+	unless (exists $cdata->{Architecture}) {
+	    syntaxerr($desc, _g("block lacks the '%s' field"), "Architecture");
+	}
+
     }
 }
 

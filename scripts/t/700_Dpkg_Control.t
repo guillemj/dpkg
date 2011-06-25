@@ -41,12 +41,15 @@ Long-Field: line1
 Empty-Field: 
 
 Package: mypackage1
+Architecture: any
 Depends: libc6
 
 Package: mypackage2
+Architecture: all
 Depends: hello
 
 Package: mypackage3
+Architecture: all
 Depends: hello
 Description: short one
  long one
@@ -80,5 +83,6 @@ $pkg->output($io);
 
 is(${$io->string_ref()},
 'Package: mypackage2
+Architecture: all
 Depends: hello
 ', "Dump of second binary package of $datadir/control-1");
