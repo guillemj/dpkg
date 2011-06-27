@@ -18,7 +18,7 @@ system-wide with \fB/etc/dpkg/buildflags.conf\fP;
 for the current user with \fB$XDG_CONFIG_HOME/dpkg/buildflags.conf\fP
 where \fB$XDG_CONFIG_HOME\fP defaults to \fB$HOME/.config\fP;
 .IP 3.
-temporarily with environment variables (see section \fBENVIRONMENT\fP).
+temporarily by the user with environment variables (see section \fBENVIRONMENT\fP).
 .P
 The configuration files can contain two types of directives:
 .TP
@@ -108,6 +108,9 @@ System wide configuration file.
 .BR $XDG_CONFIG_HOME/dpkg/buildflags.conf " or " $HOME/.config/dpkg/buildflags.conf
 User configuration file.
 .SH ENVIRONMENT
+Those environment variables should not be set by official packages, they
+are meant for users who are recompiling a Debian package and would like to
+change the compilation flags.
 .TP
 .BI DEB_ flag _SET
 This variable can be used to force the value returned for the given
