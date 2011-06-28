@@ -81,7 +81,7 @@ my @choices = (
 );
 my $nb_slaves = 4;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 25 # number of check_choices
-		+ 69;			      # rest
+		+ 70;			      # rest
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
@@ -384,6 +384,11 @@ call_ua(["--install", "$bindir/slave1", "testmaster", "/bin/date", "10"],
 # try to reuse links in slave alternative
 call_ua(["--install", "$bindir/testmaster", "testmaster", "/bin/date", "10",
 	 "--slave", "$bindir/generic-test", "testslave", "/bin/true" ],
+	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
+# try to reuse slave link in another slave alternative of another choice of
+# the same main alternative
+call_ua(["--install", $main_link, $main_name, "/bin/date", "10",
+	 "--slave", "$bindir/slave1", "testslave", "/bin/true" ],
 	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
 # lack of absolute filenames in links or file path, non-existing path,
 call_ua(["--install", "../testmaster", "testmaster", "/bin/date", "10"],

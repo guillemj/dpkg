@@ -2280,6 +2280,17 @@ main(int argc, char **argv)
 				        "managed by %s."), sl->link,
 				      found->master_name);
 			}
+			if (found) {
+				struct slave_link *sl2;
+				for (sl2 = found->slaves; sl2; sl2 = sl2->next)
+					if (strcmp(sl2->link, sl->link) == 0)
+						break;
+				if (sl2 && strcmp(sl2->name, sl->name) != 0)
+					error(_("alternative link %s is already "
+					        "managed by %s (slave of %s)."),
+					      sl->link, sl2->name,
+					      found->master_name);
+			}
 
 			if (sl->link[0] != '/')
 				error(_("alternative link is not absolute as "
