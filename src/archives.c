@@ -622,6 +622,8 @@ tarobject(void *ctx, struct tar_entry *ti)
           if (stat(conff->name, &stabtmp))
             if (errno == ENOENT || errno == ENOTDIR || errno == ELOOP)
               continue;
+            else
+              ohshite("cannot stat file '%s'", conff->name);
           if (stabtmp.st_dev == stab.st_dev &&
               stabtmp.st_ino == stab.st_ino)
             break;
