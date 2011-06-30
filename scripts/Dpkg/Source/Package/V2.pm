@@ -417,9 +417,15 @@ sub do_build {
         # tarball due to ignores.
         my %exclude;
         my $reldir = File::Spec->abs2rel($File::Find::dir, $dir);
-        foreach my $fn (glob($tar_ignore_glob)) {
-            $exclude{$fn} = 1;
-        }
+        my $cwd = getcwd();
+        # Apply the pattern both from the top dir and from the inspected dir
+        chdir($dir) || syserr(_g("unable to chdir to `%s'"), $dir);
+        $exclude{$_} = 1 foreach glob($tar_ignore_glob);
+        chdir($cwd) || syserr(_g("unable to chdir to `%s'"), $cwd);
+        chdir($File::Find::dir) ||
+            syserr(_g("unable to chdir to `%s'"), $File::Find::dir);
+        $exclude{$_} = 1 foreach glob($tar_ignore_glob);
+        chdir($cwd) || syserr(_g("unable to chdir to `%s'"), $cwd);
         my @result;
         foreach my $fn (@_) {
             unless (exists $exclude{$fn} or exists $exclude{"$reldir/$fn"}) {
