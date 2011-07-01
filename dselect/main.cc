@@ -58,7 +58,7 @@
 #include "pkglist.h"
 
 const char thisname[]= DSELECT;
-const char printforhelp[]= N_("Type dselect --help for help.");
+static const char printforhelp[] = N_("Type dselect --help for help.");
 
 modstatdb_rw readwrite;
 int expertmode= 0;
@@ -517,7 +517,7 @@ main(int, const char *const *argv)
   push_error_context_func(dselect_catch_fatal_error, print_fatal_error, 0);
 
   loadcfgfile(DSELECT, cmdinfos);
-  myopt(&argv,cmdinfos);
+  myopt(&argv, cmdinfos, printforhelp);
 
   admindir = dpkg_db_set_dir(admindir);
 

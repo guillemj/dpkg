@@ -44,7 +44,7 @@
 
 const char thisname[] = "dpkg-trigger";
 
-const char printforhelp[] = N_(
+static const char printforhelp[] = N_(
 "Type dpkg-trigger --help for help about this utility.");
 
 static void DPKG_ATTR_NORET
@@ -189,7 +189,7 @@ main(int argc, const char *const *argv)
 	textdomain(PACKAGE);
 
 	standard_startup();
-	myopt(&argv, cmdinfos);
+	myopt(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
 

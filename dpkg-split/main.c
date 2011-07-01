@@ -101,7 +101,7 @@ usage(const struct cmdinfo *cip, const char *value)
 }
 
 const char thisname[]= SPLITTER;
-const char printforhelp[]= N_("Type dpkg-split --help for help.");
+static const char printforhelp[] = N_("Type dpkg-split --help for help.");
 
 struct partqueue *queue= NULL;
 
@@ -160,7 +160,7 @@ int main(int argc, const char *const *argv) {
   textdomain(PACKAGE);
 
   standard_startup();
-  myopt(&argv, cmdinfos);
+  myopt(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
 

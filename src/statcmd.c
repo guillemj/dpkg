@@ -49,7 +49,8 @@
 #include "filesdb.h"
 
 const char thisname[] = "dpkg-statoverride";
-const char printforhelp[] = N_("Use --help for help about querying packages.");
+static const char printforhelp[] = N_(
+"Use --help for help about querying packages.");
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
@@ -369,7 +370,7 @@ main(int argc, const char *const *argv)
 	textdomain(PACKAGE);
 
 	standard_startup();
-	myopt(&argv, cmdinfos);
+	myopt(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
 

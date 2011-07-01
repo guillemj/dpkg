@@ -126,7 +126,7 @@ usage(const struct cmdinfo *cip, const char *value)
 }
 
 const char thisname[]= BACKEND;
-const char printforhelp[]=
+static const char printforhelp[] =
   N_("Type dpkg-deb --help for help about manipulating *.deb files;\n"
      "Type dpkg --help for help about installing and deinstalling packages.");
 
@@ -190,7 +190,7 @@ int main(int argc, const char *const *argv) {
   textdomain(PACKAGE);
 
   standard_startup();
-  myopt(&argv, cmdinfos);
+  myopt(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
 

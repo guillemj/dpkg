@@ -48,14 +48,13 @@ struct cmdinfo {
   action_func *action;
 };
 
-extern const char printforhelp[];
-
 void badusage(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 
 #define MAX_CONFIG_LINE 1024
 
 void myfileopt(const char* fn, const struct cmdinfo* cmdinfos);
-void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos);
+void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos,
+           const char *help_str);
 void loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos);
 
 /**

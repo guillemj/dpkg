@@ -167,7 +167,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
 const char thisname[]= "dpkg";
 const char native_arch[] = ARCHITECTURE;
-const char printforhelp[]= N_(
+static const char printforhelp[] = N_(
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
 "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
@@ -716,7 +716,7 @@ commandfd(const char *const *argv)
         newargs[i] = m_strdup(newargs[i]);
 
     setaction(NULL, NULL);
-    myopt((const char *const**)&newargs,cmdinfos);
+    myopt((const char *const **)&newargs, cmdinfos, printforhelp);
     if (!cipaction) badusage(_("need an action option"));
 
     ret |= cipaction->action(newargs);
@@ -736,7 +736,7 @@ int main(int argc, const char *const *argv) {
 
   standard_startup();
   loadcfgfile(DPKG, cmdinfos);
-  myopt(&argv, cmdinfos);
+  myopt(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
 

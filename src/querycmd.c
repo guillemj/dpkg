@@ -653,7 +653,8 @@ usage(const struct cmdinfo *ci, const char *value)
 }
 
 const char thisname[]= "dpkg-query";
-const char printforhelp[]= N_("Use --help for help about querying packages.");
+static const char printforhelp[] = N_(
+"Use --help for help about querying packages.");
 
 static const char *admindir;
 
@@ -684,7 +685,7 @@ int main(int argc, const char *const *argv) {
   textdomain(PACKAGE);
 
   standard_startup();
-  myopt(&argv, cmdinfos);
+  myopt(&argv, cmdinfos, printforhelp);
 
   admindir = dpkg_db_set_dir(admindir);
 
