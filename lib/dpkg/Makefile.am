@@ -56,6 +56,7 @@ libdpkg_a_SOURCES = \
 	pkg-list.c \
 	pkg-queue.c \
 	pkg-show.c \
+	progname.c \
 	progress.c \
 	string.c \
 	subproc.c \
@@ -92,6 +93,7 @@ pkginclude_HEADERS = \
 	pkg-list.h \
 	pkg-queue.h \
 	pkg-show.h \
+	progname.h \
 	progress.h \
 	string.h \
 	subproc.h \

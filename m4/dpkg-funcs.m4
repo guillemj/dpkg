@@ -85,6 +85,29 @@ AC_DEFUN([DPKG_MMAP],
   ])
 ])
 
+# DPKG_CHECK_PROGNAME
+# -------------------
+# Check for system implementations of program name tracking.
+AC_DEFUN([DPKG_CHECK_PROGNAME],
+[
+  AC_MSG_CHECKING([for program_invocation_short_name])
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <errno.h>]],
+                 [[const char *p = program_invocation_short_name;]])],
+                 [AC_DEFINE([HAVE_PROGRAM_INVOCATION_SHORT_NAME], [1],
+                            [Define to 1 if you have program_invocation_short_name])
+                  AC_MSG_RESULT([yes])],
+                 [AC_MSG_RESULT([no])])
+
+  AC_MSG_CHECKING([for __progname])
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[]],
+                 [[extern char *__progname;
+                   const char *p = __progname;]])],
+                 [AC_DEFINE([HAVE___PROGNAME], [1],
+                            [Define to 1 if you have __progname])
+                  AC_MSG_RESULT([yes])],
+                 [AC_MSG_RESULT([no])])
+]) # DPKG_CHECK_PROGNAME
+
 # DPKG_CHECK_COMPAT_FUNCS(LIST)
 # -----------------------
 # Check each function and define an automake conditional
