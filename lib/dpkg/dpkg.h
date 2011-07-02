@@ -83,8 +83,11 @@ DPKG_BEGIN_DECLS
 #define MAXTRIGDIRECTIVE     256
 
 #define BACKEND		"dpkg-deb"
-#define DPKGQUERY	"dpkg-query"
 #define SPLITTER	"dpkg-split"
+#define DPKGQUERY	"dpkg-query"
+#define DPKGDIVERT	"dpkg-divert"
+#define DPKGSTAT	"dpkg-statoverride"
+#define DPKGTRIGGER	"dpkg-trigger"
 #define DPKG		"dpkg"
 #define DEBSIGVERIFY	"/usr/bin/debsig-verify"
 
