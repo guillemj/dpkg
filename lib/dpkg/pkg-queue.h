@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * pkg-queue.h - primitives for pkg queue handling
  *
  * Copyright © 2010 Guillem Jover <guillem@debian.org>

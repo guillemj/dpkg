@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * progress.h - generic progress reporting
  *
  * Copyright © 2009 Guillem Jover <guillem@debian.org>

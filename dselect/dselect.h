@@ -1,5 +1,5 @@
 /* -*- c++ -*-
- * dselect - selection of Debian packages
+ * dselect - Debian package maintenance user interface
  * dselect.h - external definitions for this program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>

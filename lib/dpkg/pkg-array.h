@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * pkg-array.h - primitives for pkg array handling
  *
  * Copyright © 2009 Guillem Jover <guillem@debian.org>

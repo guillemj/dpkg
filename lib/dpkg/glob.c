@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * glob.c - file globing functions
  *
  * Copyright © 2009, 2010 Guillem Jover <guillem@debian.org>

@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * dbmodify.c - routines for managing dpkg database updates
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>

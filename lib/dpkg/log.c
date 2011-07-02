@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * log.c - logging related functions
  *
  * Copyright © 2005 Scott James Remnant <scott@netsplit.com>

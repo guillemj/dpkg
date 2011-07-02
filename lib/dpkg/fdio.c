@@ -1,5 +1,5 @@
 /*
- * libdpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * fdio.c - safe file descriptor based input/output
  *
  * Copyright © 2009-2010 Guillem Jover <guillem@debian.org>

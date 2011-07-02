@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * pkg-list.c - primitives for pkg linked list handling
  *
  * Copyright © 2009 Guillem Jover <guillem@debian.org>

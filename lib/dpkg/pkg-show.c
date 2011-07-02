@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * pkg-show.c - primitives for pkg information display
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>

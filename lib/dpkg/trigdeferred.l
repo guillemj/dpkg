@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * trigdeferred.l - parsing of triggers/Deferred
  *
  * Copyright © 2007 Canonical Ltd
