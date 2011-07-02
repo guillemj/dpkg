@@ -57,7 +57,6 @@
 #include "bindings.h"
 #include "pkglist.h"
 
-const char thisname[]= DSELECT;
 static const char printforhelp[] = N_("Type dselect --help for help.");
 
 modstatdb_rw readwrite;
@@ -513,6 +512,8 @@ main(int, const char *const *argv)
   setlocale(LC_ALL, "");
   bindtextdomain(DSELECT, LOCALEDIR);
   textdomain(DSELECT);
+
+  dpkg_set_progname(DSELECT);
 
   push_error_context_func(dselect_catch_fatal_error, print_fatal_error, 0);
 

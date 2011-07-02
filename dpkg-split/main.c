@@ -100,7 +100,6 @@ usage(const struct cmdinfo *cip, const char *value)
   exit(0);
 }
 
-const char thisname[]= SPLITTER;
 static const char printforhelp[] = N_("Type dpkg-split --help for help.");
 
 struct partqueue *queue= NULL;
@@ -159,6 +158,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
+  dpkg_set_progname(SPLITTER);
   standard_startup();
   myopt(&argv, cmdinfos, printforhelp);
 

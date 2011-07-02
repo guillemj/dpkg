@@ -48,14 +48,14 @@
 #include "main.h"
 #include "filesdb.h"
 
-const char thisname[] = "dpkg-statoverride";
 static const char printforhelp[] = N_(
 "Use --help for help about querying packages.");
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
 {
-	printf(_("Debian %s version %s.\n"), thisname, DPKG_VERSION_ARCH);
+	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
+	       DPKG_VERSION_ARCH);
 
 	printf(_(
 "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
@@ -75,7 +75,7 @@ usage(const struct cmdinfo *cip, const char *value)
 {
 	printf(_(
 "Usage: %s [<option> ...] <command>\n"
-"\n"), thisname);
+"\n"), dpkg_get_progname());
 
 	printf(_(
 "Commands:\n"
@@ -369,6 +369,7 @@ main(int argc, const char *const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
+	dpkg_set_progname("dpkg-statoverride");
 	standard_startup();
 	myopt(&argv, cmdinfos, printforhelp);
 

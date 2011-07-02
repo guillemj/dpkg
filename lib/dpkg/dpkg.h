@@ -98,6 +98,7 @@ DPKG_BEGIN_DECLS
 
 #define FIND_EXPRSTARTCHARS "-(),!"
 
+#include <dpkg/progname.h>
 #include <dpkg/ehandle.h>
 
 /*** from startup.c ***/

@@ -125,7 +125,6 @@ usage(const struct cmdinfo *cip, const char *value)
   exit(0);
 }
 
-const char thisname[]= BACKEND;
 static const char printforhelp[] =
   N_("Type dpkg-deb --help for help about manipulating *.deb files;\n"
      "Type dpkg --help for help about installing and deinstalling packages.");
@@ -189,6 +188,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
+  dpkg_set_progname(BACKEND);
   standard_startup();
   myopt(&argv, cmdinfos, printforhelp);
 

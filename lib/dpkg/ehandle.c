@@ -31,6 +31,7 @@
 
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
+#include <dpkg/progname.h>
 #include <dpkg/ehandle.h>
 
 /* 6x255 for inserted strings (%.255s &c in fmt; and %s with limited length arg)
@@ -91,13 +92,13 @@ run_error_handler(void)
      * abort. Hopefully the user can fix the situation (out of disk, out
      * of memory, etc). */
     fprintf(stderr, _("%s: unrecoverable fatal error, aborting:\n %s\n"),
-            thisname, errmsg);
+            dpkg_get_progname(), errmsg);
     exit(2);
   }
 
   if (econtext == NULL) {
     fprintf(stderr, _("%s: outside error context, aborting:\n %s\n"),
-            thisname, errmsg);
+            dpkg_get_progname(), errmsg);
     exit(2);
   } else if (econtext->handler_type == handler_type_func) {
     econtext->handler.func();
@@ -179,7 +180,8 @@ push_error_context(void)
 static void
 print_cleanup_error(const char *emsg, const char *contextstring)
 {
-  fprintf(stderr, _("%s: error while cleaning up:\n %s\n"),thisname,emsg);
+  fprintf(stderr, _("%s: error while cleaning up:\n %s\n"),
+          dpkg_get_progname(), emsg);
 }
 
 static void
@@ -197,7 +199,7 @@ run_cleanups(struct error_context *econ, int flagsetin)
   if (++preventrecurse > 3) {
     onerr_abort++;
     fprintf(stderr, _("%s: too many nested errors during error recovery!!\n"),
-            thisname);
+            dpkg_get_progname());
     flagset= 0;
   } else {
     flagset= flagsetin;
@@ -347,7 +349,7 @@ catch_fatal_error(void)
 void
 print_fatal_error(const char *emsg, const char *contextstring)
 {
-  fprintf(stderr, _("%s: error: %s\n"), thisname, emsg);
+  fprintf(stderr, _("%s: error: %s\n"), dpkg_get_progname(), emsg);
 }
 
 void
@@ -388,7 +390,7 @@ warningv(const char *fmt, va_list args)
 
   warn_count++;
   vsnprintf(buf, sizeof(buf), fmt, args);
-  fprintf(stderr, _("%s: warning: %s\n"), thisname, buf);
+  fprintf(stderr, _("%s: warning: %s\n"), dpkg_get_progname(), buf);
 }
 
 void
@@ -412,7 +414,7 @@ do_internerr(const char *file, int line, const char *fmt, ...)
   va_end(args);
 
   fprintf(stderr, _("%s:%s:%d: internal error: %s\n"),
-          thisname, file, line, buf);
+          dpkg_get_progname(), file, line, buf);
 
   abort();
 }

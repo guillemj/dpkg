@@ -347,8 +347,8 @@ searchfiles(const char *const *argv)
       iterfileend(it);
     }
     if (!found) {
-      fprintf(stderr, _("%s: no path found matching pattern %s.\n"), thisname,
-              thisarg);
+      fprintf(stderr, _("%s: no path found matching pattern %s.\n"),
+              dpkg_get_progname(), thisarg);
       failures++;
       m_output(stderr, _("<standard error>"));
     } else {
@@ -652,7 +652,6 @@ usage(const struct cmdinfo *ci, const char *value)
   exit(0);
 }
 
-const char thisname[]= "dpkg-query";
 static const char printforhelp[] = N_(
 "Use --help for help about querying packages.");
 
@@ -684,6 +683,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
+  dpkg_set_progname("dpkg-query");
   standard_startup();
   myopt(&argv, cmdinfos, printforhelp);
 

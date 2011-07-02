@@ -165,7 +165,6 @@ usage(const struct cmdinfo *ci, const char *value)
   exit(0);
 }
 
-const char thisname[]= "dpkg";
 const char native_arch[] = ARCHITECTURE;
 static const char printforhelp[] = N_(
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
@@ -734,6 +733,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
+  dpkg_set_progname("dpkg");
   standard_startup();
   loadcfgfile(DPKG, cmdinfos);
   myopt(&argv, cmdinfos, printforhelp);

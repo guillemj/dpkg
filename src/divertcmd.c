@@ -46,7 +46,6 @@
 #include "filesdb.h"
 
 
-const char thisname[] = "dpkg-divert";
 static const char printforhelp[] = N_(
 "Use --help for help about querying packages.");
 
@@ -64,7 +63,8 @@ static int opt_rename = 0;
 static void
 printversion(const struct cmdinfo *cip, const char *value)
 {
-	printf(_("Debian %s version %s.\n"), thisname, DPKG_VERSION_ARCH);
+	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
+	       DPKG_VERSION_ARCH);
 
 	printf(_(
 "Copyright (C) 1995 Ian Jackson.\n"
@@ -85,7 +85,7 @@ usage(const struct cmdinfo *cip, const char *value)
 {
 	printf(_(
 "Usage: %s [<option> ...] <command>\n"
-"\n"), thisname);
+"\n"), dpkg_get_progname());
 
 	printf(_(
 "Commands:\n"
@@ -698,6 +698,7 @@ main(int argc, const char * const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
+	dpkg_set_progname("dpkg-divert");
 	standard_startup();
 	myopt(&argv, cmdinfos, printforhelp);
 

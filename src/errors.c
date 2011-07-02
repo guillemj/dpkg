@@ -58,7 +58,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   struct error_report *nr;
 
   fprintf(stderr, _("%s: error processing %s (--%s):\n %s\n"),
-          thisname, arg, cipaction->olong, emsg);
+          dpkg_get_progname(), arg, cipaction->olong, emsg);
 
   statusfd_send("status: %s : %s : %s", arg, "error", emsg);
 
@@ -66,7 +66,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   if (!nr) {
     fprintf(stderr,
             _("%s: failed to allocate memory for new entry in list of failed packages: %s"),
-            thisname, strerror(errno));
+            dpkg_get_progname(), strerror(errno));
     abort_processing = true;
     nr= &emergency;
   }
@@ -76,7 +76,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   lastreport= &nr->next;
 
   if (nerrs++ < errabort) return;
-  fprintf(stderr, _("%s: too many errors, stopping\n"), thisname);
+  fprintf(stderr, _("%s: too many errors, stopping\n"), dpkg_get_progname());
   abort_processing = true;
 }
 

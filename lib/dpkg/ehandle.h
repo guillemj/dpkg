@@ -30,9 +30,6 @@
 
 DPKG_BEGIN_DECLS
 
-/* Defined separately in each program. */
-extern const char thisname[];
-
 extern volatile int onerr_abort;
 
 enum {

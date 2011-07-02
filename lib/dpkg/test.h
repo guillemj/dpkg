@@ -38,8 +38,6 @@
 #ifndef TEST_MAIN_PROVIDED
 static void test(void);
 
-const char thisname[] = "test";
-
 int
 main(int argc, char **argv)
 {
