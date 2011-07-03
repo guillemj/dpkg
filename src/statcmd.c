@@ -49,7 +49,7 @@
 #include "filesdb.h"
 
 static const char printforhelp[] = N_(
-"Use --help for help about querying packages.");
+"Use --help for help about overriding file stat information.");
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)

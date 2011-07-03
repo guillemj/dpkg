@@ -47,7 +47,7 @@
 
 
 static const char printforhelp[] = N_(
-"Use --help for help about querying packages.");
+"Use --help for help about diverting files.");
 
 static const char *admindir;
 
