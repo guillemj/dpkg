@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * myopt.h - declarations for my very own option parsing
+ * options.h - option parsing functions
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MYOPT_H
-#define MYOPT_H
+#ifndef LIBDPKG_OPTIONS_H
+#define LIBDPKG_OPTIONS_H
 
 #include <dpkg/macros.h>
 
@@ -72,4 +72,4 @@ void setobsolete(const struct cmdinfo *cip, const char *value);
 
 DPKG_END_DECLS
 
-#endif /* MYOPT_H */
+#endif /* LIBDPKG_OPTIONS_H */

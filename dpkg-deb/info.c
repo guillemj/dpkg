@@ -44,7 +44,7 @@
 #include <dpkg/buffer.h>
 #include <dpkg/path.h>
 #include <dpkg/subproc.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 
 #include "dpkg-deb.h"
 

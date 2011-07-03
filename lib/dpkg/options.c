@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * myopt.c - my very own option parsing
+ * options.c - option parsing functions
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2002 Wichert Akkerman <wichert@deephackmode.org>
@@ -33,7 +33,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/string.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 
 static const char *printforhelp;
 

@@ -43,9 +43,9 @@ libdpkg_a_SOURCES = \
 	log.c \
 	md5.c md5.h \
 	mlib.c \
-	myopt.c \
 	namevalue.c \
 	nfmalloc.c \
+	options.c \
 	parse.c \
 	parsehelp.c \
 	path.c \
@@ -83,8 +83,8 @@ pkginclude_HEADERS = \
 	file.h \
 	glob.h \
 	macros.h \
-	myopt.h \
 	namevalue.h \
+	options.h \
 	parsedump.h \
 	path.h \
 	pkg.h \

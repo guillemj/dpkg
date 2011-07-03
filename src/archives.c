@@ -51,7 +51,7 @@
 #include <dpkg/command.h>
 #include <dpkg/file.h>
 #include <dpkg/tarfn.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 #include <dpkg/triglib.h>
 
 #ifdef WITH_SELINUX

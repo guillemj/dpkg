@@ -43,7 +43,7 @@
 #include <dpkg/subproc.h>
 #include <dpkg/buffer.h>
 #include <dpkg/ar.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 
 #include "dpkg-split.h"
 

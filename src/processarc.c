@@ -47,7 +47,7 @@
 #include <dpkg/subproc.h>
 #include <dpkg/dir.h>
 #include <dpkg/tarfn.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 #include <dpkg/triglib.h>
 
 #include "filesdb.h"

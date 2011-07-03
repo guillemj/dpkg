@@ -48,7 +48,7 @@
 #include <dpkg/subproc.h>
 #include <dpkg/compress.h>
 #include <dpkg/ar.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 
 #include "dpkg-deb.h"
 

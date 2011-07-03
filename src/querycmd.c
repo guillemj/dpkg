@@ -46,7 +46,7 @@
 #include <dpkg/pkg-format.h>
 #include <dpkg/pkg-show.h>
 #include <dpkg/path.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 
 #include "filesdb.h"
 #include "infodb.h"

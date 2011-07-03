@@ -41,7 +41,7 @@
 #include <dpkg/file.h>
 #include <dpkg/glob.h>
 #include <dpkg/buffer.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 
 #include "filesdb.h"
 

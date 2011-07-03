@@ -48,7 +48,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
-#include <dpkg/myopt.h>
+#include <dpkg/options.h>
 
 #include "main.h"
 #include "filesdb.h"
