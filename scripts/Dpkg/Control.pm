@@ -66,12 +66,12 @@ in a Debian source package.
 
 =item CTRL_INDEX_SRC
 
-Corresponds to an entry in a Sources file of an APT source package
+Corresponds to an entry in a Sources file of a source package
 repository.
 
 =item CTRL_INDEX_PKG
 
-Corresponds to an entry in a Packages file of an APT binary package
+Corresponds to an entry in a Packages file of a binary package
 repository.
 
 =item CTRL_PKG_SRC
@@ -153,9 +153,9 @@ sub set_options {
         } elsif ($t == CTRL_CHANGELOG) {
             $$self->{'name'} = _g("parsed version of changelog");
         } elsif ($t == CTRL_INDEX_SRC) {
-            $$self->{'name'} = sprintf(_g("entry of APT's %s file"), "Sources");
+            $$self->{'name'} = sprintf(_g("entry in repository's %s file"), "Sources");
         } elsif ($t == CTRL_INDEX_PKG) {
-            $$self->{'name'} = sprintf(_g("entry of APT's %s file"), "Packages");
+            $$self->{'name'} = sprintf(_g("entry in repository's %s file"), "Packages");
         } elsif ($t == CTRL_PKG_SRC) {
             $$self->{'name'} = sprintf(_g("%s file"), ".dsc");
         } elsif ($t == CTRL_PKG_DEB) {

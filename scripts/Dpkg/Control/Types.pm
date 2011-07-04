@@ -38,8 +38,8 @@ use constant {
     CTRL_UNKNOWN => 0,
     CTRL_INFO_SRC => 1,      # First control block in debian/control
     CTRL_INFO_PKG => 2,      # Subsequent control blocks in debian/control
-    CTRL_INDEX_SRC => 4,     # Entry in APT's Packages files
-    CTRL_INDEX_PKG => 8,     # Entry in APT's Sources files
+    CTRL_INDEX_SRC => 4,     # Entry in repository's Packages files
+    CTRL_INDEX_PKG => 8,     # Entry in repository's Sources files
     CTRL_PKG_SRC => 16,      # .dsc file of source package
     CTRL_PKG_DEB => 32,      # DEBIAN/control in binary packages
     CTRL_FILE_CHANGES => 64, # .changes file
