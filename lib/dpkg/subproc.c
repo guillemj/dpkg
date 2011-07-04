@@ -80,21 +80,21 @@ print_subproc_error(const char *emsg, const char *contextstring)
 pid_t
 subproc_fork(void)
 {
-	pid_t r;
+	pid_t pid;
 
-	r = fork();
-	if (r == -1) {
+	pid = fork();
+	if (pid == -1) {
 		onerr_abort++;
 		ohshite(_("fork failed"));
 	}
-	if (r > 0)
-		return r;
+	if (pid > 0)
+		return pid;
 
 	/* Push a new error context, so that we don't do the other cleanups,
 	 * because they'll be done by/in the parent process. */
 	push_error_context_func(catch_fatal_error, print_subproc_error, NULL);
 
-	return r;
+	return pid;
 }
 
 int
