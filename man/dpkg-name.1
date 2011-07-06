@@ -19,11 +19,12 @@ This manual page documents the
 .B dpkg\-name
 program which provides an easy way to rename
 .B Debian
-packages into their full package names. A full package name consists
-of \fI<package>_<version>_<architecture>.<package-type>\fP as specified in
-the control file of the package. The \fI<version>\fP part of the filename
+packages into their full package names. A full package name consists of
+.IB package _ version _ architecture . package-type
+as specified in the control file of the package. The \fIversion\fP part
+of the filename
 consists of the upstream version information optionally followed by a
-hyphen and the revision information. The \fI<package-type>\fP part comes
+hyphen and the revision information. The \fIpackage-type\fP part comes
 from that field if present or fallbacks to \fBdeb\fP.
 .
 .SH OPTIONS
@@ -43,11 +44,11 @@ Files will be moved into a subdirectory. If the directory given as argument exis
 the files will be moved into that directory otherwise the name of
 the target directory is extracted from the section field in the
 control part of the package. The target directory will be
-`unstable/binary\-<architecture>/<section>'. If the section is
+`unstable/binary\-\fIarchitecture\fP/\fIsection\fP'. If the section is
 not found in the control, then `no-section' is assumed, and in this case,
 as well as for sections `non-free' and `contrib' the target directory is
-`<section>/binary\-<architecture>'. The section field isn't required so
-a lot of packages will find their way to the `no\-section' area. Use
+`\fIsection\fP/binary\-\fIarchitecture\fP'. The section field isn't required
+so a lot of packages will find their way to the `no\-section' area. Use
 this option with care, it's messy.
 .TP
 .BR \-c ", " \-\-create\-dir
@@ -84,7 +85,8 @@ This can be used when building new packages.
 .
 .SH BUGS
 Some packages don't follow the name structure
-<package>_<version>_<architecture>.deb. Packages renamed by dpkg\-name
+.IB package _ version _ architecture .deb\fR.\fP
+Packages renamed by dpkg\-name
 will follow this structure. Generally this will have no impact on how
 packages are installed by
 .BR dselect (1)/

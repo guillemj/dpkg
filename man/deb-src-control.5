@@ -28,7 +28,7 @@ treated as comments.
 .
 .SH SOURCE FIELDS
 .TP
-.BR Source: " <source package name> (required)"
+.BR Source: " \fIsource-package-name\fP (required)"
 The value of this field is the name of the source package, and should
 match the name of the source package in the debian/changelog file. A package
 name must consist only of lower case letters (a-z), digits (0-9), plus (+) and
@@ -36,63 +36,63 @@ minus (-) signs, and periods (.). Package names must be at least two characters
 long and must start with an alphanumeric character.
 
 .TP
-.BR Maintainer: " <fullname email> (required)"
+.BR Maintainer: " \fIfullname-email\fP (required)"
 Should be in the format "Joe Bloggs <jbloggs@foo.com>", and references the
 person who currently maintains the package, as opposed to the author of the
 software or the original packager.
 
 .TP
-.BR Uploaders: " <fullname email>"
+.BI Uploaders: " fullname-email"
 Lists all the names and email addresses of co-maintainers of the package, in
 the same format as the Maintainer field. Multiple co-maintainers should be
 separated by a comma.
 
 .TP
-.BR Standards\-Version: " <version string>"
+.BI Standards\-Version: " version-string"
 This documents the most recent version of the standards (which consists of the
 Debian Policy Manual and referenced texts from the
 .B debian\-policy
 package) this package complies to.
 
 .TP
-.BR DM\-Upload\-Allowed: " <yes|no>"
+.BR DM\-Upload\-Allowed: " \fByes\fP|\fBno\fP"
 This field indicates whether the package can be uploaded by Debian Maintainers
 appearing in the Maintainer or Uploaders field. The default value is "no".
 
 .TP
-.BR Homepage: " <url>"
+.BI Homepage: " url"
 The upstream project home page URL.
 
 .TP
-.BR Bugs: " <url>"
+.BI Bugs: " url"
 The url of the bug tracking system for this package. The current used format
-is \fB<bts-type>://<bts-address>\fP, like \fBdebbugs://bugs.debian.org\fP. This
-field is usually not needed.
+is \fIbts-type\fP\fB://\fP\fIbts-address\fP, like
+\fBdebbugs://bugs.debian.org\fP. This field is usually not needed.
 
 .TP
-.BR Vcs\-*: " <url>"
+.BI Vcs\-*: " url"
 The url of the Version Control System repository used to maintain this package.
 Currently supported are Arch, Bzr (Bazaar), Cvs, Darcs, Git, Hg (Mercurial),
 Mtn (Monotone) and Svn (Subversion). Usually this field points to the latest
 version of the package, such as the main branch or the trunk.
 
 .TP
-.BR Vcs\-Browser: " <url>"
+.BI Vcs\-Browser: " url"
 The url of a webinterface to browse the Version Control System repository.
 
 .TP
-.BR Origin: " <name>"
+.BI Origin: " name"
 The name of the distribution this package is originating from. This field is
 usually not needed.
 
 .TP
-.BR Section: " <section>"
+.BI Section: " section"
 This is a general field that gives the package a category based on the
 software that it installs. Some common sections are "utils", "net",
 "mail", "text", "x11", etc.
 
 .TP
-.BR Priority: " <priority>"
+.BI Priority: " priority"
 Sets the importance of this package in relation to the system as a whole.
 Common priorities are "required", "standard", "optional", "extra", etc.
 
@@ -106,30 +106,30 @@ A list of these values can be obtained from the latest version of the
 package.
 
 .TP
-.BR Build\-Features: " <features list>"
+.BI Build\-Features: " features-list"
 A comma-separated list of names of build-time features that are supported
 by the source package. Currently, the only supported feature is
 \fBbuild-arch\fP. It allows dpkg-buildpackage to call the \fIbuild-arch\fP
 or \fIbuild-indep\fP targets in place of \fIbuild\fP.
 
 .TP
-.BR Build\-Depends: " <package list>"
+.BI Build\-Depends: " package-list"
 A list of packages that need to be installed and configured to be able to build
 the source package.
 
 .TP
-.BR Build\-Depends\-Indep: " <package list>"
+.BI Build\-Depends\-Indep: " package-list"
 Same as Build\-Depends, but they are only needed when building the
 architecture independent packages. The Build\-Depends are also installed
 in this case.
 
 .TP
-.BR Build\-Conflicts: " <package list>"
+.BI Build\-Conflicts: " package-list"
 A list of packages that should not be installed when the package is build, for
 example because they interfere with the used build system.
 
 .TP
-.BR Build\-Conflicts\-Indep: " <package list>"
+.BI Build\-Conflicts\-Indep: " package-list"
 Same as Build\-Conflicts, but only when building the architecture independent
 packages.
 
@@ -180,12 +180,12 @@ fields can also be in a binary paragraph to override the global value from the
 source package.
 
 .TP
-.BR Package: " <binary package name> (required)"
+.BR Package: " \fIbinary-package-name\fP (required)"
 This field is used to name the binary package name. The same restrictions as
 to a source package name apply.
 
 .TP
-.BR Architecture: " <arch|all|any> (required)"
+.BR Architecture: " \fIarch\fP|\fBall\fP|\fBany\fP (required)"
 The architecture specifies on which type of hardware this package runs. For
 packages that run on all architectures, use the
 .B any
@@ -199,20 +199,20 @@ architecture wildcards in that list (see
 for more information about them).
 
 .TP
-.BR Package\-Type: " <deb|udeb>"
+.BR Package\-Type: " \fBdeb\fP|\fBudeb\fP"
 This field defines the type of the package. "udeb" is for size-constrained
 packages used by the debian installer. "deb" is the default value, it's
 assumed if the field is absent. More types might be added in the future.
 
 .TP
 .PD 0
-.BR Subarchitecture: " <value>"
+.BI Subarchitecture: " value"
 .TP
 .PD 0
-.BR Kernel\-Version: " <value>"
+.BI Kernel\-Version: " value"
 .TP
 .PD 0
-.BR Installer\-Menu\-Item: " <value>"
+.BI Installer\-Menu\-Item: " value"
 These fields are used by the debian\-installer and are usually not needed.
 See /usr/share/doc/debian\-installer/devel/modules.txt from the
 .B debian\-installer
@@ -220,16 +220,16 @@ package for more details about them.
 
 .TP
 .PD 0
-.BR Essential: " <yes|no>"
+.BR Essential: " \fByes\fP|\fBno\fP"
 .TP
 .PD 0
-.BR Multi\-Arch: " <same|foreign|allowed> "
+.BR Multi\-Arch: " \fBsame\fP|\fBforeign\fP|\fBallowed\fP"
 .TP
 .PD 0
-.BR Tag: " <tag list>"
+.BI Tag: " tag-list"
 .TP
 .PD 0
-.BR Description: " <short description> (required)"
+.BR Description: " \fIshort-description\fP (required)"
 These fields are described in the
 .BR deb\-control (5)
 manual page, as they are copied literally to the control file of the binary
@@ -237,34 +237,34 @@ package.
 
 .TP
 .PD 0
-.BR Depends: " <package list>"
+.BI Depends: " package-list"
 .TP
 .PD 0
-.BR Pre\-Depends: " <package list>"
+.BI Pre\-Depends: " package-list"
 .TP
 .PD 0
-.BR Recommends: " <package list>"
+.BI Recommends: " package-list"
 .TP
 .PD 0
-.BR Suggests: " <package list>"
+.BI Suggests: " package-list"
 .TP
 .PD 0
-.BR Breaks: " <package list>"
+.BI Breaks: " package-list"
 .TP
 .PD 0
-.BR Enhances: " <package list>"
+.BI Enhances: " package-list"
 .TP
 .PD 0
-.BR Replaces: " <package list>"
+.BI Replaces: " package-list"
 .TP
 .PD 0
-.BR Conflicts: " <package list>"
+.BI Conflicts: " package-list"
 .TP
 .PD 0
-.BR Provides: " <package list>"
+.BI Provides: " package-list"
 .TP
 .PD 0
-.BR Built-Using: " <package list>"
+.BI Built-Using: " package-list"
 .br
 These fields declare relationships between packages. They are discussed in
 the

@@ -10,27 +10,27 @@ symbols
 The format for an extended shared library dependency information entry
 in these files is:
 .PP
-<library soname> <main dependency template>
+.I library-soname main-dependency-template
 .br
-[ | <alternative dependency template> ]
-.br
-[ ... ]
-.br
-[ * <field-name>: <field value> ]
+[ | \fIalternative-dependency-template\fP ]
 .br
 [ ... ]
- <symbol> <minimal version>[ <id of dependency template> ]
+.br
+[ * \fIfield-name\fP: \fIfield-value\fP ]
+.br
+[ ... ]
+ \fIsymbol\fP \fIminimal-version\fP[ \fIid-of-dependency-template\fP ]
 .P
-The \fIlibrary soname\fR is exactly the value of the SONAME field
-as exported by \fBobjdump\fR(1). A \fIdependency template\fR is a
+The \fIlibrary-soname\fR is exactly the value of the SONAME field
+as exported by \fBobjdump\fR(1). A \fIdependency-template\fR is a
 dependency where \fI#MINVER#\fR is dynamically replaced either by
-a version check like "(>= \fIminimal version\fR)" or by nothing (if
+a version check like "(>= \fIminimal-version\fR)" or by nothing (if
 an unversioned dependency is deemed sufficient). 
 .P
 Each exported \fIsymbol\fR (listed as \fIname\fR@\fIversion\fR, with
 \fIversion\fR being "Base" if the library is not versioned) is associated
-to a \fIminimal version\fR of its dependency template (the main dependency
-template is used if \fIid of dependency template\fR is not present). The
+to a \fIminimal-version\fR of its dependency template (the main dependency
+template is used if \fIid-of-dependency-template\fR is not present). The
 first alternative dependency template is numbered 1, the second one 2,
 etc.
 .P

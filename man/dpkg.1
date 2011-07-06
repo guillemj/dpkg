@@ -218,9 +218,9 @@ will not be shown.
 .TP
 .B \-\-set\-selections
 Set package selections using file read from stdin. This file should be
-in the format '<package> <state>', where state is one of install, hold,
-deinstall or purge. Blank lines and comment lines beginning with '#'
-are also permitted.
+in the format '\fIpackage\fP \fIstate\fP', where state is one of
+\fBinstall\fP, \fBhold\fP, \fBdeinstall\fP or \fBpurge\fP. Blank lines
+and comment lines beginning with '#' are also permitted.
 .TP
 .B \-\-clear\-selections
 Set the requested state of every non-essential package to deinstall.
@@ -246,8 +246,8 @@ than any version: \fBlt\-nl le\-nl ge\-nl gt\-nl\fP. These are provided
 only for compatibility with control file syntax: \fB< << <= = >= >>
 >\fP.
 .TP
-.B \-\-command\-fd \fI<n>\fP
-Accept a series of commands on input file descriptor \fI<n>\fP. Note:
+.B \-\-command\-fd \fIn\fP
+Accept a series of commands on input file descriptor \fIn\fP. Note:
 additional options set on the command line, and through this file descriptor,
 are not reset for subsequent commands executed during the same run.
 .TP
@@ -601,13 +601,13 @@ multiple times. The output format used is the same as in \fB\-\-status\-fd.
 Log status change updates and actions to \fIfilename\fP, instead of
 the default \fI/var/log/dpkg.log\fP. If this option is given multiple
 times, the last filename is used. Log messages are of the form
-`YYYY-MM-DD HH:MM:SS status
-<state> <pkg> <installed-version>' for status change updates;
-`YYYY-MM-DD HH:MM:SS <action> <pkg> <installed-version>
-<available-version>' for actions where \fI<action>\fP is one of install,
-upgrade, remove, purge; and `YYYY-MM-DD HH:MM:SS conffile <filename>
-<decision>' for conffile changes where \fI<decision>\fP is either install
-or keep.
+`YYYY-MM-DD HH:MM:SS status \fIstate\fP \fIpkg\fP \fIinstalled-version\fP'
+for status change updates;
+`YYYY-MM-DD HH:MM:SS \fIaction\fP \fIpkg\fP \fIinstalled-version\fP
+\fIavailable-version\fP' for actions where \fIaction\fP is one of
+\fBinstall\fP, \fBupgrade\fP, \fBremove\fP, \fBpurge\fP; and
+`YYYY-MM-DD HH:MM:SS conffile \fIfilename\fP \fIdecision\fP' for conffile
+changes where \fIdecision\fP is either \fBinstall\fP or \fBkeep\fP.
 .TP
 \fB\-\-no\-debsig\fP
 Do not try to verify package signatures.
