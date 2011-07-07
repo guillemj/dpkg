@@ -99,10 +99,7 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
 
   while ((component = *argv++) != NULL) {
     varbuf_reset(&controlfile);
-    varbuf_add_str(&controlfile, dir);
-    varbuf_add_char(&controlfile, '/');
-    varbuf_add_str(&controlfile, component);
-    varbuf_end_str(&controlfile);
+    varbuf_printf(&controlfile, "%s/%s", dir, component);
 
     fd = open(controlfile.buf, O_RDONLY);
     if (fd >= 0) {
@@ -136,20 +133,17 @@ info_list(const char *debar, const char *dir)
   FILE *cc;
   struct stat stab;
   int c;
-  size_t dirlen;
 
   cdn = scandir(dir, &cdlist, &ilist_select, alphasort);
   if (cdn == -1)
     ohshite(_("cannot scan directory `%.255s'"), dir);
-  varbuf_add_str(&controlfile, dir);
-  varbuf_add_char(&controlfile, '/');
-  dirlen = controlfile.used;
 
   for (n = 0; n < cdn; n++) {
     cdep = cdlist[n];
-    varbuf_trunc(&controlfile, dirlen);
-    varbuf_add_str(&controlfile, cdep->d_name);
-    varbuf_end_str(&controlfile);
+
+    varbuf_reset(&controlfile);
+    varbuf_printf(&controlfile, "%s/%s", dir, cdep->d_name);
+
     if (stat(controlfile.buf, &stab))
       ohshite(_("cannot stat `%.255s' (in `%.255s')"), cdep->d_name, dir);
     if (S_ISREG(stab.st_mode)) {
@@ -183,9 +177,8 @@ info_list(const char *debar, const char *dir)
   }
   free(cdlist);
 
-  varbuf_trunc(&controlfile, dirlen);
-  varbuf_add_str(&controlfile, CONTROLFILE);
-  varbuf_end_str(&controlfile);
+  varbuf_reset(&controlfile);
+  varbuf_printf(&controlfile, "%s/%s", dir, CONTROLFILE);
   cc = fopen(controlfile.buf, "r");
   if (!cc) {
     if (errno != ENOENT)
@@ -215,19 +208,16 @@ static void
 info_field(const char *debar, const char *dir, const char *const *fields,
            bool showfieldname)
 {
-  struct varbuf controlfile = VARBUF_INIT;
   FILE *cc;
+  char *controlfile;
   char fieldname[MAXFIELDNAME+1];
   char *pf;
   const char *const *fp;
   int c, lno, fnl;
   bool doing;
 
-  varbuf_add_str(&controlfile, dir);
-  varbuf_add_char(&controlfile, '/');
-  varbuf_add_str(&controlfile, CONTROLFILE);
-  varbuf_end_str(&controlfile);
-  cc = fopen(controlfile.buf, "r");
+  m_asprintf(&controlfile, "%s/%s", dir, CONTROLFILE);
+  cc = fopen(controlfile, "r");
   if (!cc)
     ohshite(_("could not open the `control' component"));
   doing = true;
@@ -273,14 +263,14 @@ info_field(const char *debar, const char *dir, const char *const *fields,
     ohshite(_("error closing the '%s' component"), CONTROLFILE);
   if (doing) putc('\n',stdout);
   m_output(stdout, _("<standard output>"));
-  varbuf_destroy(&controlfile);
+  free(controlfile);
 }
 
 int
 do_showinfo(const char *const *argv)
 {
-  struct varbuf controlfile = VARBUF_INIT;
   const char *debar, *dir;
+  char *controlfile;
   struct pkginfo *pkg;
   struct pkg_format_node *fmt = pkg_format_parse(showformat);
 
@@ -289,14 +279,11 @@ do_showinfo(const char *const *argv)
 
   info_prepare(&argv, &debar, &dir, 1);
 
-  varbuf_add_str(&controlfile, dir);
-  varbuf_add_char(&controlfile, '/');
-  varbuf_add_str(&controlfile, CONTROLFILE);
-  varbuf_end_str(&controlfile);
-  parsedb(controlfile.buf,
+  m_asprintf(&controlfile, "%s/%s", dir, CONTROLFILE);
+  parsedb(controlfile,
           pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles, &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
-  varbuf_destroy(&controlfile);
+  free(controlfile);
 
   return 0;
 }
