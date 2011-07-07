@@ -184,12 +184,12 @@ info_list(const char *debar, const char *dir)
   free(cdlist);
 
   varbuf_trunc(&controlfile, dirlen);
-  varbuf_add_str(&controlfile, "control");
+  varbuf_add_str(&controlfile, CONTROLFILE);
   varbuf_end_str(&controlfile);
   cc = fopen(controlfile.buf, "r");
   if (!cc) {
     if (errno != ENOENT)
-      ohshite(_("failed to read `%.255s' (in `%.255s')"), "control", dir);
+      ohshite(_("failed to read `%.255s' (in `%.255s')"), CONTROLFILE, dir);
     fputs(_("(no `control' file in control archive!)\n"), stdout);
   } else {
     lines= 1;
@@ -203,7 +203,7 @@ info_list(const char *debar, const char *dir)
       putc('\n', stdout);
 
     if (ferror(cc))
-      ohshite(_("failed to read `%.255s' (in `%.255s')"), "control", dir);
+      ohshite(_("failed to read `%.255s' (in `%.255s')"), CONTROLFILE, dir);
     fclose(cc);
   }
 
@@ -270,7 +270,7 @@ info_field(const char *debar, const char *dir, const char *const *fields,
   }
   if (ferror(cc)) ohshite(_("failed during read of `control' component"));
   if (fclose(cc))
-    ohshite(_("error closing the '%s' component"), "control");
+    ohshite(_("error closing the '%s' component"), CONTROLFILE);
   if (doing) putc('\n',stdout);
   m_output(stdout, _("<standard output>"));
   varbuf_destroy(&controlfile);
@@ -326,7 +326,7 @@ do_field(const char *const *argv)
   if (*argv) {
     info_field(debar, dir, argv, argv[1] != NULL);
   } else {
-    static const char *const controlonly[] = { "control", NULL };
+    static const char *const controlonly[] = { CONTROLFILE, NULL };
     info_spew(debar, dir, controlonly);
   }
 
