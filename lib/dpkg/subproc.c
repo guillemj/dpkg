@@ -35,8 +35,8 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/subproc.h>
 
-static int catch_signals[] = { SIGQUIT, SIGINT };
-static struct sigaction sa_save[array_count(catch_signals)];
+static int signo_ignores[] = { SIGQUIT, SIGINT };
+static struct sigaction sa_save[array_count(signo_ignores)];
 
 void
 subproc_signals_setup(const char *name)
@@ -50,10 +50,10 @@ subproc_signals_setup(const char *name)
 	sa.sa_handler = SIG_IGN;
 	sa.sa_flags = 0;
 
-	for (i = 0; i < array_count(catch_signals); i++)
-		if (sigaction(catch_signals[i], &sa, &sa_save[i]))
+	for (i = 0; i < array_count(signo_ignores); i++)
+		if (sigaction(signo_ignores[i], &sa, &sa_save[i]))
 			ohshite(_("unable to ignore signal %s before running %.250s"),
-			        strsignal(catch_signals[i]), name);
+			        strsignal(signo_ignores[i]), name);
 	push_cleanup(subproc_signals_cleanup, ~0, NULL, 0, 0);
 	onerr_abort--;
 }
@@ -63,10 +63,10 @@ subproc_signals_cleanup(int argc, void **argv)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(catch_signals); i++) {
-		if (sigaction(catch_signals[i], &sa_save[i], NULL)) {
+	for (i = 0; i < array_count(signo_ignores); i++) {
+		if (sigaction(signo_ignores[i], &sa_save[i], NULL)) {
 			fprintf(stderr, _("error un-catching signal %s: %s\n"),
-			        strsignal(catch_signals[i]), strerror(errno));
+			        strsignal(signo_ignores[i]), strerror(errno));
 			onerr_abort++;
 		}
 	}
