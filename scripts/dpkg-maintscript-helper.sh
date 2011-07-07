@@ -234,22 +234,16 @@ warning() {
 
 usage() {
 	cat <<END
-Syntax: $0 <command> <parameters> -- <maintainer script parameters>
+Usage: $PROGNAME <command> <parameter>... -- <maintainer-script-parameter>...
 
-Commands and parameters:
-
+Commands:
   supports <command>
-	Returns 0 (success) if the given command is supported, 1
-	otherwise.
-
+	Returns 0 (success) if the given command is supported, 1 otherwise.
   rm_conffile <conffile> [<last-version> [<package>]]
-	Remove obsolete conffile.
-	Must be called in preinst, postinst and postrm.
-
+	Remove obsolete conffile. Must be called in preinst, postinst and
+	postrm.
   mv_conffile <old-conf> <new-conf> [<last-version> [<package>]]
-	Rename a conffile.
-	Must be called in preinst, postinst and postrm.
-
+	Rename a conffile. Must be called in preinst, postinst and postrm.
   help
 	Display this usage information.
 END
