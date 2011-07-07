@@ -2,12 +2,12 @@
 .\" The copyright given below is that of the whole policy, but probably
 .\" incomplete.
 .\" Conversion to roff by Frank Lichtenheld
-.TH deb\-version 5 "2008-08-18" "Debian Project" "Debian"
+.TH deb\-version 5 "2011-07-04" "Debian Project" "Debian"
 .SH NAME
 deb\-version \- Debian package version number format
 .
 .SH SYNOPSIS
-.RI "[ " epoch ":] " upstream_version " [\-" debian_revision " ]"
+.RI "[ " epoch ":] " upstream-version " [\-" debian-revision " ]"
 .SH DESCRIPTION
 Version numbers as used for Debian binary and source packages
 consist of three components. These are:
@@ -15,14 +15,14 @@ consist of three components. These are:
 .I epoch
 This is a single (generally small) unsigned integer.  It
 may be omitted, in which case zero is assumed.  If it is
-omitted then the \fIupstream_version\fP may not
+omitted then the \fIupstream-version\fP may not
 contain any colons.
 .IP
 It is provided to allow mistakes in the version numbers
 of older versions of a package, and also a package's
 previous version numbering schemes, to be left behind.
 .TP
-.I upstream_version
+.I upstream-version
 This is the main part of the version number.  It is
 usually the version number of the original ("upstream")
 package from which the \fI.deb\fP file has been made,
@@ -33,48 +33,48 @@ package management system's format and comparison
 scheme.
 .IP
 The comparison behavior of the package management system
-with respect to the \fIupstream_version\fP is
-described below.  The \fIupstream_version\fP
+with respect to the \fIupstream-version\fP is
+described below. The \fIupstream-version\fP
 portion of the version number is mandatory.
 .IP
-The \fIupstream_version\fP may contain only
+The \fIupstream-version\fP may contain only
 alphanumerics ("A-Za-z0-9") and the characters
 .BR . " " + " " \- " " : " " ~
 (full stop, plus, hyphen, colon, tilde) and should
 start with a digit.  If there is no
-\fIdebian_revision\fP then hyphens are not allowed;
+\fIdebian-revision\fP then hyphens are not allowed;
 if there is no \fIepoch\fP then colons are not
 allowed.
 .TP
-.I debian_revision
+.I debian-revision
 This part of the version number specifies the version of
 the Debian package based on the upstream version.  It
 may contain only alphanumerics and the characters
 .BR + " " . " " ~
 (plus, full stop, tilde) and is
 compared in the same way as the
-\fIupstream_version\fP is.
+\fIupstream-version\fP is.
 .IP
 It is optional; if it isn't present then the
-\fIupstream_version\fP may not contain a hyphen.
+\fIupstream-version\fP may not contain a hyphen.
 This format represents the case where a piece of
 software was written specifically to be turned into a
 Debian package, and so there is only one "debianisation"
 of it and therefore no revision indication is required.
 .IP
 It is conventional to restart the
-\fIdebian_revision\fP at '1' each time time the
-\fIupstream_version\fP is increased.
+\fIdebian-revision\fP at '1' each time time the
+\fIupstream-version\fP is increased.
 .IP
 Dpkg will break the version
 number apart at the last hyphen in the string (if there
-is one) to determine the \fIupstream_version\fP and
-\fIdebian_revision\fP.  The absence of a
-\fIdebian_revision\fP compares earlier than the
-presence of one (but note that the \fIdebian_revision\fP
+is one) to determine the \fIupstream-version\fP and
+\fIdebian-revision\fP. The absence of a
+\fIdebian-revision\fP compares earlier than the
+presence of one (but note that the \fIdebian-revision\fP
 is the least significant part of the version number).
 .SS Sorting Algorithm
-The \fIupstream_version\fP and \fIdebian_revision\fP
+The \fIupstream-version\fP and \fIdebian-revision\fP
 parts are compared by the package management system using the
 same algorithm:
 .PP
