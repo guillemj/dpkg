@@ -4,7 +4,7 @@ dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer s
 .
 .SH SYNOPSIS
 .B dpkg\-maintscript\-helper
-.IR command " [" parameter "...] \-\- " maint-script-parameter ...
+.IR command " [" parameter "...] \fB\-\-\fP " maint-script-parameter ...
 .
 .SH COMMANDS AND PARAMETERS
 .P
@@ -22,7 +22,7 @@ Many of those tasks require coordinated actions from several maintainer
 scripts (\fBpreinst\fP, \fBpostinst\fP, \fBprerm\fP, \fBpostrm\fP). To
 avoid mistakes the same call simply needs to be put in all scripts and the
 program will automatically adapt its behaviour based on the environment
-variable DPKG_MAINTSCRIPT_NAME and on the maintainer scripts arguments
+variable \fBDPKG_MAINTSCRIPT_NAME\fP and on the maintainer scripts arguments
 that you have to forward after a double dash.
 .
 .SH CONFFILE RELATED TASKS
@@ -114,7 +114,7 @@ required version of dpkg has been unpacked before. The required version
 depends on the command used, for \fBrm_conffile\fP and \fBmv_conffile\fP
 it is 1.15.7.2:
 .P
-    Pre-Depends: dpkg (>= 1.15.7.2)
+    \fBPre-Depends:\fP dpkg (>= 1.15.7.2)
 .P
 But in many cases the operation done by the program is not critical for
 the package, and instead of using a pre-dependency we can call the
