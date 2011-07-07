@@ -71,20 +71,21 @@ with the same parameters).
 
 .TP
 .RI "\fB\-\-before\-build\fP " directory
-This command should be called before any build of the package
-(\fBdpkg\-buildpackage\fP calls it very early even before \fBdebian/rules
-clean\fP). This command should be idempotent and can be called multiple
-times. Not all source formats implement something in this hook, and those
-that do usually prepare the source tree for the build for example by
-ensuring that the Debian patches are applied.
+Run the corresponding hook of the source package format. This hook is
+called before any build of the package (\fBdpkg\-buildpackage\fP calls it
+very early even before \fBdebian/rules clean\fP). This command is
+idempotent and can be called multiple times. Not all source formats
+implement something in this hook, and those that do usually prepare the
+source tree for the build for example by ensuring that the Debian patches
+are applied.
 
 .TP
 .RI "\fB\-\-after\-build\fP " directory
-This command should be called after any build of the package
-(\fBdpkg\-buildpackage\fP calls it last). This command should be idempotent
-and can be called multiple times. Not all source formats implement
-something in this hook, and those that do usually use it to undo what
-\fB\-\-before\-build\fP has done.
+Run the corresponding hook of the source package format. This hook is
+called after any build of the package (\fBdpkg\-buildpackage\fP calls it
+last). This command is idempotent and can be called multiple times. Not
+all source formats implement something in this hook, and those that do
+usually use it to undo what \fB\-\-before\-build\fP has done.
 
 .TP
 .BR \-h ", " \-\-help
