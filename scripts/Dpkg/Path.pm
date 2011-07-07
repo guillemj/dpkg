@@ -24,12 +24,14 @@ our $VERSION = "1.02";
 use base qw(Exporter);
 use File::Spec;
 use Cwd qw(realpath);
+
+use Dpkg::Arch qw(get_host_arch debarch_to_debtriplet);
 use Dpkg::IPC;
 
 our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root
 		    guess_pkg_root_dir check_files_are_the_same
 		    resolve_symlink canonpath find_command
-		    get_control_path);
+		    get_control_path find_build_file);
 
 =encoding utf8
 
@@ -241,7 +243,48 @@ sub get_control_path($;$) {
     return split(/\n/, $control_file);
 }
 
+=item my $file = find_build_file($basename)
+
+Selects the right variant of the given file: the arch-specific variant
+("$basename.$arch") has priority over the OS-specific variant
+("$basename.$os") which has priority over the default variant
+("$basename"). If none of the files exists, then it returns undef.
+
+=item my @files = find_build_file($basename)
+
+Return the available variants of the given file. Returns an empty
+list if none of the files exists.
+
+=cut
+
+sub find_build_file($) {
+    my $base = shift;
+    my $host_arch = get_host_arch();
+    my ($abi, $host_os, $cpu) = debarch_to_debtriplet($host_arch);
+    my @files;
+    foreach my $f ("$base.$host_arch", "$base.$host_os", "$base") {
+        push @files, $f if -f $f;
+    }
+    return @files if wantarray;
+    return $files[0] if scalar @files;
+    return undef;
+}
+
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.03
+
+New function: find_build_file()
+
+=head2 Version 1.02
+
+New function: get_control_path()
+
+=head2 Version 1.01
+
+New function: find_command()
 
 =head1 AUTHOR
 
