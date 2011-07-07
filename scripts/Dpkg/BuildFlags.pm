@@ -132,6 +132,10 @@ sub load_environment_config {
 	if (exists $ENV{$envvar}) {
 	    $self->append($flag, $ENV{$envvar}, "env");
 	}
+	$envvar = "DEB_" . $flag . "_PREPEND";
+	if (exists $ENV{$envvar}) {
+	    $self->prepend($flag, $ENV{$envvar}, "env");
+	}
     }
 }
 
@@ -196,6 +200,24 @@ sub append {
     $self->{origin}->{$flag} = $src if defined $src;
 }
 
+=item $bf->prepend($flag, $value, $source)
+
+Prepend the options listed in $value to the current value of the flag $flag.
+Record its origin as $source (if defined).
+
+=cut
+
+sub prepend {
+    my ($self, $flag, $value, $src) = @_;
+    if (length($self->{flags}->{$flag})) {
+        $self->{flags}->{$flag} = "$value " . $self->{flags}->{$flag};
+    } else {
+        $self->{flags}->{$flag} = $value;
+    }
+    $self->{origin}->{$flag} = $src if defined $src;
+}
+
+
 =item $bf->update_from_conffile($file, $source)
 
 Update the current build flags based on the configuration directives
@@ -213,7 +235,7 @@ sub update_from_conffile {
         chomp;
         next if /^\s*#/; # Skip comments
         next if /^\s*$/; # Skip empty lines
-        if (/^(append|set)\s+(\S+)\s+(\S.*\S)\s*$/i) {
+        if (/^(append|prepend|set)\s+(\S+)\s+(\S.*\S)\s*$/i) {
             my ($op, $flag, $value) = ($1, $2, $3);
             unless (exists $self->{flags}->{$flag}) {
                 warning(_g("line %d of %s mentions unknown flag %s"), $., $file, $flag);
@@ -223,6 +245,8 @@ sub update_from_conffile {
                 $self->set($flag, $value, $src);
             } elsif (lc($op) eq "append") {
                 $self->append($flag, $value, $src);
+            } elsif (lc($op) eq "prepend") {
+                $self->prepend($flag, $value, $src);
             }
         } else {
             warning(_g("line %d of %s is invalid, it has been ignored."), $., $file);
@@ -285,6 +309,9 @@ sub list {
 
 New method: $bf->load_package_config(). This method is called last as part
 of load_config().
+
+New method: $bf->prepend() very similar to append(). Implement support of
+the prepend operation everywhere.
 
 =head1 AUTHOR
 

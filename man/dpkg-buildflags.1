@@ -32,8 +32,12 @@ The configuration files can contain two types of directives:
 Override the flag named \fIflag\fP to have the value \fIvalue\fP.
 .TP
 .BI APPEND " flag value"
-Extend the flag named \fIflag\fP with the options given in \fIvalue\fP.
+Extend the flag named \fIflag\fP by appending the options given in \fIvalue\fP.
 A space is prepended to the appended value if the flag's current value is non-empty.
+.TP
+.BI PREPEND " flag value"
+Extend the flag named \fIflag\fP by prepending the options given in \fIvalue\fP.
+A space is appended to the prepended value if the flag's current value is non-empty.
 .P
 The configuration files can contain comments on lines starting with a hash
 (#). Empty lines are also ignored.
@@ -127,6 +131,10 @@ This variable can be used to force the value returned for the given
 .TP
 .BI DEB_ flag _APPEND
 This variable can be used to append supplementary options to the value
+returned for the given \fIflag\fP.
+.TP
+.BI DEB_ flag _PREPEND
+This variable can be used to prepend supplementary options to the value
 returned for the given \fIflag\fP.
 .
 .SH AUTHOR
