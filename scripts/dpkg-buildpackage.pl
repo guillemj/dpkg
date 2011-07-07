@@ -305,9 +305,8 @@ if (defined $parallel) {
 my $build_flags = Dpkg::BuildFlags->new();
 $build_flags->load_config();
 foreach my $flag ($build_flags->list()) {
-    $ENV{$flag} = $build_flags->get($flag);
-    printf(_g("%s: export %s from dpkg-buildflags (origin: %s): %s\n"),
-	   $progname, $flag, $build_flags->get_origin($flag), $ENV{$flag});
+    printf(_g("%s: dpkg-buildflags (origin: %s): %s = %s\n"), $progname,
+           $build_flags->get_origin($flag), $flag, $build_flags->get($flag));
 }
 
 my $cwd = cwd();

@@ -231,18 +231,18 @@ Show the usage message and exit.
 Show the version and exit.
 .
 .SH ENVIRONMENT
-Even if \fBdpkg\-buildpackage\fP export some variables, \fBdebian/rules\fP
+Even if \fBdpkg\-buildpackage\fP exports some variables, \fBdebian/rules\fP
 should not rely on their presence and should instead use the
 respective interface to retrieve the needed values.
 .SS Variables set by dpkg-architecture
 \fBdpkg\-architecture\fP is called with the \fB\-a\fP and \fB\-t\fP
 parameters forwarded. Any variable that is output by its \fB\-s\fP
 option is integrated in the build environment.
-.SS Compiler flags
-The \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBFFLAGS\fP, \fBCPPFLAGS\fP
-and \fBLDFLAGS\fP environment variables are set to the values
-that \fBdpkg\-buildflags\fP returned. See its manual page for more
-information.
+.SS Compiler flags are no longer exported
+Between versions 1.14.17 and 1.16.1, \fBdpkg\-buildpackage\fP
+exported compiler flags (\fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBFFLAGS\fP,
+\fBCPPFLAGS\fP and \fBLDFLAGS\fP) with values as returned
+by \fBdpkg\-buildflags\fP. This is no longer the case.
 .
 .SH BUGS
 It should be possible to specify spaces and shell metacharacters in
@@ -252,6 +252,7 @@ and initial arguments for
 .SH "SEE ALSO"
 .BR dpkg\-source (1),
 .BR dpkg\-architecture (1),
+.BR dpkg\-buildflags (1),
 .BR dpkg\-genchanges (1),
 .BR fakeroot (1),
 .BR gpg (1).
