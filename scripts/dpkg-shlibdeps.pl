@@ -520,7 +520,7 @@ foreach my $field (reverse @depfields) {
 
 # Replace old file by new one
 if (!$stdout) {
-    close($fh);
+    close($fh) || syserr(_g("cannot close %s"), "$varlistfile.new");
     rename("$varlistfile.new",$varlistfile) ||
 	syserr(_g("install new varlist file \`%s'"), $varlistfile);
 }

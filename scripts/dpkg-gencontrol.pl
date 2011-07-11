@@ -375,7 +375,7 @@ $fields->apply_substvars($substvars);
 $fields->output($fh_output);
 
 if (!$stdout) {
-    close($fh_output);
+    close($fh_output) || syserr(_g("cannot close %s"), "$cf.new");
     rename("$cf.new", "$cf") ||
         syserr(_g("cannot install output control file \`%s'"), $cf);
 }
