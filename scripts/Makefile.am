@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = po
+SUBDIRS = mk po
 
 bin_SCRIPTS = \
 	dpkg-architecture \

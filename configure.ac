@@ -109,6 +109,7 @@ AC_CONFIG_FILES([ Makefile
 		  man/Makefile
 		  po/Makefile.in
 		  scripts/Makefile
+		  scripts/mk/Makefile
 		  scripts/po/Makefile.in
 		  src/Makefile
 		  utils/Makefile ])
