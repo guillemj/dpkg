@@ -128,7 +128,7 @@ while (1) {
 if (defined($out_file) and $out_file ne "-") {
     open(OUT, ">", $out_file) || syserr(_g("cannot write %s"), $out_file);
     print OUT ((blessed $_) ? "$_" : "$_\n") foreach @result;
-    close(OUT);
+    close(OUT) || syserr(_g("cannot write %s"), $out_file);
 } else {
     print ((blessed $_) ? "$_" : "$_\n") foreach @result;
 }
