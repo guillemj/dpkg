@@ -2,7 +2,7 @@
 #
 # dpkg-buildflags
 #
-# Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2010-2011 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
-Copyright (C) 2010 Raphael Hertzog <hertzog\@debian.org>.");
+Copyright (C) 2010-2011 Raphael Hertzog <hertzog\@debian.org>.");
 
     printf _g("
 This is free software; see the GNU General Public License version 2 or
@@ -50,6 +50,7 @@ Actions:
   --list             output a list of the flags supported by the current vendor.
   --export=(sh|make) output commands to be executed in shell or make that export
                      all the compilation flags as environment variables.
+  --dump             output all compilation flags with their values
   --help             show this help message.
   --version          show the version.
 "), $progname;
@@ -70,6 +71,10 @@ while (@ARGV) {
             if defined($action);
         my $type = $1 || "sh";
         $action = "export-$type";
+    } elsif (m/^--dump$/) {
+        usageerr(_g("two commands specified: --%s and --%s"), "dump", $action)
+            if defined($action);
+        $action = "dump";
     } elsif (m/^--list$/) {
         usageerr(_g("two commands specified: --%s and --%s"), "list", $action)
             if defined($action);
@@ -85,7 +90,7 @@ while (@ARGV) {
     }
 }
 
-usageerr(_g("need an action option")) unless defined($action);
+$action = "dump" unless defined($action);
 
 my $build_flags = Dpkg::BuildFlags->new();
 
@@ -122,6 +127,11 @@ if ($action eq "get") {
 	}
     }
     exit(0);
+} elsif ($action eq "dump") {
+    foreach my $flag ($build_flags->list()) {
+	my $value = $build_flags->get($flag);
+	print "$flag=$value\n";
+    }
 }
 
 exit(1);

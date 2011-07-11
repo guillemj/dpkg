@@ -4,7 +4,7 @@ dpkg\-buildflags \- returns build flags to use during package build
 .
 .SH SYNOPSIS
 .B dpkg\-buildflags
-.RI [ option "...] " command
+.RI [ option "...] [" command ]
 .
 .SH DESCRIPTION
 \fBdpkg\-buildflags\fP is a tool to retrieve compilation flags to use during
@@ -42,6 +42,11 @@ A space is appended to the prepended value if the flag's current value is non-em
 The configuration files can contain comments on lines starting with a hash
 (#). Empty lines are also ignored.
 .SH COMMANDS
+.TP
+.BI \-\-dump
+Print to standard output all compilation flags and their values. It prints
+one flag per line separated from its value by an equal sign
+("\fIflag\fP=\fIvalue\fP"). This is the default action.
 .TP
 .BI \-\-list
 Print the list of flags supported by the current vendor
