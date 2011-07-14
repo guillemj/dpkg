@@ -11,7 +11,7 @@
 # Copyright © 2005 Brendan O'Dea <bod@debian.org>
 # Copyright © 2006-2008 Frank Lichtenheld <djpig@debian.org>
 # Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
-# Copyright © 2008-2010 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -45,6 +45,8 @@ use Dpkg::Changelog::Parse;
 use Dpkg::Source::Package;
 use Dpkg::Vendor qw(run_vendor_hook);
 
+use Cwd;
+use File::Basename;
 use File::Spec;
 
 textdomain("dpkg-dev");
@@ -103,6 +105,11 @@ if (defined($options{'opmode'}) &&
     stat($dir) || syserr(_g("cannot stat directory %s"), $dir);
     if (not -d $dir) {
 	error(_g("directory argument %s is not a directory"), $dir);
+    }
+    if ($dir eq ".") {
+	# . is never correct, adjust automatically
+	$dir = basename(cwd());
+	chdir("..") || syserr(_g("unable to chdir to `%s'"), "..");
     }
     # --format options are not allowed, they would take precedence
     # over real command line options, debian/source/format should be used
