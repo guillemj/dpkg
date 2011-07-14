@@ -87,6 +87,12 @@ dpkg (1.16.1) UNRELEASED; urgency=low
     under root. Closes: #634961
   * Change merge conflict separators created by dpkg-mergechangelogs to match
     the usual norm of being composed of 7 characters. LP: #815700
+  * With source format 2.0 and 3.0 (quilt), dpkg-source now fails by default
+    when upstream changes have not been recorded in a quilt patch. The new
+    --commit operation can be used to properly record the changes before-hand.
+    LP: #797839
+    And it fails before installing the automatic patch in debian/patches/
+    Closes: #615899
 
   [ Guillem Jover ]
   * Install deb-src-control(5) man pages in dpkg-dev. Closes: #620520

@@ -1,4 +1,4 @@
-# Copyright © 2008 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -510,6 +510,12 @@ sub add_file {
     $self->{'checksums'}->add_from_file($filename, key => $fn);
     $self->{'checksums'}->export_to_control($self->{'fields'},
 					    use_files_for_md5 => 1);
+}
+
+sub commit {
+    my ($self, $dir) = @_;
+    info(_g("'%s' is not supported by the source format '%s'"),
+         "dpkg-source --commit", $self->{'fields'}{'Format'});
 }
 
 sub write_dsc {

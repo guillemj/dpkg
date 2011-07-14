@@ -63,8 +63,8 @@ sub init_options {
         unless exists $self->{'options'}{'skip_debianization'};
     $self->{'options'}{'create_empty_orig'} = 0
         unless exists $self->{'options'}{'create_empty_orig'};
-    $self->{'options'}{'abort_on_upstream_changes'} = 0
-        unless exists $self->{'options'}{'abort_on_upstream_changes'};
+    $self->{'options'}{'auto_commit'} = 0
+        unless exists $self->{'options'}{'auto_commit'};
 }
 
 sub parse_cmdline_option {
@@ -94,7 +94,10 @@ sub parse_cmdline_option {
         $self->{'options'}{'create_empty_orig'} = 1;
         return 1;
     } elsif ($opt =~ /^--abort-on-upstream-changes$/) {
-        $self->{'options'}{'abort_on_upstream_changes'} = 1;
+        $self->{'options'}{'auto_commit'} = 0;
+        return 1;
+    } elsif ($opt =~ /^--auto-commit$/) {
+        $self->{'options'}{'auto_commit'} = 1;
         return 1;
     }
     return 0;
@@ -340,8 +343,10 @@ sub generate_patch {
     error(_g("no upstream tarball found at %s"),
           $self->upstream_tarball_template()) unless $tarfile;
 
-    info(_g("building %s using existing %s"),
-         $self->{'fields'}{'Source'}, "@origtarballs");
+    if ($opts{'usage'} eq "build") {
+        info(_g("building %s using existing %s"),
+             $self->{'fields'}{'Source'}, "@origtarballs");
+    }
 
     # Unpack a second copy for comparison
     my $tmp = tempdir("$dirname.orig.XXXXXX", DIR => $updir);
@@ -368,7 +373,7 @@ sub generate_patch {
 
     # Create a patch
     my ($difffh, $tmpdiff) = tempfile($self->get_basename(1) . ".diff.XXXXXX",
-                                      DIR => $updir, UNLINK => 0);
+                                      DIR => File::Spec->tmpdir(), UNLINK => 0);
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => "none");
@@ -496,15 +501,19 @@ sub do_build {
     my $tmpdiff = $self->generate_patch($dir, order_from => $autopatch,
                                         handle_binary => $handle_binary,
                                         usage => 'build');
+    unless (not -s $tmpdiff or $self->{'options'}{'single_debian_patch'}
+            or $self->{'options'}{'auto_commit'}) {
+        info(_g("you can integrate the local changes with %s"),
+             "dpkg-source --commit . '' $tmpdiff");
+        error(_g("aborting due to unexpected upstream changes, see %s"),
+              $tmpdiff);
+    }
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
 
     # Install the diff as the new autopatch
     mkpath(File::Spec->catdir($dir, "debian", "patches"));
     $autopatch = $self->register_patch($dir, $tmpdiff,
                                        $self->get_autopatch_name());
-    if (-e $autopatch and $self->{'options'}{'abort_on_upstream_changes'}) {
-        error(_g("aborting due to --abort-on-upstream-changes"));
-    }
     info(_g("local changes have been recorded in a new patch: %s"), $autopatch);
     rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
@@ -595,6 +604,47 @@ sub register_patch {
         unlink($patch) || syserr(_g("cannot remove %s"), $patch);
     }
     return $patch;
+}
+
+sub commit {
+    my ($self, $dir) = @_;
+    my ($patch_name, $tmpdiff) = @{$self->{'options'}{'ARGV'}};
+
+    sub bad_patch_name {
+        my ($dir, $patch_name) = @_;
+        return 1 if not defined($patch_name);
+        return 1 if not length($patch_name);
+        my $patch = File::Spec->catfile($dir, "debian", "patches", $patch_name);
+        if (-e $patch) {
+            warning(_g("cannot register changes in %s, this patch already exists"), $patch);
+            return 1;
+        }
+        return 0;
+    }
+
+    $self->prepare_build($dir);
+
+    unless ($tmpdiff && -e $tmpdiff) {
+        $tmpdiff = $self->generate_patch($dir, usage => "commit");
+    }
+    push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
+    unless (-s $tmpdiff) {
+        unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
+        info(_g("there are no local changes to record"));
+        return;
+    }
+    while (bad_patch_name($dir, $patch_name)) {
+        # Ask the patch name interactively
+        print STDOUT _g("Enter the desired patch name: ");
+        chomp($patch_name = <STDIN>);
+        $patch_name =~ s/\s+/-/g;
+        $patch_name =~ s/\///g;
+    }
+    my $patch = $self->register_patch($dir, $tmpdiff, $patch_name);
+    system("sensible-editor", $patch);
+    unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
+    pop @Dpkg::Exit::handlers;
+    info(_g("local changes have been recorded in a new patch: %s"), $patch);
 }
 
 # vim:et:sw=4:ts=8

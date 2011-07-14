@@ -1,5 +1,5 @@
 .\" Authors: Ian Jackson, Raphaël Hertzog
-.TH dpkg\-source 1 "2011-07-04" "Debian Project" "dpkg utilities"
+.TH dpkg\-source 1 "2011-07-12" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-source \- Debian source package (.dsc) manipulation tool
 .
@@ -86,6 +86,12 @@ called after any build of the package (\fBdpkg\-buildpackage\fP calls it
 last). This command is idempotent and can be called multiple times. Not
 all source formats implement something in this hook, and those that do
 usually use it to undo what \fB\-\-before\-build\fP has done.
+
+.TP
+.RI "\fB\-\-commit\fP [" directory "] ..."
+Record changes in the source tree unpacked in \fIdirectory\fP. This
+command can take supplementary parameters depending on the source format.
+It will error out for formats where this operation doesn't mean anything.
 
 .TP
 .BR \-h ", " \-\-help
@@ -437,7 +443,9 @@ debian directory is copied over in the temporary directory, and all
 patches except the automatic patch (\fBdebian-changes-\fP\fIversion\fP
 or \fBdebian-changes\fP, depending on \fB\-\-single\-debian\-patch\fP) are
 applied. The temporary directory is compared to the source package
-directory and the diff (if non-empty) is stored in the automatic patch.
+directory. When the diff is non-empty, the build fails unless
+\fB\-\-single\-debian\-patch\fP or \fB\-\-auto\-commit\fP
+has been used. In the latter case, the diff is stored in the automatic patch.
 If the automatic patch is created/deleted, it's added/removed from the
 series file and from the quilt metadata.
 
@@ -466,6 +474,20 @@ unapplied patches (they are listed in the \fBseries\fP file but not in
 applied without errors, it will apply them all. The option
 \fB\-\-no\-preparation\fP can be used to disable this
 behavior.
+
+.PP
+.B Recording changes
+.TP
+.RI "\fB\-\-commit\fP [" directory "] [" patch-name "] [" patch-file ]
+Generates a patch corresponding to the local changes that are not managed
+by the quilt patch system and integrates it in the patch system under
+the name \fIpatch-name\fP. If the name is missing, it will be asked
+interactively. If \fIpatch-file\fP is given, it is used as the patch
+corresponding to the local changes to integrate. This is mainly useful
+after a build failure that pre-generated this file. Once integrated, an
+editor is launched so that you can edit the meta-information in the patch
+header.
+
 .PP
 .B Build options
 .TP
@@ -523,6 +545,10 @@ can be used to ensure that all changes were properly recorded in separate
 quilt patches prior to the source package build. This option is not
 allowed in \fBdebian/source/options\fP but can be used in
 \fBdebian/source/local\-options\fP.
+.TP
+.B \-\-auto\-commit
+The process doesn't fail if an automatic patch has been generated, instead
+it's immediately recorded in the quilt series.
 
 .PP
 .B Extract options
@@ -704,7 +730,7 @@ Copyright \(co 1995-1996 Ian Jackson
 .br
 Copyright \(co 2000 Wichert Akkerman
 .br
-Copyright \(co 2008-2010 Rapha\[:e]l Hertzog
+Copyright \(co 2008-2011 Rapha\[:e]l Hertzog
 .sp
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO WARRANTY.

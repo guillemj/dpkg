@@ -87,6 +87,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('-x');
     } elsif (m/^--(before|after)-build$/) {
         setopmode($_);
+    } elsif (m/^--commit$/) {
+        setopmode($_);
     } elsif (m/^--print-format$/) {
 	setopmode('--print-format');
 	report_options(info_fh => \*STDERR); # Avoid clutter on STDOUT
@@ -97,11 +99,14 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 
 my $dir;
 if (defined($options{'opmode'}) &&
-    $options{'opmode'} =~ /^(-b|--print-format|--before-build|--after-build)$/) {
+    $options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/) {
     if (not scalar(@ARGV)) {
-	usageerr(_g("%s needs a directory"), $options{'opmode'});
+	usageerr(_g("%s needs a directory"), $options{'opmode'})
+	    unless $1 eq "--commit";
+	$dir = ".";
+    } else {
+	$dir = File::Spec->catdir(shift(@ARGV));
     }
-    $dir = File::Spec->catdir(shift(@ARGV));
     stat($dir) || syserr(_g("cannot stat directory %s"), $dir);
     if (not -d $dir) {
 	error(_g("directory argument %s is not a directory"), $dir);
@@ -206,10 +211,10 @@ while (@options) {
 }
 
 unless (defined($options{'opmode'})) {
-    usageerr(_g("need a command (-x, -b, --before-build, --after-build, --print-format)"));
+    usageerr(_g("need a command (-x, -b, --before-build, --after-build, --print-format, --commit)"));
 }
 
-if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
+if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/) {
 
     $options{'ARGV'} = \@ARGV;
 
@@ -363,6 +368,9 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build)$/) {
     } elsif ($options{'opmode'} eq "--after-build") {
 	$srcpkg->after_build($dir);
 	exit(0);
+    } elsif ($options{'opmode'} eq "--commit") {
+	$srcpkg->commit($dir);
+	exit(0);
     }
 
     # Verify pre-requisites are met
@@ -466,7 +474,9 @@ Commands:
                            extract source package.
   -b <dir>                 build source package.
   --print-format <dir>     print the source format that would be
-                           used to build the source package.")
+                           used to build the source package.
+  --commit [<dir> [<patch-name>]]
+                           store upstream changes in a new patch.")
     . "\n\n" . _g(
 "Build options:
   -c<controlfile>          get control info from this file.
