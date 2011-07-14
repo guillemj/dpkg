@@ -1,4 +1,4 @@
-# Copyright © 2008 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,6 +30,9 @@ use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir is_binary fs_time);
+use Dpkg::Vendor qw(run_vendor_hook);
+use Dpkg::Control;
+use Dpkg::Changelog::Parse;
 
 use POSIX;
 use File::Basename;
@@ -526,7 +529,7 @@ sub do_build {
 }
 
 sub get_patch_header {
-    my ($self, $dir, $previous) = @_;
+    my ($self, $dir) = @_;
     my $ph = File::Spec->catfile($dir, "debian", "source", "local-patch-header");
     unless (-f $ph) {
         $ph = File::Spec->catfile($dir, "debian", "source", "patch-header");
@@ -538,10 +541,34 @@ sub get_patch_header {
         close(PH);
         return $text;
     }
-    return "Description: Undocumented upstream changes
- This patch has been created by dpkg-source during the package build
- but it might have accumulated changes from several uploads. Please
- check the changelog to (hopefully) learn more on those changes.\n\n";
+    my $ch_info = changelog_parse(offset => 0, count => 1,
+        file => File::Spec->catfile($dir, "debian", "changelog"));
+    return '' if not defined $ch_info;
+    my $header = Dpkg::Control->new(type => CTRL_UNKNOWN);
+    $header->{'Description'} = "<short summary of the patch>\n";
+    $header->{'Description'} .=
+"TODO: Put a short summary on the line above and replace this paragraph
+with a longer explanation of this change. Complete the meta-information
+with other relevant fields (see below for details). To make it easier, the
+information below has been extracted from the changelog. Adjust it or drop
+it.\n";
+    $header->{'Description'} .= $ch_info->{'Changes'} . "\n";
+    $header->{'Author'} = $ch_info->{'Maintainer'};
+    $text = "$header";
+    run_vendor_hook("extend-patch-header", \$text, $ch_info);
+    $text .= "\n---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>\n\n";
+    return $text;
 }
 
 sub register_autopatch {

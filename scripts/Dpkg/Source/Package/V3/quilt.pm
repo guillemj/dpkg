@@ -1,4 +1,4 @@
-# Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,9 +29,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir fs_time);
 use Dpkg::IPC;
-use Dpkg::Vendor qw(get_current_vendor run_vendor_hook);
-use Dpkg::Control;
-use Dpkg::Changelog::Parse;
+use Dpkg::Vendor qw(get_current_vendor);
 
 use POSIX;
 use File::Basename;
@@ -384,52 +382,6 @@ sub register_autopatch {
         # Clean up empty series
         unlink($series) if not -s $series;
     }
-}
-
-sub get_patch_header {
-    my ($self, $dir, $previous) = @_;
-    my $ph = File::Spec->catfile($dir, "debian", "source", "local-patch-header");
-    unless (-f $ph) {
-        $ph = File::Spec->catfile($dir, "debian", "source", "patch-header");
-    }
-    my $text;
-    if (-f $ph) {
-        open(PH, "<", $ph) || syserr(_g("cannot read %s"), $ph);
-        $text = join("", <PH>);
-        close(PH);
-        return $text;
-    }
-    my $ch_info = changelog_parse(offset => 0, count => 1,
-        file => File::Spec->catfile($dir, "debian", "changelog"));
-    return '' if not defined $ch_info;
-    return $self->SUPER::get_patch_header($dir, $previous)
-        if $self->{'options'}{'single-debian-patch'};
-    my $header = Dpkg::Control->new(type => CTRL_UNKNOWN);
-    $header->{'Description'} = "Upstream changes introduced in version " .
-                               $ch_info->{'Version'} . "\n";
-    $header->{'Description'} .=
-"This patch has been created by dpkg-source during the package build.
-Here's the last changelog entry, hopefully it gives details on why
-those changes were made:\n";
-    $header->{'Description'} .= $ch_info->{'Changes'} . "\n";
-    $header->{'Description'} .=
-"\nThe person named in the Author field signed this changelog entry.\n";
-    $header->{'Author'} = $ch_info->{'Maintainer'};
-    $text = "$header";
-    run_vendor_hook("extend-patch-header", \$text, $ch_info);
-    $text .= "\n---
-The information above should follow the Patch Tagging Guidelines, please
-checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
-are templates for supplementary fields that you might want to add:
-
-Origin: <vendor|upstream|other>, <url of original patch>
-Bug: <url in upstream bugtracker>
-Bug-Debian: http://bugs.debian.org/<bugnumber>
-Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
-Forwarded: <no|not-needed|url proving that it has been forwarded>
-Reviewed-By: <name and email of someone who approved the patch>
-Last-Update: <YYYY-MM-DD>\n\n";
-    return $text;
 }
 
 # vim:et:sw=4:ts=8
