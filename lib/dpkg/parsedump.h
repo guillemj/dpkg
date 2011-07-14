@@ -28,6 +28,8 @@ struct parsedb_state {
 	enum parsedbflags flags;
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;
+	char *dataptr;
+	char *endptr;
 	const char *filename;
 	int lno;
 };
