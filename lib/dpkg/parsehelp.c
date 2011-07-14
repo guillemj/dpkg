@@ -33,17 +33,16 @@
 #include <dpkg/parsedump.h>
 
 static const char *
-parse_error_msg(struct parsedb_state *ps, const struct pkginfo *pigp,
-                const char *fmt)
+parse_error_msg(struct parsedb_state *ps, const char *fmt)
 {
   static char msg[1024];
   char filename[256];
 
   str_escape_fmt(filename, ps->filename, sizeof(filename));
 
-  if (pigp && pigp->name)
+  if (ps->pkg && ps->pkg->name)
     sprintf(msg, _("parsing file '%.255s' near line %d package '%.255s':\n"
-                   " %.255s"), filename, ps->lno, pigp->name, fmt);
+                   " %.255s"), filename, ps->lno, ps->pkg->name, fmt);
   else
     sprintf(msg, _("parsing file '%.255s' near line %d:\n"
                    " %.255s"), filename, ps->lno, fmt);
@@ -52,23 +51,21 @@ parse_error_msg(struct parsedb_state *ps, const struct pkginfo *pigp,
 }
 
 void
-parse_error(struct parsedb_state *ps,
-            const struct pkginfo *pigp, const char *fmt, ...)
+parse_error(struct parsedb_state *ps, const char *fmt, ...)
 {
   va_list args;
 
   va_start(args, fmt);
-  ohshitv(parse_error_msg(ps, pigp, fmt), args);
+  ohshitv(parse_error_msg(ps, fmt), args);
 }
 
 void
-parse_warn(struct parsedb_state *ps,
-           const struct pkginfo *pigp, const char *fmt, ...)
+parse_warn(struct parsedb_state *ps, const char *fmt, ...)
 {
   va_list args;
 
   va_start(args, fmt);
-  warningv(parse_error_msg(ps, pigp, fmt), args);
+  warningv(parse_error_msg(ps, fmt), args);
   va_end(args);
 }
 
@@ -279,15 +276,13 @@ parseversion(struct versionrevision *rversion, const char *string)
  * on the parse options.
  *
  * @param ps The parsedb state.
- * @param pkg The package being parsed.
  * @param version The version to parse into.
  * @param value The version string to parse from.
  * @param fmt The error format string.
  */
 void
-parse_db_version(struct parsedb_state *ps, const struct pkginfo *pkg,
-                 struct versionrevision *version, const char *value,
-                 const char *fmt, ...)
+parse_db_version(struct parsedb_state *ps, struct versionrevision *version,
+                 const char *value, const char *fmt, ...)
 {
   const char *msg;
   bool warn_msg = false;
@@ -308,34 +303,32 @@ parse_db_version(struct parsedb_state *ps, const struct pkginfo *pkg,
     va_end(args);
 
     if (warn_msg)
-      parse_warn(ps, pkg, "%s: %.250s", buf, msg);
+      parse_warn(ps, "%s: %.250s", buf, msg);
     else
-      parse_error(ps, pkg, "%s: %.250s", buf, msg);
+      parse_error(ps, "%s: %.250s", buf, msg);
   }
 }
 
 void
 parse_must_have_field(struct parsedb_state *ps,
-                      const struct pkginfo *pigp,
                       const char *value, const char *what)
 {
   if (!value)
-    parse_error(ps, pigp, _("missing %s"), what);
+    parse_error(ps, _("missing %s"), what);
   else if (!*value)
-    parse_error(ps, pigp, _("empty value for %s"), what);
+    parse_error(ps, _("empty value for %s"), what);
 }
 
 void
 parse_ensure_have_field(struct parsedb_state *ps,
-                        const struct pkginfo *pigp,
                         const char **value, const char *what)
 {
   static const char empty[] = "";
 
   if (!*value) {
-    parse_warn(ps, pigp, _("missing %s"), what);
+    parse_warn(ps, _("missing %s"), what);
     *value = empty;
   } else if (!**value) {
-    parse_warn(ps, pigp, _("empty value for %s"), what);
+    parse_warn(ps, _("empty value for %s"), what);
   }
 }

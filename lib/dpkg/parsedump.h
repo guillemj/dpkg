@@ -26,6 +26,8 @@ struct fieldinfo;
 
 struct parsedb_state {
 	enum parsedbflags flags;
+	struct pkginfo *pkg;
+	struct pkgbin *pkgbin;
 	const char *filename;
 	int lno;
 };
@@ -64,19 +66,17 @@ struct fieldinfo {
   size_t integer;
 };
 
-void parse_db_version(struct parsedb_state *ps, const struct pkginfo *pkg,
+void parse_db_version(struct parsedb_state *ps,
                       struct versionrevision *version, const char *value,
-                      const char *fmt, ...) DPKG_ATTR_PRINTF(5);
+                      const char *fmt, ...) DPKG_ATTR_PRINTF(4);
 
-void parse_error(struct parsedb_state *ps, const struct pkginfo *pigp,
-                 const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3);
-void parse_warn(struct parsedb_state *ps, const struct pkginfo *pigp,
-                const char *fmt, ...) DPKG_ATTR_PRINTF(3);
+void parse_error(struct parsedb_state *ps, const char *fmt, ...)
+	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2);
+void parse_warn(struct parsedb_state *ps, const char *fmt, ...)
+	DPKG_ATTR_PRINTF(2);
 void parse_must_have_field(struct parsedb_state *ps,
-                           const struct pkginfo *pigp,
                            const char *value, const char *what);
 void parse_ensure_have_field(struct parsedb_state *ps,
-                             const struct pkginfo *pigp,
                              const char **value, const char *what);
 
 #define MSDOS_EOF_CHAR '\032' /* ^Z */

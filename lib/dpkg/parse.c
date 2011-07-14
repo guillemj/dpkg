@@ -127,7 +127,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
       break;
   if (fip->name) {
     if ((*ip)++)
-      parse_error(ps, pkg,
+      parse_error(ps,
                   _("duplicate value for `%s' field"), fip->name);
 
     varbuf_reset(&fs->value);
@@ -139,13 +139,13 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
     struct arbitraryfield *arp, **larpp;
 
     if (fs->fieldlen < 2)
-      parse_error(ps, pkg,
+      parse_error(ps,
                   _("user-defined field name `%.*s' too short"),
                   fs->fieldlen, fs->fieldstart);
     larpp = &pkgbin->arbs;
     while ((arp = *larpp) != NULL) {
       if (!strncasecmp(arp->name, fs->fieldstart, fs->fieldlen))
-        parse_error(ps, pkg,
+        parse_error(ps,
                    _("duplicate value for user-defined field `%.*s'"),
                    fs->fieldlen, fs->fieldstart);
       larpp = &arp->next;
@@ -165,7 +165,7 @@ static void
 pkg_parse_verify(struct parsedb_state *ps,
                  struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
-  parse_must_have_field(ps, pkg, pkg->name, "package name");
+  parse_must_have_field(ps, pkg->name, "package name");
 
   /* XXX: We need to check for status != stat_halfinstalled as while
    * unpacking an unselected package, it will not have yet all data in
@@ -174,9 +174,9 @@ pkg_parse_verify(struct parsedb_state *ps,
   if ((ps->flags & pdb_recordavailable) ||
       (pkg->status != stat_notinstalled &&
        pkg->status != stat_halfinstalled)) {
-    parse_ensure_have_field(ps, pkg, &pkgbin->description, "description");
-    parse_ensure_have_field(ps, pkg, &pkgbin->maintainer, "maintainer");
-    parse_must_have_field(ps, pkg, pkgbin->version.version, "version");
+    parse_ensure_have_field(ps, &pkgbin->description, "description");
+    parse_ensure_have_field(ps, &pkgbin->maintainer, "maintainer");
+    parse_must_have_field(ps, pkgbin->version.version, "version");
   }
 
   /* XXX: Versions before dpkg 1.10.19 did not preserve the Architecture
@@ -187,7 +187,7 @@ pkg_parse_verify(struct parsedb_state *ps,
     /* We always want usable architecture information (as long as the package
      * is in such a state that it make sense), so that it can be used safely
      * on string comparisons and the like. */
-    parse_ensure_have_field(ps, pkg, &pkgbin->arch, "architecture");
+    parse_ensure_have_field(ps, &pkgbin->arch, "architecture");
   } else if (pkgbin->arch == NULL) {
     pkgbin->arch = "";
   }
@@ -200,7 +200,7 @@ pkg_parse_verify(struct parsedb_state *ps,
   if (!(ps->flags & pdb_recordavailable)) {
     if (pkg->configversion.version) {
       if (pkg->status == stat_installed || pkg->status == stat_notinstalled)
-        parse_error(ps, pkg,
+        parse_error(ps,
                     _("Configured-Version for package with inappropriate Status"));
     } else {
       if (pkg->status == stat_installed)
@@ -211,21 +211,21 @@ pkg_parse_verify(struct parsedb_state *ps,
   if (pkg->trigaw.head &&
       (pkg->status <= stat_configfiles ||
        pkg->status >= stat_triggerspending))
-    parse_error(ps, pkg,
+    parse_error(ps,
                 _("package has status %s but triggers are awaited"),
                 statusinfos[pkg->status].name);
   else if (pkg->status == stat_triggersawaited && !pkg->trigaw.head)
-    parse_error(ps, pkg,
+    parse_error(ps,
                 _("package has status triggers-awaited but no triggers awaited"));
 
   if (pkg->trigpend_head &&
       !(pkg->status == stat_triggerspending ||
         pkg->status == stat_triggersawaited))
-    parse_error(ps, pkg,
+    parse_error(ps,
                 _("package has status %s but triggers are pending"),
                 statusinfos[pkg->status].name);
   else if (pkg->status == stat_triggerspending && !pkg->trigpend_head)
-    parse_error(ps, pkg,
+    parse_error(ps,
                 _("package has status triggers-pending but no triggers "
                   "pending"));
 
@@ -235,7 +235,7 @@ pkg_parse_verify(struct parsedb_state *ps,
   if (!(ps->flags & pdb_recordavailable) &&
       pkg->status == stat_notinstalled &&
       pkgbin->conffiles) {
-    parse_warn(ps, pkg,
+    parse_warn(ps,
                _("Package which in state not-installed has conffiles, "
                  "forgetting them"));
     pkgbin->conffiles = NULL;
@@ -342,6 +342,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
   else
     new_pkgbin = &new_pkg->installed;
 
+  ps.pkg = new_pkg;
+  ps.pkgbin = new_pkgbin;
+
   fd= open(filename, O_RDONLY);
   if (fd == -1) ohshite(_("failed to open package info file `%.255s' for reading"),filename);
 
@@ -396,17 +399,17 @@ int parsedb(const char *filename, enum parsedbflags flags,
       fs.fieldlen = dataptr - fs.fieldstart - 1;
       while (!EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
       if (EOF_mmap(dataptr, endptr))
-        parse_error(&ps, new_pkg,
+        parse_error(&ps,
                     _("EOF after field name `%.*s'"), fs.fieldlen, fs.fieldstart);
       if (c == '\n')
-        parse_error(&ps, new_pkg,
+        parse_error(&ps,
                     _("newline in field name `%.*s'"), fs.fieldlen, fs.fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parse_error(&ps, new_pkg,
+        parse_error(&ps,
                     _("MSDOS EOF (^Z) in field name `%.*s'"),
                     fs.fieldlen, fs.fieldstart);
       if (c != ':')
-        parse_error(&ps, new_pkg,
+        parse_error(&ps,
                     _("field name `%.*s' must be followed by colon"),
                     fs.fieldlen, fs.fieldstart);
       /* Skip space after ‘:’ but before value and EOL. */
@@ -415,11 +418,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
         if (c == '\n' || !isspace(c)) break;
       }
       if (EOF_mmap(dataptr, endptr))
-        parse_error(&ps, new_pkg,
+        parse_error(&ps,
                     _("EOF before value of field `%.*s' (missing final newline)"),
                     fs.fieldlen, fs.fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parse_error(&ps, new_pkg,
+        parse_error(&ps,
                     _("MSDOS EOF char in value of field `%.*s' (missing newline?)"),
                     fs.fieldlen, fs.fieldstart);
 
@@ -429,7 +432,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       for (;;) {
         if (c == '\n' || c == MSDOS_EOF_CHAR) {
           if (blank_line)
-            parse_error(&ps, new_pkg,
+            parse_error(&ps,
                         _("blank line in value of field '%.*s'"),
                         fs.fieldlen, fs.fieldstart);
           ps.lno++;
@@ -445,7 +448,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         }
 
         if (EOF_mmap(dataptr, endptr))
-          parse_error(&ps, new_pkg,
+          parse_error(&ps,
                       _("EOF during value of field `%.*s' (missing final newline)"),
                       fs.fieldlen, fs.fieldstart);
 
@@ -462,7 +465,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     } /* Loop per field. */
 
     if (pdone && donep)
-      parse_error(&ps, new_pkg,
+      parse_error(&ps,
                   _("several package info entries found, only one allowed"));
 
     pkg_parse_verify(&ps, new_pkg, new_pkgbin);
