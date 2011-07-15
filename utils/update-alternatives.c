@@ -1623,13 +1623,29 @@ alternative_commit(struct alternative *a)
 	alternative_commit_operations_free(a);
 }
 
+static bool
+alternative_can_replace_link(const char *linkname)
+{
+	struct stat st;
+	bool replace_link;
+
+	errno = 0;
+	if (lstat(linkname, &st) == -1) {
+		if (errno != ENOENT)
+			syserr(_("cannot stat file '%s'"), linkname);
+		replace_link = true;
+	} else {
+		replace_link = S_ISLNK(st.st_mode);
+	}
+
+	return (replace_link || opt_force);
+}
+
 static void
 alternative_prepare_install_single(struct alternative *a, const char *name,
 				   const char *linkname, const char *file)
 {
 	char *fntmp, *fn;
-	struct stat st;
-	bool create_link;
 
 	/* Create link in /etc/alternatives. */
 	xasprintf(&fntmp, "%s/%s" DPKG_TMP_EXT, altdir, name);
@@ -1639,15 +1655,7 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	alternative_add_commit_op(a, opcode_mv, fntmp, fn);
 	free(fntmp);
 
-	errno = 0;
-	if (lstat(linkname, &st) == -1) {
-		if (errno != ENOENT)
-			syserr(_("cannot stat file '%s'"), linkname);
-		create_link = true;
-	} else {
-		create_link = S_ISLNK(st.st_mode);
-	}
-	if (create_link || opt_force) {
+	if (alternative_can_replace_link(linkname)) {
 		/* Create alternative link. */
 		xasprintf(&fntmp, "%s" DPKG_TMP_EXT, linkname);
 		checked_rm(fntmp);
@@ -1693,7 +1701,11 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 
 		/* Drop unused slave. */
 		xasprintf(&fn, "%s/%s", altdir, sl->name);
-		alternative_add_commit_op(a, opcode_rm, sl->link, NULL);
+		if (alternative_can_replace_link(sl->link))
+			alternative_add_commit_op(a, opcode_rm, sl->link, NULL);
+		else
+			warning(_("not removing %s since it's not a symlink."),
+			        sl->link);
 		alternative_add_commit_op(a, opcode_rm, fn, NULL);
 		free(fn);
 	}
