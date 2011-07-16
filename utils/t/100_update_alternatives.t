@@ -81,7 +81,7 @@ my @choices = (
 );
 my $nb_slaves = 4;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 26 # number of check_choices
-               + 100;                         # rest
+               + 102;                         # rest
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
@@ -119,13 +119,17 @@ sub install_choice {
 sub remove_choice {
     my ($id, %opts) = @_;
     my $alt = $choices[$id];
-    my @params = ("--remove", $main_name, $alt->{path});
+    my @params;
+    push @params, @{$opts{params}} if exists $opts{params};
+    push @params, "--remove", $main_name, $alt->{path};
     call_ua(\@params, %opts);
 }
 
 sub remove_all_choices {
     my (%opts) = @_;
-    my @params = ("--remove-all", $main_name);
+    my @params;
+    push @params, @{$opts{params}} if exists $opts{params};
+    push @params, "--remove-all", $main_name;
     call_ua(\@params, %opts);
 }
 
@@ -150,7 +154,9 @@ sub config_choice {
     $input .= "\n";
     $opts{from_string} = \$input;
     $opts{to_string} = \$output;
-    my @params = ("--config", $main_name);
+    my @params;
+    push @params, @{$opts{params}} if exists $opts{params};
+    push @params, "--config", $main_name;
     call_ua(\@params, %opts);
 }
 
@@ -466,6 +472,8 @@ ok(!-l $main_link, "auto switching preserves files that should be links");
 ok(!-l "$bindir/slave2", "auto switching preserves files that should be slave links");
 ok(-f $main_link, "auto switching keeps real file installed as master link");
 ok(-f "$bindir/slave2", "auto switching keeps real files installed as slave links");
+remove_all_choices(params => ["--force"]);
+ok(!-e "$bindir/slave2", "forced removeall drops real files installed as slave links");
 
 # test management of pre-existing files #3
 cleanup();

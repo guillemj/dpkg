@@ -1714,11 +1714,10 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 static void
 alternative_remove(struct alternative *a)
 {
-	struct stat st;
 	struct slave_link *sl;
 
 	checked_rm_args("%s" DPKG_TMP_EXT, a->master_link);
-	if (lstat(a->master_link, &st) == 0 && S_ISLNK(st.st_mode))
+	if (alternative_can_replace_link(a->master_link))
 		checked_rm(a->master_link);
 
 	checked_rm_args("%s/%s" DPKG_TMP_EXT, altdir, a->master_name);
@@ -1726,7 +1725,7 @@ alternative_remove(struct alternative *a)
 
 	for (sl = a->slaves; sl; sl = sl->next) {
 		checked_rm_args("%s" DPKG_TMP_EXT, sl->link);
-		if (lstat(sl->link, &st) == 0 && S_ISLNK(st.st_mode))
+		if (alternative_can_replace_link(sl->link))
 			checked_rm(sl->link);
 
 		checked_rm_args("%s/%s" DPKG_TMP_EXT, altdir, sl->name);
