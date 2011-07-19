@@ -239,12 +239,22 @@ sub unapply_patches {
     unlink($applied);
 }
 
+sub upstream_tarball_template {
+    my ($self) = @_;
+    my $ext = "{" . join(",",
+        sort map {
+            compression_get_property($_, "file_ext")
+        } compression_get_list()) . "}";
+    return "../" . $self->get_basename() . ".orig.tar.$ext";
+}
+
 sub can_build {
     my ($self, $dir) = @_;
     return 1 if $self->find_original_tarballs(include_supplementary => 0);
     return 1 if $self->{'options'}{'create_empty_orig'} and
                 $self->find_original_tarballs(include_main => 0);
-    return (0, _g("no orig.tar file found"));
+    return (0, sprintf(_g("no upstream tarball found at %s"),
+                       $self->upstream_tarball_template()));
 }
 
 sub before_build {
@@ -336,7 +346,8 @@ sub do_build {
         }
     }
 
-    error(_g("no orig.tar file found")) unless $tarfile;
+    error(_g("no upstream tarball found at %s"),
+          $self->upstream_tarball_template()) unless $tarfile;
 
     info(_g("building %s using existing %s"),
 	 $sourcepackage, "@origtarballs");
