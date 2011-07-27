@@ -485,7 +485,7 @@ cleanup();
 note("Corrupted divertions db handling");
 
 SKIP: {
-    skip "running under fakeroot", 3, if (defined($ENV{FAKEROOTKEY}));
+    skip "running as root or similar", 3, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
 
     # An inexistent diversions db file should not be considered a failure,
     # but a failure to open it should be.
@@ -514,7 +514,7 @@ call_divert_sort(['--list'], expect_failure => 1,
 cleanup();
 
 SKIP: {
-    skip "running under fakeroot", 10, if (defined($ENV{FAKEROOTKEY}));
+    skip "running as root or similar", 10, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
 
     note("R/O directory");
 
@@ -548,7 +548,7 @@ note("Errors during saving diversions db");
 install_diversions('');
 
 SKIP: {
-    skip "running under fakeroot", 4, if (defined($ENV{FAKEROOTKEY}));
+    skip "running as root or similar", 4, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
 
     system("chmod 500 $admindir");
     call_divert(["$testdir/foo"], expect_failure => 1, expect_stderr_like => qr/create.*new/);
