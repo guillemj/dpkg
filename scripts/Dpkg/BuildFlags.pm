@@ -84,6 +84,7 @@ sub load_vendor_defaults {
 	FFLAGS   => 'vendor',
 	LDFLAGS  => 'vendor',
     };
+    # The Debian vendor hook will add hardening build flags
     run_vendor_hook("update-buildflags", $self);
 }
 

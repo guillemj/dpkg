@@ -1,4 +1,8 @@
-# Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2009-2011 Raphaël Hertzog <hertzog@debian.org>
+#
+# Hardening build flags handling derived from work of:
+# Copyright © 2009-2011 Kees Cook <kees@debian.org>
+# Copyright © 2007-2008 Canonical, Ltd.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,8 +25,13 @@ use warnings;
 our $VERSION = "0.01";
 
 use base qw(Dpkg::Vendor::Default);
+
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
 use Dpkg::Vendor::Ubuntu;
+use Dpkg::BuildOptions;
+use Dpkg::Arch qw(get_host_arch debarch_to_debtriplet);
 
 =encoding utf8
 
@@ -62,8 +71,85 @@ sub run_hook {
 	foreach my $bug (@$b) {
 	    $$textref .= "Bug-Ubuntu: https://bugs.launchpad.net/bugs/$bug\n";
 	}
+    } elsif ($hook eq "update-buildflags") {
+	$self->add_hardening_flags(@params);
     } else {
         return $self->SUPER::run_hook($hook, @params);
+    }
+}
+
+sub add_hardening_flags {
+    my ($self, $flags) = @_;
+    my $arch = get_host_arch();
+    my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
+
+    # Decide what's enabled
+    my %use_feature = (
+	"pie" => 0,
+	"stackprotector" => 1,
+	"fortify" => 1,
+	"format" => 1,
+	"relro" => 1,
+	"bindnow" => 1
+    );
+    my $opts = Dpkg::BuildOptions->new(envvar => "DEB_BUILD_MAINT_OPTIONS");
+    foreach my $feature (split(",", $opts->get("hardening") // "")) {
+	$feature = lc($feature);
+	if ($feature =~ s/^([+-])//) {
+	    my $value = ($1 eq "+") ? 1 : 0;
+	    if ($feature eq "all") {
+		$use_feature{$_} = $value foreach keys %use_feature;
+	    } else {
+		if (exists $use_feature{$feature}) {
+		    $use_feature{$feature} = $value;
+		} else {
+		    warning(_g("unknown hardening feature: %s"), $feature);
+		}
+	    }
+	} else {
+	    warning(_g("incorrect value in hardening option of " .
+	               "DEB_BUILD_MAINT_OPTIONS: %s"), $feature);
+	}
+    }
+
+    # PIE
+    if ($use_feature{"pie"} and
+	$os =~ /^(linux|knetbsd|hurd)$/ and
+	$cpu !~ /^(hppa|m68k|mips|mipsel|avr32)$/) {
+	# Only on linux/knetbsd/hurd (see #430455 and #586215)
+	# Disabled on hppa, m68k (#451192), mips/mipsel (#532821), avr32
+	# (#574716)
+	$flags->append("CFLAGS", "-fPIE");
+	$flags->append("CXXFLAGS", "-fPIE");
+	$flags->append("LDFLAGS", "-fPIE -pie");
+    }
+    # Stack protector
+    if ($use_feature{"stackprotector"} and
+	$cpu !~ /^(ia64|alpha|mips|mipsel|hppa)$/ and $arch ne "arm") {
+	# Stack protector disabled on ia64, alpha, mips, mipsel, hppa.
+	#   "warning: -fstack-protector not supported for this target"
+	# Stack protector disabled on arm (ok on armel).
+	#   compiler supports it incorrectly (leads to SEGV)
+	$flags->append("CFLAGS", "-fstack-protector --param=ssp-buffer-size=4");
+	$flags->append("CXXFLAGS", "-fstack-protector --param=ssp-buffer-size=4");
+    }
+    # Fortify
+    if ($use_feature{"fortify"}) {
+	$flags->append("CFLAGS", "-D_FORTIFY_SOURCE=2");
+	$flags->append("CXXFLAGS", "-D_FORTIFY_SOURCE=2");
+    }
+    # Format
+    if ($use_feature{"format"}) {
+	$flags->append("CFLAGS", "-Wformat -Wformat-security -Werror=format-security");
+	$flags->append("CXXFLAGS", "-Wformat -Wformat-security -Werror=format-security");
+    }
+    # Relro
+    if ($use_feature{"relro"} and $cpu !~ /^(ia64|hppa|avr32)$/) {
+	$flags->append("LDFLAGS", "-Wl,-z,relro");
+    }
+    # Bindnow
+    if ($use_feature{"bindnow"}) {
+	$flags->append("LDFLAGS", "-Wl,-z,now");
     }
 }
 
