@@ -33,7 +33,9 @@ DEB_HOST_ARCH_OS  ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 ifeq ($(DEB_HOST_ARCH_OS),linux)
 	confflags += --with-selinux
 endif
-
+ifeq (,$(filter maintainer-build,$(DEB_BUILD_OPTIONS)))
+	confflags += --disable-silent-rules
+endif
 
 # Create configure script if necessary, automake handles rebuilding it.
 configure:
@@ -48,7 +50,6 @@ build-tree/config.status: configure
 	install -d build-tree
 	cd build-tree && ../configure $(confflags) \
 		CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
-		--disable-silent-rules \
 		--prefix=/usr \
 		--mandir=\$${datadir}/man \
 		--infodir=\$${datadir}/info \
