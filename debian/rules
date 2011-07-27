@@ -4,17 +4,8 @@
 
 WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 
-CFLAGS = -g $(WFLAGS)
-CXXFLAGS = -g $(WFLAGS)
-
-# Disable optimisations if ‘noopt’ found in $DEB_BUILD_OPTIONS
-ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
-	CXXFLAGS += -O0
-else
-	CFLAGS += -O2
-	CXXFLAGS += -O2
-endif
+# Use the in-tree dpkg-buildflags
+dpkg_buildflags = DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" PERL5LIB=$(CURDIR)/scripts DPKG_DATADIR=$(CURDIR) perl $(CURDIR)/scripts/dpkg-buildflags.pl
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
@@ -49,7 +40,7 @@ build-tree/config.status: configure
 
 	install -d build-tree
 	cd build-tree && ../configure $(confflags) \
-		CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
+		$(shell $(dpkg_buildflags) --export=configure) \
 		--prefix=/usr \
 		--mandir=\$${datadir}/man \
 		--infodir=\$${datadir}/info \
