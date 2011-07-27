@@ -127,6 +127,10 @@ sub load_environment_config {
 	if (exists $ENV{$envvar}) {
 	    $self->set($flag, $ENV{$envvar}, "env");
 	}
+	$envvar = "DEB_" . $flag . "_STRIP";
+	if (exists $ENV{$envvar}) {
+	    $self->strip($flag, $ENV{$envvar}, "env");
+	}
 	$envvar = "DEB_" . $flag . "_APPEND";
 	if (exists $ENV{$envvar}) {
 	    $self->append($flag, $ENV{$envvar}, "env");
@@ -151,6 +155,10 @@ sub load_maintainer_config {
 	my $envvar = "DEB_" . $flag . "_MAINT_SET";
 	if (exists $ENV{$envvar}) {
 	    $self->set($flag, $ENV{$envvar}, undef);
+	}
+	$envvar = "DEB_" . $flag . "_MAINT_STRIP";
+	if (exists $ENV{$envvar}) {
+	    $self->strip($flag, $ENV{$envvar}, undef);
 	}
 	$envvar = "DEB_" . $flag . "_MAINT_APPEND";
 	if (exists $ENV{$envvar}) {
@@ -190,6 +198,24 @@ $source (if defined).
 sub set {
     my ($self, $flag, $value, $src) = @_;
     $self->{flags}->{$flag} = $value;
+    $self->{origin}->{$flag} = $src if defined $src;
+}
+
+=item $bf->strip($flag, $value, $source)
+
+Update the build flag $flag by stripping the flags listed in $value and
+record its origin as $source (if defined).
+
+=cut
+
+sub strip {
+    my ($self, $flag, $value, $src) = @_;
+    foreach my $tostrip (split(/\s+/, $value)) {
+	next unless length $tostrip;
+	$self->{flags}->{$flag} =~ s/(^|\s+)\Q$tostrip\E(\s+|$)/ /g;
+    }
+    $self->{flags}->{$flag} =~ s/^\s+//g;
+    $self->{flags}->{$flag} =~ s/\s+$//g;
     $self->{origin}->{$flag} = $src if defined $src;
 }
 
@@ -245,7 +271,7 @@ sub update_from_conffile {
         chomp;
         next if /^\s*#/; # Skip comments
         next if /^\s*$/; # Skip empty lines
-        if (/^(append|prepend|set)\s+(\S+)\s+(\S.*\S)\s*$/i) {
+        if (/^(append|prepend|set|strip)\s+(\S+)\s+(\S.*\S)\s*$/i) {
             my ($op, $flag, $value) = ($1, $2, $3);
             unless (exists $self->{flags}->{$flag}) {
                 warning(_g("line %d of %s mentions unknown flag %s"), $., $file, $flag);
@@ -253,6 +279,8 @@ sub update_from_conffile {
             }
             if (lc($op) eq "set") {
                 $self->set($flag, $value, $src);
+            } elsif (lc($op) eq "strip") {
+                $self->strip($flag, $value, $src);
             } elsif (lc($op) eq "append") {
                 $self->append($flag, $value, $src);
             } elsif (lc($op) eq "prepend") {

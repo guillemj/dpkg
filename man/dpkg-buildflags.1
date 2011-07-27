@@ -29,6 +29,9 @@ The configuration files can contain two types of directives:
 .BI SET " flag value"
 Override the flag named \fIflag\fP to have the value \fIvalue\fP.
 .TP
+.BI STRIP " flag value"
+Strip from the flag named \fIflag\fP all the build flags listed in \fIvalue\fP.
+.TP
 .BI APPEND " flag value"
 Extend the flag named \fIflag\fP by appending the options given in \fIvalue\fP.
 A space is prepended to the appended value if the flag's current value is non-empty.
@@ -134,6 +137,13 @@ by package maintainers to change the resulting build flags.
 .TQ
 .BI DEB_ flag _MAINT_SET
 This variable can be used to force the value returned for the given
+\fIflag\fP.
+.TP
+.BI DEB_ flag _STRIP
+.TQ
+.BI DEB_ flag _MAINT_STRIP
+This variable can be used to provide a space separated list of options
+that will be stripped from the set of flags returned for the given
 \fIflag\fP.
 .TP
 .BI DEB_ flag _APPEND
