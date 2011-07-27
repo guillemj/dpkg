@@ -18,7 +18,11 @@ system-wide with \fB/etc/dpkg/buildflags.conf\fP;
 for the current user with \fB$XDG_CONFIG_HOME/dpkg/buildflags.conf\fP
 where \fB$XDG_CONFIG_HOME\fP defaults to \fB$HOME/.config\fP;
 .IP 3.
-temporarily by the user with environment variables (see section \fBENVIRONMENT\fP).
+temporarily by the user with environment variables (see section
+\fBENVIRONMENT\fP);
+.IP 4.
+dynamically by the package maintainer with environment variables set via
+\fBdebian/rules\fP (see section \fBENVIRONMENT\fP).
 .P
 The configuration files can contain two types of directives:
 .TP
@@ -119,19 +123,28 @@ System wide configuration file.
 .BR $XDG_CONFIG_HOME/dpkg/buildflags.conf " or " $HOME/.config/dpkg/buildflags.conf
 User configuration file.
 .SH ENVIRONMENT
-Those environment variables should not be set by official packages, they
-are meant for users who are recompiling a Debian package and would like to
-change the compilation flags.
+There are 2 sets of environment variables doing the same operations, the
+first one (DEB_\fIflag\fP_\fIop\fP) should never be used within
+\fBdebian/rules\fP. It's meant for any user that wants to rebuild the
+source package with different build flags. The second set
+(DEB_\fIflag\fP_MAINT_\fIop\fP) should only be used in \fBdebian/rules\fP
+by package maintainers to change the resulting build flags.
 .TP
 .BI DEB_ flag _SET
+.TQ
+.BI DEB_ flag _MAINT_SET
 This variable can be used to force the value returned for the given
 \fIflag\fP.
 .TP
 .BI DEB_ flag _APPEND
+.TQ
+.BI DEB_ flag _MAINT_APPEND
 This variable can be used to append supplementary options to the value
 returned for the given \fIflag\fP.
 .TP
 .BI DEB_ flag _PREPEND
+.TQ
+.BI DEB_ flag _MAINT_PREPEND
 This variable can be used to prepend supplementary options to the value
 returned for the given \fIflag\fP.
 .

@@ -115,7 +115,7 @@ sub load_user_config {
 
 =item $bf->load_environment_config()
 
-Update flags based on directives stored in the environment. See
+Update flags based on user directives stored in the environment. See
 dpkg-buildflags(1) for details.
 
 =cut
@@ -138,11 +138,37 @@ sub load_environment_config {
     }
 }
 
+=item $bf->load_maintainer_config()
+
+Update flags based on maintainer directives stored in the environment. See
+dpkg-buildflags(1) for details.
+
+=cut
+
+sub load_maintainer_config {
+    my ($self) = @_;
+    foreach my $flag (keys %{$self->{flags}}) {
+	my $envvar = "DEB_" . $flag . "_MAINT_SET";
+	if (exists $ENV{$envvar}) {
+	    $self->set($flag, $ENV{$envvar}, undef);
+	}
+	$envvar = "DEB_" . $flag . "_MAINT_APPEND";
+	if (exists $ENV{$envvar}) {
+	    $self->append($flag, $ENV{$envvar}, undef);
+	}
+	$envvar = "DEB_" . $flag . "_MAINT_PREPEND";
+	if (exists $ENV{$envvar}) {
+	    $self->prepend($flag, $ENV{$envvar}, undef);
+	}
+    }
+}
+
+
 =item $bf->load_config()
 
-Call successively load_system_config(), load_user_config() and
-load_environment_config() to update the default build flags
-defined by the vendor.
+Call successively load_system_config(), load_user_config(),
+load_environment_config() and load_maintainer_config() to update the
+default build flags defined by the vendor.
 
 =cut
 
@@ -151,24 +177,26 @@ sub load_config {
     $self->load_system_config();
     $self->load_user_config();
     $self->load_environment_config();
+    $self->load_maintainer_config();
 }
 
 =item $bf->set($flag, $value, $source)
 
-Update the build flag $flag with value $value and record its origin as $source.
+Update the build flag $flag with value $value and record its origin as
+$source (if defined).
 
 =cut
 
 sub set {
     my ($self, $flag, $value, $src) = @_;
     $self->{flags}->{$flag} = $value;
-    $self->{origin}->{$flag} = $src;
+    $self->{origin}->{$flag} = $src if defined $src;
 }
 
 =item $bf->append($flag, $value, $source)
 
 Append the options listed in $value to the current value of the flag $flag.
-Record its origin as $source.
+Record its origin as $source (if defined).
 
 =cut
 
@@ -179,7 +207,7 @@ sub append {
     } else {
         $self->{flags}->{$flag} = $value;
     }
-    $self->{origin}->{$flag} = $src;
+    $self->{origin}->{$flag} = $src if defined $src;
 }
 
 =item $bf->prepend($flag, $value, $source)
@@ -291,6 +319,9 @@ sub list {
 
 New method: $bf->prepend() very similar to append(). Implement support of
 the prepend operation everywhere.
+
+New method: $bf->load_maintainer_config() that update the build flags
+based on the package maintainer directives.
 
 =head1 AUTHOR
 
