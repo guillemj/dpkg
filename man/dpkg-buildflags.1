@@ -19,12 +19,6 @@ for the current user with \fB$XDG_CONFIG_HOME/dpkg/buildflags.conf\fP
 where \fB$XDG_CONFIG_HOME\fP defaults to \fB$HOME/.config\fP;
 .IP 3.
 temporarily by the user with environment variables (see section \fBENVIRONMENT\fP).
-.IP 4.
-by the package maintainer with one of the following files (the first found
-is used): \fBdebian/buildflags.\fP\fIarch\fP, \fBdebian/buildflags.\fP\fIos\fP,
-\fBdebian/buildflags\fP. The \fIarch\fP substitution corresponds to the
-DEB_HOST_ARCH variable returned by \fBdpkg\-architecture\fP while \fIos\fP
-corresponds to DEB_HOST_ARCH_OS.
 .P
 The configuration files can contain two types of directives:
 .TP
@@ -122,9 +116,6 @@ System wide configuration file.
 .TP
 .BR $XDG_CONFIG_HOME/dpkg/buildflags.conf " or " $HOME/.config/dpkg/buildflags.conf
 User configuration file.
-.TP
-\fBdebian/buildflags.\fIarch\fP, \fBdebian/buildflags.\fIos\fP, \fBdebian/buildflags\fP
-Package maintainer configuration file.
 .SH ENVIRONMENT
 Those environment variables should not be set by official packages, they
 are meant for users who are recompiling a Debian package and would like to

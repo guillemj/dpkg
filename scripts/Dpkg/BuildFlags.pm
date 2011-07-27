@@ -23,7 +23,6 @@ our $VERSION = "1.01";
 use Dpkg::Gettext;
 use Dpkg::BuildOptions;
 use Dpkg::ErrorHandling;
-use Dpkg::Path qw(find_build_file);
 use Dpkg::Vendor qw(run_vendor_hook);
 
 =encoding utf8
@@ -139,26 +138,11 @@ sub load_environment_config {
     }
 }
 
-=item $bf->load_package_config()
-
-Update flags based on directives stored in debian/buildflags
-and associated arch-specific variants.
-
-=cut
-
-sub load_package_config {
-    my ($self) = @_;
-    my $config = find_build_file("debian/buildflags");
-    if (defined $config) {
-        $self->update_from_conffile($config, undef);
-    }
-}
-
 =item $bf->load_config()
 
-Call successively load_system_config(), load_user_config(),
-load_environment_config() and load_package_config() to update the default
-build flags defined by the vendor.
+Call successively load_system_config(), load_user_config() and
+load_environment_config() to update the default build flags
+defined by the vendor.
 
 =cut
 
@@ -167,26 +151,24 @@ sub load_config {
     $self->load_system_config();
     $self->load_user_config();
     $self->load_environment_config();
-    $self->load_package_config();
 }
 
 =item $bf->set($flag, $value, $source)
 
-Update the build flag $flag with value $value and record its origin as
-$source (if defined).
+Update the build flag $flag with value $value and record its origin as $source.
 
 =cut
 
 sub set {
     my ($self, $flag, $value, $src) = @_;
     $self->{flags}->{$flag} = $value;
-    $self->{origin}->{$flag} = $src if defined $src;
+    $self->{origin}->{$flag} = $src;
 }
 
 =item $bf->append($flag, $value, $source)
 
 Append the options listed in $value to the current value of the flag $flag.
-Record its origin as $source (if defined).
+Record its origin as $source.
 
 =cut
 
@@ -197,7 +179,7 @@ sub append {
     } else {
         $self->{flags}->{$flag} = $value;
     }
-    $self->{origin}->{$flag} = $src if defined $src;
+    $self->{origin}->{$flag} = $src;
 }
 
 =item $bf->prepend($flag, $value, $source)
@@ -223,7 +205,7 @@ sub prepend {
 Update the current build flags based on the configuration directives
 contained in $file. See dpkg-buildflags(1) for the format of the directives.
 
-If defined, $source is the origin recorded for any build flag set or modified.
+$source is the origin recorded for any build flag set or modified.
 
 =cut
 
@@ -306,9 +288,6 @@ sub list {
 =head1 CHANGES
 
 =head2 Version 1.01
-
-New method: $bf->load_package_config(). This method is called last as part
-of load_config().
 
 New method: $bf->prepend() very similar to append(). Implement support of
 the prepend operation everywhere.
