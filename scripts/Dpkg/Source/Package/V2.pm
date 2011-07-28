@@ -312,23 +312,12 @@ sub check_patches_applied {
     }
 }
 
-sub do_build {
-    my ($self, $dir) = @_;
+sub generate_patch {
+    my ($self, $dir, %opts) = @_;
     my ($dirname, $updir) = fileparse($dir);
-    my @argv = @{$self->{'options'}{'ARGV'}};
-    if (scalar(@argv)) {
-        usageerr(_g("-b takes only one parameter with format `%s'"),
-                 $self->{'fields'}{'Format'});
-    }
-    $self->prepare_build($dir);
-
-    my $include_binaries = $self->{'options'}{'include_binaries'};
-    my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
-
     my $sourcepackage = $self->{'fields'}{'Source'};
     my $basenamerev = $self->get_basename(1);
-    my $basename = $self->get_basename();
-    my $basedirname = $basename;
+    my $basedirname = $self->get_basename();
     $basedirname =~ s/_/-/;
 
     # Identify original tarballs
@@ -378,6 +367,53 @@ sub do_build {
 
     # Apply all patches except the last automatic one
     $self->apply_patches($tmp, skip_auto => 1, usage => 'build');
+
+    # Create a patch
+    my $autopatch = File::Spec->catfile($dir, "debian", "patches",
+                                        $self->get_autopatch_name());
+    my ($difffh, $tmpdiff) = tempfile("$basenamerev.diff.XXXXXX",
+                                      DIR => $updir, UNLINK => 0);
+    push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
+    my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
+                                        compression => "none");
+    $diff->create();
+    $diff->set_header($self->get_patch_header($dir, $autopatch));
+    $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
+            %{$self->{'diff_options'}},
+            handle_binary_func => $opts{'handle_binary'},
+            order_from => $opts{'order_from'});
+    error(_g("unrepresentable changes to source")) if not $diff->finish();
+
+    if (-s $autopatch) {
+        info(_g("local changes stored in %s, the modified files are:"), $autopatch);
+        my $analysis = $diff->analyze($dir, verbose => 0);
+        foreach my $fn (sort keys %{$analysis->{'filepatched'}}) {
+            print " $fn\n";
+        }
+    }
+
+    # Remove the temporary directory
+    erasedir($tmp);
+    pop @Dpkg::Exit::handlers;
+    pop @Dpkg::Exit::handlers;
+
+    return $tmpdiff;
+}
+
+sub do_build {
+    my ($self, $dir) = @_;
+    my @argv = @{$self->{'options'}{'ARGV'}};
+    if (scalar(@argv)) {
+        usageerr(_g("-b takes only one parameter with format `%s'"),
+                 $self->{'fields'}{'Format'});
+    }
+    $self->prepare_build($dir);
+
+    my $include_binaries = $self->{'options'}{'include_binaries'};
+    my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
+
+    my $sourcepackage = $self->{'fields'}{'Source'};
+    my $basenamerev = $self->get_basename(1);
 
     # Prepare handling of binary files
     my %auth_bin_files;
@@ -461,37 +497,20 @@ sub do_build {
     # Create a patch
     my $autopatch = File::Spec->catfile($dir, "debian", "patches",
                                         $self->get_autopatch_name());
-    my ($difffh, $tmpdiff) = tempfile("$basenamerev.diff.XXXXXX",
-                                      DIR => $updir, UNLINK => 0);
+    my $tmpdiff = $self->generate_patch($dir, order_from => $autopatch,
+                                        handle_binary => $handle_binary,
+                                        usage => 'build');
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
-    my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
-                                        compression => "none");
-    $diff->create();
-    $diff->set_header($self->get_patch_header($dir, $autopatch));
-    $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
-            %{$self->{'diff_options'}}, handle_binary_func => $handle_binary,
-            order_from => $autopatch);
-    error(_g("unrepresentable changes to source")) if not $diff->finish();
+
     # Install the diff as the new autopatch
     mkpath(File::Spec->catdir($dir, "debian", "patches"));
     $autopatch = $self->register_patch($dir, $tmpdiff,
                                        $self->get_autopatch_name());
-    if (-s $autopatch) {
-        info(_g("local changes stored in %s, the modified files are:"), $autopatch);
-        my $analysis = $diff->analyze($dir, verbose => 0);
-        foreach my $fn (sort keys %{$analysis->{'filepatched'}}) {
-            print " $fn\n";
-        }
-    }
     if (-e $autopatch and $self->{'options'}{'abort_on_upstream_changes'}) {
         error(_g("aborting due to --abort-on-upstream-changes"));
     }
     rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
-    pop @Dpkg::Exit::handlers;
-
-    # Remove the temporary directory
-    erasedir($tmp);
     pop @Dpkg::Exit::handlers;
 
     # Update debian/source/include-binaries if needed
@@ -509,7 +528,7 @@ sub do_build {
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{'options'}{'comp_ext'};
     info(_g("building %s in %s"), $sourcepackage, $debianfile);
-    $tar = Dpkg::Source::Archive->new(filename => $debianfile);
+    my $tar = Dpkg::Source::Archive->new(filename => $debianfile);
     $tar->create(options => \@tar_ignore, 'chdir' => $dir);
     $tar->add_directory("debian");
     foreach my $binary (@binary_files) {
