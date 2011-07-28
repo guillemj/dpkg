@@ -315,8 +315,6 @@ sub check_patches_applied {
 sub generate_patch {
     my ($self, $dir, %opts) = @_;
     my ($dirname, $updir) = fileparse($dir);
-    my $sourcepackage = $self->{'fields'}{'Source'};
-    my $basenamerev = $self->get_basename(1);
     my $basedirname = $self->get_basename();
     $basedirname =~ s/_/-/;
 
@@ -343,7 +341,7 @@ sub generate_patch {
           $self->upstream_tarball_template()) unless $tarfile;
 
     info(_g("building %s using existing %s"),
-	 $sourcepackage, "@origtarballs");
+         $self->{'fields'}{'Source'}, "@origtarballs");
 
     # Unpack a second copy for comparison
     my $tmp = tempdir("$dirname.orig.XXXXXX", DIR => $updir);
@@ -369,23 +367,21 @@ sub generate_patch {
     $self->apply_patches($tmp, skip_auto => 1, usage => 'build');
 
     # Create a patch
-    my $autopatch = File::Spec->catfile($dir, "debian", "patches",
-                                        $self->get_autopatch_name());
-    my ($difffh, $tmpdiff) = tempfile("$basenamerev.diff.XXXXXX",
+    my ($difffh, $tmpdiff) = tempfile($self->get_basename(1) . ".diff.XXXXXX",
                                       DIR => $updir, UNLINK => 0);
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => "none");
     $diff->create();
-    $diff->set_header($self->get_patch_header($dir, $autopatch));
+    $diff->set_header($self->get_patch_header($dir));
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
             %{$self->{'diff_options'}},
             handle_binary_func => $opts{'handle_binary'},
             order_from => $opts{'order_from'});
     error(_g("unrepresentable changes to source")) if not $diff->finish();
 
-    if (-s $autopatch) {
-        info(_g("local changes stored in %s, the modified files are:"), $autopatch);
+    if (-s $tmpdiff) {
+        info(_g("local changes detected, the modified files are:"));
         my $analysis = $diff->analyze($dir, verbose => 0);
         foreach my $fn (sort keys %{$analysis->{'filepatched'}}) {
             print " $fn\n";
@@ -509,6 +505,7 @@ sub do_build {
     if (-e $autopatch and $self->{'options'}{'abort_on_upstream_changes'}) {
         error(_g("aborting due to --abort-on-upstream-changes"));
     }
+    info(_g("local changes have been recorded in a new patch: %s"), $autopatch);
     rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     pop @Dpkg::Exit::handlers;
