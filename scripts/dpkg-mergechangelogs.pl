@@ -286,5 +286,5 @@ sub get_conflict_block($$) {
     push @b, $b if defined $b;
     @a = @{$a} if ref($a) eq "ARRAY";
     @b = @{$b} if ref($b) eq "ARRAY";
-    return ("<<<<<<", @a, "======", @b, ">>>>>>");
+    return ("<<<<<<<", @a, "=======", @b, ">>>>>>>");
 }
