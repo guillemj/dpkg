@@ -40,6 +40,7 @@ use File::Temp qw(tempfile tempdir);
 use File::Path;
 use File::Spec;
 use File::Find;
+use File::Copy;
 
 our $CURRENT_MINOR_VERSION = "0";
 
@@ -471,31 +472,22 @@ sub do_build {
             %{$self->{'diff_options'}}, handle_binary_func => $handle_binary,
             order_from => $autopatch);
     error(_g("unrepresentable changes to source")) if not $diff->finish();
-    # The previous auto-patch must be removed, it has not been used and it
-    # will be recreated if it's still needed
-    if (-e $autopatch) {
-        unlink($autopatch) || syserr(_g("cannot remove %s"), $autopatch);
-    }
     # Install the diff as the new autopatch
-    if (not -s $tmpdiff) {
-        unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
-    } else {
-        mkpath(File::Spec->catdir($dir, "debian", "patches"));
+    mkpath(File::Spec->catdir($dir, "debian", "patches"));
+    $autopatch = $self->register_patch($dir, $tmpdiff,
+                                       $self->get_autopatch_name());
+    if (-s $autopatch) {
         info(_g("local changes stored in %s, the modified files are:"), $autopatch);
         my $analysis = $diff->analyze($dir, verbose => 0);
         foreach my $fn (sort keys %{$analysis->{'filepatched'}}) {
             print " $fn\n";
         }
-        rename($tmpdiff, $autopatch) ||
-                syserr(_g("cannot rename %s to %s"), $tmpdiff, $autopatch);
-        chmod(0666 & ~ umask(), $autopatch) ||
-                syserr(_g("unable to change permission of `%s'"), $autopatch);
     }
-    $self->register_autopatch($dir);
     if (-e $autopatch and $self->{'options'}{'abort_on_upstream_changes'}) {
         error(_g("aborting due to --abort-on-upstream-changes"));
     }
     rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
+    unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     pop @Dpkg::Exit::handlers;
 
     # Remove the temporary directory
@@ -571,16 +563,22 @@ Last-Update: <YYYY-MM-DD>\n\n";
     return $text;
 }
 
-sub register_autopatch {
-    my ($self, $dir) = @_;
-    my $autopatch = File::Spec->catfile($dir, "debian", "patches",
-                                        $self->get_autopatch_name());
-    if (-e $autopatch) {
+sub register_patch {
+    my ($self, $dir, $patch_file, $patch_name) = @_;
+    my $patch = File::Spec->catfile($dir, "debian", "patches", $patch_name);
+    if (-s $patch_file) {
+        copy($patch_file, $patch) ||
+            syserr(_g("failed to copy %s to %s"), $patch_file, $patch);
+        chmod(0666 & ~ umask(), $patch) ||
+                syserr(_g("unable to change permission of `%s'"), $patch);
         my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
         open(APPLIED, '>>', $applied) || syserr(_g("cannot write %s"), $applied);
-        print APPLIED ($self->get_autopatch_name() . "\n");
-        close(APPLIED);
+        print APPLIED "$patch\n";
+        close(APPLIED) || syserr(_g("cannot close %s"), $applied);
+    } elsif (-e $patch) {
+        unlink($patch) || syserr(_g("cannot remove %s"), $patch);
     }
+    return $patch;
 }
 
 # vim:et:sw=4:ts=8

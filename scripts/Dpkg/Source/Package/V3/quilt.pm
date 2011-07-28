@@ -35,6 +35,7 @@ use POSIX;
 use File::Basename;
 use File::Spec;
 use File::Path;
+use File::Copy;
 
 our $CURRENT_MINOR_VERSION = "0";
 
@@ -330,8 +331,8 @@ sub check_patches_applied {
     }
 }
 
-sub register_autopatch {
-    my ($self, $dir) = @_;
+sub register_patch {
+    my ($self, $dir, $tmpdiff, $patch_name) = @_;
 
     sub add_line {
         my ($file, $line) = @_;
@@ -350,38 +351,47 @@ sub register_autopatch {
         close(FILE);
     }
 
-    my $auto_patch = $self->get_autopatch_name();
     my @patches = $self->get_patches($dir);
-    my $has_patch = (grep { $_ eq $auto_patch } @patches) ? 1 : 0;
+    my $has_patch = (grep { $_ eq $patch_name } @patches) ? 1 : 0;
     my $series = $self->get_series_file($dir);
     $series ||= File::Spec->catfile($dir, "debian", "patches", "series");
     my $applied = File::Spec->catfile($dir, ".pc", "applied-patches");
-    my $patch = File::Spec->catfile($dir, "debian", "patches", $auto_patch);
+    my $patch = File::Spec->catfile($dir, "debian", "patches", $patch_name);
+
+    if (-s $tmpdiff) {
+        copy($tmpdiff, $patch) ||
+            syserr(_g("failed to copy %s to %s"), $tmpdiff, $patch);
+        chmod(0666 & ~ umask(), $patch) ||
+            syserr(_g("unable to change permission of `%s'"), $patch);
+    } elsif (-e $patch) {
+        unlink($patch) || syserr(_g("cannot remove %s"), $patch);
+    }
 
     if (-e $patch) {
         $self->create_quilt_db($dir);
-        # Add auto_patch to series file
+        # Add patch to series file
         if (not $has_patch) {
-            add_line($series, $auto_patch);
-            add_line($applied, $auto_patch);
+            add_line($series, $patch_name);
+            add_line($applied, $patch_name);
         }
         # Ensure quilt meta-data are created and in sync with some trickery:
         # reverse-apply the patch, drop .pc/$patch, re-apply it
         # with the correct options to recreate the backup files
         my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
         $patch_obj->apply($dir, add_options => ['-R', '-E'], verbose => 0);
-        erasedir(File::Spec->catdir($dir, ".pc", $auto_patch));
-        $self->apply_quilt_patch($dir, $auto_patch);
+        erasedir(File::Spec->catdir($dir, ".pc", $patch_name));
+        $self->apply_quilt_patch($dir, $patch_name);
     } else {
         # Remove auto_patch from series
         if ($has_patch) {
-            drop_line($series, $auto_patch);
-            drop_line($applied, $auto_patch);
-            erasedir(File::Spec->catdir($dir, ".pc", $auto_patch));
+            drop_line($series, $patch_name);
+            drop_line($applied, $patch_name);
+            erasedir(File::Spec->catdir($dir, ".pc", $patch_name));
         }
         # Clean up empty series
         unlink($series) if not -s $series;
     }
+    return $patch;
 }
 
 # vim:et:sw=4:ts=8
