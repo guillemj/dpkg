@@ -4,6 +4,7 @@ dist_pkgdata_DATA = \
 	architecture.mk \
 	buildflags.mk \
 	default.mk \
+	pkg-info.mk \
 	vendor.mk
 
 do_path_subst = $(AM_V_GEN) \
