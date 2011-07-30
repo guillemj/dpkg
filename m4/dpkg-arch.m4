@@ -6,9 +6,10 @@
 # Use dpkg-architecture from the source tree to set sh_var using DEB_VAR for
 # the target architecture, to avoid duplicating its logic.
 AC_DEFUN([_DPKG_ARCHITECTURE], [
+AC_REQUIRE([DPKG_PROG_PERL])dnl
 AC_REQUIRE([AC_CANONICAL_HOST])dnl
 $2=$(cd $srcdir/scripts; \
-    PERL5LIB=$(pwd) ./dpkg-architecture.pl -t$host -q$1 2>/dev/null)
+    PERL5LIB=$(pwd) $PERL dpkg-architecture.pl -t$host -q$1 2>/dev/null)
 ])# _DPKG_ARCHITECURE
 
 # DPKG_CPU_TYPE
