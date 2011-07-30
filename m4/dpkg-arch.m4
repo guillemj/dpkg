@@ -57,7 +57,11 @@ AC_DEFUN([DPKG_ARCHITECTURE],
 DPKG_OS_TYPE
 AC_MSG_CHECKING([dpkg architecture name])
 _DPKG_ARCHITECTURE([DEB_HOST_ARCH], [dpkg_arch])
-AC_MSG_RESULT([$dpkg_arch])
+if test "x$dpkg_arch" = "x"; then
+	AC_MSG_ERROR([cannot determine host dpkg architecture])
+else
+	AC_MSG_RESULT([$dpkg_arch])
+fi
 AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_arch}",
 	[Set this to the canonical dpkg architecture name.])
 ])# DPKG_ARCHITECTURE
