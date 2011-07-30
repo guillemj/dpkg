@@ -7,7 +7,6 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 
 AC_USE_SYSTEM_EXTENSIONS
-DPKG_ARCHITECTURE
 
 AM_INIT_AUTOMAKE([1.8 foreign nostdinc])
 
@@ -89,10 +88,12 @@ AC_CHECK_FUNCS([strtoul strtoimax isascii bcopy memcpy setsid getdtablesize \
 
 DPKG_MMAP
 
+# Checks for the build machinery.
 AC_DEFINE(LIBDPKG_VOLATILE_API, 1, [Acknowledge the volatility of the API.])
 DPKG_COMPILER_WARNINGS
 DPKG_COMPILER_OPTIMISATIONS
 DPKG_LINKER_OPTIMISATIONS
+DPKG_ARCHITECTURE
 
 AC_CONFIG_FILES([ Makefile
 		  dpkg-deb/Makefile
