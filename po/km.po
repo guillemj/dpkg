@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg_po_km\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2011-04-02 00:59+0200\n"
+"POT-Creation-Date: 2011-08-01 22:21+0200\n"
 "PO-Revision-Date: 2006-10-04 09:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team:  <en@li.org>\n"
@@ -24,7 +24,7 @@ msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr ""
 
 #: lib/dpkg/ar.c:81 lib/dpkg/ar.c:97 lib/dpkg/ar.c:108 lib/dpkg/ar.c:112
-#: lib/dpkg/ar.c:134
+#: lib/dpkg/ar.c:134 utils/update-alternatives.c:1114
 #, fuzzy, c-format
 msgid "unable to write file '%s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
@@ -44,71 +44,77 @@ msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្
 msgid "ar member file (%s)"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត tmpfile (ទិន្នន័យ)"
 
-#: lib/dpkg/buffer.c:194
+#: lib/dpkg/buffer.c:195
 #, fuzzy, c-format
 msgid "failed to read on buffer copy for %s"
 msgstr "បាន​បរាជ័​​យនៅក្នុង buffer_copy (%s)"
 
-#: lib/dpkg/buffer.c:196
+#: lib/dpkg/buffer.c:197
 #, fuzzy, c-format
 msgid "failed in write on buffer copy for %s"
 msgstr "បាន​បរាជ័​​យនៅក្នុង buffer_copy (%s)"
 
-#: lib/dpkg/buffer.c:198
+#: lib/dpkg/buffer.c:199
 #, fuzzy, c-format
 msgid "short read on buffer copy for %s"
 msgstr "ការអាន​ខ្លី​នៅក្នុង ការចម្លង​សតិបណ្ដោះអាសន្ន (%s)"
 
-#: lib/dpkg/command.c:182 lib/dpkg/command.c:208 src/help.c:584
-#: src/processarc.c:98 src/processarc.c:138 src/processarc.c:410
-#: src/processarc.c:806 dpkg-deb/build.c:459 dpkg-deb/build.c:533
-#: dpkg-deb/build.c:557 dpkg-deb/extract.c:312 dpkg-deb/info.c:65
-#: dpkg-split/split.c:68
+#: lib/dpkg/buffer.c:262
+#, fuzzy, c-format
+#| msgid "failed to exec tar"
+msgid "failed to seek %s"
+msgstr "បាន​បរាជ័យ​ទៅ exec tar"
+
+#: lib/dpkg/command.c:179 lib/dpkg/command.c:205 src/help.c:621
+#: src/processarc.c:98 src/processarc.c:138 src/processarc.c:422
+#: src/processarc.c:829 dpkg-deb/build.c:459 dpkg-deb/build.c:538
+#: dpkg-deb/build.c:561 dpkg-deb/extract.c:317 dpkg-deb/info.c:65
+#: dpkg-split/split.c:68 utils/update-alternatives.c:433
 #, fuzzy, c-format
 msgid "unable to execute %s (%s)"
 msgstr "មិន​អាច​ប្រតិបត្តិ %s"
 
-#: lib/dpkg/compress.c:77
+#: lib/dpkg/compress.c:83
 #, c-format
 msgid "%s: decompression"
 msgstr "%s ៖ មិន​បង្ហាប់​"
 
-#: lib/dpkg/compress.c:84
+#: lib/dpkg/compress.c:89
 #, c-format
 msgid "%s: compression"
 msgstr "%s ៖ បង្ហាប់​"
 
-#: lib/dpkg/compress.c:108
+#: lib/dpkg/compress.c:112
 #, c-format
 msgid "%s: error binding input to gzip stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:120
+#: lib/dpkg/compress.c:124
 #, fuzzy, c-format
 msgid "%s: internal gzip read error: '%s'"
 msgstr "%s ៖ កំហុស​ gzip ខាងក្នុង​ ៖ `%s'"
 
-#: lib/dpkg/compress.c:128 lib/dpkg/compress.c:132
+#: lib/dpkg/compress.c:132 lib/dpkg/compress.c:136
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s ៖ កំហុស​ gzip ខាងក្នុង​ ៖ `%s'"
 
-#: lib/dpkg/compress.c:148
+#: lib/dpkg/compress.c:150
 #, c-format
 msgid "%s: error binding output to gzip stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:155
+#: lib/dpkg/compress.c:157
 #, fuzzy, c-format
 msgid "%s: internal gzip read error"
 msgstr "%s ៖ កំហុស​ gzip ខាងក្នុង​ ៖ `%s'"
 
-#: lib/dpkg/compress.c:165
+#: lib/dpkg/compress.c:167
 #, fuzzy, c-format
 msgid "%s: internal gzip write error: '%s'"
 msgstr "%s ៖ កំហុស​ gzip ខាងក្នុង​ ៖ `%s'"
 
-#: lib/dpkg/compress.c:178
+#: lib/dpkg/compress.c:180
 #, fuzzy, c-format
 msgid "%s: internal gzip write error: %s"
 msgstr "%s ៖ កំហុស​ gzip ខាងក្នុង​ ៖ `%s'"
@@ -123,27 +129,27 @@ msgstr ""
 msgid "%s: internal bzip2 read error: '%s'"
 msgstr "%s ៖ កំហុស bzip2 ខាង​ក្នុង ៖ `%s'"
 
-#: lib/dpkg/compress.c:240 lib/dpkg/compress.c:244 lib/dpkg/compress.c:296
+#: lib/dpkg/compress.c:240 lib/dpkg/compress.c:244 lib/dpkg/compress.c:294
 #, fuzzy, c-format
 msgid "%s: internal bzip2 write error"
 msgstr "%s ៖ កំហុស bzip2 ខាង​ក្នុង ៖ `%s'"
 
-#: lib/dpkg/compress.c:260
+#: lib/dpkg/compress.c:258
 #, c-format
 msgid "%s: error binding output to bzip2 stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:267
+#: lib/dpkg/compress.c:265
 #, fuzzy, c-format
 msgid "%s: internal bzip2 read error"
 msgstr "%s ៖ កំហុស bzip2 ខាង​ក្នុង ៖ `%s'"
 
-#: lib/dpkg/compress.c:277 lib/dpkg/compress.c:288
+#: lib/dpkg/compress.c:275 lib/dpkg/compress.c:286
 #, fuzzy, c-format
 msgid "%s: internal bzip2 write error: '%s'"
 msgstr "%s ៖ កំហុស bzip2 ខាង​ក្នុង ៖ `%s'"
 
-#: lib/dpkg/compress.c:284
+#: lib/dpkg/compress.c:282
 msgid "unexpected bzip2 error"
 msgstr ""
 
@@ -273,90 +279,92 @@ msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%
 msgid "unable to open directory '%s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
-#: lib/dpkg/dir.c:109 src/divertcmd.c:217 dpkg-split/split.c:201
+#: lib/dpkg/dir.c:109 src/divertcmd.c:218 dpkg-split/split.c:204
+#: utils/update-alternatives.c:1253
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
-#: lib/dpkg/dir.c:111 src/divertcmd.c:231 src/divertcmd.c:376
-#: src/statcmd.c:216 dpkg-deb/build.c:594 dpkg-split/join.c:65
-#: dpkg-split/queue.c:187
+#: lib/dpkg/dir.c:111 src/divertcmd.c:232 src/divertcmd.c:377
+#: src/statcmd.c:217 dpkg-deb/build.c:598 dpkg-split/join.c:65
+#: dpkg-split/queue.c:188 utils/update-alternatives.c:1366
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:233 src/divertcmd.c:378
-#: dpkg-deb/build.c:596 dpkg-split/join.c:67 dpkg-split/queue.c:189
+#: lib/dpkg/dir.c:113 src/divertcmd.c:234 src/divertcmd.c:379
+#: dpkg-deb/build.c:600 dpkg-split/join.c:67 dpkg-split/queue.c:190
+#: utils/update-alternatives.c:1274 utils/update-alternatives.c:1368
 #, fuzzy, c-format
 msgid "unable to close file '%s'"
 msgstr "មិន​អាច​បង្ហូរ​ចូល​ក្នុងឯកសារ​ vsnprintf"
 
-#: lib/dpkg/dump.c:397
+#: lib/dpkg/dump.c:396
 #, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr "បានបរាជ័យក្នុងការសរសេរសេចក្ដីលម្អិតរបស់ `%.50s' ទៅ `%.250s'"
 
-#: lib/dpkg/dump.c:424
+#: lib/dpkg/dump.c:423
 #, fuzzy, c-format
 msgid "failed to open '%s' for writing %s database"
 msgstr "បានបរាជ័យក្នុងការបើក `%s' ដើម្បីសរសេរព័ត៌មានរបស់ %s"
 
-#: lib/dpkg/dump.c:427
+#: lib/dpkg/dump.c:426
 #, fuzzy, c-format
 msgid "unable to set buffering on %s database file"
 msgstr "មិនអាចកំណត់សតិបណ្ដោះអាសន្ននៅលើឯកសារស្ថានភាពបានទេ"
 
-#: lib/dpkg/dump.c:439
+#: lib/dpkg/dump.c:438
 #, fuzzy, c-format
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​កំណត់ត្រា %s អំពី `%.50s' ទៅ `%.250s'"
 
-#: lib/dpkg/dump.c:447
+#: lib/dpkg/dump.c:446
 #, fuzzy, c-format
 msgid "failed to flush %s database to '%.250s'"
 msgstr "បាន​បរាជ័យ​ក្នុងការ​បញ្ចូល​ព័ត៌មាន​របស់ %s ទៅ `%.250s'"
 
-#: lib/dpkg/dump.c:449
+#: lib/dpkg/dump.c:448
 #, fuzzy, c-format
 msgid "failed to fsync %s database to '%.250s'"
 msgstr "បានបរាជ័យ​ក្នុងការ fsync ព័ត៌មាន %s ទៅ `%.250s'"
 
-#: lib/dpkg/dump.c:452
+#: lib/dpkg/dump.c:451
 #, fuzzy, c-format
 msgid "failed to close '%.250s' after writing %s database"
 msgstr "បានបរាជ័យក្នុងការបិទ `%.250s' បន្ទាប់ពីការសរសេរព័ត៌មានរបស់ %s"
 
-#: lib/dpkg/dump.c:456
+#: lib/dpkg/dump.c:455
 #, fuzzy, c-format
 msgid "failed to link '%.250s' to '%.250s' for backup of %s database"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​តភ្ជាប់ `%.250s' ទៅ `%.250s' សម្រាប់​ព័ត៌មាន​បម្រុង​ទុក​របស់​ព័ត៌មាន %s"
 
-#: lib/dpkg/dump.c:459
+#: lib/dpkg/dump.c:458
 #, fuzzy, c-format
 msgid "failed to install '%.250s' as '%.250s' containing %s database"
 msgstr "បាន​បរាជ័យ​ក្នុងការ​ដំឡើង `%.250s' ជា `%.250s' ដែល​មាន​ព័ត៌មាន​របស់ %s"
 
-#: lib/dpkg/ehandle.c:93
+#: lib/dpkg/ehandle.c:94
 #, c-format
 msgid ""
 "%s: unrecoverable fatal error, aborting:\n"
 " %s\n"
 msgstr ""
 
-#: lib/dpkg/ehandle.c:99
+#: lib/dpkg/ehandle.c:100
 #, c-format
 msgid ""
 "%s: outside error context, aborting:\n"
 " %s\n"
 msgstr ""
 
-#: lib/dpkg/ehandle.c:119
+#: lib/dpkg/ehandle.c:120
 #, fuzzy
 #| msgid "out of memory for new cleanup entry"
 msgid "out of memory for new error context"
 msgstr "អស់​សតិ​សម្រាប់​ការ​សម្អាត​ធាតុ​ថ្មី"
 
-#: lib/dpkg/ehandle.c:182
+#: lib/dpkg/ehandle.c:183
 #, c-format
 msgid ""
 "%s: error while cleaning up:\n"
@@ -365,35 +373,35 @@ msgstr ""
 "%s ៖ កំហុស​ខណៈពេល​សម្អាត ៖\n"
 " %s\n"
 
-#: lib/dpkg/ehandle.c:199
+#: lib/dpkg/ehandle.c:201
 #, fuzzy, c-format
 #| msgid "dpkg: too many nested errors during error recovery !!\n"
 msgid "%s: too many nested errors during error recovery!!\n"
 msgstr "dpkg ៖ មាន​កំហុស​ខាង​ក្នុង​ជា​ច្រើន កំឡុង​ពេល​សង្គ្រោះ​កំហុស !!\n"
 
-#: lib/dpkg/ehandle.c:266 lib/dpkg/ehandle.c:305
+#: lib/dpkg/ehandle.c:268 lib/dpkg/ehandle.c:307
 msgid "out of memory for new cleanup entry"
 msgstr "អស់​សតិ​សម្រាប់​ការ​សម្អាត​ធាតុ​ថ្មី"
 
-#: lib/dpkg/ehandle.c:289
+#: lib/dpkg/ehandle.c:291
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "អស់​សតិ​សម្រាប់​ការ​សម្អាត​ធាតុ​ថ្មី​ដែលមាន​អាគុយម៉ង់ជា​ច្រើន"
 
-#: lib/dpkg/ehandle.c:350
+#: lib/dpkg/ehandle.c:352
 #, fuzzy, c-format
 msgid "%s: error: %s\n"
 msgstr ""
 "%s ៖ កំហុស​ខណៈពេល​សម្អាត ៖\n"
 " %s\n"
 
-#: lib/dpkg/ehandle.c:391
+#: lib/dpkg/ehandle.c:393
 #, fuzzy, c-format
 msgid "%s: warning: %s\n"
 msgstr ""
 "%s ៖ កំហុស​ខណៈពេល​សម្អាត ៖\n"
 " %s\n"
 
-#: lib/dpkg/ehandle.c:414
+#: lib/dpkg/ehandle.c:416
 #, fuzzy, c-format
 msgid "%s:%s:%d: internal error: %s\n"
 msgstr "%s ៖%d ៖ កំហុស​ខាង​ក្នុង%s'\n"
@@ -409,106 +417,106 @@ msgstr "បាត់ %s "
 msgid "'%.50s' is not allowed for %s"
 msgstr "`%.*s' មិន​ត្រូវបា​នអនុ​ញ្ញាតសម្រាប់ %s"
 
-#: lib/dpkg/fields.c:68
+#: lib/dpkg/fields.c:73
 #, c-format
 msgid "junk after %s"
 msgstr "ឥតបានការ​បន្ទាប់ពី %s"
 
-#: lib/dpkg/fields.c:82
+#: lib/dpkg/fields.c:87
 #, c-format
 msgid "invalid package name (%.250s)"
 msgstr "ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ (%.250s)"
 
-#: lib/dpkg/fields.c:97
+#: lib/dpkg/fields.c:102
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "សម្អាត​វាល​លម្អិត​ឯកសារ `%s'"
 
-#: lib/dpkg/fields.c:100
+#: lib/dpkg/fields.c:105
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "វាល​លម្អិត​ឯកសារ `%s' មិន​បាន​អនុញ្ញាត​ក្នុង​ឯកសារ​ស្ថានភាព"
 
-#: lib/dpkg/fields.c:113
+#: lib/dpkg/fields.c:118
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr "មាន​តម្លៃ​ច្រើន​ពេក​នៅក្នុង​វាល​លម្អិត​ឯកសារ `%s' (បាន​ប្រៀបធៀប​ទៅនឹងអា​ា​ផ្សេងទៀត)"
 
-#: lib/dpkg/fields.c:127
+#: lib/dpkg/fields.c:132
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr "មាន​តម្លៃ​មួយ​ចំនួន​នៅ​ក្នុង​វាល​លម្អិត​ឯកសារ `%s' (បាន​ប្រៀបធៀប​នឹងអា​ផ្សេង​ទៀត)"
 
-#: lib/dpkg/fields.c:149
+#: lib/dpkg/fields.c:154
 msgid "yes/no in boolean field"
 msgstr "បាទ ចាស/ទេ នៅក្នុង​វាល​ប៊ូលីន​"
 
-#: lib/dpkg/fields.c:169
+#: lib/dpkg/fields.c:174
 msgid "word in `priority' field"
 msgstr "ពាក្យ​នៅ​​​ក្នុងវាល​ `អាទិភាព'"
 
-#: lib/dpkg/fields.c:181
+#: lib/dpkg/fields.c:186
 msgid "value for `status' field not allowed in this context"
 msgstr "តម្លៃ​សម្រា​ប់វាល `ស្ថានភាព' មិន​បាន​អនុញ្ញាត​នៅ​ក្នុង​បរិបទ​នេះ"
 
-#: lib/dpkg/fields.c:186
+#: lib/dpkg/fields.c:191
 msgid "first (want) word in `status' field"
 msgstr "ទី ១ (ចង់បាន) ពាក្យនៅក្នុងវាល `ស្ថានភាព'"
 
-#: lib/dpkg/fields.c:189
+#: lib/dpkg/fields.c:194
 msgid "second (error) word in `status' field"
 msgstr "ទី ២ (កំហុស) ពាក្យ​នៅ​ក្នុង​វាល `ស្ថានភាព'"
 
-#: lib/dpkg/fields.c:192
+#: lib/dpkg/fields.c:197
 msgid "third (status) word in `status' field"
 msgstr "ទី ៣ (ស្ថានភាព) ពាក្យ​នៅក្នុង​វាល `ស្ថានភាព'"
 
-#: lib/dpkg/fields.c:202
+#: lib/dpkg/fields.c:207
 #, fuzzy, c-format
 #| msgid "error in Version string `%.250s': %.250s"
 msgid "error in Version string '%.250s'"
 msgstr "កំហុស​នៅ​ក្នុង​ខ្សែ​អក្សរ​កំណែ `%.250s' ៖ %.250s"
 
-#: lib/dpkg/fields.c:213
+#: lib/dpkg/fields.c:218
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "វាល​ដែលហួសសម័យ `ការពិនិត្យ​ឡើងវិញ' ឬ `កញ្ចប់​ពិនិត្យ​ឡើងវិញ' បានប្រើ"
 
-#: lib/dpkg/fields.c:230
+#: lib/dpkg/fields.c:235
 msgid "value for `config-version' field not allowed in this context"
 msgstr "សម្លៃ​សម្រាប់​វាល `កំណែ​កំណត់​រចនាសម្ព័ន្ធ' មិន​បាន​អនុញ្ញាត​នៅ​ក្នុង​បរិបទ​នេះ"
 
-#: lib/dpkg/fields.c:235
+#: lib/dpkg/fields.c:240
 #, fuzzy, c-format
 #| msgid "error in Config-Version string `%.250s': %.250s"
 msgid "error in Config-Version string '%.250s'"
 msgstr "កំហុស​នៅ​ក្នុង​ខ្សែអក្សរ​កំណែ​កំណត់​រចនាសម្ព័ន្ធ `%.250s' ៖ %.250s"
 
-#: lib/dpkg/fields.c:262
+#: lib/dpkg/fields.c:267
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "តម្លៃ​សម្រាប់ `conffiles' មាន​បន្ទាត់ malformatted `%.*s'"
 
-#: lib/dpkg/fields.c:283
+#: lib/dpkg/fields.c:288
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr "តម្លៃ​សម្រាប់ `conffiles' មាន​បន្ទាត់​ដែលចាប់ផ្ដើម​ជាមួយ​ `%c' ដែលគ្មាន​ចន្លោះ"
 
-#: lib/dpkg/fields.c:300
+#: lib/dpkg/fields.c:305
 msgid "root or null directory is listed as a conffile"
 msgstr "ថត​មេ ឬ ថតទទេដែលត្រូវបាន​រាយ​ជា​ conffile"
 
-#: lib/dpkg/fields.c:361
+#: lib/dpkg/fields.c:366
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr "វាល `%s' ឈ្មោះ​កញ្ចប់​ដែល​បាត់ ឬ អ្វី​ដែលនៅសល់ ដែល​ឈ្មោះកញ្ចប់​ត្រូវបាន​រំពឹងទុក"
 
-#: lib/dpkg/fields.c:366
+#: lib/dpkg/fields.c:371
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "វាល `%s' ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ `%.255s' ៖ %s"
 
-#: lib/dpkg/fields.c:402
+#: lib/dpkg/fields.c:407
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -517,7 +525,7 @@ msgstr ""
 "វាល `%s' សំអាង​លើ `%.255s' ៖\n"
 " ទំនាក់​ទំនង​កំណែ​មិនល្អ %c%c"
 
-#: lib/dpkg/fields.c:408
+#: lib/dpkg/fields.c:413
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -526,7 +534,7 @@ msgstr ""
 "វាល `%s' សំអាងលើ `%.255s' ៖\n"
 " `%c' ប្រើលែង​បាន ប្រើ `%c=' or `%c%c' ជំនួស​​​វិញ"
 
-#: lib/dpkg/fields.c:418
+#: lib/dpkg/fields.c:423
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -535,11 +543,11 @@ msgstr ""
 "វាល `%s' សំអាងលើ `%.255s' ៖\n"
 " ពិតជាដូចនឹងើ​លេខ​កំណែ​ទាំងស្រុង ផ្ដល់យោបល់​ឲ្យប្រើ `=' ជំនួសវិញ"
 
-#: lib/dpkg/fields.c:426
+#: lib/dpkg/fields.c:431
 msgid "Only exact versions may be used for Provides"
 msgstr "មាន​តែ​កំណែ​ជាក់លាក់​ប៉ុណ្ណោះ​អាច​ត្រូវ​បាន​ប្រើ​សម្រាប់​ការ​ផ្ដល់​ឲ្យ"
 
-#: lib/dpkg/fields.c:430
+#: lib/dpkg/fields.c:435
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -548,58 +556,58 @@ msgstr ""
 "វាល `%s' សំអាង​លើ `%.255s' ៖\n"
 " តម្លៃ​កំណែ​ចាប់ផ្ដើម​ដោយ​គ្មាន​អក្សរ​ក្រ​ម​លេខ​ ​ស្នើឲ្យប​ន្ថែមចន្លោះ"
 
-#: lib/dpkg/fields.c:447 lib/dpkg/fields.c:451
+#: lib/dpkg/fields.c:452 lib/dpkg/fields.c:456
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
 msgstr "វាល `%s' សំអាង​លើ `%.255s' ៖ កំណែ​មាន `%c'"
 
-#: lib/dpkg/fields.c:455
+#: lib/dpkg/fields.c:460
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "វាល `%s' សំអាង​លើ `%.255s' ៖ កំណែ​មិន​បាន​បញ្ចប់"
 
-#: lib/dpkg/fields.c:461
+#: lib/dpkg/fields.c:466
 #, fuzzy, c-format
 #| msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgid "'%s' field, reference to '%.255s': error in version"
 msgstr "វាល `%s' សំអាង​លើ `%.255s' ៖ កំហុស​នៅ​ក្នុង​កំណែ ៖ %.255s"
 
-#: lib/dpkg/fields.c:471
+#: lib/dpkg/fields.c:476
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "វាល `%s' កំហុស​វាក្យ​សម្ព័ន្ធ​បន្ទាប់​ពី​យោង​លើ​កញ្ចប់ `%.255s'"
 
-#: lib/dpkg/fields.c:478
+#: lib/dpkg/fields.c:483
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "សញ្ញា (`|') ជំនួស​មិន​បាន​អនុញ្ញាត​នៅ​ក្នុង​វាល %s"
 
-#: lib/dpkg/fields.c:532
+#: lib/dpkg/fields.c:537
 #, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr "សម្លៃ​សម្រាប់​វាល `កំណែ​កំណត់​រចនាសម្ព័ន្ធ' មិន​បាន​អនុញ្ញាត​នៅ​ក្នុង​បរិបទ​នេះ"
 
-#: lib/dpkg/fields.c:539
+#: lib/dpkg/fields.c:544
 #, fuzzy, c-format
 msgid "illegal pending trigger name `%.255s': %s"
 msgstr "វាល `%s' ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ `%.255s' ៖ %s"
 
-#: lib/dpkg/fields.c:543
+#: lib/dpkg/fields.c:548
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
 msgstr ""
 
-#: lib/dpkg/fields.c:557
+#: lib/dpkg/fields.c:562
 #, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr "តម្លៃ​សម្រា​ប់វាល `ស្ថានភាព' មិន​បាន​អនុញ្ញាត​នៅ​ក្នុង​បរិបទ​នេះ"
 
-#: lib/dpkg/fields.c:564
+#: lib/dpkg/fields.c:569
 #, fuzzy, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
 msgstr "ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ​នៅ​បន្ទាត់ %d ៖ %.250s"
 
-#: lib/dpkg/fields.c:570
+#: lib/dpkg/fields.c:575
 #, fuzzy, c-format
 msgid "duplicate awaited trigger package `%.255s'"
 msgstr "រាយ​កញ្ចប់​​ឯកសារ​ `%.250s'"
@@ -656,7 +664,7 @@ msgstr ""
 msgid "unable to write to status fd %d"
 msgstr "មិន​អាច​សរសេរ​ស្ថានភាព​ដែល​បាន​ធ្វើឲ្យ​ទាន់សម័យ​របស់`%.250s'"
 
-#: lib/dpkg/mlib.c:44 utils/update-alternatives.c:249
+#: lib/dpkg/mlib.c:44 utils/update-alternatives.c:262
 #, fuzzy, c-format
 msgid "malloc failed (%zu bytes)"
 msgstr "realloc បាន​បរាជ័យ​ (%ld បៃ​)"
@@ -666,8 +674,8 @@ msgstr "realloc បាន​បរាជ័យ​ (%ld បៃ​)"
 msgid "realloc failed (%zu bytes)"
 msgstr "realloc បាន​បរាជ័យ​ (%ld បៃ​)"
 
-#: lib/dpkg/mlib.c:72 lib/dpkg/mlib.c:90 utils/update-alternatives.c:264
-#: utils/update-alternatives.c:305 utils/update-alternatives.c:1056
+#: lib/dpkg/mlib.c:72 lib/dpkg/mlib.c:90 utils/update-alternatives.c:277
+#: utils/update-alternatives.c:318 utils/update-alternatives.c:1067
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត​ថត"
@@ -701,198 +709,204 @@ msgstr "មិនអាច​អាន​ទង់​កម្មវិធី​
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "មិនអាចកំណត់​ទង់​បិទនៅពេល​ប្រតិបត្តិ សម្រាប់​ %.250s បានឡើ"
 
-#: lib/dpkg/myopt.c:61
+#: lib/dpkg/options.c:63
 #, fuzzy, c-format
 msgid "configuration error: %s:%d: %s"
 msgstr "កំហុស​កំណត់​រចនាសម្ព័ន្ធ ៖ %s ត្រូវការ​តម្លៃ​មួយ"
 
-#: lib/dpkg/myopt.c:73
+#: lib/dpkg/options.c:75
 #, fuzzy, c-format
 msgid "failed to open configuration file '%.255s' for reading: %s"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%.255s' ដើម្បី​អាន"
 
-#: lib/dpkg/myopt.c:100
+#: lib/dpkg/options.c:102
 #, c-format
 msgid "unbalanced quotes in '%s'"
 msgstr ""
 
-#: lib/dpkg/myopt.c:115
+#: lib/dpkg/options.c:117
 #, fuzzy, c-format
 msgid "unknown option '%s'"
 msgstr "មិន​​ស្គា​ល់​ជម្រើស​ `%s'"
 
-#: lib/dpkg/myopt.c:119
+#: lib/dpkg/options.c:121
 #, fuzzy, c-format
 msgid "'%s' needs a value"
 msgstr "--%s ជម្រើស​យក​តម្លៃ"
 
-#: lib/dpkg/myopt.c:125
+#: lib/dpkg/options.c:127
 #, fuzzy, c-format
 msgid "'%s' does not take a value"
 msgstr "--%s ជម្រើស​មិន​យក​តម្លៃ"
 
-#: lib/dpkg/myopt.c:131
+#: lib/dpkg/options.c:133
 #, c-format
 msgid "read error in configuration file `%.255s'"
 msgstr "កំហុស​អាន​នៅ​ក្នុង​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%.255s'"
 
-#: lib/dpkg/myopt.c:132
+#: lib/dpkg/options.c:134
 #, c-format
 msgid "error closing configuration file `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​បិទ​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%.255s'"
 
-#: lib/dpkg/myopt.c:168
+#: lib/dpkg/options.c:170
 #, fuzzy, c-format
 msgid "error opening configuration directory '%s'"
 msgstr "កំហុស​ក្នុង​ការ​បិទ​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%.255s'"
 
-#: lib/dpkg/myopt.c:221
+#: lib/dpkg/options.c:228
 #, c-format
 msgid "unknown option --%s"
 msgstr "មិន​ស្គាល់​ជម្រើស --%s"
 
-#: lib/dpkg/myopt.c:225
+#: lib/dpkg/options.c:232
 #, c-format
 msgid "--%s option takes a value"
 msgstr "--%s ជម្រើស​យក​តម្លៃ"
 
-#: lib/dpkg/myopt.c:230
+#: lib/dpkg/options.c:237
 #, c-format
 msgid "--%s option does not take a value"
 msgstr "--%s ជម្រើស​មិន​យក​តម្លៃ"
 
-#: lib/dpkg/myopt.c:238
+#: lib/dpkg/options.c:245
 #, c-format
 msgid "unknown option -%c"
 msgstr "មិន​ស្គា​ល់ជម្រើស -%c"
 
-#: lib/dpkg/myopt.c:243
+#: lib/dpkg/options.c:250
 #, c-format
 msgid "-%c option takes a value"
 msgstr "-%c ជម្រើស​យក​តម្លៃ"
 
-#: lib/dpkg/myopt.c:251
+#: lib/dpkg/options.c:258
 #, c-format
 msgid "-%c option does not take a value"
 msgstr "-%c ជម្រើស​មិន​យក​តម្លៃ"
 
-#: lib/dpkg/myopt.c:264
+#: lib/dpkg/options.c:271
 #, fuzzy, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "ព្រមាន ៖ ជម្រើសលែងប្រើ `--%s'\n"
 
-#: lib/dpkg/myopt.c:280
+#: lib/dpkg/options.c:287
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "សកម្មភាព​ប៉ះទង្គិច​ -%c (--%s) និង​ -%c (--%s)"
 
-#: lib/dpkg/parse.c:121
+#: lib/dpkg/parse.c:131
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "តម្លៃ​ស្ទួ​នស​ម្រាប់វាល `%s'"
 
-#: lib/dpkg/parse.c:133
+#: lib/dpkg/parse.c:143
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "អ្នក​ប្រើ-ឈ្មោះ​វាល​ដែល​បាន​កំណត់ `%.*s' ខ្លី​ពេក"
 
-#: lib/dpkg/parse.c:139
+#: lib/dpkg/parse.c:149
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "តម្លៃ​ស្ទួន​សម្រាប់​អ្នកប្រើ-វាល​ដែល​បាន​កំណត់ `%.*s'"
 
-#: lib/dpkg/parse.c:186
+#: lib/dpkg/parse.c:204
 msgid "Configured-Version for package with inappropriate Status"
 msgstr "កំណែ​ដែល​បាន​កំណត់​រចនាសម្ព័ន្ធ​សម្រាប់​កញ្ចប់​ដែល​មាន​ស្ថានភាព​មិន​ត្រឹមត្រូវ"
 
-#: lib/dpkg/parse.c:197
+#: lib/dpkg/parse.c:215
 #, c-format
 msgid "package has status %s but triggers are awaited"
 msgstr ""
 
-#: lib/dpkg/parse.c:201
+#: lib/dpkg/parse.c:219
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
 
-#: lib/dpkg/parse.c:207
+#: lib/dpkg/parse.c:225
 #, c-format
 msgid "package has status %s but triggers are pending"
 msgstr ""
 
-#: lib/dpkg/parse.c:211
+#: lib/dpkg/parse.c:229
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
 
-#: lib/dpkg/parse.c:221
+#: lib/dpkg/parse.c:239
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr "កញ្ចប់​ដែល​ឋិត​នៅក្នុង​ស្ថានភាព​មិនទាន់​បានដំឡើង មាន conffiles បំភ្លេចពួកវា"
 
-#: lib/dpkg/parse.c:328
+#: lib/dpkg/parse.c:346
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ​ព័ត៌មាន​កញ្ចប់ `%.255s' ដើម្បី​អាន"
 
-#: lib/dpkg/parse.c:333
+#: lib/dpkg/parse.c:351
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ព័ត៌មាន​កញ្ចប់ `%.255s' បាន​ទេ"
 
-#: lib/dpkg/parse.c:339
+#: lib/dpkg/parse.c:357
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr "មិន​អាច​ផ្គូផ្គង​ឯកសារ​ព័ត៌មាន​កញ្ចប់ `​%.255s' បានទេ"
 
-#: lib/dpkg/parse.c:344
+#: lib/dpkg/parse.c:362
 #, fuzzy, c-format
 #| msgid "can't stat package info file `%.255s'"
 msgid "reading package info file '%.255s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ព័ត៌មាន​កញ្ចប់ `%.255s' បាន​ទេ"
 
-#: lib/dpkg/parse.c:380
+#: lib/dpkg/parse.c:400
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "ចុង​ឯកសា​របន្ទាប់​ពី​ឈ្មោះ `%.*s'"
 
-#: lib/dpkg/parse.c:383
+#: lib/dpkg/parse.c:403
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "បន្ទាត់​ថ្មី​នៅ​ក្នុង​ឈ្មោះ​វាល `%.*s'"
 
-#: lib/dpkg/parse.c:386
+#: lib/dpkg/parse.c:406
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "MSDOS EOF (^Z) នៅ​ក្នុង​ឈ្មោះ​វាល `%.*s'"
 
-#: lib/dpkg/parse.c:390
+#: lib/dpkg/parse.c:410
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "ឈ្មោះវាល `%.*s' ត្រូវតែបានអមដោយសញ្ញា (:)"
 
-#: lib/dpkg/parse.c:399
+#: lib/dpkg/parse.c:419
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr "EOF មុន​តម្លៃ​របស់វាល `%.*s' (បាត់​បន្ទាត់​ថ្មី​ចុងក្រោយ)"
 
-#: lib/dpkg/parse.c:403
+#: lib/dpkg/parse.c:423
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "តួអក្សរ MSDOS EOF ក្នុង​តម្លៃ​របស់វាល `%.*s' (បាត់បង់​បន្ទាត់​ថ្មីឬ ?)"
 
-#: lib/dpkg/parse.c:417
+#: lib/dpkg/parse.c:433
+#, fuzzy, c-format
+#| msgid "newline in field name `%.*s'"
+msgid "blank line in value of field '%.*s'"
+msgstr "បន្ទាត់​ថ្មី​នៅ​ក្នុង​ឈ្មោះ​វាល `%.*s'"
+
+#: lib/dpkg/parse.c:449
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "ចុង​​ឯកសារ​ តម្លៃ​វាល `%.*s' (បាត់បង់​បន្ទាត់​ថ្មីចុង​ក្រោយ​)"
 
-#: lib/dpkg/parse.c:434
+#: lib/dpkg/parse.c:466
 msgid "several package info entries found, only one allowed"
 msgstr "រកឃើញ​ធាតុ​ព័ត៌មាន​កញ្ចប់​ជា​ច្រើន មាន​តែ​មួយ​ប៉ុណ្ណោះ​បាន​អនុញ្ញាត"
 
-#: lib/dpkg/parse.c:466
+#: lib/dpkg/parse.c:498
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បិទ​បន្ទាប់​ពី​អាន ៖ `%.255s'"
 
-#: lib/dpkg/parse.c:467
+#: lib/dpkg/parse.c:499
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "គ្មាន​ព័ត៌មាន​កញ្ចប់​នៅ​ក្នុង `%.255s'"
@@ -926,51 +940,51 @@ msgstr "ត្រូវ​តែ​ចាប់ផ្ដើម​ដោយ​អ
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "តួអក្សរ​ `%c' មិន​បានអនុញ្ញាត​ (បាន​តែ​អក្សរ​, តួលេខ​ និង​តួអក្សរ​ `%s')"
 
-#: lib/dpkg/parsehelp.c:198
+#: lib/dpkg/parsehelp.c:180
 #, fuzzy
 #| msgid "<none>"
 msgctxt "version"
 msgid "<none>"
 msgstr "<គ្មាន>"
 
-#: lib/dpkg/parsehelp.c:215
+#: lib/dpkg/parsehelp.c:197
 msgid "version string is empty"
 msgstr "ខ្សែ​អក្សរ​កំណែ​គឺ​ទទេ"
 
-#: lib/dpkg/parsehelp.c:229
+#: lib/dpkg/parsehelp.c:211
 msgid "version string has embedded spaces"
 msgstr "ខ្សែ​អក្សរ​កំណែ​បាន​បង្កប់​ចន្លោះ"
 
-#: lib/dpkg/parsehelp.c:234
+#: lib/dpkg/parsehelp.c:216
 msgid "epoch in version is not number"
 msgstr "សម័យ​ក្នុង​កំណែ​មិនមែន​ជា​លេខ"
 
-#: lib/dpkg/parsehelp.c:235
+#: lib/dpkg/parsehelp.c:217
 msgid "nothing after colon in version number"
 msgstr "គ្មាន​អ្វី​បន្ទាប់​ពី​សញ្ញា (:) នៅ​ក្នុង​លេខ​កំណែ"
 
-#: lib/dpkg/parsehelp.c:268
+#: lib/dpkg/parsehelp.c:250
 msgid "version number does not start with digit"
 msgstr ""
 
-#: lib/dpkg/parsehelp.c:271
+#: lib/dpkg/parsehelp.c:253
 #, fuzzy
 #| msgid "nothing after colon in version number"
 msgid "invalid character in version number"
 msgstr "គ្មាន​អ្វី​បន្ទាប់​ពី​សញ្ញា (:) នៅ​ក្នុង​លេខ​កំណែ"
 
-#: lib/dpkg/parsehelp.c:275
+#: lib/dpkg/parsehelp.c:257
 #, fuzzy
 #| msgid "nothing after colon in version number"
 msgid "invalid character in revision number"
 msgstr "គ្មាន​អ្វី​បន្ទាប់​ពី​សញ្ញា (:) នៅ​ក្នុង​លេខ​កំណែ"
 
-#: lib/dpkg/parsehelp.c:341 lib/dpkg/parsehelp.c:354
+#: lib/dpkg/parsehelp.c:323 lib/dpkg/parsehelp.c:336
 #, c-format
 msgid "missing %s"
 msgstr "បាត់ %s"
 
-#: lib/dpkg/parsehelp.c:343 lib/dpkg/parsehelp.c:357
+#: lib/dpkg/parsehelp.c:325 lib/dpkg/parsehelp.c:339
 #, c-format
 msgid "empty value for %s"
 msgstr "តម្លៃ​ទទេ​សម្រាប់​ %s"
@@ -989,51 +1003,51 @@ msgstr "ការ​បិទរ៉ាត់ បាត់​ក្នុង​�
 msgid "(no description available)"
 msgstr "(គ្មាន​សេច​ក្តីពិពណ៌នា)"
 
-#: lib/dpkg/subproc.c:54
+#: lib/dpkg/subproc.c:55
 #, fuzzy, c-format
 msgid "unable to ignore signal %s before running %.250s"
 msgstr "មិន​អាច​មិន​អើពើ​សញ្ញា %s មុន​ពេល​រត់​ស្គ្រីប"
 
-#: lib/dpkg/subproc.c:67
+#: lib/dpkg/subproc.c:68
 #, c-format
 msgid "error un-catching signal %s: %s\n"
 msgstr "កំហុស​ក្នុង​ការ​មិន​បាន​ចាប់​សញ្ញា %s ៖ %s\n"
 
-#: lib/dpkg/subproc.c:77
+#: lib/dpkg/subproc.c:78
 #, c-format
 msgid "%s (subprocess): %s\n"
 msgstr "%s (ដំណើរ​កា​រ​រង​) ៖ %s\n"
 
-#: lib/dpkg/subproc.c:88 utils/update-alternatives.c:417
+#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:430
 msgid "fork failed"
 msgstr "ចម្លង​ខ្លួនឯ​ង​បាន​បរាជ័យ"
 
-#: lib/dpkg/subproc.c:118
+#: lib/dpkg/subproc.c:119
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "ដំណើរការ​រង %s បានត្រឡប់​កំហុស​ស្ថានភាព​ចេញ %d"
 
-#: lib/dpkg/subproc.c:127
+#: lib/dpkg/subproc.c:128
 #, fuzzy, c-format
 msgid "subprocess %s was interrupted"
 msgstr "រង់ចាំ​ %s បាន​បរាជ័យ​"
 
-#: lib/dpkg/subproc.c:129
+#: lib/dpkg/subproc.c:130
 #, fuzzy, c-format
 #| msgid "subprocess %s killed by signal (%s)%s"
 msgid "subprocess %s was killed by signal (%s)%s"
 msgstr "ដំណើរ​ការ​រង %s បាន​ពិឃាត​ដោយ​សញ្ញា (%s)%s"
 
-#: lib/dpkg/subproc.c:131
+#: lib/dpkg/subproc.c:132
 msgid ", core dumped"
 msgstr "​"
 
-#: lib/dpkg/subproc.c:133
+#: lib/dpkg/subproc.c:134
 #, c-format
 msgid "subprocess %s failed with wait status code %d"
 msgstr "ដំណើរការរង %s បានបរាជ័យដោយកូដស្ថានភាពរង់ចាំ %d"
 
-#: lib/dpkg/subproc.c:150 utils/update-alternatives.c:424
+#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:437
 #, fuzzy, c-format
 msgid "wait for subprocess %s failed"
 msgstr "រង់ចាំ​ %s បាន​បរាជ័យ​"
@@ -1106,140 +1120,146 @@ msgstr ""
 msgid "trigger name contains invalid character"
 msgstr ""
 
-#: lib/dpkg/triglib.c:323
+#: lib/dpkg/triglib.c:325
 #, c-format
 msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
 
-#: lib/dpkg/triglib.c:363
+#: lib/dpkg/triglib.c:365
 #, fuzzy, c-format
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/triglib.c:392
+#: lib/dpkg/triglib.c:394
 #, fuzzy, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "មិន​អាច​អាន​ផ្នែក​ឯកសារ `%.250s'"
 
-#: lib/dpkg/triglib.c:398
+#: lib/dpkg/triglib.c:407
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:419
-#, fuzzy, c-format
-msgid "unable to create new trigger interest file `%.250s'"
-msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
-
-#: lib/dpkg/triglib.c:432
+#: lib/dpkg/triglib.c:420
 #, fuzzy, c-format
 msgid "unable to write new trigger interest file `%.250s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
 
-#: lib/dpkg/triglib.c:435
+#: lib/dpkg/triglib.c:423
 #, fuzzy, c-format
 msgid "unable to flush new trigger interest file '%.250s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
 
-#: lib/dpkg/triglib.c:438
+#: lib/dpkg/triglib.c:426
 #, fuzzy, c-format
 msgid "unable to sync new trigger interest file '%.250s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
 
-#: lib/dpkg/triglib.c:442
-#, fuzzy, c-format
-msgid "unable to close new trigger interest file `%.250s'"
-msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
-
-#: lib/dpkg/triglib.c:446
+#: lib/dpkg/triglib.c:434
 #, fuzzy, c-format
 msgid "unable to install new trigger interest file `%.250s'"
 msgstr "មិន​អាច​ដំឡើង​កំណែ​ថ្មី​របស់ `%.255s'"
 
-#: lib/dpkg/triglib.c:511
+#: lib/dpkg/triglib.c:442 lib/dpkg/triglib.c:444 lib/dpkg/triglib.c:574
+#: src/remove.c:286 src/remove.c:377
+#, c-format
+msgid "cannot remove `%.250s'"
+msgstr "មិន​អាច​យក `%.250s' ចេញ"
+
+#: lib/dpkg/triglib.c:462
+#, fuzzy, c-format
+msgid "unable to create new trigger interest file `%.250s'"
+msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
+
+#: lib/dpkg/triglib.c:485
+#, fuzzy, c-format
+msgid "unable to close new trigger interest file `%.250s'"
+msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
+
+#: lib/dpkg/triglib.c:558
 #, fuzzy, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr "មិន​អាច​ដំឡើង​ឯកសារ​ព័ត៌មាន​ថ្មី `%.250s' ជា `%.250s' បាន​ទេ"
 
-#: lib/dpkg/triglib.c:534
+#: lib/dpkg/triglib.c:585
 #, fuzzy, c-format
 msgid "unable to create new file triggers file `%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/triglib.c:543
+#: lib/dpkg/triglib.c:595
 #, fuzzy, c-format
 msgid "unable to write new file triggers file `%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/triglib.c:546
+#: lib/dpkg/triglib.c:598
 #, fuzzy, c-format
 msgid "unable to flush new file triggers file '%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/triglib.c:549
+#: lib/dpkg/triglib.c:601
 #, fuzzy, c-format
 msgid "unable to sync new file triggers file '%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/triglib.c:553
+#: lib/dpkg/triglib.c:605
 #, fuzzy, c-format
 msgid "unable to close new file triggers file `%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/triglib.c:557
+#: lib/dpkg/triglib.c:609
 #, fuzzy, c-format
 msgid "unable to install new file triggers file as `%.250s'"
 msgstr "មិន​អាច​ដំឡើង​ឯកសារ​ព័ត៌មាន​ថ្មី `%.250s' ជា `%.250s' បាន​ទេ"
 
-#: lib/dpkg/triglib.c:580
+#: lib/dpkg/triglib.c:644
 #, fuzzy, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "មិន​អាច​អាន​ផ្នែក​ឯកសារ `%.250s'"
 
-#: lib/dpkg/triglib.c:588
+#: lib/dpkg/triglib.c:654
 #, fuzzy, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "កំហុស​អាន​នៅ​ក្នុង​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%.255s'"
 
-#: lib/dpkg/triglib.c:594
+#: lib/dpkg/triglib.c:665
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:693
+#: lib/dpkg/triglib.c:767
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:712
+#: lib/dpkg/triglib.c:786
 #, fuzzy, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
-#: lib/dpkg/triglib.c:727
+#: lib/dpkg/triglib.c:801
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
 
-#: lib/dpkg/triglib.c:736
+#: lib/dpkg/triglib.c:814
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
 
-#: lib/dpkg/triglib.c:800
+#: lib/dpkg/triglib.c:878
 #, fuzzy, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "មិន​អាច​អាន​ថត depot `%.250s' បាន​ទេ"
 
-#: lib/dpkg/triglib.c:803
+#: lib/dpkg/triglib.c:881
 #, fuzzy, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "មិន​អាច​អាន​ថត depot `%.250s' បាន​ទេ"
@@ -1268,7 +1288,7 @@ msgstr "ចុង​ឯកសារ​ដែល​មិន​រំពឹង​
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
-#: src/archives.c:179 src/archives.c:200 src/archives.c:715
+#: src/archives.c:179 src/archives.c:200 src/archives.c:724
 msgid "error reading from dpkg-deb pipe"
 msgstr "កំហុស​ក្នុ​ងការ​អាន​ពី​បំពង់ dpkg-deb"
 
@@ -1287,12 +1307,12 @@ msgstr "កំហុស​ក្នុង​ការ​កំណត់ត្រ
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​កំណត់​ភាព​ជា​ម្ចាស់​របស់​តំណ​និមិត្ត​សញ្ញា `%.255s'"
 
-#: src/archives.c:265 src/archives.c:725 src/statcmd.c:162
+#: src/archives.c:265 src/archives.c:734 src/statcmd.c:163
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​កំណត់​ភាព​ជា​ម្ចាស់​របស់ `%.255s'"
 
-#: src/archives.c:267 src/archives.c:727 src/statcmd.c:164
+#: src/archives.c:267 src/archives.c:736 src/statcmd.c:165
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​កំណត់​សិទ្ធិ​របស់ `%.255s'"
@@ -1345,109 +1365,118 @@ msgstr "មិន​អាច​ចាប់​ផ្ដើម​ស្ដារ
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "ប័ណ្ណសារ​​បាន​ផ្ទុក​វត្ថុ `%.255s' នៃ​ប្រភេទ​ដែល​មិន​ស្គាល់ 0x%x"
 
-#: src/archives.c:629
+#: src/archives.c:626 src/divertcmd.c:150 utils/update-alternatives.c:293
+#: utils/update-alternatives.c:659 utils/update-alternatives.c:1182
+#: utils/update-alternatives.c:1244 utils/update-alternatives.c:1401
+#: utils/update-alternatives.c:1635
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat file '%s'"
+msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
+
+#: src/archives.c:641
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "កំពុង​ជំនួស​ឯកសារ​នៅ​ក្នុង​កញ្ចប់​ចាស់ %s ...\n"
 
-#: src/archives.c:633
+#: src/archives.c:645
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "បាន​ជំនួស​ដោយ​ឯកសារ​នៅ​ក្នុង​កញ្ចប់​ដែល​បាន​ដំឡើង %s ...\n"
 
-#: src/archives.c:641
+#: src/archives.c:654
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
 "nondirectory"
 msgstr "ព្យាយាម​សរសេរជាន់​លើ​ថត `%.250s' នៅ​ក្នុង​កញ្ចប់ %.250s ដែល​គ្មាន​ថត"
 
-#: src/archives.c:652
+#: src/archives.c:661
 #, fuzzy, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "ព្យាយាម​សរសេរជាន់​លើ `%.250s' ដែល​មាន​នៅ​ក្នុង​កញ្ចប់ %.250s ផង​ដែរ"
 
-#: src/archives.c:702
+#: src/archives.c:711
 #, fuzzy, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​អាន `%.255s' (នៅ​ក្នុង `%.255s')"
 
-#: src/archives.c:709
+#: src/archives.c:718
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "កម្មវិធី​​​ខា​ងក្រោ​យ​របស់​ dpkg-deb​ កំឡុង​ពេល​ `%.255s'"
 
-#: src/archives.c:735 src/archives.c:896 src/archives.c:937
+#: src/archives.c:744 src/archives.c:905 src/archives.c:946
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "កំហុស​ក្នុ​​ងការបិទ/សរសេរ `%.255s'"
 
-#: src/archives.c:739
+#: src/archives.c:748
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត​បំពង់ `%.255s'"
 
-#: src/archives.c:744 src/archives.c:749
+#: src/archives.c:753 src/archives.c:758
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត​ឧបករណ៍ `%.255s'"
 
-#: src/archives.c:762
+#: src/archives.c:771
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត​តំណរឹង `%.255s'"
 
-#: src/archives.c:768
+#: src/archives.c:777 utils/update-alternatives.c:516
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត​តំណ​និមិត្ត​សញ្ញា `%.255s'"
 
-#: src/archives.c:774
+#: src/archives.c:783
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត​ថត `%.255s'"
 
-#: src/archives.c:813
+#: src/archives.c:822
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "មិន​អាច​ផ្លាស់ទី​ផ្នែក `%.255s' ដើម្បី​ដំឡើង​កំណែ​ថ្មី"
 
-#: src/archives.c:823
+#: src/archives.c:832 utils/update-alternatives.c:304
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "មិន​អាច​អាន​តំណ `%.255s'"
 
-#: src/archives.c:828
+#: src/archives.c:837
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "មិន​អាច​បង្កើត​តំណ​និមិត្ត​សញ្ញា​ព័ត៌មាន​បម្រុង​ទុក​សម្រាប់ `%.255s'"
 
-#: src/archives.c:830
+#: src/archives.c:839
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "មិន​អាច chown តំណ​និមិត្ត​សញ្ញា​ព័ត៌មាន​បម្រុង​ទុក​សម្រាប់ `%.255s'"
 
-#: src/archives.c:835
+#: src/archives.c:844
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr "មិន​អាច​បង្កើត​តំណ​ព័ត៌មាន​បម្រុងទុក​របស់ `%.255s' មុន​ពេល​ដំឡើង​កំណែ​ថ្មី"
 
-#: src/archives.c:851 src/archives.c:945
+#: src/archives.c:860 src/archives.c:954
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "មិន​អាច​ដំឡើង​កំណែ​ថ្មី​របស់ `%.255s'"
 
-#: src/archives.c:890 src/archives.c:933
+#: src/archives.c:899 src/archives.c:942
 #, fuzzy, c-format
 msgid "unable to open '%.255s'"
 msgstr "មិន​អាច​បង្កើត​ `%.255s'"
 
-#: src/archives.c:935
+#: src/archives.c:944
 #, fuzzy, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "មិន​អាច​កំណត់​សតិ​បណ្ដោះ​អាសន្ន `%.255s'"
 
-#: src/archives.c:988
+#: src/archives.c:997
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1456,7 +1485,7 @@ msgstr ""
 "dpkg ៖ ការព្រមាន - មិន​អើពើ​បញ្ហា​ភាព​អាស្រ័យ​ដោយ​ការ​យក %s ចេញ ៖\n"
 "%s"
 
-#: src/archives.c:993
+#: src/archives.c:1002
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1465,7 +1494,7 @@ msgstr ""
 "dpkg ៖ ការព្រមាន - ចាត់ទុក​ការមិនកំណត់​រចនាសម្ព័ន្ធនៃ​កញ្ចប់ %s ចាំបាច់\n"
 " ដើម្បីអនុញ្ញាត​ឲ្យ​យកចេញ​នៃ %s ។\n"
 
-#: src/archives.c:996
+#: src/archives.c:1005
 #, fuzzy, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1474,7 +1503,7 @@ msgstr ""
 "dpkg ៖ គ្មាន %s គឺចាំបាច់ នឹងមិនកំណត់​រចនា​សម្ព័ន្ធ\n"
 " វា​ដើម្បីអនុញ្ញាត​ឲ្យយកចេញ​នៃ %s ។\n"
 
-#: src/archives.c:1010
+#: src/archives.c:1019
 #, fuzzy, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1483,28 +1512,28 @@ msgstr ""
 "dpkg ៖ គ្មាន មិនអាច​យក %s ចេញ (--auto-deconfigure នឹងជួយ) ៖\n"
 "%s"
 
-#: src/archives.c:1020
+#: src/archives.c:1029
 #, fuzzy, c-format
 msgid "removal of %.250s"
 msgstr "អាន​កំហុស​នៅ​ក្នុង %.250s"
 
-#: src/archives.c:1045
+#: src/archives.c:1054
 #, fuzzy, c-format
 msgid "installation of %.250s"
 msgstr "មិន​អាច​ដំឡើង​កំណែ​ថ្មី​របស់ `%.255s'"
 
-#: src/archives.c:1046
+#: src/archives.c:1055
 #, fuzzy, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
 msgstr "dpkg ៖ ការពិនិត្យ​ការយកចេញ %s នៅក្នុងការពេញចិត្ត​នៃ %s ...\n"
 
-#: src/archives.c:1053
+#: src/archives.c:1062
 #, fuzzy, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg ៖ បាទ នឹង​យក %s ចេញ នៅក្នុង ការពេញចិត្ត​នៃ​ %s ។\n"
 
-#: src/archives.c:1057 src/archives.c:1175
+#: src/archives.c:1066 src/archives.c:1184
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1513,147 +1542,149 @@ msgstr ""
 "dpkg ៖ គិតថា​ %s មានចំណុះ​ %s ៖\n"
 "%s"
 
-#: src/archives.c:1065
+#: src/archives.c:1074
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "dpkg ៖ ការ​ព្រមាន - មិន​អើពើ​ការ​ប៉ះទង្គិច ទោះ​ជា​យ៉ាងណាក៏​ដោយ​អាច​ធ្វើ​បន្ត​បាន !\n"
 
-#: src/archives.c:1070
+#: src/archives.c:1079
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
 
-#: src/archives.c:1074
+#: src/archives.c:1083
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr ""
 
-#: src/archives.c:1104
+#: src/archives.c:1113
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg ៖ ការពិនិត្យ​ការយកចេញ %s នៅក្នុងការពេញចិត្ត​នៃ %s ...\n"
 
-#: src/archives.c:1110
+#: src/archives.c:1119
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr "%s មិន​ត្រូវ​បាន​ដំឡើង​យ៉ាង​ត្រឹមត្រូវ - មិន​អើពើ​ភាព​អាស្រ័យ​មួយ​ចំនួន​នៅ​លើ​វា ។\n"
 
-#: src/archives.c:1139
+#: src/archives.c:1148
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr "dpkg ៖ ប្រហែល​ជាមានបញ្ហា​ក្នុងការ​យក​ %s ចេញ នៅពេល​ដែល​វា​ផ្ដល់​ %s ...\n"
 
-#: src/archives.c:1154
+#: src/archives.c:1163
 #, fuzzy, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
 "requested.\n"
 msgstr "dpkg ៖ កញ្ចប់ %s ទាមទារ​ឲ្យ​ដំឡើង​ម្ដងទៀត ប៉ុន្តែ វា​នឹង​យកចេញ​ នៅពេល​ដែល​អ្នក​ស្នើ ។\n"
 
-#: src/archives.c:1157
+#: src/archives.c:1166
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg ៖ កញ្ចប់ %s ទាមទារ​ការ​ដំឡើ​ងឡើង​វិញ នឹង​មិន​យកចេញ​ទេ ។\n"
 
-#: src/archives.c:1166
+#: src/archives.c:1175
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg ៖ បាទ នឹង​យក %s ចេញ នៅក្នុង ការពេញចិត្ត​នៃ​ %s ។\n"
 
-#: src/archives.c:1178
+#: src/archives.c:1187
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "ការ​ប៉ះទង្គិច​កញ្ចប់ - មិន​ដំឡើង %.250s"
 
-#: src/archives.c:1179
+#: src/archives.c:1188
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "dpkg ៖ ការ​ព្រមាន - មិន​អើពើ​ការ​ប៉ះទង្គិច ទោះ​ជា​យ៉ាងណាក៏​ដោយ​អាច​ធ្វើ​បន្ត​បាន !\n"
 
-#: src/archives.c:1223
+#: src/archives.c:1232
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --រង្វិលជុំ ត្រូវការ​យ៉ាងហោចណាស់​​អាគុយម៉ង់​ផ្លូវ​មួ"
 
-#: src/archives.c:1233
+#: src/archives.c:1242
 #, fuzzy
 msgid "find for dpkg --recursive"
 msgstr "បានបរាជ័យក្នុងការប្រតិបត្តិរក --រង្វិលជុំ"
 
-#: src/archives.c:1254
+#: src/archives.c:1263
 msgid "failed to fdopen find's pipe"
 msgstr "បរាជ័យ​ក្នុងការ​ fdopen បំពង់​របស់​ការរក"
 
-#: src/archives.c:1260
+#: src/archives.c:1269
 msgid "error reading find's pipe"
 msgstr "កំហុស​ក្នុង​ការអាន​បំពង់​របស់​ការ​រក"
 
-#: src/archives.c:1261
+#: src/archives.c:1270
 msgid "error closing find's pipe"
 msgstr "កំហុស​ក្នុង​ការ​បិទ​បំពង់​របស់​ការ​រក"
 
-#: src/archives.c:1264
+#: src/archives.c:1273
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "រកមើល --រង្វិលជុំ បានត្រឡប់​កំហុស​ដែលមិនបាន​ដោះស្រាយ %i"
 
-#: src/archives.c:1267
+#: src/archives.c:1276
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "បានស្វែងរក ប៉ុន្តែរកមិនឃើញកញ្ចប់ (ការផ្គូផ្គងឯកសារ *.deb)"
 
-#: src/archives.c:1278
+#: src/archives.c:1287
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s ត្រូវ​ការ​យ៉ាងហោច​ណាស់​អាគុយម៉ង់​ឯកសារ​ប័ណ្ណសារ​កញ្ចប់​មួយ"
 
-#: src/archives.c:1313 src/divertcmd.c:77 src/divertcmd.c:117
+#: src/archives.c:1322 src/divertcmd.c:78 src/divertcmd.c:118
 #: src/enquiry.c:166 src/enquiry.c:279 src/enquiry.c:449 src/enquiry.c:451
-#: src/enquiry.c:464 src/main.c:66 src/main.c:163 src/main.c:312
-#: src/main.c:491 src/packages.c:254 src/querycmd.c:252 src/querycmd.c:355
+#: src/enquiry.c:464 src/main.c:66 src/main.c:163 src/main.c:314
+#: src/main.c:493 src/packages.c:254 src/querycmd.c:252 src/querycmd.c:355
 #: src/querycmd.c:396 src/querycmd.c:404 src/querycmd.c:448 src/querycmd.c:517
-#: src/querycmd.c:606 src/querycmd.c:650 src/select.c:79 src/statcmd.c:67
-#: src/statcmd.c:97 src/trigcmd.c:60 src/trigcmd.c:92 dpkg-deb/build.c:441
-#: dpkg-deb/extract.c:216 dpkg-deb/extract.c:249 dpkg-deb/info.c:197
-#: dpkg-deb/info.c:254 dpkg-deb/main.c:60 dpkg-deb/main.c:123
-#: dpkg-split/info.c:248 dpkg-split/main.c:54 dpkg-split/main.c:92
-#: dpkg-split/queue.c:144 dpkg-split/queue.c:280
+#: src/querycmd.c:606 src/querycmd.c:650 src/select.c:79 src/statcmd.c:68
+#: src/statcmd.c:98 src/trigcmd.c:58 src/trigcmd.c:90 dpkg-deb/build.c:441
+#: dpkg-deb/extract.c:217 dpkg-deb/extract.c:250 dpkg-deb/info.c:203
+#: dpkg-deb/info.c:265 dpkg-deb/main.c:60 dpkg-deb/main.c:123
+#: dpkg-split/info.c:257 dpkg-split/main.c:54 dpkg-split/main.c:98
+#: dpkg-split/queue.c:145 dpkg-split/queue.c:281
 msgid "<standard output>"
 msgstr ""
 
-#: src/archives.c:1314 src/packages.c:255 src/querycmd.c:253
+#: src/archives.c:1323 src/packages.c:255 src/querycmd.c:253
 #: src/querycmd.c:353 src/querycmd.c:454 src/querycmd.c:518 src/select.c:80
-#: dpkg-split/main.c:173 dpkg-split/queue.c:218
+#: dpkg-split/main.c:179 dpkg-split/queue.c:219
 msgid "<standard error>"
 msgstr ""
 
-#: src/archives.c:1355
-#, c-format
-msgid "Selecting previously deselected package %s.\n"
+#: src/archives.c:1364
+#, fuzzy, c-format
+#| msgid "Selecting previously deselected package %s.\n"
+msgid "Selecting previously unselected package %s.\n"
 msgstr "ជ្រើស​កញ្ចប់​ដែល​មិន​បាន​ជ្រើស​ពី​មុន %s ។\n"
 
-#: src/archives.c:1359
-#, c-format
-msgid "Skipping deselected package %s.\n"
+#: src/archives.c:1368
+#, fuzzy, c-format
+#| msgid "Skipping deselected package %s.\n"
+msgid "Skipping unselected package %s.\n"
 msgstr "​រំលង​កញ្ចប់​ដែល​មិន​បាន​ជ្រើស​ %s.\n"
 
-#: src/archives.c:1375
+#: src/archives.c:1384
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "កំណែ %.250s នៃ %.250s បានដំឡើងរួចហើយ រំលង ។\n"
 
-#: src/archives.c:1385
+#: src/archives.c:1394
 #, fuzzy, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr "%s - ព្រមាន ៖ កំពុងបន្ទាប %.250s ពី %.250s ទៅ %.250s ។\n"
 
-#: src/archives.c:1390
+#: src/archives.c:1399
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr "នឹង​មិន​បន្ទាប %.250s ពី​កំណែ %.250s ទៅ %.250s រំលង ។\n"
 
-#: src/cleanup.c:87
+#: src/cleanup.c:86
 #, c-format
 msgid ""
 "unable to remove newly-installed version of `%.250s' to allow reinstallation "
@@ -1662,39 +1693,39 @@ msgstr ""
 "មិន​អាច​យក​កំណែ​របស់ `%.250s' ដែល​បាន​ដំឡើង​ថ្មីៗ​ចេញ​បាន​ទេ ដើម្បី​អនុញ្ញាត​ការ​ដំឡើង​ឡើងវិញ​របស់​ច្បាប់​"
 "ចម្លង​ព័ត៌មាន​បម្រុង​ទុក"
 
-#: src/cleanup.c:94
+#: src/cleanup.c:93
 #, c-format
 msgid "unable to restore backup version of `%.250s'"
 msgstr "មិន​អាច​ស្ដារ​កំណែ​ព័ត៌មាន​បម្រុង​ទុក​របស់ `%.250s' បាន​ទេ"
 
-#: src/cleanup.c:98
+#: src/cleanup.c:97
 #, fuzzy, c-format
 #| msgid "unable to restore backup version of `%.250s'"
 msgid "unable to remove backup copy of '%.250s'"
 msgstr "មិន​អាច​ស្ដារ​កំណែ​ព័ត៌មាន​បម្រុង​ទុក​របស់ `%.250s' បាន​ទេ"
 
-#: src/cleanup.c:102
+#: src/cleanup.c:101
 #, c-format
 msgid "unable to remove newly-installed version of `%.250s'"
 msgstr "មិន​អាច​យក​កំណែ​របស់ `%.250s' ដែល​បាន​ដំឡើង​ថ្មីៗ​ចេញ​បាន​ទេ"
 
-#: src/cleanup.c:109
+#: src/cleanup.c:108
 #, c-format
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "មិន​អាច​យក​កំណែ​របស់ `%.250s' ដែល​បាន​ស្រង់​ចេញ​ថ្មីៗ​ចេញ​បា​នទេ"
 
-#: src/configure.c:102
+#: src/configure.c:103
 #, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "មិនអាច​ថ្លែង​ dist conffile ថ្មី `%.250s' បានទេ"
 
-#: src/configure.c:112
+#: src/configure.c:113
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr "មិនអាច​ថ្លែង conffile ដែលបាន​ដំឡើង​បច្ចុប្បន្ន `%.250s'"
 
-#: src/configure.c:124
+#: src/configure.c:125
 #, c-format
 msgid ""
 "\n"
@@ -1705,60 +1736,60 @@ msgstr ""
 "ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%s' មិនមាន​នៅ​ក្នុង​ប្រព័ន្ធ ។\n"
 "ឥឡូវ​កំពុង​ដំឡើង​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ ដូច​ដែល​អ្នក​​ស្នើ ។\n"
 
-#: src/configure.c:166
+#: src/configure.c:167
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "dpkg ៖ %s ៖ ព្រមាន - បាន​បរាជ័យ​ក្នុង​ការ​យក​ព័ត៌មាន​បម្រុងទុក​ចាស់​ចេញ `%.250s' ៖ %s\n"
 
-#: src/configure.c:174
+#: src/configure.c:175
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - បាន​បរាជ័យ​ក្នុង​ការ​ប្ដូរ​ឈ្មោះ `%.250s' ទៅ​ជា `%.250s' ៖ %s\n"
 
-#: src/configure.c:180
+#: src/configure.c:181
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s ៖ បាន​បរាជ័​យក្នុ​ងការប្រតិបត្តិ gzip %s"
 
-#: src/configure.c:186
+#: src/configure.c:187
 #, fuzzy, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
 msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - បាន​បរាជ័យ​ក្នុង​ការ​យក​កំណែ​ចែកចាយ​ចាស់​របស់ `%.250s' ចេញ ៖ %s\n"
 
-#: src/configure.c:190
+#: src/configure.c:191
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - បាន​បរាជ័យ​ក្នុង​ការ​យក `%.250s' ចេញ (មុន​ពេល​សរសេរ​ជាន់​លើ) ៖ %s\n"
 
-#: src/configure.c:194
+#: src/configure.c:195
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr "dpkg ៖ %s ៖ ព្រមាន - បាន​បរាជ័យ​ក្នុង​ការ​តភ្ជាប់ `%.250s' ទៅ `%.250s' ៖ %s\n"
 
-#: src/configure.c:198
+#: src/configure.c:199
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "កំពុង​ដំឡើង​កំណែ​ថ្មី​របស់​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ %s ...\n"
 
-#: src/configure.c:204
+#: src/configure.c:205 utils/update-alternatives.c:523
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "មិន​អាច​ដំឡើង​ `%.250s' ជា​ `%.250s' បានទេ"
 
-#: src/configure.c:255
+#: src/configure.c:256
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "គ្មាន​កញ្ចប់​ដែល​មាន​ឈ្មោះ `%s' ត្រូវ​បាន​ដំឡើង​ទេ មិន​អាច​កំណត់​រចនា​សម្ព័ន្ធ"
 
-#: src/configure.c:258
+#: src/configure.c:259
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "កញ្ចប់ %.250s ត្រូវ​បាន​ដំឡើង និង​កំណត់​រចនាសម្ព័ន្ធ​រួច​ហើយ"
 
-#: src/configure.c:261
+#: src/configure.c:262
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1767,7 +1798,7 @@ msgstr ""
 "កញ្ចប់ %.250s មិន​ទាន់​រួចរាល់ ដើម្បី​កំណត់​រចនាសម្ព័ន្ធ\n"
 " មិន​អាច​កំណត់​រចនាសម្ព័ន្ធ (ស្ថានភាព​បច្ចុប្បន្ន `%.250s')"
 
-#: src/configure.c:292
+#: src/configure.c:293
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1776,11 +1807,11 @@ msgstr ""
 "dpkg ៖ បញ្ហា​ភាព​អាស្រ័យ​ការពារ​ពី​ការ​កំណត់​រចនាសម្ព័ន្ធ​របស់ %s ៖\n"
 "%s"
 
-#: src/configure.c:295
+#: src/configure.c:296
 msgid "dependency problems - leaving unconfigured"
 msgstr "បញ្ហា​ភាព​អាស្រ័យ - មិន​បាន​កំណត់​រចនាសម្ព័ន្ធ"
 
-#: src/configure.c:299
+#: src/configure.c:300
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -1789,7 +1820,7 @@ msgstr ""
 "dpkg ៖ %s ៖ បញ្ហា​ភាព​អាស្រ័យ ប៉ុន្តែ​ទោះ​​ជាយ៉ាងណាក៏ដោយ កំណត់​រចនាសម្ព័ន្ធ​ដូច​ដែល​អ្ន​ក​ស្នើ ៖\n"
 "%s"
 
-#: src/configure.c:307
+#: src/configure.c:308
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1797,12 +1828,12 @@ msgstr ""
 "កញ្ចប់​ស្ថិត​នៅ​ក្នុង​ស្ថានភាព​មិន​ជាប់លាប់​ដ៏​មិន​ល្អ​បំផុត​មួយ - អ្នក​គួរ​ដំឡើង​វា​ឡើង​វិញ\n"
 " មុន​ពេល​ប៉ុនប៉ង​កំណត់​រចនាសម្ព័ន្ធ ។"
 
-#: src/configure.c:310
+#: src/configure.c:311
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "កំពុង​រៀបចំ %s (%s) ...\n"
 
-#: src/configure.c:393
+#: src/configure.c:395
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -1811,7 +1842,7 @@ msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - មិន​អា​ចចាប់ផ្ដើម​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%s'\n"
 " (= `%s') ៖ %s\n"
 
-#: src/configure.c:406
+#: src/configure.c:408
 #, fuzzy, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -1820,7 +1851,7 @@ msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%s' ជា​តំណ​រាង​ជា​រង្វង់\n"
 " (= `%s')\n"
 
-#: src/configure.c:415
+#: src/configure.c:417
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -1829,7 +1860,7 @@ msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - មិនអាចអាន​តំណ conffile `%s'\n"
 " (= `%s') ៖ %s\n"
 
-#: src/configure.c:437
+#: src/configure.c:439
 #, fuzzy, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -1838,34 +1869,34 @@ msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - conffile `%.250s' ដោះស្រាយ​ទៅឈ្មោះ​ឯកសារ​ដែល​ប្រែក្លាយe\n"
 " (`%s' គឺជា symlink ទៅ `%s')\n"
 
-#: src/configure.c:453
+#: src/configure.c:455
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - conffile `%.250s' មិនមែនជា​ឯកសារធម្មតា ឬ symlink (= `%s')\n"
 
-#: src/configure.c:479
+#: src/configure.c:481
 msgid "md5hash"
 msgstr "md5hash"
 
-#: src/configure.c:485
+#: src/configure.c:487
 #, fuzzy, c-format
 msgid "%s: unable to open conffile %s for hash: %s"
 msgstr "dpkg ៖ %s ៖ ព្រមាន - មិនអាច​បើក conffile %s សម្រាប់​ភាព​រាយប៉ាយបានឡើយ ៖ %s\n"
 
-#: src/configure.c:515 src/configure.c:519
+#: src/configure.c:517 src/configure.c:521
 msgid "conffile difference visualizer"
 msgstr ""
 
-#: src/configure.c:536
+#: src/configure.c:538
 msgid "Type `exit' when you're done.\n"
 msgstr "វាយ `exit' នៅ​ពេល​ដែល​អ្នក​បាន​ធ្វើ​រួចរាល់ ។\n"
 
-#: src/configure.c:545 src/configure.c:549
+#: src/configure.c:547 src/configure.c:551
 msgid "conffile shell"
 msgstr ""
 
-#: src/configure.c:595
+#: src/configure.c:597
 #, c-format
 msgid ""
 "\n"
@@ -1874,12 +1905,12 @@ msgstr ""
 "\n"
 "ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%s'"
 
-#: src/configure.c:597
+#: src/configure.c:599
 #, c-format
 msgid " (actually `%s')"
 msgstr " (ជា​ការ​ពិត `%s')"
 
-#: src/configure.c:601
+#: src/configure.c:603
 #, c-format
 msgid ""
 "\n"
@@ -1890,7 +1921,7 @@ msgstr ""
 " ==> ឯកសារ​លើ​ប្រព័ន្ធ​បាន​បង្កើត​ដោយ​អ្នក ឬ​ដោយ​ស្គ្រីប ។\n"
 " ==> ឯកសារ​នៅ​ក្នុង​កញ្ចប់​ក៏​បាន​ផ្ដល់​ដោយ​អ្នក​ថែទាំ​ផងដែរ ។\n"
 
-#: src/configure.c:606
+#: src/configure.c:608
 #, c-format
 msgid ""
 "\n"
@@ -1899,7 +1930,7 @@ msgstr ""
 "\n"
 "     មិន​បាន​កែប្រែ តាំងពី​ដំឡើង ។\n"
 
-#: src/configure.c:608
+#: src/configure.c:610
 #, c-format
 msgid ""
 "\n"
@@ -1908,7 +1939,7 @@ msgstr ""
 "\n"
 " ==> បាន​កែប្រែ (ដោយ​អ្នក ឬ​ដោយ​ស្គ្រីប) តាំង​ពី​ដំឡើង ។\n"
 
-#: src/configure.c:609
+#: src/configure.c:611
 #, c-format
 msgid ""
 "\n"
@@ -1917,37 +1948,37 @@ msgstr ""
 "\n"
 " ==> បាន​លុប (ដោយ​អ្នក ឬ​ដោយ​ស្គ្រីប) តាំង​ពី​ដំឡើង ។\n"
 
-#: src/configure.c:612
+#: src/configure.c:614
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> អ្នក​ចែកចាយ​កញ្ចប់​បាន​បញ្ជូន​កំណែ​ដែល​បាន​ធ្វើ​ឲ្យ​ទាន់​មួយ ។\n"
 
-#: src/configure.c:613
+#: src/configure.c:615
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     កំណែ​នៅ​ក្នុង​កញ្ចប់​គឺ​ដូចគ្នា​នឹង​កំណែ​ដំឡើង​ចុង​ក្រោយ ។\n"
 
-#: src/configure.c:621
+#: src/configure.c:623
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> ​ប្រើ​ឯកសារ​ថ្មី​ដូច​ដែល​អ្នក​បាន​ស្នើ ។\n"
 
-#: src/configure.c:625
+#: src/configure.c:627
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> ​ប្រើ​ឯកសារ​ចាស់​បច្ចុប្បន្ន​ដូច​ដែល​អ្នក​បាន​ស្នើ ។\n"
 
-#: src/configure.c:634
+#: src/configure.c:636
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> រក្សាទុក​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ​ចាស់​ជា​លំនាំដើម ។\n"
 
-#: src/configure.c:638
+#: src/configure.c:640
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> ប្រើ​ឯកសារ​កំណត់​រចនា​ស​ម្ព័ន្ធ​ថ្មី​ជា​លំនាំដើម ។\n"
 
-#: src/configure.c:645
+#: src/configure.c:647
 #, fuzzy, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -1962,165 +1993,166 @@ msgstr ""
 "      D      ៖ បង្ហាញ​ភា​ពខុ​ស​គ្នារ​វាងកំណែទាំងនោះ\n"
 "      Z      ៖ ផ្ទៃ​ខាង​ក្រោយ វា​ដំណើរការ​ដើម្បី​ពិនិត្យ​មើល​ស្ថានភាព\n"
 
-#: src/configure.c:652
+#: src/configure.c:654
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " សកម្មភាព​លំនាំដើម​គឺ​ត្រូវ​រក្សា​កំណែ​បច្ចុប្បន្ន​របស់​អ្នក ។\n"
 
-#: src/configure.c:654
+#: src/configure.c:656
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " សកម្មភាព​លំនាំដើម​គឺ​ត្រូវ​ដំឡើង​កំណែ​ថ្មី ។\n"
 
-#: src/configure.c:661
+#: src/configure.c:663
 msgid "[default=N]"
 msgstr "[លំនាំដើម​=N]"
 
-#: src/configure.c:662
+#: src/configure.c:664
 msgid "[default=Y]"
 msgstr "[លំនាំដើម​=Y]"
 
-#: src/configure.c:663
+#: src/configure.c:665
 msgid "[no default]"
 msgstr "[គ្មាន​លំនាំ​ដើម​]"
 
-#: src/configure.c:666
+#: src/configure.c:668
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr "់"
 
-#: src/configure.c:675
+#: src/configure.c:677
 msgid "read error on stdin at conffile prompt"
 msgstr "អាន​កំហុស​នៅលើ​ stdin នៅ​ប្រអប់​បញ្ចូល conffile"
 
-#: src/configure.c:676
+#: src/configure.c:678
 msgid "EOF on stdin at conffile prompt"
 msgstr "EOF នៅលើ stdin នៅប្រអប់​បញ្ចូល conffile"
 
-#: src/depcon.c:173
+#: src/depcon.c:175
 #, fuzzy, c-format
 msgid "%s depends on %s"
 msgstr "អាស្រ័យ​លើ​"
 
-#: src/depcon.c:176
+#: src/depcon.c:178
 #, fuzzy, c-format
 msgid "%s pre-depends on %s"
 msgstr " ភាពអាស្រ័យ​ជាមុន​នៅលើ "
 
-#: src/depcon.c:179
+#: src/depcon.c:181
 #, fuzzy, c-format
 msgid "%s recommends %s"
 msgstr " ផ្ដល់អនុសាសន៍ "
 
-#: src/depcon.c:182
+#: src/depcon.c:184
 #, fuzzy, c-format
 msgid "%s suggests %s"
 msgstr " ផ្ដល់យោបល់ "
 
-#: src/depcon.c:185
+#: src/depcon.c:187
 #, fuzzy, c-format
 msgid "%s breaks %s"
 msgstr " បំបែក "
 
-#: src/depcon.c:188
+#: src/depcon.c:190
 #, fuzzy, c-format
 msgid "%s conflicts with %s"
 msgstr " ប៉ះទង្គិច​ជាមួយ​នឹង "
 
-#: src/depcon.c:191
+#: src/depcon.c:193
 #, fuzzy, c-format
 msgid "%s enhances %s"
 msgstr " បន្ថែម "
 
-#: src/depcon.c:286
+#: src/depcon.c:296
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s មិន​ត្រូវ​បាន​យកចេញ​ទេ ។\n"
 
-#: src/depcon.c:289
+#: src/depcon.c:299
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  %.250s ត្រូវតែបានកំណត់រចនាសម្ព័ន្ធ ។\n"
 
-#: src/depcon.c:294
+#: src/depcon.c:304
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr "  %.250s ត្រូវ​តែ​បាន​ដំឡើង ប៉ុន្តែ​គឺ​ជា​កំណែ %.250s ។\n"
 
-#: src/depcon.c:304
+#: src/depcon.c:314
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  %.250s ត្រូវ​តែ​បាន​ដំឡើង ប៉ុន្តែ​គឺ​ជា​កំណែ %.250s ។\n"
 
-#: src/depcon.c:319
+#: src/depcon.c:333
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s ត្រូវ​បាន​ពន្លា ប៉ុន្តែ​មិន​ដែល​ត្រូវ​បាន​កំណត់​រចនាសម្ព័ន្ធ​ទេ ។\n"
 
-#: src/depcon.c:323
+#: src/depcon.c:337
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  %.250s ត្រូវ​បាន​ពន្លា ប៉ុន្តែ​គឺ​ជា​កំណែ %.250s ។\n"
 
-#: src/depcon.c:329
+#: src/depcon.c:343
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s កំណែ​ដែល​បាន​កំណត់​រចនាសម្ព័ន្ធ​ចុង​ក្រោយ​គឺ %.250s ។\n"
 
-#: src/depcon.c:339
+#: src/depcon.c:353
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s គឺជា %s ។\n"
 
-#: src/depcon.c:374
+#: src/depcon.c:388
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s ផ្ដល់ %.250s ប៉ុន្តែ​ត្រូវតែ​បាន​យក​ចេញ ។\n"
 
-#: src/depcon.c:378
+#: src/depcon.c:392
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr "  %.250s ផ្ដល់ %.250s ប៉ុន្តែ​ត្រូវតែ​បាន​កំណត់​រចនាសម្ព័ន្ធ ។\n"
 
-#: src/depcon.c:384
+#: src/depcon.c:401
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s ផ្ដល់ %.250s ប៉ុន្តែជា %s ។\n"
 
-#: src/depcon.c:398
+#: src/depcon.c:415
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s មិន​ត្រូវ​បាន​ដំឡើង ។\n"
 
-#: src/depcon.c:426
+#: src/depcon.c:443
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (កំណែ %.250s) ត្រូវតែ​បាន​ដំឡើង ។\n"
 
-#: src/depcon.c:451
+#: src/depcon.c:468
 #, fuzzy, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
 msgstr "  %.250s (កំណែ %.250s) គឺជា %s ។\n"
 
-#: src/depcon.c:478
+#: src/depcon.c:495
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s ផ្ដល់ %.250s និង​ត្រូវតែ​បាន​ដំឡើង ។\n"
 
-#: src/depcon.c:520
+#: src/depcon.c:537
 #, fuzzy, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s ផ្ដល់ %.250s និង​គឺជា %s ។\n"
 
-#: src/divertcmd.c:50 src/querycmd.c:656 src/statcmd.c:52
-msgid "Use --help for help about querying packages."
-msgstr ""
+#: src/divertcmd.c:50
+#, fuzzy
+msgid "Use --help for help about diverting files."
+msgstr "វាយ dpkg-split --help សម្រាប់​ជា​ជំនួយ ។"
 
 #: src/divertcmd.c:66 src/statcmd.c:57 utils/update-alternatives.c:80
 #, c-format
 msgid "Debian %s version %s.\n"
 msgstr "ដេបៀន %s កំណែ %s ។\n"
 
-#: src/divertcmd.c:69
+#: src/divertcmd.c:70
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -2135,8 +2167,8 @@ msgstr ""
 "រក្សាសិទ្ធិឆ្នាំ ១៩៩៥ ដោយ Ian Jackson ។\n"
 "រក្សាសិទ្ធិឆ្នាំ ២០០០-២០០១ ដោយ Wichert Akkerman ។"
 
-#: src/divertcmd.c:74 src/main.c:63 src/querycmd.c:603 src/statcmd.c:64
-#: src/trigcmd.c:57 dpkg-deb/main.c:57 dpkg-split/main.c:51
+#: src/divertcmd.c:75 src/main.c:63 src/querycmd.c:603 src/statcmd.c:65
+#: src/trigcmd.c:55 dpkg-deb/main.c:57 dpkg-split/main.c:51
 #: utils/update-alternatives.c:89
 #, fuzzy, c-format
 msgid ""
@@ -2147,7 +2179,7 @@ msgstr ""
 "នេះ​ជា​កម្មវិធី​ឥត​គិត​ថ្លៃ មើល GNU General Public Licence កំណែ ២ ឬ\n"
 "ថ្មី​ជាង​នេះ​ដើម្បី​លក្ខខ័ណ្ឌ​ចម្លង ។ គ្មាន​ការ​ធានា​ទេ ។\n"
 
-#: src/divertcmd.c:86 src/main.c:81 src/querycmd.c:615 src/statcmd.c:76
+#: src/divertcmd.c:87 src/main.c:81 src/querycmd.c:615 src/statcmd.c:77
 #: dpkg-deb/main.c:69 dpkg-split/main.c:63 utils/update-alternatives.c:97
 #, c-format
 msgid ""
@@ -2157,7 +2189,7 @@ msgstr ""
 "របៀប​ប្រើ ៖ %s [<ជម្រើស> ...] <ពាក្យបញ្ជា>\n"
 "\n"
 
-#: src/divertcmd.c:90
+#: src/divertcmd.c:91
 #, c-format
 msgid ""
 "Commands:\n"
@@ -2169,7 +2201,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/divertcmd.c:99
+#: src/divertcmd.c:100
 #, fuzzy, c-format
 msgid ""
 "Options:\n"
@@ -2210,7 +2242,7 @@ msgstr ""
 "នៅ​ពេល​យកចេញ --package ឬ --local និង --divert ត្រូវតែ​ផ្គូផ្គង ប្រសិន​បើ​បាន​បញ្ជាក់ ។\n"
 "ស្គ្រីប​កញ្ចប់ preinst/postrm គួរតែ​បញ្ជា​ជា​និច្ច --package និង --divert ។\n"
 
-#: src/divertcmd.c:113
+#: src/divertcmd.c:114
 #, c-format
 msgid ""
 "When adding, default is --local and --divert <original>.distrib.\n"
@@ -2219,19 +2251,13 @@ msgid ""
 "divert.\n"
 msgstr ""
 
-#: src/divertcmd.c:149
-#, fuzzy, c-format
-#| msgid "cannot stat old name `%s': %s"
-msgid "cannot stat file '%s'"
-msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
-
-#: src/divertcmd.c:167
+#: src/divertcmd.c:168
 #, fuzzy, c-format
 #| msgid "error checking `%s': %s"
 msgid "error checking '%s'"
 msgstr "កំហុស​ក្នុង​ការ​ពិនិត្យ `%s' ៖ %s"
 
-#: src/divertcmd.c:202
+#: src/divertcmd.c:203
 #, c-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -2240,140 +2266,140 @@ msgstr ""
 "ប្ដូរ​ឈ្មោះ​ពាក់ព័ន្ធ​នឹង​ការ​សរសេរ​ជាន់​លើ `%s' ដោយ\n"
 "  ឯកសារ​ផ្សេង `%s' មិន​បាន​អនុញ្ញាត"
 
-#: src/divertcmd.c:222
+#: src/divertcmd.c:223 utils/update-alternatives.c:1333
 #, fuzzy, c-format
 msgid "unable to create file '%s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
-#: src/divertcmd.c:226
+#: src/divertcmd.c:227
 msgid "file copy"
 msgstr ""
 
-#: src/divertcmd.c:238
+#: src/divertcmd.c:239
 #, fuzzy, c-format
 #| msgid "cannot stat new name `%s': %s"
 msgid "cannot rename '%s' to '%s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម​ឈ្មោះ​ថ្មី `%s' ៖ %s"
 
-#: src/divertcmd.c:251
+#: src/divertcmd.c:252
 #, fuzzy, c-format
 #| msgid "rename: remove duplicate old link `%s': %s"
 msgid "rename: remove duplicate old link '%s'"
 msgstr "ប្ដូរឈ្មោះ ៖ យក​តំណ​ចាស់​ដែល​ស្ទួន​ចេញ `%s' ៖ %s"
 
-#: src/divertcmd.c:261
+#: src/divertcmd.c:262
 #, fuzzy, c-format
 #| msgid "unable to open source file `%.250s'"
 msgid "unable to remove copied source file '%s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
-#: src/divertcmd.c:283
+#: src/divertcmd.c:284
 #, fuzzy, c-format
 msgid "local diversion of %s"
 msgstr "បាន​បង្វែរ​ជា​មូលដ្ឋាន​ទៅ ៖ %s\n"
 
-#: src/divertcmd.c:285
+#: src/divertcmd.c:286
 #, fuzzy, c-format
 msgid "local diversion of %s to %s"
 msgstr "បាន​បង្វែរ​ជា​មូលដ្ឋាន​ទៅ ៖ %s\n"
 
-#: src/divertcmd.c:289
+#: src/divertcmd.c:290
 #, fuzzy, c-format
 #| msgid "diversion by %s"
 msgid "diversion of %s by %s"
 msgstr "ការ​បង្វែរ​ដោយ %s"
 
-#: src/divertcmd.c:292
+#: src/divertcmd.c:293
 #, fuzzy, c-format
 msgid "diversion of %s to %s by %s"
 msgstr "បាន​បង្វែរ​ដោយ %s ទៅ ៖ %s\n"
 
-#: src/divertcmd.c:308
+#: src/divertcmd.c:309
 #, fuzzy, c-format
 #| msgid "diversion by %s"
 msgid "any diversion of %s"
 msgstr "ការ​បង្វែរ​ដោយ %s"
 
-#: src/divertcmd.c:310
+#: src/divertcmd.c:311
 #, fuzzy, c-format
 msgid "any diversion of %s to %s"
 msgstr "បាន​បង្វែរ​ដោយ %s ទៅ ៖ %s\n"
 
-#: src/divertcmd.c:356
+#: src/divertcmd.c:357
 #, fuzzy, c-format
 #| msgid "cannot open GPL file"
 msgid "cannot create new %s file"
 msgstr "មិន​អាច​បើក​ឯកសារ​ GPL បាន​ឡើយ​"
 
-#: src/divertcmd.c:374 src/statcmd.c:214
+#: src/divertcmd.c:375 src/statcmd.c:215 utils/update-alternatives.c:1364
 #, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "មិន​អាច​បង្ហូរ​ចូល​ក្នុងឯកសារ​ vsnprintf"
 
-#: src/divertcmd.c:381
+#: src/divertcmd.c:382
 #, fuzzy
 #| msgid "remove old diversions-old: %s"
 msgid "error removing old diversions-old"
 msgstr "យក​ការ​បង្វែរ​ចាស់​ចេញ ៖ %s"
 
-#: src/divertcmd.c:383
+#: src/divertcmd.c:384
 #, fuzzy
 msgid "error creating new diversions-old"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត statoverride-old ថ្មី ៖ %s"
 
-#: src/divertcmd.c:385
+#: src/divertcmd.c:386
 #, fuzzy
 msgid "error installing new diversions"
 msgstr "កំហុស​ក្នុង​ការ​ដំឡើង statoverride ថ្មី ៖ %s"
 
-#: src/divertcmd.c:405 src/divertcmd.c:502 src/divertcmd.c:609
-#: src/divertcmd.c:629 src/statcmd.c:289
+#: src/divertcmd.c:406 src/divertcmd.c:503 src/divertcmd.c:610
+#: src/divertcmd.c:630 src/statcmd.c:290
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s ត្រូវការ​អាគុយម៉ង់​តែ​មួយ"
 
-#: src/divertcmd.c:408 src/divertcmd.c:429
+#: src/divertcmd.c:409 src/divertcmd.c:430
 #, c-format
 msgid "filename \"%s\" is not absolute"
 msgstr "ឈ្មោះ​ឯកសារ \"%s\" មិន​ពេញលេញ"
 
-#: src/divertcmd.c:410 src/statcmd.c:248
+#: src/divertcmd.c:411 src/statcmd.c:249
 msgid "file may not contain newlines"
 msgstr "ឯកសារ​មិន​អាច​មាន​បន្ទាត់ថ្មី"
 
-#: src/divertcmd.c:417
+#: src/divertcmd.c:418
 msgid "Cannot divert directories"
 msgstr "មិន​អាច​បង្វែរ​ថត"
 
-#: src/divertcmd.c:432
+#: src/divertcmd.c:433
 #, fuzzy, c-format
 msgid "cannot divert file '%s' to itself"
 msgstr "មិន​អាច​បង្វែរ​ថត"
 
-#: src/divertcmd.c:452
+#: src/divertcmd.c:453
 #, fuzzy, c-format
 #| msgid "Leaving `%s'"
 msgid "Leaving '%s'\n"
 msgstr "ទុកចោល​`%s'"
 
-#: src/divertcmd.c:457
+#: src/divertcmd.c:458
 #, c-format
 msgid "`%s' clashes with `%s'"
 msgstr "`%s' ប៉ះអង្គិច​ជា​មួយ `%s'"
 
-#: src/divertcmd.c:480
+#: src/divertcmd.c:481
 #, fuzzy, c-format
 #| msgid "Adding `%s'"
 msgid "Adding '%s'\n"
 msgstr "បន្ថែម​ `%s'"
 
-#: src/divertcmd.c:509
+#: src/divertcmd.c:510
 #, fuzzy, c-format
 #| msgid "No diversion `%s', none removed"
 msgid "No diversion '%s', none removed.\n"
 msgstr "គ្មាន​ការ​បង្វែរ `%s' គ្មាន​អ្វី​បាន​យក​ចេញ"
 
-#: src/divertcmd.c:524
+#: src/divertcmd.c:525
 #, c-format
 msgid ""
 "mismatch on divert-to\n"
@@ -2384,7 +2410,7 @@ msgstr ""
 "  នៅ​ពេ​លយក `%s' ចេញ\n"
 "  រកឃើញ `%s'"
 
-#: src/divertcmd.c:531
+#: src/divertcmd.c:532
 #, c-format
 msgid ""
 "mismatch on package\n"
@@ -2395,17 +2421,17 @@ msgstr ""
 "  នៅ​ពេលយក `%s' ចេញ\n"
 "  រកឃើញ `%s'"
 
-#: src/divertcmd.c:538
+#: src/divertcmd.c:539
 #, fuzzy, c-format
 #| msgid "Removing `%s'"
 msgid "Removing '%s'\n"
 msgstr "យក `%s' ចេញ"
 
-#: src/divertcmd.c:656
+#: src/divertcmd.c:657
 msgid "package may not contain newlines"
 msgstr "កញ្ចប់​មិនអាច​មាន​បន្ទាត់​ថ្មី"
 
-#: src/divertcmd.c:665
+#: src/divertcmd.c:666
 msgid "divert-to may not contain newlines"
 msgstr "បង្វែរ​មិន​អាច​មាន​បន្ទាត់​ថ្មី"
 
@@ -2481,8 +2507,8 @@ msgid ""
 msgstr ""
 
 #: src/enquiry.c:137 src/enquiry.c:211 src/enquiry.c:292 src/enquiry.c:373
-#: src/enquiry.c:460 src/select.c:98 src/select.c:164 src/trigcmd.c:200
-#: src/update.c:48 src/update.c:112 dpkg-split/queue.c:232
+#: src/enquiry.c:460 src/select.c:98 src/select.c:164 src/trigcmd.c:199
+#: src/update.c:48 src/update.c:112 dpkg-split/queue.c:233
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s មិន​ត្រូវការ​អាគុយម៉ង់"
@@ -2775,7 +2801,7 @@ msgstr ""
 msgid "admindir must be inside instdir for dpkg to work properly"
 msgstr ""
 
-#: src/help.c:190 src/main.c:746
+#: src/help.c:190 src/main.c:747
 #, fuzzy
 msgid "unable to setenv for subprocesses"
 msgstr "មិន​អាច​ថ្លែង​ក្នុង vsnprintf"
@@ -2786,66 +2812,66 @@ msgid "failed to chroot to `%.250s'"
 msgstr "បាន​បរាជ័យ​ដើម្បី chroot ទៅ `%.250s'"
 
 #: src/help.c:194 dpkg-deb/build.c:455 dpkg-deb/build.c:457
-#: dpkg-deb/build.c:531 dpkg-deb/build.c:554
+#: dpkg-deb/build.c:536 dpkg-deb/build.c:558
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "បាន​បរាជ័យ​ក្នុង chdir ទៅជា`%.255s'"
 
-#: src/help.c:253
+#: src/help.c:256
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "មិន​អាច​កំណត់​សិទ្ធិ​ប្រតិបត្តិ​នៅ​លើ `%.250s'"
 
-#: src/help.c:273
+#: src/help.c:276
 #, fuzzy
 msgid "unable to setenv for maintainer script"
 msgstr "មិន​អាច​ថ្លែង​ក្នុង vsnprintf"
 
-#: src/help.c:297
+#: src/help.c:300
 #, fuzzy, c-format
 msgid "installed %s script"
 msgstr "ស្គ្រីប %s ចាស់"
 
-#: src/help.c:310 src/help.c:379 src/help.c:438
+#: src/help.c:313 src/help.c:382 src/help.c:441
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម %s `%.250s'"
 
-#: src/help.c:365 src/help.c:425
+#: src/help.c:368 src/help.c:428
 #, c-format
 msgid "new %s script"
 msgstr "ស្គ្រីប %s ថ្មី​"
 
-#: src/help.c:399
+#: src/help.c:402
 #, c-format
 msgid "old %s script"
 msgstr "ស្គ្រីប %s ចាស់"
 
-#: src/help.c:413
+#: src/help.c:416
 #, fuzzy, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "មិន​អាច​ចាប់ផ្ដើម %s `%.250s'"
 
-#: src/help.c:422
+#: src/help.c:425
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - សាកល្បង​ស្គ្រីប​ពី​កញ្ចប់​ថ្មី​ជំនួស​វិញ ...\n"
 
-#: src/help.c:436
+#: src/help.c:439
 msgid "there is no script in the new version of the package - giving up"
 msgstr "គ្មាន​ស្គ្រីប​នៅ​ក្នុង​កំណែ​ថ្មី​របស់​កញ្ចប់ - បោះបង់"
 
-#: src/help.c:442
+#: src/help.c:445
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg ៖ ... វា​មើល​ទៅ​ហាក់បី​ដូចជា​គ្មាន​បញ្ហា ។\n"
 
-#: src/help.c:579
+#: src/help.c:616
 #, fuzzy, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "មិន​អាច​បង្កើត​ `%.255s'"
 
-#: src/help.c:584 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:621 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr ""
 
@@ -2919,7 +2945,7 @@ msgstr ""
 "  -Dh|--debug=help                 បង្ហាញ​ជំនួយ​អំពី​ការ​បំបាត់​កំហុស ។\n"
 "\n"
 
-#: src/main.c:113 src/querycmd.c:631 src/trigcmd.c:79 dpkg-deb/main.c:86
+#: src/main.c:113 src/querycmd.c:631 src/trigcmd.c:77 dpkg-deb/main.c:86
 #: dpkg-split/main.c:77
 #, fuzzy, c-format
 msgid ""
@@ -3037,7 +3063,7 @@ msgstr ""
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr "ប្រើ `dselect' ឬ `aptitude' សម្រាប់​គ្រប់គ្រង​កញ្ចប់​ដែល​អ្នក​ប្រើ​ងាយ​ស្រួល​មើល ។\n"
 
-#: src/main.c:171
+#: src/main.c:170
 #, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
@@ -3087,30 +3113,34 @@ msgid "Install a package even if it fails authenticity check"
 msgstr ""
 
 #: src/main.c:233
-msgid "Overwrite a file from one package with another"
+msgid "Process even packages with wrong versions"
 msgstr ""
 
 #: src/main.c:235
-msgid "Overwrite a diverted file with an undiverted version"
+msgid "Overwrite a file from one package with another"
 msgstr ""
 
 #: src/main.c:237
-msgid "Overwrite one package's directory with another's file"
+msgid "Overwrite a diverted file with an undiverted version"
 msgstr ""
 
 #: src/main.c:239
-msgid "Do not perform safe I/O operations when unpacking"
+msgid "Overwrite one package's directory with another's file"
 msgstr ""
 
 #: src/main.c:241
-msgid "Always use the new config files, don't prompt"
+msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
 #: src/main.c:243
+msgid "Always use the new config files, don't prompt"
+msgstr ""
+
+#: src/main.c:245
 msgid "Always use the old config files, don't prompt"
 msgstr ""
 
-#: src/main.c:246
+#: src/main.c:248
 msgid ""
 "Use the default option for new config files if one\n"
 "                         is available, don't prompt. If no default can be "
@@ -3119,102 +3149,102 @@ msgid ""
 "                         confnew options is also given"
 msgstr ""
 
-#: src/main.c:251
+#: src/main.c:253
 msgid "Always install missing config files"
 msgstr ""
 
-#: src/main.c:253
+#: src/main.c:255
 msgid "Offer to replace config files with no new versions"
 msgstr ""
 
-#: src/main.c:255
+#: src/main.c:257
 msgid "Process even packages with wrong or no architecture"
 msgstr ""
 
-#: src/main.c:257
+#: src/main.c:259
 msgid "Install even if it would break another package"
 msgstr ""
 
-#: src/main.c:259
+#: src/main.c:261
 msgid "Allow installation of conflicting packages"
 msgstr ""
 
-#: src/main.c:261
+#: src/main.c:263
 #, fuzzy
 #| msgid "dependency problems - not removing"
 msgid "Turn all dependency problems into warnings"
 msgstr "បញ្ហា​ភាព​អាស្រ័យ - មិន​យក​ចេញ"
 
-#: src/main.c:263
+#: src/main.c:265
 #, fuzzy
 #| msgid "dependency problems - not removing"
 msgid "Turn dependency version problems into warnings"
 msgstr "បញ្ហា​ភាព​អាស្រ័យ - មិន​យក​ចេញ"
 
-#: src/main.c:265
+#: src/main.c:267
 msgid "Remove packages which require installation"
 msgstr ""
 
-#: src/main.c:267
+#: src/main.c:269
 msgid "Remove an essential package"
 msgstr ""
 
-#: src/main.c:279
+#: src/main.c:281
 msgid "Generally helpful progress information"
 msgstr ""
 
-#: src/main.c:280
+#: src/main.c:282
 #, fuzzy
 msgid "Invocation and status of maintainer scripts"
 msgstr "មិន​អាច​ថ្លែង​ក្នុង vsnprintf"
 
-#: src/main.c:281
+#: src/main.c:283
 msgid "Output for each file processed"
 msgstr ""
 
-#: src/main.c:282
+#: src/main.c:284
 msgid "Lots of output for each file processed"
 msgstr ""
 
-#: src/main.c:283
+#: src/main.c:285
 #, fuzzy
 #| msgid "read error in configuration file `%.255s'"
 msgid "Output for each configuration file"
 msgstr "កំហុស​អាន​នៅ​ក្នុង​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ `%.255s'"
 
-#: src/main.c:284
+#: src/main.c:286
 msgid "Lots of output for each configuration file"
 msgstr ""
 
-#: src/main.c:285
+#: src/main.c:287
 msgid "Dependencies and conflicts"
 msgstr ""
 
-#: src/main.c:286
+#: src/main.c:288
 msgid "Lots of dependencies/conflicts output"
 msgstr ""
 
-#: src/main.c:287
+#: src/main.c:289
 msgid "Trigger activation and processing"
 msgstr ""
 
-#: src/main.c:288
+#: src/main.c:290
 msgid "Lots of output regarding triggers"
 msgstr ""
 
-#: src/main.c:289
+#: src/main.c:291
 msgid "Silly amounts of output regarding triggers"
 msgstr ""
 
-#: src/main.c:290
+#: src/main.c:292
 msgid "Lots of drivel about eg the dpkg/info directory"
 msgstr ""
 
-#: src/main.c:291
+#: src/main.c:293
 msgid "Insane amounts of drivel"
 msgstr ""
 
-#: src/main.c:302
+#: src/main.c:304
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -3222,7 +3252,7 @@ msgid ""
 " Number  Ref. in source   Description\n"
 msgstr ""
 
-#: src/main.c:309
+#: src/main.c:311
 #, c-format
 msgid ""
 "\n"
@@ -3230,35 +3260,35 @@ msgid ""
 "Note that the meanings and values are subject to change.\n"
 msgstr ""
 
-#: src/main.c:317
+#: src/main.c:319
 msgid "--debug requires an octal argument"
 msgstr "--ការ​បំបាត់​កំហុស​ត្រូវការ​អាគុយម៉ង់គោល ៨"
 
-#: src/main.c:346
+#: src/main.c:348
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr "គ្មាន​ឈ្មោះ​កញ្ចប់​នៅ​ក្នុង --ignore-depends បញ្ជី​ដែល​បំបែក​ដោយ​សញ្ញាក្បៀស `%.250s'"
 
-#: src/main.c:352
+#: src/main.c:354
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "--ignore-depends ត្រូវការឈ្មោះកញ្ចប់ត្រឹមត្រូវ ។ `%.250s' មិនមែន %s"
 
-#: src/main.c:369 src/main.c:379 src/main.c:649 dpkg-split/main.c:119
+#: src/main.c:371 src/main.c:381 src/main.c:649 dpkg-split/main.c:124
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "ចំនួន​គត់​មិន​ត្រឹមត្រូវ​សម្រាប់ --%s: `%.250s'"
 
-#: src/main.c:436
+#: src/main.c:438
 #, c-format
 msgid "error executing hook '%s', exit code %d"
 msgstr ""
 
-#: src/main.c:463
+#: src/main.c:465
 msgid "status logger"
 msgstr ""
 
-#: src/main.c:478
+#: src/main.c:480
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -3267,7 +3297,7 @@ msgid ""
 " Forcing things:\n"
 msgstr ""
 
-#: src/main.c:488
+#: src/main.c:490
 #, c-format
 msgid ""
 "\n"
@@ -3275,12 +3305,12 @@ msgid ""
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
 
-#: src/main.c:502
+#: src/main.c:504
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "ជម្រើស​បង្ខំ/បដិសេធ​ដែល​មិនស្គាល់ `%.*s'"
 
-#: src/main.c:511
+#: src/main.c:513
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "ព្រមាន ៖ ជម្រើស​បង្ខំ/បដិសេធ ដែល​លែង​ប្រើ `%s'\n"
@@ -3303,8 +3333,8 @@ msgstr "មិនអាចបើក​ `%i' សម្រាប់​ស្ទ្
 msgid "unexpected eof before end of line %d"
 msgstr "ចុង​ឯកសា​រដែល​មិន​បាន​រំពឹង​ទុក​មុន​ចុង​បន្ទាត់ %d"
 
-#: src/main.c:719 src/main.c:740 src/querycmd.c:691 src/statcmd.c:377
-#: dpkg-deb/main.c:195 dpkg-split/main.c:159
+#: src/main.c:719 src/main.c:741 src/querycmd.c:692 src/statcmd.c:379
+#: dpkg-deb/main.c:195 dpkg-split/main.c:165
 msgid "need an action option"
 msgstr "ត្រូវ​ការ​ជម្រើស​សកម្មភាព​មួយ"
 
@@ -3521,32 +3551,32 @@ msgstr "មិន​អាច​ដំឡើង​ឯកសារ​ព័ត៌
 msgid "unable to delete control info file `%.250s'"
 msgstr "មិន​អាច​លុប​ឯកសារ​ព័ត៌មាន​វត្ថុ​បញ្ជា `%.250s'"
 
-#: src/processarc.c:360
+#: src/processarc.c:372
 msgid "cannot access archive"
 msgstr "មិន​អាច​ចូល​ដំណើរការ​ប័ណ្ណសារ"
 
-#: src/processarc.c:377 dpkg-deb/info.c:81
+#: src/processarc.c:389 dpkg-deb/info.c:81
 #, fuzzy
 msgid "unable to create temporary directory"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត​ឈ្មោះ​ថត​បណ្ដោះ​អាសន្ន"
 
-#: src/processarc.c:411
+#: src/processarc.c:423
 #, fuzzy
 #| msgid "control information length"
 msgid "package control information extraction"
 msgstr "ប្រវែង​ព័ត៌មាន​វត្ថុ​បញ្ជា"
 
-#: src/processarc.c:438
+#: src/processarc.c:450
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "ព័ត៌មានដែលបានកត់ត្រាអំពី %s ពី %s ។\n"
 
-#: src/processarc.c:446
+#: src/processarc.c:458
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "ស្ថាបត្យកម្ម​កញ្ចប់ (%s) មិន​ផ្គូផ្គង​នឹង​ប្រព័ន្ធ (%s)"
 
-#: src/processarc.c:497
+#: src/processarc.c:513
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
@@ -3555,98 +3585,98 @@ msgstr ""
 "dpkg ៖ គិត​ថា %s មាន %s បញ្ហា​ភាព​អាស្រ័យ​ជា​មុន ៖\n"
 "%s"
 
-#: src/processarc.c:500
+#: src/processarc.c:516
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "បញ្ហា​ភាព​អាស្រ័យ​ជា​មុន - មិន​ដំឡើង %.250s"
 
-#: src/processarc.c:501
+#: src/processarc.c:517
 #, fuzzy
 msgid "ignoring pre-dependency problem!"
 msgstr "dpkg ៖ ព្រមាន - មិន​អើពើ​បញ្ហា​ភាព​អាស្រ័យ​ជាមុន !\n"
 
-#: src/processarc.c:516
+#: src/processarc.c:533
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "កំពុង​រៀបចំ​ជំនួស %s %s (ដោយ​ប្រើ %s) ...\n"
 
-#: src/processarc.c:522
+#: src/processarc.c:539
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "កំពុង​ពន្លា %s (ពី %s) ...\n"
 
-#: src/processarc.c:553
+#: src/processarc.c:570
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr "ឈ្មោះ conffile (ចាប់ផ្តើម​ `%.250s') គឺ វែង​ (>%d តួអក្សរ)"
 
-#: src/processarc.c:606
+#: src/processarc.c:623 utils/update-alternatives.c:1927
 #, c-format
 msgid "read error in %.250s"
 msgstr "អាន​កំហុស​នៅ​ក្នុង %.250s"
 
-#: src/processarc.c:608
+#: src/processarc.c:625
 #, c-format
 msgid "error closing %.250s"
 msgstr "កំហុស​ក្នុង​ការ​បិទ %.250s"
 
-#: src/processarc.c:610
+#: src/processarc.c:627
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "កំហុស​ក្នុង​ការ​ព្យាយាម​បើក %.250s"
 
-#: src/processarc.c:645
+#: src/processarc.c:668
 #, fuzzy, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "មិន​កំពុង​កំណត់​រចនាសម្ព័ន្ធ %s ដូច្នេះ​យើង​មិន​អាច​យក %s ចេញ​បាន​ទេ...\n"
 
-#: src/processarc.c:648
+#: src/processarc.c:671
 #, fuzzy, c-format
 msgid "De-configuring %s ...\n"
 msgstr "កំពុងយក %s ចេញ...\n"
 
-#: src/processarc.c:722
+#: src/processarc.c:745
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "កំពុង​ព​ន្លាការជំនួស %.250s ...\n"
 
-#: src/processarc.c:807
+#: src/processarc.c:830
 msgid "package filesystem archive extraction"
 msgstr ""
 
-#: src/processarc.c:821
+#: src/processarc.c:844
 msgid "error reading dpkg-deb tar output"
 msgstr "កំហុស​ក្នុង​ការ​អាន​លទ្ធផល dpkg-deb tar"
 
-#: src/processarc.c:823
+#: src/processarc.c:846
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "ឯកសារ tar របស់​ប្រព័ន្ធ​ឯកសារ​ដែល​ខូច - ប័ណ្ណសារ​កញ្ចប់​ដែល​ខូច"
 
-#: src/processarc.c:826
+#: src/processarc.c:849
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb ៖ zap កំពុង​ទាញ​យក​សូន្យ​ដែល​អាច​ធ្វើ​ទៅ"
 
-#: src/processarc.c:885
+#: src/processarc.c:909
 #, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "dpkg ៖ ព្រមាន - មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ចាស់ `%.250s' ដូច្នេះ​មិនលុប​វា ៖ %s"
 
-#: src/processarc.c:891
+#: src/processarc.c:915
 #, fuzzy, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "dpkg ៖ ព្រមាន - មិនអាចលុបថតចាស់ `%.250s' ៖ %s\n"
 
-#: src/processarc.c:894
+#: src/processarc.c:918
 #, fuzzy, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr "dpkg ៖ ការព្រមាន-  conffile ចាស់ៗ`%.250s' ជាថត​ទំនេ (​ឥឡូវ​បានលុប​វាហើយ​)\n"
 
-#: src/processarc.c:941
+#: src/processarc.c:965
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
 
-#: src/processarc.c:952
+#: src/processarc.c:976
 #, fuzzy, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -3655,12 +3685,12 @@ msgstr ""
 "dpkg ៖ ព្រមាន - ឯកសារ​ចាស់ `%.250s' គឺ​ដូចគ្នា​នឹង​ឯកសារ​ថ្មី​ជា​ច្រើន !  (ទាំង `%.250s' និង `"
 "%.250s')"
 
-#: src/processarc.c:991
+#: src/processarc.c:1015
 #, fuzzy, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "dpkg ៖ ព្រមាន - មិនអាចឲ្យឯកសារចាស់ %s `%%.250s' ៖ %%s\n"
 
-#: src/processarc.c:1172
+#: src/processarc.c:1196
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(ចំណាំ​ថា ការ​មិន​បង្ហាញ​របស់ %s ដែល​ត្រូវបាន​ជំនួស​ដោយ​ជោគជ័យ ។)\n"
@@ -3846,6 +3876,10 @@ msgstr ""
 "  ។ វាល​នឹង​ត្រូវបាន​តម្រឹម​ស្ដាំ​លុះត្រាតែ​ទទឹង​អវិជ្ជមាន ដែល\n"
 "  ករណី​តម្រឹម​ឆ្វេង​នឹង​ត្រូវបាន​ប្រើ ។\n"
 
+#: src/querycmd.c:656
+msgid "Use --help for help about querying packages."
+msgstr ""
+
 #: src/remove.c:88
 #, fuzzy, c-format
 msgid "ignoring request to remove %.250s which isn't installed."
@@ -3904,7 +3938,7 @@ msgstr "តើនឹងយកចេញ ឬលុបបំបាត់ %s ...\n"
 msgid "Removing %s ...\n"
 msgstr "កំពុងយក %s ចេញ...\n"
 
-#: src/remove.c:270 src/remove.c:350
+#: src/remove.c:275 src/remove.c:366
 #, fuzzy, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
@@ -3913,47 +3947,48 @@ msgstr ""
 "dpkg - ព្រមាន ៖ ខណៈពេល​យក %.250s ចេញ មិន​អាច​យក​ថត `%.250s' ចេញ​បាន​ទេ ៖ %s - ថត​អាច​"
 "មាន​ចំណុចម៉ោន​មួយ ?\n"
 
-#: src/remove.c:281 src/remove.c:361
-#, c-format
-msgid "cannot remove `%.250s'"
-msgstr "មិន​អាច​យក `%.250s' ចេញ"
-
-#: src/remove.c:284
+#: src/remove.c:289
 #, fuzzy, c-format
 msgid "unable to securely remove '%.250s'"
 msgstr "មិន​អាច​បង្កើត​ `%.255s'"
 
-#: src/remove.c:345
+#: src/remove.c:361
 #, fuzzy, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed."
 msgstr ""
 "dpkg - ព្រមាន ៖ ខណៈពេល​យក %.250s ចេញ ថត `%.250s' មិន​ទទេ ដូច្នេះ​មិនបាន​យកចេញ ។\n"
 
-#: src/remove.c:384
+#: src/remove.c:383
+#, fuzzy, c-format
+#| msgid "cannot remove `%.250s'"
+msgid "cannot remove '%.250s'"
+msgstr "មិន​អាច​យក `%.250s' ចេញ"
+
+#: src/remove.c:409
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr "កំពុង​លុប​បំបាត់​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ​សម្រាប់ %s ...\n"
 
-#: src/remove.c:434
+#: src/remove.c:459
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr "មិន​អាច​យក​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ​ចាស់ `%.250s' (= `%.250s') ចេញ"
 
-#: src/remove.c:449
+#: src/remove.c:474
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr "មិន​អាច​អាន​ថត​ឯកសារ​កំណត់​រចនាម្ព័ន្ធ `%.250s' (ពី `%.250s')"
 
-#: src/remove.c:485
+#: src/remove.c:510
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr "មិន​អាច​យក​ឯកសារ​កំណត់​រចនាម្ព័ន្ធ​បម្រុង​ទុក​ចាស់`%.250s' (នៃ `%.250s') ចេញ​បាន​ទេ"
 
-#: src/remove.c:540
+#: src/remove.c:568
 msgid "cannot remove old files list"
 msgstr "មិន​អាច​យក​បញ្ជី​ឯកសារ​ចាស់​ចេញ​បាន​ទេ"
 
-#: src/remove.c:546
+#: src/remove.c:574
 msgid "can't remove old postrm script"
 msgstr "មិន​អាច​យក​ស្គ្រីប postrm ចាស់​ចេញ​បាន​ទេ"
 
@@ -3996,7 +4031,11 @@ msgstr "មិន​ស្គាល់​ស្ថានភាព​ដែល​
 msgid "read error on standard input"
 msgstr "អាន​កំហុស​អំពី​ការ​បញ្ចូល​ជា​ខ្នាតគំរូ"
 
-#: src/statcmd.c:60
+#: src/statcmd.c:52
+msgid "Use --help for help about overriding file stat information."
+msgstr ""
+
+#: src/statcmd.c:61
 #, fuzzy, c-format
 msgid ""
 "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
@@ -4006,7 +4045,7 @@ msgstr ""
 "រក្សាសិទ្ធិ​ឆ្នាំ ១៩៩៥ ដោយ Ian Jackson ។\n"
 "រក្សាសិទ្ធិ​ឆ្នាំ ២០០០-២០០២ ដោយ Wichert Akkerman ។"
 
-#: src/statcmd.c:80
+#: src/statcmd.c:81
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4017,7 +4056,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/statcmd.c:88
+#: src/statcmd.c:89
 #, fuzzy, c-format
 msgid ""
 "Options:\n"
@@ -4045,56 +4084,56 @@ msgstr ""
 "  --help                   បង្ហាញ​សារ​ជំនួយ​នេះ ។\n"
 "  --version                បង្ហាញ​កំណែ ។\n"
 
-#: src/statcmd.c:115
+#: src/statcmd.c:116
 msgid "stripping trailing /"
 msgstr "ស្នាម​ឆ្នូត​ /"
 
-#: src/statcmd.c:206
+#: src/statcmd.c:207
 #, fuzzy
 msgid "cannot open new statoverride file"
 msgstr "មិន​អាច​បើ​​​ឯកសារ​ statoverride ថ្មី​បានទេ​ ៖ %s"
 
-#: src/statcmd.c:221
+#: src/statcmd.c:222
 #, fuzzy
 msgid "error removing statoverride-old"
 msgstr "កំហុស​ក្នុង​ការ​យក statoverride-old ៖ %s ចេញ"
 
-#: src/statcmd.c:223
+#: src/statcmd.c:224
 #, fuzzy
 msgid "error creating new statoverride-old"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត statoverride-old ថ្មី ៖ %s"
 
-#: src/statcmd.c:225
+#: src/statcmd.c:226
 #, fuzzy
 msgid "error installing new statoverride"
 msgstr "កំហុស​ក្នុង​ការ​ដំឡើង statoverride ថ្មី ៖ %s"
 
-#: src/statcmd.c:245
+#: src/statcmd.c:246
 msgid "--add needs four arguments"
 msgstr "--add ត្រូវការ​អាគុយម៉ង់​បួន"
 
-#: src/statcmd.c:255
+#: src/statcmd.c:256
 #, fuzzy, c-format
 msgid ""
 "An override for '%s' already exists, but --force specified so will be "
 "ignored."
 msgstr "ប៉ុន្តែ --force បាន​បញ្ជាក់ ដូច្នេះ​អាច​មិន​អើពើ​វា ។"
 
-#: src/statcmd.c:259
+#: src/statcmd.c:260
 #, fuzzy, c-format
 msgid "An override for '%s' already exists, aborting."
 msgstr "ការ​បដិសេធ​សម្រាប់ \"%s\" មាន​រួច​ហើយ"
 
-#: src/statcmd.c:271
+#: src/statcmd.c:272
 #, fuzzy, c-format
 msgid "--update given but %s does not exist"
 msgstr "ព្រមាន ៖ --update បាន​ផ្ដល់ ប៉ុន្តែ %s មិន​ទាន់​មាន"
 
-#: src/statcmd.c:295
+#: src/statcmd.c:296
 msgid "No override present."
 msgstr "គ្មាន​ការ​បដិសេធ​លេច​ឡើង ។"
 
-#: src/statcmd.c:303
+#: src/statcmd.c:304
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "ព្រមាន ៖ --update គឺ​គ្មាន​ប្រយោជន៍​សម្រាប់ --remove"
@@ -4166,17 +4205,17 @@ msgstr "ចុង​បន្ទាត់​ដែល​មិន​រំពឹ
 msgid "multiple statusoverrides present for file '%.250s'"
 msgstr "ឯកសារ statoverride `%.250s'"
 
-#: src/trigcmd.c:48
+#: src/trigcmd.c:46
 #, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "វាយ dpkg-split --help សម្រាប់​ជា​ជំនួយ ។"
 
-#: src/trigcmd.c:53
+#: src/trigcmd.c:51
 #, fuzzy, c-format
 msgid "Debian %s package trigger utility version %s.\n"
 msgstr "ឧបករណ៍​សួរ​កម្មវិធី​គ្រប់គ្រង​កញ្ចប់ `%s' ដេបៀន\n"
 
-#: src/trigcmd.c:69
+#: src/trigcmd.c:67
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
@@ -4186,7 +4225,7 @@ msgstr ""
 "របៀប​ប្រើ ៖ %s [<ជម្រើស> ...] <ពាក្យបញ្ជា>\n"
 "\n"
 
-#: src/trigcmd.c:74
+#: src/trigcmd.c:72
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4195,7 +4234,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:84
+#: src/trigcmd.c:82
 #, c-format
 msgid ""
 "Options:\n"
@@ -4209,31 +4248,31 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:154
+#: src/trigcmd.c:152
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
 msgstr ""
 
-#: src/trigcmd.c:158
+#: src/trigcmd.c:156
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
 msgstr ""
 
-#: src/trigcmd.c:206
+#: src/trigcmd.c:205
 #, fuzzy
 msgid "takes one argument, the trigger name"
 msgstr "--%s ត្រូវការ​តែ​អាគុយម៉ង់​តែ​មួយ​ប៉ុណ្ណោះ (ឈ្មោះ​ឯកសារ .deb)"
 
-#: src/trigcmd.c:211
+#: src/trigcmd.c:210
 msgid "must be called from a maintainer script (or with a --by-package option)"
 msgstr ""
 
-#: src/trigcmd.c:216
+#: src/trigcmd.c:215
 #, fuzzy, c-format
 msgid "illegal awaited package name '%.250s': %.250s"
 msgstr "វាល `%s' ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ `%.255s' ៖ %s"
 
-#: src/trigcmd.c:222
+#: src/trigcmd.c:221
 #, fuzzy, c-format
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "វាល `%s' ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ `%.255s' ៖ %s"
@@ -4403,8 +4442,8 @@ msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] "dpkg-deb ៖ មិន​អើពើ %d ការ​ព្រមាន​អំពី​ឯកសារ​វត្ថុបញ្ជា\n"
 msgstr[1] "dpkg-deb ៖ មិន​អើពើ %d ការ​ព្រមាន​អំពី​ឯកសារ​វត្ថុបញ្ជា\n"
 
-#: dpkg-deb/build.c:403 utils/update-alternatives.c:2149
-#: utils/update-alternatives.c:2156
+#: dpkg-deb/build.c:403 utils/update-alternatives.c:2172
+#: utils/update-alternatives.c:2179
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s ត្រូវការ​អាគុយម៉ង់ <ថត>"
@@ -4436,26 +4475,26 @@ msgstr "dpkg-deb ៖ ការ​ស្ថាបនា​កញ្ចប់ `%s
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb ៖ ការ​ស្ថាបនា​កញ្ចប់ `%s' នៅ​ក្នុង `%s' ។\n"
 
-#: dpkg-deb/build.c:467 dpkg-deb/build.c:516
+#: dpkg-deb/build.c:467 dpkg-deb/build.c:521
 #, fuzzy, c-format
 #| msgid "failed to make tmpfile (data)"
 msgid "failed to make temporary file (%s)"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត tmpfile (ទិន្នន័យ)"
 
-#: dpkg-deb/build.c:467 dpkg-deb/build.c:470 dpkg-deb/build.c:478
+#: dpkg-deb/build.c:467 dpkg-deb/build.c:470 dpkg-deb/build.c:477
 #: dpkg-deb/build.c:485 dpkg-deb/build.c:494 dpkg-deb/build.c:499
 #, fuzzy
 #| msgid "control area"
 msgid "control member"
 msgstr "តំបន់​វត្ថុបញ្ជា​"
 
-#: dpkg-deb/build.c:470 dpkg-deb/build.c:519
+#: dpkg-deb/build.c:470 dpkg-deb/build.c:524
 #, fuzzy, c-format
 #| msgid "failed to unlink tmpfile (data), %s"
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "បានបរាជ័យក្នុងការមិនតភ្ជាប់ tmpfile (ទិន្នន័យ) %s"
 
-#: dpkg-deb/build.c:485 dpkg-deb/build.c:589
+#: dpkg-deb/build.c:485 dpkg-deb/build.c:593
 #, fuzzy, c-format
 #| msgid "failed to rewind tmpfile (data)"
 msgid "failed to rewind temporary file (%s)"
@@ -4471,20 +4510,20 @@ msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្
 msgid "error writing `%s'"
 msgstr "កំហុស​​ក្នុង​ការសរសេរ `%s'"
 
-#: dpkg-deb/build.c:516 dpkg-deb/build.c:519 dpkg-deb/build.c:543
-#: dpkg-deb/build.c:568 dpkg-deb/build.c:576 dpkg-deb/build.c:589
+#: dpkg-deb/build.c:521 dpkg-deb/build.c:524 dpkg-deb/build.c:546
+#: dpkg-deb/build.c:572 dpkg-deb/build.c:580 dpkg-deb/build.c:593
 #, fuzzy
 #| msgid "between members"
 msgid "data member"
 msgstr "រវាង​សមាជិក​"
 
-#: dpkg-deb/build.c:567 dpkg-deb/build.c:576
+#: dpkg-deb/build.c:571 dpkg-deb/build.c:580
 #, fuzzy, c-format
 #| msgid "failed to write filename to tar pipe (data)"
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​ឈ្មោះ​ឯកសារ​ទៅជា​បំពង់ tar (ទិន្នន័យ)"
 
-#: dpkg-deb/build.c:580
+#: dpkg-deb/build.c:584
 msgid "<compress> from tar -cf"
 msgstr ""
 
@@ -4502,76 +4541,76 @@ msgstr "ចុង​ឯកសារ​ដែល​មិន​រំពឹង​
 msgid "error reading %s from file %.255s"
 msgstr "កំហុស​ក្នុង​ការ​អាន %s ពី​ឯកសារ %.255s"
 
-#: dpkg-deb/extract.c:124
+#: dpkg-deb/extract.c:125
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​អាន​ប័ណ្ណសារ `%.255s'"
 
-#: dpkg-deb/extract.c:126
+#: dpkg-deb/extract.c:127
 msgid "failed to fstat archive"
 msgstr "បាន​បរាជ័យ​ទៅ​នឹង​ប័ណ្ណសារ fstat"
 
-#: dpkg-deb/extract.c:130
+#: dpkg-deb/extract.c:131
 #, fuzzy
 #| msgid "archive has no dot in version number"
 msgid "archive magic version number"
 msgstr "ប័ណ្ណសារ​គ្មាន​សញ្ញា (.) នៅ​ក្នុង​លេខ​កំណែ"
 
-#: dpkg-deb/extract.c:142
+#: dpkg-deb/extract.c:143
 #, fuzzy
 #| msgid "archive has no newlines in header"
 msgid "archive member header"
 msgstr "ប័ណ្ណសារ​គ្មាន​បន្ទាត់​ថ្មី​នៅ​ក្នុង​បឋមកថា"
 
-#: dpkg-deb/extract.c:147
+#: dpkg-deb/extract.c:148
 #, fuzzy, c-format
 #| msgid "file `%.250s' is corrupt - bad part number"
 msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "ឯកសារ `%.250s' ខូច - លេខ​ផ្នែក​មិនល្អ"
 
-#: dpkg-deb/extract.c:154
+#: dpkg-deb/extract.c:155
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "ឯកសារ `%.250s' មិនមែន​ជា​ប័ណ្ណសារ​គោលពីរ​របស់​ដេបៀន (ព្យាយាម​ការ​បំបែក dpkg ?)"
 
-#: dpkg-deb/extract.c:158
+#: dpkg-deb/extract.c:159
 #, fuzzy
 #| msgid "archive has no dot in version number"
 msgid "archive information header member"
 msgstr "ប័ណ្ណសារ​គ្មាន​សញ្ញា (.) នៅ​ក្នុង​លេខ​កំណែ"
 
-#: dpkg-deb/extract.c:161
+#: dpkg-deb/extract.c:162
 msgid "archive has no newlines in header"
 msgstr "ប័ណ្ណសារ​គ្មាន​បន្ទាត់​ថ្មី​នៅ​ក្នុង​បឋមកថា"
 
-#: dpkg-deb/extract.c:164
+#: dpkg-deb/extract.c:165
 msgid "archive has no dot in version number"
 msgstr "ប័ណ្ណសារ​គ្មាន​សញ្ញា (.) នៅ​ក្នុង​លេខ​កំណែ"
 
-#: dpkg-deb/extract.c:167
+#: dpkg-deb/extract.c:168
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "មិន​យល់​កំណែ​ប័ណ្ណសារ %.250s  យក dpkg-deb ថ្មី​ជាង"
 
-#: dpkg-deb/extract.c:178 dpkg-deb/extract.c:204
+#: dpkg-deb/extract.c:179 dpkg-deb/extract.c:205
 #, fuzzy, c-format
 #| msgid "skipped member data from %s"
 msgid "skipped archive member data from %s"
 msgstr "បាន​រំលង​ទិន្នន័យ​សមាជិក​ពី %s"
 
-#: dpkg-deb/extract.c:193
+#: dpkg-deb/extract.c:194
 #, fuzzy, c-format
 #| msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgid "archive '%.250s' contains not understood data member %.*s, giving up"
 msgstr "ឯកសារ `%.250s' មាន​សមាជិក​ទិន្នន័យ​ដែល​មិន​យល់ %.*s, បោះបង់"
 
-#: dpkg-deb/extract.c:198
+#: dpkg-deb/extract.c:199
 #, fuzzy, c-format
 #| msgid "file `%.250s' contains two control members, giving up"
 msgid "archive '%.250s' contains two control members, giving up"
 msgstr "ឯកសារ `%.250s' មាន​សមាជិក​វត្ថុ​​បញ្ជា​ពីរ បោះបង់"
 
-#: dpkg-deb/extract.c:213
+#: dpkg-deb/extract.c:214
 #, fuzzy, c-format
 #| msgid ""
 #| " new debian package, version %s.\n"
@@ -4583,23 +4622,23 @@ msgstr ""
 " កញ្ចប់ដេបៀនថ្មី កំណែ %s ។\n"
 " ទំហំ %ld បៃ ៖ ប័ណ្ណសារវត្ថុបញ្ជា= %zi bytes ។\n"
 
-#: dpkg-deb/extract.c:231
+#: dpkg-deb/extract.c:232
 msgid "archive control member size"
 msgstr ""
 
-#: dpkg-deb/extract.c:234
+#: dpkg-deb/extract.c:235
 #, fuzzy, c-format
 #| msgid "archive has malformatted control length `%s'"
 msgid "archive has malformatted control member size '%s'"
 msgstr "ប័ណ្ណសារ​​មាន​ប្រវែង​វត្ថុបញ្ជា​ malformatted `%s'"
 
-#: dpkg-deb/extract.c:241
+#: dpkg-deb/extract.c:242
 #, fuzzy, c-format
 #| msgid "skipped member data from %s"
 msgid "skipped archive control member data from %s"
 msgstr "បាន​រំលង​ទិន្នន័យ​សមាជិក​ពី %s"
 
-#: dpkg-deb/extract.c:245
+#: dpkg-deb/extract.c:246
 #, fuzzy, c-format
 #| msgid ""
 #| " old debian package, version %s.\n"
@@ -4611,7 +4650,7 @@ msgstr ""
 " កញ្ចប់​ដេបៀន​ចាស់ កំណែ %s ។\n"
 " ទំហំ %ld បៃ ៖ ប័ណ្ណសារ​វត្ថុបញ្ជា= %zi, main archive= %ld ។\n"
 
-#: dpkg-deb/extract.c:254
+#: dpkg-deb/extract.c:255
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -4620,51 +4659,51 @@ msgstr ""
 "dpkg-deb ៖ ឯកសារ​មើល​ទៅ អាច​ទុក​វា​ជា​ប័ណ្ណសារ ដែល​ត្រូវ​បាន\n"
 "dpkg-deb:    ធ្វើឲ្យ​ខូច​ដោយ​កំពុង​ទាញយក​ជា​របៀប ASCII\n"
 
-#: dpkg-deb/extract.c:258
+#: dpkg-deb/extract.c:259
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "`%.255s' មិនមែន​ជា​ប័ណ្ណសារ​ទ្រង់ទ្រាយ​របស់​ដេបៀន"
 
-#: dpkg-deb/extract.c:265
+#: dpkg-deb/extract.c:266
 msgid "failed to write to pipe in copy"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​ទៅ​បំពង់​ជា​ការ​ចម្លង"
 
-#: dpkg-deb/extract.c:267
+#: dpkg-deb/extract.c:268
 msgid "failed to close pipe in copy"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បិទ​បំពង់ជា​ការ​ចម្លង"
 
-#: dpkg-deb/extract.c:279
+#: dpkg-deb/extract.c:284
 msgid "data"
 msgstr "ទិន្នន័យ"
 
-#: dpkg-deb/extract.c:289
-msgid "failed to create directory"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត​ថត"
-
-#: dpkg-deb/extract.c:291
-msgid "failed to chdir to directory after creating it"
-msgstr "បាន​បរាជ័យ chdir ទៅ​ថត បន្ទាប់​ពី​បង្កើត​វា"
-
-#: dpkg-deb/extract.c:293
+#: dpkg-deb/extract.c:307
 msgid "failed to chdir to directory"
 msgstr "បាន​បរាជ័យ chdir ទៅ​ថត"
 
-#: dpkg-deb/extract.c:318
+#: dpkg-deb/extract.c:310
+msgid "failed to create directory"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត​ថត"
+
+#: dpkg-deb/extract.c:312
+msgid "failed to chdir to directory after creating it"
+msgstr "បាន​បរាជ័យ chdir ទៅ​ថត បន្ទាប់​ពី​បង្កើត​វា"
+
+#: dpkg-deb/extract.c:323
 #, fuzzy
 msgid "<decompress>"
 msgstr "%s ៖ មិន​បង្ហាប់​"
 
-#: dpkg-deb/extract.c:320
+#: dpkg-deb/extract.c:325
 #, fuzzy
 msgid "paste"
 msgstr "បានហុច\n"
 
-#: dpkg-deb/extract.c:337 dpkg-deb/extract.c:358 dpkg-deb/info.c:77
+#: dpkg-deb/extract.c:342 dpkg-deb/extract.c:363 dpkg-deb/info.c:77
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s ត្រូវការ​អាគុយម៉ង់​ឈ្មោះ​ឯកសារ .deb"
 
-#: dpkg-deb/extract.c:342
+#: dpkg-deb/extract.c:347
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4673,37 +4712,37 @@ msgstr ""
 "--%s ត្រូវការ​ថត​គោលដៅ​មួយ ។\n"
 "ប្រហែល​ជា​អ្នក​កំពុង​ប្រើ dpkg --install ?"
 
-#: dpkg-deb/extract.c:345
+#: dpkg-deb/extract.c:350
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s ត្រូវការ​អាគុយម៉ង់​ច្រើន​បំផុត (.deb និង​ថត)"
 
-#: dpkg-deb/extract.c:360
+#: dpkg-deb/extract.c:365
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s ត្រូវការ​តែ​អាគុយម៉ង់​តែ​មួយ​ប៉ុណ្ណោះ (ឈ្មោះ​ឯកសារ .deb)"
 
-#: dpkg-deb/info.c:58
+#: dpkg-deb/info.c:63
 msgid "failed to chdir to `/' for cleanup"
 msgstr "បាន​បរាជ័យ​ទៅ chdir `/' សម្រាប់​សម្អាត"
 
-#: dpkg-deb/info.c:109
+#: dpkg-deb/info.c:106
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
 msgid "control file '%s'"
 msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
 
-#: dpkg-deb/info.c:113
+#: dpkg-deb/info.c:110
 #, c-format
 msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
 msgstr "dpkg-deb ៖ `%.255s' គ្មាន​សមាសភាគ​វត្ថុបញ្ជា​ `%.255s'\n"
 
-#: dpkg-deb/info.c:117
+#: dpkg-deb/info.c:114
 #, c-format
 msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
 msgstr "បើក​សមាសភាគ​`%.255s' (នៅ %.255s)​ បានបរាជ័យ​តាម​វិធី​ដែលមិន​បាន​រំពឹង​ទុក"
 
-#: dpkg-deb/info.c:124
+#: dpkg-deb/info.c:121
 #, fuzzy, c-format
 #| msgid "One requested control component is missing"
 msgid "%d requested control component is missing"
@@ -4711,59 +4750,59 @@ msgid_plural "%d requested control components are missing"
 msgstr[0] "សមាសភាគ​វត្ថុបញ្ជា​ដែល​បាន​ស្នើ​មួយ​បាន​បាត់"
 msgstr[1] "សមាសភាគ​វត្ថុបញ្ជា​ដែល​បាន​ស្នើ​មួយ​បាន​បាត់"
 
-#: dpkg-deb/info.c:141
+#: dpkg-deb/info.c:139 utils/update-alternatives.c:408
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "មិន​អាច​ស្កេន​ថត `%.255s'"
 
-#: dpkg-deb/info.c:146
+#: dpkg-deb/info.c:148
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
 msgstr "មិន​អាច​ចាប់ផ្ដើម `%.255s' (នៅ​ក្នុង `%.255s')"
 
-#: dpkg-deb/info.c:149
+#: dpkg-deb/info.c:152
 #, c-format
 msgid "cannot open `%.255s' (in `%.255s')"
 msgstr "មិន​អាច​បើក `%.255s' (នៅ​ក្នុង `%.255s')"
 
-#: dpkg-deb/info.c:164 dpkg-deb/info.c:179 dpkg-deb/info.c:193
+#: dpkg-deb/info.c:167 dpkg-deb/info.c:185 dpkg-deb/info.c:199
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​អាន `%.255s' (នៅ​ក្នុង `%.255s')"
 
-#: dpkg-deb/info.c:167
+#: dpkg-deb/info.c:170
 #, fuzzy, c-format
 #| msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7ld បៃ %5d បន្ទាត់   %c  %-20.127s %.127s\n"
 
-#: dpkg-deb/info.c:171
+#: dpkg-deb/info.c:174
 #, c-format
 msgid "     not a plain file          %.255s\n"
 msgstr "     មិនមែ​នជា​ឯកសារ​អត្ថបទ​ធម្មតា          %.255s\n"
 
-#: dpkg-deb/info.c:180
+#: dpkg-deb/info.c:186
 msgid "(no `control' file in control archive!)\n"
 msgstr "(គ្មាន​ឯកសារ `វត្ថុបញ្ជា' នៅ​ក្នុង​ប័ណ្ណសារ​វត្ថុបញ្ជា !)\n"
 
-#: dpkg-deb/info.c:211
+#: dpkg-deb/info.c:222
 msgid "could not open the `control' component"
 msgstr "មិន​អាច​បើក​សមាសភាគ `វត្ថុបញ្ជា'"
 
-#: dpkg-deb/info.c:250
+#: dpkg-deb/info.c:261
 msgid "failed during read of `control' component"
 msgstr "បាន​បរាជ័យ​កំឡុង​ពេល​អាន​សមាសភាគ `វត្ថុបញ្ជា'"
 
-#: dpkg-deb/info.c:252
+#: dpkg-deb/info.c:263
 #, fuzzy, c-format
 msgid "error closing the '%s' component"
 msgstr "កំហុស​ក្នុង​ការ​បិទ​បំពង់​របស់​ការ​រក"
 
-#: dpkg-deb/info.c:265
+#: dpkg-deb/info.c:278
 msgid "Error in format"
 msgstr "កំហុស​ក្នុង​ទ្រង់ទ្រាយ"
 
-#: dpkg-deb/info.c:313
+#: dpkg-deb/info.c:328
 msgid "--contents takes exactly one argument"
 msgstr "--contents ត្រូវការ​អាគុយម៉ង់​ជាក់លាក់​មួយ"
 
@@ -4852,7 +4891,7 @@ msgstr ""
 "`dselect' ឬ `aptitude' សម្រាប់​កា​រគ្រប់គ្រង​កញ្ច​ប់ដែល​អ្នក​ប្រើ​ងាយ​ស្រួល​មើល ។  កញ្ចប់\n"
 "មិន​បាន​ពន្លា ដោយ​ប្រើ `dpkg-deb --extract' នឹង​ត្រូវ​បាន​ដំឡើង​មិន​ត្រឹមត្រូវ !\n"
 
-#: dpkg-deb/main.c:130
+#: dpkg-deb/main.c:129
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -4860,17 +4899,17 @@ msgstr ""
 "វាយ dpkg-deb --help សម្រាប់​ជា​ជំនួយ​អំពី​ការ​គណនា​ឯកសារ *.deb\n"
 "វាយ dpkg --help សម្រាប់​ជា​ជំនួយ​អំពី​ការដំឡើង និង​មិន​ដំឡើង​កញ្ចប់ ។"
 
-#: dpkg-deb/main.c:145
+#: dpkg-deb/main.c:144
 #, fuzzy, c-format
 msgid "invalid integer for -%c: '%.250s'"
 msgstr "ចំនួន​គត់​មិន​ត្រឹមត្រូវ​សម្រាប់ --%s: `%.250s'"
 
-#: dpkg-deb/main.c:148
+#: dpkg-deb/main.c:147
 #, fuzzy, c-format
 msgid "invalid compression level for -%c: %ld'"
 msgstr "ចំនួន​គត់​មិន​ត្រឹមត្រូវ​សម្រាប់ --%s: `%.250s'"
 
-#: dpkg-deb/main.c:158
+#: dpkg-deb/main.c:157
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "មិនស្គាល់​ប្រភេទ​បង្ហាប់ `%s' !"
@@ -4890,7 +4929,7 @@ msgstr "ឯកសារ `%.250s' ខូច - បាត់ %.250s"
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
 msgstr "ឯកសារ `%.250s' ខូច - បាត់​បន្ទាត់​ថ្មី​បន្ទាប់​ពី %.250s"
 
-#: dpkg-split/info.c:89 dpkg-split/main.c:109
+#: dpkg-split/info.c:89 dpkg-split/main.c:114
 #, c-format
 msgid "error reading %.250s"
 msgstr "កំហុស​ក្នុង​ការ​អាន %.250s"
@@ -4978,47 +5017,52 @@ msgstr "លេខ​កំណែ​"
 msgid "file '%.250s' is corrupt - bad archive part number"
 msgstr "ឯកសារ `%.250s' ខូច - លេខ​ផ្នែក​មិនល្អ"
 
-#: dpkg-split/info.c:159
+#: dpkg-split/info.c:157
+#, fuzzy
+msgid "package architecture"
+msgstr " (កញ្ចប់ ៖ "
+
+#: dpkg-split/info.c:166
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of second header"
 msgstr "ឯកសារ `%.250s' ខូច - មន្ត​អាគមន​មិនល្អ​នៅចុង​បឋមកថា​ទីពីរ"
 
-#: dpkg-split/info.c:161
+#: dpkg-split/info.c:168
 #, c-format
 msgid "file `%.250s' is corrupt - second member is not data member"
 msgstr "ឯកសារ `%.250s' ខូច - សមាជិក​ទីពីរ​មិនមែន​ជា​សមាជិក​ទិន្នន័យ"
 
-#: dpkg-split/info.c:167
+#: dpkg-split/info.c:174
 #, c-format
 msgid "file `%.250s' is corrupt - wrong number of parts for quoted sizes"
 msgstr "ឯកសារ `%.250s' ខូច​ - ខុស​លេខ​នៃ​ទំហំ​ដែល​បានដកស្រង់"
 
-#: dpkg-split/info.c:171
+#: dpkg-split/info.c:178
 #, c-format
 msgid "file `%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "ឯកសារ `%.250s' ខូច - ខុស​ទំហំ​សម្រាប់លេខ​ផ្នែក​ដែល​បានស្រង់"
 
-#: dpkg-split/info.c:177
+#: dpkg-split/info.c:184
 #, c-format
 msgid "unable to fstat part file `%.250s'"
 msgstr "មិន​អាច​ចូល​ទៅ​ឯកសារ​ផ្នែក​របស់ fstat `%.250s'"
 
-#: dpkg-split/info.c:182
+#: dpkg-split/info.c:189
 #, c-format
 msgid "file `%.250s' is corrupt - too short"
 msgstr "ឯកសារ `%.250s' ខូច - ខ្លីពេក"
 
-#: dpkg-split/info.c:195 dpkg-split/info.c:240
+#: dpkg-split/info.c:202 dpkg-split/info.c:249
 #, c-format
 msgid "cannot open archive part file `%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ផ្នែក​ប័ណ្ណសារ `%.250s'"
 
-#: dpkg-split/info.c:197
+#: dpkg-split/info.c:204
 #, c-format
 msgid "file `%.250s' is not an archive part"
 msgstr "ឯកសារ `%.250s' មិនមែន​ជា​ផ្នែក​ប័ណ្ណសារ"
 
-#: dpkg-split/info.c:202
+#: dpkg-split/info.c:209
 #, fuzzy, c-format
 #| msgid ""
 #| "%s:\n"
@@ -5038,6 +5082,7 @@ msgid ""
 "    Part format version:            %s\n"
 "    Part of package:                %s\n"
 "        ... version:                %s\n"
+"        ... architecture:           %s\n"
 "        ... MD5 checksum:           %s\n"
 "        ... length:                 %jd bytes\n"
 "        ... split every:            %jd bytes\n"
@@ -5060,12 +5105,19 @@ msgstr ""
 "    ផ្នែកទំហំឯកសារ (ផ្នែកដែលបានប្រើ) ៖  %lu បៃ\n"
 "\n"
 
-#: dpkg-split/info.c:235 dpkg-split/join.c:105
+#: dpkg-split/info.c:225
+#, fuzzy
+#| msgid "<unknown>"
+msgctxt "architecture"
+msgid "<unknown>"
+msgstr "<មិនស្គាល់​>"
+
+#: dpkg-split/info.c:244 dpkg-split/join.c:105
 #, fuzzy, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "--info ត្រូវការ​អាគុយម៉ង់​ផ្នែក​ឯកសារ​មួយ ឬ​ច្រើន"
 
-#: dpkg-split/info.c:246
+#: dpkg-split/info.c:255
 #, c-format
 msgid "file `%s' is not an archive part\n"
 msgstr "ឯកសារ `%s' មិនមែន​ជា​ផ្នែក​ប័ណ្ណសារ\n"
@@ -5099,7 +5151,7 @@ msgstr "​រំលង​កញ្ចប់​ដែល​មិន​បាន
 msgid "split package part"
 msgstr "បាត់​កញ្ចប់"
 
-#: dpkg-split/join.c:69 dpkg-split/split.c:235
+#: dpkg-split/join.c:69 dpkg-split/split.c:239
 #, c-format
 msgid "done\n"
 msgstr "ធ្វើរួច​\n"
@@ -5151,17 +5203,26 @@ msgstr ""
 "\n"
 
 #: dpkg-split/main.c:82
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+#| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+#| "  -o|--output <file>               For -j (default is <package>-<version>."
+#| "deb).\n"
+#| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+#| "  --msdos                          Generate 8.3 filenames.\n"
+#| "\n"
+#| "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgid ""
 "Options:\n"
 "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
 "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               For -j (default is <package>-<version>."
-"deb).\n"
+"  -o|--output <file>               Filename, for -j (default is\n"
+"                                     <package>_<version>_<arch>.deb).\n"
 "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
 "  --msdos                          Generate 8.3 filenames.\n"
 "\n"
-"Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
 "ជម្រើស ៖\n"
 "  --depotdir <directory>           ប្រើ <ថត> ជំនួសឲ្យ %s/%s ។\n"
@@ -5173,20 +5234,29 @@ msgstr ""
 "\n"
 "Exit status: 0 = OK;  1 = -a មិនមែនជាផ្នែកមួយទេ  2 = trouble!\n"
 
-#: dpkg-split/main.c:98
+#: dpkg-split/main.c:92
+#, c-format
+msgid ""
+"Exit status:\n"
+"  0 = ok\n"
+"  1 = with --auto, file is not a part\n"
+"  2 = trouble\n"
+msgstr ""
+
+#: dpkg-split/main.c:103
 msgid "Type dpkg-split --help for help."
 msgstr "វាយ dpkg-split --help សម្រាប់​ជា​ជំនួយ ។"
 
-#: dpkg-split/main.c:110
+#: dpkg-split/main.c:115
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "ចុង​ឯកសារ​ដែល​មិន​រំពឹង​ទុក​នៅ​ក្នុង %.250s"
 
-#: dpkg-split/main.c:121
+#: dpkg-split/main.c:126
 msgid "part size is far too large or is not positive"
 msgstr "ផ្នែក​ទំហំ​ធំ​ខ្លាំង​ណាស់ ឬ​មិនមែ​នជា​លេខ​វិជ្ជមាន"
 
-#: dpkg-split/main.c:125
+#: dpkg-split/main.c:130
 #, fuzzy, c-format
 msgid "part size must be at least %d KiB (to allow for header)"
 msgstr "ផ្នែក​ទំហំ​ត្រូវតែ​យ៉ាង​ហោច​ណាស់ %dk (ដើម្បី​អនុញ្ញាត​សម្រាប់​បឋមកថា)"
@@ -5196,103 +5266,103 @@ msgstr "ផ្នែក​ទំហំ​ត្រូវតែ​យ៉ាង​
 msgid "unable to read depot directory `%.250s'"
 msgstr "មិន​អាច​អាន​ថត depot `%.250s' បាន​ទេ"
 
-#: dpkg-split/queue.c:134
+#: dpkg-split/queue.c:135
 msgid "--auto requires the use of the --output option"
 msgstr "--auto ត្រូវការ​ការ​ប្រើ​ជម្រើស --output"
 
-#: dpkg-split/queue.c:136
+#: dpkg-split/queue.c:137
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto ត្រូវការ​អាគុយម៉ង់​ផ្នែក​ឯកសារ​ជាក់លាក់​មួយ"
 
-#: dpkg-split/queue.c:140
+#: dpkg-split/queue.c:141
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "មិន​អាច​អាន​ផ្នែក​ឯកសារ `%.250s'"
 
-#: dpkg-split/queue.c:143
+#: dpkg-split/queue.c:144
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "ឯកសារ `%.250s' មិនមែន​ជា​ផ្នែក​របស់​ប័ណ្ណសារ​ច្រើន​ផ្នែកទេ ។\n"
 
-#: dpkg-split/queue.c:179
+#: dpkg-split/queue.c:180
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "មិន​អាច​បើក​ផ្នែក​ឯកសារ `%.250s' ឡើង​វិញ​បាន​ទេ"
 
-#: dpkg-split/queue.c:182
+#: dpkg-split/queue.c:183
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: dpkg-split/queue.c:184
+#: dpkg-split/queue.c:185
 msgid "extracting split part"
 msgstr ""
 
-#: dpkg-split/queue.c:192
+#: dpkg-split/queue.c:193
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "មិន​អាច​ប្ដូរ​ឈ្មោះ​ឯកសារ depot `%.250s' ទៅ `%.250s' ថ្មី​បាន​ទេ"
 
-#: dpkg-split/queue.c:196
+#: dpkg-split/queue.c:197
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "ផ្នែក %d របស់​កញ្ចប់ %s បាន​រាយ (នៅ​តែ​ត្រូវការ "
 
-#: dpkg-split/queue.c:200
+#: dpkg-split/queue.c:201
 msgid " and "
 msgstr "និង "
 
-#: dpkg-split/queue.c:214
+#: dpkg-split/queue.c:215
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "មិន​អាច​លុប​ឯកសារ depot `%.250s' ដែល​បាន​ប្រើ​បាន​ទេ"
 
-#: dpkg-split/queue.c:235
+#: dpkg-split/queue.c:236
 msgid "Junk files left around in the depot directory:\n"
 msgstr "ឯកសារ​ឥត​បាន​ការ​សល់​នៅ​ជុំវិញ​ថត depot ៖\n"
 
-#: dpkg-split/queue.c:240 dpkg-split/queue.c:269
+#: dpkg-split/queue.c:241 dpkg-split/queue.c:270
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម `%.250s'"
 
-#: dpkg-split/queue.c:243
+#: dpkg-split/queue.c:244
 #, fuzzy, c-format
 #| msgid " %s (%lu bytes)\n"
 msgid " %s (%jd bytes)\n"
 msgstr " %s (%lu បៃ​)\n"
 
-#: dpkg-split/queue.c:245
+#: dpkg-split/queue.c:246
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (មិនមែន​ជា​ឯកសារ​អត្ថបទ​ធម្មតា)\n"
 
-#: dpkg-split/queue.c:250
+#: dpkg-split/queue.c:251
 msgid "Packages not yet reassembled:\n"
 msgstr "កញ្ច​ប់មិនត្រូវបានផ្គុំនៅឡើយទេ ៖\n"
 
-#: dpkg-split/queue.c:258
+#: dpkg-split/queue.c:259
 #, c-format
 msgid " Package %s: part(s) "
 msgstr ""
 
-#: dpkg-split/queue.c:271
+#: dpkg-split/queue.c:272
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "ផ្នែក​ឯកសារ `%.250s' មិនមែន​ជា​ឯកសារ​អត្ថបទ​ធម្មតា​ទេ"
 
-#: dpkg-split/queue.c:278
+#: dpkg-split/queue.c:279
 #, fuzzy, c-format
 #| msgid "(total %lu bytes)\n"
 msgid "(total %jd bytes)\n"
 msgstr "(សរុប​ %lu បៃ​)\n"
 
-#: dpkg-split/queue.c:304
+#: dpkg-split/queue.c:305
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "មិន​អាច​បោះបង់ `%.250s'"
 
-#: dpkg-split/queue.c:305
+#: dpkg-split/queue.c:306
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "បានលុប %s ។\n"
@@ -5315,24 +5385,24 @@ msgstr "មិន​អាច​ចូល​ទៅ​ឯកសារ​ប្រ
 msgid "source file `%.250s' not a plain file"
 msgstr "ឯកសារ​ប្រភព `%.250s' មិនមែន​ជា​ឯកសារ​អត្ថបទ​ធម្មតា"
 
-#: dpkg-split/split.c:151
+#: dpkg-split/split.c:152
 #, c-format
 msgid "Splitting package %s into %d part: "
 msgid_plural "Splitting package %s into %d parts: "
 msgstr[0] ""
 msgstr[1] ""
 
-#: dpkg-split/split.c:192
+#: dpkg-split/split.c:195
 msgid ""
 "Header is too long, making part too long. Your package name or version\n"
 "numbers must be extraordinarily long, or something. Giving up.\n"
 msgstr ""
 
-#: dpkg-split/split.c:247
+#: dpkg-split/split.c:251
 msgid "--split needs a source filename argument"
 msgstr "--split ត្រូវការ​អាគុយម៉ង់​ឈ្មោះ​ឯកសារ​ប្រភព"
 
-#: dpkg-split/split.c:250
+#: dpkg-split/split.c:254
 msgid "--split takes at most a source filename and destination prefix"
 msgstr "--split ត្រូវការ​បុព្វបទ​ទិសដៅ និង​ឈ្មោះ​ឯកសារ​ប្រភព​យ៉ាង​ហោច​ណាស់​មួយ"
 
@@ -5451,365 +5521,315 @@ msgstr ""
 "  --help                   បង្ហាញ​សារ​ជំនួយ​នេះ ។\n"
 "  --version                បង្ហាញ​កំណែ ។\n"
 
-#: utils/update-alternatives.c:150
+#: utils/update-alternatives.c:150 utils/update-alternatives.c:163
 #, fuzzy
 #| msgid "parse error"
 msgid "error"
 msgstr "ញែក​កំហុស"
 
-#: utils/update-alternatives.c:180
+#: utils/update-alternatives.c:193
 msgid "warning"
 msgstr "ការ​ព្រមាន​"
 
-#: utils/update-alternatives.c:280 utils/update-alternatives.c:647
-#: utils/update-alternatives.c:1171 utils/update-alternatives.c:1234
-#: utils/update-alternatives.c:1388 utils/update-alternatives.c:1632
-#, fuzzy, c-format
-#| msgid "cannot stat old name `%s': %s"
-msgid "cannot stat %s: %s"
-msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
-
-#: utils/update-alternatives.c:291
-#, c-format
-msgid "readlink(%s) failed: %s"
-msgstr ""
-
-#: utils/update-alternatives.c:327
+#: utils/update-alternatives.c:340
 #, fuzzy, c-format
 msgid "two commands specified: --%s and --%s"
 msgstr "មាន​ពីរ​របៀប​បាន​បញ្ជាក់ ៖ %s និង --%s"
 
-#: utils/update-alternatives.c:358
+#: utils/update-alternatives.c:371
 #, fuzzy, c-format
 #| msgid "cannot open diversions: %s"
-msgid "cannot append to %s: %s"
+msgid "cannot append to '%s'"
 msgstr "មិន​អាច​បើក​ការ​បង្វែរ ៖ %s"
 
-#: utils/update-alternatives.c:395
+#: utils/update-alternatives.c:533
 #, fuzzy, c-format
-#| msgid "%s: copying %s to %s failed, giving up: %s"
-msgid "scan of %s failed: %s"
-msgstr "%s ៖ ចម្លង %s ទៅ %s បាន​បរាជ័យ បោះបង់ ៖ %s"
-
-#: utils/update-alternatives.c:420
-#, fuzzy, c-format
-#| msgid "failed to exec %s"
-msgid "failed to execute %s: %s"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​ប្រតិបត្តិ %s"
-
-#: utils/update-alternatives.c:503
-#, c-format
-msgid "unable to make %s a symlink to %s: %s"
-msgstr "មិន​អាច​បង្កើត​តំណ​និមិត្ត​សញ្ញា %s ទៅ %s ៖ %s"
-
-#: utils/update-alternatives.c:511
-#, c-format
-msgid "unable to install %s as %s: %s"
-msgstr "មិន​អាច​ដំឡើង %s ជា %s ៖ %s"
-
-#: utils/update-alternatives.c:521
-#, c-format
-msgid "unable to remove %s: %s"
+#| msgid "unable to remove %s: %s"
+msgid "unable to remove '%s'"
 msgstr "មិន​អាច​យក %s ៖ %s ចេញ"
 
-#: utils/update-alternatives.c:1060
+#: utils/update-alternatives.c:1071
 #, fuzzy, c-format
 msgid "unexpected end of file while trying to read %s"
 msgstr "ចុង​ឯកសារ​ដែល​មិន​រំពឹង​នៅ​ក្នុង %s ក្នុង %.255s"
 
-#: utils/update-alternatives.c:1062 utils/update-alternatives.c:1904
+#: utils/update-alternatives.c:1073
 #, fuzzy, c-format
 msgid "while reading %s: %s"
 msgstr "មិន​អាច​អាន %s ៖ %s"
 
-#: utils/update-alternatives.c:1068
+#: utils/update-alternatives.c:1079
 #, fuzzy, c-format
 msgid "line not terminated while trying to read %s"
 msgstr "ចុង​ឯកសារ​ដែល​មិន​រំពឹង​នៅ​ក្នុង %s ក្នុង %.255s"
 
-#: utils/update-alternatives.c:1086
+#: utils/update-alternatives.c:1097
 #, fuzzy, c-format
 msgid "%s corrupt: %s"
 msgstr "កំហុស​ខាង​ក្នុង ៖ %s ខូច ៖ %s"
 
-#: utils/update-alternatives.c:1099
+#: utils/update-alternatives.c:1110
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "បន្ទាត់​ថ្មី​បាន​ហាមឃាត់​ក្នុង​ឯកសារ​ជម្រើស​ធ្វើឲ្យ​ទាន់​សម័យ (%s)"
 
-#: utils/update-alternatives.c:1103
-#, fuzzy, c-format
-msgid "while writing %s: %s"
-msgstr "កំហុស​ក្នុង​ការ​សរសេរ stdout ៖ %s"
-
-#: utils/update-alternatives.c:1112
+#: utils/update-alternatives.c:1123
 msgid "slave name"
 msgstr ""
 
-#: utils/update-alternatives.c:1120 utils/update-alternatives.c:2125
+#: utils/update-alternatives.c:1131 utils/update-alternatives.c:2148
 #, fuzzy, c-format
 #| msgid "duplicate slave %s"
 msgid "duplicate slave name %s"
 msgstr "ស្ទួន​កូនចៅ%s"
 
-#: utils/update-alternatives.c:1123
+#: utils/update-alternatives.c:1134
 #, fuzzy
 msgid "slave link"
 msgstr "ស្ទួន​តំណ​កូន​ចៅ %s"
 
-#: utils/update-alternatives.c:1127
+#: utils/update-alternatives.c:1138
 #, c-format
 msgid "slave link same as main link %s"
 msgstr "តំណ​កូនចៅ​ដូច​តំណ​មេ %s"
 
-#: utils/update-alternatives.c:1134 utils/update-alternatives.c:2132
+#: utils/update-alternatives.c:1145 utils/update-alternatives.c:2155
 #, c-format
 msgid "duplicate slave link %s"
 msgstr "ស្ទួន​តំណ​កូន​ចៅ %s"
 
-#: utils/update-alternatives.c:1153
+#: utils/update-alternatives.c:1164
 msgid "master file"
 msgstr ""
 
-#: utils/update-alternatives.c:1162
+#: utils/update-alternatives.c:1173
 #, c-format
 msgid "duplicate path %s"
 msgstr "ស្ទួន​ផ្លូវ %s"
 
-#: utils/update-alternatives.c:1176
+#: utils/update-alternatives.c:1186
 #, fuzzy, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist. Removing from list of "
 "alternatives."
 msgstr "ជម្រើសសម្រាប់ %s ចង្អុលទៅ %s - ដែលរកមិនឃើញ ។  យក​ចេញ​ពី​បញ្ជី​របស់​ជម្រើស ។"
 
-#: utils/update-alternatives.c:1179 utils/update-alternatives.c:1190
+#: utils/update-alternatives.c:1189 utils/update-alternatives.c:1200
 #, fuzzy
 msgid "priority"
 msgstr "អាទិភាព %s %s"
 
-#: utils/update-alternatives.c:1182 utils/update-alternatives.c:1199
+#: utils/update-alternatives.c:1192 utils/update-alternatives.c:1209
 msgid "slave file"
 msgstr ""
 
-#: utils/update-alternatives.c:1194
+#: utils/update-alternatives.c:1204
 #, fuzzy, c-format
 msgid "priority of %s: %s"
 msgstr "អាទិភាព %s %s"
 
-#: utils/update-alternatives.c:1244
-#, c-format
-msgid "unable to read %s: %s"
-msgstr "មិន​អាច​អាន %s ៖ %s"
-
-#: utils/update-alternatives.c:1248
+#: utils/update-alternatives.c:1257
 msgid "status"
 msgstr ""
 
-#: utils/update-alternatives.c:1250
+#: utils/update-alternatives.c:1259
 msgid "invalid status"
 msgstr ""
 
-#: utils/update-alternatives.c:1255
+#: utils/update-alternatives.c:1264
 #, fuzzy
 msgid "master link"
 msgstr "ស្ទួន​តំណ​កូន​ចៅ %s"
 
-#: utils/update-alternatives.c:1265 utils/update-alternatives.c:1355
-#, c-format
-msgid "unable to close %s: %s"
-msgstr "មិន​អាច​បិទ %s ៖ %s"
-
-#: utils/update-alternatives.c:1299
+#: utils/update-alternatives.c:1308
 #, fuzzy, c-format
 msgid "discarding obsolete slave link %s (%s)."
 msgstr "បោះបង់​តំណ​កូន​ចៅ​ដែល​លែង​ប្រើ %s (%s) ។"
 
-#: utils/update-alternatives.c:1324
-#, fuzzy, c-format
-#| msgid "unable to write %s: %s"
-msgid "cannot write %s: %s"
-msgstr "មិន​អាច​សរសេរ %s ៖ %s"
-
-#: utils/update-alternatives.c:1449 utils/update-alternatives.c:1516
-#: utils/update-alternatives.c:2450
+#: utils/update-alternatives.c:1462 utils/update-alternatives.c:1529
+#: utils/update-alternatives.c:2484
 msgid "auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1449 utils/update-alternatives.c:1525
-#: utils/update-alternatives.c:2451
+#: utils/update-alternatives.c:1462 utils/update-alternatives.c:1538
+#: utils/update-alternatives.c:2485
 msgid "manual mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1452
+#: utils/update-alternatives.c:1465
 #, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr " តំណ​បច្ចុប្បន្ន​ចង្អុល​ទៅ %s"
 
-#: utils/update-alternatives.c:1455
+#: utils/update-alternatives.c:1468
 #, fuzzy
 msgid "  link currently absent"
 msgstr " គ្មាន​​តំណ​បច្ចុប្បន្ន"
 
-#: utils/update-alternatives.c:1459
+#: utils/update-alternatives.c:1472
 #, fuzzy, c-format
 #| msgid "%s - priority %s"
 msgid "%s - priority %d"
 msgstr "%s - អាទិភាព %s"
 
-#: utils/update-alternatives.c:1462
+#: utils/update-alternatives.c:1475
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr " កូនចៅ %s ៖ %s"
 
-#: utils/update-alternatives.c:1469
+#: utils/update-alternatives.c:1482
 #, fuzzy, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "កំណែ `ល្អ​បំផុត' បច្ចុប្បន្ន​គឺ %s ។"
 
-#: utils/update-alternatives.c:1471
+#: utils/update-alternatives.c:1484
 msgid "No versions available."
 msgstr "គ្មានកំណែ ។"
 
-#: utils/update-alternatives.c:1500
+#: utils/update-alternatives.c:1513
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: utils/update-alternatives.c:1507
+#: utils/update-alternatives.c:1520
 #, fuzzy
 msgid "Selection"
 msgstr "សេចក្តី​ពិពណ៌នា"
 
-#: utils/update-alternatives.c:1508
+#: utils/update-alternatives.c:1521
 msgid "Path"
 msgstr ""
 
-#: utils/update-alternatives.c:1508
+#: utils/update-alternatives.c:1521
 #, fuzzy
 msgid "Priority"
 msgstr "អាទិភាព %s %s"
 
-#: utils/update-alternatives.c:1508
+#: utils/update-alternatives.c:1521
 msgid "Status"
 msgstr ""
 
-#: utils/update-alternatives.c:1529
+#: utils/update-alternatives.c:1542
 #, fuzzy, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr "សង្កត់​គ្រាប់ចុច បញ្ចូល ដើម្បី​រក្សា​លំនាំដើម[*] ឬ​វាយ​លេខ​ជម្រើស ៖ "
 
-#: utils/update-alternatives.c:1646
+#: utils/update-alternatives.c:1666
 #, c-format
 msgid "not replacing %s with a link."
 msgstr ""
 
-#: utils/update-alternatives.c:1659
+#: utils/update-alternatives.c:1679
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1677
+#: utils/update-alternatives.c:1697
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
 
-#: utils/update-alternatives.c:1874 utils/update-alternatives.c:1880
+#: utils/update-alternatives.c:1707
+#, c-format
+msgid "not removing %s since it's not a symlink."
+msgstr ""
+
+#: utils/update-alternatives.c:1897 utils/update-alternatives.c:1903
 #, c-format
 msgid "Call %s."
 msgstr ""
 
-#: utils/update-alternatives.c:1884
+#: utils/update-alternatives.c:1907
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr ""
 
-#: utils/update-alternatives.c:1888
+#: utils/update-alternatives.c:1911
 #, fuzzy, c-format
 msgid "Skip unknown alternative %s."
 msgstr "មិន​អាច​រក​ជម្រើស `%s' ។"
 
-#: utils/update-alternatives.c:1910
+#: utils/update-alternatives.c:1933
 #, fuzzy, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "ចុង​ឯកសារ​ដែល​មិន​រំពឹង​នៅ​ក្នុង %s ក្នុង %.255s"
 
-#: utils/update-alternatives.c:1923 utils/update-alternatives.c:1936
-#: utils/update-alternatives.c:1946
+#: utils/update-alternatives.c:1946 utils/update-alternatives.c:1959
+#: utils/update-alternatives.c:1969
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1965
+#: utils/update-alternatives.c:1988
 #, fuzzy, c-format
 msgid "renaming %s link from %s to %s."
 msgstr "ប្ដូរ​ឈ្មោះ​តំណ %s ពី %s ទៅជា %s ។"
 
-#: utils/update-alternatives.c:1996
+#: utils/update-alternatives.c:2019
 #, fuzzy, c-format
 msgid "renaming %s slave link from %s to %s."
 msgstr "ប្ដូរ​ឈ្មោះ​តំណ​កូនចៅ %s ពី %s ទៅជា %s ។"
 
-#: utils/update-alternatives.c:2044
+#: utils/update-alternatives.c:2067
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "មិន​ស្គាល់​អាគុយម៉ង់​ `%s'"
 
-#: utils/update-alternatives.c:2063
+#: utils/update-alternatives.c:2086
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install ត្រូវការ <តំណ> <ឈ្មោះ> <ផ្លូវ> <អាទិភាព>"
 
-#: utils/update-alternatives.c:2066 utils/update-alternatives.c:2117
+#: utils/update-alternatives.c:2089 utils/update-alternatives.c:2140
 msgid "<link> and <path> can't be the same"
 msgstr ""
 
-#: utils/update-alternatives.c:2069
+#: utils/update-alternatives.c:2092
 msgid "priority must be an integer"
 msgstr "អាទិភាព​ត្រូវតែ​ជា​ចំនួន​គត់"
 
-#: utils/update-alternatives.c:2082
+#: utils/update-alternatives.c:2105
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s ត្រូវការ <ឈ្មោះ> <ផ្លូវ>"
 
-#: utils/update-alternatives.c:2096
+#: utils/update-alternatives.c:2119
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s ត្រូវការ <ឈ្មោះ>"
 
-#: utils/update-alternatives.c:2108
+#: utils/update-alternatives.c:2131
 msgid "--slave only allowed with --install"
 msgstr "--slave បាន​អនុញ្ញាត​តែ​ជា​មួយ --install ប៉ុណ្ណោះ"
 
-#: utils/update-alternatives.c:2110
+#: utils/update-alternatives.c:2133
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave ត្រូវការ <តំណ> <ឈ្មោះ> <ផ្លូវ>"
 
-#: utils/update-alternatives.c:2119
+#: utils/update-alternatives.c:2142
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr "ឈ្មោះ %s គឺ​ទាំង​មេ និង​កូនចៅ"
 
-#: utils/update-alternatives.c:2122
+#: utils/update-alternatives.c:2145
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr "តំណ %s គឺ​ទាំង​មេ និង​កូនចៅ"
 
-#: utils/update-alternatives.c:2142
+#: utils/update-alternatives.c:2165
 #, fuzzy, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s ត្រូវការ​អាគុយម៉ង់​តែ​មួយ"
 
-#: utils/update-alternatives.c:2168
+#: utils/update-alternatives.c:2191
 #, c-format
 msgid "unknown option `%s'"
 msgstr "មិន​​ស្គា​ល់​ជម្រើស​ `%s'"
 
-#: utils/update-alternatives.c:2173
+#: utils/update-alternatives.c:2196
 #, fuzzy
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -5818,67 +5838,72 @@ msgstr ""
 "ត្រូវការ --display, --config, --set, --install, --remove, --all, --remove-all "
 "ឬ --auto"
 
-#: utils/update-alternatives.c:2215
+#: utils/update-alternatives.c:2238
 #, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2226 utils/update-alternatives.c:2267
+#: utils/update-alternatives.c:2249 utils/update-alternatives.c:2290
 #, c-format
 msgid "alternative link %s is already managed by %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2231 utils/update-alternatives.c:2273
+#: utils/update-alternatives.c:2254 utils/update-alternatives.c:2307
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2235 utils/update-alternatives.c:2277
+#: utils/update-alternatives.c:2258 utils/update-alternatives.c:2311
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2239
+#: utils/update-alternatives.c:2262
 #, fuzzy, c-format
 msgid "alternative path %s doesn't exist."
 msgstr "ព្រមាន ៖ --update បាន​ផ្ដល់ ប៉ុន្តែ %s មិន​ទាន់​មាន"
 
-#: utils/update-alternatives.c:2243 utils/update-alternatives.c:2281
+#: utils/update-alternatives.c:2266 utils/update-alternatives.c:2315
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces."
 msgstr ""
 
-#: utils/update-alternatives.c:2255
+#: utils/update-alternatives.c:2278
 msgid "it is a master alternative."
 msgstr ""
 
-#: utils/update-alternatives.c:2257
+#: utils/update-alternatives.c:2280
 #, fuzzy, c-format
 msgid "it is a slave of %s"
 msgstr " កូនចៅ %s ៖ %s"
 
-#: utils/update-alternatives.c:2259
+#: utils/update-alternatives.c:2282
 #, c-format
 msgid "alternative %s can't be slave of %s: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2306
+#: utils/update-alternatives.c:2300
+#, c-format
+msgid "alternative link %s is already managed by %s (slave of %s)."
+msgstr ""
+
+#: utils/update-alternatives.c:2340
 #, fuzzy
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "អាន​កំហុស​អំពី​ការ​បញ្ចូល​ជា​ខ្នាតគំរូ"
 
-#: utils/update-alternatives.c:2315 utils/update-alternatives.c:2318
+#: utils/update-alternatives.c:2349 utils/update-alternatives.c:2352
 #, fuzzy, c-format
 msgid "no alternatives for %s."
 msgstr "គ្មាន​ជម្រើ​សម្រាប់ %s ។"
 
-#: utils/update-alternatives.c:2342
+#: utils/update-alternatives.c:2376
 #, c-format
 msgid "%s/%s is dangling, it will be updated with best choice."
 msgstr ""
 
-#: utils/update-alternatives.c:2346
+#: utils/update-alternatives.c:2380
 #, fuzzy, c-format
 msgid ""
 "%s/%s has been changed (manually or by a script). Switching to manual "
@@ -5887,67 +5912,103 @@ msgstr ""
 "%s ត្រូវ​បាន​ផ្លាស់ប្ដូរ (ដោយ​ដៃ ឬ​ដោយ​ស្គ្រីប) ។\n"
 "ប្ដូរទៅ​ជា​ការ​ធ្វើ​ឲ្យ​ទាន់​សម័យ​ដោយ​ដៃ​តែ​ប៉ុណ្ណោះ ។"
 
-#: utils/update-alternatives.c:2354
+#: utils/update-alternatives.c:2388
 #, fuzzy, c-format
 msgid "setting up automatic selection of %s."
 msgstr "រៀបចំ​ជម្រើស​ស្វ័យប្រវត្តិ​របស់ %s ។"
 
-#: utils/update-alternatives.c:2363
+#: utils/update-alternatives.c:2397
 #, fuzzy, c-format
 msgid "alternative %s for %s not registered, not setting."
 msgstr "ជម្រើស %s សម្រាប់ %s មិន​បាន​ចុះ​ឈ្មោះ មិន​យក​ចេញ​ទេ"
 
-#: utils/update-alternatives.c:2369 utils/update-alternatives.c:2375
+#: utils/update-alternatives.c:2403 utils/update-alternatives.c:2409
 #, fuzzy, c-format
 msgid "There is no program which provides %s."
 msgstr ""
 "មាន​តែ​កម្មវិធី​តែ ១ ប៉ុណ្ណោះ​ដែល​ផ្ដល់ %s\n"
 "(%s) ។ គ្មាន​អ្វី​ត្រូវ​កំណត់​រចនាសម្ព័ន្ធ ។\n"
 
-#: utils/update-alternatives.c:2377 utils/update-alternatives.c:2387
+#: utils/update-alternatives.c:2411 utils/update-alternatives.c:2421
 msgid "Nothing to configure."
 msgstr ""
 
-#: utils/update-alternatives.c:2385
+#: utils/update-alternatives.c:2419
 #, c-format
 msgid "There is only one alternative in link group %s: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2396
+#: utils/update-alternatives.c:2430
 #, fuzzy, c-format
 msgid "alternative %s for %s not registered, not removing."
 msgstr "ជម្រើស %s សម្រាប់ %s មិន​បាន​ចុះ​ឈ្មោះ មិន​យក​ចេញ​ទេ"
 
-#: utils/update-alternatives.c:2404
+#: utils/update-alternatives.c:2438
 #, fuzzy, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr "យក​ជម្រើស​ដែល​បាន​ជ្រើស​ចេញ​ដោយ​ដៃ - ប្ដូរ​ទៅ​ជា​របៀប​ស្វ័យប្រវត្តិ"
 
-#: utils/update-alternatives.c:2429
+#: utils/update-alternatives.c:2463
 #, fuzzy, c-format
 msgid "automatic updates of %s/%s are disabled, leaving it alone."
 msgstr "ការ​ធ្វើឲ្យ​ទាន់​សម័យ​ដោយ​ស្វ័យប្រវត្តិ​របស់ %s ត្រូវ​បាន​មិន​អនុញ្ញាត ទុក​វា​ឲ្យ​នៅ​តែឯង ។"
 
-#: utils/update-alternatives.c:2431
+#: utils/update-alternatives.c:2465
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'."
 msgstr "ដើម្បី​ត្រឡ​ប់ទៅ​ការ​ធ្វើ​ឲ្យ​ទាន់​សម័យ​ដោយ​ស្វ័យប្រវត្តិ ប្រើ `ជម្រើស​ធ្វើ​ឲ្យទាន់​សម័យ --auto %s'."
 
-#: utils/update-alternatives.c:2448
+#: utils/update-alternatives.c:2482
 #, fuzzy, c-format
 msgid "using %s to provide %s (%s) in %s."
 msgstr "ការ​ប្រើ `%s' ដើម្បី​ផ្ដល់ `%s' ។"
 
-#: utils/update-alternatives.c:2456
+#: utils/update-alternatives.c:2490
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken."
 msgstr ""
 
-#: utils/update-alternatives.c:2463
+#: utils/update-alternatives.c:2497
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s."
 msgstr ""
+
+#, fuzzy
+#~| msgid "cannot stat old name `%s': %s"
+#~ msgid "cannot stat %s: %s"
+#~ msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
+
+#, fuzzy
+#~| msgid "%s: copying %s to %s failed, giving up: %s"
+#~ msgid "scan of %s failed: %s"
+#~ msgstr "%s ៖ ចម្លង %s ទៅ %s បាន​បរាជ័យ បោះបង់ ៖ %s"
+
+#, fuzzy
+#~| msgid "failed to exec %s"
+#~ msgid "failed to execute %s: %s"
+#~ msgstr "បាន​បរាជ័យ​ក្នុង​ការ​ប្រតិបត្តិ %s"
+
+#~ msgid "unable to make %s a symlink to %s: %s"
+#~ msgstr "មិន​អាច​បង្កើត​តំណ​និមិត្ត​សញ្ញា %s ទៅ %s ៖ %s"
+
+#~ msgid "unable to install %s as %s: %s"
+#~ msgstr "មិន​អាច​ដំឡើង %s ជា %s ៖ %s"
+
+#, fuzzy
+#~ msgid "while writing %s: %s"
+#~ msgstr "កំហុស​ក្នុង​ការ​សរសេរ stdout ៖ %s"
+
+#~ msgid "unable to read %s: %s"
+#~ msgstr "មិន​អាច​អាន %s ៖ %s"
+
+#~ msgid "unable to close %s: %s"
+#~ msgstr "មិន​អាច​បិទ %s ៖ %s"
+
+#, fuzzy
+#~| msgid "unable to write %s: %s"
+#~ msgid "cannot write %s: %s"
+#~ msgstr "មិន​អាច​សរសេរ %s ៖ %s"
 
 #, fuzzy
 #~| msgid "unable to rename %s to %s: %s"
@@ -6185,9 +6246,6 @@ msgstr ""
 #~| msgid "skipped member data from %s"
 #~ msgid "skipped control area from %s"
 #~ msgstr "បាន​រំលង​ទិន្នន័យ​សមាជិក​ពី %s"
-
-#~ msgid "failed to exec tar"
-#~ msgstr "បាន​បរាជ័យ​ទៅ exec tar"
 
 #, fuzzy
 #~ msgid "failed to create temporary directory"
