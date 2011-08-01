@@ -27,15 +27,12 @@ It calls \fBdpkg-source \-b\fP to generate the source package (unless
 a binary\-only build has been requested with \fB\-b\fP, \fB\-B\fP or
 \fB\-A\fP).
 .IP \fB5.\fP 3
-It calls \fBdebian/rules\fP \fIbuild-target\fP followed by
+It calls \fBdebian/rules\fP \fBbuild\fP followed by
 \fBfakeroot debian/rules\fP \fIbinary-target\fP (unless a source-only
-build has been requested with \fB\-S\fP). Note that \fIbuild-target\fP
-is \fBbuild\fP unless the control file defines the build-feature \fBbuild-arch\fP,
-in which case it is either \fBbuild\fP (default case) or \fBbuild-arch\fP (if
-\fB\-B\fP is specified) or \fBbuild-indep\fP (if \fB\-A\fP is specified).
-\fIbinary-target\fR is either \fBbinary\fP (default case) or
-\fBbinary-arch\fP (if \fB\-B\fP is specified) or \fBbinary-indep\fP (if
-\fB\-A\fP is specified).
+build has been requested with \fB\-S\fP). Note that \fIbinary-target\fR is
+either \fBbinary\fP (default case, or if \fB\-b\fP is specified)
+or \fBbinary-arch\fP (if \fB\-B\fP is specified) or \fBbinary-indep\fP
+(if \fB\-A\fP is specified).
 .IP \fB6.\fP 3
 It calls \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
 \fB\-us\fP is specified).

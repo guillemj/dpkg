@@ -83,9 +83,6 @@ our %FIELDS = (
         dependency => 'union',
         dep_order => 10,
     },
-    'Build-Features' => {
-        allowed => ALL_SRC,
-    },
     'Changed-By' => {
         allowed => CTRL_FILE_CHANGES,
     },
