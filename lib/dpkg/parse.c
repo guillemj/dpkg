@@ -99,7 +99,7 @@ struct field_state {
   struct varbuf value;
   int fieldlen;
   int valuelen;
-  int fieldencountered[array_count(fieldinfos)];
+  int *fieldencountered;
 };
 
 /**
@@ -450,6 +450,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   struct pkginfo tmp_pkg;
   struct pkginfo *new_pkg, *db_pkg;
   struct pkgbin *new_pkgbin, *db_pkgbin;
+  int fieldencountered[array_count(fieldinfos)];
   int pdone;
   char *data;
   struct stat st;
@@ -461,6 +462,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   ps.lno = 0;
 
   memset(&fs, 0, sizeof(fs));
+  fs.fieldencountered = fieldencountered;
 
   new_pkg = &tmp_pkg;
   if (flags & pdb_recordavailable)
@@ -500,7 +502,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   /* Loop per package. */
   for (;;) {
-    memset(fs.fieldencountered, 0, sizeof(fs.fieldencountered));
+    memset(fieldencountered, 0, sizeof(fieldencountered));
     pkg_blank(new_pkg);
 
     if (!parse_stanza(&ps, &fs, pkg_parse_field, new_pkg, new_pkgbin))
