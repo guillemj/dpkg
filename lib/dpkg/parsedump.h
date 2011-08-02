@@ -34,6 +34,26 @@ struct parsedb_state {
 	int lno;
 };
 
+#define parse_EOF(ps)		((ps)->dataptr >= (ps)->endptr)
+#define parse_getc(ps)		*(ps)->dataptr++
+#define parse_ungetc(c, ps)	(ps)->dataptr--
+
+struct field_state {
+	const char *fieldstart;
+	const char *valuestart;
+	struct varbuf value;
+	int fieldlen;
+	int valuelen;
+	int *fieldencountered;
+};
+
+typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
+                              struct pkginfo *pkg, struct pkgbin *pkgbin);
+
+bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
+                  parse_field_func *parse_field,
+                  struct pkginfo *pkg, struct pkgbin *pkgbin);
+
 #define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
 #define PKGPFIELD(pifp,of,type) (*(type*)((char*)(pifp)+(of)))
 

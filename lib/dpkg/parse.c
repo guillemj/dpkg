@@ -93,15 +93,6 @@ static const struct nickname nicknames[] = {
   { .nick = NULL }
 };
 
-struct field_state {
-  const char *fieldstart;
-  const char *valuestart;
-  struct varbuf value;
-  int fieldlen;
-  int valuelen;
-  int *fieldencountered;
-};
-
 /**
  * Parse the field and value into the package being constructed.
  */
@@ -311,17 +302,10 @@ pkg_parse_copy(struct parsedb_state *ps,
   }
 }
 
-#define parse_EOF(ps)		((ps)->dataptr >= (ps)->endptr)
-#define parse_getc(ps)		*(ps)->dataptr++
-#define parse_ungetc(c, ps)	(ps)->dataptr--
-
-typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
-                              struct pkginfo *pkg, struct pkgbin *pkgbin);
-
 /**
  * Parse an RFC-822 style stanza.
  */
-static bool
+bool
 parse_stanza(struct parsedb_state *ps, struct field_state *fs,
              parse_field_func *parse_field,
              struct pkginfo *pkg, struct pkgbin *pkgbin)
