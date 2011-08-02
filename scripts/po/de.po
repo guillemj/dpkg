@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg-scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2011-08-01 22:21+0200\n"
-"PO-Revision-Date: 2011-07-23 10:36+0200\n"
+"PO-Revision-Date: 2011-08-02 19:30+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -150,22 +150,7 @@ msgstr ""
 "Copyright (C) 2010-2011 Raphael Hertzog <hertzog@debian.org>."
 
 #: scripts/dpkg-buildflags.pl:44
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<action>]\n"
-#| "\n"
-#| "Actions:\n"
-#| "  --get <flag>       output the requested flag to stdout.\n"
-#| "  --origin <flag>    output the origin of the flag to stdout:\n"
-#| "                     value is one of vendor, system, user, env.\n"
-#| "  --list             output a list of the flags supported by the current "
-#| "vendor.\n"
-#| "  --export=(sh|make) output commands to be executed in shell or make that "
-#| "export\n"
-#| "                     all the compilation flags as environment variables.\n"
-#| "  --dump             output all compilation flags with their values\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<action>]\n"
 "\n"
@@ -191,10 +176,10 @@ msgstr ""
 "                      mögliche Werte: vendor, system, user, env\n"
 "  --list              eine Liste der vom aktuellen Lieferanten (Vendor)\n"
 "                      unterstützen Schalter ausgeben\n"
-"  --export=(sh|make)  Ausgabe der in shell oder make auszuführenden "
-"Befehle,\n"
-"                      die alle Kompilierschalter als Umgebungsvariablen\n"
-"                      ausgeben\n"
+"  --export=(sh|make|configure)\n"
+"                      etwas praktisches ausgeben, um die Kompilierschalter\n"
+"                      in einem Shell-Skript, in Make oder auf der\n"
+"                      Kommandozeile für ./configure zu importieren\n"
 "  --dump              alle Kompilierschalter mit ihren Werten ausgeben\n"
 "  --help              diese Hilfemeldung anzeigen\n"
 "  --version           die Version anzeigen\n"
@@ -1828,15 +1813,12 @@ msgid "%s is not a compression level"
 msgstr "%s ist keine Komprimierungsstufe"
 
 #: scripts/dpkg-source.pl:214
-#, fuzzy
-#| msgid ""
-#| "need a command (-x, -b, --before-build, --after-build, --print-format)"
 msgid ""
 "need a command (-x, -b, --before-build, --after-build, --print-format, --"
 "commit)"
 msgstr ""
 "ein Befehl wird benötigt (-x, -b, --before-build, --after-build, --print-"
-"format)"
+"format, --commit)"
 
 #: scripts/dpkg-source.pl:238
 #, perl-format
@@ -1943,16 +1925,7 @@ msgstr ""
 "Copyright (C) 2008 Raphael Hertzog."
 
 #: scripts/dpkg-source.pl:470
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option> ...] <command>\n"
-#| "\n"
-#| "Commands:\n"
-#| "  -x <filename>.dsc [<output-dir>]\n"
-#| "                           extract source package.\n"
-#| "  -b <dir>                 build source package.\n"
-#| "  --print-format <dir>     print the source format that would be\n"
-#| "                           used to build the source package."
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -1972,7 +1945,10 @@ msgstr ""
 "                           Quellpaket extrahieren.\n"
 "  -b <Verz>                Quellpaket bauen.\n"
 "  --print-format <Verz>    das Quellformat ausgeben, das zum Bau des\n"
-"                           Quellpakets verwandt würde."
+"                           Quellpakets verwandt würde.\n"
+"  --commit [<Verz> [<Patch-Name>]]\n"
+"                           Änderungen der Originalautoren in einem neuen\n"
+"                           Patch speichern."
 
 #: scripts/dpkg-source.pl:481
 #, perl-format
@@ -2955,10 +2931,9 @@ msgid "%s is not a plain file"
 msgstr "%s ist keine gewöhnliche Datei"
 
 #: scripts/Dpkg/Source/Package.pm:517
-#, fuzzy, perl-format
-#| msgid "can't build with source format '%s': %s"
+#, perl-format
 msgid "'%s' is not supported by the source format '%s'"
-msgstr "unmöglich, mit Quellformat »%s« zu bauen: %s"
+msgstr "»%s« wird vom Quellformat »%s« nicht unterstützt"
 
 #: scripts/Dpkg/Source/Package/V1.pm:62
 #, perl-format
@@ -3232,10 +3207,8 @@ msgid "unrepresentable changes to source"
 msgstr "nicht darstellbare Änderungen an den Quellen"
 
 #: scripts/Dpkg/Source/Package/V2.pm:389
-#, fuzzy
-#| msgid "local changes stored in %s, the modified files are:"
 msgid "local changes detected, the modified files are:"
-msgstr "lokale Änderungen in %s gespeichert, die veränderten Dateien sind:"
+msgstr "lokale Änderungen erkannt, die veränderten Dateien sind:"
 
 #: scripts/Dpkg/Source/Package/V2.pm:408
 #: scripts/Dpkg/Source/Package/V3/bzr.pm:97
@@ -3276,18 +3249,18 @@ msgstr[1] ""
 #: scripts/Dpkg/Source/Package/V2.pm:506
 #, perl-format
 msgid "you can integrate the local changes with %s"
-msgstr ""
+msgstr "Sie können die lokalen Änderungen mit %s integrieren"
 
 #: scripts/Dpkg/Source/Package/V2.pm:508
-#, fuzzy, perl-format
-#| msgid "aborting due to --abort-on-upstream-changes"
+#, perl-format
 msgid "aborting due to unexpected upstream changes, see %s"
-msgstr "Abbruch aufgrund von --abort-on-upstream-changes"
+msgstr ""
+"Abbruch aufgrund unerwarteter Änderungen in den Originalquellen, siehe %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:517 scripts/Dpkg/Source/Package/V2.pm:647
 #, perl-format
 msgid "local changes have been recorded in a new patch: %s"
-msgstr ""
+msgstr "lokale Änderungen wurden in einem neuen Patch aufgezeichnet: %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:519 scripts/Dpkg/Source/Package/V2.pm:604
 #: scripts/Dpkg/Source/Package/V2.pm:632 scripts/Dpkg/Source/Package/V2.pm:645
@@ -3303,25 +3276,23 @@ msgstr "%s wird zu %s hinzugefügt"
 
 #: scripts/Dpkg/Source/Package/V2.pm:596
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:363
-#, fuzzy, perl-format
-#| msgid "failed to rename saved %s to %s"
+#, perl-format
 msgid "failed to copy %s to %s"
-msgstr "Fehler beim Umbenennen des gesicherten %s in %s"
+msgstr "Fehler beim Kopieren von %s nach %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:619
 #, perl-format
 msgid "cannot register changes in %s, this patch already exists"
 msgstr ""
+"Änderungen in %s können nicht registriert werden, Patch existiert bereits"
 
 #: scripts/Dpkg/Source/Package/V2.pm:633
-#, fuzzy
-#| msgid "unrepresentable changes to source"
 msgid "there are no local changes to record"
-msgstr "nicht darstellbare Änderungen an den Quellen"
+msgstr "es gibt keine aufzuzeichnenden lokalen Änderungen"
 
 #: scripts/Dpkg/Source/Package/V2.pm:638
 msgid "Enter the desired patch name: "
-msgstr ""
+msgstr "Bitte geben Sie den gewünschten Namen für den Patch ein: "
 
 #: scripts/Dpkg/Source/Package/V3/bzr.pm:52
 msgid ""
