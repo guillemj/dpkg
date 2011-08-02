@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 22;
+use Test::More tests => 24;
 use Dpkg::ErrorHandling;
 
 use strict;
@@ -66,3 +66,7 @@ $ENV{DEB_BUILD_OPTIONS} = 'foobar';
 $dbo = Dpkg::BuildOptions->new();
 $dbo->set("noopt", 1);
 is($dbo->output(), "foobar noopt", "output");
+
+$dbo = Dpkg::BuildOptions->new(envvar => "OTHER_VARIABLE");
+is($dbo->get("parallel"), 5, "import from other variable, check parallel");
+ok($dbo->has("noopt"), "import from other variable, check noopt");

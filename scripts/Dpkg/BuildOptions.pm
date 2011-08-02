@@ -19,7 +19,7 @@ package Dpkg::BuildOptions;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "1.01";
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -33,16 +33,18 @@ Dpkg::BuildOptions - parse and update build options
 =head1 DESCRIPTION
 
 The Dpkg::BuildOptions object can be used to manipulate options stored
-in the DEB_BUILD_OPTIONS environment variable.
+in environment variables like DEB_BUILD_OPTIONS and
+DEB_BUILD_MAINT_OPTIONS.
 
 =head1 FUNCTIONS
 
 =over 4
 
-=item my $bo = Dpkg::BuildOptions->new()
+=item my $bo = Dpkg::BuildOptions->new(%opts)
 
 Create a new Dpkg::BuildOptions object. It will be initialized based
-on the value of the DEB_BUILD_OPTIONS environment variable.
+on the value of the environment variable named $opts{'envvar'} (or
+DEB_BUILD_OPTIONS if that option is not set).
 
 =cut
 
@@ -53,9 +55,10 @@ sub new {
     my $self = {
         options => {},
 	source => {},
+	envvar => $opts{'envvar'} // "DEB_BUILD_OPTIONS",
     };
     bless $self, $class;
-    $self->merge($ENV{DEB_BUILD_OPTIONS}, "DEB_BUILD_OPTIONS");
+    $self->merge($ENV{$self->{'envvar'}}, $self->{'envvar'});
     return $self;
 }
 
@@ -169,20 +172,27 @@ sub output {
 =item $bo->export([$var])
 
 Export the build options to the given environment variable. If omitted,
-DEB_BUILD_OPTIONS is assumed. The value set to the variable is also
-returned.
+the environment variable defined at creation time is assumed. The value
+set to the variable is also returned.
 
 =cut
 
 sub export {
     my ($self, $var) = @_;
-    $var = "DEB_BUILD_OPTIONS" unless defined $var;
+    $var = $self->{'envvar'} unless defined $var;
     my $content = $self->output();
     $ENV{$var} = $content;
     return $content;
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+Enable to use another environment variable instead of DEB_BUILD_OPTIONS.
+Thus add support for the "envvar" option at creation time.
 
 =head1 AUTHOR
 
