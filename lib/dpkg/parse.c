@@ -424,7 +424,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 /**
  * Parse an RFC-822 style file.
  *
- * warnto, warncount and donep may be NULL.
+ * donep may be NULL.
  * If donep is not NULL only one package's information is expected.
  */
 int parsedb(const char *filename, enum parsedbflags flags,
