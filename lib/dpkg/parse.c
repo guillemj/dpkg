@@ -311,9 +311,9 @@ pkg_parse_copy(struct parsedb_state *ps,
   }
 }
 
-#define EOF_mmap(ps)		((ps)->dataptr >= (ps)->endptr)
-#define getc_mmap(ps)		*(ps)->dataptr++
-#define ungetc_mmap(c, ps)	(ps)->dataptr--
+#define parse_EOF(ps)		((ps)->dataptr >= (ps)->endptr)
+#define parse_getc(ps)		*(ps)->dataptr++
+#define parse_ungetc(c, ps)	(ps)->dataptr--
 
 typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
                               struct pkginfo *pkg, struct pkgbin *pkgbin);
@@ -329,15 +329,15 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
   int c;
 
   /* Skip adjacent new lines. */
-  while (!EOF_mmap(ps)) {
-    c = getc_mmap(ps);
+  while (!parse_EOF(ps)) {
+    c = parse_getc(ps);
     if (c != '\n' && c != MSDOS_EOF_CHAR)
       break;
     ps->lno++;
   }
 
   /* Nothing relevant parsed, bail out. */
-  if (EOF_mmap(ps))
+  if (parse_EOF(ps))
     return false;
 
   /* Loop per field. */
@@ -346,16 +346,16 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 
     /* Scan field name. */
     fs->fieldstart = ps->dataptr - 1;
-    while (!EOF_mmap(ps) && !isspace(c) && c != ':' && c != MSDOS_EOF_CHAR)
-      c = getc_mmap(ps);
+    while (!parse_EOF(ps) && !isspace(c) && c != ':' && c != MSDOS_EOF_CHAR)
+      c = parse_getc(ps);
     fs->fieldlen = ps->dataptr - fs->fieldstart - 1;
 
     /* Skip spaces before ‘:’. */
-    while (!EOF_mmap(ps) && c != '\n' && isspace(c))
-      c = getc_mmap(ps);
+    while (!parse_EOF(ps) && c != '\n' && isspace(c))
+      c = parse_getc(ps);
 
     /* Validate ‘:’. */
-    if (EOF_mmap(ps))
+    if (parse_EOF(ps))
       parse_error(ps,
                   _("EOF after field name `%.*s'"), fs->fieldlen, fs->fieldstart);
     if (c == '\n')
@@ -371,12 +371,12 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                   fs->fieldlen, fs->fieldstart);
 
     /* Skip space after ‘:’ but before value and EOL. */
-    while (!EOF_mmap(ps)) {
-      c = getc_mmap(ps);
+    while (!parse_EOF(ps)) {
+      c = parse_getc(ps);
       if (c == '\n' || !isspace(c))
         break;
     }
-    if (EOF_mmap(ps))
+    if (parse_EOF(ps))
       parse_error(ps,
                   _("EOF before value of field `%.*s' (missing final newline)"),
                   fs->fieldlen, fs->fieldstart);
@@ -397,27 +397,27 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                       fs->fieldlen, fs->fieldstart);
         ps->lno++;
 
-        if (EOF_mmap(ps))
+        if (parse_EOF(ps))
           break;
-        c = getc_mmap(ps);
+        c = parse_getc(ps);
 
         /* Found double EOL, or start of new field. */
-        if (EOF_mmap(ps) || c == '\n' || !isspace(c))
+        if (parse_EOF(ps) || c == '\n' || !isspace(c))
           break;
 
-        ungetc_mmap(c, ps);
+        parse_ungetc(c, ps);
         c = '\n';
         blank_line = true;
       } else if (blank_line && !isspace(c)) {
         blank_line = false;
       }
 
-      if (EOF_mmap(ps))
+      if (parse_EOF(ps))
         parse_error(ps,
                     _("EOF during value of field `%.*s' (missing final newline)"),
                     fs->fieldlen, fs->fieldstart);
 
-      c = getc_mmap(ps);
+      c = parse_getc(ps);
     }
     fs->valuelen = ps->dataptr - fs->valuestart - 1;
 
@@ -427,7 +427,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 
     parse_field(ps, fs, pkg, pkgbin);
 
-    if (EOF_mmap(ps) || c == '\n' || c == MSDOS_EOF_CHAR)
+    if (parse_EOF(ps) || c == '\n' || c == MSDOS_EOF_CHAR)
       break;
   } /* Loop per field. */
 
@@ -527,7 +527,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (donep)
       *donep = db_pkg;
     pdone++;
-    if (EOF_mmap(&ps))
+    if (parse_EOF(&ps))
       break;
   }
   if (data != NULL) {
