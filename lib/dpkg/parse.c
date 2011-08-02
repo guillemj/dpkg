@@ -369,8 +369,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   pdone= 0;
 #define EOF_mmap(dataptr, endptr)	(dataptr >= endptr)
-#define getc_mmap(dataptr)		*dataptr++;
-#define ungetc_mmap(c, dataptr, data)	dataptr--;
+#define getc_mmap(dataptr)		*dataptr++
+#define ungetc_mmap(c, dataptr, data)	dataptr--
 
   /* Loop per package. */
   for (;;) {
