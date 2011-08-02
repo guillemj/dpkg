@@ -26,6 +26,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Compression;
+use Dpkg::Exit;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Functions qw(erasedir);
 
@@ -84,6 +85,7 @@ sub do_build {
 
     my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
                                    DIR => getcwd(), UNLINK => 0);
+    push @Dpkg::Exit::handlers, sub { unlink($newtar) };
 
     my ($dirname, $dirbase) = fileparse($dir);
     my $tar = Dpkg::Source::Archive->new(filename => $newtar,
@@ -95,6 +97,7 @@ sub do_build {
     rename($newtar, $tarname) ||
         syserr(_g("unable to rename `%s' (newly created) to `%s'"),
                $newtar, $tarname);
+    pop @Dpkg::Exit::handlers;
     chmod(0666 &~ umask(), $tarname) ||
         syserr(_g("unable to change permission of `%s'"), $tarname);
 
