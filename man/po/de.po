@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2011-08-02 16:42+0000\n"
-"PO-Revision-Date: 2011-08-02 21:47+0200\n"
+"PO-Revision-Date: 2011-08-03 21:14+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -368,10 +368,9 @@ msgstr ""
 
 #. type: TP
 #: deb-control.5:37
-#, fuzzy, no-wrap
-#| msgid "B<Maintainer:> E<lt>fullname emailE<gt>"
+#, no-wrap
 msgid "B<Maintainer:>I< fullname-email>"
-msgstr "B<Maintainer:>I< Vollständiger Name E-Mail>"
+msgstr "B<Maintainer:>I< Vollständiger-Name-und-E-Mail>"
 
 #. type: Plain text
 #: deb-control.5:42
@@ -1017,10 +1016,9 @@ msgstr ""
 
 #. type: TP
 #: deb-src-control.5:38
-#, fuzzy, no-wrap
-#| msgid "B<Maintainer:> E<lt>fullname emailE<gt> (required)"
+#, no-wrap
 msgid "B<Maintainer:> I<fullname-email> (required)"
-msgstr "B<Maintainer:> I<Vollständiger Name E-Mail> (verpflichtend)"
+msgstr "B<Maintainer:> I<Vollständiger-Name-und-E-Mail> (verpflichtend)"
 
 #. type: Plain text
 #: deb-src-control.5:43
@@ -1035,10 +1033,9 @@ msgstr ""
 
 #. type: TP
 #: deb-src-control.5:44
-#, fuzzy, no-wrap
-#| msgid "B<Uploaders:> E<lt>fullname emailE<gt>"
+#, no-wrap
 msgid "B<Uploaders:>I< fullname-email>"
-msgstr "B<Uploaders:>I< Vollständiger Name E-Mail>"
+msgstr "B<Uploaders:>I< Vollständiger-Name-und-E-Mail>"
 
 #. type: Plain text
 #: deb-src-control.5:49
@@ -6735,6 +6732,12 @@ msgid ""
 "be used in B<debian/rules> by package maintainers to change the resulting "
 "build flags."
 msgstr ""
+"Es gibt einen Satz von zwei Umgebungsvariablen, die den gleichen Vorgang "
+"durchführen. Der erste (DEB_I<Schalter>_I<Vorg>) sollte niemals innerhalb von "
+"B<debian/rules> verwandt werden. Er ist für Benutzer gedacht, die das "
+"Quellpaket mit anderen Bauschaltern erneut bauen möchten. Der zweite Satz "
+"(DEB_I<Schalter>_MAINT_I<Vorg>) sollte nur durch Paketbetreuer in "
+"B<debian/rules> verwandt werden, um die entstehenden Bauschalter zu ändern."
 
 #. type: TP
 #: dpkg-buildflags.1:135
@@ -6770,18 +6773,13 @@ msgstr "B<DEB_>I<Schalter>B<_MAINT_STRIP>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:148
-#, fuzzy
-#| msgid ""
-#| "This variable can be used to prepend supplementary options to the value "
-#| "returned for the given I<flag>."
 msgid ""
 "This variable can be used to provide a space separated list of options that "
 "will be stripped from the set of flags returned for the given I<flag>."
 msgstr ""
 "Diese Variable kann zum Bereitstellen einer durch Leerzeichen getrennten "
-"Liste von Optionen verwandt werden, die "
-"Voranstellen ergänzender Optionen zum Wert, der von "
-"I<Schalter> zurückgegeben wird, verwandt werden."
+"Liste von Optionen verwandt werden, die aus dem Satz von I<Schalter> "
+"zurückgelieferten Schaltern entfernt werden."
 
 #. type: TP
 #: dpkg-buildflags.1:148
@@ -6928,16 +6926,6 @@ msgstr "B<5.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:36
-#, fuzzy
-#| msgid ""
-#| "It calls B<debian/rules> I<build-target> followed by B<fakeroot debian/"
-#| "rules> I<binary-target> (unless a source-only build has been requested "
-#| "with B<-S>). Note that I<build-target> is B<build> unless the control "
-#| "file defines the build-feature B<build-arch>, in which case it is either "
-#| "B<build> (default case) or B<build-arch> (if B<-B> is specified) or "
-#| "B<build-indep> (if B<-A> is specified).  I<binary-target> is either "
-#| "B<binary> (default case) or B<binary-arch> (if B<-B> is specified) or "
-#| "B<binary-indep> (if B<-A> is specified)."
 msgid ""
 "It calls B<debian/rules> B<build> followed by B<fakeroot debian/rules> "
 "I<binary-target> (unless a source-only build has been requested with B<-S>). "
@@ -6945,14 +6933,11 @@ msgid ""
 "specified)  or B<binary-arch> (if B<-B> is specified) or B<binary-indep> (if "
 "B<-A> is specified)."
 msgstr ""
-"Es ruft B<debian/rules> B<Bauziel>, gefolgt von B<fakeroot debian/rules> "
+"Es ruft B<debian/rules> B<build>, gefolgt von B<fakeroot debian/rules> "
 "I<Binärziel> auf (falls nicht ein reiner Quellbau mit B<-S> erbeten wurde). "
-"Beachten Sie, dass I<Binärziel> standardmäßig B<binary> lautet. Falls die "
-"Steuerdatei die Baufunktionalität B<build-arch> definiert, ist es entweder "
-"(standardmäßig) B<build> oder B<build-arch> (falls B<-B> angegeben ist) oder "
-"B<build-indep> (falls B<-A> angegeben ist). I<Binärziel> ist entweder "
-"(standardmäßig) B<binary> oder B<binary-arch> (falls B<-B> angegeben ist) "
-"oder B<binary-indep> (falls B<-A> angegeben ist)."
+"Beachten Sie, dass I<Binärziel> entweder B<binary> (Standardfall, oder "
+"falls B<-b> angegeben ist) oder B<binary-arch> (falls B<-B> angegeben ist) "
+"oder B<binary-indep> (falls B<-A> angegeben ist) lautet."
 
 #. type: IP
 #: dpkg-buildpackage.1:36
@@ -7978,17 +7963,14 @@ msgstr "B<-R>, B<--raw-extract> I<Archiv-Verzeichnis>"
 
 #. type: Plain text
 #: dpkg-deb.1:150
-#, fuzzy
-#| msgid ""
-#| "Extracts the filesystem tree from a package archive into the specified "
-#| "directory."
 msgid ""
 "Extracts the filesystem tree from a package archive into a specified "
 "directory, and the control information files into a DEBIAN subdirectory of "
 "the specified directory."
 msgstr ""
-"Extrahiert den Dateisystembaum aus einem Paketarchiv in das angegebene "
-"Verzeichnis."
+"Extrahiert den Dateisystembaum aus einem Paketarchiv in ein angegebenes "
+"Verzeichnis und die Steuerinformationensdateien in das DEBIAN-"
+"Unterverzeichnis des angegebenen Verzeichnisses."
 
 #. type: Plain text
 #: dpkg-deb.1:152 dpkg-deb.1:172
@@ -13194,6 +13176,10 @@ msgid ""
 "take supplementary parameters depending on the source format.  It will error "
 "out for formats where this operation doesn't mean anything."
 msgstr ""
+"Zeichnet Änderungen am in I<Verzeichnis> entpackten Quellbaum auf. Dieser "
+"Befehl kann zusätzliche Parameter akzeptieren, abhängig vom Quellformat. "
+"Er wird zu einer Fehlermeldung bei Formaten, für denen dieser Vorgang keine "
+"Bedeutung hat, führen."
 
 #. type: SH
 #: dpkg-source.1:103
@@ -13961,17 +13947,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:451
-#, fuzzy
-#| msgid ""
-#| "All original tarballs found in the current directory are extracted in a "
-#| "temporary directory by following the same logic as for the unpack, the "
-#| "debian directory is copied over in the temporary directory, and all "
-#| "patches except the automatic patch (B<debian-changes->I<version> or "
-#| "B<debian-changes>, depending on B<--single-debian-patch>) are applied. "
-#| "The temporary directory is compared to the source package directory and "
-#| "the diff (if non-empty) is stored in the automatic patch.  If the "
-#| "automatic patch is created/deleted, it's added/removed from the series "
-#| "file and from the quilt metadata."
 msgid ""
 "All original tarballs found in the current directory are extracted in a "
 "temporary directory by following the same logic as for the unpack, the "
@@ -13990,8 +13965,10 @@ msgstr ""
 "kopiert und alle Patches außer dem automatischen Patch (B<debian-changes-"
 ">I<Version> oder B<debian-changes>, abhängig von B<--single-debian-patch>) "
 "werden angewandt. Das temporäre Verzeichnis wird mit dem "
-"Quellpaketverzeichnis verglichen und der Diff (falls nicht-leer) wird im "
-"automatischen Patch gespeichert. Falls der automatische Patch erzeugt/"
+"Quellpaketverzeichnis verglichen. Wenn der Diff nicht leer ist, schlägt der "
+"Bauf fehl, falls nicht B<--single-debian-patch> oder B<--auto-commit> "
+"verwandt wurde. In letzterem Fall wird der Diff als automatischer Patch "
+"gespeichert. Falls der automatische Patch erzeugt/"
 "gelöscht wird, wird er zu der Datei series und den Quilt-Metadaten "
 "hinzugefügt bzw. aus diesen gelöscht."
 
@@ -14077,6 +14054,14 @@ msgid ""
 "generated this file. Once integrated, an editor is launched so that you can "
 "edit the meta-information in the patch header."
 msgstr ""
+"Erstellt einen Patch, der den lokalen Änderungen entspricht, die nicht vom "
+"Quilt-Patch-System verwaltet werden und integriert es unter dem Namen "
+"I<Patch-Name> in das Patch-System. Falls der Name fehlt, wird er interaktiv "
+"erfragt. Falls I<Patch-Datei> angegeben ist, wird er als Patch, der zu den "
+"lokalen Änderungen, die integriert werden sollen, gehört, verwandt. Dies ist "
+"primär nach einem Baufehler nützlich, der diese Datei vorgenerierte. Sobald "
+"die Patch integriert wurde, wird ein Editor gestartet, so dass Sie die "
+"Metainformationen in den Kopfzeilen des Patches einfügen können."
 
 #. type: Plain text
 #: dpkg-source.1:493 dpkg-source.1:567 dpkg-source.1:606
