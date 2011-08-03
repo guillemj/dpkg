@@ -514,7 +514,8 @@ sub do_build {
     mkpath(File::Spec->catdir($dir, "debian", "patches"));
     $autopatch = $self->register_patch($dir, $tmpdiff,
                                        $self->get_autopatch_name());
-    info(_g("local changes have been recorded in a new patch: %s"), $autopatch);
+    info(_g("local changes have been recorded in a new patch: %s"), $autopatch)
+        if -e $autopatch;
     rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     pop @Dpkg::Exit::handlers;
