@@ -504,7 +504,7 @@ sub do_build {
     unless (not -s $tmpdiff or $self->{'options'}{'single_debian_patch'}
             or $self->{'options'}{'auto_commit'}) {
         info(_g("you can integrate the local changes with %s"),
-             "dpkg-source --commit . '' $tmpdiff");
+             "dpkg-source --commit");
         error(_g("aborting due to unexpected upstream changes, see %s"),
               $tmpdiff);
     }
