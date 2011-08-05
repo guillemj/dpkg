@@ -28,6 +28,7 @@ struct parsedb_state {
 	enum parsedbflags flags;
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;
+	char *data;
 	char *dataptr;
 	char *endptr;
 	const char *filename;
@@ -46,6 +47,10 @@ struct field_state {
 	int valuelen;
 	int *fieldencountered;
 };
+
+void parse_open(struct parsedb_state *ps, const char *filename,
+                enum parsedbflags flags);
+void parse_close(struct parsedb_state *ps);
 
 typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
                               struct pkginfo *pkg, struct pkgbin *pkgbin);

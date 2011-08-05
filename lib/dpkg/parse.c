@@ -303,6 +303,53 @@ pkg_parse_copy(struct parsedb_state *ps,
 }
 
 /**
+ * Open a file for RFC-822 parsing.
+ */
+void
+parse_open(struct parsedb_state *ps, const char *filename,
+           enum parsedbflags flags)
+{
+  static int fd;
+  struct stat st;
+
+  ps->filename = filename;
+  ps->flags = flags;
+  ps->lno = 0;
+
+  fd = open(filename, O_RDONLY);
+  if (fd == -1)
+    ohshite(_("failed to open package info file `%.255s' for reading"),
+            filename);
+
+  push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &fd);
+
+  if (fstat(fd, &st) == -1)
+    ohshite(_("can't stat package info file `%.255s'"), filename);
+
+  if (st.st_size > 0) {
+#ifdef USE_MMAP
+    ps->dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
+    if (ps->dataptr == MAP_FAILED)
+      ohshite(_("can't mmap package info file `%.255s'"), filename);
+#else
+    ps->dataptr = m_malloc(st.st_size);
+
+    if (fd_read(fd, ps->dataptr, st.st_size) < 0)
+      ohshite(_("reading package info file '%.255s'"), filename);
+#endif
+    ps->data = ps->dataptr;
+    ps->endptr = ps->dataptr + st.st_size;
+  } else {
+    ps->data = ps->dataptr = ps->endptr = NULL;
+  }
+
+  pop_cleanup(ehflag_normaltidy);
+
+  if (close(fd))
+    ohshite(_("failed to close after read: `%.255s'"), filename);
+}
+
+/**
  * Parse an RFC-822 style stanza.
  */
 bool
@@ -422,6 +469,21 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 }
 
 /**
+ * Close an RFC-822 parser context.
+ */
+void
+parse_close(struct parsedb_state *ps)
+{
+  if (ps->data != NULL) {
+#ifdef USE_MMAP
+    munmap(ps->data, ps->endptr - ps->data);
+#else
+    free(ps->data);
+#endif
+  }
+}
+
+/**
  * Parse an RFC-822 style file.
  *
  * donep may be NULL.
@@ -430,23 +492,18 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep)
 {
-  static int fd;
   struct pkginfo tmp_pkg;
   struct pkginfo *new_pkg, *db_pkg;
   struct pkgbin *new_pkgbin, *db_pkgbin;
   int fieldencountered[array_count(fieldinfos)];
   int pdone;
-  char *data;
-  struct stat st;
   struct parsedb_state ps;
   struct field_state fs;
 
-  ps.filename = filename;
-  ps.flags = flags;
-  ps.lno = 0;
-
   memset(&fs, 0, sizeof(fs));
   fs.fieldencountered = fieldencountered;
+
+  parse_open(&ps, filename, flags);
 
   new_pkg = &tmp_pkg;
   if (flags & pdb_recordavailable)
@@ -456,35 +513,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   ps.pkg = new_pkg;
   ps.pkgbin = new_pkgbin;
-
-  fd= open(filename, O_RDONLY);
-  if (fd == -1) ohshite(_("failed to open package info file `%.255s' for reading"),filename);
-
-  push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &fd);
-
-  if (fstat(fd, &st) == -1)
-    ohshite(_("can't stat package info file `%.255s'"),filename);
-
-  if (st.st_size > 0) {
-#ifdef USE_MMAP
-    ps.dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
-    if (ps.dataptr == MAP_FAILED)
-      ohshite(_("can't mmap package info file `%.255s'"),filename);
-#else
-    ps.dataptr = m_malloc(st.st_size);
-
-    if (fd_read(fd, ps.dataptr, st.st_size) < 0)
-      ohshite(_("reading package info file '%.255s'"), filename);
-#endif
-    data = ps.dataptr;
-    ps.endptr = ps.dataptr + st.st_size;
-  } else {
-    data = ps.dataptr = ps.endptr = NULL;
-  }
-
-  pop_cleanup(ehflag_normaltidy);
-  if (close(fd))
-    ohshite(_("failed to close after read: `%.255s'"), filename);
 
   pdone= 0;
 
@@ -520,13 +548,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (parse_EOF(&ps))
       break;
   }
-  if (data != NULL) {
-#ifdef USE_MMAP
-    munmap(data, st.st_size);
-#else
-    free(data);
-#endif
-  }
+
+  parse_close(&ps);
+
   varbuf_destroy(&fs.value);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
 
