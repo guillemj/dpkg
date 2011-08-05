@@ -482,6 +482,10 @@ int parsedb(const char *filename, enum parsedbflags flags,
     data = ps.dataptr = ps.endptr = NULL;
   }
 
+  pop_cleanup(ehflag_normaltidy);
+  if (close(fd))
+    ohshite(_("failed to close after read: `%.255s'"), filename);
+
   pdone= 0;
 
   /* Loop per package. */
@@ -524,8 +528,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
 #endif
   }
   varbuf_destroy(&fs.value);
-  pop_cleanup(ehflag_normaltidy);
-  if (close(fd)) ohshite(_("failed to close after read: `%.255s'"),filename);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
 
   return pdone;
