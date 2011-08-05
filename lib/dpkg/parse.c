@@ -315,6 +315,8 @@ parse_open(struct parsedb_state *ps, const char *filename,
   ps->filename = filename;
   ps->flags = flags;
   ps->lno = 0;
+  ps->pkg = NULL;
+  ps->pkgbin = NULL;
 
   fd = open(filename, O_RDONLY);
   if (fd == -1)
