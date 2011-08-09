@@ -53,11 +53,10 @@ void parse_open(struct parsedb_state *ps, const char *filename,
 void parse_close(struct parsedb_state *ps);
 
 typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
-                              struct pkginfo *pkg, struct pkgbin *pkgbin);
+                              void *parse_obj);
 
 bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
-                  parse_field_func *parse_field,
-                  struct pkginfo *pkg, struct pkgbin *pkgbin);
+                  parse_field_func *parse_field, void *parse_obj);
 
 #define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
 #define PKGPFIELD(pifp,of,type) (*(type*)((char*)(pifp)+(of)))

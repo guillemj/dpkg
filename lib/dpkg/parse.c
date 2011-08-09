@@ -94,12 +94,24 @@ static const struct nickname nicknames[] = {
 };
 
 /**
+ * Package object being parsed.
+ *
+ * Structure used to hold the parsed data for the package being constructed,
+ * before it gets properly inserted into the package database.
+ */
+struct pkg_parse_object {
+  struct pkginfo *pkg;
+  struct pkgbin *pkgbin;
+};
+
+/**
  * Parse the field and value into the package being constructed.
  */
 static void
 pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
-                struct pkginfo *pkg, struct pkgbin *pkgbin)
+                void *parse_obj)
 {
+  struct pkg_parse_object *pkg_obj = parse_obj;
   const struct nickname *nick;
   const struct fieldinfo *fip;
   int *ip;
@@ -125,7 +137,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
     varbuf_add_buf(&fs->value, fs->valuestart, fs->valuelen);
     varbuf_end_str(&fs->value);
 
-    fip->rcall(pkg, pkgbin, ps, fs->value.buf, fip);
+    fip->rcall(pkg_obj->pkg, pkg_obj->pkgbin, ps, fs->value.buf, fip);
   } else {
     struct arbitraryfield *arp, **larpp;
 
@@ -133,7 +145,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
       parse_error(ps,
                   _("user-defined field name `%.*s' too short"),
                   fs->fieldlen, fs->fieldstart);
-    larpp = &pkgbin->arbs;
+    larpp = &pkg_obj->pkgbin->arbs;
     while ((arp = *larpp) != NULL) {
       if (!strncasecmp(arp->name, fs->fieldstart, fs->fieldlen))
         parse_error(ps,
@@ -356,8 +368,7 @@ parse_open(struct parsedb_state *ps, const char *filename,
  */
 bool
 parse_stanza(struct parsedb_state *ps, struct field_state *fs,
-             parse_field_func *parse_field,
-             struct pkginfo *pkg, struct pkgbin *pkgbin)
+             parse_field_func *parse_field, void *parse_obj)
 {
   int c;
 
@@ -458,7 +469,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
     while (fs->valuelen && isspace(*(fs->valuestart + fs->valuelen - 1)))
       fs->valuelen--;
 
-    parse_field(ps, fs, pkg, pkgbin);
+    parse_field(ps, fs, parse_obj);
 
     if (parse_EOF(ps) || c == '\n' || c == MSDOS_EOF_CHAR)
       break;
@@ -497,6 +508,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   struct pkginfo tmp_pkg;
   struct pkginfo *new_pkg, *db_pkg;
   struct pkgbin *new_pkgbin, *db_pkgbin;
+  struct pkg_parse_object pkg_obj;
   int fieldencountered[array_count(fieldinfos)];
   int pdone;
   struct parsedb_state ps;
@@ -516,6 +528,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
   ps.pkg = new_pkg;
   ps.pkgbin = new_pkgbin;
 
+  pkg_obj.pkg = new_pkg;
+  pkg_obj.pkgbin = new_pkgbin;
+
   pdone= 0;
 
   /* Loop per package. */
@@ -523,7 +538,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     memset(fieldencountered, 0, sizeof(fieldencountered));
     pkg_blank(new_pkg);
 
-    if (!parse_stanza(&ps, &fs, pkg_parse_field, new_pkg, new_pkgbin))
+    if (!parse_stanza(&ps, &fs, pkg_parse_field, &pkg_obj))
       break;
 
     if (pdone && donep)
