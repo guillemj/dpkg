@@ -1118,11 +1118,11 @@ sub simplify_deps {
 
 WHILELOOP:
     while (@{$self->{list}}) {
-	my $dep = shift @{$self->{list}};
-	foreach my $odep (@new) {
+	my $odep = shift @{$self->{list}};
+	foreach my $dep (@new) {
 	    next WHILELOOP if $dep->merge_union($odep);
 	}
-	push @new, $dep;
+	push @new, $odep;
     }
     $self->{list} = [ @new ];
 }

@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 17;
+use Test::More tests => 18;
 
 use strict;
 use warnings;
@@ -65,6 +65,10 @@ fake(>> 3.0), fake (= 2.5), python (<< 2.5), python (= 2.4)";
 my $dep_dup_union = deps_parse($field_dup_union, union => 1);
 $dep_dup_union->simplify_deps($facts);
 is($dep_dup_union->output(), "libc6 (>> 2.3), fake (<< 2.0), fake (>> 3.0), fake (= 2.5), python (<< 2.5)", "Simplify union deps");
+
+$dep_dup_union = deps_parse("sipsak (<= 0.9.6-2.1), sipsak (<= 0.9.6-2.2)", union => 1);
+$dep_dup_union->simplify_deps($facts);
+is($dep_dup_union->output(), "sipsak (<= 0.9.6-2.2)", "Simplify union deps 2");
 
 my $dep_red = deps_parse("abc | xyz, two, abc");
 $dep_red->simplify_deps($facts, $dep_opposite);
