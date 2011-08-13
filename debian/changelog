@@ -3,6 +3,11 @@ dpkg (1.15.8.12) UNRELEASED; urgency=low
   [ Guillem Jover ]
   * Do not fail to unpack shared directories missing on the file system
     from packages being replaced by other packages. Closes: #631808
+  * Defer hardlink renames so that there's never a point were the new
+    file contents are accessible from the final path before they have
+    been fsync()ed and cannot be executed causing ETXTBSY when trying
+    to open the to be installed paths for writing.
+    Thanks to Jonathan Nieder <jrnieder@gmail.com>. Closes: #635683
 
   [ Updated man page translations ]
   * German (Helge Kreutzmann). Minor fixe(s), including improvement by "Flo".

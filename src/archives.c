@@ -846,7 +846,8 @@ tarobject(void *ctx, struct tar_entry *ti)
    * in dpkg-new.
    */
 
-  if (ti->type == tar_filetype_file || ti->type == tar_filetype_symlink) {
+  if (ti->type == tar_filetype_file || ti->type == tar_filetype_hardlink ||
+      ti->type == tar_filetype_symlink) {
     nifd->namenode->flags |= fnnf_deferred_rename;
 
     debug(dbg_eachfiledetail, "tarobject done and installation deferred");
