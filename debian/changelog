@@ -183,6 +183,11 @@ dpkg (1.16.1) UNRELEASED; urgency=low
     Closes: #293280
   * Add new --raw-extract option to dpkg-deb combining --control and
     --extract. Closes: #552123
+  * Defer hardlink renames so that there's never a point were the new
+    file contents are accessible from the final path before they have
+    been fsync()ed and cannot be executed causing ETXTBSY when trying
+    to open the to be installed paths for writing.
+    Thanks to Jonathan Nieder <jrnieder@gmail.com>. Closes: #635683
 
   [ Updated dpkg translations ]
   * German (Sven Joachim). Closes: #620312
