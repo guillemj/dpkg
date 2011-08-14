@@ -49,7 +49,8 @@ updateavailable(const char *const *argv)
     break;
   case act_avreplace: case act_avmerge:
     if (!sourcefile || argv[1])
-      badusage(_("--%s needs exactly one Packages file argument"),cipaction->olong);
+      badusage(_("--%s needs exactly one Packages-file argument"),
+               cipaction->olong);
     break;
   default:
     internerr("unknown action '%d'", cipaction->arg_int);
