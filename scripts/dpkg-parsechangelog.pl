@@ -114,7 +114,7 @@ while (@ARGV) {
     }
 }
 
-@ARGV && usageerr(_g("%s takes no non-option arguments"), $progname);
+@ARGV && usageerr(_g("takes no non-option arguments"));
 
 my $count = 0;
 my @fields = changelog_parse(%options);
