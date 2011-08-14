@@ -1,4 +1,4 @@
-.TH dpkg\-maintscript\-helper 1 "2011-07-04" "Debian Project" "dpkg suite"
+.TH dpkg\-maintscript\-helper 1 "2011-08-14" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
 .
@@ -114,15 +114,15 @@ required version of dpkg has been unpacked before. The required version
 depends on the command used, for \fBrm_conffile\fP and \fBmv_conffile\fP
 it is 1.15.7.2:
 .P
-    \fBPre-Depends:\fP dpkg (>= 1.15.7.2)
+    \fBPre\-Depends:\fP dpkg (>= 1.15.7.2)
 .P
 But in many cases the operation done by the program is not critical for
 the package, and instead of using a pre-dependency we can call the
 program only if we know that the required command is supported by
 the currently installed dpkg:
 .P
-    if dpkg-maintscript-helper supports \fIcommand\fP; then
-        dpkg-maintscript-helper \fIcommand\fP ...
+    if dpkg\-maintscript\-helper supports \fIcommand\fP; then
+        dpkg\-maintscript\-helper \fIcommand\fP ...
     fi
 .
 .SH AUTHORS

@@ -1,4 +1,4 @@
-.TH dpkg\-buildpackage 1 "2011-07-04" "Debian Project" "dpkg utilities"
+.TH dpkg\-buildpackage 1 "2011-08-14" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-buildpackage \- build binary or source packages from sources
 .
@@ -23,7 +23,7 @@ option, it calls that target and stops here. Otherwise it calls
 \fBfakeroot debian/rules clean\fP to clean the build-tree (unless
 \fB\-nc\fP is specified).
 .IP \fB4.\fP 3
-It calls \fBdpkg-source \-b\fP to generate the source package (unless
+It calls \fBdpkg\-source \-b\fP to generate the source package (unless
 a binary\-only build has been requested with \fB\-b\fP, \fB\-B\fP or
 \fB\-A\fP).
 .IP \fB5.\fP 3
@@ -31,15 +31,15 @@ It calls \fBdebian/rules\fP \fBbuild\fP followed by
 \fBfakeroot debian/rules\fP \fIbinary-target\fP (unless a source-only
 build has been requested with \fB\-S\fP). Note that \fIbinary-target\fR is
 either \fBbinary\fP (default case, or if \fB\-b\fP is specified)
-or \fBbinary-arch\fP (if \fB\-B\fP is specified) or \fBbinary-indep\fP
+or \fBbinary\-arch\fP (if \fB\-B\fP is specified) or \fBbinary\-indep\fP
 (if \fB\-A\fP is specified).
 .IP \fB6.\fP 3
 It calls \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
 \fB\-us\fP is specified).
 .IP \fB7.\fP 3
-It calls \fBdpkg-genchanges\fP to generate a \fB.changes\fP file.
-Many \fBdpkg-buildpackage\fP options are forwarded to
-\fBdpkg-genchanges\fP.
+It calls \fBdpkg\-genchanges\fP to generate a \fB.changes\fP file.
+Many \fBdpkg\-buildpackage\fP options are forwarded to
+\fBdpkg\-genchanges\fP.
 .IP \fB8.\fP 3
 It calls \fBgpg\fP to sign the \fB.changes\fP file (unless \fB\-uc\fP
 is specified).
@@ -51,19 +51,19 @@ again. Finally it calls \fBdpkg\-source \-\-after\-build\fP.
 .TP
 .B \-b
 Specifies a binary-only build, no source files are to be built and/or
-distributed. Passed to \fBdpkg-genchanges\fP.
+distributed. Passed to \fBdpkg\-genchanges\fP.
 .TP
 .B \-B
 Specifies a binary-only build, limited to architecture dependent packages.
-Passed to \fBdpkg-genchanges\fP.
+Passed to \fBdpkg\-genchanges\fP.
 .TP
 .B \-A
 Specifies a binary-only build, limited to architecture independent
-packages. Passed to \fBdpkg-genchanges\fP.
+packages. Passed to \fBdpkg\-genchanges\fP.
 .TP
 .B \-S
 Specifies a source-only build, no binary packages need to be made.
-Passed to \fBdpkg-genchanges\fP.
+Passed to \fBdpkg\-genchanges\fP.
 .TP
 .B \-F
 Specifies a normal full build, binary and source packages will be built.
@@ -100,7 +100,7 @@ run with root rights.
 .br
 .BI \-e maintaineraddress
 .RS
-Passed unchanged to \fBdpkg-genchanges\fP. See its manual page.
+Passed unchanged to \fBdpkg\-genchanges\fP. See its manual page.
 .RE
 .TP
 .BI \-a architecture
@@ -122,7 +122,7 @@ invocations to inherit the option. Also adds \fBparallel=\fP\fIjobs\fP
 to the DEB_BUILD_OPTIONS environment variable which allows
 debian/rules files to use this information for their own purposes.
 The \fBparallel=\fP\fIjobs\fP in DEB_BUILD_OPTIONS environment variable
-will override the \fB-j\fP value if this option is given.
+will override the \fB\-j\fP value if this option is given.
 .TP
 .B \-D
 Check build dependencies and conflicts; abort if unsatisfied. This is the
@@ -133,7 +133,7 @@ Do not check build dependencies and conflicts.
 .TP
 .B \-nc
 Do not clean the source tree (implies \fB\-b\fP if nothing else has been
-selected among \fB-B\fP, \fB-A\fP or \fB-S\fP).
+selected among \fB\-B\fP, \fB\-A\fP or \fB\-S\fP).
 .TP
 .B \-tc
 Clean the source tree (using
@@ -173,7 +173,7 @@ possible to use another program invocation to build the package (it can
 include space separated parameters).
 Alternatively it can be used to execute the standard rules file with
 another make program (for example by using
-.B /usr/local/bin/make -f debian/rules
+.B /usr/local/bin/make \-f debian/rules
 as \fIrules-file\fR).
 .TP
 .BI \-p sign-command
@@ -208,10 +208,10 @@ Passed unchanged to \fBdpkg\-source\fP. See its manual page.
 .RE
 .TP
 .BI \-\-source\-option= opt
-Pass option \fIopt\fP to \fBdpkg-source\fP.
+Pass option \fIopt\fP to \fBdpkg\-source\fP.
 .TP
 .BI \-\-changes\-option= opt
-Pass option \fIopt\fP to \fBdpkg-genchanges\fP.
+Pass option \fIopt\fP to \fBdpkg\-genchanges\fP.
 .P
 .BI \-\-admindir= dir
 .br
@@ -231,7 +231,7 @@ Show the version and exit.
 Even if \fBdpkg\-buildpackage\fP exports some variables, \fBdebian/rules\fP
 should not rely on their presence and should instead use the
 respective interface to retrieve the needed values.
-.SS Variables set by dpkg-architecture
+.SS Variables set by dpkg\-architecture
 \fBdpkg\-architecture\fP is called with the \fB\-a\fP and \fB\-t\fP
 parameters forwarded. Any variable that is output by its \fB\-s\fP
 option is integrated in the build environment.

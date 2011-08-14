@@ -1,5 +1,5 @@
 .\" Author: Raphaël Hertzog
-.TH deb\-symbols 5 "2007-07-16" "Debian Project" "dpkg utilities"
+.TH deb\-symbols 5 "2011-08-14" "Debian Project" "dpkg utilities"
 .SH NAME
 deb\-symbols \- Debian's extended shared library information file
 .
@@ -36,9 +36,9 @@ etc.
 .P
 Each entry for a library can also have some fields of meta-information.
 Those fields are stored on lines starting with an asterisk. Currently,
-the only valid field is \fIBuild-Depends-Package\fR, it indicates the name
+the only valid field is \fIBuild\-Depends\-Package\fR, it indicates the name
 of the "\-dev" package associated to the library and is used by
-\fBdpkg-shlibdeps\fP to make sure that the dependency generated is at least as
+\fBdpkg\-shlibdeps\fP to make sure that the dependency generated is at least as
 strict as the corresponding build dependency.
 .SH EXAMPLES
 .SS Simple symbols file
@@ -51,9 +51,9 @@ libftp.so.3 libftp3 #MINVER#
 .PP 
 libGL.so.1 libgl1
 .br
-| libgl1-mesa-glx #MINVER#
+| libgl1\-mesa\-glx #MINVER#
 .br
-* Build-Depends-Package: libgl1-mesa-dev
+* Build\-Depends\-Package: libgl1\-mesa\-dev
  publicGlSymbol@Base 6.3-1
  [...]
  implementationSpecificSymbol@Base 6.5.2-7 1

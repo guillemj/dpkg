@@ -1,5 +1,5 @@
 .\" Author: Raphaël Hertzog
-.TH dpkg\-gensymbols 1 "2011-07-04" "Debian Project" "dpkg utilities"
+.TH dpkg\-gensymbols 1 "2011-08-14" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-gensymbols \- generate symbols files (shared library dependency information)
 .
@@ -147,12 +147,12 @@ from foreign arches) are always written to the symbol file when operating
 in template mode.
 
 The format of \fIarchitecture list\fR is the same as the one used in the
-\fIBuild-Depends\fR field of \fIdebian/control\fR (except the enclosing
+\fIBuild\-Depends\fR field of \fIdebian/control\fR (except the enclosing
 square brackets []). For example, the first symbol from the list below
-will be considered only on alpha, amd64, kfreebsd-amd64 and ia64 architectures
+will be considered only on alpha, amd64, kfreebsd\-amd64 and ia64 architectures
 while the second one anywhere except on armel.
 
- (arch=alpha amd64 kfreebsd-amd64 ia64)a_64bit_specific_symbol@Base 1.0
+ (arch=alpha amd64 kfreebsd\-amd64 ia64)a_64bit_specific_symbol@Base 1.0
  (arch=!armel)symbol_armel_does_not_have@Base 1.0
 .TP
 .B ignore\-blacklist
@@ -177,14 +177,14 @@ below.
 .SS Using symbol patterns
 .P
 Unlike a standard symbol specification, a pattern may cover multiple real
-symbols from the library. \fBdpkg-gensymbols\fR will attempt to match each
+symbols from the library. \fBdpkg\-gensymbols\fR will attempt to match each
 pattern against each real symbol that does \fInot\fR have a specific symbol
 counterpart defined in the symbol file. Whenever the first matching pattern is
 found, all its tags and properties will be used as a basis specification of the
 symbol. If none of the patterns matches, the symbol will be considered as new.
 
 A pattern is considered lost if it does not match any symbol in the library. By
-default this will trigger a \fBdpkg-gensymbols\fR failure under \fI-c1\fR or
+default this will trigger a \fBdpkg\-gensymbols\fR failure under \fI\-c1\fR or
 higher level. However, if the failure is undesired, the pattern may be marked
 with the \fIoptional\fR tag. Then if the pattern does not match anything, it
 will only appear in the diff as MISSING. Moreover, like any symbol, the pattern
@@ -205,7 +205,7 @@ This pattern is denoted by the \fIc++\fR tag. It matches only C++ symbols by
 their demangled symbol name (as emitted by \fBc++filt\fR(1) utility). This
 pattern is very handy for matching symbols which mangled names might vary
 across different architectures while their demangled names remain the same. One
-group of such symbols is \fInon-virtual thunks\fR which have architecture
+group of such symbols is \fInon\-virtual thunks\fR which have architecture
 specific offsets embedded in their mangled names. A common instance of this
 case is a virtual destructor which under diamond inheritance needs a
 non-virtual thunk symbol. For example, even if _ZThn8_N3NSB6ClassDD1Ev@Base on
@@ -215,7 +215,7 @@ ones, it can be matched with a single \fIc++\fR pattern:
 .PP
 libdummy.so.1 libdummy1 #MINVER#
  [...]
- (c++)"non-virtual thunk to NSB::ClassD::~ClassD()@Base" 1.0
+ (c++)"non\-virtual thunk to NSB::ClassD::~ClassD()@Base" 1.0
  [...]
 .P
 The demangled name above can be obtained by executing the following command:
@@ -301,7 +301,7 @@ When multiple patterns match the same real symbol, aliases (first \fIc++\fR,
 then \fIsymver\fR) are preferred over generic patterns. Generic patterns are
 matched in the order they are found in the symbol file template until the first
 success.  Please note, however, that manual reordering of template file entries
-is not recommended because \fBdpkg-gensymbols\fR generates diffs based on the
+is not recommended because \fBdpkg\-gensymbols\fR generates diffs based on the
 alphanumerical order of their names.
 .SS Using includes
 .P
@@ -448,7 +448,7 @@ Show the usage message and exit.
 Show the version and exit.
 .
 .SH "SEE ALSO"
-.BR http://people.redhat.com/drepper/symbol-versioning
+.BR http://people.redhat.com/drepper/symbol\-versioning
 .br
 .BR http://people.redhat.com/drepper/goodpractice.pdf
 .br

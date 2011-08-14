@@ -1,4 +1,4 @@
-.TH deb\-triggers 5 "2009-03-15" "Debian Project" "dpkg utilities"
+.TH deb\-triggers 5 "2011-08-14" "Debian Project" "dpkg utilities"
 .SH NAME
 deb\-triggers \- package triggers
 .
@@ -21,14 +21,14 @@ The trigger control directives currently supported are:
 .I trigger-name
 .PP
 .in +5
-.B interest-noawait
+.B interest\-noawait
 .I trigger-name
 .PP
 .in +5
 Specifies that the package is interested in the named trigger. All
 triggers in which a package is interested must be listed using this
 directive in the triggers control file. The "noawait" variant does
-not put the triggering packages in triggers-awaited state. This should
+not put the triggering packages in triggers\-awaited state. This should
 be used when the functionality provided by the trigger is not crucial.
 .PP
 .in +5
@@ -36,7 +36,7 @@ be used when the functionality provided by the trigger is not crucial.
 .I trigger-name
 .PP
 .in +5
-.B activate-noawait
+.B activate\-noawait
 .I trigger-name
 .PP
 .in +5
@@ -45,14 +45,14 @@ specified trigger. The trigger will be activated at the start of
 the following operations: unpack, configure, remove (including for
 the benefit of a conflicting package), purge and deconfigure.
 The "noawait" variant does not put the triggering packages in
-triggers-awaited state. This should be used when the functionality
+triggers\-awaited state. This should be used when the functionality
 provided by the trigger is not crucial.
 .PP
 .in +5
 If this package disappears during the unpacking of another package
 the trigger will be activated when the disappearance is noted
 towards the end of the unpack. Trigger processing, and transition
-from triggers-awaited to installed, does not cause activations.
+from triggers\-awaited to installed, does not cause activations.
 In the case of unpack, triggers mentioned in both the old and new
 versions of the package will be activated.
 .PP
@@ -61,10 +61,10 @@ package.
 .PP
 The "\-noawait" variants are only supported by dpkg 1.16.1 or newer, and
 will lead to errors if used with an older dpkg. It is thus recommended
-to add a "Pre-Depends: dpkg (>= 1.16.1)" to any package that wish to use
+to add a "Pre\-Depends: dpkg (>= 1.16.1)" to any package that wish to use
 those directives.
 .
 .SH SEE ALSO
 .BR dpkg\-trigger (1),
 .BR dpkg (1),
-.BR /usr/share/doc/dpkg-dev/triggers.txt.gz .
+.BR /usr/share/doc/dpkg\-dev/triggers.txt.gz .

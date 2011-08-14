@@ -1,5 +1,5 @@
 .\" Authors: Ian Jackson, Raphaël Hertzog
-.TH dpkg\-source 1 "2011-07-12" "Debian Project" "dpkg utilities"
+.TH dpkg\-source 1 "2011-08-14" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-source \- Debian source package (.dsc) manipulation tool
 .
@@ -147,7 +147,7 @@ Note that this option will not cause existing tarballs to be recompressed,
 it only affects new files. Supported values are:
 .IR gzip ", " bzip2 ", " lzma " and " xz .
 \fIgzip\fP is the default. \fIxz\fP is only supported since
-dpkg-dev 1.15.5.
+dpkg\-dev 1.15.5.
 .TP
 .BR \-z "\fIlevel\fP, " \-\-compression\-level =\fIlevel\fP
 Compression level to use. As with \fB\-Z\fP it only affects newly created
@@ -199,10 +199,10 @@ control systems, backup and swap files and Libtool build output
 directories.
 .PP
 .B Note:
-While they have similar purposes, \fB-i\fP and \fB-I\fP have very
-different syntax and semantics. \fB-i\fP can only be specified once and
+While they have similar purposes, \fB\-i\fP and \fB\-I\fP have very
+different syntax and semantics. \fB\-i\fP can only be specified once and
 takes a perl compatible regular expression which is matched against
-the full relative path of each file. \fB-I\fP can specified
+the full relative path of each file. \fB\-I\fP can specified
 multiple times and takes a filename pattern with shell wildcards.
 The pattern is applied to the full relative path but also
 to each part of the path individually. The exact semantic of tar's
@@ -225,8 +225,8 @@ Refuse to unpack the source package if it doesn't contain an OpenPGP
 signature that can be verified either with the user's
 \fItrustedkeys.gpg\fP keyring, one of the vendor-specific keyrings, or one
 of the official Debian keyrings
-(\fI/usr/share/keyrings/debian-keyring.gpg\fP
-and \fI/usr/share/keyrings/debian-maintainers.gpg\fP).
+(\fI/usr/share/keyrings/debian\-keyring.gpg\fP
+and \fI/usr/share/keyrings/debian\-maintainers.gpg\fP).
 
 .SH SOURCE PACKAGE FORMATS
 If you don't know what source format to use, you should probably pick
@@ -308,7 +308,7 @@ but will remove that directory after it has been used.
 .TP
 .B \-ss
 Specifies that the original source is available both as a directory
-and as a tarfile. dpkg-source will use the directory to create the diff, but
+and as a tarfile. dpkg\-source will use the directory to create the diff, but
 the tarfile to create the
 .BR .dsc .
 This option must be used with care - if the directory and tarfile do
@@ -390,22 +390,22 @@ except that it doesn't use an explicit list of patches. All files in
 must be valid patches: they are applied at extraction time.
 
 When building a new source package, any change to the upstream source
-is stored in a patch named \fBzz_debian-diff-auto\fP.
+is stored in a patch named \fBzz_debian\-diff\-auto\fP.
 .
 .SS Format: 3.0 (native)
 This format is an extension of the native package format as defined
 in the 1.0 format. It supports all compression methods and
 will ignore by default any VCS specific files and directories
 as well as many temporary files (see default value associated to
-\fB-I\fP option in the \fB\-\-help\fP output).
+\fB\-I\fP option in the \fB\-\-help\fP output).
 .
 .SS Format: 3.0 (quilt)
 A source package in this format contains at least
 an original tarball (\fB.orig.tar.\fP\fIext\fP where \fIext\fP can be
 \fBgz\fP, \fBbz2\fP, \fBlzma\fP and \fBxz\fP) and a debian tarball
 (\fB.debian.tar.\fP\fIext\fP). It can also contain additional original
-tarballs (\fB.orig-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP).
-\fIcomponent\fP can only contain alphanumeric characters and dashes ("-").
+tarballs (\fB.orig\-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP).
+\fIcomponent\fP can only contain alphanumeric characters and dashes ("\-").
 .PP
 .B Extracting
 .PP
@@ -426,13 +426,13 @@ is meant to simplify usage of quilt to manage the set of patches. Note
 however that while \fBdpkg\-source\fP parses correctly series files with
 explicit options used for patch application (stored on each line
 after the patch filename and one or more spaces), it does ignore those
-options and always expect patches that can be applied with the \fB-p1\fP
+options and always expect patches that can be applied with the \fB\-p1\fP
 option of \fBpatch\fP. It will thus emit a warning when it encounters
 such options, and the build is likely to fail.
 .PP
 Similarly to quilt's default behaviour, the patches can remove files too.
 .PP
-The file \fB.pc/applied-patches\fP is created if some
+The file \fB.pc/applied\-patches\fP is created if some
 patches have been applied during the extraction.
 .PP
 .B Building
@@ -440,8 +440,8 @@ patches have been applied during the extraction.
 All original tarballs found in the current directory are extracted in a
 temporary directory by following the same logic as for the unpack, the
 debian directory is copied over in the temporary directory, and all
-patches except the automatic patch (\fBdebian-changes-\fP\fIversion\fP
-or \fBdebian-changes\fP, depending on \fB\-\-single\-debian\-patch\fP) are
+patches except the automatic patch (\fBdebian\-changes\-\fP\fIversion\fP
+or \fBdebian\-changes\fP, depending on \fB\-\-single\-debian\-patch\fP) are
 applied. The temporary directory is compared to the source package
 directory. When the diff is non-empty, the build fails unless
 \fB\-\-single\-debian\-patch\fP or \fB\-\-auto\-commit\fP
@@ -453,16 +453,16 @@ Any change
 on a binary file is not representable in a diff and will thus lead to a
 failure unless the maintainer deliberately decided to include that
 modified binary file in the debian tarball (by listing it in
-\fBdebian/source/include-binaries\fP). The build will also fail if it
+\fBdebian/source/include\-binaries\fP). The build will also fail if it
 finds binary files in the debian sub-directory unless they have been
-whitelisted through \fBdebian/source/include-binaries\fP.
+whitelisted through \fBdebian/source/include\-binaries\fP.
 
 The updated debian directory and the list of modified binaries is then
 used to generate the debian tarball.
 
 The automatically generated diff doesn't include changes on VCS specific
 files as well as many temporary files (see default value associated to
-\fB-i\fP option in the \fB\-\-help\fP output). In particular, the
+\fB\-i\fP option in the \fB\-\-help\fP output). In particular, the
 \fB.pc\fP directory used by quilt is ignored during generation of the
 automatic patch.
 
@@ -470,7 +470,7 @@ Note: \fBdpkg\-source\fP \fB\-\-before\-build\fP (and \fB\-b\fP) will
 ensure that all patches listed in the series file are applied so that a
 package build always has all patches applied. It does this by finding
 unapplied patches (they are listed in the \fBseries\fP file but not in
-\fB.pc/applied-patches\fP), and if the first patch in that set can be
+\fB.pc/applied\-patches\fP), and if the first patch in that set can be
 applied without errors, it will apply them all. The option
 \fB\-\-no\-preparation\fP can be used to disable this
 behavior.
@@ -508,7 +508,7 @@ Include timestamp in the automatically generated patch.
 .TP
 .B \-\-include\-binaries
 Add all modified binaries in the debian tarball. Also add them to
-\fBdebian/source/include-binaries\fP: they will be added by default
+\fBdebian/source/include\-binaries\fP: they will be added by default
 in subsequent builds and this option is thus no more needed.
 .TP
 .B \-\-no\-preparation
@@ -516,13 +516,13 @@ Do not try to prepare the build tree by applying patches which are
 apparently unapplied.
 .TP
 .B \-\-single\-debian\-patch
-Use \fBdebian/patches/debian-changes\fP instead of
-\fBdebian/patches/debian-changes-\fP\fIversion\fP for the name of the
+Use \fBdebian/patches/debian\-changes\fP instead of
+\fBdebian/patches/debian\-changes\-\fP\fIversion\fP for the name of the
 automatic patch generated during build. This option is particularly
 useful when the package is maintained in a VCS and a patch set can't reliably
 be generated. Instead the current diff with upstream should be stored in a
-single patch. The option would be put in \fBdebian/source/local-options\fP
-and would be accompanied by a \fBdebian/source/local-patch-header\fP file
+single patch. The option would be put in \fBdebian/source/local\-options\fP
+and would be accompanied by a \fBdebian/source/local\-patch\-header\fP file
 explaining how the Debian changes can be best reviewed, for example in the
 VCS that is used.
 .TP
@@ -598,7 +598,7 @@ it could be anything.) Any other branches will be available under
 Before going any further, some checks are done to ensure that we
 don't have any non-ignored uncommitted changes.
 .PP
-\fBgit-bundle\fP(1) is used to generate a bundle of the git repository.
+\fBgit\-bundle\fP(1) is used to generate a bundle of the git repository.
 By default, all branches and tags in the repository are included in the
 bundle.
 .PP
@@ -609,7 +609,7 @@ Allows specifying a git ref to include in the git bundle. Use disables
 the default behavior of including all branches and tags. May be specified
 multiple times. The \fIref\fP can be the name of a branch or tag to
 include. It may also be any parameter that can be passed to
-\fBgit-rev-list\fP(1). For example, to include only
+\fBgit\-rev\-list\fP(1). For example, to include only
 the master branch, use \-\-git\-ref=master. To include all tags and
 branches, except for the private branch, use \-\-git\-ref=\-\-all
 \-\-git\-ref=^private
@@ -639,12 +639,12 @@ various cleanup are done to save space.
 The file \fBdebian/source/format\fP should always exist and indicate the
 desired source format. For backwards compatibility, format "1.0" is
 assumed when the file doesn't exist but you should not rely on this:
-at some point in the future dpkg-source will be modified to fail when that
+at some point in the future dpkg\-source will be modified to fail when that
 file doesn't exist.
 
 The rationale is that format "1.0" is no longer the recommended format,
 you should usually pick one of the newer formats ("3.0 (quilt)", "3.0
-(native)") but \fBdpkg-source\fP will not do this automatically for you.
+(native)") but \fBdpkg\-source\fP will not do this automatically for you.
 If you want to continue using the old format, you should be explicit about
 it and put "1.0" in \fBdebian/source/format\fP.
 .SS the diff modifies the following upstream files
@@ -673,7 +673,7 @@ of that fact.
 This file contains on a single line the format that should be used to
 build the source package (possible formats are described above). No leading
 or trailing spaces are allowed.
-.SS debian/source/include-binaries
+.SS debian/source/include\-binaries
 This file contains a list of binary files (one per line) that should be
 included in the debian tarball. Leading and trailing spaces are stripped.
 Lines starting with "#" are comments and are skipped. Empty lines are ignored.
@@ -690,24 +690,24 @@ stripped and short options are not allowed. Optional spaces are allowed
 around the "=" symbol and optional quotes are allowed around the value.
 Here's an example of such a file:
 .P
-  # let dpkg-source create a debian.tar.bz2 with maximal compression
+  # let dpkg\-source create a debian.tar.bz2 with maximal compression
   compression = "bzip2"
-  compression-level = 9
-  # use debian/patches/debian-changes as automatic patch
-  single-debian-patch
+  compression\-level = 9
+  # use debian/patches/debian\-changes as automatic patch
+  single\-debian\-patch
 .P
 Note: \fBformat\fR options are not accepted in this file, you should
 use \fBdebian/source/format\fR instead.
-.SS debian/source/local-options
+.SS debian/source/local\-options
 Exactly like \fBdebian/source/options\fP except that the file is not
 included in the generated source package. It can be useful to store
 a preference tied to the maintainer or to the VCS repository where
 the source package is maintained.
-.SS debian/source/local-patch-header
-.SS debian/source/patch-header
+.SS debian/source/local\-patch\-header
+.SS debian/source/patch\-header
 Free form text that is put on top of the automatic patch generated
-in formats "2.0" or "3.0 (quilt)". \fBlocal-patch-header\fP is not
-included in the generated source package while \fBpatch-header\fP is.
+in formats "2.0" or "3.0 (quilt)". \fBlocal\-patch\-header\fP is not
+included in the generated source package while \fBpatch\-header\fP is.
 .SS debian/patches/series
 This file lists all patches that have to be applied (in the given order)
 on top of the upstream source package. Leading and trailing spaces are

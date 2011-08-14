@@ -1,14 +1,14 @@
-.TH dpkg\-architecture 1 "2011-07-04" "Debian Project" "dpkg utilities"
+.TH dpkg\-architecture 1 "2011-08-14" "Debian Project" "dpkg utilities"
 .SH "NAME"
 dpkg\-architecture \- set and determine the architecture for package building
 .
 .SH SYNOPSIS
-.B dpkg-architecture
+.B dpkg\-architecture
 .RI [ option "...] [" command ]
 .PP
 .
 .SH DESCRIPTION
-dpkg-architecture does provide a facility to determine and set the build and
+dpkg\-architecture does provide a facility to determine and set the build and
 host architecture for package building.
 .PP
 The build architecture is always determined by an external call to
@@ -74,7 +74,7 @@ Set the GNU system type.
 .TP
 .B \-f
 Values set by existing environment variables with the same name as used by
-the scripts are honored (i.e. used by \fBdpkg-architecture\fP), except if
+the scripts are honored (i.e. used by \fBdpkg\-architecture\fP), except if
 this force flag is present. This allows the user
 to override a value even when the call to \fBdpkg\-architecture\fP is buried
 in some other script (for example \fBdpkg\-buildpackage\fP(1)).
@@ -193,18 +193,18 @@ Debian architectures which don't equal a processor name.
 .
 .SH "BACKWARD COMPATIBILITY"
 The DEB_*_ARCH_BITS and DEB_*_ARCH_ENDIAN variables were introduced
-in dpkg-dev 1.15.4. Using them in \fIdebian/rules\fR thus requires a
-build-dependency on dpkg-dev (>= 1.15.4).
+in dpkg\-dev 1.15.4. Using them in \fIdebian/rules\fR thus requires a
+build-dependency on dpkg\-dev (>= 1.15.4).
 .PP
 The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were introduced
-in dpkg-dev 1.13.2. Before this \fIdebian/rules\fR files tended to check
+in dpkg\-dev 1.13.2. Before this \fIdebian/rules\fR files tended to check
 the values of the DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which
 have been subject to change.
 .PP
 Where \fIdebian/rules\fR files check these variables to decide how or what
 to compile, this should be updated to use the new variables and values.
 You may wish to retain backwards compatibility with older version of
-dpkg-dev by using the following code:
+dpkg\-dev by using the following code:
 .IP
 .nf
 DEB_HOST_ARCH_CPU := $(shell dpkg\-architecture \-qDEB_HOST_ARCH_CPU 2>/dev/null)
@@ -227,8 +227,8 @@ endif
 .PP
 And similarly for DEB_BUILD_ARCH_CPU and DEB_BUILD_ARCH_OS.
 .PP
-If you still wish to support versions of dpkg-dev that did not include
-\fBdpkg-architecture\fR, the following does the job:
+If you still wish to support versions of dpkg\-dev that did not include
+\fBdpkg\-architecture\fR, the following does the job:
 .IP
 .nf
 \&\s-1DEB_BUILD_ARCH\s0 := $(shell dpkg \-\-print\-architecture)
@@ -236,7 +236,7 @@ If you still wish to support versions of dpkg-dev that did not include
 ifeq ($(filter\-out hurd\-%,$(\s-1DEB_BUILD_ARCH\s0)),)
   \s-1DEB_BUILD_GNU_SYSTEM\s0 := gnu
 else
-  \s-1DEB_BUILD_GNU_SYSTEM\s0 := linux-gnu
+  \s-1DEB_BUILD_GNU_SYSTEM\s0 := linux\-gnu
 endif
 DEB_BUILD_GNU_TYPE=$(\s-1DEB_BUILD_GNU_CPU\s0)\-$(\s-1DEB_BUILD_GNU_SYSTEM\s0)
 
@@ -247,7 +247,7 @@ DEB_BUILD_GNU_TYPE=$(\s-1DEB_BUILD_GNU_CPU\s0)\-$(\s-1DEB_BUILD_GNU_SYSTEM\s0)
 .fi
 .PP
 Put a subset of these lines at the top of your debian/rules file; these
-default values will be overwritten if dpkg-architecture is used.
+default values will be overwritten if dpkg\-architecture is used.
 .PP
 You don't need the full set. Choose a consistent set which contains the
 values you use in the rules file. For example, if you only need the host
@@ -282,7 +282,7 @@ dpkg\-architecture \-ilinux\-any
 dpkg\-architecture \-ai386 \-ilinux\-any
 .
 .SH FILES
-All these files have to be present for \fBdpkg-architecture\fP to
+All these files have to be present for \fBdpkg\-architecture\fP to
 work. Their location can be overridden at runtime with the environment
 variable \fBDPKG_DATADIR\fP.
 .TP

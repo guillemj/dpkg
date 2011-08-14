@@ -1,4 +1,4 @@
-.TH dpkg\-divert 8 "2011-07-04" "Debian Project" "dpkg utilities"
+.TH dpkg\-divert 8 "2011-08-14" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-divert \- override a package's version of a file
 .
@@ -93,21 +93,21 @@ To divert all copies of a \fI/usr/bin/example\fR to \fI/usr/bin/example.foo\fR,
 i.e. directs all packages providing \fI/usr/bin/example\fR to install it as
 \fI/usr/bin/example.foo\fR, performing the rename if required:
 .HP
-dpkg-divert \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
+dpkg\-divert \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
 .PP
 To remove that diversion:
 .HP
-dpkg-divert \-\-rename \-\-remove /usr/bin/example
+dpkg\-divert \-\-rename \-\-remove /usr/bin/example
 
 .PP
 To divert any package trying to install \fI/usr/bin/example\fR to
 \fI/usr/bin/example.foo\fR, except your own \fIwibble\fR package:
 .HP
-dpkg-divert \-\-package wibble \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
+dpkg\-divert \-\-package wibble \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
 .PP
 To remove that diversion:
 .HP
-dpkg-divert \-\-package wibble \-\-rename \-\-remove /usr/bin/example
+dpkg\-divert \-\-package wibble \-\-rename \-\-remove /usr/bin/example
 .
 .SH ENVIRONMENT
 .TP
