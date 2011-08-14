@@ -155,7 +155,7 @@ sub load_override_extra
 usage() and exit 1 if not $result;
 
 if (not @ARGV >= 1 && @ARGV <= 3) {
-    usageerr(_g("1 to 3 args expected"));
+    usageerr(_g("one to three arguments expected"));
 }
 
 my $type = defined($options{type}) ? $options{type} : 'deb';

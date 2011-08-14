@@ -299,7 +299,7 @@ sub main {
     my (@out);
 
     GetOptions(@Option_spec) or usage;
-    @ARGV >= 1 && @ARGV <= 3 or usageerr(_g("1 to 3 args expected\n"));
+    @ARGV >= 1 && @ARGV <= 3 or usageerr(_g("one to three arguments expected"));
 
     push @ARGV, undef		if @ARGV < 2;
     push @ARGV, ''		if @ARGV < 3;
