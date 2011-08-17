@@ -57,7 +57,7 @@ extern const char *__progname;
  * Get the program name.
  *
  * The program name might have been set previously by dpkg_set_progname(),
- * but if not this function will try to initialize it by system dependant
+ * but if not this function will try to initialize it by system dependent
  * means, so it's half safe to not call dpkg_set_progname() at all. At worst
  * the function might return NULL in that case.
  *

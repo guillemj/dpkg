@@ -34,7 +34,7 @@ is ( cppfilt_demangle_cpp('FoobarInvalidSymbol'), undef,
     'non-demanglable string' );
 
 # Mass C++ demangling. Checking if c++filt does not hang and cppfilt_demangle()
-# immediatelly provides a correct answer to the caller (i.e. no buffering).
+# immediately provides a correct answer to the caller (i.e. no buffering).
 my @mangledtext = split(/\n+/s, <<'END');
 0000000000000000      DF *UND*  0000000000000000  GCC_3.0     _Unwind_SetIP
 0000000000000000      DF *UND*  0000000000000000  GLIBC_2.2.5 __towlower_l

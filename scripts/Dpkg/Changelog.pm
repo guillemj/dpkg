@@ -97,7 +97,7 @@ sub set_options {
 
 =item $c->reset_parse_errors()
 
-Can be used to delete all information about errors ocurred during
+Can be used to delete all information about errors occurred during
 previous L<parse> runs.
 
 =cut

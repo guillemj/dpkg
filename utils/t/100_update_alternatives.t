@@ -426,7 +426,7 @@ my $old_path = $choices[0]{"slaves"}[0]{"path"};
 $old_slave = $choices[0]{"slaves"}[0]{"link"};
 $choices[0]{"slaves"}[0]{"path"} = "$bindir/doesntexist";
 $choices[0]{"slaves"}[0]{"link"} = "$bindir/baddir/slave2";
-# test rename of slave link that existed but that doesnt anymore
+# test rename of slave link that existed but that doesn't anymore
 # and link is moved into non-existing dir at the same time
 install_choice(0);
 check_choice(0, "auto", "optional renamed slave2 in non-existing dir");

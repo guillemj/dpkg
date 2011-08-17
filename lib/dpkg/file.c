@@ -121,7 +121,7 @@ file_is_locked(int lockfd, const char *filename)
  *
  * @param lockfd The pointer to the lock file descriptor. It must be allocated
  *        statically as its addresses is passed to a cleanup handler.
- * @param flags The lock flags specifiying what type of locking to perform.
+ * @param flags The lock flags specifying what type of locking to perform.
  * @param filename The name of the file to lock.
  * @param desc The description of the file to lock.
  */

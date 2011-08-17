@@ -430,7 +430,7 @@ $sym = $sym_file->lookup_symbol('SYMVER_1@SYMVER_1','libpatterns.so.1');
 is ( $sym->{minver}, '1', "specific SYMVER_1 symbol" );
 
 $sym = $sym_file->lookup_symbol('_ZN3NSB6Symver14symver_method1Ev@SYMVER_1', 'libpatterns.so.1');
-is ( $sym->{minver}, '1.method1', "specific symbol prefered over pattern" );
+is ( $sym->{minver}, '1.method1', "specific symbol preferred over pattern" );
 
 $sym = $sym_file->lookup_symbol('_ZN3NSB6Symver14symver_method2Ev@SYMVER_1', 'libpatterns.so.1');
 is ( $sym->{minver}, '1.method2', "c++ alias pattern preferred over generic pattern" );

@@ -12,7 +12,7 @@
  * Domain.
  *
  * Changes by Ben Collins <bcollins@debian.org>, added --chuid, --background
- * and --make-pidfile options, placed in public domain aswell.
+ * and --make-pidfile options, placed in public domain as well.
  *
  * Port to OpenBSD by Sontri Tomo Huynh <huynh.29@osu.edu>
  *                 and Andreas Schuldei <andreas@schuldei.org>
@@ -1166,7 +1166,7 @@ pid_is_cmd(pid_t pid, const char *name)
 	end_argv_0_p = strchr(*pid_argv_p, ' ');
 	if (end_argv_0_p == NULL)
 		/* There seems to be no space, so we have the command
-		 * allready in its desired form. */
+		 * already in its desired form. */
 		start_argv_0_p = *pid_argv_p;
 	else {
 		/* Tests indicate that this never happens, since

@@ -40,7 +40,7 @@
  * When we read files contained info about a particular package we set the
  * ‘files’ member of the clientdata struct to the appropriate thing. When
  * not yet set the files pointer is made to point to ‘fileslist_uninited’
- * (this is available only internally, withing filesdb.c - the published
+ * (this is available only internally, within filesdb.c - the published
  * interface is ensure_*_available).
  */
 

@@ -284,7 +284,7 @@ dpkg (1.16.0) unstable; urgency=low
     works at all. Thanks to Ivan Gagis <igagis@gmail.com>. LP: #728708
   * Add armhf support to ostable and triplettable. Closes: #594179
   * Set the modification time for unpacked symlinks on supported systems.
-  * Fix undefined value useage in dpkg-genchanges when adding files w/o a
+  * Fix undefined value usage in dpkg-genchanges when adding files w/o a
     matching architecture, because they are not present in debian/control,
     this is most commonly the case due to dpkg-distaddfile.
   * Terminate immediately on dpkg-divert rename errors instead of propagating
@@ -301,7 +301,7 @@ dpkg (1.16.0) unstable; urgency=low
     - it documents the VCS-* fields too. Closes: #483119
     Thanks to Oxan van Leeuwen <oxan@oxanvanleeuwen.nl> who wrote it
     as part of the Google Code In program.
-  * Enhance dpkg-shlibdeps to not fail immediatly when a library is not found.
+  * Enhance dpkg-shlibdeps to not fail immediately when a library is not found.
     Instead continue and fail after all problems have been reported. Thanks
     to Chris Baines <cbaines8@gmail.com> for the patch. Closes: #596841
   * Fix dpkg-source to not list Debian packaging files as modified
@@ -3869,7 +3869,7 @@ dpkg (1.13.17) unstable; urgency=low
     attributes and other embellishments.
   * Add dpkg-query(1) in the SEE ALSO section in dpkg(1). Closes: #354643
   * Don't try to compile in SELinux support on GNU/kFreeBSD amd64.
-  * Add new quiet option to dpkg-source to supress warnings. Closes: #355065
+  * Add new quiet option to dpkg-source to suppress warnings. Closes: #355065
   * Do not expand architecture aliases anymore in .dsc files.
   * Change start-stop-daemon's --exec behaviour again on GNU/Linux to compare
     the referred file pointed by the '/proc/<pid>/exe' symlink, stripping
@@ -4281,7 +4281,7 @@ dpkg (1.13.9) unstable; urgency=low
   SELinux support (Manoj Srivastava):
   * On SELinux-enabled systems, try to set the security context when the
     package is unpacked.  Closes: #193653, #249496, #307139.
-  * Added build-dependancy on libselinux1-dev.
+  * Added build-dependency on libselinux1-dev.
 
   Improvements to dpkg-source (Brendan O'Dea):
   * Support unpacking of "Wig And Pen" (Format 2.0) source packages.
@@ -4680,7 +4680,7 @@ dpkg (1.10.22) unstable; urgency=low
       Closes: #120562.
     - Add --force-bad-verify to dpkg manpage.  Closes: #192812.
     - Correct dpkg manpage to refer to --force-remove-reinstreq instead of
-      -non-existant --force-reinstreq option.  Closes: #232831.
+      non-existent --force-reinstreq option.  Closes: #232831.
     - Correct documentation of --compare-versions arguments.  Closes: #232317.
     - Correct usage of "et al" to "et al.".  Closes: #230751.
     - Add dpkg-reconfigure(8) to SEE ALSO section of dpkg(8).  Closes: #233282.
@@ -4750,7 +4750,7 @@ dpkg (1.10.21) unstable; urgency=low
   * Add --dir-file option to install-info for GNU install-info
     compatibility.  Closes: #179192
   * Refer to debian-policy in dpkg-doc's description instead of the
-    non-existant packaging-manual.  Closes: #120970.
+    non-existent packaging-manual.  Closes: #120970.
   * Remove incorrect mention of build-essential from dpkg-checkbuilddeps
     manpage.  Closes: #219210.
   * Add a note about diverting shared libraries to the dpkg-divert
@@ -4923,7 +4923,7 @@ dpkg (1.10.14) unstable; urgency=low
       Some fields may have vars in them, which breaks the validation.
     * dpkg-gencontrol calls substvars after parsing the control file, and
       then validates the substituted depends lines.  Originally,
-      substitution occured only during writing of the final output file.
+      substitution occurred only during writing of the final output file.
     * Andreas Barth <aba@not.so.argh.org>:
       Fix bad regex that didn't allow spaces in dependency field parsing.
       It now directly matches what the c code expects.  It previously was
@@ -5269,7 +5269,7 @@ dpkg (1.10) unstable; urgency=low
   * dselect now accepts regular expressions when searching for packages
     and can search in package descriptions as well.
     Closes: Bug#81009,#83139
-  * Move query commands into a seperate dpkg-query command. For the old options
+  * Move query commands into a separate dpkg-query command. For the old options
     (-L,-l,-s,-S) dpkg will still call it for you.
   * Add configurable package listing support to dpkg-query
   * Handle window resize in dselect main menu. Closes: Bug#98275
@@ -5299,7 +5299,7 @@ dpkg (1.10) unstable; urgency=low
     Closes: #120924.
   * Make dpkg-checkbuilddeps always check for build-essential.
     Closes: Bug#118420.
-  * Use space seperated output instead of comma seperated in
+  * Use space separated output instead of comma separated in
     dpkg-checkbuilddeps
   * Update default ignore expression in dpkg-source to also match *~ and
     *.swp in subdirs. Closes: Bug#127458
@@ -5436,7 +5436,7 @@ dpkg (1.9.13) unstable; urgency=medium
 
   * Add a -W option to dpkg-source(and the other utils, where it is just
     passed thru), to turn certain errors into warnings(of which, only
-    one is changed, namely, the 'tar doesn't contain preceeding directory'
+    one is changed, namely, the 'tar doesn't contain preceding directory'
     error).  Closes: #101813, and partially 101845.
   * Don't error out if the files in the tar have leading './', for
     dpkg-source.  (another partial close of 101845).
@@ -5677,7 +5677,7 @@ dpkg (1.9.0) unstable; urgency=low
     segfaults people have been seeing in dpkg.  Closes: Bug#90328.
   * Apply patch from bug#86847, that escapes intl chars in filenames.
     Closes: Bug#83752, #85040, #86847, #89000.
-  * Errors during dpkg -s(and other similiar commands) are now printed
+  * Errors during dpkg -s(and other similar commands) are now printed
     on stderr.  Closes: Bug#88987.
   * Add a --retry option to start-stop-daemon. Closes: Bug#75139
   * Fix regeps to extract Closes magic from a changelog so the #
@@ -6058,7 +6058,7 @@ dpkg (1.4.1.19) unstable; urgency=low
     it was already broken when there was no gcc anyway :)
   * Fixed missing mipseb that was supposed to be in the archtable
   * Better output in update-alternatives --config, now shows the
-    current, and the prefered choices.
+    current, and the preferred choices.
   * dpkg-name: ignore epoch when getting version
   * 50dpkg-dev.el: add it as a conffile for dpkg-dev
   * internals.sgml: Removed references to the versions of build tools,
@@ -6521,7 +6521,7 @@ dpkg (1.4.0.24) unstable; urgency=low
     against libraries it depends on).  Code by Richard Braakman
     <dark@xs4all.nl> and Yann Dirson <dirson@debian.org>.
   * debian/rules: remove all reference to the packaging manual as it is
-    now provided by the seperate "packaging-manual" package. [#21581,
+    now provided by the separate "packaging-manual" package. [#21581,
     #21186, #22698, #23342]
   * debian/rules: link dpkg-divert.1.gz to undocumented.7.gz as the lack
     of a real manpage has been reported in #11093.
@@ -6662,7 +6662,7 @@ dpkg (1.4.0.15) experimental; urgency=low
   * Provide 50dpkg-dev.el for xemacs as well as emacs.
   * Explicitly provide path for debian-changelog-mode in 50dpkg-dev to use
     .el file as workaround until xemacs can read emacs19 .elc files.
-  * Pass top_distdir explicitly to 'make dist' to accomodate bug in
+  * Pass top_distdir explicitly to 'make dist' to accommodate bug in
     automake_1.1o-1.
   * Fix debian/build to make html documentation without including
     directories in tar archives (fixes #9348).
@@ -6843,7 +6843,7 @@ dpkg (1.4.0.3) unstable; urgency=medium
 dpkg (1.4.0.2) unstable; urgency=medium
 
   * dpkg-buildpackage.sh: reverted the quoting change -- (you
-    should use super, sudo, realy, but not su.  Or write a wrapper
+    should use super, sudo, really, but not su.  Or write a wrapper
     around su)
   * dpkg-buildpackge.sh: passing -m, -C, -v options to dpkg-genchanges
     more the way Ian likes ;-)
@@ -7784,7 +7784,7 @@ dpkg (0.93.73) BETA; priority=LOW
   * `hold' flag changed to be settable by the user only, and
     made orthogonal to the `reinstallation required' flag.
   * dpkg will install by default any packages with priority of
-    `standard' or better unless they're explictly deselected.
+    `standard' or better unless they're explicitly deselected.
 
   * dselect dependency/conflict resolution will suggest marking absent
     packages for `purge' rather than `deinstall'.
