@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.16.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2011-08-01 22:21+0200\n"
-"PO-Revision-Date: 2011-06-27 19:20+0100\n"
+"PO-Revision-Date: 2011-08-17 20:02+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -140,7 +140,6 @@ msgid "%s is not a supported variable name"
 msgstr "%s är inte ett variabelnamn som stöds"
 
 #: scripts/dpkg-buildflags.pl:33
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "Copyright (C) 2010 Raphael Hertzog <hertzog@debian.org>."
@@ -149,10 +148,10 @@ msgid ""
 "Copyright (C) 2010-2011 Raphael Hertzog <hertzog@debian.org>."
 msgstr ""
 "\n"
-"Copyright © 2010 Raphael Hertzog <hertzog@debian.org>."
+"Copyright © 2010-2011 Raphael Hertzog <hertzog@debian.org>."
 
 #: scripts/dpkg-buildflags.pl:44
-#, fuzzy, perl-format
+#, perl-format
 #| msgid ""
 #| "Usage: %s [<action>]\n"
 #| "\n"
@@ -192,11 +191,13 @@ msgstr ""
 "                     värdet är ett av vendor, system, user, env.\n"
 "  --list             skriv ut lista med flaggor som stöds av aktuell "
 "leverantör.\n"
-"  --export=(sh|make) skriv ut kommandon att exekvera i skal eller make som\n"
-"                     exporterar alla kompileringsflaggor som "
-"miljövariabler.\n"
-"  --help            visa detta hjälpmeddelande.\n"
-"  --version         visa versionsnummer.\n"
+"  --export=(sh|make|configure)\n"
+"                     skriv ut något som kan användas för att importera\n"
+"                     kompileringsflaggor i ett skalskript, i make,\n"
+"                     eller på en ./configure-kommandorad\n"
+"  --dump             skriv ut alla kompileringsflaggor och deras värden.\n"
+"  --help             visa detta hjälpmeddelande.\n"
+"  --version          visa versionsnummer.\n"
 
 #: scripts/dpkg-buildflags.pl:66 scripts/dpkg-buildflags.pl:72
 #: scripts/dpkg-buildflags.pl:77 scripts/dpkg-buildflags.pl:81
@@ -375,10 +376,10 @@ msgid "PGP support is deprecated (see README.feature-removal-schedule)"
 msgstr "PGP-stödet undanbes (se README.feature-removal-schedule)"
 
 #: scripts/dpkg-buildpackage.pl:300
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "%s: export %s from dpkg-buildflags (origin: %s): %s\n"
 msgid "%s: dpkg-buildflags (origin: %s): %s = %s\n"
-msgstr "%s: exportera %s från dpkg-buildflags (källa: %s): %s\n"
+msgstr "%s: dpkg-buildflags (källa: %s): %s = %s\n"
 
 #: scripts/dpkg-buildpackage.pl:309
 msgid "source package"
@@ -1043,7 +1044,7 @@ msgstr "några symboler eller mönster försvann ur symbolfilen: %s"
 
 #: scripts/dpkg-gensymbols.pl:291
 msgid "the generated symbols file is empty"
-msgstr ""
+msgstr "den genererade \"symbols\"-filen är tom"
 
 #: scripts/dpkg-gensymbols.pl:293
 #, perl-format
@@ -1785,19 +1786,19 @@ msgid "%s is not a compression level"
 msgstr "%s är inte en komprimeringsnivå"
 
 #: scripts/dpkg-source.pl:214
-#, fuzzy
 #| msgid ""
 #| "need a command (-x, -b, --before-build, --after-build, --print-format)"
 msgid ""
 "need a command (-x, -b, --before-build, --after-build, --print-format, --"
 "commit)"
 msgstr ""
-"behöver ett kommando (-x, -b, --before-build, --after-build, --print-format)"
+"behöver ett kommando (-x, -b, --before-build, --after-build, --print-format, "
+"--commit)"
 
 #: scripts/dpkg-source.pl:238
 #, perl-format
 msgid "%s doesn't contain any information about the source package"
-msgstr ""
+msgstr "%s innehåller inte någon information om källkodspaketet"
 
 #: scripts/dpkg-source.pl:283
 #, perl-format
@@ -1810,10 +1811,10 @@ msgid "architecture %s only allowed on its own (list for package %s is `%s')"
 msgstr "arkitektur %s tillåts inte ensamt (listan för paketet %s är \"%s\")"
 
 #: scripts/dpkg-source.pl:301
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "diff `%s' doesn't contain any patch"
 msgid "%s doesn't list any binary package"
-msgstr "diffen \"%s\" innehåller inte någon patch"
+msgstr "%s räknar inte upp några binärpaket"
 
 #: scripts/dpkg-source.pl:343 scripts/Dpkg/BuildFlags.pm:269
 #: scripts/Dpkg/Compression/FileHandle.pm:401
@@ -1899,7 +1900,7 @@ msgstr ""
 "Copyright © 2008 Raphael Hertzog"
 
 #: scripts/dpkg-source.pl:470
-#, fuzzy, perl-format
+#, perl-format
 #| msgid ""
 #| "Usage: %s [<option> ...] <command>\n"
 #| "\n"
@@ -1928,7 +1929,9 @@ msgstr ""
 "                           extrahera källkodspaket.\n"
 "  -b <kat>                 bygg källkodspaket.\n"
 "  --print-format <kat>     visa källkodsformatet som skulle användas\n"
-"                           för att bygga källkodspaketet."
+"                           för att bygga källkodspaketet.\n"
+"  --commit [<kat> [<patch-namn>]]\n"
+"                           spara uppströmsändringar som en ny patch."
 
 #: scripts/dpkg-source.pl:481
 #, perl-format
@@ -2374,10 +2377,10 @@ msgid "parsed version of changelog"
 msgstr "tolkad version av ändringslogg"
 
 #: scripts/Dpkg/Control.pm:156 scripts/Dpkg/Control.pm:158
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "entry in dpkg's status file"
 msgid "entry in repository's %s file"
-msgstr "post i dpkg:s statusfil"
+msgstr "post i arkivets fil %s"
 
 #: scripts/Dpkg/Control.pm:160 scripts/Dpkg/Control.pm:164
 #, perl-format
@@ -2410,10 +2413,10 @@ msgid "first block lacks a source field"
 msgstr "första blocket saknar source-fält"
 
 #: scripts/Dpkg/Control/Info.pm:110 scripts/Dpkg/Control/Info.pm:113
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "block lacks a package field"
 msgid "block lacks the '%s' field"
-msgstr "blocket saknar package-fält"
+msgstr "blocket saknar fältet \"%s\""
 
 #: scripts/Dpkg/Control/Hash.pm:172
 #, perl-format
@@ -2895,10 +2898,10 @@ msgid "%s is not a plain file"
 msgstr "%s är inte en vanlig fil"
 
 #: scripts/Dpkg/Source/Package.pm:517
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "can't build with source format '%s': %s"
 msgid "'%s' is not supported by the source format '%s'"
-msgstr "kan inte bygga med källkodsformatet \"%s\": %s"
+msgstr "\"%s\" stöds inte av källkodsformatet \"%s\""
 
 #: scripts/Dpkg/Source/Package/V1.pm:62
 #, perl-format
@@ -3144,21 +3147,18 @@ msgid "unapplying %s"
 msgstr "tar bort tillämpning av %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:263 scripts/Dpkg/Source/Package/V2.pm:343
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "multiple upstream tarballs in %s format dsc"
 msgid "no upstream tarball found at %s"
-msgstr "flera uppströms-tarbollar i dsc på %s-format"
+msgstr "hittade ingen uppströms-tarboll på %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:313
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:327
-#, fuzzy
 #| msgid ""
 #| "patches have not been applied, applying them now (use --no-preparation to "
 #| "override)"
 msgid "patches are not applied, applying them now"
-msgstr ""
-"patcharna har inte tillämpats, tillämpar dem nu (använd -no-preparation för "
-"att överstyra)"
+msgstr "patcharna har inte tillämpats, tillämpar dem nu"
 
 #: scripts/Dpkg/Source/Package/V2.pm:330
 #, perl-format
@@ -3174,10 +3174,9 @@ msgid "unrepresentable changes to source"
 msgstr "ändring i källkod kan inte representeras"
 
 #: scripts/Dpkg/Source/Package/V2.pm:389
-#, fuzzy
 #| msgid "local changes stored in %s, the modified files are:"
 msgid "local changes detected, the modified files are:"
-msgstr "lokala ändringar sparade i %s, de ändrade filerna är:"
+msgstr "lokala ändringar upptäcktes, de ändrade filerna är:"
 
 #: scripts/Dpkg/Source/Package/V2.pm:408
 #: scripts/Dpkg/Source/Package/V3/bzr.pm:97
@@ -3218,18 +3217,18 @@ msgstr[1] ""
 #: scripts/Dpkg/Source/Package/V2.pm:506
 #, perl-format
 msgid "you can integrate the local changes with %s"
-msgstr ""
+msgstr "du kan integrera de lokala ändringarna med %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:508
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "aborting due to --abort-on-upstream-changes"
 msgid "aborting due to unexpected upstream changes, see %s"
-msgstr "avbryter på grund av --abort-on-upstream-changes"
+msgstr "avbryter på grund av oväntade uppströmsändringar, se %s-changes"
 
 #: scripts/Dpkg/Source/Package/V2.pm:517 scripts/Dpkg/Source/Package/V2.pm:647
 #, perl-format
 msgid "local changes have been recorded in a new patch: %s"
-msgstr ""
+msgstr "lokala ändringar har skrivits till en ny patch: %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:519 scripts/Dpkg/Source/Package/V2.pm:604
 #: scripts/Dpkg/Source/Package/V2.pm:632 scripts/Dpkg/Source/Package/V2.pm:645
@@ -3245,25 +3244,24 @@ msgstr "lägger %s till %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:596
 #: scripts/Dpkg/Source/Package/V3/quilt.pm:363
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "failed to rename saved %s to %s"
 msgid "failed to copy %s to %s"
-msgstr "misslyckades att byta namn på sparad %s till %s"
+msgstr "misslyckades att kopiera %s till %s"
 
 #: scripts/Dpkg/Source/Package/V2.pm:619
 #, perl-format
 msgid "cannot register changes in %s, this patch already exists"
-msgstr ""
+msgstr "kan inte registrera ändringar i %s, patchen finns redan"
 
 #: scripts/Dpkg/Source/Package/V2.pm:633
-#, fuzzy
 #| msgid "unrepresentable changes to source"
 msgid "there are no local changes to record"
-msgstr "ändring i källkod kan inte representeras"
+msgstr "det finns inte några lokala ändringar att spara"
 
 #: scripts/Dpkg/Source/Package/V2.pm:638
 msgid "Enter the desired patch name: "
-msgstr ""
+msgstr "Ange önskat patchnamn: "
 
 #: scripts/Dpkg/Source/Package/V3/bzr.pm:52
 msgid ""
@@ -3504,10 +3502,9 @@ msgid "version number cannot be empty"
 msgstr "versionsnumret kan inte vara tomt"
 
 #: scripts/Dpkg/Version.pm:376
-#, fuzzy
 #| msgid "version number cannot be empty"
 msgid "version number does not start with digit"
-msgstr "versionsnumret kan inte vara tomt"
+msgstr "versionsnumret börjar inte med en siffra"
 
 #: scripts/Dpkg/Version.pm:381
 #, perl-format
