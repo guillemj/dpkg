@@ -1867,6 +1867,51 @@ alternative_map_add(struct alternative_map *am, const char *key, struct alternat
 	}
 }
 
+static void
+alternative_map_load_names(struct alternative_map *alt_map_obj)
+{
+	struct dirent **table;
+	int i, count;
+
+	count = altdb_get_namelist(&table);
+	for (i = 0; i < count; i++) {
+		struct alternative *a_new = alternative_new(table[i]->d_name);
+
+		if (!alternative_load(a_new, true)) {
+			alternative_free(a_new);
+			continue;
+		}
+		alternative_map_add(alt_map_obj, a_new->master_name, a_new);
+	}
+	altdb_free_namelist(table, count);
+}
+
+static void
+alternative_map_load_tree(struct alternative_map *alt_map_links,
+                          struct alternative_map *alt_map_parent)
+{
+	struct dirent **table;
+	int i, count;
+
+	count = altdb_get_namelist(&table);
+	for (i = 0; i < count; i++) {
+		struct slave_link *sl;
+		struct alternative *a_new = alternative_new(table[i]->d_name);
+
+		if (!alternative_load(a_new, true)) {
+			alternative_free(a_new);
+			continue;
+		}
+		alternative_map_add(alt_map_links, a_new->master_link, a_new);
+		alternative_map_add(alt_map_parent, a_new->master_name, a_new);
+		for (sl = a_new->slaves; sl; sl = sl->next) {
+			alternative_map_add(alt_map_links, sl->link, a_new);
+			alternative_map_add(alt_map_parent, sl->name, a_new);
+		}
+	}
+	altdb_free_namelist(table, count);
+}
+
 static const char *
 get_argv_string(int argc, char **argv)
 {
@@ -2057,9 +2102,8 @@ main(int argc, char **argv)
 	char *path = NULL, *current_choice = NULL;
 	/* Alternatives maps for checks */
 	struct alternative_map *alt_map_obj, *alt_map_links, *alt_map_parent;
-	struct dirent **table;
 	const char *new_choice = NULL;
-	int i = 0, count;
+	int i = 0;
 
 	setlocale(LC_ALL, "");
 	bindtextdomain("dpkg", LOCALEDIR);
@@ -2209,26 +2253,11 @@ main(int argc, char **argv)
 
 	/* Load infos about all alternatives to be able to check for mistakes. */
 	alt_map_obj = alternative_map_new(NULL, NULL);
+	alternative_map_load_names(alt_map_obj);
+
 	alt_map_links = alternative_map_new(NULL, NULL);
 	alt_map_parent = alternative_map_new(NULL, NULL);
-	count = altdb_get_namelist(&table);
-	for (i = 0; i < count; i++) {
-		struct slave_link *sl;
-		struct alternative *a_new = alternative_new(table[i]->d_name);
-
-		if (!alternative_load(a_new, true)) {
-			alternative_free(a_new);
-			continue;
-		}
-		alternative_map_add(alt_map_obj, a_new->master_name, a_new);
-		alternative_map_add(alt_map_links, a_new->master_link, a_new);
-		alternative_map_add(alt_map_parent, a_new->master_name, a_new);
-		for (sl = a_new->slaves; sl; sl = sl->next) {
-			alternative_map_add(alt_map_links, sl->link, a_new);
-			alternative_map_add(alt_map_parent, sl->name, a_new);
-		}
-	}
-	altdb_free_namelist(table, count);
+	alternative_map_load_tree(alt_map_links, alt_map_parent);
 
 	/* Check that caller don't mix links between alternatives and don't mix
 	 * alternatives between slave/master, and that the various parameters
