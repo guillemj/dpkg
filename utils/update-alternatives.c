@@ -1629,6 +1629,9 @@ alternative_can_replace_path(const char *linkname)
 	struct stat st;
 	bool replace_link;
 
+	if (opt_force)
+		return true;
+
 	errno = 0;
 	if (lstat(linkname, &st) == -1) {
 		if (errno != ENOENT)
@@ -1638,7 +1641,7 @@ alternative_can_replace_path(const char *linkname)
 		replace_link = S_ISLNK(st.st_mode);
 	}
 
-	return (replace_link || opt_force);
+	return replace_link;
 }
 
 static void
