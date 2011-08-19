@@ -13,11 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 9;
+use Test::More tests => 13;
 
 use strict;
 use warnings;
 
+use_ok('Dpkg::Compression');
 use_ok('Dpkg::Compression::FileHandle');
 
 my $tmpdir = "t.tmp/850_Dpkg_Compression";
@@ -83,6 +84,15 @@ sub test_read {
 
     is_deeply(\@lines, \@read, "$filename correctly read (IO::Handle methods)");
 }
+
+# Test changing the default compression levels
+my $old_level = compression_get_default_level();
+compression_set_default_level(1);
+is(compression_get_default_level(), 1, "change default compression level");
+compression_set_default_level(5);
+is(compression_get_default_level(), 5, "change default compression level");
+compression_set_default_level(undef);
+is(compression_get_default_level(), $old_level, "reset default compression level");
 
 # Test write on uncompressed file
 test_write("$tmpdir/myfile", \&check_uncompressed);

@@ -18,7 +18,7 @@ package Dpkg::Compression;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "1.01";
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -54,26 +54,30 @@ my $COMP = {
 	"file_ext" => "gz",
 	"comp_prog" => [ "gzip", "--no-name", "--rsyncable" ],
 	"decomp_prog" => [ "gunzip" ],
+	"default_level" => 9,
     },
     "bzip2" => {
 	"file_ext" => "bz2",
 	"comp_prog" => [ "bzip2" ],
 	"decomp_prog" => [ "bunzip2" ],
+	"default_level" => 9,
     },
     "lzma" => {
 	"file_ext" => "lzma",
 	"comp_prog" => [ 'xz', '--format=lzma' ],
 	"decomp_prog" => [ 'unxz', '--format=lzma' ],
+	"default_level" => 6,
     },
     "xz" => {
 	"file_ext" => "xz",
 	"comp_prog" => [ "xz" ],
 	"decomp_prog" => [ "unxz" ],
+	"default_level" => 6,
     },
 };
 
 our $default_compression = "gzip";
-our $default_compression_level = 9;
+our $default_compression_level = undef;
 
 =item $compression_re_file_ext
 
@@ -117,6 +121,7 @@ sub compression_is_supported {
 Returns the requested property of the compression method. Returns undef if
 either the property or the compression method doesn't exist. Valid
 properties currently include "file_ext" for the file extension,
+"default_level" for the default compression level,
 "comp_prog" for the name of the compression program and "decomp_prog" for
 the name of the decompression program.
 
@@ -173,25 +178,29 @@ sub compression_set_default {
 =item my $level = compression_get_default_level()
 
 Return the default compression level used when compressing data. It's "9"
-unless C<compression_set_default_level> has been used to change it.
+for "gzip" and "bzip2", "6" for "xz" and "lzma", unless
+C<compression_set_default_level> has been used to change it.
 
 =item compression_set_default_level($level)
 
-Change the default compression level. Errors out if the
+Change the default compression level. Passing undef as the level will
+reset it to the compressor specific default, otherwise errors out if the
 level is not valid (see C<compression_is_valid_level>).
-either a number between 1 and 9 or "fast"
-or "best".
 
 =cut
 
 sub compression_get_default_level {
-    return $default_compression_level;
+    if (defined $default_compression_level) {
+        return $default_compression_level;
+    } else {
+        return compression_get_property($default_compression, "default_level");
+    }
 }
 
 sub compression_set_default_level {
     my ($level) = @_;
     error(_g("%s is not a compression level"), $level)
-            unless compression_is_valid_level($level);
+            unless !defined($level) or compression_is_valid_level($level);
     $default_compression_level = $level;
 }
 
