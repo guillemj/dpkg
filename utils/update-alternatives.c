@@ -1681,6 +1681,34 @@ alternative_can_replace_path(const char *linkname)
 		return true;
 }
 
+static bool
+alternative_path_needs_update(const char *linkname, const char *filename)
+{
+	char *linktarget;
+	bool update;
+
+	if (opt_force)
+		return true;
+
+	switch (alternative_path_classify(linkname)) {
+	case ALT_PATH_SYMLINK:
+		linktarget = xreadlink(linkname);
+		if (strcmp(linktarget, filename) == 0)
+			update = false;
+		else
+			update = true;
+		free(linktarget);
+
+		return update;
+	case ALT_PATH_OTHER:
+		warning(_("not replacing %s with a link."), linkname);
+		return false;
+	case ALT_PATH_MISSING:
+	default:
+		return true;
+	}
+}
+
 static void
 alternative_prepare_install_single(struct alternative *a, const char *name,
 				   const char *linkname, const char *file)
@@ -1695,15 +1723,13 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	alternative_add_commit_op(a, opcode_mv, fntmp, fn);
 	free(fntmp);
 
-	if (alternative_can_replace_path(linkname)) {
+	if (alternative_path_needs_update(linkname, fn)) {
 		/* Create alternative link. */
 		xasprintf(&fntmp, "%s" DPKG_TMP_EXT, linkname);
 		checked_rm(fntmp);
 		checked_symlink(fn, fntmp);
 		alternative_add_commit_op(a, opcode_mv, fntmp, linkname);
 		free(fntmp);
-	} else {
-		warning(_("not replacing %s with a link."), linkname);
 	}
 	free(fn);
 }
