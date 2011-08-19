@@ -2100,8 +2100,6 @@ main(int argc, char **argv)
 	struct fileset *fileset = NULL;
 	/* Path of alternative we are offering. */
 	char *path = NULL, *current_choice = NULL;
-	/* Alternatives maps for checks */
-	struct alternative_map *alt_map_obj, *alt_map_links, *alt_map_parent;
 	const char *new_choice = NULL;
 	int i = 0;
 
@@ -2251,21 +2249,20 @@ main(int argc, char **argv)
 		           "--config, --set, --set-selections, --install, "
 		           "--remove, --all, --remove-all or --auto"));
 
-	/* Load infos about all alternatives to be able to check for mistakes. */
-	alt_map_obj = alternative_map_new(NULL, NULL);
-	alternative_map_load_names(alt_map_obj);
-
-	alt_map_links = alternative_map_new(NULL, NULL);
-	alt_map_parent = alternative_map_new(NULL, NULL);
-	alternative_map_load_tree(alt_map_links, alt_map_parent);
-
 	/* Check that caller don't mix links between alternatives and don't mix
 	 * alternatives between slave/master, and that the various parameters
 	 * are fine. */
 	if (strcmp(action, "install") == 0) {
+		struct alternative_map *alt_map_links, *alt_map_parent;
 		struct alternative *found;
 		struct stat st;
 		struct slave_link *sl;
+
+		/* Load information about all alternatives to be able to
+		 * check for mistakes. */
+		alt_map_links = alternative_map_new(NULL, NULL);
+		alt_map_parent = alternative_map_new(NULL, NULL);
+		alternative_map_load_tree(alt_map_links, alt_map_parent);
 
 		found = alternative_map_find(alt_map_parent,
 		                             inst_alt->master_name);
@@ -2358,7 +2355,11 @@ main(int argc, char **argv)
 		config_all();
 		exit(0);
 	} else if (strcmp(action, "get-selections") == 0) {
+		struct alternative_map *alt_map_obj;
 		struct alternative_map *am;
+
+		alt_map_obj = alternative_map_new(NULL, NULL);
+		alternative_map_load_names(alt_map_obj);
 
 		for (am = alt_map_obj; am && am->item; am = am->next) {
 			char *current;
@@ -2372,7 +2373,11 @@ main(int argc, char **argv)
 
 		exit(0);
 	} else if (strcmp(action, "set-selections") == 0) {
+		struct alternative_map *alt_map_obj;
+
 		log_msg("run with %s", get_argv_string(argc, argv));
+		alt_map_obj = alternative_map_new(NULL, NULL);
+		alternative_map_load_names(alt_map_obj);
 		alternative_set_selections(alt_map_obj, stdin, _("<standard input>"));
 		exit(0);
 	}
