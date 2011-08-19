@@ -2083,6 +2083,108 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	}
 }
 
+/**
+ * Check the alternative installation arguments.
+ *
+ * That the caller doesn't mix links between alternatives, doesn't mix
+ * alternatives between slave/master, and that the various parameters
+ * are fine.
+ */
+static void
+alternative_check_install_args(struct alternative *inst_alt,
+                               struct fileset *fileset)
+{
+	struct alternative_map *alt_map_links, *alt_map_parent;
+	struct alternative *found;
+	struct slave_link *sl;
+	struct stat st;
+
+	/* Load information about all alternatives to check for mistakes. */
+	alt_map_links = alternative_map_new(NULL, NULL);
+	alt_map_parent = alternative_map_new(NULL, NULL);
+	alternative_map_load_tree(alt_map_links, alt_map_parent);
+
+	found = alternative_map_find(alt_map_parent, inst_alt->master_name);
+	if (found && strcmp(found->master_name, inst_alt->master_name) != 0) {
+		error(_("alternative %s can't be master: it is a slave of %s"),
+		      inst_alt->master_name, found->master_name);
+	}
+
+	found = alternative_map_find(alt_map_links, inst_alt->master_link);
+	if (found && strcmp(found->master_name, inst_alt->master_name) != 0) {
+		found = alternative_map_find(alt_map_parent,
+		                             found->master_name);
+		error(_("alternative link %s is already managed by %s."),
+		      inst_alt->master_link, found->master_name);
+	}
+
+	if (inst_alt->master_link[0] != '/')
+		error(_("alternative link is not absolute as it should be: %s"),
+		      inst_alt->master_link);
+
+	if (fileset->master_file[0] != '/')
+		error(_("alternative path is not absolute as it should be: %s"),
+		      fileset->master_file);
+
+	if (stat(fileset->master_file, &st) == -1 && errno == ENOENT)
+		error(_("alternative path %s doesn't exist."),
+		      fileset->master_file);
+
+	if (strpbrk(inst_alt->master_name, "/ \t"))
+		error(_("alternative name (%s) must not contain '/' "
+		        "and spaces."), inst_alt->master_name);
+
+	for (sl = inst_alt->slaves; sl; sl = sl->next) {
+		const char *file = fileset_get_slave(fileset, sl->name);
+
+		found = alternative_map_find(alt_map_parent, sl->name);
+		if (found &&
+		    strcmp(found->master_name, inst_alt->master_name) != 0) {
+			char *msg;
+
+			if (strcmp(found->master_name, sl->name) == 0)
+				msg = _("it is a master alternative.");
+			else
+				xasprintf(&msg, _("it is a slave of %s"),
+				          found->master_name);
+			error(_("alternative %s can't be slave of %s: %s"),
+			      sl->name, inst_alt->master_name, msg);
+		}
+
+		found = alternative_map_find(alt_map_links, sl->link);
+		if (found &&
+		    strcmp(found->master_name, inst_alt->master_name) != 0) {
+			error(_("alternative link %s is already "
+			        "managed by %s."), sl->link,
+			      found->master_name);
+		}
+		if (found) {
+			struct slave_link *sl2;
+
+			for (sl2 = found->slaves; sl2; sl2 = sl2->next)
+				if (strcmp(sl2->link, sl->link) == 0)
+					break;
+			if (sl2 && strcmp(sl2->name, sl->name) != 0)
+				error(_("alternative link %s is already "
+				        "managed by %s (slave of %s)."),
+				      sl->link, sl2->name,
+				      found->master_name);
+		}
+
+		if (sl->link[0] != '/')
+			error(_("alternative link is not absolute as "
+			        "it should be: %s"), sl->link);
+
+		if (!file || file[0] != '/')
+			error(_("alternative path is not absolute as "
+			        "it should be: %s"), file);
+
+		if (strpbrk(sl->name, "/ \t"))
+			error(_("alternative name (%s) must not contain '/' "
+			        "and spaces."), sl->name);
+	}
+}
+
 /*
  * Main program
  */
@@ -2249,106 +2351,8 @@ main(int argc, char **argv)
 		           "--config, --set, --set-selections, --install, "
 		           "--remove, --all, --remove-all or --auto"));
 
-	/* Check that caller don't mix links between alternatives and don't mix
-	 * alternatives between slave/master, and that the various parameters
-	 * are fine. */
-	if (strcmp(action, "install") == 0) {
-		struct alternative_map *alt_map_links, *alt_map_parent;
-		struct alternative *found;
-		struct stat st;
-		struct slave_link *sl;
-
-		/* Load information about all alternatives to be able to
-		 * check for mistakes. */
-		alt_map_links = alternative_map_new(NULL, NULL);
-		alt_map_parent = alternative_map_new(NULL, NULL);
-		alternative_map_load_tree(alt_map_links, alt_map_parent);
-
-		found = alternative_map_find(alt_map_parent,
-		                             inst_alt->master_name);
-		if (found && strcmp(found->master_name,
-		                    inst_alt->master_name) != 0) {
-			error(_("alternative %s can't be master: "
-			        "it is a slave of %s"),
-			      inst_alt->master_name, found->master_name);
-		}
-
-		found = alternative_map_find(alt_map_links,
-		                             inst_alt->master_link);
-		if (found && strcmp(found->master_name,
-		                    inst_alt->master_name) != 0) {
-			found = alternative_map_find(alt_map_parent,
-			                             found->master_name);
-			error(_("alternative link %s is already managed by %s."),
-			      inst_alt->master_link, found->master_name);
-		}
-
-		if (inst_alt->master_link[0] != '/')
-			error(_("alternative link is not absolute as it "
-			        "should be: %s"), inst_alt->master_link);
-
-		if (fileset->master_file[0] != '/')
-			error(_("alternative path is not absolute as it "
-			        "should be: %s"), fileset->master_file);
-
-		if (stat(fileset->master_file, &st) == -1 && errno == ENOENT)
-			error(_("alternative path %s doesn't exist."),
-			      fileset->master_file);
-
-		if (strpbrk(inst_alt->master_name, "/ \t"))
-			error(_("alternative name (%s) must not contain '/' "
-			        "and spaces."), inst_alt->master_name);
-
-		for (sl = inst_alt->slaves; sl; sl = sl->next) {
-			const char *file = fileset_get_slave(fileset, sl->name);
-
-			found = alternative_map_find(alt_map_parent, sl->name);
-			if (found && strcmp(found->master_name,
-			                    inst_alt->master_name) != 0) {
-				char *msg;
-
-				if (strcmp(found->master_name, sl->name) == 0)
-					msg = _("it is a master alternative.");
-				else
-					xasprintf(&msg, _("it is a slave of %s"),
-					          found->master_name);
-				error(_("alternative %s can't be slave of "
-				        "%s: %s"), sl->name,
-				      inst_alt->master_name, msg);
-			}
-
-			found = alternative_map_find(alt_map_links, sl->link);
-			if (found && strcmp(found->master_name,
-			                    inst_alt->master_name) != 0) {
-				error(_("alternative link %s is already "
-				        "managed by %s."), sl->link,
-				      found->master_name);
-			}
-			if (found) {
-				struct slave_link *sl2;
-				for (sl2 = found->slaves; sl2; sl2 = sl2->next)
-					if (strcmp(sl2->link, sl->link) == 0)
-						break;
-				if (sl2 && strcmp(sl2->name, sl->name) != 0)
-					error(_("alternative link %s is already "
-					        "managed by %s (slave of %s)."),
-					      sl->link, sl2->name,
-					      found->master_name);
-			}
-
-			if (sl->link[0] != '/')
-				error(_("alternative link is not absolute as "
-				        "it should be: %s"), sl->link);
-
-			if (!file || file[0] != '/')
-				error(_("alternative path is not absolute as "
-				        "it should be: %s"), file);
-
-			if (strpbrk(sl->name, "/ \t"))
-				error(_("alternative name (%s) must not contain '/' "
-				        "and spaces."), sl->name);
-		}
-	}
+	if (strcmp(action, "install") == 0)
+		alternative_check_install_args(inst_alt, fileset);
 
 	/* Handle actions. */
 	if (strcmp(action, "all") == 0) {
