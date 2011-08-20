@@ -399,7 +399,7 @@ filter_altdir(const struct dirent *entry)
 }
 
 static int
-get_all_alternatives(struct dirent ***table)
+altdb_get_namelist(struct dirent ***table)
 {
 	int count;
 
@@ -480,7 +480,7 @@ config_all(void)
 	struct dirent **table;
 	int i, count;
 
-	count = get_all_alternatives(&table);
+	count = altdb_get_namelist(&table);
 	for (i = 0; i < count; i++) {
 		subcall(prog_path, "--config", table[i]->d_name, NULL);
 		printf("\n");
@@ -2204,7 +2204,7 @@ main(int argc, char **argv)
 	alt_map_obj = alternative_map_new(NULL, NULL);
 	alt_map_links = alternative_map_new(NULL, NULL);
 	alt_map_parent = alternative_map_new(NULL, NULL);
-	count = get_all_alternatives(&table);
+	count = altdb_get_namelist(&table);
 	for (i = 0; i < count; i++) {
 		struct slave_link *sl;
 		struct alternative *a_new = alternative_new(table[i]->d_name);
