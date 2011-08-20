@@ -2083,6 +2083,22 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	}
 }
 
+static void
+alternative_check_args(const char *name, const char *linkname, const char *file)
+{
+	if (strpbrk(name, "/ \t"))
+		error(_("alternative name (%s) must not contain '/' "
+		        "and spaces."), name);
+
+	if (linkname[0] != '/')
+		error(_("alternative link is not absolute as it should be: %s"),
+		      linkname);
+
+	if (!file || file[0] != '/')
+		error(_("alternative path is not absolute as it should be: %s"),
+		      file);
+}
+
 /**
  * Check the alternative installation arguments.
  *
@@ -2118,21 +2134,12 @@ alternative_check_install_args(struct alternative *inst_alt,
 		      inst_alt->master_link, found->master_name);
 	}
 
-	if (inst_alt->master_link[0] != '/')
-		error(_("alternative link is not absolute as it should be: %s"),
-		      inst_alt->master_link);
-
-	if (fileset->master_file[0] != '/')
-		error(_("alternative path is not absolute as it should be: %s"),
-		      fileset->master_file);
+	alternative_check_args(inst_alt->master_name, inst_alt->master_link,
+	                       fileset->master_file);
 
 	if (stat(fileset->master_file, &st) == -1 && errno == ENOENT)
 		error(_("alternative path %s doesn't exist."),
 		      fileset->master_file);
-
-	if (strpbrk(inst_alt->master_name, "/ \t"))
-		error(_("alternative name (%s) must not contain '/' "
-		        "and spaces."), inst_alt->master_name);
 
 	for (sl = inst_alt->slaves; sl; sl = sl->next) {
 		const char *file = fileset_get_slave(fileset, sl->name);
@@ -2171,17 +2178,7 @@ alternative_check_install_args(struct alternative *inst_alt,
 				      found->master_name);
 		}
 
-		if (sl->link[0] != '/')
-			error(_("alternative link is not absolute as "
-			        "it should be: %s"), sl->link);
-
-		if (!file || file[0] != '/')
-			error(_("alternative path is not absolute as "
-			        "it should be: %s"), file);
-
-		if (strpbrk(sl->name, "/ \t"))
-			error(_("alternative name (%s) must not contain '/' "
-			        "and spaces."), sl->name);
+		alternative_check_args(sl->name, sl->link, file);
 	}
 }
 
