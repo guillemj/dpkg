@@ -410,6 +410,14 @@ altdb_get_namelist(struct dirent ***table)
 	return count;
 }
 
+static void
+altdb_free_namelist(struct dirent **table, int n)
+{
+	while (n--)
+		free(table[n]);
+	free(table);
+}
+
 static int
 spawn(const char *prog, const char *args[])
 {
@@ -484,9 +492,8 @@ config_all(void)
 	for (i = 0; i < count; i++) {
 		subcall(prog_path, "--config", table[i]->d_name, NULL);
 		printf("\n");
-		free(table[i]);
 	}
-	free(table);
+	altdb_free_namelist(table, count);
 }
 
 static bool
@@ -2211,7 +2218,6 @@ main(int argc, char **argv)
 
 		if (!alternative_load(a_new, true)) {
 			alternative_free(a_new);
-			free(table[i]);
 			continue;
 		}
 		alternative_map_add(alt_map_obj, a_new->master_name, a_new);
@@ -2221,10 +2227,8 @@ main(int argc, char **argv)
 			alternative_map_add(alt_map_links, sl->link, a_new);
 			alternative_map_add(alt_map_parent, sl->name, a_new);
 		}
-
-		free(table[i]);
 	}
-	free(table);
+	altdb_free_namelist(table, count);
 
 	/* Check that caller don't mix links between alternatives and don't mix
 	 * alternatives between slave/master, and that the various parameters
