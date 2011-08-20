@@ -116,7 +116,7 @@
 #endif
 
 #if defined(OSLinux)
-/* This comes from TASK_COMM_LEN defined in Linux's include/linux/sched.h. */
+/* This comes from TASK_COMM_LEN defined in Linux' include/linux/sched.h. */
 #define PROCESS_NAME_SIZE 15
 #elif defined(OSsunos)
 #define PROCESS_NAME_SIZE 15
@@ -416,7 +416,7 @@ usage(void)
 "  -a|--startas <pathname>       program to start (default is <executable>)\n"
 "  -r|--chroot <directory>       chroot to <directory> before starting\n"
 "  -d|--chdir <directory>        change to <directory> (default is /)\n"
-"  -N|--nicelevel <incr>         add incr to the process's nice level\n"
+"  -N|--nicelevel <incr>         add incr to the process' nice level\n"
 "  -P|--procsched <policy[:prio]>\n"
 "                                use <policy> with <prio> for the kernel\n"
 "                                  process scheduler (default prio is 0)\n"
