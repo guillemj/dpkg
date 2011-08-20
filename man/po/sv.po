@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-20 06:25+0000\n"
-"PO-Revision-Date: 2011-08-17 20:57+0100\n"
+"POT-Creation-Date: 2011-08-01 22:23+0300\n"
+"PO-Revision-Date: 2011-08-20 22:01+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -254,7 +254,7 @@ msgstr ""
 #: deb-version.5:116 deb-old.5:51 deb-override.5:62 deb-extra-override.5:37
 #: deb-shlibs.5:61 deb-substvars.5:154 deb-symbols.5:61 deb-triggers.5:67
 #: dpkg.1:768 dpkg-architecture.1:299 dpkg.cfg.5:23 dpkg-buildpackage.1:249
-#: dpkg-deb.1:259 dpkg-divert.8:132 dpkg-gensymbols.1:450 dpkg-name.1:96
+#: dpkg-deb.1:246 dpkg-divert.8:132 dpkg-gensymbols.1:450 dpkg-name.1:96
 #: dpkg-query.1:220 dpkg-scanpackages.1:110 dpkg-scansources.1:71
 #: dpkg-shlibdeps.1:324 dpkg-source.1:723 dpkg-split.1:217
 #: dpkg-statoverride.8:84 dpkg-trigger.1:66 dselect.1:445 dselect.cfg.5:23
@@ -1394,6 +1394,17 @@ msgid ""
 "changes file and will not appear in the binary or source package control "
 "files."
 msgstr ""
+"Det är möjligt att lägga till ytterligare användardefinierade fält i "
+"styrfilen. Verktygen ignorerar dessa fält. Om du vill att fälten skall "
+"kopieras över till utdatafilerna, som till exempel i binärpaketen, måste du "
+"använda en skräddarsydd namngivning: fälten måste starta med X, följt av ett "
+"eller flera av bokstäverna BCS och ett bindestreck. Om bokstaven B används "
+"kommer fältet att dyka upp i styrfilen i binärpaketet, se B<deb-control>(5), "
+"för bokstaven S i källkodspaketets styrfil som konstrueras av B<dpkg-source>"
+"(1) och för bokstaven C i styrfilen för insändning (.changes). Observera att "
+"X[BCS]-prefixen tas bort när fälten kopieras över till utdatafilerna. Fältet "
+"B<XC-Approved-By> visas som B<Approved-By> i changes-filen och visas inte i "
+"styrfilerna för binär- och källkodspaketen."
 
 #. type: Plain text
 #: deb-src-control.5:304
@@ -1413,6 +1424,19 @@ msgid ""
 "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
 " libselinux1-dev (E<gt>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]\n"
 msgstr ""
+"# Kommentar\n"
+"Source: dpkg\n"
+"Section: admin\n"
+"Priority: required\n"
+"Maintainer: Dpkg Developers E<lt>debian-dpkg@lists.debian.orgE<gt>\n"
+"# det här fältet kopieras till binär- och källkodspaketen\n"
+"XBS-Upstream-Release-Status: stable\n"
+"Homepage: http://wiki.debian.org/Teams/Dpkg\n"
+"Vcs-Browser: http://git.debian.org/?p=dpkg/dpkg.git\n"
+"Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git\n"
+"Standards-Version: 3.7.3\n"
+"Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
+" libselinux1-dev (E<gt>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]\n"
 
 #. type: Plain text
 #: deb-src-control.5:323
@@ -1437,13 +1461,29 @@ msgid ""
 " Most Debian source packages will require additional tools to build;\n"
 " for example, most packages need make and the C compiler gcc.\n"
 msgstr ""
+"Package: dpkg-dev\n"
+"Section: utils\n"
+"Priority: optional\n"
+"Architecture: all\n"
+"# det här är ett skräddarsytt fält i binärpaketet\n"
+"XB-Mentoring-Contact: Raphael Hertzog E<lt>hertzog@debian.orgE<gt>\n"
+"Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2), bzip2, lzma,\n"
+" patch (E<gt>= 2.2-1), make, binutils, libtimedate-perl\n"
+"Recommends: gcc | c-compiler, build-essential\n"
+"Suggests: gnupg, debian-keyring\n"
+"Conflicts: dpkg-cross (E<lt>E<lt> 2.0.0), devscripts (E<lt>E<lt> 2.10.26)\n"
+"Replaces: manpages-pl (E<lt>= 20051117-1)\n"
+"Description: Debian package development tools\n"
+" This package provides the development tools (including dpkg-source)\n"
+" required to unpack, build and upload Debian source packages.\n"
+" .\n"
+" Most Debian source packages will require additional tools to build;\n"
+" for example, most packages need make and the C compiler gcc.\n"
 
 #. type: Plain text
 #: deb-src-control.5:330
-#, fuzzy
-#| msgid "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 msgid "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
-msgstr "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
+msgstr "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
 
 #. type: TH
 #: deb-split.5:1
@@ -1481,6 +1521,8 @@ msgid ""
 "The first member is named B<debian-split> and contains a series of lines, "
 "separated by newlines. Currently eight lines are present:"
 msgstr ""
+"Den första posten heter B<debian-split> och innehåller en serie av rader, "
+"avdelade med nyradstecken. För närvarande finns åtta rader:"
 
 #. type: IP
 #: deb-split.5:15 deb-split.5:18 deb-split.5:20 deb-split.5:22 deb-split.5:24
@@ -1496,40 +1538,32 @@ msgstr "\\(bu"
 #: deb-split.5:18
 msgid ""
 "The format version number, B<2.1> at the time this manual page was written."
-msgstr ""
+msgstr "Formatets versionsnummer, B<2.1> då denna manualsida skrivs."
 
 #. type: Plain text
 #: deb-split.5:20
-#, fuzzy
-#| msgid "The source package version."
 msgid "The package name."
-msgstr "Version för källkodspaketet."
+msgstr "Paketets namn."
 
 #. type: Plain text
 #: deb-split.5:22
-#, fuzzy
-#| msgid "The source package version."
 msgid "The package version."
-msgstr "Version för källkodspaketet."
+msgstr "Paketets versionsnummer."
 
 #. type: Plain text
 #: deb-split.5:24
-#, fuzzy
-#| msgid "The source package version."
 msgid "The md5sum of the package."
-msgstr "Version för källkodspaketet."
+msgstr "md5-kontrollsumman för paketet."
 
 #. type: Plain text
 #: deb-split.5:26
-#, fuzzy
-#| msgid "The header line above the list of packages."
 msgid "The total size of the package."
-msgstr "Huvudraden ovanför paketlistan."
+msgstr "Total storlek på paketet."
 
 #. type: Plain text
 #: deb-split.5:28
 msgid "The maximum part size."
-msgstr ""
+msgstr "Maximal storlek på en del."
 
 #. type: Plain text
 #: deb-split.5:31
@@ -1537,11 +1571,13 @@ msgid ""
 "The current part number, followed by a slash and the total amount of parts "
 "(as in \\(oq1/10\\(cq)."
 msgstr ""
+"Nummer på aktuell del, följt av ett snedstreck och totalt antal delar (som i "
+"\\(oq1/10\\(cq)."
 
 #. type: Plain text
 #: deb-split.5:33
 msgid "The package architecture (since dpkg 1.16.1)."
-msgstr ""
+msgstr "Paketets arkitektur (sedan dpkg 1.16.1)."
 
 # type: Plain text
 #. type: Plain text
@@ -1568,32 +1604,22 @@ msgstr ""
 
 #. type: Plain text
 #: deb-split.5:44
-#, fuzzy
-#| msgid ""
-#| "The second, last required member is named B<data.>N, where N denotes the "
-#| "part number. It contains the raw part data."
 msgid ""
 "The second, last required member is named B<data.>I<N>, where I<N> denotes "
 "the part number. It contains the raw part data."
 msgstr ""
-"Den andra och sista nödvändiga posten heter B<data.>, där N anger delnumret. "
-"Den innehåller rådata för delen."
+"Den andra och sista nödvändiga posten heter B<data.>I<N>, där I<N> anger "
+"delnumret. Den innehåller rådata för delen."
 
 #. type: Plain text
 #: deb-split.5:49
-#, fuzzy
-#| msgid ""
-#| "These members must occur in this exact order. Current implementations "
-#| "should ignore any additional members after B<data.>N.  Further members "
-#| "may be defined in the future, and (if possible) will be placed after "
-#| "these two."
 msgid ""
 "These members must occur in this exact order. Current implementations should "
 "ignore any additional members after B<data.>I<N>.  Further members may be "
 "defined in the future, and (if possible) will be placed after these two."
 msgstr ""
 "Dessa poster måste ligga i exakt denna ordning. Nuvarande implementationer "
-"bör ignorera eventuella ytterligare poster efter B<data.>N. Ytterligare "
+"bör ignorera eventuella ytterligare poster efter B<data.>I<N>. Ytterligare "
 "poster kan komma att definieras i framtiden, och kommer (om möjligt) "
 "placeras efter dessa två."
 
@@ -1615,10 +1641,8 @@ msgstr "deb-version - Format på versionsnummer för Debianpaket"
 
 #. type: Plain text
 #: deb-version.5:11
-#, fuzzy
-#| msgid "[ I<epoch>:] I<upstream_version> [-I<debian_revision> ]"
 msgid "[I<epoch>B<:>]I<upstream-version>[B<->I<debian-revision>]"
-msgstr "[ I<epok>:] I<uppströmsversion> [-I<debianuppdatering> ]"
+msgstr "[I<epok>B<:>]I<uppströmsversion>[B<->I<debianuppdatering>]"
 
 #. type: Plain text
 #: deb-version.5:14
@@ -1637,18 +1661,13 @@ msgstr "I<epok>"
 
 #. type: Plain text
 #: deb-version.5:20
-#, fuzzy
-#| msgid ""
-#| "This is a single (generally small) unsigned integer.  It may be omitted, "
-#| "in which case zero is assumed.  If it is omitted then the "
-#| "I<upstream_version> may not contain any colons."
 msgid ""
 "This is a single (generally small) unsigned integer.  It may be omitted, in "
 "which case zero is assumed.  If it is omitted then the I<upstream-version> "
 "may not contain any colons."
 msgstr ""
 "Ett ensamt (vanligtvis litet) heltalsvärde större än noll. Det kan "
-"uteslutas, i så fall antas det vara noll. Om det utesluts an inte "
+"uteslutas, i så fall antas det vara noll. Om det utesluts kan inte "
 "I<uppströmsversion> innehålla kolontecken."
 
 #. type: Plain text
@@ -1664,10 +1683,9 @@ msgstr ""
 
 #. type: TP
 #: deb-version.5:24
-#, fuzzy, no-wrap
-#| msgid "I<upstream_version>"
+#, no-wrap
 msgid "I<upstream-version>"
-msgstr "B<uppströmsversion>"
+msgstr "I<uppströmsversion>"
 
 #. type: Plain text
 #: deb-version.5:34
@@ -1687,11 +1705,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-version.5:39
-#, fuzzy
-#| msgid ""
-#| "The comparison behavior of the package management system with respect to "
-#| "the I<upstream_version> is described below.  The I<upstream_version> "
-#| "portion of the version number is mandatory."
 msgid ""
 "The comparison behavior of the package management system with respect to the "
 "I<upstream-version> is described below. The I<upstream-version> portion of "
@@ -1703,13 +1716,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-version.5:48
-#, fuzzy
-#| msgid ""
-#| "The I<upstream_version> may contain only alphanumerics (\"A-Za-z0-9\") "
-#| "and the characters B<.> B<+> B<-> B<:> B<~> (full stop, plus, hyphen, "
-#| "colon, tilde) and should start with a digit.  If there is no "
-#| "I<debian_revision> then hyphens are not allowed; if there is no I<epoch> "
-#| "then colons are not allowed."
 msgid ""
 "The I<upstream-version> may contain only alphanumerics (\"A-Za-z0-9\") and "
 "the characters B<.> B<+> B<-> B<:> B<~> (full stop, plus, hyphen, colon, "
@@ -1725,19 +1731,12 @@ msgstr ""
 
 #. type: TP
 #: deb-version.5:48
-#, fuzzy, no-wrap
-#| msgid "I<debian_revision>"
+#, no-wrap
 msgid "I<debian-revision>"
-msgstr "B<debianuppdatering>"
+msgstr "I<debianuppdatering>"
 
 #. type: Plain text
 #: deb-version.5:57
-#, fuzzy
-#| msgid ""
-#| "This part of the version number specifies the version of the Debian "
-#| "package based on the upstream version.  It may contain only alphanumerics "
-#| "and the characters B<+> B<.> B<~> (plus, full stop, tilde) and is "
-#| "compared in the same way as the I<upstream_version> is."
 msgid ""
 "This part of the version number specifies the version of the Debian package "
 "based on the upstream version.  It may contain only alphanumerics and the "
@@ -1751,13 +1750,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-version.5:64
-#, fuzzy
-#| msgid ""
-#| "It is optional; if it isn't present then the I<upstream_version> may not "
-#| "contain a hyphen.  This format represents the case where a piece of "
-#| "software was written specifically to be turned into a Debian package, and "
-#| "so there is only one \"debianisation\" of it and therefore no revision "
-#| "indication is required."
 msgid ""
 "It is optional; if it isn't present then the I<upstream-version> may not "
 "contain a hyphen.  This format represents the case where a piece of software "
@@ -1773,10 +1765,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-version.5:68
-#, fuzzy
-#| msgid ""
-#| "It is conventional to restart the I<debian_revision> at '1' each time "
-#| "time the I<upstream_version> is increased."
 msgid ""
 "It is conventional to restart the I<debian-revision> at '1' each time time "
 "the I<upstream-version> is increased."
@@ -1786,13 +1774,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-version.5:76
-#, fuzzy
-#| msgid ""
-#| "Dpkg will break the version number apart at the last hyphen in the string "
-#| "(if there is one) to determine the I<upstream_version> and "
-#| "I<debian_revision>.  The absence of a I<debian_revision> compares earlier "
-#| "than the presence of one (but note that the I<debian_revision> is the "
-#| "least significant part of the version number)."
 msgid ""
 "Dpkg will break the version number apart at the last hyphen in the string "
 "(if there is one) to determine the I<upstream-version> and I<debian-"
@@ -1814,10 +1795,6 @@ msgstr "Sorteringsalgoritm"
 
 #. type: Plain text
 #: deb-version.5:80
-#, fuzzy
-#| msgid ""
-#| "The I<upstream_version> and I<debian_revision> parts are compared by the "
-#| "package management system using the same algorithm:"
 msgid ""
 "The I<upstream-version> and I<debian-revision> parts are compared by the "
 "package management system using the same algorithm:"
@@ -1936,7 +1913,7 @@ msgstr "Upphovsrättsskyddat © 2007 Frank Lichtenheld"
 #. type: Plain text
 #: deb-version.5:126 deb-substvars.5:167 dpkg-buildflags.1:166
 #: dpkg-buildpackage.1:267 dpkg-checkbuilddeps.1:44 dpkg-distaddfile.1:53
-#: dpkg-deb.1:269 dpkg-divert.8:139 dpkg-genchanges.1:154
+#: dpkg-deb.1:256 dpkg-divert.8:139 dpkg-genchanges.1:154
 #: dpkg-gencontrol.1:150 dpkg-gensymbols.1:464 dpkg-maintscript-helper.1:139
 #: dpkg-mergechangelogs.1:71 dpkg-name.1:108 dpkg-parsechangelog.1:131
 #: dpkg-query.1:219 dpkg-shlibdeps.1:339 dpkg-source.1:736 dpkg-split.1:227
@@ -2264,10 +2241,8 @@ msgstr ""
 
 #. type: Plain text
 #: deb-shlibs.5:34
-#, fuzzy
-#| msgid "[I<type:>] I<library> I<version> I<dependencies>"
 msgid "[I<type>B<:>] I<library> I<version> I<dependencies>"
-msgstr "[I<typ:>] I<bibliotek> I<version> I<beroenden>"
+msgstr "[I<typ>B<:>] I<bibliotek> I<version> I<beroenden>"
 
 #. type: Plain text
 #: deb-shlibs.5:38
@@ -2690,7 +2665,7 @@ msgid "List of substitution variables and values."
 msgstr "Lista över substitueringsvariabler och -värden."
 
 #. type: SH
-#: deb-substvars.5:150 dpkg.1:780 dpkg-buildpackage.1:244 dpkg-deb.1:238
+#: deb-substvars.5:150 dpkg.1:780 dpkg-buildpackage.1:244 dpkg-deb.1:225
 #: dpkg-name.1:86 dpkg-source.1:720 dpkg-split.1:199 dselect.1:429
 #: update-alternatives.8:486
 #, no-wrap
@@ -2717,7 +2692,7 @@ msgstr ""
 
 #. type: SH
 #: deb-substvars.5:161 dpkg-architecture.1:303 dpkg.cfg.5:19
-#: dpkg-buildflags.1:161 dpkg-checkbuilddeps.1:40 dpkg-deb.1:265
+#: dpkg-buildflags.1:161 dpkg-checkbuilddeps.1:40 dpkg-deb.1:252
 #: dpkg-divert.8:135 dpkg-mergechangelogs.1:66 dpkg-name.1:104
 #: dpkg-query.1:214 dpkg-scansources.1:76 dpkg-split.1:223
 #: dpkg-statoverride.8:87 dpkg-vendor.1:48 dselect.cfg.5:19
@@ -2727,7 +2702,7 @@ msgstr "FÖRFATTARE"
 
 #. type: Plain text
 #: deb-substvars.5:163 dpkg-buildpackage.1:259 dpkg-distaddfile.1:49
-#: dpkg-deb.1:267 dpkg-genchanges.1:150 dpkg-gencontrol.1:144
+#: dpkg-deb.1:254 dpkg-genchanges.1:150 dpkg-gencontrol.1:144
 #: dpkg-parsechangelog.1:125 dpkg-shlibdeps.1:331 dpkg-source.1:730
 #: dpkg-split.1:225
 msgid "Copyright \\(co 1995-1996 Ian Jackson"
@@ -2773,17 +2748,13 @@ msgstr ""
 
 #. type: Plain text
 #: deb-symbols.5:14
-#, fuzzy
-#| msgid "E<lt>library sonameE<gt> E<lt>main dependency templateE<gt>"
 msgid "I<library-soname main-dependency-template>"
-msgstr "E<lt>biblioteks-sonamnE<gt> E<lt>huvudberoendemallE<gt>"
+msgstr "I<biblioteks-sonamn huvudberoendemall>"
 
 #. type: Plain text
 #: deb-symbols.5:16
-#, fuzzy
-#| msgid "[ | E<lt>alternative dependency templateE<gt> ]"
 msgid "[ | I<alternative-dependency-template> ]"
-msgstr "[ | E<lt>alternativ beroendemallE<gt> ]"
+msgstr "[ | I<alternativ-beroendemall> ]"
 
 #. type: Plain text
 #: deb-symbols.5:18
@@ -2792,33 +2763,21 @@ msgstr "[ … ]"
 
 #. type: Plain text
 #: deb-symbols.5:20
-#, fuzzy
-#| msgid "[ * E<lt>field-nameE<gt>: E<lt>field valueE<gt> ]"
 msgid "[ * I<field-name>: I<field-value> ]"
-msgstr "[ * E<lt>fältnamnE<gt>: E<lt>fältvärdeE<gt> ]"
+msgstr "[ * I<fältnamn>: I<fältvärde> ]"
 
 #. type: Plain text
 #: deb-symbols.5:23
-#, fuzzy, no-wrap
-#| msgid ""
-#| "[ ... ]\n"
-#| " E<lt>symbolE<gt> E<lt>minimal versionE<gt>[ E<lt>id of dependency templateE<gt> ]\n"
+#, no-wrap
 msgid ""
 "[ ... ]\n"
 " I<symbol> I<minimal-version>[ I<id-of-dependency-template> ]\n"
 msgstr ""
 "[ … ]\n"
-" E<lt>symbolE<gt> E<lt>minsta versionE<gt>[ E<lt>id för beroendemallE<gt> ]\n"
+" I<symbol> I<minsta-version>[ I<id för beroendemall> ]\n"
 
 #. type: Plain text
 #: deb-symbols.5:29
-#, fuzzy
-#| msgid ""
-#| "The I<library soname> is exactly the value of the SONAME field as "
-#| "exported by B<objdump>(1). A I<dependency template> is a dependency where "
-#| "I<#MINVER#> is dynamically replaced either by a version check like "
-#| "\"(E<gt>= I<minimal version>)\" or by nothing (if an unversioned "
-#| "dependency is deemed sufficient)."
 msgid ""
 "The I<library-soname> is exactly the value of the SONAME field as exported "
 "by B<objdump>(1). A I<dependency-template> is a dependency where I<#MINVER#> "
@@ -2828,20 +2787,12 @@ msgid ""
 msgstr ""
 "I<Biblioteks-sonamn> är det exakta värdet från SONAME-fältet, som det "
 "exporteras från B<objdump>(1). En I<beroendemall> är ett beroende där "
-"I<#MINVER#> dynamiskt ersätts av en versionskontrollrad \"(E<gt>= I<minsta "
+"I<#MINVER#> dynamiskt ersätts av en versionskontrollrad \"(E<gt>= I<minsta-"
 "version>)\" eller av ingenting (om ett ej versionsstyrt beroende anses "
 "tillräckligt)."
 
 #. type: Plain text
 #: deb-symbols.5:36
-#, fuzzy
-#| msgid ""
-#| "Each exported I<symbol> (listed as I<name>@I<version>, with I<version> "
-#| "being \"Base\" if the library is not versioned) is associated to a "
-#| "I<minimal version> of its dependency template (the main dependency "
-#| "template is used if I<id of dependency template> is not present). The "
-#| "first alternative dependency template is numbered 1, the second one 2, "
-#| "etc."
 msgid ""
 "Each exported I<symbol> (listed as I<name>@I<version>, with I<version> being "
 "\"Base\" if the library is not versioned) is associated to a I<minimal-"
@@ -2850,21 +2801,13 @@ msgid ""
 "dependency template is numbered 1, the second one 2, etc."
 msgstr ""
 "Varje exporterad I<symbol> (anges som I<namn>@I<version>, där I<version> är "
-"\"Base\" om biblioteket inte är versionsstyrt) associeras med en I<minsta "
-"version> i sin beroendemall (huvudberoendemallen används om I<id för "
+"\"Base\" om biblioteket inte är versionsstyrt) associeras med en I<minsta-"
+"version> i sin beroendemall (huvudberoendemallen används om I<id-för-"
 "beroendemall> inte finns). Den första alternativa beroendemallen får nummer "
 "1, den andra 2, osv."
 
 #. type: Plain text
 #: deb-symbols.5:43
-#, fuzzy
-#| msgid ""
-#| "Each entry for a library can also have some fields of meta-information.  "
-#| "Those fields are stored on lines starting with an asterisk. Currently, "
-#| "the only valid field is I<Build-Depends-Package>, it indicates the name "
-#| "of the \"-dev\" package associated to the library and is used by dpkg-"
-#| "shlibdeps to make sure that the dependency generated is at least as "
-#| "strict as the corresponding build dependency."
 msgid ""
 "Each entry for a library can also have some fields of meta-information.  "
 "Those fields are stored on lines starting with an asterisk. Currently, the "
@@ -2876,8 +2819,8 @@ msgstr ""
 "Alla poster i ett bibliotek kan även innehålla några fält med "
 "metainformation. Dessa fält lagras på rader som börjar med en asterisk. För "
 "närvarande är det enda giltiga fältet I<Build-Depends-Package>, vilket anger "
-"namnet på det \"-dev\"-paket som hör till biblioteket, och används av dpkg-"
-"shlibdeps för att se till att det beroende som genereras är åtminstone lika "
+"namnet på det \"-dev\"-paket som hör till biblioteket, och används av B<dpkg-"
+"shlibdeps> för att se till att det beroende som genereras är åtminstone lika "
 "strikt som motsvarande byggberoende."
 
 #. type: SS
@@ -2998,18 +2941,11 @@ msgstr "B<interest> I<utlösarnamn>"
 
 #. type: Plain text
 #: deb-triggers.5:26
-#, fuzzy
-#| msgid "B<interest> I<trigger-name>"
 msgid "B<interest-noawait> I<trigger-name>"
-msgstr "B<interest> I<utlösarnamn>"
+msgstr "B<interest-noawait> I<utlösarnamn>"
 
 #. type: Plain text
 #: deb-triggers.5:33
-#, fuzzy
-#| msgid ""
-#| "Specifies that the package is interested in the named trigger. All "
-#| "triggers in which a package is interested must be listed using this "
-#| "directive in the triggers control file."
 msgid ""
 "Specifies that the package is interested in the named trigger. All triggers "
 "in which a package is interested must be listed using this directive in the "
@@ -3019,7 +2955,9 @@ msgid ""
 msgstr ""
 "Anger att paketet är intresserat av den namngivna utlösaren. Alla utlösare "
 "som ett paket är intresserat av måste listas genom att använda detta "
-"direktiv i utlösar-styrfilen."
+"direktiv i utlösar-styrfilen. Varianten \"noawait\" sätter inte det "
+"utlösande paketet i avvaktande tillstånd. Detta bör användas när "
+"funktionaliteten som tillhandahålls av utlösaren inte är avgörande."
 
 #. type: Plain text
 #: deb-triggers.5:37
@@ -3028,19 +2966,11 @@ msgstr "B<activate> I<utlösarnamn>"
 
 #. type: Plain text
 #: deb-triggers.5:41
-#, fuzzy
-#| msgid "B<activate> I<trigger-name>"
 msgid "B<activate-noawait> I<trigger-name>"
-msgstr "B<activate> I<utlösarnamn>"
+msgstr "B<activate-noawait> I<utlösarnamn>"
 
 #. type: Plain text
 #: deb-triggers.5:50
-#, fuzzy
-#| msgid ""
-#| "Arranges that changes to this package's state will activate the specified "
-#| "trigger. The trigger will be activated at the start of the following "
-#| "operations: unpack, configure, remove (including for the benefit of a "
-#| "conflicting package), purge and deconfigure."
 msgid ""
 "Arranges that changes to this package's state will activate the specified "
 "trigger. The trigger will be activated at the start of the following "
@@ -3053,6 +2983,9 @@ msgstr ""
 "utlösaren. Utlösaren aktiveras när en av följande operationer påbörjas: "
 "uppackning, konfigurering, borttagning (också när det tas bort till fördel "
 "av ett paket det står i konflikt med), rensning och avkonfigurering."
+"Varianten \"noawait\" sätter inte de utlösande paketen i avvaktande "
+"tillstånd. Detta bör användas när funktionaliteten som tillhandahålls av "
+"utlösaren inte är avgörande."
 
 #. type: Plain text
 #: deb-triggers.5:58
@@ -3085,6 +3018,10 @@ msgid ""
 "add a \"Pre-Depends: dpkg (E<gt>= 1.16.1)\" to any package that wish to use "
 "those directives."
 msgstr ""
+"Varianterna med \"-noawait\" stöds endast av dpkg 1.16.1 och senare, och "
+"kommer leda till fel om de används med äldre versioner av dpkg. Det "
+"rekommenderas därför att du lägger till ett \"Pre-Depends: dpkg (E<gt>= "
+"1.16.1)\" till eventuella paket som vill använda dessa direktiv."
 
 #. type: Plain text
 #: deb-triggers.5:70
@@ -3101,10 +3038,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:1
-#, fuzzy, no-wrap
-#| msgid "2009-02-27"
+#, no-wrap
 msgid "2011-04-27"
-msgstr "2009-02-27"
+msgstr "2011-04-27"
 
 #. type: TH
 #: dpkg.1:1 dpkg.cfg.5:1 dpkg-buildflags.1:1 dpkg-deb.1:1
@@ -3121,10 +3057,8 @@ msgstr "dpkg - en mellannivåpakethanterare för Debian"
 
 #. type: Plain text
 #: dpkg.1:8
-#, fuzzy
-#| msgid "B<dpkg> [I<options>] I<action>"
 msgid "B<dpkg> [I<option>...] I<action>"
-msgstr "B<dpkg> [I<flaggor>] I<åtgärd>"
+msgstr "B<dpkg> [I<flagga>...] I<åtgärd>"
 
 #. type: SH
 #: dpkg.1:9
@@ -3181,6 +3115,12 @@ msgid ""
 "currently passed to them, to use any such option the back-ends need to be "
 "called directly."
 msgstr ""
+"B<dpkg> kan också användas som ett skal runt B<dpkg-deb>(1) och B<dpkg-query>"
+"(1). En förteckning över tillgängliga åtgärder beskrivs nedan i stycket "
+"B<ÅTGÄRDER>. Om B<dpkg> upptäcker en sådan åtgärd anropas bara B<dpkg-dpkg> "
+"eller B<dpkg-query> med de givna flaggorna, men inga specifika flaggor sänds "
+"direkt till dem, för att använda sådana flaggor måste bakgrundsprogrammen "
+"anropas direkt."
 
 #. type: SH
 #: dpkg.1:34
@@ -3394,17 +3334,12 @@ msgstr "ÅTGÄRDER"
 
 #. type: TP
 #: dpkg.1:90
-#, fuzzy, no-wrap
-#| msgid "B<-i>, B<--install> I<package_file>..."
+#, no-wrap
 msgid "B<-i>, B<--install> I<package-file>..."
 msgstr "B<-i>, B<--install> I<paketfil>..."
 
 #. type: Plain text
 #: dpkg.1:94
-#, fuzzy
-#| msgid ""
-#| "Install the package. If B<--recursive> or B<-R> option is specified, "
-#| "I<package_file> must refer to a directory instead."
 msgid ""
 "Install the package. If B<--recursive> or B<-R> option is specified, "
 "I<package-file> must refer to a directory instead."
@@ -3469,17 +3404,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:121
-#, fuzzy, no-wrap
-#| msgid "B<--unpack >I<package_file>..."
+#, no-wrap
 msgid "B<--unpack >I<package-file>..."
 msgstr "B<--unpack >I<paketfil> ..."
 
 #. type: Plain text
 #: dpkg.1:126
-#, fuzzy
-#| msgid ""
-#| "Unpack the package, but don't configure it. If B<--recursive> or B<-R> "
-#| "option is specified, I<package_file> must refer to a directory instead."
 msgid ""
 "Unpack the package, but don't configure it. If B<--recursive> or B<-R> "
 "option is specified, I<package-file> must refer to a directory instead."
@@ -3649,18 +3579,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:195
-#, fuzzy, no-wrap
-#| msgid "B<-A>, B<--record-avail> I<package_file>..."
+#, no-wrap
 msgid "B<-A>, B<--record-avail> I<package-file>..."
 msgstr "B<-A>, B<--record-avail> I<paketfil> ..."
 
 #. type: Plain text
 #: dpkg.1:201
-#, fuzzy
-#| msgid ""
-#| "Update B<dpkg> and B<dselect>'s idea of which packages are available with "
-#| "information from the package I<package_file>. If B<--recursive> or B<-R> "
-#| "option is specified, I<package_file> must refer to a directory instead."
 msgid ""
 "Update B<dpkg> and B<dselect>'s idea of which packages are available with "
 "information from the package I<package-file>. If B<--recursive> or B<-R> "
@@ -3736,12 +3660,6 @@ msgstr "B<--set-selections>"
 
 #. type: Plain text
 #: dpkg.1:224
-#, fuzzy
-#| msgid ""
-#| "Set package selections using file read from stdin. This file should be in "
-#| "the format 'E<lt>packageE<gt> E<lt>stateE<gt>', where state is one of "
-#| "install, hold, deinstall or purge. Blank lines and comment lines "
-#| "beginning with '#' are also permitted."
 msgid ""
 "Set package selections using file read from stdin. This file should be in "
 "the format 'I<package> I<state>', where state is one of B<install>, B<hold>, "
@@ -3749,8 +3667,8 @@ msgid ""
 "are also permitted."
 msgstr ""
 "Sätt paketvalslistan med den fil som läses från standard in. Filen måste "
-"vara på formatet \"E<lt>paketE<gt> E<lt>statusE<gt>\", där status är en av "
-"install, hold, deinstall eller purge. Tomrader och kommentarsrader som "
+"vara på formatet \"I<paket> I<status>\", där status är en av B<install>, "
+"B<hold>, B<deinstall> eller B<purge>. Tomrader och kommentarsrader som "
 "börjar med \"#\" är också tillåtna."
 
 #. type: TP
@@ -3828,25 +3746,18 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:248
-#, fuzzy, no-wrap
-#| msgid "B<--command-fd >I<E<lt>nE<gt>>"
+#, no-wrap
 msgid "B<--command-fd >I<n>"
-msgstr "B<--command-fd >I<E<lt>nE<gt>>"
+msgstr "B<--command-fd >I<n>"
 
 #. type: Plain text
 #: dpkg.1:253
-#, fuzzy
-#| msgid ""
-#| "Accept a series of commands on input file descriptor I<E<lt>nE<gt>>. "
-#| "Note: additional options set on the command line, and through this file "
-#| "descriptor, are not reset for subsequent commands executed during the "
-#| "same run."
 msgid ""
 "Accept a series of commands on input file descriptor I<n>. Note: additional "
 "options set on the command line, and through this file descriptor, are not "
 "reset for subsequent commands executed during the same run."
 msgstr ""
-"Läser en följd av kommandon från indatafilhandtag I<E<lt>nE<gt>>. Observera: "
+"Läser en följd av kommandon från indatafilhandtag I<n>. Observera: "
 "ytterligare flaggor som sätts på kommandoraden, och genom filhandtaget, "
 "återställs inte för kommandon som körs i en följd under samma körning."
 
@@ -3888,7 +3799,7 @@ msgstr "Ger hjälp om felsökningsflaggorna."
 #. type: TP
 #: dpkg.1:262 dpkg-architecture.1:63 dpkg-buildflags.1:92
 #: dpkg-buildpackage.1:226 dpkg-checkbuilddeps.1:36 dpkg-distaddfile.1:35
-#: dpkg-deb.1:175 dpkg-divert.8:74 dpkg-genchanges.1:134 dpkg-gencontrol.1:124
+#: dpkg-deb.1:166 dpkg-divert.8:74 dpkg-genchanges.1:134 dpkg-gencontrol.1:124
 #: dpkg-gensymbols.1:446 dpkg-mergechangelogs.1:41 dpkg-parsechangelog.1:36
 #: dpkg-query.1:113 dpkg-scanpackages.1:99 dpkg-scansources.1:68
 #: dpkg-shlibdeps.1:218 dpkg-source.1:99 dpkg-split.1:129
@@ -3995,7 +3906,7 @@ msgstr ""
 
 #. type: SH
 #: dpkg.1:310 dpkg-architecture.1:67 dpkg-buildpackage.1:50
-#: dpkg-checkbuilddeps.1:18 dpkg-distaddfile.1:27 dpkg-deb.1:179
+#: dpkg-checkbuilddeps.1:18 dpkg-distaddfile.1:27 dpkg-deb.1:170
 #: dpkg-divert.8:42 dpkg-genchanges.1:17 dpkg-gencontrol.1:37
 #: dpkg-gensymbols.1:369 dpkg-mergechangelogs.1:27 dpkg-name.1:30
 #: dpkg-parsechangelog.1:15 dpkg-query.1:117 dpkg-scanpackages.1:71
@@ -4071,22 +3982,7 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1:347
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    number  description\n"
-#| "         1   Generally helpful progress information\n"
-#| "         2   Invocation and status of maintainer scripts\n"
-#| "        10   Output for each file processed\n"
-#| "       100   Lots of output for each file processed\n"
-#| "        20   Output for each configuration file\n"
-#| "       200   Lots of output for each configuration file\n"
-#| "        40   Dependencies and conflicts\n"
-#| "       400   Lots of dependencies/conflicts output\n"
-#| "     10000   Trigger activation and processing\n"
-#| "     20000   Lots of output regarding triggers\n"
-#| "     40000   Silly amounts of output regarding triggers\n"
-#| "      1000   Lots of drivel about e.g. the dpkg/info dir\n"
-#| "      2000   Insane amounts of drivel\n"
+#, no-wrap
 msgid ""
 "    Number   Description\n"
 "         1   Generally helpful progress information\n"
@@ -4103,7 +3999,7 @@ msgid ""
 "      1000   Lots of drivel about e.g. the dpkg/info dir\n"
 "      2000   Insane amounts of drivel\n"
 msgstr ""
-"    tal   beskrivning\n"
+"    Tal   Beskrivning\n"
 "      1   Allmänt hjälpsam förloppsinformation\n"
 "      2   Anrop och status för utvecklarskript\n"
 "     10   Utdata för varje fil som hanteras\n"
@@ -4361,17 +4257,15 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1:458
-#, fuzzy
-#| msgid "B<architecture>: Process even packages with the wrong architecture."
 msgid "B<architecture>: Process even packages with wrong or no architecture."
-msgstr "B<architecture>: Hantera även paket med fel maskinvaruarkitektur."
+msgstr ""
+"B<architecture>: Hantera även paket med fel eller saknad "
+"maskinvaruarkitektur."
 
 #. type: Plain text
 #: dpkg.1:461
-#, fuzzy
-#| msgid "B<architecture>: Process even packages with the wrong architecture."
 msgid "B<bad-version>: Process even packages with wrong versions."
-msgstr "B<architecture>: Hantera även paket med fel maskinvaruarkitektur."
+msgstr "B<bad-version>: Hantera även paket med fel versioner."
 
 #. type: Plain text
 #: dpkg.1:464
@@ -4712,6 +4606,8 @@ msgid ""
 "An error occurred. Any possible newlines in I<extended-error-message> will "
 "be converted to spaces before output."
 msgstr ""
+"Ett fel uppstod. Eventuella nyradstecken i I<utökat-felmeddelanden> kommer "
+"ersättas med blanksteg innan de skrivs ut."
 
 #. type: TP
 #: dpkg.1:584
@@ -4743,27 +4639,20 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:593
-#, fuzzy, no-wrap
-#| msgid "B<--post-invoke=>I<command>"
+#, no-wrap
 msgid "B<--status-logger>=I<command>"
-msgstr "B<--post-invoke=>I<kommando>"
+msgstr "B<--status-logger>=I<kommando>"
 
 #. type: Plain text
 #: dpkg.1:598
-#, fuzzy
-#| msgid ""
-#| "Send machine-readable package status and progress information to file "
-#| "descriptor I<n>. This option can be specified multiple times. The "
-#| "information is generally one record per line, in one of the following "
-#| "forms:"
 msgid ""
 "Send machine-readable package status and progress information to the shell "
 "I<command>'s standard input. This option can be specified multiple times. "
 "The output format used is the same as in B<--status-fd.>"
 msgstr ""
-"Sänd maskinläsbar paketstatus och förloppsinformation till filhandtag I<n>. "
-"Flaggan kan anges flera gånger. Informationen lagras vanligtvis rad för rad, "
-"i följande format:"
+"Sänd maskinläsbar paketstatus och förloppsinformation till skal-"
+"I<kommando>ts standard in. Flaggan kan anges flera gånger. Utdataformatet "
+"som används är detsamma som för B<--status-fd>."
 
 #. type: TP
 #: dpkg.1:599
@@ -4773,18 +4662,6 @@ msgstr "B<--log=>I<filnamn>"
 
 #. type: Plain text
 #: dpkg.1:611
-#, fuzzy
-#| msgid ""
-#| "Log status change updates and actions to I<filename>, instead of the "
-#| "default I</var/log/dpkg.log>. If this option is given multiple times, the "
-#| "last filename is used. Log messages are of the form `YYYY-MM-DD HH:MM:SS "
-#| "status E<lt>stateE<gt> E<lt>pkgE<gt> E<lt>installed-versionE<gt>' for "
-#| "status change updates; `YYYY-MM-DD HH:MM:SS E<lt>actionE<gt> "
-#| "E<lt>pkgE<gt> E<lt>installed-versionE<gt> E<lt>available-versionE<gt>' "
-#| "for actions where I<E<lt>actionE<gt>> is one of install, upgrade, remove, "
-#| "purge; and `YYYY-MM-DD HH:MM:SS conffile E<lt>filenameE<gt> "
-#| "E<lt>decisionE<gt>' for conffile changes where I<E<lt>decisionE<gt>> is "
-#| "either install or keep."
 msgid ""
 "Log status change updates and actions to I<filename>, instead of the default "
 "I</var/log/dpkg.log>. If this option is given multiple times, the last "
@@ -4798,12 +4675,12 @@ msgstr ""
 "Logga statusändringsmeddelanden och kommandon till I<filnamn>, istället för "
 "förvalet I</var/log/dpkg.log>. Om flaggan ges flera gånger används det sista "
 "filnamnet. Loggmeddelanden är på formen \"ÅÅÅÅ-MM-DD HH:MM:SS status "
-"E<lt>tillståndE<gt> E<lt>paketE<gt> E<lt>installerad-versionE<gt>\" för "
-"statusändringar; \"ÅÅÅÅ-MM-DD HH:MM:SS E<lt>kommandoE<gt> E<lt>paketE<gt> "
-"E<lt>installerad-versionE<gt> E<lt>tillgänglig-versionE<gt>\" för kommandon "
-"där I<E<lt>kommandoE<gt>> är ett av install, upgrade, remove eller purge; "
-"samt \"ÅÅÅÅ-MM-DD HH:MM:SS conffile E<lt>filnamnE<gt> E<lt>valE<gt>\" för "
-"konfigurationsfilsändringar där I<E<lt>val> antingen är install eller keep."
+"I<tillstånd> I<paket> I<installerad-version>\" för statusändringar; \"ÅÅÅÅ-"
+"MM-DD HH:MM:SS I<åtgärd> I<paket> I<installerad-versiont> I<tillgänglig-"
+"version>\" för åtgärder där I<åtgärd> är ett av B<install>, B<upgrade>, "
+"B<remove>, B<purge>; samt \"ÅÅÅÅ-MM-DD HH:MM:SS conffile I<filnamn> I<val>\" "
+"för konfigurationsfilsändringar där I<val> antingen är B<install> eller "
+"B<keep>."
 
 #. type: TP
 #: dpkg.1:611
@@ -4966,7 +4843,7 @@ msgid "I<postrm>"
 msgstr "I<postrm>"
 
 #. type: SH
-#: dpkg.1:666 dpkg-buildflags.1:128 dpkg-buildpackage.1:230 dpkg-deb.1:232
+#: dpkg.1:666 dpkg-buildflags.1:128 dpkg-buildpackage.1:230 dpkg-deb.1:219
 #: dpkg-divert.8:112 dpkg-query.1:204 dpkg-statoverride.8:68 dpkg-trigger.1:60
 #: dpkg-vendor.1:42 dselect.1:423 update-alternatives.8:354
 #, no-wrap
@@ -4989,7 +4866,7 @@ msgstr ""
 "skall läsa den användarspecifika konfigurationsfilen."
 
 #. type: TP
-#: dpkg.1:671 dpkg-deb.1:233
+#: dpkg.1:671 dpkg-deb.1:220
 #, no-wrap
 msgid "B<TMPDIR>"
 msgstr "B<TMPDIR>"
@@ -5206,15 +5083,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1:741
-#, fuzzy, no-wrap
-#| msgid ""
-#| "     B<cd /cdrom/pool/main/v/vim>\n"
-#| "     B<dpkg -i vim_4.5-3.deb>\n"
+#, no-wrap
 msgid ""
 "     B<cd /media/cdrom/pool/main/v/vim>\n"
 "     B<dpkg -i vim_4.5-3.deb>\n"
 msgstr ""
-"     B<cd /cdrom/pool/main/v/vim>\n"
+"     B<cd /media/cdrom/pool/main/v/vim>\n"
 "     B<dpkg -i vim_4.5-3.deb>\n"
 
 #. type: Plain text
@@ -5320,10 +5194,8 @@ msgstr "dpkg-architecture - ställ in och bestäm arkitektur för paket som bygg
 
 #. type: Plain text
 #: dpkg-architecture.1:8
-#, fuzzy
-#| msgid "B<dpkg-architecture> [I<options>] [I<commands>]"
 msgid "B<dpkg-architecture> [I<option>...] [I<command>]"
-msgstr "B<dpkg-architecture> [I<flaggor>] I<åtgärd>"
+msgstr "B<dpkg-architecture> [I<flagga>...] [I<åtgärd>]"
 
 #. type: Plain text
 #: dpkg-architecture.1:13
@@ -5490,7 +5362,7 @@ msgstr "Visa en lista över giltiga arkitekturnamn."
 
 #. type: Plain text
 #: dpkg-architecture.1:63 dpkg-buildflags.1:92 dpkg-buildpackage.1:226
-#: dpkg-checkbuilddeps.1:36 dpkg-distaddfile.1:35 dpkg-deb.1:175
+#: dpkg-checkbuilddeps.1:36 dpkg-distaddfile.1:35 dpkg-deb.1:166
 #: dpkg-divert.8:74 dpkg-genchanges.1:134 dpkg-gencontrol.1:124
 #: dpkg-gensymbols.1:446 dpkg-mergechangelogs.1:41 dpkg-name.1:61
 #: dpkg-parsechangelog.1:36 dpkg-query.1:113 dpkg-scanpackages.1:99
@@ -5502,7 +5374,7 @@ msgstr "Visar hjälpskärm och avslutar."
 
 #. type: Plain text
 #: dpkg-architecture.1:66 dpkg-buildflags.1:95 dpkg-buildpackage.1:229
-#: dpkg-checkbuilddeps.1:39 dpkg-distaddfile.1:38 dpkg-deb.1:178
+#: dpkg-checkbuilddeps.1:39 dpkg-distaddfile.1:38 dpkg-deb.1:169
 #: dpkg-divert.8:77 dpkg-genchanges.1:137 dpkg-gencontrol.1:127
 #: dpkg-gensymbols.1:449 dpkg-mergechangelogs.1:44 dpkg-name.1:64
 #: dpkg-parsechangelog.1:39 dpkg-query.1:116 dpkg-scanpackages.1:102
@@ -5733,19 +5605,18 @@ msgstr "\\s-1GNU\\s0-systemtypen för byggmaskinen."
 
 #. type: IP
 #: dpkg-architecture.1:117
-#, fuzzy, no-wrap
-#| msgid "\\s-1DEB_BUILD_ARCH\\s0"
+#, no-wrap
 msgid "\\s-1DEB_BUILD_MULTIARCH\\s0"
-msgstr "\\s-1DEB_BUILD_ARCH\\s0"
+msgstr "\\s-1DEB_BUILD_MULTIARCH\\s0"
 
 #. type: Plain text
 #: dpkg-architecture.1:120
-#, fuzzy
-#| msgid "The \\s-1GNU\\s0 system type of the build machine."
 msgid ""
 "The clarified \\s-1GNU\\s0 system type of the build machine, used for "
 "filesystem paths."
-msgstr "\\s-1GNU\\s0-systemtypen för byggmaskinen."
+msgstr ""
+"Den förtydligade \\s-1GNU\\s0-systemtypen för byggmaskinen, används för "
+"sökvägar i filsystemet."
 
 #. type: IP
 #: dpkg-architecture.1:120
@@ -5837,19 +5708,18 @@ msgstr "\\s-1GNU\\s0-systemtypen för värdmaskinen."
 
 #. type: IP
 #: dpkg-architecture.1:136
-#, fuzzy, no-wrap
-#| msgid "\\s-1DEB_HOST_ARCH\\s0"
+#, no-wrap
 msgid "\\s-1DEB_HOST_MULTIARCH\\s0"
-msgstr "\\s-1DEB_HOST_ARCH\\s0"
+msgstr "\\s-1DEB_HOST_MULTIARCH\\s0"
 
 #. type: Plain text
 #: dpkg-architecture.1:139
-#, fuzzy
-#| msgid "The \\s-1GNU\\s0 system type of the host machine."
 msgid ""
 "The clarified \\s-1GNU\\s0 system type of the host machine, used for "
 "filesystem paths."
-msgstr "\\s-1GNU\\s0-systemtypen för värdmaskinen."
+msgstr ""
+"Den förtydligade \\s-1GNU\\s0-systemtypen för värdmaskinen, används för "
+"sökvägar i filsystemet."
 
 #. type: SH
 #: dpkg-architecture.1:140
@@ -6197,18 +6067,14 @@ msgstr "dpkg-architecture -ai386 -ilinux-any"
 
 #. type: Plain text
 #: dpkg-architecture.1:288
-#, fuzzy
-#| msgid ""
-#| "All these files have to be present for B<dpkg-architecture> to work. "
-#| "Their location can be overridden at runtime with the environment variable "
-#| "DPKG_DATADIR."
 msgid ""
 "All these files have to be present for B<dpkg-architecture> to work. Their "
 "location can be overridden at runtime with the environment variable "
 "B<DPKG_DATADIR>."
 msgstr ""
 "Alla dessa filer måste finnas för att B<dpkg-architecture> måste finnas. "
-"Deras placering kan överstyras vid körning med miljövariabeln DPKG_DATADIR."
+"Deras placering kan överstyras vid körning med miljövariabeln "
+"B<DPKG_DATADIR>."
 
 #. type: TP
 #: dpkg-architecture.1:288
@@ -6315,10 +6181,9 @@ msgstr "dpkg-buildflags"
 
 #. type: TH
 #: dpkg-buildflags.1:1
-#, fuzzy, no-wrap
-#| msgid "2009-02-27"
+#, no-wrap
 msgid "2011-07-07"
-msgstr "2009-02-27"
+msgstr "2011-07-07"
 
 #. type: Plain text
 #: dpkg-buildflags.1:4
@@ -6328,10 +6193,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildflags.1:8
-#, fuzzy
-#| msgid "B<dpkg-buildflags> [I<option>...] I<command>"
 msgid "B<dpkg-buildflags> [I<option>...] [I<command>]"
-msgstr "B<dpkg-buildflags> [I<flaggor>...] I<kommando>"
+msgstr "B<dpkg-buildflags> [I<flagga>...] I<kommando>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:12
@@ -6385,27 +6248,25 @@ msgstr "3."
 
 #. type: Plain text
 #: dpkg-buildflags.1:23
-#, fuzzy
-#| msgid "temporarily with environment variables (see section B<ENVIRONMENT>)."
 msgid ""
 "temporarily by the user with environment variables (see section "
 "B<ENVIRONMENT>);"
-msgstr "temporärt med miljövariabler sätts (se stycket B<MILJÖ>)."
+msgstr "temporärt av användaren med miljövariabler (se stycket B<MILJÖ>)."
 
 #. type: IP
 #: dpkg-buildflags.1:23
 #, no-wrap
 msgid "4."
-msgstr ""
+msgstr "4."
 
 #. type: Plain text
 #: dpkg-buildflags.1:26
-#, fuzzy
-#| msgid "temporarily with environment variables (see section B<ENVIRONMENT>)."
 msgid ""
 "dynamically by the package maintainer with environment variables set via "
 "B<debian/rules> (see section B<ENVIRONMENT>)."
-msgstr "temporärt med miljövariabler sätts (se stycket B<MILJÖ>)."
+msgstr ""
+"dynamiskt av paketansvariga med miljövariabler som sätts via B<debian/rules> "
+"(se stycket B<MILJÖ>)."
 
 #. type: Plain text
 #: dpkg-buildflags.1:28
@@ -6425,18 +6286,17 @@ msgstr "Överstyr flaggan I<flagga> till att ha värdet I<värde>."
 
 #. type: TP
 #: dpkg-buildflags.1:31
-#, fuzzy, no-wrap
-#| msgid "B<SET>I< flag value>"
+#, no-wrap
 msgid "B<STRIP>I< flag value>"
-msgstr "B<SET>I< flagga värde>"
+msgstr "B<STRIP>I< flagga värde>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:34
-#, fuzzy
-#| msgid "Override the flag named I<flag> to have the value I<value>."
 msgid ""
 "Strip from the flag named I<flag> all the build flags listed in I<value>."
-msgstr "Överstyr flaggan I<flagga> till att ha värdet I<värde>."
+msgstr ""
+"Ta bort alla flaggor som listas i I<värde> från flaggan som anges i "
+"I<flagga>."
 
 #. type: TP
 #: dpkg-buildflags.1:34
@@ -6446,40 +6306,31 @@ msgstr "B<APPEND>I< flagga värde>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:38
-#, fuzzy
-#| msgid ""
-#| "Extend the flag named I<flag> with the options given in I<value>.  A "
-#| "space is prepended to the appended value if the flag's current value is "
-#| "non-empty."
 msgid ""
 "Extend the flag named I<flag> by appending the options given in I<value>.  A "
 "space is prepended to the appended value if the flag's current value is non-"
 "empty."
 msgstr ""
-"Utöka flaggan I<flagga> med alternativen som anges i I<värde>. Ett blanksteg "
-"läggs till före värdet om flaggans nuvarande värde inte är tomt."
+"Utöka flaggan I<flagga> genom att lägga till alternativen som anges i "
+"I<värde>. Ett blanksteg läggs till före värdet om flaggans nuvarande värde "
+"inte är tomt."
 
 #. type: TP
 #: dpkg-buildflags.1:38
-#, fuzzy, no-wrap
-#| msgid "B<APPEND>I< flag value>"
+#, no-wrap
 msgid "B<PREPEND>I< flag value>"
-msgstr "B<APPEND>I< flagga värde>"
+msgstr "B<PREPEND>I< flagga värde>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:42
-#, fuzzy
-#| msgid ""
-#| "Extend the flag named I<flag> with the options given in I<value>.  A "
-#| "space is prepended to the appended value if the flag's current value is "
-#| "non-empty."
 msgid ""
 "Extend the flag named I<flag> by prepending the options given in I<value>.  "
 "A space is appended to the prepended value if the flag's current value is "
 "non-empty."
 msgstr ""
-"Utöka flaggan I<flagga> med alternativen som anges i I<värde>. Ett blanksteg "
-"läggs till före värdet om flaggans nuvarande värde inte är tomt."
+"Utöka flaggan I<flagga> genom att lägga till alternativen som anges i "
+"I<värde> först. Ett blanksteg läggs till efter värdet om flaggans nuvarande "
+"värde inte är tomt."
 
 #. type: Plain text
 #: dpkg-buildflags.1:45
@@ -6492,10 +6343,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:46
-#, fuzzy, no-wrap
-#| msgid "B<--debug>"
+#, no-wrap
 msgid "B<--dump>"
-msgstr "B<--debug>"
+msgstr "B<--dump>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:51
@@ -6504,6 +6354,9 @@ msgid ""
 "one flag per line separated from its value by an equal sign "
 "(\"I<flag>=I<value>\"). This is the default action."
 msgstr ""
+"Skriv alla kompileringsflaggor och deras värde på standard ut. En flagga "
+"skrivs per rad, avdelade från sitt värde med ett likamedtecken "
+"(\"I<flagga>=I<värde>\"). Detta är standardåtgärden."
 
 #. type: TP
 #: dpkg-buildflags.1:51
@@ -6528,14 +6381,6 @@ msgstr "B<--export=>I<format>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:66
-#, fuzzy
-#| msgid ""
-#| "Print to standard output shell (if I<format> is B<sh>) or make (if "
-#| "I<format> is B<make>) commands that can be used to export all the "
-#| "compilation flags in the environment. If the I<format> value is not "
-#| "given, B<sh> is assumed. Only compilation flags starting with an upper "
-#| "case character are included, others are assumed to not be suitable for "
-#| "the environment."
 msgid ""
 "Print to standard output shell (if I<format> is B<sh>) or make (if I<format> "
 "is B<make>) commands that can be used to export all the compilation flags in "
@@ -6546,7 +6391,8 @@ msgid ""
 msgstr ""
 "Skriv skal- (om I<format> är B<sh>) eller make-kommandon (om I<format> är "
 "B<make>) som kan användas för att exportera alla kompileringsflaggor i "
-"miljön till standard ut. Om I<format> inte anges antas B<sh>. Endast "
+"miljön till standard ut. Om I<format> är B<configure> kan utdata användas på "
+"en B<./configure>-kommandorad. Om I<format> inte anges antas B<sh>. Endast "
 "kompileringsflaggor som börjar med en stor bokstav tas med, andra antas att "
 "inte vara lämpliga för miljön."
 
@@ -6731,6 +6577,12 @@ msgid ""
 "be used in B<debian/rules> by package maintainers to change the resulting "
 "build flags."
 msgstr ""
+"Det finns två uppsättningar miljövariabler som utför samma operationer, den "
+"första (DEB_I<flagga>_I<op>) bör aldrig användas inuti B<debian/rules>). Den "
+"är tänkt för användare som vill bygga om källkodspaketet med andra "
+"byggflaggor. Den andra uppsättningen (DEB_I<flagga>_MAINT_I<op>) bör endast "
+"användas i B<debian/rules> av paketansvariga för att ändra de slutgiltiga "
+"byggflaggorna."
 
 #. type: TP
 #: dpkg-buildflags.1:135
@@ -6740,10 +6592,9 @@ msgstr "B<DEB_>I<flagga>B<_SET>"
 
 #. type: TQ
 #: dpkg-buildflags.1:137
-#, fuzzy, no-wrap
-#| msgid "B<DEB_>I<flag>B<_SET>"
+#, no-wrap
 msgid "B<DEB_>I<flag>B<_MAINT_SET>"
-msgstr "B<DEB_>I<flagga>B<_SET>"
+msgstr "B<DEB_>I<flagga>B<_MAINT_SET>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:141
@@ -6755,30 +6606,25 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:141
-#, fuzzy, no-wrap
-#| msgid "B<DEB_>I<flag>B<_SET>"
+#, no-wrap
 msgid "B<DEB_>I<flag>B<_STRIP>"
-msgstr "B<DEB_>I<flagga>B<_SET>"
+msgstr "B<DEB_>I<flagga>B<_STRIP>"
 
 #. type: TQ
 #: dpkg-buildflags.1:143
-#, fuzzy, no-wrap
-#| msgid "B<DEB_>I<flag>B<_SET>"
+#, no-wrap
 msgid "B<DEB_>I<flag>B<_MAINT_STRIP>"
-msgstr "B<DEB_>I<flagga>B<_SET>"
+msgstr "B<DEB_>I<flagga>B<_MAINT_STRIP>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:148
-#, fuzzy
-#| msgid ""
-#| "This variable can be used to append supplementary options to the value "
-#| "returned for the given I<flag>."
 msgid ""
 "This variable can be used to provide a space separated list of options that "
 "will be stripped from the set of flags returned for the given I<flag>."
 msgstr ""
-"Denna variabel kan användas för att lägga till ytterligare flaggor till "
-"värdet som returneras för given I<flagga>."
+"Denna variabel kan användas för att tillhandahålla en blankstegsavdelad "
+"lista med flaggor som kommer att tas bort från uppsättningen flaggor som ges "
+"för given I<flagga>."
 
 #. type: TP
 #: dpkg-buildflags.1:148
@@ -6788,10 +6634,9 @@ msgstr "B<DEB_>I<flagga>B<_APPEND>"
 
 #. type: TQ
 #: dpkg-buildflags.1:150
-#, fuzzy, no-wrap
-#| msgid "B<DEB_>I<flag>B<_APPEND>"
+#, no-wrap
 msgid "B<DEB_>I<flag>B<_MAINT_APPEND>"
-msgstr "B<DEB_>I<flagga>B<_APPEND>"
+msgstr "B<DEB_>I<flagga>B<_MAINT_APPEND>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:154
@@ -6804,37 +6649,29 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:154
-#, fuzzy, no-wrap
-#| msgid "B<DEB_>I<flag>B<_APPEND>"
+#, no-wrap
 msgid "B<DEB_>I<flag>B<_PREPEND>"
-msgstr "B<DEB_>I<flagga>B<_APPEND>"
+msgstr "B<DEB_>I<flagga>B<_PREPEND>"
 
 #. type: TQ
 #: dpkg-buildflags.1:156
-#, fuzzy, no-wrap
-#| msgid "B<DEB_>I<flag>B<_APPEND>"
+#, no-wrap
 msgid "B<DEB_>I<flag>B<_MAINT_PREPEND>"
-msgstr "B<DEB_>I<flagga>B<_APPEND>"
+msgstr "B<DEB_>I<flagga>B<_MAINT_PREPEND>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:160
-#, fuzzy
-#| msgid ""
-#| "This variable can be used to append supplementary options to the value "
-#| "returned for the given I<flag>."
 msgid ""
 "This variable can be used to prepend supplementary options to the value "
 "returned for the given I<flag>."
 msgstr ""
-"Denna variabel kan användas för att lägga till ytterligare flaggor till "
+"Denna variabel kan användas för att lägga till ytterligare flaggor först i "
 "värdet som returneras för given I<flagga>."
 
 #. type: Plain text
 #: dpkg-buildflags.1:163
-#, fuzzy
-#| msgid "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
 msgid "Copyright \\(co 2010-2011 Rapha\\[:e]l Hertzog"
-msgstr "Upphovsrättsskyddat © 2008-2010 Raphaël Hertzog"
+msgstr "Upphovsrättsskyddat © 2010-2011 Raphaël Hertzog"
 
 #. type: TH
 #: dpkg-buildpackage.1:1
@@ -6849,10 +6686,8 @@ msgstr "dpkg-buildpackage - bygg binär- eller källkodspaket från källkod"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:8
-#, fuzzy
-#| msgid "B<dpkg-buildpackage> [I<options>]"
 msgid "B<dpkg-buildpackage> [I<option>...]"
-msgstr "B<dpkg-buildpackage> [I<flaggor>]"
+msgstr "B<dpkg-buildpackage> [I<flagga>...]"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:13
@@ -6935,13 +6770,6 @@ msgstr "B<5.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:36
-#, fuzzy
-#| msgid ""
-#| "It calls B<debian/rules> B<build> followed by B<fakeroot debian/rules> "
-#| "I<binary-target> (unless a source-only build has been requested with B<-"
-#| "S>). Note that I<binary-target> is either B<binary> (default case, or if "
-#| "B<-b> is specified)  or B<binary-arch> (if B<-B> is specified) or "
-#| "B<binary-indep> (if B<-A> is specified)."
 msgid ""
 "It calls B<debian/rules> B<build> followed by B<fakeroot debian/rules> "
 "I<binary-target> (unless a source-only build has been requested with B<-S>). "
@@ -7463,7 +7291,7 @@ msgstr "Ändra platsen för B<dpkg>-databasen. Förval är I</var/lib/dpkg>."
 
 #. type: TP
 #: dpkg-buildpackage.1:223 dpkg-checkbuilddeps.1:33 dpkg-distaddfile.1:32
-#: dpkg-deb.1:172 dpkg-genchanges.1:131 dpkg-gencontrol.1:121
+#: dpkg-deb.1:163 dpkg-genchanges.1:131 dpkg-gencontrol.1:121
 #: dpkg-gensymbols.1:443 dpkg-name.1:58 dpkg-parsechangelog.1:33
 #: dpkg-query.1:110 dpkg-scanpackages.1:96 dpkg-shlibdeps.1:215
 #: dpkg-source.1:96 dpkg-split.1:126 dpkg-trigger.1:31
@@ -7473,11 +7301,6 @@ msgstr "B<-h>, B<--help>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:234
-#, fuzzy
-#| msgid ""
-#| "Even if B<dpkg-buildpackage> export some variables, B<debian/rules> "
-#| "should not rely on their presence and should instead use the respective "
-#| "interface to retrieve the needed values."
 msgid ""
 "Even if B<dpkg-buildpackage> exports some variables, B<debian/rules> should "
 "not rely on their presence and should instead use the respective interface "
@@ -7507,7 +7330,7 @@ msgstr ""
 #: dpkg-buildpackage.1:238
 #, no-wrap
 msgid "Compiler flags are no longer exported"
-msgstr ""
+msgstr "Kompileringsflaggor exporteras inte längre."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:243
@@ -7516,6 +7339,9 @@ msgid ""
 "flags (B<CFLAGS>, B<CXXFLAGS>, B<FFLAGS>, B<CPPFLAGS> and B<LDFLAGS>) with "
 "values as returned by B<dpkg-buildflags>. This is no longer the case."
 msgstr ""
+"Mellan version 1.14.17 och 1.16.1 exporterade B<dpkg-buildpackage> "
+"kompilatorflaggor (B<CFLAGS>, B<CXXFLAGS>, B<CPPFLAGS> och B<LDFLAGS>) med "
+"värden enligt B<dpkg-buildflags>. Detta gäller inte längre."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:248
@@ -7528,16 +7354,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.1:256
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), "
-#| "B<fakeroot>(1), B<gpg>(1)."
 msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
 "genchanges>(1), B<fakeroot>(1), B<gpg>(1)."
 msgstr ""
-"B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), "
-"B<fakeroot>(1), B<gpg>(1)."
+"B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
+"genchanges>(1), B<fakeroot>(1), B<gpg>(1)."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:265
@@ -7557,10 +7379,8 @@ msgstr "dpkg-checkbuilddeps - kontrollera byggberoenden och -konflikter"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:9
-#, fuzzy
-#| msgid "B<dpkg-checkbuilddeps> [I<options>] [I<control-file>]"
 msgid "B<dpkg-checkbuilddeps> [I<option>...] [I<control-file>]"
-msgstr "B<dpkg-checkbuilddeps> [I<flaggor>] [I<kontrollfil>]"
+msgstr "B<dpkg-checkbuilddeps> [I<flagga>...] [I<control-fil>]"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:14
@@ -7575,16 +7395,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:17
-#, fuzzy
-#| msgid ""
-#| "By default, I<debian/control> is read, but an alternate control filename "
-#| "may be specified on the command line."
 msgid ""
 "By default, B<debian/control> is read, but an alternate control filename may "
 "be specified on the command line."
 msgstr ""
-"Som standard läses I<debian/control>, men ett alternativt kontrollfilnamn "
-"kan anges på kommandoraden."
+"Som standard läses B<debian/control>, men ett alternativt styrfilnamn kan "
+"anges på kommandoraden."
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:27
@@ -7634,10 +7450,8 @@ msgstr "dpkg-distaddfile - lägg till poster i debian/files"
 
 #. type: Plain text
 #: dpkg-distaddfile.1:8
-#, fuzzy
-#| msgid "B<dpkg-distaddfile> [I<options>]I< filename section priority>"
 msgid "B<dpkg-distaddfile> [I<option>...]I< filename section priority>"
-msgstr "B<dpkg-distaddfile> [I<flaggor>]I< filnamn sektion prioritet>"
+msgstr "B<dpkg-distaddfile> [I<flagga>...]I< filnamn sektion prioritet>"
 
 #. type: Plain text
 #: dpkg-distaddfile.1:13
@@ -7709,10 +7523,8 @@ msgstr "dpkg-deb - Debians manipuleringsverktyg för paketarkiv (.deb)"
 
 #. type: Plain text
 #: dpkg-deb.1:8
-#, fuzzy
-#| msgid "B<dpkg-deb> [I<options>] I<command>"
 msgid "B<dpkg-deb> [I<option>...] I<command>"
-msgstr "B<dpkg-deb> [I<flaggor>] I<åtgärd>"
+msgstr "B<dpkg-deb> [I<flagga>...] I<åtgärd>"
 
 #. type: Plain text
 #: dpkg-deb.1:12
@@ -7948,58 +7760,22 @@ msgid "B<-X>, B<--vextract> I<archive directory>"
 msgstr "B<-C>|B<--vextract> I<arkivkatalog>"
 
 #. type: Plain text
-#: dpkg-deb.1:145
-#, fuzzy
-#| msgid ""
-#| "Is like B<--extract> (B<-x>)  but prints a listing of the files extracted "
-#| "as it goes."
+#: dpkg-deb.1:143
 msgid ""
-"Is like B<--extract> (B<-x>)  with B<--verbose> (B<-v>)  which prints a "
-"listing of the files extracted as it goes."
+"Is like B<--extract> (B<-x>)  but prints a listing of the files extracted as "
+"it goes."
 msgstr ""
 "Är som B<--extract> (B<-x>) men visar en lista över filer som extraheras "
 "under tiden."
 
 #. type: TP
-#: dpkg-deb.1:145
-#, fuzzy, no-wrap
-#| msgid "B<-x>, B<--extract> I<archive directory>"
-msgid "B<-R>, B<--raw-extract> I<archive directory>"
-msgstr "B<-x>|B<--extract> I<arkivkatalog>"
-
-#. type: Plain text
-#: dpkg-deb.1:150
-#, fuzzy
-#| msgid ""
-#| "Extracts the filesystem tree from a package archive into the specified "
-#| "directory."
-msgid ""
-"Extracts the filesystem tree from a package archive into a specified "
-"directory, and the control information files into a DEBIAN subdirectory of "
-"the specified directory."
-msgstr ""
-"Extraherar filsystemsträdet från ett paketarkiv till den angivna katalogen."
-
-#. type: Plain text
-#: dpkg-deb.1:152 dpkg-deb.1:172
-msgid ""
-"The target directory (but not its parents) will be created if necessary."
-msgstr ""
-"Målkatalogen (men inte dess föräldrar) kommer att skapas om nödvändigt."
-
-#. type: TP
-#: dpkg-deb.1:152
+#: dpkg-deb.1:143
 #, no-wrap
 msgid "B<--fsys-tarfile> I<archive>"
 msgstr "B<--fsys-tarfile> I<arkiv>"
 
 #. type: Plain text
-#: dpkg-deb.1:161
-#, fuzzy
-#| msgid ""
-#| "Extracts the filesystem tree data from a binary package and sends it to "
-#| "standard output in B<tar> format. Together with B<tar>(1)  this can be "
-#| "used to extract a particular file from a package archive."
+#: dpkg-deb.1:152
 msgid ""
 "Extracts the filesystem tree data from a binary package and sends it to "
 "standard output in B<tar> format. Together with B<tar>(1)  this can be used "
@@ -8008,16 +7784,17 @@ msgid ""
 msgstr ""
 "Extraherar filsystemsträdsdata från ett binärt paket och sänder det till "
 "standard ut i B<tar>-format. Tillsammans med B<tar>(1) kan det användas för "
-"att hämta ut en enskild fil från ett paketarkiv."
+"att hämta ut en enskild fil från ett paketarkiv. Indataarkiven behandlas "
+"alltid i den ordning de anges."
 
 #. type: TP
-#: dpkg-deb.1:161
+#: dpkg-deb.1:152
 #, no-wrap
 msgid "B<-e>, B<--control> I<archive> [I<directory>]"
 msgstr "B<-e>, B<--control> I<arkiv> [I<katalog>]"
 
 #. type: Plain text
-#: dpkg-deb.1:165
+#: dpkg-deb.1:156
 msgid ""
 "Extracts the control information files from a package archive into the "
 "specified directory."
@@ -8026,7 +7803,7 @@ msgstr ""
 "katalogen."
 
 #. type: Plain text
-#: dpkg-deb.1:169
+#: dpkg-deb.1:160
 msgid ""
 "If no directory is specified then a subdirectory B<DEBIAN> in the current "
 "directory is used."
@@ -8034,14 +7811,21 @@ msgstr ""
 "Om ingen katalog anges kommer en underkatalog vid namn B<DEBIAN> i den "
 "aktuella katalogen att användas."
 
+#. type: Plain text
+#: dpkg-deb.1:163
+msgid ""
+"The target directory (but not its parents) will be created if necessary."
+msgstr ""
+"Målkatalogen (men inte dess föräldrar) kommer att skapas om nödvändigt."
+
 #. type: TP
-#: dpkg-deb.1:180
+#: dpkg-deb.1:171
 #, no-wrap
 msgid "B<--showformat=>I<format>"
 msgstr "B<--showformat=>I<format>"
 
 #. type: Plain text
-#: dpkg-deb.1:185 dpkg-query.1:127
+#: dpkg-deb.1:176 dpkg-query.1:127
 msgid ""
 "This option is used to specify the format of the output B<--show> will "
 "produce. The format is a string that will be output for each package listed."
@@ -8050,7 +7834,7 @@ msgstr ""
 "Formatet är en sträng som matas ut för varje paket i listan."
 
 #. type: Plain text
-#: dpkg-deb.1:194
+#: dpkg-deb.1:185
 msgid ""
 "The string may reference any status field using the \"${I<field-name>}\" "
 "form, a list of the valid fields can be easily produced using B<-I> on the "
@@ -8065,19 +7849,18 @@ msgstr ""
 "B<--showformat> i B<dpkg-query>(1)."
 
 #. type: Plain text
-#: dpkg-deb.1:196
+#: dpkg-deb.1:187
 msgid "The default for this field is \"${Package}\\et${Version}\\en\"."
 msgstr "Förvalet för fältet är \"${Package}\\et${Version}\\en\"."
 
 #. type: TP
-#: dpkg-deb.1:196
-#, fuzzy, no-wrap
-#| msgid "B<-z>I<compress_level>"
+#: dpkg-deb.1:187
+#, no-wrap
 msgid "B<-z>I<compress-level>"
 msgstr "B<-z>I<komprimeringsnivå>"
 
 #. type: Plain text
-#: dpkg-deb.1:200
+#: dpkg-deb.1:191
 msgid ""
 "Specify which compression level to pass to the compressor backend program, "
 "when building a package."
@@ -8086,14 +7869,13 @@ msgstr ""
 "när ett paket byggs."
 
 #. type: TP
-#: dpkg-deb.1:200
-#, fuzzy, no-wrap
-#| msgid "B<-Z>I<compress_type>"
+#: dpkg-deb.1:191
+#, no-wrap
 msgid "B<-Z>I<compress-type>"
 msgstr "B<-Z>I<komprimeringstyp>"
 
 #. type: Plain text
-#: dpkg-deb.1:205
+#: dpkg-deb.1:196
 msgid ""
 "Specify which compression type to use when building a package. Allowed "
 "values are I<gzip>, I<xz>, I<bzip2>, I<lzma>, and I<none> (default is "
@@ -8104,13 +7886,13 @@ msgstr ""
 "I<gzip>)."
 
 #. type: TP
-#: dpkg-deb.1:205
+#: dpkg-deb.1:196
 #, no-wrap
 msgid "B<--new>"
 msgstr "B<--new>"
 
 #. type: Plain text
-#: dpkg-deb.1:210
+#: dpkg-deb.1:201
 msgid ""
 "Ensures that B<dpkg-deb> builds a `new' format archive. This is the default."
 msgstr ""
@@ -8118,13 +7900,13 @@ msgstr ""
 "förval."
 
 #. type: TP
-#: dpkg-deb.1:210
+#: dpkg-deb.1:201
 #, no-wrap
 msgid "B<--old>"
 msgstr "B<--old>"
 
 #. type: Plain text
-#: dpkg-deb.1:218
+#: dpkg-deb.1:209
 msgid ""
 "Forces B<dpkg-deb> to build an `old' format archive. This old archive format "
 "is less easily parsed by non-Debian tools and is now obsolete; its only use "
@@ -8138,13 +7920,13 @@ msgstr ""
 "som i386-a.out."
 
 #. type: TP
-#: dpkg-deb.1:218
+#: dpkg-deb.1:209
 #, no-wrap
 msgid "B<--nocheck>"
 msgstr "B<--nocheck>"
 
 #. type: Plain text
-#: dpkg-deb.1:224
+#: dpkg-deb.1:215
 msgid ""
 "Inhibits B<dpkg-deb --build>'s usual checks on the proposed contents of an "
 "archive. You can build any archive you want, no matter how broken, this way."
@@ -8154,31 +7936,18 @@ msgstr ""
 "här sätt."
 
 #. type: TP
-#: dpkg-deb.1:224 start-stop-daemon.8:255
-#, no-wrap
-msgid "B<-v>, B<--verbose>"
-msgstr "B<-v>, B<--verbose>"
-
-#. type: Plain text
-#: dpkg-deb.1:228
-msgid ""
-"Enables verbose output. This currently only affects B<--extract> making it "
-"behave like B<--vextract>."
-msgstr ""
-
-#. type: TP
-#: dpkg-deb.1:228
+#: dpkg-deb.1:215
 #, no-wrap
 msgid "B<-D>, B<--debug>"
 msgstr "B<-D>, B<--debug>"
 
 #. type: Plain text
-#: dpkg-deb.1:231
+#: dpkg-deb.1:218
 msgid "Enables debugging output. This is not very interesting."
 msgstr "Aktiverar felsökningsutdata. Denna är inte speciellt intressant."
 
 #. type: Plain text
-#: dpkg-deb.1:237
+#: dpkg-deb.1:224
 msgid ""
 "If set, B<dpkg-deb> will use it as the directory in which to create "
 "temporary files and directories."
@@ -8187,13 +7956,13 @@ msgstr ""
 "filer och kataloger skapas."
 
 #. type: Plain text
-#: dpkg-deb.1:243
+#: dpkg-deb.1:230
 msgid ""
 "B<dpkg-deb -I> I<package1>B<.deb> I<package2>B<.deb> does the wrong thing."
 msgstr "B<dpkg-deb -I> I<paket1>B<.deb> I<paket2>B<.deb> gör fel."
 
 #. type: Plain text
-#: dpkg-deb.1:251
+#: dpkg-deb.1:238
 msgid ""
 "There is no authentication on B<.deb> files; in fact, there isn't even a "
 "straightforward checksum.  (Higher level tools like APT support "
@@ -8208,7 +7977,7 @@ msgstr ""
 "debian/rules. Filen stöds dock inte direkt av lågnivåverktygen.)"
 
 #. type: Plain text
-#: dpkg-deb.1:258
+#: dpkg-deb.1:245
 msgid ""
 "Do not attempt to use just B<dpkg-deb> to install software! You must use "
 "B<dpkg> proper to ensure that all the files are correctly placed and the "
@@ -8220,7 +7989,7 @@ msgstr ""
 "sparas."
 
 #. type: Plain text
-#: dpkg-deb.1:264
+#: dpkg-deb.1:251
 msgid "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
 msgstr "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
 
@@ -8237,10 +8006,8 @@ msgstr "dpkg-divert - överstyr ett pakets version av en fil"
 
 #. type: Plain text
 #: dpkg-divert.8:9
-#, fuzzy
-#| msgid "B<dpkg-divert> [I<options>] I<command>"
 msgid "B<dpkg-divert> [I<option>...] I<command>"
-msgstr "B<dpkg-divert> [I<flaggor>] I<åtgärd>"
+msgstr "B<dpkg-divert> [I<flagga>...] I<åtgärd>"
 
 #. type: Plain text
 #: dpkg-divert.8:13
@@ -8437,19 +8204,14 @@ msgstr "ANTECKNINGAR"
 
 #. type: Plain text
 #: dpkg-divert.8:82
-#, fuzzy
-#| msgid ""
-#| "When adding, default is B<--local> and B<--divert> I<E<lt>originalE<gt>."
-#| "distrib>. When removing, B<--package> or B<--local> and B<--divert> must "
-#| "match if specified."
 msgid ""
 "When adding, default is B<--local> and B<--divert> I<original>B<.distrib>. "
 "When removing, B<--package> or B<--local> and B<--divert> must match if "
 "specified."
 msgstr ""
-"Vid tillägg är standard B<--local> och B<--divert> I<E<lt>originalE<gt>."
-"distrib>. Vid borttagning måste B<--package> eller B<--local> och B<--"
-"divert> matcha om de anges."
+"Vid tillägg är standard B<--local> och B<--divert> I<original>B<.distrib>. "
+"Vid borttagning måste B<--package> eller B<--local> och B<--divert> matcha "
+"om de anges."
 
 #. type: Plain text
 #: dpkg-divert.8:84
@@ -8524,10 +8286,9 @@ msgstr "dpkg-divert --package wibble --rename --remove /usr/bin/exempel"
 #. type: TP
 #: dpkg-divert.8:113 dpkg-query.1:205 dpkg-statoverride.8:69 dpkg-trigger.1:61
 #: update-alternatives.8:355
-#, fuzzy, no-wrap
-#| msgid "B<DPKG_LIBDIR>"
+#, no-wrap
 msgid "B<DPKG_ADMINDIR>"
-msgstr "B<DPKG_LIBDIR>"
+msgstr "B<DPKG_ADMINDIR>"
 
 #. type: Plain text
 #: dpkg-divert.8:117 dpkg-query.1:209 dpkg-statoverride.8:73 dpkg-trigger.1:65
@@ -8535,6 +8296,8 @@ msgid ""
 "If set and the B<--admindir> option has not been specified, it will be used "
 "as the dpkg data directory."
 msgstr ""
+"Om satt, och flaggan B<--admindir> inte har angivits, används värdet som "
+"datakatalog för dpkg."
 
 #. type: Plain text
 #: dpkg-divert.8:121
@@ -8542,6 +8305,8 @@ msgid ""
 "If set and the B<--local> and B<--package> options have not been specified, "
 "B<dpkg-divert> will use it as the package name."
 msgstr ""
+"Om satt, och flaggorna B<--local> och B<--package> inte har angivits, kommer "
+"B<dpkg-divert> använda det som paketnamn."
 
 #. type: TP
 #: dpkg-divert.8:123
@@ -8587,10 +8352,8 @@ msgstr "dpkg-genchanges - skapa .changes-filer för Debian"
 
 #. type: Plain text
 #: dpkg-genchanges.1:8
-#, fuzzy
-#| msgid "B<dpkg-genchanges> [I<options>]"
 msgid "B<dpkg-genchanges> [I<option>...]"
-msgstr "B<dpkg-genchanges> [I<flaggor>]"
+msgstr "B<dpkg-genchanges> [I<flagga>...]"
 
 #. type: Plain text
 #: dpkg-genchanges.1:16
@@ -8876,10 +8639,8 @@ msgstr "dpkg-gencontrol - skapa Debians kontrollfiler"
 
 #. type: Plain text
 #: dpkg-gencontrol.1:8
-#, fuzzy
-#| msgid "B<dpkg-gencontrol> [I<options>]"
 msgid "B<dpkg-gencontrol> [I<option>...]"
-msgstr "B<dpkg-gencontrol> [I<flaggor>]"
+msgstr "B<dpkg-gencontrol> [I<flagga>...]"
 
 #. type: Plain text
 #: dpkg-gencontrol.1:14
@@ -9098,10 +8859,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:9
-#, fuzzy
-#| msgid "B<dpkg-gensymbols> [I<options>]"
 msgid "B<dpkg-gensymbols> [I<option>...]"
-msgstr "B<dpkg-gensymbols> [I<flaggor>]"
+msgstr "B<dpkg-gensymbols> [I<flagga>...]"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:16
@@ -9234,6 +8993,10 @@ msgid ""
 "section B<Using includes>). Lines starting with '#MISSING:' are special "
 "comments documenting symbols that have disappeared."
 msgstr ""
+"Obsevera att du kan skriva kommentarer i symbols-filer: alla rader med \"#\" "
+"som första tecken är kommentarer, såvida inte det börjar med \"#include"
+"\" (se stycket B<Använda inkluderingar>). Rader som börjar med \"#MISSING:\" "
+"är speciella kommentarer som dokumenterar symboler som har försvunnit."
 
 #. type: SS
 #: dpkg-gensymbols.1:64
@@ -9902,26 +9665,18 @@ msgstr "Inkluderingsdirektivet kan även taggas som alla andra symboler:"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:321
-#, fuzzy
-#| msgid "(tag|..|tagN)#include \"file_to_include\""
 msgid "(tag|..|tagN)#include \"file-to-include\""
-msgstr "(tag|..|tagN)#include \"fil_att_inkludera\""
+msgstr "(tag|..|tagN)#include \"fil-att-inkludera\""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:326
-#, fuzzy
-#| msgid ""
-#| "As a result, all symbols included from I<file_to_include> will be "
-#| "considered to be tagged with I<tag> .. I<tagN> by default. You can use "
-#| "this feature to create a common I<package>.symbols file which includes "
-#| "architecture specific symbol files:"
 msgid ""
 "As a result, all symbols included from I<file-to-include> will be considered "
 "to be tagged with I<tag> .. I<tagN> by default. You can use this feature to "
 "create a common I<package>.symbols file which includes architecture specific "
 "symbol files:"
 msgstr ""
-"Alla symboler som inkluderas från I<fil_att_inkludera> kommer att anses som "
+"Alla symboler som inkluderas från I<fil-att-inkludera> kommer att anses som "
 "standard vara taggade med I<tag> .. I<tagN>. Du kan använda denna funktion "
 "för att skapa en gemensam I<paket>.symbols-fil som inkluderar "
 "arkitekturspecifika filer:"
@@ -10285,16 +10040,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:8
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-maintscript-helper> I<command> [I<parameters>...] -- I<maint-"
-#| "script-parameters>"
 msgid ""
 "B<dpkg-maintscript-helper> I<command> [I<parameter>...] B<--> I<maint-script-"
 "parameter>..."
 msgstr ""
-"B<dpkg-maintscript-helper> I<kommando> [I<flaggor>...] -- I<maint-script-"
-"flaggor>"
+"B<dpkg-maintscript-helper> I<kommando> [I<flagga>...] B<--> I<maint-script-"
+"flagga>..."
 
 #. type: SH
 #: dpkg-maintscript-helper.1:9
@@ -10327,14 +10078,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:27
-#, fuzzy
-#| msgid ""
-#| "Many of those tasks require coordinated actions from several maintainer "
-#| "scripts (B<preinst>, B<postinst>, B<prerm>, B<postrm>). To avoid mistakes "
-#| "the same call simply needs to be put in all scripts and the program will "
-#| "automatically adapt its behaviour based on the environment variable "
-#| "DPKG_MAINTSCRIPT_NAME and on the maintainer scripts arguments that you "
-#| "have to forward after a double dash."
 msgid ""
 "Many of those tasks require coordinated actions from several maintainer "
 "scripts (B<preinst>, B<postinst>, B<prerm>, B<postrm>). To avoid mistakes "
@@ -10346,8 +10089,8 @@ msgstr ""
 "Många av dessa åtgärder kräver samordnade åtgärder från flera paketskript "
 "(B<preint>, B<postinst>, B<prerm>, B<postrm>). För att undvika misstag "
 "räcker det att lägga in ett och samma anrop i alla skript, varpå programmet "
-"anpassar sitt beteende beroende på miljövariabeln DPKG_MAINTSCRIPT_NAME och "
-"på paketskriptets parametrar, vilka du måste vidaresända efter dubbla "
+"anpassar sitt beteende beroende på miljövariabeln B<DPKG_MAINTSCRIPT_NAME> "
+"och på paketskriptets parametrar, vilka du måste vidaresända efter dubbla "
 "bindestreck."
 
 #. type: SH
@@ -10563,12 +10306,6 @@ msgstr "INTEGRERA I PAKET"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:116
-#, fuzzy
-#| msgid ""
-#| "Given that B<dpkg-maintscript-helper> is used in the B<preinst>, using it "
-#| "unconditionally requires a pre-dependency to ensure that the required "
-#| "version of dpkg has been configured before. The required version depends "
-#| "on the command used, for B<rm_conffile> and B<mv_conffile> it is 1.15.7.2:"
 msgid ""
 "Given that B<dpkg-maintscript-helper> is used in the B<preinst>, using it "
 "unconditionally requires a pre-dependency to ensure that the required "
@@ -10577,16 +10314,15 @@ msgid ""
 msgstr ""
 "Givet att B<dpkg-maintscript-helper> används i B<preinst> så innebär detta "
 "villkorslöst att ett förhandsberoende (\"pre-dependency\") krävs för att "
-"försäkra att den nödvändiga versionen av dpkg redan har konfigurerats. Den "
+"försäkra att den nödvändiga versionen av dpkg redan har packats upp. Den "
 "version som krävs beror på vilket kommando som används, för B<rm_conffile> "
 "och B<mv_conffile> är det 1.15.7.2:"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:118
-#, fuzzy, no-wrap
-#| msgid "    Pre-Depends: dpkg (E<gt>= 1.15.7.2)\n"
+#, no-wrap
 msgid "    B<Pre-Depends:> dpkg (E<gt>= 1.15.7.2)\n"
-msgstr "    Pre-Depends: dpkg (E<gt>= 1.15.7.2)\n"
+msgstr "    B<Pre-Depends:> dpkg (E<gt>= 1.15.7.2)\n"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:123
@@ -10603,18 +10339,14 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:127
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    if dpkg-maintscript-helper supports E<lt>commandE<gt>; then\n"
-#| "        dpkg-maintscript-helper E<lt>commandE<gt> ...\n"
-#| "    fi\n"
+#, no-wrap
 msgid ""
 "    if dpkg-maintscript-helper supports I<command>; then\n"
 "        dpkg-maintscript-helper I<command> ...\n"
 "    fi\n"
 msgstr ""
-"    if dpkg-maintscript-helper supports E<lt>kommandoE<gt>; then\n"
-"        dpkg-maintscript-helper E<lt>kommandoE<gt> ...\n"
+"    if dpkg-maintscript-helper supports I<kommando>; then\n"
+"        dpkg-maintscript-helper I<kommando> ...\n"
 "    fi\n"
 
 #. type: Plain text
@@ -10807,24 +10539,11 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-name.1:15
-#, fuzzy
-#| msgid "B<dpkg-name> [I<options>] [B<-->] I<files>"
 msgid "B<dpkg-name> [I<option>...] [B<-->] I<file>..."
-msgstr "B<dpkg-name> [I<flaggor>] [B<-->] I<filer>"
+msgstr "B<dpkg-name> [I<flagga>...] [B<-->] I<fil>..."
 
 #. type: Plain text
 #: dpkg-name.1:29
-#, fuzzy
-#| msgid ""
-#| "This manual page documents the B<dpkg-name> program which provides an "
-#| "easy way to rename B<Debian> packages into their full package names. A "
-#| "full package name consists of "
-#| "I<E<lt>packageE<gt>_E<lt>versionE<gt>_E<lt>architectureE<gt>."
-#| "E<lt>package_typeE<gt>> as specified in the control file of the package. "
-#| "The I<E<lt>versionE<gt>> part of the filename consists of the upstream "
-#| "version information optionally followed by a hyphen and the revision "
-#| "information. The I<E<lt>package_typeE<gt>> part comes from that field if "
-#| "present or fallbacks to B<deb>."
 msgid ""
 "This manual page documents the B<dpkg-name> program which provides an easy "
 "way to rename B<Debian> packages into their full package names. A full "
@@ -10837,11 +10556,11 @@ msgstr ""
 "Manualsidan dokumenterar programmet B<dpkg-name>, vilket tillhandahåller ett "
 "enkelt sätt att byta namn på B<Debian>paket till deras fullständiga "
 "paketnamn. Ett fullständigt paketnamn består av "
-"I<E<lt>paketE<gt>_E<lt>versionE<gt>_E<lt>arkitekturE<gt>.E<lt>pakettypE<gt>> "
-"och anges av control-filen i paketet. I<E<lt>VersionE<gt>>-delen av "
-"filnamnet består av uppströmsversionsinformation och kan eventuellt följas "
-"av ett bindestreck och revisionsinformationen. I<E<lt>PakettypE<gt>>-delen "
-"kommer från fältet I<package_type> om det finns, annars B<deb>."
+"I<paket>B<_>I<version>B<_>I<arkitektur>B<.>I<pakettyp> och anges av control-"
+"filen i paketet. I<Version>-delen av filnamnet består av "
+"uppströmsversionsinformation och kan eventuellt följas av ett bindestreck "
+"och revisionsinformationen. I<Pakettyp>-delen kommer från fältet I<package-"
+"type> om det finns, annars B<deb>."
 
 #. type: TP
 #: dpkg-name.1:31
@@ -10889,18 +10608,6 @@ msgstr "B<-s>, B<--subdir> [I<katalog>]"
 
 #. type: Plain text
 #: dpkg-name.1:53
-#, fuzzy
-#| msgid ""
-#| "Files will be moved into a subdirectory. If the directory given as "
-#| "argument exists the files will be moved into that directory otherwise the "
-#| "name of the target directory is extracted from the section field in the "
-#| "control part of the package. The target directory will be `unstable/"
-#| "binary-E<lt>architectureE<gt>/E<lt>sectionE<gt>'. If the section is not "
-#| "found in the control, then `no-section' is assumed, and in this case, as "
-#| "well as for sections `non-free' and `contrib' the target directory is "
-#| "`E<lt>sectionE<gt>/binary-E<lt>architectureE<gt>'. The section field "
-#| "isn't required so a lot of packages will find their way to the `no-"
-#| "section' area. Use this option with care, it's messy."
 msgid ""
 "Files will be moved into a subdirectory. If the directory given as argument "
 "exists the files will be moved into that directory otherwise the name of the "
@@ -10915,12 +10622,12 @@ msgstr ""
 "Filerna kommer att flyttas till en underkatalog. Om katalogen i argumentet "
 "existerar kommer filerna att flyttas in i den katalogen, om inte kommer "
 "namnet på målkatalogen att hämtas från sektionsfältet i styrdelen av "
-"paketet. Målkatalogen kommer vara \"unstable/binary-E<lt>arkitekurE<gt>/"
-"E<lt>sektionE<gt>\". Om sektionen inte hittas i styrfilen antas \"no-section"
-"\", och i så fall, samt för sektionerna \"non-free\" och \"contrib\", är "
-"målkatalogen \"E<lt>sektionE<gt>/binary-E<lt>arkitekturE<gt>\". "
-"Sektionsfältet är inte nödvändigt, så flera paket hamnar i katalogen \"no-"
-"section\". Använd den här flaggan med tillförsikt, den kan vara rörig."
+"paketet. Målkatalogen kommer vara \"unstable/binary-I<arkitekur>I<sektion>"
+"\". Om sektionen inte hittas i styrfilen antas \"no-section\", och i så "
+"fall, samt för sektionerna \"non-free\" och \"contrib\", är målkatalogen "
+"\"I<sektion>/binary-I<arkitektur>\". Sektionsfältet är inte nödvändigt, så "
+"flera paket hamnar i katalogen \"no-section\". Använd den här flaggan med "
+"tillförsikt, den kan vara rörig."
 
 #. type: TP
 #: dpkg-name.1:53
@@ -11006,13 +10713,6 @@ msgstr "Kan användas när nya paket byggs."
 
 #. type: Plain text
 #: dpkg-name.1:95
-#, fuzzy
-#| msgid ""
-#| "Some packages don't follow the name structure "
-#| "E<lt>packageE<gt>_E<lt>versionE<gt>_E<lt>architectureE<gt>.deb. Packages "
-#| "renamed by dpkg-name will follow this structure. Generally this will have "
-#| "no impact on how packages are installed by B<dselect>(1)/ B<dpkg>(1), but "
-#| "other installation tools might depend on this naming structure."
 msgid ""
 "Some packages don't follow the name structure "
 "I<package>B<_>I<version>B<_>I<architecture>B<.deb>.  Packages renamed by "
@@ -11021,9 +10721,9 @@ msgid ""
 "installation tools might depend on this naming structure."
 msgstr ""
 "Vissa paket följer inte namnstrukturen "
-"E<lt>paketE<gt>_E<lt>versionE<gt>_E<lt>arckitekturE<gt>.deb. Paket vars namn "
-"ändrats med dpkg-name kommer följa denna struktur. Normalt påverkar detta "
-"inte hur B<dselect>(1)/B<dpkg>(1) installerar paket, men vissa andra "
+"I<paket>B<_>I<version>B<_>I<arkitektur>B<.deb>. Paket vars namn ändrats med "
+"dpkg-name kommer följa denna struktur. Normalt påverkar detta inte hur "
+"B<dselect>(1)/B<dpkg>(1) installerar paket, men vissa andra "
 "installationsverktyg kan vara beroende av denna namngivningsstruktur."
 
 #. type: Plain text
@@ -11053,10 +10753,8 @@ msgstr "dpkg-parsechangelog - tolka Debians ändringsloggar"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:8
-#, fuzzy
-#| msgid "B<dpkg-parsechangelog> [I<options>]"
 msgid "B<dpkg-parsechangelog> [I<option>...]"
-msgstr "B<dpkg-parsechangelog> [I<flaggor>]"
+msgstr "B<dpkg-parsechangelog> [I<flagga>...]"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:14
@@ -11126,31 +10824,27 @@ msgstr ""
 
 #. type: TP
 #: dpkg-parsechangelog.1:54
-#, fuzzy, no-wrap
-#| msgid "B<Source:> E<lt>pkg nameE<gt>"
+#, no-wrap
 msgid "B<Source:>I< pkg-name>"
-msgstr "B<Source:> E<lt>paketnamnE<gt>"
+msgstr "B<Source:> I<paketnamn>"
 
 #. type: TP
 #: dpkg-parsechangelog.1:56
-#, fuzzy, no-wrap
-#| msgid "B<Version:> E<lt>versionE<gt>"
+#, no-wrap
 msgid "B<Version:>I< version>"
-msgstr "B<Version:> E<lt>versionsE<gt>"
+msgstr "B<Version:> I<versions>"
 
 #. type: TP
 #: dpkg-parsechangelog.1:58
-#, fuzzy, no-wrap
-#| msgid "B<Distribution:> E<lt>target distributionE<gt>"
+#, no-wrap
 msgid "B<Distribution:>I< target-distribution>"
-msgstr "B<Description:> E<lt>målutgåvaE<gt>"
+msgstr "B<Distribution:> I<målutgåva>"
 
 #. type: TP
 #: dpkg-parsechangelog.1:60
-#, fuzzy, no-wrap
-#| msgid "B<Urgency:> E<lt>urgencyE<gt>"
+#, no-wrap
 msgid "B<Urgency:>I< urgency>"
-msgstr "B<Urgency:> E<lt>brådskaE<gt>"
+msgstr "B<Urgency:> I<brådska>"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:63
@@ -11159,24 +10853,21 @@ msgstr "Högsta brådskan av alla de inkluderade posterna används."
 
 #. type: TP
 #: dpkg-parsechangelog.1:63
-#, fuzzy, no-wrap
-#| msgid "B<Maintainer:> E<lt>authorE<gt>"
+#, no-wrap
 msgid "B<Maintainer:>I< author>"
-msgstr "B<Maintainer:> E<lt>författareE<gt>"
+msgstr "B<Maintainer:> I<författare>"
 
 #. type: TP
 #: dpkg-parsechangelog.1:65
-#, fuzzy, no-wrap
-#| msgid "B<Date:> E<lt>dateE<gt>"
+#, no-wrap
 msgid "B<Date:>I< date>"
-msgstr "B<Date:> E<lt>datumE<gt>"
+msgstr "B<Date:> I<datum>"
 
 #. type: TP
 #: dpkg-parsechangelog.1:67
-#, fuzzy, no-wrap
-#| msgid "B<Closes:> E<lt>bug numberE<gt>"
+#, no-wrap
 msgid "B<Closes:>I< bug-number>"
-msgstr "B<Closes:> E<lt>nummer på felrapportE<gt>"
+msgstr "B<Closes:> I<nummer-på-felrapport>"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:70
@@ -11185,10 +10876,9 @@ msgstr "Closes-fältet i alla inkluderade poster slås samman."
 
 #. type: TP
 #: dpkg-parsechangelog.1:70
-#, fuzzy, no-wrap
-#| msgid "B<Changes:> E<lt>changelog entriesE<gt>"
+#, no-wrap
 msgid "B<Changes:>I< changelog-entries>"
-msgstr "B<Changes:> E<lt>poster från ändringsloggenE<gt>"
+msgstr "B<Changes:> I<posterfrån-ändringsloggen>"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:77
@@ -11367,10 +11057,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-query.1:14
-#, fuzzy, no-wrap
-#| msgid "B<-l>, B<--list> I<package-name-pattern>..."
+#, no-wrap
 msgid "B<-l>, B<--list> [I<package-name-pattern>...]"
-msgstr "B<-l>, B<--list> I<paketnamnsmönster> ..."
+msgstr "B<-l>, B<--list> [I<paketnamnsmönster> ...]"
 
 #. type: Plain text
 #: dpkg-query.1:24
@@ -11494,10 +11183,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-query.1:67
-#, fuzzy, no-wrap
-#| msgid "B<-W>, B<--show> I<package-name-pattern>..."
+#, no-wrap
 msgid "B<-W>, B<--show> [I<package-name-pattern>...]"
-msgstr "B<-W>, B<--show> I<paketnamnsmönster> ..."
+msgstr "B<-W>, B<--show> [I<paketnamnsmönster> ...]"
 
 #. type: Plain text
 #: dpkg-query.1:74
@@ -11522,17 +11210,14 @@ msgstr "B<-s>, B<--status> I<paketnamn> ..."
 
 #. type: Plain text
 #: dpkg-query.1:79
-#, fuzzy
-#| msgid ""
-#| "Report status of specified package. This just displays the entry in the "
-#| "installed package status database."
 msgid ""
 "Report status of specified package. This just displays the entry in the "
 "installed package status database. When multiple I<package-name> are listed, "
 "the requested status entries are separated by an empty line."
 msgstr ""
 "Rapportera status om det angivna paketet.  Detta alternativ visar helt "
-"enkelt posten i statusdatabasen för installerade paket."
+"enkelt posten i statusdatabasen för installerade paket. Om flera "
+"I<paketnamn> anges avdelas de efterfrågade statusposterna med en tomrad."
 
 #. type: TP
 #: dpkg-query.1:79
@@ -11542,19 +11227,16 @@ msgstr "B<-L>, B<--listfiles> I<paketnamn> ..."
 
 #. type: Plain text
 #: dpkg-query.1:85
-#, fuzzy
-#| msgid ""
-#| "List files installed to your system from I<package-name>.  However, note "
-#| "that files created by package-specific installation-scripts are not "
-#| "listed."
 msgid ""
 "List files installed to your system from I<package-name>. When multiple "
 "I<package-name> are listed, the requested lists of files are separated by an "
 "empty line. However, note that files created by package-specific "
 "installation-scripts are not listed."
 msgstr ""
-"Listar filer som installerats på ditt system från I<paketnamn>. Observera "
-"att filer som skapats av paketspecifika installationsskript inte visas"
+"Listar filer som installerats på ditt system från I<paketnamn>. Om flera "
+"I<paketnamn> anges avdelas den efterfrågade fillistan med en tomrad. "
+"Observera att filer som skapats av paketspecifika installationsskript inte "
+"visas"
 
 #. type: TP
 #: dpkg-query.1:85
@@ -11587,20 +11269,15 @@ msgstr "B<-S>, B<--search> I<filnamnssökmönster> ..."
 
 #. type: Plain text
 #: dpkg-query.1:99
-#, fuzzy
-#| msgid ""
-#| "Search for a filename from installed packages. All standard shell "
-#| "wildchars can be used in the pattern. This command will not list extra "
-#| "files created by maintainer scripts, nor will it list alternatives."
 msgid ""
 "Search for packages that own files corresponding to the given pattern.  "
 "Standard shell wildchars can be used in the pattern.  This command will not "
 "list extra files created by maintainer scripts, nor will it list "
 "alternatives."
 msgstr ""
-"Sök efter filnamnet bland de installerade paketen. Alla skalets vanliga "
-"jokertecken kan användas i mönstret. Kommandot kommer inte att visa "
-"extrafiler som skapas av paketskript, ej heller kommer det att visa "
+"Sök efter paket som äger filer som motsvarar det angivna mönstret. Alla "
+"skalets vanliga jokertecken kan användas i mönstret. Kommandot kommer inte "
+"att visa extrafiler som skapas av paketskript, ej heller kommer det att visa "
 "alternativ."
 
 #. type: TP
@@ -11611,39 +11288,24 @@ msgstr "B<-p>, B<--print-avail> I<paketnamn>"
 
 #. type: Plain text
 #: dpkg-query.1:105
-#, fuzzy
-#| msgid ""
-#| "Display details about I<package-name>, as found in I</var/lib/dpkg/"
-#| "available>. Users of APT-based frontends should use B<apt-cache show> "
-#| "I<package-name> instead as the I<available> file is only kept up-to-date "
-#| "when using B<dselect>."
 msgid ""
 "Display details about I<package-name>, as found in I</var/lib/dpkg/"
 "available>. When multiple I<package-name> are listed, the requested "
 "I<available> entries are separated by an empty line."
 msgstr ""
 "Visar information om I<paketnamn>, enligt vad som finns i I</var/lib/dpkg/"
-"available>. Använder du ett APT-baserat skal bör du istället använda B<apt-"
-"cache show> I<paketnamn>, då I<available>-filen endast àjourförs om "
-"B<dselect> används."
+"available>. Om flera I<paketnamn> anges avdelas de efterfrågade posterna ur "
+"I<available>-filen med en tomrad."
 
 #. type: Plain text
 #: dpkg-query.1:110
-#, fuzzy
-#| msgid ""
-#| "Display details about I<package-name>, as found in I</var/lib/dpkg/"
-#| "available>. Users of APT-based frontends should use B<apt-cache show> "
-#| "I<package-name> instead as the I<available> file is only kept up-to-date "
-#| "when using B<dselect>."
 msgid ""
 "Users of APT-based frontends should use B<apt-cache show> I<package-name> "
 "instead as the I<available> file is only kept up-to-date when using "
 "B<dselect>."
 msgstr ""
-"Visar information om I<paketnamn>, enligt vad som finns i I</var/lib/dpkg/"
-"available>. Använder du ett APT-baserat skal bör du istället använda B<apt-"
-"cache show> I<paketnamn>, då I<available>-filen endast àjourförs om "
-"B<dselect> används."
+"Använder du ett APT-baserat skal bör du istället använda B<apt-cache show> "
+"I<paketnamn>, då I<available>-filen endast àjourförs om B<dselect> används."
 
 #. type: TP
 #: dpkg-query.1:122
@@ -11698,41 +11360,7 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-query.1:182
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    B<Architecture>\n"
-#| "    B<Bugs>\n"
-#| "    B<Conffiles> (internal)\n"
-#| "    B<Config-Version> (internal)\n"
-#| "    B<Conflicts>\n"
-#| "    B<Breaks>\n"
-#| "    B<Depends>\n"
-#| "    B<Description>\n"
-#| "    B<Enhances>\n"
-#| "    B<Essential>\n"
-#| "    B<Filename> (internal, dselect related)\n"
-#| "    B<Homepage>\n"
-#| "    B<Installed-Size>\n"
-#| "    B<MD5sum> (internal, dselect related)\n"
-#| "    B<MSDOS-Filename> (internal, dselect related)\n"
-#| "    B<Maintainer>\n"
-#| "    B<Origin>\n"
-#| "    B<Package>\n"
-#| "    B<Pre-Depends>\n"
-#| "    B<Priority>\n"
-#| "    B<Provides>\n"
-#| "    B<Recommends>\n"
-#| "    B<Replaces>\n"
-#| "    B<Revision> (obsolete)\n"
-#| "    B<Section>\n"
-#| "    B<Size> (internal, dselect related)\n"
-#| "    B<Source>\n"
-#| "    B<Status> (internal)\n"
-#| "    B<Suggests>\n"
-#| "    B<Tag> (usually not in the .deb but in APT's Packages files)\n"
-#| "    B<Triggers-Awaited> (internal)\n"
-#| "    B<Triggers-Pending> (internal)\n"
-#| "    B<Version>\n"
+#, no-wrap
 msgid ""
 "    B<Architecture>\n"
 "    B<Bugs>\n"
@@ -11778,11 +11406,11 @@ msgstr ""
 "    B<Description>\n"
 "    B<Enhances>\n"
 "    B<Essential>\n"
-"    B<Filename> (internt, dselect-relaterat)\n"
+"    B<Filename> (internt, skalrelaterat)\n"
 "    B<Homepage>\n"
 "    B<Installed-Size>\n"
-"    B<MD5sum> (internt, dselect-relaterat)\n"
-"    B<MSDOS-Filename> (internt, dselect-relaterat)\n"
+"    B<MD5sum> (internt, skalrelaterat)\n"
+"    B<MSDOS-Filename> (internt, skalrelaterat)\n"
 "    B<Maintainer>\n"
 "    B<Origin>\n"
 "    B<Package>\n"
@@ -11793,11 +11421,11 @@ msgstr ""
 "    B<Replaces>\n"
 "    B<Revision> (föråldrat)\n"
 "    B<Section>\n"
-"    B<Size>  (internt, dselect-relaterat)\n"
+"    B<Size>  (internt, skalrelaterat)\n"
 "    B<Source>\n"
 "    B<Status> (internt)\n"
 "    B<Suggests>\n"
-"    B<Tag> (normalt inte i .deb, utan i APTs Packages-filer)\n"
+"    B<Tag> (normalt inte i .deb, utan i arkivets Packages-filer)\n"
 "    B<Triggers-Awaited> (internt)    B<Triggers-Pending> (internt)    B<Version>\n"
 
 #. type: Plain text
@@ -11833,7 +11461,7 @@ msgstr "RETURVÄRDE"
 #: start-stop-daemon.8:289 update-alternatives.8:375
 #, no-wrap
 msgid "B<0>"
-msgstr ""
+msgstr "B<0>"
 
 #. type: Plain text
 #: dpkg-query.1:199
@@ -11845,7 +11473,7 @@ msgstr "Den önskade frågan utfördes utan fel."
 #: start-stop-daemon.8:292
 #, no-wrap
 msgid "B<1>"
-msgstr ""
+msgstr "B<1>"
 
 #. type: Plain text
 #: dpkg-query.1:203
@@ -11884,15 +11512,11 @@ msgstr "dpkg-scanpackages - skapar indexfilerna Packages"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:26
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-scanpackages> [I<options>] I<binary-dir> [I<override-file> [I<path-"
-#| "prefix>]] B<E<gt>> I<Packages>"
 msgid ""
 "B<dpkg-scanpackages> [I<option>...] I<binary-dir> [I<override-file> [I<path-"
 "prefix>]] B<E<gt>> I<Packages>"
 msgstr ""
-"B<dpkg-scanpackages> [I<flaggor>] I<binärkatalog> [I<överstyrningsfil> "
+"B<dpkg-scanpackages> [I<flagga>...] I<binärkatalog> [I<överstyrningsfil> "
 "[I<sökvägsprefix>]] B<E<gt>> I<Packages>"
 
 #. type: Plain text
@@ -12091,15 +11715,11 @@ msgstr "dpkg-scansources - skapar indexfilerna Sources"
 
 #. type: Plain text
 #: dpkg-scansources.1:12
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-scansources> [I<options>] I<binary-dir> [I<override-file> [I<path-"
-#| "prefix>]] B<E<gt>> I<Sources>"
 msgid ""
 "B<dpkg-scansources> [I<option>...] I<binary-dir> [I<override-file> [I<path-"
 "prefix>]] B<E<gt>> I<Sources>"
 msgstr ""
-"B<dpkg-scansources> [I<flaggor>] I<binärkatalog> [I<överstyrningsfil> "
+"B<dpkg-scansources> [I<flagga>...] I<binärkatalog> [I<överstyrningsfil> "
 "[I<sökvägsprefix>]] B<E<gt>> I<Sources>"
 
 #. type: Plain text
@@ -12240,23 +11860,11 @@ msgstr "dpkg-shlibdeps - skapar substvar-beroenden för delade bibliotek"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:8
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-shlibdeps> [I<options>] I<executable>|B<-e>I<executable> "
-#| "[I<options>]"
 msgid "B<dpkg-shlibdeps> [I<option>...] [B<-e>]I<executable> [I<option>...]"
-msgstr ""
-"B<dpkg-shlibdeps> [I<flaggor>] I<programfil>|B<-e>I<programfil> [I<flaggor>]"
+msgstr "B<dpkg-shlibdeps> [I<flagga>...] [B<-e>]I<programfil> [I<flagga>...]"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:22
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-shlibdeps> calculates shared library dependencies for executables "
-#| "named in its arguments. The dependencies are added to the substitution "
-#| "variables file B<debian/substvars> as variable names B<shlibs:"
-#| ">I<dependencyfield> where I<dependencyfield> is a dependency field name. "
-#| "Any other variables starting I<shlibs:> are removed from the file."
 msgid ""
 "B<dpkg-shlibdeps> calculates shared library dependencies for executables "
 "named in its arguments. The dependencies are added to the substitution "
@@ -12365,20 +11973,16 @@ msgstr ""
 #: dpkg-shlibdeps.1:63
 #, no-wrap
 msgid "Output from \\(lqB<dpkg-query --control-path> I<package> symbols\\(rq"
-msgstr ""
+msgstr "Utdata från \\(rqB<dpkg-query --control-path> I<package> symbols\\(rq"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:66 dpkg-shlibdeps.1:100
-#, fuzzy
-#| msgid ""
-#| "Package-provided shared library dependency information.  Unless "
-#| "overridden, I<admindir> is /var/lib/dpkg."
 msgid ""
 "Package-provided shared library dependency information.  Unless overridden "
 "by --admindir, those files are located in /var/lib/dpkg."
 msgstr ""
-"Paketlokal överstyrande beroendeinformation för delade bibliotek. Normalt är "
-"I<adminkat> /var/lib/dpkg."
+"Paketlokal överstyrande beroendeinformation för delade bibliotek. Filerna "
+"befinner sig i /var/lib/dpkg om inte överstyrt med --admindir."
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:73
@@ -12480,7 +12084,7 @@ msgstr ""
 #: dpkg-shlibdeps.1:97
 #, no-wrap
 msgid "Output from \\(lqB<dpkg-query --control-path> I<package> shlibs\\(rq"
-msgstr ""
+msgstr "Utdata från \\(rqB<dpkg-query --control-path> I<package> shlibs\\(rq"
 
 #. type: IP
 #: dpkg-shlibdeps.1:100
@@ -13003,10 +12607,9 @@ msgstr "dpkg-source"
 
 #. type: TH
 #: dpkg-source.1:2
-#, fuzzy, no-wrap
-#| msgid "2010-03-07"
+#, no-wrap
 msgid "2011-07-12"
-msgstr "2010-03-07"
+msgstr "2011-07-12"
 
 #. type: Plain text
 #: dpkg-source.1:5
@@ -13015,10 +12618,8 @@ msgstr "dpkg-source - Verktyg för att manipulera Debiankällkodspaket (.dsc)"
 
 #. type: Plain text
 #: dpkg-source.1:9
-#, fuzzy
-#| msgid "B<dpkg-source> [I<options>] I<command>"
 msgid "B<dpkg-source> [I<option>...] I<command>"
-msgstr "B<dpkg-source> [I<flaggor>] I<åtgärd>"
+msgstr "B<dpkg-source> [I<flagga>...] I<åtgärd>"
 
 #. type: Plain text
 #: dpkg-source.1:13
@@ -13121,15 +12722,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:65
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-source> will build the source package with the first format found "
-#| "in this ordered list: the format indicated with the I<--format> command-"
-#| "line option, the format indicated in B<debian/source/format>, \"1.0\". "
-#| "The fallback to \"1.0\" is deprecated and will be removed at some point "
-#| "in the future, you should always document the desired source format in "
-#| "B<debian/source/format>. See section B<SOURCE PACKAGE FORMATS> for an "
-#| "extensive description of the various source package formats."
 msgid ""
 "B<dpkg-source> will build the source package with the first format found in "
 "this ordered list: the format indicated with the I<--format> command line "
@@ -13172,14 +12764,6 @@ msgstr "B<--before-build> I<katalog>"
 
 #. type: Plain text
 #: dpkg-source.1:81
-#, fuzzy
-#| msgid ""
-#| "This command should be called before any build of the package (B<dpkg-"
-#| "buildpackage> calls it very early even before B<debian/rules clean>). "
-#| "This command should be idempotent and can be called multiple times. Not "
-#| "all source formats implement something in this hook, and those that do "
-#| "usually prepare the source tree for the build for example by ensuring "
-#| "that the Debian patches are applied."
 msgid ""
 "Run the corresponding hook of the source package format. This hook is called "
 "before any build of the package (B<dpkg-buildpackage> calls it very early "
@@ -13188,12 +12772,12 @@ msgid ""
 "hook, and those that do usually prepare the source tree for the build for "
 "example by ensuring that the Debian patches are applied."
 msgstr ""
-"Kommandot bör anropas innan paketet byggs (B<dpkg-buildpakcage> anropar det "
-"väldigt tidigt, till och med före B<debian/rules clean>). Kommandot bör vara "
-"idempotent och kunna anropas flera gånger. Det är inte alla källkodsformat "
-"som implementerar något i den här kroken, och de som gör det förbereder "
-"oftast källkodsträdet för att byggas, till exempel genom att se till att "
-"Debianpatchar har applicerats."
+"Kör motsvarande krok för källkodspaketformatet. Kroken anropas innan något "
+"från paketet byggs (B<dpkg-buildpakcage> anropar det väldigt tidigt, till "
+"och med före B<debian/rules clean>). Kommandot är idempotent och kan anropas "
+"flera gånger. Det är inte alla källkodsformat som implementerar något i den "
+"här kroken, och de som gör det förbereder oftast källkodsträdet för att "
+"byggas, till exempel genom att se till att Debianpatchar har applicerats."
 
 #. type: TP
 #: dpkg-source.1:82
@@ -13203,13 +12787,6 @@ msgstr "B<--after-build> I<katalog>"
 
 #. type: Plain text
 #: dpkg-source.1:89
-#, fuzzy
-#| msgid ""
-#| "This command should be called after any build of the package (B<dpkg-"
-#| "buildpackage> calls it last). This command should be idempotent and can "
-#| "be called multiple times. Not all source formats implement something in "
-#| "this hook, and those that do usually use it to undo what B<--before-"
-#| "build> has done."
 msgid ""
 "Run the corresponding hook of the source package format. This hook is called "
 "after any build of the package (B<dpkg-buildpackage> calls it last). This "
@@ -13217,18 +12794,17 @@ msgid ""
 "formats implement something in this hook, and those that do usually use it "
 "to undo what B<--before-build> has done."
 msgstr ""
-"Kommandot bör anropas efter paketet har byggts (B<dpkg-buildpackage> anropar "
-"det sist). Kommandot bör vara idempotent och kunna anropas flera gånger. Det "
-"är inte alla källkodsformat som implementerar något i den här kroken, och de "
-"som gör det använder den normalt för att återställa det som B<--before-"
-"build> har gjort."
+"Kör motsvarande krok för källkodspaketformatet. Kroken anropas efter att "
+"allt från paketet byggts (B<dpkg-buildpakcage> anropar det sist). Kommandot "
+"är idempotent och kan anropas flera gånger. Det är inte alla källkodsformat "
+"som implementerar något i den här kroken, och de som gör det använder den "
+"normalt för att återställa det som B<--before-build> har gjort."
 
 #. type: TP
 #: dpkg-source.1:90
-#, fuzzy, no-wrap
-#| msgid "B<--print-format> I<directory>"
+#, no-wrap
 msgid "B<--commit> [I<directory>] ..."
-msgstr "B<--print-format> I<katalog>"
+msgstr "B<--commit> [I<katalog>] ..."
 
 #. type: Plain text
 #: dpkg-source.1:95
@@ -13237,6 +12813,9 @@ msgid ""
 "take supplementary parameters depending on the source format.  It will error "
 "out for formats where this operation doesn't mean anything."
 msgstr ""
+"Spara ändringar i källkodsträdet som har packats upp i I<katalog>. Kommandot "
+"kan ta ytterligare parametrar beroende på källkodsformatet. Ett fel kommer "
+"rapporteras för format där operationen inte har någon betydelse."
 
 #. type: SH
 #: dpkg-source.1:103
@@ -13391,13 +12970,6 @@ msgstr "B<--extend-diff-ignore>=I<reg.uttr>"
 
 #. type: Plain text
 #: dpkg-source.1:186
-#, fuzzy
-#| msgid ""
-#| "The perl regular expression specified will extend the default regular "
-#| "expression associated to B<-i> by concatenating \"B<|>I<regexp>\" to the "
-#| "default regexp.  This option is convenient to use in B<debian/source/"
-#| "options> to exclude some auto-generated files from the automatic patch "
-#| "generation."
 msgid ""
 "The perl regular expression specified will extend the default value of B<--"
 "diff-ignore> and its current value (if set). It does this by concatenating "
@@ -13405,10 +12977,11 @@ msgid ""
 "in B<debian/source/options> to exclude some auto-generated files from the "
 "automatic patch generation."
 msgstr ""
-"Det reguljära uttrycket i perlformat som angavs utökar standarduttrycket för "
-"B<-i> genom att lägga till \"B<|>I<reg.uttry>\" efter standarduttrycket. "
-"Flaggan är nyttig för B<debian/source/options> för att exkludera en del "
-"automatiskt genererade filer från skapandet av automatiska patchar."
+"Det reguljära uttrycket i perlformat som angavs utökar standardvärdet för "
+"B<--diff-ignore> och dess nuvarande värde (om satt). Det gör så genom att "
+"lägga till \"B<|>I<reg.uttry>\" efter standarduttrycket. Flaggan är nyttig "
+"för B<debian/source/options> för att exkludera en del automatiskt genererade "
+"filer från skapandet av automatiska patchar."
 
 #. type: TP
 #: dpkg-source.1:186
@@ -14363,10 +13936,15 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:571
+#, fuzzy
+#| msgid ""
+#| "All non-option arguments are taken as files to integrate in the generated "
+#| "source package. They must exist and are preferrably in the current "
+#| "directory. At least one file must be given."
 msgid ""
 "All non-option arguments are taken as files to integrate in the generated "
-"source package. They must exist and are preferably in the current "
-"directory. At least one file must be given."
+"source package. They must exist and are preferably in the current directory. "
+"At least one file must be given."
 msgstr ""
 "Alla argument som inte är flaggor tas som filer som skall integreras i det "
 "skapade källkodspaketet. De måste finnas, och helst i aktuell katalog. "
@@ -17469,6 +17047,12 @@ msgstr ""
 "B<OBSERVERA:> Funktionen kanske inte alltid fungerar. Framförallt inte när "
 "programmet som startas förgrenar sig (fork) från sin huvudprocess. Därför är "
 "flaggan oftast bara användbar i samband med flaggan B<--background>."
+
+#. type: TP
+#: start-stop-daemon.8:255
+#, no-wrap
+msgid "B<-v>, B<--verbose>"
+msgstr "B<-v>, B<--verbose>"
 
 #. type: Plain text
 #: start-stop-daemon.8:258
