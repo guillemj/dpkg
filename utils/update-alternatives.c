@@ -2147,15 +2147,15 @@ alternative_check_install_args(struct alternative *inst_alt,
 		found = alternative_map_find(alt_map_parent, sl->name);
 		if (found &&
 		    strcmp(found->master_name, inst_alt->master_name) != 0) {
-			char *msg;
-
 			if (strcmp(found->master_name, sl->name) == 0)
-				msg = _("it is a master alternative.");
+				error(_("alternative %s can't be slave of %s: "
+				        "it is a master alternative."),
+				      sl->name, inst_alt->master_name);
 			else
-				xasprintf(&msg, _("it is a slave of %s"),
-				          found->master_name);
-			error(_("alternative %s can't be slave of %s: %s"),
-			      sl->name, inst_alt->master_name, msg);
+				error(_("alternative %s can't be slave of %s: "
+				        "it is a slave of %s"),
+				      sl->name, inst_alt->master_name,
+				      found->master_name);
 		}
 
 		found = alternative_map_find(alt_map_links, sl->link);
