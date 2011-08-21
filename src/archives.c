@@ -764,7 +764,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     varbuf_add_char(&hardlinkfn, '/');
     linknode = findnamenode(ti->linkname, 0);
     varbuf_add_str(&hardlinkfn, namenodetouse(linknode, tc->pkg)->name);
-    if (linknode->flags & fnnf_deferred_rename)
+    if (linknode->flags & (fnnf_deferred_rename|fnnf_new_conff))
       varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
     varbuf_end_str(&hardlinkfn);
     if (link(hardlinkfn.buf,fnamenewvb.buf))
