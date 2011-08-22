@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2011-08-02 16:42+0000\n"
-"PO-Revision-Date: 2011-08-03 21:19+0200\n"
+"POT-Creation-Date: 2011-08-22 17:36+0000\n"
+"PO-Revision-Date: 2011-08-22 20:25+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -23,10 +23,17 @@ msgid "deb"
 msgstr "deb"
 
 #. type: TH
-#: deb.5:1
+#: deb.5:1 deb-control.5:3 deb-src-control.5:3 deb-version.5:5 deb-old.5:1
+#: deb-override.5:15 deb-symbols.5:2 deb-triggers.5:1 dpkg.1:1
+#: dpkg-architecture.1:1 dpkg-buildflags.1:1 dpkg-buildpackage.1:1
+#: dpkg-deb.1:1 dpkg-divert.8:1 dpkg-genchanges.1:1 dpkg-gencontrol.1:1
+#: dpkg-gensymbols.1:2 dpkg-maintscript-helper.1:1 dpkg-mergechangelogs.1:1
+#: dpkg-name.1:6 dpkg-parsechangelog.1:1 dpkg-query.1:1 dpkg-scanpackages.1:15
+#: dpkg-scansources.1:1 dpkg-shlibdeps.1:1 dpkg-source.1:2 dpkg-trigger.1:1
+#: dselect.1:1 update-alternatives.8:8
 #, no-wrap
-msgid "2009-02-27"
-msgstr "2009-02-27"
+msgid "2011-08-14"
+msgstr "2011-08-14"
 
 #. type: TH
 #: deb.5:1 deb-control.5:3 deb-src-control.5:3 deb-split.5:1 deb-version.5:5
@@ -280,19 +287,6 @@ msgstr "B<deb-old>(5), B<dpkg-deb>(1), B<deb-control>(5)."
 #, no-wrap
 msgid "deb-control"
 msgstr "deb-control"
-
-#. type: TH
-#: deb-control.5:3 deb-split.5:1 deb-version.5:5 dpkg-architecture.1:1
-#: dpkg-buildpackage.1:1 dpkg-checkbuilddeps.1:1 dpkg-distaddfile.1:1
-#: dpkg-deb.1:1 dpkg-divert.8:1 dpkg-genchanges.1:1 dpkg-gencontrol.1:1
-#: dpkg-gensymbols.1:2 dpkg-maintscript-helper.1:1 dpkg-name.1:6
-#: dpkg-parsechangelog.1:1 dpkg-query.1:1 dpkg-scanpackages.1:15
-#: dpkg-scansources.1:1 dpkg-shlibdeps.1:1 dpkg-split.1:2
-#: dpkg-statoverride.8:1 dpkg-vendor.1:1 dselect.1:1 start-stop-daemon.8:1
-#: update-alternatives.8:8
-#, no-wrap
-msgid "2011-07-04"
-msgstr "2011-07-04"
 
 #. type: Plain text
 #: deb-control.5:6
@@ -944,12 +938,6 @@ msgstr ""
 msgid "deb-src-control"
 msgstr "deb-src-control"
 
-#. type: TH
-#: deb-src-control.5:3
-#, no-wrap
-msgid "2011-04-29"
-msgstr "2011-04-29"
-
 #. type: Plain text
 #: deb-src-control.5:6
 msgid "deb-src-control - Debian source packages' master control file format"
@@ -1457,7 +1445,7 @@ msgid ""
 "Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git\n"
 "Standards-Version: 3.7.3\n"
 "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
-" libselinux1-dev (E<gt>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]\n"
+" libselinux1-dev (E<gt>= 1.28-4) [!linux-any]\n"
 msgstr ""
 "# Kommentar\n"
 "Source: dpkg\n"
@@ -1471,7 +1459,7 @@ msgstr ""
 "Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git\n"
 "Standards-Version: 3.7.3\n"
 "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
-" libselinux1-dev (E<gt>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]\n"
+" libselinux1-dev (E<gt>= 1.28-4) [!linux-any]\n"
 
 #. type: Plain text
 #: deb-src-control.5:323
@@ -1483,8 +1471,8 @@ msgid ""
 "Architecture: all\n"
 "# this is a custom field in the binary package\n"
 "XB-Mentoring-Contact: Raphael Hertzog E<lt>hertzog@debian.orgE<gt>\n"
-"Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2), bzip2, lzma,\n"
-" patch (E<gt>= 2.2-1), make, binutils, libtimedate-perl\n"
+"Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2),\n"
+" bzip2, lzma, patch (E<gt>= 2.2-1), make, binutils, libtimedate-perl\n"
 "Recommends: gcc | c-compiler, build-essential\n"
 "Suggests: gnupg, debian-keyring\n"
 "Conflicts: dpkg-cross (E<lt>E<lt> 2.0.0), devscripts (E<lt>E<lt> 2.10.26)\n"
@@ -1502,8 +1490,8 @@ msgstr ""
 "Architecture: all\n"
 "# dies ist ein spezielles Feld im Binärpaket\n"
 "XB-Mentoring-Contact: Raphael Hertzog E<lt>hertzog@debian.orgE<gt>\n"
-"Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2), bzip2, lzma,\n"
-" patch (E<gt>= 2.2-1), make, binutils, libtimedate-perl\n"
+"Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2),\n"
+" bzip2, lzma, patch (E<gt>= 2.2-1), make, binutils, libtimedate-perl\n"
 "Recommends: gcc | c-compiler, build-essential\n"
 "Suggests: gnupg, debian-keyring\n"
 "Conflicts: dpkg-cross (E<lt>E<lt> 2.0.0), devscripts (E<lt>E<lt> 2.10.26)\n"
@@ -1525,6 +1513,13 @@ msgstr "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
 #, no-wrap
 msgid "deb-split"
 msgstr "deb-split"
+
+#. type: TH
+#: deb-split.5:1 dpkg-checkbuilddeps.1:1 dpkg-distaddfile.1:1 dpkg-split.1:2
+#: dpkg-statoverride.8:1 dpkg-vendor.1:1 start-stop-daemon.8:1
+#, no-wrap
+msgid "2011-07-04"
+msgstr "2011-07-04"
 
 #. type: Plain text
 #: deb-split.5:4
@@ -1974,12 +1969,6 @@ msgstr ""
 msgid "deb-old"
 msgstr "deb-old"
 
-#. type: TH
-#: deb-old.5:1
-#, no-wrap
-msgid "2006-02-28"
-msgstr "2006-02-28"
-
 #. type: Plain text
 #: deb-old.5:4
 msgid "deb-old - old style Debian binary package format"
@@ -2077,12 +2066,6 @@ msgstr "B<deb>(5), B<dpkg-deb>(1), B<deb-control>(5)."
 #, no-wrap
 msgid "deb-override"
 msgstr "deb-override"
-
-#. type: TH
-#: deb-override.5:15
-#, no-wrap
-msgid "2007-03-07"
-msgstr "2007-03-07"
 
 #. type: TH
 #: deb-override.5:15 deb-extra-override.5:1 deb-shlibs.5:16 deb-substvars.5:2
@@ -2781,12 +2764,6 @@ msgstr "Copyright \\(co 2000 Wichert Akkerman"
 msgid "deb-symbols"
 msgstr "deb-symbols"
 
-#. type: TH
-#: deb-symbols.5:2
-#, no-wrap
-msgid "2007-07-16"
-msgstr "2007-07-16"
-
 #. type: Plain text
 #: deb-symbols.5:5
 msgid "deb-symbols - Debian's extended shared library information file"
@@ -2955,12 +2932,6 @@ msgstr "B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
 msgid "deb-triggers"
 msgstr "deb-triggers"
 
-#. type: TH
-#: deb-triggers.5:1 dpkg-trigger.1:1
-#, no-wrap
-msgid "2009-03-15"
-msgstr "2009-03-15"
-
 #. type: Plain text
 #: deb-triggers.5:4
 msgid "deb-triggers - package triggers"
@@ -3102,12 +3073,6 @@ msgstr ""
 #, no-wrap
 msgid "dpkg"
 msgstr "dpkg"
-
-#. type: TH
-#: dpkg.1:1
-#, no-wrap
-msgid "2011-04-27"
-msgstr "2011-04-27"
 
 #. type: TH
 #: dpkg.1:1 dpkg.cfg.5:1 dpkg-buildflags.1:1 dpkg-deb.1:1
@@ -6318,12 +6283,6 @@ msgstr "B<dpkg>(1)."
 msgid "dpkg-buildflags"
 msgstr "dpkg-buildflags"
 
-#. type: TH
-#: dpkg-buildflags.1:1
-#, no-wrap
-msgid "2011-07-07"
-msgstr "2011-07-07"
-
 #. type: Plain text
 #: dpkg-buildflags.1:4
 msgid "dpkg-buildflags - returns build flags to use during package build"
@@ -6536,13 +6495,11 @@ msgstr ""
 "Auf der Standardausgabe Shell- (falls I<Format> B<sh> ist) oder Make- (falls "
 "I<Format> B<make> ist) Befehle ausgeben, die dazu verwandt werden können, "
 "alle Kompilierschalter in die Umgebung zu exportieren. Falls I<Format> "
-"B<configure> lautet, kann die Ausgabe für eine Kommandozeile von "
-"B<./configure> verwandt werden. "
-"Falls der Wert von "
-"I<Format> nicht angegeben wird, wird B<sh> angenommen. Nur "
-"Kompilierschalter, die mit einem Großbuchstaben beginnen, werden "
-"aufgenommen. Bei allen anderen wird angenommen, dass sie für die Umgebung "
-"nicht geeignet sind."
+"B<configure> lautet, kann die Ausgabe für eine Kommandozeile von B<./"
+"configure> verwandt werden. Falls der Wert von I<Format> nicht angegeben "
+"wird, wird B<sh> angenommen. Nur Kompilierschalter, die mit einem "
+"Großbuchstaben beginnen, werden aufgenommen. Bei allen anderen wird "
+"angenommen, dass sie für die Umgebung nicht geeignet sind."
 
 #. type: TP
 #: dpkg-buildflags.1:66
@@ -6733,11 +6690,11 @@ msgid ""
 "build flags."
 msgstr ""
 "Es gibt einen Satz von zwei Umgebungsvariablen, die den gleichen Vorgang "
-"durchführen. Der erste (DEB_I<Schalter>_I<Vorg>) sollte niemals innerhalb von "
-"B<debian/rules> verwandt werden. Er ist für Benutzer gedacht, die das "
+"durchführen. Der erste (DEB_I<Schalter>_I<Vorg>) sollte niemals innerhalb "
+"von B<debian/rules> verwandt werden. Er ist für Benutzer gedacht, die das "
 "Quellpaket mit anderen Bauschaltern erneut bauen möchten. Der zweite Satz "
-"(DEB_I<Schalter>_MAINT_I<Vorg>) sollte nur durch Paketbetreuer in "
-"B<debian/rules> verwandt werden, um die entstehenden Bauschalter zu ändern."
+"(DEB_I<Schalter>_MAINT_I<Vorg>) sollte nur durch Paketbetreuer in B<debian/"
+"rules> verwandt werden, um die entstehenden Bauschalter zu ändern."
 
 #. type: TP
 #: dpkg-buildflags.1:135
@@ -6935,9 +6892,9 @@ msgid ""
 msgstr ""
 "Es ruft B<debian/rules> B<build>, gefolgt von B<fakeroot debian/rules> "
 "I<Binärziel> auf (falls nicht ein reiner Quellbau mit B<-S> erbeten wurde). "
-"Beachten Sie, dass I<Binärziel> entweder B<binary> (Standardfall, oder "
-"falls B<-b> angegeben ist) oder B<binary-arch> (falls B<-B> angegeben ist) "
-"oder B<binary-indep> (falls B<-A> angegeben ist) lautet."
+"Beachten Sie, dass I<Binärziel> entweder B<binary> (Standardfall, oder falls "
+"B<-b> angegeben ist) oder B<binary-arch> (falls B<-B> angegeben ist) oder "
+"B<binary-indep> (falls B<-A> angegeben ist) lautet."
 
 #. type: IP
 #: dpkg-buildpackage.1:36
@@ -7952,8 +7909,8 @@ msgid ""
 "Is like B<--extract> (B<-x>)  with B<--verbose> (B<-v>)  which prints a "
 "listing of the files extracted as it goes."
 msgstr ""
-"Ist wie B<--extract> (B<-x>) mit B<--verbose> (B<-v>), das beim Arbeiten eine "
-"Liste von extrahierten Dateien ausgibt."
+"Ist wie B<--extract> (B<-x>) mit B<--verbose> (B<-v>), das beim Arbeiten "
+"eine Liste von extrahierten Dateien ausgibt."
 
 #. type: TP
 #: dpkg-deb.1:145
@@ -8070,11 +8027,12 @@ msgstr "B<-z>I<Komprimierstufe>"
 #. type: Plain text
 #: dpkg-deb.1:200
 msgid ""
-"Specify which compression level to pass to the compressor backend program, "
-"when building a package."
+"Specify which compression level to use on the compressor backend, when "
+"building a package (default is 9 for gzip and bzip2, 6 for xz and lzma)."
 msgstr ""
-"Gibt die Komprimierstufe an, die an das Komprimier-Backendprogramm beim Bau "
-"eines Pakets übergeben werden soll."
+"Gibt die Komprimierstufe an, die im Komprimier-Backendprogramm beim Bau "
+"eines Pakets verwendet werden soll. Standardmäßig ist dies 9 für Gzip und "
+"Bzip2, 6 für Xz und Lzma."
 
 #. type: TP
 #: dpkg-deb.1:200
@@ -10671,12 +10629,6 @@ msgstr "Copyright \\(co 2005 Scott James Remnant"
 msgid "dpkg-mergechangelogs"
 msgstr "dpkg-mergechangelogs"
 
-#. type: TH
-#: dpkg-mergechangelogs.1:1
-#, no-wrap
-msgid "2010-04-18"
-msgstr "2010-04-18"
-
 #. type: Plain text
 #: dpkg-mergechangelogs.1:4
 msgid "dpkg-mergechangelogs - 3-way merge of debian/changelog files"
@@ -12848,8 +12800,8 @@ msgid ""
 "LD_LIBRARY_PATH environment variable, and standard public directories (/"
 "lib, /usr/lib, /lib32, /usr/lib32, /lib64, /usr/lib64). Then it checks those "
 "directories in the package's build tree of the binary being analyzed, in the "
-"packages's build trees indicated with the -S command-line option, in other "
-"packages's build trees that contains a DEBIAN/shlibs or DEBIAN/symbols file "
+"packages' build trees indicated with the -S command-line option, in other "
+"packages' build trees that contains a DEBIAN/shlibs or DEBIAN/symbols file "
 "and finally in the root directory.  If the library is not found in any of "
 "those directories, then you get this error."
 msgstr ""
@@ -12961,12 +12913,6 @@ msgstr "Copyright \\(co 2006 Frank Lichtenheld"
 #, no-wrap
 msgid "dpkg-source"
 msgstr "dpkg-source"
-
-#. type: TH
-#: dpkg-source.1:2
-#, no-wrap
-msgid "2011-07-12"
-msgstr "2011-07-12"
 
 #. type: Plain text
 #: dpkg-source.1:5
@@ -13177,8 +13123,8 @@ msgid ""
 "out for formats where this operation doesn't mean anything."
 msgstr ""
 "Zeichnet Änderungen am in I<Verzeichnis> entpackten Quellbaum auf. Dieser "
-"Befehl kann zusätzliche Parameter akzeptieren, abhängig vom Quellformat. "
-"Er wird zu einer Fehlermeldung bei Formaten, für denen dieser Vorgang keine "
+"Befehl kann zusätzliche Parameter akzeptieren, abhängig vom Quellformat. Er "
+"wird zu einer Fehlermeldung bei Formaten, für denen dieser Vorgang keine "
 "Bedeutung hat, führen."
 
 #. type: SH
@@ -13268,12 +13214,13 @@ msgstr "B<-z>I<Stufe>, B<--compression-level>=I<Stufe>"
 #: dpkg-source.1:157
 msgid ""
 "Compression level to use. As with B<-Z> it only affects newly created files. "
-"Supported values are: I<1> to I<9>, I<best>, and I<fast>.  I<9> is the "
-"default."
+"Supported values are: I<1> to I<9>, I<best>, and I<fast>.  The default is "
+"I<9> for gzip and bzip2, I<6> for xz and lzma."
 msgstr ""
 "Zu verwendende Komprimierstufe. Wie bei B<-Z> betrifft dies nur neu "
 "angelegte Dateien. Unterstützte Werte sind I<1> bis I<9>, I<best> (am "
-"besten) und I<fast> (schnell). I<9> ist voreingestellt."
+"besten) und I<fast> (schnell). Der Standardwert ist I<9> für Gzip und Bzip2, "
+"I<6> für Xz und Lzma."
 
 #. type: TP
 #: dpkg-source.1:157
@@ -13968,9 +13915,9 @@ msgstr ""
 "Quellpaketverzeichnis verglichen. Wenn der Diff nicht leer ist, schlägt der "
 "Bau fehl, falls nicht B<--single-debian-patch> oder B<--auto-commit> "
 "verwandt wurde. In letzterem Fall wird der Diff als automatischer Patch "
-"gespeichert. Falls der automatische Patch erzeugt/"
-"gelöscht wird, wird er zu der Datei series und den Quilt-Metadaten "
-"hinzugefügt bzw. aus diesen gelöscht."
+"gespeichert. Falls der automatische Patch erzeugt/gelöscht wird, wird er zu "
+"der Datei series und den Quilt-Metadaten hinzugefügt bzw. aus diesen "
+"gelöscht."
 
 #. type: Plain text
 #: dpkg-source.1:459
@@ -14288,8 +14235,8 @@ msgstr ""
 #: dpkg-source.1:571
 msgid ""
 "All non-option arguments are taken as files to integrate in the generated "
-"source package. They must exist and are preferably in the current "
-"directory. At least one file must be given."
+"source package. They must exist and are preferably in the current directory. "
+"At least one file must be given."
 msgstr ""
 "Alle Argumente, die keine Optionen sind, werden als Dateien verstanden, die "
 "in das generierte Quellpaket integriert werden sollen. Sie müssen existieren "
@@ -15540,7 +15487,7 @@ msgid "Just test, do not actually change anything."
 msgstr "Nur testen, nichts tatsächlich ändern."
 
 #. type: Plain text
-#: dpkg-trigger.1:68
+#: dpkg-trigger.1:69
 msgid ""
 "B<dpkg>(1), B<deb-triggers>(5), B</usr/share/doc/dpkg-dev/triggers.txt.gz>."
 msgstr ""
@@ -15738,13 +15685,13 @@ msgstr ""
 msgid ""
 "All options can be specified both on the command line and in the B<dselect> "
 "configuration file I</etc/dpkg/dselect.cfg> or the files on the "
-"configuration directory I</etc/dpkg/dpkg.cfg.d/>. Each line in the "
+"configuration directory I</etc/dpkg/dselect.cfg.d/>. Each line in the "
 "configuration file is either an option (exactly the same as the command line "
 "option but without leading dashes) or a comment (if it starts with a B<#>)."
 msgstr ""
 "Alle Optionen können sowohl auf der Kommandozeile als auch in der "
 "Konfigurationsdatei I</etc/dpkg/dselect.cfg> oder in den Dateien im "
-"Konfigurationsverzeichnis I</etc/dpkg/dpkg.cfg.d/> von B<dselect> angegeben "
+"Konfigurationsverzeichnis I</etc/dpkg/dselect.cfg.d/> von B<dselect> angegeben "
 "werden. Jede Zeile in der Konfigurationsdatei ist entweder eine Option "
 "(exakt identisch mit der Kommandozeilenoption, nur ohne einleitende "
 "Gedankenstriche) oder ein Kommentar (falls sie mit B<#> beginnt)."
@@ -18592,6 +18539,36 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "2009-02-27"
+#~ msgstr "2009-02-27"
+
+#~ msgid "2011-04-29"
+#~ msgstr "2011-04-29"
+
+#~ msgid "2006-02-28"
+#~ msgstr "2006-02-28"
+
+#~ msgid "2007-03-07"
+#~ msgstr "2007-03-07"
+
+#~ msgid "2007-07-16"
+#~ msgstr "2007-07-16"
+
+#~ msgid "2009-03-15"
+#~ msgstr "2009-03-15"
+
+#~ msgid "2011-04-27"
+#~ msgstr "2011-04-27"
+
+#~ msgid "2011-07-07"
+#~ msgstr "2011-07-07"
+
+#~ msgid "2010-04-18"
+#~ msgstr "2010-04-18"
+
+#~ msgid "2011-07-12"
+#~ msgstr "2011-07-12"
 
 #~ msgid "B<Build-Features:>I< features-list>"
 #~ msgstr "B<Build-Features:> I< Funktionalitätsliste>"
