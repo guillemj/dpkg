@@ -4,6 +4,10 @@ TESTS_DEB := $(PKG)
 
 include ../Test.mk
 
+$(PKG)/test-conffile-link0:
+	echo "test hard linked conffile" >$@
+	link $@ $(PKG)/test-conffile-link1
+
 $(PKG)/test-file-link0:
 	echo "test hard linked file" >$@
 	link $@ $(PKG)/test-file-link1
@@ -20,10 +24,12 @@ $(PKG)/test-ram0-link0:
 	$(BEROOT) mknod $@ b 1 0
 	link $@ $(PKG)/test-ram0-link1
 
-build-hook: $(PKG)/test-file-link0 $(PKG)/test-fifo-link0 \
+build-hook: $(PKG)/test-conffile-link0 \
+            $(PKG)/test-file-link0 $(PKG)/test-fifo-link0 \
             $(PKG)/test-null-link0 $(PKG)/test-ram0-link0
 
 clean-hook:
+	rm -f $(PKG)/test-conffile-link0 $(PKG)/test-conffile-link1
 	rm -f $(PKG)/test-file-link0 $(PKG)/test-file-link1
 	rm -f $(PKG)/test-fifo-link0 $(PKG)/test-fifo-link1
 	rm -f $(PKG)/test-null-link0 $(PKG)/test-null-link1
