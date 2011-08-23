@@ -389,7 +389,7 @@ sub register_patch {
             erasedir(File::Spec->catdir($dir, ".pc", $patch_name));
         }
         # Clean up empty series
-        unlink($series) if not -s $series;
+        unlink($series) if -z $series;
     }
     return $patch;
 }
