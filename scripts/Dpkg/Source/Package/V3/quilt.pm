@@ -54,6 +54,8 @@ sub parse_cmdline_option {
     return 1 if $self->SUPER::parse_cmdline_option($opt);
     if ($opt =~ /^--single-debian-patch$/) {
         $self->{'options'}{'single-debian-patch'} = 1;
+        # For backwards compatibility.
+        $self->{'options'}{'auto_commit'} = 1;
         return 1;
     } elsif ($opt =~ /^--allow-version-of-quilt-db=(.*)$/) {
         push @{$self->{'options'}{'allow-version-of-quilt-db'}}, $1;
