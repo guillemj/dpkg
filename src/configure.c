@@ -375,7 +375,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 {
 	static struct varbuf target = VARBUF_INIT;
 	struct stat stab;
-	int r;
+	ssize_t r;
 	int loopprotect;
 
 	varbuf_reset(result);
@@ -424,7 +424,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			varbuf_end_str(&target);
 
 			debug(dbg_conffdetail,
-			      "conffderef readlink gave %d, '%s'",
+			      "conffderef readlink gave %zd, '%s'",
 			      r, target.buf);
 
 			if (target.buf[0] == '/') {
