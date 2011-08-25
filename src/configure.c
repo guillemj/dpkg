@@ -418,8 +418,12 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				          " (= '%s'): %s"),
 				        pkg->name, in, result->buf, strerror(errno));
 				return -1;
+			} else if (r != stab.st_size) {
+				warning(_("symbolic link '%.250s' size has "
+				          "changed from %jd to %zd"),
+				        result->buf, stab.st_size, r);
+				return -1;
 			}
-			assert(r == stab.st_size); /* XXX: debug */
 			varbuf_trunc(&target, r);
 			varbuf_end_str(&target);
 

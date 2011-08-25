@@ -830,7 +830,9 @@ tarobject(void *ctx, struct tar_entry *ti)
       r = readlink(fnamevb.buf, symlinkfn.buf, symlinkfn.size);
       if (r < 0)
         ohshite(_("unable to read link `%.255s'"), ti->name);
-      assert(r == stab.st_size);
+      else if (r != stab.st_size)
+        ohshit(_("symbolic link '%.250s' size has changed from %jd to %zd"),
+               fnamevb.buf, stab.st_size, r);
       varbuf_trunc(&symlinkfn, r);
       varbuf_end_str(&symlinkfn);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
