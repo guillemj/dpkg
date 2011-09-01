@@ -104,7 +104,7 @@ void checkpath(void) {
 
   path_list = getenv("PATH");
   if (!path_list)
-    ohshit(_("error: PATH is not set."));
+    ohshit(_("PATH is not set."));
 
   for (prog = prog_list; *prog; prog++) {
     struct stat stab;
