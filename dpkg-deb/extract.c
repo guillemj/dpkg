@@ -313,7 +313,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
         }
       }
 
-      execlp(TAR, "tar", buffer, "-", NULL);
+      execlp(TAR, "tar", buffer, "-", "--warning=no-timestamp", NULL);
       ohshite(_("unable to execute %s (%s)"), "tar", TAR);
     }
     close(p2[0]);
