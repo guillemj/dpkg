@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-01 22:23+0300\n"
-"PO-Revision-Date: 2011-08-20 22:01+0100\n"
+"PO-Revision-Date: 2011-09-04 18:56+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -13562,7 +13562,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:451
-#, fuzzy
 #| msgid ""
 #| "All original tarballs found in the current directory are extracted in a "
 #| "temporary directory by following the same logic as for the unpack, the "
@@ -13590,9 +13589,11 @@ msgstr ""
 "kopieras över i den temporära katalogen och alla patchar, förutom den "
 "automatiska patchen (B<debian-changes>I<version> eller B<debian-changes>, "
 "beroende på B<--single-debian-patch>) tillämpas. Temporärkatalogen jämförs "
-"därefter mot källkodskatalogen och diffen (om den inte är tom) lagras i "
-"denautomatiska patchen. Om den automatiska patchen skapas/tas bort, läggs "
-"den till/tas bort från series-filen och från quilt-metadata."
+"därefter mot källkodskatalogen. Om diffen inte är tom misslyckas bygget, "
+"såvida inte B<--single-debian-patch> eller B<--auto-commit> använts. I det "
+"sistnämnda fallet lagras diffen i den automatiska patchen. Om den "
+"automatiska patchen skapas/tas bort, läggs den till/tas bort från series-"
+"filen och från quilt-metadata."
 
 #. type: Plain text
 #: dpkg-source.1:459
@@ -13636,7 +13637,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:477
-#, fuzzy
 #| msgid ""
 #| "Note: B<dpkg-source> expects the source tree to have all patches listed "
 #| "in the series file applied when you generate the source package.  This is "
@@ -13658,31 +13658,26 @@ msgid ""
 "first patch in that set can be applied without errors, it will apply them "
 "all. The option B<--no-preparation> can be used to disable this behavior."
 msgstr ""
-"Observera: B<dpkg-source> förväntar att källkodspaketet har alla patchar som "
-"anges i seriefilen tillämpade när källkodspaketet genereras. Detta gäller "
-"inte när källkodsträdet har hämtats genom att packa upp ett källkodspaket "
-"med till exempel Format: 1.0. För att motverka detta problem kommer B<dpkg-"
-"source> självt att tillämpa patchar om det tror att de ännu inte har "
-"tillämpats. För att upptäcka om så är fallet används följande heuristik: om "
-"en lista över förmodligen ej applicerade patchar (de listas i B<series>-"
-"filen men inte i B<.pc/applied-patches>), och om den första patchen i listan "
-"kan tillämpas utan fel kommer samtliga att tillämpas. Flaggan B<--no-"
-"preparation> kan användas för att slå av detta beteende. Operationen utförs "
-"normalt som en del av kommandot B<--prepare-build>."
+"Observera: B<dpkg-source> B<--before-build> (och B<-b>) ser till att alla  "
+"patchar som anges i seriefilen tillämpas så att paketbygget alltid har alla "
+"patchar tillämpade. Detta görs genom att hitta alla icke-tillämpade patchar "
+"(som anges i filen B<series> men inte i B<.pc/applied-patches>), och om den "
+"första patchen i listan kan tillämpas utan fel kommer samtliga att "
+"tillämpas. Flaggan B<--no-preparation> kan användas för att slå av detta "
+"beteende."
 
 #. type: Plain text
 #: dpkg-source.1:480
-#, fuzzy
 #| msgid "B<debian/changelog>"
 msgid "B<Recording changes>"
-msgstr "B<debian/changelog>"
+msgstr "B<Lagra ändringar>"
 
 #. type: TP
 #: dpkg-source.1:480
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-c>, B<--control-path> I<package-name> [I<control-file>]"
 msgid "B<--commit> [I<directory>] [I<patch-name>] [I<patch-file>]"
-msgstr "B<-c>, B<--control-path> I<paketnamn> [I<control-filnamn>]"
+msgstr "B<--commit> [I<katalog>] [I<patchnamn>] [I<patch-fil>]"
 
 #. type: Plain text
 #: dpkg-source.1:490
@@ -13695,6 +13690,13 @@ msgid ""
 "generated this file. Once integrated, an editor is launched so that you can "
 "edit the meta-information in the patch header."
 msgstr ""
+"Skapar en patch som motsvarar de lokala ändringar som inte hanteras av quilt-"
+"patch-systemet och integrerar dem i patch-systemet under namnet "
+"I<patchnamn>. Om namnet saknas kommer programmet be om ett interaktivt. Om "
+"I<patch-fil> anges används den som patch som motsvarar de lokala ändringar "
+"som skall integreras. Detta är oftast användbart efter ett misslyckat bygge "
+"som skapat filen på förhand. När patchen är integrerad startas ett "
+"redigeringsprogram så att du kan ange metainformationen i patchhuvudet."
 
 #. type: Plain text
 #: dpkg-source.1:493 dpkg-source.1:567 dpkg-source.1:606
@@ -13790,7 +13792,6 @@ msgstr "B<--single-debian-patch>"
 # type: Plain text
 #. type: Plain text
 #: dpkg-source.1:528
-#, fuzzy
 #| msgid ""
 #| "Use B<debian/patches/debian-changes> instead of B<debian/patches/debian-"
 #| "changes->I<version> for the name of the automatic patch generated during "
@@ -13814,9 +13815,10 @@ msgstr ""
 "changes->I<version> som namn på den automatiska patch som genereras vid "
 "bygget. Denna flagga är speciellt nyttig när paketet hanteras i ett "
 "versionshanteringssystem och en patch inte kan skapas på ett pålitligt sätt. "
-"När den här flaggan används rekommenderar vi att du skapar en debian/source/"
-"patch-header-fil som förklarar hur Debianändringarna bäst kan ses, till "
-"exempel i det versionshanteringssystem som används."
+"Den aktuella diffen mot uppströms lagras istället i en ensam patch. Flaggan "
+"bör anges i B<debian/source/local-options> och följs av filen B<debian/"
+"source/local-patch-header> som beskricer hur Debianändringarna bäst kan ses, "
+"till exempel i det versionshanteringssystem som används."
 
 #. type: TP
 #: dpkg-source.1:528
@@ -13845,7 +13847,6 @@ msgstr "B<--unapply-patches>"
 
 #. type: Plain text
 #: dpkg-source.1:541
-#, fuzzy
 #| msgid ""
 #| "Unapply the patches in the B<--after-build> hook. This is mainly useful "
 #| "when you build your package directly in a VCS that contains unpatched "
@@ -13860,12 +13861,10 @@ msgid ""
 "source/local-options> so that all generated source packages have the same "
 "behavior by default."
 msgstr ""
-"Ta bort patchar i kroken B<--after-build>. Flaggan är huvudsakligen "
-"användbar när du bygger direkt från ett versionshanteringssystem som "
-"innehåller opatchad uppströmskod och du vill hålla trädet opatchat även "
-"efter ett paketbygge. Flaggan läggs normalt i B<debian/source/local-options> "
-"(den är inte tillåten i B<debian/source/options> så att alla genererade "
-"källkodspaket som standard har samma beteende)."
+"Ta bort patchar i kroken B<--after-build>. Du behöver oftast inte ange "
+"flaggan eftersom dpkg-source automatiskt tar bort patchar om de tillämpades "
+"i B<--before-build>. Flaggan tillåts endast i B<debian/source/local-options> "
+"så att alla genererade källkodspaket som standard har samma beteende."
 
 #. type: Plain text
 #: dpkg-source.1:548
@@ -13882,10 +13881,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:548
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--no-act>"
 msgid "B<--auto-commit>"
-msgstr "B<--no-act>"
+msgstr "B<--auto-commit>"
 
 #. type: Plain text
 #: dpkg-source.1:552
@@ -13893,6 +13892,8 @@ msgid ""
 "The process doesn't fail if an automatic patch has been generated, instead "
 "it's immediately recorded in the quilt series."
 msgstr ""
+"Processen misslyckas inte om en automatisk patch har skapats, den läggs "
+"istället direkt in i quilt-serien."
 
 #. type: Plain text
 #: dpkg-source.1:555
@@ -13923,7 +13924,6 @@ msgstr "Format: 3.0 (skräddarsytt)"
 
 #. type: Plain text
 #: dpkg-source.1:565
-#, fuzzy
 #| msgid ""
 #| "This format is particular. It doesn't represent a real source package "
 #| "format but can be used to create source packages with arbitrary files."
@@ -13936,7 +13936,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:571
-#, fuzzy
 #| msgid ""
 #| "All non-option arguments are taken as files to integrate in the generated "
 #| "source package. They must exist and are preferrably in the current "
@@ -14344,10 +14343,10 @@ msgstr ""
 
 #. type: SS
 #: dpkg-source.1:706
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "debian/source/patch-header"
 msgid "debian/source/local-patch-header"
-msgstr "debian/source/patch-header"
+msgstr "debian/source/local-patch-header"
 
 #. type: SS
 #: dpkg-source.1:707
@@ -14358,7 +14357,6 @@ msgstr "debian/source/patch-header"
 # type: Plain text
 #. type: Plain text
 #: dpkg-source.1:711
-#, fuzzy
 #| msgid ""
 #| "Free form text that is put on top of the automatic patch generated in "
 #| "formats \"2.0\" or \"3.0 (quilt)\"."
@@ -14368,7 +14366,8 @@ msgid ""
 "the generated source package while B<patch-header> is."
 msgstr ""
 "Friformstext som läggs in på toppen av den automatiskt genererade patchen i "
-"formaten \"2.0\" eller \"3.0 (quilt)\"."
+"formaten \"2.0\" eller \"3.0 (quilt)\". B<local-patch-header> tas inte med i "
+"det genererade källkodspaketet medan B<patch-header> tas med."
 
 #. type: SS
 #: dpkg-source.1:711
@@ -14404,10 +14403,9 @@ msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 
 #. type: Plain text
 #: dpkg-source.1:734
-#, fuzzy
 #| msgid "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
 msgid "Copyright \\(co 2008-2011 Rapha\\[:e]l Hertzog"
-msgstr "Upphovsrättsskyddat © 2008-2010 Raphaël Hertzog"
+msgstr "Upphovsrättsskyddat © 2008-2011 Raphaël Hertzog"
 
 #. type: TH
 #: dpkg-split.1:2
@@ -14422,10 +14420,9 @@ msgstr "dpkg-split - Verktyg för att dela/slå ihop Debianpaket"
 
 #. type: Plain text
 #: dpkg-split.1:9
-#, fuzzy
 #| msgid "B<dpkg-split> [I<options>] I<command>"
 msgid "B<dpkg-split> [I<option>...] I<command>"
-msgstr "B<dpkg-split> [I<flaggor>] I<åtgärd>"
+msgstr "B<dpkg-split> [I<flaggor>...] I<åtgärd>"
 
 #. type: Plain text
 #: dpkg-split.1:15
@@ -14544,13 +14541,13 @@ msgstr "Delarnas filnamn är inte signifikanta för sammanslagningsproceduren."
 
 #. type: Plain text
 #: dpkg-split.1:69
-#, fuzzy
 #| msgid ""
 #| "By default the output file is called I<package>B<->I<version>B<.deb>."
 msgid ""
 "By default the output file is called I<package>B<_>I<version>B<_>I<arch>B<."
 "deb>."
-msgstr "Förvalt namn på utdatafilen är I<paket>B<->I<version>B<.deb>."
+msgstr ""
+"Förvalt namn på utdatafilen är I<paket>B<_>I<version>B<_>I<ark>B<.deb>."
 
 #. type: TP
 #: dpkg-split.1:70
@@ -14612,7 +14609,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-split.1:103
-#, fuzzy
 #| msgid ""
 #| "If I<part> is not a split binary package part then B<dpkg-split> will "
 #| "exit with status 1; if some other trouble occurs then it will exit with "
@@ -14623,8 +14619,8 @@ msgid ""
 "B<2>."
 msgstr ""
 "Om I<del> inte är en del av ett delat binärpaket kommer B<dpkg-split> att "
-"avsluta med returvärde 1; om något annat fel uppstår avslutar det med "
-"returvärde 2."
+"avsluta med returvärde B<1>; om något annat fel uppstår avslutar det med "
+"returvärde B<2>."
 
 #. type: Plain text
 #: dpkg-split.1:110
@@ -14784,7 +14780,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-split.1:186
-#, fuzzy
 #| msgid ""
 #| "An exit status of 0 indicates that the requested split, merge, or other "
 #| "command succeeded.  B<--info> commands count as successful even if the "
@@ -14793,13 +14788,12 @@ msgid ""
 "The requested split, merge, or other command succeeded.  B<--info> commands "
 "count as successful even if the files are not binary package parts."
 msgstr ""
-"Returvärdet 0 betyder att den efterfrågade funktionen (delning, "
-"sammanslagning eller annan) slutfördes lyckades. B<--info>-kommandon lyckas "
-"även om indatafilen inte är en del av ett binärpaket."
+"Den efterfrågade delningen, sammanslagningen eller annan åtgärd lyckades. "
+"B<--info>-kommandon lyckas även om indatafilen inte är en del av ett "
+"binärpaket."
 
 #. type: Plain text
 #: dpkg-split.1:193
-#, fuzzy
 #| msgid ""
 #| "An exit status of 1 occurs only with B<--auto> and indicates that the "
 #| "I<part> file was not a binary package part."
@@ -14807,18 +14801,17 @@ msgid ""
 "Only occurs with B<--auto> and indicates that the I<part> file was not a "
 "binary package part."
 msgstr ""
-"Returvärdet 1 uppkommer endast med B<--auto> och anger att I<del>filen inte "
-"var en del av ett binärpaket."
+"Uppkommer endast med B<--auto> och anger att I<del>filen inte var en del av "
+"ett binärpaket."
 
 #. type: TP
 #: dpkg-split.1:193 start-stop-daemon.8:275 update-alternatives.8:378
 #, no-wrap
 msgid "B<2>"
-msgstr ""
+msgstr "B<2>"
 
 #. type: Plain text
 #: dpkg-split.1:198
-#, fuzzy
 #| msgid ""
 #| "An exit status of 2 indicates some kind of trouble, such as a system call "
 #| "failure, a file that looked like a package part file but was corrupted, a "
@@ -14828,9 +14821,8 @@ msgid ""
 "looked like a package part file but was corrupted, a usage error or some "
 "other problem."
 msgstr ""
-"Returvärdet 2 indikerar att något har gått fel, till exempel ett "
-"systemanrop, att en fil såg ut som en paketdel men var trasig, ett "
-"användningsfel, eller något annat problem."
+"Något har gått fel, till exempel ett systemanrop, att en fil såg ut som en "
+"paketdel men var trasig, ett användningsfel, eller något annat problem."
 
 #. type: Plain text
 #: dpkg-split.1:202
@@ -14898,10 +14890,9 @@ msgstr "dpkg-statoverride - överstyr ägarskap och läge för filer"
 
 #. type: Plain text
 #: dpkg-statoverride.8:8
-#, fuzzy
 #| msgid "B<dpkg-statoverride> [I<options>] I<command>"
 msgid "B<dpkg-statoverride> [I<option>...] I<command>"
-msgstr "B<dpkg-statoverride> [I<flaggor>] I<åtgärd>"
+msgstr "B<dpkg-statoverride> [I<flagga>...] I<åtgärd>"
 
 #. type: Plain text
 #: dpkg-statoverride.8:18
@@ -15114,7 +15105,6 @@ msgstr "B<--check-supported>"
 
 #. type: Plain text
 #: dpkg-trigger.1:31
-#, fuzzy
 #| msgid ""
 #| "Check if the running B<dpkg> supports triggers (usually called from a "
 #| "postinst). Will exit 0 if a triggers-capable B<dpkg> has run, or 1 with "
@@ -15127,9 +15117,10 @@ msgid ""
 "to activate the desired trigger with B<dpkg-trigger>."
 msgstr ""
 "Se om den B<dpkg> som körs stöder utlösare (anropas vanligtvis från ett "
-"postinst-skript). Avslutar med 0 om en B<dpkg> med utlösarstöd har kört, "
-"eller 1 med ett felmeddelande på standard fel om inte. Det är dock normalt "
-"sett bättre att bara aktivera den önskade utlösaren med B<dpkg-trigger>."
+"postinst-skript). Avslutar med B<0> om en B<dpkg> med utlösarstöd har kört, "
+"eller B<1> med ett felmeddelande på standard fel om inte. Det är dock "
+"normalt sett bättre att bara aktivera den önskade utlösaren med B<dpkg-"
+"trigger>."
 
 #. type: TP
 #: dpkg-trigger.1:43
@@ -15139,7 +15130,6 @@ msgstr "B<--by-package=>I<paket>"
 
 #. type: Plain text
 #: dpkg-trigger.1:49
-#, fuzzy
 #| msgid ""
 #| "Override trigger awaiter (normally set by B<dpkg> through the "
 #| "DPKG_MAINTSCRIPT_PACKAGE environment variable of the maintainer scripts, "
@@ -15152,7 +15142,7 @@ msgid ""
 "default)."
 msgstr ""
 "Överstyr den som väntar på en utlösare (sätts vanligen av B<dpkg> genom "
-"miljövariabeln DPKG_MAINTSCRIPT_PACKAGE i utvecklarskript, för att namnge "
+"miljövariabeln B<DPKG_MAINTSCRIPT_PACKAGE> i utvecklarskript, för att namnge "
 "det paket som skriptet tillhör, och detta används som standard)."
 
 #. type: TP
@@ -15228,7 +15218,6 @@ msgstr "B<--is>I< återförsäljare>"
 
 #. type: Plain text
 #: dpkg-vendor.1:19
-#, fuzzy
 #| msgid ""
 #| "Exits with 0 if the current vendor is I<vendor>. Otherwise exits with non-"
 #| "zero."
@@ -15236,8 +15225,8 @@ msgid ""
 "Exits with B<0> if the current vendor is I<vendor>. Otherwise exits with non-"
 "zero."
 msgstr ""
-"Avslutar med 0 om den aktuella återförsäljaren är I<återförsäljare>. I annat "
-"fall avslutas programmet med icke-noll."
+"Avslutar med B<0> om den aktuella återförsäljaren är I<återförsäljare>. I "
+"annat fall avslutas programmet med icke-noll."
 
 #. type: TP
 #: dpkg-vendor.1:19
@@ -15247,7 +15236,6 @@ msgstr "B<--derives-from>I< återförsäljare>"
 
 #. type: Plain text
 #: dpkg-vendor.1:24
-#, fuzzy
 #| msgid ""
 #| "Exits with 0 if the current vendor distribution is a derivative of "
 #| "I<vendor>, otherwise exits with non-zero. It uses the \"Parent\" field to "
@@ -15257,10 +15245,10 @@ msgid ""
 "I<vendor>, otherwise exits with non-zero. It uses the \"Parent\" field to "
 "browse all ancestors of the current vendor."
 msgstr ""
-"Avslutar med 0 om den aktuella återförsäljardistributionen är härledd från "
-"I<återförsäljare>. I annat fall avslutas programmet med icke-noll. Använder "
-"fältet \"Parent\" för att bläddra genom alla föräldrar till den aktuella "
-"återförsäljaren."
+"Avslutar med B<0> om den aktuella återförsäljardistributionen är härledd "
+"från I<återförsäljare>. I annat fall avslutas programmet med icke-noll. "
+"Använder fältet \"Parent\" för att bläddra genom alla föräldrar till den "
+"aktuella återförsäljaren."
 
 #. type: TP
 #: dpkg-vendor.1:24
@@ -15285,7 +15273,6 @@ msgstr "B<--vendor>I< återförsäljare>"
 
 #. type: Plain text
 #: dpkg-vendor.1:41
-#, fuzzy
 #| msgid ""
 #| "Assumes the current vendor is I<vendor> instead of discovering it with "
 #| "the DEB_VENDOR environment variable or B</etc/dpkg/origins/default>."
@@ -15294,7 +15281,7 @@ msgid ""
 "B<DEB_VENDOR> environment variable or B</etc/dpkg/origins/default>."
 msgstr ""
 "Anta att den aktuella återförsäljaren är I<återförsäljare> istället för att "
-"upptäcka det via miljövariabeln DEB_VENDOR eller B</etc/dpkg/origins/"
+"upptäcka det via miljövariabeln B<DEB_VENDOR> eller B</etc/dpkg/origins/"
 "default>."
 
 #. type: TP
@@ -15330,10 +15317,9 @@ msgstr "dselect - Debians pakethanteringsskal"
 
 #. type: Plain text
 #: dselect.1:8
-#, fuzzy
 #| msgid "B<dpkg> [I<options>] I<action>"
 msgid "B<dselect> [I<option>...] [I<action>]"
-msgstr "B<dpkg> [I<flaggor>] I<åtgärd>"
+msgstr "B<dselect> [I<flagga>...] [I<åtgärd>]"
 
 #. type: Plain text
 #: dselect.1:17
@@ -15380,7 +15366,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.1:35
-#, fuzzy
 #| msgid ""
 #| "Normally B<dselect> is invoked without parameters. An interactive menu is "
 #| "presented, offering the user a list of actions. If an action is given as "
@@ -15402,7 +15387,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.1:43
-#, fuzzy
 #| msgid ""
 #| "All options can be specified both on the commandline and in the "
 #| "B<dselect> configuration file I</etc/dpkg/dselect.cfg> or the files on "
@@ -15437,19 +15421,17 @@ msgstr ""
 
 #. type: TP
 #: dselect.1:49
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--debug>I< E<lt>fileE<gt> >|I< >B<-D>I<E<lt>fileE<gt>>"
 msgid "B<--debug>I< file >|I< >B<-D>I<file>"
-msgstr "B<--debug>I< E<lt>filE<gt> >|I< >B<-D>I<E<lt>filE<gt>>"
+msgstr "B<--debug>I< fil >|I< >B<-D>I<fil>"
 
 #. type: Plain text
 #: dselect.1:52
-#, fuzzy
 #| msgid ""
 #| "Turn on debugging. Debugging information is sent to I<E<lt>fileE<gt>>."
 msgid "Turn on debugging. Debugging information is sent to I<file>."
-msgstr ""
-"Slå på felsökningsläge. Felsökningsinformation lagras i I<E<lt>filE<gt>>."
+msgstr "Slå på felsökningsläge. Felsökningsinformation lagras i I<fil>."
 
 #. type: TP
 #: dselect.1:52
@@ -15664,7 +15646,6 @@ msgstr "Visar versionsinformation och ger lyckat avslut."
 
 #. type: Plain text
 #: dselect.1:126
-#, fuzzy
 #| msgid ""
 #| "When B<dselect> is started interactively, it prompts the user with a menu "
 #| "of available actions:"
@@ -15673,8 +15654,9 @@ msgid ""
 "directly if it was specified on the command line or by prompting the user "
 "with a menu of available actions if running interactively:"
 msgstr ""
-"När B<dselect> startas interaktivt visas en meny för användaren med "
-"tillgängliga handlingar:"
+"När B<dselect> startas kan det utföra följande åtgärder, antingen direkt om "
+"de anges på kommandoraden eller genom att fråga användaren med en meny om "
+"det körs interaktivt:"
 
 #. type: SS
 #: dselect.1:126
@@ -15690,7 +15672,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.1:134
-#, fuzzy
 #| msgid ""
 #| "By default, B<dselect> provides several methods such as I<floppy>, "
 #| "I<harddisk> or I<cdrom>, but other packages may provide additional "
@@ -15702,10 +15683,10 @@ msgid ""
 "I<floppy> or I<ftp>, but other packages may provide additional methods, eg. "
 "the I<apt> access method provided by the B<apt> package."
 msgstr ""
-"Som standard ger B<dselect> flera olika metoder, såsom I<floppy> (diskett), "
-"I<harddisk> (hårddisk) och I<cdrom>, men andra paket du installerar kan "
-"tillhandahålla ytterligare metoder, t.ex ges åtkomstmetoden I<apt> av "
-"paketet B<apt> och I<multi_cd> av B<dpkg-multicd>."
+"Som standard ger B<dselect> flera olika metoder, såsom I<cdrom>, "
+"I<multi_cd>, I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, I<multi_mount>, "
+"I<floppy> och I<ftp>, men andra paket du installerar kan tillhandahålla "
+"ytterligare metoder, t.ex ges åtkomstmetoden I<apt> av paketet B<apt>."
 
 #. type: Plain text
 #: dselect.1:136
@@ -16486,10 +16467,10 @@ msgstr "dselect.cfg"
 
 #. type: TH
 #: dselect.cfg.5:1
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2009-02-27"
 msgid "2011-07-03"
-msgstr "2009-02-27"
+msgstr "2011-07-03"
 
 #. type: Plain text
 #: dselect.cfg.5:4
@@ -16498,7 +16479,6 @@ msgstr "dselect.cfg - inställningsfil för dselect"
 
 #. type: Plain text
 #: dselect.cfg.5:11
-#, fuzzy
 #| msgid ""
 #| "This file contains default options for dselect. Each line contains a "
 #| "single option which is exactly the same as a normal commandline option "
@@ -16560,10 +16540,9 @@ msgstr "start-stop-daemon - startar och stoppar bakgrundsprocesser"
 
 #. type: Plain text
 #: start-stop-daemon.8:8
-#, fuzzy
 #| msgid "B<start-stop-daemon> [I<options>] I<command>"
 msgid "B<start-stop-daemon> [I<option>...] I<command>"
-msgstr "B<start-stop-daemon> [I<flaggor>] I<åtgärd>"
+msgstr "B<start-stop-daemon> [I<flagga>...] I<åtgärd>"
 
 #. type: Plain text
 #: start-stop-daemon.8:14
@@ -16643,10 +16622,10 @@ msgstr ""
 
 #. type: TP
 #: start-stop-daemon.8:70
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-K>, B<--stop>"
 msgid "B<-T>, B<--status>"
-msgstr "B<-K>, B<--stop>"
+msgstr "B<-T>, B<--status>"
 
 #. type: Plain text
 #: start-stop-daemon.8:74
@@ -16654,6 +16633,8 @@ msgid ""
 "Check for the existence of a specified process, and returns an exit status "
 "code, according to the LSB Init Script Actions."
 msgstr ""
+"Se om den angivna processen existerar, och returnerar en statuskod i "
+"enlighet med LBS Init Script Actions."
 
 #. type: TP
 #: start-stop-daemon.8:74
@@ -17067,11 +17048,15 @@ msgid ""
 "specified and a matching process was already running, or when B<--stop> was "
 "specified and there were no matching processes."
 msgstr ""
+"Efterfrågad åtgärd utfördes. Om B<--oknodo> angavs är det även möjligt att "
+"ingenting behövde utföras. Det kan hända när B<--start> angavs och en "
+"motsvarande process redan körde, eller när B<--stop> angavs och det inte "
+"fanns någon motsvarande process."
 
 #. type: Plain text
 #: start-stop-daemon.8:275
 msgid "If B<--oknodo> was not specified and nothing was done."
-msgstr ""
+msgstr "Om B<--oknodo> inte angavs och ingenting gjordes."
 
 #. type: Plain text
 #: start-stop-daemon.8:283
@@ -17079,49 +17064,51 @@ msgid ""
 "If B<--stop> and B<--retry> were specified, but the end of the schedule was "
 "reached and the processes were still running."
 msgstr ""
+"Om B<--stop> och B<--retry> angavs, men slutet på tidtabellen nåddes och "
+"processen fortfarande kördes."
 
 #. type: TP
 #: start-stop-daemon.8:283 start-stop-daemon.8:295
 #, no-wrap
 msgid "B<3>"
-msgstr ""
+msgstr "B<3>"
 
 #. type: Plain text
 #: start-stop-daemon.8:286
 msgid "Any other error."
-msgstr ""
+msgstr "Alla andra fel."
 
 #. type: Plain text
 #: start-stop-daemon.8:289
 msgid ""
 "When using the B<--status> command, the following status codes are returned:"
-msgstr ""
+msgstr "Med B<--status>-åtgärden returneras följande statuskoder:"
 
 #. type: Plain text
 #: start-stop-daemon.8:292
 msgid "Program is running."
-msgstr ""
+msgstr "Programmet kör."
 
 #. type: Plain text
 #: start-stop-daemon.8:295
 msgid "Program is not running and the pid file exists."
-msgstr ""
+msgstr "Programmet kör inte och pid-filen finns."
 
 #. type: Plain text
 #: start-stop-daemon.8:298
 msgid "Program is not running."
-msgstr ""
+msgstr "Programmet kör inte."
 
 #. type: TP
 #: start-stop-daemon.8:298
 #, no-wrap
 msgid "B<4>"
-msgstr ""
+msgstr "B<4>"
 
 #. type: Plain text
 #: start-stop-daemon.8:301
 msgid "Unable to determine program status."
-msgstr ""
+msgstr "Kan inte ta reda på programmets status."
 
 #. type: Plain text
 #: start-stop-daemon.8:305
@@ -17196,10 +17183,9 @@ msgstr ""
 
 #. type: Plain text
 #: update-alternatives.8:15
-#, fuzzy
 #| msgid "B<update-alternatives> [I<options>] I<command>"
 msgid "B<update-alternatives> [I<option>...] I<command>"
-msgstr "B<update-alternatives> [I<flaggor>] I<åtgärd>"
+msgstr "B<update-alternatives> [I<flagga>...] I<åtgärd>"
 
 #. type: Plain text
 #: update-alternatives.8:20
@@ -17349,7 +17335,6 @@ msgstr ""
 
 #. type: Plain text
 #: update-alternatives.8:133
-#, fuzzy
 #| msgid ""
 #| "When using the I<--config> option, B<update-alternatives> will list all "
 #| "of the choices for the link group of which given I<name> is the master "
@@ -17371,13 +17356,12 @@ msgstr ""
 "val för länkgruppen där I<namn> är huvudalternativnamnet. Det aktuella valet "
 "är markerat med en \"*\". Du kommer därefter att få välja vad som skall "
 "göras med länkgruppen. Beroende på vad du väljer kommer längruppen inte "
-"längre att vara i I<auto>-läge. Du måste använda flaggan I<--auto> för att "
-"återgå till automatiskt läge (eller köra I<--config> på nytt och välja "
+"längre att vara i I<auto>-läge. Du måste använda flaggan B<--auto> för att "
+"återgå till automatiskt läge (eller köra B<--config> på nytt och välja "
 "alternativet som märkts som automatiskt)."
 
 #. type: Plain text
 #: update-alternatives.8:137
-#, fuzzy
 #| msgid ""
 #| "If you want to configure non-interactively you can use the I<--set> "
 #| "option instead (see below)."
@@ -17385,7 +17369,7 @@ msgid ""
 "If you want to configure non-interactively you can use the B<--set> option "
 "instead (see below)."
 msgstr ""
-"Om du vill konfigurera icke-interaktivt kan du använda flaggan I<--set> i "
+"Om du vill konfigurera icke-interaktivt kan du använda flaggan B<--set> i "
 "stället (se nedan)."
 
 #. type: Plain text
@@ -17618,7 +17602,6 @@ msgstr "B<--set> I<namn sökväg>"
 
 #. type: Plain text
 #: update-alternatives.8:242
-#, fuzzy
 #| msgid ""
 #| "Set the program I<path> as alternative for I<name.> This is equivalent to "
 #| "I<--config> but is non-interactive and thus scriptable."
@@ -17627,7 +17610,7 @@ msgid ""
 "B<--config> but is non-interactive and thus scriptable."
 msgstr ""
 "Sätt programmet I<sökväg> som ett alternativ till I<namn>. Detta motsvarar "
-"I<--config> men är icke-interaktivt och kan därmed användas i ett skript."
+"B<--config> men är icke-interaktivt och kan därmed användas i ett skript."
 
 #. type: TP
 #: update-alternatives.8:242
@@ -17837,7 +17820,6 @@ msgstr ""
 
 #. type: Plain text
 #: update-alternatives.8:340
-#, fuzzy
 #| msgid ""
 #| "Let B<update-alternatives> replace any real file that is installed where "
 #| "an alternative link has to be installed."
@@ -17845,8 +17827,8 @@ msgid ""
 "Let B<update-alternatives> replace or drop any real file that is installed "
 "where an alternative link has to be installed or removed."
 msgstr ""
-"Låt B<update-alternatives> ersätta en verklig fil som installerats där en "
-"alternativlänk måste installeras."
+"Låt B<update-alternatives> ersätta eller ta bort en verklig fil som "
+"installerats där en alternativlänk måste installeras eller tas bort."
 
 #. type: TP
 #: update-alternatives.8:340
@@ -17886,6 +17868,8 @@ msgid ""
 "If set and the B<--admindir> option has not been specified, it will be used "
 "as the base administrative directory."
 msgstr ""
+"Om satt och flaggan B<--admindir> inte har angivits används det som bas-"
+"administrativ katalog."
 
 #. type: TP
 #: update-alternatives.8:361
@@ -17938,7 +17922,6 @@ msgstr "FRÅGEFORMAT"
 
 #. type: Plain text
 #: update-alternatives.8:388
-#, fuzzy
 #| msgid ""
 #| "The B<update-alternatives> I<--query> format is using an RFC822-like flat "
 #| "format. It's made of I<n> + 1 blocks where I<n> is the number of "
@@ -17950,17 +17933,17 @@ msgid ""
 "alternatives available in the queried link group. The first block contains "
 "the following fields:"
 msgstr ""
-"Formatet för B<update-alternatives> I<--query> använder ett RFC822-liknande "
+"Formatet för B<update-alternatives --query> använder ett RFC822-liknande "
 "platt format. Det består av I<n> + 1 block där I<n> är antalet tillgängliga "
 "alternativ i den efterfrågade länkgruppen. Det första blocket innehåller "
 "följande fält:"
 
 #. type: TP
 #: update-alternatives.8:388
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Link:> E<lt>linkE<gt>"
 msgid "B<Link:>I< link>"
-msgstr "B<Link:> E<lt>länkE<gt>"
+msgstr "B<Link:>I< länk>"
 
 #. type: Plain text
 #: update-alternatives.8:391
@@ -17969,10 +17952,10 @@ msgstr "Generiskt namn för alternativet."
 
 #. type: TP
 #: update-alternatives.8:391
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Status:> E<lt>statusE<gt>"
 msgid "B<Status:>I< status>"
-msgstr "B<Status:> E<lt>statusE<gt>"
+msgstr "B<Status:>I< status>"
 
 #. type: Plain text
 #: update-alternatives.8:394
@@ -17981,10 +17964,10 @@ msgstr "Status för alternativet (B<auto> eller B<manual>)."
 
 #. type: TP
 #: update-alternatives.8:394
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Best:> E<lt>best choiceE<gt>"
 msgid "B<Best:>I< best-choice>"
-msgstr "B<Best:> E<lt>bästa valE<gt>"
+msgstr "B<Best:>I< bästa-val>"
 
 #. type: Plain text
 #: update-alternatives.8:398
@@ -17997,10 +17980,10 @@ msgstr ""
 
 #. type: TP
 #: update-alternatives.8:398
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Value:> E<lt>currently selected alternativeE<gt> "
 msgid "B<Value:>I< currently-selected-alternative>"
-msgstr "B<Value:> E<lt>för närvarande valt alternativE<gt> "
+msgstr "B<Value:>I< för-närvarande-valt-alternativ>"
 
 #. type: Plain text
 #: update-alternatives.8:402
@@ -18019,10 +18002,10 @@ msgstr "Övriga block beskriver tillgängliga alternativ i den efterfrågade lä
 
 #. type: TP
 #: update-alternatives.8:405
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Alternative:> E<lt>path of this alternativeE<gt>"
 msgid "B<Alternative:>I< path-of-this-alternative>"
-msgstr "B<Alternative:> E<lt>sökväg till alternativetE<gt>"
+msgstr "B<Alternative:>I< sökväg-till-alternativet>"
 
 #. type: Plain text
 #: update-alternatives.8:408
@@ -18031,10 +18014,10 @@ msgstr "Sökväg till alternativet som beskrivs i blocket."
 
 #. type: TP
 #: update-alternatives.8:408
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Priority:> E<lt>priority valueE<gt>"
 msgid "B<Priority:>I< priority-value>"
-msgstr "B<Priority:> E<lt>prioritetsvärdeE<gt>"
+msgstr "B<Priority:>I< prioritetsvärde>"
 
 #. type: Plain text
 #: update-alternatives.8:411
@@ -18043,10 +18026,10 @@ msgstr "Värdet för prioriteten på alternativet."
 
 #. type: TP
 #: update-alternatives.8:411
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Slaves:> E<lt>list of slavesE<gt>"
 msgid "B<Slaves:>I< list-of-slaves>"
-msgstr "B<Slaves:> E<lt>lista över slavarE<gt>"
+msgstr "B<Slaves:>I< lista-över-slavar>"
 
 #. type: Plain text
 #: update-alternatives.8:417
@@ -18134,7 +18117,6 @@ msgstr ""
 
 #. type: Plain text
 #: update-alternatives.8:458
-#, fuzzy
 #| msgid ""
 #| "With I<--verbose> B<update-alternatives> chatters incessantly about its "
 #| "activities on its standard output channel.  If problems occur, B<update-"
@@ -18148,7 +18130,7 @@ msgid ""
 "returns an exit status of 2.  These diagnostics should be self-explanatory; "
 "if you do not find them so, please report this as a bug."
 msgstr ""
-"Med I<--verbose> kommer B<update-alternatives> att beskriva i det oändliga "
+"Med B<--verbose> kommer B<update-alternatives> att beskriva i det oändliga "
 "vad det gör på sin standard ut-kanal. Om ett fel uppstår skriver B<update-"
 "alternatives> ut felmeddelanden på sin standard fel-kanal och avslutar med "
 "felkoden 2. Diagnostikinformationen bör vara självförklarande, sänd in en "
@@ -18169,7 +18151,6 @@ msgstr ""
 
 #. type: Plain text
 #: update-alternatives.8:467
-#, fuzzy
 #| msgid ""
 #| "To display the available packages which provide B<vi> and the current "
 #| "setting for it, use the I<--display> action:"
@@ -18178,7 +18159,7 @@ msgid ""
 "setting for it, use the B<--display> action:"
 msgstr ""
 "För att visa vilka tillgängliga paket som tillhandahåller B<vi>, samt dess "
-"aktuella inställning, använd kommandot I<--display>:"
+"aktuella inställning, använd kommandot B<--display>:"
 
 #. type: Plain text
 #: update-alternatives.8:470
