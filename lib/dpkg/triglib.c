@@ -39,22 +39,6 @@
 #include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
 
-const char *
-trig_name_is_illegal(const char *p)
-{
-	int c;
-
-	if (!*p)
-		return _("empty trigger names are not permitted");
-
-	while ((c = *p++)) {
-		if (c <= ' ' || c >= 0177)
-			return _("trigger name contains invalid character");
-	}
-
-	return NULL;
-}
-
 /*========== Recording triggers. ==========*/
 
 static char *triggersdir, *triggersfilefile, *triggersnewfilefile;

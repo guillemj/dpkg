@@ -62,6 +62,7 @@ libdpkg_a_SOURCES = \
 	subproc.c \
 	tarfn.c \
 	test.h \
+	trigname.c \
 	triglib.c \
 	trigdeferred.l \
 	utils.c \
