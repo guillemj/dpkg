@@ -34,7 +34,6 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
-#include <dpkg/pkg-list.h>
 #include <dpkg/dlist.h>
 #include <dpkg/dir.h>
 #include <dpkg/trigdeferred.h>
@@ -100,73 +99,6 @@ trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *tri
 		}
 }
 
-/*
- * Note: This is also called from fields.c where *pend is a temporary!
- *
- * trig is not copied!
- */
-bool
-trig_note_pend_core(struct pkginfo *pend, const char *trig)
-{
-	struct trigpend *tp;
-
-	for (tp = pend->trigpend_head; tp; tp = tp->next)
-		if (!strcmp(tp->name, trig))
-			return false;
-
-	tp = nfmalloc(sizeof(*tp));
-	tp->name = trig;
-	tp->next = pend->trigpend_head;
-	pend->trigpend_head = tp;
-
-	return true;
-}
-
-/*
- * trig is not copied!
- *
- * @retval true  For done.
- * @retval false For already noted.
- */
-bool
-trig_note_pend(struct pkginfo *pend, const char *trig)
-{
-	if (!trig_note_pend_core(pend, trig))
-		return false;
-
-	pend->status = pend->trigaw.head ? stat_triggersawaited :
-	               stat_triggerspending;
-
-	return true;
-}
-
-/*
- * Note: This is called also from fields.c where *aw is a temporary
- * but pend is from pkg_db_find()!
- *
- * @retval true  For done.
- * @retval false For already noted.
- */
-bool
-trig_note_aw(struct pkginfo *pend, struct pkginfo *aw)
-{
-	struct trigaw *ta;
-
-	/* We search through aw's list because that's probably shorter. */
-	for (ta = aw->trigaw.head; ta; ta = ta->sameaw.next)
-		if (ta->pend == pend)
-			return false;
-
-	ta = nfmalloc(sizeof(*ta));
-	ta->aw = aw;
-	ta->pend = pend;
-	ta->samepend_next = pend->othertrigaw_head;
-	pend->othertrigaw_head = ta;
-	LIST_LINK_TAIL_PART(aw->trigaw, ta, sameaw.);
-
-	return true;
-}
-
 void
 trig_clear_awaiters(struct pkginfo *notpend)
 {
@@ -188,37 +120,6 @@ trig_clear_awaiters(struct pkginfo *notpend)
 			modstatdb_note(aw);
 		}
 	}
-}
-
-static struct pkg_list *trig_awaited_pend_head;
-
-void
-trig_awaited_pend_enqueue(struct pkginfo *pend)
-{
-	struct pkg_list *tp;
-
-	for (tp = trig_awaited_pend_head; tp; tp = tp->next)
-		if (tp->pkg == pend)
-			return;
-
-	pkg_list_prepend(&trig_awaited_pend_head, pend);
-}
-
-void
-trig_awaited_pend_foreach(trig_awaited_pend_foreach_func *func)
-{
-	struct pkg_list *tp;
-
-	for (tp = trig_awaited_pend_head; tp; tp = tp->next)
-		if (!tp->pkg->trigpend_head)
-			func(tp->pkg);
-}
-
-void
-trig_awaited_pend_free(void)
-{
-	pkg_list_free(trig_awaited_pend_head);
-	trig_awaited_pend_head = NULL;
 }
 
 /*
