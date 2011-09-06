@@ -280,30 +280,40 @@ xstrdup(const char *str)
 }
 
 static char *
-xreadlink(const char *linkname, bool error_out)
+areadlink(const char *linkname)
 {
 	struct stat st;
 	char *buf;
 	ssize_t size;
 
 	/* Allocate required memory to store the value of the symlink */
-	if (lstat(linkname, &st)) {
-		if (!error_out)
-			return NULL;
-		syserr(_("cannot stat file '%s'"), linkname);
-	}
+	if (lstat(linkname, &st))
+		return NULL;
 	buf = xmalloc(st.st_size + 1);
 
 	/* Read it and terminate the string properly */
 	size = readlink(linkname, buf, st.st_size);
 	if (size == -1) {
-		if (!error_out) {
-			free(buf);
-			return NULL;
-		}
-		syserr(_("unable to read link `%.255s'"), linkname);
+		int saved_errno = errno;
+
+		free(buf);
+		errno = saved_errno;
+
+		return NULL;
 	}
 	buf[size] = '\0';
+
+	return buf;
+}
+
+static char *
+xreadlink(const char *linkname)
+{
+	char *buf;
+
+	buf = areadlink(linkname);
+	if (buf == NULL)
+		syserr(_("unable to read link `%.255s'"), linkname);
 
 	return buf;
 }
@@ -1421,7 +1431,7 @@ alternative_get_current(struct alternative *a)
 		return NULL;
 
 	xasprintf(&curlink, "%s/%s", altdir, a->master_name);
-	file = xreadlink(curlink, true);
+	file = xreadlink(curlink);
 	free(curlink);
 
 	return file;
@@ -1757,7 +1767,7 @@ alternative_is_broken(struct alternative *a)
 		return true;
 
 	/* Check master link */
-	altlnk = xreadlink(a->master_link, false);
+	altlnk = areadlink(a->master_link);
 	if (!altlnk)
 		return true;
 	xasprintf(&wanted, "%s/%s", altdir, a->master_name);
@@ -1784,7 +1794,7 @@ alternative_is_broken(struct alternative *a)
 			char *sl_altlnk, *sl_current;
 
 			/* Verify link -> /etc/alternatives/foo */
-			sl_altlnk = xreadlink(sl->link, false);
+			sl_altlnk = areadlink(sl->link);
 			if (!sl_altlnk)
 				return true;
 			xasprintf(&wanted, "%s/%s", altdir, sl->name);
@@ -1795,7 +1805,7 @@ alternative_is_broken(struct alternative *a)
 			}
 			free(sl_altlnk);
 			/* Verify /etc/alternatives/foo -> file */
-			sl_current = xreadlink(wanted, false);
+			sl_current = areadlink(wanted);
 			free(wanted);
 			if (!sl_current)
 				return true;
@@ -2065,7 +2075,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 			char *lnk;
 
 			xasprintf(&lnk, "%s/%s", altdir, sl->name);
-			new_file = xreadlink(lnk, false);
+			new_file = areadlink(lnk);
 			free(lnk);
 		}
 		if (strcmp(old, new) != 0 && lstat(old, &st) == 0 &&
