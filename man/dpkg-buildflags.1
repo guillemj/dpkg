@@ -1,4 +1,4 @@
-.TH dpkg\-buildflags 1 "2011-08-14" "Debian Project" "dpkg suite"
+.TH dpkg\-buildflags 1 "2011-09-07" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-buildflags \- returns build flags to use during package build
 .
@@ -157,9 +157,116 @@ returned for the given \fIflag\fP.
 .BI DEB_ flag _MAINT_PREPEND
 This variable can be used to prepend supplementary options to the value
 returned for the given \fIflag\fP.
+.TP
+.B DEB_BUILD_MAINT_OPTIONS
+This variable can be used to disable/enable various hardening build
+flags through the \fBhardening\fP option. See the \fBHARDENING\fP section
+for details.
+.
+.SH HARDENING
+Several compile-time options (detailed below) can be used to help harden
+a resulting binary against memory corruption attacks, or provide
+additional warning messages during compilation. Except as noted below,
+these are enabled by default for architectures that support them.
+.P
+Each hardening feature can be enabled and disabled in the
+\fBDEB_BUILD_MAINT_OPTIONS\fP environment variable's \fBhardening\fP
+value with the "+" and "\-" modifier. For example, to enable the
+"pie" feature and disable the "fortify" feature you can do this
+in \fBdebian/rules\fP:
+.P
+  export DEB_BUILD_MAINT_OPTIONS="hardening=+pie,\-fortify"
+.P
+The special feature \fBall\fP can be used to enable or disable all
+hardening features at the same time. Thus disabling everything and
+enabling only "format" and "fortify" can be achieved with:
+.P
+  export DEB_BUILD_MAINT_OPTIONS="hardening=-all,+format,+fortify"
+.
+.TP
+.B format
+This setting (enabled by default) adds
+.B \-Wformat \-Wformat\-security \-Werror=format\-security
+to \fBCFLAGS\fP and \fBCXXFLAGS\fP. This will warn about improper format
+string uses, and will fail when format functions are used in a way that
+that represent possible security problems. At present, this warns about
+calls to \fBprintf\fP and \fBscanf\fP functions where the format string is
+not a string literal and there are no format arguments, as in
+\fBprintf(foo);\fP instead of \fPprintf("%s", foo);\fP
+This may be a security hole if the format string came from untrusted
+input and contains "%n".
+.
+.TP
+.B fortify
+This setting (enabled by default) adds
+.B \-D_FORTIFY_SOURCE=2
+to \fBCFLAGS\fP and \fBCXXFLAGS\fP. During code generation the compiler
+knows a great deal of information about buffer sizes (where possible), and
+attempts to replace insecure unlimited length buffer function calls with
+length-limited ones. This is especially useful for old, crufty code.
+Additionally, format strings in writable memory that contain '%n' are
+blocked. If an application depends on such a format string, it will need
+to be worked around.
+
+Note that for this option to have any effect, the source must also
+be compiled with \fB\-O1\fP or higher.
+.TP
+.B stackprotector
+This setting (enabled by default) adds
+.B \-fstack-protector \-\-param=ssp\-buffer\-size=4
+to \fBCFLAGS\fP and \fBCXXFLAGS\fP. This adds safety checks against stack
+overwrites. This renders many potential code injection attacks into
+aborting situations. In the best case this turns code injection
+vulnerabilities into denial of service or into non-issues (depending on
+the application).
+
+This feature requires linking against glibc (or another provider of
+\fB__stack_chk_fail\fP), so needs to be disabled when building with
+\fB\-nostdlib\fP or \fB\-ffreestanding\fP or similar.
+.
+.TP
+.B relro
+This setting (enabled by default) adds
+.B \-Wl,\-z,relro
+to \fBLDFLAGS\fP.  During program load, several ELF memory sections need
+to be written to by the linker. This flags the loader to turn these
+sections read-only before turning over control to the program. Most
+notably this prevents GOT overwrite attacks.
+.
+.TP
+.B bindnow
+This setting (enabled by default) adds
+.B \-Wl,\-z,bindnow
+to \fBLDFLAGS\fP. During program load, all dynamic symbols are resolved,
+allowing for the entire PLT to be marked read-only (due to \fBrelro\fP
+above).
+.
+.TP
+.B pie
+This setting (disabled by default) adds \fB\-fPIE\fP to \fBCFLAGS\fP and
+\fBCXXFLAGS\fP, and \fB\-fPIE \-pie\fP to \fBLDFLAGS\fP. Position Independent
+Executable are needed to take advantage of Address Space Layout
+Randomization, supported by some kernel versions. While ASLR can already
+be enforced for data areas in the stack and heap (brk and mmap), the code
+areas must be compiled as position-independent. Shared libraries already
+do this (\-fPIC), so they gain ASLR automatically, but binary .text
+regions need to be build PIE to gain ASLR. When this happens, ROP (Return
+Oriented Programming) attacks are much harder since there are no static
+locations to bounce off of during a memory corruption attack.
+
+This is not compatible with \fB\-fPIC\fP so care must be taken when
+building shared objects.
+
+Additionally, since PIE is implemented via a general register, some
+architectures (most notably i386) can see performance losses of up to
+15% in very text-segment-heavy application workloads; most workloads
+see less than 1%. Architectures with more general registers (e.g. amd64)
+do not see as high a worst-case penalty.
 .
 .SH AUTHOR
 Copyright \(co 2010-2011 Rapha\[:e]l Hertzog
+.sp
+Copyright \(co 2011 Kees Cook
 .sp
 This is free software; see the GNU General Public Licence version 2 or
 later for copying conditions. There is NO WARRANTY.
