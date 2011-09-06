@@ -4,6 +4,7 @@
  *
  * Copyright © 2007 Canonical Ltd
  * Written by Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -203,6 +204,23 @@ trig_awaited_pend_enqueue(struct pkginfo *pend)
 	pkg_list_prepend(&trig_awaited_pend_head, pend);
 }
 
+void
+trig_awaited_pend_foreach(trig_awaited_pend_foreach_func *func)
+{
+	struct pkg_list *tp;
+
+	for (tp = trig_awaited_pend_head; tp; tp = tp->next)
+		if (!tp->pkg->trigpend_head)
+			func(tp->pkg);
+}
+
+void
+trig_awaited_pend_free(void)
+{
+	pkg_list_free(trig_awaited_pend_head);
+	trig_awaited_pend_head = NULL;
+}
+
 /*
  * Fix up packages in state triggers-awaited w/o the corresponding package
  * with pending triggers. This can happen when dpkg was interrupted
@@ -215,17 +233,11 @@ trig_awaited_pend_enqueue(struct pkginfo *pend)
 void
 trig_fixup_awaiters(enum modstatdb_rw cstatus)
 {
-	struct pkg_list *tp;
-
 	if (cstatus < msdbrw_write)
 		return;
 
-	for (tp = trig_awaited_pend_head; tp; tp = tp->next)
-		if (!tp->pkg->trigpend_head)
-			trig_clear_awaiters(tp->pkg);
-
-	pkg_list_free(trig_awaited_pend_head);
-	trig_awaited_pend_head = NULL;
+	trig_awaited_pend_foreach(trig_clear_awaiters);
+	trig_awaited_pend_free();
 }
 
 /*---------- Generalized handling of trigger kinds. ----------*/

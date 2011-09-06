@@ -83,7 +83,12 @@ bool trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/);
 bool trig_note_aw(struct pkginfo *pend, struct pkginfo *aw);
 void trig_clear_awaiters(struct pkginfo *notpend);
 
+typedef void trig_awaited_pend_foreach_func(struct pkginfo *pkg);
+
 void trig_awaited_pend_enqueue(struct pkginfo *pend);
+void trig_awaited_pend_foreach(trig_awaited_pend_foreach_func *func);
+void trig_awaited_pend_free(void);
+
 void trig_fixup_awaiters(enum modstatdb_rw cstatus);
 
 void trig_file_interests_ensure(void);
