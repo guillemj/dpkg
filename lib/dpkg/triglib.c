@@ -192,7 +192,7 @@ trig_clear_awaiters(struct pkginfo *notpend)
 static struct pkg_list *trig_awaited_pend_head;
 
 void
-trig_enqueue_awaited_pend(struct pkginfo *pend)
+trig_awaited_pend_enqueue(struct pkginfo *pend)
 {
 	struct pkg_list *tp;
 
