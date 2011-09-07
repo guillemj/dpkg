@@ -154,6 +154,45 @@ deb_verify(const char *filename)
   }
 }
 
+static char *
+get_control_dir(char *cidir)
+{
+  if (f_noact) {
+    char *tmpdir;
+
+    tmpdir = mkdtemp(path_make_temp_template("dpkg"));
+    if (tmpdir == NULL)
+      ohshite(_("unable to create temporary directory"));
+
+    cidir = m_realloc(cidir, strlen(tmpdir) + MAXCONTROLFILENAME + 10);
+
+    strcpy(cidir, tmpdir);
+
+    free(tmpdir);
+  } else {
+    const char *admindir;
+
+    admindir = dpkg_db_get_dir();
+
+    /* The admindir length is always constant on a dpkg execution run. */
+    if (cidir == NULL)
+      cidir = m_malloc(strlen(admindir) + sizeof(CONTROLDIRTMP) +
+                       MAXCONTROLFILENAME + 10);
+
+    /* We want it to be on the same filesystem so that we can
+     * use rename(2) to install the postinst &c. */
+    strcpy(cidir, admindir);
+    strcat(cidir, "/" CONTROLDIRTMP);
+
+    /* Make sure the control information directory is empty. */
+    ensure_pathname_nonexisting(cidir);
+  }
+
+  strcat(cidir, "/");
+
+  return cidir;
+}
+
 #define MAXCONFLICTORS 20
 
 static struct pkginfo *conflictor[MAXCONFLICTORS];
@@ -381,38 +420,11 @@ void process_archive(const char *filename) {
   if (!f_nodebsig)
     deb_verify(filename);
 
-  if (f_noact) {
-    char *tmpdir;
-
-    tmpdir = mkdtemp(path_make_temp_template("dpkg"));
-    if (!tmpdir)
-      ohshite(_("unable to create temporary directory"));
-
-    cidir = m_realloc(cidir, strlen(tmpdir) + MAXCONTROLFILENAME + 10);
-    strcpy(cidir, tmpdir);
-    strcat(cidir,"/");
-
-    cidirrest = cidir + strlen(cidir);
-
-    free(tmpdir);
-  } else {
-    const char *admindir = dpkg_db_get_dir();
-
-    /* We want it to be on the same filesystem so that we can
-     * use rename(2) to install the postinst &c. */
-    if (!cidir)
-      cidir = m_malloc(strlen(admindir) + sizeof(CONTROLDIRTMP) +
-                       MAXCONTROLFILENAME + 10);
-    strcpy(cidir,admindir);
-    strcat(cidir, "/" CONTROLDIRTMP);
-
-    ensure_pathname_nonexisting(cidir);
-
-    strcat(cidir, "/");
-    cidirrest = cidir + strlen(cidir);
-  }
-
+  /* Get the control information directory. */
+  cidir = get_control_dir(cidir);
+  cidirrest = cidir + strlen(cidir);
   push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);
+
   pid = subproc_fork();
   if (pid == 0) {
     cidirrest[-1] = '\0';
