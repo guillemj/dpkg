@@ -82,6 +82,7 @@ pkgadminfile(struct pkginfo *pkg, const char *filetype)
 
   varbuf_reset(&vb);
   varbuf_add_str(&vb, infodir);
+  varbuf_add_char(&vb, '/');
   varbuf_add_str(&vb, pkg->name);
   varbuf_add_char(&vb, '.');
   varbuf_add_str(&vb, filetype);

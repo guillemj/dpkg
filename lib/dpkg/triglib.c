@@ -253,6 +253,7 @@ trk_explicit_start(const char *trig)
 
 	varbuf_reset(&trk_explicit_fn);
 	varbuf_add_str(&trk_explicit_fn, triggersdir);
+	varbuf_add_char(&trk_explicit_fn, '/');
 	varbuf_add_str(&trk_explicit_fn, trig);
 	varbuf_end_str(&trk_explicit_fn);
 

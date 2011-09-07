@@ -64,12 +64,12 @@ DPKG_BEGIN_DECLS
 #define DIVERSIONSFILE    "diversions"
 #define STATOVERRIDEFILE  "statoverride"
 #define UPDATESDIR        "updates/"
-#define INFODIR           "info/"
-#define TRIGGERSDIR       "triggers/"
+#define INFODIR           "info"
+#define TRIGGERSDIR       "triggers"
 #define TRIGGERSFILEFILE  "File"
 #define TRIGGERSDEFERREDFILE "Unincorp"
 #define TRIGGERSLOCKFILE  "Lock"
-#define CONTROLDIRTMP     "tmp.ci/"
+#define CONTROLDIRTMP     "tmp.ci"
 #define IMPORTANTTMP      "tmp.i"
 #define REASSEMBLETMP     "reassemble" DEBEXT
 #define IMPORTANTMAXLEN    10

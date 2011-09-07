@@ -406,12 +406,10 @@ void process_archive(const char *filename) {
     strcpy(cidir,admindir);
     strcat(cidir, "/" CONTROLDIRTMP);
 
-    cidirrest = cidir + strlen(cidir);
-
-    assert(*cidir && cidirrest[-1] == '/');
-    cidirrest[-1] = '\0';
     ensure_pathname_nonexisting(cidir);
-    cidirrest[-1] = '/';
+
+    strcat(cidir, "/");
+    cidirrest = cidir + strlen(cidir);
   }
 
   push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);

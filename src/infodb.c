@@ -61,6 +61,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, pkg_infodb_file_func *func)
 	size_t db_path_len;
 
 	varbuf_add_str(&db_path, pkgadmindir());
+	varbuf_add_char(&db_path, '/');
 	db_path_len = db_path.used;
 	varbuf_add_char(&db_path, '\0');
 
