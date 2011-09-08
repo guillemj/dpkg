@@ -289,6 +289,12 @@ areadlink(const char *linkname)
 	/* Allocate required memory to store the value of the symlink */
 	if (lstat(linkname, &st))
 		return NULL;
+
+	if (!S_ISLNK(st.st_mode)) {
+		errno = EINVAL;
+		return NULL;
+	}
+
 	buf = xmalloc(st.st_size + 1);
 
 	/* Read it and terminate the string properly */
