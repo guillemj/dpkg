@@ -2075,7 +2075,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 			char *lnk;
 
 			xasprintf(&lnk, "%s/%s", altdir, sl->name);
-			new_file = areadlink(lnk);
+			new_file = xreadlink(lnk);
 			free(lnk);
 		}
 		if (strcmp(old, new) != 0 && lstat(old, &st) == 0 &&
