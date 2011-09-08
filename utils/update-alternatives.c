@@ -1646,25 +1646,39 @@ alternative_commit(struct alternative *a)
 	alternative_commit_operations_free(a);
 }
 
-static bool
-alternative_can_replace_path(const char *linkname)
+enum alternative_path_status {
+	ALT_PATH_SYMLINK,
+	ALT_PATH_MISSING,
+	ALT_PATH_OTHER,
+};
+
+static enum alternative_path_status
+alternative_path_classify(const char *linkname)
 {
 	struct stat st;
-	bool replace_link;
-
-	if (opt_force)
-		return true;
 
 	errno = 0;
 	if (lstat(linkname, &st) == -1) {
 		if (errno != ENOENT)
 			syserr(_("cannot stat file '%s'"), linkname);
-		replace_link = true;
+		return ALT_PATH_MISSING;
+	} else if (S_ISLNK(st.st_mode)) {
+		return ALT_PATH_SYMLINK;
 	} else {
-		replace_link = S_ISLNK(st.st_mode);
+		return ALT_PATH_OTHER;
 	}
+}
 
-	return replace_link;
+static bool
+alternative_can_replace_path(const char *linkname)
+{
+	if (opt_force)
+		return true;
+
+	if (alternative_path_classify(linkname) == ALT_PATH_OTHER)
+		return false;
+	else
+		return true;
 }
 
 static void
