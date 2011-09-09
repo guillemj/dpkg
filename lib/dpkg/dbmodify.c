@@ -57,7 +57,6 @@ static int nextupdate;
 static char *updatesdir;
 static int updateslength;
 static char *updatefnbuf, *updatefnrest;
-static char *infodir;
 static struct varbuf uvb;
 
 static int ulist_select(const struct dirent *de) {
@@ -142,7 +141,6 @@ static const struct fni {
   {   AVAILFILE,                  &availablefile      },
   {   UPDATESDIR,                 &updatesdir         },
   {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
-  {   INFODIR,                    &infodir            },
   {   NULL, NULL                                      }
 };
 
