@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2011-09-08 17:41+0300\n"
-"PO-Revision-Date: 2011-09-08 17:52+0200\n"
+"POT-Creation-Date: 2011-09-10 19:22+0300\n"
+"PO-Revision-Date: 2011-09-10 19:58+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -25,10 +25,10 @@ msgstr "deb"
 #. type: TH
 #: deb.5:1 deb-control.5:3 deb-src-control.5:3 deb-version.5:5 deb-old.5:1
 #: deb-override.5:15 deb-symbols.5:2 deb-triggers.5:1 dpkg.1:1
-#: dpkg-architecture.1:1 dpkg-buildflags.1:1 dpkg-buildpackage.1:1
-#: dpkg-deb.1:1 dpkg-divert.8:1 dpkg-genchanges.1:1 dpkg-gencontrol.1:1
-#: dpkg-gensymbols.1:2 dpkg-maintscript-helper.1:1 dpkg-mergechangelogs.1:1
-#: dpkg-name.1:6 dpkg-parsechangelog.1:1 dpkg-query.1:1 dpkg-scanpackages.1:15
+#: dpkg-architecture.1:1 dpkg-buildpackage.1:1 dpkg-deb.1:1 dpkg-divert.8:1
+#: dpkg-genchanges.1:1 dpkg-gencontrol.1:1 dpkg-gensymbols.1:2
+#: dpkg-maintscript-helper.1:1 dpkg-mergechangelogs.1:1 dpkg-name.1:6
+#: dpkg-parsechangelog.1:1 dpkg-query.1:1 dpkg-scanpackages.1:15
 #: dpkg-scansources.1:1 dpkg-shlibdeps.1:1 dpkg-source.1:2 dpkg-trigger.1:1
 #: dselect.1:1 update-alternatives.8:8
 #, no-wrap
@@ -1949,7 +1949,7 @@ msgid "Copyright \\(co 2007 Frank Lichtenheld"
 msgstr "Copyright \\(co 2007 Frank Lichtenheld"
 
 #. type: Plain text
-#: deb-version.5:126 deb-substvars.5:167 dpkg-buildflags.1:166
+#: deb-version.5:126 deb-substvars.5:167 dpkg-buildflags.1:273
 #: dpkg-buildpackage.1:267 dpkg-checkbuilddeps.1:44 dpkg-distaddfile.1:53
 #: dpkg-deb.1:269 dpkg-divert.8:139 dpkg-genchanges.1:154
 #: dpkg-gencontrol.1:150 dpkg-gensymbols.1:464 dpkg-maintscript-helper.1:139
@@ -2735,7 +2735,7 @@ msgstr ""
 
 #. type: SH
 #: deb-substvars.5:161 dpkg-architecture.1:303 dpkg.cfg.5:19
-#: dpkg-buildflags.1:161 dpkg-checkbuilddeps.1:40 dpkg-deb.1:265
+#: dpkg-buildflags.1:266 dpkg-checkbuilddeps.1:40 dpkg-deb.1:265
 #: dpkg-divert.8:135 dpkg-mergechangelogs.1:66 dpkg-name.1:104
 #: dpkg-query.1:214 dpkg-scansources.1:76 dpkg-split.1:223
 #: dpkg-statoverride.8:87 dpkg-vendor.1:48 dselect.cfg.5:19
@@ -6283,6 +6283,12 @@ msgstr "B<dpkg>(1)."
 msgid "dpkg-buildflags"
 msgstr "dpkg-buildflags"
 
+#. type: TH
+#: dpkg-buildflags.1:1
+#, no-wrap
+msgid "2011-09-09"
+msgstr "2011-09-09"
+
 #. type: Plain text
 #: dpkg-buildflags.1:4
 msgid "dpkg-buildflags - returns build flags to use during package build"
@@ -6780,10 +6786,236 @@ msgstr ""
 "Diese Variable kann zum Voranstellen ergänzender Optionen zum Wert, der von "
 "I<Schalter> zurückgegeben wird, verwandt werden."
 
+#. type: TP
+#: dpkg-buildflags.1:160
+#, no-wrap
+msgid "B<DEB_BUILD_MAINT_OPTIONS>"
+msgstr "B<DEB_BUILD_MAINT_OPTIONS>"
+
 #. type: Plain text
-#: dpkg-buildflags.1:163
+#: dpkg-buildflags.1:165
+msgid ""
+"This variable can be used to disable/enable various hardening build flags "
+"through the B<hardening> option. See the B<HARDENING> section for details."
+msgstr ""
+"Diese Variable kann zum Deaktivieren oder Aktivieren verschiedener "
+"Härtungsbauschalter durch die Option B<hardening> verwandt werden. Lesen Sie "
+"den Abschnitt B<HÄRTUNG> für weitere Details."
+
+#. type: SH
+#: dpkg-buildflags.1:166
+#, no-wrap
+msgid "HARDENING"
+msgstr "HÄRTUNG"
+
+#. type: Plain text
+#: dpkg-buildflags.1:171
+msgid ""
+"Several compile-time options (detailed below) can be used to help harden a "
+"resulting binary against memory corruption attacks, or provide additional "
+"warning messages during compilation. Except as noted below, these are "
+"enabled by default for architectures that support them."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1:177
+msgid ""
+"Each hardening feature can be enabled and disabled in the "
+"B<DEB_BUILD_MAINT_OPTIONS> environment variable's B<hardening> value with "
+"the \"+\" and \"-\" modifier. For example, to enable the \"pie\" feature and "
+"disable the \"fortify\" feature you can do this in B<debian/rules>:"
+msgstr ""
+"Jede Härtungsfunktionalität kann durch den entsprechenden B<Härtungs->-Wert "
+"in der Umgebungsvariablen B<DEB_BUILD_MAINT_OPTIONS> mit den »+«- und »-«-"
+"Schaltern aktiviert und deaktiviert werden. Soll beispielsweise die »pie«-"
+"Funktionalität aktiviert und die »fortify«-Funktionalität deaktiviert werden, "
+"können Sie Folgendes in B<debian/rules> verwenden:"
+
+#. type: Plain text
+#: dpkg-buildflags.1:179
+#, no-wrap
+msgid "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=+pie,-fortify\"\n"
+msgstr "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=+pie,-fortify\"\n"
+
+#. type: Plain text
+#: dpkg-buildflags.1:183
+msgid ""
+"The special feature B<all> can be used to enable or disable all hardening "
+"features at the same time. Thus disabling everything and enabling only "
+"\"format\" and \"fortify\" can be achieved with:"
+msgstr ""
+"Die spezielle Funktionalität B<all> kann dazu verwandt werden, alle "
+"Härtungsfunktionalitäten auf einmal zu aktivieren oder zu deaktiveren. Um "
+"daher alles zu deaktiveren und nur »format« und »fortify« zu aktiveren, kann "
+"Folgendes eingesetzt werden:"
+
+#. type: Plain text
+#: dpkg-buildflags.1:185
+#, no-wrap
+msgid "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=-all,+format,+fortify\"\n"
+msgstr "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=-all,+format,+fortify\"\n"
+
+#. type: TP
+#: dpkg-buildflags.1:186
+#, no-wrap
+msgid "B<format>"
+msgstr "B<format>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:198
+msgid ""
+"This setting (enabled by default) adds B<-Wformat -Wformat-security -"
+"Werror=format-security> to B<CFLAGS> and B<CXXFLAGS>. This will warn about "
+"improper format string uses, and will fail when format functions are used in "
+"a way that that represent possible security problems. At present, this warns "
+"about calls to B<printf> and B<scanf> functions where the format string is "
+"not a string literal and there are no format arguments, as in B<printf(foo);"
+"> instead of B<printf(\"%s\", foo);> This may be a security hole if the "
+"format string came from untrusted input and contains \"%n\"."
+msgstr ""
+"Diese Einstellung (standardmäßig aktiviert) fügt B<-Wformat -Wformat-security "
+"-Werror=format-security> zu B<CFLAGS> und B<CXXFLAGS> hinzu. Damit wird über "
+"inkorrekte Formatzeichenkettenverwendungen gewarnt und zu einem Fehler "
+"führen, wenn Formatfunktionen deart verwandt werden, dass daraus ein "
+"mögliches Sicherheitsproblem werden könnte. Derzeit warnt dies über Aufrufe "
+"auf B<printf>- und B<scanf>-Funktionen, bei denen die Formatzeichenkette "
+"nicht eine reine Zeichenkette ist und es keine Formatargumente gibt, wie in "
+"B<printf(foo);> statt B<printf(\"%s\", foo);>. Dies könnte ein "
+"Sicherheitsproblem sein, falls die Formatzeichenkette aus einer "
+"unvertrauenswürdigen Eingabe stammt und »%n« enthält."
+
+#. type: TP
+#: dpkg-buildflags.1:199
+#, no-wrap
+msgid "B<fortify>"
+msgstr "B<fortify>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:210
+msgid ""
+"This setting (enabled by default) adds B<-D_FORTIFY_SOURCE=2> to B<CFLAGS> "
+"and B<CXXFLAGS>. During code generation the compiler knows a great deal of "
+"information about buffer sizes (where possible), and attempts to replace "
+"insecure unlimited length buffer function calls with length-limited ones. "
+"This is especially useful for old, crufty code.  Additionally, format "
+"strings in writable memory that contain '%n' are blocked. If an application "
+"depends on such a format string, it will need to be worked around."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1:213
+msgid ""
+"Note that for this option to have any effect, the source must also be "
+"compiled with B<-O1> or higher."
+msgstr ""
+"Beachten Sie, dass die Quellen auch mit B<-O1> oder höher kompiliert werden "
+"müssen, damit diese Option einen Effekt hat."
+
+#. type: TP
+#: dpkg-buildflags.1:213
+#, no-wrap
+msgid "B<stackprotector>"
+msgstr "B<stackprotector>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:222
+msgid ""
+"This setting (enabled by default) adds B<-fstack-protector --param=ssp-"
+"buffer-size=4> to B<CFLAGS> and B<CXXFLAGS>. This adds safety checks against "
+"stack overwrites. This renders many potential code injection attacks into "
+"aborting situations. In the best case this turns code injection "
+"vulnerabilities into denial of service or into non-issues (depending on the "
+"application)."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1:226
+msgid ""
+"This feature requires linking against glibc (or another provider of "
+"B<__stack_chk_fail>), so needs to be disabled when building with B<-"
+"nostdlib> or B<-ffreestanding> or similar."
+msgstr ""
+"Diese Funktionalität benötigt das Linken mit Glibc (oder einem anderen "
+"Anbieter von B<__stack_chk_fail>). Sie muss daher deaktiviert werden, wenn "
+"mit B<-nostdlib> oder B<-ffreestanding> oder Ähnlichem gebaut wird."
+
+#. type: TP
+#: dpkg-buildflags.1:227
+#, no-wrap
+msgid "B<relro>"
+msgstr "B<relro>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:235
+msgid ""
+"This setting (enabled by default) adds B<-Wl,-z,relro> to B<LDFLAGS>.  "
+"During program load, several ELF memory sections need to be written to by "
+"the linker. This flags the loader to turn these sections read-only before "
+"turning over control to the program. Most notably this prevents GOT "
+"overwrite attacks."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildflags.1:236
+#, no-wrap
+msgid "B<bindnow>"
+msgstr "B<bindnow>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:243
+msgid ""
+"This setting (enabled by default) adds B<-Wl,-z,bindnow> to B<LDFLAGS>. "
+"During program load, all dynamic symbols are resolved, allowing for the "
+"entire PLT to be marked read-only (due to B<relro> above)."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildflags.1:244
+#, no-wrap
+msgid "B<pie>"
+msgstr "B<pie>"
+
+#. type: Plain text
+#: dpkg-buildflags.1:256
+msgid ""
+"This setting (disabled by default) adds B<-fPIE> to B<CFLAGS> and "
+"B<CXXFLAGS>, and B<-fPIE -pie> to B<LDFLAGS>. Position Independent "
+"Executable are needed to take advantage of Address Space Layout "
+"Randomization, supported by some kernel versions. While ASLR can already be "
+"enforced for data areas in the stack and heap (brk and mmap), the code areas "
+"must be compiled as position-independent. Shared libraries already do this (-"
+"fPIC), so they gain ASLR automatically, but binary .text regions need to be "
+"build PIE to gain ASLR. When this happens, ROP (Return Oriented Programming) "
+"attacks are much harder since there are no static locations to bounce off of "
+"during a memory corruption attack."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1:259
+msgid ""
+"This is not compatible with B<-fPIC> so care must be taken when building "
+"shared objects."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1:265
+msgid ""
+"Additionally, since PIE is implemented via a general register, some "
+"architectures (most notably i386) can see performance losses of up to 15% in "
+"very text-segment-heavy application workloads; most workloads see less than "
+"1%. Architectures with more general registers (e.g. amd64)  do not see as "
+"high a worst-case penalty."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1:268
 msgid "Copyright \\(co 2010-2011 Rapha\\[:e]l Hertzog"
 msgstr "Copyright \\(co 2007-2011 Rapha\\[:e]l Hertzog"
+
+#. type: Plain text
+#: dpkg-buildflags.1:270
+msgid "Copyright \\(co 2011 Kees Cook"
+msgstr "Copyright \\(co 2011 Kees Cook"
 
 #. type: TH
 #: dpkg-buildpackage.1:1
