@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2011-09-10 19:22+0300\n"
-"PO-Revision-Date: 2011-09-10 19:58+0200\n"
+"PO-Revision-Date: 2011-09-11 15:18+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -6816,6 +6816,11 @@ msgid ""
 "warning messages during compilation. Except as noted below, these are "
 "enabled by default for architectures that support them."
 msgstr ""
+"Mehrere Kompilierzeit-Optionen (weiter unten beschrieben) können dazu "
+"verwandt werden, ein erstelltes Programm gegen Speicherverfälschungsangriffe "
+"zu härten, oder zusätzliche Warnungsmeldungen während der Übersetzung "
+"auszugeben. Sie werden für Architekturen, die diese unterstützen, "
+"standardmäßig aktiviert; die Ausnahmen sind unten angegeben."
 
 #. type: Plain text
 #: dpkg-buildflags.1:177
@@ -6901,6 +6906,14 @@ msgid ""
 "strings in writable memory that contain '%n' are blocked. If an application "
 "depends on such a format string, it will need to be worked around."
 msgstr ""
+"Diese Einstellung (standardmäßig aktiviert) fügt B<-D_FORTIFY_SOURCE=2> zu "
+"B<CFLAGS> und B<CXXFLAGS> hinzu. Während der Code-Erstellung hat der Compiler "
+"umfangreiche Informationen über Puffergrößen (wo möglich) und versucht, "
+"unsichere unbegrenzte Pufferfunktionsaufrufe durch längenbegrenzte zu "
+"ersetzen. Das ist besonders für alten, verkramten Code nützlich. Zusätzlich "
+"werden Formatzeichenketten in schreibbarem Speicher, die »%n« enthalten, "
+"blockiert. Falls eine Anwendung von solchen Formatzeichenketten abhängt, "
+"müssen dafür andere Lösungsmöglichkeiten gefunden werden."
 
 #. type: Plain text
 #: dpkg-buildflags.1:213
@@ -6927,6 +6940,13 @@ msgid ""
 "vulnerabilities into denial of service or into non-issues (depending on the "
 "application)."
 msgstr ""
+"Diese Einstellung (standardmäßig aktiviert) fügt B<-fstack-protector --param="
+"ssp-buffer-size=4> zu B<CFLAGS> und B<CXXFLAGS> hinzu. Dies fügt "
+"Sicherheitsprüfungen gegen die Überschreibung des Stapelspeichers (Stacks) "
+"hinzu. Damit werden viele mögliche Code-Einfügeangriffe zu "
+"Abbruchsituationen. Im besten Fall werden damit Code-Einfügungsangriffe zu "
+"Diensteverweigerungsangriffen oder zu keinen Problemen (abhängig von der "
+"Anwendung)."
 
 #. type: Plain text
 #: dpkg-buildflags.1:226
@@ -6954,6 +6974,12 @@ msgid ""
 "turning over control to the program. Most notably this prevents GOT "
 "overwrite attacks."
 msgstr ""
+"Diese Einstellung (standardmäßig aktiviert) fügt B<-Wl,-z,relro> zu "
+"B<LDFLAGS> hinzu. Während des Ladens des Programms müssen mehrere ELF-"
+"Speicherabschnitte vom Binder (Linker) geschrieben werden. Diese Einstellung "
+"signalisiert dem Ladeprogramm, diese Abschnitte in nur-Lese-Zugriff zu "
+"ändern, bevor die Steuerung an das Programm übergeben wird. Insbesondere "
+"verhindert dies GOT-Überschreibeangriffe."
 
 #. type: TP
 #: dpkg-buildflags.1:236
@@ -6968,6 +6994,10 @@ msgid ""
 "During program load, all dynamic symbols are resolved, allowing for the "
 "entire PLT to be marked read-only (due to B<relro> above)."
 msgstr ""
+"Diese Einstellung (standardmäßig aktiviert) fügt B<-Wl,-z,bindnow> zu "
+"B<LDFLAGS> hinzu. Während des Ladens des Programms werden alle dynamischen "
+"Symbole aufgelöst, womit das gesamte PLT nur-lesend markiert werden kann "
+"(aufgrund von B<relro> oben)."
 
 #. type: TP
 #: dpkg-buildflags.1:244
@@ -6989,6 +7019,19 @@ msgid ""
 "attacks are much harder since there are no static locations to bounce off of "
 "during a memory corruption attack."
 msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) fügt B<-fPIE> zu B<CFLAGS> und "
+"B<CXXFLAGS> sowie B<-fPIE -pie> zu B<LDFLAGS> hinzu. »Position Independent "
+"Executable« (positionsunabhängige Programme) werden benötigt, um »Address "
+"Space Layout Randomization« (Bereitstellung eines zufälligen "
+"Adressbereichlayouts) auszunutzen, der von einigen Kernelversionen "
+"bereitgestellt wird. Während ASLR bereits für Datenbereiche auf dem Stapel "
+"(Stack) und Heap erzwungen werden kann (brk und mmap), müssen die "
+"Codebereiche positionsunabhängig übersetzt werden. Laufzeitbibliotheken "
+"machen dies bereits (-fPIC), so dass sie ASLR automatisch erhalten, aber "
+"Programm-.text-Regionen müssen mit PIE gebaut werden, um ASLR zu erhalten. "
+"Wenn dies passiert, sind ROP- (Return Oriented Programming) Angriffe sehr "
+"viel schwerer durchzuführen, da es keine statischen Orte mehr gibt, zu denen "
+"während eines Speicherverfälschungsangriffs hingesprungen werden könnte."
 
 #. type: Plain text
 #: dpkg-buildflags.1:259
@@ -6996,6 +7039,8 @@ msgid ""
 "This is not compatible with B<-fPIC> so care must be taken when building "
 "shared objects."
 msgstr ""
+"Dies ist nicht mit B<-fPIC> kompatibel, daher muss beim Erstellen von "
+"Laufzeitbibliotheken Vorsicht angewandt werden."
 
 #. type: Plain text
 #: dpkg-buildflags.1:265
@@ -7006,6 +7051,12 @@ msgid ""
 "1%. Architectures with more general registers (e.g. amd64)  do not see as "
 "high a worst-case penalty."
 msgstr ""
+"Zusätzlich können auf einigen Architekturen (am deutlichsten auf i368) "
+"Leistungsverluste von bis zu 15% in sehr text-Segment-lastigen "
+"Anwendungsfällen auftreten, da PIE über allgemeine Register implementiert "
+"ist; in den meisten Anwendungsfällen sind dies weniger als 1%. Architekturen "
+"mit mehr allgemeinen Registern (z.B. Amd64) erfahren nicht diese "
+"Schlimmstfall-Strafe."
 
 #. type: Plain text
 #: dpkg-buildflags.1:268
@@ -16785,7 +16836,7 @@ msgstr ""
 "Es ist auch möglich, die Befehle auf Gruppen von Paketauswahlen anzuwenden, "
 "indem mit dem Cursor-Balken die Gruppen-Überschrift ausgewählt wird. Die "
 "genaue Gruppierung der Pakete hängt von den Einstellungen der aktuellen "
-"Listen-Sortierung ab."
+"Listensortierung ab."
 
 #. type: Plain text
 #: dselect.1:366
