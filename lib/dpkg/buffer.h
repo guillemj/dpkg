@@ -62,6 +62,11 @@ struct buffer_data {
 	                   NULL, BUFFER_FILTER_NULL, \
 	                   fd2, BUFFER_WRITE_FD, \
 	                   limit, __VA_ARGS__)
+# define fd_fd_copy_and_md5(fd1, fd2, hash, limit, ...) \
+	buffer_copy_IntInt(fd1, BUFFER_READ_FD, \
+	                   hash, BUFFER_FILTER_MD5, \
+	                   fd2, BUFFER_WRITE_FD, \
+	                   limit, __VA_ARGS__)
 # define fd_vbuf_copy(fd, buf, limit, ...) \
 	buffer_copy_IntPtr(fd, BUFFER_READ_FD, \
 	                   NULL, BUFFER_FILTER_NULL, \
