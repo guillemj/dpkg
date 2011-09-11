@@ -151,8 +151,6 @@ static const struct cmdinfo cmdinfos[]= {
 
 int main(int argc, const char *const *argv) {
   int ret;
-  int l;
-  char *p;
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
@@ -163,14 +161,6 @@ int main(int argc, const char *const *argv) {
   myopt(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
-
-  l = strlen(opt_depotdir);
-  if (l && opt_depotdir[l - 1] != '/') {
-    p= nfmalloc(l+2);
-    strcpy(p, opt_depotdir);
-    strcpy(p+l,"/");
-    opt_depotdir = p;
-  }
 
   setvbuf(stdout,NULL,_IONBF,0);
 

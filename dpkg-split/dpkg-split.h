@@ -73,7 +73,7 @@ void addtopartlist(struct partinfo**, struct partinfo*, struct partinfo *refi);
 
 #define SPLITVERSION       "2.1"
 
-#define PARTSDIR          "parts/"
+#define PARTSDIR          "parts"
 
 #define PARTMAGIC         "debian-split"
 #define HEADERALLOWANCE    1024
