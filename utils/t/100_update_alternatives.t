@@ -81,7 +81,7 @@ my @choices = (
 );
 my $nb_slaves = 4;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 26 # number of check_choices
-               + 102;                         # rest
+               + 106;                         # rest
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
@@ -362,7 +362,15 @@ $choices[0]{"slaves"}[0]{"link"} = "$bindir/generic-slave-bis";
 install_choice(0);
 check_choice(0, "auto", "rename lost file");
 check_no_link($old_slave, "rename lost file");
+# update of alternative with many slaves not currently installed
+# and the link of the renamed slave exists while it should not
+set_choice(1);
+symlink("/bin/cat", "$bindir/generic-slave-bis");
 $choices[0]{"slaves"}[0]{"link"} = "$bindir/slave2";
+install_choice(0, test_id => "update with non-installed slaves");
+check_no_link("$bindir/generic-slave-bis",
+              "drop renamed symlink that should not be installed");
+
 # test install with empty admin file (#457863)
 cleanup();
 system("touch $admindir/generic-test");
