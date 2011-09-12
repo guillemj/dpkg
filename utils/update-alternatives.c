@@ -1807,7 +1807,6 @@ alternative_is_broken(struct alternative *a)
 	char *altlnk, *wanted, *current;
 	struct fileset *fs;
 	struct slave_link *sl;
-	struct stat st;
 
 	if (!alternative_has_current_link(a))
 		return true;
@@ -1864,10 +1863,10 @@ alternative_is_broken(struct alternative *a)
 			char *sl_altlnk;
 
 			/* Slave link must not exist. */
-			if (lstat(sl->link, &st) == 0)
+			if (alternative_path_classify(sl->link) != ALT_PATH_MISSING)
 				return true;
 			xasprintf(&sl_altlnk, "%s/%s", altdir, sl->name);
-			if (lstat(sl_altlnk, &st) == 0) {
+			if (alternative_path_classify(sl_altlnk) != ALT_PATH_MISSING) {
 				free(sl_altlnk);
 				return true;
 			}
@@ -2126,7 +2125,17 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 		}
 		if (strcmp(old, new) != 0 &&
 		    alternative_path_classify(old) == ALT_PATH_SYMLINK) {
-			if (new_file && stat(new_file, &st) == 0) {
+			bool rename_link = false;
+
+			if (new_file) {
+				errno = 0;
+				if (stat(new_file, &st) == -1 && errno != ENOENT)
+					syserr(_("cannot stat file '%s'"),
+					       new_file);
+				rename_link = (errno == 0);
+			}
+
+			if (rename_link) {
 				info(_("renaming %s slave link from %s to %s."),
 				     sl->name, old, new);
 				checked_mv(old, new);
@@ -2193,9 +2202,13 @@ alternative_check_install_args(struct alternative *inst_alt,
 	alternative_check_args(inst_alt->master_name, inst_alt->master_link,
 	                       fileset->master_file);
 
-	if (stat(fileset->master_file, &st) == -1 && errno == ENOENT)
-		error(_("alternative path %s doesn't exist."),
-		      fileset->master_file);
+	if (stat(fileset->master_file, &st) == -1) {
+		if (errno == ENOENT)
+			error(_("alternative path %s doesn't exist."),
+			      fileset->master_file);
+		else
+			syserr(_("cannot stat file '%s'"), fileset->master_file);
+	}
 
 	for (sl = inst_alt->slaves; sl; sl = sl->next) {
 		const char *file = fileset_get_slave(fileset, sl->name);
@@ -2469,8 +2482,11 @@ main(int argc, char **argv)
 		if (!alternative_has_choice(a, current_choice)) {
 			struct stat st;
 
-			if (stat(current_choice, &st) == -1 &&
-			    errno == ENOENT) {
+			errno = 0;
+			if (stat(current_choice, &st) == -1 && errno != ENOENT)
+				syserr(_("cannot stat file '%s'"), current_choice);
+
+			if (errno == ENOENT) {
 				warning(_("%s/%s is dangling, it will be updated "
 				          "with best choice."), altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_AUTO);
