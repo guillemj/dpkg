@@ -2094,7 +2094,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	struct slave_link *sl;
 	struct stat st;
 
-	bool is_link = (lstat(a->master_link, &st) == 0 && S_ISLNK(st.st_mode));
+	bool is_link = (alternative_path_classify(a->master_link) == ALT_PATH_SYMLINK);
 	if (is_link && strcmp(a->master_link, b->master_link) != 0) {
 		info(_("renaming %s link from %s to %s."), b->master_name,
 		     a->master_link, b->master_link);
@@ -2124,8 +2124,8 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 			new_file = areadlink(lnk);
 			free(lnk);
 		}
-		if (strcmp(old, new) != 0 && lstat(old, &st) == 0 &&
-		    S_ISLNK(st.st_mode)) {
+		if (strcmp(old, new) != 0 &&
+		    alternative_path_classify(old) == ALT_PATH_SYMLINK) {
 			if (new_file && stat(new_file, &st) == 0) {
 				info(_("renaming %s slave link from %s to %s."),
 				     sl->name, old, new);
