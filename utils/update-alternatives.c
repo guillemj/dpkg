@@ -2121,12 +2121,12 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 			char *lnk;
 
 			xasprintf(&lnk, "%s/%s", altdir, sl->name);
-			new_file = xreadlink(lnk);
+			new_file = areadlink(lnk);
 			free(lnk);
 		}
 		if (strcmp(old, new) != 0 && lstat(old, &st) == 0 &&
 		    S_ISLNK(st.st_mode)) {
-			if (stat(new_file, &st) == 0) {
+			if (new_file && stat(new_file, &st) == 0) {
 				info(_("renaming %s slave link from %s to %s."),
 				     sl->name, old, new);
 				checked_mv(old, new);
