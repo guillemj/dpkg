@@ -1975,13 +1975,30 @@ alternative_map_load_tree(struct alternative_map *alt_map_links,
 			continue;
 		}
 		alternative_map_add(alt_map_links, a_new->master_link, a_new);
+		alternative_ref(a_new);
 		alternative_map_add(alt_map_parent, a_new->master_name, a_new);
 		for (sl = a_new->slaves; sl; sl = sl->next) {
+			alternative_ref(a_new);
 			alternative_map_add(alt_map_links, sl->link, a_new);
+			alternative_ref(a_new);
 			alternative_map_add(alt_map_parent, sl->name, a_new);
 		}
 	}
 	altdb_free_namelist(table, count);
+}
+
+static void
+alternative_map_free(struct alternative_map *am)
+{
+	struct alternative_map *am_next;
+
+	while (am) {
+		am_next = am->next;
+		if (am->item)
+			alternative_free(am->item);
+		free(am);
+		am = am_next;
+	}
 }
 
 static const char *
@@ -2266,6 +2283,9 @@ alternative_check_install_args(struct alternative *inst_alt,
 
 		alternative_check_args(sl->name, sl->link, file);
 	}
+
+	alternative_map_free(alt_map_links);
+	alternative_map_free(alt_map_parent);
 }
 
 /*
@@ -2458,6 +2478,8 @@ main(int argc, char **argv)
 			free(current);
 		}
 
+		alternative_map_free(alt_map_obj);
+
 		exit(0);
 	} else if (strcmp(action, "set-selections") == 0) {
 		struct alternative_map *alt_map_obj;
@@ -2466,6 +2488,7 @@ main(int argc, char **argv)
 		alt_map_obj = alternative_map_new(NULL, NULL);
 		alternative_map_load_names(alt_map_obj);
 		alternative_set_selections(alt_map_obj, stdin, _("<standard input>"));
+		alternative_map_free(alt_map_obj);
 		exit(0);
 	}
 
