@@ -90,7 +90,7 @@ sub add_hardening_flags {
 	"fortify" => 1,
 	"format" => 1,
 	"relro" => 1,
-	"bindnow" => 1
+	"bindnow" => 0
     );
     my $opts = Dpkg::BuildOptions->new(envvar => "DEB_BUILD_MAINT_OPTIONS");
     foreach my $feature (split(",", $opts->get("hardening") // "")) {
