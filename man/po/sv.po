@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-11 09:55+0100\n"
-"PO-Revision-Date: 2011-09-11 10:02+0100\n"
+"PO-Revision-Date: 2011-09-13 08:29+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -6700,6 +6700,10 @@ msgid ""
 "warning messages during compilation. Except as noted below, these are "
 "enabled by default for architectures that support them."
 msgstr ""
+"Du kan använda flera kompileringsflaggor (se detaljer nedan) för att härda "
+"den färdiga binären mot minnesfördärvningsangrepp, eller för att ge "
+"ytterligare varningsmeddelanden under kompileringen. Förutom det som anges "
+"nedan aktiveras dessa som standard för arkitekturer som stöder dem."
 
 #. type: Plain text
 #: dpkg-buildflags.1:177
@@ -6709,12 +6713,16 @@ msgid ""
 "the \"+\" and \"-\" modifier. For example, to enable the \"pie\" feature and "
 "disable the \"fortify\" feature you can do this in B<debian/rules>:"
 msgstr ""
+"Varje härdningsfunktion kan aktiveras och inaktiveras i miljövariabeln "
+"B<DEB_BUILD_MAINT_OPTIONS> värde B<hardening> med modifierarna \"+\" och \"-"
+"\". Du kan till exempel aktivera och funktionen \"pie\" och inaktivera "
+"funktionen \"fortify\" genom att ange detta i B<debian/rules>:"
 
 #. type: Plain text
 #: dpkg-buildflags.1:179
 #, no-wrap
 msgid "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=+pie,-fortify\"\n"
-msgstr ""
+msgstr "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=+pie,-fortify\"\n"
 
 #. type: Plain text
 #: dpkg-buildflags.1:183
@@ -6723,19 +6731,22 @@ msgid ""
 "features at the same time. Thus disabling everything and enabling only "
 "\"format\" and \"fortify\" can be achieved with:"
 msgstr ""
+"Den speciella funktionen B<all> kan användas för att aktivera eller "
+"inaktivera alla härdningsfunktioner samtidigt. Du kan till exempel "
+"inaktivera allt och endast aktivera \"format\" och \"fortify\" med:"
 
 #. type: Plain text
 #: dpkg-buildflags.1:185
 #, no-wrap
 msgid "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=-all,+format,+fortify\"\n"
-msgstr ""
+msgstr "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=-all,+format,+fortify\"\n"
 
 #. type: TP
 #: dpkg-buildflags.1:186
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Format>"
 msgid "B<format>"
-msgstr "B<Format>"
+msgstr "B<format>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:198
@@ -6749,12 +6760,21 @@ msgid ""
 "> instead of B<printf(\"%s\", foo);> This may be a security hole if the "
 "format string came from untrusted input and contains \"%n\"."
 msgstr ""
+"Inställningen (aktiverad som standard) lägger till B<-Wformat -Wformat-"
+"security -Werror=format-security> till B<CFLAGS> och B<CXXFLAGS>. Detta "
+"kommer att varna om olämplig användning av formatsträngar, och att "
+"misslyckas när formatfunktionerna används på ett sätt som representerar "
+"möjliga säkerhetsproblem. För närvarande varnar detta om anrop till "
+"funktionerna B<printf> och B<scanf> där formatsträngen inte är en fast "
+"sträng och när det inte finns några formatargument, som i B<printf(foo);> "
+"istället för B<printf(\"%s\", foo);> Detta kan vara ett säkerhetshål om "
+"formatsträngen kommer från en obetrodd källa och innehåller \"%n\"."
 
 #. type: TP
 #: dpkg-buildflags.1:199
 #, no-wrap
 msgid "B<fortify>"
-msgstr ""
+msgstr "B<fortify>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:210
@@ -6767,6 +6787,13 @@ msgid ""
 "strings in writable memory that contain '%n' are blocked. If an application "
 "depends on such a format string, it will need to be worked around."
 msgstr ""
+"Inställningen (aktiverad som standard) lägger till  B<-D_FORTIFY_SOURCE=2> "
+"till B<CFLAGS>. Kompilatorn har under kodgenereringen kännedom om en hel del "
+"information om buffertstorlekar (där tillämpligt) och försöker ersätta "
+"osäkra funktionsanrop med obegränsade buffertlängder med längdbegränsade "
+"dito. Det här är speciellt användbart för gammal, skräpig kod. Dessutom "
+"blockeras formatsträngar i skrivbart minne som innehåller \"%n\". Om ett "
+"program är beroende av en sådan formatsträng måste det gås runt i kod."
 
 #. type: Plain text
 #: dpkg-buildflags.1:213
@@ -6774,12 +6801,14 @@ msgid ""
 "Note that for this option to have any effect, the source must also be "
 "compiled with B<-O1> or higher."
 msgstr ""
+"Observera att, för att den här flaggan skall ha någon effekt, måste "
+"källkoden också kompileras med B<-O1> eller högre."
 
 #. type: TP
 #: dpkg-buildflags.1:213
 #, no-wrap
 msgid "B<stackprotector>"
-msgstr ""
+msgstr "B<stackprotector>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:222
@@ -6791,6 +6820,12 @@ msgid ""
 "vulnerabilities into denial of service or into non-issues (depending on the "
 "application)."
 msgstr ""
+"Inställningen (aktiverad som standard) lägger till B<-fstack-protector --"
+"param=ssp-buffer-size=4> till B<CFLAGS> och B<CXXFLAGS>. Detta lägger till "
+"säkerhetskontroller mot stacköverskrivningar, vilket gör att många möjliga "
+"kodinjiceringsangrepp istället avbryter programmet. I det bästa fallet gör "
+"det kodinjiceringsangrepp till överbelastnignsangrepp eller icke-problem "
+"(beroende på programmet)."
 
 #. type: Plain text
 #: dpkg-buildflags.1:226
@@ -6799,13 +6834,16 @@ msgid ""
 "B<__stack_chk_fail>), so needs to be disabled when building with B<-"
 "nostdlib> or B<-ffreestanding> or similar."
 msgstr ""
+"Den här funktionen kräver länkning mot glibc (eller ett annat bibliotek som "
+"tillhandahåller B<__stack_chk_fail>), så det måste inaktiveras när du bygger "
+"med B<-nostdlib> eller B<-ffreestanding> eller liknande."
 
 #. type: TP
 #: dpkg-buildflags.1:227
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<regex>"
 msgid "B<relro>"
-msgstr "B<regex>"
+msgstr "B<relro>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:235
@@ -6816,12 +6854,17 @@ msgid ""
 "turning over control to the program. Most notably this prevents GOT "
 "overwrite attacks."
 msgstr ""
+"Inställningen (aktiverad som standard) lägger till B<-Wl,-z,relro> till "
+"B<LDFLAGS>. Vid inläsning av programmet måste länkaren skriva till flera ELF-"
+"minnessektioner. Den här inställningen flaggar till inläsaren att dessa "
+"sektioner skall göras skrivskyddade innan programmet får kontroll. Detta "
+"skyddar huvudsaklingen mot GOT-överskrivningsangrepp."
 
 #. type: TP
 #: dpkg-buildflags.1:236
 #, no-wrap
 msgid "B<bindnow>"
-msgstr ""
+msgstr "B<bindnow>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:243
@@ -6830,12 +6873,16 @@ msgid ""
 "During program load, all dynamic symbols are resolved, allowing for the "
 "entire PLT to be marked read-only (due to B<relro> above)."
 msgstr ""
+"Inställningen (aktiverad som standard) lägger till B<-Wl,-z,bindnow> till "
+"B<LDFLAGS>. Vid inläsning av programmet löses alla dynamiska symboler, "
+"vilket gör att hela PLT kan markeras som skrivskyddad (på grund av B<relro> "
+"ovan)."
 
 #. type: TP
 #: dpkg-buildflags.1:244
 #, no-wrap
 msgid "B<pie>"
-msgstr ""
+msgstr "B<pie>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:256
@@ -6851,6 +6898,17 @@ msgid ""
 "attacks are much harder since there are no static locations to bounce off of "
 "during a memory corruption attack."
 msgstr ""
+"Inställningen (inaktiverad som standard) lägger till B<-fPIE> till B<CFLAGS> "
+"och B<CXXFLAGS>, samt B<-fPIE -pie> till B<LDFLAGS>. Positionsoberoende "
+"exekverbara program (PIE) behövs för att dra fördel av slumpmässig "
+"adressrymd (ASLR), vilket stöds av vissa versioner av kärnan. Medan ASLR "
+"redan kan användas för datautrymmen i stacken och heap:en (brk och mmap), "
+"måste kodområden först kompileras som positionsoberoende. Delade bibliotek "
+"gör redan detta (-fPI C), så de drar automatiskt fördel av ASLR medan "
+"binära .text-regioner måste byggas med PIE för att uppnå ASLR. När detta "
+"sker är ROP-angrepp (Return Oriented Programming) mycket svårare eftersom "
+"det inte finns några statiska platser att studsa från i ett "
+"minnesfördärvningsangrepp."
 
 #. type: Plain text
 #: dpkg-buildflags.1:259
@@ -6858,6 +6916,8 @@ msgid ""
 "This is not compatible with B<-fPIC> so care must be taken when building "
 "shared objects."
 msgstr ""
+"Detta är inte kompatibelt med B<-fPIC> så man måste vara försiktig när man "
+"bygger delade objekt."
 
 #. type: Plain text
 #: dpkg-buildflags.1:265
@@ -6868,6 +6928,11 @@ msgid ""
 "1%. Architectures with more general registers (e.g. amd64)  do not see as "
 "high a worst-case penalty."
 msgstr ""
+"Eftersom PIE i tillägg implementeras med ett generellt register kan vissa "
+"arkitekturer (huvudsakligen i386) se prestandaförluster upp till 15% i "
+"väldigt textsegment-tunga programs körning; de flesta körningar ser mindre "
+"än 1%. Arkitekturer med många generella register (t.ex amd64) ser inte en "
+"lika stor värsta falls-förlust."
 
 #. type: Plain text
 #: dpkg-buildflags.1:268
