@@ -719,6 +719,7 @@ struct alternative {
 
 	struct commit_operation *commit_ops;
 
+	int ref_count;
 	bool modified;
 };
 
@@ -751,8 +752,21 @@ alternative_new(const char *name)
 	alt->choices = NULL;
 	alt->commit_ops = NULL;
 	alt->modified = false;
+	alt->ref_count = 1;
 
 	return alt;
+}
+
+static inline void
+alternative_ref(struct alternative *a)
+{
+	a->ref_count++;
+}
+
+static inline bool
+alternative_unref(struct alternative *a)
+{
+	return --a->ref_count == 0;
 }
 
 static void
@@ -802,6 +816,9 @@ alternative_reset(struct alternative *alt)
 static void
 alternative_free(struct alternative *alt)
 {
+	if (!alternative_unref(alt))
+		return;
+
 	alternative_reset(alt);
 	free(alt->master_name);
 	free(alt);
