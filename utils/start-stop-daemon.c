@@ -1058,7 +1058,7 @@ pid_is_user(pid_t pid, uid_t uid)
 	struct proc_stat *ps;
 
 	ps = get_proc_stat(pid, PSTAT_OWNER_UID);
-	return ps && proc_stat_owner_uid(ps) == uid;
+	return ps && (uid_t)proc_stat_owner_uid(ps) == uid;
 }
 #elif defined(OShpux)
 static bool
