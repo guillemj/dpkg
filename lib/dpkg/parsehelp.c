@@ -30,6 +30,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/string.h>
+#include <dpkg/error.h>
 #include <dpkg/parsedump.h>
 
 static const char *
@@ -184,14 +185,28 @@ const char *versiondescribe
   return vb->buf;
 }
 
-static const char *
-parseversion_lax(struct versionrevision *rversion, const char *string)
+/**
+ * Parse a version string and check for invalid syntax.
+ *
+ * Distinguish between lax (warnings) and strict (error) parsing.
+ *
+ * @param rversion The parsed version.
+ * @param string The version string to parse.
+ * @param err The warning or error message if any.
+ *
+ * @retval  0 On success.
+ * @retval -1 On failure, and err is set accordingly.
+ */
+int
+parseversion(struct versionrevision *rversion, const char *string,
+             struct dpkg_error *err)
 {
   char *hyphen, *colon, *eepochcolon;
   const char *end, *ptr;
   unsigned long epoch;
 
-  if (!*string) return _("version string is empty");
+  if (!*string)
+    return dpkg_put_error(err, _("version string is empty"));
 
   /* Trim leading and trailing space. */
   while (*string && isblank(*string))
@@ -205,13 +220,16 @@ parseversion_lax(struct versionrevision *rversion, const char *string)
   ptr = end;
   while (*ptr && isblank(*ptr))
     ptr++;
-  if (*ptr) return _("version string has embedded spaces");
+  if (*ptr)
+    return dpkg_put_error(err, _("version string has embedded spaces"));
 
   colon= strchr(string,':');
   if (colon) {
     epoch= strtoul(string,&eepochcolon,10);
-    if (colon != eepochcolon) return _("epoch in version is not number");
-    if (!*++colon) return _("nothing after colon in version number");
+    if (colon != eepochcolon)
+      return dpkg_put_error(err, _("epoch in version is not number"));
+    if (!*++colon)
+      return dpkg_put_error(err, _("nothing after colon in version number"));
     string= colon;
     rversion->epoch= epoch;
   } else {
@@ -223,50 +241,20 @@ parseversion_lax(struct versionrevision *rversion, const char *string)
     *hyphen++ = '\0';
   rversion->revision= hyphen ? hyphen : "";
 
-  return NULL;
-}
-
-/**
- * Check for invalid syntax in version structure.
- *
- * The rest of the syntax has been already checked in parseversion_lax(). So
- * we only do the stricter checks here.
- *
- * @param rversion The version to verify.
- *
- * @return An error string, or NULL if eveyrthing was ok.
- */
-static const char *
-version_strict_check(struct versionrevision *rversion)
-{
-  const char *ptr;
-
   /* XXX: Would be faster to use something like cisversion and cisrevision. */
   ptr = rversion->version;
   if (*ptr && !cisdigit(*ptr++))
-    return _("version number does not start with digit");
+    return dpkg_put_warn(err, _("version number does not start with digit"));
   for (; *ptr; ptr++) {
     if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
-      return _("invalid character in version number");
+      return dpkg_put_warn(err, _("invalid character in version number"));
   }
   for (ptr = rversion->revision; *ptr; ptr++) {
     if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".+~", *ptr) == NULL)
-      return _("invalid character in revision number");
+      return dpkg_put_warn(err, _("invalid character in revision number"));
   }
 
-  return NULL;
-}
-
-const char *
-parseversion(struct versionrevision *rversion, const char *string)
-{
-  const char *emsg;
-
-  emsg = parseversion_lax(rversion, string);
-  if (emsg)
-    return emsg;
-
-  return version_strict_check(rversion);
+  return 0;
 }
 
 /**
@@ -284,29 +272,21 @@ void
 parse_db_version(struct parsedb_state *ps, struct versionrevision *version,
                  const char *value, const char *fmt, ...)
 {
-  const char *msg;
-  bool warn_msg = false;
+  struct dpkg_error err;
+  va_list args;
+  char buf[1000];
 
-  msg = parseversion_lax(version, value);
-  if (msg == NULL) {
-    msg = version_strict_check(version);
-    if (ps->flags & pdb_lax_parser)
-      warn_msg = true;
-  }
+  if (parseversion(version, value, &err) == 0)
+    return;
 
-  if (msg) {
-    va_list args;
-    char buf[1000];
+  va_start(args, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, args);
+  va_end(args);
 
-    va_start(args, fmt);
-    vsnprintf(buf, sizeof(buf), fmt, args);
-    va_end(args);
-
-    if (warn_msg)
-      parse_warn(ps, "%s: %.250s", buf, msg);
-    else
-      parse_error(ps, "%s: %.250s", buf, msg);
-  }
+  if (err.type == DPKG_MSG_WARN && (ps->flags & pdb_lax_parser))
+    parse_warn(ps, "%s: %.250s", buf, err.str);
+  else
+    parse_error(ps, "%s: %.250s", buf, err.str);
 }
 
 void

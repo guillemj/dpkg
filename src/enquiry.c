@@ -511,8 +511,8 @@ cmpversions(const char *const *argv)
   };
 
   const struct relationinfo *rip;
-  const char *emsg;
   struct versionrevision a, b;
+  struct dpkg_error err;
   int r;
 
   if (!argv[0] || !argv[1] || !argv[2] || argv[3])
@@ -524,16 +524,14 @@ cmpversions(const char *const *argv)
   if (!rip->string) badusage(_("--compare-versions bad relation"));
 
   if (*argv[0] && strcmp(argv[0],"<unknown>")) {
-    emsg= parseversion(&a,argv[0]);
-    if (emsg)
-      ohshit(_("version '%s' has bad syntax: %s"), argv[0], emsg);
+    if (parseversion(&a, argv[0], &err) < 0)
+      ohshit(_("version '%s' has bad syntax: %s"), argv[0], err.str);
   } else {
     blankversion(&a);
   }
   if (*argv[2] && strcmp(argv[2],"<unknown>")) {
-    emsg= parseversion(&b,argv[2]);
-    if (emsg)
-      ohshit(_("version '%s' has bad syntax: %s"), argv[2], emsg);
+    if (parseversion(&b, argv[2], &err) < 0)
+      ohshit(_("version '%s' has bad syntax: %s"), argv[2], err.str);
   } else {
     blankversion(&b);
   }
