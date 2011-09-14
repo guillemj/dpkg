@@ -116,10 +116,10 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 
 		actualread = gzread(gzfile, buffer, sizeof(buffer));
 		if (actualread < 0) {
-			int err = 0;
-			const char *errmsg = gzerror(gzfile, &err);
+			int z_errnum = 0;
+			const char *errmsg = gzerror(gzfile, &z_errnum);
 
-			if (err == Z_ERRNO)
+			if (z_errnum == Z_ERRNO)
 				errmsg = strerror(errno);
 			ohshit(_("%s: internal gzip read error: '%s'"), desc,
 			       errmsg);
@@ -141,7 +141,7 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
-	int err;
+	int z_errnum;
 	gzFile gzfile;
 
 	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
@@ -160,23 +160,23 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 
 		actualwrite = gzwrite(gzfile, buffer, actualread);
 		if (actualwrite != actualread) {
-			const char *errmsg = gzerror(gzfile, &err);
+			const char *errmsg = gzerror(gzfile, &z_errnum);
 
-			if (err == Z_ERRNO)
+			if (z_errnum == Z_ERRNO)
 				errmsg = strerror(errno);
 			ohshit(_("%s: internal gzip write error: '%s'"), desc,
 			       errmsg);
 		}
 	}
 
-	err = gzclose(gzfile);
-	if (err) {
+	z_errnum = gzclose(gzfile);
+	if (z_errnum) {
 		const char *errmsg;
 
-		if (err == Z_ERRNO)
+		if (z_errnum == Z_ERRNO)
 			errmsg = strerror(errno);
 		else
-			errmsg = zError(err);
+			errmsg = zError(z_errnum);
 		ohshit(_("%s: internal gzip write error: %s"), desc, errmsg);
 	}
 }
@@ -224,10 +224,10 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 
 		actualread = BZ2_bzread(bzfile, buffer, sizeof(buffer));
 		if (actualread < 0) {
-			int err = 0;
-			const char *errmsg = BZ2_bzerror(bzfile, &err);
+			int bz_errnum = 0;
+			const char *errmsg = BZ2_bzerror(bzfile, &bz_errnum);
 
-			if (err == BZ_IO_ERROR)
+			if (bz_errnum == BZ_IO_ERROR)
 				errmsg = strerror(errno);
 			ohshit(_("%s: internal bzip2 read error: '%s'"), desc,
 			       errmsg);
@@ -249,7 +249,7 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 {
 	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
-	int err;
+	int bz_errnum;
 	BZFILE *bzfile;
 
 	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
@@ -268,20 +268,20 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 
 		actualwrite = BZ2_bzwrite(bzfile, buffer, actualread);
 		if (actualwrite != actualread) {
-			const char *errmsg = BZ2_bzerror(bzfile, &err);
+			const char *errmsg = BZ2_bzerror(bzfile, &bz_errnum);
 
-			if (err == BZ_IO_ERROR)
+			if (bz_errnum == BZ_IO_ERROR)
 				errmsg = strerror(errno);
 			ohshit(_("%s: internal bzip2 write error: '%s'"), desc,
 			       errmsg);
 		}
 	}
 
-	BZ2_bzWriteClose(&err, bzfile, 0, NULL, NULL);
-	if (err != BZ_OK) {
+	BZ2_bzWriteClose(&bz_errnum, bzfile, 0, NULL, NULL);
+	if (bz_errnum != BZ_OK) {
 		const char *errmsg = _("unexpected bzip2 error");
 
-		if (err == BZ_IO_ERROR)
+		if (bz_errnum == BZ_IO_ERROR)
 			errmsg = strerror(errno);
 		ohshit(_("%s: internal bzip2 write error: '%s'"), desc,
 		       errmsg);
