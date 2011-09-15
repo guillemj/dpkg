@@ -1297,33 +1297,47 @@ check_proc_stat(struct proc_stat *ps)
 	return 0;
 }
 
-static void
+static enum status_code
 do_procinit(void)
 {
 	if (!procset)
 		init_procset();
 
 	proc_stat_list_for_each(procset, check_proc_stat);
+
+	if (found)
+		return status_ok;
+	else
+		return status_dead;
 }
 #elif defined(OShpux)
-static void
+static enum status_code
 do_procinit(void)
 {
 	struct pst_status pst[10];
 	int i, count;
 	int idx = 0;
+	enum status_code prog_status = status_dead;
 
 	while ((count = pstat_getproc(pst, sizeof(pst[0]), 10, idx)) > 0) {
-		for (i = 0; i < count; i++)
-			pid_check(pst[i].pst_pid);
+		enum status_code pid_status;
+
+		for (i = 0; i < count; i++) {
+			pid_status = pid_check(pst[i].pst_pid);
+			if (pid_status < prog_status)
+				prog_status = pid_status;
+		}
 		idx = pst[count - 1].pst_idx + 1;
 	}
+
+	return prog_status;
 }
 #elif defined(HAVE_KVM_H)
-static void
+static enum status_code
 do_procinit(void)
 {
 	/* Nothing to do. */
+	return status_unknown;
 }
 #endif
 
