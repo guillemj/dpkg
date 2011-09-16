@@ -160,7 +160,9 @@ if BUILD_POD_DOC
 endif
 
 coverage: check
-	$(PERL_COVER) -silent -outputdir $(top_builddir)/doc/coverage/scripts
+	$(PERL_COVER) -silent \
+	  -ignore_re '^t/.*\.t' \
+	  -outputdir $(top_builddir)/doc/coverage/scripts
 
 coverage-clean:
 	rm -rf cover_db
