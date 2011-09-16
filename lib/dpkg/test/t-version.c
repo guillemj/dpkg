@@ -137,6 +137,15 @@ test_version_parse(void)
 	test_pass(parseversion(&a, "0:0-azAZ09.+~") == NULL);
 	test_pass(versioncompare(&a, &b) == 0);
 
+	/* Test empty version. */
+	test_fail(parseversion(&a, "") == NULL);
+
+	/* Test empty upstream version after epoch. */
+	test_fail(parseversion(&a, "0:") == NULL);
+
+	/* Test version with embedded spaces. */
+	test_fail(parseversion(&a, "0:0 0-1") == NULL);
+
 	/* Test invalid characters in epoch. */
 	test_fail(parseversion(&a, "a:0-0") == NULL);
 	test_fail(parseversion(&a, "A:0-0") == NULL);
