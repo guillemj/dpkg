@@ -1606,6 +1606,7 @@ main(int argc, char **argv)
 		struct group *gr = getgrnam(changegroup);
 		if (!gr)
 			fatal("group '%s' not found", changegroup);
+		changegroup = gr->gr_name;
 		runas_gid = gr->gr_gid;
 	}
 	if (changeuser) {
@@ -1618,6 +1619,7 @@ main(int argc, char **argv)
 			pw = getpwnam(changeuser);
 		if (!pw)
 			fatal("user '%s' not found", changeuser);
+		changeuser = pw->pw_name;
 		runas_uid = pw->pw_uid;
 		if (changegroup == NULL) {
 			/* Pass the default group of this user. */
