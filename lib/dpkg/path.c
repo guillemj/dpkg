@@ -3,7 +3,7 @@
  * path.c - path handling functions
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,6 +70,25 @@ path_skip_slash_dotslash(const char *path)
 		path++;
 
 	return path;
+}
+
+/**
+ * Return the last component of a pathname.
+ *
+ * @param path The pathname to get the base name from.
+ *
+ * @return A pointer to the last component inside pathname.
+ */
+const char *
+path_basename(const char *path)
+{
+	const char *last_slash;
+
+	last_slash = strrchr(path, '/');
+	if (last_slash == NULL)
+		return path;
+	else
+		return last_slash + 1;
 }
 
 /**

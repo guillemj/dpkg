@@ -45,6 +45,7 @@
 #include <dpkg/string.h>
 #include <dpkg/buffer.h>
 #include <dpkg/file.h>
+#include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
 #include <dpkg/triglib.h>
@@ -659,9 +660,7 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 		else if (what & cfof_install)
 			fprintf(stderr, _(" The default action is to install the new version.\n"));
 
-		s = strrchr(cfgfile, '/');
-		if (!s || !*++s)
-			s = cfgfile;
+		s = path_basename(cfgfile);
 		fprintf(stderr, "*** %s (Y/I/N/O/D/Z) %s ? ",
 		        s,
 		        (what & cfof_keep) ? _("[default=N]") :

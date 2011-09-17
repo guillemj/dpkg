@@ -3,7 +3,7 @@
  * split.c - splitting archives
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/buffer.h>
 #include <dpkg/ar.h>
@@ -160,10 +161,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		prefixdir = m_strdup(dirname(t));
 		free(t);
 
-		t = m_strdup(prefix);
-		msdos_prefix = m_strdup(basename(t));
-		free(t);
-
+		msdos_prefix = m_strdup(path_basename(prefix));
 		prefix = clean_msdos_filename(msdos_prefix);
 	}
 

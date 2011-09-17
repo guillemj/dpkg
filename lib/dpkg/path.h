@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * path.h - path handling routines
  *
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ DPKG_BEGIN_DECLS
 
 size_t path_trim_slash_slashdot(char *path);
 const char *path_skip_slash_dotslash(const char *path);
+const char *path_basename(const char *path);
 char *path_quote_filename(char *dst, const char *src, size_t size);
 
 char *path_make_temp_template(const char *suffix);

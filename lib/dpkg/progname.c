@@ -22,9 +22,9 @@
 #include <compat.h>
 
 #include <errno.h>
-#include <string.h>
 #include <stdlib.h>
 
+#include <dpkg/path.h>
 #include <dpkg/progname.h>
 
 static const char *progname;
@@ -40,13 +40,7 @@ static const char *progname;
 void
 dpkg_set_progname(const char *name)
 {
-	const char *last_slash;
-
-	last_slash = strrchr(name, '/');
-	if (last_slash == NULL)
-		progname = name;
-	else
-		progname = last_slash + 1;
+	progname = path_basename(name);
 }
 
 #if defined(HAVE___PROGNAME)

@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * command.c - command execution support
  *
- * Copyright © 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2010-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/i18n.h>
+#include <dpkg/path.h>
 #include <dpkg/command.h>
 
 /**
@@ -43,11 +44,9 @@ void
 command_init(struct command *cmd, const char *filename, const char *name)
 {
 	cmd->filename = filename;
-	if (name == NULL) {
-		const char *progname = strrchr(filename, '/');
-
-		cmd->name = progname ? progname + 1 : filename;
-	} else
+	if (name == NULL)
+		cmd->name = path_basename(filename);
+	else
 		cmd->name = name;
 	cmd->argc = 0;
 	cmd->argv_size = 10;

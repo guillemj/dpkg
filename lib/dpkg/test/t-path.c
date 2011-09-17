@@ -74,6 +74,18 @@ test_path_skip(void)
 }
 
 static void
+test_path_basename(void)
+{
+	test_str(path_basename("./."), ==, ".");
+	test_str(path_basename("./"), ==, "");
+	test_str(path_basename("/."), ==, ".");
+	test_str(path_basename("/"), ==, "");
+	test_str(path_basename("/foo"), ==, "foo");
+	test_str(path_basename("/foo/bar"), ==, "bar");
+	test_str(path_basename("/foo/bar/"), ==, "");
+}
+
+static void
 test_path_temp(void)
 {
 	char *template;
@@ -162,6 +174,7 @@ test(void)
 {
 	test_path_trim();
 	test_path_skip();
+	test_path_basename();
 	test_path_temp();
 	test_path_quote();
 }
