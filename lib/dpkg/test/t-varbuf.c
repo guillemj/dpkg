@@ -200,6 +200,29 @@ test_varbuf_map_char(void)
 }
 
 static void
+test_varbuf_end_str(void)
+{
+	struct varbuf vb;
+
+	varbuf_init(&vb, 10);
+
+	varbuf_add_buf(&vb, "1234567890X", 11);
+	test_pass(vb.used == 11);
+	test_pass(vb.size >= vb.used);
+	test_mem(vb.buf, ==, "1234567890X", 11);
+
+	varbuf_trunc(&vb, 10);
+
+	varbuf_end_str(&vb);
+	test_pass(vb.used == 10);
+	test_pass(vb.size >= vb.used + 1);
+	test_pass(vb.buf[10] == '\0');
+	test_str(vb.buf, ==, "1234567890");
+
+	varbuf_destroy(&vb);
+}
+
+static void
 test_varbuf_printf(void)
 {
 	struct varbuf vb;
@@ -276,6 +299,7 @@ test(void)
 	test_varbuf_add_char();
 	test_varbuf_dup_char();
 	test_varbuf_map_char();
+	test_varbuf_end_str();
 	test_varbuf_printf();
 	test_varbuf_reset();
 	test_varbuf_detach();
