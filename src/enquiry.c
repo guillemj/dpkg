@@ -529,6 +529,7 @@ cmpversions(const char *const *argv)
         warning(_("version '%s' has bad syntax: %s"), argv[0], err.str);
       else
         ohshit(_("version '%s' has bad syntax: %s"), argv[0], err.str);
+      dpkg_error_destroy(&err);
     }
   } else {
     blankversion(&a);
@@ -539,6 +540,7 @@ cmpversions(const char *const *argv)
         warning(_("version '%s' has bad syntax: %s"), argv[2], err.str);
       else
         ohshit(_("version '%s' has bad syntax: %s"), argv[2], err.str);
+      dpkg_error_destroy(&err);
     }
   } else {
     blankversion(&b);

@@ -287,6 +287,8 @@ parse_db_version(struct parsedb_state *ps, struct versionrevision *version,
     parse_warn(ps, "%s: %.250s", buf, err.str);
   else
     parse_error(ps, "%s: %.250s", buf, err.str);
+
+  dpkg_error_destroy(&err);
 }
 
 void
