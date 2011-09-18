@@ -524,14 +524,22 @@ cmpversions(const char *const *argv)
   if (!rip->string) badusage(_("--compare-versions bad relation"));
 
   if (*argv[0] && strcmp(argv[0],"<unknown>")) {
-    if (parseversion(&a, argv[0], &err) < 0)
-      ohshit(_("version '%s' has bad syntax: %s"), argv[0], err.str);
+    if (parseversion(&a, argv[0], &err) < 0) {
+      if (err.type == DPKG_MSG_WARN)
+        warning(_("version '%s' has bad syntax: %s"), argv[0], err.str);
+      else
+        ohshit(_("version '%s' has bad syntax: %s"), argv[0], err.str);
+    }
   } else {
     blankversion(&a);
   }
   if (*argv[2] && strcmp(argv[2],"<unknown>")) {
-    if (parseversion(&b, argv[2], &err) < 0)
-      ohshit(_("version '%s' has bad syntax: %s"), argv[2], err.str);
+    if (parseversion(&b, argv[2], &err) < 0) {
+      if (err.type == DPKG_MSG_WARN)
+        warning(_("version '%s' has bad syntax: %s"), argv[2], err.str);
+      else
+        ohshit(_("version '%s' has bad syntax: %s"), argv[2], err.str);
+    }
   } else {
     blankversion(&b);
   }
