@@ -1,93 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-PO4A_V = $(PO4A_V_$(V))
-PO4A_V_ = $(PO4A_V_$(AM_DEFAULT_VERBOSITY))
-PO4A_V_0 = @echo "  PO4A   $@";
-
-PO4A_RM_V = $(PO4A_RM_V_$(V))
-PO4A_RM_V_ = $(PO4A_RM_V_$(AM_DEFAULT_VERBOSITY))
-PO4A_RM_V_0 = @echo "  PO4ARM $@";
-
-all-local: all-local-@USE_PO4A@
-
-all-local-no:
-all-local-yes: man.stamp
-
-PO4A_COMMON_OPTS = --previous --variable builddir=$(CURDIR)
-PO4A_BUILD_OPTS = $(PO4A_COMMON_OPTS) --no-backups
-PO4A_CLEAN_OPTS = $(PO4A_COMMON_OPTS) --rm-backups --rm-translations
-
-# FIXME: Use a stamp file until po4a supports them internally.
-man.stamp:
-	$(PO4A_V) cd $(srcdir) && \
-	$(PO4A) $(PO4A_BUILD_OPTS) po/po4a.cfg
-	$(AM_V_at) touch $@
-
-clean-local: clean-local-@USE_PO4A@
-
-clean-local-no:
-clean-local-yes:
-	$(PO4A_RM_V) cd $(srcdir) && \
-	$(PO4A) $(PO4A_CLEAN_OPTS) po/po4a.cfg
-	$(AM_V_at) rm -f man.stamp
-
-update-po:
-	$(PO4A_V) cd $(srcdir) && \
-	$(PO4A) $(PO4A_BUILD_OPTS) --force po/po4a.cfg
-
-# Extract the list of languages from the po4a config file.
-LINGUAS_DIST = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
-
-# If the user has not defined it let's use the default.
-LINGUAS ?= $(LINGUAS_DIST)
-
-install-data-local: install-data-local-@USE_PO4A@
-
-install-data-local-no:
-install-data-local-yes:
-	for lang in $(LINGUAS); do \
-		files=""; \
-		for trans in $(dist_man_MANS); do \
-			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
-				files="$$files $(CURDIR)/$$lang/$$trans"; \
-			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-				files="$$files $(srcdir)/$$lang/$$trans"; \
-			fi; \
-		done; \
-		$(MAKE) install-man \
-			mandir="$(mandir)/$$lang" \
-			man_MANS="" \
-			dist_man_MANS="$$files"; \
-	done
-
-uninstall-local: uninstall-local-@USE_PO4A@
-
-uninstall-local-no:
-uninstall-local-yes:
-	for lang in $(LINGUAS); do \
-		files=""; \
-		for trans in $(dist_man_MANS); do \
-			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
-				files="$$files $(CURDIR)/$$lang/$$trans"; \
-			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-				files="$$files $(srcdir)/$$lang/$$trans"; \
-			fi; \
-		done; \
-		$(MAKE) uninstall-man \
-			mandir="$(mandir)/$$lang" \
-			man_MANS="" \
-			dist_man_MANS="$$files"; \
-	done
-
-dist-hook: man.stamp
-	cp $(srcdir)/man.stamp $(distdir)/
-	for lang in $(LINGUAS_DIST); do \
-		cp $(srcdir)/po/$$lang.po $(distdir)/po; \
-		cp $(srcdir)/po/$$lang.add $(distdir)/po; \
-		$(mkdir_p) $(distdir)/$$lang; \
-		cp -r $(srcdir)/$$lang $(distdir)/; \
-	done
-
 dist_man_MANS = \
 	deb-control.5 \
 	deb-src-control.5 \
@@ -148,4 +60,94 @@ EXTRA_DIST = \
 	po/po4a.cfg \
 	po/dpkg-man.pot
 
+
+# Extract the list of languages from the po4a config file.
+LINGUAS_DIST = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
+
+# If the user has not defined it let's use the default.
+LINGUAS ?= $(LINGUAS_DIST)
+
+
+PO4A_V = $(PO4A_V_$(V))
+PO4A_V_ = $(PO4A_V_$(AM_DEFAULT_VERBOSITY))
+PO4A_V_0 = @echo "  PO4A   $@";
+
+PO4A_RM_V = $(PO4A_RM_V_$(V))
+PO4A_RM_V_ = $(PO4A_RM_V_$(AM_DEFAULT_VERBOSITY))
+PO4A_RM_V_0 = @echo "  PO4ARM $@";
+
+PO4A_COMMON_OPTS = --previous --variable builddir=$(CURDIR)
+PO4A_BUILD_OPTS = $(PO4A_COMMON_OPTS) --no-backups
+PO4A_CLEAN_OPTS = $(PO4A_COMMON_OPTS) --rm-backups --rm-translations
+
+all-local: all-local-@USE_PO4A@
+
+all-local-no:
+all-local-yes: man.stamp
+
+# FIXME: Use a stamp file until po4a supports them internally.
+man.stamp:
+	$(PO4A_V) cd $(srcdir) && \
+	$(PO4A) $(PO4A_BUILD_OPTS) po/po4a.cfg
+	$(AM_V_at) touch $@
+
+clean-local: clean-local-@USE_PO4A@
+
+clean-local-no:
+clean-local-yes:
+	$(PO4A_RM_V) cd $(srcdir) && \
+	$(PO4A) $(PO4A_CLEAN_OPTS) po/po4a.cfg
+	$(AM_V_at) rm -f man.stamp
+
 .PHONY: update-po
+
+update-po:
+	$(PO4A_V) cd $(srcdir) && \
+	$(PO4A) $(PO4A_BUILD_OPTS) --force po/po4a.cfg
+
+install-data-local: install-data-local-@USE_PO4A@
+
+install-data-local-no:
+install-data-local-yes:
+	for lang in $(LINGUAS); do \
+		files=""; \
+		for trans in $(dist_man_MANS); do \
+			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
+				files="$$files $(CURDIR)/$$lang/$$trans"; \
+			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
+				files="$$files $(srcdir)/$$lang/$$trans"; \
+			fi; \
+		done; \
+		$(MAKE) install-man \
+			mandir="$(mandir)/$$lang" \
+			man_MANS="" \
+			dist_man_MANS="$$files"; \
+	done
+
+uninstall-local: uninstall-local-@USE_PO4A@
+
+uninstall-local-no:
+uninstall-local-yes:
+	for lang in $(LINGUAS); do \
+		files=""; \
+		for trans in $(dist_man_MANS); do \
+			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
+				files="$$files $(CURDIR)/$$lang/$$trans"; \
+			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
+				files="$$files $(srcdir)/$$lang/$$trans"; \
+			fi; \
+		done; \
+		$(MAKE) uninstall-man \
+			mandir="$(mandir)/$$lang" \
+			man_MANS="" \
+			dist_man_MANS="$$files"; \
+	done
+
+dist-hook: man.stamp
+	cp $(srcdir)/man.stamp $(distdir)/
+	for lang in $(LINGUAS_DIST); do \
+		cp $(srcdir)/po/$$lang.po $(distdir)/po; \
+		cp $(srcdir)/po/$$lang.add $(distdir)/po; \
+		$(mkdir_p) $(distdir)/$$lang; \
+		cp -r $(srcdir)/$$lang $(distdir)/; \
+	done
