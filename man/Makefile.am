@@ -72,13 +72,8 @@ PO4A_V = $(PO4A_V_$(V))
 PO4A_V_ = $(PO4A_V_$(AM_DEFAULT_VERBOSITY))
 PO4A_V_0 = @echo "  PO4A   $@";
 
-PO4A_RM_V = $(PO4A_RM_V_$(V))
-PO4A_RM_V_ = $(PO4A_RM_V_$(AM_DEFAULT_VERBOSITY))
-PO4A_RM_V_0 = @echo "  PO4ARM $@";
-
 PO4A_COMMON_OPTS = --previous --variable builddir=$(CURDIR)
 PO4A_BUILD_OPTS = $(PO4A_COMMON_OPTS) --no-backups
-PO4A_CLEAN_OPTS = $(PO4A_COMMON_OPTS) --rm-backups --rm-translations
 
 all-local: all-local-@USE_PO4A@
 
@@ -95,8 +90,7 @@ clean-local: clean-local-@USE_PO4A@
 
 clean-local-no:
 clean-local-yes:
-	$(PO4A_RM_V) cd $(srcdir) && \
-	$(PO4A) $(PO4A_CLEAN_OPTS) po/po4a.cfg
+	rm -rf $(LINGUAS_DIST)
 	$(AM_V_at) rm -f man.stamp
 
 .PHONY: update-po
