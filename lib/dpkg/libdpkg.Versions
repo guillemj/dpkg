@@ -1,5 +1,8 @@
 LIBDPKG_0 {
 global:
+	# Error reporting
+	dpkg_error_destroy;
+
 	# Program name
 	dpkg_set_progname;
 	dpkg_get_progname;
@@ -38,7 +41,7 @@ LIBDPKG_PRIVATE {
 
 	# Generic cleanup
 	cu_closepipe;
-	cu_closefile;
+	cu_closestream;
 	cu_closedir;
 	cu_closefd;
 
@@ -78,6 +81,7 @@ LIBDPKG_PRIVATE {
 	# Path, directory and file functions
 	path_skip_slash_dotslash;
 	path_trim_slash_slashdot;
+	path_basename;
 	path_make_temp_template;
 	path_quote_filename;
 
@@ -96,6 +100,7 @@ LIBDPKG_PRIVATE {
 	fd_read;
 	fd_write;
 	buffer_hash;
+	buffer_skip_*;
 	buffer_copy_*;
 
 	# Subprocess and command handling
