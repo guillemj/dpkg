@@ -1,5 +1,112 @@
-This is dpkg, Debian's package maintenance system.
+dpkg - Debian's package maintenance system
 
-The primary interface for the dpkg suite is the `dselect' program;
+The primary interface for the dpkg suite is the ‘dselect’ program;
 a more low-level and less user-friendly interface is available in
-the form of the `dpkg' command.
+the form of the ‘dpkg’ command.
+
+
+Releases
+--------
+
+The current legacy, stable and development releases can be found at:
+
+  <http://ftp.debian.org/debian/pool/main/d/dpkg/>
+
+For older releases check:
+
+  <http://snapshot.debian.org/package/dpkg/>
+
+
+Mailing List
+------------
+
+The subscription interface and web archives can be found at:
+
+  <http://lists.debian.org/debian-dpkg/>
+
+The mailing list address is:
+
+  debian-dpkg@lists.debian.org
+
+
+Source Repository
+-----------------
+
+  <http://anonscm.debian.org/gitweb/?p=dpkg/dpkg.git>
+  <git://anonscm.debian.org/dpkg/dpkg.git>
+
+
+Building from git source
+------------------------
+
+To prepare the source tree before starting the build process, some software
+needs to be installed, additional software might provide optional features.
+
+The minimum software required to build dpkg is:
+
+  C89 compiler with few C99 extensions (see doc/coding-style.txt)
+  GNU make
+  GNU autoconf >= 2.60
+  GNU automake >= 1.8
+  GNU gettext  >= 0.18
+  pkg-config
+  flex
+  perl
+
+To run the test suite («make check»):
+
+  TimeDate perl module
+  IO-String perl module
+
+To enable optional functionality or programs, this software might be needed:
+
+  zlib (used instead of the command-line tool)
+  liblzma (from the xz project; used instead of the command-line tool)
+  libbzip2 (from the bzip2 project; used instead of the command-line tool)
+  libselinux (needed for SELinux support)
+  curses compatible library (needed for dselect)
+
+To enable translated or additional («make doc») documentation this
+software will be needed:
+
+  po4a >= 0.36.4
+  pod2man
+  doxygen
+  dot
+
+To enable code coverage («./configure --enable-coverage; make coverage»)
+this software is needed:
+
+  lcov (from the Linux Test Project)
+  Devel-Cover perl module
+
+
+After installing the needed software, and running the following command on
+the git tree:
+
+  $ autoreconf -f -i
+
+the source should be equivalent to the distributed tar source.
+
+
+Building from tar source
+------------------------
+
+The instructions to build the distributed source are included in the
+INSTALL file.
+
+The following configure options might be of interest to disable specific
+programs:
+
+  --without-dselect
+  --without-start-stop-daemon
+  --without-update-alternatives
+  --without-install-info
+
+And the following to disable modifications to the build flags:
+
+  --disable-compiler-warnings
+  --disable-compiler-optimisations
+  --disable-linker-optimisations
+
+To see all available configuration options please run «./configure --help».
