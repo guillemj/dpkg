@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-11 09:55+0100\n"
+"POT-Creation-Date: 2011-09-23 03:38+0300\n"
 "PO-Revision-Date: 2011-09-14 07:40+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -31,7 +31,6 @@ msgstr "deb"
 #: dpkg-scansources.1:1 dpkg-shlibdeps.1:1 dpkg-source.1:2 dpkg-trigger.1:1
 #: dselect.1:1 update-alternatives.8:8
 #, no-wrap
-#| msgid "2011-07-04"
 msgid "2011-08-14"
 msgstr "2011-08-14"
 
@@ -1398,20 +1397,6 @@ msgstr ""
 #. type: Plain text
 #: deb-src-control.5:304
 #, no-wrap
-#| msgid ""
-#| "# Comment\n"
-#| "Source: dpkg\n"
-#| "Section: admin\n"
-#| "Priority: required\n"
-#| "Maintainer: Dpkg Developers E<lt>debian-dpkg@lists.debian.orgE<gt>\n"
-#| "# this field is copied to the binary and source packages\n"
-#| "XBS-Upstream-Release-Status: stable\n"
-#| "Homepage: http://wiki.debian.org/Teams/Dpkg\n"
-#| "Vcs-Browser: http://git.debian.org/?p=dpkg/dpkg.git\n"
-#| "Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git\n"
-#| "Standards-Version: 3.7.3\n"
-#| "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
-#| " libselinux1-dev (E<gt>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]\n"
 msgid ""
 "# Comment\n"
 "Source: dpkg\n"
@@ -1444,25 +1429,6 @@ msgstr ""
 #. type: Plain text
 #: deb-src-control.5:323
 #, no-wrap
-#| msgid ""
-#| "Package: dpkg-dev\n"
-#| "Section: utils\n"
-#| "Priority: optional\n"
-#| "Architecture: all\n"
-#| "# this is a custom field in the binary package\n"
-#| "XB-Mentoring-Contact: Raphael Hertzog E<lt>hertzog@debian.orgE<gt>\n"
-#| "Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2), bzip2, lzma,\n"
-#| " patch (E<gt>= 2.2-1), make, binutils, libtimedate-perl\n"
-#| "Recommends: gcc | c-compiler, build-essential\n"
-#| "Suggests: gnupg, debian-keyring\n"
-#| "Conflicts: dpkg-cross (E<lt>E<lt> 2.0.0), devscripts (E<lt>E<lt> 2.10.26)\n"
-#| "Replaces: manpages-pl (E<lt>= 20051117-1)\n"
-#| "Description: Debian package development tools\n"
-#| " This package provides the development tools (including dpkg-source)\n"
-#| " required to unpack, build and upload Debian source packages.\n"
-#| " .\n"
-#| " Most Debian source packages will require additional tools to build;\n"
-#| " for example, most packages need make and the C compiler gcc.\n"
 msgid ""
 "Package: dpkg-dev\n"
 "Section: utils\n"
@@ -6180,9 +6146,9 @@ msgstr "dpkg-buildflags"
 
 #. type: TH
 #: dpkg-buildflags.1:1
-#, no-wrap
-#| msgid "2011-07-04"
-msgid "2011-09-09"
+#, fuzzy, no-wrap
+#| msgid "2011-09-09"
+msgid "2011-09-13"
 msgstr "2011-09-09"
 
 #. type: Plain text
@@ -6671,7 +6637,6 @@ msgstr ""
 #. type: TP
 #: dpkg-buildflags.1:160
 #, no-wrap
-#| msgid "B<DEB_>I<flag>B<_MAINT_STRIP>"
 msgid "B<DEB_BUILD_MAINT_OPTIONS>"
 msgstr "B<DEB_BUILD_MAINT_OPTIONS>"
 
@@ -6688,7 +6653,6 @@ msgstr ""
 #. type: SH
 #: dpkg-buildflags.1:166
 #, no-wrap
-#| msgid "WARNING"
 msgid "HARDENING"
 msgstr "HÄRDNING"
 
@@ -6744,7 +6708,6 @@ msgstr "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=-all,+format,+fortify\"\n"
 #. type: TP
 #: dpkg-buildflags.1:186
 #, no-wrap
-#| msgid "B<Format>"
 msgid "B<format>"
 msgstr "B<format>"
 
@@ -6841,7 +6804,6 @@ msgstr ""
 #. type: TP
 #: dpkg-buildflags.1:227
 #, no-wrap
-#| msgid "B<regex>"
 msgid "B<relro>"
 msgstr "B<relro>"
 
@@ -6868,10 +6830,15 @@ msgstr "B<bindnow>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:243
+#, fuzzy
+#| msgid ""
+#| "This setting (enabled by default) adds B<-Wl,-z,bindnow> to B<LDFLAGS>. "
+#| "During program load, all dynamic symbols are resolved, allowing for the "
+#| "entire PLT to be marked read-only (due to B<relro> above)."
 msgid ""
-"This setting (enabled by default) adds B<-Wl,-z,bindnow> to B<LDFLAGS>. "
-"During program load, all dynamic symbols are resolved, allowing for the "
-"entire PLT to be marked read-only (due to B<relro> above)."
+"This setting (disabled by default) adds B<-Wl,-z,now> to B<LDFLAGS>. During "
+"program load, all dynamic symbols are resolved, allowing for the entire PLT "
+"to be marked read-only (due to B<relro> above)."
 msgstr ""
 "Inställningen (aktiverad som standard) lägger till B<-Wl,-z,bindnow> till "
 "B<LDFLAGS>. Vid inläsning av programmet löses alla dynamiska symboler, "
@@ -6941,7 +6908,6 @@ msgstr "Upphovsrättsskyddat © 2010-2011 Raphaël Hertzog"
 
 #. type: Plain text
 #: dpkg-buildflags.1:270
-#| msgid "Copyright \\(co 2001 Joey Hess"
 msgid "Copyright \\(co 2011 Kees Cook"
 msgstr "Upphovsrättsskyddat © 2011 Kees Cook"
 
@@ -8033,9 +7999,6 @@ msgstr "B<-C>|B<--vextract> I<arkivkatalog>"
 
 #. type: Plain text
 #: dpkg-deb.1:145
-#| msgid ""
-#| "Is like B<--extract> (B<-x>)  but prints a listing of the files extracted "
-#| "as it goes."
 msgid ""
 "Is like B<--extract> (B<-x>)  with B<--verbose> (B<-v>)  which prints a "
 "listing of the files extracted as it goes."
@@ -8046,15 +8009,11 @@ msgstr ""
 #. type: TP
 #: dpkg-deb.1:145
 #, no-wrap
-#| msgid "B<-x>, B<--extract> I<archive directory>"
 msgid "B<-R>, B<--raw-extract> I<archive directory>"
 msgstr "B<-R>, B<--raw-extract> I<arkivkatalog>"
 
 #. type: Plain text
 #: dpkg-deb.1:150
-#| msgid ""
-#| "Extracts the filesystem tree from a package archive into the specified "
-#| "directory."
 msgid ""
 "Extracts the filesystem tree from a package archive into a specified "
 "directory, and the control information files into a DEBIAN subdirectory of "
@@ -8157,9 +8116,6 @@ msgstr "B<-z>I<komprimeringsnivå>"
 
 #. type: Plain text
 #: dpkg-deb.1:200
-#| msgid ""
-#| "Specify which compression level to pass to the compressor backend "
-#| "program, when building a package."
 msgid ""
 "Specify which compression level to use on the compressor backend, when "
 "building a package (default is 9 for gzip and bzip2, 6 for xz and lzma)."
@@ -12797,19 +12753,6 @@ msgstr "B<hittade inte biblioteket> I<bibliotek-sonamn> B<som behövs för> I<bi
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:285
-#| msgid ""
-#| "The I<binary> uses a library called I<library-soname> but B<dpkg-"
-#| "shlibdeps> has been unable to find the library.  B<dpkg-shlibdeps> "
-#| "creates a list of directories to check as following: directories listed "
-#| "in the RPATH of the binary, directories listed in /etc/ld.so.conf, "
-#| "directories listed in the LD_LIBRARY_PATH environment variable, and "
-#| "standard public directories (/lib, /usr/lib, /lib32, /usr/lib32, /lib64, /"
-#| "usr/lib64). Then it checks those directories in the package's build tree "
-#| "of the binary being analyzed, in the packages's build trees indicated "
-#| "with the -S command-line option, in other packages's build trees that "
-#| "contains a DEBIAN/shlibs or DEBIAN/symbols file and finally in the root "
-#| "directory.  If the library is not found in any of those directories, then "
-#| "you get this error."
 msgid ""
 "The I<binary> uses a library called I<library-soname> but B<dpkg-shlibdeps> "
 "has been unable to find the library.  B<dpkg-shlibdeps> creates a list of "
@@ -13215,10 +13158,6 @@ msgstr "B<-z>I<nivå>, B<--compression-level>=I<nivå>"
 
 #. type: Plain text
 #: dpkg-source.1:157
-#| msgid ""
-#| "Compression level to use. As with B<-Z> it only affects newly created "
-#| "files. Supported values are: I<1> to I<9>, I<best>, and I<fast>.  I<9> is "
-#| "the default."
 msgid ""
 "Compression level to use. As with B<-Z> it only affects newly created files. "
 "Supported values are: I<1> to I<9>, I<best>, and I<fast>.  The default is "
@@ -13881,17 +13820,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:451
-#| msgid ""
-#| "All original tarballs found in the current directory are extracted in a "
-#| "temporary directory by following the same logic as for the unpack, the "
-#| "debian directory is copied over in the temporary directory, and all "
-#| "patches except the automatic patch (B<debian-changes->I<version> or "
-#| "B<debian-changes>, depending on B<--single-debian-patch>) are applied. "
-#| "The temporary directory is compared to the source package directory. When "
-#| "the diff is non-empty, the build fails unless B<--single-debian-patch> or "
-#| "B<--auto-commit> has been used. In the latter case, the diff is stored in "
-#| "the automatic patch.  If the automatic patch is created/deleted, it's "
-#| "added/removed from the series file and from the quilt metadata."
 msgid ""
 "All original tarballs found in the current directory are extracted in a "
 "temporary directory by following the same logic as for the unpack, the "
@@ -14582,12 +14510,6 @@ msgstr ""
 #. type: Plain text
 #: dpkg-source.1:700
 #, no-wrap
-#| msgid ""
-#| "  # let dpkg-source create a debian.tar.bz2 with maximal compression\n"
-#| "  compression = \"bzip2\"\n"
-#| "  compression-level = 9\n"
-#| "  # use debian/patches/debian-changes as automatic patch\n"
-#| "  single-debian-patch\n"
 msgid ""
 "  # let dpkg-source create a debian.tar.bz2 with maximal compression\n"
 "  compression = \"bzip2\"\n"
@@ -15627,13 +15549,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.1:43
-#| msgid ""
-#| "All options can be specified both on the command line and in the "
-#| "B<dselect> configuration file I</etc/dpkg/dselect.cfg> or the files on "
-#| "the configuration directory I</etc/dpkg/dpkg.cfg.d/>. Each line in the "
-#| "configuration file is either an option (exactly the same as the command "
-#| "line option but without leading dashes) or a comment (if it starts with a "
-#| "B<#>)."
 msgid ""
 "All options can be specified both on the command line and in the B<dselect> "
 "configuration file I</etc/dpkg/dselect.cfg> or the files on the "
@@ -17077,8 +16992,9 @@ msgstr "Skriv inte informationsmeddelanden; visa endast felmeddelanden."
 
 #. type: TP
 #: start-stop-daemon.8:177
-#, no-wrap
-msgid "B<-c>, B<--chuid> I<username>|I<uid>"
+#, fuzzy, no-wrap
+#| msgid "B<-c>, B<--chuid> I<username>|I<uid>"
+msgid "B<-c>, B<--chuid> I<username>|I<uid>[B<:>I<group>|I<gid>]"
 msgstr "B<-c>, B<--chuid> I<användarnamn>|I<användar-id>"
 
 #. type: Plain text
