@@ -32,11 +32,12 @@
 
 %x midline
 
-%{
-
+%top {
 #include <config.h>
 #include <compat.h>
+}
 
+%{
 #include <sys/stat.h>
 #include <sys/fcntl.h>
 
