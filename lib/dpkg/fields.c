@@ -275,7 +275,8 @@ f_conffiles(struct pkginfo *pigp, struct pkgbin *pifp,
   static const char obsolete_str[]= "obsolete";
   struct conffile **lastp, *newlink;
   const char *endent, *endfn, *hashstart;
-  int c, namelen, hashlen, obsolete;
+  int c, namelen, hashlen;
+  bool obsolete;
   char *newptr;
 
   lastp= &pifp->conffiles;
