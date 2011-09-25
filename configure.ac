@@ -83,6 +83,7 @@ DPKG_CHECK_PROGNAME
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
                          strnlen strerror strsignal asprintf \
                          scandir alphasort unsetenv])
+AC_CHECK_DECLS([strnlen], [[#include <string.h>]])
 AC_CHECK_FUNCS([strtoul strtoimax isascii memcpy setsid getdtablesize \
                 getprogname getexecname lutimes posix_fadvise])
 
