@@ -644,6 +644,7 @@ sub commit {
         $patch_name =~ s/\s+/-/g;
         $patch_name =~ s/\///g;
     }
+    mkpath(File::Spec->catdir($dir, "debian", "patches"));
     my $patch = $self->register_patch($dir, $tmpdiff, $patch_name);
     system("sensible-editor", $patch);
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
