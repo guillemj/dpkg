@@ -139,7 +139,7 @@ test_command_exec(void)
 	struct command cmd;
 	pid_t pid;
 
-	command_init(&cmd, "/bin/true", "exec test");
+	command_init(&cmd, "true", "exec test");
 
 	command_add_arg(&cmd, "arg 0");
 	command_add_arg(&cmd, "arg 1");

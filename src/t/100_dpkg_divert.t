@@ -146,7 +146,7 @@ install_diversions('');
 call_divert_badusage(['--add',], qr/needs a single argument/);
 call_divert_badusage(['--add', 'foo'], qr/absolute/);
 call_divert_badusage(['--add', "/foo\nbar"], qr/newline/);
-call_divert_badusage(['--add', "/etc"], qr/director(y|ies)/);
+call_divert_badusage(['--add', "$testdir"], qr/director(y|ies)/);
 call_divert_badusage(['--add', "--divert", "bar", "/foo/bar"], qr/absolute/);
 call_divert_badusage(['--remove'], qr/needs a single argument/);
 call([@dd, '--admindir'], [],
