@@ -12,9 +12,12 @@ if test "$PERL" = "no" || test ! -x "$PERL"; then
   AC_MSG_ERROR([cannot find the Perl interpreter])
 fi
 AC_ARG_VAR([PERL_LIBDIR], [Perl library directory])dnl
+# Let the user override the variable.
+if test -z "$PERL_LIBDIR"; then
 PERL_LIBDIR=$($PERL -MConfig -e 'my $r = $Config{vendorlibexp};
                                  $r =~ s/$Config{vendorprefixexp}/\$(prefix)/;
-                                 print $r')dnl
+                                 print $r')
+fi
 ])# DPKG_PROG_PERL
 
 # DPKG_PROG_PO4A
