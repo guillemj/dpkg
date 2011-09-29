@@ -136,6 +136,7 @@ if ($action eq "get") {
 	my $value = $build_flags->get($flag);
 	print "$flag=$value\n";
     }
+    exit(0);
 }
 
 exit(1);
