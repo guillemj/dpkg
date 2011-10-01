@@ -121,9 +121,8 @@ while (@ARGV) {
     }
 }
 
-# Set default values:
-
 my %v;
+my $abi;
 
 my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
                  DEB_BUILD_ARCH_BITS DEB_BUILD_ARCH_ENDIAN
@@ -134,10 +133,22 @@ my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
                  DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE
                  DEB_HOST_MULTIARCH);
 
-$v{DEB_BUILD_ARCH} = get_raw_build_arch();
-$v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
+#
+# Set build variables
+#
 
-# Set user values:
+$v{DEB_BUILD_ARCH} = get_raw_build_arch();
+($abi, $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_BUILD_ARCH});
+($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH});
+
+$v{DEB_BUILD_MULTIARCH} = debarch_to_multiarch($v{DEB_BUILD_ARCH});
+
+$v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
+($v{DEB_BUILD_GNU_CPU}, $v{DEB_BUILD_GNU_SYSTEM}) = split(/-/, $v{DEB_BUILD_GNU_TYPE}, 2);
+
+#
+# Set host variables
+#
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
     $req_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
@@ -169,11 +180,17 @@ if ($req_host_arch eq '') {
 } else {
     $v{DEB_HOST_ARCH} = $req_host_arch;
 }
+($abi, $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_HOST_ARCH});
+($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH});
+
+$v{DEB_HOST_MULTIARCH} = debarch_to_multiarch($v{DEB_HOST_ARCH});
+
 if ($req_host_gnu_type eq '') {
     $v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
 } else {
     $v{DEB_HOST_GNU_TYPE} = $req_host_gnu_type;
 }
+($v{DEB_HOST_GNU_CPU}, $v{DEB_HOST_GNU_SYSTEM}) = split(/-/, $v{DEB_HOST_GNU_TYPE}, 2);
 
 my $gcc = get_gcc_host_gnu_type();
 
@@ -182,19 +199,6 @@ warning(_g("Specified GNU system type %s does not match gcc system type %s."),
     if !($req_is_arch or $req_eq_arch) &&
        ($gcc ne '') && ($gcc ne $v{DEB_HOST_GNU_TYPE});
 
-# Split the Debian and GNU names
-my $abi;
-
-($abi, $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_HOST_ARCH});
-($abi, $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_BUILD_ARCH});
-($v{DEB_HOST_GNU_CPU}, $v{DEB_HOST_GNU_SYSTEM}) = split(/-/, $v{DEB_HOST_GNU_TYPE}, 2);
-($v{DEB_BUILD_GNU_CPU}, $v{DEB_BUILD_GNU_SYSTEM}) = split(/-/, $v{DEB_BUILD_GNU_TYPE}, 2);
-
-($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH});
-($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH});
-
-$v{DEB_BUILD_MULTIARCH} = debarch_to_multiarch($v{DEB_BUILD_ARCH});
-$v{DEB_HOST_MULTIARCH} = debarch_to_multiarch($v{DEB_HOST_ARCH});
 
 for my $k (@ordered) {
     $v{$k} = $ENV{$k} if (defined ($ENV{$k}) && !$force);
