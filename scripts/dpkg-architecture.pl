@@ -152,22 +152,22 @@ $v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
     $req_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
-    die (sprintf(_g("unknown Debian architecture %s, you must specify " .
-                    "GNU system type, too"), $req_host_arch))
+    error(_g("unknown Debian architecture %s, you must specify " .
+             "GNU system type, too"), $req_host_arch)
         unless defined $req_host_gnu_type;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
     $req_host_arch = gnutriplet_to_debarch($req_host_gnu_type);
-    die (sprintf(_g("unknown GNU system type %s, you must specify " .
-                    "Debian architecture, too"), $req_host_gnu_type))
+    error(_g("unknown GNU system type %s, you must specify " .
+             "Debian architecture, too"), $req_host_gnu_type)
         unless defined $req_host_arch;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
     my $dfl_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
-    die (sprintf(_g("unknown default GNU system type for Debian architecture %s"),
-                 $req_host_arch))
+    error(_g("unknown default GNU system type for Debian architecture %s"),
+          $req_host_arch)
 	unless defined $dfl_host_gnu_type;
     warning(_g("Default GNU system type %s for Debian arch %s does not " .
                "match specified GNU system type %s"), $dfl_host_gnu_type,
@@ -226,6 +226,6 @@ if ($action eq 'l') {
     if (exists $v{$req_variable_to_print}) {
         print "$v{$req_variable_to_print}\n";
     } else {
-        die sprintf(_g("%s is not a supported variable name"), $req_variable_to_print);
+        error(_g("%s is not a supported variable name"), $req_variable_to_print);
     }
 }
