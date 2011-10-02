@@ -250,7 +250,8 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
 
     my $gcc = get_gcc_host_gnu_type();
 
-    warning(_g("Specified GNU system type %s does not match gcc system type %s."),
+    warning(_g("specified GNU system type %s does not match gcc system " .
+               "type %s, try setting a correct CC environment variable"),
             $v{DEB_HOST_GNU_TYPE}, $gcc)
         if ($gcc ne '') && ($gcc ne $v{DEB_HOST_GNU_TYPE});
 }
