@@ -25,7 +25,6 @@ use POSIX;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::BuildFlags;
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version;
@@ -292,13 +291,6 @@ if (defined $parallel) {
     $ENV{MAKEFLAGS} .= " -j$parallel";
     $build_opts->set("parallel", $parallel);
     $build_opts->export();
-}
-
-my $build_flags = Dpkg::BuildFlags->new();
-$build_flags->load_config();
-foreach my $flag ($build_flags->list()) {
-    printf(_g("%s: dpkg-buildflags (origin: %s): %s = %s\n"), $progname,
-           $build_flags->get_origin($flag), $flag, $build_flags->get($flag));
 }
 
 my $cwd = cwd();

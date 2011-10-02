@@ -7,6 +7,9 @@ dpkg (1.16.1.1) UNRELEASED; urgency=low
   * Fix dpkg-buildflags --dump to return 0 as exit code and not 1.
   * Update dpkg-buildflags(1) to not include quotes in the examples
     setting DEB_BUILD_MAINT_OPTIONS.
+  * Stop outputting build flags in dpkg-buildpackage as it confuses
+    maintainers who are overriding them in debian/rules and who
+    are not seeing the expected value in the build log.
 
   [ Guillem Jover ]
   * Change dpkg-buildflags to set preprocessor option -D_FORTIFY_SOURCE=2
