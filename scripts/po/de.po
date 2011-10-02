@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2011-09-23 03:38+0200\n"
-"PO-Revision-Date: 2011-09-10 19:11+0200\n"
+"POT-Creation-Date: 2011-10-02 15:49+0200\n"
+"PO-Revision-Date: 2011-10-02 15:58+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 
-#: scripts/dpkg-architecture.pl:36 scripts/dpkg-buildflags.pl:31
+#: scripts/dpkg-architecture.pl:37 scripts/dpkg-buildflags.pl:31
 #: scripts/dpkg-buildpackage.pl:38 scripts/dpkg-checkbuilddeps.pl:36
 #: scripts/dpkg-distaddfile.pl:33 scripts/dpkg-genchanges.pl:96
 #: scripts/dpkg-gencontrol.pl:56 scripts/dpkg-gensymbols.pl:49
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s Version %s.\n"
 
-#: scripts/dpkg-architecture.pl:38
+#: scripts/dpkg-architecture.pl:39
 msgid ""
 "\n"
 "Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd@debian.org>.\n"
@@ -38,7 +38,7 @@ msgstr ""
 "Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd@debian.org>.\n"
 "Copyright (C) 2004-2005 Scott James Remnant <scott@netsplit.com>."
 
-#: scripts/dpkg-architecture.pl:42 scripts/dpkg-buildflags.pl:36
+#: scripts/dpkg-architecture.pl:43 scripts/dpkg-buildflags.pl:36
 #: scripts/dpkg-buildpackage.pl:45 scripts/dpkg-distaddfile.pl:38
 #: scripts/dpkg-genchanges.pl:102 scripts/dpkg-gencontrol.pl:62
 #: scripts/dpkg-gensymbols.pl:55 scripts/dpkg-parsechangelog.pl:37
@@ -53,7 +53,7 @@ msgstr ""
 "Dies ist freie Software; lesen Sie die GNU General Public License Version 2\n"
 "oder neuer für die Kopierbedingungen. Es gibt KEINE Haftung.\n"
 
-#: scripts/dpkg-architecture.pl:50
+#: scripts/dpkg-architecture.pl:51
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] [<action>]\n"
@@ -97,7 +97,12 @@ msgstr ""
 "  --help             diese Hilfemeldung anzeigen.\n"
 "  --version          die Version anzeigen.\n"
 
-#: scripts/dpkg-architecture.pl:120 scripts/dpkg-buildflags.pl:91
+#: scripts/dpkg-architecture.pl:151
+#, perl-format
+msgid "%s is not a supported variable name"
+msgstr "%s ist kein unterstützter Variablenname"
+
+#: scripts/dpkg-architecture.pl:169 scripts/dpkg-buildflags.pl:91
 #: scripts/dpkg-distaddfile.pl:68 scripts/dpkg-genchanges.pl:194
 #: scripts/dpkg-gencontrol.pl:133 scripts/dpkg-gensymbols.pl:141
 #: scripts/dpkg-parsechangelog.pl:113 scripts/dpkg-shlibdeps.pl:119
@@ -105,24 +110,24 @@ msgstr ""
 msgid "unknown option `%s'"
 msgstr "unbekannte Option »%s«"
 
-#: scripts/dpkg-architecture.pl:144
+#: scripts/dpkg-architecture.pl:203
 #, perl-format
 msgid "unknown Debian architecture %s, you must specify GNU system type, too"
 msgstr ""
 "unbekannte Debian-Architektur %s, Sie müssen auch den GNU-Systemtyp angeben"
 
-#: scripts/dpkg-architecture.pl:151
+#: scripts/dpkg-architecture.pl:210
 #, perl-format
 msgid "unknown GNU system type %s, you must specify Debian architecture, too"
 msgstr ""
 "unbekannter GNU-Systemtyp %s, Sie müssen auch die Debian-Architektur angeben"
 
-#: scripts/dpkg-architecture.pl:158
+#: scripts/dpkg-architecture.pl:217
 #, perl-format
 msgid "unknown default GNU system type for Debian architecture %s"
 msgstr "unbekannter Standard-GNU-Systemtyp für Debian-Architektur %s"
 
-#: scripts/dpkg-architecture.pl:161
+#: scripts/dpkg-architecture.pl:220
 #, perl-format
 msgid ""
 "Default GNU system type %s for Debian arch %s does not match specified GNU "
@@ -131,15 +136,14 @@ msgstr ""
 "Standard GNU-Systemtyp %s für Debian-Architektur %s passt nicht zu "
 "angegebenem GNU-Systemtyp %s"
 
-#: scripts/dpkg-architecture.pl:180
+#: scripts/dpkg-architecture.pl:253
 #, perl-format
-msgid "Specified GNU system type %s does not match gcc system type %s."
-msgstr "Angegebener GNU-Systemtyp %s passt nicht zu gcc-Systemtyp %s."
-
-#: scripts/dpkg-architecture.pl:225
-#, perl-format
-msgid "%s is not a supported variable name"
-msgstr "%s ist kein unterstützter Variablenname"
+msgid ""
+"specified GNU system type %s does not match gcc system type %s, try setting "
+"a correct CC environment variable"
+msgstr ""
+"angegebener GNU-Systemtyp %s passt nicht zu gcc-Systemtyp %s, versuchen Sie, "
+"eine korrekte CC-Umgebungsvariable zu setzen"
 
 #: scripts/dpkg-buildflags.pl:33
 msgid ""
@@ -514,6 +518,14 @@ msgstr "%s: Nicht erfüllte Bauabhängigkeiten: "
 msgid "%s: Build conflicts: "
 msgstr "%s: Baukonflikte: "
 
+#: scripts/dpkg-checkbuilddeps.pl:120 scripts/dpkg-name.pl:96
+#: scripts/Dpkg/Arch.pm:142 scripts/Dpkg/Arch.pm:161 scripts/Dpkg/Arch.pm:180
+#: scripts/Dpkg/Changelog/Parse.pm:142 scripts/Dpkg/IPC.pm:247
+#: scripts/Dpkg/Shlibs.pm:78 scripts/Dpkg/Source/Package.pm:193
+#, perl-format
+msgid "cannot open %s"
+msgstr "%s kann nicht geöffnet werden"
+
 #: scripts/dpkg-checkbuilddeps.pl:184 scripts/dpkg-source.pl:253
 #, perl-format
 msgid "error occurred while parsing %s"
@@ -552,27 +564,27 @@ msgstr "genau ein Dateiname, Bereich und eine Priorität wird benötigt"
 msgid "filename, section and priority may contain no whitespace"
 msgstr "Dateiname, Bereich und Priorität dürfen keine Leerzeichen enthalten"
 
-#: scripts/dpkg-distaddfile.pl:79 scripts/dpkg-gencontrol.pl:334
+#: scripts/dpkg-distaddfile.pl:79 scripts/dpkg-gencontrol.pl:337
 msgid "open new files list file"
 msgstr "neue Dateienliste-Datei öffnen"
 
-#: scripts/dpkg-distaddfile.pl:84 scripts/dpkg-gencontrol.pl:345
+#: scripts/dpkg-distaddfile.pl:84 scripts/dpkg-gencontrol.pl:348
 msgid "copy old entry to new files list file"
 msgstr "alten Eintrag in neue Dateienlist-Datei kopieren"
 
-#: scripts/dpkg-distaddfile.pl:87 scripts/dpkg-gencontrol.pl:349
+#: scripts/dpkg-distaddfile.pl:87 scripts/dpkg-gencontrol.pl:352
 msgid "read old files list file"
 msgstr "alte Dateienliste-Datei lesen"
 
-#: scripts/dpkg-distaddfile.pl:90 scripts/dpkg-gencontrol.pl:359
+#: scripts/dpkg-distaddfile.pl:90 scripts/dpkg-gencontrol.pl:362
 msgid "write new entry to new files list file"
 msgstr "neuen Eintrag in neue Dateienliste-Datei schreiben"
 
-#: scripts/dpkg-distaddfile.pl:91 scripts/dpkg-gencontrol.pl:360
+#: scripts/dpkg-distaddfile.pl:91 scripts/dpkg-gencontrol.pl:363
 msgid "close new files list file"
 msgstr "neue Dateienliste-Datei schließen"
 
-#: scripts/dpkg-distaddfile.pl:93 scripts/dpkg-gencontrol.pl:361
+#: scripts/dpkg-distaddfile.pl:93 scripts/dpkg-gencontrol.pl:364
 msgid "install new files list file"
 msgstr "neue Dateienliste-Datei installieren"
 
@@ -763,8 +775,8 @@ msgstr "ursprüngliche Quell-Nachricht schreiben"
 msgid "missing information for critical output field %s"
 msgstr "fehlende Informationen für kritisches Ausgabefeld %s"
 
-#: scripts/dpkg-genchanges.pl:499 scripts/dpkg-gencontrol.pl:272
-#: scripts/dpkg-gencontrol.pl:275 scripts/Dpkg/Source/Package.pm:537
+#: scripts/dpkg-genchanges.pl:499 scripts/dpkg-gencontrol.pl:275
+#: scripts/dpkg-gencontrol.pl:278 scripts/Dpkg/Source/Package.pm:537
 #, perl-format
 msgid "missing information for output field %s"
 msgstr "fehlende Informationen für Ausgabefeld %s"
@@ -836,23 +848,27 @@ msgid "package %s not in control info"
 msgstr "Paket %s nicht in Steuer-Info"
 
 #: scripts/dpkg-gencontrol.pl:156 scripts/dpkg-gensymbols.pl:159
+msgid "no package stanza found in control info"
+msgstr "kein package-Eintrag in Steuer-Info gefunden"
+
+#: scripts/dpkg-gencontrol.pl:158 scripts/dpkg-gensymbols.pl:161
 #, perl-format
 msgid "must specify package since control info has many (%s)"
 msgstr "Paket muss angegeben werden, da Steuer-Info viele (%s) enthält"
 
-#: scripts/dpkg-gencontrol.pl:160
+#: scripts/dpkg-gencontrol.pl:163
 #, perl-format
 msgid "package %s: "
 msgstr "Paket %s: "
 
-#: scripts/dpkg-gencontrol.pl:185
+#: scripts/dpkg-gencontrol.pl:188
 #, perl-format
 msgid "`%s' is not a legal architecture string."
 msgid_plural "`%s' are not legal architecture strings."
 msgstr[0] "»%s« ist keine gültige Architektur-Zeichenkette."
 msgstr[1] "»%s« sind keine gültigen Architektur-Zeichenketten."
 
-#: scripts/dpkg-gencontrol.pl:191
+#: scripts/dpkg-gencontrol.pl:194
 #, perl-format
 msgid ""
 "current host architecture '%s' does not appear in package's architecture "
@@ -861,17 +877,17 @@ msgstr ""
 "aktuelle Host-Architektur »%s« erscheint nicht in der Architekturliste (%s) "
 "des Pakets"
 
-#: scripts/dpkg-gencontrol.pl:246
+#: scripts/dpkg-gencontrol.pl:249
 #, perl-format
 msgid "%s field of package %s: "
 msgstr "Feld %s von Paket %s: "
 
-#: scripts/dpkg-gencontrol.pl:250 scripts/dpkg-gencontrol.pl:258
+#: scripts/dpkg-gencontrol.pl:253 scripts/dpkg-gencontrol.pl:261
 #, perl-format
 msgid "error occurred while parsing %s field: %s"
 msgstr "Fehler beim Parsen von %s Feld: %s"
 
-#: scripts/dpkg-gencontrol.pl:263
+#: scripts/dpkg-gencontrol.pl:266
 #, perl-format
 msgid ""
 "the %s field contains an arch-specific dependency but the package is "
@@ -880,49 +896,49 @@ msgstr ""
 "das Feld %s enthält eine architekturspezifische Abhängigkeit, aber das Paket "
 "ist »architecture all«"
 
-#: scripts/dpkg-gencontrol.pl:287
+#: scripts/dpkg-gencontrol.pl:290
 #, perl-format
 msgid "%s package with udeb specific field %s"
 msgstr "%s Paket mit udeb-spezifischem Feld %s"
 
-#: scripts/dpkg-gencontrol.pl:300 scripts/dpkg-scansources.pl:313
+#: scripts/dpkg-gencontrol.pl:303 scripts/dpkg-scansources.pl:313
 #: scripts/dpkg-shlibdeps.pl:836 scripts/Dpkg/Changelog/Parse.pm:138
 #: scripts/Dpkg/IPC.pm:229 scripts/Dpkg/Shlibs/Objdump.pm:181
 #, perl-format
 msgid "cannot fork for %s"
 msgstr "fork kann für %s nicht ausgeführt werden"
 
-#: scripts/dpkg-gencontrol.pl:303
+#: scripts/dpkg-gencontrol.pl:306
 #, perl-format
 msgid "chdir for du to `%s'"
 msgstr "chdir nach »%s« für du"
 
-#: scripts/dpkg-gencontrol.pl:305 scripts/dpkg-shlibdeps.pl:843
+#: scripts/dpkg-gencontrol.pl:308 scripts/dpkg-shlibdeps.pl:843
 #: scripts/Dpkg/IPC.pm:271 scripts/Dpkg/Shlibs/Cppfilt.pm:50
 #, perl-format
 msgid "unable to execute %s"
 msgstr "%s konnte nicht ausgeführt werden"
 
-#: scripts/dpkg-gencontrol.pl:312
+#: scripts/dpkg-gencontrol.pl:315
 #, perl-format
 msgid "du in `%s'"
 msgstr "du in »%s«"
 
-#: scripts/dpkg-gencontrol.pl:314
+#: scripts/dpkg-gencontrol.pl:317
 #, perl-format
 msgid "du gave unexpected output `%s'"
 msgstr "du lieferte unerwartete Ausgabe »%s«"
 
-#: scripts/dpkg-gencontrol.pl:347
+#: scripts/dpkg-gencontrol.pl:350
 msgid "close old files list file"
 msgstr "schließen der alten Dateienliste-Datei"
 
-#: scripts/dpkg-gencontrol.pl:369
+#: scripts/dpkg-gencontrol.pl:372
 #, perl-format
 msgid "cannot open new output control file `%s'"
 msgstr "neue Ausgabe-Steuerdatei »%s« kann nicht geöffnet werden"
 
-#: scripts/dpkg-gencontrol.pl:378 scripts/dpkg-shlibdeps.pl:523
+#: scripts/dpkg-gencontrol.pl:381 scripts/dpkg-shlibdeps.pl:523
 #: scripts/Dpkg/Interface/Storable.pm:91
 #: scripts/Dpkg/Interface/Storable.pm:119 scripts/Dpkg/Source/Patch.pm:290
 #: scripts/Dpkg/Source/Package/V2.pm:602
@@ -930,7 +946,7 @@ msgstr "neue Ausgabe-Steuerdatei »%s« kann nicht geöffnet werden"
 msgid "cannot close %s"
 msgstr "%s kann nicht geschlossen werden"
 
-#: scripts/dpkg-gencontrol.pl:380
+#: scripts/dpkg-gencontrol.pl:383
 #, perl-format
 msgid "cannot install output control file `%s'"
 msgstr "Ausgabe-Steurdatei »%s« kann nicht installiert werden"
@@ -1013,54 +1029,54 @@ msgstr ""
 "  -h, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen.\n"
 
-#: scripts/dpkg-gensymbols.pl:194
+#: scripts/dpkg-gensymbols.pl:197
 #, perl-format
 msgid "Can't read directory %s: %s"
 msgstr "Verzeichnis %s kann nicht gelesen werden: %s"
 
-#: scripts/dpkg-gensymbols.pl:209
+#: scripts/dpkg-gensymbols.pl:212
 #, perl-format
 msgid "Objdump couldn't parse %s\n"
 msgstr "Objdump konnte %s nicht auswerten\n"
 
-#: scripts/dpkg-gensymbols.pl:227
+#: scripts/dpkg-gensymbols.pl:230
 msgid "<standard output>"
 msgstr "<Standardausgabe>"
 
-#: scripts/dpkg-gensymbols.pl:255
+#: scripts/dpkg-gensymbols.pl:258
 #, perl-format
 msgid "new libraries appeared in the symbols file: %s"
 msgstr "neue Bibliotheken sind in der Symboldatei aufgetaucht: %s"
 
-#: scripts/dpkg-gensymbols.pl:260
+#: scripts/dpkg-gensymbols.pl:263
 #, perl-format
 msgid "some libraries disappeared in the symbols file: %s"
 msgstr "einige Bibliotheken sind in der Symboldatei verschwunden: %s"
 
-#: scripts/dpkg-gensymbols.pl:265
+#: scripts/dpkg-gensymbols.pl:268
 #, perl-format
 msgid "some new symbols appeared in the symbols file: %s"
 msgstr "einige neue Symbole sind in der Symboldatei aufgetaucht: %s"
 
-#: scripts/dpkg-gensymbols.pl:266 scripts/dpkg-gensymbols.pl:271
+#: scripts/dpkg-gensymbols.pl:269 scripts/dpkg-gensymbols.pl:274
 msgid "see diff output below"
 msgstr "lesen Sie die folgende Diff-Ausgabe"
 
-#: scripts/dpkg-gensymbols.pl:270
+#: scripts/dpkg-gensymbols.pl:273
 #, perl-format
 msgid "some symbols or patterns disappeared in the symbols file: %s"
 msgstr "einige Symbole oder Muster sind aus der Symboldatei verschwunden: %s"
 
-#: scripts/dpkg-gensymbols.pl:291
+#: scripts/dpkg-gensymbols.pl:294
 msgid "the generated symbols file is empty"
 msgstr "die erstellte Symboldatei ist leer"
 
-#: scripts/dpkg-gensymbols.pl:293
+#: scripts/dpkg-gensymbols.pl:296
 #, perl-format
 msgid "%s doesn't match completely %s"
 msgstr "%s passt nicht komplett zu %s"
 
-#: scripts/dpkg-gensymbols.pl:296
+#: scripts/dpkg-gensymbols.pl:299
 #, perl-format
 msgid "no debian/symbols file used as basis for generating %s"
 msgstr "keine debian/symbols-Datei als Basis zur Erzeugung von %s verwendet"
@@ -1155,14 +1171,6 @@ msgstr ""
 #, perl-format
 msgid "cannot find '%s'"
 msgstr "»%s« kann nicht gefunden werden"
-
-#: scripts/dpkg-name.pl:96 scripts/Dpkg/Arch.pm:138 scripts/Dpkg/Arch.pm:157
-#: scripts/Dpkg/Arch.pm:176 scripts/Dpkg/Changelog/Parse.pm:142
-#: scripts/Dpkg/IPC.pm:247 scripts/Dpkg/Shlibs.pm:78
-#: scripts/Dpkg/Source/Package.pm:193
-#, perl-format
-msgid "cannot open %s"
-msgstr "%s kann nicht geöffnet werden"
 
 #: scripts/dpkg-name.pl:98
 #, perl-format
@@ -2113,7 +2121,7 @@ msgstr "Fataler Fehler beim Auswerten der Eingabe"
 msgid "fatal error occurred while parsing %s"
 msgstr "Fataler Fehler beim Auswerten von %s"
 
-#: scripts/Dpkg/Arch.pm:86
+#: scripts/Dpkg/Arch.pm:90
 msgid ""
 "Couldn't determine gcc system type, falling back to default (native "
 "compilation)"
@@ -2121,7 +2129,7 @@ msgstr ""
 "gcc-Systemtyp konnte nicht ermittelt werden, zurück auf Standardeinstellung "
 "(native Übersetzung)"
 
-#: scripts/Dpkg/Arch.pm:95
+#: scripts/Dpkg/Arch.pm:99
 #, perl-format
 msgid ""
 "Unknown gcc system type %s, falling back to default (native compilation)"
