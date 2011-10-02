@@ -135,8 +135,7 @@ sub add_hardening_flags {
     }
     # Fortify
     if ($use_feature{"fortify"}) {
-	$flags->append("CFLAGS", "-D_FORTIFY_SOURCE=2");
-	$flags->append("CXXFLAGS", "-D_FORTIFY_SOURCE=2");
+	$flags->append("CPPFLAGS", "-D_FORTIFY_SOURCE=2");
     }
     # Format
     if ($use_feature{"format"}) {

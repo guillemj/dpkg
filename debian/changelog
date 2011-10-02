@@ -1,11 +1,16 @@
 dpkg (1.16.1.1) UNRELEASED; urgency=low
 
+  [ Raphaël Hertzog ]
   * Fix dpkg-source to not ignore the automatic patch when checking
     for unrecorded changes.
   * Let dpkg-source --commit create debian/patches when required.
   * Fix dpkg-buildflags --dump to return 0 as exit code and not 1.
   * Update dpkg-buildflags(1) to not include quotes in the examples
     setting DEB_BUILD_MAINT_OPTIONS.
+
+  [ Guillem Jover ]
+  * Change dpkg-buildflags to set preprocessor option -D_FORTIFY_SOURCE=2
+    in CPPFLAGS, instead of CFLAGS and CXXFLAGS. Closes: #642521, #643632
 
  -- Raphaël Hertzog <hertzog@debian.org>  Tue, 27 Sep 2011 08:15:51 +0200
 
