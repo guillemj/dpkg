@@ -155,9 +155,12 @@ if (not defined($sourceversion)) {
 if (not defined($oppackage)) {
     my $control = Dpkg::Control::Info->new();
     my @packages = map { $_->{'Package'} } $control->get_packages();
-    @packages == 1 ||
+    if (@packages == 0) {
+	error(_g("no package stanza found in control info"));
+    } elsif (@packages > 1) {
 	error(_g("must specify package since control info has many (%s)"),
 	      "@packages");
+    }
     $oppackage = $packages[0];
 }
 

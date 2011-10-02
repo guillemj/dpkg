@@ -152,9 +152,12 @@ if (defined($oppackage)) {
     defined($pkg) || error(_g("package %s not in control info"), $oppackage);
 } else {
     my @packages = map { $_->{'Package'} } $control->get_packages();
-    @packages==1 ||
+    if (@packages == 0) {
+        error(_g("no package stanza found in control info"));
+    } elsif (@packages > 1) {
         error(_g("must specify package since control info has many (%s)"),
               "@packages");
+    }
     $pkg = $control->get_pkg_by_idx(1);
 }
 $substvars->set_msg_prefix(sprintf(_g("package %s: "), $pkg->{Package}));
