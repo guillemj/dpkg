@@ -49,8 +49,12 @@ my %debarch_to_debtriplet;
     {
 	return $build_arch if defined $build_arch;
 
+	# Note: We *always* require an installed dpkg when inferring the
+	# build architecture. The bootstrapping case is handled by
+	# dpkg-architecture itself, by avoiding computing the DEB_BUILD_
+	# variables when they are not requested.
+
 	my $build_arch = `dpkg --print-architecture`;
-	# FIXME: Handle bootstrapping
 	syserr("dpkg --print-architecture failed") if $? >> 8;
 
 	chomp $build_arch;

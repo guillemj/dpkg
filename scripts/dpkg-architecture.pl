@@ -4,6 +4,7 @@
 #
 # Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>,
 # Copyright © 1999 Marcus Brinkmann <brinkmd@debian.org>.
+# Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -75,7 +76,41 @@ sub list_arches()
     }
 }
 
+use constant {
+    DEB_NONE => 0,
+    DEB_BUILD => 1,
+    DEB_HOST => 2,
+    DEB_ARCH_INFO => 4,
+    DEB_ARCH_ATTR => 8,
+    DEB_MULTIARCH => 16,
+    DEB_GNU_INFO => 32,
+};
 
+use constant DEB_ALL => DEB_BUILD | DEB_HOST | DEB_ARCH_INFO | DEB_ARCH_ATTR |
+                        DEB_MULTIARCH | DEB_GNU_INFO;
+
+my %arch_vars = (
+    "DEB_BUILD_ARCH" => DEB_BUILD,
+    "DEB_BUILD_ARCH_OS" => DEB_BUILD | DEB_ARCH_INFO,
+    "DEB_BUILD_ARCH_CPU" => DEB_BUILD | DEB_ARCH_INFO,
+    "DEB_BUILD_ARCH_BITS" => DEB_BUILD | DEB_ARCH_ATTR,
+    "DEB_BUILD_ARCH_ENDIAN" => DEB_BUILD | DEB_ARCH_ATTR,
+    "DEB_BUILD_MULTIARCH" => DEB_BUILD | DEB_MULTIARCH,
+    "DEB_BUILD_GNU_CPU" => DEB_BUILD | DEB_GNU_INFO,
+    "DEB_BUILD_GNU_SYSTEM" => DEB_BUILD | DEB_GNU_INFO,
+    "DEB_BUILD_GNU_TYPE" => DEB_BUILD | DEB_GNU_INFO,
+    "DEB_HOST_ARCH" => DEB_HOST,
+    "DEB_HOST_ARCH_OS" => DEB_HOST | DEB_ARCH_INFO,
+    "DEB_HOST_ARCH_CPU" => DEB_HOST | DEB_ARCH_INFO,
+    "DEB_HOST_ARCH_BITS" => DEB_HOST | DEB_ARCH_ATTR,
+    "DEB_HOST_ARCH_ENDIAN" => DEB_HOST | DEB_ARCH_ATTR,
+    "DEB_HOST_MULTIARCH" => DEB_HOST | DEB_MULTIARCH,
+    "DEB_HOST_GNU_CPU" => DEB_HOST | DEB_GNU_INFO,
+    "DEB_HOST_GNU_SYSTEM" => DEB_HOST | DEB_GNU_INFO,
+    "DEB_HOST_GNU_TYPE" => DEB_HOST | DEB_GNU_INFO,
+);
+
+my $req_vars = DEB_ALL;
 my $req_host_arch = '';
 my $req_host_gnu_type = '';
 my $req_eq_arch = '';
@@ -83,6 +118,11 @@ my $req_is_arch = '';
 my $req_variable_to_print;
 my $action = 'l';
 my $force = 0;
+
+sub action_needs($) {
+  my ($bits) = @_;
+  return (($req_vars & $bits) == $bits);
+}
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -92,17 +132,26 @@ while (@ARGV) {
 	$req_host_gnu_type = "$'";
     } elsif (m/^-e/) {
 	$req_eq_arch = "$'";
+	$req_vars = $arch_vars{DEB_HOST_ARCH};
 	$action = 'e';
     } elsif (m/^-i/) {
 	$req_is_arch = "$'";
+	$req_vars = $arch_vars{DEB_HOST_ARCH};
 	$action = 'i';
-    } elsif (m/^-[lsu]$/) {
+    } elsif (m/^-u$/) {
+	$req_vars = DEB_NONE;
+	$action = 'u';
+    } elsif (m/^-[ls]$/) {
 	$action = $_;
 	$action =~ s/^-//;
     } elsif (m/^-f$/) {
         $force=1;
     } elsif (m/^-q/) {
-        $req_variable_to_print = "$'";
+	my $varname = "$'";
+	error(_g("%s is not a supported variable name"), $varname)
+	    unless (exists $arch_vars{$varname});
+	$req_variable_to_print = "$varname";
+	$req_vars = $arch_vars{$varname};
         $action = 'q';
     } elsif (m/^-c$/) {
        $action = 'c';
@@ -124,31 +173,30 @@ while (@ARGV) {
 my %v;
 my $abi;
 
-my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
-                 DEB_BUILD_ARCH_BITS DEB_BUILD_ARCH_ENDIAN
-                 DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE
-                 DEB_BUILD_MULTIARCH
-                 DEB_HOST_ARCH DEB_HOST_ARCH_OS DEB_HOST_ARCH_CPU
-                 DEB_HOST_ARCH_BITS DEB_HOST_ARCH_ENDIAN
-                 DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE
-                 DEB_HOST_MULTIARCH);
-
 #
 # Set build variables
 #
 
-$v{DEB_BUILD_ARCH} = get_raw_build_arch();
-($abi, $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_BUILD_ARCH});
-($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH});
+$v{DEB_BUILD_ARCH} = get_raw_build_arch()
+    if (action_needs(DEB_BUILD));
+($abi, $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_BUILD_ARCH})
+    if (action_needs(DEB_BUILD | DEB_ARCH_INFO));
+($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH})
+    if (action_needs(DEB_BUILD | DEB_ARCH_ATTR));
 
-$v{DEB_BUILD_MULTIARCH} = debarch_to_multiarch($v{DEB_BUILD_ARCH});
+$v{DEB_BUILD_MULTIARCH} = debarch_to_multiarch($v{DEB_BUILD_ARCH})
+    if (action_needs(DEB_BUILD | DEB_MULTIARCH));
 
-$v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
-($v{DEB_BUILD_GNU_CPU}, $v{DEB_BUILD_GNU_SYSTEM}) = split(/-/, $v{DEB_BUILD_GNU_TYPE}, 2);
+if (action_needs(DEB_BUILD | DEB_GNU_INFO)) {
+  $v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
+  ($v{DEB_BUILD_GNU_CPU}, $v{DEB_BUILD_GNU_SYSTEM}) = split(/-/, $v{DEB_BUILD_GNU_TYPE}, 2);
+}
 
 #
 # Set host variables
 #
+
+# First perform some sanity checks on the host arguments passed.
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
     $req_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
@@ -175,46 +223,54 @@ if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
         if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
 
-if ($req_host_arch eq '') {
-    $v{DEB_HOST_ARCH} = get_raw_host_arch();
-} else {
-    $v{DEB_HOST_ARCH} = $req_host_arch;
+# Proceed to compute the host variables if needed.
+
+if (action_needs(DEB_HOST)) {
+    if ($req_host_arch eq '') {
+        $v{DEB_HOST_ARCH} = get_raw_host_arch();
+    } else {
+        $v{DEB_HOST_ARCH} = $req_host_arch;
+    }
 }
-($abi, $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_HOST_ARCH});
-($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH});
+($abi, $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_HOST_ARCH})
+    if (action_needs(DEB_HOST | DEB_ARCH_INFO));
+($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH})
+    if (action_needs(DEB_HOST | DEB_ARCH_ATTR));
 
-$v{DEB_HOST_MULTIARCH} = debarch_to_multiarch($v{DEB_HOST_ARCH});
+$v{DEB_HOST_MULTIARCH} = debarch_to_multiarch($v{DEB_HOST_ARCH})
+    if (action_needs(DEB_HOST | DEB_MULTIARCH));
 
-if ($req_host_gnu_type eq '') {
-    $v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
-} else {
-    $v{DEB_HOST_GNU_TYPE} = $req_host_gnu_type;
+if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
+    if ($req_host_gnu_type eq '') {
+        $v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
+    } else {
+        $v{DEB_HOST_GNU_TYPE} = $req_host_gnu_type;
+    }
+    ($v{DEB_HOST_GNU_CPU}, $v{DEB_HOST_GNU_SYSTEM}) = split(/-/, $v{DEB_HOST_GNU_TYPE}, 2);
+
+    my $gcc = get_gcc_host_gnu_type();
+
+    warning(_g("Specified GNU system type %s does not match gcc system type %s."),
+            $v{DEB_HOST_GNU_TYPE}, $gcc)
+        if ($gcc ne '') && ($gcc ne $v{DEB_HOST_GNU_TYPE});
 }
-($v{DEB_HOST_GNU_CPU}, $v{DEB_HOST_GNU_SYSTEM}) = split(/-/, $v{DEB_HOST_GNU_TYPE}, 2);
-
-my $gcc = get_gcc_host_gnu_type();
-
-warning(_g("Specified GNU system type %s does not match gcc system type %s."),
-        $v{DEB_HOST_GNU_TYPE}, $gcc)
-    if !($req_is_arch or $req_eq_arch) &&
-       ($gcc ne '') && ($gcc ne $v{DEB_HOST_GNU_TYPE});
 
 
-for my $k (@ordered) {
+for my $k (keys %arch_vars) {
     $v{$k} = $ENV{$k} if (defined ($ENV{$k}) && !$force);
 }
 
 if ($action eq 'l') {
-    foreach my $k (@ordered) {
+    foreach my $k (sort keys %arch_vars) {
 	print "$k=$v{$k}\n";
     }
 } elsif ($action eq 's') {
-    foreach my $k (@ordered) {
+    foreach my $k (sort keys %arch_vars) {
 	print "$k=$v{$k}; ";
     }
-    print "export ".join(" ",@ordered)."\n";
+    print "export " . join(" ", sort keys %arch_vars) . "\n";
 } elsif ($action eq 'u') {
-    print "unset ".join(" ",@ordered)."\n";
+    print "unset " . join(" ", sort keys %arch_vars) . "\n";
 } elsif ($action eq 'e') {
     exit !debarch_eq($v{DEB_HOST_ARCH}, $req_eq_arch);
 } elsif ($action eq 'i') {
@@ -223,9 +279,5 @@ if ($action eq 'l') {
     @ENV{keys %v} = values %v;
     exec @ARGV;
 } elsif ($action eq 'q') {
-    if (exists $v{$req_variable_to_print}) {
-        print "$v{$req_variable_to_print}\n";
-    } else {
-        error(_g("%s is not a supported variable name"), $req_variable_to_print);
-    }
+    print "$v{$req_variable_to_print}\n";
 }
