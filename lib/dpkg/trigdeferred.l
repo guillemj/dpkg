@@ -28,6 +28,7 @@
 %option nodefault
 %option perf-report
 %option warn
+%option noinput
 %option nounput
 
 %x midline
@@ -49,7 +50,6 @@
 #include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
 
-#define YY_NO_INPUT
 #define YY_DECL int trigdef_parse(void)
 
 static struct varbuf fn, newfn;
