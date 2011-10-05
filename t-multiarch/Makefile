@@ -205,6 +205,7 @@ TEST_CASES_CROSSGRADE += test-crossgrade-all-any-same
 TEST_CASES_CROSSGRADE += test-crossgrade-all-any-foreign
 TEST_CASES_CROSSGRADE += test-crossgrade-all-any-allowed
 TEST_CASES_CROSSGRADE += test-crossgrade-same-all
+TEST_CASES_CROSSGRADE += test-crossgrade-no
 
 test-crossgrade: $(TEST_CASES_CROSSGRADE)
 
@@ -250,6 +251,26 @@ test-crossgrade-same-all: ma-setup
 	$(call pkg_is_installed,pkg-ma-same:$(FOREIGN_ARCH))
 	$(call pkg_is_not_installed,pkg-ma-same:all)
 	$(DPKG_PURGE) pkg-ma-same:$(NATIVE_ARCH) pkg-ma-same:$(FOREIGN_ARCH)
+
+pkg-ma-no_1.0_$(NATIVE_ARCH) pkg-ma-no_1.0_$(FOREIGN_ARCH):: pkg-template
+	echo "A conffile" > $@/m-a/conffile-$@
+	echo "/m-a/conffile-$@" > $@/DEBIAN/conffiles
+
+test-crossgrade-no: ma-setup
+	$(DPKG_INSTALL) pkg-ma-no_1.0_$(NATIVE_ARCH).deb
+	$(DPKG_REMOVE) pkg-ma-no:$(NATIVE_ARCH)
+	$(call pkg_status_is,pkg-ma-no:$(NATIVE_ARCH),deinstall ok config-files)
+	$(call pkg_is_not_installed,pkg-ma-no:$(FOREIGN_ARCH))
+	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-no,/m-a/conffile-pkg-ma-no_1.0_$(NATIVE_ARCH))
+	$(DPKG_INSTALL) pkg-ma-no_1.0_$(FOREIGN_ARCH).deb
+	# Verify the replaced package disappeared
+	$(call pkg_is_not_installed,pkg-ma-no:$(NATIVE_ARCH))
+	$(call pkg_is_installed,pkg-ma-no:$(FOREIGN_ARCH))
+	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-no:$(FOREIGN_ARCH),/m-a/conffile-pkg-ma-no_1.0_$(FOREIGN_ARCH))
+	# Ensure the conffile of the disappeared package is still tracked
+	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-no:$(FOREIGN_ARCH),/m-a/conffile-pkg-ma-no_1.0_$(NATIVE_ARCH))
+	$(call stdout_has,$(DPKG_QUERY) -f '$${Conffiles}' -W pkg-ma-no:$(FOREIGN_ARCH), /m-a/conffile-pkg-ma-no_1.0_$(NATIVE_ARCH) [a-f0-9]+ obsolete$$)
+	$(DPKG_PURGE) pkg-ma-no:$(FOREIGN_ARCH)
 
 TEST_CASES_DEPS :=
 TEST_CASES_DEPS += test-deps-same
