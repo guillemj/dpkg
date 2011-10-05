@@ -362,6 +362,40 @@ parsedb_force_flags(void)
   return flags;
 }
 
+static void
+pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
+{
+  printf(_("(Noting disappearance of %s, which has been completely replaced.)\n"),
+         pkg->name);
+  log_action("disappear", pkg);
+  debug(dbg_general, "pkg_disappear disappearing %s", pkg->name);
+
+  trig_activate_packageprocessing(pkg);
+  maintainer_script_installed(pkg, POSTRMFILE,
+                              "post-removal script (for disappearance)",
+                              "disappear",
+                              infavour->name,
+                              versiondescribe(&infavour->available.version,
+                                              vdew_nonambig),
+                              NULL);
+
+  /* OK, now we delete all the stuff in the ‘info’ directory .. */
+  debug(dbg_general, "pkg_disappear cleaning info directory");
+  pkg_infodb_foreach(pkg, pkg_infodb_remove_file);
+  dir_sync_path(pkgadmindir());
+
+  pkg->status = stat_notinstalled;
+  pkg->want = want_unknown;
+  pkg->eflag = eflag_ok;
+
+  blankversion(&pkg->configversion);
+  pkgbin_blank(&pkg->installed);
+
+  pkg->clientdata->fileslistvalid = false;
+
+  modstatdb_note(pkg);
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -1203,37 +1237,10 @@ void process_archive(const char *filename) {
     otherpkg->clientdata->istobe= itb_normal;
     if (pdep) continue;
 
-    printf(_("(Noting disappearance of %s, which has been completely replaced.)\n"),
-           otherpkg->name);
-    log_action("disappear", otherpkg);
-    debug(dbg_general, "process_archive disappearing %s",otherpkg->name);
     /* No, we're disappearing it. This is the wrong time to go and
      * run maintainer scripts and things, as we can't back out. But
      * what can we do ?  It has to be run this late. */
-    trig_activate_packageprocessing(otherpkg);
-    maintainer_script_installed(otherpkg, POSTRMFILE,
-                                "post-removal script (for disappearance)",
-                                "disappear", pkg->name,
-                                versiondescribe(&pkg->available.version,
-                                                vdew_nonambig),
-                                NULL);
-
-    /* OK, now we delete all the stuff in the ‘info’ directory .. */
-    debug(dbg_general, "process_archive disappear cleaning info directory");
-    pkg_infodb_foreach(otherpkg, pkg_infodb_remove_file);
-    dir_sync_path(pkgadmindir());
-
-    otherpkg->status= stat_notinstalled;
-    otherpkg->want = want_unknown;
-    otherpkg->eflag = eflag_ok;
-
-    blankversion(&otherpkg->configversion);
-    pkgbin_blank(&otherpkg->installed);
-
-    otherpkg->clientdata->fileslistvalid = false;
-
-    modstatdb_note(otherpkg);
-
+    pkg_disappear(otherpkg, pkg);
   } /* while (otherpkg= ... */
   pkg_db_iter_free(it);
 
