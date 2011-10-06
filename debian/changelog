@@ -10,6 +10,9 @@ dpkg (1.16.1.1) UNRELEASED; urgency=low
   * Stop outputting build flags in dpkg-buildpackage as it confuses
     maintainers who are overriding them in debian/rules and who
     are not seeing the expected value in the build log.
+  * Fix trigger setup code to not reset the status of packages
+    when they are in a status different from triggers-awaited,
+    triggers-pending or installed. Closes: #644492
 
   [ Guillem Jover ]
   * Change dpkg-buildflags to set preprocessor option -D_FORTIFY_SOURCE=2
