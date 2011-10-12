@@ -26,6 +26,7 @@
 #include <linux/fiemap.h>
 #include <linux/fs.h>
 #include <sys/ioctl.h>
+#include <sys/vfs.h>
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -374,8 +375,12 @@ pkg_sorter_by_listfile_phys_offs(const void *a, const void *b)
 static void
 pkg_files_optimize_load(struct pkg_array *array)
 {
+  struct statfs fs;
   int i;
-  int blocksize = 0;
+
+  /* Get the filesystem block size. */
+  if (statfs(pkgadmindir(), &fs) < 0)
+    return;
 
   /* Sort packages by the physical location of their list files, so that
    * scanning them later will minimize disk drive head movements. */
@@ -402,12 +407,9 @@ pkg_files_optimize_load(struct pkg_array *array)
     if (fd < 0)
       continue;
 
-    if (!blocksize && ioctl(fd, FIGETBSZ, &blocksize) < 0)
-      break;
-
     memset(&fm, 0, sizeof(fm));
     fm.fiemap.fm_start = 0;
-    fm.fiemap.fm_length = blocksize;
+    fm.fiemap.fm_length = fs.f_bsize;
     fm.fiemap.fm_flags = 0;
     fm.fiemap.fm_extent_count = 1;
 
