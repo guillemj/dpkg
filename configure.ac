@@ -17,6 +17,8 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])],
 
 AM_GNU_GETTEXT_VERSION([0.18])
 AM_GNU_GETTEXT([external])
+DPKG_DIST_CHECK([test "$GMSGFMT" = ":" && test "$USE_NLS" = "yes"],
+                [gettext required when NLS support enabled])
 
 # Allow compilation without optional programs
 DPKG_WITH_PROG([dselect])
@@ -34,6 +36,7 @@ DPKG_WITH_DIR([logdir], [${localstatedir}/log],
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_LEX
+DPKG_DIST_CHECK([test "$LEX" = ":"], [lex program required])
 AC_PROG_RANLIB
 AC_CHECK_PROGS([DOXYGEN], [doxygen])
 AC_CHECK_PROG([HAVE_DOT], [dot], [YES], [NO])

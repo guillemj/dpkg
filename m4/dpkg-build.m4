@@ -31,3 +31,12 @@ AC_DEFUN([DPKG_WITH_DIR], [
   )
   AC_SUBST([$1])
 ])# DPKG_WITH_DIR
+
+# DPKG_DIST_CHECK(COND, ERROR)
+# ---------------
+# Check if the condition is fulfilled when preparing a distribution tarball.
+AC_DEFUN([DPKG_DIST_CHECK], [
+  AS_IF([test ! -f $srcdir/.dist-version && $1], [
+    AC_ERROR([not building from distributed tarball, $2])
+  ])
+])# DPKG_DIST_CHECK
