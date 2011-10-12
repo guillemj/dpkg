@@ -136,7 +136,7 @@ if BUILD_POD_DOC
 	$(mkdir_p) $(DESTDIR)$(man3dir)
 	for module in $(nobase_dist_perllib_DATA); do \
 	    name=`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$//'`; \
-	    pod2man --utf8 --center=libdpkg-perl --release=$(VERSION) \
+	    $(POD2MAN) --utf8 --center=libdpkg-perl --release=$(VERSION) \
 		--name="$$name"	--section=3 $(srcdir)/$$module \
 		>$(DESTDIR)$(man3dir)/$$name.3; \
 	    test -s $(DESTDIR)$(man3dir)/$$name.3 || \
