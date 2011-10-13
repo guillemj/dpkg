@@ -1,5 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
+m4_pattern_forbid([^_?DPKG_])
+
 AC_PREREQ(2.60)
 AC_INIT([dpkg], m4_esyscmd([./get-version]), [debian-dpkg@lists.debian.org])
 AC_CONFIG_SRCDIR([lib/dpkg/dpkg.h])
