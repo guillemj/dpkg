@@ -48,6 +48,36 @@ dpkg (1.16.2) UNRELEASED; urgency=low
 
  -- Helge Kreutzmann <debian@helgefjell.de>  Fri, 23 Sep 2011 17:29:38 +0200
 
+dpkg (1.16.1.1) unstable; urgency=low
+
+  [ Raphaël Hertzog ]
+  * Fix dpkg-source to not ignore the automatic patch when checking
+    for unrecorded changes. Closes: #643148
+  * Let dpkg-source --commit create debian/patches when required.
+    Closes: #643037
+  * Fix dpkg-buildflags --dump to return 0 as exit code and not 1.
+  * Update dpkg-buildflags(1) to not include quotes in the examples
+    setting DEB_BUILD_MAINT_OPTIONS.
+  * Stop outputting build flags in dpkg-buildpackage as it confuses
+    maintainers who are overriding them in debian/rules and who
+    are not seeing the expected value in the build log.
+  * Fix trigger setup code to not reset the status of packages
+    when they are in a status different from triggers-awaited,
+    triggers-pending or installed. Closes: #644492
+  * Fix dpkg-source to ignore changes on debian/patches/.dpkg-source-applied
+    when building a "2.0" source package. Closes: #642656
+  * Fix buildflags.mk to re-export the environment variables that
+    the maintainer can use to change the build flags. Closes: #644412
+
+  [ Guillem Jover ]
+  * Change dpkg-buildflags to set preprocessor option -D_FORTIFY_SOURCE=2
+    in CPPFLAGS, instead of CFLAGS and CXXFLAGS. Closes: #642521, #643632
+  * Fix typo to correctly set DEB_*_ARCH_BITS instead of DEB_*_ARCH in
+    architecture.mk. Thanks to Thorsten Glaser <tg@mirbsd.org>.
+  * Make dpkg-buildflags disable full relro (bindnow) if relro is not enabled.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 14 Oct 2011 07:08:31 +0200
+
 dpkg (1.16.1) unstable; urgency=low
 
   [ Raphaël Hertzog ]

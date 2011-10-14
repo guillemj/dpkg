@@ -135,8 +135,7 @@ sub add_hardening_flags {
     }
     # Fortify
     if ($use_feature{"fortify"}) {
-	$flags->append("CFLAGS", "-D_FORTIFY_SOURCE=2");
-	$flags->append("CXXFLAGS", "-D_FORTIFY_SOURCE=2");
+	$flags->append("CPPFLAGS", "-D_FORTIFY_SOURCE=2");
     }
     # Format
     if ($use_feature{"format"}) {
@@ -146,6 +145,9 @@ sub add_hardening_flags {
     # Relro
     if ($use_feature{"relro"} and $cpu !~ /^(ia64|hppa|avr32)$/) {
 	$flags->append("LDFLAGS", "-Wl,-z,relro");
+    } else {
+	# Disable full relro if relro is not enabled.
+	$use_feature{"bindnow"} = 0;
     }
     # Bindnow
     if ($use_feature{"bindnow"}) {

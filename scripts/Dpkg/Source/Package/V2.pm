@@ -287,7 +287,8 @@ sub after_build {
 sub prepare_build {
     my ($self, $dir) = @_;
     $self->{'diff_options'} = {
-        diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'},
+        diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'} .
+                              '|(^|/)debian/patches/.dpkg-source-applied$',
         include_removal => $self->{'options'}{'include_removal'},
         include_timestamp => $self->{'options'}{'include_timestamp'},
         use_dev_null => 1,
@@ -369,7 +370,8 @@ sub generate_patch {
     subprocerr(_g("copy of the debian directory")) if $?;
 
     # Apply all patches except the last automatic one
-    $self->apply_patches($tmp, skip_auto => 1, usage => 'build');
+    $opts{'skip_auto'} //= 0;
+    $self->apply_patches($tmp, skip_auto => $opts{'skip_auto'}, usage => 'build');
 
     # Create a patch
     my ($difffh, $tmpdiff) = tempfile($self->get_basename(1) . ".diff.XXXXXX",
@@ -500,6 +502,7 @@ sub do_build {
                                         $self->get_autopatch_name());
     my $tmpdiff = $self->generate_patch($dir, order_from => $autopatch,
                                         handle_binary => $handle_binary,
+                                        skip_auto => $self->{'options'}{'auto_commit'},
                                         usage => 'build');
     unless (-z $tmpdiff or $self->{'options'}{'auto_commit'}) {
         info(_g("you can integrate the local changes with %s"),
@@ -510,12 +513,14 @@ sub do_build {
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
 
     # Install the diff as the new autopatch
-    mkpath(File::Spec->catdir($dir, "debian", "patches"));
-    $autopatch = $self->register_patch($dir, $tmpdiff,
-                                       $self->get_autopatch_name());
-    info(_g("local changes have been recorded in a new patch: %s"), $autopatch)
-        if -e $autopatch;
-    rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
+    if ($self->{'options'}{'auto_commit'}) {
+        mkpath(File::Spec->catdir($dir, "debian", "patches"));
+        $autopatch = $self->register_patch($dir, $tmpdiff,
+                                           $self->get_autopatch_name());
+        info(_g("local changes have been recorded in a new patch: %s"),
+             $autopatch) if -e $autopatch;
+        rmdir(File::Spec->catdir($dir, "debian", "patches")); # No check on purpose
+    }
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     pop @Dpkg::Exit::handlers;
 
@@ -640,6 +645,7 @@ sub commit {
         $patch_name =~ s/\s+/-/g;
         $patch_name =~ s/\///g;
     }
+    mkpath(File::Spec->catdir($dir, "debian", "patches"));
     my $patch = $self->register_patch($dir, $tmpdiff, $patch_name);
     system("sensible-editor", $patch);
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
