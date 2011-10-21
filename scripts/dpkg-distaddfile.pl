@@ -18,6 +18,7 @@
 use strict;
 use warnings;
 
+use File::FcntlLock;
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
@@ -75,6 +76,15 @@ my ($file, $section, $priority) = @ARGV;
 ($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
     error(_g("filename, section and priority may contain no whitespace"));
 
+# Obtain a lock on debian/control to avoid simultaneous updates
+# of debian/files when parallel building is in use
+my $fs = File::FcntlLock->new(l_type => F_WRLCK);
+my $lockfh;
+sysopen($lockfh, "debian/control", O_WRONLY) ||
+    syserr(_g("cannot write %s"), "debian/control");
+$fs->lock($lockfh, F_SETLKW) ||
+    syserr(_("failed to get a write lock on %s"), "debian/control");
+
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y, "> $fileslistfile.new") || syserr(_g("open new files list file"));
 if (open(X,"< $fileslistfile")) {
@@ -91,3 +101,6 @@ print(Y "$file $section $priority\n")
 close(Y) || syserr(_g("close new files list file"));
 rename("$fileslistfile.new", $fileslistfile) ||
     syserr(_g("install new files list file"));
+
+# Release the lock
+close($lockfh) || syserr(_g("cannot close %s"), "debian/control");

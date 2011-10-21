@@ -32,6 +32,11 @@ dpkg (1.16.2) UNRELEASED; urgency=low
     too. Closes: #595144
   * Rewrite architecture.mk with explicit loops instead of duplicating many
     similar lines. Based on a patch by Thorsten Glaser <tg@mirbsd.de>.
+  * Modify dpkg-gencontrol and dpkg-distaddfile to grab a write lock
+    on debian/control before updating debian/files to avoid simultaneous
+    updates. Closes: #642608
+    Add libfile-fcntllock-perl to dpkg-dev's Depends since we use this module
+    to handle the locking.
 
   [ Jonathan Nieder ]
   * Bump po4a version in Build-Depends to 0.41, since earlier versions do
