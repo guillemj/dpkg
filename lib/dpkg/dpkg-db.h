@@ -253,6 +253,7 @@ bool modstatdb_can_lock(void);
 void modstatdb_lock(void);
 void modstatdb_unlock(void);
 enum modstatdb_rw modstatdb_open(enum modstatdb_rw reqrwflags);
+enum modstatdb_rw modstatdb_get_status(void);
 void modstatdb_note(struct pkginfo *pkg);
 void modstatdb_note_ifwrite(struct pkginfo *pkg);
 void modstatdb_checkpoint(void);

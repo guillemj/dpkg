@@ -295,6 +295,12 @@ modstatdb_open(enum modstatdb_rw readwritereq)
   return cstatus;
 }
 
+enum modstatdb_rw
+modstatdb_get_status(void)
+{
+  return cstatus;
+}
+
 void modstatdb_checkpoint(void) {
   int i;
 
