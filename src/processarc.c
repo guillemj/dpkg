@@ -51,6 +51,7 @@
 #include <dpkg/triglib.h>
 
 #include "filesdb.h"
+#include "file-match.h"
 #include "infodb.h"
 #include "main.h"
 #include "archives.h"
@@ -208,34 +209,7 @@ push_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm)
   conflictor[cflict_index++] = pkg_fixbyrm;
 }
 
-struct match_node {
-  struct match_node *next;
-  char *filetype;
-  char *filename;
-};
-
 static struct match_node *match_head = NULL;
-
-static struct match_node *
-match_node_new(const char *name, const char *type, struct match_node *next)
-{
-  struct match_node *node;
-
-  node = m_malloc(sizeof(*node));
-  node->next = next;
-  node->filename = m_strdup(name);
-  node->filetype = m_strdup(type);
-
-  return node;
-}
-
-static void
-match_node_free(struct match_node *node)
-{
-  free(node->filetype);
-  free(node->filename);
-  free(node);
-}
 
 static void
 pkg_infodb_update_file(const char *filename, const char *filetype)
