@@ -22,8 +22,9 @@ if [ -f .dist-version ]; then
   # Get the version from the file distributed in the tarball.
   version=$(cat .dist-version)
 elif [ -d .git ]; then
-  # Ger the version from the git repository.
-  version=$(git describe --abbrev=4 HEAD 2>/dev/null)
+  # Get the version from the git repository. Since tags can't contain
+  # tildes, we use underscore instead. Reverse that switch here.
+  version=$(git describe --abbrev=4 HEAD 2>/dev/null | sed -e 's/_/~/g')
 
   # Check if we are on a dirty checkout.
   git update-index --refresh -q >/dev/null
