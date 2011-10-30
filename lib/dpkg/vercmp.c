@@ -22,11 +22,9 @@
 #include <compat.h>
 
 #include <ctype.h>
-#include <string.h>
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
-#include <dpkg/parsedump.h>
 
 bool
 epochsdiffer(const struct versionrevision *a,
