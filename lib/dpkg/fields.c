@@ -390,13 +390,15 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
 	p++;
       }
       depnamelength= p - depnamestart ;
-      varbuf_reset(&depname);
-      varbuf_add_buf(&depname, depnamestart, depnamelength);
-      varbuf_end_str(&depname);
-      if (!depname.buf[0])
+      if (depnamelength == 0)
         parse_error(ps,
                     _("`%s' field, missing package name, or garbage where "
                       "package name expected"), fip->name);
+
+      varbuf_reset(&depname);
+      varbuf_add_buf(&depname, depnamestart, depnamelength);
+      varbuf_end_str(&depname);
+
       emsg = pkg_name_is_illegal(depname.buf, NULL);
       if (emsg)
         parse_error(ps,
