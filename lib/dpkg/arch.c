@@ -29,6 +29,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/ehandle.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/varbuf.h>
 #include <dpkg/arch.h>
 
 /**
@@ -171,4 +172,14 @@ void
 dpkg_arch_reset_list(void)
 {
 	arch_item_any.next = NULL;
+}
+
+void
+varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch)
+{
+	if (arch->type == arch_none)
+		return;
+
+	varbuf_add_char(vb, ':');
+	varbuf_add_str(vb, arch->name);
 }

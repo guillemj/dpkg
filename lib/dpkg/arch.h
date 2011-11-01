@@ -23,6 +23,7 @@
 #define LIBDPKG_ARCH_H
 
 #include <dpkg/macros.h>
+#include <dpkg/varbuf.h>
 
 DPKG_BEGIN_DECLS
 
@@ -45,6 +46,8 @@ struct dpkg_arch *dpkg_arch_find(const char *name);
 struct dpkg_arch *dpkg_arch_get_native(void);
 struct dpkg_arch *dpkg_arch_get_list(void);
 void dpkg_arch_reset_list(void);
+
+void varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch);
 
 DPKG_END_DECLS
 
