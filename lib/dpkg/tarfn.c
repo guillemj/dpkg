@@ -3,7 +3,7 @@
  * tarfn.c - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
- * Copyright © 2007-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -266,6 +266,13 @@ tar_gnu_long(void *ctx, const struct tar_operations *ops, struct tar_entry *te,
 	return status;
 }
 
+static void
+tar_entry_destroy(struct tar_entry *te)
+{
+	free(te->name);
+	free(te->linkname);
+}
+
 struct symlinkList {
 	struct symlinkList *next;
 	struct tar_entry h;
@@ -380,13 +387,11 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 		symlink_node = symlink_head->next;
 		if (status == 0)
 			status = ops->symlink(ctx, &symlink_head->h);
-		free(symlink_head->h.name);
-		free(symlink_head->h.linkname);
+		tar_entry_destroy(&symlink_head->h);
 		free(symlink_head);
 		symlink_head = symlink_node;
 	}
-	free(h.name);
-	free(h.linkname);
+	tar_entry_destroy(&h);
 
 	if (status > 0) {
 		/* Indicates broken tarfile: “Read partial header record”. */
