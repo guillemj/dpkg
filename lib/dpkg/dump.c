@@ -283,10 +283,8 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
     varbuf_add_str(vb, possdel);
     possdel = " | ";
     varbuf_add_str(vb, dop->ed->name);
-    if (!dop->arch_is_implicit && dop->arch->type != arch_none) {
-      varbuf_add_char(vb, ':');
-      varbuf_add_str(vb, dop->arch->name);
-    }
+    if (!dop->arch_is_implicit)
+      varbuf_add_archqual(vb, dop->arch);
     if (dop->verrel != dvr_none) {
       varbuf_add_str(vb, " (");
       switch (dop->verrel) {
