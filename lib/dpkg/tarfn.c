@@ -308,6 +308,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 				errno = 0;
 				status = -1;
 			}
+			tar_entry_destroy(&h);
 			break;
 		}
 		if (h.type != tar_filetype_gnu_longlink &&
@@ -326,6 +327,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			/* Indicates broken tarfile: “Bad header data”. */
 			errno = 0;
 			status = -1;
+			tar_entry_destroy(&h);
 			break;
 		}
 
@@ -378,6 +380,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			errno = 0;
 			status = -1;
 		}
+		tar_entry_destroy(&h);
 		if (status != 0)
 			/* Pass on status from coroutine. */
 			break;
@@ -391,7 +394,6 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 		free(symlink_head);
 		symlink_head = symlink_node;
 	}
-	tar_entry_destroy(&h);
 
 	if (status > 0) {
 		/* Indicates broken tarfile: “Read partial header record”. */
