@@ -25,6 +25,16 @@
 
 #include <dpkg/dpkg-db.h>
 
+enum pkg_infodb_format {
+	pkg_infodb_format_unknown = -1,
+	pkg_infodb_format_legacy = 0,
+	pkg_infodb_format_multiarch = 1,
+};
+
+enum pkg_infodb_format pkg_infodb_get_format(void);
+void pkg_infodb_set_format(enum pkg_infodb_format format);
+bool pkg_infodb_is_upgrading(void);
+
 bool pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
                          const char *name);
 

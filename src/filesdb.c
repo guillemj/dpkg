@@ -50,6 +50,7 @@
 #include <dpkg/progress.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 
 /*** Package control information database directory routines. ***/
@@ -85,6 +86,9 @@ pkgadminfile(struct pkginfo *pkg, struct pkgbin *pkgbin, const char *filetype)
   varbuf_add_str(&vb, infodir);
   varbuf_add_char(&vb, '/');
   varbuf_add_str(&vb, pkg->set->name);
+  if (pkgbin->multiarch == multiarch_same &&
+      pkg_infodb_get_format() == pkg_infodb_format_multiarch)
+    varbuf_add_archqual(&vb, pkgbin->arch);
   varbuf_add_char(&vb, '.');
   varbuf_add_str(&vb, filetype);
   varbuf_end_str(&vb);

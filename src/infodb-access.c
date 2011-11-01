@@ -60,7 +60,14 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	DIR *db_dir;
 	struct dirent *db_de;
 	struct varbuf db_path = VARBUF_INIT;
+	const char *pkgname;
 	size_t db_path_len;
+
+	if (pkgbin->multiarch == multiarch_same &&
+	    pkg_infodb_get_format() == pkg_infodb_format_multiarch)
+		pkgname = pkgbin_name(pkg, pkgbin, pnaw_always);
+	else
+		pkgname = pkgbin_name(pkg, pkgbin, pnaw_never);
 
 	varbuf_add_str(&db_path, pkgadmindir());
 	varbuf_add_char(&db_path, '/');
@@ -88,8 +95,8 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 			continue;
 
 		/* Ignore files from other packages. */
-		if (strlen(pkg->set->name) != (size_t)(dot - db_de->d_name) ||
-		    strncmp(db_de->d_name, pkg->set->name, dot - db_de->d_name))
+		if (strlen(pkgname) != (size_t)(dot - db_de->d_name) ||
+		    strncmp(db_de->d_name, pkgname, dot - db_de->d_name))
 			continue;
 
 		debug(dbg_stupidlyverbose, "infodb foreach file this pkg");

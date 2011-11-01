@@ -40,6 +40,7 @@ dpkg_SOURCES = \
 	file-match.c file-match.h \
 	filters.c filters.h \
 	infodb-access.c \
+	infodb-format.c \
 	divertdb.c \
 	statdb.c \
 	help.c \
@@ -57,17 +58,20 @@ dpkg_LDADD = \
 
 dpkg_divert_SOURCES = \
 	filesdb.c \
+	infodb-format.c \
 	divertdb.c \
 	divertcmd.c
 
 dpkg_query_SOURCES = \
 	filesdb.c \
 	infodb-access.c \
+	infodb-format.c \
 	divertdb.c \
 	querycmd.c
 
 dpkg_statoverride_SOURCES = \
 	filesdb.c \
+	infodb-format.c \
 	statdb.c \
 	statcmd.c
 
