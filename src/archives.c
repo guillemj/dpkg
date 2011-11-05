@@ -65,6 +65,7 @@
 #include "main.h"
 #include "archives.h"
 #include "filters.h"
+#include "infodb.h"
 
 static inline void
 fd_writeback_init(int fd)
@@ -1450,6 +1451,8 @@ archivefiles(const char *const *argv)
                  msdbrw_available_write);
 
   checkpath();
+  pkg_infodb_upgrade();
+
   log_message("startup archives %s", cipaction->olong);
 
   if (f_recursive) {

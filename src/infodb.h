@@ -34,6 +34,7 @@ enum pkg_infodb_format {
 enum pkg_infodb_format pkg_infodb_get_format(void);
 void pkg_infodb_set_format(enum pkg_infodb_format format);
 bool pkg_infodb_is_upgrading(void);
+void pkg_infodb_upgrade(void);
 
 bool pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
                          const char *name);

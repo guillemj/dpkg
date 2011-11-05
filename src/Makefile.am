@@ -41,6 +41,7 @@ dpkg_SOURCES = \
 	filters.c filters.h \
 	infodb-access.c \
 	infodb-format.c \
+	infodb-upgrade.c \
 	divertdb.c \
 	statdb.c \
 	help.c \

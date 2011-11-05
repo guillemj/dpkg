@@ -39,6 +39,7 @@
 #include <dpkg/options.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 
 static void getsel1package(struct pkginfo *pkg) {
@@ -116,6 +117,7 @@ setselections(const char *const *argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_open(msdbrw_write | msdbrw_available_readonly);
+  pkg_infodb_upgrade();
 
   lno= 1;
   for (;;) {
@@ -185,6 +187,7 @@ clearselections(const char *const *argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_open(msdbrw_write);
+  pkg_infodb_upgrade();
 
   it = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next_pkg(it))) {

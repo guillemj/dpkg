@@ -44,6 +44,7 @@
 #include <dpkg/options.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 
 static struct pkginfo *progress_bytrigproc;
@@ -134,6 +135,8 @@ packages(const char *const *argv)
                  fc_nonroot ? msdbrw_write :
                               msdbrw_needsuperuser);
   checkpath();
+  pkg_infodb_upgrade();
+
   log_message("startup packages %s", cipaction->olong);
 
   if (f_pending) {
