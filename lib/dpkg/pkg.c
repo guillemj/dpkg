@@ -40,7 +40,6 @@ pkgbin_blank(struct pkgbin *pkgbin)
 	pkgbin->installedsize = NULL;
 	pkgbin->bugs = NULL;
 	pkgbin->origin = NULL;
-	pkgbin->arch = dpkg_arch_get(arch_none);
 	blankversion(&pkgbin->version);
 	pkgbin->conffiles = NULL;
 	pkgbin->arbs = NULL;
@@ -66,6 +65,12 @@ pkg_blank(struct pkginfo *pkg)
 	pkg->trigpend_head = NULL;
 	pkgbin_blank(&pkg->installed);
 	pkgbin_blank(&pkg->available);
+
+	/* The architectures are reset here (instead of in pkgbin_blank),
+	 * because they are part of the package specification, and needed
+	 * for selections. */
+	pkg->installed.arch = dpkg_arch_get(arch_none);
+	pkg->available.arch = dpkg_arch_get(arch_none);
 }
 
 void
