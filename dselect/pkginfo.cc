@@ -57,7 +57,7 @@ const struct helpmenuentry *packagelist::helpmenulist() {
       {  0                        }
     };
   return
-    !readwrite ? ro :
+    modstatdb_get_status() == msdbrw_readonly ? ro :
     !recursive ? rw :
                  recur;
 }

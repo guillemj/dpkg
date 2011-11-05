@@ -396,7 +396,8 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     }
     // treat all unknown packages as already seen
     state->direct= state->original= (pkg->want == pkginfo::want_unknown ? pkginfo::want_purge : pkg->want);
-    if (readwrite && state->original == pkginfo::want_unknown) {
+    if (modstatdb_get_status() == msdbrw_write &&
+        state->original == pkginfo::want_unknown) {
       state->suggested=
         pkg->status == pkginfo::stat_installed ||
           pkg->priority <= pkginfo::pri_standard /* FIXME: configurable */
@@ -445,7 +446,7 @@ packagelist::packagelist(keybindings *kb, pkginfo **pkgltab) : baselist(kb) {
 
 void perpackagestate::free(int recursive) {
   if (pkg->set->name) {
-    if (readwrite) {
+    if (modstatdb_get_status() == msdbrw_write) {
       if (uprec) {
         assert(recursive);
         uprec->selected= selected;
@@ -594,7 +595,8 @@ pkginfo **packagelist::display() {
   pop_cleanup(ehflag_normaltidy); // unset the SIGWINCH handler
   enddisplay();
 
-  if (interp->qa == qa_quitnochecksave || !readwrite) {
+  if (interp->qa == qa_quitnochecksave ||
+      modstatdb_get_status() == msdbrw_readonly) {
     debug(dbg_general, "packagelist[%p]::display() done - quitNOcheck", this);
     return 0;
   }

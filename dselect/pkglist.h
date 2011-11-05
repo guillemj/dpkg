@@ -229,6 +229,4 @@ extern const char statuschars[];
 extern const char eflagchars[];
 extern const char wantchars[];
 
-extern modstatdb_rw readwrite;
-
 #endif /* PKGLIST_H */

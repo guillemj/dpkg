@@ -100,7 +100,10 @@ void packagelist::setwant(pkginfo::pkgwant nwarg) {
   int index, top, bot;
   pkginfo::pkgwant nw;
 
-  if (!readwrite) { beep(); return; }
+  if (modstatdb_get_status() == msdbrw_readonly) {
+    beep();
+    return;
+  }
 
   if (recursive) {
     redrawitemsrange(cursorline,cursorline+1);

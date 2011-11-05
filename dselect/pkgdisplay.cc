@@ -196,7 +196,8 @@ void packagelist::redrawtitle() {
     mywerase(titlewin);
     mvwaddnstr(titlewin,0,0,
                recursive ?  _("dselect - recursive package listing") :
-               !readwrite ? _("dselect - inspection of package states") :
+               modstatdb_get_status() == msdbrw_readonly ?
+                            _("dselect - inspection of package states") :
                             _("dselect - main package listing"),
                xmax);
     getyx(titlewin,y,x);
@@ -255,10 +256,15 @@ void packagelist::redrawtitle() {
         internerr("bad sort in redrawtitle");
       }
     }
-    const char *helpstring= readwrite ? (verbose ? _(" mark:+/=/- terse:v help:?")
-                                                 : _(" mark:+/=/- verbose:v help:?"))
-                                      : (verbose ? _(" terse:v help:?")
-                                                 : _(" verbose:v help:?"));
+    const char *helpstring;
+
+    if (modstatdb_get_status() == msdbrw_write)
+      helpstring = (verbose ? _(" mark:+/=/- terse:v help:?")
+                            : _(" mark:+/=/- verbose:v help:?"));
+    else
+      helpstring = (verbose ? _(" terse:v help:?")
+                            : _(" verbose:v help:?"));
+
     int l= strlen(helpstring);
     getyx(titlewin,y,x);
     if (xmax-l > 0) {
