@@ -5,6 +5,8 @@
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +45,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-array.h>
+#include <dpkg/pkg-spec.h>
 #include <dpkg/pkg-format.h>
 #include <dpkg/pkg-show.h>
 #include <dpkg/path.h>
@@ -225,14 +228,21 @@ listpackages(const char *const *argv)
     }
   } else {
     int argc, ip, *found;
+    struct pkg_spec *ps;
 
     for (argc = 0; argv[argc]; argc++);
     found = m_calloc(sizeof(int) * argc);
 
+    ps = m_malloc(sizeof(*ps) * argc);
+    for (ip = 0; ip < argc; ip++) {
+      pkg_spec_init(&ps[ip], psf_patterns | psf_arch_def_wildcard);
+      pkg_spec_parse(&ps[ip], argv[ip]);
+    }
+
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
-        if (!fnmatch(argv[ip], pkg->set->name, 0)) {
+        if (pkg_spec_match_pkg(&ps[ip], pkg, &pkg->installed)) {
           list1package(pkg, &fmt, &array);
           found[ip]++;
           break;
@@ -247,8 +257,10 @@ listpackages(const char *const *argv)
         fprintf(stderr, _("No packages found matching %s.\n"), argv[ip]);
         failures++;
       }
+      pkg_spec_destroy(&ps[ip]);
     }
 
+    free(ps);
     free(found);
   }
 
@@ -383,7 +395,12 @@ enqperpackage(const char *const *argv)
     modstatdb_open(msdbrw_readonly);
 
   while ((thisarg = *argv++) != NULL) {
-    pkg = pkg_db_find(thisarg);
+    struct dpkg_error err;
+
+    pkg = pkg_spec_parse_pkg(thisarg, &err);
+    if (pkg == NULL)
+      badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
+               cipaction->olong, thisarg, err.str);
 
     switch (cipaction->arg_int) {
     case act_status:
@@ -496,14 +513,21 @@ showpackages(const char *const *argv)
     }
   } else {
     int argc, ip, *found;
+    struct pkg_spec *ps;
 
     for (argc = 0; argv[argc]; argc++);
     found = m_calloc(sizeof(int) * argc);
 
+    ps = m_malloc(sizeof(*ps) * argc);
+    for (ip = 0; ip < argc; ip++) {
+      pkg_spec_init(&ps[ip], psf_patterns | psf_arch_def_wildcard);
+      pkg_spec_parse(&ps[ip], argv[ip]);
+    }
+
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
-        if (!fnmatch(argv[ip], pkg->set->name, 0)) {
+        if (pkg_spec_match_pkg(&ps[ip], pkg, &pkg->installed)) {
           pkg_format_show(fmt, pkg, &pkg->installed);
           found[ip]++;
           break;
@@ -518,8 +542,10 @@ showpackages(const char *const *argv)
         fprintf(stderr, _("No packages found matching %s.\n"), argv[ip]);
         failures++;
       }
+      pkg_spec_destroy(&ps[ip]);
     }
 
+    free(ps);
     free(found);
   }
 
@@ -565,6 +591,7 @@ control_path_file(struct pkginfo *pkg, const char *control_file)
 static int
 control_path(const char *const *argv)
 {
+  struct dpkg_error err;
   struct pkginfo *pkg;
   const char *pkgname;
   const char *control_file;
@@ -589,7 +616,11 @@ control_path(const char *const *argv)
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg = pkg_db_find(pkgname);
+  pkg = pkg_spec_parse_pkg(pkgname, &err);
+  if (pkg == NULL)
+    badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
+             cipaction->olong, pkgname, err.str);
+
   if (pkg->status == stat_notinstalled)
     ohshit(_("Package `%s' is not installed.\n"),
            pkg_name(pkg, pnaw_nonambig));
