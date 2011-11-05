@@ -3,6 +3,9 @@
  * depcon.c - dependency and conflict checking
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +29,7 @@
 
 #include <assert.h>
 #include <errno.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include <dpkg/i18n.h>
@@ -35,6 +39,65 @@
 #include "filesdb.h"
 #include "infodb.h"
 #include "main.h"
+
+struct deppossi_pkg_iterator {
+  struct deppossi *possi;
+  struct pkginfo *pkg_next;
+  enum which_pkgbin which_pkgbin;
+};
+
+struct deppossi_pkg_iterator *
+deppossi_pkg_iter_new(struct deppossi *possi, enum which_pkgbin wpb)
+{
+  struct deppossi_pkg_iterator *iter;
+
+  iter = m_malloc(sizeof(*iter));
+  iter->possi = possi;
+  iter->pkg_next = &possi->ed->pkg;
+  iter->which_pkgbin = wpb;
+
+  return iter;
+}
+
+struct pkginfo *
+deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter)
+{
+  struct pkginfo *pkg_cur;
+  struct pkgbin *pkgbin;
+
+  while ((pkg_cur = iter->pkg_next)) {
+    iter->pkg_next = pkg_cur->arch_next;
+
+    switch (iter->which_pkgbin) {
+    case wpb_installed:
+      pkgbin = &pkg_cur->installed;
+      break;
+    case wpb_available:
+      pkgbin = &pkg_cur->available;
+      break;
+    case wpb_by_istobe:
+      if (pkg_cur->clientdata->istobe == itb_installnew)
+        pkgbin = &pkg_cur->available;
+      else
+        pkgbin = &pkg_cur->installed;
+      break;
+    default:
+      internerr("bad value (%d) for wpb in deppossi_pkg_iter_next()",
+                iter->which_pkgbin);
+    }
+
+    if (archsatisfied(pkgbin, iter->possi))
+      return pkg_cur;
+  }
+
+  return NULL;
+}
+
+void
+deppossi_pkg_iter_free(struct deppossi_pkg_iterator *iter)
+{
+  free(iter);
+}
 
 struct cyclesofarlink {
   struct cyclesofarlink *prev;

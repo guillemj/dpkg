@@ -270,6 +270,21 @@ void trig_activate_packageprocessing(struct pkginfo *pkg);
 
 /* from depcon.c */
 
+enum which_pkgbin {
+  wpb_installed,
+  wpb_available,
+  wpb_by_istobe,
+};
+
+struct deppossi_pkg_iterator;
+
+struct deppossi_pkg_iterator *
+deppossi_pkg_iter_new(struct deppossi *possi, enum which_pkgbin wpb);
+struct pkginfo *
+deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter);
+void
+deppossi_pkg_iter_free(struct deppossi_pkg_iterator *iter);
+
 bool depisok(struct dependency *dep, struct varbuf *whynot,
              struct pkginfo **fixbyrm, struct pkginfo **fixbytrigaw,
              bool allowunconfigd);
