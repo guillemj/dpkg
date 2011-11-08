@@ -47,6 +47,11 @@ this:
   Vendor-URL: http://www.debian.org/
   Bugs: debbugs://bugs.debian.org
 
+If the vendor derives from another vendor, the file should document
+the relationship by listing the base distribution in the Parent field:
+
+  Parent: Debian
+
 The file should be named according to the vendor name.
 
 =head1 FUNCTIONS
