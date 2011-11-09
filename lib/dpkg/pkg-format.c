@@ -203,6 +203,14 @@ pkg_format_parse(const char *fmt)
 }
 
 static void
+virt_package(struct varbuf *vb,
+             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+             enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	varbuf_add_pkgbin_name(vb, pkg, pkgbin, pnaw_nonambig);
+}
+
+static void
 virt_status_abbrev(struct varbuf *vb,
                    const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                    enum fwriteflags flags, const struct fieldinfo *fip)
@@ -274,6 +282,7 @@ virt_source_version(struct varbuf *vb,
 }
 
 const struct fieldinfo virtinfos[] = {
+	{ "binary:Package", NULL, virt_package },
 	{ "binary:Summary", NULL, virt_summary },
 	{ "db:Status-Abbrev", NULL, virt_status_abbrev },
 	{ "source:Package", NULL, virt_source_package },
