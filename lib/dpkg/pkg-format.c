@@ -225,17 +225,17 @@ pkg_format_show(const struct pkg_format_node *head,
 			const struct fieldinfo *fip;
 
 			for (fip = fieldinfos; fip->name; fip++)
-				if (strcasecmp(head->data, fip->name) == 0) {
-					fip->wcall(&wb, pkg, pif, 0, fip);
-
-					varbuf_end_str(&wb);
-					varbuf_printf(&fb, fmt, wb.buf);
-					varbuf_reset(&wb);
-					ok = true;
+				if (strcasecmp(head->data, fip->name) == 0)
 					break;
-				}
 
-			if (!fip->name) {
+			if (fip->name) {
+				fip->wcall(&wb, pkg, pif, 0, fip);
+
+				varbuf_end_str(&wb);
+				varbuf_printf(&fb, fmt, wb.buf);
+				varbuf_reset(&wb);
+				ok = true;
+			} else {
 				const struct arbitraryfield *afp;
 
 				for (afp = pif->arbs; afp; afp = afp->next)
