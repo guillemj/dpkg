@@ -283,6 +283,7 @@ do_showinfo(const char *const *argv)
   parsedb(controlfile,
           pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles, &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
+  pkg_format_free(fmt);
   free(controlfile);
 
   return 0;
