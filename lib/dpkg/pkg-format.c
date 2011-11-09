@@ -201,6 +201,10 @@ pkg_format_parse(const char *fmt)
 	return head;
 }
 
+const struct fieldinfo virtinfos[] = {
+	{ NULL },
+};
+
 static const struct fieldinfo *
 find_field_info(const struct fieldinfo *fields_head,
                 const struct pkg_format_node *fmt_node)
@@ -239,6 +243,9 @@ pkg_format_show(const struct pkg_format_node *head,
 			const struct fieldinfo *fip;
 
 			fip = find_field_info(fieldinfos, head);
+
+			if (fip->name == NULL)
+				fip = find_field_info(virtinfos, head);
 
 			if (fip->name) {
 				fip->wcall(&wb, pkg, pif, 0, fip);
