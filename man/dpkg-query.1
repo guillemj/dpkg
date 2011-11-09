@@ -90,7 +90,9 @@ Just like the \fB\-\-list\fP option this will list all packages matching
 the given pattern. However the output can be customized using the
 \fB\-\-showformat\fP option.
 The default output format gives one line per matching package, each line
-having the name and installed version of the package, separated by a tab.
+having the name (extended with the architecture qualifier for
+\fIMuli\-Arch\fP \fBsame\fP packages) and installed version of the package,
+separated by a tab.
 .TP
 .BR \-s ", " \-\-status " \fIpackage-name\fP..."
 Report status of specified package. This just displays the entry in
@@ -217,15 +219,18 @@ fields in control files):
     \fBsource:Version\fP
 .fi
 
-The default format string is \(lq\fB${Package}\et${Version}\en\fP\(rq.
+The default format string is \(lq\fB${binary:Package}\et${Version}\en\fP\(rq.
 Actually, all other fields found in the status file (i.e. user defined
 fields) can be requested, too. They will be printed as-is, though, no
-conversion nor error checking is done on them.
+conversion nor error checking is done on them. \fBbinary:Package\fP is
+a special field that will print the package name with an architecture
+qualifier (like "libc6:amd64") if the package has a \fIMulti\-Arch\fP
+field with a value of \fBsame\fP, and as such its name could be ambiguous.
 To get the name of the dpkg maintainer and the installed version, you could
 run:
 
 .nf
-  \fBdpkg\-query \-W \-f=\(aq${Package} ${Version}\\t${Maintainer}\\n\(aq dpkg\fP
+  \fBdpkg\-query \-W \-f=\(aq${binary:Package} ${Version}\\t${Maintainer}\\n\(aq dpkg\fP
 .fi
 .
 .SH "EXIT STATUS"

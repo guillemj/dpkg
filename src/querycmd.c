@@ -55,7 +55,7 @@
 #include "infodb.h"
 #include "main.h"
 
-static const char* showformat		= "${Package}\t${Version}\n";
+static const char *showformat = "${binary:Package}\t${Version}\n";
 
 static int opt_loadavail = 0;
 
@@ -107,7 +107,7 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
     for (i = 0; i < array->n_pkgs; i++) {
       int plen, vlen, dlen;
 
-      plen = strlen(array->pkgs[i]->set->name);
+      plen = strlen(pkg_name(array->pkgs[i], pnaw_nonambig));
       vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
                                     vdew_nonambig));
       pkg_summary(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
@@ -195,7 +195,7 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
          pkg_abbrev_want(pkg),
          pkg_abbrev_status(pkg),
          pkg_abbrev_eflag(pkg),
-         pkg->set->name,
+         pkg_name(pkg, pnaw_nonambig),
          versiondescribe(&pkg->installed.version, vdew_nonambig),
          l, pdesc);
 }
@@ -300,7 +300,7 @@ static int searchoutput(struct filenamenode *namenode) {
   while ((pkg_owner = filepackages_iter_next(iter))) {
     if (found)
       fputs(", ", stdout);
-    fputs(pkg_owner->set->name, stdout);
+    fputs(pkg_name(pkg_owner, pnaw_nonambig), stdout);
     found++;
   }
   filepackages_iter_free(iter);
