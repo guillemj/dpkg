@@ -10,6 +10,7 @@ dist_man_MANS = \
 	deb-symbols.5 \
 	deb-triggers.5 \
 	deb-old.5 \
+	deb-origin.5 \
 	deb-override.5 \
 	deb-extra-override.5 \
 	deb.5 \
