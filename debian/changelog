@@ -23,10 +23,12 @@ dpkg (1.16.2) UNRELEASED; urgency=low
     debian/control does not have any package stanza. Closes: #642473
     Based on a patch by Kyle Willmon <kylewillmon@gmail.com>.
   * Add Pre-Depends on tar >= 1.23 (satisfied in stable) to dpkg due to it
-    using the ‘--warning=no-timestamp’ option. Closes: 642802
+    using the ‘--warning=no-timestamp’ option. Closes: #642802
   * Do not segfault on GNU/Linux when dpkg cannot retrieve the block size
     for the filesystem containing the info database. LP: #872734
   * Fix two memory leaks per tar entry in the tar extractor used on unpack.
+  * Mark dpkg and dselect as Multi-Arch foreign.
+    Reported by Steve Langasek <vorlon@debian.org>.
 
   [ Raphaël Hertzog ]
   * Update Dpkg::Shlibs to look into multiarch paths when cross-building
@@ -41,7 +43,7 @@ dpkg (1.16.2) UNRELEASED; urgency=low
 
   [ Jonathan Nieder ]
   * Bump po4a version in Build-Depends to 0.41, since earlier versions do
-    not handle --srcdir correctly.
+    not handle --srcdir correctly. Closes: #644370
 
   [ Updated dpkg translations ]
   * German (Sven Joachim).
@@ -54,7 +56,7 @@ dpkg (1.16.2) UNRELEASED; urgency=low
   * Swedish (Peter Krefting).
 
   [ Updated man page translations ]
-  * German (Helge Kreutzmann) including typo in dpkg-genchanges Closes: 646496
+  * German (Helge Kreutzmann), and typo fix in dpkg-genchanges. Closes: #646496
   * Japanese (TAKAHASHI Motonobu).
   * Spanish (Omar Campagne). Closes: #643969
   * Swedish (Peter Krefting).
