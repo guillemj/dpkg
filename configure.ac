@@ -86,7 +86,7 @@ DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
 DPKG_CHECK_DECL([TIOCNOTTY], [sys/ioctl.h])
 DPKG_CHECK_PROGNAME
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
-                         strnlen strerror strsignal asprintf \
+                         strnlen strndup strerror strsignal asprintf \
                          scandir alphasort unsetenv])
 AC_CHECK_DECLS([strnlen], [[#include <string.h>]])
 AC_CHECK_FUNCS([memcpy lchown],
