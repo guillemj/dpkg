@@ -67,6 +67,12 @@ m_strdup(const char *str)
   return must_alloc(strdup(str));
 }
 
+char *
+m_strndup(const char *str, size_t n)
+{
+  return must_alloc(strndup(str, n));
+}
+
 int
 m_asprintf(char **strp, const char *fmt, ...)
 {
