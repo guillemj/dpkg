@@ -1220,7 +1220,7 @@ pid_check(pid_t pid)
 		return status_dead;
 	if (cmdname && !pid_is_cmd(pid, cmdname))
 		return status_dead;
-	if (action == action_start && !pid_is_running(pid))
+	if (action != action_stop && !pid_is_running(pid))
 		return status_dead;
 
 	pid_list_push(&found, pid);
