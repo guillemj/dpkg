@@ -2309,8 +2309,8 @@ main(int argc, char **argv)
 	int i = 0;
 
 	setlocale(LC_ALL, "");
-	bindtextdomain("dpkg", LOCALEDIR);
-	textdomain("dpkg");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
 
 	admdir = admindir_init();
 
