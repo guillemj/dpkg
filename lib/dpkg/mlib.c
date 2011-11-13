@@ -32,17 +32,23 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 
+static inline void *
+must_alloc(void *ptr)
+{
+  if (ptr)
+    return ptr;
+
+  onerr_abort++;
+  ohshite(_("failed to allocate memory"));
+}
+
 void *m_malloc(size_t amount) {
 #ifdef MDEBUG
   unsigned short *r2, x;
 #endif
   void *r;
 
-  onerr_abort++;
-  r= malloc(amount);
-  if (r == NULL)
-    ohshite(_("malloc failed (%zu bytes)"), amount);
-  onerr_abort--;
+  r = must_alloc(malloc(amount));
 
 #ifdef MDEBUG
   r2= r; x= (unsigned short)amount ^ 0xf000;
@@ -52,27 +58,13 @@ void *m_malloc(size_t amount) {
 }
 
 void *m_realloc(void *r, size_t amount) {
-  onerr_abort++;
-  r= realloc(r,amount);
-  if (r == NULL)
-    ohshite(_("realloc failed (%zu bytes)"), amount);
-  onerr_abort--;
-
-  return r;
+  return must_alloc(realloc(r, amount));
 }
 
 char *
 m_strdup(const char *str)
 {
-  char *new_str;
-
-  onerr_abort++;
-  new_str = strdup(str);
-  if (!new_str)
-    ohshite(_("failed to allocate memory"));
-  onerr_abort--;
-
-  return new_str;
+  return must_alloc(strdup(str));
 }
 
 int
