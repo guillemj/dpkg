@@ -79,23 +79,6 @@ OtoM(const char *s, int size)
 	return n;
 }
 
-/**
- * Convert a string block to C NUL-terminated string.
- */
-static char *
-StoC(const char *s, int size)
-{
-	int len;
-	char *str;
-
-	len = strnlen(s, size);
-	str = m_malloc(len + 1);
-	memcpy(str, s, len);
-	str[len] = '\0';
-
-	return str;
-}
-
 static char *
 get_prefix_name(struct tar_header *h)
 {
@@ -193,8 +176,8 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	if (d->format == tar_format_ustar && h->prefix[0] != '\0')
 		d->name = get_prefix_name(h);
 	else
-		d->name = StoC(h->name, sizeof(h->name));
-	d->linkname = StoC(h->linkname, sizeof(h->linkname));
+		d->name = m_strndup(h->name, sizeof(h->name));
+	d->linkname = m_strndup(h->linkname, sizeof(h->linkname));
 	d->stat.mode = get_unix_mode(h);
 	d->size = (off_t)OtoM(h->size, sizeof(h->size));
 	d->mtime = (time_t)OtoM(h->mtime, sizeof(h->mtime));
