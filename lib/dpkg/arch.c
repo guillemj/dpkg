@@ -24,14 +24,22 @@
 #include <compat.h>
 
 #include <assert.h>
+#include <limits.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/ehandle.h>
+#include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/dir.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/arch.h>
+
+#define DPKG_DB_ARCH_FILE "arch"
 
 /**
  * Verify if the architecture name is valid.
@@ -98,6 +106,7 @@ static struct dpkg_arch arch_item_native = {
 };
 static struct dpkg_arch *arch_head = &arch_item_native;
 static struct dpkg_arch *arch_builtin_tail = &arch_item_any;
+static bool arch_list_dirty;
 
 static struct dpkg_arch *
 dpkg_arch_new(const char *name, enum dpkg_arch_type type)
@@ -202,6 +211,7 @@ void
 dpkg_arch_reset_list(void)
 {
 	arch_builtin_tail->next = NULL;
+	arch_list_dirty = false;
 }
 
 void
@@ -212,4 +222,101 @@ varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch)
 
 	varbuf_add_char(vb, ':');
 	varbuf_add_str(vb, arch->name);
+}
+
+/**
+ * Add a new foreign dpkg_arch architecture.
+ */
+struct dpkg_arch *
+dpkg_arch_add(const char *name)
+{
+	struct dpkg_arch *arch;
+
+	arch = dpkg_arch_find(name);
+	if (arch->type == arch_unknown) {
+		arch->type = arch_foreign;
+		arch_list_dirty = true;
+	}
+
+	return arch;
+}
+
+/**
+ * Remove a foreign dpkg_arch architecture.
+ */
+void
+dpkg_arch_remove(struct dpkg_arch *arch_remove)
+{
+	struct dpkg_arch *arch;
+
+	for (arch = arch_builtin_tail; arch->next; arch = arch->next) {
+		if (arch->next->type != arch_foreign)
+			continue;
+
+		if (arch->next == arch_remove) {
+			arch->next = arch->next->next;
+			arch_list_dirty = true;
+		}
+	}
+}
+
+/**
+ * Load the architecture database.
+ */
+void
+dpkg_arch_load_list(void)
+{
+	FILE *fp;
+	char *archfile;
+	char archname[_POSIX2_LINE_MAX];
+
+	archfile = dpkg_db_get_path(DPKG_DB_ARCH_FILE);
+	fp = fopen(archfile, "r");
+	free(archfile);
+	if (fp == NULL) {
+		arch_list_dirty = true;
+		return;
+	}
+
+	while (fgets_checked(archname, sizeof(archname), fp, archfile) >= 0)
+		dpkg_arch_add(archname);
+
+	fclose(fp);
+}
+
+/**
+ * Save the architecture database.
+ */
+void
+dpkg_arch_save_list(void)
+{
+	struct atomic_file *file;
+	struct dpkg_arch *arch;
+	char *archfile;
+
+	if (!arch_list_dirty)
+		return;
+
+	archfile = dpkg_db_get_path(DPKG_DB_ARCH_FILE);
+	file = atomic_file_new(archfile, 0);
+	atomic_file_open(file);
+
+	for (arch = arch_head; arch; arch = arch->next) {
+		if (arch->type != arch_foreign && arch->type != arch_native)
+			continue;
+
+		if (fprintf(file->fp, "%s\n", arch->name) < 0)
+			ohshite(_("error writing to architecture list"));
+	}
+
+	atomic_file_sync(file);
+	atomic_file_close(file);
+	atomic_file_commit(file);
+	atomic_file_free(file);
+
+	dir_sync_path(dpkg_db_get_dir());
+
+	arch_list_dirty = false;
+
+	free(archfile);
 }
