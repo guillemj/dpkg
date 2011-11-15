@@ -484,6 +484,8 @@ print_foreign_arches(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
+  dpkg_arch_load_list();
+
   for (arch = dpkg_arch_get_list(); arch; arch = arch->next) {
     if (arch->type != arch_foreign)
       continue;

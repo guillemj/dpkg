@@ -276,6 +276,8 @@ modstatdb_open(enum modstatdb_rw readwritereq)
     internerr("unknown modstatdb_rw '%d'", readwritereq);
   }
 
+  dpkg_arch_load_list();
+
   if (cstatus != msdbrw_needsuperuserlockonly) {
     cleanupdates();
     if (cflags >= msdbrw_available_readonly)

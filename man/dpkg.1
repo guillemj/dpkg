@@ -231,6 +231,19 @@ deinstall any packages not in list given to \-\-set\-selections.
 Searches for packages selected for installation, but which for some
 reason still haven't been installed.
 .TP
+.B \-\-add\-architecture \fIarchitecture\fP
+Add \fIarchitecture\fP to the list of architectures for which packages can
+be installed without using \fB\-\-force\-architecture\fP. The architecture
+\fBdpkg\fP is built for (i.e. the output of \fB\-\-print\-architecture\fP)
+is always part of that list.
+.TP
+.B \-\-remove\-architecture \fIarchitecture\fP
+Remove \fIarchitecture\fP from the list of architectures for which packages
+can be installed without using \fB\-\-force\-architecture\fP. If the
+architecture is currently in use in the database then the operation will
+be refused, except if \fB\-\-force\-architecture\fP is specified. The
+architecture \fBdpkg\fP is built for (i.e. the output of
+\fB\-\-print\-architecture\fP) can never be removed from that list.
 .TP
 .B \-\-print\-architecture
 Print architecture of packages \fBdpkg\fP installs (for example, "i386").
@@ -571,12 +584,6 @@ These two options can be specified multiple times, and interleaved with
 each other. Both are processed in the given order, with the last rule that
 matches a file name making the decision.
 .RE
-.TP
-.B \-\-foreign\-architecture \fIarchitecture\fP
-Add \fIarchitecture\fP to the list of architectures for which packages can
-be installed without using \fB\-\-force\-architecture\fP, in addition to
-the architecture \fBdpkg\fP is built for (i.e.: the output of
-\fB\-\-print\-architecture\fP).
 .TP
 \fB\-\-status\-fd \fR\fIn\fR
 Send machine-readable package status and progress information to file

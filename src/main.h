@@ -78,6 +78,8 @@ enum action {
 
 	act_cmpversions,
 
+	act_arch_add,
+	act_arch_remove,
 	act_printarch,
 	act_printinstarch,
 	act_printforeignarches,

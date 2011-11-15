@@ -104,6 +104,8 @@ usage(const struct cmdinfo *ci, const char *value)
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -C|--audit                       Check for broken package(s).\n"
+"  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
+"  --remove-architecture <arch>     Remove <arch> from the list of architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
@@ -133,8 +135,6 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --instdir=<directory>      Change installation dir without changing admin dir.\n"
 "  --path-exclude=<pattern>   Do not install paths which match a shell pattern.\n"
 "  --path-include=<pattern>   Re-include a pattern after a previous exclusion.\n"
-"  --foreign-architecture=<arch>\n"
-"                             Add <arch> to the list of foreign architectures.\n"
 "  -O|--selected-only         Skip packages not selected for install/upgrade.\n"
 "  -E|--skip-same-version     Skip packages whose same version is installed.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than installed.\n"
@@ -473,22 +473,74 @@ run_status_loggers(struct invoke_hook *hook_head)
   }
 }
 
-static void
-set_foreign_arch(const struct cmdinfo *cip, const char *value)
+static int
+arch_add(const char *const *argv)
 {
   struct dpkg_arch *arch;
+  const char *archname = *argv++;
 
-  arch = dpkg_arch_find(value);
-  if (arch->type == arch_foreign)
-    return;
-  else if (arch->type == arch_unknown)
-    arch->type = arch_foreign;
-  else if (arch->type == arch_illegal)
-    warning(_("ignoring option --%s=%s: %s"), cip->olong, value,
-            dpkg_arch_name_is_illegal(value));
-  else
-    warning(_("ignoring option --%s=%s: %s"), cip->olong, value,
-            _("this architecture cannot be foreign"));
+  if (archname == NULL)
+    badusage(_("--%s takes one argument"), cipaction->olong);
+
+  dpkg_arch_load_list();
+
+  arch = dpkg_arch_add(archname);
+  switch (arch->type) {
+  case arch_native:
+  case arch_foreign:
+    break;
+  case arch_illegal:
+    ohshit(_("architecture '%s' is illegal: %s"), archname,
+           dpkg_arch_name_is_illegal(archname));
+  default:
+    ohshit(_("architecture '%s' is reserved and cannot be added"), archname);
+  }
+
+  dpkg_arch_save_list();
+
+  return 0;
+}
+
+static int
+arch_remove(const char *const *argv)
+{
+  const char *archname = *argv++;
+  struct dpkg_arch *arch;
+  struct pkgiterator *iter;
+  struct pkginfo *pkg;
+
+  if (archname == NULL)
+    badusage(_("--%s takes one argument"), cipaction->olong);
+
+  modstatdb_open(msdbrw_readonly);
+
+  arch = dpkg_arch_find(archname);
+  if (arch->type != arch_foreign) {
+    warning(_("cannot remove non-foreign architecture '%s'"), arch->name);
+    return 0;
+  }
+
+  /* Check if it's safe to remove the architecture from the db. */
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+    if (pkg->installed.arch == arch) {
+      if (fc_architecture)
+        warning(_("removing architecture '%s' currently in use by database"),
+                arch->name);
+      else
+        ohshit(_("cannot remove architecture '%s' currently in use by the database"),
+               arch->name);
+      break;
+    }
+  }
+  pkg_db_iter_free(iter);
+
+  dpkg_arch_remove(arch);
+  dpkg_arch_save_list();
+
+  modstatdb_shutdown();
+
+  return 0;
 }
 
 static void setforce(const struct cmdinfo *cip, const char *value) {
@@ -574,6 +626,8 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "assert-working-epoch",            0,  act_assertepoch,          assertepoch     ),
   ACTION( "assert-long-filenames",           0,  act_assertlongfilenames,  assertlongfilenames ),
   ACTION( "assert-multi-conrep",             0,  act_assertmulticonrep,    assertmulticonrep ),
+  ACTION( "add-architecture",                0,  act_arch_add,             arch_add        ),
+  ACTION( "remove-architecture",             0,  act_arch_remove,          arch_remove     ),
   ACTION( "print-architecture",              0,  act_printarch,            printarch   ),
   ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch  ),
   ACTION( "print-foreign-architectures",     0,  act_printforeignarches,   print_foreign_arches ),
@@ -587,7 +641,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
   { "path-exclude",      0,   1, NULL,          NULL,      setfilter,     0 },
   { "path-include",      0,   1, NULL,          NULL,      setfilter,     1 },
-  { "foreign-architecture", 0, 1, NULL,         NULL,      set_foreign_arch, 0 },
   { "status-logger",     0,   1, NULL,          NULL,      set_invoke_hook, 0, &status_loggers_tail },
   { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0 },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },
