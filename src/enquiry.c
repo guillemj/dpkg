@@ -66,6 +66,14 @@ bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
   return (int)pkg->status == bsi->value;
 }
 
+static bool
+bsyn_arch(struct pkginfo *pkg, const struct badstatinfo *bsi)
+{
+  if (pkg->status < stat_halfinstalled)
+    return false;
+  return pkg->installed.arch->type == (enum dpkg_arch_type)bsi->value;
+}
+
 static const struct badstatinfo badstatinfos[]= {
   {
     .yesno = bsyn_reinstreq,
@@ -109,6 +117,21 @@ static const struct badstatinfo badstatinfos[]= {
     "The following packages have been triggered, but the trigger processing\n"
     "has not yet been done.  Trigger processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
+  }, {
+    .yesno = bsyn_arch,
+    .value = arch_none,
+    .explanation = N_("The following packages do not have an architecture:\n")
+  }, {
+    .yesno = bsyn_arch,
+    .value = arch_illegal,
+    .explanation = N_("The following packages have an illegal architecture:\n")
+  }, {
+    .yesno = bsyn_arch,
+    .value = arch_unknown,
+    .explanation = N_(
+    "The following packages have an unknown foreign architecture, which will\n"
+    "cause dependency issues on front-ends. This can be fixed by registering\n"
+    "the foreign architecture with dpkg --add-architecture:\n")
   }, {
     .yesno = NULL
   }
