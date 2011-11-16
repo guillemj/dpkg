@@ -45,10 +45,6 @@
 
 #define MIN_POLL_INTERVAL 20000 /* µs */
 
-#ifdef HAVE_SYS_CDEFS_H
-#include <sys/cdefs.h>
-#endif
-
 #ifdef HAVE_SYS_SYSCALL_H
 #include <sys/syscall.h>
 #endif
