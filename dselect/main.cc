@@ -40,6 +40,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Solaris requires curses.h to be included before term.h
+#include "dselect-curses.h"
+
 #if defined(HAVE_NCURSESW_TERM_H)
 #include <ncursesw/term.h>
 #elif defined(HAVE_NCURSES_TERM_H)
