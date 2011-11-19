@@ -112,7 +112,10 @@ while (@ARGV) {
 	if (-e $file) {
 	    push @files, $file;
 	} else {
-	    push @files, glob($file);
+	    my @to_add = glob($file);
+	    push @files, @to_add;
+	    warning(_g("pattern '%s' did not match any file"), $file)
+		unless scalar(@to_add);
 	}
     } elsif (m/^-p(.*)/) {
 	error(_g("Illegal package name \`%s'"), $1);
