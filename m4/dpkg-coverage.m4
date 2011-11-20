@@ -48,4 +48,6 @@ if test "x$enable_coverage" = "xyes"; then
       AC_MSG_ERROR([missing cover, which is required for perl coverage support])
    fi
 fi
+AC_MSG_CHECKING([whether to build with code coverage])
+AC_MSG_RESULT([$enable_coverage])
 ])

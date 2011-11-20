@@ -4,6 +4,7 @@
 # --------------
 # Allow disabling compilation and usage of specific programs.
 AC_DEFUN([DPKG_WITH_PROG], [
+  AC_MSG_CHECKING([whether to build $1])
   AC_ARG_WITH([$1],
     AS_HELP_STRING([--without-$1], [do not build or use $1]),
     [build_]AS_TR_SH([$1])[=$with_]AS_TR_SH([$1]),
@@ -16,6 +17,7 @@ AC_DEFUN([DPKG_WITH_PROG], [
   ], [
     AC_DEFINE([WITH_]AS_TR_CPP([$1]), 0)
   ])
+  AC_MSG_RESULT([$build_]AS_TR_SH([$1]))
 ])# DPKG_WITH_PROG
 
 # DPKG_WITH_DIR(DIR, DEFAULT, DESCRIPTION)
@@ -30,6 +32,7 @@ AC_DEFUN([DPKG_WITH_DIR], [
             [$1="$with_$1"])
   )
   AC_SUBST([$1])
+  AC_MSG_NOTICE([using directory $1 = '$$1'])
 ])# DPKG_WITH_DIR
 
 # DPKG_DIST_CHECK(COND, ERROR)
