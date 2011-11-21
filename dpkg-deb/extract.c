@@ -118,7 +118,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   char nlc;
   int adminmember;
   bool oldformat, header_done;
-  struct compressor *decompressor = &compressor_gzip;
+  enum compressor_type decompressor = compressor_type_gzip;
 
   arfd = open(debar, O_RDONLY);
   if (arfd < 0)
@@ -190,7 +190,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
 	    decompressor = compressor_find_by_extension(extension);
 	  }
 
-          if (adminmember == -1 || decompressor == NULL)
+          if (adminmember == -1 || decompressor == compressor_type_unknown)
             ohshit(_("archive '%.250s' contains not understood data member %.*s, giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);
         }

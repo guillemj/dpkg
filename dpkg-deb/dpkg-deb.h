@@ -39,7 +39,7 @@ void extracthalf(const char *debar, const char *dir,
                  const char *taroption, int admininfo);
 
 extern const char* showformat;
-extern struct compressor *compressor;
+extern enum compressor_type compressor;
 extern int compress_level;
 
 #define ARCHIVEVERSION		"2.0"

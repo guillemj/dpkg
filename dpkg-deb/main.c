@@ -134,7 +134,7 @@ static const char printforhelp[] =
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
 int opt_verbose = 0;
-struct compressor *compressor = &compressor_gzip;
+enum compressor_type compressor = compressor_type_gzip;
 int compress_level = -1;
 
 static void
@@ -157,7 +157,7 @@ static void
 setcompresstype(const struct cmdinfo *cip, const char *value)
 {
   compressor = compressor_find_by_name(value);
-  if (compressor == NULL)
+  if (compressor == compressor_type_unknown)
     ohshit(_("unknown compression type `%s'!"), value);
 }
 

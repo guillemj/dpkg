@@ -475,7 +475,7 @@ do_build(const char *const *argv)
   /* And run gzip to compress our control archive. */
   c2 = subproc_fork();
   if (!c2) {
-    compress_filter(&compressor_gzip, p1[0], gzfd, 9, _("control member"));
+    compress_filter(compressor_type_gzip, p1[0], gzfd, 9, _("control member"));
     exit(0);
   }
   close(p1[0]);
@@ -588,7 +588,8 @@ do_build(const char *const *argv)
   if (!oldformatflag) {
     char datamember[16 + 1];
 
-    sprintf(datamember, "%s%s", DATAMEMBER, compressor->extension);
+    sprintf(datamember, "%s%s", DATAMEMBER,
+            compressor_get_extension(compressor));
 
     if (lseek(gzfd, 0, SEEK_SET))
       ohshite(_("failed to rewind temporary file (%s)"), _("data member"));

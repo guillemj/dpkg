@@ -73,6 +73,14 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 	subproc_wait_check(pid, desc, 0);
 }
 
+struct compressor {
+	const char *name;
+	const char *extension;
+	int default_level;
+	void (*compress)(int fd_in, int fd_out, int level, const char *desc);
+	void (*decompress)(int fd_in, int fd_out, const char *desc);
+};
+
 /*
  * No compressor (pass-through).
  */
@@ -89,7 +97,7 @@ compress_none(int fd_in, int fd_out, int compress_level, const char *desc)
 	fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), desc);
 }
 
-struct compressor compressor_none = {
+static struct compressor compressor_none = {
 	.name = "none",
 	.extension = "",
 	.default_level = 0,
@@ -197,7 +205,7 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 }
 #endif
 
-struct compressor compressor_gzip = {
+static struct compressor compressor_gzip = {
 	.name = "gzip",
 	.extension = ".gz",
 	.default_level = 9,
@@ -310,7 +318,7 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 }
 #endif
 
-struct compressor compressor_bzip2 = {
+static struct compressor compressor_bzip2 = {
 	.name = "bzip2",
 	.extension = ".bz2",
 	.default_level = 9,
@@ -337,7 +345,7 @@ compress_xz(int fd_in, int fd_out, int compress_level, const char *desc)
 	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, NULL);
 }
 
-struct compressor compressor_xz = {
+static struct compressor compressor_xz = {
 	.name = "xz",
 	.extension = ".xz",
 	.default_level = 6,
@@ -364,7 +372,7 @@ compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
 	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, "--format=lzma", NULL);
 }
 
-struct compressor compressor_lzma = {
+static struct compressor compressor_lzma = {
 	.name = "lzma",
 	.extension = ".lzma",
 	.default_level = 6,
@@ -377,67 +385,83 @@ struct compressor compressor_lzma = {
  */
 
 static struct compressor *compressor_array[] = {
-	&compressor_none,
-	&compressor_gzip,
-	&compressor_xz,
-	&compressor_bzip2,
-	&compressor_lzma,
+	[compressor_type_none] = &compressor_none,
+	[compressor_type_gzip] = &compressor_gzip,
+	[compressor_type_xz] = &compressor_xz,
+	[compressor_type_bzip2] = &compressor_bzip2,
+	[compressor_type_lzma] = &compressor_lzma,
 };
 
-struct compressor *
+static struct compressor *
+compressor_get(enum compressor_type type)
+{
+	const enum compressor_type max_type = array_count(compressor_array);
+
+	if (type < 0 || type >= max_type)
+		internerr("compressor_type is out of range");
+
+	return compressor_array[type];
+}
+
+const char *
+compressor_get_extension(enum compressor_type type)
+{
+	return compressor_get(type)->extension;
+}
+
+enum compressor_type
 compressor_find_by_name(const char *name)
 {
 	size_t i;
 
 	for (i = 0; i < array_count(compressor_array); i++)
 		if (strcmp(compressor_array[i]->name, name) == 0)
-			return compressor_array[i];
+			return i;
 
-	return NULL;
+	return compressor_type_unknown;
 }
 
-struct compressor *
+enum compressor_type
 compressor_find_by_extension(const char *extension)
 {
 	size_t i;
 
 	for (i = 0; i < array_count(compressor_array); i++)
 		if (strcmp(compressor_array[i]->extension, extension) == 0)
-			return compressor_array[i];
+			return i;
 
-	return NULL;
+	return compressor_type_unknown;
 }
 
 void
-decompress_filter(struct compressor *compressor, int fd_in, int fd_out,
+decompress_filter(enum compressor_type type, int fd_in, int fd_out,
                   const char *desc_fmt, ...)
 {
+	struct compressor *compressor;
 	va_list args;
 	struct varbuf desc = VARBUF_INIT;
-
-	if (compressor == NULL)
-		internerr("no compressor specified");
 
 	va_start(args, desc_fmt);
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
+	compressor = compressor_get(type);
 	compressor->decompress(fd_in, fd_out, desc.buf);
 }
 
 void
-compress_filter(struct compressor *compressor, int fd_in, int fd_out,
+compress_filter(enum compressor_type type, int fd_in, int fd_out,
                 int compress_level, const char *desc_fmt, ...)
 {
+	struct compressor *compressor;
 	va_list args;
 	struct varbuf desc = VARBUF_INIT;
-
-	if (compressor == NULL)
-		internerr("no compressor specified");
 
 	va_start(args, desc_fmt);
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
+
+	compressor = compressor_get(type);
 
 	if (compress_level < 0)
 		compress_level = compressor->default_level;

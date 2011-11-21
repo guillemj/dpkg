@@ -30,27 +30,24 @@ DPKG_BEGIN_DECLS
 #define XZ		"xz"
 #define BZIP2		"bzip2"
 
-struct compressor {
-	const char *name;
-	const char *extension;
-	int default_level;
-	void (*compress)(int fd_in, int fd_out, int level, const char *desc);
-	void (*decompress)(int fd_in, int fd_out, const char *desc);
+enum compressor_type {
+	compressor_type_unknown = -1,
+	compressor_type_none,
+	compressor_type_gzip,
+	compressor_type_xz,
+	compressor_type_bzip2,
+	compressor_type_lzma,
 };
 
-struct compressor compressor_none;
-struct compressor compressor_gzip;
-struct compressor compressor_xz;
-struct compressor compressor_bzip2;
-struct compressor compressor_lzma;
+enum compressor_type compressor_find_by_name(const char *name);
+enum compressor_type compressor_find_by_extension(const char *name);
 
-struct compressor *compressor_find_by_name(const char *name);
-struct compressor *compressor_find_by_extension(const char *name);
+const char *compressor_get_extension(enum compressor_type type);
 
-void decompress_filter(struct compressor *comp, int fd_in, int fd_out,
+void decompress_filter(enum compressor_type type, int fd_in, int fd_out,
                        const char *desc, ...)
                        DPKG_ATTR_PRINTF(4);
-void compress_filter(struct compressor *comp, int fd_in, int fd_out,
+void compress_filter(enum compressor_type type, int fd_in, int fd_out,
                      int compress_level, const char *desc, ...)
                      DPKG_ATTR_PRINTF(5);
 
