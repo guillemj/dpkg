@@ -97,7 +97,7 @@ compress_none(int fd_in, int fd_out, int compress_level, const char *desc)
 	fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), desc);
 }
 
-static struct compressor compressor_none = {
+static const struct compressor compressor_none = {
 	.name = "none",
 	.extension = "",
 	.default_level = 0,
@@ -205,7 +205,7 @@ compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
 }
 #endif
 
-static struct compressor compressor_gzip = {
+static const struct compressor compressor_gzip = {
 	.name = "gzip",
 	.extension = ".gz",
 	.default_level = 9,
@@ -318,7 +318,7 @@ compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
 }
 #endif
 
-static struct compressor compressor_bzip2 = {
+static const struct compressor compressor_bzip2 = {
 	.name = "bzip2",
 	.extension = ".bz2",
 	.default_level = 9,
@@ -345,7 +345,7 @@ compress_xz(int fd_in, int fd_out, int compress_level, const char *desc)
 	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, NULL);
 }
 
-static struct compressor compressor_xz = {
+static const struct compressor compressor_xz = {
 	.name = "xz",
 	.extension = ".xz",
 	.default_level = 6,
@@ -372,7 +372,7 @@ compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
 	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, "--format=lzma", NULL);
 }
 
-static struct compressor compressor_lzma = {
+static const struct compressor compressor_lzma = {
 	.name = "lzma",
 	.extension = ".lzma",
 	.default_level = 6,
@@ -384,7 +384,7 @@ static struct compressor compressor_lzma = {
  * Generic compressor filter.
  */
 
-static struct compressor *compressor_array[] = {
+static const struct compressor *compressor_array[] = {
 	[compressor_type_none] = &compressor_none,
 	[compressor_type_gzip] = &compressor_gzip,
 	[compressor_type_xz] = &compressor_xz,
@@ -392,7 +392,7 @@ static struct compressor *compressor_array[] = {
 	[compressor_type_lzma] = &compressor_lzma,
 };
 
-static struct compressor *
+static const struct compressor *
 compressor_get(enum compressor_type type)
 {
 	const enum compressor_type max_type = array_count(compressor_array);
@@ -437,7 +437,7 @@ void
 decompress_filter(enum compressor_type type, int fd_in, int fd_out,
                   const char *desc_fmt, ...)
 {
-	struct compressor *compressor;
+	const struct compressor *compressor;
 	va_list args;
 	struct varbuf desc = VARBUF_INIT;
 
@@ -453,7 +453,7 @@ void
 compress_filter(enum compressor_type type, int fd_in, int fd_out,
                 int compress_level, const char *desc_fmt, ...)
 {
-	struct compressor *compressor;
+	const struct compressor *compressor;
 	va_list args;
 	struct varbuf desc = VARBUF_INIT;
 
