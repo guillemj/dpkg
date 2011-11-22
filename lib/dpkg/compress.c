@@ -77,6 +77,7 @@ struct compressor {
 	const char *name;
 	const char *extension;
 	int default_level;
+	void (*fixup_params)(struct compress_params *params);
 	void (*compress)(int fd_in, int fd_out, struct compress_params *params,
 	                 const char *desc);
 	void (*decompress)(int fd_in, int fd_out, const char *desc);
@@ -85,6 +86,11 @@ struct compressor {
 /*
  * No compressor (pass-through).
  */
+
+static void
+fixup_none_params(struct compress_params *params)
+{
+}
 
 static void
 decompress_none(int fd_in, int fd_out, const char *desc)
@@ -102,6 +108,7 @@ static const struct compressor compressor_none = {
 	.name = "none",
 	.extension = "",
 	.default_level = 0,
+	.fixup_params = fixup_none_params,
 	.compress = compress_none,
 	.decompress = decompress_none,
 };
@@ -109,6 +116,14 @@ static const struct compressor compressor_none = {
 /*
  * Gzip compressor.
  */
+
+static void
+fixup_gzip_params(struct compress_params *params)
+{
+	/* Normalize compression level. */
+	if (params->level == 0)
+		params->type = compressor_type_none;
+}
 
 #ifdef WITH_ZLIB
 static void
@@ -210,6 +225,7 @@ static const struct compressor compressor_gzip = {
 	.name = "gzip",
 	.extension = ".gz",
 	.default_level = 9,
+	.fixup_params = fixup_gzip_params,
 	.compress = compress_gzip,
 	.decompress = decompress_gzip,
 };
@@ -217,6 +233,14 @@ static const struct compressor compressor_gzip = {
 /*
  * Bzip2 compressor.
  */
+
+static void
+fixup_bzip2_params(struct compress_params *params)
+{
+	/* Normalize compression level. */
+	if (params->level == 0)
+		params->level = 1;
+}
 
 #ifdef WITH_BZ2
 static void
@@ -323,6 +347,7 @@ static const struct compressor compressor_bzip2 = {
 	.name = "bzip2",
 	.extension = ".bz2",
 	.default_level = 9,
+	.fixup_params = fixup_bzip2_params,
 	.compress = compress_bzip2,
 	.decompress = decompress_bzip2,
 };
@@ -350,6 +375,7 @@ static const struct compressor compressor_xz = {
 	.name = "xz",
 	.extension = ".xz",
 	.default_level = 6,
+	.fixup_params = fixup_none_params,
 	.compress = compress_xz,
 	.decompress = decompress_xz,
 };
@@ -377,6 +403,7 @@ static const struct compressor compressor_lzma = {
 	.name = "lzma",
 	.extension = ".lzma",
 	.default_level = 6,
+	.fixup_params = fixup_none_params,
 	.compress = compress_lzma,
 	.decompress = decompress_lzma,
 };
@@ -434,6 +461,12 @@ compressor_find_by_extension(const char *extension)
 	return compressor_type_unknown;
 }
 
+static void
+compressor_fixup_params(struct compress_params *params)
+{
+	compressor_get(params->type)->fixup_params(params);
+}
+
 void
 decompress_filter(enum compressor_type type, int fd_in, int fd_out,
                   const char *desc_fmt, ...)
@@ -462,12 +495,12 @@ compress_filter(struct compress_params *params, int fd_in, int fd_out,
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
+	compressor_fixup_params(params);
+
 	compressor = compressor_get(params->type);
 
 	if (params->level < 0)
 		params->level = compressor->default_level;
-	else if (params->level == 0)
-		compressor = &compressor_none;
 
 	compressor->compress(fd_in, fd_out, params, desc.buf);
 }

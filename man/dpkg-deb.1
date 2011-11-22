@@ -1,4 +1,4 @@
-.TH dpkg\-deb 1 "2011-08-14" "Debian Project" "dpkg suite"
+.TH dpkg\-deb 1 "2011-11-22" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-deb \- Debian package archive (.deb) manipulation tool
 .
@@ -197,6 +197,9 @@ The default for this field is "${Package}\\t${Version}\\n".
 .BI \-z compress-level
 Specify which compression level to use on the compressor backend, when
 building a package (default is 9 for gzip and bzip2, 6 for xz and lzma).
+The accepted values are 0-9 with: 0 being mapped to compressor none for
+gzip and 0 mapped to 1 for bzip2. Before dpkg 1.16.2 level 0 was
+equivalent to compressor none for all compressors.
 .TP
 .BI \-Z compress-type
 Specify which compression type to use when building a package. Allowed
