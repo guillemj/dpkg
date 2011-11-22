@@ -47,6 +47,7 @@ sub usage {
                  retrieving them from control file
   -c build-conf  use given string for build conflicts instead of
                  retrieving them from control file
+  -a arch        assume given host architecture
   --admindir=<directory>
                  change the administrative directory.
   -h, --help     show this help message.
@@ -58,11 +59,13 @@ sub usage {
 
 my $binary_only=0;
 my ($bd_value, $bc_value);
+my $host_arch = get_host_arch();
 if (!GetOptions('B' => \$binary_only,
                 'help|h' => sub { usage(); exit(0); },
                 'version' => \&version,
                 'd=s' => \$bd_value,
                 'c=s' => \$bc_value,
+                'a=s' => \$host_arch,
                 'admindir=s' => \$admindir)) {
 	usage();
 	exit(2);
@@ -94,11 +97,13 @@ my (@unmet, @conflicts);
 
 if ($bd_value) {
 	push @unmet, build_depends('Build-Depends/Build-Depends-Indep)',
-		deps_parse($bd_value, reduce_arch => 1), $facts);
+		deps_parse($bd_value, host_arch => $host_arch,
+			   reduce_arch => 1), $facts);
 }
 if ($bc_value) {
 	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Indep',
-		deps_parse($bc_value, reduce_arch => 1, union => 1), $facts);
+		deps_parse($bc_value, host_arch => $host_arch,
+			   reduce_arch => 1, union => 1), $facts);
 }
 
 if (@unmet) {
@@ -178,8 +183,6 @@ sub check_line {
 	my $fieldname=shift;
 	my $dep_list=shift;
 	my $facts=shift;
-	my $host_arch = shift || get_host_arch();
-	chomp $host_arch;
 
 	my @unmet=();
 
