@@ -3,6 +3,7 @@
 # dpkg-checkbuilddeps
 #
 # Copyright © 2001 Joey Hess <joeyh@debian.org>
+# Copyright © 2007-2011 Raphael Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -96,7 +97,7 @@ unless (defined($bd_value) or defined($bc_value)) {
 my (@unmet, @conflicts);
 
 if ($bd_value) {
-	push @unmet, build_depends('Build-Depends/Build-Depends-Indep)',
+	push @unmet, build_depends('Build-Depends/Build-Depends-Indep',
 		deps_parse($bd_value, host_arch => $host_arch,
 			   reduce_arch => 1), $facts);
 }
