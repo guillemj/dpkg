@@ -77,7 +77,8 @@ struct compressor {
 	const char *name;
 	const char *extension;
 	int default_level;
-	void (*compress)(int fd_in, int fd_out, int level, const char *desc);
+	void (*compress)(int fd_in, int fd_out, struct compress_params *params,
+	                 const char *desc);
 	void (*decompress)(int fd_in, int fd_out, const char *desc);
 };
 
@@ -92,7 +93,7 @@ decompress_none(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_none(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_none(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), desc);
 }
@@ -145,14 +146,14 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
 	int z_errnum;
 	gzFile gzfile;
 
-	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "w%d", params->level);
 	gzfile = gzdopen(fd_out, combuf);
 	if (gzfile == NULL)
 		ohshit(_("%s: error binding output to gzip stream"), desc);
@@ -196,11 +197,11 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char combuf[6];
 
-	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
 	fd_fd_filter(fd_in, fd_out, desc, GZIP, combuf, NULL);
 }
 #endif
@@ -253,14 +254,14 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
 	int bz_errnum;
 	BZFILE *bzfile;
 
-	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "w%d", params->level);
 	bzfile = BZ2_bzdopen(fd_out, combuf);
 	if (bzfile == NULL)
 		ohshit(_("%s: error binding output to bzip2 stream"), desc);
@@ -309,11 +310,11 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char combuf[6];
 
-	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
 	fd_fd_filter(fd_in, fd_out, desc, BZIP2, combuf, NULL);
 }
 #endif
@@ -337,11 +338,11 @@ decompress_xz(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_xz(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_xz(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char combuf[6];
 
-	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
 	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, NULL);
 }
 
@@ -364,11 +365,11 @@ decompress_lzma(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_lzma(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char combuf[6];
 
-	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
 	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, "--format=lzma", NULL);
 }
 
@@ -450,8 +451,8 @@ decompress_filter(enum compressor_type type, int fd_in, int fd_out,
 }
 
 void
-compress_filter(enum compressor_type type, int fd_in, int fd_out,
-                int compress_level, const char *desc_fmt, ...)
+compress_filter(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc_fmt, ...)
 {
 	const struct compressor *compressor;
 	va_list args;
@@ -461,12 +462,12 @@ compress_filter(enum compressor_type type, int fd_in, int fd_out,
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
-	compressor = compressor_get(type);
+	compressor = compressor_get(params->type);
 
-	if (compress_level < 0)
-		compress_level = compressor->default_level;
-	else if (compress_level == 0)
+	if (params->level < 0)
+		params->level = compressor->default_level;
+	else if (params->level == 0)
 		compressor = &compressor_none;
 
-	compressor->compress(fd_in, fd_out, compress_level, desc.buf);
+	compressor->compress(fd_in, fd_out, params, desc.buf);
 }

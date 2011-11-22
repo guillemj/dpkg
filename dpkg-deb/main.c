@@ -134,8 +134,10 @@ static const char printforhelp[] =
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
 int opt_verbose = 0;
-enum compressor_type compressor = compressor_type_gzip;
-int compress_level = -1;
+struct compress_params compress_params = {
+  .type = compressor_type_gzip,
+  .level = -1,
+};
 
 static void
 set_compress_level(const struct cmdinfo *cip, const char *value)
@@ -150,14 +152,14 @@ set_compress_level(const struct cmdinfo *cip, const char *value)
   if (level < 0 || level > 9)
     badusage(_("invalid compression level for -%c: %ld'"), cip->oshort, level);
 
-  compress_level = level;
+  compress_params.level = level;
 }
 
 static void
 setcompresstype(const struct cmdinfo *cip, const char *value)
 {
-  compressor = compressor_find_by_name(value);
-  if (compressor == compressor_type_unknown)
+  compress_params.type = compressor_find_by_name(value);
+  if (compress_params.type == compressor_type_unknown)
     ohshit(_("unknown compression type `%s'!"), value);
 }
 

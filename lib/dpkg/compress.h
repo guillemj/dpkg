@@ -39,6 +39,11 @@ enum compressor_type {
 	compressor_type_lzma,
 };
 
+struct compress_params {
+	enum compressor_type type;
+	int level;
+};
+
 enum compressor_type compressor_find_by_name(const char *name);
 enum compressor_type compressor_find_by_extension(const char *name);
 
@@ -47,9 +52,9 @@ const char *compressor_get_extension(enum compressor_type type);
 void decompress_filter(enum compressor_type type, int fd_in, int fd_out,
                        const char *desc, ...)
                        DPKG_ATTR_PRINTF(4);
-void compress_filter(enum compressor_type type, int fd_in, int fd_out,
-                     int compress_level, const char *desc, ...)
-                     DPKG_ATTR_PRINTF(5);
+void compress_filter(struct compress_params *params, int fd_in, int fd_out,
+                     const char *desc, ...)
+                     DPKG_ATTR_PRINTF(4);
 
 DPKG_END_DECLS
 
