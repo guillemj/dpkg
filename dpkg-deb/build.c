@@ -479,6 +479,7 @@ do_build(const char *const *argv)
 
     params.type = compressor_type_gzip;
     params.level = 9;
+    params.strategy = NULL;
 
     compress_filter(&params, p1[0], gzfd, _("control member"));
     exit(0);

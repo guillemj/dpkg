@@ -23,6 +23,9 @@
 #define LIBDPKG_COMPRESS_H
 
 #include <dpkg/macros.h>
+#include <dpkg/error.h>
+
+#include <stdbool.h>
 
 DPKG_BEGIN_DECLS
 
@@ -41,6 +44,7 @@ enum compressor_type {
 
 struct compress_params {
 	enum compressor_type type;
+	const char *strategy;
 	int level;
 };
 
@@ -48,6 +52,9 @@ enum compressor_type compressor_find_by_name(const char *name);
 enum compressor_type compressor_find_by_extension(const char *name);
 
 const char *compressor_get_extension(enum compressor_type type);
+
+bool compressor_check_params(struct compress_params *params,
+                             struct dpkg_error *err);
 
 void decompress_filter(enum compressor_type type, int fd_in, int fd_out,
                        const char *desc, ...)

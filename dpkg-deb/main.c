@@ -106,6 +106,8 @@ usage(const struct cmdinfo *cip, const char *value)
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
 "                                     Allowed types: gzip, xz, bzip2, lzma, none.\n"
+"  -S<strategy>                     Set the compression strategy when building.\n"
+"                                     Allowed values: extreme (xz).\n"
 "\n"));
 
   printf(_(
@@ -137,6 +139,7 @@ int opt_verbose = 0;
 struct compress_params compress_params = {
   .type = compressor_type_gzip,
   .level = -1,
+  .strategy = NULL,
 };
 
 static void
@@ -182,6 +185,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
   { "compression",   'z', 1, NULL,           NULL,         set_compress_level },
   { "compress_type", 'Z', 1, NULL,           NULL,         setcompresstype  },
+  { NULL,            'S', 1, NULL,           &compress_params.strategy, NULL },
   { "showformat",    0,   1, NULL,           &showformat,  NULL             },
   { "help",          'h', 0, NULL,           NULL,         usage            },
   { "version",       0,   0, NULL,           NULL,         printversion     },
@@ -189,6 +193,7 @@ static const struct cmdinfo cmdinfos[]= {
 };
 
 int main(int argc, const char *const *argv) {
+  struct dpkg_error err;
   int ret;
 
   setlocale(LC_NUMERIC, "POSIX");
@@ -201,6 +206,9 @@ int main(int argc, const char *const *argv) {
   myopt(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
+
+  if (!compressor_check_params(&compress_params, &err))
+    badusage(_("invalid compressor parameters: %s"), err.str);
 
   unsetenv("GZIP");
 
