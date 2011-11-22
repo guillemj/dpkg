@@ -274,25 +274,14 @@ void getcurrentopt() {
 }
 
 void writecurrentopt() {
-  FILE *cmo;
-  int l;
-  static char *newfile=0;
+  struct atomic_file *file;
 
   assert(methoptfile);
-  if (!newfile) {
-    l= strlen(methoptfile);
-    newfile= new char[l + sizeof(NEWDBEXT) + 1];
-    strcpy(newfile,methoptfile);
-    strcpy(newfile+l, NEWDBEXT);
-  }
-  cmo= fopen(newfile,"w");
-  if (!cmo) ohshite(_("unable to open new option file `%.250s'"),newfile);
-  if (fprintf(cmo,"%s %s\n",coption->meth->name,coption->name) == EOF) {
-    fclose(cmo);
-    ohshite(_("unable to write new option to `%.250s'"),newfile);
-  }
-  if (fclose(cmo))
-    ohshite(_("unable to close new option file `%.250s'"),newfile);
-  if (rename(newfile,methoptfile))
-    ohshite(_("unable to install new option as `%.250s'"),methoptfile);
+  file = atomic_file_new(methoptfile, (enum atomic_file_flags)0);
+  atomic_file_open(file);
+  if (fprintf(file->fp, "%s %s\n", coption->meth->name, coption->name) == EOF)
+    ohshite(_("unable to write new option to `%.250s'"), file->name_new);
+  atomic_file_close(file);
+  atomic_file_commit(file);
+  atomic_file_free(file);
 }

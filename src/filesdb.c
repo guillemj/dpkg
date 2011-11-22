@@ -510,45 +510,26 @@ void
 write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
                       struct fileinlist *list, enum fnnflags mask)
 {
-  static struct varbuf newvb;
+  struct atomic_file *file;
   const char *listfile;
-  FILE *file;
 
   listfile = pkgadminfile(pkg, pkgbin, LISTFILE);
 
-  varbuf_reset(&newvb);
-  varbuf_add_str(&newvb, listfile);
-  varbuf_add_str(&newvb, NEWDBEXT);
-  varbuf_end_str(&newvb);
+  file = atomic_file_new(listfile, 0);
+  atomic_file_open(file);
 
-  file= fopen(newvb.buf,"w+");
-  if (!file)
-    ohshite(_("unable to create updated files list file for package %s"),
-            pkg->set->name);
-  push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, (void *)file);
   while (list) {
     if (!(mask && (list->namenode->flags & mask))) {
-      fputs(list->namenode->name,file);
-      putc('\n',file);
+      fputs(list->namenode->name, file->fp);
+      putc('\n', file->fp);
     }
     list= list->next;
   }
-  if (ferror(file))
-    ohshite(_("failed to write to updated files list file for package %s"),
-            pkg->set->name);
-  if (fflush(file))
-    ohshite(_("failed to flush updated files list file for package %s"),
-            pkg->set->name);
-  if (fsync(fileno(file)))
-    ohshite(_("failed to sync updated files list file for package %s"),
-            pkg->set->name);
-  pop_cleanup(ehflag_normaltidy); /* file = fopen() */
-  if (fclose(file))
-    ohshite(_("failed to close updated files list file for package %s"),
-            pkg->set->name);
-  if (rename(newvb.buf, listfile))
-    ohshite(_("failed to install updated files list file for package %s"),
-            pkg->set->name);
+
+  atomic_file_sync(file);
+  atomic_file_close(file);
+  atomic_file_commit(file);
+  atomic_file_free(file);
 
   dir_sync_path(pkgadmindir());
 

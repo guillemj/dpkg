@@ -41,7 +41,7 @@
 
 /*========== Recording triggers. ==========*/
 
-static char *triggersdir, *triggersfilefile, *triggersnewfilefile;
+static char *triggersdir, *triggersfilefile;
 
 static char *
 trig_get_filename(const char *dir, const char *filename)
@@ -312,81 +312,42 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 }
 
 static void
-trk_explicit_interest_flush(const char *newfilename, FILE *nf)
-{
-	if (ferror(nf))
-		ohshite(_("unable to write new trigger interest file `%.250s'"),
-		        newfilename);
-	if (fflush(nf))
-		ohshite(_("unable to flush new trigger interest file '%.250s'"),
-		        newfilename);
-	if (fsync(fileno(nf)))
-		ohshite(_("unable to sync new trigger interest file '%.250s'"),
-		        newfilename);
-}
-
-static void
-trk_explicit_interest_commit(const char *newfilename)
-{
-	if (rename(newfilename, trk_explicit_fn.buf))
-		ohshite(_("unable to install new trigger interest file `%.250s'"),
-		        trk_explicit_fn.buf);
-}
-
-static void
-trk_explicit_interest_remove(const char *newfilename)
-{
-	if (unlink(newfilename))
-		ohshite(_("cannot remove `%.250s'"), newfilename);
-	if (unlink(trk_explicit_fn.buf) && errno != ENOENT)
-		ohshite(_("cannot remove `%.250s'"), trk_explicit_fn.buf);
-}
-
-static void
 trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg, int signum,
                              enum trig_options opts)
 {
-	static struct varbuf newfn;
 	char buf[1024];
-	FILE *nf;
+	struct atomic_file *file;
 	bool empty = true;
 
 	trk_explicit_start(trig);
-	varbuf_reset(&newfn);
-	varbuf_printf(&newfn, "%s/%s.new", triggersdir, trig);
-
-	nf = fopen(newfn.buf, "w");
-	if (!nf)
-		ohshite(_("unable to create new trigger interest file `%.250s'"),
-		        newfn.buf);
-	push_cleanup(cu_closestream, ~ehflag_normaltidy, NULL, 0, 1, nf);
+	file = atomic_file_new(trk_explicit_fn.buf, 0);
+	atomic_file_open(file);
 
 	while (trk_explicit_f && trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
 		int len = strlen(pkg->set->name);
 		if (strncmp(buf, pkg->set->name, len) == 0 &&
 		    (buf[len] == '\0' || buf[len] == '/'))
 			continue;
-		fprintf(nf, "%s\n", buf);
+		fprintf(file->fp, "%s\n", buf);
 		empty = false;
 	}
 	if (signum > 0) {
-		fprintf(nf, "%s%s\n", pkg->set->name,
+		fprintf(file->fp, "%s%s\n", pkg->set->name,
 		        (opts == trig_noawait) ? "/noawait" : "");
 		empty = false;
 	}
 
 	if (!empty)
-		trk_explicit_interest_flush(newfn.buf, nf);
+		atomic_file_sync(file);
 
-	pop_cleanup(ehflag_normaltidy);
-	if (fclose(nf))
-		ohshite(_("unable to close new trigger interest file `%.250s'"),
-		        newfn.buf);
+	atomic_file_close(file);
 
 	if (empty)
-		trk_explicit_interest_remove(newfn.buf);
+		atomic_file_remove(file);
 	else
-		trk_explicit_interest_commit(newfn.buf);
+		atomic_file_commit(file);
+
+	atomic_file_free(file);
 
 	dir_sync_path(triggersdir);
 }
@@ -476,36 +437,20 @@ static void
 trig_file_interests_update(void)
 {
 	struct trigfileint *tfi;
-	FILE *nf;
+	struct atomic_file *file;
 
-	nf = fopen(triggersnewfilefile, "w");
-	if (!nf)
-		ohshite(_("unable to create new file triggers file `%.250s'"),
-		        triggersnewfilefile);
-	push_cleanup(cu_closestream, ~ehflag_normaltidy, NULL, 0, 1, nf);
+	file = atomic_file_new(triggersfilefile, 0);
+	atomic_file_open(file);
 
 	for (tfi = filetriggers.head; tfi; tfi = tfi->inoverall.next)
-		fprintf(nf, "%s %s%s\n", trigh.namenode_name(tfi->fnn),
+		fprintf(file->fp, "%s %s%s\n", trigh.namenode_name(tfi->fnn),
 		        tfi->pkg->set->name,
 		        (tfi->options == trig_noawait) ? "/noawait" : "");
 
-	if (ferror(nf))
-		ohshite(_("unable to write new file triggers file `%.250s'"),
-		        triggersnewfilefile);
-	if (fflush(nf))
-		ohshite(_("unable to flush new file triggers file '%.250s'"),
-		        triggersnewfilefile);
-	if (fsync(fileno(nf)))
-		ohshite(_("unable to sync new file triggers file '%.250s'"),
-		        triggersnewfilefile);
-	pop_cleanup(ehflag_normaltidy);
-	if (fclose(nf))
-		ohshite(_("unable to close new file triggers file `%.250s'"),
-		        triggersnewfilefile);
-
-	if (rename(triggersnewfilefile, triggersfilefile))
-		ohshite(_("unable to install new file triggers file as `%.250s'"),
-		        triggersfilefile);
+	atomic_file_sync(file);
+	atomic_file_close(file);
+	atomic_file_commit(file);
+	atomic_file_free(file);
 }
 
 void
@@ -755,9 +700,6 @@ trig_incorporate(enum modstatdb_rw cstatus)
 
 	free(triggersfilefile);
 	triggersfilefile = trig_get_filename(triggersdir, "File");
-
-	free(triggersnewfilefile);
-	triggersnewfilefile = trig_get_filename(triggersdir, "File.new");
 
 	trigdef_set_methods(&tdm_incorp);
 	trig_file_interests_ensure();

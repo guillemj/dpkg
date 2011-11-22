@@ -343,19 +343,15 @@ diversion_describe(struct diversion *d)
 static void
 divertdb_write(void)
 {
-	char *dbname, *dbname_new, *dbname_old;
-	FILE *dbfile;
+	char *dbname;
+	struct atomic_file *file;
 	struct fileiterator *iter;
 	struct filenamenode *namenode;
 
 	dbname = dpkg_db_get_path(DIVERSIONSFILE);
-	m_asprintf(&dbname_new, "%s%s", dbname, NEWDBEXT);
-	m_asprintf(&dbname_old, "%s%s", dbname, OLDDBEXT);
 
-	dbfile = fopen(dbname_new, "w");
-	if (!dbfile)
-		ohshite(_("cannot create new %s file"), DIVERSIONSFILE);
-	chmod(dbname_new, 0644);
+	file = atomic_file_new(dbname, aff_backup);
+	atomic_file_open(file);
 
 	iter = iterfilestart();
 	while ((namenode = iterfilenext(iter))) {
@@ -364,30 +360,19 @@ divertdb_write(void)
 		if (d == NULL || d->useinstead == NULL)
 			continue;
 
-		fprintf(dbfile, "%s\n%s\n%s\n",
+		fprintf(file->fp, "%s\n%s\n%s\n",
 		        d->useinstead->divert->camefrom->name,
 		        d->useinstead->name,
 		        diversion_pkg_name(d));
 	}
 	iterfileend(iter);
 
-	if (fflush(dbfile))
-		ohshite(_("unable to flush file '%s'"), dbname_new);
-	if (fsync(fileno(dbfile)))
-		ohshite(_("unable to sync file '%s'"), dbname_new);
-	if (fclose(dbfile))
-		ohshite(_("unable to close file '%s'"), dbname_new);
-
-	if (unlink(dbname_old) && errno != ENOENT)
-		ohshite(_("error removing old diversions-old"));
-	if (link(dbname, dbname_old) && errno != ENOENT)
-		ohshite(_("error creating new diversions-old"));
-	if (rename(dbname_new, dbname))
-		ohshite(_("error installing new diversions"));
+	atomic_file_sync(file);
+	atomic_file_close(file);
+	atomic_file_commit(file);
+	atomic_file_free(file);
 
 	free(dbname);
-	free(dbname_new);
-	free(dbname_old);
 }
 
 static int

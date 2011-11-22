@@ -193,43 +193,28 @@ statdb_node_print(FILE *out, struct filenamenode *file)
 static void
 statdb_write(void)
 {
-	char *dbname, *dbname_new, *dbname_old;
-	FILE *dbfile;
+	char *dbname;
+	struct atomic_file *dbfile;
 	struct fileiterator *i;
 	struct filenamenode *file;
 
 	dbname = dpkg_db_get_path(STATOVERRIDEFILE);
-	m_asprintf(&dbname_new, "%s%s", dbname, NEWDBEXT);
-	m_asprintf(&dbname_old, "%s%s", dbname, OLDDBEXT);
-
-	dbfile = fopen(dbname_new, "w");
-	if (!dbfile)
-		ohshite(_("cannot open new statoverride file"));
+	dbfile = atomic_file_new(dbname, aff_backup);
+	atomic_file_open(dbfile);
 
 	i = iterfilestart();
 	while ((file = iterfilenext(i)))
-		statdb_node_print(dbfile, file);
+		statdb_node_print(dbfile->fp, file);
 	iterfileend(i);
 
-	if (fflush(dbfile))
-		ohshite(_("unable to flush file '%s'"), dbname_new);
-	if (fsync(fileno(dbfile)))
-		ohshite(_("unable to sync file '%s'"), dbname_new);
-	fclose(dbfile);
-
-	chmod(dbname_new, 0644);
-	if (unlink(dbname_old) && errno != ENOENT)
-		ohshite(_("error removing statoverride-old"));
-	if (link(dbname, dbname_old) && errno != ENOENT)
-		ohshite(_("error creating new statoverride-old"));
-	if (rename(dbname_new, dbname))
-		ohshite(_("error installing new statoverride"));
+	atomic_file_sync(dbfile);
+	atomic_file_close(dbfile);
+	atomic_file_commit(dbfile);
+	atomic_file_free(dbfile);
 
 	dir_sync_path(dpkg_db_get_dir());
 
 	free(dbname);
-	free(dbname_new);
-	free(dbname_old);
 }
 
 static int

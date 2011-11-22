@@ -35,8 +35,6 @@ DPKG_BEGIN_DECLS
 #define MAXDIVERTFILENAME   1024
 #define MAXCONTROLFILENAME  100
 #define DEBEXT             ".deb"
-#define OLDDBEXT           "-old"
-#define NEWDBEXT           "-new"
 #define REMOVECONFFEXTS    "~", ".bak", "%", \
                            DPKGTEMPEXT, DPKGNEWEXT, DPKGOLDEXT, DPKGDISTEXT
 

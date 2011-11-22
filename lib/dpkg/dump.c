@@ -450,23 +450,15 @@ writedb(const char *filename, enum writedb_flags flags)
   struct pkgiterator *it;
   struct pkginfo *pigp;
   struct pkgbin *pifp;
-  char *oldfn, *newfn;
   const char *which;
-  FILE *file;
+  struct atomic_file *file;
   struct varbuf vb = VARBUF_INIT;
-  int old_umask;
 
   which = (flags & wdb_dump_available) ? "available" : "status";
-  m_asprintf(&oldfn, "%s%s", filename, OLDDBEXT);
-  m_asprintf(&newfn, "%s%s", filename, NEWDBEXT);
 
-  old_umask = umask(022);
-  file= fopen(newfn,"w");
-  umask(old_umask);
-  if (!file)
-    ohshite(_("failed to open '%s' for writing %s database"), filename, which);
-
-  if (setvbuf(file,writebuf,_IOFBF,sizeof(writebuf)))
+  file = atomic_file_new(filename, aff_backup);
+  atomic_file_open(file);
+  if (setvbuf(file->fp, writebuf, _IOFBF, sizeof(writebuf)))
     ohshite(_("unable to set buffering on %s database file"), which);
 
   it = pkg_db_iter_new();
@@ -478,33 +470,20 @@ writedb(const char *filename, enum writedb_flags flags)
     varbufrecord(&vb,pigp,pifp);
     varbuf_add_char(&vb, '\n');
     varbuf_end_str(&vb);
-    if (fputs(vb.buf,file) < 0)
+    if (fputs(vb.buf, file->fp) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
               which, pigp->set->name, filename);
     varbuf_reset(&vb);
   }
   pkg_db_iter_free(it);
   varbuf_destroy(&vb);
-  if (flags & wdb_must_sync) {
-    if (fflush(file))
-      ohshite(_("failed to flush %s database to '%.250s'"), which, filename);
-    if (fsync(fileno(file)))
-      ohshite(_("failed to fsync %s database to '%.250s'"), which, filename);
-  }
-  if (fclose(file))
-    ohshite(_("failed to close '%.250s' after writing %s database"),
-            filename, which);
-  unlink(oldfn);
-  if (link(filename,oldfn) && errno != ENOENT)
-    ohshite(_("failed to link '%.250s' to '%.250s' for backup of %s database"),
-            filename, oldfn, which);
-  if (rename(newfn,filename))
-    ohshite(_("failed to install '%.250s' as '%.250s' containing %s database"),
-            newfn, filename, which);
+  if (flags & wdb_must_sync)
+    atomic_file_sync(file);
+
+  atomic_file_close(file);
+  atomic_file_commit(file);
+  atomic_file_free(file);
 
   if (flags & wdb_must_sync)
     dir_sync_path_parent(filename);
-
-  free(newfn);
-  free(oldfn);
 }
