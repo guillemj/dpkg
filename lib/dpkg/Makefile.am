@@ -26,6 +26,7 @@ libdpkg_a_SOURCES = \
 	dlist.h \
 	ar.c \
 	arch.c \
+	atomic-file.c \
 	buffer.c \
 	cleanup.c \
 	command.c \
@@ -77,6 +78,7 @@ libdpkg_a_SOURCES = \
 pkginclude_HEADERS = \
 	ar.h \
 	arch.h \
+	atomic-file.h \
 	buffer.h \
 	command.h \
 	compress.h \
