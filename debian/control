@@ -16,35 +16,6 @@ Build-Depends: debhelper (>= 7), pkg-config, flex,
  libncursesw5-dev,
  libtimedate-perl, libio-string-perl
 
-Package: libdpkg-dev
-Section: libdevel
-Priority: optional
-Architecture: any
-Depends: ${misc:Depends}
-Description: Debian package management static library
- This package provides the header files and static library necessary to
- develop software using libdpkg, the same library used internally by dpkg.
- .
- Note though, that the API is to be considered volatile, and might change
- at any time, use at your own risk.
-
-Package: dpkg
-Architecture: any
-Essential: yes
-Pre-Depends: ${shlibs:Depends}, coreutils (>= 5.93-1), xz-utils
-Depends: ${misc:Depends}
-Breaks: dpkg-dev (<< 1.15.8), libdpkg-perl (<< 1.15.8),
- apt (<< 0.7.7), aptitude (<< 0.4.7-1),
-# install-info transition
-# see http://wiki.debian.org/Transitions/DpkgToGnuInstallInfo
- tkinfo (<< 2.8-3.1), pinfo (<< 0.6.9-3.1)
-Suggests: apt
-Description: Debian package management system
- This package provides the low-level infrastructure for handling the
- installation and removal of Debian software packages.
- .
- For Debian package development tools, install dpkg-dev.
-
 Package: dpkg-dev
 Section: utils
 Priority: optional
@@ -94,17 +65,3 @@ Description: Dpkg perl modules
  .
  All the packages listed in Suggests or Recommends are used by some of the
  modules.
-
-Package: dselect
-Priority: optional
-Architecture: any
-Depends: ${shlibs:Depends}, dpkg (>= 1.13.1), ${misc:Depends}
-Suggests: perl
-Conflicts: dpkg-ftp, dpkg-multicd
-Replaces: dpkg-ftp, dpkg-multicd
-Description: Debian package management front-end
- dselect is a high-level interface for managing the installation and
- removal of Debian software packages.
- .
- Many users find dselect intimidating and new users may prefer to use
- apt-based user interfaces.
