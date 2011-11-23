@@ -72,7 +72,7 @@ PO4A_V = $(PO4A_V_$(V))
 PO4A_V_ = $(PO4A_V_$(AM_DEFAULT_VERBOSITY))
 PO4A_V_0 = @echo "  PO4A   $@";
 
-PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(CURDIR) --no-backups
+PO4A_OPTS = --previous --variable builddir=$(CURDIR) --no-backups
 
 all-local: all-local-@USE_PO4A@
 
@@ -81,7 +81,8 @@ all-local-yes: man.stamp
 
 # FIXME: Use a stamp file until po4a supports them internally.
 man.stamp:
-	$(PO4A_V) $(PO4A) $(PO4A_OPTS) $(srcdir)/po/po4a.cfg
+	$(PO4A_V) cd $(srcdir) && \
+	$(PO4A) $(PO4A_OPTS) po/po4a.cfg
 	$(AM_V_at) touch $@
 
 clean-local: clean-local-@USE_PO4A@
@@ -94,7 +95,8 @@ clean-local-yes:
 .PHONY: update-po
 
 update-po:
-	$(PO4A_V) $(PO4A) $(PO4A_OPTS) --force $(srcdir)/po/po4a.cfg
+	$(PO4A_V) cd $(srcdir) && \
+	$(PO4A) $(PO4A_OPTS) --force po/po4a.cfg
 
 install-data-local: install-data-local-@USE_PO4A@
 

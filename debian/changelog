@@ -2,6 +2,10 @@ dpkg (1.16.1.1~bpo60+2) UNRELEASED; urgency=low
 
   * Only build dpkg-dev and libdpkg-perl as discussed with the backports
     team: http://lists.debian.org/debian-backports/2011/11/msg00030.html
+  * Revert usage of po4a --srcdir --destdir since the squeeze version
+    does not work as expected (it fails with “The 'deb.5' master file does
+    not exist.” since the switch to srcdir happens too late in the code,
+    the wheezy version does not have this problem).
 
  -- Raphaël Hertzog <hertzog@debian.org>  Wed, 23 Nov 2011 13:48:47 +0100
 
@@ -264,8 +268,6 @@ dpkg (1.16.1) unstable; urgency=low
     maintainer scripts due to that.
   * Use the user name (instead of the user id) when setting the supplementary
     groups in start-stop-daemon. Closes: #641834
-  * Use --srcdir and --destdir po4a options, and bump Build-Depends version
-    to 0.36.4.
 
   [ Updated dpkg translations ]
   * German (Sven Joachim). Closes: #620312
