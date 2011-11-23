@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2011-10-31 21:15+0100\n"
-"PO-Revision-Date: 2011-10-31 21:16+0100\n"
+"POT-Creation-Date: 2011-11-23 18:14+0100\n"
+"PO-Revision-Date: 2011-11-23 18:33+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: scripts/dpkg-architecture.pl:37 scripts/dpkg-buildflags.pl:31
-#: scripts/dpkg-buildpackage.pl:37 scripts/dpkg-checkbuilddeps.pl:36
+#: scripts/dpkg-buildpackage.pl:37 scripts/dpkg-checkbuilddeps.pl:37
 #: scripts/dpkg-distaddfile.pl:34 scripts/dpkg-genchanges.pl:96
 #: scripts/dpkg-gencontrol.pl:57 scripts/dpkg-gensymbols.pl:49
 #: scripts/dpkg-mergechangelogs.pl:53 scripts/dpkg-name.pl:46
@@ -104,7 +104,7 @@ msgstr "%s är inte ett variabelnamn som stöds"
 
 #: scripts/dpkg-architecture.pl:169 scripts/dpkg-buildflags.pl:91
 #: scripts/dpkg-distaddfile.pl:69 scripts/dpkg-genchanges.pl:194
-#: scripts/dpkg-gencontrol.pl:134 scripts/dpkg-gensymbols.pl:141
+#: scripts/dpkg-gencontrol.pl:134 scripts/dpkg-gensymbols.pl:144
 #: scripts/dpkg-parsechangelog.pl:113 scripts/dpkg-shlibdeps.pl:119
 #, perl-format
 msgid "unknown option `%s'"
@@ -461,12 +461,12 @@ msgstr "Misslyckades att signera .changes-fil"
 msgid "unable to determine %s"
 msgstr "kan inte bestämma %s"
 
-#: scripts/dpkg-checkbuilddeps.pl:42
+#: scripts/dpkg-checkbuilddeps.pl:43
 #, perl-format
 msgid "Usage: %s [<option>...] [<control-file>]"
 msgstr "Användning: %s [<flagga>...] [<control-fil>]"
 
-#: scripts/dpkg-checkbuilddeps.pl:44
+#: scripts/dpkg-checkbuilddeps.pl:45
 msgid ""
 "Options:\n"
 "  -B             binary-only, ignore -Indep.\n"
@@ -474,6 +474,7 @@ msgid ""
 "                 retrieving them from control file\n"
 "  -c build-conf  use given string for build conflicts instead of\n"
 "                 retrieving them from control file\n"
+"  -a arch        assume given host architecture\n"
 "  --admindir=<directory>\n"
 "                 change the administrative directory.\n"
 "  -h, --help     show this help message.\n"
@@ -485,28 +486,29 @@ msgstr ""
 "                 för att hämta dem från styrfilen\n"
 "  -c byggkonfl.  använd den givna strängen som byggkonflikter istället\n"
 "                 för att hämta dem från styrfilen\n"
+"  -a ark         anta den angivna värdarkitekturen\n"
 "  --admindir=<katalog>\n"
 "                 välj administrativ katalog.\n"
 "  -h, --help     visa detta hjälpmeddelande.\n"
 "      --verison  visa verisonen."
 
-#: scripts/dpkg-checkbuilddeps.pl:55
+#: scripts/dpkg-checkbuilddeps.pl:57
 msgid ""
 "<control-file> is the control file to process (default: debian/control)."
 msgstr ""
 "<control-fil> är styrfilen som skall hanteras (standard: debian/control)."
 
-#: scripts/dpkg-checkbuilddeps.pl:105
+#: scripts/dpkg-checkbuilddeps.pl:111
 #, perl-format
 msgid "%s: Unmet build dependencies: "
 msgstr "%s: Ej uppfyllda byggberoenden: "
 
-#: scripts/dpkg-checkbuilddeps.pl:109
+#: scripts/dpkg-checkbuilddeps.pl:115
 #, perl-format
 msgid "%s: Build conflicts: "
 msgstr "%s: Byggkonflikter: "
 
-#: scripts/dpkg-checkbuilddeps.pl:120 scripts/dpkg-name.pl:96
+#: scripts/dpkg-checkbuilddeps.pl:126 scripts/dpkg-name.pl:96
 #: scripts/Dpkg/Arch.pm:142 scripts/Dpkg/Arch.pm:161 scripts/Dpkg/Arch.pm:180
 #: scripts/Dpkg/Changelog/Parse.pm:142 scripts/Dpkg/IPC.pm:247
 #: scripts/Dpkg/Shlibs.pm:83 scripts/Dpkg/Source/Package.pm:193
@@ -514,7 +516,7 @@ msgstr "%s: Byggkonflikter: "
 msgid "cannot open %s"
 msgstr "kan inte öppna %s"
 
-#: scripts/dpkg-checkbuilddeps.pl:187 scripts/dpkg-source.pl:253
+#: scripts/dpkg-checkbuilddeps.pl:191 scripts/dpkg-source.pl:253
 #, perl-format
 msgid "error occurred while parsing %s"
 msgstr "fel vid tolkning av %s"
@@ -753,7 +755,7 @@ msgid "missing Priority for source files"
 msgstr "\"Priority\" saknas för källfiler"
 
 #: scripts/dpkg-genchanges.pl:398 scripts/dpkg-source.pl:346
-#: scripts/Dpkg/Vendor.pm:71
+#: scripts/Dpkg/Vendor.pm:76
 #, perl-format
 msgid "%s is empty"
 msgstr "%s är tom"
@@ -842,7 +844,7 @@ msgstr ""
 "  -h, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
-#: scripts/dpkg-gencontrol.pl:98 scripts/dpkg-gensymbols.pl:118
+#: scripts/dpkg-gencontrol.pl:98 scripts/dpkg-gensymbols.pl:121
 #, perl-format
 msgid "Illegal package name `%s'"
 msgstr "ogiltigt paketnamn \"%s\""
@@ -852,11 +854,11 @@ msgstr "ogiltigt paketnamn \"%s\""
 msgid "package %s not in control info"
 msgstr "paketet %s inte i styrinfo"
 
-#: scripts/dpkg-gencontrol.pl:157 scripts/dpkg-gensymbols.pl:159
+#: scripts/dpkg-gencontrol.pl:157 scripts/dpkg-gensymbols.pl:162
 msgid "no package stanza found in control info"
 msgstr "paketstrof saknas i styrinfo"
 
-#: scripts/dpkg-gencontrol.pl:159 scripts/dpkg-gensymbols.pl:161
+#: scripts/dpkg-gencontrol.pl:159 scripts/dpkg-gensymbols.pl:164
 #, perl-format
 msgid "must specify package since control info has many (%s)"
 msgstr "måste ange paket eftersom styrinfo har flera (%s)"
@@ -1017,54 +1019,59 @@ msgstr ""
 "  -h, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
-#: scripts/dpkg-gensymbols.pl:197
+#: scripts/dpkg-gensymbols.pl:117
+#, perl-format
+msgid "pattern '%s' did not match any file"
+msgstr "mönstret \"%s\" motsvarade inte någon fil"
+
+#: scripts/dpkg-gensymbols.pl:200
 #, perl-format
 msgid "Can't read directory %s: %s"
 msgstr "kan inte läsa katalogen %s: %s"
 
-#: scripts/dpkg-gensymbols.pl:212
+#: scripts/dpkg-gensymbols.pl:215
 #, perl-format
 msgid "Objdump couldn't parse %s\n"
 msgstr "objdump kunde inte tolka %s\n"
 
-#: scripts/dpkg-gensymbols.pl:230
+#: scripts/dpkg-gensymbols.pl:233
 msgid "<standard output>"
 msgstr "<standard ut>"
 
-#: scripts/dpkg-gensymbols.pl:258
+#: scripts/dpkg-gensymbols.pl:261
 #, perl-format
 msgid "new libraries appeared in the symbols file: %s"
 msgstr "nya bibliotek dök upp i symbolfilen: %s"
 
-#: scripts/dpkg-gensymbols.pl:263
+#: scripts/dpkg-gensymbols.pl:266
 #, perl-format
 msgid "some libraries disappeared in the symbols file: %s"
 msgstr "några bibliotek försvann ur symbolfilen: %s"
 
-#: scripts/dpkg-gensymbols.pl:268
+#: scripts/dpkg-gensymbols.pl:271
 #, perl-format
 msgid "some new symbols appeared in the symbols file: %s"
 msgstr "några nya symboler dök upp i symbolfilen: %s"
 
-#: scripts/dpkg-gensymbols.pl:269 scripts/dpkg-gensymbols.pl:274
+#: scripts/dpkg-gensymbols.pl:272 scripts/dpkg-gensymbols.pl:277
 msgid "see diff output below"
 msgstr "se diff-utdata nedan"
 
-#: scripts/dpkg-gensymbols.pl:273
+#: scripts/dpkg-gensymbols.pl:276
 #, perl-format
 msgid "some symbols or patterns disappeared in the symbols file: %s"
 msgstr "några symboler eller mönster försvann ur symbolfilen: %s"
 
-#: scripts/dpkg-gensymbols.pl:294
+#: scripts/dpkg-gensymbols.pl:297
 msgid "the generated symbols file is empty"
 msgstr "den genererade \"symbols\"-filen är tom"
 
-#: scripts/dpkg-gensymbols.pl:296
+#: scripts/dpkg-gensymbols.pl:299
 #, perl-format
 msgid "%s doesn't match completely %s"
 msgstr "%s stämmer inte helt överens med %s"
 
-#: scripts/dpkg-gensymbols.pl:299
+#: scripts/dpkg-gensymbols.pl:302
 #, perl-format
 msgid "no debian/symbols file used as basis for generating %s"
 msgstr "använde ingen debian/symbols-fil som grund för att generera %s"
