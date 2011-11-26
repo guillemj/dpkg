@@ -162,6 +162,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
   pkg->clientdata->color = white;
   pkg->clientdata->fileslistvalid = false;
   pkg->clientdata->files = NULL;
+  pkg->clientdata->replacingfilesandsaid = 0;
   pkg->clientdata->listfile_phys_offs = 0;
   pkg->clientdata->trigprocdeferred = NULL;
 }
