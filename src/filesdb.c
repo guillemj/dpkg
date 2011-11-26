@@ -325,6 +325,10 @@ ensure_packagefiles_available(struct pkginfo *pkg)
      ohshite(_("unable to stat files list file for package '%.250s'"),
              pkg->set->name);
 
+  if (!S_ISREG(stat_buf.st_mode))
+    ohshit(_("files list for package '%.250s' is not a regular file"),
+           pkg->set->name);
+
    if (stat_buf.st_size) {
      loaded_list = nfmalloc(stat_buf.st_size);
      loaded_list_end = loaded_list + stat_buf.st_size;
