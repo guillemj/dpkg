@@ -480,7 +480,6 @@ int
 print_foreign_arches(const char *const *argv)
 {
   struct dpkg_arch *arch;
-  const char *sep = "";
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
@@ -488,10 +487,9 @@ print_foreign_arches(const char *const *argv)
   for (arch = dpkg_arch_get_list(); arch; arch = arch->next) {
     if (arch->type != arch_foreign)
       continue;
-    printf("%s%s", sep, arch->name);
-    sep = " ";
+
+    printf("%s\n", arch->name);
   }
-  printf("\n");
 
   m_output(stdout, _("<standard output>"));
 
