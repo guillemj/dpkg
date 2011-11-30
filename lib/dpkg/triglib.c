@@ -577,22 +577,24 @@ trig_cicb_interest_change(const char *trig, struct pkginfo *pkg, int signum,
 }
 
 void
-trig_cicb_interest_delete(const char *trig, void *user, enum trig_options opts)
+trig_cicb_interest_delete(const char *trig, struct pkginfo *pkg,
+                          enum trig_options opts)
 {
-	trig_cicb_interest_change(trig, user, -1, opts);
+	trig_cicb_interest_change(trig, pkg, -1, opts);
 }
 
 void
-trig_cicb_interest_add(const char *trig, void *user, enum trig_options opts)
+trig_cicb_interest_add(const char *trig, struct pkginfo *pkg,
+                       enum trig_options opts)
 {
-	trig_cicb_interest_change(trig, user, +1, opts);
+	trig_cicb_interest_change(trig, pkg, +1, opts);
 }
 
 void
-trig_cicb_statuschange_activate(const char *trig, void *user,
+trig_cicb_statuschange_activate(const char *trig, struct pkginfo *pkg,
                                 enum trig_options opts)
 {
-	struct pkginfo *aw = user;
+	struct pkginfo *aw = pkg;
 
 	trig_activate_start(trig);
 	dtki->activate_awaiter((opts == trig_noawait) ? NULL : aw);
@@ -601,7 +603,8 @@ trig_cicb_statuschange_activate(const char *trig, void *user,
 
 static void
 parse_ci_call(const char *file, const char *cmd, trig_parse_cicb *cb,
-              const char *trig, void *user, enum trig_options opts)
+              const char *trig, struct pkginfo *pkg,
+              enum trig_options opts)
 {
 	const char *emsg;
 
@@ -611,12 +614,12 @@ parse_ci_call(const char *file, const char *cmd, trig_parse_cicb *cb,
 		         "syntax in trigger name `%.250s': %.250s"),
 		       file, trig, emsg);
 	if (cb)
-		cb(trig, user, opts);
+		cb(trig, pkg, opts);
 }
 
 void
 trig_parse_ci(const char *file, trig_parse_cicb *interest,
-              trig_parse_cicb *activate, void *user)
+              trig_parse_cicb *activate, struct pkginfo *pkg)
 {
 	FILE *f;
 	char linebuf[MAXTRIGDIRECTIVE], *cmd, *spc, *eol;
@@ -646,13 +649,13 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		while (cisspace(*spc))
 			spc++;
 		if (!strcmp(cmd, "interest")) {
-			parse_ci_call(file, cmd, interest, spc, user, trig_await);
+			parse_ci_call(file, cmd, interest, spc, pkg, trig_await);
 		} else if (!strcmp(cmd, "interest-noawait")) {
-			parse_ci_call(file, cmd, interest, spc, user, trig_noawait);
+			parse_ci_call(file, cmd, interest, spc, pkg, trig_noawait);
 		} else if (!strcmp(cmd, "activate")) {
-			parse_ci_call(file, cmd, activate, spc, user, trig_await);
+			parse_ci_call(file, cmd, activate, spc, pkg, trig_await);
 		} else if (!strcmp(cmd, "activate-noawait")) {
-			parse_ci_call(file, cmd, activate, spc, user, trig_noawait);
+			parse_ci_call(file, cmd, activate, spc, pkg, trig_noawait);
 		} else {
 			ohshit(_("triggers ci file contains unknown directive `%.250s'"),
 			       cmd);
