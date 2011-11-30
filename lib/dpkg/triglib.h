@@ -45,6 +45,7 @@ enum trig_options {
 
 struct trigfileint {
 	struct pkginfo *pkg;
+	struct pkgbin *pkgbin;
 	struct filenamenode *fnn;
 	enum trig_options options;
 	struct trigfileint *samefile_next;
@@ -95,15 +96,16 @@ void trig_file_interests_ensure(void);
 void trig_file_interests_save(void);
 
 typedef void trig_parse_cicb(const char *trig, struct pkginfo *pkg,
-                             enum trig_options to);
+                             struct pkgbin *pkgbin, enum trig_options to);
 void trig_cicb_interest_delete(const char *trig, struct pkginfo *pkg,
-                               enum trig_options to);
+                             struct pkgbin *pkgbin, enum trig_options to);
 void trig_cicb_interest_add(const char *trig, struct pkginfo *pkg,
-                            enum trig_options to);
+                             struct pkgbin *pkgbin, enum trig_options to);
 void trig_cicb_statuschange_activate(const char *trig, struct pkginfo *pkg,
-                                     enum trig_options to);
+                             struct pkgbin *pkgbin, enum trig_options to);
 void trig_parse_ci(const char *file, trig_parse_cicb *interest,
-                   trig_parse_cicb *activate, struct pkginfo *pkg);
+                   trig_parse_cicb *activate, struct pkginfo *pkg,
+                   struct pkgbin *pkgbin);
 
 void trig_incorporate(enum modstatdb_rw cstatus);
 

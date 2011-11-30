@@ -293,7 +293,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
                                 "remove", NULL);
 
     trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
-                  trig_cicb_interest_delete, NULL, pkg);
+                  trig_cicb_interest_delete, NULL, pkg, &pkg->installed);
     trig_file_interests_save();
 
     debug(dbg_general, "removal_bulk cleaning info directory");

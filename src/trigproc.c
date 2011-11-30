@@ -136,7 +136,7 @@ trig_activate_packageprocessing(struct pkginfo *pkg)
 	      pkg->set->name);
 
 	trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE), NULL,
-	              trig_cicb_statuschange_activate, pkg);
+	              trig_cicb_statuschange_activate, pkg, &pkg->installed);
 }
 
 /*========== Actual trigger processing. ==========*/
@@ -351,7 +351,7 @@ trigproc(struct pkginfo *pkg)
 
 static void
 transitional_interest_callback_ro(const char *trig, struct pkginfo *pkg,
-                                  enum trig_options opts)
+                                  struct pkgbin *pkgbin, enum trig_options opts)
 {
 	struct pkginfo *pend = pkg;
 
@@ -364,12 +364,13 @@ transitional_interest_callback_ro(const char *trig, struct pkginfo *pkg,
 
 static void
 transitional_interest_callback(const char *trig, struct pkginfo *pkg,
-                               enum trig_options opts)
+                               struct pkgbin *pkgbin, enum trig_options opts)
 {
 	struct pkginfo *pend = pkg;
+	struct pkgbin *pendbin = pkgbin;
 
-	trig_cicb_interest_add(trig, pend, opts);
-	transitional_interest_callback_ro(trig, pend, opts);
+	trig_cicb_interest_add(trig, pend, pendbin, opts);
+	transitional_interest_callback_ro(trig, pend, pendbin, opts);
 }
 
 /*
@@ -393,7 +394,8 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
 		              cstatus >= msdbrw_write ?
 		              transitional_interest_callback :
-		              transitional_interest_callback_ro, NULL, pkg);
+		              transitional_interest_callback_ro, NULL,
+		              pkg, &pkg->installed);
 		/* Ensure we're not creating incoherent data that can't
 		 * be written down. This should never happen in theory but
 		 * can happen if you restore an old status file that is

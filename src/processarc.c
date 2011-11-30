@@ -571,7 +571,7 @@ void process_archive(const char *filename) {
 
   trig_activate_packageprocessing(pkg);
   strcpy(cidirrest, TRIGGERSCIFILE);
-  trig_parse_ci(cidir, NULL, trig_cicb_statuschange_activate, pkg);
+  trig_parse_ci(cidir, NULL, trig_cicb_statuschange_activate, pkg, &pkg->available);
 
   /* Read the conffiles, and copy the hashes across. */
   newconffiles = NULL;
@@ -1048,8 +1048,8 @@ void process_archive(const char *filename) {
    * Then we go through the new list adding them. */
   strcpy(cidirrest, TRIGGERSCIFILE);
   trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
-                trig_cicb_interest_delete, NULL, pkg);
-  trig_parse_ci(cidir, trig_cicb_interest_add, NULL, pkg);
+                trig_cicb_interest_delete, NULL, pkg, &pkg->installed);
+  trig_parse_ci(cidir, trig_cicb_interest_add, NULL, pkg, &pkg->available);
   trig_file_interests_save();
 
   /* We also install the new maintainer scripts, and any other
