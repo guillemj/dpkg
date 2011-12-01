@@ -30,6 +30,7 @@ DPKG_BEGIN_DECLS
 
 enum dpkg_arch_type {
 	arch_none,
+	arch_empty,
 	arch_illegal,
 	arch_wildcard,
 	arch_all,

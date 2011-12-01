@@ -90,13 +90,16 @@ test_dpkg_arch_find(void)
 	test_pass(arch->type == arch_wildcard);
 	test_pass(dpkg_arch_get(arch_wildcard) == arch);
 
-	/* Empty architectures are marked none. */
+	/* Test missing architecture. */
 	arch = dpkg_arch_find(NULL);
 	test_pass(arch->type == arch_none);
 	test_pass(dpkg_arch_get(arch_none) == arch);
 	test_str(arch->name, ==, "");
+
+	/* Test empty architectures. */
 	arch = dpkg_arch_find("");
-	test_pass(arch->type == arch_none);
+	test_pass(arch->type == arch_empty);
+	test_pass(dpkg_arch_get(arch_empty) == arch);
 	test_str(arch->name, ==, "");
 
 	/* Test for an unknown type. */

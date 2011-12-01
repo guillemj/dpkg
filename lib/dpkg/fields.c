@@ -181,9 +181,6 @@ f_architecture(struct pkginfo *pigp, struct pkgbin *pifp,
                struct parsedb_state *ps,
                const char *value, const struct fieldinfo *fip)
 {
-  if (!*value)
-    return;
-
   pifp->arch = dpkg_arch_find(value);
   if (pifp->arch->type == arch_illegal)
     parse_warn(ps, _("'%s' is not a valid architecture name: %s"),

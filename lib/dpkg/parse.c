@@ -195,12 +195,12 @@ pkg_parse_verify(struct parsedb_state *ps,
     /* We always want usable architecture information (as long as the package
      * is in such a state that it make sense), so that it can be used safely
      * on string comparisons and the like. */
-    if (pkgbin->arch == NULL)
+    if (pkgbin->arch->type == arch_none)
       parse_warn(ps, _("missing %s"), "architecture");
-    else if (pkgbin->arch->type == arch_none)
+    else if (pkgbin->arch->type == arch_empty)
       parse_warn(ps, _("empty value for %s"), "architecture");
   }
-  if (pkgbin->arch == NULL)
+  if (pkgbin->arch->type == arch_empty)
     pkgbin->arch = dpkg_arch_get(arch_none);
 
   if (pkgbin->arch->type == arch_all && pkgbin->multiarch == multiarch_same)

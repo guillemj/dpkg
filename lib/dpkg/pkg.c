@@ -39,7 +39,7 @@ pkgbin_blank(struct pkgbin *pkgbin)
 	pkgbin->installedsize = NULL;
 	pkgbin->bugs = NULL;
 	pkgbin->origin = NULL;
-	pkgbin->arch = NULL;
+	pkgbin->arch = dpkg_arch_get(arch_none);
 	blankversion(&pkgbin->version);
 	pkgbin->conffiles = NULL;
 	pkgbin->arbs = NULL;

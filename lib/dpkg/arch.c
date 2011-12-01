@@ -75,6 +75,11 @@ static struct dpkg_arch arch_item_none = {
 	.type = arch_none,
 	.next = NULL,
 };
+static struct dpkg_arch arch_item_empty = {
+	.name = "",
+	.type = arch_empty,
+	.next = NULL,
+};
 
 static struct dpkg_arch arch_item_any = {
 	.name = "any",
@@ -122,8 +127,10 @@ dpkg_arch_find(const char *name)
 	struct dpkg_arch *arch, *last_arch = NULL;
 	enum dpkg_arch_type type;
 
-	if (name == NULL || name[0] == '\0')
+	if (name == NULL)
 		return &arch_item_none;
+	if (name[0] == '\0')
+		return &arch_item_empty;
 
 	for (arch = arch_list; arch; arch = arch->next) {
 		if (strcmp(arch->name, name) == 0)
@@ -154,6 +161,8 @@ dpkg_arch_get(enum dpkg_arch_type type)
 	switch (type) {
 	case arch_none:
 		return &arch_item_none;
+	case arch_empty:
+		return &arch_item_empty;
 	case arch_wildcard:
 		return &arch_item_any;
 	case arch_all:
