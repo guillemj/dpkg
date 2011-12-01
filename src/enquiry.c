@@ -461,7 +461,7 @@ printarch(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  printf("%s\n", dpkg_arch_get_native()->name);
+  printf("%s\n", dpkg_arch_get(arch_native)->name);
 
   m_output(stdout, _("<standard output>"));
 

@@ -455,7 +455,7 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
                  fip->integer == dep_replaces) {
         /* Conflics/Breaks/Replaces get an implicit "any" arch qualifier. */
         dop->arch_is_implicit = true;
-        dop->arch = dpkg_arch_find("any");
+        dop->arch = dpkg_arch_get(arch_wildcard);
       } else {
         /* Otherwise use the pkgbin architecture, which will be assigned to
          * later on by parse.c, once we can guarantee we have parsed it from

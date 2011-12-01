@@ -4,6 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
+ * Copyright © 2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,16 +58,6 @@ test_dpkg_arch_name_is_illegal(void)
 }
 
 static void
-test_dpkg_arch_get_native(void)
-{
-	struct dpkg_arch *arch;
-
-	arch = dpkg_arch_get_native();
-	test_str(arch->name, ==, ARCHITECTURE);
-	test_pass(arch->type == arch_native);
-}
-
-static void
 test_dpkg_arch_get_list(void)
 {
 	struct dpkg_arch *arch;
@@ -91,18 +82,25 @@ test_dpkg_arch_find(void)
 	/* Test existence and initial values of default architectures. */
 	arch = dpkg_arch_find("all");
 	test_pass(arch->type == arch_all);
+	test_pass(dpkg_arch_get(arch_all) == arch);
 	arch = dpkg_arch_find(ARCHITECTURE);
 	test_pass(arch->type == arch_native);
+	test_pass(dpkg_arch_get(arch_native) == arch);
 	arch = dpkg_arch_find("any");
 	test_pass(arch->type == arch_wildcard);
+	test_pass(dpkg_arch_get(arch_wildcard) == arch);
 
 	/* Empty architectures are marked none. */
 	arch = dpkg_arch_find(NULL);
 	test_pass(arch->type == arch_none);
+	test_pass(dpkg_arch_get(arch_none) == arch);
 	test_str(arch->name, ==, "");
 	arch = dpkg_arch_find("");
 	test_pass(arch->type == arch_none);
 	test_str(arch->name, ==, "");
+
+	/* Test for an unknown type. */
+	test_pass(dpkg_arch_get(1000) == NULL);
 
 	/* New valid architectures are marked unknown. */
 	arch = dpkg_arch_find("foobar");
@@ -127,7 +125,6 @@ void
 test(void)
 {
 	test_dpkg_arch_name_is_illegal();
-	test_dpkg_arch_get_native();
 	test_dpkg_arch_get_list();
 	test_dpkg_arch_find();
 	test_dpkg_arch_reset_list();

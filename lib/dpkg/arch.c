@@ -4,6 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
+ * Copyright © 2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -142,12 +143,31 @@ dpkg_arch_find(const char *name)
 }
 
 /**
- * Return the struct dpkg_arch corresponding to the native architecture.
+ * Return the struct dpkg_arch corresponding to the architecture type.
+ *
+ * The function only returns instances for types which are unique. For
+ * forward-compatibility any unknown type will return NULL.
  */
 struct dpkg_arch *
-dpkg_arch_get_native(void)
+dpkg_arch_get(enum dpkg_arch_type type)
 {
-	return &arch_item_native;
+	switch (type) {
+	case arch_none:
+		return &arch_item_none;
+	case arch_wildcard:
+		return &arch_item_any;
+	case arch_all:
+		return &arch_item_all;
+	case arch_native:
+		return &arch_item_native;
+	case arch_illegal:
+	case arch_foreign:
+	case arch_unknown:
+		internerr("architecture type %d is not unique", type);
+	default:
+		/* Ignore unknown types for forward-compatibility. */
+		return NULL;
+	}
 }
 
 /**

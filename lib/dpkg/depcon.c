@@ -67,9 +67,9 @@ archsatisfied(struct pkgbin *it, struct deppossi *against)
 
 	pkg_arch = it->arch;
 	if (dep_arch->type == arch_none || dep_arch->type == arch_all)
-		dep_arch = dpkg_arch_get_native();
+		dep_arch = dpkg_arch_get(arch_native);
 	if (pkg_arch->type == arch_none || pkg_arch->type == arch_all)
-		pkg_arch = dpkg_arch_get_native();
+		pkg_arch = dpkg_arch_get(arch_native);
 
 	return (dep_arch == pkg_arch);
 }

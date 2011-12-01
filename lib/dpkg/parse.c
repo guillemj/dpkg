@@ -201,7 +201,7 @@ pkg_parse_verify(struct parsedb_state *ps,
       parse_warn(ps, _("empty value for %s"), "architecture");
   }
   if (pkgbin->arch == NULL)
-    pkgbin->arch = dpkg_arch_find(NULL);
+    pkgbin->arch = dpkg_arch_get(arch_none);
 
   if (pkgbin->arch->type == arch_all && pkgbin->multiarch == multiarch_same)
     parse_error(ps, _("package has field '%s' but is architecture all"),
