@@ -225,8 +225,7 @@ listpackages(const char *const *argv)
     int argc, ip, *found;
 
     for (argc = 0; argv[argc]; argc++);
-    found = m_malloc(sizeof(int) * argc);
-    memset(found, 0, sizeof(int) * argc);
+    found = m_calloc(sizeof(int) * argc);
 
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
@@ -493,8 +492,7 @@ showpackages(const char *const *argv)
     int argc, ip, *found;
 
     for (argc = 0; argv[argc]; argc++);
-    found = m_malloc(sizeof(int) * argc);
-    memset(found, 0, sizeof(int) * argc);
+    found = m_calloc(sizeof(int) * argc);
 
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
