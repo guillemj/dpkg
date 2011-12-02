@@ -57,6 +57,12 @@ void *m_malloc(size_t amount) {
   return r;
 }
 
+void *
+m_calloc(size_t size)
+{
+  return must_alloc(calloc(1, size));
+}
+
 void *m_realloc(void *r, size_t amount) {
   return must_alloc(realloc(r, amount));
 }
