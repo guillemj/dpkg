@@ -97,6 +97,7 @@ static struct dpkg_arch arch_item_native = {
 	.next = &arch_item_all,
 };
 static struct dpkg_arch *arch_list = &arch_item_native;
+static struct dpkg_arch *arch_builtin_tail = &arch_item_any;
 
 static struct dpkg_arch *
 dpkg_arch_new(const char *name, enum dpkg_arch_type type)
@@ -200,7 +201,7 @@ dpkg_arch_get_list(void)
 void
 dpkg_arch_reset_list(void)
 {
-	arch_item_any.next = NULL;
+	arch_builtin_tail->next = NULL;
 }
 
 void
