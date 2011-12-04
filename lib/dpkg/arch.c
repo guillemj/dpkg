@@ -96,7 +96,7 @@ static struct dpkg_arch arch_item_native = {
 	.type = arch_native,
 	.next = &arch_item_all,
 };
-static struct dpkg_arch *arch_list = &arch_item_native;
+static struct dpkg_arch *arch_head = &arch_item_native;
 static struct dpkg_arch *arch_builtin_tail = &arch_item_any;
 
 static struct dpkg_arch *
@@ -133,7 +133,7 @@ dpkg_arch_find(const char *name)
 	if (name[0] == '\0')
 		return &arch_item_empty;
 
-	for (arch = arch_list; arch; arch = arch->next) {
+	for (arch = arch_head; arch; arch = arch->next) {
 		if (strcmp(arch->name, name) == 0)
 			return arch;
 		last_arch = arch;
@@ -189,7 +189,7 @@ dpkg_arch_get(enum dpkg_arch_type type)
 struct dpkg_arch *
 dpkg_arch_get_list(void)
 {
-	return arch_list;
+	return arch_head;
 }
 
 /**
