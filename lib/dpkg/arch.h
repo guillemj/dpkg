@@ -30,7 +30,7 @@ DPKG_BEGIN_DECLS
 struct dpkg_arch {
 	struct dpkg_arch *next;
 	const char *name;
-	enum arch_type {
+	enum dpkg_arch_type {
 		arch_none,
 		arch_all,
 		arch_native,

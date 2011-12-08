@@ -93,7 +93,7 @@ static struct dpkg_arch arch_item_native = {
 static struct dpkg_arch *arch_list = &arch_item_native;
 
 static struct dpkg_arch *
-dpkg_arch_new(const char *name, enum arch_type type)
+dpkg_arch_new(const char *name, enum dpkg_arch_type type)
 {
 	struct dpkg_arch *new;
 
@@ -119,7 +119,7 @@ struct dpkg_arch *
 dpkg_arch_find(const char *name)
 {
 	struct dpkg_arch *arch, *last_arch = NULL;
-	enum arch_type type;
+	enum dpkg_arch_type type;
 
 	if (name == NULL || name[0] == '\0')
 		return &arch_item_none;
