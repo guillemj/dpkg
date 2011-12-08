@@ -174,6 +174,11 @@ sub add_hardening_flags {
     if ($use_feature{"bindnow"}) {
 	$flags->append("LDFLAGS", "-Wl,-z,now");
     }
+
+    # Store the feature usage.
+    while (my ($feature, $enabled) = each %use_feature) {
+	$flags->set_feature("hardening", $feature, $enabled);
+    }
 }
 
 1;

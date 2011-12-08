@@ -47,6 +47,8 @@ Actions:
   --get <flag>       output the requested flag to stdout.
   --origin <flag>    output the origin of the flag to stdout:
                      value is one of vendor, system, user, env.
+  --query-features <area>
+                     output the status of features for the given area.
   --list             output a list of the flags supported by the current vendor.
   --export=(sh|make|configure)
                      output something convenient to import the
@@ -62,7 +64,7 @@ my ($param, $action);
 
 while (@ARGV) {
     $_ = shift(@ARGV);
-    if (m/^--(get|origin)$/) {
+    if (m/^--(get|origin|query-features)$/) {
         usageerr(_g("two commands specified: --%s and --%s"), $1, $action)
             if defined($action);
         $action = $1;
@@ -113,6 +115,17 @@ if ($action eq "get") {
 } elsif ($action eq "origin") {
     if ($build_flags->has($param)) {
 	print $build_flags->get_origin($param) . "\n";
+	exit(0);
+    }
+} elsif ($action eq "query-features") {
+    if ($build_flags->has_features($param)) {
+	my %features = $build_flags->get_features($param);
+	my $para_shown = 0;
+	foreach my $feature (sort keys %features) {
+	    print $para_shown++ ? "\n" : "";
+	    printf "Feature: %s\n", $feature;
+	    printf "Enabled: %s\n", $features{$feature} ? "yes" : "no";
+	}
 	exit(0);
     }
 } elsif ($action =~ m/^export-(.*)$/) {

@@ -18,7 +18,7 @@ package Dpkg::BuildFlags;
 use strict;
 use warnings;
 
-our $VERSION = "1.01";
+our $VERSION = "1.02";
 
 use Dpkg::Gettext;
 use Dpkg::BuildOptions;
@@ -68,6 +68,7 @@ sub load_vendor_defaults {
     my ($self) = @_;
     $self->{'options'} = {};
     $self->{'source'} = {};
+    $self->{'features'} = {};
     my $build_opts = Dpkg::BuildOptions->new();
     my $default_flags = $build_opts->has("noopt") ? "-g -O0" : "-g -O2";
     $self->{flags} = {
@@ -202,6 +203,19 @@ sub set {
     $self->{origin}->{$flag} = $src if defined $src;
 }
 
+=item $bf->set_feature($area, $feature, $enabled)
+
+Update the boolean state of whether a specific feature within a known
+feature area has been enabled. The only currently known feature area is
+"hardening".
+
+=cut
+
+sub set_feature {
+    my ($self, $area, $feature, $enabled) = @_;
+    $self->{'features'}{$area}{$feature} = $enabled;
+}
+
 =item $bf->strip($flag, $value, $source)
 
 Update the build flag $flag by stripping the flags listed in $value and
@@ -306,6 +320,18 @@ sub get {
     return $self->{'flags'}{$key};
 }
 
+=item $bf->get_features($area)
+
+Return, for the given area, a hash with keys as feature names, and values
+as booleans indicating whether the feature is enabled or not.
+
+=cut
+
+sub get_features {
+    my ($self, $area) = @_;
+    return %{$self->{'features'}{$area}};
+}
+
 =item $bf->get_origin($flag)
 
 Return the origin associated to the flag. It might be undef if the
@@ -316,6 +342,18 @@ flag doesn't exist.
 sub get_origin {
     my ($self, $key) = @_;
     return $self->{'origin'}{$key};
+}
+
+=item $bf->has_features($area)
+
+Returns true if the given area of features is known, and false otherwise.
+The only currently recognized area is "hardening".
+
+=cut
+
+sub has_features {
+    my ($self, $area) = @_;
+    return exists $self->{'features'}{$area};
 }
 
 =item $bf->has($option)
