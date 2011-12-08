@@ -39,6 +39,8 @@ dpkg (1.16.2) UNRELEASED; urgency=low
     compressors except gzip.
   * Add new dpkg-deb -S option to specify the compression strategy. The only
     currently supported value is “extreme” for xz. Closes: #647915
+  * Stop using brace expansion to install man pages by using dh_installman
+    instead of dh_install, the former does not abort on empty glob expansion.
 
   [ Raphaël Hertzog ]
   * Update Dpkg::Shlibs to look into multiarch paths when cross-building
