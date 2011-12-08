@@ -87,7 +87,7 @@ f_name(struct pkginfo *pigp, struct pkgbin *pifp,
 {
   const char *e;
 
-  e = pkg_name_is_illegal(value, NULL);
+  e = pkg_name_is_illegal(value);
   if (e != NULL)
     parse_error(ps, _("invalid package name (%.250s)"), e);
   /* We use the new name, as pkg_db_find_set() may have done a tolower for us. */
@@ -398,7 +398,7 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
       varbuf_add_buf(&depname, depnamestart, depnamelength);
       varbuf_end_str(&depname);
 
-      emsg = pkg_name_is_illegal(depname.buf, NULL);
+      emsg = pkg_name_is_illegal(depname.buf);
       if (emsg)
         parse_error(ps,
                     _("`%s' field, invalid package name `%.255s': %s"),
@@ -638,7 +638,7 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pifp,
                   "this context"));
 
   while ((word = scan_word(&value))) {
-    emsg = pkg_name_is_illegal(word, NULL);
+    emsg = pkg_name_is_illegal(word);
     if (emsg)
       parse_error(ps,
                   _("illegal package name in awaited trigger `%.255s': %s"),

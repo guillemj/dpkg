@@ -299,7 +299,7 @@ enum parsedbflags {
   pdb_lax_parser = pdb_lax_version_parser,
 };
 
-const char *pkg_name_is_illegal(const char *p, const char **ep);
+const char *pkg_name_is_illegal(const char *p);
 int parsedb(const char *filename, enum parsedbflags, struct pkginfo **donep);
 void copy_dependency_links(struct pkginfo *pkg,
                            struct dependency **updateme,

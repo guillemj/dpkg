@@ -211,7 +211,7 @@ main(int argc, const char *const *argv)
 			         " (or with a --by-package option)"));
 	}
 	if (strcmp(bypackage, "-") &&
-	    (badname = pkg_name_is_illegal(bypackage, NULL)))
+	    (badname = pkg_name_is_illegal(bypackage)))
 		ohshit(_("illegal awaited package name '%.250s': %.250s"),
 		       bypackage, badname);
 

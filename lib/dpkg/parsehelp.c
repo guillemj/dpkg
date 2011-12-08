@@ -124,7 +124,7 @@ const struct namevalue wantinfos[] = {
 };
 
 const char *
-pkg_name_is_illegal(const char *p, const char **ep)
+pkg_name_is_illegal(const char *p)
 {
   /* FIXME: _ is deprecated, remove sometime. */
   static const char alsoallowed[] = "-+._";
@@ -137,10 +137,7 @@ pkg_name_is_illegal(const char *p, const char **ep)
   while ((c = *p++) != '\0')
     if (!isalnum(c) && !strchr(alsoallowed,c)) break;
   if (!c) return NULL;
-  if (isspace(c) && ep) {
-    while (isspace(*p)) p++;
-    *ep= p; return NULL;
-  }
+
   snprintf(buf, sizeof(buf), _(
 	   "character `%c' not allowed (only letters, digits and characters `%s')"),
 	   c, alsoallowed);

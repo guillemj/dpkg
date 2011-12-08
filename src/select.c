@@ -141,7 +141,7 @@ setselections(const char *const *argv)
       if (!isspace(c))
         ohshit(_("unexpected data after package and selection at line %d"),lno);
     }
-    e = pkg_name_is_illegal(namevb.buf, NULL);
+    e = pkg_name_is_illegal(namevb.buf);
     if (e) ohshit(_("illegal package name at line %d: %.250s"),lno,e);
 
     nv = namevalue_find_by_name(wantinfos, selvb.buf);
