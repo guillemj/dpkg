@@ -170,7 +170,7 @@ printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
   printf("%s", gettext(copyrightstring));
-  printf(gettext(licensestring), DSELECT);
+  printf("%s", gettext(licensestring));
 
   m_output(stdout, _("<standard output>"));
 
@@ -423,8 +423,7 @@ refreshmenu(void)
 
   attrset(A_NORMAL);
   addstr(gettext(copyrightstring));
-  sprintf(buf, gettext(licensestring), DSELECT);
-  addstr(buf);
+  addstr(gettext(licensestring));
 
   modstatdb_init();
   if (!modstatdb_can_lock())
