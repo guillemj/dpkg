@@ -27,7 +27,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
-use Dpkg::Path qw(check_files_are_the_same);
+use Dpkg::Path qw(check_files_are_the_same find_command);
 
 textdomain("dpkg-dev");
 
@@ -306,7 +306,7 @@ unless ($quiet) {
 	my $diff_label = sprintf("%s (%s_%s_%s)",
 	($ref_symfile->{file}) ? $ref_symfile->{file} : "new_symbol_file",
 	$oppackage, $sourceversion, $host_arch);
-	system("diff", "-u", "-L", $diff_label, $a, $b) if -x "/usr/bin/diff";
+	system("diff", "-u", "-L", $diff_label, $a, $b) if find_command("diff");
     }
 }
 exit($exitcode);

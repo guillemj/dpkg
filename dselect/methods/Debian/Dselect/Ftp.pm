@@ -58,7 +58,7 @@ sub store_config {
 
 sub view_mirrors {
   if (-f '/usr/lib/dpkg/methods/ftp/README.mirrors.txt') {
-    system('/usr/bin/pager', '/usr/lib/dpkg/methods/ftp/README.mirrors.txt');
+    system('pager', '/usr/lib/dpkg/methods/ftp/README.mirrors.txt');
   } elsif (-f '/usr/lib/dpkg/methods/ftp/README.mirrors.txt.gz') {
     system('gzip -dc /usr/lib/dpkg/methods/ftp/README.mirrors.txt.gz | pager');
   } else {

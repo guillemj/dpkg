@@ -44,7 +44,7 @@ use Dpkg::Checksums;
 use Dpkg::Version;
 use Dpkg::Compression;
 use Dpkg::Exit;
-use Dpkg::Path qw(check_files_are_the_same);
+use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -342,9 +342,9 @@ sub check_signature {
     my ($self) = @_;
     my $dsc = $self->get_filename();
     my @exec;
-    if (-x '/usr/bin/gpgv') {
+    if (find_command('gpgv')) {
         push @exec, "gpgv";
-    } elsif (-x '/usr/bin/gpg') {
+    } elsif (find_command('gpg') {
         push @exec, "gpg", "--no-default-keyring", "-q", "--verify";
     }
     if (scalar(@exec)) {

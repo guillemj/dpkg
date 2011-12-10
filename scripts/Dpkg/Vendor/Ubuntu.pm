@@ -26,6 +26,7 @@ our $VERSION = "0.01";
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
+use Dpkg::Path qw(find_command);
 use Dpkg::Control::Types;
 use Dpkg::BuildOptions;
 use Dpkg::Arch qw(debarch_eq get_host_arch);
@@ -119,7 +120,7 @@ sub run_hook {
 	if (defined $hardening) {
 	    my $flag = 'DEB_BUILD_HARDENING';
 	    if ($hardening ne "0") {
-		if (! -x '/usr/bin/hardened-cc') {
+		if (!find_command('hardened-cc')) {
 		    syserr(_g("'hardening' flag found but 'hardening-wrapper' not installed"));
 		}
 		if ($hardening ne "1") {

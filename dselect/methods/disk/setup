@@ -241,7 +241,7 @@ then
 			response="$defaultnfsserver"
 		fi
 		if [ -z "$response" ]; then continue; fi
-		if [ -x /usr/bin/rpcinfo ]
+		if [ -x "`which rpcinfo`" ]
 		then
 			if rpcinfo -u "$response" mountd | grep -q 'ready'
 			then
@@ -249,7 +249,7 @@ then
 			else
 				echo "$response appears not to be an NFS server."
 			fi
-		elif [ -x /bin/ping ]
+		elif [ -x "`which ping`" ]
 		then
 			if ping -q -c 1 "$response" | grep -q ', 1 packets received'
 			then
@@ -259,7 +259,7 @@ then
 			fi
 		else
 			echo \
-"(I can't check that now because there is no /usr/bin/rpcinfo or /bin/ping.)"
+"(I can't check that now because there is no rpcinfo or ping.)"
 			nfsserver="$response"
 		fi
 	done
