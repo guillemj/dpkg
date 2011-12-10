@@ -238,10 +238,18 @@ test_data = \
 	t/origins/ubuntu
 
 objdump_lib_name = lib`basename $@`.so
-$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 $(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
+
+$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
 	$(mkdir_p) $(test_tmpdir)/200_Dpkg_Shlibs
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
-	  $(if $(findstring amd64,$@),-DAMD64,) -o $(objdump_lib_name)
+	  -DAMD64 -o $(objdump_lib_name)
+	objdump -w -f -p -T -R $(objdump_lib_name) > $@
+	rm -f $(objdump_lib_name)
+
+$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
+	$(mkdir_p) $(test_tmpdir)/200_Dpkg_Shlibs
+	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
+	  -o $(objdump_lib_name)
 	objdump -w -f -p -T -R $(objdump_lib_name) > $@
 	rm -f $(objdump_lib_name)
 
