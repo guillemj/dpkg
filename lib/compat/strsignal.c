@@ -56,7 +56,6 @@ const char *const sys_siglist[] = {
 extern const char *const sys_siglist[];
 #endif
 
-#ifndef HAVE_STRSIGNAL
 const char *
 strsignal(int s)
 {
@@ -69,4 +68,3 @@ strsignal(int s)
 
 	return buf;
 }
-#endif

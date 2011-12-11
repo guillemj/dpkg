@@ -22,7 +22,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#ifndef HAVE_ASPRINTF
 int
 asprintf(char **strp, char const *fmt, ...)
 {
@@ -35,4 +34,3 @@ asprintf(char **strp, char const *fmt, ...)
 
 	return n;
 }
-#endif

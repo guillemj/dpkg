@@ -23,7 +23,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef HAVE_VASPRINTF
 int
 vasprintf(char **strp, char const *fmt, va_list args)
 {
@@ -56,4 +55,3 @@ vasprintf(char **strp, char const *fmt, va_list args)
 
 	return n;
 }
-#endif

@@ -24,7 +24,6 @@
 
 #define _(str) gettext(str)
 
-#ifndef HAVE_STRERROR
 extern const char *const sys_errlist[];
 extern const int sys_nerr;
 
@@ -40,4 +39,3 @@ strerror(int e)
 
 	return buf;
 }
-#endif

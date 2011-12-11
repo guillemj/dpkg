@@ -23,7 +23,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifndef HAVE_STRNDUP
 #undef strndup
 
 char *
@@ -42,4 +41,3 @@ strndup(const char *s, size_t n)
 
 	return str;
 }
-#endif

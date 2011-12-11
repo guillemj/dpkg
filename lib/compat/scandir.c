@@ -26,7 +26,6 @@
 #include <dirent.h>
 #include <stdlib.h>
 
-#ifndef HAVE_SCANDIR
 static int
 cleanup(DIR *dir, struct dirent **dirlist, int used)
 {
@@ -97,4 +96,3 @@ scandir(const char *dir, struct dirent ***namelist,
 
 	return used;
 }
-#endif

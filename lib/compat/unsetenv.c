@@ -22,7 +22,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifndef HAVE_UNSETENV
 int
 unsetenv(const char *p)
 {
@@ -36,4 +35,3 @@ unsetenv(const char *p)
 	strcat(q, "=");
 	return putenv(q);
 }
-#endif

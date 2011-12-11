@@ -22,7 +22,6 @@
 #include <string.h>
 #include <dirent.h>
 
-#ifndef HAVE_ALPHASORT
 int
 alphasort(const void *a, const void *b)
 {
@@ -30,4 +29,3 @@ alphasort(const void *a, const void *b)
 	              (*(const struct dirent **)b)->d_name);
 
 }
-#endif

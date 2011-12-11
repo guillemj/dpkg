@@ -24,7 +24,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#ifndef HAVE_VSNPRINTF
 int
 vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
 {
@@ -68,4 +67,3 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
 
 	return total;
 }
-#endif
