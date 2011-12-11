@@ -60,8 +60,8 @@ int vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args);
 #ifndef HAVE_ASPRINTF
 #include <stdarg.h>
 
-int asprintf(char *str, char const *fmt, ...);
-int vasprintf(char *str, const char *fmt, va_list args);
+int asprintf(char **str, char const *fmt, ...);
+int vasprintf(char **str, const char *fmt, va_list args);
 #endif
 
 #ifndef HAVE_STRNDUP
