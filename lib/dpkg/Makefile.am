@@ -14,7 +14,7 @@ AM_CPPFLAGS = \
 
 
 EXTRA_DIST = \
-	libdpkg.Versions \
+	libdpkg.map \
 	libdpkg.pc.in
 
 pkgconfigdir = $(libdir)/pkgconfig
