@@ -31,7 +31,6 @@ my @save_paths = @Dpkg::Shlibs::librarypaths;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/200_Dpkg_Shlibs';
-my $tmpdir = 't.tmp/200_Dpkg_Shlibs';
 
 # We want relative paths inside the ld.so.conf fragments to work, and $srcdir
 # is usually a relative path, so let's temporarily switch directory.
@@ -296,16 +295,16 @@ ok (defined $sym_file->{objects}{'libbasictags.so.1'}{syms}{'symbol21_amd64@Base
 
 # Preload objdumps
 my $tags_obj_i386 = Dpkg::Shlibs::Objdump::Object->new();
-open $objdump, '<', "$tmpdir/objdump.basictags-i386"
-    or die "$tmpdir/objdump.basictags-i386: $!";
+open $objdump, '<', "$datadir/objdump.basictags-i386"
+    or die "$datadir/objdump.basictags-i386: $!";
 $tags_obj_i386->parse_objdump_output($objdump);
 close $objdump;
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 is_deeply($sym_file, $sym_file_dup, "is objdump.basictags-i386 and basictags.symbols in sync");
 
 my $tags_obj_amd64 = Dpkg::Shlibs::Objdump::Object->new();
-open $objdump, '<', "$tmpdir/objdump.basictags-amd64"
-    or die "$tmpdir/objdump.basictags-amd64: $!";
+open $objdump, '<', "$datadir/objdump.basictags-amd64"
+    or die "$datadir/objdump.basictags-amd64: $!";
 $tags_obj_amd64->parse_objdump_output($objdump);
 close $objdump;
 
@@ -403,8 +402,8 @@ is ( $sym->{testfield}, 1, 'original field "testfield" not changed' );
 ############ Test symbol patterns ###########
 sub load_patterns_obj {
     $obj = Dpkg::Shlibs::Objdump::Object->new();
-    open $objdump, '<', "$tmpdir/objdump.patterns"
-	or die "$tmpdir/objdump.patterns: $!";
+    open $objdump, '<', "$datadir/objdump.patterns"
+	or die "$datadir/objdump.patterns: $!";
     $obj->parse_objdump_output($objdump);
     close $objdump;
     return $obj;

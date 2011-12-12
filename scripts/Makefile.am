@@ -49,6 +49,7 @@ EXTRA_DIST = \
 
 
 CLEANFILES = \
+	$(test_data_objects) \
 	$(bin_SCRIPTS) $(changelog_SCRIPTS)
 
 perllibdir = $(PERL_LIBDIR)
@@ -191,11 +192,6 @@ test_cases = \
 	t/850_Dpkg_Compression.t \
 	t/910_merge_changelogs.t
 
-check_DATA = \
-	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64 \
-	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386 \
-	$(test_tmpdir)/200_Dpkg_Shlibs/objdump.patterns
-
 test_data = \
 	t/200_Dpkg_Shlibs/symbols.fake-1 \
 	t/200_Dpkg_Shlibs/symbols.fake-2 \
@@ -214,6 +210,9 @@ test_data = \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/inf_recurse.conf \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
 	t/200_Dpkg_Shlibs/objdump.space \
+	t/200_Dpkg_Shlibs/objdump.basictags-amd64 \
+	t/200_Dpkg_Shlibs/objdump.basictags-i386 \
+	t/200_Dpkg_Shlibs/objdump.patterns \
 	t/200_Dpkg_Shlibs/objdump.glib-ia64 \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.3 \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.6 \
@@ -237,29 +236,36 @@ test_data = \
 	t/origins/default \
 	t/origins/ubuntu
 
-objdump_lib_name = lib`basename $@`.so
+test_data_objects = \
+	t/200_Dpkg_Shlibs/libobjdump.basictags-amd64.so \
+	t/200_Dpkg_Shlibs/libobjdump.basictags-i386.so \
+	t/200_Dpkg_Shlibs/libobjdump.patterns.so
 
-$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-amd64: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
-	$(mkdir_p) $(test_tmpdir)/200_Dpkg_Shlibs
+$(srcdir)/t/200_Dpkg_Shlibs/libobjdump.basictags-amd64.so: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
-	  -DAMD64 -o $(objdump_lib_name)
-	objdump -w -f -p -T -R $(objdump_lib_name) > $@
-	rm -f $(objdump_lib_name)
+	  -DAMD64 -o $@
 
-$(test_tmpdir)/200_Dpkg_Shlibs/objdump.basictags-i386: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
-	$(mkdir_p) $(test_tmpdir)/200_Dpkg_Shlibs
+$(srcdir)/t/200_Dpkg_Shlibs/libobjdump.basictags-i386.so: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
-	  -o $(objdump_lib_name)
-	objdump -w -f -p -T -R $(objdump_lib_name) > $@
-	rm -f $(objdump_lib_name)
+	  -o $@
 
-$(test_tmpdir)/200_Dpkg_Shlibs/objdump.patterns: $(srcdir)/t/200_Dpkg_Shlibs/patterns.cpp $(srcdir)/t/200_Dpkg_Shlibs/patterns.map
-	$(mkdir_p) $(test_tmpdir)/200_Dpkg_Shlibs
+$(srcdir)/t/200_Dpkg_Shlibs/libobjdump.patterns.so: $(srcdir)/t/200_Dpkg_Shlibs/patterns.cpp $(srcdir)/t/200_Dpkg_Shlibs/patterns.map
 	$(CXX) $(CXXFLAGS) -shared -fPIC -Wl,-soname -Wl,libpatterns.so.1 \
 	    -Wl,--version-script=$(srcdir)/t/200_Dpkg_Shlibs/patterns.map $< \
-	    -o $(objdump_lib_name)
-	objdump -w -f -p -T -R $(objdump_lib_name) > $@
-	rm -f $(objdump_lib_name)
+	    -o $@
+
+.PHONY: refresh-test-data
+
+OBJDUMP = objdump -w -f -p -T -R
+
+refresh-test-data: $(test_data_objects)
+	$(OBJDUMP) $(srcdir)/t/200_Dpkg_Shlibs/libobjdump.basictags-amd64.so \
+	  >$(srcdir)/t/200_Dpkg_Shlibs/objdump.basictags-amd64
+	$(OBJDUMP) $(srcdir)/t/200_Dpkg_Shlibs/libobjdump.basictags-i386.so \
+	  >$(srcdir)/t/200_Dpkg_Shlibs/objdump.basictags-i386
+	$(OBJDUMP) $(srcdir)/t/200_Dpkg_Shlibs/libobjdump.patterns.so \
+	  >$(srcdir)/t/200_Dpkg_Shlibs/objdump.patterns
+	$(OBJDUMP) `which ls` >$(srcdir)/t/200_Dpkg_Shlibs/objdump.ls
 
 include $(top_srcdir)/Makecheck.am
 
