@@ -38,12 +38,14 @@ EXTRA_DIST = \
 	debian/copyright \
 	debian/dpkg-dev.docs \
 	debian/dpkg-dev.install \
+	debian/dpkg-dev.manpages \
 	debian/dpkg-dev.preinst \
 	debian/dpkg-dev.lintian-overrides \
 	debian/dpkg.cfg \
 	debian/dpkg.cron.daily \
 	debian/dpkg.docs \
 	debian/dpkg.install \
+	debian/dpkg.manpages \
 	debian/dpkg.postinst \
 	debian/dpkg.postrm \
 	debian/dpkg.preinst \
@@ -54,6 +56,7 @@ EXTRA_DIST = \
 	debian/dselect.cfg \
 	debian/dselect.docs \
 	debian/dselect.install \
+	debian/dselect.manpages \
 	debian/dselect.preinst \
 	debian/dselect.lintian-overrides \
 	debian/libdpkg-dev.docs \
