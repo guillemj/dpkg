@@ -69,6 +69,12 @@ my $sym = $obj->get_symbol('optarg@GLIBC_2.0');
 ok($sym, 'optarg@GLIBC_2.0 exists');
 ok(!$sym->{'defined'}, 'R_*_COPY relocations are taken into account');
 
+open $objdump, '<', "$datadir/objdump.space"
+  or die "$datadir/objdump.space: $!";
+$obj->reset();
+$obj->parse_objdump_output($objdump);
+close $objdump;
+
 # Non-regression test for #506139
 $sym = $obj->get_symbol('singlespace');
 ok($sym, 'version less symbol separated by a single space are correctly parsed');

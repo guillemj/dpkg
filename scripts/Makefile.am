@@ -213,6 +213,7 @@ test_data = \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/normal.conf \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/inf_recurse.conf \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
+	t/200_Dpkg_Shlibs/objdump.space \
 	t/200_Dpkg_Shlibs/objdump.glib-ia64 \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.3 \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.6 \
