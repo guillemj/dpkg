@@ -69,7 +69,7 @@ static unsigned int hash(const char *name) {
  *
  * A package set (struct pkgset) can be composed of multiple package instances
  * (struct pkginfo) where each instance is distinguished by its architecture
- * (as recorded in pkg.installed.architecture and pkg.available.architecture).
+ * (as recorded in pkg.installed.arch and pkg.available.arch).
  *
  * @param inname Name of the package set.
  *
