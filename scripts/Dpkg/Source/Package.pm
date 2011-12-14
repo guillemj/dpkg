@@ -344,7 +344,7 @@ sub check_signature {
     my @exec;
     if (find_command('gpgv')) {
         push @exec, "gpgv";
-    } elsif (find_command('gpg') {
+    } elsif (find_command('gpg')) {
         push @exec, "gpg", "--no-default-keyring", "-q", "--verify";
     }
     if (scalar(@exec)) {
