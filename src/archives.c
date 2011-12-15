@@ -152,6 +152,13 @@ filesavespackage(struct fileinlist *file,
     if (thirdpkg == pkgbeinginstalled || thirdpkg == pkgtobesaved)
       continue;
 
+    /* A Multi-Arch: same package can share files and their presence in a
+     * third package of the same set is not a sign that we can get rid of
+     * it. */
+    if (pkgtobesaved->installed.multiarch == multiarch_same &&
+        thirdpkg->set == pkgtobesaved->set)
+      continue;
+
     /* If !fileslistvalid then we've already disappeared this one, so
      * we shouldn't try to make it take over this shared directory. */
     debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");

@@ -1239,6 +1239,12 @@ void process_archive(const char *filename) {
         otherpkg->status == stat_configfiles ||
 	otherpkg->clientdata->istobe == itb_remove ||
         !otherpkg->clientdata->files) continue;
+    /* Do not try to disappear other packages from the same set
+     * if they are Multi-Arch: same */
+    if (pkg->installed.multiarch == multiarch_same &&
+        otherpkg->installed.multiarch == multiarch_same &&
+        otherpkg->set == pkg->set)
+      continue;
     debug(dbg_veryverbose, "process_archive checking disappearance %s",
           pkg_name(otherpkg, pnaw_always));
     assert(otherpkg->clientdata->istobe == itb_normal ||
