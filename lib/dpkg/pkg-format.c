@@ -3,6 +3,7 @@
  * pkg-format.c - customizable package formatting
  *
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -200,6 +201,19 @@ pkg_format_parse(const char *fmt)
 	return head;
 }
 
+static const struct fieldinfo *
+find_field_info(const struct fieldinfo *fields_head,
+                const struct pkg_format_node *fmt_node)
+{
+	const struct fieldinfo *fip;
+
+	for (fip = fields_head; fip->name; fip++)
+		if (strcasecmp(fmt_node->data, fip->name) == 0)
+			break;
+
+	return fip;
+}
+
 void
 pkg_format_show(const struct pkg_format_node *head,
                 struct pkginfo *pkg, struct pkgbin *pif)
@@ -224,9 +238,7 @@ pkg_format_show(const struct pkg_format_node *head,
 		} else if (head->type == field) {
 			const struct fieldinfo *fip;
 
-			for (fip = fieldinfos; fip->name; fip++)
-				if (strcasecmp(head->data, fip->name) == 0)
-					break;
+			fip = find_field_info(fieldinfos, head);
 
 			if (fip->name) {
 				fip->wcall(&wb, pkg, pif, 0, fip);
