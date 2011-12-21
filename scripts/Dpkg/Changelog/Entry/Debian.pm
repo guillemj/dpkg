@@ -114,7 +114,7 @@ sub check_header {
     my ($self) = @_;
     my @errors;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	my $options = $4;
+	my ($version, $options) = ($2, $4);
 	$options =~ s/^\s+//;
 	my %optdone;
 	foreach my $opt (split(/\s*,\s*/, $options)) {
@@ -134,6 +134,10 @@ sub check_header {
 	    } else {
 		push @errors, sprintf(_g("unknown key-value %s"), $k);
 	    }
+	}
+	my ($ok, $msg) = version_check($version);
+	unless ($ok) {
+	    push @errors, sprintf(_g("version '%s' is invalid: %s"), $version, $msg);
 	}
     } else {
 	push @errors, _g("the header doesn't match the expected regex");
