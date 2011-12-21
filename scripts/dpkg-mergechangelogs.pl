@@ -179,7 +179,9 @@ sub compare_versions {
 	$a =~ s/~[^~]*$//;
 	$b =~ s/~[^~]*$//;
     }
-    return version_compare($a, $b);
+    $a = Dpkg::Version->new($a);
+    $b = Dpkg::Version->new($b);
+    return $a <=> $b;
 }
 
 # Merge changelog entries smartly by merging individually the different
