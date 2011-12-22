@@ -187,9 +187,9 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
   l = min(l, fmt->dw);
 
   printf(fmt->format,
-         "uihrp"[pkg->want],
-         "ncHUFWti"[pkg->status],
-         " R"[pkg->eflag],
+         pkg_abbrev_want(pkg),
+         pkg_abbrev_status(pkg),
+         pkg_abbrev_eflag(pkg),
          pkg->set->name,
          versiondescribe(&pkg->installed.version, vdew_nonambig),
          l, pdesc);

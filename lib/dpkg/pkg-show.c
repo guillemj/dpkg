@@ -3,7 +3,7 @@
  * pkg-show.c - primitives for pkg information display
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,4 +46,22 @@ pkg_summary(const struct pkginfo *pkg, int *len_ret)
 	*len_ret = len;
 
 	return pdesc;
+}
+
+int
+pkg_abbrev_want(const struct pkginfo *pkg)
+{
+	return "uihrp"[pkg->want];
+}
+
+int
+pkg_abbrev_status(const struct pkginfo *pkg)
+{
+	return "ncHUFWti"[pkg->status];
+}
+
+int
+pkg_abbrev_eflag(const struct pkginfo *pkg)
+{
+	return " R"[pkg->eflag];
 }
