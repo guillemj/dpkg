@@ -483,11 +483,15 @@ Generates a patch corresponding to the local changes that are not managed
 by the quilt patch system and integrates it in the patch system under
 the name \fIpatch-name\fP. If the name is missing, it will be asked
 interactively. If \fIpatch-file\fP is given, it is used as the patch
-corresponding to the local changes to integrate. This is mainly useful
-after a build failure that pre-generated this file. Once integrated, an
+corresponding to the local changes to integrate. Once integrated, an
 editor is launched so that you can edit the meta-information in the patch
 header.
 
+Passing \fIpatch-file\fP is mainly useful after a build failure that
+pre-generated this file, and on this ground the given file is removed
+after integration. Note also that the changes contained in the patch file
+must already be applied on the tree and that the files modified by the
+patch must not have supplementary unrecorded changes.
 .PP
 .B Build options
 .TP
