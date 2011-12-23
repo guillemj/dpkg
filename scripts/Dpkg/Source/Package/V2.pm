@@ -629,7 +629,14 @@ sub commit {
 
     $self->prepare_build($dir);
 
-    unless ($tmpdiff && -e $tmpdiff) {
+    # Try to fix up a broken relative filename for the patch
+    if ($tmpdiff and not -e $tmpdiff) {
+        $tmpdiff = File::Spec->catfile($dir, $tmpdiff)
+            unless File::Spec->file_name_is_absolute($tmpdiff);
+        error(_g("patch file '%s' doesn't exist"), $tmpdiff) if not -e $tmpdiff;
+    }
+
+    unless ($tmpdiff) {
         $tmpdiff = $self->generate_patch($dir, usage => "commit");
     }
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
