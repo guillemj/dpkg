@@ -231,7 +231,8 @@ This setting (enabled by default) adds
 to \fBLDFLAGS\fP.  During program load, several ELF memory sections need
 to be written to by the linker. This flags the loader to turn these
 sections read-only before turning over control to the program. Most
-notably this prevents GOT overwrite attacks.
+notably this prevents GOT overwrite attacks. If this option is disabled,
+\fBbindnow\fP will become disabled as well.
 .
 .TP
 .B bindnow
@@ -239,7 +240,7 @@ This setting (disabled by default) adds
 .B \-Wl,\-z,now
 to \fBLDFLAGS\fP. During program load, all dynamic symbols are resolved,
 allowing for the entire PLT to be marked read-only (due to \fBrelro\fP
-above).
+above). The option cannot become enabled if \fBrelro\fP is not enabled.
 .
 .TP
 .B pie
