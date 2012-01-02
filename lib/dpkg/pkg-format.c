@@ -228,9 +228,56 @@ virt_summary(struct varbuf *vb,
 	varbuf_add_buf(vb, desc, len);
 }
 
+static void
+virt_source_package(struct varbuf *vb,
+                    const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                    enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	const char *name;
+	size_t len;
+
+	name = pkg->installed.source;
+	if (name == NULL)
+		name = pkg->set->name;
+
+	len = strcspn(name, " ");
+	if (len == 0)
+		len = strlen(name);
+
+	varbuf_add_buf(vb, name, len);
+}
+
+static void
+virt_source_version(struct varbuf *vb,
+                    const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                    enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	const char *version;
+	size_t len;
+
+	if (pkg->installed.source)
+		version = strchr(pkg->installed.source, '(');
+	else
+		version = NULL;
+
+	if (version == NULL) {
+		varbufversion(vb, &pkg->installed.version, vdew_nonambig);
+	} else {
+		version++;
+
+		len = strcspn(version, ")");
+		if (len == 0)
+			len = strlen(version);
+
+		varbuf_add_buf(vb, version, len);
+	}
+}
+
 const struct fieldinfo virtinfos[] = {
 	{ "binary:Summary", NULL, virt_summary },
 	{ "db:Status-Abbrev", NULL, virt_status_abbrev },
+	{ "source:Package", NULL, virt_source_package },
+	{ "source:Version", NULL, virt_source_version },
 	{ NULL },
 };
 
