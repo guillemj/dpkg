@@ -248,8 +248,6 @@ void packagelist::redrawtitle() {
           internerr("bad statsort in redrawtitle/so_priority");
         }
         break;
-        waddnstr(titlewin, _(" (alphabetically)"), xmax-x);
-        break;
       case so_unsorted:
         break;
       default:
