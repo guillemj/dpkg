@@ -38,7 +38,7 @@ test_ar_normalize_name(void)
 	test_str(arh.ar_name, ==, "member-name");
 }
 
-void
+static void
 test(void)
 {
 	test_ar_normalize_name();
