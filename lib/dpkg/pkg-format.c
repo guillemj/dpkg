@@ -229,8 +229,8 @@ virt_summary(struct varbuf *vb,
 }
 
 const struct fieldinfo virtinfos[] = {
-	{ "show:Summary",       NULL, virt_summary },
-	{ "show:Status-Abbrev", NULL, virt_status_abbrev },
+	{ "binary:Summary", NULL, virt_summary },
+	{ "db:Status-Abbrev", NULL, virt_status_abbrev },
 	{ NULL },
 };
 
