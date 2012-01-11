@@ -47,6 +47,9 @@ dpkg (1.16.2) UNRELEASED; urgency=low
     Closes: #192619, #427945
   * Add support for virtual output source:Package and source:Version fields.
     Closes: #653575
+  * Use a different temporary file per process on libcompat's vsnprintf()
+    function to avoid race conditions from childs after fork(3).
+    Reported by Daniel Ruoso <daniel@ruoso.com>. Closes: #655411
 
   [ Raphaël Hertzog ]
   * Update Dpkg::Shlibs to look into multiarch paths when cross-building
