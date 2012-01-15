@@ -1064,9 +1064,13 @@ static bool pid_is_cmd(pid_t pid, const char *name);
 static bool
 pid_is_exec(pid_t pid, const char *name)
 {
+	char *filename;
 	bool ret;
 
-	ret = pid_is_cmd(pid, name);
+	filename = xstrdup(name);
+	basename(filename);
+	ret = pid_is_cmd(pid, filename);
+	free(filename);
 
 	return ret;
 }
@@ -1157,9 +1161,15 @@ static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	struct proc_stat *ps;
+	const char *process_name;
 
 	ps = get_proc_stat(pid, PSTAT_ARGS);
-	return ps && !strcmp(proc_stat_args(ps), name);
+	if (ps == NULL)
+		return false;
+
+	process_name = basename(proc_stat_args(ps));
+
+	return strcmp(process_name, name) == 0;
 }
 #elif defined(OShpux)
 static bool
