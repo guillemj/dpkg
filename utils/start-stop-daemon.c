@@ -1054,7 +1054,7 @@ pid_is_exec(pid_t pid, const char *name)
 
 	if (strlen(name) != strlen(start_argv_0_p))
 		return false;
-	return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
+	return (strcmp(name, start_argv_0_p) == 0);
 }
 #else
 /* XXX: Fallback implementation that uses pid_is_cmd(). We should use more
@@ -1199,7 +1199,7 @@ pid_is_cmd(pid_t pid, const char *name)
 	process_name = (&kp->kp_proc)->p_comm;
 	if (strlen(name) != strlen(process_name))
 		return false;
-	return (strcmp(name, process_name) == 0) ? 1 : 0;
+	return (strcmp(name, process_name) == 0);
 }
 #endif
 
