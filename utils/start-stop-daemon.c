@@ -1188,7 +1188,7 @@ pid_is_cmd(pid_t pid, const char *name)
 	kvm_t *kd;
 	int nentries;
 	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX], *pidexec;
+	char errbuf[_POSIX2_LINE_MAX], *process_name;
 
 	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
 	if (kd == NULL)
@@ -1196,10 +1196,10 @@ pid_is_cmd(pid_t pid, const char *name)
 	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
 	if (kp == NULL)
 		errx(1, "%s", kvm_geterr(kd));
-	pidexec = (&kp->kp_proc)->p_comm;
-	if (strlen(name) != strlen(pidexec))
+	process_name = (&kp->kp_proc)->p_comm;
+	if (strlen(name) != strlen(process_name))
 		return false;
-	return (strcmp(name, pidexec) == 0) ? 1 : 0;
+	return (strcmp(name, process_name) == 0) ? 1 : 0;
 }
 #endif
 
