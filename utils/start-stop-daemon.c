@@ -1056,6 +1056,20 @@ pid_is_exec(pid_t pid, const char *name)
 		return false;
 	return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
 }
+#else
+/* XXX: Fallback implementation that uses pid_is_cmd(). We should use more
+ * reliable native implementations instead. */
+static bool pid_is_cmd(pid_t pid, const char *name);
+
+static bool
+pid_is_exec(pid_t pid, const char *name)
+{
+	bool ret;
+
+	ret = pid_is_cmd(pid, name);
+
+	return ret;
+}
 #endif
 
 #if defined(OSLinux)
@@ -1204,12 +1218,8 @@ pid_check(pid_t pid)
 #if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
 		return status_dead;
-#elif defined(HAVE_KVM_H)
+#else
 	if (execname && !pid_is_exec(pid, execname))
-		return status_dead;
-#elif defined(OSHurd) || defined(OSFreeBSD) || defined(OSNetBSD)
-	/* Let's try this to see if it works. */
-	if (execname && !pid_is_cmd(pid, execname))
 		return status_dead;
 #endif
 	if (userspec && !pid_is_user(pid, user_id))
