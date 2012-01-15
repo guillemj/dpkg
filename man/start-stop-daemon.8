@@ -1,4 +1,4 @@
-.TH start\-stop\-daemon 8 "2011-07-04" "Debian Project" "dpkg utilities"
+.TH start\-stop\-daemon 8 "2012-01-14" "Debian Project" "dpkg utilities"
 .SH NAME
 start\-stop\-daemon \- start and stop system daemon programs
 .
@@ -81,24 +81,28 @@ Show the program version and exit.
 .SH MATCHING OPTIONS
 .TP
 .BR \-p ", " \-\-pidfile " \fIpid-file\fP"
-Check whether a process has created the file
-.IR pid-file .
+Check whether a process has created the file \fIpid-file\fP. Note: using this
+matching option alone might cause unintended processes to be acted on, if the
+old process terminated without being able to remove the \fIpid-file\fP.
 .TP
 .BR \-x ", " \-\-exec " \fIexecutable\fP"
-Check for processes that are instances of this executable (according to
-\fB/proc/\fIpid\fP/exe\fR).
+Check for processes that are instances of this \fIexecutable\fP. The
+\fIexecutable\fP argument should be an absolute pathname. Note: this might
+not work as intended with interpreted scripts, as the executable will point
+to the interpreter. Take into account processes running from inside a chroot
+will also be matched, so other match restrictions might be needed.
 .TP
 .BR \-n ", " \-\-name " \fIprocess-name\fP"
-Check for processes with the name
-.I process-name
-(according to
-.BR /proc/\fIpid\fB/stat\fP ).
+Check for processes with the name \fIprocess-name\fP. The \fIprocess-name\fP
+is usually the process filename, but it could have been changed by the
+process itself. Note: on most systems this information is retrieved from
+the process comm name from the kernel, which tends to have a relatively
+short length limit (assuming more than 15 characters is non-portable).
 .TP
 .BR \-u ", " \-\-user " \fIusername\fP|\fIuid\fP
-Check for processes owned by the user specified by
-.I username
-or
-.IR uid .
+Check for processes owned by the user specified by \fIusername\fP or
+\fIuid\fP. Note: using this matching option alone will cause all processes
+matching the user to be acted on.
 .
 .SH OPTIONS
 .TP
