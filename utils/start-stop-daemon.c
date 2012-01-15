@@ -1018,9 +1018,11 @@ static bool
 pid_is_exec(pid_t pid, const char *name)
 {
 	kvm_t *kd;
-	int nentries;
+	int nentries, argv_len = 0;
 	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX], *pidexec;
+	char errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
+	char **pid_argv_p;
+	char *start_argv_0_p, *end_argv_0_p;
 
 	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
 	if (kd == NULL)
@@ -1028,10 +1030,31 @@ pid_is_exec(pid_t pid, const char *name)
 	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
 	if (kp == NULL)
 		errx(1, "%s", kvm_geterr(kd));
-	pidexec = (&kp->kp_proc)->p_comm;
-	if (strlen(name) != strlen(pidexec))
+	pid_argv_p = kvm_getargv(kd, kp, argv_len);
+	if (pid_argv_p == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+
+	/* Find and compare string. */
+	start_argv_0_p = *pid_argv_p;
+
+	/* Find end of argv[0] then copy and cut of str there. */
+	end_argv_0_p = strchr(*pid_argv_p, ' ');
+	if (end_argv_0_p == NULL)
+		/* There seems to be no space, so we have the command
+		 * already in its desired form. */
+		start_argv_0_p = *pid_argv_p;
+	else {
+		/* Tests indicate that this never happens, since
+		 * kvm_getargv itself cuts of tailing stuff. This is
+		 * not what the manpage says, however. */
+		strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
+		buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
+		start_argv_0_p = buf;
+	}
+
+	if (strlen(name) != strlen(start_argv_0_p))
 		return false;
-	return (strcmp(name, pidexec) == 0) ? 1 : 0;
+	return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
 }
 #endif
 
@@ -1139,11 +1162,9 @@ static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	kvm_t *kd;
-	int nentries, argv_len = 0;
+	int nentries;
 	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
-	char **pid_argv_p;
-	char *start_argv_0_p, *end_argv_0_p;
+	char errbuf[_POSIX2_LINE_MAX], *pidexec;
 
 	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
 	if (kd == NULL)
@@ -1151,31 +1172,10 @@ pid_is_cmd(pid_t pid, const char *name)
 	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
 	if (kp == NULL)
 		errx(1, "%s", kvm_geterr(kd));
-	pid_argv_p = kvm_getargv(kd, kp, argv_len);
-	if (pid_argv_p == NULL)
-		errx(1, "%s", kvm_geterr(kd));
-
-	/* Find and compare string. */
-	start_argv_0_p = *pid_argv_p;
-
-	/* Find end of argv[0] then copy and cut of str there. */
-	end_argv_0_p = strchr(*pid_argv_p, ' ');
-	if (end_argv_0_p == NULL)
-		/* There seems to be no space, so we have the command
-		 * already in its desired form. */
-		start_argv_0_p = *pid_argv_p;
-	else {
-		/* Tests indicate that this never happens, since
-		 * kvm_getargv itself cuts of tailing stuff. This is
-		 * not what the manpage says, however. */
-		strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
-		buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
-		start_argv_0_p = buf;
-	}
-
-	if (strlen(name) != strlen(start_argv_0_p))
+	pidexec = (&kp->kp_proc)->p_comm;
+	if (strlen(name) != strlen(pidexec))
 		return false;
-	return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
+	return (strcmp(name, pidexec) == 0) ? 1 : 0;
 }
 #endif
 
