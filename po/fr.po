@@ -5,7 +5,7 @@
 # Copyright (C) 2000, 2001, 2002 Martin Quinson <Martin.Quinson@tuxfamily.org>
 # Copyright (C) 2005-2009 Debian French l10n team <debian-l10n-french@lists.debian.org>
 #
-# Christian Perrier <bubulle@debian.org>, 2005, 2006, 2008, 2009, 2010, 2011.
+# Christian Perrier <bubulle@debian.org>, 2005, 2006, 2008, 2009, 2010, 2011, 2012.
 # Frederic Bothamy <frederic.bothamy@free.fr>, 2006, 2007.
 # Florent USSEIL <swiip81@free.fr>, 2008.
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2011-09-23 03:37+0200\n"
-"PO-Revision-Date: 2011-07-18 19:36+0200\n"
+"PO-Revision-Date: 2012-01-16 07:57+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -65,10 +65,10 @@ msgid "short read on buffer copy for %s"
 msgstr "lecture courte (short read) lors d'une copie de buffer pour %s"
 
 #: lib/dpkg/buffer.c:288
-#, fuzzy, c-format
+#, c-format
 #| msgid "failed to exec tar"
 msgid "failed to seek %s"
-msgstr "impossible d'exécuter « tar »"
+msgstr "impossible d'accéder à %s"
 
 #: lib/dpkg/command.c:178 lib/dpkg/command.c:204 src/help.c:621
 #: src/processarc.c:98 src/processarc.c:138 src/processarc.c:432
@@ -938,10 +938,10 @@ msgstr ""
 "saut de ligne ?)"
 
 #: lib/dpkg/parse.c:440
-#, fuzzy, c-format
+#, c-format
 #| msgid "newline in field name `%.*s'"
 msgid "blank line in value of field '%.*s'"
-msgstr "saut de ligne dans le nom de champ « %.*s »"
+msgstr "ligne vide dans la valeur du champ « %.*s »"
 
 #: lib/dpkg/parse.c:461
 #, c-format
@@ -1555,7 +1555,7 @@ msgstr "impossible de lire le lien « %.255s »"
 #: src/archives.c:834 src/configure.c:423
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
-msgstr ""
+msgstr "la taille du lien symbolique '%.250s' est passée de %jd à %zd"
 
 #: src/archives.c:839
 #, c-format
@@ -1779,13 +1779,13 @@ msgid "<standard error>"
 msgstr "<erreur standard>"
 
 #: src/archives.c:1367
-#, fuzzy, c-format
+#, c-format
 #| msgid "Selecting previously deselected package %s.\n"
 msgid "Selecting previously unselected package %s.\n"
 msgstr "Sélection du paquet %s précédemment désélectionné.\n"
 
 #: src/archives.c:1371
-#, fuzzy, c-format
+#, c-format
 #| msgid "Skipping deselected package %s.\n"
 msgid "Skipping unselected package %s.\n"
 msgstr "Paquet désélectionné %s ignoré.\n"
@@ -2277,10 +2277,9 @@ msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  « %.250s » fournit « %.250s » et est présent ainsi de  « %s ».\n"
 
 #: src/divertcmd.c:50
-#, fuzzy
 #| msgid "Use --help for help about querying packages."
 msgid "Use --help for help about diverting files."
-msgstr "Utiliser --help pour de l'aide sur la recherche de paquets."
+msgstr "Utiliser --help pour de l'aide sur le détournement de fichiers."
 
 #: src/divertcmd.c:66 src/statcmd.c:57 utils/update-alternatives.c:80
 #, c-format
@@ -2927,10 +2926,9 @@ msgid "installed"
 msgstr "installé"
 
 #: src/help.c:107
-#, fuzzy
 #| msgid "error: PATH is not set."
 msgid "PATH is not set."
-msgstr "erreur : la variable PATH n'est pas définie."
+msgstr "la variable PATH n'est pas définie."
 
 #: src/help.c:129
 #, c-format
@@ -3325,12 +3323,9 @@ msgid "Install a package even if it fails authenticity check"
 msgstr "Installer un paquet même si le contrôle d'authenticité échoue"
 
 #: src/main.c:233
-#, fuzzy
 #| msgid "Process even packages with wrong or no architecture"
 msgid "Process even packages with wrong versions"
-msgstr ""
-"Traiter les paquets même sans architecture ou avec une architecture "
-"incorrecte"
+msgstr "Traiter même les paquets dont la version est incorrecte"
 
 #: src/main.c:235
 msgid "Overwrite a file from one package with another"
@@ -4231,10 +4226,10 @@ msgstr ""
 "donc il n'a pas été supprimé."
 
 #: src/remove.c:383
-#, fuzzy, c-format
+#, c-format
 #| msgid "cannot remove `%.250s'"
 msgid "cannot remove '%.250s'"
-msgstr "ne peut pas supprimer « %.250s »"
+msgstr "impossible de supprimer « %.250s »"
 
 #: src/remove.c:409
 #, c-format
@@ -4310,10 +4305,11 @@ msgid "read error on standard input"
 msgstr "erreur de lecture sur l'entrée standard"
 
 #: src/statcmd.c:52
-#, fuzzy
 #| msgid "Use --help for help about querying packages."
 msgid "Use --help for help about overriding file stat information."
-msgstr "Utiliser --help pour de l'aide sur la recherche de paquets."
+msgstr ""
+"Utiliser --help pour de l'aide sur la façon de ne pas tenir compte des "
+"informations relatives au fichier (« file stat information »)."
 
 #: src/statcmd.c:61
 #, c-format
@@ -4611,10 +4607,10 @@ msgid "Processing triggers for %s ...\n"
 msgstr "Traitement des actions différées (« triggers ») pour « %s »...\n"
 
 #: src/update.c:52
-#, fuzzy, c-format
+#, c-format
 #| msgid "--%s needs exactly one Packages file argument"
 msgid "--%s needs exactly one Packages-file argument"
-msgstr "--%s a besoin d'exactement un fichier « Packages »"
+msgstr "--%s a besoin d'exactement un fichier « Packages » en paramètre"
 
 #: src/update.c:62
 msgid "unable to access dpkg status area for bulk available update"
@@ -5120,7 +5116,7 @@ msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Outil %s de gestion en arrière-plan des archives Debian, version %s.\n"
 
 #: dpkg-deb/main.c:73
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Commands:\n"
 #| "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -5160,6 +5156,9 @@ msgstr ""
 "   -e|--control <deb> [<répertoire>] Extraire l'information de contrôle.\n"
 "   -x|--extract <deb> <répertoire>   Extraire les fichiers.\n"
 "   -X|--vextract <deb> <répertoire>  Extraire et lister les fichiers.\n"
+"   -R|--raw-extract <deb> <répertoire>\n"
+"                                     Extraire l'information de contrôle\n"
+"                                     et les fichiers.\n"
 "   --fsys-tarfile <deb>              Restituer le système de fichiers\n"
 "                                     de l'archive tar.\n"
 
@@ -5177,7 +5176,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:99
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Options:\n"
 #| "  --showformat=<format>            Use alternative format for --show.\n"
@@ -5210,6 +5209,7 @@ msgid ""
 msgstr ""
 "Options :\n"
 "  --showformat=<format>  Utiliser un formatage alternatif pour --show.\n"
+"  -v, --verbose          Activer l'affichage détaillé.\n"
 "  -D                     Activer la sortie de débogage.\n"
 "  --old, --new           Contrôler le format d'archive.\n"
 "  --no-check             Supprimer la vérification du fichier control\n"
@@ -5371,10 +5371,9 @@ msgstr ""
 "le fichier « %.250s » est corrompu - mauvais nombre de parties d'archive"
 
 #: dpkg-split/info.c:157
-#, fuzzy
 #| msgid "package name"
 msgid "package architecture"
-msgstr "nom du paquet"
+msgstr "architecture du paquet"
 
 #: dpkg-split/info.c:166
 #, c-format
@@ -5426,7 +5425,7 @@ msgid "file `%.250s' is not an archive part"
 msgstr "le fichier « %.250s » n'est pas une partie de l'archive"
 
 #: dpkg-split/info.c:209
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "%s:\n"
 #| "    Part format version:            %s\n"
@@ -5459,6 +5458,7 @@ msgstr ""
 "    Version du format de partie :                  %s\n"
 "    Partie du paquet :                             %s\n"
 "        ... version :                              %s\n"
+"        ... architecture :                         %s\n"
 "        ... code de contrôle MD5 :                 %s\n"
 "        ... longueur :                             %jd octets\n"
 "        ... coupé tous les :                       %jd octets\n"
@@ -5469,7 +5469,6 @@ msgstr ""
 "\n"
 
 #: dpkg-split/info.c:225
-#, fuzzy
 #| msgctxt "section"
 #| msgid "<unknown>"
 msgctxt "architecture"
@@ -5566,7 +5565,7 @@ msgstr ""
 "\n"
 
 #: dpkg-split/main.c:82
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Options:\n"
 #| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
@@ -5588,14 +5587,14 @@ msgid ""
 "\n"
 msgstr ""
 "Options :\n"
-"   --depotdir <répertoire>  (par défaut %s %s)\n"
-"   -S|--partsize <taille>   (pour -s, par défaut 450 ko)\n"
-"   -o|--output <fichier>    (pour -j, par défaut <paquet>-<version>.deb)\n"
-"   -Q|--npquiet             (ne rien afficher quand -a n'est pas une "
-"partie)\n"
-"   --msdos                  (générer des noms de fichiers au format 8.3)\n"
+"   --depotdir <répertoire>  utiliser <répertoire> au lieu de %s/%s.\n"
+"   -S|--partsize <taille>   en Kio, pour -s (défaut 450)\n"
+"   -o|--output <fichier>    nom de fichier, pour -j (défaut\n"
+"                             <paquet>_<version>_<arch>.deb)\n"
+"   -Q|--npquiet             (ne rien afficher quand -a n'est pas\n"
+"                             une partie)\n"
+"   --msdos                  créer des noms de fichiers au format 8.3.\n"
 "\n"
-"Code de sortie : 0 = OK ;  1 = -a n'est pas une partie ;  2 = problème !\n"
 
 #: dpkg-split/main.c:92
 #, c-format
@@ -5605,6 +5604,10 @@ msgid ""
 "  1 = with --auto, file is not a part\n"
 "  2 = trouble\n"
 msgstr ""
+"Code de sortie :\n"
+"  0 = OK\n"
+"  1 = avec --auto, le fichier n'est pas une partie\n"
+"  2 = autre problème\n"
 
 #: dpkg-split/main.c:103
 msgid "Type dpkg-split --help for help."
@@ -5904,16 +5907,16 @@ msgid "two commands specified: --%s and --%s"
 msgstr "deux commandes spécifiées : --%s et --%s"
 
 #: utils/update-alternatives.c:387
-#, fuzzy, c-format
+#, c-format
 #| msgid "cannot append to %s: %s"
 msgid "cannot append to '%s'"
-msgstr "impossible d'ajouter à %s : %s"
+msgstr "impossible d'ajouter à « %s »"
 
 #: utils/update-alternatives.c:556
-#, fuzzy, c-format
+#, c-format
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
-msgstr "impossible de supprimer %s : %s"
+msgstr "impossible de supprimer « %s »"
 
 #: utils/update-alternatives.c:1111
 #, c-format
@@ -6100,10 +6103,10 @@ msgstr ""
 "n'existe pas."
 
 #: utils/update-alternatives.c:1790
-#, fuzzy, c-format
+#, c-format
 #| msgid "not replacing %s with a link."
 msgid "not removing %s since it's not a symlink."
-msgstr "%s ne sera pas remplacé par un lien."
+msgstr "pas de suppression de %s car ce n'est pas un lien."
 
 #: utils/update-alternatives.c:2041 utils/update-alternatives.c:2047
 #, c-format
@@ -6176,23 +6179,26 @@ msgid "alternative path %s doesn't exist."
 msgstr "le chemin alternatif %s n'existe pas."
 
 #: utils/update-alternatives.c:2254
-#, fuzzy, c-format
+#, c-format
 #| msgid "alternative %s can't be slave of %s: %s"
 msgid "alternative %s can't be slave of %s: it is a master alternative."
-msgstr "l'alternative %s ne peut pas être secondaire de %s : %s"
+msgstr ""
+"l'alternative %s ne peut pas être secondaire de %s : c'est une alternative "
+"principale."
 
 #: utils/update-alternatives.c:2258
-#, fuzzy, c-format
+#, c-format
 #| msgid "alternative %s can't be master: it is a slave of %s"
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr ""
-"l'alternative %s ne peut pas être principale : elle est un secondaire de %s"
+"l'alternative %s ne peut pas être secondaire de %s : elle est un secondaire "
+"de %s"
 
 #: utils/update-alternatives.c:2278
-#, fuzzy, c-format
+#, c-format
 #| msgid "alternative link %s is already managed by %s."
 msgid "alternative link %s is already managed by %s (slave of %s)."
-msgstr "le lien alternatif %s est déjà géré par %s."
+msgstr "le lien alternatif %s est déjà géré par %s (secondaire de %s)."
 
 #: utils/update-alternatives.c:2324
 #, c-format
