@@ -249,7 +249,7 @@ dpkg_arch_remove(struct dpkg_arch *arch_remove)
 {
 	struct dpkg_arch *arch;
 
-	for (arch = arch_builtin_tail; arch->next; arch = arch->next) {
+	for (arch = arch_builtin_tail; arch && arch->next; arch = arch->next) {
 		if (arch->next->type != arch_foreign)
 			continue;
 
