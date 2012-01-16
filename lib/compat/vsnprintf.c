@@ -38,7 +38,7 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
 	if (maxsize != 0 && buf == NULL)
 		return -1;
 
-	/* Avoid race conditions from childs after a fork(2). */
+	/* Avoid race conditions from children after a fork(2). */
 	if (file_pid > 0 && file_pid != getpid()) {
 		fclose(file);
 		file = NULL;

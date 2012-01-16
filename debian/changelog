@@ -48,7 +48,7 @@ dpkg (1.16.2) UNRELEASED; urgency=low
   * Add support for virtual output source:Package and source:Version fields.
     Closes: #653575
   * Use a different temporary file per process on libcompat's vsnprintf()
-    function to avoid race conditions from childs after fork(3).
+    function to avoid race conditions from children after fork(3).
     Reported by Daniel Ruoso <daniel@ruoso.com>. Closes: #655411
   * Fix start-stop-daemon --exec and --name options on FreeBSD, NetBSD and
     OpenBSD by swapping the process matching implementations.
@@ -2394,7 +2394,7 @@ dpkg (1.14.21) unstable; urgency=low
   * Match description of -si option in dpkg-buildpackage to the one in
     dpkg-genchanges. Closes: #493743
   * Close --status-fd file descriptors on exec, so that they are not
-    inherited by the childs. Closes: #471488, #487684
+    inherited by the children. Closes: #471488, #487684
   * State that the preferred front-end is aptitude and replace one instance
     of dselect usage with apt-get. Closes: #483785
 
@@ -2437,7 +2437,7 @@ dpkg (1.14.20) unstable; urgency=low
   * When dpkg-divert does renames do no check the target file if the source
     does not exist and the rename is thus being disabled. This also allows
     to remove bogus diversions. Closes: #476973, #469033
-  * Properly close triggers 'File' file, so it does not get leaked to childs.
+  * Properly close triggers 'File' file, so it does not get leaked to children.
 
   [ Raphaël Hertzog ]
   * Add missing 'use File::Path' in Dpkg::Source::Package::V3::quilt.
