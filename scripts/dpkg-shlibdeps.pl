@@ -406,8 +406,8 @@ foreach my $file (keys %exec) {
 	    next if ($soname =~ /^libm\.so\.\d+$/ and
 		     scalar grep(/^libstdc\+\+\.so\.\d+/, @sonames));
             next unless ($warnings & WARN_NOT_NEEDED);
-	    warning(_g("%s shouldn't be linked with %s (it uses none of its " .
-	               "symbols)."), $file, $soname);
+	    warning(_g("%s should not be linked against %s (it uses none of " .
+	               "the library's symbols)."), $file, $soname);
 	}
     }
 }
@@ -419,10 +419,12 @@ foreach my $soname (keys %global_soname_needed) {
         next if ($soname =~ /^libm\.so\.\d+$/ and scalar(
                  grep(/^libstdc\+\+\.so\.\d+/, keys %global_soname_needed)));
         next unless ($warnings & WARN_DEP_AVOIDABLE);
-        warning(_g("dependency on %s could be avoided if \"%s\" were not " .
-                   "uselessly linked against it (they use none of its " .
-                   "symbols)."), $soname,
-                   join(" ", @{$global_soname_needed{$soname}}));
+        warning(P_("package could avoid a useless dependency if %s was not " .
+                   "linked against %s (it uses none of the library's symbols).",
+                   "package could avoid a useless dependency if %s were not " .
+                   "linked against %s (they use none of the library's symbols).",
+                   scalar @{$global_soname_needed{$soname}}),
+                join(" ", @{$global_soname_needed{$soname}}), $soname);
     }
 }
 
