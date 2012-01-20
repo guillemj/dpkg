@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2011.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2011-12-29 19:41+0100\n"
-"PO-Revision-Date: 2011-12-29 19:48+0100\n"
+"POT-Creation-Date: 2012-01-20 19:22+0100\n"
+"PO-Revision-Date: 2012-01-20 19:38+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl:57 scripts/dpkg-gensymbols.pl:49
 #: scripts/dpkg-mergechangelogs.pl:53 scripts/dpkg-name.pl:46
 #: scripts/dpkg-parsechangelog.pl:31 scripts/dpkg-scanpackages.pl:60
-#: scripts/dpkg-scansources.pl:78 scripts/dpkg-shlibdeps.pl:533
+#: scripts/dpkg-scansources.pl:78 scripts/dpkg-shlibdeps.pl:535
 #: scripts/dpkg-source.pl:455 scripts/changelog/debian.pl:34
 #, perl-format
 msgid "Debian %s version %s.\n"
@@ -42,7 +42,7 @@ msgstr ""
 #: scripts/dpkg-buildpackage.pl:44 scripts/dpkg-distaddfile.pl:39
 #: scripts/dpkg-genchanges.pl:102 scripts/dpkg-gencontrol.pl:63
 #: scripts/dpkg-gensymbols.pl:55 scripts/dpkg-parsechangelog.pl:37
-#: scripts/dpkg-shlibdeps.pl:542 scripts/dpkg-source.pl:462
+#: scripts/dpkg-shlibdeps.pl:544 scripts/dpkg-source.pl:462
 #: scripts/changelog/debian.pl:39
 msgid ""
 "\n"
@@ -610,7 +610,7 @@ msgid "install new files list file"
 msgstr "neue Dateienliste-Datei installieren"
 
 #: scripts/dpkg-distaddfile.pl:106 scripts/dpkg-gencontrol.pl:378
-#: scripts/dpkg-gencontrol.pl:395 scripts/dpkg-shlibdeps.pl:523
+#: scripts/dpkg-gencontrol.pl:395 scripts/dpkg-shlibdeps.pl:525
 #: scripts/Dpkg/Interface/Storable.pm:91
 #: scripts/Dpkg/Interface/Storable.pm:119 scripts/Dpkg/Source/Patch.pm:290
 #: scripts/Dpkg/Source/Package/V2.pm:607
@@ -932,7 +932,7 @@ msgid "%s package with udeb specific field %s"
 msgstr "%s Paket mit udeb-spezifischem Feld %s"
 
 #: scripts/dpkg-gencontrol.pl:305 scripts/dpkg-scansources.pl:313
-#: scripts/dpkg-shlibdeps.pl:836 scripts/Dpkg/Changelog/Parse.pm:138
+#: scripts/dpkg-shlibdeps.pl:838 scripts/Dpkg/Changelog/Parse.pm:138
 #: scripts/Dpkg/IPC.pm:229 scripts/Dpkg/Shlibs/Objdump.pm:181
 #, perl-format
 msgid "cannot fork for %s"
@@ -943,7 +943,7 @@ msgstr "fork kann für %s nicht ausgeführt werden"
 msgid "chdir for du to `%s'"
 msgstr "chdir nach »%s« für du"
 
-#: scripts/dpkg-gencontrol.pl:310 scripts/dpkg-shlibdeps.pl:843
+#: scripts/dpkg-gencontrol.pl:310 scripts/dpkg-shlibdeps.pl:845
 #: scripts/Dpkg/IPC.pm:271 scripts/Dpkg/Shlibs/Cppfilt.pm:50
 #, perl-format
 msgid "unable to execute %s"
@@ -1596,20 +1596,28 @@ msgstr[1] ""
 
 #: scripts/dpkg-shlibdeps.pl:409
 #, perl-format
-msgid "%s shouldn't be linked with %s (it uses none of its symbols)."
+msgid ""
+"%s should not be linked against %s (it uses none of the library's symbols)."
 msgstr ""
-"%s sollte nicht gegen %s gelinkt werden (es verwendet keines ihrer Symbole)."
+"%s sollte nicht gegen %s gelinkt werden (es verwendet keines der "
+"Bibliotheks-Symbole)."
 
 #: scripts/dpkg-shlibdeps.pl:422
 #, perl-format
 msgid ""
-"dependency on %s could be avoided if \"%s\" were not uselessly linked "
-"against it (they use none of its symbols)."
-msgstr ""
-"Abhängigkeit von %s könnte vermieden werden, falls »%s« nicht unnötigerweise "
-"dagegen gelinkt wäre (es verwendet keines ihrer Symbole)."
+"package could avoid a useless dependency if %s was not linked against %s (it "
+"uses none of the library's symbols)."
+msgid_plural ""
+"package could avoid a useless dependency if %s were not linked against %s "
+"(they use none of the library's symbols)."
+msgstr[0] ""
+"Das Paket könnte eine nutzlose Abhängigkeit vermeiden, falls %s nicht gegen "
+"%s gelinkt wäre (es verwendet keines der Symbole der Bibliothek)."
+msgstr[1] ""
+"Das Paket könnte eine nutzlose Abhängigkeit vermeiden, falls %s nicht gegen "
+"%s gelinkt wären (sie verwenden keine der Symbole der Bibliothek)."
 
-#: scripts/dpkg-shlibdeps.pl:431
+#: scripts/dpkg-shlibdeps.pl:433
 msgid ""
 "Note: libraries are not searched in other binary packages that do not have "
 "any shlibs or symbols file.\n"
@@ -1621,38 +1629,38 @@ msgstr ""
 "Um dpkg-shlibdeps dabei zu helfen, private Bibliotheken zu finden, könnte es "
 "notwendig sein, LD_LIBRARY_PATH zu setzen."
 
-#: scripts/dpkg-shlibdeps.pl:434
+#: scripts/dpkg-shlibdeps.pl:436
 msgid "Cannot continue due to the error above."
 msgid_plural "Cannot continue due to the errors listed above."
 msgstr[0] "Kann wegen des vorangegangenen Fehlers nicht fortfahren."
 msgstr[1] "Kann wegen der vorangegangenen Fehler nicht fortfahren."
 
-#: scripts/dpkg-shlibdeps.pl:445
+#: scripts/dpkg-shlibdeps.pl:447
 #, perl-format
 msgid "open new substvars file `%s'"
 msgstr "neue Substvars-Datei »%s« öffnen"
 
-#: scripts/dpkg-shlibdeps.pl:448
+#: scripts/dpkg-shlibdeps.pl:450
 #, perl-format
 msgid "open old varlist file `%s' for reading"
 msgstr "alte Varlist-Datei »%s« zum Lesen öffnen"
 
-#: scripts/dpkg-shlibdeps.pl:451
+#: scripts/dpkg-shlibdeps.pl:453
 #, perl-format
 msgid "copy old entry to new varlist file `%s'"
 msgstr "alte Einträge in die neue Varlist-Datei »%s« kopieren"
 
-#: scripts/dpkg-shlibdeps.pl:515
+#: scripts/dpkg-shlibdeps.pl:517
 #, perl-format
 msgid "invalid dependency got generated: %s"
 msgstr "ungültige Abhängigkeit wurde erstellt: %s"
 
-#: scripts/dpkg-shlibdeps.pl:525
+#: scripts/dpkg-shlibdeps.pl:527
 #, perl-format
 msgid "install new varlist file `%s'"
 msgstr "neue Varlist-Datei »%s« installieren"
 
-#: scripts/dpkg-shlibdeps.pl:535
+#: scripts/dpkg-shlibdeps.pl:537
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson.\n"
@@ -1666,7 +1674,7 @@ msgstr ""
 "Copyright (C) 2006 Frank Lichtenheld.\n"
 "Copyright (C) 2007 Raphael Hertzog.\n"
 
-#: scripts/dpkg-shlibdeps.pl:550
+#: scripts/dpkg-shlibdeps.pl:552
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <executable>|-e<executable> [<option> ...]\n"
@@ -1731,30 +1739,30 @@ msgstr ""
 "Unterstützte Abhängigkeitsfelder sind:\n"
 "  %s\n"
 
-#: scripts/dpkg-shlibdeps.pl:677
+#: scripts/dpkg-shlibdeps.pl:679
 #, perl-format
 msgid "Can't extract name and version from library name `%s'"
 msgstr ""
 "Name und Version können nicht aus Bibliotheksnamen »%s« entnommen werden"
 
-#: scripts/dpkg-shlibdeps.pl:684
+#: scripts/dpkg-shlibdeps.pl:686
 #, perl-format
 msgid "unable to open shared libs info file `%s'"
 msgstr ""
 "Informationsdatei für Laufzeitbibliothek »%s« kann nicht geöffnet werden"
 
-#: scripts/dpkg-shlibdeps.pl:690
+#: scripts/dpkg-shlibdeps.pl:692
 #, perl-format
 msgid "shared libs info file `%s' line %d: bad line `%s'"
 msgstr ""
 "Informationsdatei »%s« der Laufzeitbibliothek, Zeile %d: ungültige Zeile »%s«"
 
-#: scripts/dpkg-shlibdeps.pl:749
+#: scripts/dpkg-shlibdeps.pl:751
 #, perl-format
 msgid "cannot open file %s"
 msgstr "Datei %s kann nicht geöffnet werden"
 
-#: scripts/dpkg-shlibdeps.pl:783
+#: scripts/dpkg-shlibdeps.pl:785
 #, perl-format
 msgid ""
 "$ORIGIN is used in RPATH of %s and the corresponding directory could not be "
@@ -1765,15 +1773,15 @@ msgstr ""
 "nicht identifiziert werden, da das DEBIAN-Unterverzeichnis in der Wurzel des "
 "Paketbaubaums fehlt."
 
-#: scripts/dpkg-shlibdeps.pl:848
+#: scripts/dpkg-shlibdeps.pl:850
 msgid "diversions involved - output may be incorrect"
 msgstr "Umleitungen beteiligt - Ausgabe könnte nicht korrekt sein"
 
-#: scripts/dpkg-shlibdeps.pl:850
+#: scripts/dpkg-shlibdeps.pl:852
 msgid "write diversion info to stderr"
 msgstr "Schreiben der Informationen zu Umleitungen auf Stderr"
 
-#: scripts/dpkg-shlibdeps.pl:854
+#: scripts/dpkg-shlibdeps.pl:856
 #, perl-format
 msgid "unknown output from dpkg --search: '%s'"
 msgstr "unbekannte Ausgabe von »dpkg --search«: »%s«"
