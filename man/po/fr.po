@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2011-09-23 03:38+0300\n"
-"PO-Revision-Date: 2012-01-19 09:52+0100\n"
+"PO-Revision-Date: 2012-01-20 20:09+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -6720,10 +6720,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:46
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--debug>"
 msgid "B<--dump>"
-msgstr "B<--debug>"
+msgstr "B<--dump>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:51
@@ -6732,6 +6732,10 @@ msgid ""
 "one flag per line separated from its value by an equal sign "
 "(\"I<flag>=I<value>\"). This is the default action."
 msgstr ""
+"Affiche sur la sortie standard tous les drapeaux de compilation et leurs "
+"valeurs. Un drapeau par ligne est affiché, suivi de sa valeur, séparée par le "
+"caractère « égal » (« I<drapeau>=I<valeur> »). Il s'agit de l'action par "
+"défaut."
 
 #. type: TP
 #: dpkg-buildflags.1:51
@@ -6756,7 +6760,6 @@ msgstr "B<--export=>I<format>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:66
-#, fuzzy
 #| msgid ""
 #| "Print to standard output shell (if I<format> is B<sh>) or make (if "
 #| "I<format> is B<make>) commands that can be used to export all the "
@@ -6772,10 +6775,12 @@ msgid ""
 "assumed. Only compilation flags starting with an upper case character are "
 "included, others are assumed to not be suitable for the environment."
 msgstr ""
-"Affiche sur la sortie standard, les commandes shell (si I<format> est B<sh>) "
+"Affiche sur la sortie standard les commandes shell (si I<format> est B<sh>) "
 "ou make (si I<format> est B<make>) qui permettent d'exporter tous les "
-"drapeaux de compilation dans l'environnement. La valeur par défaut de "
-"I<format> est B<sh>. Seuls les drapeaux de compilation commençant par une "
+"drapeaux de compilation dans l'environnement. Si I<format> est B<configure>, "
+"la sortie peut être utilisée comme une ligne de commande de B<./configure>? "
+"Si I<format> n'est pas spécifié, sa valeur est B<sh>. Seuls les drapeaux de "
+"compilation commençant par une "
 "majuscule sont inclus, les autres étant supposés inadaptés à l'environnement."
 
 #. type: TP
@@ -6967,6 +6972,13 @@ msgid ""
 "be used in B<debian/rules> by package maintainers to change the resulting "
 "build flags."
 msgstr ""
+"Deux jeux de variables d'environnement effectuent les mêmes opérations. Le "
+"premier (DEB_I<drapeau>_I<opération>) ne devrait jamais être utilisé  depuis "
+"B<debian/rules>. Il est destiné pour les utilisateurs souhaitant recompiler "
+"le paquet source avec des drapeaux de compilation modifiés. Le second (DEB_I<"
+"drapeau>_MAINT_I<opération>) ne doit être utilisé que dans B<debian/rules> "
+"par les responsables de paquets pour modifier les drapeaux de compilation "
+"concernés."
 
 #. type: TP
 #: dpkg-buildflags.1:135
@@ -6976,10 +6988,10 @@ msgstr "B<DEB_>I<drapeau>B<_SET>"
 
 #. type: TQ
 #: dpkg-buildflags.1:137
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DEB_>I<flag>B<_SET>"
 msgid "B<DEB_>I<flag>B<_MAINT_SET>"
-msgstr "B<DEB_>I<drapeau>B<_SET>"
+msgstr "B<DEB_>I<drapeau>B<_MAINT_SET>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:141
@@ -6991,21 +7003,20 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:141
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DEB_>I<flag>B<_SET>"
 msgid "B<DEB_>I<flag>B<_STRIP>"
-msgstr "B<DEB_>I<drapeau>B<_SET>"
+msgstr "B<DEB_>I<drapeau>B<_STRIP>"
 
 #. type: TQ
 #: dpkg-buildflags.1:143
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DEB_>I<flag>B<_SET>"
 msgid "B<DEB_>I<flag>B<_MAINT_STRIP>"
-msgstr "B<DEB_>I<drapeau>B<_SET>"
+msgstr "B<DEB_>I<drapeau>B<_MAINT_STRIP>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:148
-#, fuzzy
 #| msgid ""
 #| "This variable can be used to append supplementary options to the value "
 #| "returned for the given I<flag>."
@@ -7013,7 +7024,8 @@ msgid ""
 "This variable can be used to provide a space separated list of options that "
 "will be stripped from the set of flags returned for the given I<flag>."
 msgstr ""
-"Cette variable permet d'ajouter des options à la valeur renvoyée pour le "
+"Cette variable peut être utilisée pour fournir une liste d'options (séparées "
+"par des espaces) qui seront retirées du jeu de drapeaux renvoyé pour le "
 "I<drapeau> indiqué."
 
 #. type: TP
@@ -7024,10 +7036,10 @@ msgstr "B<DEB_>I<drapeau>B<_APPEND>"
 
 #. type: TQ
 #: dpkg-buildflags.1:150
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DEB_>I<flag>B<_APPEND>"
 msgid "B<DEB_>I<flag>B<_MAINT_APPEND>"
-msgstr "B<DEB_>I<drapeau>B<_APPEND>"
+msgstr "B<DEB_>I<drapeau>B<_MAINT_APPEND>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:154
@@ -7040,21 +7052,20 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:154
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DEB_>I<flag>B<_APPEND>"
 msgid "B<DEB_>I<flag>B<_PREPEND>"
-msgstr "B<DEB_>I<drapeau>B<_APPEND>"
+msgstr "B<DEB_>I<drapeau>B<_PREPEND>"
 
 #. type: TQ
 #: dpkg-buildflags.1:156
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DEB_>I<flag>B<_APPEND>"
 msgid "B<DEB_>I<flag>B<_MAINT_PREPEND>"
-msgstr "B<DEB_>I<drapeau>B<_APPEND>"
+msgstr "B<DEB_>I<drapeau>B<_MAINT_PREPEND>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:160
-#, fuzzy
 #| msgid ""
 #| "This variable can be used to append supplementary options to the value "
 #| "returned for the given I<flag>."
@@ -7062,15 +7073,15 @@ msgid ""
 "This variable can be used to prepend supplementary options to the value "
 "returned for the given I<flag>."
 msgstr ""
-"Cette variable permet d'ajouter des options à la valeur renvoyée pour le "
-"I<drapeau> indiqué."
+"Cette variable permet de préfixer la valeur renvoyée pour le "
+"I<drapeau> indiqué par des options supplémentaires."
 
 #. type: TP
 #: dpkg-buildflags.1:160
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DEB_>I<flag>B<_SET>"
 msgid "B<DEB_BUILD_MAINT_OPTIONS>"
-msgstr "B<DEB_>I<drapeau>B<_SET>"
+msgstr "B<DEB_BUILD_MAINT_OPTIONS>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:165
@@ -7078,13 +7089,16 @@ msgid ""
 "This variable can be used to disable/enable various hardening build flags "
 "through the B<hardening> option. See the B<HARDENING> section for details."
 msgstr ""
+"Cette variable permet d'activer ou désactiver différents drapeaux de "
+"compilation renforcée via l'option B<hardening>. Voir la section B<"
+"COMPILATION RENFORCÉE> pour plus d'informations."
 
 #. type: SH
 #: dpkg-buildflags.1:166
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "WARNING"
 msgid "HARDENING"
-msgstr "AVERTISSEMENT"
+msgstr "COMPILATION RENFORCÉE (« HARDENING »)"
 
 #. type: Plain text
 #: dpkg-buildflags.1:171
@@ -7094,6 +7108,11 @@ msgid ""
 "warning messages during compilation. Except as noted below, these are "
 "enabled by default for architectures that support them."
 msgstr ""
+"Plusieurs options de compilation (détaillées ci-dessous) peuvent aider à "
+"rendre le binaire compilé moins sensibles aux attaques par corruption de la "
+"mémoire ou à fournir des messages supplémentaires d'avertissement lors de la "
+"compilation. Sauf mention contraire, ces options sont activées par défaut "
+"pour les architectures qui les gèrent."
 
 #. type: Plain text
 #: dpkg-buildflags.1:177
@@ -7103,6 +7122,11 @@ msgid ""
 "the \"+\" and \"-\" modifier. For example, to enable the \"pie\" feature and "
 "disable the \"fortify\" feature you can do this in B<debian/rules>:"
 msgstr ""
+"Chaque option de renforcement peut être activée ou désactivée avec la valeur "
+"B<hardening> de la variable d'environnement B<DEB_BUILD_MAINT_OPTIONS>, via "
+"un modificateur « + » ou « - ». Par exemple, pour activer l'option « pie » et "
+"désactiver l'option « feature », il est possible d'indiquer ceci dans B<"
+"debian/rules> :"
 
 #. type: Plain text
 #: dpkg-buildflags.1:179
