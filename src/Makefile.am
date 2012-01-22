@@ -39,7 +39,7 @@ dpkg_SOURCES = \
 	filesdb.c \
 	file-match.c file-match.h \
 	filters.c filters.h \
-	infodb.c \
+	infodb-access.c \
 	divertdb.c \
 	statdb.c \
 	help.c \
@@ -62,7 +62,7 @@ dpkg_divert_SOURCES = \
 
 dpkg_query_SOURCES = \
 	filesdb.c \
-	infodb.c \
+	infodb-access.c \
 	divertdb.c \
 	querycmd.c
 
