@@ -25,6 +25,10 @@ bin_PROGRAMS = \
 	dpkg-statoverride \
 	dpkg-trigger
 
+noinst_HEADERS = \
+	filesdb.h \
+	infodb.h
+
 dpkg_SOURCES = \
 	archives.c archives.h \
 	cleanup.c \
@@ -32,10 +36,10 @@ dpkg_SOURCES = \
 	depcon.c \
 	enquiry.c \
 	errors.c \
-	filesdb.c filesdb.h \
+	filesdb.c \
 	file-match.c file-match.h \
 	filters.c filters.h \
-	infodb.c infodb.h \
+	infodb.c \
 	divertdb.c \
 	statdb.c \
 	help.c \
@@ -52,18 +56,18 @@ dpkg_LDADD = \
 	$(SELINUX_LIBS)
 
 dpkg_divert_SOURCES = \
-	filesdb.c filesdb.h \
+	filesdb.c \
 	divertdb.c \
 	divertcmd.c
 
 dpkg_query_SOURCES = \
-	filesdb.c filesdb.h \
-	infodb.c infodb.h \
+	filesdb.c \
+	infodb.c \
 	divertdb.c \
 	querycmd.c
 
 dpkg_statoverride_SOURCES = \
-	filesdb.c filesdb.h \
+	filesdb.c \
 	statdb.c \
 	statcmd.c
 
