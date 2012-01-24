@@ -27,12 +27,13 @@ It calls \fBdpkg\-source \-b\fP to generate the source package (unless
 a binary\-only build has been requested with \fB\-b\fP, \fB\-B\fP or
 \fB\-A\fP).
 .IP \fB5.\fP 3
-It calls \fBdebian/rules\fP \fBbuild\fP followed by
+It calls \fBdebian/rules\fP \fIbuild-target\fP followed by
 \fBfakeroot debian/rules\fP \fIbinary-target\fP (unless a source-only
-build has been requested with \fB\-S\fP). Note that \fIbinary-target\fR is
-either \fBbinary\fP (default case, or if \fB\-b\fP is specified)
-or \fBbinary\-arch\fP (if \fB\-B\fP is specified) or \fBbinary\-indep\fP
-(if \fB\-A\fP is specified).
+build has been requested with \fB\-S\fP). Note that \fIbuild-target\fR
+and \fIbinary-target\fP are either \fBbuild\fP and \fBbinary\fP (default
+case, or if \fB\-b\fP is specified), or \fBbuild\-arch\fP and
+\fBbinary\-arch\fP (if \fB\-B\fP is specified), or \fBbuild\-indep\fP and
+\fBbinary\-indep\fP (if \fB\-A\fP is specified).
 .IP \fB6.\fP 3
 It calls \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
 \fB\-us\fP is specified).
@@ -241,6 +242,13 @@ exported compiler flags (\fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBFFLAGS\fP,
 \fBCPPFLAGS\fP and \fBLDFLAGS\fP) with values as returned
 by \fBdpkg\-buildflags\fP. This is no longer the case.
 .
+.SH BACKWARD COMPATIBILITY
+\fBdpkg\-buildpackage\fP is using the \fBbuild\-arch\fP and
+\fBbuild\-indep\fP targets since version 1.16.2. Those targets are thus
+mandatory. But to avoid breakages of existing packages, and ease
+the transition, it will fallback to using the \fBbuild\fP target
+if \fBmake \-f debian/rules \-qn\fP \fIbuild-target\fP returns 2 as
+exit code.
 .SH BUGS
 It should be possible to specify spaces and shell metacharacters in
 and initial arguments for
@@ -261,7 +269,7 @@ Copyright \(co 2000 Wichert Akkerman
 .br
 Copyright \(co 2007 Frank Lichtenheld
 .br
-Copyright \(co 2008-2010 Rapha\[:e]l Hertzog
+Copyright \(co 2008-2012 Rapha\[:e]l Hertzog
 .sp
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO WARRANTY.

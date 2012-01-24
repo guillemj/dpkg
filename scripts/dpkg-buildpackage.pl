@@ -30,6 +30,7 @@ use Dpkg::Compression;
 use Dpkg::Version;
 use Dpkg::Changelog::Parse;
 use Dpkg::Path qw(find_command);
+use Dpkg::IPC;
 
 textdomain("dpkg-dev");
 
@@ -117,6 +118,7 @@ my ($admindir, $signkey, $forcesigninterface, $usepause, $noclean,
 my $checkbuilddep = 1;
 my $signsource = 1;
 my $signchanges = 1;
+my $buildtarget = 'build';
 my $binarytarget = 'binary';
 my $targetarch = my $targetgnusystem = '';
 my $call_target = '';
@@ -201,18 +203,21 @@ while (@ARGV) {
 	$include = BUILD_BINARY;
 	push @changes_opts, '-b';
 	@checkbuilddep_opts = ();
+	$buildtarget = 'build';
 	$binarytarget = 'binary';
     } elsif (/^-B$/) {
 	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = BUILD_ARCH_DEP;
 	push @changes_opts, '-B';
 	@checkbuilddep_opts = ('-B');
+	$buildtarget = 'build-arch';
 	$binarytarget = 'binary-arch';
     } elsif (/^-A$/) {
 	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = BUILD_ARCH_INDEP;
 	push @changes_opts, '-A';
 	@checkbuilddep_opts = ();
+	$buildtarget = 'build-indep';
 	$binarytarget = 'binary-indep';
     } elsif (/^-S$/) {
 	build_binaryonly && usageerr(_g("cannot combine %s and %s"), build_opt, "-S");
@@ -393,8 +398,27 @@ unless (build_binaryonly) {
     withecho('dpkg-source', @source_opts, '-b', $dir);
     chdir($dir) or syserr("chdir $dir");
 }
+
+unless ($buildtarget eq "build" or scalar(@debian_rules) > 1) {
+    # Verify that build-{arch,indep} are supported. If not, fallback to build.
+    # This is a temporary measure to not break too many packages on a flag day.
+    my $pid = spawn(exec => [ "make", "-f", @debian_rules, "-qn", $buildtarget ],
+                    from_file => "/dev/null", to_file => "/dev/null",
+                    error_to_file => "/dev/null");
+    my $cmdline = "make -f @debian_rules -qn $buildtarget";
+    wait_child($pid, nocheck => 1, cmdline => $cmdline);
+    my $exitcode = WEXITSTATUS($?);
+    subprocerr($cmdline) unless WIFEXITED($?);
+    if ($exitcode == 2) {
+        warning(_g("%s must be updated to support the 'build-arch' and " .
+                   "'build-indep' targets (at least '%s' seems to be " .
+                   "missing)"), "@debian_rules", $buildtarget);
+        $buildtarget = "build";
+    }
+}
+
 unless (build_sourceonly) {
-    withecho(@debian_rules, 'build');
+    withecho(@debian_rules, $buildtarget);
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 if ($usepause &&
