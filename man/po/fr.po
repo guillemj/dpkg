@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2011-09-23 03:38+0300\n"
-"PO-Revision-Date: 2012-01-20 20:09+0100\n"
+"PO-Revision-Date: 2012-01-24 19:23+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -7132,7 +7132,7 @@ msgstr ""
 #: dpkg-buildflags.1:179
 #, no-wrap
 msgid "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=+pie,-fortify\"\n"
-msgstr ""
+msgstr "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=+pie,-fortify\"\n"
 
 #. type: Plain text
 #: dpkg-buildflags.1:183
@@ -7141,19 +7141,22 @@ msgid ""
 "features at the same time. Thus disabling everything and enabling only "
 "\"format\" and \"fortify\" can be achieved with:"
 msgstr ""
+"L'option spéciale B<all> peut être utilisée pour activer ou désactiver toutes "
+"les options de renforcement à la fois. Ainsi, tout désactiver en n'activant "
+"que « format » et « fortify » peut être réalisé avec :"
 
 #. type: Plain text
 #: dpkg-buildflags.1:185
 #, no-wrap
 msgid "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=-all,+format,+fortify\"\n"
-msgstr ""
+msgstr "  export DEB_BUILD_MAINT_OPTIONS=\"hardening=-all,+format,+fortify\"\n"
 
 #. type: TP
 #: dpkg-buildflags.1:186
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Format>"
 msgid "B<format>"
-msgstr "B<Format>"
+msgstr "B<format>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:198
@@ -7167,6 +7170,16 @@ msgid ""
 "> instead of B<printf(\"%s\", foo);> This may be a security hole if the "
 "format string came from untrusted input and contains \"%n\"."
 msgstr ""
+"Ce réglage (activé par défaut) ajoute B<-Wformat -Wformat-security -"
+"Werror=format-security> à B<CFLAGS> et B<CXXFLAGS>. Cela provoquera "
+"l'avertissement en cas d'utilisation de chaînes de formatage incorrectes et "
+"échouera sur les fonctions de formatage sont utilisées d'une façon qui "
+"présente des risques pour la sécurité. Actuellement, ce réglage crée des "
+"avertissement pour les appels des fonctions B<printf> et B<scanf>  lorsque la "
+"chaîne de formatage n'est pas une chaîne litérale et qu'aucun paramètre de "
+"formatage n'est utilisé (par exemple dans B<printf(foo);> au lieu de B<"
+"printf(\"%s\", foo);>. Ce type de syntaxe peut créer un problème de sécurité "
+"si la chapine de formatage vient d'une source non sûre et contient « %n »."
 
 #. type: TP
 #: dpkg-buildflags.1:199
