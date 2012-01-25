@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2011-09-23 03:38+0300\n"
-"PO-Revision-Date: 2012-01-24 19:23+0100\n"
+"PO-Revision-Date: 2012-01-25 19:55+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -7185,7 +7185,7 @@ msgstr ""
 #: dpkg-buildflags.1:199
 #, no-wrap
 msgid "B<fortify>"
-msgstr ""
+msgstr "B<fortify>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:210
@@ -7198,6 +7198,15 @@ msgid ""
 "strings in writable memory that contain '%n' are blocked. If an application "
 "depends on such a format string, it will need to be worked around."
 msgstr ""
+"Ce réglage, actif par défaut, ajoute B<-D_FORTIFY_SOURCE=2> à B<CFLAGS> "
+"et B<CXXFLAGS>. Lors de la création du code, le compilateur connaît un nombre "
+"important d'informations relatives aux tailles de tampons (quand c'est "
+"possible) et tente alors de remplacer des appels de fonctions avec une taille "
+"illimitée de tampons, peu sûrs, par des appels avec des tampons de taille "
+"limitée. Cette fonctionnalité est particulièrement utile pour de code ancien "
+"et mal écrit. De plus, les chaînes de formatage dans la mémoire accessible en "
+"écriture qui contiennent « %n » sont bloquées. Si une application dépend de "
+"telles chaînes de formatage, unn contournement devra être mis en place."
 
 #. type: Plain text
 #: dpkg-buildflags.1:213
@@ -7205,12 +7214,14 @@ msgid ""
 "Note that for this option to have any effect, the source must also be "
 "compiled with B<-O1> or higher."
 msgstr ""
+"Veuillez noter que pour que cette option ait une utilité, le code source doit "
+"être compilé avec l'option B<-O1> ou supérieure."
 
 #. type: TP
 #: dpkg-buildflags.1:213
 #, no-wrap
 msgid "B<stackprotector>"
-msgstr ""
+msgstr "B<stackprotector>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:222
@@ -7222,6 +7233,12 @@ msgid ""
 "vulnerabilities into denial of service or into non-issues (depending on the "
 "application)."
 msgstr ""
+"Ce réglage, activé par défaut, ajoute B<-fstack-protector --param=ssp-"
+"buffer-size=4> à B<CFLAGS> et B<CXXFLAGS>. Il ajoute des contrôles liés aux "
+"réécritures de piles. Cela conduit des tentatives d'attaques par injection de "
+"code à terminer en échec. Dans le meilleur des cas, cette protection "
+"transforme une vulnérabilité d'injection de code en déni de service ou en "
+"non-problème (selon les  applications)."
 
 #. type: Plain text
 #: dpkg-buildflags.1:226
@@ -7230,13 +7247,17 @@ msgid ""
 "B<__stack_chk_fail>), so needs to be disabled when building with B<-"
 "nostdlib> or B<-ffreestanding> or similar."
 msgstr ""
+"Cette fonctionnalité impose de lier le code à glibc (ou toute autre "
+"bibliothèque fournissant B<__stack_chk_fail>) et doit donc être désactivée "
+"lorsque le code est construit avec B<-nostdlib>, B<-ffreestanding> ou "
+"équivalents."
 
 #. type: TP
 #: dpkg-buildflags.1:227
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<regex>"
 msgid "B<relro>"
-msgstr "B<regex>"
+msgstr "B<relro>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:235
@@ -7252,7 +7273,7 @@ msgstr ""
 #: dpkg-buildflags.1:236
 #, no-wrap
 msgid "B<bindnow>"
-msgstr ""
+msgstr "B<bindnow>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:243
@@ -7266,7 +7287,7 @@ msgstr ""
 #: dpkg-buildflags.1:244
 #, no-wrap
 msgid "B<pie>"
-msgstr ""
+msgstr "B<pie>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:256
@@ -7302,17 +7323,15 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildflags.1:268
-#, fuzzy
 #| msgid "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
 msgid "Copyright \\(co 2010-2011 Rapha\\[:e]l Hertzog"
-msgstr "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
+msgstr "Copyright \\(co 2010-2011 Rapha\\[:e]l Hertzog"
 
 #. type: Plain text
 #: dpkg-buildflags.1:270
-#, fuzzy
 #| msgid "Copyright \\(co 2001 Joey Hess"
 msgid "Copyright \\(co 2011 Kees Cook"
-msgstr "Copyright \\(co 2001 Joey Hess"
+msgstr "Copyright \\(co 2011 Kees Cook"
 
 #. type: TH
 #: dpkg-buildpackage.1:1
@@ -7329,10 +7348,9 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.1:8
-#, fuzzy
 #| msgid "B<dpkg-buildpackage> [I<options>]"
 msgid "B<dpkg-buildpackage> [I<option>...]"
-msgstr "B<dpkg-buildpackage> [I<options>]"
+msgstr "B<dpkg-buildpackage> [I<option>...]"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:13
@@ -7417,7 +7435,6 @@ msgstr "B<5.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:36
-#, fuzzy
 #| msgid ""
 #| "It calls B<debian/rules> B<build> followed by B<fakeroot debian/rules> "
 #| "I<binary-target> (unless a source-only build has been requested with B<-"
@@ -7434,7 +7451,9 @@ msgstr ""
 "Appel de B<debian/rules> B<build> suivi de B<fakeoot debian/rules> I<binary-"
 "target> (sauf si une construction source seule a été demandée avec B<-S>). "
 "Noter que I<binary-target> est soit B<binary> (cas par défaut, ou avec "
-"utilisation de B<-b>) soit B<binary-arch> (si B<-B> est utilisé)."
+"utilisation de B<-b>) soit B<binary-arch> (si B<-B> est utilisé) soit B<"
+"binary-indep> (si "
+"B<-A> is est utilisé)."
 
 #. type: IP
 #: dpkg-buildpackage.1:36
