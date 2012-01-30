@@ -228,6 +228,10 @@ test_data = \
 	t/910_merge_changelogs/ch-old \
 	t/910_merge_changelogs/ch-a \
 	t/910_merge_changelogs/ch-b \
+	t/910_merge_changelogs/ch-badver-a \
+	t/910_merge_changelogs/ch-badver-b \
+	t/910_merge_changelogs/ch-badver-merged \
+	t/910_merge_changelogs/ch-badver-old \
 	t/910_merge_changelogs/ch-merged \
 	t/910_merge_changelogs/ch-merged-basic \
 	t/910_merge_changelogs/ch-merged-pr \
