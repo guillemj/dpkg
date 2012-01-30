@@ -254,6 +254,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 
   struct filenamenode *linknode;
   char fnamebuf[256];
+  char *newhash;
 
   switch (te->type) {
   case tar_filetype_file:
@@ -267,9 +268,12 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     debug(dbg_eachfiledetail, "tarobject file open size=%jd",
           (intmax_t)te->size);
 
-    fd_fd_copy(tc->backendpipe, fd, te->size,
-               _("backend dpkg-deb during `%.255s'"),
-               path_quote_filename(fnamebuf, te->name, 256));
+    newhash = nfmalloc(MD5HASHLEN + 1);
+    fd_fd_copy_and_md5(tc->backendpipe, fd, newhash, te->size,
+                       _("backend dpkg-deb during `%.255s'"),
+                       path_quote_filename(fnamebuf, te->name, 256));
+    namenode->newhash = newhash;
+    debug(dbg_eachfiledetail, "tarobject file hash=%s", namenode->newhash);
 
     tarobject_skip_padding(tc, te);
 
@@ -320,7 +324,8 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     varbuf_end_str(&hardlinkfn);
     if (link(hardlinkfn.buf, path))
       ohshite(_("error creating hard link `%.255s'"), te->name);
-    debug(dbg_eachfiledetail, "tarobject hardlink");
+    namenode->newhash = linknode->newhash;
+    debug(dbg_eachfiledetail, "tarobject hardlink hash=%s", namenode->newhash);
     break;
   case tar_filetype_symlink:
     /* We've already checked for an existing directory. */

@@ -97,6 +97,9 @@ struct filenamenode {
   /* Valid iff this namenode is in the newconffiles list. */
   const char *oldhash;
 
+  /* Valid iff the file was unpacked and hashed on this run. */
+  const char *newhash;
+
   struct stat *filestat;
   struct trigfileint *trig_interested;
 };

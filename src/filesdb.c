@@ -628,6 +628,7 @@ void filesdbinit(void) {
     for (fnn= bins[i]; fnn; fnn= fnn->next) {
       fnn->flags= 0;
       fnn->oldhash = NULL;
+      fnn->newhash = EMPTYHASHFLAG;
       fnn->filestat = NULL;
     }
 }
@@ -671,6 +672,7 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   newnode->next = NULL;
   newnode->divert = NULL;
   newnode->statoverride = NULL;
+  newnode->newhash = EMPTYHASHFLAG;
   newnode->filestat = NULL;
   newnode->trig_interested = NULL;
   *pointerp= newnode;
