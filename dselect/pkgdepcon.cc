@@ -52,7 +52,7 @@ packagelist::find_pkgbin(pkginfo *pkg)
   pkgbin *r;
   r= useavailable(pkg) ? &pkg->available : &pkg->installed;
   debug(dbg_general, "packagelist[%p]::find_pkgbin(%s) useavailable=%d",
-        this, pkg->set->name, useavailable(pkg));
+        this, pkgbin_name(pkg, r, pnaw_always), useavailable(pkg));
 
   return r;
 }
@@ -88,7 +88,7 @@ int packagelist::resolvesuggest() {
       if (!table[index]->pkg->set->name)
         continue;
       debug(dbg_depcon, "packagelist[%p]::resolvesuggest() loop[%i] %s / %d",
-            this, index, table[index]->pkg->set->name, changemade);
+            this, index, pkg_name(table[index]->pkg, pnaw_always), changemade);
       dependency *depends;
       for (depends = find_pkgbin(table[index]->pkg)->depends;
            depends;
@@ -103,7 +103,7 @@ int packagelist::resolvesuggest() {
         changemade = checkdependers(&depends->list->ed->pkg, changemade);
       }
       debug(dbg_depcon, "packagelist[%p]::resolvesuggest() loop[%i] %s / -> %d",
-            this, index, table[index]->pkg->set->name, changemade);
+            this, index, pkg_name(table[index]->pkg, pnaw_always), changemade);
     }
     if (!changemade) break;
     maxchangemade = max(maxchangemade, changemade);
@@ -118,7 +118,8 @@ static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *tryt
   if (!trythis->clientdata) return 0;
 
   debug(dbg_depcon, "update_best_to_change(best=%s{%d}, test=%s{%d});",
-        best ? best->pkg->set->name : "", best ? (int)best->spriority : -1,
+        best ? pkg_name(best->pkg, pnaw_always) : "",
+        best ? (int)best->spriority : -1,
         trythis->set->name, trythis->clientdata->spriority);
 
   // If the problem is caused by us deselecting one of these packages
@@ -170,8 +171,8 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
 
   debug(dbg_depcon,
         "packagelist[%p]::deselect_one_of(): er %s{%d} ed %s{%d} [%p]",
-        this, er->pkg->set->name, er->spriority,
-        ed->pkg->set->name, ed->spriority, dep);
+        this, pkg_name(er->pkg, pnaw_always), er->spriority,
+        pkg_name(ed->pkg, pnaw_always), ed->spriority, dep);
 
   perpackagestate *best;
 
@@ -190,7 +191,7 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
   else best= ed;                                      // ... failing that, the second
 
   debug(dbg_depcon, "packagelist[%p]::deselect_one_of(): best %s{%d}",
-        this, best->pkg->set->name, best->spriority);
+        this, pkg_name(best->pkg, pnaw_always), best->spriority);
 
   if (best->spriority >= sp_deselecting) return 0;
   best->suggested=
@@ -217,7 +218,8 @@ int packagelist::resolvedepcon(dependency *depends) {
 
     debug(dbg_depcon,
           "packagelist[%p]::resolvedepcon([%p] %s --%s-->%s); (ing)->want=%s",
-          this, depends, depends->up->set->name, relatestrings[depends->type],
+          this, depends, pkg_name(depends->up, pnaw_always),
+          relatestrings[depends->type],
           pkg_names.string(), depends->up->clientdata ?
           wantstrings[depends->up->clientdata->suggested] : "(no clientdata)");
   }
@@ -263,7 +265,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (fixbyupgrade) {
       debug(dbg_depcon,
             "packagelist[%p]::resolvedepcon([%p]): fixbyupgrade %s",
-            this, depends, fixbyupgrade->pkg->set->name);
+            this, depends, pkg_name(fixbyupgrade->pkg, pnaw_always));
       best= fixbyupgrade;
     } else {
       best= 0;
@@ -293,7 +295,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     }
     debug(dbg_depcon,
           "packagelist[%p]::resolvedepcon([%p]): select best=%s{%d}",
-          this, depends, best->pkg->set->name, best->spriority);
+          this, depends, pkg_name(best->pkg, pnaw_always), best->spriority);
     if (best->spriority >= sp_selecting) return r;
     /* Always select depends. Only select recommends if we got here because
      * of a manually-initiated install request. */
@@ -307,7 +309,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     best= depends->up->clientdata;
     debug(dbg_depcon,
           "packagelist[%p]::resolvedepcon([%p]): mustdeselect best=%s{%d}",
-          this, depends, best->pkg->set->name, best->spriority);
+          this, depends, pkg_name(best->pkg, pnaw_always), best->spriority);
 
     if (best->spriority >= sp_deselecting) return r;
     /* Always remove depends, but never remove recommends. */

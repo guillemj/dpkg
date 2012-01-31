@@ -33,13 +33,14 @@
 #include "bindings.h"
 
 void packagelist::add(pkginfo *pkg) {
-  debug(dbg_general, "packagelist[%p]::add(pkginfo %s)", this, pkg->set->name);
+  debug(dbg_general, "packagelist[%p]::add(pkginfo %s)",
+        this, pkg_name(pkg, pnaw_always));
   if (!recursive ||  // never add things to top level
       !pkg->clientdata ||  // don't add pure virtual packages
       pkg->clientdata->uprec)  // don't add ones already in the recursive list
     return;
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s) adding",
-        this, pkg->set->name);
+        this, pkg_name(pkg, pnaw_always));
   perpackagestate *state= &datatable[nitems];
   state->pkg= pkg;
   state->direct= state->original= pkg->clientdata->selected;
@@ -54,21 +55,21 @@ void packagelist::add(pkginfo *pkg) {
 
 void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, %s)",
-        this, pkg->set->name, wantstrings[nw]);
+        this, pkg_name(pkg, pnaw_always), wantstrings[nw]);
   add(pkg);  if (!pkg->clientdata) return;
   pkg->clientdata->direct= nw;
   selpriority np;
   np= would_like_to_install(nw,pkg) ? sp_selecting : sp_deselecting;
   if (pkg->clientdata->spriority > np) return;
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, %s) setting",
-        this, pkg->set->name, wantstrings[nw]);
+        this, pkg_name(pkg, pnaw_always), wantstrings[nw]);
   pkg->clientdata->suggested= pkg->clientdata->selected= nw;
   pkg->clientdata->spriority= np;
 }
 
 void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp) {
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, ..., showpriority %d)",
-        this, pkg->set->name, showimp);
+        this, pkg_name(pkg, pnaw_always), showimp);
   add(pkg);  if (!pkg->clientdata) return;
   if (pkg->clientdata->dpriority < showimp) pkg->clientdata->dpriority= showimp;
   pkg->clientdata->relations(extrainfo);

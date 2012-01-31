@@ -178,7 +178,7 @@ void packagelist::ensurestatsortinfo() {
     if (calcssadone) return;
     for (index=0; index < nitems; index++) {
       debug(dbg_general, "packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s",
-            this, index, table[index]->pkg->set->name);
+            this, index, pkg_name(table[index]->pkg, pnaw_always));
       pkg= table[index]->pkg;
       switch (pkg->status) {
       case pkginfo::stat_unpacked:
@@ -228,7 +228,7 @@ void packagelist::ensurestatsortinfo() {
     if (calcsssdone) return;
     for (index=0; index < nitems; index++) {
       debug(dbg_general, "packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s",
-            this, index, table[index]->pkg->set->name);
+            this, index, pkg_name(table[index]->pkg, pnaw_always));
       switch (table[index]->pkg->status) {
       case pkginfo::stat_unpacked:
       case pkginfo::stat_halfconfigured:
@@ -315,7 +315,7 @@ void packagelist::sortmakeheads() {
     debug(dbg_general,
           "packagelist[%p]::sortmakeheads() pkg=%s  state=%d avail=%d %s  "
           "priority=%d otherpriority=%s %s  section=%s %s",
-          this, thispkg->set->name,
+          this, pkg_name(thispkg, pnaw_always),
           thispkg->clientdata->ssavail, thispkg->clientdata->ssstate,
           ssdiff ? "*diff" : "same",
           thispkg->priority,
