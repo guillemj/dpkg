@@ -2,6 +2,8 @@
 #
 # dpkg-gensymbols
 #
+# Copyright © 2007 Raphaël Hertzog
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -47,10 +49,6 @@ my $host_arch = get_host_arch();
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
-
-    printf _g("
-Copyright (C) 2007 Raphael Hertzog.
-");
 
     printf _g("
 This is free software; see the GNU General Public License version 2 or

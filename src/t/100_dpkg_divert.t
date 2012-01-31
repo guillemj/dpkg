@@ -131,7 +131,7 @@ sub call_divert_badusage {
 
 call_divert(['--help'], expect_stdout_like => $usagere,
             expect_stderr => '');
-call_divert(['--version'], expect_stdout_like => qr/.*dpkg-divert.*Copyright.*free software.*/s,
+call_divert(['--version'], expect_stdout_like => qr/.*dpkg-divert.*free software.*/s,
             expect_stderr => '');
 
 call_divert_badusage(['--jachsmitbju'], qr/unknown option/);

@@ -67,11 +67,6 @@ printversion(const struct cmdinfo *cip, const char *value)
 	       DPKG_VERSION_ARCH);
 
 	printf(_(
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000,2001 Wichert Akkerman.\n"
-"Copyright (C) 2010 Guillem Jover.\n"));
-
-	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"));
 

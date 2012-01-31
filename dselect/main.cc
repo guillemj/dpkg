@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * main.cc - main program
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994-1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -157,10 +157,6 @@ static const menuentry menuentries[]= {
 static const char programdesc[]=
       N_("Debian `%s' package handling frontend version %s.\n");
 
-static const char copyrightstring[]= N_(
-      "Copyright (C) 1994-1996 Ian Jackson.\n"
-      "Copyright (C) 2000,2001 Wichert Akkerman.\n");
-
 static const char licensestring[]= N_(
       "This is free software; see the GNU General Public License version 2 or\n"
       "later for copying conditions. There is NO warranty.\n");
@@ -169,7 +165,6 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
-  printf("%s", gettext(copyrightstring));
   printf("%s", gettext(licensestring));
 
   m_output(stdout, _("<standard output>"));
@@ -422,7 +417,8 @@ refreshmenu(void)
          "Press <enter> to confirm selection.   ^L redraws screen.\n\n"));
 
   attrset(A_NORMAL);
-  addstr(gettext(copyrightstring));
+  addstr(_("Copyright (C) 1994-1996 Ian Jackson.\n"
+           "Copyright (C) 2000,2001 Wichert Akkerman.\n"));
   addstr(gettext(licensestring));
 
   modstatdb_init();

@@ -2,8 +2,8 @@
 #
 # dpkg-architecture
 #
+# Copyright © 1999-2001 Marcus Brinkmann <brinkmd@debian.org>
 # Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>,
-# Copyright © 1999 Marcus Brinkmann <brinkmd@debian.org>.
 # Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -35,10 +35,6 @@ textdomain("dpkg-dev");
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
-
-    printf _g("
-Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd\@debian.org>.
-Copyright (C) 2004-2005 Scott James Remnant <scott\@netsplit.com>.");
 
     printf _g("
 This is free software; see the GNU General Public License version 2 or

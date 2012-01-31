@@ -455,11 +455,6 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     print _g("
-Copyright (C) 1996 Ian Jackson
-Copyright (C) 1997 Klee Dienes
-Copyright (C) 2008 Raphael Hertzog");
-
-    print _g("
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");

@@ -2,6 +2,9 @@
 #
 # dpkg-parsechangelog
 #
+# Copyright © 1996 Ian Jackson
+# Copyright © 2001 Wichert Akkerman
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -29,10 +32,6 @@ my %options;
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
-
-    printf _g("
-Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2001 Wichert Akkerman");
 
     printf _g("
 This is free software; see the GNU General Public License version 2 or

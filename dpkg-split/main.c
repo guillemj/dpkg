@@ -2,7 +2,7 @@
  * dpkg-split - splitting and joining of multipart *.deb archives
  * main.c - main program
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994-1996 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ printversion(const struct cmdinfo *cip, const char *value)
 {
   printf(_("Debian `%s' package split/join tool; version %s.\n"),
          SPLITTER, DPKG_VERSION_ARCH);
-  printf(_("Copyright (C) 1994-1996 Ian Jackson.\n"));
+
   printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"));
