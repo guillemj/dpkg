@@ -63,6 +63,7 @@ downgrade_multiarch_infodb()
 {
     admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
     pkgadmindir=$admindir/info
+    triggersdir=$admindir/triggers
 
     coinst_pkgs="`ls "$pkgadmindir" | \
         sed -n -e 's/^\([^:]\+:[^.]\+\)\..*$/\1/p' | sort -u | \
@@ -106,6 +107,23 @@ downgrade_multiarch_infodb()
 	with dpkg's downgrade, with:
 
 	  # dpkg --clear-avail
+	MSG
+	exit 1
+    fi
+
+    file_triggers_pkgs="`sed -n -e 's/^[^ ]\+ \([^:]\+\):[^.]\+$/\1/p' \
+        $triggersdir/File| sort -u`"
+
+    if [ -n "$file_triggers_pkgs" ]; then
+	cat <<-MSG
+	dpkg: error: The triggers database contains arch-qualified package
+	names that the old dpkg won't parse. You should get rid of them (or
+	downgrade them to a non Multi-Arch: same version) before proceeding
+	with dpkg's downgrade.
+
+	List of affected packages:
+
+	$file_triggers_pkgs
 	MSG
 	exit 1
     fi
