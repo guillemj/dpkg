@@ -79,7 +79,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	char *cdr2rest;
 	int r;
 
-	usenode = namenodetouse(findnamenode(conff->name, fnn_nocopy), pkg);
+	usenode = namenodetouse(findnamenode(conff->name, fnn_nocopy),
+                                pkg, &pkg->installed);
 
 	r = conffderef(pkg, &cdr, usenode->name);
 	if (r == -1) {

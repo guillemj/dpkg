@@ -492,7 +492,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   else
     st = &ti->stat;
 
-  usenode = namenodetouse(nifd->namenode, tc->pkg);
+  usenode = namenodetouse(nifd->namenode, tc->pkg, &tc->pkg->available);
   usename = usenode->name + 1; /* Skip the leading '/'. */
 
   trig_file_activate(usenode, tc->pkg);
@@ -767,7 +767,8 @@ tarobject(void *ctx, struct tar_entry *ti)
     varbuf_add_str(&hardlinkfn, instdir);
     varbuf_add_char(&hardlinkfn, '/');
     linknode = findnamenode(ti->linkname, 0);
-    varbuf_add_str(&hardlinkfn, namenodetouse(linknode, tc->pkg)->name);
+    varbuf_add_str(&hardlinkfn,
+                   namenodetouse(linknode, tc->pkg, &tc->pkg->available)->name);
     if (linknode->flags & (fnnf_deferred_rename|fnnf_new_conff))
       varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
     varbuf_end_str(&hardlinkfn);
@@ -896,7 +897,7 @@ tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
     if (!(cfile->namenode->flags & fnnf_deferred_fsync))
       continue;
 
-    usenode = namenodetouse(cfile->namenode, pkg);
+    usenode = namenodetouse(cfile->namenode, pkg, &pkg->available);
     usename = usenode->name + 1; /* Skip the leading '/'. */
 
     setupfnamevbs(usename);
@@ -934,7 +935,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
     if (!(cfile->namenode->flags & fnnf_deferred_rename))
       continue;
 
-    usenode = namenodetouse(cfile->namenode, pkg);
+    usenode = namenodetouse(cfile->namenode, pkg, &pkg->available);
     usename = usenode->name + 1; /* Skip the leading '/'. */
 
     setupfnamevbs(usename);

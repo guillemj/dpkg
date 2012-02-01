@@ -55,7 +55,10 @@ const char *const statusstrings[]= {
   [stat_installed]       = N_("installed")
 };
 
-struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg) {
+struct filenamenode *
+namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg,
+              struct pkgbin *pkgbin)
+{
   struct filenamenode *r;
 
   if (!namenode->divert) {

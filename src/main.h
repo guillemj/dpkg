@@ -229,7 +229,8 @@ int secure_unlink(const char *pathname);
 int secure_unlink_statted(const char *pathname, const struct stat *stab);
 void checkpath(void);
 
-struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
+struct filenamenode *namenodetouse(struct filenamenode *namenode,
+                                   struct pkginfo *pkg, struct pkgbin *pkgbin);
 
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                                 const char *desc, ...) DPKG_ATTR_SENTINEL;

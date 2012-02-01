@@ -226,7 +226,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         continue;
       }
 
-      usenode = namenodetouse(namenode, pkg);
+      usenode = namenodetouse(namenode, pkg, &pkg->installed);
       trig_file_activate(usenode, pkg);
 
       varbuf_reset(&fnvb);
@@ -334,7 +334,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
       continue;
     }
 
-    usenode = namenodetouse(namenode, pkg);
+    usenode = namenodetouse(namenode, pkg, &pkg->installed);
     trig_file_activate(usenode, pkg);
 
     varbuf_reset(&fnvb);
