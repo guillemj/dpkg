@@ -311,7 +311,7 @@ deferred_configure(struct pkginfo *pkg)
 
 	printf(_("Setting up %s (%s) ...\n"), pkg->set->name,
 	       versiondescribe(&pkg->installed.version, vdew_nonambig));
-	log_action("configure", pkg);
+	log_action("configure", pkg, &pkg->installed);
 
 	trig_activate_packageprocessing(pkg);
 

@@ -155,7 +155,7 @@ void deferred_remove(struct pkginfo *pkg) {
   oldconffsetflags(pkg->installed.conffiles);
 
   printf(_("Removing %s ...\n"), pkg->set->name);
-  log_action("remove", pkg);
+  log_action("remove", pkg, &pkg->installed);
   trig_activate_packageprocessing(pkg);
   if (pkg->status >= stat_halfconfigured) {
     static enum pkgstatus oldpkgstatus;
@@ -407,7 +407,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
   const char *const *ext;
 
     printf(_("Purging configuration files for %s ...\n"), pkg->set->name);
-    log_action("purge", pkg);
+    log_action("purge", pkg, &pkg->installed);
     trig_activate_packageprocessing(pkg);
 
     /* We may have modified this above. */

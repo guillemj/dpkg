@@ -642,7 +642,9 @@ void ensure_pathname_nonexisting(const char *pathname) {
   subproc_wait_check(pid, "rm cleanup", 0);
 }
 
-void log_action(const char *action, struct pkginfo *pkg) {
+void
+log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin)
+{
   log_message("%s %s %s %s", action, pkg->set->name,
 	      versiondescribe(&pkg->installed.version, vdew_nonambig),
 	      versiondescribe(&pkg->available.version, vdew_nonambig));

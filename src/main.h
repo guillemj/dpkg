@@ -256,7 +256,7 @@ bool dir_is_used_by_pkg(struct filenamenode *namenode, struct pkginfo *pkg,
                         struct fileinlist *list);
 bool dir_has_conffiles(struct filenamenode *namenode, struct pkginfo *pkg);
 
-void log_action(const char *action, struct pkginfo *pkg);
+void log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin);
 
 /* from trigproc.c */
 

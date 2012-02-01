@@ -342,7 +342,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 {
   printf(_("(Noting disappearance of %s, which has been completely replaced.)\n"),
          pkg->set->name);
-  log_action("disappear", pkg);
+  log_action("disappear", pkg, &pkg->installed);
   debug(dbg_general, "pkg_disappear disappearing %s", pkg->set->name);
 
   trig_activate_packageprocessing(pkg);
@@ -554,10 +554,10 @@ void process_archive(const char *filename) {
            pkg->set->name,
            versiondescribe(&pkg->installed.version,vdew_nonambig),
            pfilename);
-    log_action("upgrade", pkg);
+    log_action("upgrade", pkg, &pkg->installed);
   } else {
     printf(_("Unpacking %s (from %s) ...\n"), pkg->set->name, pfilename);
-    log_action("install", pkg);
+    log_action("install", pkg, &pkg->available);
   }
 
   if (f_noact) {

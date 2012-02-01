@@ -315,7 +315,7 @@ trigproc(struct pkginfo *pkg)
 			return;
 
 		printf(_("Processing triggers for %s ...\n"), pkg->set->name);
-		log_action("trigproc", pkg);
+		log_action("trigproc", pkg, &pkg->installed);
 
 		varbuf_reset(&namesarg);
 		for (tp = pkg->trigpend_head; tp; tp = tp->next) {
