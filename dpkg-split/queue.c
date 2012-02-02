@@ -136,9 +136,9 @@ do_auto(const char *const *argv)
   struct partinfo *refi, **partlist, *otherthispart;
   struct partqueue *queue;
   struct partqueue *pq;
+  struct dpkg_ar *part;
   unsigned int i;
   int j;
-  FILE *part;
 
   if (!opt_outputfile)
     badusage(_("--auto requires the use of the --output option"));
@@ -147,16 +147,16 @@ do_auto(const char *const *argv)
     badusage(_("--auto requires exactly one part file argument"));
 
   refi= nfmalloc(sizeof(struct partqueue));
-  part= fopen(partfile,"r");
+  part = dpkg_ar_open(partfile);
   if (!part)
     ohshite(_("unable to read part file '%.250s'"), partfile);
-  if (!read_info(part,partfile,refi)) {
+  if (!read_info(part, refi)) {
     if (!opt_npquiet)
       printf(_("File '%.250s' is not part of a multipart archive.\n"), partfile);
     m_output(stdout, _("<standard output>"));
     return 1;
   }
-  fclose(part);
+  dpkg_ar_close(part);
 
   queue = scandepot();
   partlist= nfmalloc(sizeof(struct partinfo*)*refi->maxpartn);

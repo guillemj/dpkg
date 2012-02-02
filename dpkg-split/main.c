@@ -109,9 +109,13 @@ const char *opt_outputfile = NULL;
 int opt_npquiet = 0;
 int opt_msdos = 0;
 
-void rerreof(FILE *f, const char *fn) {
-  if (ferror(f)) ohshite(_("error reading %.250s"),fn);
-  ohshit(_("unexpected end of file in %.250s"),fn);
+void DPKG_ATTR_NORET
+read_fail(int rc, const char *filename, const char *what)
+{
+  if (rc >= 0)
+    ohshit(_("unexpected end of file in %s in %.255s"), what, filename);
+  else
+    ohshite(_("error reading %s from file %.255s"), what, filename);
 }
 
 static void

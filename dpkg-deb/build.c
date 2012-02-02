@@ -474,11 +474,11 @@ do_build(const char *const *argv)
 {
   struct compress_params control_compress_params;
   struct dpkg_error err;
+  struct dpkg_ar *ar;
   const char *dir, *dest;
   char *ctrldir;
   char *debar;
   char *tfbuf;
-  int arfd;
   int gzfd;
 
   /* Decode our arguments. */
@@ -511,9 +511,8 @@ do_build(const char *const *argv)
 
   /* Now that we have verified everything its time to actually
    * build something. Let's start by making the ar-wrapper. */
-  arfd = creat(debar, 0644);
-  if (arfd < 0)
-    ohshite(_("unable to create '%.255s'"), debar);
+  ar = dpkg_ar_create(debar, 0644);
+
   unsetenv("TAR_OPTIONS");
 
   /* Create a temporary file to store the control data in. Immediately
@@ -557,11 +556,11 @@ do_build(const char *const *argv)
       ohshite(_("failed to stat temporary file (%s)"), _("control member"));
     sprintf(versionbuf, "%-8s\n%jd\n", OLDARCHIVEVERSION,
             (intmax_t)controlstab.st_size);
-    if (fd_write(arfd, versionbuf, strlen(versionbuf)) < 0)
+    if (fd_write(ar->fd, versionbuf, strlen(versionbuf)) < 0)
       ohshite(_("error writing '%s'"), debar);
-    if (fd_fd_copy(gzfd, arfd, -1, &err) < 0)
+    if (fd_fd_copy(gzfd, ar->fd, -1, &err) < 0)
       ohshit(_("cannot copy '%s' into archive '%s': %s"), _("control member"),
-             debar, err.str);
+             ar->name, err.str);
   } else if (deb_format.major == 2) {
     const char deb_magic[] = ARCHIVEVERSION "\n";
     char adminmember[16 + 1];
@@ -569,9 +568,9 @@ do_build(const char *const *argv)
     sprintf(adminmember, "%s%s", ADMINMEMBER,
             compressor_get_extension(control_compress_params.type));
 
-    dpkg_ar_put_magic(debar, arfd);
-    dpkg_ar_member_put_mem(debar, arfd, DEBMAGIC, deb_magic, strlen(deb_magic));
-    dpkg_ar_member_put_file(debar, arfd, adminmember, gzfd, -1);
+    dpkg_ar_put_magic(ar);
+    dpkg_ar_member_put_mem(ar, DEBMAGIC, deb_magic, strlen(deb_magic));
+    dpkg_ar_member_put_file(ar, adminmember, gzfd, -1);
   } else {
     internerr("unknown deb format version %d.%d", deb_format.major, deb_format.minor);
   }
@@ -583,7 +582,7 @@ do_build(const char *const *argv)
     /* In old format, the data member is just concatenated after the
      * control member, so we do not need a temporary file and can use
      * the compression file descriptor. */
-    gzfd = arfd;
+    gzfd = ar->fd;
   } else if (deb_format.major == 2) {
     /* Start by creating a new temporary file. Immediately unlink the
      * temporary file so others can't mess with it. */
@@ -613,14 +612,14 @@ do_build(const char *const *argv)
     if (lseek(gzfd, 0, SEEK_SET))
       ohshite(_("failed to rewind temporary file (%s)"), _("data member"));
 
-    dpkg_ar_member_put_file(debar, arfd, datamember, gzfd, -1);
+    dpkg_ar_member_put_file(ar, datamember, gzfd, -1);
 
     close(gzfd);
   }
-  if (fsync(arfd))
-    ohshite(_("unable to sync file '%s'"), debar);
-  if (close(arfd))
-    ohshite(_("unable to close file '%s'"), debar);
+  if (fsync(ar->fd))
+    ohshite(_("unable to sync file '%s'"), ar->name);
+
+  dpkg_ar_close(ar);
 
   free(debar);
 

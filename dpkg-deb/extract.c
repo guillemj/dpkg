@@ -107,6 +107,7 @@ extracthalf(const char *debar, const char *dir,
 {
   struct dpkg_error err;
   const char *errstr;
+  struct dpkg_ar *ar;
   char versionbuf[40];
   struct deb_version version;
   off_t ctrllennum, memberlen = 0;
@@ -115,23 +116,14 @@ extracthalf(const char *debar, const char *dir,
   pid_t c1=0,c2,c3;
   int p1[2], p2[2];
   int p2_out;
-  int arfd;
-  struct stat stab;
   char nlc;
   int adminmember = -1;
   bool header_done;
   enum compressor_type decompressor = COMPRESSOR_TYPE_GZIP;
 
-  if (strcmp(debar, "-") == 0)
-    arfd = STDIN_FILENO;
-  else
-    arfd = open(debar, O_RDONLY);
-  if (arfd < 0)
-    ohshite(_("failed to read archive '%.255s'"), debar);
-  if (fstat(arfd, &stab))
-    ohshite(_("failed to fstat archive"));
+  ar = dpkg_ar_open(debar);
 
-  r = read_line(arfd, versionbuf, strlen(DPKG_AR_MAGIC), sizeof(versionbuf) - 1);
+  r = read_line(ar->fd, versionbuf, strlen(DPKG_AR_MAGIC), sizeof(versionbuf) - 1);
   if (r < 0)
     read_fail(r, debar, _("archive magic version number"));
 
@@ -141,7 +133,7 @@ extracthalf(const char *debar, const char *dir,
     for (;;) {
       struct ar_hdr arh;
 
-      r = fd_read(arfd, &arh, sizeof(arh));
+      r = fd_read(ar->fd, &arh, sizeof(arh));
       if (r != sizeof(arh))
         read_fail(r, debar, _("archive member header"));
 
@@ -149,7 +141,7 @@ extracthalf(const char *debar, const char *dir,
 
       if (dpkg_ar_member_is_illegal(&arh))
         ohshit(_("file '%.250s' is corrupt - bad archive header magic"), debar);
-      memberlen = dpkg_ar_member_get_size(debar, &arh);
+      memberlen = dpkg_ar_member_get_size(ar, &arh);
       if (!header_done) {
         char *infobuf;
 
@@ -157,7 +149,7 @@ extracthalf(const char *debar, const char *dir,
           ohshit(_("file '%.250s' is not a debian binary archive (try dpkg-split?)"),
                  debar);
         infobuf= m_malloc(memberlen+1);
-        r = fd_read(arfd, infobuf, memberlen + (memberlen & 1));
+        r = fd_read(ar->fd, infobuf, memberlen + (memberlen & 1));
         if (r != (memberlen + (memberlen & 1)))
           read_fail(r, debar, _("archive information header member"));
         infobuf[memberlen] = '\0';
@@ -177,8 +169,8 @@ extracthalf(const char *debar, const char *dir,
       } else if (arh.ar_name[0] == '_') {
         /* Members with ‘_’ are noncritical, and if we don't understand
          * them we skip them. */
-        if (fd_skip(arfd, memberlen + (memberlen & 1), &err) < 0)
-          ohshit(_("cannot skip archive member from '%s': %s"), debar, err.str);
+        if (fd_skip(ar->fd, memberlen + (memberlen & 1), &err) < 0)
+          ohshit(_("cannot skip archive member from '%s': %s"), ar->name, err.str);
       } else {
         if (strncmp(arh.ar_name, ADMINMEMBER, strlen(ADMINMEMBER)) == 0) {
           const char *extension = arh.ar_name + strlen(ADMINMEMBER);
@@ -219,8 +211,8 @@ extracthalf(const char *debar, const char *dir,
           ctrllennum= memberlen;
         }
         if (!adminmember != !admininfo) {
-          if (fd_skip(arfd, memberlen + (memberlen & 1), &err) < 0)
-            ohshit(_("cannot skip archive member from '%s': %s"), debar, err.str);
+          if (fd_skip(ar->fd, memberlen + (memberlen & 1), &err) < 0)
+            ohshit(_("cannot skip archive member from '%s': %s"), ar->name, err.str);
         } else {
           /* Yes! - found it. */
           break;
@@ -232,7 +224,7 @@ extracthalf(const char *debar, const char *dir,
       printf(_(" new debian package, version %d.%d.\n"
                " size %jd bytes: control archive=%jd bytes.\n"),
              version.major, version.minor,
-             (intmax_t)stab.st_size, (intmax_t)ctrllennum);
+             (intmax_t)ar->size, (intmax_t)ctrllennum);
       m_output(stdout, _("<standard output>"));
     }
   } else if (strncmp(versionbuf, "0.93", 4) == 0) {
@@ -247,7 +239,7 @@ extracthalf(const char *debar, const char *dir,
     if (errstr)
       ohshit(_("archive has invalid format version: %s"), errstr);
 
-    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
+    r = read_line(ar->fd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
     if (r < 0)
       read_fail(r, debar, _("archive control member size"));
     if (sscanf(ctrllenbuf, "%jd%c%d", &ctrllennum, &nlc, &dummy) != 2 ||
@@ -257,9 +249,9 @@ extracthalf(const char *debar, const char *dir,
     if (admininfo) {
       memberlen = ctrllennum;
     } else {
-      memberlen = stab.st_size - ctrllennum - strlen(ctrllenbuf) - l;
-      if (fd_skip(arfd, ctrllennum, &err) < 0)
-        ohshit(_("cannot skip archive control member from '%s': %s"), debar,
+      memberlen = ar->size - ctrllennum - strlen(ctrllenbuf) - l;
+      if (fd_skip(ar->fd, ctrllennum, &err) < 0)
+        ohshit(_("cannot skip archive control member from '%s': %s"), ar->name,
                err.str);
     }
 
@@ -267,8 +259,8 @@ extracthalf(const char *debar, const char *dir,
       printf(_(" old debian package, version %d.%d.\n"
                " size %jd bytes: control archive=%jd, main archive=%jd.\n"),
              version.major, version.minor,
-             (intmax_t)stab.st_size, (intmax_t)ctrllennum,
-             (intmax_t)(stab.st_size - ctrllennum - strlen(ctrllenbuf) - l));
+             (intmax_t)ar->size, (intmax_t)ctrllennum,
+             (intmax_t)(ar->size - ctrllennum - strlen(ctrllenbuf) - l));
       m_output(stdout, _("<standard output>"));
     }
   } else {
@@ -284,9 +276,9 @@ extracthalf(const char *debar, const char *dir,
   c1 = subproc_fork();
   if (!c1) {
     close(p1[0]);
-    if (fd_fd_copy(arfd, p1[1], memberlen, &err) < 0)
+    if (fd_fd_copy(ar->fd, p1[1], memberlen, &err) < 0)
       ohshit(_("cannot copy archive member from '%s' to decompressor pipe: %s"),
-             debar, err.str);
+             ar->name, err.str);
     if (close(p1[1]))
       ohshite(_("cannot close decompressor pipe"));
     exit(0);
@@ -309,7 +301,7 @@ extracthalf(const char *debar, const char *dir,
     exit(0);
   }
   close(p1[0]);
-  close(arfd);
+  dpkg_ar_close(ar);
   if (taroption) close(p2[1]);
 
   if (taroption) {

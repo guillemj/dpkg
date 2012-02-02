@@ -165,7 +165,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	}
 
 	for (curpart = 1; curpart <= nparts; curpart++) {
-		int fd_dst;
+		struct dpkg_ar *ar;
 
 		varbuf_reset(&file_dst);
 		/* Generate output filename. */
@@ -196,12 +196,10 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		}
 
 		/* Split the data. */
-		fd_dst = creat(file_dst.buf, 0644);
-		if (fd_dst < 0)
-			ohshite(_("unable to open file '%s'"), file_dst.buf);
+		ar = dpkg_ar_create(file_dst.buf, 0644);
 
 		/* Write the ar header. */
-		dpkg_ar_put_magic(file_dst.buf, fd_dst);
+		dpkg_ar_put_magic(ar);
 
 		/* Write the debian-split part. */
 		varbuf_printf(&partmagic,
@@ -209,17 +207,17 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		              SPLITVERSION, pkg->set->name, version, hash,
 		              (intmax_t)st.st_size, (intmax_t)partsize,
 		              curpart, nparts, pkg->available.arch->name);
-		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, PARTMAGIC,
+		dpkg_ar_member_put_mem(ar, PARTMAGIC,
 		                       partmagic.buf, partmagic.used);
 		varbuf_reset(&partmagic);
 
 		/* Write the data part. */
 		varbuf_printf(&partname, "data.%d", curpart);
-		dpkg_ar_member_put_file(file_dst.buf, fd_dst, partname.buf,
+		dpkg_ar_member_put_file(ar, partname.buf,
 		                        fd_src, cur_partsize);
 		varbuf_reset(&partname);
 
-		close(fd_dst);
+		dpkg_ar_close(ar);
 
 		printf("%d ", curpart);
 	}
