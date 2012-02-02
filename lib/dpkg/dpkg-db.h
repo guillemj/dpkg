@@ -226,6 +226,7 @@ struct pkgset {
     struct deppossi *available;
     struct deppossi *installed;
   } depended;
+  int installed_instances;
 };
 
 /*** from dbdir.c ***/
@@ -267,6 +268,8 @@ void modstatdb_shutdown(void);
 /*** from database.c ***/
 
 void pkgset_blank(struct pkgset *set);
+int pkgset_installed_instances(struct pkgset *set);
+
 void pkg_blank(struct pkginfo *pp);
 void pkgbin_blank(struct pkgbin *pifp);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);

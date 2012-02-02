@@ -44,9 +44,88 @@ test_pkginfo_informative(void)
 }
 
 static void
+test_pkginfo_instance_tracking(void)
+{
+	struct pkgset set;
+	struct pkginfo pkg2, pkg3, pkg4;
+
+	pkgset_blank(&set);
+	pkg_blank(&pkg2);
+	pkg_blank(&pkg3);
+	pkg_blank(&pkg4);
+
+	test_pass(pkgset_installed_instances(&set) == 0);
+
+	/* Link the other instances into the pkgset. */
+	pkgset_link_pkg(&set, &pkg4);
+	pkgset_link_pkg(&set, &pkg3);
+	pkgset_link_pkg(&set, &pkg2);
+
+	/* Test installation state transitions. */
+	pkg_set_status(&pkg4, stat_installed);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_installed);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_triggerspending);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_triggersawaited);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_halfconfigured);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_unpacked);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_halfinstalled);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_configfiles);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_notinstalled);
+	test_pass(pkgset_installed_instances(&set) == 0);
+
+	pkg_set_status(&pkg4, stat_notinstalled);
+	test_pass(pkgset_installed_instances(&set) == 0);
+
+	/* Toggle installation states on various packages. */
+	pkg_set_status(&pkg4, stat_installed);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg2, stat_halfinstalled);
+	test_pass(pkgset_installed_instances(&set) == 2);
+
+	pkg_set_status(&set.pkg, stat_configfiles);
+	test_pass(pkgset_installed_instances(&set) == 3);
+
+	pkg_set_status(&pkg3, stat_notinstalled);
+	test_pass(pkgset_installed_instances(&set) == 3);
+
+	pkg_set_status(&pkg3, stat_unpacked);
+	test_pass(pkgset_installed_instances(&set) == 4);
+
+	pkg_set_status(&set.pkg, stat_notinstalled);
+	test_pass(pkgset_installed_instances(&set) == 3);
+
+	pkg_set_status(&pkg2, stat_notinstalled);
+	test_pass(pkgset_installed_instances(&set) == 2);
+
+	pkg_set_status(&pkg3, stat_notinstalled);
+	test_pass(pkgset_installed_instances(&set) == 1);
+
+	pkg_set_status(&pkg4, stat_notinstalled);
+	test_pass(pkgset_installed_instances(&set) == 0);
+}
+
+static void
 test(void)
 {
 	test_pkginfo_informative();
+	test_pkginfo_instance_tracking();
 
 	/* FIXME: Complete. */
 }

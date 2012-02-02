@@ -22,6 +22,7 @@
 #include <config.h>
 #include <compat.h>
 
+#include <assert.h>
 #include <string.h>
 
 #include <dpkg/dpkg-db.h>
@@ -33,6 +34,15 @@
 void
 pkg_set_status(struct pkginfo *pkg, enum pkgstatus status)
 {
+	if (pkg->status == status)
+		return;
+	else if (pkg->status == stat_notinstalled)
+		pkg->set->installed_instances++;
+	else if (status == stat_notinstalled)
+		pkg->set->installed_instances--;
+
+	assert(pkg->set->installed_instances >= 0);
+
 	pkg->status = status;
 }
 
@@ -132,6 +142,7 @@ pkgset_blank(struct pkgset *set)
 	set->depended.available = NULL;
 	set->depended.installed = NULL;
 	pkg_blank(&set->pkg);
+	set->installed_instances = 0;
 	set->pkg.set = set;
 	set->pkg.arch_next = NULL;
 }
@@ -148,6 +159,19 @@ pkgset_link_pkg(struct pkgset *set, struct pkginfo *pkg)
 	pkg->set = set;
 	pkg->arch_next = set->pkg.arch_next;
 	set->pkg.arch_next = pkg;
+}
+
+/**
+ * Get the number of installed package instances in a package set.
+ *
+ * @param set The package set to use.
+ *
+ * @return The count of installed packages.
+ */
+int
+pkgset_installed_instances(struct pkgset *set)
+{
+	return set->installed_instances;
 }
 
 static int
