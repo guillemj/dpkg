@@ -307,7 +307,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   if (fd==-1) {
     if (errno != ENOENT)
       ohshite(_("unable to open files list file for package `%.250s'"),
-              pkg_name(pkg, pnaw_foreign));
+              pkg_name(pkg, pnaw_nonambig));
     onerr_abort--;
     if (pkg->status != stat_configfiles) {
       if (saidread == 1) putc('\n',stderr);
