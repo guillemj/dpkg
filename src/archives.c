@@ -1189,7 +1189,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       }
       if (!pdep) {
         /* This conflict is OK - we'll remove the conflictor. */
-        push_conflictor(pkg, fixbyrm);
+        enqueue_conflictor(pkg, fixbyrm);
         varbuf_destroy(&conflictwhy); varbuf_destroy(&removalwhy);
         fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
                 pkg_name(fixbyrm, pnaw_nonambig),

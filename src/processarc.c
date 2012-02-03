@@ -200,7 +200,7 @@ static struct pkginfo *conflictor[MAXCONFLICTORS];
 static int cflict_index = 0;
 
 void
-push_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm)
+enqueue_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm)
 {
   if (cflict_index >= MAXCONFLICTORS)
     ohshit(_("package %s has too many Conflicts/Replaces pairs"),
