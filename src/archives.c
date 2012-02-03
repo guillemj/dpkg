@@ -981,6 +981,20 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
   }
 }
 
+void
+enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal)
+{
+  struct pkg_deconf_list *newdeconf;
+
+  ensure_package_clientdata(pkg);
+  pkg->clientdata->istobe = itb_deconfigure;
+  newdeconf = m_malloc(sizeof(struct pkg_deconf_list));
+  newdeconf->next = deconfigure;
+  newdeconf->pkg = pkg;
+  newdeconf->pkg_removal = pkg_removal;
+  deconfigure = newdeconf;
+}
+
 /**
  * Try if we can deconfigure the package and queue it if so.
  *
@@ -1002,8 +1016,6 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
                     struct deppossi *pdep, const char *action,
                     struct pkginfo *removal, const char *why)
 {
-  struct pkg_deconf_list *newdeconf;
-
   if (force_p && force_p(pdep)) {
     warning(_("ignoring dependency problem with %s:\n%s"), action, why);
     return 2;
@@ -1020,12 +1032,7 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
         return 0;
       }
     }
-    pkg->clientdata->istobe= itb_deconfigure;
-    newdeconf = m_malloc(sizeof(struct pkg_deconf_list));
-    newdeconf->next= deconfigure;
-    newdeconf->pkg= pkg;
-    newdeconf->pkg_removal = removal;
-    deconfigure= newdeconf;
+    enqueue_deconfigure(pkg, removal);
     return 1;
   } else {
     fprintf(stderr, _("dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n%s"),
