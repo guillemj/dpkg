@@ -546,8 +546,10 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                   pkgbin_name(pkg_pos, &pkg_pos->available, pnaw_nonambig),
                   versiondescribe(&pkg_pos->available.version, vdew_nonambig));
           varbuf_add_str(whynot, linebuf);
-          if (!canfixbyremove)
+          if (!canfixbyremove) {
+            deppossi_pkg_iter_free(possi_iter);
             return false;
+          }
           nconflicts++;
           *canfixbyremove = pkg_pos;
           break;
@@ -576,8 +578,10 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                     versiondescribe(&pkg_pos->installed.version, vdew_nonambig),
                     gettext(statusstrings[pkg_pos->status]));
             varbuf_add_str(whynot, linebuf);
-            if (!canfixbyremove)
+            if (!canfixbyremove) {
+              deppossi_pkg_iter_free(possi_iter);
               return false;
+            }
             nconflicts++;
             *canfixbyremove = pkg_pos;
           }
@@ -586,6 +590,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           internerr("unknown istobe conflict '%d'", pkg_pos->clientdata->istobe);
         }
       }
+      deppossi_pkg_iter_free(possi_iter);
     }
 
     /* If there was no version specified we try looking for Providers. */
