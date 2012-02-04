@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * t-command.c - test command implementation
  *
- * Copyright © 2010-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2010-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
 
 #include <config.h>
 #include <compat.h>
+
+#include <stdlib.h>
 
 #include <dpkg/test.h>
 #include <dpkg/subproc.h>
@@ -169,6 +171,13 @@ test_command_shell(void)
 		command_shell("false", "command shell fail test");
 	ret = subproc_wait_check(pid, "command shell fail test", PROCNOERR);
 	test_fail(ret == 0);
+
+	unsetenv("SHELL");
+	pid = subproc_fork();
+	if (pid == 0)
+		command_shell("true", "command default shell test");
+	ret = subproc_wait_check(pid, "command default shell test", 0);
+	test_pass(ret == 0);
 }
 
 static void
