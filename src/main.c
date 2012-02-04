@@ -535,7 +535,7 @@ arch_remove(const char *const *argv)
   }
   pkg_db_iter_free(iter);
 
-  dpkg_arch_remove(arch);
+  dpkg_arch_unmark(arch);
   dpkg_arch_save_list();
 
   modstatdb_shutdown();

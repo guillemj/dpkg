@@ -4,7 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -242,19 +242,19 @@ dpkg_arch_add(const char *name)
 }
 
 /**
- * Remove a foreign dpkg_arch architecture.
+ * Unmark a foreign dpkg_arch architecture.
  */
 void
-dpkg_arch_remove(struct dpkg_arch *arch_remove)
+dpkg_arch_unmark(struct dpkg_arch *arch_remove)
 {
 	struct dpkg_arch *arch;
 
-	for (arch = arch_builtin_tail; arch && arch->next; arch = arch->next) {
-		if (arch->next->type != arch_foreign)
+	for (arch = arch_builtin_tail->next; arch; arch = arch->next) {
+		if (arch->type != arch_foreign)
 			continue;
 
-		if (arch->next == arch_remove) {
-			arch->next = arch->next->next;
+		if (arch == arch_remove) {
+			arch->type = arch_unknown;
 			arch_list_dirty = true;
 		}
 	}

@@ -4,7 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ struct dpkg_arch *dpkg_arch_get_list(void);
 void dpkg_arch_reset_list(void);
 
 struct dpkg_arch *dpkg_arch_add(const char *name);
-void dpkg_arch_remove(struct dpkg_arch *arch);
+void dpkg_arch_unmark(struct dpkg_arch *arch);
 void dpkg_arch_load_list(void);
 void dpkg_arch_save_list(void);
 
