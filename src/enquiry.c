@@ -3,6 +3,7 @@
  * enquiry.c - status enquiry and listing options
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -147,7 +148,7 @@ static void describebriefly(struct pkginfo *pkg) {
   l= strlen(pkg->set->name);
   if (l>20) maxl -= (l-20);
 
-  pdesc = pkg_summary(pkg, &l);
+  pdesc = pkg_summary(pkg, &pkg->installed, &l);
   l = min(l, maxl);
 
   printf(" %-20s %.*s\n", pkg->set->name, l, pdesc);

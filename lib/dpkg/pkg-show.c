@@ -3,7 +3,7 @@
  * pkg-show.c - primitives for pkg information display
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -131,12 +131,12 @@ pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
 }
 
 const char *
-pkg_summary(const struct pkginfo *pkg, int *len_ret)
+pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len_ret)
 {
 	const char *pdesc;
 	size_t len;
 
-	pdesc = pkg->installed.description;
+	pdesc = pkgbin->description;
 	if (!pdesc)
 		pdesc = _("(no description available)");
 

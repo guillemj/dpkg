@@ -3,7 +3,7 @@
  * pkg-format.c - customizable package formatting
  *
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -231,7 +231,7 @@ virt_summary(struct varbuf *vb,
 	const char *desc;
 	int len;
 
-	desc = pkg_summary(pkg, &len);
+	desc = pkg_summary(pkg, pkgbin, &len);
 
 	varbuf_add_buf(vb, desc, len);
 }

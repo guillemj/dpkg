@@ -4,7 +4,7 @@
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
       plen = strlen(array->pkgs[i]->set->name);
       vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
                                     vdew_nonambig));
-      pkg_summary(array->pkgs[i], &dlen);
+      pkg_summary(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
 
       if (plen > fmt->nw)
         fmt->nw = plen;
@@ -183,7 +183,7 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
   list_format_init(fmt, array);
   list_format_print_header(fmt);
 
-  pdesc = pkg_summary(pkg, &l);
+  pdesc = pkg_summary(pkg, &pkg->installed, &l);
   l = min(l, fmt->dw);
 
   printf(fmt->format,
