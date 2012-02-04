@@ -4,7 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include <compat.h>
 
 #include <dpkg/test.h>
+#include <dpkg/varbuf.h>
 #include <dpkg/arch.h>
 
 static void
@@ -124,6 +125,64 @@ test_dpkg_arch_reset_list(void)
 	test_dpkg_arch_get_list();
 }
 
+static void
+test_dpkg_arch_modify(void)
+{
+	struct dpkg_arch *arch;
+
+	dpkg_arch_reset_list();
+
+	/* Insert a new unknown arch. */
+	arch = dpkg_arch_find("foo");
+	test_pass(arch->type == arch_unknown);
+	test_str(arch->name, ==, "foo");
+
+	/* Check that existing unknown arch gets tagged. */
+	arch = dpkg_arch_add("foo");
+	test_pass(arch->type == arch_foreign);
+	test_str(arch->name, ==, "foo");
+
+	/* Check that new unknown arch gets tagged. */
+	arch = dpkg_arch_add("quux");
+	test_pass(arch->type == arch_foreign);
+	test_str(arch->name, ==, "quux");
+
+	/* Unmark foreign architectures. */
+
+	arch = dpkg_arch_find("foo");
+	dpkg_arch_unmark(arch);
+	test_pass(arch->type == arch_unknown);
+
+	arch = dpkg_arch_find("bar");
+	dpkg_arch_unmark(arch);
+	test_pass(arch->type == arch_unknown);
+
+	arch = dpkg_arch_find("quux");
+	dpkg_arch_unmark(arch);
+	test_pass(arch->type == arch_unknown);
+}
+
+static void
+test_dpkg_arch_varbuf_archqual(void)
+{
+	struct varbuf vb = VARBUF_INIT;
+
+	varbuf_add_archqual(&vb, dpkg_arch_get(arch_none));
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "");
+	varbuf_reset(&vb);
+
+	varbuf_add_archqual(&vb, dpkg_arch_get(arch_all));
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, ":all");
+	varbuf_reset(&vb);
+
+	varbuf_add_archqual(&vb, dpkg_arch_get(arch_wildcard));
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, ":any");
+	varbuf_reset(&vb);
+}
+
 void
 test(void)
 {
@@ -131,4 +190,6 @@ test(void)
 	test_dpkg_arch_get_list();
 	test_dpkg_arch_find();
 	test_dpkg_arch_reset_list();
+	test_dpkg_arch_modify();
+	test_dpkg_arch_varbuf_archqual();
 }
