@@ -256,6 +256,7 @@ dpkg_arch_unmark(struct dpkg_arch *arch_remove)
 		if (arch == arch_remove) {
 			arch->type = arch_unknown;
 			arch_list_dirty = true;
+			return;
 		}
 	}
 }
