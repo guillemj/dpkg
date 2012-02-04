@@ -3,6 +3,7 @@
  *
  * Copyright © 2007 Canonical Ltd.
  * Written by Ian Jackson <ian@davenant.greenend.org.uk>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,6 +111,31 @@ yespackage(const char *awname)
 	trigdef_update_printf(" %s", awname);
 }
 
+static const char *
+parse_awaiter_package(void)
+{
+	const char *badname;
+
+	if (bypackage == NULL) {
+		const char *pkgname;
+
+		pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
+		if (pkgname == NULL)
+			ohshit(_("must be called from a maintainer script"
+			         " (or with a --by-package option)"));
+
+		badname = pkg_name_is_illegal(pkgname);
+
+		bypackage = pkgname;
+	} else if (strcmp(bypackage, "-") == 0) {
+		badname = NULL;
+	} else {
+		badname = pkg_name_is_illegal(bypackage);
+	}
+
+	return badname;
+}
+
 static void
 tdm_add_trig_begin(const char *trig)
 {
@@ -204,14 +230,8 @@ main(int argc, const char *const *argv)
 	if (!*argv || argv[1])
 		badusage(_("takes one argument, the trigger name"));
 
-	if (!bypackage) {
-		bypackage = getenv("DPKG_MAINTSCRIPT_PACKAGE");
-		if (!bypackage)
-			ohshit(_("must be called from a maintainer script"
-			         " (or with a --by-package option)"));
-	}
-	if (strcmp(bypackage, "-") &&
-	    (badname = pkg_name_is_illegal(bypackage)))
+	badname = parse_awaiter_package();
+	if (badname)
 		ohshit(_("illegal awaited package name '%.250s': %.250s"),
 		       bypackage, badname);
 
