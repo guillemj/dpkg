@@ -28,6 +28,7 @@ check_PROGRAMS = \
 	t-pkginfo \
 	t-pkg-list \
 	t-pkg-queue \
+	t-trigger \
 	t-mod-db
 
 TESTS = $(check_PROGRAMS)
