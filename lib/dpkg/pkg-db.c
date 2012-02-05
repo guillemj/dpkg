@@ -3,6 +3,7 @@
  * pkg-db.c - Low level package database routines (hash tables, etc.)
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -105,6 +106,24 @@ pkg_db_find_set(const char *inname)
 }
 
 /**
+ * Return the package instance in a set with the given architecture.
+ *
+ * @param set  The package set to use.
+ * @param arch The requested architecture.
+ *
+ * @return The package instance.
+ */
+struct pkginfo *
+pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
+{
+  struct pkginfo *pkg;
+
+  pkg = &set->pkg;
+
+  return pkg;
+}
+
+/**
  * Return the package instance with the given name and architecture.
  *
  * @param name The package name.
@@ -119,7 +138,7 @@ pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch)
   struct pkginfo *pkg;
 
   set = pkg_db_find_set(name);
-  pkg = &set->pkg;
+  pkg = pkg_db_get_pkg(set, arch);
 
   return pkg;
 }

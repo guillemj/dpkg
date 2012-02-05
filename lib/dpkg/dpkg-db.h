@@ -4,7 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman
- * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -273,6 +273,7 @@ bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
 struct pkginfo *pkg_db_find(const char *name);
 struct pkgset *pkg_db_find_set(const char *name);
+struct pkginfo *pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch);
 struct pkginfo *pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch);
 int pkg_db_count_set(void);
 int pkg_db_count_pkg(void);
