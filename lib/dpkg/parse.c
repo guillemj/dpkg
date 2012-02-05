@@ -293,6 +293,142 @@ pkg_parse_verify(struct parsedb_state *ps,
     pkg->want = want_unknown;
 }
 
+struct pkgcount {
+  int single;
+  int multi;
+  int total;
+};
+
+static void
+parse_count_pkg_instance(struct pkgcount *count,
+                         struct pkginfo *pkg, struct pkgbin *pkgbin)
+{
+  if (pkg->status == stat_notinstalled)
+     return;
+
+  if (pkgbin->multiarch == multiarch_same)
+    count->multi++;
+  else
+    count->single++;
+
+  count->total++;
+}
+
+/**
+ * Lookup the package set slot for the parsed package.
+ *
+ * Perform various checks, to make sure the database is always in a sane
+ * state, and to not allow breaking it.
+ */
+static struct pkgset *
+parse_find_set_slot(struct parsedb_state *ps,
+                    struct pkginfo *new_pkg, struct pkgbin *new_pkgbin)
+{
+  struct pkgcount count = { .single = 0, .multi = 0, .total = 0 };
+  struct pkgset *set;
+  struct pkginfo *pkg;
+
+  set = pkg_db_find_set(new_pkg->set->name);
+
+  /* Sanity checks: verify that the db is in a consistent state. */
+
+  if (ps->type == pdb_file_status)
+    parse_count_pkg_instance(&count, new_pkg, new_pkgbin);
+
+  count.total = 0;
+
+  for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
+    parse_count_pkg_instance(&count, pkg, &pkg->installed);
+
+  if (count.single > 1)
+    parse_error(ps, _("multiple non-coinstallable package instances present"));
+
+  if (count.single > 0 && count.multi > 0)
+    parse_error(ps, _("mixed non-coinstallable and coinstallable package "
+                      "instances present"));
+
+  if (pkgset_installed_instances(set) != count.total)
+    internerr("in-core pkgset %s with inconsistent number of instances",
+              set->name);
+
+  return set;
+}
+
+/**
+ * Lookup the package slot for the parsed package.
+ *
+ * Cross-grading (i.e. switching arch) is only possible when parsing an
+ * update entry or when installing a new package.
+ *
+ * Most of the time each pkginfo in a pkgset has the same architecture for
+ * both the installed and available pkgbin members. But when cross-grading
+ * there's going to be a temporary discrepancy, because we reuse the single
+ * instance and fill the available pkgbin with the candiadate pkgbin, until
+ * that is copied over the installed pkgbin.
+ *
+ * If there's 0 or > 1 package instances, then we match against the pkginfo
+ * slot architecture, because cross-grading is just not possible.
+ *
+ * If there's 1 instance, we are cross-grading and both installed and
+ * candidate are not multiarch_same, we have to reuse the existing single
+ * slot regardless of the arch differing between the two. If we are not
+ * cross-grading, then we use the entry with the matchin arch.
+ */
+static struct pkginfo *
+parse_find_pkg_slot(struct parsedb_state *ps,
+                    struct pkginfo *new_pkg, struct pkgbin *new_pkgbin)
+{
+  struct pkgset *db_set;
+  struct pkginfo *db_pkg;
+
+  db_set = parse_find_set_slot(ps, new_pkg, new_pkgbin);
+
+  if (ps->type == pdb_file_available) {
+    /* If there's a single package installed and the new package is not
+     * “Multi-Aarch: same”, then we preserve the previous behaviour of
+     * possible architecture switch, for example from native to all. */
+    if (pkgset_installed_instances(db_set) == 1 &&
+        new_pkgbin->multiarch != multiarch_same)
+      return pkg_db_get_singleton(db_set);
+    else
+      return pkg_db_get_pkg(db_set, new_pkgbin->arch);
+  } else {
+    bool selection = false;
+
+    /* If the package is part of the status file, and it's not installed
+     * then this means it's just a selection. */
+    if (ps->type == pdb_file_status && new_pkg->status == stat_notinstalled)
+      selection = true;
+
+    /* Verify we don't allow something that will mess up the db. */
+    if (pkgset_installed_instances(db_set) > 1 &&
+        !selection && new_pkgbin->multiarch != multiarch_same)
+      ohshit(_("%s %s (Multi-Arch: %s) is not co-installable with "
+               "%s which has multiple installed instances"),
+             pkgbin_name(new_pkg, new_pkgbin, pnaw_always),
+             versiondescribe(&new_pkgbin->version, vdew_nonambig),
+             multiarchinfos[new_pkgbin->multiarch].name, db_set->name);
+
+    /* If we are parsing the status file, use a slot per arch. */
+    if (ps->type == pdb_file_status)
+      return pkg_db_get_pkg(db_set, new_pkgbin->arch);
+
+    /* If we are doing an update, from the log or a new package, then
+     * handle cross-grades. */
+    if (pkgset_installed_instances(db_set) == 1) {
+      db_pkg = pkg_db_get_singleton(db_set);
+
+      if (db_pkg->installed.multiarch == multiarch_same &&
+          new_pkgbin->multiarch == multiarch_same)
+        return pkg_db_get_pkg(db_set, new_pkgbin->arch);
+      else
+        return db_pkg;
+    } else {
+      return pkg_db_get_pkg(db_set, new_pkgbin->arch);
+    }
+  }
+}
+
 /**
  * Copy into the in-core database the package being constructed.
  */
@@ -596,7 +732,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     pkg_parse_verify(&ps, new_pkg, new_pkgbin);
 
-    db_pkg = pkg_db_find_pkg(new_pkg->set->name, new_pkgbin->arch);
+    db_pkg = parse_find_pkg_slot(&ps, new_pkg, new_pkgbin);
     if (flags & pdb_recordavailable)
       db_pkgbin = &db_pkg->available;
     else
