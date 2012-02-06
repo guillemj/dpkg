@@ -3,7 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  * Copyright © 2010 Canonical Ltd.
  *   written by Martin Pitt <martin.pitt@canonical.com>
  *
@@ -523,6 +523,8 @@ arch_remove(const char *const *argv)
   /* Check if it's safe to remove the architecture from the db. */
   iter = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next_pkg(iter))) {
+    if (pkg->status < stat_halfinstalled)
+      continue;
     if (pkg->installed.arch == arch) {
       if (fc_architecture)
         warning(_("removing architecture '%s' currently in use by database"),
