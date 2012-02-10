@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2012-02-08 21:07+0100\n"
-"PO-Revision-Date: 2012-02-08 21:16+0100\n"
+"PO-Revision-Date: 2012-02-10 17:13+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -10815,6 +10815,14 @@ msgid ""
 "This will cause the conffile to be removed even if the user rebuilt the "
 "previous version B<1.0-1> as B<1.0-1local1>."
 msgstr ""
+"I<vorhergehendeVersion> definiert die letzte Version des Pakets, dessen "
+"Upgrade die Entfernung auslösen soll. Es ist wichtig, dass "
+"I<vorhergehendeVersion> korrekt berechnet wird, so dass Conffiles korrekt "
+"entfernt werden, selbst falls der Benutzer das Paket mit einer lokalen "
+"Version neu gebaut hat. Wird beispielsweise eine Conffile in Version B<2.0-1> "
+"eines Pakets entfernt, sollte I<vorhergehendeVersion> auf B<2.0-1~> gesetzt "
+"werden. Dies führt dazu, dass das Conffile entfernt wird, selbst falls der "
+"Benutzer die vorhergehende Version B<1.0-1> als B<1.0-1local1> neu gebaut hat."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:90
@@ -10824,6 +10832,11 @@ msgid ""
 "I<priorversion> should be based on the version of the package that you are "
 "now preparing, not the first version of the package that lacked the conffile."
 msgstr ""
+"Falls das Conffile in mehreren Versionen nicht ausgeliefert wurde und Sie "
+"jetzt die Betreuerskripte anpassen, um die überflüssige Datei zu entfernen, "
+"sollte I<vorhergehendeVersion> auf die Version des Pakets gesetzt werden, die "
+"Sie jetzt zusammenstellen, nicht auf die erste Version des Pakets, bei dem "
+"das Conffile fehlte."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:93 dpkg-maintscript-helper.1:132
@@ -10924,6 +10937,12 @@ msgid ""
 "then the operation is tried on every upgrade (note: it's safer to give the "
 "version and have the operation tried only once)."
 msgstr ""
+"I<vorhergehendeVersion> definiert die letzte Version des Pakets, dessen "
+"Upgrade die Umbenennung der Conffile auslösen soll (siehe die Anmerkungen für "
+"B<rm_conffile> weiter oben in Bezug auf die korrekte Version). Falls "
+"I<vorhergehendeVersion> leer ist oder weggelassen wurde wird die Umbenennung "
+"bei jedem Upgrade versucht (Hinweis: Es ist sicherer, die Version anzugeben "
+"und damit nur einmal versuchen zu lassen, die Datei umzubenennen)."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:143
