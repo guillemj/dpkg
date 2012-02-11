@@ -244,7 +244,7 @@ virt_source_package(struct varbuf *vb,
 	const char *name;
 	size_t len;
 
-	name = pkg->installed.source;
+	name = pkgbin->source;
 	if (name == NULL)
 		name = pkg->set->name;
 
@@ -263,13 +263,13 @@ virt_source_version(struct varbuf *vb,
 	const char *version;
 	size_t len;
 
-	if (pkg->installed.source)
-		version = strchr(pkg->installed.source, '(');
+	if (pkgbin->source)
+		version = strchr(pkgbin->source, '(');
 	else
 		version = NULL;
 
 	if (version == NULL) {
-		varbufversion(vb, &pkg->installed.version, vdew_nonambig);
+		varbufversion(vb, &pkgbin->version, vdew_nonambig);
 	} else {
 		version++;
 
