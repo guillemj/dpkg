@@ -4,6 +4,7 @@
  *
  * Copyright © 1994-1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +63,6 @@
 
 static const char printforhelp[] = N_("Type dselect --help for help.");
 
-modstatdb_rw readwrite;
 int expertmode= 0;
 
 static const char *admindir = ADMINDIR;
@@ -360,8 +360,8 @@ extern void operator delete(void *p) {
 urqresult urq_list(void) {
   struct dpkg_arch *arch;
 
-  readwrite = modstatdb_open((modstatdb_rw)(msdbrw_writeifposs |
-                                            msdbrw_available_readonly));
+  modstatdb_open((modstatdb_rw)(msdbrw_writeifposs |
+                                msdbrw_available_readonly));
 
   // XXX: Multi-Arch is not supported, bail out.
   for (arch = dpkg_arch_get_list(); arch; arch = arch->next)
