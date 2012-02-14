@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2011-09-23 03:38+0300\n"
-"PO-Revision-Date: 2012-02-06 12:35+0100\n"
+"PO-Revision-Date: 2012-02-14 19:22+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -7301,7 +7301,6 @@ msgstr "B<pie>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:256
-#, fuzzy
 msgid ""
 "This setting (disabled by default) adds B<-fPIE> to B<CFLAGS> and "
 "B<CXXFLAGS>, and B<-fPIE -pie> to B<LDFLAGS>. Position Independent "
@@ -7314,15 +7313,19 @@ msgid ""
 "attacks are much harder since there are no static locations to bounce off of "
 "during a memory corruption attack."
 msgstr ""
-"Ce réglage, activé par défaut, ajoute B<-fPIE> à B<CFLAGS> et B<CXXFLAGS> "
+"Ce réglage, désactivé par défaut, ajoute B<-fPIE> à B<CFLAGS> et B<CXXFLAGS> "
 "ainsi que B<-fPIE -pie> à B<LDFLAGS>. Les exécutables à position indépendante "
-"(« Position Independent Exacutable ») permettent d'utiliser la randomisation "
+"(« Position Independent Executable ») permettent d'utiliser la randomisation "
 "de l'organisation de l'espace d'adressage (ASLR : « Address Space Layout "
 "Randomization »), qui est gérée par certaines versions du noyau. Bien que "
 "ASLR puisse déjà être mise en oeuvre pour les zones de données dans la pile "
 "et le tampon (brk et mmap), les zones de codes doivent être compilées comme "
 "dépendantes de la position. Les bibliothèques partagées font déjà cela "
-"(-fPIC) ce qui permet automatiquement d'utiliser ASLR"
+"(-fPIC) ce qui permet automatiquement d'utiliser ASLR. Par contre les région."
+"text binaires doivent être construites en mode PIE pour mettre en oeuvre ASLR."
+" Une fois cela réalisé, les attaques ROP (« Return Oriented Programming ») "
+"deviennent plus difficiles car il n'existe pas d'emplacement statique d'où "
+"rebondir sur une attaque par corruption de la mémoire."
 
 #. type: Plain text
 #: dpkg-buildflags.1:259
@@ -7330,6 +7333,8 @@ msgid ""
 "This is not compatible with B<-fPIC> so care must be taken when building "
 "shared objects."
 msgstr ""
+"Ce réglage n'est pas compatible avec B<-Fpic> : la prudence est donc "
+"conseillée pour la construction d'objets partagés."
 
 #. type: Plain text
 #: dpkg-buildflags.1:265
@@ -7340,6 +7345,13 @@ msgid ""
 "1%. Architectures with more general registers (e.g. amd64)  do not see as "
 "high a worst-case penalty."
 msgstr ""
+"De plus, comme la protection PIE n'est mise en oeuvre via un registre global, "
+"certaines architectures (notamment i386) peuvent souffrir de pertes de "
+"performances allant jusqu'à 15% sur des charges d'applications utilisant "
+"largement les segments de texte ; le plus souvent, cette perte de "
+"performances n'excèdera pas 1%. Pour des architectures offrant plus de "
+"registres globaux (par exemple amd64), cette pénalisation n'existe "
+"pratiquement pas."
 
 #. type: Plain text
 #: dpkg-buildflags.1:268
@@ -8006,7 +8018,6 @@ msgstr "B<-h>, B<--help>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:234
-#, fuzzy
 #| msgid ""
 #| "Even if B<dpkg-buildpackage> export some variables, B<debian/rules> "
 #| "should not rely on their presence and should instead use the respective "
@@ -8041,7 +8052,7 @@ msgstr ""
 #: dpkg-buildpackage.1:238
 #, no-wrap
 msgid "Compiler flags are no longer exported"
-msgstr ""
+msgstr "Les drapeaux de compilation ne sont plus exportés."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:243
@@ -8050,6 +8061,10 @@ msgid ""
 "flags (B<CFLAGS>, B<CXXFLAGS>, B<FFLAGS>, B<CPPFLAGS> and B<LDFLAGS>) with "
 "values as returned by B<dpkg-buildflags>. This is no longer the case."
 msgstr ""
+"Entre les versions 1.14.17 and 1.16.1, B<dpkg-buildpackage> exportait les "
+"drapeaux de compilation (B<CFLAGS>, B<CXXFLAGS>, B<FFLAGS>, B<CPPFLAGS> and "
+"B<LDFLAGS>) avec les valeurs que retournait B<dpkg-buildflags>. Cela n'est "
+"plus le cas."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:248
@@ -8063,7 +8078,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.1:256
-#, fuzzy
 #| msgid ""
 #| "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), "
 #| "B<fakeroot>(1), B<gpg>(1)."
@@ -8071,8 +8085,8 @@ msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
 "genchanges>(1), B<fakeroot>(1), B<gpg>(1)."
 msgstr ""
-"B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), "
-"B<fakeroot>(1), B<gpg>(1)."
+"B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
+"genchanges>(1), B<fakeroot>(1), B<gpg>(1)."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:265
@@ -8094,10 +8108,9 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:9
-#, fuzzy
 #| msgid "B<dpkg-checkbuilddeps> [I<options>] [I<control-file>]"
 msgid "B<dpkg-checkbuilddeps> [I<option>...] [I<control-file>]"
-msgstr "B<dpkg-checkbuilddeps> [I<options>] [I<fichier-control>]"
+msgstr "B<dpkg-checkbuilddeps> [I<option>...] [I<fichier-control>]"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:14
@@ -8113,7 +8126,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:17
-#, fuzzy
 #| msgid ""
 #| "By default, I<debian/control> is read, but an alternate control filename "
 #| "may be specified on the command line."
@@ -8121,7 +8133,8 @@ msgid ""
 "By default, B<debian/control> is read, but an alternate control filename may "
 "be specified on the command line."
 msgstr ""
-"Normalement, le fichier I<debian/control> est lu, mais un autre fichier peut "
+"Par défaut, le fichier I<debian/control> est lu, mais un autre nom de fichier "
+"peut "
 "être indiqué sur la ligne de commande."
 
 #. type: Plain text
@@ -8172,10 +8185,9 @@ msgstr "dpkg-distaddfile - Ajouter une entrée au fichier debian/files."
 
 #. type: Plain text
 #: dpkg-distaddfile.1:8
-#, fuzzy
 #| msgid "B<dpkg-distaddfile> [I<options>]I< filename section priority>"
 msgid "B<dpkg-distaddfile> [I<option>...]I< filename section priority>"
-msgstr "B<dpkg-distaddfile> [I<options>]I< fichier section priorité>"
+msgstr "B<dpkg-distaddfile> [I<options>...]I< fichier section priorité>"
 
 #. type: Plain text
 #: dpkg-distaddfile.1:13
@@ -8247,10 +8259,9 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-deb.1:8
-#, fuzzy
 #| msgid "B<dpkg-deb> [I<options>] I<command>"
 msgid "B<dpkg-deb> [I<option>...] I<command>"
-msgstr "B<dpkg-deb> [I<options>] I<commande>"
+msgstr "B<dpkg-deb> [I<options>...] I<commande>"
 
 #. type: Plain text
 #: dpkg-deb.1:12
@@ -8494,7 +8505,6 @@ msgstr "B<-X>, B<--vextract> I<archive répertoire>"
 
 #. type: Plain text
 #: dpkg-deb.1:145
-#, fuzzy
 #| msgid ""
 #| "Is like B<--extract> (B<-x>)  but prints a listing of the files extracted "
 #| "as it goes."
@@ -8502,19 +8512,19 @@ msgid ""
 "Is like B<--extract> (B<-x>)  with B<--verbose> (B<-v>)  which prints a "
 "listing of the files extracted as it goes."
 msgstr ""
-"Comme B<--extract> (B<-x>), mais affiche la liste des fichiers au fur et à "
+"Comme B<--extract> (B<-x>) avec B<--verbose> (B<-v>), ce qui affiche la liste "
+"des fichiers au fur et à "
 "mesure qu'ils sont extraits."
 
 #. type: TP
 #: dpkg-deb.1:145
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-x>, B<--extract> I<archive directory>"
 msgid "B<-R>, B<--raw-extract> I<archive directory>"
-msgstr "B<-x>, B<--extract> I<archive répertoire>"
+msgstr "B<-R>, B<--raw-extract> I<archive répertoire>"
 
 #. type: Plain text
 #: dpkg-deb.1:150
-#, fuzzy
 #| msgid ""
 #| "Extracts the filesystem tree from a package archive into the specified "
 #| "directory."
@@ -8524,7 +8534,8 @@ msgid ""
 "the specified directory."
 msgstr ""
 "Extrait l'arborescence des fichiers d'un paquet archive dans le répertoire "
-"spécifié."
+"spécifié et les fichiers d'information de contrôle dans un sous-répertoire "
+"nommé DEBIAN de ce répertoire."
 
 #. type: Plain text
 #: dpkg-deb.1:152 dpkg-deb.1:172
@@ -8542,7 +8553,6 @@ msgstr "B<--fsys-tarfile> I<archive>"
 
 #. type: Plain text
 #: dpkg-deb.1:161
-#, fuzzy
 #| msgid ""
 #| "Extracts the filesystem tree data from a binary package and sends it to "
 #| "standard output in B<tar> format. Together with B<tar>(1)  this can be "
@@ -8556,7 +8566,8 @@ msgstr ""
 "Extrait les données de l'arborescence d'un paquet binaire et les envoie sur "
 "la sortie standard dans le format propre à la commande B<tar>. En combinant "
 "cette option avec la commande B<tar>(1), on peut ainsi extraire un fichier "
-"précis d'une archive de paquet."
+"précis d'une archive de paquet. L'archive d'entrée sera toujours traitée "
+"séquentiellement."
 
 #. type: TP
 #: dpkg-deb.1:161
@@ -8620,14 +8631,13 @@ msgstr "Par défaut, la valeur de ce champ est ${Package}\\et${Version}\\en."
 
 #. type: TP
 #: dpkg-deb.1:196
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-z>I<compress_level>"
 msgid "B<-z>I<compress-level>"
 msgstr "B<-z>I<niveau_compression>"
 
 #. type: Plain text
 #: dpkg-deb.1:200
-#, fuzzy
 #| msgid ""
 #| "Specify which compression level to pass to the compressor backend "
 #| "program, when building a package."
@@ -8636,11 +8646,12 @@ msgid ""
 "building a package (default is 9 for gzip and bzip2, 6 for xz and lzma)."
 msgstr ""
 "Indique le niveau de compression à fournir au logiciel de compression appelé "
-"en sous-main lors de la compression du paquet."
+"en sous-main lors de la compression du paquet. La valeur par défaut est 9 "
+"pour gzip et bzip, 6 pour xz et lzma."
 
 #. type: TP
 #: dpkg-deb.1:200
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-Z>I<compress_type>"
 msgid "B<-Z>I<compress-type>"
 msgstr "B<-Z>I<type_compression>"
@@ -8718,6 +8729,8 @@ msgid ""
 "Enables verbose output. This currently only affects B<--extract> making it "
 "behave like B<--vextract>."
 msgstr ""
+"Active l'affichage verbeux. Cela n'affecte actuellement que B<--extract> et "
+"le rend analogue à ><--vextract>."
 
 #. type: TP
 #: dpkg-deb.1:228
@@ -8792,10 +8805,9 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-divert.8:9
-#, fuzzy
 #| msgid "B<dpkg-divert> [I<options>] I<command>"
 msgid "B<dpkg-divert> [I<option>...] I<command>"
-msgstr "B<dpkg-divert> [I<options>] I<commande>"
+msgstr "B<dpkg-divert> [I<option>...] I<commande>"
 
 #. type: Plain text
 #: dpkg-divert.8:13
@@ -8994,7 +9006,6 @@ msgstr "NOTES"
 
 #. type: Plain text
 #: dpkg-divert.8:82
-#, fuzzy
 #| msgid ""
 #| "When adding, default is B<--local> and B<--divert> I<E<lt>originalE<gt>."
 #| "distrib>. When removing, B<--package> or B<--local> and B<--divert> must "
@@ -9004,7 +9015,7 @@ msgid ""
 "When removing, B<--package> or B<--local> and B<--divert> must match if "
 "specified."
 msgstr ""
-"Pour l'ajout, le défaut est B<--local> et B<--divert> I< E<lt>originalE<gt>."
+"Pour l'ajout, le défaut est B<--local> et B<--divert> I<original>B<."
 "distrib>. Pour la suppression, B<--package> ou B<--local> et B<--divert> "
 "doivent correspondre quand ils sont précisés."
 
@@ -9082,10 +9093,10 @@ msgstr "dpkg-divert --package wibble --rename --remove /usr/bin/example"
 #. type: TP
 #: dpkg-divert.8:113 dpkg-query.1:205 dpkg-statoverride.8:69 dpkg-trigger.1:61
 #: update-alternatives.8:355
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DPKG_MAINTSCRIPT_ARCH>"
 msgid "B<DPKG_ADMINDIR>"
-msgstr "B<DPKG_MAINTSCRIPT_ARCH>"
+msgstr "B<DPKG_ADMINDIR>"
 
 #. type: Plain text
 #: dpkg-divert.8:117 dpkg-query.1:209 dpkg-statoverride.8:73 dpkg-trigger.1:65
@@ -9093,6 +9104,8 @@ msgid ""
 "If set and the B<--admindir> option has not been specified, it will be used "
 "as the dpkg data directory."
 msgstr ""
+"Si cette variable est positionnée et que l'option B<--admindri> n'est pas "
+"précisée, ce répertoire sera utilisé comme répertoire de données pour dpkg."
 
 #. type: Plain text
 #: dpkg-divert.8:121
@@ -9475,7 +9488,8 @@ msgid ""
 "the superseding dependency will take the place of the discarded one."
 msgstr ""
 "I<Pre-Depends>, I<Depends>, I<Recommends> et I<Suggests> sont simplifiés "
-"dans cet ordre pour supprimer les dépendances qui sont connues pour être vérifiées "
+"dans cet ordre pour supprimer les dépendances qui sont connues pour être "
+"vérifiées "
 "par la plus forte dépendance déjà traitée. Sont aussi supprimées toutes les "
 "auto-dépendances (dans les faits, cela supprime les dépendances qui sont "
 "déjà validées par la version du paquet déjà installé). Logiquement, il "
