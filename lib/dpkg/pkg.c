@@ -3,7 +3,7 @@
  * pkg.c - primitives for pkg handling
  *
  * Copyright © 1995, 1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2009-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,51 @@
 
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
+
+/**
+ * Set the package installation status.
+ */
+void
+pkg_set_status(struct pkginfo *pkg, enum pkgstatus status)
+{
+	pkg->status = status;
+}
+
+/**
+ * Set the specified flags to 1 in the package error flags.
+ */
+void
+pkg_set_eflags(struct pkginfo *pkg, enum pkgeflag eflag)
+{
+	pkg->eflag |= eflag;
+}
+
+/**
+ * Clear the specified flags to 0 in the package error flags.
+ */
+void
+pkg_clear_eflags(struct pkginfo *pkg, enum pkgeflag eflag)
+{
+	pkg->eflag &= ~eflag;
+}
+
+/**
+ * Reset the package error flags to 0.
+ */
+void
+pkg_reset_eflags(struct pkginfo *pkg)
+{
+	pkg->eflag = eflag_ok;
+}
+
+/**
+ * Set the package selection status.
+ */
+void
+pkg_set_want(struct pkginfo *pkg, enum pkgwant want)
+{
+	pkg->want = want;
+}
 
 void
 pkgbin_blank(struct pkgbin *pkgbin)

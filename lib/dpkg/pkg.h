@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * pkg.h - primitives for pkg handling
  *
- * Copyright © 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009,2011-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,12 +22,19 @@
 #define LIBDPKG_PKG_H
 
 #include <dpkg/macros.h>
+#include <dpkg/dpkg-db.h>
 
 DPKG_BEGIN_DECLS
 
 typedef int pkg_sorter_func(const void *a, const void *b);
 
 int pkg_sorter_by_name(const void *a, const void *b);
+
+void pkg_set_status(struct pkginfo *pkg, enum pkgstatus status);
+void pkg_set_eflags(struct pkginfo *pkg, enum pkgeflag eflag);
+void pkg_clear_eflags(struct pkginfo *pkg, enum pkgeflag eflag);
+void pkg_reset_eflags(struct pkginfo *pkg);
+void pkg_set_want(struct pkginfo *pkg, enum pkgwant want);
 
 DPKG_END_DECLS
 
