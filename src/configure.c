@@ -4,6 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 1999, 2002 Wichert Akkerman <wichert@deephackmode.org>
+ * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +43,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/string.h>
 #include <dpkg/buffer.h>
 #include <dpkg/file.h>
@@ -324,7 +326,7 @@ deferred_configure(struct pkginfo *pkg)
 	trig_activate_packageprocessing(pkg);
 
 	if (f_noact) {
-		pkg->status = stat_installed;
+		pkg_set_status(pkg, stat_installed);
 		pkg->clientdata->istobe = itb_normal;
 		return;
 	}
@@ -350,7 +352,7 @@ deferred_configure(struct pkginfo *pkg)
 		for (conff = pkg->installed.conffiles; conff; conff = conff->next)
 			deferred_configure_conffile(pkg, conff);
 
-		pkg->status = stat_halfconfigured;
+		pkg_set_status(pkg, stat_halfconfigured);
 	}
 
 	assert(pkg->status == stat_halfconfigured);
@@ -363,7 +365,7 @@ deferred_configure(struct pkginfo *pkg)
 	                                           vdew_nonambig) : "",
 	                           NULL);
 
-	pkg->eflag = eflag_ok;
+	pkg_reset_eflags(pkg);
 	pkg->trigpend_head = NULL;
 	post_postinst_tasks(pkg, stat_installed);
 }

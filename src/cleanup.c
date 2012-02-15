@@ -3,6 +3,7 @@
  * cleanup.c - cleanup functions, used when we need to unwind
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +38,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
@@ -118,7 +120,7 @@ void cu_prermupgrade(int argc, void **argv) {
                              versiondescribe(&pkg->available.version,
                                              vdew_nonambig),
                              NULL);
-  pkg->eflag &= ~eflag_reinstreq;
+  pkg_clear_eflags(pkg, eflag_reinstreq);
   post_postinst_tasks(pkg, stat_installed);
   cleanup_pkg_failed--;
 }
@@ -172,7 +174,7 @@ void cu_prerminfavour(int argc, void **argv) {
                              versiondescribe(&infavour->available.version,
                                              vdew_nonambig),
                              NULL);
-  conflictor->eflag &= ~eflag_reinstreq;
+  pkg_clear_eflags(conflictor, eflag_reinstreq);
   post_postinst_tasks(conflictor, stat_installed);
   cleanup_conflictor_failed--;
 }
@@ -185,8 +187,8 @@ void cu_preinstverynew(int argc, void **argv) {
   if (cleanup_pkg_failed++) return;
   maintainer_script_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
                         "abort-install", NULL);
-  pkg->status= stat_notinstalled;
-  pkg->eflag &= ~eflag_reinstreq;
+  pkg_set_status(pkg, stat_notinstalled);
+  pkg_clear_eflags(pkg, eflag_reinstreq);
   pkgbin_blank(&pkg->installed);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
@@ -202,8 +204,8 @@ void cu_preinstnew(int argc, void **argv) {
                         "abort-install", versiondescribe(&pkg->installed.version,
                                                          vdew_nonambig),
                         NULL);
-  pkg->status= stat_configfiles;
-  pkg->eflag &= ~eflag_reinstreq;
+  pkg_set_status(pkg, stat_configfiles);
+  pkg_clear_eflags(pkg, eflag_reinstreq);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
 }
@@ -220,8 +222,8 @@ void cu_preinstupgrade(int argc, void **argv) {
                         versiondescribe(&pkg->installed.version,
                                         vdew_nonambig),
                         NULL);
-  pkg->status= *oldstatusp;
-  pkg->eflag &= ~eflag_reinstreq;
+  pkg_set_status(pkg, *oldstatusp);
+  pkg_clear_eflags(pkg, eflag_reinstreq);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
 }
@@ -243,7 +245,7 @@ void cu_prermremove(int argc, void **argv) {
 
   if (cleanup_pkg_failed++) return;
   maintainer_script_postinst(pkg, "abort-remove", NULL);
-  pkg->eflag &= ~eflag_reinstreq;
+  pkg_clear_eflags(pkg, eflag_reinstreq);
   post_postinst_tasks(pkg, *oldpkgstatus);
   cleanup_pkg_failed--;
 }

@@ -4,7 +4,7 @@
  *
  * Copyright © 2007 Canonical Ltd
  * Written by Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/dlist.h>
 #include <dpkg/dir.h>
 #include <dpkg/trigdeferred.h>
@@ -94,7 +95,7 @@ trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *tri
 	if (aw && pend->status > stat_configfiles)
 		if (trig_note_aw(pend, aw)) {
 			if (aw->status > stat_triggersawaited)
-				aw->status = stat_triggersawaited;
+				pkg_set_status(aw, stat_triggersawaited);
 			modstatdb_note_ifwrite(aw);
 		}
 }
@@ -115,8 +116,10 @@ trig_clear_awaiters(struct pkginfo *notpend)
 			continue;
 		LIST_UNLINK_PART(aw->trigaw, ta, sameaw.);
 		if (!aw->trigaw.head && aw->status == stat_triggersawaited) {
-			aw->status = aw->trigpend_head ? stat_triggerspending :
-			             stat_installed;
+			if (aw->trigpend_head)
+				pkg_set_status(aw, stat_triggerspending);
+			else
+				pkg_set_status(aw, stat_installed);
 			modstatdb_note(aw);
 		}
 	}

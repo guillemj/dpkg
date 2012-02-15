@@ -4,6 +4,7 @@
  *
  * Copyright © 2007 Canonical Ltd
  * written by Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +32,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/pkg-queue.h>
 #include <dpkg/triglib.h>
 
@@ -287,7 +289,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	      pkg_name(giveup, pnaw_nonambig));
 	assert(giveup->status == stat_triggersawaited ||
 	       giveup->status == stat_triggerspending);
-	giveup->status = stat_halfconfigured;
+	pkg_set_status(giveup, stat_halfconfigured);
 	modstatdb_note(giveup);
 	print_error_perpackage(_("triggers looping, abandoned"),
 	                       giveup->set->name);
@@ -334,7 +336,7 @@ trigproc(struct pkginfo *pkg)
 
 		/* Setting the status to half-configured
 		 * causes modstatdb_note to clear pending triggers. */
-		pkg->status = stat_halfconfigured;
+		pkg_set_status(pkg, stat_halfconfigured);
 		modstatdb_note(pkg);
 
 		if (!f_noact) {
@@ -344,9 +346,12 @@ trigproc(struct pkginfo *pkg)
 		}
 
 		/* This is to cope if the package triggers itself: */
-		pkg->status = pkg->trigaw.head ? stat_triggersawaited :
-		              pkg->trigpend_head ? stat_triggerspending :
-		              stat_installed;
+		if (pkg->trigaw.head)
+			pkg_set_status(pkg, stat_triggersawaited);
+		else if (pkg->trigpend_head)
+			pkg_set_status(pkg, stat_triggerspending);
+		else
+			pkg_set_status(pkg, stat_installed);
 
 		post_postinst_tasks_core(pkg);
 	} else {
@@ -412,9 +417,13 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		 * not in sync with the infodb files. */
 		if (pkg->status < stat_triggersawaited)
 			continue;
-		pkg->status = pkg->trigaw.head ? stat_triggersawaited :
-		              pkg->trigpend_head ? stat_triggerspending :
-		              stat_installed;
+
+		if (pkg->trigaw.head)
+			pkg_set_status(pkg, stat_triggersawaited);
+		else if (pkg->trigpend_head)
+			pkg_set_status(pkg, stat_triggerspending);
+		else
+			pkg_set_status(pkg, stat_installed);
 	}
 	pkg_db_iter_free(it);
 

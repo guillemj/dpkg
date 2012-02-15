@@ -3,7 +3,7 @@
  * parse.c - database file parsing, main package/field loop
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006,2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/parsedump.h>
 #include <dpkg/fdio.h>
 
@@ -272,7 +273,7 @@ pkg_parse_verify(struct parsedb_state *ps,
       (pkg->want == want_purge ||
        pkg->want == want_deinstall ||
        pkg->want == want_hold)) {
-    pkg->want = want_unknown;
+    pkg_set_want(pkg, want_unknown);
   }
 }
 

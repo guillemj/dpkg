@@ -95,9 +95,9 @@ pkg_blank(struct pkginfo *pkg)
 {
 	pkg->set = NULL;
 	pkg->arch_next = NULL;
-	pkg->status = stat_notinstalled;
-	pkg->eflag = eflag_ok;
-	pkg->want = want_unknown;
+	pkg_set_status(pkg, stat_notinstalled);
+	pkg_reset_eflags(pkg);
+	pkg_set_want(pkg, want_unknown);
 	pkg->priority = pri_unknown;
 	pkg->otherpriority = NULL;
 	pkg->section = NULL;

@@ -4,7 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2007-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/path.h>
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
@@ -1392,7 +1393,7 @@ wanttoinstall(struct pkginfo *pkg)
     if (f_alsoselect) {
       printf(_("Selecting previously unselected package %s.\n"),
              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-      pkg->want = want_install;
+      pkg_set_want(pkg, want_install);
       return true;
     } else {
       printf(_("Skipping unselected package %s.\n"),

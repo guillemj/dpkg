@@ -3,7 +3,7 @@
  * processarc.c - the huge function process_archive
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/path.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
@@ -361,9 +362,9 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
   dir_sync_path(pkgadmindir());
 
-  pkg->status = stat_notinstalled;
-  pkg->want = want_unknown;
-  pkg->eflag = eflag_ok;
+  pkg_set_status(pkg, stat_notinstalled);
+  pkg_set_want(pkg, want_unknown);
+  pkg_reset_eflags(pkg);
 
   blankversion(&pkg->configversion);
   pkgbin_blank(&pkg->installed);
@@ -670,8 +671,8 @@ void process_archive(const char *filename) {
       oldversionstatus == stat_triggersawaited ||
       oldversionstatus == stat_triggerspending ||
       oldversionstatus == stat_installed) {
-    pkg->eflag |= eflag_reinstreq;
-    pkg->status= stat_halfconfigured;
+    pkg_set_eflags(pkg, eflag_reinstreq);
+    pkg_set_status(pkg, stat_halfconfigured);
     modstatdb_note(pkg);
     push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
     if (versioncompare(&pkg->available.version,
@@ -682,7 +683,7 @@ void process_archive(const char *filename) {
       maintainer_script_installed(pkg, PRERMFILE, "pre-removal", "upgrade",
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig), NULL);
-    pkg->status= stat_unpacked;
+    pkg_set_status(pkg, stat_unpacked);
     oldversionstatus= stat_unpacked;
     modstatdb_note(pkg);
   }
@@ -699,7 +700,7 @@ void process_archive(const char *filename) {
              pkg_name(deconpil->pkg, pnaw_nonambig));
 
     trig_activate_packageprocessing(deconpil->pkg);
-    deconpil->pkg->status= stat_halfconfigured;
+    pkg_set_status(deconpil->pkg, stat_halfconfigured);
     modstatdb_note(deconpil->pkg);
 
     /* This means that we *either* go and run postinst abort-deconfigure,
@@ -733,7 +734,7 @@ void process_archive(const char *filename) {
           conflictor[i]->status == stat_triggerspending ||
           conflictor[i]->status == stat_installed)) continue;
     trig_activate_packageprocessing(conflictor[i]);
-    conflictor[i]->status= stat_halfconfigured;
+    pkg_set_status(conflictor[i], stat_halfconfigured);
     modstatdb_note(conflictor[i]);
     push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
                  2,(void*)conflictor[i],(void*)pkg);
@@ -742,14 +743,14 @@ void process_archive(const char *filename) {
                                 versiondescribe(&pkg->available.version,
                                                 vdew_nonambig),
                                 NULL);
-    conflictor[i]->status= stat_halfinstalled;
+    pkg_set_status(conflictor[i], stat_halfinstalled);
     modstatdb_note(conflictor[i]);
   }
 
-  pkg->eflag |= eflag_reinstreq;
+  pkg_set_eflags(pkg, eflag_reinstreq);
   if (pkg->status == stat_notinstalled)
     pkg->installed.version= pkg->available.version;
-  pkg->status= stat_halfinstalled;
+  pkg_set_status(pkg, stat_halfinstalled);
   modstatdb_note(pkg);
   if (oldversionstatus == stat_notinstalled) {
     push_cleanup(cu_preinstverynew, ~ehflag_normaltidy, NULL, 0,
@@ -885,7 +886,7 @@ void process_archive(const char *filename) {
   if (oldversionstatus == stat_halfinstalled || oldversionstatus == stat_unpacked) {
     /* Packages that were in ‘installed’ and ‘postinstfailed’ have been
      * reduced to ‘unpacked’ by now, by the running of the prerm script. */
-    pkg->status= stat_halfinstalled;
+    pkg_set_status(pkg, stat_halfinstalled);
     modstatdb_note(pkg);
     push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
     maintainer_script_alternative(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
@@ -1288,7 +1289,7 @@ void process_archive(const char *filename) {
    * The only thing that we have left to do with it is remove
    * backup files, and we can leave the user to fix that if and when
    * it happens (we leave the reinstall required flag, of course). */
-  pkg->status= stat_unpacked;
+  pkg_set_status(pkg, stat_unpacked);
   modstatdb_note(pkg);
 
   /* Now we delete all the backup files that we made when
@@ -1312,7 +1313,7 @@ void process_archive(const char *filename) {
 
   /* OK, we're now fully done with the main package.
    * This is quite a nice state, so we don't unwind past here. */
-  pkg->eflag = eflag_ok;
+  pkg_reset_eflags(pkg);
   modstatdb_note(pkg);
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 

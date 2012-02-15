@@ -3,6 +3,7 @@
  * help.c - various helper routines
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +37,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
@@ -236,10 +238,13 @@ void
 post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 {
   if (new_status < stat_triggersawaited)
-    pkg->status = new_status;
+    pkg_set_status(pkg, new_status);
+  else if (pkg->trigaw.head)
+    pkg_set_status(pkg, stat_triggersawaited);
+  else if (pkg->trigpend_head)
+    pkg_set_status(pkg, stat_triggerspending);
   else
-    pkg->status = pkg->trigaw.head ? stat_triggersawaited :
-                  pkg->trigpend_head ? stat_triggerspending : stat_installed;
+    pkg_set_status(pkg, stat_installed);
 
   post_postinst_tasks_core(pkg);
 }

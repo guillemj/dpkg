@@ -3,6 +3,7 @@
  * select.c - by-hand (rather than dselect-based) package selection
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,7 +149,7 @@ setselections(const char *const *argv)
     if (nv == NULL)
       ohshit(_("unknown wanted status at line %d: %.250s"), lno, selvb.buf);
     pkg = pkg_db_find(namevb.buf);
-    pkg->want = nv->value;
+    pkg_set_want(pkg, nv->value);
     if (c == EOF) break;
     lno++;
   }
@@ -174,7 +175,7 @@ clearselections(const char *const *argv)
   it = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next_pkg(it))) {
     if (!pkg->installed.essential)
-      pkg->want = want_deinstall;
+      pkg_set_want(pkg, want_deinstall);
   }
   pkg_db_iter_free(it);
 

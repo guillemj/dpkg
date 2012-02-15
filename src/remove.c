@@ -3,6 +3,7 @@
  * remove.c - functionality for removing packages
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +37,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/dir.h>
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>
@@ -106,8 +108,12 @@ void deferred_remove(struct pkginfo *pkg) {
     forcibleerr(fc_removeessential, _("This is an essential package -"
                 " it should not be removed."));
 
-  if (!f_pending)
-    pkg->want = (cipaction->arg_int == act_purge) ? want_purge : want_deinstall;
+  if (!f_pending) {
+    if (cipaction->arg_int == act_purge)
+      pkg_set_want(pkg, want_purge);
+    else
+      pkg_set_want(pkg, want_deinstall);
+  }
   if (!f_noact) modstatdb_note(pkg);
 
   debug(dbg_general, "checking dependencies for remove `%s'",
@@ -151,7 +157,7 @@ void deferred_remove(struct pkginfo *pkg) {
 
   if (f_noact) {
     printf(_("Would remove or purge %s ...\n"), pkg_name(pkg, pnaw_nonambig));
-    pkg->status= stat_notinstalled;
+    pkg_set_status(pkg, stat_notinstalled);
     pkg->clientdata->istobe= itb_normal;
     return;
   }
@@ -165,7 +171,7 @@ void deferred_remove(struct pkginfo *pkg) {
     static enum pkgstatus oldpkgstatus;
 
     oldpkgstatus= pkg->status;
-    pkg->status= stat_halfconfigured;
+    pkg_set_status(pkg, stat_halfconfigured);
     modstatdb_note(pkg);
     push_cleanup(cu_prermremove, ~ehflag_normaltidy, NULL, 0, 2,
                  (void *)pkg, (void *)&oldpkgstatus);
@@ -173,7 +179,7 @@ void deferred_remove(struct pkginfo *pkg) {
                                 "remove", NULL);
 
     /* Will turn into ‘half-installed’ soon ... */
-    pkg->status = stat_unpacked;
+    pkg_set_status(pkg, stat_unpacked);
   }
 
   removal_bulk(pkg);
@@ -214,7 +220,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
   static struct varbuf fnvb;
   struct stat stab;
 
-    pkg->status= stat_halfinstalled;
+    pkg_set_status(pkg, stat_halfinstalled);
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
@@ -304,7 +310,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     pkg_infodb_foreach(pkg, &pkg->installed, removal_bulk_remove_file);
     dir_sync_path(pkgadmindir());
 
-    pkg->status= stat_configfiles;
+    pkg_set_status(pkg, stat_configfiles);
     pkg->installed.essential = false;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
@@ -551,8 +557,8 @@ void removal_bulk(struct pkginfo *pkg) {
     /* If there are no config files and no postrm script then we
      * go straight into ‘purge’.  */
     debug(dbg_general, "removal_bulk no postrm, no conffiles, purging");
-    pkg->want= want_purge;
 
+    pkg_set_want(pkg, want_purge);
     blankversion(&pkg->configversion);
   } else if (pkg->want == want_purge) {
 
@@ -579,15 +585,15 @@ void removal_bulk(struct pkginfo *pkg) {
     if (unlink(filename) && errno != ENOENT)
       ohshite(_("can't remove old postrm script"));
 
-    pkg->status= stat_notinstalled;
-    pkg->want = want_unknown;
+    pkg_set_status(pkg, stat_notinstalled);
+    pkg_set_want(pkg, want_unknown);
 
     /* This will mess up reverse links, but if we follow them
      * we won't go back because pkg->status is stat_notinstalled. */
     pkgbin_blank(&pkg->installed);
   }
 
-  pkg->eflag = eflag_ok;
+  pkg_reset_eflags(pkg);
   modstatdb_note(pkg);
 
   debug(dbg_general, "removal done");
