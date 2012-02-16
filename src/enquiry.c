@@ -58,13 +58,13 @@ struct badstatinfo {
 static bool
 bsyn_reinstreq(struct pkginfo *pkg, const struct badstatinfo *bsi)
 {
-  return pkg->eflag &= eflag_reinstreq;
+  return pkg->eflag & eflag_reinstreq;
 }
 
 static bool
 bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
 {
-  if (pkg->eflag &= eflag_reinstreq)
+  if (pkg->eflag & eflag_reinstreq)
     return false;
   return (int)pkg->status == bsi->value;
 }
