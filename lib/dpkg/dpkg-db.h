@@ -302,6 +302,11 @@ enum parsedbflags {
   pdb_lax_version_parser = 040,
   /* Perform laxer parsing, used to transition to stricter parsing. */
   pdb_lax_parser = pdb_lax_version_parser,
+
+  /* Standard operations. */
+  pdb_parse_status = pdb_lax_parser | pdb_weakclassification,
+  pdb_parse_available = pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
+  pdb_parse_binary = pdb_recordavailable | pdb_rejectstatus,
 };
 
 const char *pkg_name_is_illegal(const char *p);

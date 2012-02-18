@@ -78,7 +78,7 @@ static void cleanupdates(void) {
   struct dirent **cdlist;
   int cdn, i;
 
-  parsedb(statusfile, pdb_lax_parser | pdb_weakclassification, NULL);
+  parsedb(statusfile, pdb_parse_status, NULL);
 
   *updatefnrest = '\0';
   updateslength= -1;
@@ -88,8 +88,7 @@ static void cleanupdates(void) {
   if (cdn) {
     for (i=0; i<cdn; i++) {
       strcpy(updatefnrest, cdlist[i]->d_name);
-      parsedb(updatefnbuf, pdb_lax_parser | pdb_weakclassification,
-              NULL);
+      parsedb(updatefnbuf, pdb_parse_status, NULL);
       if (cstatus < msdbrw_write) free(cdlist[i]);
     }
 
@@ -281,9 +280,7 @@ modstatdb_open(enum modstatdb_rw readwritereq)
   if (cstatus != msdbrw_needsuperuserlockonly) {
     cleanupdates();
     if (cflags >= msdbrw_available_readonly)
-      parsedb(availablefile,
-              pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
-              NULL);
+      parsedb(availablefile, pdb_parse_available, NULL);
   }
 
   if (cstatus >= msdbrw_write) {

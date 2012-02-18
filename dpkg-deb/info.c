@@ -280,8 +280,7 @@ do_showinfo(const char *const *argv)
   info_prepare(&argv, &debar, &dir, 1);
 
   m_asprintf(&controlfile, "%s/%s", dir, CONTROLFILE);
-  parsedb(controlfile,
-          pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles, &pkg);
+  parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
   pkg_format_free(fmt);
   free(controlfile);

@@ -332,7 +332,7 @@ check_new_pkg(const char *dir)
 
   /* Start by reading in the control file so we can check its contents. */
   m_asprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
-  parsedb(controlfile, pdb_recordavailable | pdb_rejectstatus, &pkg);
+  parsedb(controlfile, pdb_parse_binary, &pkg);
 
   if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
       strlen(pkg->set->name))

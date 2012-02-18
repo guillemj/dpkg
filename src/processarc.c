@@ -455,8 +455,8 @@ void process_archive(const char *filename) {
 
   strcpy(cidirrest,CONTROLFILE);
 
-  parsedb(cidir, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles |
-          parsedb_force_flags(), &pkg);
+  parsedb(cidir, pdb_parse_binary | pdb_ignorefiles | parsedb_force_flags(),
+          &pkg);
   if (!pkg->files) {
     pkg->files= nfmalloc(sizeof(struct filedetails));
     pkg->files->next = NULL;
