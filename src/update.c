@@ -87,8 +87,8 @@ updateavailable(const char *const *argv)
 
   if (cipaction->arg_int != act_avclear)
     count += parsedb(sourcefile,
-		     pdb_recordavailable | pdb_rejectstatus | pdb_ignoreolder,
-                     NULL);
+                     pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser |
+                     pdb_ignoreolder, NULL);
 
   if (!f_noact) {
     writedb(availfile, wdb_dump_available);
