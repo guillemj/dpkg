@@ -24,6 +24,7 @@
 #include <config.h>
 #include <compat.h>
 
+#include <assert.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
@@ -168,6 +169,11 @@ pkg_db_find_singleton(const char *name)
 /**
  * Return the package instance in a set with the given architecture.
  *
+ * It traverse the various instances to find out whether there's one
+ * matching the given architecture. If found, it returns it. Otherwise it
+ * allocates a new instance and registers it in the package set before
+ * returning it.
+ *
  * @param set  The package set to use.
  * @param arch The requested architecture.
  *
@@ -176,9 +182,37 @@ pkg_db_find_singleton(const char *name)
 struct pkginfo *
 pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
 {
-  struct pkginfo *pkg;
+  struct pkginfo *pkg, **pkgp;
+
+  assert(arch);
+  assert(arch->type != arch_none);
 
   pkg = &set->pkg;
+
+  /* If there's a single unused slot, let's use that. */
+  if (pkg->installed.arch->type == arch_none && pkg->arch_next == NULL) {
+    pkg->installed.arch = arch;
+    pkg->available.arch = arch;
+    return pkg;
+  }
+
+  /* Match the slot with the most appropriate architecture. The installed
+   * architecture always has preference over the available one, as there's
+   * a small time window on cross-grades, where they might differ. */
+  for (pkgp = &pkg; *pkgp; pkgp = &(*pkgp)->arch_next) {
+    if ((*pkgp)->installed.arch == arch)
+      return *pkgp;
+  }
+
+  /* Need to create a new instance for the wanted architecture. */
+  pkg = nfmalloc(sizeof(struct pkginfo));
+  pkg_blank(pkg);
+  pkg->set = set;
+  pkg->arch_next = NULL;
+  pkg->installed.arch = arch;
+  pkg->available.arch = arch;
+  *pkgp = pkg;
+  npkg++;
 
   return pkg;
 }
