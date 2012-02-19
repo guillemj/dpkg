@@ -49,6 +49,7 @@
 #include <dpkg/arch.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/pkg-spec.h>
 #include <dpkg/options.h>
 
 #include "main.h"
@@ -341,7 +342,6 @@ static void setroot(const struct cmdinfo *cip, const char *value) {
 
 static void ignoredepends(const struct cmdinfo *cip, const char *value) {
   char *copy, *p;
-  const char *pnerr;
 
   copy= m_malloc(strlen(value)+2);
   strcpy(copy,value);
@@ -355,12 +355,15 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
   }
   p= copy;
   while (*p) {
-    pnerr = pkg_name_is_illegal(p);
-    if (pnerr)
-      ohshit(_("--%s needs a valid package name but '%.250s' is not: %s"),
-              cip->olong, p, pnerr);
+    struct dpkg_error err;
+    struct pkginfo *pkg;
 
-    pkg_list_prepend(&ignoredependss, pkg_db_find(p));
+    pkg = pkg_spec_parse_pkg(p, &err);
+    if (pkg == NULL)
+      ohshit(_("--%s needs a valid package name but '%.250s' is not: %s"),
+              cip->olong, p, err.str);
+
+    pkg_list_prepend(&ignoredependss, pkg);
 
     p+= strlen(p)+1;
   }

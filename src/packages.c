@@ -40,6 +40,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-list.h>
 #include <dpkg/pkg-queue.h>
+#include <dpkg/pkg-spec.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
@@ -104,9 +105,14 @@ enqueue_specified(const char *const *argv)
   const char *thisarg;
 
   while ((thisarg = *argv++) != NULL) {
+    struct dpkg_error err;
     struct pkginfo *pkg;
 
-    pkg = pkg_db_find(thisarg);
+    pkg = pkg_spec_parse_pkg(thisarg, &err);
+    if (pkg == NULL)
+      badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
+               cipaction->olong, thisarg, err.str);
+
     if (pkg->status == stat_notinstalled) {
       size_t l = strlen(pkg->set->name);
       const char *extension = pkg->set->name + l - sizeof(DEBEXT) + 1;
