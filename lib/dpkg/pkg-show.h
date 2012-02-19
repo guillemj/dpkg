@@ -26,7 +26,7 @@
 
 DPKG_BEGIN_DECLS
 
-int pkg_sorter_by_name(const void *a, const void *b);
+int pkg_sorter_by_nonambig_name_arch(const void *a, const void *b);
 
 const char *pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                         int *len_ret);

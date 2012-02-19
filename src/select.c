@@ -62,7 +62,7 @@ getselections(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   pkg_array_init_from_db(&array);
-  pkg_array_sort(&array, pkg_sorter_by_name);
+  pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {

@@ -168,7 +168,7 @@ pkg_abbrev_eflag(const struct pkginfo *pkg)
 }
 
 /**
- * Compare a package to be sorted by name.
+ * Compare a package to be sorted by non-ambiguous name and architecture.
  *
  * @param a A pointer of a pointer to a struct pkginfo.
  * @param b A pointer of a pointer to a struct pkginfo.
@@ -179,10 +179,27 @@ pkg_abbrev_eflag(const struct pkginfo *pkg)
  * @retval 1 a is later than b.
  */
 int
-pkg_sorter_by_name(const void *a, const void *b)
+pkg_sorter_by_nonambig_name_arch(const void *a, const void *b)
 {
 	const struct pkginfo *pa = *(const struct pkginfo **)a;
 	const struct pkginfo *pb = *(const struct pkginfo **)b;
+	const struct pkgbin *pbina = &pa->installed;
+	const struct pkgbin *pbinb = &pb->installed;
+	int res;
 
-	return strcmp(pa->set->name, pb->set->name);
+	res = strcmp(pa->set->name, pb->set->name);
+	if (res)
+		return res;
+
+	if (pbina->arch == pbinb->arch)
+		return 0;
+
+	if (pkgbin_name_needs_arch(pbina, pnaw_nonambig)) {
+		if (pkgbin_name_needs_arch(pbinb, pnaw_nonambig))
+			return strcmp(pbina->arch->name, pbinb->arch->name);
+		else
+			return 1;
+	} else {
+		return -1;
+	}
 }
