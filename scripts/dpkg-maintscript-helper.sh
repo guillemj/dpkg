@@ -47,9 +47,9 @@ rm_conffile() {
 	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
 
-	debug "Executing $0 rm_conffile in $DPKG_MAINTSCRIPT_NAME "\
+	debug "Executing $0 rm_conffile in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
-	debug "CONFFILE=$CONFFILE PACKAGE=$PACKAGE "\
+	debug "CONFFILE=$CONFFILE PACKAGE=$PACKAGE" \
 	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
@@ -150,9 +150,9 @@ mv_conffile() {
 	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
 
-	debug "Executing $0 mv_conffile in $DPKG_MAINTSCRIPT_NAME "\
+	debug "Executing $0 mv_conffile in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
-	debug "CONFFILE=$OLDCONFFILE -> $NEWCONFFILE PACKAGE=$PACKAGE "\
+	debug "CONFFILE=$OLDCONFFILE -> $NEWCONFFILE PACKAGE=$PACKAGE" \
 	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
@@ -219,7 +219,7 @@ abort_mv_conffile() {
 # Common functions
 debug() {
 	if [ -n "$DPKG_DEBUG" ]; then
-		echo "DEBUG: $PROGNAME: $1" >&2
+		echo "DEBUG: $PROGNAME: $*" >&2
 	fi
 }
 
