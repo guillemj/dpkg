@@ -1154,6 +1154,22 @@ void process_archive(const char *filename) {
    * never even rearranged. Phew! */
   pkg->installed.arbs= pkg->available.arbs;
 
+  /* In case this was an architecture cross-grade, the in-core pkgset might
+   * be in an inconsistent state, with two pkginfo entries having the same
+   * architecture, so let's fix that. Note that this does not lose data,
+   * as the pkg.available member parsed from the binary should replace the
+   * to be cleared duplicate in the other instance. */
+  for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
+    if (otherpkg == pkg)
+      continue;
+    if (otherpkg->installed.arch != pkg->installed.arch)
+      continue;
+
+    assert(otherpkg->status == stat_notinstalled);
+
+    pkg_blank(otherpkg);
+  }
+
   /* Check for disappearing packages:
    * We go through all the packages on the system looking for ones
    * whose files are entirely part of the one we've just unpacked
