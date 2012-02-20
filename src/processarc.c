@@ -748,8 +748,10 @@ void process_archive(const char *filename) {
   }
 
   pkg_set_eflags(pkg, eflag_reinstreq);
-  if (pkg->status == stat_notinstalled)
+  if (pkg->status == stat_notinstalled) {
     pkg->installed.version= pkg->available.version;
+    pkg->installed.multiarch = pkg->available.multiarch;
+  }
   pkg_set_status(pkg, stat_halfinstalled);
   modstatdb_note(pkg);
   if (oldversionstatus == stat_notinstalled) {
