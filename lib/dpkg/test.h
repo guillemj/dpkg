@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * test.h - test suite support
  *
- * Copyright © 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,8 @@
 #include <dpkg/ehandle.h>
 #endif
 
-/* XXX: Using assert is problematic with NDEBUG. */
+/* Make sure NDEBUG is never defined, as we rely on the assert() macro. */
+#undef NDEBUG
 
 #define test_pass(a)			assert((a))
 #define test_fail(a)			assert(!(a))
