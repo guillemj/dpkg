@@ -269,6 +269,7 @@ void modstatdb_shutdown(void);
 
 void pkgset_blank(struct pkgset *set);
 int pkgset_installed_instances(struct pkgset *set);
+struct pkginfo *pkgset_get_singleton(struct pkgset *set);
 
 void pkg_blank(struct pkginfo *pp);
 void pkgbin_blank(struct pkgbin *pifp);
@@ -276,6 +277,7 @@ bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
 struct pkginfo *pkg_db_find(const char *name);
 struct pkgset *pkg_db_find_set(const char *name);
+struct pkginfo *pkg_db_find_singleton(const char *name);
 struct pkginfo *pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch);
 struct pkginfo *pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch);
 int pkg_db_count_set(void);

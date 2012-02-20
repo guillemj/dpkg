@@ -106,6 +106,25 @@ pkg_db_find_set(const char *inname)
 }
 
 /**
+ * Return the singleton package instance with the given name.
+ *
+ * @param name The package name.
+ *
+ * @return The package instance.
+ */
+struct pkginfo *
+pkg_db_find_singleton(const char *name)
+{
+  struct pkgset *set;
+  struct pkginfo *pkg;
+
+  set = pkg_db_find_set(name);
+  pkg = pkgset_get_singleton(set);
+
+  return pkg;
+}
+
+/**
  * Return the package instance in a set with the given architecture.
  *
  * @param set  The package set to use.

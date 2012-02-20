@@ -174,6 +174,32 @@ pkgset_installed_instances(struct pkgset *set)
 	return set->installed_instances;
 }
 
+/**
+ * Get the singleton package instance of a package set.
+ *
+ * This means, either the first instance if none are installed, the single
+ * installed instance, or NULL if more than one instance is installed.
+ *
+ * @param set The package set to use.
+ *
+ * @return The singleton package instance.
+ */
+struct pkginfo *
+pkgset_get_singleton(struct pkgset *set)
+{
+	struct pkginfo *pkg;
+
+	if (pkgset_installed_instances(set) > 1)
+		return NULL;
+
+	for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
+		if (pkg->status > stat_notinstalled)
+			return pkg;
+	}
+
+	return &set->pkg;
+}
+
 static int
 nes(const char *s)
 {
