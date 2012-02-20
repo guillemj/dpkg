@@ -54,8 +54,6 @@ test_pkg_queue_push_pop(void)
 	struct pkg_list *l1, *l2, *l3;
 	struct pkginfo pkg, *pkgp;
 
-	pkg_blank(&pkg);
-
 	test_pass(pkg_queue_is_empty(&q));
 
 	/* Test push operations. */
