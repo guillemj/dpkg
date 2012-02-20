@@ -328,17 +328,6 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
   dir_sync_path(pkgadmindir());
 }
 
-static enum parsedbflags
-parsedb_force_flags(void)
-{
-  enum parsedbflags flags = 0;
-
-  if (fc_badversion)
-    flags |= pdb_lax_version_parser;
-
-  return flags;
-}
-
 static void
 pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 {
@@ -395,6 +384,7 @@ void process_archive(const char *filename) {
   static struct varbuf depprobwhy;
   static struct tarcontext tc;
 
+  enum parsedbflags parsedb_flags;
   int r, i;
   pid_t pid;
   struct pkgiterator *it;
@@ -455,8 +445,13 @@ void process_archive(const char *filename) {
 
   strcpy(cidirrest,CONTROLFILE);
 
-  parsedb(cidir, pdb_parse_binary | pdb_ignorefiles | parsedb_force_flags(),
-          &pkg);
+  parsedb_flags = pdb_parse_binary;
+  parsedb_flags |= pdb_ignorefiles;
+  if (fc_badversion)
+    parsedb_flags |= pdb_lax_version_parser;
+
+  parsedb(cidir, parsedb_flags, &pkg);
+
   if (!pkg->files) {
     pkg->files= nfmalloc(sizeof(struct filedetails));
     pkg->files->next = NULL;
