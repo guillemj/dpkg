@@ -308,9 +308,9 @@ pkg_parse_copy(struct parsedb_state *ps,
   if (!(ps->flags & pdb_recordavailable)) {
     struct trigaw *ta;
 
-    dst_pkg->want = src_pkg->want;
-    dst_pkg->eflag = src_pkg->eflag;
-    dst_pkg->status = src_pkg->status;
+    pkg_set_want(dst_pkg, src_pkg->want);
+    pkg_copy_eflags(dst_pkg, src_pkg);
+    pkg_set_status(dst_pkg, src_pkg->status);
     dst_pkg->configversion = src_pkg->configversion;
     dst_pkg->files = NULL;
 
