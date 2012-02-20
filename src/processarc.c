@@ -445,7 +445,10 @@ void process_archive(const char *filename) {
 
   strcpy(cidirrest,CONTROLFILE);
 
-  parsedb_flags = pdb_parse_binary;
+  if (cipaction->arg_int == act_avail)
+    parsedb_flags = pdb_parse_available;
+  else
+    parsedb_flags = pdb_parse_binary;
   parsedb_flags |= pdb_ignorefiles;
   if (fc_badversion)
     parsedb_flags |= pdb_lax_version_parser;
