@@ -102,8 +102,6 @@ pkgbin_blank(struct pkgbin *pkgbin)
 void
 pkg_blank(struct pkginfo *pkg)
 {
-	pkg->set = NULL;
-	pkg->arch_next = NULL;
 	pkg->status = stat_notinstalled;
 	pkg->eflag = eflag_ok;
 	pkg->want = want_unknown;
@@ -135,6 +133,7 @@ pkgset_blank(struct pkgset *set)
 	set->depended.installed = NULL;
 	pkg_blank(&set->pkg);
 	set->pkg.set = set;
+	set->pkg.arch_next = NULL;
 }
 
 static int
