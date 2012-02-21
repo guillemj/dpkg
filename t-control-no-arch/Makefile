@@ -11,3 +11,5 @@ test-case:
 	$(call pkg_is_installed,pkg-no-arch)
 	! $(call stdout_has,$(DPKG_QUERY) --status pkg-no-arch,^Architecture:)
 	$(DPKG_PURGE) pkg-no-arch
+	# Clear the available file to avoid missing Architecture warnings
+	$(DPKG) --clear-avail
