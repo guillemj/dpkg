@@ -1,69 +1,69 @@
 #
 # Dpkg functional testsuite (kind of)
 #
-# Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
 #
 
 -include .pkg-tests.conf
 
-TESTS_MANUAL := \
-	t-lfs \
-	t-conffile-prompt \
+TESTS_MANUAL :=
+TESTS_MANUAL += t-lfs
+TESTS_MANUAL += t-conffile-prompt
 
-TESTS_FAIL := \
-	t-dir-leftover-parents \
-	t-dir-leftover-deadlock \
-	t-dir-shared-replaces-lost \
-	t-disappear-depended \
-	t-conffile-divert-conffile \
-	t-conffile-replaces-upgrade \
-	t-conffile-replaces-existing-and-upgrade \
+TESTS_FAIL :=
+TESTS_FAIL += t-dir-leftover-parents
+TESTS_FAIL += t-dir-leftover-deadlock
+TESTS_FAIL += t-dir-shared-replaces-lost
+TESTS_FAIL += t-disappear-depended
+TESTS_FAIL += t-conffile-divert-conffile
+TESTS_FAIL += t-conffile-replaces-upgrade
+TESTS_FAIL += t-conffile-replaces-existing-and-upgrade
 
-TESTS_PASS := \
-	t-normal \
-	t-field-priority \
-	t-split \
-	t-option-dry-run \
-	t-option-recursive \
-	t-control-bogus \
-	t-control-no-arch \
-	t-unpack-symlink \
-	t-unpack-hardlink \
-	t-unpack-divert-hardlink \
-	t-unpack-fifo \
-	t-unpack-device \
-	t-filtering \
-	t-depends \
-	t-depends-versioned \
-	t-depends-provides \
-	t-disappear \
-	t-disappear-empty \
-	t-conflict \
-	t-conflict-provide-replace-real \
-	t-conflict-provide-replace-virtual \
-	t-conflict-provide-replace-interface \
-	t-predepends-no-triggers \
-	t-triggers \
-	t-file-replaces \
-	t-file-replaces-disappear \
-	t-conffile-normal \
-	t-conffile-obsolete \
-	t-conffile-orphan \
-	t-conffile-forcenew \
-	t-conffile-forceask \
-	t-conffile-divert-normal \
-	t-conffile-conflict \
-	t-conffile-replaces \
-	t-conffile-replaces-downgrade \
-	t-conffile-replaces-existing \
-	t-conffile-replaces-disappear \
-	t-conffile-versioned-replaces-downgrade \
-	t-conffile-rename \
-	t-package-type \
-	t-symlink-dir \
-	t-substvars \
-	t-failinst-failrm \
-	t-dir-extension-check
+TESTS_PASS :=
+TESTS_PASS += t-normal
+TESTS_PASS += t-field-priority
+TESTS_PASS += t-split
+TESTS_PASS += t-option-dry-run
+TESTS_PASS += t-option-recursive
+TESTS_PASS += t-control-bogus
+TESTS_PASS += t-control-no-arch
+TESTS_PASS += t-unpack-symlink
+TESTS_PASS += t-unpack-hardlink
+TESTS_PASS += t-unpack-divert-hardlink
+TESTS_PASS += t-unpack-fifo
+TESTS_PASS += t-unpack-device
+TESTS_PASS += t-filtering
+TESTS_PASS += t-depends
+TESTS_PASS += t-depends-versioned
+TESTS_PASS += t-depends-provides
+TESTS_PASS += t-disappear
+TESTS_PASS += t-disappear-empty
+TESTS_PASS += t-conflict
+TESTS_PASS += t-conflict-provide-replace-real
+TESTS_PASS += t-conflict-provide-replace-virtual
+TESTS_PASS += t-conflict-provide-replace-interface
+TESTS_PASS += t-predepends-no-triggers
+TESTS_PASS += t-triggers
+TESTS_PASS += t-file-replaces
+TESTS_PASS += t-file-replaces-disappear
+TESTS_PASS += t-conffile-normal
+TESTS_PASS += t-conffile-obsolete
+TESTS_PASS += t-conffile-orphan
+TESTS_PASS += t-conffile-forcenew
+TESTS_PASS += t-conffile-forceask
+TESTS_PASS += t-conffile-divert-normal
+TESTS_PASS += t-conffile-conflict
+TESTS_PASS += t-conffile-replaces
+TESTS_PASS += t-conffile-replaces-downgrade
+TESTS_PASS += t-conffile-replaces-existing
+TESTS_PASS += t-conffile-replaces-disappear
+TESTS_PASS += t-conffile-versioned-replaces-downgrade
+TESTS_PASS += t-conffile-rename
+TESTS_PASS += t-package-type
+TESTS_PASS += t-symlink-dir
+TESTS_PASS += t-substvars
+TESTS_PASS += t-failinst-failrm
+TESTS_PASS += t-dir-extension-check
 
 ifneq (,$(filter test-all,$(DPKG_TESTSUITE_OPTIONS)))
 TESTS := $(TESTS_PASS) $(TESTS_FAIL) $(TESTS_MANUAL)
