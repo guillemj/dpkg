@@ -54,6 +54,8 @@
 
 static const char* showformat		= "${Package}\t${Version}\n";
 
+static int opt_loadavail = 0;
+
 static int getwidth(void) {
   int fd;
   int res;
@@ -204,7 +206,7 @@ listpackages(const char *const *argv)
   int failures = 0;
   struct list_format fmt;
 
-  if (!*argv)
+  if (!opt_loadavail)
     modstatdb_open(msdbrw_readonly);
   else
     modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
@@ -478,7 +480,7 @@ showpackages(const char *const *argv)
     return failures;
   }
 
-  if (!*argv)
+  if (!opt_loadavail)
     modstatdb_open(msdbrw_readonly);
   else
     modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
@@ -643,6 +645,7 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --load-avail                     Use available file on --show and --list.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"), ADMINDIR);
 
@@ -678,6 +681,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "control-path",                   'c', act_controlpath,   control_path    ),
 
   { "admindir",   0,   1, NULL, &admindir,   NULL          },
+  { "load-avail", 0,   0, &opt_loadavail, NULL, NULL, 1    },
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
   { "help",       'h', 0, NULL, NULL,        usage         },
   { "version",    0,   0, NULL, NULL,        printversion  },
