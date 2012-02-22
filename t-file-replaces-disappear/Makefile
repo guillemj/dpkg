@@ -49,3 +49,5 @@ test-one-run-reverse:
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
 	test ! -f /test-file
 
+test-clean:
+	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
