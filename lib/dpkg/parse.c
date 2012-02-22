@@ -201,8 +201,10 @@ pkg_parse_verify(struct parsedb_state *ps,
     else if (pkgbin->arch->type == arch_empty)
       parse_warn(ps, _("empty value for %s"), "architecture");
   }
-  if (pkgbin->arch->type == arch_empty)
-    pkgbin->arch = dpkg_arch_get(arch_none);
+  /* Mark missing architectures as empty, to distinguish these from
+   * unused slots in the db. */
+  if (pkgbin->arch->type == arch_none)
+    pkgbin->arch = dpkg_arch_get(arch_empty);
 
   if (pkgbin->arch->type == arch_all && pkgbin->multiarch == multiarch_same)
     parse_error(ps, _("package has field '%s' but is architecture all"),
