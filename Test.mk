@@ -1,12 +1,17 @@
 #
 # Dpkg functional testsuite (kind of)
 #
-# Copyright © 2008 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
 #
 
 -include ../.pkg-tests.conf
 
+ifdef DPKG_BUILDTREE
+PATH := $(DPKG_BUILDTREE)/dpkg-deb:$(DPKG_BUILDTREE)/dpkg-split:$(DPKG_BUILDTREE)/src:$(DPKG_BUILDTREE)/utils:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+BEROOT := sudo env PATH=$(PATH)
+else
 BEROOT := sudo
+endif
 
 ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_ADMINDIR = ../dpkgdb
