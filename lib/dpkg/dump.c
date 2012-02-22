@@ -4,7 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
- * Copyright © 2006,2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -196,6 +196,8 @@ w_architecture(struct varbuf *vb,
   if (!pifp->arch)
     return;
   if (pifp->arch->type == arch_none)
+    return;
+  if (pifp->arch->type == arch_empty)
     return;
 
   if (flags & fw_printheader) {
