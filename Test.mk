@@ -54,6 +54,7 @@ pkg_field_is = $(call stdout_is,$(DPKG_QUERY) -f '$${$(2)}' -W $(1),$(3))
 %.dsc: %
 	$(DPKG_BUILD_DSC) $<
 
+TEST_CASES :=
 
 build: build-hook $(DEB) $(DSC)
 

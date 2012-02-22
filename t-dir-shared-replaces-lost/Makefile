@@ -2,7 +2,10 @@ TESTS_DEB := pkg-dir-original pkg-dir-takeover
 
 include ../Test.mk
 
-test-case: test-ordered test-reverse
+TEST_CASES += test-ordered
+TEST_CASES += test-reverse
+
+test-case: $(TEST_CASES)
 
 define VERIFY
 test "`$(PKG_STATUS) pkg-dir-original`" = "install ok installed"

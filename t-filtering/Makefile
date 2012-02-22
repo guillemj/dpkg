@@ -4,10 +4,17 @@ include ../Test.mk
 
 DEB_FILES_COUNT = $(shell dpkg-deb -c pkg-somefiles.deb | wc -l )
 
-test-case: test-no-filter test-no-doc-sub test-no-doc-all \
-           test-no-doc-except-copyright test-no-doc-except-copyright-subdir \
-           test-no-doc-except-copyright-and-readme test-include-only \
-           test-same-include-exclude test-upgrade test-help
+TEST_CASES += test-no-filter
+TEST_CASES += test-no-doc-sub
+TEST_CASES += test-no-doc-all
+TEST_CASES += test-no-doc-except-copyright
+TEST_CASES += test-no-doc-except-copyright-subdir
+TEST_CASES += test-no-doc-except-copyright-and-readme
+TEST_CASES += test-include-only
+TEST_CASES += test-same-include-exclude
+TEST_CASES += test-upgrade test-help
+
+test-case: $(TEST_CASES)
 
 test-clean:
 	$(DPKG_PURGE) pkg-somefiles

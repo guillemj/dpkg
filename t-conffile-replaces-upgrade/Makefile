@@ -2,8 +2,12 @@ TESTS_DEB := pkg-conff-original pkg-conff-takeover-0 pkg-conff-takeover-1
 
 include ../Test.mk
 
-test-case: test-two-run-ordered test-one-run-ordered \
-           test-two-run-reverse test-one-run-reverse
+TEST_CASES += test-two-run-ordered
+TEST_CASES += test-one-run-ordered
+TEST_CASES += test-two-run-reverse
+TEST_CASES += test-one-run-reverse
+
+test-case: $(TEST_CASES)
 
 define VERIFY
 test "`$(PKG_STATUS) pkg-conff-original`" = "install ok installed"

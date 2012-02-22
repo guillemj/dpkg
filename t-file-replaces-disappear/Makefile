@@ -2,8 +2,12 @@ TESTS_DEB := pkg-file-original pkg-file-takeover
 
 include ../Test.mk
 
-test-case: test-two-run-ordered test-one-run-ordered \
-           test-two-run-reverse test-one-run-reverse
+TEST_CASES += test-two-run-ordered
+TEST_CASES += test-one-run-ordered
+TEST_CASES += test-two-run-reverse
+TEST_CASES += test-one-run-reverse
+
+test-case: $(TEST_CASES)
 
 define VERIFY
 test "`$(PKG_STATUS) pkg-file-takeover`" = "install ok installed"

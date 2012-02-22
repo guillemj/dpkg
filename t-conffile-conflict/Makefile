@@ -2,8 +2,11 @@ TESTS_DEB := pkg-conff-a pkg-conff-b pkg-conff-c
 
 include ../Test.mk
 
-test-case: test-conflict-installed-implicit test-conflict-removed-implicit \
-           test-conflict-removed-explicit
+TEST_CASES += test-conflict-installed-implicit
+TEST_CASES += test-conflict-removed-implicit
+TEST_CASES += test-conflict-removed-explicit
+
+test-case: $(TEST_CASES)
 
 test-conflict-installed-implicit:
 	# test if packages fail on install due to conflicting conffile

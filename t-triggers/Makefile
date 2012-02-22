@@ -3,12 +3,12 @@ TESTS_DEB := pkg-triggers pkg-triggers-noawait pkg-trig-file \
 
 include ../Test.mk
 
-TEST_CASES = test-trigger-file \
-	     test-trigger-explicit \
-	     test-trigger-cmd \
-	     test-trigger-noawait-file \
-	     test-trigger-noawait-explicit \
-	     test-trigger-noawait-cmd
+TEST_CASES += test-trigger-file
+TEST_CASES += test-trigger-explicit
+TEST_CASES += test-trigger-cmd
+TEST_CASES += test-trigger-noawait-file
+TEST_CASES += test-trigger-noawait-explicit
+TEST_CASES += test-trigger-noawait-cmd
 
 ifeq ($(DPKG_TESTSUITE_OPTIONS),local-db)
 TEST_CASES += test-internal-db
