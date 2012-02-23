@@ -306,7 +306,7 @@ our %FIELD_ORDER = (
     ],
     CTRL_FILE_STATUS() => [ # Same as fieldinfos in lib/dpkg/parse.c
         qw(Package Essential Status Priority Section Installed-Size Origin
-        Maintainer Bugs Architecture Source Version Config-Version
+        Maintainer Bugs Architecture Multi-Arch Source Version Config-Version
         Replaces Provides Depends Pre-Depends Recommends Suggests Breaks
         Conflicts Enhances Conffiles Description Triggers-Pending
         Triggers-Awaited)
