@@ -79,6 +79,13 @@ ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 	        $(CURDIR)/debian/tmp/usr/share/dpkg/cputable
 endif
 
+define dpkg-installmanl10n
+for f in `sed -e 's:\*:*/*:' debian/$(1).manpages`; do \
+	test -e $$f && \
+	install -D $$f `echo $$f | sed -e 's:^debian/tmp:debian/$(1):'`; \
+done
+endef
+
 # Put together the dpkg and dselect packages
 binary-arch: install
 	dh_testdir -a
@@ -92,6 +99,8 @@ binary-arch: install
 
 	dh_installchangelogs -a ChangeLog*
 	dh_installdocs -a
+	$(call dpkg-installmanl10n,dpkg)
+	$(call dpkg-installmanl10n,dselect)
 	dh_installman -a
 	dh_link -a
 	dh_lintian -a
@@ -112,6 +121,7 @@ binary-indep: install
 	dh_installcron -i
 	dh_installchangelogs -i ChangeLog*
 	dh_installdocs -i
+	$(call dpkg-installmanl10n,dpkg-dev)
 	dh_installman -i
 	dh_link -i
 	dh_lintian -i
