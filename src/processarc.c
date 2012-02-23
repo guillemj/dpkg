@@ -210,6 +210,15 @@ enqueue_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm)
   conflictor[cflict_index++] = pkg_fixbyrm;
 }
 
+static void
+pkg_infodb_remove_file(const char *filename, const char *filetype)
+{
+  if (unlink(filename))
+    ohshite(_("unable to delete control info file `%.250s'"), filename);
+
+  debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
+}
+
 static struct match_node *match_head = NULL;
 
 static void
@@ -317,15 +326,6 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
   dir_sync_path(pkgadmindir());
-}
-
-static void
-pkg_infodb_remove_file(const char *filename, const char *filetype)
-{
-  if (unlink(filename))
-    ohshite(_("unable to delete control info file `%.250s'"), filename);
-
-  debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
 }
 
 static enum parsedbflags
