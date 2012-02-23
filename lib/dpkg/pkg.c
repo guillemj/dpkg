@@ -136,6 +136,20 @@ pkgset_blank(struct pkgset *set)
 	set->pkg.arch_next = NULL;
 }
 
+/**
+ * Link a pkginfo instance into a package set.
+ *
+ * @param set The package set to use.
+ * @param pkg The package to link into the set.
+ */
+void
+pkgset_link_pkg(struct pkgset *set, struct pkginfo *pkg)
+{
+	pkg->set = set;
+	pkg->arch_next = set->pkg.arch_next;
+	set->pkg.arch_next = pkg;
+}
+
 static int
 nes(const char *s)
 {
