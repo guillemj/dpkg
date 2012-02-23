@@ -64,6 +64,15 @@ pkg_reset_eflags(struct pkginfo *pkg)
 }
 
 /**
+ * Copy the package error flags to another package.
+ */
+void
+pkg_copy_eflags(struct pkginfo *pkg_dst, struct pkginfo *pkg_src)
+{
+	pkg_dst->eflag = pkg_src->eflag;
+}
+
+/**
  * Set the package selection status.
  */
 void
