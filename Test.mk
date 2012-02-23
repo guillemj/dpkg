@@ -13,6 +13,8 @@ else
 BEROOT := sudo
 endif
 
+DPKG_OPTIONS := --force-unsafe-io
+
 ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_ADMINDIR = ../dpkgdb
 DPKG_COMMON_OPTIONS := --admindir=$(DPKG_ADMINDIR)
