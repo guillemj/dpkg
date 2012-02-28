@@ -4,6 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000 Wichert Akkerman
+# Copyright © 2006-2010,2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Frank Lichtenheld
 #
 # This program is free software; you can redistribute it and/or modify
@@ -135,6 +136,7 @@ my $include = BUILD_ALL | BUILD_DEFAULT;
 sub build_normal() { return ($include & BUILD_ALL) == BUILD_ALL; }
 sub build_sourceonly() { return $include == BUILD_SOURCE; }
 sub build_binaryonly() { return !($include & BUILD_SOURCE); }
+sub build_binaryindep() { return ($include == BUILD_ARCH_INDEP); }
 sub build_opt() {
     return (($include == BUILD_BINARY) ? '-b' :
             (($include == BUILD_ARCH_DEP) ? '-B' :
@@ -330,10 +332,12 @@ while ($_ = <$arch_env>) {
 close $arch_env or subprocerr('dpkg-architecture');
 
 my $arch;
-unless (build_sourceonly) {
-    $arch = mustsetvar($ENV{'DEB_HOST_ARCH'}, _g('host architecture'));
-} else {
+if (build_sourceonly) {
     $arch = 'source';
+} elsif (build_binaryindep) {
+    $arch = 'all';
+} else {
+    $arch = mustsetvar($ENV{'DEB_HOST_ARCH'}, _g('host architecture'));
 }
 
 # Preparation of environment stops here
