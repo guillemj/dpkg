@@ -322,9 +322,6 @@ assert_version_support(const char *const *argv,
   modstatdb_open(msdbrw_readonly);
 
   pkg = pkg_db_find_singleton("dpkg");
-  if (pkg == NULL)
-    internerr("more than one dpkg instance installed");
-
   switch (pkg->status) {
   case stat_installed:
   case stat_triggerspending:

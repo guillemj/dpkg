@@ -120,6 +120,9 @@ pkg_db_find_singleton(const char *name)
 
   set = pkg_db_find_set(name);
   pkg = pkgset_get_singleton(set);
+  if (pkg == NULL)
+    ohshit(_("ambiguous package name '%s' with more "
+             "than one installed instance"), set->name);
 
   return pkg;
 }
