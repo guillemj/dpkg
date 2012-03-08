@@ -83,6 +83,11 @@ sub add_hardening_flags {
     my $arch = get_host_arch();
     my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
 
+    unless (defined $abi and defined $os and defined $cpu) {
+        warning(_g("unknown host architecture '%s'"), $arch);
+        ($abi, $os, $cpu) = ("", "", "");
+    }
+
     # Features enabled by default for all builds.
     my %use_feature = (
 	"pie" => 0,
