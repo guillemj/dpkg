@@ -145,6 +145,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "                             Just say what we would do - don't do it.\n"
 "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --debug=help).\n"
 "  --status-fd <n>            Send status change updates to file descriptor <n>.\n"
+"  --status-logger=<command>  Send status change updates to <command>'s stdin.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
 "  --ignore-depends=<package>,...\n"
 "                             Ignore dependencies involving <package>.\n"
