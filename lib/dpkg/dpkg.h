@@ -4,6 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wichert@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +43,7 @@ DPKG_BEGIN_DECLS
 
 #define NEWCONFFILEFLAG    "newconffile"
 #define NONEXISTENTFLAG    "nonexistent"
+#define EMPTYHASHFLAG      "-"
 
 #define DPKGTEMPEXT        ".dpkg-tmp"
 #define DPKGNEWEXT         ".dpkg-new"

@@ -72,7 +72,6 @@ static void
 deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 {
 	struct filenamenode *usenode;
-	static const char EMPTY_HASH[] = "-";
 	char currenthash[MD5HASHLEN + 1], newdisthash[MD5HASHLEN + 1];
 	int useredited, distedited;
 	enum conffopt what;
@@ -86,7 +85,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 
 	r = conffderef(pkg, &cdr, usenode->name);
 	if (r == -1) {
-		conff->hash = EMPTY_HASH;
+		conff->hash = EMPTYHASHFLAG;
 		return;
 	}
 	md5hash(pkg, currenthash, cdr.buf);
@@ -505,7 +504,7 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 	} else {
 		warning(_("%s: unable to open conffile %s for hash: %s"),
 		        pkg_name(pkg, pnaw_nonambig), fn, strerror(errno));
-		strcpy(hashbuf, "-");
+		strcpy(hashbuf, EMPTYHASHFLAG);
 	}
 }
 
