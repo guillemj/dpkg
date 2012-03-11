@@ -141,11 +141,11 @@ case "$1" in
     upgrade)
         # Allow the downgrade only if no package is using the
 	# (interest|activate)-noawait trigger directives
-        if dpkg --compare-versions "$2" lt 1.16.1~; then
+        if dpkg --compare-versions "$2" lt 1.16.1; then
             ensure_no_triggers_noawait
         fi
         # Downgrade the multiarch db to a “monoarch” db layout
-        if dpkg --compare-versions "$2" lt 1.16.2~; then
+        if dpkg --compare-versions "$2" lt 1.16.2; then
             downgrade_multiarch_infodb
         fi
         ;;
