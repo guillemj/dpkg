@@ -172,6 +172,11 @@ test_dpkg_arch_varbuf_archqual(void)
 	test_str(vb.buf, ==, "");
 	varbuf_reset(&vb);
 
+	varbuf_add_archqual(&vb, dpkg_arch_get(arch_empty));
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "");
+	varbuf_reset(&vb);
+
 	varbuf_add_archqual(&vb, dpkg_arch_get(arch_all));
 	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, ":all");

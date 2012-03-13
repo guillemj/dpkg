@@ -219,6 +219,8 @@ varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch)
 {
 	if (arch->type == arch_none)
 		return;
+	if (arch->type == arch_empty)
+		return;
 
 	varbuf_add_char(vb, ':');
 	varbuf_add_str(vb, arch->name);
