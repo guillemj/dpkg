@@ -166,3 +166,23 @@ pkg_abbrev_eflag(const struct pkginfo *pkg)
 {
 	return " R"[pkg->eflag];
 }
+
+/**
+ * Compare a package to be sorted by name.
+ *
+ * @param a A pointer of a pointer to a struct pkginfo.
+ * @param b A pointer of a pointer to a struct pkginfo.
+ *
+ * @return An integer with the result of the comparison.
+ * @retval -1 a is earlier than b.
+ * @retval 0 a is equal to b.
+ * @retval 1 a is later than b.
+ */
+int
+pkg_sorter_by_name(const void *a, const void *b)
+{
+	const struct pkginfo *pa = *(const struct pkginfo **)a;
+	const struct pkginfo *pb = *(const struct pkginfo **)b;
+
+	return strcmp(pa->set->name, pb->set->name);
+}

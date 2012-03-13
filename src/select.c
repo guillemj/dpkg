@@ -32,6 +32,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-array.h>
+#include <dpkg/pkg-show.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
