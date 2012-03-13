@@ -363,7 +363,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
                     versiondescribe(&possdependee->installed.version,
                                     vdew_nonambig));
       assert(checkversion->verrel != dvr_none);
-      if (fc_depends || fc_dependsversion)
+      if (fc_dependsversion)
         thisf = (dependtry >= 3) ? found_forced : found_defer;
       debug(dbg_depcondetail,"      bad version, returning %d",thisf);
       (*interestingwarnings)++;
