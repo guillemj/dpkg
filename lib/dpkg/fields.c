@@ -36,6 +36,7 @@
 #include <dpkg/arch.h>
 #include <dpkg/path.h>
 #include <dpkg/parsedump.h>
+#include <dpkg/pkg-spec.h>
 #include <dpkg/triglib.h>
 
 static int
@@ -629,7 +630,7 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pifp,
          struct parsedb_state *ps,
          const char *value, const struct fieldinfo *fip)
 {
-  const char *word, *emsg;
+  const char *word;
   struct pkginfo *pend;
 
   if (ps->flags & pdb_rejectstatus)
@@ -638,12 +639,13 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pifp,
                   "this context"));
 
   while ((word = scan_word(&value))) {
-    emsg = pkg_name_is_illegal(word);
-    if (emsg)
+    struct dpkg_error err;
+
+    pend = pkg_spec_parse_pkg(word, &err);
+    if (pend == NULL)
       parse_error(ps,
                   _("illegal package name in awaited trigger `%.255s': %s"),
-                  word, emsg);
-    pend = pkg_db_find(word);
+                  word, err.str);
 
     if (!trig_note_aw(pend, aw))
       parse_error(ps,

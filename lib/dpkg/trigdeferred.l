@@ -68,7 +68,7 @@ static const struct trigdefmeths *trigdef;
 	}
 
 <midline>[ \t]	/* whitespace */
-<midline>[-0-9a-z][-+.0-9a-z]*	{
+<midline>[-0-9a-z][-:+.0-9a-z]*	{
 	if (trigdef_yytext[0] == '-' && trigdef_yytext[1])
 		ohshit(_("invalid package name `%.250s' in triggers deferred "
 		         "file `%.250s'"), trigdef_yytext, fn.buf);

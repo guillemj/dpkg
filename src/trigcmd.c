@@ -42,6 +42,7 @@
 #include <dpkg/options.h>
 #include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
+#include <dpkg/pkg-spec.h>
 
 static const char printforhelp[] = N_(
 "Type dpkg-trigger --help for help about this utility.");
@@ -114,26 +115,30 @@ yespackage(const char *awname)
 static const char *
 parse_awaiter_package(void)
 {
-	const char *badname;
+	struct dpkg_error err = DPKG_ERROR_INIT;
+	struct pkginfo *pkg;
 
 	if (bypackage == NULL) {
-		const char *pkgname;
+		const char *pkgname, *archname;
 
 		pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
-		if (pkgname == NULL)
+		archname = getenv("DPKG_MAINTSCRIPT_ARCH");
+		if (pkgname == NULL || archname == NULL)
 			ohshit(_("must be called from a maintainer script"
 			         " (or with a --by-package option)"));
 
-		badname = pkg_name_is_illegal(pkgname);
-
-		bypackage = pkgname;
+		pkg = pkg_spec_find_pkg(pkgname, archname, &err);
 	} else if (strcmp(bypackage, "-") == 0) {
-		badname = NULL;
+		pkg = NULL;
 	} else {
-		badname = pkg_name_is_illegal(bypackage);
+		pkg = pkg_spec_parse_pkg(bypackage, &err);
 	}
 
-	return badname;
+	/* Normalize the bypackage name if there was no error. */
+	if (pkg)
+		bypackage = pkg_name(pkg, pnaw_nonambig);
+
+	return err.str;
 }
 
 static void

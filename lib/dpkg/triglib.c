@@ -37,6 +37,7 @@
 #include <dpkg/pkg.h>
 #include <dpkg/dlist.h>
 #include <dpkg/dir.h>
+#include <dpkg/pkg-spec.h>
 #include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
 
@@ -287,7 +288,6 @@ static void
 trk_explicit_activate_awaiter(struct pkginfo *aw)
 {
 	char buf[1024];
-	const char *emsg;
 	struct pkginfo *pend;
 
 	if (!trk_explicit_f)
@@ -298,6 +298,7 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 		        trk_explicit_fn.buf);
 
 	while (trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
+		struct dpkg_error err;
 		char *slash;
 		bool noawait = false;
 		slash = strchr(buf, '/');
@@ -305,12 +306,13 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 			noawait = true;
 			*slash = '\0';
 		}
-		emsg = pkg_name_is_illegal(buf);
-		if (emsg)
+
+		pend = pkg_spec_parse_pkg(buf, &err);
+		if (pend == NULL)
 			ohshit(_("trigger interest file `%.250s' syntax error; "
 			         "illegal package name `%.250s': %.250s"),
-			       trk_explicit_fn.buf, buf, emsg);
-		pend = pkg_db_find(buf);
+			       trk_explicit_fn.buf, buf, err.str);
+
 		trig_record_activation(pend, noawait ? NULL : aw,
 		                       trk_explicit_trig);
 	}
@@ -330,15 +332,18 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 	atomic_file_open(file);
 
 	while (trk_explicit_f && trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
-		int len = strlen(pkg->set->name);
-		if (strncmp(buf, pkg->set->name, len) == 0 &&
+		const char *pkgname = pkgbin_name(pkg, pkgbin, pnaw_nonambig);
+		int len = strlen(pkgname);
+
+		if (strncmp(buf, pkgname, len) == 0 &&
 		    (buf[len] == '\0' || buf[len] == '/'))
 			continue;
 		fprintf(file->fp, "%s\n", buf);
 		empty = false;
 	}
 	if (signum > 0) {
-		fprintf(file->fp, "%s%s\n", pkg->set->name,
+		fprintf(file->fp, "%s%s\n",
+		        pkgbin_name(pkg, pkgbin, pnaw_nonambig),
 		        (opts == trig_noawait) ? "/noawait" : "");
 		empty = false;
 	}
@@ -453,7 +458,7 @@ trig_file_interests_update(void)
 
 	for (tfi = filetriggers.head; tfi; tfi = tfi->inoverall.next)
 		fprintf(file->fp, "%s %s%s\n", trigh.namenode_name(tfi->fnn),
-		        tfi->pkg->set->name,
+		        pkgbin_name(tfi->pkg, tfi->pkgbin, pnaw_nonambig),
 		        (tfi->options == trig_noawait) ? "/noawait" : "");
 
 	atomic_file_sync(file);
@@ -485,7 +490,6 @@ trig_file_interests_ensure(void)
 	char linebuf[1024], *space;
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;
-	const char *emsg;
 
 	if (filetriggers_edited >= 0)
 		return;
@@ -500,6 +504,7 @@ trig_file_interests_ensure(void)
 
 	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
 	while (fgets_checked(linebuf, sizeof(linebuf), f, triggersfilefile) >= 0) {
+		struct dpkg_error err;
 		char *slash;
 		enum trig_options trig_opts = trig_await;
 		space = strchr(linebuf, ' ');
@@ -513,13 +518,14 @@ trig_file_interests_ensure(void)
 			trig_opts = trig_noawait;
 			*slash = '\0';
 		}
-		emsg = pkg_name_is_illegal(space);
-		if (emsg)
+
+		pkg = pkg_spec_parse_pkg(space, &err);
+		if (pkg == NULL)
 			ohshit(_("file triggers record mentions illegal "
 			         "package name `%.250s' (for interest in file "
-				 "`%.250s'): %.250s"), space, linebuf, emsg);
-		pkg = pkg_db_find(space);
+			         "`%.250s'): %.250s"), space, linebuf, err.str);
 		pkgbin = &pkg->installed;
+
 		trk_file_interest_change(linebuf, pkg, pkgbin, +2, trig_opts);
 	}
 	pop_cleanup(ehflag_normaltidy);
@@ -688,7 +694,12 @@ tdm_incorp_trig_begin(const char *trig)
 static void
 tdm_incorp_package(const char *awname)
 {
-	struct pkginfo *aw = strcmp(awname, "-") ? pkg_db_find(awname) : NULL;
+	struct pkginfo *aw;
+
+	if (strcmp(awname, "-") == 0)
+		aw = NULL;
+	else
+		aw = pkg_spec_parse_pkg(awname, NULL);
 
 	dtki->activate_awaiter(aw);
 }

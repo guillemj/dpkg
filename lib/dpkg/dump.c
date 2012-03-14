@@ -406,7 +406,7 @@ w_trigaw(struct varbuf *vb,
     varbuf_add_str(vb, "Triggers-Awaited:");
   for (ta = pigp->trigaw.head; ta; ta = ta->sameaw.next) {
     varbuf_add_char(vb, ' ');
-    varbuf_add_str(vb, ta->pend->set->name);
+    varbuf_add_pkgbin_name(vb, ta->pend, &ta->pend->installed, pnaw_nonambig);
   }
   if (flags & fw_printheader)
     varbuf_add_char(vb, '\n');
