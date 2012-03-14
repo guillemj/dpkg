@@ -224,7 +224,7 @@ statoverride_add(const char *const *argv)
 	struct file_stat **filestat;
 
 	if (!user || !group || !mode || !path || argv[4])
-		badusage(_("--add needs four arguments"));
+		badusage(_("--%s needs four arguments"), cipaction->olong);
 
 	if (strchr(path, '\n'))
 		badusage(_("file may not contain newlines"));

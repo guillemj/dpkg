@@ -406,7 +406,8 @@ do_build(const char *const *argv)
   if (debar != NULL) {
     struct stat debarstab;
 
-    if (*argv) badusage(_("--build takes at most two arguments"));
+    if (*argv)
+      badusage(_("--%s takes at most two arguments"), cipaction->olong);
 
     if (stat(debar, &debarstab)) {
       if (errno != ENOENT)

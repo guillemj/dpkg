@@ -320,7 +320,8 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
   }
 
   mask = strtoul(value, &endp, 8);
-  if (value == endp || *endp) badusage(_("--debug requires an octal argument"));
+  if (value == endp || *endp)
+    badusage(_("--%s requires an octal argument"), cpi->olong);
 
   debug_set_mask(mask);
 }
@@ -349,14 +350,15 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
     if (*p != ',') continue;
     *p++ = '\0';
     if (!*p || *p==',' || p==copy+1)
-      badusage(_("null package name in --ignore-depends comma-separated list `%.250s'"),
-               value);
+      badusage(_("null package name in --%s comma-separated list '%.250s'"),
+               cip->olong, value);
   }
   p= copy;
   while (*p) {
     pnerr = pkg_name_is_illegal(p);
-    if (pnerr) ohshit(_("--ignore-depends requires a legal package name. "
-                       "`%.250s' is not; %s"), p, pnerr);
+    if (pnerr)
+      ohshit(_("--%s needs a valid package name but '%.250s' is not: %s"),
+              cip->olong, p, pnerr);
 
     pkg_list_prepend(&ignoredependss, pkg_db_find(p));
 
@@ -718,14 +720,12 @@ commandfd(const char *const *argv)
   bool skipchar;
 
   pipein = *argv++;
-  if (pipein == NULL)
-    badusage(_("--command-fd takes one argument, not zero"));
-  if (*argv)
-    badusage(_("--command-fd only takes one argument"));
+  if (pipein == NULL || *argv)
+    badusage(_("--%s takes exactly one argument"), cipaction->olong);
   errno = 0;
   infd = strtoul(pipein, &endptr, 10);
   if (pipein == endptr || *endptr || infd > INT_MAX)
-    ohshite(_("invalid integer for --%s: `%.250s'"), "command-fd", pipein);
+    ohshite(_("invalid integer for --%s: `%.250s'"), cipaction->olong, pipein);
   if ((in= fdopen(infd, "r")) == NULL)
     ohshite(_("couldn't open `%i' for stream"), (int) infd);
 

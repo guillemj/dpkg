@@ -323,9 +323,10 @@ do_field(const char *const *argv)
 int
 do_contents(const char *const *argv)
 {
-  const char *debar;
+  const char *debar = *argv++;
 
-  if (!(debar= *argv++) || *argv) badusage(_("--contents takes exactly one argument"));
+  if (debar == NULL || *argv)
+    badusage(_("--%s takes exactly one argument"), cipaction->olong);
   extracthalf(debar, NULL, "tv", 0);
 
   return 0;
