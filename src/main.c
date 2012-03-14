@@ -355,7 +355,7 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
   p= copy;
   while (*p) {
     pnerr = pkg_name_is_illegal(p);
-    if (pnerr) ohshite(_("--ignore-depends requires a legal package name. "
+    if (pnerr) ohshit(_("--ignore-depends requires a legal package name. "
                        "`%.250s' is not; %s"), p, pnerr);
 
     pkg_list_prepend(&ignoredependss, pkg_db_find(p));
