@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * error.h - error message reporting
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@ struct dpkg_error {
 
 	char *str;
 };
+
+#define DPKG_ERROR_INIT { DPKG_MSG_NONE, NULL }
 
 int dpkg_put_warn(struct dpkg_error *err, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
