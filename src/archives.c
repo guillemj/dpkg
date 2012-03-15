@@ -240,6 +240,106 @@ does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
 }
 
 static void
+tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
+                  const char *path, struct file_stat *st,
+                  struct filenamenode *namenode)
+{
+  static struct varbuf hardlinkfn;
+  static int fd;
+
+  struct filenamenode *linknode;
+  char databuf[TARBLKSZ];
+  char fnamebuf[256];
+  ssize_t r;
+
+  switch (te->type) {
+  case tar_filetype_file:
+    /* We create the file with mode 0 to make sure nobody can do anything with
+     * it until we apply the proper mode, which might be a statoverride. */
+    fd = open(path, O_CREAT | O_EXCL | O_WRONLY, 0);
+    if (fd < 0)
+      ohshite(_("unable to create `%.255s' (while processing `%.255s')"),
+              path, te->name);
+    push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
+    debug(dbg_eachfiledetail, "tarobject file open size=%jd",
+          (intmax_t)te->size);
+
+    fd_fd_copy(tc->backendpipe, fd, te->size,
+               _("backend dpkg-deb during `%.255s'"),
+               path_quote_filename(fnamebuf, te->name, 256));
+
+    r = te->size % TARBLKSZ;
+    if (r > 0)
+      if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)
+        ohshite(_("error reading from dpkg-deb pipe"));
+
+    fd_writeback_init(fd);
+
+    if (namenode->statoverride)
+      debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
+            namenode->statoverride->uid,
+            namenode->statoverride->gid,
+            namenode->statoverride->mode);
+    if (fchown(fd, st->uid, st->gid))
+      ohshite(_("error setting ownership of `%.255s'"), te->name);
+    if (fchmod(fd, st->mode & ~S_IFMT))
+      ohshite(_("error setting permissions of `%.255s'"), te->name);
+
+    /* Postpone the fsync, to try to avoid massive I/O degradation. */
+    if (!fc_unsafe_io)
+      namenode->flags |= fnnf_deferred_fsync;
+
+    pop_cleanup(ehflag_normaltidy); /* fd = open(path) */
+    if (close(fd))
+      ohshite(_("error closing/writing `%.255s'"), te->name);
+    break;
+  case tar_filetype_fifo:
+    if (mkfifo(path, 0))
+      ohshite(_("error creating pipe `%.255s'"), te->name);
+    debug(dbg_eachfiledetail, "tarobject fifo");
+    break;
+  case tar_filetype_chardev:
+    if (mknod(path, S_IFCHR, te->dev))
+      ohshite(_("error creating device `%.255s'"), te->name);
+    debug(dbg_eachfiledetail, "tarobject chardev");
+    break;
+  case tar_filetype_blockdev:
+    if (mknod(path, S_IFBLK, te->dev))
+      ohshite(_("error creating device `%.255s'"), te->name);
+    debug(dbg_eachfiledetail, "tarobject blockdev");
+    break;
+  case tar_filetype_hardlink:
+    varbuf_reset(&hardlinkfn);
+    varbuf_add_str(&hardlinkfn, instdir);
+    varbuf_add_char(&hardlinkfn, '/');
+    linknode = findnamenode(te->linkname, 0);
+    varbuf_add_str(&hardlinkfn,
+                   namenodetouse(linknode, tc->pkg, &tc->pkg->available)->name);
+    if (linknode->flags & (fnnf_deferred_rename | fnnf_new_conff))
+      varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
+    varbuf_end_str(&hardlinkfn);
+    if (link(hardlinkfn.buf, path))
+      ohshite(_("error creating hard link `%.255s'"), te->name);
+    debug(dbg_eachfiledetail, "tarobject hardlink");
+    break;
+  case tar_filetype_symlink:
+    /* We've already checked for an existing directory. */
+    if (symlink(te->linkname, path))
+      ohshite(_("error creating symbolic link `%.255s'"), te->name);
+    debug(dbg_eachfiledetail, "tarobject symlink creating");
+    break;
+  case tar_filetype_dir:
+    /* We've already checked for an existing directory. */
+    if (mkdir(path, 0))
+      ohshite(_("error creating directory `%.255s'"), te->name);
+    debug(dbg_eachfiledetail, "tarobject directory creating");
+    break;
+  default:
+    internerr("unknown tar type '%d', but already checked", te->type);
+  }
+}
+
+static void
 tarobject_set_mtime(struct tar_entry *te, const char *path)
 {
   struct timeval tv[2];
@@ -438,11 +538,9 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
 int
 tarobject(void *ctx, struct tar_entry *ti)
 {
-  static struct varbuf conffderefn, hardlinkfn, symlinkfn;
-  static int fd;
+  static struct varbuf conffderefn, symlinkfn;
   const char *usename;
   struct filenamenode *usenode;
-  struct filenamenode *linknode;
 
   struct conffile *conff;
   struct tarcontext *tc = ctx;
@@ -450,7 +548,6 @@ tarobject(void *ctx, struct tar_entry *ti)
   int statr;
   ssize_t r;
   struct stat stab, stabtmp;
-  char databuf[TARBLKSZ];
   struct file_stat *st;
   struct fileinlist *nifd, **oldnifd;
   struct pkgset *divpkgset;
@@ -714,92 +811,7 @@ tarobject(void *ctx, struct tar_entry *ti)
    */
 
   /* Extract whatever it is as .dpkg-new ... */
-  switch (ti->type) {
-  case tar_filetype_file:
-    /* We create the file with mode 0 to make sure nobody can do anything with
-     * it until we apply the proper mode, which might be a statoverride. */
-    fd= open(fnamenewvb.buf, (O_CREAT|O_EXCL|O_WRONLY), 0);
-    if (fd < 0)
-      ohshite(_("unable to create `%.255s' (while processing `%.255s')"),
-              fnamenewvb.buf, ti->name);
-    push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
-    debug(dbg_eachfiledetail, "tarobject file open size=%jd",
-          (intmax_t)ti->size);
-    { char fnamebuf[256];
-    fd_fd_copy(tc->backendpipe, fd, ti->size,
-               _("backend dpkg-deb during `%.255s'"),
-               path_quote_filename(fnamebuf, ti->name, 256));
-    }
-    r = ti->size % TARBLKSZ;
-    if (r > 0)
-      if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)
-        ohshite(_("error reading from dpkg-deb pipe"));
-
-    fd_writeback_init(fd);
-
-    if (nifd->namenode->statoverride)
-      debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
-			  nifd->namenode->statoverride->uid,
-			  nifd->namenode->statoverride->gid,
-			  nifd->namenode->statoverride->mode);
-    if (fchown(fd, st->uid, st->gid))
-      ohshite(_("error setting ownership of `%.255s'"), ti->name);
-    if (fchmod(fd, st->mode & ~S_IFMT))
-      ohshite(_("error setting permissions of `%.255s'"), ti->name);
-
-    /* Postpone the fsync, to try to avoid massive I/O degradation. */
-    if (!fc_unsafe_io)
-      nifd->namenode->flags |= fnnf_deferred_fsync;
-
-    pop_cleanup(ehflag_normaltidy); /* fd = open(fnamenewvb.buf) */
-    if (close(fd))
-      ohshite(_("error closing/writing `%.255s'"), ti->name);
-    break;
-  case tar_filetype_fifo:
-    if (mkfifo(fnamenewvb.buf,0))
-      ohshite(_("error creating pipe `%.255s'"), ti->name);
-    debug(dbg_eachfiledetail, "tarobject fifo");
-    break;
-  case tar_filetype_chardev:
-    if (mknod(fnamenewvb.buf, S_IFCHR, ti->dev))
-      ohshite(_("error creating device `%.255s'"), ti->name);
-    debug(dbg_eachfiledetail, "tarobject chardev");
-    break;
-  case tar_filetype_blockdev:
-    if (mknod(fnamenewvb.buf, S_IFBLK, ti->dev))
-      ohshite(_("error creating device `%.255s'"), ti->name);
-    debug(dbg_eachfiledetail, "tarobject blockdev");
-    break;
-  case tar_filetype_hardlink:
-    varbuf_reset(&hardlinkfn);
-    varbuf_add_str(&hardlinkfn, instdir);
-    varbuf_add_char(&hardlinkfn, '/');
-    linknode = findnamenode(ti->linkname, 0);
-    varbuf_add_str(&hardlinkfn,
-                   namenodetouse(linknode, tc->pkg, &tc->pkg->available)->name);
-    if (linknode->flags & (fnnf_deferred_rename|fnnf_new_conff))
-      varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
-    varbuf_end_str(&hardlinkfn);
-    if (link(hardlinkfn.buf,fnamenewvb.buf))
-      ohshite(_("error creating hard link `%.255s'"), ti->name);
-    debug(dbg_eachfiledetail, "tarobject hardlink");
-    break;
-  case tar_filetype_symlink:
-    /* We've already checked for an existing directory. */
-    if (symlink(ti->linkname, fnamenewvb.buf))
-      ohshite(_("error creating symbolic link `%.255s'"), ti->name);
-    debug(dbg_eachfiledetail, "tarobject symlink creating");
-    break;
-  case tar_filetype_dir:
-    /* We've already checked for an existing directory. */
-    if (mkdir(fnamenewvb.buf,0))
-      ohshite(_("error creating directory `%.255s'"), ti->name);
-    debug(dbg_eachfiledetail, "tarobject directory creating");
-    break;
-  default:
-    internerr("unknown tar type '%d', but already checked", ti->type);
-  }
-
+  tarobject_extract(tc, ti, fnamenewvb.buf, st, nifd->namenode);
   tarobject_set_perms(ti, fnamenewvb.buf, st);
   tarobject_set_mtime(ti, fnamenewvb.buf);
   tarobject_set_se_context(fnamevb.buf, fnamenewvb.buf, st->mode);
