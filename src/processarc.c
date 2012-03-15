@@ -1338,6 +1338,10 @@ void process_archive(const char *filename) {
        * and we don't bother with it here, clearly. */
       if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid)
         continue;
+      /* A pkgset can share files between instances, so there's no point
+       * in rewriting the file that's already in place. */
+      if (otherpkg->set == pkg->set)
+        continue;
       if (otherpkg->set == divpkgset) {
         debug(dbg_eachfiledetail, "process_archive ... diverted, skipping");
         continue;

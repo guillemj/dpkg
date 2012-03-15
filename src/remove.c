@@ -210,6 +210,33 @@ removal_bulk_remove_file(const char *filename, const char *filetype)
   debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
 }
 
+static bool
+removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
+{
+  struct filepackages_iterator *iter;
+  struct pkginfo *otherpkg;
+  bool shared = false;
+
+  if (pkgset_installed_instances(pkg->set) <= 1)
+    return false;
+
+  iter = filepackages_iter_new(namenode);
+  while ((otherpkg = filepackages_iter_next(iter))) {
+    if (otherpkg == pkg)
+      continue;
+    if (otherpkg->set != pkg->set)
+      continue;
+
+    debug(dbg_eachfiledetail, "removal_bulk file shared with %s, skipping",
+          pkg_name(otherpkg, pnaw_always));
+    shared = true;
+    break;
+  }
+  filepackages_iter_free(iter);
+
+  return shared;
+}
+
 static void
 removal_bulk_remove_files(struct pkginfo *pkg)
 {
@@ -228,22 +255,36 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     leftover = NULL;
     while ((namenode= reversefilelist_next(&rlistit))) {
       struct filenamenode *usenode;
+      bool is_dir;
 
       debug(dbg_eachfile, "removal_bulk `%s' flags=%o",
             namenode->name, namenode->flags);
-      if (namenode->flags & fnnf_old_conff) {
-        push_leftover(&leftover,namenode);
-        continue;
-      }
 
       usenode = namenodetouse(namenode, pkg, &pkg->installed);
-      trig_file_activate(usenode, pkg);
 
       varbuf_reset(&fnvb);
       varbuf_add_str(&fnvb, instdir);
       varbuf_add_str(&fnvb, usenode->name);
+      varbuf_end_str(&fnvb);
       before= fnvb.used;
 
+      is_dir = stat(fnvb.buf, &stab) == 0 && S_ISDIR(stab.st_mode);
+
+      /* A pkgset can share files between its instances that we
+       * don't want to remove, we just want to forget them. This
+       * applies to shared conffiles too. */
+      if (!is_dir && removal_bulk_file_is_shared(pkg, namenode))
+        continue;
+
+      /* Non-shared conffiles are kept. */
+      if (namenode->flags & fnnf_old_conff) {
+        push_leftover(&leftover, namenode);
+        continue;
+      }
+
+      trig_file_activate(usenode, pkg);
+
+      varbuf_trunc(&fnvb, before);
       varbuf_add_str(&fnvb, DPKGTEMPEXT);
       varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning temp `%s'", fnvb.buf);
@@ -258,7 +299,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 
       varbuf_trunc(&fnvb, before);
       varbuf_end_str(&fnvb);
-      if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
+      if (is_dir) {
         debug(dbg_eachfiledetail, "removal_bulk is a directory");
         /* Only delete a directory or a link to one if we're the only
          * package which uses it. Other files should only be listed

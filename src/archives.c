@@ -5,6 +5,8 @@
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -166,6 +168,47 @@ filesavespackage(struct fileinlist *file,
 
   debug(dbg_eachfiledetail, "filesavespackage ... not taken -- save !");
   return true;
+}
+
+static void
+md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
+                      struct filenamenode *namenode)
+{
+  struct pkginfo *otherpkg;
+  struct conffile *conff;
+
+  debug(dbg_conffdetail, "tarobject looking for shared conffile %s",
+        namenode->name);
+
+  for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
+    if (otherpkg == pkg)
+      continue;
+    /* The hash in the Conffiles is only meaningful if the package
+     * configuration has been at least tried. */
+    if (otherpkg->status <= stat_unpacked)
+      continue;
+    for (conff = otherpkg->installed.conffiles; conff; conff = conff->next) {
+      if (strcmp(conff->name, namenode->name) == 0)
+        break;
+    }
+    if (conff) {
+      debug(dbg_conffdetail,
+            "tarobject found shared conffile, from pkg %s (%s); hash=%s",
+            pkg_name(otherpkg, pnaw_always),
+            statusinfos[otherpkg->status].name, oldhash);
+      strcpy(oldhash, conff->hash);
+      break;
+    }
+  }
+
+  /* If no package was found with a valid Conffiles field, we make the
+   * risky assumption that the hash of the current .dpkg-new file is
+   * the one of the previously unpacked package. */
+  if (otherpkg == NULL) {
+    md5hash(pkg, oldhash, oldname);
+    debug(dbg_conffdetail,
+          "tarobject found shared conffile, from disk; hash=%s", oldhash);
+  }
 }
 
 void cu_pathname(int argc, void **argv) {
@@ -345,6 +388,31 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 }
 
 static void
+tarobject_hash(struct tarcontext *tc, struct tar_entry *te,
+               struct filenamenode *namenode)
+{
+  if (te->type == tar_filetype_file) {
+    char fnamebuf[256];
+    char *newhash;
+
+    newhash = nfmalloc(MD5HASHLEN + 1);
+    fd_md5(tc->backendpipe, newhash, te->size,
+           _("backend dpkg-deb during `%.255s'"),
+           path_quote_filename(fnamebuf, te->name, 256));
+    tarobject_skip_padding(tc, te);
+
+    namenode->newhash = newhash;
+    debug(dbg_eachfiledetail, "tarobject file hash=%s", namenode->newhash);
+  } else if (te->type == tar_filetype_hardlink) {
+    struct filenamenode *linknode;
+
+    linknode = findnamenode(te->linkname, 0);
+    namenode->newhash = linknode->newhash;
+    debug(dbg_eachfiledetail, "tarobject hardlink hash=%s", namenode->newhash);
+  }
+}
+
+static void
 tarobject_set_mtime(struct tar_entry *te, const char *path)
 {
   struct timeval tv[2];
@@ -419,6 +487,73 @@ tarobject_set_se_context(const char *matchpath, const char *path, mode_t mode)
 
   freecon(scontext);
 #endif /* WITH_SELINUX */
+}
+
+static void
+tarobject_matches(struct tarcontext *tc,
+                  const char *fn_old, struct stat *stab, char *oldhash,
+                  const char *fn_new, struct tar_entry *te,
+                  struct filenamenode *namenode)
+{
+  char *linkname;
+  ssize_t linksize;
+
+  debug(dbg_eachfiledetail, "tarobject matches on-disk object?");
+
+  switch (te->type) {
+  case tar_filetype_dir:
+    /* Nothing to check for a new directory. */
+    return;
+  case tar_filetype_symlink:
+    /* Symlinks to existing dirs have already been dealt with, only
+     * reamin real symlinks where we can compare the target. */
+    if (!S_ISLNK(stab->st_mode))
+      break;
+    linkname = m_malloc(stab->st_size + 1);
+    linksize = readlink(fn_old, linkname, stab->st_size + 1);
+    if (linksize < 0)
+      ohshite(_("unable to read link `%.255s'"), fn_old);
+    else if (linksize != stab->st_size)
+      ohshit(_("symbolic link '%.250s' size has changed from %jd to %zd"),
+             fn_old, stab->st_size, linksize);
+    linkname[linksize] = '\0';
+    if (strcmp(linkname, te->linkname) == 0) {
+      free(linkname);
+      return;
+    } else {
+      free(linkname);
+    }
+    break;
+  case tar_filetype_chardev:
+    if (S_ISCHR(stab->st_mode) && stab->st_rdev == te->dev)
+      return;
+    break;
+  case tar_filetype_blockdev:
+    if (S_ISBLK(stab->st_mode) && stab->st_rdev == te->dev)
+      return;
+    break;
+  case tar_filetype_fifo:
+    if (S_ISFIFO(stab->st_mode))
+      return;
+    break;
+  case tar_filetype_hardlink:
+    /* Fall through. */
+  case tar_filetype_file:
+    /* Only check metadata for non-conffiles. */
+    if (!(namenode->flags & fnnf_new_conff) &&
+        !(S_ISREG(stab->st_mode) && te->size == stab->st_size))
+      break;
+    if (strcmp(oldhash, namenode->newhash) == 0)
+      return;
+    break;
+  default:
+    internerr("unknown tar type '%d', but already checked", te->type);
+  }
+
+  forcibleerr(fc_overwrite,
+              _("trying to overwrite shared '%.250s', which is different "
+                "from other instances of package %.250s"),
+              namenode->name, pkg_name(tc->pkg, pnaw_nonambig));
 }
 
 void setupfnamevbs(const char *filename) {
@@ -550,6 +685,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   struct conffile *conff;
   struct tarcontext *tc = ctx;
   bool existingdir, keepexisting;
+  bool refcounting;
+  char oldhash[MD5HASHLEN + 1];
   int statr;
   ssize_t r;
   struct stat stab, stabtmp;
@@ -675,6 +812,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   }
 
   keepexisting = false;
+  refcounting = false;
   if (!existingdir) {
     struct filepackages_iterator *iter;
 
@@ -684,6 +822,21 @@ tarobject(void *ctx, struct tar_entry *ti)
         continue;
       debug(dbg_eachfile, "tarobject ... found in %s",
             pkg_name(otherpkg, pnaw_always));
+
+      /* A pkgset can share files between its instances. Overwriting
+       * is allowed when they are not getting in sync, otherwise the
+       * file content must match the installed file. */
+      if (otherpkg->set == tc->pkg->set &&
+          otherpkg->installed.multiarch == multiarch_same &&
+          tc->pkg->available.multiarch == multiarch_same) {
+        if (statr == 0 && tc->pkgset_getting_in_sync)
+          refcounting = true;
+        debug(dbg_eachfiledetail, "tarobject ... shared with %s %s (syncing=%d)",
+              pkg_name(otherpkg, pnaw_always),
+              versiondescribe(&otherpkg->installed.version, vdew_nonambig),
+              tc->pkgset_getting_in_sync);
+        continue;
+      }
 
       if (nifd->namenode->divert && nifd->namenode->divert->useinstead) {
         /* Right, so we may be diverting this file. This makes the conflict
@@ -800,23 +953,51 @@ tarobject(void *ctx, struct tar_entry *ti)
   if (existingdir)
     return 0;
 
-  /* Now, at this stage we want to make sure neither of .dpkg-new and
-   * .dpkg-tmp are hanging around. */
-  ensure_pathname_nonexisting(fnamenewvb.buf);
-  ensure_pathname_nonexisting(fnametmpvb.buf);
+  /* Compute the hash of the previous object, before we might replace it
+   * with the new version on forced overwrites. */
+  if (refcounting) {
+    if (nifd->namenode->flags & fnnf_new_conff) {
+      md5hash_prev_conffile(tc->pkg, oldhash, fnamenewvb.buf, nifd->namenode);
+    } else if (S_ISREG(stab.st_mode)) {
+      md5hash(tc->pkg, oldhash, fnamevb.buf);
+    } else {
+      strcpy(oldhash, EMPTYHASHFLAG);
+    }
+  }
 
-  /* Now we start to do things that we need to be able to undo
-   * if something goes wrong. Watch out for the CLEANUP comments to
-   * keep an eye on what's installed on the disk at each point. */
-  push_cleanup(cu_installnew, ~ehflag_normaltidy, NULL, 0, 1, nifd->namenode);
+  if (refcounting && !fc_overwrite) {
+    /* If we are not forced to overwrite the path and are refcounting,
+     * just compute the hash w/o extracting the object. */
+    tarobject_hash(tc, ti, nifd->namenode);
+  } else {
+    /* Now, at this stage we want to make sure neither of .dpkg-new and
+     * .dpkg-tmp are hanging around. */
+    ensure_pathname_nonexisting(fnamenewvb.buf);
+    ensure_pathname_nonexisting(fnametmpvb.buf);
 
-  /*
-   * CLEANUP: Now we either have the old file on the disk, or not, in
-   * its original filename.
-   */
+    /* Now we start to do things that we need to be able to undo
+     * if something goes wrong. Watch out for the CLEANUP comments to
+     * keep an eye on what's installed on the disk at each point. */
+    push_cleanup(cu_installnew, ~ehflag_normaltidy, NULL, 0, 1, nifd->namenode);
 
-  /* Extract whatever it is as .dpkg-new ... */
-  tarobject_extract(tc, ti, fnamenewvb.buf, st, nifd->namenode);
+    /*
+     * CLEANUP: Now we either have the old file on the disk, or not, in
+     * its original filename.
+     */
+
+    /* Extract whatever it is as .dpkg-new ... */
+    tarobject_extract(tc, ti, fnamenewvb.buf, st, nifd->namenode);
+  }
+
+  /* For shared files, check now if the object matches. */
+  if (refcounting)
+    tarobject_matches(tc, fnamevb.buf, &stab, oldhash,
+                          fnamenewvb.buf, ti, nifd->namenode);
+
+  /* If we didn't extract anything, there's nothing else to do. */
+  if (refcounting && !fc_overwrite)
+    return 0;
+
   tarobject_set_perms(ti, fnamenewvb.buf, st);
   tarobject_set_mtime(ti, fnamenewvb.buf);
   tarobject_set_se_context(fnamevb.buf, fnamenewvb.buf, st->mode);
