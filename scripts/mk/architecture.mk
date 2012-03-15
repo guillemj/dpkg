@@ -12,7 +12,8 @@ DEB_HOST_ARCH_ENDIAN ?= $(call dpkg_late_eval,DEB_HOST_ARCH_ENDIAN,dpkg-architec
 DEB_HOST_GNU_CPU ?= $(call dpkg_late_eval,DEB_HOST_GNU_CPU,dpkg-architecture -qDEB_HOST_GNU_CPU)
 DEB_HOST_GNU_SYSTEM ?= $(call dpkg_late_eval,DEB_HOST_GNU_SYSTEM,dpkg-architecture -qDEB_HOST_GNU_SYSTEM)
 DEB_HOST_GNU_TYPE ?= $(call dpkg_late_eval,DEB_HOST_GNU_TYPE,dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_HOST_MULTIARCH ?= $(call dpkg_late_eval,DEB_HOST_MULTIARCH,dpkg-architecture -qDEB_HOST_MULTIARCH)
+# Disabled for squeeze-backports
+#DEB_HOST_MULTIARCH ?= $(call dpkg_late_eval,DEB_HOST_MULTIARCH,dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 DEB_BUILD_ARCH ?= $(call dpkg_late_eval,DEB_BUILD_ARCH,dpkg-architecture -qDEB_BUILD_ARCH)
 DEB_BUILD_ARCH_OS ?= $(call dpkg_late_eval,DEB_BUILD_ARCH_OS,dpkg-architecture -qDEB_BUILD_ARCH_OS)
@@ -22,4 +23,5 @@ DEB_BUILD_ARCH_ENDIAN ?= $(call dpkg_late_eval,DEB_BUILD_ARCH_ENDIAN,dpkg-archit
 DEB_BUILD_GNU_CPU ?= $(call dpkg_late_eval,DEB_BUILD_GNU_CPU,dpkg-architecture -qDEB_BUILD_GNU_CPU)
 DEB_BUILD_GNU_SYSTEM ?= $(call dpkg_late_eval,DEB_BUILD_GNU_SYSTEM,dpkg-architecture -qDEB_BUILD_GNU_SYSTEM)
 DEB_BUILD_GNU_TYPE ?= $(call dpkg_late_eval,DEB_BUILD_GNU_TYPE,dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-DEB_BUILD_MULTIARCH ?= $(call dpkg_late_eval,DEB_BUILD_MULTIARCH,dpkg-architecture -qDEB_BUILD_MULTIARCH)
+# Disabled for squeeze-backports
+#DEB_BUILD_MULTIARCH ?= $(call dpkg_late_eval,DEB_BUILD_MULTIARCH,dpkg-architecture -qDEB_BUILD_MULTIARCH)
