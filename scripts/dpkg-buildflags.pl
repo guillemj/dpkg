@@ -22,8 +22,9 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
+use Dpkg::ErrorHandling qw(report);
 use Dpkg::BuildFlags;
+use Dpkg::Vendor qw(get_current_vendor);
 
 textdomain("dpkg-dev");
 
@@ -52,6 +53,9 @@ sub usage {
                      compilation flags in a shell script, in make,
                      or on a ./configure command line.
   --dump             output all compilation flags with their values
+  --status           print a synopsis with all parameters affecting the
+                     behaviour of dpkg-buildflags and the resulting flags
+                     and their origin.
   --help             show this help message.
   --version          show the version.
 "), $progname;
@@ -72,7 +76,7 @@ while (@ARGV) {
             if defined($action);
         my $type = $1 || "sh";
         $action = "export-$type";
-    } elsif (m/^--(list|dump)$/) {
+    } elsif (m/^--(list|status|dump)$/) {
         usageerr(_g("two commands specified: --%s and --%s"), $1, $action)
             if defined($action);
         $action = $1;
@@ -141,6 +145,40 @@ if ($action eq "get") {
     foreach my $flag ($build_flags->list()) {
 	my $value = $build_flags->get($flag);
 	print "$flag=$value\n";
+    }
+    exit(0);
+} elsif ($action eq "status") {
+    # Prefix everything with "dpkg-buildflags: status: " to allow easy
+    # extraction from a build log. Thus we use report with a non-translated
+    # type string.
+
+    # First print all environment variables that might have changed the
+    # results (only existing ones, might make sense to add an option to
+    # also show which ones could have set to modify it).
+    my @envvars = Dpkg::BuildEnv::list_accessed();
+    for my $envvar (@envvars) {
+	if (exists $ENV{$envvar}) {
+	    printf report("status", "environment variable %s=%s",
+	           $envvar, $ENV{$envvar});
+	}
+    }
+    my $vendor = Dpkg::Vendor::get_current_vendor() || "undefined";
+    print report("status", "vendor is $vendor");
+    # Then the resulting features:
+    foreach my $area (sort $build_flags->get_feature_areas()) {
+	my $fs;
+	my %features = $build_flags->get_features($area);
+	foreach my $feature (sort keys %features) {
+	    $fs .= sprintf(" %s=%s", $feature, $features{$feature} ? "yes" : "no");
+	}
+	print report("status", "$area features:$fs");
+    }
+    # Then the resulting values (with their origin):
+    foreach my $flag ($build_flags->list()) {
+	my $value = $build_flags->get($flag);
+	my $origin = $build_flags->get_origin($flag);
+	my $maintainer = $build_flags->is_maintainer_modified($flag) ? "+maintainer" : "";
+	print report("status", "$flag [$origin$maintainer]: $value");
     }
     exit(0);
 }

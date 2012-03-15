@@ -72,6 +72,16 @@ Print the list of flags supported by the current vendor
 (one per line). See the \fBSUPPORTED FLAGS\fP section for more
 information about them.
 .TP
+.BI \-\-status
+Display any information that can be useful to explain the behaviour of
+\fBdpkg\-buildflags\fP: relevant environment variables, current vendor,
+state of all feature flags. Also print the resulting compiler flags with
+their origin.
+
+This is intended to be run from \fBdebian/rules\fP, so that the build log
+keeps a clear trace of the build flags used. This can be useful to diagnose
+problems related to them.
+.TP
 .BI \-\-export= format
 Print to standard output shell (if \fIformat\fP is \fBsh\fP) or make
 (if \fIformat\fP is \fBmake\fP) commands that can be used to export
