@@ -186,12 +186,11 @@ static void
 tarobject_skip_padding(struct tarcontext *tc, struct tar_entry *te)
 {
   size_t r;
-  char databuf[TARBLKSZ];
 
   r = te->size % TARBLKSZ;
   if (r > 0)
-    if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)
-      ohshite(_("error reading from dpkg-deb pipe"));
+    fd_skip(tc->backendpipe, TARBLKSZ - r,
+            _("error reading from dpkg-deb pipe"));
 }
 
 static void
