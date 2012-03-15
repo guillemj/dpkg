@@ -183,11 +183,20 @@ int tarfileread(void *ud, char *buf, int len) {
 }
 
 static void
-tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
+tarobject_skip_padding(struct tarcontext *tc, struct tar_entry *te)
 {
   size_t r;
   char databuf[TARBLKSZ];
 
+  r = te->size % TARBLKSZ;
+  if (r > 0)
+    if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)
+      ohshite(_("error reading from dpkg-deb pipe"));
+}
+
+static void
+tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
+{
   /* We need to advance the tar file to the next object, so read the
    * file data and set it to oblivion. */
   if (ti->type == tar_filetype_file) {
@@ -196,10 +205,7 @@ tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
     fd_skip(tc->backendpipe, ti->size,
             _("skipped unpacking file '%.255s' (replaced or excluded?)"),
             path_quote_filename(fnamebuf, ti->name, 256));
-    r = ti->size % TARBLKSZ;
-    if (r > 0)
-      if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)
-        ohshite(_("error reading from dpkg-deb pipe"));
+    tarobject_skip_padding(tc, ti);
   }
 }
 
@@ -248,9 +254,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
   static int fd;
 
   struct filenamenode *linknode;
-  char databuf[TARBLKSZ];
   char fnamebuf[256];
-  ssize_t r;
 
   switch (te->type) {
   case tar_filetype_file:
@@ -268,10 +272,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
                _("backend dpkg-deb during `%.255s'"),
                path_quote_filename(fnamebuf, te->name, 256));
 
-    r = te->size % TARBLKSZ;
-    if (r > 0)
-      if (fd_read(tc->backendpipe, databuf, TARBLKSZ - r) < 0)
-        ohshite(_("error reading from dpkg-deb pipe"));
+    tarobject_skip_padding(tc, te);
 
     fd_writeback_init(fd);
 
