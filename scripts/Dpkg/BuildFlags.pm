@@ -390,7 +390,7 @@ the prepend operation everywhere.
 New method: $bf->load_maintainer_config() that update the build flags
 based on the package maintainer directives.
 
-=head Version 1.02
+=head2 Version 1.02
 
 New methods: $bf->get_features(), $bf->has_features(), $bf->set_feature().
 
