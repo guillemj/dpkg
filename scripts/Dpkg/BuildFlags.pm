@@ -86,6 +86,13 @@ sub load_vendor_defaults {
 	FFLAGS   => 'vendor',
 	LDFLAGS  => 'vendor',
     };
+    $self->{maintainer} = {
+	CPPFLAGS => 0,
+	CFLAGS   => 0,
+	CXXFLAGS => 0,
+	FFLAGS   => 0,
+	LDFLAGS  => 0,
+    };
     # The Debian vendor hook will add hardening build flags
     run_vendor_hook("update-buildflags", $self);
 }
@@ -157,19 +164,19 @@ sub load_maintainer_config {
     foreach my $flag (keys %{$self->{flags}}) {
 	my $envvar = "DEB_" . $flag . "_MAINT_SET";
 	if (Dpkg::BuildEnv::has($envvar)) {
-	    $self->set($flag, Dpkg::BuildEnv::get($envvar), undef);
+	    $self->set($flag, Dpkg::BuildEnv::get($envvar), undef, 1);
 	}
 	$envvar = "DEB_" . $flag . "_MAINT_STRIP";
 	if (Dpkg::BuildEnv::has($envvar)) {
-	    $self->strip($flag, Dpkg::BuildEnv::get($envvar), undef);
+	    $self->strip($flag, Dpkg::BuildEnv::get($envvar), undef, 1);
 	}
 	$envvar = "DEB_" . $flag . "_MAINT_APPEND";
 	if (Dpkg::BuildEnv::has($envvar)) {
-	    $self->append($flag, Dpkg::BuildEnv::get($envvar), undef);
+	    $self->append($flag, Dpkg::BuildEnv::get($envvar), undef, 1);
 	}
 	$envvar = "DEB_" . $flag . "_MAINT_PREPEND";
 	if (Dpkg::BuildEnv::has($envvar)) {
-	    $self->prepend($flag, Dpkg::BuildEnv::get($envvar), undef);
+	    $self->prepend($flag, Dpkg::BuildEnv::get($envvar), undef, 1);
 	}
     }
 }
@@ -191,17 +198,19 @@ sub load_config {
     $self->load_maintainer_config();
 }
 
-=item $bf->set($flag, $value, $source)
+=item $bf->set($flag, $value, $source, $maint)
 
 Update the build flag $flag with value $value and record its origin as
-$source (if defined).
+$source (if defined). Record it as maintainer modified if $maint is
+defined and true.
 
 =cut
 
 sub set {
-    my ($self, $flag, $value, $src) = @_;
+    my ($self, $flag, $value, $src, $maint) = @_;
     $self->{flags}->{$flag} = $value;
     $self->{origin}->{$flag} = $src if defined $src;
+    $self->{maintainer}->{$flag} = $maint if $maint;
 }
 
 =item $bf->set_feature($area, $feature, $enabled)
@@ -217,15 +226,16 @@ sub set_feature {
     $self->{'features'}{$area}{$feature} = $enabled;
 }
 
-=item $bf->strip($flag, $value, $source)
+=item $bf->strip($flag, $value, $source, $maint)
 
 Update the build flag $flag by stripping the flags listed in $value and
-record its origin as $source (if defined).
+record its origin as $source (if defined). Record it as maintainer modified
+if $maint is defined and true.
 
 =cut
 
 sub strip {
-    my ($self, $flag, $value, $src) = @_;
+    my ($self, $flag, $value, $src, $maint) = @_;
     foreach my $tostrip (split(/\s+/, $value)) {
 	next unless length $tostrip;
 	$self->{flags}->{$flag} =~ s/(^|\s+)\Q$tostrip\E(\s+|$)/ /g;
@@ -233,40 +243,45 @@ sub strip {
     $self->{flags}->{$flag} =~ s/^\s+//g;
     $self->{flags}->{$flag} =~ s/\s+$//g;
     $self->{origin}->{$flag} = $src if defined $src;
+    $self->{maintainer}->{$flag} = $maint if $maint;
 }
 
-=item $bf->append($flag, $value, $source)
+=item $bf->append($flag, $value, $source, $maint)
 
 Append the options listed in $value to the current value of the flag $flag.
-Record its origin as $source (if defined).
+Record its origin as $source (if defined). Record it as maintainer modified
+if $maint is defined and true.
 
 =cut
 
 sub append {
-    my ($self, $flag, $value, $src) = @_;
+    my ($self, $flag, $value, $src, $maint) = @_;
     if (length($self->{flags}->{$flag})) {
         $self->{flags}->{$flag} .= " $value";
     } else {
         $self->{flags}->{$flag} = $value;
     }
     $self->{origin}->{$flag} = $src if defined $src;
+    $self->{maintainer}->{$flag} = $maint if $maint;
 }
 
-=item $bf->prepend($flag, $value, $source)
+=item $bf->prepend($flag, $value, $source, $maint)
 
 Prepend the options listed in $value to the current value of the flag $flag.
-Record its origin as $source (if defined).
+Record its origin as $source (if defined). Record it as maintainer modified
+if $maint is defined and true.
 
 =cut
 
 sub prepend {
-    my ($self, $flag, $value, $src) = @_;
+    my ($self, $flag, $value, $src, $maint) = @_;
     if (length($self->{flags}->{$flag})) {
         $self->{flags}->{$flag} = "$value " . $self->{flags}->{$flag};
     } else {
         $self->{flags}->{$flag} = $value;
     }
     $self->{origin}->{$flag} = $src if defined $src;
+    $self->{maintainer}->{$flag} = $maint if $maint;
 }
 
 
@@ -357,6 +372,17 @@ sub get_origin {
     return $self->{'origin'}{$key};
 }
 
+=item $bf->is_maintainer_modified($flag)
+
+Return true if the flag is modified by the maintainer.
+
+=cut
+
+sub is_maintainer_modified {
+    my ($self, $key) = @_;
+    return $self->{'maintainer'}{$key};
+}
+
 =item $bf->has_features($area)
 
 Returns true if the given area of features is known, and false otherwise.
@@ -411,6 +437,9 @@ New methods: $bf->get_features(), $bf->has_features(), $bf->set_feature().
 
 New method: $bf->get_feature_areas() to list possible values for
 $bf->get_features.
+
+New method $bf->is_maintainer_modified() and new optional parameter to
+$bf->set(), $bf->append(), $bf->prepend(), $bf->strip().
 
 =head1 AUTHOR
 
