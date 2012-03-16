@@ -66,13 +66,11 @@ int cleanup_pkg_failed=0, cleanup_conflictor_failed=0;
  * look for it.
  */
 void cu_installnew(int argc, void **argv) {
-  struct fileinlist *nifd= (struct fileinlist*)argv[0];
-  struct filenamenode *namenode;
+  struct filenamenode *namenode = argv[0];
   struct stat stab;
 
   cleanup_pkg_failed++; cleanup_conflictor_failed++;
 
-  namenode= nifd->namenode;
   debug(dbg_eachfile,"cu_installnew `%s' flags=%o",namenode->name,namenode->flags);
 
   setupfnamevbs(namenode->name);

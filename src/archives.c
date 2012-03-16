@@ -808,7 +808,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   /* Now we start to do things that we need to be able to undo
    * if something goes wrong. Watch out for the CLEANUP comments to
    * keep an eye on what's installed on the disk at each point. */
-  push_cleanup(cu_installnew, ~ehflag_normaltidy, NULL, 0, 1, (void *)nifd);
+  push_cleanup(cu_installnew, ~ehflag_normaltidy, NULL, 0, 1, nifd->namenode);
 
   /*
    * CLEANUP: Now we either have the old file on the disk, or not, in
