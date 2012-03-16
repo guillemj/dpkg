@@ -23,6 +23,7 @@ our $VERSION = "1.01";
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::BuildEnv;
 
 =encoding utf8
 
@@ -58,7 +59,7 @@ sub new {
 	envvar => $opts{'envvar'} // "DEB_BUILD_OPTIONS",
     };
     bless $self, $class;
-    $self->merge($ENV{$self->{'envvar'}}, $self->{'envvar'});
+    $self->merge(Dpkg::BuildEnv::get($self->{'envvar'}), $self->{'envvar'});
     return $self;
 }
 
@@ -181,7 +182,7 @@ sub export {
     my ($self, $var) = @_;
     $var = $self->{'envvar'} unless defined $var;
     my $content = $self->output();
-    $ENV{$var} = $content;
+    Dpkg::BuildEnv::set($var, $content);
     return $content;
 }
 

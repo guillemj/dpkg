@@ -21,6 +21,7 @@ use warnings;
 our $VERSION = "1.03";
 
 use Dpkg::Gettext;
+use Dpkg::BuildEnv;
 use Dpkg::BuildOptions;
 use Dpkg::ErrorHandling;
 use Dpkg::Vendor qw(run_vendor_hook);
@@ -126,20 +127,20 @@ sub load_environment_config {
     my ($self) = @_;
     foreach my $flag (keys %{$self->{flags}}) {
 	my $envvar = "DEB_" . $flag . "_SET";
-	if (exists $ENV{$envvar}) {
-	    $self->set($flag, $ENV{$envvar}, "env");
+	if (Dpkg::BuildEnv::has($envvar)) {
+	    $self->set($flag, Dpkg::BuildEnv::get($envvar), "env");
 	}
 	$envvar = "DEB_" . $flag . "_STRIP";
-	if (exists $ENV{$envvar}) {
-	    $self->strip($flag, $ENV{$envvar}, "env");
+	if (Dpkg::BuildEnv::has($envvar)) {
+	    $self->strip($flag, Dpkg::BuildEnv::get($envvar), "env");
 	}
 	$envvar = "DEB_" . $flag . "_APPEND";
-	if (exists $ENV{$envvar}) {
-	    $self->append($flag, $ENV{$envvar}, "env");
+	if (Dpkg::BuildEnv::has($envvar)) {
+	    $self->append($flag, Dpkg::BuildEnv::get($envvar), "env");
 	}
 	$envvar = "DEB_" . $flag . "_PREPEND";
-	if (exists $ENV{$envvar}) {
-	    $self->prepend($flag, $ENV{$envvar}, "env");
+	if (Dpkg::BuildEnv::has($envvar)) {
+	    $self->prepend($flag, Dpkg::BuildEnv::get($envvar), "env");
 	}
     }
 }
@@ -155,20 +156,20 @@ sub load_maintainer_config {
     my ($self) = @_;
     foreach my $flag (keys %{$self->{flags}}) {
 	my $envvar = "DEB_" . $flag . "_MAINT_SET";
-	if (exists $ENV{$envvar}) {
-	    $self->set($flag, $ENV{$envvar}, undef);
+	if (Dpkg::BuildEnv::has($envvar)) {
+	    $self->set($flag, Dpkg::BuildEnv::get($envvar), undef);
 	}
 	$envvar = "DEB_" . $flag . "_MAINT_STRIP";
-	if (exists $ENV{$envvar}) {
-	    $self->strip($flag, $ENV{$envvar}, undef);
+	if (Dpkg::BuildEnv::has($envvar)) {
+	    $self->strip($flag, Dpkg::BuildEnv::get($envvar), undef);
 	}
 	$envvar = "DEB_" . $flag . "_MAINT_APPEND";
-	if (exists $ENV{$envvar}) {
-	    $self->append($flag, $ENV{$envvar}, undef);
+	if (Dpkg::BuildEnv::has($envvar)) {
+	    $self->append($flag, Dpkg::BuildEnv::get($envvar), undef);
 	}
 	$envvar = "DEB_" . $flag . "_MAINT_PREPEND";
-	if (exists $ENV{$envvar}) {
-	    $self->prepend($flag, $ENV{$envvar}, undef);
+	if (Dpkg::BuildEnv::has($envvar)) {
+	    $self->prepend($flag, Dpkg::BuildEnv::get($envvar), undef);
 	}
     }
 }

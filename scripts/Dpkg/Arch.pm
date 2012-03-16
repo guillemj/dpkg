@@ -32,6 +32,7 @@ use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::BuildEnv;
 
 my (@cpu, @os);
 my (%cputable, %ostable);
@@ -65,7 +66,7 @@ my %debarch_to_debtriplet;
 
     sub get_build_arch()
     {
-	return $ENV{DEB_BUILD_ARCH} || get_raw_build_arch();
+	return Dpkg::BuildEnv::get('DEB_BUILD_ARCH') || get_raw_build_arch();
     }
 
     sub get_gcc_host_gnu_type()
@@ -114,7 +115,7 @@ my %debarch_to_debtriplet;
 
     sub get_host_arch()
     {
-	return $ENV{DEB_HOST_ARCH} || get_raw_host_arch();
+	return Dpkg::BuildEnv::get('DEB_HOST_ARCH') || get_raw_host_arch();
     }
 }
 
