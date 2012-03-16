@@ -18,7 +18,7 @@ package Dpkg::BuildFlags;
 use strict;
 use warnings;
 
-our $VERSION = "1.02";
+our $VERSION = "1.03";
 
 use Dpkg::Gettext;
 use Dpkg::BuildOptions;
@@ -320,6 +320,18 @@ sub get {
     return $self->{'flags'}{$key};
 }
 
+=item $bf->get_feature_areas()
+
+Return the feature areas (i.e. the area values has_features will return
+true for).
+
+=cut
+
+sub get_feature_areas {
+    my ($self) = @_;
+    return keys $self->{'features'};
+}
+
 =item $bf->get_features($area)
 
 Return, for the given area, a hash with keys as feature names, and values
@@ -393,6 +405,11 @@ based on the package maintainer directives.
 =head2 Version 1.02
 
 New methods: $bf->get_features(), $bf->has_features(), $bf->set_feature().
+
+=head2 Version 1.03
+
+New method: $bf->get_feature_areas() to list possible values for
+$bf->get_features.
 
 =head1 AUTHOR
 
