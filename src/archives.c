@@ -183,7 +183,7 @@ int tarfileread(void *ud, char *buf, int len) {
 }
 
 static void
-tarfile_skip_one_forward(struct tarcontext *tc, struct tar_entry *ti)
+tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
 {
   size_t r;
   char databuf[TARBLKSZ];
@@ -780,14 +780,14 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   if (keepexisting) {
     remove_file_from_list(tc, ti, oldnifd, nifd);
-    tarfile_skip_one_forward(tc, ti);
+    tarobject_skip_entry(tc, ti);
     return 0;
   }
 
   if (filter_should_skip(ti)) {
     nifd->namenode->flags &= ~fnnf_new_inarchive;
     nifd->namenode->flags |= fnnf_filtered;
-    tarfile_skip_one_forward(tc, ti);
+    tarobject_skip_entry(tc, ti);
 
     return 0;
   }
