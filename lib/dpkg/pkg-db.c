@@ -106,6 +106,32 @@ pkg_db_find_set(const char *inname)
 }
 
 /**
+ * Return the singleton package instance from a package set.
+ *
+ * This means, either the first instance if none are installed, the single
+ * installed instance, or NULL if more than one instance is installed.
+ *
+ * @param set The package set to use.
+ *
+ * @return The singleton package instance.
+ */
+struct pkginfo *
+pkg_db_get_singleton(struct pkgset *set)
+{
+  struct pkginfo *pkg;
+
+  if (pkgset_installed_instances(set) > 1)
+    return NULL;
+
+  for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
+    if (pkg->status > stat_notinstalled)
+      return pkg;
+  }
+
+  return &set->pkg;
+}
+
+/**
  * Return the singleton package instance with the given name.
  *
  * @param name The package name.
@@ -119,7 +145,7 @@ pkg_db_find_singleton(const char *name)
   struct pkginfo *pkg;
 
   set = pkg_db_find_set(name);
-  pkg = pkgset_get_singleton(set);
+  pkg = pkg_db_get_singleton(set);
   if (pkg == NULL)
     ohshit(_("ambiguous package name '%s' with more "
              "than one installed instance"), set->name);
