@@ -554,7 +554,7 @@ diversion_remove(const char *const *argv)
 	 * by another package in the same set. */
 	if (diversion_is_shared(pkgset, namenode)) {
 		if (opt_verbose > 0)
-			printf(_("Ignoring removal of shared diversion '%s'.\n"),
+			printf(_("Ignoring request to remove shared diversion '%s'.\n"),
 			       diversion_describe(contest));
 		exit(0);
 	}
