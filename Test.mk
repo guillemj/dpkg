@@ -15,6 +15,10 @@ endif
 
 DPKG_OPTIONS := --force-unsafe-io
 
+ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
+DPKG_OPTIONS += -D77777
+endif
+
 ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_ADMINDIR = ../dpkgdb
 DPKG_COMMON_OPTIONS := --admindir=$(DPKG_ADMINDIR)
