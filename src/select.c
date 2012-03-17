@@ -161,6 +161,12 @@ setselections(const char *const *argv)
     if (pkg == NULL)
       ohshit(_("illegal package name at line %d: %.250s"), lno, err.str);
 
+    if (!pkg_is_informative(pkg, &pkg->installed) &&
+        !pkg_is_informative(pkg, &pkg->available)) {
+      warning(_("package not in database at line %d: %.250s"), lno, namevb.buf);
+      continue;
+    }
+
     nv = namevalue_find_by_name(wantinfos, selvb.buf);
     if (nv == NULL)
       ohshit(_("unknown wanted status at line %d: %.250s"), lno, selvb.buf);
