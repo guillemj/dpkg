@@ -280,6 +280,17 @@ pkg_parse_verify(struct parsedb_state *ps,
        pkg->want == want_hold)) {
     pkg_set_want(pkg, want_unknown);
   }
+
+  /* XXX: Mark not-installed non-arch-qualified selections for automatic
+   * removal, as they do not make sense in a multiarch enabled world, and
+   * might cause those selections to be unreferencable from command-line
+   * interfaces when there's other more specific selections. */
+  if (ps->type == pdb_file_status &&
+      pkg->status == stat_notinstalled &&
+      pkg->eflag == eflag_ok &&
+      pkg->want == want_install &&
+      pkgbin->arch->type == arch_empty)
+    pkg->want = want_unknown;
 }
 
 /**
