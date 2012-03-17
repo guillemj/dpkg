@@ -206,6 +206,9 @@ pkg_parse_verify(struct parsedb_state *ps,
   if (pkgbin->arch->type == arch_none)
     pkgbin->arch = dpkg_arch_get(arch_empty);
 
+  if (pkgbin->arch->type == arch_empty && pkgbin->multiarch == multiarch_same)
+    parse_error(ps, _("package has field '%s' but is missing architecture"),
+                "Multi-Arch: same");
   if (pkgbin->arch->type == arch_all && pkgbin->multiarch == multiarch_same)
     parse_error(ps, _("package has field '%s' but is architecture all"),
                 "Multi-Arch: same");
