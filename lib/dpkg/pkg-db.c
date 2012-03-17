@@ -108,8 +108,9 @@ pkg_db_find_set(const char *inname)
 /**
  * Return the singleton package instance from a package set.
  *
- * This means, either the first instance if none are installed, the single
- * installed instance, or NULL if more than one instance is installed.
+ * This means, if none are installed either an instance with native or
+ * all arch or the first if none found, the single installed instance,
+ * or NULL if more than one instance is installed.
  *
  * @param set The package set to use.
  *
@@ -120,15 +121,26 @@ pkg_db_get_singleton(struct pkgset *set)
 {
   struct pkginfo *pkg;
 
-  if (pkgset_installed_instances(set) > 1)
+  switch (pkgset_installed_instances(set)) {
+  case 0:
+    /* Pick an available candidate. */
+    for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
+      const struct dpkg_arch *arch = pkg->available.arch;
+
+      if (arch->type == arch_native || arch->type == arch_all)
+        return pkg;
+    }
+    /* Or falling that the first entry. */
+    return &set->pkg;
+  case 1:
+    for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
+      if (pkg->status > stat_notinstalled)
+        return pkg;
+    }
+    internerr("pkgset %s should have one installed instance", set->name);
+  default:
     return NULL;
-
-  for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
-    if (pkg->status > stat_notinstalled)
-      return pkg;
   }
-
-  return &set->pkg;
 }
 
 /**
