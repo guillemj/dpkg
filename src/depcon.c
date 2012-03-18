@@ -147,7 +147,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
   sol->possi->cyclebreak = true;
 
   debug(dbg_depcon, "cycle broken at %s -> %s",
-        pkg_name(sol->possi->up->up, pnaw_nonambig), sol->possi->ed->name);
+        pkg_name(sol->possi->up->up, pnaw_always), sol->possi->ed->name);
 
   return true;
 }
@@ -179,7 +179,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
     }
     varbuf_end_str(&str_pkgs);
     debug(dbg_depcondetail, "findbreakcyclerecursive %s %s",
-          pkg_name(pkg, pnaw_nonambig), str_pkgs.buf);
+          pkg_name(pkg, pnaw_always), str_pkgs.buf);
     varbuf_destroy(&str_pkgs);
   }
   thislink.pkg= pkg;

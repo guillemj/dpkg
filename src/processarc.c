@@ -347,7 +347,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
          pkg_name(pkg, pnaw_nonambig));
   log_action("disappear", pkg, &pkg->installed);
   debug(dbg_general, "pkg_disappear disappearing %s",
-        pkg_name(pkg, pnaw_nonambig));
+        pkg_name(pkg, pnaw_always));
 
   trig_activate_packageprocessing(pkg);
   maintainer_script_installed(pkg, POSTRMFILE,
@@ -641,18 +641,18 @@ void process_archive(const char *filename) {
       while ((otherpkg = filepackages_iter_next(iter))) {
         debug(dbg_conffdetail,
               "process_archive conffile `%s' in package %s - conff ?",
-              newconff->namenode->name, pkg_name(otherpkg, pnaw_nonambig));
+              newconff->namenode->name, pkg_name(otherpkg, pnaw_always));
         for (searchconff = otherpkg->installed.conffiles;
              searchconff && strcmp(newconff->namenode->name, searchconff->name);
              searchconff = searchconff->next)
           debug(dbg_conffdetail,
                 "process_archive conffile `%s' in package %s - conff ? not `%s'",
-                newconff->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
+                newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
                 searchconff->name);
         if (searchconff) {
           debug(dbg_conff,
                 "process_archive conffile `%s' package=%s %s hash=%s",
-                newconff->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
+                newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
                 otherpkg == pkg ? "same" : "different!",
                 searchconff->hash);
           if (otherpkg == pkg)
@@ -1215,7 +1215,7 @@ void process_archive(const char *filename) {
 	otherpkg->clientdata->istobe == itb_remove ||
         !otherpkg->clientdata->files) continue;
     debug(dbg_veryverbose, "process_archive checking disappearance %s",
-          pkg_name(otherpkg, pnaw_nonambig));
+          pkg_name(otherpkg, pnaw_always));
     assert(otherpkg->clientdata->istobe == itb_normal ||
            otherpkg->clientdata->istobe == itb_deconfigure);
     for (cfile= otherpkg->clientdata->files;
@@ -1308,7 +1308,7 @@ void process_archive(const char *filename) {
     iter = filepackages_iter_new(cfile->namenode);
     while ((otherpkg = filepackages_iter_next(iter))) {
       debug(dbg_eachfiledetail, "process_archive ... found in %s",
-            pkg_name(otherpkg, pnaw_nonambig));
+            pkg_name(otherpkg, pnaw_always));
       /* If !fileslistvalid then it's one of the disappeared packages above
        * and we don't bother with it here, clearly. */
       if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid)
@@ -1325,7 +1325,7 @@ void process_archive(const char *filename) {
                             otherpkg->clientdata->files, fnnf_elide_other_lists);
       ensure_package_clientdata(otherpkg);
       debug(dbg_veryverbose, "process_archive overwrote from %s",
-            pkg_name(otherpkg, pnaw_nonambig));
+            pkg_name(otherpkg, pnaw_always));
     }
     filepackages_iter_free(iter);
   }

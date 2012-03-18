@@ -69,7 +69,7 @@ namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg,
   }
 
   debug(dbg_eachfile,"namenodetouse namenode=`%s' pkg=%s",
-        namenode->name, pkgbin_name(pkg, pkgbin, pnaw_nonambig));
+        namenode->name, pkgbin_name(pkg, pkgbin, pnaw_always));
 
   r=
     (namenode->divert->useinstead && namenode->divert->pkgset != pkg->set)
@@ -500,13 +500,13 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
   size_t namelen;
 
   debug(dbg_veryverbose, "dir_has_conffiles '%s' (from %s)", file->name,
-        pkg_name(pkg, pnaw_nonambig));
+        pkg_name(pkg, pnaw_always));
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
       if (strncmp(file->name, conff->name, namelen) == 0 &&
           conff->name[namelen] == '/') {
 	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
-	      file->name, conff->name, pkg_name(pkg, pnaw_nonambig));
+	      file->name, conff->name, pkg_name(pkg, pnaw_always));
 	return true;
       }
   }
@@ -525,12 +525,12 @@ dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
   struct pkginfo *other_pkg;
 
   debug(dbg_veryverbose, "dir_is_used_by_others '%s' (except %s)", file->name,
-        pkg ? pkg_name(pkg, pnaw_nonambig) : "<none>");
+        pkg ? pkg_name(pkg, pnaw_always) : "<none>");
 
   iter = filepackages_iter_new(file);
   while ((other_pkg = filepackages_iter_next(iter))) {
     debug(dbg_veryverbose, "dir_is_used_by_others considering %s ...",
-          pkg_name(other_pkg, pnaw_nonambig));
+          pkg_name(other_pkg, pnaw_always));
     if (other_pkg == pkg)
       continue;
 
@@ -554,7 +554,7 @@ dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
   size_t namelen;
 
   debug(dbg_veryverbose, "dir_is_used_by_pkg '%s' (by %s)",
-        file->name, pkg ? pkg_name(pkg, pnaw_nonambig) : "<none>");
+        file->name, pkg ? pkg_name(pkg, pnaw_always) : "<none>");
 
   namelen = strlen(file->name);
 

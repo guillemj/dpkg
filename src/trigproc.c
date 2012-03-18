@@ -99,7 +99,7 @@ trigproc_enqueue_deferred(struct pkginfo *pend)
 		return;
 	pend->clientdata->trigprocdeferred = pkg_queue_push(&deferred, pend);
 	debug(dbg_triggers, "trigproc_enqueue_deferred pend=%s",
-	      pkg_name(pend, pnaw_nonambig));
+	      pkg_name(pend, pnaw_always));
 }
 
 void
@@ -136,7 +136,7 @@ void
 trig_activate_packageprocessing(struct pkginfo *pkg)
 {
 	debug(dbg_triggersdetail, "trigproc_activate_packageprocessing pkg=%s",
-	      pkg_name(pkg, pnaw_nonambig));
+	      pkg_name(pkg, pnaw_always));
 
 	trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE), NULL,
 	              trig_cicb_statuschange_activate, pkg, &pkg->installed);
@@ -180,7 +180,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	const char *sep;
 
 	debug(dbg_triggers, "check_triggers_cycle pnow=%s",
-	      pkg_name(processing_now, pnaw_nonambig));
+	      pkg_name(processing_now, pnaw_always));
 
 	tcn = nfmalloc(sizeof(*tcn));
 	tcn->pkgs = NULL;
@@ -199,7 +199,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	pkg_db_iter_free(it);
 	if (!hare) {
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s first",
-		      pkg_name(processing_now, pnaw_nonambig));
+		      pkg_name(processing_now, pnaw_always));
 		tcn->next = NULL;
 		hare = tortoise = tcn;
 		return NULL;
@@ -285,8 +285,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	/* We give up on the _earliest_ package involved. */
 	giveup = tortoise->pkgs->pkg;
 	debug(dbg_triggers, "check_triggers_cycle pnow=%s giveup=%p",
-	      pkg_name(processing_now, pnaw_nonambig),
-	      pkg_name(giveup, pnaw_nonambig));
+	      pkg_name(processing_now, pnaw_always),
+	      pkg_name(giveup, pnaw_always));
 	assert(giveup->status == stat_triggersawaited ||
 	       giveup->status == stat_triggerspending);
 	pkg_set_status(giveup, stat_halfconfigured);
@@ -309,7 +309,7 @@ trigproc(struct pkginfo *pkg)
 	struct trigpend *tp;
 	struct pkginfo *gaveup;
 
-	debug(dbg_triggers, "trigproc %s", pkg_name(pkg, pnaw_nonambig));
+	debug(dbg_triggers, "trigproc %s", pkg_name(pkg, pnaw_always));
 
 	if (pkg->clientdata->trigprocdeferred)
 		pkg->clientdata->trigprocdeferred->pkg = NULL;
@@ -371,7 +371,7 @@ transitional_interest_callback_ro(const char *trig, struct pkginfo *pkg,
 
 	debug(dbg_triggersdetail,
 	      "trig_transitional_interest_callback trig=%s pend=%s",
-	      trig, pkgbin_name(pend, pendbin, pnaw_nonambig));
+	      trig, pkgbin_name(pend, pendbin, pnaw_always));
 	if (pend->status >= stat_triggersawaited)
 		trig_note_pend(pend, nfstrsave(trig));
 }
@@ -403,7 +403,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		if (pkg->status <= stat_halfinstalled)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
-		      pkg_name(pkg, pnaw_nonambig),
+		      pkg_name(pkg, pnaw_always),
 		      statusinfos[pkg->status].name);
 		pkg->trigpend_head = NULL;
 		trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),

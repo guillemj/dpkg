@@ -119,7 +119,7 @@ filesavespackage(struct fileinlist *file,
   struct pkginfo *thirdpkg;
 
   debug(dbg_eachfiledetail,"filesavespackage file `%s' package %s",
-        file->namenode->name, pkg_name(pkgtobesaved, pnaw_nonambig));
+        file->namenode->name, pkg_name(pkgtobesaved, pnaw_always));
 
   /* If the file is a contended one and it's overridden by either
    * the package we're considering disappearing or the package
@@ -142,7 +142,7 @@ filesavespackage(struct fileinlist *file,
   iter = filepackages_iter_new(file->namenode);
   while ((thirdpkg = filepackages_iter_next(iter))) {
     debug(dbg_eachfiledetail, "filesavespackage ... also in %s",
-          pkg_name(thirdpkg, pnaw_nonambig));
+          pkg_name(thirdpkg, pnaw_always));
 
     /* Is this not the package being installed or the one being
      * checked for disappearance? */
@@ -223,8 +223,8 @@ does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
   struct dependency *dep;
 
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",
-        pkgbin_name(newpigp, newpifp, pnaw_nonambig),
-        pkgbin_name(oldpigp, oldpifp, pnaw_nonambig),
+        pkgbin_name(newpigp, newpifp, pnaw_always),
+        pkgbin_name(oldpigp, oldpifp, pnaw_always),
         versiondescribe(&oldpifp->version, vdew_always));
   for (dep= newpifp->depends; dep; dep= dep->next) {
     if (dep->type != dep_replaces || dep->list->ed != oldpigp->set)
@@ -683,7 +683,7 @@ tarobject(void *ctx, struct tar_entry *ti)
       if (otherpkg == tc->pkg)
         continue;
       debug(dbg_eachfile, "tarobject ... found in %s",
-            pkg_name(otherpkg, pnaw_nonambig));
+            pkg_name(otherpkg, pnaw_always));
 
       if (nifd->namenode->divert && nifd->namenode->divert->useinstead) {
         /* Right, so we may be diverting this file. This makes the conflict

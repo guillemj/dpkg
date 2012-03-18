@@ -403,7 +403,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       *fixbytrig = possdependee->trigaw.head->pend;
       debug(dbg_depcondetail,
             "      triggers-awaited, fixbytrig '%s', defer",
-            pkg_name(*fixbytrig, pnaw_nonambig));
+            pkg_name(*fixbytrig, pnaw_always));
       return found_defer;
     }
     if (possdependee->clientdata &&
@@ -463,7 +463,7 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
   struct varbuf depmsg = VARBUF_INIT;
 
   debug(dbg_depcondetail, "      checking breaker %s virtbroken %s",
-        pkg_name(breaker, pnaw_nonambig),
+        pkg_name(breaker, pnaw_always),
         virtbroken ? virtbroken->name : "<none>");
 
   if (breaker->status == stat_notinstalled ||
@@ -556,8 +556,8 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   interestingwarnings= 0;
   ok = dep_check_ok;
   debug(dbg_depcon,"checking dependencies of %s (- %s)",
-        pkg_name(pkg, pnaw_nonambig),
-        removing ? pkg_name(removing, pnaw_nonambig) : "<none>");
+        pkg_name(pkg, pnaw_always),
+        removing ? pkg_name(removing, pnaw_always) : "<none>");
 
   anycannotfixbytrig = false;
   canfixbytrig = NULL;
@@ -599,7 +599,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
           if (provider->up->type != dep_provides)
             continue;
           debug(dbg_depcondetail, "     checking provider %s",
-                pkg_name(provider->up->up, pnaw_nonambig));
+                pkg_name(provider->up->up, pnaw_always));
           thisf = deppossi_ok_found(provider->up->up, pkg, removing,
                                     possi->ed,
                                     &possfixbytrig, &matched, NULL,
@@ -620,7 +620,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     }
     debug(dbg_depcondetail, "  found %d matched %d possfixbytrig %s",
           found, matched,
-          possfixbytrig ? pkg_name(possfixbytrig, pnaw_nonambig) : "-");
+          possfixbytrig ? pkg_name(possfixbytrig, pnaw_always) : "-");
     if (removing && !matched) continue;
     switch (found) {
     case found_none:

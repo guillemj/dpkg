@@ -60,14 +60,14 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
     if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
     depender= possi->up->up;
     debug(dbg_depcon, "checking depending package `%s'",
-          pkg_name(depender, pnaw_nonambig));
+          pkg_name(depender, pnaw_always));
     if (!(depender->status == stat_installed ||
           depender->status == stat_triggerspending ||
           depender->status == stat_triggersawaited))
       continue;
     if (ignore_depends(depender)) {
       debug(dbg_depcon, "ignoring depending package '%s'",
-            pkg_name(depender, pnaw_nonambig));
+            pkg_name(depender, pnaw_always));
       continue;
     }
     if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
@@ -87,7 +87,7 @@ void deferred_remove(struct pkginfo *pkg) {
   struct dependency *dep;
 
   debug(dbg_general, "deferred_remove package %s",
-        pkg_name(pkg, pnaw_nonambig));
+        pkg_name(pkg, pnaw_always));
 
   if (pkg->status == stat_notinstalled) {
     warning(_("ignoring request to remove %.250s which isn't installed."),
@@ -117,7 +117,7 @@ void deferred_remove(struct pkginfo *pkg) {
   if (!f_noact) modstatdb_note(pkg);
 
   debug(dbg_general, "checking dependencies for remove `%s'",
-        pkg_name(pkg, pnaw_nonambig));
+        pkg_name(pkg, pnaw_always));
   rok= 2;
   checkforremoval(pkg, pkg->set, &rok, &raemsgs);
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
@@ -543,7 +543,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
 void removal_bulk(struct pkginfo *pkg) {
   bool foundpostrm;
 
-  debug(dbg_general, "removal_bulk package %s", pkg_name(pkg, pnaw_nonambig));
+  debug(dbg_general, "removal_bulk package %s", pkg_name(pkg, pnaw_always));
 
   if (pkg->status == stat_halfinstalled || pkg->status == stat_unpacked) {
     removal_bulk_remove_files(pkg);
