@@ -25,7 +25,18 @@
 
 struct fieldinfo;
 
+/**
+ * Parse action.
+ */
+enum parsedbtype {
+	pdb_file_update,
+	pdb_file_status,
+	pdb_file_control,
+	pdb_file_available,
+};
+
 struct parsedb_state {
+	enum parsedbtype type;
 	enum parsedbflags flags;
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;

@@ -333,6 +333,25 @@ pkg_parse_copy(struct parsedb_state *ps,
 }
 
 /**
+ * Return a descriptive parser type.
+ */
+static enum parsedbtype
+parse_get_type(struct parsedb_state *ps, enum parsedbflags flags)
+{
+  if (flags & pdb_recordavailable) {
+    if (flags & pdb_deb_control)
+      return pdb_file_control;
+    else
+      return pdb_file_available;
+  } else {
+    if (flags & pdb_deb_control)
+      return pdb_file_update;
+    else
+      return pdb_file_status;
+  }
+}
+
+/**
  * Open a file for RFC-822 parsing.
  */
 void
@@ -343,6 +362,7 @@ parse_open(struct parsedb_state *ps, const char *filename,
   struct stat st;
 
   ps->filename = filename;
+  ps->type = parse_get_type(ps, flags);
   ps->flags = flags;
   ps->lno = 0;
   ps->pkg = NULL;
