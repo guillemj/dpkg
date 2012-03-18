@@ -312,6 +312,7 @@ enum parsedbflags {
 
   /* Standard operations. */
   pdb_parse_status = pdb_lax_parser | pdb_weakclassification,
+  pdb_parse_update = pdb_parse_status | pdb_deb_control,
   pdb_parse_available = pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
   pdb_parse_binary = pdb_recordavailable | pdb_rejectstatus | pdb_deb_control,
 };

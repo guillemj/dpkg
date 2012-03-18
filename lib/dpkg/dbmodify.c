@@ -88,7 +88,7 @@ static void cleanupdates(void) {
   if (cdn) {
     for (i=0; i<cdn; i++) {
       strcpy(updatefnrest, cdlist[i]->d_name);
-      parsedb(updatefnbuf, pdb_parse_status, NULL);
+      parsedb(updatefnbuf, pdb_parse_update, NULL);
       if (cstatus < msdbrw_write) free(cdlist[i]);
     }
 
