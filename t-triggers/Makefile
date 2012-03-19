@@ -9,10 +9,7 @@ TEST_CASES += test-trigger-cmd
 TEST_CASES += test-trigger-noawait-file
 TEST_CASES += test-trigger-noawait-explicit
 TEST_CASES += test-trigger-noawait-cmd
-
-ifeq ($(DPKG_TESTSUITE_OPTIONS),local-db)
 TEST_CASES += test-internal-db
-endif
 
 test-case: $(TEST_CASES)
 

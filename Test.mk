@@ -19,12 +19,9 @@ ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_OPTIONS += -D77777
 endif
 
-ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))
+# Always use a local db (requires at least dpkg 1.16.0)
 DPKG_ADMINDIR = ../dpkgdb
 DPKG_COMMON_OPTIONS = --admindir=$(DPKG_ADMINDIR)
-else
-DPKG_ADMINDIR = /var/lib/dpkg
-endif
 
 DPKG = dpkg $(DPKG_COMMON_OPTIONS) $(DPKG_OPTIONS)
 DPKG_INSTALL = $(BEROOT) $(DPKG) -i

@@ -6,7 +6,6 @@ include ../Test.mk
 
 PKG_TUPLE = $(DPKG_QUERY) -f '$${Package}:$${Architecture}:$${Version}' -W
 
-ifneq (,$(filter local-db,$(DPKG_TESTSUITE_OPTIONS)))
 TEST_CASES += test-dupe-multi
 TEST_CASES += test-cross-single-update
 TEST_CASES += test-cross-multi-update
@@ -15,7 +14,6 @@ TEST_CASES += test-bogus-dupe-same-single
 TEST_CASES += test-bogus-dupe-diff-single
 TEST_CASES += test-bogus-multi
 TEST_CASES += test-bogus-multi-update
-endif
 
 test-case: $(TEST_CASES)
 
