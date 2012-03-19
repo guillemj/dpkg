@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg_1.15.8.7_eu\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2011-09-23 03:37+0200\n"
+"POT-Creation-Date: 2012-03-19 07:23+0100\n"
 "PO-Revision-Date: 2010-12-16 19:28+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -26,7 +26,7 @@ msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr ""
 
 #: lib/dpkg/ar.c:81 lib/dpkg/ar.c:97 lib/dpkg/ar.c:108 lib/dpkg/ar.c:112
-#: lib/dpkg/ar.c:134 utils/update-alternatives.c:1154
+#: lib/dpkg/ar.c:134 utils/update-alternatives.c:1149
 #, c-format
 msgid "unable to write file '%s'"
 msgstr "ezin da '%s' fitxategia idatzi"
@@ -46,6 +46,82 @@ msgstr "huts egin du ar-en fitxategiaren kideari (%s) fstat lantzean"
 #| msgid "failed to fstat ar member file (%s)"
 msgid "ar member file (%s)"
 msgstr "huts egin du ar-en fitxategiaren kideari (%s) fstat lantzean"
+
+#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:135
+msgid "may not be empty string"
+msgstr "baliteke kate hutsa ez izatea"
+
+#: lib/dpkg/arch.c:66
+#, fuzzy
+#| msgid "must start with an alphanumeric"
+msgid "must start with an alphanumeric"
+msgstr "alfazenbakizko batekin hasi behar du"
+
+#: lib/dpkg/arch.c:73 lib/dpkg/parsehelp.c:143
+#, c-format
+msgid "character `%c' not allowed (only letters, digits and characters `%s')"
+msgstr "'%c' karakterea ez da onartzen (letrak, digituak eta %s soilik)"
+
+#: lib/dpkg/arch.c:312
+#, fuzzy
+#| msgid "error writing to '%s'"
+msgid "error writing to architecture list"
+msgstr "errorea '%s'(e)n idaztean"
+
+#: lib/dpkg/atomic-file.c:57
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "unable to create new file '%.250s'"
+msgstr "ezin da '%s' fitxategia idatzi"
+
+#: lib/dpkg/atomic-file.c:68
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "unable to write new file '%.250s'"
+msgstr "ezin da '%s' fitxategia idatzi"
+
+#: lib/dpkg/atomic-file.c:70
+#, fuzzy, c-format
+#| msgid "unable to flush file '%s'"
+msgid "unable to flush new file '%.250s'"
+msgstr "ezin da '%s' fitxategia garbitu"
+
+#: lib/dpkg/atomic-file.c:72
+#, fuzzy, c-format
+#| msgid "unable to sync file '%.255s'"
+msgid "unable to sync new file '%.250s'"
+msgstr "ezin da'%.255s' fitxategia sinkronizatu"
+
+#: lib/dpkg/atomic-file.c:81
+#, fuzzy, c-format
+#| msgid "unable to stat other new file `%.250s'"
+msgid "unable to close new file `%.250s'"
+msgstr "ezin da beste '%.250s' fitxategiaren egoera eskuratu"
+
+#: lib/dpkg/atomic-file.c:92
+#, fuzzy, c-format
+#| msgid "error removing old diversions-old"
+msgid "error removing old backup file '%s'"
+msgstr "errorea diversions-old zaharra kentzean"
+
+#: lib/dpkg/atomic-file.c:94
+#, fuzzy, c-format
+#| msgid "error creating pipe `%.255s'"
+msgid "error creating new backup file '%s'"
+msgstr "errorea '%.255s' kanalizazioa sortzean"
+
+#: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
+#: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
+#: src/infodb-upgrade.c:200 src/remove.c:337 src/remove.c:428
+#, c-format
+msgid "cannot remove `%.250s'"
+msgstr "ezin da '%.250s' kendu"
+
+#: lib/dpkg/atomic-file.c:115
+#, fuzzy, c-format
+#| msgid "error installing new diversions"
+msgid "error installing new file '%s'"
+msgstr "errorea desbiderapen berria instalatzean"
 
 #: lib/dpkg/buffer.c:196
 #, c-format
@@ -68,91 +144,97 @@ msgstr "%s(r)en bufferraren kopiaren irakurketa laburra"
 msgid "failed to seek %s"
 msgstr "huts egin du tar exekutatzean"
 
-#: lib/dpkg/command.c:178 lib/dpkg/command.c:204 src/help.c:621
-#: src/processarc.c:98 src/processarc.c:138 src/processarc.c:432
-#: src/processarc.c:839 dpkg-deb/build.c:459 dpkg-deb/build.c:538
-#: dpkg-deb/build.c:561 dpkg-deb/extract.c:317 dpkg-deb/info.c:65
-#: dpkg-split/split.c:69 utils/update-alternatives.c:457
+#: lib/dpkg/command.c:178 lib/dpkg/command.c:204 src/help.c:647
+#: src/processarc.c:102 src/processarc.c:142 src/processarc.c:471
+#: src/processarc.c:912 dpkg-deb/build.c:461 dpkg-deb/build.c:546
+#: dpkg-deb/build.c:569 dpkg-deb/extract.c:317 dpkg-deb/info.c:65
+#: dpkg-split/split.c:69 utils/update-alternatives.c:452
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "ezin da %s (%s) exekutatu"
 
-#: lib/dpkg/compress.c:83
+#: lib/dpkg/compress.c:97 lib/dpkg/compress.c:380
+#, fuzzy
+#| msgid "unknown compression type `%s'!"
+msgid "unknown compression strategy"
+msgstr "%s konpresio mota ezezaguna!"
+
+#: lib/dpkg/compress.c:112
 #, c-format
 msgid "%s: decompression"
 msgstr "%s: deskonpresioa"
 
-#: lib/dpkg/compress.c:89
+#: lib/dpkg/compress.c:118
 #, c-format
 msgid "%s: compression"
 msgstr "%s: konpresioa"
 
-#: lib/dpkg/compress.c:112
+#: lib/dpkg/compress.c:151
 #, c-format
 msgid "%s: error binding input to gzip stream"
 msgstr "%s: errorea sarrera gzip korrontearekin lotzean"
 
-#: lib/dpkg/compress.c:124
+#: lib/dpkg/compress.c:163
 #, c-format
 msgid "%s: internal gzip read error: '%s'"
 msgstr "%s: gzip-en irakurketaren barneko errorea: '%s'"
 
-#: lib/dpkg/compress.c:132 lib/dpkg/compress.c:136
+#: lib/dpkg/compress.c:171 lib/dpkg/compress.c:175
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: gzip-en idazketaren barneko errorea"
 
-#: lib/dpkg/compress.c:150
+#: lib/dpkg/compress.c:189
 #, c-format
 msgid "%s: error binding output to gzip stream"
 msgstr "%s: errorea irteera gzip korrontearekin lotzean"
 
-#: lib/dpkg/compress.c:157
+#: lib/dpkg/compress.c:196
 #, c-format
 msgid "%s: internal gzip read error"
 msgstr "%s: gzip-en irakurketaren barneko errorea"
 
-#: lib/dpkg/compress.c:167
+#: lib/dpkg/compress.c:206
 #, c-format
 msgid "%s: internal gzip write error: '%s'"
 msgstr "%s: gzip-en idazketaren barneko errorea: '%s'"
 
-#: lib/dpkg/compress.c:180
+#: lib/dpkg/compress.c:219
 #, c-format
 msgid "%s: internal gzip write error: %s"
 msgstr "%s: gzip-en idazketaren barneko errorea: %s"
 
-#: lib/dpkg/compress.c:220
+#: lib/dpkg/compress.c:269
 #, c-format
 msgid "%s: error binding input to bzip2 stream"
 msgstr "%s: errorea sarrera bzip2 korrontearekin lotzean"
 
-#: lib/dpkg/compress.c:232
+#: lib/dpkg/compress.c:281
 #, c-format
 msgid "%s: internal bzip2 read error: '%s'"
 msgstr "%s: bzip2-en irakurketaren barneko errorea: '%s'"
 
-#: lib/dpkg/compress.c:240 lib/dpkg/compress.c:244 lib/dpkg/compress.c:294
+#: lib/dpkg/compress.c:289 lib/dpkg/compress.c:293 lib/dpkg/compress.c:343
 #, c-format
 msgid "%s: internal bzip2 write error"
 msgstr "%s: bzip2-en idazketaren barneko errorea"
 
-#: lib/dpkg/compress.c:258
+#: lib/dpkg/compress.c:307
 #, c-format
 msgid "%s: error binding output to bzip2 stream"
 msgstr "%s: errorea irteera bzip2-ren korrontearekin lotzean"
 
-#: lib/dpkg/compress.c:265
+#: lib/dpkg/compress.c:314
 #, c-format
 msgid "%s: internal bzip2 read error"
 msgstr "%s: bzip2-en irakurketaren barneko errorea"
 
-#: lib/dpkg/compress.c:275 lib/dpkg/compress.c:286
+#: lib/dpkg/compress.c:324 lib/dpkg/compress.c:335
 #, c-format
 msgid "%s: internal bzip2 write error: '%s'"
 msgstr "%s: bzip2-en idazketaren barneko errorea: '%s'"
 
-#: lib/dpkg/compress.c:282
+#: lib/dpkg/compress.c:331
 msgid "unexpected bzip2 error"
 msgstr "ustekabeko bzip2 errorea"
 
@@ -178,93 +260,93 @@ msgstr ""
 msgid "cannot scan updates directory `%.255s'"
 msgstr "ezin da '%.255s' eguneratzeen direktorioa aztertu"
 
-#: lib/dpkg/dbmodify.c:102
+#: lib/dpkg/dbmodify.c:101
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
 msgstr "huts egin du %.255s eguneratze fitxategi inkorporatua kentzean"
 
-#: lib/dpkg/dbmodify.c:121 dpkg-deb/build.c:447
+#: lib/dpkg/dbmodify.c:120 dpkg-deb/build.c:449
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "ezin da '%.255s' sortu"
 
-#: lib/dpkg/dbmodify.c:125
+#: lib/dpkg/dbmodify.c:124
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr "ezin da bete %.250s betegarriarekin"
 
-#: lib/dpkg/dbmodify.c:127
+#: lib/dpkg/dbmodify.c:126
 #, c-format
 msgid "unable to flush %.250s after padding"
 msgstr "ezin da %.250s hustu bete ondoren"
 
-#: lib/dpkg/dbmodify.c:129
+#: lib/dpkg/dbmodify.c:128
 #, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "ezin da joan %.250s(r)en hasierara bete ondoren"
 
-#: lib/dpkg/dbmodify.c:195
+#: lib/dpkg/dbmodify.c:194
 #, c-format
 msgid "unable to open lock file %s for testing"
 msgstr "ezin da blokeoaren %s fitxategia ireki probatzeko"
 
-#: lib/dpkg/dbmodify.c:221
+#: lib/dpkg/dbmodify.c:220
 msgid "unable to open/create status database lockfile"
 msgstr "ezin da ireki/sortu egoeraren datu-basea blokeatzeko fitxategia"
 
-#: lib/dpkg/dbmodify.c:231
+#: lib/dpkg/dbmodify.c:230
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "ez duzu baimenik dpkg egoeraren datu-basea blokeatzeko"
 
-#: lib/dpkg/dbmodify.c:233
+#: lib/dpkg/dbmodify.c:232
 #, fuzzy
 #| msgid "unable to lock dpkg status database"
 msgid "dpkg status database"
 msgstr "ezin da blokeatu dpkg egoeraren datu-basea"
 
-#: lib/dpkg/dbmodify.c:257
+#: lib/dpkg/dbmodify.c:256
 msgid "requested operation requires superuser privilege"
 msgstr "eskatutako eragiketak supererabiltzailearen baimena behar du"
 
-#: lib/dpkg/dbmodify.c:262
+#: lib/dpkg/dbmodify.c:261
 msgid "unable to access dpkg status area"
 msgstr "ezin da sartu dpkg egoera eremuan"
 
-#: lib/dpkg/dbmodify.c:264
+#: lib/dpkg/dbmodify.c:263
 msgid "operation requires read/write access to dpkg status area"
 msgstr "eragiketak dpkg egoera eremuan irakurri/idazteko sarbidea behar du"
 
-#: lib/dpkg/dbmodify.c:309
+#: lib/dpkg/dbmodify.c:314
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "huts egin du nire %.255s eguneratze fitxategia kentzean"
 
-#: lib/dpkg/dbmodify.c:347
+#: lib/dpkg/dbmodify.c:352
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "ezin da egoera eguneratua idatzi - '%.250s'"
 
-#: lib/dpkg/dbmodify.c:349
+#: lib/dpkg/dbmodify.c:355
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "ezin da egoera eguneratua hustu - '%.250s'"
 
-#: lib/dpkg/dbmodify.c:351
+#: lib/dpkg/dbmodify.c:358
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "ezin da egoera eguneratua trunkatu - '%.250s'"
 
-#: lib/dpkg/dbmodify.c:353
+#: lib/dpkg/dbmodify.c:361
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "ezin da egoera eguneratua sinkronizatu - '%.250s'"
 
-#: lib/dpkg/dbmodify.c:355
+#: lib/dpkg/dbmodify.c:364
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "ezin da egoera eguneratua itxi - '%.250s'"
 
-#: lib/dpkg/dbmodify.c:358
+#: lib/dpkg/dbmodify.c:368
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "ezin da egoera eguneratua instalatu - '%.250s'"
@@ -287,74 +369,42 @@ msgstr "ezin da '%s' fitxategia sinkronizatu"
 msgid "unable to open directory '%s'"
 msgstr "ezin da '%.250s' fitxategia ireki"
 
-#: lib/dpkg/dir.c:109 src/divertcmd.c:218 dpkg-split/split.c:202
-#: utils/update-alternatives.c:1293
+#: lib/dpkg/dir.c:109 src/divertcmd.c:216 dpkg-split/split.c:202
+#: utils/update-alternatives.c:1288
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "ezin da '%.250s' fitxategia ireki"
 
-#: lib/dpkg/dir.c:111 src/divertcmd.c:232 src/divertcmd.c:377
-#: src/statcmd.c:217 dpkg-deb/build.c:598 dpkg-split/join.c:65
-#: dpkg-split/queue.c:187 utils/update-alternatives.c:1406
+#: lib/dpkg/dir.c:111 src/divertcmd.c:230 dpkg-deb/build.c:607
+#: dpkg-split/join.c:65 dpkg-split/queue.c:187
+#: utils/update-alternatives.c:1401
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ezin da '%s' fitxategia sinkronizatu"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:234 src/divertcmd.c:379
-#: dpkg-deb/build.c:600 dpkg-split/join.c:67 dpkg-split/queue.c:189
-#: utils/update-alternatives.c:1314 utils/update-alternatives.c:1408
+#: lib/dpkg/dir.c:113 src/divertcmd.c:232 dpkg-deb/build.c:609
+#: dpkg-split/join.c:67 dpkg-split/queue.c:189
+#: utils/update-alternatives.c:1309 utils/update-alternatives.c:1403
 #, c-format
 msgid "unable to close file '%s'"
 msgstr "ezin da '%s' fitxategia itxi"
 
-#: lib/dpkg/dump.c:396
+#: lib/dpkg/dump.c:448
 #, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr "huts egin du '%.50s'(r)en xehetasunak '%.250s'(e)n idaztean"
 
-#: lib/dpkg/dump.c:423
-#, c-format
-msgid "failed to open '%s' for writing %s database"
-msgstr "huts egin du '%s' irekitzean %s datu-basea idazteko"
-
-#: lib/dpkg/dump.c:426
+#: lib/dpkg/dump.c:472
 #, c-format
 msgid "unable to set buffering on %s database file"
 msgstr "ezin da bufferrik ezarri %s datu-basearen fitxategian"
 
-#: lib/dpkg/dump.c:438
+#: lib/dpkg/dump.c:484
 #, c-format
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr ""
 "huts egin du %s datu-basearen erregistroa '%.50s'(r)i buruz idaztean - "
 "'%.250s'"
-
-#: lib/dpkg/dump.c:446
-#, c-format
-msgid "failed to flush %s database to '%.250s'"
-msgstr "huts egin du %s datu-basea hustean - '%.250s'"
-
-#: lib/dpkg/dump.c:448
-#, c-format
-msgid "failed to fsync %s database to '%.250s'"
-msgstr "huts egin du %s datu-basea '%.250s'(r)ekin sinkronizatzean"
-
-#: lib/dpkg/dump.c:451
-#, c-format
-msgid "failed to close '%.250s' after writing %s database"
-msgstr "huts egin du '%.250s' ixtean %s datu-basea idatzi ondoren"
-
-#: lib/dpkg/dump.c:455
-#, c-format
-msgid "failed to link '%.250s' to '%.250s' for backup of %s database"
-msgstr ""
-"huts egin du '%.250s' eta '%.250s' estekatzean, %s datu-basearen babeskopia "
-"egiteko"
-
-#: lib/dpkg/dump.c:458
-#, c-format
-msgid "failed to install '%.250s' as '%.250s' containing %s database"
-msgstr "huts egin du '%.250s' '%.250s' gisa instalatzean %s datu-basearekin"
 
 #: lib/dpkg/ehandle.c:94
 #, c-format
@@ -422,109 +472,118 @@ msgstr "%s: abisua: %s\n"
 msgid "%s:%s:%d: internal error: %s\n"
 msgstr "%s:%s:%d: barneko errorea: %s\n"
 
-#: lib/dpkg/fields.c:45
+#: lib/dpkg/fields.c:51
 #, c-format
 msgid "%s is missing"
 msgstr "%s falta da"
 
-#: lib/dpkg/fields.c:49
+#: lib/dpkg/fields.c:55
 #, fuzzy, c-format
 #| msgid "`%.*s' is not allowed for %s"
 msgid "'%.50s' is not allowed for %s"
 msgstr "'%.*s' - ez du baimenik honetarako: %s"
 
-#: lib/dpkg/fields.c:73
+#: lib/dpkg/fields.c:79
 #, c-format
 msgid "junk after %s"
 msgstr "honen ondorengoak baztergarriak: %s"
 
-#: lib/dpkg/fields.c:87
+#: lib/dpkg/fields.c:93
 #, c-format
 msgid "invalid package name (%.250s)"
 msgstr "paketearen izena baliogabea (%.250s)"
 
-#: lib/dpkg/fields.c:102
+#: lib/dpkg/fields.c:108
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "fitxategiaren xehetasunen '%s' eremua hutsik dago"
 
-#: lib/dpkg/fields.c:105
+#: lib/dpkg/fields.c:111
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremua ez da onartzen egoeraren fitxategian"
 
-#: lib/dpkg/fields.c:118
+#: lib/dpkg/fields.c:124
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremuan balio gehiegi (beste batzuen aldean)"
 
-#: lib/dpkg/fields.c:132
+#: lib/dpkg/fields.c:138
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremuan balio gutxiegi (beste batzuen aldean)"
 
-#: lib/dpkg/fields.c:154
+#: lib/dpkg/fields.c:160
 msgid "yes/no in boolean field"
 msgstr "bai/ez eremu boolearrean"
 
-#: lib/dpkg/fields.c:174
+#: lib/dpkg/fields.c:175
+msgid "foreign/allowed/same/no in quadstate field"
+msgstr ""
+
+#: lib/dpkg/fields.c:187
+#, c-format
+msgid "'%s' is not a valid architecture name: %s"
+msgstr ""
+
+#: lib/dpkg/fields.c:206
 msgid "word in `priority' field"
 msgstr "'priority' eremuko hitza"
 
-#: lib/dpkg/fields.c:186
+#: lib/dpkg/fields.c:218
 msgid "value for `status' field not allowed in this context"
 msgstr "'status' eremuko balioa ez da onartzen testuinguru honetan"
 
-#: lib/dpkg/fields.c:191
+#: lib/dpkg/fields.c:223
 msgid "first (want) word in `status' field"
 msgstr "'status' eremuko lehenengo hitza (nahia)"
 
-#: lib/dpkg/fields.c:194
+#: lib/dpkg/fields.c:226
 msgid "second (error) word in `status' field"
 msgstr "'status' eremuko bigarren hitza (errorea)"
 
-#: lib/dpkg/fields.c:197
+#: lib/dpkg/fields.c:229
 msgid "third (status) word in `status' field"
 msgstr "'status' eremuko hirugarren hitza (egoera)"
 
-#: lib/dpkg/fields.c:207
+#: lib/dpkg/fields.c:239
 #, c-format
 msgid "error in Version string '%.250s'"
 msgstr "errorea '%.250s' Version katean"
 
-#: lib/dpkg/fields.c:218
+#: lib/dpkg/fields.c:250
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "'Revision' edo 'Package-Revision' eremu zaharkituak erabili dira"
 
-#: lib/dpkg/fields.c:235
+#: lib/dpkg/fields.c:267
 msgid "value for `config-version' field not allowed in this context"
 msgstr "'config-version' eremuko balioa ez da onartzen testuinguru honetan"
 
-#: lib/dpkg/fields.c:240
+#: lib/dpkg/fields.c:272
 #, c-format
 msgid "error in Config-Version string '%.250s'"
 msgstr "errorea '%.250s' Config-Version katean"
 
-#: lib/dpkg/fields.c:266
+#: lib/dpkg/fields.c:298
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "'conffiles' balioak '%.*s' lerroa gaizki osatuta dauka"
 
-#: lib/dpkg/fields.c:287
+#: lib/dpkg/fields.c:320
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "'conffiles' balioko lerroa zuriunea ez den '%c' karakterearekin hasten da"
 
-#: lib/dpkg/fields.c:304
+#: lib/dpkg/fields.c:337
 msgid "root or null directory is listed as a conffile"
 msgstr ""
 "erroko direktorioa edo direktorio baliogabea conffile gisa zerrendatu da"
 
-#: lib/dpkg/fields.c:365
+#: lib/dpkg/fields.c:395
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -532,12 +591,37 @@ msgstr ""
 "'%s' eremua, paketearen izena falta da, edo zaborra dago paketearen izena "
 "espero zen lekuan"
 
-#: lib/dpkg/fields.c:370
+#: lib/dpkg/fields.c:405
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "'%s' eremua, '%.255s' paketearen izen baliogabea: %s"
 
-#: lib/dpkg/fields.c:406
+#: lib/dpkg/fields.c:434
+#, fuzzy, c-format
+#| msgid ""
+#| "`%s' field, missing package name, or garbage where package name expected"
+msgid ""
+"'%s' field, missing architecture name, or garbage where architecture name "
+"expected"
+msgstr ""
+"'%s' eremua, paketearen izena falta da, edo zaborra dago paketearen izena "
+"espero zen lekuan"
+
+#: lib/dpkg/fields.c:447
+#, fuzzy
+#| msgid "%d file or directory currently installed.)\n"
+#| msgid_plural "%d files and directories currently installed.)\n"
+msgid "a value different from 'any' is currently not allowed"
+msgstr "fitxategi edo direktorio %d dago unean instalatuta).\n"
+
+#: lib/dpkg/fields.c:449
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': error in version"
+msgid ""
+"'%s' field, reference to '%.255s': invalid architecture name '%.255s': %s"
+msgstr "'%s' eremua, erreferentzia: '%.255s': errorea bertsioan"
+
+#: lib/dpkg/fields.c:483
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -546,7 +630,7 @@ msgstr ""
 "'%s' eremua, honekiko erreferentzia: '%.255s':\n"
 " %c%c bertsio erlazio okerra"
 
-#: lib/dpkg/fields.c:412
+#: lib/dpkg/fields.c:489
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -555,7 +639,7 @@ msgstr ""
 "'%s' eremua, honekiko erreferentzia: '%.255s':\n"
 " '%c' zaharkitua dago; horren ordez, erabili '%c=' edo '%c%c'"
 
-#: lib/dpkg/fields.c:422
+#: lib/dpkg/fields.c:499
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -565,11 +649,11 @@ msgstr ""
 " balio zehatz inplizitua bertsio zenbakian; horren ordez '=' erabiltzea "
 "gomendatzen da"
 
-#: lib/dpkg/fields.c:430
+#: lib/dpkg/fields.c:507
 msgid "Only exact versions may be used for Provides"
 msgstr "Bertsio zehatzak bakarrik erabil daitezke Provides eremuan"
 
-#: lib/dpkg/fields.c:434
+#: lib/dpkg/fields.c:511
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -579,56 +663,56 @@ msgstr ""
 " bertsioaren balioa alfanumerikoa ez den batekin hasten da; zuriune bat "
 "gehitzea gomendatzen da"
 
-#: lib/dpkg/fields.c:451 lib/dpkg/fields.c:455
+#: lib/dpkg/fields.c:528 lib/dpkg/fields.c:532
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
 msgstr "'%s' eremua, honekiko erreferentzia: '%.255s': bertsioak '%c' dauka"
 
-#: lib/dpkg/fields.c:459
+#: lib/dpkg/fields.c:536
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "'%s' eremua, honekiko erreferentzia: '%.255s': bertsioa osatu gabe"
 
-#: lib/dpkg/fields.c:465
+#: lib/dpkg/fields.c:542
 #, c-format
 msgid "'%s' field, reference to '%.255s': error in version"
 msgstr "'%s' eremua, erreferentzia: '%.255s': errorea bertsioan"
 
-#: lib/dpkg/fields.c:475
+#: lib/dpkg/fields.c:552
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr ""
 "'%s' eremua, sintaxi errorea'%.255s' paketearen erreferentziaren ondoren"
 
-#: lib/dpkg/fields.c:482
+#: lib/dpkg/fields.c:559
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "aukera alternatiborik ('|') ez da onartzen %s eremuan"
 
-#: lib/dpkg/fields.c:536
+#: lib/dpkg/fields.c:613
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr "'triggers-pending' eremuko balioa ez da onartzen testuinguru honetan"
 
-#: lib/dpkg/fields.c:543
+#: lib/dpkg/fields.c:620
 #, c-format
 msgid "illegal pending trigger name `%.255s': %s"
 msgstr "legezkanpoko burutu gabeko '%.255s' abiarazle-izena: %s"
 
-#: lib/dpkg/fields.c:547
+#: lib/dpkg/fields.c:624
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
 msgstr "bikoizturiko burutu gabeko '%.255s' abiarazlea"
 
-#: lib/dpkg/fields.c:561
+#: lib/dpkg/fields.c:638
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr "'triggers-awaited' eremuko balioa ez da onartzen testuinguru honetan"
 
-#: lib/dpkg/fields.c:568
+#: lib/dpkg/fields.c:647
 #, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
 msgstr "legezkanpoko pakete izena espero zen '%.255s' abiarazlean: %s"
 
-#: lib/dpkg/fields.c:574
+#: lib/dpkg/fields.c:652
 #, c-format
 msgid "duplicate awaited trigger package `%.255s'"
 msgstr "espero zen '%.255s' abiarazle paketea bikoiztuta"
@@ -685,48 +769,36 @@ msgstr "<paketearen egoera eta aurrerapenaren fitxategiaren deskriptorea>"
 msgid "unable to write to status fd %d"
 msgstr "ezin da %d. fd-aren egoeran idatzi"
 
-#: lib/dpkg/mlib.c:44 utils/update-alternatives.c:262
-#, fuzzy, c-format
-#| msgid "malloc failed (%ld bytes)"
-msgid "malloc failed (%zu bytes)"
-msgstr "malloc-ek huts egin du (%ld byte)"
-
-#: lib/dpkg/mlib.c:58
-#, fuzzy, c-format
-#| msgid "realloc failed (%ld bytes)"
-msgid "realloc failed (%zu bytes)"
-msgstr "realloc-ek huts egin du (%ld byte)"
-
-#: lib/dpkg/mlib.c:72 lib/dpkg/mlib.c:90 utils/update-alternatives.c:277
-#: utils/update-alternatives.c:334 utils/update-alternatives.c:1107
+#: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:272
+#: utils/update-alternatives.c:329 utils/update-alternatives.c:1102
 msgid "failed to allocate memory"
 msgstr "huts egin du memoria esleitzean"
 
-#: lib/dpkg/mlib.c:102
+#: lib/dpkg/mlib.c:106
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "std%s: huts egin du 'dup' egitean"
 
-#: lib/dpkg/mlib.c:103
+#: lib/dpkg/mlib.c:107
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "fd %d: huts egin du 'dup' egitean"
 
-#: lib/dpkg/mlib.c:109
+#: lib/dpkg/mlib.c:113
 msgid "failed to create pipe"
 msgstr "huts egin du kanalizazioa sortzean"
 
-#: lib/dpkg/mlib.c:117
+#: lib/dpkg/mlib.c:121
 #, c-format
 msgid "error writing to '%s'"
 msgstr "errorea '%s'(e)n idaztean"
 
-#: lib/dpkg/mlib.c:124
+#: lib/dpkg/mlib.c:128
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "ezin da irakurri fitxategiaren deskriptorea - %.250s"
 
-#: lib/dpkg/mlib.c:126
+#: lib/dpkg/mlib.c:130
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "ezin da ezarri close-on-exec bandera - %.250s"
@@ -817,129 +889,165 @@ msgstr "aukera zaharkitua '--%s'\n"
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "ekintza gatazkatsuak -%c (--%s) eta -%c (--%s)"
 
-#: lib/dpkg/parse.c:134
+#: lib/dpkg/parse.c:137
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "balio bikoiztua '%s' eremuan"
 
-#: lib/dpkg/parse.c:146
+#: lib/dpkg/parse.c:149
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "erabiltzaileak definitutako '%.*s' eremu izena laburregia da"
 
-#: lib/dpkg/parse.c:152
+#: lib/dpkg/parse.c:155
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "balio bikoiztua erabiltzaileak definitutako '%.*s' eremuan"
 
-#: lib/dpkg/parse.c:207
+#: lib/dpkg/parse.c:200 lib/dpkg/parsehelp.c:306 lib/dpkg/parsehelp.c:318
+#, c-format
+msgid "missing %s"
+msgstr "%s falta da"
+
+#: lib/dpkg/parse.c:202 lib/dpkg/parsehelp.c:308 lib/dpkg/parsehelp.c:321
+#, c-format
+msgid "empty value for %s"
+msgstr "%s: balio hutsa"
+
+#: lib/dpkg/parse.c:210
+#, c-format
+msgid "package has field '%s' but is missing architecture"
+msgstr ""
+
+#: lib/dpkg/parse.c:213
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are awaited"
+msgid "package has field '%s' but is architecture all"
+msgstr "paketeak %s egoera zuen baina abiarazleak espero dira"
+
+#: lib/dpkg/parse.c:231
 msgid "Configured-Version for package with inappropriate Status"
 msgstr "Paketearen 'Configured-Version' egoera desegokiarekin"
 
-#: lib/dpkg/parse.c:218
+#: lib/dpkg/parse.c:242
 #, c-format
 msgid "package has status %s but triggers are awaited"
 msgstr "paketeak %s egoera zuen baina abiarazleak espero dira"
 
-#: lib/dpkg/parse.c:222
+#: lib/dpkg/parse.c:246
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr "paketeak 'triggers-awaited' egoera du baina ez zen abiarazlerik espero"
 
-#: lib/dpkg/parse.c:228
+#: lib/dpkg/parse.c:252
 #, c-format
 msgid "package has status %s but triggers are pending"
 msgstr "paketeak %s egoera du baina abiarazleak falta dira"
 
-#: lib/dpkg/parse.c:232
+#: lib/dpkg/parse.c:256
 msgid "package has status triggers-pending but no triggers pending"
 msgstr "paketeak 'triggers-pending' egoera du baina ez da abiarazlerik falta"
 
-#: lib/dpkg/parse.c:242
+#: lib/dpkg/parse.c:266
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
 "Instalatu gabeko egoeran konfigurazioko fitxategiak dituen paketea: ahaztu "
 "egingo dira"
 
-#: lib/dpkg/parse.c:335
+#: lib/dpkg/parse.c:344
+msgid "package contains multiple non-coinstallable instances"
+msgstr ""
+
+#: lib/dpkg/parse.c:347
+msgid "package with a mix of non-coinstallable and coinstallable instances"
+msgstr ""
+
+#: lib/dpkg/parse.c:406
+#, c-format
+msgid ""
+"%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
+"installed instances"
+msgstr ""
+
+#: lib/dpkg/parse.c:520
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr ""
 "huts egin du '%.255s' paketearen informazio fitxategia irekitzean irakurtzeko"
 
-#: lib/dpkg/parse.c:341
+#: lib/dpkg/parse.c:526
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr "ezin da '%.255s' paketearen informazio fitxategian 'stat' egin"
 
-#: lib/dpkg/parse.c:347
+#: lib/dpkg/parse.c:532
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr "ezin da '%.255s' paketearen informazio fitxategian 'mmap' egin"
 
-#: lib/dpkg/parse.c:352
+#: lib/dpkg/parse.c:537
 #, fuzzy, c-format
 #| msgid "can't stat package info file `%.255s'"
 msgid "reading package info file '%.255s'"
 msgstr "ezin da '%.255s' paketearen informazio fitxategian 'stat' egin"
 
-#: lib/dpkg/parse.c:363
+#: lib/dpkg/parse.c:548
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "huts egin du irakurri ondoren ixtean: '%.255s'"
 
-#: lib/dpkg/parse.c:404
+#: lib/dpkg/parse.c:589
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "EOF '%.*s' eremu izenaren ondoren"
 
-#: lib/dpkg/parse.c:407
+#: lib/dpkg/parse.c:592
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "lerro-jauzia '%.*s' eremu izenean"
 
-#: lib/dpkg/parse.c:410
+#: lib/dpkg/parse.c:595
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "MSDOS EOF (^Z) '%.*s' eremu izenean"
 
-#: lib/dpkg/parse.c:414
+#: lib/dpkg/parse.c:599
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "'%.*s' eremu izenaren ondoren bi puntu behar dira"
 
-#: lib/dpkg/parse.c:425
+#: lib/dpkg/parse.c:610
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr "EOF '%.*s' eremuko balioaren aurretik (amaierako lerro-jauzia falta)"
 
-#: lib/dpkg/parse.c:429
+#: lib/dpkg/parse.c:614
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "MSDOS EOF karakterea '%.*s' eremuko balioan (lerro-jauzia falta?)"
 
-#: lib/dpkg/parse.c:440
+#: lib/dpkg/parse.c:625
 #, fuzzy, c-format
 #| msgid "newline in field name `%.*s'"
 msgid "blank line in value of field '%.*s'"
 msgstr "lerro-jauzia '%.*s' eremu izenean"
 
-#: lib/dpkg/parse.c:461
+#: lib/dpkg/parse.c:646
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "EOF '%.*s' eremuko balioan (amaierako lerro-jauzia falta da)"
 
-#: lib/dpkg/parse.c:546
+#: lib/dpkg/parse.c:731
 msgid "several package info entries found, only one allowed"
 msgstr ""
 "paketearen informazio-sarrera bat baino gehiago dago; bat bakarrik onartzen "
 "da"
 
-#: lib/dpkg/parse.c:572
+#: lib/dpkg/parse.c:757
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "paketearen informaziorik ez: '%.255s'"
 
-#: lib/dpkg/parsehelp.c:45
+#: lib/dpkg/parsehelp.c:46
 #, fuzzy, c-format
 #| msgid ""
 #| "%s, in file '%.255s' near line %d package '%.255s':\n"
@@ -951,7 +1059,7 @@ msgstr ""
 "%s, '%.255s' fitxategian %d. lerrotik gertu '%.255s' paketean.\n"
 " "
 
-#: lib/dpkg/parsehelp.c:48
+#: lib/dpkg/parsehelp.c:50
 #, fuzzy, c-format
 #| msgid ""
 #| "%s, in file '%.255s' near line %d:\n"
@@ -963,79 +1071,77 @@ msgstr ""
 "%s, '%.255s' fitxategian %d. lerrotik gertu:\n"
 " "
 
-#: lib/dpkg/parsehelp.c:125
-msgid "may not be empty string"
-msgstr "baliteke kate hutsa ez izatea"
-
-#: lib/dpkg/parsehelp.c:127
+#: lib/dpkg/parsehelp.c:137
 #, fuzzy
 #| msgid "must start with an alphanumeric"
 msgid "must start with an alphanumeric character"
 msgstr "alfazenbakizko batekin hasi behar du"
 
-#: lib/dpkg/parsehelp.c:136
-#, c-format
-msgid "character `%c' not allowed (only letters, digits and characters `%s')"
-msgstr "'%c' karakterea ez da onartzen (letrak, digituak eta %s soilik)"
-
-#: lib/dpkg/parsehelp.c:178
+#: lib/dpkg/parsehelp.c:185
 #, fuzzy
 #| msgid "<none>"
 msgctxt "version"
 msgid "<none>"
 msgstr "<bat ere ez>"
 
-#: lib/dpkg/parsehelp.c:209
+#: lib/dpkg/parsehelp.c:216
 msgid "version string is empty"
 msgstr "bertsioaren katea hutsik dago"
 
-#: lib/dpkg/parsehelp.c:224
+#: lib/dpkg/parsehelp.c:231
 msgid "version string has embedded spaces"
 msgstr "bertsioaren kateak zuriune kapsulatuak ditu"
 
-#: lib/dpkg/parsehelp.c:230
+#: lib/dpkg/parsehelp.c:237
 msgid "epoch in version is not number"
 msgstr "bertsioko aroa ez da zenbaki bat"
 
-#: lib/dpkg/parsehelp.c:232
+#: lib/dpkg/parsehelp.c:239
 msgid "nothing after colon in version number"
 msgstr "ez dago ezer bi puntuen ondoren bertsio zenbakian"
 
-#: lib/dpkg/parsehelp.c:247
+#: lib/dpkg/parsehelp.c:254
 msgid "version number does not start with digit"
 msgstr ""
 
-#: lib/dpkg/parsehelp.c:250
+#: lib/dpkg/parsehelp.c:257
 msgid "invalid character in version number"
 msgstr "karaktere baliogabea bertsio zenbakian"
 
-#: lib/dpkg/parsehelp.c:254
+#: lib/dpkg/parsehelp.c:261
 msgid "invalid character in revision number"
 msgstr "karaktere baliogabea gainbegiraketaren zenbakian"
 
-#: lib/dpkg/parsehelp.c:299 lib/dpkg/parsehelp.c:311
+#: lib/dpkg/pkg-db.c:163 lib/dpkg/pkg-spec.c:97
 #, c-format
-msgid "missing %s"
-msgstr "%s falta da"
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr ""
 
-#: lib/dpkg/parsehelp.c:301 lib/dpkg/parsehelp.c:314
-#, c-format
-msgid "empty value for %s"
-msgstr "%s: balio hutsa"
-
-#: lib/dpkg/pkg-format.c:80
+#: lib/dpkg/pkg-format.c:82
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr "baliogabeko '%c' karakterea eremuaren zabaleran\n"
 
-#: lib/dpkg/pkg-format.c:172
+#: lib/dpkg/pkg-format.c:174
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Itxierako giltza falta da formatuan\n"
 
-#: lib/dpkg/pkg-show.c:40
+#: lib/dpkg/pkg-show.c:141
 msgid "(no description available)"
 msgstr "(azalpena ez dago erabilgarri)"
+
+#: lib/dpkg/pkg-spec.c:71
+#, fuzzy, c-format
+#| msgid "illegal package name in awaited trigger `%.255s': %s"
+msgid "illegal package name in specifier '%s%s%s': %s"
+msgstr "legezkanpoko pakete izena espero zen '%.255s' abiarazlean: %s"
+
+#: lib/dpkg/pkg-spec.c:81
+#, fuzzy, c-format
+#| msgid "illegal package name in awaited trigger `%.255s': %s"
+msgid "illegal architecture name in specifier '%s:%s': %s"
+msgstr "legezkanpoko pakete izena espero zen '%.255s' abiarazlean: %s"
 
 #: lib/dpkg/subproc.c:55
 #, c-format
@@ -1052,7 +1158,7 @@ msgstr "errorea %s seinalea harrapatu ez delako: %s\n"
 msgid "%s (subprocess): %s\n"
 msgstr "%s (azpiprozesua): %s\n"
 
-#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:454
+#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:449
 msgid "fork failed"
 msgstr "huts egin du sardetzean"
 
@@ -1082,78 +1188,78 @@ msgstr ", nukleoa iraulita"
 msgid "subprocess %s failed with wait status code %d"
 msgstr "%s azpiprozesuak huts egin du itxaroteko %d egoera kodearekin"
 
-#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:461
+#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:456
 #, c-format
 msgid "wait for subprocess %s failed"
 msgstr "huts egin du %s azpiprozesuari itxarotean"
 
-#: lib/dpkg/trigdeferred.l:72
+#: lib/dpkg/trigdeferred.l:73
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
 "'%.250s' paketearen izen baliogabea baztertutako abiarazleen '%.250s' "
 "fitxategian"
 
-#: lib/dpkg/trigdeferred.l:81
+#: lib/dpkg/trigdeferred.l:82
 #, c-format
 msgid "truncated triggers deferred file `%.250s'"
 msgstr "trunkatutako baztertutako abiarazleen '%.250s' fitxategia"
 
-#: lib/dpkg/trigdeferred.l:85
+#: lib/dpkg/trigdeferred.l:86
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
 "sintaxi-errorea baztertutako abiarazleen '%.250s' fitxategiko '%s'%s "
 "karakterean"
 
-#: lib/dpkg/trigdeferred.l:134
+#: lib/dpkg/trigdeferred.l:135
 #, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
 msgstr "ezin da '%.250s' abiarazleen blokeoko fitxategia ireki/sortu"
 
-#: lib/dpkg/trigdeferred.l:141
+#: lib/dpkg/trigdeferred.l:142
 #, fuzzy
 #| msgid "triggered"
 msgid "triggers area"
 msgstr "abiarazita"
 
-#: lib/dpkg/trigdeferred.l:151
+#: lib/dpkg/trigdeferred.l:152
 #, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
 msgstr ""
 "ezin da baztertutako abiarazleen '%.250s' fitxategiaren egoera eskuratu"
 
-#: lib/dpkg/trigdeferred.l:165
+#: lib/dpkg/trigdeferred.l:166
 #, c-format
 msgid "unable to open triggers deferred file `%.250s'"
 msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategia ireki"
 
-#: lib/dpkg/trigdeferred.l:179
+#: lib/dpkg/trigdeferred.l:180
 #, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
 msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berria ireki/sortu"
 
-#: lib/dpkg/trigdeferred.l:215
+#: lib/dpkg/trigdeferred.l:216
 #, c-format
 msgid "error reading triggers deferred file `%.250s'"
 msgstr "errorea baztertutako abiarazleen '%.250s' fitxategia irakurtzean"
 
-#: lib/dpkg/trigdeferred.l:223
+#: lib/dpkg/trigdeferred.l:224
 #, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
 msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berrian idatzi"
 
-#: lib/dpkg/trigdeferred.l:228
+#: lib/dpkg/trigdeferred.l:229
 #, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
 msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berria itxi"
 
-#: lib/dpkg/trigdeferred.l:232
+#: lib/dpkg/trigdeferred.l:233
 #, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
 msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berria instalatu"
 
-#: lib/dpkg/triglib.c:222
+#: lib/dpkg/triglib.c:228
 #, c-format
 msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
@@ -1162,20 +1268,20 @@ msgstr ""
 "'%.250s' abiarazlearen izenak sintaxi baliogabea edo ezezaguna du ('%.250s' "
 "paketearen abiarazlearen interesetan)"
 
-#: lib/dpkg/triglib.c:263
+#: lib/dpkg/triglib.c:269
 #, c-format
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr ""
 "huts egin du abiarazlearen intereseko '%.250s' zerrenda-fitxategia irekitzean"
 
-#: lib/dpkg/triglib.c:292
+#: lib/dpkg/triglib.c:297
 #, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr ""
 "huts egin du abiarazlearen intereseko '%.250s' zerrenda-fitxategia "
 "berrirakurtzean"
 
-#: lib/dpkg/triglib.c:305
+#: lib/dpkg/triglib.c:312
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
@@ -1184,44 +1290,7 @@ msgstr ""
 "sintaxi-errorea abiarazlearen intereseko '%.250s' fitxategian; legezkanpoko "
 "'%.250s' pakete-izena: %.250s"
 
-#: lib/dpkg/triglib.c:318
-#, c-format
-msgid "unable to write new trigger interest file `%.250s'"
-msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria idatzi"
-
-#: lib/dpkg/triglib.c:321
-#, c-format
-msgid "unable to flush new trigger interest file '%.250s'"
-msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria garbitu"
-
-#: lib/dpkg/triglib.c:324
-#, c-format
-msgid "unable to sync new trigger interest file '%.250s'"
-msgstr ""
-"ezin da abiarazlearen intereseko '%.250s' fitxategi berria sinkronizatu"
-
-#: lib/dpkg/triglib.c:332
-#, c-format
-msgid "unable to install new trigger interest file `%.250s'"
-msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria instalatu"
-
-#: lib/dpkg/triglib.c:340 lib/dpkg/triglib.c:342 lib/dpkg/triglib.c:472
-#: src/remove.c:286 src/remove.c:377
-#, c-format
-msgid "cannot remove `%.250s'"
-msgstr "ezin da '%.250s' kendu"
-
-#: lib/dpkg/triglib.c:360
-#, c-format
-msgid "unable to create new trigger interest file `%.250s'"
-msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria sortu"
-
-#: lib/dpkg/triglib.c:383
-#, c-format
-msgid "unable to close new trigger interest file `%.250s'"
-msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria itxi"
-
-#: lib/dpkg/triglib.c:456
+#: lib/dpkg/triglib.c:430
 #, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
@@ -1229,47 +1298,17 @@ msgstr ""
 "bikoiztutako abiarazlearen intereseko fitxategia '%.250s' fitxategi-izena "
 "eta'%.250s' paketearekin"
 
-#: lib/dpkg/triglib.c:483
-#, c-format
-msgid "unable to create new file triggers file `%.250s'"
-msgstr "ezin da abiarazleen '%.250s' fitxategi berria sortu"
-
-#: lib/dpkg/triglib.c:493
-#, c-format
-msgid "unable to write new file triggers file `%.250s'"
-msgstr "ezin da abiarazleen '%.250s' fitxategi berria idatzi"
-
-#: lib/dpkg/triglib.c:496
-#, c-format
-msgid "unable to flush new file triggers file '%.250s'"
-msgstr "ezin da abiarazleen '%.250s' fitxategi berria garbitu"
-
-#: lib/dpkg/triglib.c:499
-#, c-format
-msgid "unable to sync new file triggers file '%.250s'"
-msgstr "ezin da abiarazleen '%.250s' fitxategi berria sinkronizatu"
-
-#: lib/dpkg/triglib.c:503
-#, c-format
-msgid "unable to close new file triggers file `%.250s'"
-msgstr "ezin da abiarazleen '%.250s' fitxategi berria itxi"
-
-#: lib/dpkg/triglib.c:507
-#, c-format
-msgid "unable to install new file triggers file as `%.250s'"
-msgstr "ezin da abiarazleen fitxategi berria '%.250s' gisa instalatu"
-
-#: lib/dpkg/triglib.c:542
+#: lib/dpkg/triglib.c:501
 #, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "ezin da abiarazleen '%.250s' fitxategia irakurri"
 
-#: lib/dpkg/triglib.c:552
+#: lib/dpkg/triglib.c:512
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "sintaxi-errorea abiarazleen '%.250s' fitxategian"
 
-#: lib/dpkg/triglib.c:563
+#: lib/dpkg/triglib.c:524
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
@@ -1278,7 +1317,7 @@ msgstr ""
 "abiarazleen fitxategiaren erregistroak legezkanpoko '%.250s' pakete-izena "
 "aipatzen du ('%.250s' fitxategiaren interesentzat): %.250s"
 
-#: lib/dpkg/triglib.c:665
+#: lib/dpkg/triglib.c:631
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
@@ -1287,26 +1326,26 @@ msgstr ""
 "abiarazleen '%.250s' ci fitxategiak legezkanpoko abiarazleen sintaxia du "
 "'%.250s' abiarazle-izenean: %.250s"
 
-#: lib/dpkg/triglib.c:684
+#: lib/dpkg/triglib.c:651
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "ezin da abiarazleen '%.250s' ci fitxategia ireki"
 
-#: lib/dpkg/triglib.c:699
+#: lib/dpkg/triglib.c:666
 msgid "triggers ci file contains unknown directive syntax"
 msgstr "abiarazleen ci fitxategiak direktiba sintaxi ezezaguna du"
 
-#: lib/dpkg/triglib.c:712
+#: lib/dpkg/triglib.c:679
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr "abiarazleen ci fitxategiak '%.250s' direktiba ezezaguna du"
 
-#: lib/dpkg/triglib.c:776
+#: lib/dpkg/triglib.c:745
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "ezin da sortu abiarazleen '%.250s' egoerako direktorioa"
 
-#: lib/dpkg/triglib.c:779
+#: lib/dpkg/triglib.c:748
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "ezin da abiarazleen '%.250s' egoerako direktorioaren jabetza ezarri"
@@ -1343,45 +1382,104 @@ msgstr "ustekabeko fitxategi amaiera '%.250s'(e)n"
 msgid "error formatting string into varbuf variable"
 msgstr "errorea kateari formatua ematean varbuf aldagaian"
 
-#: src/archives.c:179 src/archives.c:200 src/archives.c:724
+#: src/archives.c:232 src/archives.c:244
 msgid "error reading from dpkg-deb pipe"
 msgstr "errorea dpkg-deb kanalizaziotik irakurtzean"
 
-#: src/archives.c:195
+#: src/archives.c:256
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
 msgstr ""
 "alde batetara uzten despaketatu gabeko '%.255s' fitxategia (ordeztu edo "
 "baztertua?)"
 
-#: src/archives.c:246 src/archives.c:250
+#: src/archives.c:316
 #, c-format
-msgid "error setting timestamps of `%.255s'"
-msgstr "errorea data-zigiluak ezartzean: '%.255s'"
+msgid "unable to create `%.255s' (while processing `%.255s')"
+msgstr "ezin da '%.255s' sortu ('%.255s' prozesatzean)"
 
-#: src/archives.c:262
+#: src/archives.c:324 src/archives.c:408
 #, c-format
-msgid "error setting ownership of symlink `%.255s'"
-msgstr "errorea '%.255s' esteka sinbolikoaren jabetza ezartzean"
+msgid "backend dpkg-deb during `%.255s'"
+msgstr "atzealdeko dpkg-deb-en iraupena: '%.255s'"
 
-#: src/archives.c:265 src/archives.c:734 src/statcmd.c:163
+#: src/archives.c:339 src/archives.c:455 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "errorea jabetza ezartzean: '%.255s'"
 
-#: src/archives.c:267 src/archives.c:736 src/statcmd.c:165
+#: src/archives.c:341 src/archives.c:457 src/statcmd.c:161
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "errorea baimenak ezartzean: '%.255s'"
 
-#: src/archives.c:395
+#: src/archives.c:349 src/archives.c:1127 src/archives.c:1168
+#, c-format
+msgid "error closing/writing `%.255s'"
+msgstr "errorea '%.255s' ixtean/idaztean"
+
+#: src/archives.c:353
+#, c-format
+msgid "error creating pipe `%.255s'"
+msgstr "errorea '%.255s' kanalizazioa sortzean"
+
+#: src/archives.c:358 src/archives.c:363
+#, c-format
+msgid "error creating device `%.255s'"
+msgstr "errorea '%.255s' gailua sortzean"
+
+#: src/archives.c:377 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#, c-format
+msgid "error creating hard link `%.255s'"
+msgstr "errorea '%.255s' esteka gogorra sortzean"
+
+#: src/archives.c:384 utils/update-alternatives.c:534
+#, c-format
+msgid "error creating symbolic link `%.255s'"
+msgstr "errorea '%.255s' esteka sinbolikoa sortzean"
+
+#: src/archives.c:390
+#, c-format
+msgid "error creating directory `%.255s'"
+msgstr "errorea '%.255s' direktorioa sortzean"
+
+#: src/archives.c:436 src/archives.c:440
+#, c-format
+msgid "error setting timestamps of `%.255s'"
+msgstr "errorea data-zigiluak ezartzean: '%.255s'"
+
+#: src/archives.c:452
+#, c-format
+msgid "error setting ownership of symlink `%.255s'"
+msgstr "errorea '%.255s' esteka sinbolikoaren jabetza ezartzean"
+
+#: src/archives.c:523 src/archives.c:1051 utils/update-alternatives.c:317
+#, c-format
+msgid "unable to read link `%.255s'"
+msgstr "ezin da irakurri '%.255s' esteka"
+
+#: src/archives.c:525 src/archives.c:1053 src/configure.c:463
+#, c-format
+msgid "symbolic link '%.250s' size has changed from %jd to %zd"
+msgstr ""
+
+#: src/archives.c:562
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid ""
+"trying to overwrite shared '%.250s', which is different from other instances "
+"of package %.250s"
+msgstr ""
+"'%.250s' gainidazten saiatzen ari da; %.250s %.250s paketean ere badago"
+
+#: src/archives.c:652
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr ""
 "huts egin du '%.250s' esteka sinbolikoaren egoera eskuratzean (erreferentzia "
 "kenduta)"
 
-#: src/archives.c:417
+#: src/archives.c:674
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1390,7 +1488,7 @@ msgstr ""
 "huts egin du proposatutako (erreferentzia kenduta) helburuko '%.250s' esteka "
 "sinbolikoaren egoera eskuratzean '%.250s' estekarentzako"
 
-#: src/archives.c:475
+#: src/archives.c:732
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1399,19 +1497,19 @@ msgstr ""
 "'%.250s' gainidazten saiatzen, zein '%.250s' desbideratutako bertsio bat da "
 "(paketea: %.100s)"
 
-#: src/archives.c:481
+#: src/archives.c:738
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 "'%.250s' gainidazten saiatzen , zein'%.250s'-en desbideratutako bertsio bat "
 "den"
 
-#: src/archives.c:511
+#: src/archives.c:768
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "ezin da '%.255s' atzitu (instalatzera zioala)"
 
-#: src/archives.c:519
+#: src/archives.c:776
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1420,37 +1518,37 @@ msgstr ""
 "ezin da '%.255s' inguruko nahastea garbitu, beste bertsio bat instalatu "
 "aurretik"
 
-#: src/archives.c:525
+#: src/archives.c:782
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "ezin da leheneratutako '%.255s' atzitu beste bertsio bat instalatu aurretik"
 
-#: src/archives.c:561
+#: src/archives.c:818
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "artxiboko '%.255s' objektua mota ezezagunekoa da: 0x%x"
 
-#: src/archives.c:626 src/divertcmd.c:150 utils/update-alternatives.c:682
-#: utils/update-alternatives.c:1222 utils/update-alternatives.c:1284
-#: utils/update-alternatives.c:1441 utils/update-alternatives.c:1680
-#: utils/update-alternatives.c:2167 utils/update-alternatives.c:2244
-#: utils/update-alternatives.c:2527
+#: src/archives.c:900 src/divertcmd.c:148 utils/update-alternatives.c:677
+#: utils/update-alternatives.c:1217 utils/update-alternatives.c:1279
+#: utils/update-alternatives.c:1436 utils/update-alternatives.c:1675
+#: utils/update-alternatives.c:2162 utils/update-alternatives.c:2239
+#: utils/update-alternatives.c:2522
 #, c-format
 msgid "cannot stat file '%s'"
 msgstr "ezin da'%s' fitxategia atzitu"
 
-#: src/archives.c:641
+#: src/archives.c:915
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "%s pakete zaharreko fitxategiak ordezten...\n"
 
-#: src/archives.c:645
+#: src/archives.c:920
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Instalatutako %s paketeko fitxategiekin ordeztuta...\n"
 
-#: src/archives.c:654
+#: src/archives.c:929
 #, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1459,99 +1557,49 @@ msgstr ""
 "%2$.250s %3$.250s paketeko '%1$.250s' direktorioa direktorioa ez den batekin "
 "gainidazten saiatzen ari da"
 
-#: src/archives.c:661
+#: src/archives.c:936
 #, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr ""
 "'%.250s' gainidazten saiatzen ari da; %.250s %.250s paketean ere badago"
 
-#: src/archives.c:711
-#, c-format
-msgid "unable to create `%.255s' (while processing `%.255s')"
-msgstr "ezin da '%.255s' sortu ('%.255s' prozesatzean)"
-
-#: src/archives.c:718
-#, c-format
-msgid "backend dpkg-deb during `%.255s'"
-msgstr "atzealdeko dpkg-deb-en iraupena: '%.255s'"
-
-#: src/archives.c:744 src/archives.c:908 src/archives.c:949
-#, c-format
-msgid "error closing/writing `%.255s'"
-msgstr "errorea '%.255s' ixtean/idaztean"
-
-#: src/archives.c:748
-#, c-format
-msgid "error creating pipe `%.255s'"
-msgstr "errorea '%.255s' kanalizazioa sortzean"
-
-#: src/archives.c:753 src/archives.c:758
-#, c-format
-msgid "error creating device `%.255s'"
-msgstr "errorea '%.255s' gailua sortzean"
-
-#: src/archives.c:771
-#, c-format
-msgid "error creating hard link `%.255s'"
-msgstr "errorea '%.255s' esteka gogorra sortzean"
-
-#: src/archives.c:777 utils/update-alternatives.c:539
-#, c-format
-msgid "error creating symbolic link `%.255s'"
-msgstr "errorea '%.255s' esteka sinbolikoa sortzean"
-
-#: src/archives.c:783
-#, c-format
-msgid "error creating directory `%.255s'"
-msgstr "errorea '%.255s' direktorioa sortzean"
-
-#: src/archives.c:822
+#: src/archives.c:1041
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "ezin da joan '%.255s'(e)ra bertsio berria instalatzeko"
 
-#: src/archives.c:832 utils/update-alternatives.c:322
-#, c-format
-msgid "unable to read link `%.255s'"
-msgstr "ezin da irakurri '%.255s' esteka"
-
-#: src/archives.c:834 src/configure.c:423
-#, c-format
-msgid "symbolic link '%.250s' size has changed from %jd to %zd"
-msgstr ""
-
-#: src/archives.c:839
+#: src/archives.c:1058
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "ezin da esteka sinbolikoaren babeskopia egin: '%.255s'"
 
-#: src/archives.c:841
+#: src/archives.c:1060
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "ezin da esteka sinbolikoaren babeskopiaren 'chown' egin: '%.255s'"
 
-#: src/archives.c:846
+#: src/archives.c:1065
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "bertsio berria instalatu aurretik ezin da estekaren babeskopia egin: '%.255s'"
 
-#: src/archives.c:863 src/archives.c:957
+#: src/archives.c:1082 src/archives.c:1176
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "ezin da '%.255s'(r)en bertsio berria instalatu"
 
-#: src/archives.c:902 src/archives.c:945
+#: src/archives.c:1121 src/archives.c:1164
 #, c-format
 msgid "unable to open '%.255s'"
 msgstr "ezin da'%.255s' ireki"
 
-#: src/archives.c:947
+#: src/archives.c:1166
 #, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "ezin da'%.255s' fitxategia sinkronizatu"
 
-#: src/archives.c:1000
+#: src/archives.c:1231
 #, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1560,7 +1608,7 @@ msgstr ""
 "%s(r)en mendekotasunaren arazoari ezikusia egiten:\n"
 "%s"
 
-#: src/archives.c:1005
+#: src/archives.c:1236
 #, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1569,7 +1617,7 @@ msgstr ""
 "funtsezko %s paketearen konfigurazioa kentzea\n"
 "aztertzen, %s gaitzeko."
 
-#: src/archives.c:1008
+#: src/archives.c:1240
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1578,7 +1626,7 @@ msgstr ""
 "dpkg: ez, %s funtsezkoa da, ez da konfigurazioa kenduko\n"
 " %s gaitu ahal izateko.\n"
 
-#: src/archives.c:1022
+#: src/archives.c:1249
 #, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1587,17 +1635,17 @@ msgstr ""
 "dpkg: ez, ezin da %s(r)ekin aurrera jarraitu (ikus --auto-deconfigure):\n"
 "%s"
 
-#: src/archives.c:1032
+#: src/archives.c:1259
 #, c-format
 msgid "removal of %.250s"
 msgstr "%.250s ezabatzea"
 
-#: src/archives.c:1057
+#: src/archives.c:1284
 #, c-format
 msgid "installation of %.250s"
 msgstr "%.250s instalatzea"
 
-#: src/archives.c:1058
+#: src/archives.c:1286
 #, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
@@ -1605,12 +1653,12 @@ msgstr ""
 "dpkg: %s(r)en konfigurazioa kentzea kontutan hartzen, zeinek %s(e)k apur "
 "dezakeen ...\n"
 
-#: src/archives.c:1065
+#: src/archives.c:1293
 #, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg: bai, %s konfigurazioa kenduko da, (%s-ek apurtua).\n"
 
-#: src/archives.c:1069 src/archives.c:1187
+#: src/archives.c:1298 src/archives.c:1422
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1619,11 +1667,11 @@ msgstr ""
 "dpkg: %2$s daukan %1$s(r)i dagokionez:\n"
 "%3$s"
 
-#: src/archives.c:1077
+#: src/archives.c:1307
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "apurketari ezikusi egin zaio, hala ere aurrera jarraitzen!"
 
-#: src/archives.c:1082
+#: src/archives.c:1312
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1633,29 +1681,29 @@ msgstr ""
 " ez da baimentzen konfigurazioa kentzea (--auto-deconfigure lagungarri izan "
 "daiteke)"
 
-#: src/archives.c:1086
+#: src/archives.c:1317
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "%.250s instalatzeak instalatuta dagoen softwarea apurtu dezake"
 
-#: src/archives.c:1116
+#: src/archives.c:1347
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: %s kentzea aztertzen, %s jartzeko...\n"
 
-#: src/archives.c:1122
+#: src/archives.c:1354
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr "%s ez dago ondo instalatuta - mendekotasunei ezikusi egingo zaie.\n"
 
-#: src/archives.c:1151
+#: src/archives.c:1383
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr ""
 "dpkg: beharbada arazoak egongo dira %s kentzeko, %s hornitzen\n"
 " baitu...\n"
 
-#: src/archives.c:1166
+#: src/archives.c:1399
 #, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -1664,103 +1712,103 @@ msgstr ""
 "dpkg: %s paketea berriro instalatu behar da, baina kendu egingo da eskatu "
 "bezala.\n"
 
-#: src/archives.c:1169
+#: src/archives.c:1403
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: %s paketea berriro instalatu behar da, ez da kenduko.\n"
 
-#: src/archives.c:1178
+#: src/archives.c:1412
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: bai, %s kenduko da, eta %s jarri.\n"
 
-#: src/archives.c:1190
+#: src/archives.c:1426
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "gatazkan dauden paketeak - %.250s ez da instalatuko"
 
-#: src/archives.c:1191
+#: src/archives.c:1428
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "gatazkari ezikusi egin zaio, jarrai daiteke"
 
-#: src/archives.c:1235
+#: src/archives.c:1474
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive: bide-izenaren argumentu bat behar du gutxienez"
 
-#: src/archives.c:1245
+#: src/archives.c:1484
 msgid "find for dpkg --recursive"
 msgstr "'find' dpkg --recursive komandoarentzako"
 
-#: src/archives.c:1266
+#: src/archives.c:1505
 msgid "failed to fdopen find's pipe"
 msgstr "huts egin du fdopen-ek find-en kanalizazioarekin"
 
-#: src/archives.c:1272
+#: src/archives.c:1511
 msgid "error reading find's pipe"
 msgstr "errorea find-en kanalizazioa irakurtzean"
 
-#: src/archives.c:1273
+#: src/archives.c:1512
 msgid "error closing find's pipe"
 msgstr "errorea find-en kanalizazioa ixtean"
 
-#: src/archives.c:1276
+#: src/archives.c:1515
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "--recursive bilaketak kudeatu gabeko %i errorea itzuli du"
 
-#: src/archives.c:1279
+#: src/archives.c:1518
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "bilatu bai, baina ez da paketerik aurkitu (*.deb fitxategiak)"
 
-#: src/archives.c:1290
+#: src/archives.c:1529
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s: paketearen fitxategiak argumentu bat behar du gutxienez"
 
-#: src/archives.c:1325 src/divertcmd.c:78 src/divertcmd.c:118
-#: src/enquiry.c:166 src/enquiry.c:279 src/enquiry.c:449 src/enquiry.c:451
-#: src/enquiry.c:464 src/main.c:66 src/main.c:163 src/main.c:314
-#: src/main.c:493 src/packages.c:254 src/querycmd.c:252 src/querycmd.c:355
-#: src/querycmd.c:396 src/querycmd.c:404 src/querycmd.c:448 src/querycmd.c:517
-#: src/querycmd.c:606 src/querycmd.c:650 src/select.c:79 src/statcmd.c:68
-#: src/statcmd.c:98 src/trigcmd.c:58 src/trigcmd.c:90 dpkg-deb/build.c:441
-#: dpkg-deb/extract.c:217 dpkg-deb/extract.c:250 dpkg-deb/info.c:203
-#: dpkg-deb/info.c:265 dpkg-deb/main.c:60 dpkg-deb/main.c:126
-#: dpkg-split/info.c:257 dpkg-split/main.c:54 dpkg-split/main.c:98
-#: dpkg-split/queue.c:144 dpkg-split/queue.c:280
+#: src/archives.c:1564 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/enquiry.c:193 src/enquiry.c:310 src/enquiry.c:501 src/enquiry.c:503
+#: src/enquiry.c:516 src/enquiry.c:546 src/main.c:68 src/main.c:170
+#: src/main.c:320 src/main.c:575 src/packages.c:266 src/querycmd.c:267
+#: src/querycmd.c:370 src/querycmd.c:418 src/querycmd.c:427 src/querycmd.c:473
+#: src/querycmd.c:552 src/querycmd.c:647 src/querycmd.c:692 src/select.c:99
+#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:60 src/trigcmd.c:92
+#: dpkg-deb/build.c:443 dpkg-deb/extract.c:217 dpkg-deb/extract.c:250
+#: dpkg-deb/info.c:203 dpkg-deb/info.c:265 dpkg-deb/main.c:60
+#: dpkg-deb/main.c:128 dpkg-split/info.c:257 dpkg-split/main.c:54
+#: dpkg-split/main.c:98 dpkg-split/queue.c:144 dpkg-split/queue.c:280
 msgid "<standard output>"
 msgstr "<irteera estandarra>"
 
-#: src/archives.c:1326 src/packages.c:255 src/querycmd.c:253
-#: src/querycmd.c:353 src/querycmd.c:454 src/querycmd.c:518 src/select.c:80
+#: src/archives.c:1565 src/packages.c:267 src/querycmd.c:268
+#: src/querycmd.c:368 src/querycmd.c:479 src/querycmd.c:553 src/select.c:100
 #: dpkg-split/main.c:169 dpkg-split/queue.c:218
 msgid "<standard error>"
 msgstr "<errore estandarra>"
 
-#: src/archives.c:1367
+#: src/archives.c:1606
 #, fuzzy, c-format
 #| msgid "Selecting previously deselected package %s.\n"
 msgid "Selecting previously unselected package %s.\n"
 msgstr "Aurrez ez hautatutako %s paketea hautatzen.\n"
 
-#: src/archives.c:1371
+#: src/archives.c:1611
 #, fuzzy, c-format
 #| msgid "Skipping deselected package %s.\n"
 msgid "Skipping unselected package %s.\n"
 msgstr "Hautapena kendutako %s paketea saltatzen.\n"
 
-#: src/archives.c:1387
+#: src/archives.c:1628
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "%2$.250s %1$.250s bertsioa instalatuta dago, saltatu egingo da.\n"
 
-#: src/archives.c:1397
+#: src/archives.c:1638
 #, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr "%.250s aurreko bertsiora itzultzen, %.250s-tik %.250s-ra."
 
-#: src/archives.c:1402
+#: src/archives.c:1644
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1795,18 +1843,18 @@ msgstr "ezin da '%.250s'(r)en instalatu berri den bertsioa kendu"
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "ezin da '%.250s'(r)en erauzi berri den bertsioa kendu"
 
-#: src/configure.c:104
+#: src/configure.c:107
 #, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "ezin da banatutako '%.250s' konfigurazioko fitxategi berria analizatu"
 
-#: src/configure.c:114
+#: src/configure.c:117
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr ""
 "ezin da unean instalatutako '%.250s' konfigurazioko fitxategi analizatu"
 
-#: src/configure.c:126
+#: src/configure.c:129
 #, c-format
 msgid ""
 "\n"
@@ -1817,57 +1865,57 @@ msgstr ""
 "'%s' konfigurazioko fitxategia ez dago sisteman.\n"
 "Konfigurazioko fitxategi berria zuk eskatu bezala instalatzen.\n"
 
-#: src/configure.c:168
+#: src/configure.c:171
 #, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "%s: huts egin du '%.250s' babeskopia zaharra kentzean : %s"
 
-#: src/configure.c:176
+#: src/configure.c:180
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: huts egin du '%.250s'-tik '%.250s'-ra izena aldatzean: %s"
 
-#: src/configure.c:182
+#: src/configure.c:187
 #, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: huts egin du '%.250s' ezabatzean: %s"
 
-#: src/configure.c:188
+#: src/configure.c:194
 #, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
 msgstr "%s: huts egin du banatutako '%.250s' bertsio zaharra kentzean: %s"
 
-#: src/configure.c:192
+#: src/configure.c:199
 #, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr "%s: huts egin du '%.250s' kentzean (gainidatzi aurretik): %s"
 
-#: src/configure.c:196
+#: src/configure.c:204
 #, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr "%s: huts egin du '%.250s'(e)tik '%.250s'(e)ra estekatzean: %s"
 
-#: src/configure.c:200
+#: src/configure.c:209
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "%s konfigurazioko fitxategiaren bertsio berria instalatzen...\n"
 
-#: src/configure.c:206 utils/update-alternatives.c:546
+#: src/configure.c:215 utils/update-alternatives.c:541
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "ezin da '%.250s' instalatu '%.250s' gisa"
 
-#: src/configure.c:257
+#: src/configure.c:267
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "'%s' izeneko paketerik ez dago instalatuta, ezin da konfiguratu"
 
-#: src/configure.c:260
+#: src/configure.c:270
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "%.250s paketea instalatuta eta konfiguratuta dago lehendik ere"
 
-#: src/configure.c:263
+#: src/configure.c:273
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1876,7 +1924,24 @@ msgstr ""
 "%.250s paketea ez dago prest konfiguratzeko\n"
 " ezin da konfiguratu (uneko egoera: '%.250s')"
 
-#: src/configure.c:294
+#: src/configure.c:285
+#, fuzzy, c-format
+#| msgid ""
+#| "package %.250s is not ready for configuration\n"
+#| " cannot configure (current status `%.250s')"
+msgid ""
+"package %s cannot be configured because %s is not ready (current status '%s')"
+msgstr ""
+"%.250s paketea ez dago prest konfiguratzeko\n"
+" ezin da konfiguratu (uneko egoera: '%.250s')"
+
+#: src/configure.c:293
+#, c-format
+msgid ""
+"package %s %s cannot be configured because %s is at a different version (%s)"
+msgstr ""
+
+#: src/configure.c:330
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1885,11 +1950,11 @@ msgstr ""
 "dpkg: ezin da %s konfiguratu, mendekotasun arazoak direla eta:\n"
 "%s"
 
-#: src/configure.c:297
+#: src/configure.c:333
 msgid "dependency problems - leaving unconfigured"
 msgstr "mendekotasun arazoak - konfiguratu gabe uzten ari da"
 
-#: src/configure.c:301
+#: src/configure.c:337
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -1898,7 +1963,7 @@ msgstr ""
 "dpkg: %s: mendekotasun arazoak, baina eskatu bezala konfiguratuko da:\n"
 "%s"
 
-#: src/configure.c:309
+#: src/configure.c:345
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1906,12 +1971,12 @@ msgstr ""
 "Paketearen egoera inkoherentea da - berriro instalatu\n"
 " behar duzu, konfiguratzen saiatu aurretik."
 
-#: src/configure.c:312
+#: src/configure.c:348
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "%s (%s) konfiguratzen...\n"
 
-#: src/configure.c:396
+#: src/configure.c:432
 #, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -1920,7 +1985,7 @@ msgstr ""
 "%s: ezin da atzitu '%s' konfigurazioko fitxategia\n"
 " (= '%s'): %s"
 
-#: src/configure.c:409
+#: src/configure.c:446
 #, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -1929,7 +1994,7 @@ msgstr ""
 "%s: '%s' konfigurazioko fitxategia esteka zirkular bat da \n"
 " (= '%s')"
 
-#: src/configure.c:418
+#: src/configure.c:457
 #, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -1938,7 +2003,7 @@ msgstr ""
 "%s: ezin da '%s' konfigurazioko fitxategiko esteka irakurri\n"
 " (= '%s'): %s"
 
-#: src/configure.c:444
+#: src/configure.c:484
 #, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -1947,35 +2012,36 @@ msgstr ""
 "%s: badirudi '%.250s' konf. fitxategia fitxategi-izen endekatua dela\n"
 " ('%s' '%s'(r)en esteka sinbolikoa da)"
 
-#: src/configure.c:460
+#: src/configure.c:500
 #, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "%s: '%.250s' konf. fitxategia ez da fitxategi arrunta, ezta esteka "
 "sinbolikoa ere (= '%s')"
 
-#: src/configure.c:486
+#: src/configure.c:526
 msgid "md5hash"
 msgstr "md5hash"
 
-#: src/configure.c:492
-#, c-format
-msgid "%s: unable to open conffile %s for hash: %s"
+#: src/configure.c:532
+#, fuzzy, c-format
+#| msgid "%s: unable to open conffile %s for hash: %s"
+msgid "%s: unable to open %s for hash: %s"
 msgstr "%s: ezin da %s konfigurazioko fitxategia ireki hash egiteko: %s"
 
-#: src/configure.c:522 src/configure.c:526
+#: src/configure.c:562 src/configure.c:566
 msgid "conffile difference visualizer"
 msgstr ""
 
-#: src/configure.c:543
+#: src/configure.c:583
 msgid "Type `exit' when you're done.\n"
 msgstr "Idatzi 'exit' amaitutakoan.\n"
 
-#: src/configure.c:552 src/configure.c:556
+#: src/configure.c:592 src/configure.c:596
 msgid "conffile shell"
 msgstr ""
 
-#: src/configure.c:602
+#: src/configure.c:642
 #, c-format
 msgid ""
 "\n"
@@ -1984,12 +2050,12 @@ msgstr ""
 "\n"
 "'%s' konfigurazioko fitxategia"
 
-#: src/configure.c:604
+#: src/configure.c:644
 #, c-format
 msgid " (actually `%s')"
 msgstr " (benetan '%s')"
 
-#: src/configure.c:608
+#: src/configure.c:648
 #, c-format
 msgid ""
 "\n"
@@ -2000,7 +2066,7 @@ msgstr ""
 " ==> Zuk edo script batek sortutako fitxategia.\n"
 " ==> Pakete-mantentzaileak paketearekin batera hornitutako fitxategia.\n"
 
-#: src/configure.c:613
+#: src/configure.c:653
 #, c-format
 msgid ""
 "\n"
@@ -2009,7 +2075,7 @@ msgstr ""
 "\n"
 "     Instalatu zenetik ez da aldatu.\n"
 
-#: src/configure.c:615
+#: src/configure.c:655
 #, c-format
 msgid ""
 "\n"
@@ -2018,7 +2084,7 @@ msgstr ""
 "\n"
 " ==> Instalatu zenetik aldatu da (zuk edo script batek).\n"
 
-#: src/configure.c:616
+#: src/configure.c:656
 #, c-format
 msgid ""
 "\n"
@@ -2027,37 +2093,37 @@ msgstr ""
 "\n"
 " ==> Instalatu zenetik ezabatua (zuk edo script batek).\n"
 
-#: src/configure.c:619
+#: src/configure.c:659
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Pakete banatzaileak bertsio eguneratu bat bidali du.\n"
 
-#: src/configure.c:620
+#: src/configure.c:660
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     Paketeko bertsioa azken instalazioko bera da.\n"
 
-#: src/configure.c:628
+#: src/configure.c:668
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Fitxategi berri bat erabiltzen ari da, zuk eskatu bezala.\n"
 
-#: src/configure.c:632
+#: src/configure.c:672
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Uneko fitxategi zaharra erabiltzen ari da, zuk eskatu bezala.\n"
 
-#: src/configure.c:641
+#: src/configure.c:681
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Lehenespenez konfigurazioko fitxategi zaharra mantentzen.\n"
 
-#: src/configure.c:645
+#: src/configure.c:685
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Lehenespenez konfigurazioko fitxategi berria erabiltzen.\n"
 
-#: src/configure.c:652
+#: src/configure.c:692
 #, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -2072,182 +2138,171 @@ msgstr ""
 "      D     : bertsioen arteko ezberdintasunak ikustea\n"
 "      Z     : shell-a abiaraztea egoera egoera aztertzeko\n"
 
-#: src/configure.c:659
+#: src/configure.c:699
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " Ekintza lehenetsia instalatuta dagoen bertsioa mantentzea da.\n"
 
-#: src/configure.c:661
+#: src/configure.c:701
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " Ekintza lehenetsia bertsio berria instalatzea da.\n"
 
-#: src/configure.c:666
+#: src/configure.c:706
 msgid "[default=N]"
 msgstr "[lehenetsia=N]"
 
-#: src/configure.c:667
+#: src/configure.c:707
 msgid "[default=Y]"
 msgstr "[lehenetsia=Y]"
 
-#: src/configure.c:668
+#: src/configure.c:708
 msgid "[no default]"
 msgstr "[lehenespenik ez]"
 
-#: src/configure.c:671
+#: src/configure.c:711
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 "errorea stderr-en idaztean, konfigurazioko fitxategiaren gonbitaren aurretik "
 "aurkitu da"
 
-#: src/configure.c:680
+#: src/configure.c:720
 msgid "read error on stdin at conffile prompt"
 msgstr "irakurketa errorea stdin-en konfigurazioko fitxategiaren gonbitean"
 
-#: src/configure.c:681
+#: src/configure.c:721
 msgid "EOF on stdin at conffile prompt"
 msgstr "EOF stdin-en konfigurazioko fitxategiaren gonbitean"
 
-#: src/depcon.c:175
+#: src/depcon.c:247
 #, c-format
 msgid "%s depends on %s"
 msgstr "%s paketea %s(r)en mendekoa da"
 
-#: src/depcon.c:178
+#: src/depcon.c:250
 #, c-format
 msgid "%s pre-depends on %s"
 msgstr "%s paketea %s(r)en aurremendekoa da"
 
-#: src/depcon.c:181
+#: src/depcon.c:253
 #, c-format
 msgid "%s recommends %s"
 msgstr "%s(e)k %s gomendatzen du"
 
-#: src/depcon.c:184
+#: src/depcon.c:256
 #, c-format
 msgid "%s suggests %s"
 msgstr "%s(e)k %s iradokitzen du"
 
-#: src/depcon.c:187
+#: src/depcon.c:259
 #, c-format
 msgid "%s breaks %s"
 msgstr "%s(e)k %s hausten du"
 
-#: src/depcon.c:190
+#: src/depcon.c:262
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s(e)k %s(r)ekin gatazkan dago"
 
-#: src/depcon.c:193
+#: src/depcon.c:265
 #, c-format
 msgid "%s enhances %s"
 msgstr "%s(e)k %s hobetzen du"
 
-#: src/depcon.c:296
+#: src/depcon.c:373
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s kendu behar da.\n"
 
-#: src/depcon.c:299
+#: src/depcon.c:377
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  %.250s konfigurazioa kenduko da.\n"
 
-#: src/depcon.c:304
+#: src/depcon.c:385
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr "  %.250s instalatu behar da, baina bertsioa %.250s da.\n"
 
-#: src/depcon.c:314
+#: src/depcon.c:399
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  %.250s instalatuta dago, baina bertsioa %.250s da.\n"
 
-#: src/depcon.c:333
+#: src/depcon.c:419
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s deskonprimituta dago, baina oraindik ez da konfiguratu.\n"
 
-#: src/depcon.c:337
+#: src/depcon.c:424
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  %.250s deskonprimituta dago, baina bertsioa %.250s da.\n"
 
-#: src/depcon.c:343
+#: src/depcon.c:432
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s: azken konfiguratutako bertsioa %.250s da.\n"
 
-#: src/depcon.c:353
+#: src/depcon.c:444
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s %s da.\n"
 
-#: src/depcon.c:388
+#: src/depcon.c:482
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s: %.250s hornitzen du, baina kendu egin behar da.\n"
 
-#: src/depcon.c:392
+#: src/depcon.c:487
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr "  %.250s: %.250s hornitzen du, baina konfigurazioa kendu behar da.\n"
 
-#: src/depcon.c:401
+#: src/depcon.c:497
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s: %.250s hornitzen du, baina %s da.\n"
 
-#: src/depcon.c:415
+#: src/depcon.c:512
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s ez dago instalatuta.\n"
 
-#: src/depcon.c:443
+#: src/depcon.c:545
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (%.250s bertsioa) instalatu behar da.\n"
 
-#: src/depcon.c:468
+#: src/depcon.c:576
 #, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
 msgstr "  %.250s (%.250s bertsioa) dago eta %s.\n"
 
-#: src/depcon.c:495
+#: src/depcon.c:606
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s: %.250s hornitzen du, baina instalatu egin behar da.\n"
 
-#: src/depcon.c:537
+#: src/depcon.c:649
 #, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s: %.250s hornitzen du, existitzen da eta %s da.\n"
 
-#: src/divertcmd.c:50
+#: src/divertcmd.c:53
 #, fuzzy
 #| msgid "Use --help for help about querying packages."
 msgid "Use --help for help about diverting files."
 msgstr "Erabili --help paketeen kontsultari buruzko laguntza lortzeko."
 
-#: src/divertcmd.c:66 src/statcmd.c:57 utils/update-alternatives.c:80
+#: src/divertcmd.c:69 src/statcmd.c:57 utils/update-alternatives.c:80
 #, c-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s %s bertsioa.\n"
 
-#: src/divertcmd.c:70
-#, c-format
-msgid ""
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000,2001 Wichert Akkerman.\n"
-"Copyright (C) 2010 Guillem Jover.\n"
-msgstr ""
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000,2001 Wichert Akkerman.\n"
-"Copyright (C) 2010 Guillem Jover.\n"
-
-#: src/divertcmd.c:75 src/main.c:63 src/querycmd.c:603 src/statcmd.c:65
-#: src/trigcmd.c:55 dpkg-deb/main.c:57 dpkg-split/main.c:51
-#: utils/update-alternatives.c:89
+#: src/divertcmd.c:73 src/main.c:65 src/querycmd.c:644 src/statcmd.c:61
+#: src/trigcmd.c:57 dpkg-deb/main.c:57 dpkg-split/main.c:51
+#: utils/update-alternatives.c:84
 #, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2257,8 +2312,8 @@ msgstr ""
 "GNU Lizentzia Publiko Orokorraren 2 bertsioa edo berriagoa.\n"
 "EZ dago bermerik.\n"
 
-#: src/divertcmd.c:87 src/main.c:81 src/querycmd.c:615 src/statcmd.c:77
-#: dpkg-deb/main.c:69 dpkg-split/main.c:63 utils/update-alternatives.c:97
+#: src/divertcmd.c:85 src/main.c:83 src/querycmd.c:656 src/statcmd.c:73
+#: dpkg-deb/main.c:69 dpkg-split/main.c:63 utils/update-alternatives.c:92
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2267,7 +2322,7 @@ msgstr ""
 "Erabilera: %s [<aukera> ...] <komandoa>\n"
 "\n"
 
-#: src/divertcmd.c:91
+#: src/divertcmd.c:89
 #, c-format
 msgid ""
 "Commands:\n"
@@ -2288,7 +2343,7 @@ msgstr ""
 "izena.\n"
 "\n"
 
-#: src/divertcmd.c:100
+#: src/divertcmd.c:98
 #, c-format
 msgid ""
 "Options:\n"
@@ -2322,7 +2377,7 @@ msgstr ""
 "  --version                        erakutsi bertsioa.\n"
 "\n"
 
-#: src/divertcmd.c:114
+#: src/divertcmd.c:112
 #, c-format
 msgid ""
 "When adding, default is --local and --divert <original>.distrib.\n"
@@ -2336,12 +2391,12 @@ msgstr ""
 "Pakete preinst/postrm script-ak beti zehaztu behar dituzte --package eta --"
 "divert.\n"
 
-#: src/divertcmd.c:168
+#: src/divertcmd.c:166
 #, c-format
 msgid "error checking '%s'"
 msgstr "errorea '%s' egiaztatzean"
 
-#: src/divertcmd.c:203
+#: src/divertcmd.c:201
 #, c-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -2350,129 +2405,107 @@ msgstr ""
 "berrizendatzeak '%s' gainidaztea dakar\n"
 "  '%s' fitxategi ezberdinarekin, ez da onartzen"
 
-#: src/divertcmd.c:223 utils/update-alternatives.c:1373
+#: src/divertcmd.c:221 utils/update-alternatives.c:1368
 #, fuzzy, c-format
 #| msgid "unable to write file '%s'"
 msgid "unable to create file '%s'"
 msgstr "ezin da '%s' fitxategia idatzi"
 
-#: src/divertcmd.c:227
+#: src/divertcmd.c:225
 msgid "file copy"
 msgstr "fitxategiaren kopia"
 
-#: src/divertcmd.c:239
+#: src/divertcmd.c:237
 #, c-format
 msgid "cannot rename '%s' to '%s'"
 msgstr "ezin da '%s' izenez '%s'(e)ra aldatu"
 
-#: src/divertcmd.c:252
+#: src/divertcmd.c:250
 #, c-format
 msgid "rename: remove duplicate old link '%s'"
 msgstr "rename: kendu bikoiztutako '%s' esteka zaharra"
 
-#: src/divertcmd.c:262
+#: src/divertcmd.c:260
 #, fuzzy, c-format
 #| msgid "unable to open source file `%.250s'"
 msgid "unable to remove copied source file '%s'"
 msgstr "ezin da iturburuko '%.250s' fitxategia ireki"
 
-#: src/divertcmd.c:284
+#: src/divertcmd.c:282
 #, c-format
 msgid "local diversion of %s"
 msgstr "'%s'(r)en desbideraketa lokala"
 
-#: src/divertcmd.c:286
+#: src/divertcmd.c:284
 #, c-format
 msgid "local diversion of %s to %s"
 msgstr "'%s' lokalki hona desbideratuta: %s"
 
-#: src/divertcmd.c:290
+#: src/divertcmd.c:288
 #, c-format
 msgid "diversion of %s by %s"
 msgstr "%s %s(e)k desbideratuta"
 
-#: src/divertcmd.c:293
+#: src/divertcmd.c:291
 #, c-format
 msgid "diversion of %s to %s by %s"
 msgstr "%3$s(e)k %1$s desbideratu du %2$s(e)ra"
 
-#: src/divertcmd.c:309
+#: src/divertcmd.c:307
 #, c-format
 msgid "any diversion of %s"
 msgstr "%s(r)en edozein desbideraketa"
 
-#: src/divertcmd.c:311
+#: src/divertcmd.c:309
 #, c-format
 msgid "any diversion of %s to %s"
 msgstr "%s(r)en edozein desbideraketa %s(e)ra"
 
-#: src/divertcmd.c:357
-#, c-format
-msgid "cannot create new %s file"
-msgstr "ezin da %s fitxategi berria sortu"
-
-#: src/divertcmd.c:375 src/statcmd.c:215 utils/update-alternatives.c:1404
-#, c-format
-msgid "unable to flush file '%s'"
-msgstr "ezin da '%s' fitxategia garbitu"
-
-#: src/divertcmd.c:382
-msgid "error removing old diversions-old"
-msgstr "errorea diversions-old zaharra kentzean"
-
-#: src/divertcmd.c:384
-msgid "error creating new diversions-old"
-msgstr "errorea diversions-old berria sortzean"
-
-#: src/divertcmd.c:386
-msgid "error installing new diversions"
-msgstr "errorea desbiderapen berria instalatzean"
-
-#: src/divertcmd.c:406 src/divertcmd.c:503 src/divertcmd.c:610
-#: src/divertcmd.c:630 src/statcmd.c:290
+#: src/divertcmd.c:389 src/divertcmd.c:518 src/divertcmd.c:634
+#: src/divertcmd.c:654 src/statcmd.c:271
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s aukerak argumentu bakar bat behar du"
 
-#: src/divertcmd.c:409 src/divertcmd.c:430
+#: src/divertcmd.c:392 src/divertcmd.c:413
 #, c-format
 msgid "filename \"%s\" is not absolute"
 msgstr "\"%s\" fitxategi-izena ez da absolutua"
 
-#: src/divertcmd.c:411 src/statcmd.c:249
+#: src/divertcmd.c:394 src/statcmd.c:230
 msgid "file may not contain newlines"
 msgstr "fitxategiak ezin du lerro-jauzirik eduki"
 
-#: src/divertcmd.c:418
+#: src/divertcmd.c:401
 msgid "Cannot divert directories"
 msgstr "Ezin dira direktorioak desbideratu"
 
-#: src/divertcmd.c:433
+#: src/divertcmd.c:416
 #, c-format
 msgid "cannot divert file '%s' to itself"
 msgstr "ezin da '%s' fitxategia bere burura desbideratu"
 
-#: src/divertcmd.c:453
+#: src/divertcmd.c:436
 #, c-format
 msgid "Leaving '%s'\n"
 msgstr "'%s' uzten\n"
 
-#: src/divertcmd.c:458
+#: src/divertcmd.c:441
 #, c-format
 msgid "`%s' clashes with `%s'"
 msgstr "'%s'(e)k '%s'(r)ekin gatazkan dago"
 
-#: src/divertcmd.c:481
+#: src/divertcmd.c:464
 #, c-format
 msgid "Adding '%s'\n"
 msgstr "'%s' gehitzen\n"
 
-#: src/divertcmd.c:510
+#: src/divertcmd.c:525
 #, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Ez dago '%s' desbideraketarik, ez da ezabatuko\n"
 
-#: src/divertcmd.c:525
+#: src/divertcmd.c:540
 #, c-format
 msgid ""
 "mismatch on divert-to\n"
@@ -2483,7 +2516,7 @@ msgstr ""
 "  '%s' ezabatzean\n"
 "  '%s' aurkitu da"
 
-#: src/divertcmd.c:532
+#: src/divertcmd.c:547
 #, c-format
 msgid ""
 "mismatch on package\n"
@@ -2494,16 +2527,23 @@ msgstr ""
 "  '%s' ezabatzean\n"
 "  '%s' aurkitu da"
 
-#: src/divertcmd.c:539
+#: src/divertcmd.c:557
+#, fuzzy, c-format
+#| msgid "ignoring request to remove %.250s which isn't installed."
+msgid "Ignoring request to remove shared diversion '%s'.\n"
+msgstr ""
+"%.250s kentzeko eskaerari ezikusi egingo zaio, ez dagoelako instalatuta."
+
+#: src/divertcmd.c:563
 #, c-format
 msgid "Removing '%s'\n"
 msgstr "'%s' kentzen\n"
 
-#: src/divertcmd.c:657
+#: src/divertcmd.c:681
 msgid "package may not contain newlines"
 msgstr "paketeak ezin du lerro-jauzirik berririk eduki"
 
-#: src/divertcmd.c:666
+#: src/divertcmd.c:690
 msgid "divert-to may not contain newlines"
 msgstr "'divert-to'-k ezin du lerro-jauzirik eduki"
 
@@ -2519,12 +2559,12 @@ msgstr "fstat-ek huts egin du aurreko desbideratzeen fitxategiarekin"
 msgid "failed to fstat diversions file"
 msgstr "fstat-ek huts egin du desbideratzeen fitxategiarekin"
 
-#: src/divertdb.c:113
+#: src/divertdb.c:114
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "desbideratze gatazkatsuak: '%.250s' edo '%.250s'"
 
-#: src/enquiry.c:73
+#: src/enquiry.c:85
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -2534,7 +2574,7 @@ msgstr ""
 "direlako. Berriro instalatu behar dira (eta beren mende dauden\n"
 "pakete guztiak) ondo lan egiteko:\n"
 
-#: src/enquiry.c:80
+#: src/enquiry.c:92
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -2544,7 +2584,7 @@ msgstr ""
 "Konfiguratzeko, erabili dpkg --configure edo configure menu-aukera\n"
 "dselect-en:\n"
 
-#: src/enquiry.c:87
+#: src/enquiry.c:99
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -2555,7 +2595,7 @@ msgstr ""
 "dpkg --configure <paketea> erabiliz edo configure menu-aukerarekin\n"
 "dselect-en:\n"
 
-#: src/enquiry.c:94
+#: src/enquiry.c:106
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -2565,7 +2605,7 @@ msgstr ""
 "egon direlako. Saiatu berriro instalatzen; paketeak kentzeko, erabili\n"
 "dselect edo dpkg --remove:\n"
 
-#: src/enquiry.c:101
+#: src/enquiry.c:113
 msgid ""
 "The following packages are awaiting processing of triggers that they\n"
 "have activated in other packages.  This processing can be requested using\n"
@@ -2575,7 +2615,7 @@ msgstr ""
 "prozesuen zain daude. Prozesu hauek eskatzeko erabili \n"
 "dselect edo dpkg --configure --pending (edo dpkg --triggers-only):\n"
 
-#: src/enquiry.c:108
+#: src/enquiry.c:120
 msgid ""
 "The following packages have been triggered, but the trigger processing\n"
 "has not yet been done.  Trigger processing can be requested using\n"
@@ -2585,14 +2625,29 @@ msgstr ""
 "ez da oraindik amaitu. Abiarazlearen prozesua eskatzeko erabili \n"
 "dselect edo dpkg --configure --pending (edo dpkg --triggers-only):\n"
 
-#: src/enquiry.c:137 src/enquiry.c:211 src/enquiry.c:292 src/enquiry.c:373
-#: src/enquiry.c:460 src/select.c:98 src/select.c:164 src/trigcmd.c:199
-#: src/update.c:48 src/update.c:113 dpkg-split/queue.c:232
+#: src/enquiry.c:126
+msgid "The following packages do not have an architecture:\n"
+msgstr ""
+
+#: src/enquiry.c:130
+msgid "The following packages have an illegal architecture:\n"
+msgstr ""
+
+#: src/enquiry.c:135
+msgid ""
+"The following packages have an unknown foreign architecture, which will\n"
+"cause dependency issues on front-ends. This can be fixed by registering\n"
+"the foreign architecture with dpkg --add-architecture:\n"
+msgstr ""
+
+#: src/enquiry.c:164 src/enquiry.c:238 src/enquiry.c:323 src/enquiry.c:412
+#: src/enquiry.c:512 src/enquiry.c:535 src/select.c:117 src/select.c:193
+#: src/trigcmd.c:230 src/update.c:48 src/update.c:110 dpkg-split/queue.c:232
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s: ez du argumenturik hartzen"
 
-#: src/enquiry.c:152
+#: src/enquiry.c:179
 msgid ""
 "Another process has locked the database for writing, and might currently be\n"
 "modifying it, some of the following problems might just be due to that.\n"
@@ -2601,26 +2656,26 @@ msgstr ""
 "baliteke unean aldaketak egiten egotea. Arazo hauetariko\n"
 "batzuen zergatia izan daiteke.\n"
 
-#: src/enquiry.c:191
+#: src/enquiry.c:218
 #, fuzzy
 #| msgid "<unknown>"
 msgctxt "section"
 msgid "<unknown>"
 msgstr "<ezezaguna>"
 
-#: src/enquiry.c:251
+#: src/enquiry.c:278
 #, c-format
 msgid " %d in %s: "
 msgstr " %d - %s: "
 
-#: src/enquiry.c:266
+#: src/enquiry.c:297
 #, c-format
 msgid " %d package, from the following section:"
 msgid_plural " %d packages, from the following sections:"
 msgstr[0] "pakete %d, ondoko sekzioetan:"
 msgstr[1] " %d pakete, ondoko sekzioetan:"
 
-#: src/enquiry.c:305
+#: src/enquiry.c:336
 #, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2629,28 +2684,32 @@ msgstr ""
 "dpkg-en bertsioa %s euskarriarekin ez dago oraindik konfiguratuta.\n"
 "Erabili 'dpkg --configure dpkg', eta ondoren saiatu berriro.\n"
 
-#: src/enquiry.c:310
+#: src/enquiry.c:341
 #, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr "badirudi dpkg ez dagoela instalatuta, ezin da bilatu %s euskarria !\n"
 
-#: src/enquiry.c:321
+#: src/enquiry.c:352
 msgid "Pre-Depends field"
 msgstr "Aurremendekotasunen eremua"
 
-#: src/enquiry.c:329
+#: src/enquiry.c:360
 msgid "epoch"
 msgstr "aro"
 
-#: src/enquiry.c:337
+#: src/enquiry.c:368
 msgid "long filenames"
 msgstr "fitxategi-izen luzeak"
 
-#: src/enquiry.c:346
+#: src/enquiry.c:377
 msgid "multiple Conflicts and Replaces"
 msgstr "hainbat gatazka eta ordezkapen"
 
-#: src/enquiry.c:434
+#: src/enquiry.c:385
+msgid "multi-arch"
+msgstr ""
+
+#: src/enquiry.c:485
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -2659,29 +2718,29 @@ msgstr ""
 "dpkg: ezin da ikusi nola bete aurremendekotasuna:\n"
 " %s\n"
 
-#: src/enquiry.c:435
+#: src/enquiry.c:486
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "%.250s: ezin dira aurremendekotasunak bete (hau dela eta behar dira: %.250s)"
 
-#: src/enquiry.c:472
+#: src/enquiry.c:524
 #, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "'--%s' aukera zaharkitua, '--%s' erabili horren ordez."
 
-#: src/enquiry.c:519
+#: src/enquiry.c:593
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "--compare-versions: hiru argumentu hartzen ditu: <bertsioa> <erlazioa> "
 "<bertsioa>"
 
-#: src/enquiry.c:524
+#: src/enquiry.c:598
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions: okerreko erlazioa"
 
-#: src/enquiry.c:529 src/enquiry.c:531 src/enquiry.c:540 src/enquiry.c:542
+#: src/enquiry.c:603 src/enquiry.c:605 src/enquiry.c:614 src/enquiry.c:616
 #, c-format
 msgid "version '%s' has bad syntax: %s"
 msgstr "%s bertsioak okerreko sintaxia du: %s"
@@ -2736,12 +2795,12 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "gainidazteko arazoa --force gaituta dagoelako:"
 
-#: src/filesdb.c:307
+#: src/filesdb.c:313
 #, c-format
 msgid "unable to open files list file for package `%.250s'"
 msgstr "ezin dira '%.250s' paketearen fitxategi-zerrendaren fitxategiak ireki"
 
-#: src/filesdb.c:311
+#: src/filesdb.c:318
 #, c-format
 msgid ""
 "files list file for package `%.250s' missing, assuming package has no files "
@@ -2750,131 +2809,99 @@ msgstr ""
 "'%.250s' paketearen fitxategi-zerrendaren fitxategiak falta dira, paketeak "
 "ez duela fitxategirik instalatuta ondorioztatuko da."
 
-#: src/filesdb.c:322
+#: src/filesdb.c:330
 #, c-format
 msgid "unable to stat files list file for package '%.250s'"
 msgstr ""
 "ezin da '%.250s' paketearen fitxategi-zerrendaren fitxategiaren egoera "
 "eskuratu"
 
-#: src/filesdb.c:330
+#: src/filesdb.c:334
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "files list for package '%.250s' is not a regular file"
+msgstr ""
+"'%.250s' paketearen fitxategi-zerrendak amaierako lerro-jauzia falta du"
+
+#: src/filesdb.c:342
 #, fuzzy, c-format
 #| msgid "files list for package `%.250s'"
 msgid "reading files list for package '%.250s'"
 msgstr "'%.250s' paketearen fitxategi-zerrenda"
 
-#: src/filesdb.c:336
+#: src/filesdb.c:349
 #, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr ""
 "'%.250s' paketearen fitxategi-zerrendak amaierako lerro-jauzia falta du"
 
-#: src/filesdb.c:344
+#: src/filesdb.c:357
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr ""
 "'%.250s' paketearen fitxategi-zerrendaren fitxategiak fitxategiek izen hutsa "
 "daukate"
 
-#: src/filesdb.c:352
+#: src/filesdb.c:366
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "errorea '%.250s' paketearen fitxategi-zerrendaren fitxategiak ixtean"
 
-#: src/filesdb.c:462
+#: src/filesdb.c:478
 msgid "(Reading database ... "
 msgstr "(Datu-basea irakurtzen ... "
 
-#: src/filesdb.c:483
+#: src/filesdb.c:499
 #, c-format
 msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "fitxategi edo direktorio %d dago unean instalatuta).\n"
 msgstr[1] "%d fitxategi edo direktorio daude unean instalatuta).\n"
 
-#: src/filesdb.c:516
-#, c-format
-msgid "unable to create updated files list file for package %s"
-msgstr "ezin da %s paketearen fitxategi-zerrenda eguneratua sortu"
-
-#: src/filesdb.c:526
-#, c-format
-msgid "failed to write to updated files list file for package %s"
-msgstr ""
-"huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
-"idaztean"
-
-#: src/filesdb.c:528
-#, c-format
-msgid "failed to flush updated files list file for package %s"
-msgstr ""
-"huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
-"garbitzean"
-
-#: src/filesdb.c:530
-#, c-format
-msgid "failed to sync updated files list file for package %s"
-msgstr ""
-"huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
-"sinkronizatzean"
-
-#: src/filesdb.c:533
-#, c-format
-msgid "failed to close updated files list file for package %s"
-msgstr ""
-"huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua ixtean"
-
-#: src/filesdb.c:535
-#, c-format
-msgid "failed to install updated files list file for package %s"
-msgstr ""
-"huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
-"instalatzean"
-
-#: src/help.c:48
+#: src/help.c:50
 msgid "not installed"
 msgstr "instalatu gabe"
 
-#: src/help.c:49
+#: src/help.c:51
 msgid "not installed but configs remain"
 msgstr "ez dago instalatuta baina konfigurazioa gelditzen da"
 
-#: src/help.c:50
+#: src/help.c:52
 msgid "broken due to failed removal or installation"
 msgstr "hautsita kentzean edo instalatzen huts egin duelako"
 
-#: src/help.c:51
+#: src/help.c:53
 msgid "unpacked but not configured"
 msgstr "deskonprimituta baina konfiguratu gabe"
 
-#: src/help.c:52
+#: src/help.c:54
 msgid "broken due to postinst failure"
 msgstr "hautsita postinst-en hutsegitea dela eta"
 
-#: src/help.c:53
+#: src/help.c:55
 msgid "awaiting trigger processing by another package"
 msgstr "beste pakete baten abiarazlearen prozesuaren zain"
 
-#: src/help.c:54
+#: src/help.c:56
 msgid "triggered"
 msgstr "abiarazita"
 
-#: src/help.c:55
+#: src/help.c:57
 msgid "installed"
 msgstr "instalatuta"
 
-#: src/help.c:107
+#: src/help.c:112
 #, fuzzy
 #| msgid "error: PATH is not set."
 msgid "PATH is not set."
 msgstr "errorea: PATH ez da ezarri."
 
-#: src/help.c:129
+#: src/help.c:134
 #, c-format
 msgid "'%s' not found in PATH or not executable."
 msgstr "'%s' ez da PATH aldagaian aurkitu edo ez da exekutagarria."
 
-#: src/help.c:138
+#: src/help.c:143
 #, fuzzy, c-format
 #| msgid "'%s' not found in PATH or not executable."
 msgid ""
@@ -2886,7 +2913,7 @@ msgid_plural ""
 msgstr[0] "'%s' ez da PATH aldagaian aurkitu edo ez da exekutagarria."
 msgstr[1] "'%s' ez da PATH aldagaian aurkitu edo ez da exekutagarria."
 
-#: src/help.c:141
+#: src/help.c:146
 #, fuzzy
 #| msgid ""
 #| "%d expected program not found in PATH or not executable.\n"
@@ -2904,100 +2931,153 @@ msgstr ""
 "Oharra: supererabiltzailearen PATHak honakoak izan ohi ditu:\n"
 "/usr/local/sbin, /usr/sbin eta /sbin."
 
-#: src/help.c:188
+#: src/help.c:211
 msgid "admindir must be inside instdir for dpkg to work properly"
 msgstr ""
 
-#: src/help.c:190 src/main.c:747
+#: src/help.c:213 src/main.c:831
 #, fuzzy
 #| msgid "unable to setenv for maintainer script"
 msgid "unable to setenv for subprocesses"
 msgstr "ezin da 'setenv' erabili mantentzailearen script-arentzako"
 
-#: src/help.c:192
+#: src/help.c:215
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr "%.250s: huts egin du chroot egitean"
 
-#: src/help.c:194 dpkg-deb/build.c:455 dpkg-deb/build.c:457
-#: dpkg-deb/build.c:536 dpkg-deb/build.c:558
+#: src/help.c:217 dpkg-deb/build.c:457 dpkg-deb/build.c:459
+#: dpkg-deb/build.c:544 dpkg-deb/build.c:566
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "huts egin du '%.255s' direktoriora aldatzean"
 
-#: src/help.c:256
+#: src/help.c:282
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "ezin da exekutatzeko baimenik '%.250s'(e)n ezarri"
 
-#: src/help.c:276
+#: src/help.c:302
 msgid "unable to setenv for maintainer script"
 msgstr "ezin da 'setenv' erabili mantentzailearen script-arentzako"
 
-#: src/help.c:300
+#: src/help.c:326
 #, c-format
 msgid "installed %s script"
 msgstr "%s script-a instalatuta"
 
-#: src/help.c:313 src/help.c:382 src/help.c:441
+#: src/help.c:339 src/help.c:408 src/help.c:467
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "ezin da %s '%.250s' atzitu"
 
-#: src/help.c:368 src/help.c:428
+#: src/help.c:394 src/help.c:454
 #, c-format
 msgid "new %s script"
 msgstr "%s script berria"
 
-#: src/help.c:402
+#: src/help.c:428
 #, c-format
 msgid "old %s script"
 msgstr "%s script zaharra"
 
-#: src/help.c:416
+#: src/help.c:442
 #, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "ezin da %s '%.250s' atzitu: %s"
 
-#: src/help.c:425
+#: src/help.c:451
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - pakete berriaren script-arekin saiatzen...\n"
 
-#: src/help.c:439
+#: src/help.c:465
 msgid "there is no script in the new version of the package - giving up"
 msgstr "ez dago script-ik paketearen bertsio berrian - uzten ari da"
 
-#: src/help.c:445
+#: src/help.c:471
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... badirudi dena ondo joan dela.\n"
 
-#: src/help.c:616
+#: src/help.c:642
 #, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "ezin da '%.255s' segurtasunez kendu"
 
-#: src/help.c:621 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:647 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr ""
 
-#: src/infodb.c:52
+#: src/infodb-access.c:53
 #, c-format
 msgid "unable to check existence of `%.250s'"
 msgstr "ezin da '%.250s' badagoen begiratu"
 
-#: src/infodb.c:70
+#: src/infodb-access.c:79 src/infodb-upgrade.c:93
 msgid "cannot read info directory"
 msgstr "ezin da informazio-direktorioan irakurri"
 
-#: src/main.c:60
+#: src/infodb-format.c:51 src/processarc.c:701
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "errorea %.250s irekitzen saiatzean"
+
+#: src/infodb-format.c:55
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "corrupt info database format file '%s'"
+msgstr "ezin da '%s' fitxategia idatzi"
+
+#: src/infodb-upgrade.c:123
+#, fuzzy, c-format
+#| msgid "conffile `%.250s' does not appear in package"
+msgid "Info file %s/%s not associated to any package"
+msgstr "'%.250s' konf. fitxategia ez da paketean azaltzen"
+
+#: src/infodb-upgrade.c:183
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "errorea '%s' idaztean"
+
+#: src/main.c:62
 #, c-format
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian '%s' pakete-kudeatzailearen %s bertsioa.\n"
 
-#: src/main.c:85
-#, c-format
+#: src/main.c:87
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --unpack           <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --configure        <package> ... | -a|--pending\n"
+#| "  --triggers-only    <package> ... | -a|--pending\n"
+#| "  -r|--remove        <package> ... | -a|--pending\n"
+#| "  -P|--purge         <package> ... | -a|--pending\n"
+#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail <Packages-file>   Replace available packages info.\n"
+#| "  --merge-avail <Packages-file>    Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "  -C|--audit                       Check for broken package(s).\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3020,7 +3100,11 @@ msgid ""
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -C|--audit                       Check for broken package(s).\n"
+"  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
+"  --remove-architecture <arch>     Remove <arch> from the list of "
+"architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
+"  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3059,7 +3143,7 @@ msgstr ""
 "  --force-help                             erakutsi behartzeko laguntza.\n"
 "  -Dh|--debug=help                    erakutsi arazketaren laguntza.\n"
 
-#: src/main.c:113 src/querycmd.c:631 src/trigcmd.c:77 dpkg-deb/main.c:88
+#: src/main.c:118 src/querycmd.c:672 src/trigcmd.c:79 dpkg-deb/main.c:88
 #: dpkg-split/main.c:77
 #, c-format
 msgid ""
@@ -3071,7 +3155,7 @@ msgstr ""
 "  --version                           Erakutsi bertsioa.\n"
 "\n"
 
-#: src/main.c:118
+#: src/main.c:123
 #, c-format
 msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -3082,19 +3166,62 @@ msgstr ""
 " -x|--extract|-X|--vextract|--fsys-tarfile artxiboetan (idatzi %s --help.)\n"
 "\n"
 
-#: src/main.c:123
-#, c-format
+#: src/main.c:128
+#, fuzzy, c-format
+#| msgid ""
+#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#| "conrep.\n"
+#| "\n"
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
+"|\n"
+"  --assert-multi-arch.\n"
 "\n"
 msgstr ""
 "Barne erabilpenerako: dpkg --assert-support-predepends | --predep-package \n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
 "\n"
 
-#: src/main.c:128
-#, c-format
+#: src/main.c:134
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>     Use <directory> instead of %s.\n"
+#| "  --root=<directory>         Install on a different root directory.\n"
+#| "  --instdir=<directory>      Change installation dir without changing "
+#| "admin dir.\n"
+#| "  --path-exclude=<pattern>   Do not install paths which match a shell "
+#| "pattern.\n"
+#| "  --path-include=<pattern>   Re-include a pattern after a previous "
+#| "exclusion.\n"
+#| "  -O|--selected-only         Skip packages not selected for install/"
+#| "upgrade.\n"
+#| "  -E|--skip-same-version     Skip packages whose same version is "
+#| "installed.\n"
+#| "  -G|--refuse-downgrade      Skip packages with earlier version than "
+#| "installed.\n"
+#| "  -B|--auto-deconfigure      Install even if it would break some other "
+#| "package.\n"
+#| "  --[no-]triggers            Skip or force consequential trigger "
+#| "processing.\n"
+#| "  --no-debsig                Do not try to verify package signatures.\n"
+#| "  --no-act|--dry-run|--simulate\n"
+#| "                             Just say what we would do - don't do it.\n"
+#| "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --"
+#| "debug=help).\n"
+#| "  --status-fd <n>            Send status change updates to file "
+#| "descriptor <n>.\n"
+#| "  --log=<filename>           Log status changes and actions to "
+#| "<filename>.\n"
+#| "  --ignore-depends=<package>,...\n"
+#| "                             Ignore dependencies involving <package>.\n"
+#| "  --force-...                Override problems (see --force-help).\n"
+#| "  --no-force-...|--refuse-...\n"
+#| "                             Stop when problems encountered.\n"
+#| "  --abort-after <n>          Abort after encountering <n> errors.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -3120,6 +3247,8 @@ msgid ""
 "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --debug=help).\n"
 "  --status-fd <n>            Send status change updates to file descriptor "
 "<n>.\n"
+"  --status-logger=<command>  Send status change updates to <command>'s "
+"stdin.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
 "  --ignore-depends=<package>,...\n"
 "                             Ignore dependencies involving <package>.\n"
@@ -3169,7 +3298,7 @@ msgstr ""
 "  --abort-after <n>               Abortatu <n> errore aurkitu ondoren.\n"
 "\n"
 
-#: src/main.c:154
+#: src/main.c:161
 #, c-format
 msgid ""
 "Comparison operators for --compare-versions are:\n"
@@ -3189,12 +3318,12 @@ msgstr ""
 "                                        bateragarritasunerako bakarrik).\n"
 "\n"
 
-#: src/main.c:161
+#: src/main.c:168
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr "Erabili 'dselect' edo 'aptitude' paketeak errazago kudeatzeko.\n"
 
-#: src/main.c:170
+#: src/main.c:176
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -3215,63 +3344,63 @@ msgstr ""
 "[*] markatutako aukerek emaitza handia dute - iragazi 'less' edo 'more' "
 "erabiliz."
 
-#: src/main.c:219
+#: src/main.c:225
 msgid "Set all force options"
 msgstr ""
 
-#: src/main.c:221
+#: src/main.c:227
 msgid "Replace a package with a lower version"
 msgstr ""
 
-#: src/main.c:223
+#: src/main.c:229
 msgid "Configure any package which may help this one"
 msgstr ""
 
-#: src/main.c:225
+#: src/main.c:231
 msgid "Process incidental packages even when on hold"
 msgstr ""
 
-#: src/main.c:227
+#: src/main.c:233
 msgid "Try to (de)install things even when not root"
 msgstr ""
 
-#: src/main.c:229
+#: src/main.c:235
 msgid "PATH is missing important programs, problems likely"
 msgstr ""
 
-#: src/main.c:231
+#: src/main.c:237
 msgid "Install a package even if it fails authenticity check"
 msgstr ""
 
-#: src/main.c:233
+#: src/main.c:239
 msgid "Process even packages with wrong versions"
 msgstr ""
 
-#: src/main.c:235
+#: src/main.c:241
 msgid "Overwrite a file from one package with another"
 msgstr ""
 
-#: src/main.c:237
+#: src/main.c:243
 msgid "Overwrite a diverted file with an undiverted version"
 msgstr ""
 
-#: src/main.c:239
+#: src/main.c:245
 msgid "Overwrite one package's directory with another's file"
 msgstr ""
 
-#: src/main.c:241
+#: src/main.c:247
 msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
-#: src/main.c:243
+#: src/main.c:249
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
-#: src/main.c:245
+#: src/main.c:251
 msgid "Always use the old config files, don't prompt"
 msgstr ""
 
-#: src/main.c:248
+#: src/main.c:254
 msgid ""
 "Use the default option for new config files if one\n"
 "                         is available, don't prompt. If no default can be "
@@ -3280,103 +3409,103 @@ msgid ""
 "                         confnew options is also given"
 msgstr ""
 
-#: src/main.c:253
+#: src/main.c:259
 msgid "Always install missing config files"
 msgstr ""
 
-#: src/main.c:255
+#: src/main.c:261
 msgid "Offer to replace config files with no new versions"
 msgstr ""
 
-#: src/main.c:257
+#: src/main.c:263
 msgid "Process even packages with wrong or no architecture"
 msgstr ""
 
-#: src/main.c:259
+#: src/main.c:265
 msgid "Install even if it would break another package"
 msgstr ""
 
-#: src/main.c:261
+#: src/main.c:267
 msgid "Allow installation of conflicting packages"
 msgstr ""
 
-#: src/main.c:263
+#: src/main.c:269
 #, fuzzy
 #| msgid "dependency problems - not removing"
 msgid "Turn all dependency problems into warnings"
 msgstr "mendekotasun arazoak - ez da kenduko"
 
-#: src/main.c:265
+#: src/main.c:271
 #, fuzzy
 #| msgid "dependency problems - not removing"
 msgid "Turn dependency version problems into warnings"
 msgstr "mendekotasun arazoak - ez da kenduko"
 
-#: src/main.c:267
+#: src/main.c:273
 msgid "Remove packages which require installation"
 msgstr ""
 
-#: src/main.c:269
+#: src/main.c:275
 msgid "Remove an essential package"
 msgstr ""
 
-#: src/main.c:281
+#: src/main.c:287
 msgid "Generally helpful progress information"
 msgstr ""
 
-#: src/main.c:282
+#: src/main.c:288
 #, fuzzy
 #| msgid "unable to setenv for maintainer script"
 msgid "Invocation and status of maintainer scripts"
 msgstr "ezin da 'setenv' erabili mantentzailearen script-arentzako"
 
-#: src/main.c:283
+#: src/main.c:289
 msgid "Output for each file processed"
 msgstr ""
 
-#: src/main.c:284
+#: src/main.c:290
 msgid "Lots of output for each file processed"
 msgstr ""
 
-#: src/main.c:285
+#: src/main.c:291
 #, fuzzy
 #| msgid "read error in configuration file `%.255s'"
 msgid "Output for each configuration file"
 msgstr "irakurketaren errorea '%.255s' konfigurazioko fitxategian"
 
-#: src/main.c:286
+#: src/main.c:292
 msgid "Lots of output for each configuration file"
 msgstr ""
 
-#: src/main.c:287
+#: src/main.c:293
 msgid "Dependencies and conflicts"
 msgstr ""
 
-#: src/main.c:288
+#: src/main.c:294
 msgid "Lots of dependencies/conflicts output"
 msgstr ""
 
-#: src/main.c:289
+#: src/main.c:295
 msgid "Trigger activation and processing"
 msgstr ""
 
-#: src/main.c:290
+#: src/main.c:296
 msgid "Lots of output regarding triggers"
 msgstr ""
 
-#: src/main.c:291
+#: src/main.c:297
 msgid "Silly amounts of output regarding triggers"
 msgstr ""
 
-#: src/main.c:292
+#: src/main.c:298
 msgid "Lots of drivel about eg the dpkg/info directory"
 msgstr ""
 
-#: src/main.c:293
+#: src/main.c:299
 msgid "Insane amounts of drivel"
 msgstr ""
 
-#: src/main.c:304
+#: src/main.c:310
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -3384,7 +3513,7 @@ msgid ""
 " Number  Ref. in source   Description\n"
 msgstr ""
 
-#: src/main.c:311
+#: src/main.c:317
 #, c-format
 msgid ""
 "\n"
@@ -3392,38 +3521,73 @@ msgid ""
 "Note that the meanings and values are subject to change.\n"
 msgstr ""
 
-#: src/main.c:319
-msgid "--debug requires an octal argument"
+#: src/main.c:326
+#, fuzzy, c-format
+#| msgid "--debug requires an octal argument"
+msgid "--%s requires an octal argument"
 msgstr "--debug: argumentu zortzitar bat behar du"
 
-#: src/main.c:348
-#, c-format
-msgid "null package name in --ignore-depends comma-separated list `%.250s'"
+#: src/main.c:354
+#, fuzzy, c-format
+#| msgid "null package name in --ignore-depends comma-separated list `%.250s'"
+msgid "null package name in --%s comma-separated list '%.250s'"
 msgstr ""
 "pakete-izen nulua --ignore-depends komaz bereizitako '%.250s' zerrendan"
 
-#: src/main.c:354
-#, c-format
-msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
+#: src/main.c:364 src/packages.c:114 src/querycmd.c:402 src/querycmd.c:621
+#, fuzzy, c-format
+#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
 msgstr "--ignore-depends: legezko pakete izena behar du. '%.250s' ez da; %s"
 
-#: src/main.c:371 src/main.c:381 src/main.c:649 dpkg-split/main.c:124
+#: src/main.c:381 src/main.c:391 src/main.c:733 dpkg-split/main.c:124
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "baliogabeko osokoa --%s: '%.250s'"
 
-#: src/main.c:438
+#: src/main.c:448
 #, c-format
 msgid "error executing hook '%s', exit code %d"
 msgstr "errorea '%s' lotura exekutatzean, irteerako %d kodea"
 
-#: src/main.c:465
+#: src/main.c:475
 #, fuzzy
 #| msgid "status"
 msgid "status logger"
 msgstr "egoera"
 
-#: src/main.c:480
+#: src/main.c:490 src/main.c:520
+#, fuzzy, c-format
+#| msgid "--%s takes no arguments"
+msgid "--%s takes one argument"
+msgstr "--%s: ez du argumenturik hartzen"
+
+#: src/main.c:500
+#, c-format
+msgid "architecture '%s' is illegal: %s"
+msgstr ""
+
+#: src/main.c:503
+#, c-format
+msgid "architecture '%s' is reserved and cannot be added"
+msgstr ""
+
+#: src/main.c:526
+#, c-format
+msgid "cannot remove non-foreign architecture '%s'"
+msgstr ""
+
+#: src/main.c:537
+#, c-format
+msgid "removing architecture '%s' currently in use by database"
+msgstr ""
+
+#: src/main.c:540
+#, c-format
+msgid "cannot remove architecture '%s' currently in use by the database"
+msgstr ""
+
+#: src/main.c:562
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -3432,7 +3596,7 @@ msgid ""
 " Forcing things:\n"
 msgstr ""
 
-#: src/main.c:490
+#: src/main.c:572
 #, c-format
 msgid ""
 "\n"
@@ -3440,64 +3604,62 @@ msgid ""
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
 
-#: src/main.c:504
+#: src/main.c:586
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "'%.*s' behartzeko/uko egiteko aukera ezezaguna"
 
-#: src/main.c:513
+#: src/main.c:595
 #, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "'%s' behartzeko/uko egiteko aukera zaharkitua\n"
 
-#: src/main.c:643
-msgid "--command-fd takes one argument, not zero"
-msgstr "--command-fd: argumentu bat hartzen du, ez 0"
+#: src/main.c:729 dpkg-deb/info.c:329
+#, fuzzy, c-format
+#| msgid "--contents takes exactly one argument"
+msgid "--%s takes exactly one argument"
+msgstr "--contents: argumentu bat hartzen du zehazki"
 
-#: src/main.c:645
-msgid "--command-fd only takes one argument"
-msgstr "--command-fd: argumentu bat bakarrik hartzen du"
-
-#: src/main.c:651
+#: src/main.c:735
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "ezin izan da '%i' ireki korronterako"
 
-#: src/main.c:676
+#: src/main.c:760
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "ustekabeko eof %d lerroa amaitu aurretik"
 
-#: src/main.c:719 src/main.c:741 src/querycmd.c:692 src/statcmd.c:379
-#: dpkg-deb/main.c:201 dpkg-split/main.c:163
+#: src/main.c:803 src/main.c:825 src/querycmd.c:735 src/statcmd.c:360
+#: dpkg-deb/main.c:208 dpkg-split/main.c:163
 msgid "need an action option"
 msgstr "ekintza-aukera bat behar da"
 
-#: src/packages.c:113
+#: src/packages.c:122
 msgid ""
 "you must specify packages by their own names, not by quoting the names of "
 "the files they come in"
 msgstr ""
 "paketeen izenak zehaztu behar dituzu, ez paketeen barruko fitxategien izenak"
 
-#: src/packages.c:133
+#: src/packages.c:144
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending: ez du hartzen aukerakoa ez den argumenturik"
 
-#: src/packages.c:138 src/querycmd.c:375 src/querycmd.c:565
+#: src/packages.c:149 src/querycmd.c:390 src/querycmd.c:601
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s: pakete-izenaren argumentu bat behar du gutxienez"
 
-#: src/packages.c:179
+#: src/packages.c:190
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr ""
 "%s paketea behin baino gehiagotan azaltzen da, baina behin bakarrik "
 "prozesatuko da.\n"
 
-#: src/packages.c:183
+#: src/packages.c:194
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
@@ -3506,7 +3668,7 @@ msgstr ""
 "%s paketearen kopia bat baino gehiago deskonprimitu da\n"
 " exekuzio honetan!  Behin bakarrik konfiguratuko da.\n"
 
-#: src/packages.c:232
+#: src/packages.c:244
 #, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
@@ -3515,113 +3677,113 @@ msgstr ""
 "%.250s paketea ez dago prest abiarazlearen prozesurako\n"
 " (uneko egoera: '%.250s' eta ez da abiarazlerik falta)"
 
-#: src/packages.c:334
+#: src/packages.c:346
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  %s paketea, %s hornitzen duena, kendu egingo da.\n"
 
-#: src/packages.c:337
+#: src/packages.c:349
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  %s paketea kendu egingo da.\n"
 
-#: src/packages.c:354
+#: src/packages.c:364
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  %s(r)en sistemako bertsioa %s da.\n"
 
-#: src/packages.c:376
+#: src/packages.c:386
 #, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr ""
 "  %s paketea, %s hornitzen duena, abiarazlearen prozesuaren zain dago.\n"
 
-#: src/packages.c:380
+#: src/packages.c:390
 #, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  %s paketea abiarazlearen prozesuaren zain dago.\n"
 
-#: src/packages.c:410
+#: src/packages.c:420
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: '%s' ere konfiguratzen ari da (honek behar du: '%s')\n"
 
-#: src/packages.c:418
+#: src/packages.c:429
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  %s paketea, %s hornitzen duena, oraindik ez dago konfiguratuta.\n"
 
-#: src/packages.c:421
+#: src/packages.c:432
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  %s paketea ez dago konfiguratuta oraindik.\n"
 
-#: src/packages.c:432
+#: src/packages.c:443
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  %s paketea, %s hornitzen duena, ez dago instalatuta.\n"
 
-#: src/packages.c:435
+#: src/packages.c:446
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  %s paketea ez dago instalatuta.\n"
 
-#: src/packages.c:472
+#: src/packages.c:486
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr " %s (%s)(e)k %s apurtzen du eta %s da.\n"
 
-#: src/packages.c:478
+#: src/packages.c:493
 #, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "  %s (%s)(e)k %s hornitzen du.\n"
 
-#: src/packages.c:482
+#: src/packages.c:498
 #, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  Konfiguratuko den %s(r)en bertsioa %s da.\n"
 
-#: src/packages.c:596
+#: src/packages.c:635
 msgid " depends on "
 msgstr " honen mendekoa da: "
 
-#: src/packages.c:602
+#: src/packages.c:641
 msgid "; however:\n"
 msgstr "; nolanahi ere:\n"
 
-#: src/processarc.c:71
+#: src/processarc.c:75
 #, c-format
 msgid ".../%s"
 msgstr ".../%s"
 
-#: src/processarc.c:91
+#: src/processarc.c:95
 #, c-format
 msgid "error ensuring `%.250s' doesn't exist"
 msgstr "errorea '%.250s' ez dagoela ziurtatzean"
 
-#: src/processarc.c:99
+#: src/processarc.c:103
 msgid "split package reassembly"
 msgstr ""
 
-#: src/processarc.c:108
+#: src/processarc.c:112
 msgid "reassembled package file"
 msgstr "pakete-fitxategia berriz muntatu da"
 
-#: src/processarc.c:133
+#: src/processarc.c:137
 #, c-format
 msgid "Authenticating %s ...\n"
 msgstr "%s autentifikatzen...\n"
 
-#: src/processarc.c:139
+#: src/processarc.c:143
 msgid "package signature verification"
 msgstr ""
 
-#: src/processarc.c:146
+#: src/processarc.c:150
 #, c-format
 msgid "Verification on package %s failed!"
 msgstr "Huts egin du %s paketea egiaztatzean!"
 
-#: src/processarc.c:148
+#: src/processarc.c:152
 #, c-format
 msgid ""
 "Verification on package %s failed,\n"
@@ -3630,95 +3792,100 @@ msgstr ""
 "Huts egin du %s paketea egiaztatzean,\n"
 "baina eskatu bezala instalatuko da.\n"
 
-#: src/processarc.c:152
+#: src/processarc.c:156
 #, c-format
 msgid "passed\n"
 msgstr "gaindituta\n"
 
-#: src/processarc.c:165 dpkg-deb/info.c:81
+#: src/processarc.c:169 dpkg-deb/info.c:81
 msgid "unable to create temporary directory"
 msgstr "ezin da aldi baterako direktorioa sortu"
 
-#: src/processarc.c:205
+#: src/processarc.c:209
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
 msgstr "%s paketeak gatazka/ordezte bikote gehiegi ditu"
 
-#: src/processarc.c:243
+#: src/processarc.c:219 src/remove.c:208
+#, c-format
+msgid "unable to delete control info file `%.250s'"
+msgstr "ezin da '%.250s' kontroleko informazio-fitxategia ezabatu"
+
+#: src/processarc.c:230
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "pakete-bertsio zaharreko inf. fitxategiak izen luzeegia du;'%.250s' hasten da"
 
-#: src/processarc.c:281
+#: src/processarc.c:268
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "ezin da '%.250s' informazio-fitxategi zaharkitua kendu"
 
-#: src/processarc.c:286
+#: src/processarc.c:273
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "ezin da '%.250s' (ustezko) informazio-fitxategi berria instalatu"
 
-#: src/processarc.c:296
+#: src/processarc.c:283
 msgid "unable to open temp control directory"
 msgstr "ezin da aldi baterako kontroleko direktorioa ireki"
 
-#: src/processarc.c:307
+#: src/processarc.c:294
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "paketeak kontroleko informazio-fitxategi izen luzeegia dauka ('%.50s' hasten "
 "da)"
 
-#: src/processarc.c:314
+#: src/processarc.c:301
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "paketearen kontrol informazioak '%.250s' direktorioa zeukan"
 
-#: src/processarc.c:316
+#: src/processarc.c:303
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "'%.250s' rmdir paketearen kontrol-informazioak ez du esaten direktorio bat "
 "ez denik"
 
-#: src/processarc.c:326
+#: src/processarc.c:313
 #, c-format
 msgid "package %s contained list as info file"
 msgstr "%s paketeak zerrenda informazio-fitxategi gisa zeukan"
 
-#: src/processarc.c:333
+#: src/processarc.c:321
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "ezin da '%.250s' informazio fitxategi berria '%.250s' gisa instalatu"
 
-#: src/processarc.c:349 src/remove.c:198
+#: src/processarc.c:346
 #, c-format
-msgid "unable to delete control info file `%.250s'"
-msgstr "ezin da '%.250s' kontroleko informazio-fitxategia ezabatu"
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Kontuan hartu %s desagertu dela, guztiz ordeztu delako.)\n"
 
-#: src/processarc.c:411
+#: src/processarc.c:450
 msgid "cannot access archive"
 msgstr "ezin da sartu artxiboan"
 
-#: src/processarc.c:433
+#: src/processarc.c:472
 #, fuzzy
 #| msgid "control information length"
 msgid "package control information extraction"
 msgstr "kontrol-informazioaren luzera"
 
-#: src/processarc.c:460
+#: src/processarc.c:507
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "%s(r)i buruzko informazioa erregistratu da %s(e)tik.\n"
 
-#: src/processarc.c:468
+#: src/processarc.c:517
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "paketearen arkitektura (%s) ez dator bat sistemarekin (%s)"
 
-#: src/processarc.c:523
+#: src/processarc.c:583
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
@@ -3727,105 +3894,100 @@ msgstr ""
 "dpkg: %2$s daukan %1$s: aurremendekotasun arazoa:\n"
 "%3$s"
 
-#: src/processarc.c:526
+#: src/processarc.c:587
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "aurremendekotasun arazoa: %.250s ez da instalatuko"
 
-#: src/processarc.c:527
+#: src/processarc.c:589
 msgid "ignoring pre-dependency problem!"
 msgstr "aurremendekotasun arazoari ezikusi egingo zaio!"
 
-#: src/processarc.c:543
+#: src/processarc.c:605
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "%s %s ordezteko prestatzen (%s erabiliz) ...\n"
 
-#: src/processarc.c:549
+#: src/processarc.c:611
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "%s (%s) deskonprimitzen...\n"
 
-#: src/processarc.c:580
+#: src/processarc.c:643
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 "konf. fitxategiaren izena ('%.250s' hasten dena) luzeegia da (>%d karaktere)"
 
-#: src/processarc.c:633 utils/update-alternatives.c:2071
+#: src/processarc.c:697 utils/update-alternatives.c:2066
 #, c-format
 msgid "read error in %.250s"
 msgstr "%.250s: irakurketa-errorea"
 
-#: src/processarc.c:635
+#: src/processarc.c:699
 #, c-format
 msgid "error closing %.250s"
 msgstr "errorea %.250s ixtean"
 
-#: src/processarc.c:637
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "errorea %.250s irekitzen saiatzean"
-
-#: src/processarc.c:678
+#: src/processarc.c:742
 #, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "%s konfigurazioa kentzen, %s kendu ahal izateko...\n"
 
-#: src/processarc.c:681
+#: src/processarc.c:746
 #, c-format
 msgid "De-configuring %s ...\n"
 msgstr "%s konfigurazioa kentzen...\n"
 
-#: src/processarc.c:755
+#: src/processarc.c:827
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "%.250s ordezpena deskonprimitzen...\n"
 
-#: src/processarc.c:840
+#: src/processarc.c:913
 #, fuzzy
 #| msgid "dpkg-deb field extraction"
 msgid "package filesystem archive extraction"
 msgstr "dpkg-deb eremuaren erausketa"
 
-#: src/processarc.c:854
+#: src/processarc.c:928
 msgid "error reading dpkg-deb tar output"
 msgstr "errorea dpkg-deb tar irteera irakurtzean"
 
-#: src/processarc.c:856
+#: src/processarc.c:930
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr ""
 "fitxategi-sistemaren tar fitxategia hondatu da - paketearen artxiboa "
 "hondatuta dago"
 
-#: src/processarc.c:859
+#: src/processarc.c:933
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: kendu amaierako zero posibleak"
 
-#: src/processarc.c:919
+#: src/processarc.c:993
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "ezin izan da '%.250s' fitxategi zaharraren egoera eskuratu, beraz ez da "
 "ezabatuko: %s"
 
-#: src/processarc.c:925
+#: src/processarc.c:999
 #, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "ezin da '%.250s' direktorio zaharra ezabatu: %s"
 
-#: src/processarc.c:928
+#: src/processarc.c:1002
 #, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
 "'%.250s' konf. fitxategi zaharra direktorio huts bat da (eta ezabatu egin da)"
 
-#: src/processarc.c:975
+#: src/processarc.c:1049
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "ezin da beste '%.250s' fitxategiaren egoera eskuratu"
 
-#: src/processarc.c:986
+#: src/processarc.c:1060
 #, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -3834,15 +3996,10 @@ msgstr ""
 "'%.250s' fitxategi zaharra zenbait fitxategi berrien berdina da (bai "
 "'%.250s' eta bai '%.250s')"
 
-#: src/processarc.c:1025
+#: src/processarc.c:1099
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "ezin da '%.250s' fitxategi zaharra segurtasunez kendu: %s"
-
-#: src/processarc.c:1206
-#, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Kontuan hartu %s desagertu dela, guztiz ordeztu delako.)\n"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
@@ -3850,7 +4007,7 @@ msgstr "(Kontuan hartu %s desagertu dela, guztiz ordeztu delako.)\n"
 #. * the first three columns, which should ideally match the English one
 #. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
 #. * translated message can use additional lines if needed.
-#: src/querycmd.c:149
+#: src/querycmd.c:154
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
@@ -3863,89 +4020,89 @@ msgstr ""
 "|/ Err?=(bat ere ez)/Hold/Reinst-required/X=both-problems (Status,Err: "
 "uppercase=bad)\n"
 
-#: src/querycmd.c:153
+#: src/querycmd.c:158
 msgid "Name"
 msgstr "Izena"
 
-#: src/querycmd.c:153
+#: src/querycmd.c:158
 msgid "Version"
 msgstr "Bertsioa"
 
-#: src/querycmd.c:154
+#: src/querycmd.c:159
 msgid "Description"
 msgstr "Azalpena"
 
-#: src/querycmd.c:246 src/querycmd.c:511 src/select.c:75
+#: src/querycmd.c:257 src/querycmd.c:542 src/select.c:93
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Ez dago honekin bat datorren paketerik: %s.\n"
 
-#: src/querycmd.c:273
+#: src/querycmd.c:288
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%s(e)k hemendik desbideratuta: %s\n"
 
-#: src/querycmd.c:275
+#: src/querycmd.c:290
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "%s(e)k hona desbideratuta: %s\n"
 
-#: src/querycmd.c:278
+#: src/querycmd.c:293
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "desbideratze lokala hemendik: %s\n"
 
-#: src/querycmd.c:279
+#: src/querycmd.c:294
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "lokalki hona desbideratuta: %s\n"
 
-#: src/querycmd.c:309
+#: src/querycmd.c:324
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search: fitxategi-izeneko eredu-argumentu bat behar du gutxienez"
 
-#: src/querycmd.c:350
+#: src/querycmd.c:365
 #, fuzzy, c-format
 #| msgid "No packages found matching %s.\n"
 msgid "%s: no path found matching pattern %s.\n"
 msgstr "Ez dago honekin bat datorren paketerik: %s.\n"
 
-#: src/querycmd.c:393
+#: src/querycmd.c:414
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "'%s' paketea ez dago instalatuta, eta ez dago inf. erabilgarririk.\n"
 
-#: src/querycmd.c:401
+#: src/querycmd.c:423
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "'%s' paketea ez dago erabilgarri.\n"
 
-#: src/querycmd.c:410 src/querycmd.c:585
+#: src/querycmd.c:433 src/querycmd.c:625
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "'%s' paketea ez dago instalatuta.\n"
 
-#: src/querycmd.c:418
+#: src/querycmd.c:442
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "'%s' paketeak ez dauka fitxategirik (!)\n"
 
-#: src/querycmd.c:425
+#: src/querycmd.c:450
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "lokalki hona desbideratuta: %s\n"
 
-#: src/querycmd.c:428
+#: src/querycmd.c:453
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "paketeak beste batzuk hona desbideratzen ditu: %s\n"
 
-#: src/querycmd.c:431
+#: src/querycmd.c:456
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "%s(e)k hona desbideratuta: %s\n"
 
-#: src/querycmd.c:452
+#: src/querycmd.c:477
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3953,22 +4110,22 @@ msgstr ""
 "Erabili dpkg --info (= dpkg-deb --info) artxibo-fitxategiak aztertzeko,\n"
 "eta dpkg --contents (= dpkg-deb --contents) edukia zerrendatzeko.\n"
 
-#: src/querycmd.c:570
+#: src/querycmd.c:606 dpkg-deb/build.c:410
 #, c-format
 msgid "--%s takes at most two arguments"
 msgstr "--%s: gehienez bi argumentu hartzen ditu"
 
-#: src/querycmd.c:578
+#: src/querycmd.c:614
 #, c-format
 msgid "control file contains %c"
 msgstr "kontrol-fitxategiak hau dauka: %c"
 
-#: src/querycmd.c:600
+#: src/querycmd.c:641
 #, c-format
 msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debian %s pakete-kudeaketarako programaren %sbertsioa.\n"
 
-#: src/querycmd.c:619
+#: src/querycmd.c:660
 #, fuzzy, c-format
 #| msgid ""
 #| "Commands:\n"
@@ -4006,11 +4163,17 @@ msgstr ""
 "bide-izena.\n"
 "\n"
 
-#: src/querycmd.c:636
-#, c-format
+#: src/querycmd.c:677
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  -f|--showformat=<format>         Use alternative format for --show.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --load-avail                     Use available file on --show and --list.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"
 msgstr ""
@@ -4019,7 +4182,7 @@ msgstr ""
 "  -f|--showformat=<formatua>      Erabili beste formatu bat --show egiteko\n"
 "\n"
 
-#: src/querycmd.c:642 dpkg-deb/main.c:112
+#: src/querycmd.c:684 dpkg-deb/main.c:114
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -4041,17 +4204,17 @@ msgstr ""
 "  sintaxiarekin. Eremuak eskuinean lerrokatuko dira, zabalera negatiboa ez \n"
 "  bada. Negatiboa bada, aldiz, ezkerrean lerrokatuko dira.\n"
 
-#: src/querycmd.c:656
+#: src/querycmd.c:698
 msgid "Use --help for help about querying packages."
 msgstr "Erabili --help paketeen kontsultari buruzko laguntza lortzeko."
 
-#: src/remove.c:88
+#: src/remove.c:93
 #, c-format
 msgid "ignoring request to remove %.250s which isn't installed."
 msgstr ""
 "%.250s kentzeko eskaerari ezikusi egingo zaio, ez dagoelako instalatuta."
 
-#: src/remove.c:95
+#: src/remove.c:100
 #, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
@@ -4061,11 +4224,11 @@ msgstr ""
 " fitxategiak bakarrik daudelako sisteman. Erabili --purge horiek ere "
 "kentzeko."
 
-#: src/remove.c:103
+#: src/remove.c:108
 msgid "This is an essential package - it should not be removed."
 msgstr "Hau funtsezko pakete bat da, eta ez da kendu behar."
 
-#: src/remove.c:128
+#: src/remove.c:138
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent removal of %s:\n"
@@ -4074,11 +4237,11 @@ msgstr ""
 "dpkg: mendekotasun arazoak direla eta, ezin da %s kendu:\n"
 "%s"
 
-#: src/remove.c:130
+#: src/remove.c:140
 msgid "dependency problems - not removing"
 msgstr "mendekotasun arazoak - ez da kenduko"
 
-#: src/remove.c:134
+#: src/remove.c:144
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
@@ -4087,7 +4250,7 @@ msgstr ""
 "dpkg: %s: mendekotasun arazoak, baina eskatu bezala kenduko da:\n"
 "%s"
 
-#: src/remove.c:142
+#: src/remove.c:152
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
@@ -4095,17 +4258,17 @@ msgstr ""
 "Paketearen egoera inkoherentea da - berriro instalatu beharko\n"
 " zenuke, kentzen saiatu aurretik."
 
-#: src/remove.c:149
+#: src/remove.c:159
 #, c-format
 msgid "Would remove or purge %s ...\n"
 msgstr "%s kendu edo purgatuko litzateke...\n"
 
-#: src/remove.c:157
+#: src/remove.c:167
 #, c-format
 msgid "Removing %s ...\n"
 msgstr "%s kentzen...\n"
 
-#: src/remove.c:275 src/remove.c:366
+#: src/remove.c:326 src/remove.c:417
 #, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
@@ -4114,88 +4277,94 @@ msgstr ""
 "%.250s kentzean, ezin da '%.250s' direktorioa kendu: %s - baliteke "
 "direktorioa muntatze puntua bat izatea ?"
 
-#: src/remove.c:289
+#: src/remove.c:340
 #, c-format
 msgid "unable to securely remove '%.250s'"
 msgstr "ezin da '%.250s' segurtasunez kendu"
 
-#: src/remove.c:361
+#: src/remove.c:412
 #, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed."
 msgstr ""
 "%.250s kentzean, '%.250s' direktorioa ez dago hutsik, eta beraz ez da "
 "kenduko."
 
-#: src/remove.c:383
+#: src/remove.c:434
 #, fuzzy, c-format
 #| msgid "cannot remove `%.250s'"
 msgid "cannot remove '%.250s'"
 msgstr "ezin da '%.250s' kendu"
 
-#: src/remove.c:409
+#: src/remove.c:460
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr "%s: konfigurazio-fitxategiak purgatzen ...\n"
 
-#: src/remove.c:459
+#: src/remove.c:511
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr "ezin da '%.250s' konfigurazio-fitxategi zaharra kendu (= '%.250s')"
 
-#: src/remove.c:474
+#: src/remove.c:526
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr "ezin da '%.250s' konf. fitxategiaren direktorioa irakurri ('%.250s')"
 
-#: src/remove.c:510
+#: src/remove.c:562
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr "ezin da '%.250s' babeskopiako konf. fitxategi zaharra kendu ('%.250s')"
 
-#: src/remove.c:568
+#: src/remove.c:621
 msgid "cannot remove old files list"
 msgstr "ezin da fitxategi zaharren zerrenda kendu"
 
-#: src/remove.c:574
+#: src/remove.c:627
 msgid "can't remove old postrm script"
 msgstr "ezin da postrm script zaharra kendu"
 
-#: src/select.c:115
+#: src/select.c:137
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "ustekabeko eof pakete-izenaren %d lerroan"
 
-#: src/select.c:116
+#: src/select.c:138
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "ustekabeko lerro-amaiera pakete-izenaren %d lerroan"
 
-#: src/select.c:122
+#: src/select.c:144
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "ustekabeko eof pakete-izenaren ondoren %d lerroan"
 
-#: src/select.c:123
+#: src/select.c:145
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "espero ez zen lerro-amaiera pakete-izenaren ondoren %d lerroan"
 
-#: src/select.c:136
+#: src/select.c:158
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "espero ez ziren datuak paketearen eta hautapenaren ondoren %d lerroan"
 
-#: src/select.c:139
+#: src/select.c:162
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "pakete-izen baliogabea %d lerroan: %.250s"
 
-#: src/select.c:143
+#: src/select.c:168
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %.250s"
+msgid "package not in database at line %d: %.250s"
+msgstr "pakete-izen baliogabea %d lerroan: %.250s"
+
+#: src/select.c:172
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "nahi zen egoera ezezaguna %d lerroan: %.250s"
 
-#: src/select.c:149
+#: src/select.c:178
 msgid "read error on standard input"
 msgstr "irakurketa-errorea sarrera estandarrean"
 
@@ -4205,16 +4374,7 @@ msgstr "irakurketa-errorea sarrera estandarrean"
 msgid "Use --help for help about overriding file stat information."
 msgstr "Erabili --help paketeen kontsultari buruzko laguntza lortzeko."
 
-#: src/statcmd.c:61
-#, c-format
-msgid ""
-"Copyright (C) 2000, 2001 Wichert Akkerman.\n"
-"Copyright (C) 2006-2009 Guillem Jover.\n"
-msgstr ""
-"Copyright (C) 2000, 2001 Wichert Akkerman.\n"
-"Copyright (C) 2006-2009 Guillem Jover.\n"
-
-#: src/statcmd.c:81
+#: src/statcmd.c:77
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4231,7 +4391,7 @@ msgstr ""
 "  --list [<glob-pattern>]  zerrendatu uneko datu-baseko gainidazketak.\n"
 "\n"
 
-#: src/statcmd.c:89
+#: src/statcmd.c:85
 #, c-format
 msgid ""
 "Options:\n"
@@ -4254,31 +4414,17 @@ msgstr ""
 "  --help                   erakutsi laguntzaren mezu hau.\n"
 "  --version               erakutsi bertsioa.\n"
 
-#: src/statcmd.c:116
+#: src/statcmd.c:112
 msgid "stripping trailing /"
 msgstr "amaierako '/'-ak kentzen"
 
-#: src/statcmd.c:207
-msgid "cannot open new statoverride file"
-msgstr "ezin da statoverride fitxategi berria ireki"
-
-#: src/statcmd.c:222
-msgid "error removing statoverride-old"
-msgstr "errorea statoverride-old kentzean"
-
-#: src/statcmd.c:224
-msgid "error creating new statoverride-old"
-msgstr "errorea statoverride-old berria sortzean"
-
-#: src/statcmd.c:226
-msgid "error installing new statoverride"
-msgstr "errorea statoverride berria instalatzean"
-
-#: src/statcmd.c:246
-msgid "--add needs four arguments"
+#: src/statcmd.c:227
+#, fuzzy, c-format
+#| msgid "--add needs four arguments"
+msgid "--%s needs four arguments"
 msgstr "--add aukerak lau argumentu behar ditu"
 
-#: src/statcmd.c:256
+#: src/statcmd.c:237
 #, c-format
 msgid ""
 "An override for '%s' already exists, but --force specified so will be "
@@ -4287,21 +4433,21 @@ msgstr ""
 "'%s'(r)en gainidazketa badago dagoeneko, baina --force ezarri denez, ezikusi "
 "egingo zaio."
 
-#: src/statcmd.c:260
+#: src/statcmd.c:241
 #, c-format
 msgid "An override for '%s' already exists, aborting."
 msgstr "'%s'(r)en gainidazketa badago dagoeneko, abortatzen."
 
-#: src/statcmd.c:272
+#: src/statcmd.c:253
 #, c-format
 msgid "--update given but %s does not exist"
 msgstr "--update eman da baina %s ez dago"
 
-#: src/statcmd.c:296
+#: src/statcmd.c:277
 msgid "No override present."
 msgstr "Ez dago gainidazketarik."
 
-#: src/statcmd.c:304
+#: src/statcmd.c:285
 msgid "--update is useless for --remove"
 msgstr "--update ezin da --remove aukerarekin erabili"
 
@@ -4366,16 +4512,16 @@ msgstr "ustekabeko lerro-amaiera statoverride fitxategian"
 msgid "multiple statusoverrides present for file '%.250s'"
 msgstr "hainbat statusoverrides daude '%.250s' fitxategian"
 
-#: src/trigcmd.c:46
+#: src/trigcmd.c:48
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Idatzi dpkg-trigger --help lanabes honen laguntza lortzeko."
 
-#: src/trigcmd.c:51
+#: src/trigcmd.c:53
 #, c-format
 msgid "Debian %s package trigger utility version %s.\n"
 msgstr "Debian %s pakeetearen abiarazlearen lanabesaren %s betsioa.\n"
 
-#: src/trigcmd.c:67
+#: src/trigcmd.c:69
 #, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
@@ -4386,7 +4532,7 @@ msgstr ""
 "       %s [<aukerak> ...] <komandoa>\n"
 "\n"
 
-#: src/trigcmd.c:72
+#: src/trigcmd.c:74
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4399,7 +4545,7 @@ msgstr ""
 "abiarazleak onartzen dituen.\n"
 "\n"
 
-#: src/trigcmd.c:82
+#: src/trigcmd.c:84
 #, c-format
 msgid ""
 "Options:\n"
@@ -4424,21 +4570,7 @@ msgstr ""
 "aldatu.\n"
 "\n"
 
-#: src/trigcmd.c:152
-#, c-format
-msgid "%s: triggers data directory not yet created\n"
-msgstr "%s: abiarazleen datuen direktorioa ez da oraindik sortu\n"
-
-#: src/trigcmd.c:156
-#, c-format
-msgid "%s: trigger records not yet in existence\n"
-msgstr "%s: abiarazlearen erregistrorik ez dago oraindik\n"
-
-#: src/trigcmd.c:205
-msgid "takes one argument, the trigger name"
-msgstr "argumentu bat hartzen du, abiarazlearen izena"
-
-#: src/trigcmd.c:210
+#: src/trigcmd.c:127
 #, fuzzy
 #| msgid ""
 #| "dpkg-trigger must be called from a maintainer script (or with a --by-"
@@ -4448,18 +4580,32 @@ msgstr ""
 "dpkg-trigger komandoari mantentzailearen script batek deitu behar dio (edo --"
 "by-package aukerarekin)"
 
-#: src/trigcmd.c:215
+#: src/trigcmd.c:183
+#, c-format
+msgid "%s: triggers data directory not yet created\n"
+msgstr "%s: abiarazleen datuen direktorioa ez da oraindik sortu\n"
+
+#: src/trigcmd.c:187
+#, c-format
+msgid "%s: trigger records not yet in existence\n"
+msgstr "%s: abiarazlearen erregistrorik ez dago oraindik\n"
+
+#: src/trigcmd.c:236
+msgid "takes one argument, the trigger name"
+msgstr "argumentu bat hartzen du, abiarazlearen izena"
+
+#: src/trigcmd.c:240
 #, fuzzy, c-format
 #| msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
 msgid "illegal awaited package name '%.250s': %.250s"
 msgstr "dpkg-trigger: legezkanpoko espero den '%.250s' pakete-izena: %.250s"
 
-#: src/trigcmd.c:221
+#: src/trigcmd.c:246
 #, c-format
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "'%.250s' abiarazlearen izen baliogabea: %.250s"
 
-#: src/trigproc.c:250
+#: src/trigproc.c:260
 #, c-format
 msgid ""
 "%s: cycle found while processing triggers:\n"
@@ -4468,7 +4614,7 @@ msgstr ""
 "%s: zikloa aurkitua abiarazlearen prozesuan\n"
 " erantzule diren edo izan daitezkeen abiarazleen paketeen katea:\n"
 
-#: src/trigproc.c:258
+#: src/trigproc.c:269
 #, c-format
 msgid ""
 "\n"
@@ -4478,11 +4624,11 @@ msgstr ""
 " abiarazleen zain dauden paketeak (ebatzi ezin diren edo izan "
 "daitezkeenak ):\n"
 
-#: src/trigproc.c:281
+#: src/trigproc.c:294
 msgid "triggers looping, abandoned"
 msgstr "abiarazlearen begizta, utzita"
 
-#: src/trigproc.c:312
+#: src/trigproc.c:326
 #, c-format
 msgid "Processing triggers for %s ...\n"
 msgstr "%s(r)en abiarazleak prozesatzen ...\n"
@@ -4513,14 +4659,14 @@ msgstr "Pakete erabilgarrien informazioa ordezten, %s erabiliz.\n"
 msgid "Updating available packages info, using %s.\n"
 msgstr "Pakete erabilgarrien informazioa eguneratzen, %s erabiliz.\n"
 
-#: src/update.c:101
+#: src/update.c:98
 #, c-format
 msgid "Information about %d package was updated.\n"
 msgid_plural "Information about %d packages was updated.\n"
 msgstr[0] "Pakete %d-i buruzko informazioa eguneratu da.\n"
 msgstr[1] "%d paketeri buruzko informazioa eguneratu da.\n"
 
-#: src/update.c:115
+#: src/update.c:112
 #, c-format
 msgid ""
 "obsolete '--%s' option, unavailable packages are automatically cleaned up."
@@ -4641,90 +4787,86 @@ msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] "kontrol-fitxategiei buruzko abisu %d-i ezikusi egiten\n"
 msgstr[1] "kontrol-fitxategiei buruzko %d abisuei ezikusi egiten\n"
 
-#: dpkg-deb/build.c:403 utils/update-alternatives.c:2429
-#: utils/update-alternatives.c:2436
+#: dpkg-deb/build.c:403 utils/update-alternatives.c:2424
+#: utils/update-alternatives.c:2431
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s aukerak <direktorio> argumentu bat behar du"
 
-#: dpkg-deb/build.c:409
-msgid "--build takes at most two arguments"
-msgstr "--build: gehienez bi argumentu hartzen ditu"
-
-#: dpkg-deb/build.c:413
+#: dpkg-deb/build.c:414
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "ezin da '%.250s' artxiboaren existentzia begiratu"
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:431
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "helburua direktorioa da - ezin da saltatu kontrol fitxategiaren egiaztapena"
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:432
 msgid "not checking contents of control area."
 msgstr "ez da kontrol-arearen edukia egiaztatuko"
 
-#: dpkg-deb/build.c:432
+#: dpkg-deb/build.c:433
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: pakete ezezagun bat eraikitzen '%s'(e)n .\n"
 
-#: dpkg-deb/build.c:439
+#: dpkg-deb/build.c:440
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: '%s' paketea eraikitzen: '%s'.\n"
 
-#: dpkg-deb/build.c:467 dpkg-deb/build.c:521
+#: dpkg-deb/build.c:469 dpkg-deb/build.c:529
 #, fuzzy, c-format
 #| msgid "failed to make tmpfile (data)"
 msgid "failed to make temporary file (%s)"
 msgstr "huts egin du aldi baterako fitxategia sortzean (datuak)"
 
-#: dpkg-deb/build.c:467 dpkg-deb/build.c:470 dpkg-deb/build.c:477
-#: dpkg-deb/build.c:485 dpkg-deb/build.c:494 dpkg-deb/build.c:499
+#: dpkg-deb/build.c:469 dpkg-deb/build.c:472 dpkg-deb/build.c:485
+#: dpkg-deb/build.c:493 dpkg-deb/build.c:502 dpkg-deb/build.c:507
 #, fuzzy
 #| msgid "control"
 msgid "control member"
 msgstr "kontrola"
 
-#: dpkg-deb/build.c:470 dpkg-deb/build.c:524
+#: dpkg-deb/build.c:472 dpkg-deb/build.c:532
 #, fuzzy, c-format
 #| msgid "failed to unlink tmpfile (data), %s"
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "huts egin du aldi baterako fitxategia desestekatzean (datuak), %s"
 
-#: dpkg-deb/build.c:485 dpkg-deb/build.c:593
+#: dpkg-deb/build.c:493 dpkg-deb/build.c:602
 #, fuzzy, c-format
 #| msgid "failed to rewind tmpfile (data)"
 msgid "failed to rewind temporary file (%s)"
 msgstr "huts egin du aldi baterako fitxategiaren hasierara joatean (datuak)"
 
-#: dpkg-deb/build.c:494
+#: dpkg-deb/build.c:502
 #, fuzzy, c-format
 #| msgid "failed to fstat ar member file (%s)"
 msgid "failed to stat temporary file (%s)"
 msgstr "huts egin du ar-en fitxategiaren kideari (%s) fstat lantzean"
 
-#: dpkg-deb/build.c:498
+#: dpkg-deb/build.c:506
 #, c-format
 msgid "error writing `%s'"
 msgstr "errorea '%s' idaztean"
 
-#: dpkg-deb/build.c:521 dpkg-deb/build.c:524 dpkg-deb/build.c:546
-#: dpkg-deb/build.c:572 dpkg-deb/build.c:580 dpkg-deb/build.c:593
+#: dpkg-deb/build.c:529 dpkg-deb/build.c:532 dpkg-deb/build.c:554
+#: dpkg-deb/build.c:580 dpkg-deb/build.c:588 dpkg-deb/build.c:602
 #, fuzzy
 #| msgid "between members"
 msgid "data member"
 msgstr "kideen artean"
 
-#: dpkg-deb/build.c:571 dpkg-deb/build.c:580
+#: dpkg-deb/build.c:579 dpkg-deb/build.c:588
 #, fuzzy, c-format
 #| msgid "failed to write filename to tar pipe (data)"
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "huts egin du fitxategi izena tar kanalizazioan idaztean (datuak)"
 
-#: dpkg-deb/build.c:584
+#: dpkg-deb/build.c:592
 msgid "<compress> from tar -cf"
 msgstr "<konprimitua> tar -cf komandoarekin"
 
@@ -4952,7 +5094,7 @@ msgid_plural "%d requested control components are missing"
 msgstr[0] "Eskatutako kontrol osagai %d falta da"
 msgstr[1] "Eskatutako kontrol %d osagai falta dira"
 
-#: dpkg-deb/info.c:139 utils/update-alternatives.c:424
+#: dpkg-deb/info.c:139 utils/update-alternatives.c:419
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "ezin da '%.255s' direktorioa aztertu"
@@ -5003,10 +5145,6 @@ msgstr "errorea '%s' osagaia ixtean"
 #: dpkg-deb/info.c:278
 msgid "Error in format"
 msgstr "Errorea formatuan"
-
-#: dpkg-deb/info.c:328
-msgid "--contents takes exactly one argument"
-msgstr "--contents: argumentu bat hartzen du zehazki"
 
 #: dpkg-deb/main.c:54
 #, c-format
@@ -5098,6 +5236,9 @@ msgid ""
 "building.\n"
 "                                     Allowed types: gzip, xz, bzip2, lzma, "
 "none.\n"
+"  -S<strategy>                     Set the compression strategy when "
+"building.\n"
+"                                     Allowed values: extreme (xz).\n"
 "\n"
 msgstr ""
 "Options:\n"
@@ -5112,7 +5253,7 @@ msgstr ""
 "none\n"
 "\n"
 
-#: dpkg-deb/main.c:121
+#: dpkg-deb/main.c:123
 #, c-format
 msgid ""
 "\n"
@@ -5125,7 +5266,7 @@ msgstr ""
 "'dselect' edo 'aptitude' paketeak errazago kudeatzeko. 'dpkg-deb --extract'\n"
 "erabiliz deskonprimitutako paketeak gaizki instalatuko dira!\n"
 
-#: dpkg-deb/main.c:132
+#: dpkg-deb/main.c:134
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -5133,20 +5274,26 @@ msgstr ""
 "Idatzi dpkg-deb --help *.deb fitxategiak manipulatzeko laguntza lortzeko;\n"
 "Idatzi dpkg --help paketeak instalatu eta desinstalatzeko laguntza lortzeko."
 
-#: dpkg-deb/main.c:148
+#: dpkg-deb/main.c:153
 #, c-format
 msgid "invalid integer for -%c: '%.250s'"
 msgstr "-%c aukeraren osokoa baliogabea: '%.250s'"
 
-#: dpkg-deb/main.c:151
+#: dpkg-deb/main.c:156
 #, c-format
 msgid "invalid compression level for -%c: %ld'"
 msgstr "-%c aukeraren konpresio-maila baliogabea: %ld'"
 
-#: dpkg-deb/main.c:161
+#: dpkg-deb/main.c:166
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "%s konpresio mota ezezaguna!"
+
+#: dpkg-deb/main.c:211
+#, fuzzy, c-format
+#| msgid "invalid compression level for -%c: %ld'"
+msgid "invalid compressor parameters: %s"
+msgstr "-%c aukeraren konpresio-maila baliogabea: %ld'"
 
 #: dpkg-split/info.c:52
 #, c-format
@@ -5433,11 +5580,6 @@ msgstr "%d zatia falta da"
 msgid "Debian `%s' package split/join tool; version %s.\n"
 msgstr "Debian paketeak zatitu/batzeko '%s' tresna; %s bertsioa.\n"
 
-#: dpkg-split/main.c:49
-#, c-format
-msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
-msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
-
 #: dpkg-split/main.c:67
 #, c-format
 msgid ""
@@ -5670,18 +5812,7 @@ msgstr ""
 "--split: iturburuko fitxategi-izen bat eta helburuko aurrizki bat hartzen du "
 "gehienez"
 
-#: utils/update-alternatives.c:84
-#, c-format
-msgid ""
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000-2002 Wichert Akkerman.\n"
-"Copyright (C) 2009-2010 Raphael Hertzog.\n"
-msgstr ""
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000-2002 Wichert Akkerman.\n"
-"Copyright (C) 2009-2010 Raphael Hertzog.\n"
-
-#: utils/update-alternatives.c:101
+#: utils/update-alternatives.c:96
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: %s [<option> ...] <command>\n"
@@ -5791,7 +5922,7 @@ msgstr ""
 "  --help                    erakutsi languntzako mezu hau.\n"
 "  --version                erakutsi bertsioa.\n"
 
-#: utils/update-alternatives.c:120
+#: utils/update-alternatives.c:115
 #, c-format
 msgid ""
 "<link> is the symlink pointing to %s/<name>.\n"
@@ -5806,7 +5937,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: utils/update-alternatives.c:131
+#: utils/update-alternatives.c:126
 #, fuzzy, c-format
 #| msgid ""
 #| "Options:\n"
@@ -5842,90 +5973,96 @@ msgstr ""
 "  --help                   erakutsi laguntzaren mezu hau.\n"
 "  --version               erakutsi bertsioa.\n"
 
-#: utils/update-alternatives.c:150 utils/update-alternatives.c:163
+#: utils/update-alternatives.c:145 utils/update-alternatives.c:158
 msgid "error"
 msgstr "errorea"
 
-#: utils/update-alternatives.c:193
+#: utils/update-alternatives.c:188
 msgid "warning"
 msgstr "abisua"
 
-#: utils/update-alternatives.c:356
+#: utils/update-alternatives.c:257
+#, fuzzy, c-format
+#| msgid "malloc failed (%ld bytes)"
+msgid "malloc failed (%zu bytes)"
+msgstr "malloc-ek huts egin du (%ld byte)"
+
+#: utils/update-alternatives.c:351
 #, c-format
 msgid "two commands specified: --%s and --%s"
 msgstr "bi komando zehaztu dira: --%s eta --%s"
 
-#: utils/update-alternatives.c:387
+#: utils/update-alternatives.c:382
 #, fuzzy, c-format
 #| msgid "cannot append to %s: %s"
 msgid "cannot append to '%s'"
 msgstr "ezin zaio %s(r)i erantsi: %s"
 
-#: utils/update-alternatives.c:556
+#: utils/update-alternatives.c:551
 #, fuzzy, c-format
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
 msgstr "ezin da %s ezabatu: %s"
 
-#: utils/update-alternatives.c:1111
+#: utils/update-alternatives.c:1106
 #, c-format
 msgid "unexpected end of file while trying to read %s"
 msgstr "ustekabeko fitxategi amaiera %s irakurtzen saiatzean"
 
-#: utils/update-alternatives.c:1113
+#: utils/update-alternatives.c:1108
 #, c-format
 msgid "while reading %s: %s"
 msgstr "%s irakurtzean: %s"
 
-#: utils/update-alternatives.c:1119
+#: utils/update-alternatives.c:1114
 #, c-format
 msgid "line not terminated while trying to read %s"
 msgstr "lerroa ez dago amaituta %s irakurtzen saiatzean"
 
-#: utils/update-alternatives.c:1137
+#: utils/update-alternatives.c:1132
 #, c-format
 msgid "%s corrupt: %s"
 msgstr "%s hondatuta dago: %s"
 
-#: utils/update-alternatives.c:1150
+#: utils/update-alternatives.c:1145
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "update-alternatives fitxategiak (%s) ezin du lerro-jauzirik eduki"
 
-#: utils/update-alternatives.c:1163
+#: utils/update-alternatives.c:1158
 msgid "slave name"
 msgstr "morroiaren izena"
 
-#: utils/update-alternatives.c:1171 utils/update-alternatives.c:2405
+#: utils/update-alternatives.c:1166 utils/update-alternatives.c:2400
 #, fuzzy, c-format
 #| msgid "duplicate slave %s"
 msgid "duplicate slave name %s"
 msgstr "bikoiztutako %s morroia"
 
-#: utils/update-alternatives.c:1174
+#: utils/update-alternatives.c:1169
 msgid "slave link"
 msgstr "morroiaren esteka"
 
-#: utils/update-alternatives.c:1178
+#: utils/update-alternatives.c:1173
 #, c-format
 msgid "slave link same as main link %s"
 msgstr "morroiaren esteka %s esteka nagusiaren berdina da"
 
-#: utils/update-alternatives.c:1185 utils/update-alternatives.c:2412
+#: utils/update-alternatives.c:1180 utils/update-alternatives.c:2407
 #, c-format
 msgid "duplicate slave link %s"
 msgstr "%s morroiaren esteka bikoiztuta"
 
-#: utils/update-alternatives.c:1204
+#: utils/update-alternatives.c:1199
 msgid "master file"
 msgstr "fitxategi maisua"
 
-#: utils/update-alternatives.c:1213
+#: utils/update-alternatives.c:1208
 #, c-format
 msgid "duplicate path %s"
 msgstr "%s bide-izena bikoiztuta"
 
-#: utils/update-alternatives.c:1226
+#: utils/update-alternatives.c:1221
 #, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist. Removing from list of "
@@ -5934,114 +6071,119 @@ msgstr ""
 "%s(r)en alternatiba (esteken %s taldearen zati) ez da existitzen. "
 "Alternatiben zerrendatik kentzen."
 
-#: utils/update-alternatives.c:1229 utils/update-alternatives.c:1240
+#: utils/update-alternatives.c:1224 utils/update-alternatives.c:1235
 msgid "priority"
 msgstr "lehentasuna"
 
-#: utils/update-alternatives.c:1232 utils/update-alternatives.c:1249
+#: utils/update-alternatives.c:1227 utils/update-alternatives.c:1244
 msgid "slave file"
 msgstr "morroiaren fitxategia"
 
-#: utils/update-alternatives.c:1244
+#: utils/update-alternatives.c:1239
 #, c-format
 msgid "priority of %s: %s"
 msgstr "%s(r)en lehentasuna: %s"
 
-#: utils/update-alternatives.c:1297
+#: utils/update-alternatives.c:1292
 msgid "status"
 msgstr "egoera"
 
-#: utils/update-alternatives.c:1299
+#: utils/update-alternatives.c:1294
 msgid "invalid status"
 msgstr "egoera baliogabea"
 
-#: utils/update-alternatives.c:1304
+#: utils/update-alternatives.c:1299
 msgid "master link"
 msgstr "esteka maisua"
 
-#: utils/update-alternatives.c:1348
+#: utils/update-alternatives.c:1343
 #, c-format
 msgid "discarding obsolete slave link %s (%s)."
 msgstr "%s (%s) morroiaren esteka zaharkitua baztertzen."
 
-#: utils/update-alternatives.c:1502 utils/update-alternatives.c:1569
-#: utils/update-alternatives.c:2638
+#: utils/update-alternatives.c:1399
+#, c-format
+msgid "unable to flush file '%s'"
+msgstr "ezin da '%s' fitxategia garbitu"
+
+#: utils/update-alternatives.c:1497 utils/update-alternatives.c:1564
+#: utils/update-alternatives.c:2633
 msgid "auto mode"
 msgstr "modu automatikoa"
 
-#: utils/update-alternatives.c:1502 utils/update-alternatives.c:1578
-#: utils/update-alternatives.c:2639
+#: utils/update-alternatives.c:1497 utils/update-alternatives.c:1573
+#: utils/update-alternatives.c:2634
 msgid "manual mode"
 msgstr "eskuzko modua"
 
-#: utils/update-alternatives.c:1505
+#: utils/update-alternatives.c:1500
 #, c-format
 msgid "  link currently points to %s"
 msgstr " estekak unean %s(e)ra darama"
 
-#: utils/update-alternatives.c:1508
+#: utils/update-alternatives.c:1503
 msgid "  link currently absent"
 msgstr " esteka ez dago une honetan"
 
-#: utils/update-alternatives.c:1512
+#: utils/update-alternatives.c:1507
 #, c-format
 msgid "%s - priority %d"
 msgstr "%s - %d lehentasuna"
 
-#: utils/update-alternatives.c:1515
+#: utils/update-alternatives.c:1510
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  %s morroia: %s"
 
-#: utils/update-alternatives.c:1522
+#: utils/update-alternatives.c:1517
 #, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "Uneko bertsio 'onena' %s da."
 
-#: utils/update-alternatives.c:1524
+#: utils/update-alternatives.c:1519
 msgid "No versions available."
 msgstr "Ez dago bertsiorik eskuragarri."
 
-#: utils/update-alternatives.c:1553
+#: utils/update-alternatives.c:1548
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] "Aukera %d dago %s ordezteko (%s hornituz)."
 msgstr[1] "%d aukera daude %s ordezteko (%s hornituz)."
 
-#: utils/update-alternatives.c:1560
+#: utils/update-alternatives.c:1555
 msgid "Selection"
 msgstr "Hautapena"
 
-#: utils/update-alternatives.c:1561
+#: utils/update-alternatives.c:1556
 msgid "Path"
 msgstr "Bide-izena"
 
-#: utils/update-alternatives.c:1561
+#: utils/update-alternatives.c:1556
 msgid "Priority"
 msgstr "Lehentasuna"
 
-#: utils/update-alternatives.c:1561
+#: utils/update-alternatives.c:1556
 msgid "Status"
 msgstr "Egoera"
 
-#: utils/update-alternatives.c:1582
+#: utils/update-alternatives.c:1577
 #, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 "Sakatu Sartu tekla hautapena mantentzeko[*], edo sakatu hautatze zenbakia: "
 
-#: utils/update-alternatives.c:1721
+#: utils/update-alternatives.c:1716
 #, c-format
 msgid "not replacing %s with a link."
 msgstr "ez da %s esteka batekin ordeztuko."
 
-#: utils/update-alternatives.c:1762
+#: utils/update-alternatives.c:1757
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr "ezin da %s aukera ezezaguna instalatu"
 
-#: utils/update-alternatives.c:1780
+#: utils/update-alternatives.c:1775
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
@@ -6050,154 +6192,154 @@ msgstr ""
 "alde batera utziko da %s(r)en sorrera, esleitutako %s fitxategia (%s esteken "
 "taldekoa) ez delako existitzen."
 
-#: utils/update-alternatives.c:1790
+#: utils/update-alternatives.c:1785
 #, fuzzy, c-format
 #| msgid "not replacing %s with a link."
 msgid "not removing %s since it's not a symlink."
 msgstr "ez da %s esteka batekin ordeztuko."
 
-#: utils/update-alternatives.c:2041 utils/update-alternatives.c:2047
+#: utils/update-alternatives.c:2036 utils/update-alternatives.c:2042
 #, c-format
 msgid "Call %s."
 msgstr "Deitu %s."
 
-#: utils/update-alternatives.c:2051
+#: utils/update-alternatives.c:2046
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr "%s alternatiboa ez da aldatu %s hautapena ez baitago eskuragarri."
 
-#: utils/update-alternatives.c:2055
+#: utils/update-alternatives.c:2050
 #, c-format
 msgid "Skip unknown alternative %s."
 msgstr "Utzi alde batera %s alternatiba ezezaguna."
 
-#: utils/update-alternatives.c:2077
+#: utils/update-alternatives.c:2072
 #, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "lerroa luzeegia da edo ez dago amaituta %s irakurtzen saiatzean"
 
-#: utils/update-alternatives.c:2090 utils/update-alternatives.c:2103
-#: utils/update-alternatives.c:2113
+#: utils/update-alternatives.c:2085 utils/update-alternatives.c:2098
+#: utils/update-alternatives.c:2108
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr "Saltatu lerro baliogabea: %s"
 
-#: utils/update-alternatives.c:2132
+#: utils/update-alternatives.c:2127
 #, c-format
 msgid "renaming %s link from %s to %s."
 msgstr "%s esteka %s(e)tik %s(e)ra berrizendatzen."
 
-#: utils/update-alternatives.c:2173
+#: utils/update-alternatives.c:2168
 #, c-format
 msgid "renaming %s slave link from %s to %s."
 msgstr "%s morroiaren esteka %s(e)tik %s(e)ra berrizendatzen."
 
-#: utils/update-alternatives.c:2189
+#: utils/update-alternatives.c:2184
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces."
 msgstr "izen alternatiboak (%s) ezin du ez '/' ez zuriunerik izan."
 
-#: utils/update-alternatives.c:2193
+#: utils/update-alternatives.c:2188
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr "esteka alternatiboa ez da absolutua eta izan beharko zen: %s"
 
-#: utils/update-alternatives.c:2197
+#: utils/update-alternatives.c:2192
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr "bide-izen alternatiboa ez da absolutua eta izan beharko zen: %s"
 
-#: utils/update-alternatives.c:2224
+#: utils/update-alternatives.c:2219
 #, fuzzy, c-format
 #| msgid "alternative %s can't be master: %s"
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr "%s alternatiboa ezin da nagusia izan: %s"
 
-#: utils/update-alternatives.c:2232 utils/update-alternatives.c:2267
+#: utils/update-alternatives.c:2227 utils/update-alternatives.c:2262
 #, c-format
 msgid "alternative link %s is already managed by %s."
 msgstr "%s esteka alternatiboa dagoeneko %s(e)k kudeatzen du"
 
-#: utils/update-alternatives.c:2241
+#: utils/update-alternatives.c:2236
 #, c-format
 msgid "alternative path %s doesn't exist."
 msgstr "%s bide-izen alternatiboa ez da existitzen."
 
-#: utils/update-alternatives.c:2254
+#: utils/update-alternatives.c:2249
 #, fuzzy, c-format
 #| msgid "alternative %s can't be slave of %s: %s"
 msgid "alternative %s can't be slave of %s: it is a master alternative."
 msgstr "%s alternatiboa ezin da %s(r)en morroia izan: %s"
 
-#: utils/update-alternatives.c:2258
+#: utils/update-alternatives.c:2253
 #, fuzzy, c-format
 #| msgid "alternative %s can't be master: %s"
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr "%s alternatiboa ezin da nagusia izan: %s"
 
-#: utils/update-alternatives.c:2278
+#: utils/update-alternatives.c:2273
 #, fuzzy, c-format
 #| msgid "alternative link %s is already managed by %s."
 msgid "alternative link %s is already managed by %s (slave of %s)."
 msgstr "%s esteka alternatiboa dagoeneko %s(e)k kudeatzen du"
 
-#: utils/update-alternatives.c:2324
+#: utils/update-alternatives.c:2319
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "'%s' argumentu ezezaguna"
 
-#: utils/update-alternatives.c:2343
+#: utils/update-alternatives.c:2338
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr ""
 "--install aukerak <esteka> <izena> <bideizena> <lehentasuna> behar ditu"
 
-#: utils/update-alternatives.c:2346 utils/update-alternatives.c:2397
+#: utils/update-alternatives.c:2341 utils/update-alternatives.c:2392
 msgid "<link> and <path> can't be the same"
 msgstr "<esteka> eta <bideizena> ezin dira berdina izan"
 
-#: utils/update-alternatives.c:2349
+#: utils/update-alternatives.c:2344
 msgid "priority must be an integer"
 msgstr "lehentasuna osoko bat izan behar da"
 
-#: utils/update-alternatives.c:2362
+#: utils/update-alternatives.c:2357
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s aukerak <izena> <bideizena> behar ditu"
 
-#: utils/update-alternatives.c:2376
+#: utils/update-alternatives.c:2371
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s aukerak <izena> behar du"
 
-#: utils/update-alternatives.c:2388
+#: utils/update-alternatives.c:2383
 msgid "--slave only allowed with --install"
 msgstr "--slave aukera --install aukerarekin soilik onartzen da"
 
-#: utils/update-alternatives.c:2390
+#: utils/update-alternatives.c:2385
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave aukerak <esteka> <izena> <bideizena> behar ditu"
 
-#: utils/update-alternatives.c:2399
+#: utils/update-alternatives.c:2394
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr "%s izena bai nagusi bai morroia da"
 
-#: utils/update-alternatives.c:2402
+#: utils/update-alternatives.c:2397
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr "%s esteka bai nagusi bai morroia da"
 
-#: utils/update-alternatives.c:2422
+#: utils/update-alternatives.c:2417
 #, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s aukerak <fitxategia> argumentua behar du"
 
-#: utils/update-alternatives.c:2448
+#: utils/update-alternatives.c:2443
 #, c-format
 msgid "unknown option `%s'"
 msgstr "'%s' aukera ezezaguna"
 
-#: utils/update-alternatives.c:2453
+#: utils/update-alternatives.c:2448
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
 "selections, --install, --remove, --all, --remove-all or --auto"
@@ -6205,22 +6347,22 @@ msgstr ""
 "--display, --query, --list, --get-selections, --config, --set, --set-"
 "selections, --install, --remove, --all, --remove-all edo --auto behar da"
 
-#: utils/update-alternatives.c:2490
+#: utils/update-alternatives.c:2485
 msgid "<standard input>"
 msgstr "<sarrera estandarra>"
 
-#: utils/update-alternatives.c:2500 utils/update-alternatives.c:2503
+#: utils/update-alternatives.c:2495 utils/update-alternatives.c:2498
 #, c-format
 msgid "no alternatives for %s."
 msgstr "ez dago %s(r)en alternatibarik."
 
-#: utils/update-alternatives.c:2530
+#: utils/update-alternatives.c:2525
 #, fuzzy, c-format
 #| msgid "%s is dangling, it will be updated with best choice."
 msgid "%s/%s is dangling, it will be updated with best choice."
 msgstr "%s esekita dago, aukera onenarekin eguneratuko da."
 
-#: utils/update-alternatives.c:2534
+#: utils/update-alternatives.c:2529
 #, fuzzy, c-format
 #| msgid ""
 #| "%s has been changed (manually or by a script). Switching to manual "
@@ -6231,49 +6373,49 @@ msgid ""
 msgstr ""
 "%s aldatu egin da (eskuz edo script batez). Eskuzko eguneraketara aldatzen."
 
-#: utils/update-alternatives.c:2542
+#: utils/update-alternatives.c:2537
 #, c-format
 msgid "setting up automatic selection of %s."
 msgstr "%s(r)en hautapen automatikoa konfiguratzen"
 
-#: utils/update-alternatives.c:2551
+#: utils/update-alternatives.c:2546
 #, c-format
 msgid "alternative %s for %s not registered, not setting."
 msgstr ""
 "%2$s(r)en %1$s alternatiba ez dago erregistratuta, ez da ezartzen ari.."
 
-#: utils/update-alternatives.c:2557 utils/update-alternatives.c:2563
+#: utils/update-alternatives.c:2552 utils/update-alternatives.c:2558
 #, c-format
 msgid "There is no program which provides %s."
 msgstr "Ez dago %s hornitzen duen programarik."
 
-#: utils/update-alternatives.c:2565 utils/update-alternatives.c:2575
+#: utils/update-alternatives.c:2560 utils/update-alternatives.c:2570
 msgid "Nothing to configure."
 msgstr "Ezer ez konfiguratzeko."
 
-#: utils/update-alternatives.c:2573
+#: utils/update-alternatives.c:2568
 #, c-format
 msgid "There is only one alternative in link group %s: %s"
 msgstr "Alternatiba bat bakarrik dago %s esteken taldean: %s"
 
-#: utils/update-alternatives.c:2584
+#: utils/update-alternatives.c:2579
 #, c-format
 msgid "alternative %s for %s not registered, not removing."
 msgstr "%2$s(r)en %1$s alternatiba ez dago erregistratuta, ez da kentzen ari."
 
-#: utils/update-alternatives.c:2592
+#: utils/update-alternatives.c:2587
 #, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 "eskuz hautatutako alternatiba ezabatzen - %s modu automatikora aldatzen"
 
-#: utils/update-alternatives.c:2617
+#: utils/update-alternatives.c:2612
 #, fuzzy, c-format
 #| msgid "automatic updates of %s are disabled, leaving it alone."
 msgid "automatic updates of %s/%s are disabled, leaving it alone."
 msgstr "%s(r)en eguneraketa automatikoak desgaituta daude, ez da ukituko."
 
-#: utils/update-alternatives.c:2619
+#: utils/update-alternatives.c:2614
 #, fuzzy, c-format
 #| msgid "to return to automatic updates use `update-alternatives --auto %s'."
 msgid "to return to automatic updates use '%s --auto %s'."
@@ -6281,12 +6423,12 @@ msgstr ""
 "eguneraketa automatikoetara itzultzeko erabili 'update-alternatives --auto "
 "%s'."
 
-#: utils/update-alternatives.c:2636
+#: utils/update-alternatives.c:2631
 #, c-format
 msgid "using %s to provide %s (%s) in %s."
 msgstr "%s erabiltzen %s (%s) hornitzeko %s(e)n."
 
-#: utils/update-alternatives.c:2644
+#: utils/update-alternatives.c:2639
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken."
@@ -6294,12 +6436,158 @@ msgstr ""
 "%s alternatibaren berrinstalazioa derrigortzen, %s esteken taldea hautsita "
 "dagoelako."
 
-#: utils/update-alternatives.c:2651
+#: utils/update-alternatives.c:2646
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s."
 msgstr ""
 "uneko %s alternatiba ezezaguna da, %s(e)ra aldatzen %s esteken "
 "taldearentzako."
+
+#~ msgid "failed to open '%s' for writing %s database"
+#~ msgstr "huts egin du '%s' irekitzean %s datu-basea idazteko"
+
+#~ msgid "failed to flush %s database to '%.250s'"
+#~ msgstr "huts egin du %s datu-basea hustean - '%.250s'"
+
+#~ msgid "failed to fsync %s database to '%.250s'"
+#~ msgstr "huts egin du %s datu-basea '%.250s'(r)ekin sinkronizatzean"
+
+#~ msgid "failed to close '%.250s' after writing %s database"
+#~ msgstr "huts egin du '%.250s' ixtean %s datu-basea idatzi ondoren"
+
+#~ msgid "failed to link '%.250s' to '%.250s' for backup of %s database"
+#~ msgstr ""
+#~ "huts egin du '%.250s' eta '%.250s' estekatzean, %s datu-basearen "
+#~ "babeskopia egiteko"
+
+#~ msgid "failed to install '%.250s' as '%.250s' containing %s database"
+#~ msgstr "huts egin du '%.250s' '%.250s' gisa instalatzean %s datu-basearekin"
+
+#, fuzzy
+#~| msgid "realloc failed (%ld bytes)"
+#~ msgid "realloc failed (%zu bytes)"
+#~ msgstr "realloc-ek huts egin du (%ld byte)"
+
+#~ msgid "unable to write new trigger interest file `%.250s'"
+#~ msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria idatzi"
+
+#~ msgid "unable to flush new trigger interest file '%.250s'"
+#~ msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria garbitu"
+
+#~ msgid "unable to sync new trigger interest file '%.250s'"
+#~ msgstr ""
+#~ "ezin da abiarazlearen intereseko '%.250s' fitxategi berria sinkronizatu"
+
+#~ msgid "unable to install new trigger interest file `%.250s'"
+#~ msgstr ""
+#~ "ezin da abiarazlearen intereseko '%.250s' fitxategi berria instalatu"
+
+#~ msgid "unable to create new trigger interest file `%.250s'"
+#~ msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria sortu"
+
+#~ msgid "unable to close new trigger interest file `%.250s'"
+#~ msgstr "ezin da abiarazlearen intereseko '%.250s' fitxategi berria itxi"
+
+#~ msgid "unable to create new file triggers file `%.250s'"
+#~ msgstr "ezin da abiarazleen '%.250s' fitxategi berria sortu"
+
+#~ msgid "unable to write new file triggers file `%.250s'"
+#~ msgstr "ezin da abiarazleen '%.250s' fitxategi berria idatzi"
+
+#~ msgid "unable to flush new file triggers file '%.250s'"
+#~ msgstr "ezin da abiarazleen '%.250s' fitxategi berria garbitu"
+
+#~ msgid "unable to sync new file triggers file '%.250s'"
+#~ msgstr "ezin da abiarazleen '%.250s' fitxategi berria sinkronizatu"
+
+#~ msgid "unable to close new file triggers file `%.250s'"
+#~ msgstr "ezin da abiarazleen '%.250s' fitxategi berria itxi"
+
+#~ msgid "unable to install new file triggers file as `%.250s'"
+#~ msgstr "ezin da abiarazleen fitxategi berria '%.250s' gisa instalatu"
+
+#~ msgid ""
+#~ "Copyright (C) 1995 Ian Jackson.\n"
+#~ "Copyright (C) 2000,2001 Wichert Akkerman.\n"
+#~ "Copyright (C) 2010 Guillem Jover.\n"
+#~ msgstr ""
+#~ "Copyright (C) 1995 Ian Jackson.\n"
+#~ "Copyright (C) 2000,2001 Wichert Akkerman.\n"
+#~ "Copyright (C) 2010 Guillem Jover.\n"
+
+#~ msgid "cannot create new %s file"
+#~ msgstr "ezin da %s fitxategi berria sortu"
+
+#~ msgid "error creating new diversions-old"
+#~ msgstr "errorea diversions-old berria sortzean"
+
+#~ msgid "unable to create updated files list file for package %s"
+#~ msgstr "ezin da %s paketearen fitxategi-zerrenda eguneratua sortu"
+
+#~ msgid "failed to write to updated files list file for package %s"
+#~ msgstr ""
+#~ "huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
+#~ "idaztean"
+
+#~ msgid "failed to flush updated files list file for package %s"
+#~ msgstr ""
+#~ "huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
+#~ "garbitzean"
+
+#~ msgid "failed to sync updated files list file for package %s"
+#~ msgstr ""
+#~ "huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
+#~ "sinkronizatzean"
+
+#~ msgid "failed to close updated files list file for package %s"
+#~ msgstr ""
+#~ "huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
+#~ "ixtean"
+
+#~ msgid "failed to install updated files list file for package %s"
+#~ msgstr ""
+#~ "huts egin du %s paketearen fitxategi-zerrendaren fitxategi eguneratua "
+#~ "instalatzean"
+
+#~ msgid "--command-fd takes one argument, not zero"
+#~ msgstr "--command-fd: argumentu bat hartzen du, ez 0"
+
+#~ msgid "--command-fd only takes one argument"
+#~ msgstr "--command-fd: argumentu bat bakarrik hartzen du"
+
+#~ msgid ""
+#~ "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
+#~ "Copyright (C) 2006-2009 Guillem Jover.\n"
+#~ msgstr ""
+#~ "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
+#~ "Copyright (C) 2006-2009 Guillem Jover.\n"
+
+#~ msgid "cannot open new statoverride file"
+#~ msgstr "ezin da statoverride fitxategi berria ireki"
+
+#~ msgid "error removing statoverride-old"
+#~ msgstr "errorea statoverride-old kentzean"
+
+#~ msgid "error creating new statoverride-old"
+#~ msgstr "errorea statoverride-old berria sortzean"
+
+#~ msgid "error installing new statoverride"
+#~ msgstr "errorea statoverride berria instalatzean"
+
+#~ msgid "--build takes at most two arguments"
+#~ msgstr "--build: gehienez bi argumentu hartzen ditu"
+
+#~ msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
+#~ msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
+
+#~ msgid ""
+#~ "Copyright (C) 1995 Ian Jackson.\n"
+#~ "Copyright (C) 2000-2002 Wichert Akkerman.\n"
+#~ "Copyright (C) 2009-2010 Raphael Hertzog.\n"
+#~ msgstr ""
+#~ "Copyright (C) 1995 Ian Jackson.\n"
+#~ "Copyright (C) 2000-2002 Wichert Akkerman.\n"
+#~ "Copyright (C) 2009-2010 Raphael Hertzog.\n"
 
 #~ msgid "it is a master alternative."
 #~ msgstr "hau alternatiba nagusia da."

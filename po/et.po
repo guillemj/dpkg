@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2011-09-23 03:37+0200\n"
+"POT-Creation-Date: 2012-03-19 07:23+0100\n"
 "PO-Revision-Date: 2007-07-12 22:06+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -25,7 +25,7 @@ msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr ""
 
 #: lib/dpkg/ar.c:81 lib/dpkg/ar.c:97 lib/dpkg/ar.c:108 lib/dpkg/ar.c:112
-#: lib/dpkg/ar.c:134 utils/update-alternatives.c:1154
+#: lib/dpkg/ar.c:134 utils/update-alternatives.c:1149
 #, fuzzy, c-format
 msgid "unable to write file '%s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
@@ -44,6 +44,74 @@ msgstr "tõrge toru loomisel"
 #, fuzzy, c-format
 msgid "ar member file (%s)"
 msgstr "tõrge toru loomisel"
+
+#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:135
+msgid "may not be empty string"
+msgstr "ei tohi olla tühi string"
+
+#: lib/dpkg/arch.c:66
+#, fuzzy
+#| msgid "must start with an alphanumeric"
+msgid "must start with an alphanumeric"
+msgstr "peab algama tähe või numbriga"
+
+#: lib/dpkg/arch.c:73 lib/dpkg/parsehelp.c:143
+#, c-format
+msgid "character `%c' not allowed (only letters, digits and characters `%s')"
+msgstr "märk `%c' pole lubatud (ainult tähed, numbrid ja `%s' märgid)"
+
+#: lib/dpkg/arch.c:312
+#, fuzzy
+msgid "error writing to architecture list"
+msgstr "viga `%s' kirjutamisel"
+
+#: lib/dpkg/atomic-file.c:57
+#, fuzzy, c-format
+msgid "unable to create new file '%.250s'"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/atomic-file.c:68
+#, fuzzy, c-format
+msgid "unable to write new file '%.250s'"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/atomic-file.c:70
+#, fuzzy, c-format
+msgid "unable to flush new file '%.250s'"
+msgstr "tõrge puhvrite tühjendamisel funktsioonis vsnprintf"
+
+#: lib/dpkg/atomic-file.c:72
+#, fuzzy, c-format
+msgid "unable to sync new file '%.250s'"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/atomic-file.c:81
+#, fuzzy, c-format
+msgid "unable to close new file `%.250s'"
+msgstr "tõrge puhvrite tühjendamisel funktsioonis vsnprintf"
+
+#: lib/dpkg/atomic-file.c:92
+#, fuzzy, c-format
+msgid "error removing old backup file '%s'"
+msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#: lib/dpkg/atomic-file.c:94
+#, fuzzy, c-format
+#| msgid "error creating pipe `%.255s'"
+msgid "error creating new backup file '%s'"
+msgstr "viga toru `%.255s' loomisel"
+
+#: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
+#: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
+#: src/infodb-upgrade.c:200 src/remove.c:337 src/remove.c:428
+#, c-format
+msgid "cannot remove `%.250s'"
+msgstr "`%.250s' pole võimalik eemaldada"
+
+#: lib/dpkg/atomic-file.c:115
+#, fuzzy, c-format
+msgid "error installing new file '%s'"
+msgstr "viga seadistusfaili `%.255s' lugemisel"
 
 #: lib/dpkg/buffer.c:196
 #, fuzzy, c-format
@@ -66,91 +134,97 @@ msgstr "lühike lugemine funktsioonis buffer_copy (%s)"
 msgid "failed to seek %s"
 msgstr "tõrge tar-i käivitamisel"
 
-#: lib/dpkg/command.c:178 lib/dpkg/command.c:204 src/help.c:621
-#: src/processarc.c:98 src/processarc.c:138 src/processarc.c:432
-#: src/processarc.c:839 dpkg-deb/build.c:459 dpkg-deb/build.c:538
-#: dpkg-deb/build.c:561 dpkg-deb/extract.c:317 dpkg-deb/info.c:65
-#: dpkg-split/split.c:69 utils/update-alternatives.c:457
+#: lib/dpkg/command.c:178 lib/dpkg/command.c:204 src/help.c:647
+#: src/processarc.c:102 src/processarc.c:142 src/processarc.c:471
+#: src/processarc.c:912 dpkg-deb/build.c:461 dpkg-deb/build.c:546
+#: dpkg-deb/build.c:569 dpkg-deb/extract.c:317 dpkg-deb/info.c:65
+#: dpkg-split/split.c:69 utils/update-alternatives.c:452
 #, fuzzy, c-format
 msgid "unable to execute %s (%s)"
 msgstr "faili %s pole võimalik luua: %s"
 
-#: lib/dpkg/compress.c:83
+#: lib/dpkg/compress.c:97 lib/dpkg/compress.c:380
+#, fuzzy
+#| msgid "unknown compression type `%s'!"
+msgid "unknown compression strategy"
+msgstr "tundmatu pakkimisliik `%s'!"
+
+#: lib/dpkg/compress.c:112
 #, c-format
 msgid "%s: decompression"
 msgstr "%s: lahtipakkimine"
 
-#: lib/dpkg/compress.c:89
+#: lib/dpkg/compress.c:118
 #, c-format
 msgid "%s: compression"
 msgstr "%s: pakkimine"
 
-#: lib/dpkg/compress.c:112
+#: lib/dpkg/compress.c:151
 #, c-format
 msgid "%s: error binding input to gzip stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:124
+#: lib/dpkg/compress.c:163
 #, fuzzy, c-format
 msgid "%s: internal gzip read error: '%s'"
 msgstr "%s: sisemine gzip viga: `%s'"
 
-#: lib/dpkg/compress.c:132 lib/dpkg/compress.c:136
+#: lib/dpkg/compress.c:171 lib/dpkg/compress.c:175
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: sisemine gzip viga: `%s'"
 
-#: lib/dpkg/compress.c:150
+#: lib/dpkg/compress.c:189
 #, c-format
 msgid "%s: error binding output to gzip stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:157
+#: lib/dpkg/compress.c:196
 #, fuzzy, c-format
 msgid "%s: internal gzip read error"
 msgstr "%s: sisemine gzip viga: `%s'"
 
-#: lib/dpkg/compress.c:167
+#: lib/dpkg/compress.c:206
 #, fuzzy, c-format
 msgid "%s: internal gzip write error: '%s'"
 msgstr "%s: sisemine gzip viga: `%s'"
 
-#: lib/dpkg/compress.c:180
+#: lib/dpkg/compress.c:219
 #, fuzzy, c-format
 msgid "%s: internal gzip write error: %s"
 msgstr "%s: sisemine gzip viga: `%s'"
 
-#: lib/dpkg/compress.c:220
+#: lib/dpkg/compress.c:269
 #, c-format
 msgid "%s: error binding input to bzip2 stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:232
+#: lib/dpkg/compress.c:281
 #, fuzzy, c-format
 msgid "%s: internal bzip2 read error: '%s'"
 msgstr "%s: sisemine bzip2 viga: `%s'"
 
-#: lib/dpkg/compress.c:240 lib/dpkg/compress.c:244 lib/dpkg/compress.c:294
+#: lib/dpkg/compress.c:289 lib/dpkg/compress.c:293 lib/dpkg/compress.c:343
 #, fuzzy, c-format
 msgid "%s: internal bzip2 write error"
 msgstr "%s: sisemine bzip2 viga: `%s'"
 
-#: lib/dpkg/compress.c:258
+#: lib/dpkg/compress.c:307
 #, c-format
 msgid "%s: error binding output to bzip2 stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:265
+#: lib/dpkg/compress.c:314
 #, fuzzy, c-format
 msgid "%s: internal bzip2 read error"
 msgstr "%s: sisemine bzip2 viga: `%s'"
 
-#: lib/dpkg/compress.c:275 lib/dpkg/compress.c:286
+#: lib/dpkg/compress.c:324 lib/dpkg/compress.c:335
 #, fuzzy, c-format
 msgid "%s: internal bzip2 write error: '%s'"
 msgstr "%s: sisemine bzip2 viga: `%s'"
 
-#: lib/dpkg/compress.c:282
+#: lib/dpkg/compress.c:331
 msgid "unexpected bzip2 error"
 msgstr ""
 
@@ -174,95 +248,95 @@ msgstr ""
 msgid "cannot scan updates directory `%.255s'"
 msgstr "uuenduste kataloogi `%.255s' pole võimalik läbi vaadata"
 
-#: lib/dpkg/dbmodify.c:102
+#: lib/dpkg/dbmodify.c:101
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
 msgstr ""
 
-#: lib/dpkg/dbmodify.c:121 dpkg-deb/build.c:447
+#: lib/dpkg/dbmodify.c:120 dpkg-deb/build.c:449
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "faili `%.255s' pole võimalik luua"
 
-#: lib/dpkg/dbmodify.c:125
+#: lib/dpkg/dbmodify.c:124
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr ""
 
-#: lib/dpkg/dbmodify.c:127
+#: lib/dpkg/dbmodify.c:126
 #, c-format
 msgid "unable to flush %.250s after padding"
 msgstr ""
 
-#: lib/dpkg/dbmodify.c:129
+#: lib/dpkg/dbmodify.c:128
 #, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr ""
 
 # FIXME! kuidas peaks "control archive" tõlkima? hetkel on tõlgitud kui juhtarhiiv
-#: lib/dpkg/dbmodify.c:195
+#: lib/dpkg/dbmodify.c:194
 #, fuzzy, c-format
 #| msgid "unable to open tmpfile for vsnprintf"
 msgid "unable to open lock file %s for testing"
 msgstr "tõrge tmpfile avamisel funktsioonis vsnprintf"
 
-#: lib/dpkg/dbmodify.c:221
+#: lib/dpkg/dbmodify.c:220
 msgid "unable to open/create status database lockfile"
 msgstr ""
 
-#: lib/dpkg/dbmodify.c:231
+#: lib/dpkg/dbmodify.c:230
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "sul pole õigust dpkg olekuandmebaasi lukustada"
 
-#: lib/dpkg/dbmodify.c:233
+#: lib/dpkg/dbmodify.c:232
 #, fuzzy
 #| msgid "unable to lock dpkg status database"
 msgid "dpkg status database"
 msgstr "dpkg olekuandmebaasi pole võimalik lukustada"
 
-#: lib/dpkg/dbmodify.c:257
+#: lib/dpkg/dbmodify.c:256
 msgid "requested operation requires superuser privilege"
 msgstr "selle toimingu jaoks on vaja superkasutaja õiguseid"
 
-#: lib/dpkg/dbmodify.c:262
+#: lib/dpkg/dbmodify.c:261
 msgid "unable to access dpkg status area"
 msgstr "dpkg olekupiirkonnale pole võimalik ligi pääseda"
 
-#: lib/dpkg/dbmodify.c:264
+#: lib/dpkg/dbmodify.c:263
 msgid "operation requires read/write access to dpkg status area"
 msgstr "operatsioon vajab olekupiirkonnas lugemis-/kirjutamisõigust"
 
-#: lib/dpkg/dbmodify.c:309
+#: lib/dpkg/dbmodify.c:314
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr ""
 
-#: lib/dpkg/dbmodify.c:347
+#: lib/dpkg/dbmodify.c:352
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "`%.250s' uuendatud olekut pole võimalik kirjutada"
 
-#: lib/dpkg/dbmodify.c:349
+#: lib/dpkg/dbmodify.c:355
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr ""
 
-#: lib/dpkg/dbmodify.c:351
+#: lib/dpkg/dbmodify.c:358
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr ""
 
-#: lib/dpkg/dbmodify.c:353
+#: lib/dpkg/dbmodify.c:361
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr ""
 
-#: lib/dpkg/dbmodify.c:355
+#: lib/dpkg/dbmodify.c:364
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "`%.250s' uuendatud olekut pole võimalik sulgeda"
 
-#: lib/dpkg/dbmodify.c:358
+#: lib/dpkg/dbmodify.c:368
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "`%.250s' olekut pole võimalik uuendada"
@@ -283,71 +357,39 @@ msgstr "lähtefaili `%.250s' pole võimalik avada"
 msgid "unable to open directory '%s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/dir.c:109 src/divertcmd.c:218 dpkg-split/split.c:202
-#: utils/update-alternatives.c:1293
+#: lib/dpkg/dir.c:109 src/divertcmd.c:216 dpkg-split/split.c:202
+#: utils/update-alternatives.c:1288
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/dir.c:111 src/divertcmd.c:232 src/divertcmd.c:377
-#: src/statcmd.c:217 dpkg-deb/build.c:598 dpkg-split/join.c:65
-#: dpkg-split/queue.c:187 utils/update-alternatives.c:1406
+#: lib/dpkg/dir.c:111 src/divertcmd.c:230 dpkg-deb/build.c:607
+#: dpkg-split/join.c:65 dpkg-split/queue.c:187
+#: utils/update-alternatives.c:1401
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:234 src/divertcmd.c:379
-#: dpkg-deb/build.c:600 dpkg-split/join.c:67 dpkg-split/queue.c:189
-#: utils/update-alternatives.c:1314 utils/update-alternatives.c:1408
+#: lib/dpkg/dir.c:113 src/divertcmd.c:232 dpkg-deb/build.c:609
+#: dpkg-split/join.c:67 dpkg-split/queue.c:189
+#: utils/update-alternatives.c:1309 utils/update-alternatives.c:1403
 #, fuzzy, c-format
 msgid "unable to close file '%s'"
 msgstr "tõrge puhvrite tühjendamisel funktsioonis vsnprintf"
 
-#: lib/dpkg/dump.c:396
+#: lib/dpkg/dump.c:448
 #, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr ""
 
-#: lib/dpkg/dump.c:423
-#, fuzzy, c-format
-msgid "failed to open '%s' for writing %s database"
-msgstr "tõrge `%s' avamisel %s andmete kirjutamiseks"
-
-#: lib/dpkg/dump.c:426
+#: lib/dpkg/dump.c:472
 #, fuzzy, c-format
 msgid "unable to set buffering on %s database file"
 msgstr "olekufailile pole võimalik puhverdamist määrata"
 
-#: lib/dpkg/dump.c:438
+#: lib/dpkg/dump.c:484
 #, fuzzy, c-format
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
-msgstr ""
-"dpkg: %s: hoiatus - tõrge `%.250s' ümbernimetamisel nimega `%.250s': %s\n"
-
-#: lib/dpkg/dump.c:446
-#, fuzzy, c-format
-msgid "failed to flush %s database to '%.250s'"
-msgstr "tõrge faili %s omanike muutmisel: %s"
-
-#: lib/dpkg/dump.c:448
-#, fuzzy, c-format
-msgid "failed to fsync %s database to '%.250s'"
-msgstr "tõrge faili %s omanike muutmisel: %s"
-
-#: lib/dpkg/dump.c:451
-#, fuzzy, c-format
-msgid "failed to close '%.250s' after writing %s database"
-msgstr "tõrge `%s' avamisel %s andmete kirjutamiseks"
-
-#: lib/dpkg/dump.c:455
-#, fuzzy, c-format
-msgid "failed to link '%.250s' to '%.250s' for backup of %s database"
-msgstr ""
-"dpkg: %s: hoiatus - tõrge `%.250s' ümbernimetamisel nimega `%.250s': %s\n"
-
-#: lib/dpkg/dump.c:458
-#, fuzzy, c-format
-msgid "failed to install '%.250s' as '%.250s' containing %s database"
 msgstr ""
 "dpkg: %s: hoiatus - tõrge `%.250s' ümbernimetamisel nimega `%.250s': %s\n"
 
@@ -410,199 +452,228 @@ msgstr ""
 msgid "%s:%s:%d: internal error: %s\n"
 msgstr "%s:%d: sisemine viga `%s'\n"
 
-#: lib/dpkg/fields.c:45
+#: lib/dpkg/fields.c:51
 #, c-format
 msgid "%s is missing"
 msgstr "%s on puudu"
 
-#: lib/dpkg/fields.c:49
+#: lib/dpkg/fields.c:55
 #, fuzzy, c-format
 #| msgid "  %.250s is not installed.\n"
 msgid "'%.50s' is not allowed for %s"
 msgstr "  %.250s pole paigaldatud.\n"
 
-#: lib/dpkg/fields.c:73
+#: lib/dpkg/fields.c:79
 #, c-format
 msgid "junk after %s"
 msgstr ""
 
-#: lib/dpkg/fields.c:87
+#: lib/dpkg/fields.c:93
 #, c-format
 msgid "invalid package name (%.250s)"
 msgstr "vigane pakinimi (%.250s)"
 
-#: lib/dpkg/fields.c:102
+#: lib/dpkg/fields.c:108
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "tühi faili üksikasjade väli `%s'"
 
-#: lib/dpkg/fields.c:105
+#: lib/dpkg/fields.c:111
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "faili üksikasjade väli `%s' pole olekufailis lubatud"
 
-#: lib/dpkg/fields.c:118
+#: lib/dpkg/fields.c:124
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr ""
 
-#: lib/dpkg/fields.c:132
+#: lib/dpkg/fields.c:138
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 
-#: lib/dpkg/fields.c:154
+#: lib/dpkg/fields.c:160
 msgid "yes/no in boolean field"
 msgstr ""
 
-#: lib/dpkg/fields.c:174
+#: lib/dpkg/fields.c:175
+msgid "foreign/allowed/same/no in quadstate field"
+msgstr ""
+
+#: lib/dpkg/fields.c:187
+#, c-format
+msgid "'%s' is not a valid architecture name: %s"
+msgstr ""
+
+#: lib/dpkg/fields.c:206
 msgid "word in `priority' field"
 msgstr ""
 
-#: lib/dpkg/fields.c:186
+#: lib/dpkg/fields.c:218
 msgid "value for `status' field not allowed in this context"
 msgstr "selles kontekstis pole `status' välja väärtus lubatud"
 
-#: lib/dpkg/fields.c:191
+#: lib/dpkg/fields.c:223
 msgid "first (want) word in `status' field"
 msgstr ""
 
-#: lib/dpkg/fields.c:194
+#: lib/dpkg/fields.c:226
 msgid "second (error) word in `status' field"
 msgstr ""
 
-#: lib/dpkg/fields.c:197
+#: lib/dpkg/fields.c:229
 msgid "third (status) word in `status' field"
 msgstr ""
 
-#: lib/dpkg/fields.c:207
+#: lib/dpkg/fields.c:239
 #, fuzzy, c-format
 #| msgid "error in Version string `%.250s': %.250s"
 msgid "error in Version string '%.250s'"
 msgstr "viga Version stringis `%.250s': %.250s"
 
-#: lib/dpkg/fields.c:218
+#: lib/dpkg/fields.c:250
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr ""
 
-#: lib/dpkg/fields.c:235
+#: lib/dpkg/fields.c:267
 msgid "value for `config-version' field not allowed in this context"
 msgstr "selles kontekstis pole `config-version' välja väärtus lubatud"
 
-#: lib/dpkg/fields.c:240
+#: lib/dpkg/fields.c:272
 #, fuzzy, c-format
 #| msgid "error in Config-Version string `%.250s': %.250s"
 msgid "error in Config-Version string '%.250s'"
 msgstr "viga Config-Version stringis `%.250s': %.250s"
 
-#: lib/dpkg/fields.c:266
+#: lib/dpkg/fields.c:298
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr ""
 
-#: lib/dpkg/fields.c:287
+#: lib/dpkg/fields.c:320
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 
-#: lib/dpkg/fields.c:304
+#: lib/dpkg/fields.c:337
 msgid "root or null directory is listed as a conffile"
 msgstr ""
 
-#: lib/dpkg/fields.c:365
+#: lib/dpkg/fields.c:395
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr ""
 
-#: lib/dpkg/fields.c:370
+#: lib/dpkg/fields.c:405
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "väli `%s', vigane pakinimi `%.255s': %s"
 
-#: lib/dpkg/fields.c:406
+#: lib/dpkg/fields.c:434
+#, c-format
+msgid ""
+"'%s' field, missing architecture name, or garbage where architecture name "
+"expected"
+msgstr ""
+
+#: lib/dpkg/fields.c:447
+#, fuzzy
+#| msgid "%d files and directories currently installed.)\n"
+msgid "a value different from 'any' is currently not allowed"
+msgstr "hetkel on paigaldatud %d faili ja kataloogi.)\n"
+
+#: lib/dpkg/fields.c:449
+#, fuzzy, c-format
+#| msgid "`%s' field, invalid package name `%.255s': %s"
+msgid ""
+"'%s' field, reference to '%.255s': invalid architecture name '%.255s': %s"
+msgstr "väli `%s', vigane pakinimi `%.255s': %s"
+
+#: lib/dpkg/fields.c:483
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " bad version relationship %c%c"
 msgstr ""
 
-#: lib/dpkg/fields.c:412
+#: lib/dpkg/fields.c:489
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " `%c' is obsolete, use `%c=' or `%c%c' instead"
 msgstr ""
 
-#: lib/dpkg/fields.c:422
+#: lib/dpkg/fields.c:499
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " implicit exact match on version number, suggest using `=' instead"
 msgstr ""
 
-#: lib/dpkg/fields.c:430
+#: lib/dpkg/fields.c:507
 msgid "Only exact versions may be used for Provides"
 msgstr ""
 
-#: lib/dpkg/fields.c:434
+#: lib/dpkg/fields.c:511
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " version value starts with non-alphanumeric, suggest adding a space"
 msgstr ""
 
-#: lib/dpkg/fields.c:451 lib/dpkg/fields.c:455
+#: lib/dpkg/fields.c:528 lib/dpkg/fields.c:532
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
 msgstr ""
 
-#: lib/dpkg/fields.c:459
+#: lib/dpkg/fields.c:536
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr ""
 
-#: lib/dpkg/fields.c:465
+#: lib/dpkg/fields.c:542
 #, c-format
 msgid "'%s' field, reference to '%.255s': error in version"
 msgstr ""
 
-#: lib/dpkg/fields.c:475
+#: lib/dpkg/fields.c:552
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr ""
 
-#: lib/dpkg/fields.c:482
+#: lib/dpkg/fields.c:559
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr ""
 
-#: lib/dpkg/fields.c:536
+#: lib/dpkg/fields.c:613
 #, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr "selles kontekstis pole `config-version' välja väärtus lubatud"
 
-#: lib/dpkg/fields.c:543
+#: lib/dpkg/fields.c:620
 #, fuzzy, c-format
 msgid "illegal pending trigger name `%.255s': %s"
 msgstr "väli `%s', vigane pakinimi `%.255s': %s"
 
-#: lib/dpkg/fields.c:547
+#: lib/dpkg/fields.c:624
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
 msgstr ""
 
-#: lib/dpkg/fields.c:561
+#: lib/dpkg/fields.c:638
 #, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr "selles kontekstis pole `status' välja väärtus lubatud"
 
-#: lib/dpkg/fields.c:568
+#: lib/dpkg/fields.c:647
 #, fuzzy, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
 msgstr "vigane pakinimi real %d: %.250s"
 
-#: lib/dpkg/fields.c:574
+#: lib/dpkg/fields.c:652
 #, fuzzy, c-format
 msgid "duplicate awaited trigger package `%.255s'"
 msgstr "paki `%.250s' failide nimekiri"
@@ -659,47 +730,37 @@ msgstr ""
 msgid "unable to write to status fd %d"
 msgstr "`%.250s' uuendatud olekut pole võimalik kirjutada"
 
-#: lib/dpkg/mlib.c:44 utils/update-alternatives.c:262
-#, fuzzy, c-format
-msgid "malloc failed (%zu bytes)"
-msgstr "tõrge realloc funktsioonis (%ld baiti)"
-
-#: lib/dpkg/mlib.c:58
-#, fuzzy, c-format
-msgid "realloc failed (%zu bytes)"
-msgstr "tõrge realloc funktsioonis (%ld baiti)"
-
-#: lib/dpkg/mlib.c:72 lib/dpkg/mlib.c:90 utils/update-alternatives.c:277
-#: utils/update-alternatives.c:334 utils/update-alternatives.c:1107
+#: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:272
+#: utils/update-alternatives.c:329 utils/update-alternatives.c:1102
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "tõrge kataloogi loomisel"
 
-#: lib/dpkg/mlib.c:102
+#: lib/dpkg/mlib.c:106
 #, c-format
 msgid "failed to dup for std%s"
 msgstr ""
 
-#: lib/dpkg/mlib.c:103
+#: lib/dpkg/mlib.c:107
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr ""
 
-#: lib/dpkg/mlib.c:109
+#: lib/dpkg/mlib.c:113
 msgid "failed to create pipe"
 msgstr "tõrge toru loomisel"
 
-#: lib/dpkg/mlib.c:117
+#: lib/dpkg/mlib.c:121
 #, fuzzy, c-format
 msgid "error writing to '%s'"
 msgstr "viga `%s' kirjutamisel"
 
-#: lib/dpkg/mlib.c:124
+#: lib/dpkg/mlib.c:128
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "%.250s failideskriptori lippe pole võimalik lugeda"
 
-#: lib/dpkg/mlib.c:126
+#: lib/dpkg/mlib.c:130
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr ""
@@ -789,215 +850,246 @@ msgstr "Hoiatus: aegunud võti `--%s'\n"
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "vastuolulised tegevused -%c (--%s) ja -%c (--%s)"
 
-#: lib/dpkg/parse.c:134
+#: lib/dpkg/parse.c:137
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "korduv välja `%s' väärtus"
 
-#: lib/dpkg/parse.c:146
+#: lib/dpkg/parse.c:149
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "kasutaja poolt kirjeldatud välja `%.*s' nimi on liiga lühike"
 
-#: lib/dpkg/parse.c:152
+#: lib/dpkg/parse.c:155
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "korduv kasutaja poolt kirjeldatud välja `%.*s' väärtus"
 
-#: lib/dpkg/parse.c:207
+#: lib/dpkg/parse.c:200 lib/dpkg/parsehelp.c:306 lib/dpkg/parsehelp.c:318
+#, c-format
+msgid "missing %s"
+msgstr "puudub %s"
+
+#: lib/dpkg/parse.c:202 lib/dpkg/parsehelp.c:308 lib/dpkg/parsehelp.c:321
+#, c-format
+msgid "empty value for %s"
+msgstr ""
+
+#: lib/dpkg/parse.c:210
+#, c-format
+msgid "package has field '%s' but is missing architecture"
+msgstr ""
+
+#: lib/dpkg/parse.c:213
+#, fuzzy, c-format
+msgid "package has field '%s' but is architecture all"
+msgstr " (pakk: "
+
+#: lib/dpkg/parse.c:231
 msgid "Configured-Version for package with inappropriate Status"
 msgstr ""
 
-#: lib/dpkg/parse.c:218
+#: lib/dpkg/parse.c:242
 #, c-format
 msgid "package has status %s but triggers are awaited"
 msgstr ""
 
-#: lib/dpkg/parse.c:222
+#: lib/dpkg/parse.c:246
 msgid "package has status triggers-awaited but no triggers awaited"
 msgstr ""
 
-#: lib/dpkg/parse.c:228
+#: lib/dpkg/parse.c:252
 #, c-format
 msgid "package has status %s but triggers are pending"
 msgstr ""
 
-#: lib/dpkg/parse.c:232
+#: lib/dpkg/parse.c:256
 msgid "package has status triggers-pending but no triggers pending"
 msgstr ""
 
-#: lib/dpkg/parse.c:242
+#: lib/dpkg/parse.c:266
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
 
-#: lib/dpkg/parse.c:335
+#: lib/dpkg/parse.c:344
+msgid "package contains multiple non-coinstallable instances"
+msgstr ""
+
+#: lib/dpkg/parse.c:347
+msgid "package with a mix of non-coinstallable and coinstallable instances"
+msgstr ""
+
+#: lib/dpkg/parse.c:406
+#, c-format
+msgid ""
+"%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
+"installed instances"
+msgstr ""
+
+#: lib/dpkg/parse.c:520
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr "tõrge pakiandmete faili `%.255s' lugemiseks avamisel"
 
-#: lib/dpkg/parse.c:341
+#: lib/dpkg/parse.c:526
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:347
+#: lib/dpkg/parse.c:532
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:352
+#: lib/dpkg/parse.c:537
 #, fuzzy, c-format
 #| msgid "error reading %s from file %.255s"
 msgid "reading package info file '%.255s'"
 msgstr "viga %s lugemisel failist %.255s"
 
-#: lib/dpkg/parse.c:363
+#: lib/dpkg/parse.c:548
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "tõrge sulgemisel pärast lugemist: `%.255s'"
 
-#: lib/dpkg/parse.c:404
+#: lib/dpkg/parse.c:589
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "faililõputunnus pärast kirje `%.*s' nime"
 
-#: lib/dpkg/parse.c:407
+#: lib/dpkg/parse.c:592
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "reavahetus pärast kirje `%.*s' nime"
 
-#: lib/dpkg/parse.c:410
+#: lib/dpkg/parse.c:595
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "MSDOS-i faililõputunnus (^Z) välja `%.*s' nimes"
 
-#: lib/dpkg/parse.c:414
+#: lib/dpkg/parse.c:599
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "väljanimele `%.*s' peab järgnema koolon"
 
-#: lib/dpkg/parse.c:425
+#: lib/dpkg/parse.c:610
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr "enne välja `%.*s' väärtust on faililõputunnus (puudub lõpu reavahetus)"
 
-#: lib/dpkg/parse.c:429
+#: lib/dpkg/parse.c:614
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr ""
 "välja `%.*s' väärtuses on MSDOS-i faililõputunnuse märk (puudub reavahetus?)"
 
-#: lib/dpkg/parse.c:440
+#: lib/dpkg/parse.c:625
 #, fuzzy, c-format
 #| msgid "newline in field name `%.*s'"
 msgid "blank line in value of field '%.*s'"
 msgstr "reavahetus pärast kirje `%.*s' nime"
 
-#: lib/dpkg/parse.c:461
+#: lib/dpkg/parse.c:646
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "välja `%.*s' väärtuses on faililõputunnus (puudub lõpu reavahetus)"
 
-#: lib/dpkg/parse.c:546
+#: lib/dpkg/parse.c:731
 msgid "several package info entries found, only one allowed"
 msgstr ""
 
-#: lib/dpkg/parse.c:572
+#: lib/dpkg/parse.c:757
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr ""
 
-#: lib/dpkg/parsehelp.c:45
+#: lib/dpkg/parsehelp.c:46
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d package '%.255s':\n"
 " %.255s"
 msgstr "%s faili `%.255s' %d. rea läheduses"
 
-#: lib/dpkg/parsehelp.c:48
+#: lib/dpkg/parsehelp.c:50
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
 " %.255s"
 msgstr "%s faili `%.255s' %d. rea läheduses"
 
-#: lib/dpkg/parsehelp.c:125
-msgid "may not be empty string"
-msgstr "ei tohi olla tühi string"
-
-#: lib/dpkg/parsehelp.c:127
+#: lib/dpkg/parsehelp.c:137
 #, fuzzy
 #| msgid "must start with an alphanumeric"
 msgid "must start with an alphanumeric character"
 msgstr "peab algama tähe või numbriga"
 
-#: lib/dpkg/parsehelp.c:136
-#, c-format
-msgid "character `%c' not allowed (only letters, digits and characters `%s')"
-msgstr "märk `%c' pole lubatud (ainult tähed, numbrid ja `%s' märgid)"
-
-#: lib/dpkg/parsehelp.c:178
+#: lib/dpkg/parsehelp.c:185
 #, fuzzy
 #| msgid "<none>"
 msgctxt "version"
 msgid "<none>"
 msgstr "<puudub>"
 
-#: lib/dpkg/parsehelp.c:209
+#: lib/dpkg/parsehelp.c:216
 msgid "version string is empty"
 msgstr "versioonistring puudub"
 
-#: lib/dpkg/parsehelp.c:224
+#: lib/dpkg/parsehelp.c:231
 msgid "version string has embedded spaces"
 msgstr "versioonistring sisaldab tühikuid"
 
-#: lib/dpkg/parsehelp.c:230
+#: lib/dpkg/parsehelp.c:237
 msgid "epoch in version is not number"
 msgstr ""
 
-#: lib/dpkg/parsehelp.c:232
+#: lib/dpkg/parsehelp.c:239
 msgid "nothing after colon in version number"
 msgstr "versiooninumber lõpeb kooloniga"
 
-#: lib/dpkg/parsehelp.c:247
+#: lib/dpkg/parsehelp.c:254
 msgid "version number does not start with digit"
 msgstr ""
 
-#: lib/dpkg/parsehelp.c:250
+#: lib/dpkg/parsehelp.c:257
 #, fuzzy
 #| msgid "nothing after colon in version number"
 msgid "invalid character in version number"
 msgstr "versiooninumber lõpeb kooloniga"
 
-#: lib/dpkg/parsehelp.c:254
+#: lib/dpkg/parsehelp.c:261
 #, fuzzy
 #| msgid "nothing after colon in version number"
 msgid "invalid character in revision number"
 msgstr "versiooninumber lõpeb kooloniga"
 
-#: lib/dpkg/parsehelp.c:299 lib/dpkg/parsehelp.c:311
+#: lib/dpkg/pkg-db.c:163 lib/dpkg/pkg-spec.c:97
 #, c-format
-msgid "missing %s"
-msgstr "puudub %s"
-
-#: lib/dpkg/parsehelp.c:301 lib/dpkg/parsehelp.c:314
-#, c-format
-msgid "empty value for %s"
+msgid "ambiguous package name '%s' with more than one installed instance"
 msgstr ""
 
-#: lib/dpkg/pkg-format.c:80
+#: lib/dpkg/pkg-format.c:82
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr ""
 
-#: lib/dpkg/pkg-format.c:172
+#: lib/dpkg/pkg-format.c:174
 #, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Vormingus puudub sulgev sulg\n"
 
-#: lib/dpkg/pkg-show.c:40
+#: lib/dpkg/pkg-show.c:141
 msgid "(no description available)"
 msgstr "(kirjeldus pole saadaval)"
+
+#: lib/dpkg/pkg-spec.c:71
+#, fuzzy, c-format
+msgid "illegal package name in specifier '%s%s%s': %s"
+msgstr "vigane pakinimi real %d: %.250s"
+
+#: lib/dpkg/pkg-spec.c:81
+#, fuzzy, c-format
+msgid "illegal architecture name in specifier '%s:%s': %s"
+msgstr "vigane pakinimi real %d: %.250s"
 
 #: lib/dpkg/subproc.c:55
 #, fuzzy, c-format
@@ -1014,7 +1106,7 @@ msgstr "viga `%s' kontrollimisel: %s"
 msgid "%s (subprocess): %s\n"
 msgstr "%s (alamprotsess): %s\n"
 
-#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:454
+#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:449
 msgid "fork failed"
 msgstr "tõrge fork() funktsioonis"
 
@@ -1043,211 +1135,145 @@ msgstr ""
 msgid "subprocess %s failed with wait status code %d"
 msgstr "alamprotsess %s tagastas lõpetamisel veakoodi %d"
 
-#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:461
+#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:456
 #, fuzzy, c-format
 msgid "wait for subprocess %s failed"
 msgstr "tõrge %s järel ootamisel"
 
-#: lib/dpkg/trigdeferred.l:72
+#: lib/dpkg/trigdeferred.l:73
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l:81
+#: lib/dpkg/trigdeferred.l:82
 #, fuzzy, c-format
 msgid "truncated triggers deferred file `%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l:85
+#: lib/dpkg/trigdeferred.l:86
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l:134
+#: lib/dpkg/trigdeferred.l:135
 #, fuzzy, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l:141
+#: lib/dpkg/trigdeferred.l:142
 #, fuzzy
 msgid "triggers area"
 msgstr "luku %s vabastamine pole võimalik: %s"
 
-#: lib/dpkg/trigdeferred.l:151
+#: lib/dpkg/trigdeferred.l:152
 #, fuzzy, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
 msgstr "osafaili `%.250s' olekut pole võimalik fstat funktsiooniga lugeda"
 
-#: lib/dpkg/trigdeferred.l:165
+#: lib/dpkg/trigdeferred.l:166
 #, fuzzy, c-format
 msgid "unable to open triggers deferred file `%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l:179
+#: lib/dpkg/trigdeferred.l:180
 #, fuzzy, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l:215
+#: lib/dpkg/trigdeferred.l:216
 #, fuzzy, c-format
 msgid "error reading triggers deferred file `%.250s'"
 msgstr "viga %s lugemisel failist %.255s"
 
-#: lib/dpkg/trigdeferred.l:223
+#: lib/dpkg/trigdeferred.l:224
 #, fuzzy, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l:228
+#: lib/dpkg/trigdeferred.l:229
 #, fuzzy, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l:232
+#: lib/dpkg/trigdeferred.l:233
 #, fuzzy, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
 msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
 
-#: lib/dpkg/triglib.c:222
+#: lib/dpkg/triglib.c:228
 #, c-format
 msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
 
-#: lib/dpkg/triglib.c:263
+#: lib/dpkg/triglib.c:269
 #, fuzzy, c-format
 msgid "failed to open trigger interest list file `%.250s'"
 msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
 
-#: lib/dpkg/triglib.c:292
+#: lib/dpkg/triglib.c:297
 #, fuzzy, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "tõrge arhiivi `%.255s' lugemisel"
 
-#: lib/dpkg/triglib.c:305
+#: lib/dpkg/triglib.c:312
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:318
-#, fuzzy, c-format
-msgid "unable to write new trigger interest file `%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:321
-#, fuzzy, c-format
-msgid "unable to flush new trigger interest file '%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:324
-#, fuzzy, c-format
-msgid "unable to sync new trigger interest file '%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:332
-#, fuzzy, c-format
-msgid "unable to install new trigger interest file `%.250s'"
-msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
-
-#: lib/dpkg/triglib.c:340 lib/dpkg/triglib.c:342 lib/dpkg/triglib.c:472
-#: src/remove.c:286 src/remove.c:377
-#, c-format
-msgid "cannot remove `%.250s'"
-msgstr "`%.250s' pole võimalik eemaldada"
-
-#: lib/dpkg/triglib.c:360
-#, fuzzy, c-format
-msgid "unable to create new trigger interest file `%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:383
-#, fuzzy, c-format
-msgid "unable to close new trigger interest file `%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:456
+#: lib/dpkg/triglib.c:430
 #, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr ""
 
-#: lib/dpkg/triglib.c:483
-#, fuzzy, c-format
-msgid "unable to create new file triggers file `%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:493
-#, fuzzy, c-format
-msgid "unable to write new file triggers file `%.250s'"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
-
-#: lib/dpkg/triglib.c:496
-#, fuzzy, c-format
-msgid "unable to flush new file triggers file '%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:499
-#, fuzzy, c-format
-msgid "unable to sync new file triggers file '%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:503
-#, fuzzy, c-format
-msgid "unable to close new file triggers file `%.250s'"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: lib/dpkg/triglib.c:507
-#, fuzzy, c-format
-msgid "unable to install new file triggers file as `%.250s'"
-msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
-
-#: lib/dpkg/triglib.c:542
+#: lib/dpkg/triglib.c:501
 #, fuzzy, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
 
-#: lib/dpkg/triglib.c:552
+#: lib/dpkg/triglib.c:512
 #, fuzzy, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "viga seadistusfaili `%.255s' lugemisel"
 
-#: lib/dpkg/triglib.c:563
+#: lib/dpkg/triglib.c:524
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:665
+#: lib/dpkg/triglib.c:631
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:684
+#: lib/dpkg/triglib.c:651
 #, fuzzy, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/triglib.c:699
+#: lib/dpkg/triglib.c:666
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
 
-#: lib/dpkg/triglib.c:712
+#: lib/dpkg/triglib.c:679
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
 
-#: lib/dpkg/triglib.c:776
+#: lib/dpkg/triglib.c:745
 #, fuzzy, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "`%.250s' uuendatud olekut pole võimalik kirjutada"
 
-#: lib/dpkg/triglib.c:779
+#: lib/dpkg/triglib.c:748
 #, fuzzy, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "`%.250s' uuendatud olekut pole võimalik kirjutada"
@@ -1284,252 +1310,259 @@ msgstr "ootamatu %s lõpp failis %.255s"
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
-#: src/archives.c:179 src/archives.c:200 src/archives.c:724
+#: src/archives.c:232 src/archives.c:244
 msgid "error reading from dpkg-deb pipe"
 msgstr "viga dpkg-deb torust lugemisel"
 
-#: src/archives.c:195
+#: src/archives.c:256
 #, c-format
 msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
 msgstr ""
 
-#: src/archives.c:246 src/archives.c:250
-#, c-format
-msgid "error setting timestamps of `%.255s'"
-msgstr "viga `%.255s' ajatemplite sättimisel"
+#: src/archives.c:316
+#, fuzzy, c-format
+msgid "unable to create `%.255s' (while processing `%.255s')"
+msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
 
-#: src/archives.c:262
+#: src/archives.c:324 src/archives.c:408
 #, c-format
-msgid "error setting ownership of symlink `%.255s'"
-msgstr "viga nimeviida `%.255s' omaniku seadmisel"
+msgid "backend dpkg-deb during `%.255s'"
+msgstr "taustaprotsess dpkg-deb failiga `%.255s'"
 
-#: src/archives.c:265 src/archives.c:734 src/statcmd.c:163
+#: src/archives.c:339 src/archives.c:455 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "viga `%.255s' omaniku sättimisel"
 
-#: src/archives.c:267 src/archives.c:736 src/statcmd.c:165
+#: src/archives.c:341 src/archives.c:457 src/statcmd.c:161
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "viga `%.255s' pääsuõiguste sättimisel"
 
-#: src/archives.c:395
+#: src/archives.c:349 src/archives.c:1127 src/archives.c:1168
+#, c-format
+msgid "error closing/writing `%.255s'"
+msgstr "viga `%.255s' sulgemisel/kirjutamisel"
+
+#: src/archives.c:353
+#, c-format
+msgid "error creating pipe `%.255s'"
+msgstr "viga toru `%.255s' loomisel"
+
+#: src/archives.c:358 src/archives.c:363
+#, c-format
+msgid "error creating device `%.255s'"
+msgstr "viga seadme `%.255s' loomisel"
+
+#: src/archives.c:377 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#, c-format
+msgid "error creating hard link `%.255s'"
+msgstr "viga viida `%.255s' loomisel"
+
+#: src/archives.c:384 utils/update-alternatives.c:534
+#, c-format
+msgid "error creating symbolic link `%.255s'"
+msgstr "viga nimeviida `%.255s' loomisel"
+
+#: src/archives.c:390
+#, c-format
+msgid "error creating directory `%.255s'"
+msgstr "viga kataloogi `%.255s' loomisel"
+
+#: src/archives.c:436 src/archives.c:440
+#, c-format
+msgid "error setting timestamps of `%.255s'"
+msgstr "viga `%.255s' ajatemplite sättimisel"
+
+#: src/archives.c:452
+#, c-format
+msgid "error setting ownership of symlink `%.255s'"
+msgstr "viga nimeviida `%.255s' omaniku seadmisel"
+
+#: src/archives.c:523 src/archives.c:1051 utils/update-alternatives.c:317
+#, c-format
+msgid "unable to read link `%.255s'"
+msgstr "viita `%.255s' pole võimalik lugeda"
+
+#: src/archives.c:525 src/archives.c:1053 src/configure.c:463
+#, c-format
+msgid "symbolic link '%.250s' size has changed from %jd to %zd"
+msgstr ""
+
+#: src/archives.c:562
+#, fuzzy, c-format
+msgid ""
+"trying to overwrite shared '%.250s', which is different from other instances "
+"of package %.250s"
+msgstr "`%.250s' proovitakse üle kirjutada, see on juba pakis %.250s"
+
+#: src/archives.c:652
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr ""
 
-#: src/archives.c:417
+#: src/archives.c:674
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
 
-#: src/archives.c:475
+#: src/archives.c:732
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
 msgstr "`%.250s' proovitakse üle kirjutada, see on juba pakis %.250s"
 
-#: src/archives.c:481
+#: src/archives.c:738
 #, fuzzy, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr "`%.250s' proovitakse üle kirjutada, see on juba pakis %.250s"
 
-#: src/archives.c:511
+#: src/archives.c:768
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr ""
 
-#: src/archives.c:519
+#: src/archives.c:776
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
 "version"
 msgstr ""
 
-#: src/archives.c:525
+#: src/archives.c:782
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 
-#: src/archives.c:561
+#: src/archives.c:818
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr ""
 
-#: src/archives.c:626 src/divertcmd.c:150 utils/update-alternatives.c:682
-#: utils/update-alternatives.c:1222 utils/update-alternatives.c:1284
-#: utils/update-alternatives.c:1441 utils/update-alternatives.c:1680
-#: utils/update-alternatives.c:2167 utils/update-alternatives.c:2244
-#: utils/update-alternatives.c:2527
+#: src/archives.c:900 src/divertcmd.c:148 utils/update-alternatives.c:677
+#: utils/update-alternatives.c:1217 utils/update-alternatives.c:1279
+#: utils/update-alternatives.c:1436 utils/update-alternatives.c:1675
+#: utils/update-alternatives.c:2162 utils/update-alternatives.c:2239
+#: utils/update-alternatives.c:2522
 #, fuzzy, c-format
 #| msgid "unable to read %s: %s"
 msgid "cannot stat file '%s'"
 msgstr "faili `%s' pole võimalik lugeda: %s"
 
-#: src/archives.c:641
+#: src/archives.c:915
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Failide asendamine vanas pakis %s ...\n"
 
-#: src/archives.c:645
+#: src/archives.c:920
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Asendatud pakis %s olevate failidega ...\n"
 
-#: src/archives.c:654
+#: src/archives.c:929
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
 "nondirectory"
 msgstr "`%.250s' proovitakse üle kirjutada, see on juba pakis %.250s"
 
-#: src/archives.c:661
+#: src/archives.c:936
 #, fuzzy, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "`%.250s' proovitakse üle kirjutada, see on juba pakis %.250s"
 
-#: src/archives.c:711
-#, fuzzy, c-format
-msgid "unable to create `%.255s' (while processing `%.255s')"
-msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
-
-#: src/archives.c:718
-#, c-format
-msgid "backend dpkg-deb during `%.255s'"
-msgstr "taustaprotsess dpkg-deb failiga `%.255s'"
-
-#: src/archives.c:744 src/archives.c:908 src/archives.c:949
-#, c-format
-msgid "error closing/writing `%.255s'"
-msgstr "viga `%.255s' sulgemisel/kirjutamisel"
-
-#: src/archives.c:748
-#, c-format
-msgid "error creating pipe `%.255s'"
-msgstr "viga toru `%.255s' loomisel"
-
-#: src/archives.c:753 src/archives.c:758
-#, c-format
-msgid "error creating device `%.255s'"
-msgstr "viga seadme `%.255s' loomisel"
-
-#: src/archives.c:771
-#, c-format
-msgid "error creating hard link `%.255s'"
-msgstr "viga viida `%.255s' loomisel"
-
-#: src/archives.c:777 utils/update-alternatives.c:539
-#, c-format
-msgid "error creating symbolic link `%.255s'"
-msgstr "viga nimeviida `%.255s' loomisel"
-
-#: src/archives.c:783
-#, c-format
-msgid "error creating directory `%.255s'"
-msgstr "viga kataloogi `%.255s' loomisel"
-
-#: src/archives.c:822
+#: src/archives.c:1041
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr ""
 
-#: src/archives.c:832 utils/update-alternatives.c:322
-#, c-format
-msgid "unable to read link `%.255s'"
-msgstr "viita `%.255s' pole võimalik lugeda"
-
-#: src/archives.c:834 src/configure.c:423
-#, c-format
-msgid "symbolic link '%.250s' size has changed from %jd to %zd"
-msgstr ""
-
-#: src/archives.c:839
+#: src/archives.c:1058
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr ""
 "failist `%.255s' pole võimalik enne uue versiooni paigaldamist varukoopia "
 "nimeviita luua"
 
-#: src/archives.c:841
+#: src/archives.c:1060
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "faili `%.255s' nimeviidale pole võimalik pääsuõigusi määrata (chown)"
 
-#: src/archives.c:846
+#: src/archives.c:1065
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "failist `%.255s' pole võimalik enne uue versiooni paigaldamist varukoopia "
 "viita luua"
 
-#: src/archives.c:863 src/archives.c:957
+#: src/archives.c:1082 src/archives.c:1176
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
 
-#: src/archives.c:902 src/archives.c:945
+#: src/archives.c:1121 src/archives.c:1164
 #, fuzzy, c-format
 msgid "unable to open '%.255s'"
 msgstr "faili `%.255s' pole võimalik luua"
 
-#: src/archives.c:947
+#: src/archives.c:1166
 #, fuzzy, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: src/archives.c:1000
+#: src/archives.c:1231
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
 "%s"
 msgstr "dpkg: hoiatus - eelsõltuvuse probleemi eiramine!\n"
 
-#: src/archives.c:1005
+#: src/archives.c:1236
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
 " package %s, to enable %s."
 msgstr "dpkg: %s eemaldamise otsustamine %s kasuks ...\n"
 
-#: src/archives.c:1008
+#: src/archives.c:1240
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
 " it in order to enable %s.\n"
 msgstr ""
 
-#: src/archives.c:1022
+#: src/archives.c:1249
 #, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 
-#: src/archives.c:1032
+#: src/archives.c:1259
 #, fuzzy, c-format
 msgid "removal of %.250s"
 msgstr "faili `%.250s' pole võimalik eemaldada"
 
-#: src/archives.c:1057
+#: src/archives.c:1284
 #, fuzzy, c-format
 msgid "installation of %.250s"
 msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
 
-#: src/archives.c:1058
+#: src/archives.c:1286
 #, fuzzy, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
 msgstr "dpkg: %s eemaldamise otsustamine %s kasuks ...\n"
 
-#: src/archives.c:1065
+#: src/archives.c:1293
 #, fuzzy, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg: jah, %s eemaldatakse %s kasuks.\n"
 
-#: src/archives.c:1069 src/archives.c:1187
+#: src/archives.c:1298 src/archives.c:1422
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1538,145 +1571,145 @@ msgstr ""
 "dpkg: mis puudutab pakki %2$s sisaldavat faili %1$s:\n"
 "%3$s"
 
-#: src/archives.c:1077
+#: src/archives.c:1307
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "dpkg: hoiatus - vastuolu eiratakse, jätkamine on võimalik !\n"
 
-#: src/archives.c:1082
+#: src/archives.c:1312
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
 
-#: src/archives.c:1086
+#: src/archives.c:1317
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr ""
 
-#: src/archives.c:1116
+#: src/archives.c:1347
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: %s eemaldamise otsustamine %s kasuks ...\n"
 
-#: src/archives.c:1122
+#: src/archives.c:1354
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr "%s pole korralikult paigaldatud - kõiki selle sõltuvusi eiratakse.\n"
 
-#: src/archives.c:1151
+#: src/archives.c:1383
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr "dpkg: %s eemaldamisega võib olla probleeme kuna see tagab %s ...\n"
 
-#: src/archives.c:1166
+#: src/archives.c:1399
 #, fuzzy, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
 "requested.\n"
 msgstr "dpkg: pakki %s ei eemaldata, see vajab taaspaigaldamist.\n"
 
-#: src/archives.c:1169
+#: src/archives.c:1403
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: pakki %s ei eemaldata, see vajab taaspaigaldamist.\n"
 
-#: src/archives.c:1178
+#: src/archives.c:1412
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: jah, %s eemaldatakse %s kasuks.\n"
 
-#: src/archives.c:1190
+#: src/archives.c:1426
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "vastuolulised pakid, %.250s jäetakse paigaldamata"
 
-#: src/archives.c:1191
+#: src/archives.c:1428
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "dpkg: hoiatus - vastuolu eiratakse, jätkamine on võimalik !\n"
 
-#: src/archives.c:1235
+#: src/archives.c:1474
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr ""
 
-#: src/archives.c:1245
+#: src/archives.c:1484
 #, fuzzy
 msgid "find for dpkg --recursive"
 msgstr "tõrge --recursive jaoks käsu `find' käivitamisel"
 
-#: src/archives.c:1266
+#: src/archives.c:1505
 msgid "failed to fdopen find's pipe"
 msgstr "tõrge käsu `find' toru avamisel funktsiooniga fdopen"
 
-#: src/archives.c:1272
+#: src/archives.c:1511
 msgid "error reading find's pipe"
 msgstr "viga find'i torust lugemisel"
 
-#: src/archives.c:1273
+#: src/archives.c:1512
 msgid "error closing find's pipe"
 msgstr "viga find'i toru sulgemisel"
 
-#: src/archives.c:1276
+#: src/archives.c:1515
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr ""
 "--recursive jaoks kasutatav käsk `find' tagastas käsitlematu veakoodi %i"
 
-#: src/archives.c:1279
+#: src/archives.c:1518
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 
-#: src/archives.c:1290
+#: src/archives.c:1529
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s vajab argumendiks vähemalt ühte pakiarhiivi nime"
 
-#: src/archives.c:1325 src/divertcmd.c:78 src/divertcmd.c:118
-#: src/enquiry.c:166 src/enquiry.c:279 src/enquiry.c:449 src/enquiry.c:451
-#: src/enquiry.c:464 src/main.c:66 src/main.c:163 src/main.c:314
-#: src/main.c:493 src/packages.c:254 src/querycmd.c:252 src/querycmd.c:355
-#: src/querycmd.c:396 src/querycmd.c:404 src/querycmd.c:448 src/querycmd.c:517
-#: src/querycmd.c:606 src/querycmd.c:650 src/select.c:79 src/statcmd.c:68
-#: src/statcmd.c:98 src/trigcmd.c:58 src/trigcmd.c:90 dpkg-deb/build.c:441
-#: dpkg-deb/extract.c:217 dpkg-deb/extract.c:250 dpkg-deb/info.c:203
-#: dpkg-deb/info.c:265 dpkg-deb/main.c:60 dpkg-deb/main.c:126
-#: dpkg-split/info.c:257 dpkg-split/main.c:54 dpkg-split/main.c:98
-#: dpkg-split/queue.c:144 dpkg-split/queue.c:280
+#: src/archives.c:1564 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/enquiry.c:193 src/enquiry.c:310 src/enquiry.c:501 src/enquiry.c:503
+#: src/enquiry.c:516 src/enquiry.c:546 src/main.c:68 src/main.c:170
+#: src/main.c:320 src/main.c:575 src/packages.c:266 src/querycmd.c:267
+#: src/querycmd.c:370 src/querycmd.c:418 src/querycmd.c:427 src/querycmd.c:473
+#: src/querycmd.c:552 src/querycmd.c:647 src/querycmd.c:692 src/select.c:99
+#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:60 src/trigcmd.c:92
+#: dpkg-deb/build.c:443 dpkg-deb/extract.c:217 dpkg-deb/extract.c:250
+#: dpkg-deb/info.c:203 dpkg-deb/info.c:265 dpkg-deb/main.c:60
+#: dpkg-deb/main.c:128 dpkg-split/info.c:257 dpkg-split/main.c:54
+#: dpkg-split/main.c:98 dpkg-split/queue.c:144 dpkg-split/queue.c:280
 msgid "<standard output>"
 msgstr ""
 
-#: src/archives.c:1326 src/packages.c:255 src/querycmd.c:253
-#: src/querycmd.c:353 src/querycmd.c:454 src/querycmd.c:518 src/select.c:80
+#: src/archives.c:1565 src/packages.c:267 src/querycmd.c:268
+#: src/querycmd.c:368 src/querycmd.c:479 src/querycmd.c:553 src/select.c:100
 #: dpkg-split/main.c:169 dpkg-split/queue.c:218
 msgid "<standard error>"
 msgstr ""
 
-#: src/archives.c:1367
+#: src/archives.c:1606
 #, fuzzy, c-format
 #| msgid "Selecting previously deselected package %s.\n"
 msgid "Selecting previously unselected package %s.\n"
 msgstr "Varem valimata paki %s valimine.\n"
 
-#: src/archives.c:1371
+#: src/archives.c:1611
 #, fuzzy, c-format
 #| msgid "Skipping deselected package %s.\n"
 msgid "Skipping unselected package %s.\n"
 msgstr "Valimata paki %s vahelejätmine.\n"
 
-#: src/archives.c:1387
+#: src/archives.c:1628
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr ""
 
-#: src/archives.c:1397
+#: src/archives.c:1638
 #, fuzzy, c-format
 msgid "downgrading %.250s from %.250s to %.250s."
 msgstr "%s - hoiatus: paki %.250s versiooni alandamine %.250s -> %.250s.\n"
 
-#: src/archives.c:1402
+#: src/archives.c:1644
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1711,17 +1744,17 @@ msgstr ""
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr ""
 
-#: src/configure.c:104
+#: src/configure.c:107
 #, fuzzy, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: src/configure.c:114
+#: src/configure.c:117
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr ""
 
-#: src/configure.c:126
+#: src/configure.c:129
 #, c-format
 msgid ""
 "\n"
@@ -1729,60 +1762,60 @@ msgid ""
 "Installing new config file as you requested.\n"
 msgstr ""
 
-#: src/configure.c:168
+#: src/configure.c:171
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "dpkg: %s: hoiatus - tõrge vana varukoopia `%.250s' eemaldamisel: %s\n"
 
-#: src/configure.c:176
+#: src/configure.c:180
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: hoiatus - tõrge `%.250s' ümbernimetamisel nimega `%.250s': %s\n"
 
-#: src/configure.c:182
+#: src/configure.c:187
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: tõrge '%s %s' kävitamisel"
 
-#: src/configure.c:188
+#: src/configure.c:194
 #, fuzzy, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
 msgstr "dpkg: %s: hoiatus - tõrge vana varukoopia `%.250s' eemaldamisel: %s\n"
 
-#: src/configure.c:192
+#: src/configure.c:199
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 "dpkg: %s: hoiatus - tõrge `%.250s' eemaldamisel (enne ülekirjutamist): %s\n"
 
-#: src/configure.c:196
+#: src/configure.c:204
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: hoiatus - tõrge `%.250s' ümbernimetamisel nimega `%.250s': %s\n"
 
-#: src/configure.c:200
+#: src/configure.c:209
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "Seadistusfaili %s uue versiooni paigaldamine...\n"
 
-#: src/configure.c:206 utils/update-alternatives.c:546
+#: src/configure.c:215 utils/update-alternatives.c:541
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr ""
 
-#: src/configure.c:257
+#: src/configure.c:267
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "pakki `%s' pole paigaldatud ja seetõttu pole seda võimalik seadistada"
 
-#: src/configure.c:260
+#: src/configure.c:270
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "pakk %.250s on juba paigaldatud ja seadistatud"
 
-#: src/configure.c:263
+#: src/configure.c:273
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1791,7 +1824,24 @@ msgstr ""
 "pakk %.250s pole seadistamiseks valmis\n"
 " seadistamine pole võimalik (hetkeolek `%.250s')"
 
-#: src/configure.c:294
+#: src/configure.c:285
+#, fuzzy, c-format
+#| msgid ""
+#| "package %.250s is not ready for configuration\n"
+#| " cannot configure (current status `%.250s')"
+msgid ""
+"package %s cannot be configured because %s is not ready (current status '%s')"
+msgstr ""
+"pakk %.250s pole seadistamiseks valmis\n"
+" seadistamine pole võimalik (hetkeolek `%.250s')"
+
+#: src/configure.c:293
+#, c-format
+msgid ""
+"package %s %s cannot be configured because %s is at a different version (%s)"
+msgstr ""
+
+#: src/configure.c:330
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1800,11 +1850,11 @@ msgstr ""
 "dpkg: sõltuvusprobleemid takistavad %s seadistamist:\n"
 "%s"
 
-#: src/configure.c:297
+#: src/configure.c:333
 msgid "dependency problems - leaving unconfigured"
 msgstr "sõltuvusprobleemid - jäetakse seadistamata"
 
-#: src/configure.c:301
+#: src/configure.c:337
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -1814,7 +1864,7 @@ msgstr ""
 "ikkagi:\n"
 "%s"
 
-#: src/configure.c:309
+#: src/configure.c:345
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1822,66 +1872,66 @@ msgstr ""
 "Pakk on väga halvas seisundis - enne seadistamist peaksid\n"
 " sa paki uuesti paigaldama."
 
-#: src/configure.c:312
+#: src/configure.c:348
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Paki %s (%s) paikasättimine ...\n"
 
-#: src/configure.c:396
+#: src/configure.c:432
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
 " (= '%s'): %s"
 msgstr "faili %s pole võimalik asukohale %s paigaldada: %s"
 
-#: src/configure.c:409
+#: src/configure.c:446
 #, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
 " (= '%s')"
 msgstr ""
 
-#: src/configure.c:418
+#: src/configure.c:457
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
 " (= '%s'): %s"
 msgstr "%s pole võimalik nimega %s ümber nimetada: %s"
 
-#: src/configure.c:444
+#: src/configure.c:484
 #, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
 " ('%s' is a symlink to '%s')"
 msgstr ""
 
-#: src/configure.c:460
+#: src/configure.c:500
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr "lähtefail `%.250s' pole lihtfail"
 
-#: src/configure.c:486
+#: src/configure.c:526
 msgid "md5hash"
 msgstr ""
 
-#: src/configure.c:492
+#: src/configure.c:532
 #, fuzzy, c-format
-msgid "%s: unable to open conffile %s for hash: %s"
+msgid "%s: unable to open %s for hash: %s"
 msgstr "faili %s pole võimalik kirjutamiseks avada: %s"
 
-#: src/configure.c:522 src/configure.c:526
+#: src/configure.c:562 src/configure.c:566
 msgid "conffile difference visualizer"
 msgstr ""
 
-#: src/configure.c:543
+#: src/configure.c:583
 msgid "Type `exit' when you're done.\n"
 msgstr "Kui valmis saad, sisesta `exit'.\n"
 
-#: src/configure.c:552 src/configure.c:556
+#: src/configure.c:592 src/configure.c:596
 msgid "conffile shell"
 msgstr ""
 
-#: src/configure.c:602
+#: src/configure.c:642
 #, c-format
 msgid ""
 "\n"
@@ -1890,12 +1940,12 @@ msgstr ""
 "\n"
 "Seadistusfail `%s'"
 
-#: src/configure.c:604
+#: src/configure.c:644
 #, c-format
 msgid " (actually `%s')"
 msgstr " (tegelikult `%s')"
 
-#: src/configure.c:608
+#: src/configure.c:648
 #, c-format
 msgid ""
 "\n"
@@ -1906,7 +1956,7 @@ msgstr ""
 " ==> Süsteemis olev fail on loodud Sinu poolt või mõne skripti poolt.\n"
 " ==> Samuti on fail olemas pakis, pakendatud paki haldaja poolt.\n"
 
-#: src/configure.c:613
+#: src/configure.c:653
 #, c-format
 msgid ""
 "\n"
@@ -1915,7 +1965,7 @@ msgstr ""
 "\n"
 "     Pole pärast viimast paigaldust muudetud.\n"
 
-#: src/configure.c:615
+#: src/configure.c:655
 #, c-format
 msgid ""
 "\n"
@@ -1924,7 +1974,7 @@ msgstr ""
 "\n"
 " ==> Muudetud paigalduste vahel (sinu või mõne skripti poolt).\n"
 
-#: src/configure.c:616
+#: src/configure.c:656
 #, c-format
 msgid ""
 "\n"
@@ -1933,38 +1983,38 @@ msgstr ""
 "\n"
 " ==> Kustutatud paigalduste vahel (sinu või mõne skripti poolt).\n"
 
-#: src/configure.c:619
+#: src/configure.c:659
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Paki distribuutor on pakiga kaasa pannud uuendatud versiooni.\n"
 
-#: src/configure.c:620
+#: src/configure.c:660
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr ""
 "     Pakis olev versioon on sama, mida kasutati viimasel paigaldusel.\n"
 
-#: src/configure.c:628
+#: src/configure.c:668
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Sinu nõudmisel kasutatakse uut faili.\n"
 
-#: src/configure.c:632
+#: src/configure.c:672
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Sinu nõudmisel kasutatakse praegust vana faili.\n"
 
-#: src/configure.c:641
+#: src/configure.c:681
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Sinu nõudmisel jäetakse vaikimisi vana seadistusfail alles.\n"
 
-#: src/configure.c:645
+#: src/configure.c:685
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Vaikimisi kasutatakse uut seadistusfaili.\n"
 
-#: src/configure.c:652
+#: src/configure.c:692
 #, fuzzy, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -1979,183 +2029,168 @@ msgstr ""
 "      D      : versioonidevaheliste erinevuste näitamine\n"
 "      Z      : olukorra uurimiseks selle protsessi taustalesaatmine\n"
 
-#: src/configure.c:659
+#: src/configure.c:699
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " Vaikimisi toiming on praeguse versiooni säilitamine.\n"
 
-#: src/configure.c:661
+#: src/configure.c:701
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " Vaikimisi toiming on uue versiooni paigaldamine.\n"
 
-#: src/configure.c:666
+#: src/configure.c:706
 msgid "[default=N]"
 msgstr "[vaikimisi=N]"
 
-#: src/configure.c:667
+#: src/configure.c:707
 msgid "[default=Y]"
 msgstr "[vaikimisi=Y]"
 
-#: src/configure.c:668
+#: src/configure.c:708
 msgid "[no default]"
 msgstr ""
 
-#: src/configure.c:671
+#: src/configure.c:711
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 
-#: src/configure.c:680
+#: src/configure.c:720
 msgid "read error on stdin at conffile prompt"
 msgstr ""
 
-#: src/configure.c:681
+#: src/configure.c:721
 msgid "EOF on stdin at conffile prompt"
 msgstr ""
 
-#: src/depcon.c:175
+#: src/depcon.c:247
 #, c-format
 msgid "%s depends on %s"
 msgstr "%s sõltub pakist %s"
 
-#: src/depcon.c:178
+#: src/depcon.c:250
 #, c-format
 msgid "%s pre-depends on %s"
 msgstr "%s eelsõltub pakist %s"
 
-#: src/depcon.c:181
+#: src/depcon.c:253
 #, c-format
 msgid "%s recommends %s"
 msgstr "%s soovitab pakki %s"
 
-#: src/depcon.c:184
+#: src/depcon.c:256
 #, c-format
 msgid "%s suggests %s"
 msgstr "%s vihjab pakile %s"
 
-#: src/depcon.c:187
+#: src/depcon.c:259
 #, c-format
 msgid "%s breaks %s"
 msgstr "%s lõhub paki %s"
 
-#: src/depcon.c:190
+#: src/depcon.c:262
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s on vastuolus pakiga %s"
 
-#: src/depcon.c:193
+#: src/depcon.c:265
 #, c-format
 msgid "%s enhances %s"
 msgstr "%s täiustab pakki %s"
 
-#: src/depcon.c:296
+#: src/depcon.c:373
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr ""
 
-#: src/depcon.c:299
+#: src/depcon.c:377
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr ""
 
-#: src/depcon.c:304
+#: src/depcon.c:385
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr ""
 
-#: src/depcon.c:314
+#: src/depcon.c:399
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr ""
 
-#: src/depcon.c:333
+#: src/depcon.c:419
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s on lahti pakitud, kuid seda pole kunagi seadistatud.\n"
 
-#: src/depcon.c:337
+#: src/depcon.c:424
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr ""
 
-#: src/depcon.c:343
+#: src/depcon.c:432
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr ""
 
-#: src/depcon.c:353
+#: src/depcon.c:444
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s on %s.\n"
 
-#: src/depcon.c:388
+#: src/depcon.c:482
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s tagab paki %.250s, kuid see on määratud eemaldamiseks.\n"
 
-#: src/depcon.c:392
+#: src/depcon.c:487
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr ""
 
-#: src/depcon.c:401
+#: src/depcon.c:497
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s tagab %.250s, kuid on ühtlasi %s.\n"
 
-#: src/depcon.c:415
+#: src/depcon.c:512
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s pole paigaldatud.\n"
 
-#: src/depcon.c:443
+#: src/depcon.c:545
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  paigaldatakse %.250s (versioon %.250s).\n"
 
-#: src/depcon.c:468
+#: src/depcon.c:576
 #, fuzzy, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
 msgstr "  %.250s (versioon %.250s) on %s.\n"
 
-#: src/depcon.c:495
+#: src/depcon.c:606
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s tagab %.250s ja see paigaldatakse.\n"
 
-#: src/depcon.c:537
+#: src/depcon.c:649
 #, fuzzy, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s tagab %.250s ja on ühtlasi %s.\n"
 
-#: src/divertcmd.c:50
+#: src/divertcmd.c:53
 #, fuzzy
 msgid "Use --help for help about diverting files."
 msgstr "Abiteabe jaoks sisesta dpkg-split --help."
 
-#: src/divertcmd.c:66 src/statcmd.c:57 utils/update-alternatives.c:80
+#: src/divertcmd.c:69 src/statcmd.c:57 utils/update-alternatives.c:80
 #, c-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian'i %s versioon %s.\n"
 
-#: src/divertcmd.c:70
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Copyright (C) 1995 Ian Jackson.\n"
-#| "Copyright (C) 2000,2001 Wichert Akkerman."
-msgid ""
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000,2001 Wichert Akkerman.\n"
-"Copyright (C) 2010 Guillem Jover.\n"
-msgstr ""
-"\n"
-"Autoriõigused (C) 1995 Ian Jackson.\n"
-"Autoriõigused (C) 2000,2001 Wichert Akkerman."
-
-#: src/divertcmd.c:75 src/main.c:63 src/querycmd.c:603 src/statcmd.c:65
-#: src/trigcmd.c:55 dpkg-deb/main.c:57 dpkg-split/main.c:51
-#: utils/update-alternatives.c:89
+#: src/divertcmd.c:73 src/main.c:65 src/querycmd.c:644 src/statcmd.c:61
+#: src/trigcmd.c:57 dpkg-deb/main.c:57 dpkg-split/main.c:51
+#: utils/update-alternatives.c:84
 #, fuzzy, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2166,8 +2201,8 @@ msgstr ""
 "Litsentsi - versiooni 2 või ükskõik millist hilisemat versiooni. Programmil\n"
 "pole MITTE MINGISUGUST garantiid.\n"
 
-#: src/divertcmd.c:87 src/main.c:81 src/querycmd.c:615 src/statcmd.c:77
-#: dpkg-deb/main.c:69 dpkg-split/main.c:63 utils/update-alternatives.c:97
+#: src/divertcmd.c:85 src/main.c:83 src/querycmd.c:656 src/statcmd.c:73
+#: dpkg-deb/main.c:69 dpkg-split/main.c:63 utils/update-alternatives.c:92
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2176,7 +2211,7 @@ msgstr ""
 "Kasutamine: %s [<võti> ...] <käsk>\n"
 "\n"
 
-#: src/divertcmd.c:91
+#: src/divertcmd.c:89
 #, c-format
 msgid ""
 "Commands:\n"
@@ -2188,7 +2223,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/divertcmd.c:100
+#: src/divertcmd.c:98
 #, c-format
 msgid ""
 "Options:\n"
@@ -2206,7 +2241,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/divertcmd.c:114
+#: src/divertcmd.c:112
 #, c-format
 msgid ""
 "When adding, default is --local and --divert <original>.distrib.\n"
@@ -2215,150 +2250,124 @@ msgid ""
 "divert.\n"
 msgstr ""
 
-#: src/divertcmd.c:168
+#: src/divertcmd.c:166
 #, fuzzy, c-format
 #| msgid "error checking `%s': %s"
 msgid "error checking '%s'"
 msgstr "viga `%s' kontrollimisel: %s"
 
-#: src/divertcmd.c:203
+#: src/divertcmd.c:201
 #, c-format
 msgid ""
 "rename involves overwriting `%s' with\n"
 "  different file `%s', not allowed"
 msgstr ""
 
-#: src/divertcmd.c:223 utils/update-alternatives.c:1373
+#: src/divertcmd.c:221 utils/update-alternatives.c:1368
 #, fuzzy, c-format
 msgid "unable to create file '%s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: src/divertcmd.c:227
+#: src/divertcmd.c:225
 msgid "file copy"
 msgstr ""
 
-#: src/divertcmd.c:239
+#: src/divertcmd.c:237
 #, fuzzy, c-format
 #| msgid "rename: rename `%s' to `%s': %s"
 msgid "cannot rename '%s' to '%s'"
 msgstr "ümbernimetamine: `%s' ümbernimetamine nimega `%s': %s"
 
-#: src/divertcmd.c:252
+#: src/divertcmd.c:250
 #, fuzzy, c-format
 #| msgid "rename: remove duplicate old link `%s': %s"
 msgid "rename: remove duplicate old link '%s'"
 msgstr "ümbernimetamine: korduva vana viida `%s' eemaldamine: %s"
 
-#: src/divertcmd.c:262
+#: src/divertcmd.c:260
 #, fuzzy, c-format
 #| msgid "unable to open source file `%.250s'"
 msgid "unable to remove copied source file '%s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: src/divertcmd.c:284
+#: src/divertcmd.c:282
 #, fuzzy, c-format
 msgid "local diversion of %s"
 msgstr "kohalik ümbersuunamine failile: %s\n"
 
-#: src/divertcmd.c:286
+#: src/divertcmd.c:284
 #, fuzzy, c-format
 msgid "local diversion of %s to %s"
 msgstr "kohalik ümbersuunamine failile: %s\n"
 
-#: src/divertcmd.c:290
+#: src/divertcmd.c:288
 #, fuzzy, c-format
 msgid "diversion of %s by %s"
 msgstr "paki %s diversioonid"
 
-#: src/divertcmd.c:293
+#: src/divertcmd.c:291
 #, fuzzy, c-format
 msgid "diversion of %s to %s by %s"
 msgstr "paki %s diversioonid"
 
-#: src/divertcmd.c:309
+#: src/divertcmd.c:307
 #, fuzzy, c-format
 msgid "any diversion of %s"
 msgstr "kohalik ümbersuunamine failile: %s\n"
 
-#: src/divertcmd.c:311
+#: src/divertcmd.c:309
 #, fuzzy, c-format
 msgid "any diversion of %s to %s"
 msgstr "paki %s diversioonid"
 
-#: src/divertcmd.c:357
-#, fuzzy, c-format
-#| msgid "cannot open GPL file"
-msgid "cannot create new %s file"
-msgstr "GPL-faili pole võimalik avada"
-
-#: src/divertcmd.c:375 src/statcmd.c:215 utils/update-alternatives.c:1404
-#, fuzzy, c-format
-msgid "unable to flush file '%s'"
-msgstr "tõrge puhvrite tühjendamisel funktsioonis vsnprintf"
-
-#: src/divertcmd.c:382
-#, fuzzy
-msgid "error removing old diversions-old"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/divertcmd.c:384
-#, fuzzy
-msgid "error creating new diversions-old"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/divertcmd.c:386
-#, fuzzy
-msgid "error installing new diversions"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/divertcmd.c:406 src/divertcmd.c:503 src/divertcmd.c:610
-#: src/divertcmd.c:630 src/statcmd.c:290
+#: src/divertcmd.c:389 src/divertcmd.c:518 src/divertcmd.c:634
+#: src/divertcmd.c:654 src/statcmd.c:271
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s vajab ainult ühte argumenti"
 
-#: src/divertcmd.c:409 src/divertcmd.c:430
+#: src/divertcmd.c:392 src/divertcmd.c:413
 #, c-format
 msgid "filename \"%s\" is not absolute"
 msgstr "failinimi \"%s\" pole absoluutne"
 
-#: src/divertcmd.c:411 src/statcmd.c:249
+#: src/divertcmd.c:394 src/statcmd.c:230
 msgid "file may not contain newlines"
 msgstr "fail ei tohi sisaldada reavahetusi"
 
-#: src/divertcmd.c:418
+#: src/divertcmd.c:401
 msgid "Cannot divert directories"
 msgstr ""
 
-#: src/divertcmd.c:433
+#: src/divertcmd.c:416
 #, fuzzy, c-format
 msgid "cannot divert file '%s' to itself"
 msgstr "faili `%.250s' pole võimalik eemaldada"
 
-#: src/divertcmd.c:453
+#: src/divertcmd.c:436
 #, fuzzy, c-format
 #| msgid "Leaving `%s'"
 msgid "Leaving '%s'\n"
 msgstr "Diversioon `%s' jäetakse puutumata"
 
-#: src/divertcmd.c:458
+#: src/divertcmd.c:441
 #, c-format
 msgid "`%s' clashes with `%s'"
 msgstr ""
 
-#: src/divertcmd.c:481
+#: src/divertcmd.c:464
 #, fuzzy, c-format
 #| msgid "Adding `%s'"
 msgid "Adding '%s'\n"
 msgstr "Diversiooni `%s' lisamine"
 
-#: src/divertcmd.c:510
+#: src/divertcmd.c:525
 #, fuzzy, c-format
 #| msgid "No diversion `%s', none removed"
 msgid "No diversion '%s', none removed.\n"
 msgstr "Puudub diversioon `%s', midagi ei eemaldatud"
 
-#: src/divertcmd.c:525
+#: src/divertcmd.c:540
 #, c-format
 msgid ""
 "mismatch on divert-to\n"
@@ -2366,7 +2375,7 @@ msgid ""
 "  found `%s'"
 msgstr ""
 
-#: src/divertcmd.c:532
+#: src/divertcmd.c:547
 #, c-format
 msgid ""
 "mismatch on package\n"
@@ -2374,17 +2383,24 @@ msgid ""
 "  found `%s'"
 msgstr ""
 
-#: src/divertcmd.c:539
+#: src/divertcmd.c:557
+#, fuzzy, c-format
+msgid "Ignoring request to remove shared diversion '%s'.\n"
+msgstr ""
+"dpkg - hoiatus: paki %.250s eemaldamise päringut eiratakse kuna see pakk "
+"pole paigaldatud.\n"
+
+#: src/divertcmd.c:563
 #, fuzzy, c-format
 #| msgid "Removing `%s'"
 msgid "Removing '%s'\n"
 msgstr "Diversiooni `%s' eemaldamine"
 
-#: src/divertcmd.c:657
+#: src/divertcmd.c:681
 msgid "package may not contain newlines"
 msgstr "pakk ei tohi sisaldada reavahetusi"
 
-#: src/divertcmd.c:666
+#: src/divertcmd.c:690
 msgid "divert-to may not contain newlines"
 msgstr ""
 
@@ -2400,79 +2416,94 @@ msgstr ""
 msgid "failed to fstat diversions file"
 msgstr ""
 
-#: src/divertdb.c:113
+#: src/divertdb.c:114
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr ""
 
-#: src/enquiry.c:73
+#: src/enquiry.c:85
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
 "that depend on them) to function properly:\n"
 msgstr ""
 
-#: src/enquiry.c:80
+#: src/enquiry.c:92
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
 "menu option in dselect for them to work:\n"
 msgstr ""
 
-#: src/enquiry.c:87
+#: src/enquiry.c:99
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
 "dpkg --configure <package> or the configure menu option in dselect:\n"
 msgstr ""
 
-#: src/enquiry.c:94
+#: src/enquiry.c:106
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
 "the packages can be removed using dselect or dpkg --remove:\n"
 msgstr ""
 
-#: src/enquiry.c:101
+#: src/enquiry.c:113
 msgid ""
 "The following packages are awaiting processing of triggers that they\n"
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
 
-#: src/enquiry.c:108
+#: src/enquiry.c:120
 msgid ""
 "The following packages have been triggered, but the trigger processing\n"
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
 
-#: src/enquiry.c:137 src/enquiry.c:211 src/enquiry.c:292 src/enquiry.c:373
-#: src/enquiry.c:460 src/select.c:98 src/select.c:164 src/trigcmd.c:199
-#: src/update.c:48 src/update.c:113 dpkg-split/queue.c:232
+#: src/enquiry.c:126
+msgid "The following packages do not have an architecture:\n"
+msgstr ""
+
+#: src/enquiry.c:130
+msgid "The following packages have an illegal architecture:\n"
+msgstr ""
+
+#: src/enquiry.c:135
+msgid ""
+"The following packages have an unknown foreign architecture, which will\n"
+"cause dependency issues on front-ends. This can be fixed by registering\n"
+"the foreign architecture with dpkg --add-architecture:\n"
+msgstr ""
+
+#: src/enquiry.c:164 src/enquiry.c:238 src/enquiry.c:323 src/enquiry.c:412
+#: src/enquiry.c:512 src/enquiry.c:535 src/select.c:117 src/select.c:193
+#: src/trigcmd.c:230 src/update.c:48 src/update.c:110 dpkg-split/queue.c:232
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s ei vaja argumente"
 
-#: src/enquiry.c:152
+#: src/enquiry.c:179
 msgid ""
 "Another process has locked the database for writing, and might currently be\n"
 "modifying it, some of the following problems might just be due to that.\n"
 msgstr ""
 
-#: src/enquiry.c:191
+#: src/enquiry.c:218
 #, fuzzy
 #| msgid "<unknown>"
 msgctxt "section"
 msgid "<unknown>"
 msgstr "<tundmatu>"
 
-#: src/enquiry.c:251
+#: src/enquiry.c:278
 #, c-format
 msgid " %d in %s: "
 msgstr ""
 
-#: src/enquiry.c:266
+#: src/enquiry.c:297
 #, fuzzy, c-format
 #| msgid " %d packages, from the following sections:"
 msgid " %d package, from the following section:"
@@ -2480,61 +2511,65 @@ msgid_plural " %d packages, from the following sections:"
 msgstr[0] " %d pakki järgnevatest osadest:"
 msgstr[1] " %d pakki järgnevatest osadest:"
 
-#: src/enquiry.c:305
+#: src/enquiry.c:336
 #, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
 " Please use 'dpkg --configure dpkg', and then try again.\n"
 msgstr ""
 
-#: src/enquiry.c:310
+#: src/enquiry.c:341
 #, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 
-#: src/enquiry.c:321
+#: src/enquiry.c:352
 msgid "Pre-Depends field"
 msgstr ""
 
-#: src/enquiry.c:329
+#: src/enquiry.c:360
 msgid "epoch"
 msgstr ""
 
-#: src/enquiry.c:337
+#: src/enquiry.c:368
 msgid "long filenames"
 msgstr ""
 
-#: src/enquiry.c:346
+#: src/enquiry.c:377
 msgid "multiple Conflicts and Replaces"
 msgstr ""
 
-#: src/enquiry.c:434
+#: src/enquiry.c:385
+msgid "multi-arch"
+msgstr ""
+
+#: src/enquiry.c:485
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
 " %s\n"
 msgstr ""
 
-#: src/enquiry.c:435
+#: src/enquiry.c:486
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 
-#: src/enquiry.c:472
+#: src/enquiry.c:524
 #, fuzzy, c-format
 msgid "obsolete option '--%s', please use '--%s' instead."
 msgstr "Hoiatus: aegunud võti `--%s'\n"
 
-#: src/enquiry.c:519
+#: src/enquiry.c:593
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions vajab kolme argumenti: <versioon> <suhe> <versioon>"
 
-#: src/enquiry.c:524
+#: src/enquiry.c:598
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions vigane suhe"
 
-#: src/enquiry.c:529 src/enquiry.c:531 src/enquiry.c:540 src/enquiry.c:542
+#: src/enquiry.c:603 src/enquiry.c:605 src/enquiry.c:614 src/enquiry.c:616
 #, fuzzy, c-format
 msgid "version '%s' has bad syntax: %s"
 msgstr "dpkg: versioon '%s' on vigase süntaksiga: %s\n"
@@ -2585,12 +2620,12 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr ""
 
-#: src/filesdb.c:307
+#: src/filesdb.c:313
 #, c-format
 msgid "unable to open files list file for package `%.250s'"
 msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
 
-#: src/filesdb.c:311
+#: src/filesdb.c:318
 #, fuzzy, c-format
 msgid ""
 "files list file for package `%.250s' missing, assuming package has no files "
@@ -2599,37 +2634,42 @@ msgstr ""
 "dpkg: tõsine hoiatus: pakil `%.250s' puudub failide nimekiri, oletatavalt "
 "pole pakil praegu ühtegi faili paigaldatud.\n"
 
-#: src/filesdb.c:322
+#: src/filesdb.c:330
 #, fuzzy, c-format
 msgid "unable to stat files list file for package '%.250s'"
 msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
 
-#: src/filesdb.c:330
+#: src/filesdb.c:334
+#, fuzzy, c-format
+msgid "files list for package '%.250s' is not a regular file"
+msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#: src/filesdb.c:342
 #, fuzzy, c-format
 #| msgid "files list for package `%.250s'"
 msgid "reading files list for package '%.250s'"
 msgstr "paki `%.250s' failide nimekiri"
 
-#: src/filesdb.c:336
+#: src/filesdb.c:349
 #, fuzzy, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
 
-#: src/filesdb.c:344
+#: src/filesdb.c:357
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
 
-#: src/filesdb.c:352
+#: src/filesdb.c:366
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "viga paki `%.250s' failide nimekirja sulgemisel"
 
-#: src/filesdb.c:462
+#: src/filesdb.c:478
 msgid "(Reading database ... "
 msgstr "(Andmebaasi lugemine ... "
 
-#: src/filesdb.c:483
+#: src/filesdb.c:499
 #, fuzzy, c-format
 #| msgid "%d files and directories currently installed.)\n"
 msgid "%d file or directory currently installed.)\n"
@@ -2637,78 +2677,48 @@ msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "hetkel on paigaldatud %d faili ja kataloogi.)\n"
 msgstr[1] "hetkel on paigaldatud %d faili ja kataloogi.)\n"
 
-#: src/filesdb.c:516
-#, c-format
-msgid "unable to create updated files list file for package %s"
-msgstr ""
-
-#: src/filesdb.c:526
-#, c-format
-msgid "failed to write to updated files list file for package %s"
-msgstr ""
-
-#: src/filesdb.c:528
-#, c-format
-msgid "failed to flush updated files list file for package %s"
-msgstr ""
-
-#: src/filesdb.c:530
-#, c-format
-msgid "failed to sync updated files list file for package %s"
-msgstr ""
-
-#: src/filesdb.c:533
-#, c-format
-msgid "failed to close updated files list file for package %s"
-msgstr ""
-
-#: src/filesdb.c:535
-#, c-format
-msgid "failed to install updated files list file for package %s"
-msgstr ""
-
-#: src/help.c:48
+#: src/help.c:50
 msgid "not installed"
 msgstr ""
 
-#: src/help.c:49
+#: src/help.c:51
 msgid "not installed but configs remain"
 msgstr ""
 
-#: src/help.c:50
+#: src/help.c:52
 msgid "broken due to failed removal or installation"
 msgstr ""
 
-#: src/help.c:51
+#: src/help.c:53
 msgid "unpacked but not configured"
 msgstr ""
 
-#: src/help.c:52
+#: src/help.c:54
 msgid "broken due to postinst failure"
 msgstr ""
 
-#: src/help.c:53
+#: src/help.c:55
 msgid "awaiting trigger processing by another package"
 msgstr ""
 
-#: src/help.c:54
+#: src/help.c:56
 msgid "triggered"
 msgstr ""
 
-#: src/help.c:55
+#: src/help.c:57
 msgid "installed"
 msgstr "paigaldatud"
 
-#: src/help.c:107
+#: src/help.c:112
 msgid "PATH is not set."
 msgstr ""
 
-#: src/help.c:129
+#: src/help.c:134
 #, fuzzy, c-format
 msgid "'%s' not found in PATH or not executable."
 msgstr "dpkg: %s ei leitud.\n"
 
-#: src/help.c:138
+#: src/help.c:143
 #, fuzzy, c-format
 msgid ""
 "%d expected program not found in PATH or not executable.\n"
@@ -2719,105 +2729,126 @@ msgid_plural ""
 msgstr[0] "dpkg: %s ei leitud.\n"
 msgstr[1] "dpkg: %s ei leitud.\n"
 
-#: src/help.c:141
+#: src/help.c:146
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /"
 "sbin."
 msgstr ""
 
-#: src/help.c:188
+#: src/help.c:211
 msgid "admindir must be inside instdir for dpkg to work properly"
 msgstr ""
 
-#: src/help.c:190 src/main.c:747
+#: src/help.c:213 src/main.c:831
 #, fuzzy
 msgid "unable to setenv for subprocesses"
 msgstr "faili %s pole võimalik kirjutamiseks avada: %s"
 
-#: src/help.c:192
+#: src/help.c:215
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr ""
 
-#: src/help.c:194 dpkg-deb/build.c:455 dpkg-deb/build.c:457
-#: dpkg-deb/build.c:536 dpkg-deb/build.c:558
+#: src/help.c:217 dpkg-deb/build.c:457 dpkg-deb/build.c:459
+#: dpkg-deb/build.c:544 dpkg-deb/build.c:566
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr ""
 
-#: src/help.c:256
+#: src/help.c:282
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr ""
 
-#: src/help.c:276
+#: src/help.c:302
 #, fuzzy
 msgid "unable to setenv for maintainer script"
 msgstr "faili %s pole võimalik kirjutamiseks avada: %s"
 
-#: src/help.c:300
+#: src/help.c:326
 #, fuzzy, c-format
 msgid "installed %s script"
 msgstr "vana %s skript"
 
-#: src/help.c:313 src/help.c:382 src/help.c:441
+#: src/help.c:339 src/help.c:408 src/help.c:467
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr ""
 
-#: src/help.c:368 src/help.c:428
+#: src/help.c:394 src/help.c:454
 #, c-format
 msgid "new %s script"
 msgstr "uus %s skript"
 
-#: src/help.c:402
+#: src/help.c:428
 #, c-format
 msgid "old %s script"
 msgstr "vana %s skript"
 
-#: src/help.c:416
+#: src/help.c:442
 #, fuzzy, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "faili %s pole võimalik asukohale %s paigaldada: %s"
 
-#: src/help.c:425
+#: src/help.c:451
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - selle asemel proovitakse uue paki skripti ...\n"
 
-#: src/help.c:439
+#: src/help.c:465
 msgid "there is no script in the new version of the package - giving up"
 msgstr "paki uues versioonis pole skripti - rohkem ei proovita midagi"
 
-#: src/help.c:445
+#: src/help.c:471
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr ""
 
-#: src/help.c:616
+#: src/help.c:642
 #, fuzzy, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "faili `%.255s' pole võimalik luua"
 
-#: src/help.c:621 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:647 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr ""
 
-#: src/infodb.c:52
+#: src/infodb-access.c:53
 #, c-format
 msgid "unable to check existence of `%.250s'"
 msgstr "`%.250s' olemasolu pole võimalik kontrollida"
 
-#: src/infodb.c:70
+#: src/infodb-access.c:79 src/infodb-upgrade.c:93
 msgid "cannot read info directory"
 msgstr "andmekataloogi pole võimalik lugeda"
 
-#: src/main.c:60
+#: src/infodb-format.c:51 src/processarc.c:701
+#, c-format
+msgid "error trying to open %.250s"
+msgstr ""
+
+#: src/infodb-format.c:55
+#, fuzzy, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: src/infodb-upgrade.c:123
+#, c-format
+msgid "Info file %s/%s not associated to any package"
+msgstr ""
+
+#: src/infodb-upgrade.c:183
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "viga `%s' kirjutamisel"
+
+#: src/main.c:62
 #, c-format
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debiani pakihaldusprogrammi `%s' versioon %s.\n"
 
-#: src/main.c:85
+#: src/main.c:87
 #, c-format
 msgid ""
 "Commands:\n"
@@ -2841,14 +2872,18 @@ msgid ""
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -C|--audit                       Check for broken package(s).\n"
+"  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
+"  --remove-architecture <arch>     Remove <arch> from the list of "
+"architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
+"  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
 msgstr ""
 
-#: src/main.c:113 src/querycmd.c:631 src/trigcmd.c:77 dpkg-deb/main.c:88
+#: src/main.c:118 src/querycmd.c:672 src/trigcmd.c:79 dpkg-deb/main.c:88
 #: dpkg-split/main.c:77
 #, fuzzy, c-format
 msgid ""
@@ -2861,7 +2896,7 @@ msgstr ""
 "  --license|--licence              Litsentsitingimuste näitamine.\n"
 "\n"
 
-#: src/main.c:118
+#: src/main.c:123
 #, c-format
 msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -2873,11 +2908,18 @@ msgstr ""
 "-f|--field|-x|--extract|-X|--vextract|--fsys-tarfile  (sisesta %s --help).\n"
 "\n"
 
-#: src/main.c:123
-#, c-format
+#: src/main.c:128
+#, fuzzy, c-format
+#| msgid ""
+#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#| "conrep.\n"
+#| "\n"
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
+"|\n"
+"  --assert-multi-arch.\n"
 "\n"
 msgstr ""
 "Sisemiseks kasutuseks: dpkg --assert-support-predepends | --predep-package "
@@ -2885,7 +2927,7 @@ msgstr ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 
-#: src/main.c:128
+#: src/main.c:134
 #, c-format
 msgid ""
 "Options:\n"
@@ -2912,6 +2954,8 @@ msgid ""
 "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --debug=help).\n"
 "  --status-fd <n>            Send status change updates to file descriptor "
 "<n>.\n"
+"  --status-logger=<command>  Send status change updates to <command>'s "
+"stdin.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
 "  --ignore-depends=<package>,...\n"
 "                             Ignore dependencies involving <package>.\n"
@@ -2922,7 +2966,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:154
+#: src/main.c:161
 #, c-format
 msgid ""
 "Comparison operators for --compare-versions are:\n"
@@ -2934,14 +2978,14 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:161
+#: src/main.c:168
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
 "Kasutajasõbraliku pakihalduse jaoks kasuta programme `dselect' või "
 "`aptitude'.\n"
 
-#: src/main.c:170
+#: src/main.c:176
 #, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
@@ -2967,63 +3011,63 @@ msgstr ""
 "Märgiga [*] märgitud valikud väljastavad väga palju infot - suuna nende\n"
 "  käskude väljund programmidele `less' või `more' !"
 
-#: src/main.c:219
+#: src/main.c:225
 msgid "Set all force options"
 msgstr ""
 
-#: src/main.c:221
+#: src/main.c:227
 msgid "Replace a package with a lower version"
 msgstr ""
 
-#: src/main.c:223
+#: src/main.c:229
 msgid "Configure any package which may help this one"
 msgstr ""
 
-#: src/main.c:225
+#: src/main.c:231
 msgid "Process incidental packages even when on hold"
 msgstr ""
 
-#: src/main.c:227
+#: src/main.c:233
 msgid "Try to (de)install things even when not root"
 msgstr ""
 
-#: src/main.c:229
+#: src/main.c:235
 msgid "PATH is missing important programs, problems likely"
 msgstr ""
 
-#: src/main.c:231
+#: src/main.c:237
 msgid "Install a package even if it fails authenticity check"
 msgstr ""
 
-#: src/main.c:233
+#: src/main.c:239
 msgid "Process even packages with wrong versions"
 msgstr ""
 
-#: src/main.c:235
+#: src/main.c:241
 msgid "Overwrite a file from one package with another"
 msgstr ""
 
-#: src/main.c:237
+#: src/main.c:243
 msgid "Overwrite a diverted file with an undiverted version"
 msgstr ""
 
-#: src/main.c:239
+#: src/main.c:245
 msgid "Overwrite one package's directory with another's file"
 msgstr ""
 
-#: src/main.c:241
+#: src/main.c:247
 msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
-#: src/main.c:243
+#: src/main.c:249
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
-#: src/main.c:245
+#: src/main.c:251
 msgid "Always use the old config files, don't prompt"
 msgstr ""
 
-#: src/main.c:248
+#: src/main.c:254
 msgid ""
 "Use the default option for new config files if one\n"
 "                         is available, don't prompt. If no default can be "
@@ -3032,102 +3076,102 @@ msgid ""
 "                         confnew options is also given"
 msgstr ""
 
-#: src/main.c:253
+#: src/main.c:259
 msgid "Always install missing config files"
 msgstr ""
 
-#: src/main.c:255
+#: src/main.c:261
 msgid "Offer to replace config files with no new versions"
 msgstr ""
 
-#: src/main.c:257
+#: src/main.c:263
 msgid "Process even packages with wrong or no architecture"
 msgstr ""
 
-#: src/main.c:259
+#: src/main.c:265
 msgid "Install even if it would break another package"
 msgstr ""
 
-#: src/main.c:261
+#: src/main.c:267
 msgid "Allow installation of conflicting packages"
 msgstr ""
 
-#: src/main.c:263
+#: src/main.c:269
 #, fuzzy
 #| msgid "dependency problems - not removing"
 msgid "Turn all dependency problems into warnings"
 msgstr "sõltuvusprobleemid - ei eemaldata"
 
-#: src/main.c:265
+#: src/main.c:271
 #, fuzzy
 #| msgid "dependency problems - not removing"
 msgid "Turn dependency version problems into warnings"
 msgstr "sõltuvusprobleemid - ei eemaldata"
 
-#: src/main.c:267
+#: src/main.c:273
 msgid "Remove packages which require installation"
 msgstr ""
 
-#: src/main.c:269
+#: src/main.c:275
 msgid "Remove an essential package"
 msgstr ""
 
-#: src/main.c:281
+#: src/main.c:287
 msgid "Generally helpful progress information"
 msgstr ""
 
-#: src/main.c:282
+#: src/main.c:288
 #, fuzzy
 msgid "Invocation and status of maintainer scripts"
 msgstr "faili %s pole võimalik kirjutamiseks avada: %s"
 
-#: src/main.c:283
+#: src/main.c:289
 msgid "Output for each file processed"
 msgstr ""
 
-#: src/main.c:284
+#: src/main.c:290
 msgid "Lots of output for each file processed"
 msgstr ""
 
-#: src/main.c:285
+#: src/main.c:291
 #, fuzzy
 #| msgid "read error in configuration file `%.255s'"
 msgid "Output for each configuration file"
 msgstr "viga seadistusfaili `%.255s' lugemisel"
 
-#: src/main.c:286
+#: src/main.c:292
 msgid "Lots of output for each configuration file"
 msgstr ""
 
-#: src/main.c:287
+#: src/main.c:293
 msgid "Dependencies and conflicts"
 msgstr ""
 
-#: src/main.c:288
+#: src/main.c:294
 msgid "Lots of dependencies/conflicts output"
 msgstr ""
 
-#: src/main.c:289
+#: src/main.c:295
 msgid "Trigger activation and processing"
 msgstr ""
 
-#: src/main.c:290
+#: src/main.c:296
 msgid "Lots of output regarding triggers"
 msgstr ""
 
-#: src/main.c:291
+#: src/main.c:297
 msgid "Silly amounts of output regarding triggers"
 msgstr ""
 
-#: src/main.c:292
+#: src/main.c:298
 msgid "Lots of drivel about eg the dpkg/info directory"
 msgstr ""
 
-#: src/main.c:293
+#: src/main.c:299
 msgid "Insane amounts of drivel"
 msgstr ""
 
-#: src/main.c:304
+#: src/main.c:310
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -3135,7 +3179,7 @@ msgid ""
 " Number  Ref. in source   Description\n"
 msgstr ""
 
-#: src/main.c:311
+#: src/main.c:317
 #, c-format
 msgid ""
 "\n"
@@ -3143,35 +3187,69 @@ msgid ""
 "Note that the meanings and values are subject to change.\n"
 msgstr ""
 
-#: src/main.c:319
-msgid "--debug requires an octal argument"
+#: src/main.c:326
+#, fuzzy, c-format
+#| msgid "--debug requires an octal argument"
+msgid "--%s requires an octal argument"
 msgstr "--debug võtmel peab olema kaheksandsüsteemi argument"
 
-#: src/main.c:348
-#, c-format
-msgid "null package name in --ignore-depends comma-separated list `%.250s'"
-msgstr ""
-
 #: src/main.c:354
-#, c-format
-msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "null package name in --%s comma-separated list '%.250s'"
+msgstr "vigane pakinimi real %d: %.250s"
 
-#: src/main.c:371 src/main.c:381 src/main.c:649 dpkg-split/main.c:124
+#: src/main.c:364 src/packages.c:114 src/querycmd.c:402 src/querycmd.c:621
+#, fuzzy, c-format
+#| msgid "`%s' field, invalid package name `%.255s': %s"
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "väli `%s', vigane pakinimi `%.255s': %s"
+
+#: src/main.c:381 src/main.c:391 src/main.c:733 dpkg-split/main.c:124
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr ""
 
-#: src/main.c:438
+#: src/main.c:448
 #, c-format
 msgid "error executing hook '%s', exit code %d"
 msgstr ""
 
-#: src/main.c:465
+#: src/main.c:475
 msgid "status logger"
 msgstr ""
 
-#: src/main.c:480
+#: src/main.c:490 src/main.c:520
+#, fuzzy, c-format
+#| msgid "--%s takes no arguments"
+msgid "--%s takes one argument"
+msgstr "--%s ei vaja argumente"
+
+#: src/main.c:500
+#, c-format
+msgid "architecture '%s' is illegal: %s"
+msgstr ""
+
+#: src/main.c:503
+#, c-format
+msgid "architecture '%s' is reserved and cannot be added"
+msgstr ""
+
+#: src/main.c:526
+#, c-format
+msgid "cannot remove non-foreign architecture '%s'"
+msgstr ""
+
+#: src/main.c:537
+#, c-format
+msgid "removing architecture '%s' currently in use by database"
+msgstr ""
+
+#: src/main.c:540
+#, c-format
+msgid "cannot remove architecture '%s' currently in use by the database"
+msgstr ""
+
+#: src/main.c:562
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -3180,7 +3258,7 @@ msgid ""
 " Forcing things:\n"
 msgstr ""
 
-#: src/main.c:490
+#: src/main.c:572
 #, c-format
 msgid ""
 "\n"
@@ -3188,68 +3266,66 @@ msgid ""
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
 
-#: src/main.c:504
+#: src/main.c:586
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr ""
 
-#: src/main.c:513
+#: src/main.c:595
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "Hoiatus: aegunud võti `--%s'\n"
 
-#: src/main.c:643
-msgid "--command-fd takes one argument, not zero"
-msgstr "--command-fd vajab ühte argumenti, mis pole null"
+#: src/main.c:729 dpkg-deb/info.c:329
+#, fuzzy, c-format
+#| msgid "--contents takes exactly one argument"
+msgid "--%s takes exactly one argument"
+msgstr "--contents vajab täpselt ühte argumenti"
 
-#: src/main.c:645
-msgid "--command-fd only takes one argument"
-msgstr "--command-fd vajab ainult ühte argumenti"
-
-#: src/main.c:651
+#: src/main.c:735
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr ""
 
-#: src/main.c:676
+#: src/main.c:760
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr ""
 
-#: src/main.c:719 src/main.c:741 src/querycmd.c:692 src/statcmd.c:379
-#: dpkg-deb/main.c:201 dpkg-split/main.c:163
+#: src/main.c:803 src/main.c:825 src/querycmd.c:735 src/statcmd.c:360
+#: dpkg-deb/main.c:208 dpkg-split/main.c:163
 msgid "need an action option"
 msgstr "tegevuse võti on vajalik"
 
-#: src/packages.c:113
+#: src/packages.c:122
 msgid ""
 "you must specify packages by their own names, not by quoting the names of "
 "the files they come in"
 msgstr ""
 
-#: src/packages.c:133
+#: src/packages.c:144
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr ""
 
-#: src/packages.c:138 src/querycmd.c:375 src/querycmd.c:565
+#: src/packages.c:149 src/querycmd.c:390 src/querycmd.c:601
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s vajab vähemalt ühte argumenti, mis oleks pakinimi"
 
-#: src/packages.c:179
+#: src/packages.c:190
 #, c-format
 msgid "Package %s listed more than once, only processing once.\n"
 msgstr ""
 
-#: src/packages.c:183
+#: src/packages.c:194
 #, c-format
 msgid ""
 "More than one copy of package %s has been unpacked\n"
 " in this run !  Only configuring it once.\n"
 msgstr ""
 
-#: src/packages.c:232
+#: src/packages.c:244
 #, fuzzy, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
@@ -3258,112 +3334,112 @@ msgstr ""
 "pakk %.250s pole seadistamiseks valmis\n"
 " seadistamine pole võimalik (hetkeolek `%.250s')"
 
-#: src/packages.c:334
+#: src/packages.c:346
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  Pakk %s, mis tagab %s, eemaldatakse.\n"
 
-#: src/packages.c:337
+#: src/packages.c:349
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  Pakk %s eemaldatakse.\n"
 
-#: src/packages.c:354
+#: src/packages.c:364
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  Süsteemis olev %s versioon on %s.\n"
 
-#: src/packages.c:376
+#: src/packages.c:386
 #, fuzzy, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr "  Pakk %s, mis tagab %s, eemaldatakse.\n"
 
-#: src/packages.c:380
+#: src/packages.c:390
 #, fuzzy, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  Pakk %s eemaldatakse.\n"
 
-#: src/packages.c:410
+#: src/packages.c:420
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr ""
 
-#: src/packages.c:418
+#: src/packages.c:429
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  Pakk %s, mis tagab %s, pole veel seadistatud.\n"
 
-#: src/packages.c:421
+#: src/packages.c:432
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  Pakk %s pole veel seadistatud.\n"
 
-#: src/packages.c:432
+#: src/packages.c:443
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  Pakk %s, mis tagab %s, pole paigaldatud.\n"
 
-#: src/packages.c:435
+#: src/packages.c:446
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  Pakk %s pole paigaldatud.\n"
 
-#: src/packages.c:472
+#: src/packages.c:486
 #, fuzzy, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr "  %.250s tagab %.250s ja on ühtlasi %s.\n"
 
-#: src/packages.c:478
+#: src/packages.c:493
 #, fuzzy, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "%s (alamprotsess): %s\n"
 
-#: src/packages.c:482
+#: src/packages.c:498
 #, fuzzy, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  Süsteemis olev %s versioon on %s.\n"
 
-#: src/packages.c:596
+#: src/packages.c:635
 msgid " depends on "
 msgstr " sõltub pakist "
 
-#: src/packages.c:602
+#: src/packages.c:641
 msgid "; however:\n"
 msgstr "; igatahes:\n"
 
-#: src/processarc.c:71
+#: src/processarc.c:75
 #, c-format
 msgid ".../%s"
 msgstr ""
 
-#: src/processarc.c:91
+#: src/processarc.c:95
 #, c-format
 msgid "error ensuring `%.250s' doesn't exist"
 msgstr ""
 
-#: src/processarc.c:99
+#: src/processarc.c:103
 msgid "split package reassembly"
 msgstr ""
 
-#: src/processarc.c:108
+#: src/processarc.c:112
 msgid "reassembled package file"
 msgstr ""
 
-#: src/processarc.c:133
+#: src/processarc.c:137
 #, c-format
 msgid "Authenticating %s ...\n"
 msgstr "Faili %s autentimine...\n"
 
-#: src/processarc.c:139
+#: src/processarc.c:143
 msgid "package signature verification"
 msgstr ""
 
-#: src/processarc.c:146
+#: src/processarc.c:150
 #, c-format
 msgid "Verification on package %s failed!"
 msgstr "Tõrge paki %s verifitseerimisel"
 
-#: src/processarc.c:148
+#: src/processarc.c:152
 #, c-format
 msgid ""
 "Verification on package %s failed,\n"
@@ -3372,206 +3448,201 @@ msgstr ""
 "Paki %s verifitseerimine ei õnnestunud,\n"
 "kuid Sinu nõudmisel paigaldatakse see ikkagi.\n"
 
-#: src/processarc.c:152
+#: src/processarc.c:156
 #, c-format
 msgid "passed\n"
 msgstr "läbitud\n"
 
-#: src/processarc.c:165 dpkg-deb/info.c:81
+#: src/processarc.c:169 dpkg-deb/info.c:81
 #, fuzzy
 msgid "unable to create temporary directory"
 msgstr "tõrge kataloogi loomisel"
 
-#: src/processarc.c:205
+#: src/processarc.c:209
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
 msgstr "pakil %s on liiga palju vastuolude/asenduste paare"
 
-#: src/processarc.c:243
-#, c-format
-msgid "old version of package has overly-long info file name starting `%.250s'"
-msgstr ""
-
-#: src/processarc.c:281
-#, c-format
-msgid "unable to remove obsolete info file `%.250s'"
-msgstr ""
-
-#: src/processarc.c:286
-#, c-format
-msgid "unable to install (supposed) new info file `%.250s'"
-msgstr ""
-
-#: src/processarc.c:296
-msgid "unable to open temp control directory"
-msgstr ""
-
-#: src/processarc.c:307
-#, c-format
-msgid "package contains overly-long control info file name (starting `%.50s')"
-msgstr ""
-
-#: src/processarc.c:314
-#, c-format
-msgid "package control info contained directory `%.250s'"
-msgstr "paki juhtandmed sisaldavad kataloogi `%.250s'"
-
-#: src/processarc.c:316
-#, c-format
-msgid "package control info rmdir of `%.250s' didn't say not a dir"
-msgstr ""
-
-#: src/processarc.c:326
-#, fuzzy, c-format
-msgid "package %s contained list as info file"
-msgstr "Pakk `%s' ei sisalda ühtki faili (!)\n"
-
-#: src/processarc.c:333
-#, c-format
-msgid "unable to install new info file `%.250s' as `%.250s'"
-msgstr ""
-
-#: src/processarc.c:349 src/remove.c:198
+#: src/processarc.c:219 src/remove.c:208
 #, c-format
 msgid "unable to delete control info file `%.250s'"
 msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
 
-#: src/processarc.c:411
+#: src/processarc.c:230
+#, c-format
+msgid "old version of package has overly-long info file name starting `%.250s'"
+msgstr ""
+
+#: src/processarc.c:268
+#, c-format
+msgid "unable to remove obsolete info file `%.250s'"
+msgstr ""
+
+#: src/processarc.c:273
+#, c-format
+msgid "unable to install (supposed) new info file `%.250s'"
+msgstr ""
+
+#: src/processarc.c:283
+msgid "unable to open temp control directory"
+msgstr ""
+
+#: src/processarc.c:294
+#, c-format
+msgid "package contains overly-long control info file name (starting `%.50s')"
+msgstr ""
+
+#: src/processarc.c:301
+#, c-format
+msgid "package control info contained directory `%.250s'"
+msgstr "paki juhtandmed sisaldavad kataloogi `%.250s'"
+
+#: src/processarc.c:303
+#, c-format
+msgid "package control info rmdir of `%.250s' didn't say not a dir"
+msgstr ""
+
+#: src/processarc.c:313
+#, fuzzy, c-format
+msgid "package %s contained list as info file"
+msgstr "Pakk `%s' ei sisalda ühtki faili (!)\n"
+
+#: src/processarc.c:321
+#, c-format
+msgid "unable to install new info file `%.250s' as `%.250s'"
+msgstr ""
+
+#: src/processarc.c:346
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr ""
+
+#: src/processarc.c:450
 msgid "cannot access archive"
 msgstr "arhiivile pole võimalik ligi pääseda"
 
-#: src/processarc.c:433
+#: src/processarc.c:472
 #, fuzzy
 #| msgid "control information length"
 msgid "package control information extraction"
 msgstr "juhtandmete pikkus"
 
-#: src/processarc.c:460
+#: src/processarc.c:507
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr ""
 
-#: src/processarc.c:468
+#: src/processarc.c:517
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "paki arhitektuur (%s) ei vasta süsteemile (%s)"
 
-#: src/processarc.c:523
+#: src/processarc.c:583
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
 "%s"
 msgstr ""
 
-#: src/processarc.c:526
+#: src/processarc.c:587
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "eelsõltuvuse probleem - %.250s jäetakse paigaldamata"
 
-#: src/processarc.c:527
+#: src/processarc.c:589
 #, fuzzy
 msgid "ignoring pre-dependency problem!"
 msgstr "dpkg: hoiatus - eelsõltuvuse probleemi eiramine!\n"
 
-#: src/processarc.c:543
+#: src/processarc.c:605
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "Ettevalmistused paki %s %s asendamiseks (%s abil) ...\n"
 
-#: src/processarc.c:549
+#: src/processarc.c:611
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Paki %s lahtipakkimine (failist %s) ...\n"
 
-#: src/processarc.c:580
+#: src/processarc.c:643
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr "seadistusfaili nimi (algusega `%.250s') on liiga pikk (>%d märki)"
 
-#: src/processarc.c:633 utils/update-alternatives.c:2071
+#: src/processarc.c:697 utils/update-alternatives.c:2066
 #, c-format
 msgid "read error in %.250s"
 msgstr ""
 
-#: src/processarc.c:635
+#: src/processarc.c:699
 #, c-format
 msgid "error closing %.250s"
 msgstr "viga %.250s sulgemisel"
 
-#: src/processarc.c:637
-#, c-format
-msgid "error trying to open %.250s"
-msgstr ""
-
-#: src/processarc.c:678
+#: src/processarc.c:742
 #, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr ""
 
-#: src/processarc.c:681
+#: src/processarc.c:746
 #, fuzzy, c-format
 msgid "De-configuring %s ...\n"
 msgstr "Paki %s eemaldamine...\n"
 
-#: src/processarc.c:755
+#: src/processarc.c:827
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Paki %.250s asenduse lahtipakkimine ...\n"
 
-#: src/processarc.c:840
+#: src/processarc.c:913
 msgid "package filesystem archive extraction"
 msgstr ""
 
-#: src/processarc.c:854
+#: src/processarc.c:928
 msgid "error reading dpkg-deb tar output"
 msgstr "viga dpkg-deb tar väljundi lugemisel"
 
-#: src/processarc.c:856
+#: src/processarc.c:930
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "vigase failisüsteemiga tar-fail - vigane pakiarhiiv"
 
-#: src/processarc.c:859
+#: src/processarc.c:933
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr ""
 
-#: src/processarc.c:919
+#: src/processarc.c:993
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 
-#: src/processarc.c:925
+#: src/processarc.c:999
 #, fuzzy, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "dpkg: hoiatus - vana kataloogi `%.250s' pole võimalik kustutada: %s\n"
 
-#: src/processarc.c:928
+#: src/processarc.c:1002
 #, fuzzy, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
 "dpkg: hoiatus - vana seadistusfail `%.250s' oli tühi kataloog (ja on "
 "nüüdseks kustutatud)\n"
 
-#: src/processarc.c:975
+#: src/processarc.c:1049
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr ""
 
-#: src/processarc.c:986
+#: src/processarc.c:1060
 #, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
 "'%.250s')"
 msgstr ""
 
-#: src/processarc.c:1025
+#: src/processarc.c:1099
 #, fuzzy, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "osafaili `%.250s' olekut pole võimalik fstat funktsiooniga lugeda"
-
-#: src/processarc.c:1206
-#, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr ""
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
@@ -3579,7 +3650,7 @@ msgstr ""
 #. * the first three columns, which should ideally match the English one
 #. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
 #. * translated message can use additional lines if needed.
-#: src/querycmd.c:149
+#: src/querycmd.c:154
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
@@ -3587,89 +3658,89 @@ msgid ""
 "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 
-#: src/querycmd.c:153
+#: src/querycmd.c:158
 msgid "Name"
 msgstr "Nimi"
 
-#: src/querycmd.c:153
+#: src/querycmd.c:158
 msgid "Version"
 msgstr "Versioon"
 
-#: src/querycmd.c:154
+#: src/querycmd.c:159
 msgid "Description"
 msgstr "Kirjeldus"
 
-#: src/querycmd.c:246 src/querycmd.c:511 src/select.c:75
+#: src/querycmd.c:257 src/querycmd.c:542 src/select.c:93
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Mustrile %s ei vasta ühtegi pakki.\n"
 
-#: src/querycmd.c:273
+#: src/querycmd.c:288
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "paki %s diversioonid"
 
-#: src/querycmd.c:275
+#: src/querycmd.c:290
 #, fuzzy, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "paki %s diversioonid"
 
-#: src/querycmd.c:278
+#: src/querycmd.c:293
 #, fuzzy, c-format
 msgid "local diversion from: %s\n"
 msgstr "kohalik diversioon"
 
-#: src/querycmd.c:279
+#: src/querycmd.c:294
 #, fuzzy, c-format
 msgid "local diversion to: %s\n"
 msgstr "kohalik ümbersuunamine failile: %s\n"
 
-#: src/querycmd.c:309
+#: src/querycmd.c:324
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search vajab argumendiks vähemalt ühte failinime mustrit"
 
-#: src/querycmd.c:350
+#: src/querycmd.c:365
 #, fuzzy, c-format
 #| msgid "No packages found matching %s.\n"
 msgid "%s: no path found matching pattern %s.\n"
 msgstr "Mustrile %s ei vasta ühtegi pakki.\n"
 
-#: src/querycmd.c:393
+#: src/querycmd.c:414
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Pakk `%s' pole paigaldatud ja andmeid pole saadaval.\n"
 
-#: src/querycmd.c:401
+#: src/querycmd.c:423
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Pakk `%s' pole saadaval.\n"
 
-#: src/querycmd.c:410 src/querycmd.c:585
+#: src/querycmd.c:433 src/querycmd.c:625
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Pakk `%s' pole paigaldatud.\n"
 
-#: src/querycmd.c:418
+#: src/querycmd.c:442
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Pakk `%s' ei sisalda ühtki faili (!)\n"
 
-#: src/querycmd.c:425
+#: src/querycmd.c:450
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "kohalik ümbersuunamine failile: %s\n"
 
-#: src/querycmd.c:428
+#: src/querycmd.c:453
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr ""
 
-#: src/querycmd.c:431
+#: src/querycmd.c:456
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr ""
 
-#: src/querycmd.c:452
+#: src/querycmd.c:477
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3677,22 +3748,22 @@ msgstr ""
 "Arhiivifaili vaatamiseks kasuta dpkg --info (= dpkg-deb --info),\n"
 "ja selle sisu vaatamiseks kasuta dpkg --contents (= dpkg-deb --contents).\n"
 
-#: src/querycmd.c:570
+#: src/querycmd.c:606 dpkg-deb/build.c:410
 #, fuzzy, c-format
 msgid "--%s takes at most two arguments"
 msgstr "--%s ei vaja argumente"
 
-#: src/querycmd.c:578
+#: src/querycmd.c:614
 #, c-format
 msgid "control file contains %c"
 msgstr ""
 
-#: src/querycmd.c:600
+#: src/querycmd.c:641
 #, fuzzy, c-format
 msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debiani pakihaldusprogrammi `%s' versioon %s.\n"
 
-#: src/querycmd.c:619
+#: src/querycmd.c:660
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -3718,11 +3789,17 @@ msgstr ""
 "                                mustri järgi.\n"
 "\n"
 
-#: src/querycmd.c:636
-#, c-format
+#: src/querycmd.c:677
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  -f|--showformat=<format>         Use alternative format for --show.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --load-avail                     Use available file on --show and --list.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"
 msgstr ""
@@ -3732,7 +3809,7 @@ msgstr ""
 "                                kasutamine.\n"
 "\n"
 
-#: src/querycmd.c:642 dpkg-deb/main.c:112
+#: src/querycmd.c:684 dpkg-deb/main.c:114
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3746,18 +3823,18 @@ msgid ""
 "  case left alignment will be used.\n"
 msgstr ""
 
-#: src/querycmd.c:656
+#: src/querycmd.c:698
 msgid "Use --help for help about querying packages."
 msgstr ""
 
-#: src/remove.c:88
+#: src/remove.c:93
 #, fuzzy, c-format
 msgid "ignoring request to remove %.250s which isn't installed."
 msgstr ""
 "dpkg - hoiatus: paki %.250s eemaldamise päringut eiratakse kuna see pakk "
 "pole paigaldatud.\n"
 
-#: src/remove.c:95
+#: src/remove.c:100
 #, fuzzy, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
@@ -3767,11 +3844,11 @@ msgstr ""
 " süsteemis on ainult selle paki seadistusfailid. Kasuta --purge võtit\n"
 " nende eemaldamiseks.\n"
 
-#: src/remove.c:103
+#: src/remove.c:108
 msgid "This is an essential package - it should not be removed."
 msgstr "See on hädavajalik pakk - seda ei peaks eemaldama."
 
-#: src/remove.c:128
+#: src/remove.c:138
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent removal of %s:\n"
@@ -3780,11 +3857,11 @@ msgstr ""
 "dpkg: sõltuvusprobleemid takistavad %s eemaldamist:\n"
 "%s"
 
-#: src/remove.c:130
+#: src/remove.c:140
 msgid "dependency problems - not removing"
 msgstr "sõltuvusprobleemid - ei eemaldata"
 
-#: src/remove.c:134
+#: src/remove.c:144
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
@@ -3794,7 +3871,7 @@ msgstr ""
 "ikkagi:\n"
 "%s"
 
-#: src/remove.c:142
+#: src/remove.c:152
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
@@ -3802,105 +3879,111 @@ msgstr ""
 "Pakk on väga halvas seisundis - enne eemaldamist peaksid\n"
 " sa paki uuesti paigaldama."
 
-#: src/remove.c:149
+#: src/remove.c:159
 #, c-format
 msgid "Would remove or purge %s ...\n"
 msgstr ""
 
-#: src/remove.c:157
+#: src/remove.c:167
 #, c-format
 msgid "Removing %s ...\n"
 msgstr "Paki %s eemaldamine...\n"
 
-#: src/remove.c:275 src/remove.c:366
+#: src/remove.c:326 src/remove.c:417
 #, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
 "may be a mount point?"
 msgstr ""
 
-#: src/remove.c:289
+#: src/remove.c:340
 #, fuzzy, c-format
 msgid "unable to securely remove '%.250s'"
 msgstr "faili `%.255s' pole võimalik luua"
 
-#: src/remove.c:361
+#: src/remove.c:412
 #, fuzzy, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed."
 msgstr ""
 "dpkg - hoiatus: %.250s eemaldamise järel pole kataloog `%.250s' tühi ja "
 "seetõttu seda ei kustutata.\n"
 
-#: src/remove.c:383
+#: src/remove.c:434
 #, fuzzy, c-format
 #| msgid "cannot remove `%.250s'"
 msgid "cannot remove '%.250s'"
 msgstr "`%.250s' pole võimalik eemaldada"
 
-#: src/remove.c:409
+#: src/remove.c:460
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr "Paki %s seadistusfailide eemaldamine ...\n"
 
-#: src/remove.c:459
+#: src/remove.c:511
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr "vana seadistusfaili `%.250s' pole võimalik eemaldada (= `%.250s')"
 
-#: src/remove.c:474
+#: src/remove.c:526
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr ""
 
-#: src/remove.c:510
+#: src/remove.c:562
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr ""
 
-#: src/remove.c:568
+#: src/remove.c:621
 msgid "cannot remove old files list"
 msgstr "vanade failide nimekirja pole võimalik eemaldada"
 
-#: src/remove.c:574
+#: src/remove.c:627
 msgid "can't remove old postrm script"
 msgstr "vana postrm skripti pole võimalik eemaldada"
 
-#: src/select.c:115
+#: src/select.c:137
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "ootamatu faililõpp pakinimes real %d"
 
-#: src/select.c:116
+#: src/select.c:138
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "ootamatu realõpp pakinimes real %d"
 
-#: src/select.c:122
+#: src/select.c:144
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "ootamatu faililõpp peale pakinime real %d"
 
-#: src/select.c:123
+#: src/select.c:145
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "ootamatu realõpp peale pakinime real %d"
 
-#: src/select.c:136
+#: src/select.c:158
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "ootamatud andmed peale pakki ja valikut real %d"
 
-#: src/select.c:139
+#: src/select.c:162
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "vigane pakinimi real %d: %.250s"
 
-#: src/select.c:143
+#: src/select.c:168
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %.250s"
+msgid "package not in database at line %d: %.250s"
+msgstr "vigane pakinimi real %d: %.250s"
+
+#: src/select.c:172
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr ""
 
-#: src/select.c:149
+#: src/select.c:178
 msgid "read error on standard input"
 msgstr "viga standardsisendist lugemisel"
 
@@ -3908,17 +3991,7 @@ msgstr "viga standardsisendist lugemisel"
 msgid "Use --help for help about overriding file stat information."
 msgstr ""
 
-#: src/statcmd.c:61
-#, fuzzy, c-format
-msgid ""
-"Copyright (C) 2000, 2001 Wichert Akkerman.\n"
-"Copyright (C) 2006-2009 Guillem Jover.\n"
-msgstr ""
-"\n"
-"Autoriõigused (C) 1995 Ian Jackson.\n"
-"Autoriõigused (C) 2000-2002 Wichert Akkerman."
-
-#: src/statcmd.c:81
+#: src/statcmd.c:77
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3929,7 +4002,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/statcmd.c:89
+#: src/statcmd.c:85
 #, c-format
 msgid ""
 "Options:\n"
@@ -3942,56 +4015,38 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/statcmd.c:116
+#: src/statcmd.c:112
 msgid "stripping trailing /"
 msgstr "lõpus olev kaldkriips eemaldatakse"
 
-#: src/statcmd.c:207
-#, fuzzy
-msgid "cannot open new statoverride file"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/statcmd.c:222
-#, fuzzy
-msgid "error removing statoverride-old"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/statcmd.c:224
-#, fuzzy
-msgid "error creating new statoverride-old"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/statcmd.c:226
-#, fuzzy
-msgid "error installing new statoverride"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/statcmd.c:246
-msgid "--add needs four arguments"
+#: src/statcmd.c:227
+#, fuzzy, c-format
+#| msgid "--add needs four arguments"
+msgid "--%s needs four arguments"
 msgstr "--add vajab nelja argumenti"
 
-#: src/statcmd.c:256
+#: src/statcmd.c:237
 #, c-format
 msgid ""
 "An override for '%s' already exists, but --force specified so will be "
 "ignored."
 msgstr ""
 
-#: src/statcmd.c:260
+#: src/statcmd.c:241
 #, c-format
 msgid "An override for '%s' already exists, aborting."
 msgstr ""
 
-#: src/statcmd.c:272
+#: src/statcmd.c:253
 #, c-format
 msgid "--update given but %s does not exist"
 msgstr ""
 
-#: src/statcmd.c:296
+#: src/statcmd.c:277
 msgid "No override present."
 msgstr ""
 
-#: src/statcmd.c:304
+#: src/statcmd.c:285
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "hoiatus: --update on --remove puhul kasutu"
@@ -4062,17 +4117,17 @@ msgstr "ootamatu realõpp pakinimes real %d"
 msgid "multiple statusoverrides present for file '%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: src/trigcmd.c:46
+#: src/trigcmd.c:48
 #, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Abiteabe jaoks sisesta dpkg-split --help."
 
-#: src/trigcmd.c:51
+#: src/trigcmd.c:53
 #, fuzzy, c-format
 msgid "Debian %s package trigger utility version %s.\n"
 msgstr "Debiani pakihaldusprogrammi `%s' versioon %s.\n"
 
-#: src/trigcmd.c:67
+#: src/trigcmd.c:69
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
@@ -4082,7 +4137,7 @@ msgstr ""
 "Kasutamine: %s [<võti> ...] <käsk>\n"
 "\n"
 
-#: src/trigcmd.c:72
+#: src/trigcmd.c:74
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4091,7 +4146,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:82
+#: src/trigcmd.c:84
 #, c-format
 msgid ""
 "Options:\n"
@@ -4105,54 +4160,54 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trigcmd.c:152
+#: src/trigcmd.c:127
+msgid "must be called from a maintainer script (or with a --by-package option)"
+msgstr ""
+
+#: src/trigcmd.c:183
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
 msgstr ""
 
-#: src/trigcmd.c:156
+#: src/trigcmd.c:187
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
 msgstr ""
 
-#: src/trigcmd.c:205
+#: src/trigcmd.c:236
 #, fuzzy
 msgid "takes one argument, the trigger name"
 msgstr "--%s vajab ainult ühte argumenti (.deb failinimi)"
 
-#: src/trigcmd.c:210
-msgid "must be called from a maintainer script (or with a --by-package option)"
-msgstr ""
-
-#: src/trigcmd.c:215
+#: src/trigcmd.c:240
 #, fuzzy, c-format
 msgid "illegal awaited package name '%.250s': %.250s"
 msgstr "väli `%s', vigane pakinimi `%.255s': %s"
 
-#: src/trigcmd.c:221
+#: src/trigcmd.c:246
 #, fuzzy, c-format
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "väli `%s', vigane pakinimi `%.255s': %s"
 
-#: src/trigproc.c:250
+#: src/trigproc.c:260
 #, c-format
 msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
 
-#: src/trigproc.c:258
+#: src/trigproc.c:269
 #, c-format
 msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
 
-#: src/trigproc.c:281
+#: src/trigproc.c:294
 msgid "triggers looping, abandoned"
 msgstr ""
 
-#: src/trigproc.c:312
+#: src/trigproc.c:326
 #, fuzzy, c-format
 msgid "Processing triggers for %s ...\n"
 msgstr "Paki %s seadistusfailide eemaldamine ...\n"
@@ -4181,7 +4236,7 @@ msgstr "Saadaolevate pakkide andmete asendamine failist %s.\n"
 msgid "Updating available packages info, using %s.\n"
 msgstr "Saadaolevate pakkide andmete uuendamine failist %s.\n"
 
-#: src/update.c:101
+#: src/update.c:98
 #, fuzzy, c-format
 #| msgid "Information about %d package(s) was updated.\n"
 msgid "Information about %d package was updated.\n"
@@ -4189,7 +4244,7 @@ msgid_plural "Information about %d packages was updated.\n"
 msgstr[0] "%d paki andmed uuendatud.\n"
 msgstr[1] "%d paki andmed uuendatud.\n"
 
-#: src/update.c:115
+#: src/update.c:112
 #, c-format
 msgid ""
 "obsolete '--%s' option, unavailable packages are automatically cleaned up."
@@ -4300,82 +4355,78 @@ msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dpkg-deb/build.c:403 utils/update-alternatives.c:2429
-#: utils/update-alternatives.c:2436
+#: dpkg-deb/build.c:403 utils/update-alternatives.c:2424
+#: utils/update-alternatives.c:2431
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s vajab argumenti <kataloog>"
 
-#: dpkg-deb/build.c:409
-msgid "--build takes at most two arguments"
-msgstr ""
-
-#: dpkg-deb/build.c:413
+#: dpkg-deb/build.c:414
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr ""
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:431
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:432
 msgid "not checking contents of control area."
 msgstr ""
 
-#: dpkg-deb/build.c:432
+#: dpkg-deb/build.c:433
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr ""
 
-#: dpkg-deb/build.c:439
+#: dpkg-deb/build.c:440
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr ""
 
-#: dpkg-deb/build.c:467 dpkg-deb/build.c:521
+#: dpkg-deb/build.c:469 dpkg-deb/build.c:529
 #, fuzzy, c-format
 msgid "failed to make temporary file (%s)"
 msgstr "tõrge toru loomisel"
 
-#: dpkg-deb/build.c:467 dpkg-deb/build.c:470 dpkg-deb/build.c:477
-#: dpkg-deb/build.c:485 dpkg-deb/build.c:494 dpkg-deb/build.c:499
+#: dpkg-deb/build.c:469 dpkg-deb/build.c:472 dpkg-deb/build.c:485
+#: dpkg-deb/build.c:493 dpkg-deb/build.c:502 dpkg-deb/build.c:507
 msgid "control member"
 msgstr ""
 
-#: dpkg-deb/build.c:470 dpkg-deb/build.c:524
+#: dpkg-deb/build.c:472 dpkg-deb/build.c:532
 #, fuzzy, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "tõrge toru loomisel"
 
-#: dpkg-deb/build.c:485 dpkg-deb/build.c:593
+#: dpkg-deb/build.c:493 dpkg-deb/build.c:602
 #, fuzzy, c-format
 msgid "failed to rewind temporary file (%s)"
 msgstr "tõrge toru loomisel"
 
-#: dpkg-deb/build.c:494
+#: dpkg-deb/build.c:502
 #, fuzzy, c-format
 msgid "failed to stat temporary file (%s)"
 msgstr "tõrge toru loomisel"
 
-#: dpkg-deb/build.c:498
+#: dpkg-deb/build.c:506
 #, c-format
 msgid "error writing `%s'"
 msgstr "viga `%s' kirjutamisel"
 
-#: dpkg-deb/build.c:521 dpkg-deb/build.c:524 dpkg-deb/build.c:546
-#: dpkg-deb/build.c:572 dpkg-deb/build.c:580 dpkg-deb/build.c:593
+#: dpkg-deb/build.c:529 dpkg-deb/build.c:532 dpkg-deb/build.c:554
+#: dpkg-deb/build.c:580 dpkg-deb/build.c:588 dpkg-deb/build.c:602
 #, fuzzy
 msgid "data member"
 msgstr "versiooninumber"
 
-#: dpkg-deb/build.c:571 dpkg-deb/build.c:580
+#: dpkg-deb/build.c:579 dpkg-deb/build.c:588
 #, fuzzy, c-format
 #| msgid "failed to write to pipe in copy"
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "tõrge kopeerimise ajal torusse kirjutamisel"
 
-#: dpkg-deb/build.c:584
+#: dpkg-deb/build.c:592
 msgid "<compress> from tar -cf"
 msgstr ""
 
@@ -4600,7 +4651,7 @@ msgid_plural "%d requested control components are missing"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dpkg-deb/info.c:139 utils/update-alternatives.c:424
+#: dpkg-deb/info.c:139 utils/update-alternatives.c:419
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "kataloogi `%.255s' pole võimalik läbi vaadata"
@@ -4651,10 +4702,6 @@ msgstr "viga find'i toru sulgemisel"
 #: dpkg-deb/info.c:278
 msgid "Error in format"
 msgstr "Vormingu viga"
-
-#: dpkg-deb/info.c:328
-msgid "--contents takes exactly one argument"
-msgstr "--contents vajab täpselt ühte argumenti"
 
 #: dpkg-deb/main.c:54
 #, c-format
@@ -4733,6 +4780,9 @@ msgid ""
 "building.\n"
 "                                     Allowed types: gzip, xz, bzip2, lzma, "
 "none.\n"
+"  -S<strategy>                     Set the compression strategy when "
+"building.\n"
+"                                     Allowed values: extreme (xz).\n"
 "\n"
 msgstr ""
 "Võtmed:\n"
@@ -4748,7 +4798,7 @@ msgstr ""
 "none.\n"
 "\n"
 
-#: dpkg-deb/main.c:121
+#: dpkg-deb/main.c:123
 #, c-format
 msgid ""
 "\n"
@@ -4762,7 +4812,7 @@ msgstr ""
 "kasutajasõbralikke pakihaldusvahendeid `dselect' või `aptitude'.  Pakkide\n"
 "lahtipakkimine `dpkg-deb --extract' abil ei ole korrektne paigaldamine!\n"
 
-#: dpkg-deb/main.c:132
+#: dpkg-deb/main.c:134
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -4770,20 +4820,25 @@ msgstr ""
 "Käsu dpkg-deb --help väljund räägib *.deb failidega ümberkäimisest;\n"
 "Käsu dpkg --help väljund räägib pakkide paigaldamisest ja eemaldamisest."
 
-#: dpkg-deb/main.c:148
+#: dpkg-deb/main.c:153
 #, fuzzy, c-format
 msgid "invalid integer for -%c: '%.250s'"
 msgstr "väli `%s', vigane pakinimi `%.255s': %s"
 
-#: dpkg-deb/main.c:151
+#: dpkg-deb/main.c:156
 #, c-format
 msgid "invalid compression level for -%c: %ld'"
 msgstr ""
 
-#: dpkg-deb/main.c:161
+#: dpkg-deb/main.c:166
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "tundmatu pakkimisliik `%s'!"
+
+#: dpkg-deb/main.c:211
+#, c-format
+msgid "invalid compressor parameters: %s"
+msgstr ""
 
 #: dpkg-split/info.c:52
 #, c-format
@@ -5022,11 +5077,6 @@ msgstr ""
 msgid "Debian `%s' package split/join tool; version %s.\n"
 msgstr ""
 
-#: dpkg-split/main.c:49
-#, c-format
-msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
-msgstr "Autoriõigused (C) 1994-1996 Ian Jackson.\n"
-
 #: dpkg-split/main.c:67
 #, c-format
 msgid ""
@@ -5225,22 +5275,7 @@ msgstr "--split vajab argumendiks lähtefaili nime"
 msgid "--split takes at most a source filename and destination prefix"
 msgstr ""
 
-#: utils/update-alternatives.c:84
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Copyright (C) 1995 Ian Jackson.\n"
-#| "Copyright (C) 2000,2001 Wichert Akkerman."
-msgid ""
-"Copyright (C) 1995 Ian Jackson.\n"
-"Copyright (C) 2000-2002 Wichert Akkerman.\n"
-"Copyright (C) 2009-2010 Raphael Hertzog.\n"
-msgstr ""
-"\n"
-"Autoriõigused (C) 1995 Ian Jackson.\n"
-"Autoriõigused (C) 2000,2001 Wichert Akkerman."
-
-#: utils/update-alternatives.c:101
+#: utils/update-alternatives.c:96
 #, c-format
 msgid ""
 "Commands:\n"
@@ -5264,7 +5299,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: utils/update-alternatives.c:120
+#: utils/update-alternatives.c:115
 #, c-format
 msgid ""
 "<link> is the symlink pointing to %s/<name>.\n"
@@ -5279,7 +5314,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: utils/update-alternatives.c:131
+#: utils/update-alternatives.c:126
 #, c-format
 msgid ""
 "Options:\n"
@@ -5296,360 +5331,370 @@ msgid ""
 "  --version                show the version.\n"
 msgstr ""
 
-#: utils/update-alternatives.c:150 utils/update-alternatives.c:163
+#: utils/update-alternatives.c:145 utils/update-alternatives.c:158
 #, fuzzy
 #| msgid "parse error"
 msgid "error"
 msgstr "parsimisviga"
 
-#: utils/update-alternatives.c:193
+#: utils/update-alternatives.c:188
 msgid "warning"
 msgstr "hoiatus"
 
-#: utils/update-alternatives.c:356
+#: utils/update-alternatives.c:257
+#, fuzzy, c-format
+msgid "malloc failed (%zu bytes)"
+msgstr "tõrge realloc funktsioonis (%ld baiti)"
+
+#: utils/update-alternatives.c:351
 #, fuzzy, c-format
 #| msgid "two commands specified: %s and --%s"
 msgid "two commands specified: --%s and --%s"
 msgstr "korraga on määratud kaks käsku: %s ja --%s"
 
-#: utils/update-alternatives.c:387
+#: utils/update-alternatives.c:382
 #, fuzzy, c-format
 #| msgid "cannot open diversions: %s"
 msgid "cannot append to '%s'"
 msgstr "diversioone pole võimalik avada: %s"
 
-#: utils/update-alternatives.c:556
+#: utils/update-alternatives.c:551
 #, fuzzy, c-format
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
 msgstr "faili %s pole võimalik eemaldada: %s"
 
-#: utils/update-alternatives.c:1111
+#: utils/update-alternatives.c:1106
 #, fuzzy, c-format
 msgid "unexpected end of file while trying to read %s"
 msgstr "ootamatu %s lõpp failis %.255s"
 
-#: utils/update-alternatives.c:1113
+#: utils/update-alternatives.c:1108
 #, fuzzy, c-format
 msgid "while reading %s: %s"
 msgstr "faili `%s' pole võimalik lugeda: %s"
 
-#: utils/update-alternatives.c:1119
+#: utils/update-alternatives.c:1114
 #, fuzzy, c-format
 msgid "line not terminated while trying to read %s"
 msgstr "ootamatu %s lõpp failis %.255s"
 
-#: utils/update-alternatives.c:1137
+#: utils/update-alternatives.c:1132
 #, fuzzy, c-format
 msgid "%s corrupt: %s"
 msgstr "sisemine viga: %s on rikutud: %s"
 
-#: utils/update-alternatives.c:1150
+#: utils/update-alternatives.c:1145
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr ""
 
-#: utils/update-alternatives.c:1163
+#: utils/update-alternatives.c:1158
 msgid "slave name"
 msgstr ""
 
-#: utils/update-alternatives.c:1171 utils/update-alternatives.c:2405
+#: utils/update-alternatives.c:1166 utils/update-alternatives.c:2400
 #, fuzzy, c-format
 #| msgid "duplicate value for `%s' field"
 msgid "duplicate slave name %s"
 msgstr "korduv välja `%s' väärtus"
 
-#: utils/update-alternatives.c:1174
+#: utils/update-alternatives.c:1169
 msgid "slave link"
 msgstr ""
 
-#: utils/update-alternatives.c:1178
+#: utils/update-alternatives.c:1173
 #, c-format
 msgid "slave link same as main link %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1185 utils/update-alternatives.c:2412
+#: utils/update-alternatives.c:1180 utils/update-alternatives.c:2407
 #, c-format
 msgid "duplicate slave link %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1204
+#: utils/update-alternatives.c:1199
 msgid "master file"
 msgstr ""
 
-#: utils/update-alternatives.c:1213
+#: utils/update-alternatives.c:1208
 #, c-format
 msgid "duplicate path %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1226
+#: utils/update-alternatives.c:1221
 #, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist. Removing from list of "
 "alternatives."
 msgstr ""
 
-#: utils/update-alternatives.c:1229 utils/update-alternatives.c:1240
+#: utils/update-alternatives.c:1224 utils/update-alternatives.c:1235
 #, fuzzy
 msgid "priority"
 msgstr "%s - tähtsus %s"
 
-#: utils/update-alternatives.c:1232 utils/update-alternatives.c:1249
+#: utils/update-alternatives.c:1227 utils/update-alternatives.c:1244
 msgid "slave file"
 msgstr ""
 
-#: utils/update-alternatives.c:1244
+#: utils/update-alternatives.c:1239
 #, fuzzy, c-format
 msgid "priority of %s: %s"
 msgstr "%s - tähtsus %s"
 
-#: utils/update-alternatives.c:1297
+#: utils/update-alternatives.c:1292
 msgid "status"
 msgstr ""
 
-#: utils/update-alternatives.c:1299
+#: utils/update-alternatives.c:1294
 msgid "invalid status"
 msgstr ""
 
-#: utils/update-alternatives.c:1304
+#: utils/update-alternatives.c:1299
 msgid "master link"
 msgstr ""
 
-#: utils/update-alternatives.c:1348
+#: utils/update-alternatives.c:1343
 #, c-format
 msgid "discarding obsolete slave link %s (%s)."
 msgstr ""
 
-#: utils/update-alternatives.c:1502 utils/update-alternatives.c:1569
-#: utils/update-alternatives.c:2638
+#: utils/update-alternatives.c:1399
+#, fuzzy, c-format
+msgid "unable to flush file '%s'"
+msgstr "tõrge puhvrite tühjendamisel funktsioonis vsnprintf"
+
+#: utils/update-alternatives.c:1497 utils/update-alternatives.c:1564
+#: utils/update-alternatives.c:2633
 msgid "auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1502 utils/update-alternatives.c:1578
-#: utils/update-alternatives.c:2639
+#: utils/update-alternatives.c:1497 utils/update-alternatives.c:1573
+#: utils/update-alternatives.c:2634
 msgid "manual mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1505
+#: utils/update-alternatives.c:1500
 #, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr " viit osutab hetkel failile %s"
 
-#: utils/update-alternatives.c:1508
+#: utils/update-alternatives.c:1503
 #, fuzzy
 msgid "  link currently absent"
 msgstr " viit osutab hetkel failile %s"
 
-#: utils/update-alternatives.c:1512
+#: utils/update-alternatives.c:1507
 #, fuzzy, c-format
 #| msgid "%s - priority %s"
 msgid "%s - priority %d"
 msgstr "%s - tähtsus %s"
 
-#: utils/update-alternatives.c:1515
+#: utils/update-alternatives.c:1510
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr "faili %s pole võimalik sulgeda: %s"
 
-#: utils/update-alternatives.c:1522
+#: utils/update-alternatives.c:1517
 #, fuzzy, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "Käesolevaga on `parim' versioon %s."
 
-#: utils/update-alternatives.c:1524
+#: utils/update-alternatives.c:1519
 msgid "No versions available."
 msgstr "Versioone pole saadaval."
 
-#: utils/update-alternatives.c:1553
+#: utils/update-alternatives.c:1548
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: utils/update-alternatives.c:1560
+#: utils/update-alternatives.c:1555
 #, fuzzy
 msgid "Selection"
 msgstr "Kirjeldus"
 
-#: utils/update-alternatives.c:1561
+#: utils/update-alternatives.c:1556
 msgid "Path"
 msgstr ""
 
-#: utils/update-alternatives.c:1561
+#: utils/update-alternatives.c:1556
 msgid "Priority"
 msgstr ""
 
-#: utils/update-alternatives.c:1561
+#: utils/update-alternatives.c:1556
 msgid "Status"
 msgstr ""
 
-#: utils/update-alternatives.c:1582
+#: utils/update-alternatives.c:1577
 #, fuzzy, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 "Vaikimisi[*] valiku jaoks vajuta enter, oma valiku tegemiseks sisesta "
 "number: "
 
-#: utils/update-alternatives.c:1721
+#: utils/update-alternatives.c:1716
 #, c-format
 msgid "not replacing %s with a link."
 msgstr ""
 
-#: utils/update-alternatives.c:1762
+#: utils/update-alternatives.c:1757
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1780
+#: utils/update-alternatives.c:1775
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist."
 msgstr ""
 
-#: utils/update-alternatives.c:1790
+#: utils/update-alternatives.c:1785
 #, c-format
 msgid "not removing %s since it's not a symlink."
 msgstr ""
 
-#: utils/update-alternatives.c:2041 utils/update-alternatives.c:2047
+#: utils/update-alternatives.c:2036 utils/update-alternatives.c:2042
 #, c-format
 msgid "Call %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2051
+#: utils/update-alternatives.c:2046
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr ""
 
-#: utils/update-alternatives.c:2055
+#: utils/update-alternatives.c:2050
 #, fuzzy, c-format
 msgid "Skip unknown alternative %s."
 msgstr "Alternatiivi `%s' pole võimalik leida."
 
-#: utils/update-alternatives.c:2077
+#: utils/update-alternatives.c:2072
 #, fuzzy, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "ootamatu %s lõpp failis %.255s"
 
-#: utils/update-alternatives.c:2090 utils/update-alternatives.c:2103
-#: utils/update-alternatives.c:2113
+#: utils/update-alternatives.c:2085 utils/update-alternatives.c:2098
+#: utils/update-alternatives.c:2108
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2132
+#: utils/update-alternatives.c:2127
 #, fuzzy, c-format
 msgid "renaming %s link from %s to %s."
 msgstr "Viida %s ümbernimetamine nimest %s nimega %s."
 
-#: utils/update-alternatives.c:2173
+#: utils/update-alternatives.c:2168
 #, fuzzy, c-format
 msgid "renaming %s slave link from %s to %s."
 msgstr "Viida %s ümbernimetamine nimest %s nimega %s."
 
-#: utils/update-alternatives.c:2189
+#: utils/update-alternatives.c:2184
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces."
 msgstr ""
 
-#: utils/update-alternatives.c:2193
+#: utils/update-alternatives.c:2188
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2197
+#: utils/update-alternatives.c:2192
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2224
+#: utils/update-alternatives.c:2219
 #, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2232 utils/update-alternatives.c:2267
+#: utils/update-alternatives.c:2227 utils/update-alternatives.c:2262
 #, c-format
 msgid "alternative link %s is already managed by %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2241
+#: utils/update-alternatives.c:2236
 #, c-format
 msgid "alternative path %s doesn't exist."
 msgstr ""
 
-#: utils/update-alternatives.c:2254
+#: utils/update-alternatives.c:2249
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a master alternative."
 msgstr ""
 
-#: utils/update-alternatives.c:2258
+#: utils/update-alternatives.c:2253
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2278
+#: utils/update-alternatives.c:2273
 #, c-format
 msgid "alternative link %s is already managed by %s (slave of %s)."
 msgstr ""
 
-#: utils/update-alternatives.c:2324
+#: utils/update-alternatives.c:2319
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "tundmatu argument `%s'"
 
-#: utils/update-alternatives.c:2343
+#: utils/update-alternatives.c:2338
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr ""
 
-#: utils/update-alternatives.c:2346 utils/update-alternatives.c:2397
+#: utils/update-alternatives.c:2341 utils/update-alternatives.c:2392
 msgid "<link> and <path> can't be the same"
 msgstr ""
 
-#: utils/update-alternatives.c:2349
+#: utils/update-alternatives.c:2344
 msgid "priority must be an integer"
 msgstr "tähtsus peab olema määratud täisarvuga"
 
-#: utils/update-alternatives.c:2362
+#: utils/update-alternatives.c:2357
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s vajab argumente <nimi> <rada>"
 
-#: utils/update-alternatives.c:2376
+#: utils/update-alternatives.c:2371
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s vajab argumenti <nimi>"
 
-#: utils/update-alternatives.c:2388
+#: utils/update-alternatives.c:2383
 msgid "--slave only allowed with --install"
 msgstr "--slave on lubatud ainult koos võtmega --install"
 
-#: utils/update-alternatives.c:2390
+#: utils/update-alternatives.c:2385
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave vajab argumente <viit> <nimi> <rada>"
 
-#: utils/update-alternatives.c:2399
+#: utils/update-alternatives.c:2394
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr ""
 
-#: utils/update-alternatives.c:2402
+#: utils/update-alternatives.c:2397
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr ""
 
-#: utils/update-alternatives.c:2422
+#: utils/update-alternatives.c:2417
 #, fuzzy, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s vajab ainult ühte argumenti"
 
-#: utils/update-alternatives.c:2448
+#: utils/update-alternatives.c:2443
 #, c-format
 msgid "unknown option `%s'"
 msgstr "tundmatu võti `%s'"
 
-#: utils/update-alternatives.c:2453
+#: utils/update-alternatives.c:2448
 #, fuzzy
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -5658,93 +5703,242 @@ msgstr ""
 "vaja on võtit --display, --config, --set, --install, --remove, --all, --"
 "remove-all või --auto"
 
-#: utils/update-alternatives.c:2490
+#: utils/update-alternatives.c:2485
 #, fuzzy
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "viga standardsisendist lugemisel"
 
-#: utils/update-alternatives.c:2500 utils/update-alternatives.c:2503
+#: utils/update-alternatives.c:2495 utils/update-alternatives.c:2498
 #, fuzzy, c-format
 msgid "no alternatives for %s."
 msgstr "%s jaoks pole alternatiive."
 
-#: utils/update-alternatives.c:2530
+#: utils/update-alternatives.c:2525
 #, c-format
 msgid "%s/%s is dangling, it will be updated with best choice."
 msgstr ""
 
-#: utils/update-alternatives.c:2534
+#: utils/update-alternatives.c:2529
 #, c-format
 msgid ""
 "%s/%s has been changed (manually or by a script). Switching to manual "
 "updates only."
 msgstr ""
 
-#: utils/update-alternatives.c:2542
+#: utils/update-alternatives.c:2537
 #, fuzzy, c-format
 msgid "setting up automatic selection of %s."
 msgstr "Automaatse valiku seadmine %s jaoks."
 
-#: utils/update-alternatives.c:2551
+#: utils/update-alternatives.c:2546
 #, fuzzy, c-format
 msgid "alternative %s for %s not registered, not setting."
 msgstr "Alternatiivi %s pole %s jaoks registreeritud, ei eemalda."
 
-#: utils/update-alternatives.c:2557 utils/update-alternatives.c:2563
+#: utils/update-alternatives.c:2552 utils/update-alternatives.c:2558
 #, fuzzy, c-format
 msgid "There is no program which provides %s."
 msgstr ""
 "Süsteemis pole ühtegi programmi, mis tagaks %s.\n"
 "Pole midagi seadistada.\n"
 
-#: utils/update-alternatives.c:2565 utils/update-alternatives.c:2575
+#: utils/update-alternatives.c:2560 utils/update-alternatives.c:2570
 msgid "Nothing to configure."
 msgstr ""
 
-#: utils/update-alternatives.c:2573
+#: utils/update-alternatives.c:2568
 #, c-format
 msgid "There is only one alternative in link group %s: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2584
+#: utils/update-alternatives.c:2579
 #, fuzzy, c-format
 msgid "alternative %s for %s not registered, not removing."
 msgstr "Alternatiivi %s pole %s jaoks registreeritud, ei eemalda."
 
-#: utils/update-alternatives.c:2592
+#: utils/update-alternatives.c:2587
 #, fuzzy, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 "Käsitsi valitud alternatiivi eemaldamine - lülitumine automaatrežiimile"
 
-#: utils/update-alternatives.c:2617
+#: utils/update-alternatives.c:2612
 #, fuzzy, c-format
 msgid "automatic updates of %s/%s are disabled, leaving it alone."
 msgstr "Automaatsed uuendused on %s jaoks keelatud, jätan muutmata."
 
-#: utils/update-alternatives.c:2619
+#: utils/update-alternatives.c:2614
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'."
 msgstr ""
 "Automaatsetele uuendustele tagasilülitumiseks kasuta `update-alternatives --"
 "auto %s'."
 
-#: utils/update-alternatives.c:2636
+#: utils/update-alternatives.c:2631
 #, fuzzy, c-format
 msgid "using %s to provide %s (%s) in %s."
 msgstr "`%s' kasutamine `%s' tagamiseks."
 
-#: utils/update-alternatives.c:2644
+#: utils/update-alternatives.c:2639
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken."
 msgstr ""
 
-#: utils/update-alternatives.c:2651
+#: utils/update-alternatives.c:2646
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s."
 msgstr ""
+
+#, fuzzy
+#~ msgid "failed to open '%s' for writing %s database"
+#~ msgstr "tõrge `%s' avamisel %s andmete kirjutamiseks"
+
+#, fuzzy
+#~ msgid "failed to flush %s database to '%.250s'"
+#~ msgstr "tõrge faili %s omanike muutmisel: %s"
+
+#, fuzzy
+#~ msgid "failed to fsync %s database to '%.250s'"
+#~ msgstr "tõrge faili %s omanike muutmisel: %s"
+
+#, fuzzy
+#~ msgid "failed to close '%.250s' after writing %s database"
+#~ msgstr "tõrge `%s' avamisel %s andmete kirjutamiseks"
+
+#, fuzzy
+#~ msgid "failed to link '%.250s' to '%.250s' for backup of %s database"
+#~ msgstr ""
+#~ "dpkg: %s: hoiatus - tõrge `%.250s' ümbernimetamisel nimega `%.250s': %s\n"
+
+#, fuzzy
+#~ msgid "failed to install '%.250s' as '%.250s' containing %s database"
+#~ msgstr ""
+#~ "dpkg: %s: hoiatus - tõrge `%.250s' ümbernimetamisel nimega `%.250s': %s\n"
+
+#, fuzzy
+#~ msgid "realloc failed (%zu bytes)"
+#~ msgstr "tõrge realloc funktsioonis (%ld baiti)"
+
+#, fuzzy
+#~ msgid "unable to write new trigger interest file `%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to flush new trigger interest file '%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to sync new trigger interest file '%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to install new trigger interest file `%.250s'"
+#~ msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
+
+#, fuzzy
+#~ msgid "unable to create new trigger interest file `%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to close new trigger interest file `%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to create new file triggers file `%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to write new file triggers file `%.250s'"
+#~ msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#, fuzzy
+#~ msgid "unable to flush new file triggers file '%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to sync new file triggers file '%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to close new file triggers file `%.250s'"
+#~ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
+
+#, fuzzy
+#~ msgid "unable to install new file triggers file as `%.250s'"
+#~ msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
+
+#, fuzzy
+#~| msgid ""
+#~| "\n"
+#~| "Copyright (C) 1995 Ian Jackson.\n"
+#~| "Copyright (C) 2000,2001 Wichert Akkerman."
+#~ msgid ""
+#~ "Copyright (C) 1995 Ian Jackson.\n"
+#~ "Copyright (C) 2000,2001 Wichert Akkerman.\n"
+#~ "Copyright (C) 2010 Guillem Jover.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Autoriõigused (C) 1995 Ian Jackson.\n"
+#~ "Autoriõigused (C) 2000,2001 Wichert Akkerman."
+
+#, fuzzy
+#~| msgid "cannot open GPL file"
+#~ msgid "cannot create new %s file"
+#~ msgstr "GPL-faili pole võimalik avada"
+
+#, fuzzy
+#~ msgid "error creating new diversions-old"
+#~ msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#~ msgid "--command-fd takes one argument, not zero"
+#~ msgstr "--command-fd vajab ühte argumenti, mis pole null"
+
+#~ msgid "--command-fd only takes one argument"
+#~ msgstr "--command-fd vajab ainult ühte argumenti"
+
+#, fuzzy
+#~ msgid ""
+#~ "Copyright (C) 2000, 2001 Wichert Akkerman.\n"
+#~ "Copyright (C) 2006-2009 Guillem Jover.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Autoriõigused (C) 1995 Ian Jackson.\n"
+#~ "Autoriõigused (C) 2000-2002 Wichert Akkerman."
+
+#, fuzzy
+#~ msgid "cannot open new statoverride file"
+#~ msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#, fuzzy
+#~ msgid "error removing statoverride-old"
+#~ msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#, fuzzy
+#~ msgid "error creating new statoverride-old"
+#~ msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#, fuzzy
+#~ msgid "error installing new statoverride"
+#~ msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#~ msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
+#~ msgstr "Autoriõigused (C) 1994-1996 Ian Jackson.\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "\n"
+#~| "Copyright (C) 1995 Ian Jackson.\n"
+#~| "Copyright (C) 2000,2001 Wichert Akkerman."
+#~ msgid ""
+#~ "Copyright (C) 1995 Ian Jackson.\n"
+#~ "Copyright (C) 2000-2002 Wichert Akkerman.\n"
+#~ "Copyright (C) 2009-2010 Raphael Hertzog.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Autoriõigused (C) 1995 Ian Jackson.\n"
+#~ "Autoriõigused (C) 2000,2001 Wichert Akkerman."
 
 #, fuzzy
 #~| msgid "unable to read %s: %s"
