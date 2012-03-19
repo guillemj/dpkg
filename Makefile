@@ -20,6 +20,7 @@ TESTS_FAIL += t-conffile-replaces-upgrade
 TESTS_FAIL += t-conffile-replaces-existing-and-upgrade
 
 TESTS_PASS :=
+TESTS_PASS += t-db
 TESTS_PASS += t-normal
 TESTS_PASS += t-field-priority
 TESTS_PASS += t-split
