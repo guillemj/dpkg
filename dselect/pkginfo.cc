@@ -112,11 +112,11 @@ void packagelist::itd_description() {
       m = _("No description available.");
     const char *p= strchr(m,'\n');
     int l= p ? (int)(p-m) : strlen(m);
-    wattrset(infopad,info_headattr);
+    wattrset(infopad, part_attr[info_head]);
     waddstr(infopad, table[cursorline]->pkg->set->name);
     waddstr(infopad," - ");
     waddnstr(infopad,m,l);
-    wattrset(infopad,info_attr);
+    wattrset(infopad, part_attr[info]);
     if (p) {
       waddstr(infopad,"\n\n");
       wordwrapinfo(1,++p);

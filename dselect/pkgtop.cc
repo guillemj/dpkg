@@ -142,7 +142,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
   const struct pkgbin *info = &pkg->available;
   int screenline = index - topofscreen;
 
-  wattrset(listpad, selected ? listsel_attr : list_attr);
+  wattrset(listpad, part_attr[selected ? listsel : list]);
 
   if (pkg->set->name) {
     if (verbose) {
@@ -157,11 +157,11 @@ void packagelist::redraw1itemsel(int index, int selected) {
               /* FIXME: keep this? */
               /*table[index]->original == table[index]->selected ? "(same)"
               : */gettext(wantstrings[table[index]->original]));
-      wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
+      wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
       wprintw(listpad, "%-*.*s",
               status_want_width, status_want_width,
               gettext(wantstrings[table[index]->selected]));
-      wattrset(listpad, selected ? listsel_attr : list_attr);
+      wattrset(listpad, part_attr[selected ? listsel : list]);
       waddch(listpad, ' ');
 
       mvwprintw(listpad, screenline, priority_column - 1, " %-*.*s",
@@ -176,9 +176,9 @@ void packagelist::redraw1itemsel(int index, int selected) {
              /*table[index]->original == table[index]->selected ? ' '
              : */wantchars[table[index]->original]);
 
-      wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
+      wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
       waddch(listpad, wantchars[table[index]->selected]);
-      wattrset(listpad, selected ? listsel_attr : list_attr);
+      wattrset(listpad, part_attr[selected ? listsel : list]);
 
       wmove(listpad, screenline, priority_column - 1);
       waddch(listpad, ' ');
@@ -208,11 +208,11 @@ void packagelist::redraw1itemsel(int index, int selected) {
     if (versionavailable_width) {
       if (informativeversion(&pkg->available.version) &&
           versioncompare(&pkg->available.version,&pkg->installed.version) > 0)
-        wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
+        wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
       mvwprintw(listpad, screenline, versionavailable_column, "%-*.*s",
                 versionavailable_width, versionavailable_width,
                 versiondescribe(&pkg->available.version, vdew_nonambig));
-      wattrset(listpad, selected ? listsel_attr : list_attr);
+      wattrset(listpad, part_attr[selected ? listsel : list]);
       waddch(listpad,' ');
     }
 
@@ -236,10 +236,10 @@ void packagelist::redraw1itemsel(int index, int selected) {
     while (j-- >0) { waddch(listpad,ACS_HLINE); i--; }
     waddch(listpad,' ');
 
-    wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
+    wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
     p= buf;
     while (i>0 && *p) { waddnstr(listpad, p,1); p++; i--; }
-    wattrset(listpad, selected ? listsel_attr : list_attr);
+    wattrset(listpad, part_attr[selected ? listsel : list]);
 
     waddch(listpad,' ');
     j= (indent<<1) + 1;
@@ -253,7 +253,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
 void packagelist::redrawcolheads() {
   if (colheads_height) {
-    wattrset(colheadspad,colheads_attr);
+    wattrset(colheadspad, part_attr[colheads]);
     mywerase(colheadspad);
     if (verbose) {
       wmove(colheadspad,0,0);

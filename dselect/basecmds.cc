@@ -162,7 +162,7 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
   int maxx, maxy, i, nextkey;
 
   getmaxyx(stdscr,maxy,maxx);
-  wbkgdset(stdscr, ' ' | helpscreen_attr);
+  wbkgdset(stdscr, ' ' | part_attr[helpscreen]);
   clearok(stdscr,TRUE);
   for (;;) {
     werase(stdscr);
@@ -172,14 +172,14 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
     if (hme->key) {
       int x, y DPKG_ATTR_UNUSED;
 
-      attrset(helpscreen_attr);
+      attrset(part_attr[helpscreen]);
       mvaddstr(1,0, gettext(hme->msg->text));
-      attrset(title_attr);
+      attrset(part_attr[title]);
       mvaddstr(0,0, _("Help: "));
       addstr(gettext(hme->msg->title));
       getyx(stdscr,y,x);
       while (++x<maxx) addch(' ');
-      attrset(thisstate_attr);
+      attrset(part_attr[thisstate]);
       mvaddstr(maxy-1,0,
 _("Press ? for help menu, . for next topic, <space> to exit help."));
       getyx(stdscr,y,x);
