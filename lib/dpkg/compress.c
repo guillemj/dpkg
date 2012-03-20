@@ -462,7 +462,7 @@ compressor_get(enum compressor_type type)
 	const enum compressor_type max_type = array_count(compressor_array);
 
 	if (type < 0 || type >= max_type)
-		internerr("compressor_type is out of range");
+		internerr("compressor_type %d is out of range", type);
 
 	return compressor_array[type];
 }

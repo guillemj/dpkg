@@ -211,7 +211,7 @@ forcetype_str(char type)
   case '!':
     return "[!]";
   default:
-    internerr("unknown force type %c", type);
+    internerr("unknown force type '%c'", type);
   }
 }
 

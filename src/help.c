@@ -646,7 +646,8 @@ void ensure_pathname_nonexisting(const char *pathname) {
     execlp(RM, "rm", "-rf", "--", pathname, NULL);
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
-  debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
+  debug(dbg_eachfile, "ensure_pathname_nonexisting running rm -rf '%s'",
+        pathname);
   subproc_wait_check(pid, "rm cleanup", 0);
 }
 

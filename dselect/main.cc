@@ -463,7 +463,10 @@ urqresult urq_menu(void) {
       dme(cursor,0); cursor+= entries-1; cursor %= entries; dme(cursor,1);
     } else if (c=='\n' || c=='\r' || c==KEY_ENTER) {
       clear(); refresh();
-      switch (menuentries[cursor].fn()) { /* FIXME: trap errors in urq_... */
+
+      /* FIXME: trap errors in urq_... */
+      urqresult res = menuentries[cursor].fn();
+      switch (res) {
       case urqr_quitmenu:
         return urqr_quitmenu;
       case urqr_normal:
@@ -471,7 +474,7 @@ urqresult urq_menu(void) {
       case urqr_fail:
         break;
       default:
-        internerr("unknown menufn");
+        internerr("unknown menufn %d", res);
       }
       refreshmenu(); dme(cursor,1);
     } else if (c==C('l')) {

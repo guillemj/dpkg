@@ -138,7 +138,7 @@ pkg_db_get_singleton(struct pkgset *set)
       if (pkg->status > stat_notinstalled)
         return pkg;
     }
-    internerr("pkgset %s should have one installed instance", set->name);
+    internerr("pkgset '%s' should have one installed instance", set->name);
   default:
     return NULL;
   }

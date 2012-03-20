@@ -356,7 +356,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     return 0;
 
   default:
-    internerr("unknown deptype");
+    internerr("unknown deptype %d", depends->type);
   }
   /* never reached, make gcc happy */
   return 1;

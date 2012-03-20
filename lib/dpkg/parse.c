@@ -348,7 +348,7 @@ parse_find_set_slot(struct parsedb_state *ps,
                       "instances present"));
 
   if (pkgset_installed_instances(set) != count.total)
-    internerr("in-core pkgset %s with inconsistent number of instances",
+    internerr("in-core pkgset '%s' with inconsistent number of instances",
               set->name);
 
   return set;
