@@ -146,8 +146,6 @@ void packagelist::setwidths() {
   }
   section_width= 8;
 
-  gap_width= 1;
-
   if (sortorder == so_section) {
     section_column= status_width + gap_width;
     priority_column= section_column + section_width + gap_width;

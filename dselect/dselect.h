@@ -58,6 +58,7 @@ protected:
   int selstate_attr, selstatesel_attr;
   int helpscreen_attr;
 
+  int gap_width;
   int total_width;
 
   // (n)curses stuff

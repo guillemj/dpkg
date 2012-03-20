@@ -242,6 +242,8 @@ baselist::baselist(keybindings *kb) {
   bindings= kb;
   nitems= 0;
 
+  gap_width = 1;
+
   xmax= -1;
   list_height=0; info_height=0;
   topofscreen= 0; leftofscreen= 0;

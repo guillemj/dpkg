@@ -60,7 +60,6 @@ void methodlist::setwidths() {
   debug(dbg_general, "methodlist[%p]::setwidths()", this);
 
   status_width= 1;
-  gap_width= 1;
   name_width= 14;
   name_column= status_width + gap_width;
   description_column= name_column + name_width + gap_width;

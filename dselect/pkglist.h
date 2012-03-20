@@ -86,7 +86,7 @@ struct perpackagestate {
 
 class packagelist : public baselist {
 protected:
-  int status_width, gap_width, section_width, priority_width;
+  int status_width, section_width, priority_width;
   int package_width, versioninstalled_width, versionavailable_width, description_width;
   int section_column, priority_column, versioninstalled_column;
   int versionavailable_column, package_column, description_column;
