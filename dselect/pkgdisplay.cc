@@ -132,56 +132,43 @@ static int maximumstring(const char *const *array) {
 void packagelist::setwidths() {
   debug(dbg_general, "packagelist[%p]::setwidths()", this);
 
+  col_cur_x = 0;
+
   if (verbose) {
-    status_hold_width= 9;
-    status_status_width= maximumstring(statusstrings);
-    status_want_width= maximumstring(wantstrings);
-    status_width= status_hold_width+status_status_width+status_want_width*2+3;
-    priority_width= 8;
-    package_width= 16;
+    add_column(col_status_hold, _("Error"), 9);
+    add_column(col_status_status, _("Installed?"), maximumstring(statusstrings));
+    add_column(col_status_old_want, _("Old mark"), maximumstring(wantstrings));
+    add_column(col_status_new_want, _("Marked for"), maximumstring(wantstrings));
   } else {
-    status_width= 4;
-    priority_width= 3;
-    package_width= 12;
-  }
-  section_width= 8;
-
-  if (sortorder == so_section) {
-    section_column= status_width + gap_width;
-    priority_column= section_column + section_width + gap_width;
-    package_column= priority_column + priority_width + gap_width;
-  } else {
-    priority_column= status_width + gap_width;
-    section_column= priority_column + priority_width + gap_width;
-    package_column= section_column + section_width + gap_width;
+    add_column(col_status, _("EIOM"), 4);
   }
 
-  int versiondescriptioncolumn= package_column + package_width + gap_width;
+  if (sortorder == so_section)
+    add_column(col_section, _("Section"), 8);
+  add_column(col_priority, _("Priority"), verbose ? 8 : 3);
+  if (sortorder != so_section)
+    add_column(col_section, _("Section"), 8);
+
+  add_column(col_package, _("Package"), verbose ? 16 : 12);
 
   switch (versiondisplayopt) {
   case vdo_none:
-    versioninstalled_column= versioninstalled_width= 0;
-    versionavailable_column= versionavailable_width= 0;
-    description_column= versiondescriptioncolumn;
+    col_versioninstalled.blank();
+    col_versionavailable.blank();
     break;
   case vdo_available:
-    versioninstalled_column= versioninstalled_width= 0;
-    versionavailable_column= versiondescriptioncolumn;
-    versionavailable_width= 11;
-    description_column= versionavailable_column + versionavailable_width + gap_width;
+    col_versioninstalled.blank();
+    add_column(col_versionavailable, _("Avail.ver"), 11);
     break;
   case vdo_both:
-    versioninstalled_column= versiondescriptioncolumn;
-    versioninstalled_width= 11;
-    versionavailable_column= versioninstalled_column + versioninstalled_width +gap_width;
-    versionavailable_width= versioninstalled_width;
-    description_column= versionavailable_column + versionavailable_width + gap_width;
+    add_column(col_versioninstalled, _("Inst.ver"), 11);
+    add_column(col_versionavailable, _("Avail.ver"), 11);
     break;
   default:
     internerr("unknown versiondisplayopt %d", versiondisplayopt);
   }
 
-  description_width= total_width - description_column;
+  end_column(col_description, _("Description"));
 }
 
 void packagelist::redrawtitle() {

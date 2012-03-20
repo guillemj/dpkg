@@ -88,13 +88,19 @@ struct perpackagestate {
 
 class packagelist : public baselist {
 protected:
-  int status_width, section_width, priority_width;
-  int package_width, versioninstalled_width, versionavailable_width, description_width;
-  int section_column, priority_column, versioninstalled_column;
-  int versionavailable_column, package_column, description_column;
+  column col_status;
+  column col_section;
+  column col_priority;
+  column col_package;
+  column col_versioninstalled;
+  column col_versionavailable;
+  column col_description;
 
   // Only used when ‘verbose’ is set
-  int status_hold_width, status_status_width, status_want_width;
+  column col_status_hold;
+  column col_status_status;
+  column col_status_old_want;
+  column col_status_new_want;
 
   // Table of packages
   struct perpackagestate *datatable;

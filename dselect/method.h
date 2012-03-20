@@ -51,8 +51,9 @@ struct dselect_option {
 
 class methodlist : public baselist {
 protected:
-  int status_width, name_width, description_width;
-  int name_column, description_column;
+  column col_status;
+  column col_name;
+  column col_desc;
 
   // Table of methods
   struct dselect_option **table;

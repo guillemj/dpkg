@@ -117,7 +117,7 @@ void packagelist::redrawthisstate() {
   if (table[cursorline]->pkg->set->name) {
     sprintf(buf,
             _("%-*s %s%s%s;  %s (was: %s).  %s"),
-            package_width,
+            col_package.width,
             table[cursorline]->pkg->set->name,
             gettext(statusstrings[table[cursorline]->pkg->status]),
             ((eflagstrings[table[cursorline]->pkg->eflag][0]==' ') &&
@@ -147,28 +147,31 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
   if (pkg->set->name) {
     if (verbose) {
-      mvwprintw(listpad, screenline, 0, "%-*.*s ",
-                status_hold_width, status_hold_width,
-                gettext(eflagstrings[pkg->eflag]));
-      wprintw(listpad, "%-*.*s ",
-              status_status_width, status_status_width,
-              gettext(statusstrings[pkg->status]));
-      wprintw(listpad, "%-*.*s ",
-              status_want_width, status_want_width,
+      draw_column_item(col_status_hold, screenline,
+                       gettext(eflagstrings[pkg->eflag]));
+
+      draw_column_sep(col_status_status, screenline);
+      draw_column_item(col_status_status, screenline,
+                       gettext(statusstrings[pkg->status]));
+
+      draw_column_sep(col_status_old_want, screenline);
+      draw_column_item(col_status_old_want, screenline,
               /* FIXME: keep this? */
               /*table[index]->original == table[index]->selected ? "(same)"
               : */gettext(wantstrings[table[index]->original]));
-      wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
-      wprintw(listpad, "%-*.*s",
-              status_want_width, status_want_width,
-              gettext(wantstrings[table[index]->selected]));
-      wattrset(listpad, part_attr[selected ? listsel : list]);
-      waddch(listpad, ' ');
 
-      mvwprintw(listpad, screenline, priority_column - 1, " %-*.*s",
-                priority_width, priority_width,
-                pkg->priority == PKG_PRIO_OTHER ? pkg->otherpriority :
-                gettext(prioritystrings[pkg->priority]));
+      draw_column_sep(col_status_new_want, screenline);
+      wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
+      draw_column_item(col_status_new_want, screenline,
+                       gettext(wantstrings[table[index]->selected]));
+
+      wattrset(listpad, part_attr[selected ? listsel : list]);
+
+      draw_column_sep(col_priority, screenline);
+      draw_column_item(col_priority, screenline,
+                       pkg->priority == PKG_PRIO_OTHER ?
+                       pkg->otherpriority :
+                       gettext(prioritystrings[pkg->priority]));
     } else {
       mvwaddch(listpad, screenline, 0, eflagchars[pkg->eflag]);
       waddch(listpad, statuschars[pkg->status]);
@@ -181,44 +184,47 @@ void packagelist::redraw1itemsel(int index, int selected) {
       waddch(listpad, wantchars[table[index]->selected]);
       wattrset(listpad, part_attr[selected ? listsel : list]);
 
-      wmove(listpad, screenline, priority_column - 1);
+      wmove(listpad, screenline, col_priority.x - 1);
       waddch(listpad, ' ');
       if (pkg->priority == PKG_PRIO_OTHER) {
-        for (i=priority_width, p=pkg->otherpriority;
+        for (i = col_priority.width, p = pkg->otherpriority;
              i > 0 && *p;
              i--, p++)
           waddch(listpad, tolower(*p));
         while (i-- > 0) waddch(listpad,' ');
       } else {
-        wprintw(listpad, "%-*.*s", priority_width, priority_width,
+        wprintw(listpad, "%-*.*s", col_priority.width, col_priority.width,
                 gettext(priorityabbrevs[pkg->priority]));
       }
     }
 
-    mvwprintw(listpad, screenline, section_column - 1, " %-*.*s",
-              section_width, section_width,
-              pkg->section ? pkg->section : "?");
+    draw_column_sep(col_section, screenline);
+    draw_column_item(col_section, screenline,
+                     pkg->section ? pkg->section : "?");
 
-    mvwprintw(listpad, screenline, package_column - 1, " %-*.*s ",
-              package_width, package_width, pkg->set->name);
+    draw_column_sep(col_package, screenline);
+    draw_column_item(col_package, screenline,
+                     pkg->set->name);
 
-    if (versioninstalled_width)
-      mvwprintw(listpad, screenline, versioninstalled_column, "%-*.*s ",
-                versioninstalled_width, versioninstalled_width,
-                versiondescribe(&pkg->installed.version, vdew_nonambig));
-    if (versionavailable_width) {
+    waddch(listpad, ' ');
+
+    if (col_versioninstalled.width) {
+      draw_column_item(col_versioninstalled, screenline,
+                       versiondescribe(&pkg->installed.version, vdew_nonambig));
+      waddch(listpad, ' ');
+    }
+    if (col_versionavailable.width) {
       if (dpkg_version_is_informative(&pkg->available.version) &&
           dpkg_version_compare(&pkg->available.version,
                                &pkg->installed.version) > 0)
         wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
-      mvwprintw(listpad, screenline, versionavailable_column, "%-*.*s",
-                versionavailable_width, versionavailable_width,
-                versiondescribe(&pkg->available.version, vdew_nonambig));
+      draw_column_item(col_versionavailable, screenline,
+                       versiondescribe(&pkg->available.version, vdew_nonambig));
       wattrset(listpad, part_attr[selected ? listsel : list]);
       waddch(listpad,' ');
     }
 
-    i= description_width;
+    i = col_description.width;
     p= info->description ? info->description :
        pkg->installed.description ? pkg->installed.description : "";
     while (i>0 && *p && *p != '\n') { waddnstr(listpad,p,1); i--; p++; }
@@ -259,38 +265,26 @@ void packagelist::redrawcolheads() {
     mywerase(colheadspad);
     if (verbose) {
       wmove(colheadspad,0,0);
-      for (int i=0; i<status_width-status_want_width; i++) waddch(colheadspad,'.');
-      mvwaddnstr(colheadspad,0,
-                 0,
-                 _("Error"),
-                 status_hold_width);
-      mvwaddnstr(colheadspad,0,
-                 status_hold_width+1,
-                 _("Installed?"),
-                 status_status_width);
-      mvwaddnstr(colheadspad,0,
-                 status_hold_width+status_status_width+2,
-                 _("Old mark"),
-                 status_want_width);
-      mvwaddnstr(colheadspad,0,
-                 status_hold_width+status_status_width+status_want_width+3,
-                 _("Marked for"),
-                 status_want_width);
+      for (int i = 0; i < col_status_old_want.width; i++)
+        waddch(colheadspad, '.');
+      draw_column_head(col_status_hold);
+      draw_column_head(col_status_status);
+      draw_column_head(col_status_old_want);
+      draw_column_head(col_status_new_want);
     } else {
-      mvwaddstr(colheadspad,0,0, _("EIOM"));
+      draw_column_head(col_status);
     }
-    mvwaddnstr(colheadspad,0,section_column, _("Section"), section_width);
-    mvwaddnstr(colheadspad,0,priority_column, _("Priority"), priority_width);
-    mvwaddnstr(colheadspad,0,package_column, _("Package"), package_width);
 
-    if (versioninstalled_width)
-      mvwaddnstr(colheadspad,0,versioninstalled_column,
-                 _("Inst.ver"),versioninstalled_width);
-    if (versionavailable_width)
-      mvwaddnstr(colheadspad,0,versionavailable_column,
-                 _("Avail.ver"),versionavailable_width);
+    draw_column_head(col_section);
+    draw_column_head(col_priority);
+    draw_column_head(col_package);
 
-    mvwaddnstr(colheadspad,0,description_column, _("Description"), description_width);
+    if (col_versioninstalled.width)
+      draw_column_head(col_versioninstalled);
+    if (col_versionavailable.width)
+      draw_column_head(col_versionavailable);
+
+    draw_column_head(col_description);
   }
   refreshcolheads();
 }

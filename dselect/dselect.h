@@ -62,6 +62,15 @@ enum screenparts {
 	numscreenparts,
 };
 
+struct column {
+	column(): title(nullptr), x(0), width(0) {};
+	void blank() { title = nullptr; x = 0; width = 0; };
+
+	const char *title;
+	int x;
+	int width;
+};
+
 class baselist {
 protected:
   // Screen dimensions &c.
@@ -73,7 +82,14 @@ protected:
   int part_attr[numscreenparts];
 
   int gap_width;
+  int col_cur_x;
   int total_width;
+
+  void add_column(column &col, const char *title, int width);
+  void end_column(column &col, const char *title);
+  void draw_column_head(column &col);
+  void draw_column_sep(column &col, int y);
+  void draw_column_item(column &col, int y, const char *item);
 
   // (n)curses stuff
   WINDOW *listpad, *infopad, *colheadspad, *thisstatepad;

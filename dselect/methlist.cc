@@ -60,11 +60,11 @@ void methodlist::setheights() {
 void methodlist::setwidths() {
   debug(dbg_general, "methodlist[%p]::setwidths()", this);
 
-  status_width= 1;
-  name_width= 14;
-  name_column= status_width + gap_width;
-  description_column= name_column + name_width + gap_width;
-  description_width= total_width - description_column;
+  col_cur_x = 0;
+
+  add_column(col_status, "  ", 1);
+  add_column(col_name, _("Abbrev."), 14);
+  end_column(col_desc, _("Description"));
 }
 
 void methodlist::redrawtitle() {
@@ -93,10 +93,11 @@ void methodlist::redraw1itemsel(int index, int selected) {
   mvwaddch(listpad,index,0,
            table[index] == coption ? '*' : ' ');
   wattrset(listpad, part_attr[selected ? listsel : list]);
-  mvwprintw(listpad,index,name_column-1, " %-*.*s ",
-            name_width, name_width, table[index]->name);
+  draw_column_sep(col_name, index);
+  draw_column_item(col_name, index, table[index]->name);
 
-  i= description_width;
+  draw_column_sep(col_desc, index);
+  i = col_desc.width;
   p= table[index]->summary ? table[index]->summary : "";
   while (i>0 && *p && *p != '\n') {
     waddch(listpad,*p);
@@ -112,9 +113,9 @@ void methodlist::redrawcolheads() {
   if (colheads_height) {
     wattrset(colheadspad, part_attr[colheads]);
     mywerase(colheadspad);
-    mvwaddstr(colheadspad,0,0, "  ");
-    mvwaddnstr(colheadspad,0,name_column, _("Abbrev."), name_width);
-    mvwaddnstr(colheadspad,0,description_column, _("Description"), description_width);
+    draw_column_head(col_status);
+    draw_column_head(col_name);
+    draw_column_head(col_desc);
   }
   refreshcolheads();
 }
