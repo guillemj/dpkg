@@ -286,7 +286,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     const char *newinfofilename;
 
     if (strchr(de->d_name, '.')) {
-      debug(dbg_scripts,"process_archive tmp.ci script/file `%s' contains dot",
+      debug(dbg_scripts, "process_archive tmp.ci script/file '%s' contains dot",
             de->d_name);
       continue;
     }
@@ -305,7 +305,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 
     /* Ignore the control file. */
     if (strcmp(de->d_name, CONTROLFILE) == 0) {
-      debug(dbg_scripts, "process_archive tmp.ci script/file `%s' is control",
+      debug(dbg_scripts, "process_archive tmp.ci script/file '%s' is control",
             cidir);
       continue;
     }
@@ -322,7 +322,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
               cidir, newinfofilename);
 
     debug(dbg_scripts,
-          "process_archive tmp.ci script/file `%s' installed as `%s'",
+          "process_archive tmp.ci script/file '%s' installed as '%s'",
           cidir, newinfofilename);
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
@@ -664,18 +664,18 @@ void process_archive(const char *filename) {
       iter = filepackages_iter_new(newconff->namenode);
       while ((otherpkg = filepackages_iter_next(iter))) {
         debug(dbg_conffdetail,
-              "process_archive conffile `%s' in package %s - conff ?",
+              "process_archive conffile '%s' in package %s - conff ?",
               newconff->namenode->name, pkg_name(otherpkg, pnaw_always));
         for (searchconff = otherpkg->installed.conffiles;
              searchconff && strcmp(newconff->namenode->name, searchconff->name);
              searchconff = searchconff->next)
           debug(dbg_conffdetail,
-                "process_archive conffile `%s' in package %s - conff ? not `%s'",
+                "process_archive conffile '%s' in package %s - conff ? not '%s'",
                 newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
                 searchconff->name);
         if (searchconff) {
           debug(dbg_conff,
-                "process_archive conffile `%s' package=%s %s hash=%s",
+                "process_archive conffile '%s' package=%s %s hash=%s",
                 newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
                 otherpkg == pkg ? "same" : "different!",
                 searchconff->hash);
@@ -689,7 +689,7 @@ void process_archive(const char *filename) {
         newconff->namenode->oldhash= searchconff->hash;
 	/* We don't copy ‘obsolete’; it's not obsolete in the new package. */
       } else {
-        debug(dbg_conff,"process_archive conffile `%s' no package, no hash",
+        debug(dbg_conff, "process_archive conffile '%s' no package, no hash",
               newconff->namenode->name);
       }
       newconff->namenode->flags |= fnnf_new_conff;
@@ -1323,17 +1323,17 @@ void process_archive(const char *filename) {
       divpkgset = cfile->namenode->divert->pkgset;
       if (divpkgset == pkg->set) {
         debug(dbg_eachfile,
-              "process_archive not overwriting any `%s' (overriding, `%s')",
+              "process_archive not overwriting any '%s' (overriding, '%s')",
               cfile->namenode->name, cfile->namenode->divert->useinstead->name);
         continue;
       } else {
         debug(dbg_eachfile,
-              "process_archive looking for overwriting `%s' (overridden by %s)",
+              "process_archive looking for overwriting '%s' (overridden by %s)",
               cfile->namenode->name, divpkgset ? divpkgset->name : "<local>");
       }
     } else {
       divpkgset = NULL;
-      debug(dbg_eachfile, "process_archive looking for overwriting `%s'",
+      debug(dbg_eachfile, "process_archive looking for overwriting '%s'",
             cfile->namenode->name);
     }
     iter = filepackages_iter_new(cfile->namenode);

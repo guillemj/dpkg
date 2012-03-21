@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# The `multicd' package was initially written by Heiko Schlittermann
+# The ‘multicd’ package was initially written by Heiko Schlittermann
 # <heiko@lotte.sax.de> based on builtin access methods written by Ian
 # Jackson <ian@chiark.greenend.org.uk>.  The final packaging as well as
 # cleanups were made by Martin Schulze <joey@infodrom.north.de> who also
@@ -175,7 +175,7 @@ echo "
 If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
 
-# State variables, `best first'
+# State variables, “best first”
 #  {main,ctb,nf,nonus,nonusctb,nonusnf,lcl}_{packages,binary}
 #   Empty before we've found them or if they're not available,
 #   set to the relevant bit under mountpoint otherwise.
@@ -184,7 +184,7 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 #  mountpoint
 #   The mountpoint for the filesystem containing the stuff
 #   empty or unset if we don't know yet, or if we haven't mounted anything;
-#   may also be empty if `directory' was set.
+#   may also be empty if ‘directory’ was set.
 #  blockdevice
 #   The actual block device to mount.
 #  fstype
@@ -216,7 +216,7 @@ then
 	'Several CD-ROMs (or other ISO9660 filesystems) are mounted:'
 			egrep 'type iso9660 \([^)]*\)$' <$tp.m | nl
 			echo -n \
-	'Is it any of these ?  Type a number, or `n'\'' for none.  '
+	"Is it any of these ?  Type a number, or 'n' for none.  "
 			read response
 			response="`echo \"$response\" | sed -e 's/[ 	]*$//'`"
 			if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
@@ -392,10 +392,10 @@ do
 	then
 		echo \
 "I would like to know where on the CD-ROM the top level of the Debian
-distribution is - this will usually contain the \`dists' directory.
+distribution is - this will usually contain the 'dists' directory.
 
 If the CD-ROM is badly organized and doesn't have a straightforward copy of
-the distribution you may answer \`none' and we'll go through the parts
+the distribution you may answer 'none' and we'll go through the parts
 I need individually."
 	else
 		echo \
@@ -405,29 +405,29 @@ To use this I'll need to know where the top level of that copy of the
 distribution is - this directory usually contains the Packages-Master file.
 
 If you do not have a straightforward copy of the distribution available
-just answer \`none' and we'll go through the parts I need individually."
+just answer 'none' and we'll go through the parts I need individually."
 	fi
 
 	defhierbase=none
 	if [ -n "$p_hierbase" ]; then
 		if [ -d "$mountpoint/$p_hierbase/dists/$dist/main/binary-$iarch" \
 			-o -n "$multi" ]; then
-			echo "Last time you said \`$p_hierbase', and that looks plausible."
+			echo "Last time you said '$p_hierbase', and that looks plausible."
 			defhierbase="$p_hierbase"
 		else
 			echo "
-Last time you said \`$p_hierbase', but that doesn't look plausible,
-since \`$p_hierbase/dists/$dist/main/binary-$iarch' doesn't seem to exist.
+Last time you said '$p_hierbase', but that doesn't look plausible,
+since '$p_hierbase/dists/$dist/main/binary-$iarch' doesn't seem to exist.
 And I can't get the impression that you're using a multi-CD  set."
 		fi
 	fi
 
 	# at this point defhierbase is set if it looks plausible
-	# if `none' was entered, we assume a CD with a debian/ directory
+	# if ‘none’ was entered, we assume a CD with a debian/ directory
 
 	if [ none = "$defhierbase" -a -d "$mountpoint/debian/dists/$dist/main/binary-$iarch" ]
 	then
-		echo "\`/debian' exists and looks plausible, so that's the default."
+		echo "'/debian' exists and looks plausible, so that's the default."
 		defhierbase=/debian
 	fi
 
@@ -499,7 +499,7 @@ check_binary () {
 
 	if [ ! -d "${mountpoint}$2" -a -z "$multi" ]
 	then
-		echo "\`$2' does not exist."
+		echo "'$2' does not exist."
 		return
 	fi
 
@@ -510,17 +510,17 @@ check_binary () {
 #  	if ! { find -L "$mountpoint$2" -name '*.deb' -print \
 #  		| head -1 | grep . ; } >/dev/null 2>&1 && [ -z "$multi" ];
 #  	then
-#  		echo "\`$2' does not contain any *.deb packages."
+#  		echo "'$2' does not contain any *.deb packages."
 #  		return
 #  	fi
 
 	this_binary="$2"
-	echo -n "Using \`$this_binary' as $1 binary dir"
+	echo -n "Using '$this_binary' as $1 binary dir"
 
 	if [ -n "$multi" ]; then
 		this_disk=`getdisklabel ${mountpoint} "/$hierbase"`
 		echo " from disc"
-		echo "    \`$this_disk'"
+		echo "    '$this_disk'"
 	else
 		echo ""
 	fi
@@ -540,21 +540,21 @@ find_area () {
 	fi
 	if [ $option = multi_cd -a $2 = nf -a -z "$this_binary" ]
 	then
-		echo '
+		echo "
 Note: most CD-ROM distributions of Debian do not include programs
-available in the `non-free'\'' directory of the distribution site.
+available in the 'non-free' directory of the distribution site.
 This is because these programs have copyrights that prevent
 distribution for profit on a CD-ROM - ie they are not free software.
-If you wish to install these programs you'\''ll have to get them from an
-alternative source.'
+If you wish to install these programs you'll have to get them from an
+alternative source."
 	fi
 	while [ -z "$this_binary" ]
 	do
 		defaultbinary="$4"
 		echo "
 Which directory contains the *.deb packages from the $1 distribution
-area (this directory is named \`$3/binary' on the distribution site) ?
-Say \`none' if this area is not available."
+area (this directory is named '$3/binary' on the distribution site) ?
+Say 'none' if this area is not available."
 		if [ $2 != main -a -z "$defaultbinary" ]
 		then
 			defaultbinary=none
@@ -584,34 +584,34 @@ Say \`none' if this area is not available."
 				if [ -f "$mountpoint/$this_binary/$f" ]
 				then
 					this_packages="$this_binary/$f"
-					echo "Using \`$this_packages' for $1."
+					echo "Using '$this_packages' for $1."
 					break
 				fi
 			done
 		else
 			if [ -f "${mountpoint}${hierbase}/.disk/packages/$1/Packages.gz" ]; then
 				this_packages=`echo "${hierbase}/.disk/packages/$1/Packages.gz"|sed 's:/\+:/:g'`
-				echo "Using \`${this_packages}' for $1."
+				echo "Using '${this_packages}' for $1."
 			fi
 		fi
 		while [ -z "$this_packages" ]
 		do
 			echo -n "
-I can't find the $1 \`Packages.cd' file.  The information in the
-\`Packages.cd' file is important for package selection during new
+I can't find the $1 'Packages.cd' file.  The information in the
+'Packages.cd' file is important for package selection during new
 installations, and is very useful for upgrades.
 
 If you overlooked it when downloading you should do get it now and
 return to this installation procedure when you have done so: you will
 find one Packages.cd file and one Packages.cd.gz file -- either will do --
-in the \`binary' subdirectory of each area on the FTP sites and
+in the 'binary' subdirectory of each area on the FTP sites and
 CD-ROMs.  Alternatively (and this will be rather slow) I can scan the
-packages in the distribution area - say \`scan' if you want me to do so.
+packages in the distribution area - say 'scan' if you want me to do so.
 
 You need a separate Packages.cd file from each of the distribution areas
 you wish to install.
 
-Where is the _$1_ \`Packages.cd' file (if none is available, say \`none')
+Where is the _$1_ 'Packages.cd' file (if none is available, say 'none')
 [$5]
  ?  "
 			read response

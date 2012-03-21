@@ -121,7 +121,7 @@ filesavespackage(struct fileinlist *file,
   struct pkgset *divpkgset;
   struct pkginfo *thirdpkg;
 
-  debug(dbg_eachfiledetail,"filesavespackage file `%s' package %s",
+  debug(dbg_eachfiledetail, "filesavespackage file '%s' package %s",
         file->namenode->name, pkg_name(pkgtobesaved, pnaw_always));
 
   /* If the file is a contended one and it's overridden by either
@@ -579,7 +579,7 @@ void setupfnamevbs(const char *filename) {
   varbuf_add_str(&fnamenewvb, DPKGNEWEXT);
   varbuf_end_str(&fnamenewvb);
 
-  debug(dbg_eachfiledetail, "setupvnamevbs main=`%s' tmp=`%s' new=`%s'",
+  debug(dbg_eachfiledetail, "setupvnamevbs main='%s' tmp='%s' new='%s'",
         fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
 }
 
@@ -756,7 +756,7 @@ tarobject(void *ctx, struct tar_entry *ti)
      * version (i.e. we do the usual link-following). */
     if (conffderef(tc->pkg, &conffderefn, usename))
       usename= conffderefn.buf;
-    debug(dbg_conff,"tarobject fnnf_new_conff deref=`%s'",usename);
+    debug(dbg_conff, "tarobject fnnf_new_conff deref='%s'", usename);
   }
 
   setupfnamevbs(usename);
@@ -1060,7 +1060,7 @@ tarobject(void *ctx, struct tar_entry *ti)
         ohshite(_("unable to chown backup symlink for `%.255s'"), ti->name);
       tarobject_set_se_context(fnamevb.buf, fnametmpvb.buf, stab.st_mode);
     } else {
-      debug(dbg_eachfiledetail,"tarobject nondirectory, `link' backup");
+      debug(dbg_eachfiledetail, "tarobject nondirectory, 'link' backup");
       if (link(fnamevb.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup link of `%.255s' before installing new version"),
                 ti->name);

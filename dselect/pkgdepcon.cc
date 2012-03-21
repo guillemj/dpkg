@@ -75,7 +75,7 @@ int packagelist::checkdependers(pkginfo *pkg, int changemade) {
 
 int packagelist::resolvesuggest() {
   // We continually go around looking for things to change, but we may
-  // only change the `suggested' value if we also increase the `priority'
+  // only change the ‘suggested’ value if we also increase the ‘priority’
   // Return 2 if we made a change due to a Recommended, Depends or Conficts,
   // or 1 if we offered or made a change because of an Optional line.
   debug(dbg_general, "packagelist[%p]::resolvesuggest()", this);
@@ -365,7 +365,7 @@ int packagelist::resolvedepcon(dependency *depends) {
 bool
 packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
 {
-  // `satisfied' here for Conflicts and Breaks means that the
+  // ‘satisfied’ here for Conflicts and Breaks means that the
   //  restriction is violated ie that the target package is wanted
   int would;
   pkginfo::pkgwant want= pkginfo::want_purge;

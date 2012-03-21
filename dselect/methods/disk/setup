@@ -135,7 +135,7 @@ echo "
 If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
 
-# State variables, `best first'
+# State variables, “best first”
 #  {main,ctb,nf,nus,lcl}_{packages,binary}
 #   Empty before we've found them or if they're not available,
 #   set to the relevant bit under mountpoint otherwise.
@@ -145,7 +145,7 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 #  mountpoint
 #   The mountpoint for the filesystem containing the stuff
 #   empty or unset if we don't know yet, or if we haven't mounted anything;
-#   may also be empty if `directory' was set.
+#   may also be empty if ‘directory’ was set.
 #  blockdevice
 #   The actual block device to mount.
 #  fstype
@@ -175,7 +175,7 @@ then
 	'Several CD-ROMs (or other ISO9660 filesystems) are mounted:'
 			grep 'type iso9660 ([^)]*)$' <$tp.m | nl
 			echo -n \
-	'Is it any of these ?  Type a number, or `n'\'' for none.  '
+	"Is it any of these ?  Type a number, or 'n' for none.  "
 			read response
 			response="`echo \"$response\" | sed -e 's/[ 	]*$//'`"
 			if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
@@ -347,7 +347,7 @@ distribution is (eg. 'dists/stable') - this directory usually contains the
 Packages-Master file.
 
 If the CD-ROM is badly organised and doesn't have a straightforward copy of
-the distribution you may answer \`none' and we'll go through the parts
+the distribution you may answer 'none' and we'll go through the parts
 I need individually."
 	else
 		echo \
@@ -358,7 +358,7 @@ distribution is (eg. 'debian/dists/stable') - this directory usually
 contains the Packages-Master file.
 
 If you do not have a straightforward copy of the distribution available
-just answer \`none' and we'll go through the parts I need individually."
+just answer 'none' and we'll go through the parts I need individually."
 	fi
 	defhierbase=none
 # maybe ask for debian/dists and then show and ask for available dists 
@@ -368,12 +368,12 @@ just answer \`none' and we'll go through the parts I need individually."
 		if [ -d "$mountpoint/$p_hierbase/main/binary-$iarch" ]
 		then
 			echo "
-Last time you said \`$p_hierbase', and that looks plausible."
+Last time you said '$p_hierbase', and that looks plausible."
 			defhierbase="$p_hierbase"
 		else
 			echo "
-Last time you said \`$p_hierbase', but that doesn't look plausible,
-since \`$p_hierbase/main/binary-$iarch' doesn't seem to exist."
+Last time you said '$p_hierbase', but that doesn't look plausible,
+since '$p_hierbase/main/binary-$iarch' doesn't seem to exist."
 		fi
 	fi
 	if [ none = "$defhierbase" ]
@@ -381,12 +381,12 @@ since \`$p_hierbase/main/binary-$iarch' doesn't seem to exist."
 		if [ -d "$mountpoint/debian/dists/stable/main/binary-$iarch" ]
 		then
 			echo "
-\`/debian/dists/stable' exists and looks plausible, so that's the default."
+'/debian/dists/stable' exists and looks plausible, so that's the default."
 			defhierbase=/debian/dists/stable
 		elif [ -d "$mountpoint/dists/stable/main/binary-$iarch" ]
 		then
 			echo "
-\`/dists/stable' exists and looks plausible, so that's the default."
+'/dists/stable' exists and looks plausible, so that's the default."
 			defhierbase=/dists/stable
 		fi
 	fi
@@ -424,17 +424,17 @@ check_binary () {
 	# checks wether $2 contains *.deb
 	if ! [ -d "$mountpoint$2/" ]
 	then
-		echo "\`$2' does not exist."
+		echo "'$2' does not exist."
 		return
 	fi
 
 	if ! ( find -L "$mountpoint$2/" -name '*.deb' -print \
 	        | head -n 1 ) 2>/dev/null  | grep . >/dev/null
 	then
-		echo "\`$2' does not contain any *.deb packages.  Hmmpf."
+		echo "'$2' does not contain any *.deb packages.  Hmmpf."
 		return
 	fi
-	echo "Using \`$2' as $1 binary dir."
+	echo "Using '$2' as $1 binary dir."
 	this_binary="$2"
 }
 
@@ -453,26 +453,26 @@ find_area () {
 
 	if [ $option = cdrom ] && [ $2 = nf ] && [ -z "$this_binary" ]
 	then
-		echo '
+		echo "
 Note: most CD-ROM distributions of Debian do not include programs
-available in the `non-free'\'' directory of the distribution site.
+available in the 'non-free' directory of the distribution site.
 This is because these programs have copyrights that prevent
 distribution for profit on a CD-ROM - ie they are not free software.
-If you wish to install these programs you'\''ll have to get them from an
-alternative source.'
+If you wish to install these programs you'll have to get them from an
+alternative source."
 	elif [ $2 = lcl ] && [ -z "$this_binary" ]
 	then
-		echo '
-Note: By default there is no `local'\'' directory. It is intended for 
-packages you made yourself.'
+		echo "
+Note: By default there is no 'local' directory. It is intended for
+packages you made yourself."
 	fi
 	while [ -z "$this_binary" ]
 	do
 		defaultbinary="$4"
 		echo "
 Which directory contains the *.deb packages from the $1 distribution
-area (this directory is named \`$3/binary-$iarch' on the distribution site) ?
-Say \`none' if this area is not available."
+area (this directory is named '$3/binary-$iarch' on the distribution site) ?
+Say 'none' if this area is not available."
 		if [ $2 != main ] && [ -z "$defaultbinary" ]
 		then
 			defaultbinary=none
@@ -500,7 +500,7 @@ Say \`none' if this area is not available."
 		do
 			if [ -f "$mountpoint/$this_binary/$f" ]
 			then
-				echo "Using \`$this_binary/$f' for $1."
+				echo "Using '$this_binary/$f' for $1."
 				this_packages="$this_binary/$f"
 				break
 			fi
@@ -508,21 +508,21 @@ Say \`none' if this area is not available."
 		while [ -z "$this_packages" ]
 		do
 			echo -n "
-I can't find the $1 \`Packages' file.  The information in the
-\`Packages' file is important for package selection during new
+I can't find the $1 'Packages' file.  The information in the
+'Packages' file is important for package selection during new
 installations, and is very useful for upgrades.
 
 If you overlooked it when downloading you should do get it now and
 return to this installation procedure when you have done so: you will
 find one Packages file and one Packages.gz file -- either will do --
-in the \`binary-$iarch' subdirectory of each area on the FTP sites and
+in the 'binary-$iarch' subdirectory of each area on the FTP sites and
 CD-ROMs.  Alternatively (and this will be rather slow) I can scan the
-packages in the distribution area - say \`scan' if you want me to do so.
+packages in the distribution area - say 'scan' if you want me to do so.
 
 You need a separate Packages file from each of the distribution areas
 you wish to install.
 
-Where is the _$1_ \`Packages' file (if none is available, say \`none')
+Where is the _$1_ 'Packages' file (if none is available, say 'none')
 [$5]
  ?  "
 			read response

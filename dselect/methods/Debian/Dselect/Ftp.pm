@@ -191,7 +191,7 @@ sub yesno($$) {
     $res =~ /^[Yy]/ and return 1;
     $res =~ /^[Nn]/ and return 0;
     $res =~ /^[ \t]*$/ and return $r;
-    print "Please enter one of the letters `y' or `n'\n";
+    print "Please enter one of the letters 'y' or 'n'\n";
   }
 }
 
@@ -246,7 +246,7 @@ sub do_connect {
 	    if(!$ftp->binary()) { print $ftp->message . "\n"; $exit=1; }
 	}
 	if (!$exit) {
-	    print "Cd to `$ftpdir'...\n";
+	    print "Cd to '$ftpdir'...\n";
 	    if(!$ftp->cwd($ftpdir)) { print $ftp->message . "\n"; $exit=1; }
 	}
 

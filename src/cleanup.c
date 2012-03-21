@@ -71,7 +71,8 @@ void cu_installnew(int argc, void **argv) {
 
   cleanup_pkg_failed++; cleanup_conflictor_failed++;
 
-  debug(dbg_eachfile,"cu_installnew `%s' flags=%o",namenode->name,namenode->flags);
+  debug(dbg_eachfile, "cu_installnew '%s' flags=%o",
+        namenode->name, namenode->flags);
 
   setupfnamevbs(namenode->name);
 

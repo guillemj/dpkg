@@ -68,7 +68,7 @@ namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg,
     return r;
   }
 
-  debug(dbg_eachfile,"namenodetouse namenode=`%s' pkg=%s",
+  debug(dbg_eachfile, "namenodetouse namenode='%s' pkg=%s",
         namenode->name, pkgbin_name(pkg, pkgbin, pnaw_always));
 
   r=
@@ -402,7 +402,8 @@ maintainer_script_new(struct pkginfo *pkg,
   if (stat(cidir,&stab)) {
     command_destroy(&cmd);
     if (errno == ENOENT) {
-      debug(dbg_scripts,"maintainer_script_new nonexistent %s `%s'",scriptname,cidir);
+      debug(dbg_scripts, "maintainer_script_new nonexistent %s '%s'",
+            scriptname, cidir);
       return 0;
     }
     ohshite(_("unable to stat %s `%.250s'"), buf, cidir);
@@ -434,7 +435,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
 
   if (stat(oldscriptpath,&stab)) {
     if (errno == ENOENT) {
-      debug(dbg_scripts,"maintainer_script_alternative nonexistent %s `%s'",
+      debug(dbg_scripts, "maintainer_script_alternative nonexistent %s '%s'",
             scriptname,oldscriptpath);
       command_destroy(&cmd);
       return 0;
@@ -582,7 +583,7 @@ void oldconffsetflags(const struct conffile *searchconff) {
     namenode->flags |= fnnf_old_conff;
     if (!namenode->oldhash)
       namenode->oldhash= searchconff->hash;
-    debug(dbg_conffdetail, "oldconffsetflags `%s' namenode %p flags %o",
+    debug(dbg_conffdetail, "oldconffsetflags '%s' namenode %p flags %o",
           searchconff->name, namenode, namenode->flags);
     searchconff= searchconff->next;
   }
@@ -627,7 +628,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
   u = path_skip_slash_dotslash(pathname);
   assert(*u);
 
-  debug(dbg_eachfile,"ensure_pathname_nonexisting `%s'",pathname);
+  debug(dbg_eachfile, "ensure_pathname_nonexisting '%s'", pathname);
   if (!rmdir(pathname))
     return; /* Deleted it OK, it was a directory. */
   if (errno == ENOENT || errno == ELOOP) return;

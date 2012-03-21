@@ -38,7 +38,7 @@ enum selpriority {
   sp_inherit,     // inherited from our parent list
   sp_selecting,   // propagating a selection
   sp_deselecting, // propagating a deselection
-  sp_fixed        // it came from the `status' file and we're not a recursive list
+  sp_fixed        // it came from the ‘status’ file and we're not a recursive list
   // high
 };
 
@@ -63,7 +63,7 @@ enum ssstateval {      // State sorting order, first to last:
 
 struct perpackagestate {
   struct pkginfo *pkg;
-  /* The `heading' entries in the list, for `all packages of type foo',
+  /* The ‘heading’ entries in the list, for “all packages of type foo”,
    * point to a made-up pkginfo, which has pkg->name==0.
    * pkg->priority and pkg->section are set to the values if appropriate, or to
    * pri_unset resp. null if the heading refers to all priorities resp. sections.
@@ -91,7 +91,7 @@ protected:
   int section_column, priority_column, versioninstalled_column;
   int versionavailable_column, package_column, description_column;
 
-  // Only used when `verbose' is set
+  // Only used when ‘verbose’ is set
   int status_hold_width, status_status_width, status_want_width;
 
   // Table of packages
