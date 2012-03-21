@@ -45,6 +45,7 @@ extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;
 extern struct pkg_deconf_list *deconfigure;
 
+void clear_deconfigure_queue(void);
 void enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal);
 void enqueue_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm);
 

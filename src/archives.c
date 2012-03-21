@@ -1206,6 +1206,18 @@ enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal)
   deconfigure = newdeconf;
 }
 
+void
+clear_deconfigure_queue(void)
+{
+  struct pkg_deconf_list *deconf, *deconf_next;
+
+  for (deconf = deconfigure; deconf; deconf = deconf_next) {
+    deconf_next = deconf->next;
+    free(deconf);
+  }
+  deconfigure = NULL;
+}
+
 /**
  * Try if we can deconfigure the package and queue it if so.
  *

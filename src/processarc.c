@@ -440,7 +440,7 @@ void process_archive(const char *filename) {
   FILE *conff;
   struct filenamenode *namenode;
   struct stat stab, oldfs;
-  struct pkg_deconf_list *deconpil, *deconpiltemp;
+  struct pkg_deconf_list *deconpil;
   struct pkginfo *fixbytrigaw;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
@@ -517,13 +517,7 @@ void process_archive(const char *filename) {
                 _("package architecture (%s) does not match system (%s)"),
                 pkg->available.arch->name, dpkg_arch_get(arch_native)->name);
 
-  for (deconpil= deconfigure;
-       deconpil;
-       deconpil= deconpiltemp) {
-    deconpiltemp= deconpil->next;
-    free(deconpil);
-  }
-  deconfigure = NULL;
+  clear_deconfigure_queue();
   clear_istobes();
 
   if (!wanttoinstall(pkg)) {
