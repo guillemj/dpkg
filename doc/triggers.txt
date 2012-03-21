@@ -128,37 +128,36 @@ If the “postinst triggered” run fails the package goes to
 again until explicitly requested.
 
 
-             |
-             V
-       ,------------.
-       |  unpacked  |
-       `------------'
-             |
-             |
-  (automatic)|     ,----------.
-             |     | config-  |
-             |     |  failed  |
-             |     `----------'
-             |       |      ^
-             |       |      |
-             |,---<--'      |       ,------------------------------.
-             |  (user       |       |    triggers-pending          |
-    postinst |   request)   |       |            or                |
- "configure" |              |       | t.-awaited with some pending |
-             |              |       `------------------------------'
-             |              |                  |    ^
-             |`----->------'|                  |    |
-             |    error     |        postinst  |    |
-             |              |      "triggered" |    | trigger(s)
-             |              |      (automatic) |    |  activated
-             |              |                  |    |
-             |              `-----<-----------'|    |
-             |                  error          |    |
-             |                                 |    |
-             V                                 V    |
-       ,--------------------------------------------------.
-       |   installed  or  t.-awaited with none pending    |
-       `--------------------------------------------------'
+             │
+             v
+       ┌────────────┐
+       │  unpacked  │
+       └─────┬──────┘
+             │
+             │
+  (automatic)│      ┌───────────────┐
+             │      │ config-failed │
+             │      └─────┬─────────┘
+             │            │   ^
+             │            │   │
+             ├──────<─────┘   │     ┌──────────────────────────────────┐
+             │ (user request) │     │         triggers-pending         │
+  postinst   │                │     │                or                │
+ "configure" │                │     │ triggers-awaited w/ some pending │
+             │                │     └────────────┬─────────────────────┘
+             │                │                  │    ^
+             ├────────>───────┤       postinst   │    │
+             │      error     │      "triggered" │    │
+             │                │      (automatic) │    │
+             │                │                  │    │ trigger(s)
+             │                │                  │    │ activated
+             │                └────────<─────────┤    │
+             │                       error       │    │
+             │                                   │    │
+             v                                   v    │
+       ┌──────────────────────────────────────────────┴────┐
+       │   installed or triggers-awaited w/ none pending   │
+       └───────────────────────────────────────────────────┘
 
 Packages in ‘config-failed’ or worse are never considered to have
 lists of pending triggers.  A package whose postinst is being run
