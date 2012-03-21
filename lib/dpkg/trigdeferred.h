@@ -30,7 +30,7 @@ enum trigdef_updateflags {
 	tduf_nolockok =           001,
 	tduf_write =              002,
 	tduf_nolock =             003,
-	/* Should not be set unless _write is. */
+	/** Should not be set unless _write is. */
 	tduf_writeifempty =       010,
 	tduf_writeifenoent =      020,
 };

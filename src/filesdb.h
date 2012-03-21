@@ -46,11 +46,13 @@
 
 struct pkginfo;
 
-/* Flags to findnamenode(). */
+/**
+ * Flags to findnamenode().
+ */
 enum fnnflags {
-    /* Do not need to copy filename. */
+    /** Do not need to copy filename. */
     fnn_nocopy = 000001,
-    /* findnamenode may return NULL. */
+    /** findnamenode may return NULL. */
     fnn_nonew = 000002,
 };
 
@@ -60,7 +62,7 @@ struct filenamenode {
   struct filepackages *packages;
   struct diversion *divert;
 
-  /* We allow the administrator to override the owner, group and mode of
+  /** We allow the administrator to override the owner, group and mode of
    * a file. If such an override is present we use that instead of the
    * stat information stored in the archive.
    *
@@ -72,32 +74,32 @@ struct filenamenode {
    * filesdbinit.
    */
 
-  /* Set to zero when a new node is created. */
+  /** Set to zero when a new node is created. */
   enum {
-    /* In the newconffiles list. */
+    /** In the newconffiles list. */
     fnnf_new_conff = 000001,
-    /* In the new filesystem archive. */
+    /** In the new filesystem archive. */
     fnnf_new_inarchive = 000002,
-    /* In the old package's conffiles list. */
+    /** In the old package's conffiles list. */
     fnnf_old_conff = 000004,
-    /* Obsolete conffile. */
+    /** Obsolete conffile. */
     fnnf_obs_conff = 000100,
-    /* Must remove from other packages' lists. */
+    /** Must remove from other packages' lists. */
     fnnf_elide_other_lists = 000010,
-    /* >= 1 instance is a dir, cannot rename over. */
+    /** >= 1 instance is a dir, cannot rename over. */
     fnnf_no_atomic_overwrite = 000020,
-    /* New file has been placed on the disk. */
+    /** New file has been placed on the disk. */
     fnnf_placed_on_disk = 000040,
     fnnf_deferred_fsync = 000200,
     fnnf_deferred_rename = 000400,
-    /* Path being filtered. */
+    /** Path being filtered. */
     fnnf_filtered = 001000,
   } flags;
 
-  /* Valid iff this namenode is in the newconffiles list. */
+  /** Valid iff this namenode is in the newconffiles list. */
   const char *oldhash;
 
-  /* Valid iff the file was unpacked and hashed on this run. */
+  /** Valid iff the file was unpacked and hashed on this run. */
   const char *newhash;
 
   struct stat *filestat;
@@ -109,7 +111,7 @@ struct fileinlist {
   struct filenamenode *namenode;
 };
 
-/*
+/**
  * When we deal with an ‘overridden’ file, every package except the
  * overriding one is considered to contain the other file instead. Both
  * files have entries in the filesdb database, and they refer to each other
@@ -131,7 +133,7 @@ struct diversion {
   struct filenamenode *camefrom;
   struct pkgset *pkgset;
 
-  /* The ‘contested’ halves are in this list for easy cleanup. */
+  /** The ‘contested’ halves are in this list for easy cleanup. */
   struct diversion *next;
 };
 

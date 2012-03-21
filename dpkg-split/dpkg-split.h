@@ -40,7 +40,7 @@ struct partinfo {
   off_t maxpartlen;
   off_t thispartoffset;
   off_t thispartlen;
-  /* Size of header in part file. */
+  /** Size of header in part file. */
   off_t headerlen;
   off_t filesize;
 };
@@ -48,7 +48,7 @@ struct partinfo {
 struct partqueue {
   struct partqueue *nextinqueue;
 
-  /* Only fields filename, md5sum, maxpartlen, thispartn, maxpartn
+  /** Only fields filename, md5sum, maxpartlen, thispartn, maxpartn
    * are valid; the rest are NULL. If the file is not named correctly
    * to be a part file md5sum is NULL too and the numbers are zero. */
   struct partinfo info;

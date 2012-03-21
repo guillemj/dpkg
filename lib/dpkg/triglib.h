@@ -54,9 +54,11 @@ struct trigfileint {
 	} inoverall;
 };
 
-/* The first two hooks are normally NULL.
+/**
+ * The first two hooks are normally NULL.
  * If non-NULL, we're dpkg proper and we might need to invent trigger
- * activations as the first run of a triggers-supporting dpkg. */
+ * activations as the first run of a triggers-supporting dpkg.
+ */
 struct trig_hooks {
 	void (*enqueue_deferred)(struct pkginfo *pend);
 	void (*transitional_activate)(enum modstatdb_rw cstatus);
@@ -64,7 +66,7 @@ struct trig_hooks {
 	struct filenamenode *(*namenode_find)(const char *filename, bool nonew);
 	struct trigfileint **(*namenode_interested)(struct filenamenode *fnn);
 
-	/* Returns a pointer from nfmalloc. */
+	/** Returns a pointer from nfmalloc. */
 	const char *(*namenode_name)(struct filenamenode *fnn);
 };
 

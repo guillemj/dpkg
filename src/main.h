@@ -33,14 +33,14 @@ struct perpackagestate {
     itb_normal, itb_remove, itb_installnew, itb_deconfigure, itb_preinstall
   } istobe;
 
-  /* Used during cycle detection. */
+  /** Used during cycle detection. */
   enum {
     white,
     gray,
     black,
   } color;
 
-  /*
+  /**
    * filelistvalid  files  Meaning
    * -------------  -----  -------
    * false          NULL   Not read yet, must do so if want them.
@@ -55,7 +55,7 @@ struct perpackagestate {
 
   off_t listfile_phys_offs;
 
-  /* Non-NULL iff in trigproc.c:deferred. */
+  /** Non-NULL iff in trigproc.c:deferred. */
   struct pkg_list *trigprocdeferred;
 };
 

@@ -109,7 +109,7 @@ struct filedetails {
  */
 struct pkgbin {
   struct dependency *depends;
-  /* The ‘essential’ flag, true = yes, false = no (absent). */
+  /** The ‘essential’ flag, true = yes, false = no (absent). */
   bool essential;
   enum pkgmultiarch {
     multiarch_no,
@@ -118,7 +118,7 @@ struct pkgbin {
     multiarch_foreign,
   } multiarch;
   const struct dpkg_arch *arch;
-  /* The following is the "pkgname:archqual" cached string, if this was a
+  /** The following is the "pkgname:archqual" cached string, if this was a
    * C++ class this member would be mutable. */
   const char *pkgname_archqual;
   const char *description;
@@ -171,10 +171,10 @@ struct pkginfo {
 
   enum pkgwant {
     want_unknown, want_install, want_hold, want_deinstall, want_purge,
-    /* Not allowed except as special sentinel value in some places. */
+    /** Not allowed except as special sentinel value in some places. */
     want_sentinel,
   } want;
-  /* The error flag bitmask. */
+  /** The error flag bitmask. */
   enum pkgeflag {
     eflag_ok		= 0,
     eflag_reinstreq	= 1,
@@ -293,24 +293,25 @@ void pkg_db_report(FILE *);
 /*** from parse.c ***/
 
 enum parsedbflags {
-  /* Store in ‘available’ in-core structures, not ‘status’. */
+  /** Store in ‘available’ in-core structures, not ‘status’. */
   pdb_recordavailable = 001,
-  /* Throw up an error if ‘Status’ encountered. */
+  /** Throw up an error if ‘Status’ encountered. */
   pdb_rejectstatus = 002,
-  /* Ignore priority/section info if we already have any. */
+  /** Ignore priority/section info if we already have any. */
   pdb_weakclassification = 004,
-  /* Ignore files info if we already have them. */
+  /** Ignore files info if we already have them. */
   pdb_ignorefiles = 010,
-  /* Ignore packages with older versions already read. */
+  /** Ignore packages with older versions already read. */
   pdb_ignoreolder = 020,
-  /* Perform laxer version parsing. */
+  /** Perform laxer version parsing. */
   pdb_lax_version_parser = 040,
-  /* Perform laxer parsing, used to transition to stricter parsing. */
+  /** Perform laxer parsing, used to transition to stricter parsing. */
   pdb_lax_parser = pdb_lax_version_parser,
-  /* Parse the control file from a binary .deb package. */
+  /** Parse the control file from a binary .deb package. */
   pdb_deb_control = 0100,
 
   /* Standard operations. */
+
   pdb_parse_status = pdb_lax_parser | pdb_weakclassification,
   pdb_parse_update = pdb_parse_status | pdb_deb_control,
   pdb_parse_available = pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
@@ -346,13 +347,13 @@ const char *versiondescribe(const struct versionrevision*,
                             enum versiondisplayepochwhen);
 
 enum pkg_name_arch_when {
-  /* Never display arch. */
+  /** Never display arch. */
   pnaw_never,
-  /* Display arch only when it's non-ambiguous. */
+  /** Display arch only when it's non-ambiguous. */
   pnaw_nonambig,
-  /* Display arch only when it's a foreign one. */
+  /** Display arch only when it's a foreign one. */
   pnaw_foreign,
-  /* Always display arch. */
+  /** Always display arch. */
   pnaw_always,
 };
 
@@ -369,9 +370,9 @@ void writerecord(FILE*, const char*,
                  const struct pkginfo *, const struct pkgbin *);
 
 enum writedb_flags {
-  /* Dump ‘available’ in-core structures, not ‘status’. */
+  /** Dump ‘available’ in-core structures, not ‘status’. */
   wdb_dump_available = 001,
-  /* Must sync the written file. */
+  /** Must sync the written file. */
   wdb_must_sync = 002,
 };
 

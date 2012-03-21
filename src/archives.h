@@ -29,7 +29,7 @@ struct tarcontext {
   int backendpipe;
   struct pkginfo *pkg;
   struct fileinlist **newfilesp;
-  /* Are all “Multi-arch: same” instances about to be in sync? */
+  /** Are all “Multi-arch: same” instances about to be in sync? */
   bool pkgset_getting_in_sync;
 };
 

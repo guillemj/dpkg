@@ -29,7 +29,7 @@
 
 DPKG_BEGIN_DECLS
 
-/*
+/**
  * varbuf_init must be called exactly once before the use of each varbuf
  * (including before any call to varbuf_destroy), or the variable must be
  * initialized with VARBUF_INIT.

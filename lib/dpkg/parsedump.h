@@ -87,7 +87,7 @@ freadfunction f_architecture;
 freadfunction f_trigpend, f_trigaw;
 
 enum fwriteflags {
-	/* Print field header and trailing newline. */
+	/** Print field header and trailing newline. */
 	fw_printheader = 001,
 };
 

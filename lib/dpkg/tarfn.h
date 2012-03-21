@@ -39,7 +39,8 @@ enum tar_format {
 };
 
 enum tar_filetype {
-	tar_filetype_file0 = '\0',	/* For compatibility with decades-old bug */
+	/** For compatibility with decades-old bug. */
+	tar_filetype_file0 = '\0',
 	tar_filetype_file = '0',
 	tar_filetype_hardlink = '1',
 	tar_filetype_symlink = '2',
@@ -52,13 +53,20 @@ enum tar_filetype {
 };
 
 struct tar_entry {
-	enum tar_format format;	/* Tar archive format. */
-	enum tar_filetype type;	/* Regular, Directory, Special, Link */
-	char *name;		/* File name */
-	char *linkname;		/* Name for symbolic and hard links */
-	off_t size;		/* Size of file */
-	time_t mtime;		/* Last-modified time. */
-	dev_t dev;		/* Special device for mknod() */
+	/** Tar archive format. */
+	enum tar_format format;
+	/** File type. */
+	enum tar_filetype type;
+	/** File name. */
+	char *name;
+	/** Symlink or hardlink name. */
+	char *linkname;
+	/** File size. */
+	off_t size;
+	/** Last-modified time. */
+	time_t mtime;
+	/** Special device for mknod(). */
+	dev_t dev;
 
 	struct file_stat stat;
 };

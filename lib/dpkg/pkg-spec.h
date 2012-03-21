@@ -37,7 +37,7 @@ struct pkg_spec {
 	const struct dpkg_arch *arch;
 
 	enum pkg_spec_flags {
-		/* Recognize glob patterns. */
+		/** Recognize glob patterns. */
 		psf_patterns = 00001,
 
 		/* How to consider the lack of an arch qualifier. */
@@ -51,9 +51,9 @@ struct pkg_spec {
 	bool name_is_pattern;
 	bool arch_is_pattern;
 
-	/* Used for the pkg_db iterator. */
+	/** Used for the pkg_db iterator. */
 	struct pkgiterator *pkg_iter;
-	/* Used for the pkgset iterator. */
+	/** Used for the pkgset iterator. */
 	struct pkginfo *pkg_next;
 };
 
