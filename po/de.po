@@ -9,10 +9,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Debian dpkg 1.16.2~\n"
+"Project-Id-Version: Debian dpkg 1.16.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2012-03-19 07:23+0100\n"
-"PO-Revision-Date: 2012-03-14 17:45+0100\n"
+"POT-Creation-Date: 2012-03-21 17:17+0100\n"
+"PO-Revision-Date: 2012-03-21 18:10+0100\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -872,10 +872,9 @@ msgid "empty value for %s"
 msgstr "leerer Wert für %s"
 
 #: lib/dpkg/parse.c:210
-#, fuzzy, c-format
-#| msgid "package has field '%s' but is architecture all"
+#, c-format
 msgid "package has field '%s' but is missing architecture"
-msgstr "Paket hat Feld %s, ist aber architekturunabhängig"
+msgstr "Paket hat Feld »%s«, aber fehlende Architektur"
 
 #: lib/dpkg/parse.c:213
 #, c-format
@@ -909,12 +908,14 @@ msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr "Paket mit dem Status »nicht installiert« hat Conffiles, vergesse sie"
 
 #: lib/dpkg/parse.c:344
-msgid "package contains multiple non-coinstallable instances"
-msgstr ""
+msgid "multiple non-coinstallable package instances present"
+msgstr "mehrere nicht zusammen installierbare Paketinstanzen vorhanden"
 
 #: lib/dpkg/parse.c:347
-msgid "package with a mix of non-coinstallable and coinstallable instances"
+msgid "mixed non-coinstallable and coinstallable package instances present"
 msgstr ""
+"gemischte zusammen installierbare und nicht zusammen installierbare "
+"Paketinstanzen vorhanden"
 
 #: lib/dpkg/parse.c:406
 #, c-format
@@ -922,6 +923,8 @@ msgid ""
 "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
 "installed instances"
 msgstr ""
+"%s %s (Multi-Arch: %s) kann nicht zusammen mit %s installiert werden, "
+"welches mehrere installierte Instanzen hat"
 
 #: lib/dpkg/parse.c:520
 #, c-format
@@ -1402,13 +1405,13 @@ msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr "Größe des symbolischen Links »%.250s« wurde von %jd zu %zd geändert"
 
 #: src/archives.c:562
-#, fuzzy, c-format
-#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
 "of package %.250s"
 msgstr ""
-"Versuch, »%.250s« zu überschreiben, welches auch in Paket %.250s %.250s ist"
+"Versuch, gemeinsam benutztes »%.250s« zu überschreiben, welches verschieden "
+"von anderen Instanzen des Paketes %.250s ist"
 
 #: src/archives.c:652
 #, c-format
@@ -2470,12 +2473,11 @@ msgstr ""
 "  »%s« gefunden"
 
 #: src/divertcmd.c:557
-#, fuzzy, c-format
-#| msgid "ignoring request to remove %.250s which isn't installed."
+#, c-format
 msgid "Ignoring request to remove shared diversion '%s'.\n"
 msgstr ""
-"Die Anforderung, %.250s zu entfernen, wird ignoriert; es ist nicht "
-"installiert."
+"Anforderung, die gemeinsam benutzte Umleitung »%s« zu entfernen, wird "
+"ignoriert.\n"
 
 #: src/divertcmd.c:563
 #, c-format
@@ -2659,7 +2661,7 @@ msgstr "mehrere Kollisionen und Ersetzungen"
 
 #: src/enquiry.c:385
 msgid "multi-arch"
-msgstr ""
+msgstr "Multi-Arch"
 
 #: src/enquiry.c:485
 #, c-format
@@ -2961,20 +2963,17 @@ msgid "error trying to open %.250s"
 msgstr "Fehler beim Versuch, %.250s zu öffnen"
 
 #: src/infodb-format.c:55
-#, fuzzy, c-format
-#| msgid "unable to create file '%s'"
+#, c-format
 msgid "corrupt info database format file '%s'"
-msgstr "Datei »%s« kann nicht angelegt werden"
+msgstr "beschädigte Info-Datenbank-Formatdatei »%s«"
 
 #: src/infodb-upgrade.c:123
-#, fuzzy, c-format
-#| msgid "conffile `%.250s' does not appear in package"
+#, c-format
 msgid "Info file %s/%s not associated to any package"
-msgstr "Conffile »%.250s« kommt nicht im Paket vor"
+msgstr "Infodatei %s/%s gehört zu keinem Paket"
 
 #: src/infodb-upgrade.c:183
-#, fuzzy, c-format
-#| msgid "error writing `%s'"
+#, c-format
 msgid "error while writing '%s'"
 msgstr "Fehler beim Schreiben von »%s«"
 
@@ -3084,12 +3083,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:128
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep.\n"
-#| "\n"
+#, c-format
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
@@ -3099,7 +3093,9 @@ msgid ""
 msgstr ""
 "Zur internen Verwendung: dpkg --assert-support-predepends | --predep-package "
 "|\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
+"|\n"
+"  --assert-multi-arch.\n"
 "\n"
 
 #: src/main.c:134
@@ -4249,11 +4245,10 @@ msgstr "unerwartete Daten nach Paket und Auswahl in Zeile %d"
 msgid "illegal package name at line %d: %.250s"
 msgstr "ungültiger Paketname in Zeile %d: %.250s"
 
-#: src/select.c:168
-#, fuzzy, c-format
-#| msgid "illegal package name at line %d: %.250s"
+#: src/select.c:166
+#, c-format
 msgid "package not in database at line %d: %.250s"
-msgstr "ungültiger Paketname in Zeile %d: %.250s"
+msgstr "Paket nicht in der Datenbank in Zeile %d: %.250s"
 
 #: src/select.c:172
 #, c-format
