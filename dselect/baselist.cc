@@ -243,6 +243,9 @@ baselist::baselist(keybindings *kb) {
   nitems= 0;
 
   gap_width = 1;
+  total_width = TOTAL_LIST_WIDTH;
+  if (total_width < COLS)
+    total_width = COLS;
 
   xmax= -1;
   list_height=0; info_height=0;

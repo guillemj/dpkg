@@ -181,9 +181,6 @@ void packagelist::setwidths() {
     internerr("unknown versiondisplayopt %d in setwidths", versiondisplayopt);
   }
 
-  total_width= TOTAL_LIST_WIDTH;
-  if (total_width < COLS)
-    total_width= COLS;
   description_width= total_width - description_column;
 }
 
