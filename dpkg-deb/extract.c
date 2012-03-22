@@ -86,7 +86,7 @@ read_line(int fd, char *buf, size_t min_size, size_t max_size)
     if (r <= 0)
       return r;
 
-    nl = strchr(buf + line_size, '\n');
+    nl = memchr(buf + line_size, '\n', r);
     line_size += r;
 
     if (nl != NULL) {
