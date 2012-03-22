@@ -37,6 +37,7 @@ dpkg_SOURCES = \
 	enquiry.c \
 	errors.c \
 	filesdb.c \
+	filesdb-hash.c \
 	file-match.c file-match.h \
 	filters.c filters.h \
 	infodb-access.c \

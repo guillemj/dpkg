@@ -3,7 +3,7 @@
  * filesdb.h - management of database of files installed on system
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -159,6 +159,7 @@ mode_t statdb_parse_mode(const char *str);
 void ensure_statoverrides(void);
 
 #define LISTFILE           "list"
+#define HASHFILE           "md5sums"
 
 void ensure_packagefiles_available(struct pkginfo *pkg);
 void ensure_allinstfiles_available(void);
@@ -166,6 +167,8 @@ void ensure_allinstfiles_available_quiet(void);
 void note_must_reread_files_inpackage(struct pkginfo *pkg);
 struct filenamenode *findnamenode(const char *filename, enum fnnflags flags);
 void write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                           struct fileinlist *list, enum fnnflags mask);
+void write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct fileinlist *list, enum fnnflags mask);
 
 struct reversefilelistiter { struct fileinlist *todo; };

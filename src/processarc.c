@@ -1118,6 +1118,9 @@ void process_archive(const char *filename) {
   debug(dbg_general, "process_archive updating info directory");
   pkg_infodb_update(pkg, cidir, cidirrest);
 
+  /* We store now the checksums dynamically computed while unpacking. */
+  write_filehash_except(pkg, &pkg->available, newfileslist, 0);
+
   /*
    * Update the status database.
    *
