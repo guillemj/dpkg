@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2012-03-19 07:24+0100\n"
-"PO-Revision-Date: 2012-02-14 20:05+0100\n"
+"PO-Revision-Date: 2012-03-23 07:49+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -566,7 +566,6 @@ msgstr "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>"
 
 #. type: Plain text
 #: deb-control.5:131
-#, fuzzy
 #| msgid ""
 #| "This field is used to indicate how this package should behave on a multi-"
 #| "arch installations. The value B<same> means that the package is co-"
@@ -598,8 +597,7 @@ msgstr ""
 "d'un paquet d'une architecture différente de la sienne. La valeur <B>allowed "
 "permet aux dépendances inverses d'indiquer dans leur champ Depends qu'elles "
 "ont besoin d'un paquet d'une autre architecture. En dehors de ce besoin, "
-"cette valeur est inutile. Ce champ ne doit pas être présent dans les paquets "
-"comportant le champ <Architecture: all>."
+"cette valeur est inutile."
 
 #. type: TP
 #: deb-control.5:131
@@ -1515,7 +1513,8 @@ msgstr ""
 "Architecture: all\n"
 "# champ personnalisé dans le paquet binaire\n"
 "XB-Mentoring-Contact: Raphael Hertzog E<lt>hertzog@debian.orgE<gt>\n"
-"Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2), bzip2, lzma,\n"
+"Depends: dpkg (E<gt>= 1.14.6), perl5, perl-modules, cpio (E<gt>= 2.4.2-2), "
+"bzip2, lzma,\n"
 " patch (E<gt>= 2.2-1), make, binutils, libtimedate-perl\n"
 "Recommends: gcc | c-compiler, build-essential\n"
 "Suggests: gnupg, debian-keyring\n"
@@ -2056,36 +2055,32 @@ msgstr "B<deb>(5), B<dpkg-deb>(1), B<deb-control>(5)."
 
 #. type: TH
 #: deb-origin.5:19
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "deb-version"
 msgid "deb-origin"
-msgstr "deb-version"
+msgstr "deb-origin"
 
 #. type: TH
 #: deb-origin.5:19 dpkg-vendor.1:18
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "2009-11-11"
 msgid "2011-11-10"
-msgstr "11-11-2009"
+msgstr "10-11-2011"
 
 #. type: Plain text
 #: deb-origin.5:22
-#, fuzzy
 #| msgid "deb-shlibs - Debian shared library information file"
 msgid "deb-origin - Vendor-specific information files"
-msgstr ""
-"deb-shlibs - Fichier d'information sur les bibliothèques partagées Debian"
+msgstr "deb-origin - Fichiers d'informations propre à l'éditeur"
 
 #. type: Plain text
 #: deb-origin.5:24
-#, fuzzy
 #| msgid "B<-n>I<filename>"
 msgid "B</etc/dpkg/origins/>I<filename>"
-msgstr "B<-n>I<nom-de-fichier>"
+msgstr "B</etc/dpkg/origins/>I<fichier>"
 
 #. type: Plain text
 #: deb-origin.5:33
-#, fuzzy
 #| msgid ""
 #| "Each Debian package contains the master `control' file, which contains a "
 #| "number of fields, or comments when the line starts with B<'#'>. Each "
@@ -2104,40 +2099,38 @@ msgid ""
 "may be multiple lines in length, but the tools will join lines when "
 "processing the body of the field."
 msgstr ""
-"Chaque paquet Debian possède un fichier principal de contrôle qui contient "
-"un certain nombre de champs ou de commentaires pour les lignes commençant "
+"Les fichiers de B</etc/dpkg/origins> peuvent fournit des informations que les "
+"différents éditeurs (« vendor ») qui fournissent des paquets Debian. Ils"
+"contiennent un certain nombre de champs ou de commentaires pour les lignes "
+"commençant "
 "par un caractère « B<#> ». Chaque champ commence par une étiquette, telle "
-"que B<Package> ou B<Version> (la casse n'importe pas), suivie d'un « : », et "
-"du contenu du champ. Les champs sont séparés seulement par des étiquettes de "
-"champ. En d'autres termes, le contenu d'un champ peut s'étendre sur "
+"que B<Vendor> ou B<Parent>, suivi du caractère « deux-points » et du contenu "
+"du champ. Les champs sont délimités par les étiquettes de champs. En d'autres "
+"termes, le contenu d'un champ peut s'étendre sur "
 "plusieurs lignes, mais les outils d'installation joindront en général les "
-"lignes pendant le traitement du contenu du champ (sauf pour le champ "
-"B<Description>, voyez ci-dessous)."
+"lignes pendant le traitement du contenu du champ."
 
 #. type: TP
 #: deb-origin.5:34
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--vendor>I< vendor>"
 msgid "B<Vendor:>I< vendor-name>"
-msgstr "B<--vendor>I< éditeur>"
+msgstr "B<Vendor:>I< éditeur>"
 
 #. type: Plain text
 #: deb-origin.5:37
-#, fuzzy
 #| msgid ""
 #| "The value of this field determines the package name, and is used to "
 #| "generate file names by most installation tools."
 msgid "The value of this field determines the vendor name."
-msgstr ""
-"La valeur de ce champ donne le nom du paquet, et la plupart des outils "
-"d'installation s'en servent pour produire les noms des paquets."
+msgstr "La valeur de ce champ donne le nom de l'éditeur(« vendor »)."
 
 #. type: TP
 #: deb-origin.5:38
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--vendor>I< vendor>"
 msgid "B<Vendor-URL:>I< vendor-url>"
-msgstr "B<--vendor>I< éditeur>"
+msgstr "B<Vendor-URL:>I< adresse-URL-éditeur>"
 
 #. type: Plain text
 #: deb-origin.5:41
@@ -4257,7 +4250,9 @@ msgstr ""
 #: dpkg.1:389
 #, no-wrap
 msgid "B<--force->I<things>, B<--no-force->I<things>, B<--refuse->I<things>"
-msgstr "B<--force->I<quelque-chose>, B<--no-force->I<quelque-chose>, B<--refuse->I<quelque-chose>"
+msgstr ""
+"B<--force->I<quelque-chose>, B<--no-force->I<quelque-chose>, B<--refuse->I<"
+"quelque-chose>"
 
 #. type: Plain text
 #: dpkg.1:396
@@ -4877,8 +4872,12 @@ msgstr ""
 #. type: TP
 #: dpkg.1:626
 #, no-wrap
-msgid "B<status: >I<file>B< : conffile-prompt : '>I<real-old>B<' '>I<real-new>B<' >I<useredited>B< >I<distedited>"
-msgstr "B<status: >I<fichier>B< : conffile-prompt : '>I<real-old>B<' '>I<real-new>B<' >I<useredited>B< >I<distedited>"
+msgid ""
+"B<status: >I<file>B< : conffile-prompt : '>I<real-old>B<' '>I<real-new>B<' >"
+"I<useredited>B< >I<distedited>"
+msgstr ""
+"B<status: >I<fichier>B< : conffile-prompt : '>I<real-old>B<' '>I<real-new>B<' "
+">I<useredited>B< >I<distedited>"
 
 #. type: Plain text
 #: dpkg.1:629
@@ -6053,13 +6052,18 @@ msgstr ""
 #| "\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)\n"
 #| "\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)\n"
 msgid ""
-"\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)\n"
-"\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)\n"
+"\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture "
+"-qDEB_BUILD_GNU_TYPE)\n"
+"\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture "
+"-qDEB_HOST_GNU_TYPE)\n"
 "[...]\n"
-"configure --build=$(\\s-1DEB_BUILD_GNU_TYPE\\s0) --host=$(\\s-1DEB_HOST_GNU_TYPE\\s0)\n"
+"configure --build=$(\\s-1DEB_BUILD_GNU_TYPE\\s0) "
+"--host=$(\\s-1DEB_HOST_GNU_TYPE\\s0)\n"
 msgstr ""
-"\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)\n"
-"\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)\n"
+"\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture "
+"-qDEB_BUILD_GNU_TYPE)\n"
+"\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture "
+"-qDEB_HOST_GNU_TYPE)\n"
 
 #. type: Plain text
 #: dpkg-architecture.1:181
@@ -6069,8 +6073,10 @@ msgstr ""
 #. type: Plain text
 #: dpkg-architecture.1:184
 #, no-wrap
-msgid "\\&\\s-1DEB_HOST_ARCH\\s0 := $(shell dpkg-architecture -qDEB_HOST_ARCH)\n"
-msgstr "\\&\\s-1DEB_HOST_ARCH\\s0 := $(shell dpkg-architecture -qDEB_HOST_ARCH)\n"
+msgid ""
+"\\&\\s-1DEB_HOST_ARCH\\s0 := $(shell dpkg-architecture -qDEB_HOST_ARCH)\n"
+msgstr ""
+"\\&\\s-1DEB_HOST_ARCH\\s0 := $(shell dpkg-architecture -qDEB_HOST_ARCH)\n"
 
 #. type: Plain text
 #: dpkg-architecture.1:188 dpkg-architecture.1:202
@@ -6770,8 +6776,12 @@ msgstr "Fichier de configuration pour l'ensemble du système."
 #. type: TP
 #: dpkg-buildflags.1:159
 #, no-wrap
-msgid "B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> or B<$HOME/.config/dpkg/buildflags.conf>"
-msgstr "B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> ou B<$HOME/.config/dpkg/buildflags.conf>"
+msgid ""
+"B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> or B<$HOME/.config/dpkg/buildflags."
+"conf>"
+msgstr ""
+"B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> ou B<$HOME/.config/dpkg/buildflags."
+"conf>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:162
@@ -9752,7 +9762,8 @@ msgid ""
 " (optional)tagged_unquoted_symbol@Base 1.0 1\n"
 " untagged_symbol@Base 1.0\n"
 msgstr ""
-" (étiq1=je suis marqué|étiquette avec espace)\"symbole comportant des espaces\"@Base 1.0\n"
+" (étiq1=je suis marqué|étiquette avec espace)\"symbole comportant des "
+"espaces\"@Base 1.0\n"
 " (optional)symbole_non_protégé@Base 1.0 1\n"
 " symbole_non_étiqueté@Base 1.0\n"
 
@@ -11007,7 +11018,8 @@ msgid ""
 "        I<oldconffile> I<newconffile> I<priorversion> I<package> -- \"$@\"\n"
 msgstr ""
 "    dpkg-maintscript-helper mv_conffile \\e\n"
-"        I<ancien-fichier> I<nouveau-fichier> I<dernière-version> I<paquet> -- \"$@\"\n"
+"        I<ancien-fichier> I<nouveau-fichier> I<dernière-version> I<paquet> -- "
+"\"$@\"\n"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:123
@@ -12311,8 +12323,12 @@ msgstr ""
 #: dpkg-query.1:234
 #, fuzzy, no-wrap
 #| msgid "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
-msgid "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
-msgstr "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
+msgid ""
+"  B<dpkg-query -W -f=\\(aq${binary:Package} "
+"${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
+msgstr ""
+"  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq "
+"dpkg>\n"
 
 #. type: SH
 #: dpkg-query.1:236 dpkg-split.1:196 start-stop-daemon.8:285
@@ -13291,8 +13307,11 @@ msgstr ""
 #. type: TP
 #: dpkg-shlibdeps.1:251
 #, no-wrap
-msgid "B<symbol>I< sym>B< used by >I<binary>B< found in none of the libraries.>"
-msgstr "B<symbole>I< sym>B< utilisé par >I<binaire>B< trouvé dans aucune des bibliothèques.>"
+msgid ""
+"B<symbol>I< sym>B< used by >I<binary>B< found in none of the libraries.>"
+msgstr ""
+"B<symbole>I< sym>B< utilisé par >I<binaire>B< trouvé dans aucune des "
+"bibliothèques.>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:257
@@ -13310,8 +13329,12 @@ msgstr ""
 #. type: TP
 #: dpkg-shlibdeps.1:257
 #, no-wrap
-msgid "I<binary>B< contains an unresolvable reference to symbol >I<sym>B<: it's probably a plugin>"
-msgstr "I<binary>B< contient une référence non résolue au symbole >I<sym>B<: il s'agit probablement d'un greffon (plugin)>"
+msgid ""
+"I<binary>B< contains an unresolvable reference to symbol >I<sym>B<: it's "
+"probably a plugin>"
+msgstr ""
+"I<binary>B< contient une référence non résolue au symbole >I<sym>B<: il "
+"s'agit probablement d'un greffon (plugin)>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:270
@@ -13343,8 +13366,12 @@ msgstr ""
 #: dpkg-shlibdeps.1:270
 #, fuzzy, no-wrap
 #| msgid "I<binary>B< shouldn't be linked with >I<library>B< (it uses none of its symbols).>"
-msgid "B<package could avoid a useless dependency if >I<binary>B< was not linked against >I<library>B< (it uses none of the library's symbols)>"
-msgstr "I<le binaire>B< ne devrait pas être lié avec la >I<bibliothèque>B< (il ne fait usage d'aucun de ses symboles).>"
+msgid ""
+"B<package could avoid a useless dependency if >I<binary>B< was not linked "
+"against >I<library>B< (it uses none of the library's symbols)>"
+msgstr ""
+"I<le binaire>B< ne devrait pas être lié avec la >I<bibliothèque>B< (il ne "
+"fait usage d'aucun de ses symboles).>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:276
@@ -13363,8 +13390,13 @@ msgstr ""
 #: dpkg-shlibdeps.1:276
 #, fuzzy, no-wrap
 #| msgid "B<dependency on >I<library>B< could be avoided if >I<binaries>B< were not uselessly linked against it (they use none of its symbols).>"
-msgid "B<package could avoid a useless dependency if >I<binaries>B< were not linked against >I<library>B< (they uses none of the library's symbols)>"
-msgstr "B<la dépendance sur la> I<bibliothèque> B<pourrait être évitée si> I<les binaires>B< inutiles n'étaient pas liés à celle-ci (ils n'utilisent aucun de ses symboles).>"
+msgid ""
+"B<package could avoid a useless dependency if >I<binaries>B< were not linked "
+"against >I<library>B< (they uses none of the library's symbols)>"
+msgstr ""
+"B<la dépendance sur la> I<bibliothèque> B<pourrait être évitée si> I<les "
+"binaires>B< inutiles n'étaient pas liés à celle-ci (ils n'utilisent aucun de "
+"ses symboles).>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:279
@@ -13375,8 +13407,12 @@ msgstr ""
 #: dpkg-shlibdeps.1:279
 #, fuzzy, no-wrap
 #| msgid "I<binary>B< shouldn't be linked with >I<library>B< (it uses none of its symbols).>"
-msgid "I<binary>B< should not be linked against >I<library>B< (it uses none of the library's symbols)>"
-msgstr "I<le binaire>B< ne devrait pas être lié avec la >I<bibliothèque>B< (il ne fait usage d'aucun de ses symboles).>"
+msgid ""
+"I<binary>B< should not be linked against >I<library>B< (it uses none of the "
+"library's symbols)>"
+msgstr ""
+"I<le binaire>B< ne devrait pas être lié avec la >I<bibliothèque>B< (il ne "
+"fait usage d'aucun de ses symboles).>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:286
@@ -13420,8 +13456,12 @@ msgstr ""
 #. type: TP
 #: dpkg-shlibdeps.1:293
 #, no-wrap
-msgid "B<couldn't find library >I<library-soname>B< needed by >I<binary>B< (its RPATH is '>I<rpath>B<')>"
-msgstr "B<impossible de trouver la bibliothèque >I<library-soname> B<demandée par le> I<binaire> B<(son RPATH est '>I<rpath>B<')>"
+msgid ""
+"B<couldn't find library >I<library-soname>B< needed by >I<binary>B< (its "
+"RPATH is '>I<rpath>B<')>"
+msgstr ""
+"B<impossible de trouver la bibliothèque >I<library-soname> B<demandée par le> "
+"I<binaire> B<(son RPATH est '>I<rpath>B<')>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:309
@@ -13485,8 +13525,12 @@ msgstr ""
 #. type: TP
 #: dpkg-shlibdeps.1:315
 #, no-wrap
-msgid "B<no dependency information found for >I<library-file>B< (used by >I<binary>B<).>"
-msgstr "B<aucune information de dépendance trouvé pour> I<la bibliothèque> B<(utilisée par le> I<binaire>B<).>"
+msgid ""
+"B<no dependency information found for >I<library-file>B< (used by >I<binary>"
+"B<).>"
+msgstr ""
+"B<aucune information de dépendance trouvé pour> I<la bibliothèque> B<"
+"(utilisée par le> I<binaire>B<).>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:328
@@ -15228,7 +15272,9 @@ msgstr ""
 #: dpkg-source.1:689
 #, no-wrap
 msgid "newly created empty file I<file> will not be represented in diff"
-msgstr "le fichier I<fichier>, nouvellement créé, ne sera pas représenté dans le fichier de différences"
+msgstr ""
+"le fichier I<fichier>, nouvellement créé, ne sera pas représenté dans le "
+"fichier de différences"
 
 #. type: Plain text
 #: dpkg-source.1:692
@@ -15244,13 +15290,17 @@ msgstr ""
 #: dpkg-source.1:692
 #, no-wrap
 msgid "executable mode I<perms> of I<file> will not be represented in diff"
-msgstr "le mode exécutable I<permissions> de I<fichier> ne sera pas représenté dans le fichier de différences"
+msgstr ""
+"le mode exécutable I<permissions> de I<fichier> ne sera pas représenté dans "
+"le fichier de différences"
 
 #. type: SS
 #: dpkg-source.1:693
 #, no-wrap
 msgid "special mode I<perms> of I<file> will not be represented in diff"
-msgstr "le mode spécial I<permissions> de I<fichier> ne sera pas représenté dans le fichier de différences"
+msgstr ""
+"le mode spécial I<permissions> de I<fichier> ne sera pas représenté dans le "
+"fichier de différences"
 
 #. type: Plain text
 #: dpkg-source.1:697
@@ -15357,7 +15407,8 @@ msgid ""
 "  # ignore changes on config.{sub,guess}\n"
 "  extend-diff-ignore = \"(^|/)(config.sub|config.guess)$\"\n"
 msgstr ""
-"  # autoriser dpkg-source à créer un fichier debian.tar.bz2 avec la compression maximale\n"
+"  # autoriser dpkg-source à créer un fichier debian.tar.bz2 avec la "
+"compression maximale\n"
 "  compression = \"bzip2\"\n"
 "  compression-level = 9\n"
 "  # utiliser debian/patches/debian-changes comme correctif automatique\n"
@@ -16420,11 +16471,14 @@ msgid ""
 " - Alter package selections and manage dependencies,\n"
 " - Install new packages or upgrade to newer versions.\n"
 msgstr ""
-"B<dselect> est une des principales interfaces de gestion des paquets sur un système Debian. À partir du menu principal de B<dselect>, l'administrateur système peut :\n"
+"B<dselect> est une des principales interfaces de gestion des paquets sur un "
+"système Debian. À partir du menu principal de B<dselect>, l'administrateur "
+"système peut :\n"
 " - Mettre à jour la liste des versions des paquets disponibles,\n"
 " - Voir l'état des paquets installés ou disponibles,\n"
 " - Modifier les sélections de paquets et gérer les dépendances,\n"
-" - Installer de nouveaux paquets ou mettre à jour vers de nouvelles versions.\n"
+" - Installer de nouveaux paquets ou mettre à jour vers de nouvelles versions."
+"\n"
 
 #. type: Plain text
 #: dselect.1:50
@@ -16541,8 +16595,12 @@ msgstr ""
 #. type: TP
 #: dselect.1:77
 #, no-wrap
-msgid "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>[I<+attr+..>]]"
-msgstr "B<--colour>|B<--color> I<partie_écran:>[I<premier_plan>],[I<arrière_plan>][I<:attr>[I<+attr+..>]]"
+msgid ""
+"B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>"
+"[I<+attr+..>]]"
+msgstr ""
+"B<--colour>|B<--color> I<partie_écran:>[I<premier_plan>],[I<arrière_plan>][I<"
+":attr>[I<+attr+..>]]"
 
 #. type: Plain text
 #: dselect.1:84
@@ -17085,7 +17143,9 @@ msgid ""
 " - the control information for the installed version\n"
 " - the control information for the available version\n"
 msgstr ""
-"La vue des détails d'un paquet affiche par défaut la description longue du paquet sélectionné dans la liste des paquets. Le type de détail peut être modifié en pressant la touche « B<i> ». Ceci permet de passer de :\n"
+"La vue des détails d'un paquet affiche par défaut la description longue du "
+"paquet sélectionné dans la liste des paquets. Le type de détail peut être "
+"modifié en pressant la touche « B<i> ». Ceci permet de passer de :\n"
 " - la description longue\n"
 " - les informations de contrôle de la version installée\n"
 " - les informations de contrôle de la version disponible\n"
@@ -17179,7 +17239,8 @@ msgstr ""
 " État d'installation :\n"
 "  I<vide>    pas installé ;\n"
 "  B<*>       complètement installé et configuré ;\n"
-"  B<->       pas installé, mais des fichiers de configuration existent toujours ;\n"
+"  B<->       pas installé, mais des fichiers de configuration existent "
+"toujours ;\n"
 "  B<U>       dépaqueté, mais toujours pas configuré ;\n"
 "  B<C>       à moitié configuré (il y a eu une erreur) ;\n"
 "  B<I>       à moitié installé (il y a eu une erreur).\n"
@@ -17187,7 +17248,8 @@ msgstr ""
 "  B<*>       marqué comme étant à installer ou à mettre à jour ;\n"
 "  B<->       marqué comme étant à retirer, en conservant la configuration ;\n"
 "  B<=>       marqué comme à conserver : le paquet ne sera pas traité ;\n"
-"  B<_>       marqué comme étant à nettoyé, la configuration sera retirée également ;\n"
+"  B<_>       marqué comme étant à nettoyé, la configuration sera retirée "
+"également ;\n"
 "  B<n>       nouveau paquet, n'a toujours pas été marqué.\n"
 
 #. type: SS
@@ -17235,14 +17297,20 @@ msgstr ""
 "  B<^n>                     fait défiler la liste d'une ligne vers le bas\n"
 "  B<t, Home>                saute au début de la liste\n"
 "  B<e, Fin>                 saute à la fin de la liste\n"
-"  B<u>                      fait défiler les informations d'une page vers le haut\n"
-"  B<d>                      fait défiler les informations d'une page vers le bas\n"
-"  B<^u>                     fait défiler les informations d'une ligne vers le haut\n"
-"  B<^d>                     fait défiler les informations d'une ligne vers le bas\n"
+"  B<u>                      fait défiler les informations d'une page vers le "
+"haut\n"
+"  B<d>                      fait défiler les informations d'une page vers le "
+"bas\n"
+"  B<^u>                     fait défiler les informations d'une ligne vers le "
+"haut\n"
+"  B<^d>                     fait défiler les informations d'une ligne vers le "
+"bas\n"
 "  B<B, gauche>              déplace l'affichage de 1/3 vers la gauche\n"
 "  B<F, droite>              déplace l'affichage de 1/3 vers la droite\n"
-"  B<^b>                     déplace l'affichage d'un caractère vers la gauche\n"
-"  B<^f>                     déplace l'affichage d'un caractère vers la droite\n"
+"  B<^b>                     déplace l'affichage d'un caractère vers la "
+"gauche\n"
+"  B<^f>                     déplace l'affichage d'un caractère vers la "
+"droite\n"
 
 #. type: SS
 #: dselect.1:338
@@ -17284,7 +17352,8 @@ msgid ""
 " priority+section  available+priority  status+priority\n"
 " section+priority  available+section   status+section\n"
 msgstr ""
-"On peut changer l'ordre du tri en appuyant sur la touche « B<o> » ou « B<O> ». Les neuf systèmes de tris suivants existent :\n"
+"On peut changer l'ordre du tri en appuyant sur la touche « B<o> » ou « B<O> »."
+" Les neuf systèmes de tris suivants existent :\n"
 " alphabétique      disponible           état\n"
 " priorité+section  disponible+priorité  état+priorité\n"
 " section+priorité  disponible+section   état+section\n"
@@ -17316,7 +17385,8 @@ msgid ""
 "  B<-, Delete>    remove, but leave configuration\n"
 "  B<_>            remove & purge configuration\n"
 msgstr ""
-"Le type de sélection demandé d'un paquet peut être changé à l'aide des commandes suivantes :\n"
+"Le type de sélection demandé d'un paquet peut être changé à l'aide des "
+"commandes suivantes :\n"
 "  B<+, Inser>     installer ou mettre à jour\n"
 "  B<=, H>         à garder dans l'état et la version actuels\n"
 "  B<:, G>         ne plus garder : mettre à jour ou laisser non installé\n"
@@ -18230,7 +18300,9 @@ msgid ""
 "start-stop-daemon --start --oknodo --user food --name food \\e\n"
 "\t--pidfile /var/run/food.pid --startas /usr/sbin/food \\e\n"
 "\t--chuid food -- --daemon\n"
-msgstr "start-stop-daemon --start --oknodo --user food --name food --pidfile /var/run/food.pid --startas /usr/sbin/food --chuid food -- --daemon\n"
+msgstr ""
+"start-stop-daemon --start --oknodo --user food --name food --pidfile "
+"/var/run/food.pid --startas /usr/sbin/food --chuid food -- --daemon\n"
 
 #. type: Plain text
 #: start-stop-daemon.8:339
@@ -18245,7 +18317,9 @@ msgstr ""
 msgid ""
 "start-stop-daemon --stop --oknodo --user food --name food \\e\n"
 "\t--pidfile /var/run/food.pid --retry 5\n"
-msgstr "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry 5\n"
+msgstr ""
+"start-stop-daemon --stop --oknodo --user food --name food --pidfile "
+"/var/run/food.pid --retry 5\n"
 
 #. type: Plain text
 #: start-stop-daemon.8:346
@@ -18259,7 +18333,9 @@ msgstr "Démonstration d'un ordonnanceur personnalisé pour l'arrêt de B<food>�
 msgid ""
 "start-stop-daemon --stop --oknodo --user food --name food \\e\n"
 "\t--pidfile /var/run/food.pid --retry=TERM/30/KILL/5\n"
-msgstr "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry=TERM/30/KILL/5\n"
+msgstr ""
+"start-stop-daemon --stop --oknodo --user food --name food --pidfile "
+"/var/run/food.pid --retry=TERM/30/KILL/5\n"
 
 #. type: TH
 #: update-alternatives.8:25
@@ -18650,8 +18726,10 @@ msgstr ""
 #. type: TP
 #: update-alternatives.8:220
 #, no-wrap
-msgid "B<--install> I<link name path priority> [B<--slave> I<link name path>]..."
-msgstr "B<--install> I<lien nom chemin priorité> [B<--slave> I<lien nom chemin>]..."
+msgid ""
+"B<--install> I<link name path priority> [B<--slave> I<link name path>]..."
+msgstr ""
+"B<--install> I<lien nom chemin priorité> [B<--slave> I<lien nom chemin>]..."
 
 #. type: Plain text
 #: update-alternatives.8:239
@@ -19111,8 +19189,12 @@ msgstr ""
 #. type: TP
 #: update-alternatives.8:420
 #, no-wrap
-msgid "The other blocks describe the available alternatives in the queried link group:"
-msgstr "Les autres blocs décrivent les alternatives disponibles dans le groupe de liens interrogé."
+msgid ""
+"The other blocks describe the available alternatives in the queried link "
+"group:"
+msgstr ""
+"Les autres blocs décrivent les alternatives disponibles dans le groupe de "
+"liens interrogé."
 
 #. type: TP
 #: update-alternatives.8:422
