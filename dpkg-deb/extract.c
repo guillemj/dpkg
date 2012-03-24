@@ -144,7 +144,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
 
       dpkg_ar_normalize_name(&arh);
 
-      if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
+      if (dpkg_ar_member_is_illegal(&arh))
         ohshit(_("file '%.250s' is corrupt - bad archive header magic"), debar);
       memberlen = dpkg_ar_member_get_size(debar, &arh);
       if (!header_done) {

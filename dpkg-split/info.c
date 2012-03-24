@@ -99,7 +99,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
 
   if (strncmp(arh.ar_name, PARTMAGIC, sizeof(arh.ar_name)) != 0)
     return NULL;
-  if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
+  if (dpkg_ar_member_is_illegal(&arh))
     ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),fn);
   thisilen = dpkg_ar_member_get_size(fn, &arh);
   if (thisilen >= readinfobuflen) {
@@ -162,7 +162,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
 
   dpkg_ar_normalize_name(&arh);
 
-  if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
+  if (dpkg_ar_member_is_illegal(&arh))
     ohshit(_("file `%.250s' is corrupt - bad magic at end of second header"),fn);
   if (strncmp(arh.ar_name,"data",4))
     ohshit(_("file `%.250s' is corrupt - second member is not data member"),fn);

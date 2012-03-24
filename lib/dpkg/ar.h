@@ -23,6 +23,7 @@
 
 #include <sys/types.h>
 
+#include <stdbool.h>
 #include <ar.h>
 
 #include <dpkg/macros.h>
@@ -32,6 +33,7 @@ DPKG_BEGIN_DECLS
 #define DPKG_AR_MAGIC "!<arch>\n"
 
 void dpkg_ar_normalize_name(struct ar_hdr *arh);
+bool dpkg_ar_member_is_illegal(struct ar_hdr *arh);
 
 void dpkg_ar_put_magic(const char *ar_name, int ar_fd);
 void dpkg_ar_member_put_header(const char *ar_name, int ar_fd,

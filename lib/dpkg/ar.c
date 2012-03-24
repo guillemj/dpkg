@@ -74,6 +74,12 @@ dpkg_ar_member_get_size(const char *ar_name, struct ar_hdr *arh)
 	return size;
 }
 
+bool
+dpkg_ar_member_is_illegal(struct ar_hdr *arh)
+{
+	return memcmp(arh->ar_fmag, ARFMAG, sizeof(arh->ar_fmag)) != 0;
+}
+
 void
 dpkg_ar_put_magic(const char *ar_name, int ar_fd)
 {
