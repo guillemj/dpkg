@@ -2178,16 +2178,24 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 }
 
 static void
-alternative_check_args(const char *name, const char *linkname, const char *file)
+alternative_check_name(const char *name)
 {
 	if (strpbrk(name, "/ \t"))
 		error(_("alternative name (%s) must not contain '/' "
 		        "and spaces."), name);
+}
 
+static void
+alternative_check_link(const char *linkname)
+{
 	if (linkname[0] != '/')
 		error(_("alternative link is not absolute as it should be: %s"),
 		      linkname);
+}
 
+static void
+alternative_check_path(const char *file)
+{
 	if (!file || file[0] != '/')
 		error(_("alternative path is not absolute as it should be: %s"),
 		      file);
@@ -2209,6 +2217,10 @@ alternative_check_install_args(struct alternative *inst_alt,
 	struct slave_link *sl;
 	struct stat st;
 
+	alternative_check_name(inst_alt->master_name);
+	alternative_check_link(inst_alt->master_link);
+	alternative_check_path(fileset->master_file);
+
 	/* Load information about all alternatives to check for mistakes. */
 	alt_map_links = alternative_map_new(NULL, NULL);
 	alt_map_parent = alternative_map_new(NULL, NULL);
@@ -2228,9 +2240,6 @@ alternative_check_install_args(struct alternative *inst_alt,
 		      inst_alt->master_link, found->master_name);
 	}
 
-	alternative_check_args(inst_alt->master_name, inst_alt->master_link,
-	                       fileset->master_file);
-
 	if (stat(fileset->master_file, &st) == -1) {
 		if (errno == ENOENT)
 			error(_("alternative path %s doesn't exist."),
@@ -2241,6 +2250,10 @@ alternative_check_install_args(struct alternative *inst_alt,
 
 	for (sl = inst_alt->slaves; sl; sl = sl->next) {
 		const char *file = fileset_get_slave(fileset, sl->name);
+
+		alternative_check_name(sl->name);
+		alternative_check_link(sl->link);
+		alternative_check_path(file);
 
 		found = alternative_map_find(alt_map_parent, sl->name);
 		if (found &&
@@ -2275,8 +2288,6 @@ alternative_check_install_args(struct alternative *inst_alt,
 				      sl->link, sl2->name,
 				      found->master_name);
 		}
-
-		alternative_check_args(sl->name, sl->link, file);
 	}
 
 	alternative_map_free(alt_map_links);
@@ -2359,6 +2370,9 @@ main(int argc, char **argv)
 			a = alternative_new(argv[i + 1]);
 			path = xstrdup(argv[i + 2]);
 
+			alternative_check_name(a->master_name);
+			alternative_check_path(path);
+
 			i += 2;
 		} else if (strcmp("--display", argv[i]) == 0 ||
 			   strcmp("--query", argv[i]) == 0 ||
@@ -2370,6 +2384,9 @@ main(int argc, char **argv)
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs <name>"), argv[i] + 2);
 			a = alternative_new(argv[i + 1]);
+
+			alternative_check_name(a->master_name);
+
 			i++;
 		} else if (strcmp("--all", argv[i]) == 0 ||
 			   strcmp("--get-selections", argv[i]) == 0 ||
