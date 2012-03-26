@@ -3,6 +3,7 @@
  * extract.c - extracting archives
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,6 +48,7 @@
 #include <dpkg/command.h>
 #include <dpkg/compress.h>
 #include <dpkg/ar.h>
+#include <dpkg/deb-version.h>
 #include <dpkg/options.h>
 
 #include "dpkg-deb.h"
@@ -105,8 +107,9 @@ void
 extracthalf(const char *debar, const char *dir, const char *taroption,
             int admininfo)
 {
+  const char *err;
   char versionbuf[40];
-  float versionnum;
+  struct deb_version version;
   off_t ctrllennum, memberlen = 0;
   ssize_t r;
   int dummy;
@@ -117,7 +120,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   struct stat stab;
   char nlc;
   int adminmember;
-  bool oldformat, header_done;
+  bool header_done;
   enum compressor_type decompressor = compressor_type_gzip;
 
   arfd = open(debar, O_RDONLY);
@@ -131,8 +134,6 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     read_fail(r, debar, _("archive magic version number"));
 
   if (strcmp(versionbuf, DPKG_AR_MAGIC) == 0) {
-    oldformat = false;
-
     ctrllennum= 0;
     header_done = false;
     for (;;) {
@@ -149,7 +150,6 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
       memberlen = dpkg_ar_member_get_size(debar, &arh);
       if (!header_done) {
         char *infobuf;
-        char *cur;
 
         if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
@@ -158,17 +158,16 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
         if (r != (memberlen + (memberlen & 1)))
           read_fail(r, debar, _("archive information header member"));
         infobuf[memberlen] = '\0';
-        cur= strchr(infobuf,'\n');
-        if (!cur) ohshit(_("archive has no newlines in header"));
-        *cur = '\0';
-        cur= strchr(infobuf,'.');
-        if (!cur) ohshit(_("archive has no dot in version number"));
-        *cur = '\0';
-        if (strcmp(infobuf,"2"))
-          ohshit(_("archive version %.250s not understood, get newer dpkg-deb"), infobuf);
-        *cur= '.';
-        strncpy(versionbuf,infobuf,sizeof(versionbuf));
-        versionbuf[sizeof(versionbuf) - 1] = '\0';
+
+        if (strchr(infobuf, '\n') == NULL)
+          ohshit(_("archive has no newlines in header"));
+        err = deb_version_parse(&version, infobuf);
+        if (err)
+          ohshit(_("archive has invalid format version: %s"), err);
+        if (version.major != 2)
+          ohshit(_("archive is format version %d.%d; get a newer dpkg-deb"),
+                 version.major, version.minor);
+
         free(infobuf);
 
         header_done = true;
@@ -211,21 +210,23 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     }
 
     if (admininfo >= 2) {
-      printf(_(" new debian package, version %s.\n"
-               " size %jd bytes: control archive= %jd bytes.\n"),
-             versionbuf, (intmax_t)stab.st_size, (intmax_t)ctrllennum);
+      printf(_(" new debian package, version %d.%d.\n"
+               " size %jd bytes: control archive=%jd bytes.\n"),
+             version.major, version.minor,
+             (intmax_t)stab.st_size, (intmax_t)ctrllennum);
       m_output(stdout, _("<standard output>"));
     }
-  } else if (strncmp(versionbuf, "0.93", 4) == 0 &&
-             sscanf(versionbuf,"%f%c%d",&versionnum,&nlc,&dummy) == 2 &&
-             nlc == '\n') {
+  } else if (strncmp(versionbuf, "0.93", 4) == 0) {
     char ctrllenbuf[40];
     int l = 0;
 
-    oldformat = true;
     l = strlen(versionbuf);
-    if (l && versionbuf[l - 1] == '\n')
-      versionbuf[l - 1] = '\0';
+
+    if (strchr(versionbuf, '\n') == NULL)
+      ohshit(_("archive has no newlines in header"));
+    err = deb_version_parse(&version, versionbuf);
+    if (err)
+      ohshit(_("archive has invalid format version: %s"), err);
 
     r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
     if (r < 0)
@@ -243,9 +244,10 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     }
 
     if (admininfo >= 2) {
-      printf(_(" old debian package, version %s.\n"
-               " size %jd bytes: control archive= %jd, main archive= %jd.\n"),
-             versionbuf, (intmax_t)stab.st_size, (intmax_t)ctrllennum,
+      printf(_(" old debian package, version %d.%d.\n"
+               " size %jd bytes: control archive=%jd, main archive=%jd.\n"),
+             version.major, version.minor,
+             (intmax_t)stab.st_size, (intmax_t)ctrllennum,
              (intmax_t)(stab.st_size - ctrllennum - strlen(ctrllenbuf) - l));
       m_output(stdout, _("<standard output>"));
     }
@@ -323,12 +325,17 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   subproc_wait_check(c2, _("<decompress>"), PROCPIPE);
   if (c1 != -1)
     subproc_wait_check(c1, _("paste"), 0);
-  if (oldformat && admininfo) {
-    if (versionnum == 0.931F) {
+  if (version.major == 0 && admininfo) {
+    /* Handle the version as a float to preserve the behaviour of old code,
+     * because even if the format is defined to be padded by 0's that might
+     * not have been always true for really ancient versions... */
+    while (version.minor && (version.minor % 10) == 0)
+      version.minor /= 10;
+
+    if (version.minor ==  931)
       movecontrolfiles(OLDOLDDEBDIR);
-    } else if (versionnum == 0.932F || versionnum == 0.933F) {
+    else if (version.minor == 932 || version.minor == 933)
       movecontrolfiles(OLDDEBDIR);
-    }
   }
 }
 

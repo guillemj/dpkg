@@ -22,6 +22,9 @@ dpkg (1.16.3) UNRELEASED; urgency=low
   * Change start-stop-daemon --name on GNU/Hurd to check the process' argv[1]
     in addition to argv[0], to handle both binaries and interpreted scripts.
     Reported by Mats Erik Andersson <mats.andersson@gisladisker.se>.
+  * Handle deb format versions as major.minor integers instead of strings or
+    floats, the latter being susceptible to parsing errors depending on the
+    current locale (although this was only affecting the old deb format).
 
   [ Helge Kreutzmann ]
   * Fix a typo in man/dpkg-buildflags.1.

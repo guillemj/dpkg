@@ -3,6 +3,7 @@
  * queue.c - queue management
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,7 +95,10 @@ void scandepot(void) {
 
     if (de->d_name[0] == '.') continue;
     pq= nfmalloc(sizeof(struct partqueue));
-    pq->info.fmtversion= pq->info.package= pq->info.version= NULL;
+    pq->info.fmtversion.major = 0;
+    pq->info.fmtversion.minor = 0;
+    pq->info.package = NULL;
+    pq->info.version = NULL;
     pq->info.arch = NULL;
     pq->info.orglength= pq->info.thispartoffset= pq->info.thispartlen= 0;
     pq->info.headerlen= 0;
