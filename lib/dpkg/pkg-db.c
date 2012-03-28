@@ -274,11 +274,13 @@ struct pkgiterator {
 struct pkgiterator *
 pkg_db_iter_new(void)
 {
-  struct pkgiterator *i;
-  i= m_malloc(sizeof(struct pkgiterator));
-  i->pigp= NULL;
-  i->nbinn= 0;
-  return i;
+  struct pkgiterator *iter;
+
+  iter = m_malloc(sizeof(struct pkgiterator));
+  iter->pigp = NULL;
+  iter->nbinn = 0;
+
+  return iter;
 }
 
 /**
@@ -321,29 +323,30 @@ pkg_db_iter_next_set(struct pkgiterator *iter)
  * to the native architecture even if that package is not installed or
  * available.
  *
- * @name i The iterator.
+ * @name iter The iterator.
  *
  * @return A package instance.
  */
 struct pkginfo *
-pkg_db_iter_next_pkg(struct pkgiterator *i)
+pkg_db_iter_next_pkg(struct pkgiterator *iter)
 {
   struct pkginfo *r;
 
-  while (!i->pigp) {
-    if (i->nbinn >= BINS) return NULL;
-    if (bins[i->nbinn])
-      i->pigp = &bins[i->nbinn]->pkg;
-    i->nbinn++;
+  while (!iter->pigp) {
+    if (iter->nbinn >= BINS)
+      return NULL;
+    if (bins[iter->nbinn])
+      iter->pigp = &bins[iter->nbinn]->pkg;
+    iter->nbinn++;
   }
 
-  r = i->pigp;
+  r = iter->pigp;
   if (r->arch_next)
-    i->pigp = r->arch_next;
+    iter->pigp = r->arch_next;
   else if (r->set->next)
-    i->pigp = &r->set->next->pkg;
+    iter->pigp = &r->set->next->pkg;
   else
-    i->pigp = NULL;
+    iter->pigp = NULL;
 
   return r;
 }
@@ -351,12 +354,12 @@ pkg_db_iter_next_pkg(struct pkgiterator *i)
 /**
  * Free the package database iterator.
  *
- * @name i The iterator.
+ * @name iter The iterator.
  */
 void
-pkg_db_iter_free(struct pkgiterator *i)
+pkg_db_iter_free(struct pkgiterator *iter)
 {
-  free(i);
+  free(iter);
 }
 
 void
