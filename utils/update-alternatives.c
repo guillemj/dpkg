@@ -1684,7 +1684,7 @@ alternative_path_classify(const char *linkname)
 }
 
 static bool
-alternative_can_replace_path(const char *linkname)
+alternative_path_can_remove(const char *linkname)
 {
 	if (opt_force)
 		return true;
@@ -1781,7 +1781,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 
 		/* Drop unused slave. */
 		xasprintf(&fn, "%s/%s", altdir, sl->name);
-		if (alternative_can_replace_path(sl->link))
+		if (alternative_path_can_remove(sl->link))
 			alternative_add_commit_op(a, opcode_rm, sl->link, NULL);
 		else
 			warning(_("not removing %s since it's not a symlink."),
@@ -1797,7 +1797,7 @@ alternative_remove(struct alternative *a)
 	struct slave_link *sl;
 
 	checked_rm_args("%s" DPKG_TMP_EXT, a->master_link);
-	if (alternative_can_replace_path(a->master_link))
+	if (alternative_path_can_remove(a->master_link))
 		checked_rm(a->master_link);
 
 	checked_rm_args("%s/%s" DPKG_TMP_EXT, altdir, a->master_name);
@@ -1805,7 +1805,7 @@ alternative_remove(struct alternative *a)
 
 	for (sl = a->slaves; sl; sl = sl->next) {
 		checked_rm_args("%s" DPKG_TMP_EXT, sl->link);
-		if (alternative_can_replace_path(sl->link))
+		if (alternative_path_can_remove(sl->link))
 			checked_rm(sl->link);
 
 		checked_rm_args("%s/%s" DPKG_TMP_EXT, altdir, sl->name);
