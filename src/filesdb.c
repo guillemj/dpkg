@@ -229,8 +229,8 @@ pkg_files_blank(struct pkginfo *pkg)
 }
 
 static struct fileinlist **
-pkg_files_add_file(struct pkginfo *pkg, const char *filename,
-                   enum fnnflags flags, struct fileinlist **file_tail)
+pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
+                   struct fileinlist **file_tail)
 {
   struct fileinlist *newent;
   struct filepackages *packageslump;
@@ -248,7 +248,7 @@ pkg_files_add_file(struct pkginfo *pkg, const char *filename,
 
   /* Create a new node. */
   newent = nfmalloc(sizeof(struct fileinlist));
-  newent->namenode = findnamenode(filename, flags);
+  newent->namenode = namenode;
   newent->next = NULL;
   *file_tail = newent;
   file_tail = &newent->next;
@@ -345,6 +345,8 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     lendp= &pkg->clientdata->files;
     thisline = loaded_list;
     while (thisline < loaded_list_end) {
+      struct filenamenode *namenode;
+
       if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
         ohshit(_("files list file for package '%.250s' is missing final newline"),
                pkg_name(pkg, pnaw_nonambig));
@@ -357,7 +359,9 @@ ensure_packagefiles_available(struct pkginfo *pkg)
         ohshit(_("files list file for package `%.250s' contains empty filename"),
                pkg_name(pkg, pnaw_nonambig));
       *ptr = '\0';
-      lendp = pkg_files_add_file(pkg, thisline, fnn_nocopy, lendp);
+
+      namenode = findnamenode(thisline, fnn_nocopy);
+      lendp = pkg_files_add_file(pkg, namenode, lendp);
       thisline = nextline;
     }
   }
