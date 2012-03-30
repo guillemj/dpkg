@@ -35,8 +35,8 @@ test_version_compare(void)
 {
 	struct versionrevision a, b;
 
-	blankversion(&a);
-	blankversion(&b);
+	dpkg_version_blank(&a);
+	dpkg_version_blank(&b);
 	test_fail(epochsdiffer(&a, &b));
 
 	a.epoch = 1;
@@ -83,7 +83,7 @@ test_version_parse(void)
 	char *verstr;
 
 	/* Test 0 versions. */
-	blankversion(&a);
+	dpkg_version_blank(&a);
 	b = version(0, "0", "");
 
 	test_pass(parseversion(&a, "0", NULL) == 0);

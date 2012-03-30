@@ -606,7 +606,7 @@ cmpversions(const char *const *argv)
       dpkg_error_destroy(&err);
     }
   } else {
-    blankversion(&a);
+    dpkg_version_blank(&a);
   }
   if (*argv[2] && strcmp(argv[2],"<unknown>")) {
     if (parseversion(&b, argv[2], &err) < 0) {
@@ -617,7 +617,7 @@ cmpversions(const char *const *argv)
       dpkg_error_destroy(&err);
     }
   } else {
-    blankversion(&b);
+    dpkg_version_blank(&b);
   }
   if (!informativeversion(&a)) {
     return informativeversion(&b) ? rip->if_none_a : rip->if_none_both;

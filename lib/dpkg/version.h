@@ -33,7 +33,7 @@ struct versionrevision {
 	const char *revision;
 };
 
-void blankversion(struct versionrevision *version);
+void dpkg_version_blank(struct versionrevision *version);
 bool informativeversion(const struct versionrevision *version);
 
 DPKG_END_DECLS

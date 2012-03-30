@@ -544,7 +544,7 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
         p++; while (isspace(*p)) p++;
       } else {
         dop->verrel= dvr_none;
-        blankversion(&dop->version);
+        dpkg_version_blank(&dop->version);
       }
       if (!*p || *p == ',') break;
       if (*p != '|')

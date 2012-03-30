@@ -368,7 +368,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   pkg_set_want(pkg, want_unknown);
   pkg_reset_eflags(pkg);
 
-  blankversion(&pkg->configversion);
+  dpkg_version_blank(&pkg->configversion);
   pkgbin_blank(&pkg->installed);
 
   pkg->clientdata->fileslistvalid = false;
@@ -1155,7 +1155,7 @@ void process_archive(const char *filename) {
       if (possi->verrel != dvr_none)
         newpossi->version= possi->version;
       else
-        blankversion(&newpossi->version);
+        dpkg_version_blank(&newpossi->version);
       newpossi->cyclebreak = false;
       *newpossilastp= newpossi;
       newpossilastp= &newpossi->next;

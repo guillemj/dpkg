@@ -468,7 +468,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
 
     /* We're about to remove the configuration, so remove the note
      * about which version it was ... */
-    blankversion(&pkg->configversion);
+    dpkg_version_blank(&pkg->configversion);
     modstatdb_note(pkg);
 
     /* Remove from our list any conffiles that aren't ours any more or
@@ -603,7 +603,7 @@ void removal_bulk(struct pkginfo *pkg) {
     debug(dbg_general, "removal_bulk no postrm, no conffiles, purging");
 
     pkg_set_want(pkg, want_purge);
-    blankversion(&pkg->configversion);
+    dpkg_version_blank(&pkg->configversion);
   } else if (pkg->want == want_purge) {
 
     removal_bulk_remove_configfiles(pkg);

@@ -24,7 +24,7 @@
 #include <dpkg/version.h>
 
 void
-blankversion(struct versionrevision *version)
+dpkg_version_blank(struct versionrevision *version)
 {
 	version->epoch = 0;
 	version->version = NULL;

@@ -104,7 +104,7 @@ pkgbin_blank(struct pkgbin *pkgbin)
 	pkgbin->installedsize = NULL;
 	pkgbin->bugs = NULL;
 	pkgbin->origin = NULL;
-	blankversion(&pkgbin->version);
+	dpkg_version_blank(&pkgbin->version);
 	pkgbin->conffiles = NULL;
 	pkgbin->arbs = NULL;
 }
@@ -118,7 +118,7 @@ pkg_blank(struct pkginfo *pkg)
 	pkg->priority = pri_unknown;
 	pkg->otherpriority = NULL;
 	pkg->section = NULL;
-	blankversion(&pkg->configversion);
+	dpkg_version_blank(&pkg->configversion);
 	pkg->files = NULL;
 	pkg->clientdata = NULL;
 	pkg->trigaw.head = NULL;
