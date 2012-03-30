@@ -85,7 +85,6 @@ static int getwidth(void) {
 struct list_format {
   bool head;
   int nw, vw, dw;
-  char format[80];
 };
 
 static void
@@ -93,7 +92,7 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
 {
   int w;
 
-  if (fmt->format[0] != '\0')
+  if (fmt->nw != 0)
     return;
 
   w = getwidth();
@@ -133,8 +132,16 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
     /* Description width. */
     fmt->dw = (44 + (2 * w));
   }
-  sprintf(fmt->format, "%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n",
-          fmt->nw, fmt->nw, fmt->vw, fmt->vw);
+}
+
+static void
+list_format_print(struct list_format *fmt,
+                  int c_want, int c_status, int c_eflag,
+                  const char *name, const char *version,
+                  const char *desc, int desc_len)
+{
+  printf("%c%c%c %-*.*s %-*.*s %.*s\n", c_want, c_status, c_eflag,
+         fmt->nw, fmt->nw, name, fmt->vw, fmt->vw, version, desc_len, desc);
 }
 
 static void
@@ -155,8 +162,8 @@ list_format_print_header(struct list_format *fmt)
 Desired=Unknown/Install/Remove/Purge/Hold\n\
 | Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
-  printf(fmt->format, '|', '|', '/', _("Name"), _("Version"), 40,
-         _("Description"));
+  list_format_print(fmt, '|', '|', '/', _("Name"), _("Version"),
+                    _("Description"), 40);
 
   /* Status */
   printf("+++-");
@@ -191,13 +198,13 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
   pdesc = pkg_summary(pkg, &pkg->installed, &l);
   l = min(l, fmt->dw);
 
-  printf(fmt->format,
-         pkg_abbrev_want(pkg),
-         pkg_abbrev_status(pkg),
-         pkg_abbrev_eflag(pkg),
-         pkg_name(pkg, pnaw_nonambig),
-         versiondescribe(&pkg->installed.version, vdew_nonambig),
-         l, pdesc);
+  list_format_print(fmt,
+                    pkg_abbrev_want(pkg),
+                    pkg_abbrev_status(pkg),
+                    pkg_abbrev_eflag(pkg),
+                    pkg_name(pkg, pnaw_nonambig),
+                    versiondescribe(&pkg->installed.version, vdew_nonambig),
+                    pdesc, l);
 }
 
 static int
@@ -217,8 +224,7 @@ listpackages(const char *const *argv)
   pkg_array_init_from_db(&array);
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
-  fmt.head = false;
-  fmt.format[0] = '\0';
+  memset(&fmt, 0, sizeof(fmt));
 
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
