@@ -347,9 +347,10 @@ xasprintf(char **strp, const char *fmt, ...)
 static void
 set_action(const char *new_action)
 {
-    if (action)
-	badusage(_("two commands specified: --%s and --%s"), action, new_action);
-    action = new_action;
+	if (action)
+		badusage(_("two commands specified: --%s and --%s"),
+		         action, new_action);
+	action = new_action;
 }
 
 static const char *
@@ -388,7 +389,7 @@ log_msg(const char *fmt, ...)
 
 		time(&now);
 		strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S",
-			 localtime(&now));
+		         localtime(&now));
 		fprintf(fh_log, "%s %s: ", PROGNAME, timestamp);
 		va_start(args, fmt);
 		vfprintf(fh_log, fmt, args);
@@ -1076,7 +1077,8 @@ alternative_remove_choice(struct alternative *a, const char *file)
 struct altdb_context {
 	FILE *fh;
 	char *filename;
-	void DPKG_ATTR_PRINTF(2) (*bad_format)(struct altdb_context *, const char *format, ...);
+	void DPKG_ATTR_PRINTF(2) (*bad_format)(struct altdb_context *,
+	                                       const char *format, ...);
 	jmp_buf on_error;
 };
 
@@ -1173,7 +1175,7 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 		ctx->bad_format(ctx, _("slave link same as main link %s"),
 		                a->master_link);
 	}
-	for(sl = a->slaves; sl; sl = sl->next) {
+	for (sl = a->slaves; sl; sl = sl->next) {
 		if (strcmp(linkname, sl->link) == 0) {
 			free(linkname);
 			free(name);
@@ -1189,7 +1191,7 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 
 static bool
 alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx,
-			  bool *modified, bool must_not_die)
+                          bool *modified, bool must_not_die)
 {
 	struct fileset *fs;
 	struct slave_link *sl;
@@ -1617,7 +1619,7 @@ alternative_select_choice(struct alternative *a)
 
 static void
 alternative_add_commit_op(struct alternative *a, enum opcode opcode,
-			  const char *arg_a, const char *arg_b)
+                          const char *arg_a, const char *arg_b)
 {
 	struct commit_operation *op, *cur;
 
@@ -1723,7 +1725,7 @@ alternative_path_needs_update(const char *linkname, const char *filename)
 
 static void
 alternative_prepare_install_single(struct alternative *a, const char *name,
-				   const char *linkname, const char *file)
+                                   const char *linkname, const char *file)
 {
 	char *fntmp, *fn;
 
@@ -1920,7 +1922,8 @@ alternative_map_find(struct alternative_map *am, const char *key)
 }
 
 static void
-alternative_map_add(struct alternative_map *am, const char *key, struct alternative *a)
+alternative_map_add(struct alternative_map *am, const char *key,
+                    struct alternative *a)
 {
 	if (am->key == NULL) {
 		am->key = key;
@@ -1928,7 +1931,7 @@ alternative_map_add(struct alternative_map *am, const char *key, struct alternat
 	} else {
 		struct alternative_map *new = alternative_map_new(key, a);
 
-		while(am->next)
+		while (am->next)
 			am = am->next;
 		am->next = new;
 	}
@@ -2028,7 +2031,8 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 	struct alternative *a;
 
 	debug("set_selection(%s, %s, %s)", name, status, choice);
-	if ((a = alternative_map_find(all, name))) {
+	a = alternative_map_find(all, name);
+	if (a) {
 		char *cmd;
 
 		if (strcmp(status, "auto") == 0) {
@@ -2052,7 +2056,8 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 }
 
 static void
-alternative_set_selections(struct alternative_map *all, FILE* input, const char *desc)
+alternative_set_selections(struct alternative_map *all, FILE *input,
+                           const char *desc)
 {
 	for (;;) {
 		char line[1024], *res, *name, *status, *choice;
@@ -2121,8 +2126,9 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 {
 	struct slave_link *sl;
 	struct stat st;
+	bool is_link;
 
-	bool is_link = (alternative_path_classify(a->master_link) == ALT_PATH_SYMLINK);
+	is_link = alternative_path_classify(a->master_link) == ALT_PATH_SYMLINK;
 	if (is_link && strcmp(a->master_link, b->master_link) != 0) {
 		info(_("renaming %s link from %s to %s."), b->master_name,
 		     a->master_link, b->master_link);

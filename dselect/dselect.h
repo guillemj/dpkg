@@ -99,7 +99,7 @@ protected:
   void unsizes();
   void dosearch();
   void displayhelp(const struct helpmenuentry *menu, int key);
-  void displayerror(const char* str);
+  void displayerror(const char *str);
 
   void redrawall();
   void redrawitemsrange(int start /*inclusive*/, int end /*exclusive*/);
@@ -152,7 +152,7 @@ public:
   void startdisplay();
   void enddisplay();
 
-  baselist(keybindings*);
+  baselist(keybindings *);
   virtual ~baselist();
 };
 

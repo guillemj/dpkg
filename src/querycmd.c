@@ -63,7 +63,7 @@ static int getwidth(void) {
   int fd;
   int res;
   struct winsize ws;
-  const char* columns;
+  const char *columns;
 
   if ((columns=getenv("COLUMNS")) && ((res=atoi(columns))>0))
     return res;

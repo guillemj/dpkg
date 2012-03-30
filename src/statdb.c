@@ -48,7 +48,7 @@ static char *statoverridename;
 uid_t
 statdb_parse_uid(const char *str)
 {
-	char* endptr;
+	char *endptr;
 	uid_t uid;
 
 	if (str[0] == '#') {
@@ -59,7 +59,7 @@ statdb_parse_uid(const char *str)
 			ohshit(_("syntax error: invalid uid in statoverride file"));
 		uid = (uid_t)value;
 	} else {
-		struct passwd* pw = getpwnam(str);
+		struct passwd *pw = getpwnam(str);
 		if (pw == NULL)
 			ohshit(_("syntax error: unknown user '%s' in statoverride file"),
 			       str);
@@ -72,7 +72,7 @@ statdb_parse_uid(const char *str)
 gid_t
 statdb_parse_gid(const char *str)
 {
-	char* endptr;
+	char *endptr;
 	gid_t gid;
 
 	if (str[0] == '#') {
@@ -83,7 +83,7 @@ statdb_parse_gid(const char *str)
 			ohshit(_("syntax error: invalid gid in statoverride file"));
 		gid = (gid_t)value;
 	} else {
-		struct group* gr = getgrnam(str);
+		struct group *gr = getgrnam(str);
 		if (gr == NULL)
 			ohshit(_("syntax error: unknown group '%s' in statoverride file"),
 			       str);
@@ -96,7 +96,7 @@ statdb_parse_gid(const char *str)
 mode_t
 statdb_parse_mode(const char *str)
 {
-	char* endptr;
+	char *endptr;
 	long int mode;
 
 	mode = strtol(str, &endptr, 8);

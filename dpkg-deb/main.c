@@ -46,7 +46,7 @@
 
 #include "dpkg-deb.h"
 
-const char* showformat	= "${Package}\t${Version}\n";
+const char *showformat = "${Package}\t${Version}\n";
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)

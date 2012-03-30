@@ -143,8 +143,10 @@ void baselist::kd_search() {
     kd_searchagain();
 }
 
-void baselist::displayerror(const char* str) {
-  const char* pr = _("Error: ");
+void
+baselist::displayerror(const char *str)
+{
+  const char *pr = _("Error: ");
   int prlen=strlen(pr);
 
   beep();

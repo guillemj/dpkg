@@ -449,7 +449,7 @@ writerecord(FILE *file, const char *filename,
             pkgname.buf, filename);
   }
 
-   varbuf_destroy(&vb);
+  varbuf_destroy(&vb);
 }
 
 void

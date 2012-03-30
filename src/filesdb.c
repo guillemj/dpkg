@@ -326,17 +326,17 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
 
-   if(fstat(fd, &stat_buf))
-     ohshite(_("unable to stat files list file for package '%.250s'"),
-             pkg_name(pkg, pnaw_nonambig));
+  if (fstat(fd, &stat_buf))
+    ohshite(_("unable to stat files list file for package '%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
 
   if (!S_ISREG(stat_buf.st_mode))
     ohshit(_("files list for package '%.250s' is not a regular file"),
            pkg_name(pkg, pnaw_nonambig));
 
-   if (stat_buf.st_size) {
-     loaded_list = nfmalloc(stat_buf.st_size);
-     loaded_list_end = loaded_list + stat_buf.st_size;
+  if (stat_buf.st_size) {
+    loaded_list = nfmalloc(stat_buf.st_size);
+    loaded_list_end = loaded_list + stat_buf.st_size;
 
     if (fd_read(fd, loaded_list, stat_buf.st_size) < 0)
       ohshite(_("reading files list for package '%.250s'"),

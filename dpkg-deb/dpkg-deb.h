@@ -38,7 +38,7 @@ extern int debugflag, nocheckflag, oldformatflag;
 void extracthalf(const char *debar, const char *dir,
                  const char *taroption, int admininfo);
 
-extern const char* showformat;
+extern const char *showformat;
 extern struct compress_params compress_params;
 
 #define ARCHIVEVERSION		"2.0"

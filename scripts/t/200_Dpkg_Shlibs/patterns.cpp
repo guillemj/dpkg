@@ -13,7 +13,7 @@ namespace NSA
 		    void privmethod1(int);
 		    void privmethod2(int);
 	    };
-	    Private* p;
+	    Private *p;
 	    class Internal
 	    {
 		public:
@@ -22,11 +22,11 @@ namespace NSA
 		    void internal_method1(char);
 		    void internal_method2(char);
 	    };
-	    Internal* i;
+	    Internal *i;
 	public:
 	    ClassA();
 	    virtual ~ClassA();
-	    virtual void generate_vt(const char*) const;
+	    virtual void generate_vt(const char *) const;
     };
 
     EXPORT(ClassA::Private::Private());
@@ -41,7 +41,7 @@ namespace NSA
 
     EXPORT(ClassA::ClassA());
     EXPORT(ClassA::~ClassA());
-    EXPORT(void ClassA::generate_vt(const char*) const);
+    EXPORT(void ClassA::generate_vt(const char *) const);
 };
 
 class ClassB
@@ -49,24 +49,24 @@ class ClassB
     public:
 	ClassB();
 	virtual ~ClassB();
-	virtual void generate_vt(const char*) const;
+	virtual void generate_vt(const char *) const;
 };
 
 EXPORT(ClassB::ClassB());
 EXPORT(ClassB::~ClassB());
-EXPORT(void ClassB::generate_vt(const char*) const);
+EXPORT(void ClassB::generate_vt(const char *) const);
 
 class ClassC
 {
     public:
 	ClassC();
 	virtual ~ClassC();
-	virtual void generate_vt(const char*) const;
+	virtual void generate_vt(const char *) const;
 };
 
 EXPORT(ClassC::ClassC());
 EXPORT(ClassC::~ClassC());
-EXPORT(void ClassC::generate_vt(const char*) const);
+EXPORT(void ClassC::generate_vt(const char *) const);
 
 namespace NSB
 {
@@ -75,12 +75,12 @@ namespace NSB
 	public:
 	    ClassD();
 	    virtual ~ClassD();
-	    virtual void generate_vt(const char*) const;
+	    virtual void generate_vt(const char *) const;
     };
 
     EXPORT(ClassD::ClassD());
     EXPORT(ClassD::~ClassD());
-    EXPORT(void ClassD::generate_vt(const char*) const);
+    EXPORT(void ClassD::generate_vt(const char *) const);
 
     class Symver {
 	public:

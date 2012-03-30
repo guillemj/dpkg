@@ -115,7 +115,7 @@ void packagelist::addheading(enum ssavailval ssavail,
   if (nitems == nallocated) {
     nallocated += nallocated+50;
     struct perpackagestate **newtable= new struct perpackagestate*[nallocated];
-    memcpy(newtable,table,nallocated*sizeof(struct perpackagestate*));
+    memcpy(newtable, table, nallocated * sizeof(struct perpackagestate *));
     delete[] table;
     table= newtable;
   }
@@ -147,8 +147,8 @@ void packagelist::addheading(enum ssavailval ssavail,
 static packagelist *sortpackagelist;
 
 int qsort_compareentries(const void *a, const void *b) {
-  return sortpackagelist->compareentries(*(const struct perpackagestate**)a,
-                                         *(const struct perpackagestate**)b);
+  return sortpackagelist->compareentries(*(const struct perpackagestate **)a,
+                                         *(const struct perpackagestate **)b);
 }
 
 void packagelist::sortinplace() {
@@ -545,7 +545,7 @@ packagelist::matchsearch(int index)
     return true;
 
   if (searchdescr) {
-    const char* descr = table[index]->pkg->available.description;
+    const char *descr = table[index]->pkg->available.description;
     if (!descr || !*descr)
       return false;
 

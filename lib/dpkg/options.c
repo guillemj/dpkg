@@ -63,8 +63,10 @@ config_error(const char *file_name, int line_num, const char *fmt, ...)
   ohshit(_("configuration error: %s:%d: %s"), file_name, line_num, buf);
 }
 
-void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
-  FILE* file;
+void
+myfileopt(const char *fn, const struct cmdinfo *cmdinfos)
+{
+  FILE *file;
   int line_num = 0;
   char linebuf[MAX_CONFIG_LINE];
 
@@ -78,7 +80,7 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   }
 
   while (fgets(linebuf, sizeof(linebuf), file)) {
-    char* opt;
+    char *opt;
     const struct cmdinfo *cip;
     int l;
 
@@ -153,7 +155,7 @@ valid_config_filename(const struct dirent *dent)
 }
 
 static void
-load_config_dir(const char *prog, const struct cmdinfo* cmdinfos)
+load_config_dir(const char *prog, const struct cmdinfo *cmdinfos)
 {
   char *dirname;
   struct dirent **dlist;
@@ -184,7 +186,9 @@ load_config_dir(const char *prog, const struct cmdinfo* cmdinfos)
   free(dlist);
 }
 
-void loadcfgfile(const char *prog, const struct cmdinfo* cmdinfos) {
+void
+loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos)
+{
   char *home, *file;
 
   load_config_dir(prog, cmdinfos);

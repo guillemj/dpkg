@@ -57,8 +57,8 @@
  */
 struct file_info {
   struct file_info *next;
-  struct stat	st;
-  char*	fn;
+  struct stat st;
+  char *fn;
 };
 
 static struct file_info *
@@ -108,7 +108,7 @@ file_info_get(const char *root, int fd)
   root_len = varbuf_printf(&fn, "%s/", root);
 
   while (1) {
-    int	res;
+    int res;
 
     varbuf_grow(&fn, 1);
     res = fd_read(fd, (fn.buf + fn.used), 1);

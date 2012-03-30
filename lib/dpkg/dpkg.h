@@ -130,10 +130,10 @@ void cu_closefd(int argc, void **argv);
 
 /*** from mlib.c ***/
 
-void setcloexec(int fd, const char* fn);
+void setcloexec(int fd, const char *fn);
 void *m_malloc(size_t);
 void *m_calloc(size_t);
-void *m_realloc(void*, size_t);
+void *m_realloc(void *, size_t);
 char *m_strdup(const char *str);
 char *m_strndup(const char *str, size_t n);
 int m_asprintf(char **strp, const char *fmt, ...) DPKG_ATTR_PRINTF(2);

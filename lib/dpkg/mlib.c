@@ -121,7 +121,9 @@ m_output(FILE *f, const char *name)
     ohshite(_("error writing to '%s'"), name);
 }
 
-void setcloexec(int fd, const char* fn) {
+void
+setcloexec(int fd, const char *fn)
+{
   int f;
 
   if ((f=fcntl(fd, F_GETFD))==-1)

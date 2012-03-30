@@ -958,7 +958,7 @@ init_procset(void)
 }
 
 static struct proc_stat *
-get_proc_stat (pid_t pid, ps_flags_t flags)
+get_proc_stat(pid_t pid, ps_flags_t flags)
 {
 	struct proc_stat *ps;
 	ps_flags_t wanted_flags = PSTAT_PID | flags;
