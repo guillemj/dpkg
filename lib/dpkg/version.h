@@ -34,7 +34,7 @@ struct versionrevision {
 };
 
 void dpkg_version_blank(struct versionrevision *version);
-bool informativeversion(const struct versionrevision *version);
+bool dpkg_version_is_informative(const struct versionrevision *version);
 
 DPKG_END_DECLS
 

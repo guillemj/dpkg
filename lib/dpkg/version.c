@@ -32,7 +32,7 @@ dpkg_version_blank(struct versionrevision *version)
 }
 
 bool
-informativeversion(const struct versionrevision *version)
+dpkg_version_is_informative(const struct versionrevision *version)
 {
 	return (version->epoch ||
 	        (version->version && *version->version) ||

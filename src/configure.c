@@ -386,7 +386,7 @@ deferred_configure(struct pkginfo *pkg)
 	modstatdb_note(pkg);
 
 	maintainer_script_postinst(pkg, "configure",
-	                           informativeversion(&pkg->configversion) ?
+	                           dpkg_version_is_informative(&pkg->configversion) ?
 	                           versiondescribe(&pkg->configversion,
 	                                           vdew_nonambig) : "",
 	                           NULL);

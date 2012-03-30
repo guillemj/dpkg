@@ -415,7 +415,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           case stat_unpacked:
           case stat_halfconfigured:
             if (allowunconfigd) {
-              if (!informativeversion(&pkg_pos->configversion)) {
+              if (!dpkg_version_is_informative(&pkg_pos->configversion)) {
                 sprintf(linebuf, _("  %.250s is unpacked, but has never been "
                                    "configured.\n"),
                         pkg_name(pkg_pos, pnaw_nonambig));

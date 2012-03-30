@@ -190,7 +190,7 @@ void packagelist::ensurestatsortinfo() {
         break;
       case pkginfo::stat_notinstalled:
       case pkginfo::stat_configfiles:
-        if (!informativeversion(&pkg->available.version)) {
+        if (!dpkg_version_is_informative(&pkg->available.version)) {
           table[index]->ssavail= ssa_notinst_gone;
 // FIXME: Disable for now as a workaround, until dselect knows how to properly
 //        store seen packages.
@@ -205,7 +205,7 @@ void packagelist::ensurestatsortinfo() {
       case pkginfo::stat_installed:
         veri= &table[index]->pkg->installed.version;
         vera= &table[index]->pkg->available.version;
-        if (!informativeversion(vera)) {
+        if (!dpkg_version_is_informative(vera)) {
           table[index]->ssavail= ssa_installed_gone;
         } else if (versioncompare(vera,veri) > 0) {
           table[index]->ssavail= ssa_installed_newer;

@@ -194,7 +194,7 @@ pkg_is_informative(struct pkginfo *pkg, struct pkgbin *pkgbin)
 	    (pkg->want != want_unknown ||
 	     pkg->eflag != eflag_ok ||
 	     pkg->status != stat_notinstalled ||
-	     informativeversion(&pkg->configversion)))
+	     dpkg_version_is_informative(&pkg->configversion)))
 		return true;
 
 	if (pkgbin->depends ||
@@ -204,7 +204,7 @@ pkg_is_informative(struct pkginfo *pkg, struct pkgbin *pkgbin)
 	    nes(pkgbin->bugs) ||
 	    nes(pkgbin->installedsize) ||
 	    nes(pkgbin->source) ||
-	    informativeversion(&pkgbin->version) ||
+	    dpkg_version_is_informative(&pkgbin->version) ||
 	    pkgbin->conffiles ||
 	    pkgbin->arbs)
 		return true;

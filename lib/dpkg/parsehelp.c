@@ -181,7 +181,7 @@ const char *versiondescribe
 
   struct varbuf *vb;
 
-  if (!informativeversion(version))
+  if (!dpkg_version_is_informative(version))
     return C_("version", "<none>");
 
   vb= &bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;

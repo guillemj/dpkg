@@ -63,7 +63,8 @@ w_version(struct varbuf *vb,
           const struct pkginfo *pigp, const struct pkgbin *pifp,
           enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  if (!informativeversion(&pifp->version)) return;
+  if (!dpkg_version_is_informative(&pifp->version))
+    return;
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Version: ");
   varbufversion(vb,&pifp->version,vdew_nonambig);
@@ -77,7 +78,8 @@ w_configversion(struct varbuf *vb,
                 enum fwriteflags flags, const struct fieldinfo *fip)
 {
   if (pifp != &pigp->installed) return;
-  if (!informativeversion(&pigp->configversion)) return;
+  if (!dpkg_version_is_informative(&pigp->configversion))
+    return;
   if (pigp->status == stat_installed ||
       pigp->status == stat_notinstalled ||
       pigp->status == stat_triggerspending)

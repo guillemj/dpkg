@@ -619,9 +619,12 @@ cmpversions(const char *const *argv)
   } else {
     dpkg_version_blank(&b);
   }
-  if (!informativeversion(&a)) {
-    return informativeversion(&b) ? rip->if_none_a : rip->if_none_both;
-  } else if (!informativeversion(&b)) {
+  if (!dpkg_version_is_informative(&a)) {
+    if (dpkg_version_is_informative(&b))
+      return rip->if_none_a;
+    else
+      return rip->if_none_both;
+  } else if (!dpkg_version_is_informative(&b)) {
     return rip->if_none_b;
   }
   r= versioncompare(&a,&b);
