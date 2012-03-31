@@ -262,6 +262,15 @@ file_rename(struct file *src, struct file *dst)
 	}
 }
 
+static void
+diversion_check_filename(const char *filename)
+{
+	if (filename[0] != '/')
+		badusage(_("filename \"%s\" is not absolute"), filename);
+	if (strchr(filename, '\n') != NULL)
+		badusage(_("file may not contain newlines"));
+}
+
 static const char *
 diversion_pkg_name(struct diversion *d)
 {
@@ -388,10 +397,7 @@ diversion_add(const char *const *argv)
 	if (!filename || argv[1])
 		badusage(_("--%s needs a single argument"), cipaction->olong);
 
-	if (filename[0] != '/')
-		badusage(_("filename \"%s\" is not absolute"), filename);
-	if (strchr(filename, '\n') != NULL)
-		badusage(_("file may not contain newlines"));
+	diversion_check_filename(filename);
 
 	file_init(&file_from, filename);
 	file_stat(&file_from);
@@ -515,6 +521,8 @@ diversion_remove(const char *const *argv)
 	if (!filename || argv[1])
 		badusage(_("--%s needs a single argument"), cipaction->olong);
 
+	diversion_check_filename(filename);
+
 	namenode = findnamenode(filename, fnn_nonew);
 
 	if (namenode == NULL || namenode->divert == NULL ||
@@ -631,6 +639,8 @@ diversion_truename(const char *const *argv)
 	if (!filename || argv[1])
 		badusage(_("--%s needs a single argument"), cipaction->olong);
 
+	diversion_check_filename(filename);
+
 	namenode = findnamenode(filename, fnn_nonew);
 
 	/* Print the given name if file is not diverted. */
@@ -650,6 +660,8 @@ diversion_listpackage(const char *const *argv)
 
 	if (!filename || argv[1])
 		badusage(_("--%s needs a single argument"), cipaction->olong);
+
+	diversion_check_filename(filename);
 
 	namenode = findnamenode(filename, fnn_nonew);
 

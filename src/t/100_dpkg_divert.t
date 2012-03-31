@@ -33,7 +33,7 @@ if (! -x "@dd") {
     exit(0);
 }
 
-plan tests => 239;
+plan tests => 251;
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $testdir");
@@ -151,8 +151,14 @@ call_divert_badusage(['--add', "/foo\nbar"], qr/newline/);
 call_divert_badusage(['--add', "$testdir"], qr/director(y|ies)/);
 call_divert_badusage(['--add', "--divert", "bar", "/foo/bar"], qr/absolute/);
 call_divert_badusage(['--remove'], qr/needs a single argument/);
+call_divert_badusage(['--remove', 'foo'], qr/absolute/);
+call_divert_badusage(['--remove', "/foo\nbar"], qr/newline/);
 call_divert_badusage(['--listpackage'], qr/needs a single argument/);
+call_divert_badusage(['--listpackage', 'foo'], qr/absolute/);
+call_divert_badusage(['--listpackage', "/foo\nbar"], qr/newline/);
 call_divert_badusage(['--truename'], qr/needs a single argument/);
+call_divert_badusage(['--truename', 'foo'], qr/absolute/);
+call_divert_badusage(['--truename', "/foo\nbar"], qr/newline/);
 call([@dd, '--admindir'], [],
      expect_failure => 1, expect_stderr_like => qr/(takes a value|needs.*argument)/);
 
