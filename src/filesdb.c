@@ -553,29 +553,32 @@ write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
  * building up a reverse list, and then peel it apart one
  * entry at a time.
  */
-void reversefilelist_init(struct reversefilelistiter *iterptr,
-                          struct fileinlist *files) {
+void
+reversefilelist_init(struct reversefilelistiter *iter, struct fileinlist *files)
+{
   struct fileinlist *newent;
 
-  iterptr->todo = NULL;
+  iter->todo = NULL;
   while (files) {
     newent= m_malloc(sizeof(struct fileinlist));
     newent->namenode= files->namenode;
-    newent->next= iterptr->todo;
-    iterptr->todo= newent;
+    newent->next = iter->todo;
+    iter->todo = newent;
     files= files->next;
   }
 }
 
-struct filenamenode *reversefilelist_next(struct reversefilelistiter *iterptr) {
+struct filenamenode *
+reversefilelist_next(struct reversefilelistiter *iter)
+{
   struct filenamenode *ret;
   struct fileinlist *todo;
 
-  todo= iterptr->todo;
+  todo = iter->todo;
   if (!todo)
     return NULL;
   ret= todo->namenode;
-  iterptr->todo= todo->next;
+  iter->todo = todo->next;
   free(todo);
   return ret;
 }
@@ -586,8 +589,10 @@ struct filenamenode *reversefilelist_next(struct reversefilelistiter *iterptr) {
  * Calling this function is not necessary if reversefilelist_next has
  * been called until it returned 0.
  */
-void reversefilelist_abort(struct reversefilelistiter *iterptr) {
-  while (reversefilelist_next(iterptr));
+void
+reversefilelist_abort(struct reversefilelistiter *iter)
+{
+  while (reversefilelist_next(iter));
 }
 
 struct fileiterator {
@@ -604,32 +609,35 @@ static struct filenamenode *bins[BINS];
 struct fileiterator *
 files_db_iter_new(void)
 {
-  struct fileiterator *i;
-  i= m_malloc(sizeof(struct fileiterator));
-  i->namenode = NULL;
-  i->nbinn= 0;
-  return i;
+  struct fileiterator *iter;
+
+  iter = m_malloc(sizeof(struct fileiterator));
+  iter->namenode = NULL;
+  iter->nbinn = 0;
+
+  return iter;
 }
 
 struct filenamenode *
-files_db_iter_next(struct fileiterator *i)
+files_db_iter_next(struct fileiterator *iter)
 {
   struct filenamenode *r= NULL;
 
-  while (!i->namenode) {
-    if (i->nbinn >= BINS)
+  while (!iter->namenode) {
+    if (iter->nbinn >= BINS)
       return NULL;
-    i->namenode= bins[i->nbinn++];
+    iter->namenode = bins[iter->nbinn++];
   }
-  r= i->namenode;
-  i->namenode= r->next;
+  r = iter->namenode;
+  iter->namenode = r->next;
+
   return r;
 }
 
 void
-files_db_iter_free(struct fileiterator *i)
+files_db_iter_free(struct fileiterator *iter)
 {
-  free(i);
+  free(iter);
 }
 
 void filesdbinit(void) {

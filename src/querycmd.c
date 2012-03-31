@@ -319,7 +319,7 @@ static int
 searchfiles(const char *const *argv)
 {
   struct filenamenode *namenode;
-  struct fileiterator *it;
+  struct fileiterator *iter;
   const char *thisarg;
   int found;
   int failures = 0;
@@ -360,12 +360,12 @@ searchfiles(const char *const *argv)
       namenode= findnamenode(thisarg, 0);
       found += searchoutput(namenode);
     } else {
-      it = files_db_iter_new();
-      while ((namenode = files_db_iter_next(it)) != NULL) {
+      iter = files_db_iter_new();
+      while ((namenode = files_db_iter_next(iter)) != NULL) {
         if (fnmatch(thisarg,namenode->name,0)) continue;
         found+= searchoutput(namenode);
       }
-      files_db_iter_free(it);
+      files_db_iter_free(iter);
     }
     if (!found) {
       fprintf(stderr, _("%s: no path found matching pattern %s.\n"),

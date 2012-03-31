@@ -143,15 +143,15 @@ const char *pkgadminfile(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 struct filepackages_iterator;
 struct filepackages_iterator *filepackages_iter_new(struct filenamenode *fnn);
-struct pkginfo *filepackages_iter_next(struct filepackages_iterator *i);
-void filepackages_iter_free(struct filepackages_iterator *i);
+struct pkginfo *filepackages_iter_next(struct filepackages_iterator *iter);
+void filepackages_iter_free(struct filepackages_iterator *iter);
 
 void filesdbinit(void);
 
 struct fileiterator;
 struct fileiterator *files_db_iter_new(void);
-struct filenamenode *files_db_iter_next(struct fileiterator *i);
-void files_db_iter_free(struct fileiterator *i);
+struct filenamenode *files_db_iter_next(struct fileiterator *iter);
+void files_db_iter_free(struct fileiterator *iter);
 
 void ensure_package_clientdata(struct pkginfo *pkg);
 

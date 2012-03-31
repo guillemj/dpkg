@@ -191,17 +191,17 @@ statdb_write(void)
 {
 	char *dbname;
 	struct atomic_file *dbfile;
-	struct fileiterator *i;
+	struct fileiterator *iter;
 	struct filenamenode *file;
 
 	dbname = dpkg_db_get_path(STATOVERRIDEFILE);
 	dbfile = atomic_file_new(dbname, aff_backup);
 	atomic_file_open(dbfile);
 
-	i = files_db_iter_new();
-	while ((file = files_db_iter_next(i)))
+	iter = files_db_iter_new();
+	while ((file = files_db_iter_next(iter)))
 		statdb_node_print(dbfile->fp, file);
-	files_db_iter_free(i);
+	files_db_iter_free(iter);
 
 	atomic_file_sync(dbfile);
 	atomic_file_close(dbfile);
@@ -294,7 +294,7 @@ statoverride_remove(const char *const *argv)
 static int
 statoverride_list(const char *const *argv)
 {
-	struct fileiterator *i;
+	struct fileiterator *iter;
 	struct filenamenode *file;
 	const char *thisarg;
 	struct glob_node *glob_list = NULL;
@@ -308,8 +308,8 @@ statoverride_list(const char *const *argv)
 	if (glob_list == NULL)
 		glob_list_prepend(&glob_list, m_strdup("*"));
 
-	i = files_db_iter_new();
-	while ((file = files_db_iter_next(i))) {
+	iter = files_db_iter_new();
+	while ((file = files_db_iter_next(iter))) {
 		struct glob_node *g;
 
 		for (g = glob_list; g; g = g->next) {
@@ -320,7 +320,7 @@ statoverride_list(const char *const *argv)
 			}
 		}
 	}
-	files_db_iter_free(i);
+	files_db_iter_free(iter);
 
 	glob_list_free(glob_list);
 
