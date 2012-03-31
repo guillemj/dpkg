@@ -283,7 +283,7 @@ static void setexecute(const char *path, struct stat *stab) {
 }
 
 static int
-do_script(struct pkginfo *pkg, struct pkgbin *pif,
+do_script(struct pkginfo *pkg, struct pkgbin *pkgbin,
           struct command *cmd, struct stat *stab, int warn)
 {
   pid_t pid;
@@ -296,7 +296,7 @@ do_script(struct pkginfo *pkg, struct pkgbin *pif,
   pid = subproc_fork();
   if (pid == 0) {
     if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->set->name, 1) ||
-        setenv("DPKG_MAINTSCRIPT_ARCH", pif->arch->name, 1) ||
+        setenv("DPKG_MAINTSCRIPT_ARCH", pkgbin->arch->name, 1) ||
         setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
         setenv("DPKG_RUNNING_VERSION", PACKAGE_VERSION, 1))
       ohshite(_("unable to setenv for maintainer script"));

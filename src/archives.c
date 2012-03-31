@@ -268,25 +268,25 @@ struct pkg_deconf_list *deconfigure = NULL;
 static time_t currenttime;
 
 static int
-does_replace(struct pkginfo *new_pkg, struct pkgbin *newpifp,
-             struct pkginfo *old_pkg, struct pkgbin *oldpifp)
+does_replace(struct pkginfo *new_pkg, struct pkgbin *new_pkgbin,
+             struct pkginfo *old_pkg, struct pkgbin *old_pkgbin)
 {
   struct dependency *dep;
 
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",
-        pkgbin_name(new_pkg, newpifp, pnaw_always),
-        pkgbin_name(old_pkg, oldpifp, pnaw_always),
-        versiondescribe(&oldpifp->version, vdew_always));
-  for (dep= newpifp->depends; dep; dep= dep->next) {
+        pkgbin_name(new_pkg, new_pkgbin, pnaw_always),
+        pkgbin_name(old_pkg, old_pkgbin, pnaw_always),
+        versiondescribe(&old_pkgbin->version, vdew_always));
+  for (dep = new_pkgbin->depends; dep; dep = dep->next) {
     if (dep->type != dep_replaces || dep->list->ed != old_pkg->set)
       continue;
     debug(dbg_depcondetail,"does_replace ... found old, version %s",
           versiondescribe(&dep->list->version,vdew_always));
-    if (!versionsatisfied(oldpifp, dep->list))
+    if (!versionsatisfied(old_pkgbin, dep->list))
       continue;
     /* The test below can only trigger if dep_replaces start having
      * arch qualifiers different from “any”. */
-    if (!archsatisfied(oldpifp, dep->list))
+    if (!archsatisfied(old_pkgbin, dep->list))
       continue;
     debug(dbg_depcon,"does_replace ... yes");
     return true;

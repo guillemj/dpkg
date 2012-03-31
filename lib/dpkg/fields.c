@@ -82,7 +82,7 @@ parse_nv_last(struct parsedb_state *ps,
 }
 
 void
-f_name(struct pkginfo *pkg, struct pkgbin *pifp,
+f_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
        struct parsedb_state *ps,
        const char *value, const struct fieldinfo *fip)
 {
@@ -96,7 +96,7 @@ f_name(struct pkginfo *pkg, struct pkgbin *pifp,
 }
 
 void
-f_filecharf(struct pkginfo *pkg, struct pkgbin *pifp,
+f_filecharf(struct pkginfo *pkg, struct pkgbin *pkgbin,
             struct parsedb_state *ps,
             const char *value, const struct fieldinfo *fip)
 {
@@ -140,15 +140,16 @@ f_filecharf(struct pkginfo *pkg, struct pkgbin *pifp,
 }
 
 void
-f_charfield(struct pkginfo *pkg, struct pkgbin *pifp,
+f_charfield(struct pkginfo *pkg, struct pkgbin *pkgbin,
             struct parsedb_state *ps,
             const char *value, const struct fieldinfo *fip)
 {
-  if (*value) PKGPFIELD(pifp,fip->integer,char*)= nfstrsave(value);
+  if (*value)
+    PKGPFIELD(pkgbin, fip->integer, char *) = nfstrsave(value);
 }
 
 void
-f_boolean(struct pkginfo *pkg, struct pkgbin *pifp,
+f_boolean(struct pkginfo *pkg, struct pkgbin *pkgbin,
           struct parsedb_state *ps,
           const char *value, const struct fieldinfo *fip)
 {
@@ -159,11 +160,11 @@ f_boolean(struct pkginfo *pkg, struct pkgbin *pifp,
 
   boolean = parse_nv_last(ps, _("yes/no in boolean field"),
                           booleaninfos, value);
-  PKGPFIELD(pifp, fip->integer, bool) = boolean;
+  PKGPFIELD(pkgbin, fip->integer, bool) = boolean;
 }
 
 void
-f_multiarch(struct pkginfo *pkg, struct pkgbin *pifp,
+f_multiarch(struct pkginfo *pkg, struct pkgbin *pkgbin,
             struct parsedb_state *ps,
             const char *value, const struct fieldinfo *fip)
 {
@@ -174,22 +175,22 @@ f_multiarch(struct pkginfo *pkg, struct pkgbin *pifp,
 
   multiarch = parse_nv_last(ps, _("foreign/allowed/same/no in quadstate field"),
                             multiarchinfos, value);
-  PKGPFIELD(pifp, fip->integer, int) = multiarch;
+  PKGPFIELD(pkgbin, fip->integer, int) = multiarch;
 }
 
 void
-f_architecture(struct pkginfo *pkg, struct pkgbin *pifp,
+f_architecture(struct pkginfo *pkg, struct pkgbin *pkgbin,
                struct parsedb_state *ps,
                const char *value, const struct fieldinfo *fip)
 {
-  pifp->arch = dpkg_arch_find(value);
-  if (pifp->arch->type == arch_illegal)
+  pkgbin->arch = dpkg_arch_find(value);
+  if (pkgbin->arch->type == arch_illegal)
     parse_warn(ps, _("'%s' is not a valid architecture name: %s"),
                value, dpkg_arch_name_is_illegal(value));
 }
 
 void
-f_section(struct pkginfo *pkg, struct pkgbin *pifp,
+f_section(struct pkginfo *pkg, struct pkgbin *pkgbin,
           struct parsedb_state *ps,
           const char *value, const struct fieldinfo *fip)
 {
@@ -198,7 +199,7 @@ f_section(struct pkginfo *pkg, struct pkgbin *pifp,
 }
 
 void
-f_priority(struct pkginfo *pkg, struct pkgbin *pifp,
+f_priority(struct pkginfo *pkg, struct pkgbin *pkgbin,
            struct parsedb_state *ps,
            const char *value, const struct fieldinfo *fip)
 {
@@ -210,7 +211,7 @@ f_priority(struct pkginfo *pkg, struct pkgbin *pifp,
 }
 
 void
-f_status(struct pkginfo *pkg, struct pkgbin *pifp,
+f_status(struct pkginfo *pkg, struct pkgbin *pkgbin,
          struct parsedb_state *ps,
          const char *value, const struct fieldinfo *fip)
 {
@@ -229,16 +230,16 @@ f_status(struct pkginfo *pkg, struct pkgbin *pifp,
 }
 
 void
-f_version(struct pkginfo *pkg, struct pkgbin *pifp,
+f_version(struct pkginfo *pkg, struct pkgbin *pkgbin,
           struct parsedb_state *ps,
           const char *value, const struct fieldinfo *fip)
 {
-  parse_db_version(ps, &pifp->version, value,
+  parse_db_version(ps, &pkgbin->version, value,
                    _("error in Version string '%.250s'"), value);
 }
 
 void
-f_revision(struct pkginfo *pkg, struct pkgbin *pifp,
+f_revision(struct pkginfo *pkg, struct pkgbin *pkgbin,
            struct parsedb_state *ps,
            const char *value, const struct fieldinfo *fip)
 {
@@ -247,16 +248,18 @@ f_revision(struct pkginfo *pkg, struct pkgbin *pifp,
   parse_warn(ps,
              _("obsolete `Revision' or `Package-Revision' field used"));
   if (!*value) return;
-  if (pifp->version.revision && *pifp->version.revision) {
-    newversion= nfmalloc(strlen(pifp->version.version)+strlen(pifp->version.revision)+2);
-    sprintf(newversion,"%s-%s",pifp->version.version,pifp->version.revision);
-    pifp->version.version= newversion;
+  if (pkgbin->version.revision && *pkgbin->version.revision) {
+    newversion = nfmalloc(strlen(pkgbin->version.version) +
+                          strlen(pkgbin->version.revision) + 2);
+    sprintf(newversion, "%s-%s", pkgbin->version.version,
+                                 pkgbin->version.revision);
+    pkgbin->version.version = newversion;
   }
-  pifp->version.revision= nfstrsave(value);
+  pkgbin->version.revision = nfstrsave(value);
 }
 
 void
-f_configversion(struct pkginfo *pkg, struct pkgbin *pifp,
+f_configversion(struct pkginfo *pkg, struct pkgbin *pkgbin,
                 struct parsedb_state *ps,
                 const char *value, const struct fieldinfo *fip)
 {
@@ -298,7 +301,7 @@ malformed:
 }
 
 void
-f_conffiles(struct pkginfo *pkg, struct pkgbin *pifp,
+f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
             struct parsedb_state *ps,
             const char *value, const struct fieldinfo *fip)
 {
@@ -309,7 +312,7 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pifp,
   bool obsolete;
   char *newptr;
 
-  lastp= &pifp->conffiles;
+  lastp = &pkgbin->conffiles;
   while (*value) {
     c= *value++;
     if (c == '\n') continue;
@@ -351,7 +354,7 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pifp,
 }
 
 void
-f_dependency(struct pkginfo *pkg, struct pkgbin *pifp,
+f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
              struct parsedb_state *ps,
              const char *value, const struct fieldinfo *fip)
 {
@@ -368,7 +371,10 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pifp,
   if (!*value)
     return;
   p= value;
-  ldypp= &pifp->depends; while (*ldypp) ldypp= &(*ldypp)->next;
+
+  ldypp = &pkgbin->depends;
+  while (*ldypp)
+    ldypp = &(*ldypp)->next;
 
    /* Loop creating new struct dependency's. */
   for (;;) {
@@ -600,7 +606,7 @@ scan_word(const char **valp)
 }
 
 void
-f_trigpend(struct pkginfo *pend, struct pkgbin *pifp,
+f_trigpend(struct pkginfo *pend, struct pkgbin *pkgbin,
            struct parsedb_state *ps,
            const char *value, const struct fieldinfo *fip)
 {
@@ -624,7 +630,7 @@ f_trigpend(struct pkginfo *pend, struct pkgbin *pifp,
 }
 
 void
-f_trigaw(struct pkginfo *aw, struct pkgbin *pifp,
+f_trigaw(struct pkginfo *aw, struct pkgbin *pkgbin,
          struct parsedb_state *ps,
          const char *value, const struct fieldinfo *fip)
 {

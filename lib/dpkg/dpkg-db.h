@@ -104,8 +104,6 @@ struct filedetails {
  * Node describing a binary package file.
  *
  * This structure holds information contained on each binary package.
- *
- * Note: Usually referred in the code as ‘pif’ for historical reasons.
  */
 struct pkgbin {
   struct dependency *depends;
@@ -269,7 +267,7 @@ void pkgset_blank(struct pkgset *set);
 int pkgset_installed_instances(struct pkgset *set);
 
 void pkg_blank(struct pkginfo *pp);
-void pkgbin_blank(struct pkgbin *pifp);
+void pkgbin_blank(struct pkgbin *pkgbin);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
 struct pkgset *pkg_db_find_set(const char *name);

@@ -305,7 +305,7 @@ find_field_info(const struct fieldinfo *fields_head,
 
 void
 pkg_format_show(const struct pkg_format_node *head,
-                struct pkginfo *pkg, struct pkgbin *pif)
+                struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
@@ -333,7 +333,7 @@ pkg_format_show(const struct pkg_format_node *head,
 				fip = find_field_info(virtinfos, head);
 
 			if (fip->name) {
-				fip->wcall(&wb, pkg, pif, 0, fip);
+				fip->wcall(&wb, pkg, pkgbin, 0, fip);
 
 				varbuf_end_str(&wb);
 				varbuf_printf(&fb, fmt, wb.buf);
@@ -342,7 +342,7 @@ pkg_format_show(const struct pkg_format_node *head,
 			} else {
 				const struct arbitraryfield *afp;
 
-				for (afp = pif->arbs; afp; afp = afp->next)
+				for (afp = pkgbin->arbs; afp; afp = afp->next)
 					if (strcasecmp(head->data, afp->name) == 0) {
 						varbuf_printf(&fb, fmt, afp->value);
 						ok = true;

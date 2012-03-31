@@ -47,7 +47,7 @@
 
 void
 w_name(struct varbuf *vb,
-       const struct pkginfo *pkg, const struct pkgbin *pifp,
+       const struct pkginfo *pkg, const struct pkgbin *pkgbin,
        enum fwriteflags flags, const struct fieldinfo *fip)
 {
   assert(pkg->set->name);
@@ -60,24 +60,24 @@ w_name(struct varbuf *vb,
 
 void
 w_version(struct varbuf *vb,
-          const struct pkginfo *pkg, const struct pkgbin *pifp,
+          const struct pkginfo *pkg, const struct pkgbin *pkgbin,
           enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  if (!dpkg_version_is_informative(&pifp->version))
+  if (!dpkg_version_is_informative(&pkgbin->version))
     return;
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Version: ");
-  varbufversion(vb,&pifp->version,vdew_nonambig);
+  varbufversion(vb, &pkgbin->version, vdew_nonambig);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }
 
 void
 w_configversion(struct varbuf *vb,
-                const struct pkginfo *pkg, const struct pkgbin *pifp,
+                const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                 enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  if (pifp != &pkg->installed)
+  if (pkgbin != &pkg->installed)
     return;
   if (!dpkg_version_is_informative(&pkg->configversion))
     return;
@@ -94,14 +94,14 @@ w_configversion(struct varbuf *vb,
 
 void
 w_null(struct varbuf *vb,
-       const struct pkginfo *pkg, const struct pkgbin *pifp,
+       const struct pkginfo *pkg, const struct pkgbin *pkgbin,
        enum fwriteflags flags, const struct fieldinfo *fip)
 {
 }
 
 void
 w_section(struct varbuf *vb,
-          const struct pkginfo *pkg, const struct pkgbin *pifp,
+          const struct pkginfo *pkg, const struct pkgbin *pkgbin,
           enum fwriteflags flags, const struct fieldinfo *fip)
 {
   const char *value = pkg->section;
@@ -115,10 +115,10 @@ w_section(struct varbuf *vb,
 
 void
 w_charfield(struct varbuf *vb,
-            const struct pkginfo *pkg, const struct pkgbin *pifp,
+            const struct pkginfo *pkg, const struct pkgbin *pkgbin,
             enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  const char *value = PKGPFIELD(pifp, fip->integer, const char *);
+  const char *value = PKGPFIELD(pkgbin, fip->integer, const char *);
   if (!value || !*value) return;
   if (flags&fw_printheader) {
     varbuf_add_str(vb, fip->name);
@@ -131,12 +131,12 @@ w_charfield(struct varbuf *vb,
 
 void
 w_filecharf(struct varbuf *vb,
-            const struct pkginfo *pkg, const struct pkgbin *pifp,
+            const struct pkginfo *pkg, const struct pkgbin *pkgbin,
             enum fwriteflags flags, const struct fieldinfo *fip)
 {
   struct filedetails *fdp;
 
-  if (pifp != &pkg->available)
+  if (pkgbin != &pkg->available)
     return;
   fdp = pkg->files;
   if (!fdp || !FILEFFIELD(fdp,fip->integer,const char*)) return;
@@ -158,10 +158,10 @@ w_filecharf(struct varbuf *vb,
 
 void
 w_booleandefno(struct varbuf *vb,
-               const struct pkginfo *pkg, const struct pkgbin *pifp,
+               const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  bool value = PKGPFIELD(pifp, fip->integer, bool);
+  bool value = PKGPFIELD(pkgbin, fip->integer, bool);
   if (!(flags&fw_printheader)) {
     varbuf_add_str(vb, value ? "yes" : "no");
     return;
@@ -174,10 +174,10 @@ w_booleandefno(struct varbuf *vb,
 
 void
 w_multiarch(struct varbuf *vb,
-            const struct pkginfo *pkg, const struct pkgbin *pifp,
+            const struct pkginfo *pkg, const struct pkgbin *pkgbin,
             enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  int value = PKGPFIELD(pifp, fip->integer, int);
+  int value = PKGPFIELD(pkgbin, fip->integer, int);
 
   if (!(flags & fw_printheader)) {
     varbuf_add_str(vb, multiarchinfos[value].name);
@@ -194,28 +194,28 @@ w_multiarch(struct varbuf *vb,
 
 void
 w_architecture(struct varbuf *vb,
-               const struct pkginfo *pkg, const struct pkgbin *pifp,
+               const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  if (!pifp->arch)
+  if (!pkgbin->arch)
     return;
-  if (pifp->arch->type == arch_none)
+  if (pkgbin->arch->type == arch_none)
     return;
-  if (pifp->arch->type == arch_empty)
+  if (pkgbin->arch->type == arch_empty)
     return;
 
   if (flags & fw_printheader) {
     varbuf_add_str(vb, fip->name);
     varbuf_add_str(vb, ": ");
   }
-  varbuf_add_str(vb, pifp->arch->name);
+  varbuf_add_str(vb, pkgbin->arch->name);
   if (flags & fw_printheader)
     varbuf_add_char(vb, '\n');
 }
 
 void
 w_priority(struct varbuf *vb,
-           const struct pkginfo *pkg, const struct pkgbin *pifp,
+           const struct pkginfo *pkg, const struct pkgbin *pkgbin,
            enum fwriteflags flags, const struct fieldinfo *fip)
 {
   if (pkg->priority == pri_unknown)
@@ -232,10 +232,10 @@ w_priority(struct varbuf *vb,
 
 void
 w_status(struct varbuf *vb,
-         const struct pkginfo *pkg, const struct pkgbin *pifp,
+         const struct pkginfo *pkg, const struct pkgbin *pkgbin,
          enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  if (pifp != &pkg->installed)
+  if (pkgbin != &pkg->installed)
     return;
   assert(pkg->want <= want_purge);
   assert(pkg->eflag <= eflag_reinstreq);
@@ -323,7 +323,7 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
 
 void
 w_dependency(struct varbuf *vb,
-             const struct pkginfo *pkg, const struct pkgbin *pifp,
+             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
              enum fwriteflags flags, const struct fieldinfo *fip)
 {
   char fnbuf[50];
@@ -336,7 +336,7 @@ w_dependency(struct varbuf *vb,
     fnbuf[0] = '\0';
 
   depdel= fnbuf;
-  for (dyp= pifp->depends; dyp; dyp= dyp->next) {
+  for (dyp = pkgbin->depends; dyp; dyp = dyp->next) {
     if (dyp->type != fip->integer) continue;
     assert(dyp->up == pkg);
     varbuf_add_str(vb, depdel);
@@ -349,17 +349,17 @@ w_dependency(struct varbuf *vb,
 
 void
 w_conffiles(struct varbuf *vb,
-            const struct pkginfo *pkg, const struct pkgbin *pifp,
+            const struct pkginfo *pkg, const struct pkgbin *pkgbin,
             enum fwriteflags flags, const struct fieldinfo *fip)
 {
   struct conffile *i;
 
-  if (!pifp->conffiles || pifp == &pkg->available)
+  if (!pkgbin->conffiles || pkgbin == &pkg->available)
     return;
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Conffiles:\n");
-  for (i=pifp->conffiles; i; i= i->next) {
-    if (i != pifp->conffiles)
+  for (i = pkgbin->conffiles; i; i = i->next) {
+    if (i != pkgbin->conffiles)
       varbuf_add_char(vb, '\n');
     varbuf_add_char(vb, ' ');
     varbuf_add_str(vb, i->name);
@@ -374,12 +374,12 @@ w_conffiles(struct varbuf *vb,
 
 void
 w_trigpend(struct varbuf *vb,
-           const struct pkginfo *pkg, const struct pkgbin *pifp,
+           const struct pkginfo *pkg, const struct pkgbin *pkgbin,
            enum fwriteflags flags, const struct fieldinfo *fip)
 {
   struct trigpend *tp;
 
-  if (pifp == &pkg->available || !pkg->trigpend_head)
+  if (pkgbin == &pkg->available || !pkg->trigpend_head)
     return;
 
   assert(pkg->status >= stat_triggersawaited &&
@@ -397,12 +397,12 @@ w_trigpend(struct varbuf *vb,
 
 void
 w_trigaw(struct varbuf *vb,
-         const struct pkginfo *pkg, const struct pkgbin *pifp,
+         const struct pkginfo *pkg, const struct pkgbin *pkgbin,
          enum fwriteflags flags, const struct fieldinfo *fip)
 {
   struct trigaw *ta;
 
-  if (pifp == &pkg->available || !pkg->trigaw.head)
+  if (pkgbin == &pkg->available || !pkg->trigaw.head)
     return;
 
   assert(pkg->status > stat_configfiles &&
@@ -420,15 +420,15 @@ w_trigaw(struct varbuf *vb,
 
 void
 varbufrecord(struct varbuf *vb,
-             const struct pkginfo *pkg, const struct pkgbin *pifp)
+             const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
   const struct fieldinfo *fip;
   const struct arbitraryfield *afp;
 
   for (fip= fieldinfos; fip->name; fip++) {
-    fip->wcall(vb, pkg, pifp, fw_printheader, fip);
+    fip->wcall(vb, pkg, pkgbin, fw_printheader, fip);
   }
-  for (afp = pifp->arbs; afp; afp = afp->next) {
+  for (afp = pkgbin->arbs; afp; afp = afp->next) {
     varbuf_add_str(vb, afp->name);
     varbuf_add_str(vb, ": ");
     varbuf_add_str(vb, afp->value);
@@ -438,17 +438,17 @@ varbufrecord(struct varbuf *vb,
 
 void
 writerecord(FILE *file, const char *filename,
-            const struct pkginfo *pkg, const struct pkgbin *pifp)
+            const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
   struct varbuf vb = VARBUF_INIT;
 
-  varbufrecord(&vb, pkg, pifp);
+  varbufrecord(&vb, pkg, pkgbin);
   varbuf_end_str(&vb);
   if (fputs(vb.buf,file) < 0) {
     struct varbuf pkgname = VARBUF_INIT;
     int errno_saved = errno;
 
-    varbuf_add_pkgbin_name(&pkgname, pkg, pifp, pnaw_nonambig);
+    varbuf_add_pkgbin_name(&pkgname, pkg, pkgbin, pnaw_nonambig);
 
     errno = errno_saved;
     ohshite(_("failed to write details of `%.50s' to `%.250s'"),
@@ -465,7 +465,7 @@ writedb(const char *filename, enum writedb_flags flags)
 
   struct pkgiterator *it;
   struct pkginfo *pkg;
-  struct pkgbin *pifp;
+  struct pkgbin *pkgbin;
   const char *which;
   struct atomic_file *file;
   struct varbuf vb = VARBUF_INIT;
@@ -479,16 +479,16 @@ writedb(const char *filename, enum writedb_flags flags)
 
   it = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
-    pifp = (flags & wdb_dump_available) ? &pkg->available : &pkg->installed;
+    pkgbin = (flags & wdb_dump_available) ? &pkg->available : &pkg->installed;
     /* Don't dump records which have no useful content. */
-    if (!pkg_is_informative(pkg, pifp))
+    if (!pkg_is_informative(pkg, pkgbin))
       continue;
-    varbufrecord(&vb, pkg, pifp);
+    varbufrecord(&vb, pkg, pkgbin);
     varbuf_add_char(&vb, '\n');
     varbuf_end_str(&vb);
     if (fputs(vb.buf, file->fp) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
-              which, pkgbin_name(pkg, pifp, pnaw_nonambig), filename);
+              which, pkgbin_name(pkg, pkgbin, pnaw_nonambig), filename);
     varbuf_reset(&vb);
   }
   pkg_db_iter_free(it);
