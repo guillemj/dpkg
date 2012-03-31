@@ -257,7 +257,7 @@ do_split(const char *const *argv)
 		l = strlen(sourcefile);
 		palloc = nfmalloc(l + 1);
 		strcpy(palloc, sourcefile);
-		if (!strcmp(palloc + l - (sizeof(DEBEXT) - 1), DEBEXT)) {
+		if (strcmp(palloc + l - (sizeof(DEBEXT) - 1), DEBEXT) == 0) {
 			l -= (sizeof(DEBEXT) - 1);
 			palloc[l] = '\0';
 		}

@@ -673,7 +673,8 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   while (*pointerp) {
     /* XXX: Why is the assert needed? It's checking already added entries. */
     assert((*pointerp)->name[0] == '/');
-    if (!strcmp((*pointerp)->name+1,name)) break;
+    if (strcmp((*pointerp)->name + 1, name) == 0)
+      break;
     pointerp= &(*pointerp)->next;
   }
   if (*pointerp) return *pointerp;

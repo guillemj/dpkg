@@ -112,7 +112,7 @@ baselist::matchsearch(int index)
   searchlen=strlen(searchstring);
   lendiff = strlen(name) - searchlen;
   for (i=0; i<=lendiff; i++)
-    if (!strncasecmp(name + i, searchstring, searchlen))
+    if (strncasecmp(name + i, searchstring, searchlen) == 0)
       return true;
 
   return false;

@@ -667,7 +667,7 @@ parse_schedule_item(const char *string, struct schedule_item *item)
 {
 	const char *after_hyph;
 
-	if (!strcmp(string, "forever")) {
+	if (strcmp(string, "forever") == 0) {
 		item->type = sched_forever;
 	} else if (isdigit(string[0])) {
 		item->type = sched_timeout;

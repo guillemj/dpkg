@@ -144,7 +144,7 @@ parse_awaiter_package(void)
 static void
 tdm_add_trig_begin(const char *trig)
 {
-	ctrig = !strcmp(trig, activate);
+	ctrig = strcmp(trig, activate) == 0;
 	trigdef_update_printf("%s", trig);
 	if (!ctrig || done_trig)
 		return;
@@ -155,7 +155,7 @@ tdm_add_trig_begin(const char *trig)
 static void
 tdm_add_package(const char *awname)
 {
-	if (ctrig && !strcmp(awname, bypackage))
+	if (ctrig && strcmp(awname, bypackage) == 0)
 		return;
 	yespackage(awname);
 }

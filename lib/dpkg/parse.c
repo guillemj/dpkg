@@ -150,7 +150,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
                   fs->fieldlen, fs->fieldstart);
     larpp = &pkg_obj->pkgbin->arbs;
     while ((arp = *larpp) != NULL) {
-      if (!strncasecmp(arp->name, fs->fieldstart, fs->fieldlen))
+      if (strncasecmp(arp->name, fs->fieldstart, fs->fieldlen) == 0)
         parse_error(ps,
                    _("duplicate value for user-defined field `%.*s'"),
                    fs->fieldlen, fs->fieldstart);

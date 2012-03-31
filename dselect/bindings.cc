@@ -97,7 +97,7 @@ const char **keybindings::describenext() {
   for (;;) {
     if (!iterate->action) return 0;
     for (count=0, search=bindings; search; search=search->next)
-      if (!strcmp(search->interp->action,iterate->action))
+      if (strcmp(search->interp->action, iterate->action) == 0)
         count++;
     if (count) break;
     iterate++;
@@ -105,7 +105,7 @@ const char **keybindings::describenext() {
   const char **retarray= new const char *[count+2];
   retarray[0]= iterate->desc;
   for (count=1, search=bindings; search; search=search->next)
-    if (!strcmp(search->interp->action,iterate->action))
+    if (strcmp(search->interp->action, iterate->action) == 0)
       retarray[count++]= key2name(search->key);
   retarray[count]= 0;
   iterate++;

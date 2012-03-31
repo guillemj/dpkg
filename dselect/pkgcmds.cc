@@ -195,7 +195,7 @@ void packagelist::resortredisplay() {
     int index;
     for (index=0; index<nitems; index++) {
       if (table[index]->pkg->set->name &&
-          !strcasecmp(oldname, table[index]->pkg->set->name)) {
+          strcasecmp(oldname, table[index]->pkg->set->name) == 0) {
         newcursor= index;
         break;
       }

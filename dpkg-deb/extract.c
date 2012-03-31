@@ -130,7 +130,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   if (r < 0)
     read_fail(r, debar, _("archive magic version number"));
 
-  if (!strcmp(versionbuf, DPKG_AR_MAGIC)) {
+  if (strcmp(versionbuf, DPKG_AR_MAGIC) == 0) {
     oldformat = false;
 
     ctrllennum= 0;
@@ -216,7 +216,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
              versionbuf, (intmax_t)stab.st_size, (intmax_t)ctrllennum);
       m_output(stdout, _("<standard output>"));
     }
-  } else if (!strncmp(versionbuf,"0.93",4) &&
+  } else if (strncmp(versionbuf, "0.93", 4) == 0 &&
              sscanf(versionbuf,"%f%c%d",&versionnum,&nlc,&dummy) == 2 &&
              nlc == '\n') {
     char ctrllenbuf[40];
@@ -250,7 +250,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
       m_output(stdout, _("<standard output>"));
     }
   } else {
-    if (!strncmp(versionbuf,"!<arch>",7)) {
+    if (strncmp(versionbuf, "!<arch>", 7) == 0) {
       fprintf(stderr,
               _("dpkg-deb: file looks like it might be an archive which has been\n"
                 "dpkg-deb:    corrupted by being downloaded in ASCII mode\n"));

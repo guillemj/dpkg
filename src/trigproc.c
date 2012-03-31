@@ -244,7 +244,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 				      " tortoisetrig=%s haretrig=%s",
 				      processing_now_name, tortoise_name,
 				      tortoise_trig->name, hare_trig->name);
-				if (!strcmp(hare_trig->name, tortoise_trig->name))
+				if (strcmp(hare_trig->name, tortoise_trig->name) == 0)
 					goto found_in_hare;
 			}
 			/* Not found in hare, yay! */

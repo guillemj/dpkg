@@ -324,7 +324,7 @@ f_conffiles(struct pkginfo *pigp, struct pkgbin *pifp,
 			&hashstart, &hashlen, &endfn,
                         ps);
     obsolete= (hashlen == sizeof(obsolete_str)-1 &&
-	       !memcmp(hashstart, obsolete_str, hashlen));
+               memcmp(hashstart, obsolete_str, hashlen) == 0);
     if (obsolete)
       conffvalue_lastword(value, endfn, endent,
 			  &hashstart, &hashlen, &endfn,
