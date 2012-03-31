@@ -33,7 +33,7 @@ if (! -x "@dd") {
     exit(0);
 }
 
-plan tests => 237;
+plan tests => 239;
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $testdir");
@@ -151,6 +151,8 @@ call_divert_badusage(['--add', "/foo\nbar"], qr/newline/);
 call_divert_badusage(['--add', "$testdir"], qr/director(y|ies)/);
 call_divert_badusage(['--add', "--divert", "bar", "/foo/bar"], qr/absolute/);
 call_divert_badusage(['--remove'], qr/needs a single argument/);
+call_divert_badusage(['--listpackage'], qr/needs a single argument/);
+call_divert_badusage(['--truename'], qr/needs a single argument/);
 call([@dd, '--admindir'], [],
      expect_failure => 1, expect_stderr_like => qr/(takes a value|needs.*argument)/);
 
@@ -213,13 +215,11 @@ dash
 :
 EOF
 
-call_divert(['--listpackage'], expect_failure => 1);
 call_divert(['--listpackage', 'foo', 'bar'], expect_failure => 1);
 call_divert(['--listpackage', '/bin/sh'], expect_stdout => "dash\n", expect_stderr => '');
 call_divert(['--listpackage', '/bin/true'], expect_stdout => "LOCAL\n", expect_stderr => '');
 call_divert(['--listpackage', '/bin/false'], expect_stdout => '', expect_stderr => '');
 
-call_divert(['--truename'], expect_failure => 1);
 call_divert(['--truename', '/bin/sh'], expect_stdout => "/bin/sh.distrib\n", expect_stderr => '');
 call_divert(['--truename', '/bin/sh.distrib'], expect_stdout => "/bin/sh.distrib\n", expect_stderr => '');
 call_divert(['--truename', '/bin/something'], expect_stdout => "/bin/something\n", expect_stderr => '');
