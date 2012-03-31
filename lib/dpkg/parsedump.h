@@ -76,7 +76,7 @@ bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 #define FILEFOFF(f) (offsetof(struct filedetails, f))
 #define FILEFFIELD(filedetail,of,type) (*(type*)((char*)(filedetail)+(of)))
 
-typedef void freadfunction(struct pkginfo *pigp, struct pkgbin *pifp,
+typedef void freadfunction(struct pkginfo *pkg, struct pkgbin *pifp,
                            struct parsedb_state *ps,
                            const char *value, const struct fieldinfo *fip);
 freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;

@@ -268,17 +268,17 @@ struct pkg_deconf_list *deconfigure = NULL;
 static time_t currenttime;
 
 static int
-does_replace(struct pkginfo *newpigp, struct pkgbin *newpifp,
-             struct pkginfo *oldpigp, struct pkgbin *oldpifp)
+does_replace(struct pkginfo *new_pkg, struct pkgbin *newpifp,
+             struct pkginfo *old_pkg, struct pkgbin *oldpifp)
 {
   struct dependency *dep;
 
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",
-        pkgbin_name(newpigp, newpifp, pnaw_always),
-        pkgbin_name(oldpigp, oldpifp, pnaw_always),
+        pkgbin_name(new_pkg, newpifp, pnaw_always),
+        pkgbin_name(old_pkg, oldpifp, pnaw_always),
         versiondescribe(&oldpifp->version, vdew_always));
   for (dep= newpifp->depends; dep; dep= dep->next) {
-    if (dep->type != dep_replaces || dep->list->ed != oldpigp->set)
+    if (dep->type != dep_replaces || dep->list->ed != old_pkg->set)
       continue;
     debug(dbg_depcondetail,"does_replace ... found old, version %s",
           versiondescribe(&dep->list->version,vdew_always));

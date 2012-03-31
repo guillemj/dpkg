@@ -82,7 +82,7 @@ parse_nv_last(struct parsedb_state *ps,
 }
 
 void
-f_name(struct pkginfo *pigp, struct pkgbin *pifp,
+f_name(struct pkginfo *pkg, struct pkgbin *pifp,
        struct parsedb_state *ps,
        const char *value, const struct fieldinfo *fip)
 {
@@ -92,11 +92,11 @@ f_name(struct pkginfo *pigp, struct pkgbin *pifp,
   if (e != NULL)
     parse_error(ps, _("invalid package name (%.250s)"), e);
   /* We use the new name, as pkg_db_find_set() may have done a tolower for us. */
-  pigp->set->name = pkg_db_find_set(value)->name;
+  pkg->set->name = pkg_db_find_set(value)->name;
 }
 
 void
-f_filecharf(struct pkginfo *pigp, struct pkgbin *pifp,
+f_filecharf(struct pkginfo *pkg, struct pkgbin *pifp,
             struct parsedb_state *ps,
             const char *value, const struct fieldinfo *fip)
 {
@@ -110,8 +110,8 @@ f_filecharf(struct pkginfo *pigp, struct pkgbin *pifp,
     parse_error(ps,
                 _("file details field `%s' not allowed in status file"),
                fip->name);
-  allowextend= !pigp->files;
-  fdpp= &pigp->files;
+  allowextend = !pkg->files;
+  fdpp = &pkg->files;
   cpos= nfstrsave(value);
   while (*cpos) {
     space= cpos; while (*space && !isspace(*space)) space++;
@@ -140,7 +140,7 @@ f_filecharf(struct pkginfo *pigp, struct pkgbin *pifp,
 }
 
 void
-f_charfield(struct pkginfo *pigp, struct pkgbin *pifp,
+f_charfield(struct pkginfo *pkg, struct pkgbin *pifp,
             struct parsedb_state *ps,
             const char *value, const struct fieldinfo *fip)
 {
@@ -148,7 +148,7 @@ f_charfield(struct pkginfo *pigp, struct pkgbin *pifp,
 }
 
 void
-f_boolean(struct pkginfo *pigp, struct pkgbin *pifp,
+f_boolean(struct pkginfo *pkg, struct pkgbin *pifp,
           struct parsedb_state *ps,
           const char *value, const struct fieldinfo *fip)
 {
@@ -163,7 +163,7 @@ f_boolean(struct pkginfo *pigp, struct pkgbin *pifp,
 }
 
 void
-f_multiarch(struct pkginfo *pigp, struct pkgbin *pifp,
+f_multiarch(struct pkginfo *pkg, struct pkgbin *pifp,
             struct parsedb_state *ps,
             const char *value, const struct fieldinfo *fip)
 {
@@ -178,7 +178,7 @@ f_multiarch(struct pkginfo *pigp, struct pkgbin *pifp,
 }
 
 void
-f_architecture(struct pkginfo *pigp, struct pkgbin *pifp,
+f_architecture(struct pkginfo *pkg, struct pkgbin *pifp,
                struct parsedb_state *ps,
                const char *value, const struct fieldinfo *fip)
 {
@@ -189,27 +189,28 @@ f_architecture(struct pkginfo *pigp, struct pkgbin *pifp,
 }
 
 void
-f_section(struct pkginfo *pigp, struct pkgbin *pifp,
+f_section(struct pkginfo *pkg, struct pkgbin *pifp,
           struct parsedb_state *ps,
           const char *value, const struct fieldinfo *fip)
 {
   if (!*value) return;
-  pigp->section= nfstrsave(value);
+  pkg->section = nfstrsave(value);
 }
 
 void
-f_priority(struct pkginfo *pigp, struct pkgbin *pifp,
+f_priority(struct pkginfo *pkg, struct pkgbin *pifp,
            struct parsedb_state *ps,
            const char *value, const struct fieldinfo *fip)
 {
   if (!*value) return;
-  pigp->priority = parse_nv_last(ps, _("word in `priority' field"),
-                                 priorityinfos, value);
-  if (pigp->priority == pri_other) pigp->otherpriority= nfstrsave(value);
+  pkg->priority = parse_nv_last(ps, _("word in `priority' field"),
+                                priorityinfos, value);
+  if (pkg->priority == pri_other)
+    pkg->otherpriority = nfstrsave(value);
 }
 
 void
-f_status(struct pkginfo *pigp, struct pkgbin *pifp,
+f_status(struct pkginfo *pkg, struct pkgbin *pifp,
          struct parsedb_state *ps,
          const char *value, const struct fieldinfo *fip)
 {
@@ -219,19 +220,16 @@ f_status(struct pkginfo *pigp, struct pkgbin *pifp,
   if (ps->flags & pdb_recordavailable)
     return;
 
-  pigp->want = parse_nv_next(ps,
-                             _("first (want) word in `status' field"),
-                             wantinfos, &value);
-  pigp->eflag = parse_nv_next(ps,
-                              _("second (error) word in `status' field"),
-                              eflaginfos, &value);
-  pigp->status = parse_nv_last(ps,
-                               _("third (status) word in `status' field"),
-                               statusinfos, value);
+  pkg->want = parse_nv_next(ps, _("first (want) word in `status' field"),
+                            wantinfos, &value);
+  pkg->eflag = parse_nv_next(ps, _("second (error) word in `status' field"),
+                             eflaginfos, &value);
+  pkg->status = parse_nv_last(ps, _("third (status) word in `status' field"),
+                              statusinfos, value);
 }
 
 void
-f_version(struct pkginfo *pigp, struct pkgbin *pifp,
+f_version(struct pkginfo *pkg, struct pkgbin *pifp,
           struct parsedb_state *ps,
           const char *value, const struct fieldinfo *fip)
 {
@@ -240,7 +238,7 @@ f_version(struct pkginfo *pigp, struct pkgbin *pifp,
 }
 
 void
-f_revision(struct pkginfo *pigp, struct pkgbin *pifp,
+f_revision(struct pkginfo *pkg, struct pkgbin *pifp,
            struct parsedb_state *ps,
            const char *value, const struct fieldinfo *fip)
 {
@@ -258,7 +256,7 @@ f_revision(struct pkginfo *pigp, struct pkgbin *pifp,
 }
 
 void
-f_configversion(struct pkginfo *pigp, struct pkgbin *pifp,
+f_configversion(struct pkginfo *pkg, struct pkgbin *pifp,
                 struct parsedb_state *ps,
                 const char *value, const struct fieldinfo *fip)
 {
@@ -268,7 +266,7 @@ f_configversion(struct pkginfo *pigp, struct pkgbin *pifp,
   if (ps->flags & pdb_recordavailable)
     return;
 
-  parse_db_version(ps, &pigp->configversion, value,
+  parse_db_version(ps, &pkg->configversion, value,
                    _("error in Config-Version string '%.250s'"), value);
 
 }
@@ -300,7 +298,7 @@ malformed:
 }
 
 void
-f_conffiles(struct pkginfo *pigp, struct pkgbin *pifp,
+f_conffiles(struct pkginfo *pkg, struct pkgbin *pifp,
             struct parsedb_state *ps,
             const char *value, const struct fieldinfo *fip)
 {
@@ -353,7 +351,7 @@ f_conffiles(struct pkginfo *pigp, struct pkgbin *pifp,
 }
 
 void
-f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
+f_dependency(struct pkginfo *pkg, struct pkgbin *pifp,
              struct parsedb_state *ps,
              const char *value, const struct fieldinfo *fip)
 {
@@ -409,7 +407,7 @@ f_dependency(struct pkginfo *pigp, struct pkgbin *pifp,
       dop->ed = pkg_db_find_set(depname.buf);
       dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
 
-      /* Don't link this (which is after all only ‘newpig’ from
+      /* Don't link this (which is after all only ‘new_pkg’ from
        * the main parsing loop in parsedb) into the depended on
        * packages' lists yet. This will be done later when we
        * install this (in parse.c). For the moment we do the

@@ -162,8 +162,6 @@ struct perpackagestate;
  * Node describing an architecture package instance.
  *
  * This structure holds state information.
- *
- * Note: Usually referred in the code as pig.
  */
 struct pkginfo {
   struct pkgset *set;
