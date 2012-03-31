@@ -33,7 +33,7 @@ if (! -x "@dd") {
     exit(0);
 }
 
-plan tests => 235;
+plan tests => 237;
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $testdir");
@@ -138,7 +138,8 @@ call_divert(['--version'], expect_stdout_like => qr/.*dpkg-divert.*free software
 call_divert_badusage(['--jachsmitbju'], qr/unknown option/);
 call_divert_badusage(['--add', '--remove'], qr/(conflicting|two).*remove.*add.*/s);
 call_divert_badusage(['--divert'], qr/(takes a value|needs.*argument)/);
-call_divert_badusage(['--divert', "foo\nbar"], qr/newline/);
+call_divert_badusage(['--divert', "foo"], qr/absolute/);
+call_divert_badusage(['--divert', "/foo\nbar"], qr/newline/);
 call_divert_badusage(['--package'], qr/(takes a value|needs.*argument)/);
 call_divert_badusage(['--package', "foo\nbar"], qr/newline/);
 

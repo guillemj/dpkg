@@ -409,8 +409,6 @@ diversion_add(const char *const *argv)
 		m_asprintf(&str, "%s.distrib", filename);
 		opt_divertto = str;
 	}
-	if (opt_divertto[0] != '/')
-		badusage(_("filename \"%s\" is not absolute"), opt_divertto);
 
 	if (strcmp(filename, opt_divertto) == 0)
 		badusage(_("cannot divert file '%s' to itself"), filename);
@@ -686,6 +684,8 @@ setdivertto(const struct cmdinfo *cip, const char *value)
 {
 	opt_divertto = value;
 
+	if (opt_divertto[0] != '/')
+		badusage(_("filename \"%s\" is not absolute"), opt_divertto);
 	if (strchr(opt_divertto, '\n') != NULL)
 		badusage(_("divert-to may not contain newlines"));
 }
