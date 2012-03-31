@@ -198,10 +198,10 @@ statdb_write(void)
 	dbfile = atomic_file_new(dbname, aff_backup);
 	atomic_file_open(dbfile);
 
-	i = iterfilestart();
-	while ((file = iterfilenext(i)))
+	i = files_db_iter_new();
+	while ((file = files_db_iter_next(i)))
 		statdb_node_print(dbfile->fp, file);
-	iterfileend(i);
+	files_db_iter_free(i);
 
 	atomic_file_sync(dbfile);
 	atomic_file_close(dbfile);
@@ -308,8 +308,8 @@ statoverride_list(const char *const *argv)
 	if (glob_list == NULL)
 		glob_list_prepend(&glob_list, m_strdup("*"));
 
-	i = iterfilestart();
-	while ((file = iterfilenext(i))) {
+	i = files_db_iter_new();
+	while ((file = files_db_iter_next(i))) {
 		struct glob_node *g;
 
 		for (g = glob_list; g; g = g->next) {
@@ -320,7 +320,7 @@ statoverride_list(const char *const *argv)
 			}
 		}
 	}
-	iterfileend(i);
+	files_db_iter_free(i);
 
 	glob_list_free(glob_list);
 

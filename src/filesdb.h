@@ -149,9 +149,9 @@ void filepackages_iter_free(struct filepackages_iterator *i);
 void filesdbinit(void);
 
 struct fileiterator;
-struct fileiterator *iterfilestart(void);
-struct filenamenode *iterfilenext(struct fileiterator *i);
-void iterfileend(struct fileiterator *i);
+struct fileiterator *files_db_iter_new(void);
+struct filenamenode *files_db_iter_next(struct fileiterator *i);
+void files_db_iter_free(struct fileiterator *i);
 
 void ensure_package_clientdata(struct pkginfo *pkg);
 

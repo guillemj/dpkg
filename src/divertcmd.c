@@ -351,8 +351,8 @@ divertdb_write(void)
 	file = atomic_file_new(dbname, aff_backup);
 	atomic_file_open(file);
 
-	iter = iterfilestart();
-	while ((namenode = iterfilenext(iter))) {
+	iter = files_db_iter_new();
+	while ((namenode = files_db_iter_next(iter))) {
 		struct diversion *d = namenode->divert;
 
 		if (d == NULL || d->useinstead == NULL)
@@ -363,7 +363,7 @@ divertdb_write(void)
 		        d->useinstead->name,
 		        diversion_pkg_name(d));
 	}
-	iterfileend(iter);
+	files_db_iter_free(iter);
 
 	atomic_file_sync(file);
 	atomic_file_close(file);
@@ -594,8 +594,8 @@ diversion_list(const char *const *argv)
 	if (glob_list == NULL)
 		glob_list_prepend(&glob_list, m_strdup("*"));
 
-	iter = iterfilestart();
-	while ((namenode = iterfilenext(iter))) {
+	iter = files_db_iter_new();
+	while ((namenode = files_db_iter_next(iter))) {
 		struct glob_node *g;
 		struct diversion *contest = namenode->divert;
 		struct diversion *altname;
@@ -617,7 +617,7 @@ diversion_list(const char *const *argv)
 			}
 		}
 	}
-	iterfileend(iter);
+	files_db_iter_free(iter);
 
 	glob_list_free(glob_list);
 

@@ -601,7 +601,9 @@ struct fileiterator {
 
 static struct filenamenode *bins[BINS];
 
-struct fileiterator *iterfilestart(void) {
+struct fileiterator *
+files_db_iter_new(void)
+{
   struct fileiterator *i;
   i= m_malloc(sizeof(struct fileiterator));
   i->namenode = NULL;
@@ -609,7 +611,9 @@ struct fileiterator *iterfilestart(void) {
   return i;
 }
 
-struct filenamenode *iterfilenext(struct fileiterator *i) {
+struct filenamenode *
+files_db_iter_next(struct fileiterator *i)
+{
   struct filenamenode *r= NULL;
 
   while (!i->namenode) {
@@ -622,7 +626,9 @@ struct filenamenode *iterfilenext(struct fileiterator *i) {
   return r;
 }
 
-void iterfileend(struct fileiterator *i) {
+void
+files_db_iter_free(struct fileiterator *i)
+{
   free(i);
 }
 

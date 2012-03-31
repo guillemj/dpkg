@@ -360,12 +360,12 @@ searchfiles(const char *const *argv)
       namenode= findnamenode(thisarg, 0);
       found += searchoutput(namenode);
     } else {
-      it= iterfilestart();
-      while ((namenode = iterfilenext(it)) != NULL) {
+      it = files_db_iter_new();
+      while ((namenode = files_db_iter_next(it)) != NULL) {
         if (fnmatch(thisarg,namenode->name,0)) continue;
         found+= searchoutput(namenode);
       }
-      iterfileend(it);
+      files_db_iter_free(it);
     }
     if (!found) {
       fprintf(stderr, _("%s: no path found matching pattern %s.\n"),
