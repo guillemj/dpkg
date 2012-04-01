@@ -32,6 +32,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup pkg-spec Package specifiers
+ * @ingroup dpkg-public
+ * @{
+ */
+
 struct pkg_spec {
 	char *name;
 	const struct dpkg_arch *arch;
@@ -75,6 +81,8 @@ struct pkginfo *pkg_spec_find_pkg(const char *pkgname, const char *archname,
 void pkg_spec_iter_init(struct pkg_spec *ps);
 struct pkginfo *pkg_spec_iter_next_pkg(struct pkg_spec *ps);
 void pkg_spec_iter_destroy(struct pkg_spec *ps);
+
+/** @} */
 
 DPKG_END_DECLS
 

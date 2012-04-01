@@ -35,6 +35,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup dpkg-db In-core package database management
+ * @ingroup dpkg-public
+ * @{
+ */
+
 enum deptype {
   dep_suggests,
   dep_recommends,
@@ -400,6 +406,8 @@ void *nfmalloc(size_t);
 char *nfstrsave(const char*);
 char *nfstrnsave(const char*, size_t);
 void nffreeall(void);
+
+/** @} */
 
 DPKG_END_DECLS
 

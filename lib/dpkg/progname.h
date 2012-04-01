@@ -25,8 +25,16 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup progname Program name handling
+ * @ingroup dpkg-public
+ * @{
+ */
+
 void dpkg_set_progname(const char *name);
 const char *dpkg_get_progname(void);
+
+/** @} */
 
 DPKG_END_DECLS
 

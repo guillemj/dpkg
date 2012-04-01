@@ -23,6 +23,12 @@
 #ifndef LIBDPKG_PARSEDUMP_H
 #define LIBDPKG_PARSEDUMP_H
 
+/**
+ * @defgroup parsedump In-core package database parsing and reading
+ * @ingroup dpkg-public
+ * @{
+ */
+
 struct fieldinfo;
 
 /**
@@ -129,5 +135,7 @@ struct nickname {
 };
 
 extern const struct fieldinfo fieldinfos[];
+
+/** @} */
 
 #endif /* LIBDPKG_PARSEDUMP_H */

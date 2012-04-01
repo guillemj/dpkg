@@ -25,6 +25,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup glob File globbing
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 struct glob_node {
 	struct glob_node *next;
 	char *pattern;
@@ -32,6 +38,8 @@ struct glob_node {
 
 void glob_list_prepend(struct glob_node **list, char *pattern);
 void glob_list_free(struct glob_node *head);
+
+/** @} */
 
 DPKG_END_DECLS
 

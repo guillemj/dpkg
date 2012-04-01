@@ -31,10 +31,18 @@
 /* Make sure NDEBUG is never defined, as we rely on the assert() macro. */
 #undef NDEBUG
 
+/**
+ * @defgroup dpkg_test Test suite support
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 #define test_pass(a)			assert((a))
 #define test_fail(a)			assert(!(a))
 #define test_str(a, op, b)		assert(strcmp((a), (b)) op 0)
 #define test_mem(a, op, b, size)	assert(memcmp((a), (b), (size)) op 0)
+
+/** @} */
 
 #ifndef TEST_MAIN_PROVIDED
 static void test(void);

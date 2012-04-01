@@ -27,6 +27,12 @@
 DPKG_BEGIN_DECLS
 
 /**
+ * @defgroup pkg-array Package array primitives
+ * @ingroup dpkg-public
+ * @{
+ */
+
+/**
  * Holds an array of pointers to package data.
  */
 struct pkg_array {
@@ -37,6 +43,8 @@ struct pkg_array {
 void pkg_array_init_from_db(struct pkg_array *a);
 void pkg_array_sort(struct pkg_array *a, pkg_sorter_func *pkg_sort);
 void pkg_array_destroy(struct pkg_array *a);
+
+/** @} */
 
 DPKG_END_DECLS
 

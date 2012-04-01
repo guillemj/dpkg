@@ -27,8 +27,16 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup fdio File descriptor I/O
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 ssize_t fd_read(int fd, void *buf, size_t len);
 ssize_t fd_write(int fd, const void *buf, size_t len);
+
+/** @} */
 
 DPKG_END_DECLS
 

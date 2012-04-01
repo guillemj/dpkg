@@ -25,6 +25,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup dpkg_error Error message reporting
+ * @ingroup dpkg-public
+ * @{
+ */
+
 struct dpkg_error {
 	enum dpkg_msg_type {
 		DPKG_MSG_NONE,
@@ -45,6 +51,8 @@ int dpkg_put_errno(struct dpkg_error *err, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 
 void dpkg_error_destroy(struct dpkg_error *err);
+
+/** @} */
 
 DPKG_END_DECLS
 

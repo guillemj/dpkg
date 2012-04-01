@@ -27,12 +27,20 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup path Path handling
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 size_t path_trim_slash_slashdot(char *path);
 const char *path_skip_slash_dotslash(const char *path);
 const char *path_basename(const char *path);
 char *path_quote_filename(char *dst, const char *src, size_t size);
 
 char *path_make_temp_template(const char *suffix);
+
+/** @} */
 
 DPKG_END_DECLS
 

@@ -27,6 +27,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup progress Progress reporting
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 struct progress {
 	const char *text;
 
@@ -40,6 +46,8 @@ struct progress {
 void progress_init(struct progress *progress, const char *text, int max);
 void progress_step(struct progress *progress);
 void progress_done(struct progress *progress);
+
+/** @} */
 
 DPKG_END_DECLS
 

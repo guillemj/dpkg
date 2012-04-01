@@ -29,6 +29,12 @@
 
 #include <dpkg/file.h>
 
+/**
+ * @defgroup tar Tar archive handling
+ * @ingroup dpkg-public
+ * @{
+ */
+
 #define TARBLKSZ	512
 
 enum tar_format {
@@ -85,5 +91,7 @@ struct tar_operations {
 };
 
 int tar_extractor(void *ctx, const struct tar_operations *ops);
+
+/** @} */
 
 #endif

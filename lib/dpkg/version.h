@@ -27,6 +27,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup version Version handling
+ * @ingroup dpkg-public
+ * @{
+ */
+
 struct versionrevision {
 	unsigned long epoch;
 	const char *version;
@@ -35,6 +41,8 @@ struct versionrevision {
 
 void dpkg_version_blank(struct versionrevision *version);
 bool dpkg_version_is_informative(const struct versionrevision *version);
+
+/** @} */
 
 DPKG_END_DECLS
 
