@@ -80,30 +80,31 @@ static unsigned int hash(const char *name) {
 struct pkgset *
 pkg_db_find_set(const char *inname)
 {
-  struct pkgset **pointerp, *newpkg;
+  struct pkgset **setp, *new_set;
   char *name = m_strdup(inname), *p;
 
   p= name;
   while(*p) { *p= tolower(*p); p++; }
 
-  pointerp= bins + (hash(name) % (BINS));
-  while (*pointerp && strcasecmp((*pointerp)->name,name))
-    pointerp= &(*pointerp)->next;
-  if (*pointerp) {
+  setp = bins + (hash(name) % (BINS));
+  while (*setp && strcasecmp((*setp)->name, name))
+    setp = &(*setp)->next;
+  if (*setp) {
     free(name);
-    return *pointerp;
+    return *setp;
   }
 
-  newpkg = nfmalloc(sizeof(struct pkgset));
-  pkgset_blank(newpkg);
-  newpkg->name= nfstrsave(name);
-  newpkg->next= NULL;
-  *pointerp= newpkg;
+  new_set = nfmalloc(sizeof(struct pkgset));
+  pkgset_blank(new_set);
+  new_set->name = nfstrsave(name);
+  new_set->next = NULL;
+  *setp = new_set;
   nset++;
   npkg++;
 
   free(name);
-  return newpkg;
+
+  return new_set;
 }
 
 /**
