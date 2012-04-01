@@ -131,7 +131,7 @@ pkg_db_get_singleton(struct pkgset *set)
       if (arch->type == arch_native || arch->type == arch_all)
         return pkg;
     }
-    /* Or falling that the first entry. */
+    /* Or failing that, the first entry. */
     return &set->pkg;
   case 1:
     for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
