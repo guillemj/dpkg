@@ -168,6 +168,48 @@ trigproc_reset_cycle(void)
 	tortoise = hare = NULL;
 }
 
+static bool
+tortoise_not_in_hare(struct pkginfo *processing_now,
+                     struct trigcycleperpkg *tortoise_pkg)
+{
+	const char *processing_now_name, *tortoise_name;
+	struct trigpend *hare_trig, *tortoise_trig;
+
+	processing_now_name = pkg_name(processing_now, pnaw_nonambig);
+	tortoise_name = pkg_name(tortoise_pkg->pkg, pnaw_nonambig);
+
+	debug(dbg_triggersdetail, "%s pnow=%s tortoise=%s", __func__,
+	      processing_now_name, tortoise_name);
+	for (tortoise_trig = tortoise_pkg->then_trigs;
+	     tortoise_trig;
+	     tortoise_trig = tortoise_trig->next) {
+		debug(dbg_triggersdetail,
+		      "%s pnow=%s tortoise=%s tortoisetrig=%s", __func__,
+		      processing_now_name, tortoise_name, tortoise_trig->name);
+
+		/* hare is now so we can just look up in the actual data. */
+		for (hare_trig = tortoise_pkg->pkg->trigpend_head;
+		     hare_trig;
+		     hare_trig = hare_trig->next) {
+			debug(dbg_triggersstupid, "%s pnow=%s tortoise=%s"
+			      " tortoisetrig=%s haretrig=%s", __func__,
+			      processing_now_name, tortoise_name,
+			      tortoise_trig->name, hare_trig->name);
+			if (strcmp(hare_trig->name, tortoise_trig->name) == 0)
+				break;
+		}
+
+		if (hare_trig == NULL) {
+			/* Not found in hare, yay! */
+			debug(dbg_triggersdetail, "%s pnow=%s tortoise=%s OK",
+			      __func__, processing_now_name, tortoise_name);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 /*
  * Returns package we're to give up on.
  */
@@ -176,7 +218,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 {
 	struct trigcyclenode *tcn;
 	struct trigcycleperpkg *tcpp, *tortoise_pkg;
-	struct trigpend *hare_trig, *tortoise_trig;
+	struct trigpend *tortoise_trig;
 	struct pkgiterator *it;
 	struct pkginfo *pkg, *giveup;
 	const char *sep;
@@ -221,41 +263,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	for (tortoise_pkg = tortoise->pkgs;
 	     tortoise_pkg;
 	     tortoise_pkg = tortoise_pkg->next) {
-		const char *processing_now_name, *tortoise_name;
-
-		processing_now_name = pkg_name(processing_now, pnaw_nonambig);
-		tortoise_name = pkg_name(tortoise_pkg->pkg, pnaw_nonambig);
-
-		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s tortoise=%s",
-		      processing_now_name, tortoise_name);
-		for (tortoise_trig = tortoise_pkg->then_trigs;
-		     tortoise_trig;
-		     tortoise_trig = tortoise_trig->next) {
-			debug(dbg_triggersdetail,
-			      "check_triggers_cycle pnow=%s tortoise=%s"
-			      " tortoisetrig=%s",
-			      processing_now_name, tortoise_name,
-			      tortoise_trig->name);
-			/* hare is now so we can just look up in the actual
-			 * data. */
-			for (hare_trig = tortoise_pkg->pkg->trigpend_head;
-			     hare_trig;
-			     hare_trig = hare_trig->next) {
-				debug(dbg_triggersstupid,
-				      "check_triggers_cycle pnow=%s tortoise=%s"
-				      " tortoisetrig=%s haretrig=%s",
-				      processing_now_name, tortoise_name,
-				      tortoise_trig->name, hare_trig->name);
-				if (strcmp(hare_trig->name, tortoise_trig->name) == 0)
-					goto found_in_hare;
-			}
-			/* Not found in hare, yay! */
-			debug(dbg_triggersdetail,
-			      "check_triggers_cycle pnow=%s tortoise=%s OK",
-			      processing_now_name, tortoise_name);
+		if (tortoise_not_in_hare(processing_now, tortoise_pkg))
 			return NULL;
-			found_in_hare:;
-		}
 	}
 	/* Oh dear. hare is a superset of tortoise. We are making no
 	 * progress. */
