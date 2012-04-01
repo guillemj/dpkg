@@ -26,6 +26,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup pkg-queue Package queues
+ * @ingroup dpkg-public
+ * @{
+ */
+
 struct pkg_queue {
 	struct pkg_list *head, *tail;
 	int length;
@@ -44,6 +50,8 @@ int pkg_queue_is_empty(struct pkg_queue *queue);
 
 struct pkg_list *pkg_queue_push(struct pkg_queue *queue, struct pkginfo *pkg);
 struct pkginfo *pkg_queue_pop(struct pkg_queue *queue);
+
+/** @} */
 
 DPKG_END_DECLS
 

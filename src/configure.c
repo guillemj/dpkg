@@ -118,13 +118,13 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		        cdr.buf);
 
 	/* Select what to do. */
-	if (!strcmp(currenthash, newdisthash)) {
+	if (strcmp(currenthash, newdisthash) == 0) {
 		/* They're both the same so there's no point asking silly
 		 * questions. */
 		useredited = -1;
 		distedited = -1;
 		what = cfo_identical;
-	} else if (!strcmp(currenthash, NONEXISTENTFLAG) && fc_conff_miss) {
+	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0&& fc_conff_miss) {
 		fprintf(stderr,
 		        _("\n"
 		          "Configuration file `%s', does not exist on system.\n"
@@ -133,8 +133,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		what = cfo_newconff;
 		useredited = -1;
 		distedited = -1;
-	} else if (!strcmp(conff->hash, NEWCONFFILEFLAG)) {
-		if (!strcmp(currenthash, NONEXISTENTFLAG)) {
+	} else if (strcmp(conff->hash, NEWCONFFILEFLAG) == 0) {
+		if (strcmp(currenthash, NONEXISTENTFLAG) == 0) {
 			what = cfo_newconff;
 			useredited = -1;
 			distedited = -1;
@@ -153,7 +153,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		else
 			what = conffoptcells[useredited][distedited];
 
-		if (!strcmp(currenthash, NONEXISTENTFLAG))
+		if (strcmp(currenthash, NONEXISTENTFLAG) == 0)
 			what |= cfof_userrmd;
 	}
 

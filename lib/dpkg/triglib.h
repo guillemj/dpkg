@@ -27,6 +27,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup triglib Trigger handling
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 /*
  * Hooks for more sophisticated processing in dpkg proper.
  *
@@ -110,6 +116,8 @@ void trig_parse_ci(const char *file, trig_parse_cicb *interest,
                    struct pkgbin *pkgbin);
 
 void trig_incorporate(enum modstatdb_rw cstatus);
+
+/** @} */
 
 DPKG_END_DECLS
 

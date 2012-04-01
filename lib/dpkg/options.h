@@ -25,6 +25,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup options Option parsing
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 typedef int action_func(const char *const *argv);
 
 struct cmdinfo {
@@ -69,6 +75,8 @@ void setobsolete(const struct cmdinfo *cip, const char *value);
  { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, func }
 #define OBSOLETE(longopt, shortopt) \
  { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
+
+/** @} */
 
 DPKG_END_DECLS
 

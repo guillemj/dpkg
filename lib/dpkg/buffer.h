@@ -30,6 +30,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup buffer Buffer I/O
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 #define DPKG_BUFFER_SIZE 4096
 
 #define BUFFER_WRITE_VBUF		1
@@ -89,6 +95,8 @@ off_t buffer_copy_IntInt(int i1, int typeIn,
 off_t buffer_skip_Int(int I, int T, off_t limit, const char *desc_fmt, ...)
 	DPKG_ATTR_PRINTF(4);
 off_t buffer_filter(const void *buf, void *hash, int typeFilter, off_t length);
+
+/** @} */
 
 DPKG_END_DECLS
 

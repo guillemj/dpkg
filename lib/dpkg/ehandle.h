@@ -30,6 +30,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup ehandle Error context handling
+ * @ingroup dpkg-public
+ * @{
+ */
+
 extern volatile int onerr_abort;
 
 enum {
@@ -69,6 +75,8 @@ void ohshite(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 void do_internerr(const char *file, int line, const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3);
 #define internerr(...) do_internerr(__FILE__, __LINE__, __VA_ARGS__)
+
+/** @} */
 
 DPKG_END_DECLS
 

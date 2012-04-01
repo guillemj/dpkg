@@ -27,6 +27,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup atomic-file Atomic file operations
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 enum atomic_file_flags {
 	aff_backup = 01,
 };
@@ -46,6 +52,8 @@ void atomic_file_close(struct atomic_file *file);
 void atomic_file_commit(struct atomic_file *file);
 void atomic_file_remove(struct atomic_file *file);
 void atomic_file_free(struct atomic_file *file);
+
+/** @} */
 
 DPKG_END_DECLS
 

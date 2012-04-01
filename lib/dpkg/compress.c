@@ -132,6 +132,8 @@ static const struct compressor compressor_none = {
  * Gzip compressor.
  */
 
+#define GZIP		"gzip"
+
 static void
 fixup_gzip_params(struct compress_params *params)
 {
@@ -249,6 +251,8 @@ static const struct compressor compressor_gzip = {
 /*
  * Bzip2 compressor.
  */
+
+#define BZIP2		"bzip2"
 
 static void
 fixup_bzip2_params(struct compress_params *params)
@@ -372,6 +376,8 @@ static const struct compressor compressor_bzip2 = {
 /*
  * Xz compressor.
  */
+
+#define XZ		"xz"
 
 static bool
 check_xz_params(struct compress_params *params, struct dpkg_error *err)

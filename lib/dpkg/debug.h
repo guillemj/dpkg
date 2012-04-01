@@ -28,6 +28,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup debug Debugging
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 enum debugflags {
 	dbg_general = 01,
 	dbg_scripts = 02,
@@ -48,6 +54,8 @@ void debug_set_output(FILE *output);
 void debug_set_mask(int mask);
 bool debug_has_flag(int flag);
 void debug(int flag, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
+
+/** @} */
 
 DPKG_END_DECLS
 

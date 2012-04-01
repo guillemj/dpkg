@@ -115,7 +115,7 @@ static bool
 partmatches(struct partinfo *pi, struct partinfo *refi)
 {
   return (pi->md5sum &&
-          !strcmp(pi->md5sum,refi->md5sum) &&
+          strcmp(pi->md5sum, refi->md5sum) == 0 &&
           pi->maxpartn == refi->maxpartn &&
           pi->maxpartlen == refi->maxpartlen);
 }

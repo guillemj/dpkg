@@ -41,7 +41,7 @@ trig_note_pend_core(struct pkginfo *pend, const char *trig)
 	struct trigpend *tp;
 
 	for (tp = pend->trigpend_head; tp; tp = tp->next)
-		if (!strcmp(tp->name, trig))
+		if (strcmp(tp->name, trig) == 0)
 			return false;
 
 	tp = nfmalloc(sizeof(*tp));

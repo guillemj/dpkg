@@ -557,7 +557,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   size_t l;
   const struct forceinfo *fip;
 
-  if (!strcmp(value,"help")) {
+  if (strcmp(value, "help") == 0) {
     printf(_(
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -580,7 +580,8 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
     comma= strchr(value,',');
     l = comma ? (size_t)(comma - value) : strlen(value);
     for (fip=forceinfos; fip->name; fip++)
-      if (!strncmp(fip->name,value,l) && strlen(fip->name)==l) break;
+      if (strncmp(fip->name, value, l) == 0 && strlen(fip->name) == l)
+        break;
 
     if (!fip->name) {
       badusage(_("unknown force/refuse option `%.*s'"),

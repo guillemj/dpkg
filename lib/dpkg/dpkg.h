@@ -32,6 +32,23 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @mainpage libdpkg C API
+ *
+ * This is the documentation for the libdpkg C API. It is divided in an
+ * @ref dpkg-internal "internal API" and a @ref dpkg-public "public API".
+ * Applications closely tied to dpkg can make use of the internal API, the
+ * rest should only assume the availability of the public API.
+ *
+ * Applications need to define the LIBDPKG_VOLATILE_API macro to acknowledge
+ * that the API is to be considered volatile, please read doc/README.api for
+ * more information.
+ *
+ * @defgroup dpkg-internal Internal libdpkg C API
+ *
+ * @defgroup dpkg-public Public libdpkg C API
+ */
+
 #define MAXCONFFILENAME     1000
 #define MAXDIVERTFILENAME   1024
 #define MAXCONTROLFILENAME  100

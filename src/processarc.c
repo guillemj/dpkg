@@ -1065,7 +1065,7 @@ void process_archive(const char *filename) {
       if ((namenode->flags & fnnf_old_conff)) {
 	if (sameas) {
 	  if (sameas->namenode->flags & fnnf_new_conff) {
-	    if (!strcmp(sameas->namenode->oldhash, NEWCONFFILEFLAG)) {
+	    if (strcmp(sameas->namenode->oldhash, NEWCONFFILEFLAG) == 0) {
 	      sameas->namenode->oldhash= namenode->oldhash;
 	      debug(dbg_eachfile, "process_archive: old conff %s"
 		    " is same as new conff %s, copying hash",
@@ -1244,7 +1244,7 @@ void process_archive(const char *filename) {
     assert(otherpkg->clientdata->istobe == itb_normal ||
            otherpkg->clientdata->istobe == itb_deconfigure);
     for (cfile= otherpkg->clientdata->files;
-         cfile && !strcmp(cfile->namenode->name,"/.");
+         cfile && strcmp(cfile->namenode->name, "/.") == 0;
          cfile= cfile->next);
     if (!cfile) {
       debug(dbg_stupidlyverbose, "process_archive no non-root, no disappear");

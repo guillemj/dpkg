@@ -27,6 +27,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup subproc Sub-process handling
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 void subproc_signals_setup(const char *name);
 void subproc_signals_cleanup(int argc, void **argv);
 
@@ -38,6 +44,8 @@ pid_t subproc_fork(void);
 int subproc_wait(pid_t pid, const char *desc);
 int subproc_check(int status, const char *desc, int flags);
 int subproc_wait_check(pid_t pid, const char *desc, int flags);
+
+/** @} */
 
 DPKG_END_DECLS
 

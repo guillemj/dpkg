@@ -29,6 +29,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup file File handling
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 struct file_stat {
 	uid_t uid;
 	gid_t gid;
@@ -46,6 +52,8 @@ bool file_is_locked(int lockfd, const char *filename);
 void file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
                const char *desc);
 void file_unlock(int fd, const char *desc);
+
+/** @} */
 
 DPKG_END_DECLS
 

@@ -538,10 +538,11 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry='%s'"
               " conffbasename='%s' conffnameused=%d conffbasenamelen=%d",
               de->d_name, conffbasename, conffnameused, conffbasenamelen);
-        if (!strncmp(de->d_name,conffbasename,conffbasenamelen)) {
+        if (strncmp(de->d_name, conffbasename, conffbasenamelen) == 0) {
           debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry starts right");
           for (ext= removeconffexts; *ext; ext++)
-            if (!strcmp(*ext,de->d_name+conffbasenamelen)) goto yes_remove;
+            if (strcmp(*ext, de->d_name + conffbasenamelen) == 0)
+              goto yes_remove;
           p= de->d_name+conffbasenamelen;
           if (*p++ == '~') {
             while (*p && cisdigit(*p)) p++;
@@ -550,8 +551,8 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         }
         debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry starts wrong");
         if (de->d_name[0] == '#' &&
-            !strncmp(de->d_name+1,conffbasename,conffbasenamelen) &&
-            !strcmp(de->d_name+1+conffbasenamelen,"#"))
+            strncmp(de->d_name + 1, conffbasename, conffbasenamelen) == 0 &&
+            strcmp(de->d_name + 1 + conffbasenamelen, "#") == 0)
           goto yes_remove;
         debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry not it");
         continue;

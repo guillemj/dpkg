@@ -21,6 +21,12 @@
 #ifndef LIBDPKG_MACROS_H
 #define LIBDPKG_MACROS_H
 
+/**
+ * @defgroup macros C language support macros
+ * @ingroup dpkg-public
+ * @{
+ */
+
 #ifndef LIBDPKG_VOLATILE_API
 #error "The libdpkg API is to be considered volatile, please read 'README.api'."
 #endif
@@ -73,6 +79,11 @@
 #define DPKG_END_DECLS
 #endif
 
+/**
+ * @def array_count
+ *
+ * Returns the amount of items in an array.
+ */
 #ifndef array_count
 #define array_count(a) (sizeof(a) / sizeof((a)[0]))
 #endif
@@ -87,5 +98,7 @@
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #endif
 #endif
+
+/** @} */
 
 #endif /* LIBDPKG_MACROS_H */

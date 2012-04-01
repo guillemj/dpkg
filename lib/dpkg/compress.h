@@ -29,9 +29,11 @@
 
 DPKG_BEGIN_DECLS
 
-#define GZIP		"gzip"
-#define XZ		"xz"
-#define BZIP2		"bzip2"
+/**
+ * @defgroup compress Compression
+ * @ingroup dpkg-internal
+ * @{
+ */
 
 enum compressor_type {
 	compressor_type_unknown = -1,
@@ -62,6 +64,8 @@ void decompress_filter(enum compressor_type type, int fd_in, int fd_out,
 void compress_filter(struct compress_params *params, int fd_in, int fd_out,
                      const char *desc, ...)
                      DPKG_ATTR_PRINTF(4);
+
+/** @} */
 
 DPKG_END_DECLS
 

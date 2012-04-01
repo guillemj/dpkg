@@ -80,30 +80,31 @@ static unsigned int hash(const char *name) {
 struct pkgset *
 pkg_db_find_set(const char *inname)
 {
-  struct pkgset **pointerp, *newpkg;
+  struct pkgset **setp, *new_set;
   char *name = m_strdup(inname), *p;
 
   p= name;
   while(*p) { *p= tolower(*p); p++; }
 
-  pointerp= bins + (hash(name) % (BINS));
-  while (*pointerp && strcasecmp((*pointerp)->name,name))
-    pointerp= &(*pointerp)->next;
-  if (*pointerp) {
+  setp = bins + (hash(name) % (BINS));
+  while (*setp && strcasecmp((*setp)->name, name))
+    setp = &(*setp)->next;
+  if (*setp) {
     free(name);
-    return *pointerp;
+    return *setp;
   }
 
-  newpkg = nfmalloc(sizeof(struct pkgset));
-  pkgset_blank(newpkg);
-  newpkg->name= nfstrsave(name);
-  newpkg->next= NULL;
-  *pointerp= newpkg;
+  new_set = nfmalloc(sizeof(struct pkgset));
+  pkgset_blank(new_set);
+  new_set->name = nfstrsave(name);
+  new_set->next = NULL;
+  *setp = new_set;
   nset++;
   npkg++;
 
   free(name);
-  return newpkg;
+
+  return new_set;
 }
 
 /**
@@ -131,7 +132,7 @@ pkg_db_get_singleton(struct pkgset *set)
       if (arch->type == arch_native || arch->type == arch_all)
         return pkg;
     }
-    /* Or falling that the first entry. */
+    /* Or failing that, the first entry. */
     return &set->pkg;
   case 1:
     for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
@@ -260,7 +261,7 @@ pkg_db_count_pkg(void)
 }
 
 struct pkgiterator {
-  struct pkginfo *pigp;
+  struct pkginfo *pkg;
   int nbinn;
 };
 
@@ -277,7 +278,7 @@ pkg_db_iter_new(void)
   struct pkgiterator *iter;
 
   iter = m_malloc(sizeof(struct pkgiterator));
-  iter->pigp = NULL;
+  iter->pkg = NULL;
   iter->nbinn = 0;
 
   return iter;
@@ -297,19 +298,19 @@ pkg_db_iter_next_set(struct pkgiterator *iter)
 {
   struct pkgset *set;
 
-  while (!iter->pigp) {
+  while (!iter->pkg) {
     if (iter->nbinn >= BINS)
       return NULL;
     if (bins[iter->nbinn])
-      iter->pigp = &bins[iter->nbinn]->pkg;
+      iter->pkg = &bins[iter->nbinn]->pkg;
     iter->nbinn++;
   }
 
-  set = iter->pigp->set;
+  set = iter->pkg->set;
   if (set->next)
-    iter->pigp = &set->next->pkg;
+    iter->pkg = &set->next->pkg;
   else
-    iter->pigp = NULL;
+    iter->pkg = NULL;
 
   return set;
 }
@@ -332,21 +333,21 @@ pkg_db_iter_next_pkg(struct pkgiterator *iter)
 {
   struct pkginfo *r;
 
-  while (!iter->pigp) {
+  while (!iter->pkg) {
     if (iter->nbinn >= BINS)
       return NULL;
     if (bins[iter->nbinn])
-      iter->pigp = &bins[iter->nbinn]->pkg;
+      iter->pkg = &bins[iter->nbinn]->pkg;
     iter->nbinn++;
   }
 
-  r = iter->pigp;
+  r = iter->pkg;
   if (r->arch_next)
-    iter->pigp = r->arch_next;
+    iter->pkg = r->arch_next;
   else if (r->set->next)
-    iter->pigp = &r->set->next->pkg;
+    iter->pkg = &r->set->next->pkg;
   else
-    iter->pigp = NULL;
+    iter->pkg = NULL;
 
   return r;
 }

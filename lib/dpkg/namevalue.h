@@ -26,6 +26,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup namevalue Name/Value data
+ * @ingroup dpkg-public
+ * @{
+ */
+
 struct namevalue {
 	const char *name;
 	int value;
@@ -39,6 +45,8 @@ struct namevalue {
 
 const struct namevalue *namevalue_find_by_name(const struct namevalue *head,
                                                const char *str);
+
+/** @} */
 
 DPKG_END_DECLS
 

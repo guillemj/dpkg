@@ -667,13 +667,13 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		*spc++ = '\0';
 		while (cisspace(*spc))
 			spc++;
-		if (!strcmp(cmd, "interest")) {
+		if (strcmp(cmd, "interest") == 0) {
 			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, trig_await);
-		} else if (!strcmp(cmd, "interest-noawait")) {
+		} else if (strcmp(cmd, "interest-noawait") == 0) {
 			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, trig_noawait);
-		} else if (!strcmp(cmd, "activate")) {
+		} else if (strcmp(cmd, "activate") == 0) {
 			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, trig_await);
-		} else if (!strcmp(cmd, "activate-noawait")) {
+		} else if (strcmp(cmd, "activate-noawait") == 0) {
 			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, trig_noawait);
 		} else {
 			ohshit(_("triggers ci file contains unknown directive `%.250s'"),
@@ -789,7 +789,7 @@ th_simple_nn_find(const char *name, bool nonew)
 	struct filenamenode *search;
 
 	for (search = trigger_files; search; search = search->next)
-		if (!strcmp(search->name, name))
+		if (strcmp(search->name, name) == 0)
 			return search;
 
 	/* Not found. */

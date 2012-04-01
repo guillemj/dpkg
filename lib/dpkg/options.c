@@ -106,10 +106,11 @@ myfileopt(const char *fn, const struct cmdinfo *cmdinfos)
 
     for (cip=cmdinfos; cip->olong || cip->oshort; cip++) {
       if (!cip->olong) continue;
-      if (!strcmp(cip->olong,linebuf)) break;
+      if (strcmp(cip->olong, linebuf) == 0)
+        break;
       l=strlen(cip->olong);
       if ((cip->takesvalue==2) && (linebuf[l]=='-') &&
-	  !opt && !strncmp(linebuf,cip->olong,l)) {
+          !opt && strncmp(linebuf, cip->olong, l) == 0) {
 	opt=linebuf+l+1;
 	break;
       }
@@ -217,16 +218,18 @@ myopt(const char *const **argvp, const struct cmdinfo *cmdinfos,
   ++(*argvp);
   while ((p= **argvp) && *p == '-') {
     ++(*argvp);
-    if (!strcmp(p,"--")) break;
+    if (strcmp(p, "--") == 0)
+      break;
     if (*++p == '-') {
       ++p; value=NULL;
       for (cip= cmdinfos;
            cip->olong || cip->oshort;
            cip++) {
         if (!cip->olong) continue;
-        if (!strcmp(p,cip->olong)) break;
+        if (strcmp(p, cip->olong) == 0)
+          break;
         l= strlen(cip->olong);
-        if (!strncmp(p,cip->olong,l) &&
+        if (strncmp(p, cip->olong, l) == 0 &&
             (p[l]== ((cip->takesvalue==2) ? '-' : '='))) { value=p+l+1; break; }
       }
       if (!cip->olong) badusage(_("unknown option --%s"),p);

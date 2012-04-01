@@ -26,6 +26,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup pkg-show Package information display
+ * @ingroup dpkg-public
+ * @{
+ */
+
 int pkg_sorter_by_nonambig_name_arch(const void *a, const void *b);
 
 const char *pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
@@ -33,6 +39,8 @@ const char *pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
 int pkg_abbrev_want(const struct pkginfo *pkg);
 int pkg_abbrev_status(const struct pkginfo *pkg);
 int pkg_abbrev_eflag(const struct pkginfo *pkg);
+
+/** @} */
 
 DPKG_END_DECLS
 

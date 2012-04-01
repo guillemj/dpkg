@@ -240,7 +240,7 @@ info_field(const char *debar, const char *dir, const char *const *fields,
       *pf = '\0';
       doing= fnl >= MAXFIELDNAME || c=='\n' || c==EOF;
       for (fp=fields; !doing && *fp; fp++)
-        if (!strcasecmp(*fp, fieldname))
+        if (strcasecmp(*fp, fieldname) == 0)
           doing = true;
       if (showfieldname) {
         if (doing)

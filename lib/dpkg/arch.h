@@ -28,6 +28,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup arch Architecture database
+ * @ingroup dpkg-public
+ * @{
+ */
+
 enum dpkg_arch_type {
 	arch_none,
 	arch_empty,
@@ -57,6 +63,8 @@ void dpkg_arch_load_list(void);
 void dpkg_arch_save_list(void);
 
 void varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch);
+
+/** @} */
 
 DPKG_END_DECLS
 

@@ -35,6 +35,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup dpkg-db In-core package database management
+ * @ingroup dpkg-public
+ * @{
+ */
+
 enum deptype {
   dep_suggests,
   dep_recommends,
@@ -104,8 +110,6 @@ struct filedetails {
  * Node describing a binary package file.
  *
  * This structure holds information contained on each binary package.
- *
- * Note: Usually referred in the code as ‘pif’ for historical reasons.
  */
 struct pkgbin {
   struct dependency *depends;
@@ -162,8 +166,6 @@ struct perpackagestate;
  * Node describing an architecture package instance.
  *
  * This structure holds state information.
- *
- * Note: Usually referred in the code as pig.
  */
 struct pkginfo {
   struct pkgset *set;
@@ -271,7 +273,7 @@ void pkgset_blank(struct pkgset *set);
 int pkgset_installed_instances(struct pkgset *set);
 
 void pkg_blank(struct pkginfo *pp);
-void pkgbin_blank(struct pkgbin *pifp);
+void pkgbin_blank(struct pkgbin *pkgbin);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
 struct pkgset *pkg_db_find_set(const char *name);
@@ -404,6 +406,8 @@ void *nfmalloc(size_t);
 char *nfstrsave(const char*);
 char *nfstrnsave(const char*, size_t);
 void nffreeall(void);
+
+/** @} */
 
 DPKG_END_DECLS
 
