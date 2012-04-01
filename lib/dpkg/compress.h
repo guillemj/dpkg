@@ -29,10 +29,6 @@
 
 DPKG_BEGIN_DECLS
 
-#define GZIP		"gzip"
-#define XZ		"xz"
-#define BZIP2		"bzip2"
-
 enum compressor_type {
 	compressor_type_unknown = -1,
 	compressor_type_none,
