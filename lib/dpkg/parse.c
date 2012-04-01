@@ -363,7 +363,7 @@ parse_find_set_slot(struct parsedb_state *ps,
  * Most of the time each pkginfo in a pkgset has the same architecture for
  * both the installed and available pkgbin members. But when cross-grading
  * there's going to be a temporary discrepancy, because we reuse the single
- * instance and fill the available pkgbin with the candiadate pkgbin, until
+ * instance and fill the available pkgbin with the candidate pkgbin, until
  * that is copied over the installed pkgbin.
  *
  * If there's 0 or > 1 package instances, then we match against the pkginfo
@@ -372,7 +372,7 @@ parse_find_set_slot(struct parsedb_state *ps,
  * If there's 1 instance, we are cross-grading and both installed and
  * candidate are not multiarch_same, we have to reuse the existing single
  * slot regardless of the arch differing between the two. If we are not
- * cross-grading, then we use the entry with the matchin arch.
+ * cross-grading, then we use the entry with the matching arch.
  */
 static struct pkginfo *
 parse_find_pkg_slot(struct parsedb_state *ps,
@@ -385,7 +385,7 @@ parse_find_pkg_slot(struct parsedb_state *ps,
 
   if (ps->type == pdb_file_available) {
     /* If there's a single package installed and the new package is not
-     * “Multi-Aarch: same”, then we preserve the previous behaviour of
+     * “Multi-Arch: same”, then we preserve the previous behaviour of
      * possible architecture switch, for example from native to all. */
     if (pkgset_installed_instances(db_set) == 1 &&
         new_pkgbin->multiarch != multiarch_same)
