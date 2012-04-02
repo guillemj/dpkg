@@ -271,7 +271,6 @@ ensure_packagefiles_available(struct pkginfo *pkg)
               pkg_name(pkg, pnaw_nonambig));
     onerr_abort--;
     if (pkg->status != stat_configfiles) {
-      if (saidread == 1) putc('\n',stderr);
       warning(_("files list file for package `%.250s' missing, assuming "
                 "package has no files currently installed."),
               pkg_name(pkg, pnaw_nonambig));
