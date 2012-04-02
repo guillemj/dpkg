@@ -65,15 +65,12 @@
 
 static char *infodir;
 
-static void
-pkgadmindir_init(void)
-{
-  infodir = dpkg_db_get_path(INFODIR);
-}
-
 const char *
 pkgadmindir(void)
 {
+  if (infodir == NULL)
+    infodir = dpkg_db_get_path(INFODIR);
+
   return infodir;
 }
 
@@ -83,7 +80,7 @@ pkgadminfile(struct pkginfo *pkg, struct pkgbin *pkgbin, const char *filetype)
   static struct varbuf vb;
 
   varbuf_reset(&vb);
-  varbuf_add_str(&vb, infodir);
+  varbuf_add_str(&vb, pkgadmindir());
   varbuf_add_char(&vb, '/');
   varbuf_add_str(&vb, pkg->set->name);
   if (pkgbin->multiarch == multiarch_same &&
@@ -643,8 +640,6 @@ files_db_iter_free(struct fileiterator *iter)
 void filesdbinit(void) {
   struct filenamenode *fnn;
   int i;
-
-  pkgadmindir_init();
 
   for (i=0; i<BINS; i++)
     for (fnn= bins[i]; fnn; fnn= fnn->next) {
