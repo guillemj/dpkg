@@ -66,7 +66,7 @@
 static char *infodir;
 
 const char *
-pkgadmindir(void)
+pkg_infodb_get_dir(void)
 {
   if (infodir == NULL)
     infodir = dpkg_db_get_path(INFODIR);
@@ -75,7 +75,8 @@ pkgadmindir(void)
 }
 
 const char *
-pkgadminfile(struct pkginfo *pkg, struct pkgbin *pkgbin, const char *filetype)
+pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                    const char *filetype)
 {
   static struct varbuf vb;
 
@@ -299,7 +300,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     return;
   }
 
-  filelistfile = pkgadminfile(pkg, &pkg->installed, LISTFILE);
+  filelistfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
   onerr_abort++;
 
@@ -394,7 +395,7 @@ pkg_files_optimize_load(struct pkg_array *array)
   int i;
 
   /* Get the filesystem block size. */
-  if (statfs(pkgadmindir(), &fs) < 0)
+  if (statfs(pkg_infodb_get_dir(), &fs) < 0)
     return;
 
   /* Sort packages by the physical location of their list files, so that
@@ -416,7 +417,7 @@ pkg_files_optimize_load(struct pkg_array *array)
 
     pkg->clientdata->listfile_phys_offs = -1;
 
-    listfile = pkgadminfile(pkg, &pkg->installed, LISTFILE);
+    listfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
     fd = open(listfile, O_RDONLY);
     if (fd < 0)
@@ -449,7 +450,7 @@ pkg_files_optimize_load(struct pkg_array *array)
     const char *listfile;
     int fd;
 
-    listfile = pkgadminfile(pkg, &pkg->installed, LISTFILE);
+    listfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
     fd = open(listfile, O_RDONLY | O_NONBLOCK);
     if (fd != -1) {
@@ -520,7 +521,7 @@ write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
   struct atomic_file *file;
   const char *listfile;
 
-  listfile = pkgadminfile(pkg, pkgbin, LISTFILE);
+  listfile = pkg_infodb_get_file(pkg, pkgbin, LISTFILE);
 
   file = atomic_file_new(listfile, 0);
   atomic_file_open(file);
@@ -538,7 +539,7 @@ write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
   atomic_file_commit(file);
   atomic_file_free(file);
 
-  dir_sync_path(pkgadmindir());
+  dir_sync_path(pkg_infodb_get_dir());
 
   note_must_reread_files_inpackage(pkg);
 }

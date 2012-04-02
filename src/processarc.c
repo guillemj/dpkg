@@ -316,7 +316,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     }
 
     /* Right, install it */
-    newinfofilename = pkgadminfile(pkg, &pkg->available, de->d_name);
+    newinfofilename = pkg_infodb_get_file(pkg, &pkg->available, de->d_name);
     if (rename(cidir, newinfofilename))
       ohshite(_("unable to install new info file `%.250s' as `%.250s'"),
               cidir, newinfofilename);
@@ -337,7 +337,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
   }
 
-  dir_sync_path(pkgadmindir());
+  dir_sync_path(pkg_infodb_get_dir());
 }
 
 static void
@@ -362,7 +362,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   /* OK, now we delete all the stuff in the ‘info’ directory .. */
   debug(dbg_general, "pkg_disappear cleaning info directory");
   pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
-  dir_sync_path(pkgadmindir());
+  dir_sync_path(pkg_infodb_get_dir());
 
   pkg_set_status(pkg, stat_notinstalled);
   pkg_set_want(pkg, want_unknown);
@@ -1105,7 +1105,7 @@ void process_archive(const char *filename) {
    * Firstly we go through the old list of interests deleting them.
    * Then we go through the new list adding them. */
   strcpy(cidirrest, TRIGGERSCIFILE);
-  trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
+  trig_parse_ci(pkg_infodb_get_file(pkg, &pkg->installed, TRIGGERSCIFILE),
                 trig_cicb_interest_delete, NULL, pkg, &pkg->installed);
   trig_parse_ci(cidir, trig_cicb_interest_add, NULL, pkg, &pkg->available);
   trig_file_interests_save();

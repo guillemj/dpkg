@@ -137,9 +137,9 @@ struct diversion {
   struct diversion *next;
 };
 
-const char *pkgadmindir(void);
-const char *pkgadminfile(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                         const char *filetype);
+const char *pkg_infodb_get_dir(void);
+const char *pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                                const char *filetype);
 
 struct filepackages_iterator;
 struct filepackages_iterator *filepackages_iter_new(struct filenamenode *fnn);

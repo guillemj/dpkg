@@ -44,7 +44,7 @@ pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	const char *filename;
 	struct stat stab;
 
-	filename = pkgadminfile(pkg, pkgbin, name);
+	filename = pkg_infodb_get_file(pkg, pkgbin, name);
 	if (lstat(filename, &stab) == 0)
 		return true;
 	else if (errno == ENOENT)
@@ -69,7 +69,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	else
 		pkgname = pkgbin_name(pkg, pkgbin, pnaw_never);
 
-	varbuf_add_str(&db_path, pkgadmindir());
+	varbuf_add_str(&db_path, pkg_infodb_get_dir());
 	varbuf_add_char(&db_path, '/');
 	db_path_len = db_path.used;
 	varbuf_add_char(&db_path, '\0');

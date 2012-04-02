@@ -322,7 +322,7 @@ vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
   struct stat stab;
   char buf[100];
 
-  scriptpath = pkgadminfile(pkg, &pkg->installed, scriptname);
+  scriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
   sprintf(buf, _("installed %s script"), desc);
 
   command_init(&cmd, scriptpath, buf);
@@ -425,7 +425,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   struct stat stab;
   char buf[100];
 
-  oldscriptpath = pkgadminfile(pkg, &pkg->installed, scriptname);
+  oldscriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
   sprintf(buf, _("old %s script"), desc);
 
   command_init(&cmd, oldscriptpath, buf);

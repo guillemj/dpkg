@@ -80,7 +80,7 @@ pkg_infodb_link_multiarch_files(void)
 	struct varbuf newname = VARBUF_INIT;
 	size_t db_path_len;
 
-	varbuf_add_str(&oldname, pkgadmindir());
+	varbuf_add_str(&oldname, pkg_infodb_get_dir());
 	varbuf_add_char(&oldname, '/');
 	db_path_len = oldname.used;
 	varbuf_end_str(&oldname);
@@ -121,7 +121,7 @@ pkg_infodb_link_multiarch_files(void)
 				break;
 		if (!pkg) {
 			warning(_("Info file %s/%s not associated to any package"),
-			        pkgadmindir(), db_de->d_name);
+			        pkg_infodb_get_dir(), db_de->d_name);
 			continue;
 		}
 
@@ -220,7 +220,7 @@ pkg_infodb_upgrade_to_multiarch(void)
 
 	pkg_infodb_unlink_monoarch_files();
 	atomic_file_commit(db_file);
-	dir_sync_path(pkgadmindir());
+	dir_sync_path(pkg_infodb_get_dir());
 
 	pop_cleanup(ehflag_normaltidy);
 

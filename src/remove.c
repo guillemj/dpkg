@@ -344,13 +344,13 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "remove", NULL);
 
-    trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
+    trig_parse_ci(pkg_infodb_get_file(pkg, &pkg->installed, TRIGGERSCIFILE),
                   trig_cicb_interest_delete, NULL, pkg, &pkg->installed);
     trig_file_interests_save();
 
     debug(dbg_general, "removal_bulk cleaning info directory");
     pkg_infodb_foreach(pkg, &pkg->installed, removal_bulk_remove_file);
-    dir_sync_path(pkgadmindir());
+    dir_sync_path(pkg_infodb_get_dir());
 
     pkg_set_status(pkg, stat_configfiles);
     pkg->installed.essential = false;
@@ -618,13 +618,13 @@ void removal_bulk(struct pkginfo *pkg) {
     /* Retry empty directories, and warn on any leftovers that aren't. */
     removal_bulk_remove_leftover_dirs(pkg);
 
-    filename = pkgadminfile(pkg, &pkg->installed, LISTFILE);
+    filename = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
     debug(dbg_general, "removal_bulk purge done, removing list '%s'",
           filename);
     if (unlink(filename) && errno != ENOENT)
       ohshite(_("cannot remove old files list"));
 
-    filename = pkgadminfile(pkg, &pkg->installed, POSTRMFILE);
+    filename = pkg_infodb_get_file(pkg, &pkg->installed, POSTRMFILE);
     debug(dbg_general, "removal_bulk purge done, removing postrm '%s'",
           filename);
     if (unlink(filename) && errno != ENOENT)

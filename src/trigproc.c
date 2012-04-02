@@ -138,8 +138,9 @@ trig_activate_packageprocessing(struct pkginfo *pkg)
 	debug(dbg_triggersdetail, "trigproc_activate_packageprocessing pkg=%s",
 	      pkg_name(pkg, pnaw_always));
 
-	trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE), NULL,
-	              trig_cicb_statuschange_activate, pkg, &pkg->installed);
+	trig_parse_ci(pkg_infodb_get_file(pkg, &pkg->installed, TRIGGERSCIFILE),
+	              NULL, trig_cicb_statuschange_activate,
+	              pkg, &pkg->installed);
 }
 
 /*========== Actual trigger processing. ==========*/
@@ -406,7 +407,8 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		      pkg_name(pkg, pnaw_always),
 		      statusinfos[pkg->status].name);
 		pkg->trigpend_head = NULL;
-		trig_parse_ci(pkgadminfile(pkg, &pkg->installed, TRIGGERSCIFILE),
+		trig_parse_ci(pkg_infodb_get_file(pkg, &pkg->installed,
+		                                  TRIGGERSCIFILE),
 		              cstatus >= msdbrw_write ?
 		              transitional_interest_callback :
 		              transitional_interest_callback_ro, NULL,
