@@ -53,47 +53,6 @@
 #include "infodb.h"
 #include "main.h"
 
-/*** Package control information database directory routines. ***/
-
-/*
- * XXX: Strictly speaking these functions do not exactly belong here, and
- * they should be eventually moved back to a unified on-disk database
- * handling module in libdpkg. For now this is good enough, as it avoids
- * pulling unneeded code into the resulting binaries, because all its
- * users require filesdb anyway.
- */
-
-static char *infodir;
-
-const char *
-pkg_infodb_get_dir(void)
-{
-  if (infodir == NULL)
-    infodir = dpkg_db_get_path(INFODIR);
-
-  return infodir;
-}
-
-const char *
-pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                    const char *filetype)
-{
-  static struct varbuf vb;
-
-  varbuf_reset(&vb);
-  varbuf_add_str(&vb, pkgadmindir());
-  varbuf_add_char(&vb, '/');
-  varbuf_add_str(&vb, pkg->set->name);
-  if (pkgbin->multiarch == multiarch_same &&
-      pkg_infodb_get_format() == pkg_infodb_format_multiarch)
-    varbuf_add_archqual(&vb, pkgbin->arch);
-  varbuf_add_char(&vb, '.');
-  varbuf_add_str(&vb, filetype);
-  varbuf_end_str(&vb);
-
-  return vb.buf;
-}
-
 /*** filepackages support for tracking packages owning a file. ***/
 
 #define PERFILEPACKAGESLUMP 10

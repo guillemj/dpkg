@@ -38,6 +38,7 @@
 
 #include "main.h"
 #include "filesdb.h"
+#include "infodb.h"
 
 /*
  * Trigger processing algorithms:

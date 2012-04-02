@@ -44,6 +44,7 @@
 #include <dpkg/triglib.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 
 const char *const statusstrings[]= {

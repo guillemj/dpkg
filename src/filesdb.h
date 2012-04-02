@@ -137,10 +137,6 @@ struct diversion {
   struct diversion *next;
 };
 
-const char *pkg_infodb_get_dir(void);
-const char *pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                                const char *filetype);
-
 struct filepackages_iterator;
 struct filepackages_iterator *filepackages_iter_new(struct filenamenode *fnn);
 struct pkginfo *filepackages_iter_next(struct filepackages_iterator *iter);

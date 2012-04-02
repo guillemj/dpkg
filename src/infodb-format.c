@@ -31,6 +31,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/varbuf.h>
 
 #include "infodb.h"
 
@@ -108,4 +109,35 @@ pkg_infodb_is_upgrading(void)
 		pkg_infodb_read_format();
 
 	return db_upgrading;
+}
+
+const char *
+pkg_infodb_get_dir(void)
+{
+	static char *infodir;
+
+	if (infodir == NULL)
+		infodir = dpkg_db_get_path(INFODIR);
+
+	return infodir;
+}
+
+const char *
+pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                    const char *filetype)
+{
+	static struct varbuf vb;
+
+	varbuf_reset(&vb);
+	varbuf_add_str(&vb, pkg_infodb_get_dir());
+	varbuf_add_char(&vb, '/');
+	varbuf_add_str(&vb, pkg->set->name);
+	if (pkgbin->multiarch == multiarch_same &&
+		pkg_infodb_get_format() == pkg_infodb_format_multiarch)
+	varbuf_add_archqual(&vb, pkgbin->arch);
+	varbuf_add_char(&vb, '.');
+	varbuf_add_str(&vb, filetype);
+	varbuf_end_str(&vb);
+
+	return vb.buf;
 }
