@@ -20,7 +20,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-source 1 "2011-08-14" "Debian Project" "dpkg utilities"
+.TH dpkg\-source 1 "2012-04-03" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-source \- Debian source package (.dsc) manipulation tool
 .
@@ -449,7 +449,10 @@ explicit options used for patch application (stored on each line
 after the patch filename and one or more spaces), it does ignore those
 options and always expect patches that can be applied with the \fB\-p1\fP
 option of \fBpatch\fP. It will thus emit a warning when it encounters
-such options, and the build is likely to fail.
+such options, and the build is likely to fail. Note also that starting
+with \fBdpkg\-source\fP 1.15.5.3, patches are expected to apply without
+any fuzz, and they will cause an error otherwise; such patches can be
+fixed by refreshing them with quilt.
 .PP
 Similarly to quilt's default behaviour, the patches can remove files too.
 .PP
