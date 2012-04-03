@@ -166,8 +166,8 @@ sub add_hardening_flags {
 
     # Format Security
     if ($use_feature{"format"}) {
-	$flags->append("CFLAGS", "-Wformat -Wformat-security -Werror=format-security");
-	$flags->append("CXXFLAGS", "-Wformat -Wformat-security -Werror=format-security");
+	$flags->append("CFLAGS", "-Wformat -Werror=format-security");
+	$flags->append("CXXFLAGS", "-Wformat -Werror=format-security");
     }
 
     # Read-only Relocations
