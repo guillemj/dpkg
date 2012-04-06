@@ -1002,6 +1002,25 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
+#elif defined(OSHurd)
+static bool
+pid_is_exec(pid_t pid, const struct stat *esb)
+{
+	struct proc_stat *ps;
+	struct stat sb;
+	const char *filename;
+
+	ps = get_proc_stat(pid, PSTAT_ARGS);
+	if (ps == NULL)
+		return false;
+
+	filename = proc_stat_args(ps);
+
+	if (stat(filename, &sb) != 0)
+		return false;
+
+	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
+}
 #elif defined(OShpux)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
@@ -1015,11 +1034,12 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 }
 #elif defined(HAVE_KVM_H)
 static bool
-pid_is_exec(pid_t pid, const char *name)
+pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	kvm_t *kd;
 	int nentries, argv_len = 0;
 	struct kinfo_proc *kp;
+	struct stat sb;
 	char errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
 	char **pid_argv_p;
 	char *start_argv_0_p, *end_argv_0_p;
@@ -1052,27 +1072,10 @@ pid_is_exec(pid_t pid, const char *name)
 		start_argv_0_p = buf;
 	}
 
-	if (strlen(name) != strlen(start_argv_0_p))
+	if (stat(start_argv_0_p, &sb) != 0)
 		return false;
-	return (strcmp(name, start_argv_0_p) == 0);
-}
-#else
-/* XXX: Fallback implementation that uses pid_is_cmd(). We should use more
- * reliable native implementations instead. */
-static bool pid_is_cmd(pid_t pid, const char *name);
 
-static bool
-pid_is_exec(pid_t pid, const char *name)
-{
-	char *filename;
-	bool ret;
-
-	filename = xstrdup(name);
-	basename(filename);
-	ret = pid_is_cmd(pid, filename);
-	free(filename);
-
-	return ret;
+	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
 #endif
 
@@ -1225,13 +1228,8 @@ pid_is_running(pid_t pid)
 static enum status_code
 pid_check(pid_t pid)
 {
-#if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
 		return status_dead;
-#else
-	if (execname && !pid_is_exec(pid, execname))
-		return status_dead;
-#endif
 	if (userspec && !pid_is_user(pid, user_id))
 		return status_dead;
 	if (cmdname && !pid_is_cmd(pid, cmdname))
