@@ -1164,15 +1164,31 @@ static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	struct proc_stat *ps;
-	const char *process_name;
+	size_t argv0_len;
+	const char *argv0;
+	const char *binary_name;
 
 	ps = get_proc_stat(pid, PSTAT_ARGS);
 	if (ps == NULL)
 		return false;
 
-	process_name = basename(proc_stat_args(ps));
+	argv0 = proc_stat_args(ps);
+	argv0_len = strlen(argv0) + 1;
 
-	return strcmp(process_name, name) == 0;
+	binary_name = basename(argv0);
+	if (strcmp(binary_name, name) == 0)
+		return true;
+
+	/* XXX: This is all kinds of ugly, but on the Hurd there's no way to
+	 * know the command name of a process, so we have to try to match
+	 * also on argv[1] for the case of an interpreted script. */
+	if (proc_stat_args_len(ps) > argv0_len) {
+		const char *script_name = basename(argv0 + argv0_len);
+
+		return strcmp(script_name, name) == 0;
+	}
+
+	return false;
 }
 #elif defined(OShpux)
 static bool
