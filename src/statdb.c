@@ -215,7 +215,7 @@ ensure_statoverrides(void)
 			       thisline);
 		fnn->statoverride = fso;
 
-		/* Moving on.. */
+		/* Moving on... */
 		thisline = nextline;
 	}
 

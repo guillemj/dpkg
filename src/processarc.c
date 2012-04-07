@@ -359,7 +359,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
                                               vdew_nonambig),
                               NULL);
 
-  /* OK, now we delete all the stuff in the ‘info’ directory .. */
+  /* OK, now we delete all the stuff in the ‘info’ directory ... */
   debug(dbg_general, "pkg_disappear cleaning info directory");
   pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
   dir_sync_path(pkg_infodb_get_dir());

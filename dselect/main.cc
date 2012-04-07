@@ -186,7 +186,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --admindir <directory>     Use <directory> instead of %s.\n"
 "  --expert                   Turn on expert mode.\n"
 "  --debug <file> | -D<file>  Turn on debugging, sending output to <file>.\n"
-"  --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]\n"
+"  --colour | --color screenpart:[foreground],[background][:attr[+attr+...]]\n"
 "                             Configure screen colours.\n"
 "\n"), ADMINDIR);
 
