@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * macros.h - C language support macros
  *
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,6 +69,15 @@
 #define DPKG_ATTR_SENTINEL	__attribute__((sentinel))
 #else
 #define DPKG_ATTR_SENTINEL
+#endif
+
+/* For C++, define a __func__ fallback in case it's not natively supported. */
+#if defined(__cplusplus) && __cplusplus < 201103L
+# if DPKG_GCC_VERSION >= 0x0200
+#  define __func__ __PRETTY_FUNCTION__
+# else
+#  define __func__ __FUNCTION__
+# endif
 #endif
 
 #ifdef __cplusplus
