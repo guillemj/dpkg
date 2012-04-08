@@ -79,8 +79,7 @@ buffer_filter_update(struct buffer_data *filter, const void *buf, off_t length)
 		          buf, length);
 		break;
 	default:
-		internerr("unknown data type '%i' in buffer_filter_update",
-		          filter->type);
+		internerr("unknown data type %i", filter->type);
 	}
 
 	return ret;
@@ -133,8 +132,7 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length)
 	case BUFFER_WRITE_NULL:
 		break;
 	default:
-		internerr("unknown data type '%i' in buffer_write",
-		          data->type);
+		internerr("unknown data type %i", data->type);
 	}
 
 	return ret;
@@ -150,8 +148,7 @@ buffer_read(struct buffer_data *data, void *buf, off_t length)
 		ret = fd_read(data->arg.i, buf, length);
 		break;
 	default:
-		internerr("unknown data type '%i' in buffer_read\n",
-		          data->type);
+		internerr("unknown data type %i", data->type);
 	}
 
 	return ret;
@@ -288,8 +285,7 @@ buffer_skip(struct buffer_data *input, off_t limit, const char *desc)
 			ohshite(_("failed to seek %s"), desc);
 		break;
 	default:
-		internerr("unknown data type '%i' in buffer_skip\n",
-		          input->type);
+		internerr("unknown data type %i", input->type);
 	}
 
 	output.type = BUFFER_WRITE_NULL;

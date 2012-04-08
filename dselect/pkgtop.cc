@@ -71,7 +71,7 @@ int packagelist::describemany(char buf[], const char *prioritystring,
   case sso_unsorted:
     break;
   default:
-    internerr("unknown statsortrder %d in describemany all", statsortorder);
+    internerr("unknown statsortrder %d", statsortorder);
   }
 
   if (!prioritystring) {

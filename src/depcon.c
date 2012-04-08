@@ -82,8 +82,7 @@ deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter)
         pkgbin = &pkg_cur->installed;
       break;
     default:
-      internerr("bad value (%d) for wpb in deppossi_pkg_iter_next()",
-                iter->which_pkgbin);
+      internerr("unknown which_pkgbin %d", iter->which_pkgbin);
     }
 
     if (archsatisfied(pkgbin, iter->possi))

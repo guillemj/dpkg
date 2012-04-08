@@ -178,7 +178,7 @@ void packagelist::setwidths() {
     description_column= versionavailable_column + versionavailable_width + gap_width;
     break;
   default:
-    internerr("unknown versiondisplayopt %d in setwidths", versiondisplayopt);
+    internerr("unknown versiondisplayopt %d", versiondisplayopt);
   }
 
   description_width= total_width - description_column;
@@ -210,8 +210,7 @@ void packagelist::redrawtitle() {
           waddnstr(titlewin, _(" (status, section)"), xmax-x);
           break;
         default:
-          internerr("bad statsort %d in redrawtitle/so_section",
-                    statsortorder);
+          internerr("bad statsort %d on so_section", statsortorder);
         }
         break;
       case so_priority:
@@ -226,8 +225,7 @@ void packagelist::redrawtitle() {
           waddnstr(titlewin, _(" (status, priority)"), xmax-x);
           break;
         default:
-          internerr("bad statsort %d in redrawtitle/so_priority",
-                    statsortorder);
+          internerr("bad statsort %d on so_priority", statsortorder);
         }
         break;
       case so_alpha:
@@ -242,14 +240,13 @@ void packagelist::redrawtitle() {
           waddnstr(titlewin, _(" (by status)"), xmax-x);
           break;
         default:
-          internerr("bad statsort %d in redrawtitle/so_priority",
-                    statsortorder);
+          internerr("bad statsort %d on so_priority", statsortorder);
         }
         break;
       case so_unsorted:
         break;
       default:
-        internerr("bad sort %d in redrawtitle", sortorder);
+        internerr("bad sort %d", sortorder);
       }
     }
     const char *helpstring;

@@ -44,7 +44,7 @@ packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith) {
   case sso_unsorted:
     break;
   default:
-    internerr("unknown statsortorder %d in affectedmatches", statsortorder);
+    internerr("unknown statsortorder %d", statsortorder);
   }
   if (comparewith->priority != pkginfo::pri_unset &&
       (comparewith->priority != pkg->priority ||
@@ -169,7 +169,7 @@ void packagelist::kd_swapstatorder() {
   case sso_state:     statsortorder= sso_unsorted;  break;
   case sso_unsorted:  statsortorder= sso_avail;     break;
   default:
-    internerr("unknown statsort %d in kd_swapstatorder", statsortorder);
+    internerr("unknown statsort %d", statsortorder);
   }
   resortredisplay();
 }
@@ -181,7 +181,7 @@ void packagelist::kd_swaporder() {
   case so_alpha:     sortorder= so_priority;  break;
   case so_unsorted:                           return;
   default:
-    internerr("unknown sort %d in kd_swaporder", sortorder);
+    internerr("unknown sort %d", sortorder);
   }
   resortredisplay();
 }
@@ -219,8 +219,7 @@ void packagelist::kd_versiondisplay() {
   case vdo_none:       versiondisplayopt= vdo_available;  break;
   case vdo_available:  versiondisplayopt= vdo_both;       break;
   default:
-    internerr("unknown versiondisplayopt %d in kd_versiondisplay",
-              versiondisplayopt);
+    internerr("unknown versiondisplayopt %d", versiondisplayopt);
   }
   setwidths();
   leftofscreen= 0;
