@@ -135,7 +135,8 @@ packagelist::add(dependency *depends, showpriority displayimportance)
       case dvr_earlierstrict: info(" (<< "); break;
       case dvr_laterstrict:   info(" (>> "); break;
       case dvr_exact:         info(" (= "); break;
-      default: internerr("unknown verrel");
+      default:
+        internerr("unknown verrel %d", possi->verrel);
       }
       info(versiondescribe(&possi->version, vdew_nonambig));
       info(")");
