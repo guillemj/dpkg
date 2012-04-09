@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2012-04-03 18:53+0300\n"
-"PO-Revision-Date: 2012-04-03 19:22+0200\n"
+"POT-Creation-Date: 2012-04-09 20:49+0300\n"
+"PO-Revision-Date: 2012-04-09 21:54+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
@@ -26,10 +26,9 @@ msgstr "deb"
 #: deb.5:21 deb-control.5:22 deb-src-control.5:19 deb-version.5:20
 #: deb-old.5:20 deb-override.5:19 deb-symbols.5:18 deb-triggers.5:19
 #: dpkg-buildpackage.1:22 dpkg-divert.8:21 dpkg-genchanges.1:21
-#: dpkg-gencontrol.1:20 dpkg-gensymbols.1:19 dpkg-mergechangelogs.1:18
-#: dpkg-name.1:19 dpkg-parsechangelog.1:21 dpkg-scanpackages.1:20
-#: dpkg-scansources.1:20 dpkg-trigger.1:18 dselect.1:22
-#: update-alternatives.8:25
+#: dpkg-gencontrol.1:20 dpkg-mergechangelogs.1:18 dpkg-name.1:19
+#: dpkg-parsechangelog.1:21 dpkg-scanpackages.1:20 dpkg-scansources.1:20
+#: dpkg-trigger.1:18 update-alternatives.8:25
 #, no-wrap
 msgid "2011-08-14"
 msgstr "2011-08-14"
@@ -266,7 +265,7 @@ msgstr ""
 "Hauptversionsnummer erhöht wird."
 
 #. type: SH
-#: deb.5:99 deb-control.5:289 deb-src-control.5:343 deb-split.5:66
+#: deb.5:99 deb-control.5:289 deb-src-control.5:343 deb-split.5:67
 #: deb-version.5:131 deb-old.5:70 deb-origin.5:56 deb-override.5:66
 #: deb-extra-override.5:54 deb-shlibs.5:66 deb-substvars.5:172
 #: deb-symbols.5:77 deb-triggers.5:85 dpkg.1:810 dpkg-architecture.1:258
@@ -1517,11 +1516,10 @@ msgid "deb-split"
 msgstr "deb-split"
 
 #. type: TH
-#: deb-split.5:18 dpkg-checkbuilddeps.1:20 dpkg-distaddfile.1:19
-#: dpkg-split.1:19 dpkg-statoverride.8:19
+#: deb-split.5:18
 #, no-wrap
-msgid "2011-07-04"
-msgstr "2011-07-04"
+msgid "2012-04-09"
+msgstr "2012-04-09"
 
 #. type: Plain text
 #: deb-split.5:21
@@ -1614,31 +1612,33 @@ msgid "The package architecture (since dpkg 1.16.1)."
 msgstr "Die Paketarchitektur (seit Dpkg 1.16.1)."
 
 #. type: Plain text
-#: deb-split.5:53
+#: deb-split.5:54
 msgid ""
-"Programs which read multi-part archives should be prepared for additional "
-"lines to be present, and should ignore these if this is the case."
+"Programs which read multi-part archives should be prepared for the minor "
+"format version number to be increased and additional lines to be present, "
+"and should ignore these if this is the case."
 msgstr ""
 "Programme, die mehrteilige Archive lesen, sollten darauf vorbereitet sein, "
+"dass sich die Unterversionsnummer erhöht und "
 "dass zusätzliche Zeilen vorhanden sein können, und sollten diese ignorieren, "
 "falls dies der Fall ist."
 
 #. type: Plain text
-#: deb-split.5:58
+#: deb-split.5:59
 msgid ""
-"If the version number has changed, an incompatible change has been made and "
-"the program should stop. If it has not, then the program should be able to "
-"safely continue, unless it encounters an unexpected member in the archive "
-"(except at the end), as described below."
+"If the major format version number has changed, an incompatible change has "
+"been made and the program should stop. If it has not, then the program "
+"should be able to safely continue, unless it encounters an unexpected member "
+"in the archive (except at the end), as described below."
 msgstr ""
-"Falls sich die Versionsnummer geändert hat, wurde eine inkompatible Änderung "
+"Falls sich die Hauptversionsnummer geändert hat, wurde eine inkompatible Änderung "
 "durchgeführt und das Programm sollte sich beenden. Falls dies nicht der Fall "
 "ist, dann sollte das Programm sicher fortfahren können, es sei denn, ein "
 "unerwartetes Mitglied ist im Archiv (abgesehen vom Ende) gefunden worden, "
 "wie unten beschrieben."
 
 #. type: Plain text
-#: deb-split.5:61
+#: deb-split.5:62
 msgid ""
 "The second, last required member is named B<data.>I<N>, where I<N> denotes "
 "the part number. It contains the raw part data."
@@ -1647,7 +1647,7 @@ msgstr ""
 "Teilnummer angibt. Es enthält die rohen Daten des Teils."
 
 #. type: Plain text
-#: deb-split.5:66
+#: deb-split.5:67
 msgid ""
 "These members must occur in this exact order. Current implementations should "
 "ignore any additional members after B<data.>I<N>.  Further members may be "
@@ -1659,7 +1659,7 @@ msgstr ""
 "werden (falls möglich) nach diesen drei platziert."
 
 #. type: Plain text
-#: deb-split.5:68
+#: deb-split.5:69
 msgid "B<deb>(5), B<dpkg-split>(1)."
 msgstr "B<deb>(5), B<dpkg-split>(1)."
 
@@ -4496,8 +4496,8 @@ msgid ""
 "Ignore dependency-checking for specified packages (actually, checking is "
 "performed, but only warnings about conflicts are given, nothing else)."
 msgstr ""
-"Ignoriere Abhängigkeitsüberprüfungen für bestimmte Pakete (tatsächlich "
-"wird die Überprüfung durchgeführt, aber nur Warnungen über Konflikte werden "
+"Ignoriere Abhängigkeitsüberprüfungen für bestimmte Pakete (tatsächlich wird "
+"die Überprüfung durchgeführt, aber nur Warnungen über Konflikte werden "
 "angezeigt, sonst nichts)."
 
 #. type: TP
@@ -6902,20 +6902,20 @@ msgstr "B<format>"
 msgid ""
 "This setting (enabled by default) adds B<-Wformat -Werror=format-security> "
 "to B<CFLAGS> and B<CXXFLAGS>. This will warn about improper format string "
-"uses, and will fail when format functions are used in a way that "
-"represent possible security problems. At present, this warns about calls to "
-"B<printf> and B<scanf> functions where the format string is not a string "
-"literal and there are no format arguments, as in B<printf(foo);> instead of "
-"B<printf(\"%s\", foo);> This may be a security hole if the format string "
-"came from untrusted input and contains \"%n\"."
+"uses, and will fail when format functions are used in a way that represent "
+"possible security problems. At present, this warns about calls to B<printf> "
+"and B<scanf> functions where the format string is not a string literal and "
+"there are no format arguments, as in B<printf(foo);> instead of B<printf(\"%s"
+"\", foo);> This may be a security hole if the format string came from "
+"untrusted input and contains \"%n\"."
 msgstr ""
-"Diese Einstellung (standardmäßig aktiviert) fügt B<-Wformat "
-"-Werror=format-security> zu B<CFLAGS> und B<CXXFLAGS> hinzu. Damit "
-"wird über inkorrekte Formatzeichenkettenverwendungen gewarnt und zu einem "
-"Fehler führen, wenn Formatfunktionen deart verwandt werden, dass daraus ein "
-"mögliches Sicherheitsproblem werden könnte. Derzeit warnt dies über Aufrufe "
-"auf B<printf>- und B<scanf>-Funktionen, bei denen die Formatzeichenkette "
-"nicht eine reine Zeichenkette ist und es keine Formatargumente gibt, wie in "
+"Diese Einstellung (standardmäßig aktiviert) fügt B<-Wformat -Werror=format-"
+"security> zu B<CFLAGS> und B<CXXFLAGS> hinzu. Damit wird über inkorrekte "
+"Formatzeichenkettenverwendungen gewarnt und zu einem Fehler führen, wenn "
+"Formatfunktionen deart verwandt werden, dass daraus ein mögliches "
+"Sicherheitsproblem werden könnte. Derzeit warnt dies über Aufrufe auf "
+"B<printf>- und B<scanf>-Funktionen, bei denen die Formatzeichenkette nicht "
+"eine reine Zeichenkette ist und es keine Formatargumente gibt, wie in "
 "B<printf(foo);> statt B<printf(\"%s\", foo);>. Dies könnte ein "
 "Sicherheitsproblem sein, falls die Formatzeichenkette aus einer "
 "unvertrauenswürdigen Eingabe stammt und »%n« enthält."
@@ -7821,6 +7821,13 @@ msgstr ""
 #, no-wrap
 msgid "dpkg-checkbuilddeps"
 msgstr "dpkg-checkbuilddeps"
+
+#. type: TH
+#: dpkg-checkbuilddeps.1:20 dpkg-distaddfile.1:19 dpkg-split.1:19
+#: dpkg-statoverride.8:19
+#, no-wrap
+msgid "2011-07-04"
+msgstr "2011-07-04"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:23
@@ -9401,6 +9408,12 @@ msgstr ""
 msgid "dpkg-gensymbols"
 msgstr "dpkg-gensymbols"
 
+#. type: TH
+#: dpkg-gensymbols.1:19 dselect.1:22
+#, no-wrap
+msgid "2012-04-07"
+msgstr "2012-04-07"
+
 #. type: Plain text
 #: dpkg-gensymbols.1:22
 msgid ""
@@ -10248,14 +10261,14 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:338
-msgid "(tag|..|tagN)#include \"file-to-include\""
-msgstr "(Kennzeichen|...|KennzeichenN)#include \"einzubindende-Datei\""
+msgid "(tag|...|tagN)#include \"file-to-include\""
+msgstr "(Kennzeichen|…|KennzeichenN)#include \"einzubindende-Datei\""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:343
 msgid ""
 "As a result, all symbols included from I<file-to-include> will be considered "
-"to be tagged with I<tag> .. I<tagN> by default. You can use this feature to "
+"to be tagged with I<tag> ... I<tagN> by default. You can use this feature to "
 "create a common I<package>.symbols file which includes architecture specific "
 "symbol files:"
 msgstr ""
@@ -15809,7 +15822,7 @@ msgstr "B<dpkg-trigger> [I<Option>...] I<Trigger-Name>"
 
 #. type: Plain text
 #: dpkg-trigger.1:28
-msgid "B<dpkg-trigger> [I<option>…] I<command>"
+msgid "B<dpkg-trigger> [I<option>...] I<command>"
 msgstr "B<dpkg-trigger> [I<Option>…] I<Befehl>"
 
 #. type: Plain text
@@ -16164,8 +16177,8 @@ msgstr ""
 #. type: TP
 #: dselect.1:77
 #, no-wrap
-msgid "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>[I<+attr+..>]]"
-msgstr "[B<--colour>|B<--color> I<Bildschirmteil:>[I<Vordergrund>],[I<Hintergrund>][I<:Attr>[I<+Attr+..>]]]"
+msgid "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>[I<+attr+...>]]"
+msgstr "[B<--colour>|B<--color> I<Bildschirmteil:>[I<Vordergrund>],[I<Hintergrund>][I<:Attr>[I<+Attr+…>]]]"
 
 #. type: Plain text
 #: dselect.1:84
