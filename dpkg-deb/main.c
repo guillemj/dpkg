@@ -134,7 +134,9 @@ static const char printforhelp[] =
   N_("Type dpkg-deb --help for help about manipulating *.deb files;\n"
      "Type dpkg --help for help about installing and deinstalling packages.");
 
-int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
+int debugflag = 0;
+int nocheckflag = 0;
+int oldformatflag = 0;
 int opt_verbose = 0;
 struct compress_params compress_params = {
   .type = compressor_type_gzip,

@@ -46,11 +46,6 @@ extern struct compress_params compress_params;
 #define BUILDCONTROLDIR		"DEBIAN"
 #define EXTRACTCONTROLDIR	BUILDCONTROLDIR
 
-/* Set BUILDOLDPKGFORMAT to 1 to build old-format archives by default. */
-#ifndef BUILDOLDPKGFORMAT
-#define BUILDOLDPKGFORMAT 0
-#endif
-
 #define OLDARCHIVEVERSION	"0.939000"
 
 #define OLDDEBDIR		"DEBIAN"
