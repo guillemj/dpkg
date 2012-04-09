@@ -1,6 +1,6 @@
 .\" dpkg manual page - deb-split(5)
 .\"
-.\" Copyright © 2009-2011 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2009-2012 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH deb\-split 5 "2011-07-04" "Debian Project" "Debian"
+.TH deb\-split 5 "2012-04-09" "Debian Project" "Debian"
 .SH NAME
 deb\-split \- Debian multi-part binary package format
 .SH SYNOPSIS
@@ -48,11 +48,12 @@ parts (as in \(oq1/10\(cq).
 .IP \(bu
 The package architecture (since dpkg 1.16.1).
 .PP
-Programs which read multi-part archives should be prepared for additional
-lines to be present, and should ignore these if this is the case.
+Programs which read multi-part archives should be prepared for the minor
+format version number to be increased and additional lines to be present,
+and should ignore these if this is the case.
 .PP
-If the version number has changed, an incompatible change has been made
-and the program should stop. If it has not, then the program should
+If the major format version number has changed, an incompatible change has
+been made and the program should stop. If it has not, then the program should
 be able to safely continue, unless it encounters an unexpected member
 in the archive (except at the end), as described below.
 .PP

@@ -125,7 +125,7 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
                           nextline(&rip, fn, _("format version number")));
   if (err)
     ohshit(_("file '%.250s' has invalid format version: %s"), fn, err);
-  if (ir->fmtversion.major != 2 || ir->fmtversion.minor != 1)
+  if (ir->fmtversion.major != 2)
     ohshit(_("file '%.250s' is format version %d.%d; get a newer dpkg-split"),
            fn, ir->fmtversion.major, ir->fmtversion.minor);
 
