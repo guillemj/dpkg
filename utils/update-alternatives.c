@@ -2025,6 +2025,28 @@ get_argv_string(int argc, char **argv)
 }
 
 static void
+alternative_get_selections(void)
+{
+	struct alternative_map *alt_map_obj;
+	struct alternative_map *am;
+
+	alt_map_obj = alternative_map_new(NULL, NULL);
+	alternative_map_load_names(alt_map_obj);
+
+	for (am = alt_map_obj; am && am->item; am = am->next) {
+		char *current;
+
+		current = alternative_get_current(am->item);
+		printf("%-30s %-8s %s\n", am->key,
+		       alternative_status_string(am->item->status),
+		       current ? current : "");
+		free(current);
+	}
+
+	alternative_map_free(alt_map_obj);
+}
+
+static void
 alternative_set_selection(struct alternative_map *all, const char *name,
                           const char *status, const char *choice)
 {
@@ -2480,24 +2502,7 @@ main(int argc, char **argv)
 		config_all();
 		exit(0);
 	} else if (strcmp(action, "get-selections") == 0) {
-		struct alternative_map *alt_map_obj;
-		struct alternative_map *am;
-
-		alt_map_obj = alternative_map_new(NULL, NULL);
-		alternative_map_load_names(alt_map_obj);
-
-		for (am = alt_map_obj; am && am->item; am = am->next) {
-			char *current;
-
-			current = alternative_get_current(am->item);
-			printf("%-30s %-8s %s\n", am->key,
-			       alternative_status_string(am->item->status),
-			       current ? current : "");
-			free(current);
-		}
-
-		alternative_map_free(alt_map_obj);
-
+		alternative_get_selections();
 		exit(0);
 	} else if (strcmp(action, "set-selections") == 0) {
 		struct alternative_map *alt_map_obj;
