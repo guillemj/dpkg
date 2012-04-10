@@ -2149,6 +2149,37 @@ alternative_set_selections(FILE *input, const char *desc)
 }
 
 static void
+alternative_select_mode(struct alternative *a, const char *current_choice)
+{
+	if (current_choice) {
+		/* Detect manually modified alternative, switch to manual. */
+		if (!alternative_has_choice(a, current_choice)) {
+			struct stat st;
+
+			errno = 0;
+			if (stat(current_choice, &st) == -1 && errno != ENOENT)
+				syserr(_("cannot stat file '%s'"), current_choice);
+
+			if (errno == ENOENT) {
+				warning(_("%s/%s is dangling, it will be updated "
+				          "with best choice."), altdir, a->master_name);
+				alternative_set_status(a, ALT_ST_AUTO);
+			} else if (a->status != ALT_ST_MANUAL) {
+				warning(_("%s/%s has been changed (manually or by "
+				          "a script). Switching to manual "
+				          "updates only."), altdir, a->master_name);
+				alternative_set_status(a, ALT_ST_MANUAL);
+			}
+		}
+	} else {
+		/* Lack of alternative link => automatic mode. */
+		verbose(_("setting up automatic selection of %s."),
+		        a->master_name);
+		alternative_set_status(a, ALT_ST_AUTO);
+	}
+}
+
+static void
 alternative_evolve(struct alternative *a, struct alternative *b,
                    const char *cur_choice, struct fileset *fs)
 {
@@ -2540,33 +2571,8 @@ main(int argc, char **argv)
 
 	/* Actions below might modify the system. */
 	log_msg("run with %s", get_argv_string(argc, argv));
-	if (alternative_has_current_link(a)) {
-		current_choice = alternative_get_current(a);
-		/* Detect manually modified alternative, switch to manual. */
-		if (!alternative_has_choice(a, current_choice)) {
-			struct stat st;
-
-			errno = 0;
-			if (stat(current_choice, &st) == -1 && errno != ENOENT)
-				syserr(_("cannot stat file '%s'"), current_choice);
-
-			if (errno == ENOENT) {
-				warning(_("%s/%s is dangling, it will be updated "
-				          "with best choice."), altdir, a->master_name);
-				alternative_set_status(a, ALT_ST_AUTO);
-			} else if (a->status != ALT_ST_MANUAL) {
-				warning(_("%s/%s has been changed (manually or by "
-				          "a script). Switching to manual "
-				          "updates only."), altdir, a->master_name);
-				alternative_set_status(a, ALT_ST_MANUAL);
-			}
-		}
-	} else {
-		/* Lack of alternative link => automatic mode. */
-		verbose(_("setting up automatic selection of %s."),
-		        a->master_name);
-		alternative_set_status(a, ALT_ST_AUTO);
-	}
+	current_choice = alternative_get_current(a);
+	alternative_select_mode(a, current_choice);
 
 	if (strcmp(action, "set") == 0) {
 		if (alternative_has_choice(a, path))
