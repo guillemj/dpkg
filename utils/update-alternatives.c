@@ -2078,9 +2078,13 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 }
 
 static void
-alternative_set_selections(struct alternative_map *all, FILE *input,
-                           const char *desc)
+alternative_set_selections(FILE *input, const char *desc)
 {
+	struct alternative_map *alt_map_obj;
+
+	alt_map_obj = alternative_map_new(NULL, NULL);
+	alternative_map_load_names(alt_map_obj);
+
 	for (;;) {
 		char line[1024], *res, *name, *status, *choice;
 		size_t len, i;
@@ -2138,8 +2142,10 @@ alternative_set_selections(struct alternative_map *all, FILE *input,
 		choice = line + i;
 
 		printf("[%s %s] ", PROGNAME, "--set-selections");
-		alternative_set_selection(all, name, status, choice);
+		alternative_set_selection(alt_map_obj, name, status, choice);
 	}
+
+	alternative_map_free(alt_map_obj);
 }
 
 static void
@@ -2505,13 +2511,8 @@ main(int argc, char **argv)
 		alternative_get_selections();
 		exit(0);
 	} else if (strcmp(action, "set-selections") == 0) {
-		struct alternative_map *alt_map_obj;
-
 		log_msg("run with %s", get_argv_string(argc, argv));
-		alt_map_obj = alternative_map_new(NULL, NULL);
-		alternative_map_load_names(alt_map_obj);
-		alternative_set_selections(alt_map_obj, stdin, _("<standard input>"));
-		alternative_map_free(alt_map_obj);
+		alternative_set_selections(stdin, _("<standard input>"));
 		exit(0);
 	}
 
