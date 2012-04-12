@@ -2243,6 +2243,59 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 }
 
 static void
+alternative_update(struct alternative *a,
+                   char *current_choice, const char *new_choice)
+{
+	/* No choice left, remove everything. */
+	if (!alternative_choices_count(a)) {
+		log_msg("link group %s fully removed", a->master_name);
+		alternative_remove(a);
+		return;
+	}
+
+	/* New choice wanted. */
+	if (new_choice &&
+	    (!current_choice || strcmp(new_choice, current_choice) != 0)) {
+		log_msg("link group %s updated to point to %s", a->master_name,
+		        new_choice);
+		info(_("using %s to provide %s (%s) in %s."), new_choice,
+		     a->master_link, a->master_name,
+		     (a->status == ALT_ST_AUTO) ? _("auto mode") :
+		                                  _("manual mode"));
+		debug("prepare_install(%s)", new_choice);
+		alternative_prepare_install(a, new_choice);
+	} else if (alternative_is_broken(a)) {
+		log_msg("auto-repair link group %s", a->master_name);
+		warning(_("forcing reinstallation of alternative %s because "
+		          "link group %s is broken."), current_choice,
+		        a->master_name);
+
+		if (current_choice && !alternative_has_choice(a, current_choice)) {
+			struct fileset *best = alternative_get_best(a);
+
+			warning(_("current alternative %s is unknown, "
+			          "switching to %s for link group %s."),
+			        current_choice, best->master_file,
+			        a->master_name);
+			current_choice = best->master_file;
+			alternative_set_status(a, ALT_ST_AUTO);
+		}
+
+		if (current_choice)
+			alternative_prepare_install(a, current_choice);
+	}
+
+	/* Save administrative file if needed. */
+	if (a->modified) {
+		debug("%s is modified and will be saved", a->master_name);
+		alternative_save(a);
+	}
+
+	/* Replace all symlinks in one pass. */
+	alternative_commit(a);
+}
+
+static void
 alternative_check_name(const char *name)
 {
 	if (strpbrk(name, "/ \t"))
@@ -2651,53 +2704,7 @@ main(int argc, char **argv)
 		}
 	}
 
-	/* No choice left, remove everything. */
-	if (!alternative_choices_count(a)) {
-		log_msg("link group %s fully removed", a->master_name);
-		alternative_remove(a);
-		exit(0);
-	}
-
-	/* New choice wanted. */
-	if (new_choice && (!current_choice ||
-	                   strcmp(new_choice, current_choice) != 0)) {
-		log_msg("link group %s updated to point to %s", a->master_name,
-		        new_choice);
-		info(_("using %s to provide %s (%s) in %s."), new_choice,
-		     a->master_link, a->master_name,
-		     (a->status == ALT_ST_AUTO) ? _("auto mode") :
-		                                  _("manual mode"));
-		debug("prepare_install(%s)", new_choice);
-		alternative_prepare_install(a, new_choice);
-	} else if (alternative_is_broken(a)) {
-		log_msg("auto-repair link group %s", a->master_name);
-		warning(_("forcing reinstallation of alternative %s because "
-		          "link group %s is broken."), current_choice,
-		        a->master_name);
-
-		if (current_choice && !alternative_has_choice(a, current_choice)) {
-			struct fileset *best = alternative_get_best(a);
-
-			warning(_("current alternative %s is unknown, "
-			          "switching to %s for link group %s."),
-			        current_choice, best->master_file,
-			        a->master_name);
-			current_choice = best->master_file;
-			alternative_set_status(a, ALT_ST_AUTO);
-		}
-
-		if (current_choice)
-			alternative_prepare_install(a, current_choice);
-	}
-
-	/* Save administrative file if needed. */
-	if (a->modified) {
-		debug("%s is modified and will be saved", a->master_name);
-		alternative_save(a);
-	}
-
-	/* Replace all symlinks in one pass. */
-	alternative_commit(a);
+	alternative_update(a, current_choice, new_choice);
 
 	return 0;
 }
