@@ -2587,6 +2587,29 @@ main(int argc, char **argv)
 	if (strcmp(action, "install") == 0)
 		alternative_check_install_args(inst_alt, fileset);
 
+	if (strcmp(action, "display") == 0 ||
+	    strcmp(action, "query") == 0 ||
+	    strcmp(action, "list") == 0 ||
+	    strcmp(action, "set") == 0 ||
+	    strcmp(action, "auto") == 0 ||
+	    strcmp(action, "config") == 0 ||
+	    strcmp(action, "remove-all") == 0) {
+		/* Load the alternative info, stop on failure. */
+		if (!alternative_load(a, false))
+			error(_("no alternatives for %s."), a->master_name);
+	} else if (strcmp(action, "remove") == 0) {
+		/* FIXME: Be consistent for now with the case when we
+		 * try to remove a non-existing path from an existing
+		 * link group file. */
+		if (!alternative_load(a, false)) {
+			verbose(_("no alternatives for %s."), a->master_name);
+			exit(0);
+		}
+	} else if (strcmp(action, "install") == 0) {
+		/* Load the alternative info, ignore failures. */
+		alternative_load(a, false);
+	}
+
 	/* Handle actions. */
 	if (strcmp(action, "all") == 0) {
 		config_all();
@@ -2598,17 +2621,6 @@ main(int argc, char **argv)
 		log_msg("run with %s", get_argv_string(argc, argv));
 		alternative_set_selections(stdin, _("<standard input>"));
 		exit(0);
-	}
-
-	/* Load the alternative info, stop on failure except for --install. */
-	if (!alternative_load(a, false) && strcmp(action, "install") != 0) {
-		/* FIXME: Be consistent for now with the case when we try to remove a
-		 * non-existing path from an existing link group file. */
-		if (strcmp(action, "remove") == 0) {
-			verbose(_("no alternatives for %s."), a->master_name);
-			exit(0);
-		}
-		error(_("no alternatives for %s."), a->master_name);
 	}
 
 	if (strcmp(action, "display") == 0) {
