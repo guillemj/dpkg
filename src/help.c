@@ -97,7 +97,7 @@ void checkpath(void) {
     FIND,
     BACKEND,
     "ldconfig",
-#if WITH_START_STOP_DAEMON
+#if BUILD_START_STOP_DAEMON
     "start-stop-daemon",
 #endif
     NULL

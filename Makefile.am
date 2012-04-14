@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-if WITH_DSELECT
+if BUILD_DSELECT
   MAYBE_DSELECT = dselect
 endif
 

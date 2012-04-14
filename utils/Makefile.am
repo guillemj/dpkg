@@ -16,7 +16,7 @@ EXTRA_DIST = \
 
 bin_PROGRAMS =
 
-if WITH_UPDATE_ALTERNATIVES
+if BUILD_UPDATE_ALTERNATIVES
 bin_PROGRAMS += update-alternatives
 endif
 
@@ -30,7 +30,7 @@ update_alternatives_LDADD = \
 
 sbin_PROGRAMS =
 
-if WITH_START_STOP_DAEMON
+if BUILD_START_STOP_DAEMON
 sbin_PROGRAMS += start-stop-daemon
 
 start_stop_daemon_SOURCES = \
@@ -41,7 +41,7 @@ start_stop_daemon_LDADD = \
 	$(SSD_LIBS)
 endif
 
-if WITH_INSTALL_INFO
+if BUILD_INSTALL_INFO
 sbin_PROGRAMS += dpkg-install-info
 
 # Automake has its own install-info rule, gah
@@ -54,7 +54,7 @@ endif
 transform = s/dpkg-install-info/install-info/; $(program_transform_name)
 
 install-data-local:
-if WITH_UPDATE_ALTERNATIVES
+if BUILD_UPDATE_ALTERNATIVES
 	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives
 	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives
 	$(INSTALL_DATA) $(srcdir)/README.alternatives $(DESTDIR)$(sysconfdir)/alternatives/README
@@ -62,7 +62,7 @@ endif
 
 uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
-if WITH_INSTALL_INFO
+if BUILD_INSTALL_INFO
 	rm -f $(DESTDIR)$(sbindir)/install-info
 endif
 

@@ -40,18 +40,18 @@ dist_man_MANS = \
 	dpkg.1 \
 	dpkg.cfg.5
 
-if WITH_DSELECT
+if BUILD_DSELECT
 dist_man_MANS += \
 	dselect.1 \
 	dselect.cfg.5
 endif
 
-if WITH_START_STOP_DAEMON
+if BUILD_START_STOP_DAEMON
 dist_man_MANS += \
 	start-stop-daemon.8
 endif
 
-if WITH_UPDATE_ALTERNATIVES
+if BUILD_UPDATE_ALTERNATIVES
 dist_man_MANS += \
 	update-alternatives.8
 endif
