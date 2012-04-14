@@ -438,7 +438,7 @@ do_build(const char *const *argv)
     if (subdir)
       debar = pkg_get_pathname(debar, pkg);
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"),
-           pkgbin_name(pkg, &pkg->available, pnaw_nonambig), debar);
+           pkg->set->name, debar);
   }
   m_output(stdout, _("<standard output>"));
 
