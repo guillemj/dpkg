@@ -373,7 +373,7 @@ pkg_get_pathname(const char *dir, struct pkginfo *pkg)
   char *path;
   const char *versionstring, *arch_sep;
 
-  versionstring = versiondescribe(&pkg->available.version, vdew_never);
+  versionstring = versiondescribe(&pkg->available.version, vdew_nonambig);
   arch_sep = pkg->available.arch->type == arch_none ? "" : "_";
   m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->set->name, versionstring,
              arch_sep, pkg->available.arch->name, DEBEXT);
