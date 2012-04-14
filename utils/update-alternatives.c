@@ -1822,9 +1822,6 @@ alternative_is_broken(struct alternative *a)
 	struct fileset *fs;
 	struct slave_link *sl;
 
-	if (!alternative_has_current_link(a))
-		return true;
-
 	/* Check master link */
 	altlnk = areadlink(a->master_link);
 	if (!altlnk)
@@ -1840,6 +1837,9 @@ alternative_is_broken(struct alternative *a)
 
 	/* Stop if we have an unmanaged alternative */
 	current = alternative_get_current(a);
+	if (current == NULL)
+		return true;
+
 	if (!alternative_has_choice(a, current)) {
 		free(current);
 		return false;
