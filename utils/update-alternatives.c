@@ -3,7 +3,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@davenant.greenend.org.uk>
  * Copyright © 2000-2002 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  * Copyright © 2008 Pierre Habouzit <madcoder@debian.org>
  * Copyright © 2009-2010 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -2662,13 +2662,10 @@ main(int argc, char **argv)
 			alternative_display_user(a);
 		} else if (alternative_choices_count(a) == 1 &&
 		           a->status == ALT_ST_AUTO &&
-		           alternative_has_current_link(a)) {
-			char *cur = alternative_get_current(a);
-
+		           current_choice != NULL) {
 			pr(_("There is only one alternative in link group %s: %s"),
-			   a->master_name, cur);
+			   a->master_name, current_choice);
 			pr(_("Nothing to configure."));
-			free(cur);
 		} else {
 			new_choice = alternative_select_choice(a);
 		}
