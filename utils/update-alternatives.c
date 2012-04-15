@@ -1423,34 +1423,22 @@ alternative_get_best(struct alternative *a)
 	return best;
 }
 
-static bool
-alternative_has_current_link(struct alternative *a)
+static char *
+alternative_get_current(struct alternative *a)
 {
 	struct stat st;
 	char *curlink;
+	char *file;
 
 	xasprintf(&curlink, "%s/%s", altdir, a->master_name);
 	if (lstat(curlink, &st)) {
 		if (errno == ENOENT) {
 			free(curlink);
-			return false;
+			return NULL;
 		}
 		syserr(_("cannot stat file '%s'"), curlink);
-	} else {
-		free(curlink);
-		return true;
 	}
-}
 
-static char *
-alternative_get_current(struct alternative *a)
-{
-	char *curlink, *file;
-
-	if (!alternative_has_current_link(a))
-		return NULL;
-
-	xasprintf(&curlink, "%s/%s", altdir, a->master_name);
 	file = xreadlink(curlink);
 	free(curlink);
 
