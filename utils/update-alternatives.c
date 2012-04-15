@@ -667,7 +667,6 @@ static bool
 fileset_can_install_slave(struct fileset *fs, const char *slave_name)
 {
 	struct stat st;
-	bool install_slave = false;
 
 	/* Decide whether the slave alternative must be setup */
 	if (fileset_has_slave(fs, slave_name)) {
@@ -676,10 +675,11 @@ fileset_can_install_slave(struct fileset *fs, const char *slave_name)
 		errno = 0;
 		if (stat(slave, &st) == -1 && errno != ENOENT)
 			syserr(_("cannot stat file '%s'"), slave);
-		install_slave = (errno == 0) ? true : false;
+		if (errno == 0)
+			return true;
 	}
 
-	return install_slave;
+	return false;
 }
 
 struct slave_link {
@@ -948,13 +948,13 @@ alternative_get_slave(struct alternative *a, const char *name)
 static bool
 alternative_has_slave(struct alternative *a, const char *name)
 {
-	return alternative_get_slave(a, name) ? true : false;
+	return alternative_get_slave(a, name) != NULL;
 }
 
 static bool
 alternative_has_choice(struct alternative *a, const char *file)
 {
-	return alternative_get_fileset(a, file) ? true : false;
+	return alternative_get_fileset(a, file) != NULL;
 }
 
 static void
