@@ -660,7 +660,7 @@ fileset_has_slave(struct fileset *fs, const char *name)
 	if (file == NULL)
 		return false;
 
-	return strlen(file) ? true : false;
+	return file[0] != '\0';
 }
 
 static bool
