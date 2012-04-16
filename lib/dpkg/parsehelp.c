@@ -290,7 +290,7 @@ parse_db_version(struct parsedb_state *ps, struct versionrevision *version,
   vsnprintf(buf, sizeof(buf), fmt, args);
   va_end(args);
 
-  if (err.type == DPKG_MSG_WARN && (ps->flags & pdb_lax_parser))
+  if (err.type == DPKG_MSG_WARN && (ps->flags & pdb_lax_version_parser))
     parse_warn(ps, "%s: %.250s", buf, err.str);
   else
     parse_error(ps, "%s: %.250s", buf, err.str);
