@@ -2609,9 +2609,7 @@ main(int argc, char **argv)
 		log_msg("run with %s", get_argv_string(argc, argv));
 		alternative_set_selections(stdin, _("<standard input>"));
 		exit(0);
-	}
-
-	if (strcmp(action, "display") == 0) {
+	} else if (strcmp(action, "display") == 0) {
 		alternative_display_user(a);
 		exit(0);
 	} else if (strcmp(action, "query") == 0) {
