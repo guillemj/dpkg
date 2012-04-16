@@ -1077,6 +1077,7 @@ alternative_remove_choice(struct alternative *a, const char *file)
 struct altdb_context {
 	FILE *fh;
 	char *filename;
+	bool modified;
 	void DPKG_ATTR_PRINTF(2) (*bad_format)(struct altdb_context *,
 	                                       const char *format, ...);
 	jmp_buf on_error;
@@ -1191,7 +1192,7 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 
 static bool
 alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx,
-                          bool *modified, bool must_not_die)
+                          bool must_not_die)
 {
 	struct fileset *fs;
 	struct slave_link *sl;
@@ -1229,7 +1230,7 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx,
 			junk = altdb_get_line(ctx, _("slave file"));
 			free(junk);
 		}
-		*modified = true;
+		ctx->modified = true;
 	} else {
 		char *endptr, *prio;
 		long int iprio;
@@ -1256,7 +1257,6 @@ alternative_load(struct alternative *a, bool must_not_die)
 	struct altdb_context ctx;
 	struct stat st;
 	char *fn, *status;
-	bool modified = false;
 
 	/* Initialize parse context */
 	if (setjmp(ctx.on_error)) {
@@ -1266,6 +1266,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 		alternative_reset(a);
 		return false;
 	}
+	ctx.modified = false;
 	if (must_not_die)
 		ctx.bad_format = altdb_parse_stop;
 	else
@@ -1304,7 +1305,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 	while (alternative_parse_slave(a, &ctx));
 
 	/* Parse the available choices in the alternative */
-	while (alternative_parse_fileset(a, &ctx, &modified, must_not_die));
+	while (alternative_parse_fileset(a, &ctx, must_not_die)) ;
 
 	/* Close database file */
 	if (fclose(ctx.fh))
@@ -1314,7 +1315,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 	/* Initialize the modified field which has been erroneously changed
 	 * by the various alternative_(add|set)_* calls:
 	 * false unless a choice has been auto-cleaned */
-	a->modified = modified;
+	a->modified = ctx.modified;
 
 	return true;
 }
