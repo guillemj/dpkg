@@ -399,7 +399,7 @@ log_msg(const char *fmt, ...)
 }
 
 static int
-filter_altdir(const struct dirent *entry)
+altdb_filter_namelist(const struct dirent *entry)
 {
 	if (strcmp(entry->d_name, ".") == 0 ||
 	    strcmp(entry->d_name, "..") == 0 ||
@@ -415,7 +415,7 @@ altdb_get_namelist(struct dirent ***table)
 {
 	int count;
 
-	count = scandir(admdir, table, filter_altdir, alphasort);
+	count = scandir(admdir, table, altdb_filter_namelist, alphasort);
 	if (count < 0)
 		syserr(_("cannot scan directory `%.255s'"), admdir);
 
