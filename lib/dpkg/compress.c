@@ -463,7 +463,7 @@ static const struct compressor *compressor_array[] = {
 };
 
 static const struct compressor *
-compressor_get(enum compressor_type type)
+compressor(enum compressor_type type)
 {
 	const enum compressor_type max_type = array_count(compressor_array);
 
@@ -476,7 +476,7 @@ compressor_get(enum compressor_type type)
 const char *
 compressor_get_extension(enum compressor_type type)
 {
-	return compressor_get(type)->extension;
+	return compressor(type)->extension;
 }
 
 enum compressor_type
@@ -506,13 +506,13 @@ compressor_find_by_extension(const char *extension)
 bool
 compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 {
-	return compressor_get(params->type)->check_params(params, err);
+	return compressor(params->type)->check_params(params, err);
 }
 
 static void
 compressor_fixup_params(struct compress_params *params)
 {
-	compressor_get(params->type)->fixup_params(params);
+	compressor(params->type)->fixup_params(params);
 }
 
 void
@@ -527,7 +527,7 @@ decompress_filter(enum compressor_type type, int fd_in, int fd_out,
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
-	compressor = compressor_get(type);
+	compressor = compressor(type);
 	compressor->decompress(fd_in, fd_out, desc.buf);
 }
 
@@ -545,7 +545,7 @@ compress_filter(struct compress_params *params, int fd_in, int fd_out,
 
 	compressor_fixup_params(params);
 
-	compressor = compressor_get(params->type);
+	compressor = compressor(params->type);
 
 	if (params->level < 0)
 		params->level = compressor->default_level;
