@@ -1618,6 +1618,9 @@ main(int argc, char **argv)
 	if (execname) {
 		char *fullexecname;
 
+		/* If it's a relative path, normalize it. */
+		if (execname[0] != '/')
+			execname = newpath(changedir, execname);
 
 		if (changeroot)
 			fullexecname = newpath(changeroot, execname);
