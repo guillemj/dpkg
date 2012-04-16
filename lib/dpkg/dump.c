@@ -162,14 +162,19 @@ w_booleandefno(struct varbuf *vb,
                enum fwriteflags flags, const struct fieldinfo *fip)
 {
   bool value = PKGPFIELD(pkgbin, fip->integer, bool);
-  if (!(flags&fw_printheader)) {
-    varbuf_add_str(vb, value ? "yes" : "no");
+
+  if ((flags & fw_printheader) && !value)
     return;
+
+  if (flags & fw_printheader) {
+    varbuf_add_str(vb, fip->name);
+    varbuf_add_str(vb, ": ");
   }
-  if (!value) return;
-  assert(value == true);
-  varbuf_add_str(vb, fip->name);
-  varbuf_add_str(vb, ": yes\n");
+
+  varbuf_add_str(vb, value ? "yes" : "no");
+
+  if (flags & fw_printheader)
+    varbuf_add_char(vb, '\n');
 }
 
 void
@@ -179,17 +184,18 @@ w_multiarch(struct varbuf *vb,
 {
   int value = PKGPFIELD(pkgbin, fip->integer, int);
 
-  if (!(flags & fw_printheader)) {
-    varbuf_add_str(vb, multiarchinfos[value].name);
-    return;
-  }
-  if (!value)
+  if ((flags & fw_printheader) && !value)
     return;
 
-  varbuf_add_str(vb, fip->name);
-  varbuf_add_str(vb, ": ");
+  if (flags & fw_printheader) {
+    varbuf_add_str(vb, fip->name);
+    varbuf_add_str(vb, ": ");
+  }
+
   varbuf_add_str(vb, multiarchinfos[value].name);
-  varbuf_add_char(vb, '\n');
+
+  if (flags & fw_printheader)
+    varbuf_add_char(vb, '\n');
 }
 
 void
