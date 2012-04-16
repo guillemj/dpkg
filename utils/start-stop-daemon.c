@@ -297,6 +297,19 @@ tmul(struct timeval *a, int b)
 	a->tv_usec %= 1000000;
 }
 
+static char *
+newpath(const char *dirname, const char *filename)
+{
+	char *path;
+	size_t path_len;
+
+	path_len = strlen(dirname) + 1 + strlen(filename) + 1;
+	path = xmalloc(path_len);
+	snprintf(path, path_len, "%s/%s", dirname, filename);
+
+	return path;
+}
+
 static long
 get_open_fd_max(void)
 {
@@ -1605,14 +1618,10 @@ main(int argc, char **argv)
 	if (execname) {
 		char *fullexecname;
 
-		if (changeroot) {
-			int fullexecname_len = strlen(changeroot) + 1 +
-			                       strlen(execname) + 1;
 
-			fullexecname = xmalloc(fullexecname_len);
-			snprintf(fullexecname, fullexecname_len, "%s/%s",
-			         changeroot, execname);
-		} else
+		if (changeroot)
+			fullexecname = newpath(changeroot, execname);
+		else
 			fullexecname = execname;
 
 		if (stat(fullexecname, &exec_stat))
