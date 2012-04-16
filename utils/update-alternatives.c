@@ -1074,9 +1074,15 @@ alternative_remove_choice(struct alternative *a, const char *file)
  * Alternatives Database Load/Store functions.
  */
 
+enum altdb_flags {
+	altdb_lax_parser = 1 << 0,
+	altdb_warn_parser = 1 << 1,
+};
+
 struct altdb_context {
 	FILE *fh;
 	char *filename;
+	enum altdb_flags flags;
 	bool modified;
 	void DPKG_ATTR_PRINTF(2) (*bad_format)(struct altdb_context *,
 	                                       const char *format, ...);
@@ -1191,8 +1197,7 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 }
 
 static bool
-alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx,
-                          bool must_not_die)
+alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 {
 	struct fileset *fs;
 	struct slave_link *sl;
@@ -1220,7 +1225,7 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx,
 			syserr(_("cannot stat file '%s'"), master_file);
 
 		/* File not found - remove. */
-		if (!must_not_die)
+		if (ctx->flags & altdb_warn_parser)
 			warning(_("alternative %s (part of link group %s) "
 			          "doesn't exist. Removing from list of "
 			          "alternatives."), master_file, a->master_name);
@@ -1252,7 +1257,7 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx,
 }
 
 static bool
-alternative_load(struct alternative *a, bool must_not_die)
+alternative_load(struct alternative *a, enum altdb_flags flags)
 {
 	struct altdb_context ctx;
 	struct stat st;
@@ -1267,7 +1272,8 @@ alternative_load(struct alternative *a, bool must_not_die)
 		return false;
 	}
 	ctx.modified = false;
-	if (must_not_die)
+	ctx.flags = flags;
+	if (flags & altdb_lax_parser)
 		ctx.bad_format = altdb_parse_stop;
 	else
 		ctx.bad_format = altdb_parse_error;
@@ -1305,7 +1311,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 	while (alternative_parse_slave(a, &ctx));
 
 	/* Parse the available choices in the alternative */
-	while (alternative_parse_fileset(a, &ctx, must_not_die)) ;
+	while (alternative_parse_fileset(a, &ctx)) ;
 
 	/* Close database file */
 	if (fclose(ctx.fh))
@@ -1936,7 +1942,7 @@ alternative_map_load_names(struct alternative_map *alt_map_obj)
 	for (i = 0; i < count; i++) {
 		struct alternative *a_new = alternative_new(table[i]->d_name);
 
-		if (!alternative_load(a_new, true)) {
+		if (!alternative_load(a_new, altdb_lax_parser)) {
 			alternative_free(a_new);
 			continue;
 		}
@@ -1957,7 +1963,7 @@ alternative_map_load_tree(struct alternative_map *alt_map_links,
 		struct slave_link *sl;
 		struct alternative *a_new = alternative_new(table[i]->d_name);
 
-		if (!alternative_load(a_new, true)) {
+		if (!alternative_load(a_new, altdb_lax_parser)) {
 			alternative_free(a_new);
 			continue;
 		}
@@ -2584,19 +2590,19 @@ main(int argc, char **argv)
 	    strcmp(action, "config") == 0 ||
 	    strcmp(action, "remove-all") == 0) {
 		/* Load the alternative info, stop on failure. */
-		if (!alternative_load(a, false))
+		if (!alternative_load(a, altdb_warn_parser))
 			error(_("no alternatives for %s."), a->master_name);
 	} else if (strcmp(action, "remove") == 0) {
 		/* FIXME: Be consistent for now with the case when we
 		 * try to remove a non-existing path from an existing
 		 * link group file. */
-		if (!alternative_load(a, false)) {
+		if (!alternative_load(a, altdb_warn_parser)) {
 			verbose(_("no alternatives for %s."), a->master_name);
 			exit(0);
 		}
 	} else if (strcmp(action, "install") == 0) {
 		/* Load the alternative info, ignore failures. */
-		alternative_load(a, false);
+		alternative_load(a, altdb_warn_parser);
 	}
 
 	/* Handle actions. */
