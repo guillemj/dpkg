@@ -495,7 +495,7 @@ subcall(const char *prog, ...)
 }
 
 static void
-config_all(void)
+alternative_config_all(void)
 {
 	struct dirent **table;
 	int i, count;
@@ -2607,7 +2607,7 @@ main(int argc, char **argv)
 
 	/* Handle actions. */
 	if (strcmp(action, "all") == 0) {
-		config_all();
+		alternative_config_all();
 		exit(0);
 	} else if (strcmp(action, "get-selections") == 0) {
 		alternative_get_selections();
