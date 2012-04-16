@@ -399,38 +399,6 @@ log_msg(const char *fmt, ...)
 }
 
 static int
-altdb_filter_namelist(const struct dirent *entry)
-{
-	if (strcmp(entry->d_name, ".") == 0 ||
-	    strcmp(entry->d_name, "..") == 0 ||
-	    (strlen(entry->d_name) > strlen(DPKG_TMP_EXT) &&
-	     strcmp(entry->d_name + strlen(entry->d_name) -
-	            strlen(DPKG_TMP_EXT), DPKG_TMP_EXT) == 0))
-		return 0;
-	return 1;
-}
-
-static int
-altdb_get_namelist(struct dirent ***table)
-{
-	int count;
-
-	count = scandir(admdir, table, altdb_filter_namelist, alphasort);
-	if (count < 0)
-		syserr(_("cannot scan directory `%.255s'"), admdir);
-
-	return count;
-}
-
-static void
-altdb_free_namelist(struct dirent **table, int n)
-{
-	while (n--)
-		free(table[n]);
-	free(table);
-}
-
-static int
 spawn(const char *prog, const char *args[])
 {
 	const char **cmd;
@@ -1074,6 +1042,38 @@ struct altdb_context {
 	                                       const char *format, ...);
 	jmp_buf on_error;
 };
+
+static int
+altdb_filter_namelist(const struct dirent *entry)
+{
+	if (strcmp(entry->d_name, ".") == 0 ||
+	    strcmp(entry->d_name, "..") == 0 ||
+	    (strlen(entry->d_name) > strlen(DPKG_TMP_EXT) &&
+	     strcmp(entry->d_name + strlen(entry->d_name) -
+	            strlen(DPKG_TMP_EXT), DPKG_TMP_EXT) == 0))
+		return 0;
+	return 1;
+}
+
+static int
+altdb_get_namelist(struct dirent ***table)
+{
+	int count;
+
+	count = scandir(admdir, table, altdb_filter_namelist, alphasort);
+	if (count < 0)
+		syserr(_("cannot scan directory `%.255s'"), admdir);
+
+	return count;
+}
+
+static void
+altdb_free_namelist(struct dirent **table, int n)
+{
+	while (n--)
+		free(table[n]);
+	free(table);
+}
 
 static char *
 altdb_get_line(struct altdb_context *ctx, const char *name)
