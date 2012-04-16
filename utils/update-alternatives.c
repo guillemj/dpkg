@@ -494,20 +494,6 @@ subcall(const char *prog, ...)
 	exit(128);
 }
 
-static void
-alternative_config_all(void)
-{
-	struct dirent **table;
-	int i, count;
-
-	count = altdb_get_namelist(&table);
-	for (i = 0; i < count; i++) {
-		subcall(prog_path, "--config", table[i]->d_name, NULL);
-		printf("\n");
-	}
-	altdb_free_namelist(table, count);
-}
-
 static bool
 rename_mv(const char *src, const char *dst)
 {
@@ -1610,6 +1596,20 @@ alternative_select_choice(struct alternative *a)
 	}
 	free(current);
 	return NULL;
+}
+
+static void
+alternative_config_all(void)
+{
+	struct dirent **table;
+	int i, count;
+
+	count = altdb_get_namelist(&table);
+	for (i = 0; i < count; i++) {
+		subcall(prog_path, "--config", table[i]->d_name, NULL);
+		printf("\n");
+	}
+	altdb_free_namelist(table, count);
 }
 
 static void
