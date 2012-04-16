@@ -519,7 +519,6 @@ void
 decompress_filter(enum compressor_type type, int fd_in, int fd_out,
                   const char *desc_fmt, ...)
 {
-	const struct compressor *compressor;
 	va_list args;
 	struct varbuf desc = VARBUF_INIT;
 
@@ -527,15 +526,13 @@ decompress_filter(enum compressor_type type, int fd_in, int fd_out,
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
-	compressor = compressor(type);
-	compressor->decompress(fd_in, fd_out, desc.buf);
+	compressor(type)->decompress(fd_in, fd_out, desc.buf);
 }
 
 void
 compress_filter(struct compress_params *params, int fd_in, int fd_out,
                 const char *desc_fmt, ...)
 {
-	const struct compressor *compressor;
 	va_list args;
 	struct varbuf desc = VARBUF_INIT;
 
@@ -545,10 +542,8 @@ compress_filter(struct compress_params *params, int fd_in, int fd_out,
 
 	compressor_fixup_params(params);
 
-	compressor = compressor(params->type);
-
 	if (params->level < 0)
-		params->level = compressor->default_level;
+		params->level = compressor(params->type)->default_level;
 
-	compressor->compress(fd_in, fd_out, params, desc.buf);
+	compressor(params->type)->compress(fd_in, fd_out, params, desc.buf);
 }
