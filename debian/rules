@@ -1,11 +1,16 @@
 #!/usr/bin/make -f
 # debian/rules for the dpkg suite.
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 
 WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 
 # Use the in-tree dpkg-buildflags
-dpkg_buildflags = DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" PERL5LIB=$(CURDIR)/scripts DPKG_DATADIR=$(CURDIR) perl $(CURDIR)/scripts/dpkg-buildflags.pl
+dpkg_buildflags = \
+	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" \
+	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" \
+	PERL5LIB=$(CURDIR)/scripts DPKG_DATADIR=$(CURDIR) \
+	perl $(CURDIR)/scripts/dpkg-buildflags.pl
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
