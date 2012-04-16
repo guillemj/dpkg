@@ -1135,7 +1135,7 @@ altdb_parse_error(struct altdb_context *ctx, const char *format, ...)
 }
 
 static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2)
-altdb_interrupt_parsing(struct altdb_context *ctx, const char *format, ...)
+altdb_parse_stop(struct altdb_context *ctx, const char *format, ...)
 {
 	longjmp(ctx->on_error, 1);
 }
@@ -1267,7 +1267,7 @@ alternative_load(struct alternative *a, bool must_not_die)
 		return false;
 	}
 	if (must_not_die)
-		ctx.bad_format = altdb_interrupt_parsing;
+		ctx.bad_format = altdb_parse_stop;
 	else
 		ctx.bad_format = altdb_parse_error;
 	xasprintf(&fn, "%s/%s", admdir, a->master_name);
