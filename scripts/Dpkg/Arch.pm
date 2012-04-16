@@ -28,6 +28,7 @@ our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     debtriplet_to_debarch debarch_to_debtriplet
                     gnutriplet_to_multiarch debarch_to_multiarch);
 
+use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -36,6 +37,7 @@ my (@cpu, @os);
 my (%cputable, %ostable);
 my (%cputable_re, %ostable_re);
 my (%cpubits, %cpuendian);
+my %abibits;
 
 my %debtriplet_to_debarch;
 my %debarch_to_debtriplet;
@@ -167,6 +169,32 @@ sub read_ostable
 	}
     }
     close OSTABLE;
+}
+
+my $abitable_loaded = 0;
+sub abitable_load()
+{
+    return if ($abitable_loaded);
+
+    local $_;
+    local $/ = "\n";
+
+    # Because the abitable is only for override information, do not fail if
+    # it does not exist, as that will only mean the other tables do not have
+    # an entry needing to be overridden. This way we do not require a newer
+    # dpkg by libdpkg-perl.
+    if (open ABITABLE, "$pkgdatadir/abitable") {
+        while (<ABITABLE>) {
+            if (m/^(?!\#)(\S+)\s+(\S+)/) {
+                $abibits{$1} = $2;
+            }
+        }
+        close ABITABLE;
+    } elsif ($! != ENOENT) {
+        syserr(_g("cannot open %s"), "abitable");
+    }
+
+    $abitable_loaded = 1;
 }
 
 sub read_triplettable()
@@ -336,7 +364,9 @@ sub debarch_to_cpuattrs($)
     my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
 
     if (defined($cpu)) {
-        return ($cpubits{$cpu}, $cpuendian{$cpu});
+        abitable_load();
+
+        return ($abibits{$abi} || $cpubits{$cpu}, $cpuendian{$cpu});
     } else {
         return undef;
     }

@@ -18,7 +18,11 @@ SUBDIRS = \
 ACLOCAL_AMFLAGS = -I m4
 
 
-dist_pkgdata_DATA = cputable ostable triplettable
+dist_pkgdata_DATA = \
+	cputable \
+	ostable \
+	abitable \
+	triplettable
 
 EXTRA_DIST = \
 	.mailmap \
