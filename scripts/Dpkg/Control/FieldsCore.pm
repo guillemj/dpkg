@@ -29,13 +29,23 @@ use Dpkg::Checksums;
 our @EXPORT = qw(field_capitalize field_is_official field_is_allowed_in
                  field_transfer_single field_transfer_all
                  field_list_src_dep field_list_pkg_dep field_get_dep_type
+                 field_get_sep_type
                  field_ordered_list field_register
-                 field_insert_after field_insert_before);
+                 field_insert_after field_insert_before
+                 FIELD_SEP_UNKNOWN FIELD_SEP_SPACE FIELD_SEP_COMMA
+                 FIELD_SEP_LINE);
 
 use constant {
     ALL_PKG => CTRL_INFO_PKG | CTRL_INDEX_PKG | CTRL_PKG_DEB | CTRL_FILE_STATUS,
     ALL_SRC => CTRL_INFO_SRC | CTRL_INDEX_SRC | CTRL_PKG_SRC,
     ALL_CHANGES => CTRL_FILE_CHANGES | CTRL_CHANGELOG,
+};
+
+use constant {
+    FIELD_SEP_UNKNOWN => 0,
+    FIELD_SEP_SPACE => 1,
+    FIELD_SEP_COMMA => 2,
+    FIELD_SEP_LINE => 4,
 };
 
 # The canonical list of fields
@@ -45,15 +55,20 @@ use constant {
 our %FIELDS = (
     'Architecture' => {
         allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_CHANGES) & (~CTRL_INFO_SRC),
+        separator => FIELD_SEP_SPACE,
     },
     'Binary' => {
         allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
+        # XXX: This field values are separated either by space or comma
+        # depending on the context.
+        separator => FIELD_SEP_SPACE | FIELD_SEP_COMMA,
     },
     'Binary-Only' => {
         allowed => ALL_CHANGES,
     },
     'Breaks' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 7,
     },
@@ -62,36 +77,43 @@ our %FIELDS = (
     },
     'Build-Conflicts' => {
         allowed => ALL_SRC,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 4,
     },
     'Build-Conflicts-Arch' => {
         allowed => ALL_SRC,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 5,
     },
     'Build-Conflicts-Indep' => {
         allowed => ALL_SRC,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 6,
     },
     'Build-Depends' => {
         allowed => ALL_SRC,
+        separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 1,
     },
     'Build-Depends-Arch' => {
         allowed => ALL_SRC,
+        separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 2,
     },
     'Build-Depends-Indep' => {
         allowed => ALL_SRC,
+        separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 3,
     },
     'Built-Using' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 10,
     },
@@ -103,15 +125,18 @@ our %FIELDS = (
     },
     'Closes' => {
         allowed => ALL_CHANGES,
+        separator => FIELD_SEP_SPACE,
     },
     'Conffiles' => {
         allowed => CTRL_FILE_STATUS,
+        separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Config-Version' => {
         allowed => CTRL_FILE_STATUS,
     },
     'Conflicts' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 6,
     },
@@ -120,6 +145,7 @@ our %FIELDS = (
     },
     'Depends' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 2,
     },
@@ -134,6 +160,7 @@ our %FIELDS = (
     },
     'Enhances' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 5,
     },
@@ -142,9 +169,11 @@ our %FIELDS = (
     },
     'Filename' => {
         allowed => CTRL_INDEX_PKG,
+        separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Files' => {
         allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
+        separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Format' => {
         allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
@@ -175,6 +204,7 @@ our %FIELDS = (
     },
     'Package-List' => {
         allowed => ALL_SRC & ~CTRL_INFO_SRC,
+        separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Package-Type' => {
         allowed => ALL_PKG,
@@ -184,6 +214,7 @@ our %FIELDS = (
     },
     'Pre-Depends' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 1,
     },
@@ -192,16 +223,19 @@ our %FIELDS = (
     },
     'Provides' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 9,
     },
     'Recommends' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 3,
     },
     'Replaces' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 8,
     },
@@ -210,6 +244,7 @@ our %FIELDS = (
     },
     'Size' => {
         allowed => CTRL_INDEX_PKG,
+        separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Source' => {
         allowed => (ALL_PKG | ALL_SRC | ALL_CHANGES) &
@@ -220,29 +255,35 @@ our %FIELDS = (
     },
     'Status' => {
         allowed => CTRL_FILE_STATUS,
+        separator => FIELD_SEP_SPACE,
     },
     'Subarchitecture' => {
         allowed => ALL_PKG,
     },
     'Suggests' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 4,
     },
     'Tag' => {
         allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
     },
     'Task' => {
         allowed => ALL_PKG,
     },
     'Triggers-Awaited' => {
         allowed => CTRL_FILE_STATUS,
+        separator => FIELD_SEP_SPACE,
     },
     'Triggers-Pending' => {
         allowed => CTRL_FILE_STATUS,
+        separator => FIELD_SEP_SPACE,
     },
     'Uploaders' => {
         allowed => ALL_SRC,
+        separator => FIELD_SEP_COMMA,
     },
     'Urgency' => {
         allowed => ALL_CHANGES,
@@ -290,7 +331,8 @@ my @checksum_fields = map { &field_capitalize("Checksums-$_") } checksums_get_li
 my @sum_fields = map { $_ eq 'md5' ? 'MD5sum' : &field_capitalize($_) }
                  checksums_get_list();
 &field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES) foreach @checksum_fields;
-&field_register($_, CTRL_INDEX_PKG) foreach @sum_fields;
+&field_register($_, CTRL_INDEX_PKG,
+                separator => FIELD_SEP_LINE | FIELD_SEP_SPACE) foreach @sum_fields;
 
 our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
@@ -538,6 +580,20 @@ sub field_get_dep_type($) {
     return unless field_is_official($field);
     return $FIELDS{$field}{dependency} if exists $FIELDS{$field}{dependency};
     return;
+}
+
+=item field_get_sep_type($field)
+
+Return the type of the field value separator. Can be one of FIELD_SEP_UNKNOWN,
+FIELD_SEP_SPACE, FIELD_SEP_COMMA or FIELD_SEP_LINE.
+
+=cut
+
+sub field_get_sep_type($) {
+    my $field = field_capitalize($_[0]);
+
+    return $FIELDS{$field}{separator} if exists $FIELDS{$field}{separator};
+    return FIELD_SEP_UNKNOWN;
 }
 
 =item field_register($field, $allowed_types, %opts)
