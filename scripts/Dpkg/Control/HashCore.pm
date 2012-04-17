@@ -22,6 +22,7 @@ our $VERSION = '1.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Control::FieldsCore;
 
 # This module cannot use Dpkg::Control::Fields, because that one makes use
 # of Dpkg::Vendor which at the same time uses this module, which would turn
@@ -373,14 +374,24 @@ sub apply_substvars {
     foreach my $f (keys %$self) {
         my $v = $substvars->substvars($self->{$f}, %opts);
 	if ($v ne $self->{$f}) {
+	    my $sep;
+
+	    $sep = field_get_sep_type($f);
+
 	    # If we replaced stuff, ensure we're not breaking
 	    # a dependency field by introducing empty lines, or multiple
 	    # commas
-	    $v =~ s/\n[ \t]*(\n|$)/$1/; # Drop empty/whitespace-only lines
-	    # TODO: do this only for dependency fields
-	    $v =~ s/,[\s,]*,/,/g;
-	    $v =~ s/^\s*,\s*//;
-	    $v =~ s/\s*,\s*$//;
+
+	    if ($sep & (FIELD_SEP_COMMA | FIELD_SEP_LINE)) {
+	        # Drop empty/whitespace-only lines
+	        $v =~ s/\n[ \t]*(\n|$)/$1/;
+	    }
+
+	    if ($sep & FIELD_SEP_COMMA) {
+	        $v =~ s/,[\s,]*,/,/g;
+	        $v =~ s/^\s*,\s*//;
+	        $v =~ s/\s*,\s*$//;
+	    }
 	}
         $v =~ s/\$\{\}/\$/g; # XXX: what for?
 
