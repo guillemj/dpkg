@@ -38,6 +38,8 @@ int warning_get_count(void);
 void warningv(const char *fmt, va_list args) DPKG_ATTR_VPRINTF(1);
 void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
+void notice(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+
 /** @} */
 
 DPKG_END_DECLS

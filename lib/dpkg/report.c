@@ -57,3 +57,16 @@ warning(const char *fmt, ...)
 	warningv(fmt, args);
 	va_end(args);
 }
+
+void
+notice(const char *fmt, ...)
+{
+	char buf[1024];
+	va_list args;
+
+	va_start(args, fmt);
+	vsnprintf(buf, sizeof(buf), fmt, args);
+	va_end(args);
+
+	fprintf(stderr, "%s: %s\n", dpkg_get_progname(), buf);
+}
