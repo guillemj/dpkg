@@ -344,16 +344,14 @@ deferred_configure(struct pkginfo *pkg)
 	if (ok == dep_check_halt) {
 		sincenothing = 0;
 		varbuf_end_str(&aemsgs);
-		fprintf(stderr,
-		        _("dpkg: dependency problems prevent configuration of %s:\n%s"),
-		        pkg_name(pkg, pnaw_nonambig), aemsgs.buf);
+		notice(_("dependency problems prevent configuration of %s:\n%s"),
+		       pkg_name(pkg, pnaw_nonambig), aemsgs.buf);
 		varbuf_destroy(&aemsgs);
 		ohshit(_("dependency problems - leaving unconfigured"));
 	} else if (aemsgs.used) {
 		varbuf_end_str(&aemsgs);
-		fprintf(stderr,
-		        _("dpkg: %s: dependency problems, but configuring anyway as you requested:\n%s"),
-		        pkg_name(pkg, pnaw_nonambig), aemsgs.buf);
+		notice(_("%s: dependency problems, but configuring anyway as you requested:\n%s"),
+		       pkg_name(pkg, pnaw_nonambig), aemsgs.buf);
 	}
 	varbuf_destroy(&aemsgs);
 	sincenothing = 0;

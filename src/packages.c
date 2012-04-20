@@ -416,10 +416,9 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
     } else if (!removing && fc_configureany &&
                !skip_due_to_hold(possdependee) &&
                !(possdependee->status == stat_halfconfigured)) {
-      fprintf(stderr,
-              _("dpkg: also configuring `%s' (required by `%s')\n"),
-              pkg_name(possdependee, pnaw_nonambig),
-              pkg_name(requiredby, pnaw_nonambig));
+      notice(_("also configuring '%s' (required by '%s')"),
+             pkg_name(possdependee, pnaw_nonambig),
+             pkg_name(requiredby, pnaw_nonambig));
       add_to_queue(possdependee);
       sincenothing = 0;
       return found_defer;

@@ -109,9 +109,8 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
                controlfile.buf, debar, err.str);
       close(fd);
     } else if (errno == ENOENT) {
-      fprintf(stderr,
-              _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
-              debar, component);
+      notice(_("'%.255s' contains no control component '%.255s'"),
+             debar, component);
       re++;
     } else {
       ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),

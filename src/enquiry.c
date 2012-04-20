@@ -507,7 +507,7 @@ predeppackage(const char *const *argv)
       varbuf_reset(&vb);
       describedepcon(&vb,dep);
       varbuf_end_str(&vb);
-      fprintf(stderr, _("dpkg: cannot see how to satisfy pre-dependency:\n %s\n"),vb.buf);
+      notice(_("cannot see how to satisfy pre-dependency:\n %s"), vb.buf);
       ohshit(_("cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"),
              pkgbin_name(dep->up, &dep->up->available, pnaw_nonambig),
              pkgbin_name(startpkg, &startpkg->available, pnaw_nonambig));

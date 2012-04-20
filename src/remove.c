@@ -135,14 +135,12 @@ void deferred_remove(struct pkginfo *pkg) {
   } else if (rok == 0) {
     sincenothing= 0;
     varbuf_end_str(&raemsgs);
-    fprintf(stderr,
-            _("dpkg: dependency problems prevent removal of %s:\n%s"),
+    notice(_("dependency problems prevent removal of %s:\n%s"),
             pkg_name(pkg, pnaw_nonambig), raemsgs.buf);
     ohshit(_("dependency problems - not removing"));
   } else if (raemsgs.used) {
     varbuf_end_str(&raemsgs);
-    fprintf(stderr,
-            _("dpkg: %s: dependency problems, but removing anyway as you requested:\n%s"),
+    notice(_("%s: dependency problems, but removing anyway as you requested:\n%s"),
             pkg_name(pkg, pnaw_nonambig), raemsgs.buf);
   }
   varbuf_destroy(&raemsgs);

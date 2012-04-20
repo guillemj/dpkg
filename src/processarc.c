@@ -149,9 +149,8 @@ deb_verify(const char *filename)
       if (!fc_badverify)
         ohshit(_("Verification on package %s failed!"), filename);
       else
-        fprintf(stderr, _("Verification on package %s failed,\n"
-                          "but installing anyway as you requested.\n"),
-                filename);
+        notice(_("verification on package %s failed; "
+                 "but installing anyway as you requested"), filename);
     } else {
       printf(_("passed\n"));
     }
@@ -577,9 +576,9 @@ void process_archive(const char *filename) {
             trigproc(fixbytrigaw->trigaw.head->pend);
         } else {
           varbuf_end_str(&depprobwhy);
-          fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
-                  pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-                  depprobwhy.buf);
+          notice(_("regarding %s containing %s, pre-dependency problem:\n%s"),
+                 pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+                 depprobwhy.buf);
           if (!force_depends(dsearch->list))
             ohshit(_("pre-dependency problem - not installing %.250s"),
                    pkgbin_name(pkg, &pkg->available, pnaw_nonambig));

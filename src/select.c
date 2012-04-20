@@ -90,7 +90,7 @@ getselections(const char *const *argv)
         getsel1package(pkg); found++;
       }
       if (!found)
-        fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
+        notice(_("no packages found matching %s"), thisarg);
 
       pkg_spec_destroy(&pkgspec);
     }

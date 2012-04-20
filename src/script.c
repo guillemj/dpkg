@@ -311,8 +311,7 @@ maintainer_script_alternative(struct pkginfo *pkg,
 			return 1;
 		}
 	}
-	fprintf(stderr,
-	        _("dpkg - trying script from the new package instead ...\n"));
+	notice(_("trying script from the new package instead ..."));
 
 	strcpy(cidirrest, scriptname);
 	sprintf(buf, _("new %s script"), desc);
@@ -332,7 +331,7 @@ maintainer_script_alternative(struct pkginfo *pkg,
 	}
 
 	do_script(pkg, &pkg->available, &cmd, &stab, 0);
-	fprintf(stderr, _("dpkg: ... it looks like that went OK.\n"));
+	notice(_("... it looks like that went OK"));
 
 	command_destroy(&cmd);
 	post_script_tasks();

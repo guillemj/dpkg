@@ -180,12 +180,10 @@ do_check(void)
 	uf = trigdef_update_start(tduf_nolockok);
 	switch (uf) {
 	case tdus_error_no_dir:
-		fprintf(stderr, _("%s: triggers data directory not yet created\n"),
-		        dpkg_get_progname());
+		notice(_("triggers data directory not yet created"));
 		exit(1);
 	case tdus_error_no_deferred:
-		fprintf(stderr, _("%s: trigger records not yet in existence\n"),
-		        dpkg_get_progname());
+		notice(_("trigger records not yet in existence"));
 		exit(1);
 	case tdus_ok:
 	case tdus_error_empty_deferred:

@@ -1257,17 +1257,17 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
                   " package %s, to enable %s."),
                 pkg_name(pkg, pnaw_nonambig), action);
       } else {
-        fprintf(stderr, _("dpkg: no, %s is essential, will not deconfigure\n"
-                          " it in order to enable %s.\n"),
-                pkg_name(pkg, pnaw_nonambig), action);
+        notice(_("no, %s is essential, will not deconfigure\n"
+                 " it in order to enable %s"),
+               pkg_name(pkg, pnaw_nonambig), action);
         return 0;
       }
     }
     enqueue_deconfigure(pkg, removal);
     return 1;
   } else {
-    fprintf(stderr, _("dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n%s"),
-            action, why);
+    notice(_("no, cannot proceed with %s (--auto-deconfigure will help):\n%s"),
+           action, why);
     return 0;
   }
 }
@@ -1303,21 +1303,19 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
 
     sprintf(action, _("installation of %.250s"),
             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-    fprintf(stderr, _("dpkg: considering deconfiguration of %s,"
-                      " which would be broken by %s ...\n"),
-            pkg_name(fixbydeconf, pnaw_nonambig), action);
+    notice(_("considering deconfiguration of %s, which would be broken by %s ..."),
+           pkg_name(fixbydeconf, pnaw_nonambig), action);
 
     ok= try_deconfigure_can(force_breaks, fixbydeconf, dep->list,
                             action, NULL, why.buf);
     if (ok == 1) {
-      fprintf(stderr, _("dpkg: yes, will deconfigure %s (broken by %s).\n"),
-              pkg_name(fixbydeconf, pnaw_nonambig),
-              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
+      notice(_("yes, will deconfigure %s (broken by %s)"),
+             pkg_name(fixbydeconf, pnaw_nonambig),
+             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
     }
   } else {
-    fprintf(stderr, _("dpkg: regarding %s containing %s:\n%s"),
-            pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-            why.buf);
+    notice(_("regarding %s containing %s:\n%s"), pfilename,
+           pkgbin_name(pkg, &pkg->available, pnaw_nonambig), why.buf);
     ok= 0;
   }
   varbuf_destroy(&why);
@@ -1364,15 +1362,14 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
           (!fixbyrm->installed.essential || fc_removeessential)))) {
       assert(fixbyrm->clientdata->istobe == itb_normal || fixbyrm->clientdata->istobe == itb_deconfigure);
       fixbyrm->clientdata->istobe= itb_remove;
-      fprintf(stderr, _("dpkg: considering removing %s in favour of %s ...\n"),
-              pkg_name(fixbyrm, pnaw_nonambig),
-              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
+      notice(_("considering removing %s in favour of %s ..."),
+             pkg_name(fixbyrm, pnaw_nonambig),
+             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
       if (!(fixbyrm->status == stat_installed ||
             fixbyrm->status == stat_triggerspending ||
             fixbyrm->status == stat_triggersawaited)) {
-        fprintf(stderr,
-                _("%s is not properly installed - ignoring any dependencies on it.\n"),
-                pkg_name(fixbyrm, pnaw_nonambig));
+        notice(_("%s is not properly installed; ignoring any dependencies on it"),
+               pkg_name(fixbyrm, pnaw_nonambig));
         pdep = NULL;
       } else {
         for (pdep = fixbyrm->set->depended.installed;
@@ -1400,10 +1397,9 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
               if (depisok(pdep->up, &removalwhy, NULL, NULL, false))
                 continue;
               varbuf_end_str(&removalwhy);
-              fprintf(stderr, _("dpkg"
-                      ": may have trouble removing %s, as it provides %s ...\n"),
-                      pkg_name(fixbyrm, pnaw_nonambig),
-                      providecheck->list->ed->name);
+              notice(_("may have trouble removing %s, as it provides %s ..."),
+                     pkg_name(fixbyrm, pnaw_nonambig),
+                     providecheck->list->ed->name);
               if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
                 goto break_from_both_loops_at_once;
             }
@@ -1416,12 +1412,12 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       }
       if (!pdep && (fixbyrm->eflag & eflag_reinstreq)) {
         if (fc_removereinstreq) {
-          fprintf(stderr, _("dpkg: package %s requires reinstallation, but will"
-                  " remove anyway as you requested.\n"),
-                  pkg_name(fixbyrm, pnaw_nonambig));
+          notice(_("package %s requires reinstallation, but will "
+                   "remove anyway as you requested"),
+                 pkg_name(fixbyrm, pnaw_nonambig));
         } else {
-          fprintf(stderr, _("dpkg: package %s requires reinstallation, "
-                  "will not remove.\n"), pkg_name(fixbyrm, pnaw_nonambig));
+          notice(_("package %s requires reinstallation, will not remove"),
+                 pkg_name(fixbyrm, pnaw_nonambig));
           pdep= &flagdeppossi;
         }
       }
@@ -1429,9 +1425,9 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         /* This conflict is OK - we'll remove the conflictor. */
         enqueue_conflictor(pkg, fixbyrm);
         varbuf_destroy(&conflictwhy); varbuf_destroy(&removalwhy);
-        fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
-                pkg_name(fixbyrm, pnaw_nonambig),
-                pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
+        notice(_("yes, will remove %s in favour of %s"),
+               pkg_name(fixbyrm, pnaw_nonambig),
+               pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
         return;
       }
       /* Put it back. */
@@ -1439,9 +1435,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
     }
   }
   varbuf_end_str(&conflictwhy);
-  fprintf(stderr, _("dpkg: regarding %s containing %s:\n%s"),
-          pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-          conflictwhy.buf);
+  notice(_("regarding %s containing %s:\n%s"), pfilename,
+         pkgbin_name(pkg, &pkg->available, pnaw_nonambig), conflictwhy.buf);
   if (!force_conflicts(dep->list))
     ohshit(_("conflicting packages - not installing %.250s"),
            pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
@@ -1645,10 +1640,9 @@ wanttoinstall(struct pkginfo *pkg)
   } else if (r == 0) {
     /* Same version fully installed. */
     if (f_skipsame) {
-      fprintf(stderr, _("Version %.250s of %.250s already installed, "
-                        "skipping.\n"),
-              versiondescribe(&pkg->installed.version, vdew_nonambig),
-              pkg_name(pkg, pnaw_nonambig));
+      notice(_("version %.250s of %.250s already installed, skipping"),
+             versiondescribe(&pkg->installed.version, vdew_nonambig),
+             pkg_name(pkg, pnaw_nonambig));
       return false;
     } else {
       return true;
@@ -1661,11 +1655,10 @@ wanttoinstall(struct pkginfo *pkg)
               versiondescribe(&pkg->available.version, vdew_nonambig));
       return true;
     } else {
-      fprintf(stderr, _("Will not downgrade %.250s from version %.250s "
-                        "to %.250s, skipping.\n"),
-              pkg_name(pkg, pnaw_nonambig),
-              versiondescribe(&pkg->installed.version, vdew_nonambig),
-              versiondescribe(&pkg->available.version, vdew_nonambig));
+      notice(_("will not downgrade %.250s from %.250s to %.250s, skipping"),
+             pkg_name(pkg, pnaw_nonambig),
+             versiondescribe(&pkg->installed.version, vdew_nonambig),
+             versiondescribe(&pkg->available.version, vdew_nonambig));
       return false;
     }
   }

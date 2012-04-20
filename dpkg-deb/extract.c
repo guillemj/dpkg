@@ -255,9 +255,8 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     }
   } else {
     if (strncmp(versionbuf, "!<arch>", 7) == 0) {
-      fprintf(stderr,
-              _("dpkg-deb: file looks like it might be an archive which has been\n"
-                "dpkg-deb:    corrupted by being downloaded in ASCII mode\n"));
+      notice(_("file looks like it might be an archive which has been\n"
+               " corrupted by being downloaded in ASCII mode"));
     }
 
     ohshit(_("`%.255s' is not a debian format archive"),debar);
