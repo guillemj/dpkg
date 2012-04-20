@@ -118,6 +118,7 @@ DPKG_BEGIN_DECLS
 
 #include <dpkg/progname.h>
 #include <dpkg/ehandle.h>
+#include <dpkg/report.h>
 
 /*** from startup.c ***/
 

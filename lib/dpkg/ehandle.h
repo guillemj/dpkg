@@ -63,10 +63,6 @@ void push_cleanup(void (*f1)(int argc, void **argv), int flagmask1,
 void push_checkpoint(int mask, int value);
 void pop_cleanup(int flagset);
 
-int warning_get_count(void);
-void warningv(const char *fmt, va_list args) DPKG_ATTR_VPRINTF(1);
-void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
-
 void ohshitv(const char *fmt, va_list args)
 	DPKG_ATTR_NORET DPKG_ATTR_VPRINTF(1);
 void ohshit(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);

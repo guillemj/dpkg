@@ -64,6 +64,7 @@ libdpkg_a_SOURCES = \
 	pkg-spec.c \
 	progname.c \
 	progress.c \
+	report.c \
 	string.c \
 	subproc.c \
 	tarfn.c \
@@ -107,6 +108,7 @@ pkginclude_HEADERS = \
 	pkg-spec.h \
 	progname.h \
 	progress.h \
+	report.h \
 	string.h \
 	subproc.h \
 	tarfn.h \
