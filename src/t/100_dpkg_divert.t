@@ -33,11 +33,13 @@ if (! -x "@dd") {
     exit(0);
 }
 
-plan tests => 251;
+plan tests => 257;
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $testdir");
-    system("mkdir -p $admindir/updates && touch $admindir/status");
+    system("mkdir -p $admindir/updates");
+    system("rm -f $admindir/status && touch $admindir/status");
+    system("rm -rf $admindir/info && mkdir -p $admindir/info");
 }
 
 sub install_diversions {
@@ -45,6 +47,27 @@ sub install_diversions {
     open(O, "> $admindir/diversions");
     print O $txt;
     close(O);
+}
+
+sub install_filelist {
+    my ($pkg, $arch, @files) = @_;
+    open(L, "> $admindir/info/$pkg.list");
+    for my $file (@files) {
+        print L "$file\n";
+    }
+    close(L);
+    # Only installed packages have their files list considered.
+    open(S, ">> $admindir/status");
+    print S <<EOF;
+Package: $pkg
+Status: install ok installed
+Version: 0
+Architecture: $arch
+Maintainer: dummy
+Description: dummy
+
+EOF
+    close(S);
 }
 
 sub call {
@@ -388,6 +411,24 @@ diversions_eq(<<EOF);
 $testdir/zoo/foo
 $testdir/zoo/foo.distrib
 :
+EOF
+
+cleanup();
+
+note("Adding diversion of file owned by --package");
+
+install_filelist("coreutils", "i386", "$testdir/foo");
+install_diversions('');
+system("touch $testdir/foo");
+
+call_divert(['--quiet', '--rename', '--add', '--package', 'coreutils', "$testdir/foo"],
+            expect_stderr => '', expect_stdout => '');
+ok(-e "$testdir/foo", "foo not renamed");
+ok(!-e "$testdir/foo.distrib", "foo renamed");
+diversions_eq(<<EOF);
+$testdir/foo
+$testdir/foo.distrib
+coreutils
 EOF
 
 cleanup();
