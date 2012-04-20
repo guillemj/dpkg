@@ -3,7 +3,7 @@
  *
  * Copyright © 1995 Ian Jackson
  * Copyright © 2000, 2001 Wichert Akkerman
- * Copyright © 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -382,6 +382,31 @@ divertdb_write(void)
 	free(dbname);
 }
 
+static bool
+diversion_is_owned_by_self(struct pkgset *set, struct filenamenode *namenode)
+{
+	struct pkginfo *pkg;
+	struct filepackages_iterator *iter;
+	bool owned = false;
+
+	if (set == NULL)
+		return false;
+
+	for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
+		ensure_packagefiles_available(pkg);
+
+	iter = filepackages_iter_new(namenode);
+	while ((pkg = filepackages_iter_next(iter))) {
+		if (pkg->set == set) {
+			owned = true;
+			break;
+		}
+	}
+	filepackages_iter_free(iter);
+
+	return owned;
+}
+
 static int
 diversion_add(const char *const *argv)
 {
@@ -468,6 +493,14 @@ diversion_add(const char *const *argv)
 		printf(_("Adding '%s'\n"), diversion_describe(contest));
 	if (opt_rename)
 		opt_rename = check_rename(&file_from, &file_to);
+	/* Check we are not renaming a file owned by the diverting pkgset. */
+	if (opt_rename && diversion_is_owned_by_self(pkgset, fnn_from)) {
+		if (opt_verbose > 0)
+			printf(_("Ignoring request to rename file '%s' "
+			         "owned by diverting package '%s'\n"),
+			       filename, pkgset->name);
+		opt_rename = false;
+	}
 	if (!opt_test) {
 		divertdb_write();
 		if (opt_rename)
