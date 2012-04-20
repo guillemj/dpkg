@@ -159,7 +159,7 @@ const keybindings::description keybindings::descriptions[]= {
   { "morespecific",    N_("Make highlight more specific")                        },
   { "lessspecific",    N_("Make highlight less specific")                        },
   { "search",          N_("Search for a package whose name contains a string")   },
-  { "searchagain",     N_("Repeat last search.")                                 },
+  { "searchagain",     N_("Repeat last search")                                 },
   { "swaporder",       N_("Swap sort order priority/section")                    },
   { "quitcheck",       N_("Quit, confirming, and checking dependencies")         },
   { "quitnocheck",     N_("Quit, confirming without check")                      },

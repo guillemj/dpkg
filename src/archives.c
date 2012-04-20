@@ -1254,7 +1254,7 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
     if (pkg->installed.essential) {
       if (fc_removeessential) {
         warning(_("considering deconfiguration of essential\n"
-                  " package %s, to enable %s."),
+                  " package %s, to enable %s"),
                 pkg_name(pkg, pnaw_nonambig), action);
       } else {
         notice(_("no, %s is essential, will not deconfigure\n"
@@ -1649,7 +1649,7 @@ wanttoinstall(struct pkginfo *pkg)
     }
   } else {
     if (fc_downgrade) {
-      warning(_("downgrading %.250s from %.250s to %.250s."),
+      warning(_("downgrading %.250s from %.250s to %.250s"),
               pkg_name(pkg, pnaw_nonambig),
               versiondescribe(&pkg->installed.version, vdew_nonambig),
               versiondescribe(&pkg->available.version, vdew_nonambig));

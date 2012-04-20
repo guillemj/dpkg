@@ -215,7 +215,7 @@ sub parse {
 
 	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
 	    if (not defined ($$obj_ref)) {
-		error(_g("Symbol information must be preceded by a header (file %s, line %s)."), $file, $.);
+		error(_g("symbol information must be preceded by a header (file %s, line %s)"), $file, $.);
 	    }
 	    # Symbol specification
 	    my $deprecated = ($1) ? $1 : 0;
@@ -268,7 +268,7 @@ sub merge_object_from_symfile {
     if (not $self->has_object($objid)) {
         $self->{objects}{$objid} = $src->get_object($objid);
     } else {
-        warning(_g("Tried to merge the same object (%s) twice in a symfile."), $objid);
+        warning(_g("tried to merge the same object (%s) twice in a symfile"), $objid);
     }
 }
 
@@ -385,7 +385,7 @@ sub find_matching_pattern {
 # machinery
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
-    my $soname = $object->{SONAME} || error(_g("Can't merge symbols from objects without SONAME."));
+    my $soname = $object->{SONAME} || error(_g("cannot merge symbols from objects without SONAME"));
     my %dynsyms;
     foreach my $sym ($object->get_exported_dynamic_symbols()) {
         my $name = $sym->{name} . '@' .

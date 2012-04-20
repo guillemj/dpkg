@@ -248,7 +248,7 @@ extern "C" {
       if (strcasecmp(item, table[i].name) == 0)
         return table[i].num;
 
-    ohshit(_("Invalid %s `%s'\n"), tablename, item);
+    ohshit(_("invalid %s '%s'"), tablename, item);
   }
 
   /*
@@ -271,7 +271,7 @@ extern "C" {
 
     if ((colours == NULL || ! strlen(colours)) &&
         (attributes == NULL || ! strlen(attributes))) {
-       ohshit(_("Null colour specification\n"));
+       ohshit(_("null colour specification"));
     }
 
     if (colours != NULL && strlen(colours)) {

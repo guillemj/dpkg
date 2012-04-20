@@ -335,7 +335,7 @@ my $pv = "${pkg}_$sversion";
 my $pva = "${pkg}_${sversion}_$arch";
 
 if (not -x "debian/rules") {
-    warning(_g("debian/rules is not executable: fixing that."));
+    warning(_g("debian/rules is not executable; fixing that"));
     chmod(0755, "debian/rules"); # No checks of failures, non fatal
 }
 
@@ -354,12 +354,12 @@ if ($checkbuilddep) {
     if (not WIFEXITED($?)) {
         subprocerr('dpkg-checkbuilddeps');
     } elsif (WEXITSTATUS($?)) {
-	warning(_g("Build dependencies/conflicts unsatisfied; aborting."));
+	warning(_g("build dependencies/conflicts unsatisfied; aborting"));
 	warning(_g("(Use -d flag to override.)"));
 
 	if (build_sourceonly) {
-	    warning(_g("This is currently a non-fatal warning with -S, but"));
-	    warning(_g("will probably become fatal in the future."));
+	    warning(_g("this is currently a non-fatal warning with -S, but " .
+	               "will probably become fatal in the future"));
 	} else {
 	    exit 3;
 	}
@@ -381,9 +381,8 @@ unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
 unless (build_binaryonly) {
-    warning(_g("it is a bad idea to generate a source package " .
-               "without cleaning up first, it might contain undesired " .
-               "files.")) if $noclean;
+    warning(_g("building a source package without cleaning up as you asked; " .
+               "it might contain undesired files")) if $noclean;
     chdir('..') or syserr('chdir ..');
     withecho('dpkg-source', @source_opts, '-b', $dir);
     chdir($dir) or syserr("chdir $dir");

@@ -430,7 +430,7 @@ do_build(const char *const *argv)
   if (nocheckflag) {
     if (subdir)
       ohshit(_("target is directory - cannot skip control file check"));
-    warning(_("not checking contents of control area."));
+    warning(_("not checking contents of control area"));
     printf(_("dpkg-deb: building an unknown package in '%s'.\n"), debar);
   } else {
     struct pkginfo *pkg;

@@ -234,12 +234,12 @@ statoverride_add(const char *const *argv)
 	filestat = statdb_node_find(filename);
 	if (*filestat != NULL) {
 		if (opt_force)
-			warning(_("An override for '%s' already exists, "
-			          "but --force specified so will be ignored."),
+			warning(_("an override for '%s' already exists, "
+			          "but --force specified so will be ignored"),
 			        filename);
 		else
-			ohshit(_("An override for '%s' already exists, "
-			         "aborting."), filename);
+			ohshit(_("an override for '%s' already exists; "
+			         "aborting"), filename);
 	}
 
 	*filestat = statdb_node_new(user, group, mode);
@@ -274,7 +274,7 @@ statoverride_remove(const char *const *argv)
 
 	if (!statdb_node_remove(filename)) {
 		if (opt_verbose)
-			warning(_("No override present."));
+			warning(_("no override present"));
 		if (opt_force)
 			return 0;
 		else

@@ -418,7 +418,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
   pkg_db_iter_free(iter);
 
   if (!nitems)
-    ohshit(_("There are no packages."));
+    ohshit(_("there are no packages"));
   recursive= 0;
   sortorder= so_priority;
   statsortorder= sso_avail;

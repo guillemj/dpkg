@@ -184,7 +184,7 @@ FILE:
 			'to_pipe' => \$output);
 	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
 	$fields->parse($output, $fn)
-	    or error(_g("couldn't parse control information from %s."), $fn);
+	    or error(_g("couldn't parse control information from %s"), $fn);
 	wait_child($pid, no_check => 1);
 	if ($?) {
 	    warning(_g("\`dpkg-deb -I %s control' exited with %d, skipping package"),

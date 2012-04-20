@@ -196,10 +196,10 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 			cur_partsize = partsize;
 
 		if (cur_partsize > maxpartsize) {
-			ohshit(_("Header is too long, making part too long. "
-			       "Your package name or version\n"
-			       "numbers must be extraordinarily long, "
-			       "or something. Giving up.\n"));
+			ohshit(_("header is too long, making part too long; "
+			         "the package name or version\n"
+			         "numbers must be extraordinarily long, "
+			         "or something; giving up"));
 		}
 
 		/* Split the data. */

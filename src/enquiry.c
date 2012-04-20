@@ -546,7 +546,7 @@ printarch(const char *const *argv)
 int
 printinstarch(const char *const *argv)
 {
-  warning(_("obsolete option '--%s', please use '--%s' instead."),
+  warning(_("obsolete option '--%s'; please use '--%s' instead"),
           "print-installation-architecture", "print-architecture");
   return printarch(argv);
 }

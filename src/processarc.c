@@ -147,7 +147,7 @@ deb_verify(const char *filename)
     status = subproc_wait(pid, "debsig-verify");
     if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
       if (!fc_badverify)
-        ohshit(_("Verification on package %s failed!"), filename);
+        ohshit(_("verification on package %s failed!"), filename);
       else
         notice(_("verification on package %s failed; "
                  "but installing anyway as you requested"), filename);

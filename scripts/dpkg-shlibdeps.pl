@@ -178,7 +178,7 @@ foreach my $file (keys %exec) {
 	    $soname_notfound{$soname} = 1;
 	    $global_soname_notfound{$soname} = 1;
 	    my $msg = _g("couldn't find library %s needed by %s (ELF " .
-			 "format: '%s'; RPATH: '%s').");
+			 "format: '%s'; RPATH: '%s')");
 	    if (scalar(split_soname($soname))) {
 		errormsg($msg, $soname, $file, $obj->{format}, join(":", @{$obj->{RPATH}}));
 		$error_count++;
@@ -286,7 +286,7 @@ foreach my $file (keys %exec) {
 		    # 3/ when we have been asked to do so
 		    $ignore++ if $ignore_missing_info;
 		    error(_g("no dependency information found for %s " .
-		             "(used by %s)."), $lib, $file)
+		             "(used by %s)"), $lib, $file)
 		        unless $ignore;
 		}
 	    }
@@ -317,7 +317,7 @@ foreach my $file (keys %exec) {
         $in_public_dir = (grep { $parent_dir eq $_ } @librarypaths) ? 1 : 0;
     } else {
         warning(_g("binaries to analyze should already be " .
-                   "installed in their package's directory."));
+                   "installed in their package's directory"));
     }
     print "Analyzing all undefined symbols\n" if $debug > 1;
     foreach my $sym ($obj->get_undefined_dynamic_symbols()) {
@@ -360,10 +360,10 @@ foreach my $file (keys %exec) {
                         {
                             if ($in_public_dir) {
 			        warning(_g("symbol %s used by %s found in none of the " .
-				           "libraries."), $print_name, $file);
+				           "libraries"), $print_name, $file);
                             } else {
 			        warning(_g("%s contains an unresolvable reference to " .
-                                           "symbol %s: it's probably a plugin."),
+                                           "symbol %s: it's probably a plugin"),
                                         $file, $print_name);
                             }
 			    $nb_warnings++;
@@ -384,9 +384,9 @@ foreach my $file (keys %exec) {
 	    }
 	}
     }
-    warning(P_("%d similar warning has been skipped (use -v to see it).",
+    warning(P_("%d similar warning has been skipped (use -v to see it)",
                "%d other similar warnings have been skipped (use -v to see " .
-               "them all).", $nb_skipped_warnings), $nb_skipped_warnings)
+               "them all)", $nb_skipped_warnings), $nb_skipped_warnings)
         if $nb_skipped_warnings;
     foreach my $soname (@sonames) {
 	# Adjust minimal version of dependencies with information
@@ -412,7 +412,7 @@ foreach my $file (keys %exec) {
 		     scalar grep(/^libstdc\+\+\.so\.\d+/, @sonames));
             next unless ($warnings & WARN_NOT_NEEDED);
 	    warning(_g("%s should not be linked against %s (it uses none of " .
-	               "the library's symbols)."), $file, $soname);
+	               "the library's symbols)"), $file, $soname);
 	}
     }
 }
@@ -425,9 +425,9 @@ foreach my $soname (keys %global_soname_needed) {
                  grep(/^libstdc\+\+\.so\.\d+/, keys %global_soname_needed)));
         next unless ($warnings & WARN_DEP_AVOIDABLE);
         warning(P_("package could avoid a useless dependency if %s was not " .
-                   "linked against %s (it uses none of the library's symbols).",
+                   "linked against %s (it uses none of the library's symbols)",
                    "package could avoid a useless dependency if %s were not " .
-                   "linked against %s (they use none of the library's symbols).",
+                   "linked against %s (they use none of the library's symbols)",
                    scalar @{$global_soname_needed{$soname}}),
                 join(" ", @{$global_soname_needed{$soname}}), $soname);
     }
@@ -438,8 +438,8 @@ if ($error_count >= 1) {
     my $note = _g("Note: libraries are not searched in other binary packages " .
 	"that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
 	"find private libraries, you might need to set LD_LIBRARY_PATH.");
-    error(P_("Cannot continue due to the error above.",
-             "Cannot continue due to the errors listed above.",
+    error(P_("cannot continue due to the error above",
+             "cannot continue due to the errors listed above",
              $error_count) . "\n" . $note);
 }
 

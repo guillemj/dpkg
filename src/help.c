@@ -103,7 +103,7 @@ void checkpath(void) {
 
   path_list = getenv("PATH");
   if (!path_list)
-    ohshit(_("PATH is not set."));
+    ohshit(_("PATH is not set"));
 
   for (prog = prog_list; *prog; prog++) {
     struct stat stab;
@@ -125,7 +125,7 @@ void checkpath(void) {
         break;
     }
     if (!path) {
-      warning(_("'%s' not found in PATH or not executable."), *prog);
+      warning(_("'%s' not found in PATH or not executable"), *prog);
       warned++;
     }
   }
@@ -134,11 +134,11 @@ void checkpath(void) {
 
   if (warned)
     forcibleerr(fc_badpath,
-                P_("%d expected program not found in PATH or not executable.\n%s",
-                   "%d expected programs not found in PATH or not executable.\n%s",
+                P_("%d expected program not found in PATH or not executable\n%s",
+                   "%d expected programs not found in PATH or not executable\n%s",
                    warned),
                 warned, _("Note: root's PATH should usually contain "
-                          "/usr/local/sbin, /usr/sbin and /sbin."));
+                          "/usr/local/sbin, /usr/sbin and /sbin"));
 }
 
 bool

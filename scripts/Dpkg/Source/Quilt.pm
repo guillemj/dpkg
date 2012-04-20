@@ -262,8 +262,8 @@ sub read_patch_list {
             $_ = $1;
             if ($2 ne '-p1') {
                 warning(_g("the series file (%s) contains unsupported " .
-                           "options ('%s', line %s), dpkg-source might " .
-                           "fail when applying patches."),
+                           "options ('%s', line %s); dpkg-source might " .
+                           "fail when applying patches"),
                         $file, $2, $.) if $opts{"warn_options"};
             }
         }

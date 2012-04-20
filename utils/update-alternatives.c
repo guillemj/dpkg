@@ -1213,8 +1213,8 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 		/* File not found - remove. */
 		if (ctx->flags & altdb_warn_parser)
 			warning(_("alternative %s (part of link group %s) "
-			          "doesn't exist. Removing from list of "
-			          "alternatives."), master_file, a->master_name);
+			          "doesn't exist; removing from list of "
+			          "alternatives"), master_file, a->master_name);
 		junk = altdb_get_line(ctx, _("priority"));
 		free(junk);
 		for (sl = a->slaves; sl; sl = sl->next) {
@@ -1340,7 +1340,7 @@ alternative_save(struct alternative *a)
 		if (!has_slave) {
 			struct slave_link *sl_rm;
 
-			verbose(_("discarding obsolete slave link %s (%s)."),
+			verbose(_("discarding obsolete slave link %s (%s)"),
 			        sl->name, sl->link);
 			if (sl_prev)
 				sl_prev->next = sl->next;
@@ -1722,7 +1722,7 @@ alternative_path_needs_update(const char *linkname, const char *filename)
 
 		return update;
 	case ALT_PATH_OTHER:
-		warning(_("not replacing %s with a link."), linkname);
+		warning(_("not replacing %s with a link"), linkname);
 		return false;
 	case ALT_PATH_MISSING:
 	default:
@@ -1782,7 +1782,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 		/* Slave can't be installed */
 		if (fileset_has_slave(fs, sl->name))
 			warning(_("skip creation of %s because associated "
-			          "file %s (of link group %s) doesn't exist."),
+			          "file %s (of link group %s) doesn't exist"),
 			        sl->link, fileset_get_slave(fs, sl->name),
 			        a->master_name);
 
@@ -1791,7 +1791,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 		if (alternative_path_can_remove(sl->link))
 			alternative_add_commit_op(a, opcode_rm, sl->link, NULL);
 		else
-			warning(_("not removing %s since it's not a symlink."),
+			warning(_("not removing %s since it's not a symlink"),
 			        sl->link);
 		alternative_add_commit_op(a, opcode_rm, fn, NULL);
 		free(fn);
@@ -2168,19 +2168,19 @@ alternative_select_mode(struct alternative *a, const char *current_choice)
 				syserr(_("cannot stat file '%s'"), current_choice);
 
 			if (errno == ENOENT) {
-				warning(_("%s/%s is dangling, it will be updated "
-				          "with best choice."), altdir, a->master_name);
+				warning(_("%s/%s is dangling; it will be updated "
+				          "with best choice"), altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_AUTO);
 			} else if (a->status != ALT_ST_MANUAL) {
 				warning(_("%s/%s has been changed (manually or by "
-				          "a script). Switching to manual "
-				          "updates only."), altdir, a->master_name);
+				          "a script); switching to manual "
+				          "updates only"), altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_MANUAL);
 			}
 		}
 	} else {
 		/* Lack of alternative link => automatic mode. */
-		verbose(_("setting up automatic selection of %s."),
+		verbose(_("setting up automatic selection of %s"),
 		        a->master_name);
 		alternative_set_status(a, ALT_ST_AUTO);
 	}
@@ -2196,7 +2196,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 
 	is_link = alternative_path_classify(a->master_link) == ALT_PATH_SYMLINK;
 	if (is_link && strcmp(a->master_link, b->master_link) != 0) {
-		info(_("renaming %s link from %s to %s."), b->master_name,
+		info(_("renaming %s link from %s to %s"), b->master_name,
 		     a->master_link, b->master_link);
 		checked_mv(a->master_link, b->master_link);
 	}
@@ -2237,7 +2237,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 			}
 
 			if (rename_link) {
-				info(_("renaming %s slave link from %s to %s."),
+				info(_("renaming %s slave link from %s to %s"),
 				     sl->name, old, new);
 				checked_mv(old, new);
 			} else {
@@ -2265,7 +2265,7 @@ alternative_update(struct alternative *a,
 	    (!current_choice || strcmp(new_choice, current_choice) != 0)) {
 		log_msg("link group %s updated to point to %s", a->master_name,
 		        new_choice);
-		info(_("using %s to provide %s (%s) in %s."), new_choice,
+		info(_("using %s to provide %s (%s) in %s"), new_choice,
 		     a->master_link, a->master_name,
 		     (a->status == ALT_ST_AUTO) ? _("auto mode") :
 		                                  _("manual mode"));
@@ -2274,14 +2274,14 @@ alternative_update(struct alternative *a,
 	} else if (alternative_is_broken(a)) {
 		log_msg("auto-repair link group %s", a->master_name);
 		warning(_("forcing reinstallation of alternative %s because "
-		          "link group %s is broken."), current_choice,
+		          "link group %s is broken"), current_choice,
 		        a->master_name);
 
 		if (current_choice && !alternative_has_choice(a, current_choice)) {
 			struct fileset *best = alternative_get_best(a);
 
 			warning(_("current alternative %s is unknown, "
-			          "switching to %s for link group %s."),
+			          "switching to %s for link group %s"),
 			        current_choice, best->master_file,
 			        a->master_name);
 			current_choice = best->master_file;
@@ -2307,7 +2307,7 @@ alternative_check_name(const char *name)
 {
 	if (strpbrk(name, "/ \t"))
 		error(_("alternative name (%s) must not contain '/' "
-		        "and spaces."), name);
+		        "and spaces"), name);
 }
 
 static void
@@ -2361,13 +2361,13 @@ alternative_check_install_args(struct alternative *inst_alt,
 	if (found && strcmp(found->master_name, inst_alt->master_name) != 0) {
 		found = alternative_map_find(alt_map_parent,
 		                             found->master_name);
-		error(_("alternative link %s is already managed by %s."),
+		error(_("alternative link %s is already managed by %s"),
 		      inst_alt->master_link, found->master_name);
 	}
 
 	if (stat(fileset->master_file, &st) == -1) {
 		if (errno == ENOENT)
-			error(_("alternative path %s doesn't exist."),
+			error(_("alternative path %s doesn't exist"),
 			      fileset->master_file);
 		else
 			syserr(_("cannot stat file '%s'"), fileset->master_file);
@@ -2385,7 +2385,7 @@ alternative_check_install_args(struct alternative *inst_alt,
 		    strcmp(found->master_name, inst_alt->master_name) != 0) {
 			if (strcmp(found->master_name, sl->name) == 0)
 				error(_("alternative %s can't be slave of %s: "
-				        "it is a master alternative."),
+				        "it is a master alternative"),
 				      sl->name, inst_alt->master_name);
 			else
 				error(_("alternative %s can't be slave of %s: "
@@ -2398,7 +2398,7 @@ alternative_check_install_args(struct alternative *inst_alt,
 		if (found &&
 		    strcmp(found->master_name, inst_alt->master_name) != 0) {
 			error(_("alternative link %s is already "
-			        "managed by %s."), sl->link,
+			        "managed by %s"), sl->link,
 			      found->master_name);
 		}
 		if (found) {
@@ -2409,7 +2409,7 @@ alternative_check_install_args(struct alternative *inst_alt,
 					break;
 			if (sl2 && strcmp(sl2->name, sl->name) != 0)
 				error(_("alternative link %s is already "
-				        "managed by %s (slave of %s)."),
+				        "managed by %s (slave of %s)"),
 				      sl->link, sl2->name,
 				      found->master_name);
 		}
@@ -2614,13 +2614,13 @@ main(int argc, char **argv)
 	    strcmp(action, "remove-all") == 0) {
 		/* Load the alternative info, stop on failure. */
 		if (!alternative_load(a, altdb_warn_parser))
-			error(_("no alternatives for %s."), a->master_name);
+			error(_("no alternatives for %s"), a->master_name);
 	} else if (strcmp(action, "remove") == 0) {
 		/* FIXME: Be consistent for now with the case when we
 		 * try to remove a non-existing path from an existing
 		 * link group file. */
 		if (!alternative_load(a, altdb_warn_parser)) {
-			verbose(_("no alternatives for %s."), a->master_name);
+			verbose(_("no alternatives for %s"), a->master_name);
 			exit(0);
 		}
 	} else if (strcmp(action, "install") == 0) {
@@ -2659,8 +2659,8 @@ main(int argc, char **argv)
 		if (alternative_has_choice(a, path))
 			new_choice = path;
 		else
-			error(_("alternative %s for %s not registered, "
-			        "not setting."), path, a->master_name);
+			error(_("alternative %s for %s not registered; "
+			        "not setting"), path, a->master_name);
 		alternative_set_status(a, ALT_ST_MANUAL);
 	} else if (strcmp(action, "auto") == 0) {
 		alternative_set_status(a, ALT_ST_AUTO);
@@ -2689,8 +2689,8 @@ main(int argc, char **argv)
 		if (alternative_has_choice(a, path))
 			alternative_remove_choice(a, path);
 		else
-			verbose(_("alternative %s for %s not registered, not "
-			          "removing."), path, a->master_name);
+			verbose(_("alternative %s for %s not registered; not "
+			          "removing"), path, a->master_name);
 		if (current_choice && strcmp(current_choice, path) == 0) {
 			struct fileset *best;
 
@@ -2722,10 +2722,10 @@ main(int argc, char **argv)
 		if (a->status == ALT_ST_AUTO) {
 			new_choice = alternative_get_best(a)->master_file;
 		} else {
-			verbose(_("automatic updates of %s/%s are disabled, "
-			          "leaving it alone."), altdir, a->master_name);
+			verbose(_("automatic updates of %s/%s are disabled; "
+			          "leaving it alone"), altdir, a->master_name);
 			verbose(_("to return to automatic updates use "
-			          "'%s --auto %s'."), PROGNAME, a->master_name);
+			          "'%s --auto %s'"), PROGNAME, a->master_name);
 		}
 	}
 

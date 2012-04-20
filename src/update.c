@@ -109,7 +109,7 @@ forgetold(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  warning(_("obsolete '--%s' option, unavailable packages are automatically cleaned up."),
+  warning(_("obsolete '--%s' option; unavailable packages are automatically cleaned up"),
           cipaction->olong);
 
   return 0;

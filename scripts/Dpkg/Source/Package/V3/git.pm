@@ -52,8 +52,8 @@ sub import {
             return 1;
         }
     }
-    error(_g("This source package can only be manipulated using git, " .
-             "which is not in the PATH."));
+    error(_g("cannot unpack git-format source package because " .
+             "git is not in the PATH"));
 }
 
 sub sanity_check {
@@ -65,7 +65,7 @@ sub sanity_check {
                  "specified"), $srcdir);
     }
     if (-s "$srcdir/.gitmodules") {
-        error(_g("git repository %s uses submodules. This is not yet supported."),
+        error(_g("git repository %s uses submodules; this is not yet supported"),
               $srcdir);
     }
 

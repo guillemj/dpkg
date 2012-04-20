@@ -91,7 +91,7 @@ void deferred_remove(struct pkginfo *pkg) {
         pkg_name(pkg, pnaw_always));
 
   if (pkg->status == stat_notinstalled) {
-    warning(_("ignoring request to remove %.250s which isn't installed."),
+    warning(_("ignoring request to remove %.250s which isn't installed"),
             pkg_name(pkg, pnaw_nonambig));
     pkg->clientdata->istobe= itb_normal;
     return;
@@ -99,7 +99,7 @@ void deferred_remove(struct pkginfo *pkg) {
              pkg->status == stat_configfiles &&
              cipaction->arg_int != act_purge) {
     warning(_("ignoring request to remove %.250s, only the config\n"
-              " files of which are on the system. Use --purge to remove them too."),
+              " files of which are on the system; use --purge to remove them too"),
             pkg_name(pkg, pnaw_nonambig));
     pkg->clientdata->istobe= itb_normal;
     return;
@@ -409,7 +409,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     debug(dbg_eachfiledetail, "removal_bulk removing '%s'", fnvb.buf);
     if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
     if (errno == ENOTEMPTY || errno == EEXIST) {
-      warning(_("while removing %.250s, directory '%.250s' not empty so not removed."),
+      warning(_("while removing %.250s, directory '%.250s' not empty so not removed"),
               pkg_name(pkg, pnaw_nonambig), namenode->name);
       push_leftover(&leftover,namenode);
       continue;

@@ -272,8 +272,8 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     onerr_abort--;
     if (pkg->status != stat_configfiles &&
         dpkg_version_is_informative(&pkg->configversion)) {
-      warning(_("files list file for package `%.250s' missing, assuming "
-                "package has no files currently installed."),
+      warning(_("files list file for package '%.250s' missing; assuming "
+                "package has no files currently installed"),
               pkg_name(pkg, pnaw_nonambig));
     }
     pkg->clientdata->files = NULL;

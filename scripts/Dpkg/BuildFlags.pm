@@ -318,7 +318,7 @@ sub update_from_conffile {
                 $self->prepend($flag, $value, $src);
             }
         } else {
-            warning(_g("line %d of %s is invalid, it has been ignored."), $., $file);
+            warning(_g("line %d of %s is invalid, it has been ignored"), $., $file);
         }
     }
     close(CNF);

@@ -655,7 +655,7 @@ control_path(const char *const *argv)
              cipaction->olong, pkgname, err.str);
 
   if (pkg->status == stat_notinstalled)
-    ohshit(_("Package `%s' is not installed.\n"),
+    ohshit(_("package '%s' is not installed"),
            pkg_name(pkg, pnaw_nonambig));
 
   if (control_file)

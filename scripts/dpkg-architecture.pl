@@ -213,7 +213,7 @@ if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
     error(_g("unknown default GNU system type for Debian architecture %s"),
           $req_host_arch)
 	unless defined $dfl_host_gnu_type;
-    warning(_g("Default GNU system type %s for Debian arch %s does not " .
+    warning(_g("default GNU system type %s for Debian arch %s does not " .
                "match specified GNU system type %s"), $dfl_host_gnu_type,
             $req_host_arch, $req_host_gnu_type)
         if $dfl_host_gnu_type ne $req_host_gnu_type;
