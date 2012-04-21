@@ -494,13 +494,17 @@ enqperpackage(const char *const *argv)
 static int
 showpackages(const char *const *argv)
 {
+  struct dpkg_error err;
   struct pkg_array array;
   struct pkginfo *pkg;
-  struct pkg_format_node *fmt = pkg_format_parse(showformat);
+  struct pkg_format_node *fmt;
   int i;
   int failures = 0;
 
+  fmt = pkg_format_parse(showformat, &err);
   if (!fmt) {
+    notice(_("error in show format: %s"), err.str);
+    dpkg_error_destroy(&err);
     failures++;
     return failures;
   }

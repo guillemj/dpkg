@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/error.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/parsedump.h>
@@ -66,7 +67,8 @@ pkg_format_node_new(void)
 }
 
 static bool
-parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
+parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend,
+           struct dpkg_error *err)
 {
 	int len;
 	const char *ws;
@@ -81,13 +83,13 @@ parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 		errno = 0;
 		w = strtol(ws + 1, &endptr, 0);
 		if (endptr[0] != '}') {
-			fprintf(stderr,
-			        _("invalid character `%c' in field width\n"),
-			       *endptr);
+			dpkg_put_error(err,
+			               _("invalid character '%c' in field width"),
+			               *endptr);
 			return false;
 		}
 		if (w < INT_MIN || w > INT_MAX || errno == ERANGE) {
-			fprintf(stderr, _("field width is out of range\n"));
+			dpkg_put_error(err, _("field width is out of range"));
 			return false;
 		}
 
@@ -109,7 +111,8 @@ parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 }
 
 static bool
-parsestring(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
+parsestring(struct pkg_format_node *cur, const char *fmt, const char *fmtend,
+            struct dpkg_error *err)
 {
 	int len;
 	char *write;
@@ -160,7 +163,7 @@ pkg_format_free(struct pkg_format_node *head)
 }
 
 struct pkg_format_node *
-pkg_format_parse(const char *fmt)
+pkg_format_parse(const char *fmt, struct dpkg_error *err)
 {
 	struct pkg_format_node *head;
 	struct pkg_format_node *cur;
@@ -177,13 +180,12 @@ pkg_format_parse(const char *fmt)
 		if (fmt[0] == '$' && fmt[1] == '{') {
 			fmtend = strchr(fmt, '}');
 			if (!fmtend) {
-				fprintf(stderr,
-				      _("Closing brace missing in format\n"));
+				dpkg_put_error(err, _("missing closing brace"));
 				pkg_format_free(head);
 				return NULL;
 			}
 
-			if (!parsefield(cur, fmt + 2, fmtend - 1)) {
+			if (!parsefield(cur, fmt + 2, fmtend - 1, err)) {
 				pkg_format_free(head);
 				return NULL;
 			}
@@ -198,7 +200,7 @@ pkg_format_parse(const char *fmt)
 			if (!fmtend)
 				fmtend = fmt + strlen(fmt);
 
-			if (!parsestring(cur, fmt, fmtend - 1)) {
+			if (!parsestring(cur, fmt, fmtend - 1, err)) {
 				pkg_format_free(head);
 				return NULL;
 			}

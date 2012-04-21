@@ -22,6 +22,7 @@
 #define LIBDPKG_PKG_FORMAT_H
 
 #include <dpkg/macros.h>
+#include <dpkg/error.h>
 #include <dpkg/dpkg-db.h>
 
 DPKG_BEGIN_DECLS
@@ -34,7 +35,8 @@ DPKG_BEGIN_DECLS
 
 struct pkg_format_node;
 
-struct pkg_format_node *pkg_format_parse(const char *fmt);
+struct pkg_format_node *pkg_format_parse(const char *fmt,
+                                         struct dpkg_error *err);
 void pkg_format_free(struct pkg_format_node *head);
 void pkg_format_show(const struct pkg_format_node *head,
                      struct pkginfo *pkg, struct pkgbin *pkgbin);

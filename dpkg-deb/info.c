@@ -271,11 +271,13 @@ do_showinfo(const char *const *argv)
 {
   const char *debar, *dir;
   char *controlfile;
+  struct dpkg_error err;
   struct pkginfo *pkg;
-  struct pkg_format_node *fmt = pkg_format_parse(showformat);
+  struct pkg_format_node *fmt;
 
+  fmt = pkg_format_parse(showformat, &err);
   if (!fmt)
-    ohshit(_("Error in format"));
+    ohshit(_("error in show format: %s"), err.str);
 
   info_prepare(&argv, &debar, &dir, 1);
 
