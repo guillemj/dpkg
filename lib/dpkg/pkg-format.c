@@ -34,9 +34,9 @@
 #include <dpkg/pkg-format.h>
 
 enum pkg_format_type {
-	invalid,
-	string,
-	field,
+	PKG_FORMAT_INVALID,
+	PKG_FORMAT_STRING,
+	PKG_FORMAT_FIELD,
 };
 
 struct pkg_format_node {
@@ -54,7 +54,7 @@ pkg_format_node_new(void)
 	struct pkg_format_node *buf;
 
 	buf = m_malloc(sizeof(*buf));
-	buf->type = invalid;
+	buf->type = PKG_FORMAT_INVALID;
 	buf->next = NULL;
 	buf->data = NULL;
 	buf->width = 0;
@@ -93,7 +93,7 @@ parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 		len = ws - fmt;
 	}
 
-	cur->type = field;
+	cur->type = PKG_FORMAT_FIELD;
 	cur->data = m_malloc(len + 1);
 	memcpy(cur->data, fmt, len);
 	cur->data[len] = '\0';
@@ -109,7 +109,7 @@ parsestring(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 
 	len = fmtend - fmt + 1;
 
-	cur->type = string;
+	cur->type = PKG_FORMAT_STRING;
 	write = cur->data = m_malloc(len + 1);
 	while (fmt <= fmtend) {
 		if (*fmt == '\\') {
@@ -321,10 +321,10 @@ pkg_format_show(const struct pkg_format_node *head,
 		else
 			strcpy(fmt, "%s");
 
-		if (head->type == string) {
+		if (head->type == PKG_FORMAT_STRING) {
 			varbuf_printf(&fb, fmt, head->data);
 			ok = true;
-		} else if (head->type == field) {
+		} else if (head->type == PKG_FORMAT_FIELD) {
 			const struct fieldinfo *fip;
 
 			fip = find_field_info(fieldinfos, head);
