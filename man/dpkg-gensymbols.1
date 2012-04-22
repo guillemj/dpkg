@@ -16,7 +16,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-gensymbols 1 "2012-04-07" "Debian Project" "dpkg utilities"
+.TH dpkg\-gensymbols 1 "2012-04-22" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-gensymbols \- generate symbols files (shared library dependency information)
 .
@@ -166,10 +166,12 @@ in template mode.
 The format of \fIarchitecture list\fR is the same as the one used in the
 \fIBuild\-Depends\fR field of \fIdebian/control\fR (except the enclosing
 square brackets []). For example, the first symbol from the list below
-will be considered only on alpha, amd64, kfreebsd\-amd64 and ia64 architectures
-while the second one anywhere except on armel.
+will be considered only on alpha, any\-amd64 and ia64 architectures,
+the second only on linux architectures, while the third one anywhere
+except on armel.
 
- (arch=alpha amd64 kfreebsd\-amd64 ia64)a_64bit_specific_symbol@Base 1.0
+ (arch=alpha any\-amd64 ia64)a_64bit_specific_symbol@Base 1.0
+ (arch=linux\-any)linux_specific_symbol@Base 1.0
  (arch=!armel)symbol_armel_does_not_have@Base 1.0
 .TP
 .B ignore\-blacklist
