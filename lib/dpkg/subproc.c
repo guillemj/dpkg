@@ -59,7 +59,7 @@ subproc_set_signal(int sig, struct sigaction *sa, struct sigaction *sa_old,
 }
 
 void
-subproc_signals_setup(const char *name)
+subproc_signals_ignore(const char *name)
 {
 	struct sigaction sa;
 	size_t i;

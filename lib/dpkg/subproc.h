@@ -33,7 +33,7 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-void subproc_signals_setup(const char *name);
+void subproc_signals_ignore(const char *name);
 void subproc_signals_cleanup(int argc, void **argv);
 
 #define PROCPIPE 1

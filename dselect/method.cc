@@ -140,7 +140,7 @@ falliblesubprocess(struct command *cmd)
 
   cursesoff();
 
-  subproc_signals_setup(cmd->name);
+  subproc_signals_ignore(cmd->name);
 
   pid = subproc_fork();
   if (pid == 0) {
