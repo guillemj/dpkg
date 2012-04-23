@@ -3,6 +3,7 @@
  * subproc.c - subprocess helper routines
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +39,25 @@
 static int signo_ignores[] = { SIGQUIT, SIGINT };
 static struct sigaction sa_save[array_count(signo_ignores)];
 
+static void
+subproc_reset_signal(int sig, struct sigaction *sa_old)
+{
+	if (sigaction(sig, sa_old, NULL)) {
+		fprintf(stderr, _("error un-catching signal %s: %s\n"),
+		        strsignal(sig), strerror(errno));
+		onerr_abort++;
+	}
+}
+
+static void
+subproc_set_signal(int sig, struct sigaction *sa, struct sigaction *sa_old,
+                   const char *name)
+{
+	if (sigaction(sig, sa, sa_old))
+		ohshite(_("unable to ignore signal %s before running %.250s"),
+		        strsignal(sig), name);
+}
+
 void
 subproc_signals_setup(const char *name)
 {
@@ -51,9 +71,8 @@ subproc_signals_setup(const char *name)
 	sa.sa_flags = 0;
 
 	for (i = 0; i < array_count(signo_ignores); i++)
-		if (sigaction(signo_ignores[i], &sa, &sa_save[i]))
-			ohshite(_("unable to ignore signal %s before running %.250s"),
-			        strsignal(signo_ignores[i]), name);
+		subproc_set_signal(signo_ignores[i], &sa, &sa_save[i], name);
+
 	push_cleanup(subproc_signals_cleanup, ~0, NULL, 0, 0);
 	onerr_abort--;
 }
@@ -63,13 +82,8 @@ subproc_signals_cleanup(int argc, void **argv)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(signo_ignores); i++) {
-		if (sigaction(signo_ignores[i], &sa_save[i], NULL)) {
-			fprintf(stderr, _("error un-catching signal %s: %s\n"),
-			        strsignal(signo_ignores[i]), strerror(errno));
-			onerr_abort++;
-		}
-	}
+	for (i = 0; i < array_count(signo_ignores); i++)
+		subproc_reset_signal(signo_ignores[i], &sa_save[i]);
 }
 
 static void
