@@ -152,7 +152,7 @@ falliblesubprocess(struct command *cmd)
 
   i = subproc_reap(pid, cmd->name, PROCWARN);
 
-  pop_cleanup(ehflag_normaltidy);
+  subproc_signals_restore();
 
   if (i == 0) {
     sleep(1);

@@ -86,6 +86,12 @@ subproc_signals_cleanup(int argc, void **argv)
 		subproc_reset_signal(signo_ignores[i], &sa_save[i]);
 }
 
+void
+subproc_signals_restore(void)
+{
+	pop_cleanup(ehflag_normaltidy);
+}
+
 static void
 print_subproc_error(const char *emsg, const void *data)
 {

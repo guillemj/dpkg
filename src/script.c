@@ -183,9 +183,9 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 		command_exec(cmd);
 	}
-	subproc_signals_ignore(cmd->name); /* This does a push_cleanup(). */
+	subproc_signals_ignore(cmd->name);
 	rc = subproc_reap(pid, cmd->name, warn);
-	pop_cleanup(ehflag_normaltidy);
+	subproc_signals_restore();
 
 	pop_cleanup(ehflag_normaltidy);
 

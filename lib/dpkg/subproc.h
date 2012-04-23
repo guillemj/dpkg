@@ -35,6 +35,7 @@ DPKG_BEGIN_DECLS
 
 void subproc_signals_ignore(const char *name);
 void subproc_signals_cleanup(int argc, void **argv);
+void subproc_signals_restore(void);
 
 #define PROCPIPE 1
 #define PROCWARN 2
