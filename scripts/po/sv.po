@@ -1,14 +1,14 @@
 # Swedish translation of dpkg
-# Copyright © 2007-2011 Software in the Public Interest
+# Copyright © 2007-2012 Software in the Public Interest
 # This file is distributed under the same license as the dpkg package.
-# Peter Krefting <peterk@debian.org>, 2007-2011, 2011.
+# Peter Krefting <peterk@debian.org>, 2007-2012
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2012-03-19 07:23+0100\n"
-"PO-Revision-Date: 2011-11-23 18:33+0100\n"
+"POT-Creation-Date: 2012-04-24 12:22+0100\n"
+"PO-Revision-Date: 2012-04-24 12:27+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -134,23 +134,7 @@ msgstr ""
 "en korrekt CC-miljövariabel"
 
 #: scripts/dpkg-buildflags.pl:41
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<action>]\n"
-#| "\n"
-#| "Actions:\n"
-#| "  --get <flag>       output the requested flag to stdout.\n"
-#| "  --origin <flag>    output the origin of the flag to stdout:\n"
-#| "                     value is one of vendor, system, user, env.\n"
-#| "  --list             output a list of the flags supported by the current "
-#| "vendor.\n"
-#| "  --export=(sh|make|configure)\n"
-#| "                     output something convenient to import the\n"
-#| "                     compilation flags in a shell script, in make,\n"
-#| "                     or on a ./configure command line.\n"
-#| "  --dump             output all compilation flags with their values\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<action>]\n"
 "\n"
@@ -176,6 +160,8 @@ msgstr ""
 "  --get <flagga>     skriv ut begärd flagga på standard ut.\n"
 "  --origin <flagga>  skriv ut ursprung till flaggan på standard ut:\n"
 "                     värdet är ett av vendor, system, user, env.\n"
+"  --query-features <area>\n"
+"                     skriv ut status för funktioner för given area.\n"
 "  --list             skriv ut lista med flaggor som stöds av aktuell "
 "leverantör.\n"
 "  --export=(sh|make|configure)\n"
@@ -400,6 +386,8 @@ msgid ""
 "%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
 "least '%s' seems to be missing)"
 msgstr ""
+"%s måste uppdateras för att stöda målen \"build-arch\" och \"build-indep"
+"\" (åtminstone \"%s\" verkar saknas)"
 
 #: scripts/dpkg-buildpackage.pl:429
 msgid "Press the return key to start signing process\n"
@@ -504,9 +492,10 @@ msgid "%s: Build conflicts: "
 msgstr "%s: Byggkonflikter: "
 
 #: scripts/dpkg-checkbuilddeps.pl:126 scripts/dpkg-name.pl:96
-#: scripts/Dpkg/Arch.pm:142 scripts/Dpkg/Arch.pm:161 scripts/Dpkg/Arch.pm:180
-#: scripts/Dpkg/Changelog/Parse.pm:142 scripts/Dpkg/IPC.pm:247
-#: scripts/Dpkg/Shlibs.pm:83 scripts/Dpkg/Source/Package.pm:193
+#: scripts/Dpkg/Arch.pm:144 scripts/Dpkg/Arch.pm:163 scripts/Dpkg/Arch.pm:194
+#: scripts/Dpkg/Arch.pm:208 scripts/Dpkg/Changelog/Parse.pm:142
+#: scripts/Dpkg/IPC.pm:247 scripts/Dpkg/Shlibs.pm:83
+#: scripts/Dpkg/Source/Package.pm:193
 #, perl-format
 msgid "cannot open %s"
 msgstr "kan inte öppna %s"
@@ -1499,17 +1488,14 @@ msgstr[1] ""
 "%d andra liknande varningar har hoppats över (använd -v för att visa alla)."
 
 #: scripts/dpkg-shlibdeps.pl:414
-#, fuzzy, perl-format
-#| msgid "%s shouldn't be linked with %s (it uses none of its symbols)."
+#, perl-format
 msgid ""
 "%s should not be linked against %s (it uses none of the library's symbols)."
-msgstr "%s borde inte vara länkat mot %s (inga av symbolerna används)."
+msgstr ""
+"%s borde inte vara länkat mot %s (inga av symbolerna i biblioteket används)."
 
 #: scripts/dpkg-shlibdeps.pl:427
-#, fuzzy, perl-format
-#| msgid ""
-#| "dependency on %s could be avoided if \"%s\" were not uselessly linked "
-#| "against it (they use none of its symbols)."
+#, perl-format
 msgid ""
 "package could avoid a useless dependency if %s was not linked against %s (it "
 "uses none of the library's symbols)."
@@ -1517,11 +1503,11 @@ msgid_plural ""
 "package could avoid a useless dependency if %s were not linked against %s "
 "(they use none of the library's symbols)."
 msgstr[0] ""
-"beroendet på %s kunde undvikas om inte \"%s\" meningslöst länkades mot det "
-"(de använder inga av dess symboler)."
+"paketet kunde undvika ett onödigt beroende om %s inte länkades mot %s (det "
+"använder inget av bibliotekets symboler)."
 msgstr[1] ""
-"beroendet på %s kunde undvikas om inte \"%s\" meningslöst länkades mot det "
-"(de använder inga av dess symboler)."
+"paketet kunde undvika ett onödigt beroende om %s inte länkades mot %s (de "
+"använder inget av bibliotekets symboler)."
 
 #: scripts/dpkg-shlibdeps.pl:438
 msgid ""
@@ -1993,7 +1979,7 @@ msgstr "ödesdigert fel vid tolkning av indata"
 msgid "fatal error occurred while parsing %s"
 msgstr "ödesdigert fel vid tolkning av %s"
 
-#: scripts/Dpkg/Arch.pm:90
+#: scripts/Dpkg/Arch.pm:92
 msgid ""
 "Couldn't determine gcc system type, falling back to default (native "
 "compilation)"
@@ -2001,7 +1987,7 @@ msgstr ""
 "Kunde inte bestämma gcc-systemtyp, faller tillbaka på standard (lokal "
 "kompilering)"
 
-#: scripts/Dpkg/Arch.pm:99
+#: scripts/Dpkg/Arch.pm:101
 #, perl-format
 msgid ""
 "Unknown gcc system type %s, falling back to default (native compilation)"
@@ -2175,10 +2161,9 @@ msgid "unknown key-value %s"
 msgstr "okänt nyckelvärde %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm:140
-#, fuzzy, perl-format
-#| msgid "overriding %s in environment: %s"
+#, perl-format
 msgid "version '%s' is invalid: %s"
-msgstr "överstyr %s i miljön: %s"
+msgstr "versionen \"%s\" är ogiltig: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm:143
 msgid "the header doesn't match the expected regex"
@@ -3149,10 +3134,9 @@ msgid "cannot register changes in %s, this patch already exists"
 msgstr "kan inte registrera ändringar i %s, patchen finns redan"
 
 #: scripts/Dpkg/Source/Package/V2.pm:636
-#, fuzzy, perl-format
-#| msgid "%s does not exist"
+#, perl-format
 msgid "patch file '%s' doesn't exist"
-msgstr "%s finns inte"
+msgstr "patchfilen \"%s\" finns inte"
 
 #: scripts/Dpkg/Source/Package/V2.pm:645
 msgid "there are no local changes to record"
@@ -3365,10 +3349,9 @@ msgid "source package has two conflicting values - %s and %s"
 msgstr "källkodspaketet har två emotsägande värden - %s och %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:87
-#, fuzzy, perl-format
-#| msgid "host architecture"
+#, perl-format
 msgid "unknown host architecture '%s'"
-msgstr "värdarkitektur"
+msgstr "okänd värdarkitektur \"%s\""
 
 #: scripts/Dpkg/Vendor/Debian.pm:113
 #, perl-format
