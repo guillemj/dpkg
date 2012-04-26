@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * string.h - string handling routines
  *
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@
 #ifndef LIBDPKG_STRING_H
 #define LIBDPKG_STRING_H
 
+#include <stdbool.h>
+
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
@@ -30,6 +32,24 @@ DPKG_BEGIN_DECLS
  * @ingroup dpkg-internal
  * @{
  */
+
+/**
+ * Check if a string is either NULL or empty.
+ */
+static inline bool
+str_is_unset(const char *str)
+{
+	return str == NULL || str[0] == '\0';
+}
+
+/**
+ * Check if a string has content.
+ */
+static inline bool
+str_is_set(const char *str)
+{
+	return str != NULL && str[0] != '\0';
+}
 
 char *str_escape_fmt(char *dest, const char *src, size_t n);
 char *str_quote_meta(const char *src);
