@@ -48,6 +48,7 @@
 #include <dpkg/pkg-spec.h>
 #include <dpkg/pkg-format.h>
 #include <dpkg/pkg-show.h>
+#include <dpkg/string.h>
 #include <dpkg/path.h>
 #include <dpkg/options.h>
 
@@ -412,7 +413,7 @@ enqperpackage(const char *const *argv)
     case act_status:
       if (pkg->status == stat_notinstalled &&
           pkg->priority == pri_unknown &&
-          !(pkg->section && *pkg->section) &&
+          str_is_unset(pkg->section) &&
           !pkg->files &&
           pkg->want == want_unknown &&
           !pkg_is_informative(pkg, &pkg->installed)) {

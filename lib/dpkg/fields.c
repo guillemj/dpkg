@@ -4,7 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
- * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  * Copyright © 2009 Canonical Ltd.
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
@@ -34,6 +34,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/arch.h>
+#include <dpkg/string.h>
 #include <dpkg/path.h>
 #include <dpkg/parsedump.h>
 #include <dpkg/pkg-spec.h>
@@ -75,7 +76,7 @@ parse_nv_last(struct parsedb_state *ps,
   int value;
 
   value = parse_nv_next(ps, what, nv_head, &str);
-  if (str != NULL && str[0] != '\0')
+  if (str_is_set(str))
     parse_error(ps, _("junk after %s"), what);
 
   return value;
@@ -248,7 +249,7 @@ f_revision(struct pkginfo *pkg, struct pkgbin *pkgbin,
   parse_warn(ps,
              _("obsolete `Revision' or `Package-Revision' field used"));
   if (!*value) return;
-  if (pkgbin->version.revision && *pkgbin->version.revision) {
+  if (str_is_set(pkgbin->version.revision)) {
     newversion = nfmalloc(strlen(pkgbin->version.version) +
                           strlen(pkgbin->version.revision) + 2);
     sprintf(newversion, "%s-%s", pkgbin->version.version,

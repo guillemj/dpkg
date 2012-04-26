@@ -41,6 +41,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/pkg.h>
 #include <dpkg/parsedump.h>
 #include <dpkg/fdio.h>
@@ -439,9 +440,9 @@ pkg_parse_copy(struct parsedb_state *ps,
 {
   /* Copy the priority and section across, but don't overwrite existing
    * values if the pdb_weakclassification flag is set. */
-  if (src_pkg->section && *src_pkg->section &&
+  if (str_is_set(src_pkg->section) &&
       !((ps->flags & pdb_weakclassification) &&
-        dst_pkg->section && *dst_pkg->section))
+        str_is_set(dst_pkg->section)))
     dst_pkg->section = src_pkg->section;
   if (src_pkg->priority != pri_unknown &&
       !((ps->flags & pdb_weakclassification) &&

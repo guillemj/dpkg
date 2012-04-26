@@ -42,6 +42,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/dir.h>
 #include <dpkg/parsedump.h>
 
@@ -105,7 +106,9 @@ w_section(struct varbuf *vb,
           enum fwriteflags flags, const struct fieldinfo *fip)
 {
   const char *value = pkg->section;
-  if (!value || !*value) return;
+
+  if (str_is_unset(value))
+    return;
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Section: ");
   varbuf_add_str(vb, value);
@@ -119,7 +122,9 @@ w_charfield(struct varbuf *vb,
             enum fwriteflags flags, const struct fieldinfo *fip)
 {
   const char *value = PKGPFIELD(pkgbin, fip->integer, const char *);
-  if (!value || !*value) return;
+
+  if (str_is_unset(value))
+    return;
   if (flags&fw_printheader) {
     varbuf_add_str(vb, fip->name);
     varbuf_add_str(vb, ": ");

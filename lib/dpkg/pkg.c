@@ -25,6 +25,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include <dpkg/string.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
 
@@ -174,12 +175,6 @@ pkgset_installed_instances(struct pkgset *set)
 	return set->installed_instances;
 }
 
-static int
-nes(const char *s)
-{
-	return s && *s;
-}
-
 /**
  * Check if a pkg is informative.
  *
@@ -198,12 +193,12 @@ pkg_is_informative(struct pkginfo *pkg, struct pkgbin *pkgbin)
 		return true;
 
 	if (pkgbin->depends ||
-	    nes(pkgbin->description) ||
-	    nes(pkgbin->maintainer) ||
-	    nes(pkgbin->origin) ||
-	    nes(pkgbin->bugs) ||
-	    nes(pkgbin->installedsize) ||
-	    nes(pkgbin->source) ||
+	    str_is_set(pkgbin->description) ||
+	    str_is_set(pkgbin->maintainer) ||
+	    str_is_set(pkgbin->origin) ||
+	    str_is_set(pkgbin->bugs) ||
+	    str_is_set(pkgbin->installedsize) ||
+	    str_is_set(pkgbin->source) ||
 	    dpkg_version_is_informative(&pkgbin->version) ||
 	    pkgbin->conffiles ||
 	    pkgbin->arbs)

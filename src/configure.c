@@ -553,7 +553,7 @@ showdiff(const char *old, const char *new)
 		char cmdbuf[1024];
 
 		pager = getenv("PAGER");
-		if (!pager || !*pager)
+		if (str_is_unset(pager))
 			pager = DEFAULTPAGER;
 
 		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",

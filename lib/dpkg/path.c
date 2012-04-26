@@ -3,7 +3,7 @@
  * path.c - path handling functions
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <stdio.h>
 
 #include <dpkg/dpkg.h>
+#include <dpkg/string.h>
 #include <dpkg/path.h>
 
 /**
@@ -43,7 +44,7 @@ path_trim_slash_slashdot(char *path)
 {
 	char *end;
 
-	if (!path || !*path)
+	if (str_is_unset(path))
 		return 0;
 
 	for (end = path + strlen(path) - 1; end - path >= 1; end--) {
