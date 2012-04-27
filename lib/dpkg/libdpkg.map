@@ -88,6 +88,7 @@ LIBDPKG_PRIVATE {
 	path_quote_filename;
 
 	dir_sync_path;
+	dir_sync_path_parent;
 	dir_sync_contents;
 
 	file_copy_perms;
@@ -136,6 +137,7 @@ LIBDPKG_PRIVATE {
 	compressor_find_by_name;
 	compressor_find_by_extension;
 	compressor_get_extension;
+	compressor_check_params;
 	compress_filter;
 	decompress_filter;
 
@@ -145,6 +147,9 @@ LIBDPKG_PRIVATE {
 	dpkg_ar_member_put_file;
 	dpkg_ar_member_put_mem;
 	dpkg_ar_member_get_size;
+
+	# deb version support
+	deb_version_parse;
 
 	# Configuration and command line handling
 	loadcfgfile;
@@ -182,7 +187,6 @@ LIBDPKG_PRIVATE {
 	epochsdiffer;
 	versioncompare;
 	versiondescribe;
-	versionsatisfied;
 	versionsatisfied3;
 	parseversion;
 
@@ -212,6 +216,7 @@ LIBDPKG_PRIVATE {
 	copy_dependency_links;
 	pkg_sorter_by_nonambig_name_arch;
 	varbuf_add_pkgbin_name;
+	varbuf_add_archqual;
 	pkgbin_name;
 	pkg_name;
 	pkg_summary;
@@ -266,6 +271,10 @@ LIBDPKG_PRIVATE {
 	pkg_db_iter_next_pkg;
 	pkg_db_iter_free;
 
+	# Dependency and Conflict functions
+	archsatisfied;
+	versionsatisfied;
+
 	# Package on-disk database functions
 	statusinfos;		# XXX variable, do not export
 	wantinfos;		# XXX variable, do not export
@@ -286,6 +295,7 @@ LIBDPKG_PRIVATE {
 	modstatdb_lock;
 	modstatdb_unlock;
 	modstatdb_open;
+	modstatdb_get_status;
 	modstatdb_note;
 	modstatdb_note_ifwrite;
 	modstatdb_checkpoint;
