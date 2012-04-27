@@ -47,6 +47,7 @@
 #include <dpkg/options.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 
 struct badstatinfo {
@@ -70,6 +71,14 @@ bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
   if (pkg->eflag & eflag_reinstreq)
     return false;
   return (int)pkg->status == bsi->value.number;
+}
+
+static bool
+bsyn_infofile(struct pkginfo *pkg, const struct badstatinfo *bsi)
+{
+  if (pkg->status < stat_halfinstalled)
+    return false;
+  return !pkg_infodb_has_file(pkg, &pkg->installed, bsi->value.string);
 }
 
 static bool
@@ -123,6 +132,18 @@ static const struct badstatinfo badstatinfos[]= {
     "The following packages have been triggered, but the trigger processing\n"
     "has not yet been done.  Trigger processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
+  }, {
+    .yesno = bsyn_infofile,
+    .value.string = LISTFILE,
+    .explanation = N_(
+    "The following packages are missing the list control file in the\n"
+    "database, they need to be reinstalled:\n")
+  }, {
+    .yesno = bsyn_infofile,
+    .value.string = HASHFILE,
+    .explanation = N_(
+    "The following packages are missing the md5sums control file in the\n"
+    "database, they need to be reinstalled:\n")
   }, {
     .yesno = bsyn_arch,
     .value.number = arch_none,
