@@ -4,7 +4,7 @@
  *
  * Copyright © 1999, 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2000-2003 Adam Heath <doogie@debian.org>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -181,9 +181,9 @@ buffer_copy(struct buffer_data *read_data,
 	if ((limit != -1) && (limit < bufsize))
 		bufsize = limit;
 	if (bufsize == 0)
-		return 0;
-
-	buf = m_malloc(bufsize);
+		buf = NULL;
+	else
+		buf = m_malloc(bufsize);
 
 	buffer_filter_init(filter);
 
