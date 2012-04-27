@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * version.c - Version handling functions
+ * version.c - version handling functions
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
