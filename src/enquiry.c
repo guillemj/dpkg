@@ -51,7 +51,10 @@
 
 struct badstatinfo {
   bool (*yesno)(struct pkginfo *, const struct badstatinfo *bsi);
-  int value;
+  union {
+    int number;
+    const char *string;
+  } value;
   const char *explanation;
 };
 
@@ -66,7 +69,7 @@ bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
 {
   if (pkg->eflag & eflag_reinstreq)
     return false;
-  return (int)pkg->status == bsi->value;
+  return (int)pkg->status == bsi->value.number;
 }
 
 static bool
@@ -74,63 +77,63 @@ bsyn_arch(struct pkginfo *pkg, const struct badstatinfo *bsi)
 {
   if (pkg->status < stat_halfinstalled)
     return false;
-  return pkg->installed.arch->type == (enum dpkg_arch_type)bsi->value;
+  return pkg->installed.arch->type == (enum dpkg_arch_type)bsi->value.number;
 }
 
 static const struct badstatinfo badstatinfos[]= {
   {
     .yesno = bsyn_reinstreq,
-    .value = 0,
+    .value.number = 0,
     .explanation = N_(
     "The following packages are in a mess due to serious problems during\n"
     "installation.  They must be reinstalled for them (and any packages\n"
     "that depend on them) to function properly:\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_unpacked,
+    .value.number = stat_unpacked,
     .explanation = N_(
     "The following packages have been unpacked but not yet configured.\n"
     "They must be configured using dpkg --configure or the configure\n"
     "menu option in dselect for them to work:\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_halfconfigured,
+    .value.number = stat_halfconfigured,
     .explanation = N_(
     "The following packages are only half configured, probably due to problems\n"
     "configuring them the first time.  The configuration should be retried using\n"
     "dpkg --configure <package> or the configure menu option in dselect:\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_halfinstalled,
+    .value.number = stat_halfinstalled,
     .explanation = N_(
     "The following packages are only half installed, due to problems during\n"
     "installation.  The installation can probably be completed by retrying it;\n"
     "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_triggersawaited,
+    .value.number = stat_triggersawaited,
     .explanation = N_(
     "The following packages are awaiting processing of triggers that they\n"
     "have activated in other packages.  This processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_triggerspending,
+    .value.number = stat_triggerspending,
     .explanation = N_(
     "The following packages have been triggered, but the trigger processing\n"
     "has not yet been done.  Trigger processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
     .yesno = bsyn_arch,
-    .value = arch_none,
+    .value.number = arch_none,
     .explanation = N_("The following packages do not have an architecture:\n")
   }, {
     .yesno = bsyn_arch,
-    .value = arch_illegal,
+    .value.number = arch_illegal,
     .explanation = N_("The following packages have an illegal architecture:\n")
   }, {
     .yesno = bsyn_arch,
-    .value = arch_unknown,
+    .value.number = arch_unknown,
     .explanation = N_(
     "The following packages have an unknown foreign architecture, which will\n"
     "cause dependency issues on front-ends. This can be fixed by registering\n"
