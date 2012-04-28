@@ -1229,7 +1229,7 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 		prio_str = altdb_get_line(ctx, _("priority"));
 		prio = strtol(prio_str, &prio_end, 10);
 		/* XXX: Leak master_file/prio_str on non-fatal error */
-		if (*prio_end != '\0')
+		if (prio_str == prio_end || *prio_end != '\0')
 			ctx->bad_format(ctx, _("priority of %s: %s"),
 			                master_file, prio_str);
 		fs = fileset_new(master_file, prio);
@@ -2467,7 +2467,7 @@ main(int argc, char **argv)
 			if (strcmp(argv[i+1], argv[i+3]) == 0)
 				badusage(_("<link> and <path> can't be the same"));
 			prio = strtol(prio_str, &prio_end, 10);
-			if (*prio_end != '\0')
+			if (prio_str == prio_end || *prio_end != '\0')
 				badusage(_("priority must be an integer"));
 
 			a = alternative_new(argv[i + 2]);

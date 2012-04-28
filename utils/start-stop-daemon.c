@@ -564,12 +564,14 @@ parse_signal(const char *sig_str, int *sig_num)
 static int
 parse_umask(const char *string, int *value_r)
 {
+	char *endptr;
+
 	if (!string[0])
 		return -1;
 
 	errno = 0;
-	*value_r = strtoul(string, NULL, 0);
-	if (errno)
+	*value_r = strtoul(string, &endptr, 0);
+	if (string == endptr || *endptr != '\0' || errno != 0)
 		return -1;
 	else
 		return 0;
