@@ -3,6 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994-1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +25,7 @@
 #include <sys/stat.h>
 
 #include <assert.h>
+#include <errno.h>
 #include <limits.h>
 #include <inttypes.h>
 #if HAVE_LOCALE_H
@@ -119,10 +121,11 @@ static void setpartsize(const struct cmdinfo *cip, const char *value) {
   off_t newpartsize;
   char *endp;
 
+  errno = 0;
   newpartsize = strtoimax(value, &endp, 10);
   if (value == endp || *endp)
     badusage(_("invalid integer for --%s: `%.250s'"), cip->olong, value);
-  if (newpartsize <= 0 || newpartsize > (INT_MAX >> 10))
+  if (newpartsize <= 0 || newpartsize > (INT_MAX >> 10) || errno == ERANGE)
     badusage(_("part size is far too large or is not positive"));
 
   opt_maxpartsize = newpartsize << 10;

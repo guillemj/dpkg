@@ -302,7 +302,7 @@ static const struct debuginfo {
 
 static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
-  unsigned long mask;
+  long mask;
   const struct debuginfo *dip;
 
   if (*value == 'h') {
@@ -321,9 +321,10 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
     exit(0);
   }
 
-  mask = strtoul(value, &endp, 8);
-  if (value == endp || *endp)
-    badusage(_("--%s requires an octal argument"), cpi->olong);
+  errno = 0;
+  mask = strtol(value, &endp, 8);
+  if (value == endp || *endp || mask < 0 || errno == ERANGE)
+    badusage(_("--%s requires a positive octal argument"), cpi->olong);
 
   debug_set_mask(mask);
 }
@@ -373,21 +374,23 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setinteger(const struct cmdinfo *cip, const char *value) {
-  unsigned long v;
+  long v;
   char *ep;
 
-  v= strtoul(value,&ep,0);
-  if (value == ep || *ep || v > INT_MAX)
+  errno = 0;
+  v = strtol(value, &ep, 0);
+  if (value == ep || *ep || v < 0 || v > INT_MAX || errno != 0)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
   *cip->iassignto= v;
 }
 
 static void setpipe(const struct cmdinfo *cip, const char *value) {
-  unsigned long v;
+  long v;
   char *ep;
 
-  v= strtoul(value,&ep,0);
-  if (value == ep || *ep || v > INT_MAX)
+  errno = 0;
+  v = strtol(value, &ep, 0);
+  if (value == ep || *ep || v < 0 || v > INT_MAX || errno != 0)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
 
   statusfd_add(v);
@@ -720,7 +723,7 @@ commandfd(const char *const *argv)
   const char **newargs = NULL;
   char *ptr, *endptr;
   FILE *in;
-  unsigned long infd;
+  long infd;
   int ret = 0;
   int c, lno, i;
   bool skipchar;
@@ -729,8 +732,8 @@ commandfd(const char *const *argv)
   if (pipein == NULL || *argv)
     badusage(_("--%s takes exactly one argument"), cipaction->olong);
   errno = 0;
-  infd = strtoul(pipein, &endptr, 10);
-  if (pipein == endptr || *endptr || infd > INT_MAX)
+  infd = strtol(pipein, &endptr, 10);
+  if (pipein == endptr || *endptr || infd < 0 || infd > INT_MAX || errno != 0)
     ohshit(_("invalid integer for --%s: `%.250s'"), cipaction->olong, pipein);
   if ((in= fdopen(infd, "r")) == NULL)
     ohshite(_("couldn't open `%i' for stream"), (int) infd);

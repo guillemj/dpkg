@@ -3,6 +3,7 @@
  * version.h - version handling routines
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +35,7 @@ DPKG_BEGIN_DECLS
  */
 
 struct dpkg_version {
-	unsigned long epoch;
+	unsigned int epoch;
 	const char *version;
 	const char *revision;
 };

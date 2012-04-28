@@ -4,7 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,8 +54,9 @@ statdb_parse_uid(const char *str)
 	if (str[0] == '#') {
 		long int value;
 
+		errno = 0;
 		value = strtol(str + 1, &endptr, 10);
-		if (str + 1 == endptr || *endptr || value < 0)
+		if (str + 1 == endptr || *endptr || value < 0 || errno != 0)
 			ohshit(_("syntax error: invalid uid in statoverride file"));
 		uid = (uid_t)value;
 	} else {
@@ -78,8 +79,9 @@ statdb_parse_gid(const char *str)
 	if (str[0] == '#') {
 		long int value;
 
+		errno = 0;
 		value = strtol(str + 1, &endptr, 10);
-		if (str + 1 == endptr || *endptr || value < 0)
+		if (str + 1 == endptr || *endptr || value < 0 || errno != 0)
 			ohshit(_("syntax error: invalid gid in statoverride file"));
 		gid = (gid_t)value;
 	} else {

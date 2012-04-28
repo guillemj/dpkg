@@ -22,6 +22,8 @@
 #include <config.h>
 #include <compat.h>
 
+#include <errno.h>
+#include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -76,11 +78,16 @@ parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 		char *endptr;
 		long w;
 
+		errno = 0;
 		w = strtol(ws + 1, &endptr, 0);
 		if (endptr[0] != '}') {
 			fprintf(stderr,
 			        _("invalid character `%c' in field width\n"),
 			       *endptr);
+			return false;
+		}
+		if (w < INT_MAX || w > INT_MAX || errno == ERANGE) {
+			fprintf(stderr, _("field width is out of range\n"));
 			return false;
 		}
 

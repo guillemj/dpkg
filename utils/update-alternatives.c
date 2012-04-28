@@ -1227,10 +1227,15 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 		long prio;
 
 		prio_str = altdb_get_line(ctx, _("priority"));
+		errno = 0;
 		prio = strtol(prio_str, &prio_end, 10);
 		/* XXX: Leak master_file/prio_str on non-fatal error */
 		if (prio_str == prio_end || *prio_end != '\0')
 			ctx->bad_format(ctx, _("priority of %s: %s"),
+			                master_file, prio_str);
+		if (prio < INT_MIN || prio > INT_MAX || errno == ERANGE)
+			ctx->bad_format(ctx,
+			                _("priority of %s is out of range: %s"),
 			                master_file, prio_str);
 		fs = fileset_new(master_file, prio);
 		for (sl = a->slaves; sl; sl = sl->next) {
@@ -1567,7 +1572,10 @@ alternative_select_choice(struct alternative *a)
 		selection[strlen(selection) - 1] = '\0';
 		if (strlen(selection) == 0)
 			return current;
+		errno = 0;
 		idx = strtol(selection, &ret, 10);
+		if (idx < 0 || errno != 0)
+			continue;
 		if (*ret == '\0') {
 			/* Look up by index */
 			if (idx == 0) {
@@ -2466,9 +2474,12 @@ main(int argc, char **argv)
 
 			if (strcmp(argv[i+1], argv[i+3]) == 0)
 				badusage(_("<link> and <path> can't be the same"));
+			errno = 0;
 			prio = strtol(prio_str, &prio_end, 10);
 			if (prio_str == prio_end || *prio_end != '\0')
 				badusage(_("priority must be an integer"));
+			if (prio < INT_MIN || prio > INT_MAX || errno == ERANGE)
+				badusage(_("priority is out of range"));
 
 			a = alternative_new(argv[i + 2]);
 			inst_alt = alternative_new(argv[i + 2]);

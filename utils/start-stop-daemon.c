@@ -530,17 +530,20 @@ static const struct sigpair siglist[] = {
 static int
 parse_integer(const char *string, int *value_r)
 {
-	unsigned long ul;
-	char *ep;
+	long value;
+	char *endptr;
 
 	if (!string[0])
 		return -1;
 
-	ul = strtoul(string, &ep, 10);
-	if (string == ep || ul > INT_MAX || *ep != '\0')
+	errno = 0;
+	value = strtol(string, &endptr, 10);
+	if (string == endptr || *endptr != '\0' || errno != 0)
+		return -1;
+	if (value < 0 || value > INT_MAX)
 		return -1;
 
-	*value_r = ul;
+	*value_r = value;
 	return 0;
 }
 
@@ -564,17 +567,21 @@ parse_signal(const char *sig_str, int *sig_num)
 static int
 parse_umask(const char *string, int *value_r)
 {
+	long value;
 	char *endptr;
 
 	if (!string[0])
 		return -1;
 
 	errno = 0;
-	*value_r = strtoul(string, &endptr, 0);
+	value = strtol(string, &endptr, 0);
 	if (string == endptr || *endptr != '\0' || errno != 0)
 		return -1;
-	else
-		return 0;
+	if (value < 0 || value > INT_MAX)
+		return -1;
+
+	*value_r = value;
+	return 0;
 }
 
 static void

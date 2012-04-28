@@ -3,6 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +31,7 @@
 #if HAVE_LOCALE_H
 #include <locale.h>
 #endif
+#include <errno.h>
 #include <ctype.h>
 #include <string.h>
 #include <dirent.h>
@@ -150,8 +152,9 @@ set_compress_level(const struct cmdinfo *cip, const char *value)
   long level;
   char *end;
 
+  errno = 0;
   level = strtol(value, &end, 0);
-  if (value == end || *end || level > INT_MAX)
+  if (value == end || *end || errno != 0)
     badusage(_("invalid integer for -%c: '%.250s'"), cip->oshort, value);
 
   if (level < 0 || level > 9)

@@ -3,7 +3,7 @@
  * parsehelp.c - helpful routines for parsing and writing
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,9 @@
 #include <config.h>
 #include <compat.h>
 
+#include <errno.h>
 #include <ctype.h>
+#include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -159,7 +161,7 @@ void varbufversion
         (!version->revision || !strchr(version->revision,':'))) break;
     /* Fall through. */
   case vdew_always:
-    varbuf_printf(vb, "%lu:", version->epoch);
+    varbuf_printf(vb, "%u:", version->epoch);
     break;
   default:
     internerr("unknown versiondisplayepochwhen '%d'", vdew);
@@ -210,7 +212,6 @@ parseversion(struct dpkg_version *rversion, const char *string,
 {
   char *hyphen, *colon, *eepochcolon;
   const char *end, *ptr;
-  unsigned long epoch;
 
   if (!*string)
     return dpkg_put_error(err, _("version string is empty"));
@@ -232,9 +233,16 @@ parseversion(struct dpkg_version *rversion, const char *string,
 
   colon= strchr(string,':');
   if (colon) {
-    epoch= strtoul(string,&eepochcolon,10);
+    long epoch;
+
+    errno = 0;
+    epoch = strtol(string, &eepochcolon, 10);
     if (colon != eepochcolon)
       return dpkg_put_error(err, _("epoch in version is not number"));
+    if (epoch < 0)
+      return dpkg_put_error(err, _("epoch in version is negative"));
+    if (epoch > INT_MAX || errno == ERANGE)
+      return dpkg_put_error(err, _("epoch in version is too big"));
     if (!*++colon)
       return dpkg_put_error(err, _("nothing after colon in version number"));
     string= colon;
