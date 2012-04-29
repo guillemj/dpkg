@@ -528,7 +528,7 @@ static const struct sigpair siglist[] = {
 };
 
 static int
-parse_integer(const char *string, int *value_r)
+parse_unsigned(const char *string, int base, int *value_r)
 {
 	long value;
 	char *endptr;
@@ -537,7 +537,7 @@ parse_integer(const char *string, int *value_r)
 		return -1;
 
 	errno = 0;
-	value = strtol(string, &endptr, 10);
+	value = strtol(string, &endptr, base);
 	if (string == endptr || *endptr != '\0' || errno != 0)
 		return -1;
 	if (value < 0 || value > INT_MAX)
@@ -552,7 +552,7 @@ parse_signal(const char *sig_str, int *sig_num)
 {
 	unsigned int i;
 
-	if (parse_integer(sig_str, sig_num) == 0)
+	if (parse_unsigned(sig_str, 10, sig_num) == 0)
 		return 0;
 
 	for (i = 0; i < array_count(siglist); i++) {
@@ -567,21 +567,7 @@ parse_signal(const char *sig_str, int *sig_num)
 static int
 parse_umask(const char *string, int *value_r)
 {
-	long value;
-	char *endptr;
-
-	if (!string[0])
-		return -1;
-
-	errno = 0;
-	value = strtol(string, &endptr, 0);
-	if (string == endptr || *endptr != '\0' || errno != 0)
-		return -1;
-	if (value < 0 || value > INT_MAX)
-		return -1;
-
-	*value_r = value;
-	return 0;
+	return parse_unsigned(string, 0, value_r);
 }
 
 static void
@@ -610,7 +596,7 @@ parse_proc_schedule(const char *string)
 	policy_str = strtok(policy_str, ":");
 	prio_str = strtok(NULL, ":");
 
-	if (prio_str && parse_integer(prio_str, &prio) != 0)
+	if (prio_str && parse_unsigned(prio_str, 10, &prio) != 0)
 		fatal("invalid process scheduler priority");
 
 	proc_sched = xmalloc(sizeof(*proc_sched));
@@ -641,7 +627,7 @@ parse_io_schedule(const char *string)
 	class_str = strtok(class_str, ":");
 	prio_str = strtok(NULL, ":");
 
-	if (prio_str && parse_integer(prio_str, &prio) != 0)
+	if (prio_str && parse_unsigned(prio_str, 10, &prio) != 0)
 		fatal("invalid IO scheduler priority");
 
 	io_sched = xmalloc(sizeof(*io_sched));
@@ -708,7 +694,7 @@ parse_schedule_item(const char *string, struct schedule_item *item)
 		item->type = sched_forever;
 	} else if (isdigit(string[0])) {
 		item->type = sched_timeout;
-		if (parse_integer(string, &item->value) != 0)
+		if (parse_unsigned(string, 10, &item->value) != 0)
 			badusage("invalid timeout value in schedule");
 	} else if ((after_hyph = string + (string[0] == '-')) &&
 	           parse_signal(after_hyph, &item->value) == 0) {
