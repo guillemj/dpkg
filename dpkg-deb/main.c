@@ -105,7 +105,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "                                     packages).\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
-"                                     Allowed types: gzip, xz, bzip2, lzma, none.\n"
+"                                     Allowed types: gzip, xz, bzip2, none.\n"
 "  -S<strategy>                     Set the compression strategy when building.\n"
 "                                     Allowed values: extreme (xz).\n"
 "\n"));
@@ -166,6 +166,8 @@ setcompresstype(const struct cmdinfo *cip, const char *value)
   compress_params.type = compressor_find_by_name(value);
   if (compress_params.type == compressor_type_unknown)
     ohshit(_("unknown compression type `%s'!"), value);
+  if (compress_params.type == compressor_type_lzma)
+    warning(_("deprecated compression type '%s'; use xz instead"), value);
 }
 
 static const struct cmdinfo cmdinfos[]= {
