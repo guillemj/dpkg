@@ -32,6 +32,7 @@ EXTRA_DIST = \
 	doc/README.api \
 	doc/README.feature-removal-schedule \
 	doc/coding-style.txt \
+	doc/frontend.txt \
 	doc/lcov-epilog \
 	doc/lcov-prolog \
 	doc/triggers.txt \
