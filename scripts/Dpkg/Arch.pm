@@ -120,8 +120,8 @@ my %debarch_to_debtriplet;
 
 sub get_valid_arches()
 {
-    read_cputable() if (!@cpu);
-    read_ostable() if (!@os);
+    read_cputable();
+    read_ostable();
 
     my @arches;
 
@@ -135,8 +135,11 @@ sub get_valid_arches()
     return @arches;
 }
 
+my $cputable_loaded = 0;
 sub read_cputable
 {
+    return if ($cputable_loaded);
+
     local $_;
     local $/ = "\n";
 
@@ -152,10 +155,15 @@ sub read_cputable
 	}
     }
     close CPUTABLE;
+
+    $cputable_loaded = 1;
 }
 
+my $ostable_loaded = 0;
 sub read_ostable
 {
+    return if ($ostable_loaded);
+
     local $_;
     local $/ = "\n";
 
@@ -169,6 +177,8 @@ sub read_ostable
 	}
     }
     close OSTABLE;
+
+    $ostable_loaded = 1;
 }
 
 my $abitable_loaded = 0;
@@ -197,9 +207,12 @@ sub abitable_load()
     $abitable_loaded = 1;
 }
 
+my $triplettable_loaded = 0;
 sub read_triplettable()
 {
-    read_cputable() if (!@cpu);
+    return if ($triplettable_loaded);
+
+    read_cputable();
 
     local $_;
     local $/ = "\n";
@@ -226,12 +239,14 @@ sub read_triplettable()
 	}
     }
     close TRIPLETTABLE;
+
+    $triplettable_loaded = 1;
 }
 
 sub debtriplet_to_gnutriplet(@)
 {
-    read_cputable() if (!@cpu);
-    read_ostable() if (!@os);
+    read_cputable();
+    read_ostable();
 
     my ($abi, $os, $cpu) = @_;
 
@@ -247,8 +262,8 @@ sub gnutriplet_to_debtriplet($)
     my ($gnu_cpu, $gnu_os) = split(/-/, $gnu, 2);
     return undef unless defined($gnu_cpu) && defined($gnu_os);
 
-    read_cputable() if (!@cpu);
-    read_ostable() if (!@os);
+    read_cputable();
+    read_ostable();
 
     my ($os, $cpu);
 
@@ -291,7 +306,7 @@ sub debarch_to_multiarch($)
 
 sub debtriplet_to_debarch(@)
 {
-    read_triplettable() if (!%debtriplet_to_debarch);
+    read_triplettable();
 
     my ($abi, $os, $cpu) = @_;
 
@@ -306,7 +321,7 @@ sub debtriplet_to_debarch(@)
 
 sub debarch_to_debtriplet($)
 {
-    read_triplettable() if (!%debarch_to_debtriplet);
+    read_triplettable();
 
     local ($_) = @_;
     my $arch;
