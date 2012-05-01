@@ -81,9 +81,9 @@ dpkg_trigger_SOURCES = \
 	trigcmd.c
 
 install-data-local:
-	$(mkdir_p) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
-	$(mkdir_p) $(DESTDIR)$(admindir)/info
-	$(mkdir_p) $(DESTDIR)$(admindir)/updates
+	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
+	$(MKDIR_P) $(DESTDIR)$(admindir)/info
+	$(MKDIR_P) $(DESTDIR)$(admindir)/updates
 
 TEST_VERBOSE = 0
 

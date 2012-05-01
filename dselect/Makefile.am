@@ -62,4 +62,4 @@ curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl
 	perl $(srcdir)/mkcurkeys.pl $< $$cursesfile >$@
 
 install-data-local:
-	$(mkdir_p) $(DESTDIR)$(pkgconfdir)/dselect.cfg.d
+	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dselect.cfg.d

@@ -120,12 +120,12 @@ do_shell_subst = $(AM_V_GEN) \
 		 sed -e "s:^version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
 
 %: %.pl Makefile
-	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
+	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_perl_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
 
 %: %.sh Makefile
-	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
+	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_shell_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
 
@@ -134,7 +134,7 @@ if BUILD_POD_DOC
 # Install manual pages for perl modules manually as make can't deal
 # properly with filenames containing colons
 # Remove empty manual pages (perl modules not documented)
-	$(mkdir_p) $(DESTDIR)$(man3dir)
+	$(MKDIR_P) $(DESTDIR)$(man3dir)
 	for module in $(nobase_dist_perllib_DATA); do \
 	    name=`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$//'`; \
 	    $(POD2MAN) --utf8 --center=libdpkg-perl --release=$(VERSION) \

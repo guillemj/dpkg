@@ -140,6 +140,6 @@ dist-hook: man.stamp
 	for lang in $(LINGUAS_DIST); do \
 		cp $(srcdir)/po/$$lang.po $(distdir)/po; \
 		cp $(srcdir)/po/$$lang.add $(distdir)/po; \
-		$(mkdir_p) $(distdir)/$$lang; \
+		$(MKDIR_P) $(distdir)/$$lang; \
 		cp -r $(srcdir)/$$lang $(distdir)/; \
 	done

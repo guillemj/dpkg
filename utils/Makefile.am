@@ -55,8 +55,8 @@ transform = s/dpkg-install-info/install-info/; $(program_transform_name)
 
 install-data-local:
 if BUILD_UPDATE_ALTERNATIVES
-	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives
-	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives
+	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/alternatives
+	$(MKDIR_P) $(DESTDIR)$(admindir)/alternatives
 	$(INSTALL_DATA) $(srcdir)/README.alternatives $(DESTDIR)$(sysconfdir)/alternatives/README
 endif
 
