@@ -374,6 +374,21 @@ daemonize(void)
 }
 
 static void
+write_pidfile(const char *filename, pid_t pid)
+{
+	FILE *fp;
+
+	fp = fopen(filename, "w");
+	if (fp == NULL)
+		fatal("unable to open pidfile '%s' for writing", filename);
+
+	fprintf(fp, "%d\n", pid);
+
+	if (fclose(fp))
+		fatal("unable to close pidfile '%s'", filename);
+}
+
+static void
 pid_list_push(struct pid_list **list, pid_t pid)
 {
 	struct pid_list *p;
@@ -1734,17 +1749,9 @@ main(int argc, char **argv)
 		set_io_schedule(io_sched);
 	if (umask_value >= 0)
 		umask(umask_value);
-	if (mpidfile && pidfile != NULL) {
+	if (mpidfile && pidfile != NULL)
 		/* User wants _us_ to make the pidfile. */
-		FILE *pidf = fopen(pidfile, "w");
-		pid_t pidt = getpid();
-		if (pidf == NULL)
-			fatal("unable to open pidfile '%s' for writing",
-			      pidfile);
-		fprintf(pidf, "%d\n", pidt);
-		if (fclose(pidf))
-			fatal("unable to close pidfile '%s'", pidfile);
-	}
+		write_pidfile(pidfile, getpid());
 	if (changeroot != NULL) {
 		if (chdir(changeroot) < 0)
 			fatal("unable to chdir() to %s", changeroot);
