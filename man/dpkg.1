@@ -6,7 +6,7 @@
 .\" Copyright © 2000-2003 Adam Heath <doogie@debian.org>
 .\" Copyright © 2002 Josip Rodin
 .\" Copyright © 2004-2005 Scott James Remnant <keybuk@debian.org>
-.\" Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2007-2008 Ian Jackson <ian@davenant.greenend.org.uk>
 .\" Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 .\"
@@ -23,7 +23,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg 1 "2011-11-27" "Debian Project" "dpkg suite"
+.TH dpkg 1 "2012-05-01" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -442,25 +442,28 @@ Install, even if it conflicts with another package. This is dangerous,
 for it will usually cause overwriting of some files.
 
 \fBconfmiss\fP:
-Always install a missing conffile. This is dangerous,
-since it means not preserving a change (removing) made to the
-file.
+If a conffile is missing and the version in the package did change, always
+install the missing conffile without prompting. This is dangerous, since
+it means not preserving a change (removing) made to the file.
 
 \fBconfnew\fP:
-If a conffile has been modified always install the new version without
-prompting, unless the \fB\-\-force\-confdef\fP is also specified, in
-which case the default action is preferred.
+If a conffile has been modified and the version in the package did change,
+always install the new version without prompting, unless the
+\fB\-\-force\-confdef\fP is also specified, in which case the default
+action is preferred.
 
 \fBconfold\fP:
-If a conffile has been modified always keep the old version without
-prompting, unless the \fB\-\-force\-confdef\fP is also specified, in
-which case the default action is preferred.
+If a conffile has been modified and the version in the package did change,
+always keep the old version without prompting, unless the
+\fB\-\-force\-confdef\fP is also specified, in which case the default
+action is preferred.
 
 \fBconfdef\fP:
-If a conffile has been modified always choose the default action. If
-there is no default action it will stop to ask the user unless 
-\fB\-\-force\-confnew\fP or \fB\-\-force\-confold\fP is also been given, in
-which case it will use that to decide the final action.
+If a conffile has been modified and the version in the package did change,
+always choose the default action without prompting. If there is no default
+action it will stop to ask the user unless \fB\-\-force\-confnew\fP or
+\fB\-\-force\-confold\fP is also been given, in which case it will use
+that to decide the final action.
 
 \fBconfask\fP:
 If a conffile has been modified always offer to replace it with the
