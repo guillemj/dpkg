@@ -50,6 +50,7 @@ dpkg_SOURCES = \
 	packages.c \
 	processarc.c \
 	remove.c \
+	script.c \
 	select.c \
 	trigproc.c \
 	update.c
