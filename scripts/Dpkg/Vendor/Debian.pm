@@ -121,9 +121,9 @@ sub add_hardening_flags {
 
     # Mask features that are not available on certain architectures.
     if ($os !~ /^(linux|knetbsd|hurd)$/ or
-	$cpu =~ /^(hppa|m68k|mips|mipsel|avr32)$/) {
+	$cpu =~ /^(hppa|mips|mipsel|avr32)$/) {
 	# Disabled on non-linux/knetbsd/hurd (see #430455 and #586215).
-	# Disabled on hppa, m68k (#451192), mips/mipsel (#532821), avr32
+	# Disabled on hppa, mips/mipsel (#532821), avr32
 	#  (#574716).
 	$use_feature{"pie"} = 0;
     }
