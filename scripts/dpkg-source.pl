@@ -474,11 +474,11 @@ Commands:
                            store upstream changes in a new patch.")
     . "\n\n" . _g(
 "Build options:
-  -c<controlfile>          get control info from this file.
-  -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force changelog format.
+  -c<control-file>         get control info from this file.
+  -l<changelog-file>       get per-version info from this file.
+  -F<changelog-format>     force changelog format.
   -V<name>=<value>         set a substitution variable.
-  -T<varlistfile>          read variables here.
+  -T<substvars-file>       read variables here.
   -D<field>=<value>        override or add a .dsc field and value.
   -U<field>                remove a field.
   -q                       quiet mode.

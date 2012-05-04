@@ -551,17 +551,17 @@ sub usage {
 
 Positional options (order is significant):
   <executable>             include dependencies for <executable>,
-  -e<executable>           (use -e if <executable> starts with \`-')
-  -d<dependencyfield>      next executable(s) set shlibs:<dependencyfield>.
+  -e<executable>           (use -e if <executable> starts with '-')
+  -d<dependency-field>     next executable(s) set shlibs:<dependencyfield>.
 
 Options:
-  -p<varnameprefix>        set <varnameprefix>:* instead of shlibs:*.
+  -p<varname-prefix>       set <varnameprefix>:* instead of shlibs:*.
   -O                       print variable settings to stdout.
-  -L<localshlibsfile>      shlibs override file, not debian/shlibs.local.
-  -T<varlistfile>          update variables here, not debian/substvars.
+  -L<local-shlibs-file>    shlibs override file, not debian/shlibs.local.
+  -T<substvars-file>       update variables here, not debian/substvars.
   -t<type>                 set package type (default is deb).
   -x<package>              exclude package from the generated dependencies.
-  -S<pkgbuilddir>          search needed libraries in the given
+  -S<package-build-dir>    search needed libraries in the given
                            package build directory first.
   -v                       enable verbose mode (can be used multiple times).
   --ignore-missing-info    don't fail if dependency information can't be found.

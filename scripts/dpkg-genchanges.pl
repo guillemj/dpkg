@@ -113,21 +113,21 @@ Options:
   -B                       arch-specific - no source or arch-indep files.
   -A                       only arch-indep - no source or arch-specific files.
   -S                       source-only upload.
-  -c<controlfile>          get control info from this file.
-  -l<changelogfile>        get per-version info from this file.
-  -f<fileslistfile>        get .deb files list from this file.
-  -v<sinceversion>         include all changes later than version.
-  -C<changesdescription>   use change description from this file.
+  -c<control-file>         get control info from this file.
+  -l<changelog-file>       get per-version info from this file.
+  -f<files-list-file>      get .deb files list from this file.
+  -v<since-version>        include all changes later than version.
+  -C<changes-description>  use change description from this file.
   -m<maintainer>           override control's maintainer value.
   -e<maintainer>           override changelog's maintainer value.
-  -u<uploadfilesdir>       directory with files (default is \`..').
+  -u<upload-files-dir>     directory with files (default is '..').
   -si (default)            src includes orig if new upstream.
   -sa                      source includes orig src.
   -sd                      source is diff and .dsc only.
   -q                       quiet - no informational messages on stderr.
-  -F<changelogformat>      force changelog format.
+  -F<changelog-format>     force changelog format.
   -V<name>=<value>         set a substitution variable.
-  -T<varlistfile>          read variables here, not debian/substvars.
+  -T<substvars-file>       read variables here, not debian/substvars.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
   -h, --help               show this help message.

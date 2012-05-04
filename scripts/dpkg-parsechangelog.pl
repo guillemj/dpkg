@@ -44,14 +44,14 @@ sub usage {
 "Usage: %s [<option> ...]
 
 Options:
-  -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force changelog format.
+  -l<changelog-file>       get per-version info from this file.
+  -F<changelog-format>     force changelog format.
   -L<libdir>               look for changelog parsers in <libdir>.
   -h, --help               show this help message.
       --version            show the version.
 
 parser options:
-    --format <outputformat>     see man page for list of available
+    --format <output-format>    see man page for list of available
                                 output formats, defaults to 'dpkg'
                                 for compatibility with dpkg-dev
     --since <version>,          include all changes later than version

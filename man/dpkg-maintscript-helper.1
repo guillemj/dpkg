@@ -15,7 +15,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-maintscript\-helper 1 "2012-02-08" "Debian Project" "dpkg suite"
+.TH dpkg\-maintscript\-helper 1 "2012-05-04" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
 .
@@ -25,9 +25,9 @@ dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer s
 .
 .SH COMMANDS AND PARAMETERS
 .P
-\fBrm_conffile\fP \fIconffile\fP [\fIpriorversion\fP [\fIpackage\fP]]
+\fBrm_conffile\fP \fIconffile\fP [\fIprior-version\fP [\fIpackage\fP]]
 .P
-\fBmv_conffile\fP \fIoldconffile\fP \fInewconffile\fP [\fIpriorversion\fP [\fIpackage\fP]]
+\fBmv_conffile\fP \fIold-conffile\fP \fInew-conffile\fP [\fIprior-version\fP [\fIpackage\fP]]
 .
 .SH DESCRIPTION
 .P
@@ -69,22 +69,22 @@ All of this is implemented by putting the following shell snippet in the
 \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer scripts:
 .P
     dpkg\-maintscript\-helper rm_conffile \\
-        \fIconffile\fP \fIpriorversion\fP \fIpackage\fP \-\- "$@"
+        \fIconffile\fP \fIprior-version\fP \fIpackage\fP \-\- "$@"
 .P
 \fIconffile\fP is the filename of the conffile to remove.
 .P
-\fIpriorversion\fP defines the latest version of the package whose
+\fIprior-version\fP defines the latest version of the package whose
 upgrade should trigger the removal. It is important to calculate
-\fIpriorversion\fP correctly so that conffiles are correctly removed even
+\fIprior-version\fP correctly so that conffiles are correctly removed even
 if the user rebuilt the package with a local version. For example, for a
-conffile removed in version \fB2.0\-1\fP of a package, \fIpriorversion\fP
+conffile removed in version \fB2.0\-1\fP of a package, \fIprior-version\fP
 should be set to \fB2.0\-1~\fP. This will cause the conffile to be removed
 even if the user rebuilt the previous version \fB1.0\-1\fP as
 \fB1.0\-1local1\fP.
 .P
 If the conffile has not been shipped for several versions, and you are now
 modifying the maintainer scripts to clean up the obsolete file,
-\fIpriorversion\fP should be based on the version of the package that you are
+\fIprior-version\fP should be based on the version of the package that you are
 now preparing, not the first version of the package that lacked the
 conffile.
 .P
@@ -116,15 +116,15 @@ snippet in the \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer
 scripts:
 .P
     dpkg\-maintscript\-helper mv_conffile \\
-        \fIoldconffile\fP \fInewconffile\fP \fIpriorversion\fP \fIpackage\fP \-\- "$@"
+        \fIold-conffile\fP \fInew-conffile\fP \fIprior-version\fP \fIpackage\fP \-\- "$@"
 .P
-\fIoldconffile\fP and \fInewconffile\fP are the old and new name of the
+\fIold-conffile\fP and \fInew-conffile\fP are the old and new name of the
 conffile to rename.
 .P
-\fIpriorversion\fP defines the latest version of the package whose upgrade
+\fIprior-version\fP defines the latest version of the package whose upgrade
 should trigger the rename of the conffile (see the notes for
-\fBrm_conffile\fR above concerning the correct value). If \fIpriorversion\fP is
-empty or omitted, then the operation is tried on every upgrade (note: it's
+\fBrm_conffile\fR above concerning the correct value). If \fIprior-version\fP
+is empty or omitted, then the operation is tried on every upgrade (note: it's
 safer to give the version and have the operation tried only once).
 .P
 \fIpackage\fP is the package name. If empty or omitted, the
@@ -135,11 +135,11 @@ program after "\-\-".
 .P
 Current implementation: the \fBpreinst\fP checks if the conffile has been
 modified, if yes it's left on place otherwise it's renamed to
-\fIoldconffile\fP\fB.dpkg\-remove\fP. On configuration, the \fBpostinst\fP
-removes \fIoldconffile\fP\fB.dpkg\-remove\fP and renames \fIoldconffile\fP
-to \fInewconffile\fP if \fIoldconffile\fP is still available. On
+\fIold-conffile\fP\fB.dpkg\-remove\fP. On configuration, the \fBpostinst\fP
+removes \fIold-conffile\fP\fB.dpkg\-remove\fP and renames \fIold-conffile\fP
+to \fInew-conffile\fP if \fIold-conffile\fP is still available. On
 abort\-upgrade/abort\-install, the \fBpostrm\fP renames
-\fIoldconffile\fP\fB.dpkg\-remove\fP back to \fIoldconffile\fP if required.
+\fIold-conffile\fP\fB.dpkg\-remove\fP back to \fIold-conffile\fP if required.
 .
 .SH INTEGRATION IN PACKAGES
 .P

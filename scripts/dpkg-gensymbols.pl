@@ -64,7 +64,7 @@ sub usage {
 
 Options:
   -p<package>              generate symbols file for package.
-  -P<packagebuilddir>      temporary build dir instead of debian/tmp.
+  -P<package-build-dir>    temporary build dir instead of debian/tmp.
   -e<library>              explicitly list libraries to scan.
   -v<version>              version of the packages (defaults to
                            version extracted from debian/changelog).

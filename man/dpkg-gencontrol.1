@@ -18,7 +18,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-gencontrol 1 "2012-04-30" "Debian Project" "dpkg utilities"
+.TH dpkg\-gencontrol 1 "2012-05-04" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-gencontrol \- generate Debian control files
 .
@@ -63,9 +63,9 @@ Sets the version number of the binary package which will be generated.
 Set an output substitution variable. See \fBdeb\-substvars\fP(5) for
 discussion of output substitution.
 .TP
-.BI \-T substvarsfile
+.BI \-T substvars-file
 Read substitution variables in
-.IR substvarsfile ;
+.IR substvars-file ;
 the default is
 .BR debian/substvars .
 This option can be used multiple times to read substitution variables from
@@ -77,21 +77,21 @@ Override or add an output control file field.
 .BI \-U field
 Remove an output control file field.
 .TP
-.BI \-c controlfile
+.BI \-c control-file
 Specifies the main source control file to read information from. The
 default is
 .BR debian/control .
 .TP
-.BI \-l changelogfile
+.BI \-l changelog-file
 Specifies the changelog file to read information from. The
 default is
 .BR debian/changelog .
 .TP
-.BI \-f fileslistfile
+.BI \-f files-list-file
 Read or write the list of files to be uploaded here, rather than using
 .BR debian/files .
 .TP
-.BI \-F changelogformat
+.BI \-F changelog-format
 Specifies the format of the changelog. See \fBdpkg\-parsechangelog\fP(1)
 for information about alternative formats.
 .TP
@@ -116,11 +116,11 @@ get the old behaviour you can use the
 .B \-U
 option to delete the fields from the control file.
 .TP
-.BI \-P packagebuilddir
+.BI \-P package-build-dir
 Tells
 .B dpkg\-source
 that the package is being built in
-.I packagebuilddir
+.I package-build-dir
 instead of
 .BR debian/tmp .
 This value is used to find the default value of the
@@ -133,7 +133,7 @@ and for the default location of the output file.
 Print the control file to standard output, rather than to
 .B debian/tmp/DEBIAN/control
 (or
-.IB packagebuilddir /DEBIAN/control
+.IB package-build-dir /DEBIAN/control
 if
 .B \-P
 was used).

@@ -73,19 +73,19 @@ sub usage {
 
 Options:
   -p<package>              print control file for package.
-  -c<controlfile>          get control info from this file.
-  -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force changelog format.
-  -v<forceversion>         set version of binary package.
-  -f<fileslistfile>        write files here instead of debian/files.
-  -P<packagebuilddir>      temporary build dir instead of debian/tmp.
+  -c<control-file>         get control info from this file.
+  -l<changelog-file>       get per-version info from this file.
+  -F<changelog-format>     force changelog format.
+  -v<force-version>        set version of binary package.
+  -f<files-list-file>      write files here instead of debian/files.
+  -P<package-build-dir>    temporary build dir instead of debian/tmp.
   -n<filename>             assume the package filename will be <filename>.
   -O                       write to stdout, not .../DEBIAN/control.
   -is, -ip, -isp, -ips     deprecated, ignored for compatibility.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
   -V<name>=<value>         set a substitution variable.
-  -T<varlistfile>          read variables here, not debian/substvars.
+  -T<substvars-file>       read variables here, not debian/substvars.
   -h, --help               show this help message.
       --version            show the version.
 "), $progname;

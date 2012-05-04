@@ -46,7 +46,7 @@ sub usage {
 "Usage: %s [<option>...] <filename> <section> <priority>
 
 Options:
-  -f<fileslistfile>        write files here instead of debian/files.
+  -f<files-list-file>      write files here instead of debian/files.
   -h, --help               show this help message.
       --version            show the version.
 "), $progname;
