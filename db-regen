@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Regenerate the local dpkg db
+#
+# Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
+#
+
+dbdir=dpkgdb
+
+rm -rf $dbdir/arch
+rm -f $dbdir/status*
+rm -f $dbdir/available*
+rm -f $dbdir/diversions*
+rm -f $dbdir/statoverride*
+rm -f $dbdir/info/format
+rm -rf $dbdir/updates
+rm -rf $dbdir/triggers
+
+touch $dbdir/lock
+touch $dbdir/status
+touch $dbdir/available
+touch $dbdir/diversions
+touch $dbdir/statoverride
+mkdir $dbdir/updates
+mkdir $dbdir/triggers
+touch $dbdir/triggers/Lock
+touch $dbdir/triggers/Unincorp
