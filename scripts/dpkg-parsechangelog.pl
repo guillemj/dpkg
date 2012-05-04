@@ -45,8 +45,8 @@ sub usage {
 
 Options:
   -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force change log format.
-  -L<libdir>               look for change log parsers in <libdir>.
+  -F<changelogformat>      force changelog format.
+  -L<libdir>               look for changelog parsers in <libdir>.
   -h, --help               show this help message.
       --version            show the version.
 

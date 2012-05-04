@@ -476,7 +476,7 @@ Commands:
 "Build options:
   -c<controlfile>          get control info from this file.
   -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force change log format.
+  -F<changelogformat>      force changelog format.
   -V<name>=<value>         set a substitution variable.
   -T<varlistfile>          read variables here.
   -D<field>=<value>        override or add a .dsc field and value.

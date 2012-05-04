@@ -75,7 +75,7 @@ Options:
   -p<package>              print control file for package.
   -c<controlfile>          get control info from this file.
   -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force change log format.
+  -F<changelogformat>      force changelog format.
   -v<forceversion>         set version of binary package.
   -f<fileslistfile>        write files here instead of debian/files.
   -P<packagebuilddir>      temporary build dir instead of debian/tmp.

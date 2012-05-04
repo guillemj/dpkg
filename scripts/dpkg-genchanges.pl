@@ -125,7 +125,7 @@ Options:
   -sa                      source includes orig src.
   -sd                      source is diff and .dsc only.
   -q                       quiet - no informational messages on stderr.
-  -F<changelogformat>      force change log format.
+  -F<changelogformat>      force changelog format.
   -V<name>=<value>         set a substitution variable.
   -T<varlistfile>          read variables here, not debian/substvars.
   -D<field>=<value>        override or add a field and value.
