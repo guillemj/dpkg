@@ -13,8 +13,8 @@ clean-hook:
 	rm -f $(PKG)/test-hardlink
 
 test-case:
-	$(DPKG_DIVERT) --add /test-file
-	$(DPKG_DIVERT) --add /test-hardlink
+	$(DPKG_DIVERT_ADD) /test-file
+	$(DPKG_DIVERT_ADD) /test-hardlink
 	# test if unpack can divert a hardlink
 	$(DPKG_INSTALL) pkg-hardlink.deb
 	test "`$(PKG_STATUS) pkg-hardlink`" = "install ok installed"
@@ -26,5 +26,5 @@ test-case:
 
 test-clean:
 	$(DPKG_PURGE) pkg-hardlink
-	$(DPKG_DIVERT) --remove /test-file
-	$(DPKG_DIVERT) --remove /test-hardlink
+	$(DPKG_DIVERT_DEL) /test-file
+	$(DPKG_DIVERT_DEL) /test-hardlink

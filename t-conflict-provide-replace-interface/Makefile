@@ -10,7 +10,7 @@ test-case:
 	# enough, fail
 	! $(DPKG_INSTALL) -B pkg-b.deb
 	# Set up the desired transaction
-	echo pkg-a deinstall | $(DPKG) --set-selections
+	echo pkg-a deinstall | $(BEROOT) $(DPKG) --set-selections
 	$(DPKG_INSTALL) pkg-b.deb
 
 test-clean:

@@ -710,11 +710,9 @@ pkg-ma-shared-diversion_1.0_$(NATIVE_ARCH) pkg-ma-shared-diversion_1.0_$(FOREIGN
 
 test-coinstall-diversions: ma-setup
 	# Test shared files with a diversion
-	$(DPKG_DIVERT) --add --local \
-	               --divert $(common_file).real $(common_file)
+	$(DPKG_DIVERT_ADD) --local --divert $(common_file).real $(common_file)
 	$(MAKE) test-coinstall-shared-files common_file=$(common_file).real
-	$(DPKG_DIVERT) --remove --local \
-	               --divert $(common_file).real $(common_file)
+	$(DPKG_DIVERT_DEL) --local --divert $(common_file).real $(common_file)
 	$(DPKG_INSTALL) pkg-ma-diversion_1.0_all.deb
 	$(MAKE) test-coinstall-shared-files common_file=$(common_file).distrib
 	$(DPKG_PURGE) pkg-ma-diversion
@@ -801,6 +799,5 @@ test-clean:
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
 	    $(DPKG_PURGE) $$pkg; \
 	done)
-	-$(DPKG_DIVERT) --remove --local \
-	                --divert $(common_file).real $(common_file)
+	-$(DPKG_DIVERT_DEL) --local --divert $(common_file).real $(common_file)
 	rm -f $(DPKG_ADMINDIR)/arch

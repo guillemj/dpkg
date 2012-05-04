@@ -12,4 +12,4 @@ test-case:
 	! $(call stdout_has,$(DPKG_QUERY) --status pkg-no-arch,^Architecture:)
 	$(DPKG_PURGE) pkg-no-arch
 	# Clear the available file to avoid missing Architecture warnings
-	$(DPKG) --clear-avail
+	$(BEROOT) $(DPKG) --clear-avail

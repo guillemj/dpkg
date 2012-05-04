@@ -18,11 +18,11 @@ $(PKG)/test-fifo-link0:
 
 $(PKG)/test-null-link0:
 	$(BEROOT) mknod $@ c 1 3
-	link $@ $(PKG)/test-null-link1
+	$(BEROOT) link $@ $(PKG)/test-null-link1
 
 $(PKG)/test-ram0-link0:
 	$(BEROOT) mknod $@ b 1 0
-	link $@ $(PKG)/test-ram0-link1
+	$(BEROOT) link $@ $(PKG)/test-ram0-link1
 
 build-hook: $(PKG)/test-conffile-link0 \
             $(PKG)/test-file-link0 $(PKG)/test-fifo-link0 \
