@@ -13,7 +13,7 @@ else
 BEROOT := sudo
 endif
 
-DPKG_OPTIONS = --force-unsafe-io
+DPKG_OPTIONS = --force-unsafe-io --no-debsig
 
 ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_OPTIONS += -D77777
