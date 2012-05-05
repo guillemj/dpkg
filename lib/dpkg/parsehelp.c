@@ -147,7 +147,7 @@ pkg_name_is_illegal(const char *p)
 
 void varbufversion
 (struct varbuf *vb,
- const struct versionrevision *version,
+ const struct dpkg_version *version,
  enum versiondisplayepochwhen vdew)
 {
   switch (vdew) {
@@ -173,7 +173,7 @@ void varbufversion
 }
 
 const char *versiondescribe
-(const struct versionrevision *version,
+(const struct dpkg_version *version,
  enum versiondisplayepochwhen vdew)
 {
   static struct varbuf bufs[10];
@@ -205,7 +205,7 @@ const char *versiondescribe
  * @retval -1 On failure, and err is set accordingly.
  */
 int
-parseversion(struct versionrevision *rversion, const char *string,
+parseversion(struct dpkg_version *rversion, const char *string,
              struct dpkg_error *err)
 {
   char *hyphen, *colon, *eepochcolon;
@@ -276,7 +276,7 @@ parseversion(struct versionrevision *rversion, const char *string,
  * @param fmt The error format string.
  */
 void
-parse_db_version(struct parsedb_state *ps, struct versionrevision *version,
+parse_db_version(struct parsedb_state *ps, struct dpkg_version *version,
                  const char *value, const char *fmt, ...)
 {
   struct dpkg_error err;

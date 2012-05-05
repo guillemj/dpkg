@@ -79,7 +79,7 @@ struct deppossi {
   struct pkgset *ed;
   struct deppossi *next, *rev_next, *rev_prev;
   const struct dpkg_arch *arch;
-  struct versionrevision version;
+  struct dpkg_version version;
   enum depverrel verrel;
   bool arch_is_implicit;
   bool cyclebreak;
@@ -131,7 +131,7 @@ struct pkgbin {
   const char *installedsize;
   const char *origin;
   const char *bugs;
-  struct versionrevision version;
+  struct dpkg_version version;
   struct conffile *conffiles;
   struct arbitraryfield *arbs;
 };
@@ -201,7 +201,7 @@ struct pkginfo {
   } priority;
   const char *otherpriority;
   const char *section;
-  struct versionrevision configversion;
+  struct dpkg_version configversion;
   struct filedetails *files;
   struct pkgbin installed;
   struct pkgbin available;
@@ -341,11 +341,11 @@ extern const struct namevalue wantinfos[];
 #include <dpkg/error.h>
 
 enum versiondisplayepochwhen { vdew_never, vdew_nonambig, vdew_always };
-void varbufversion(struct varbuf*, const struct versionrevision*,
+void varbufversion(struct varbuf *, const struct dpkg_version *,
                    enum versiondisplayepochwhen);
-int parseversion(struct versionrevision *rversion, const char *,
+int parseversion(struct dpkg_version *version, const char *,
                  struct dpkg_error *err);
-const char *versiondescribe(const struct versionrevision*,
+const char *versiondescribe(const struct dpkg_version *,
                             enum versiondisplayepochwhen);
 
 enum pkg_name_arch_when {
@@ -388,11 +388,11 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep);
 
 /*** from vercmp.c ***/
 
-bool versionsatisfied3(const struct versionrevision *it,
-                       const struct versionrevision *ref,
+bool versionsatisfied3(const struct dpkg_version *it,
+                       const struct dpkg_version *ref,
                        enum depverrel verrel);
-int versioncompare(const struct versionrevision *version,
-                   const struct versionrevision *refversion);
+int versioncompare(const struct dpkg_version *version,
+                   const struct dpkg_version *refversion);
 
 /*** from depcon.c ***/
 

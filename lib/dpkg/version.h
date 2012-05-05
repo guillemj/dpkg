@@ -33,14 +33,14 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-struct versionrevision {
+struct dpkg_version {
 	unsigned long epoch;
 	const char *version;
 	const char *revision;
 };
 
-void dpkg_version_blank(struct versionrevision *version);
-bool dpkg_version_is_informative(const struct versionrevision *version);
+void dpkg_version_blank(struct dpkg_version *version);
+bool dpkg_version_is_informative(const struct dpkg_version *version);
 
 /** @} */
 

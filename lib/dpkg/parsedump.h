@@ -115,7 +115,7 @@ struct fieldinfo {
 };
 
 void parse_db_version(struct parsedb_state *ps,
-                      struct versionrevision *version, const char *value,
+                      struct dpkg_version *version, const char *value,
                       const char *fmt, ...) DPKG_ATTR_PRINTF(4);
 
 void parse_error(struct parsedb_state *ps, const char *fmt, ...)

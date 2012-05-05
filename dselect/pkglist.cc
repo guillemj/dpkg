@@ -159,8 +159,8 @@ void packagelist::sortinplace() {
 }
 
 void packagelist::ensurestatsortinfo() {
-  const struct versionrevision *veri;
-  const struct versionrevision *vera;
+  const struct dpkg_version *veri;
+  const struct dpkg_version *vera;
   struct pkginfo *pkg;
   int index;
 

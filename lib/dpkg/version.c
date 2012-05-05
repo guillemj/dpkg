@@ -24,7 +24,7 @@
 #include <dpkg/version.h>
 
 void
-dpkg_version_blank(struct versionrevision *version)
+dpkg_version_blank(struct dpkg_version *version)
 {
 	version->epoch = 0;
 	version->version = NULL;
@@ -32,7 +32,7 @@ dpkg_version_blank(struct versionrevision *version)
 }
 
 bool
-dpkg_version_is_informative(const struct versionrevision *version)
+dpkg_version_is_informative(const struct dpkg_version *version)
 {
 	return (version->epoch ||
 	        (version->version && *version->version) ||

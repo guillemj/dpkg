@@ -28,12 +28,12 @@
 #include <dpkg/dpkg-db.h>
 
 #define version(epoch, version, revision) \
-	(struct versionrevision) { (epoch), (version), (revision) }
+	(struct dpkg_version) { (epoch), (version), (revision) }
 
 static void
 test_version_compare(void)
 {
-	struct versionrevision a, b;
+	struct dpkg_version a, b;
 
 	dpkg_version_blank(&a);
 	dpkg_version_blank(&b);
@@ -78,7 +78,7 @@ static void
 test_version_parse(void)
 {
 	struct dpkg_error err;
-	struct versionrevision a, b;
+	struct dpkg_version a, b;
 	const char *p;
 	char *verstr;
 

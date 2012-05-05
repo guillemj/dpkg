@@ -338,7 +338,7 @@ unpackchk(const char *const *argv)
 
 static int
 assert_version_support(const char *const *argv,
-                       struct versionrevision *version,
+                       struct dpkg_version *version,
                        const char *feature_name)
 {
   struct pkginfo *pkg;
@@ -371,7 +371,7 @@ assert_version_support(const char *const *argv,
 int
 assertpredep(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.1.0", NULL };
+  struct dpkg_version version = { 0, "1.1.0", NULL };
 
   return assert_version_support(argv, &version, _("Pre-Depends field"));
 }
@@ -379,7 +379,7 @@ assertpredep(const char *const *argv)
 int
 assertepoch(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.4.0.7", NULL };
+  struct dpkg_version version = { 0, "1.4.0.7", NULL };
 
   return assert_version_support(argv, &version, _("epoch"));
 }
@@ -387,7 +387,7 @@ assertepoch(const char *const *argv)
 int
 assertlongfilenames(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.4.1.17", NULL };
+  struct dpkg_version version = { 0, "1.4.1.17", NULL };
 
   return assert_version_support(argv, &version, _("long filenames"));
 }
@@ -395,7 +395,7 @@ assertlongfilenames(const char *const *argv)
 int
 assertmulticonrep(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.4.1.19", NULL };
+  struct dpkg_version version = { 0, "1.4.1.19", NULL };
 
   return assert_version_support(argv, &version,
                                 _("multiple Conflicts and Replaces"));
@@ -404,7 +404,7 @@ assertmulticonrep(const char *const *argv)
 int
 assertmultiarch(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.16.2", NULL };
+  struct dpkg_version version = { 0, "1.16.2", NULL };
 
   return assert_version_support(argv, &version, _("multi-arch"));
 }
@@ -609,7 +609,7 @@ cmpversions(const char *const *argv)
   };
 
   const struct relationinfo *rip;
-  struct versionrevision a, b;
+  struct dpkg_version a, b;
   struct dpkg_error err;
   int r;
 

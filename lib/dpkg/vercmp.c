@@ -72,8 +72,10 @@ static int verrevcmp(const char *val, const char *ref) {
   return 0;
 }
 
-int versioncompare(const struct versionrevision *version,
-                   const struct versionrevision *refversion) {
+int
+versioncompare(const struct dpkg_version *version,
+               const struct dpkg_version *refversion)
+{
   int r;
 
   if (version->epoch > refversion->epoch) return 1;
@@ -83,8 +85,8 @@ int versioncompare(const struct versionrevision *version,
 }
 
 bool
-versionsatisfied3(const struct versionrevision *it,
-                  const struct versionrevision *ref,
+versionsatisfied3(const struct dpkg_version *it,
+                  const struct dpkg_version *ref,
                   enum depverrel verrel)
 {
   int r;
