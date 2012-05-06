@@ -106,24 +106,6 @@ enum action {
 	act_forgetold,
 };
 
-enum conffopt {
-  cfof_prompt        =     001,
-  cfof_keep          =     002,
-  cfof_install       =     004,
-  cfof_backup        =   00100,
-  cfof_newconff      =   00200,
-  cfof_isnew         =   00400,
-  cfof_isold         =   01000,
-  cfof_userrmd       =   02000,
-  cfo_keep           =   cfof_keep,
-  cfo_prompt_keep    =   cfof_keep | cfof_prompt,
-  cfo_prompt         =               cfof_prompt,
-  cfo_prompt_install =               cfof_prompt | cfof_install,
-  cfo_install        =                             cfof_install,
-  cfo_newconff       =                             cfof_install | cfof_newconff,
-  cfo_identical      =   cfof_keep
-};
-
 extern const char *const statusstrings[];
 
 extern int f_pending, f_recursive, f_alsoselect, f_skipsame, f_noact;
