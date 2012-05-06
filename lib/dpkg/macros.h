@@ -89,6 +89,13 @@
 #endif
 
 /**
+ * @def DPKG_BIT
+ *
+ * Return the integer value of bit n.
+ */
+#define DPKG_BIT(n)	(1UL << (n))
+
+/**
  * @def array_count
  *
  * Returns the amount of items in an array.
