@@ -51,9 +51,9 @@ struct pkginfo;
  */
 enum fnnflags {
     /** Do not need to copy filename. */
-    fnn_nocopy = 000001,
+    fnn_nocopy			= DPKG_BIT(0),
     /** findnamenode may return NULL. */
-    fnn_nonew = 000002,
+    fnn_nonew			= DPKG_BIT(1),
 };
 
 struct filenamenode {
@@ -77,23 +77,23 @@ struct filenamenode {
   /** Set to zero when a new node is created. */
   enum {
     /** In the newconffiles list. */
-    fnnf_new_conff = 000001,
+    fnnf_new_conff		= DPKG_BIT(0),
     /** In the new filesystem archive. */
-    fnnf_new_inarchive = 000002,
+    fnnf_new_inarchive		= DPKG_BIT(1),
     /** In the old package's conffiles list. */
-    fnnf_old_conff = 000004,
+    fnnf_old_conff		= DPKG_BIT(2),
     /** Obsolete conffile. */
-    fnnf_obs_conff = 000100,
+    fnnf_obs_conff		= DPKG_BIT(3),
     /** Must remove from other packages' lists. */
-    fnnf_elide_other_lists = 000010,
+    fnnf_elide_other_lists	= DPKG_BIT(4),
     /** >= 1 instance is a dir, cannot rename over. */
-    fnnf_no_atomic_overwrite = 000020,
+    fnnf_no_atomic_overwrite	= DPKG_BIT(5),
     /** New file has been placed on the disk. */
-    fnnf_placed_on_disk = 000040,
-    fnnf_deferred_fsync = 000200,
-    fnnf_deferred_rename = 000400,
+    fnnf_placed_on_disk		= DPKG_BIT(6),
+    fnnf_deferred_fsync		= DPKG_BIT(7),
+    fnnf_deferred_rename	= DPKG_BIT(8),
     /** Path being filtered. */
-    fnnf_filtered = 001000,
+    fnnf_filtered		= DPKG_BIT(9),
   } flags;
 
   /** Valid iff this namenode is in the newconffiles list. */

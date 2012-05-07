@@ -58,14 +58,14 @@
 #include "main.h"
 
 enum conffopt {
-	cfof_prompt		= 00001,
-	cfof_keep		= 00002,
-	cfof_install		= 00004,
-	cfof_backup		= 00100,
-	cfof_newconff		= 00200,
-	cfof_isnew		= 00400,
-	cfof_isold		= 01000,
-	cfof_userrmd		= 02000,
+	cfof_prompt		= DPKG_BIT(0),
+	cfof_keep		= DPKG_BIT(1),
+	cfof_install		= DPKG_BIT(2),
+	cfof_backup		= DPKG_BIT(3),
+	cfof_newconff		= DPKG_BIT(4),
+	cfof_isnew		= DPKG_BIT(5),
+	cfof_isold		= DPKG_BIT(6),
+	cfof_userrmd		= DPKG_BIT(7),
 
 	cfo_keep		= cfof_keep,
 	cfo_identical		= cfof_keep,

@@ -44,12 +44,12 @@ struct pkg_spec {
 
 	enum pkg_spec_flags {
 		/** Recognize glob patterns. */
-		psf_patterns = 00001,
+		psf_patterns		= DPKG_BIT(0),
 
 		/* How to consider the lack of an arch qualifier. */
-		psf_arch_def_single = 00100,
-		psf_arch_def_wildcard = 00200,
-		psf_arch_def_mask = 00300,
+		psf_arch_def_single	= DPKG_BIT(8),
+		psf_arch_def_wildcard	= DPKG_BIT(9),
+		psf_arch_def_mask	= 0xff00,
 	} flags;
 
 	/* Members below are private state. */

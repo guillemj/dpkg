@@ -233,11 +233,10 @@ enum modstatdb_rw {
   msdbrw_writeifposs,
   msdbrw_write/*s*/, msdbrw_needsuperuser,
 
-  /* Now some optional flags: */
-  msdbrw_available_mask= ~077,
-  /* Flags start at 0100. */
-  msdbrw_available_readonly = 0100,
-  msdbrw_available_write = 0200,
+  /* Now some optional flags (starting at bit 8): */
+  msdbrw_available_readonly	= DPKG_BIT(8),
+  msdbrw_available_write	= DPKG_BIT(9),
+  msdbrw_available_mask		= 0xff00,
 };
 
 void modstatdb_init(void);
@@ -281,29 +280,31 @@ void pkg_db_report(FILE *);
 /*** from parse.c ***/
 
 enum parsedbflags {
-  /** Store in ‘available’ in-core structures, not ‘status’. */
-  pdb_recordavailable = 001,
-  /** Throw up an error if ‘Status’ encountered. */
-  pdb_rejectstatus = 002,
-  /** Ignore priority/section info if we already have any. */
-  pdb_weakclassification = 004,
-  /** Ignore files info if we already have them. */
-  pdb_ignorefiles = 010,
-  /** Ignore packages with older versions already read. */
-  pdb_ignoreolder = 020,
-  /** Perform laxer version parsing. */
-  pdb_lax_version_parser = 040,
-  /** Perform laxer parsing, used to transition to stricter parsing. */
-  pdb_lax_parser = pdb_lax_version_parser,
   /** Parse the control file from a binary .deb package. */
-  pdb_deb_control = 0100,
+  pdb_deb_control		= DPKG_BIT(0),
+  /** Store in ‘available’ in-core structures, not ‘status’. */
+  pdb_recordavailable		= DPKG_BIT(1),
+  /** Throw up an error if ‘Status’ encountered. */
+  pdb_rejectstatus		= DPKG_BIT(2),
+  /** Ignore priority/section info if we already have any. */
+  pdb_weakclassification	= DPKG_BIT(3),
+  /** Ignore files info if we already have them. */
+  pdb_ignorefiles		= DPKG_BIT(4),
+  /** Ignore packages with older versions already read. */
+  pdb_ignoreolder		= DPKG_BIT(5),
+  /** Perform laxer version parsing. */
+  pdb_lax_version_parser	= DPKG_BIT(6),
+  /** Perform laxer parsing, used to transition to stricter parsing. */
+  pdb_lax_parser		= pdb_lax_version_parser,
 
   /* Standard operations. */
 
-  pdb_parse_status = pdb_lax_parser | pdb_weakclassification,
-  pdb_parse_update = pdb_parse_status | pdb_deb_control,
-  pdb_parse_available = pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
-  pdb_parse_binary = pdb_recordavailable | pdb_rejectstatus | pdb_deb_control,
+  pdb_parse_status		= pdb_lax_parser | pdb_weakclassification,
+  pdb_parse_update		= pdb_parse_status | pdb_deb_control,
+  pdb_parse_available		= pdb_recordavailable | pdb_rejectstatus |
+				  pdb_lax_parser,
+  pdb_parse_binary		= pdb_recordavailable | pdb_rejectstatus |
+				  pdb_deb_control,
 };
 
 const char *pkg_name_is_illegal(const char *p);
@@ -359,9 +360,9 @@ void writerecord(FILE*, const char*,
 
 enum writedb_flags {
   /** Dump ‘available’ in-core structures, not ‘status’. */
-  wdb_dump_available = 001,
+  wdb_dump_available		= DPKG_BIT(0),
   /** Must sync the written file. */
-  wdb_must_sync = 002,
+  wdb_must_sync			= DPKG_BIT(1),
 };
 
 void writedb(const char *filename, enum writedb_flags flags);

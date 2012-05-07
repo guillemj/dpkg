@@ -94,7 +94,7 @@ freadfunction f_trigpend, f_trigaw;
 
 enum fwriteflags {
 	/** Print field header and trailing newline. */
-	fw_printheader = 001,
+	fw_printheader		= DPKG_BIT(0),
 };
 
 typedef void fwritefunction(struct varbuf*,

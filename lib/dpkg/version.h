@@ -41,10 +41,10 @@ struct dpkg_version {
 
 enum dpkg_relation {
 	dpkg_relation_none	= 0,
-	dpkg_relation_eq	= 001,
-	dpkg_relation_lt	= 002,
+	dpkg_relation_eq	= DPKG_BIT(0),
+	dpkg_relation_lt	= DPKG_BIT(1),
 	dpkg_relation_le	= dpkg_relation_lt | dpkg_relation_eq,
-	dpkg_relation_gt	= 004,
+	dpkg_relation_gt	= DPKG_BIT(2),
 	dpkg_relation_ge	= dpkg_relation_gt | dpkg_relation_eq,
 };
 

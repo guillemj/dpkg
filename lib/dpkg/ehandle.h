@@ -39,9 +39,9 @@ DPKG_BEGIN_DECLS
 extern volatile int onerr_abort;
 
 enum {
-	ehflag_normaltidy = 01,
-	ehflag_bombout = 02,
-	ehflag_recursiveerror = 04
+	ehflag_normaltidy	= DPKG_BIT(0),
+	ehflag_bombout		= DPKG_BIT(1),
+	ehflag_recursiveerror	= DPKG_BIT(2),
 };
 
 typedef void error_handler(void);
