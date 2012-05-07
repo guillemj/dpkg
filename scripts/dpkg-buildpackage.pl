@@ -63,8 +63,6 @@ Options:
   --as-root      ensure -T calls the target with root rights
   -j[<number>]   specify jobs to run simultaneously } passed to debian/rules
   -k<keyid>      the key to use for signing.
-  -sgpg          the sign-command is called like GPG.
-  -spgp          the sign-command is called like PGP.
   -us            unsigned source.
   -uc            unsigned changes.
   -a<arch>       Debian architecture we build for (implies -d).
@@ -108,11 +106,9 @@ if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
        || ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") )
      && find_command('gpg')) {
 	 $signcommand = 'gpg';
-} elsif (find_command('pgp')) {
-	$signcommand = 'pgp'
 }
 
-my ($admindir, $signkey, $forcesigninterface, $usepause, $noclean,
+my ($admindir, $signkey, $usepause, $noclean,
     $cleansource, $since, $maint,
     $changedby, $desc, $parallel);
 my $checkbuilddep = 1;
@@ -173,7 +169,8 @@ while (@ARGV) {
     } elsif (/^-([dD])$/) {
 	$checkbuilddep = ($1 eq 'D');
     } elsif (/^-s(gpg|pgp)$/) {
-	$forcesigninterface = $1;
+	# Deprecated option
+	warning(_g("-s%s is deprecated; always using gpg style interface"), $1);
     } elsif (/^-us$/) {
 	$signsource = 0;
     } elsif (/^-uc$/) {
@@ -271,23 +268,6 @@ if ($< == 0) {
 unless ($signcommand) {
     $signsource = 0;
     $signchanges = 0;
-}
-
-my $signinterface;
-if ($forcesigninterface) {
-    $signinterface = $forcesigninterface;
-} else {
-    $signinterface = $signcommand;
-}
-
-if ($signcommand) {
-    if ($signinterface !~ /^(gpg|pgp)$/) {
-	warning(_g("unknown sign command, assuming pgp style interface"));
-    } elsif ($signinterface eq 'pgp') {
-	if ($signsource or $signchanges) {
-	    warning(_g("PGP support is deprecated (see README.feature-removal-schedule)"));
-	}
-    }
 }
 
 my $build_opts = Dpkg::BuildOptions->new();
@@ -531,15 +511,10 @@ sub signfile {
     print STDERR " signfile $file\n";
     my $qfile = quotemeta($file);
 
-    if ($signinterface eq 'gpg') {
-	system("(cat ../$qfile ; echo '') | ".
-	       "$signcommand --utf8-strings --local-user "
-	       .quotemeta($signkey||$maintainer).
-	       " --clearsign --armor --textmode  > ../$qfile.asc");
-    } else {
-	system("$signcommand -u ".quotemeta($signkey||$maintainer).
-	       " +clearsig=on -fast <../$qfile >../$qfile.asc");
-    }
+    system("(cat ../$qfile ; echo '') | " .
+           "$signcommand --utf8-strings --local-user " .
+           quotemeta($signkey || $maintainer) .
+           " --clearsign --armor --textmode  > ../$qfile.asc");
     my $status = $?;
     unless ($status) {
 	system('mv', '--', "../$file.asc", "../$file")
