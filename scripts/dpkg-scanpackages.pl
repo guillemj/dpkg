@@ -2,6 +2,8 @@
 #
 # dpkg-scanpackages
 #
+# Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -44,7 +46,6 @@ my %overridden;
 my %options = (help            => sub { usage(); exit 0; },
 	       version         => \&version,
 	       type            => undef,
-	       udeb            => \&set_type_udeb,
 	       arch            => undef,
 	       multiversion    => 0,
 	       'extra-override'=> undef,
@@ -52,7 +53,7 @@ my %options = (help            => sub { usage(); exit 0; },
 	      );
 
 my $result = GetOptions(\%options,
-                        'help|h|?', 'version', 'type|t=s', 'udeb|u!',
+                        'help|h|?', 'version', 'type|t=s',
                         'arch|a=s', 'multiversion|m!', 'extra-override|e=s',
                         'medium|M=s');
 
@@ -67,7 +68,6 @@ sub usage {
 
 Options:
   -t, --type <type>        scan for <type> packages (default is 'deb').
-  -u, --udeb               scan for udebs (obsolete alias for -tudeb).
   -a, --arch <arch>        architecture to scan for.
   -m, --multiversion       allow multiple versions of a single package.
   -e, --extra-override <file>
@@ -76,12 +76,6 @@ Options:
   -h, --help               show this help message.
       --version            show the version.
 "), $progname;
-}
-
-sub set_type_udeb()
-{
-    warning(_g("-u, --udeb option is deprecated (see README.feature-removal-schedule)"));
-    $options{type} = 'udeb';
 }
 
 sub load_override
