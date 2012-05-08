@@ -21,6 +21,8 @@
 #include <config.h>
 #include <compat.h>
 
+#include <dpkg/dpkg.h> /* cis* */
+#include <dpkg/ehandle.h>
 #include <dpkg/version.h>
 
 void
@@ -37,4 +39,114 @@ dpkg_version_is_informative(const struct dpkg_version *version)
 	return (version->epoch ||
 	        (version->version && *version->version) ||
 	        (version->revision && *version->revision));
+}
+
+/**
+ * Give a weight to the character to order in the version comparison.
+ *
+ * @param c An ASCII character.
+ */
+static int
+order(int c)
+{
+	if (cisdigit(c))
+		return 0;
+	else if (cisalpha(c))
+		return c;
+	else if (c == '~')
+		return -1;
+	else if (c)
+		return c + 256;
+	else
+		return 0;
+}
+
+static int
+verrevcmp(const char *a, const char *b)
+{
+	if (a == NULL)
+		a = "";
+	if (b == NULL)
+		b = "";
+
+	while (*a || *b) {
+		int first_diff = 0;
+
+		while ((*a && !cisdigit(*a)) || (*b && !cisdigit(*b))) {
+			int ac = order(*a);
+			int bc = order(*b);
+
+			if (ac != bc)
+				return ac - bc;
+
+			a++;
+			b++;
+		}
+		while (*a == '0')
+			a++;
+		while (*b == '0')
+			b++;
+		while (cisdigit(*a) && cisdigit(*b)) {
+			if (!first_diff)
+				first_diff = *a - *b;
+			a++;
+			b++;
+		}
+
+		if (cisdigit(*a))
+			return 1;
+		if (cisdigit(*b))
+			return -1;
+		if (first_diff)
+			return first_diff;
+	}
+
+	return 0;
+}
+
+int
+dpkg_version_compare(const struct dpkg_version *a,
+                     const struct dpkg_version *b)
+{
+	int r;
+
+	if (a->epoch > b->epoch)
+		return 1;
+	if (a->epoch < b->epoch)
+		return -1;
+
+	r = verrevcmp(a->version, b->version);
+	if (r)
+		return r;
+
+	return verrevcmp(a->revision, b->revision);
+}
+
+bool
+dpkg_version_relate(const struct dpkg_version *a,
+                    enum dpkg_relation rel,
+                    const struct dpkg_version *b)
+{
+	int r;
+
+	if (rel == dpkg_relation_none)
+		return true;
+
+	r = dpkg_version_compare(a, b);
+
+	switch (rel) {
+	case dpkg_relation_eq:
+		return r == 0;
+	case dpkg_relation_lt:
+		return r < 0;
+	case dpkg_relation_le:
+		return r <= 0;
+	case dpkg_relation_gt:
+		return r > 0;
+	case dpkg_relation_ge:
+		return r >= 0;
+	default:
+		internerr("unknown dpkg_relation %d", rel);
+	}
+	return false;
 }

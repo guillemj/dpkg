@@ -372,14 +372,6 @@ void varbufrecord(struct varbuf *, const struct pkginfo *,
                   const struct pkgbin *);
 void varbufdependency(struct varbuf *vb, struct dependency *dep);
 
-/*** from vercmp.c ***/
-
-bool dpkg_version_relate(const struct dpkg_version *a,
-                         enum dpkg_relation rel,
-                         const struct dpkg_version *b);
-int dpkg_version_compare(const struct dpkg_version *a,
-                         const struct dpkg_version *b);
-
 /*** from depcon.c ***/
 
 bool versionsatisfied(struct pkgbin *it, struct deppossi *against);
