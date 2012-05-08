@@ -393,8 +393,6 @@ bool versionsatisfied3(const struct versionrevision *it,
                        enum depverrel verrel);
 int versioncompare(const struct versionrevision *version,
                    const struct versionrevision *refversion);
-bool epochsdiffer(const struct versionrevision *a,
-                  const struct versionrevision *b);
 
 /*** from depcon.c ***/
 

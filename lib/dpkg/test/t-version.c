@@ -37,11 +37,11 @@ test_version_compare(void)
 
 	dpkg_version_blank(&a);
 	dpkg_version_blank(&b);
-	test_fail(epochsdiffer(&a, &b));
+	test_pass(versioncompare(&a, &b) == 0);
 
 	a.epoch = 1;
 	b.epoch = 2;
-	test_pass(epochsdiffer(&a, &b));
+	test_fail(versioncompare(&a, &b) == 0);
 
 	/* Test for version equality. */
 	a = b = version(0, "0", "0");

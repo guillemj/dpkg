@@ -26,13 +26,6 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
-bool
-epochsdiffer(const struct versionrevision *a,
-             const struct versionrevision *b)
-{
-  return a->epoch != b->epoch;
-}
-
 /**
  * Give a weight to the character to order in the version comparison.
  *
