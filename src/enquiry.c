@@ -44,6 +44,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/arch.h>
 #include <dpkg/pkg-show.h>
+#include <dpkg/string.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
@@ -238,8 +239,8 @@ yettobeunpacked(struct pkginfo *pkg, const char **thissect)
     return false;
   case stat_notinstalled: case stat_halfinstalled: case stat_configfiles:
     if (thissect)
-      *thissect = pkg->section && *pkg->section ? pkg->section :
-                                                  C_("section", "<unknown>");
+      *thissect = str_is_set(pkg->section) ? pkg->section :
+                                             C_("section", "<unknown>");
     return true;
   default:
     internerr("unknown package status '%d'", pkg->status);

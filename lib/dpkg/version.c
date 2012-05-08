@@ -23,6 +23,7 @@
 
 #include <dpkg/dpkg.h> /* cis* */
 #include <dpkg/ehandle.h>
+#include <dpkg/string.h>
 #include <dpkg/version.h>
 
 void
@@ -37,8 +38,8 @@ bool
 dpkg_version_is_informative(const struct dpkg_version *version)
 {
 	return (version->epoch ||
-	        (version->version && *version->version) ||
-	        (version->revision && *version->revision));
+	        str_is_set(version->version) ||
+	        str_is_set(version->revision));
 }
 
 /**

@@ -166,7 +166,7 @@ void varbufversion
   }
   if (version->version)
     varbuf_add_str(vb, version->version);
-  if (version->revision && *version->revision) {
+  if (str_is_set(version->revision)) {
     varbuf_add_char(vb, '-');
     varbuf_add_str(vb, version->revision);
   }
