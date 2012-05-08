@@ -39,6 +39,15 @@ struct dpkg_version {
 	const char *revision;
 };
 
+enum dpkg_relation {
+	dpkg_relation_none	= 0,
+	dpkg_relation_eq	= 001,
+	dpkg_relation_lt	= 002,
+	dpkg_relation_le	= dpkg_relation_lt | dpkg_relation_eq,
+	dpkg_relation_gt	= 004,
+	dpkg_relation_ge	= dpkg_relation_gt | dpkg_relation_eq,
+};
+
 void dpkg_version_blank(struct dpkg_version *version);
 bool dpkg_version_is_informative(const struct dpkg_version *version);
 
