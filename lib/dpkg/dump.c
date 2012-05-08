@@ -304,26 +304,26 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
     varbuf_add_str(vb, dop->ed->name);
     if (!dop->arch_is_implicit)
       varbuf_add_archqual(vb, dop->arch);
-    if (dop->verrel != dvr_none) {
+    if (dop->verrel != dpkg_relation_none) {
       varbuf_add_str(vb, " (");
       switch (dop->verrel) {
-      case dvr_exact:
+      case dpkg_relation_eq:
         varbuf_add_char(vb, '=');
         break;
-      case dvr_laterequal:
+      case dpkg_relation_ge:
         varbuf_add_str(vb, ">=");
         break;
-      case dvr_earlierequal:
+      case dpkg_relation_le:
         varbuf_add_str(vb, "<=");
         break;
-      case dvr_laterstrict:
+      case dpkg_relation_gt:
         varbuf_add_str(vb, ">>");
         break;
-      case dvr_earlierstrict:
+      case dpkg_relation_lt:
         varbuf_add_str(vb, "<<");
         break;
       default:
-        internerr("unknown verrel '%d'", dop->verrel);
+        internerr("unknown dpkg_relation %d", dop->verrel);
       }
       varbuf_add_char(vb, ' ');
       varbufversion(vb,&dop->version,vdew_nonambig);

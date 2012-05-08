@@ -355,7 +355,7 @@ assert_version_support(const char *const *argv,
     return 0;
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
   case stat_triggersawaited:
-    if (versionsatisfied3(&pkg->configversion, version, dvr_laterequal))
+    if (versionsatisfied3(&pkg->configversion, version, dpkg_relation_ge))
       return 0;
     printf(_("Version of dpkg with working %s support not yet configured.\n"
              " Please use 'dpkg --configure dpkg', and then try again.\n"),
@@ -484,7 +484,7 @@ predeppackage(const char *const *argv)
           pkg = trypkg;
           break;
         }
-        if (possi->verrel != dvr_none)
+        if (possi->verrel != dpkg_relation_none)
           continue;
         for (provider = possi->ed->depended.available;
              !pkg && provider;

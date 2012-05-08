@@ -41,6 +41,15 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
+enum dpkg_relation {
+  dpkg_relation_none	= 0,
+  dpkg_relation_eq	= 001,
+  dpkg_relation_lt	= 002,
+  dpkg_relation_le	= dpkg_relation_lt | dpkg_relation_eq,
+  dpkg_relation_gt	= 004,
+  dpkg_relation_ge	= dpkg_relation_gt | dpkg_relation_eq,
+};
+
 enum deptype {
   dep_suggests,
   dep_recommends,
@@ -51,20 +60,6 @@ enum deptype {
   dep_provides,
   dep_replaces,
   dep_enhances
-};
-
-enum depverrel {
-  dvrf_earlier=      0001,
-  dvrf_later=        0002,
-  dvrf_strict=       0010,
-  dvrf_orequal=      0020,
-  dvrf_builtup=      0100,
-  dvr_none=          0200,
-  dvr_earlierequal=  dvrf_builtup | dvrf_earlier | dvrf_orequal,
-  dvr_earlierstrict= dvrf_builtup | dvrf_earlier | dvrf_strict,
-  dvr_laterequal=    dvrf_builtup | dvrf_later   | dvrf_orequal,
-  dvr_laterstrict=   dvrf_builtup | dvrf_later   | dvrf_strict,
-  dvr_exact=         0400
 };
 
 struct dependency {
@@ -80,7 +75,7 @@ struct deppossi {
   struct deppossi *next, *rev_next, *rev_prev;
   const struct dpkg_arch *arch;
   struct dpkg_version version;
-  enum depverrel verrel;
+  enum dpkg_relation verrel;
   bool arch_is_implicit;
   bool cyclebreak;
 };
@@ -390,7 +385,7 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep);
 
 bool versionsatisfied3(const struct dpkg_version *it,
                        const struct dpkg_version *ref,
-                       enum depverrel verrel);
+                       enum dpkg_relation verrel);
 int versioncompare(const struct dpkg_version *version,
                    const struct dpkg_version *refversion);
 

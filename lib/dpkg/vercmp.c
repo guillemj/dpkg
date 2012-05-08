@@ -87,20 +87,26 @@ versioncompare(const struct dpkg_version *version,
 bool
 versionsatisfied3(const struct dpkg_version *it,
                   const struct dpkg_version *ref,
-                  enum depverrel verrel)
+                  enum dpkg_relation verrel)
 {
   int r;
-  if (verrel == dvr_none)
+
+  if (verrel == dpkg_relation_none)
     return true;
   r= versioncompare(it,ref);
   switch (verrel) {
-  case dvr_earlierequal:   return r <= 0;
-  case dvr_laterequal:     return r >= 0;
-  case dvr_earlierstrict:  return r < 0;
-  case dvr_laterstrict:    return r > 0;
-  case dvr_exact:          return r == 0;
+  case dpkg_relation_eq:
+    return r == 0;
+  case dpkg_relation_lt:
+    return r < 0;
+  case dpkg_relation_le:
+    return r <= 0;
+  case dpkg_relation_gt:
+    return r > 0;
+  case dpkg_relation_ge:
+    return r >= 0;
   default:
-    internerr("unknown depverrel '%d'", verrel);
+    internerr("unknown dpkg_relation %d", verrel);
   }
   return false;
 }

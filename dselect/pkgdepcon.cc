@@ -398,7 +398,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
       return false;
     }
   }
-  if (possi->verrel != dvr_none)
+  if (possi->verrel != dpkg_relation_none)
     return false;
   deppossi *provider;
 

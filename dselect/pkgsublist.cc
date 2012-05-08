@@ -128,15 +128,25 @@ packagelist::add(dependency *depends, showpriority displayimportance)
        possi=possi->next, comma=(possi && possi->next ? ", " : _(" or "))) {
     info(comma);
     info(possi->ed->name);
-    if (possi->verrel != dvr_none) {
+    if (possi->verrel != dpkg_relation_none) {
       switch (possi->verrel) {
-      case dvr_earlierequal:  info(" (<= "); break;
-      case dvr_laterequal:    info(" (>= "); break;
-      case dvr_earlierstrict: info(" (<< "); break;
-      case dvr_laterstrict:   info(" (>> "); break;
-      case dvr_exact:         info(" (= "); break;
+      case dpkg_relation_le:
+        info(" (<= ");
+        break;
+      case dpkg_relation_ge:
+        info(" (>= ");
+        break;
+      case dpkg_relation_lt:
+        info(" (<< ");
+        break;
+      case dpkg_relation_gt:
+        info(" (>> ");
+        break;
+      case dpkg_relation_eq:
+        info(" (= ");
+        break;
       default:
-        internerr("unknown verrel %d", possi->verrel);
+        internerr("unknown dpkg_relation %d", possi->verrel);
       }
       info(versiondescribe(&possi->version, vdew_nonambig));
       info(")");
@@ -146,7 +156,7 @@ packagelist::add(dependency *depends, showpriority displayimportance)
   add(depends->up,info.string(),displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
     add(&possi->ed->pkg, info.string(), displayimportance);
-    if (possi->verrel == dvr_none && depends->type != dep_provides) {
+    if (possi->verrel == dpkg_relation_none && depends->type != dep_provides) {
       // providers aren't relevant if a version was specified, or
       // if we're looking at a provider relationship already
       deppossi *provider;

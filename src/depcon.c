@@ -454,7 +454,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       deppossi_pkg_iter_free(possi_iter);
 
       /* If there was no version specified we try looking for Providers. */
-      if (possi->verrel == dvr_none) {
+      if (possi->verrel == dpkg_relation_none) {
         /* See if the package we're about to install Provides it. */
         for (provider = possi->ed->depended.available;
              provider;
@@ -593,7 +593,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
     }
 
     /* If there was no version specified we try looking for Providers. */
-    if (possi->verrel == dvr_none) {
+    if (possi->verrel == dpkg_relation_none) {
       /* See if the package we're about to install Provides it. */
       for (provider = possi->ed->depended.available;
            provider;

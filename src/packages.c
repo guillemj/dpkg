@@ -365,7 +365,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
                     pkg_name(possdependee, pnaw_nonambig),
                     versiondescribe(&possdependee->installed.version,
                                     vdew_nonambig));
-      assert(checkversion->verrel != dvr_none);
+      assert(checkversion->verrel != dpkg_relation_none);
       if (fc_dependsversion)
         thisf = (dependtry >= 3) ? found_forced : found_defer;
       debug(dbg_depcondetail,"      bad version, returning %d",thisf);
@@ -494,7 +494,7 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
                   pkg_name(broken, pnaw_nonambig),
                   versiondescribe(&broken->installed.version, vdew_nonambig),
                   virtbroken->name);
-  } else if (breaks->verrel != dvr_none) {
+  } else if (breaks->verrel != dpkg_relation_none) {
     varbuf_printf(aemsgs, _("  Version of %s to be configured is %s.\n"),
                   pkg_name(broken, pnaw_nonambig),
                   versiondescribe(&broken->installed.version, vdew_nonambig));
@@ -513,7 +513,8 @@ breaks_check_target(struct varbuf *aemsgs, enum dep_check *ok,
 
   for (possi = target->depended.installed; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_breaks) continue;
-    if (virtbroken && possi->verrel != dvr_none) continue;
+    if (virtbroken && possi->verrel != dpkg_relation_none)
+      continue;
     breaks_check_one(aemsgs, ok, possi, broken, possi->up->up, virtbroken);
   }
 }
@@ -595,7 +596,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       }
       deppossi_pkg_iter_free(possi_iter);
 
-      if (found != found_ok && possi->verrel == dvr_none) {
+      if (found != found_ok && possi->verrel == dpkg_relation_none) {
         for (provider = possi->ed->depended.installed;
              found != found_ok && provider;
              provider = provider->rev_next) {

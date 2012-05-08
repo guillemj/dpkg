@@ -1155,7 +1155,7 @@ void process_archive(const char *filename) {
       newpossi->arch_is_implicit = possi->arch_is_implicit;
       newpossi->arch = possi->arch;
       newpossi->verrel= possi->verrel;
-      if (possi->verrel != dvr_none)
+      if (possi->verrel != dpkg_relation_none)
         newpossi->version= possi->version;
       else
         dpkg_version_blank(&newpossi->version);
