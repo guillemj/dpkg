@@ -207,7 +207,8 @@ void packagelist::redraw1itemsel(int index, int selected) {
                 versiondescribe(&pkg->installed.version, vdew_nonambig));
     if (versionavailable_width) {
       if (dpkg_version_is_informative(&pkg->available.version) &&
-          versioncompare(&pkg->available.version,&pkg->installed.version) > 0)
+          dpkg_version_compare(&pkg->available.version,
+                               &pkg->installed.version) > 0)
         wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
       mvwprintw(listpad, screenline, versionavailable_column, "%-*.*s",
                 versionavailable_width, versionavailable_width,

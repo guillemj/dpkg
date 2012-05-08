@@ -207,7 +207,7 @@ void packagelist::ensurestatsortinfo() {
         vera= &table[index]->pkg->available.version;
         if (!dpkg_version_is_informative(vera)) {
           table[index]->ssavail= ssa_installed_gone;
-        } else if (versioncompare(vera,veri) > 0) {
+        } else if (dpkg_version_compare(vera, veri) > 0) {
           table[index]->ssavail= ssa_installed_newer;
         } else {
           table[index]->ssavail= ssa_installed_sameold;

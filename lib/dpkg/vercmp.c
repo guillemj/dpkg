@@ -88,8 +88,8 @@ verrevcmp(const char *a, const char *b)
 }
 
 int
-versioncompare(const struct dpkg_version *a,
-               const struct dpkg_version *b)
+dpkg_version_compare(const struct dpkg_version *a,
+                     const struct dpkg_version *b)
 {
   int r;
 
@@ -115,7 +115,7 @@ versionsatisfied3(const struct dpkg_version *a,
   if (rel == dpkg_relation_none)
     return true;
 
-  r = versioncompare(a, b);
+  r = dpkg_version_compare(a, b);
 
   switch (rel) {
   case dpkg_relation_eq:

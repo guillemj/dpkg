@@ -1631,7 +1631,7 @@ wanttoinstall(struct pkginfo *pkg)
   if (pkg->status < stat_unpacked)
     return true;
 
-  r = versioncompare(&pkg->available.version, &pkg->installed.version);
+  r = dpkg_version_compare(&pkg->available.version, &pkg->installed.version);
   if (r > 0) {
     return true;
   } else if (r == 0) {

@@ -288,8 +288,8 @@ deferred_configure(struct pkginfo *pkg)
 			       pkg_name(otherpkg, pnaw_always),
 			       statusinfos[otherpkg->status].name);
 
-		if (versioncompare(&pkg->installed.version,
-		                   &otherpkg->installed.version))
+		if (dpkg_version_compare(&pkg->installed.version,
+		                         &otherpkg->installed.version))
 			ohshit(_("package %s %s cannot be configured because "
 			         "%s is at a different version (%s)"),
 			       pkg_name(pkg, pnaw_always),

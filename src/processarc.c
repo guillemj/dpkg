@@ -392,7 +392,8 @@ pkgset_getting_in_sync(struct pkginfo *pkg)
       continue;
     if (otherpkg->status <= stat_configfiles)
       continue;
-    if (versioncompare(&pkg->available.version, &otherpkg->installed.version)) {
+    if (dpkg_version_compare(&pkg->available.version,
+                             &otherpkg->installed.version)) {
       return false;
     }
   }
@@ -532,7 +533,8 @@ void process_archive(const char *filename) {
     if (otherpkg->status <= stat_halfconfigured)
       continue;
 
-    if (versioncompare(&pkg->available.version, &otherpkg->installed.version))
+    if (dpkg_version_compare(&pkg->available.version,
+                             &otherpkg->installed.version))
       enqueue_deconfigure(otherpkg, NULL);
   }
 
@@ -716,8 +718,9 @@ void process_archive(const char *filename) {
     pkg_set_status(pkg, stat_halfconfigured);
     modstatdb_note(pkg);
     push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
-    if (versioncompare(&pkg->available.version,
-                       &pkg->installed.version) >= 0) /* Upgrade or reinstall */
+    if (dpkg_version_compare(&pkg->available.version,
+                             &pkg->installed.version) >= 0)
+      /* Upgrade or reinstall. */
       maintainer_script_alternative(pkg, PRERMFILE, "pre-removal", cidir, cidirrest,
                                     "upgrade", "failed-upgrade");
     else /* Downgrade => no fallback */
