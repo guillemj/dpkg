@@ -29,8 +29,9 @@
 bool
 versionsatisfied(struct pkgbin *it, struct deppossi *against)
 {
-	return versionsatisfied3(&it->version, &against->version,
-	                         against->verrel);
+	return dpkg_version_relate(&it->version,
+	                           against->verrel,
+	                           &against->version);
 }
 
 /**

@@ -355,7 +355,7 @@ assert_version_support(const char *const *argv,
     return 0;
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
   case stat_triggersawaited:
-    if (versionsatisfied3(&pkg->configversion, version, dpkg_relation_ge))
+    if (dpkg_version_relate(&pkg->configversion, dpkg_relation_ge, version))
       return 0;
     printf(_("Version of dpkg with working %s support not yet configured.\n"
              " Please use 'dpkg --configure dpkg', and then try again.\n"),

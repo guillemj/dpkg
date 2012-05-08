@@ -106,9 +106,9 @@ dpkg_version_compare(const struct dpkg_version *a,
 }
 
 bool
-versionsatisfied3(const struct dpkg_version *a,
-                  const struct dpkg_version *b,
-                  enum dpkg_relation rel)
+dpkg_version_relate(const struct dpkg_version *a,
+                    enum dpkg_relation rel,
+                    const struct dpkg_version *b)
 {
   int r;
 

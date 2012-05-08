@@ -426,8 +426,9 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                         versiondescribe(&pkg_pos->installed.version,
                                         vdew_nonambig));
                 break;
-              } else if (!versionsatisfied3(&pkg_pos->configversion,
-                                            &possi->version, possi->verrel)) {
+              } else if (!dpkg_version_relate(&pkg_pos->configversion,
+                                              possi->verrel,
+                                              &possi->version)) {
                 sprintf(linebuf, _("  %.250s latest configured version is "
                                    "%.250s.\n"),
                         pkg_name(pkg_pos, pnaw_nonambig),
