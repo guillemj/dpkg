@@ -374,11 +374,11 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep);
 
 /*** from vercmp.c ***/
 
-bool versionsatisfied3(const struct dpkg_version *it,
-                       const struct dpkg_version *ref,
-                       enum dpkg_relation verrel);
-int versioncompare(const struct dpkg_version *version,
-                   const struct dpkg_version *refversion);
+bool versionsatisfied3(const struct dpkg_version *a,
+                       const struct dpkg_version *b,
+                       enum dpkg_relation rel);
+int versioncompare(const struct dpkg_version *a,
+                   const struct dpkg_version *b);
 
 /*** from depcon.c ***/
 

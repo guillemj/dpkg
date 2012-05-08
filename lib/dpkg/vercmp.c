@@ -46,55 +46,78 @@ order(int c)
     return 0;
 }
 
-static int verrevcmp(const char *val, const char *ref) {
-  if (!val) val= "";
-  if (!ref) ref= "";
+static int
+verrevcmp(const char *a, const char *b)
+{
+  if (a == NULL)
+    a = "";
+  if (b == NULL)
+    b = "";
 
-  while (*val || *ref) {
+  while (*a || *b) {
     int first_diff= 0;
 
-    while ( (*val && !cisdigit(*val)) || (*ref && !cisdigit(*ref)) ) {
-      int vc= order(*val), rc= order(*ref);
-      if (vc != rc) return vc - rc;
-      val++; ref++;
+    while ((*a && !cisdigit(*a)) || (*b && !cisdigit(*b))) {
+      int ac = order(*a);
+      int bc = order(*b);
+
+      if (ac != bc)
+        return ac - bc;
+
+      a++;
+      b++;
+    }
+    while (*a == '0')
+      a++;
+    while (*b == '0')
+      b++;
+    while (cisdigit(*a) && cisdigit(*b)) {
+      if (!first_diff)
+        first_diff = *a - *b;
+      a++;
+      b++;
     }
 
-    while ( *val == '0' ) val++;
-    while ( *ref == '0' ) ref++;
-    while (cisdigit(*val) && cisdigit(*ref)) {
-      if (!first_diff) first_diff= *val - *ref;
-      val++; ref++;
-    }
-    if (cisdigit(*val)) return 1;
-    if (cisdigit(*ref)) return -1;
+    if (cisdigit(*a))
+      return 1;
+    if (cisdigit(*b))
+      return -1;
     if (first_diff) return first_diff;
   }
   return 0;
 }
 
 int
-versioncompare(const struct dpkg_version *version,
-               const struct dpkg_version *refversion)
+versioncompare(const struct dpkg_version *a,
+               const struct dpkg_version *b)
 {
   int r;
 
-  if (version->epoch > refversion->epoch) return 1;
-  if (version->epoch < refversion->epoch) return -1;
-  r= verrevcmp(version->version,refversion->version);  if (r) return r;
-  return verrevcmp(version->revision,refversion->revision);
+  if (a->epoch > b->epoch)
+    return 1;
+  if (a->epoch < b->epoch)
+    return -1;
+
+  r = verrevcmp(a->version, b->version);
+  if (r)
+    return r;
+
+  return verrevcmp(a->revision, b->revision);
 }
 
 bool
-versionsatisfied3(const struct dpkg_version *it,
-                  const struct dpkg_version *ref,
-                  enum dpkg_relation verrel)
+versionsatisfied3(const struct dpkg_version *a,
+                  const struct dpkg_version *b,
+                  enum dpkg_relation rel)
 {
   int r;
 
-  if (verrel == dpkg_relation_none)
+  if (rel == dpkg_relation_none)
     return true;
-  r= versioncompare(it,ref);
-  switch (verrel) {
+
+  r = versioncompare(a, b);
+
+  switch (rel) {
   case dpkg_relation_eq:
     return r == 0;
   case dpkg_relation_lt:
@@ -106,7 +129,7 @@ versionsatisfied3(const struct dpkg_version *it,
   case dpkg_relation_ge:
     return r >= 0;
   default:
-    internerr("unknown dpkg_relation %d", verrel);
+    internerr("unknown dpkg_relation %d", rel);
   }
   return false;
 }
