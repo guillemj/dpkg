@@ -50,7 +50,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
 	printf _g("
-Usage: %s [<options> ...]
+Usage: %s [<option>...]
 
 Options:
   -r<gain-root-command>

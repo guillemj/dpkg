@@ -60,7 +60,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf(_g(
-"Usage: %s [<option> ...] <old> <new-a> <new-b> [<out>]
+"Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]
 
 Options:
   --merge-prereleases, -m  merge pre-releases together, ignores everything

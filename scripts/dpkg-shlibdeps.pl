@@ -547,7 +547,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] <executable>|-e<executable> [<option> ...]
+"Usage: %s [<option>...] <executable>|-e<executable> [<option>...]
 
 Positional options (order is significant):
   <executable>             include dependencies for <executable>,

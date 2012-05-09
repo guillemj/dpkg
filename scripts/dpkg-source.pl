@@ -462,7 +462,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] <command>
+"Usage: %s [<option>...] <command>
 
 Commands:
   -x <filename>.dsc [<output-dir>]

@@ -38,7 +38,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] [<command>]
+"Usage: %s [<option>...] [<command>]
 
 Options:
   --vendor <vendor>       assume <vendor> is the current vendor

@@ -106,7 +106,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...]
+"Usage: %s [<option>...]
 
 Options:
   -b                       binary-only build - no source files.

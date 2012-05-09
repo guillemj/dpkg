@@ -60,7 +60,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...]
+"Usage: %s [<option>...]
 
 Options:
   -p<package>              generate symbols file for package.

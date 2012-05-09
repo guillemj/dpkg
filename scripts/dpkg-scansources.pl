@@ -81,7 +81,7 @@ sub version {
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] <binary-path> [<override-file> [<path-prefix>]] > Sources
+"Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources
 
 Options:
   -n, --no-sort            don't sort by package before outputting.

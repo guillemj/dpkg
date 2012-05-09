@@ -41,7 +41,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...]
+"Usage: %s [<option>...]
 
 Options:
   -l<changelog-file>       get per-version info from this file.
