@@ -50,7 +50,7 @@ Options:
   -h, --help               show this help message.
       --version            show the version.
 
-parser options:
+Parser options:
     --format <output-format>    see man page for list of available
                                 output formats, defaults to 'dpkg'
                                 for compatibility with dpkg-dev
