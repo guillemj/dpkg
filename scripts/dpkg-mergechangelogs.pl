@@ -64,7 +64,7 @@ sub usage {
 "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]
 
 Options:
-  --merge-prereleases, -m  merge pre-releases together, ignores everything
+  -m, --merge-prereleases  merge pre-releases together, ignores everything
                            after the last '~' in the version.
   -?, --help               show this help message.
       --version            show the version.
