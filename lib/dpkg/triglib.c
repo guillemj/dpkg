@@ -726,7 +726,7 @@ trig_incorporate(enum modstatdb_rw cstatus)
 	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
 
 	free(triggersfilefile);
-	triggersfilefile = trig_get_filename(triggersdir, "File");
+	triggersfilefile = trig_get_filename(triggersdir, TRIGGERSFILEFILE);
 
 	trigdef_set_methods(&tdm_incorp);
 	trig_file_interests_ensure();
