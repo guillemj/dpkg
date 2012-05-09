@@ -49,53 +49,60 @@ later for copying conditions. There is NO warranty.
 }
 
 sub usage {
-	printf _g("
-Usage: %s [<option>...]
+    printf _g(
+"Usage: %s [<option>...]
 
 Options:
-  -r<gain-root-command>
-                 command to gain root privileges (default is fakeroot).
-  -R<rules>      rules file to execute (default is debian/rules).
-  -p<sign-command>
-  -d             do not check build dependencies and conflicts.
-  -D             check build dependencies and conflicts.
-  -T<target>     call debian/rules <target> with the proper environment
-  --as-root      ensure -T calls the target with root rights
-  -j[<number>]   specify jobs to run simultaneously } passed to debian/rules
-  -k<keyid>      the key to use for signing.
-  -us            unsigned source.
-  -uc            unsigned changes.
-  -a<arch>       Debian architecture we build for (implies -d).
-  -b             binary-only, do not build source.   } also passed to
-  -B             binary-only, no arch-indep files.   } dpkg-genchanges
-  -A             binary-only, only arch-indep files. }
-  -S             source only, no binary files.     }
-  -F             normal full build (binaries and sources).
-  -t<system>     set GNU system type.           } passed to dpkg-architecture
-  -v<version>    changes since version <version>.      }
-  -m<maint>      maintainer for package is <maint>.    }
-  -e<maint>      maintainer for release is <maint>.    } only passed
-  -C<descfile>   changes are described in <descfile>.  } to dpkg-genchanges
-  -si (default)  src includes orig if new upstream.    }
-  -sa            uploaded src always includes orig.    }
-  -sd            uploaded src is diff and .dsc only.   }
-  -sn            force Debian native source format.      }
-  -s[sAkurKUR]   see dpkg-source for explanation.        } only passed
-  -z<level>      compression level of source             } to dpkg-source
-  -Z<compressor> compression to use for source           }
+  -F (default)   normal full build (binaries and sources).
+  -b             binary-only, do not build source.
+  -B             binary-only, no arch-indep files.
+  -A             binary-only, only arch-indep files.
+  -S             source only, no binary files.
   -nc            do not clean source tree (implies -b).
   -tc            clean source tree when finished.
+  -D (default)   check build dependencies and conflicts.
+  -d             do not check build dependencies and conflicts.
+  -R<rules>      rules file to execute (default is debian/rules).
+  -T<target>     call debian/rules <target> with the proper environment.
+      --as-root  ensure -T calls the target with root rights.
+  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).
+  -r<gain-root-command>
+                 command to gain root privileges (default is fakeroot).
+  -p<sign-command>
+                 command to sign .dsc and/or .changes files (default is gpg).
+  -k<keyid>      the key to use for signing.
   -ap            add pause before starting signature process.
-  -i[<regex>]    ignore diffs of files matching regex.    } only passed
-  -I[<pattern>]  filter out files when building tarballs. } to dpkg-source
-  --source-option=<opt>
-		 pass option <opt> to dpkg-source
-  --changes-option=<opt>
-		 pass option <opt> to dpkg-genchanges
-  --admindir=<directory>
+  -us            unsigned source package.
+  -uc            unsigned .changes file.
+      --admindir=<directory>
                  change the administrative directory.
   -h, --help     show this help message.
       --version  show the version.
+
+Options passed to dpkg-architecture:
+  -a<arch>       Debian architecture we build for (implies -d).
+  -t<system>     set GNU system type.
+
+Options passed to dpkg-genchanges:
+  -si (default)  source includes orig if new upstream.
+  -sa            uploaded source always includes orig.
+  -sd            uploaded source is diff and .dsc only.
+  -v<version>    changes since version <version>.
+  -m<maint>      maintainer for package is <maint>.
+  -e<maint>      maintainer for release is <maint>.
+  -C<descfile>   changes are described in <descfile>.
+      --changes-option=<opt>
+                 pass option <opt> to dpkg-genchanges.
+
+Options passed to dpkg-source:
+  -sn            force Debian native source format.
+  -s[sAkurKUR]   see dpkg-source for explanation.
+  -z<level>      compression level to use fo source.
+  -Z<compressor> compression to use for source (gz|xz|bzip2|lzma).
+  -i[<regex>]    ignore diffs of files matching regex.
+  -I[<pattern>]  filter out files when building tarballs.
+      --source-option=<opt>
+                 pass option <opt> to dpkg-source.
 "), $progname;
 }
 
