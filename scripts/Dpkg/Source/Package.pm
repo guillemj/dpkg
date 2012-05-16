@@ -233,7 +233,8 @@ sub upgrade_object_type {
             $self->{'fields'}{'Format'} .= " ($variant)" if defined $variant;
         }
         if ($@) {
-	    error(_g("source package format `%s' is not supported (Perl module %s is required)"), $format, $module);
+            error(_g("source package format '%s' is not supported: %s"),
+                  $format, $@);
         }
         bless $self, $module;
     } else {
