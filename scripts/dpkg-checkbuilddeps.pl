@@ -43,7 +43,8 @@ sub usage {
 "Usage: %s [<option>...] [<control-file>]")
 	. "\n\n" . _g(
 "Options:
-  -B             binary-only, ignore -Indep.
+  -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.
+  -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.
   -d build-deps  use given string as build dependencies instead of
                  retrieving them from control file
   -c build-conf  use given string for build conflicts instead of
@@ -58,10 +59,12 @@ sub usage {
 	. "\n", $progname;
 }
 
-my $binary_only=0;
+my $ignore_bd_arch = 0;
+my $ignore_bd_indep = 0;
 my ($bd_value, $bc_value);
 my $host_arch = get_host_arch();
-if (!GetOptions('B' => \$binary_only,
+if (!GetOptions('A' => \$ignore_bd_arch,
+                'B' => \$ignore_bd_indep,
                 'help|h' => sub { usage(); exit(0); },
                 'version' => \&version,
                 'd=s' => \$bd_value,
@@ -82,11 +85,21 @@ my $facts = parse_status("$admindir/status");
 unless (defined($bd_value) or defined($bc_value)) {
     $bd_value = 'build-essential';
     $bd_value .= ", " . $fields->{"Build-Depends"} if defined $fields->{"Build-Depends"};
-    if (not $binary_only and defined $fields->{"Build-Depends-Indep"}) {
+    if (not $ignore_bd_arch and defined $fields->{"Build-Depends-Arch"}) {
+	$bd_value .= ", " . $fields->{"Build-Depends-Arch"};
+    }
+    if (not $ignore_bd_indep and defined $fields->{"Build-Depends-Indep"}) {
 	$bd_value .= ", " . $fields->{"Build-Depends-Indep"};
     }
     $bc_value = $fields->{"Build-Conflicts"} if defined $fields->{"Build-Conflicts"};
-    if (not $binary_only and defined $fields->{"Build-Conflicts-Indep"}) {
+    if (not $ignore_bd_arch and defined $fields->{"Build-Conflicts-Arch"}) {
+	if ($bc_value) {
+	    $bc_value .= ", " . $fields->{"Build-Conflicts-Arch"};
+	} else {
+	    $bc_value = $fields->{"Build-Conflicts-Arch"};
+	}
+    }
+    if (not $ignore_bd_indep and defined $fields->{"Build-Conflicts-Indep"}) {
 	if ($bc_value) {
 	    $bc_value .= ", " . $fields->{"Build-Conflicts-Indep"};
 	} else {
@@ -97,12 +110,12 @@ unless (defined($bd_value) or defined($bc_value)) {
 my (@unmet, @conflicts);
 
 if ($bd_value) {
-	push @unmet, build_depends('Build-Depends/Build-Depends-Indep',
+	push @unmet, build_depends('Build-Depends/Build-Depends-Arch/Build-Depends-Indep',
 		deps_parse($bd_value, host_arch => $host_arch,
 			   reduce_arch => 1), $facts);
 }
 if ($bc_value) {
-	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Indep',
+	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep',
 		deps_parse($bc_value, host_arch => $host_arch,
 			   reduce_arch => 1, union => 1), $facts);
 }

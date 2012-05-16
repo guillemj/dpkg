@@ -246,7 +246,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
 	    $fields->{$_} = $v;
 	} elsif (m/^Uploaders$/i) {
 	    ($fields->{$_} = $v) =~ s/\s*[\r\n]\s*/ /g; # Merge in a single-line
-	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
+	} elsif (m/^Build-(Depends|Conflicts)(-Arch|-Indep)?$/i) {
 	    my $dep;
 	    my $type = field_get_dep_type($_);
 	    $dep = deps_parse($v, union => $type eq 'union');

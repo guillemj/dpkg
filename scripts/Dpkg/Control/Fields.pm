@@ -61,22 +61,32 @@ our %FIELDS = (
     'Build-Conflicts' => {
         allowed => ALL_SRC,
         dependency => 'union',
-        dep_order => 3,
+        dep_order => 4,
+    },
+    'Build-Conflicts-Arch' => {
+        allowed => ALL_SRC,
+        dependency => 'union',
+        dep_order => 5,
     },
     'Build-Conflicts-Indep' => {
         allowed => ALL_SRC,
         dependency => 'union',
-        dep_order => 4,
+        dep_order => 6,
     },
     'Build-Depends' => {
         allowed => ALL_SRC,
         dependency => 'normal',
         dep_order => 1,
     },
-    'Build-Depends-Indep' => {
+    'Build-Depends-Arch' => {
         allowed => ALL_SRC,
         dependency => 'normal',
         dep_order => 2,
+    },
+    'Build-Depends-Indep' => {
+        allowed => ALL_SRC,
+        dependency => 'normal',
+        dep_order => 3,
     },
     'Built-Using' => {
         allowed => ALL_PKG,
