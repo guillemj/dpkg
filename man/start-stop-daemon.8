@@ -20,7 +20,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH start\-stop\-daemon 8 "2012-01-14" "Debian Project" "dpkg utilities"
+.TH start\-stop\-daemon 8 "2012-05-17" "Debian Project" "dpkg utilities"
 .SH NAME
 start\-stop\-daemon \- start and stop system daemon programs
 .
@@ -331,7 +331,7 @@ food, running as user food, with pid in food.pid):
 .IP
 .nf
 start\-stop\-daemon \-\-start \-\-oknodo \-\-user food \-\-name food \\
-	\-\-pidfile /var/run/food.pid \-\-startas /usr/sbin/food \\
+	\-\-pidfile /run/food.pid \-\-startas /usr/sbin/food \\
 	\-\-chuid food \-\- \-\-daemon
 .fi
 .PP
@@ -339,12 +339,12 @@ Send \fBSIGTERM\fP to \fBfood\fP and wait up to 5 seconds for it to stop:
 .IP
 .nf
 start\-stop\-daemon \-\-stop \-\-oknodo \-\-user food \-\-name food \\
-	\-\-pidfile /var/run/food.pid \-\-retry 5
+	\-\-pidfile /run/food.pid \-\-retry 5
 .fi
 .PP
 Demonstration of a custom schedule for stopping \fBfood\fP:
 .IP
 .nf
 start\-stop\-daemon \-\-stop \-\-oknodo \-\-user food \-\-name food \\
-	\-\-pidfile /var/run/food.pid \-\-retry=TERM/30/KILL/5
+	\-\-pidfile /run/food.pid \-\-retry=TERM/30/KILL/5
 .fi
