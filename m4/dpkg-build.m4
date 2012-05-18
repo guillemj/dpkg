@@ -35,6 +35,23 @@ AC_DEFUN([DPKG_WITH_DIR], [
   AC_MSG_NOTICE([using directory $1 = '$$1'])
 ])# DPKG_WITH_DIR
 
+# DPKG_DEB_COMPRESSOR(COMP)
+# -------------------
+# Change default «dpkg-deb --build» compressor.
+AC_DEFUN([DPKG_DEB_COMPRESSOR], [
+  AC_ARG_WITH([dpkg-deb-compressor],
+    [AS_HELP_STRING([--with-dpkg-deb-compressor=COMP],
+                    [change default dpkg-deb build compressor])],
+    [with_dpkg_deb_compressor=$withval], [with_dpkg_deb_compressor=$1])
+  AS_CASE([$with_dpkg_deb_compressor],
+    [gzip|xz|bzip2], [:],
+    [AC_MSG_ERROR([unsupported default compressor $with_dpkg_deb_compressor])])
+  AC_DEFINE_UNQUOTED([DPKG_DEB_DEFAULT_COMPRESSOR],
+                     [compressor_type_${with_dpkg_deb_compressor}],
+                     [default dpkg-deb build compressor])
+  AC_MSG_NOTICE([using default dpkg-deb compressor = $with_dpkg_deb_compressor])
+]) # DPKG_DEB_COMPRESSOR
+
 # DPKG_DIST_CHECK(COND, ERROR)
 # ---------------
 # Check if the condition is fulfilled when preparing a distribution tarball.

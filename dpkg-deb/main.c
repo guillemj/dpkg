@@ -180,7 +180,7 @@ set_deb_new(const struct cmdinfo *cip, const char *value)
 }
 
 struct compress_params compress_params = {
-  .type = compressor_type_gzip,
+  .type = DPKG_DEB_DEFAULT_COMPRESSOR,
   .strategy = compressor_strategy_none,
   .level = -1,
 };
