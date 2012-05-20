@@ -3,6 +3,7 @@
 # dpkg-gensymbols
 #
 # Copyright © 2007 Raphaël Hertzog
+# Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,6 +23,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Package;
 use Dpkg::Shlibs qw(@librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
@@ -95,8 +97,10 @@ Options:
 my @files;
 while (@ARGV) {
     $_ = shift(@ARGV);
-    if (m/^-p([-+0-9a-z.]+)$/) {
-	$oppackage = $1;
+    if (m/^-p/) {
+	$oppackage = $';
+	my $err = pkg_name_is_illegal($oppackage);
+	error(_g("illegal package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-c(\d)?$/) {
 	$compare = defined($1) ? $1 : 1;
     } elsif (m/^-q$/) {
@@ -115,8 +119,6 @@ while (@ARGV) {
 	    warning(_g("pattern '%s' did not match any file"), $file)
 		unless scalar(@to_add);
 	}
-    } elsif (m/^-p(.*)/) {
-	error(_g("Illegal package name \`%s'"), $1);
     } elsif (m/^-P(.+)$/) {
 	$packagebuilddir = $1;
 	$packagebuilddir =~ s{/+$}{};

@@ -1,3 +1,4 @@
+# Copyright © 2007-2009,2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -18,29 +19,22 @@ package Dpkg::Vars;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
+use Dpkg::Package;
 
 use base qw(Exporter);
 our @EXPORT = qw($sourcepackage set_source_package);
 
 our $sourcepackage;
 
-sub check_package_name {
-    my $name = shift || '';
-    $name =~ m/[^-+.0-9a-z]/o &&
-        error(_g("source package name `%s' contains illegal character `%s'"),
-              $name, $&);
-    $name =~ m/^[0-9a-z]/o ||
-        error(_g("source package name `%s' starts with non-alphanum"), $name);
-}
-
 sub set_source_package {
     my $v = shift;
+    my $err = pkg_name_is_illegal($v);
+    error(_g("source package name '%s' is illegal: %s"), $v, $err) if $err;
 
-    check_package_name($v);
     if (defined($sourcepackage)) {
         $v eq $sourcepackage ||
             error(_g("source package has two conflicting values - %s and %s"),
