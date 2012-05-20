@@ -24,7 +24,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Version;
 
-use Getopt::Long;
+use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 use Scalar::Util qw(blessed);
 
 textdomain("dpkg-dev");
