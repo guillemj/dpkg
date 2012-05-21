@@ -95,7 +95,7 @@ is($output, "750_Dpkg_Substvars.t: warning: unused substitution variable \${var2
           , 'unused variables warnings');
 
 # Disable warnings for a certain variable
-$s->no_warn('var2');
+$s->mark_as_used('var2');
 $output = '';
 $SIG{'__WARN__'} = sub { $output .= $_[0] };
 $s->warn_about_unused();
