@@ -18,7 +18,7 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "1.01";
 
 use Dpkg qw($version);
 use Dpkg::Arch qw(get_host_arch);
@@ -92,6 +92,19 @@ Add/replace a substitution.
 sub set {
     my ($self, $key, $value) = @_;
     $self->{'vars'}{$key} = $value;
+}
+
+=item $s->set_as_used($key, $value)
+
+Add/replace a substitution and mark it as used (no warnings will be produced
+even if unused).
+
+=cut
+
+sub set_as_used {
+    my ($self, $key, $value) = @_;
+    $self->set($key, $value);
+    $self->no_warn($key);
 }
 
 =item $s->get($key)
