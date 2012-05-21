@@ -116,8 +116,7 @@ while (@ARGV) {
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvars->set($1, $');
-	$substvars->no_warn($1);
+        $substvars->set_as_used($1, $');
     } elsif (m/^-T(.*)$/) {
 	$substvars->load($1) if -e $1;
 	$substvars_loaded = 1;
@@ -316,16 +315,15 @@ if (!defined($substvars->get('Installed-Size'))) {
     $? && subprocerr(_g("du in \`%s'"), $packagebuilddir);
     $duo =~ m/^(\d+)\s+\.$/ ||
         error(_g("du gave unexpected output \`%s'"), $duo);
-    $substvars->set('Installed-Size', $1);
+    $substvars->set_as_used('Installed-Size', $1);
 }
 if (defined($substvars->get('Extra-Size'))) {
     my $size = $substvars->get('Extra-Size') + $substvars->get('Installed-Size');
-    $substvars->set('Installed-Size', $size);
+    $substvars->set_as_used('Installed-Size', $size);
 }
 if (defined($substvars->get('Installed-Size'))) {
     $fields->{'Installed-Size'} = $substvars->get('Installed-Size');
 }
-$substvars->no_warn('Installed-Size');
 
 for my $f (keys %override) {
     $fields->{$f} = $override{$f};

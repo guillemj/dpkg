@@ -201,8 +201,7 @@ This will never be warned about when unused.
 sub set_arch_substvars {
     my ($self) = @_;
 
-    $self->{'vars'}{'Arch'} = get_host_arch();
-    $self->no_warn('Arch');
+    $self->set_as_used('Arch', get_host_arch());
 }
 
 =item $newstring = $s->substvars($string)
