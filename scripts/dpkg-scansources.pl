@@ -63,7 +63,7 @@ my $Extra_override_file = undef;
 
 my @Option_spec = (
     'debug!'		=> \$Debug,
-    'help!'		=> \&usage,
+    'help'		=> \&usage,
     'no-sort|n'		=> \$No_sort,
     'source-override|s=s' => \$Src_override,
     'extra-override|e=s' => \$Extra_override_file,
