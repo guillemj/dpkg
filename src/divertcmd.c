@@ -754,7 +754,7 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
 	{ "rename",     0,   0,  &opt_rename,  NULL,      NULL, 1       },
 	{ "test",       0,   0,  &opt_test,    NULL,      NULL, 1       },
-	{ "help",       0,   0,  NULL,         NULL,      usage         },
+	{ "help",      '?',  0,  NULL,         NULL,      usage         },
 	{ "version",    0,   0,  NULL,         NULL,      printversion  },
 	{  NULL,        0                                               }
 };
