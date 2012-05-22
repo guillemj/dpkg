@@ -87,7 +87,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "\n"));
 
   printf(_(
-"  -h|--help                        Show this help message.\n"
+"  -?, --help                       Show this help message.\n"
 "  --version                        Show the version.\n"
 "\n"));
 
@@ -202,7 +202,7 @@ static const struct cmdinfo cmdinfos[]= {
   { NULL,            'Z', 1, NULL,           NULL,         setcompresstype  },
   { NULL,            'S', 1, NULL,           NULL,         set_compress_strategy },
   { "showformat",    0,   1, NULL,           &showformat,  NULL             },
-  { "help",          'h', 0, NULL,           NULL,         usage            },
+  { "help",          '?', 0, NULL,           NULL,         usage            },
   { "version",       0,   0, NULL,           NULL,         printversion     },
   {  NULL,           0,   0, NULL,           NULL,         NULL             }
 };

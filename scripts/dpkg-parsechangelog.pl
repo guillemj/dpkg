@@ -4,6 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2001 Wichert Akkerman
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -47,7 +48,7 @@ sub usage {
   -l<changelog-file>       get per-version info from this file.
   -F<changelog-format>     force changelog format.
   -L<libdir>               look for changelog parsers in <libdir>.
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.")
     . "\n\n" . _g(
 "Parser options:
@@ -104,7 +105,7 @@ while (@ARGV) {
 	}
     } elsif (m/^--all$/) {
 	$options{"all"} = undef;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {
 	version(); exit(0);

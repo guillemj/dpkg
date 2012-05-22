@@ -87,7 +87,7 @@ sub usage {
   -U<field>                remove a field.
   -V<name>=<value>         set a substitution variable.
   -T<substvars-file>       read variables here, not debian/substvars.
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }
@@ -125,7 +125,7 @@ while (@ARGV) {
 	$substvars_loaded = 1;
     } elsif (m/^-n/) {
         $forcefilename= $';
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {

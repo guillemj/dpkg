@@ -4,7 +4,7 @@
 #
 # Copyright © 1999-2001 Marcus Brinkmann <brinkmd@debian.org>
 # Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>,
-# Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ sub usage {
   -s                 print command to set environment variables.
   -u                 print command to unset environment variables.
   -c <command>       set environment and run the command in it.
-  --help             show this help message.
+  -?, --help         show this help message.
   --version          show the version.
 "), $progname;
 }
@@ -155,7 +155,7 @@ while (@ARGV) {
     } elsif (m/^-L$/) {
         list_arches();
         exit unless @ARGV;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
        exit 0;
     } elsif (m/^--version$/) {

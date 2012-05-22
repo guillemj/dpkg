@@ -4,6 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2005,2007 Frank Lichtenheld
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -47,7 +48,7 @@ sub usage {
 "Usage: %s [<option>...] [<changelogfile>]
 
 Options:
-    --help, -h                  print usage information
+    -?, --help                  print usage information
     --version, -V               print version information
     --label, -l <file>          name of the changelog file to
                                 use in error messages
@@ -97,7 +98,7 @@ GetOptions( "file=s" => \$file,
 	    "to|t=s" => \$to,
 	    "count|c|n=i" => \$count,
 	    "offset|o=i" => \$offset,
-	    "help|h" => sub{usage();exit(0)},
+	    "help|?" => sub{ usage(); exit(0) },
 	    "version|V" => sub{version();exit(0)},
 	    "format=s" => \&set_format,
 	    "all|a" => \$all,

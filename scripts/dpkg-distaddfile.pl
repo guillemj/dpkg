@@ -3,6 +3,7 @@
 # dpkg-distaddfile
 #
 # Copyright © 1996 Ian Jackson
+# Copyright © 2006-2008,2010,2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -47,7 +48,7 @@ sub usage {
 
 Options:
   -f<files-list-file>      write files here instead of debian/files.
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }
@@ -56,7 +57,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
     if (m/^-f/) {
         $fileslistfile= $';
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {

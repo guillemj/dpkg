@@ -1,8 +1,8 @@
 #!/bin/sh
 #
+# Copyright © 2007,2011-2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2008 Joey Hess <joeyh@debian.org>
-# Copyright © 2007 Guillem Jover (modifications on wiki.debian.org)
 # Copyright © 2005 Scott James Remnant (original implementation on www.dpkg.org)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -289,7 +289,7 @@ rm_conffile)
 mv_conffile)
 	mv_conffile "$@"
 	;;
---help|help|-?|-h)
+--help|help|-?)
 	usage
 	;;
 --version)

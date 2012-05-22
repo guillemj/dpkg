@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 # Copyright © 2009-2010 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -65,7 +66,7 @@ sub usage {
 Options:
   --merge-prereleases, -m  merge pre-releases together, ignores everything
                            after the last '~' in the version.
-  --help, -h, -?           show this help message.
+  -?, --help               show this help message.
   --version                show the version.
 "), $progname);
 }

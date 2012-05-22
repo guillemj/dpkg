@@ -86,7 +86,7 @@ sub usage {
   -a<arch>                 assume <arch> as host architecture when processing
                            symbol files.
   -d                       display debug information during work.
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }
@@ -131,7 +131,7 @@ while (@ARGV) {
 	$verbose_output = 1;
     } elsif (m/^-a(.+)$/) {
 	$host_arch = $1;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
 	usage();
 	exit(0);
     } elsif (m/^--version$/) {

@@ -4,6 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000,2001 Wichert Akkerman
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -130,7 +131,7 @@ sub usage {
   -T<substvars-file>       read variables here, not debian/substvars.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }
@@ -183,7 +184,7 @@ while (@ARGV) {
         $remove{$1} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
 	$substvars->set($1, $2);
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
 	usage();
 	exit(0);
     } elsif (m/^--version$/) {

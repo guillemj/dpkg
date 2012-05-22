@@ -307,7 +307,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "admindir",     0,   1,  0,  &admindir,  0               },
   { "debug",       'D',  1,  0,  0,          setdebug        },
   { "expert",      'E',  0,  0,  0,          setexpert       },
-  { "help",        'h',  0,  0,  0,          usage           },
+  { "help",        '?',  0,  0,  0,          usage           },
   { "version",      0,   0,  0,  0,          printversion    },
   { "color",        0,   1,  0,  0,          setcolor        }, /* US spelling */
   { "colour",       0,   1,  0,  0,          setcolor        }, /* UK spelling */

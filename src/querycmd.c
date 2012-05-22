@@ -772,7 +772,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "\n"));
 
   printf(_(
-"  -h|--help                        Show this help message.\n"
+"  -?, --help                       Show this help message.\n"
 "  --version                        Show the version.\n"
 "\n"));
 
@@ -819,7 +819,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "admindir",   0,   1, NULL, &admindir,   NULL          },
   { "load-avail", 0,   0, &opt_loadavail, NULL, NULL, 1    },
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
-  { "help",       'h', 0, NULL, NULL,        usage         },
+  { "help",       '?', 0, NULL, NULL,        usage         },
   { "version",    0,   0, NULL, NULL,        printversion  },
   {  NULL,        0,   0, NULL, NULL,        NULL          }
 };

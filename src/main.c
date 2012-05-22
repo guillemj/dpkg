@@ -115,7 +115,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "\n"));
 
   printf(_(
-"  -h|--help                        Show this help message.\n"
+"  -?, --help                       Show this help message.\n"
 "  --version                        Show the version.\n"
 "\n"));
 
@@ -682,7 +682,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "refuse",            0,   2, NULL,          NULL,      setforce,      0 },
   { "no-force",          0,   2, NULL,          NULL,      setforce,      0 },
   { "debug",             'D', 1, NULL,          NULL,      setdebug,      0 },
-  { "help",              'h', 0, NULL,          NULL,      usage,         0 },
+  { "help",              '?', 0, NULL,          NULL,      usage,         0 },
   { "version",           0,   0, NULL,          NULL,      printversion,  0 },
   ACTIONBACKEND( "build",		'b', BACKEND),
   ACTIONBACKEND( "contents",		'c', BACKEND),

@@ -3,6 +3,7 @@
 # dpkg-checkbuilddeps
 #
 # Copyright © 2001 Joey Hess <joeyh@debian.org>
+# Copyright © 2006-2009,2011-2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2007-2011 Raphael Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -52,7 +53,7 @@ sub usage {
   -a arch        assume given host architecture
   --admindir=<directory>
                  change the administrative directory.
-  -h, --help     show this help message.
+  -?, --help     show this help message.
       --version  show the version.")
 	. "\n\n" . _g(
 "<control-file> is the control file to process (default: debian/control).")
@@ -65,7 +66,7 @@ my ($bd_value, $bc_value);
 my $host_arch = get_host_arch();
 if (!GetOptions('A' => \$ignore_bd_arch,
                 'B' => \$ignore_bd_indep,
-                'help|h' => sub { usage(); exit(0); },
+                'help|?' => sub { usage(); exit(0); },
                 'version' => \&version,
                 'd=s' => \$bd_value,
                 'c=s' => \$bc_value,

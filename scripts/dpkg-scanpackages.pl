@@ -2,7 +2,7 @@
 #
 # dpkg-scanpackages
 #
-# Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ my %options = (help            => sub { usage(); exit 0; },
 	      );
 
 my $result = GetOptions(\%options,
-                        'help|h|?', 'version', 'type|t=s',
+                        'help|?', 'version', 'type|t=s',
                         'arch|a=s', 'multiversion|m!', 'extra-override|e=s',
                         'medium|M=s');
 
@@ -73,7 +73,7 @@ Options:
   -e, --extra-override <file>
                            use extra override file.
   -M, --medium <medium>    add X-Medium field for dselect multicd access method
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }

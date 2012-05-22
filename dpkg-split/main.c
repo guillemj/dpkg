@@ -76,7 +76,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "\n"));
 
   printf(_(
-"  -h|--help                        Show this help message.\n"
+"  -?, --help                       Show this help message.\n"
 "  --version                        Show the version.\n"
 "\n"));
 
@@ -143,7 +143,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION("listq",   'l',  0,  do_queue),
   ACTION("discard", 'd',  0,  do_discard),
 
-  { "help",         'h',  0,  NULL, NULL,             usage               },
+  { "help",         '?',  0,  NULL, NULL,             usage               },
   { "version",       0,   0,  NULL, NULL,             printversion        },
   { "depotdir",      0,   1,  NULL, &opt_depotdir,    NULL                },
   { "partsize",     'S',  1,  NULL, NULL,             setpartsize         },

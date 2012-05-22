@@ -3,6 +3,7 @@
 # dpkg-vendor
 #
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2009,2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -65,7 +66,7 @@ while (@ARGV) {
         $action = $1;
         $param = shift(@ARGV);
         usageerr(_g("%s needs a parameter"), $_) unless defined $param;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
         exit 0;
     } elsif (m/^--version$/) {

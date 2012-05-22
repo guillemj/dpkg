@@ -191,7 +191,7 @@ while (@options) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
 	$substvars->load($1) if -e $1;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
@@ -510,7 +510,7 @@ sub usage {
   --require-valid-signature abort if the package doesn't have a valid signature")
     . "\n\n" . _g(
 "General options:
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.")
     . "\n\n" . _g(
 "More options are available but they depend on the source package format.

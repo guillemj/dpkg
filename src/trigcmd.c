@@ -76,7 +76,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "\n"));
 
 	printf(_(
-"  -h|--help                        Show this help message.\n"
+"  -?, --help                       Show this help message.\n"
 "  --version                        Show the version.\n"
 "\n"));
 
@@ -199,7 +199,7 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "no-await",        0,   0, NULL,     &bypackage, noawait },
 	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
 	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
-	{ "help",            'h', 0, NULL,     NULL,       usage   },
+	{ "help",            '?', 0, NULL,     NULL,       usage   },
 	{ "version",         0,   0, NULL,     NULL,       printversion  },
 	{  NULL  }
 };

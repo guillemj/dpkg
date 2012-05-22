@@ -76,7 +76,7 @@ sub usage {
   -uc            unsigned .changes file.
       --admindir=<directory>
                  change the administrative directory.
-  -h, --help     show this help message.
+  -?, --help     show this help message.
       --version  show the version.")
     . "\n\n" . _g(
 "Options passed to dpkg-architecture:
@@ -151,7 +151,7 @@ sub build_opt() {
 while (@ARGV) {
     $_ = shift @ARGV;
 
-    if (/^(--help|-h)$/) {
+    if (/^(--help|-\?)$/) {
 	usage;
 	exit 0;
     } elsif (/^--version$/) {

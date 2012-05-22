@@ -2,7 +2,7 @@
  * dpkg-statoverride - override ownership and mode of files
  *
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -336,7 +336,7 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
 	{ "force",      0,   0,  &opt_force,   NULL,      NULL, 1       },
 	{ "update",     0,   0,  &opt_update,  NULL,      NULL, 1       },
-	{ "help",       'h', 0,  NULL,         NULL,      usage         },
+	{ "help",       '?', 0,  NULL,         NULL,      usage         },
 	{ "version",    0,   0,  NULL,         NULL,      printversion  },
 	{  NULL,        0                                               }
 };

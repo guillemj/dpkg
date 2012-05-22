@@ -5,6 +5,7 @@
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000 Wichert Akkerman
 # Copyright © 2006 Frank Lichtenheld
+# Copyright © 2006-2010,2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Raphaël Hertzog
 #
 # This program is free software; you can redistribute it and/or modify
@@ -88,7 +89,7 @@ foreach (@ARGV) {
 	push @pkg_dir_to_search, $1;
     } elsif (m/^-O$/) {
 	$stdout = 1;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {
 	version(); exit(0);
@@ -567,7 +568,7 @@ sub usage {
   --ignore-missing-info    don't fail if dependency information can't be found.
   --warnings=<value>       define set of active warnings (see manual page).
   --admindir=<directory>   change the administrative directory.
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.")
     . "\n\n" . _g(
 "Dependency fields recognised are:
