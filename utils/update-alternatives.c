@@ -1223,16 +1223,16 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 		}
 		ctx->modified = true;
 	} else {
-		char *endptr, *prio;
-		long int iprio;
+		char *prio_str, *prio_end;
+		long prio;
 
-		prio = altdb_get_line(ctx, _("priority"));
-		iprio = strtol(prio, &endptr, 10);
-		/* XXX: Leak master_file/prio on non-fatal error */
-		if (*endptr != '\0')
+		prio_str = altdb_get_line(ctx, _("priority"));
+		prio = strtol(prio_str, &prio_end, 10);
+		/* XXX: Leak master_file/prio_str on non-fatal error */
+		if (*prio_end != '\0')
 			ctx->bad_format(ctx, _("priority of %s: %s"),
-			                master_file, prio);
-		fs = fileset_new(master_file, (int) iprio);
+			                master_file, prio_str);
+		fs = fileset_new(master_file, prio);
 		for (sl = a->slaves; sl; sl = sl->next) {
 			fileset_add_slave(fs, xstrdup(sl->name),
 			                  altdb_get_line(ctx, _("slave file")));
@@ -2454,24 +2454,27 @@ main(int argc, char **argv)
 			opt_verbose--;
 			PUSH_OPT(argv[i]);
 		} else if (strcmp("--install", argv[i]) == 0) {
-			long priority;
-			char *endptr;
+			char *prio_str, *prio_end;
+			long prio;
 
 			set_action("install");
 			if (MISSING_ARGS(4))
 				badusage(_("--install needs <link> <name> "
 				           "<path> <priority>"));
+
+			prio_str = argv[i + 4];
+
 			if (strcmp(argv[i+1], argv[i+3]) == 0)
 				badusage(_("<link> and <path> can't be the same"));
-			priority = strtol(argv[i+4], &endptr, 10);
-			if (*endptr != '\0')
+			prio = strtol(prio_str, &prio_end, 10);
+			if (*prio_end != '\0')
 				badusage(_("priority must be an integer"));
 
 			a = alternative_new(argv[i + 2]);
 			inst_alt = alternative_new(argv[i + 2]);
 			alternative_set_status(inst_alt, ALT_ST_AUTO);
 			alternative_set_link(inst_alt, xstrdup(argv[i + 1]));
-			fileset = fileset_new(argv[i + 3], priority);
+			fileset = fileset_new(argv[i + 3], prio);
 
 			i += 4;
 		} else if (strcmp("--remove", argv[i]) == 0 ||
