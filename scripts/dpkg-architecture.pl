@@ -44,7 +44,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] [<action>]
+"Usage: %s [<option> ...] [<command>]
 
 Options:
   -a<debian-arch>    set current Debian architecture.
@@ -52,7 +52,7 @@ Options:
   -L                 list valid architectures.
   -f                 force flag (override variables set in environment).
 
-Actions:
+Commands:
   -l                 list variables (default).
   -e<debian-arch>    compare with current Debian architecture.
   -i<arch-alias>     check if current Debian architecture is <arch-alias>.

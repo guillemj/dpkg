@@ -38,9 +38,9 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<action>]
+"Usage: %s [<command>]
 
-Actions:
+Commands:
   --get <flag>       output the requested flag to stdout.
   --origin <flag>    output the origin of the flag to stdout:
                      value is one of vendor, system, user, env.
