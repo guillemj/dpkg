@@ -731,7 +731,7 @@ commandfd(const char *const *argv)
   errno = 0;
   infd = strtoul(pipein, &endptr, 10);
   if (pipein == endptr || *endptr || infd > INT_MAX)
-    ohshite(_("invalid integer for --%s: `%.250s'"), cipaction->olong, pipein);
+    ohshit(_("invalid integer for --%s: `%.250s'"), cipaction->olong, pipein);
   if ((in= fdopen(infd, "r")) == NULL)
     ohshite(_("couldn't open `%i' for stream"), (int) infd);
 
