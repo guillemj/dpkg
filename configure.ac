@@ -92,7 +92,7 @@ DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
 AC_CHECK_DECLS([strnlen], [[#include <string.h>]])
 AC_CHECK_FUNCS([memcpy lchown],
                [], [AC_ERROR([missing required function])])
-AC_CHECK_FUNCS([strtoul strtoimax isascii setsid getdtablesize \
+AC_CHECK_FUNCS([strtoimax isascii setsid getdtablesize \
                 getprogname getexecname lutimes posix_fadvise])
 
 DPKG_MMAP
