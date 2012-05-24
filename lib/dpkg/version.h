@@ -34,18 +34,36 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
+/**
+ * Data structure representing a Debian version.
+ *
+ * @see deb-version(5)
+ */
 struct dpkg_version {
+	/** The epoch. It will be zero if no epoch is present. */
 	unsigned int epoch;
+	/** The upstream part of the version. */
 	const char *version;
+	/** The Debian revision part of the version. */
 	const char *revision;
 };
 
+/**
+ * Enum constants for the supported relation operations that can be done
+ * on Debian versions.
+ */
 enum dpkg_relation {
+	/** The “none” relation, sentinel value. */
 	dpkg_relation_none	= 0,
+	/** Equality relation (‘=’). */
 	dpkg_relation_eq	= DPKG_BIT(0),
+	/** Less than relation (‘<<’). */
 	dpkg_relation_lt	= DPKG_BIT(1),
+	/** Less than or equal to relation (‘<=’). */
 	dpkg_relation_le	= dpkg_relation_lt | dpkg_relation_eq,
+	/** Greater than relation (‘>>’). */
 	dpkg_relation_gt	= DPKG_BIT(2),
+	/** Greater than or equal to relation (‘>=’). */
 	dpkg_relation_ge	= dpkg_relation_gt | dpkg_relation_eq,
 };
 

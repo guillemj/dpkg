@@ -26,6 +26,13 @@
 #include <dpkg/string.h>
 #include <dpkg/version.h>
 
+/**
+ * Turn the passed version into an empty version.
+ *
+ * This can be used to ensure the version is properly initialized.
+ *
+ * @param version The version to clear.
+ */
 void
 dpkg_version_blank(struct dpkg_version *version)
 {
@@ -34,6 +41,14 @@ dpkg_version_blank(struct dpkg_version *version)
 	version->revision = NULL;
 }
 
+/**
+ * Test if a version is not empty.
+ *
+ * @param version The version to test.
+ *
+ * @retval true If the version is informative (i.e. not an empty version).
+ * @retval false If the version is empty.
+ */
 bool
 dpkg_version_is_informative(const struct dpkg_version *version)
 {
@@ -105,6 +120,21 @@ verrevcmp(const char *a, const char *b)
 	return 0;
 }
 
+/**
+ * Compares two Debian versions.
+ *
+ * This function follows the convention of the comparator functions used by
+ * qsort().
+ *
+ * @see deb-version(5)
+ *
+ * @param a The first version.
+ * @param b The second version.
+ *
+ * @retval 0 If a and b are equal.
+ * @retval <0 If a is smaller than b.
+ * @retval >0 If a is greater than b.
+ */
 int
 dpkg_version_compare(const struct dpkg_version *a,
                      const struct dpkg_version *b)
@@ -123,6 +153,20 @@ dpkg_version_compare(const struct dpkg_version *a,
 	return verrevcmp(a->revision, b->revision);
 }
 
+/**
+ * Check if two versions have a certain relation.
+ *
+ * @param a The first version.
+ * @param rel The relation.
+ * @param b The second version.
+ *
+ * @retval true If the expression “a rel b” is true.
+ * @retval true If rel is #dpkg_relation_none.
+ * @retval false Otherwise.
+ *
+ * @warning If rel is not a valid relation, this function will terminate
+ *          the program.
+ */
 bool
 dpkg_version_relate(const struct dpkg_version *a,
                     enum dpkg_relation rel,
