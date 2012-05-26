@@ -477,6 +477,8 @@ compressor_find_by_extension(const char *extension)
 enum compressor_strategy
 compressor_get_strategy(const char *name)
 {
+	if (strcmp(name, "none") == 0)
+		return compressor_strategy_none;
 	if (strcmp(name, "extreme") == 0)
 		return compressor_strategy_extreme;
 
