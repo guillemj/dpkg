@@ -324,7 +324,7 @@ deferred_configure(struct pkginfo *pkg)
 			sincenothing = 0;
 
 	ok = dependencies_ok(pkg, NULL, &aemsgs);
-	if (ok == 1) {
+	if (ok == dep_check_defer) {
 		varbuf_destroy(&aemsgs);
 		pkg->clientdata->istobe = itb_installnew;
 		add_to_queue(pkg);
@@ -341,8 +341,8 @@ deferred_configure(struct pkginfo *pkg)
 	 * processing new packages can't enter into unpacked.
 	 */
 
-	ok = breakses_ok(pkg, &aemsgs) ? ok : 0;
-	if (ok == 0) {
+	ok = breakses_ok(pkg, &aemsgs) ? ok : dep_check_halt;
+	if (ok == dep_check_halt) {
 		sincenothing = 0;
 		varbuf_end_str(&aemsgs);
 		fprintf(stderr,

@@ -73,8 +73,9 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
     if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
     before= raemsgs->used;
     ok= dependencies_ok(depender,pkgtoremove,raemsgs);
-    if (ok == 0 && depender->clientdata->istobe == itb_remove) ok= 1;
-    if (ok == 1)
+    if (ok == dep_check_halt && depender->clientdata->istobe == itb_remove)
+      ok = dep_check_defer;
+    if (ok == dep_check_defer)
       /* Don't burble about reasons for deferral. */
       varbuf_trunc(raemsgs, before);
     if (ok < *rokp) *rokp= ok;
