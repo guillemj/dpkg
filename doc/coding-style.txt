@@ -1,4 +1,4 @@
-Dpkg C coding style 2009-09-29
+Dpkg C coding style 2012-05-24
 ===================
 
 C language extensions
@@ -10,6 +10,8 @@ The code base assumes C89 plus the following C99 extensions:
  * Trailing comma in enum.
  * Variadic macros.
  * Working bool type in <stdbool.h>.
+ * Working %j and %z printf modifiers.
+ * Magic __func__ variable.
 
 Those are checked at build time, and it will abort in case a needed extension
 is not supported.
@@ -17,7 +19,12 @@ is not supported.
 General
 ~~~~~~~
 
-Most of the Linux CodingStyle applies.
+The coding style is a mix of parts from KNF [K] and the Linux CodingStyle [L].
+If in doubt or missing from this file please ask, although files using the
+tab based indentation can be considered canon.
+
+  [K] <http://www.freebsd.org/cgi/man.cgi?query=style>
+  [L] <http://www.kernel.org/doc/Documentation/CodingStyle>
 
 The code has a mix of an old coding style being phased out and the new
 style. New files should use the new style, changes to files with the old
@@ -37,7 +44,7 @@ On comments use UTF-8 characters for quotes, copyright symbols, etc.
 
 On strings in code use simple or double quotes «''» «""». Not the unpaired
 ones «`'». Strings marked for translation, should only be fixed if there's
-other changes to be done on them, oterwise we get unneeded fuzzies.
+other changes to be done on them, otherwise we get unneeded fuzzies.
 
   <http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html>
 
@@ -45,6 +52,42 @@ Code documentation
 ~~~~~~~~~~~~~~~~~~
 
 Public declarations should be documented using JavaDoc style comments.
+
+Documentation should always be close to its definition (usually in the .c
+or .cc files) and not its declaration, so that when the code changes it's
+less likely that they will get out of sync. For data types, macros and
+similar where there's only declarations, the documentation will usually
+go instead in the header files.
+
+For enum values and struct members, the documentation should usually be
+one-line comments, preceding the item.
+
+The comment title should be on the second line on its own, and the long
+description on its own paragraph.
+
+Examples:
+
+/**
+ * This is the enum title.
+ */
+enum value_list {
+	/** Value doing foo. */
+	value_a,
+	/** Value doing bar. */
+	value_b,
+};
+
+/**
+ * This is the title.
+ *
+ * This is the long description extending several lines, explaining in
+ * detail what this item does.
+ *
+ * @param a This is the a parameter.
+ * @param b This is the b parameter.
+ *
+ * @return This is the return value.
+ */
 
 Indentation, alignment and spacing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -77,7 +120,7 @@ Spaces between operators:
 
 	a = (b + 4 * (5 - 6)) & 0xff;
 
-Spaces between asignments:
+Spaces between assignments:
 
 	a += b;
 
@@ -197,12 +240,14 @@ if ($foo) {
 
 Perl version
 ~~~~~~~~~~~~
+
 We don't want to impose a too-recent Perl version, so only use features
 supported by the Perl version that is currently in Debian oldstable when
 possible. Currently that means Perl 5.8.8.
 
 Object methods
 ~~~~~~~~~~~~~~
+
 Use a single line to retrieve all the arguments and use $self as name
 for the current object:
 
