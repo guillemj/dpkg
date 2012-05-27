@@ -316,6 +316,7 @@ trigproc(struct pkginfo *pkg)
 {
 	static struct varbuf namesarg;
 
+	struct varbuf depwhynot = VARBUF_INIT;
 	struct trigpend *tp;
 	struct pkginfo *gaveup;
 
@@ -326,12 +327,34 @@ trigproc(struct pkginfo *pkg)
 	pkg->clientdata->trigprocdeferred = NULL;
 
 	if (pkg->trigpend_head) {
+		enum dep_check ok;
+
 		assert(pkg->status == PKG_STAT_TRIGGERSPENDING ||
 		       pkg->status == PKG_STAT_TRIGGERSAWAITED);
 
 		gaveup = check_trigger_cycle(pkg);
 		if (gaveup == pkg)
 			return;
+
+		ok = dependencies_ok(pkg, NULL, &depwhynot);
+		if (ok == DEP_CHECK_OK) {
+			debug(dbg_triggers, "trigproc %s dependencies satisfied, "
+			      "processing", pkg_name(pkg, pnaw_always));
+		} else if (ok == DEP_CHECK_DEFER) {
+			debug(dbg_triggers, "trigproc %s dependencies unsatisfied, "
+			      "defer processing", pkg_name(pkg, pnaw_always));
+			varbuf_destroy(&depwhynot);
+
+			enqueue_package(pkg);
+			return;
+		} else if (ok == DEP_CHECK_HALT) {
+			varbuf_end_str(&depwhynot);
+			debug(dbg_triggers, "trigproc %s dependencies unsatisfied, "
+			      "skipping due to:\n %s",
+			      pkg_name(pkg, pnaw_always), depwhynot.buf);
+			varbuf_destroy(&depwhynot);
+			return;
+		}
 
 		printf(_("Processing triggers for %s (%s) ...\n"),
 		       pkg_name(pkg, pnaw_nonambig),
