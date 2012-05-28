@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * t-version.c - test version handling
  *
- * Copyright © 2009-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,37 @@
 	(struct dpkg_version) { (epoch), (version), (revision) }
 
 static void
+test_version_blank(void)
+{
+	struct dpkg_version a;
+
+	dpkg_version_blank(&a);
+	test_pass(a.epoch == 0);
+	test_pass(a.version == NULL);
+	test_pass(a.revision == NULL);
+}
+
+static void
+test_version_is_informative(void)
+{
+	struct dpkg_version a;
+
+	dpkg_version_blank(&a);
+	test_fail(dpkg_version_is_informative(&a));
+
+	a.epoch = 1;
+	test_pass(dpkg_version_is_informative(&a));
+
+	dpkg_version_blank(&a);
+	a.version = "1";
+	test_pass(dpkg_version_is_informative(&a));
+
+	dpkg_version_blank(&a);
+	a.revision = "1";
+	test_pass(dpkg_version_is_informative(&a));
+}
+
+static void
 test_version_compare(void)
 {
 	struct dpkg_version a, b;
@@ -41,6 +72,14 @@ test_version_compare(void)
 
 	a.epoch = 1;
 	b.epoch = 2;
+	test_fail(dpkg_version_compare(&a, &b) == 0);
+
+	a = version(0, "1", "1");
+	b = version(0, "2", "1");
+	test_fail(dpkg_version_compare(&a, &b) == 0);
+
+	a = version(0, "1", "1");
+	b = version(0, "1", "2");
 	test_fail(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test for version equality. */
@@ -60,7 +99,53 @@ test_version_compare(void)
 	test_pass(dpkg_version_compare(&a, &b) < 0);
 	test_pass(dpkg_version_compare(&b, &a) > 0);
 
+	/* Test for version component difference. */
+	a = version(0, "a", "0");
+	b = version(0, "b", "0");
+	test_pass(dpkg_version_compare(&a, &b) < 0);
+	test_pass(dpkg_version_compare(&b, &a) > 0);
+
+	/* Test for revision component difference. */
+	a = version(0, "0", "a");
+	b = version(0, "0", "b");
+	test_pass(dpkg_version_compare(&a, &b) < 0);
+	test_pass(dpkg_version_compare(&b, &a) > 0);
+
 	/* FIXME: Complete. */
+}
+
+static void
+test_version_relate(void)
+{
+	struct dpkg_version a, b;
+
+	dpkg_version_blank(&a);
+	dpkg_version_blank(&b);
+	test_pass(dpkg_version_relate(&a, dpkg_relation_none, &b));
+
+	a = version(0, "1", "1");
+	b = version(0, "1", "1");
+	test_pass(dpkg_version_relate(&a, dpkg_relation_eq, &b));
+	test_fail(dpkg_version_relate(&a, dpkg_relation_lt, &b));
+	test_pass(dpkg_version_relate(&a, dpkg_relation_le, &b));
+	test_fail(dpkg_version_relate(&a, dpkg_relation_gt, &b));
+	test_pass(dpkg_version_relate(&a, dpkg_relation_ge, &b));
+
+	a = version(0, "1", "1");
+	b = version(0, "2", "1");
+	test_fail(dpkg_version_relate(&a, dpkg_relation_eq, &b));
+	test_pass(dpkg_version_relate(&a, dpkg_relation_lt, &b));
+	test_pass(dpkg_version_relate(&a, dpkg_relation_le, &b));
+	test_fail(dpkg_version_relate(&a, dpkg_relation_gt, &b));
+	test_fail(dpkg_version_relate(&a, dpkg_relation_ge, &b));
+
+	a = version(0, "2", "1");
+	b = version(0, "1", "1");
+	test_fail(dpkg_version_relate(&a, dpkg_relation_eq, &b));
+	test_fail(dpkg_version_relate(&a, dpkg_relation_lt, &b));
+	test_fail(dpkg_version_relate(&a, dpkg_relation_le, &b));
+	test_pass(dpkg_version_relate(&a, dpkg_relation_gt, &b));
+	test_pass(dpkg_version_relate(&a, dpkg_relation_ge, &b));
 }
 
 #define test_warn(e) \
@@ -198,6 +283,9 @@ test_version_parse(void)
 static void
 test(void)
 {
+	test_version_blank();
+	test_version_is_informative();
 	test_version_compare();
+	test_version_relate();
 	test_version_parse();
 }
