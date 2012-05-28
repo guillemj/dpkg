@@ -44,6 +44,26 @@ test_pkginfo_informative(void)
 }
 
 static void
+test_pkginfo_eflags(void)
+{
+	struct pkginfo pkg;
+
+	pkg_blank(&pkg);
+	test_pass(pkg.eflag == eflag_ok);
+
+	pkg_set_eflags(&pkg, eflag_reinstreq);
+	test_pass(pkg.eflag == eflag_reinstreq);
+
+	pkg_clear_eflags(&pkg, eflag_reinstreq);
+	test_pass(pkg.eflag == eflag_ok);
+
+	pkg_set_eflags(&pkg, 0x11);
+	test_pass(pkg.eflag == 0x11);
+	pkg_reset_eflags(&pkg);
+	test_pass(pkg.eflag == eflag_ok);
+}
+
+static void
 test_pkginfo_instance_tracking(void)
 {
 	struct pkgset set;
@@ -125,6 +145,7 @@ static void
 test(void)
 {
 	test_pkginfo_informative();
+	test_pkginfo_eflags();
 	test_pkginfo_instance_tracking();
 
 	/* FIXME: Complete. */
