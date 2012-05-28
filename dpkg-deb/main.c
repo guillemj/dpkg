@@ -142,8 +142,8 @@ int oldformatflag = 0;
 int opt_verbose = 0;
 struct compress_params compress_params = {
   .type = compressor_type_gzip,
+  .strategy = compressor_strategy_none,
   .level = -1,
-  .strategy = NULL,
 };
 
 static void
@@ -161,6 +161,14 @@ set_compress_level(const struct cmdinfo *cip, const char *value)
     badusage(_("invalid compression level for -%c: %ld'"), cip->oshort, level);
 
   compress_params.level = level;
+}
+
+static void
+set_compress_strategy(const struct cmdinfo *cip, const char *value)
+{
+  compress_params.strategy = compressor_get_strategy(value);
+  if (compress_params.strategy == compressor_strategy_unknown)
+    ohshit(_("unknown compression strategy '%s'!"), value);
 }
 
 static void
@@ -192,7 +200,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
   { NULL,            'z', 1, NULL,           NULL,         set_compress_level },
   { NULL,            'Z', 1, NULL,           NULL,         setcompresstype  },
-  { NULL,            'S', 1, NULL,           &compress_params.strategy, NULL },
+  { NULL,            'S', 1, NULL,           NULL,         set_compress_strategy },
   { "showformat",    0,   1, NULL,           &showformat,  NULL             },
   { "help",          'h', 0, NULL,           NULL,         usage            },
   { "version",       0,   0, NULL,           NULL,         printversion     },

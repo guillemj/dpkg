@@ -4,7 +4,7 @@
  *
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2004 Scott James Remnant <scott@netsplit.com>
- * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,8 +78,6 @@ struct compressor {
 	const char *name;
 	const char *extension;
 	int default_level;
-	bool (*check_params)(struct compress_params *params,
-	                     struct dpkg_error *err);
 	void (*fixup_params)(struct compress_params *params);
 	void (*compress)(int fd_in, int fd_out, struct compress_params *params,
 	                 const char *desc);
@@ -89,17 +87,6 @@ struct compressor {
 /*
  * No compressor (pass-through).
  */
-
-static bool
-check_none_params(struct compress_params *params, struct dpkg_error *err)
-{
-	if (params->strategy) {
-		dpkg_put_warn(err, _("unknown compression strategy"));
-		return false;
-	}
-
-	return true;
-}
 
 static void
 fixup_none_params(struct compress_params *params)
@@ -122,7 +109,6 @@ static const struct compressor compressor_none = {
 	.name = "none",
 	.extension = "",
 	.default_level = 0,
-	.check_params = check_none_params,
 	.fixup_params = fixup_none_params,
 	.compress = compress_none,
 	.decompress = decompress_none,
@@ -242,7 +228,6 @@ static const struct compressor compressor_gzip = {
 	.name = "gzip",
 	.extension = ".gz",
 	.default_level = 9,
-	.check_params = check_none_params,
 	.fixup_params = fixup_gzip_params,
 	.compress = compress_gzip,
 	.decompress = decompress_gzip,
@@ -367,7 +352,6 @@ static const struct compressor compressor_bzip2 = {
 	.name = "bzip2",
 	.extension = ".bz2",
 	.default_level = 9,
-	.check_params = check_none_params,
 	.fixup_params = fixup_bzip2_params,
 	.compress = compress_bzip2,
 	.decompress = decompress_bzip2,
@@ -378,17 +362,6 @@ static const struct compressor compressor_bzip2 = {
  */
 
 #define XZ		"xz"
-
-static bool
-check_xz_params(struct compress_params *params, struct dpkg_error *err)
-{
-	if (params->strategy && strcmp(params->strategy, "extreme") != 0) {
-		dpkg_put_warn(err, _("unknown compression strategy"));
-		return false;
-	}
-
-	return true;
-}
 
 static void
 decompress_xz(int fd_in, int fd_out, const char *desc)
@@ -402,7 +375,7 @@ compress_xz(int fd_in, int fd_out, struct compress_params *params, const char *d
 	char combuf[6];
 	const char *strategy;
 
-	if (params->strategy && strcmp(params->strategy, "extreme") == 0)
+	if (params->strategy == compressor_strategy_extreme)
 		strategy = "-e";
 	else
 		strategy = NULL;
@@ -415,7 +388,6 @@ static const struct compressor compressor_xz = {
 	.name = "xz",
 	.extension = ".xz",
 	.default_level = 6,
-	.check_params = check_xz_params,
 	.fixup_params = fixup_none_params,
 	.compress = compress_xz,
 	.decompress = decompress_xz,
@@ -444,7 +416,6 @@ static const struct compressor compressor_lzma = {
 	.name = "lzma",
 	.extension = ".lzma",
 	.default_level = 6,
-	.check_params = check_none_params,
 	.fixup_params = fixup_none_params,
 	.compress = compress_lzma,
 	.decompress = decompress_lzma,
@@ -503,10 +474,27 @@ compressor_find_by_extension(const char *extension)
 	return compressor_type_unknown;
 }
 
+enum compressor_strategy
+compressor_get_strategy(const char *name)
+{
+	if (strcmp(name, "extreme") == 0)
+		return compressor_strategy_extreme;
+
+	return compressor_strategy_unknown;
+}
+
 bool
 compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 {
-	return compressor(params->type)->check_params(params, err);
+	if (params->strategy == compressor_strategy_none)
+		return true;
+
+	if (params->type == compressor_type_xz &&
+	    params->strategy == compressor_strategy_extreme)
+		return true;
+
+	dpkg_put_error(err, _("unknown compression strategy"));
+	return false;
 }
 
 static void
