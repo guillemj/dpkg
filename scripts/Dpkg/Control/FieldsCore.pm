@@ -68,6 +68,10 @@ our %FIELDS = (
         allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_CHANGES) & (~CTRL_INFO_SRC),
         separator => FIELD_SEP_SPACE,
     },
+    'Architectures' => {
+        allowed => CTRL_REPO_RELEASE,
+        separator => FIELD_SEP_SPACE,
+    },
     'Binary' => {
         allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
         # XXX: This field values are separated either by space or comma
@@ -142,11 +146,21 @@ our %FIELDS = (
     'Changed-By' => {
         allowed => CTRL_FILE_CHANGES,
     },
+    'Changelogs' => {
+        allowed => CTRL_REPO_RELEASE,
+    },
     'Changes' => {
         allowed => ALL_CHANGES,
     },
     'Closes' => {
         allowed => ALL_CHANGES,
+        separator => FIELD_SEP_SPACE,
+    },
+    'Codename' => {
+        allowed => CTRL_REPO_RELEASE,
+    },
+    'Components' => {
+        allowed => CTRL_REPO_RELEASE,
         separator => FIELD_SEP_SPACE,
     },
     'Conffiles' => {
@@ -163,7 +177,7 @@ our %FIELDS = (
         dep_order => 6,
     },
     'Date' => {
-        allowed => ALL_CHANGES,
+        allowed => ALL_CHANGES | CTRL_REPO_RELEASE,
     },
     'Depends' => {
         allowed => ALL_PKG,
@@ -172,7 +186,7 @@ our %FIELDS = (
         dep_order => 2,
     },
     'Description' => {
-        allowed => ALL_PKG | CTRL_FILE_CHANGES,
+        allowed => ALL_PKG | CTRL_FILE_CHANGES | CTRL_REPO_RELEASE,
     },
     'Directory' => {
         allowed => CTRL_INDEX_SRC,
@@ -212,8 +226,11 @@ our %FIELDS = (
     'Kernel-Version' => {
         allowed => ALL_PKG,
     },
+    'Label' => {
+        allowed => CTRL_REPO_RELEASE,
+    },
     'Origin' => {
-        allowed => (ALL_PKG | ALL_SRC) & (~CTRL_INFO_PKG),
+        allowed => (ALL_PKG | ALL_SRC | CTRL_REPO_RELEASE) & (~CTRL_INFO_PKG),
     },
     'Maintainer' => {
         allowed => CTRL_PKG_DEB| CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
@@ -282,6 +299,9 @@ our %FIELDS = (
     'Subarchitecture' => {
         allowed => ALL_PKG,
     },
+    'Suite' => {
+        allowed => CTRL_REPO_RELEASE,
+    },
     'Suggests' => {
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
@@ -313,6 +333,9 @@ our %FIELDS = (
     },
     'Urgency' => {
         allowed => ALL_CHANGES,
+    },
+    'Valid-Until' => {
+        allowed => CTRL_REPO_RELEASE,
     },
     'Vcs-Browser' => {
         allowed => ALL_SRC,
@@ -357,7 +380,7 @@ my @checksum_fields = map { &field_capitalize("Checksums-$_") } checksums_get_li
 my @sum_fields = map { $_ eq 'md5' ? 'MD5sum' : &field_capitalize($_) }
                  checksums_get_list();
 &field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES) foreach @checksum_fields;
-&field_register($_, CTRL_INDEX_PKG,
+&field_register($_, CTRL_INDEX_PKG | CTRL_REPO_RELEASE,
                 separator => FIELD_SEP_LINE | FIELD_SEP_SPACE) foreach @sum_fields;
 
 our %FIELD_ORDER = (
@@ -391,6 +414,10 @@ our %FIELD_ORDER = (
         Replaces Provides Depends Pre-Depends Recommends Suggests Breaks
         Conflicts Enhances Conffiles Description Triggers-Pending
         Triggers-Awaited)
+    ],
+    CTRL_REPO_RELEASE() => [
+        qw(Origin Label Suite Codename Changelogs Date Valid-Until
+        Architectures Components Description), @sum_fields
     ],
 );
 # Order for CTRL_INDEX_PKG is derived from CTRL_PKG_DEB

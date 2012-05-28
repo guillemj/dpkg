@@ -18,13 +18,14 @@ package Dpkg::Control;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 our @EXPORT = qw(
     CTRL_UNKNOWN
     CTRL_INFO_SRC
     CTRL_INFO_PKG
     CTRL_INDEX_SRC
     CTRL_INDEX_PKG
+    CTRL_REPO_RELEASE
     CTRL_PKG_SRC
     CTRL_PKG_DEB
     CTRL_FILE_CHANGES
@@ -75,6 +76,10 @@ a Debian source package.
 
 Corresponds to subsequent blocks of information in a F<debian/control> file
 in a Debian source package.
+
+=item CTRL_REPO_RELEASE
+
+Corresponds to a Release file in a repository.
 
 =item CTRL_INDEX_SRC
 
@@ -142,10 +147,10 @@ sub new {
 
 Changes the value of one or more options. If the "type" option is changed,
 it is used first to define default values for others options. The option
-"allow_pgp" is set to 1 for CTRL_PKG_SRC and CTRL_FILE_CHANGES and to 0
-otherwise. The option "drop_empty" is set to 0 for CTRL_INFO_PKG and
-CTRL_INFO_SRC and to 1 otherwise. The option "name" is set to a textual
-description of the type of control information.
+"allow_pgp" is set to 1 for CTRL_PKG_SRC, CTRL_FILE_CHANGES and
+CTRL_REPO_RELEASE and to 0 otherwise. The option "drop_empty" is set to 0
+for CTRL_INFO_PKG and CTRL_INFO_SRC and to 1 otherwise. The option "name"
+is set to a textual description of the type of control information.
 
 The output order is also set to match the ordered list returned by
 Dpkg::Control::Fields::field_ordered_list($type).
@@ -156,7 +161,7 @@ sub set_options {
     my ($self, %opts) = @_;
     if (exists $opts{type}) {
         my $t = $opts{type};
-        $$self->{allow_pgp} = ($t & (CTRL_PKG_SRC | CTRL_FILE_CHANGES)) ? 1 : 0;
+        $$self->{allow_pgp} = ($t & (CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_REPO_RELEASE)) ? 1 : 0;
         $$self->{drop_empty} = ($t & (CTRL_INFO_PKG | CTRL_INFO_SRC)) ?  0 : 1;
         if ($t == CTRL_INFO_SRC) {
             $$self->{name} = g_('general section of control info file');
@@ -164,6 +169,8 @@ sub set_options {
             $$self->{name} = g_("package's section of control info file");
         } elsif ($t == CTRL_CHANGELOG) {
             $$self->{name} = g_('parsed version of changelog');
+        } elsif ($t == CTRL_REPO_RELEASE) {
+            $$self->{name} = sprintf(g_("repository's %s file"), 'Release');
         } elsif ($t == CTRL_INDEX_SRC) {
             $$self->{name} = sprintf(g_("entry in repository's %s file"), 'Sources');
         } elsif ($t == CTRL_INDEX_PKG) {
@@ -201,6 +208,10 @@ sub get_type {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.18.5)
+
+New types: CTRL_REPO_RELEASE.
 
 =head2 Version 1.00 (dpkg 1.15.6)
 

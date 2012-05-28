@@ -21,6 +21,7 @@ our @EXPORT = qw(
     CTRL_UNKNOWN
     CTRL_INFO_SRC
     CTRL_INFO_PKG
+    CTRL_REPO_RELEASE
     CTRL_INDEX_SRC
     CTRL_INDEX_PKG
     CTRL_PKG_SRC
@@ -61,6 +62,8 @@ use constant {
     CTRL_FILE_VENDOR => 128, # File in $Dpkg::CONFDIR/origins
     CTRL_FILE_STATUS => 256, # $Dpkg::ADMINDIR/status
     CTRL_CHANGELOG => 512,   # Output of dpkg-parsechangelog
+    # Repository's (In)Release file.
+    CTRL_REPO_RELEASE => 1024,
 };
 
 =head1 CHANGES
