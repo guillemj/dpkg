@@ -47,6 +47,10 @@ enum compressor_type {
 enum compressor_strategy {
 	compressor_strategy_unknown = -1,
 	compressor_strategy_none,
+	compressor_strategy_filtered,
+	compressor_strategy_huffman,
+	compressor_strategy_rle,
+	compressor_strategy_fixed,
 	compressor_strategy_extreme,
 };
 

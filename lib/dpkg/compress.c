@@ -180,10 +180,22 @@ compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char 
 {
 	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
+	int strategy;
 	int z_errnum;
 	gzFile gzfile;
 
-	snprintf(combuf, sizeof(combuf), "w%d", params->level);
+	if (params->strategy == compressor_strategy_filtered)
+		strategy = 'f';
+	else if (params->strategy == compressor_strategy_huffman)
+		strategy = 'h';
+	else if (params->strategy == compressor_strategy_rle)
+		strategy = 'R';
+	else if (params->strategy == compressor_strategy_fixed)
+		strategy = 'F';
+	else
+		strategy = ' ';
+
+	snprintf(combuf, sizeof(combuf), "w%d%c", params->level, strategy);
 	gzfile = gzdopen(fd_out, combuf);
 	if (gzfile == NULL)
 		ohshit(_("%s: error binding output to gzip stream"), desc);
@@ -742,6 +754,14 @@ compressor_get_strategy(const char *name)
 {
 	if (strcmp(name, "none") == 0)
 		return compressor_strategy_none;
+	if (strcmp(name, "filtered") == 0)
+		return compressor_strategy_filtered;
+	if (strcmp(name, "huffman") == 0)
+		return compressor_strategy_huffman;
+	if (strcmp(name, "rle") == 0)
+		return compressor_strategy_rle;
+	if (strcmp(name, "fixed") == 0)
+		return compressor_strategy_fixed;
 	if (strcmp(name, "extreme") == 0)
 		return compressor_strategy_extreme;
 
@@ -752,6 +772,13 @@ bool
 compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 {
 	if (params->strategy == compressor_strategy_none)
+		return true;
+
+	if (params->type == compressor_type_gzip &&
+	    (params->strategy == compressor_strategy_filtered ||
+	     params->strategy == compressor_strategy_huffman ||
+	     params->strategy == compressor_strategy_rle ||
+	     params->strategy == compressor_strategy_fixed))
 		return true;
 
 	if (params->type == compressor_type_xz &&
