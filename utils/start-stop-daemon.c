@@ -377,8 +377,14 @@ static void
 write_pidfile(const char *filename, pid_t pid)
 {
 	FILE *fp;
+	int fd;
 
-	fp = fopen(filename, "w");
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC | O_NOFOLLOW, 0666);
+	if (fd < 0)
+		fp = NULL;
+	else
+		fp = fdopen(fd, "w");
+
 	if (fp == NULL)
 		fatal("unable to open pidfile '%s' for writing", filename);
 
