@@ -82,7 +82,6 @@ static int conffoptcells[2][2] = {
 	{ cfo_keep,		cfo_prompt_keep },	/* User edited. */
 };
 
-static void showdiff(const char *old, const char *new);
 static enum conffopt promptconfaction(struct pkginfo *pkg, const char *cfgfile,
                                       const char *realold, const char *realnew,
                                       int useredited, int distedited,
