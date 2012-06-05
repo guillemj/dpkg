@@ -23,7 +23,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg 1 "2012-05-01" "Debian Project" "dpkg suite"
+.TH dpkg 1 "2012-06-05" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -351,7 +351,8 @@ See \fBdpkg\-query\fP(1) for more information about the following actions.
 .
 .SH OPTIONS
 All options can be specified both on the command line and in the \fBdpkg\fP
-configuration file \fI/etc/dpkg/dpkg.cfg\fP or the files on the configuration
+configuration file \fI/etc/dpkg/dpkg.cfg\fP or fragment files (with names
+matching this shell pattern \(aq[0-9a-zA-Z_-]*\(aq) on the configuration
 directory \fI/etc/dpkg/dpkg.cfg.d/\fP. Each line in the configuration
 file is either an option (exactly the same as the command line option but
 without leading dashes) or a comment (if it starts with a \fB#\fR).
@@ -670,6 +671,9 @@ may leave packages in the improper \fBtriggers\-awaited\fP and
 Cancels a previous \fB\-\-no\-triggers\fP.
 .
 .SH FILES
+.TP
+.I /etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*
+Configuration fragment files.
 .TP
 .I /etc/dpkg/dpkg.cfg
 Configuration file with default options.
