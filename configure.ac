@@ -85,6 +85,7 @@ DPKG_FUNC_C99_SNPRINTF
 DPKG_CHECK_DECL([offsetof], [stddef.h])
 DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
 DPKG_CHECK_DECL([TIOCNOTTY], [sys/ioctl.h])
+DPKG_CHECK_DECL([O_NOFOLLOW], [fcntl.h])
 DPKG_CHECK_PROGNAME
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
                          strnlen strndup strerror strsignal asprintf \
