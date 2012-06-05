@@ -21,7 +21,7 @@ use warnings;
 
 our $VERSION = "0.01";
 
-use File::FcntlLock;
+use Fcntl qw(:flock);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
@@ -31,9 +31,22 @@ our @EXPORT = qw(file_lock);
 sub file_lock($$) {
     my ($fh, $filename) = @_;
 
-    my $fs = File::FcntlLock->new(l_type => F_WRLCK);
-    $fs->lock($fh, F_SETLKW) ||
-        syserr(_("failed to get a write lock on %s"), $filename);
+    # A strict dependency on libfile-fcntllock-perl being it an XS module,
+    # and dpkg-dev indirectly making use of it, makes building new perl
+    # package which bump the perl ABI impossible as these packages cannot
+    # be installed alongside.
+    eval 'use File::FcntlLock';
+    if ($@) {
+        warning(_g("File::FcntlLock not available; using flock which is not NFS-safe"));
+        flock($fh, LOCK_EX) ||
+            syserr(_("failed to get a write lock on %s"), $filename);
+    } else {
+        eval q{
+            my $fs = File::FcntlLock->new(l_type => F_WRLCK);
+            $fs->lock($fh, F_SETLKW) ||
+                syserr(_("failed to get a write lock on %s"), $filename);
+        }
+    }
 }
 
 1;

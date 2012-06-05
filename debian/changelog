@@ -49,6 +49,11 @@ dpkg (1.16.4) UNRELEASED; urgency=low
     Thanks to Carsten Hey <carsten@debian.org>. Closes: #675918
   * Refactor the file locking logic into a new Dpkg::File module, and move
     the libfile-fcntllock-perl dependency from dpkg-dev to libdpkg-perl.
+  * Demote the libfile-fcntllock-perl Depends to a Recommends by falling back
+    to use flock based locking, because it being an XS module makes building
+    a new perl package bumping the perl ABI impossible, as both packages
+    become uninstallable. Thanks to Dominic Hargreaves <dom@earth.li>.
+    Closes: #675947
 
   [ Updated man page translations ]
   * German (Helge Kreutzmann).
