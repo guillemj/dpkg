@@ -142,7 +142,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		useredited = -1;
 		distedited = -1;
 		what = cfo_identical;
-	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0&& fc_conff_miss) {
+	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0 && fc_conff_miss) {
 		fprintf(stderr,
 		        _("\n"
 		          "Configuration file `%s', does not exist on system.\n"
