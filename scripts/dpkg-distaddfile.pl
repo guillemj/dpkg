@@ -20,12 +20,12 @@
 use strict;
 use warnings;
 
-use File::FcntlLock;
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::File;
 
 textdomain("dpkg-dev");
 
@@ -77,12 +77,10 @@ my ($file, $section, $priority) = @ARGV;
 
 # Obtain a lock on debian/control to avoid simultaneous updates
 # of debian/files when parallel building is in use
-my $fs = File::FcntlLock->new(l_type => F_WRLCK);
 my $lockfh;
 sysopen($lockfh, "debian/control", O_WRONLY) ||
     syserr(_g("cannot write %s"), "debian/control");
-$fs->lock($lockfh, F_SETLKW) ||
-    syserr(_("failed to get a write lock on %s"), "debian/control");
+file_lock($lockfh, "debian/control");
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y, "> $fileslistfile.new") || syserr(_g("open new files list file"));

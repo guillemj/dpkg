@@ -76,6 +76,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Deps.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Exit.pm \
+	Dpkg/File.pm \
 	Dpkg/Gettext.pm \
 	Dpkg/Index.pm \
 	Dpkg/Interface/Storable.pm \
