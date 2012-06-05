@@ -284,8 +284,8 @@ our %FIELDS = (
     },
 );
 
-my @checksum_fields = map { field_capitalize("Checksums-$_") } checksums_get_list();
-my @sum_fields = map { $_ eq "md5" ? "MD5sum" : field_capitalize($_) }
+my @checksum_fields = map { &field_capitalize("Checksums-$_") } checksums_get_list();
+my @sum_fields = map { $_ eq "md5" ? "MD5sum" : &field_capitalize($_) }
                  checksums_get_list();
 &field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES) foreach @checksum_fields;
 &field_register($_, CTRL_INDEX_PKG) foreach @sum_fields;
