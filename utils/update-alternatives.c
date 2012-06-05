@@ -1602,8 +1602,6 @@ alternative_select_choice(struct alternative *a)
 			}
 		}
 	}
-	free(current);
-	return NULL;
 }
 
 static void
