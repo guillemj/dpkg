@@ -30,6 +30,7 @@ TESTS_PASS += t-control-bogus
 TESTS_PASS += t-control-no-arch
 TESTS_PASS += t-unpack-symlink
 TESTS_PASS += t-unpack-hardlink
+TESTS_PASS += t-unpack-divert-nowarn
 TESTS_PASS += t-unpack-divert-hardlink
 TESTS_PASS += t-unpack-fifo
 TESTS_PASS += t-unpack-device
