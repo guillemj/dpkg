@@ -29,6 +29,7 @@ EXTRA_DIST = \
 	ChangeLog.old \
 	README.translators \
 	get-version \
+	run-script \
 	doc/README.api \
 	doc/README.feature-removal-schedule \
 	doc/coding-style.txt \

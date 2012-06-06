@@ -9,8 +9,7 @@ WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 dpkg_buildflags = \
 	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" \
 	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" \
-	PERL5LIB=$(CURDIR)/scripts DPKG_DATADIR=$(CURDIR) \
-	perl $(CURDIR)/scripts/dpkg-buildflags.pl
+	$(CURDIR)/run-script perl $(CURDIR)/scripts/dpkg-buildflags.pl
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
