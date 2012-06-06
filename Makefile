@@ -46,6 +46,7 @@ TESTS_PASS += t-conflict-provide-replace-virtual
 TESTS_PASS += t-conflict-provide-replace-interface
 TESTS_PASS += t-predepends-no-triggers
 TESTS_PASS += t-triggers
+TESTS_PASS += t-triggers-depends
 TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
 TESTS_PASS += t-conffile-normal
