@@ -193,7 +193,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		varbuf_add_str(&cdr, DPKGDISTEXT);
 		varbuf_end_str(&cdr);
 		strcpy(cdr2rest, DPKGNEWEXT);
-		trig_file_activate(usenode, pkg);
+		trig_path_activate(usenode, pkg);
 		if (rename(cdr2.buf, cdr.buf))
 			warning(_("%s: failed to rename '%.250s' to '%.250s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr2.buf, cdr.buf,
@@ -228,7 +228,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		       usenode->name);
 	case cfo_newconff:
 		strcpy(cdr2rest, DPKGNEWEXT);
-		trig_file_activate(usenode, pkg);
+		trig_path_activate(usenode, pkg);
 		if (rename(cdr2.buf, cdr.buf))
 			ohshite(_("unable to install `%.250s' as `%.250s'"),
 			        cdr2.buf, cdr.buf);

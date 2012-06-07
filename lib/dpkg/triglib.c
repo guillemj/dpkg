@@ -554,6 +554,40 @@ trig_file_activate(struct filenamenode *trig, struct pkginfo *aw)
 }
 
 static void
+trig_file_activate_parents(const char *trig, struct pkginfo *aw)
+{
+	char *path, *slash;
+
+	/* Traverse the whole pathname to activate all of its components. */
+	path = m_strdup(trig);
+
+	while ((slash = strrchr(path, '/'))) {
+		*slash = '\0';
+		trig_file_activate_byname(path, aw);
+	}
+
+	free(path);
+}
+
+void
+trig_path_activate(struct filenamenode *trig, struct pkginfo *aw)
+{
+	trig_file_activate(trig, aw);
+	trig_file_activate_parents(trigh.namenode_name(trig), aw);
+}
+
+static void
+trig_path_activate_byname(const char *trig, struct pkginfo *aw)
+{
+	struct filenamenode *fnn = trigh.namenode_find(trig, 1);
+
+	if (fnn)
+		trig_file_activate(fnn, aw);
+
+	trig_file_activate_parents(trig, aw);
+}
+
+static void
 trk_file_activate_start(void)
 {
 }
@@ -561,7 +595,7 @@ trk_file_activate_start(void)
 static void
 trk_file_activate_awaiter(struct pkginfo *aw)
 {
-	trig_file_activate_byname(trig_activating_name, aw);
+	trig_path_activate_byname(trig_activating_name, aw);
 }
 
 static void

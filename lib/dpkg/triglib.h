@@ -86,6 +86,7 @@ void trig_override_hooks(const struct trig_hooks *hooks);
 
 void trig_file_activate_byname(const char *trig, struct pkginfo *aw);
 void trig_file_activate(struct filenamenode *trig, struct pkginfo *aw);
+void trig_path_activate(struct filenamenode *trig, struct pkginfo *aw);
 
 bool trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/);
 bool trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/);
