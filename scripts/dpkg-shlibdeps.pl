@@ -552,10 +552,10 @@ sub usage {
 Positional options (order is significant):
   <executable>             include dependencies for <executable>,
   -e<executable>           (use -e if <executable> starts with '-')
-  -d<dependency-field>     next executable(s) set shlibs:<dependencyfield>.
+  -d<dependency-field>     next executable(s) set shlibs:<dependency-field>.
 
 Options:
-  -p<varname-prefix>       set <varnameprefix>:* instead of shlibs:*.
+  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.
   -O                       print variable settings to stdout.
   -L<local-shlibs-file>    shlibs override file, not debian/shlibs.local.
   -T<substvars-file>       update variables here, not debian/substvars.

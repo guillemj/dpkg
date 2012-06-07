@@ -64,7 +64,7 @@ sub version {
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > Packages
+"Usage: %s [<option> ...] <binary-path> [<override-file> [<path-prefix>]] > Packages
 
 Options:
   -t, --type <type>        scan for <type> packages (default is 'deb').
