@@ -195,10 +195,10 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --version                  Show the version.\n"
 "\n"));
 
-  printf(_(
-"Actions:\n"
-"  access update select install config remove quit\n"
-"\n"));
+  printf(_("Actions:\n"));
+  for (i = 0; menuentries[i].command; i++)
+    printf("  %s", menuentries[i].command);
+  fputs("\n\n", stdout);
 
   printf(_("Screenparts:\n"));
   for (i=0; screenparttable[i].name; i++)
