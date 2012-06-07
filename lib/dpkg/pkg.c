@@ -96,7 +96,6 @@ void
 pkgbin_blank(struct pkgbin *pkgbin)
 {
 	pkgbin->essential = false;
-	pkgbin->multiarch = multiarch_no;
 	pkgbin->depends = NULL;
 	pkgbin->pkgname_archqual = NULL;
 	pkgbin->description = NULL;
@@ -133,7 +132,9 @@ pkg_blank(struct pkginfo *pkg)
 	 * because they are part of the package specification, and needed
 	 * for selections. */
 	pkg->installed.arch = dpkg_arch_get(arch_none);
+	pkg->installed.multiarch = multiarch_no;
 	pkg->available.arch = dpkg_arch_get(arch_none);
+	pkg->available.multiarch = multiarch_no;
 }
 
 void
