@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+  triggered)
+    if [ -e /test/trigger/test-file ]; then
+      touch /test-triggered-file
+    else
+      touch /test-triggered-cmd
+    fi
+  ;;
+esac
+
+exit 0
