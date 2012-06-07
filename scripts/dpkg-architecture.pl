@@ -44,15 +44,15 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...] [<command>]
-
-Options:
+"Usage: %s [<option>...] [<command>]")
+    . "\n\n" . _g(
+"Options:
   -a<debian-arch>    set current Debian architecture.
   -t<gnu-system>     set current GNU system type.
   -L                 list valid architectures.
-  -f                 force flag (override variables set in environment).
-
-Commands:
+  -f                 force flag (override variables set in environment).")
+    . "\n\n" . _g(
+"Commands:
   -l                 list variables (default).
   -e<debian-arch>    compare with current Debian architecture.
   -i<arch-alias>     check if current Debian architecture is <arch-alias>.

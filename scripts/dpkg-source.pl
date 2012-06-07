@@ -462,9 +462,9 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...] <command>
-
-Commands:
+"Usage: %s [<option>...] <command>")
+    . "\n\n" . _g(
+"Commands:
   -x <filename>.dsc [<output-dir>]
                            extract source package.
   -b <dir>                 build source package.

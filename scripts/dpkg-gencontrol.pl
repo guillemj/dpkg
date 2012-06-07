@@ -69,9 +69,9 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...]
-
-Options:
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
   -p<package>              print control file for package.
   -c<control-file>         get control info from this file.
   -l<changelog-file>       get per-version info from this file.

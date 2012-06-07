@@ -50,9 +50,9 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...]
-
-Options:
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
   -F (default)   normal full build (binaries and sources).
   -b             binary-only, do not build source.
   -B             binary-only, no arch-indep files.
@@ -77,13 +77,13 @@ Options:
       --admindir=<directory>
                  change the administrative directory.
   -h, --help     show this help message.
-      --version  show the version.
-
-Options passed to dpkg-architecture:
+      --version  show the version.")
+    . "\n\n" . _g(
+"Options passed to dpkg-architecture:
   -a<arch>       Debian architecture we build for (implies -d).
-  -t<system>     set GNU system type.
-
-Options passed to dpkg-genchanges:
+  -t<system>     set GNU system type.")
+    . "\n\n" . _g(
+"Options passed to dpkg-genchanges:
   -si (default)  source includes orig if new upstream.
   -sa            uploaded source always includes orig.
   -sd            uploaded source is diff and .dsc only.
@@ -92,9 +92,9 @@ Options passed to dpkg-genchanges:
   -e<maint>      maintainer for release is <maint>.
   -C<descfile>   changes are described in <descfile>.
       --changes-option=<opt>
-                 pass option <opt> to dpkg-genchanges.
-
-Options passed to dpkg-source:
+                 pass option <opt> to dpkg-genchanges.")
+    . "\n\n" . _g(
+"Options passed to dpkg-source:
   -sn            force Debian native source format.
   -s[sAkurKUR]   see dpkg-source for explanation.
   -z<level>      compression level to use fo source.

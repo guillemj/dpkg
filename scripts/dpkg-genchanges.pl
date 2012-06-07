@@ -106,9 +106,9 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...]
-
-Options:
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
   -b                       binary-only build - no source files.
   -B                       arch-specific - no source or arch-indep files.
   -A                       only arch-indep - no source or arch-specific files.

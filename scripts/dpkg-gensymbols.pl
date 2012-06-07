@@ -60,9 +60,9 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...]
-
-Options:
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
   -p<package>              generate symbols file for package.
   -P<package-build-dir>    temporary build dir instead of debian/tmp.
   -e<library>              explicitly list libraries to scan.

@@ -41,16 +41,16 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...]
-
-Options:
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
   -l<changelog-file>       get per-version info from this file.
   -F<changelog-format>     force changelog format.
   -L<libdir>               look for changelog parsers in <libdir>.
   -h, --help               show this help message.
-      --version            show the version.
-
-Parser options:
+      --version            show the version.")
+    . "\n\n" . _g(
+"Parser options:
     --format <output-format>    see man page for list of available
                                 output formats, defaults to 'dpkg'
                                 for compatibility with dpkg-dev

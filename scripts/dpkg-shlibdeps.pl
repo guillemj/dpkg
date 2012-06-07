@@ -547,14 +547,14 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...] <executable>|-e<executable> [<option>...]
-
-Positional options (order is significant):
+"Usage: %s [<option>...] <executable>|-e<executable> [<option>...]")
+    . "\n\n" . _g(
+"Positional options (order is significant):
   <executable>             include dependencies for <executable>,
   -e<executable>           (use -e if <executable> starts with '-')
-  -d<dependency-field>     next executable(s) set shlibs:<dependency-field>.
-
-Options:
+  -d<dependency-field>     next executable(s) set shlibs:<dependency-field>.")
+    . "\n\n" . _g(
+"Options:
   -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.
   -O                       print variable settings to stdout.
   -L<local-shlibs-file>    shlibs override file, not debian/shlibs.local.
@@ -568,9 +568,9 @@ Options:
   --warnings=<value>       define set of active warnings (see manual page).
   --admindir=<directory>   change the administrative directory.
   -h, --help               show this help message.
-      --version            show the version.
-
-Dependency fields recognised are:
+      --version            show the version.")
+    . "\n\n" . _g(
+"Dependency fields recognised are:
   %s
 "), $progname, join("/",@depfields);
 }
