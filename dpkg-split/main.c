@@ -107,7 +107,8 @@ static const char printforhelp[] = N_("Type dpkg-split --help for help.");
 struct partqueue *queue= NULL;
 
 off_t opt_maxpartsize = SPLITPARTDEFMAX;
-const char *opt_depotdir = ADMINDIR "/" PARTSDIR;
+static const char *admindir;
+const char *opt_depotdir;
 const char *opt_outputfile = NULL;
 int opt_npquiet = 0;
 int opt_msdos = 0;
@@ -162,6 +163,10 @@ int main(int argc, const char *const *argv) {
   dpkg_set_progname(SPLITTER);
   standard_startup();
   myopt(&argv, cmdinfos, printforhelp);
+
+  admindir = dpkg_db_set_dir(admindir);
+  if (opt_depotdir == NULL)
+    opt_depotdir = dpkg_db_get_path(PARTSDIR);
 
   if (!cipaction) badusage(_("need an action option"));
 
