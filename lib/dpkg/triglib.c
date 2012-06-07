@@ -533,8 +533,6 @@ ok:
 	filetriggers_edited = 0;
 }
 
-static struct filenamenode *filetriggers_activating;
-
 void
 trig_file_activate_byname(const char *trig, struct pkginfo *aw)
 {
@@ -558,15 +556,12 @@ trig_file_activate(struct filenamenode *trig, struct pkginfo *aw)
 static void
 trk_file_activate_start(void)
 {
-	filetriggers_activating = trigh.namenode_find(trig_activating_name, 1);
 }
 
 static void
 trk_file_activate_awaiter(struct pkginfo *aw)
 {
-	if (!filetriggers_activating)
-		return;
-	trig_file_activate(filetriggers_activating, aw);
+	trig_file_activate_byname(trig_activating_name, aw);
 }
 
 static void
