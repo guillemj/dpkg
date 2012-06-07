@@ -51,6 +51,7 @@ AC_SYS_LARGEFILE
 # Checks for libraries.
 DPKG_LIB_ZLIB
 DPKG_LIB_BZ2
+DPKG_LIB_LZMA
 DPKG_LIB_SELINUX
 if test "x$build_dselect" = "xyes"; then
    DPKG_LIB_CURSES
