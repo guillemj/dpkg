@@ -18,6 +18,7 @@ TESTS_FAIL += t-disappear-depended
 TESTS_FAIL += t-conffile-divert-conffile
 TESTS_FAIL += t-conffile-replaces-upgrade
 TESTS_FAIL += t-conffile-replaces-existing-and-upgrade
+TESTS_FAIL += t-triggers-depends
 
 TESTS_PASS :=
 TESTS_PASS += t-db
@@ -47,7 +48,6 @@ TESTS_PASS += t-conflict-provide-replace-interface
 TESTS_PASS += t-predepends-no-triggers
 TESTS_PASS += t-triggers
 TESTS_PASS += t-triggers-path
-TESTS_PASS += t-triggers-depends
 TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
 TESTS_PASS += t-conffile-normal
