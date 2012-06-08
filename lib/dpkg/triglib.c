@@ -587,15 +587,18 @@ trig_path_activate_byname(const char *trig, struct pkginfo *aw)
 	trig_file_activate_parents(trig, aw);
 }
 
+static const char *trk_file_trig;
+
 static void
 trk_file_activate_start(void)
 {
+	trk_file_trig = nfstrsave(trig_activating_name);
 }
 
 static void
 trk_file_activate_awaiter(struct pkginfo *aw)
 {
-	trig_path_activate_byname(trig_activating_name, aw);
+	trig_path_activate_byname(trk_file_trig, aw);
 }
 
 static void
