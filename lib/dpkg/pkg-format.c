@@ -86,7 +86,7 @@ parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend)
 			       *endptr);
 			return false;
 		}
-		if (w < INT_MAX || w > INT_MAX || errno == ERANGE) {
+		if (w < INT_MIN || w > INT_MAX || errno == ERANGE) {
 			fprintf(stderr, _("field width is out of range\n"));
 			return false;
 		}
