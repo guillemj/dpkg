@@ -115,6 +115,19 @@
 #endif
 #endif
 
+/**
+ * @def clamp
+ *
+ * Returns a normalized value within the low and high limits.
+ *
+ * @param v The value to clamp.
+ * @param l The low limit.
+ * @param h The high limit.
+ */
+#ifndef clamp
+#define clamp(v, l, h) ((v) > (h) ? (h) : ((v) < (l) ? (l) : (v)))
+#endif
+
 /** @} */
 
 #endif /* LIBDPKG_MACROS_H */
