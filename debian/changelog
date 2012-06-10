@@ -1,3 +1,14 @@
+dpkg (1.16.4.3) UNRELEASED; urgency=low
+
+  * On «update-alternatives --install» only warn for now on out of range
+    priorities and clamp the values, as there seems to be packages using
+    priorities > INT_MAX, which although bogus as they were previously
+    overflowing the int used to store them, that would cause installation
+    failures when upgrading from squeeze. This will be reverted to an
+    error after wheezy. Closes: #676874
+
+ -- Guillem Jover <guillem@debian.org>  Sun, 10 Jun 2012 23:17:40 +0200
+
 dpkg (1.16.4.2) unstable; urgency=low
 
   * Check correctly for out of range negative field width values in dpkg-query

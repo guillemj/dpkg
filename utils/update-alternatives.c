@@ -2476,8 +2476,13 @@ main(int argc, char **argv)
 			prio = strtol(prio_str, &prio_end, 10);
 			if (prio_str == prio_end || *prio_end != '\0')
 				badusage(_("priority must be an integer"));
-			if (prio < INT_MIN || prio > INT_MAX || errno == ERANGE)
-				badusage(_("priority is out of range"));
+			if (prio < INT_MIN || prio > INT_MAX || errno == ERANGE) {
+				/* XXX: Switch back to error on 1.17.x. */
+				prio = clamp(prio, INT_MIN, INT_MAX);
+				warning(_("priority is out of range: "
+				          "%s clamped to %ld"),
+				        prio_str, prio);
+			}
 
 			a = alternative_new(argv[i + 2]);
 			inst_alt = alternative_new(argv[i + 2]);
