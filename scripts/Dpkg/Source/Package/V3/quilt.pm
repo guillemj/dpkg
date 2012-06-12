@@ -30,12 +30,14 @@ use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir fs_time);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(get_current_vendor);
+use Dpkg::Exit;
 
 use POSIX;
 use File::Basename;
 use File::Spec;
 use File::Path;
 use File::Copy;
+use File::Find;
 
 our $CURRENT_MINOR_VERSION = "0";
 
@@ -170,12 +172,49 @@ sub apply_quilt_patch {
     my $obj = Dpkg::Source::Patch->new(filename => $path);
 
     info(_g("applying %s"), $patch) if $opts{"verbose"};
-    $obj->apply($dir, timestamp => $opts{"timestamp"},
-                verbose => $opts{"verbose"},
-                force_timestamp => 1, create_dirs => 1, remove_backup => 0,
-                options => [ '-t', '-F', '0', '-N', '-p1', '-u',
-                             '-V', 'never', '-g0', '-E', '-b',
-                             '-B', ".pc/$patch/" ]);
+    eval {
+        $obj->apply($dir, timestamp => $opts{"timestamp"},
+                    verbose => $opts{"verbose"},
+                    force_timestamp => 1, create_dirs => 1, remove_backup => 0,
+                    options => [ '-t', '-F', '0', '-N', '-p1', '-u',
+                                 '-V', 'never', '-g0', '-E', '-b',
+                                 '-B', ".pc/$patch/", '--reject-file=-' ]);
+    };
+    if ($@) {
+        info(_g("dpkg-source doesn't allow fuzz when applying patches"));
+        info(_g("if patch '%s' is correctly applied by quilt, use '%s' to update it"),
+             $patch, "quilt refresh");
+        $self->restore_quilt_backup_files($dir, $patch, %opts);
+        die $@;
+    }
+}
+
+sub restore_quilt_backup_files {
+    my ($self, $dir, $patch, %opts) = @_;
+    my $patch_dir = File::Spec->catdir($dir, ".pc", $patch);
+    return unless -d $patch_dir;
+    info(_g("restoring quilt backup files for %s"), $patch) if $opts{'verbose'};
+    find({
+        no_chdir => 1,
+        wanted => sub {
+            return if -d $_;
+            my $relpath_in_srcpkg = File::Spec->abs2rel($_, $patch_dir);
+            my $target = File::Spec->catfile($dir, $relpath_in_srcpkg);
+            if (-s $_) {
+                unlink($target);
+                unless (link($_, $target)) {
+                    copy($_, $target) ||
+                        syserr(_g("failed to copy %s to %s"), $_, $target);
+                    chmod($target, (stat(_))[2]) ||
+                        syserr(_g("unable to change permission of `%s'"), $target);
+                }
+            } else {
+                # empty files are "backups" for new files that patch created
+                unlink($target);
+            }
+        }
+    }, $patch_dir);
+    erasedir($patch_dir);
 }
 
 sub get_patches {
