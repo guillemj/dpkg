@@ -311,8 +311,7 @@ our %FIELD_ORDER = (
     ],
     CTRL_CHANGELOG() => [
         qw(Source Version Distribution Urgency Maintainer Date Closes
-        Changes Timestamp Header Items Trailer Urgency_comment
-        Urgency_lc)
+        Changes)
     ],
     CTRL_FILE_STATUS() => [ # Same as fieldinfos in lib/dpkg/parse.c
         qw(Package Essential Status Priority Section Installed-Size Origin
