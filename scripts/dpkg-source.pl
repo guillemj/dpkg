@@ -323,6 +323,9 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
 	    my ($ok, $error) = version_check($v);
             error($error) unless $ok;
 	    $fields->{$_} = $v;
+	} elsif (m/^Binary-Only$/) {
+	    error(_g("building source for a binary-only release"))
+	        if $v eq "yes" and $options{'opmode'} eq "-b";
 	} elsif (m/^Maintainer$/i) {
             # Do not replace the field coming from the source entry
 	} else {

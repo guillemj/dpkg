@@ -1,3 +1,4 @@
+# Copyright © 2006-2009,2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -18,7 +19,7 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = "1.01";
+our $VERSION = "1.02";
 
 use Dpkg qw($version);
 use Dpkg::Arch qw(get_host_arch);
@@ -179,26 +180,31 @@ sub parse {
     }
 }
 
-=item $s->set_version_substvars($version)
+=item $s->set_version_substvars($sourceversion, $binaryversion)
 
 Defines ${binary:Version}, ${source:Version} and
-${source:Upstream-Version} based on the given version string.
+${source:Upstream-Version} based on the given version strings.
 
 These will never be warned about when unused.
 
 =cut
 
 sub set_version_substvars {
-    my ($self, $version) = @_;
+    my ($self, $sourceversion, $binaryversion) = @_;
 
-    $self->{'vars'}{'binary:Version'} = $version;
-    $self->{'vars'}{'source:Version'} = $version;
-    $self->{'vars'}{'source:Version'} =~ s/\+b[0-9]+$//;
-    $self->{'vars'}{'source:Upstream-Version'} = $version;
+    # Handle old function signature taking only one argument.
+    $binaryversion ||= $sourceversion;
+
+    # Fallback to manually compute the binary version if they are the same.
+    $sourceversion =~ s/\+b[0-9]+$// if $sourceversion eq $binaryversion;
+
+    $self->{'vars'}{'binary:Version'} = $binaryversion;
+    $self->{'vars'}{'source:Version'} = $sourceversion;
+    $self->{'vars'}{'source:Upstream-Version'} = $sourceversion;
     $self->{'vars'}{'source:Upstream-Version'} =~ s/-[^-]*$//;
 
     # XXX: Source-Version is now deprecated, remove in the future.
-    $self->{'vars'}{'Source-Version'} = $version;
+    $self->{'vars'}{'Source-Version'} = $binaryversion;
 
     $self->mark_as_used($_) foreach qw/binary:Version source:Version source:Upstream-Version Source-Version/;
 }

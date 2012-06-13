@@ -48,6 +48,7 @@ my $fileslistfile = 'debian/files';
 my $packagebuilddir = 'debian/tmp';
 
 my $sourceversion;
+my $binaryversion;
 my $forceversion;
 my $forcefilename;
 my $stdout;
@@ -139,10 +140,24 @@ umask 0022; # ensure sane default permissions for created files
 my %options = (file => $changelogfile);
 $options{"changelogformat"} = $changelogformat if $changelogformat;
 my $changelog = changelog_parse(%options);
-$substvars->set_version_substvars($changelog->{"Version"});
+if ($changelog->{"Binary-Only"}) {
+    $options{"count"} = 1;
+    $options{"offset"} = 1;
+    my $prev_changelog = changelog_parse(%options);
+    $sourceversion = $prev_changelog->{"Version"};
+} else {
+    $sourceversion = $changelog->{"Version"};
+}
+
+if (defined $forceversion) {
+    $binaryversion = $forceversion;
+} else {
+    $binaryversion = $changelog->{"Version"};
+}
+
+$substvars->set_version_substvars($sourceversion, $binaryversion);
 $substvars->set_arch_substvars();
 $substvars->load("debian/substvars") if -e "debian/substvars" and not $substvars_loaded;
-$substvars->set("binary:Version", $forceversion) if defined $forceversion;
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
 
@@ -209,8 +224,7 @@ foreach $_ (keys %{$changelog}) {
     if (m/^Source$/) {
 	set_source_package($v);
     } elsif (m/^Version$/) {
-	$sourceversion = $v;
-	$fields->{$_} = $v unless defined($forceversion);
+        # Already handled previously.
     } elsif (m/^Maintainer$/) {
         # That field must not be copied from changelog even if it's
         # allowed in the binary package control information
@@ -219,7 +233,7 @@ foreach $_ (keys %{$changelog}) {
     }
 }
 
-$fields->{'Version'} = $forceversion if defined($forceversion);
+$fields->{'Version'} = $binaryversion;
 
 # Process dependency fields in a second pass, now that substvars have been
 # initialized.
@@ -294,11 +308,10 @@ if ($pkg_type eq 'udeb') {
     }
 }
 
-my $verdiff = $fields->{'Version'} ne $substvars->get('source:Version') ||
-              $fields->{'Version'} ne $sourceversion;
+my $verdiff = $binaryversion ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
     $fields->{'Source'} = $sourcepackage;
-    $fields->{'Source'} .= " (" . $substvars->get('source:Version') . ")" if $verdiff;
+    $fields->{'Source'} .= " (" . $sourceversion . ")" if $verdiff;
 }
 
 if (!defined($substvars->get('Installed-Size'))) {

@@ -50,6 +50,9 @@ our %FIELDS = (
     'Binary' => {
         allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
     },
+    'Binary-Only' => {
+        allowed => ALL_CHANGES,
+    },
     'Breaks' => {
         allowed => ALL_PKG,
         dependency => 'union',
@@ -305,13 +308,14 @@ our %FIELD_ORDER = (
         @checksum_fields, qw(Files)
     ],
     CTRL_FILE_CHANGES() => [
-        qw(Format Date Source Binary Architecture Version Distribution
-        Urgency Maintainer Changed-By Description Closes Changes),
+        qw(Format Date Source Binary Binary-Only Architecture Version
+        Distribution Urgency Maintainer Changed-By Description
+        Closes Changes),
         @checksum_fields, qw(Files)
     ],
     CTRL_CHANGELOG() => [
-        qw(Source Version Distribution Urgency Maintainer Date Closes
-        Changes)
+        qw(Source Binary-Only Version Distribution Urgency Maintainer
+        Date Closes Changes)
     ],
     CTRL_FILE_STATUS() => [ # Same as fieldinfos in lib/dpkg/parse.c
         qw(Package Essential Status Priority Section Installed-Size Origin

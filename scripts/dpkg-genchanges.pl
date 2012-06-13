@@ -207,7 +207,12 @@ my $prev_changelog = changelog_parse(%options);
 # Other initializations
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
-$substvars->set_version_substvars($changelog->{"Version"});
+
+my $sourceversion = $changelog->{"Binary-Only"} ?
+                    $prev_changelog->{"Version"} : $changelog->{"Version"};
+my $binaryversion = $changelog->{"Version"};
+
+$substvars->set_version_substvars($sourceversion, $binaryversion);
 $substvars->set_arch_substvars();
 $substvars->load("debian/substvars") if -e "debian/substvars" and not $substvars_loaded;
 

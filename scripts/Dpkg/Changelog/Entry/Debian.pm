@@ -131,6 +131,9 @@ sub check_header {
 	    if ($k eq 'Urgency') {
 		push @errors, sprintf(_g("badly formatted urgency value: %s"), $v)
 		    unless ($v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i);
+	    } elsif ($k eq 'Binary-Only') {
+		push @errors, sprintf(_g("bad binary-only value: %s"), $v)
+		    unless ($v eq "yes");
 	    } elsif ($k =~ m/^X[BCS]+-/i) {
 	    } else {
 		push @errors, sprintf(_g("unknown key-value %s"), $k);
