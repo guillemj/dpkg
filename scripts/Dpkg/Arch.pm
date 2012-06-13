@@ -1,3 +1,5 @@
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +23,7 @@ our $VERSION = "0.01";
 use base qw(Exporter);
 our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     get_build_arch get_host_arch get_gcc_host_gnu_type
-                    get_valid_arches debarch_eq debarch_is
+                    get_valid_arches debarch_eq debarch_is debarch_is_wildcard
                     debarch_to_cpuattrs
                     debarch_to_gnutriplet gnutriplet_to_debarch
                     debtriplet_to_gnutriplet gnutriplet_to_debtriplet
@@ -419,6 +421,19 @@ sub debarch_is($$)
 	return 1;
     }
 
+    return 0;
+}
+
+sub debarch_is_wildcard($)
+{
+    my ($arch) = @_;
+
+    return 0 if $arch eq 'all';
+
+    my @triplet = debwildcard_to_debtriplet($arch);
+
+    return 0 unless defined $triplet[0];
+    return 1 if (grep { $_ eq 'any' } @triplet);
     return 0;
 }
 
