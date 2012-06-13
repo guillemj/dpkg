@@ -28,6 +28,7 @@ our @EXPORT_OK = qw($regex_header $regex_trailer find_closes);
 use Date::Parse;
 
 use Dpkg::Gettext;
+use Dpkg::Control::Fields;
 use Dpkg::Control::Changelog;
 use Dpkg::Version;
 
@@ -122,7 +123,7 @@ sub check_header {
 		push @errors, sprintf(_g("bad key-value after \`;': \`%s'"), $opt);
 		next;
 	    }
-	    my ($k, $v) = (ucfirst($1), $2);
+	    my ($k, $v) = (field_capitalize($1), $2);
 	    if ($optdone{$k}) {
 		push @errors, sprintf(_g("repeated key-value %s"), $k);
 	    }
