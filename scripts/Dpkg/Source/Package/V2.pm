@@ -380,7 +380,14 @@ sub generate_patch {
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => "none");
     $diff->create();
-    $diff->set_header($self->get_patch_header($dir));
+    if ($opts{'header_from'} and -e $opts{'header_from'}) {
+        my $header_from = Dpkg::Source::Patch->new(
+            filename => $opts{'header_from'});
+        my $analysis = $header_from->analyze($dir, verbose => 0);
+        $diff->set_header($analysis->{'patchheader'});
+    } else {
+        $diff->set_header($self->get_patch_header($dir));
+    }
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
             %{$self->{'diff_options'}},
             handle_binary_func => $opts{'handle_binary'},
@@ -501,6 +508,7 @@ sub do_build {
     my $autopatch = File::Spec->catfile($dir, "debian", "patches",
                                         $self->get_autopatch_name());
     my $tmpdiff = $self->generate_patch($dir, order_from => $autopatch,
+                                        header_from => $autopatch,
                                         handle_binary => $handle_binary,
                                         skip_auto => $self->{'options'}{'auto_commit'},
                                         usage => 'build');
