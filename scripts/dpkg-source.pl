@@ -10,7 +10,7 @@
 # Copyright © 2000-2003 Adam Heath <doogie@debian.org>
 # Copyright © 2005 Brendan O'Dea <bod@debian.org>
 # Copyright © 2006-2008 Frank Lichtenheld <djpig@debian.org>
-# Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2009,2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(debarch_eq);
+use Dpkg::Arch qw(debarch_eq debarch_is debarch_is_wildcard);
 use Dpkg::Deps;
 use Dpkg::Compression;
 use Dpkg::Conf;
@@ -308,6 +308,16 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
         } else {
             @sourcearch = ('any');
         }
+    } else {
+        # Minimize arch list, by remoing arches already covered by wildcards
+        my @arch_wildcards = grep(debarch_is_wildcard($_), @sourcearch);
+        my @mini_sourcearch = @arch_wildcards;
+        foreach my $arch (@sourcearch) {
+            if (!grep(debarch_is($arch, $_), @arch_wildcards)) {
+                push @mini_sourcearch, $arch;
+            }
+        }
+        @sourcearch = @mini_sourcearch;
     }
     $fields->{'Architecture'} = join(' ', @sourcearch);
     $fields->{'Package-List'} = "\n" . join("\n", sort @pkglist);
