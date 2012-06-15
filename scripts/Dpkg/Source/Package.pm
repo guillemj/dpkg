@@ -349,7 +349,7 @@ sub check_signature {
         push @exec, "gpg", "--no-default-keyring", "-q", "--verify";
     }
     if (scalar(@exec)) {
-        if (-r "$ENV{'HOME'}/.gnupg/trustedkeys.gpg") {
+        if (defined $ENV{'HOME'} and -r "$ENV{'HOME'}/.gnupg/trustedkeys.gpg") {
             push @exec, "--keyring", "$ENV{'HOME'}/.gnupg/trustedkeys.gpg";
         }
         foreach my $vendor_keyring (run_vendor_hook('keyrings')) {
