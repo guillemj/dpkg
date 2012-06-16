@@ -2,6 +2,7 @@
 .\"
 .\" Copyright © 2010 Oxan van Leeuwen <oxan@oxanvanleeuwen.nl>
 .\" Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -16,7 +17,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH deb\-src\-control 5 "2012-05-16" "Debian Project" "Debian"
+.TH deb\-src\-control 5 "2012-06-16" "Debian Project" "Debian"
 .SH NAME
 deb\-src\-control \- Debian source packages' master control file format
 .
@@ -325,6 +326,11 @@ output files. A field \fBXC\-Approved\-By\fP will appear as
 \fBApproved\-By\fP in the changes file and will not appear in the binary or
 source package control files.
 
+Take into account that these user-defined fields will be using the global
+namespace, which might at some point in the future collide with officially
+recognized fields. To avoid such potential situation you can prefix those
+fields with \fBPrivate\-\fP, such as \fBXB\-Private\-New\-Field\fP, which as
+a side effect will make \fBdpkg\-deb\fP not warn on them as unknown fields.
 
 .SH EXAMPLE
 .\" .RS
