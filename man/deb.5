@@ -18,7 +18,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH deb 5 "2011-08-14" "Debian Project" "Debian"
+.TH deb 5 "2012-06-16" "Debian Project" "Debian"
 .SH NAME
 deb \- Debian binary package format
 .SH SYNOPSIS
@@ -38,7 +38,11 @@ The file is an
 .B ar
 archive with a magic value of
 .BR !<arch> .
-The file names might contain a trailing slash.
+Only the common \fBar\fP archive format is supported, with no long file
+name extensions, but with file names containing an optional trailing
+slash, which limits their length to 15 characters (from the 16 allowed).
+File sizes are limited to 10 ASCII decimal digits, allowing for up to
+approximately 9536.74 MiB member files.
 .PP
 The \fBtar\fP archives currently allowed are, the old-style (v7) format,
 the pre-POSIX ustar format, a subset of the GNU format (only the new
