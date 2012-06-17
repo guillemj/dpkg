@@ -20,7 +20,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH start\-stop\-daemon 8 "2012-05-17" "Debian Project" "dpkg utilities"
+.TH start\-stop\-daemon 8 "2012-06-17" "Debian Project" "dpkg utilities"
 .SH NAME
 start\-stop\-daemon \- start and stop system daemon programs
 .
@@ -244,6 +244,12 @@ cannot check the exit status if the process fails to execute for
 reason. This is a last resort, and is only meant for programs that either
 make no sense forking on their own, or where it's not feasible to add the
 code for them to do this themselves.
+.TP
+.BR \-C ", " \-\-no\-close
+Do not close any file descriptor when forcing the daemon into the background.
+Used for debugging purposes to see the process output, or to redirect file
+descriptors to log the process output.
+Only relevant when using \fB\-\-background\fP.
 .TP
 .BR \-N ", " \-\-nicelevel " \fIint\fP"
 This alters the priority of the process before starting it.

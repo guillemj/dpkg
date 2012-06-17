@@ -155,6 +155,7 @@ static int testmode = 0;
 static int quietmode = 0;
 static int exitnodo = 1;
 static int background = 0;
+static int close_io = 1;
 static int mpidfile = 0;
 static int signal_nr = SIGTERM;
 static int user_id = -1;
@@ -454,6 +455,7 @@ usage(void)
 "                                  scheduler (default prio is 4)\n"
 "  -k|--umask <mask>             change the umask to <mask> before starting\n"
 "  -b|--background               force the process to detach\n"
+"  -C|--no-close                 do not close any file descriptor\n"
 "  -m|--make-pidfile             create the pidfile before starting\n"
 "  -R|--retry <schedule>         check whether processes die, and retry\n"
 "  -t|--test                     test mode, don't do anything\n"
@@ -812,6 +814,7 @@ parse_options(int argc, char * const *argv)
 		{ "iosched",	  1, NULL, 'I'},
 		{ "umask",	  1, NULL, 'k'},
 		{ "background",	  0, NULL, 'b'},
+		{ "no-close",	  0, NULL, 'C'},
 		{ "make-pidfile", 0, NULL, 'm'},
 		{ "retry",	  1, NULL, 'R'},
 		{ "chdir",	  1, NULL, 'd'},
@@ -904,6 +907,9 @@ parse_options(int argc, char * const *argv)
 		case 'b':  /* --background */
 			background = 1;
 			break;
+		case 'C': /* --no-close */
+			close_io = 0;
+			break;
 		case 'm':  /* --make-pidfile */
 			mpidfile = 1;
 			break;
@@ -964,6 +970,9 @@ parse_options(int argc, char * const *argv)
 
 	if (background && action != action_start)
 		badusage("--background is only relevant with --start");
+
+	if (!close_io && !background)
+		badusage("--no-close is only relevant with --background");
 }
 
 #if defined(OSHurd)
@@ -1731,10 +1740,10 @@ main(int argc, char **argv)
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
-	if (background) {
+	if (background)
 		/* Ok, we need to detach this process. */
 		daemonize();
-
+	if (background && close_io) {
 		devnull_fd = open("/dev/null", O_RDWR);
 		if (devnull_fd < 0)
 			fatal("unable to open '%s'", "/dev/null");
@@ -1783,12 +1792,12 @@ main(int argc, char **argv)
 				fatal("unable to set uid to %s", changeuser);
 	}
 
-	if (background) {
-		int i;
+	/* Set a default umask for dumb programs. */
+	if (background && umask_value < 0)
+		umask(022);
 
-		/* Set a default umask for dumb programs. */
-		if (umask_value < 0)
-			umask(022);
+	if (background && close_io) {
+		int i;
 
 		dup2(devnull_fd, 0); /* stdin */
 		dup2(devnull_fd, 1); /* stdout */
