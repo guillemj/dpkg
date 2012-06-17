@@ -72,14 +72,10 @@ while (@ARGV) {
             if defined($action);
         my $type = $1 || "sh";
         $action = "export-$type";
-    } elsif (m/^--dump$/) {
-        usageerr(_g("two commands specified: --%s and --%s"), "dump", $action)
+    } elsif (m/^--(list|dump)$/) {
+        usageerr(_g("two commands specified: --%s and --%s"), $1, $action)
             if defined($action);
-        $action = "dump";
-    } elsif (m/^--list$/) {
-        usageerr(_g("two commands specified: --%s and --%s"), "list", $action)
-            if defined($action);
-        $action = "list";
+        $action = $1;
     } elsif (m/^-(h|-help)$/) {
         usage();
         exit 0;
