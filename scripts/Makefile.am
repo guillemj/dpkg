@@ -55,6 +55,7 @@ CLEANFILES = \
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
+	Dpkg/BuildEnv.pm \
 	Dpkg/BuildFlags.pm \
 	Dpkg/BuildOptions.pm \
 	Dpkg/Changelog.pm \
