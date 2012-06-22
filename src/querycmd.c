@@ -50,6 +50,7 @@
 #include <dpkg/pkg-show.h>
 #include <dpkg/string.h>
 #include <dpkg/path.h>
+#include <dpkg/file.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
@@ -601,6 +602,15 @@ pkg_infodb_print_filename(const char *filename, const char *filetype)
 }
 
 static void
+pkg_infodb_print_filetype(const char *filename, const char *filetype)
+{
+  if (pkg_infodb_is_internal(filetype))
+    return;
+
+  printf("%s\n", filetype);
+}
+
+static void
 control_path_file(struct pkginfo *pkg, const char *control_file)
 {
   const char *control_path;
@@ -652,6 +662,76 @@ control_path(const char *const *argv)
     pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_print_filename);
 
   modstatdb_shutdown();
+
+  return 0;
+}
+
+static int
+control_list(const char *const *argv)
+{
+  struct dpkg_error err;
+  struct pkginfo *pkg;
+  const char *pkgname;
+
+  pkgname = *argv++;
+  if (!pkgname || *argv)
+    badusage(_("--%s takes one package name argument"), cipaction->olong);
+
+  modstatdb_open(msdbrw_readonly);
+
+  pkg = pkg_spec_parse_pkg(pkgname, &err);
+  if (pkg == NULL)
+    badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
+             cipaction->olong, pkgname, err.str);
+
+  if (pkg->status == stat_notinstalled)
+    ohshit(_("package '%s' is not installed"), pkg_name(pkg, pnaw_nonambig));
+
+  pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_print_filetype);
+
+  modstatdb_shutdown();
+
+  return 0;
+}
+
+static int
+control_show(const char *const *argv)
+{
+  struct dpkg_error err;
+  struct pkginfo *pkg;
+  const char *pkgname;
+  const char *filename;
+  const char *control_file;
+
+  pkgname = *argv++;
+  if (!pkgname || !*argv)
+    badusage(_("--%s needs at two arguments"),
+             cipaction->olong);
+
+  control_file = *argv++;
+  if (!control_file || *argv)
+    badusage(_("--%s takes at most two arguments"), cipaction->olong);
+
+  pkg_infodb_check_filetype(control_file);
+
+  modstatdb_open(msdbrw_readonly);
+
+  pkg = pkg_spec_parse_pkg(pkgname, &err);
+  if (pkg == NULL)
+    badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
+             cipaction->olong, pkgname, err.str);
+
+  if (pkg->status == stat_notinstalled)
+    ohshit(_("package '%s' is not installed"), pkg_name(pkg, pnaw_nonambig));
+
+  if (pkg_infodb_has_file(pkg, &pkg->installed, control_file))
+    filename = pkg_infodb_get_file(pkg, &pkg->installed, control_file);
+  else
+    ohshit(_("control file '%s' does not exist"), control_file);
+
+  modstatdb_shutdown();
+
+  file_show(filename);
 
   return 0;
 }
@@ -731,6 +811,8 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "search",                         'S', act_searchfiles,   searchfiles     ),
   ACTION( "show",                           'W', act_listpackages,  showpackages    ),
   ACTION( "control-path",                   'c', act_controlpath,   control_path    ),
+  ACTION( "control-list",                    0,  act_controllist,   control_list    ),
+  ACTION( "control-show",                    0,  act_controlshow,   control_show    ),
 
   { "admindir",   0,   1, NULL, &admindir,   NULL          },
   { "load-avail", 0,   0, &opt_loadavail, NULL, NULL, 1    },

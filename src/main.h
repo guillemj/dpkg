@@ -75,6 +75,8 @@ enum action {
 	act_listfiles,
 	act_searchfiles,
 	act_controlpath,
+	act_controllist,
+	act_controlshow,
 
 	act_cmpversions,
 

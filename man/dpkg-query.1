@@ -107,13 +107,19 @@ by an empty line, with the same order as specified on the argument list.
 However, note that files created by package-specific installation-scripts
 are not listed.
 .TP
+.BR \-\-control\-list " \fIpackage-name\fP
+List control files installed to your system from \fIpackage-name\fP.
+These can be used as input arguments to \fB\-\-control\-show\fP.
+.TP
+.BR \-\-control\-show " \fIpackage-name\fP \fIcontrol-file\fP"
+Print the \fIcontrol-file\fP installed to your system from \fIpackage-name\fP
+to the standard output.
+.TP
 .BR \-c ", " \-\-control\-path " \fIpackage-name\fP [\fIcontrol-file\fP]"
 List paths for control files installed to your system from \fIpackage-name\fP.
 If \fIcontrol-file\fP is specified then only list the path for that control
-file if it is present. \fBWarning\fP: this command is semi-public, it should
-be used only as a last resort solution, and if no other interface is
-available. It might get deprecated later on if better interfaces or the
-current architectural deficiencies have been solved.
+file if it is present. \fBWarning\fP: this command is deprecated, please
+switch to use \fB\-\-control\-list\fP and \fB\-\-control\-show\fP instead.
 .TP
 .BR \-S ", " \-\-search " \fIfilename-search-pattern\fP..."
 Search for packages that own files corresponding to the given pattern.
