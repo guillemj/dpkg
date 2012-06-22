@@ -110,6 +110,7 @@ DPKG_BEGIN_DECLS
 
 #define TAR		"tar"
 #define RM		"rm"
+#define CAT		"cat"
 #define FIND		"find"
 #define DIFF		"diff"
 

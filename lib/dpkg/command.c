@@ -179,6 +179,27 @@ command_exec(struct command *cmd)
 	ohshite(_("unable to execute %s (%s)"), cmd->name, cmd->filename);
 }
 
+
+/**
+ * Get a suitable pager.
+ *
+ * @return A string representing a pager.
+ */
+const char *
+command_get_pager(void)
+{
+	const char *pager;
+
+	if (!isatty(1))
+		return CAT;
+
+	pager = getenv("PAGER");
+	if (str_is_unset(pager))
+		pager = DEFAULTPAGER;
+
+	return pager;
+}
+
 /**
  * Execute a shell with a possible command.
  *
