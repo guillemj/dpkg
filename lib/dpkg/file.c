@@ -3,7 +3,7 @@
  * file.c - file handling functions
  *
  * Copyright © 1994, 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,8 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/i18n.h>
+#include <dpkg/subproc.h>
+#include <dpkg/command.h>
 #include <dpkg/file.h>
 
 /**
@@ -149,4 +151,27 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 	}
 
 	push_cleanup(file_unlock_cleanup, ~0, NULL, 0, 2, lockfd, desc);
+}
+
+void
+file_show(const char *filename)
+{
+	pid_t pid;
+
+	if (filename == NULL)
+		internerr("file '%s' does not exist", filename);
+
+	pid = subproc_fork();
+	if (pid == 0) {
+		struct command cmd;
+		const char *pager;
+
+		pager = command_get_pager();
+
+		command_init(&cmd, pager, _("showing file on pager"));
+		command_add_arg(&cmd, pager);
+		command_add_arg(&cmd, filename);
+		command_exec(&cmd);
+	}
+	subproc_wait(pid, _("showing file on pager"));
 }
