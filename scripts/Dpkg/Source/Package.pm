@@ -514,6 +514,15 @@ sub add_file {
 }
 
 sub commit {
+    my $self = shift;
+    eval { $self->do_commit(@_) };
+    if ($@) {
+        &$_() foreach reverse @Dpkg::Exit::handlers;
+        die $@;
+    }
+}
+
+sub do_commit {
     my ($self, $dir) = @_;
     info(_g("'%s' is not supported by the source format '%s'"),
          "dpkg-source --commit", $self->{'fields'}{'Format'});

@@ -619,7 +619,7 @@ sub register_patch {
     return $patch;
 }
 
-sub commit {
+sub do_commit {
     my ($self, $dir) = @_;
     my ($patch_name, $tmpdiff) = @{$self->{'options'}{'ARGV'}};
 
