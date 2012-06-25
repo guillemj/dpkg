@@ -94,6 +94,11 @@ dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
 	char header[sizeof(struct ar_hdr) + 1];
 	int n;
 
+	if (strlen(name) > 15)
+		ohshit(_("ar member name '%s' length too long"), name);
+	if (size > 9999999999L)
+		ohshit(_("ar member size %jd too large"), size);
+
 	n = sprintf(header, "%-16s%-12lu0     0     100644  %-10jd`\n",
 	            name, time(NULL), (intmax_t)size);
 	if (n != sizeof(struct ar_hdr))
