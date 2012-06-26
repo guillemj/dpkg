@@ -107,7 +107,7 @@ void
 extracthalf(const char *debar, const char *dir, const char *taroption,
             int admininfo)
 {
-  const char *err;
+  const char *errstr;
   char versionbuf[40];
   struct deb_version version;
   off_t ctrllennum, memberlen = 0;
@@ -161,9 +161,9 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
 
         if (strchr(infobuf, '\n') == NULL)
           ohshit(_("archive has no newlines in header"));
-        err = deb_version_parse(&version, infobuf);
-        if (err)
-          ohshit(_("archive has invalid format version: %s"), err);
+        errstr = deb_version_parse(&version, infobuf);
+        if (errstr)
+          ohshit(_("archive has invalid format version: %s"), errstr);
         if (version.major != 2)
           ohshit(_("archive is format version %d.%d; get a newer dpkg-deb"),
                  version.major, version.minor);
@@ -224,9 +224,9 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
 
     if (strchr(versionbuf, '\n') == NULL)
       ohshit(_("archive has no newlines in header"));
-    err = deb_version_parse(&version, versionbuf);
-    if (err)
-      ohshit(_("archive has invalid format version: %s"), err);
+    errstr = deb_version_parse(&version, versionbuf);
+    if (errstr)
+      ohshit(_("archive has invalid format version: %s"), errstr);
 
     r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
     if (r < 0)
