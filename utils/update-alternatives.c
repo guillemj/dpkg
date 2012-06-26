@@ -1450,7 +1450,13 @@ alternative_display_query(struct alternative *a)
 	struct slave_link *sl;
 	char *current;
 
-	pr("Link: %s", a->master_name);
+	pr("Name: %s", a->master_name);
+	pr("Link: %s", a->master_link);
+	if (alternative_slaves_count(a) > 0) {
+		pr("Slaves:");
+		for (sl = a->slaves; sl; sl = sl->next)
+			pr(" %s %s", sl->name, sl->link);
+	}
 	pr("Status: %s", alternative_status_string(a->status));
 	best = alternative_get_best(a);
 	if (best)
@@ -2673,8 +2679,8 @@ main(int argc, char **argv)
 		} else if (alternative_choices_count(a) == 1 &&
 		           a->status == ALT_ST_AUTO &&
 		           current_choice != NULL) {
-			pr(_("There is only one alternative in link group %s: %s"),
-			   a->master_name, current_choice);
+			pr(_("There is only one alternative in link group %s (providing %s): %s"),
+			   a->master_name, a->master_link, current_choice);
 			pr(_("Nothing to configure."));
 		} else {
 			new_choice = alternative_select_choice(a);
