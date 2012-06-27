@@ -565,7 +565,7 @@ sub parse_string {
               ([a-zA-Z0-9][a-zA-Z0-9+.-]*)  # package name
               (?:                           # start of optional part
                 :                           # colon for architecture
-                (any)                       # architecture name
+                ([a-zA-Z0-9][a-zA-Z0-9-]*)  # architecture name
               )?                            # end of optional part
               (?:                           # start of optional part
                 \s* \(                      # open parenthesis for version part
@@ -1260,6 +1260,8 @@ sub _find_package {
 	} elsif ($archqual eq "any") {
 	    return $p if $ma eq "allowed";
 	    return $p if $a eq $host_arch or $a eq "all";
+	} else {
+	    return $p if $a eq $archqual;
 	}
     }
     return undef;

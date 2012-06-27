@@ -448,8 +448,6 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
         if (dop->arch->type == arch_illegal)
           emsg = dpkg_arch_name_is_illegal(arch.buf);
-        else if (dop->arch->type != arch_wildcard)
-          emsg = _("a value different from 'any' is currently not allowed");
         if (emsg)
           parse_error(ps, _("'%s' field, reference to '%.255s': "
                             "invalid architecture name '%.255s': %s"),
