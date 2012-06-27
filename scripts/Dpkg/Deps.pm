@@ -51,7 +51,7 @@ use warnings;
 our $VERSION = "1.01";
 
 use Dpkg::Version;
-use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Arch qw(get_host_arch get_build_arch);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
@@ -271,6 +271,11 @@ current architecture.
 If set to 1, returns a Dpkg::Deps::Union instead of a Dpkg::Deps::AND. Use
 this when parsing non-dependency fields like Conflicts.
 
+=item build_dep (defaults to 0)
+
+If set to 1, allow build-dep only arch qualifiers, that is “:native”.
+This should be set whenever working with build-deps.
+
 =back
 
 =cut
@@ -282,6 +287,7 @@ sub deps_parse {
     $options{reduce_arch} = 0 if not exists $options{reduce_arch};
     $options{host_arch} = get_host_arch() if not exists $options{host_arch};
     $options{union} = 0 if not exists $options{union};
+    $options{build_dep} = 0 if not exists $options{build_dep};
 
     # Strip trailing/leading spaces
     $dep_line =~ s/^\s+//;
@@ -292,7 +298,9 @@ sub deps_parse {
         my @or_list = ();
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
 	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or, host_arch =>
-	                                             $options{host_arch});
+	                                             $options{host_arch},
+	                                             build_dep =>
+	                                             $options{build_dep});
 	    if (not defined $dep_simple->{package}) {
 		warning(_g("can't parse dependency %s"), $dep_or);
 		return undef;
@@ -538,6 +546,8 @@ sub new {
     bless $self, $class;
     $self->reset();
     $self->{host_arch} = $opts{host_arch} || Dpkg::Arch::get_host_arch();
+    $self->{build_arch} = $opts{build_arch} || Dpkg::Arch::get_build_arch();
+    $self->{build_dep} = $opts{build_dep} || 0;
     $self->parse_string($arg) if defined($arg);
     return $self;
 }
@@ -580,8 +590,11 @@ sub parse_string {
               )?                            # end of optional architecture
 	      \s*$			    # trailing spaces at end
             /x;
+    if (defined($2)) {
+	return if $2 eq "native" and not $self->{build_dep};
+	$self->{archqual} = $2;
+    }
     $self->{package} = $1;
-    $self->{archqual} = $2 if defined($2);
     $self->{relation} = version_normalize_relation($3) if defined($3);
     if (defined($4)) {
 	$self->{version} = Dpkg::Version->new($4);
@@ -1247,6 +1260,7 @@ sub _find_package {
     my ($pkg, $archqual) = ($dep->{package}, $dep->{archqual});
     return undef if not exists $self->{pkg}{$pkg};
     my $host_arch = $dep->{host_arch};
+    my $build_arch = $dep->{build_arch};
     foreach my $p (@{$self->{pkg}{$pkg}}) {
 	my $a = $p->{"architecture"};
 	my $ma = $p->{"multi-arch"};
@@ -1254,12 +1268,13 @@ sub _find_package {
 	    $$lackinfos = 1;
 	    next;
 	}
-	return $p if $ma eq "foreign";
 	if (not defined $archqual) {
+	    return $p if $ma eq "foreign";
 	    return $p if $a eq $host_arch or $a eq "all";
 	} elsif ($archqual eq "any") {
 	    return $p if $ma eq "allowed";
-	    return $p if $a eq $host_arch or $a eq "all";
+	} elsif ($archqual eq "native") {
+	    return $p if $a eq $build_arch and $ma ne "foreign";
 	} else {
 	    return $p if $a eq $archqual;
 	}

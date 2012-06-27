@@ -84,7 +84,7 @@ my $fields = $control->get_source();
 my $facts = parse_status("$admindir/status");
 
 unless (defined($bd_value) or defined($bc_value)) {
-    $bd_value = 'build-essential';
+    $bd_value = 'build-essential:native';
     $bd_value .= ", " . $fields->{"Build-Depends"} if defined $fields->{"Build-Depends"};
     if (not $ignore_bd_arch and defined $fields->{"Build-Depends-Arch"}) {
 	$bd_value .= ", " . $fields->{"Build-Depends-Arch"};
@@ -112,12 +112,12 @@ my (@unmet, @conflicts);
 
 if ($bd_value) {
 	push @unmet, build_depends('Build-Depends/Build-Depends-Arch/Build-Depends-Indep',
-		deps_parse($bd_value, host_arch => $host_arch,
+		deps_parse($bd_value, build_dep => 1, host_arch => $host_arch,
 			   reduce_arch => 1), $facts);
 }
 if ($bc_value) {
 	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep',
-		deps_parse($bc_value, host_arch => $host_arch,
+		deps_parse($bc_value, build_dep => 1, host_arch => $host_arch,
 			   reduce_arch => 1, union => 1), $facts);
 }
 

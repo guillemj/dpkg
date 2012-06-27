@@ -141,7 +141,7 @@ my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
 my $build_depends = defined($fields->{"Build-Depends"}) ?
 		    $fields->{"Build-Depends"} : "";
-my $build_deps = deps_parse($build_depends, reduce_arch => 1);
+my $build_deps = deps_parse($build_depends, build_dep => 1, reduce_arch => 1);
 
 my %dependencies;
 my %shlibs;

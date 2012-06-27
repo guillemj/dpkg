@@ -80,7 +80,7 @@ sub usage {
       --version  show the version.")
     . "\n\n" . _g(
 "Options passed to dpkg-architecture:
-  -a<arch>       Debian architecture we build for (implies -d).
+  -a<arch>       Debian architecture we build for.
   -t<system>     set GNU system type.")
     . "\n\n" . _g(
 "Options passed to dpkg-genchanges:
@@ -186,7 +186,6 @@ while (@ARGV) {
 	$usepause = 1;
     } elsif (/^-a(.*)$/) {
 	$targetarch = $1;
-	$checkbuilddep = 0;
     } elsif (/^-s[iad]$/) {
 	push @changes_opts, $_;
     } elsif (/^-(?:s[insAkurKUR]|[zZ].*|i.*|I.*)$/) {
