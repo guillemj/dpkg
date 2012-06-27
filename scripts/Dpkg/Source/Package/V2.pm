@@ -619,8 +619,17 @@ sub do_commit {
         error(_g("patch file '%s' doesn't exist"), $tmpdiff) if not -e $tmpdiff;
     }
 
+    my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
+    my $handle_binary = sub {
+        my ($self, $old, $new) = @_;
+        my $fn = File::Spec->abs2rel($new, $dir);
+        $binaryfiles->new_binary_found($fn);
+    };
+
     unless ($tmpdiff) {
-        $tmpdiff = $self->generate_patch($dir, usage => "commit");
+        $tmpdiff = $self->generate_patch($dir, handle_binary => $handle_binary,
+                                         usage => "commit");
+        $binaryfiles->update_debian_source_include_binaries();
     }
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
     unless (-s $tmpdiff) {
