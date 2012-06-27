@@ -425,43 +425,14 @@ sub do_build {
     my $sourcepackage = $self->{'fields'}{'Source'};
     my $basenamerev = $self->get_basename(1);
 
-    # Prepare handling of binary files
-    my %auth_bin_files;
-    my $incbin_file = File::Spec->catfile($dir, "debian", "source", "include-binaries");
-    if (-f $incbin_file) {
-        open(INC, "<", $incbin_file) || syserr(_g("cannot read %s"), $incbin_file);
-        while(defined($_ = <INC>)) {
-            chomp; s/^\s*//; s/\s*$//;
-            next if /^#/ or /^$/;
-            $auth_bin_files{$_} = 1;
-        }
-        close(INC);
-    }
-    my @binary_files;
-    my $handle_binary = sub {
-        my ($self, $old, $new) = @_;
-        my $relfn = File::Spec->abs2rel($new, $dir);
-        # Include binaries if they are whitelisted or if
-        # --include-binaries has been given
-        if ($include_binaries or $auth_bin_files{$relfn}) {
-            push @binary_files, $relfn;
-        } else {
-            errormsg(_g("cannot represent change to %s: %s"), $new,
-                     _g("binary file contents changed"));
-            errormsg(_g("add %s in debian/source/include-binaries if you want" .
-                     " to store the modified binary in the debian tarball"),
-                     $relfn);
-            $self->register_error();
-        }
-    };
     # Check if the debian directory contains unwanted binary files
+    my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
     my $unwanted_binaries = 0;
     my $check_binary = sub {
-        my $fn = File::Spec->abs2rel($_, $dir);
         if (-f $_ and is_binary($_)) {
-            if ($include_binaries or $auth_bin_files{$fn}) {
-                push @binary_files, $fn;
-            } else {
+            my $fn = File::Spec->abs2rel($_, $dir);
+            $binaryfiles->new_binary_found($fn);
+            unless ($include_binaries or $binaryfiles->binary_is_allowed($fn)) {
                 errormsg(_g("unwanted binary file: %s"), $fn);
                 $unwanted_binaries++;
             }
@@ -504,6 +475,21 @@ sub do_build {
              $unwanted_binaries), $unwanted_binaries)
          if $unwanted_binaries;
 
+    # Handle modified binary files detected by the auto-patch generation
+    my $handle_binary = sub {
+        my ($self, $old, $new) = @_;
+        my $relfn = File::Spec->abs2rel($new, $dir);
+        $binaryfiles->new_binary_found($relfn);
+        unless ($include_binaries or $binaryfiles->binary_is_allowed($relfn)) {
+            errormsg(_g("cannot represent change to %s: %s"), $relfn,
+                     _g("binary file contents changed"));
+            errormsg(_g("add %s in debian/source/include-binaries if you want" .
+                     " to store the modified binary in the debian tarball"),
+                     $relfn);
+            $self->register_error();
+        }
+    };
+
     # Create a patch
     my $autopatch = File::Spec->catfile($dir, "debian", "patches",
                                         $self->get_autopatch_name());
@@ -519,6 +505,7 @@ sub do_build {
               $tmpdiff);
     }
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
+    $binaryfiles->update_debian_source_include_binaries() if $include_binaries;
 
     # Install the diff as the new autopatch
     if ($self->{'options'}{'auto_commit'}) {
@@ -532,25 +519,13 @@ sub do_build {
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     pop @Dpkg::Exit::handlers;
 
-    # Update debian/source/include-binaries if needed
-    if (scalar(@binary_files) and $include_binaries) {
-        mkpath(File::Spec->catdir($dir, "debian", "source"));
-        open(INC, ">>", $incbin_file) || syserr(_g("cannot write %s"), $incbin_file);
-        foreach my $binary (@binary_files) {
-            unless ($auth_bin_files{$binary}) {
-                print INC "$binary\n";
-                info(_g("adding %s to %s"), $binary, "debian/source/include-binaries");
-            }
-        }
-        close(INC);
-    }
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{'options'}{'comp_ext'};
     info(_g("building %s in %s"), $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile);
     $tar->create(options => \@tar_ignore, 'chdir' => $dir);
     $tar->add_directory("debian");
-    foreach my $binary (@binary_files) {
+    foreach my $binary ($binaryfiles->get_seen_binaries()) {
         $tar->add_file($binary) unless $binary =~ m{^debian/};
     }
     $tar->finish();
@@ -666,6 +641,82 @@ sub do_commit {
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     pop @Dpkg::Exit::handlers;
     info(_g("local changes have been recorded in a new patch: %s"), $patch);
+}
+
+package Dpkg::Source::Package::V2::BinaryFiles;
+
+use Dpkg::ErrorHandling;
+use Dpkg::Gettext;
+
+use File::Path;
+
+sub new {
+    my ($this, $dir) = @_;
+    my $class = ref($this) || $this;
+
+    my $self = {
+        dir => $dir,
+        allowed_binaries => {},
+        seen_binaries => {},
+        include_binaries_path =>
+            File::Spec->catfile($dir, "debian", "source", "include-binaries"),
+    };
+    bless $self, $class;
+    $self->load_allowed_binaries();
+    return $self;
+}
+
+sub new_binary_found {
+    my ($self, $path) = @_;
+
+    $self->{'seen_binaries'}{$path} = 1;
+}
+
+sub load_allowed_binaries {
+    my ($self) = @_;
+    my $incbin_file = $self->{'include_binaries_path'};
+    if (-f $incbin_file) {
+        open(INC, "<", $incbin_file) || syserr(_g("cannot read %s"), $incbin_file);
+        while(defined($_ = <INC>)) {
+            chomp; s/^\s*//; s/\s*$//;
+            next if /^#/ or /^$/;
+            $self->{'allowed_binaries'}{$_} = 1;
+        }
+        close(INC);
+    }
+}
+
+sub binary_is_allowed {
+    my ($self, $path) = @_;
+    return 1 if exists $self->{'allowed_binaries'}{$path};
+    return 0;
+}
+
+sub update_debian_source_include_binaries {
+    my ($self) = @_;
+
+    my @unknown_binaries = $self->get_unknown_binaries();
+    return unless scalar(@unknown_binaries);
+
+    my $incbin_file = $self->{'include_binaries_path'};
+    mkpath(File::Spec->catdir($self->{'dir'}, "debian", "source"));
+    open(INC, ">>", $incbin_file) || syserr(_g("cannot write %s"), $incbin_file);
+    foreach my $binary (@unknown_binaries) {
+        print INC "$binary\n";
+        info(_g("adding %s to %s"), $binary, "debian/source/include-binaries");
+        $self->{'allowed_binaries'}{$binary} = 1;
+    }
+    close(INC);
+}
+
+sub get_unknown_binaries {
+    my ($self) = @_;
+    return grep { not $self->binary_is_allowed($_) } $self->get_seen_binaries();
+}
+
+sub get_seen_binaries {
+    my ($self) = @_;
+    return sort keys %{$self->{'seen_binaries'}};
 }
 
 # vim:et:sw=4:ts=8
