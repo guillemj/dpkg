@@ -86,7 +86,10 @@ static int getwidth(void) {
 
 struct list_format {
   bool head;
-  int nw, vw, dw;
+  int nw;
+  int vw;
+  int aw;
+  int dw;
 };
 
 static void
@@ -102,21 +105,25 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
     int i;
 
     fmt->nw = 14;
-    fmt->vw = 14;
-    fmt->dw = 44;
+    fmt->vw = 12;
+    fmt->aw = 12;
+    fmt->dw = 33;
 
     for (i = 0; i < array->n_pkgs; i++) {
-      int plen, vlen, dlen;
+      int plen, vlen, alen, dlen;
 
       plen = strlen(pkg_name(array->pkgs[i], pnaw_nonambig));
       vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
                                     vdew_nonambig));
+      alen = strlen(array->pkgs[i]->installed.arch->name);
       pkg_summary(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
 
       if (plen > fmt->nw)
         fmt->nw = plen;
       if (vlen > fmt->vw)
         fmt->vw = vlen;
+      if (alen > fmt->aw)
+        fmt->aw = alen;
       if (dlen > fmt->dw)
         fmt->dw = dlen;
     }
@@ -126,24 +133,27 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
     if (w < 0)
       w = 0;
     /* Halve that so we can add it to both the name and description. */
-    w >>= 2;
+    w >>= 1;
     /* Name width. */
-    fmt->nw = (14 + w);
+    fmt->nw = (14 + (w / 2));
     /* Version width. */
-    fmt->vw = (14 + w);
+    fmt->vw = (12 + (w / 4));
+    /* Architecture width. */
+    fmt->aw = (12 + (w / 4));
     /* Description width. */
-    fmt->dw = (44 + (2 * w));
+    fmt->dw = (33 + w);
   }
 }
 
 static void
 list_format_print(struct list_format *fmt,
                   int c_want, int c_status, int c_eflag,
-                  const char *name, const char *version,
+                  const char *name, const char *version, const char *arch,
                   const char *desc, int desc_len)
 {
-  printf("%c%c%c %-*.*s %-*.*s %.*s\n", c_want, c_status, c_eflag,
-         fmt->nw, fmt->nw, name, fmt->vw, fmt->vw, version, desc_len, desc);
+  printf("%c%c%c %-*.*s %-*.*s %-*.*s %.*s\n", c_want, c_status, c_eflag,
+         fmt->nw, fmt->nw, name, fmt->vw, fmt->vw, version,
+         fmt->aw, fmt->aw, arch, desc_len, desc);
 }
 
 static void
@@ -165,7 +175,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
 | Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
   list_format_print(fmt, '|', '|', '/', _("Name"), _("Version"),
-                    _("Description"), 40);
+                    _("Architecture"), _("Description"), 33);
 
   /* Status */
   printf("+++-");
@@ -177,6 +187,11 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
 
   /* Version. */
   for (l = 0; l < fmt->vw; l++)
+    printf("=");
+  printf("-");
+
+  /* Architecture. */
+  for (l = 0; l < fmt->aw; l++)
     printf("=");
   printf("-");
 
@@ -206,6 +221,7 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
                     pkg_abbrev_eflag(pkg),
                     pkg_name(pkg, pnaw_nonambig),
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
+                    pkg->installed.arch->name,
                     pdesc, l);
 }
 
