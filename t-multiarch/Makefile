@@ -85,6 +85,7 @@ build-hook: $(PKG_TO_BUILD)
 
 TEST_CASES += test-print-foreign-architecture
 TEST_CASES += test-build-invalid
+TEST_CASES += test-build-valid
 TEST_CASES += test-install-native
 TEST_CASES += test-install-foreign
 TEST_CASES += test-coinstall-ma-same
@@ -122,8 +123,10 @@ test-build-invalid:
 	# Test build of Architecture: all with Multi-Arch: same field
 	! $(DPKG_BUILD_DEB) pkg-template foo.deb
 	rm -f foo.deb
-	# Test build of package with invalid dependency (ma-allowed:fake)
-	! $(DPKG_BUILD_DEB) pkg-ma-dep-on-allowed-fake_1.0_$(NATIVE_ARCH) foo.deb
+
+test-build-valid:
+	# Test build of package with valid dependency (ma-allowed:fake)
+	$(DPKG_BUILD_DEB) pkg-ma-dep-on-allowed-fake_1.0_$(NATIVE_ARCH) foo.deb
 	rm -f foo.deb
 
 test-install-native:
