@@ -40,6 +40,7 @@ pkg-ma-$(1).deb: pkg-ma-$(1)
 
 clean-hook::
 	rm -rf pkg-ma-$(1)
+	rm -f pkg-ma-$(1).deb
 endef
 
 $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
