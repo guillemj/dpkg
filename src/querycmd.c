@@ -581,6 +581,17 @@ pkg_infodb_is_internal(const char *filetype)
 }
 
 static void
+pkg_infodb_check_filetype(const char *filetype)
+{
+  const char *c;
+
+  /* Validate control file name for sanity. */
+  for (c = "/."; *c; c++)
+    if (strchr(filetype, *c))
+      badusage(_("control file contains %c"), *c);
+}
+
+static void
 pkg_infodb_print_filename(const char *filename, const char *filetype)
 {
   if (pkg_infodb_is_internal(filetype))
@@ -621,14 +632,8 @@ control_path(const char *const *argv)
   if (control_file && *argv)
     badusage(_("--%s takes at most two arguments"), cipaction->olong);
 
-  /* Validate control file name for sanity. */
-  if (control_file) {
-    const char *c;
-
-    for (c = "/."; *c; c++)
-      if (strchr(control_file, *c))
-        badusage(_("control file contains %c"), *c);
-  }
+  if (control_file)
+    pkg_infodb_check_filetype(control_file);
 
   modstatdb_open(msdbrw_readonly);
 
