@@ -61,7 +61,7 @@ sub usage {
   -u                 print command to unset environment variables.
   -c <command>       set environment and run the command in it.
   -?, --help         show this help message.
-  --version          show the version.
+      --version      show the version.
 "), $progname;
 }
 

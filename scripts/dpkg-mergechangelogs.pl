@@ -67,7 +67,7 @@ Options:
   --merge-prereleases, -m  merge pre-releases together, ignores everything
                            after the last '~' in the version.
   -?, --help               show this help message.
-  --version                show the version.
+      --version            show the version.
 "), $progname);
 }
 

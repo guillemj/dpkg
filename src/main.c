@@ -116,7 +116,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
   printf(_(
 "  -?, --help                       Show this help message.\n"
-"  --version                        Show the version.\n"
+"      --version                    Show the version.\n"
 "\n"));
 
   printf(_(
