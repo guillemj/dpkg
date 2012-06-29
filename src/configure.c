@@ -567,15 +567,11 @@ showdiff(const char *old, const char *new)
 	pid = subproc_fork();
 	if (!pid) {
 		/* Child process. */
-		const char *pager;
 		char cmdbuf[1024];
 
-		pager = getenv("PAGER");
-		if (str_is_unset(pager))
-			pager = DEFAULTPAGER;
-
 		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",
-		        str_quote_meta(old), str_quote_meta(new), pager);
+		        str_quote_meta(old), str_quote_meta(new),
+		        command_get_pager());
 
 		command_shell(cmdbuf, _("conffile difference visualizer"));
 	}
