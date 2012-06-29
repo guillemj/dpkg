@@ -101,7 +101,7 @@ foreach (@ARGV) {
     } elsif (m/^-d(.*)$/) {
 	$dependencyfield = field_capitalize($1);
 	defined($depstrength{$dependencyfield}) ||
-	    warning(_g("unrecognised dependency field \`%s'"), $dependencyfield);
+	    warning(_g("unrecognized dependency field '%s'"), $dependencyfield);
     } elsif (m/^-e(.*)$/) {
 	if (exists $exec{$1}) {
 	    # Affect the binary to the most important field
@@ -572,7 +572,7 @@ sub usage {
   -?, --help               show this help message.
       --version            show the version.")
     . "\n\n" . _g(
-"Dependency fields recognised are:
+"Dependency fields recognized are:
   %s
 "), $progname, join("/",@depfields);
 }

@@ -178,7 +178,7 @@ was not configured, just as if the package was being configured for
 the first time.
 
 Trigger processing should be idempotent.  The list of triggers being
-processed is provided to the postinst only so that it can optimise
+processed is provided to the postinst only so that it can optimize
 away redundant processing.
 
 In that case, where an interested package has more than one trigger
@@ -222,7 +222,7 @@ triggering packages *will* await their configuration (which implies
 completion of any necessary trigger processing) or removal.
 
 It is not defined in what order triggers will run.  dpkg will make
-some effort to minimise redundant work in the case where many packages
+some effort to minimize redundant work in the case where many packages
 have postinst trigger processing activating another package's triggers
 (for example, by processing triggers in fifo order during a single
 dpkg run).  Cycles in the triggering graph are prohibited and will
@@ -306,8 +306,8 @@ in any unsupported trigger kinds cannot be configured (since such a
 package cannot be guaranteed to have these triggers properly activated
 by dpkg).  Therefore no package can be interested in any unsupported
 trigger kinds and they can be freely activated (both by ‘activate’ and
-by dpkg-trigger).  dpkg-deb will be changed to warn about unrecognised
-trigger names syntaxes and unrecognised trigger control directives.
+by dpkg-trigger).  dpkg-deb will be changed to warn about unrecognized
+trigger names syntaxes and unrecognized trigger control directives.
 
 
 New command line interfaces to dpkg tools
@@ -728,7 +728,7 @@ await the trigger.
 system.  Processes hang onto this lock only briefly: dpkg-trigger
 to add new activations, or dpkg to incorporate activations (and
 perhaps when it updates interests).  Therefore this lock is always
-acquired with F_GETLKW so as to serialise rather than fail on
+acquired with F_GETLKW so as to serialize rather than fail on
 contention.
 
 

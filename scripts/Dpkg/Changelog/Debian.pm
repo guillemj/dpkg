@@ -166,7 +166,7 @@ sub parse {
 	    }
 	    push @blanklines, $_;
 	} else {
-	    $self->parse_error($file, $., _g("unrecognised line"), "$_");
+	    $self->parse_error($file, $., _g("unrecognized line"), "$_");
 	    unless ($expect eq START_CHANGES or $expect eq CHANGES_OR_TRAILER) {
 		# lets assume change data if we expected it
 		$entry->extend_part("changes", [ @blanklines, $_]);
