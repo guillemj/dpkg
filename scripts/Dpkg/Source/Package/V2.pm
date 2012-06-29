@@ -57,7 +57,7 @@ sub init_options {
         unless exists $self->{'options'}{'preparation'};
     $self->{'options'}{'skip_patches'} = 0
         unless exists $self->{'options'}{'skip_patches'};
-    $self->{'options'}{'unapply_patches'} = 0
+    $self->{'options'}{'unapply_patches'} = 'auto'
         unless exists $self->{'options'}{'unapply_patches'};
     $self->{'options'}{'skip_debianization'} = 0
         unless exists $self->{'options'}{'skip_debianization'};
@@ -85,7 +85,10 @@ sub parse_cmdline_option {
         $self->{'options'}{'skip_patches'} = 1;
         return 1;
     } elsif ($opt =~ /^--unapply-patches$/) {
-        $self->{'options'}{'unapply_patches'} = 1;
+        $self->{'options'}{'unapply_patches'} = 'yes';
+        return 1;
+    } elsif ($opt =~ /^--no-unapply-patches$/) {
+        $self->{'options'}{'unapply_patches'} = 'no';
         return 1;
     } elsif ($opt =~ /^--skip-debianization$/) {
         $self->{'options'}{'skip_debianization'} = 1;
@@ -278,8 +281,9 @@ sub after_build {
         $reason = <APPLIED>;
         close(APPLIED);
     }
-    if ($reason =~ /^# During preparation/ or
-        $self->{'options'}{'unapply_patches'}) {
+    my $opt_unapply = $self->{'options'}{'unapply_patches'};
+    if (($opt_unapply eq "auto" and $reason =~ /^# During preparation/) or
+        $opt_unapply eq "yes") {
         $self->unapply_patches($dir);
     }
 }

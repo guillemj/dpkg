@@ -566,12 +566,13 @@ and if there are supplementary original tarballs. This option is meant to
 be used when the source package is just a bundle of multiple upstream
 software and where there's no "main" software.
 .TP
-.B \-\-unapply\-patches
-Unapply the patches in the \fB\-\-after\-build\fP hook. You usually don't
-need this option as dpkg\-source will automatically unapply the patches
-if it did apply them during \fB\-\-before\-build\fP. This
-option is only allowed in \fBdebian/source/local\-options\fP so that all
-generated source packages have the same behavior by default.
+.B \-\-no\-unapply\-patches, \-\-unapply\-patches
+By default, dpkg\-source will automatically unapply the patches in the
+\fB\-\-after\-build\fP hook if it did apply them during
+\fB\-\-before\-build\fP. Those options allow you to forcefully disable
+or enable the patch unapplication process. Those options are only allowed
+in \fBdebian/source/local\-options\fP so that all generated source
+packages have the same behavior by default.
 .TP
 .B \-\-abort\-on\-upstream\-changes
 The process fails if an automatic patch has been generated. This option

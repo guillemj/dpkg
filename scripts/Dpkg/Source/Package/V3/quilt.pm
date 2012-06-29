@@ -118,7 +118,8 @@ sub apply_patches {
 
     return unless scalar($quilt->series());
 
-    if ($opts{'usage'} eq "preparation") {
+    if ($opts{'usage'} eq "preparation" and
+        $self->{'options'}{'unapply_patches'} eq 'auto') {
         # We're applying the patches in --before-build, remember to unapply
         # them afterwards in --after-build
         my $pc_unapply = $quilt->get_db_file(".dpkg-source-unapply");
@@ -192,7 +193,8 @@ sub after_build {
     my ($self, $dir) = @_;
     my $quilt = $self->build_quilt_object($dir);
     my $pc_unapply = $quilt->get_db_file(".dpkg-source-unapply");
-    if (-e $pc_unapply or $self->{'options'}{'unapply_patches'}) {
+    my $opt_unapply = $self->{'options'}{'unapply_patches'};
+    if (($opt_unapply eq "auto" and -e $pc_unapply) or $opt_unapply eq "yes") {
         unlink($pc_unapply);
         $self->unapply_patches($dir);
     }
