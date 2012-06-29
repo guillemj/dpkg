@@ -566,15 +566,24 @@ showpackages(const char *const *argv)
   return failures;
 }
 
-static void
-pkg_infodb_print_filename(const char *filename, const char *filetype)
+static bool
+pkg_infodb_is_internal(const char *filetype)
 {
   /* Do not expose internal database files. */
   if (strcmp(filetype, LISTFILE) == 0 ||
       strcmp(filetype, CONFFILESFILE) == 0)
-    return;
+    return true;
 
   if (strlen(filetype) > MAXCONTROLFILENAME)
+    return true;
+
+  return false;
+}
+
+static void
+pkg_infodb_print_filename(const char *filename, const char *filetype)
+{
+  if (pkg_infodb_is_internal(filetype))
     return;
 
   printf("%s\n", filename);
