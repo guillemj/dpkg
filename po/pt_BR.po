@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2012-04-27 10:06+0200\n"
+"POT-Creation-Date: 2012-06-30 04:20+0200\n"
 "PO-Revision-Date: 2008-11-17 01:55-0200\n"
 "Last-Translator: Felipe Augusto van de Wiel (faw) <faw@debian.org>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
@@ -27,28 +27,40 @@ msgstr ""
 msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr ""
 
-#: lib/dpkg/ar.c:87 lib/dpkg/ar.c:103 lib/dpkg/ar.c:114 lib/dpkg/ar.c:118
-#: lib/dpkg/ar.c:140 utils/update-alternatives.c:1144
+#: lib/dpkg/ar.c:87 lib/dpkg/ar.c:108 lib/dpkg/ar.c:119 lib/dpkg/ar.c:123
+#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1144
 #, fuzzy, c-format
 msgid "unable to write file '%s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
+#: lib/dpkg/ar.c:98
+#, fuzzy, c-format
+#| msgid "file name '%.50s...' is too long"
+msgid "ar member name '%s' length too long"
+msgstr "nome do arquivo '%.50s...' é muito longo"
+
 #: lib/dpkg/ar.c:100
+#, c-format
+msgid "ar member size %jd too large"
+msgstr ""
+
+#: lib/dpkg/ar.c:105
 #, c-format
 msgid "generated corrupt ar header for '%s'"
 msgstr ""
 
-#: lib/dpkg/ar.c:129
+#: lib/dpkg/ar.c:136
 #, fuzzy, c-format
 msgid "failed to fstat ar member file (%s)"
 msgstr "falhou ao criar tmpfile (data)"
 
-#: lib/dpkg/ar.c:136
+#: lib/dpkg/ar.c:144
 #, fuzzy, c-format
-msgid "ar member file (%s)"
-msgstr "falhou ao criar tmpfile (data)"
+#| msgid "cannot stat new name `%s': %s"
+msgid "cannot append ar member file (%s) to '%s': %s"
+msgstr "não foi possível executar \"stat\" em novo nome '%s': %s"
 
-#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:135
+#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:137
 msgid "may not be empty string"
 msgstr "pode não ser uma string vazia"
 
@@ -58,7 +70,7 @@ msgstr "pode não ser uma string vazia"
 msgid "must start with an alphanumeric"
 msgstr "deve começar com um alfanumérico"
 
-#: lib/dpkg/arch.c:73 lib/dpkg/parsehelp.c:143
+#: lib/dpkg/arch.c:73 lib/dpkg/parsehelp.c:145
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr ""
@@ -110,7 +122,7 @@ msgstr "erro criando pipe '%.255s'"
 
 #: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
 #: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
-#: src/infodb-upgrade.c:200 src/remove.c:338 src/remove.c:429
+#: src/infodb-upgrade.c:200 src/remove.c:337 src/remove.c:428
 #, c-format
 msgid "cannot remove `%.250s'"
 msgstr "não foi possível remover '%.250s'"
@@ -120,120 +132,180 @@ msgstr "não foi possível remover '%.250s'"
 msgid "error installing new file '%s'"
 msgstr "erro instalando novo \"statoverride\": %s"
 
-#: lib/dpkg/buffer.c:193
-#, fuzzy, c-format
-msgid "failed to read on buffer copy for %s"
-msgstr "falhou em buffer_copy (%s)"
+#: lib/dpkg/buffer.c:133
+#, fuzzy
+#| msgid "failed to create pipe"
+msgid "failed to write"
+msgstr "falhou ao criar \"pipe\""
 
-#: lib/dpkg/buffer.c:209
-#, fuzzy, c-format
-msgid "failed in write on buffer copy for %s"
-msgstr "falhou em buffer_copy (%s)"
+#: lib/dpkg/buffer.c:154
+#, fuzzy
+#| msgid "failed to create pipe"
+msgid "failed to read"
+msgstr "falhou ao criar \"pipe\""
 
-#: lib/dpkg/buffer.c:217
-#, fuzzy, c-format
-msgid "short read on buffer copy for %s"
-msgstr "leitura curta em buffer_copy (%s)"
+#: lib/dpkg/buffer.c:223
+#, fuzzy
+#| msgid "unexpected end of file in %.250s"
+msgid "unexpected end of file or stream"
+msgstr "fim de arquivo não esperado em %.250s"
 
-#: lib/dpkg/buffer.c:285
-#, fuzzy, c-format
+#: lib/dpkg/buffer.c:269
+#, fuzzy
 #| msgid "failed to exec tar"
-msgid "failed to seek %s"
+msgid "failed to seek"
 msgstr "falhou ao executar tar"
 
-#: lib/dpkg/command.c:179 lib/dpkg/command.c:205 src/help.c:649
-#: src/processarc.c:102 src/processarc.c:142 src/processarc.c:471
-#: src/processarc.c:906 dpkg-deb/build.c:461 dpkg-deb/build.c:546
-#: dpkg-deb/build.c:569 dpkg-deb/extract.c:319 dpkg-deb/info.c:65
-#: dpkg-split/split.c:69 utils/update-alternatives.c:421
+#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:362
+#: src/processarc.c:102 src/processarc.c:142 src/processarc.c:472
+#: src/processarc.c:909 dpkg-deb/build.c:462 dpkg-deb/build.c:549
+#: dpkg-deb/build.c:572 dpkg-deb/extract.c:323 dpkg-deb/info.c:65
+#: dpkg-split/split.c:70 utils/update-alternatives.c:421
 #, fuzzy, c-format
 msgid "unable to execute %s (%s)"
 msgstr "impossível executar %s"
 
-#: lib/dpkg/compress.c:97 lib/dpkg/compress.c:386
-#, fuzzy
-#| msgid "unknown compression type `%s'!"
-msgid "unknown compression strategy"
-msgstr "tipo de compressão desconhecido '%s'!"
-
-#: lib/dpkg/compress.c:112
+#: lib/dpkg/compress.c:108 lib/dpkg/compress.c:117
 #, c-format
-msgid "%s: decompression"
-msgstr "%s: descompactação"
+msgid "%s: pass-through copy error: %s"
+msgstr ""
 
-#: lib/dpkg/compress.c:118
-#, c-format
-msgid "%s: compression"
-msgstr "%s: compactação"
-
-#: lib/dpkg/compress.c:153
+#: lib/dpkg/compress.c:151
 #, c-format
 msgid "%s: error binding input to gzip stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:165
+#: lib/dpkg/compress.c:163
 #, fuzzy, c-format
 msgid "%s: internal gzip read error: '%s'"
 msgstr "%s: erro interno do gzip: '%s'"
 
-#: lib/dpkg/compress.c:173 lib/dpkg/compress.c:177
+#: lib/dpkg/compress.c:171 lib/dpkg/compress.c:175
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: erro interno do gzip: '%s'"
 
-#: lib/dpkg/compress.c:191
+#: lib/dpkg/compress.c:189
 #, c-format
 msgid "%s: error binding output to gzip stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:198
+#: lib/dpkg/compress.c:196
 #, fuzzy, c-format
 msgid "%s: internal gzip read error"
 msgstr "%s: erro interno do gzip: '%s'"
 
-#: lib/dpkg/compress.c:208
+#: lib/dpkg/compress.c:206
 #, fuzzy, c-format
 msgid "%s: internal gzip write error: '%s'"
 msgstr "%s: erro interno do gzip: '%s'"
 
-#: lib/dpkg/compress.c:221
+#: lib/dpkg/compress.c:219
 #, fuzzy, c-format
 msgid "%s: internal gzip write error: %s"
 msgstr "%s: erro interno do gzip: '%s'"
 
-#: lib/dpkg/compress.c:273
+#: lib/dpkg/compress.c:270
 #, c-format
 msgid "%s: error binding input to bzip2 stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:285
+#: lib/dpkg/compress.c:282
 #, fuzzy, c-format
 msgid "%s: internal bzip2 read error: '%s'"
 msgstr "%s: erro interno do bzip2: '%s'"
 
-#: lib/dpkg/compress.c:293 lib/dpkg/compress.c:297 lib/dpkg/compress.c:347
+#: lib/dpkg/compress.c:290 lib/dpkg/compress.c:294 lib/dpkg/compress.c:344
 #, fuzzy, c-format
 msgid "%s: internal bzip2 write error"
 msgstr "%s: erro interno do bzip2: '%s'"
 
-#: lib/dpkg/compress.c:311
+#: lib/dpkg/compress.c:308
 #, c-format
 msgid "%s: error binding output to bzip2 stream"
 msgstr ""
 
-#: lib/dpkg/compress.c:318
+#: lib/dpkg/compress.c:315
 #, fuzzy, c-format
 msgid "%s: internal bzip2 read error"
 msgstr "%s: erro interno do bzip2: '%s'"
 
-#: lib/dpkg/compress.c:328 lib/dpkg/compress.c:339
+#: lib/dpkg/compress.c:325 lib/dpkg/compress.c:336
 #, fuzzy, c-format
 msgid "%s: internal bzip2 write error: '%s'"
 msgstr "%s: erro interno do bzip2: '%s'"
 
-#: lib/dpkg/compress.c:335
+#: lib/dpkg/compress.c:332
 msgid "unexpected bzip2 error"
 msgstr ""
+
+#: lib/dpkg/compress.c:391
+#, fuzzy
+#| msgid "internal error - bad mode `%s'"
+msgid "internal error (bug)"
+msgstr "erro interno - modo ruim '%s'"
+
+#: lib/dpkg/compress.c:398
+msgid "memory usage limit reached"
+msgstr ""
+
+#: lib/dpkg/compress.c:402
+#, fuzzy
+#| msgid "unknown compression type `%s'!"
+msgid "unsupported compression preset"
+msgstr "tipo de compressão desconhecido '%s'!"
+
+#: lib/dpkg/compress.c:404
+msgid "unsupported options in file header"
+msgstr ""
+
+#: lib/dpkg/compress.c:408
+msgid "compressed data is corrupt"
+msgstr ""
+
+#: lib/dpkg/compress.c:412
+#, fuzzy
+#| msgid "unexpected end of file in %.250s"
+msgid "unexpected end of input"
+msgstr "fim de arquivo não esperado em %.250s"
+
+#: lib/dpkg/compress.c:416
+#, fuzzy
+#| msgid "file may not contain newlines"
+msgid "file format not recognized"
+msgstr "arquivo não pode conter novas linhas"
+
+#: lib/dpkg/compress.c:420
+msgid "unsupported type of integrity check"
+msgstr ""
+
+#: lib/dpkg/compress.c:461
+#, fuzzy, c-format
+msgid "%s: lzma read error"
+msgstr "%s: erro interno do gzip: '%s'"
+
+#: lib/dpkg/compress.c:473
+#, fuzzy, c-format
+msgid "%s: lzma write error"
+msgstr "%s: erro interno do gzip: '%s'"
+
+#: lib/dpkg/compress.c:482
+#, c-format
+msgid "%s: lzma close error"
+msgstr ""
+
+#: lib/dpkg/compress.c:488
+#, fuzzy, c-format
+msgid "%s: lzma error: %s"
+msgstr ""
+"%s: erro processando %s (--%s):\n"
+" %s\n"
+
+#: lib/dpkg/compress.c:761
+#, fuzzy
+#| msgid "unknown compression type `%s'!"
+msgid "unknown compression strategy"
+msgstr "tipo de compressão desconhecido '%s'!"
 
 #: lib/dpkg/dbmodify.c:68
 #, c-format
@@ -262,7 +334,7 @@ msgstr "não foi possível vasculhar diretório de atualizações '%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "falhou ao remover arquivo de atualização incorporado %.255s"
 
-#: lib/dpkg/dbmodify.c:120 dpkg-deb/build.c:449
+#: lib/dpkg/dbmodify.c:120 dpkg-deb/build.c:450
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "impossível criar '%.255s'"
@@ -385,22 +457,22 @@ msgstr "impossível abrir arquivo fonte '%.250s'"
 msgid "unable to open directory '%s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
-#: lib/dpkg/dir.c:109 src/divertcmd.c:216 dpkg-split/split.c:202
-#: utils/update-alternatives.c:1283
+#: lib/dpkg/dir.c:109 src/divertcmd.c:217 dpkg-split/split.c:208
+#: utils/update-alternatives.c:1288
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
-#: lib/dpkg/dir.c:111 src/divertcmd.c:230 dpkg-deb/build.c:607
-#: dpkg-split/join.c:65 dpkg-split/queue.c:191
-#: utils/update-alternatives.c:1396
+#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:610
+#: dpkg-split/join.c:70 dpkg-split/queue.c:196
+#: utils/update-alternatives.c:1401
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:232 dpkg-deb/build.c:609
-#: dpkg-split/join.c:67 dpkg-split/queue.c:193
-#: utils/update-alternatives.c:1304 utils/update-alternatives.c:1398
+#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:612
+#: dpkg-split/join.c:72 dpkg-split/queue.c:198
+#: utils/update-alternatives.c:1309 utils/update-alternatives.c:1403
 #, fuzzy, c-format
 msgid "unable to close file '%s'"
 msgstr "impossível efetuar \"flush\" em vsnprintf "
@@ -477,12 +549,7 @@ msgstr ""
 "%s: erro processando %s (--%s):\n"
 " %s\n"
 
-#: lib/dpkg/ehandle.c:393
-#, fuzzy, c-format
-msgid "%s: warning: %s\n"
-msgstr "erro ao gravar `%s'"
-
-#: lib/dpkg/ehandle.c:416
+#: lib/dpkg/ehandle.c:388
 #, fuzzy, c-format
 msgid "%s:%s:%d:%s: internal error: %s\n"
 msgstr "%s:%d: erro interno '%s'\n"
@@ -624,19 +691,13 @@ msgstr ""
 "nome do pacote"
 
 #: lib/dpkg/fields.c:452
-#, fuzzy
-#| msgid "%d files and directories currently installed.)\n"
-msgid "a value different from 'any' is currently not allowed"
-msgstr "%d arquivos e diretórios atualmente instalados).\n"
-
-#: lib/dpkg/fields.c:454
 #, fuzzy, c-format
 #| msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgid ""
 "'%s' field, reference to '%.255s': invalid architecture name '%.255s': %s"
 msgstr "campo '%s', referência a '%.255s': erro em versão: %.255s"
 
-#: lib/dpkg/fields.c:488
+#: lib/dpkg/fields.c:486
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -645,7 +706,7 @@ msgstr ""
 "campo '%s', referência a '%.255s':\n"
 " relacionamento de versões ruim %c%c"
 
-#: lib/dpkg/fields.c:494
+#: lib/dpkg/fields.c:492
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -654,7 +715,7 @@ msgstr ""
 "campo '%s', referência a '%.255s':\n"
 " '%c' está obsoleto, em seu lugar use '%c=' ou '%c%c'"
 
-#: lib/dpkg/fields.c:504
+#: lib/dpkg/fields.c:502
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -663,11 +724,11 @@ msgstr ""
 "campo '%s', referência a '%.255s':\n"
 " combinação exata implícita com o número da versão, sugere-se usar '='"
 
-#: lib/dpkg/fields.c:512
+#: lib/dpkg/fields.c:510
 msgid "Only exact versions may be used for Provides"
 msgstr "Somente versões exatas podem ser usadas para \"Provides\""
 
-#: lib/dpkg/fields.c:516
+#: lib/dpkg/fields.c:514
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -677,105 +738,110 @@ msgstr ""
 " valor da versão começa com caractere não-alfanumérico, sugere-se a adição\n"
 " de um espaço"
 
-#: lib/dpkg/fields.c:533 lib/dpkg/fields.c:537
+#: lib/dpkg/fields.c:531 lib/dpkg/fields.c:535
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
 msgstr "campo '%s', referência a '%.255s': versão contém '%c'"
 
-#: lib/dpkg/fields.c:541
+#: lib/dpkg/fields.c:539
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "campo '%s', referência a '%.255s': versão não terminada"
 
-#: lib/dpkg/fields.c:547
+#: lib/dpkg/fields.c:545
 #, fuzzy, c-format
 #| msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgid "'%s' field, reference to '%.255s': error in version"
 msgstr "campo '%s', referência a '%.255s': erro em versão: %.255s"
 
-#: lib/dpkg/fields.c:557
+#: lib/dpkg/fields.c:555
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "campo '%s', erro de sintaxe após referência a pacote '%.255s'"
 
-#: lib/dpkg/fields.c:564
+#: lib/dpkg/fields.c:562
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternativas ('|') não permitidas no campo %s"
 
-#: lib/dpkg/fields.c:618
+#: lib/dpkg/fields.c:616
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr "valor para campo 'triggers-pending' não permitido neste contexto"
 
-#: lib/dpkg/fields.c:625
+#: lib/dpkg/fields.c:623
 #, c-format
 msgid "illegal pending trigger name `%.255s': %s"
 msgstr "nome de gatilho pendente ilegal '%.255s': %s"
 
-#: lib/dpkg/fields.c:629
+#: lib/dpkg/fields.c:627
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
 msgstr "gatilho pendente duplicado '%.255s'"
 
-#: lib/dpkg/fields.c:643
+#: lib/dpkg/fields.c:641
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr "valor para campo 'triggers-awaited' não permitido neste contexto"
 
-#: lib/dpkg/fields.c:652
+#: lib/dpkg/fields.c:650
 #, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
 msgstr "nome de pacote ilegal no gatilho em espera '%.255s': %s"
 
-#: lib/dpkg/fields.c:657
+#: lib/dpkg/fields.c:655
 #, c-format
 msgid "duplicate awaited trigger package `%.255s'"
 msgstr "gatilho em espera duplicado no pacote '%.255s'"
 
-#: lib/dpkg/file.c:51
+#: lib/dpkg/file.c:53
 #, fuzzy, c-format
 msgid "unable to stat source file '%.250s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
-#: lib/dpkg/file.c:55
+#: lib/dpkg/file.c:57
 #, fuzzy, c-format
 msgid "unable to change ownership of target file '%.250s'"
 msgstr ""
 "impossível mudar posse do novo arquivo de configuração (\"conffile\") \"dist"
 "\" '%.250s' "
 
-#: lib/dpkg/file.c:59
+#: lib/dpkg/file.c:61
 #, fuzzy, c-format
 msgid "unable to set mode of target file '%.250s'"
 msgstr ""
 "impossível definir o modo do novo arquivo de configuração (\"conffile\") "
 "\"dist\" '%.250s'"
 
-#: lib/dpkg/file.c:85
+#: lib/dpkg/file.c:87
 #, fuzzy, c-format
 #| msgid "unable to unlock %s: %s"
 msgid "unable to unlock %s"
 msgstr "impossível desbloquear %s: %s"
 
-#: lib/dpkg/file.c:111
+#: lib/dpkg/file.c:113
 #, fuzzy, c-format
 msgid "unable to check file '%s' lock status"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
-#: lib/dpkg/file.c:146
+#: lib/dpkg/file.c:148
 #, fuzzy, c-format
 #| msgid "status database area is locked by another process"
 msgid "%s is locked by another process"
 msgstr "área de banco de dados de estados está bloqueada por outro processo"
 
-#: lib/dpkg/file.c:148
+#: lib/dpkg/file.c:150
 #, fuzzy, c-format
 #| msgid "unable to unlock %s: %s"
 msgid "unable to lock %s"
 msgstr "impossível desbloquear %s: %s"
 
+#: lib/dpkg/file.c:171 lib/dpkg/file.c:176
+msgid "showing file on pager"
+msgstr ""
+
 #: lib/dpkg/log.c:53
-#, c-format
-msgid "couldn't open log `%s': %s\n"
+#, fuzzy, c-format
+#| msgid "couldn't open log `%s': %s\n"
+msgid "could not open log '%s': %s"
 msgstr "não foi possível abrir log '%s': %s\n"
 
 #: lib/dpkg/log.c:85
@@ -921,12 +987,12 @@ msgstr "nome do campo '%.*s' definido pelo usuário é muito curto"
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "valor duplo para campo definido pelo usuário '%.*s'"
 
-#: lib/dpkg/parse.c:201 lib/dpkg/parsehelp.c:306 lib/dpkg/parsehelp.c:318
+#: lib/dpkg/parse.c:201 lib/dpkg/parsehelp.c:314 lib/dpkg/parsehelp.c:326
 #, c-format
 msgid "missing %s"
 msgstr "%s faltando"
 
-#: lib/dpkg/parse.c:203 lib/dpkg/parsehelp.c:308 lib/dpkg/parsehelp.c:321
+#: lib/dpkg/parse.c:203 lib/dpkg/parsehelp.c:316 lib/dpkg/parsehelp.c:329
 #, c-format
 msgid "empty value for %s"
 msgstr "valor vazio para %s"
@@ -1071,60 +1137,72 @@ msgstr ""
 msgid "no package information in `%.255s'"
 msgstr "sem informações de pacote em '%.255s'"
 
-#: lib/dpkg/parsehelp.c:46
+#: lib/dpkg/parsehelp.c:48
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d package '%.255s':\n"
 " %.255s"
 msgstr "aviso, no arquivo '%.255s', próximo à linha %d"
 
-#: lib/dpkg/parsehelp.c:50
+#: lib/dpkg/parsehelp.c:52
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
 " %.255s"
 msgstr "aviso, no arquivo '%.255s', próximo à linha %d"
 
-#: lib/dpkg/parsehelp.c:137
+#: lib/dpkg/parsehelp.c:139
 #, fuzzy
 #| msgid "must start with an alphanumeric"
 msgid "must start with an alphanumeric character"
 msgstr "deve começar com um alfanumérico"
 
-#: lib/dpkg/parsehelp.c:185
+#: lib/dpkg/parsehelp.c:187
 #, fuzzy
 #| msgid "<none>"
 msgctxt "version"
 msgid "<none>"
 msgstr "<nenhuma>"
 
-#: lib/dpkg/parsehelp.c:216
+#: lib/dpkg/parsehelp.c:217
 msgid "version string is empty"
 msgstr "string de versão está vazia"
 
-#: lib/dpkg/parsehelp.c:231
+#: lib/dpkg/parsehelp.c:232
 msgid "version string has embedded spaces"
 msgstr "string de versão possui espaços embutidos"
 
-#: lib/dpkg/parsehelp.c:237
+#: lib/dpkg/parsehelp.c:241
 msgid "epoch in version is not number"
 msgstr "época em versão não é um número"
 
-#: lib/dpkg/parsehelp.c:239
+#: lib/dpkg/parsehelp.c:243
+#, fuzzy
+#| msgid "epoch in version is not number"
+msgid "epoch in version is negative"
+msgstr "época em versão não é um número"
+
+#: lib/dpkg/parsehelp.c:245
+#, fuzzy
+#| msgid "epoch in version is not number"
+msgid "epoch in version is too big"
+msgstr "época em versão não é um número"
+
+#: lib/dpkg/parsehelp.c:247
 msgid "nothing after colon in version number"
 msgstr "nada após vírgula em número de versão"
 
-#: lib/dpkg/parsehelp.c:254
+#: lib/dpkg/parsehelp.c:262
 msgid "version number does not start with digit"
 msgstr ""
 
-#: lib/dpkg/parsehelp.c:257
+#: lib/dpkg/parsehelp.c:265
 #, fuzzy
 #| msgid "nothing after colon in version number"
 msgid "invalid character in version number"
 msgstr "nada após vírgula em número de versão"
 
-#: lib/dpkg/parsehelp.c:261
+#: lib/dpkg/parsehelp.c:269
 #, fuzzy
 #| msgid "nothing after colon in version number"
 msgid "invalid character in revision number"
@@ -1135,15 +1213,21 @@ msgstr "nada após vírgula em número de versão"
 msgid "ambiguous package name '%s' with more than one installed instance"
 msgstr ""
 
-#: lib/dpkg/pkg-format.c:82
-#, c-format
-msgid "invalid character `%c' in field width\n"
+#: lib/dpkg/pkg-format.c:87
+#, fuzzy, c-format
+#| msgid "invalid character `%c' in field width\n"
+msgid "invalid character '%c' in field width"
 msgstr "caractere '%c' inválido no campo tamanho\n"
 
-#: lib/dpkg/pkg-format.c:174
-#, c-format
-msgid "Closing brace missing in format\n"
-msgstr "Fechamento de chave faltando no formato\n"
+#: lib/dpkg/pkg-format.c:92
+msgid "field width is out of range"
+msgstr ""
+
+#: lib/dpkg/pkg-format.c:183
+#, fuzzy
+#| msgid "missing altname"
+msgid "missing closing brace"
+msgstr "\"altname\" faltando"
 
 #: lib/dpkg/pkg-show.c:141
 msgid "(no description available)"
@@ -1160,6 +1244,11 @@ msgstr "nome de pacote ilegal no gatilho em espera '%.255s': %s"
 #| msgid "illegal package name in awaited trigger `%.255s': %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "nome de pacote ilegal no gatilho em espera '%.255s': %s"
+
+#: lib/dpkg/report.c:48
+#, fuzzy, c-format
+msgid "%s: warning: %s\n"
+msgstr "erro ao gravar `%s'"
 
 #: lib/dpkg/subproc.c:55
 #, fuzzy, c-format
@@ -1328,7 +1417,7 @@ msgstr ""
 "gatilhos de arquivo registram menções a nomes de pacotes ilegais "
 "'%.250s' (para interesse no arquivo '%.250s'): %.250s"
 
-#: lib/dpkg/triglib.c:631
+#: lib/dpkg/triglib.c:663
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
@@ -1337,26 +1426,26 @@ msgstr ""
 "arquivo de gatilhos ci '%.250s' contém sintaxe de gatilho ilegal no nome do "
 "gatilho '%.250s': %.250s"
 
-#: lib/dpkg/triglib.c:651
+#: lib/dpkg/triglib.c:683
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "impossível abrir arquivo de gatilhos ci '%.250s'"
 
-#: lib/dpkg/triglib.c:666
+#: lib/dpkg/triglib.c:698
 msgid "triggers ci file contains unknown directive syntax"
 msgstr "arquivo de gatilhos ci contém diretiva de sintaxe desconhecida"
 
-#: lib/dpkg/triglib.c:679
+#: lib/dpkg/triglib.c:711
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr "arquivo de gatilhos ci contém diretiva desconhecida '%.250s'"
 
-#: lib/dpkg/triglib.c:745
+#: lib/dpkg/triglib.c:777
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "impossível criar diretório de estado dos gatilhos '%.250s'"
 
-#: lib/dpkg/triglib.c:748
+#: lib/dpkg/triglib.c:780
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr ""
@@ -1395,101 +1484,115 @@ msgstr "fim de arquivo inesperado lendo '%.250s'"
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
-#: src/archives.c:232 src/archives.c:244
+#: src/archives.c:232
 msgid "error reading from dpkg-deb pipe"
 msgstr "erro lendo do \"pipe\" dpkg-deb"
 
-#: src/archives.c:256
+#: src/archives.c:247
+#, fuzzy, c-format
+#| msgid "can't mmap package info file `%.255s'"
+msgid "cannot skip padding for file '%.255s': %s"
+msgstr ""
+"não foi possível executar \"mmap\" no arquivo de informações do pacote "
+"'%.255s'"
+
+#: src/archives.c:260
 #, c-format
-msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
+msgid "cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"
 msgstr ""
 
-#: src/archives.c:316
+#: src/archives.c:322
 #, fuzzy, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "falhou ao ler '%.255s' (em '%.255s')"
 
-#: src/archives.c:324 src/archives.c:408
-#, c-format
-msgid "backend dpkg-deb during `%.255s'"
-msgstr "mecanismo dpkg-deb durante '%.255s'"
+#: src/archives.c:330
+#, fuzzy, c-format
+msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
+msgstr "dpkg: %s: aviso - falhou ao renomear '%.250s' para '%.250s': %s\n"
 
-#: src/archives.c:339 src/archives.c:455 src/statcmd.c:159
+#: src/archives.c:346 src/archives.c:463 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "erro estabelecendo posse de '%.255s'"
 
-#: src/archives.c:341 src/archives.c:457 src/statcmd.c:161
+#: src/archives.c:348 src/archives.c:465 src/statcmd.c:161
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "erro estabelecendo permissões de '%.255s'"
 
-#: src/archives.c:349 src/archives.c:1127 src/archives.c:1168
+#: src/archives.c:356 src/archives.c:1135 src/archives.c:1176
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "erro fechando/escrevendo '%.255s'"
 
-#: src/archives.c:353
+#: src/archives.c:360
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "erro criando pipe '%.255s'"
 
-#: src/archives.c:358 src/archives.c:363
+#: src/archives.c:365 src/archives.c:370
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "erro criando dispositivo '%.255s'"
 
 # NOTA: "hard link" = "link fixo" segundo a tradução do próprio `ln' - Carlos
-#: src/archives.c:377 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#: src/archives.c:384 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "erro criando ligação fixa (\"hard link\") '%.255s'"
 
-#: src/archives.c:384 utils/update-alternatives.c:489
+#: src/archives.c:391 utils/update-alternatives.c:489
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "erro criando ligação simbólica '%.255s'"
 
-#: src/archives.c:390
+#: src/archives.c:397
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "erro criando diretório '%.255s'"
 
-#: src/archives.c:436 src/archives.c:440
+#: src/archives.c:416
+#, fuzzy, c-format
+#| msgid "cannot open archive part file `%.250s'"
+msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgstr "não é possível abrir arquivo parcial '%.250s'"
+
+#: src/archives.c:444 src/archives.c:448
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "erro estabelecendo registros de data de '%.255s'"
 
-#: src/archives.c:452
+#: src/archives.c:460
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "erro estabelecendo posse da ligação simbólica '%.255s'"
 
-#: src/archives.c:523 src/archives.c:1051 utils/update-alternatives.c:317
+#: src/archives.c:531 src/archives.c:1059 utils/update-alternatives.c:317
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "impossível ler ligação '%.255s'"
 
-#: src/archives.c:525 src/archives.c:1053 src/configure.c:463
+#: src/archives.c:533 src/archives.c:1061 src/configure.c:479
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr ""
 
-#: src/archives.c:562
+#: src/archives.c:570
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
 "of package %.250s"
 msgstr "tentando sobrescrever '%.250s', que também está no pacote %.250s"
 
-#: src/archives.c:652
+#: src/archives.c:660
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr ""
 "falhou ao executar \"stat\" (\"dereference\") para ligação simbólica "
 "existente '%.250s'"
 
-#: src/archives.c:674
+#: src/archives.c:682
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1498,7 +1601,7 @@ msgstr ""
 "falhou ao executar \"stat\" (\"dereference\") no novo alvo de ligação "
 "simbólica proposto '%.250s' para ligação simbólica '%.250s'"
 
-#: src/archives.c:732
+#: src/archives.c:740
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1507,18 +1610,18 @@ msgstr ""
 "tentando sobrescrever '%.250s', que é a versão desviada de '%.250s' (pacote: "
 "%.100s)"
 
-#: src/archives.c:738
+#: src/archives.c:746
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr "tentando sobrescrever '%.250s', que é a versão desviada de '%.250s'"
 
-#: src/archives.c:768
+#: src/archives.c:776
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr ""
 "impossível executar \"stat\" de '%.255s' (que eu estava prestes a instalar)"
 
-#: src/archives.c:776
+#: src/archives.c:784
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1527,39 +1630,39 @@ msgstr ""
 "impossível limpar a sujeira em torno de '%.255s' antes de instalar outra "
 "versão"
 
-#: src/archives.c:782
+#: src/archives.c:790
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "impossível executar \"stat\"'%.255s' restaurado antes de instalar outra "
 "versão"
 
-#: src/archives.c:818
+#: src/archives.c:826
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "arquivo continha objeto '%.255s' de tipo desconhecido 0x%x"
 
-#: src/archives.c:900 src/divertcmd.c:148 utils/update-alternatives.c:631
-#: utils/update-alternatives.c:1211 utils/update-alternatives.c:1274
-#: utils/update-alternatives.c:1432 utils/update-alternatives.c:1672
-#: utils/update-alternatives.c:2156 utils/update-alternatives.c:2222
-#: utils/update-alternatives.c:2361
+#: src/archives.c:908 src/divertcmd.c:148 utils/update-alternatives.c:631
+#: utils/update-alternatives.c:1211 utils/update-alternatives.c:1279
+#: utils/update-alternatives.c:1437 utils/update-alternatives.c:1684
+#: utils/update-alternatives.c:2168 utils/update-alternatives.c:2234
+#: utils/update-alternatives.c:2373
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
 msgid "cannot stat file '%s'"
 msgstr "não foi possível executar \"stat\" em nome antigo '%s': %s"
 
-#: src/archives.c:915
+#: src/archives.c:923
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Substituindo arquivos no pacote antigo %s ...\n"
 
-#: src/archives.c:920
+#: src/archives.c:928
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Substituídos por arquivos no pacote instalado %s ...\n"
 
-#: src/archives.c:929
+#: src/archives.c:937
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1567,49 +1670,49 @@ msgid ""
 msgstr ""
 "tentando sobrescrever diretório '%.250s' no pacote %.250s com não-diretório"
 
-#: src/archives.c:936
+#: src/archives.c:944
 #, fuzzy, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "tentando sobrescrever '%.250s', que também está no pacote %.250s"
 
-#: src/archives.c:1041
+#: src/archives.c:1049
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "impossível mover do caminho '%.255s' para instalar nova versão"
 
-#: src/archives.c:1058
+#: src/archives.c:1066
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "impossível criar ligação simbólica de backup para '%.255s'"
 
-#: src/archives.c:1060
+#: src/archives.c:1068
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 "impossível executar \"chown\" da ligação simbólica de backup para '%.255s'"
 
-#: src/archives.c:1065
+#: src/archives.c:1073
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "impossível criar ligação de backup de '%.255s' antes de instalar nova versão"
 
-#: src/archives.c:1082 src/archives.c:1176
+#: src/archives.c:1090 src/archives.c:1184
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "impossível instalar nova versão de '%.255s'"
 
-#: src/archives.c:1121 src/archives.c:1164
+#: src/archives.c:1129 src/archives.c:1172
 #, fuzzy, c-format
 msgid "unable to open '%.255s'"
 msgstr "impossível criar '%.255s'"
 
-#: src/archives.c:1166
+#: src/archives.c:1174
 #, fuzzy, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "impossível retirar '%.255s' do buffer"
 
-#: src/archives.c:1243
+#: src/archives.c:1251
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1618,70 +1721,81 @@ msgstr ""
 "dpkg: aviso - ignorando problema de dependência com %s:\n"
 "%s"
 
-#: src/archives.c:1248
+#: src/archives.c:1256
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s."
+" package %s, to enable %s"
 msgstr ""
 "dpkg: aviso - considerando desconfiguração do pacote essencial\n"
 " %s, para habilitar %s.\n"
 
-#: src/archives.c:1252
-#, c-format
+#: src/archives.c:1260
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s.\n"
 msgid ""
-"dpkg: no, %s is essential, will not deconfigure\n"
-" it in order to enable %s.\n"
+"no, %s is essential, will not deconfigure\n"
+" it in order to enable %s"
 msgstr ""
 "dpkg: não, %s é essencial, não vou desconfigurá-lo\n"
 " para habilitar %s.\n"
 
-#: src/archives.c:1261
-#, c-format
+#: src/archives.c:1269
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "dpkg: não, não posso continuar com %s (--auto-deconfigure ajudará):\n"
 "%s"
 
-#: src/archives.c:1271
+#: src/archives.c:1279
 #, c-format
 msgid "removal of %.250s"
 msgstr "remoção de %.250s"
 
-#: src/archives.c:1296
+#: src/archives.c:1304
 #, c-format
 msgid "installation of %.250s"
 msgstr "instalação de %.250s"
 
-#: src/archives.c:1298
-#, c-format
-msgid ""
-"dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
+#: src/archives.c:1306
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
+msgid "considering deconfiguration of %s, which would be broken by %s ..."
 msgstr ""
 "dpkg: considerando desconfiguração de %s, que seria quebrado por %s ...\n"
 
-#: src/archives.c:1305
-#, c-format
-msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
+#: src/archives.c:1312
+#, fuzzy, c-format
+#| msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
+msgid "yes, will deconfigure %s (broken by %s)"
 msgstr "dpkg: sim, vou desconfigurar %s (quebrado por %s).\n"
 
-#: src/archives.c:1310 src/archives.c:1434
-#, c-format
+#: src/archives.c:1317 src/archives.c:1438
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: regarding %s containing %s:\n"
+#| "%s"
 msgid ""
-"dpkg: regarding %s containing %s:\n"
+"regarding %s containing %s:\n"
 "%s"
 msgstr ""
 "dpkg: sobre %s contendo %s:\n"
 "%s"
 
-#: src/archives.c:1319
+#: src/archives.c:1325
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "dpkg: aviso - ignorando quebra, posso continuar de qualquer modo!\n"
 
-#: src/archives.c:1324
+#: src/archives.c:1330
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1690,136 +1804,142 @@ msgstr ""
 "instalando %.250s quebrará %.250s, e\n"
 " a desconfiguração não é permitida (--auto-deconfigure poderá ajudar)"
 
-#: src/archives.c:1329
+#: src/archives.c:1335
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "instalar %.250s quebrará software existente"
 
-#: src/archives.c:1359
-#, c-format
-msgid "dpkg: considering removing %s in favour of %s ...\n"
+#: src/archives.c:1365
+#, fuzzy, c-format
+#| msgid "dpkg: considering removing %s in favour of %s ...\n"
+msgid "considering removing %s in favour of %s ..."
 msgstr "dpkg: considerando remoção de %s em favor de %s ...\n"
 
-#: src/archives.c:1366
-#, c-format
-msgid "%s is not properly installed - ignoring any dependencies on it.\n"
+#: src/archives.c:1371
+#, fuzzy, c-format
+#| msgid "%s is not properly installed - ignoring any dependencies on it.\n"
+msgid "%s is not properly installed; ignoring any dependencies on it"
 msgstr "%s não está instalado corretamente - ignorando dependências a ele.\n"
 
-#: src/archives.c:1395
-#, c-format
-msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
+#: src/archives.c:1400
+#, fuzzy, c-format
+#| msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
+msgid "may have trouble removing %s, as it provides %s ..."
 msgstr "dpkg: pode haver problemas removendo %s, já que ele oferece %s ...\n"
 
-#: src/archives.c:1411
+#: src/archives.c:1415
 #, fuzzy, c-format
 msgid ""
-"dpkg: package %s requires reinstallation, but will remove anyway as you "
-"requested.\n"
+"package %s requires reinstallation, but will remove anyway as you requested"
 msgstr ""
 "dpkg: pacote %s precisa de reinstalação, mas vou removê-lo assim mesmo como "
 "você pediu.\n"
 
-#: src/archives.c:1415
-#, c-format
-msgid "dpkg: package %s requires reinstallation, will not remove.\n"
+#: src/archives.c:1419
+#, fuzzy, c-format
+#| msgid "dpkg: package %s requires reinstallation, will not remove.\n"
+msgid "package %s requires reinstallation, will not remove"
 msgstr "dpkg: pacote %s precisa de reinstalação, não vou removê-lo.\n"
 
-#: src/archives.c:1424
-#, c-format
-msgid "dpkg: yes, will remove %s in favour of %s.\n"
+#: src/archives.c:1428
+#, fuzzy, c-format
+#| msgid "dpkg: yes, will remove %s in favour of %s.\n"
+msgid "yes, will remove %s in favour of %s"
 msgstr "dpkg: sim, vou remover %s em favor de %s.\n"
 
-#: src/archives.c:1438
+#: src/archives.c:1441
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "pacotes conflitantes - não instalando %.250s"
 
-#: src/archives.c:1440
+#: src/archives.c:1443
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "dpkg: aviso - ignorando conflito, posso continuar de qualquer modo!\n"
 
-#: src/archives.c:1486
+#: src/archives.c:1489
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive precisa de ao menos um caminho como argumento"
 
-#: src/archives.c:1496
+#: src/archives.c:1499
 #, fuzzy
 msgid "find for dpkg --recursive"
 msgstr "falhou ao executar find para --recursive"
 
-#: src/archives.c:1517
+#: src/archives.c:1520
 msgid "failed to fdopen find's pipe"
 msgstr "falhou ao executar \"fdopen\" no \"pipe\" do find"
 
-#: src/archives.c:1523
+#: src/archives.c:1526
 msgid "error reading find's pipe"
 msgstr "erro lendo o \"pipe\" do find"
 
-#: src/archives.c:1524
+#: src/archives.c:1527
 msgid "error closing find's pipe"
 msgstr "erro fechando o \"pipe\" do find"
 
-#: src/archives.c:1527
+#: src/archives.c:1530
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "procura por --recursive retornou erro não manipulado %i"
 
-#: src/archives.c:1530
+#: src/archives.c:1533
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "procurei, mas não achei pacotes (arquivos casando com *.deb)"
 
-#: src/archives.c:1541
+#: src/archives.c:1544
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s precisa de ao menos um arquivo de pacote como argumento"
 
-#: src/archives.c:1576 src/divertcmd.c:76 src/divertcmd.c:116
-#: src/enquiry.c:217 src/enquiry.c:334 src/enquiry.c:525 src/enquiry.c:527
-#: src/enquiry.c:540 src/enquiry.c:570 src/main.c:68 src/main.c:170
-#: src/main.c:320 src/main.c:575 src/packages.c:266 src/querycmd.c:274
-#: src/querycmd.c:377 src/querycmd.c:425 src/querycmd.c:434 src/querycmd.c:480
-#: src/querycmd.c:559 src/querycmd.c:654 src/querycmd.c:699 src/select.c:99
+#: src/archives.c:1579 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/enquiry.c:218 src/enquiry.c:335 src/enquiry.c:526 src/enquiry.c:528
+#: src/enquiry.c:541 src/enquiry.c:571 src/main.c:68 src/main.c:170
+#: src/main.c:320 src/main.c:578 src/packages.c:266 src/querycmd.c:291
+#: src/querycmd.c:393 src/querycmd.c:440 src/querycmd.c:449 src/querycmd.c:495
+#: src/querycmd.c:578 src/querycmd.c:766 src/querycmd.c:811 src/select.c:99
 #: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:60 src/trigcmd.c:92
-#: dpkg-deb/build.c:443 dpkg-deb/extract.c:217 dpkg-deb/extract.c:252
-#: dpkg-deb/info.c:203 dpkg-deb/info.c:265 dpkg-deb/main.c:60
-#: dpkg-deb/main.c:128 dpkg-split/info.c:262 dpkg-split/main.c:54
-#: dpkg-split/main.c:98 dpkg-split/queue.c:148 dpkg-split/queue.c:284
+#: dpkg-deb/build.c:444 dpkg-deb/extract.c:218 dpkg-deb/extract.c:254
+#: dpkg-deb/info.c:205 dpkg-deb/info.c:267 dpkg-deb/main.c:62
+#: dpkg-deb/main.c:130 dpkg-split/info.c:266 dpkg-split/main.c:56
+#: dpkg-split/main.c:100 dpkg-split/queue.c:150 dpkg-split/queue.c:289
 msgid "<standard output>"
 msgstr ""
 
-#: src/archives.c:1577 src/packages.c:267 src/querycmd.c:275
-#: src/querycmd.c:375 src/querycmd.c:486 src/querycmd.c:560 src/select.c:100
-#: dpkg-split/main.c:169 dpkg-split/queue.c:222
+#: src/archives.c:1580 src/packages.c:267 src/querycmd.c:292
+#: src/querycmd.c:391 src/querycmd.c:501 src/querycmd.c:579 src/select.c:100
+#: dpkg-split/main.c:177 dpkg-split/queue.c:227
 msgid "<standard error>"
 msgstr ""
 
-#: src/archives.c:1618
+#: src/archives.c:1621
 #, fuzzy, c-format
 #| msgid "Selecting previously deselected package %s.\n"
 msgid "Selecting previously unselected package %s.\n"
 msgstr "Selecionando pacote previamente não selecionado %s.\n"
 
-#: src/archives.c:1623
+#: src/archives.c:1626
 #, fuzzy, c-format
 #| msgid "Skipping deselected package %s.\n"
 msgid "Skipping unselected package %s.\n"
 msgstr "Ignorando pacote não selecionado %s.\n"
 
-#: src/archives.c:1640
-#, c-format
-msgid "Version %.250s of %.250s already installed, skipping.\n"
+#: src/archives.c:1643
+#, fuzzy, c-format
+#| msgid "Version %.250s of %.250s already installed, skipping.\n"
+msgid "version %.250s of %.250s already installed, skipping"
 msgstr "Versão %.250s de %.250s já instalada, ignorando.\n"
 
-#: src/archives.c:1650
+#: src/archives.c:1652
 #, fuzzy, c-format
-msgid "downgrading %.250s from %.250s to %.250s."
+msgid "downgrading %.250s from %.250s to %.250s"
 msgstr "%s - aviso: revertendo %.250s de %.250s para %.250s.\n"
 
-#: src/archives.c:1656
-#, c-format
-msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
+#: src/archives.c:1658
+#, fuzzy, c-format
+#| msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
+msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
 msgstr "Não vou reverter %.250s da versão %.250s para %.250s, ignorando.\n"
 
 #: src/cleanup.c:87
@@ -1852,7 +1972,7 @@ msgstr "impossível remover versão recém-instalada de '%.250s'"
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "impossível remover versão recém-extraída de '%.250s'"
 
-#: src/configure.c:107
+#: src/configure.c:125
 #, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
@@ -1860,14 +1980,14 @@ msgstr ""
 "impossível executar \"stat\" no novo arquivo de configuração (\"conffile\") "
 "\"dist\" '%.250s'"
 
-#: src/configure.c:117
+#: src/configure.c:135
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr ""
 "impossível executar \"stat\" no arquivo de configuração (\"conffile\") "
 "atualmente instalado '%.250s'"
 
-#: src/configure.c:129
+#: src/configure.c:147
 #, c-format
 msgid ""
 "\n"
@@ -1878,59 +1998,59 @@ msgstr ""
 "O arquivo de configuração '%s' não existe no sistema.\n"
 "Instalando novo arquivo de configuração como você pediu.\n"
 
-#: src/configure.c:171
+#: src/configure.c:189
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "dpkg: %s: aviso - falhou ao remover backup antigo '%.250s': %s\n"
 
-#: src/configure.c:180
+#: src/configure.c:198
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "dpkg: %s: aviso - falhou ao renomear '%.250s' para '%.250s': %s\n"
 
-#: src/configure.c:187
+#: src/configure.c:205
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: falhou ao executar '%s %s'"
 
-#: src/configure.c:194
+#: src/configure.c:212
 #, fuzzy, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
 msgstr ""
 "dpkg: %s: aviso - falhou ao remover antiga versão \"distrib\" '%.250s': %s\n"
 
-#: src/configure.c:199
+#: src/configure.c:217
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 "dpkg: %s: aviso - falhou ao remover '%.250s' (antes de sobrescrever): %s\n"
 
-#: src/configure.c:204
+#: src/configure.c:222
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr "dpkg: %s: aviso - falhou ao ligar '%.250s' a '%.250s': %s\n"
 
-#: src/configure.c:209
+#: src/configure.c:227
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "Instalando nova versão do arquivo de configuração %s ...\n"
 
-#: src/configure.c:215 utils/update-alternatives.c:496
+#: src/configure.c:233 utils/update-alternatives.c:496
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "impossível instalar '%.250s' como '%.250s'"
 
-#: src/configure.c:267
+#: src/configure.c:285
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "nenhum pacote chamado '%s' está instalado, não posso configurar"
 
-#: src/configure.c:270
+#: src/configure.c:288
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "pacote %.250s já está instalado e configurado"
 
-#: src/configure.c:273
+#: src/configure.c:291
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1939,7 +2059,7 @@ msgstr ""
 "pacote %.250s não está pronto para configuração\n"
 " não posso configurar (estado atual '%.250s')"
 
-#: src/configure.c:285
+#: src/configure.c:303
 #, fuzzy, c-format
 #| msgid ""
 #| "package %.250s is not ready for configuration\n"
@@ -1950,36 +2070,42 @@ msgstr ""
 "pacote %.250s não está pronto para configuração\n"
 " não posso configurar (estado atual '%.250s')"
 
-#: src/configure.c:293
+#: src/configure.c:311
 #, c-format
 msgid ""
 "package %s %s cannot be configured because %s is at a different version (%s)"
 msgstr ""
 
-#: src/configure.c:330
-#, c-format
+#: src/configure.c:347
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: dependency problems prevent configuration of %s:\n"
+#| "%s"
 msgid ""
-"dpkg: dependency problems prevent configuration of %s:\n"
+"dependency problems prevent configuration of %s:\n"
 "%s"
 msgstr ""
 "dpkg: problemas de dependência impedem a configuração de %s:\n"
 "%s"
 
-#: src/configure.c:333
+#: src/configure.c:350
 msgid "dependency problems - leaving unconfigured"
 msgstr "problemas de dependência - deixando desconfigurado"
 
-#: src/configure.c:337
-#, c-format
+#: src/configure.c:353
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
+#| "%s"
 msgid ""
-"dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
+"%s: dependency problems, but configuring anyway as you requested:\n"
 "%s"
 msgstr ""
 "dpkg: %s: problemas de dependência, mas configurando assim mesmo como "
 "pedido:\n"
 "%s"
 
-#: src/configure.c:345
+#: src/configure.c:361
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1987,12 +2113,12 @@ msgstr ""
 "O pacote está em um estado de inconsistência muito ruim - você deveria\n"
 " reinstalá-lo antes de tentar uma configuração."
 
-#: src/configure.c:348
+#: src/configure.c:364
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Configurando %s (%s) ...\n"
 
-#: src/configure.c:432
+#: src/configure.c:448
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -2002,7 +2128,7 @@ msgstr ""
 "'%s'\n"
 " (= '%s'): %s\n"
 
-#: src/configure.c:446
+#: src/configure.c:462
 #, fuzzy, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -2011,7 +2137,7 @@ msgstr ""
 "dpkg: %s: aviso - arquivo de configuração '%s' é um link circular\n"
 " (= '%s')\n"
 
-#: src/configure.c:457
+#: src/configure.c:473
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -2021,7 +2147,7 @@ msgstr ""
 "configuração (\"conffile\") '%s'\n"
 " (= '%s'): %s\n"
 
-#: src/configure.c:484
+#: src/configure.c:500
 #, fuzzy, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -2031,37 +2157,39 @@ msgstr ""
 "nome de arquivo degenerado\n"
 " ('%s' é uma ligação simbólica para '%s')\n"
 
-#: src/configure.c:500
+#: src/configure.c:516
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "dpkg: %s: aviso - arquivo de configuração (\"conffile\") '%.250s' não é um "
 "arquivo simples ou uma ligação simbólica (= '%s')\n"
 
-#: src/configure.c:526
-msgid "md5hash"
-msgstr "md5hash"
+#: src/configure.c:544 dpkg-split/split.c:142
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot compute MD5 hash for file '%s': %s"
+msgstr "não foi possível executar \"stat\" em nome antigo '%s': %s"
 
-#: src/configure.c:532
+#: src/configure.c:551
 #, fuzzy, c-format
 msgid "%s: unable to open %s for hash: %s"
 msgstr ""
 "dpkg: %s: aviso - impossível abrir arquivo de configuração (\"conffile\") %s "
 "para hash: %s\n"
 
-#: src/configure.c:562 src/configure.c:566
+#: src/configure.c:577 src/configure.c:581
 msgid "conffile difference visualizer"
 msgstr ""
 
-#: src/configure.c:583
+#: src/configure.c:598
 msgid "Type `exit' when you're done.\n"
 msgstr "Digite 'exit' quando terminar.\n"
 
-#: src/configure.c:592 src/configure.c:596
+#: src/configure.c:607 src/configure.c:611
 msgid "conffile shell"
 msgstr ""
 
-#: src/configure.c:642
+#: src/configure.c:657
 #, c-format
 msgid ""
 "\n"
@@ -2070,12 +2198,12 @@ msgstr ""
 "\n"
 "Arquivo de configuração '%s'"
 
-#: src/configure.c:644
+#: src/configure.c:659
 #, c-format
 msgid " (actually `%s')"
 msgstr " (na verdade '%s')"
 
-#: src/configure.c:648
+#: src/configure.c:663
 #, c-format
 msgid ""
 "\n"
@@ -2086,7 +2214,7 @@ msgstr ""
 " ==> Arquivo no sistema criado por você ou por um script.\n"
 " ==> Arquivo também no pacote, fornecido pelo mantenedor dele.\n"
 
-#: src/configure.c:653
+#: src/configure.c:668
 #, c-format
 msgid ""
 "\n"
@@ -2095,7 +2223,7 @@ msgstr ""
 "\n"
 "     Não modificado desde a instalação.\n"
 
-#: src/configure.c:655
+#: src/configure.c:670
 #, c-format
 msgid ""
 "\n"
@@ -2104,7 +2232,7 @@ msgstr ""
 "\n"
 " ==> Modificado (por você ou por um script) desde a instalação.\n"
 
-#: src/configure.c:656
+#: src/configure.c:671
 #, c-format
 msgid ""
 "\n"
@@ -2113,37 +2241,37 @@ msgstr ""
 "\n"
 " ==> Excluído (por você ou por um script) desde a instalação.\n"
 
-#: src/configure.c:659
+#: src/configure.c:674
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> O distribuidor do pacote lançou uma versão atualizada.\n"
 
-#: src/configure.c:660
+#: src/configure.c:675
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     A versão no pacote é a mesma que a da última instalação.\n"
 
-#: src/configure.c:668
+#: src/configure.c:683
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Usando novo arquivo como você pediu.\n"
 
-#: src/configure.c:672
+#: src/configure.c:687
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Usando arquivo atual como você pediu.\n"
 
-#: src/configure.c:681
+#: src/configure.c:696
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Mantendo arquivo de configuração antigo como padrão.\n"
 
-#: src/configure.c:685
+#: src/configure.c:700
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Usando novo arquivo de configuração como padrão.\n"
 
-#: src/configure.c:692
+#: src/configure.c:707
 #, fuzzy, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -2159,40 +2287,40 @@ msgstr ""
 "      Z     : colocar este processo em segundo plano para examinar a "
 "situação\n"
 
-#: src/configure.c:699
+#: src/configure.c:714
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " A ação padrão é manter sua versão atual.\n"
 
-#: src/configure.c:701
+#: src/configure.c:716
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " A ação padrão é instalar a nova versão.\n"
 
-#: src/configure.c:706
+#: src/configure.c:721
 msgid "[default=N]"
 msgstr "[padrão=N]"
 
-#: src/configure.c:707
+#: src/configure.c:722
 msgid "[default=Y]"
 msgstr "[padrão=Y]"
 
-#: src/configure.c:708
+#: src/configure.c:723
 msgid "[no default]"
 msgstr "[sem padrão]"
 
-#: src/configure.c:711
+#: src/configure.c:726
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 "erro escrevendo para stderr, descoberto antes do prompt do arquivo de "
 "configuração (\"conffile\")"
 
-#: src/configure.c:720
+#: src/configure.c:735
 msgid "read error on stdin at conffile prompt"
 msgstr ""
 "erro de leitura em stdin no prompt do arquivo de configuração (\"conffile\")"
 
-#: src/configure.c:721
+#: src/configure.c:736
 msgid "EOF on stdin at conffile prompt"
 msgstr "EOF em stdin no prompt do arquivo de configuração (\"conffile\")"
 
@@ -2261,52 +2389,52 @@ msgstr "  %.250s está desempacotado, mas nunca foi configurado.\n"
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr " %.250s está desempacotado, mas sua versão é %.250s.\n"
 
-#: src/depcon.c:431
+#: src/depcon.c:432
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  a versão mais recente configurada de %.250s é %.250s.\n"
 
-#: src/depcon.c:443
+#: src/depcon.c:444
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s está %s.\n"
 
-#: src/depcon.c:481
+#: src/depcon.c:482
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s fornece %.250s mas está para ser removido.\n"
 
-#: src/depcon.c:486
+#: src/depcon.c:487
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr "  %.250s fornece %.250s mas está para ser desconfigurado.\n"
 
-#: src/depcon.c:496
+#: src/depcon.c:497
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s fornece %.250s mas está %s.\n"
 
-#: src/depcon.c:511
+#: src/depcon.c:512
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s não está instalado.\n"
 
-#: src/depcon.c:544
+#: src/depcon.c:545
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (versão %.250s) está para ser instalado.\n"
 
-#: src/depcon.c:575
+#: src/depcon.c:576
 #, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
 msgstr "  %.250s (versão %.250s) está presente e %s.\n"
 
-#: src/depcon.c:605
+#: src/depcon.c:606
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s fornece %.250s e está para ser instalado.\n"
 
-#: src/depcon.c:648
+#: src/depcon.c:649
 #, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
 msgstr "  %.250s fornece %.250s e está presente e %s.\n"
@@ -2322,8 +2450,8 @@ msgstr "Digite dpkg-trigger --help para ajuda sobre este utilitário."
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s versão %s.\n"
 
-#: src/divertcmd.c:73 src/main.c:65 src/querycmd.c:651 src/statcmd.c:61
-#: src/trigcmd.c:57 dpkg-deb/main.c:57 dpkg-split/main.c:51
+#: src/divertcmd.c:73 src/main.c:65 src/querycmd.c:763 src/statcmd.c:61
+#: src/trigcmd.c:57 dpkg-deb/main.c:59 dpkg-split/main.c:53
 #: utils/update-alternatives.c:84
 #, fuzzy, c-format
 msgid ""
@@ -2335,8 +2463,8 @@ msgstr ""
 "Pública Geral\") versão 2 ou posterior para condições de cópia. Não há\n"
 "NENHUMA garantia.\n"
 
-#: src/divertcmd.c:85 src/main.c:83 src/querycmd.c:663 src/statcmd.c:73
-#: dpkg-deb/main.c:69 dpkg-split/main.c:63 utils/update-alternatives.c:92
+#: src/divertcmd.c:85 src/main.c:83 src/querycmd.c:775 src/statcmd.c:73
+#: dpkg-deb/main.c:71 dpkg-split/main.c:65 utils/update-alternatives.c:92
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2424,123 +2552,125 @@ msgstr ""
 "renomear envolve sobrescrever '%s' com\n"
 "  arquivo diferente '%s', não permitido"
 
-#: src/divertcmd.c:221 utils/update-alternatives.c:1363
+#: src/divertcmd.c:222 utils/update-alternatives.c:1368
 #, fuzzy, c-format
 msgid "unable to create file '%s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
-#: src/divertcmd.c:225
-msgid "file copy"
-msgstr ""
+#: src/divertcmd.c:227
+#, fuzzy, c-format
+#| msgid "cannot stat new name `%s': %s"
+msgid "cannot copy '%s' to '%s': %s"
+msgstr "não foi possível executar \"stat\" em novo nome '%s': %s"
 
-#: src/divertcmd.c:237
+#: src/divertcmd.c:239
 #, fuzzy, c-format
 #| msgid "cannot stat new name `%s': %s"
 msgid "cannot rename '%s' to '%s'"
 msgstr "não foi possível executar \"stat\" em novo nome '%s': %s"
 
-#: src/divertcmd.c:250
+#: src/divertcmd.c:252
 #, fuzzy, c-format
 #| msgid "rename: remove duplicate old link `%s': %s"
 msgid "rename: remove duplicate old link '%s'"
 msgstr "renomear: remover ligação antiga duplicada '%s': %s"
 
-#: src/divertcmd.c:260
+#: src/divertcmd.c:262
 #, fuzzy, c-format
 #| msgid "unable to open source file `%.250s'"
 msgid "unable to remove copied source file '%s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
-#: src/divertcmd.c:269 src/divertcmd.c:733
+#: src/divertcmd.c:271 src/divertcmd.c:735
 #, c-format
 msgid "filename \"%s\" is not absolute"
 msgstr "nome de arquivo \"%s\" não é absoluto"
 
-#: src/divertcmd.c:271 src/statcmd.c:230
+#: src/divertcmd.c:273 src/statcmd.c:230
 msgid "file may not contain newlines"
 msgstr "arquivo não pode conter novas linhas"
 
-#: src/divertcmd.c:291
+#: src/divertcmd.c:293
 #, fuzzy, c-format
 #| msgid "local diversion to: %s\n"
 msgid "local diversion of %s"
 msgstr "localmente desviado para: %s\n"
 
-#: src/divertcmd.c:293
+#: src/divertcmd.c:295
 #, fuzzy, c-format
 #| msgid "local diversion to: %s\n"
 msgid "local diversion of %s to %s"
 msgstr "localmente desviado para: %s\n"
 
-#: src/divertcmd.c:297
+#: src/divertcmd.c:299
 #, fuzzy, c-format
 #| msgid "diversion by %s"
 msgid "diversion of %s by %s"
 msgstr "desvio por %s"
 
-#: src/divertcmd.c:300
+#: src/divertcmd.c:302
 #, fuzzy, c-format
 #| msgid "diversion by %s to: %s\n"
 msgid "diversion of %s to %s by %s"
 msgstr "desviado por %s para: %s\n"
 
-#: src/divertcmd.c:316
+#: src/divertcmd.c:318
 #, fuzzy, c-format
 #| msgid "diversion by %s"
 msgid "any diversion of %s"
 msgstr "desvio por %s"
 
-#: src/divertcmd.c:318
+#: src/divertcmd.c:320
 #, fuzzy, c-format
 #| msgid "diversion by %s to: %s\n"
 msgid "any diversion of %s to %s"
 msgstr "desviado por %s para: %s\n"
 
-#: src/divertcmd.c:423 src/divertcmd.c:555 src/divertcmd.c:673
-#: src/divertcmd.c:695 src/statcmd.c:271
+#: src/divertcmd.c:425 src/divertcmd.c:557 src/divertcmd.c:675
+#: src/divertcmd.c:697 src/statcmd.c:271
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s precisa de um único argumento"
 
-#: src/divertcmd.c:432
+#: src/divertcmd.c:434
 msgid "Cannot divert directories"
 msgstr "Não foi possível desviar diretórios"
 
-#: src/divertcmd.c:445
+#: src/divertcmd.c:447
 #, fuzzy, c-format
 msgid "cannot divert file '%s' to itself"
 msgstr "Não foi possível desviar diretórios"
 
-#: src/divertcmd.c:465
+#: src/divertcmd.c:467
 #, fuzzy, c-format
 #| msgid "Leaving `%s'"
 msgid "Leaving '%s'\n"
 msgstr "Deixando '%s'"
 
-#: src/divertcmd.c:470
+#: src/divertcmd.c:472
 #, c-format
 msgid "`%s' clashes with `%s'"
 msgstr "'%s' conflita com '%s'"
 
-#: src/divertcmd.c:493
+#: src/divertcmd.c:495
 #, fuzzy, c-format
 #| msgid "Adding `%s'"
 msgid "Adding '%s'\n"
 msgstr "Adicionado '%s'"
 
-#: src/divertcmd.c:499
+#: src/divertcmd.c:501
 #, fuzzy, c-format
 msgid "Ignoring request to rename file '%s' owned by diverting package '%s'\n"
 msgstr ""
 "dpkg - aviso: ignorando pedido para remover %.250s que não está instalado.\n"
 
-#: src/divertcmd.c:564
+#: src/divertcmd.c:566
 #, fuzzy, c-format
 #| msgid "No diversion `%s', none removed"
 msgid "No diversion '%s', none removed.\n"
 msgstr "Nenhum desvio (\"diversion\") '%s', nenhum removido"
 
-#: src/divertcmd.c:579
+#: src/divertcmd.c:581
 #, c-format
 msgid ""
 "mismatch on divert-to\n"
@@ -2551,7 +2681,7 @@ msgstr ""
 "  na remoção de '%s'\n"
 "  encontrado '%s'"
 
-#: src/divertcmd.c:586
+#: src/divertcmd.c:588
 #, c-format
 msgid ""
 "mismatch on package\n"
@@ -2562,23 +2692,23 @@ msgstr ""
 "  na remoção de '%s'\n"
 "  encontrado '%s'"
 
-#: src/divertcmd.c:596
+#: src/divertcmd.c:598
 #, fuzzy, c-format
 msgid "Ignoring request to remove shared diversion '%s'.\n"
 msgstr ""
 "dpkg - aviso: ignorando pedido para remover %.250s que não está instalado.\n"
 
-#: src/divertcmd.c:602
+#: src/divertcmd.c:604
 #, fuzzy, c-format
 #| msgid "Removing `%s'"
 msgid "Removing '%s'\n"
 msgstr "Removendo '%s'"
 
-#: src/divertcmd.c:724
+#: src/divertcmd.c:726
 msgid "package may not contain newlines"
 msgstr "pacote não pode conter novas linhas"
 
-#: src/divertcmd.c:735
+#: src/divertcmd.c:737
 msgid "divert-to may not contain newlines"
 msgstr "desviar-para não pode conter novas linhas"
 
@@ -2599,7 +2729,7 @@ msgstr "falhou ao executar \"fstat\" no arquivo de desvios"
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "desvios conflitantes envolvendo '%.250s' ou '%.250s'"
 
-#: src/enquiry.c:97
+#: src/enquiry.c:98
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -2609,7 +2739,7 @@ msgstr ""
 "a instalação, e precisam ser reinstalados para que eles (e quaisquer\n"
 "pacotes que dependam dele) funcionem corretamente:\n"
 
-#: src/enquiry.c:104
+#: src/enquiry.c:105
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -2619,7 +2749,7 @@ msgstr ""
 "Eles precisam ser configurados usando dpkg --configure ou a opção do menu\n"
 "do dselect de configuração para que funcionem:\n"
 
-#: src/enquiry.c:111
+#: src/enquiry.c:112
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -2629,7 +2759,7 @@ msgstr ""
 "problemas ao configurá-los pela primeira vez. A configuração deve ser feita\n"
 "novamente usando dpkg --configure <pacote> ou a opção no menu do dselect:\n"
 
-#: src/enquiry.c:118
+#: src/enquiry.c:119
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -2640,7 +2770,7 @@ msgstr ""
 "a instalação, que provavelmente estará completa se você tentar executá-la\n"
 "novamente; os pacotes podem ser removidos com o dselect ou dpkg --remove:\n"
 
-#: src/enquiry.c:125
+#: src/enquiry.c:126
 msgid ""
 "The following packages are awaiting processing of triggers that they\n"
 "have activated in other packages.  This processing can be requested using\n"
@@ -2650,7 +2780,7 @@ msgstr ""
 "ativaram em outros pacotes. Este processamento pode ser executado usando\n"
 "dselect ou dpkg --configure --pending (ou dpkg --triggers-only):\n"
 
-#: src/enquiry.c:132
+#: src/enquiry.c:133
 msgid ""
 "The following packages have been triggered, but the trigger processing\n"
 "has not yet been done.  Trigger processing can be requested using\n"
@@ -2660,59 +2790,59 @@ msgstr ""
 "gatilhos ainda não terminou. O processamento de gatilhos pode ser executado\n"
 "usando dselect ou dpkg --configure --pending (ou dpkg --triggers-only):\n"
 
-#: src/enquiry.c:139
+#: src/enquiry.c:140
 msgid ""
 "The following packages are missing the list control file in the\n"
 "database, they need to be reinstalled:\n"
 msgstr ""
 
-#: src/enquiry.c:145
+#: src/enquiry.c:146
 msgid ""
 "The following packages are missing the md5sums control file in the\n"
 "database, they need to be reinstalled:\n"
 msgstr ""
 
-#: src/enquiry.c:150
+#: src/enquiry.c:151
 msgid "The following packages do not have an architecture:\n"
 msgstr ""
 
-#: src/enquiry.c:154
+#: src/enquiry.c:155
 msgid "The following packages have an illegal architecture:\n"
 msgstr ""
 
-#: src/enquiry.c:159
+#: src/enquiry.c:160
 msgid ""
 "The following packages have an unknown foreign architecture, which will\n"
 "cause dependency issues on front-ends. This can be fixed by registering\n"
 "the foreign architecture with dpkg --add-architecture:\n"
 msgstr ""
 
-#: src/enquiry.c:188 src/enquiry.c:262 src/enquiry.c:347 src/enquiry.c:436
-#: src/enquiry.c:536 src/enquiry.c:559 src/select.c:117 src/select.c:193
-#: src/trigcmd.c:230 src/update.c:48 src/update.c:110 dpkg-split/queue.c:236
+#: src/enquiry.c:189 src/enquiry.c:263 src/enquiry.c:348 src/enquiry.c:437
+#: src/enquiry.c:537 src/enquiry.c:560 src/select.c:117 src/select.c:193
+#: src/trigcmd.c:228 src/update.c:48 src/update.c:110 dpkg-split/queue.c:241
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s não aceita argumentos"
 
-#: src/enquiry.c:203
+#: src/enquiry.c:204
 msgid ""
 "Another process has locked the database for writing, and might currently be\n"
 "modifying it, some of the following problems might just be due to that.\n"
 msgstr ""
 
-#: src/enquiry.c:242
+#: src/enquiry.c:243
 #, fuzzy
 #| msgid "<unknown>"
 msgctxt "section"
 msgid "<unknown>"
 msgstr "<desconhecido>"
 
-#: src/enquiry.c:302
+#: src/enquiry.c:303
 #, c-format
 msgid " %d in %s: "
 msgstr " %d em %s: "
 
-#: src/enquiry.c:321
+#: src/enquiry.c:322
 #, fuzzy, c-format
 #| msgid " %d packages, from the following sections:"
 msgid " %d package, from the following section:"
@@ -2720,7 +2850,7 @@ msgid_plural " %d packages, from the following sections:"
 msgstr[0] " %d pacotes, das seguintes seções:"
 msgstr[1] " %d pacotes, das seguintes seções:"
 
-#: src/enquiry.c:360
+#: src/enquiry.c:361
 #, fuzzy, c-format
 msgid ""
 "Version of dpkg with working %s support not yet configured.\n"
@@ -2729,106 +2859,112 @@ msgstr ""
 "Versão de dpkg com suporte a épocas funcionando ainda não configurada.\n"
 " Por favor use 'dpkg --configure dpkg' e tente novamente.\n"
 
-#: src/enquiry.c:365
+#: src/enquiry.c:366
 #, fuzzy, c-format
 msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 msgstr ""
 "dpkg não registrado como instalado, impossível checar suporte a épocas!\n"
 
-#: src/enquiry.c:376
+#: src/enquiry.c:377
 msgid "Pre-Depends field"
 msgstr ""
 
-#: src/enquiry.c:384
+#: src/enquiry.c:385
 msgid "epoch"
 msgstr ""
 
-#: src/enquiry.c:392
+#: src/enquiry.c:393
 msgid "long filenames"
 msgstr ""
 
-#: src/enquiry.c:401
+#: src/enquiry.c:402
 msgid "multiple Conflicts and Replaces"
 msgstr ""
 
-#: src/enquiry.c:409
+#: src/enquiry.c:410
 msgid "multi-arch"
 msgstr ""
 
-#: src/enquiry.c:509
-#, c-format
+#: src/enquiry.c:510
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: cannot see how to satisfy pre-dependency:\n"
+#| " %s\n"
 msgid ""
-"dpkg: cannot see how to satisfy pre-dependency:\n"
-" %s\n"
+"cannot see how to satisfy pre-dependency:\n"
+" %s"
 msgstr ""
 "dpkg: não foi possível ver como satisfazer a pré-dependência:\n"
 " %s\n"
 
-#: src/enquiry.c:510
+#: src/enquiry.c:511
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "não foi possível satisfazer as pré-dependências para %.250s (requerido "
 "devido a %.250s)"
 
-#: src/enquiry.c:548
+#: src/enquiry.c:549
 #, fuzzy, c-format
-msgid "obsolete option '--%s', please use '--%s' instead."
+msgid "obsolete option '--%s'; please use '--%s' instead"
 msgstr "Aviso: opção obsoleta '--%s'\n"
 
-#: src/enquiry.c:617
+#: src/enquiry.c:618
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "--compare-versions aceitam três argumentos: <versão> <relação> <versão>"
 
-#: src/enquiry.c:622
+#: src/enquiry.c:623
 msgid "--compare-versions bad relation"
 msgstr "má relação em --compare-versions"
 
-#: src/enquiry.c:627 src/enquiry.c:629 src/enquiry.c:638 src/enquiry.c:640
+#: src/enquiry.c:628 src/enquiry.c:630 src/enquiry.c:639 src/enquiry.c:641
 #, fuzzy, c-format
 msgid "version '%s' has bad syntax: %s"
 msgstr "versão tem má sintaxe: %s\n"
 
 #: src/errors.c:60
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: error processing %s (--%s):\n"
+#| " %s\n"
 msgid ""
-"%s: error processing %s (--%s):\n"
-" %s\n"
+"error processing %s (--%s):\n"
+" %s"
 msgstr ""
 "%s: erro processando %s (--%s):\n"
 " %s\n"
 
-#: src/errors.c:68
+#: src/errors.c:66
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: failed to allocate memory for new entry in list of failed packages."
-msgid ""
-"%s: failed to allocate memory for new entry in list of failed packages: %s"
+msgid "failed to allocate memory for new entry in list of failed packages: %s"
 msgstr ""
 "dpkg: falhou ao alocar memória para nova entrada em lista de pacotes falhos."
 
-#: src/errors.c:79
-#, fuzzy, c-format
+#: src/errors.c:77
+#, fuzzy
 #| msgid "dpkg: too many errors, stopping\n"
-msgid "%s: too many errors, stopping\n"
+msgid "too many errors, stopping"
 msgstr "dpkg: erros demais, parando\n"
 
-#: src/errors.c:87
+#: src/errors.c:85
 msgid "Errors were encountered while processing:\n"
 msgstr "Erros foram encontrados durante o processamento de:\n"
 
-#: src/errors.c:94
+#: src/errors.c:92
 msgid "Processing was halted because there were too many errors.\n"
 msgstr "Processamento parou porque havia muitos erros.\n"
 
-#: src/errors.c:105
-#, c-format
-msgid "Package %s was on hold, processing it anyway as you requested\n"
+#: src/errors.c:103
+#, fuzzy, c-format
+#| msgid "Package %s was on hold, processing it anyway as you requested\n"
+msgid "package %s was on hold, processing it anyway as you requested"
 msgstr "Pacote %s estava sendo retido, processando-o assim mesmo como pedido\n"
 
-#: src/errors.c:109
+#: src/errors.c:107
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
@@ -2836,7 +2972,7 @@ msgstr ""
 "Pacote %s está sendo retido, não vou tocá-lo. Use --force-hold para "
 "sobrepor.\n"
 
-#: src/errors.c:119
+#: src/errors.c:117
 #, fuzzy
 msgid "overriding problem because --force enabled:"
 msgstr ""
@@ -2848,54 +2984,54 @@ msgstr ""
 msgid "unable to open files list file for package `%.250s'"
 msgstr "impossível abrir arquivo com lista de arquivos do pacote '%.250s'"
 
-#: src/filesdb.c:274
+#: src/filesdb.c:275
 #, fuzzy, c-format
 msgid ""
-"files list file for package `%.250s' missing, assuming package has no files "
-"currently installed."
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
 msgstr ""
 "dpkg: aviso sério: arquivo com lista de arquivos do pacote '%.250s' está "
 "faltando, assumindo que o pacote não tem arquivos instalados atualmente.\n"
 
-#: src/filesdb.c:286
+#: src/filesdb.c:287
 #, fuzzy, c-format
 msgid "unable to stat files list file for package '%.250s'"
 msgstr "impossível abrir arquivo com lista de arquivos do pacote '%.250s'"
 
-#: src/filesdb.c:290
+#: src/filesdb.c:291
 #, fuzzy, c-format
 msgid "files list for package '%.250s' is not a regular file"
 msgstr ""
 "arquivo com lista de arquivos do pacote '%.250s' contém nome de arquivo vazio"
 
-#: src/filesdb.c:298
+#: src/filesdb.c:299
 #, fuzzy, c-format
 #| msgid "files list for package `%.250s'"
 msgid "reading files list for package '%.250s'"
 msgstr "lista de arquivos do pacote '%.250s'"
 
-#: src/filesdb.c:307
+#: src/filesdb.c:308
 #, fuzzy, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr ""
 "arquivo com lista de arquivos do pacote '%.250s' contém nome de arquivo vazio"
 
-#: src/filesdb.c:315
+#: src/filesdb.c:316
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr ""
 "arquivo com lista de arquivos do pacote '%.250s' contém nome de arquivo vazio"
 
-#: src/filesdb.c:326
+#: src/filesdb.c:327
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "erro fechando arquivo com lista de arquivos do pacote '%.250s'"
 
-#: src/filesdb.c:438
+#: src/filesdb.c:439
 msgid "(Reading database ... "
 msgstr "(Lendo banco de dados ... "
 
-#: src/filesdb.c:459
+#: src/filesdb.c:460
 #, fuzzy, c-format
 #| msgid "%d files and directories currently installed.)\n"
 msgid "%d file or directory currently installed.)\n"
@@ -2903,144 +3039,74 @@ msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "%d arquivos e diretórios atualmente instalados).\n"
 msgstr[1] "%d arquivos e diretórios atualmente instalados).\n"
 
-#: src/help.c:51
+#: src/help.c:44
 msgid "not installed"
 msgstr "não instalado"
 
-#: src/help.c:52
+#: src/help.c:45
 msgid "not installed but configs remain"
 msgstr "não instalado mas a configuração permanece"
 
-#: src/help.c:53
+#: src/help.c:46
 msgid "broken due to failed removal or installation"
 msgstr "quebrado devido a falha na remoção ou instalação"
 
-#: src/help.c:54
+#: src/help.c:47
 msgid "unpacked but not configured"
 msgstr "desempacotado mas não configurado"
 
-#: src/help.c:55
+#: src/help.c:48
 msgid "broken due to postinst failure"
 msgstr "quebrado devido a falha no \"postinst\""
 
-#: src/help.c:56
+#: src/help.c:49
 msgid "awaiting trigger processing by another package"
 msgstr "processamento de gatilhos em espera por outro pacote"
 
-#: src/help.c:57
+#: src/help.c:50
 msgid "triggered"
 msgstr "disparado por gatilho"
 
-#: src/help.c:58
+#: src/help.c:51
 msgid "installed"
 msgstr "instalado"
 
-#: src/help.c:113
+#: src/help.c:106
 #, fuzzy
-msgid "PATH is not set."
+msgid "PATH is not set"
 msgstr "dpkg - erro: PATH não está definido.\n"
 
-#: src/help.c:135
+#: src/help.c:128
 #, fuzzy, c-format
-msgid "'%s' not found in PATH or not executable."
+msgid "'%s' not found in PATH or not executable"
 msgstr "dpkg: '%s' não encontrado no PATH.\n"
 
-#: src/help.c:144
+#: src/help.c:137
 #, fuzzy, c-format
 msgid ""
-"%d expected program not found in PATH or not executable.\n"
+"%d expected program not found in PATH or not executable\n"
 "%s"
 msgid_plural ""
-"%d expected programs not found in PATH or not executable.\n"
+"%d expected programs not found in PATH or not executable\n"
 "%s"
 msgstr[0] "dpkg: '%s' não encontrado no PATH.\n"
 msgstr[1] "dpkg: '%s' não encontrado no PATH.\n"
 
-#: src/help.c:147
+#: src/help.c:140
 #, fuzzy
 msgid ""
-"Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /"
-"sbin."
+"Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr ""
 "%d programa(s) esperados não encontrados no PATH.\n"
 "Nota: o PATH do root usualmente deveria conter /usr/local/sbin, /usr/sbin e /"
 "sbin."
 
-#: src/help.c:212
-msgid "admindir must be inside instdir for dpkg to work properly"
-msgstr ""
-
-#: src/help.c:214 src/main.c:832
-#, fuzzy
-msgid "unable to setenv for subprocesses"
-msgstr "impossível executar \"setenv\" para script de mantenedor"
-
-#: src/help.c:216
-#, c-format
-msgid "failed to chroot to `%.250s'"
-msgstr "falhou ao executar \"chroot\" para '%.250s'"
-
-#: src/help.c:218 dpkg-deb/build.c:457 dpkg-deb/build.c:459
-#: dpkg-deb/build.c:544 dpkg-deb/build.c:566
-#, c-format
-msgid "failed to chdir to `%.255s'"
-msgstr "falhou ao mudar para o diretório '%.255s'"
-
-#: src/help.c:283
-#, c-format
-msgid "unable to set execute permissions on `%.250s'"
-msgstr "impossível definir permissões de execução em '%.250s'"
-
-#: src/help.c:303
-#, fuzzy
-msgid "unable to setenv for maintainer script"
-msgstr "impossível executar \"setenv\" para script de mantenedor"
-
-#: src/help.c:327
-#, fuzzy, c-format
-msgid "installed %s script"
-msgstr "antigo script %s"
-
-#: src/help.c:340 src/help.c:410 src/help.c:469
-#, c-format
-msgid "unable to stat %s `%.250s'"
-msgstr "impossível executar \"stat\" em %s '%.250s'"
-
-#: src/help.c:395 src/help.c:456
-#, c-format
-msgid "new %s script"
-msgstr "novo script %s"
-
-#: src/help.c:430
-#, c-format
-msgid "old %s script"
-msgstr "antigo script %s"
-
-#: src/help.c:444
-#, fuzzy, c-format
-msgid "unable to stat %s '%.250s': %s"
-msgstr "impossível executar \"stat\" em %s '%.250s'"
-
-#: src/help.c:453
-#, c-format
-msgid "dpkg - trying script from the new package instead ...\n"
-msgstr "dpkg - tentando script do novo pacote em vez disso ...\n"
-
-#: src/help.c:467
-msgid "there is no script in the new version of the package - giving up"
-msgstr "não há script na nova versão do pacote - desistindo"
-
-#: src/help.c:473
-#, c-format
-msgid "dpkg: ... it looks like that went OK.\n"
-msgstr "dpkg: ... parece que acabou tudo OK.\n"
-
-#: src/help.c:644
+#: src/help.c:357
 #, fuzzy, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "impossível criar '%.255s'"
 
-#: src/help.c:649 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:362 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr ""
 
@@ -3053,7 +3119,7 @@ msgstr "impossível verificar a existência de '%.250s'"
 msgid "cannot read info directory"
 msgstr "não foi possível ler diretório info"
 
-#: src/infodb-format.c:52 src/processarc.c:695
+#: src/infodb-format.c:52 src/processarc.c:697
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "erro tentando abrir %.250s"
@@ -3179,12 +3245,12 @@ msgstr ""
 "  -Dh|--debug=help                  Mostra ajuda sobre depuração.\n"
 "\n"
 
-#: src/main.c:118 src/querycmd.c:679 src/trigcmd.c:79 dpkg-deb/main.c:88
-#: dpkg-split/main.c:77
+#: src/main.c:118 src/querycmd.c:791 src/trigcmd.c:79 dpkg-deb/main.c:90
+#: dpkg-split/main.c:79
 #, fuzzy, c-format
 msgid ""
-"  -h|--help                        Show this help message.\n"
-"  --version                        Show the version.\n"
+"  -?, --help                       Show this help message.\n"
+"      --version                    Show the version.\n"
 "\n"
 msgstr ""
 "  -h|--help                   Mostra esta mensagem de ajuda.\n"
@@ -3547,13 +3613,13 @@ msgid ""
 "Note that the meanings and values are subject to change.\n"
 msgstr ""
 
-#: src/main.c:326
+#: src/main.c:327
 #, fuzzy, c-format
 #| msgid "--debug requires an octal argument"
-msgid "--%s requires an octal argument"
+msgid "--%s requires a positive octal argument"
 msgstr "--debug requer um argumento octal"
 
-#: src/main.c:354
+#: src/main.c:355
 #, fuzzy, c-format
 #| msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgid "null package name in --%s comma-separated list '%.250s'"
@@ -3561,59 +3627,60 @@ msgstr ""
 "nome de pacote nulo na lista separada por vírgulas em --ignore-depends "
 "'%.250s'"
 
-#: src/main.c:364 src/packages.c:114 src/querycmd.c:409 src/querycmd.c:628
+#: src/main.c:365 src/packages.c:114 src/querycmd.c:425 src/querycmd.c:670
+#: src/querycmd.c:702 src/querycmd.c:739
 #, fuzzy, c-format
 #| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgid "--%s needs a valid package name but '%.250s' is not: %s"
 msgstr "--ignore-depends requer um nome de pacote válido. '%.250s' não é; %s"
 
-#: src/main.c:381 src/main.c:391 src/main.c:734 dpkg-split/main.c:124
+#: src/main.c:383 src/main.c:394 src/main.c:737 dpkg-split/main.c:128
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "inteiro inválido para --%s: '%.250s'"
 
-#: src/main.c:448
+#: src/main.c:451
 #, c-format
 msgid "error executing hook '%s', exit code %d"
 msgstr ""
 
-#: src/main.c:475
+#: src/main.c:478
 msgid "status logger"
 msgstr ""
 
-#: src/main.c:490 src/main.c:520
+#: src/main.c:493 src/main.c:523
 #, fuzzy, c-format
 #| msgid "--%s takes no arguments"
 msgid "--%s takes one argument"
 msgstr "--%s não aceita argumentos"
 
-#: src/main.c:500
+#: src/main.c:503
 #, c-format
 msgid "architecture '%s' is illegal: %s"
 msgstr ""
 
-#: src/main.c:503
+#: src/main.c:506
 #, c-format
 msgid "architecture '%s' is reserved and cannot be added"
 msgstr ""
 
-#: src/main.c:526
+#: src/main.c:529
 #, fuzzy, c-format
 #| msgid "cannot remove file `%.250s'"
 msgid "cannot remove non-foreign architecture '%s'"
 msgstr "não foi possível remover arquivo '%.250s'"
 
-#: src/main.c:537
+#: src/main.c:540
 #, c-format
 msgid "removing architecture '%s' currently in use by database"
 msgstr ""
 
-#: src/main.c:540
+#: src/main.c:543
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
 
-#: src/main.c:562
+#: src/main.c:565
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -3622,7 +3689,7 @@ msgid ""
 " Forcing things:\n"
 msgstr ""
 
-#: src/main.c:572
+#: src/main.c:575
 #, c-format
 msgid ""
 "\n"
@@ -3630,36 +3697,41 @@ msgid ""
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
 
-#: src/main.c:587
+#: src/main.c:590
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "opção de forçar/recusar '%.*s' desconhecida"
 
-#: src/main.c:596
+#: src/main.c:599
 #, fuzzy, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "Aviso: opção forçar/recusar obsoleta '%s'\n"
 
-#: src/main.c:730 dpkg-deb/info.c:329
+#: src/main.c:733 dpkg-deb/info.c:333
 #, fuzzy, c-format
 #| msgid "--contents takes exactly one argument"
 msgid "--%s takes exactly one argument"
 msgstr "--contents aceita exatamente um argumento"
 
-#: src/main.c:736
+#: src/main.c:739
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "não foi possível abrir '%i' para \"stream\""
 
-#: src/main.c:761
+#: src/main.c:764
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "fim de arquivo inesperado após fim da linha %d"
 
-#: src/main.c:804 src/main.c:826 src/querycmd.c:742 src/statcmd.c:360
-#: dpkg-deb/main.c:210 dpkg-split/main.c:163
+#: src/main.c:807 src/main.c:829 src/querycmd.c:856 src/statcmd.c:360
+#: dpkg-deb/main.c:223 dpkg-split/main.c:171
 msgid "need an action option"
 msgstr "necessário uma opção de ação"
+
+#: src/main.c:835 src/script.c:112
+#, fuzzy
+msgid "unable to setenv for subprocesses"
+msgstr "impossível executar \"setenv\" para script de mantenedor"
 
 #: src/packages.c:122
 msgid ""
@@ -3674,7 +3746,7 @@ msgstr ""
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending não aceita argumento que não seja opção"
 
-#: src/packages.c:149 src/querycmd.c:397 src/querycmd.c:608
+#: src/packages.c:149 src/querycmd.c:413 src/querycmd.c:656
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s precisa de pelo menos um nome de pacote como argumento"
@@ -3727,42 +3799,43 @@ msgstr "  Pacote %s, o qual fornece %s aguarda processamento de gatilho.\n"
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  Pacote %s aguarda processamento de gatilho.\n"
 
-#: src/packages.c:420
-#, c-format
-msgid "dpkg: also configuring `%s' (required by `%s')\n"
+#: src/packages.c:419
+#, fuzzy, c-format
+#| msgid "dpkg: also configuring `%s' (required by `%s')\n"
+msgid "also configuring '%s' (required by '%s')"
 msgstr "dpkg: também configurando '%s' (necessário para '%s')\n"
 
-#: src/packages.c:429
+#: src/packages.c:428
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  Pacote %s, o qual fornece %s ainda não está configurado.\n"
 
-#: src/packages.c:432
+#: src/packages.c:431
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  Pacote %s não está configurado ainda.\n"
 
-#: src/packages.c:443
+#: src/packages.c:442
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  Pacote %s, o qual fornece %s não está instalado.\n"
 
-#: src/packages.c:446
+#: src/packages.c:445
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  Pacote %s não está instalado.\n"
 
-#: src/packages.c:486
+#: src/packages.c:485
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr " %s (%s) quebra %s e é %s.\n"
 
-#: src/packages.c:493
+#: src/packages.c:492
 #, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "  %s (%s) fornece %s.\n"
 
-#: src/packages.c:498
+#: src/packages.c:497
 #, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  Versão de %s a ser configurada é %s.\n"
@@ -3803,218 +3876,226 @@ msgid "package signature verification"
 msgstr ""
 
 #: src/processarc.c:150
-#, c-format
-msgid "Verification on package %s failed!"
+#, fuzzy, c-format
+#| msgid "Verification on package %s failed!"
+msgid "verification on package %s failed!"
 msgstr "Verificação no pacote %s falhou!"
 
 #: src/processarc.c:152
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Verification on package %s failed,\n"
+#| "but installing anyway as you requested.\n"
 msgid ""
-"Verification on package %s failed,\n"
-"but installing anyway as you requested.\n"
+"verification on package %s failed; but installing anyway as you requested"
 msgstr ""
 "Verificação no pacote %s falhou,\n"
 "mas o instalarei de qualquer forma como você requisitou.\n"
 
-#: src/processarc.c:156
+#: src/processarc.c:155
 #, c-format
 msgid "passed\n"
 msgstr "passou\n"
 
-#: src/processarc.c:169 dpkg-deb/info.c:81
+#: src/processarc.c:168 dpkg-deb/info.c:81
 #, fuzzy
 msgid "unable to create temporary directory"
 msgstr "falhou ao criar nome de diretório temporário"
 
-#: src/processarc.c:209
+#: src/processarc.c:208
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
 msgstr "pacote %s possui muitos pares Conflita/Substitui"
 
-#: src/processarc.c:219 src/remove.c:208
+#: src/processarc.c:218 src/remove.c:207
 #, c-format
 msgid "unable to delete control info file `%.250s'"
 msgstr "impossível excluir arquivo de informações de controle '%.250s'"
 
-#: src/processarc.c:230
+#: src/processarc.c:229
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "versão antiga do pacote possui nome de arquivo info demasiadamente longo "
 "iniciando '%.250s'"
 
-#: src/processarc.c:268
+#: src/processarc.c:267
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "impossível remover arquivo info obsoleto '%.250s'"
 
-#: src/processarc.c:273
+#: src/processarc.c:272
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "impossível instalar arquivo info (supostamente) novo '%.250s'"
 
-#: src/processarc.c:283
+#: src/processarc.c:282
 msgid "unable to open temp control directory"
 msgstr "impossível abrir diretório de controle temporário"
 
-#: src/processarc.c:294
+#: src/processarc.c:293
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "pacote contém nome de arquivo de controle demasiadamente longo (iniciando "
 "'%.50s')"
 
-#: src/processarc.c:301
+#: src/processarc.c:300
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "informação de controle do pacote continha diretório '%.250s'"
 
-#: src/processarc.c:303
+#: src/processarc.c:302
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "remoção do diretório de informação de controle do pacote '%.250s' não disse "
 "que não se tratava de um diretório"
 
-#: src/processarc.c:313
+#: src/processarc.c:312
 #, fuzzy, c-format
 msgid "package %s contained list as info file"
 msgstr "dpkg: aviso - pacote %s continha lista como arquivo info"
 
-#: src/processarc.c:321
+#: src/processarc.c:320
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "impossível instalar novo arquivo info '%.250s' como '%.250s'"
 
-#: src/processarc.c:346
+#: src/processarc.c:345
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr ""
 "(Percebendo desaparecimento de %s, que foi completamente substituído).\n"
 
-#: src/processarc.c:450
+#: src/processarc.c:451
 msgid "cannot access archive"
 msgstr "impossível acessar arquivo"
 
-#: src/processarc.c:472
+#: src/processarc.c:473
 #, fuzzy
 #| msgid "control information length"
 msgid "package control information extraction"
 msgstr "tamanho da informação de controle"
 
-#: src/processarc.c:507
+#: src/processarc.c:508
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "Informação registrada sobre %s a partir de %s.\n"
 
-#: src/processarc.c:517
+#: src/processarc.c:518
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "arquitetura do pacote (%s) não combina com a do sistema (%s)"
 
-#: src/processarc.c:577
-#, c-format
+#: src/processarc.c:579
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
+#| "%s"
 msgid ""
-"dpkg: regarding %s containing %s, pre-dependency problem:\n"
+"regarding %s containing %s, pre-dependency problem:\n"
 "%s"
 msgstr ""
 "dpkg: quanto a %s, contendo %s, problema de pré-dependência:\n"
 "%s"
 
-#: src/processarc.c:581
+#: src/processarc.c:583
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "problema de pré-dependência - %.250s não será instalado"
 
-#: src/processarc.c:583
+#: src/processarc.c:585
 #, fuzzy
 msgid "ignoring pre-dependency problem!"
 msgstr "dpkg: aviso - ignorando problema de pré-dependência!\n"
 
-#: src/processarc.c:599
+#: src/processarc.c:601
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "Preparando para substituir %s %s (usando %s) ...\n"
 
-#: src/processarc.c:605
+#: src/processarc.c:607
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Desempacotando %s (de %s) ...\n"
 
-#: src/processarc.c:637
+#: src/processarc.c:639
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 "nome do arquivo de configuração (começando '%.250s') é muito longo (>%d "
 "caracteres)"
 
-#: src/processarc.c:691 utils/update-alternatives.c:2092
+#: src/processarc.c:693 utils/update-alternatives.c:2104
 #, c-format
 msgid "read error in %.250s"
 msgstr "erro de leitura em %.250s"
 
-#: src/processarc.c:693
+#: src/processarc.c:695
 #, c-format
 msgid "error closing %.250s"
 msgstr "erro fechando %.250s"
 
-#: src/processarc.c:736
+#: src/processarc.c:739
 #, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "Desconfigurando %s, para permitir a remoção de %s ...\n"
 
-#: src/processarc.c:740
+#: src/processarc.c:743
 #, c-format
 msgid "De-configuring %s ...\n"
 msgstr "Desconfigurando %s ...\n"
 
-#: src/processarc.c:821
+#: src/processarc.c:824
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Desempacotando substituto %.250s ...\n"
 
-#: src/processarc.c:907
+#: src/processarc.c:910
 msgid "package filesystem archive extraction"
 msgstr ""
 
-#: src/processarc.c:922
+#: src/processarc.c:925
 msgid "error reading dpkg-deb tar output"
 msgstr "erro lendo a saída do tar do dpkg-deb"
 
-#: src/processarc.c:924
+#: src/processarc.c:927
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr ""
 "arquivo tar do sistema de arquivos corrompido - arquivo de pacote corrompido"
 
-#: src/processarc.c:927
-msgid "dpkg-deb: zap possible trailing zeros"
+#: src/processarc.c:931
+#, fuzzy, c-format
+#| msgid "dpkg-deb: zap possible trailing zeros"
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb: zap possivelmente com zeros no final"
 
-#: src/processarc.c:987
+#: src/processarc.c:991
 #, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "dpkg: aviso - não foi possível executar \"stat\" em arquivo antigo '%.250s' "
 "portanto não excluindo o mesmo: %s"
 
-#: src/processarc.c:993
+#: src/processarc.c:997
 #, fuzzy, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "dpkg: aviso - impossível excluir diretório antigo '%.250s': %s\n"
 
-#: src/processarc.c:996
+#: src/processarc.c:1000
 #, fuzzy, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
 "dpkg: aviso - arquivo de configuração antigo '%.250s' era um diretório vazio "
 "(e foi excluído)\n"
 
-#: src/processarc.c:1043
+#: src/processarc.c:1047
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "impossível executar \"fstat\" em outro arquivo novo '%.250s'"
 
-#: src/processarc.c:1054
+#: src/processarc.c:1058
 #, fuzzy, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -4023,7 +4104,7 @@ msgstr ""
 "dpkg: aviso - arquivo antigo '%.250s' é o mesmo que diversos arquivos novos! "
 "(ambos '%.250s' e '%.250s')\n"
 
-#: src/processarc.c:1093
+#: src/processarc.c:1097
 #, fuzzy, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "dpkg: aviso - impossível %s arquivo antigo '%%.250s': %%s\n"
@@ -4034,7 +4115,7 @@ msgstr "dpkg: aviso - impossível %s arquivo antigo '%%.250s': %%s\n"
 #. * the first three columns, which should ideally match the English one
 #. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
 #. * translated message can use additional lines if needed.
-#: src/querycmd.c:162
+#: src/querycmd.c:173
 #, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
@@ -4048,90 +4129,99 @@ msgstr ""
 "|/ Erro?=(nenhum)/H=Ret/precisa-Reinst/X=ambos-problemas (Est,Err: "
 "maiúsculas=ruim)\n"
 
-#: src/querycmd.c:166
+#: src/querycmd.c:177
 msgid "Name"
 msgstr "Nome"
 
-#: src/querycmd.c:166
+#: src/querycmd.c:177
 msgid "Version"
 msgstr "Versão"
 
-#: src/querycmd.c:167
+#: src/querycmd.c:178
+#, fuzzy
+msgid "Architecture"
+msgstr " (pacote: "
+
+#: src/querycmd.c:178
 msgid "Description"
 msgstr "Descrição"
 
-#: src/querycmd.c:264 src/querycmd.c:549 src/select.c:93
-#, c-format
-msgid "No packages found matching %s.\n"
+#: src/querycmd.c:281 src/querycmd.c:568 src/select.c:93
+#, fuzzy, c-format
+#| msgid "No packages found matching %s.\n"
+msgid "no packages found matching %s"
 msgstr "Nenhum pacote encontrado casando com %s.\n"
 
-#: src/querycmd.c:295
+#: src/querycmd.c:312
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "desviado por %s a partir de: %s\n"
 
-#: src/querycmd.c:297
+#: src/querycmd.c:314
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "desviado por %s para: %s\n"
 
-#: src/querycmd.c:300
+#: src/querycmd.c:317
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "desvio local a partir de: %s\n"
 
-#: src/querycmd.c:301
+#: src/querycmd.c:318
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "localmente desviado para: %s\n"
 
-#: src/querycmd.c:331
+#: src/querycmd.c:348
 msgid "--search needs at least one file name pattern argument"
 msgstr ""
 "--search precisa de pelo menos um padrão de nome de arquivo como argumento"
 
-#: src/querycmd.c:372
+#: src/querycmd.c:389
 #, fuzzy, c-format
 #| msgid "No packages found matching %s.\n"
-msgid "%s: no path found matching pattern %s.\n"
+msgid "no path found matching pattern %s"
 msgstr "Nenhum pacote encontrado casando com %s.\n"
 
-#: src/querycmd.c:421
-#, c-format
-msgid "Package `%s' is not installed and no info is available.\n"
+#: src/querycmd.c:436
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed and no info is available.\n"
+msgid "package '%s' is not installed and no information is available"
 msgstr "Pacote '%s' não está instalado e não há informações disponíveis.\n"
 
-#: src/querycmd.c:430
-#, c-format
-msgid "Package `%s' is not available.\n"
+#: src/querycmd.c:445
+#, fuzzy, c-format
+#| msgid "Package `%s' is not available.\n"
+msgid "package '%s' is not available"
 msgstr "Pacote '%s' não está disponível.\n"
 
-#: src/querycmd.c:440 src/querycmd.c:632
-#, c-format
-msgid "Package `%s' is not installed.\n"
+#: src/querycmd.c:455 src/querycmd.c:674 src/querycmd.c:706 src/querycmd.c:743
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed.\n"
+msgid "package '%s' is not installed"
 msgstr "Pacote '%s' não está instalado.\n"
 
-#: src/querycmd.c:449
+#: src/querycmd.c:464
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Pacote '%s' não contém quaisquer arquivos (!)\n"
 
-#: src/querycmd.c:457
+#: src/querycmd.c:472
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "localmente desviado para: %s\n"
 
-#: src/querycmd.c:460
+#: src/querycmd.c:475
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "pacote desvia outros para: %s\n"
 
-#: src/querycmd.c:463
+#: src/querycmd.c:478
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "desviado por %s para: %s\n"
 
-#: src/querycmd.c:484
+#: src/querycmd.c:499
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -4139,22 +4229,46 @@ msgstr ""
 "Use dpkg --info (= dpkg-deb --info) para examinar arquivos de pacote,\n"
 "e dpkg --contents (= dpkg-deb --contents) para listar seu conteúdo.\n"
 
-#: src/querycmd.c:613 dpkg-deb/build.c:410
+#: src/querycmd.c:520 dpkg-deb/info.c:282
 #, fuzzy, c-format
-msgid "--%s takes at most two arguments"
-msgstr "--build aceita no máximo dois argumentos"
+#| msgid "Error in format"
+msgid "error in show format: %s"
+msgstr "Erro no formato"
 
-#: src/querycmd.c:621
+#: src/querycmd.c:610
 #, c-format
 msgid "control file contains %c"
 msgstr ""
 
-#: src/querycmd.c:648
+#: src/querycmd.c:661 src/querycmd.c:731 dpkg-deb/build.c:411
+#, fuzzy, c-format
+msgid "--%s takes at most two arguments"
+msgstr "--build aceita no máximo dois argumentos"
+
+#: src/querycmd.c:696
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one package name argument"
+msgstr "--%s precisa de pelo menos um nome de pacote como argumento"
+
+#: src/querycmd.c:726
+#, fuzzy, c-format
+#| msgid "--add needs four arguments"
+msgid "--%s needs at two arguments"
+msgstr "--add precisa de quatro argumentos"
+
+#: src/querycmd.c:748
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "control file '%s' does not exist"
+msgstr "não foi possível executar \"stat\" em nome antigo '%s': %s"
+
+#: src/querycmd.c:760
 #, fuzzy, c-format
 msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Programa de gerenciamento de pacotes Debian '%s' versão %s.\n"
 
-#: src/querycmd.c:667
+#: src/querycmd.c:779
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
@@ -4179,7 +4293,7 @@ msgstr ""
 "                                   arquivo(s).\n"
 "\n"
 
-#: src/querycmd.c:684
+#: src/querycmd.c:796
 #, fuzzy, c-format
 #| msgid ""
 #| "Options:\n"
@@ -4197,7 +4311,7 @@ msgstr ""
 "  --admindir=<diretório>           Usa <diretório> ao invés de %s.\n"
 "  -f|--showformat=<formato>        Usa formato alternativo para --show.\n"
 
-#: src/querycmd.c:691 dpkg-deb/main.c:114
+#: src/querycmd.c:803 dpkg-deb/main.c:116
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -4219,33 +4333,36 @@ msgstr ""
 "  direita a menos que o tamanho seja negativo, neste caso o alinhamento à\n"
 "  esquerda será usado.\n"
 
-#: src/querycmd.c:705
+#: src/querycmd.c:817
 msgid "Use --help for help about querying packages."
 msgstr ""
 
-#: src/remove.c:93
+#: src/remove.c:94
 #, fuzzy, c-format
-msgid "ignoring request to remove %.250s which isn't installed."
+msgid "ignoring request to remove %.250s which isn't installed"
 msgstr ""
 "dpkg - aviso: ignorando pedido para remover %.250s que não está instalado.\n"
 
-#: src/remove.c:100
+#: src/remove.c:101
 #, fuzzy, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
-" files of which are on the system. Use --purge to remove them too."
+" files of which are on the system; use --purge to remove them too"
 msgstr ""
 "dpkg - aviso: ignorando pedido para remover %.250s, pois apenas os arquivos\n"
 " de configuração do mesmo estão no sistema. Use --purge para removê-los.\n"
 
-#: src/remove.c:108
+#: src/remove.c:109
 msgid "This is an essential package - it should not be removed."
 msgstr "Este é um pacote essencial - não deveria ser removido."
 
 #: src/remove.c:138
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: dependency problems prevent removal of %s:\n"
+#| "%s"
 msgid ""
-"dpkg: dependency problems prevent removal of %s:\n"
+"dependency problems prevent removal of %s:\n"
 "%s"
 msgstr ""
 "dpkg: problemas de dependência impedem a remoção de %s:\n"
@@ -4255,17 +4372,20 @@ msgstr ""
 msgid "dependency problems - not removing"
 msgstr "problemas de dependência - não removendo"
 
-#: src/remove.c:144
-#, c-format
+#: src/remove.c:143
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#| "%s"
 msgid ""
-"dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+"%s: dependency problems, but removing anyway as you requested:\n"
 "%s"
 msgstr ""
 "dpkg: %s: problemas de dependência, mas removendo assim mesmo conforme "
 "pedido:\n"
 "%s"
 
-#: src/remove.c:152
+#: src/remove.c:151
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
@@ -4273,17 +4393,17 @@ msgstr ""
 "O pacote está em um estado de inconsistência muito ruim - você deveria\n"
 " reinstalá-lo antes de tentar uma remoção."
 
-#: src/remove.c:159
+#: src/remove.c:158
 #, c-format
 msgid "Would remove or purge %s ...\n"
 msgstr "Iria remover ou expurgar %s ...\n"
 
-#: src/remove.c:167
+#: src/remove.c:166
 #, c-format
 msgid "Removing %s ...\n"
 msgstr "Removendo %s ...\n"
 
-#: src/remove.c:327 src/remove.c:418
+#: src/remove.c:326 src/remove.c:417
 #, fuzzy, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
@@ -4292,56 +4412,122 @@ msgstr ""
 "dpkg - aviso: durante a remoção de %.250s, impossível remover diretório "
 "'%.250s': %s - o diretório seria um ponto de montagem?\n"
 
-#: src/remove.c:341
+#: src/remove.c:340
 #, fuzzy, c-format
 msgid "unable to securely remove '%.250s'"
 msgstr "não foi possível criar %.250s"
 
-#: src/remove.c:413
+#: src/remove.c:412
 #, fuzzy, c-format
-msgid "while removing %.250s, directory '%.250s' not empty so not removed."
+msgid "while removing %.250s, directory '%.250s' not empty so not removed"
 msgstr ""
 "dpkg - aviso: durante a remoção de %.250s, diretório '%.250s' não estava "
 "vazio, logo não foi removido.\n"
 
-#: src/remove.c:435
+#: src/remove.c:434
 #, fuzzy, c-format
 #| msgid "cannot remove `%.250s'"
 msgid "cannot remove '%.250s'"
 msgstr "não foi possível remover '%.250s'"
 
-#: src/remove.c:461
+#: src/remove.c:460
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr "Expurgando arquivos de configuração de %s ...\n"
 
-#: src/remove.c:514
+#: src/remove.c:513
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr ""
 "não foi possível remover arquivo de configuração antigo '%.250s' (= '%.250s')"
 
-#: src/remove.c:529
+#: src/remove.c:528
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr ""
 "não foi possível ler diretório de arquivo do configuração '%.250s' (de "
 "'%.250s')"
 
-#: src/remove.c:566
+#: src/remove.c:565
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr ""
 "não foi possível remover antigo arquivo de configuração de backup "
 "'%.250s' (de '%.250s')"
 
-#: src/remove.c:625
+#: src/remove.c:624
 msgid "cannot remove old files list"
 msgstr "não foi possível remover a antiga lista de arquivos"
 
-#: src/remove.c:631
+#: src/remove.c:630
 msgid "can't remove old postrm script"
 msgstr "não foi possível remover script \"postrm\" antigo"
+
+#: src/script.c:96
+#, c-format
+msgid "unable to set execute permissions on `%.250s'"
+msgstr "impossível definir permissões de execução em '%.250s'"
+
+#: src/script.c:110
+msgid "admindir must be inside instdir for dpkg to work properly"
+msgstr ""
+
+#: src/script.c:115
+#, c-format
+msgid "failed to chroot to `%.250s'"
+msgstr "falhou ao executar \"chroot\" para '%.250s'"
+
+#: src/script.c:117 dpkg-deb/build.c:458 dpkg-deb/build.c:460
+#: dpkg-deb/build.c:547 dpkg-deb/build.c:569
+#, c-format
+msgid "failed to chdir to `%.255s'"
+msgstr "falhou ao mudar para o diretório '%.255s'"
+
+#: src/script.c:156
+#, fuzzy
+msgid "unable to setenv for maintainer script"
+msgstr "impossível executar \"setenv\" para script de mantenedor"
+
+#: src/script.c:180
+#, fuzzy, c-format
+msgid "installed %s script"
+msgstr "antigo script %s"
+
+#: src/script.c:194 src/script.c:268 src/script.c:330
+#, c-format
+msgid "unable to stat %s `%.250s'"
+msgstr "impossível executar \"stat\" em %s '%.250s'"
+
+#: src/script.c:252 src/script.c:317
+#, c-format
+msgid "new %s script"
+msgstr "novo script %s"
+
+#: src/script.c:290
+#, c-format
+msgid "old %s script"
+msgstr "antigo script %s"
+
+#: src/script.c:305
+#, fuzzy, c-format
+msgid "unable to stat %s '%.250s': %s"
+msgstr "impossível executar \"stat\" em %s '%.250s'"
+
+#: src/script.c:314
+#, fuzzy
+#| msgid "dpkg - trying script from the new package instead ...\n"
+msgid "trying script from the new package instead ..."
+msgstr "dpkg - tentando script do novo pacote em vez disso ...\n"
+
+#: src/script.c:328
+msgid "there is no script in the new version of the package - giving up"
+msgstr "não há script na nova versão do pacote - desistindo"
+
+#: src/script.c:334
+#, fuzzy
+#| msgid "dpkg: ... it looks like that went OK.\n"
+msgid "... it looks like that went OK"
+msgstr "dpkg: ... parece que acabou tudo OK.\n"
 
 #: src/select.c:137
 #, c-format
@@ -4447,13 +4633,12 @@ msgstr "--add precisa de quatro argumentos"
 #: src/statcmd.c:237
 #, fuzzy, c-format
 msgid ""
-"An override for '%s' already exists, but --force specified so will be "
-"ignored."
+"an override for '%s' already exists, but --force specified so will be ignored"
 msgstr "mas --force especificado portanto será ignorado."
 
 #: src/statcmd.c:241
 #, fuzzy, c-format
-msgid "An override for '%s' already exists, aborting."
+msgid "an override for '%s' already exists; aborting"
 msgstr "Um \"override\" para \"%s\" já existe."
 
 #: src/statcmd.c:253
@@ -4462,7 +4647,9 @@ msgid "--update given but %s does not exist"
 msgstr "aviso: --update informado mas %s não existe"
 
 #: src/statcmd.c:277
-msgid "No override present."
+#, fuzzy
+#| msgid "No override present."
+msgid "no override present"
 msgstr "Nenhum \"override\" presente."
 
 #: src/statcmd.c:285
@@ -4470,69 +4657,69 @@ msgstr "Nenhum \"override\" presente."
 msgid "--update is useless for --remove"
 msgstr "aviso: --update é inútil para --remove"
 
-#: src/statdb.c:59
+#: src/statdb.c:60
 #, fuzzy
 msgid "syntax error: invalid uid in statoverride file"
 msgstr "erro instalando novo \"statoverride\": %s"
 
-#: src/statdb.c:64
+#: src/statdb.c:65
 #, c-format
 msgid "syntax error: unknown user '%s' in statoverride file"
 msgstr ""
 
-#: src/statdb.c:83
+#: src/statdb.c:85
 #, fuzzy
 msgid "syntax error: invalid gid in statoverride file"
 msgstr "erro instalando novo \"statoverride\": %s"
 
-#: src/statdb.c:88
+#: src/statdb.c:90
 #, fuzzy, c-format
 msgid "syntax error: unknown group '%s' in statoverride file"
 msgstr "falhou ao abrir arquivo \"statoverride\""
 
-#: src/statdb.c:104
+#: src/statdb.c:106
 #, fuzzy
 msgid "syntax error: invalid mode in statoverride file"
 msgstr "falhou ao abrir arquivo \"statoverride\""
 
-#: src/statdb.c:127
+#: src/statdb.c:129
 msgid "failed to open statoverride file"
 msgstr "falhou ao abrir arquivo \"statoverride\""
 
-#: src/statdb.c:134
+#: src/statdb.c:136
 msgid "failed to fstat statoverride file"
 msgstr "falhou ao executar \"fstat\" no arquivo \"statoverride\""
 
-#: src/statdb.c:137
+#: src/statdb.c:139
 msgid "failed to fstat previous statoverride file"
 msgstr "falhou ao executar \"fstat\" no arquivo \"statoverride\" anterior"
 
-#: src/statdb.c:162
+#: src/statdb.c:164
 #, fuzzy, c-format
 #| msgid "statoverride file `%.250s'"
 msgid "reading statoverride file '%.250s'"
 msgstr "arquivo \"statoverride\" '%.250s'"
 
-#: src/statdb.c:169
+#: src/statdb.c:171
 #, fuzzy
 msgid "statoverride file is missing final newline"
 msgstr "arquivo \"statoverride\" contém linha em branco"
 
-#: src/statdb.c:173
+#: src/statdb.c:175
 msgid "statoverride file contains empty line"
 msgstr "arquivo \"statoverride\" contém linha em branco"
 
-#: src/statdb.c:178 src/statdb.c:190 src/statdb.c:202
+#: src/statdb.c:180 src/statdb.c:192 src/statdb.c:204
 #, fuzzy
 msgid "syntax error in statoverride file"
 msgstr "falhou ao abrir arquivo \"statoverride\""
 
-#: src/statdb.c:186 src/statdb.c:198 src/statdb.c:210
+#: src/statdb.c:188 src/statdb.c:200 src/statdb.c:212
 #, fuzzy
 msgid "unexpected end of line in statoverride file"
 msgstr "fim de linha inesperado no nome do pacote na linha %d"
 
-#: src/statdb.c:214
+#: src/statdb.c:216
 #, fuzzy, c-format
 msgid "multiple statusoverrides present for file '%.250s'"
 msgstr "arquivo \"statoverride\" '%.250s'"
@@ -4604,41 +4791,46 @@ msgstr ""
 "uma opção --by-package)"
 
 #: src/trigcmd.c:183
-#, c-format
-msgid "%s: triggers data directory not yet created\n"
+#, fuzzy
+#| msgid "%s: triggers data directory not yet created\n"
+msgid "triggers data directory not yet created"
 msgstr "%s: diretório de dados de gatilho ainda não criado\n"
 
-#: src/trigcmd.c:187
-#, c-format
-msgid "%s: trigger records not yet in existence\n"
+#: src/trigcmd.c:186
+#, fuzzy
+#| msgid "%s: trigger records not yet in existence\n"
+msgid "trigger records not yet in existence"
 msgstr "%s: registros de gatilhos ainda inexistentes\n"
 
-#: src/trigcmd.c:236
+#: src/trigcmd.c:234
 #, fuzzy
 msgid "takes one argument, the trigger name"
 msgstr "dpkg-trigger aceita um argumento, o nome do gatilho"
 
-#: src/trigcmd.c:240
+#: src/trigcmd.c:238
 #, fuzzy, c-format
 #| msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
 msgid "illegal awaited package name '%.250s': %.250s"
 msgstr "dpkg-trigger: nome de pacote em espera ilegal '%.250s': %.250s"
 
-#: src/trigcmd.c:246
+#: src/trigcmd.c:244
 #, fuzzy, c-format
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "dpkg-trigger: nome de gatilho inválido '%.250s': %.250s"
 
 #: src/trigproc.c:262
-#, c-format
+#, fuzzy
+#| msgid ""
+#| "%s: cycle found while processing triggers:\n"
+#| " chain of packages whose triggers are or may be responsible:\n"
 msgid ""
-"%s: cycle found while processing triggers:\n"
-" chain of packages whose triggers are or may be responsible:\n"
+"cycle found while processing triggers:\n"
+" chain of packages whose triggers are or may be responsible:"
 msgstr ""
 "%s: ciclo encontrado durante o processamento dos gatilhos:\n"
 " cadeia de pacotes cujos gatilhos são ou podem ser responsáveis:\n"
 
-#: src/trigproc.c:271
+#: src/trigproc.c:270
 #, c-format
 msgid ""
 "\n"
@@ -4647,11 +4839,11 @@ msgstr ""
 "\n"
 " gatilhos dos pacotes pendentes que são ou podem ser insolúveis:\n"
 
-#: src/trigproc.c:296
+#: src/trigproc.c:295
 msgid "triggers looping, abandoned"
 msgstr "gatilhos em \"loop\", abandonado"
 
-#: src/trigproc.c:328
+#: src/trigproc.c:327
 #, c-format
 msgid "Processing triggers for %s ...\n"
 msgstr "Processando gatilhos para %s ...\n"
@@ -4695,7 +4887,7 @@ msgstr[1] "Informações sobre %d pacote(s) foram atualizadas.\n"
 #: src/update.c:112
 #, c-format
 msgid ""
-"obsolete '--%s' option, unavailable packages are automatically cleaned up."
+"obsolete '--%s' option; unavailable packages are automatically cleaned up"
 msgstr ""
 
 #: dpkg-deb/build.c:124
@@ -4821,85 +5013,103 @@ msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] "dpkg-deb: ignorando %d avisos sobre o(s) arquivo(s) de controle\n"
 msgstr[1] "dpkg-deb: ignorando %d avisos sobre o(s) arquivo(s) de controle\n"
 
-#: dpkg-deb/build.c:403 utils/update-alternatives.c:2554
-#: utils/update-alternatives.c:2561
+#: dpkg-deb/build.c:404 utils/update-alternatives.c:2577
+#: utils/update-alternatives.c:2584
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s precisa de um argumento <diretório>"
 
-#: dpkg-deb/build.c:414
+#: dpkg-deb/build.c:415
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "impossível checar a existência do arquivo '%.250s'"
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:432
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "alvo é um diretório - não é possível pular a checagem do arquivo de controle"
 
-#: dpkg-deb/build.c:432
-msgid "not checking contents of control area."
+#: dpkg-deb/build.c:433
+msgid "not checking contents of control area"
 msgstr ""
 
-#: dpkg-deb/build.c:433
+#: dpkg-deb/build.c:434
 #, fuzzy, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: construindo pacote '%s' em '%s'.\n"
 
-#: dpkg-deb/build.c:440
+#: dpkg-deb/build.c:441
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: construindo pacote '%s' em '%s'.\n"
 
-#: dpkg-deb/build.c:469 dpkg-deb/build.c:529
+#: dpkg-deb/build.c:470 dpkg-deb/build.c:532
 #, fuzzy, c-format
 #| msgid "failed to make tmpfile (data)"
 msgid "failed to make temporary file (%s)"
 msgstr "falhou ao criar tmpfile (data)"
 
-#: dpkg-deb/build.c:469 dpkg-deb/build.c:472 dpkg-deb/build.c:485
-#: dpkg-deb/build.c:493 dpkg-deb/build.c:502 dpkg-deb/build.c:507
+#: dpkg-deb/build.c:470 dpkg-deb/build.c:473 dpkg-deb/build.c:494
+#: dpkg-deb/build.c:503 dpkg-deb/build.c:509
 #, fuzzy
 #| msgid "control area"
 msgid "control member"
 msgstr "área de controle"
 
-#: dpkg-deb/build.c:472 dpkg-deb/build.c:532
+#: dpkg-deb/build.c:473 dpkg-deb/build.c:535
 #, fuzzy, c-format
 #| msgid "failed to unlink tmpfile (data), %s"
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "falhou ao executar \"unlink\" no tmpfile (dados), %s"
 
-#: dpkg-deb/build.c:493 dpkg-deb/build.c:602
+#: dpkg-deb/build.c:486
+#, fuzzy
+#| msgid "control area"
+msgid "compressing control member"
+msgstr "área de controle"
+
+#: dpkg-deb/build.c:494 dpkg-deb/build.c:605
 #, fuzzy, c-format
 #| msgid "failed to rewind tmpfile (data)"
 msgid "failed to rewind temporary file (%s)"
 msgstr "falhou ao retroceder tmpfile (dados)"
 
-#: dpkg-deb/build.c:502
+#: dpkg-deb/build.c:503
 #, fuzzy, c-format
 msgid "failed to stat temporary file (%s)"
 msgstr "falhou ao criar tmpfile (data)"
 
-#: dpkg-deb/build.c:506
+#: dpkg-deb/build.c:507
 #, c-format
 msgid "error writing `%s'"
 msgstr "erro escrevendo '%s'"
 
-#: dpkg-deb/build.c:529 dpkg-deb/build.c:532 dpkg-deb/build.c:554
-#: dpkg-deb/build.c:580 dpkg-deb/build.c:588 dpkg-deb/build.c:602
+#: dpkg-deb/build.c:509
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot copy '%s' into archive '%s': %s"
+msgstr "não foi possível executar \"stat\" em nome antigo '%s': %s"
+
+#: dpkg-deb/build.c:532 dpkg-deb/build.c:535 dpkg-deb/build.c:583
+#: dpkg-deb/build.c:591 dpkg-deb/build.c:605
 #, fuzzy
 #| msgid "between members"
 msgid "data member"
 msgstr "entre membros"
 
-#: dpkg-deb/build.c:579 dpkg-deb/build.c:588
+#: dpkg-deb/build.c:557
+#, fuzzy
+#| msgid "between members"
+msgid "compressing data member"
+msgstr "entre membros"
+
+#: dpkg-deb/build.c:582 dpkg-deb/build.c:591
 #, fuzzy, c-format
 #| msgid "failed to write filename to tar pipe (data)"
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "falhou ao escrever o nome de arquivo para o \"pipe\" tar (dados)"
 
-#: dpkg-deb/build.c:592
+#: dpkg-deb/build.c:595
 msgid "<compress> from tar -cf"
 msgstr ""
 
@@ -4917,81 +5127,81 @@ msgstr "fim de arquivo inesperado em %s em %.255s"
 msgid "error reading %s from file %.255s"
 msgstr "erro lendo %s de arquivo %.255s"
 
-#: dpkg-deb/extract.c:128
+#: dpkg-deb/extract.c:129
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "falhou ao ler arquivo '%.255s'"
 
-#: dpkg-deb/extract.c:130
+#: dpkg-deb/extract.c:131
 msgid "failed to fstat archive"
 msgstr "falhou ao executar \"fstat\" no arquivo"
 
-#: dpkg-deb/extract.c:134
+#: dpkg-deb/extract.c:135
 #, fuzzy
 #| msgid "archive has no dot in version number"
 msgid "archive magic version number"
 msgstr "arquivo não possui ponto no número de versão"
 
-#: dpkg-deb/extract.c:144
+#: dpkg-deb/extract.c:145
 #, fuzzy
 #| msgid "archive has no newlines in header"
 msgid "archive member header"
 msgstr "arquivo não possui novas linhas no cabeçalho"
 
-#: dpkg-deb/extract.c:149
+#: dpkg-deb/extract.c:150
 #, fuzzy, c-format
 #| msgid "file `%.250s' is corrupt - bad part number"
 msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "arquivo '%.250s' está corrompido - número parcial ruim"
 
-#: dpkg-deb/extract.c:155
+#: dpkg-deb/extract.c:156
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "arquivo '%.250s' não é um arquivo binário debian (tente dpkg-split?)"
 
-#: dpkg-deb/extract.c:159
+#: dpkg-deb/extract.c:160
 #, fuzzy
 #| msgid "archive has no dot in version number"
 msgid "archive information header member"
 msgstr "arquivo não possui ponto no número de versão"
 
-#: dpkg-deb/extract.c:163 dpkg-deb/extract.c:226
+#: dpkg-deb/extract.c:164 dpkg-deb/extract.c:227
 msgid "archive has no newlines in header"
 msgstr "arquivo não possui novas linhas no cabeçalho"
 
-#: dpkg-deb/extract.c:166 dpkg-deb/extract.c:229
+#: dpkg-deb/extract.c:167 dpkg-deb/extract.c:230
 #, fuzzy, c-format
 #| msgid "archive has no dot in version number"
 msgid "archive has invalid format version: %s"
 msgstr "arquivo não possui ponto no número de versão"
 
-#: dpkg-deb/extract.c:168
+#: dpkg-deb/extract.c:169
 #, fuzzy, c-format
 #| msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgid "archive is format version %d.%d; get a newer dpkg-deb"
 msgstr ""
 "versão do arquivo %.250s não entendida, obtenha um dpkg-deb mais recente"
 
-#: dpkg-deb/extract.c:178 dpkg-deb/extract.c:204
+#: dpkg-deb/extract.c:179 dpkg-deb/extract.c:205
 #, fuzzy, c-format
 #| msgid "skipped member data from %s"
-msgid "skipped archive member data from %s"
+msgid "cannot skip archive member from '%s': %s"
 msgstr "pulado dados de membro de %s"
 
-#: dpkg-deb/extract.c:193
+#: dpkg-deb/extract.c:194
 #, fuzzy, c-format
 #| msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgid "archive '%.250s' contains not understood data member %.*s, giving up"
 msgstr ""
 "arquivo '%.250s' contém membros de dados não entendidos %.*s, desistindo"
 
-#: dpkg-deb/extract.c:198
+#: dpkg-deb/extract.c:199
 #, fuzzy, c-format
 #| msgid "file `%.250s' contains two control members, giving up"
 msgid "archive '%.250s' contains two control members, giving up"
 msgstr "arquivo '%.250s' contém dois membros de controle, desistindo"
 
-#: dpkg-deb/extract.c:213
+#: dpkg-deb/extract.c:214
 #, fuzzy, c-format
 #| msgid ""
 #| " new debian package, version %s.\n"
@@ -5003,23 +5213,23 @@ msgstr ""
 " novo pacote debian, versão %s.\n"
 " tamanho %ld bytes: arquivo de controle= %zi bytes.\n"
 
-#: dpkg-deb/extract.c:233
+#: dpkg-deb/extract.c:234
 msgid "archive control member size"
 msgstr ""
 
-#: dpkg-deb/extract.c:236
+#: dpkg-deb/extract.c:237
 #, fuzzy, c-format
 #| msgid "archive has malformatted control length `%s'"
 msgid "archive has malformatted control member size '%s'"
 msgstr "arquivo possui tamanho de controle mal formatado '%s'"
 
-#: dpkg-deb/extract.c:243
+#: dpkg-deb/extract.c:244
 #, fuzzy, c-format
 #| msgid "skipped member data from %s"
-msgid "skipped archive control member data from %s"
+msgid "cannot skip archive control member from '%s': %s"
 msgstr "pulado dados de membro de %s"
 
-#: dpkg-deb/extract.c:247
+#: dpkg-deb/extract.c:249
 #, fuzzy, c-format
 #| msgid ""
 #| " old debian package, version %s.\n"
@@ -5031,61 +5241,65 @@ msgstr ""
 " antigo pacote debian, versão %s.\n"
 " tamanho %ld bytes: arquivo de controle= %zi, arquivo main= %ld.\n"
 
-#: dpkg-deb/extract.c:257
-#, c-format
+#: dpkg-deb/extract.c:258
+#, fuzzy
+#| msgid ""
+#| "dpkg-deb: file looks like it might be an archive which has been\n"
+#| "dpkg-deb:    corrupted by being downloaded in ASCII mode\n"
 msgid ""
-"dpkg-deb: file looks like it might be an archive which has been\n"
-"dpkg-deb:    corrupted by being downloaded in ASCII mode\n"
+"file looks like it might be an archive which has been\n"
+" corrupted by being downloaded in ASCII mode"
 msgstr ""
 "dpkg-deb: arquivo parece ser um arquivo que foi corrompido por\n"
 "dpkg-deb:    ter sido baixado em modo ASCII\n"
 
-#: dpkg-deb/extract.c:261
+#: dpkg-deb/extract.c:262
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "'%.255s' não é um formato de arquivo debian"
 
-#: dpkg-deb/extract.c:268
-msgid "failed to write to pipe in copy"
-msgstr "falhou ao escrever para o \"pipe\" na cópia"
-
 #: dpkg-deb/extract.c:270
-msgid "failed to close pipe in copy"
-msgstr "falhou ao fechar o \"pipe\" na cópia"
+#, c-format
+msgid "cannot copy archive member from '%s' to decompressor pipe: %s"
+msgstr ""
 
-#: dpkg-deb/extract.c:286
-msgid "data"
-msgstr "dados"
+#: dpkg-deb/extract.c:273
+msgid "cannot close decompressor pipe"
+msgstr ""
 
-#: dpkg-deb/extract.c:309
+#: dpkg-deb/extract.c:290
+msgid "decompressing archive member"
+msgstr ""
+
+#: dpkg-deb/extract.c:313
 msgid "failed to chdir to directory"
 msgstr "falhou ao mudar para o diretório"
 
-#: dpkg-deb/extract.c:312
+#: dpkg-deb/extract.c:316
 msgid "failed to create directory"
 msgstr "falhou ao criar diretório"
 
-#: dpkg-deb/extract.c:314
+#: dpkg-deb/extract.c:318
 msgid "failed to chdir to directory after creating it"
 msgstr "falhou ao mudar para o diretório após criá-lo"
 
-#: dpkg-deb/extract.c:325
+#: dpkg-deb/extract.c:329
 #, fuzzy
 msgid "<decompress>"
 msgstr "%s: descompactação"
 
-#: dpkg-deb/extract.c:327
+#: dpkg-deb/extract.c:331
 #, fuzzy
 msgid "paste"
 msgstr "passou\n"
 
-#: dpkg-deb/extract.c:349 dpkg-deb/extract.c:370 dpkg-deb/extract.c:409
+#: dpkg-deb/extract.c:353 dpkg-deb/extract.c:374 dpkg-deb/extract.c:413
 #: dpkg-deb/info.c:77
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s precisa de um nome de arquivo .deb como argumento"
 
-#: dpkg-deb/extract.c:354 dpkg-deb/extract.c:413
+#: dpkg-deb/extract.c:358 dpkg-deb/extract.c:417
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -5094,12 +5308,12 @@ msgstr ""
 "--%s precisa de um diretório-alvo.\n"
 "Talvez você devesse usar dpkg --install?"
 
-#: dpkg-deb/extract.c:357 dpkg-deb/extract.c:417
+#: dpkg-deb/extract.c:361 dpkg-deb/extract.c:421
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s aceita no máximo dois argumentos (.deb e diretório)"
 
-#: dpkg-deb/extract.c:372
+#: dpkg-deb/extract.c:376
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s aceita somente um argumento (nome do arquivo .deb)"
@@ -5108,24 +5322,27 @@ msgstr "--%s aceita somente um argumento (nome do arquivo .deb)"
 msgid "failed to chdir to `/' for cleanup"
 msgstr "falhou ao mudar para o diretório '/' para limpeza"
 
-#: dpkg-deb/info.c:106
+#: dpkg-deb/info.c:108
 #, fuzzy, c-format
-#| msgid "cannot stat old name `%s': %s"
-msgid "control file '%s'"
-msgstr "não foi possível executar \"stat\" em nome antigo '%s': %s"
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "cannot extract control file '%s' from '%s': %s"
+msgstr ""
+"não foi possível ler diretório de arquivo do configuração '%.250s' (de "
+"'%.250s')"
 
-#: dpkg-deb/info.c:110
-#, c-format
-msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
+#: dpkg-deb/info.c:112
+#, fuzzy, c-format
+#| msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
+msgid "'%.255s' contains no control component '%.255s'"
 msgstr "dpkg-deb: '%.255s' não contém componente de controle '%.255s'\n"
 
-#: dpkg-deb/info.c:114
+#: dpkg-deb/info.c:116
 #, c-format
 msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
 msgstr ""
 "abertura do componente '%.255s' (em %.255s) falhou de maneira não esperada"
 
-#: dpkg-deb/info.c:121
+#: dpkg-deb/info.c:123
 #, fuzzy, c-format
 #| msgid "One requested control component is missing"
 msgid "%d requested control component is missing"
@@ -5133,65 +5350,61 @@ msgid_plural "%d requested control components are missing"
 msgstr[0] "Um componente de controle requerido está faltando"
 msgstr[1] "Um componente de controle requerido está faltando"
 
-#: dpkg-deb/info.c:139 utils/update-alternatives.c:1065
+#: dpkg-deb/info.c:141 utils/update-alternatives.c:1065
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "não foi possível fazer vasculhar o diretório '%.255s'"
 
-#: dpkg-deb/info.c:148
+#: dpkg-deb/info.c:150
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
 msgstr "não foi possível executar \"stat\" '%.255s' (em '%.255s')"
 
-#: dpkg-deb/info.c:152
+#: dpkg-deb/info.c:154
 #, c-format
 msgid "cannot open `%.255s' (in `%.255s')"
 msgstr "não foi possível abrir '%.255s' (em '%.255s')"
 
-#: dpkg-deb/info.c:167 dpkg-deb/info.c:185 dpkg-deb/info.c:199
+#: dpkg-deb/info.c:169 dpkg-deb/info.c:187 dpkg-deb/info.c:201
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
 msgstr "falhou ao ler '%.255s' (em '%.255s')"
 
-#: dpkg-deb/info.c:170
+#: dpkg-deb/info.c:172
 #, fuzzy, c-format
 #| msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7ld bytes, %5d linhas   %c  %-20.127s %.127s\n"
 
-#: dpkg-deb/info.c:174
+#: dpkg-deb/info.c:176
 #, c-format
 msgid "     not a plain file          %.255s\n"
 msgstr "     não é um arquivo simples  %.255s\n"
 
-#: dpkg-deb/info.c:186
+#: dpkg-deb/info.c:188
 msgid "(no `control' file in control archive!)\n"
 msgstr "(nenhum arquivo 'control' no arquivo de controle!)\n"
 
-#: dpkg-deb/info.c:222
+#: dpkg-deb/info.c:224
 msgid "could not open the `control' component"
 msgstr "não foi possível abrir o componente 'control'"
 
-#: dpkg-deb/info.c:261
+#: dpkg-deb/info.c:263
 msgid "failed during read of `control' component"
 msgstr "falhou durante a leitura do componente 'control'"
 
-#: dpkg-deb/info.c:263
+#: dpkg-deb/info.c:265
 #, fuzzy, c-format
 msgid "error closing the '%s' component"
 msgstr "erro fechando o \"pipe\" do find"
 
-#: dpkg-deb/info.c:278
-msgid "Error in format"
-msgstr "Erro no formato"
-
-#: dpkg-deb/main.c:54
+#: dpkg-deb/main.c:56
 #, c-format
 msgid "Debian `%s' package archive backend version %s.\n"
 msgstr ""
 "Mecanismo (\"backend\") de repositório de pacotes Debian '%s' versão %s.\n"
 
-#: dpkg-deb/main.c:73
+#: dpkg-deb/main.c:75
 #, fuzzy, c-format
 #| msgid ""
 #| "Commands:\n"
@@ -5232,7 +5445,7 @@ msgstr ""
 " --fsys-tarfile <deb>              Gera sistema de arquivos \"tarfile\".\n"
 "\n"
 
-#: dpkg-deb/main.c:93
+#: dpkg-deb/main.c:95
 #, c-format
 msgid ""
 "<deb> is the filename of a Debian format archive.\n"
@@ -5244,7 +5457,7 @@ msgstr ""
 "<carq> é o nome de um componente de arquivo administrativo.\n"
 "<ccampo> é o nome de um campo no arquivo 'control' principal.\n"
 
-#: dpkg-deb/main.c:99
+#: dpkg-deb/main.c:101
 #, fuzzy, c-format
 msgid ""
 "Options:\n"
@@ -5257,11 +5470,10 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, lzma, "
-"none.\n"
+"                                     Allowed types: gzip, xz, bzip2, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
-"                                     Allowed values: extreme (xz).\n"
+"                                     Allowed values: none, extreme (xz).\n"
 "\n"
 msgstr ""
 "Opções:\n"
@@ -5277,7 +5489,7 @@ msgstr ""
 "                                     bzip2, lzma, none\n"
 "\n"
 
-#: dpkg-deb/main.c:123
+#: dpkg-deb/main.c:125
 #, c-format
 msgid ""
 "\n"
@@ -5291,7 +5503,7 @@ msgstr ""
 "ao usuário. Pacotes desempacotados usando 'dpkg-deb --extract'\n"
 "serão instalados incorretamente!\n"
 
-#: dpkg-deb/main.c:134
+#: dpkg-deb/main.c:136
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -5299,75 +5511,92 @@ msgstr ""
 "Digite dpkg-deb --help para ajuda sobre manipulação de arquivos *.deb;\n"
 "Digite dpkg --help para ajuda sobre instalação e desinstalação de pacotes."
 
-#: dpkg-deb/main.c:155
+#: dpkg-deb/main.c:158
 #, fuzzy, c-format
 msgid "invalid integer for -%c: '%.250s'"
 msgstr "inteiro inválido para --%s: '%.250s'"
 
-#: dpkg-deb/main.c:158
+#: dpkg-deb/main.c:161
 #, fuzzy, c-format
 msgid "invalid compression level for -%c: %ld'"
 msgstr "inteiro inválido para --%s: '%.250s'"
 
-#: dpkg-deb/main.c:168
+#: dpkg-deb/main.c:171
+#, fuzzy, c-format
+#| msgid "unknown compression type `%s'!"
+msgid "unknown compression strategy '%s'!"
+msgstr "tipo de compressão desconhecido '%s'!"
+
+#: dpkg-deb/main.c:179
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "tipo de compressão desconhecido '%s'!"
 
-#: dpkg-deb/main.c:213
+#: dpkg-deb/main.c:181
+#, c-format
+msgid "deprecated compression type '%s'; use xz instead"
+msgstr ""
+
+#: dpkg-deb/main.c:226
 #, fuzzy, c-format
 msgid "invalid compressor parameters: %s"
 msgstr "inteiro inválido para --%s: '%.250s'"
 
-#: dpkg-split/info.c:53
+#: dpkg-split/info.c:55
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "arquivo '%.250s' está corrompido - digito ruim (código %d) em %s"
 
-#: dpkg-split/info.c:61
+#: dpkg-split/info.c:57
+#, fuzzy, c-format
+#| msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
+msgid "file '%s' is corrupt; out of range integer in %s"
+msgstr "arquivo '%.250s' está corrompido - digito ruim (código %d) em %s"
+
+#: dpkg-split/info.c:65
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s missing"
 msgstr "arquivo '%.250s' está corrompido - %.250s faltando"
 
-#: dpkg-split/info.c:64
+#: dpkg-split/info.c:68
 #, c-format
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
 msgstr "arquivo '%.250s' está corrompido - nova linha faltando após %.250s"
 
-#: dpkg-split/info.c:91 dpkg-split/main.c:114
+#: dpkg-split/info.c:95 dpkg-split/main.c:117
 #, c-format
 msgid "error reading %.250s"
 msgstr "erro lendo %.250s"
 
-#: dpkg-split/info.c:105
+#: dpkg-split/info.c:109
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 "arquivo '%.250s' está corrompido - magic ruim no final do primeiro cabeçalho"
 
-#: dpkg-split/info.c:115
+#: dpkg-split/info.c:119
 #, c-format
 msgid "file `%.250s' is corrupt - bad padding character (code %d)"
 msgstr ""
 "arquivo '%.250s' está corrompido - caracter de preenchimento ruim (código %d)"
 
-#: dpkg-split/info.c:119
+#: dpkg-split/info.c:123
 #, c-format
 msgid "file `%.250s' is corrupt - nulls in info section"
 msgstr "arquivo '%.250s' está corrompido - nulos na seção info"
 
-#: dpkg-split/info.c:125
+#: dpkg-split/info.c:129
 #, fuzzy
 msgid "format version number"
 msgstr "número de versão"
 
-#: dpkg-split/info.c:127
+#: dpkg-split/info.c:131
 #, fuzzy, c-format
 #| msgid "  %.250s is installed, but is version %.250s.\n"
 msgid "file '%.250s' has invalid format version: %s"
 msgstr "  %.250s está instalado, mas sua versão é %.250s.\n"
 
-#: dpkg-split/info.c:129
+#: dpkg-split/info.c:133
 #, fuzzy, c-format
 #| msgid ""
 #| "file `%.250s' is format version `%.250s' - you need a newer dpkg-split"
@@ -5376,116 +5605,116 @@ msgstr ""
 "arquivo '%.250s' está no formato versão '%.250s' - você precisa de um dpkg-"
 "split mais novo"
 
-#: dpkg-split/info.c:132
+#: dpkg-split/info.c:136
 #, fuzzy
 msgid "package name"
 msgstr " (pacote: "
 
-#: dpkg-split/info.c:133
+#: dpkg-split/info.c:137
 #, fuzzy
 msgid "package version number"
 msgstr "número de versão"
 
-#: dpkg-split/info.c:134
+#: dpkg-split/info.c:138
 msgid "package file MD5 checksum"
 msgstr ""
 
-#: dpkg-split/info.c:137
+#: dpkg-split/info.c:141
 #, c-format
 msgid "file `%.250s' is corrupt - bad MD5 checksum `%.250s'"
 msgstr "arquivo '%.250s' está corrompido - checksum md5 ruim '%.250s'"
 
-#: dpkg-split/info.c:139 dpkg-split/info.c:140
+#: dpkg-split/info.c:143 dpkg-split/info.c:144
 msgid "archive total size"
 msgstr ""
 
-#: dpkg-split/info.c:141 dpkg-split/info.c:142
+#: dpkg-split/info.c:145 dpkg-split/info.c:146
 msgid "archive part offset"
 msgstr ""
 
-#: dpkg-split/info.c:144
+#: dpkg-split/info.c:148
 #, fuzzy
 msgid "archive part numbers"
 msgstr "número de versão"
 
-#: dpkg-split/info.c:147
+#: dpkg-split/info.c:151
 #, fuzzy, c-format
 #| msgid "file `%.250s' is corrupt - no slash between part numbers"
 msgid "file '%.250s' is corrupt - no slash between archive part numbers"
 msgstr "arquivo '%.250s' está corrompido - sem barra entre números parciais"
 
-#: dpkg-split/info.c:150
+#: dpkg-split/info.c:154
 msgid "number of archive parts"
 msgstr ""
 
-#: dpkg-split/info.c:152
+#: dpkg-split/info.c:156
 #, fuzzy, c-format
 msgid "file '%.250s' is corrupt - bad number of archive parts"
 msgstr "arquivo '%.250s' está corrompido - número parcial ruim"
 
-#: dpkg-split/info.c:154
+#: dpkg-split/info.c:158
 #, fuzzy
 msgid "archive parts number"
 msgstr "número de versão"
 
-#: dpkg-split/info.c:156
+#: dpkg-split/info.c:160
 #, fuzzy, c-format
 #| msgid "file `%.250s' is corrupt - bad part number"
 msgid "file '%.250s' is corrupt - bad archive part number"
 msgstr "arquivo '%.250s' está corrompido - número parcial ruim"
 
-#: dpkg-split/info.c:162
+#: dpkg-split/info.c:166
 #, fuzzy
 msgid "package architecture"
 msgstr " (pacote: "
 
-#: dpkg-split/info.c:171
+#: dpkg-split/info.c:175
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of second header"
 msgstr ""
 "arquivo '%.250s' está corrompido - \"magic\" ruim no fim do segundo cabeçalho"
 
-#: dpkg-split/info.c:173
+#: dpkg-split/info.c:177
 #, c-format
 msgid "file `%.250s' is corrupt - second member is not data member"
 msgstr ""
 "arquivo '%.250s' está corrompido - segundo membro não é um membro de dados"
 
-#: dpkg-split/info.c:179
+#: dpkg-split/info.c:183
 #, c-format
 msgid "file `%.250s' is corrupt - wrong number of parts for quoted sizes"
 msgstr ""
 "arquivo '%.250s' está corrompido - número errado de partes para tamanhos "
 "citados"
 
-#: dpkg-split/info.c:183
+#: dpkg-split/info.c:187
 #, c-format
 msgid "file `%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "arquivo '%.250s' está corrompido - tamanho errado para o número parcial "
 "citado"
 
-#: dpkg-split/info.c:189
+#: dpkg-split/info.c:193
 #, c-format
 msgid "unable to fstat part file `%.250s'"
 msgstr "impossível executar \"fstat\" no arquivo parcial '%.250s'"
 
-#: dpkg-split/info.c:194
+#: dpkg-split/info.c:198
 #, c-format
 msgid "file `%.250s' is corrupt - too short"
 msgstr "arquivo '%.250s' está corrompido - muito pequeno"
 
-#: dpkg-split/info.c:207 dpkg-split/info.c:254
+#: dpkg-split/info.c:211 dpkg-split/info.c:258
 #, c-format
 msgid "cannot open archive part file `%.250s'"
 msgstr "não é possível abrir arquivo parcial '%.250s'"
 
-#: dpkg-split/info.c:209
+#: dpkg-split/info.c:213
 #, c-format
 msgid "file `%.250s' is not an archive part"
 msgstr "arquivo '%.250s' não é um arquivo parcial"
 
-#: dpkg-split/info.c:214
+#: dpkg-split/info.c:218
 #, fuzzy, c-format
 #| msgid ""
 #| "%s:\n"
@@ -5528,78 +5757,78 @@ msgstr ""
 "    Tamanho do arquivo parcial (porção usada):  %lu bytes\n"
 "\n"
 
-#: dpkg-split/info.c:230
+#: dpkg-split/info.c:234
 #, fuzzy
 #| msgid "<unknown>"
 msgctxt "architecture"
 msgid "<unknown>"
 msgstr "<desconhecido>"
 
-#: dpkg-split/info.c:249 dpkg-split/join.c:105
+#: dpkg-split/info.c:253 dpkg-split/join.c:110
 #, fuzzy, c-format
 msgid "--%s requires one or more part file arguments"
 msgstr "--info requer um ou mais argumentos de arquivos parciais"
 
-#: dpkg-split/info.c:260
+#: dpkg-split/info.c:264
 #, c-format
 msgid "file `%s' is not an archive part\n"
 msgstr "arquivo '%s' não é um arquivo parcial\n"
 
-#: dpkg-split/join.c:44
+#: dpkg-split/join.c:45
 #, c-format
 msgid "Putting package %s together from %d part: "
 msgid_plural "Putting package %s together from %d parts: "
 msgstr[0] ""
 msgstr[1] ""
 
-#: dpkg-split/join.c:51
+#: dpkg-split/join.c:52
 #, c-format
 msgid "unable to open output file `%.250s'"
 msgstr "impossível abrir arquivo de saída '%.250s'"
 
-#: dpkg-split/join.c:57
+#: dpkg-split/join.c:58
 #, c-format
 msgid "unable to (re)open input part file `%.250s'"
 msgstr "impossível (re)abrir arquivo parcial de entrada '%.250s'"
 
-#: dpkg-split/join.c:58
-#, fuzzy
+#: dpkg-split/join.c:60
+#, fuzzy, c-format
 #| msgid "Skipping deselected package %s.\n"
-msgid "skipping split package header"
+msgid "cannot skip split package header for '%s': %s"
 msgstr "Ignorando pacote não selecionado %s.\n"
 
-#: dpkg-split/join.c:59
-#, fuzzy
-#| msgid "missing package"
-msgid "split package part"
-msgstr "pacote faltando"
+#: dpkg-split/join.c:63
+#, fuzzy, c-format
+#| msgid "cannot stat new name `%s': %s"
+msgid "cannot append split package part '%s' to '%s': %s"
+msgstr "não foi possível executar \"stat\" em novo nome '%s': %s"
 
-#: dpkg-split/join.c:69 dpkg-split/split.c:237
+#: dpkg-split/join.c:74 dpkg-split/split.c:243
 #, c-format
 msgid "done\n"
 msgstr "feito\n"
 
-#: dpkg-split/join.c:85
+#: dpkg-split/join.c:90
 #, c-format
 msgid "files `%.250s' and `%.250s' are not parts of the same file"
 msgstr "arquivos '%.250s' e '%.250s' não são partes do mesmo arquivo"
 
-#: dpkg-split/join.c:90
+#: dpkg-split/join.c:95
 #, c-format
 msgid "there are several versions of part %d - at least `%.250s' and `%.250s'"
 msgstr "existem diversas versões da parte %d - pelo menos '%.250s' e '%.250s'"
 
-#: dpkg-split/join.c:128
+#: dpkg-split/join.c:133
 #, c-format
 msgid "part %d is missing"
 msgstr "parte %d está faltando"
 
-#: dpkg-split/main.c:47
+#: dpkg-split/main.c:49
 #, c-format
 msgid "Debian `%s' package split/join tool; version %s.\n"
 msgstr "Ferramenta de divisão/junção de pacote Debian '%s'; versão %s.\n"
 
-#: dpkg-split/main.c:67
+#: dpkg-split/main.c:69
 #, c-format
 msgid ""
 "Commands:\n"
@@ -5620,7 +5849,7 @@ msgstr ""
 "  -d|--discard [<nome-do-arquivo> ...]  Descarta peças que não combinam.\n"
 "\n"
 
-#: dpkg-split/main.c:82
+#: dpkg-split/main.c:84
 #, fuzzy, c-format
 #| msgid ""
 #| "Options:\n"
@@ -5653,7 +5882,7 @@ msgstr ""
 "\n"
 "Estado de saída: 0 = OK;  1 = -a não é uma parte;  2 = problema!\n"
 
-#: dpkg-split/main.c:92
+#: dpkg-split/main.c:94
 #, c-format
 msgid ""
 "Exit status:\n"
@@ -5662,166 +5891,174 @@ msgid ""
 "  2 = trouble\n"
 msgstr ""
 
-#: dpkg-split/main.c:103
+#: dpkg-split/main.c:105
 msgid "Type dpkg-split --help for help."
 msgstr "Digite dpkg-split --help para ajuda."
 
-#: dpkg-split/main.c:115
+#: dpkg-split/main.c:118
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "fim de arquivo não esperado em %.250s"
 
-#: dpkg-split/main.c:126
+#: dpkg-split/main.c:130
 msgid "part size is far too large or is not positive"
 msgstr "tamanho da parcial é muito grande ou não é positivo"
 
-#: dpkg-split/main.c:130
+#: dpkg-split/main.c:134
 #, fuzzy, c-format
 msgid "part size must be at least %d KiB (to allow for header)"
 msgstr "tamanho da parcial deve ser pelo menos %dk (para permitir cabeçalho)"
 
-#: dpkg-split/queue.c:91
+#: dpkg-split/queue.c:93
 #, c-format
 msgid "unable to read depot directory `%.250s'"
 msgstr "impossível ler o diretório \"depot\" '%.250s'"
 
-#: dpkg-split/queue.c:138
+#: dpkg-split/queue.c:140
 msgid "--auto requires the use of the --output option"
 msgstr "--auto requer o uso da opção --output"
 
-#: dpkg-split/queue.c:140
+#: dpkg-split/queue.c:142
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto requer exatamente um arquivo parcial como argumento"
 
-#: dpkg-split/queue.c:144
+#: dpkg-split/queue.c:146
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "impossível ler arquivo parcial '%.250s'"
 
-#: dpkg-split/queue.c:147
+#: dpkg-split/queue.c:149
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "Arquivo '%.250s' não é parte de um arquivo em múltiplas partes.\n"
 
-#: dpkg-split/queue.c:183
+#: dpkg-split/queue.c:186
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "impossível reabrir arquivo parcial '%.250s'"
 
-#: dpkg-split/queue.c:186
+#: dpkg-split/queue.c:189
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "impossível abrir novo arquivo \"depot\" '%.250s'"
 
-#: dpkg-split/queue.c:188
-msgid "extracting split part"
-msgstr ""
+#: dpkg-split/queue.c:192
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot extract split package part '%s': %s"
+msgstr "não foi possível executar \"stat\" em nome antigo '%s': %s"
 
-#: dpkg-split/queue.c:196
+#: dpkg-split/queue.c:201
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "impossível renomear novo arquivo \"depot\" de '%.250s' para '%.250s'"
 
-#: dpkg-split/queue.c:200
+#: dpkg-split/queue.c:205
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "Parte %d do pacote %s preenchida (continua precisando "
 
-#: dpkg-split/queue.c:204
+#: dpkg-split/queue.c:209
 msgid " and "
 msgstr " e "
 
-#: dpkg-split/queue.c:218
+#: dpkg-split/queue.c:223
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "impossível excluir arquivo \"depot\" acima usado '%.250s'"
 
-#: dpkg-split/queue.c:239
+#: dpkg-split/queue.c:244
 msgid "Junk files left around in the depot directory:\n"
 msgstr "Arquivos lixo deixados para trás no diretório \"depot\":\n"
 
-#: dpkg-split/queue.c:244 dpkg-split/queue.c:273
+#: dpkg-split/queue.c:249 dpkg-split/queue.c:278
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "impossível executar \"stat\" em '%.250s'"
 
-#: dpkg-split/queue.c:247
+#: dpkg-split/queue.c:252
 #, fuzzy, c-format
 #| msgid " %s (%lu bytes)\n"
 msgid " %s (%jd bytes)\n"
 msgstr " %s (%lu bytes)\n"
 
-#: dpkg-split/queue.c:249
+#: dpkg-split/queue.c:254
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (não é um arquivo simples)\n"
 
-#: dpkg-split/queue.c:254
+#: dpkg-split/queue.c:259
 msgid "Packages not yet reassembled:\n"
 msgstr "Pacotes ainda não remontados:\n"
 
-#: dpkg-split/queue.c:262
+#: dpkg-split/queue.c:267
 #, c-format
 msgid " Package %s: part(s) "
 msgstr ""
 
-#: dpkg-split/queue.c:275
+#: dpkg-split/queue.c:280
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "arquivo parcial '%.250s' não é um arquivo simples"
 
-#: dpkg-split/queue.c:282
+#: dpkg-split/queue.c:287
 #, fuzzy, c-format
 #| msgid "(total %lu bytes)\n"
 msgid "(total %jd bytes)\n"
 msgstr "(total %lu bytes)\n"
 
-#: dpkg-split/queue.c:308
+#: dpkg-split/queue.c:313
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "impossível descartar '%.250s'"
 
-#: dpkg-split/queue.c:309
+#: dpkg-split/queue.c:314
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "Excluído %s.\n"
 
-#: dpkg-split/split.c:70 dpkg-split/split.c:76 dpkg-split/split.c:81
+#: dpkg-split/split.c:71 dpkg-split/split.c:84
 msgid "package field value extraction"
 msgstr ""
 
-#: dpkg-split/split.c:131
+#: dpkg-split/split.c:78
+#, fuzzy, c-format
+#| msgid "Cannot get ENOENT value from %s: %s"
+msgid "cannot extract package field value from '%s': %s"
+msgstr "Naó foi possível obter valor de ENOENT de %s: %s"
+
+#: dpkg-split/split.c:135
 #, c-format
 msgid "unable to open source file `%.250s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
-#: dpkg-split/split.c:133
+#: dpkg-split/split.c:137
 msgid "unable to fstat source file"
 msgstr "impossível executar \"fstat\" no arquivo fonte"
 
-#: dpkg-split/split.c:135
+#: dpkg-split/split.c:139
 #, c-format
 msgid "source file `%.250s' not a plain file"
 msgstr "arquivo fonte '%.250s' não é um arquivo simples"
 
-#: dpkg-split/split.c:153
+#: dpkg-split/split.c:159
 #, c-format
 msgid "Splitting package %s into %d part: "
 msgid_plural "Splitting package %s into %d parts: "
 msgstr[0] ""
 msgstr[1] ""
 
-#: dpkg-split/split.c:193
+#: dpkg-split/split.c:199
 msgid ""
-"Header is too long, making part too long. Your package name or version\n"
-"numbers must be extraordinarily long, or something. Giving up.\n"
+"header is too long, making part too long; the package name or version\n"
+"numbers must be extraordinarily long, or something; giving up"
 msgstr ""
 
-#: dpkg-split/split.c:249
+#: dpkg-split/split.c:255
 msgid "--split needs a source filename argument"
 msgstr "--split necessita de um nome de arquivo fonte como argumento"
 
-#: dpkg-split/split.c:252
+#: dpkg-split/split.c:258
 msgid "--split takes at most a source filename and destination prefix"
 msgstr ""
 "--split aceita no máximo um nome de arquivo fonte e um prefixo de destino"
@@ -6036,7 +6273,7 @@ msgstr "novas linhas proibidas em arquivos update-alternatives (%s)"
 msgid "slave name"
 msgstr ""
 
-#: utils/update-alternatives.c:1161 utils/update-alternatives.c:2530
+#: utils/update-alternatives.c:1161 utils/update-alternatives.c:2553
 #, fuzzy, c-format
 #| msgid "duplicate slave %s"
 msgid "duplicate slave name %s"
@@ -6052,7 +6289,7 @@ msgstr "ligação escrava %s duplicada"
 msgid "slave link same as main link %s"
 msgstr "ligação escrava é a mesma que a ligação principal %s"
 
-#: utils/update-alternatives.c:1175 utils/update-alternatives.c:2537
+#: utils/update-alternatives.c:1175 utils/update-alternatives.c:2560
 #, c-format
 msgid "duplicate slave link %s"
 msgstr "ligação escrava %s duplicada"
@@ -6069,8 +6306,8 @@ msgstr "caminho %s duplicado"
 #: utils/update-alternatives.c:1215
 #, fuzzy, c-format
 msgid ""
-"alternative %s (part of link group %s) doesn't exist. Removing from list of "
-"alternatives."
+"alternative %s (part of link group %s) doesn't exist; removing from list of "
+"alternatives"
 msgstr ""
 "Alternativa para %s aponta para %s - a qual não foi encontrada. Removendo da "
 "lista de alternativas."
@@ -6080,306 +6317,316 @@ msgstr ""
 msgid "priority"
 msgstr "prioridade %s %s"
 
-#: utils/update-alternatives.c:1221 utils/update-alternatives.c:1238
+#: utils/update-alternatives.c:1221 utils/update-alternatives.c:1243
 msgid "slave file"
 msgstr ""
 
-#: utils/update-alternatives.c:1233
+#: utils/update-alternatives.c:1234
 #, fuzzy, c-format
 msgid "priority of %s: %s"
 msgstr "prioridade %s %s"
 
-#: utils/update-alternatives.c:1287
+#: utils/update-alternatives.c:1238
+#, fuzzy, c-format
+msgid "priority of %s is out of range: %s"
+msgstr "prioridade %s %s"
+
+#: utils/update-alternatives.c:1292
 msgid "status"
 msgstr ""
 
-#: utils/update-alternatives.c:1289
+#: utils/update-alternatives.c:1294
 #, fuzzy
 msgid "invalid status"
 msgstr "modo de atualização inválido"
 
-#: utils/update-alternatives.c:1294
+#: utils/update-alternatives.c:1299
 #, fuzzy
 msgid "master link"
 msgstr "ligação escrava %s duplicada"
 
-#: utils/update-alternatives.c:1338
+#: utils/update-alternatives.c:1343
 #, fuzzy, c-format
-msgid "discarding obsolete slave link %s (%s)."
+msgid "discarding obsolete slave link %s (%s)"
 msgstr "Descartando ligação escrava obsoleta %s (%s)."
 
-#: utils/update-alternatives.c:1394
+#: utils/update-alternatives.c:1399
 #, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "impossível efetuar \"flush\" em vsnprintf "
 
-#: utils/update-alternatives.c:1480 utils/update-alternatives.c:1547
-#: utils/update-alternatives.c:2258
+#: utils/update-alternatives.c:1491 utils/update-alternatives.c:1558
+#: utils/update-alternatives.c:2270
 msgid "auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1480 utils/update-alternatives.c:1556
-#: utils/update-alternatives.c:2259
+#: utils/update-alternatives.c:1491 utils/update-alternatives.c:1567
+#: utils/update-alternatives.c:2271
 msgid "manual mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1483
+#: utils/update-alternatives.c:1494
 #, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr " ligação atualmente aponta para %s"
 
-#: utils/update-alternatives.c:1486
+#: utils/update-alternatives.c:1497
 #, fuzzy
 msgid "  link currently absent"
 msgstr " ligação atualmente ausente"
 
-#: utils/update-alternatives.c:1490
+#: utils/update-alternatives.c:1501
 #, fuzzy, c-format
 #| msgid "%s - priority %s"
 msgid "%s - priority %d"
 msgstr "%s - prioridade %s"
 
-#: utils/update-alternatives.c:1493
+#: utils/update-alternatives.c:1504
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr " escravo %s: %s"
 
-#: utils/update-alternatives.c:1500
+#: utils/update-alternatives.c:1511
 #, fuzzy, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "'Melhor' versão atual é %s."
 
-#: utils/update-alternatives.c:1502
+#: utils/update-alternatives.c:1513
 msgid "No versions available."
 msgstr "Nenhuma versão disponível."
 
-#: utils/update-alternatives.c:1531
+#: utils/update-alternatives.c:1542
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: utils/update-alternatives.c:1538
+#: utils/update-alternatives.c:1549
 #, fuzzy
 msgid "Selection"
 msgstr "Descrição"
 
-#: utils/update-alternatives.c:1539
+#: utils/update-alternatives.c:1550
 msgid "Path"
 msgstr ""
 
-#: utils/update-alternatives.c:1539
+#: utils/update-alternatives.c:1550
 #, fuzzy
 msgid "Priority"
 msgstr "prioridade %s %s"
 
-#: utils/update-alternatives.c:1539
+#: utils/update-alternatives.c:1550
 msgid "Status"
 msgstr ""
 
-#: utils/update-alternatives.c:1560
+#: utils/update-alternatives.c:1571
 #, fuzzy, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 "Pressione enter para manter o padrão[*] ou digite o número da seleção: "
 
-#: utils/update-alternatives.c:1713
+#: utils/update-alternatives.c:1725
 #, c-format
-msgid "not replacing %s with a link."
+msgid "not replacing %s with a link"
 msgstr ""
 
-#: utils/update-alternatives.c:1754
+#: utils/update-alternatives.c:1766
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1772
+#: utils/update-alternatives.c:1784
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
-"exist."
+"exist"
 msgstr ""
 
-#: utils/update-alternatives.c:1782
+#: utils/update-alternatives.c:1794
 #, c-format
-msgid "not removing %s since it's not a symlink."
+msgid "not removing %s since it's not a symlink"
 msgstr ""
 
-#: utils/update-alternatives.c:2057 utils/update-alternatives.c:2063
+#: utils/update-alternatives.c:2069 utils/update-alternatives.c:2075
 #, c-format
 msgid "Call %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2067
+#: utils/update-alternatives.c:2079
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr ""
 
-#: utils/update-alternatives.c:2071
+#: utils/update-alternatives.c:2083
 #, fuzzy, c-format
 msgid "Skip unknown alternative %s."
 msgstr "Não foi possível encontrar alternativa '%s'."
 
-#: utils/update-alternatives.c:2098
+#: utils/update-alternatives.c:2110
 #, fuzzy, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "fim de arquivo inesperado em %s em %.255s"
 
-#: utils/update-alternatives.c:2111 utils/update-alternatives.c:2124
-#: utils/update-alternatives.c:2134
+#: utils/update-alternatives.c:2123 utils/update-alternatives.c:2136
+#: utils/update-alternatives.c:2146
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2159
+#: utils/update-alternatives.c:2171
 #, c-format
-msgid "%s/%s is dangling, it will be updated with best choice."
+msgid "%s/%s is dangling; it will be updated with best choice"
 msgstr ""
 
-#: utils/update-alternatives.c:2163
+#: utils/update-alternatives.c:2175
 #, fuzzy, c-format
 msgid ""
-"%s/%s has been changed (manually or by a script). Switching to manual "
-"updates only."
+"%s/%s has been changed (manually or by a script); switching to manual "
+"updates only"
 msgstr ""
 "%s foi modificado (manualmente ou por um script).\n"
 "Mudando para atualizações manuais somente."
 
-#: utils/update-alternatives.c:2171
+#: utils/update-alternatives.c:2183
 #, fuzzy, c-format
-msgid "setting up automatic selection of %s."
+msgid "setting up automatic selection of %s"
 msgstr "Configurando seleção automática de %s."
 
-#: utils/update-alternatives.c:2187
+#: utils/update-alternatives.c:2199
 #, fuzzy, c-format
-msgid "renaming %s link from %s to %s."
+msgid "renaming %s link from %s to %s"
 msgstr "Renomeando ligação %s de %s para %s."
 
-#: utils/update-alternatives.c:2228
+#: utils/update-alternatives.c:2240
 #, fuzzy, c-format
-msgid "renaming %s slave link from %s to %s."
+msgid "renaming %s slave link from %s to %s"
 msgstr "Renomeando ligação escrava %s de %s para %s."
 
-#: utils/update-alternatives.c:2256
+#: utils/update-alternatives.c:2268
 #, fuzzy, c-format
-msgid "using %s to provide %s (%s) in %s."
+msgid "using %s to provide %s (%s) in %s"
 msgstr "Usando '%s' para fornecer '%s'."
 
-#: utils/update-alternatives.c:2264
+#: utils/update-alternatives.c:2276
 #, c-format
 msgid ""
-"forcing reinstallation of alternative %s because link group %s is broken."
+"forcing reinstallation of alternative %s because link group %s is broken"
 msgstr ""
 
-#: utils/update-alternatives.c:2271
+#: utils/update-alternatives.c:2283
 #, c-format
-msgid "current alternative %s is unknown, switching to %s for link group %s."
+msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2297
+#: utils/update-alternatives.c:2309
 #, c-format
-msgid "alternative name (%s) must not contain '/' and spaces."
+msgid "alternative name (%s) must not contain '/' and spaces"
 msgstr ""
 
-#: utils/update-alternatives.c:2305
+#: utils/update-alternatives.c:2317
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2313
+#: utils/update-alternatives.c:2325
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2344
+#: utils/update-alternatives.c:2356
 #, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2352 utils/update-alternatives.c:2388
+#: utils/update-alternatives.c:2364 utils/update-alternatives.c:2400
 #, c-format
-msgid "alternative link %s is already managed by %s."
+msgid "alternative link %s is already managed by %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2358
+#: utils/update-alternatives.c:2370
 #, fuzzy, c-format
-msgid "alternative path %s doesn't exist."
+msgid "alternative path %s doesn't exist"
 msgstr "aviso: --update informado mas %s não existe"
 
-#: utils/update-alternatives.c:2375
+#: utils/update-alternatives.c:2387
 #, fuzzy, c-format
-msgid "alternative %s can't be slave of %s: it is a master alternative."
+msgid "alternative %s can't be slave of %s: it is a master alternative"
 msgstr ""
 "Alternativa para %s aponta para %s - a qual não foi encontrada. Removendo da "
 "lista de alternativas."
 
-#: utils/update-alternatives.c:2379
+#: utils/update-alternatives.c:2391
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2399
+#: utils/update-alternatives.c:2411
 #, c-format
-msgid "alternative link %s is already managed by %s (slave of %s)."
+msgid "alternative link %s is already managed by %s (slave of %s)"
 msgstr ""
 
-#: utils/update-alternatives.c:2443
+#: utils/update-alternatives.c:2455
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "argumento desconhecido '%s'"
 
-#: utils/update-alternatives.c:2462
+#: utils/update-alternatives.c:2474
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install precisa de <ligação> <nome> <caminho> <prioridade>"
 
-#: utils/update-alternatives.c:2465 utils/update-alternatives.c:2522
+#: utils/update-alternatives.c:2480 utils/update-alternatives.c:2545
 msgid "<link> and <path> can't be the same"
 msgstr ""
 
-#: utils/update-alternatives.c:2468
+#: utils/update-alternatives.c:2484
 msgid "priority must be an integer"
 msgstr "prioridade deve ser um inteiro"
 
-#: utils/update-alternatives.c:2481
+#: utils/update-alternatives.c:2488
+#, c-format
+msgid "priority is out of range: %s clamped to %ld"
+msgstr ""
+
+#: utils/update-alternatives.c:2504
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s precisa de <nome> <caminho>"
 
-#: utils/update-alternatives.c:2498
+#: utils/update-alternatives.c:2521
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s precisa de <nome>"
 
-#: utils/update-alternatives.c:2513
+#: utils/update-alternatives.c:2536
 msgid "--slave only allowed with --install"
 msgstr "--slave somente permitido com --install"
 
-#: utils/update-alternatives.c:2515
+#: utils/update-alternatives.c:2538
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave precisa de <ligação> <nome> <caminho>"
 
-#: utils/update-alternatives.c:2524
+#: utils/update-alternatives.c:2547
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr "nome %s é tanto primário quanto escravo"
 
-#: utils/update-alternatives.c:2527
+#: utils/update-alternatives.c:2550
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr "ligação %s é tanto primário quanto escravo"
 
-#: utils/update-alternatives.c:2547
+#: utils/update-alternatives.c:2570
 #, fuzzy, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s precisa de um único argumento"
 
-#: utils/update-alternatives.c:2573
+#: utils/update-alternatives.c:2596
 #, c-format
 msgid "unknown option `%s'"
 msgstr "opção desconhecida '%s'"
 
-#: utils/update-alternatives.c:2578
+#: utils/update-alternatives.c:2601
 #, fuzzy
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -6388,61 +6635,111 @@ msgstr ""
 "precisa de --display, --config, --set, --install, --remove, --all, --remove-"
 "all ou --auto"
 
-#: utils/update-alternatives.c:2594 utils/update-alternatives.c:2600
+#: utils/update-alternatives.c:2617 utils/update-alternatives.c:2623
 #, fuzzy, c-format
-msgid "no alternatives for %s."
+msgid "no alternatives for %s"
 msgstr "Nenhuma alternativa para %s."
 
-#: utils/update-alternatives.c:2617
+#: utils/update-alternatives.c:2640
 #, fuzzy
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "erro de leitura na entrada padrão"
 
-#: utils/update-alternatives.c:2639
+#: utils/update-alternatives.c:2662
 #, fuzzy, c-format
-msgid "alternative %s for %s not registered, not setting."
+msgid "alternative %s for %s not registered; not setting"
 msgstr "Alternativa %s para %s não registrada, não removendo."
 
-#: utils/update-alternatives.c:2645 utils/update-alternatives.c:2651
+#: utils/update-alternatives.c:2668 utils/update-alternatives.c:2674
 #, fuzzy, c-format
 msgid "There is no program which provides %s."
 msgstr ""
 "Não há programa que forneça %s.\n"
 "Nada a ser configurado.\n"
 
-#: utils/update-alternatives.c:2653 utils/update-alternatives.c:2661
+#: utils/update-alternatives.c:2676 utils/update-alternatives.c:2684
 msgid "Nothing to configure."
 msgstr ""
 
-#: utils/update-alternatives.c:2659
+#: utils/update-alternatives.c:2682
 #, c-format
-msgid "There is only one alternative in link group %s: %s"
+msgid "There is only one alternative in link group %s (providing %s): %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2669
+#: utils/update-alternatives.c:2692
 #, fuzzy, c-format
-msgid "alternative %s for %s not registered, not removing."
+msgid "alternative %s for %s not registered; not removing"
 msgstr "Alternativa %s para %s não registrada, não removendo."
 
-#: utils/update-alternatives.c:2677
+#: utils/update-alternatives.c:2700
 #, fuzzy, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 "Removendo alternativa selecionada manualmente - mudando para modo automático"
 
-#: utils/update-alternatives.c:2702
+#: utils/update-alternatives.c:2725
 #, fuzzy, c-format
-msgid "automatic updates of %s/%s are disabled, leaving it alone."
+msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
 "Atualizações automáticas de %s estão desabilitadas, deixando-as intocadas."
 
-#: utils/update-alternatives.c:2704
+#: utils/update-alternatives.c:2727
 #, fuzzy, c-format
-msgid "to return to automatic updates use '%s --auto %s'."
+msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Para retornar para atualizações automáticas utilize 'update-alternatives --"
 "auto %s'."
+
+#, fuzzy
+#~ msgid "ar member file (%s)"
+#~ msgstr "falhou ao criar tmpfile (data)"
+
+#, fuzzy
+#~ msgid "failed to read on buffer copy for %s"
+#~ msgstr "falhou em buffer_copy (%s)"
+
+#, fuzzy
+#~ msgid "failed in write on buffer copy for %s"
+#~ msgstr "falhou em buffer_copy (%s)"
+
+#, fuzzy
+#~ msgid "short read on buffer copy for %s"
+#~ msgstr "leitura curta em buffer_copy (%s)"
+
+#~ msgid "%s: decompression"
+#~ msgstr "%s: descompactação"
+
+#~ msgid "%s: compression"
+#~ msgstr "%s: compactação"
+
+#, fuzzy
+#~| msgid "%d files and directories currently installed.)\n"
+#~ msgid "a value different from 'any' is currently not allowed"
+#~ msgstr "%d arquivos e diretórios atualmente instalados).\n"
+
+#~ msgid "Closing brace missing in format\n"
+#~ msgstr "Fechamento de chave faltando no formato\n"
+
+#~ msgid "backend dpkg-deb during `%.255s'"
+#~ msgstr "mecanismo dpkg-deb durante '%.255s'"
+
+#~ msgid "md5hash"
+#~ msgstr "md5hash"
+
+#~ msgid "failed to write to pipe in copy"
+#~ msgstr "falhou ao escrever para o \"pipe\" na cópia"
+
+#~ msgid "failed to close pipe in copy"
+#~ msgstr "falhou ao fechar o \"pipe\" na cópia"
+
+#~ msgid "data"
+#~ msgstr "dados"
+
+#, fuzzy
+#~| msgid "missing package"
+#~ msgid "split package part"
+#~ msgstr "pacote faltando"
 
 #, fuzzy
 #~ msgid "failed to open '%s' for writing %s database"
@@ -7034,15 +7331,6 @@ msgstr ""
 
 #~ msgid "cannot open diversions: %s"
 #~ msgstr "não foi possível abrir desvios (\"diversions\"): %s"
-
-#~ msgid "missing altname"
-#~ msgstr "\"altname\" faltando"
-
-#~ msgid "internal error - bad mode `%s'"
-#~ msgstr "erro interno - modo ruim '%s'"
-
-#~ msgid "cannot stat old name `%s': %s"
-#~ msgstr "não foi possível executar \"stat\" em nome antigo '%s': %s"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "renomear: renomear '%s' para '%s': %s"
@@ -7725,9 +8013,6 @@ msgstr ""
 
 #~ msgid "failed allocating memory for variable `ctrlarea'"
 #~ msgstr "falha alocando memória para variável `crtlarea'"
-
-#~ msgid "Cannot get ENOENT value from %s: %s"
-#~ msgstr "Naó foi possível obter valor de ENOENT de %s: %s"
 
 #~ msgid "unable to ensure %s nonexistent: %s"
 #~ msgstr "não foi possível assegurar %s inexistente: %s"
