@@ -97,7 +97,7 @@ sub usage {
 "Options passed to dpkg-source:
   -sn            force Debian native source format.
   -s[sAkurKUR]   see dpkg-source for explanation.
-  -z<level>      compression level to use fo source.
+  -z<level>      compression level to use for source.
   -Z<compressor> compression to use for source (gz|xz|bzip2|lzma).
   -i[<regex>]    ignore diffs of files matching regex.
   -I[<pattern>]  filter out files when building tarballs.
