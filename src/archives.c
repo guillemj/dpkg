@@ -276,8 +276,14 @@ set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
     return;
 
   /* Set selinux_enabled if it is not already set (singleton). */
-  if (selinux_enabled < 0)
+  if (selinux_enabled < 0) {
     selinux_enabled = (is_selinux_enabled() > 0);
+
+    /* Do not translate from computer to human readable forms, to avoid
+     * issues when mcstransd has disappeared during the unpack process. */
+    if (selinux_enabled)
+      set_matchpathcon_flags(MATCHPATHCON_NOTRANS);
+  }
 
   /* If SE Linux is not enabled just do nothing. */
   if (!selinux_enabled)
@@ -293,7 +299,7 @@ set_selinux_path_context(const char *matchpath, const char *path, mode_t mode)
     return;
 
   if (strcmp(scontext, "<<none>>") != 0) {
-    if (lsetfilecon(path, scontext) < 0)
+    if (lsetfilecon_raw(path, scontext) < 0)
       /* XXX: This might need to be fatal instead!? */
       perror("Error setting security context for next file object:");
   }
