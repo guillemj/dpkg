@@ -22,7 +22,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(report);
+use Dpkg::ErrorHandling qw(:DEFAULT report);
 use Dpkg::BuildFlags;
 use Dpkg::Vendor qw(get_current_vendor);
 
