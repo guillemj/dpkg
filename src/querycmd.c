@@ -783,6 +783,9 @@ usage(const struct cmdinfo *ci, const char *value)
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -W|--show [<pattern> ...]        Show information on package(s).\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+"     --control-list <package>      Print the package control file list.\n"
+"     --control-show <package> <file>\n"
+"                                   Show the package control file.\n"
 "  -c|--control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"));
