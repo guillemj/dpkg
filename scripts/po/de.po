@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2012-06-30 05:24+0200\n"
-"PO-Revision-Date: 2012-06-27 21:58+0200\n"
+"POT-Creation-Date: 2012-06-30 15:36+0200\n"
+"PO-Revision-Date: 2012-06-30 17:28+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -64,19 +64,6 @@ msgstr ""
 "                     Variablen überschreiben)."
 
 #: scripts/dpkg-architecture.pl:55
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  -l                 list variables (default).\n"
-#| "  -e<debian-arch>    compare with current Debian architecture.\n"
-#| "  -i<arch-alias>     check if current Debian architecture is <arch-"
-#| "alias>.\n"
-#| "  -q<variable>       prints only the value of <variable>.\n"
-#| "  -s                 print command to set environment variables.\n"
-#| "  -u                 print command to unset environment variables.\n"
-#| "  -c <command>       set environment and run the command in it.\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  -l                 list variables (default).\n"
@@ -99,8 +86,8 @@ msgstr ""
 "  -u                 den Befehl zum Löschen von Umgebungsvariablen "
 "ausgeben.\n"
 "  -c <Befehl>        Umgebung setzen und darin den Befehl ausführen.\n"
-"  --help             diese Hilfemeldung anzeigen.\n"
-"  --version          die Version anzeigen.\n"
+"  -?, --help         diese Hilfemeldung anzeigen.\n"
+"      --version      die Version anzeigen.\n"
 
 #: scripts/dpkg-architecture.pl:147
 #, perl-format
@@ -133,10 +120,7 @@ msgid "unknown default GNU system type for Debian architecture %s"
 msgstr "unbekannter Standard-GNU-Systemtyp für Debian-Architektur %s"
 
 #: scripts/dpkg-architecture.pl:216
-#, fuzzy, perl-format
-#| msgid ""
-#| "Default GNU system type %s for Debian arch %s does not match specified "
-#| "GNU system type %s"
+#, perl-format
 msgid ""
 "default GNU system type %s for Debian arch %s does not match specified GNU "
 "system type %s"
@@ -159,23 +143,6 @@ msgid "Usage: %s [<command>]"
 msgstr "Aufruf: %s [<Befehl>]"
 
 #: scripts/dpkg-buildflags.pl:44
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  --get <flag>       output the requested flag to stdout.\n"
-#| "  --origin <flag>    output the origin of the flag to stdout:\n"
-#| "                     value is one of vendor, system, user, env.\n"
-#| "  --query-features <area>\n"
-#| "                     output the status of features for the given area.\n"
-#| "  --list             output a list of the flags supported by the current "
-#| "vendor.\n"
-#| "  --export=(sh|make|configure)\n"
-#| "                     output something convenient to import the\n"
-#| "                     compilation flags in a shell script, in make,\n"
-#| "                     or on a ./configure command line.\n"
-#| "  --dump             output all compilation flags with their values\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  --get <flag>       output the requested flag to stdout.\n"
@@ -210,6 +177,9 @@ msgstr ""
 "                      in einem Shell-Skript, in Make oder auf der\n"
 "                      Kommandozeile für ./configure zu importieren\n"
 "  --dump              alle Kompilierschalter mit ihren Werten ausgeben\n"
+" --status             eine Zusammenfassung aller Parameter ausgeben, die das\n"
+"                      Verhalten von dpkg-buildflags und die daraus\n"
+"                      entstehenden Schalter und ihre Quelle angeben\n"
 "  --help              diese Hilfemeldung anzeigen\n"
 "  --version           die Version anzeigen\n"
 
@@ -232,35 +202,6 @@ msgid "Usage: %s [<option>...]"
 msgstr "Aufruf: %s [<Option>...]"
 
 #: scripts/dpkg-buildpackage.pl:55
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -F (default)   normal full build (binaries and sources).\n"
-#| "  -b             binary-only, do not build source.\n"
-#| "  -B             binary-only, no arch-indep files.\n"
-#| "  -A             binary-only, only arch-indep files.\n"
-#| "  -S             source only, no binary files.\n"
-#| "  -nc            do not clean source tree (implies -b).\n"
-#| "  -tc            clean source tree when finished.\n"
-#| "  -D (default)   check build dependencies and conflicts.\n"
-#| "  -d             do not check build dependencies and conflicts.\n"
-#| "  -R<rules>      rules file to execute (default is debian/rules).\n"
-#| "  -T<target>     call debian/rules <target> with the proper environment.\n"
-#| "      --as-root  ensure -T calls the target with root rights.\n"
-#| "  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).\n"
-#| "  -r<gain-root-command>\n"
-#| "                 command to gain root privileges (default is fakeroot).\n"
-#| "  -p<sign-command>\n"
-#| "                 command to sign .dsc and/or .changes files (default is "
-#| "gpg).\n"
-#| "  -k<keyid>      the key to use for signing.\n"
-#| "  -ap            add pause before starting signature process.\n"
-#| "  -us            unsigned source package.\n"
-#| "  -uc            unsigned .changes file.\n"
-#| "      --admindir=<directory>\n"
-#| "                 change the administrative directory.\n"
-#| "  -h, --help     show this help message.\n"
-#| "      --version  show the version."
 msgid ""
 "Options:\n"
 "  -F (default)   normal full build (binaries and sources).\n"
@@ -309,29 +250,25 @@ msgstr ""
 "                 fakeroot).\n"
 "  -p<signier-Befehl>\n"
 "                 Befehl, um .dsc- und/oder .changes-Dateien zu signieren\n"
-"                 (standardmäßig gpg).  -k<Schlüssel-ID>\n"
+"                 (standardmäßig gpg).\n"
+"  -k<Schlüssel-ID>\n"
 "                 Für die Signierung zu verwendender Schlüssel.\n"
 "  -ap            Pause vor Beginn des Signaturprozesses einfügen.\n"
 "  -us            unsigniertes Quellpaket.\n"
 "  -uc            unsignierte .changes-Datei.\n"
 "  --admindir=<Verz>\n"
 "                 das administrative Verzeichnis ändern.\n"
-"  -h, --help     diese Hilfemeldung anzeigen.\n"
+"  -?, --help     diese Hilfemeldung anzeigen.\n"
 "      --version  die Version anzeigen."
 
 #: scripts/dpkg-buildpackage.pl:82
-#, fuzzy
-#| msgid ""
-#| "Options passed to dpkg-architecture:\n"
-#| "  -a<arch>       Debian architecture we build for (implies -d).\n"
-#| "  -t<system>     set GNU system type."
 msgid ""
 "Options passed to dpkg-architecture:\n"
 "  -a<arch>       Debian architecture we build for.\n"
 "  -t<system>     set GNU system type."
 msgstr ""
 "Optionen, die an Dpkg-Architecture weitergegeben werden:\n"
-"  -a<Arch>       Debian-Architektur, für die gebaut wird (impliziert d).\n"
+"  -a<Arch>       Debian-Architektur, für die gebaut wird.\n"
 "  -t<System>     GNU-Systemtyp setzen."
 
 #: scripts/dpkg-buildpackage.pl:86
@@ -438,14 +375,10 @@ msgid "host architecture"
 msgstr "Host-Architektur"
 
 #: scripts/dpkg-buildpackage.pl:337
-#, fuzzy
-#| msgid "debian/rules is not executable: fixing that."
 msgid "debian/rules is not executable; fixing that"
 msgstr "debian/rules ist nicht ausführbar: wird korrigiert"
 
 #: scripts/dpkg-buildpackage.pl:356
-#, fuzzy
-#| msgid "Build dependencies/conflicts unsatisfied; aborting."
 msgid "build dependencies/conflicts unsatisfied; aborting"
 msgstr "Bauabhängigkeiten/-konflikte nicht erfüllt; Abbruch"
 
@@ -454,24 +387,20 @@ msgid "(Use -d flag to override.)"
 msgstr "(Verwenden Sie -d, um sich darüber hinwegzusetzen.)"
 
 #: scripts/dpkg-buildpackage.pl:360
-#, fuzzy
-#| msgid "This is currently a non-fatal warning with -S, but"
 msgid ""
 "this is currently a non-fatal warning with -S, but will probably become "
 "fatal in the future"
-msgstr "Dies ist eine mit -S nicht fatale Warnung, allerdings"
+msgstr ""
+"Dies ist eine mit -S nicht fatale Warnung, allerdings wird sie wahrscheinlich "
+"in der Zukunft fatal werden."
 
 #: scripts/dpkg-buildpackage.pl:383
-#, fuzzy
-#| msgid ""
-#| "it is a bad idea to generate a source package without cleaning up first, "
-#| "it might contain undesired files."
 msgid ""
 "building a source package without cleaning up as you asked; it might contain "
 "undesired files"
 msgstr ""
-"Es ist keine gute Idee, ein Quellpaket zu erstellen, ohne vorher "
-"aufzuräumen; es könnte nicht gewünschte Dateien enthalten."
+"wie gewünscht wird ein Quellpaket ohne vorhergehende Bereinigung erstellt; es "
+"mag unerwünschte Dateien enthalten"
 
 #: scripts/dpkg-buildpackage.pl:401
 #, perl-format
@@ -542,20 +471,6 @@ msgid "Usage: %s [<option>...] [<control-file>]"
 msgstr "Aufruf: %s [<Option>...] [<Steuerdatei>]"
 
 #: scripts/dpkg-checkbuilddeps.pl:46
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.\n"
-#| "  -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.\n"
-#| "  -d build-deps  use given string as build dependencies instead of\n"
-#| "                 retrieving them from control file\n"
-#| "  -c build-conf  use given string for build conflicts instead of\n"
-#| "                 retrieving them from control file\n"
-#| "  -a arch        assume given host architecture\n"
-#| "  --admindir=<directory>\n"
-#| "                 change the administrative directory.\n"
-#| "  -h, --help     show this help message.\n"
-#| "      --version  show the version."
 msgid ""
 "Options:\n"
 "  -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.\n"
@@ -581,7 +496,7 @@ msgstr ""
 "  -a arch       die angegebene Host-Architektur unterstellen\n"
 "  --admindir=<Verzeichnis>\n"
 "                das administrative Verzeichnis ändern.\n"
-"  -h, --help    diese Hilfemeldung anzeigen.\n"
+"  -?, --help    diese Hilfemeldung anzeigen.\n"
 "      --version die Version anzeigen."
 
 #: scripts/dpkg-checkbuilddeps.pl:59
@@ -616,14 +531,7 @@ msgid "error occurred while parsing %s"
 msgstr "Fehler beim Parsen von %s"
 
 #: scripts/dpkg-distaddfile.pl:47
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <filename> <section> <priority>\n"
-#| "\n"
-#| "Options:\n"
-#| "  -f<files-list-file>      write files here instead of debian/files.\n"
-#| "  -h, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <filename> <section> <priority>\n"
 "\n"
@@ -636,7 +544,7 @@ msgstr ""
 "\n"
 "Optionen:\n"
 "  -f<Dateilistedatei>      Dateien hierin statt in debian/files schreiben.\n"
-"  -h, --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen.\n"
 
 #: scripts/dpkg-distaddfile.pl:73
@@ -698,34 +606,6 @@ msgid "cannot close %s"
 msgstr "%s kann nicht geschlossen werden"
 
 #: scripts/dpkg-genchanges.pl:112
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -b                       binary-only build - no source files.\n"
-#| "  -B                       arch-specific - no source or arch-indep "
-#| "files.\n"
-#| "  -A                       only arch-indep - no source or arch-specific "
-#| "files.\n"
-#| "  -S                       source-only upload.\n"
-#| "  -c<control-file>         get control info from this file.\n"
-#| "  -l<changelog-file>       get per-version info from this file.\n"
-#| "  -f<files-list-file>      get .deb files list from this file.\n"
-#| "  -v<since-version>        include all changes later than version.\n"
-#| "  -C<changes-description>  use change description from this file.\n"
-#| "  -m<maintainer>           override control's maintainer value.\n"
-#| "  -e<maintainer>           override changelog's maintainer value.\n"
-#| "  -u<upload-files-dir>     directory with files (default is '..').\n"
-#| "  -si (default)            src includes orig if new upstream.\n"
-#| "  -sa                      source includes orig src.\n"
-#| "  -sd                      source is diff and .dsc only.\n"
-#| "  -q                       quiet - no informational messages on stderr.\n"
-#| "  -F<changelog-format>     force changelog format.\n"
-#| "  -V<name>=<value>         set a substitution variable.\n"
-#| "  -T<substvars-file>       read variables here, not debian/substvars.\n"
-#| "  -D<field>=<value>        override or add a field and value.\n"
-#| "  -U<field>                remove a field.\n"
-#| "  -h, --help               show this help message.\n"
-#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
 "  -b                       binary-only build - no source files.\n"
@@ -783,7 +663,7 @@ msgstr ""
 "substvars.\n"
 "  -D<Feld>=<Wert>          ein Feld und Wert überschreiben oder ergänzen.\n"
 "  -U<Feld>                 ein Feld entfernen.\n"
-"  -h, --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen.\n"
 
 #: scripts/dpkg-genchanges.pl:148
@@ -904,26 +784,6 @@ msgid "missing information for output field %s"
 msgstr "fehlende Informationen für Ausgabefeld %s"
 
 #: scripts/dpkg-gencontrol.pl:75
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -p<package>              print control file for package.\n"
-#| "  -c<control-file>         get control info from this file.\n"
-#| "  -l<changelog-file>       get per-version info from this file.\n"
-#| "  -F<changelog-format>     force changelog format.\n"
-#| "  -v<force-version>        set version of binary package.\n"
-#| "  -f<files-list-file>      write files here instead of debian/files.\n"
-#| "  -P<package-build-dir>    temporary build dir instead of debian/tmp.\n"
-#| "  -n<filename>             assume the package filename will be "
-#| "<filename>.\n"
-#| "  -O                       write to stdout, not .../DEBIAN/control.\n"
-#| "  -is, -ip, -isp, -ips     deprecated, ignored for compatibility.\n"
-#| "  -D<field>=<value>        override or add a field and value.\n"
-#| "  -U<field>                remove a field.\n"
-#| "  -V<name>=<value>         set a substitution variable.\n"
-#| "  -T<substvars-file>       read variables here, not debian/substvars.\n"
-#| "  -h, --help               show this help message.\n"
-#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
 "  -p<package>              print control file for package.\n"
@@ -963,7 +823,7 @@ msgstr ""
 "  -V<Name>=<Wert>         eine Substitutionsvariable setzen.\n"
 "  -T<Substvars-Datei>     Variablen von hier lesen statt aus debian/"
 "substvars.\n"
-"  -h, --help              diese Hilfemeldung anzeigen.\n"
+"  -?, --help              diese Hilfemeldung anzeigen.\n"
 "      --version           die Version anzeigen.\n"
 
 #: scripts/dpkg-gencontrol.pl:100 scripts/dpkg-gensymbols.pl:100
@@ -1073,40 +933,6 @@ msgid "cannot install output control file `%s'"
 msgstr "Ausgabe-Steurdatei »%s« kann nicht installiert werden"
 
 #: scripts/dpkg-gensymbols.pl:65
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -p<package>              generate symbols file for package.\n"
-#| "  -P<package-build-dir>    temporary build dir instead of debian/tmp.\n"
-#| "  -e<library>              explicitly list libraries to scan.\n"
-#| "  -v<version>              version of the packages (defaults to\n"
-#| "                           version extracted from debian/changelog).\n"
-#| "  -c<level>                compare generated symbols file with the "
-#| "reference\n"
-#| "                           template in the debian directory and fail if\n"
-#| "                           difference is too important; level goes from 0 "
-#| "for\n"
-#| "                           no check, to 4 for all checks (default level "
-#| "is 1).\n"
-#| "  -q                       keep quiet and never emit any warnings or\n"
-#| "                           generate a diff between generated symbols\n"
-#| "                           file and the reference template.\n"
-#| "  -I<file>                 force usage of <file> as reference symbols\n"
-#| "                           file instead of the default file.\n"
-#| "  -O<file>                 write to <file>, not .../DEBIAN/symbols.\n"
-#| "  -O                       write to stdout, not .../DEBIAN/symbols.\n"
-#| "  -t                       write in template mode (tags are not\n"
-#| "                           processed and included in output).\n"
-#| "  -V                       verbose output; write deprecated symbols and "
-#| "pattern\n"
-#| "                           matching symbols as comments (in template mode "
-#| "only).\n"
-#| "  -a<arch>                 assume <arch> as host architecture when "
-#| "processing\n"
-#| "                           symbol files.\n"
-#| "  -d                       display debug information during work.\n"
-#| "  -h, --help               show this help message.\n"
-#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
 "  -p<package>              generate symbols file for package.\n"
@@ -1171,7 +997,7 @@ msgstr ""
 "  -a<Arch>                 <Arch> als Host-Architektur beim Verarbeiten\n"
 "                           der Symboldateien annehmen.\n"
 "  -d                       bei der Arbeit Debug-Informationen anzeigen.\n"
-"  -h, --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen.\n"
 
 #: scripts/dpkg-gensymbols.pl:116
@@ -1240,16 +1066,7 @@ msgstr ""
 "oder neuer für die Kopierbedingungen. Es gibt KEINE Haftung.\n"
 
 #: scripts/dpkg-mergechangelogs.pl:64
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n"
-#| "\n"
-#| "Options:\n"
-#| "  --merge-prereleases, -m  merge pre-releases together, ignores "
-#| "everything\n"
-#| "                           after the last '~' in the version.\n"
-#| "  --help, -h, -?           show this help message.\n"
-#| "  --version                show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n"
 "\n"
@@ -1262,10 +1079,10 @@ msgstr ""
 "Aufruf: %s [<Option>...] <alt> <neu-a> <neu-b> [<Ausgabe>]\n"
 "\n"
 "Optionen:\n"
-"  --merge-prereleases, -m  vorab-Veröffentlichungen zusammenführen,\n"
+"  -m, --merge-prereleases  vorab-Veröffentlichungen zusammenführen,\n"
 "                           alles nach dem letzten »~« in der Version\n"
 "                           ignorieren.\n"
-"  -h, --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen.\n"
 
 #: scripts/dpkg-name.pl:51
@@ -1274,21 +1091,6 @@ msgid "Usage: %s [<option>...] <file>...\n"
 msgstr "Aufruf: %s [<Option>...] <Datei>...\n"
 
 #: scripts/dpkg-name.pl:53
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "Options:\n"
-#| "  -a, --no-architecture    no architecture part in filename.\n"
-#| "  -o, --overwrite          overwrite if file exists.\n"
-#| "  -k, --symlink            don't create a new file, but a symlink.\n"
-#| "  -s, --subdir [dir]       move file into subdir (use with care).\n"
-#| "  -c, --create-dir         create target dir if not there (use with "
-#| "care).\n"
-#| "  -h, --help               show this help message.\n"
-#| "  -v, --version            show the version.\n"
-#| "\n"
-#| "file.deb changes to <package>_<version>_<architecture>.<package_type>\n"
-#| "according to the 'underscores convention'.\n"
 msgid ""
 "\n"
 "Options:\n"
@@ -1313,7 +1115,7 @@ msgstr ""
 "(Vorsicht!).\n"
 "  -c, --create-dir         Zielverzeichnis erstellen, falls nicht\n"
 "                           vorhanden (Vorsicht!).\n"
-"  -h, --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "  -v, --version            die Version anzeigen.\n"
 "\n"
 "Datei.deb ändert sich in <Paket>_<Version>_<Architektur>.<Pakettyp>\n"
@@ -1388,14 +1190,6 @@ msgid "need at least a filename"
 msgstr "mindestens ein Dateiname wird benötigt"
 
 #: scripts/dpkg-parsechangelog.pl:47
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -l<changelog-file>       get per-version info from this file.\n"
-#| "  -F<changelog-format>     force changelog format.\n"
-#| "  -L<libdir>               look for changelog parsers in <libdir>.\n"
-#| "  -h, --help               show this help message.\n"
-#| "      --version            show the version."
 msgid ""
 "Options:\n"
 "  -l<changelog-file>       get per-version info from this file.\n"
@@ -1409,7 +1203,7 @@ msgstr ""
 "                           beziehen.\n"
 "  -F<Changelog-Format>     Changelog-Format erzwingen.\n"
 "  -L<Lib-Verz>             nach Changelog-Parsern in <Lib-Verz> suchen.\n"
-"  -h, --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen."
 
 #: scripts/dpkg-parsechangelog.pl:54
@@ -1460,21 +1254,7 @@ msgid "takes no non-option arguments"
 msgstr "akzeptiert kein nicht-Options-Argument"
 
 #: scripts/dpkg-scanpackages.pl:67
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
-#| "Packages\n"
-#| "\n"
-#| "Options:\n"
-#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-#| "  -a, --arch <arch>        architecture to scan for.\n"
-#| "  -m, --multiversion       allow multiple versions of a single package.\n"
-#| "  -e, --extra-override <file>\n"
-#| "                           use extra override file.\n"
-#| "  -M, --medium <medium>    add X-Medium field for dselect multicd access "
-#| "method\n"
-#| "  -h, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
@@ -1503,7 +1283,7 @@ msgstr ""
 "  -M, --medium <Medium>    Feld X-Medium für Dselects Multicd-"
 "Zugriffsmethode\n"
 "                           hinzufügen.\n"
-"  -h, --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen.\n"
 
 #: scripts/dpkg-scanpackages.pl:106
@@ -1536,10 +1316,9 @@ msgid "Couldn't open %s for reading"
 msgstr "%s konnte nicht zum Lesen geöffnet werden"
 
 #: scripts/dpkg-scanpackages.pl:187
-#, fuzzy, perl-format
-#| msgid "couldn't parse control information from %s."
+#, perl-format
 msgid "couldn't parse control information from %s"
-msgstr "Steuerinformationen aus %s konnten nicht ausgewertet werden."
+msgstr "Steuerinformationen aus %s konnten nicht ausgewertet werden"
 
 #: scripts/dpkg-scanpackages.pl:190
 #, perl-format
@@ -1606,24 +1385,7 @@ msgid "Wrote %s entries to output Packages file."
 msgstr "%s Einträge wurden in Ausgabe-Paketdatei geschrieben."
 
 #: scripts/dpkg-scansources.pl:84
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
-#| "Sources\n"
-#| "\n"
-#| "Options:\n"
-#| "  -n, --no-sort            don't sort by package before outputting.\n"
-#| "  -e, --extra-override <file>\n"
-#| "                           use extra override file.\n"
-#| "  -s, --source-override <file>\n"
-#| "                           use file for additional source overrides, "
-#| "default\n"
-#| "                           is regular override file with .src appended.\n"
-#| "      --debug              turn debugging on.\n"
-#| "      --help               show this help message.\n"
-#| "      --version            show the version.\n"
-#| "\n"
-#| "See the man page for the full documentation.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Sources\n"
@@ -1655,7 +1417,7 @@ msgstr ""
 "Datei\n"
 "                           ».src« angehängt.\n"
 "      --debug              Debugging einschalten.\n"
-"      --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen.\n"
 "\n"
 "Lesen Sie die Handbuchseite für die komplette Dokumentation.\n"
@@ -1701,8 +1463,7 @@ msgid "administrative directory '%s' does not exist"
 msgstr "administratives Verzeichnis »%s« existiert nicht"
 
 #: scripts/dpkg-shlibdeps.pl:104
-#, fuzzy, perl-format
-#| msgid "unrecognised dependency field `%s'"
+#, perl-format
 msgid "unrecognized dependency field '%s'"
 msgstr "Abhängigkeitsfeld »%s« nicht erkannt"
 
@@ -1711,13 +1472,11 @@ msgid "need at least one executable"
 msgstr "mindestens ein ausführbares Programm wird benötigt"
 
 #: scripts/dpkg-shlibdeps.pl:182
-#, fuzzy, perl-format
-#| msgid ""
-#| "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')."
+#, perl-format
 msgid "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')"
 msgstr ""
 "Bibliothek %s konnte nicht gefunden werden, benötigt von %s (ELF-Format: "
-"»%s«; RPATH: »%s«)."
+"»%s«; RPATH: »%s«)"
 
 #: scripts/dpkg-shlibdeps.pl:269
 #, perl-format
@@ -1725,73 +1484,52 @@ msgid "%s has an unexpected SONAME (%s)"
 msgstr "%s hat einen unerwarteten SONAME (%s)"
 
 #: scripts/dpkg-shlibdeps.pl:290
-#, fuzzy, perl-format
-#| msgid "no dependency information found for %s (used by %s)."
+#, perl-format
 msgid "no dependency information found for %s (used by %s)"
-msgstr "Keine Abhängigkeitsinformationen für %s (verwendet von %s) gefunden."
+msgstr "keine Abhängigkeitsinformationen für %s (verwendet von %s) gefunden"
 
 #: scripts/dpkg-shlibdeps.pl:321
-#, fuzzy
-#| msgid ""
-#| "binaries to analyze should already be installed in their package's "
-#| "directory."
 msgid ""
 "binaries to analyze should already be installed in their package's directory"
 msgstr ""
-"Zu analysierende Programme sollten bereits in ihrem Paketverzeichnis "
-"installiert sein."
+"zu analysierende Programme sollten bereits in ihrem Paketverzeichnis "
+"installiert sein"
 
 #: scripts/dpkg-shlibdeps.pl:364
-#, fuzzy, perl-format
-#| msgid "symbol %s used by %s found in none of the libraries."
+#, perl-format
 msgid "symbol %s used by %s found in none of the libraries"
-msgstr "Symbol %s, verwendet von %s, in keiner der Bibliotheken gefunden."
+msgstr "Symbol %s, verwendet von %s, in keiner der Bibliotheken gefunden"
 
 #: scripts/dpkg-shlibdeps.pl:367
-#, fuzzy, perl-format
-#| msgid ""
-#| "%s contains an unresolvable reference to symbol %s: it's probably a "
-#| "plugin."
+#, perl-format
 msgid ""
 "%s contains an unresolvable reference to symbol %s: it's probably a plugin"
 msgstr ""
 "%s enthält eine nicht auflösbare Referenz auf Symbol %s: wahrscheinlich eine "
-"Erweiterung."
+"Erweiterung"
 
 #: scripts/dpkg-shlibdeps.pl:389
-#, fuzzy, perl-format
-#| msgid "%d similar warning has been skipped (use -v to see it)."
-#| msgid_plural ""
-#| "%d other similar warnings have been skipped (use -v to see them all)."
+#, perl-format
 msgid "%d similar warning has been skipped (use -v to see it)"
 msgid_plural ""
 "%d other similar warnings have been skipped (use -v to see them all)"
 msgstr[0] ""
 "%d andere, ähnliche Warnung wurde übersprungen (verwenden Sie -v, um sie zu "
-"sehen)."
+"sehen)"
 msgstr[1] ""
 "%d andere, ähnliche Warnungen wurden übersprungen (verwenden Sie -v, um alle "
-"zu sehen)."
+"zu sehen)"
 
 #: scripts/dpkg-shlibdeps.pl:416
-#, fuzzy, perl-format
-#| msgid ""
-#| "%s should not be linked against %s (it uses none of the library's "
-#| "symbols)."
+#, perl-format
 msgid ""
 "%s should not be linked against %s (it uses none of the library's symbols)"
 msgstr ""
 "%s sollte nicht gegen %s gelinkt werden (es verwendet keines der Bibliotheks-"
-"Symbole)."
+"Symbole)"
 
 #: scripts/dpkg-shlibdeps.pl:429
-#, fuzzy, perl-format
-#| msgid ""
-#| "package could avoid a useless dependency if %s was not linked against %s "
-#| "(it uses none of the library's symbols)."
-#| msgid_plural ""
-#| "package could avoid a useless dependency if %s were not linked against %s "
-#| "(they use none of the library's symbols)."
+#, perl-format
 msgid ""
 "package could avoid a useless dependency if %s was not linked against %s (it "
 "uses none of the library's symbols)"
@@ -1818,13 +1556,10 @@ msgstr ""
 "notwendig sein, LD_LIBRARY_PATH zu setzen."
 
 #: scripts/dpkg-shlibdeps.pl:443
-#, fuzzy
-#| msgid "Cannot continue due to the error above."
-#| msgid_plural "Cannot continue due to the errors listed above."
 msgid "cannot continue due to the error above"
 msgid_plural "cannot continue due to the errors listed above"
-msgstr[0] "Kann wegen des vorangegangenen Fehlers nicht fortfahren."
-msgstr[1] "Kann wegen der vorangegangenen Fehler nicht fortfahren."
+msgstr[0] "kann wegen des vorangegangenen Fehlers nicht fortfahren"
+msgstr[1] "kann wegen der vorangegangenen Fehler nicht fortfahren"
 
 #: scripts/dpkg-shlibdeps.pl:454
 #, perl-format
@@ -1870,28 +1605,6 @@ msgstr ""
 "                           shlibs:<Abängigkeitsfeld>."
 
 #: scripts/dpkg-shlibdeps.pl:559
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
-#| "  -O                       print variable settings to stdout.\n"
-#| "  -L<local-shlibs-file>    shlibs override file, not debian/shlibs."
-#| "local.\n"
-#| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
-#| "  -t<type>                 set package type (default is deb).\n"
-#| "  -x<package>              exclude package from the generated "
-#| "dependencies.\n"
-#| "  -S<package-build-dir>    search needed libraries in the given\n"
-#| "                           package build directory first.\n"
-#| "  -v                       enable verbose mode (can be used multiple "
-#| "times).\n"
-#| "  --ignore-missing-info    don't fail if dependency information can't be "
-#| "found.\n"
-#| "  --warnings=<value>       define set of active warnings (see manual "
-#| "page).\n"
-#| "  --admindir=<directory>   change the administrative directory.\n"
-#| "  -h, --help               show this help message.\n"
-#| "      --version            show the version."
 msgid ""
 "Options:\n"
 "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
@@ -1930,15 +1643,12 @@ msgstr ""
 "                           nicht gefunden werden kann.\n"
 "  --warnings=<Wert>        Satz von aktiven Warnungen definieren (siehe\n"
 "                           Handbuchseite).\n"
-"--admindir=<Verzeichnis>   das administrative Verzeichnis ändern.\n"
-"-h, --help                 diese Hilfemeldung anzeigen.\n"
-"    --version              die Version anzeigen."
+"  --admindir=<Verzeichnis> das administrative Verzeichnis ändern.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
+"      --version            die Version anzeigen."
 
 #: scripts/dpkg-shlibdeps.pl:575
-#, fuzzy, perl-format
-#| msgid ""
-#| "Dependency fields recognised are:\n"
-#| "  %s\n"
+#, perl-format
 msgid ""
 "Dependency fields recognized are:\n"
 "  %s\n"
@@ -2070,7 +1780,7 @@ msgstr "%s listet kein binäres Paket auf"
 
 #: scripts/dpkg-source.pl:337
 msgid "building source for a binary-only release"
-msgstr ""
+msgstr "Quellen für eine rein-binäre Veröffentlichung werden gebaut"
 
 #: scripts/dpkg-source.pl:356 scripts/Dpkg/BuildFlags.pm:300
 #: scripts/Dpkg/Compression/FileHandle.pm:401
@@ -2230,18 +1940,13 @@ msgstr ""
 "                           Signatur hat."
 
 #: scripts/dpkg-source.pl:512
-#, fuzzy
-#| msgid ""
-#| "General options:\n"
-#| "  -h, --help               show this help message.\n"
-#| "      --version            show the version."
 msgid ""
 "General options:\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version."
 msgstr ""
 "Allgemeine Optionen:\n"
-"  -h, --help               diese Hilfemeldung anzeigen.\n"
+"  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen."
 
 #: scripts/dpkg-source.pl:516
@@ -2253,33 +1958,7 @@ msgstr ""
 "Lesen Sie dpkg-source(1) für weitere Informationen."
 
 #: scripts/changelog/debian.pl:48
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] [<changelogfile>]\n"
-#| "\n"
-#| "Options:\n"
-#| "    --help, -h                  print usage information\n"
-#| "    --version, -V               print version information\n"
-#| "    --label, -l <file>          name of the changelog file to\n"
-#| "                                use in error messages\n"
-#| "    --file <file>               changelog file to parse, defaults\n"
-#| "                                to '-' (standard input)\n"
-#| "    --format <outputformat>     see man page for list of available\n"
-#| "                                output formats, defaults to 'dpkg'\n"
-#| "                                for compatibility with dpkg-dev\n"
-#| "    --since, -s, -v <version>   include all changes later than version\n"
-#| "    --until, -u <version>       include all changes earlier than version\n"
-#| "    --from, -f <version>        include all changes equal or later\n"
-#| "                                than version\n"
-#| "    --to, -t <version>          include all changes up to or equal\n"
-#| "                                than version\n"
-#| "    --count, -c, -n <number>    include <number> entries from the top\n"
-#| "                                (or the tail if <number> is lower than "
-#| "0)\n"
-#| "    --offset, -o <number>       change the starting point for --count,\n"
-#| "                                counted from the top (or the tail if\n"
-#| "                                <number> is lower than 0)\n"
-#| "    --all                       include all changes\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] [<changelogfile>]\n"
 "\n"
@@ -2309,7 +1988,7 @@ msgstr ""
 "Aufruf: %s [<Option>...] [<Changelogdatei>]\n"
 "\n"
 "Optionen:\n"
-"    --help, -h                  Benutzungsinformationen ausgeben.\n"
+"    -?, --help                  Benutzungsinformationen ausgeben.\n"
 "    --version, -V               Versionsinformation ausgeben.\n"
 "    --label, -l <Datei>         Name der Changelogdatei zur Verwendung\n"
 "                                in Fehlermeldungen.\n"
@@ -2379,8 +2058,7 @@ msgid "line %d of %s mentions unknown flag %s"
 msgstr "Zeile %d von %s erwähnt unbekannten Schalter %s"
 
 #: scripts/Dpkg/BuildFlags.pm:321
-#, fuzzy, perl-format
-#| msgid "line %d of %s is invalid, it has been ignored."
+#, perl-format
 msgid "line %d of %s is invalid, it has been ignored"
 msgstr "Zeile %d von %s ist ungültig, sie wurde ignoriert."
 
@@ -2516,8 +2194,6 @@ msgid "found blank line where expected %s"
 msgstr "Leerzeile statt des erwarteten %s gefunden"
 
 #: scripts/Dpkg/Changelog/Debian.pm:169
-#, fuzzy
-#| msgid "unrecognised line"
 msgid "unrecognized line"
 msgstr "Zeile nicht erkannt"
 
@@ -2542,10 +2218,9 @@ msgid "badly formatted urgency value: %s"
 msgstr "falsch formatierter Dringlichkeitswert: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm:135
-#, fuzzy, perl-format
-#| msgid "unwanted binary file: %s"
+#, perl-format
 msgid "bad binary-only value: %s"
-msgstr "unerwünschte Binärdatei: %s"
+msgstr "ungültiger reiner Binärwert: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm:139
 #, perl-format
@@ -2843,8 +2518,7 @@ msgstr ""
 "verwenden: %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:218
-#, fuzzy, perl-format
-#| msgid "Symbol information must be preceded by a header (file %s, line %s)."
+#, perl-format
 msgid "symbol information must be preceded by a header (file %s, line %s)"
 msgstr ""
 "Symbol-Informationen müssen durch eine Kopfzeile eingeleitet werden (Datei "
@@ -2861,16 +2535,13 @@ msgid "Failed to parse a line in %s: %s"
 msgstr "Eine Zeile in %s konnte nicht ausgewertet werden: %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:271
-#, fuzzy, perl-format
-#| msgid "Tried to merge the same object (%s) twice in a symfile."
+#, perl-format
 msgid "tried to merge the same object (%s) twice in a symfile"
 msgstr ""
 "Es wurde versucht, das gleiche Objekt (%s) zweimal in einer Sym-Datei "
 "zusammenzuführen."
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:388
-#, fuzzy
-#| msgid "Can't merge symbols from objects without SONAME."
 msgid "cannot merge symbols from objects without SONAME"
 msgstr "Symbole von Objekten ohne SONAME können nicht zusammengeführt werden."
 
@@ -3568,7 +3239,7 @@ msgstr "%s wird zu %s hinzugefügt"
 
 #: scripts/Dpkg/Source/Package/V3/bzr.pm:52
 msgid "cannot unpack bzr-format source package because bzr is not in the PATH"
-msgstr ""
+msgstr "kann bzr-formatiertes Quellpaket nicht entpacken, da Bzr nicht im PATH ist"
 
 #: scripts/Dpkg/Source/Package/V3/bzr.pm:60
 #, perl-format
@@ -3631,14 +3302,9 @@ msgid "unrecognized file for a native source package: %s"
 msgstr "unerkannte Datei für natives Quellpaket: %s"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:55
-#, fuzzy
-#| msgid ""
-#| "This source package can only be manipulated using git, which is not in "
-#| "the PATH."
 msgid "cannot unpack git-format source package because git is not in the PATH"
 msgstr ""
-"Dieses Quellpaket kann nur mit Git bearbeitet werden, welches sich nicht im "
-"PATH befindet."
+"kann git-formatiertes Quellpaket nicht entpacken, da Git nicht im PATH ist"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:63
 #, perl-format
@@ -3650,10 +3316,9 @@ msgstr ""
 "ist nicht vorhanden), aber das Format git wurde angegeben"
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:68
-#, fuzzy, perl-format
-#| msgid "git repository %s uses submodules. This is not yet supported."
+#, perl-format
 msgid "git repository %s uses submodules; this is not yet supported"
-msgstr "Git-Depot %s verwendet Submodule. Dies wird noch nicht unterstützt."
+msgstr "Git-Depot %s verwendet Submodule; dies wird noch nicht unterstützt."
 
 #: scripts/Dpkg/Source/Package/V3/git.pm:90
 msgid "doesn't contain a git repository"
@@ -3717,10 +3382,8 @@ msgid "cannot mkdir %s"
 msgstr "Verzeichnis %s kann nicht angelegt werden"
 
 #: scripts/Dpkg/Source/Quilt.pm:151
-#, fuzzy
-#| msgid "dpkg-source doesn't allow fuzz when applying patches"
 msgid "fuzz is not allowed when applying patches"
-msgstr "dpkg-source erlaubt keine Unschärfe beim Anwenden von Patches"
+msgstr "beim Anwenden von Patches ist keine Unschärfe erlaubt"
 
 #: scripts/Dpkg/Source/Quilt.pm:152
 #, perl-format
@@ -3740,15 +3403,12 @@ msgid "%s should be a file or non-existing"
 msgstr "%s sollte eine Datei sein oder nicht existieren"
 
 #: scripts/Dpkg/Source/Quilt.pm:264
-#, fuzzy, perl-format
-#| msgid ""
-#| "the series file (%s) contains unsupported options ('%s', line %s), dpkg-"
-#| "source might fail when applying patches."
+#, perl-format
 msgid ""
 "the series file (%s) contains unsupported options ('%s', line %s); dpkg-"
 "source might fail when applying patches"
 msgstr ""
-"die Seriendatei (%s) enthält nicht unterstützte Optionen (»%s«, Zeile %s), "
+"Die Seriendatei (%s) enthält nicht unterstützte Optionen (»%s«, Zeile %s), "
 "dpkg-source könnte beim Anwenden der Patches scheitern."
 
 #: scripts/Dpkg/Source/Quilt.pm:281
