@@ -723,12 +723,12 @@ control_show(const char *const *argv)
 
   pkgname = *argv++;
   if (!pkgname || !*argv)
-    badusage(_("--%s needs at two arguments"),
+    badusage(_("--%s takes exactly two arguments"),
              cipaction->olong);
 
   control_file = *argv++;
   if (!control_file || *argv)
-    badusage(_("--%s takes at most two arguments"), cipaction->olong);
+    badusage(_("--%s takes exactly two arguments"), cipaction->olong);
 
   pkg_infodb_check_filetype(control_file);
 
