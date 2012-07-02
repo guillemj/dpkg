@@ -161,6 +161,10 @@ $substvars->load("debian/substvars") if -e "debian/substvars" and not $substvars
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
 
+# Old-style bin-nmus change the source version submitted to
+# set_version_substvars()
+$sourceversion = $substvars->get("source:Version");
+
 my $pkg;
 
 if (defined($oppackage)) {
