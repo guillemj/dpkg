@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dpkg git\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2012-07-01 17:37+0200\n"
-"PO-Revision-Date: 2012-07-03 00:10+0900\n"
+"PO-Revision-Date: 2012-07-03 09:41+0900\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
 "Language: ja\n"
@@ -1482,7 +1482,7 @@ msgstr "シンボリックリンク `%.255s' の所有者設定中にエラー�
 #: src/archives.c:537 src/archives.c:1065 utils/update-alternatives.c:317
 #, c-format
 msgid "unable to read link `%.255s'"
-msgstr "リンク `%.255s' を読めません"
+msgstr "リンク `%.255s' を読み取れません"
 
 #: src/archives.c:539 src/archives.c:1067 src/configure.c:479
 #, c-format
@@ -1794,13 +1794,13 @@ msgstr "--%s は引数として最低 1 つのパッケージアーカイブフ�
 #: dpkg-deb/main.c:130 dpkg-split/info.c:266 dpkg-split/main.c:56
 #: dpkg-split/main.c:100 dpkg-split/queue.c:150 dpkg-split/queue.c:289
 msgid "<standard output>"
-msgstr "<標準入力>"
+msgstr "<標準出力>"
 
 #: src/archives.c:1586 src/packages.c:267 src/querycmd.c:292
 #: src/querycmd.c:391 src/querycmd.c:501 src/querycmd.c:579 src/select.c:100
 #: dpkg-split/main.c:177 dpkg-split/queue.c:227
 msgid "<standard error>"
-msgstr "<標準出力>"
+msgstr "<標準エラー>"
 
 #: src/archives.c:1627
 #, c-format
@@ -2973,37 +2973,7 @@ msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian `%s' パッケージ管理プログラム バージョン %s。\n"
 
 #: src/main.c:87
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  --triggers-only    <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail <Packages-file>   Replace available packages info.\n"
-#| "  --merge-avail <Packages-file>    Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit                       Check for broken package(s).\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3037,12 +3007,9 @@ msgid ""
 "\n"
 msgstr ""
 "コマンド:\n"
-"  -i|--install      <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-"> ...\n"
-"  --unpack          <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-"> ...\n"
-"  -A|--record-avail <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-"> ...\n"
+"  -i|--install      <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
+"  --unpack          <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
+"  -A|--record-avail <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
 "  --configure       <パッケージ名> ...    | -a|--pending\n"
 "  --triggers-only   <パッケージ名> ...    | -a|--pending\n"
 "  -r|--remove       <パッケージ名> ...    | -a|--pending\n"
@@ -3053,16 +3020,17 @@ msgstr ""
 "  --update-avail <Packages ファイル> 取得可能なパッケージ情報を更新\n"
 "  --merge-avail <Packages ファイル>  ファイルからパッケージ情報を合成\n"
 "  --clear-avail                      既存の取得可能パッケージ情報を消去\n"
-"  --forget-old-unavail               未インストールの利用不可能パッケージ情報"
-"の破棄\n"
+"  --forget-old-unavail               未インストールの利用不可能パッケージ情報の破棄\n"
 "  -s|--status <パッケージ名> ...     パッケージ状態の詳細を表示\n"
 "  -p|--print-avail <パッケージ名> ...取得可能なバージョンの詳細を表示\n"
-"  -L|--listfiles <パッケージ名> ...  パッケージが「所有する」ファイル一覧を表"
-"示\n"
+"  -L|--listfiles <パッケージ名> ...  パッケージが「所有する」ファイル一覧を表示\n"
 "  -l|--list [<パターン> ...]         パッケージの一覧を簡潔に表示\n"
 "  -S|--search <パターン> ...         ファイルを所有するパッケージを検索\n"
 "  -C|--audit                         壊れているパッケージのチェック\n"
-"  --print-architecture               対象アーキテクチャを表示 (GCC を使用)\n"
+"     --add-architecture <アーキテクチャ> <アーキテクチャ>をアーキテクチャ一覧に追加\n"
+"     --remove-architecture <アーキテクチャ> <アーキテクチャ>をアーキテクチャ一覧から削除\n"
+"  --print-architecture               dpkg アーキテクチャを表示\n"
+"  --print-foreign-architectures      許可している外来アーキテクチャを表示\n"
 "  --compare-versions <a> <op> <b>    バージョン番号を比較 - 下記参照\n"
 "  --force-help                       強制オプションのヘルプ\n"
 "  -Dh|--debug=help                   デバッグオプションのヘルプ\n"
@@ -3092,7 +3060,7 @@ msgstr ""
 "help を参照)\n"
 
 #: src/main.c:128
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
@@ -3106,43 +3074,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:134
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir=<directory>     Use <directory> instead of %s.\n"
-#| "  --root=<directory>         Install on a different root directory.\n"
-#| "  --instdir=<directory>      Change installation dir without changing "
-#| "admin dir.\n"
-#| "  --path-exclude=<pattern>   Do not install paths which match a shell "
-#| "pattern.\n"
-#| "  --path-include=<pattern>   Re-include a pattern after a previous "
-#| "exclusion.\n"
-#| "  -O|--selected-only         Skip packages not selected for install/"
-#| "upgrade.\n"
-#| "  -E|--skip-same-version     Skip packages whose same version is "
-#| "installed.\n"
-#| "  -G|--refuse-downgrade      Skip packages with earlier version than "
-#| "installed.\n"
-#| "  -B|--auto-deconfigure      Install even if it would break some other "
-#| "package.\n"
-#| "  --[no-]triggers            Skip or force consequential trigger "
-#| "processing.\n"
-#| "  --no-debsig                Do not try to verify package signatures.\n"
-#| "  --no-act|--dry-run|--simulate\n"
-#| "                             Just say what we would do - don't do it.\n"
-#| "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --"
-#| "debug=help).\n"
-#| "  --status-fd <n>            Send status change updates to file "
-#| "descriptor <n>.\n"
-#| "  --log=<filename>           Log status changes and actions to "
-#| "<filename>.\n"
-#| "  --ignore-depends=<package>,...\n"
-#| "                             Ignore dependencies involving <package>.\n"
-#| "  --force-...                Override problems (see --force-help).\n"
-#| "  --no-force-...|--refuse-...\n"
-#| "                             Stop when problems encountered.\n"
-#| "  --abort-after <n>          Abort after encountering <n> errors.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -3181,29 +3113,21 @@ msgid ""
 msgstr ""
 "オプション:\n"
 "  --admindir=<ディレクトリ>  %s の代わりに指定の <ディレクトリ> を使用する\n"
-"  --root=<ディレクトリ>      ルートディレクトリを別の場所にしてインストールす"
-"る\n"
-"  --instdir=<ディレクトリ>   インストール先のディレクトリを変更 (管理ディレク"
-"トリは除く)\n"
-"  --path-exclude=<パターン>  シェルパターンにマッチするパスにインストールしな"
-"い\n"
+"  --root=<ディレクトリ>      ルートディレクトリを別の場所にしてインストールする\n"
+"  --instdir=<ディレクトリ>   インストール先のディレクトリを変更 (管理ディレクトリは除く)\n"
+"  --path-exclude=<パターン>  シェルパターンにマッチするパスにインストールしない\n"
 "  --path-include=<パターン>  上記の除外後にパターンを再度含める\n"
-"  -O|--selected-only         インストール/アップグレードに選択されていない"
-"パッケージをスキップする\n"
-"  -E|--skip-same-version     同バージョンがインストール済みのパッケージをス"
-"キップする\n"
-"  -G|--refuse-downgrade      インストール済みパッケージより古いバージョンの"
-"パッケージをスキップする\n"
+"  -O|--selected-only         インストール/アップグレードに選択されていないパッケージをスキップする\n"
+"  -E|--skip-same-version     同バージョンがインストール済みのパッケージをスキップする\n"
+"  -G|--refuse-downgrade      インストール済みパッケージより古いバージョンのパッケージをスキップする\n"
 "  -B|--auto-deconfigure      ほかのパッケージを壊してでもインストールする\n"
 "  --[no-]triggers            間接トリガ処理をスキップまたは強制する\n"
 "  --no-debsig                パッケージの署名の検証をしない\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             何をするか表示して、実際には何もしない\n"
-"  -D|--debug=<8進数>         デバッグモード (-Dhelp または --debug=help を参"
-"照)\n"
+"  -D|--debug=<8進数>         デバッグモード (-Dhelp または --debug=help を参照)\n"
 "  --status-fd <n>            状態変化の更新をファイル記述子 <n> に送る\n"
-"  --log=<ファイル名>         状態変更およびアクションを指定の <ファイル名> に"
-"記録する\n"
+"  --log=<ファイル名>         状態変更およびアクションを指定の <ファイル名> に記録する\n"
 "  --ignore-depends=<パッケージ>,... \n"
 "                                 <パッケージ> を呼び出す依存関係を無視する\n"
 "  --force-...                    問題を無視する (--force-help を参照)\n"
@@ -3273,7 +3197,7 @@ msgstr "これが助けになるかもしれないパッケージを設定する
 
 #: src/main.c:231
 msgid "Process incidental packages even when on hold"
-msgstr "保留していても付帯パッケージを処理する"
+msgstr "保持していても付帯パッケージを処理する"
 
 #: src/main.c:233
 msgid "Try to (de)install things even when not root"
@@ -3323,10 +3247,10 @@ msgid ""
 "                         you will be prompted unless one of the confold or\n"
 "                         confnew options is also given"
 msgstr ""
-"新しい設定ファイルに、もし利用できるなら問い合わせせずにデフォルトオプションを\n"
-"                         使用する。デフォルトが見つからない場合は、\n"
-"                         confold または confnew オプションが与えられていない\n"
-"                         限り、問い合わせが行われる"
+"新しい設定ファイルに、もし利用できるなら問い合わせせず\n"
+"                         にデフォルトオプションを使用する。デフォルトが見つからな\n"
+"                         い場合は、confold または confnew オプションが与えられ\n"
+"                         ていない限り、問い合わせが行われる"
 
 #: src/main.c:259
 msgid "Always install missing config files"
@@ -3423,7 +3347,7 @@ msgid ""
 "\n"
 " Number  Ref. in source   Description\n"
 msgstr ""
-"%s デバッグオプション, --debug=<8進数> or -D<8進数>:\n"
+"%s デバッグオプション, --debug=<8進数> または -D<8進数>:\n"
 "\n"
 " 数値   ソースの参照箇所  説明\n"
 
@@ -3768,10 +3692,6 @@ msgstr ""
 "パッケージコントロール情報の `%.250s' の rmdir がディレクトリではないと言って"
 "います。"
 
-# #: dpkg/processarc.c:683
-# #, c-format
-# msgid "package control info rmdir of `%.250s' didn't say not a dir"
-# msgstr "`%.250s' のパッケージコントロール情報 rmdir がディレクトリではないと言っています"
 #: src/processarc.c:312
 #, c-format
 msgid "package %s contained list as info file"
@@ -3931,9 +3851,8 @@ msgid ""
 "pend\n"
 "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
-"要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)維持\n"
-"| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストール/"
-"(W)トリガ待ち/(T)トリガ保留\n"
+"要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)保持\n"
+"| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストール/(W)トリガ待ち/(T)トリガ保留\n"
 "|/ エラー?=(空欄)無/(R)要再インストール (状態,エラーの大文字=異常)\n"
 
 #: src/querycmd.c:177
@@ -4053,12 +3972,12 @@ msgstr "--%s は引数に 1 つのパッケージ名をとります"
 #: src/querycmd.c:726 src/querycmd.c:731
 #, c-format
 msgid "--%s takes exactly two arguments"
-msgstr "--%s は引数をちょうど 2つとります"
+msgstr "--%s は引数をちょうど 2 つとります"
 
 #: src/querycmd.c:748
 #, c-format
 msgid "control file '%s' does not exist"
-msgstr "制御ファイル '%s' が存在しません"
+msgstr "コントロールファイル '%s' が存在しません"
 
 #: src/querycmd.c:760
 #, c-format
@@ -4894,11 +4813,9 @@ msgid "cannot skip archive member from '%s': %s"
 msgstr "'%s' からアーカイブメンバーをスキップしました: %s"
 
 #: dpkg-deb/extract.c:194
-#, fuzzy, c-format
-#| msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
+#, c-format
 msgid "archive '%.250s' contains not understood data member %.*s, giving up"
-msgstr ""
-"ファイル `%.250s' は理解不能なデータメンバー %.*s を含んでいます。終了します"
+msgstr "アーカイブ `%.250s' は理解不能なデータメンバー %.*s を含んでいます。終了します"
 
 #: dpkg-deb/extract.c:199
 #, c-format
@@ -5089,19 +5006,7 @@ msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Debian `%s' パッケージアーカイブバックエンドバージョン %s。\n"
 
 #: dpkg-deb/main.c:75
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -b|--build <directory> [<deb>]   Build an archive.\n"
-#| "  -c|--contents <deb>              List contents.\n"
-#| "  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
-#| "  -W|--show <deb>                  Show information on package(s)\n"
-#| "  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
-#| "  -e|--control <deb> [<directory>] Extract control info.\n"
-#| "  -x|--extract <deb> <directory>   Extract files.\n"
-#| "  -X|--vextract <deb> <directory>  Extract & list files.\n"
-#| "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -5126,8 +5031,9 @@ msgstr ""
 "   -e|--control <deb> [<ディレクトリ>] コントロール情報を展開する\n"
 "   -x|--extract <deb> <ディレクトリ>   ファイルを展開する\n"
 "   -X|--vextract <deb> <ディレクトリ>  ファイルを展開し一覧表示する\n"
-"   --fsys-tarfile <deb>                ファイルシステムを tarfile に出力す"
-"る\n"
+"   -R|--raw-extract <deb> <ディレクトリ>\n"
+"                                       コントロール情報とファイルを展開する\n"
+"   --fsys-tarfile <deb>                ファイルシステムを tarfile に出力する\n"
 "\n"
 
 #: dpkg-deb/main.c:95
@@ -5144,22 +5050,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:101
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --showformat=<format>            Use alternative format for --show.\n"
-#| "  -D                               Enable debugging output.\n"
-#| "  --old, --new                     Select archive format.\n"
-#| "  --nocheck                        Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, bzip2, "
-#| "lzma, none.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -5179,13 +5070,16 @@ msgid ""
 msgstr ""
 "オプション:\n"
 "  --showformat=<フォーマット>  --show に別のフォーマットを使用する\n"
+"  -v, --verbose                冗長出力にする\n"
 "  -D                           デバッグ情報を出力する\n"
 "  --old, --new                 アーカイブの形式を制御する\n"
 "  --nocheck                    コントロールファイルのチェックを抑制する\n"
 "                               (不良パッケージが作成される)\n"
 "  -z#                          構築時の圧縮レベルを設定する\n"
 "  -Z<形式>                     構築時の圧縮形式を設定する\n"
-"                                 可能な値: gzip, xz, bzip2, lzma, none\n"
+"                                 可能な値: gzip, xz, bzip2, none\n"
+"  -S<戦略>                     構築時の圧縮戦略を設定する\n"
+"                                 可能な値: none, extreme (xzの場合)\n"
 "\n"
 
 #: dpkg-deb/main.c:125
@@ -5223,7 +5117,7 @@ msgstr "-%c に対する不正な圧縮レベルです: '%ld'"
 #: dpkg-deb/main.c:171
 #, c-format
 msgid "unknown compression strategy '%s'!"
-msgstr "`%s' は不明な圧縮手法です!"
+msgstr "`%s' は不明な圧縮戦略です!"
 
 #: dpkg-deb/main.c:179
 #, c-format
@@ -5293,7 +5187,7 @@ msgid "file '%.250s' has invalid format version: %s"
 msgstr "ファイル '%.250s' は無効な形式バージョンです: %s"
 
 #: dpkg-split/info.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "file '%.250s' is format version %d.%d; get a newer dpkg-split"
 msgstr "ファイル '%.250s' は形式バージョン %d.%d です。より新しい dpkg-split を入手してください"
 
@@ -5401,20 +5295,7 @@ msgid "file `%.250s' is not an archive part"
 msgstr "ファイル `%.250s' はアーカイブパートではありません"
 
 #: dpkg-split/info.c:218
-#, fuzzy, c-format
-#| msgid ""
-#| "%s:\n"
-#| "    Part format version:            %s\n"
-#| "    Part of package:                %s\n"
-#| "        ... version:                %s\n"
-#| "        ... MD5 checksum:           %s\n"
-#| "        ... length:                 %lu bytes\n"
-#| "        ... split every:            %lu bytes\n"
-#| "    Part number:                    %d/%d\n"
-#| "    Part length:                    %zi bytes\n"
-#| "    Part offset:                    %lu bytes\n"
-#| "    Part file size (used portion):  %lu bytes\n"
-#| "\n"
+#, c-format
 msgid ""
 "%s:\n"
 "    Part format version:            %d.%d\n"
@@ -5431,16 +5312,17 @@ msgid ""
 "\n"
 msgstr ""
 "%s:\n"
-"    パート形式バージョン:                 %s\n"
+"    パート形式バージョン:                 %d.%d\n"
 "    パッケージのパート:                   %s\n"
 "        ... バージョン:                   %s\n"
+"        ... アーキテクチャ:               %s\n"
 "        ... MD5 チェックサム:             %s\n"
-"        ... 長さ:                         %lu バイト\n"
-"        ... 全分割:                       %lu バイト\n"
+"        ... 長さ:                         %jd バイト\n"
+"        ... 全分割:                       %jd バイト\n"
 "    パート番号:                           %d/%d\n"
-"    パート長:                             %zi バイト\n"
-"    パートオフセット:                     %lu バイト\n"
-"    パートファイルサイズ(portion で使用): %lu バイト\n"
+"    パート長:                             %jd バイト\n"
+"    パートオフセット:                     %jd バイト\n"
+"    パートファイルサイズ(portion で使用): %jd バイト\n"
 "\n"
 
 #: dpkg-split/info.c:234
@@ -5476,16 +5358,14 @@ msgid "unable to (re)open input part file `%.250s'"
 msgstr "入力パートファイル `%.250s' を(再)オープンできません"
 
 #: dpkg-split/join.c:60
-#, fuzzy, c-format
-#| msgid "Skipping deselected package %s.\n"
+#, c-format
 msgid "cannot skip split package header for '%s': %s"
-msgstr "未選択パッケージ %s をスキップします。\n"
+msgstr "'%s' のパッケージヘッダ分割をスキップできません: %s"
 
 #: dpkg-split/join.c:63
-#, fuzzy, c-format
-#| msgid "cannot rename '%s' to '%s'"
+#, c-format
 msgid "cannot append split package part '%s' to '%s': %s"
-msgstr "'%s' を '%s' に名前変更できません"
+msgstr "分割パッケージパート '%s' を '%s' に追加できません: %s"
 
 #: dpkg-split/join.c:74 dpkg-split/split.c:243
 #, c-format
@@ -5621,11 +5501,9 @@ msgid "unable to open new depot file `%.250s'"
 msgstr "新しい格納ファイル `%.250s' をオープンできません"
 
 #: dpkg-split/queue.c:192
-#, fuzzy, c-format
-#| msgid "Putting package %s together from %d part: "
-#| msgid_plural "Putting package %s together from %d parts: "
+#, c-format
 msgid "cannot extract split package part '%s': %s"
-msgstr "パッケージ %s を %d パートから一緒に置いています: "
+msgstr "分割パッケージパート '%s' を展開できません: %s"
 
 #: dpkg-split/queue.c:201
 #, c-format
@@ -5739,7 +5617,7 @@ msgid "--split takes at most a source filename and destination prefix"
 msgstr "--split は引数としてソースファイル名と分割先プレフィクスが必要です"
 
 #: utils/update-alternatives.c:96
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
@@ -5917,16 +5795,11 @@ msgid "duplicate path %s"
 msgstr "パス %s が重複しています"
 
 #: utils/update-alternatives.c:1215
-#, fuzzy, c-format
-#| msgid ""
-#| "alternative %s (part of link group %s) doesn't exist. Removing from list "
-#| "of alternatives."
+#, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist; removing from list of "
 "alternatives"
-msgstr ""
-"%s の alternative (リンクグループ %s のパート) が存在しません。alternatives "
-"のリストから削除しています。"
+msgstr "%s の alternative (リンクグループ %s のパート) が存在しません。alternatives のリストから削除しています"
 
 #: utils/update-alternatives.c:1218 utils/update-alternatives.c:1229
 msgid "priority"
@@ -5942,10 +5815,9 @@ msgid "priority of %s: %s"
 msgstr "%s の優先度: %s"
 
 #: utils/update-alternatives.c:1238
-#, fuzzy, c-format
-#| msgid "priority of %s: %s"
+#, c-format
 msgid "priority of %s is out of range: %s"
-msgstr "%s の優先度: %s"
+msgstr "%s の優先度は範囲外です: %s"
 
 #: utils/update-alternatives.c:1292
 msgid "status"
@@ -5960,10 +5832,9 @@ msgid "master link"
 msgstr "マスターリンク"
 
 #: utils/update-alternatives.c:1343
-#, fuzzy, c-format
-#| msgid "discarding obsolete slave link %s (%s)."
+#, c-format
 msgid "discarding obsolete slave link %s (%s)"
-msgstr "時代遅れのスレーブリンク %s を破棄しています (%s)。"
+msgstr "時代遅れのスレーブリンク %s を破棄しています (%s)"
 
 #: utils/update-alternatives.c:1399
 #, c-format
@@ -6049,22 +5920,16 @@ msgid "can't install unknown choice %s"
 msgstr "未知の選択肢 %s をインストールできません"
 
 #: utils/update-alternatives.c:1784
-#, fuzzy, c-format
-#| msgid ""
-#| "skip creation of %s because associated file %s (of link group %s) doesn't "
-#| "exist."
+#, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist"
-msgstr ""
-"関連する (リンクグループ %3$s の) ファイル %2$s が存在しないので、%1$s の作成"
-"をスキップします。"
+msgstr "関連する (リンクグループ %3$s の) ファイル %2$s が存在しないので、%1$s の作成をスキップします"
 
 #: utils/update-alternatives.c:1794
-#, fuzzy, c-format
-#| msgid "not replacing %s with a link."
+#, c-format
 msgid "not removing %s since it's not a symlink"
-msgstr "%s をリンクで置き換えません。"
+msgstr "シンボリックリンクではないので、%s を削除しません"
 
 #: utils/update-alternatives.c:2069 utils/update-alternatives.c:2075
 #, c-format
@@ -6099,65 +5964,47 @@ msgid "%s/%s is dangling; it will be updated with best choice"
 msgstr "%s/%s が宙ぶらりんなため、最適な選択肢で更新されます"
 
 #: utils/update-alternatives.c:2175
-#, fuzzy, c-format
-#| msgid ""
-#| "%s has been changed (manually or by a script). Switching to manual "
-#| "updates only."
+#, c-format
 msgid ""
 "%s/%s has been changed (manually or by a script); switching to manual "
 "updates only"
-msgstr ""
-"%s が (手動あるいはスクリプトにより) 変更されました。手動更新のみに切り替えて"
-"います。"
+msgstr "%s/%s が (手動あるいはスクリプトにより) 変更されました。手動更新のみに切り替えています"
 
 #: utils/update-alternatives.c:2183
-#, fuzzy, c-format
-#| msgid "setting up automatic selection of %s."
+#, c-format
 msgid "setting up automatic selection of %s"
-msgstr "%s の自動選択を設定しています。"
+msgstr "%s の自動選択を設定しています"
 
 #: utils/update-alternatives.c:2199
-#, fuzzy, c-format
-#| msgid "renaming %s link from %s to %s."
+#, c-format
 msgid "renaming %s link from %s to %s"
-msgstr "%s のリンクを %s から %s に名前変更しています。"
+msgstr "%s のリンクを %s から %s に名前変更しています"
 
 #: utils/update-alternatives.c:2240
-#, fuzzy, c-format
-#| msgid "renaming %s slave link from %s to %s."
+#, c-format
 msgid "renaming %s slave link from %s to %s"
-msgstr "%s のスレーブリンクを %s から %s に名前変更しています。"
+msgstr "%s のスレーブリンクを %s から %s に名前変更しています"
 
 #: utils/update-alternatives.c:2268
-#, fuzzy, c-format
-#| msgid "using %s to provide %s (%s) in %s."
+#, c-format
 msgid "using %s to provide %s (%s) in %s"
-msgstr "%2$s (%3$s) を提供するために %4$s で %1$s を使います。"
+msgstr "%2$s (%3$s) を提供するために %4$s で %1$s を使います"
 
 #: utils/update-alternatives.c:2276
-#, fuzzy, c-format
-#| msgid ""
-#| "forcing reinstallation of alternative %s because link group %s is broken."
+#, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken"
-msgstr ""
-"リンクグループ %2$s が壊れているため、alternative %1$s の再インストールを強制"
-"しています。"
+msgstr "リンクグループ %2$s が壊れているため、alternative %1$s の再インストールを強制しています"
 
 #: utils/update-alternatives.c:2283
-#, fuzzy, c-format
-#| msgid ""
-#| "current alternative %s is unknown, switching to %s for link group %s."
+#, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
-msgstr ""
-"現在の alternative %1$s が未知なので、リンクグループ %3$s のために %2$s に切"
-"り替えています。"
+msgstr "現在の alternative %1$s が未知なので、リンクグループ %3$s のために %2$s に切り替えています"
 
 #: utils/update-alternatives.c:2309
-#, fuzzy, c-format
-#| msgid "alternative name (%s) must not contain '/' and spaces."
+#, c-format
 msgid "alternative name (%s) must not contain '/' and spaces"
-msgstr "alternative 名 (%s) は '/' や空白を含んではなりません。"
+msgstr "alternative 名 (%s) は '/' や空白を含んではなりません"
 
 #: utils/update-alternatives.c:2317
 #, c-format
@@ -6192,16 +6039,14 @@ msgid "alternative %s can't be slave of %s: it is a master alternative"
 msgstr "alternative %s は %s のスレーブにはできません: これはマスターの alternative です"
 
 #: utils/update-alternatives.c:2391
-#, fuzzy, c-format
-#| msgid "alternative %s can't be master: %s"
+#, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
-msgstr "alternative %s はマスターになれません: %s"
+msgstr "alternative %s は %s のスレーブになれません: これは %s のスレーブです"
 
 #: utils/update-alternatives.c:2411
-#, fuzzy, c-format
-#| msgid "alternative link %s is already managed by %s."
+#, c-format
 msgid "alternative link %s is already managed by %s (slave of %s)"
-msgstr "alternative リンク %s はすでに %s によって管理されています。"
+msgstr "alternative リンク %s はすでに %s によって管理されています (%s のスレーブ)"
 
 #: utils/update-alternatives.c:2455
 #, c-format
@@ -6296,16 +6141,14 @@ msgid "Nothing to configure."
 msgstr "設定は行いません。"
 
 #: utils/update-alternatives.c:2682
-#, fuzzy, c-format
-#| msgid "There is only one alternative in link group %s: %s"
+#, c-format
 msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "リンクグループ %s に 1 つの alternative のみがあります: %s"
+msgstr "リンクグループ %s に 1 つの alternative のみがあります (%s が提供): %s"
 
 #: utils/update-alternatives.c:2692
-#, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not removing."
+#, c-format
 msgid "alternative %s for %s not registered; not removing"
-msgstr "%2$s の alternative %1$s は登録されていません。削除は行いません。"
+msgstr "%2$s の alternative %1$s は登録されていません。削除は行いません"
 
 #: utils/update-alternatives.c:2700
 #, c-format
@@ -6315,13 +6158,11 @@ msgstr ""
 "ます"
 
 #: utils/update-alternatives.c:2725
-#, fuzzy, c-format
-#| msgid "automatic updates of %s are disabled, leaving it alone."
+#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
-msgstr "%s の自動更新は無効になっています。そのままにしておきます。"
+msgstr "%s/%s の自動更新は無効になっています。そのままにしておきます"
 
 #: utils/update-alternatives.c:2727
-#, fuzzy, c-format
-#| msgid "to return to automatic updates use `update-alternatives --auto %s'."
+#, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
-msgstr "自動更新に戻るには、`update-alternatives --auto %s' を使ってください。"
+msgstr "自動更新に戻るには、'%s --auto %s' を使ってください"
