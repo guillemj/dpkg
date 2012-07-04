@@ -146,6 +146,7 @@ void cu_closestream(int argc, void **argv);
 void cu_closepipe(int argc, void **argv);
 void cu_closedir(int argc, void **argv);
 void cu_closefd(int argc, void **argv);
+void cu_filename(int argc, void **argv);
 
 /*** from mlib.c ***/
 

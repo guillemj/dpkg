@@ -59,3 +59,11 @@ cu_closefd(int argc, void **argv)
 
 	close(ip);
 }
+
+void
+cu_filename(int argc, void **argv)
+{
+	const char *filename = argv[0];
+
+	unlink(filename);
+}
