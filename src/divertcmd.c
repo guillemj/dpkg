@@ -206,39 +206,39 @@ check_rename(struct file *src, struct file *dst)
 }
 
 static void
-file_copy(const char *src, const char *realdst)
+file_copy(const char *src, const char *dst)
 {
 	struct dpkg_error err;
-	char *dst;
+	char *tmp;
 	int srcfd, dstfd;
 
 	srcfd = open(src, O_RDONLY);
 	if (srcfd < 0)
 		ohshite(_("unable to open file '%s'"), src);
 
-	m_asprintf(&dst, "%s%s", realdst, ".dpkg-divert.tmp");
-	dstfd = creat(dst, 0600);
+	m_asprintf(&tmp, "%s%s", dst, ".dpkg-divert.tmp");
+	dstfd = creat(tmp, 0600);
 	if (dstfd < 0)
-		ohshite(_("unable to create file '%s'"), dst);
+		ohshite(_("unable to create file '%s'"), tmp);
 
-	push_cleanup(cu_filename, ~ehflag_normaltidy, NULL, 0, 1, dst);
+	push_cleanup(cu_filename, ~ehflag_normaltidy, NULL, 0, 1, tmp);
 
 	if (fd_fd_copy(srcfd, dstfd, -1, &err) < 0)
-		ohshit(_("cannot copy '%s' to '%s': %s"), src, dst, err.str);
+		ohshit(_("cannot copy '%s' to '%s': %s"), src, tmp, err.str);
 
 	close(srcfd);
 
 	if (fsync(dstfd))
-		ohshite(_("unable to sync file '%s'"), dst);
+		ohshite(_("unable to sync file '%s'"), tmp);
 	if (close(dstfd))
-		ohshite(_("unable to close file '%s'"), dst);
+		ohshite(_("unable to close file '%s'"), tmp);
 
-	file_copy_perms(src, dst);
+	file_copy_perms(src, tmp);
 
-	if (rename(dst, realdst) != 0)
-		ohshite(_("cannot rename '%s' to '%s'"), dst, realdst);
+	if (rename(tmp, dst) != 0)
+		ohshite(_("cannot rename '%s' to '%s'"), tmp, dst);
 
-	free(dst);
+	free(tmp);
 
 	pop_cleanup(ehflag_normaltidy);
 }
