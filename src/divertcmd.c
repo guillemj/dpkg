@@ -221,7 +221,7 @@ file_copy(const char *src, const char *realdst)
 	if (dstfd < 0)
 		ohshite(_("unable to create file '%s'"), dst);
 
-	/* FIXME: leaves a dangling destination file on error. */
+	push_cleanup(cu_filename, ~ehflag_normaltidy, NULL, 0, 1, dst);
 
 	if (fd_fd_copy(srcfd, dstfd, -1, &err) < 0)
 		ohshit(_("cannot copy '%s' to '%s': %s"), src, dst, err.str);
@@ -239,6 +239,8 @@ file_copy(const char *src, const char *realdst)
 		ohshite(_("cannot rename '%s' to '%s'"), dst, realdst);
 
 	free(dst);
+
+	pop_cleanup(ehflag_normaltidy);
 }
 
 static void
