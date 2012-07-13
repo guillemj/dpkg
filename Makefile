@@ -11,7 +11,6 @@ TESTS_MANUAL += t-lfs
 TESTS_MANUAL += t-conffile-prompt
 
 TESTS_FAIL :=
-TESTS_FAIL += t-dir-leftover-parents
 TESTS_FAIL += t-dir-leftover-deadlock
 TESTS_FAIL += t-dir-shared-replaces-lost
 TESTS_FAIL += t-disappear-depended
@@ -39,6 +38,7 @@ TESTS_PASS += t-filtering
 TESTS_PASS += t-depends
 TESTS_PASS += t-depends-versioned
 TESTS_PASS += t-depends-provides
+TESTS_PASS += t-dir-leftover-parents
 TESTS_PASS += t-disappear
 TESTS_PASS += t-disappear-empty
 TESTS_PASS += t-conflict
