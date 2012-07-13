@@ -4,7 +4,7 @@ TESTS_DEB :=
 
 include ../Test.mk
 
-PKG_TUPLE = $(DPKG_QUERY) -f '$${Package}:$${Architecture}:$${Version}' -W
+PKG_TUPLE = LC_ALL=C $(DPKG_QUERY) -f '$${Package}:$${Architecture}:$${Version}' -W
 
 TEST_CASES += test-dupe-multi
 TEST_CASES += test-cross-single-update
