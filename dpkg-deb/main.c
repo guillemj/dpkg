@@ -101,7 +101,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
 "  -v, --verbose                    Enable verbose output.\n"
-"  -D                               Enable debugging output.\n"
+"  -D, --debug                      Enable debugging output.\n"
 "  --old, --new                     Select archive format.\n"
 "  --nocheck                        Suppress control file check (build bad\n"
 "                                     packages).\n"
