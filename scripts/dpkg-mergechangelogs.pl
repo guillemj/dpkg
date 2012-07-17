@@ -85,11 +85,13 @@ my @options_spec = (
 }
 
 my ($old, $new_a, $new_b, $out_file) = @ARGV;
-unless (defined $old and defined $new_a and defined $new_b and
-        -e $old and -e $new_a and -e $new_b)
+unless (defined $old and defined $new_a and defined $new_b)
 {
-    usage();
-    exit(2);
+    usageerr(_g('needs at least three arguments'));
+}
+unless (-e $old and -e $new_a and -e $new_b)
+{
+    usageerr(_g('file arguments need to exist'));
 }
 
 my ($cho, $cha, $chb);

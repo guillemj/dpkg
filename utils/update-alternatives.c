@@ -173,7 +173,9 @@ badusage(char const *fmt, ...)
 	vfprintf(stderr, fmt, args);
 	va_end(args);
 	fprintf(stderr, "\n\n");
-	usage();
+	fprintf(stderr, _("Use '%s --help' for program usage information."),
+	        PROGNAME);
+	fprintf(stderr, "\n");
 	exit(2);
 }
 

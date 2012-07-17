@@ -39,7 +39,7 @@ rm_conffile() {
 	fi
 	# Skip remaining parameters up to --
 	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
-	[ $# -gt 0 ] || badusage
+	[ $# -gt 0 ] || badusage "missing arguments after --"
 	shift
 
 	[ -n "$PACKAGE" ] || error "couldn't identify the package"
@@ -142,7 +142,7 @@ mv_conffile() {
 	fi
 	# Skip remaining parameters up to --
 	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
-	[ $# -gt 0 ] || badusage
+	[ $# -gt 0 ] || badusage "missing arguments after --"
 	shift
 
 	[ -n "$PACKAGE" ] || error "couldn't identify the package"
@@ -250,7 +250,9 @@ END
 }
 
 badusage() {
-	usage
+	echo "$PROGNAME: error: $1" >&2
+	echo >&2
+	echo "Use '$PROGNAME help' for program usage information." >&2
 	exit 1
 }
 
@@ -260,7 +262,7 @@ set -e
 PROGNAME=$(basename $0)
 version="unknown"
 command="$1"
-[ $# -gt 0 ] || badusage
+[ $# -gt 0 ] || badusage "missing command"
 shift
 
 case "$command" in
@@ -301,13 +303,8 @@ mv_conffile)
 	END
 	;;
 *)
-	cat >&2 <<-END
-	$PROGNAME: error: command $command is unknown
-	Hint: upgrading dpkg to a newer version might help.
-
-	END
-	usage
-	exit 1
+	badusage "command $command is unknown
+Hint: upgrading dpkg to a newer version might help."
 esac
 
 exit 0

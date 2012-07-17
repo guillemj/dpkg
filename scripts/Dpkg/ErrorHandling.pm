@@ -97,14 +97,15 @@ sub subprocerr(@)
     }
 }
 
+my $printforhelp = _g('Use --help for program usage information.');
+
 sub usageerr(@)
 {
     my ($msg) = (shift);
 
     $msg = sprintf($msg, @_) if (@_);
     warn "$Dpkg::PROGNAME: $msg\n\n";
-    # XXX: access to main namespace
-    main::usage();
+    warn "$printforhelp\n";
     exit(2);
 }
 
