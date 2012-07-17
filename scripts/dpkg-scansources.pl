@@ -63,7 +63,7 @@ my $extra_override_file = undef;
 
 my @option_spec = (
     'debug!'		=> \$debug,
-    'help|?'		=> \&usage,
+    'help|?'		=> sub { usage(); exit 0; },
     'no-sort|n'		=> \$no_sort,
     'source-override|s=s' => \$src_override,
     'extra-override|e=s' => \$extra_override_file,
@@ -96,8 +96,6 @@ Options:
 
 See the man page for the full documentation.
 "), $Dpkg::PROGNAME;
-
-    exit;
 }
 
 sub close_msg {
