@@ -116,6 +116,7 @@ my ($admindir, $signkey, $usepause, $noclean,
     $changedby, $desc, $parallel);
 my $checkbuilddep = 1;
 my $signforce = 0;
+my $signreleased = 1;
 my $signsource = 1;
 my $signchanges = 1;
 my $buildtarget = 'build';
@@ -289,6 +290,8 @@ my $version = mustsetvar($changelog->{version}, _g('source version'));
 my ($ok, $error) = version_check($version);
 error($error) unless $ok;
 
+my $distribution = mustsetvar($changelog->{distribution}, _g('source distribution'));
+
 my $maintainer;
 if ($changedby) {
     $maintainer = $changedby;
@@ -333,6 +336,10 @@ if (not $signcommand) {
 } elsif ($signforce) {
     $signsource = 1;
     $signchanges = 1;
+} elsif ($distribution eq 'UNRELEASED') {
+    $signreleased = 0;
+    $signsource = 0;
+    $signchanges = 0;
 }
 
 # Preparation of environment stops here
@@ -497,6 +504,9 @@ chdir('..') or syserr('chdir ..');
 withecho('dpkg-source', @source_opts, '--after-build', $dir);
 chdir($dir) or syserr("chdir $dir");
 
+if (not $signreleased) {
+    warning(_g('not signing UNRELEASED build; use --force-sign to override'));
+}
 print "$progname: $srcmsg\n";
 if ($signerrors) {
     warning($signerrors);

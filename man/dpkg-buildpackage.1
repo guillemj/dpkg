@@ -57,14 +57,14 @@ case, or if \fB\-b\fP is specified), or \fBbuild\-arch\fP and
 \fBbinary\-indep\fP (if \fB\-A\fP is specified).
 .IP \fB6.\fP 3
 It calls \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
-\fB\-us\fP is specified).
+\fB\-us\fP is specified or on UNRELEASED builds).
 .IP \fB7.\fP 3
 It calls \fBdpkg\-genchanges\fP to generate a \fB.changes\fP file.
 Many \fBdpkg\-buildpackage\fP options are forwarded to
 \fBdpkg\-genchanges\fP.
 .IP \fB8.\fP 3
 It calls \fBgpg\fP to sign the \fB.changes\fP file (unless \fB\-uc\fP
-is specified).
+is specified or on UNRELEASED builds).
 .IP \fB9.\fP 3
 If \fB\-tc\fP is specified, it will call \fBfakeroot debian/rules clean\fP
 again. Finally it calls \fBdpkg\-source \-\-after\-build\fP.
