@@ -166,6 +166,7 @@ void ensure_allinstfiles_available(void);
 void ensure_allinstfiles_available_quiet(void);
 void note_must_reread_files_inpackage(struct pkginfo *pkg);
 struct filenamenode *findnamenode(const char *filename, enum fnnflags flags);
+void parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin);
 void write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct fileinlist *list, enum fnnflags mask);
 void write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,

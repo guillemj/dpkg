@@ -21,12 +21,19 @@
 #include <config.h>
 #include <compat.h>
 
+#include <sys/stat.h>
+
+#include <errno.h>
 #include <string.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
 
+#include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/debug.h>
+#include <dpkg/fdio.h>
 #include <dpkg/dir.h>
 
 #include "filesdb.h"
@@ -71,4 +78,97 @@ write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	atomic_file_free(file);
 
 	dir_sync_path(pkg_infodb_get_dir());
+}
+
+static void
+parse_filehash_buffer(char *buf, char *buf_end,
+                      struct pkginfo *pkg, struct pkgbin *pkgbin)
+{
+	char *thisline, *nextline;
+
+	for (thisline = buf; thisline < buf_end; thisline = nextline) {
+		struct filenamenode *namenode;
+		char *endline, *hash_end, *filename;
+
+		endline = memchr(thisline, '\n', buf_end - thisline);
+		if (endline == NULL)
+			ohshit(_("control file '%s' for package '%s' is "
+			         "missing final newline"),
+			       HASHFILE, pkg_name(pkg, pnaw_nonambig));
+
+		/* The md5sum hash has a constant length. */
+		hash_end = thisline + MD5HASHLEN;
+
+		filename = hash_end + 2;
+		if (filename + 1 > endline)
+			ohshit(_("control file '%s' missing value"), HASHFILE);
+
+		if (hash_end[0] != ' ' || hash_end[1] != ' ')
+			ohshit(_("control file '%s' missing value separator"),
+			       HASHFILE);
+		hash_end[0] = '\0';
+
+		/* Where to start next time around. */
+		nextline = endline + 1;
+
+		/* Strip trailing ‘/’. */
+		if (endline > thisline && endline[-1] == '/')
+			endline--;
+		*endline = '\0';
+
+		if (endline == thisline)
+			ohshit(_("control file '%s' for package '%s' contains empty filename"),
+			       HASHFILE, pkg_name(pkg, pnaw_nonambig));
+
+		debug(dbg_eachfiledetail, "load hash '%s' for filename '%s'",
+		      thisline, filename);
+
+		/* Add the file to the list. */
+		namenode = findnamenode(filename, fnn_nocopy);
+		namenode->newhash = thisline;
+	}
+}
+
+void
+parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin)
+{
+	static int fd;
+	const char *hashfile;
+	struct stat st;
+
+	hashfile = pkg_infodb_get_file(pkg, pkgbin, HASHFILE);
+
+	fd = open(hashfile, O_RDONLY);
+	if (fd < 0) {
+		if (errno == ENOENT)
+			return;
+
+		ohshite(_("cannot open '%s' control file for package '%s'"),
+		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
+	}
+
+	if (fstat(fd, &st) < 0)
+		ohshite(_("cannot stat '%s' control file for package '%s'"),
+		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
+
+	if (!S_ISREG(st.st_mode))
+		ohshit(_("'%s' file for package '%s' is not a regular file"),
+		       HASHFILE, pkg_name(pkg, pnaw_nonambig));
+
+	if (st.st_size > 0) {
+		char *buf, *buf_end;
+
+		buf = nfmalloc(st.st_size);
+		buf_end = buf + st.st_size;
+
+		if (fd_read(fd, buf, st.st_size) < 0)
+			ohshite(_("cannot read '%s' control file for package '%s'"),
+			        HASHFILE, pkg_name(pkg, pnaw_nonambig));
+
+		parse_filehash_buffer(buf, buf_end, pkg, pkgbin);
+	}
+
+	if (close(fd))
+		ohshite(_("cannot close '%s' control file for package '%s'"),
+		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
 }
