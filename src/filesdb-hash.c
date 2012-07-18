@@ -40,34 +40,35 @@ void
 write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
                       struct fileinlist *list, enum fnnflags mask)
 {
-  struct atomic_file *file;
-  const char *hashfile;
+	struct atomic_file *file;
+	const char *hashfile;
 
-  debug(dbg_general, "generating infodb hashfile");
+	debug(dbg_general, "generating infodb hashfile");
 
-  if (pkg_infodb_has_file(pkg, &pkg->available, HASHFILE))
-    return;
+	if (pkg_infodb_has_file(pkg, &pkg->available, HASHFILE))
+		return;
 
-  hashfile = pkg_infodb_get_file(pkg, pkgbin, HASHFILE);
+	hashfile = pkg_infodb_get_file(pkg, pkgbin, HASHFILE);
 
-  file = atomic_file_new(hashfile, 0);
-  atomic_file_open(file);
+	file = atomic_file_new(hashfile, 0);
+	atomic_file_open(file);
 
-  for (; list; list = list->next) {
-    struct filenamenode *namenode = list->namenode;
+	for (; list; list = list->next) {
+		 struct filenamenode *namenode = list->namenode;
 
-    if (mask && (namenode->flags & mask))
-      continue;
-    if (strcmp(namenode->newhash, EMPTYHASHFLAG) == 0)
-      continue;
+		if (mask && (namenode->flags & mask))
+			continue;
+		if (strcmp(namenode->newhash, EMPTYHASHFLAG) == 0)
+			continue;
 
-    fprintf(file->fp, "%s  %s\n", namenode->newhash, namenode->name + 1);
-  }
+		fprintf(file->fp, "%s  %s\n",
+		        namenode->newhash, namenode->name + 1);
+	}
 
-  atomic_file_sync(file);
-  atomic_file_close(file);
-  atomic_file_commit(file);
-  atomic_file_free(file);
+	atomic_file_sync(file);
+	atomic_file_close(file);
+	atomic_file_commit(file);
+	atomic_file_free(file);
 
-  dir_sync_path(pkg_infodb_get_dir());
+	dir_sync_path(pkg_infodb_get_dir());
 }
