@@ -30,6 +30,7 @@ use Dpkg::Changelog::Parse;
 textdomain("dpkg-dev");
 
 my %options;
+my $fieldname;
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -48,6 +49,7 @@ sub usage {
   -l<changelog-file>       get per-version info from this file.
   -F<changelog-format>     force changelog format.
   -L<libdir>               look for changelog parsers in <libdir>.
+  -S, --show-field <field> show the values for <field>.
   -?, --help               show this help message.
       --version            show the version.")
     . "\n\n" . _g(
@@ -81,6 +83,8 @@ while (@ARGV) {
 	$options{"changelogformat"} = $1;
     } elsif (m/^-l(.+)$/) {
 	$options{"file"} = $1;
+    } elsif (m/^-(?:S|-show-field)(?:=(.+))?$/) {
+	$fieldname = $1 // shift(@ARGV);
     } elsif (m/^--$/) {
 	last;
     } elsif (m/^-([cfnostuv])(.*)$/) {
@@ -120,5 +124,9 @@ my $count = 0;
 my @fields = changelog_parse(%options);
 foreach my $f (@fields) {
     print "\n" if $count++;
-    print $f->output();
+    if ($fieldname) {
+        print $f->{$fieldname} . "\n";
+    } else {
+        print $f->output();
+    }
 }
