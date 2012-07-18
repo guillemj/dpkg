@@ -243,6 +243,8 @@ while (@ARGV) {
             move($_);
         }
         exit 0;
+    } elsif (m/^-/) {
+        usageerr(_g("unknown option \`%s'"), $_);
     } else {
         move($_);
     }
