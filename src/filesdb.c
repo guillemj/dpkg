@@ -650,6 +650,7 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   newnode->next = NULL;
   newnode->divert = NULL;
   newnode->statoverride = NULL;
+  newnode->oldhash = NULL;
   newnode->newhash = EMPTYHASHFLAG;
   newnode->filestat = NULL;
   newnode->trig_interested = NULL;
