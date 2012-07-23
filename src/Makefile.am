@@ -53,7 +53,9 @@ dpkg_SOURCES = \
 	select.c \
 	trigproc.c \
 	unpack.c \
-	update.c
+	update.c \
+	verify.c \
+	$(nil)
 
 dpkg_LDADD = \
 	$(LDADD) \

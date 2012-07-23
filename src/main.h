@@ -68,6 +68,7 @@ enum action {
 	act_triggers,
 	act_remove,
 	act_purge,
+	act_verify,
 	act_commandfd,
 
 	act_status,
@@ -160,6 +161,11 @@ int printarch(const char *const *argv);
 int printinstarch(const char *const *argv);
 int print_foreign_arches(const char *const *argv);
 int cmpversions(const char *const *argv);
+
+/* from verify.c */
+
+int verify_set_output(const char *name);
+int verify(const char *const *argv);
 
 /* from select.c */
 

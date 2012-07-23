@@ -204,6 +204,16 @@ Removing of a package consists of the following steps:
 \fB3.\fP Run \fIpostrm\fP script
 .br
 .TP
+.BR \-V ", " \-\-verify " [\fIpackage-name\fP...]
+Verifies the integrity of \fIpackage-name\fP or all packages if omitted,
+by comparing information from the installed paths with the database
+metadata.
+
+The output format is selectable with the \fB\-\-verify\-format\fP
+option, which by default uses the \fBrpm\fP format, but that might
+change in the future, and as such programs parsing this command
+output should be explicit about the format they expect.
+.TP
 \fB\-\-update\-avail\fP, \fB\-\-merge\-avail\fP \fIPackages-file\fP
 Update \fBdpkg\fP's and \fBdselect\fP's idea of which packages are
 available. With action \fB\-\-merge\-avail\fP, old information is
@@ -614,6 +624,19 @@ to remove all documentation files except the copyright files.
 These two options can be specified multiple times, and interleaved with
 each other. Both are processed in the given order, with the last rule that
 matches a file name making the decision.
+.TP
+.BI \-\-verify\-format " format-name"
+Sets the output format for the \fB\-\-verify\fP command.
+
+The only currently supported output format is \fBrpm\fP, which consists
+of a line for every path that failed any check. The lines start with 9
+characters to report the specific check results, a '\fB?\fP' implies the
+check could not be done (lack of support, file permissions, etc), '\fB.\fP'
+implies the check passed, and an alphanumeric character implies a specific
+check failed; the only functional check is an md5sum verification denoted
+with a '\fB5\fP' on the third character. The line is followed by a space
+and an attribute character (currently '\fBc\fP' for conffiles), another
+space and the pathname.
 .TP
 \fB\-\-status\-fd \fR\fIn\fR
 Send machine-readable package status and progress information to file

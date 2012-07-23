@@ -91,6 +91,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --triggers-only    <package> ... | -a|--pending\n"
 "  -r|--remove        <package> ... | -a|--pending\n"
 "  -P|--purge         <package> ... | -a|--pending\n"
+"  -V|--verify <package> ...        Verify the integrity of package(s).\n"
 "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
 "  --set-selections                 Set package selections from stdin.\n"
 "  --clear-selections               Deselect every non-essential package.\n"
@@ -141,6 +142,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  -G|--refuse-downgrade      Skip packages with earlier version than installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other package.\n"
 "  --[no-]triggers            Skip or force consequential trigger processing.\n"
+"  --verify-format=<format>   Verify output format (supported: 'rpm').\n"
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Just say what we would do - don't do it.\n"
@@ -331,6 +333,13 @@ static void
 setfilter(const struct cmdinfo *cip, const char *value)
 {
   filter_add(value, cip->arg_int);
+}
+
+static void
+set_verify_format(const struct cmdinfo *cip, const char *value)
+{
+  if (!verify_set_output(value))
+    badusage(_("unknown verify output format '%s'"), value);
 }
 
 static void setroot(const struct cmdinfo *cip, const char *value) {
@@ -639,6 +648,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "remove",                         'r', act_remove,               packages        ),
   ACTION( "purge",                          'P', act_purge,                packages        ),
   ACTION( "triggers-only",                   0,  act_triggers,             packages        ),
+  ACTION( "verify",                         'V', act_verify,               verify          ),
   ACTIONBACKEND( "listfiles",               'L', DPKGQUERY),
   ACTIONBACKEND( "status",                  's', DPKGQUERY),
   ACTION( "get-selections",                  0,  act_getselections,        getselections   ),
@@ -673,6 +683,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
   { "path-exclude",      0,   1, NULL,          NULL,      setfilter,     0 },
   { "path-include",      0,   1, NULL,          NULL,      setfilter,     1 },
+  { "verify-format",     0,   1, NULL,          NULL,      set_verify_format },
   { "status-logger",     0,   1, NULL,          NULL,      set_invoke_hook, 0, &status_loggers_tail },
   { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0 },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },
