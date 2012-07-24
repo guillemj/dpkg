@@ -521,7 +521,9 @@ void process_archive(const char *filename) {
   clear_deconfigure_queue();
   clear_istobes();
 
-  if (!wanttoinstall(pkg)) {
+  if (wanttoinstall(pkg)) {
+    pkg_set_want(pkg, want_install);
+  } else {
       pop_cleanup(ehflag_normaltidy);
       return;
   }

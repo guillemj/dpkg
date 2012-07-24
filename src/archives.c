@@ -1696,7 +1696,6 @@ wanttoinstall(struct pkginfo *pkg)
     if (f_alsoselect) {
       printf(_("Selecting previously unselected package %s.\n"),
              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-      pkg_set_want(pkg, want_install);
       return true;
     } else {
       printf(_("Skipping unselected package %s.\n"),
