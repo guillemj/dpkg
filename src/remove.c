@@ -285,21 +285,6 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 
       trig_file_activate(usenode, pkg);
 
-      varbuf_trunc(&fnvb, before);
-      varbuf_add_str(&fnvb, DPKGTEMPEXT);
-      varbuf_end_str(&fnvb);
-      debug(dbg_eachfiledetail, "removal_bulk cleaning temp '%s'", fnvb.buf);
-
-      ensure_pathname_nonexisting(fnvb.buf);
-
-      varbuf_trunc(&fnvb, before);
-      varbuf_add_str(&fnvb, DPKGNEWEXT);
-      varbuf_end_str(&fnvb);
-      debug(dbg_eachfiledetail, "removal_bulk cleaning new '%s'", fnvb.buf);
-      ensure_pathname_nonexisting(fnvb.buf);
-
-      varbuf_trunc(&fnvb, before);
-      varbuf_end_str(&fnvb);
       if (is_dir) {
         debug(dbg_eachfiledetail, "removal_bulk is a directory");
         /* Only delete a directory or a link to one if we're the only
@@ -316,6 +301,22 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         if (dir_is_used_by_others(namenode, pkg))
           continue;
       }
+
+      varbuf_trunc(&fnvb, before);
+      varbuf_add_str(&fnvb, DPKGTEMPEXT);
+      varbuf_end_str(&fnvb);
+      debug(dbg_eachfiledetail, "removal_bulk cleaning temp '%s'", fnvb.buf);
+      ensure_pathname_nonexisting(fnvb.buf);
+
+      varbuf_trunc(&fnvb, before);
+      varbuf_add_str(&fnvb, DPKGNEWEXT);
+      varbuf_end_str(&fnvb);
+      debug(dbg_eachfiledetail, "removal_bulk cleaning new '%s'", fnvb.buf);
+      ensure_pathname_nonexisting(fnvb.buf);
+
+      varbuf_trunc(&fnvb, before);
+      varbuf_end_str(&fnvb);
+
       debug(dbg_eachfiledetail, "removal_bulk removing '%s'", fnvb.buf);
       if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
       if (errno == ENOTEMPTY || errno == EEXIST) {
