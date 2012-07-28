@@ -283,8 +283,6 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         continue;
       }
 
-      trig_file_activate(usenode, pkg);
-
       if (is_dir) {
         debug(dbg_eachfiledetail, "removal_bulk is a directory");
         /* Only delete a directory or a link to one if we're the only
@@ -301,6 +299,8 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         if (dir_is_used_by_others(namenode, pkg))
           continue;
       }
+
+      trig_file_activate(usenode, pkg);
 
       varbuf_trunc(&fnvb, before);
       varbuf_add_str(&fnvb, DPKGTEMPEXT);
@@ -389,7 +389,6 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     }
 
     usenode = namenodetouse(namenode, pkg, &pkg->installed);
-    trig_file_activate(usenode, pkg);
 
     varbuf_reset(&fnvb);
     varbuf_add_str(&fnvb, instdir);
@@ -408,6 +407,8 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
       if (dir_is_used_by_others(namenode, pkg))
         continue;
     }
+
+    trig_file_activate(usenode, pkg);
 
     debug(dbg_eachfiledetail, "removal_bulk removing '%s'", fnvb.buf);
     if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
