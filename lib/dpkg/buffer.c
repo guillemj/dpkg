@@ -26,6 +26,7 @@
 #include <sys/types.h>
 
 #include <errno.h>
+#include <md5.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -33,7 +34,6 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/varbuf.h>
-#include <dpkg/md5.h>
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 

@@ -46,7 +46,6 @@ libdpkg_a_SOURCES = \
 	glob.c \
 	i18n.h \
 	log.c \
-	md5.c md5.h \
 	mlib.c \
 	namevalue.c \
 	nfmalloc.c \
