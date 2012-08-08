@@ -170,6 +170,7 @@ filesavespackage(struct fileinlist *file,
 
     /* We've found a package that can take this file. */
     debug(dbg_eachfiledetail, "filesavespackage ...  taken -- no save");
+    filepackages_iter_free(iter);
     return false;
   }
   filepackages_iter_free(iter);
