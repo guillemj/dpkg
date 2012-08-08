@@ -136,13 +136,8 @@ my $range = {
 
 my $changes = Dpkg::Changelog::Debian->new(reportfile => $label, range => $range);
 
-if ($file eq '-') {
-    $changes->parse(\*STDIN, _g('<standard input>'))
-	or error(_g('fatal error occurred while parsing input'));
-} else {
-    $changes->load($file)
-	or error(_g('fatal error occurred while parsing %s'), $file);
-}
+$changes->load($file)
+    or error(_g('fatal error occurred while parsing %s'), $file);
 
 eval qq{
     my \$output = \$changes->$format(\$range);
