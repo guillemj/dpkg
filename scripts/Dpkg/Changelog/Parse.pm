@@ -78,7 +78,6 @@ sub changelog_parse {
                       "$Dpkg::LIBDIR/parsechangelog",
                       '/usr/lib/dpkg/parsechangelog');
     my $format = 'debian';
-    my $changelogfile = 'debian/changelog';
     my $force = 0;
 
     # Extract and remove options that do not concern the changelog parser
@@ -87,15 +86,17 @@ sub changelog_parse {
 	unshift @parserpath, $options{libdir};
 	delete $options{libdir};
     }
-    if (exists $options{file}) {
-	$changelogfile = $options{file};
-	delete $options{file};
-    }
     if (exists $options{changelogformat}) {
 	$format = $options{changelogformat};
 	delete $options{changelogformat};
 	$force = 1;
     }
+
+    # Set a default filename
+    if (not exists $options{file}) {
+	$options{file} = 'debian/changelog';
+    }
+    my $changelogfile = $options{file};
 
     # Extract the format from the changelog file if possible
     unless($force or ($changelogfile eq '-')) {
@@ -137,10 +138,6 @@ sub changelog_parse {
     my $pid = open(my $parser_fh, '-|');
     syserr(_g('cannot fork for %s'), $parser) unless defined $pid;
     if (not $pid) {
-	if ($changelogfile ne '-') {
-	    open(STDIN, '<', $changelogfile) or
-		syserr(_g('cannot open %s'), $changelogfile);
-	}
 	exec(@exec) || syserr(_g('cannot exec format parser: %s'), $parser);
     }
 
