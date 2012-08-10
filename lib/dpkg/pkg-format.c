@@ -208,6 +208,9 @@ pkg_format_parse(const char *fmt, struct dpkg_error *err)
 		}
 	}
 
+	if (!head)
+		dpkg_put_error(err, _("may not be empty string"));
+
 	return head;
 }
 
