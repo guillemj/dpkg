@@ -194,7 +194,14 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
       continue;
     /* The hash in the Conffiles is only meaningful if the package
      * configuration has been at least tried. */
-    if (otherpkg->status <= stat_unpacked)
+    if (otherpkg->status < stat_unpacked)
+      continue;
+    /* If we are reinstalling, even if the other package is only unpacked,
+     * we can always make use of the Conffiles hash value from an initial
+     * installation, if that happened at all. */
+    if (otherpkg->status == stat_unpacked &&
+        dpkg_version_compare(&otherpkg->installed.version,
+                             &otherpkg->configversion) != 0)
       continue;
     for (conff = otherpkg->installed.conffiles; conff; conff = conff->next) {
       if (conff->obsolete)
