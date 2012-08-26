@@ -201,11 +201,11 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
         break;
     }
     if (conff) {
+      strcpy(oldhash, conff->hash);
       debug(dbg_conffdetail,
             "tarobject found shared conffile, from pkg %s (%s); hash=%s",
             pkg_name(otherpkg, pnaw_always),
             statusinfos[otherpkg->status].name, oldhash);
-      strcpy(oldhash, conff->hash);
       break;
     }
   }
