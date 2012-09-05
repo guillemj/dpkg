@@ -118,9 +118,11 @@ preexecscript(struct command *cmd)
 
 		if (chroot(instdir))
 			ohshite(_("failed to chroot to `%.250s'"), instdir);
-		if (chdir("/"))
-			ohshite(_("failed to chdir to `%.255s'"), "/");
 	}
+	/* Switch to a known good directory to give the maintainer script
+	 * a saner environment, also needed after the chroot(). */
+	if (chdir("/"))
+		ohshite(_("failed to chdir to `%.255s'"), "/");
 	if (debug_has_flag(dbg_scripts)) {
 		struct varbuf args = VARBUF_INIT;
 		const char **argv = cmd->argv;
