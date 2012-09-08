@@ -213,7 +213,7 @@ ensure_statoverrides(void)
 
 		fnn = findnamenode(thisline, 0);
 		if (fnn->statoverride)
-			ohshit(_("multiple statusoverrides present for file '%.250s'"),
+			ohshit(_("multiple statoverrides present for file '%.250s'"),
 			       thisline);
 		fnn->statoverride = fso;
 
