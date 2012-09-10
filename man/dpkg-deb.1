@@ -231,18 +231,21 @@ Specify which compression type to use when building a package. Allowed
 values are \fIgzip\fP, \fIxz\fP, \fIbzip2\fP, \fIlzma\fP, and \fInone\fP
 (default is \fIgzip\fP).
 .TP
+.BI \-\-deb\-format= format
+Set the archive format version used when building (since dpkg 1.17.0).
+Allowed values are \fI2.0\fP for the new format, and \fI0.939000\fP
+for the old one (default is \fI2.0\fP).
+
+The old archive format is less easily parsed by non-Debian tools and is
+now obsolete; its only use is when building packages to be parsed by
+versions of dpkg older than 0.93.76 (September 1995), which was released
+as i386 a.out only.
+.TP
 .BR \-\-new
-Ensures that
-.B dpkg\-deb
-builds a `new' format archive. This is the default.
+This is a legacy alias for \fB\-\-deb\-format=2.0\fP.
 .TP
 .BR \-\-old
-Forces
-.B dpkg\-deb
-to build an `old' format archive. This old archive format is less
-easily parsed by non-Debian tools and is now obsolete; its only use is
-when building packages to be parsed by versions of dpkg older than
-0.93.76 (September 1995), which was released as i386 a.out only.
+This is a legacy alias for \fB\-\-deb\-format=0.939000\fP.
 .TP
 .BR \-\-nocheck
 Inhibits

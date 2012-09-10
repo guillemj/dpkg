@@ -3,6 +3,7 @@
  * dpkg-deb.h - external definitions for this program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +22,8 @@
 #ifndef DPKG_DEB_H
 #define DPKG_DEB_H
 
+#include <dpkg/deb-version.h>
+
 action_func do_build;
 action_func do_contents;
 action_func do_control;
@@ -33,7 +36,9 @@ action_func do_raw_extract;
 action_func do_fsystarfile;
 
 extern int opt_verbose;
-extern int debugflag, nocheckflag, oldformatflag;
+extern int debugflag, nocheckflag;
+
+extern struct deb_version deb_format;
 
 enum dpkg_tar_options {
 	/** Output the tar file directly, without any processing. */

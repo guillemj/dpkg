@@ -4,6 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -495,7 +496,7 @@ do_build(const char *const *argv)
 
   /* We have our first file for the ar-archive. Write a header for it
    * to the package and insert it. */
-  if (oldformatflag) {
+  if (deb_format.major == 0) {
     struct stat controlstab;
     char versionbuf[40];
 
@@ -518,7 +519,7 @@ do_build(const char *const *argv)
   close(gzfd);
 
   /* Control is done, now we need to archive the data. */
-  if (oldformatflag) {
+  if (deb_format.major == 0) {
     /* In old format, the data member is just concatenated after the
      * control member, so we do not need a temporary file and can use
      * the compression file descriptor. */
@@ -595,7 +596,7 @@ do_build(const char *const *argv)
   subproc_wait_check(c2, _("<compress> from tar -cf"), 0);
   subproc_wait_check(c1, "tar -cf", 0);
   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
-  if (!oldformatflag) {
+  if (deb_format.major == 2) {
     char datamember[16 + 1];
 
     sprintf(datamember, "%s%s", DATAMEMBER,

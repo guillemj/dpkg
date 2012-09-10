@@ -102,7 +102,10 @@ usage(const struct cmdinfo *cip, const char *value)
 "  --showformat=<format>            Use alternative format for --show.\n"
 "  -v, --verbose                    Enable verbose output.\n"
 "  -D, --debug                      Enable debugging output.\n"
-"  --old, --new                     Select archive format.\n"
+"      --deb-format=<format>        Select archive format.\n"
+"                                     Allowed values: 0.939000, 2.0 (default).\n"
+"      --old                        Legacy alias for '--deb-format=0.939000'.\n"
+"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "  --nocheck                        Suppress control file check (build bad\n"
 "                                     packages).\n"
 "  -z#                              Set the compression level when building.\n"
@@ -138,8 +141,44 @@ static const char printforhelp[] =
 
 int debugflag = 0;
 int nocheckflag = 0;
-int oldformatflag = 0;
 int opt_verbose = 0;
+
+struct deb_version deb_format = DEB_VERSION(2, 0);
+
+static void
+set_deb_format(const struct cmdinfo *cip, const char *value)
+{
+  const char *err;
+
+  err = deb_version_parse(&deb_format, value);
+  if (err)
+    badusage(_("invalid deb format version: %s"), err);
+
+  if ((deb_format.major == 2 && deb_format.minor == 0) ||
+      (deb_format.major == 0 && deb_format.minor == 939000))
+    return;
+  else
+    badusage(_("unknown deb format version: %s"), value);
+}
+
+static void
+set_deb_old(const struct cmdinfo *cip, const char *value)
+{
+  deb_format = DEB_VERSION(0, 939000);
+
+  warning(_("obsolete option '--%s'; please use '--%s' instead"),
+          cip->olong, "deb-format=0.939000");
+}
+
+static void
+set_deb_new(const struct cmdinfo *cip, const char *value)
+{
+  deb_format = DEB_VERSION(2, 0);
+
+  warning(_("obsolete option '--%s'; please use '--%s' instead"),
+          cip->olong, "deb-format=2.0");
+}
+
 struct compress_params compress_params = {
   .type = compressor_type_gzip,
   .strategy = compressor_strategy_none,
@@ -193,8 +232,9 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION("fsys-tarfile",  0,   0, do_fsystarfile),
   ACTION("show",          'W', 0, do_showinfo),
 
-  { "new",           0,   0, &oldformatflag, NULL,         NULL,          0 },
-  { "old",           0,   0, &oldformatflag, NULL,         NULL,          1 },
+  { "deb-format",    0,   1, NULL,           NULL,         set_deb_format   },
+  { "new",           0,   0, NULL,           NULL,         set_deb_new      },
+  { "old",           0,   0, NULL,           NULL,         set_deb_old      },
   { "debug",         'D', 0, &debugflag,     NULL,         NULL,          1 },
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
