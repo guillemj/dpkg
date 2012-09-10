@@ -39,6 +39,12 @@ struct deb_version {
 	int minor;
 };
 
+/**
+ * Initializer for a deb_version.
+ */
+#define DEB_VERSION(X, Y) \
+	(struct deb_version){ .major = (X), .minor = (Y) }
+
 const char *deb_version_parse(struct deb_version *version, const char *str);
 
 /** @} */
