@@ -31,6 +31,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 
 #include "dselect.h"
 #include "bindings.h"
@@ -492,7 +493,7 @@ packagelist::checksearch(char *rx)
 {
   int r,opt = REG_NOSUB;
 
-  if (!rx || !*rx)
+  if (str_is_unset(rx))
     return false;
 
   searchdescr=0;
@@ -544,7 +545,7 @@ packagelist::matchsearch(int index)
 
   if (searchdescr) {
     const char *descr = table[index]->pkg->available.description;
-    if (!descr || !*descr)
+    if (str_is_unset(descr))
       return false;
 
     if (regexec(&searchfsm, descr, 0, NULL, 0)==0)

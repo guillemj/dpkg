@@ -28,6 +28,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 
 #include "dselect.h"
 #include "bindings.h"
@@ -106,9 +107,9 @@ void packagelist::itd_description() {
 
   if (table[cursorline]->pkg->set->name) {
     const char *m= table[cursorline]->pkg->available.description;
-    if (!m || !*m)
+    if (str_is_unset(m))
       m = table[cursorline]->pkg->installed.description;
-    if (!m || !*m)
+    if (str_is_unset(m))
       m = _("No description available.");
     const char *p= strchr(m,'\n');
     int l= p ? (int)(p-m) : strlen(m);

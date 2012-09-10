@@ -30,6 +30,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 
 #include "dselect.h"
 #include "bindings.h"
@@ -189,7 +190,8 @@ void methodlist::itd_description() {
   wattrset(infopad, part_attr[info]);
 
   const char *m= table[cursorline]->description;
-  if (!m || !*m) m= _("No explanation available.");
+  if (str_is_unset(m))
+    m = _("No explanation available.");
   waddstr(infopad,"\n\n");
   wordwrapinfo(0,m);
 }
