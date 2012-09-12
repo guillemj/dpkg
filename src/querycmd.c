@@ -67,14 +67,20 @@ static int getwidth(void) {
   struct winsize ws;
   const char *columns;
 
-  if ((columns=getenv("COLUMNS")) && ((res=atoi(columns))>0))
-    return res;
-  else if (!isatty(1))
+  columns = getenv("COLUMNS");
+  if (columns) {
+    res = atoi(columns);
+    if (res > 0)
+      return res;
+  }
+
+  if (!isatty(1))
     return -1;
   else {
     res = 80;
 
-    if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
+    fd = open("/dev/tty", O_RDONLY);
+    if (fd != -1) {
       if (ioctl(fd, TIOCGWINSZ, &ws) == 0)
         res = ws.ws_col;
       close(fd);

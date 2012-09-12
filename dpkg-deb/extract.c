@@ -366,7 +366,8 @@ controlextractvextract(int admin, enum dpkg_tar_options taroptions,
 {
   const char *debar, *dir;
 
-  if (!(debar= *argv++))
+  debar = *argv++;
+  if (debar == NULL)
     badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
   dir = *argv++;
   if (!dir) {
@@ -387,7 +388,8 @@ do_fsystarfile(const char *const *argv)
 {
   const char *debar;
 
-  if (!(debar= *argv++))
+  debar = *argv++;
+  if (debar == NULL)
     badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
   if (*argv)
     badusage(_("--%s takes only one argument (.deb filename)"),cipaction->olong);

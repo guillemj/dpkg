@@ -198,7 +198,8 @@ loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos)
   myfileopt(file, cmdinfos);
   free(file);
 
-  if ((home = getenv("HOME")) != NULL) {
+  home = getenv("HOME");
+  if (home != NULL) {
     m_asprintf(&file, "%s/.%s.cfg", home, prog);
     myfileopt(file, cmdinfos);
     free(file);

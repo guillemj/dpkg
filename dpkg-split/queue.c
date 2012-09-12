@@ -138,7 +138,8 @@ do_auto(const char *const *argv)
 
   if (!opt_outputfile)
     badusage(_("--auto requires the use of the --output option"));
-  if (!(partfile= *argv++) || *argv)
+  partfile = *argv++;
+  if (partfile == NULL || *argv)
     badusage(_("--auto requires exactly one part file argument"));
 
   refi= nfmalloc(sizeof(struct partqueue));

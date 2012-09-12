@@ -167,7 +167,8 @@ ensure_statoverrides(void)
 	while (thisline < loaded_list_end) {
 		fso = nfmalloc(sizeof(struct file_stat));
 
-		if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
+		ptr = memchr(thisline, '\n', loaded_list_end - thisline);
+		if (ptr == NULL)
 			ohshit(_("statoverride file is missing final newline"));
 		/* Where to start next time around. */
 		nextline = ptr + 1;
@@ -176,7 +177,8 @@ ensure_statoverrides(void)
 		*ptr = '\0';
 
 		/* Extract the uid. */
-		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
+		ptr = memchr(thisline, ' ', nextline - thisline);
+		if (ptr == NULL)
 			ohshit(_("syntax error in statoverride file"));
 		*ptr = '\0';
 
@@ -188,7 +190,8 @@ ensure_statoverrides(void)
 			ohshit(_("unexpected end of line in statoverride file"));
 
 		/* Extract the gid */
-		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
+		ptr = memchr(thisline, ' ', nextline - thisline);
+		if (ptr == NULL)
 			ohshit(_("syntax error in statoverride file"));
 		*ptr = '\0';
 
@@ -200,7 +203,8 @@ ensure_statoverrides(void)
 			ohshit(_("unexpected end of line in statoverride file"));
 
 		/* Extract the mode */
-		if (!(ptr = memchr(thisline, ' ', nextline - thisline)))
+		ptr = memchr(thisline, ' ', nextline - thisline);
+		if (ptr == NULL)
 			ohshit(_("syntax error in statoverride file"));
 		*ptr = '\0';
 

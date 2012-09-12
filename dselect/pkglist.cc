@@ -523,7 +523,8 @@ packagelist::checksearch(char *rx)
    }
   }
 
-  if ((r=regcomp(&searchfsm, rx, opt))!=0) {
+  r = regcomp(&searchfsm, rx, opt);
+  if (r != 0) {
     displayerror(_("error in regular expression"));
     return false;
   }

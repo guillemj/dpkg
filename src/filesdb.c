@@ -304,7 +304,8 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     while (thisline < loaded_list_end) {
       struct filenamenode *namenode;
 
-      if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
+      ptr = memchr(thisline, '\n', loaded_list_end - thisline);
+      if (ptr == NULL)
         ohshit(_("files list file for package '%.250s' is missing final newline"),
                pkg_name(pkg, pnaw_nonambig));
       /* Where to start next time around. */
