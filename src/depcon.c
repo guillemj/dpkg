@@ -460,13 +460,13 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       }
       deppossi_pkg_iter_free(possi_iter);
 
-      /* If there was no version specified we try looking for Providers. */
-      if (possi->verrel == DPKG_RELATION_NONE) {
         /* See if the package we're about to install Provides it. */
         for (provider = possi->ed->depended.available;
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
+          if (!pkg_virtual_deppossi_satisfied(possi, provider))
+            continue;
           if (provider->up->up->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
             return true;
         }
@@ -476,6 +476,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
+          if (!pkg_virtual_deppossi_satisfied(possi, provider))
+            continue;
 
           switch (provider->up->up->clientdata->istobe) {
           case PKG_ISTOBE_INSTALLNEW:
@@ -519,7 +521,6 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           sprintf(linebuf, _("  %.250s is not installed.\n"), possi->ed->name);
           varbuf_add_str(whynot, linebuf);
         }
-      }
     }
 
     return false;
@@ -600,8 +601,6 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       deppossi_pkg_iter_free(possi_iter);
     }
 
-    /* If there was no version specified we try looking for Providers. */
-    if (possi->verrel == DPKG_RELATION_NONE) {
       /* See if the package we're about to install Provides it. */
       for (provider = possi->ed->depended.available;
            provider;
@@ -611,6 +610,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           continue;
         if (provider->up->up->set == dep->up->set)
           continue; /* Conflicts and provides the same. */
+        if (!pkg_virtual_deppossi_satisfied(possi, provider))
+          continue;
         sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
                 pkgbin_name(provider->up->up, &provider->up->up->available,
                             pnaw_nonambig), possi->ed->name);
@@ -629,6 +630,9 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 
         if (provider->up->up->set == dep->up->set)
           continue; /* Conflicts and provides the same. */
+
+        if (!pkg_virtual_deppossi_satisfied(possi, provider))
+          continue;
 
         switch (provider->up->up->clientdata->istobe) {
         case PKG_ISTOBE_INSTALLNEW:
@@ -673,7 +677,6 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                     provider->up->up->clientdata->istobe);
         }
       }
-    }
 
     if (!nconflicts)
       return true;

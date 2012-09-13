@@ -414,8 +414,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
       return false;
     }
   }
-  if (possi->verrel != DPKG_RELATION_NONE)
-    return false;
+
   deppossi *provider;
 
   for (provider = possi->ed->depended.installed;
@@ -427,7 +426,8 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
         provider->up->up->clientdata &&
         !useavailable(provider->up->up) &&
         would_like_to_install(provider->up->up->clientdata->selected,
-                              provider->up->up))
+                              provider->up->up) &&
+        pkg_virtual_deppossi_satisfied(possi, provider))
       return true;
   }
   for (provider = possi->ed->depended.available;
@@ -438,7 +438,8 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
          provider->up->up->set == possi->up->up->set) ||
         !provider->up->up->clientdata ||
         !would_like_to_install(provider->up->up->clientdata->selected,
-                               provider->up->up))
+                               provider->up->up) ||
+        !pkg_virtual_deppossi_satisfied(possi, provider))
       continue;
     if (useavailable(provider->up->up))
       return true;

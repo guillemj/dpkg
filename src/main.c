@@ -126,7 +126,7 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep |\n"
-"  --assert-multi-arch.\n"
+"  --assert-multi-arch | --assert-versioned-provides.\n"
 "\n"));
 
   printf(_(
@@ -672,6 +672,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "assert-long-filenames",           0,  act_assertlongfilenames,  assertlongfilenames ),
   ACTION( "assert-multi-conrep",             0,  act_assertmulticonrep,    assertmulticonrep ),
   ACTION( "assert-multi-arch",               0,  act_assertmultiarch,      assertmultiarch ),
+  ACTION( "assert-versioned-provides",       0,  act_assertverprovides,    assertverprovides ),
   ACTION( "add-architecture",                0,  act_arch_add,             arch_add        ),
   ACTION( "remove-architecture",             0,  act_arch_remove,          arch_remove     ),
   ACTION( "print-architecture",              0,  act_printarch,            printarch   ),

@@ -159,9 +159,9 @@ packagelist::add(dependency *depends, showpriority displayimportance)
   add(depends->up,info.string(),displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
     add(&possi->ed->pkg, info.string(), displayimportance);
-    if (possi->verrel == DPKG_RELATION_NONE && depends->type != dep_provides) {
-      // providers aren't relevant if a version was specified, or
-      // if we're looking at a provider relationship already
+    if (depends->type != dep_provides) {
+      /* Providers are not relevant if we are looking at a provider
+       * relationship already. */
       deppossi *provider;
       for (provider = possi->ed->depended.available;
            provider;

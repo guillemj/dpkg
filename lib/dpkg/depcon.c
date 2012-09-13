@@ -83,3 +83,43 @@ archsatisfied(struct pkgbin *it, struct deppossi *against)
 {
 	return deparchsatisfied(it, it->arch, against);
 }
+
+/**
+ * Check if the dependency is satisfied by a virtual package.
+ *
+ * For versioned depends, we only check providers with #DPKG_RELATION_EQ. It
+ * does not make sense to check ones without a version since we have nothing
+ * to verify against. Also, it is way too complex to allow anything but an
+ * equal in a provided version. A few examples below to deter you from trying:
+ *
+ * - pkg1 depends on virt (>= 0.6), pkg2 provides virt (<= 1.0).
+ *   Should pass (easy enough).
+ *
+ * - pkg1 depends on virt (>= 0.7) and (<= 1.1), pkg2 provides virt (>= 1.2).
+ *   Should fail (little harder).
+ *
+ * - pkg1 depends on virt (>= 0.4), pkg2 provides virt (<= 1.0) and (>= 0.5),
+ *   IOW, inclusive of only those versions. This would require backchecking
+ *   the other provided versions in the possi, which would make things sickly
+ *   complex and overly time consuming. Should fail (very hard to implement).
+ *
+ * This could be handled by switching to a SAT solver, but that would imply
+ * lots of work for very little gain. Packages can easily get around most of
+ * these by providing multiple #DPKG_RELATION_EQ versions.
+ */
+bool
+pkg_virtual_deppossi_satisfied(struct deppossi *dependee,
+                               struct deppossi *provider)
+{
+	if (provider->verrel != DPKG_RELATION_NONE &&
+	    provider->verrel != DPKG_RELATION_EQ)
+		return false;
+
+	if (provider->verrel == DPKG_RELATION_NONE &&
+	    dependee->verrel != DPKG_RELATION_NONE)
+		return false;
+
+	return dpkg_version_relate(&provider->version,
+	                           dependee->verrel,
+	                           &dependee->version);
+}

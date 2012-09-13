@@ -24,6 +24,14 @@ dpkg (1.17.11) UNRELEASED; urgency=low
   * Do not write to the available file when unpacking binary packages. This
     information is not useful as dpkg has never recorded the archive path,
     so it has never been truly available for re-installation anyway.
+  * Add versioned Provides support:
+    - Add a new dpkg --assert-versioned-provides command.
+    - Packages can provide a specific version, “virtual (= 1.0)” which will
+      be honored, previously it would just be accepted when parsing.
+    - Non-versioned virtual packages will not satisfy versioned dependencies.
+    - Versioned virtual packages will satisfy non-versioned dependencies.
+    Based on skeletal code by Ben Collins <bcollins@debian.org>.
+    Closes: #7330, #24934, #112131, #134582, #180316
 
   [ Updated programs translations ]
   * Danish (Joe Dalton). Closes: #754127

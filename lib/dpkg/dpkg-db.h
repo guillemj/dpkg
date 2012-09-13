@@ -406,6 +406,10 @@ bool deparchsatisfied(struct pkgbin *it, const struct dpkg_arch *arch,
                       struct deppossi *against);
 bool archsatisfied(struct pkgbin *it, struct deppossi *against);
 
+bool
+pkg_virtual_deppossi_satisfied(struct deppossi *dependee,
+                               struct deppossi *provider);
+
 /*** from nfmalloc.c ***/
 void *nfmalloc(size_t);
 char *nfstrsave(const char*);

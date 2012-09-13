@@ -432,6 +432,14 @@ assertmultiarch(const char *const *argv)
   return assert_version_support(argv, &version, _("multi-arch"));
 }
 
+int
+assertverprovides(const char *const *argv)
+{
+  struct dpkg_version version = { 0, "1.17.11", NULL };
+
+  return assert_version_support(argv, &version, _("versioned Provides"));
+}
+
 /**
  * Print a single package which:
  *  (a) is the target of one or more relevant predependencies.
@@ -508,12 +516,12 @@ predeppackage(const char *const *argv)
           pkg = trypkg;
           break;
         }
-        if (possi->verrel != DPKG_RELATION_NONE)
-          continue;
         for (provider = possi->ed->depended.available;
              !pkg && provider;
              provider = provider->next) {
           if (provider->up->type != dep_provides)
+            continue;
+          if (!pkg_virtual_deppossi_satisfied(possi, provider))
             continue;
           trypkg = provider->up->up;
           if (!trypkg->files)
