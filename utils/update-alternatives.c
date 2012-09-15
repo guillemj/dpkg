@@ -455,6 +455,7 @@ subcall(const char *prog, ...)
 
 	/* Run the command */
 	res = spawn(prog, cmd);
+	free(cmd);
 	if (WIFEXITED(res) && WEXITSTATUS(res) == 0)
 		return;
 	if (WIFEXITED(res))
