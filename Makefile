@@ -45,6 +45,7 @@ TESTS_PASS += t-disappear-empty
 TESTS_PASS += t-conflict
 TESTS_PASS += t-conflict-provide-replace-real
 TESTS_PASS += t-conflict-provide-replace-virtual
+TESTS_PASS += t-conflict-provide-replace-virtual-multiarch
 TESTS_PASS += t-conflict-provide-replace-interface
 TESTS_PASS += t-predepends-no-triggers
 TESTS_PASS += t-triggers
