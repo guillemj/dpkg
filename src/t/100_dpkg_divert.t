@@ -20,6 +20,10 @@ use Dpkg::IPC;
 use strict;
 use warnings;
 
+# Cleanup environment from variables that pollute the test runs.
+delete $ENV{DPKG_MAINTSCRIPT_PACKAGE};
+delete $ENV{DPKG_MAINTSCRIPT_ARCH};
+
 my $srcdir = $ENV{srcdir} || '.';
 my $builddir = $ENV{builddir} || '.';
 my $tmpdir = 't.tmp/950_dpkg_divert';
