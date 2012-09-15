@@ -603,6 +603,11 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
             continue;
           debug(dbg_depcondetail, "     checking provider %s",
                 pkg_name(provider->up->up, pnaw_always));
+          if (!deparchsatisfied(&provider->up->up->installed, provider->arch,
+                                possi)) {
+            debug(dbg_depcondetail, "       provider does not satisfy arch");
+            continue;
+          }
           thisf = deppossi_ok_found(provider->up->up, pkg, removing,
                                     possi->ed,
                                     &possfixbytrig, &matched, NULL,
