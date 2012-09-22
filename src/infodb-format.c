@@ -84,6 +84,10 @@ pkg_infodb_read_format(void)
 	atomic_file_free(file);
 	free(filename);
 
+	if (db_format < 0 || db_format >= pkg_infodb_format_last)
+		ohshit(_("info database format (%d) is bogus or too new; "
+		         "try getting a newer dpkg"), db_format);
+
 	return db_format;
 }
 
@@ -127,14 +131,18 @@ pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
                     const char *filetype)
 {
 	static struct varbuf vb;
+	enum pkg_infodb_format format;
+
+	/* Make sure to always read and verify the format version. */
+	format = pkg_infodb_get_format();
 
 	varbuf_reset(&vb);
 	varbuf_add_str(&vb, pkg_infodb_get_dir());
 	varbuf_add_char(&vb, '/');
 	varbuf_add_str(&vb, pkg->set->name);
 	if (pkgbin->multiarch == multiarch_same &&
-		pkg_infodb_get_format() == pkg_infodb_format_multiarch)
-	varbuf_add_archqual(&vb, pkgbin->arch);
+	    format == pkg_infodb_format_multiarch)
+		varbuf_add_archqual(&vb, pkgbin->arch);
 	varbuf_add_char(&vb, '.');
 	varbuf_add_str(&vb, filetype);
 	varbuf_end_str(&vb);
