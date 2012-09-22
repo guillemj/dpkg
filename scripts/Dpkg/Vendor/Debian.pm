@@ -53,12 +53,6 @@ sub run_hook {
         return ('/usr/share/keyrings/debian-keyring.gpg',
                 '/usr/share/keyrings/debian-maintainers.gpg');
     } elsif ($hook eq "register-custom-fields") {
-        return (
-            [ "register", "Dm-Upload-Allowed",
-              CTRL_INFO_SRC | CTRL_INDEX_SRC | CTRL_PKG_SRC ],
-            [ "insert_after", CTRL_INDEX_SRC, "Uploaders", "Dm-Upload-Allowed" ],
-            [ "insert_after", CTRL_PKG_SRC, "Uploaders", "Dm-Upload-Allowed" ],
-        );
     } elsif ($hook eq "extend-patch-header") {
         my ($textref, $ch_info) = @params;
 	if ($ch_info->{'Closes'}) {
