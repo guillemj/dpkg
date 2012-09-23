@@ -115,7 +115,7 @@ filter_should_skip(struct tar_entry *ti)
 				path_len = strlen(f->pattern);
 
 			debug(dbg_eachfiledetail,
-			      "filter subpattern '%*.s'", path_len, f->pattern);
+			      "filter subpattern '%.*s'", path_len, f->pattern);
 
 			if (strncmp(&ti->name[1], f->pattern, path_len) == 0) {
 				debug(dbg_eachfile, "filter reincluding %s",
