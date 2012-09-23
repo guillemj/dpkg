@@ -737,7 +737,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   nifd->namenode->flags |= fnnf_new_inarchive;
 
   debug(dbg_eachfile,
-        "tarobject ti->name='%s' mode=%lo owner=%u.%u type=%d(%c)"
+        "tarobject ti->name='%s' mode=%lo owner=%u:%u type=%d(%c)"
         " ti->linkname='%s' namenode='%s' flags=%o instead='%s'",
         ti->name, (long)ti->stat.mode,
         (unsigned)ti->stat.uid, (unsigned)ti->stat.gid,
