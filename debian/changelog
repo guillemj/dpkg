@@ -27,6 +27,10 @@ dpkg (1.16.9) UNRELEASED; urgency=low
     versions, which can be an issue with partial upgrades.
   * Fix filter subpattern debug output format string to print an actual
     value instead of just blanks.
+  * Ignore trailing filter subpattern slashes on reinclusion comparison.
+    This makes sure to reinclude directories previously excluded so that
+    contained files marked for inclusion do not fail to unpack due to a
+    missing directory. Closes: #688416
 
   [ Updated programs translations ]
   * Czech (Miroslav Kure).

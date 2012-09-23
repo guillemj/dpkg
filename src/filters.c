@@ -114,6 +114,10 @@ filter_should_skip(struct tar_entry *ti)
 			else
 				path_len = strlen(f->pattern);
 
+			/* Ignore any trailing slash for the comparison. */
+			while (path_len && f->pattern[path_len - 1] == '/')
+				path_len--;
+
 			debug(dbg_eachfiledetail,
 			      "filter subpattern '%.*s'", path_len, f->pattern);
 
