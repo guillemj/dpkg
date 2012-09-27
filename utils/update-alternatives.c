@@ -2533,7 +2533,8 @@ main(int argc, char **argv)
 			char *slink, *sname, *spath;
 			struct slave_link *sl;
 
-			if (action && strcmp(action, "install") != 0)
+			if (action == NULL ||
+			    (action && strcmp(action, "install") != 0))
 				badusage(_("--slave only allowed with --install"));
 			if (MISSING_ARGS(3))
 				badusage(_("--slave needs <link> <name> <path>"));
