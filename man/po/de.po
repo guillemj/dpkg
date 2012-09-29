@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2012-06-30 04:20+0300\n"
+"POT-Creation-Date: 2012-09-29 02:32+0300\n"
 "PO-Revision-Date: 2012-06-30 18:49+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
@@ -149,13 +149,13 @@ msgid ""
 "limited to 10 ASCII decimal digits, allowing for up to approximately 9536.74 "
 "MiB member files."
 msgstr ""
-"Die Datei ist ein B<ar>-Archiv mit dem magischen Wert B<!E<lt>archE<gt>>. Nur "
-"das allgemeine B<ar>-Archivformat wird unterstützt, ohne Unterstützung von "
-"Dateinamenerweiterungen, aber mit Dateinamen, die einen optionalen "
+"Die Datei ist ein B<ar>-Archiv mit dem magischen Wert B<!E<lt>archE<gt>>. "
+"Nur das allgemeine B<ar>-Archivformat wird unterstützt, ohne Unterstützung "
+"von Dateinamenerweiterungen, aber mit Dateinamen, die einen optionalen "
 "abschließenden Schrägstrich enthalten dürfen, deren Länge damit auf 15 "
-"Zeichen (von den erlaubten 16) begrenzt ist. Dateigrößen sind auf 10 dezimale "
-"ASCII-Ziffern begrenzt, wodurch bis zu ungefähr 9536,74 MiB-Mitgliedsdateien "
-"erlaubt sind."
+"Zeichen (von den erlaubten 16) begrenzt ist. Dateigrößen sind auf 10 "
+"dezimale ASCII-Ziffern begrenzt, wodurch bis zu ungefähr 9536,74 MiB-"
+"Mitgliedsdateien erlaubt sind."
 
 #. type: Plain text
 #: deb.5:52
@@ -278,7 +278,7 @@ msgstr ""
 #: dpkg-scanpackages.1:113 dpkg-scansources.1:90 dpkg-shlibdeps.1:348
 #: dpkg-source.1:760 dpkg-split.1:234 dpkg-statoverride.8:102
 #: dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:466 dselect.cfg.5:41
-#: update-alternatives.8:511
+#: update-alternatives.8:521
 #, no-wrap
 msgid "SEE ALSO"
 msgstr "SIEHE AUCH"
@@ -298,7 +298,6 @@ msgstr "deb-control"
 #: deb-control.5:22 deb-version.5:20 deb-old.5:20 deb-override.5:19
 #: deb-symbols.5:18 deb-triggers.5:19 dpkg-divert.8:21
 #: dpkg-mergechangelogs.1:18 dpkg-scansources.1:20 dpkg-trigger.1:18
-#: update-alternatives.8:25
 #, no-wrap
 msgid "2011-08-14"
 msgstr "2011-08-14"
@@ -1505,10 +1504,10 @@ msgid ""
 msgstr ""
 "Beachten Sie, dass diese Benutzer-definierten Felder den globalen Namensraum "
 "nutzen werden und somit in der Zukunft mit offiziell erkannten Feldern "
-"kollidieren könnten. Um solche möglichen Situationen zu vermeiden, können Sie "
-"den Feldern B<Private->, wie in B<XB-Private-Neues-Feld>, voranstellen. Als "
-"Seiteneffekt wird in diesem Fall B<dpkg-deb> sie nicht mit der Warnung eines "
-"unbekannten Feldes ausgeben."
+"kollidieren könnten. Um solche möglichen Situationen zu vermeiden, können "
+"Sie den Feldern B<Private->, wie in B<XB-Private-Neues-Feld>, voranstellen. "
+"Als Seiteneffekt wird in diesem Fall B<dpkg-deb> sie nicht mit der Warnung "
+"eines unbekannten Feldes ausgeben."
 
 #. type: Plain text
 #: deb-src-control.5:351
@@ -2461,7 +2460,7 @@ msgstr ""
 
 #. type: SH
 #: deb-shlibs.5:46 deb-symbols.5:59 dpkg.1:763 dpkg-architecture.1:221
-#: dpkg-divert.8:111 dpkg-name.1:78 update-alternatives.8:476
+#: dpkg-divert.8:111 dpkg-name.1:78 update-alternatives.8:486
 #, no-wrap
 msgid "EXAMPLES"
 msgstr "BEISPIELE"
@@ -2874,7 +2873,7 @@ msgstr "Liste von Substitutionsvariablen und -werten."
 #. type: SH
 #: deb-substvars.5:168 dpkg.1:832 dpkg-buildpackage.1:271 dpkg-deb.1:266
 #: dpkg-name.1:99 dpkg-source.1:757 dpkg-split.1:216 dselect.1:450
-#: update-alternatives.8:503
+#: update-alternatives.8:513
 #, no-wrap
 msgid "BUGS"
 msgstr "FEHLER"
@@ -3977,8 +3976,13 @@ msgstr ""
 msgid "B<--compare-versions >I<ver1 op ver2>"
 msgstr "B<--compare-versions >I<Ver1 Op Ver2>"
 
+#.  .TP
+#.  .B \-\-command\-fd \fIn\fP
+#.  Accept a series of commands on input file descriptor \fIn\fP. Note:
+#.  additional options set on the command line, and through this file descriptor,
+#.  are not reset for subsequent commands executed during the same run.
 #. type: Plain text
-#: dpkg.1:290
+#: dpkg.1:295
 msgid ""
 "Compare version numbers, where I<op> is a binary operator. B<dpkg> returns "
 "success (zero result) if the specified condition is satisfied, and failure "
@@ -3998,24 +4002,6 @@ msgstr ""
 "Version als älter als jede Version: B<lt-nl le-nl ge-nl gt-nl>. Die "
 "folgenden sind nur aus Kompatibilität mit der Steuerdateisyntax "
 "bereitgestellt: B<E<lt> E<lt>E<lt> E<lt>= = E<gt>= E<gt>E<gt> E<gt>>."
-
-#. type: TP
-#: dpkg.1:290
-#, no-wrap
-msgid "B<--command-fd >I<n>"
-msgstr "B<--command-fd >I<n>"
-
-#. type: Plain text
-#: dpkg.1:295
-msgid ""
-"Accept a series of commands on input file descriptor I<n>. Note: additional "
-"options set on the command line, and through this file descriptor, are not "
-"reset for subsequent commands executed during the same run."
-msgstr ""
-"Akzeptiert eine Reihe von Befehlen an Eingabe-Dateideskriptor I<n>. Hinweis: "
-"Zusätzliche auf der Kommandozeile und durch diesen Dateideskriptor gesetzte "
-"Optionen werden nicht für nachfolgende Befehle, die im gleichen Lauf "
-"ausgeführt werden, zurückgesetzt."
 
 #. type: TP
 #: dpkg.1:295 dpkg-architecture.1:80 dpkg-buildpackage.1:243
@@ -6585,10 +6571,10 @@ msgid ""
 "B<dpkg-buildflags>: relevant environment variables, current vendor, state of "
 "all feature flags. Also print the resulting compiler flags with their origin."
 msgstr ""
-"Alle Informationen anzeigen, die zum Verständnis des Verhaltens von "
-"B<dpkg-buildflags> nützlich sein können: relevante Umgebungsvariablen, "
-"aktueller Lieferant, Zustand der Funktionsschalter. Auch die entstehenden "
-"Compiler-Schalter mit ihrem Ursprung werden ausgeben."
+"Alle Informationen anzeigen, die zum Verständnis des Verhaltens von B<dpkg-"
+"buildflags> nützlich sein können: relevante Umgebungsvariablen, aktueller "
+"Lieferant, Zustand der Funktionsschalter. Auch die entstehenden Compiler-"
+"Schalter mit ihrem Ursprung werden ausgeben."
 
 #. type: Plain text
 #: dpkg-buildflags.1:84
@@ -12681,7 +12667,7 @@ msgstr ""
 "Einsatz mit der Multicd-Zugriffsmethode von Dselect erstellen wollen."
 
 #. type: SH
-#: dpkg-scanpackages.1:106 update-alternatives.8:465
+#: dpkg-scanpackages.1:106 update-alternatives.8:475
 #, no-wrap
 msgid "DIAGNOSTICS"
 msgstr "DIAGNOSE"
@@ -14936,9 +14922,9 @@ msgstr ""
 "Standardmäßig wird dpkg-source die Patches im B<--after-build>-Hook "
 "entfernen, falls es sie in B<--before-build> angewandt hat. Diese Optionen "
 "erlauben es Ihnen, den Patch-Anwendungs- oder -Entfernungs-Prozess "
-"zwangsweise zu aktivieren bzw. zu deaktivieren. Diese Optionen sind nur "
-"in B<debian/source/local-options> erlaubt, so dass alle erstellten "
-"Quellpakete standardmäßig das gleiche Verhalten zeigen."
+"zwangsweise zu aktivieren bzw. zu deaktivieren. Diese Optionen sind nur in "
+"B<debian/source/local-options> erlaubt, so dass alle erstellten Quellpakete "
+"standardmäßig das gleiche Verhalten zeigen."
 
 #. type: Plain text
 #: dpkg-source.1:583
@@ -18303,6 +18289,13 @@ msgstr ""
 msgid "update-alternatives"
 msgstr "update-alternatives"
 
+#. type: TH
+#: update-alternatives.8:25
+#, fuzzy, no-wrap
+#| msgid "2012-06-16"
+msgid "2012-07-31"
+msgstr "2012-06-16"
+
 #. type: Plain text
 #: update-alternatives.8:28
 msgid ""
@@ -19070,34 +19063,74 @@ msgstr ""
 
 #. type: TP
 #: update-alternatives.8:405
+#, fuzzy, no-wrap
+#| msgid "B<Date:>I< date>"
+msgid "B<Name:>I< name>"
+msgstr "B<Date:>I< Datum>"
+
+#. type: Plain text
+#: update-alternatives.8:408
+#, fuzzy
+#| msgid "The name of a symbolic link in the alternatives directory."
+msgid "The alternative name in the alternative directory."
+msgstr "Der Name eines symbolischen Links im Alternativ-Verzeichnis."
+
+#. type: TP
+#: update-alternatives.8:408
 #, no-wrap
 msgid "B<Link:>I< link>"
 msgstr "B<Link:>I< Link>"
 
 #. type: Plain text
-#: update-alternatives.8:408
+#: update-alternatives.8:411
 msgid "The generic name of the alternative."
 msgstr "Der generische Name der Alternative."
 
 #. type: TP
-#: update-alternatives.8:408
+#: update-alternatives.8:411 update-alternatives.8:437
+#, no-wrap
+msgid "B<Slaves:>I< list-of-slaves>"
+msgstr "B<Slaves:>I< Liste-von-Slaves>"
+
+#. type: Plain text
+#: update-alternatives.8:417
+#, fuzzy
+#| msgid ""
+#| "When this header is present, the B<next> lines hold all slave "
+#| "alternatives associated to the master link of the alternative. There is "
+#| "one slave per line. Each line contains one space, the generic name of the "
+#| "slave alternative, another space, and the path to the slave alternative."
+msgid ""
+"When this field is present, the B<next> lines hold all slave links "
+"associated to the master link of the alternative. There is one slave per "
+"line. Each line contains one space, the generic name of the slave "
+"alternative, another space, and the path to the slave link."
+msgstr ""
+"Wenn diese Kopfzeile vorhanden ist enthält die B<nächste> Zeile alle Slave-"
+"Alternativen, die dem Masterlink dieser Alternativen zugeordnet sind. Pro "
+"Zeile wird ein Slave aufgeführt. Jede Zeile enthält ein Leerzeichen, den "
+"generischen Namen des Slaves, ein weiteres Leerzeichen und den Pfad zu der "
+"Slave-Alternative."
+
+#. type: TP
+#: update-alternatives.8:417
 #, no-wrap
 msgid "B<Status:>I< status>"
 msgstr "B<Status:>I< Status>"
 
 #. type: Plain text
-#: update-alternatives.8:411
+#: update-alternatives.8:420
 msgid "The status of the alternative (B<auto> or B<manual>)."
 msgstr "Der Status der Alternative (B<auto> oder B<manual>)."
 
 #. type: TP
-#: update-alternatives.8:411
+#: update-alternatives.8:420
 #, no-wrap
 msgid "B<Best:>I< best-choice>"
 msgstr "B<Best:>I< beste-Wahl>"
 
 #. type: Plain text
-#: update-alternatives.8:415
+#: update-alternatives.8:424
 msgid ""
 "The path of the best alternative for this link group. Not present if there "
 "is no alternatives available."
@@ -19106,13 +19139,13 @@ msgstr ""
 "keine Alternative verfügbar ist."
 
 #. type: TP
-#: update-alternatives.8:415
+#: update-alternatives.8:424
 #, no-wrap
 msgid "B<Value:>I< currently-selected-alternative>"
 msgstr "B<Value:>I< derzeit-ausgewählte-Alternative>"
 
 #. type: Plain text
-#: update-alternatives.8:419
+#: update-alternatives.8:428
 msgid ""
 "The path of the currently selected alternative. It can also take the magic "
 "value B<none>. It is used if the link doesn't exist."
@@ -19121,41 +19154,35 @@ msgstr ""
 "magischen Wert B<none>, der verwandt wird, falls der Link nicht existiert."
 
 #. type: TP
-#: update-alternatives.8:420
+#: update-alternatives.8:429
 #, no-wrap
 msgid "The other blocks describe the available alternatives in the queried link group:"
 msgstr "Die anderen Blöcke beschreiben die verfügbaren Alternativen in der abgefragten Linkgruppe:"
 
 #. type: TP
-#: update-alternatives.8:422
+#: update-alternatives.8:431
 #, no-wrap
 msgid "B<Alternative:>I< path-of-this-alternative>"
 msgstr "B<Alternative:>I< Pfad-dieser-Alternativen>"
 
 #. type: Plain text
-#: update-alternatives.8:425
+#: update-alternatives.8:434
 msgid "Path to this block's alternative."
 msgstr "Pfad zum Block dieser Alternativen."
 
 #. type: TP
-#: update-alternatives.8:425
+#: update-alternatives.8:434
 #, no-wrap
 msgid "B<Priority:>I< priority-value>"
 msgstr "B<Priority:>I< Prioritätswert>"
 
 #. type: Plain text
-#: update-alternatives.8:428
+#: update-alternatives.8:437
 msgid "Value of the priority of this alternative."
 msgstr "Wert der Priorität dieser Alternativen."
 
-#. type: TP
-#: update-alternatives.8:428
-#, no-wrap
-msgid "B<Slaves:>I< list-of-slaves>"
-msgstr "B<Slaves:>I< Liste-von-Slaves>"
-
 #. type: Plain text
-#: update-alternatives.8:434
+#: update-alternatives.8:443
 msgid ""
 "When this header is present, the B<next> lines hold all slave alternatives "
 "associated to the master link of the alternative. There is one slave per "
@@ -19169,29 +19196,31 @@ msgstr ""
 "Slave-Alternative."
 
 #. type: TP
-#: update-alternatives.8:435
+#: update-alternatives.8:444
 #, no-wrap
 msgid "B<Example>"
 msgstr "B<Beispiel>"
 
 #. type: Plain text
-#: update-alternatives.8:443
+#: update-alternatives.8:459
 #, no-wrap
 msgid ""
 "$ update-alternatives --query editor\n"
-"Link: editor\n"
+"Name: editor\n"
+"Link: /usr/bin/editor\n"
+"Slaves:\n"
+" editor.1.gz /usr/share/man/man1/editor.1.gz\n"
+" editor.fr.1.gz /usr/share/man/fr/man1/editor.1.gz\n"
+" editor.it.1.gz /usr/share/man/it/man1/editor.1.gz\n"
+" editor.pl.1.gz /usr/share/man/pl/man1/editor.1.gz\n"
+" editor.ru.1.gz /usr/share/man/ru/man1/editor.1.gz\n"
 "Status: auto\n"
-"Best: /usr/bin/vim.gtk\n"
-"Value: /usr/bin/vim.gtk\n"
+"Best: /usr/bin/vim.basic\n"
+"Value: /usr/bin/vim.basic\n"
 msgstr ""
-"$ update-alternatives --query editor\n"
-"Link: editor\n"
-"Status: auto\n"
-"Best: /usr/bin/vim.gtk\n"
-"Value: /usr/bin/vim.gtk\n"
 
 #. type: Plain text
-#: update-alternatives.8:448
+#: update-alternatives.8:464
 #, no-wrap
 msgid ""
 "Alternative: /bin/ed\n"
@@ -19205,41 +19234,21 @@ msgstr ""
 " editor.1.gz /usr/share/man/man1/ed.1.gz\n"
 
 #. type: Plain text
-#: update-alternatives.8:463
+#: update-alternatives.8:473
 #, no-wrap
 msgid ""
-"Alternative: /usr/bin/vim.gtk\n"
+"Alternative: /usr/bin/vim.basic\n"
 "Priority: 50\n"
 "Slaves:\n"
 " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
-" editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
-" editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
-" editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
-" editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
-" editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
-" editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
 " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
-" editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
+" editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
 " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
-" editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
+" editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
 msgstr ""
-"Alternative: /usr/bin/vim.gtk\n"
-"Priority: 50\n"
-"Slaves:\n"
-" editor.1.gz /usr/share/man/man1/vim.1.gz\n"
-" editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
-" editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
-" editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
-" editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
-" editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
-" editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
-" editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
-" editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
-" editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
-" editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
 
 #. type: Plain text
-#: update-alternatives.8:475
+#: update-alternatives.8:485
 msgid ""
 "With B<--verbose> B<update-alternatives> chatters incessantly about its "
 "activities on its standard output channel.  If problems occur, B<update-"
@@ -19255,7 +19264,7 @@ msgstr ""
 "bitte als Fehler."
 
 #. type: Plain text
-#: update-alternatives.8:481
+#: update-alternatives.8:491
 msgid ""
 "There are several packages which provide a text editor compatible with "
 "B<vi>, for example B<nvi> and B<vim>. Which one is used is controlled by the "
@@ -19268,7 +19277,7 @@ msgstr ""
 "und die zugehörige Handbuchseite beinhaltet."
 
 #. type: Plain text
-#: update-alternatives.8:484
+#: update-alternatives.8:494
 msgid ""
 "To display the available packages which provide B<vi> and the current "
 "setting for it, use the B<--display> action:"
@@ -19277,12 +19286,12 @@ msgstr ""
 "dazu gehörigen Einstellungen, benutzen Sie die Aktion B<--display>:"
 
 #. type: Plain text
-#: update-alternatives.8:487
+#: update-alternatives.8:497
 msgid "B<update-alternatives --display vi>"
 msgstr "B<update-alternatives --display vi>"
 
 #. type: Plain text
-#: update-alternatives.8:491
+#: update-alternatives.8:501
 msgid ""
 "To choose a particular B<vi> implementation, use this command as root and "
 "then select a number from the list:"
@@ -19291,12 +19300,12 @@ msgstr ""
 "den folgenden Befehl und wählen dann eine Zahl aus der Liste aus:"
 
 #. type: Plain text
-#: update-alternatives.8:494
+#: update-alternatives.8:504
 msgid "B<update-alternatives --config vi>"
 msgstr "B<update-alternatives --config vi>"
 
 #. type: Plain text
-#: update-alternatives.8:498
+#: update-alternatives.8:508
 msgid ""
 "To go back to having the B<vi> implementation chosen automatically, do this "
 "as root:"
@@ -19305,12 +19314,12 @@ msgstr ""
 "Sie folgendes als Root aus:"
 
 #. type: Plain text
-#: update-alternatives.8:501
+#: update-alternatives.8:511
 msgid "B<update-alternatives --auto vi>"
 msgstr "B<update-alternatives --auto vi>"
 
 #. type: Plain text
-#: update-alternatives.8:505
+#: update-alternatives.8:515
 msgid ""
 "If you find a bug, please report it using the Debian bug-tracking system."
 msgstr ""
@@ -19318,7 +19327,7 @@ msgstr ""
 "von Debian."
 
 #. type: Plain text
-#: update-alternatives.8:510
+#: update-alternatives.8:520
 msgid ""
 "If you find any discrepancy between the operation of B<update-alternatives> "
 "and this manual page, it is a bug, either in the implementation or the "
@@ -19329,11 +19338,69 @@ msgstr ""
 "in der Implementation oder in der Dokumentation; bitte melden Sie dies."
 
 #. type: Plain text
-#: update-alternatives.8:513
+#: update-alternatives.8:523
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "B<--command-fd >I<n>"
+#~ msgstr "B<--command-fd >I<n>"
+
+#~ msgid ""
+#~ "Accept a series of commands on input file descriptor I<n>. Note: "
+#~ "additional options set on the command line, and through this file "
+#~ "descriptor, are not reset for subsequent commands executed during the "
+#~ "same run."
+#~ msgstr ""
+#~ "Akzeptiert eine Reihe von Befehlen an Eingabe-Dateideskriptor I<n>. "
+#~ "Hinweis: Zusätzliche auf der Kommandozeile und durch diesen "
+#~ "Dateideskriptor gesetzte Optionen werden nicht für nachfolgende Befehle, "
+#~ "die im gleichen Lauf ausgeführt werden, zurückgesetzt."
+
+#~ msgid ""
+#~ "$ update-alternatives --query editor\n"
+#~ "Link: editor\n"
+#~ "Status: auto\n"
+#~ "Best: /usr/bin/vim.gtk\n"
+#~ "Value: /usr/bin/vim.gtk\n"
+#~ msgstr ""
+#~ "$ update-alternatives --query editor\n"
+#~ "Link: editor\n"
+#~ "Status: auto\n"
+#~ "Best: /usr/bin/vim.gtk\n"
+#~ "Value: /usr/bin/vim.gtk\n"
+
+#~ msgid ""
+#~ "Alternative: /usr/bin/vim.gtk\n"
+#~ "Priority: 50\n"
+#~ "Slaves:\n"
+#~ " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
+#~ " editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
+#~ " editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
+#~ " editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
+#~ " editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
+#~ " editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
+#~ " editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
+#~ " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
+#~ " editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
+#~ " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
+#~ " editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
+#~ msgstr ""
+#~ "Alternative: /usr/bin/vim.gtk\n"
+#~ "Priority: 50\n"
+#~ "Slaves:\n"
+#~ " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
+#~ " editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
+#~ " editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
+#~ " editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
+#~ " editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
+#~ " editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
+#~ " editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
+#~ " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
+#~ " editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
+#~ " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
+#~ " editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
 
 #~ msgid ""
 #~ "The file is an B<ar> archive with a magic value of B<!E<lt>archE<gt>>.  "
