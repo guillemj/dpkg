@@ -22,6 +22,9 @@ dpkg (1.16.9) UNRELEASED; urgency=low
     action at all. LP: #1037431
   * Fix memory leak in dpkg filesavespackage().
   * Do not print garbage (or worse) on dpkg shared conffile debug output.
+  * Use a hash instead of a ref to a hash for keys() in Dpkg::BuildFlags
+    get_feature_areas(). This causes compilation failures with older perl
+    versions, which can be an issue with partial upgrades.
 
   [ Updated programs translations ]
   * Czech (Miroslav Kure).
