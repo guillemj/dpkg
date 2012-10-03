@@ -87,6 +87,49 @@ static enum conffopt promptconfaction(struct pkginfo *pkg, const char *cfgfile,
                                       int useredited, int distedited,
                                       enum conffopt what);
 
+/**
+ * Configure the ghost conffile instance.
+ *
+ * When the first instance of a package set is configured, the *.dpkg-new
+ * files gets installed into their destination, which makes configuration of
+ * conffiles from subsequent package instances be skept along with updates
+ * to the Conffiles field hash.
+ *
+ * In case the conffile has already been processed, sync the hash from an
+ * already configured package instance conffile.
+ *
+ * @param pkg	The current package being configured.
+ * @param conff	The current conffile being configured.
+ */
+static void
+deferred_configure_ghost_conffile(struct pkginfo *pkg, struct conffile *conff)
+{
+	struct pkginfo *otherpkg;
+	struct conffile *otherconff;
+
+	for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
+		if (otherpkg == pkg)
+			continue;
+		if (otherpkg->status <= stat_halfconfigured)
+			continue;
+
+		for (otherconff = otherpkg->installed.conffiles; otherconff;
+		     otherconff = otherconff->next) {
+			if (otherconff->obsolete)
+				continue;
+
+			/* Check if we need to propagate the new hash from
+			 * an already processed conffile in another package
+			 * instance. */
+			if (strcmp(otherconff->name, conff->name) == 0) {
+				conff->hash = otherconff->hash;
+				modstatdb_note(pkg);
+				return;
+			}
+		}
+	}
+}
+
 static void
 deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 {
@@ -120,8 +163,12 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	strcpy(cdr2rest, DPKGNEWEXT);
 	/* If the .dpkg-new file is no longer there, ignore this one. */
 	if (lstat(cdr2.buf, &stab)) {
-		if (errno == ENOENT)
+		if (errno == ENOENT) {
+			/* But, sync the conffile hash value from another
+			 * package set instance. */
+			deferred_configure_ghost_conffile(pkg, conff);
 			return;
+		}
 		ohshite(_("unable to stat new distributed conffile '%.250s'"),
 		        cdr2.buf);
 	}
