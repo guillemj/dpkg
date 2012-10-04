@@ -604,6 +604,10 @@ test-coinstall-shared-conffiles: ma-setup
 	$(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_orig_$(FOREIGN_ARCH).deb
 	$(DPKG_CONFIGURE) --force-confnew --pending
 	grep -q "Variant: orig Version: 2.0" /m-a/conffile
+	# Ensure the conffile hashes are correct, i.e. the new hashes have
+	# propagated to all instances
+	$(call stdout_is,$(DPKG_QUERY) -f '$${Conffiles}' -W pkg-ma-shared-conffiles:$(NATIVE_ARCH), /m-a/conffile 7404b80581282025ee3ec6689e111114)
+	$(call stdout_is,$(DPKG_QUERY) -f '$${Conffiles}' -W pkg-ma-shared-conffiles:$(FOREIGN_ARCH), /m-a/conffile 7404b80581282025ee3ec6689e111114)
 	# Another time with a downgrade and an unmodified conffile
 	$(DPKG_UNPACK) pkg-ma-shared-conffiles_1.0_alt_$(NATIVE_ARCH).deb
 	grep -q "Variant: alt" /m-a/conffile.dpkg-new
