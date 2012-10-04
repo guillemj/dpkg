@@ -11,6 +11,7 @@ TEST_CASES += test-no-doc-except-copyright
 TEST_CASES += test-no-doc-except-copyright-subdir
 TEST_CASES += test-no-doc-except-copyright-and-readme
 TEST_CASES += test-include-only
+TEST_CASES += test-reinclude-subdir
 TEST_CASES += test-same-include-exclude
 TEST_CASES += test-upgrade test-help
 
@@ -96,6 +97,19 @@ test-include-only:
 	test -f /test/share/doc/pkg-somefiles/copyright
 	test -f /test/share/doc/pkg-somefiles/html/index.html
 	test -f /test/lib/pkg-somefiles/run
+	$(DPKG_PURGE) pkg-somefiles
+
+test-reinclude-subdir:
+	# Exclude a directory tree and reinclude some of its subdirectories
+	$(DPKG_INSTALL) \
+	  --path-exclude '/test/share/locale/*' \
+	  --path-include '/test/share/locale/de/*' \
+	  pkg-somefiles.deb
+	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
+	test -d /test/share/locale/de
+	test -f /test/share/locale/de/foo.mo
+	! test -f /test/share/locale/ca/foo.mo
+	! test -f /test/share/locale/es/foo.mo
 	$(DPKG_PURGE) pkg-somefiles
 
 test-same-include-exclude:
