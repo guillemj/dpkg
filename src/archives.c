@@ -197,6 +197,8 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
     if (otherpkg->status <= stat_unpacked)
       continue;
     for (conff = otherpkg->installed.conffiles; conff; conff = conff->next) {
+      if (conff->obsolete)
+        continue;
       if (strcmp(conff->name, namenode->name) == 0)
         break;
     }

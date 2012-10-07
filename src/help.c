@@ -218,6 +218,8 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
         pkg_name(pkg, pnaw_always));
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
+      if (conff->obsolete)
+        continue;
       if (strncmp(file->name, conff->name, namelen) == 0 &&
           conff->name[namelen] == '/') {
 	debug(dbg_veryverbose, "directory %s has conffile %s from %s",

@@ -391,8 +391,11 @@ deferred_configure(struct pkginfo *pkg)
 		 * version is in the conffiles data for the package. If
 		 * ‘*.dpkg-new’ no longer exists we assume that we've
 		 * already processed this one. */
-		for (conff = pkg->installed.conffiles; conff; conff = conff->next)
+		for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
+			if (conff->obsolete)
+				continue;
 			deferred_configure_conffile(pkg, conff);
+		}
 
 		pkg_set_status(pkg, stat_halfconfigured);
 	}

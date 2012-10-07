@@ -31,6 +31,10 @@ dpkg (1.16.9) UNRELEASED; urgency=low
     This makes sure to reinclude directories previously excluded so that
     contained files marked for inclusion do not fail to unpack due to a
     missing directory. Closes: #688416
+  * Do not consider obsolete conffiles as actively owned by the package.
+    This ensures conffile entries are not misshandled nor mixed up when
+    configuring packages owning the non-obsolete conffiles. Closes: #689836
+    Based on a patch by Andreas Beckmann <debian@abeckmann.de>.
 
   [ Updated programs translations ]
   * Czech (Miroslav Kure).
