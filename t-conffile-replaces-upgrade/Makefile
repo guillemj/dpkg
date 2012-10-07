@@ -46,3 +46,5 @@ test-one-run-reverse:
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-conff-original pkg-conff-takeover
 
+test-clean:
+	$(DPKG_PURGE) pkg-conff-original pkg-conff-takeover
