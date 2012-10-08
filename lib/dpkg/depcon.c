@@ -55,7 +55,8 @@ archsatisfied(struct pkgbin *it, struct deppossi *against)
 {
 	const struct dpkg_arch *dep_arch, *pkg_arch;
 
-	if (it->multiarch == multiarch_foreign)
+	if (against->arch_is_implicit &&
+	    it->multiarch == multiarch_foreign)
 		return true;
 
 	dep_arch = against->arch;
