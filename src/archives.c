@@ -962,6 +962,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   }
 
   if (keepexisting) {
+    if (nifd->namenode->flags & fnnf_new_conff)
+      nifd->namenode->flags |= fnnf_obs_conff;
     remove_file_from_list(tc, ti, oldnifd, nifd);
     tarobject_skip_entry(tc, ti);
     return 0;

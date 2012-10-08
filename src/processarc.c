@@ -1351,6 +1351,9 @@ void process_archive(const char *filename) {
         continue;
       }
 
+      if (cfile->namenode->flags & fnnf_new_conff)
+        conffile_mark_obsolete(otherpkg, cfile->namenode);
+
       /* If !fileslistvalid then it's one of the disappeared packages above
        * or we have already updated the files list file, and we don't bother
        * with it here, clearly. */
