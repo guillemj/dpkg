@@ -12,7 +12,9 @@ test-case: $(TEST_CASES)
 define VERIFY
 test "`$(PKG_STATUS) pkg-file-takeover`" = "install ok installed"
 test "`$(DPKG_QUERY) -S /test-file`" = "pkg-file-takeover: /test-file"
+test "`$(DPKG_QUERY) -S /test-other`" = "pkg-file-takeover: /test-other"
 cmp ref-file /test-file
+cmp ref-file /test-other
 endef
 
 test-two-run-ordered:
@@ -23,6 +25,7 @@ test-two-run-ordered:
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
 	test ! -f /test-file
+	test ! -f /test-other
 
 test-one-run-ordered:
 	# test-one-run-ordered
@@ -31,6 +34,7 @@ test-one-run-ordered:
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
 	test ! -f /test-file
+	test ! -f /test-other
 
 test-two-run-reverse:
 	# test-two-run-reverse
@@ -38,16 +42,24 @@ test-two-run-reverse:
 	$(DPKG_INSTALL) pkg-file-original.deb
 	test "`$(PKG_STATUS) pkg-file-original`" = "install ok installed"
 	$(VERIFY)
-	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
+	$(DPKG_PURGE) pkg-file-original
+	test -f /test-file
+	test -f /test-other
+	$(DPKG_PURGE) pkg-file-takeover
 	test ! -f /test-file
+	test ! -f /test-other
 
 test-one-run-reverse:
 	# test-one-run-reverse
 	$(DPKG_INSTALL) pkg-file-takeover.deb pkg-file-original.deb
 	test "`$(PKG_STATUS) pkg-file-original`" = "install ok installed"
 	$(VERIFY)
-	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
+	$(DPKG_PURGE) pkg-file-original
+	test -f /test-file
+	test -f /test-other
+	$(DPKG_PURGE) pkg-file-takeover
 	test ! -f /test-file
+	test ! -f /test-other
 
 test-clean:
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
