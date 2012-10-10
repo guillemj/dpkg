@@ -13,7 +13,9 @@ define VERIFY
 test "`$(PKG_STATUS) pkg-conff-original`" = "install ok installed"
 test "`$(PKG_STATUS) pkg-conff-takeover`" = "install ok installed"
 test "`$(DPKG_QUERY) -S /test-conffile`" = "pkg-conff-takeover: /test-conffile"
+test "`$(DPKG_QUERY) -S /test-confpath`" = "pkg-conff-takeover: /test-confpath"
 cmp ref-conffile /test-conffile
+cmp ref-conffile /test-confpath
 endef
 
 test-two-run-ordered:
