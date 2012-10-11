@@ -1343,7 +1343,7 @@ void process_archive(const char *filename) {
             pkg_name(otherpkg, pnaw_always));
       /* If !fileslistvalid then it's one of the disappeared packages above
        * and we don't bother with it here, clearly. */
-      if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid)
+      if (!otherpkg->clientdata->fileslistvalid)
         continue;
       /* A pkgset can share files between instances, so there's no point
        * in rewriting the file that's already in place. */
