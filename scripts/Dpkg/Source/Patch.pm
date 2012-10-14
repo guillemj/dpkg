@@ -257,6 +257,8 @@ sub add_diff_directory {
         }
         @diff_files = sort { $patchorder{$a->[0]} <=> $patchorder{$b->[0]} }
                       @diff_files;
+    } else {
+        @diff_files = sort { $a->[0] cmp $b->[0] } @diff_files;
     }
 
     foreach my $diff_file (@diff_files) {
