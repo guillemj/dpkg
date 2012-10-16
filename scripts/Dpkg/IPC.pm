@@ -101,8 +101,7 @@ C<wait_child> option.
 =item wait_child
 
 Scalar. If containing a true value, wait_child() will be called before
-returning. The return value will of spawn() will be a true value,
-but not the pid.
+returning. The return value of spawn() will be a true value, not the pid.
 
 =item nocheck
 
