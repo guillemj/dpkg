@@ -195,8 +195,9 @@ sub set_version_substvars {
     # Handle old function signature taking only one argument.
     $binaryversion ||= $sourceversion;
 
-    # Fallback to manually compute the binary version if they are the same.
-    $sourceversion =~ s/\+b[0-9]+$// if $sourceversion eq $binaryversion;
+    # For backwards compatibility on binNMUs that do not use the Binary-Only
+    # field on the changelog, always fix up the source version.
+    $sourceversion =~ s/\+b[0-9]+$//;
 
     $self->{'vars'}{'binary:Version'} = $binaryversion;
     $self->{'vars'}{'source:Version'} = $sourceversion;
