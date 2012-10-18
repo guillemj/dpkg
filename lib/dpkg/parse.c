@@ -3,7 +3,7 @@
  * parse.c - database file parsing, main package/field loop
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006,2008-2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -229,7 +229,7 @@ pkg_parse_verify(struct parsedb_state *ps,
     if (pkg->configversion.version) {
       if (pkg->status == stat_installed || pkg->status == stat_notinstalled)
         parse_error(ps,
-                    _("Configured-Version for package with inappropriate Status"));
+                    _("Config-Version for package with inappropriate Status"));
     } else {
       if (pkg->status == stat_installed)
         pkg->configversion = pkgbin->version;

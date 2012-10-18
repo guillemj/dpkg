@@ -4,7 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
  * Copyright © 2009 Canonical Ltd.
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
@@ -205,7 +205,7 @@ f_priority(struct pkginfo *pkg, struct pkgbin *pkgbin,
            const char *value, const struct fieldinfo *fip)
 {
   if (!*value) return;
-  pkg->priority = parse_nv_last(ps, _("word in `priority' field"),
+  pkg->priority = parse_nv_last(ps, _("word in 'Priority' field"),
                                 priorityinfos, value);
   if (pkg->priority == pri_other)
     pkg->otherpriority = nfstrsave(value);
@@ -218,15 +218,15 @@ f_status(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
-                _("value for `status' field not allowed in this context"));
+                _("value for 'Status' field not allowed in this context"));
   if (ps->flags & pdb_recordavailable)
     return;
 
-  pkg->want = parse_nv_next(ps, _("first (want) word in `status' field"),
+  pkg->want = parse_nv_next(ps, _("first (want) word in 'Status' field"),
                             wantinfos, &value);
-  pkg->eflag = parse_nv_next(ps, _("second (error) word in `status' field"),
+  pkg->eflag = parse_nv_next(ps, _("second (error) word in 'Status' field"),
                              eflaginfos, &value);
-  pkg->status = parse_nv_last(ps, _("third (status) word in `status' field"),
+  pkg->status = parse_nv_last(ps, _("third (status) word in 'Status' field"),
                               statusinfos, value);
 }
 
@@ -266,7 +266,7 @@ f_configversion(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
-                _("value for `config-version' field not allowed in this context"));
+                _("value for 'Config-Version' field not allowed in this context"));
   if (ps->flags & pdb_recordavailable)
     return;
 
@@ -297,7 +297,7 @@ static void conffvalue_lastword(const char *value, const char *from,
 
 malformed:
   parse_error(ps,
-              _("value for `conffiles' has malformatted line `%.*s'"),
+              _("value for 'Conffiles' field has malformatted line '%.*s'"),
               (int)min(endent - value, 250), value);
 }
 
@@ -319,7 +319,7 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
     if (c == '\n') continue;
     if (c != ' ')
       parse_error(ps,
-                  _("value for `conffiles' has line starting with non-space `%c'"),
+                  _("value for 'Conffiles' has line starting with non-space '%c'"),
                   c);
     for (endent = value; (c = *endent) != '\0' && c != '\n'; endent++) ;
     conffvalue_lastword(value, endent, endent,
@@ -613,7 +613,7 @@ f_trigpend(struct pkginfo *pend, struct pkgbin *pkgbin,
 
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
-                _("value for `triggers-pending' field not allowed in "
+                _("value for 'Triggers-Pending' field not allowed in "
                   "this context"));
 
   while ((word = scan_word(&value))) {
@@ -638,7 +638,7 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pkgbin,
 
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
-                _("value for `triggers-awaited' field not allowed in "
+                _("value for 'Triggers-Awaited' field not allowed in "
                   "this context"));
 
   while ((word = scan_word(&value))) {
