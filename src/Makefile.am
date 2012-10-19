@@ -48,11 +48,11 @@ dpkg_SOURCES = \
 	help.c \
 	main.c main.h \
 	packages.c \
-	processarc.c \
 	remove.c \
 	script.c \
 	select.c \
 	trigproc.c \
+	unpack.c \
 	update.c
 
 dpkg_LDADD = \

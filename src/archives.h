@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * archives.h - functions common to archives.c and processarc.c
+ * archives.h - functions common to archives.c and unpack.c
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *

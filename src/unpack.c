@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * processarc.c - the huge function process_archive
+ * unpack.c - the huge function process_archive
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
