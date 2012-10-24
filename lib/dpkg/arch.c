@@ -227,6 +227,20 @@ varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch)
 }
 
 /**
+ * Return a descriptive architecture name.
+ */
+const char *
+dpkg_arch_describe(const struct dpkg_arch *arch)
+{
+	if (arch->type == arch_none)
+		return C_("architecture", "<none>");
+	if (arch->type == arch_empty)
+		return C_("architecture", "<empty>");
+
+	return arch->name;
+}
+
+/**
  * Add a new foreign dpkg_arch architecture.
  */
 struct dpkg_arch *
