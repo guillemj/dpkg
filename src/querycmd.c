@@ -115,7 +115,7 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
       plen = strlen(pkg_name(array->pkgs[i], pnaw_nonambig));
       vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
                                     vdew_nonambig));
-      alen = strlen(array->pkgs[i]->installed.arch->name);
+      alen = strlen(dpkg_arch_describe(array->pkgs[i]->installed.arch));
       pkg_summary(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
 
       if (plen > fmt->nw)
@@ -221,7 +221,7 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
                     pkg_abbrev_eflag(pkg),
                     pkg_name(pkg, pnaw_nonambig),
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
-                    pkg->installed.arch->name,
+                    dpkg_arch_describe(pkg->installed.arch),
                     pdesc, l);
 }
 
