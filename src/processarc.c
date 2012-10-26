@@ -1360,7 +1360,7 @@ void process_archive(const char *filename) {
       if (!otherpkg->clientdata->fileslistvalid)
         continue;
 
-      /* Found one. We delete remove the list entry for this file,
+      /* Found one. We delete the list entry for this file,
        * (and any others in the same package) and then mark the package
        * as requiring a reread. */
       write_filelist_except(otherpkg, &otherpkg->installed,
