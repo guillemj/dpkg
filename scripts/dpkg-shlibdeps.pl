@@ -55,8 +55,8 @@ my $i = 0; my %depstrength = map { $_ => $i++ } @depfields;
 
 textdomain('dpkg-dev');
 
-my $shlibsoverride = '/etc/dpkg/shlibs.override';
-my $shlibsdefault = '/etc/dpkg/shlibs.default';
+my $shlibsoverride = "$Dpkg::CONFDIR/shlibs.override";
+my $shlibsdefault = "$Dpkg::CONFDIR/shlibs.default";
 my $shlibslocal = 'debian/shlibs.local';
 my $packagetype = 'deb';
 my $dependencyfield = 'Depends';
@@ -726,8 +726,8 @@ sub find_symbols_file {
 	# Fallback to other symbols files but it shouldn't be necessary
 	push @files, @pkg_symbols;
     } else {
-	push @files, "/etc/dpkg/symbols/$pkg.symbols.$host_arch",
-	    "/etc/dpkg/symbols/$pkg.symbols";
+	push @files, "$Dpkg::CONFDIR/symbols/$pkg.symbols.$host_arch",
+	    "$Dpkg::CONFDIR/symbols/$pkg.symbols";
 	my $control_file = get_control_path($pkg, 'symbols');
 	push @files, $control_file if defined $control_file;
     }

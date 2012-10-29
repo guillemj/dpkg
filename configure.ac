@@ -24,6 +24,8 @@ DPKG_BUILD_PROG([start-stop-daemon])
 DPKG_BUILD_PROG([update-alternatives])
 
 # Allow alternate directories
+DPKG_WITH_DIR([pkgconfdir], [${sysconfdir}/${PACKAGE_NAME}],
+              [dpkg configuration directory [SYSCONFDIR/dpkg]])
 DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_NAME}],
               [dpkg database directory [LOCALSTATEDIR/lib/dpkg]])
 DPKG_WITH_DIR([logdir], [${localstatedir}/log],

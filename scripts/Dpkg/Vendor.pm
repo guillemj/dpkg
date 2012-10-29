@@ -20,6 +20,7 @@ use warnings;
 
 our $VERSION = '1.01';
 
+use Dpkg qw();
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::BuildEnv;
@@ -29,7 +30,7 @@ use base qw(Exporter);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
                     get_vendor_dir get_vendor_object run_vendor_hook);
 
-my $origins = '/etc/dpkg/origins';
+my $origins = "$Dpkg::CONFDIR/origins";
 $origins = $ENV{DPKG_ORIGINS_DIR} if $ENV{DPKG_ORIGINS_DIR};
 
 =encoding utf8
@@ -40,7 +41,7 @@ Dpkg::Vendor - get access to some vendor specific information
 
 =head1 DESCRIPTION
 
-The files in /etc/dpkg/origins/ can provide information about various
+The files in $Dpkg::CONFDIR/origins/ can provide information about various
 vendors who are providing Debian packages. Currently those files look like
 this:
 
@@ -73,8 +74,8 @@ sub get_vendor_dir {
 =item $fields = Dpkg::Vendor::get_vendor_info($name)
 
 Returns a Dpkg::Control object with the information parsed from the
-corresponding vendor file in /etc/dpkg/origins/. If $name is omitted,
-it will use /etc/dpkg/origins/default which is supposed to be a symlink
+corresponding vendor file in $Dpkg::CONFDIR/origins/. If $name is omitted,
+it will use $Dpkg::CONFDIR/origins/default which is supposed to be a symlink
 to the vendor of the currently installed operating system. Returns undef
 if there's no file for the given vendor.
 
@@ -112,7 +113,7 @@ sub get_vendor_file(;$) {
 =item $name = Dpkg::Vendor::get_current_vendor()
 
 Returns the name of the current vendor. If DEB_VENDOR is set, it uses
-that first, otherwise it falls back to parsing /etc/dpkg/origins/default.
+that first, otherwise it falls back to parsing $Dpkg::CONFDIR/origins/default.
 If that file doesn't exist, it returns undef.
 
 =cut

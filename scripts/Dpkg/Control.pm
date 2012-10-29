@@ -89,7 +89,7 @@ Corresponds to a .changes file.
 
 =item CTRL_FILE_VENDOR
 
-Corresponds to a vendor file in /etc/dpkg/origins/.
+Corresponds to a vendor file in $Dpkg::CONFDIR/origins/.
 
 =item CTRL_FILE_STATUS
 

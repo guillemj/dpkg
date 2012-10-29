@@ -46,7 +46,7 @@ use constant {
     CTRL_PKG_SRC => 16,      # .dsc file of source package
     CTRL_PKG_DEB => 32,      # DEBIAN/control in binary packages
     CTRL_FILE_CHANGES => 64, # .changes file
-    CTRL_FILE_VENDOR => 128, # File in /etc/dpkg/origins
+    CTRL_FILE_VENDOR => 128, # File in $Dpkg::CONFDIR/origins
     CTRL_FILE_STATUS => 256, # /var/lib/dpkg/status
     CTRL_CHANGELOG => 512,   # Output of dpkg-parsechangelog
 };

@@ -20,6 +20,7 @@ use warnings;
 
 our $VERSION = '1.03';
 
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::BuildEnv;
 use Dpkg::BuildOptions;
@@ -106,7 +107,7 @@ Update flags from the system configuration.
 
 sub load_system_config {
     my ($self) = @_;
-    $self->update_from_conffile('/etc/dpkg/buildflags.conf', 'system');
+    $self->update_from_conffile("$Dpkg::CONFDIR/buildflags.conf", 'system');
 }
 
 =item $bf->load_user_config()
