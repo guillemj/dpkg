@@ -249,12 +249,11 @@ static const struct forceinfo {
     '!', N_("Always use the new config files, don't prompt") },
   { "confold",             &fc_conff_old,
     '!', N_("Always use the old config files, don't prompt") },
-  /* XXX: Handle automatically line wrappings. */
   { "confdef",             &fc_conff_def,
     '!', N_("Use the default option for new config files if one\n"
-"                         is available, don't prompt. If no default can be found,\n"
-"                         you will be prompted unless one of the confold or\n"
-"                         confnew options is also given") },
+            "is available, don't prompt. If no default can be found,\n"
+            "you will be prompted unless one of the confold or\n"
+            "confnew options is also given") },
   { "confmiss",            &fc_conff_miss,
     '!', N_("Always install missing config files") },
   { "confask",             &fc_conff_ask,
@@ -555,6 +554,27 @@ arch_remove(const char *const *argv)
   return 0;
 }
 
+static inline void
+print_forceinfo_line(int type, const char *name, const char *desc)
+{
+  printf("  %s %-18s %s\n", forcetype_str(type), name, desc);
+}
+
+static void
+print_forceinfo(const struct forceinfo *fi)
+{
+  char *desc, *line;
+
+  desc = m_strdup(gettext(fi->desc));
+
+  line = strtok(desc, "\n");
+  print_forceinfo_line(fi->type, fi->name, desc);
+  while ((line = strtok(NULL, "\n")))
+    print_forceinfo_line(' ', "", line);
+
+  free(desc);
+}
+
 static void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   size_t l;
@@ -568,8 +588,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 " Forcing things:\n"), DPKG);
 
     for (fip = forceinfos; fip->name; fip++)
-      printf("  %s %-18s %s\n", forcetype_str(fip->type), fip->name,
-             gettext(fip->desc));
+      print_forceinfo(fip);
 
     printf(_(
 "\n"
