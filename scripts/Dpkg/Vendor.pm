@@ -18,7 +18,7 @@ package Dpkg::Vendor;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -27,7 +27,7 @@ use Dpkg::Control::Hash;
 
 use base qw(Exporter);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
-                    get_vendor_object run_vendor_hook);
+                    get_vendor_dir get_vendor_object run_vendor_hook);
 
 my $origins = '/etc/dpkg/origins';
 $origins = $ENV{DPKG_ORIGINS_DIR} if $ENV{DPKG_ORIGINS_DIR};
@@ -58,6 +58,17 @@ The file should be named according to the vendor name.
 =head1 FUNCTIONS
 
 =over 4
+
+=item $dir = Dpkg::Vendor::get_vendor_dir()
+
+Returns the current dpkg origins directory name, where the vendor files
+are stored.
+
+=cut
+
+sub get_vendor_dir {
+    return $origins;
+}
 
 =item $fields = Dpkg::Vendor::get_vendor_info($name)
 
@@ -158,6 +169,12 @@ sub run_vendor_hook {
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New function: get_vendor_dir().
 
 =cut
 
