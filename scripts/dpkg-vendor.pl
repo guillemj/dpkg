@@ -24,7 +24,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Vendor qw(get_vendor_info get_current_vendor);
+use Dpkg::Vendor qw(get_vendor_dir get_vendor_info get_current_vendor);
 
 textdomain('dpkg-dev');
 
@@ -84,8 +84,8 @@ $vendor //= get_current_vendor();
 
 my $info = get_vendor_info($vendor);
 unless (defined($info)) {
-    error(_g("vendor %s doesn't exist in /etc/dpkg/origins/"),
-          $vendor || 'default');
+    error(_g("vendor %s doesn't exist in %s"), $vendor || 'default',
+          get_vendor_dir());
 }
 
 if ($action eq 'is') {
