@@ -3,6 +3,7 @@
 # dpkg-buildflags
 #
 # Copyright © 2010-2011 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,10 +49,9 @@ sub usage {
   --query-features <area>
                      output the status of features for the given area.
   --list             output a list of the flags supported by the current vendor.
-  --export=(sh|make|configure)
-                     output something convenient to import the
-                     compilation flags in a shell script, in make,
-                     or on a ./configure command line.
+  --export=(sh|make|cmdline|configure)
+                     output something convenient to import the compilation
+                     flags in a shell script, in make, or in a command line.
   --dump             output all compilation flags with their values
   --status           print a synopsis with all parameters affecting the
                      behaviour of dpkg-buildflags and the resulting flags
@@ -71,10 +71,12 @@ while (@ARGV) {
         $action = $1;
         $param = shift(@ARGV);
 	usageerr(_g("%s needs a parameter"), $_) unless defined $param;
-    } elsif (m/^--export(?:=(sh|make|configure))?$/) {
+    } elsif (m/^--export(?:=(sh|make|cmdline|configure))?$/) {
         usageerr(_g("two commands specified: --%s and --%s"), "export", $action)
             if defined($action);
         my $type = $1 || "sh";
+        # Map legacy aliases.
+        $type = 'cmdline' if $type eq 'configure';
         $action = "export-$type";
     } elsif (m/^--(list|status|dump)$/) {
         usageerr(_g("two commands specified: --%s and --%s"), $1, $action)
@@ -136,7 +138,7 @@ if ($action eq "get") {
 	} elsif ($export_type eq "make") {
 	    $value =~ s/\$/\$\$/g;
 	    print "export $flag := $value\n";
-	} elsif ($export_type eq "configure") {
+	} elsif ($export_type eq "cmdline") {
 	    print "$flag=\"$value\" ";
 	}
     }

@@ -2,6 +2,7 @@
 .\"
 .\" Copyright © 2010-2011 Raphaël Hertzog <hertzog@debian.org>
 .\" Copyright © 2011 Kees Cook <kees@debian.org>
+.\" Copyright © 2011-2013 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -95,9 +96,13 @@ Shell commands to set and export all the compilation flags in the
 environment. The flag values are quoted so the output is ready for
 evaluation by a shell.
 .TP
+.B cmdline
+Arguments to pass to a build program's command line to use all the
+compilation flags (since dpkg 1.17.0). The flag values are quoted in
+shell syntax.
+.TP
 .B configure
-Arguments to pass to a GNU-style configuration script to use all
-the compilation flags. The flag values are quoted in shell syntax.
+This is a legacy alias for \fBcmdline\fP.
 .TP
 .B make
 Make directives to set and export all the compilation flags in the
@@ -328,9 +333,9 @@ To pass build flags to a build command in a makefile:
 .PP
 .RS 4
 .nf
-$(MAKE) $(shell dpkg\-buildflags \-\-export=configure)
+$(MAKE) $(shell dpkg\-buildflags \-\-export=cmdline)
 
-\&./configure $(shell dpkg\-buildflags \-\-export=configure)
+\&./configure $(shell dpkg\-buildflags \-\-export=cmdline)
 .fi
 .RE
 .PP
@@ -347,7 +352,7 @@ or to set the positional parameters to pass to a command:
 .PP
 .RS 4
 .nf
-eval "set \-\- $(dpkg\-buildflags \-\-export=configure)"
+eval "set \-\- $(dpkg\-buildflags \-\-export=cmdline)"
 for dir in a b c; do (cd $dir && ./configure "$@" && make); done
 .fi
 .RE
