@@ -84,29 +84,15 @@ my $fields = $control->get_source();
 my $facts = parse_status("$admindir/status");
 
 unless (defined($bd_value) or defined($bc_value)) {
-    $bd_value = 'build-essential:native';
-    $bd_value .= ", " . $fields->{"Build-Depends"} if defined $fields->{"Build-Depends"};
-    if (not $ignore_bd_arch and defined $fields->{"Build-Depends-Arch"}) {
-	$bd_value .= ", " . $fields->{"Build-Depends-Arch"};
-    }
-    if (not $ignore_bd_indep and defined $fields->{"Build-Depends-Indep"}) {
-	$bd_value .= ", " . $fields->{"Build-Depends-Indep"};
-    }
-    $bc_value = $fields->{"Build-Conflicts"} if defined $fields->{"Build-Conflicts"};
-    if (not $ignore_bd_arch and defined $fields->{"Build-Conflicts-Arch"}) {
-	if ($bc_value) {
-	    $bc_value .= ", " . $fields->{"Build-Conflicts-Arch"};
-	} else {
-	    $bc_value = $fields->{"Build-Conflicts-Arch"};
-	}
-    }
-    if (not $ignore_bd_indep and defined $fields->{"Build-Conflicts-Indep"}) {
-	if ($bc_value) {
-	    $bc_value .= ", " . $fields->{"Build-Conflicts-Indep"};
-	} else {
-	    $bc_value = $fields->{"Build-Conflicts-Indep"};
-	}
-    }
+    my @bd_list = ('build-essential:native', $fields->{"Build-Depends"});
+    push @bd_list, $fields->{"Build-Depends-Arch"} if not $ignore_bd_arch;
+    push @bd_list, $fields->{"Build-Depends-Indep"} if not $ignore_bd_indep;
+    $bd_value = deps_concat(@bd_list);
+
+    my @bc_list = ($fields->{"Build-Conflicts"});
+    push @bc_list, $fields->{"Build-Conflicts-Arch"} if not $ignore_bd_arch;
+    push @bc_list, $fields->{"Build-Conflicts-Indep"} if not $ignore_bd_indep;
+    $bc_value = deps_concat(@bc_list);
 }
 my (@unmet, @conflicts);
 
