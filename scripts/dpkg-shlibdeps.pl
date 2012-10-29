@@ -139,10 +139,10 @@ scalar keys %exec || usageerr(_g("need at least one executable"));
 
 my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
-my $build_depends = defined($fields->{"Build-Depends"}) ?
-		    $fields->{"Build-Depends"} : "";
-my $build_deps = deps_parse($build_depends, build_dep => 1, reduce_arch => 1);
-error(_("error occurred while parsing %s"), "Build-Depends") unless defined $build_deps;
+my $bd_value = deps_concat($fields->{"Build-Depends"}, $fields->{"Build-Depends-Arch"});
+my $build_deps = deps_parse($bd_value, build_dep => 1, reduce_arch => 1);
+error(_("error occurred while parsing %s"), "Build-Depends/Build-Depends-Arch")
+    unless defined $build_deps;
 
 my %dependencies;
 my %shlibs;
