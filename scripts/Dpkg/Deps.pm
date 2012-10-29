@@ -1,4 +1,5 @@
 # Copyright © 2007-2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you may redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +49,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = "1.01";
+our $VERSION = "1.02";
 
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch get_build_arch);
@@ -56,7 +57,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT = qw(deps_parse deps_eval_implication deps_compare);
+our @EXPORT = qw(deps_concat deps_parse deps_eval_implication deps_compare);
 
 # Some factorized function
 
@@ -239,6 +240,19 @@ sub deps_eval_implication {
     }
 
     return undef;
+}
+
+=item my $dep = deps_concat(@dep_list)
+
+This function concatenates multiple dependency lines into a single line,
+joining them with ", " if appropriate, and always returning a valid string.
+
+=cut
+
+sub deps_concat {
+    my (@dep_list) = @_;
+
+    return join(', ', grep { defined $_ } @dep_list);
 }
 
 =item my $dep = deps_parse($line, %options)
@@ -1315,6 +1329,14 @@ sub _evaluate_simple_dep {
 }
 
 =head1 CHANGES
+
+=head2 Version 1.02
+
+=over
+
+=item * Add new Dpkg::deps_concat() function.
+
+=back
 
 =head2 Version 1.01
 
