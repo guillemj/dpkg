@@ -230,7 +230,10 @@ blocked. If an application depends on such a format string, it will need
 to be worked around.
 
 Note that for this option to have any effect, the source must also
-be compiled with \fB\-O1\fP or higher.
+be compiled with \fB\-O1\fP or higher. If the environment variable
+\fBDEB_BUILD_OPTIONS\fP contains \fInoopt\fP, then \fBfortify\fP
+support will be disabled, due to new warnings being issued by
+glibc 2.16 and later.
 .TP
 .B stackprotector
 This setting (enabled by default) adds

@@ -71,6 +71,7 @@ sub load_vendor_defaults {
     $self->{'source'} = {};
     $self->{'features'} = {};
     my $build_opts = Dpkg::BuildOptions->new();
+    $self->{'build-options'} = $build_opts;
     my $default_flags = $build_opts->has("noopt") ? "-g -O0" : "-g -O2";
     $self->{flags} = {
 	CPPFLAGS => '',

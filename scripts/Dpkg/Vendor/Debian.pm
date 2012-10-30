@@ -133,6 +133,12 @@ sub add_hardening_flags {
 	$use_feature{"relro"} = 0;
     }
 
+    # Mask features that might be influenced by other flags.
+    if ($flags->{'build-options'}->has('noopt')) {
+      # glibc 2.16 and later warn when using -O0 and _FORTIFY_SOURCE.
+      $use_feature{'fortify'} = 0;
+    }
+
     # Handle logical feature interactions.
     if ($use_feature{"relro"} == 0) {
 	# Disable bindnow if relro is not enabled, since it has no
