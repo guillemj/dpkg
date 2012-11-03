@@ -376,6 +376,8 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep);
 /*** from depcon.c ***/
 
 bool versionsatisfied(struct pkgbin *it, struct deppossi *against);
+bool deparchsatisfied(struct pkgbin *it, const struct dpkg_arch *arch,
+                      struct deppossi *against);
 bool archsatisfied(struct pkgbin *it, struct deppossi *against);
 
 /*** from nfmalloc.c ***/

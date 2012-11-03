@@ -1341,10 +1341,7 @@ void process_archive(const char *filename) {
     while ((otherpkg = filepackages_iter_next(iter))) {
       debug(dbg_eachfiledetail, "process_archive ... found in %s",
             pkg_name(otherpkg, pnaw_always));
-      /* If !fileslistvalid then it's one of the disappeared packages above
-       * and we don't bother with it here, clearly. */
-      if (otherpkg == pkg || !otherpkg->clientdata->fileslistvalid)
-        continue;
+
       /* A pkgset can share files between instances, so there's no point
        * in rewriting the file that's already in place. */
       if (otherpkg->set == pkg->set)
@@ -1353,6 +1350,15 @@ void process_archive(const char *filename) {
         debug(dbg_eachfiledetail, "process_archive ... diverted, skipping");
         continue;
       }
+
+      if (cfile->namenode->flags & fnnf_new_conff)
+        conffile_mark_obsolete(otherpkg, cfile->namenode);
+
+      /* If !fileslistvalid then it's one of the disappeared packages above
+       * or we have already updated the files list file, and we don't bother
+       * with it here, clearly. */
+      if (!otherpkg->clientdata->fileslistvalid)
+        continue;
 
       /* Found one. We delete remove the list entry for this file,
        * (and any others in the same package) and then mark the package

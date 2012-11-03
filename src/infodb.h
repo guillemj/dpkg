@@ -29,6 +29,7 @@ enum pkg_infodb_format {
 	pkg_infodb_format_unknown = -1,
 	pkg_infodb_format_legacy = 0,
 	pkg_infodb_format_multiarch = 1,
+	pkg_infodb_format_last,
 };
 
 enum pkg_infodb_format pkg_infodb_get_format(void);

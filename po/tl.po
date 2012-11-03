@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2012-07-01 17:37+0200\n"
+"POT-Creation-Date: 2012-09-29 02:33+0200\n"
 "PO-Revision-Date: 2006-02-17 08:53+0200\n"
 "Last-Translator: Eric Pareja <xenos@upm.edu.ph>\n"
 "Language-Team: Tagalog <debian-tl@banwa.upm.edu.ph>\n"
@@ -23,7 +23,7 @@ msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr ""
 
 #: lib/dpkg/ar.c:87 lib/dpkg/ar.c:108 lib/dpkg/ar.c:119 lib/dpkg/ar.c:123
-#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1144
+#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1145
 #, fuzzy, c-format
 msgid "unable to write file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
@@ -53,7 +53,7 @@ msgstr "bigo na likhain ang tmpfile (datos)"
 msgid "cannot append ar member file (%s) to '%s': %s"
 msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
 
-#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:137
+#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:137 lib/dpkg/pkg-format.c:212
 msgid "may not be empty string"
 msgstr "hindi maaaring walang laman na string"
 
@@ -145,7 +145,7 @@ msgstr "di inaasahang dulo ng talaksan sa %.250s"
 msgid "failed to seek"
 msgstr "bigo na i-exec ang tar"
 
-#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:362
+#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:385
 #: src/processarc.c:102 src/processarc.c:142 src/processarc.c:472
 #: src/processarc.c:909 dpkg-deb/build.c:462 dpkg-deb/build.c:549
 #: dpkg-deb/build.c:572 dpkg-deb/extract.c:323 dpkg-deb/info.c:65
@@ -444,21 +444,21 @@ msgid "unable to open directory '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
 
 #: lib/dpkg/dir.c:109 src/divertcmd.c:217 dpkg-split/split.c:208
-#: utils/update-alternatives.c:1288
+#: utils/update-alternatives.c:1289
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
 
 #: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:610
 #: dpkg-split/join.c:70 dpkg-split/queue.c:196
-#: utils/update-alternatives.c:1401
+#: utils/update-alternatives.c:1402
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
 
 #: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:612
 #: dpkg-split/join.c:72 dpkg-split/queue.c:198
-#: utils/update-alternatives.c:1309 utils/update-alternatives.c:1403
+#: utils/update-alternatives.c:1310 utils/update-alternatives.c:1404
 #, fuzzy, c-format
 msgid "unable to close file '%s'"
 msgstr "hindi maka-flush sa vsnprintf"
@@ -838,7 +838,7 @@ msgid "unable to write to status fd %d"
 msgstr "hindi makapagsulat ng kalagayang inapdeyt ng `%.250s'"
 
 #: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:272
-#: utils/update-alternatives.c:329 utils/update-alternatives.c:1097
+#: utils/update-alternatives.c:329 utils/update-alternatives.c:1098
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "bigo na likhain ang directory"
@@ -1021,93 +1021,97 @@ msgstr ""
 "sila"
 
 #: lib/dpkg/parse.c:345
-msgid "multiple non-coinstallable package instances present"
+msgid ""
+"multiple non-coinstallable package instances present; most probably due to "
+"an upgrade from an unofficial dpkg"
 msgstr ""
 
-#: lib/dpkg/parse.c:348
-msgid "mixed non-coinstallable and coinstallable package instances present"
+#: lib/dpkg/parse.c:349
+msgid ""
+"mixed non-coinstallable and coinstallable package instances present; most "
+"probably due to an upgrade from an unofficial dpkg"
 msgstr ""
 
-#: lib/dpkg/parse.c:407
+#: lib/dpkg/parse.c:409
 #, c-format
 msgid ""
 "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
 "installed instances"
 msgstr ""
 
-#: lib/dpkg/parse.c:521
+#: lib/dpkg/parse.c:523
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr "bigo sa pagbukas ng talaksang info ng pakete `%.255s' para sa pagbasa"
 
-#: lib/dpkg/parse.c:527
+#: lib/dpkg/parse.c:529
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr "hindi ma-stat ang talaksang info ng pakete `%.255s'"
 
-#: lib/dpkg/parse.c:533
+#: lib/dpkg/parse.c:535
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr "hindi ma-mmap ang talaksang info ng pakete `%.255s'"
 
-#: lib/dpkg/parse.c:538
+#: lib/dpkg/parse.c:540
 #, fuzzy, c-format
 #| msgid "can't stat package info file `%.255s'"
 msgid "reading package info file '%.255s'"
 msgstr "hindi ma-stat ang talaksang info ng pakete `%.255s'"
 
-#: lib/dpkg/parse.c:549
+#: lib/dpkg/parse.c:551
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "bigo sa pagsara matapos ng pagbasa: `%.255s'"
 
-#: lib/dpkg/parse.c:590
+#: lib/dpkg/parse.c:592
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "EOF matapos ng pangalan ng saklaw `%.*s'"
 
-#: lib/dpkg/parse.c:593
+#: lib/dpkg/parse.c:595
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "newline sa loob ng pangalan ng saklaw `%.*s'"
 
-#: lib/dpkg/parse.c:596
+#: lib/dpkg/parse.c:598
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "MSDOS EOF (^Z) sa loob ng pangalan ng saklaw `%.*s'"
 
-#: lib/dpkg/parse.c:600
+#: lib/dpkg/parse.c:602
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "pangalan ng saklaw `%.*s' ay dapat sundan ng kolon"
 
-#: lib/dpkg/parse.c:611
+#: lib/dpkg/parse.c:613
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr "EOF nauna sa halaga ng saklaw `%.*s' (kulang ng kahulihang newline)"
 
-#: lib/dpkg/parse.c:615
+#: lib/dpkg/parse.c:617
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "MSDOS EOF char sa halaga ng saklaw `%.*s' (kulang na newline?)"
 
-#: lib/dpkg/parse.c:626
+#: lib/dpkg/parse.c:628
 #, fuzzy, c-format
 #| msgid "newline in field name `%.*s'"
 msgid "blank line in value of field '%.*s'"
 msgstr "newline sa loob ng pangalan ng saklaw `%.*s'"
 
-#: lib/dpkg/parse.c:647
+#: lib/dpkg/parse.c:649
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "EOF sa halaga ng saklaw `%.*s' (kulang na kahulihang newline)"
 
-#: lib/dpkg/parse.c:732
+#: lib/dpkg/parse.c:734
 msgid "several package info entries found, only one allowed"
 msgstr ""
 "may ilang pinasok na info tungkol sa pakete na nahanap, iisa lamang dapat"
 
-#: lib/dpkg/parse.c:758
+#: lib/dpkg/parse.c:760
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "walang impormasyong pakete sa loob ng `%.255s'"
@@ -1441,118 +1445,118 @@ msgstr "di inaasahang dulo ng talaksan sa %.250s"
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
-#: src/archives.c:232
+#: src/archives.c:242
 msgid "error reading from dpkg-deb pipe"
 msgstr "error sa pagbasa mula sa dpkg-deb pipe"
 
-#: src/archives.c:247
+#: src/archives.c:257
 #, fuzzy, c-format
 #| msgid "can't mmap package info file `%.255s'"
 msgid "cannot skip padding for file '%.255s': %s"
 msgstr "hindi ma-mmap ang talaksang info ng pakete `%.255s'"
 
-#: src/archives.c:260
+#: src/archives.c:270
 #, c-format
 msgid "cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"
 msgstr ""
 
-#: src/archives.c:322
+#: src/archives.c:332
 #, fuzzy, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "bigo ang pagbasa ng `%.255s' (sa `%.255s')"
 
-#: src/archives.c:330
+#: src/archives.c:340
 #, fuzzy, c-format
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
 "dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%.250s' sa `%.250s': %s\n"
 
-#: src/archives.c:346 src/archives.c:463 src/statcmd.c:159
+#: src/archives.c:356 src/archives.c:473 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "error sa pagtakda ng pagmamayari ng `%.255s'"
 
-#: src/archives.c:348 src/archives.c:465 src/statcmd.c:161
+#: src/archives.c:358 src/archives.c:475 src/statcmd.c:161
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "error sa pagtakda ng pahintulo ng `%.255s'"
 
-#: src/archives.c:356 src/archives.c:1141 src/archives.c:1182
+#: src/archives.c:366 src/archives.c:1153 src/archives.c:1194
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "error sa pagsara/pagsulat `%.255s'"
 
-#: src/archives.c:360
+#: src/archives.c:370
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "error sa paglikha ng pipe `%.255s'"
 
-#: src/archives.c:365 src/archives.c:370
+#: src/archives.c:375 src/archives.c:380
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "error sa paglikha ng device `%.255s'"
 
-#: src/archives.c:384 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#: src/archives.c:394 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "error sa paglikha ng hard link `%.255s'"
 
-#: src/archives.c:391 utils/update-alternatives.c:489
+#: src/archives.c:401 utils/update-alternatives.c:490
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "error sa paglikha ng symbolic link `%.255s'"
 
-#: src/archives.c:397
+#: src/archives.c:407
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "error sa paglikha ng directory `%.255s'"
 
-#: src/archives.c:416
+#: src/archives.c:426
 #, fuzzy, c-format
 #| msgid "cannot open archive part file `%.250s'"
 msgid "cannot compute MD5 hash for tar file '%.255s': %s"
 msgstr "hindi mabuksan ang arkibo ng bahaging talaksang `%.250s'"
 
-#: src/archives.c:444 src/archives.c:448
+#: src/archives.c:454 src/archives.c:458
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "error sa pagtakda ng timestamp ng `%.255s'"
 
-#: src/archives.c:460
+#: src/archives.c:470
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "error sa pagtakda ng pagmamayari ng symlink `%.255s'"
 
-#: src/archives.c:537 src/archives.c:1065 utils/update-alternatives.c:317
+#: src/archives.c:547 src/archives.c:1077 utils/update-alternatives.c:317
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "hindi mabasa ang link `%.255s'"
 
-#: src/archives.c:539 src/archives.c:1067 src/configure.c:479
+#: src/archives.c:549 src/archives.c:1079 src/configure.c:529
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr ""
 
-#: src/archives.c:576
+#: src/archives.c:586
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
 "of package %.250s"
 msgstr "sinusubukang patungan ang `%.250s', na nasa paketeng %.250s din"
 
-#: src/archives.c:666
+#: src/archives.c:676
 #, fuzzy, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr "hindi matakda ang pahintulot ng pag-execute sa `%.250s'"
 
-#: src/archives.c:688
+#: src/archives.c:698
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
 
-#: src/archives.c:746
+#: src/archives.c:756
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1561,19 +1565,19 @@ msgstr ""
 "sinusubukang patungan ang `%.250s', na siyang dibertadong bersyon ng `"
 "%.250s'%.10s%.100s%.10s"
 
-#: src/archives.c:752
+#: src/archives.c:762
 #, fuzzy, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 "sinusubukang patungan ang `%.250s', na siyang dibertadong bersyon ng `"
 "%.250s'%.10s%.100s%.10s"
 
-#: src/archives.c:782
+#: src/archives.c:792
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "hindi ma-stat ang `%.255s' (na siyang iluluklok sana)"
 
-#: src/archives.c:790
+#: src/archives.c:800
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1582,36 +1586,36 @@ msgstr ""
 "hindi malinis ang kalat sa paligid ng `%.255s' bago magluklok ng ibang "
 "bersyon"
 
-#: src/archives.c:796
+#: src/archives.c:806
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr "hindi ma-stat ang ibinalik na `%.255s' bago magluklok ng ibang bersyon"
 
-#: src/archives.c:832
+#: src/archives.c:842
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "naglalaman ang arkibo ng bagay na `%.255s' ng hindi kilalang uri 0x%x"
 
-#: src/archives.c:914 src/divertcmd.c:148 utils/update-alternatives.c:631
-#: utils/update-alternatives.c:1211 utils/update-alternatives.c:1279
-#: utils/update-alternatives.c:1437 utils/update-alternatives.c:1684
-#: utils/update-alternatives.c:2168 utils/update-alternatives.c:2234
-#: utils/update-alternatives.c:2373
+#: src/archives.c:924 src/divertcmd.c:148 utils/update-alternatives.c:632
+#: utils/update-alternatives.c:1212 utils/update-alternatives.c:1280
+#: utils/update-alternatives.c:1438 utils/update-alternatives.c:1685
+#: utils/update-alternatives.c:2169 utils/update-alternatives.c:2235
+#: utils/update-alternatives.c:2374
 #, fuzzy, c-format
 msgid "cannot stat file '%s'"
 msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
 
-#: src/archives.c:929
+#: src/archives.c:939
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Pinapalitan ang talaksan sa lumang paketeng %s ...\n"
 
-#: src/archives.c:934
+#: src/archives.c:944
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Pinalitan ng mga talaksan sa nakaluklok na paketeng %s ...\n"
 
-#: src/archives.c:943
+#: src/archives.c:953
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1620,48 +1624,48 @@ msgstr ""
 "sinusubukang patungan ang directory `%.250s' sa paketeng %.250s ng hindi "
 "directory"
 
-#: src/archives.c:950
+#: src/archives.c:960
 #, fuzzy, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "sinusubukang patungan ang `%.250s', na nasa paketeng %.250s din"
 
-#: src/archives.c:1055
+#: src/archives.c:1067
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "hindi malipat ang `%.255s' upang iluklok ang bagong bersyon"
 
-#: src/archives.c:1072
+#: src/archives.c:1084
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "hindi makagawa ng backup symlink para sa `%.255s'"
 
-#: src/archives.c:1074
+#: src/archives.c:1086
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "hindi ma-chown ang backup symlink para sa `%.255s'"
 
-#: src/archives.c:1079
+#: src/archives.c:1091
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "hindi makagawa ng backup link ng `%.255s' bago iluklok ang bagong bersyon"
 
-#: src/archives.c:1096 src/archives.c:1190
+#: src/archives.c:1108 src/archives.c:1202
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "hindi mailuklok ang bagong bersyon ng `%.255s'"
 
-#: src/archives.c:1135 src/archives.c:1178
+#: src/archives.c:1147 src/archives.c:1190
 #, fuzzy, c-format
 msgid "unable to open '%.255s'"
 msgstr "hindi malikha ang `%.255s'"
 
-#: src/archives.c:1180
+#: src/archives.c:1192
 #, fuzzy, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "hindi ma-unbuffer ang `%.255s'"
 
-#: src/archives.c:1257
+#: src/archives.c:1269
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1671,7 +1675,7 @@ msgstr ""
 "%s:\n"
 "%s"
 
-#: src/archives.c:1262
+#: src/archives.c:1274
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1680,7 +1684,7 @@ msgstr ""
 "dpkg: babala - inaayunan na tanggalin ang pagkaayos ng kailangang\n"
 " pakete %s, upang maaaring tanggalin ang %s.\n"
 
-#: src/archives.c:1266
+#: src/archives.c:1278
 #, fuzzy, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
@@ -1689,7 +1693,7 @@ msgstr ""
 "dpkg: hindi, %s ay kailangan, hindi ito tatanggalan ng pagkaayos\n"
 " nito upang maaaring tanggalin ang %s.\n"
 
-#: src/archives.c:1275
+#: src/archives.c:1287
 #, fuzzy, c-format
 msgid ""
 "no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1699,27 +1703,27 @@ msgstr ""
 "deconfigure):\n"
 " %s"
 
-#: src/archives.c:1285
+#: src/archives.c:1297
 #, fuzzy, c-format
 msgid "removal of %.250s"
 msgstr "error sa pagbasa sa %.250s"
 
-#: src/archives.c:1310
+#: src/archives.c:1322
 #, fuzzy, c-format
 msgid "installation of %.250s"
 msgstr "hindi mailuklok ang bagong bersyon ng `%.255s'"
 
-#: src/archives.c:1312
+#: src/archives.c:1324
 #, fuzzy, c-format
 msgid "considering deconfiguration of %s, which would be broken by %s ..."
 msgstr "dpkg: inaayunan ang pagtanggal ng %s pabor sa %s ...\n"
 
-#: src/archives.c:1318
+#: src/archives.c:1330
 #, fuzzy, c-format
 msgid "yes, will deconfigure %s (broken by %s)"
 msgstr "dpkg: oo, tatanggalin ang %s pabor sa %s.\n"
 
-#: src/archives.c:1323 src/archives.c:1444
+#: src/archives.c:1335 src/archives.c:1456
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: regarding %s containing %s:\n"
@@ -1731,32 +1735,32 @@ msgstr ""
 "dpkg: tungkol sa %s na naglalaman ng %s:\n"
 "%s"
 
-#: src/archives.c:1331
+#: src/archives.c:1343
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr ""
 "dpkg: babala - hindi pinapansin ang tunggalian, maaaring magpatuloy pa "
 "rin !\n"
 
-#: src/archives.c:1336
+#: src/archives.c:1348
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
 
-#: src/archives.c:1341
+#: src/archives.c:1353
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr ""
 
-#: src/archives.c:1371
+#: src/archives.c:1383
 #, fuzzy, c-format
 #| msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgid "considering removing %s in favour of %s ..."
 msgstr "dpkg: inaayunan ang pagtanggal ng %s pabor sa %s ...\n"
 
-#: src/archives.c:1377
+#: src/archives.c:1389
 #, fuzzy, c-format
 #| msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgid "%s is not properly installed; ignoring any dependencies on it"
@@ -1764,7 +1768,7 @@ msgstr ""
 "hindi nakaluklok ng tama ang %s - hindi pinapansin ang mga dependensiya sa "
 "kanya.\n"
 
-#: src/archives.c:1406
+#: src/archives.c:1418
 #, fuzzy, c-format
 #| msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgid "may have trouble removing %s, as it provides %s ..."
@@ -1772,7 +1776,7 @@ msgstr ""
 "dpkg: maaaring magkaproblema sa pagtanggal ng %s, dahil nagbibigay ito ng "
 "%s ...\n"
 
-#: src/archives.c:1421
+#: src/archives.c:1433
 #, fuzzy, c-format
 msgid ""
 "package %s requires reinstallation, but will remove anyway as you requested"
@@ -1780,71 +1784,71 @@ msgstr ""
 "dpkg: kinakailangan iluklok muli ang paketeng %s, ngunit tatanggalin na rin "
 "ito gaya ng hiling niyo.\n"
 
-#: src/archives.c:1425
+#: src/archives.c:1437
 #, fuzzy, c-format
 #| msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgid "package %s requires reinstallation, will not remove"
 msgstr "dpkg: kinakailangan iluklok muli ang paketeng %s, hindi tatanggalin.\n"
 
-#: src/archives.c:1434
+#: src/archives.c:1446
 #, fuzzy, c-format
 #| msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgid "yes, will remove %s in favour of %s"
 msgstr "dpkg: oo, tatanggalin ang %s pabor sa %s.\n"
 
-#: src/archives.c:1447
+#: src/archives.c:1459
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "magkatunggaling mga pakete - hindi iluluklok %.250s"
 
-#: src/archives.c:1449
+#: src/archives.c:1461
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr ""
 "dpkg: babala - hindi pinapansin ang tunggalian, maaaring magpatuloy pa "
 "rin !\n"
 
-#: src/archives.c:1495
+#: src/archives.c:1507
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr ""
 "--%s --recursive ay nangangailangan ng hindi kukulang sa isang argumentong "
 "path"
 
-#: src/archives.c:1505
+#: src/archives.c:1517
 #, fuzzy
 msgid "find for dpkg --recursive"
 msgstr "bigo sa pag-exec ng find para sa --recursive"
 
-#: src/archives.c:1526
+#: src/archives.c:1538
 msgid "failed to fdopen find's pipe"
 msgstr "bigo sa pag-fdopen ng pipe ng find"
 
-#: src/archives.c:1532
+#: src/archives.c:1544
 msgid "error reading find's pipe"
 msgstr "error sa pagbasa ng pipe ng find"
 
-#: src/archives.c:1533
+#: src/archives.c:1545
 msgid "error closing find's pipe"
 msgstr "error sa pagsara ng pipe ng find"
 
-#: src/archives.c:1536
+#: src/archives.c:1548
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "find para sa --recursive ay nagbalik ng hindi maprosesong error %i"
 
-#: src/archives.c:1539
+#: src/archives.c:1551
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "naghanap, ngunit walang nahanap na pakete (talaksang pumares sa *.deb)"
 
-#: src/archives.c:1550
+#: src/archives.c:1562
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr ""
 "--%s ay nangangailangan ng hindi kulang sa isa talaksang arkibong pakete "
 "argumento"
 
-#: src/archives.c:1585 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/archives.c:1597 src/divertcmd.c:76 src/divertcmd.c:116
 #: src/enquiry.c:218 src/enquiry.c:335 src/enquiry.c:526 src/enquiry.c:528
 #: src/enquiry.c:541 src/enquiry.c:571 src/main.c:68 src/main.c:170
 #: src/main.c:320 src/main.c:578 src/packages.c:266 src/querycmd.c:291
@@ -1858,36 +1862,36 @@ msgstr ""
 msgid "<standard output>"
 msgstr ""
 
-#: src/archives.c:1586 src/packages.c:267 src/querycmd.c:292
+#: src/archives.c:1598 src/packages.c:267 src/querycmd.c:292
 #: src/querycmd.c:391 src/querycmd.c:501 src/querycmd.c:579 src/select.c:100
 #: dpkg-split/main.c:177 dpkg-split/queue.c:227
 msgid "<standard error>"
 msgstr ""
 
-#: src/archives.c:1627
+#: src/archives.c:1639
 #, fuzzy, c-format
 #| msgid "Selecting previously deselected package %s.\n"
 msgid "Selecting previously unselected package %s.\n"
 msgstr "Pinipili ang nakaraang hindi piniling pakete %s.\n"
 
-#: src/archives.c:1632
+#: src/archives.c:1644
 #, fuzzy, c-format
 #| msgid "Skipping deselected package %s.\n"
 msgid "Skipping unselected package %s.\n"
 msgstr "Linampasan ang hindi piniling pakete %s.\n"
 
-#: src/archives.c:1649
+#: src/archives.c:1661
 #, fuzzy, c-format
 #| msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgid "version %.250s of %.250s already installed, skipping"
 msgstr "Bersyon %.250s ng %.250s ay nakaluklok na, linalampasan.\n"
 
-#: src/archives.c:1658
+#: src/archives.c:1670
 #, fuzzy, c-format
 msgid "downgrading %.250s from %.250s to %.250s"
 msgstr "%s - babala: downgrade ng %.250s mula %.250s tungong %.250s.\n"
 
-#: src/archives.c:1664
+#: src/archives.c:1676
 #, fuzzy, c-format
 #| msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
@@ -1925,18 +1929,18 @@ msgstr "hindi matanggal ang bagong luklok na bersyon ng `%.250s'"
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "hindi matanggal ang bagong-binuklat na bersyon ng `%.250s'"
 
-#: src/configure.c:125
+#: src/configure.c:172
 #, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "hindi ma-stat ang bagong dist conffile `%.250s'"
 
-#: src/configure.c:135
+#: src/configure.c:182
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr "hindi ma-stat ang kasalukuyang nakaluklok na conffile `%.250s'"
 
-#: src/configure.c:147
+#: src/configure.c:194
 #, c-format
 msgid ""
 "\n"
@@ -1947,61 +1951,61 @@ msgstr ""
 "Ang talaksang pagkaayos `%s' ay wala sa sistema.\n"
 "Iniluluklok ang bagong talaksang pagkaayos tulad ng inyong hiling.\n"
 
-#: src/configure.c:189
+#: src/configure.c:236
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "dpkg: %s: babala - bigo sa pagtanggal ng lumang backup `%.250s': %s\n"
 
-#: src/configure.c:198
+#: src/configure.c:245
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%.250s' sa `%.250s': %s\n"
 
-#: src/configure.c:205
+#: src/configure.c:252
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: bigo sa pag-exec gzip %s"
 
-#: src/configure.c:212
+#: src/configure.c:259
 #, fuzzy, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
 msgstr ""
 "dpkg: %s: babala - bigo sa pagtanggal ng lumang distrib bersyon ng `%.250s': "
 "%s\n"
 
-#: src/configure.c:217
+#: src/configure.c:264
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 "dpkg: %s: babala - bigo sa pagtanggal ng `%.250s' (bago patungan): %s\n"
 
-#: src/configure.c:222
+#: src/configure.c:269
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr "dpkg: %s: babala - bigo sa pag-link ng `%.250s' tungong `%.250s': %s\n"
 
-#: src/configure.c:227
+#: src/configure.c:274
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "Iniluluklok ang bagong bersyon ng talaksang pagkaayos %s ...\n"
 
-#: src/configure.c:233 utils/update-alternatives.c:496
+#: src/configure.c:280 utils/update-alternatives.c:497
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "hindi maluklok ang `%.250s' bilang `%.250s'"
 
-#: src/configure.c:285
+#: src/configure.c:332
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "walang paketeng nagngapangalang `%s' na nakaluklok, hindi maisaayos"
 
-#: src/configure.c:288
+#: src/configure.c:335
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "nakaluklok at nakaayos na ang paketeng %.250s"
 
-#: src/configure.c:291
+#: src/configure.c:338
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -2010,7 +2014,7 @@ msgstr ""
 "hindi handa na isaayos ang paketeng %.250s\n"
 " hindi maisaayos (kasalukuyang kalagayan `%.250s')"
 
-#: src/configure.c:303
+#: src/configure.c:350
 #, fuzzy, c-format
 #| msgid ""
 #| "package %.250s is not ready for configuration\n"
@@ -2021,13 +2025,13 @@ msgstr ""
 "hindi handa na isaayos ang paketeng %.250s\n"
 " hindi maisaayos (kasalukuyang kalagayan `%.250s')"
 
-#: src/configure.c:311
+#: src/configure.c:358
 #, c-format
 msgid ""
 "package %s %s cannot be configured because %s is at a different version (%s)"
 msgstr ""
 
-#: src/configure.c:347
+#: src/configure.c:394
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: dependency problems prevent configuration of %s:\n"
@@ -2039,11 +2043,11 @@ msgstr ""
 "dpkg: problema sa dependensiya ay balakid sa pagsasaayos ng %s:\n"
 "%s"
 
-#: src/configure.c:350
+#: src/configure.c:397
 msgid "dependency problems - leaving unconfigured"
 msgstr "problema sa dependensiya - iniwanang hindi nakaayos"
 
-#: src/configure.c:353
+#: src/configure.c:400
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -2056,7 +2060,7 @@ msgstr ""
 "niyo:\n"
 "%s"
 
-#: src/configure.c:361
+#: src/configure.c:408
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -2064,12 +2068,12 @@ msgstr ""
 "Nasa masamang kalagayan ang pakete - kailangan niyong\n"
 " iluklok-muli ito bago subukang isaayos ito."
 
-#: src/configure.c:364
+#: src/configure.c:411
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Hinahanda ang %s (%s) ...\n"
 
-#: src/configure.c:448
+#: src/configure.c:498
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -2078,7 +2082,7 @@ msgstr ""
 "dpkg: %s: babala - hindi ma-stat ang talaksang pagkaayos `%s'\n"
 " (= `%s'): %s\n"
 
-#: src/configure.c:462
+#: src/configure.c:512
 #, fuzzy, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -2087,7 +2091,7 @@ msgstr ""
 "dpkg: %s: babala - talaksang pagkaayos `%s' ay paikot na link\n"
 " (= `%s')\n"
 
-#: src/configure.c:473
+#: src/configure.c:523
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -2096,7 +2100,7 @@ msgstr ""
 "dpkg: %s: babala - hindi ma-readlink ang conffile `%s'\n"
 " (= `%s'): %s\n"
 
-#: src/configure.c:500
+#: src/configure.c:550
 #, fuzzy, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -2105,36 +2109,36 @@ msgstr ""
 "dpkg: %s: babala - conffile `%.250s' nagresolba sa pangalang talaksan na\n"
 " degenerado (`%s' ay symlink patungo sa `%s')\n"
 
-#: src/configure.c:516
+#: src/configure.c:566
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "dpkg: %s: babala - conffile `%.250s' ay hindi payak na talaksan o symlink\n"
 " (= `%s')\n"
 
-#: src/configure.c:544 dpkg-split/split.c:142
+#: src/configure.c:594 dpkg-split/split.c:142
 #, fuzzy, c-format
 msgid "cannot compute MD5 hash for file '%s': %s"
 msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
 
-#: src/configure.c:551
+#: src/configure.c:601
 #, fuzzy, c-format
 msgid "%s: unable to open %s for hash: %s"
 msgstr "dpkg: %s: babala - hindi mabuksan ang conffile %s para sa hash: %s\n"
 
-#: src/configure.c:577 src/configure.c:581
+#: src/configure.c:627 src/configure.c:631
 msgid "conffile difference visualizer"
 msgstr ""
 
-#: src/configure.c:598
+#: src/configure.c:648
 msgid "Type `exit' when you're done.\n"
 msgstr "Ipasok ang `exit' kapag tapos na kayo.\n"
 
-#: src/configure.c:607 src/configure.c:611
+#: src/configure.c:657 src/configure.c:661
 msgid "conffile shell"
 msgstr ""
 
-#: src/configure.c:657
+#: src/configure.c:707
 #, c-format
 msgid ""
 "\n"
@@ -2143,12 +2147,12 @@ msgstr ""
 "\n"
 "Talaksang pagkaayos `%s'"
 
-#: src/configure.c:659
+#: src/configure.c:709
 #, c-format
 msgid " (actually `%s')"
 msgstr " (ang totoo ay `%s')"
 
-#: src/configure.c:663
+#: src/configure.c:713
 #, c-format
 msgid ""
 "\n"
@@ -2160,7 +2164,7 @@ msgstr ""
 " ==> Talaksan ay nasa loob din ng paketeng bigay ng tagapangalaga ng "
 "pakete.\n"
 
-#: src/configure.c:668
+#: src/configure.c:718
 #, c-format
 msgid ""
 "\n"
@@ -2169,7 +2173,7 @@ msgstr ""
 "\n"
 "     Hindi binago magmula ng iniluklok ito.\n"
 
-#: src/configure.c:670
+#: src/configure.c:720
 #, c-format
 msgid ""
 "\n"
@@ -2178,7 +2182,7 @@ msgstr ""
 "\n"
 " ==> Binago (ninyo o ng skript) magmula noong iniluklok ito.\n"
 
-#: src/configure.c:671
+#: src/configure.c:721
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -2187,38 +2191,38 @@ msgstr ""
 "\n"
 " ==> Binago (ninyo o ng skript) magmula noong iniluklok ito.\n"
 
-#: src/configure.c:674
+#: src/configure.c:724
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Nagpadala ng panibagong bersyon ang nagpamudmod ng pakete.\n"
 
-#: src/configure.c:675
+#: src/configure.c:725
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     Bersyon sa loob ng pakete ay pareho sa huling pagkaluklok.\n"
 
-#: src/configure.c:683
+#: src/configure.c:733
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Ginagamit ang bagong talaksan tulad ng inyong hiling.\n"
 
-#: src/configure.c:687
+#: src/configure.c:737
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr ""
 " ==> Ginagamit ang kasalukuyang lumang talaksan tulad ng inyong hiling.\n"
 
-#: src/configure.c:696
+#: src/configure.c:746
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Pinanatiling default ang lumang talaksang pagkaayos.\n"
 
-#: src/configure.c:700
+#: src/configure.c:750
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Gagamitin ang bagong talaksang pagkaayos bilang default.\n"
 
-#: src/configure.c:707
+#: src/configure.c:757
 #, fuzzy, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -2234,37 +2238,37 @@ msgstr ""
 "      Z    : ilagay sa background ang prosesong ito upang tignan ang "
 "kaayusan\n"
 
-#: src/configure.c:714
+#: src/configure.c:764
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " Ang default na gagawin ay gamitin ang kasalukuyang bersyon.\n"
 
-#: src/configure.c:716
+#: src/configure.c:766
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " Ang default na gagawin ay iluklok ang bagong bersyon.\n"
 
-#: src/configure.c:721
+#: src/configure.c:771
 msgid "[default=N]"
 msgstr "[default=N]"
 
-#: src/configure.c:722
+#: src/configure.c:772
 msgid "[default=Y]"
 msgstr "[default=Y]"
 
-#: src/configure.c:723
+#: src/configure.c:773
 msgid "[no default]"
 msgstr "[walang default]"
 
-#: src/configure.c:726
+#: src/configure.c:776
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr "error sa pagsulat sa stderr, natagpuan bago mag-prompt ng conffile"
 
-#: src/configure.c:735
+#: src/configure.c:785
 msgid "read error on stdin at conffile prompt"
 msgstr "error sa pagbasa ng stdin sa prompt ng conffile"
 
-#: src/configure.c:736
+#: src/configure.c:786
 msgid "EOF on stdin at conffile prompt"
 msgstr "EOF sa stdin sa prompt ng conffile"
 
@@ -2466,7 +2470,7 @@ msgid ""
 "  different file `%s', not allowed"
 msgstr ""
 
-#: src/divertcmd.c:222 utils/update-alternatives.c:1368
+#: src/divertcmd.c:222 utils/update-alternatives.c:1369
 #, fuzzy, c-format
 msgid "unable to create file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
@@ -3013,12 +3017,12 @@ msgstr ""
 "NB: ang PATH ni root ay madalas kasama ang /usr/local/sbin, /usr/sbin at /"
 "sbin."
 
-#: src/help.c:357
+#: src/help.c:380
 #, fuzzy, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "hindi malikha ang `%.255s'"
 
-#: src/help.c:362 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:385 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr ""
 
@@ -3027,7 +3031,7 @@ msgstr ""
 msgid "unable to check existence of `%.250s'"
 msgstr "hindi matiyak ang pagkakaroon ng `%.250s'"
 
-#: src/infodb-access.c:79 src/infodb-upgrade.c:93
+#: src/infodb-access.c:83 src/infodb-upgrade.c:93
 msgid "cannot read info directory"
 msgstr "hindi mabasa ang info directory"
 
@@ -3040,6 +3044,11 @@ msgstr "error habang sinubukang buksan ang %.250s"
 #, fuzzy, c-format
 msgid "corrupt info database format file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
+
+#: src/infodb-format.c:88
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
 
 #: src/infodb-upgrade.c:123
 #, fuzzy, c-format
@@ -3610,11 +3619,11 @@ msgstr "%s (subprocess): %s\n"
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  %.250s ay tatanggalin ang pagkaayos.\n"
 
-#: src/packages.c:635
+#: src/packages.c:640
 msgid " depends on "
 msgstr " nagdedepende sa "
 
-#: src/packages.c:641
+#: src/packages.c:646
 msgid "; however:\n"
 msgstr "; gayunpaman:\n"
 
@@ -3793,7 +3802,7 @@ msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 "pangalan ng conffile (nagumpisa `%.250s') ay labis ang haba (>%d karakter)"
 
-#: src/processarc.c:693 utils/update-alternatives.c:2104
+#: src/processarc.c:693 utils/update-alternatives.c:2105
 #, c-format
 msgid "read error in %.250s"
 msgstr "error sa pagbasa sa %.250s"
@@ -4481,7 +4490,7 @@ msgstr "di inaasahang dulo ng linya sa pangalan ng pakete sa linya %d"
 
 #: src/statdb.c:216
 #, fuzzy, c-format
-msgid "multiple statusoverrides present for file '%.250s'"
+msgid "multiple statoverrides present for file '%.250s'"
 msgstr "talaksang statoverride `%.250s'"
 
 #: src/trigcmd.c:48
@@ -4734,8 +4743,8 @@ msgstr[0] ""
 msgstr[1] ""
 "dpkg-deb: hindi pinansin %d na babala tungkol sa (mga) talaksang control\n"
 
-#: dpkg-deb/build.c:404 utils/update-alternatives.c:2577
-#: utils/update-alternatives.c:2584
+#: dpkg-deb/build.c:404 utils/update-alternatives.c:2579
+#: utils/update-alternatives.c:2586
 #, fuzzy, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--build ay nangangailangan ng argumentong directory"
@@ -5072,7 +5081,7 @@ msgid_plural "%d requested control components are missing"
 msgstr[0] "May kulang na isang hininging bahaging control"
 msgstr[1] "May kulang na isang hininging bahaging control"
 
-#: dpkg-deb/info.c:141 utils/update-alternatives.c:1065
+#: dpkg-deb/info.c:141 utils/update-alternatives.c:1066
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "hindi ma-scan ang directory `%.255s'"
@@ -5802,435 +5811,435 @@ msgstr ""
 msgid "cannot append to '%s'"
 msgstr "hindi mabuksan ang talaan`%s': %s\n"
 
-#: utils/update-alternatives.c:506
+#: utils/update-alternatives.c:507
 #, fuzzy, c-format
 msgid "unable to remove '%s'"
 msgstr "hindi ma-execute ang %s"
 
-#: utils/update-alternatives.c:1101
+#: utils/update-alternatives.c:1102
 #, fuzzy, c-format
 msgid "unexpected end of file while trying to read %s"
 msgstr "di inaasahang dulo ng talaksan sa %s sa %.255s"
 
-#: utils/update-alternatives.c:1103
+#: utils/update-alternatives.c:1104
 #, fuzzy, c-format
 msgid "while reading %s: %s"
 msgstr "dibertado ng %s"
 
-#: utils/update-alternatives.c:1109
+#: utils/update-alternatives.c:1110
 #, fuzzy, c-format
 msgid "line not terminated while trying to read %s"
 msgstr "di inaasahang dulo ng talaksan sa %s sa %.255s"
 
-#: utils/update-alternatives.c:1127
+#: utils/update-alternatives.c:1128
 #, fuzzy, c-format
 msgid "%s corrupt: %s"
 msgstr "%s: internal gzip error: pagsulat: `%s'"
 
-#: utils/update-alternatives.c:1140
+#: utils/update-alternatives.c:1141
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr ""
 
-#: utils/update-alternatives.c:1153
+#: utils/update-alternatives.c:1154
 msgid "slave name"
 msgstr ""
 
-#: utils/update-alternatives.c:1161 utils/update-alternatives.c:2553
+#: utils/update-alternatives.c:1162 utils/update-alternatives.c:2555
 #, fuzzy, c-format
 msgid "duplicate slave name %s"
 msgstr "nadobleng halaga para sa saklaw na `%s'"
 
-#: utils/update-alternatives.c:1164
+#: utils/update-alternatives.c:1165
 #, fuzzy
 msgid "slave link"
 msgstr "nadobleng halaga para sa saklaw na `%s'"
 
-#: utils/update-alternatives.c:1168
+#: utils/update-alternatives.c:1169
 #, c-format
 msgid "slave link same as main link %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1175 utils/update-alternatives.c:2560
+#: utils/update-alternatives.c:1176 utils/update-alternatives.c:2562
 #, fuzzy, c-format
 msgid "duplicate slave link %s"
 msgstr "nadobleng halaga para sa saklaw na `%s'"
 
-#: utils/update-alternatives.c:1193
+#: utils/update-alternatives.c:1194
 msgid "master file"
 msgstr ""
 
-#: utils/update-alternatives.c:1202
+#: utils/update-alternatives.c:1203
 #, c-format
 msgid "duplicate path %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1215
+#: utils/update-alternatives.c:1216
 #, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist; removing from list of "
 "alternatives"
 msgstr ""
 
-#: utils/update-alternatives.c:1218 utils/update-alternatives.c:1229
+#: utils/update-alternatives.c:1219 utils/update-alternatives.c:1230
 msgid "priority"
 msgstr ""
 
-#: utils/update-alternatives.c:1221 utils/update-alternatives.c:1243
+#: utils/update-alternatives.c:1222 utils/update-alternatives.c:1244
 msgid "slave file"
 msgstr ""
 
-#: utils/update-alternatives.c:1234
+#: utils/update-alternatives.c:1235
 #, c-format
 msgid "priority of %s: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1238
+#: utils/update-alternatives.c:1239
 #, c-format
 msgid "priority of %s is out of range: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1292
+#: utils/update-alternatives.c:1293
 msgid "status"
 msgstr ""
 
-#: utils/update-alternatives.c:1294
+#: utils/update-alternatives.c:1295
 msgid "invalid status"
 msgstr ""
 
-#: utils/update-alternatives.c:1299
+#: utils/update-alternatives.c:1300
 #, fuzzy
 msgid "master link"
 msgstr "nadobleng halaga para sa saklaw na `%s'"
 
-#: utils/update-alternatives.c:1343
+#: utils/update-alternatives.c:1344
 #, fuzzy, c-format
 msgid "discarding obsolete slave link %s (%s)"
 msgstr "nadobleng halaga para sa saklaw na `%s'"
 
-#: utils/update-alternatives.c:1399
+#: utils/update-alternatives.c:1400
 #, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "hindi maka-flush sa vsnprintf"
 
-#: utils/update-alternatives.c:1491 utils/update-alternatives.c:1558
-#: utils/update-alternatives.c:2270
+#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1559
+#: utils/update-alternatives.c:2271
 msgid "auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1491 utils/update-alternatives.c:1567
-#: utils/update-alternatives.c:2271
+#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1568
+#: utils/update-alternatives.c:2272
 msgid "manual mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1494
+#: utils/update-alternatives.c:1495
 #, c-format
 msgid "  link currently points to %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1497
+#: utils/update-alternatives.c:1498
 msgid "  link currently absent"
 msgstr ""
 
-#: utils/update-alternatives.c:1501
+#: utils/update-alternatives.c:1502
 #, c-format
 msgid "%s - priority %d"
 msgstr ""
 
-#: utils/update-alternatives.c:1504
+#: utils/update-alternatives.c:1505
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr "hindi ma-execute ang %s"
 
-#: utils/update-alternatives.c:1511
+#: utils/update-alternatives.c:1512
 #, fuzzy, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "' bersyon ng backend ng arkibong pakete"
 
-#: utils/update-alternatives.c:1513
+#: utils/update-alternatives.c:1514
 #, fuzzy
 msgid "No versions available."
 msgstr "(walang paglalarawan)"
 
-#: utils/update-alternatives.c:1542
+#: utils/update-alternatives.c:1543
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: utils/update-alternatives.c:1549
+#: utils/update-alternatives.c:1550
 #, fuzzy
 msgid "Selection"
 msgstr "Paglalarawan"
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 msgid "Path"
 msgstr ""
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 msgid "Priority"
 msgstr ""
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 msgid "Status"
 msgstr ""
 
-#: utils/update-alternatives.c:1571
+#: utils/update-alternatives.c:1572
 #, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 
-#: utils/update-alternatives.c:1725
+#: utils/update-alternatives.c:1726
 #, c-format
 msgid "not replacing %s with a link"
 msgstr ""
 
-#: utils/update-alternatives.c:1766
+#: utils/update-alternatives.c:1767
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1784
+#: utils/update-alternatives.c:1785
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist"
 msgstr ""
 
-#: utils/update-alternatives.c:1794
+#: utils/update-alternatives.c:1795
 #, c-format
 msgid "not removing %s since it's not a symlink"
 msgstr ""
 
-#: utils/update-alternatives.c:2069 utils/update-alternatives.c:2075
+#: utils/update-alternatives.c:2070 utils/update-alternatives.c:2076
 #, c-format
 msgid "Call %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2079
+#: utils/update-alternatives.c:2080
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr ""
 
-#: utils/update-alternatives.c:2083
+#: utils/update-alternatives.c:2084
 #, fuzzy, c-format
 msgid "Skip unknown alternative %s."
 msgstr "di kilalang uri ng compression `%s'!"
 
-#: utils/update-alternatives.c:2110
+#: utils/update-alternatives.c:2111
 #, fuzzy, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "di inaasahang dulo ng talaksan sa %s sa %.255s"
 
-#: utils/update-alternatives.c:2123 utils/update-alternatives.c:2136
-#: utils/update-alternatives.c:2146
+#: utils/update-alternatives.c:2124 utils/update-alternatives.c:2137
+#: utils/update-alternatives.c:2147
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2171
+#: utils/update-alternatives.c:2172
 #, c-format
 msgid "%s/%s is dangling; it will be updated with best choice"
 msgstr ""
 
-#: utils/update-alternatives.c:2175
+#: utils/update-alternatives.c:2176
 #, c-format
 msgid ""
 "%s/%s has been changed (manually or by a script); switching to manual "
 "updates only"
 msgstr ""
 
-#: utils/update-alternatives.c:2183
+#: utils/update-alternatives.c:2184
 #, c-format
 msgid "setting up automatic selection of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2199
+#: utils/update-alternatives.c:2200
 #, fuzzy, c-format
 msgid "renaming %s link from %s to %s"
 msgstr "Binubuklat ang %s (mula sa %s) ...\n"
 
-#: utils/update-alternatives.c:2240
+#: utils/update-alternatives.c:2241
 #, fuzzy, c-format
 msgid "renaming %s slave link from %s to %s"
 msgstr "Binubuklat ang %s (mula sa %s) ...\n"
 
-#: utils/update-alternatives.c:2268
+#: utils/update-alternatives.c:2269
 #, fuzzy, c-format
 msgid "using %s to provide %s (%s) in %s"
 msgstr "%s (subprocess): %s\n"
 
-#: utils/update-alternatives.c:2276
+#: utils/update-alternatives.c:2277
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken"
 msgstr ""
 
-#: utils/update-alternatives.c:2283
+#: utils/update-alternatives.c:2284
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2309
+#: utils/update-alternatives.c:2310
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces"
 msgstr ""
 
-#: utils/update-alternatives.c:2317
+#: utils/update-alternatives.c:2318
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2325
+#: utils/update-alternatives.c:2326
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2356
+#: utils/update-alternatives.c:2357
 #, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2364 utils/update-alternatives.c:2400
+#: utils/update-alternatives.c:2365 utils/update-alternatives.c:2401
 #, c-format
 msgid "alternative link %s is already managed by %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2370
+#: utils/update-alternatives.c:2371
 #, fuzzy, c-format
 #| msgid "error ensuring `%.250s' doesn't exist"
 msgid "alternative path %s doesn't exist"
 msgstr "error sa paniguradong `%.250s' ay wala"
 
-#: utils/update-alternatives.c:2387
+#: utils/update-alternatives.c:2388
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a master alternative"
 msgstr ""
 
-#: utils/update-alternatives.c:2391
+#: utils/update-alternatives.c:2392
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2411
+#: utils/update-alternatives.c:2412
 #, c-format
 msgid "alternative link %s is already managed by %s (slave of %s)"
 msgstr ""
 
-#: utils/update-alternatives.c:2455
+#: utils/update-alternatives.c:2456
 #, fuzzy, c-format
 msgid "unknown argument `%s'"
 msgstr "di kilalang uri ng compression `%s'!"
 
-#: utils/update-alternatives.c:2474
+#: utils/update-alternatives.c:2475
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr ""
 
-#: utils/update-alternatives.c:2480 utils/update-alternatives.c:2545
+#: utils/update-alternatives.c:2481 utils/update-alternatives.c:2547
 msgid "<link> and <path> can't be the same"
 msgstr ""
 
-#: utils/update-alternatives.c:2484
+#: utils/update-alternatives.c:2485
 msgid "priority must be an integer"
 msgstr ""
 
-#: utils/update-alternatives.c:2488
+#: utils/update-alternatives.c:2489
 #, c-format
 msgid "priority is out of range: %s clamped to %ld"
 msgstr ""
 
-#: utils/update-alternatives.c:2504
+#: utils/update-alternatives.c:2505
 #, fuzzy, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s ay nangangailangan ng argumentong pangalan ng talaksang .deb"
 
-#: utils/update-alternatives.c:2521
+#: utils/update-alternatives.c:2522
 #, fuzzy, c-format
 msgid "--%s needs <name>"
 msgstr "--%s ay hindi tumatanggap ng mga argumento"
 
-#: utils/update-alternatives.c:2536
+#: utils/update-alternatives.c:2538
 msgid "--slave only allowed with --install"
 msgstr ""
 
-#: utils/update-alternatives.c:2538
+#: utils/update-alternatives.c:2540
 msgid "--slave needs <link> <name> <path>"
 msgstr ""
 
-#: utils/update-alternatives.c:2547
+#: utils/update-alternatives.c:2549
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr ""
 
-#: utils/update-alternatives.c:2550
+#: utils/update-alternatives.c:2552
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr ""
 
-#: utils/update-alternatives.c:2570
+#: utils/update-alternatives.c:2572
 #, fuzzy, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--build ay nangangailangan ng argumentong directory"
 
-#: utils/update-alternatives.c:2596
+#: utils/update-alternatives.c:2598
 #, fuzzy, c-format
 msgid "unknown option `%s'"
 msgstr "di kilalang opsyon --%s"
 
-#: utils/update-alternatives.c:2601
+#: utils/update-alternatives.c:2603
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
 "selections, --install, --remove, --all, --remove-all or --auto"
 msgstr ""
 
-#: utils/update-alternatives.c:2617 utils/update-alternatives.c:2623
+#: utils/update-alternatives.c:2619 utils/update-alternatives.c:2625
 #, fuzzy, c-format
 msgid "no alternatives for %s"
 msgstr "di kilalang uri ng compression `%s'!"
 
-#: utils/update-alternatives.c:2640
+#: utils/update-alternatives.c:2642
 #, fuzzy
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "error sa pagbasa ng standard input"
 
-#: utils/update-alternatives.c:2662
+#: utils/update-alternatives.c:2664
 #, c-format
 msgid "alternative %s for %s not registered; not setting"
 msgstr ""
 
-#: utils/update-alternatives.c:2668 utils/update-alternatives.c:2674
+#: utils/update-alternatives.c:2670 utils/update-alternatives.c:2676
 #, fuzzy, c-format
 msgid "There is no program which provides %s."
 msgstr ""
 "  %.250s ay nagbibigay ng %.250s ngunit ito'y tatanggalan ng pagkaayos.\n"
 
-#: utils/update-alternatives.c:2676 utils/update-alternatives.c:2684
+#: utils/update-alternatives.c:2678 utils/update-alternatives.c:2686
 msgid "Nothing to configure."
 msgstr ""
 
-#: utils/update-alternatives.c:2682
+#: utils/update-alternatives.c:2684
 #, c-format
 msgid "There is only one alternative in link group %s (providing %s): %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2692
+#: utils/update-alternatives.c:2694
 #, c-format
 msgid "alternative %s for %s not registered; not removing"
 msgstr ""
 
-#: utils/update-alternatives.c:2700
+#: utils/update-alternatives.c:2702
 #, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:2725
+#: utils/update-alternatives.c:2727
 #, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
 
-#: utils/update-alternatives.c:2727
+#: utils/update-alternatives.c:2729
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""

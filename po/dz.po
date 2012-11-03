@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg po.pot\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2012-07-01 17:37+0200\n"
+"POT-Creation-Date: 2012-09-29 02:33+0200\n"
 "PO-Revision-Date: 2007-06-29 04:06+0530\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -27,7 +27,7 @@ msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr ""
 
 #: lib/dpkg/ar.c:87 lib/dpkg/ar.c:108 lib/dpkg/ar.c:119 lib/dpkg/ar.c:123
-#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1144
+#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1145
 #, fuzzy, c-format
 msgid "unable to write file '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
@@ -59,7 +59,7 @@ msgstr "གནས་སྐབས་ཡིག་སྣོད་བཟོ་ནི
 msgid "cannot append ar member file (%s) to '%s': %s"
 msgstr "མིང་གསརཔ་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས: %s"
 
-#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:137
+#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:137 lib/dpkg/pkg-format.c:212
 msgid "may not be empty string"
 msgstr "ཡིག་རྒྱུན་སྟོངམ་མེནམ་འོང་།"
 
@@ -154,7 +154,7 @@ msgstr "%.250s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ�
 msgid "failed to seek"
 msgstr "ཊར་ལག་ལེན་འཐབ་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:362
+#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:385
 #: src/processarc.c:102 src/processarc.c:142 src/processarc.c:472
 #: src/processarc.c:909 dpkg-deb/build.c:462 dpkg-deb/build.c:549
 #: dpkg-deb/build.c:572 dpkg-deb/extract.c:323 dpkg-deb/info.c:65
@@ -454,21 +454,21 @@ msgid "unable to open directory '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
 #: lib/dpkg/dir.c:109 src/divertcmd.c:217 dpkg-split/split.c:208
-#: utils/update-alternatives.c:1288
+#: utils/update-alternatives.c:1289
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
 #: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:610
 #: dpkg-split/join.c:70 dpkg-split/queue.c:196
-#: utils/update-alternatives.c:1401
+#: utils/update-alternatives.c:1402
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
 #: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:612
 #: dpkg-split/join.c:72 dpkg-split/queue.c:198
-#: utils/update-alternatives.c:1309 utils/update-alternatives.c:1403
+#: utils/update-alternatives.c:1310 utils/update-alternatives.c:1404
 #, fuzzy, c-format
 msgid "unable to close file '%s'"
 msgstr "vsnprintf ནང་ ངོས་སྙོམ་མ་ཚུགས།"
@@ -834,7 +834,7 @@ msgid "unable to write to status fd %d"
 msgstr " `%.250s' གི་དུས་མཐུན་བཟོ་ཡོད་པའི་གནས་ཚད་འབྲི་མ་ཚུགས།"
 
 #: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:272
-#: utils/update-alternatives.c:329 utils/update-alternatives.c:1097
+#: utils/update-alternatives.c:329 utils/update-alternatives.c:1098
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "སྣོད་ཐོ་གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
@@ -1015,93 +1015,97 @@ msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr "གཞི་བཙུགས་མིན་པའི་གནས་ལུགས་ཀྱི་ཐུམ་སྒྲིལ་འདི་ལུ་ཀཱོན་ཕ་ཡིལ་ཚུ་ཡོད། འདི་ཚུ་བརྗེད་དོ།"
 
 #: lib/dpkg/parse.c:345
-msgid "multiple non-coinstallable package instances present"
+msgid ""
+"multiple non-coinstallable package instances present; most probably due to "
+"an upgrade from an unofficial dpkg"
 msgstr ""
 
-#: lib/dpkg/parse.c:348
-msgid "mixed non-coinstallable and coinstallable package instances present"
+#: lib/dpkg/parse.c:349
+msgid ""
+"mixed non-coinstallable and coinstallable package instances present; most "
+"probably due to an upgrade from an unofficial dpkg"
 msgstr ""
 
-#: lib/dpkg/parse.c:407
+#: lib/dpkg/parse.c:409
 #, c-format
 msgid ""
 "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
 "installed instances"
 msgstr ""
 
-#: lib/dpkg/parse.c:521
+#: lib/dpkg/parse.c:523
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr "ལྷག་ནིའི་དོན་ལུ་ ཐུམ་སྒྲིལ་བརྡ་དོན་ཡིག་སྣོད་ `%.255s' ཁ་ཕྱེ་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/parse.c:527
+#: lib/dpkg/parse.c:529
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr "ཐུམ་སྒྲིལ་བརྡ་དོན་ཡིག་སྣོད་ `%.255s' སིཊེཊི་འབད་མི་ཚུགས།"
 
-#: lib/dpkg/parse.c:533
+#: lib/dpkg/parse.c:535
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr "ཐུམ་སྒྲིལ་བརྡ་དོན་ཡིག་སྣོད་ `%.255s' ཨེམ་མེཔ་འབད་མི་ཚུགས།"
 
-#: lib/dpkg/parse.c:538
+#: lib/dpkg/parse.c:540
 #, fuzzy, c-format
 #| msgid "can't stat package info file `%.255s'"
 msgid "reading package info file '%.255s'"
 msgstr "ཐུམ་སྒྲིལ་བརྡ་དོན་ཡིག་སྣོད་ `%.255s' སིཊེཊི་འབད་མི་ཚུགས།"
 
-#: lib/dpkg/parse.c:549
+#: lib/dpkg/parse.c:551
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "ལྷག་པའི་ཤུལ་མ་ཁ་བསྡམ་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ: `%.255s'"
 
-#: lib/dpkg/parse.c:590
+#: lib/dpkg/parse.c:592
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "ས་སྒོ་མིང་ `%.*s' གི་ཤུལ་མ་ ཨི་ཨོ་ཨེཕ།"
 
-#: lib/dpkg/parse.c:593
+#: lib/dpkg/parse.c:595
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "ས་སྒོ་མིང་ `%.*s' ནང་གྲལ་ཐིག་གསརཔ།"
 
-#: lib/dpkg/parse.c:596
+#: lib/dpkg/parse.c:598
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "ས་སྒོ་མིང་ `%.*s' ནང་ཨེམ་ཨེསི་ཌི་ཨོ་ཨེསི་ ཨི་ཨོ་ཨེཕ་ (^Z)"
 
-#: lib/dpkg/parse.c:600
+#: lib/dpkg/parse.c:602
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "ས་སྒོ་མིང་ `%.*s' འདི་ཀོ་ལཱོན་གྱིས་རྗེས་སུ་འབྲང་དགོ"
 
-#: lib/dpkg/parse.c:611
+#: lib/dpkg/parse.c:613
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr ""
 "ས་སྒོ་ `%.*s' གི་གནས་གོང་གི་ཧེ་མ་ཨི་ཨོ་ཨེཕ་(མཐའ་མཇུག་གི་གྲལ་ཐིག་གསརཔ་བརླག་སྟོར་ཞུགས་ཡོདཔ།)"
 
-#: lib/dpkg/parse.c:615
+#: lib/dpkg/parse.c:617
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "ས་སྒོ་ `%.*s' གི་གནས་གོང་ནང་ཨེམ་ཨེསི་ཌི་ཨོ་ཨེསི་ ཨི་ཨོ་ཨེཕ་ ཅར།"
 
-#: lib/dpkg/parse.c:626
+#: lib/dpkg/parse.c:628
 #, fuzzy, c-format
 #| msgid "newline in field name `%.*s'"
 msgid "blank line in value of field '%.*s'"
 msgstr "ས་སྒོ་མིང་ `%.*s' ནང་གྲལ་ཐིག་གསརཔ།"
 
-#: lib/dpkg/parse.c:647
+#: lib/dpkg/parse.c:649
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "ས་སྒོ་ `%.*s' གི་གནས་གོང་སྐབས་ཨི་ཨོ་ཨེཕ་(མཐའ་མཇུག་གི་གྲལ་ཐིག་གསརཔ་བརླག་སྟོར་ཞུགས་ཡོདཔ།)"
 
-#: lib/dpkg/parse.c:732
+#: lib/dpkg/parse.c:734
 msgid "several package info entries found, only one allowed"
 msgstr "ཐུམ་སྒྲིལ་གྱི་བརྡ་དོན་ཐོ་བཀོད་ལེ་ཤ་ཅིག་ཐོབ་ཡོད་ གཅིག་རྐྱངམ་ཅིག་འབད་ཆོག"
 
-#: lib/dpkg/parse.c:758
+#: lib/dpkg/parse.c:760
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "`%.255s' ནང་ཐུམ་སྒྲིལ་གྱི་བརྡ་དོན་མེད།"
@@ -1437,118 +1441,118 @@ msgstr "%.250s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ�
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
-#: src/archives.c:232
+#: src/archives.c:242
 msgid "error reading from dpkg-deb pipe"
 msgstr "dpkg-deb རྒྱུད་དུང་ལས་ལྷག་ནི་འཛོལ་བ།"
 
-#: src/archives.c:247
+#: src/archives.c:257
 #, fuzzy, c-format
 #| msgid "can't mmap package info file `%.255s'"
 msgid "cannot skip padding for file '%.255s': %s"
 msgstr "ཐུམ་སྒྲིལ་བརྡ་དོན་ཡིག་སྣོད་ `%.255s' ཨེམ་མེཔ་འབད་མི་ཚུགས།"
 
-#: src/archives.c:260
+#: src/archives.c:270
 #, c-format
 msgid "cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"
 msgstr ""
 
-#: src/archives.c:322
+#: src/archives.c:332
 #, fuzzy, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "`%.255s' ལྷག་ནི་ལུ་འཐུས་ཤོར་འབྱུང་ཡོད་(`%.255s' ནང་ལུ་)"
 
-#: src/archives.c:330
+#: src/archives.c:340
 #, fuzzy, c-format
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ -  `%.250s' འདི་ `%.250s' ལུ་བསྐྱར་མིང་བཏགས་ནི་འཐུས་ཤོར་བྱུང་ཡོད་: %s\n"
 
-#: src/archives.c:346 src/archives.c:463 src/statcmd.c:159
+#: src/archives.c:356 src/archives.c:473 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "`%.255s' གི་བདག་པོ་གཞི་སྒྲིག་གི་འཛོལ་བ།"
 
-#: src/archives.c:348 src/archives.c:465 src/statcmd.c:161
+#: src/archives.c:358 src/archives.c:475 src/statcmd.c:161
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "`%.255s' གི་གནང་བ་གཞི་སྒྲིག་གི་འཛོལ་བ།"
 
-#: src/archives.c:356 src/archives.c:1141 src/archives.c:1182
+#: src/archives.c:366 src/archives.c:1153 src/archives.c:1194
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "`%.255s' ཁ་བསྡམ་ནི་/འབྲི་ནིའི་འཛོལ་བ།"
 
-#: src/archives.c:360
+#: src/archives.c:370
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "རྒྱུད་དུང་ `%.255s' གསར་བསྐུན་འབདཝ་ད་འཛོལ་བ།"
 
-#: src/archives.c:365 src/archives.c:370
+#: src/archives.c:375 src/archives.c:380
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "ཐབས་འཕྲུལ་ `%.255s' གསར་བསྐྲུན་འབདཝ་ད་འཛོལ་བ།"
 
-#: src/archives.c:384 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#: src/archives.c:394 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "ཧརཌི་ལིངཀ་ `%.255s' གསར་བསྐྲུན་འབདཝ་ད་འཛོལ་བ།"
 
-#: src/archives.c:391 utils/update-alternatives.c:489
+#: src/archives.c:401 utils/update-alternatives.c:490
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "བརྡ་མཚོན་འབྲེལ་ལམ་ `%.255s' གསར་བསྐྲུན་འབདཝ་ད་འཛོལ་བ།"
 
-#: src/archives.c:397
+#: src/archives.c:407
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "སྣོད་ཐོ་ `%.255s' གསར་བསྐྲུན་འབདཝ་ད་འཛོལ་བ།"
 
-#: src/archives.c:416
+#: src/archives.c:426
 #, fuzzy, c-format
 #| msgid "cannot open archive part file `%.250s'"
 msgid "cannot compute MD5 hash for tar file '%.255s': %s"
 msgstr "ཡིག་མཛོད་ཡན་ལག་ཡིག་སྣོད་ `%.250s'  ཁ་ཕྱེ་མི་ཚུགས།"
 
-#: src/archives.c:444 src/archives.c:448
+#: src/archives.c:454 src/archives.c:458
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "`%.255s' གི་དུས་བཀོད་གཞི་སྒྲིག་འབད་ནིའི་འཛོལ་བ།"
 
-#: src/archives.c:460
+#: src/archives.c:470
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "བརྡ་མཚོན་འབྲེལ་ལམ་ `%.255s' གི་བདག་པོ་གཞི་སྒྲིག་འབདཝ་ད་འཛོལ་བ།"
 
-#: src/archives.c:537 src/archives.c:1065 utils/update-alternatives.c:317
+#: src/archives.c:547 src/archives.c:1077 utils/update-alternatives.c:317
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "འབྲེལ་ལམ་ `%.255s' ལྷག་མ་ཚུགས།"
 
-#: src/archives.c:539 src/archives.c:1067 src/configure.c:479
+#: src/archives.c:549 src/archives.c:1079 src/configure.c:529
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr ""
 
-#: src/archives.c:576
+#: src/archives.c:586
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
 "of package %.250s"
 msgstr "ཐུམ་སྒྲིལ་ %.250s ནང་ལུ་ཡང་ཡོད་མི་  `%.250s' ཚབ་སྲུང་འབད་ནི་ལུ་འབད་རྩོལ་བསྐྱེད་དོ།"
 
-#: src/archives.c:666
+#: src/archives.c:676
 #, fuzzy, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr "`%.250s' གུ་ལུ་ལག་ལེན་འཐབ་པའི་གནང་བ་གཞི་སྒྲིག་འབད་མ་ཚུགས།"
 
-#: src/archives.c:688
+#: src/archives.c:698
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
 
-#: src/archives.c:746
+#: src/archives.c:756
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1557,19 +1561,19 @@ msgstr ""
 "`%.250s'%.10s%.100s%.10s གི་ཁ་ཕྱོགས་སྒྱུར་ཡོད་པའི་ཐོན་རིམ་ཨིན་མི་ `%.250s' འདི་ཚབ་སྲུང་འབད་"
 "ནི་ལུ་འབད་རྩོལ་བསྐྱེད་དོ།"
 
-#: src/archives.c:752
+#: src/archives.c:762
 #, fuzzy, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 "`%.250s'%.10s%.100s%.10s གི་ཁ་ཕྱོགས་སྒྱུར་ཡོད་པའི་ཐོན་རིམ་ཨིན་མི་ `%.250s' འདི་ཚབ་སྲུང་འབད་"
 "ནི་ལུ་འབད་རྩོལ་བསྐྱེད་དོ།"
 
-#: src/archives.c:782
+#: src/archives.c:792
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "`%.255s' སི་ཊེཊི་འབད་མ་ཚུགས།(ང་གིས་གཞི་བཙུགས་འབད་ནི་འབད་མི་དེ)"
 
-#: src/archives.c:790
+#: src/archives.c:800
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1578,39 +1582,39 @@ msgstr ""
 "ཐོན་རིམ་གཞན་མི་ཅིག་གཞི་བཙུགས་མ་འབད་བའི་ཧེ་མ་ `%.255s' མཐའ་འཁོར་ཁམས་ལོག་སི་སི་ཚུ་བསལ་གཏང་ནི་"
 "འབད་མ་ཚུགས།"
 
-#: src/archives.c:796
+#: src/archives.c:806
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "ཐོན་རིམ་གཞན་མི་ཅིག་གཞི་བཙུགས་མ་འབད་བའི་ཧེ་མ་ སོར་ཆུད་འབད་ཡོད་པའི་ `%.255s' འདི་སི་ཊེཊི་འབད་མ་"
 "ཚུགས།"
 
-#: src/archives.c:832
+#: src/archives.c:842
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "ཡིག་མཛོད་ཀྱི་ནང་ན་དངོས་པོ་ `%.255s' མ་ཤེས་པའི་དབྱེ་བ་ 0x%x འདུག"
 
-#: src/archives.c:914 src/divertcmd.c:148 utils/update-alternatives.c:631
-#: utils/update-alternatives.c:1211 utils/update-alternatives.c:1279
-#: utils/update-alternatives.c:1437 utils/update-alternatives.c:1684
-#: utils/update-alternatives.c:2168 utils/update-alternatives.c:2234
-#: utils/update-alternatives.c:2373
+#: src/archives.c:924 src/divertcmd.c:148 utils/update-alternatives.c:632
+#: utils/update-alternatives.c:1212 utils/update-alternatives.c:1280
+#: utils/update-alternatives.c:1438 utils/update-alternatives.c:1685
+#: utils/update-alternatives.c:2169 utils/update-alternatives.c:2235
+#: utils/update-alternatives.c:2374
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
 msgid "cannot stat file '%s'"
 msgstr "མིང་རྙིངམ་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས: %s"
 
-#: src/archives.c:929
+#: src/archives.c:939
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "ཐུམ་སྒྲིལ་ %s རྙིངམ་ནང་ལུ་ཡིག་སྣོད་ཚུ་ཚབ་བཙུགས་དོ...\n"
 
-#: src/archives.c:934
+#: src/archives.c:944
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "གཞི་བཙུགས་འབད་ཡོད་པའི་ཐུམ་སྒྲིལ་ %s ནང་ལུ་ཡིག་སྣོད་ཀྱིས་ཚབ་བཙུགས་ཡོད...\n"
 
-#: src/archives.c:943
+#: src/archives.c:953
 #, fuzzy, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1619,47 +1623,47 @@ msgstr ""
 "སྣོད་ཐོ་མིན་པ་དང་ཅིག་ཁར་ ཐུམ་སྒྲིལ་ %.250s ནང་ལུ་སྣོད་ཐོ་ `%.250s' ཚབ་སྲུང་འབད་ནི་ལུ་འབད་རྩོལ་"
 "བསྐྱེད་དོ།"
 
-#: src/archives.c:950
+#: src/archives.c:960
 #, fuzzy, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "ཐུམ་སྒྲིལ་ %.250s ནང་ལུ་ཡང་ཡོད་མི་  `%.250s' ཚབ་སྲུང་འབད་ནི་ལུ་འབད་རྩོལ་བསྐྱེད་དོ།"
 
-#: src/archives.c:1055
+#: src/archives.c:1067
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "ཐོན་རིམ་གསརཔ་གཞི་བཙུགས་འབད་ནིའི་དོན་ལས་  `%.255s' ཟུར་ཁ་བཤུད་མ་ཚུགས།"
 
-#: src/archives.c:1072
+#: src/archives.c:1084
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "`%.255s' གི་དོན་ལུ་རྒྱབ་ཐག་བརྡ་མཚོན་འབྲེལ་ལམ་བཟོ་མ་ཚུགས།"
 
-#: src/archives.c:1074
+#: src/archives.c:1086
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "`%.255s' གི་དོན་ལུ་རྒྱབ་ཐག་བརྡ་མཚོན་འབྲེལ་ལམ་ཅའུན་འབད་མ་ཚུགས།"
 
-#: src/archives.c:1079
+#: src/archives.c:1091
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr "ཐོན་རིམ་གསརཔ་གཞི་བཙུགས་མ་འབད་བའི་ཧེ་མ་ `%.255s' གི་རྒྱབ་ཐག་འབྲེལ་ལམ་བཟོ་མ་ཚུགས།"
 
-#: src/archives.c:1096 src/archives.c:1190
+#: src/archives.c:1108 src/archives.c:1202
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "`%.255s' གི་ཐོན་རིམ་གསརཔ་གཞི་བཙུགས་འབད་མ་ཚུགས།"
 
-#: src/archives.c:1135 src/archives.c:1178
+#: src/archives.c:1147 src/archives.c:1190
 #, fuzzy, c-format
 msgid "unable to open '%.255s'"
 msgstr "`%.255s' གསར་བསྐྲུན་འབད་མ་ཚུགས།"
 
-#: src/archives.c:1180
+#: src/archives.c:1192
 #, fuzzy, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "`%.255s' གནས་ཁོངས་མིན་པ་བཟོ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
 
-#: src/archives.c:1257
+#: src/archives.c:1269
 #, fuzzy, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1668,7 +1672,7 @@ msgstr ""
 "dpkg: ཉེན་བརྡ་ - %s གི་རྩ་བསྐྲད་དང་ཅིག་ཁར་རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་སྣང་མེད་བཞགཔ་ད:\n"
 "%s"
 
-#: src/archives.c:1262
+#: src/archives.c:1274
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1677,7 +1681,7 @@ msgstr ""
 "dpkg: ཉེན་བརྡ་ - ཁག་ཆེ་བའི་ཐུམ་སྒྲིལ་ %s གི་རིམ་སྒྲིག་མི་འབད་ནི་ཆ་འཇོག་འབདཝ་དོ་\n"
 " %s རྩབསྐྲད་གཏང་ནི་ལྕོགས་ཅན་བཟོ་ནིའི་དོན་ལས།\n"
 
-#: src/archives.c:1266
+#: src/archives.c:1278
 #, fuzzy, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
@@ -1686,7 +1690,7 @@ msgstr ""
 "dpkg: མེད། %s འདི་ཁག་ཆེཝ་ཨིན། འདི་རིམ་སྒྲིག་འབད་འོང་\n"
 "  %s རྩབསྐྲད་གཏང་ནི་ལྕོགས་ཅན་བཟོ་ནིའི་དོན་ལས།\n"
 
-#: src/archives.c:1275
+#: src/archives.c:1287
 #, fuzzy, c-format
 msgid ""
 "no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1695,27 +1699,27 @@ msgstr ""
 "dpkg: མེད། %s རྩ་བསྐྲད་གཏང་མི་ཚུགས་ (--auto-deconfigure གི་གྲོགས་རམ་འབད་འོང་):\n"
 "%s"
 
-#: src/archives.c:1285
+#: src/archives.c:1297
 #, fuzzy, c-format
 msgid "removal of %.250s"
 msgstr "%.250s ནང་ལྷག་པའི་འཛོལ་བ།"
 
-#: src/archives.c:1310
+#: src/archives.c:1322
 #, fuzzy, c-format
 msgid "installation of %.250s"
 msgstr "`%.255s' གི་ཐོན་རིམ་གསརཔ་གཞི་བཙུགས་འབད་མ་ཚུགས།"
 
-#: src/archives.c:1312
+#: src/archives.c:1324
 #, fuzzy, c-format
 msgid "considering deconfiguration of %s, which would be broken by %s ..."
 msgstr "dpkg: %s གི་དོན་ལུ་ %s རྩ་བསྐྲད་གཏང་ནི་ཆ་འཇོག་འབད་དོ་ ...\n"
 
-#: src/archives.c:1318
+#: src/archives.c:1330
 #, fuzzy, c-format
 msgid "yes, will deconfigure %s (broken by %s)"
 msgstr "dpkg: ཨིན།  %sགི་དོན་ལུ་ %sརྩ་བསྐྲད་གཏང་འོང་།\n"
 
-#: src/archives.c:1323 src/archives.c:1444
+#: src/archives.c:1335 src/archives.c:1456
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: regarding %s containing %s:\n"
@@ -1727,43 +1731,43 @@ msgstr ""
 "dpkg:  %s ནང་ན་ %s ཡོད་མི་གི་སྐོར་ལས་:\n"
 "%s"
 
-#: src/archives.c:1331
+#: src/archives.c:1343
 #, fuzzy
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "dpkg: ཉེན་བརྡ་ - མི་མཐུན་པ་སྣང་མེད་བཞག་དོ། ག་དེ་སྦེ་རུང་འཕྲོ་མཐུད་འོང་ !\n"
 
-#: src/archives.c:1336
+#: src/archives.c:1348
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
 
-#: src/archives.c:1341
+#: src/archives.c:1353
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr ""
 
-#: src/archives.c:1371
+#: src/archives.c:1383
 #, fuzzy, c-format
 #| msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgid "considering removing %s in favour of %s ..."
 msgstr "dpkg: %s གི་དོན་ལུ་ %s རྩ་བསྐྲད་གཏང་ནི་ཆ་འཇོག་འབད་དོ་ ...\n"
 
-#: src/archives.c:1377
+#: src/archives.c:1389
 #, fuzzy, c-format
 #| msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgid "%s is not properly installed; ignoring any dependencies on it"
 msgstr ""
 "%s འདི་ལེ་ཤོམ་སྦེ་གཞི་བཙུགས་མ་འབད་བས་ - འདི་གུའི་རྟེན་འབྲེལ་ག་ཅི་འབད་རུང་སྣང་མེད་བཞག་དོ།\n"
 
-#: src/archives.c:1406
+#: src/archives.c:1418
 #, fuzzy, c-format
 #| msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgid "may have trouble removing %s, as it provides %s ..."
 msgstr "dpkg: འདི་གིས་ %s བྱིནམ་ལས་ %s རྩ་བསྐྲད་གཏང་ནི་ལུ་དཀའ་ངལ་ཡོདཔ་འོང་ ...\n"
 
-#: src/archives.c:1421
+#: src/archives.c:1433
 #, fuzzy, c-format
 msgid ""
 "package %s requires reinstallation, but will remove anyway as you requested"
@@ -1771,65 +1775,65 @@ msgstr ""
 "dpkg: ཐུམ་སྒྲིལ་ %s ལུ་ལོག་གཞི་བཙུགས་འབད་ནི་དགོཔ་ཨིན་ དེ་འབདཝ་ད་ཁྱོད་ཀྱིས་ཞུ་བ་འབད་དོ་བཟུམ་སྦེ་རྩ་"
 "བསྐྲད་གཏང་།\n"
 
-#: src/archives.c:1425
+#: src/archives.c:1437
 #, fuzzy, c-format
 #| msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgid "package %s requires reinstallation, will not remove"
 msgstr "dpkg: ཐུམ་སྒྲིལ་ %s ལུ་དགོཔ་ཨིན་ རྩ་བསྐྲད་མི་གཏང་།\n"
 
-#: src/archives.c:1434
+#: src/archives.c:1446
 #, fuzzy, c-format
 #| msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgid "yes, will remove %s in favour of %s"
 msgstr "dpkg: ཨིན།  %sགི་དོན་ལུ་ %sརྩ་བསྐྲད་གཏང་འོང་།\n"
 
-#: src/archives.c:1447
+#: src/archives.c:1459
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "མི་མུན་པའི་ཐུམ་སྒྲིལ་ཚུ་ -  %.250s གཞི་བཙུགས་མི་འབད།"
 
-#: src/archives.c:1449
+#: src/archives.c:1461
 #, fuzzy
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "dpkg: ཉེན་བརྡ་ - མི་མཐུན་པ་སྣང་མེད་བཞག་དོ། ག་དེ་སྦེ་རུང་འཕྲོ་མཐུད་འོང་ !\n"
 
-#: src/archives.c:1495
+#: src/archives.c:1507
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive ལུ་ཉུང་མཐའ་འགྲུལ་ལམ་སྒྲུབ་རྟགས་གཅིག་དགོ"
 
-#: src/archives.c:1505
+#: src/archives.c:1517
 #, fuzzy
 msgid "find for dpkg --recursive"
 msgstr "--recursive གི་དོན་ལུ་འཚོལ་ནི་ལག་ལེན་འཐབ་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོད།"
 
-#: src/archives.c:1526
+#: src/archives.c:1538
 msgid "failed to fdopen find's pipe"
 msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ཨེཕ་ཌི་ཨོ་པཱན་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
 
-#: src/archives.c:1532
+#: src/archives.c:1544
 msgid "error reading find's pipe"
 msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ལྷག་ནིའི་འཛོལ་བ།"
 
-#: src/archives.c:1533
+#: src/archives.c:1545
 msgid "error closing find's pipe"
 msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ཁ་བསྡམ་ནིའི་འཛོལ་བ།"
 
-#: src/archives.c:1536
+#: src/archives.c:1548
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "--recursive གི་དོན་ལུ་འཚོལ་ནི་གིས་ལེགས་སྐྱོང་མ་འཐབ་པའི་འཛོལ་བ་ %i སླར་ལོག་འབད་ནུག"
 
-#: src/archives.c:1539
+#: src/archives.c:1551
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "འཚོལ་ཞིབ་འབད་ཡོད་ དེ་འབདཝ་ད་ཐུམ་སྒྲིག་ཚུ་འཚོལ་མ་འཐོབ་(*.deb མཐུན་མི་ཡིག་སྣོད་ཚུ་)"
 
-#: src/archives.c:1550
+#: src/archives.c:1562
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s ལུ་ཉུང་མཐའ་ཐུམ་སྒྲིལ་ཡིག་མཛོད་ཡིག་སྣོད་ཀྱི་སྒྲུབ་རྟགས་གཅིག་དགོཔ་ཨིན།"
 
-#: src/archives.c:1585 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/archives.c:1597 src/divertcmd.c:76 src/divertcmd.c:116
 #: src/enquiry.c:218 src/enquiry.c:335 src/enquiry.c:526 src/enquiry.c:528
 #: src/enquiry.c:541 src/enquiry.c:571 src/main.c:68 src/main.c:170
 #: src/main.c:320 src/main.c:578 src/packages.c:266 src/querycmd.c:291
@@ -1843,36 +1847,36 @@ msgstr "--%s ལུ་ཉུང་མཐའ་ཐུམ་སྒྲིལ་ཡ�
 msgid "<standard output>"
 msgstr ""
 
-#: src/archives.c:1586 src/packages.c:267 src/querycmd.c:292
+#: src/archives.c:1598 src/packages.c:267 src/querycmd.c:292
 #: src/querycmd.c:391 src/querycmd.c:501 src/querycmd.c:579 src/select.c:100
 #: dpkg-split/main.c:177 dpkg-split/queue.c:227
 msgid "<standard error>"
 msgstr ""
 
-#: src/archives.c:1627
+#: src/archives.c:1639
 #, fuzzy, c-format
 #| msgid "Selecting previously deselected package %s.\n"
 msgid "Selecting previously unselected package %s.\n"
 msgstr "ཧེ་མ་སེལ་འཐུ་མ་འབད་བའི་ཐུམ་སྒྲིལ་ %s སེལ་འཐུ་འབད་དོ།\n"
 
-#: src/archives.c:1632
+#: src/archives.c:1644
 #, fuzzy, c-format
 #| msgid "Skipping deselected package %s.\n"
 msgid "Skipping unselected package %s.\n"
 msgstr "སེལ་འཐུ་མ་འབད་བའི་ཐུམ་སྒྲིལ་ %s གོམ་འགྱོ་དོ།\n"
 
-#: src/archives.c:1649
+#: src/archives.c:1661
 #, fuzzy, c-format
 #| msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgid "version %.250s of %.250s already installed, skipping"
 msgstr "%.250s གི་ཐོན་རིམ་ %.250s ཧེ་མ་ལས་རང་ཡོད་ གོམ་འགྱོ་དོ།\n"
 
-#: src/archives.c:1658
+#: src/archives.c:1670
 #, fuzzy, c-format
 msgid "downgrading %.250s from %.250s to %.250s"
 msgstr "%s - ཉེན་བརྡ་:  %.250s འདི་  %.250s ལས་ %.250s ལུ་མར་སྐྱེད་འབད་དོ།\n"
 
-#: src/archives.c:1664
+#: src/archives.c:1676
 #, fuzzy, c-format
 #| msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
@@ -1908,18 +1912,18 @@ msgstr "`%.250s' གི་གསརཔ་སྦེ་གཞི་བཙུགས
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "`%.250s' གི་ཐོན་རིམ་གསརཔ་སྦེ་ཕྱིར་ཐོན་འབད་འབད་བའི་ཐོན་རིམ་རྩ་བསྐྲད་གཏང་མི་ཚུགས།"
 
-#: src/configure.c:125
+#: src/configure.c:172
 #, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "བགོ་བཀྲམ་རིམ་སྒྲིག་ཡིག་སྣོད་ `%.250s' སི་ཊེཊི་འབད་མ་ཚུགས།"
 
-#: src/configure.c:135
+#: src/configure.c:182
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr "ད་ལྟོ་གཞི་བཙུགས་འབད་ཡོད་པའི་རིམ་སྒྲིག་ཡིག་སྣོད་ `%.250s' སི་ཊེཊི་འབད་མ་ཚུགས།"
 
-#: src/configure.c:147
+#: src/configure.c:194
 #, c-format
 msgid ""
 "\n"
@@ -1930,62 +1934,62 @@ msgstr ""
 "རིམ་སྒྲིག་ཡིག་སྣོད་ `%s' རིམ་ལུགས་གུ་ལུ་མེད།\n"
 "ཁྱོད་ཀྱིས་ཞུ་བ་འབད་དོ་བཟུམ་སྦེ་རིམ་སྒྲིག་ཡིག་སྣོད་གསརཔ་གཞི་བཙུགས་འབད་དོ།\n"
 
-#: src/configure.c:189
+#: src/configure.c:236
 #, fuzzy, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr "dpkg: %s: ཉེན་བརྡ་ -  `%.250s' རྒྱབ་ཐག་རྙིངམ་རྩ་བསྐྲད་གཏང་ནི་འཐུས་ཤོར་བྱུང་ཡོད་: %s\n"
 
-#: src/configure.c:198
+#: src/configure.c:245
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ -  `%.250s' འདི་ `%.250s' ལུ་བསྐྱར་མིང་བཏགས་ནི་འཐུས་ཤོར་བྱུང་ཡོད་: %s\n"
 
-#: src/configure.c:205
+#: src/configure.c:252
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s:ལག་ལེན་འཐབ་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ  '%s %s'"
 
-#: src/configure.c:212
+#: src/configure.c:259
 #, fuzzy, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
 msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ - བགོ་བཀྲམ་ཐོན་རིམ་ `%.250s' རྙིངམ་རྩ་བསྐྲད་གཏང་ནི་འཐུས་ཤོར་བྱུང་ཡོད་: %s\n"
 
-#: src/configure.c:217
+#: src/configure.c:264
 #, fuzzy, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ -  `%.250s' (སླར་སྲུང་མ་འབད་བའི་ཧེ་མ་)རྩ་བསྐྲད་གཏང་ནི་འཐུས་ཤོར་བྱུང་ཡོད་: "
 "%s\n"
 
-#: src/configure.c:222
+#: src/configure.c:269
 #, fuzzy, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ -  `%.250s' འདི་ `%.250s' ལུ་འབྲེལ་མཐུད་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོད་: %s\n"
 
-#: src/configure.c:227
+#: src/configure.c:274
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་ %s གི་ཐོན་རིམ་གསརཔ་གཞི་བཙུགས་འབད་དོ་...\n"
 
-#: src/configure.c:233 utils/update-alternatives.c:496
+#: src/configure.c:280 utils/update-alternatives.c:497
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "`%.250s' འདི་ `%.250s' སྦེ་གཞི་བཙུགས་འབད་མ་ཚུགས།"
 
-#: src/configure.c:285
+#: src/configure.c:332
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "`%s' སྦེ་མིང་བཏགས་ཡོད་པའི་ཐུམ་སྒྲིལ་ག་ནི་ཡང་གཞི་བཙུགས་མ་འབད་ རིམ་སྒྲིག་འབད་མི་ཚུགས།"
 
-#: src/configure.c:288
+#: src/configure.c:335
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "ཐུམ་སྒྲིལ་ %.250s འདི་ཧེ་མ་ལས་གཞི་བཙུགས་དང་རིམ་སྒྲིག་འབད་ཡོདཔ་ཨིན།"
 
-#: src/configure.c:291
+#: src/configure.c:338
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1994,7 +1998,7 @@ msgstr ""
 "ཐུམ་སྒྲིལ་ %.250s འདི་རིམ་སྒྲིག་གི་དོན་ལུ་གྲ་སྒྲིག་མེད།\n"
 " རིམ་སྒྲིག་འབད་མི་ཚུགས་(ད་ལྟའི་གནས་ཚད་ `%.250s')"
 
-#: src/configure.c:303
+#: src/configure.c:350
 #, fuzzy, c-format
 #| msgid ""
 #| "package %.250s is not ready for configuration\n"
@@ -2005,13 +2009,13 @@ msgstr ""
 "ཐུམ་སྒྲིལ་ %.250s འདི་རིམ་སྒྲིག་གི་དོན་ལུ་གྲ་སྒྲིག་མེད།\n"
 " རིམ་སྒྲིག་འབད་མི་ཚུགས་(ད་ལྟའི་གནས་ཚད་ `%.250s')"
 
-#: src/configure.c:311
+#: src/configure.c:358
 #, c-format
 msgid ""
 "package %s %s cannot be configured because %s is at a different version (%s)"
 msgstr ""
 
-#: src/configure.c:347
+#: src/configure.c:394
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: dependency problems prevent configuration of %s:\n"
@@ -2023,11 +2027,11 @@ msgstr ""
 "dpkg: རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་གྱིས་ %s གི་རིམ་སྒྲིག་སྔོན་བཀག་འབདཝ་ཨིན།:\n"
 "%s"
 
-#: src/configure.c:350
+#: src/configure.c:397
 msgid "dependency problems - leaving unconfigured"
 msgstr "རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་ཚུ་ - རིམ་སྒྲིག་མ་འབད་བར་བཞག་དོ།"
 
-#: src/configure.c:353
+#: src/configure.c:400
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
@@ -2039,7 +2043,7 @@ msgstr ""
 "dpkg: %s: རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་ཚུ་ དེ་འབདཝ་ད་ ཁྱོད་ཀྱིས་ཞུ་བ་འབད་དོ་བཟུམ་སྦེ་རིམ་སྒྲིག་འབད་དོ་:\n"
 "%s"
 
-#: src/configure.c:361
+#: src/configure.c:408
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -2047,12 +2051,12 @@ msgstr ""
 "ཐུམ་སྒྲིལ་འདི་གནམ་མེད་ས་མེད་རིམ་མཐུན་མེད་པའི་གནས་ལུགས་ནང་ལུ་ཨིན་མས་ - ཁྱོད་ཀྱིས་\n"
 " རིམ་སྒྲིག་འབད་ནིའི་དཔའ་མ་བཅམ་པའི་ཧེ་མ་ལོག་འགོ་བཙུགས་དགོ"
 
-#: src/configure.c:364
+#: src/configure.c:411
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "%s (%s) གཞི་སྒྲིག་འབད་དོ་...\n"
 
-#: src/configure.c:448
+#: src/configure.c:498
 #, fuzzy, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -2061,7 +2065,7 @@ msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ - རིམ་སྒྲིག་ཡིག་སྣོད་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས།\n"
 " (= `%s'): %s\n"
 
-#: src/configure.c:462
+#: src/configure.c:512
 #, fuzzy, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -2070,7 +2074,7 @@ msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ - རིམ་སྒྲིག་ཡིག་སྣོད་ `%s' འདི་ཐད་སྒོརམ་འབྲེལ་ལམ་ཅིག་ཨིན་\n"
 " (= `%s')\n"
 
-#: src/configure.c:473
+#: src/configure.c:523
 #, fuzzy, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -2079,7 +2083,7 @@ msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ - རིམ་སྒྲིག་ཡིག་སྣོད་ `%s' ལྷག་ནིའི་འབྲེལ་ལམ་ཟབོ་མ་ཚུགས།\n"
 " (= `%s'): %s\n"
 
-#: src/configure.c:500
+#: src/configure.c:550
 #, fuzzy, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -2089,37 +2093,37 @@ msgstr ""
 "འབདཝ་ཨིན།\n"
 " (`%s' འདི་  `%s' ལུ་བརྡ་མཚོན་འབྲེལ་ལམ་ཨིན་)\n"
 
-#: src/configure.c:516
+#: src/configure.c:566
 #, fuzzy, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ - རིམ་སྒྲིག་ཡིག་སྣོད་ `%.250s' འདི་ཉག་རྐྱང་ཡིག་སྣོད་ཡང་ན་བརྡ་དོན་ (= `%s')"
 "ཨིན།\n"
 
-#: src/configure.c:544 dpkg-split/split.c:142
+#: src/configure.c:594 dpkg-split/split.c:142
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
 msgid "cannot compute MD5 hash for file '%s': %s"
 msgstr "མིང་རྙིངམ་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས: %s"
 
-#: src/configure.c:551
+#: src/configure.c:601
 #, fuzzy, c-format
 msgid "%s: unable to open %s for hash: %s"
 msgstr "dpkg: %s: ཉེན་བརྡ་ - དྲྭ་རྟགས་ ཀྱི་དོན་ལུ་རིམ་སྒྲིག་ཡིག་སྣོད་ %s ཁ་ཕྱེ་མ་ཚུགས: %s\n"
 
-#: src/configure.c:577 src/configure.c:581
+#: src/configure.c:627 src/configure.c:631
 msgid "conffile difference visualizer"
 msgstr ""
 
-#: src/configure.c:598
+#: src/configure.c:648
 msgid "Type `exit' when you're done.\n"
 msgstr "ཁྱོད་འབད་ཚར་བའི་སྐབས་ `exit' ཡིག་དཔར་རྐྱབས།\n"
 
-#: src/configure.c:607 src/configure.c:611
+#: src/configure.c:657 src/configure.c:661
 msgid "conffile shell"
 msgstr ""
 
-#: src/configure.c:657
+#: src/configure.c:707
 #, c-format
 msgid ""
 "\n"
@@ -2128,12 +2132,12 @@ msgstr ""
 "\n"
 "རིམ་སྒྲིག་ཡིག་སྣོད་ `%s'"
 
-#: src/configure.c:659
+#: src/configure.c:709
 #, c-format
 msgid " (actually `%s')"
 msgstr " (ངོ་མ་འབད་བ་ཅིན་ `%s')"
 
-#: src/configure.c:663
+#: src/configure.c:713
 #, c-format
 msgid ""
 "\n"
@@ -2144,7 +2148,7 @@ msgstr ""
 " ==> ཡིག་སྣོད་གུའི་རིམ་ལུགས་འདི་ཁྱོད་ཀྱིས་ཡང་ན་ཡིག་ཚུགས་ཀྱིས་གསར་བསྐྲུན་འབད་ཡོད།\n"
 " ==> ཡིག་སྣོད་ཡང་ཐུམ་སྒྲིལ་འཛིན་སྐྱོང་པ་གིས་ཐུམ་སྒྲིལ་བྱིན་ཡོདཔ།\n"
 
-#: src/configure.c:668
+#: src/configure.c:718
 #, c-format
 msgid ""
 "\n"
@@ -2153,7 +2157,7 @@ msgstr ""
 "\n"
 "     གཞི་བཙུགས་འབད་ཞིནམ་ལས་ལེགས་བཅོས་མ་འབད་བས།\n"
 
-#: src/configure.c:670
+#: src/configure.c:720
 #, c-format
 msgid ""
 "\n"
@@ -2162,7 +2166,7 @@ msgstr ""
 "\n"
 " ==> (ཁྱོད་ཀྱིས་ཡང་ན་ཡིག་ཚུགས་ཀྱིས་)གཞི་བཙུགས་སྐབས་ལས་ལེགས་བཅོས་འབད་ཡོད།\n"
 
-#: src/configure.c:671
+#: src/configure.c:721
 #, c-format
 msgid ""
 "\n"
@@ -2171,37 +2175,37 @@ msgstr ""
 "\n"
 " ==> (ཁྱོད་ཀྱིས་ཡང་ན་ཡིག་ཚུགས་གཅིག་གིས་)གཞི་བཙུགས་སྐབས་ལས་བཏོན་གཏང་ཡོདཔ།\n"
 
-#: src/configure.c:674
+#: src/configure.c:724
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> ཐུམ་སྒྲིལ་བགོ་འགྲེམ་པ་གིས་དུས་མཐུན་བཟོ་ཡོད་པའི་ཐོན་རིམ་ཅིག་སྐྱེལ་འདྲེན་འབད་ནུག\n"
 
-#: src/configure.c:675
+#: src/configure.c:725
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     ཐུམ་སྒྲིལ་ནང་གི་ཐོན་རིམ་འདི་མཇུག་ལུ་གཞི་བཙུགས་འབད་ཡོད་མི་དང་གཅིག་པ་ཨིན།\n"
 
-#: src/configure.c:683
+#: src/configure.c:733
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> ཁྱོད་ཀྱི་ཞུ་བ་འབད་དོ་བཟུམ་སྦེ་ཡིག་སྣོད་གསརཔ་ལག་ལེན་འཐབ་དོ།\n"
 
-#: src/configure.c:687
+#: src/configure.c:737
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> ཁྱོད་ཀྱི་ཞུ་བ་འབད་དོ་བཟུམ་སྦེ་ ད་ལྟོའི་ཡིག་སྣོད་རྙིངམ་ལག་ལེན་འཐབ་དོ།\n"
 
-#: src/configure.c:696
+#: src/configure.c:746
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> རིམ་སྒྲིག་ཡིག་སྣོད་རྙིངམ་འདི་སྔོན་སྒྲིག་སྦེ་བཞག་དོ།\n"
 
-#: src/configure.c:700
+#: src/configure.c:750
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> རིམ་སྒྲིག་ཡིག་སྣོད་འདི་སྔོན་སྒྲིག་སྦེ་ལག་ལེན་འཐབ་དོ།\n"
 
-#: src/configure.c:707
+#: src/configure.c:757
 #, fuzzy, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -2216,37 +2220,37 @@ msgstr ""
 "      D     : ཐོན་རིམ་ཚུའི་བར་གྱི་ཁྱད་པར་ཚུ་སྟོན།\n"
 "      Z     : དུས་སྐབས་འདི་བརྟག་དཔྱད་འབད་ནིའི་དོན་ལས་ལས་སྦྱོར་འདི་རྒྱབ་གཞི་བཟོ།\n"
 
-#: src/configure.c:714
+#: src/configure.c:764
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr "སྔོན་སྒྲིག་གི་བྱ་བ་འདི་ཁྱོད་ཀྱི་ད་ལྟོའི་ཐོན་རིམ་བཞག་ནི་འདི་ཨིན།\n"
 
-#: src/configure.c:716
+#: src/configure.c:766
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr "སྔོན་སྒྲིག་གི་བྱ་བ་འདི་ཐོན་རིམ་གསརཔ་གཞི་བཙུགས་འབད་ནི་འདི་ཨིན།\n"
 
-#: src/configure.c:721
+#: src/configure.c:771
 msgid "[default=N]"
 msgstr "[སྔོན་སྒྲིག་=ཨེན་]"
 
-#: src/configure.c:722
+#: src/configure.c:772
 msgid "[default=Y]"
 msgstr "[སྔོན་སྒྲིག་=ཝའི]"
 
-#: src/configure.c:723
+#: src/configure.c:773
 msgid "[no default]"
 msgstr "[སྔོན་སྒྲིག་མེད]"
 
-#: src/configure.c:726
+#: src/configure.c:776
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr "ཨེསི་ཊི་ཌི་ཨི་ཨར་ཨར་ལུ་འབྲིཝ་ད་འཛོལ་བ། རིམ་སྒྲིག་ཡིག་སྣོད་ནུས་སྤེལ་གྱི་ཧེ་མ་གསར་རྙེད་འབད་ཡོདཔ།"
 
-#: src/configure.c:735
+#: src/configure.c:785
 msgid "read error on stdin at conffile prompt"
 msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་ནུས་སྤེལ་ལུ་ཨེསི་ཊི་ཌི་ཨིན་གུ་ལྷག་པའི་འཛོལ་བ།"
 
-#: src/configure.c:736
+#: src/configure.c:786
 msgid "EOF on stdin at conffile prompt"
 msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་ནུས་སྤེལ་ལུའི་ཨེསི་ཊི་ཌི་ཨིན་གུ་ཨི་ཨོ་ཨེཕ།"
 
@@ -2477,7 +2481,7 @@ msgstr ""
 "བསྐྱར་མིང་བཏགས་ནི་འདི་ `%s' \n"
 "  ཡིག་སྣོད་ `%s' སོ་སོ་དང་དང་ཅིག་ཁར་ཚབ་སྲུང་འབད་ནི་དང་འབྲེལ་བ་འབདཝ་ཨིན། འབད་མི་ཆོག"
 
-#: src/divertcmd.c:222 utils/update-alternatives.c:1368
+#: src/divertcmd.c:222 utils/update-alternatives.c:1369
 #, fuzzy, c-format
 msgid "unable to create file '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
@@ -3018,12 +3022,12 @@ msgstr ""
 "%d གིས་འགྲུལ་ལམ་གུ་མ་འཐོབ་མི་ལས་རིམ་(ཚུ་)རེ་བ་བསྐྱེད་ནུག\n"
 "ཨེན་བི: རྩ་བའི་འགྲུལ་ལམ་འདི་གི་ནང་ན་/usr/local/sbin, /usr/sbin དང་ /sbin འོང་དགོ"
 
-#: src/help.c:357
+#: src/help.c:380
 #, fuzzy, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "`%.255s' གསར་བསྐྲུན་འབད་མ་ཚུགས།"
 
-#: src/help.c:362 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:385 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr ""
 
@@ -3032,7 +3036,7 @@ msgstr ""
 msgid "unable to check existence of `%.250s'"
 msgstr "`%.250s' གི་གནས་ས་ཞིབ་དཔྱད་འབད་མ་ཚུགས།"
 
-#: src/infodb-access.c:79 src/infodb-upgrade.c:93
+#: src/infodb-access.c:83 src/infodb-upgrade.c:93
 msgid "cannot read info directory"
 msgstr "བརྡ་དོན་སྣོད་ཐོ་ལྷག་མི་ཚུགས།"
 
@@ -3045,6 +3049,11 @@ msgstr "%.250s ཁ་ཕྱེ་ནིའ་འབད་རྩོལ་བས�
 #, fuzzy, c-format
 msgid "corrupt info database format file '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
+
+#: src/infodb-format.c:88
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
 
 #: src/infodb-upgrade.c:123
 #, fuzzy, c-format
@@ -3685,11 +3694,11 @@ msgstr "%s (ལས་སྦྱོར་ཡན་ལག): %s\n"
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  རིམ་ལུགས་གུའི་ %s གི་ཐོན་རིམ་འདི་ %s ཨིན།\n"
 
-#: src/packages.c:635
+#: src/packages.c:640
 msgid " depends on "
 msgstr "ལུ་རྟེནམ་ཨིན།"
 
-#: src/packages.c:641
+#: src/packages.c:646
 msgid "; however:\n"
 msgstr "གང་ལྟར་ཡང་:\n"
 
@@ -3867,7 +3876,7 @@ msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 "རིམ་སྒྲིག་ཡིག་སྣོད་ཀྱི་མིང་(`%.250s' འགོ་བཙུགས་དོ་) འདི་གནམ་མེད་ས་མེད་རིངམ་ཨིན་པས་(>%d ཡིག་འབྲུ)"
 
-#: src/processarc.c:693 utils/update-alternatives.c:2104
+#: src/processarc.c:693 utils/update-alternatives.c:2105
 #, c-format
 msgid "read error in %.250s"
 msgstr "%.250s ནང་ལྷག་པའི་འཛོལ་བ།"
@@ -4558,7 +4567,7 @@ msgstr "གྲལ་ཐིག་ %d གུ་ལུ་ཐུམ་སྒྲི�
 
 #: src/statdb.c:216
 #, fuzzy, c-format
-msgid "multiple statusoverrides present for file '%.250s'"
+msgid "multiple statoverrides present for file '%.250s'"
 msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ `%.250s'"
 
 #: src/trigcmd.c:48
@@ -4804,8 +4813,8 @@ msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] "ཌི་པི་ཀེ་ཇི་-ཌེབ་: ཚད་འཛིན་ཡིག་སྣོད་(ཚུ་)གི་སྐོར་ལས་ %d ཉེན་བརྡ་ཚུ་སྣང་མེད་བཞག་དོ།\n"
 msgstr[1] "ཌི་པི་ཀེ་ཇི་-ཌེབ་: ཚད་འཛིན་ཡིག་སྣོད་(ཚུ་)གི་སྐོར་ལས་ %d ཉེན་བརྡ་ཚུ་སྣང་མེད་བཞག་དོ།\n"
 
-#: dpkg-deb/build.c:404 utils/update-alternatives.c:2577
-#: utils/update-alternatives.c:2584
+#: dpkg-deb/build.c:404 utils/update-alternatives.c:2579
+#: utils/update-alternatives.c:2586
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s ་ལུ་ <སྣོད་ཐོ་> སྒྲུབ་རྟགས་ཅིག་དགོཔ་འདུག"
@@ -5138,7 +5147,7 @@ msgid_plural "%d requested control components are missing"
 msgstr[0] "གཅིག་ཞུ་བ་འབད་མི་ཚད་འཛིན་ཆ་ཤས་འདི་བརླག་སྟོར་ཞུགས་ཡོདཔ།"
 msgstr[1] "གཅིག་ཞུ་བ་འབད་མི་ཚད་འཛིན་ཆ་ཤས་འདི་བརླག་སྟོར་ཞུགས་ཡོདཔ།"
 
-#: dpkg-deb/info.c:141 utils/update-alternatives.c:1065
+#: dpkg-deb/info.c:141 utils/update-alternatives.c:1066
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "སྣོད་ཐོ་ `%.255s' ཞིབ་ལྟ་འབད་མི་ཚུགས།"
@@ -5987,72 +5996,72 @@ msgstr "བརྡ་བཀོད་གཉིས་གསལ་བཀོད་འ
 msgid "cannot append to '%s'"
 msgstr "%s: %s ཁ་ཕྱེ་མི་ཚུགས་: %s"
 
-#: utils/update-alternatives.c:506
+#: utils/update-alternatives.c:507
 #, fuzzy, c-format
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
 msgstr "%s རྩ་བསྐྲད་གཏང་མ་ཚུགས: %s"
 
-#: utils/update-alternatives.c:1101
+#: utils/update-alternatives.c:1102
 #, fuzzy, c-format
 msgid "unexpected end of file while trying to read %s"
 msgstr "%.255s ནང་གི་ %s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ་བ་མེད་པའི་མཇུག"
 
-#: utils/update-alternatives.c:1103
+#: utils/update-alternatives.c:1104
 #, fuzzy, c-format
 msgid "while reading %s: %s"
 msgstr "%s ལྷག: %s"
 
-#: utils/update-alternatives.c:1109
+#: utils/update-alternatives.c:1110
 #, fuzzy, c-format
 msgid "line not terminated while trying to read %s"
 msgstr "%.255s ནང་གི་ %s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ་བ་མེད་པའི་མཇུག"
 
-#: utils/update-alternatives.c:1127
+#: utils/update-alternatives.c:1128
 #, fuzzy, c-format
 msgid "%s corrupt: %s"
 msgstr "ནང་འཁོད་ཀྱི་འཛོལ་བ: %s ངན་ཅན་བཟོ་ནི་: %s"
 
-#: utils/update-alternatives.c:1140
+#: utils/update-alternatives.c:1141
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "དུས་མཐུན་-སྤེལ་མའི་ཡིག་སྣོད་ཚུ་ (%s) ནང་ལུ་གྲལ་ཐིག་གསརཔ་ཚུ་བཀག་ཡོདཔ།"
 
-#: utils/update-alternatives.c:1153
+#: utils/update-alternatives.c:1154
 msgid "slave name"
 msgstr ""
 
-#: utils/update-alternatives.c:1161 utils/update-alternatives.c:2553
+#: utils/update-alternatives.c:1162 utils/update-alternatives.c:2555
 #, fuzzy, c-format
 #| msgid "duplicate slave %s"
 msgid "duplicate slave name %s"
 msgstr "བྲན་གཡོག་ %s རྫུན་མ།"
 
-#: utils/update-alternatives.c:1164
+#: utils/update-alternatives.c:1165
 #, fuzzy
 msgid "slave link"
 msgstr "བྲན་གཡོག་འབྲེལ་ལམ་ %s རྫུན་མ།"
 
-#: utils/update-alternatives.c:1168
+#: utils/update-alternatives.c:1169
 #, c-format
 msgid "slave link same as main link %s"
 msgstr "འབྲན་གཡོག་འབྲེལ་ལམ་འདི་འབྲེལ་ལམ་གཙོ་བོ་ %s དང་ལྕོགས་རང་ཐད།"
 
-#: utils/update-alternatives.c:1175 utils/update-alternatives.c:2560
+#: utils/update-alternatives.c:1176 utils/update-alternatives.c:2562
 #, c-format
 msgid "duplicate slave link %s"
 msgstr "བྲན་གཡོག་འབྲེལ་ལམ་ %s རྫུན་མ།"
 
-#: utils/update-alternatives.c:1193
+#: utils/update-alternatives.c:1194
 msgid "master file"
 msgstr ""
 
-#: utils/update-alternatives.c:1202
+#: utils/update-alternatives.c:1203
 #, c-format
 msgid "duplicate path %s"
 msgstr "འགྲུལ་ལམ་རྫུན་མ་ %s"
 
-#: utils/update-alternatives.c:1215
+#: utils/update-alternatives.c:1216
 #, fuzzy, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist; removing from list of "
@@ -6060,173 +6069,173 @@ msgid ""
 msgstr ""
 "%s གི་དོན་ལུ་སྤེལ་མ་གིས་ འཚོལ་མ་འཐོབ་མི་ - %s ལུ་དཔགཔ་ཨིན། སྤེལ་མ་ཚུའི་ཐོ་ཡིག་ལས་རྩ་བསྐྲད་གཏང་དོ།"
 
-#: utils/update-alternatives.c:1218 utils/update-alternatives.c:1229
+#: utils/update-alternatives.c:1219 utils/update-alternatives.c:1230
 #, fuzzy
 msgid "priority"
 msgstr "གཙོ་རིམ་ %s %s"
 
-#: utils/update-alternatives.c:1221 utils/update-alternatives.c:1243
+#: utils/update-alternatives.c:1222 utils/update-alternatives.c:1244
 msgid "slave file"
 msgstr ""
 
-#: utils/update-alternatives.c:1234
+#: utils/update-alternatives.c:1235
 #, fuzzy, c-format
 msgid "priority of %s: %s"
 msgstr "གཙོ་རིམ་ %s %s"
 
-#: utils/update-alternatives.c:1238
+#: utils/update-alternatives.c:1239
 #, fuzzy, c-format
 msgid "priority of %s is out of range: %s"
 msgstr "གཙོ་རིམ་ %s %s"
 
-#: utils/update-alternatives.c:1292
+#: utils/update-alternatives.c:1293
 msgid "status"
 msgstr ""
 
-#: utils/update-alternatives.c:1294
+#: utils/update-alternatives.c:1295
 #, fuzzy
 msgid "invalid status"
 msgstr "ནུས་མེད་དུས་མཐུནམ་བཟོ་ནི་ཐབས་ལམ"
 
-#: utils/update-alternatives.c:1299
+#: utils/update-alternatives.c:1300
 #, fuzzy
 msgid "master link"
 msgstr "བྲན་གཡོག་འབྲེལ་ལམ་ %s རྫུན་མ།"
 
-#: utils/update-alternatives.c:1343
+#: utils/update-alternatives.c:1344
 #, fuzzy, c-format
 msgid "discarding obsolete slave link %s (%s)"
 msgstr "ཕན་མེད་བྲན་གཡོག་འབྲེལ་ལམ་ %s (%s) བཏོན་བཀོག་དོ།"
 
-#: utils/update-alternatives.c:1399
+#: utils/update-alternatives.c:1400
 #, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "vsnprintf ནང་ ངོས་སྙོམ་མ་ཚུགས།"
 
-#: utils/update-alternatives.c:1491 utils/update-alternatives.c:1558
-#: utils/update-alternatives.c:2270
+#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1559
+#: utils/update-alternatives.c:2271
 msgid "auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1491 utils/update-alternatives.c:1567
-#: utils/update-alternatives.c:2271
+#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1568
+#: utils/update-alternatives.c:2272
 msgid "manual mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1494
+#: utils/update-alternatives.c:1495
 #, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr "འབྲེལ་ལམ་འདི་ད་ལྟོ་ %s ལུ་དཔགཔ་ཨིན།"
 
-#: utils/update-alternatives.c:1497
+#: utils/update-alternatives.c:1498
 #, fuzzy
 msgid "  link currently absent"
 msgstr "འབྲེལ་ལམ་འདི་ད་ལྟོ་ཆད་ཨིན་པས།"
 
-#: utils/update-alternatives.c:1501
+#: utils/update-alternatives.c:1502
 #, fuzzy, c-format
 #| msgid "%s - priority %s"
 msgid "%s - priority %d"
 msgstr "%s - གཙོ་རིམ་ %s"
 
-#: utils/update-alternatives.c:1504
+#: utils/update-alternatives.c:1505
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr "བྲན་གཡོག་ %s: %s"
 
-#: utils/update-alternatives.c:1511
+#: utils/update-alternatives.c:1512
 #, fuzzy, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "ད་ལྟོའི་ཐོན་རིམ་`དྲག་ཤོས་'འདི་ %s ཨིན།"
 
-#: utils/update-alternatives.c:1513
+#: utils/update-alternatives.c:1514
 msgid "No versions available."
 msgstr "ཐོན་རིམ་ཚུ་ཐོབ་ཚུགསཔ་མེད།"
 
-#: utils/update-alternatives.c:1542
+#: utils/update-alternatives.c:1543
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: utils/update-alternatives.c:1549
+#: utils/update-alternatives.c:1550
 #, fuzzy
 msgid "Selection"
 msgstr "འགྲེལ་བཤད།"
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 msgid "Path"
 msgstr ""
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 #, fuzzy
 msgid "Priority"
 msgstr "གཙོ་རིམ་ %s %s"
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 msgid "Status"
 msgstr ""
 
-#: utils/update-alternatives.c:1571
+#: utils/update-alternatives.c:1572
 #, fuzzy, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr "སྔོན་སྒྲིག་[*]བཞག་ནིའི་དོན་ལས་ལོག་ལྡེ་ཨེབ་ ཡང་ན་སེལ་འཐུའི་ཨང་ཡིག་དཔར་རྐྱབས:"
 
-#: utils/update-alternatives.c:1725
+#: utils/update-alternatives.c:1726
 #, c-format
 msgid "not replacing %s with a link"
 msgstr ""
 
-#: utils/update-alternatives.c:1766
+#: utils/update-alternatives.c:1767
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1784
+#: utils/update-alternatives.c:1785
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist"
 msgstr ""
 
-#: utils/update-alternatives.c:1794
+#: utils/update-alternatives.c:1795
 #, c-format
 msgid "not removing %s since it's not a symlink"
 msgstr ""
 
-#: utils/update-alternatives.c:2069 utils/update-alternatives.c:2075
+#: utils/update-alternatives.c:2070 utils/update-alternatives.c:2076
 #, c-format
 msgid "Call %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2079
+#: utils/update-alternatives.c:2080
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr ""
 
-#: utils/update-alternatives.c:2083
+#: utils/update-alternatives.c:2084
 #, fuzzy, c-format
 msgid "Skip unknown alternative %s."
 msgstr "སྤེལ་མ་ `%s' འཚོལ་མ་འཐོབ།"
 
-#: utils/update-alternatives.c:2110
+#: utils/update-alternatives.c:2111
 #, fuzzy, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "%.255s ནང་གི་ %s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ་བ་མེད་པའི་མཇུག"
 
-#: utils/update-alternatives.c:2123 utils/update-alternatives.c:2136
-#: utils/update-alternatives.c:2146
+#: utils/update-alternatives.c:2124 utils/update-alternatives.c:2137
+#: utils/update-alternatives.c:2147
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2171
+#: utils/update-alternatives.c:2172
 #, c-format
 msgid "%s/%s is dangling; it will be updated with best choice"
 msgstr ""
 
-#: utils/update-alternatives.c:2175
+#: utils/update-alternatives.c:2176
 #, fuzzy, c-format
 msgid ""
 "%s/%s has been changed (manually or by a script); switching to manual "
@@ -6235,143 +6244,143 @@ msgstr ""
 "%s འདི་བསྐྱུར་བཅོས་འབད་ཡོདཔ་ཨིན།(ལག་ཐོག་ལས་ཡང་ན་ཡགི་ཚུགས་ཅིག་གིས་སྦེ་)\n"
 "ལག་དེབ་ཀྱི་དུས་མཐུན་ཚུ་ལུ་རྐྱངམ་ཅིག་སུ་ཡུ་ཅིང་འབད་དོ།"
 
-#: utils/update-alternatives.c:2183
+#: utils/update-alternatives.c:2184
 #, fuzzy, c-format
 msgid "setting up automatic selection of %s"
 msgstr "%s གི་རང་བཞིན་སེལ་འཐུ་གཞི་སྒྲིག་འབད་དོ།"
 
-#: utils/update-alternatives.c:2199
+#: utils/update-alternatives.c:2200
 #, fuzzy, c-format
 msgid "renaming %s link from %s to %s"
 msgstr "%s འབྲེལ་ལམ་འདི་ %s ལས་ %s ལུ་བསྐྱར་མིང་བཏགས་དོ།"
 
-#: utils/update-alternatives.c:2240
+#: utils/update-alternatives.c:2241
 #, fuzzy, c-format
 msgid "renaming %s slave link from %s to %s"
 msgstr "%s བྲན་གཡོག་བྲན་ལམ་འདི་ %s ལས་ %s ལུ་བསྐྱར་མིང་བཏགས་དོ།"
 
-#: utils/update-alternatives.c:2268
+#: utils/update-alternatives.c:2269
 #, fuzzy, c-format
 msgid "using %s to provide %s (%s) in %s"
 msgstr "`%s' བྱིན་ནིའི་དོན་ལས་ `%s' ལག་ལེན་འཐབ་དོ།"
 
-#: utils/update-alternatives.c:2276
+#: utils/update-alternatives.c:2277
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken"
 msgstr ""
 
-#: utils/update-alternatives.c:2283
+#: utils/update-alternatives.c:2284
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2309
+#: utils/update-alternatives.c:2310
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces"
 msgstr ""
 
-#: utils/update-alternatives.c:2317
+#: utils/update-alternatives.c:2318
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2325
+#: utils/update-alternatives.c:2326
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2356
+#: utils/update-alternatives.c:2357
 #, fuzzy, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr "%s:  %s གསར་བསྐྲུན་འབད་མི་ཚུགས་: %s"
 
-#: utils/update-alternatives.c:2364 utils/update-alternatives.c:2400
+#: utils/update-alternatives.c:2365 utils/update-alternatives.c:2401
 #, fuzzy, c-format
 msgid "alternative link %s is already managed by %s"
 msgstr "%s:  %s གསར་བསྐྲུན་འབད་མི་ཚུགས་: %s"
 
-#: utils/update-alternatives.c:2370
+#: utils/update-alternatives.c:2371
 #, fuzzy, c-format
 msgid "alternative path %s doesn't exist"
 msgstr "ཉེན་བརྡ་: --དུས་མཐུན་བྱིན་ཡོད་ དེ་འབདཝ་ད་  %s འདི་མེད།"
 
-#: utils/update-alternatives.c:2387
+#: utils/update-alternatives.c:2388
 #, fuzzy, c-format
 msgid "alternative %s can't be slave of %s: it is a master alternative"
 msgstr "%s:  %s གསར་བསྐྲུན་འབད་མི་ཚུགས་: %s"
 
-#: utils/update-alternatives.c:2391
+#: utils/update-alternatives.c:2392
 #, fuzzy, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr "%s:  %s གསར་བསྐྲུན་འབད་མི་ཚུགས་: %s"
 
-#: utils/update-alternatives.c:2411
+#: utils/update-alternatives.c:2412
 #, fuzzy, c-format
 msgid "alternative link %s is already managed by %s (slave of %s)"
 msgstr "%s:  %s གསར་བསྐྲུན་འབད་མི་ཚུགས་: %s"
 
-#: utils/update-alternatives.c:2455
+#: utils/update-alternatives.c:2456
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "མ་ཤེས་པའི་སྒྲུབ་རྟགས་ `%s'"
 
-#: utils/update-alternatives.c:2474
+#: utils/update-alternatives.c:2475
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--གཞི་བཙུགས་ལུ་ <link> <name> <path> <priority> དགོཔ་ཨིན།"
 
-#: utils/update-alternatives.c:2480 utils/update-alternatives.c:2545
+#: utils/update-alternatives.c:2481 utils/update-alternatives.c:2547
 msgid "<link> and <path> can't be the same"
 msgstr ""
 
-#: utils/update-alternatives.c:2484
+#: utils/update-alternatives.c:2485
 msgid "priority must be an integer"
 msgstr "གཙོ་རིམ་འདི་ཧྲིལ་ཨང་ཅིག་ཨིན་དགོ"
 
-#: utils/update-alternatives.c:2488
+#: utils/update-alternatives.c:2489
 #, c-format
 msgid "priority is out of range: %s clamped to %ld"
 msgstr ""
 
-#: utils/update-alternatives.c:2504
+#: utils/update-alternatives.c:2505
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s ལུ་ <name> <path> དགོཔ་ཨིན།"
 
-#: utils/update-alternatives.c:2521
+#: utils/update-alternatives.c:2522
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s ལུ་ <name> དགོཔ་ཨིན།"
 
-#: utils/update-alternatives.c:2536
+#: utils/update-alternatives.c:2538
 msgid "--slave only allowed with --install"
 msgstr "--བྲན་གཡོག་འདི་ --གཞི་བཙུགས་དང་ཅིག་ཁར་རྐྱངམ་ཅིག་འབད་ཆོགཔ་ཨིན།"
 
-#: utils/update-alternatives.c:2538
+#: utils/update-alternatives.c:2540
 msgid "--slave needs <link> <name> <path>"
 msgstr "--བྲན་གཡོག་ལུ་ <link> <name> <path> དགོཔ་ཨིན།"
 
-#: utils/update-alternatives.c:2547
+#: utils/update-alternatives.c:2549
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr "མིང་  %s འདི་གཞི་རིམ་དང་བྲན་གཡོག་གཉིས་ཆ་རང་ཨིན།"
 
-#: utils/update-alternatives.c:2550
+#: utils/update-alternatives.c:2552
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr "འབྲེལ་ལམ་ %s འདི་ གཞི་རིམ་དང་བྲན་གཡོག་གཉིས་ཆ་རང་ཨིན།"
 
-#: utils/update-alternatives.c:2570
+#: utils/update-alternatives.c:2572
 #, fuzzy, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s་ལུ་སྒྲུབ་རྟགས་རྐྱང་པ་ཅིག་དགོཔ་འདུག"
 
-#: utils/update-alternatives.c:2596
+#: utils/update-alternatives.c:2598
 #, c-format
 msgid "unknown option `%s'"
 msgstr "མ་ཤེས་པའི་གདམ་ཁ་ `%s'"
 
-#: utils/update-alternatives.c:2601
+#: utils/update-alternatives.c:2603
 #, fuzzy
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -6380,55 +6389,55 @@ msgstr ""
 "--བཀྲམ་སྟོན་ --རིམ་སྒྲིག་ --གཞི་སྒྲིག་ --གཞི་བཙུགས་ --རྩ་བསྐྲད་ --གེ་ར་ --གེ་ར་-རྩ་བསྐྲད་གཏང་ ཡང་"
 "ན་ --རང་བཞིན་ དགོཔ་ཨིན།"
 
-#: utils/update-alternatives.c:2617 utils/update-alternatives.c:2623
+#: utils/update-alternatives.c:2619 utils/update-alternatives.c:2625
 #, fuzzy, c-format
 msgid "no alternatives for %s"
 msgstr "%s གི་དོན་ལུ་སྤེལ་མ་ཚུ་མེད།"
 
-#: utils/update-alternatives.c:2640
+#: utils/update-alternatives.c:2642
 #, fuzzy
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "ཚད་ལྡན་ཨིན་པུཊི་གུ་ལུ་ལྷག་པའི་འཛོལ་བ།"
 
-#: utils/update-alternatives.c:2662
+#: utils/update-alternatives.c:2664
 #, fuzzy, c-format
 msgid "alternative %s for %s not registered; not setting"
 msgstr "%s གི་དོན་ལུ་སྤེལ་མ་ %s འདི་ཐོ་བཀོད་མ་འབད་བས། རྩ་བསྐྲད་མི་གཏང་།"
 
-#: utils/update-alternatives.c:2668 utils/update-alternatives.c:2674
+#: utils/update-alternatives.c:2670 utils/update-alternatives.c:2676
 #, fuzzy, c-format
 msgid "There is no program which provides %s."
 msgstr ""
 " བྱིན་མི་ལས་རིམ་ %sའདི་མེད།\n"
 " རིམ་སྒྲིག་འབད་ནི་ག་ཅི་ཡང་མེད།\n"
 
-#: utils/update-alternatives.c:2676 utils/update-alternatives.c:2684
+#: utils/update-alternatives.c:2678 utils/update-alternatives.c:2686
 msgid "Nothing to configure."
 msgstr ""
 
-#: utils/update-alternatives.c:2682
+#: utils/update-alternatives.c:2684
 #, c-format
 msgid "There is only one alternative in link group %s (providing %s): %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2692
+#: utils/update-alternatives.c:2694
 #, fuzzy, c-format
 msgid "alternative %s for %s not registered; not removing"
 msgstr "%s གི་དོན་ལུ་སྤེལ་མ་ %s འདི་ཐོ་བཀོད་མ་འབད་བས། རྩ་བསྐྲད་མི་གཏང་།"
 
-#: utils/update-alternatives.c:2700
+#: utils/update-alternatives.c:2702
 #, fuzzy, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 "ལག་ཐོག་ལས་སེལ་འཐུ་འབད་ཡོད་པའི་སྤེལ་མ་ - སུ་ཡི་ཅིང་འདི་རང་བཞིན་ཐབས་ལམ་ལུ་རྩ་བསྐྲད་གཏང་དོ།"
 
-#: utils/update-alternatives.c:2725
+#: utils/update-alternatives.c:2727
 #, fuzzy, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "%s གི་རང་བཞིན་དུས་མཐུན་ཚུ་ལྕོགས་མིན་བཟོ་ཡོད། ཁོ་རང་རྐྱངམ་ཅིག་བཞག་པའི་སྐབས།"
 
-#: utils/update-alternatives.c:2727
+#: utils/update-alternatives.c:2729
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "རང་བཞིན་ཚུ་ལུ་སླར་ལོག་ནིའི་དོན་ལས་  `དུས་མཐུན་-སྤེལ་མ་ --རང་བཞིན %s' ལག་ལེན་འཐབ།"

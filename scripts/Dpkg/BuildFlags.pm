@@ -345,7 +345,7 @@ true for).
 
 sub get_feature_areas {
     my ($self) = @_;
-    return keys $self->{'features'};
+    return keys %{$self->{'features'}};
 }
 
 =item $bf->get_features($area)

@@ -342,11 +342,13 @@ parse_find_set_slot(struct parsedb_state *ps,
     parse_count_pkg_instance(&count, pkg, &pkg->installed);
 
   if (count.single > 1)
-    parse_error(ps, _("multiple non-coinstallable package instances present"));
+    parse_error(ps, _("multiple non-coinstallable package instances present; "
+                      "most probably due to an upgrade from an unofficial dpkg"));
 
   if (count.single > 0 && count.multi > 0)
     parse_error(ps, _("mixed non-coinstallable and coinstallable package "
-                      "instances present"));
+                      "instances present; most probably due to an upgrade "
+                      "from an unofficial dpkg"));
 
   if (pkgset_installed_instances(set) != count.total)
     internerr("in-core pkgset '%s' with inconsistent number of instances",

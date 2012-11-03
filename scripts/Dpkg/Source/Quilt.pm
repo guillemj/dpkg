@@ -29,6 +29,8 @@ use Dpkg::Vendor qw(get_current_vendor);
 use File::Spec;
 use File::Copy;
 use File::Find;
+use File::Path qw(make_path);
+use File::Basename;
 
 sub new {
     my ($this, $dir, %opts) = @_;
@@ -287,6 +289,7 @@ sub restore_quilt_backup_files {
             my $target = File::Spec->catfile($self->{'dir'}, $relpath_in_srcpkg);
             if (-s $_) {
                 unlink($target);
+                make_path(dirname($target));
                 unless (link($_, $target)) {
                     copy($_, $target) ||
                         syserr(_g("failed to copy %s to %s"), $_, $target);

@@ -260,7 +260,8 @@ check_choice(0, "auto", "initial install 3");
     open(FILE, "<", "$admindir/generic-test") or die $!;
     my $content = <FILE>;
     close(FILE);
-    is($content,
+
+    my $expected =
 "auto
 $bindir/generic-test
 slave1
@@ -272,26 +273,28 @@ $bindir/slave3
 slave4
 $bindir/slave4
 
-$paths{false}
-10
-$paths{date}
+";
 
+    my %slaves;
 
+    # Store slaves in a hash to easily retrieve present and missing ones.
+    foreach my $alt (@choices) {
+        foreach my $slave (@{$alt->{slaves}}) {
+            $slaves{$slave->{name}}{$alt->{path}} = $slave;
+        }
+    }
 
-$paths{sleep}
-5
+    foreach my $alt (sort { $a->{path} cmp $b->{path} } @choices) {
+        $expected .= $alt->{path} . "\n";
+        $expected .= $alt->{priority} . "\n";
+        foreach my $slave_name (sort keys %slaves) {
+            $expected .= $slaves{$slave_name}{$alt->{path}}{path} || "";
+            $expected .= "\n";
+        }
+    }
+    $expected .= "\n";
 
-
-
-
-$paths{true}
-20
-$paths{yes}
-$paths{cat}
-$paths{cat}
-$paths{cat}
-
-", "administrative file is as expected");
+    is($content, $expected, "administrative file is as expected");
 }
 
 # manual change with --set-selections

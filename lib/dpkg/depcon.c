@@ -51,11 +51,13 @@ versionsatisfied(struct pkgbin *it, struct deppossi *against)
  * - Conflicts/Replaces/Breaks are assumed to apply to packages of any arch.
  */
 bool
-archsatisfied(struct pkgbin *it, struct deppossi *against)
+deparchsatisfied(struct pkgbin *it, const struct dpkg_arch *it_arch,
+                 struct deppossi *against)
 {
 	const struct dpkg_arch *dep_arch, *pkg_arch;
 
-	if (it->multiarch == multiarch_foreign)
+	if (against->arch_is_implicit &&
+	    it->multiarch == multiarch_foreign)
 		return true;
 
 	dep_arch = against->arch;
@@ -66,11 +68,17 @@ archsatisfied(struct pkgbin *it, struct deppossi *against)
 	     against->up->type == dep_breaks))
 		return true;
 
-	pkg_arch = it->arch;
+	pkg_arch = it_arch;
 	if (dep_arch->type == arch_none || dep_arch->type == arch_all)
 		dep_arch = dpkg_arch_get(arch_native);
 	if (pkg_arch->type == arch_none || pkg_arch->type == arch_all)
 		pkg_arch = dpkg_arch_get(arch_native);
 
 	return (dep_arch == pkg_arch);
+}
+
+bool
+archsatisfied(struct pkgbin *it, struct deppossi *against)
+{
+	return deparchsatisfied(it, it->arch, against);
 }

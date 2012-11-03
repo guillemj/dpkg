@@ -1,7 +1,106 @@
-dpkg (1.16.8) UNRELEASED; urgency=low
+dpkg (1.16.9) unstable; urgency=low
+
+  [ Raphaël Hertzog ]
+  * Fix dpkg-source regression in "3.0 (quilt)" source packages while
+    unapplying patches that remove all files in a directory. Closes: #683547
+  * Fix segfault in field format parsing on empty strings, affecting
+    «dpkg-query -W -f ''» and «dpkg-deb -W --showformat=''». LP: #1035512
+  * Fix dpkg's French usage string which was missing the final “s“ in
+    --print-foreign-architectures. Closes: #685863
+
+  [ Guillem Jover ]
+  * Use “statoverrides” instead of “statusoverrides” in dpkg-statoverride.
+    Closes: #686995
+  * Comment out dpkg(1) documentation about disabled --command-fd option.
+    Closes: #685677
+  * Cleanup dpkg-divert unit-test environment to avoid build failures.
+    Closes: #687656
+  * Fix update-alternatives test suite to behave correctly on non-Debian
+    binary paths. Known to be affecting at least Gentoo and Mac OS X.
+  * Do not leak subcall command arguments in update-alternatives.
+  * Fix segfault on update-alternatives when passing --slave without any
+    action at all. LP: #1037431
+  * Fix memory leak in dpkg filesavespackage().
+  * Do not print garbage (or worse) on dpkg shared conffile debug output.
+  * Use a hash instead of a ref to a hash for keys() in Dpkg::BuildFlags
+    get_feature_areas(). This causes compilation failures with older perl
+    versions, which can be an issue with partial upgrades.
+  * Fix filter subpattern debug output format string to print an actual
+    value instead of just blanks.
+  * Ignore trailing filter subpattern slashes on reinclusion comparison.
+    This makes sure to reinclude directories previously excluded so that
+    contained files marked for inclusion do not fail to unpack due to a
+    missing directory. Closes: #688416
+  * Do not consider obsolete conffiles as actively owned by the package.
+    This ensures conffile entries are not misshandled nor mixed up when
+    configuring packages owning the non-obsolete conffiles. Closes: #689836
+    Based on a patch by Andreas Beckmann <debian@abeckmann.de>.
+  * Properly mark in the database obsolete conffiles on package replaces.
+  * Sync the Conffiles field values for all package instances. Because
+    only the first package instance being configured will have a *.dpkg-new
+    conffile available to be processed, the subsequent ones need to use the
+    hash from the previously processed entries.
+  * Fix logic for previously configured conffiles, so that the shared
+    conffile checks actually work on reinstallation. Closes: #684776
+  * Avoid info database corruption and bogus accesses on unknown format
+    values, by always reading the format file and validating it.
+  * Clarify that the most probable reason for multiarch database
+    inconcistencies is due to upgrades from unofficial dpkg versions.
+  * Only satisfy a dependency on a “Multi-Arch: foreign” if arch-unqualified.
+  * Take architecture into account in virtual packages on remove and
+    configure dpkg actions. Closes: #683411
+  * Update update-alternatives --query format and examples in man page to
+    match the implementation.
+  * Add two missing 3rd person ‘s’ in dpkg-gensymbols(1). Closes: #689863
+    Thanks to Paul Menzel <pm.debian@googlemail.com>.
+  * Fix regression on old-style binNMUs for packages that specify an
+    explicit binary version to dpkg-gencontrol, by always fixing up the
+    source version. Closes: #690823
 
   [ Updated programs translations ]
+  * Catalan (Guillem Jover).
+  * Czech (Miroslav Kure).
+  * Danish (Joe Dalton). Closes: #690808
   * French (Christian Perrier).
+  * German (Sven Joachim).
+  * Italian (Milo Casagrande).
+  * Japanese (Kenshi Muto).
+  * Polish (Michał Kułach). Closes: #690449
+  * Portuguese (Miguel Figueiredo). Closes: #682582, #690431
+  * Russian (Yuri Kozlov). Closes: #688050, #690415
+  * Slovak (Ivan Masár). Closes: #690426
+  * Swedish (Peter Krefting).
+  * Thai (Theppitak Karoonboonyanan). Closes: #690678
+  * Traditional Chinese (imacat). Closes: #687002
+
+  [ Updated scripts translations ]
+  * Polish (Michał Kułach). Closes: #683104
+  * Spanish (Omar Campagne). Closes: #685297
+
+  [ Updated dselect translations ]
+  * Basque (Iñaki Larrañaga Murgoitio). Closes: #686421
+  * Czech (Miroslav Kure).
+  * Danish (Joe Dalton). Closes: #689820
+  * Polish (Michał Kułach).
+
+  [ Updated man page translations ]
+  * French (Thomas Vincent, Sylvestre Ledru, Christian Perrier).
+    Closes: #682978, #683221
+  * German (Helge Kreutzmann).
+  * Japanese (Hideki Yamane). Closes: #685103
+  * Polish (Michał Kułach).
+  * Spanish (Omar Campagne, Guillem Jover). Closes: #683514
+  * Swedish (Peter Krefting).
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 20 Oct 2012 05:59:50 +0200
+
+dpkg (1.16.8) unstable; urgency=low
+
+  [ Updated programs translations ]
+  * Esperanto (Felipe Castro).
+  * French (Christian Perrier).
+  * Polish (Michał Kułach). Closes: #680561
+  * Russian (Yuri Kozlov). Closes: #677850, #680411
   * Slovak (Ivan Masár).
   * Spanish (Javier Fernández-Sanguino)
 
@@ -10,8 +109,14 @@ dpkg (1.16.8) UNRELEASED; urgency=low
 
   [ Updated scripts translations ]
   * French (Christian Perrier).
+  * Russian (Yuri Kozlov).
 
- -- Raphaël Hertzog <hertzog@debian.org>  Mon, 02 Jul 2012 21:37:00 +0200
+  [ Updated dselect translations ]
+  * Danish (Joe Dalton). Closes: #680108
+  * Russian (Yuri Kozlov).
+  * Traditional Chinese (Asho Yeh - 阿信).
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 21 Jul 2012 02:11:04 +0200
 
 dpkg (1.16.7) unstable; urgency=low
 

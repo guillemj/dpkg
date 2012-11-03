@@ -218,6 +218,8 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
         pkg_name(pkg, pnaw_always));
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
+      if (conff->obsolete)
+        continue;
       if (strncmp(file->name, conff->name, namelen) == 0 &&
           conff->name[namelen] == '/') {
 	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
@@ -287,6 +289,27 @@ dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
   debug(dbg_veryverbose, "dir_is_used_by_pkg no");
 
   return false;
+}
+
+/**
+ * Mark a conffile as obsolete.
+ *
+ * @param pkg		The package owning the conffile.
+ * @param namenode	The namenode for the obsolete conffile.
+ */
+void
+conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode)
+{
+  struct conffile *conff;
+
+  for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
+    if (strcmp(conff->name, namenode->name) == 0) {
+      debug(dbg_conff, "marking %s conffile %s as obsolete",
+            pkg_name(pkg, pnaw_always), conff->name);
+      conff->obsolete = true;
+      return;
+    }
+  }
 }
 
 void oldconffsetflags(const struct conffile *searchconff) {

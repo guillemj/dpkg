@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2012-07-01 17:37+0200\n"
+"POT-Creation-Date: 2012-09-29 02:33+0200\n"
 "PO-Revision-Date: 2009-11-14 17:44+0100\n"
 "Last-Translator: Safir Šećerović <sapphire@linux.org.ba>\n"
 "Language-Team: Bosnian <lokal@linux.org.ba>\n"
@@ -22,7 +22,7 @@ msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr ""
 
 #: lib/dpkg/ar.c:87 lib/dpkg/ar.c:108 lib/dpkg/ar.c:119 lib/dpkg/ar.c:123
-#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1144
+#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1145
 #, c-format
 msgid "unable to write file '%s'"
 msgstr ""
@@ -52,7 +52,7 @@ msgstr ""
 msgid "cannot append ar member file (%s) to '%s': %s"
 msgstr ""
 
-#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:137
+#: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:137 lib/dpkg/pkg-format.c:212
 msgid "may not be empty string"
 msgstr ""
 
@@ -164,7 +164,7 @@ msgstr ""
 msgid "failed to seek"
 msgstr ""
 
-#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:362
+#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:385
 #: src/processarc.c:102 src/processarc.c:142 src/processarc.c:472
 #: src/processarc.c:909 dpkg-deb/build.c:462 dpkg-deb/build.c:549
 #: dpkg-deb/build.c:572 dpkg-deb/extract.c:323 dpkg-deb/info.c:65
@@ -446,21 +446,21 @@ msgid "unable to open directory '%s'"
 msgstr ""
 
 #: lib/dpkg/dir.c:109 src/divertcmd.c:217 dpkg-split/split.c:208
-#: utils/update-alternatives.c:1288
+#: utils/update-alternatives.c:1289
 #, c-format
 msgid "unable to open file '%s'"
 msgstr ""
 
 #: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:610
 #: dpkg-split/join.c:70 dpkg-split/queue.c:196
-#: utils/update-alternatives.c:1401
+#: utils/update-alternatives.c:1402
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr ""
 
 #: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:612
 #: dpkg-split/join.c:72 dpkg-split/queue.c:198
-#: utils/update-alternatives.c:1309 utils/update-alternatives.c:1403
+#: utils/update-alternatives.c:1310 utils/update-alternatives.c:1404
 #, c-format
 msgid "unable to close file '%s'"
 msgstr ""
@@ -796,7 +796,7 @@ msgid "unable to write to status fd %d"
 msgstr ""
 
 #: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:272
-#: utils/update-alternatives.c:329 utils/update-alternatives.c:1097
+#: utils/update-alternatives.c:329 utils/update-alternatives.c:1098
 msgid "failed to allocate memory"
 msgstr ""
 
@@ -978,90 +978,94 @@ msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
 
 #: lib/dpkg/parse.c:345
-msgid "multiple non-coinstallable package instances present"
+msgid ""
+"multiple non-coinstallable package instances present; most probably due to "
+"an upgrade from an unofficial dpkg"
 msgstr ""
 
-#: lib/dpkg/parse.c:348
-msgid "mixed non-coinstallable and coinstallable package instances present"
+#: lib/dpkg/parse.c:349
+msgid ""
+"mixed non-coinstallable and coinstallable package instances present; most "
+"probably due to an upgrade from an unofficial dpkg"
 msgstr ""
 
-#: lib/dpkg/parse.c:407
+#: lib/dpkg/parse.c:409
 #, c-format
 msgid ""
 "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
 "installed instances"
 msgstr ""
 
-#: lib/dpkg/parse.c:521
+#: lib/dpkg/parse.c:523
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
 msgstr ""
 
-#: lib/dpkg/parse.c:527
+#: lib/dpkg/parse.c:529
 #, c-format
 msgid "can't stat package info file `%.255s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:533
+#: lib/dpkg/parse.c:535
 #, c-format
 msgid "can't mmap package info file `%.255s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:538
+#: lib/dpkg/parse.c:540
 #, c-format
 msgid "reading package info file '%.255s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:549
+#: lib/dpkg/parse.c:551
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:590
+#: lib/dpkg/parse.c:592
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:593
+#: lib/dpkg/parse.c:595
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:596
+#: lib/dpkg/parse.c:598
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:600
+#: lib/dpkg/parse.c:602
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr ""
 
-#: lib/dpkg/parse.c:611
+#: lib/dpkg/parse.c:613
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr ""
 
-#: lib/dpkg/parse.c:615
+#: lib/dpkg/parse.c:617
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr ""
 
-#: lib/dpkg/parse.c:626
+#: lib/dpkg/parse.c:628
 #, c-format
 msgid "blank line in value of field '%.*s'"
 msgstr ""
 
-#: lib/dpkg/parse.c:647
+#: lib/dpkg/parse.c:649
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr ""
 
-#: lib/dpkg/parse.c:732
+#: lib/dpkg/parse.c:734
 msgid "several package info entries found, only one allowed"
 msgstr ""
 
-#: lib/dpkg/parse.c:758
+#: lib/dpkg/parse.c:760
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr ""
@@ -1382,361 +1386,361 @@ msgstr ""
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
-#: src/archives.c:232
+#: src/archives.c:242
 msgid "error reading from dpkg-deb pipe"
 msgstr ""
 
-#: src/archives.c:247
+#: src/archives.c:257
 #, c-format
 msgid "cannot skip padding for file '%.255s': %s"
 msgstr ""
 
-#: src/archives.c:260
+#: src/archives.c:270
 #, c-format
 msgid "cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"
 msgstr ""
 
-#: src/archives.c:322
+#: src/archives.c:332
 #, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr ""
 
-#: src/archives.c:330
+#: src/archives.c:340
 #, c-format
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
 
-#: src/archives.c:346 src/archives.c:463 src/statcmd.c:159
+#: src/archives.c:356 src/archives.c:473 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr ""
 
-#: src/archives.c:348 src/archives.c:465 src/statcmd.c:161
+#: src/archives.c:358 src/archives.c:475 src/statcmd.c:161
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr ""
 
-#: src/archives.c:356 src/archives.c:1141 src/archives.c:1182
+#: src/archives.c:366 src/archives.c:1153 src/archives.c:1194
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr ""
 
-#: src/archives.c:360
+#: src/archives.c:370
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr ""
 
-#: src/archives.c:365 src/archives.c:370
+#: src/archives.c:375 src/archives.c:380
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr ""
 
-#: src/archives.c:384 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#: src/archives.c:394 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr ""
 
-#: src/archives.c:391 utils/update-alternatives.c:489
+#: src/archives.c:401 utils/update-alternatives.c:490
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr ""
 
-#: src/archives.c:397
+#: src/archives.c:407
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr ""
 
-#: src/archives.c:416
+#: src/archives.c:426
 #, c-format
 msgid "cannot compute MD5 hash for tar file '%.255s': %s"
 msgstr ""
 
-#: src/archives.c:444 src/archives.c:448
+#: src/archives.c:454 src/archives.c:458
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr ""
 
-#: src/archives.c:460
+#: src/archives.c:470
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr ""
 
-#: src/archives.c:537 src/archives.c:1065 utils/update-alternatives.c:317
+#: src/archives.c:547 src/archives.c:1077 utils/update-alternatives.c:317
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr ""
 
-#: src/archives.c:539 src/archives.c:1067 src/configure.c:479
+#: src/archives.c:549 src/archives.c:1079 src/configure.c:529
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr ""
 
-#: src/archives.c:576
+#: src/archives.c:586
 #, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
 "of package %.250s"
 msgstr ""
 
-#: src/archives.c:666
+#: src/archives.c:676
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr ""
 
-#: src/archives.c:688
+#: src/archives.c:698
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
 
-#: src/archives.c:746
+#: src/archives.c:756
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
 msgstr ""
 
-#: src/archives.c:752
+#: src/archives.c:762
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 
-#: src/archives.c:782
+#: src/archives.c:792
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr ""
 
-#: src/archives.c:790
+#: src/archives.c:800
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
 "version"
 msgstr ""
 
-#: src/archives.c:796
+#: src/archives.c:806
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 
-#: src/archives.c:832
+#: src/archives.c:842
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr ""
 
-#: src/archives.c:914 src/divertcmd.c:148 utils/update-alternatives.c:631
-#: utils/update-alternatives.c:1211 utils/update-alternatives.c:1279
-#: utils/update-alternatives.c:1437 utils/update-alternatives.c:1684
-#: utils/update-alternatives.c:2168 utils/update-alternatives.c:2234
-#: utils/update-alternatives.c:2373
+#: src/archives.c:924 src/divertcmd.c:148 utils/update-alternatives.c:632
+#: utils/update-alternatives.c:1212 utils/update-alternatives.c:1280
+#: utils/update-alternatives.c:1438 utils/update-alternatives.c:1685
+#: utils/update-alternatives.c:2169 utils/update-alternatives.c:2235
+#: utils/update-alternatives.c:2374
 #, c-format
 msgid "cannot stat file '%s'"
 msgstr ""
 
-#: src/archives.c:929
+#: src/archives.c:939
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr ""
 
-#: src/archives.c:934
+#: src/archives.c:944
 #, fuzzy, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Ažurirani instalirani paketi"
 
-#: src/archives.c:943
+#: src/archives.c:953
 #, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
 "nondirectory"
 msgstr ""
 
-#: src/archives.c:950
+#: src/archives.c:960
 #, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr ""
 
-#: src/archives.c:1055
+#: src/archives.c:1067
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr ""
 
-#: src/archives.c:1072
+#: src/archives.c:1084
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr ""
 
-#: src/archives.c:1074
+#: src/archives.c:1086
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 
-#: src/archives.c:1079
+#: src/archives.c:1091
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 
-#: src/archives.c:1096 src/archives.c:1190
+#: src/archives.c:1108 src/archives.c:1202
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr ""
 
-#: src/archives.c:1135 src/archives.c:1178
+#: src/archives.c:1147 src/archives.c:1190
 #, c-format
 msgid "unable to open '%.255s'"
 msgstr ""
 
-#: src/archives.c:1180
+#: src/archives.c:1192
 #, c-format
 msgid "unable to sync file '%.255s'"
 msgstr ""
 
-#: src/archives.c:1257
+#: src/archives.c:1269
 #, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
 
-#: src/archives.c:1262
+#: src/archives.c:1274
 #, c-format
 msgid ""
 "considering deconfiguration of essential\n"
 " package %s, to enable %s"
 msgstr ""
 
-#: src/archives.c:1266
+#: src/archives.c:1278
 #, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
 " it in order to enable %s"
 msgstr ""
 
-#: src/archives.c:1275
+#: src/archives.c:1287
 #, c-format
 msgid ""
 "no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 
-#: src/archives.c:1285
+#: src/archives.c:1297
 #, c-format
 msgid "removal of %.250s"
 msgstr ""
 
-#: src/archives.c:1310
+#: src/archives.c:1322
 #, c-format
 msgid "installation of %.250s"
 msgstr ""
 
-#: src/archives.c:1312
+#: src/archives.c:1324
 #, c-format
 msgid "considering deconfiguration of %s, which would be broken by %s ..."
 msgstr ""
 
-#: src/archives.c:1318
+#: src/archives.c:1330
 #, c-format
 msgid "yes, will deconfigure %s (broken by %s)"
 msgstr ""
 
-#: src/archives.c:1323 src/archives.c:1444
+#: src/archives.c:1335 src/archives.c:1456
 #, c-format
 msgid ""
 "regarding %s containing %s:\n"
 "%s"
 msgstr ""
 
-#: src/archives.c:1331
+#: src/archives.c:1343
 msgid "ignoring breakage, may proceed anyway!"
 msgstr ""
 
-#: src/archives.c:1336
+#: src/archives.c:1348
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
 
-#: src/archives.c:1341
+#: src/archives.c:1353
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr ""
 
-#: src/archives.c:1371
+#: src/archives.c:1383
 #, c-format
 msgid "considering removing %s in favour of %s ..."
 msgstr ""
 
-#: src/archives.c:1377
+#: src/archives.c:1389
 #, c-format
 msgid "%s is not properly installed; ignoring any dependencies on it"
 msgstr ""
 
-#: src/archives.c:1406
+#: src/archives.c:1418
 #, c-format
 msgid "may have trouble removing %s, as it provides %s ..."
 msgstr ""
 
-#: src/archives.c:1421
+#: src/archives.c:1433
 #, c-format
 msgid ""
 "package %s requires reinstallation, but will remove anyway as you requested"
 msgstr ""
 
-#: src/archives.c:1425
+#: src/archives.c:1437
 #, c-format
 msgid "package %s requires reinstallation, will not remove"
 msgstr ""
 
-#: src/archives.c:1434
+#: src/archives.c:1446
 #, c-format
 msgid "yes, will remove %s in favour of %s"
 msgstr ""
 
-#: src/archives.c:1447
+#: src/archives.c:1459
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr ""
 
-#: src/archives.c:1449
+#: src/archives.c:1461
 msgid "ignoring conflict, may proceed anyway!"
 msgstr ""
 
-#: src/archives.c:1495
+#: src/archives.c:1507
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr ""
 
-#: src/archives.c:1505
+#: src/archives.c:1517
 msgid "find for dpkg --recursive"
 msgstr ""
 
-#: src/archives.c:1526
+#: src/archives.c:1538
 msgid "failed to fdopen find's pipe"
 msgstr ""
 
-#: src/archives.c:1532
+#: src/archives.c:1544
 msgid "error reading find's pipe"
 msgstr ""
 
-#: src/archives.c:1533
+#: src/archives.c:1545
 msgid "error closing find's pipe"
 msgstr ""
 
-#: src/archives.c:1536
+#: src/archives.c:1548
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr ""
 
-#: src/archives.c:1539
+#: src/archives.c:1551
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 
-#: src/archives.c:1550
+#: src/archives.c:1562
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr ""
 
-#: src/archives.c:1585 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/archives.c:1597 src/divertcmd.c:76 src/divertcmd.c:116
 #: src/enquiry.c:218 src/enquiry.c:335 src/enquiry.c:526 src/enquiry.c:528
 #: src/enquiry.c:541 src/enquiry.c:571 src/main.c:68 src/main.c:170
 #: src/main.c:320 src/main.c:578 src/packages.c:266 src/querycmd.c:291
@@ -1750,33 +1754,33 @@ msgstr ""
 msgid "<standard output>"
 msgstr ""
 
-#: src/archives.c:1586 src/packages.c:267 src/querycmd.c:292
+#: src/archives.c:1598 src/packages.c:267 src/querycmd.c:292
 #: src/querycmd.c:391 src/querycmd.c:501 src/querycmd.c:579 src/select.c:100
 #: dpkg-split/main.c:177 dpkg-split/queue.c:227
 msgid "<standard error>"
 msgstr ""
 
-#: src/archives.c:1627
+#: src/archives.c:1639
 #, c-format
 msgid "Selecting previously unselected package %s.\n"
 msgstr ""
 
-#: src/archives.c:1632
+#: src/archives.c:1644
 #, c-format
 msgid "Skipping unselected package %s.\n"
 msgstr ""
 
-#: src/archives.c:1649
+#: src/archives.c:1661
 #, c-format
 msgid "version %.250s of %.250s already installed, skipping"
 msgstr ""
 
-#: src/archives.c:1658
+#: src/archives.c:1670
 #, c-format
 msgid "downgrading %.250s from %.250s to %.250s"
 msgstr ""
 
-#: src/archives.c:1664
+#: src/archives.c:1676
 #, c-format
 msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
 msgstr ""
@@ -1808,17 +1812,17 @@ msgstr ""
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr ""
 
-#: src/configure.c:125
+#: src/configure.c:172
 #, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr ""
 
-#: src/configure.c:135
+#: src/configure.c:182
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr ""
 
-#: src/configure.c:147
+#: src/configure.c:194
 #, c-format
 msgid ""
 "\n"
@@ -1826,160 +1830,160 @@ msgid ""
 "Installing new config file as you requested.\n"
 msgstr ""
 
-#: src/configure.c:189
+#: src/configure.c:236
 #, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
 msgstr ""
 
-#: src/configure.c:198
+#: src/configure.c:245
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 
-#: src/configure.c:205
+#: src/configure.c:252
 #, c-format
 msgid "%s: failed to remove '%.250s': %s"
 msgstr ""
 
-#: src/configure.c:212
+#: src/configure.c:259
 #, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
 msgstr ""
 
-#: src/configure.c:217
+#: src/configure.c:264
 #, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
 msgstr ""
 
-#: src/configure.c:222
+#: src/configure.c:269
 #, c-format
 msgid "%s: failed to link '%.250s' to '%.250s': %s"
 msgstr ""
 
-#: src/configure.c:227
+#: src/configure.c:274
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr ""
 
-#: src/configure.c:233 utils/update-alternatives.c:496
+#: src/configure.c:280 utils/update-alternatives.c:497
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr ""
 
-#: src/configure.c:285
+#: src/configure.c:332
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr ""
 
-#: src/configure.c:288
+#: src/configure.c:335
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr ""
 
-#: src/configure.c:291
+#: src/configure.c:338
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
 " cannot configure (current status `%.250s')"
 msgstr ""
 
-#: src/configure.c:303
+#: src/configure.c:350
 #, c-format
 msgid ""
 "package %s cannot be configured because %s is not ready (current status '%s')"
 msgstr ""
 
-#: src/configure.c:311
+#: src/configure.c:358
 #, c-format
 msgid ""
 "package %s %s cannot be configured because %s is at a different version (%s)"
 msgstr ""
 
-#: src/configure.c:347
+#: src/configure.c:394
 #, c-format
 msgid ""
 "dependency problems prevent configuration of %s:\n"
 "%s"
 msgstr ""
 
-#: src/configure.c:350
+#: src/configure.c:397
 msgid "dependency problems - leaving unconfigured"
 msgstr ""
 
-#: src/configure.c:353
+#: src/configure.c:400
 #, c-format
 msgid ""
 "%s: dependency problems, but configuring anyway as you requested:\n"
 "%s"
 msgstr ""
 
-#: src/configure.c:361
+#: src/configure.c:408
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
 msgstr ""
 
-#: src/configure.c:364
+#: src/configure.c:411
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr ""
 
-#: src/configure.c:448
+#: src/configure.c:498
 #, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
 " (= '%s'): %s"
 msgstr ""
 
-#: src/configure.c:462
+#: src/configure.c:512
 #, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
 " (= '%s')"
 msgstr ""
 
-#: src/configure.c:473
+#: src/configure.c:523
 #, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
 " (= '%s'): %s"
 msgstr ""
 
-#: src/configure.c:500
+#: src/configure.c:550
 #, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
 " ('%s' is a symlink to '%s')"
 msgstr ""
 
-#: src/configure.c:516
+#: src/configure.c:566
 #, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 
-#: src/configure.c:544 dpkg-split/split.c:142
+#: src/configure.c:594 dpkg-split/split.c:142
 #, c-format
 msgid "cannot compute MD5 hash for file '%s': %s"
 msgstr ""
 
-#: src/configure.c:551
+#: src/configure.c:601
 #, c-format
 msgid "%s: unable to open %s for hash: %s"
 msgstr ""
 
-#: src/configure.c:577 src/configure.c:581
+#: src/configure.c:627 src/configure.c:631
 msgid "conffile difference visualizer"
 msgstr ""
 
-#: src/configure.c:598
+#: src/configure.c:648
 msgid "Type `exit' when you're done.\n"
 msgstr "Ukucajte `exit' kada završite.\n"
 
-#: src/configure.c:607 src/configure.c:611
+#: src/configure.c:657 src/configure.c:661
 msgid "conffile shell"
 msgstr ""
 
-#: src/configure.c:657
+#: src/configure.c:707
 #, c-format
 msgid ""
 "\n"
@@ -1988,12 +1992,12 @@ msgstr ""
 "\n"
 "Konfiguracijska datoteka `%s'"
 
-#: src/configure.c:659
+#: src/configure.c:709
 #, c-format
 msgid " (actually `%s')"
 msgstr ""
 
-#: src/configure.c:663
+#: src/configure.c:713
 #, c-format
 msgid ""
 "\n"
@@ -2001,58 +2005,58 @@ msgid ""
 " ==> File also in package provided by package maintainer.\n"
 msgstr ""
 
-#: src/configure.c:668
+#: src/configure.c:718
 #, c-format
 msgid ""
 "\n"
 "     Not modified since installation.\n"
 msgstr ""
 
-#: src/configure.c:670
+#: src/configure.c:720
 #, c-format
 msgid ""
 "\n"
 " ==> Modified (by you or by a script) since installation.\n"
 msgstr ""
 
-#: src/configure.c:671
+#: src/configure.c:721
 #, c-format
 msgid ""
 "\n"
 " ==> Deleted (by you or by a script) since installation.\n"
 msgstr ""
 
-#: src/configure.c:674
+#: src/configure.c:724
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr ""
 
-#: src/configure.c:675
+#: src/configure.c:725
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr ""
 
-#: src/configure.c:683
+#: src/configure.c:733
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr ""
 
-#: src/configure.c:687
+#: src/configure.c:737
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr ""
 
-#: src/configure.c:696
+#: src/configure.c:746
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr ""
 
-#: src/configure.c:700
+#: src/configure.c:750
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr ""
 
-#: src/configure.c:707
+#: src/configure.c:757
 #, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -2062,37 +2066,37 @@ msgid ""
 "      Z     : start a shell to examine the situation\n"
 msgstr ""
 
-#: src/configure.c:714
+#: src/configure.c:764
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr ""
 
-#: src/configure.c:716
+#: src/configure.c:766
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr ""
 
-#: src/configure.c:721
+#: src/configure.c:771
 msgid "[default=N]"
 msgstr ""
 
-#: src/configure.c:722
+#: src/configure.c:772
 msgid "[default=Y]"
 msgstr ""
 
-#: src/configure.c:723
+#: src/configure.c:773
 msgid "[no default]"
 msgstr ""
 
-#: src/configure.c:726
+#: src/configure.c:776
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 
-#: src/configure.c:735
+#: src/configure.c:785
 msgid "read error on stdin at conffile prompt"
 msgstr ""
 
-#: src/configure.c:736
+#: src/configure.c:786
 msgid "EOF on stdin at conffile prompt"
 msgstr ""
 
@@ -2294,7 +2298,7 @@ msgid ""
 "  different file `%s', not allowed"
 msgstr ""
 
-#: src/divertcmd.c:222 utils/update-alternatives.c:1368
+#: src/divertcmd.c:222 utils/update-alternatives.c:1369
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -2765,12 +2769,12 @@ msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr ""
 
-#: src/help.c:357
+#: src/help.c:380
 #, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr ""
 
-#: src/help.c:362 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:385 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr ""
 
@@ -2779,7 +2783,7 @@ msgstr ""
 msgid "unable to check existence of `%.250s'"
 msgstr ""
 
-#: src/infodb-access.c:79 src/infodb-upgrade.c:93
+#: src/infodb-access.c:83 src/infodb-upgrade.c:93
 msgid "cannot read info directory"
 msgstr ""
 
@@ -2797,6 +2801,11 @@ msgid "corrupt info database format file '%s'"
 msgstr ""
 "\n"
 "Konfiguracijska datoteka `%s'"
+
+#: src/infodb-format.c:88
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
 
 #: src/infodb-upgrade.c:123
 #, c-format
@@ -3323,11 +3332,11 @@ msgstr ""
 msgid "  Version of %s to be configured is %s.\n"
 msgstr ""
 
-#: src/packages.c:635
+#: src/packages.c:640
 msgid " depends on "
 msgstr "zavisi o"
 
-#: src/packages.c:641
+#: src/packages.c:646
 msgid "; however:\n"
 msgstr ""
 
@@ -3486,7 +3495,7 @@ msgstr ""
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 
-#: src/processarc.c:693 utils/update-alternatives.c:2104
+#: src/processarc.c:693 utils/update-alternatives.c:2105
 #, c-format
 msgid "read error in %.250s"
 msgstr ""
@@ -4075,7 +4084,7 @@ msgstr ""
 
 #: src/statdb.c:216
 #, c-format
-msgid "multiple statusoverrides present for file '%.250s'"
+msgid "multiple statoverrides present for file '%.250s'"
 msgstr ""
 
 #: src/trigcmd.c:48
@@ -4305,8 +4314,8 @@ msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dpkg-deb/build.c:404 utils/update-alternatives.c:2577
-#: utils/update-alternatives.c:2584
+#: dpkg-deb/build.c:404 utils/update-alternatives.c:2579
+#: utils/update-alternatives.c:2586
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr ""
@@ -4589,7 +4598,7 @@ msgid_plural "%d requested control components are missing"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dpkg-deb/info.c:141 utils/update-alternatives.c:1065
+#: dpkg-deb/info.c:141 utils/update-alternatives.c:1066
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr ""
@@ -5253,7 +5262,7 @@ msgstr ""
 msgid "cannot append to '%s'"
 msgstr ""
 
-#: utils/update-alternatives.c:506
+#: utils/update-alternatives.c:507
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -5263,423 +5272,423 @@ msgstr ""
 "\n"
 "Konfiguracijska datoteka `%s'"
 
-#: utils/update-alternatives.c:1101
+#: utils/update-alternatives.c:1102
 #, c-format
 msgid "unexpected end of file while trying to read %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1103
+#: utils/update-alternatives.c:1104
 #, c-format
 msgid "while reading %s: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1109
+#: utils/update-alternatives.c:1110
 #, c-format
 msgid "line not terminated while trying to read %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1127
+#: utils/update-alternatives.c:1128
 #, c-format
 msgid "%s corrupt: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1140
+#: utils/update-alternatives.c:1141
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr ""
 
-#: utils/update-alternatives.c:1153
+#: utils/update-alternatives.c:1154
 msgid "slave name"
 msgstr ""
 
-#: utils/update-alternatives.c:1161 utils/update-alternatives.c:2553
+#: utils/update-alternatives.c:1162 utils/update-alternatives.c:2555
 #, c-format
 msgid "duplicate slave name %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1164
+#: utils/update-alternatives.c:1165
 msgid "slave link"
 msgstr ""
 
-#: utils/update-alternatives.c:1168
+#: utils/update-alternatives.c:1169
 #, c-format
 msgid "slave link same as main link %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1175 utils/update-alternatives.c:2560
+#: utils/update-alternatives.c:1176 utils/update-alternatives.c:2562
 #, c-format
 msgid "duplicate slave link %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1193
+#: utils/update-alternatives.c:1194
 msgid "master file"
 msgstr ""
 
-#: utils/update-alternatives.c:1202
+#: utils/update-alternatives.c:1203
 #, c-format
 msgid "duplicate path %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1215
+#: utils/update-alternatives.c:1216
 #, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist; removing from list of "
 "alternatives"
 msgstr ""
 
-#: utils/update-alternatives.c:1218 utils/update-alternatives.c:1229
+#: utils/update-alternatives.c:1219 utils/update-alternatives.c:1230
 msgid "priority"
 msgstr ""
 
-#: utils/update-alternatives.c:1221 utils/update-alternatives.c:1243
+#: utils/update-alternatives.c:1222 utils/update-alternatives.c:1244
 msgid "slave file"
 msgstr ""
 
-#: utils/update-alternatives.c:1234
+#: utils/update-alternatives.c:1235
 #, c-format
 msgid "priority of %s: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1238
+#: utils/update-alternatives.c:1239
 #, c-format
 msgid "priority of %s is out of range: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1292
+#: utils/update-alternatives.c:1293
 msgid "status"
 msgstr ""
 
-#: utils/update-alternatives.c:1294
+#: utils/update-alternatives.c:1295
 msgid "invalid status"
 msgstr ""
 
-#: utils/update-alternatives.c:1299
+#: utils/update-alternatives.c:1300
 msgid "master link"
 msgstr ""
 
-#: utils/update-alternatives.c:1343
+#: utils/update-alternatives.c:1344
 #, c-format
 msgid "discarding obsolete slave link %s (%s)"
 msgstr ""
 
-#: utils/update-alternatives.c:1399
+#: utils/update-alternatives.c:1400
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr ""
 
-#: utils/update-alternatives.c:1491 utils/update-alternatives.c:1558
-#: utils/update-alternatives.c:2270
+#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1559
+#: utils/update-alternatives.c:2271
 msgid "auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1491 utils/update-alternatives.c:1567
-#: utils/update-alternatives.c:2271
+#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1568
+#: utils/update-alternatives.c:2272
 msgid "manual mode"
 msgstr ""
 
-#: utils/update-alternatives.c:1494
+#: utils/update-alternatives.c:1495
 #, c-format
 msgid "  link currently points to %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1497
+#: utils/update-alternatives.c:1498
 msgid "  link currently absent"
 msgstr ""
 
-#: utils/update-alternatives.c:1501
+#: utils/update-alternatives.c:1502
 #, c-format
 msgid "%s - priority %d"
 msgstr ""
 
-#: utils/update-alternatives.c:1504
+#: utils/update-alternatives.c:1505
 #, c-format
 msgid "  slave %s: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1511
+#: utils/update-alternatives.c:1512
 #, fuzzy, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "Debianov `%s' program za rukovanje paketima."
 
-#: utils/update-alternatives.c:1513
+#: utils/update-alternatives.c:1514
 msgid "No versions available."
 msgstr ""
 
-#: utils/update-alternatives.c:1542
+#: utils/update-alternatives.c:1543
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: utils/update-alternatives.c:1549
+#: utils/update-alternatives.c:1550
 #, fuzzy
 msgid "Selection"
 msgstr "Opis"
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 msgid "Path"
 msgstr ""
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 msgid "Priority"
 msgstr ""
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1551
 msgid "Status"
 msgstr ""
 
-#: utils/update-alternatives.c:1571
+#: utils/update-alternatives.c:1572
 #, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 
-#: utils/update-alternatives.c:1725
+#: utils/update-alternatives.c:1726
 #, c-format
 msgid "not replacing %s with a link"
 msgstr ""
 
-#: utils/update-alternatives.c:1766
+#: utils/update-alternatives.c:1767
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr ""
 
-#: utils/update-alternatives.c:1784
+#: utils/update-alternatives.c:1785
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist"
 msgstr ""
 
-#: utils/update-alternatives.c:1794
+#: utils/update-alternatives.c:1795
 #, c-format
 msgid "not removing %s since it's not a symlink"
 msgstr ""
 
-#: utils/update-alternatives.c:2069 utils/update-alternatives.c:2075
+#: utils/update-alternatives.c:2070 utils/update-alternatives.c:2076
 #, c-format
 msgid "Call %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2079
+#: utils/update-alternatives.c:2080
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr ""
 
-#: utils/update-alternatives.c:2083
+#: utils/update-alternatives.c:2084
 #, c-format
 msgid "Skip unknown alternative %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2110
+#: utils/update-alternatives.c:2111
 #, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2123 utils/update-alternatives.c:2136
-#: utils/update-alternatives.c:2146
+#: utils/update-alternatives.c:2124 utils/update-alternatives.c:2137
+#: utils/update-alternatives.c:2147
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2171
+#: utils/update-alternatives.c:2172
 #, c-format
 msgid "%s/%s is dangling; it will be updated with best choice"
 msgstr ""
 
-#: utils/update-alternatives.c:2175
+#: utils/update-alternatives.c:2176
 #, c-format
 msgid ""
 "%s/%s has been changed (manually or by a script); switching to manual "
 "updates only"
 msgstr ""
 
-#: utils/update-alternatives.c:2183
+#: utils/update-alternatives.c:2184
 #, c-format
 msgid "setting up automatic selection of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2199
+#: utils/update-alternatives.c:2200
 #, c-format
 msgid "renaming %s link from %s to %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2240
+#: utils/update-alternatives.c:2241
 #, c-format
 msgid "renaming %s slave link from %s to %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2268
+#: utils/update-alternatives.c:2269
 #, c-format
 msgid "using %s to provide %s (%s) in %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2276
+#: utils/update-alternatives.c:2277
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken"
 msgstr ""
 
-#: utils/update-alternatives.c:2283
+#: utils/update-alternatives.c:2284
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2309
+#: utils/update-alternatives.c:2310
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces"
 msgstr ""
 
-#: utils/update-alternatives.c:2317
+#: utils/update-alternatives.c:2318
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2325
+#: utils/update-alternatives.c:2326
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2356
+#: utils/update-alternatives.c:2357
 #, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2364 utils/update-alternatives.c:2400
+#: utils/update-alternatives.c:2365 utils/update-alternatives.c:2401
 #, c-format
 msgid "alternative link %s is already managed by %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2370
+#: utils/update-alternatives.c:2371
 #, c-format
 msgid "alternative path %s doesn't exist"
 msgstr ""
 
-#: utils/update-alternatives.c:2387
+#: utils/update-alternatives.c:2388
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a master alternative"
 msgstr ""
 
-#: utils/update-alternatives.c:2391
+#: utils/update-alternatives.c:2392
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2411
+#: utils/update-alternatives.c:2412
 #, c-format
 msgid "alternative link %s is already managed by %s (slave of %s)"
 msgstr ""
 
-#: utils/update-alternatives.c:2455
+#: utils/update-alternatives.c:2456
 #, c-format
 msgid "unknown argument `%s'"
 msgstr ""
 
-#: utils/update-alternatives.c:2474
+#: utils/update-alternatives.c:2475
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr ""
 
-#: utils/update-alternatives.c:2480 utils/update-alternatives.c:2545
+#: utils/update-alternatives.c:2481 utils/update-alternatives.c:2547
 msgid "<link> and <path> can't be the same"
 msgstr ""
 
-#: utils/update-alternatives.c:2484
+#: utils/update-alternatives.c:2485
 msgid "priority must be an integer"
 msgstr ""
 
-#: utils/update-alternatives.c:2488
+#: utils/update-alternatives.c:2489
 #, c-format
 msgid "priority is out of range: %s clamped to %ld"
 msgstr ""
 
-#: utils/update-alternatives.c:2504
+#: utils/update-alternatives.c:2505
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr ""
 
-#: utils/update-alternatives.c:2521
+#: utils/update-alternatives.c:2522
 #, c-format
 msgid "--%s needs <name>"
 msgstr ""
 
-#: utils/update-alternatives.c:2536
+#: utils/update-alternatives.c:2538
 msgid "--slave only allowed with --install"
 msgstr ""
 
-#: utils/update-alternatives.c:2538
+#: utils/update-alternatives.c:2540
 msgid "--slave needs <link> <name> <path>"
 msgstr ""
 
-#: utils/update-alternatives.c:2547
+#: utils/update-alternatives.c:2549
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr ""
 
-#: utils/update-alternatives.c:2550
+#: utils/update-alternatives.c:2552
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr ""
 
-#: utils/update-alternatives.c:2570
+#: utils/update-alternatives.c:2572
 #, c-format
 msgid "--%s needs a <file> argument"
 msgstr ""
 
-#: utils/update-alternatives.c:2596
+#: utils/update-alternatives.c:2598
 #, c-format
 msgid "unknown option `%s'"
 msgstr ""
 
-#: utils/update-alternatives.c:2601
+#: utils/update-alternatives.c:2603
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
 "selections, --install, --remove, --all, --remove-all or --auto"
 msgstr ""
 
-#: utils/update-alternatives.c:2617 utils/update-alternatives.c:2623
+#: utils/update-alternatives.c:2619 utils/update-alternatives.c:2625
 #, c-format
 msgid "no alternatives for %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2640
+#: utils/update-alternatives.c:2642
 msgid "<standard input>"
 msgstr ""
 
-#: utils/update-alternatives.c:2662
+#: utils/update-alternatives.c:2664
 #, c-format
 msgid "alternative %s for %s not registered; not setting"
 msgstr ""
 
-#: utils/update-alternatives.c:2668 utils/update-alternatives.c:2674
+#: utils/update-alternatives.c:2670 utils/update-alternatives.c:2676
 #, c-format
 msgid "There is no program which provides %s."
 msgstr ""
 
-#: utils/update-alternatives.c:2676 utils/update-alternatives.c:2684
+#: utils/update-alternatives.c:2678 utils/update-alternatives.c:2686
 msgid "Nothing to configure."
 msgstr ""
 
-#: utils/update-alternatives.c:2682
+#: utils/update-alternatives.c:2684
 #, c-format
 msgid "There is only one alternative in link group %s (providing %s): %s"
 msgstr ""
 
-#: utils/update-alternatives.c:2692
+#: utils/update-alternatives.c:2694
 #, c-format
 msgid "alternative %s for %s not registered; not removing"
 msgstr ""
 
-#: utils/update-alternatives.c:2700
+#: utils/update-alternatives.c:2702
 #, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 
-#: utils/update-alternatives.c:2725
+#: utils/update-alternatives.c:2727
 #, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
 
-#: utils/update-alternatives.c:2727
+#: utils/update-alternatives.c:2729
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""

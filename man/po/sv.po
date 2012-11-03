@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-30 04:20+0300\n"
-"PO-Revision-Date: 2012-07-01 22:15+0100\n"
+"POT-Creation-Date: 2012-09-29 02:32+0300\n"
+"PO-Revision-Date: 2012-10-15 00:13+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -270,7 +270,7 @@ msgstr ""
 #: dpkg-scanpackages.1:113 dpkg-scansources.1:90 dpkg-shlibdeps.1:348
 #: dpkg-source.1:760 dpkg-split.1:234 dpkg-statoverride.8:102
 #: dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:466 dselect.cfg.5:41
-#: update-alternatives.8:511
+#: update-alternatives.8:521
 #, no-wrap
 msgid "SEE ALSO"
 msgstr "SE ÄVEN"
@@ -290,7 +290,6 @@ msgstr "deb-control"
 #: deb-control.5:22 deb-version.5:20 deb-old.5:20 deb-override.5:19
 #: deb-symbols.5:18 deb-triggers.5:19 dpkg-divert.8:21
 #: dpkg-mergechangelogs.1:18 dpkg-scansources.1:20 dpkg-trigger.1:18
-#: update-alternatives.8:25
 #, no-wrap
 msgid "2011-08-14"
 msgstr "2011-08-14"
@@ -2407,7 +2406,7 @@ msgstr ""
 
 #. type: SH
 #: deb-shlibs.5:46 deb-symbols.5:59 dpkg.1:763 dpkg-architecture.1:221
-#: dpkg-divert.8:111 dpkg-name.1:78 update-alternatives.8:476
+#: dpkg-divert.8:111 dpkg-name.1:78 update-alternatives.8:486
 #, no-wrap
 msgid "EXAMPLES"
 msgstr "EXEMPEL"
@@ -2812,7 +2811,7 @@ msgstr "Lista över substitueringsvariabler och -värden."
 #. type: SH
 #: deb-substvars.5:168 dpkg.1:832 dpkg-buildpackage.1:271 dpkg-deb.1:266
 #: dpkg-name.1:99 dpkg-source.1:757 dpkg-split.1:216 dselect.1:450
-#: update-alternatives.8:503
+#: update-alternatives.8:513
 #, no-wrap
 msgid "BUGS"
 msgstr "PROGRAMFEL"
@@ -3887,8 +3886,13 @@ msgstr ""
 msgid "B<--compare-versions >I<ver1 op ver2>"
 msgstr "B<--compare-versions >I<ver1 op ver2>"
 
+#.  .TP
+#.  .B \-\-command\-fd \fIn\fP
+#.  Accept a series of commands on input file descriptor \fIn\fP. Note:
+#.  additional options set on the command line, and through this file descriptor,
+#.  are not reset for subsequent commands executed during the same run.
 #. type: Plain text
-#: dpkg.1:290
+#: dpkg.1:295
 msgid ""
 "Compare version numbers, where I<op> is a binary operator. B<dpkg> returns "
 "success (zero result) if the specified condition is satisfied, and failure "
@@ -3907,23 +3911,6 @@ msgstr ""
 "hanterar tom version som om den är senare än alla andra versioner: B<lt-nl "
 "le-nl ge-nl gt-nl>. Dessa tillhandahålls endast för kompatibilitet med "
 "styrfilssyntaxen: B<E<lt> E<lt>E<lt> E<lt>= = E<gt>= E<gt>E<gt> E<gt>>."
-
-#. type: TP
-#: dpkg.1:290
-#, no-wrap
-msgid "B<--command-fd >I<n>"
-msgstr "B<--command-fd >I<n>"
-
-#. type: Plain text
-#: dpkg.1:295
-msgid ""
-"Accept a series of commands on input file descriptor I<n>. Note: additional "
-"options set on the command line, and through this file descriptor, are not "
-"reset for subsequent commands executed during the same run."
-msgstr ""
-"Läser en följd av kommandon från indatafilhandtag I<n>. Observera: "
-"ytterligare flaggor som sätts på kommandoraden, och genom filhandtaget, "
-"återställs inte för kommandon som körs i en följd under samma körning."
 
 #. type: TP
 #: dpkg.1:295 dpkg-architecture.1:80 dpkg-buildpackage.1:243
@@ -9358,7 +9345,7 @@ msgstr "B<dpkg-gensymbols> [I<flagga>...]"
 #: dpkg-gensymbols.1:33
 msgid ""
 "B<dpkg-gensymbols> scans a temporary build tree (debian/tmp by default) "
-"looking for libraries and generate a I<symbols> file describing them. This "
+"looking for libraries and generates a I<symbols> file describing them. This "
 "file, if non-empty, is then installed in the DEBIAN subdirectory of the "
 "build tree so that it ends up included in the control information of the "
 "package."
@@ -9372,7 +9359,7 @@ msgstr ""
 #: dpkg-gensymbols.1:37
 msgid ""
 "When generating those files, it uses as input some symbols files provided by "
-"the maintainer. It looks for the following files (and use the first that is "
+"the maintainer. It looks for the following files (and uses the first that is "
 "found):"
 msgstr ""
 "När dessa filer skapas, används ett par symbolfiler från paketansvariga som "
@@ -12361,7 +12348,7 @@ msgstr ""
 "dselect:s multicd-åtkomstmetod."
 
 #. type: SH
-#: dpkg-scanpackages.1:106 update-alternatives.8:465
+#: dpkg-scanpackages.1:106 update-alternatives.8:475
 #, no-wrap
 msgid "DIAGNOSTICS"
 msgstr "DIAGNOSTIK"
@@ -17796,6 +17783,12 @@ msgstr ""
 msgid "update-alternatives"
 msgstr "update-alternatives"
 
+#. type: TH
+#: update-alternatives.8:25
+#, no-wrap
+msgid "2012-07-31"
+msgstr "2012-07-31"
+
 #. type: Plain text
 #: update-alternatives.8:28
 msgid ""
@@ -18541,33 +18534,64 @@ msgstr ""
 #. type: TP
 #: update-alternatives.8:405
 #, no-wrap
+msgid "B<Name:>I< name>"
+msgstr "B<Namn:> I<namn>"
+
+#. type: Plain text
+#: update-alternatives.8:408
+msgid "The alternative name in the alternative directory."
+msgstr "Alternativets namn i den alternativa katalogen."
+
+#. type: TP
+#: update-alternatives.8:408
+#, no-wrap
 msgid "B<Link:>I< link>"
 msgstr "B<Link:>I< länk>"
 
 #. type: Plain text
-#: update-alternatives.8:408
+#: update-alternatives.8:411
 msgid "The generic name of the alternative."
 msgstr "Generiskt namn för alternativet."
 
 #. type: TP
-#: update-alternatives.8:408
+#: update-alternatives.8:411 update-alternatives.8:437
+#, no-wrap
+msgid "B<Slaves:>I< list-of-slaves>"
+msgstr "B<Slaves:>I< lista-över-slavar>"
+
+#. type: Plain text
+#: update-alternatives.8:417
+msgid ""
+"When this field is present, the B<next> lines hold all slave links "
+"associated to the master link of the alternative. There is one slave per "
+"line. Each line contains one space, the generic name of the slave "
+"alternative, another space, and the path to the slave link."
+msgstr ""
+"När detta fält är tillgängligt innehåller B<next>-raderna alla slavlänkar "
+"som kopplas till huvudlänken för alternativet. Varje rad beskriver en slav. "
+"Varje rad innehåller ett blanksteg, det generiska namnet på "
+"slavalternativet, ytterligare ett blanksteg, och sökvägen till "
+"slavalternativet."
+
+#. type: TP
+#: update-alternatives.8:417
 #, no-wrap
 msgid "B<Status:>I< status>"
 msgstr "B<Status:>I< status>"
 
 #. type: Plain text
-#: update-alternatives.8:411
+#: update-alternatives.8:420
 msgid "The status of the alternative (B<auto> or B<manual>)."
 msgstr "Status för alternativet (B<auto> eller B<manual>)."
 
 #. type: TP
-#: update-alternatives.8:411
+#: update-alternatives.8:420
 #, no-wrap
 msgid "B<Best:>I< best-choice>"
 msgstr "B<Best:>I< bästa-val>"
 
 #. type: Plain text
-#: update-alternatives.8:415
+#: update-alternatives.8:424
 msgid ""
 "The path of the best alternative for this link group. Not present if there "
 "is no alternatives available."
@@ -18576,13 +18600,13 @@ msgstr ""
 "alternativ är tillgängligt."
 
 #. type: TP
-#: update-alternatives.8:415
+#: update-alternatives.8:424
 #, no-wrap
 msgid "B<Value:>I< currently-selected-alternative>"
 msgstr "B<Value:>I< för-närvarande-valt-alternativ>"
 
 #. type: Plain text
-#: update-alternatives.8:419
+#: update-alternatives.8:428
 msgid ""
 "The path of the currently selected alternative. It can also take the magic "
 "value B<none>. It is used if the link doesn't exist."
@@ -18591,41 +18615,35 @@ msgstr ""
 "värdet B<none> (inget). Det används om det inte finns någon länk."
 
 #. type: TP
-#: update-alternatives.8:420
+#: update-alternatives.8:429
 #, no-wrap
 msgid "The other blocks describe the available alternatives in the queried link group:"
 msgstr "Övriga block beskriver tillgängliga alternativ i den efterfrågade länkgruppen:"
 
 #. type: TP
-#: update-alternatives.8:422
+#: update-alternatives.8:431
 #, no-wrap
 msgid "B<Alternative:>I< path-of-this-alternative>"
 msgstr "B<Alternative:>I< sökväg-till-alternativet>"
 
 #. type: Plain text
-#: update-alternatives.8:425
+#: update-alternatives.8:434
 msgid "Path to this block's alternative."
 msgstr "Sökväg till alternativet som beskrivs i blocket."
 
 #. type: TP
-#: update-alternatives.8:425
+#: update-alternatives.8:434
 #, no-wrap
 msgid "B<Priority:>I< priority-value>"
 msgstr "B<Priority:>I< prioritetsvärde>"
 
 #. type: Plain text
-#: update-alternatives.8:428
+#: update-alternatives.8:437
 msgid "Value of the priority of this alternative."
 msgstr "Värdet för prioriteten på alternativet."
 
-#. type: TP
-#: update-alternatives.8:428
-#, no-wrap
-msgid "B<Slaves:>I< list-of-slaves>"
-msgstr "B<Slaves:>I< lista-över-slavar>"
-
 #. type: Plain text
-#: update-alternatives.8:434
+#: update-alternatives.8:443
 msgid ""
 "When this header is present, the B<next> lines hold all slave alternatives "
 "associated to the master link of the alternative. There is one slave per "
@@ -18634,34 +18652,48 @@ msgid ""
 msgstr ""
 "När denna rubrik är tillgänglig innehåller B<next>-raderna alla "
 "slavalternativ som kopplas till huvudlänken för alternativet. Varje rad "
-"beskriver en slag. Varje rad innehåller ett blanksteg, det generiska namnet "
+"beskriver en slav. Varje rad innehåller ett blanksteg, det generiska namnet "
 "på slavalternativet, ytterligare ett blanksteg, och sökvägen till "
 "slavalternativet."
 
 #. type: TP
-#: update-alternatives.8:435
+#: update-alternatives.8:444
 #, no-wrap
 msgid "B<Example>"
 msgstr "B<Exempel>"
 
 #. type: Plain text
-#: update-alternatives.8:443
+#: update-alternatives.8:459
 #, no-wrap
 msgid ""
 "$ update-alternatives --query editor\n"
-"Link: editor\n"
+"Name: editor\n"
+"Link: /usr/bin/editor\n"
+"Slaves:\n"
+" editor.1.gz /usr/share/man/man1/editor.1.gz\n"
+" editor.fr.1.gz /usr/share/man/fr/man1/editor.1.gz\n"
+" editor.it.1.gz /usr/share/man/it/man1/editor.1.gz\n"
+" editor.pl.1.gz /usr/share/man/pl/man1/editor.1.gz\n"
+" editor.ru.1.gz /usr/share/man/ru/man1/editor.1.gz\n"
 "Status: auto\n"
-"Best: /usr/bin/vim.gtk\n"
-"Value: /usr/bin/vim.gtk\n"
+"Best: /usr/bin/vim.basic\n"
+"Value: /usr/bin/vim.basic\n"
 msgstr ""
 "$ update-alternatives --query editor\n"
-"Link: editor\n"
+"Name: editor\n"
+"Link: /usr/bin/editor\n"
+"Slaves:\n"
+" editor.1.gz /usr/share/man/man1/editor.1.gz\n"
+" editor.fr.1.gz /usr/share/man/fr/man1/editor.1.gz\n"
+" editor.it.1.gz /usr/share/man/it/man1/editor.1.gz\n"
+" editor.pl.1.gz /usr/share/man/pl/man1/editor.1.gz\n"
+" editor.ru.1.gz /usr/share/man/ru/man1/editor.1.gz\n"
 "Status: auto\n"
-"Best: /usr/bin/vim.gtk\n"
-"Value: /usr/bin/vim.gtk\n"
+"Best: /usr/bin/vim.basic\n"
+"Value: /usr/bin/vim.basic\n"
 
 #. type: Plain text
-#: update-alternatives.8:448
+#: update-alternatives.8:464
 #, no-wrap
 msgid ""
 "Alternative: /bin/ed\n"
@@ -18675,41 +18707,29 @@ msgstr ""
 " editor.1.gz /usr/share/man/man1/ed.1.gz\n"
 
 #. type: Plain text
-#: update-alternatives.8:463
+#: update-alternatives.8:473
 #, no-wrap
 msgid ""
-"Alternative: /usr/bin/vim.gtk\n"
+"Alternative: /usr/bin/vim.basic\n"
 "Priority: 50\n"
 "Slaves:\n"
 " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
-" editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
-" editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
-" editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
-" editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
-" editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
-" editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
 " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
-" editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
+" editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
 " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
-" editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
+" editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
 msgstr ""
-"Alternative: /usr/bin/vim.gtk\n"
+"Alternative: /usr/bin/vim.basic\n"
 "Priority: 50\n"
 "Slaves:\n"
 " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
-" editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
-" editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
-" editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
-" editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
-" editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
-" editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
 " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
-" editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
+" editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
 " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
-" editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
+" editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
 
 #. type: Plain text
-#: update-alternatives.8:475
+#: update-alternatives.8:485
 msgid ""
 "With B<--verbose> B<update-alternatives> chatters incessantly about its "
 "activities on its standard output channel.  If problems occur, B<update-"
@@ -18724,7 +18744,7 @@ msgstr ""
 "felrapport om du inte tycker att den är det."
 
 #. type: Plain text
-#: update-alternatives.8:481
+#: update-alternatives.8:491
 msgid ""
 "There are several packages which provide a text editor compatible with "
 "B<vi>, for example B<nvi> and B<vim>. Which one is used is controlled by the "
@@ -18737,7 +18757,7 @@ msgstr ""
 "manualsida."
 
 #. type: Plain text
-#: update-alternatives.8:484
+#: update-alternatives.8:494
 msgid ""
 "To display the available packages which provide B<vi> and the current "
 "setting for it, use the B<--display> action:"
@@ -18746,12 +18766,12 @@ msgstr ""
 "aktuella inställning, använd kommandot B<--display>:"
 
 #. type: Plain text
-#: update-alternatives.8:487
+#: update-alternatives.8:497
 msgid "B<update-alternatives --display vi>"
 msgstr "B<update-alternatives --display vi>"
 
 #. type: Plain text
-#: update-alternatives.8:491
+#: update-alternatives.8:501
 msgid ""
 "To choose a particular B<vi> implementation, use this command as root and "
 "then select a number from the list:"
@@ -18760,12 +18780,12 @@ msgstr ""
 "root och välj sedan ett tal från listan:"
 
 #. type: Plain text
-#: update-alternatives.8:494
+#: update-alternatives.8:504
 msgid "B<update-alternatives --config vi>"
 msgstr "B<update-alternatives --config vi>"
 
 #. type: Plain text
-#: update-alternatives.8:498
+#: update-alternatives.8:508
 msgid ""
 "To go back to having the B<vi> implementation chosen automatically, do this "
 "as root:"
@@ -18774,12 +18794,12 @@ msgstr ""
 "detta som root:"
 
 #. type: Plain text
-#: update-alternatives.8:501
+#: update-alternatives.8:511
 msgid "B<update-alternatives --auto vi>"
 msgstr "B<update-alternatives --auto vi>"
 
 #. type: Plain text
-#: update-alternatives.8:505
+#: update-alternatives.8:515
 msgid ""
 "If you find a bug, please report it using the Debian bug-tracking system."
 msgstr ""
@@ -18787,7 +18807,7 @@ msgstr ""
 "felrapporteringssystem."
 
 #. type: Plain text
-#: update-alternatives.8:510
+#: update-alternatives.8:520
 msgid ""
 "If you find any discrepancy between the operation of B<update-alternatives> "
 "and this manual page, it is a bug, either in the implementation or the "
@@ -18798,9 +18818,66 @@ msgstr ""
 "eller i dokumentationen; rapportera det."
 
 #. type: Plain text
-#: update-alternatives.8:513
+#: update-alternatives.8:523
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
+
+#~ msgid "B<--command-fd >I<n>"
+#~ msgstr "B<--command-fd >I<n>"
+
+#~ msgid ""
+#~ "Accept a series of commands on input file descriptor I<n>. Note: "
+#~ "additional options set on the command line, and through this file "
+#~ "descriptor, are not reset for subsequent commands executed during the "
+#~ "same run."
+#~ msgstr ""
+#~ "Läser en följd av kommandon från indatafilhandtag I<n>. Observera: "
+#~ "ytterligare flaggor som sätts på kommandoraden, och genom filhandtaget, "
+#~ "återställs inte för kommandon som körs i en följd under samma körning."
+
+#~ msgid ""
+#~ "$ update-alternatives --query editor\n"
+#~ "Link: editor\n"
+#~ "Status: auto\n"
+#~ "Best: /usr/bin/vim.gtk\n"
+#~ "Value: /usr/bin/vim.gtk\n"
+#~ msgstr ""
+#~ "$ update-alternatives --query editor\n"
+#~ "Link: editor\n"
+#~ "Status: auto\n"
+#~ "Best: /usr/bin/vim.gtk\n"
+#~ "Value: /usr/bin/vim.gtk\n"
+
+#~ msgid ""
+#~ "Alternative: /usr/bin/vim.gtk\n"
+#~ "Priority: 50\n"
+#~ "Slaves:\n"
+#~ " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
+#~ " editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
+#~ " editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
+#~ " editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
+#~ " editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
+#~ " editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
+#~ " editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
+#~ " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
+#~ " editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
+#~ " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
+#~ " editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
+#~ msgstr ""
+#~ "Alternative: /usr/bin/vim.gtk\n"
+#~ "Priority: 50\n"
+#~ "Slaves:\n"
+#~ " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
+#~ " editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
+#~ " editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
+#~ " editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
+#~ " editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
+#~ " editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
+#~ " editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
+#~ " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
+#~ " editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
+#~ " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
+#~ " editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
 
 #~ msgid ""
 #~ "The file is an B<ar> archive with a magic value of B<!E<lt>archE<gt>>.  "

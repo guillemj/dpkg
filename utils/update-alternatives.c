@@ -455,6 +455,7 @@ subcall(const char *prog, ...)
 
 	/* Run the command */
 	res = spawn(prog, cmd);
+	free(cmd);
 	if (WIFEXITED(res) && WEXITSTATUS(res) == 0)
 		return;
 	if (WIFEXITED(res))
@@ -2532,7 +2533,8 @@ main(int argc, char **argv)
 			char *slink, *sname, *spath;
 			struct slave_link *sl;
 
-			if (action && strcmp(action, "install") != 0)
+			if (action == NULL ||
+			    (action && strcmp(action, "install") != 0))
 				badusage(_("--slave only allowed with --install"));
 			if (MISSING_ARGS(3))
 				badusage(_("--slave needs <link> <name> <path>"));

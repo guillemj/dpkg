@@ -238,10 +238,15 @@ pkg_infodb_upgrade_to_multiarch(void)
 void
 pkg_infodb_upgrade(void)
 {
+	enum pkg_infodb_format db_format;
+
+	/* Make sure to always read and verify the format version. */
+	db_format = pkg_infodb_get_format();
+
 	if (modstatdb_get_status() < msdbrw_write)
 		return;
 
-	if (pkg_infodb_get_format() < pkg_infodb_format_multiarch ||
+	if (db_format < pkg_infodb_format_multiarch ||
 	    pkg_infodb_is_upgrading())
 		pkg_infodb_upgrade_to_multiarch();
 }

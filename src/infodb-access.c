@@ -62,9 +62,13 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	struct varbuf db_path = VARBUF_INIT;
 	const char *pkgname;
 	size_t db_path_len;
+	enum pkg_infodb_format db_format;
+
+	/* Make sure to always read and verify the format version. */
+	db_format = pkg_infodb_get_format();
 
 	if (pkgbin->multiarch == multiarch_same &&
-	    pkg_infodb_get_format() == pkg_infodb_format_multiarch)
+	    db_format == pkg_infodb_format_multiarch)
 		pkgname = pkgbin_name(pkg, pkgbin, pnaw_always);
 	else
 		pkgname = pkgbin_name(pkg, pkgbin, pnaw_never);

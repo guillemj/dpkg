@@ -170,6 +170,7 @@ filesavespackage(struct fileinlist *file,
 
     /* We've found a package that can take this file. */
     debug(dbg_eachfiledetail, "filesavespackage ...  taken -- no save");
+    filepackages_iter_free(iter);
     return false;
   }
   filepackages_iter_free(iter);
@@ -193,18 +194,27 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
       continue;
     /* The hash in the Conffiles is only meaningful if the package
      * configuration has been at least tried. */
-    if (otherpkg->status <= stat_unpacked)
+    if (otherpkg->status < stat_unpacked)
+      continue;
+    /* If we are reinstalling, even if the other package is only unpacked,
+     * we can always make use of the Conffiles hash value from an initial
+     * installation, if that happened at all. */
+    if (otherpkg->status == stat_unpacked &&
+        dpkg_version_compare(&otherpkg->installed.version,
+                             &otherpkg->configversion) != 0)
       continue;
     for (conff = otherpkg->installed.conffiles; conff; conff = conff->next) {
+      if (conff->obsolete)
+        continue;
       if (strcmp(conff->name, namenode->name) == 0)
         break;
     }
     if (conff) {
+      strcpy(oldhash, conff->hash);
       debug(dbg_conffdetail,
             "tarobject found shared conffile, from pkg %s (%s); hash=%s",
             pkg_name(otherpkg, pnaw_always),
             statusinfos[otherpkg->status].name, oldhash);
-      strcpy(oldhash, conff->hash);
       break;
     }
   }
@@ -959,6 +969,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   }
 
   if (keepexisting) {
+    if (nifd->namenode->flags & fnnf_new_conff)
+      nifd->namenode->flags |= fnnf_obs_conff;
     remove_file_from_list(tc, ti, oldnifd, nifd);
     tarobject_skip_entry(tc, ti);
     return 0;
