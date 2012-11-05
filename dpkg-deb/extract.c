@@ -219,7 +219,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     }
   } else if (strncmp(versionbuf, "0.93", 4) == 0) {
     char ctrllenbuf[40];
-    int l = 0;
+    int l;
 
     l = strlen(versionbuf);
 
