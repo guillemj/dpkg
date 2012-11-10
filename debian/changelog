@@ -56,6 +56,9 @@ dpkg (1.17.0) UNRELEASED; urgency=low
     architectures on «dpkg-query --list».
   * Rework SELinux code on unpack to reload the label database if it has
     changed, for example while upgrading the SELinux policy package.
+  * Execute maintainer scripts in a new execution context, based on the
+    current one and the specific maintainer script filename, and if it's
+    not different to the current one, use "dpkg_script_t" as a fallback.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 03 Aug 2012 13:21:00 +0200
 

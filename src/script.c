@@ -31,6 +31,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#ifdef WITH_SELINUX
+#include <selinux/selinux.h>
+#include <selinux/flask.h>
+#include <selinux/context.h>
+#endif
+
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
@@ -136,6 +142,66 @@ preexecscript(struct command *cmd)
 	return cmd->filename + instdirl;
 }
 
+/**
+ * Set a new security execution context for the maintainer script.
+ *
+ * Try to create a new execution context based on the current one and the
+ * specific maintainer script filename. If it's the same as the current
+ * one, use the given fallback.
+ */
+static int
+maintscript_set_exec_context(struct command *cmd, const char *fallback)
+{
+	int rc = 0;
+#ifdef WITH_SELINUX
+	security_context_t curcon = NULL, newcon = NULL, filecon = NULL;
+	context_t tmpcon = NULL;
+
+	if (is_selinux_enabled() < 1)
+		return 0;
+
+	rc = getcon(&curcon);
+	if (rc < 0)
+		goto out;
+
+	rc = getfilecon(cmd->filename, &filecon);
+	if (rc < 0)
+		goto out;
+
+	rc = security_compute_create(curcon, filecon, SECCLASS_PROCESS, &newcon);
+	if (rc < 0)
+		goto out;
+
+	if (strcmp(curcon, newcon) == 0) {
+		/* No default transition, use fallback for now. */
+		rc = -1;
+		tmpcon = context_new(curcon);
+		if (tmpcon == NULL)
+			goto out;
+		if (context_type_set(tmpcon, fallback))
+			goto out;
+		freecon(newcon);
+		newcon = strdup(context_str(tmpcon));
+		if (newcon == NULL)
+			goto out;
+		rc = 0;
+	}
+
+	rc = setexeccon(newcon);
+
+out:
+	if (rc < 0 && security_getenforce() == 0)
+		rc = 0;
+
+	context_free(tmpcon);
+	freecon(newcon);
+	freecon(curcon);
+	freecon(filecon);
+#endif
+
+	return rc < 0 ? rc : 0;
+}
+
 static int
 do_script(struct pkginfo *pkg, struct pkgbin *pkgbin,
           struct command *cmd, struct stat *stab, int warn)
@@ -156,6 +222,11 @@ do_script(struct pkginfo *pkg, struct pkgbin *pkgbin,
 			ohshite(_("unable to setenv for maintainer script"));
 
 		cmd->filename = cmd->argv[0] = preexecscript(cmd);
+
+		if (maintscript_set_exec_context(cmd, "dpkg_script_t") < 0)
+			ohshite(_("cannot set security execution context for "
+			          "maintainer script"));
+
 		command_exec(cmd);
 	}
 	subproc_signals_setup(cmd->name); /* This does a push_cleanup(). */
