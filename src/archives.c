@@ -511,11 +511,9 @@ tarobject_set_se_context(const char *matchpath, const char *path, mode_t mode)
   if (ret == -1 || (ret == 0 && scontext == NULL))
     return;
 
-  if (strcmp(scontext, "<<none>>") != 0) {
-    ret = lsetfilecon_raw(path, scontext);
-    if (ret < 0 && errno != ENOTSUP)
-      ohshite(_("cannot set security context for file object '%s'"), path);
-  }
+  ret = lsetfilecon_raw(path, scontext);
+  if (ret < 0 && errno != ENOTSUP)
+    ohshite(_("cannot set security context for file object '%s'"), path);
 
   freecon(scontext);
 #endif /* WITH_SELINUX */
