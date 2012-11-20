@@ -545,61 +545,75 @@ static void
 usage(void)
 {
 	printf(
-"Usage: start-stop-daemon [<option> ...] <command>\n"
-"\n"
+"Usage: start-stop-daemon [<option>...] <command>\n"
+"\n");
+
+	printf(
 "Commands:\n"
-"  -S|--start -- <argument> ...  start a program and pass <arguments> to it\n"
-"  -K|--stop                     stop a program\n"
-"  -T|--status                   get the program status\n"
-"  -H|--help                     print help information\n"
-"  -V|--version                  print version\n"
-"\n"
+"  -S, --start -- <argument>...  start a program and pass <arguments> to it\n"
+"  -K, --stop                    stop a program\n"
+"  -T, --status                  get the program status\n"
+"  -H, --help                    print help information\n"
+"  -V, --version                 print version\n"
+"\n");
+
+	printf(
 "Matching options (at least one is required):\n"
-"     --pid <pid>                pid to check\n"
-"     --ppid <ppid>              parent pid to check\n"
-"  -p|--pidfile <pid-file>       pid file to check\n"
-"  -x|--exec <executable>        program to start/check if it is running\n"
-"  -n|--name <process-name>      process name to check\n"
-"  -u|--user <username|uid>      process owner to check\n"
-"\n"
+"      --pid <pid>               pid to check\n"
+"      --ppid <ppid>             parent pid to check\n"
+"  -p, --pidfile <pid-file>      pid file to check\n"
+"  -x, --exec <executable>       program to start/check if it is running\n"
+"  -n, --name <process-name>     process name to check\n"
+"  -u, --user <username|uid>     process owner to check\n"
+"\n");
+
+	printf(
 "Options:\n"
-"  -g|--group <group|gid>        run process as this group\n"
-"  -c|--chuid <name|uid[:group|gid]>\n"
+"  -g, --group <group|gid>       run process as this group\n"
+"  -c, --chuid <name|uid[:group|gid]>\n"
 "                                change to this user/group before starting\n"
 "                                  process\n"
-"  -s|--signal <signal>          signal to send (default TERM)\n"
-"  -a|--startas <pathname>       program to start (default is <executable>)\n"
-"  -r|--chroot <directory>       chroot to <directory> before starting\n"
-"  -d|--chdir <directory>        change to <directory> (default is /)\n"
-"  -N|--nicelevel <incr>         add incr to the process' nice level\n"
-"  -P|--procsched <policy[:prio]>\n"
+"  -s, --signal <signal>         signal to send (default TERM)\n"
+"  -a, --startas <pathname>      program to start (default is <executable>)\n"
+"  -r, --chroot <directory>      chroot to <directory> before starting\n"
+"  -d, --chdir <directory>       change to <directory> (default is /)\n"
+"  -N, --nicelevel <incr>        add incr to the process' nice level\n"
+"  -P, --procsched <policy[:prio]>\n"
 "                                use <policy> with <prio> for the kernel\n"
 "                                  process scheduler (default prio is 0)\n"
-"  -I|--iosched <class[:prio]>   use <class> with <prio> to set the IO\n"
+"  -I, --iosched <class[:prio]>  use <class> with <prio> to set the IO\n"
 "                                  scheduler (default prio is 4)\n"
-"  -k|--umask <mask>             change the umask to <mask> before starting\n"
-"  -b|--background               force the process to detach\n"
-"  -C|--no-close                 do not close any file descriptor\n"
-"  -m|--make-pidfile             create the pidfile before starting\n"
-"    |--remove-pidfile           delete the pidfile after stopping\n"
-"  -R|--retry <schedule>         check whether processes die, and retry\n"
-"  -t|--test                     test mode, don't do anything\n"
-"  -o|--oknodo                   exit status 0 (not 1) if nothing done\n"
-"  -q|--quiet                    be more quiet\n"
-"  -v|--verbose                  be more verbose\n"
-"\n"
+"  -k, --umask <mask>            change the umask to <mask> before starting\n"
+"  -b, --background              force the process to detach\n"
+"  -C, --no-close                do not close any file descriptor\n"
+"  -m, --make-pidfile            create the pidfile before starting\n"
+"      --remove-pidfile          delete the pidfile after stopping\n"
+"  -R, --retry <schedule>        check whether processes die, and retry\n"
+"  -t, --test                    test mode, don't do anything\n"
+"  -o, --oknodo                  exit status 0 (not 1) if nothing done\n"
+"  -q, --quiet                   be more quiet\n"
+"  -v, --verbose                 be more verbose\n"
+"\n");
+
+	printf(
 "Retry <schedule> is <item>|/<item>/... where <item> is one of\n"
 " -<signal-num>|[-]<signal-name>  send that signal\n"
 " <timeout>                       wait that many seconds\n"
 " forever                         repeat remainder forever\n"
 "or <schedule> may be just <timeout>, meaning <signal>/<timeout>/KILL/<timeout>\n"
-"\n"
+"\n");
+
+	printf(
 "The process scheduler <policy> can be one of:\n"
 "  other, fifo or rr\n"
-"\n"
+"\n");
+
+	printf(
 "The IO scheduler <class> can be one of:\n"
 "  real-time, best-effort or idle\n"
-"\n"
+"\n");
+
+	printf(
 "Exit status:\n"
 "  0 = done\n"
 "  1 = nothing done (=> 0 if --oknodo)\n"
