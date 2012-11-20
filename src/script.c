@@ -146,6 +146,9 @@ maintscript_set_exec_context(struct command *cmd, const char *fallback)
 {
 	int rc = 0;
 #ifdef WITH_SELINUX
+#if HAVE_SETEXECFILECON
+	rc = setexecfilecon(cmd->filename, fallback);
+#else
 	security_context_t curcon = NULL, newcon = NULL, filecon = NULL;
 	context_t tmpcon = NULL;
 
@@ -188,6 +191,7 @@ out:
 	freecon(newcon);
 	freecon(curcon);
 	freecon(filecon);
+#endif
 #endif
 
 	return rc < 0 ? rc : 0;
