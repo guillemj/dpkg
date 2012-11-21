@@ -23,6 +23,8 @@
 #ifndef LIBDPKG_PARSEDUMP_H
 #define LIBDPKG_PARSEDUMP_H
 
+#include <stdint.h>
+
 /**
  * @defgroup parsedump In-core package database parsing and reading
  * @ingroup dpkg-public
@@ -76,7 +78,7 @@ typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
 bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                   parse_field_func *parse_field, void *parse_obj);
 
-#define STRUCTFIELD(klass, off, type) (*(type *)((char *)(klass) + (off)))
+#define STRUCTFIELD(klass, off, type) (*(type *)((uintptr_t)(klass) + (off)))
 
 #define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
 #define FILEFOFF(f) (offsetof(struct filedetails, f))
