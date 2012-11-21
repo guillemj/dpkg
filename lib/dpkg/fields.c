@@ -129,7 +129,7 @@ f_filecharf(struct pkginfo *pkg, struct pkgbin *pkgbin,
       fdp->name= fdp->msdosname= fdp->size= fdp->md5sum= NULL;
       *fdpp= fdp;
     }
-    FILEFFIELD(fdp,fip->integer,const char*)= cpos;
+    STRUCTFIELD(fdp, fip->integer, const char *) = cpos;
     fdpp= &fdp->next;
     while (*space && isspace(*space)) space++;
     cpos= space;
@@ -146,7 +146,7 @@ f_charfield(struct pkginfo *pkg, struct pkgbin *pkgbin,
             const char *value, const struct fieldinfo *fip)
 {
   if (*value)
-    PKGPFIELD(pkgbin, fip->integer, char *) = nfstrsave(value);
+    STRUCTFIELD(pkgbin, fip->integer, char *) = nfstrsave(value);
 }
 
 void
@@ -161,7 +161,7 @@ f_boolean(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
   boolean = parse_nv_last(ps, _("yes/no in boolean field"),
                           booleaninfos, value);
-  PKGPFIELD(pkgbin, fip->integer, bool) = boolean;
+  STRUCTFIELD(pkgbin, fip->integer, bool) = boolean;
 }
 
 void
@@ -176,7 +176,7 @@ f_multiarch(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
   multiarch = parse_nv_last(ps, _("foreign/allowed/same/no in quadstate field"),
                             multiarchinfos, value);
-  PKGPFIELD(pkgbin, fip->integer, int) = multiarch;
+  STRUCTFIELD(pkgbin, fip->integer, int) = multiarch;
 }
 
 void

@@ -121,7 +121,7 @@ w_charfield(struct varbuf *vb,
             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
             enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  const char *value = PKGPFIELD(pkgbin, fip->integer, const char *);
+  const char *value = STRUCTFIELD(pkgbin, fip->integer, const char *);
 
   if (str_is_unset(value))
     return;
@@ -144,7 +144,8 @@ w_filecharf(struct varbuf *vb,
   if (pkgbin != &pkg->available)
     return;
   fdp = pkg->files;
-  if (!fdp || !FILEFFIELD(fdp,fip->integer,const char*)) return;
+  if (!fdp || !STRUCTFIELD(fdp, fip->integer, const char *))
+    return;
 
   if (flags&fw_printheader) {
     varbuf_add_str(vb, fip->name);
@@ -153,7 +154,7 @@ w_filecharf(struct varbuf *vb,
 
   while (fdp) {
     varbuf_add_char(vb, ' ');
-    varbuf_add_str(vb, FILEFFIELD(fdp, fip->integer, const char *));
+    varbuf_add_str(vb, STRUCTFIELD(fdp, fip->integer, const char *));
     fdp= fdp->next;
   }
 
@@ -166,7 +167,7 @@ w_booleandefno(struct varbuf *vb,
                const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  bool value = PKGPFIELD(pkgbin, fip->integer, bool);
+  bool value = STRUCTFIELD(pkgbin, fip->integer, bool);
 
   if ((flags & fw_printheader) && !value)
     return;
@@ -187,7 +188,7 @@ w_multiarch(struct varbuf *vb,
             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
             enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  int value = PKGPFIELD(pkgbin, fip->integer, int);
+  int value = STRUCTFIELD(pkgbin, fip->integer, int);
 
   if ((flags & fw_printheader) && !value)
     return;

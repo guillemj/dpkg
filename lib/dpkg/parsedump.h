@@ -76,11 +76,10 @@ typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
 bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                   parse_field_func *parse_field, void *parse_obj);
 
-#define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
-#define PKGPFIELD(pkgbin, of, type) (*(type *)((char *)(pkgbin) + (of)))
+#define STRUCTFIELD(klass, off, type) (*(type *)((char *)(klass) + (off)))
 
+#define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
 #define FILEFOFF(f) (offsetof(struct filedetails, f))
-#define FILEFFIELD(filedetail,of,type) (*(type*)((char*)(filedetail)+(of)))
 
 typedef void freadfunction(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct parsedb_state *ps,
