@@ -1421,6 +1421,119 @@ do_findprocs(void)
 }
 
 static void
+do_start(int argc, char **argv)
+{
+	int devnull_fd = -1;
+	gid_t rgid;
+	uid_t ruid;
+
+	do_findprocs();
+
+	if (found) {
+		if (quietmode <= 0)
+			printf("%s already running.\n", execname ? execname : "process");
+		exit(exitnodo);
+	}
+	if (testmode && quietmode <= 0) {
+		printf("Would start %s ", startas);
+		while (argc-- > 0)
+			printf("%s ", *argv++);
+		if (changeuser != NULL) {
+			printf(" (as user %s[%d]", changeuser, runas_uid);
+			if (changegroup != NULL)
+				printf(", and group %s[%d])", changegroup, runas_gid);
+			else
+				printf(")");
+		}
+		if (changeroot != NULL)
+			printf(" in directory %s", changeroot);
+		if (nicelevel)
+			printf(", and add %i to the priority", nicelevel);
+		if (proc_sched)
+			printf(", with scheduling policy %s with priority %i",
+			       proc_sched->policy_name, proc_sched->priority);
+		if (io_sched)
+			printf(", with IO scheduling class %s with priority %i",
+			       io_sched->policy_name, io_sched->priority);
+		printf(".\n");
+	}
+	if (testmode)
+		exit(0);
+	if (quietmode < 0)
+		printf("Starting %s...\n", startas);
+	*--argv = startas;
+	if (background)
+		/* Ok, we need to detach this process. */
+		daemonize();
+	if (background && close_io) {
+		devnull_fd = open("/dev/null", O_RDWR);
+		if (devnull_fd < 0)
+			fatal("unable to open '%s'", "/dev/null");
+	}
+	if (nicelevel) {
+		errno = 0;
+		if ((nice(nicelevel) == -1) && (errno != 0))
+			fatal("unable to alter nice level by %i", nicelevel);
+	}
+	if (proc_sched)
+		set_proc_schedule(proc_sched);
+	if (io_sched)
+		set_io_schedule(io_sched);
+	if (umask_value >= 0)
+		umask(umask_value);
+	if (mpidfile && pidfile != NULL)
+		/* User wants _us_ to make the pidfile. */
+		write_pidfile(pidfile, getpid());
+	if (changeroot != NULL) {
+		if (chdir(changeroot) < 0)
+			fatal("unable to chdir() to %s", changeroot);
+		if (chroot(changeroot) < 0)
+			fatal("unable to chroot() to %s", changeroot);
+	}
+	if (chdir(changedir) < 0)
+		fatal("unable to chdir() to %s", changedir);
+
+	rgid = getgid();
+	ruid = getuid();
+	if (changegroup != NULL) {
+		if (rgid != (gid_t)runas_gid)
+			if (setgid(runas_gid))
+				fatal("unable to set gid to %d", runas_gid);
+	}
+	if (changeuser != NULL) {
+		/* We assume that if our real user and group are the same as
+		 * the ones we should switch to, the supplementary groups
+		 * will be already in place. */
+		if (rgid != (gid_t)runas_gid || ruid != (uid_t)runas_uid)
+			if (initgroups(changeuser, runas_gid))
+				fatal("unable to set initgroups() with gid %d",
+				      runas_gid);
+
+		if (ruid != (uid_t)runas_uid)
+			if (setuid(runas_uid))
+				fatal("unable to set uid to %s", changeuser);
+	}
+
+	/* Set a default umask for dumb programs. */
+	if (background && umask_value < 0)
+		umask(022);
+
+	if (background && close_io) {
+		int i;
+
+		dup2(devnull_fd, 0); /* stdin */
+		dup2(devnull_fd, 1); /* stdout */
+		dup2(devnull_fd, 2); /* stderr */
+
+		 /* Now close all extra fds. */
+		for (i = get_open_fd_max() - 1; i >= 3; --i)
+			close(i);
+	}
+	execv(startas, argv);
+	fatal("unable to start %s", startas);
+}
+
+static void
 do_stop(int sig_num, int *n_killed, int *n_notkilled)
 {
 	struct pid_list *p;
@@ -1630,10 +1743,6 @@ run_stop_schedule(void)
 int
 main(int argc, char **argv)
 {
-	enum status_code prog_status;
-	int devnull_fd = -1;
-	gid_t rgid;
-	uid_t ruid;
 	progname = argv[0];
 
 	parse_options(argc, argv);
@@ -1697,116 +1806,20 @@ main(int argc, char **argv)
 			setenv("HOME", pw->pw_dir, 1);
 	}
 
+	if (action == action_start)
+		do_start(argc, argv);
+
 	if (action == action_stop) {
 		int i = run_stop_schedule();
 		exit(i);
 	}
 
-	prog_status = do_findprocs();
+	if (action == action_status) {
+		enum status_code prog_status;
 
-	if (action == action_status)
+		prog_status = do_findprocs();
 		exit(prog_status);
-
-	if (found) {
-		if (quietmode <= 0)
-			printf("%s already running.\n", execname ? execname : "process");
-		exit(exitnodo);
-	}
-	if (testmode && quietmode <= 0) {
-		printf("Would start %s ", startas);
-		while (argc-- > 0)
-			printf("%s ", *argv++);
-		if (changeuser != NULL) {
-			printf(" (as user %s[%d]", changeuser, runas_uid);
-			if (changegroup != NULL)
-				printf(", and group %s[%d])", changegroup, runas_gid);
-			else
-				printf(")");
-		}
-		if (changeroot != NULL)
-			printf(" in directory %s", changeroot);
-		if (nicelevel)
-			printf(", and add %i to the priority", nicelevel);
-		if (proc_sched)
-			printf(", with scheduling policy %s with priority %i",
-			       proc_sched->policy_name, proc_sched->priority);
-		if (io_sched)
-			printf(", with IO scheduling class %s with priority %i",
-			       io_sched->policy_name, io_sched->priority);
-		printf(".\n");
-	}
-	if (testmode)
-		exit(0);
-	if (quietmode < 0)
-		printf("Starting %s...\n", startas);
-	*--argv = startas;
-	if (background)
-		/* Ok, we need to detach this process. */
-		daemonize();
-	if (background && close_io) {
-		devnull_fd = open("/dev/null", O_RDWR);
-		if (devnull_fd < 0)
-			fatal("unable to open '%s'", "/dev/null");
-	}
-	if (nicelevel) {
-		errno = 0;
-		if ((nice(nicelevel) == -1) && (errno != 0))
-			fatal("unable to alter nice level by %i", nicelevel);
-	}
-	if (proc_sched)
-		set_proc_schedule(proc_sched);
-	if (io_sched)
-		set_io_schedule(io_sched);
-	if (umask_value >= 0)
-		umask(umask_value);
-	if (mpidfile && pidfile != NULL)
-		/* User wants _us_ to make the pidfile. */
-		write_pidfile(pidfile, getpid());
-	if (changeroot != NULL) {
-		if (chdir(changeroot) < 0)
-			fatal("unable to chdir() to %s", changeroot);
-		if (chroot(changeroot) < 0)
-			fatal("unable to chroot() to %s", changeroot);
-	}
-	if (chdir(changedir) < 0)
-		fatal("unable to chdir() to %s", changedir);
-
-	rgid = getgid();
-	ruid = getuid();
-	if (changegroup != NULL) {
-		if (rgid != (gid_t)runas_gid)
-			if (setgid(runas_gid))
-				fatal("unable to set gid to %d", runas_gid);
-	}
-	if (changeuser != NULL) {
-		/* We assume that if our real user and group are the same as
-		 * the ones we should switch to, the supplementary groups
-		 * will be already in place. */
-		if (rgid != (gid_t)runas_gid || ruid != (uid_t)runas_uid)
-			if (initgroups(changeuser, runas_gid))
-				fatal("unable to set initgroups() with gid %d",
-				      runas_gid);
-
-		if (ruid != (uid_t)runas_uid)
-			if (setuid(runas_uid))
-				fatal("unable to set uid to %s", changeuser);
 	}
 
-	/* Set a default umask for dumb programs. */
-	if (background && umask_value < 0)
-		umask(022);
-
-	if (background && close_io) {
-		int i;
-
-		dup2(devnull_fd, 0); /* stdin */
-		dup2(devnull_fd, 1); /* stdout */
-		dup2(devnull_fd, 2); /* stderr */
-
-		 /* Now close all extra fds. */
-		for (i = get_open_fd_max() - 1; i >= 3; --i)
-			close(i);
-	}
-	execv(startas, argv);
-	fatal("unable to start %s", startas);
+	return 0;
 }
