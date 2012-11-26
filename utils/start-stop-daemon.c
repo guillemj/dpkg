@@ -975,6 +975,69 @@ parse_options(int argc, char * const *argv)
 		badusage("--no-close is only relevant with --background");
 }
 
+static void
+setup_options(void)
+{
+	if (execname) {
+		char *fullexecname;
+
+		/* If it's a relative path, normalize it. */
+		if (execname[0] != '/')
+			execname = newpath(changedir, execname);
+
+		if (changeroot)
+			fullexecname = newpath(changeroot, execname);
+		else
+			fullexecname = execname;
+
+		if (stat(fullexecname, &exec_stat))
+			fatal("unable to stat %s", fullexecname);
+
+		if (fullexecname != execname)
+			free(fullexecname);
+	}
+
+	if (userspec && sscanf(userspec, "%d", &user_id) != 1) {
+		struct passwd *pw;
+
+		pw = getpwnam(userspec);
+		if (!pw)
+			fatal("user '%s' not found", userspec);
+
+		user_id = pw->pw_uid;
+	}
+
+	if (changegroup && sscanf(changegroup, "%d", &runas_gid) != 1) {
+		struct group *gr;
+
+		gr = getgrnam(changegroup);
+		if (!gr)
+			fatal("group '%s' not found", changegroup);
+		changegroup = gr->gr_name;
+		runas_gid = gr->gr_gid;
+	}
+	if (changeuser) {
+		struct passwd *pw;
+		struct stat st;
+
+		if (sscanf(changeuser, "%d", &runas_uid) == 1)
+			pw = getpwuid(runas_uid);
+		else
+			pw = getpwnam(changeuser);
+		if (!pw)
+			fatal("user '%s' not found", changeuser);
+		changeuser = pw->pw_name;
+		runas_uid = pw->pw_uid;
+		if (changegroup == NULL) {
+			/* Pass the default group of this user. */
+			changegroup = ""; /* Just empty. */
+			runas_gid = pw->pw_gid;
+		}
+		if (stat(pw->pw_dir, &st) == 0)
+			setenv("HOME", pw->pw_dir, 1);
+	}
+}
+
 #if defined(OSHurd)
 static void
 init_procset(void)
@@ -1746,65 +1809,10 @@ main(int argc, char **argv)
 	progname = argv[0];
 
 	parse_options(argc, argv);
+	setup_options();
+
 	argc -= optind;
 	argv += optind;
-
-	if (execname) {
-		char *fullexecname;
-
-		/* If it's a relative path, normalize it. */
-		if (execname[0] != '/')
-			execname = newpath(changedir, execname);
-
-		if (changeroot)
-			fullexecname = newpath(changeroot, execname);
-		else
-			fullexecname = execname;
-
-		if (stat(fullexecname, &exec_stat))
-			fatal("unable to stat %s", fullexecname);
-
-		if (fullexecname != execname)
-			free(fullexecname);
-	}
-
-	if (userspec && sscanf(userspec, "%d", &user_id) != 1) {
-		struct passwd *pw;
-
-		pw = getpwnam(userspec);
-		if (!pw)
-			fatal("user '%s' not found", userspec);
-
-		user_id = pw->pw_uid;
-	}
-
-	if (changegroup && sscanf(changegroup, "%d", &runas_gid) != 1) {
-		struct group *gr = getgrnam(changegroup);
-		if (!gr)
-			fatal("group '%s' not found", changegroup);
-		changegroup = gr->gr_name;
-		runas_gid = gr->gr_gid;
-	}
-	if (changeuser) {
-		struct passwd *pw;
-		struct stat st;
-
-		if (sscanf(changeuser, "%d", &runas_uid) == 1)
-			pw = getpwuid(runas_uid);
-		else
-			pw = getpwnam(changeuser);
-		if (!pw)
-			fatal("user '%s' not found", changeuser);
-		changeuser = pw->pw_name;
-		runas_uid = pw->pw_uid;
-		if (changegroup == NULL) {
-			/* Pass the default group of this user. */
-			changegroup = ""; /* Just empty. */
-			runas_gid = pw->pw_gid;
-		}
-		if (stat(pw->pw_dir, &st) == 0)
-			setenv("HOME", pw->pw_dir, 1);
-	}
 
 	if (action == action_start)
 		do_start(argc, argv);
