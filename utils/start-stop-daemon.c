@@ -340,6 +340,15 @@ detach_controlling_tty(void)
 	close(tty_fd);
 #endif
 }
+
+static pid_t
+setsid(void)
+{
+	setpgid(0, 0);
+	detach_controlling_tty();
+
+	return 0;
+}
 #endif
 
 static void
@@ -357,12 +366,7 @@ daemonize(void)
 		_exit(0);
 
 	/* Create a new session. */
-#ifdef HAVE_SETSID
 	setsid();
-#else
-	setpgid(0, 0);
-	detach_controlling_tty();
-#endif
 
 	pid = fork();
 	if (pid < 0)
