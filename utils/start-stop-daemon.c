@@ -43,8 +43,6 @@
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
 
-#define MIN_POLL_INTERVAL 20000 /* µs */
-
 #ifdef HAVE_SYS_SYSCALL_H
 #include <sys/syscall.h>
 #endif
@@ -126,9 +124,16 @@
 #define PROCESS_NAME_SIZE 19
 #endif
 
+#define MIN_POLL_INTERVAL 20000 /* µs */
+
 #if defined(SYS_ioprio_set) && defined(linux)
 #define HAVE_IOPRIO_SET
 #endif
+
+#define IOPRIO_CLASS_SHIFT 13
+#define IOPRIO_PRIO_VALUE(class, prio) (((class) << IOPRIO_CLASS_SHIFT) | (prio))
+#define IO_SCHED_PRIO_MIN 0
+#define IO_SCHED_PRIO_MAX 7
 
 enum {
 	IOPRIO_WHO_PROCESS = 1,
@@ -174,11 +179,6 @@ static char what_stop[1024];
 static const char *progname = "";
 static int nicelevel = 0;
 static int umask_value = -1;
-
-#define IOPRIO_CLASS_SHIFT 13
-#define IOPRIO_PRIO_VALUE(class, prio) (((class) << IOPRIO_CLASS_SHIFT) | (prio))
-#define IO_SCHED_PRIO_MIN 0
-#define IO_SCHED_PRIO_MAX 7
 
 static struct stat exec_stat;
 #if defined(OSHurd)
