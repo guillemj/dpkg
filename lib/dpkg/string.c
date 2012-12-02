@@ -69,7 +69,7 @@ str_escape_fmt(char *dst, const char *src, size_t n)
  *
  * @param src The source string to escape.
  *
- * @return The new allocated string.
+ * @return The new allocated string (never NULL).
  */
 char *
 str_quote_meta(const char *src)
