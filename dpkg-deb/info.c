@@ -82,7 +82,7 @@ static void info_prepare(const char *const **argvp,
   *dirp = dbuf;
 
   push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
-  extracthalf(*debarp, dbuf, "mx", admininfo);
+  extracthalf(*debarp, dbuf, DPKG_TAR_EXTRACT | DPKG_TAR_NOMTIME, admininfo);
 }
 
 static int ilist_select(const struct dirent *de) {
@@ -331,7 +331,7 @@ do_contents(const char *const *argv)
 
   if (debar == NULL || *argv)
     badusage(_("--%s takes exactly one argument"), cipaction->olong);
-  extracthalf(debar, NULL, "tv", 0);
+  extracthalf(debar, NULL, DPKG_TAR_LIST, 0);
 
   return 0;
 }

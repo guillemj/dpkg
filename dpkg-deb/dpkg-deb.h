@@ -35,8 +35,21 @@ action_func do_fsystarfile;
 extern int opt_verbose;
 extern int debugflag, nocheckflag, oldformatflag;
 
+enum dpkg_tar_options {
+	/** Output the tar file directly, without any processing. */
+	DPKG_TAR_PASSTHROUGH = 0,
+	/** List tar files. */
+	DPKG_TAR_LIST = DPKG_BIT(0),
+	/** Extract tar files. */
+	DPKG_TAR_EXTRACT = DPKG_BIT(1),
+	/** Preserve tar permissions on extract. */
+	DPKG_TAR_PERMS = DPKG_BIT(2),
+	/** Do not set tar mtime on extract. */
+	DPKG_TAR_NOMTIME = DPKG_BIT(3),
+};
+
 void extracthalf(const char *debar, const char *dir,
-                 const char *taroption, int admininfo);
+                 enum dpkg_tar_options taroption, int admininfo);
 
 extern const char *showformat;
 extern struct compress_params compress_params;
