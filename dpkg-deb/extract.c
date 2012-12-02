@@ -297,11 +297,17 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
   if (taroption) {
     c3 = subproc_fork();
     if (!c3) {
-      char buffer[30+2];
-      if (strlen(taroption) > 30)
-        internerr("taroption is too long '%s'", taroption);
-      strcpy(buffer, taroption);
-      strcat(buffer, "f");
+      struct command cmd;
+
+      command_init(&cmd, TAR, "tar");
+      command_add_arg(&cmd, "tar");
+
+      command_add_arg(&cmd, taroption);
+
+      command_add_arg(&cmd, "-f");
+      command_add_arg(&cmd, "-");
+      command_add_arg(&cmd, "--warning=no-timestamp");
+
       m_dup2(p2[0],0);
       close(p2[0]);
 
@@ -319,8 +325,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
         }
       }
 
-      execlp(TAR, "tar", buffer, "-", "--warning=no-timestamp", NULL);
-      ohshite(_("unable to execute %s (%s)"), "tar", TAR);
+      command_exec(&cmd);
     }
     close(p2[0]);
     subproc_wait_check(c3, "tar", 0);
