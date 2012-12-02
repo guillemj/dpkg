@@ -84,19 +84,29 @@ m_strndup(const char *str, size_t n)
 }
 
 int
+m_vasprintf(char **strp, const char *fmt, va_list args)
+{
+  int n;
+
+  n = vasprintf(strp, fmt, args);
+
+  onerr_abort++;
+  if (n < 0)
+    ohshite(_("failed to allocate memory"));
+  onerr_abort--;
+
+  return n;
+}
+
+int
 m_asprintf(char **strp, const char *fmt, ...)
 {
   va_list args;
   int n;
 
   va_start(args, fmt);
-  n = vasprintf(strp, fmt, args);
+  n = m_vasprintf(strp, fmt, args);
   va_end(args);
-
-  onerr_abort++;
-  if (n < 0)
-    ohshite(_("failed to allocate memory"));
-  onerr_abort--;
 
   return n;
 }

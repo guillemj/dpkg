@@ -145,6 +145,8 @@ void *m_realloc(void *, size_t);
 char *m_strdup(const char *str);
 char *m_strndup(const char *str, size_t n);
 int m_asprintf(char **strp, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
+int m_vasprintf(char **strp, const char *fmt, va_list args)
+	DPKG_ATTR_VPRINTF(2);
 void m_dup2(int oldfd, int newfd);
 void m_pipe(int fds[2]);
 void m_output(FILE *f, const char *name);
