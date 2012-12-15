@@ -229,6 +229,11 @@ test_data = \
 	t/600_Dpkg_Changelog/regressions \
 	t/600_Dpkg_Changelog/shadow \
 	t/700_Dpkg_Control/control-1 \
+	t/700_Dpkg_Control/bogus-unsigned.dsc \
+	t/700_Dpkg_Control/bogus-armor-double.dsc \
+	t/700_Dpkg_Control/bogus-armor-trail.dsc \
+	t/700_Dpkg_Control/bogus-armor-nested.dsc \
+	t/700_Dpkg_Control/bogus-armor-spaces.dsc \
 	t/750_Dpkg_Substvars/substvars1 \
 	t/910_merge_changelogs/ch-old \
 	t/910_merge_changelogs/ch-a \
