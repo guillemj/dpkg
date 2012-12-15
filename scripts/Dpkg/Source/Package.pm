@@ -194,7 +194,7 @@ sub initialize {
     $self->{'is_signed'} = 0;
     while (<DSC>) {
         next if /^\s*$/o;
-        $self->{'is_signed'} = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----$/o;
+        $self->{'is_signed'} = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----\s*$/o;
         last;
     }
     close(DSC);
