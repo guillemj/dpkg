@@ -161,6 +161,8 @@ sub parse {
     my $paraborder = 1;
     my $cf; # Current field
     my $expect_pgp_sig = 0;
+    my $pgp_signed = 0;
+
     while (<$fh>) {
 	s/\s*\n$//;
 	next if (m/^$/ and $paraborder);
@@ -213,6 +215,9 @@ sub parse {
 		unless (defined($_)) {
                     syntaxerr($desc, _g("unfinished PGP signature"));
                 }
+		# This does not mean the signature is correct, that needs to
+		# be verified by gnupg.
+		$pgp_signed = 1;
 	    }
 	    last; # Finished parsing one block
 	} else {
@@ -220,6 +225,11 @@ sub parse {
                       _g("line with unknown format (not field-colon-value)"));
 	}
     }
+
+    if ($expect_pgp_sig and not $pgp_signed) {
+        syntaxerr($desc, _g("unfinished PGP signature"));
+    }
+
     return defined($cf);
 }
 
