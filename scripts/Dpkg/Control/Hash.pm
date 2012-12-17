@@ -398,7 +398,6 @@ package Dpkg::Control::Hash::Tie;
 # same order. But the order information is stored in a parent object of
 # type Dpkg::Control.
 
-use Dpkg::ErrorHandling;
 use Dpkg::Checksums;
 
 use Tie::Hash;
