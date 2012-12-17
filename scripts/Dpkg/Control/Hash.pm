@@ -136,8 +136,8 @@ Changes the value of one or more options.
 =cut
 
 sub set_options {
-    my ($self, $k, $v) = @_;
-    $$self->{$k} = $v;
+    my ($self, %opts) = @_;
+    $$self->{$_} = $opts{$_} foreach keys %opts;
 }
 
 =item my $value = $c->get_option($option)
