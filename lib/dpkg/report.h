@@ -30,7 +30,7 @@ DPKG_BEGIN_DECLS
 
 /**
  * @defgroup report Message reporting
- * @ingroup dpkg-private
+ * @ingroup dpkg-internal
  * @{
  */
 
