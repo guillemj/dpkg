@@ -89,13 +89,11 @@ m_vasprintf(char **strp, const char *fmt, va_list args)
   int n;
 
   n = vasprintf(strp, fmt, args);
+  if (n >= 0)
+    return n;
 
   onerr_abort++;
-  if (n < 0)
-    ohshite(_("failed to allocate memory"));
-  onerr_abort--;
-
-  return n;
+  ohshite(_("failed to allocate memory"));
 }
 
 int
