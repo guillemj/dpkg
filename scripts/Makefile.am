@@ -233,6 +233,7 @@ test_data = \
 	t/700_Dpkg_Control/bogus-armor-double.dsc \
 	t/700_Dpkg_Control/bogus-armor-no-sig.dsc \
 	t/700_Dpkg_Control/bogus-armor-trail.dsc \
+	t/700_Dpkg_Control/bogus-armor-inline.dsc \
 	t/700_Dpkg_Control/bogus-armor-nested.dsc \
 	t/700_Dpkg_Control/bogus-armor-spaces.dsc \
 	t/750_Dpkg_Substvars/substvars1 \
