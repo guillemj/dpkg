@@ -159,6 +159,7 @@ sub parse {
     my ($self, $fh, $desc) = @_;
 
     my $paraborder = 1;
+    my $parabody = 0;
     my $cf; # Current field
     my $expect_pgp_sig = 0;
     my $pgp_signed = 0;
@@ -169,6 +170,7 @@ sub parse {
 	next if (m/^#/);
 	$paraborder = 0;
 	if (m/^(\S+?)\s*:\s*(.*)$/) {
+	    $parabody = 1;
 	    if (exists $self->{$1}) {
 		unless ($$self->{'allow_duplicate'}) {
 		    syntaxerr($desc, sprintf(_g("duplicate field %s found"), $1));
@@ -187,7 +189,7 @@ sub parse {
 	    $self->{$cf} .= "\n$line";
 	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----$/) {
 	    $expect_pgp_sig = 1;
-	    if ($$self->{'allow_pgp'}) {
+	    if ($$self->{'allow_pgp'} and not $parabody) {
 		# Skip PGP headers
 		while (<$fh>) {
 		    last if m/^\s*$/;
