@@ -214,7 +214,7 @@ Return the name of the source package associated to the changelog entry.
 =cut
 
 sub get_source {
-    return undef;
+    return;
 }
 
 =item my $ver = $entry->get_version()
@@ -224,7 +224,7 @@ Return the version associated to the changelog entry.
 =cut
 
 sub get_version {
-    return undef;
+    return;
 }
 
 =item my @dists = $entry->get_distributions()
@@ -234,8 +234,7 @@ Return a list of target distributions for this version.
 =cut
 
 sub get_distributions {
-    return () if wantarray;
-    return undef;
+    return;
 }
 
 =item $fields = $entry->get_optional_fields()
@@ -256,7 +255,7 @@ Return the urgency of the associated upload.
 =cut
 
 sub get_urgency {
-    return undef;
+    return;
 }
 
 =item my $maint = $entry->get_maintainer()
@@ -266,7 +265,7 @@ Return the string identifying the person who signed this changelog entry.
 =cut
 
 sub get_maintainer {
-    return undef;
+    return;
 }
 
 =item my $time = $entry->get_timestamp()
@@ -276,7 +275,7 @@ Return the timestamp of the changelog entry.
 =cut
 
 sub get_timestamp {
-    return undef;
+    return;
 }
 
 =item my $str = $entry->get_dpkg_changes()

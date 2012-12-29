@@ -332,15 +332,14 @@ sub get_range {
 	return @$res if wantarray;
 	return $res;
     } else {
-	return () if wantarray;
-	return undef;
+	return;
     }
 }
 
 sub _data_range {
     my ($self, $range) = @_;
 
-    my $data = $self->{data} or return undef;
+    my $data = $self->{data} or return;
 
     return [ @$data ] if $range->{all};
 
@@ -389,7 +388,7 @@ sub _data_range {
     }
 
     return \@result if scalar(@result);
-    return undef;
+    return;
 }
 
 =item $c->abort_early()
@@ -518,7 +517,7 @@ BEGIN {
 sub dpkg {
     my ($self, $range) = @_;
 
-    my @data = $self->get_range($range) or return undef;
+    my @data = $self->get_range($range) or return;
     my $entry = shift @data;
 
     my $f = Dpkg::Control::Changelog->new();
@@ -583,7 +582,7 @@ the remarks about which values are taken from the first entry).
 sub rfc822 {
     my ($self, $range) = @_;
 
-    my @data = $self->get_range($range) or return undef;
+    my @data = $self->get_range($range) or return;
     my $index = Dpkg::Index->new(type => CTRL_CHANGELOG);
 
     foreach my $entry (@data) {

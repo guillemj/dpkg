@@ -183,7 +183,7 @@ sub get_source {
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
 	return $1;
     }
-    return undef;
+    return;
 }
 
 sub get_version {
@@ -191,7 +191,7 @@ sub get_version {
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
 	return Dpkg::Version->new($2);
     }
-    return undef;
+    return;
 }
 
 sub get_distributions {
@@ -203,8 +203,7 @@ sub get_distributions {
 	return @dists if wantarray;
 	return $dists[0];
     }
-    return () if wantarray;
-    return undef;
+    return;
 }
 
 sub get_optional_fields {
@@ -233,7 +232,7 @@ sub get_urgency {
 	$f->{Urgency} =~ s/\s.*$//;
 	return lc($f->{Urgency});
     }
-    return undef;
+    return;
 }
 
 sub get_maintainer {
@@ -241,7 +240,7 @@ sub get_maintainer {
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
 	return "$1 <$2>";
     }
-    return undef;
+    return;
 }
 
 sub get_timestamp {
@@ -249,7 +248,7 @@ sub get_timestamp {
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
 	return $4;
     }
-    return undef;
+    return;
 }
 
 =back

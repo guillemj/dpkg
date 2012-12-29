@@ -129,9 +129,9 @@ the name of the decompression program.
 
 sub compression_get_property {
     my ($comp, $property) = @_;
-    return undef unless compression_is_supported($comp);
+    return unless compression_is_supported($comp);
     return $COMP->{$comp}{$property} if exists $COMP->{$comp}{$property};
-    return undef;
+    return;
 }
 
 =item compression_guess_from_filename($filename)
@@ -149,7 +149,7 @@ sub compression_guess_from_filename {
 	    return $comp;
         }
     }
-    return undef;
+    return;
 }
 
 =item my $comp = compression_get_default()

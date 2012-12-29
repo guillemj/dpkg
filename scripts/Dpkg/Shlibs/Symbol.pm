@@ -81,7 +81,7 @@ sub parse_tagspec {
 	}
 	return $rest;
     }
-    return undef;
+    return;
 }
 
 sub parse_symbolspec {
@@ -346,7 +346,7 @@ sub get_pattern_matches {
 # and add it to the pattern matches list.
 sub create_pattern_match {
     my $self = shift;
-    return undef unless $self->is_pattern();
+    return unless $self->is_pattern();
 
     # Leave out 'pattern' subfield while deep-cloning
     my $pattern_stuff = $self->{pattern};
@@ -381,7 +381,7 @@ sub convert_to_alias {
 	    return cppfilt_demangle_cpp($rawname);
 	}
     }
-    return undef;
+    return;
 }
 
 sub get_tagspec {

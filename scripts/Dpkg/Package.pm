@@ -36,7 +36,7 @@ sub pkg_name_is_illegal($) {
     $name =~ m/^[0-9a-z]/o ||
         return _g("must start with an alphanumeric character");
 
-    return undef;
+    return;
 }
 
 1;

@@ -228,7 +228,7 @@ sub CLOSE {
 sub FILENO {
     my ($self) = shift;
     return *$self->{"file"}->fileno(@_) if defined *$self->{"file"};
-    return undef;
+    return;
 }
 
 sub EOF {
@@ -252,7 +252,7 @@ sub TELL {
 sub BINMODE {
     my ($self) = shift;
     return *$self->{"file"}->binmode(@_) if defined *$self->{"file"};
-    return undef;
+    return;
 }
 
 ##

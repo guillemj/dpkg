@@ -118,7 +118,7 @@ sub top {
     my ($self) = @_;
     my $count = scalar @{$self->{'applied-patches'}};
     return $self->{'applied-patches'}[$count - 1] if $count;
-    return undef;
+    return;
 }
 
 sub next {
@@ -126,7 +126,7 @@ sub next {
     my $count_applied = scalar @{$self->{'applied-patches'}};
     my $count_series = scalar @{$self->{'series'}};
     return $self->{'series'}[$count_applied] if ($count_series > $count_applied);
-    return undef;
+    return;
 }
 
 sub push {
@@ -202,7 +202,7 @@ sub get_db_version {
         close(VER);
         return $version;
     }
-    return undef;
+    return;
 }
 
 sub find_problems {
@@ -215,7 +215,7 @@ sub find_problems {
     if (-e $series and not -f _) {
         return sprintf(_g("%s should be a file or non-existing"), $series);
     }
-    return undef;
+    return;
 }
 
 sub get_series_file {

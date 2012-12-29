@@ -311,7 +311,7 @@ sub do_mdtm {
 	    ) {
 	    $has_mdtm = 0;
 	} elsif (!$ftp->ok()) {
-	    return undef;
+	    return;
 	}
     #}
 
@@ -320,7 +320,7 @@ sub do_mdtm {
 
 	my @files = $ftp->dir($file);
 	if (($#files == -1) || ($ftp->code == 550)) { # No such file or directory
-	    return undef;
+	    return;
 	}
 
 #	my $code=$ftp->code();	my $message=$ftp->message();

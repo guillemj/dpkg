@@ -253,7 +253,7 @@ sub debtriplet_to_gnutriplet(@)
 
     my ($abi, $os, $cpu) = @_;
 
-    return undef unless defined($abi) && defined($os) && defined($cpu) &&
+    return unless defined($abi) && defined($os) && defined($cpu) &&
         exists($cputable{$cpu}) && exists($ostable{"$abi-$os"});
     return join("-", $cputable{$cpu}, $ostable{"$abi-$os"});
 }
@@ -261,9 +261,9 @@ sub debtriplet_to_gnutriplet(@)
 sub gnutriplet_to_debtriplet($)
 {
     my ($gnu) = @_;
-    return undef unless defined($gnu);
+    return unless defined($gnu);
     my ($gnu_cpu, $gnu_os) = split(/-/, $gnu, 2);
-    return undef unless defined($gnu_cpu) && defined($gnu_os);
+    return unless defined($gnu_cpu) && defined($gnu_os);
 
     read_cputable();
     read_ostable();
@@ -284,7 +284,7 @@ sub gnutriplet_to_debtriplet($)
 	}
     }
 
-    return undef if !defined($cpu) || !defined($os);
+    return if !defined($cpu) || !defined($os);
     return (split(/-/, $os, 2), $cpu);
 }
 
@@ -314,11 +314,11 @@ sub debtriplet_to_debarch(@)
     my ($abi, $os, $cpu) = @_;
 
     if (!defined($abi) || !defined($os) || !defined($cpu)) {
-	return undef;
+	return;
     } elsif (exists $debtriplet_to_debarch{"$abi-$os-$cpu"}) {
 	return $debtriplet_to_debarch{"$abi-$os-$cpu"};
     } else {
-	return undef;
+	return;
     }
 }
 
@@ -341,7 +341,7 @@ sub debarch_to_debtriplet($)
     if (defined($triplet)) {
 	return split('-', $triplet, 3);
     } else {
-	return undef;
+	return;
     }
 }
 
@@ -386,7 +386,7 @@ sub debarch_to_cpuattrs($)
 
         return ($abibits{$abi} || $cpubits{$cpu}, $cpuendian{$cpu});
     } else {
-        return undef;
+        return;
     }
 }
 

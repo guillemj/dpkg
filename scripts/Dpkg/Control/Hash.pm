@@ -258,7 +258,7 @@ sub find_custom_field {
     foreach my $key (keys %$self) {
         return $key if $key =~ /^X[SBC]*-\Q$name\E$/i;
     }
-    return undef;
+    return;
 }
 
 =item $c->get_custom_field($name)
@@ -271,7 +271,7 @@ sub get_custom_field {
     my ($self, $name) = @_;
     my $key = $self->find_custom_field($name);
     return $self->{$key} if defined $key;
-    return undef;
+    return;
 }
 
 =item $c->save($filename)
@@ -442,7 +442,7 @@ sub FETCH {
     my ($self, $key) = @_;
     $key = lc($key);
     return $self->[0]->{$key} if exists $self->[0]->{$key};
-    return undef;
+    return;
 }
 
 sub STORE {
@@ -494,7 +494,7 @@ sub NEXTKEY {
 	    $found = 1 if $_ eq $last;
 	}
     }
-    return undef;
+    return;
 }
 
 1;

@@ -66,7 +66,7 @@ sub locate_symbol {
 	    return $sym;
 	}
     }
-    return undef;
+    return;
 }
 
 sub get_object {
@@ -74,7 +74,7 @@ sub get_object {
     if ($self->has_object($objid)) {
 	return $self->{objects}{$objid};
     }
-    return undef;
+    return;
 }
 
 sub has_object {
@@ -379,7 +379,7 @@ sub get_symbol {
             return $self->{dynsyms}{$name . '@Base'};
         }
     }
-    return undef;
+    return;
 }
 
 sub get_exported_dynamic_symbols {

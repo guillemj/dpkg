@@ -99,7 +99,7 @@ by the program that generates it).
 
 sub checksums_get_property($$) {
     my ($alg, $property) = @_;
-    return undef unless checksums_is_supported($alg);
+    return unless checksums_is_supported($alg);
     return $CHECKSUMS->{lc($alg)}{$property};
 }
 
@@ -315,7 +315,7 @@ sub get_checksum {
 	return $self->{checksums}{$file} unless defined $alg;
 	return $self->{checksums}{$file}{$alg};
     }
-    return undef;
+    return;
 }
 
 =item $size = $ck->get_size($file)

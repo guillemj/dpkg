@@ -202,7 +202,7 @@ Returns the item identified by $key or undef.
 sub get_by_key {
     my ($self, $key) = @_;
     return $self->{'items'}{$key} if exists $self->{'items'}{$key};
-    return undef;
+    return;
 }
 
 =item my @keys = $index->get_keys(%criteria)

@@ -72,7 +72,7 @@ if there's no file for the given vendor.
 sub get_vendor_info(;$) {
     my $vendor = shift || "default";
     my $file = get_vendor_file($vendor);
-    return undef unless $file;
+    return unless $file;
     my $fields = Dpkg::Control::Hash->new();
     $fields->load($file) || error(_g("%s is empty"), $file);
     return $fields;
@@ -114,7 +114,7 @@ sub get_current_vendor() {
     }
     $f = get_vendor_info();
     return $f->{'Vendor'} if defined $f;
-    return undef;
+    return;
 }
 
 =item $object = Dpkg::Vendor::get_vendor_object($name)

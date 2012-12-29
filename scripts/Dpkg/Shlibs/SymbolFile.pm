@@ -160,7 +160,7 @@ sub create_symbol {
 	$symbol->initialize(arch => $self->get_arch());
 	return $symbol;
     }
-    return undef;
+    return;
 }
 
 sub add_symbol {
@@ -376,7 +376,7 @@ sub find_matching_pattern {
 		( symbol => $pattern, soname => $soname ) : $pattern;
 	}
     }
-    return (wantarray) ? () : undef;
+    return;
 }
 
 # merge_symbols($object, $minver)
@@ -505,7 +505,7 @@ sub get_field {
 	    return $obj->{fields}{$name};
 	}
     }
-    return undef;
+    return;
 }
 
 # Tries to find a symbol like the $refsym and returns its descriptor.
@@ -525,7 +525,7 @@ sub lookup_symbol {
 	    }
 	}
     }
-    return (wantarray) ? () : undef;
+    return;
 }
 
 # Tries to find a pattern like the $refpat and returns its descriptor.
@@ -561,7 +561,7 @@ sub lookup_pattern {
 	    }
 	}
     }
-    return (wantarray) ? () : undef;
+    return;
 }
 
 # Get symbol object reference either by symbol name or by a reference object.

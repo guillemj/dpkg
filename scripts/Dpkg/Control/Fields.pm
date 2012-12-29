@@ -408,7 +408,7 @@ Undef is returned for non-official fields.
 sub field_is_allowed_in($@) {
     my ($field, @types) = @_;
     $field = field_capitalize($field);
-    return undef unless field_is_official($field);
+    return unless field_is_official($field);
 
     return 0 if not scalar(@types);
     foreach my $type (@types) {
@@ -468,7 +468,7 @@ sub field_transfer_single($$;$) {
         warning(_g("unknown information field '%s' in input data in %s"),
                 $field, $from->get_option("name") || _g("control information"));
     }
-    return undef;
+    return;
 }
 
 =item field_transfer_all($from, $to)
@@ -549,9 +549,9 @@ Breaks, ...). Returns undef for fields which are not dependencies.
 
 sub field_get_dep_type($) {
     my $field = field_capitalize($_[0]);
-    return undef unless field_is_official($field);
+    return unless field_is_official($field);
     return $FIELDS{$field}{'dependency'} if exists $FIELDS{$field}{'dependency'};
-    return undef;
+    return;
 }
 
 =item field_register($field, $allowed_types, %opts)

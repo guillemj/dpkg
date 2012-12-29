@@ -587,7 +587,7 @@ sub get_min_version_from_deps {
 	{
 	    return $dep->{version};
 	}
-	return undef;
+	return;
     } else {
 	my $res;
 	foreach my $subdep ($dep->get_deps()) {
@@ -737,7 +737,7 @@ sub find_symbols_file {
 	    return $file;
 	}
     }
-    return undef;
+    return;
 }
 
 sub symfile_has_soname {
@@ -814,7 +814,7 @@ sub my_find_library {
     $file = find_library($lib, \@RPATH, $format, "");
     return $file if defined($file);
 
-    return undef;
+    return;
 }
 
 my %cached_pkgmatch = ();

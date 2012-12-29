@@ -58,6 +58,7 @@ my @policies = qw(
     Modules::RequireEndWithOne
     Modules::RequireExplicitPackage
     Modules::RequireFilenameMatchesPackage
+    Subroutines::ProhibitExplicitReturnUndef
     TestingAndDebugging::ProhibitNoStrict
     TestingAndDebugging::ProhibitNoWarnings
     ValuesAndExpressions::ProhibitComplexVersion

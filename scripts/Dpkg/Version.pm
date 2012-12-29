@@ -84,7 +84,7 @@ sub new {
     $ver = "$ver" if ref($ver); # Try to stringify objects
 
     if ($opts{'check'}) {
-	return undef unless version_check($ver);
+	return unless version_check($ver);
     }
 
     my $self = {};

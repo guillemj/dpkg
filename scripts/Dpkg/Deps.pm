@@ -167,8 +167,8 @@ sub deps_eval_implication {
     my ($rel_p, $v_p, $rel_q, $v_q) = @_;
 
     # If versions are not valid, we can't decide of any implication
-    return undef unless defined($v_p) and $v_p->is_valid();
-    return undef unless defined($v_q) and $v_q->is_valid();
+    return unless defined($v_p) and $v_p->is_valid();
+    return unless defined($v_q) and $v_q->is_valid();
 
     # q wants an exact version, so p must provide that exact version.  p
     # disproves q if q's version is outside the range enforced by p.
@@ -239,7 +239,7 @@ sub deps_eval_implication {
         }
     }
 
-    return undef;
+    return;
 }
 
 =item my $dep = deps_concat(@dep_list)
@@ -317,7 +317,7 @@ sub deps_parse {
 	                                             $options{build_dep});
 	    if (not defined $dep_simple->{package}) {
 		warning(_g("can't parse dependency %s"), $dep_or);
-		return undef;
+		return;
 	    }
 	    $dep_simple->{arches} = undef if not $options{use_arch};
             if ($options{reduce_arch}) {
@@ -344,7 +344,7 @@ sub deps_parse {
     foreach my $dep (@dep_list) {
         if ($options{union} and not $dep->isa("Dpkg::Deps::Simple")) {
             warning(_g("an union dependency can only contain simple dependencies"));
-            return undef;
+            return;
         }
         $dep_and->add($dep);
     }
@@ -643,14 +643,14 @@ sub implies {
     my ($self, $o) = @_;
     if ($o->isa('Dpkg::Deps::Simple')) {
 	# An implication is only possible on the same package
-	return undef if $self->{package} ne $o->{package};
+	return if $self->{package} ne $o->{package};
 
 	# Our architecture set must be a superset of the architectures for
 	# o, otherwise we can't conclude anything.
-	return undef unless Dpkg::Deps::_arch_is_superset($self->{arches}, $o->{arches});
+	return unless Dpkg::Deps::_arch_is_superset($self->{arches}, $o->{arches});
 
 	# The arch qualifier must not forbid an implication
-	return undef unless
+	return unless
 	    Dpkg::Deps::_arch_qualifier_allows_implication($self->{archqual},
 	                                                   $o->{archqual});
 
@@ -658,7 +658,7 @@ sub implies {
 	return 1 if not defined $o->{relation};
 	# If o has a version clause, we must also have one, otherwise there
 	# can't be an implication
-	return undef if not defined $self->{relation};
+	return if not defined $self->{relation};
 
 	return Dpkg::Deps::deps_eval_implication($self->{relation},
 		$self->{version}, $o->{relation}, $o->{version});
@@ -761,7 +761,7 @@ sub has_arch_restriction {
 
 sub get_evaluation {
     my ($self, $facts) = @_;
-    return undef if not defined $self->{package};
+    return if not defined $self->{package};
     return $facts->_evaluate_simple_dep($self);
 }
 
@@ -956,7 +956,7 @@ sub implies {
 	}
 	return 1 if $subset;
     }
-    return undef;
+    return;
 }
 
 sub get_evaluation {
@@ -1064,7 +1064,7 @@ sub implies {
 	}
 	return 1 if $subset;
     }
-    return undef;
+    return;
 }
 
 sub get_evaluation {
@@ -1150,12 +1150,12 @@ sub output {
 
 sub implies {
     # Implication test are not useful on Union
-    return undef;
+    return;
 }
 
 sub get_evaluation {
     # Evaluation are not useful on Union
-    return undef;
+    return;
 }
 
 sub simplify_deps {
@@ -1272,7 +1272,7 @@ sub check_package {
 sub _find_package {
     my ($self, $dep, $lackinfos) = @_;
     my ($pkg, $archqual) = ($dep->{package}, $dep->{archqual});
-    return undef if not exists $self->{pkg}{$pkg};
+    return if not exists $self->{pkg}{$pkg};
     my $host_arch = $dep->{host_arch};
     my $build_arch = $dep->{build_arch};
     foreach my $p (@{$self->{pkg}{$pkg}}) {
@@ -1293,7 +1293,7 @@ sub _find_package {
 	    return $p if $a eq $archqual;
 	}
     }
-    return undef;
+    return;
 }
 
 sub _find_virtual_packages {
@@ -1324,7 +1324,7 @@ sub _evaluate_simple_dep {
 	next if defined $dep->{relation}; # Provides don't satisfy versioned deps
 	return 1;
     }
-    return undef if $lackinfos;
+    return if $lackinfos;
     return 0;
 }
 

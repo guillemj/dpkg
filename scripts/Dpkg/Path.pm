@@ -66,7 +66,7 @@ sub get_pkg_root_dir($) {
 	last if $file !~ m{/};
 	$file =~ s{/+[^/]+$}{};
     }
-    return undef;
+    return;
 }
 
 =item relative_to_pkg_root($file)
@@ -82,7 +82,7 @@ sub relative_to_pkg_root($) {
 	$pkg_root .= "/";
 	return $file if ($file =~ s/^\Q$pkg_root\E//);
     }
-    return undef;
+    return;
 }
 
 =item guess_pkg_root_dir($file)
@@ -112,7 +112,7 @@ sub guess_pkg_root_dir($) {
 	$file = $parent;
 	last if $file !~ m{/};
     }
-    return undef;
+    return;
 }
 
 =item check_files_are_the_same($file1, $file2, $resolve_symlink)
@@ -185,7 +185,7 @@ canonicalized by canonpath().
 sub resolve_symlink($) {
     my $symlink = shift;
     my $content = readlink($symlink);
-    return undef unless defined $content;
+    return unless defined $content;
     if (File::Spec->file_name_is_absolute($content)) {
 	return canonpath($content);
     } else {
@@ -214,7 +214,7 @@ sub find_command($) {
 	    return "$dir/$cmd" if -x "$dir/$cmd";
 	}
     }
-    return undef;
+    return;
 }
 
 =item my $control_file = get_control_path($pkg, $filetype)
@@ -236,7 +236,7 @@ sub get_control_path($;$) {
     spawn(exec => \@exec, wait_child => 1, to_string => \$control_file);
     chomp($control_file);
     if (defined $filetype) {
-	return undef if $control_file eq "";
+	return if $control_file eq "";
 	return $control_file;
     }
     return () if $control_file eq "";
@@ -267,7 +267,7 @@ sub find_build_file($) {
     }
     return @files if wantarray;
     return $files[0] if scalar @files;
-    return undef;
+    return;
 }
 
 =back

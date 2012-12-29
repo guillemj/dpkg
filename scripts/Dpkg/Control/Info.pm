@@ -154,7 +154,7 @@ sub get_pkg_by_name {
     foreach my $pkg (@{$self->{packages}}) {
 	return $pkg if ($pkg->{Package} eq $name);
     }
-    return undef;
+    return;
 }
 
 

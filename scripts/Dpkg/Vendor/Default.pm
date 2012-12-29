@@ -126,8 +126,7 @@ sub run_hook {
     }
 
     # Default return value for unknown/unimplemented hooks
-    return () if wantarray;
-    return undef;
+    return;
 }
 
 =back

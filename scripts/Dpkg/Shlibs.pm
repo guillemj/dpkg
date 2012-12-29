@@ -127,7 +127,7 @@ sub find_library {
 	    }
 	}
     }
-    return undef;
+    return;
 }
 
 1;

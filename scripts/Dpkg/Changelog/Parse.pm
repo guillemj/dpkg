@@ -156,7 +156,7 @@ sub changelog_parse {
 	return @res;
     } else {
 	return $res[0] if (@res);
-	return undef;
+	return;
     }
 }
 
