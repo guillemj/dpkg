@@ -71,8 +71,8 @@ my $host_arch = get_host_arch();
 
 my (@pkg_shlibs, @pkg_symbols, @pkg_root_dirs);
 if (-d "debian") {
-    push @pkg_symbols, <debian/*/DEBIAN/symbols>;
-    push @pkg_shlibs, <debian/*/DEBIAN/shlibs>;
+    push @pkg_symbols, glob 'debian/*/DEBIAN/symbols';
+    push @pkg_shlibs, glob 'debian/*/DEBIAN/shlibs';
     my %uniq = map { guess_pkg_root_dir($_) => 1 } (@pkg_symbols, @pkg_shlibs);
     push @pkg_root_dirs, keys %uniq;
 }

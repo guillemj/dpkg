@@ -39,6 +39,7 @@ my @policies = qw(
     BuiltinFunctions::ProhibitSleepViaSelect
     BuiltinFunctions::ProhibitUniversalCan
     BuiltinFunctions::ProhibitUniversalIsa
+    BuiltinFunctions::RequireGlobFunction
     BuiltinFunctions::RequireSimpleSortBlock
     ClassHierarchies::ProhibitAutoloading
     ClassHierarchies::ProhibitExplicitISA
