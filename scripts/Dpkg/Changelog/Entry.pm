@@ -81,19 +81,20 @@ filehandle.
 
 =cut
 
+sub _format_output_block {
+    my $lines = shift;
+    return join('', map { $_ . "\n" } @{$lines});
+}
+
 sub output {
     my ($self, $fh) = @_;
     my $str = '';
-    sub _block {
-	my $lines = shift;
-	return join('', map { $_ . "\n" } @{$lines});
-    }
     $str .= $self->{header} . "\n" if defined($self->{header});
-    $str .= _block($self->{blank_after_header});
-    $str .= _block($self->{changes});
-    $str .= _block($self->{blank_after_changes});
+    $str .= _format_output_block($self->{blank_after_header});
+    $str .= _format_output_block($self->{changes});
+    $str .= _format_output_block($self->{blank_after_changes});
     $str .= $self->{trailer} . "\n" if defined($self->{trailer});
-    $str .= _block($self->{blank_after_trailer});
+    $str .= _format_output_block($self->{blank_after_trailer});
     print $fh $str if defined $fh;
     return $str;
 }

@@ -602,21 +602,24 @@ sub register_patch {
     return $patch;
 }
 
+sub _is_bad_patch_name {
+    my ($dir, $patch_name) = @_;
+
+    return 1 if not defined($patch_name);
+    return 1 if not length($patch_name);
+
+    my $patch = File::Spec->catfile($dir, "debian", "patches", $patch_name);
+    if (-e $patch) {
+        warning(_g("cannot register changes in %s, this patch already exists"),
+                $patch);
+        return 1;
+    }
+    return 0;
+}
+
 sub do_commit {
     my ($self, $dir) = @_;
     my ($patch_name, $tmpdiff) = @{$self->{'options'}{'ARGV'}};
-
-    sub bad_patch_name {
-        my ($dir, $patch_name) = @_;
-        return 1 if not defined($patch_name);
-        return 1 if not length($patch_name);
-        my $patch = File::Spec->catfile($dir, "debian", "patches", $patch_name);
-        if (-e $patch) {
-            warning(_g("cannot register changes in %s, this patch already exists"), $patch);
-            return 1;
-        }
-        return 0;
-    }
 
     $self->prepare_build($dir);
 
@@ -645,7 +648,7 @@ sub do_commit {
         info(_g("there are no local changes to record"));
         return;
     }
-    while (bad_patch_name($dir, $patch_name)) {
+    while (_is_bad_patch_name($dir, $patch_name)) {
         # Ask the patch name interactively
         print STDOUT _g("Enter the desired patch name: ");
         chomp($patch_name = <STDIN>);

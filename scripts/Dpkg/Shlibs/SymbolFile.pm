@@ -189,14 +189,14 @@ sub add_symbol {
     }
 }
 
+sub _new_symbol {
+    my $base = shift || 'Dpkg::Shlibs::Symbol';
+    return (ref $base) ? $base->clone(@_) : $base->new(@_);
+}
+
 # Parameter seen is only used for recursive calls
 sub parse {
     my ($self, $fh, $file, $seen, $obj_ref, $base_symbol) = @_;
-
-    sub new_symbol {
-        my $base = shift || 'Dpkg::Shlibs::Symbol';
-        return (ref $base) ? $base->clone(@_) : $base->new(@_);
-    }
 
     if (defined($seen)) {
 	return if exists $seen->{$file}; # Avoid include loops
@@ -219,7 +219,7 @@ sub parse {
 	    }
 	    # Symbol specification
 	    my $deprecated = ($1) ? $1 : 0;
-	    my $sym = new_symbol($base_symbol, deprecated => $deprecated);
+	    my $sym = _new_symbol($base_symbol, deprecated => $deprecated);
 	    if ($self->create_symbol($2, base => $sym)) {
 		$self->add_symbol($sym, $$obj_ref);
 	    } else {
@@ -231,7 +231,7 @@ sub parse {
 	    my $dir = $file;
 	    my $new_base_symbol;
 	    if (defined $tagspec) {
-                $new_base_symbol = new_symbol($base_symbol);
+                $new_base_symbol = _new_symbol($base_symbol);
 		$new_base_symbol->parse_tagspec($tagspec);
 	    }
 	    $dir =~ s{[^/]+$}{}; # Strip filename

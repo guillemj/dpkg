@@ -281,21 +281,23 @@ of the character is used to sort between characters.
 
 =cut
 
-sub version_compare_string($$) {
-    sub order {
-        my ($x) = @_;
-	if ($x eq '~') {
-	    return -1;
-	} elsif ($x =~ /^\d$/) {
-	    return $x * 1 + 1;
-	} elsif ($x =~ /^[A-Za-z]$/) {
-	    return ord($x);
-	} else {
-	    return ord($x) + 256;
-	}
+sub _version_order {
+    my ($x) = @_;
+
+    if ($x eq '~') {
+        return -1;
+    } elsif ($x =~ /^\d$/) {
+        return $x * 1 + 1;
+    } elsif ($x =~ /^[A-Za-z]$/) {
+        return ord($x);
+    } else {
+        return ord($x) + 256;
     }
-    my @a = map(order($_), split(//, shift));
-    my @b = map(order($_), split(//, shift));
+}
+
+sub version_compare_string($$) {
+    my @a = map(_version_order($_), split(//, shift));
+    my @b = map(_version_order($_), split(//, shift));
     while (1) {
         my ($a, $b) = (shift @a, shift @b);
         return 0 if not defined($a) and not defined($b);

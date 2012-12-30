@@ -310,6 +310,63 @@ sub _fail_not_same_type {
     $self->register_error();
 }
 
+sub _getline {
+    my $handle = shift;
+
+    my $line = <$handle>;
+    if (defined $line) {
+        # Strip end-of-line chars
+        chomp($line);
+        $line =~ s/\r$//;
+    }
+    return $line;
+}
+
+# Strip timestamp
+sub _strip_ts {
+    my $header = shift;
+
+    # Tab is the official separator, it's always used when
+    # filename contain spaces. Try it first, otherwise strip on space
+    # if there's no tab
+    $header =~ s/\s.*// unless ($header =~ s/\t.*//);
+    return $header;
+}
+
+sub _intuit_file_patched {
+    my ($old, $new) = @_;
+
+    return $new unless defined $old;
+    return $old unless defined $new;
+    return $new if -e $new and not -e $old;
+    return $old if -e $old and not -e $new;
+
+    # We don't consider the case where both files are non-existent and
+    # where patch picks the one with the fewest directories to create
+    # since dpkg-source will pre-create the required directories
+
+    # Precalculate metrics used by patch
+    my ($tmp_o, $tmp_n) = ($old, $new);
+    my ($len_o, $len_n) = (length($old), length($new));
+    $tmp_o =~ s{[/\\]+}{/}g;
+    $tmp_n =~ s{[/\\]+}{/}g;
+    my $nb_comp_o = ($tmp_o =~ tr{/}{/});
+    my $nb_comp_n = ($tmp_n =~ tr{/}{/});
+    $tmp_o =~ s{^.*/}{};
+    $tmp_n =~ s{^.*/}{};
+    my ($blen_o, $blen_n) = (length($tmp_o), length($tmp_n));
+
+    # Decide like patch would
+    if ($nb_comp_o != $nb_comp_n) {
+        return ($nb_comp_o < $nb_comp_n) ? $old : $new;
+    } elsif ($blen_o != $blen_n) {
+        return ($blen_o < $blen_n) ? $old : $new;
+    } elsif ($len_o != $len_n) {
+        return ($len_o < $len_n) ? $old : $new;
+    }
+    return $old;
+}
+
 # check diff for sanity, find directories to create as a side effect
 sub analyze {
     my ($self, $destdir, %opts) = @_;
@@ -322,55 +379,7 @@ sub analyze {
     my $patch_header = '';
     my $diff_count = 0;
 
-    sub getline {
-        my $handle = shift;
-        my $line = <$handle>;
-        if (defined $line) {
-            # Strip end-of-line chars
-            chomp($line);
-            $line =~ s/\r$//;
-        }
-        return $line;
-    }
-    sub strip_ts { # Strip timestamp
-        my $header = shift;
-        # Tab is the official separator, it's always used when
-        # filename contain spaces. Try it first, otherwise strip on space
-        # if there's no tab
-        $header =~ s/\s.*// unless ($header =~ s/\t.*//);
-        return $header;
-    }
-    sub intuit_file_patched {
-	my ($old, $new) = @_;
-	return $new unless defined $old;
-	return $old unless defined $new;
-	return $new if -e $new and not -e $old;
-	return $old if -e $old and not -e $new;
-	# We don't consider the case where both files are non-existent and
-	# where patch picks the one with the fewest directories to create
-	# since dpkg-source will pre-create the required directories
-	#
-	# Precalculate metrics used by patch
-	my ($tmp_o, $tmp_n) = ($old, $new);
-	my ($len_o, $len_n) = (length($old), length($new));
-	$tmp_o =~ s{[/\\]+}{/}g;
-	$tmp_n =~ s{[/\\]+}{/}g;
-	my $nb_comp_o = ($tmp_o =~ tr{/}{/});
-	my $nb_comp_n = ($tmp_n =~ tr{/}{/});
-	$tmp_o =~ s{^.*/}{};
-	$tmp_n =~ s{^.*/}{};
-	my ($blen_o, $blen_n) = (length($tmp_o), length($tmp_n));
-	# Decide like patch would
-	if ($nb_comp_o != $nb_comp_n) {
-	    return ($nb_comp_o < $nb_comp_n) ? $old : $new;
-	} elsif ($blen_o != $blen_n) {
-	    return ($blen_o < $blen_n) ? $old : $new;
-	} elsif ($len_o != $len_n) {
-	    return ($len_o < $len_n) ? $old : $new;
-	}
-	return $old;
-    }
-    $_ = getline($self);
+    $_ = _getline($self);
 
   HUNK:
     while (defined($_) || not eof($self)) {
@@ -382,26 +391,26 @@ sub analyze {
 	    } else {
 		$patch_header .= "$_\n";
 	    }
-	    last HUNK if not defined($_ = getline($self));
+	    last HUNK if not defined($_ = _getline($self));
 	}
 	$diff_count++;
 	# read file header (---/+++ pair)
 	unless(s/^--- //) {
 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 	}
-        $path{'old'} = $_ = strip_ts($_);
+        $path{'old'} = $_ = _strip_ts($_);
 	$fn{'old'} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
 	if (/\.dpkg-orig$/) {
 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
 	}
 
-	unless (defined($_ = getline($self))) {
+	unless (defined($_ = _getline($self))) {
 	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"), $diff, $.);
 	}
 	unless (s/^\+\+\+ //) {
 	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 	}
-        $path{'new'} = $_ = strip_ts($_);
+        $path{'new'} = $_ = _strip_ts($_);
 	$fn{'new'} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
 
 	unless (defined $fn{'old'} or defined $fn{'new'}) {
@@ -437,7 +446,7 @@ sub analyze {
                         $diff, $fn{'old'}, $.) unless -e $fn{'old'};
             }
         }
-	my $fn = intuit_file_patched($fn{'old'}, $fn{'new'});
+	my $fn = _intuit_file_patched($fn{'old'}, $fn{'new'});
 
 	my $dirname = $fn;
 	if ($dirname =~ s{/[^/]+$}{} && not -d $dirname) {
@@ -458,14 +467,14 @@ sub analyze {
 
 	# read hunks
 	my $hunk = 0;
-	while (defined($_ = getline($self))) {
+	while (defined($_ = _getline($self))) {
 	    # read hunk header (@@)
 	    next if /^\\ /;
 	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/);
 	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
 	    # read hunk
 	    while ($olines || $nlines) {
-		unless (defined($_ = getline($self))) {
+		unless (defined($_ = _getline($self))) {
                     if (($olines == $nlines) and ($olines < 3)) {
                         warning(_g("unexpected end of diff `%s'"), $diff)
                             if $opts{"verbose"};

@@ -214,25 +214,27 @@ sub check_patches_applied {
     $self->apply_patches($dir, usage => 'preparation', verbose => 1);
 }
 
+sub _add_line {
+    my ($file, $line) = @_;
+
+    open(my $file_fh, ">>", $file) || syserr(_g("cannot write %s"), $file);
+    print $file_fh "$line\n";
+    close($file_fh);
+}
+
+sub _drop_line {
+    my ($file, $re) = @_;
+
+    open(my $file_fh, "<", $file) || syserr(_g("cannot read %s"), $file);
+    my @lines = <$file_fh>;
+    close($file_fh);
+    open($file_fh, ">", $file) || syserr(_g("cannot write %s"), $file);
+    print($file_fh $_) foreach grep { not /^\Q$re\E\s*$/ } @lines;
+    close($file_fh);
+}
+
 sub register_patch {
     my ($self, $dir, $tmpdiff, $patch_name) = @_;
-
-    sub add_line {
-        my ($file, $line) = @_;
-        open(my $file_fh, ">>", $file) || syserr(_g("cannot write %s"), $file);
-        print $file_fh "$line\n";
-        close($file_fh);
-    }
-
-    sub drop_line {
-        my ($file, $re) = @_;
-        open(my $file_fh, "<", $file) || syserr(_g("cannot read %s"), $file);
-        my @lines = <$file_fh>;
-        close($file_fh);
-        open($file_fh, ">", $file) || syserr(_g("cannot write %s"), $file);
-        print($file_fh $_) foreach grep { not /^\Q$re\E\s*$/ } @lines;
-        close($file_fh);
-    }
 
     my $quilt = $self->build_quilt_object($dir);
 
@@ -255,8 +257,8 @@ sub register_patch {
         $quilt->setup_db();
         # Add patch to series file
         if (not $has_patch) {
-            add_line($series, $patch_name);
-            add_line($applied, $patch_name);
+            _add_line($series, $patch_name);
+            _add_line($applied, $patch_name);
             $quilt->load_series();
             $quilt->load_db();
         }
@@ -268,8 +270,8 @@ sub register_patch {
     } else {
         # Remove auto_patch from series
         if ($has_patch) {
-            drop_line($series, $patch_name);
-            drop_line($applied, $patch_name);
+            _drop_line($series, $patch_name);
+            _drop_line($applied, $patch_name);
             erasedir($quilt->get_db_file($patch_name));
             $quilt->load_db();
             $quilt->load_series();
