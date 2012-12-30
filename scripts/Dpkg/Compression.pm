@@ -102,7 +102,8 @@ Returns a list of supported compression methods (sorted alphabetically).
 =cut
 
 sub compression_get_list {
-    return sort keys %$COMP;
+    my @list = sort keys %$COMP;
+    return @list;
 }
 
 =item compression_is_supported($comp)

@@ -70,7 +70,8 @@ Returns the list of supported checksums algorithms.
 =cut
 
 sub checksums_get_list() {
-    return sort keys %{$CHECKSUMS};
+    my @list = sort keys %{$CHECKSUMS};
+    return @list;
 }
 
 =item $bool = checksums_is_supported($alg)

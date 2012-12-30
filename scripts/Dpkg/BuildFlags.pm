@@ -415,7 +415,8 @@ Returns the list of flags stored in the object.
 
 sub list {
     my ($self) = @_;
-    return sort keys %{$self->{'flags'}};
+    my @list = sort keys %{$self->{'flags'}};
+    return @list;
 }
 
 =back

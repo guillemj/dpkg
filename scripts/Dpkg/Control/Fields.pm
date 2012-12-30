@@ -512,12 +512,13 @@ Debian package.
 =cut
 
 sub field_list_src_dep() {
-    return sort {
+    my @list = sort {
         $FIELDS{$a}{'dep_order'} <=> $FIELDS{$b}{'dep_order'}
     } grep {
         field_is_allowed_in($_, CTRL_PKG_SRC) and
         exists $FIELDS{$_}{'dependency'}
     } keys %FIELDS;
+    return @list;
 }
 
 =item field_list_pkg_dep()
@@ -530,12 +531,13 @@ the stronger to the weaker.
 
 sub field_list_pkg_dep() {
     my @keys = keys %FIELDS;
-    return sort {
+    my @list = sort {
         $FIELDS{$a}{'dep_order'} <=> $FIELDS{$b}{'dep_order'}
     } grep {
         field_is_allowed_in($_, CTRL_PKG_DEB) and
         exists $FIELDS{$_}{'dependency'}
     } @keys;
+    return @list;
 }
 
 =item field_get_dep_type($field)

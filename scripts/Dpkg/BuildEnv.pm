@@ -85,7 +85,8 @@ Returns a list of all environment variables that have been accessed.
 =cut
 
 sub list_accessed {
-    return sort keys %env_accessed;
+    my @list = sort keys %env_accessed;
+    return @list;
 }
 
 =item my @list = $bf->list_modified()
@@ -95,7 +96,8 @@ Returns a list of all environment variables that have been modified.
 =cut
 
 sub list_modified {
-    return sort keys %env_modified;
+    my @list = sort keys %env_modified;
+    return @list;
 }
 
 =back

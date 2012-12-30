@@ -190,7 +190,9 @@ sub get_slaves_status {
 	    }
 	}
     }
-    return sort { $a->{name} cmp $b->{name} } values %slaves;
+    my @slaves = sort { $a->{name} cmp $b->{name} } values %slaves;
+
+    return @slaves;
 }
 
 sub check_link {

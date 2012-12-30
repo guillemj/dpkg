@@ -738,7 +738,8 @@ sub get_unknown_binaries {
 
 sub get_seen_binaries {
     my ($self) = @_;
-    return sort keys %{$self->{'seen_binaries'}};
+    my @seen = sort keys %{$self->{'seen_binaries'}};
+    return @seen;
 }
 
 1;

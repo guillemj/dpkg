@@ -128,8 +128,9 @@ sub diversions_pack {
     for (my ($i) = 0; $i < $#data; $i += 3) {
         push @data_packed, [ @data[$i .. $i + 2] ];
     }
+    my @list = sort { $a->[0] cmp $b->[0] } @data_packed;
 
-    return sort { $a->[0] cmp $b->[0] } @data_packed;
+    return @list;
 }
 
 sub diversions_eq {
